@@ -1,5 +1,11 @@
 <?php 
-	include("../principal/conectar_principal.php"); 	  				
+	include("../principal/conectar_principal.php");
+	
+	$Tipo      = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$Cliente   = isset($_REQUEST["Cliente"])?$_REQUEST["Cliente"]:"";
+	$Contrato  = isset($_REQUEST["Contrato"])?$_REQUEST["Contrato"]:"";
+	$Mes       = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+
 	if ($Tipo == "E")
 	{
 		$Consulta = "SELECT * from sec_web.cliente_venta where cod_cliente = '".$Cliente."'";

@@ -1,4 +1,10 @@
-<?php include("../principal/conectar_principal.php"); ?>
+<?php include("../principal/conectar_principal.php"); 
+
+$Tipo  = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+$Pais  = isset($_REQUEST["Pais"])?$_REQUEST["Pais"]:"";
+$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+$Ano  = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+?>
 <html>
 <head>
 <title>Consulta Compromiso Venta</title>
@@ -231,6 +237,84 @@ $CodPais = "";
 $SaldoEnami = 0;
 $Respuesta = mysqli_query($link, $Consulta);
 $i=1;
+$TotalCompEne = 0;
+$TotalCompFeb = 0;
+$TotalCompMar = 0;
+$TotalCompAbr = 0;
+$TotalCompMay = 0;
+$TotalCompJun = 0;
+$TotalCompJul = 0;
+$TotalCompAgo = 0;
+$TotalCompSep = 0;
+$TotalCompOct = 0;
+$TotalCompNov = 0;
+$TotalCompDic = 0;
+
+$TotalRealEne = 0;
+$TotalRealFeb = 0;
+$TotalRealMar = 0;
+$TotalRealAbr = 0;
+$TotalRealMay = 0;
+$TotalRealJun = 0;
+$TotalRealJul = 0;
+$TotalRealAgo = 0;
+$TotalRealSep = 0;
+$TotalRealOct = 0;
+$TotalRealNov = 0;
+$TotalRealDic = 0;
+
+$TotalSaldoEne = 0;
+$TotalSaldoFeb = 0;
+$TotalSaldoMar = 0;
+$TotalSaldoAbr = 0;
+$TotalSaldoMay = 0;
+$TotalSaldoJun = 0;
+$TotalSaldoJul = 0;
+$TotalSaldoAgo = 0;
+$TotalSaldoSep = 0;
+$TotalSaldoOct = 0;
+$TotalSaldoNov = 0;
+$TotalSaldoDic = 0;
+
+$SubTotalCompEne = 0;
+$SubTotalCompFeb = 0;
+$SubTotalCompMar = 0;
+$SubTotalCompAbr = 0;
+$SubTotalCompMay = 0;
+$SubTotalCompJun = 0;
+$SubTotalCompJul = 0;
+$SubTotalCompAgo = 0;
+$SubTotalCompSep = 0;
+$SubTotalCompOct = 0;
+$SubTotalCompNov = 0;
+$SubTotalCompDic = 0;
+
+$SubTotalRealEne = 0;
+$SubTotalRealFeb = 0;
+$SubTotalRealMar = 0;
+$SubTotalRealAbr = 0;
+$SubTotalRealMay = 0;
+$SubTotalRealJun = 0;
+$SubTotalRealJul = 0;
+$SubTotalRealAgo = 0;
+$SubTotalRealSep = 0;
+$SubTotalRealOct = 0;
+$SubTotalRealNov = 0;
+$SubTotalRealDic = 0;
+
+$SubTotalSaldoEne = 0;
+$SubTotalSaldoFeb = 0;
+$SubTotalSaldoMar = 0;
+$SubTotalSaldoAbr = 0;
+$SubTotalSaldoMay = 0;
+$SubTotalSaldoJun = 0;
+$SubTotalSaldoJul = 0;
+$SubTotalSaldoAgo = 0;
+$SubTotalSaldoSep = 0;
+$SubTotalSaldoOct = 0;
+$SubTotalSaldoNov = 0;
+$SubTotalSaldoDic = 0;
+
 while ($Fila = mysqli_fetch_assoc($Respuesta))
 {
 	if ($Tipo == "E")
@@ -438,72 +522,88 @@ while ($Fila = mysqli_fetch_assoc($Respuesta))
 	for ($i=1;$i<=12;$i++)
 	{
 		//REAL
+		$ArrMeses1  = isset($ArrMeses[$i][1])?$ArrMeses[$i][1]:0.0;  
 		switch ($i)
 		{
 			case 1:
-				$TotalRealEne = $TotalRealEne + $ArrMeses[$i][1];
-				$SubTotalRealEne = $SubTotalRealEne + $ArrMeses[$i][1];
+				$TotalRealEne = $TotalRealEne + $ArrMeses1;
+				$SubTotalRealEne = $SubTotalRealEne + $ArrMeses1;
 				break;
 			case 2:
-				$TotalRealFeb = $TotalRealFeb + $ArrMeses[$i][1];
-				$SubTotalRealFeb = $SubTotalRealFeb + $ArrMeses[$i][1];
+				$TotalRealFeb = $TotalRealFeb + $ArrMeses1;
+				$SubTotalRealFeb = $SubTotalRealFeb + $ArrMeses1;
 				break;
 			case 3:
-				$TotalRealMar = $TotalRealMar + $ArrMeses[$i][1];
-				$SubTotalRealMar = $SubTotalRealMar + $ArrMeses[$i][1];
+				$TotalRealMar = $TotalRealMar + $ArrMeses1;
+				$SubTotalRealMar = $SubTotalRealMar + $ArrMeses1;
 				break;
 			case 4:
-				$TotalRealAbr = $TotalRealAbr + $ArrMeses[$i][1];
-				$SubTotalRealAbr = $SubTotalRealAbr + $ArrMeses[$i][1];
+				$TotalRealAbr = $TotalRealAbr + $ArrMeses1;
+				$SubTotalRealAbr = $SubTotalRealAbr + $ArrMeses1;
 				break;
 			case 5:
-				$TotalRealMay = $TotalRealMay + $ArrMeses[$i][1];
-				$SubTotalRealMay = $SubTotalRealMay + $ArrMeses[$i][1];
+				$TotalRealMay = $TotalRealMay + $ArrMeses1;
+				$SubTotalRealMay = $SubTotalRealMay + $ArrMeses1;
 				break;
 			case 6:
-				$TotalRealJun = $TotalRealJun + $ArrMeses[$i][1];
-				$SubTotalRealJun = $SubTotalRealJun + $ArrMeses[$i][1];
+				$TotalRealJun = $TotalRealJun + $ArrMeses1;
+				$SubTotalRealJun = $SubTotalRealJun + $ArrMeses1;
 				break;
 			case 7:
-				$TotalRealJul = $TotalRealJul + $ArrMeses[$i][1];
-				$SubTotalRealJul = $SubTotalRealJul + $ArrMeses[$i][1];
+				$TotalRealJul = $TotalRealJul + $ArrMeses1;
+				$SubTotalRealJul = $SubTotalRealJul + $ArrMeses1;
 				break;
 			case 8:
-				$TotalRealAgo = $TotalRealAgo + $ArrMeses[$i][1];
-				$SubTotalRealAgo = $SubTotalRealAgo + $ArrMeses[$i][1];
+				$TotalRealAgo = $TotalRealAgo + $ArrMeses1;
+				$SubTotalRealAgo = $SubTotalRealAgo + $ArrMeses1;
 				break;
 			case 9:
-				$TotalRealSep = $TotalRealSep + $ArrMeses[$i][1];
-				$SubTotalRealSep = $SubTotalRealSep + $ArrMeses[$i][1];
+				$TotalRealSep = $TotalRealSep + $ArrMeses1;
+				$SubTotalRealSep = $SubTotalRealSep + $ArrMeses1;
 				break;
 			case 10:
-				$TotalRealOct = $TotalRealOct + $ArrMeses[$i][1];
-				$SubTotalRealOct = $SubTotalRealOct + $ArrMeses[$i][1];
+				$TotalRealOct = $TotalRealOct + $ArrMeses1;
+				$SubTotalRealOct = $SubTotalRealOct + $ArrMeses1;
 				break;
 			case 11:
-				$TotalRealNov = $TotalRealNov + $ArrMeses[$i][1];
-				$SubTotalRealNov = $SubTotalRealNov + $ArrMeses[$i][1];
+				$TotalRealNov = $TotalRealNov + $ArrMeses1;
+				$SubTotalRealNov = $SubTotalRealNov + $ArrMeses1;
 				break;
 			case 12:
-				$TotalRealDic = $TotalRealDic + $ArrMeses[$i][1];
-				$SubTotalRealDic = $SubTotalRealDic + $ArrMeses[$i][1];
+				$TotalRealDic = $TotalRealDic + $ArrMeses1;
+				$SubTotalRealDic = $SubTotalRealDic + $ArrMeses1;
 				break;
-		}	
-		echo "<td align='right'><a href=\"JavaScript:DetalleReal('".$Tipo."','".$i."','".$ArrMeses[$i][2]."','".$ArrMeses[$i][3]."')\">".number_format($ArrMeses[$i][1],0,",",".")."</a></td>\n";		
+		}	 
+		$ArrMeses2  = isset($ArrMeses[$i][2])?$ArrMeses[$i][2]:0.0;  
+		$ArrMeses3  = isset($ArrMeses[$i][3])?$ArrMeses[$i][3]:0.0;  
+		echo "<td align='right'><a href=\"JavaScript:DetalleReal('".$Tipo."','".$i."','".$ArrMeses2."','".$ArrMeses3."')\">".number_format($ArrMeses1,0,",",".")."</a></td>\n";		
 	}
 	echo "</tr>\n";
-	$SaldoEne = ($Fila["ene"]-$ArrMeses[1][1]);
-	$SaldoFeb = $SaldoEne + ($Fila["feb"]-$ArrMeses[2][1]);
-	$SaldoMar = $SaldoFeb + ($Fila["mar"]-$ArrMeses[3][1]);
-	$SaldoAbr = $SaldoMar + ($Fila["abr"]-$ArrMeses[4][1]);
-	$SaldoMay = $SaldoAbr + ($Fila["may"]-$ArrMeses[5][1]);
-	$SaldoJun = $SaldoMay + ($Fila["jun"]-$ArrMeses[6][1]);
-	$SaldoJul = $SaldoJun + ($Fila["jul"]-$ArrMeses[7][1]);
-	$SaldoAgo = $SaldoJul + ($Fila["ago"]-$ArrMeses[8][1]);
-	$SaldoSep = $SaldoAgo + ($Fila["sep"]-$ArrMeses[9][1]);
-	$SaldoOct = $SaldoSep + ($Fila["oct"]-$ArrMeses[10][1]);
-	$SaldoNov = $SaldoOct + ($Fila["nov"]-$ArrMeses[11][1]);
-	$SaldoDic = $SaldoNov + ($Fila["dic"]-$ArrMeses[12][1]);	
+	$ArrMeses11  = isset($ArrMeses[1][1])?$ArrMeses[1][1]:0.0;
+	$ArrMeses21  = isset($ArrMeses[1][1])?$ArrMeses[2][1]:0.0; 
+	$ArrMeses31  = isset($ArrMeses[1][1])?$ArrMeses[3][1]:0.0; 
+	$ArrMeses41  = isset($ArrMeses[1][1])?$ArrMeses[4][1]:0.0; 
+	$ArrMeses51  = isset($ArrMeses[1][1])?$ArrMeses[5][1]:0.0; 
+	$ArrMeses61  = isset($ArrMeses[1][1])?$ArrMeses[6][1]:0.0; 
+	$ArrMeses71  = isset($ArrMeses[1][1])?$ArrMeses[7][1]:0.0; 
+	$ArrMeses81  = isset($ArrMeses[1][1])?$ArrMeses[8][1]:0.0; 
+	$ArrMeses91  = isset($ArrMeses[1][1])?$ArrMeses[9][1]:0.0; 
+	$ArrMeses101  = isset($ArrMeses[1][1])?$ArrMeses[10][1]:0.0; 
+	$ArrMeses111  = isset($ArrMeses[1][1])?$ArrMeses[11][1]:0.0; 
+	$ArrMeses121  = isset($ArrMeses[1][1])?$ArrMeses[12][1]:0.0;   
+
+	$SaldoEne = ($Fila["ene"]-$ArrMeses11);
+	$SaldoFeb = $SaldoEne + ($Fila["feb"]-$ArrMeses21);
+	$SaldoMar = $SaldoFeb + ($Fila["mar"]-$ArrMeses31);
+	$SaldoAbr = $SaldoMar + ($Fila["abr"]-$ArrMeses41);
+	$SaldoMay = $SaldoAbr + ($Fila["may"]-$ArrMeses51);
+	$SaldoJun = $SaldoMay + ($Fila["jun"]-$ArrMeses61);
+	$SaldoJul = $SaldoJun + ($Fila["jul"]-$ArrMeses71);
+	$SaldoAgo = $SaldoJul + ($Fila["ago"]-$ArrMeses81);
+	$SaldoSep = $SaldoAgo + ($Fila["sep"]-$ArrMeses91);
+	$SaldoOct = $SaldoSep + ($Fila["oct"]-$ArrMeses101);
+	$SaldoNov = $SaldoOct + ($Fila["nov"]-$ArrMeses111);
+	$SaldoDic = $SaldoNov + ($Fila["dic"]-$ArrMeses121);	
 	//SALDO
 	$TotalSaldoEne = $TotalSaldoEne + $SaldoEne;
 	$TotalSaldoFeb = $TotalSaldoFeb + $SaldoFeb;
