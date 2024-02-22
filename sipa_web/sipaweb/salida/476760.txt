@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43410 ',peso_neto='28200',marca='DOS FRANJAS ROJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='16330464-3',nombre_chofer='OMAR NAVIA',observacion='',romana_salida='1' where correlativo='476760' and lote='23016014' and recargo='48'

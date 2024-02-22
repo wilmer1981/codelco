@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43100 ',peso_neto='28980',marca='FRANJA BLANCA',cod_mop='520',num_sello='',transportista='',rut_chofer='10405833-7',nombre_chofer='MAXIMO SANDOVAL',observacion='',romana_salida='1' where correlativo='450334' and lote='21096031' and recargo='33'

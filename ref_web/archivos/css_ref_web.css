@@ -1,0 +1,102 @@
+/* CSS Document */
+BODY {
+	/*BACKGROUND-COLOR: #efe7d6; */
+	COLOR: #000000; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 10px; 
+}
+.Cabecera{
+	COLOR: #FFFFFF; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 10px;
+}
+.ColorTabla01{
+	BACKGROUND-COLOR: #b26c4a;
+	COLOR: #FFFFF2;
+	background-image: url(../imagenes/fondo_detalle.gif);
+}
+.ColorTabla02{
+	BACKGROUND-COLOR: #eeeeee;
+}
+.Borde{
+	border:solid 1px #000000
+}	
+table{
+	font-style:normal;
+	COLOR: #000000; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 10px; 
+}
+.TablaPrincipal{
+	border:solid 1px #000099;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	background-image: url(../imagenes/fondo3.gif);
+	BACKGROUND-COLOR: #eeeee2;
+}
+.TablaInterior{
+	BORDER-TOP:solid 1px #000000;
+	BORDER-BOTTOM:solid 2px #000000;
+	BORDER-LEFT:solid 1px #000000;
+	BORDER-RIGHT:solid 2px #000000;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.TablaDetalle{
+	BORDER-TOP:solid 1px #000000;
+	BORDER-BOTTOM:solid 2px #000000;
+	BORDER-LEFT:solid 1px #000000;
+	BORDER-RIGHT:solid 2px #000000;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+font{
+	font-style:normal;
+	font-family :Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+input{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+.SinBorde{
+	BORDER-TOP:solid 0px;
+	BORDER-BOTTOM:solid 0px;
+	BORDER-LEFT:solid 0px;
+	BORDER-RIGHT:solid 0px;
+	BACKGROUND-COLOR: #eeeee2;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+.ConBorde{
+	border: solid 11px #000000;
+}
+.TituloTabla{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #0000ff;
+	background: #ffff00;
+}
+.Detalle01{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #0000ff;
+	background: #ffffff;
+}
+.Detalle02{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #0000ff;
+	background: #cccccc;
+}
+select{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+.boton{
+	font-style:normal;
+	font-size: 10px;
+	color: #0000ff;
+	background: #ffff00;
+}

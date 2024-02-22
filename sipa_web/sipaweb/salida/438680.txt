@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43480 ',peso_neto='29370',marca='FRANJA ROJA',cod_mop='520',num_sello='',transportista='',rut_chofer='4484766-3',nombre_chofer='MAURICIO   RECABARREN    YA�EZ',observacion='',romana_salida='1' where correlativo='438680' and lote='21026074' and recargo='63'

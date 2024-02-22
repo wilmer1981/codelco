@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='16670',peso_neto='990',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='13 envases absorbentes con pinturas',romana_salida='1' where correlativo='487836' and lote='23076142' and recargo='1'

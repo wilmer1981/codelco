@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44310',peso_neto='28360',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16251291-9',nombre_chofer='jorge jimenez',observacion='',romana_salida='1' where correlativo='480738' and lote='23036192' and recargo='1'

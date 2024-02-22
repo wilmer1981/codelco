@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40680 ',peso_neto='27450',marca='V AZUL',cod_mop='697',num_sello='',transportista='',rut_chofer='9064708-3',nombre_chofer='LUIS CARRASCO',observacion='',romana_salida='1' where correlativo='465421' and lote='22066057' and recargo='57'

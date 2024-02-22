@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44950 ',peso_neto='31300',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='16331344-8',nombre_chofer='PATRICIO  VILLALON   ORME�O',observacion='',romana_salida='2' where correlativo='451955' and lote='21106109' and recargo='25'

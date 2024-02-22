@@ -1,0 +1,1477 @@
+<?
+ 	include("../principal/conectar_sget_web.php");
+	include("funciones/sget_funciones.php");
+
+	
+	if(!isset($CertAnt))
+	{
+		$CertAnt='checked';
+		$CertAnt2='';	
+	}
+	
+	if(isset($pasaporte))
+	{
+		$Optpasaporte='checked';
+	}
+	if(!isset($Estado1))
+	{
+		$Estado1='checked';
+		$Estado2='';
+		$Estado3='';	
+	}
+	
+	if(!isset($Estado2))
+	{
+		$Estado1='';
+		$Estado2='checked';
+		$Estado3='';	
+	}
+	
+	if(!isset($Estado3))
+	{
+		$Estado1='';
+		$Estado2='';
+		$Estado3='checked';	
+	}
+
+	
+	
+	if(!isset($OptSexo))
+	{
+		$OptSexoEstM='checked';
+		$OptSexoEstF='';	
+	}
+	if(!isset($OptBeca))
+	{
+		$OptBecaEstN='checked';
+		$OptBecaEstS='';
+		$EstDivBec='hidden';	
+	}
+
+	if(!isset($TxtTarj))
+		$TxtTarj=0;
+		
+	switch ($Proceso)
+	{
+		case "M":
+			$Datos=explode('~',$Valores);
+			$Consulta="SELECT * from sget_personal where rut='".$Valores."'";
+			$Resp=mysql_query($Consulta);
+			if($Fila=mysql_fetch_array($Resp))
+			{
+				//$TxtRuta = $TxtRuta;
+				$TxtRut=$Fila["rut"];
+				$ValidadoCondu="<img src='archivos/rechazado3.png' class='SinBorde' alt='Conductor No Validado'>";
+				$Conduc="SELECT validado,fecha_vig_licencia,fecha_exa_pst from sget_conductores where rut='".$TxtRut."'";
+				$RConduc=mysql_query($Conduc);
+				if($FConduc=mysql_fetch_array($RConduc))
+				{
+					if($FConduc[validado]=='S')
+						$ValidadoCondu="<img src='archivos/aprobado3.png' class='SinBorde' alt='Conductor Validado'>";
+					else
+						$ValidadoCondu="<img src='archivos/rechazado3.png' class='SinBorde' alt='Conductor No Validado'>";	
+					$TxtVigMuni=$FConduc["fecha_vig_licencia"];
+				    if($TxtVigMuni< date('Y-m-d'))	
+					   $TxtVigMuni="<span class='InputRojo'>".$TxtVigMuni."</span>";
+				    else
+					   $TxtVigMuni=$TxtVigMuni;						  
+					$TxtVigExamPST=$FConduc["fecha_exa_pst"];						
+				    if($TxtVigExamPST< date('Y-m-d'))	
+					   $TxtVigExamPST="<span class='InputRojo'>".$TxtVigExamPST."</span>";
+				    else
+					   $TxtVigExamPST=$TxtVigExamPST;						  
+				}	
+				if($Recarga!='S')
+				{
+					$TxtNom=$Fila["nombres"];
+					$TxtPat=$Fila[ape_paterno];
+					$TxtFechaNac=$Fila[fec_nac];
+					$TxtMat=$Fila[ape_materno];
+					$CmbCargo=$Fila[cargo];
+					$TxtDir=$Fila["direccion"];
+					$TxtFono1=$Fila[telefono1];
+					$TxtFono2=$Fila[telefono2];
+					$CmbTurnos=$Fila[cod_turno];
+					$CmbTipoPersona=$Fila["tipo"];
+					$TxtFechaCert=$Fila[fecha_certif];
+					$CmbCiudad=$Fila["cod_ciudad"];
+					$CmbComunas=$Fila[cod_comuna];
+					$CmbRegion=$Fila[cod_region];
+					$TxtFecIniCtto=$Fila[fec_ini_ctto];
+					$TxtFecFinCtto=$Fila[fec_fin_ctto];
+					$TxtTarj=$Fila[nro_tarjeta];
+					if(!isset($CmbEmpresa))
+						$CmbEmpresa=$Fila[rut_empresa];
+					if(!isset($CmbContrato))	
+						$CmbContrato=$Fila["cod_contrato"];
+						
+					if(trim($Fila[fecha_das])!='0000-00-00' && trim($Fila[fecha_vigencia_exa_preo])!='0000-00-00' && trim($Fila[fecha_das])!='' && trim($Fila[fecha_vigencia_exa_preo])!='')	
+					{
+						$Con="SELECT valor_subclase1,valor_subclase2 from proyecto_modernizacion.sub_clase where cod_clase='30024'";
+						$RAno=mysql_query($Con);
+						$FAno=mysql_fetch_assoc($RAno);
+						$PreocupaAno=$FAno["valor_subclase2"];
+						$OcupaAno=$FAno[valor_subclase3];
+						$DASAno=$FAno["valor_subclase1"];
+						
+					    $FechaTerminoOcupacional=explode('-',$Fila[fecha_vigencia_exa_preo]);
+					    $FechaPreo=$FechaTerminoOcupacional[0]+$PreocupaAno;
+						$FechaPreo=$FechaPreo."-".$FechaTerminoOcupacional[1]."-".$FechaTerminoOcupacional[2];
+					    $FechaTerminoDAS=explode('-',$Fila[fecha_das]);
+					    $FechaDAS=$FechaTerminoDAS[0]+$DASAno;
+						$FechaDAS=$FechaDAS."-".$FechaTerminoDAS[1]."-".$FechaTerminoDAS[2];
+						
+						if($FechaDAS<=date('Y-m-d'))	
+							$FechaDAS="<span class='InputRojo'>".$FechaDAS."</span>";	
+						else
+							$FechaDAS=	$FechaDAS;
+						if($FechaPreo<=date('Y-m-d'))	
+							$FechaPreo="<span class='InputRojo'>".$FechaPreo."</span>";	
+						else
+							$FechaPreo=	$FechaPreo;
+
+						if($Fila[fecha_vig_exa_ocup]=='' && $Fila[fecha_vig_exa_ocup]=='0000-00-00')	
+						{
+							$FechaOcupa=explode('-',$Fila[fecha_exa_ocup]);
+							if($FechaOcupa[0]!='' & $FechaOcupa[0]!='0000')
+							{
+								$FechaOcupa[0]=$FechaOcupa[0]+$OcupaAno;
+								$FechaOcupaExpi=$FechaOcupa[0]."-".$FechaOcupa[1]."-".$FechaOcupa[2];
+							}
+							else
+								$FechaOcupaExpi='';
+						}
+						else
+							$FechaOcupaExpi=$Fila[fecha_vig_exa_ocup];
+						if($FechaOcupaExpi< date('Y-m-d'))	
+							$FechaOcupaExpi="<span class='InputRojo'>".$FechaOcupaExpi."</span>";
+						else
+							$FechaOcupaExpi=$FechaOcupaExpi;	
+					}
+					//$EmpresaRut = $Fila[rut_empresa];
+				
+				/*	$TxtBuscaEmp = $Fila[rut_empresa];
+					$ConsultaH="SELECT num_hoja_ruta from des_sget.sget_hoja_ruta where rut_empresa = '".$Fila[rut_empresa]."' and ";
+					$ConsultaH.=" cod_contrato = '".$Fila["cod_contrato"]."'";
+					//echo $ConsultaH;
+					$resph=mysql_query($ConsultaH);
+					if($FilaH=mysql_fetch_array($resph))
+						$TxtRuta = $FilaH[num_hoja_ruta];*/
+						
+					if($Fila[certificado_ant]=='S')
+					{
+						$CertAnt='checked';
+						$CertAnt2='';
+					}
+					else
+					{
+						$CertAnt='';
+						$CertAnt2='checked';
+					}
+					if($Fila["estado"]=='A')
+					{
+						$Estado1='checked';
+						$Estado2='';
+						$Estado3='';
+					}
+					if($Fila["estado"]=='I')
+					{
+						$Estado1='';
+						$Estado2='checked';
+						$Estado3='';
+					}
+					if($Fila["estado"]=='D')
+					{
+						$Estado1='';
+						$Estado2='';
+						$Estado3='checked';
+					}
+					
+					if($Fila[sexo]=='M')
+					{
+						$OptSexoEstM='checked';
+						$OptSexoEstF='';
+					}
+					if($Fila[sexo]=='F')
+					{
+						$OptSexoEstM='';
+						$OptSexoEstF='checked';
+					}
+					if($Fila[beca]=='S')
+					{
+						$OptBecaEstS='checked';
+						$OptBecaEstN='';
+						$EstDivBec='visibility';
+					}
+					else
+					{
+						$OptBecaEstS='';
+						$OptBecaEstN='checked';
+						$EstDivBec='hidden';
+					}
+					if ($Fila[pasaporte]=='S')
+						$Optpasaporte ='checked';
+					else
+						$Optpasaporte ='';
+					$CmbAfp=$Fila[cod_afp];
+					$CmbSalud=$Fila[cod_salud];
+					//$Consulta ="SELECT * from proyecto_modernizacion.sub_clase  where cod_clase = '33008' and ";
+					//$Consulta.=" cod_subclase  = '".$Fila[tipo_educ]."'";
+					//echo "hhhhhhhhhhhhhhhhhh".$Consulta."</br>";
+					//$resp=mysql_query($Consulta);
+					//if ($Row=mysql_fetch_array($resp))
+					$CmbEscolaridad = $Fila[tipo_educ];
+					//echo "jjjjjjjjjjjjjjjjjjjj".$CmbEscolaridad;
+					$CmbSindicato=$Fila[cod_sindicato];
+					$TxtSueldo=$Fila[sueldo];
+					$TxtObs=$Fila["observacion"];
+				//	echo "jjjjjjjjjjjjjjjjjjjj".$TxtObs;
+					if($TxtFechaNac!=''&&$TxtFechaNac!='0000-00-00')
+					{
+						$TxtEdad=edad($TxtFechaNac);
+						$TxtFechaNac=substr($Fila[fec_nac],8,2)."/".substr($Fila[fec_nac],5,2)."/".substr($Fila[fec_nac],0,4);
+					}
+					$TxtCargas=$Fila[cargas_familiares];
+					$CmbAseguradora=$Fila[cod_aseguradora];
+					$TxtNumeroCert=$Fila[num_cert_antecedentes];
+					//$TxtNumeroCert1=number_format($TxtNumeroCert,0,",",".");
+					
+					$NumeroCert = $Fila[num_cert_antecedentes];
+				
+				}	
+			}
+			break;
+		/*default:
+			$TxtRut="";
+			$TxtNom="";
+			$TxtPat="";
+			$TxtMat="";
+			$TxtIni="";*/
+	}
+	if($Cargo!='')
+	{
+		$CmbCargo=$Cargo;
+	}
+	if($Afp!='')
+	{
+		$CmbAfp=$Afp;
+	}
+	if($Sindicato!='')
+	{
+		$CmbSindicato=$Sindicato;
+	}
+	if($Empresa!='')
+	{
+		$CmbEmpresa=$Empresa;
+	}
+	if($Contrato!='')
+	{
+		$CmbContrato=$Contrato;
+	}
+	if($Aseguradora!='')
+	{
+		$CmbAseguradora=$Aseguradora;
+	}
+	
+
+	
+
+	/*
+	$Nuevo ='N';
+	if ($Proceso =='N')
+	{*/
+		$DD = '';
+		$RUT_E = '';
+		$Consulta="SELECT * from sget_contratos where cod_contrato ='".$CC."'";
+			$RespC=mysql_query($Consulta);
+//	echo "Poly".$Consulta;
+			if($FilaC=mysql_fetch_array($RespC))
+			{
+				$EmpresaRut=$FilaC[rut_empresa];
+			}
+									
+	
+		$Consulta = "SELECT * from sget_contratistas t2 where  t2.rut_empresa = '".$FilaC[rut_empresa]."'";
+		$RespE=mysql_query($Consulta);
+	//	echo "NN".$Consulta;
+			if($FilaE=mysql_fetch_array($RespE))
+			{
+				$DD=$FilaE[razon_social];
+				$RUT_E = $FilaE[rut_empresa];
+			}
+
+//	}
+	//	echo "WW".$RUT_E."--".$DD;
+?>
+<html>
+<head>
+<title>
+<?
+	if($Proceso=='N') 
+		echo "Nueva Persona";
+	else
+	if($Proceso=='AN') 
+		echo "Nueva Persona";
+	else
+		echo "Modificar Persona";
+		
+				
+?>
+</title>
+<link href="estilos/css_sget_web.css" rel="stylesheet" type="text/css">
+<script  language="JavaScript" src="../principal/funciones/funciones_java.js"></script>
+<script  language="JavaScript" src="funciones/sget_funciones.js"></script>
+<script language="JavaScript">
+function Validar(Option)
+{
+var f = document.frmPrincipal;
+var Pasaporte;
+var Validado=true;
+		if(f.TxtRut.value == '')
+		{
+			alert("Debe Ingresar Rut");
+			f.TxtRut.focus();
+			Validado=false;
+			return;
+		}
+		Pasaporte ='N';
+		if(f.pasaporte.checked==true)
+		{
+			Pasaporte='S';//Pasaporte
+			//alert (Pasaporte);
+			
+		}	
+		else
+		{
+			valor= new Object(document.frmPrincipal.TxtRut.value);
+			foco = new Object(document.frmPrincipal.TxtRut.focus());
+			//alert (document.frmPrincipal.TxtRut.value,'Rut Persona', foco, valor);
+			var bandera = Rut(document.frmPrincipal.TxtRut.value,'Rut Persona', foco, valor);
+			if(bandera == false)
+			{
+				Validado=false;
+				return;
+			}
+		}	
+		if(f.TxtNom.value == '')
+		{
+			alert("Debe Ingresar Nombre");
+			f.TxtNom.focus();
+			Validado=false;
+			return;
+		}
+		if(f.TxtPat.value == '')
+		{
+			alert("Debe Ingresar Apellido Paterno");
+			f.TxtPat.focus();
+			Validado=false;
+			return;
+		}
+		if(f.TxtMat.value == '')
+		{
+			alert("Debe Ingresar Apellido Materno");
+			f.TxtMat.focus();
+			Validado=false;
+			return;
+		}
+		if(f.TxtFechaNac.value=='')
+		{
+			alert("Debe Fecha Ingresar de Nacimiento");
+			f.TxtFechaNac.focus();
+			Validado=false;
+			return;			
+		}
+		
+		/*if(f.CmbAfp.value=='S')
+		{
+			alert("Debe Seleccionar AFP");
+			f.CmbAfp.focus();
+			Validado=false;
+			return;
+		}
+		if(f.CmbSalud.value=='-1')
+		{
+			alert("Debe Seleccionar Sistema Salud");
+			f.CmbSalud.focus();
+			Validado=false;
+			return;
+		}*/
+		
+		/*if(f.CmbEscolaridad.value=='-1')
+		{
+			Resp=confirm("Sin Escolaridad, Desea Seleccionar Escolaridad");
+			if (Resp==true)
+			{
+				f.CmbEscolaridad.focus();
+				Validado=false;
+				return;
+			}
+		}*/
+
+		
+		
+		if(f.CmbEscolaridad.value=='-1' && Option !='M')
+		{
+			alert("Sin Escolaridad Debe Seleccionar Escolaridad");
+			f.CmbEscolaridad.focus();
+			Validado=false;
+			return;
+		}
+
+
+		if(f.CmbRegion.value=='S')
+		{
+			alert("Debe Seleccionar Region");
+			f.CmbRegion.focus();
+			Validado=false;
+			return;
+		}
+		if(f.CmbCiudad.value=='S')
+		{
+			alert("Debe Seleccionar Ciudad");
+			f.CmbCiudad.focus();
+			Validado=false;
+			return;
+		}
+		/*if(f.CmbComunas.value=='S')
+		{
+			alert("Debe Seleccionar Comunas");
+			f.CmbComunas.focus();
+			Validado=false;
+			return;
+		}*/
+		
+		if(f.TxtDir.value=='')
+		{
+			alert("Debe Ingresar Direcion");
+			f.TxtDir.focus();
+			Validado=false;
+			return;
+		}
+		
+		if(f.TxtFecIniCtto.value=='')
+		{
+			alert("Debe Ingresar Fecha Inicio Contrato");
+			f.TxtFecIniCtto.focus();
+			Validado=false;
+			return;			
+		}
+		if(f.TxtFecFinCtto.value=='')
+		{
+			alert("Debe Ingresar Fecha Termino Contrato");
+			f.TxtFecIniCtto.focus();
+			Validado=false;
+			return;			
+		}			
+		
+		if(f.CmbEmpresa.value=='S')
+		{
+			alert("Debe Seleccionar Empresa");
+			f.CmbEmpresa.focus();
+			Validado=false;
+			return;
+		}
+		if(f.CmbContrato.value=='S')
+		{
+			alert("Debe Seleccionar Contrato");
+			f.CmbContrato.focus();
+			Validado=false;
+			return;
+		}
+		if(f.CmbTipoPersona.value=='S')
+		{
+			alert("Debe Seleccionar Tipo Persona");
+			f.CmbTipoPersona.focus();
+			Validado=false;
+			return;
+		}
+		if(f.CmbSindicato.value=='S')
+		{
+			alert("Debe Seleccionar Sindicato");
+			f.CmbSindicato.focus();
+			Validado=false;
+			return;
+		}
+		TxtObs = f.TxtObs;
+		CmbEscolaridad= f.CmbEscolaridad;
+		return(Validado);
+}
+
+function Procesos(TipoProceso)
+{
+	var f = document.frmPrincipal;
+	var Agrupados='N';
+	var Est='';
+	var Cert='';
+	var Sexo='';
+	var Beca='';
+	var Pasaporte='';
+	var TxtObs='';
+	var CmbEscolaridad = '';
+	var TxtNumeroCert;
+				
+	//alert(TipoProceso);
+	switch(TipoProceso)
+	{
+		case 'G'://GRABAR PERSONA
+
+			if(f.OptCert[0].checked==true)
+				Cert='S';//AUTORIZADO
+			else
+				Cert='N';//NO AUTORIZADO
+			if(f.OptEst[0].checked==true)
+				Est='A';//ACTIVO
+			if(f.OptEst[1].checked==true)
+				Est='I';//INACTIVO
+			if(f.OptEst[2].checked==true)
+				Est='D';//INACTIVO DEFINITIVO
+				
+			if(f.OptSexo[0].checked==true)
+				Sexo='M';//MASCULINO
+			else
+				Sexo='F';//FEMENINO
+			if (f.pasaporte.checked==true)
+				Pasaporte = 'S';
+				
+			var Valida=Validar('N')
+			
+			if(Valida==true)
+			{
+				//alert (f.Proceso.value);
+				if(f.Proceso.value=='AN')
+					f.action='sget_hoja_ruta01.php?Proceso=AN&Est='+Est+'&CertAnt='+Cert+'&Sexo='+Sexo+'&Beca='+Beca+'&CmbEmpresaO='+f.CmbEmpresaO.value+'&CmbContratoO='+f.CmbContratoO.value;
+				else
+					f.action='sget_mantenedor_personal_proceso01.php?Proc=G&Est='+Est+'&CertAnt='+Cert+'&Sexo='+Sexo+'&Beca='+Beca+'&Pasaporte='+Pasaporte+'&TxtNumeroCert='+TxtNumeroCert;
+				f.submit();
+			}
+			break;
+		case "M": //Modificar registros
+			var Resp ="";
+			var pp = '';
+		
+			if(f.pasaporte.checked==true)
+				Pasaporte='S';//Pasaporte
+			else
+				Pasaporte='N';//Pasaporte
+			if(f.OptCert[0].checked==true)
+				CertAnt='S';//CON CERT.ANT
+			else
+				CertAnt='N';//SIN CERT.ANT
+			if(f.OptEst[0].checked==true)
+				Est='A';//ACTIVO
+			if(f.OptEst[1].checked==true)
+				Est='I';//INACTIVO
+			if(f.OptEst[2].checked==true)
+				Est='D';//INACTIVO DEFINITIVO
+				 
+			if(f.OptSexo[0].checked==true)
+				Sexo='M';//MASCULINO
+			else
+				Sexo='F';//FEMENINO
+			if(f.OptBeca[0].checked==true)
+				Beca='S';//MASCULINO
+			else
+				Beca='N';//FEMENINO
+			var Valida=Validar('M')
+			if(Valida==true)
+			{
+		/*	alert (f.TxtHoja.value);*/
+			//alert (f.TxtNumeroCert.value);
+				if(f.TxtHoja.value!='')
+				{
+					f.action='sget_hoja_ruta01.php?Proceso=M&Est='+Est+'&CertAnt='+CertAnt+'&Sexo='+Sexo+'&Beca='+Beca+'&CmbEmpresaO='+f.CmbEmpresaO.value+'&CmbContratoO='+f.CmbContratoO.value +'&TxtNumeroCert='+TxtNumeroCert;
+				}
+				else
+				{
+				//alert (Est);
+			//	alert(f.TxtNumeroCert.value);
+
+					f.action='sget_mantenedor_personal_proceso01.php?Proc=M&Est='+Est+'&CertAnt='+CertAnt+'&Sexo='+Sexo+'&Beca='+Beca+'&Pasaporte='+Pasaporte+'&TxtObs='+TxtObs+'&CmbEscolaridad='+CmbEscolaridad+'&TxtNumeroCert='+TxtNumeroCert;
+				}
+				f.submit();
+
+										
+			}
+			break;	
+		case "T": //Modificar registros
+			confirm('Esta Seguro de Traspasar Persona a Codelco')
+			{
+				f.action='sget_mantenedor_personal_proceso01.php?Proc=T';
+				f.submit();
+			}
+			break;				
+		case 'S'://SALIR
+			window.close();
+			break;
+		case 'R'://RECARGA
+			var Est1='';
+			var Est2='';
+			var Est3='';
+			var Cert1='';
+			var Cert2='';
+			var SexoM='';
+			var SexoF='';
+			var Pasaporte = '';
+			var pp='';
+			
+		/*	if(f.checkbox.checked==true)
+				f.chekbox='checked';*/
+
+			if(f.pasaporte.checked==true)
+				pp='checked'; //Pasaporte
+	//	alert (pp);		
+		//	alert (checkbox);	
+			if(f.OptCert[0].checked==true)
+				Cert1='checked';
+			else	
+				Cert2='checked';
+			if(f.OptEst[0].checked==true)
+				Est1='checked';
+			if(f.OptEst[1].checked==true)				
+				Est2='checked';
+			if(f.OptEst[2].checked==true)				
+				Est3='checked';
+				
+			if(f.OptSexo[0].checked==true)
+				SexoM='checked';//MASCULINO
+			else
+				SexoF='checked';//FEMENINO
+				
+//alert (SexoF);
+//alert (f.TxtRuta.value);
+			f.action='sget_mantenedor_personal_proceso.php?Recarga=S&Estado1='+Est1+'&Estado2='+Est2+'&Estado3='+Est3+'&OptSexoEstM='+SexoM+'&OptSexoEstF='+SexoF+'&Optpasaporte='+pp+'&TxtNumeroCert='+TxtNumeroCert;
+			f.submit();
+			break;
+			
+		case "Emp":	
+			var	URL = "sget_mantenedor_empresas_proceso.php?Volver=S&RutReq="+f.CmbEmpresa.value+"&Form="+f.name+"&Pagina=sget_mantenedor_personal_proceso.php";		//var	URL = "sget_ingreso_administradores.php?Opc=B";
+			window.open(URL,"","top=30,left=30,width=800,height=500,menubar=no,status=1,resizable=yes,scrollbars=yes");
+		break;	
+		case "Contrato":	
+			var	URL = "sget_mantenedor_contratos_proceso.php?Volver=S&Contrato="+f.CmbContrato.value+"&Form="+f.name+"&Pagina=sget_mantenedor_personal_proceso.php";		//var	URL = "sget_ingreso_administradores.php?Opc=B";
+			window.open(URL,"","top=30,left=30,width=800,height=500,menubar=no,status=1,resizable=yes,scrollbars=yes");
+		break;	
+	}
+}
+function BuscarEmp()
+{
+	var f = document.frmPrincipal;  
+	
+	var Est1='';
+	var Est2='';
+	var Est3='';
+	var CertAnt1='';
+	var CertAnt2='';
+	//alert(f.OptEst[0].checked);
+	if(f.OptCert[0].checked==true)
+		CertAnt1='checked';//CON CERT.ANT
+	else
+		CertAnt2='checked';//SIN CERT.ANT
+	if(f.OptEst[0].checked==true)
+		Est1='checked';
+	if(f.OptEst[1].checked==true)
+		Est2='checked';
+	if(f.OptEst[2].checked==true)
+		Est3='checked';
+		//	alert("Entro");
+	f.action='sget_mantenedor_personal_proceso.php?BuscarEmp=S&Estado1='+Est1+'&Estado2='+Est2+'&Estado3='+Est3+'&CertAnt='+CertAnt1+'&CertAnt2='+CertAnt2;
+	f.submit();
+}
+function ActivarDiv(Opt)
+{
+	if(Opt=='S')
+		DivBecados.style.visibility='';
+	else
+		DivBecados.style.visibility='hidden';
+}
+function ActivarEst(Op)
+{
+	var f = document.frmPrincipal;
+	//alert (Op);
+	var Est3='';				
+	if (Op== 'D')
+	{
+		Resp=confirm('Esta Seguro de Desactivar Persona Definitivamente ');
+		
+		if (Resp==true)
+		{
+			Est = 'D';
+		}	
+		else
+		{
+			f.OptEst[0].checked ='checked';
+			//Est3='checked';
+			//alert (Est3);
+			
+		}		
+	}		
+		
+	if (Op== 'I')
+	{
+		Resp=confirm('Esta Seguro de Desactivar Persona ');
+		if (Resp==true)
+		{
+			Est = 'I';
+		}
+		else
+		{
+			f.OptEst[0].checked ='checked';
+			//Est3='checked';
+			//alert (Est2);
+			//alert (f.OptEst[0].value);
+		}		
+
+		
+	}		
+	if (Op== 'A')
+	{
+		Resp=confirm('Esta Seguro de Activar Persona ');
+		if (Resp==true)
+		{
+			Est = 'A';
+		}
+	}		
+
+		
+					/*		Resp=confirm('Esta Seguro de Desactivar Definitivamente Persona Activada y/o Modificar');
+							if (Resp==true)
+							{
+								Est = 'D';
+								f.action='sget_mantenedor_personal_proceso01.php?Proc=M&Est='+Est+'&CertAnt='+CertAnt+'&Sexo='+Sexo+'&Beca='+Beca+'&Pasaporte='+Pasaporte+'&TxtObs='+TxtObs+'&CmbEscolaridad='+CmbEscolaridad;
+								f.submit();
+							}
+					}
+					else if (Est== 'A' && f.OptEst[0].checked==true)
+					{
+							Resp=confirm('Esta Seguro de Activar Persona Desactivada Definitivamente ');
+							if (Resp==true)
+							{
+								Est = 'A';
+								f.action='sget_mantenedor_personal_proceso01.php?Proc=M&Est='+Est+'&CertAnt='+CertAnt+'&Sexo='+Sexo+'&Beca='+Beca+'&Pasaporte='+Pasaporte+'&TxtObs='+TxtObs+'&CmbEscolaridad='+CmbEscolaridad;
+								f.submit();
+							}
+					}		
+					/*else if (Est== 'A' && f.OptEst[0].checked==true)
+					{
+							Resp=confirm('Esta Seguro de Activar Persona Desactivada Definitivamente ');
+							if (Resp==true)
+							{
+								Est = 'A';
+								f.action='sget_mantenedor_personal_proceso01.php?Proc=M&Est='+Est+'&CertAnt='+CertAnt+'&Sexo='+Sexo+'&Beca='+Beca+'&Pasaporte='+Pasaporte+'&TxtObs='+TxtObs+'&CmbEscolaridad='+CmbEscolaridad;
+								f.submit();
+							}
+						}
+					}
+					else if (Est== 'I' && f.OptEst[1].checked==true)
+					{			
+						{
+							Resp=confirm('Esta Seguro de Dejar Persona Inactivo ');
+							if (Resp==true)
+							{
+								Est = 'I';
+								f.action='sget_mantenedor_personal_proceso01.php?Proc=M&Est='+Est+'&CertAnt='+CertAnt+'&Sexo='+Sexo+'&Beca='+Beca+'&Pasaporte='+Pasaporte+'&TxtObs='+TxtObs+'&CmbEscolaridad='+CmbEscolaridad;
+								f.submit();
+							}
+						}
+					}*/			
+
+	
+}
+
+function AgregarBecados()
+{
+	var f = document.frmPrincipal;
+	URL = "../sget_web/sget_ingreso_becados.php?Rut="+f.TxtRut.value;
+	window.open(URL,"","top=30,left=30,width=650,height=400,menubar=no,status=1,resizable=yes,scrollbars=yes");
+}
+function AgregarCargo()
+{
+	var f = document.frmPrincipal;
+	URL = "../sget_web/sget_mantenedor_cargos_proceso.php?Volver=S&Valores="+f.CmbCargo.value;
+	window.open(URL,"","top=30,left=30,width=650,height=400,menubar=no,status=1,resizable=yes,scrollbars=yes");
+
+}
+function AgregarAseguradora()
+{
+	var f = document.frmPrincipal;
+	URL = "../sget_web/sget_mantenedor_aseguradora_proceso.php?Volver=S&Valores="+f.CmbAseguradora.value;
+	window.open(URL,"","top=30,left=30,width=650,height=400,menubar=no,status=1,resizable=yes,scrollbars=yes");
+}
+function AgregarAfp()
+{
+	var f = document.frmPrincipal;
+	URL = "../sget_web/sget_mantenedor_afp_proceso.php?Volver=S&Valores="+f.CmbAfp.value;
+	window.open(URL,"","top=30,left=30,width=650,height=400,menubar=no,status=1,resizable=yes,scrollbars=yes");
+}
+function AgregarSindico()
+{
+	var f = document.frmPrincipal;
+	URL = "../sget_web/sget_mantenedor_sindicato_proceso.php?Volver=S&Valores="+f.CmbSindicato.value;
+	window.open(URL,"","top=30,left=30,width=650,height=400,menubar=no,status=1,resizable=yes,scrollbars=yes");
+}
+
+
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+</head>
+<body>
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="archivos/popcjs.htm" frameBorder=0 width=160 scrolling=no height=180></IFRAME></DIV>
+
+
+<form name="frmPrincipal" action="" method="post" enctype="multipart/form-data" >
+<input type="hidden" name="Proceso" value="<? echo $Proceso;?>">
+
+
+<input type="hidden" name="CheckPasaporte" value="<? echo $CheckPasaporte;?>">
+
+<input type="hidden" name="Valores" value="<? echo $Valores;?>">
+<input type="hidden" name="TxtHoja" value="<? echo $TxtHoja;?>">
+<input type="hidden" name="CmbEmpresaO" value="<? echo $CmbEmpresaO;?>">
+<input type="hidden" name="CmbContratoO" value="<? echo $CmbContratoO;?>">
+<table width="100%"  border="0" align="center" cellpadding="0"  cellspacing="0" class="">
+
+  <tr>
+    <td width="15" height="15"><img src="archivos/images/interior/esq1.gif" width="15" height="15" /></td>
+    <td height="15"background="archivos/images/interior/form_arriba.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+    <td width="15" height="15"><img src="archivos/images/interior/esq2.gif" width="15" height="15" /></td>
+  </tr>
+  <tr>
+    <td width="15" background="archivos/images/interior/form_izq.gif">&nbsp;</td>
+    <td align="center">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>  
+          <td width="74%" align="left"><?	if($Proceso=='N'){?><img src="archivos/sub_tit_pers_n.png"><? }else{?><img src="archivos/sub_tit_pers_m.png"><?	}?></td>
+            <td align="right"> 
+              <? if($Proceso=='M')
+			{
+			?>
+              <a href="JavaScript:Procesos('M')"><img src="archivos/btn_guardar.png"  border="0"  alt=" Modificar " align="absmiddle"></a> 
+              <?
+			 }
+			 else
+			 {
+			 ?>
+              <a href="JavaScript:Procesos('G')"><img src="archivos/btn_guardar.png"  border="0"  alt=" Grabar " align="absmiddle"></a> 
+              <?
+			  }
+			  ?>
+              <a href="JavaScript:Procesos('S')"><img src="archivos/close.png"  border="0"  alt=" Volver " align="absmiddle"></a> 
+            </td>
+        </tr>
+      </table>
+      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+          <td colspan="3"align="center" class="TituloTablaVerde"></td>
+        </tr>
+        <tr>
+          <td width="1%" align="center" class="TituloTablaVerde"></td>
+            <td align="center"><table width="100%" border="0" cellpadding="3" cellspacing="0">
+                <tr align="center" > 
+                  <td colspan="4" align="center" class="TituloTablaVerde">Datos 
+                    Personales (Versi&oacute;n 2)</td>  
+                </tr>
+                <tr align="center" > 
+                  <td width="154" align="left" class="formulario2">Rut / Pasaporte</td>
+                  <td colspan="2" align="left" class="formulario2"> 
+                    <? if($Proceso=='M')
+						{
+						?>
+                    <input name="TxtRut" type="text" value="<? echo $TxtRut;?>" size="13" maxlength="14" readonly="true"> 
+                    <?
+						}
+						else
+						{
+						?>
+                    <input name="TxtRut" type="text" value="<? echo $TxtRut;?>" size="13" maxlength="14">
+                   		 <?
+						}
+						?>
+                    <span class="InputRojo">(*)</span> (Ej: 12345678-6, Sin Puntos 
+                    '.') &nbsp; &nbsp;Pasaporte <span class="InputRojo"> 
+					  
+
+                    <input type="checkbox" name="pasaporte" value="checkbox"  <? echo $Optpasaporte;?>  class="SinBorde">
+                    </span><span class="InputRojo"> </span></td>
+                 
+                  <td width="186" align="center" class="formulario2">Foto</td>
+                </tr>
+                <tr align="center"> 
+                  <td align="left" class="formulario2">Nombre</td>
+                  <td colspan="2" align="left" class="formulario2"><input name="TxtNom" type="text" value="<? echo $TxtNom;?>" size="40" maxlength="40">
+                    <span class="InputRojo">(*) </span></td>
+                  <td width="186" rowspan="4" align="center" class="formulario2">
+                    <? 
+		$Foto="fotos/$TxtRut.jpg";
+		if(is_file($Foto))
+		$Imagen=$Foto;
+		else
+		$Imagen="archivos/usuario.png";
+		
+		?>
+                    <img src='<? echo $Imagen;?>' width='100' height='98' border='0' align='absmiddle'></td>
+                </tr>
+                <tr align="center" class="formulario2"> 
+                  <td align="left" class="formulario2">Apellido Paterno</td>
+                  <td colspan="2" align="left" class="formulario2"><input name="TxtPat" type="text" value="<? echo $TxtPat;?>" size="30" maxlength="30"> 
+                    <span class="InputRojo">(*)</span></td>
+                </tr>
+                <tr align="center" > 
+                  <td align="left" class="formulario2"> Apellido Materno</td>
+                  <td colspan="2" align="left" class="formulario2"><input name="TxtMat" type="text" value="<? echo $TxtMat;?>" size="30" maxlength="30"> 
+                    <span class="InputRojo">(*)</span></td>
+                </tr>
+            <tr align="center" >
+              <td align="left" class="formulario2">Fec.Nacimiento</td>
+              <td colspan="2" align="left" class="formulario2"><input name="TxtFechaNac" type="text" class="InputCen" value="<? echo $TxtFechaNac; ?>" size="10" maxlength="10" onBlur="DateFormat(this,this.value,event,true,'3',frmPrincipal,'EDAD')" onKeyUp="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'">
+                    <span class="InputRojo">(*)</span>&nbsp;&nbsp;&nbsp;Edad: 
+				<input name="TxtEdad" type="text" class="InputCen" value="<? echo $TxtEdad;?>" size="7" maxlength="10" readonly> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+            </tr>
+                <tr align="center" > 
+                  <td align="left" class="formulario2">Sexo</td>
+                  <td colspan="2" align="left" class="formulario2">&nbsp;&nbsp;&nbsp;Masculino 
+                    <input name="OptSexo" type="radio" value="radiobutton" <? echo $OptSexoEstM;?> class="SinBorde">
+                    Femenino 
+                    <input name="OptSexo" type="radio" value="radiobutton" <? echo $OptSexoEstF;?> class="SinBorde">
+
+                    &nbsp;&nbsp;&nbsp;Cargas Familiares 
+                    <input name="TxtCargas" type="text" value="<? echo $TxtCargas;?>" size="1" maxlength="2" onKeyDown="TeclaPulsada(true)">
+                    &nbsp;&nbsp;&nbsp;Escolaridad 
+                    <SELECT name="CmbEscolaridad" onChange="Procesos('R')">
+                      <option value="-1" SELECTed="SELECTed">Seleccionar</option>
+                      <?
+	  	$Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase = '33008' ";
+		$Consulta.=" order by cod_subclase ";
+		$RespE=mysql_query($Consulta);
+		while ($FilaEs=mysql_fetch_array($RespE))
+		{
+			if($CmbEscolaridad==$FilaEs["cod_subclase"])
+				echo "<option value='".$FilaEs["cod_subclase"]."' SELECTed>".$FilaEs["nombre_subclase"]."</option>\n";
+			else	
+				echo "<option value='".$FilaEs["cod_subclase"]."'>".$FilaEs["nombre_subclase"]."</option>";
+		}
+				?>
+                    </SELECT>
+                    <span class="InputRojo"> </span> 
+                  <td align="right" class="formulario2"><span class="InputRojo">Foto&nbsp;con&nbsp;extension&nbsp;.jpg</span> 
+                <input type="file" name="Archivo" id="Archivo">                </tr>
+		
+		
+				
+				
+                <tr align="center" > 
+                  <td align="left" class="formulario2">Direcci&oacute;n</td>
+                  <td colspan="4" align="left" class="formulario2"> 
+                    <input name="TxtDir" type="text" value="<? echo $TxtDir;?>" size="80" maxlength="100"> 
+                    <span class="InputRojo">(*)</span>&nbsp;&nbsp;&nbsp;<span class="formulario">Telefono</span><span class="InputRojo">(1) 
+                    <input name="TxtFono1" type="text" value="<? echo $TxtFono1;?>" size="15" maxlength="15">
+                    &nbsp;(2) 
+                    <input name="TxtFono2" type="text" value="<? echo $TxtFono2;?>" size="15" maxlength="15">
+                    </span>&nbsp; </td>
+                </tr>
+                <tr align="center" > 
+                  <td align="left" class="formulario2">Region</td>
+                  <td colspan="3" align="left" class="formulario2"><SELECT name="CmbRegion" onChange="Procesos('R')">
+                      <option value="S" SELECTed="SELECTed">Seleccionar</option>
+                      <?
+		$Consulta="SELECT * from sget_regiones ";
+		$Resp=mysql_query($Consulta);
+		while($Fila=mysql_fetch_array($Resp))
+		{
+			if($CmbRegion==$Fila[cod_region])
+				echo "<option value='".$Fila[cod_region]."' SELECTed>".$Fila[nom_region]."</option>";
+			else	
+				echo "<option value='".$Fila[cod_region]."'>".$Fila[nom_region]."</option>";
+		}
+		?>
+                    </SELECT>
+                    <span class="InputRojo">(*)</span>&nbsp;&nbsp;Provincia<span class="formulario"></span><span class="InputRojo"> 
+                    <SELECT name="CmbCiudad" onChange="Procesos('R')">
+                      <option value="S" SELECTed="SELECTed">Seleccionar</option>
+                      <?
+		$Consulta="SELECT t2.cod_ciudad,t2.nom_ciudad from sget_ciudades_por_region t1 inner join sget_ciudades t2 on t1.cod_ciudad=t2.cod_ciudad where cod_region='".$CmbRegion."' order by nom_ciudad ";
+		$Resp=mysql_query($Consulta);
+		while($Fila=mysql_fetch_array($Resp))
+		{
+			if($CmbCiudad==$Fila["cod_ciudad"])
+				echo "<option value='".$Fila["cod_ciudad"]."' SELECTed>".$Fila[nom_ciudad]."</option>";
+			else	
+				echo "<option value='".$Fila["cod_ciudad"]."'>".$Fila[nom_ciudad]."</option>";
+		}
+		?>
+                    </SELECT>
+                    (*)&nbsp;&nbsp;</span><span class="formulario">Ciudad / Comuna</span><span class="InputRojo"> 
+                    <SELECT name="CmbComunas">
+                      <option value="S" SELECTed="SELECTed">Seleccionar</option>
+                      <?
+		$Consulta="SELECT t2.cod_comuna,t2.nom_comuna from sget_comunas_por_ciudad t1 inner join sget_comunas t2 on t1.cod_comuna=t2.cod_comuna where cod_ciudad='".$CmbCiudad."' order by nom_comuna";
+		$Resp=mysql_query($Consulta);
+		while($Fila=mysql_fetch_array($Resp))
+		{
+			if($CmbComunas==$Fila[cod_comuna])
+				echo "<option value='".$Fila[cod_comuna]."' SELECTed>".$Fila[nom_comuna]."</option>";
+			else	
+				echo "<option value='".$Fila[cod_comuna]."'>".$Fila[nom_comuna]."</option>";
+		}
+		?>
+                    </SELECT>
+                    </span></td>
+                </tr>
+                <tr align="center"> 
+                  <td align="left" class="formulario2"> Afp</td>
+                  <td colspan="3" align="left" class="formulario2"><span class="InputRojo">
+                    <SELECT name="CmbAfp">
+                      <option value="S" SELECTed="SELECTed">Seleccionar / Agregar</option>
+                      <?
+		$Consulta="SELECT * from sget_afp where estado='1' order by descripcion_afp";
+		$Resp=mysql_query($Consulta);
+		while($Fila=mysql_fetch_array($Resp))
+		{
+			if($CmbAfp==$Fila[cod_afp])
+				echo "<option value='".$Fila[cod_afp]."' SELECTed>".$Fila[descripcion_afp]."</option>";
+			else	
+				echo "<option value='".$Fila[cod_afp]."'>".$Fila[descripcion_afp]."</option>";
+		}
+		?>
+                    </SELECT>
+                    <a href="JavaScript:AgregarAfp()"><img src="archivos/btn_agregar2.png" height="20" width="20" alt="Agregar "align="absmiddle" border="0"></a> 
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Sistema Salud 
+                    <SELECT name="CmbSalud">
+                      <option value="-1" class="NoSelec">Seleccionar</option>
+                      <?
+	  $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30011' ";			
+		$Resp=mysql_query($Consulta);
+		while ($FilaTC=mysql_fetch_array($Resp))
+		{
+			if ($CmbSalud==$FilaTC["cod_subclase"])
+				echo "<option SELECTed value='".$FilaTC["cod_subclase"]."'>".ucfirst($FilaTC["nombre_subclase"])."</option>\n";
+			else
+				echo "<option value='".$FilaTC["cod_subclase"]."'>".ucfirst($FilaTC["nombre_subclase"])."</option>\n";
+		}
+			?>
+                    </SELECT>
+                    </span></td>
+                </tr>
+                <tr align="center" > 
+                  <td colspan="4" align="center" class="TituloTablaVerde">Datos 
+                    Contractuales</td>
+                </tr>
+                <tr align="center" > 
+                  <td align="left" class="formulario2">Fecha Inicio Ctto </td>
+                  <td width="713" align="left" class="formulario2"><input name="TxtFecIniCtto" type="text" class="InputCen" value="<? echo $TxtFecIniCtto; ?>" size="15" maxlength="10" readonly> 
+                    <span class="InputRojo">(*)</span> <img src="archivos/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha"  border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFecIniCtto,TxtFecIniCtto,popCal);return false">&nbsp;&nbsp;&nbsp;Fecha 
+                    Termino Ctto 
+					<?
+					//echo "HH".$BuscarEmp."##".$TxtBuscaEmp;
+					?>
+                    <input name="TxtFecFinCtto" type="text" class="InputCen" id="TxtFecFinCtto2" value="<? echo $TxtFecFinCtto; ?>" size="15" maxlength="10" readonly> 
+                    <span class="InputRojo">(*)</span> <img src="archivos/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha"  border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFecFinCtto,TxtFecFinCtto,popCal);return false">&nbsp;</td>
+                  <td width="175" align="left" class="formulario2">Fecha Vig. DAS </td>
+                  <td class="formulario2" align="left"><? echo $FechaDAS;?>&nbsp;</td>
+                </tr>
+                <tr align="center" > 
+                  <td align="left" class="formulario2">Empresa</td>
+                  <td align="left" class="formulario2"> <input name="TxtBuscaEmp" type="text" value="<? echo $TxtBuscaEmp;?>" size="15" maxlength="10"> 
+                    <input name="BtnBuscar" type="button" value="Ok" onClick="BuscarEmp()"> 
+					<?
+					//	if ($Nuevo == 'S')
+						//	$CmbEmpresa = $DD;
+						//else	
+					?>
+                    <SELECT name="CmbEmpresa" style="width:300" onChange="Procesos('R')">
+                      <option value="S" SELECTed>Seleccionar / Agregar</option>
+                      <?
+				//include("../principal/conectar_ssgc.php");
+			/*	echo "QQQQQQQ".$$DD;
+					if ($Proceso == 'M')
+						$CmbEmpresa = $DD;
+					else*/	
+
+				$Encontro=false;	
+				$Consulta="SELECT * from sget_contratistas where rut_empresa<>'' and rut_empresa <> '61704000-k' and estado='1'";
+				if($BuscarEmp=='S'&& $TxtBuscaEmp!='')
+					$Consulta.="and upper(razon_social) like '%".strtoupper($TxtBuscaEmp)."%'";
+				$Consulta.=" order by razon_social";
+				
+				$var2=$Consulta;	
+				$RespEmp=mysql_query($Consulta);
+				while($FilaEmp=mysql_fetch_array($RespEmp))
+				{
+					if(strtoupper($FilaEmp[rut_empresa])==strtoupper($CmbEmpresa))
+						echo "<option value='".$FilaEmp[rut_empresa]."' SELECTed>".$FilaEmp[razon_social]."</option>";
+					else
+						echo "<option value='".$FilaEmp[rut_empresa]."'>".$FilaEmp[razon_social]."</option>";
+					
+					$Encontro=true;
+						
+				}
+			
+			?>
+                    </SELECT> <span class="InputRojo">(*)</span>&nbsp;<a href="JavaScript:Procesos('Emp')"><img src="archivos/btn_agregar2.png" height="20" width="20" alt="Agregar "align="absmiddle" border="0"></a>                  </td>
+                  <td align="left" class="formulario2">Fecha Vig. Preoc. </td>
+                  <td align="left" class="formulario2"><? echo $FechaPreo;?>&nbsp;</td>
+                </tr>
+                <tr align="center" > 
+                  <td align="left" class="formulario2">Contrato</td>
+                  <td align="left" class="formulario2"><SELECT name="CmbContrato" style="width:450">
+                      <option value="S" SELECTed>Seleccionar / Agregar</option>
+                      <?
+				//include("../principal/conectar_ssgc.php");
+				$FechaActual=date("Y")."-".date("m")."-".date("d");
+				$Consulta="SELECT * from sget_contratos where rut_empresa='".$CmbEmpresa."' and rut_empresa!='' order by fecha_termino desc";
+				$RespCtto=mysql_query($Consulta);
+				while($FilaCtto=mysql_fetch_array($RespCtto))
+				{
+					if ($FechaActual > $FilaCtto[fecha_termino])
+						$Color="red";
+					else
+						$Color='white';
+					if(strtoupper($FilaCtto["cod_contrato"])==strtoupper($CmbContrato))
+					{
+						echo "<option style='background:".$Color."' value='".$FilaCtto["cod_contrato"]."' SELECTed>".$FilaCtto["cod_contrato"]."--->".strtoupper($FilaCtto["descripcion"])."</option>";
+						if($TxtFechaCtto==''||$TxtFechaCtto=='0000-00-00')
+							$TxtFechaCtto=$FilaCtto[fecha_termino];
+							$var11= $FilaCtto["cod_contrato"];
+					}	
+					else
+						echo "<option style='background:".$Color."' value='".$FilaCtto["cod_contrato"]."'>".$FilaCtto["cod_contrato"]."--->".strtoupper($FilaCtto["descripcion"])."</option>";
+						
+				}
+				//CONTRATOS SUBCONTRATISTA
+				$Consulta="SELECT t1.cod_contrato,t2.fecha_termino,t2.descripcion from sget_sub_contratistas t1 inner join sget_contratos t2 on t1.cod_contrato=t2.cod_contrato where t1.rut_empresa='".$CmbEmpresa."' and t1.rut_empresa!='' order by t2.fecha_termino desc";
+				$RespCtto=mysql_query($Consulta);
+				while($FilaCtto=mysql_fetch_array($RespCtto))
+				{
+					if ($FechaActual > $FilaCtto[fecha_termino])
+						$Color="red";
+					else
+						$Color='white';
+					if(strtoupper($FilaCtto["cod_contrato"])==strtoupper($CmbContrato))
+					{
+						echo "<option style='background:".$Color."' value='".$FilaCtto["cod_contrato"]."' SELECTed>".$FilaCtto["cod_contrato"]."--->".strtoupper($FilaCtto["descripcion"])."</option>";
+						if($TxtFechaCtto==''||$TxtFechaCtto=='0000-00-00')
+							$TxtFechaCtto=$FilaCtto[fecha_termino];
+					}	
+					else
+						echo "<option style='background:".$Color."' value='".$FilaCtto["cod_contrato"]."'>".$FilaCtto["cod_contrato"]."--->".strtoupper($FilaCtto["descripcion"])."</option>";
+				}
+				
+			?>
+                    </SELECT> <span class="InputRojo">(*)</span> &nbsp;<a href="JavaScript:Procesos('Contrato')"><img src="archivos/btn_agregar2.png" height="20" width="20" alt="Agregar "align="absmiddle" border="0"></a></td>
+                  <td align="left" class="formulario2">Fecha Vig.Ocupa. </td>
+                  <td align="left" class="formulario2"><? echo $FechaOcupaExpi;?>&nbsp;</td>
+                </tr>
+                <tr align="center" > 
+                  <td align="left" class="formulario2">Credencial</td>
+                  <td align="left" class="formulario2"><input name="TxtTarj" type="text" value="<? echo $TxtTarj;?>" size="18" maxlength="8">
+                    Sueldo: 
+                    <input name="TxtSueldo" type="text" value="<? echo number_format($TxtSueldo,0,'','.');?>" size="10" maxlength="8" onKeyDown="TeclaPulsada1()" onKeyUp="PoneMiles(this,this.value.charAt(this.value.length-1))"> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validado como Conductor:&nbsp;&nbsp;<? echo $ValidadoCondu;?> </td>
+                  <td align="left" class="formulario2">Fecha Vig Psico-senso-tecnico</td>
+                  <td align="left" class="formulario2"><? echo $TxtVigExamPST;?></td>
+                </tr>
+                <tr align="center" > 
+                  <td align="left" class="formulario2">Cargo</td>
+                  <td  class="formulario2" align="left"><SELECT name="CmbCargo">
+                      <option value="S" SELECTed="SELECTed">Seleccionar / Agregar</option>
+                      <?
+					 
+		$Consulta="SELECT * from sget_cargos where estado='1' order by descrip_cargo";
+		$Resp=mysql_query($Consulta);
+		while($Fila=mysql_fetch_array($Resp))
+		{
+			if($CmbCargo==$Fila[cod_cargo])
+				echo "<option value='".$Fila[cod_cargo]."' SELECTed>".$Fila[descrip_cargo]."</option>";
+			else	
+				echo "<option value='".$Fila[cod_cargo]."'>".$Fila[descrip_cargo]."</option>";
+		}
+		?>
+                    </SELECT> &nbsp;<a href="JavaScript:AgregarCargo()"><img src="archivos/btn_agregar2.png" height="20" width="20" alt="Agregar "align="absmiddle" border="0"></a>&nbsp;&nbsp;&nbsp;Tipo 
+                    Persona 
+                    <SELECT name="CmbTipoPersona">
+                      <option value="S" SELECTed="SELECTed">Seleccionar</option>
+                      <?
+		$Consulta="SELECT * from sget_tipo_persona order by descrip_tipo";
+		$Resp=mysql_query($Consulta);
+		while($Fila=mysql_fetch_array($Resp))
+		{
+			if($CmbTipoPersona==$Fila[cod_tipo])
+				echo "<option value='".$Fila[cod_tipo]."' SELECTed>".$Fila[descrip_tipo]."</option>";
+			else	
+				echo "<option value='".$Fila[cod_tipo]."'>".$Fila[descrip_tipo]."</option>";
+		}
+		?>
+                    </SELECT> <span class="InputRojo">(*)</span> &nbsp;&nbsp;&nbsp; 
+                    Turnos: 
+                    <SELECT name="CmbTurnos">
+                      <option value="S" SELECTed="SELECTed">Seleccionar</option>
+                      <?
+		$Consulta="SELECT * from sget_turnos where estado='1' order by descrip_turno";
+		$Resp=mysql_query($Consulta);
+		while($Fila=mysql_fetch_array($Resp))
+		{
+			if($CmbTurnos==$Fila[cod_turno])
+				echo "<option value='".$Fila[cod_turno]."' SELECTed>".$Fila[descrip_turno]."</option>";
+			else	
+				echo "<option value='".$Fila[cod_turno]."'>".$Fila[descrip_turno]."</option>";
+		}
+		?>
+                    </SELECT></td>
+                  <td  class="formulario2" align="left">Fecha Vig. Licencia </td>
+                  <td  class="formulario2" align="left"><? echo $TxtVigMuni;?>&nbsp;</td>
+                </tr>
+                <tr align="center"> 
+                  <td align="left" class="formulario2">Certificado de Antecedentes</td>
+                  <td colspan="3" align="left" class="formulario2">&nbsp;Si&nbsp;&nbsp;&nbsp&nbsp;  
+				   
+                    <input name="OptCert" type="radio" value="radiobutton" <? echo $CertAnt;?> class="SinBorde">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    No&nbsp; <input name="OptCert" type="radio" value="radiobutton" <? echo $CertAnt2;?> class="SinBorde">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    &nbsp; Fecha Venc. Certificado 
+                    <input name="TxtFechaCert" type="text" readonly   size="10" value="<? echo $TxtFechaCert; ?>" >
+                    &nbsp;<img src="archivos/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="22" height="18" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaCert,TxtFechaCert,popCal);return false"> 
+                    &nbsp; N�mero Certificado 
+					<?
+/*						if ($Proceso == 'M')
+								$NumeroCert=number_format($TxtNumeroCert,0,",",".");*/
+						?>
+						
+					<input name="TxtNumeroCert" type="text"  size="12" value="<? echo number_format($TxtNumeroCert,0,",","."); ?>" > 			
+					<input name="TxtNumeroCert1" type="hidden"  size="12" value="<? echo $NumeroCert; ?>" >                  </td>
+                </tr>
+                <?
+			//	echo "EE".$var2;
+			if($Proceso=='M')
+			{
+			
+			// echo "estadooooooooooooooooo".$Estado1."--".$Estado2."---".$Estado3;
+			?>
+                <tr align="center"> 
+                  <td align="left" class="formulario2">Beca </td>
+                  <td colspan="3" align="left" class="formulario2"><a href="JavaScript:Procesos('S')"></a>
+					<div id="DivBecados" style="visibility:<? echo $EstDivBec;?>; position:absolute"></div>
+                    ��������������������������������������������������������������������������������������������������������������������������������Si���� <input name="OptBeca" type="radio" value="radiobutton" <? echo $OptBecaEstS;?> class="SinBorde" onClick="ActivarDiv('S')">
+                    <a href="JavaScript:AgregarBecados()"><img src="archivos/btn_agregar2.png" height="20" width="20" alt="Agregar "align="absmiddle" border="0"></a> 
+                    ��� No&nbsp; 
+                    <input name="OptBeca" type="radio" value="radiobutton" <? echo $OptBecaEstN;?> class="SinBorde" onClick="ActivarDiv('N')">                  </td>
+                </tr>
+                <?
+			}
+			?>
+                <tr align="center" > 
+                  <td align="left" class="formulario2">Estado</td>
+                  <td colspan="4" align="left" class="formulario2">&nbsp;&nbsp;Activo 
+				  
+				  
+
+                    <input name="OptEst" type="radio" value="radiobutton" <? echo $Estado1;?> class="SinBorde" onClick="ActivarEst('A')" >
+                    &nbsp;&nbsp;Inactivo 
+                    <input name="OptEst" type="radio" value="radiobutton" <? echo $Estado2;?> class="SinBorde" onClick="ActivarEst('I')" >
+                    &nbsp;&nbsp;Inactivo Definitivo 
+                    <input name="OptEst" type="radio" value="radiobutton" <? echo $Estado3;?> class="SinBorde" onClick="ActivarEst('D')" >
+					<input name="Estado3" type="hidden"  value="<? echo $Estado3;?>">
+                    &nbsp;&nbsp;&nbsp;&nbsp; Sindicalizado 
+                    <SELECT name="CmbSindicato">
+                      <option value="S" SELECTed="SELECTed">Seleccionar/Agregar</option>
+                      <?
+				$Consulta="SELECT * from sget_sindicato where estado='1' order by descripcion";
+				$Resp=mysql_query($Consulta);
+				while($Fila=mysql_fetch_array($Resp))
+				{
+					if($CmbSindicato==$Fila[cod_sindicato])
+						echo "<option value='".$Fila[cod_sindicato]."' SELECTed>".$Fila["descripcion"]."</option>";
+					else	
+						echo "<option value='".$Fila[cod_sindicato]."'>".$Fila["descripcion"]."</option>";
+				}
+				?>
+                    </SELECT>
+                    <span class="InputRojo">(*)</span>&nbsp; <a href="JavaScript:AgregarSindico()"><img src="archivos/btn_agregar2.png" height="20" width="20" alt="Agregar "align="absmiddle" border="0"></a>				</td>
+				</tr>	
+					
+					
+					<tr align="center" > 
+                  <td align="left" class="formulario2">Seguro Complem. Salud&nbsp;</td>
+                  <td colspan="3" align="left" class="formulario2"><SELECT name="CmbAseguradora"> 
+ 				  <option value="S" SELECTed="SELECTed">Seleccionar / Agregar</option>
+                      <?
+				$Consulta="SELECT * from sget_aseguradoras where estado='1' order by descripcion_aseguradora";
+				$Resp=mysql_query($Consulta);
+				while($Fila=mysql_fetch_array($Resp))
+				{
+					if($CmbAseguradora==$Fila[cod_aseguradora])
+						echo "<option value='".$Fila[cod_aseguradora]."' SELECTed>".$Fila[descripcion_aseguradora]."</option>";
+					else	
+						echo "<option value='".$Fila[cod_aseguradora]."'>".$Fila[descripcion_aseguradora]."</option>";
+				}
+		?>
+                    </SELECT>
+                    <a href="JavaScript:AgregarAseguradora()"><img src="archivos/btn_agregar2.png" height="20" width="20" alt="Agregar "align="absmiddle" border="0"></a> 
+&nbsp;				</td>
+				</tr>
+				
+                <tr> 
+                  <td class="formulario2">N&uacute;mero Hoja Ruta</td>
+                  <td colspan="2"  class="formulario2"> 
+				<?
+				  if ($Proceso != 'M')
+                  		echo '<SELECT disabled  name="CmbHoja"><option value="S" SELECTed="SELECTed">Seleccionar</option>';
+				  else
+						echo '<SELECT  name="CmbHoja"> <option value="S" SELECTed="SELECTed">Seleccionar</option>';
+				$Consulta="SELECT  distinct num_hoja_ruta,estado  from des_sget.sget_hoja_ruta_nomina";
+				$Consulta.= " where rut_personal = '".$TxtRut."'";
+				$var1 = $Consulta;
+				$ResH=mysql_query($Consulta);
+				while($FilaH=mysql_fetch_array($ResH))
+				{
+					if ($FilaH["estado"] == 'A')
+						$Color='white';
+					else
+						$Color='red';	
+					if($CmbHoja==$FilaH[num_hoja_ruta])
+						echo "<option style='background:".$Color."' value='".$FilaH[num_hoja_ruta]."' SELECTed>".$FilaH[num_hoja_ruta]."</option>";
+					else
+						echo "<option style='background:".$Color."' value='".$FilaH[num_hoja_ruta]."'>".$FilaH[num_hoja_ruta]."</option>";
+				}
+				?>
+                    </SELECT></td>
+				  <td class="formulario2">&nbsp;</td>
+                </tr>
+				
+				
+				
+				
+				<? 
+				$Adver= "INACTIVO DEFINITIVO";
+          	echo "<tr align='center'>";
+             	echo "<td  align='left' class='formulario2'>Observacion </td>";
+			//echo "OOO".$TxtObs."--".$Estado1."##".$Estado2."**".$Estado3;
+				if ($Estado1== 'checked') 
+					echo "<td colspan='3' align='left' class='formulario2'><textarea name='TxtObs' cols='90' rows='4'> ".strtoupper($TxtObs)." </textarea></td>";
+			
+				if($Estado2=='checked') 
+					echo "<td colspan='3' align='left' class='formulario2'><textarea name='TxtObs' cols='90' rows='4'> ".strtoupper($TxtObs)." </textarea></td>";
+				if ($Estado3=='checked') 
+					echo "<td colspan='3' align='left' class='formulario2'><textarea name='TxtObs' class='InputRojo'  cols='90' rows='4'> ".strtoupper($TxtObs)." </textarea></td>";
+             	echo "</tr>";
+				?>
+                <tr bordercolor="#3333FF" class="texCobre" align="center"> 
+                  <td colspan="4" align="left" class="formulario2"><span class="InputRojo">(*) 
+                    Datos Obligatorios</span></td>
+                </tr>
+                <tr  align="center"> 
+                  <td  colspan="4" align="left" class="formulario2"><table width="100%" border="0" align="center" cellpadding="2" cellspacing="0" >
+                      <tr> 
+                        <td class="TituloTablaVerde" align="center">Historial 
+                          de Contratos</td>
+                      </tr>
+                    </table></td>
+                </tr>
+                <tr align="center"> 
+                  <td colspan="4" align="left" class="formulario2"> 
+                    <? if($Proceso=='M')
+{
+?>
+                    <? 	
+	$Contador=0;	$encontro="N";
+ 	$Consulta=" SELECT t1.*,t2.razon_social from sget_personal_historia t1 left join sget_contratistas t2 on t1.rut_empresa=t2.rut_empresa";
+	$Consulta.="  where t1.rut ='".$TxtRut."'";
+	$RespModificaciones=mysql_query($Consulta);
+	while($FilaModificaciones=mysql_fetch_array($RespModificaciones))
+	{
+		$Contador=$Contador+1;
+		if($Contador==1)
+		{		?>
+                    <table width="100%" align="center" cellpadding="2" border="1" cellspacing="0">
+                      <tr>
+                        <td width="147" align="center" class="TituloCabecera">Contrato</td>
+                        <td width="449" align="center" class="TituloCabecera">Empresa</td>
+                        <td width="93" align="center" class="TituloCabecera">Fecha 
+                          Ingreso </td>
+                        <td width="111" align="center" class="TituloCabecera">Fecha 
+                          T�rmino </td>
+                      </tr>
+                      <? 
+		}?>
+                      <tr> 
+                        <td bgcolor="#FFFFFF" > <? echo $FilaModificaciones["cod_contrato"];?></td>
+                        <td  align="left" bgcolor="#FFFFFF">
+                          <? 
+			echo $FilaModificaciones[razon_social];
+			?>
+                          &nbsp;</td>
+                        <td  align="center" bgcolor="#FFFFFF">
+                          <? 
+			echo $FilaModificaciones[fecha_ingreso];
+			?>
+                          &nbsp;</td>
+                        <td  align="center" bgcolor="#FFFFFF">
+                          <? 
+			echo $FilaModificaciones[fecha_termino];
+			?>
+                          &nbsp;</td>
+                      </tr>
+                      <?
+	$encontro="S";
+	}
+	if(	$encontro=="S")
+	{
+	?>
+                    </table>
+                    <?
+	}
+	?>
+                    <? 
+}
+?>
+                    &nbsp;</td>
+                </tr>
+              </table></td>
+          <td width="0%" align="center" class="TituloTablaVerde"></td>
+        </tr>
+        <tr>
+          <td colspan="3"align="center" class="TituloTablaVerde"></td>
+        </tr>
+      </table>
+      <br></td>
+    <td width="15" background="archivos/images/interior/form_der.gif">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="15" height="15"><img src="archivos/images/interior/esq3.gif" width="15" height="15" /></td>
+    <td height="15" background="archivos/images/interior/form_abajo.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+    <td width="15" height="15"><img src="archivos/images/interior/esq4.gif" width="15" height="15" /></td>
+  </tr>
+</table>
+<br>
+</td>
+ </tr>
+
+</table>
+
+
+
+
+</form>
+</body>
+</html>
+<?
+	//echo "EXISTE RUT:".$Existe."<br>";
+	//echo "EXISTE INICIALES:".$Existe2."<br>"; 
+	echo "<script languaje='JavaScript'>";
+	if ($Existe==true)
+	{
+		echo "alert('Rut Ingresado ya Existe');";
+		echo "document.frmPrincipal.TxtRut.focus();";
+	}	
+	if ($Existe2==true)   
+	{
+		echo "alert('Iniciales Ingresada ya Existe');";
+		echo "document.frmPrincipal.TxtRut.focus();";
+	}	
+	echo "</script>";
+	$Existe=false;$Existe2=false;
+	
+?>	

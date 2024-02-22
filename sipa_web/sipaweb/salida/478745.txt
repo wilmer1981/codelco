@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44100 ',peso_neto='28080',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9265988-7',nombre_chofer='miguel silva',observacion='concentrado de cu',romana_salida='1' where correlativo='478745' and lote='23026125' and recargo='6'

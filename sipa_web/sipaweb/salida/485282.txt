@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44590',peso_neto='27860',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13983938-2',nombre_chofer='carlos venegas',observacion='cobre varios',romana_salida='1' where correlativo='485282' and lote='23066013' and recargo='2'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='41520',peso_neto='25740',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='16183287-1',nombre_chofer='javier gonzalez',observacion='cu pvsa',romana_salida='1' where correlativo='482433' and lote='23046097' and recargo='9'

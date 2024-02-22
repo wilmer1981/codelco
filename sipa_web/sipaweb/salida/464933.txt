@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42890 ',peso_neto='28410',marca='EQUIS BLANCA',cod_mop='510',num_sello='',transportista='',rut_chofer='8005333-9',nombre_chofer='LUIS CHAVEZ',observacion='',romana_salida='1' where correlativo='464933' and lote='22066057' and recargo='3'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43390 ',peso_neto='29160',marca='EQUIS CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='14541190-4',nombre_chofer='FRANCISCO   HERNANDEZ',observacion='',romana_salida='1' where correlativo='449540' and lote='21096008' and recargo='2'

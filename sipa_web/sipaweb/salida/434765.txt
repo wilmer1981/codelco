@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44380 ',peso_neto='14240',marca='FRANJA AMARILLA',cod_mop='690',num_sello='',transportista='',rut_chofer='10522376-5',nombre_chofer='MARCOS BERNAL CISTERNAS',observacion='',romana_salida='1' where correlativo='434765' and lote='20126088' and recargo='7'

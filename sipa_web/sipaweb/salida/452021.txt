@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39680 ',peso_neto='24560',marca='EQUIS FRANJA AMARILLA',cod_mop='570',num_sello='',transportista='',rut_chofer='5577292-4',nombre_chofer='LUIS TAMAYO',observacion='',romana_salida='1' where correlativo='452021' and lote='21106026' and recargo='27'

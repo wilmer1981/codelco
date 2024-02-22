@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43760 ',peso_neto='29720',marca='TRES FRANJAS NARANJAS',cod_mop='510',num_sello='',transportista='',rut_chofer='10843712-K',nombre_chofer='ROBINSON LOPEZ',observacion='',romana_salida='1' where correlativo='463913' and lote='22056114' and recargo='28'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 35370 ',peso_neto='19840',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='22 maxisacos con lodo alsenicado',romana_salida='1' where correlativo='438067' and lote='21026022' and recargo='1'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44210',peso_neto='28070',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12224784-8',nombre_chofer='SERGIO-MU�OS',observacion='',romana_salida='1' where correlativo='451966' and lote='21106118' and recargo='1'

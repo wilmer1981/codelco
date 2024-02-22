@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='21070',peso_neto='5570',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='20 maxisacos con humos visibles ',romana_salida='1' where correlativo='481223' and lote='23036261' and recargo='3'

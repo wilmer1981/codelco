@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43550 ',peso_neto='28950',marca='EQUIS FRANJA BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='10348949-0',nombre_chofer='CLAUDIO PE�A',observacion='',romana_salida='1' where correlativo='438144' and lote='21026028' and recargo='9'

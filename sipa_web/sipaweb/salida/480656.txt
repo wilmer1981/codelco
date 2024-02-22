@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44410 ',peso_neto='28480',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12173588-1',nombre_chofer='SERGIO GONZALEZ',observacion='',romana_salida='1' where correlativo='480656' and lote='23036156' and recargo='6'

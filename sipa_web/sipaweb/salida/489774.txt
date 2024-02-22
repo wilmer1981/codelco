@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44870 ',peso_neto='26000',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16300771-1',nombre_chofer='enrique escobar',observacion='',romana_salida='1' where correlativo='489774' and lote='23086197' and recargo='1'

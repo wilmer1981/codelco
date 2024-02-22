@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 28470 ',peso_neto='8810',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10756326-1',nombre_chofer='jorge toledo',observacion='chatarra en desuso',romana_salida='1' where correlativo='481314' and lote='23036291' and recargo='1'

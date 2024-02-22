@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 37900 ',peso_neto='23830',marca='EQUIS FRANJA NARANJA',cod_mop='510',num_sello='',transportista='',rut_chofer='14541190-4',nombre_chofer='FRANCISCO   HERNANDEZ',observacion='',romana_salida='1' where correlativo='439218' and lote='21026003' and recargo='22'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43560',peso_neto='29000',marca='TRES FRANJAS AMARILLAS',cod_mop='520',num_sello='',transportista='',rut_chofer='16709015-K',nombre_chofer='PABLO TORRES',observacion='',romana_salida='1' where correlativo='450371' and lote='21096079' and recargo='8'

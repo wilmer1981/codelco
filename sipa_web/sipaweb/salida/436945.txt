@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43740 ',peso_neto='29210',marca='V BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='15561658-K',nombre_chofer='JEAN JAURE',observacion='',romana_salida='1' where correlativo='436945' and lote='21016192' and recargo='28'

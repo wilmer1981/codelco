@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43550 ',peso_neto='30380',marca='EQUIS AZUL',cod_mop='520',num_sello='',transportista='',rut_chofer='7850914-7',nombre_chofer='FREDY OLIVARES',observacion='',romana_salida='2' where correlativo='451978' and lote='21106109' and recargo='31'

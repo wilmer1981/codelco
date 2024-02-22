@@ -1,0 +1,692 @@
+BODY {	MARGIN: 0px; COLOR: #000000; BACKGROUND-COLOR: #004e82}
+FORM {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px}
+H1 {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px}
+H2 {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px}
+H3 {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px}
+H4 {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px}
+H5 {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px}
+H6 {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px}
+P {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px}
+.sf {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-IMAGE: url(http://hp.msn.com/c/home/sf3.jpg); BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #004e82}
+.textad {	PADDING-RIGHT: 2px; PADDING-LEFT: 0px; PADDING-BOTTOM: 4px; PADDING-TOP: 2px}
+.sfsb {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-IMAGE: url(http://hp.msn.com/c/home/sf3_rpt.gif); COLOR: #ffffff; BACKGROUND-REPEAT: repeat-x; BACKGROUND-COLOR: #004e82}
+.sfsb A {	COLOR: #ffffff}
+.sfsb A:visited {	COLOR: #ffffff}
+.sfb {	BORDER-BOTTOM: #87b3d0 1px solid}
+.sfbtm {	BACKGROUND-COLOR: #026aab}
+.dMSNME_1 {	COLOR: #ffffff}
+UL {	LIST-STYLE-POSITION: outside; LIST-STYLE-IMAGE: url(http://hp.msn.com/c/home/bullet.gif); MARGIN: 0px 0px 5px 10px}
+OL {	LIST-STYLE-POSITION: outside; MARGIN: -2px 0px 0px 23px}
+LI {	MARGIN: 0px 0px 1px 1px}
+LI A {	MARGIN: 0px 0px 0px -1px}
+.cm {	MARGIN: 13px 0px 0px; COLOR: #000000; BACKGROUND-COLOR: #ffffff}
+.ct {	PADDING-RIGHT: 0px; PADDING-LEFT: 4px; PADDING-BOTTOM: 5px; PADDING-TOP: 0px}
+HR {	HEIGHT: 1px}
+.fd {	WIDTH: 100%}
+.nip {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px}
+.nip .rt {	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; PADDING-TOP: 5px}
+.nip .dk {	PADDING-RIGHT: 0px; PADDING-LEFT: 6px; PADDING-BOTTOM: 3px; COLOR: #026cad; PADDING-TOP: 3px}
+.nip .dk A {	COLOR: #ffffff}
+.nip .dk A:hover {	COLOR: #ffffff}
+.nip .hd {	PADDING-RIGHT: 2px; PADDING-LEFT: 1px; PADDING-BOTTOM: 0px; COLOR: #004e82; PADDING-TOP: 0px}
+.nip .hd A {
+	COLOR: #004e82}
+.nip .ct {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 1px; PADDING-TOP: 0px}
+.nip .rt .lt {	MARGIN: 0px 0px 0px -6px}
+.nip .rt .lt .ct {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px}
+.bbex .gcl .ct {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px}
+.nip .md A {	COLOR: #0266a8}
+.nip .ys {	PADDING-RIGHT: 3px; PADDING-LEFT: 6px; PADDING-BOTTOM: 3px; WIDTH: 150px; PADDING-TOP: 4px}
+.nip .il {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FAFCFE, endColorstr=#EDF5FD, GradientType=1); BACKGROUND-COLOR: #edf5fd}
+.nip .ilrc {	BACKGROUND-COLOR: #edf5fd}
+.nip .blft {	WIDTH: 229px}
+.nip .sb {	PADDING-RIGHT: 1px; BACKGROUND-POSITION: left center; PADDING-LEFT: 10px; BACKGROUND-IMAGE: url(http://hp.msn.com/c/home/shade.gif); PADDING-BOTTOM: 9px; WIDTH: 100px; PADDING-TOP: 9px; BACKGROUND-REPEAT: no-repeat
+}
+.nip .sb .ct {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 3px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.nip .sb .rt {	PADDING-RIGHT: 0px; PADDING-LEFT: 7px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px}
+.nip .sb HR {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 9px; COLOR: #c8c8c8; PADDING-TOP: 9px}
+.nip .sb IMG {	MARGIN: 2px 0px}
+.nip .md {	PADDING-RIGHT: 0px; PADDING-LEFT: 6px; PADDING-BOTTOM: 3px; PADDING-TOP: 3px; BACKGROUND-COLOR: #caddf1}
+.nip .adp {	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: bold; PADDING-BOTTOM: 0px; PADDING-TOP: 0px}
+.hd {	PADDING-RIGHT: 5px; PADDING-LEFT: 4px; PADDING-BOTTOM: 2px; PADDING-TOP: 3px}
+.vz .ct {	PADDING-TOP: 7px}
+.qlink .hd {	PADDING-RIGHT: 5px; PADDING-LEFT: 4px; PADDING-BOTTOM: 0px; PADDING-TOP: 3px}
+
+.lcol {	BACKGROUND-POSITION: right 50%;  MARGIN-BOTTOM: 13px; WIDTH: 130px; COLOR: #004277; BACKGROUND-REPEAT: repeat-y; BACKGROUND-COLOR: #c4d9ef}
+.lcolor {	BACKGROUND-POSITION: right 50%;  MARGIN-BOTTOM: 13px; WIDTH: 130px; COLOR: #004277; BACKGROUND-REPEAT: repeat-y; BACKGROUND-COLOR: #FFBE7D}
+.lcolam {	BACKGROUND-POSITION: right 50%;  MARGIN-BOTTOM: 13px; WIDTH: 130px; COLOR: #004277; BACKGROUND-REPEAT: repeat-y; BACKGROUND-COLOR: #FFFF99}
+.lcolver {	BACKGROUND-POSITION: right 50%;  MARGIN-BOTTOM: 13px; WIDTH: 130px; COLOR: #004277; BACKGROUND-REPEAT: repeat-y; BACKGROUND-COLOR: #6CDB70}
+.lcolro {	BACKGROUND-POSITION: right 50%;  MARGIN-BOTTOM: 13px; WIDTH: 130px; COLOR: #004277; BACKGROUND-REPEAT: repeat-y; BACKGROUND-COLOR: #FF8C8C}
+
+
+A {	COLOR: #000000}
+.ccol {	PADDING-RIGHT: 5px; BACKGROUND-POSITION: 50% top; PADDING-LEFT: 5px; BACKGROUND-IMAGE: url(http://hp.msn.com/c/home/nip_bk.jpg); PADDING-BOTTOM: 0px; PADDING-TOP: 4px; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #ffffff}
+.bd {	FONT-WEIGHT: 600}
+.on TD {	BACKGROUND-COLOR: #dce4f4}
+.dt {	PADDING-RIGHT: 4px; PADDING-LEFT: 1px; PADDING-BOTTOM: 2px; COLOR: #ffffff; PADDING-TOP: 1px}
+.dk {	COLOR: #ffffff}
+
+.or .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC6600, endColorstr=#E4AF79); BACKGROUND-COLOR: #cc6600}
+.or .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC6600, endColorstr=#E4AF79); BACKGROUND-COLOR: #cc6600}
+.or .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC6600, endColorstr=#E4AF79); BACKGROUND-COLOR: #cc6600}
+.or .dk {	BACKGROUND-COLOR: #cc6600}
+.or .md {	BACKGROUND-COLOR: #fcdec1}
+.or .lt {	BACKGROUND-COLOR: #faeada}
+.or HR {	COLOR: #f2dec1}
+
+.bg .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#963455, endColorstr=#C894A6); BACKGROUND-COLOR: #963455}
+.bg .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#963455, endColorstr=#C894A6); BACKGROUND-COLOR: #963455}
+.bg .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#963455, endColorstr=#C894A6); BACKGROUND-COLOR: #963455}
+.bg .dk {	BACKGROUND-COLOR: #963455}
+.bg .md {	BACKGROUND-COLOR: #e6d9de}
+.bg .lt {	BACKGROUND-COLOR: #f3e6eb}
+.bg HR {	COLOR: #e6d9de}
+
+.mgr .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#08A808, endColorstr=#7DD17D); BACKGROUND-COLOR: #08a808}
+.mgr .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#08A808, endColorstr=#7DD17D); BACKGROUND-COLOR: #08a808}
+.mgr .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#08A808, endColorstr=#7DD17D); BACKGROUND-COLOR: #08a808}
+.mgr .dk {	BACKGROUND-COLOR: #08a808}
+.mgr .md {	BACKGROUND-COLOR: #bef1be}
+.mgr .lt {	BACKGROUND-COLOR: #e7fce7}
+.mgr HR {	COLOR: #bef1be}
+
+.dgr .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#2B804C, endColorstr=#90BCA1); BACKGROUND-COLOR: #2b804c}
+.dgr .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#2B804C, endColorstr=#90BCA1); BACKGROUND-COLOR: #2b804c}
+.dgr .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#2B804C, endColorstr=#90BCA1); BACKGROUND-COLOR: #2b804c}
+.dgr .dk {	BACKGROUND-COLOR: #2b804c}
+.dgr .md {	BACKGROUND-COLOR: #d9eae0}
+.dgr .lt {	BACKGROUND-COLOR: #f1f9f4}
+.dgr HR {	COLOR: #d9eae0}
+
+.rd .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E8362B, endColorstr=#F39590); BACKGROUND-COLOR: #e8362b}
+.rd .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E8362B, endColorstr=#F39590); BACKGROUND-COLOR: #e8362b}
+.rd .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E8362B, endColorstr=#F39590); BACKGROUND-COLOR: #e8362b}
+.rd .dk {	BACKGROUND-COLOR: #e8362b}
+.rd .md {	BACKGROUND-COLOR: #fcd3d2}
+.rd .lt {	BACKGROUND-COLOR: #ffeae9}
+.rd HR {	COLOR: #fcd3d2}
+
+.drd .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#9E4040, endColorstr=#CC9B9B); BACKGROUND-COLOR: #9e4040}
+.drd .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#9E4040, endColorstr=#CC9B9B); BACKGROUND-COLOR: #9e4040}
+.drd .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#9E4040, endColorstr=#CC9B9B); BACKGROUND-COLOR: #9e4040}
+.drd .dk {	BACKGROUND-COLOR: #9e4040}
+.drd .md {	BACKGROUND-COLOR: #eedddd}
+.drd .lt {	BACKGROUND-COLOR: #f7efef}
+.drd HR {	COLOR: #eedddd}
+
+.mbr .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC6600, endColorstr=#E4AF79); BACKGROUND-COLOR: #cc6600}
+.mbr .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC6600, endColorstr=#E4AF79); BACKGROUND-COLOR: #cc6600}
+.mbr .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC6600, endColorstr=#E4AF79); BACKGROUND-COLOR: #cc6600}
+.mbr .dk {	BACKGROUND-COLOR: #cc6600}
+.mbr .md {	BACKGROUND-COLOR: #f2dec1}
+.mbr .lt {	BACKGROUND-COLOR: #fcebda}
+.mbr HR {	COLOR: #f2dec1}
+
+.dbr .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#684648, endColorstr=#B09FA0); BACKGROUND-COLOR: #684648}
+.dbr .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#684648, endColorstr=#B09FA0); BACKGROUND-COLOR: #684648}
+.dbr .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#684648, endColorstr=#B09FA0); BACKGROUND-COLOR: #684648}
+.dbr .dk {	BACKGROUND-COLOR: #684648}
+.dbr .md {	BACKGROUND-COLOR: #e1d1d1}
+.dbr .lt {	BACKGROUND-COLOR: #f5ebeb}
+.dbr HR {	COLOR: #e1d1d1}
+
+.yl .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFBA00, endColorstr=#FFDB79); BACKGROUND-COLOR: #ffba00}
+.yl .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFBA00, endColorstr=#FFDB79); BACKGROUND-COLOR: #ffba00}
+.yl .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFBA00, endColorstr=#FFDB79); BACKGROUND-COLOR: #ffba00}
+.yl .dk {	BACKGROUND-COLOR: #ffba00}
+.yl .md {	BACKGROUND-COLOR: #feecaf}
+.yl .lt {	BACKGROUND-COLOR: #fefadc}
+.yl HR {	COLOR: #feecaf}
+
+.dyl .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D1A700, endColorstr=#FFDB79); BACKGROUND-COLOR: #d1a700}
+.dyl .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D1A700, endColorstr=#FFDB79); BACKGROUND-COLOR: #d1a700}
+.dyl .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D1A700, endColorstr=#FFDB79); BACKGROUND-COLOR: #d1a700}
+.dyl .dk {	BACKGROUND-COLOR: #d1a700}
+.dyl .md {	BACKGROUND-COLOR: #e4cc6c}
+.dyl .lt {	BACKGROUND-COLOR: #f9f2d7}
+.dyl HR {	COLOR: #e4cc6c}
+
+.mpp .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#9060B9, endColorstr=#C5ACDA); BACKGROUND-COLOR: #9060b9}
+.mpp .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#9060B9, endColorstr=#C5ACDA); BACKGROUND-COLOR: #9060b9}
+.mpp .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#9060B9, endColorstr=#C5ACDA); BACKGROUND-COLOR: #9060b9}
+.mpp .dk {	BACKGROUND-COLOR: #9060b9}
+.mpp .md {	BACKGROUND-COLOR: #e5d2f4}
+.mpp .lt {	BACKGROUND-COLOR: #f5edfb}
+.mpp HR {	COLOR: #e5d2f4}
+
+.dpp .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#635190, endColorstr=#ADA4C5); BACKGROUND-COLOR: #635190}
+.dpp .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#635190, endColorstr=#ADA4C5); BACKGROUND-COLOR: #635190}
+.dpp .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#635190, endColorstr=#ADA4C5); BACKGROUND-COLOR: #635190}
+.dpp .dk {	BACKGROUND-COLOR: #635190}
+.dpp .md {	BACKGROUND-COLOR: #e4def3}
+.dpp .lt {	BACKGROUND-COLOR: #f3eeff}
+.dpp HR {	COLOR: #e4def3}
+
+.lbl .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#446CC0, endColorstr=#9DB2DE); BACKGROUND-COLOR: #446cc0}
+.lbl .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#446CC0, endColorstr=#9DB2DE); BACKGROUND-COLOR: #446cc0}
+.lbl .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#446CC0, endColorstr=#9DB2DE); BACKGROUND-COLOR: #446cc0}
+.lbl .dk {	BACKGROUND-COLOR: #446cc0}
+.lbl .md {	BACKGROUND-COLOR: #dce4f4}
+.lbl .lt {	BACKGROUND-COLOR: #edf1fe}
+.lbl HR {	COLOR: #dce4f4}
+
+.mbl .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#1835A0, endColorstr=#7B8BC9); BACKGROUND-COLOR: #1835a0}
+.mbl .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#1835A0, endColorstr=#7B8BC9); BACKGROUND-COLOR: #1835a0}
+.mbl .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#1835A0, endColorstr=#7B8BC9); BACKGROUND-COLOR: #1835a0}
+.mbl .dk {	BACKGROUND-COLOR: #1835a0}
+.mbl .md {	BACKGROUND-COLOR: #d0d9fc}
+.mbl .lt {	BACKGROUND-COLOR: #edf1fe}
+.mbl HR {	COLOR: #d0d9fc}
+
+.dbl .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#0266A8, endColorstr=#7AAFD1); BACKGROUND-COLOR: #0266a8}
+.dbl .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#0266A8, endColorstr=#7AAFD1); BACKGROUND-COLOR: #0266a8}
+.dbl .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#0266A8, endColorstr=#7AAFD1); BACKGROUND-COLOR: #0266a8}
+.dbl .dk {	BACKGROUND-COLOR: #0266a8}
+.dbl .md {	BACKGROUND-COLOR: #d5e4f4}
+.dbl .lt {	BACKGROUND-COLOR: #e5ecf4}
+.dbl HR {	COLOR: #d5e4f4}
+
+.gr .dt {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#777777, endColorstr=#B8B8B8); BACKGROUND-COLOR: #777777}
+.gr .dtr {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#777777, endColorstr=#B8B8B8); BACKGROUND-COLOR: #777777}
+.gr .dtl {	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#777777, endColorstr=#B8B8B8); BACKGROUND-COLOR: #777777}
+.gr .dk {	BACKGROUND-COLOR: #777777}
+.gr .md {	BACKGROUND-COLOR: #dddcdc}
+.gr .lt {	BACKGROUND-COLOR: #f1f0f0}
+.gr HR {	COLOR: #dddcdc}
+
+
+
+
+.ys {	BACKGROUND-COLOR: #fefadc}
+.up {	COLOR: #009900}
+.dn {	COLOR: #ff0000}
+.srchcm {	MARGIN: 5px 0px 0px 10px}
+.srchcm TH {	FONT-WEIGHT: normal; FONT-SIZE: 60%}
+.srchcm TD {	TEXT-ALIGN: center}
+.srchcm left {	PADDING-LEFT: 10px; TEXT-ALIGN: left}
+.srch_btn {	MARGIN: 0px 0px 0px 3px; CURSOR: hand; COLOR: #000000}
+.srch {	LEFT: -10px; COLOR: #ffffff; POSITION: relative; TOP: 6px}
+.srch TR {	
+}
+.srch .txt {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND-IMAGE: url(http://hp.msn.com/c/home/srch_rp.gif); PADDING-BOTTOM: 0px; COLOR: #ffffff; PADDING-TOP: 4px; HEIGHT: 22px
+}
+.srch_inp {
+	BORDER-RIGHT: #014a87 1px solid; BORDER-TOP: #014a87 1px solid; BORDER-LEFT: medium none; WIDTH: 260px; BORDER-BOTTOM: #014a87 1px solid; HEIGHT: 22px
+}
+.terms {
+	PADDING-RIGHT: 0px; BORDER-TOP: #6695b4 1px solid; PADDING-LEFT: 2px; PADDING-BOTTOM: 0px; PADDING-TOP: 4px
+}
+.terms .ct {
+	PADDING-BOTTOM: 0px
+}
+.termsattr {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 3px; PADDING-BOTTOM: 0px; PADDING-TOP: 1px
+}
+.termsattr .ct {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 3px; PADDING-BOTTOM: 0px; PADDING-TOP: 1px
+}
+.help {
+	COLOR: #ffffff
+}
+.help A {
+	COLOR: #ffffff
+}
+.terms {
+	COLOR: #ffffff
+}
+.terms A {
+	COLOR: #ffffff
+}
+.termsattr {
+	COLOR: #ffffff
+}
+.termsattr A {
+	COLOR: #ffffff
+}
+.help {
+	PADDING-RIGHT: 9px; PADDING-LEFT: 0px; PADDING-BOTTOM: 2px; PADDING-TOP: 5px
+}
+.msn_promo {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 2px; PADDING-BOTTOM: 0px; PADDING-TOP: 5px
+}
+.msn_promo A:hover {
+	COLOR: #dae9f3
+}
+.msn_promo A:active {
+	COLOR: #dae9f3
+}
+.msn_promo .ct {
+	COLOR: #dae9f3
+}
+.msn_promo .ct A {
+	COLOR: #dae9f3
+}
+.bi {
+	BORDER-RIGHT: #026aab 2px solid; PADDING-RIGHT: 2px; PADDING-LEFT: 2px; FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#0276B8, endColorstr=#026AAB); PADDING-BOTTOM: 4px; PADDING-TOP: 4px; TEXT-ALIGN: center
+}
+.bt {
+	PADDING-BOTTOM: 4px; MARGIN: 0px 8px; BACKGROUND-COLOR: #026aab
+}
+.big4 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; PADDING-TOP: 0px; BACKGROUND-COLOR: #026aab
+}
+.bi A {
+	COLOR: #ffffff
+}
+.page {
+	COLOR: #000000; BACKGROUND-COLOR: #ffffff
+}
+.big7 .dMSNME_1 .ct {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; COLOR: #ffffff; PADDING-TOP: 4px
+}
+.big7 .dMSNME_1 .ct A {
+	COLOR: #ffffff
+}
+.big7 .dMSNME_1 .ct A:visited {
+	COLOR: #ffffff
+}
+.dt {
+	COLOR: #ffffff
+}
+.dk {
+	COLOR: #ffffff
+}
+.dt A {
+	COLOR: #ffffff
+}
+.dt A:visited {
+	COLOR: #ffffff
+}
+.dk A {
+	COLOR: #ffffff
+}
+.dk A:visited {
+	COLOR: #ffffff
+}
+.cm {
+	WIDTH: 95%
+}
+.cmc {
+	BACKGROUND-COLOR: #ffffff
+}
+.passportsignin {
+	MARGIN: 2px 9px 0px 0px
+}
+.qlink .hd {
+	COLOR: #004277
+}
+.qlink .hd A {
+	COLOR: #004277
+}
+.date {
+	
+}
+.ql .md {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 4px; MARGIN-BOTTOM: 2px; PADDING-BOTTOM: 2px; PADDING-TOP: 0px; TEXT-ALIGN: left
+}
+.ql {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; MARGIN-BOTTOM: 2px; PADDING-BOTTOM: 1px; WIDTH: 100%; PADDING-TOP: 0px; TEXT-ALIGN: left
+}
+.bgs {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 2px; BACKGROUND-IMAGE: url(http://hp.msn.com/c/home/bg_rp.gif); PADDING-BOTTOM: 0px; BORDER-LEFT: #0266a8 1px solid; COLOR: #ffffff; PADDING-TOP: 3px; BACKGROUND-REPEAT: repeat-x; TEXT-ALIGN: center
+}
+.bgs A {
+	COLOR: #ffffff
+}
+.bgl A {
+	COLOR: #ffffff
+}
+.bgr A {
+	COLOR: #ffffff
+}
+.bgr {
+	BORDER-RIGHT: medium none; PADDING-RIGHT: 2px; PADDING-LEFT: 2px; BACKGROUND-IMAGE: url(http://hp.msn.com/c/home/bg_rp.gif); PADDING-BOTTOM: 0px; BORDER-LEFT: #0266a8 1px solid; COLOR: #ffffff; PADDING-TOP: 3px; BACKGROUND-REPEAT: repeat-x; TEXT-ALIGN: center
+}
+.bgl {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 2px; BACKGROUND-IMAGE: url(http://hp.msn.com/c/home/bg_rp.gif); PADDING-BOTTOM: 0px; BORDER-LEFT: medium none; COLOR: #ffffff; PADDING-TOP: 3px; BACKGROUND-REPEAT: repeat-x; TEXT-ALIGN: center
+}
+.bgl SPAN {
+	RIGHT: 5px; POSITION: relative
+}
+.bgr SPAN {
+	LEFT: 5px; POSITION: relative
+}
+.dot {
+	FONT-SIZE: 80%; MARGIN: 0px -1px
+}
+.fd {
+	WIDTH: 100px; HEIGHT: 20px
+}
+.gq {
+	WIDTH: 60px; HEIGHT: 20px
+}
+.mon .r TD {
+	BORDER-BOTTOM: #d9eae0 1px solid
+}
+.mon .stk {
+	MARGIN: 0px 5px 0px 2px
+}
+.mon .lt {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 85%; PADDING-BOTTOM: 3px; PADDING-TOP: 8px; FONT-FAMILY: Verdana
+}
+.mon .lt A {
+	FONT-FAMILY: Verdana
+}
+.mon .lt .hd {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: 600; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT-FAMILY: Verdana
+}
+.mon .ql {
+	MARGIN-BOTTOM: 0px
+}
+.popsrch .lt {
+	MARGIN-BOTTOM: 0px
+}
+.popsrch .hd {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 3px; COLOR: #446cc0; PADDING-TOP: 1px
+}
+.popsrch .hd A {
+	COLOR: #446cc0
+}
+.popsrch .gcl .hd {
+	PADDING-LEFT: 7px
+}
+.popsrch .gcl .ct {
+	PADDING-LEFT: 7px
+}
+.popsrch .gcr .hd {
+	PADDING-LEFT: 7px
+}
+.popsrch .gcr .ct {
+	PADDING-LEFT: 7px
+}
+.popsrch .gcl {
+	WIDTH: 154px
+}
+#STW {
+	WIDTH: 120px
+}
+.numl .hd {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 6px; PADDING-BOTTOM: 2px; PADDING-TOP: 0px
+}
+.numl TD {
+	BORDER-RIGHT: #dce4f4 1px solid; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; WIDTH: 156px; PADDING-TOP: 0px; BORDER-BOTTOM: #dce4f4 1px solid
+}
+.numl .numlb {
+	BORDER-BOTTOM: medium none
+}
+.numl .ct {
+	MARGIN: 0px 0px -4px 2px
+}
+.local .hd {
+	COLOR: #963455
+}
+.local .hd A {
+	COLOR: #963455
+}
+.ci {
+	PADDING-LEFT: 6px
+}
+.alsomsn .gcl {
+	PADDING-RIGHT: 1px; PADDING-LEFT: 3px; PADDING-BOTTOM: 0px; WIDTH: 148px; PADDING-TOP: 0px
+}
+.alsomsn .hrd {
+	MARGIN: -10px 0px -3px
+}
+.alsomsn .ct {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.alsomsn .il {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 5px; PADDING-BOTTOM: 9px; PADDING-TOP: 5px
+}
+.ent .il {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 5px; PADDING-BOTTOM: 9px; PADDING-TOP: 5px
+}
+.alsomsn .ilrc {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 8px; PADDING-BOTTOM: 4px; PADDING-TOP: 9px
+}
+.ent .ilrc {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 8px; PADDING-BOTTOM: 4px; PADDING-TOP: 9px
+}
+.blowout {
+	COLOR: #ffffff; BACKGROUND-COLOR: #026aab
+}
+.blowout A {
+	COLOR: #ffffff
+}
+.blowout A.hilite {
+	COLOR: #ffffb9
+}
+.blowout .ql {
+	MARGIN-BOTTOM: 0px; COLOR: #ffffff; BACKGROUND-COLOR: #1781bd
+}
+.blowout .lft .ct {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.blowout .rht {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 15px; FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#004e82, endColorstr=#026AAB); PADDING-BOTTOM: 0px; PADDING-TOP: 10px
+}
+.qlink .hilite {
+	COLOR: #ff0000
+}
+.qlink .hilite:visited {
+	COLOR: #ff0000
+}
+.hilite {
+	COLOR: #ff0000
+}
+.hilite:hover {
+	COLOR: #ff0000
+}
+.hilite:visited {
+	COLOR: #ff0000
+}
+.hilite:hover {
+	COLOR: #ff0000
+}
+.qlink .hilite:hover {
+	COLOR: #ff0000
+}
+.qlink .hilite:hover {
+	COLOR: #ff0000
+}
+.txtad {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 0px; PADDING-BOTTOM: 2px; COLOR: #ffffcc; PADDING-TOP: 2px
+}
+.lcol A:hover {
+	COLOR: #ff0000
+}
+.lcol A:hover {
+	COLOR: #ff0000
+}
+.ccol A:hover {
+	COLOR: #ff0000
+}
+.ccol A:hover {
+	COLOR: #ff0000
+}
+.rcol A:hover {
+	COLOR: #ff0000
+}
+.rcol A:hover {
+	COLOR: #ff0000
+}
+.dt A {
+	COLOR: #ffffff
+}
+.dt A:hover {
+	COLOR: #ffffff
+}
+.dt A:visited {
+	COLOR: #ffffff
+}
+.dt A:hover {
+	COLOR: #ffffff
+}
+.date A {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+.date A:visited {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+.date A:hover {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+.date A:hover {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+.clt {
+	PADDING-RIGHT: 1px; PADDING-LEFT: 3px; PADDING-BOTTOM: 1px; WIDTH: 146px; PADDING-TOP: 1px
+}
+.adp {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 13px
+}
+.alr {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 13px
+}
+.alr .ct {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.txtad .adp {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.qlink .adp A {
+	COLOR: #ffffcc
+}
+.qlink .adp A:hover {
+	COLOR: #ffffcc
+}
+.qlink {
+	PADDING-RIGHT: 6px; PADDING-LEFT: 4px; PADDING-BOTTOM: 3px; PADDING-TOP: 0px
+}
+.qlink .pr {
+	MARGIN: 0px -6px 6px -4px; HEIGHT: 39px; BACKGROUND-COLOR: #026aab
+}
+.qlink .adp {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 8px; FONT-WEIGHT: bold; PADDING-BOTTOM: 2px; PADDING-TOP: 3px; HEIGHT: 26px; BACKGROUND-COLOR: #026aab
+}
+.promo .adp {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 8px; FONT-WEIGHT: bold; MARGIN-BOTTOM: 2px; PADDING-BOTTOM: 3px; PADDING-TOP: 4px
+}
+.promo {
+	COLOR: #ffffcc; BACKGROUND-COLOR: #026aab
+}
+.promo A {
+	COLOR: #ffffcc; BACKGROUND-COLOR: #026aab
+}
+.promo A:visited {
+	COLOR: #ffffcc
+}
+.promo A:hover {
+	COLOR: #ffffcc
+}
+.btn {
+	CURSOR: hand
+}
+A {
+	TEXT-DECORATION: none
+}
+A:visited {
+	TEXT-DECORATION: none
+}
+A:hover {
+	TEXT-DECORATION: underline
+}
+A:hover {
+	TEXT-DECORATION: underline
+}
+.mhome {
+	PADDING-RIGHT: 20px; PADDING-LEFT: 8px; PADDING-BOTTOM: 10px; PADDING-TOP: 10px; BACKGROUND-COLOR: #93c65c
+}
+.mhome {
+	COLOR: #295a29
+}
+.mhome A B {
+	COLOR: #295a29
+}
+.mhome A {
+	COLOR: #295a29
+}
+.bbsw {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 8px; PADDING-BOTTOM: 5px; PADDING-TOP: 10px; BACKGROUND-COLOR: #b4d2ee
+}
+.shop .il {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; PADDING-BOTTOM: 9px; WIDTH: 55px; PADDING-TOP: 8px
+}
+.ent .lt {
+	PADDING-TOP: 5px
+}
+.gq {
+	WIDTH: 65px
+}
+.gq INPUT {
+	WIDTH: 94%
+}
+.terms .ct {
+	
+}
+.termsattr .ct {
+	
+}
+.nippar .left {
+	DISPLAY: none
+}
+.nippar .right {
+	DISPLAY: none
+}
+.dt {
+	WIDTH: 100%
+}
+.entblo .dt {
+	WIDTH: 301px
+}
+.dtl {
+	WIDTH: 4px; HEIGHT: 16px
+}
+.dtr {
+	WIDTH: 4px; HEIGHT: 16px
+}
+.dtl IMG {
+	WIDTH: 4px; HEIGHT: 16px
+}
+.dtr IMG {
+	WIDTH: 4px; HEIGHT: 16px
+}
+B.rf {
+	POSITION: relative; TOP: 2px
+}
+.tdL {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 2px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.blowout .rht .ct {
+	MARGIN: 0px 0px 6px
+}
+.blowout .hd {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 125%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+.blowout .mn .hd {
+	FONT-SIZE: 175%
+}
+.blowout .mn .ct {
+	FONT-SIZE: 125%
+}
+.blowout LI {
+	LIST-STYLE-IMAGE: url(http://hp.msn.com/c/home/bullets/ffffff.gif)
+}
+.bbex .gcl {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 5px; PADDING-BOTTOM: 0px; PADDING-TOP: 5px
+}
+.bbex .gcl IMG {
+	MARGIN: 0px 3px 5px 0px
+}
+.bbex .gcl {
+	WIDTH: 140px
+}
+.mhr {
+	DISPLAY: none; PADDING-TOP: 2px
+}
+.mhr A {
+	FONT-WEIGHT: bold; FONT-SIZE: 0.9em; COLOR: #004e82; LINE-HEIGHT: normal; FONT-STYLE: normal; FONT-VARIANT: normal
+}

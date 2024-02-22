@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 45010 ',peso_neto='31230',marca='FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='7143217-3',nombre_chofer='FRANCISCO FUENTES',observacion='autorizado con diferencia de peso a salir',romana_salida='2' where correlativo='468410' and lote='22086058' and recargo='32'

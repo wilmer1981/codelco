@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43740 ',peso_neto='27320',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='alta ley',romana_salida='1' where correlativo='437114' and lote='21016234' and recargo='5'

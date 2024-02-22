@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='17130',peso_neto='1910',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='24 maxisacos con elementos contaminados con aceite ',romana_salida='1' where correlativo='474310' and lote='22126045' and recargo='1'

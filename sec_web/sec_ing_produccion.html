@@ -1,0 +1,584 @@
+﻿<? 
+	include("file://///S-WEB1/proyecto/principal/conectar_sec_web.php");
+	$CodigoDeSistema = 3;
+	$CodigoDePantalla = 7;
+	
+	$movimientos = array(1=>"RECEPCION", 2=> "PRODUCCION", 3=> "PAQUETE");
+	$productos = array(18=>"CATODOS", 37=> "SULFATOS", 48=> "DESPUNTES Y LAMINAS");
+	
+?>
+
+<html>
+<head>
+<title>Ingreso Pesaje Produccion</title>
+<link href="file://///S-WEB1/proyecto/principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
+<script language="VBScript">
+sub VerTamano ()	
+
+a=InputBox("Escribe el nombre de un archivo." & Chr(13) & Chr(10) & "Crearé un archivo de texto .txt con ese nombre en C:\")
+Set fso = CreateObject("Scripting.FileSystemObject")
+Dim f1
+Set f1 = fso.CreateTextFile("C:\" & a & ".txt", True)
+c=MsgBox("He creado el archivo " &a  &".txt en el disco C:")
+
+d=InputBox("Ahora escribe una frase para grabarla en el archivo anterior.")
+f1.WriteLine(d)
+f1.WriteLine("Probando 1, 2, 3.") 
+f1.WriteBlankLines(3) 
+f1.Write ("Esto es una prueba.") 
+f1.Close
+
+	'Set fso = CreateObject("Scripting.FileSystemObject") 
+	'Dim f1
+	'If (fso.FileExists("C:\amigo.doc" ) ) Then 
+	'b=MsgBox("El archivo ya existe.") 
+	'Else 
+	'Set f1 = fso.CreateTextFile("C:\amigo.doc", True) 
+	'c=MsgBox("He creado el archivo amigo.doc en el disco C:") 
+	'End If
+
+	'Set fs = CreateObject("Scripting.FileSystemObject")
+	'Set file = fs.getFile(Archivos.value) 
+	
+	'TamanoArchivo=file.size
+	
+	'TamanoFinal=FormatNumber(cdbl(TamanoArchivo)/1024 ,0,0,0,-1)
+	
+	'msgbox TamanoFinal & "KB"
+	
+	
+	msgbox "caca"
+	
+end sub 
+</script>
+
+<script language="Javascript" src="file://///S-WEB1/proyecto/sec_web/sec_ing_produccion.js"></script>
+<script language="Javascript" src="file://///S-WEB1/proyecto/sec_web/db.js"></script>
+<script language="JavaScript">
+function Recarga1()
+{
+	var f = document.frm1;
+	
+	if (f.cmbmovimiento.value == -1)
+		f.action = "sec_ing_produccion.php";
+	else 
+		f.action = "sec_ing_produccion.php?recargapag1=S";
+		
+	f.submit();
+}
+/***************/
+function Recarga2()
+{
+	var f = document.frm1;
+	
+	if (f.cmbproducto.value == -1)
+		linea = "recargapag1=S";
+	else
+		linea = "recargapag1=S&recargapag2=S";
+		
+	f.action = "sec_ing_produccion.php?" + linea;
+	f.submit();	
+}
+/*****************/
+function Recarga3()
+{	
+	var f = document.frm1;
+	
+	if (f.cmbsubproducto.value == -1)
+		linea = "recargapag1=S&recargapag2=S";
+	else
+		linea = "recargapag1=S&recargapag2=S&recargapag3=S";
+		
+	f.action = "sec_ing_produccion.php?" + linea;
+	f.submit();
+}
+/***************/
+function ValidaCampos()
+{
+	var f = document.frm1;
+	
+	if (f.cmbmovimiento.value == -1)
+	{
+		alert("Debe Seleccionar el Tipo de Movimiento");
+		return false;
+	}
+	
+	if (f.cmbproducto.value == -1)
+	{
+		alert("Debe Seleccionar el Producto");
+		return false;
+	}
+	
+	if (f.cmbsubproducto.value == -1)
+	{
+		alert("Debe Seleccionar el Sub-Producto");
+		return false;
+	}
+	
+	if (f.cmbmovimiento.value == 1)
+	{
+		if (ValidaCampos1() == false)
+			return false;
+	}
+	
+	if (f.cmbmovimiento.value == 2)
+	{
+		if (ValidaCampos2() == false)
+			return false;
+	}
+	
+	if (f.cmbmovimiento.value == 3)		
+	{
+		if (ValidaCampos3() == false)
+			return false;
+	}
+		
+	return true;
+}
+/***************/
+function ValidaCampos1() //Para Recepcion.
+{
+	var f = document.frm1;
+}
+/***************/
+function ValidaCampos2() //Para Produccion.
+{
+	var f = document.frm1;
+	
+	if (f.cmbproducto.value == 18)
+	{
+		if (f.cmbgrupo.value == -1)
+		{
+			alert("Debe Seleccionar el Grupo");
+			return false;
+		}
+		
+		if (f.cmbmuestra.value != "S")
+		{
+			if (f.cmbcuba.value == -1)
+			{
+				alert("Debe Seleccionar la Cuba");
+				return false;		
+			}	
+			
+			if (f.cmblado.value == -1)
+			{
+				alert("Debe Seleccionar el Lado");
+				return false;
+			}		
+		}
+		
+		if (f.cmbmuestra.value == -1)
+		{
+			alert("Debe Seleccionar la Muestra");
+			return false;
+		}	
+	}
+		
+	if (f.txtpeso.value == "")
+	{
+		alert("Debe Ingresar el Peso");
+		return false;		
+	}
+	
+	if (isNaN(parseInt(f.txtpeso.value)))
+	{
+		alert("El Peso Ingresado No Es Valido");
+		return false;
+	}
+	
+	return true;
+}
+/***************/
+function ValidaCampos3() //Para Paquete.
+{
+	var f = document.frm1;	
+
+	if ((f.cmbsubproducto.value != '2') && (f.cmbsubproducto.value != '44'))
+	{
+		if (f.cmbcodigo.value == -1)
+		{	
+			alert("Debe Selecionar el Codigo de Serie");
+			return false;
+		}
+		
+		if (f.txtnumero.value == "")
+		{	
+			alert("Debe Ingresar el N° de Serie");
+			return false;
+		}
+		
+		if (isNaN(parseInt(f.txtnumero.value)))
+		{
+			alert("El N° de Serie No Es Valido");
+			return false;
+		}			
+		
+		if (f.cmbgrupo.value == -1)
+		{	
+			alert("Debe Seleccionar El Grupo");
+			return false;
+		}
+	}
+
+	if (f.txtpeso.value == "")
+	{
+		alert("Debe Ingresar el Peso");
+		return false;		
+	}
+	
+	if (isNaN(parseInt(f.txtpeso.value)))
+	{
+		alert("El Peso Ingresado No Es Valido");
+		return false;
+	}	
+}
+/***************/
+function Bloquea2()
+{
+	var f = document.frm1;
+	
+	if (f.cmbmuestra.value == "S")
+	{
+		f.cmbcuba.disabled = true;
+		f.cmblado.disabled = true;
+	}
+	else 
+	{
+		f.cmbcuba.disabled = false;
+		f.cmblado.disabled = false;	
+	}
+}
+/***************/
+function Grabar()
+{
+	var f = document.frm1;	
+	
+	if (ValidaCampos())
+	{
+		linea = "";
+		if (f.cmbmovimiento.value == 2)
+		{
+			if ((f.cmbproducto.value == 18) && (f.cmbmuestra.value == "S"))
+				linea = "&cmbcuba=00";
+		}
+		
+		if (f.cmbmovimiento.value == 3)
+		{	
+			if (f.cmbcuba.disabled == true)
+			{
+				linea = "&cmbcuba=00";
+			}
+		}
+		
+		f.action = "sec_ing_produccion01.php?proceso=G" + linea;
+		f.submit();
+	}	
+}
+/***************/
+function Modificar()
+{
+	var f = document.frm1;		
+		
+	linea = '';
+	if (f.cmbmovimiento.value == 2) //Produccion.
+	{
+		linea = "&cmbgrupo=" + f.cmbgrupo.value + "&cmbmuestra=" + f.cmbmuestra.value;
+		if (f.cmbproducto.value == 18)
+		{
+			if (f.cmbmuestra.value == "S")
+			 	linea = linea + "&cmblado=" + "&cmbcuba=00";
+			else
+				linea = linea + "&cmblado=" + f.cmblado.value + "&cmbcuba=" + f.cmbcuba.value;
+		}
+	}
+	
+	if (f.cmbmovimiento.value == 3)
+	{
+		linea = "&cmbgrupo=" + f.cmbgrupo.value;
+		if (f.cmbcuba.value == -1)
+		{
+			linea = linea + "&cmbcuba=00";
+		}
+	}
+	
+	alert(f.fecha_aux.value);
+	f.action = "sec_ing_produccion01.php?proceso=M" + linea;
+	f.submit();
+
+}
+/***************/
+function Eliminar()
+{
+	var f = document.frm1;		
+	
+	if ((f.cmbmovimiento.value == "1") && (f.tipo_reg.value == "L"))
+		mensaje = "Esta Seguro De Eliminar la Recepcion y Todo Sus Paquetes";
+	
+	if ((f.cmbmovimiento.value == "1") && (f.tipo_reg.value == "P"))
+		mensaje = "Esta Seguro De Eliminar Este Paquete";
+		
+	if ((f.cmbmovimiento.value == "2") && (f.cmbproducto.value == 18))
+		mensaje = "Esta Seguro De Eliminar El Registro De Produccion";
+		
+	if (f.cmbmovimiento.value == "3") 
+		mensaje = "Esta Seguro De Eliminar El Paquete";
+	
+	if (confirm(mensaje))
+	{
+		linea = '';
+		if (f.cmbmovimiento.value == 2) //Produccion.
+		{
+			linea = "&cmbgrupo=" + f.cmbgrupo.value + "&cmbmuestra=" + f.cmbmuestra.value;
+			if (f.cmbproducto.value == 18)
+			{
+				if (f.cmbmuestra.value == "S")
+					linea = linea + "&cmblado=" + "&cmbcuba=00";
+				else
+					linea = linea + "&cmblado=" + f.cmblado.value + "&cmbcuba=" + f.cmbcuba.value;
+			}
+		}
+		
+		if (f.cmbmovimiento.value == 3) //Paquete.
+		{
+			linea = "&cmbcodigo=" + f.cmbcodigo.value + "&txtnumero=" + f.txtnumero.value + "&cmbgrupo=" + f.cmbgrupo.value;
+			if (f.cmbcuba.value == -1)
+				linea = linea + "&cmbcuba=" + f.cmbcuba.value;
+			
+		}
+		
+		f.action = "sec_ing_produccion01.php?proceso=E" + linea;
+		f.submit();
+	}
+}
+/***************/
+function Buscar()
+{
+	var f = document.frm1;	
+	
+	if (f.cmbsubproducto.value == -1)	
+	{
+		alert("Debe Selecionar el Sub-Producto");
+		return;
+	}
+	
+	if (f.txtlote.value == "")
+	{	
+		alert("Debe Ingresar el Lote");
+		return;
+	}
+	
+	f.action = "sec_ing_produccion01.php?proceso=B";
+	f.submit();
+}
+/***************/
+function VerDatos()
+{	
+	var f = document.frm1;	
+
+	if (f.cmbmovimiento.value == -1)
+	{	
+		alert("Debe Seleccionar Tipo Movimiento");
+		return;
+	}
+	
+	if (f.cmbproducto.value == -1)
+	{	
+		alert("Debe Seleccionar Producto");
+		return;
+	}
+	
+	if (f.cmbsubproducto.value == -1)
+	{	
+		alert("Debe Seleccionar Sub-Producto");
+		return;
+	}
+
+	linea = 'cmbproducto=' + f.cmbproducto.value + '&cmbsubproducto='  + f.cmbsubproducto.value;
+	alert(linea);
+	switch (f.cmbmovimiento.value)
+	{
+		case '1' :  window.open("sec_ing_produccion_popup1.php?"+linea,"","top=195,left=180,width=540,height=350,scrollbars=no,resizable=no");
+					break;
+		case '2' :  window.open("sec_ing_produccion_popup2.php?"+linea,"","top=195,left=180,width=540,height=350,scrollbars=no,resizable=no");
+					break;
+		case '3' :	window.open("sec_ing_produccion_popup3.php?"+linea,"","top=195,left=180,width=540,height=350,scrollbars=no,resizable=no");
+					break;
+	}
+}
+/***************/
+function DesbloqueCheck()
+{
+	var f = document.frm1;	
+	
+	if (f.checkbox.checked == false)
+	{	
+		alert();
+		f.txtlote.readonly = true;
+	}
+}
+/***************/
+function Limpiar()
+{
+	document.location = "sec_ing_produccion.php";	
+}
+/***************/
+function Salir()
+{		
+	document.location = "../principal/sistemas_usuario.php?CodSistema=3";
+}
+/*************/
+function mandarGalleta(nombre, valor, caducidad) 
+{
+    document.cookie = nombre + "=" + escape(valor)
+    	+ ((caducidad == null) ? "" : ("; expires=" + caducidad.toGMTString()));
+}
+/************/
+function consultarGalleta(nombre) {
+  var buscamos = nombre + "=";
+  if (document.cookie.length > 0) {
+    i = document.cookie.indexOf(buscamos);
+    if (i != -1) {
+      i += buscamos.length;
+      j = document.cookie.indexOf(";", i);
+      if (j == -1)
+        j = document.cookie.length;
+      return unescape(document.cookie.substring(i,j));
+    }
+  }
+}
+/****************/
+function GuardarCookie()
+{	
+	fecha = new Date(2004,12,31);
+	valor = 105;
+	mandarGalleta('PesoMatic', valor, fecha);  
+}
+/****************/
+function VerCookie()
+{
+	valor = consultarGalleta('PesoMatic');
+	alert(valor);
+}   
+</script>
+</head>
+
+<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
+<form name="frm1" action="" method="post">
+<? include("file://///S-WEB1/proyecto/principal/encabezado.php")?>
+
+  <table width="770" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
+    <tr>
+      <td width="762" align="center" valign="middle">
+	   
+  <table width="600" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
+          <tr> 
+            <td width="300">Tipo Movimiento</td>
+            <td width="300"><SELECT name="cmbmovimiento" onChange="Recarga1()">
+                <option value="-1">SELECCIONAR</option>
+                <?		  
+		  	while (list($clave,$valor) = each($movimientos))
+		  	{
+          		if (($clave == $cmbmovimiento) and ($recargapag1 == "S"))
+					echo '<option value="'.$clave.'" SELECTed>'.$valor.'</option>';
+				else 
+					echo '<option value="'.$clave.'">'.$valor.'</option>';
+			}		
+		?>
+              </SELECT></td>
+          </tr>
+          <tr>
+            <td>Producto</td>
+            <td><SELECT name="cmbproducto" onChange="Recarga2()">
+			<option value="-1">SELECCIONAR</option>
+			<?
+			if ($recargapag1 == "S")
+			{
+				foreach($productos as $clave => $valor)
+				{
+					if (($clave == $cmbproducto) and ($recargapag2 == "S"))
+						echo '<option value="'.$clave.'" SELECTed>'.$valor.'</option>';
+					else 
+						echo '<option value="'.$clave.'">'.$valor.'</option>';
+				}	
+			}
+			?>			
+              </SELECT></td>
+          </tr>
+          <tr> 
+            <td>Sub-Producto</td>
+            <td> 
+              <SELECT name="cmbsubproducto" onChange="Recarga3()">
+                <option value="-1">SELECCIONAR</option>
+                <?	
+			$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$cmbproducto." AND tipo_mov = ".$cmbmovimiento;
+			//echo '<option value="-1">'.$consulta.'</option>';
+			$rs = mysql_query($consulta);
+			while ($row = mysql_fetch_array($rs))
+			{
+				if (($row["cod_subproducto"] == $cmbsubproducto) and ($recargapag3 == "S"))
+					echo '<option value="'.$row["cod_subproducto"].'" SELECTed>'.$row["descripcion"].'</option>';
+				else
+					echo '<option value="'.$row["cod_subproducto"].'">'.$row["descripcion"].'</option>';
+			}						
+		?>
+              </SELECT></td>
+          </tr>
+        </table><br>
+<?
+	if ($recargapag3 == "S") {	
+		switch ($cmbmovimiento) {
+			case 1:
+				include("file://///S-WEB1/proyecto/sec_web/sec_ing_produccion_1.php");
+				break;
+			case 2:
+				include("file://///S-WEB1/proyecto/sec_web/sec_ing_produccion_2.php");
+				break;
+			case 3:
+				include("file://///S-WEB1/proyecto/sec_web/sec_ing_produccion_3.php");	
+				break;
+		}	 
+	}
+?>  
+  <table width="600" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
+    <tr>
+            <td align="center"> 
+			<input type="file" name="Archivos">
+<input type="button" name="ok" onclick="VerTamano ()" value="Ver Tamaño Archivo">
+
+              <?
+	  	if ($opcion == "M")
+		{
+			echo '<input name="btngrabar" type="button"  value="Modificar" style="width:70" onClick="Modificar()">&nbsp;';
+			echo '<input name="btngrabar" type="button"  value="Eliminar" style="width:70" onClick="Eliminar()">&nbsp;';
+		}
+		else 
+			echo '<input name="btngrabar" type="button"  value="Grabar" style="width:70" onClick="Grabar()">&nbsp;';
+			
+        echo '<input name="btnver" type="button" style="width:70" value="Ver Datos" onClick="VerDatos()">&nbsp;'; 
+        echo '<input name="btnlimpiar" type="button" value="Limpiar" style="width:70" onClick="Limpiar()">&nbsp;';
+        echo '<input name="btnsalir" type="button"   value="Salir" style="width:70" onClick="Salir()"></td>&nbsp;';
+	?>
+          </tr>
+  </table>
+</td>
+</tr>
+</table>
+<?
+	if (isset($mensaje))
+		echo '<script language="JavaScript"> alert("'.$mensaje.'") </script>';
+?>
+<?
+	if (($cmbproducto == "18") and ($recargapag3 == "S") and ($cmbmovimiento == "2") and ($opcion != "M"))
+	{
+		echo '<script language="JavaScript"> Bloquea2(); </script>';		
+	}
+?>
+
+<? include("file://///S-WEB1/proyecto/principal/pie_pagina.php")?>  
+</form>
+
+</body>
+</html>
+
+<? include("file://///S-WEB1/proyecto/principal/cerrar_sec_web.php") ?>

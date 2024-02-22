@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto=' 42510 ',peso_neto='26250',marca='FRANJA AMARILLA',cod_mop='510',num_sello='',transportista='',rut_chofer='21375405',nombre_chofer='RICARDO OGAS',observacion='',romana_salida='1' where correlativo='437074' and lote='21016230' and recargo='2'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 40580 ',peso_neto='26300',marca='V DOS FRANJAS NARANJAS',cod_mop='510',num_sello='',transportista='',rut_chofer='10063555-0',nombre_chofer='JOSE RAMIREZ',observacion='',romana_salida='2' where correlativo='449720' and lote='21096018' and recargo='4'

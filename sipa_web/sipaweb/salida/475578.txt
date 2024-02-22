@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43510 ',peso_neto='27450',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10217834-3',nombre_chofer='cristian Droguett Pino',observacion='cu varios',romana_salida='1' where correlativo='475578' and lote='22126224' and recargo='5'

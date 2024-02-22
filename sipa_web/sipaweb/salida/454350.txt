@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39170 ',peso_neto='25020',marca='TRES FRANJAS VERDES',cod_mop='510',num_sello='',transportista='',rut_chofer='10063555-0',nombre_chofer='JOSE RAMIREZ',observacion='',romana_salida='1' where correlativo='454350' and lote='21116022' and recargo='51'

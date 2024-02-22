@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44070 ',peso_neto='28050',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='5481299-3',nombre_chofer='Wilfredo Bernal',observacion='',romana_salida='1' where correlativo='454027' and lote='21116181' and recargo='5'

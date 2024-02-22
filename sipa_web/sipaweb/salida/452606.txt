@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43350 ',peso_neto='29460',marca='EQUIS AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='6660026-2',nombre_chofer='JUAN BERNAL',observacion='',romana_salida='1' where correlativo='452606' and lote='21106152' and recargo='51'

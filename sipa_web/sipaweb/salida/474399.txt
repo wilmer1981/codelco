@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43080',peso_neto='26670',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='27143719-6',nombre_chofer='jhonny Carrasco',observacion='',romana_salida='1' where correlativo='474399' and lote='22126038' and recargo='3'

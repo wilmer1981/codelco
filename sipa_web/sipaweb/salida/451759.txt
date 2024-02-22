@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44460 ',peso_neto='30530',marca='FRANJA NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL CISTERNA',observacion='',romana_salida='1' where correlativo='451759' and lote='21106004' and recargo='23'

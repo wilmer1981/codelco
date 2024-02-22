@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43580 ',peso_neto='28250',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='17113068-9',nombre_chofer='waldo heredia',observacion='concentrado cu varios ',romana_salida='1' where correlativo='481679' and lote='23036364' and recargo='3'

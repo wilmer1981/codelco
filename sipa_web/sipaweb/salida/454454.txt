@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 18640 ',peso_neto='4740',marca='EQUIS DOS FRANJAS BLANCA',cod_mop='520',num_sello='',transportista='',rut_chofer='11225659-8',nombre_chofer='MAURICIO SALVO',observacion='',romana_salida='1' where correlativo='454454' and lote='21116218' and recargo='47'

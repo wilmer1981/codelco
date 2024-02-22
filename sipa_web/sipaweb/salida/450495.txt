@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44550 ',peso_neto='26690',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7882687-8',nombre_chofer='MANUEL DELGADO B.',observacion='',romana_salida='2' where correlativo='450495' and lote='21096173' and recargo='1'

@@ -1,0 +1,23 @@
+INICIO DEL PROGRAMA
+2023-10-30
+Ingreso a Baja Movimiento Conjunto
+Ingreso a Recepciones Proveedor II
+Ingreso a Sube Recepciones
+Ingreso a Baja Movimiento Stock
+Ingreso a BajaRecAcu
+Ingreso a SubeCircu2
+Ingreso a BajaRecCircu1
+Ingreso a SubeCircu1
+Ingreso a Acumula Peso Stock
+Ingreso a Acumula Conjunto
+Ingreso a Calcula Beneficio
+Ingreso a Acumula Beneficio
+Ajusta Peso Beneficio
+Ingreso a Sube Beneficio
+Ingreso a Calcula Existencia Final
+Ingreso a Ajusta Peso
+Ingreso a Sube Existencia Final
+Ingreso a Actualiza Valida
+Ingreso a Actualiza Conjunto Ram II (Peso Conjunto)
+FIN
+FIN DEL PROGRAMA

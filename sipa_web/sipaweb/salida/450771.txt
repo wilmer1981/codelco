@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='S',peso_bruto=' 23360 ',peso_neto='9420',marca='EQUIS FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='7143217-3',nombre_chofer='FRANCISCO FUENTES',observacion='',romana_salida='2' where correlativo='450771' and lote='21096185' and recargo='51'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42350 ',peso_neto='28100',marca='DOS FRANJAS ROJAS',cod_mop='510',num_sello='',transportista='',rut_chofer='10063555-0',nombre_chofer='JOSE RAMIREZ',observacion='',romana_salida='1' where correlativo='492628' and lote='23106015' and recargo='40'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='22910',peso_neto='840',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='16 maxisacos con telas filtro',romana_salida='1' where correlativo='486249' and lote='23066150' and recargo='4'

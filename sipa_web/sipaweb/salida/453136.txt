@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44850 ',peso_neto='26660',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9541647-0',nombre_chofer='RAUL CUELLO LEGUA',observacion='',romana_salida='1' where correlativo='453136' and lote='21116030' and recargo='1'

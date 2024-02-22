@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 25120 ',peso_neto='1170',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='14 maxisacos con elementos con sal',romana_salida='1' where correlativo='469602' and lote='22096039' and recargo='2'

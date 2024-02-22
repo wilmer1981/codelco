@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 19500 ',peso_neto='6030',marca='FRANJA CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='8224316-K',nombre_chofer='CARLOS  FUENTES',observacion='',romana_salida='2' where correlativo='438840' and lote='21026148' and recargo='7'

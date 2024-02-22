@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43780 ',peso_neto='26260',marca='FRANJA AMARILLA',cod_mop='510',num_sello='',transportista='',rut_chofer='23488248-1',nombre_chofer='MAURICIO DOMINGUEZ',observacion='',romana_salida='1' where correlativo='457538' and lote='22016188' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43910 ',peso_neto='27870',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12601817-7',nombre_chofer='alejandro navarro',observacion='bajo cuchara',romana_salida='1' where correlativo='475353' and lote='22126189' and recargo='1'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44420',peso_neto='4550',marca='FRANJA VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='15065298-7',nombre_chofer='CRISTIAN ALVARADO',observacion='',romana_salida='1' where correlativo='450610' and lote='21096185' and recargo='11'

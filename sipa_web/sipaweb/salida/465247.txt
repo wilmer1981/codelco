@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43400 ',peso_neto='29520',marca='FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='10182333-4',nombre_chofer='MANUEL LOPEZ',observacion='',romana_salida='1' where correlativo='465247' and lote='22066049' and recargo='29'

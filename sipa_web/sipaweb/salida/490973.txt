@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 23320 ',peso_neto='2970',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8036380-K',nombre_chofer='charles wattson',observacion='20 MAXI TELAS FILTRO',romana_salida='1' where correlativo='490973' and lote='23096103' and recargo='3'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 35390 ',peso_neto='19770',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='14585548-9',nombre_chofer='Victor Aguilera',observacion='22 maxi desulfurizacion ',romana_salida='1' where correlativo='453236' and lote='21116045' and recargo='1'

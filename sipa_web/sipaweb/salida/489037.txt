@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='35930',peso_neto='20070',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='96607990-6',nombre_chofer='juan',observacion='18 IBC BORRAS ACIDAS',romana_salida='1' where correlativo='489037' and lote='23086076' and recargo='1'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43940',peso_neto='27320',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='21353147-6',nombre_chofer='christian ja�a arevalo',observacion='circulante mazmaorra',romana_salida='1' where correlativo='452086' and lote='21106129' and recargo='5'

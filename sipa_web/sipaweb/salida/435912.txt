@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42900 ',peso_neto='29270',marca='DOS FRANJAS AZULES',cod_mop='520',num_sello='',transportista='',rut_chofer='7352390-7',nombre_chofer='LUIS GONZALEZ',observacion='',romana_salida='1' where correlativo='435912' and lote='20126260' and recargo='11'

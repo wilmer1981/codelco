@@ -1,0 +1,80 @@
+<?
+	include("../principal/conectar_sec_web.php");
+	$Entro=false;
+	$Procesa = 0;
+	$Consulta="select num_guia,fecha_guia,patente_guia from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia1."' ";
+	$Resp1=mysql_query($Consulta);
+	if ($Fila1=mysql_fetch_array($Resp1))
+	{
+		$NumGuia1=$Fila1["num_guia"];
+		$FechaGuia1=$Fila1[fecha_guia];
+		$Procesa  = $Procesa  + 1;
+	}
+	$Consulta="select num_guia,fecha_guia,patente_guia from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia2."' ";
+	$Resp2=mysql_query($Consulta);
+	if ($Fila2=mysql_fetch_array($Resp2))
+	{
+		$NumGuia2=$Fila2["num_guia"];
+		$FechaGuia2=$Fila2[fecha_guia];
+		$Procesa  = $Procesa  + 1;
+	}
+	if ($Procesa ==2)
+	{
+		$Actualizar=" UPDATE sec_web.guia_despacho_emb set  num_guia_aux='".$NumGuia1."',num_guia='999999' ";
+		$Actualizar.="   where num_guia ='".$TxtGuia1."'";
+		mysql_query($Actualizar);
+
+		$Actualizar=" UPDATE sec_web.det_guia_despacho_emb set num_guia_aux='".$NumGuia1."',num_guia='999999'  ";
+		$Actualizar.="   where num_guia ='".$TxtGuia1."'";
+		mysql_query($Actualizar);	
+
+    	$Actualizar1=" UPDATE sec_web.guia_despacho_emb set num_guia='".$TxtGuia1."',fecha_guia='".$FechaGuia1."' ";
+		$Actualizar1.="  where num_guia ='".$TxtGuia2."'";
+		mysql_query($Actualizar1);
+	
+		$Actualizar=" UPDATE sec_web.det_guia_despacho_emb set num_guia_aux='".$NumGuia2."',num_guia='".$TxtGuia1."'  ";
+		$Actualizar.="   where num_guia ='".$TxtGuia2."'";
+		mysql_query($Actualizar);
+
+		$Actualizar2=" UPDATE sec_web.guia_despacho_emb set num_guia='".$TxtGuia2."',fecha_guia='".$FechaGuia2."' ";
+		$Actualizar2.="   where num_guia ='999999' ";
+		mysql_query($Actualizar2);
+
+		$Actualizar=" UPDATE sec_web.det_guia_despacho_emb set num_guia='".$TxtGuia2."'  ";
+		$Actualizar.="   where num_guia ='999999'";
+		mysql_query($Actualizar);	
+	
+		$Actualizar=" UPDATE sec_web.paquete_catodo set fecha_embarque='".$FechaGuia2."',num_guia='999999'  ";
+		$Actualizar.="   where num_guia = '".$TxtGuia1."' ";
+		mysql_query($Actualizar);
+
+		$Actualizar1=" UPDATE sec_web.paquete_catodo set fecha_embarque='".$FechaGuia1."',num_guia='".$TxtGuia1."'  ";
+		$Actualizar1.="   where num_guia = '".$TxtGuia2."' ";
+		mysql_query($Actualizar1);
+	
+		$Actualizar=" UPDATE sec_web.paquete_catodo set num_guia='".$TxtGuia2."' ";
+		$Actualizar.="   where num_guia = '999999' ";
+		mysql_query($Actualizar);
+	}
+	if ($Procesa ==1)
+	{
+	    $Actualizar1=" UPDATE sec_web.guia_despacho_emb set num_guia='".$TxtGuia2."', fecha_guia = '".$FechaGuia1."' ";
+		$Actualizar1.="  where num_guia ='".$TxtGuia1."'";
+		mysql_query($Actualizar1);
+		
+		$Actualizar=" UPDATE sec_web.det_guia_despacho_emb set num_guia='".$TxtGuia2."' ";
+		$Actualizar.="   where num_guia ='".$TxtGuia1."'";
+		mysql_query($Actualizar);	
+
+		$Actualizar1=" UPDATE sec_web.paquete_catodo set num_guia='".$TxtGuia2."'  ";
+		$Actualizar1.="   where num_guia = '".$TxtGuia1."' and cod_estado = 'c' ";
+		mysql_query($Actualizar1);
+
+	}
+	
+	header("location:sec_modifica_numguia.php?TxtGuia1=".$TxtGuia1."&TxtGuia2=".$TxtGuia2."&Mensaje=S");
+	
+		
+	
+mysql_close($link);
+?>

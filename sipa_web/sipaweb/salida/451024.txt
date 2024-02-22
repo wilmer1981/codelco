@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44010 ',peso_neto='27590',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9507589-8',nombre_chofer='juan M',observacion='',romana_salida='2' where correlativo='451024' and lote='21096243' and recargo='8'

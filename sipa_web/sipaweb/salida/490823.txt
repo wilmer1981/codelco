@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44410 ',peso_neto='27810',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='8226337-3',nombre_chofer='eduardo molinos',observacion='cu sucio',romana_salida='1' where correlativo='490823' and lote='23096089' and recargo='5'

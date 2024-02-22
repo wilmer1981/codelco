@@ -1,0 +1,664 @@
+<?
+include("../principal/conectar_sget_web.php");
+include("funciones/sget_funciones.php");
+$CodSistema=30;
+$CodPantalla=14;
+
+?>
+<script language="javascript" src="funciones/sget_funciones.js"></script>
+<script language="javascript">
+function NuevoUser(Opc)
+{
+	var f=document.FrmPrincipal;
+	var Valor="";
+	var Datos="";
+	switch(Opc)
+	{
+		case "C":
+			if(f.CmbEstado.value !='S')
+			{
+				f.action='sget_autorizacion_gestion_terceros.php?Cons=S';
+				f.submit();
+			}
+			else
+			{
+				alert("Seleccione Estado a Buscar");
+				f.CmbEstado.focus();
+			}	
+			break;
+		case "N":
+			URL="sget_mantenedor_empresas_proceso.php?Opc="+Opc;
+			opciones='top=30,toolbar=0,resizable=0,menubar=0,status=1,width=750,height=700,scrollbars=1';
+			popup=window.open(URL,"",opciones);
+			popup.focus();
+			popup.moveTo((screen.width - 640)/2,0);
+		break;
+		case "M":
+			if(SoloUnElemento(f.name,'CheckRut','M'))
+			{
+				Datos=Recuperar(f.name,'CheckRut');
+				URL="sget_mantenedor_empresas_proceso.php?Opc="+Opc+"&Valores="+Datos;
+				opciones='top=30,toolbar=0,resizable=0,menubar=0,status=1,width=750,height=700,scrollbars=1';
+				popup=window.open(URL,"",opciones);
+				popup.focus();
+				popup.moveTo((screen.width - 640)/2,0);
+			}	
+		break;
+		case "E":
+			if(SoloUnElemento(f.name,'CheckHoja','E'))
+			{
+				mensaje=confirm("�Esta Seguro de Eliminar estos Registros?");
+				if(mensaje==true)
+				{
+					Datos=Recuperar(f.name,'CheckHoja');
+					f.action='sget_autorizacion_gestion_terceros01.php?Opcion=E&Valor='+Datos;
+					f.submit();
+				}	
+			}
+		break;
+		case "S":
+			window.location="../principal/sistemas_usuario.php?CodSistema=30&Nivel=0";
+		break;
+	}	
+}
+function Obs(H,HR,Mos)
+{
+	var f=document.FrmPrincipal;
+	URL="sget_detalle_obs_hito.php?H="+H+"&NumHoja="+HR+"&CodSistema="+f.CodSistema.value+"&CodPantalla="+f.CodPantalla.value+"&Mos="+Mos;
+	opciones='top=30,toolbar=0,resizable=1,menubar=0,status=1,width=700,height=350,scrollbars=1';
+	popup=window.open(URL,"",opciones);
+	popup.focus();
+}
+function Recarga(Opt) 
+{
+	var f=document.FrmPrincipal;
+	f.action='sget_autorizacion_gestion_terceros.php';
+	f.submit();
+}
+function Auto(H,HR) 
+{
+	var f=document.FrmPrincipal;
+	f.action='sget_autorizacion_gestion_terceros01.php?H='+H+'&NumHoja='+HR+'&Opcion=A';
+	f.submit();
+}
+function AutorizaNomina(H,HR,Mos)
+{
+	var f=document.FrmPrincipal;
+	URL="sget_autoriza_nomina_integral.php?H="+H+"&NumHoja="+HR+"&CodSistema="+f.CodSistema.value+"&CodPantalla="+f.CodPantalla.value+"&Mos="+Mos+"&CmbEmpresa="+f.CmbEmpresa.value+"&CmbContrato="+f.CmbContrato.value+"&TxtHoja="+f.TxtHoja.value+"&CmbAno="+f.CmbAno.value+"&CmbEstado="+f.CmbEstado.value;
+	opciones='top=30,toolbar=0,resizable=1,menubar=0,status=1,width=700,height=350,scrollbars=1';
+	popup=window.open(URL,"",opciones);
+	popup.focus();
+}
+function Detalle(HR)
+{
+	var f=document.FrmPrincipal;
+	URL="sget_hoja_ruta_detalle.php?NumHoja="+HR+"&CodSistema="+f.CodSistema.value+"&CodPantalla="+f.CodPantalla.value+"&Mos="+Mos+"&CmbEmpresa="+f.CmbEmpresa.value+"&CmbContrato="+f.CmbContrato.value+"&TxtHoja="+f.TxtHoja.value+"&CmbAno="+f.CmbAno.value+"&CmbEstado="+f.CmbEstado.value;
+	opciones='top=30,toolbar=0,resizable=1,menubar=0,status=1,width=700,height=350,scrollbars=1';
+	popup=window.open(URL,"",opciones);
+	popup.focus();
+}
+
+function AutorizaNomina3(H,HR,Mos)
+{
+	var f=document.FrmPrincipal;
+	URL="sget_autoriza_nomina_integral_3.php?H="+H+"&NumHoja="+HR+"&CodSistema="+f.CodSistema.value+"&CodPantalla="+f.CodPantalla.value+"&Mos="+Mos+"&CmbEmpresa="+f.CmbEmpresa.value+"&CmbContrato="+f.CmbContrato.value+"&TxtHoja="+f.TxtHoja.value+"&CmbAno="+f.CmbAno.value+"&CmbEstado="+f.CmbEstado.value;
+	opciones='top=30,toolbar=0,resizable=1,menubar=0,status=1,width=700,height=350,scrollbars=1';
+	popup=window.open(URL,"",opciones);
+	popup.focus();
+}
+function Rech(H,HR) 
+{
+	var f=document.FrmPrincipal;
+	f.action='sget_autorizacion_gestion_terceros01.php?H='+H+'&NumHoja='+HR+'&Opcion=RECH';
+	f.submit();
+}
+function Cierra(HR,Est,Tipo) 
+{
+	if(Tipo=='C')
+	{
+		if(confirm("Esta Seguro de Cerrar Esta Hoja de Ruta"))
+		{
+			var f=document.FrmPrincipal;
+			f.action='sget_autorizacion_gestion_terceros01.php?Est='+Est+'&NumHoja='+HR+'&Tipo='+Tipo+'&Opcion=CandadoF';
+			f.submit();
+		}
+	}
+	else
+	{
+		var f=document.FrmPrincipal;
+		URL="sget_abre_candado.php?CmbEmpresa="+f.CmbEmpresa.value+"&CmbContrato="+f.CmbContrato.value+"&CmbAno="+f.CmbAno.value+"&TxtHoja="+f.TxtHoja.value+"&CmbEstado="+f.CmbEstado.value+"&Est="+Est+"&NumHoja="+HR;
+		opciones='top=30,toolbar=0,resizable=1,menubar=0,status=1,width=370,height=170,scrollbars=1';
+		popup=window.open(URL,"",opciones);
+		popup.focus();
+	}
+}
+</script>
+<title>Autorizacion Gesti�n Terceros</title>
+<link href="estilos/css_sget_web.css" rel="stylesheet" type="text/css">
+<form name="FrmPrincipal" method="post" action="" >
+<input name="CodSistema" type="hidden" value="<? echo $CodSistema; ?>">
+<input name="CodPantalla" type="hidden" value="<? echo $CodPantalla; ?>">
+ <?
+ $IP_SERV = $HTTP_HOST;
+ EncabezadoPagina($IP_SERV,'auto_gestion_terceros.png')
+ ?>
+  <table width="950"  border="0" align="center" cellpadding="0"  cellspacing="0" bgcolor="#FFFBFB">
+     <tr>
+      <td width="15" height="15"><img src="archivos/images/interior/esq1em.png" width="15" height="15" /></td>
+      <td width="920" height="15"background="archivos/images/interior/form_arriba.png"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15" height="15"><img src="archivos/images/interior/esq2em.png" width="15" height="15" /></td>
+    </tr>
+    <tr>
+      <td width="15" background="archivos/images/interior/form_izq3.png">&nbsp;</td>
+      <td><table width="100%"  cellspacing="0">
+          <tr>
+            <td height="35" colspan="4" align="left" class="formulario2"   ><img src="archivos/images/interior/t_buscadorGlobal4.png" /> </td>
+            <td colspan="2" align="right" class="formulario2" ><a href="JavaScript:NuevoUser('C')"><img src="archivos/Find2.png"   alt="Buscar"  border="0" align="absmiddle" /></a>&nbsp; 
+			<!--<a href="JavaScript:NuevoUser('M')"><img src="archivos/btn_modificar.png" border="0" alt="Modificar" align="absmiddle" /></a>&nbsp;-->
+			<!-- <a href="JavaScript:NuevoUser('E')"><img src="archivos/elim_hito.png"  alt="Eliminar " align="absmiddle" border="0" /></a>-->&nbsp; <a href="JavaScript:NuevoUser('S')"><img src="archivos/volver2.png"  border="0"  alt=" Volver " align="absmiddle" /></a> </td>
+          </tr>
+          <tr>
+            <td width="8%" class="formulario2">Empresa</td>
+            <td width="50%" class="formulario2"><SELECT name="CmbEmpresa" id="SELECT" style="width:250" onchange="Recarga('<? echo $Opt;?>');" >
+              <option value="-1" class="NoSelec">Seleccionar</option>
+              <?
+				$Consulta = "SELECT * from sget_contratistas order by razon_social ";
+				$Resp=mysql_query($Consulta);
+				while ($FilaTC=mysql_fetch_array($Resp))
+				{
+					if ($CmbEmpresa==$FilaTC["rut_empresa"])
+					{
+						echo "<option SELECTed value='".$FilaTC["rut_empresa"]."'>".ucfirst($FilaTC["razon_social"])."</option>\n";
+						$Rut=$FilaTC[rut_empresa];
+						$Domicilio=$FilaTC[calle];
+						$Fono=$FilaTC[telefono_comercial];
+						$EMail=$FilaTC[mail_empresa];
+						$CodMutual=$FilaTC[cod_mutual_seguridad];
+						$FechaVenc=$FilaTC[fecha_ven_cert];
+						
+					}
+					else
+						echo "<option value='".$FilaTC["rut_empresa"]."'>".ucfirst($FilaTC["razon_social"])."</option>\n";
+				}
+				?>
+              <option value="*">---SubContratistas---</option>
+              <?
+				$Consulta1 = "SELECT t2.rut_empresa,t1.razon_social from sget_contratistas t1 inner join sget_sub_contratistas t2 ";
+				$Consulta1.= "on t1.rut_empresa=t2.rut_empresa where t2.cod_contrato ='".$CmbContrato."'order by razon_social ";
+				$RespSub=mysql_query($Consulta1);
+				while ($FilaSub=mysql_fetch_array($RespSub))
+				{
+					if ($CmbEmpresa==$FilaSub["rut_empresa"])
+					{
+						echo "<option SELECTed value='".$FilaSub["rut_empresa"]."'>".ucfirst($FilaSub["razon_social"])."</option>\n";
+						$Rut=$FilaSub[rut_empresa];
+						$Domicilio=$FilaSub[calle];
+						$Fono=$FilaSub[telefono_comercial];
+						$EMail=$FilaSub[mail_empresa];
+						$CodMutual=$FilaSub[cod_mutual_seguridad];
+						$FechaVenc=$FilaSub[fecha_ven_cert];
+						
+					}
+					else
+						echo "<option value='".$FilaSub["rut_empresa"]."'>".ucfirst($FilaSub["razon_social"])."</option>\n";
+				}
+				?>
+            </SELECT></td>
+            <td class="formulario2">Nro Hoja Ruta </td>
+            <td width="19%" class="formulario2"><input name="TxtHoja" type="text" id="TxtRegic" value="<? echo $TxtHoja; ?>" /></td>
+            <td width="5%" class="formulario2">&nbsp;</td>
+            <td width="6%" class="formulario2">&nbsp;</td>
+            <? 
+		if($Check=='S')
+		{	
+			$checked='checked';
+		 	$disabled="";
+		}
+		else
+		{	
+			$checked="";
+			$disabled="";
+		 }
+		  
+		  ?>
+          </tr>
+          <tr>
+            <td class="formulario2">Contrato</td>
+            <td class="formulario2"><SELECT name="CmbContrato" style="width:250" onchange="Recarga('<? echo $Opt;?>');">
+              <option value="S" SELECTed="SELECTed">Seleccionar</option>
+              <?
+		$FechaActual=date("Y")."-".date("m")."-".date("d");
+		$Consulta="SELECT * from sget_contratos where fecha_termino >= '".$FechaActual."' order by fecha_termino desc";
+		$RespCtto=mysql_query($Consulta);
+		while($FilaCtto=mysql_fetch_array($RespCtto))
+		{
+			if ($FechaActual > $FilaCtto[fecha_termino])
+				$Color="red";
+			else
+				$Color='white';
+			if(strtoupper($FilaCtto["cod_contrato"])==strtoupper($CmbContrato))
+			{
+				echo "<option style='background:".$Color."' value='".$FilaCtto["cod_contrato"]."' SELECTed>".$FilaCtto["cod_contrato"]."--->".strtoupper($FilaCtto["descripcion"])."</option>";
+				if($TxtFechaCtto==''||$TxtFechaCtto=='0000-00-00')
+					$TxtFechaCtto=$FilaCtto[fecha_termino];
+				$FechaIniCtto=$FilaCtto[fecha_inicio];
+				$FechaFinCtto=$FilaCtto[fecha_termino];
+				$AdmCodelco=$FilaCtto["cod_contrato"];
+				$AdmContratista=$FilaCtto["cod_contrato"];
+				$AreaTrabajo=$FilaCtto[area_trabajo];
+				$TipoCtto=$FilaCtto[cod_tipo_contrato];
+				$RutPrev=$FilaCtto[rut_prev];
+			}	
+			else
+				echo "<option style='background:".$Color."' value='".$FilaCtto["cod_contrato"]."'>".$FilaCtto["cod_contrato"]."--->".strtoupper($FilaCtto["descripcion"])."</option>";
+		}
+		?>
+            </SELECT></td>
+            <td width="12%" class="formulario2">A&ntilde;o Ingreso </td>
+            <td colspan="3" class="formulario2"><span class="borderbajo">
+              <SELECT name="CmbAno" id="CmbAno"  onchange="Proceso('R','<? echo $CmbAno; ?>')">
+                <option value="T" class="NoSelec">Todos</option>
+                <?
+	for ($i=date("Y")-3;$i<=date("Y")+1;$i++)
+	{
+		if (isset($CmbAno))
+		{
+			if ($i==$CmbAno)
+			{
+				echo "<option SELECTed value ='$i'>$i</option>";
+			}
+			else	
+			{
+				echo "<option value='".$i."'>".$i."</option>";
+			}
+		}
+		else
+		{
+			if ($i==date("Y"))
+			{
+				echo "<option SELECTed value ='$i'>$i</option>";
+			}
+			else	
+			{
+				echo "<option value='".$i."'>".$i."</option>";
+			}
+		}
+	}
+	?>
+              </SELECT>
+            </span></td>
+          </tr>
+          <tr>
+            <td class="formulario2">Estado</td>
+            <td class="formulario2"><SELECT name="CmbEstado">
+              <option value="S" SELECTed="SELECTed">Seleccionar</option>
+              <?
+			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase in ('4','5','6','7') order by cod_subclase";
+			$Resp=mysql_query($Consulta);
+			while($Fila=mysql_fetch_array($Resp))
+			{
+				if($CmbEstado==$Fila["cod_subclase"])
+					echo "<option value='".$Fila["cod_subclase"]."' SELECTed>".$Fila["nombre_subclase"]."</option>";
+				else	
+					echo "<option value='".$Fila["cod_subclase"]."'>".$Fila["nombre_subclase"]."</option>";
+			}
+			?>
+            </SELECT></td>
+            <td class="formulario2">&nbsp;</td>
+            <td colspan="3" class="formulario2">&nbsp;</td>
+          </tr>
+      </table></td>
+      <td width="15" background="archivos/images/interior/form_der.png">&nbsp;</td>
+    </tr>
+     <tr>
+      <td width="15" height="15"><img src="archivos/images/interior/esq3em.png" width="15" height="15" /></td>
+      <td height="15" background="archivos/images/interior/form_abajo.png"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15" height="15"><img src="archivos/images/interior/esq4em.png" width="15" height="15" /></td>
+    </tr>
+  </table>
+  <p>
+  
+  <table width="950" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+ 	<tr>
+      <td ><img src="archivos/images/interior/esq1em.gif" width="15" /></td>
+      <td width="920" background="archivos/images/interior/form_arriba.gif"><img src="archivos/images/interior/transparent.gif" width="4" /></td>
+      <td ><img src="archivos/images/interior/esq2em.gif" width="15" /></td>
+    </tr>
+  <tr>
+   <td background="archivos/images/interior/form_izq.gif">&nbsp;</td>
+   <td><table width="100%" border="1" align="center" cellpadding="2" cellspacing="0">		
+       <tr>
+         <td width="5%" class="TituloTablaVerde">&nbsp;<!--<input class='SinBorde' type="checkbox" name="ChkTodos" value="" onClick="CheckearTodo(this.form,'CheckRut','ChkTodos');">--></td>
+          <td width="6%" align="center" class="TituloTablaVerde">Hoja Ruta </td>
+          <td width="9%" align="center" class="TituloTablaVerde">Fecha Ingreso </td>
+          <td width="10%" align="center" class="TituloTablaVerde">Contrato</td>
+          <td width="14%" align="center" class="TituloTablaVerde">Empresa</td>
+          <td width="14%" align="center" class="TituloTablaVerde">Adm.Codelco</td>
+		   <?
+		  	$Consulta = "SELECT * from sget_hitos ";
+			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='15'  ";
+			$RespH = mysql_query($Consulta);
+			while ($FilaH=mysql_fetch_array($RespH))
+			{
+				?>
+				<td width="10%" align="center" class="TituloTablaVerde">
+				<? echo $FilaH[abrev_hito]; ?>		  		</td>
+				<?
+			}
+			?>	
+	     <!-- <td width="14%" align="center" class="TituloCabecera">Adm.Contratista</td>-->
+           <?
+		  	$Consulta = "SELECT * from sget_hitos ";
+			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."' and  isnull(gest_tercero_final) ";
+			$RespH = mysql_query($Consulta);
+			while ($FilaH=mysql_fetch_array($RespH))
+			{
+				?>
+				<td width="17%" align="center" class="TituloTablaVerde">
+				<? echo $FilaH[abrev_hito]; ?></td>
+				<?
+			}
+			?>
+			<?
+		  	if($CmbEstado==6 || $CmbEstado==7)
+			{
+				$Consulta = "SELECT * from sget_hitos ";
+				$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."' and  gest_tercero_final ='S' ";
+				$RespH = mysql_query($Consulta);
+				while ($FilaH=mysql_fetch_array($RespH))
+				{
+					?>
+					<td width="15%" align="center" class="TituloTablaVerde">
+					<? echo $FilaH[abrev_hito]; ?></td>
+					<?
+				}
+			}
+			?>		
+          </tr>
+  <?
+
+if($Cons=='S')
+{
+	$Consulta = "SELECT * from sget_hoja_ruta ";
+	$Consulta.=" where not isnull(num_hoja_ruta)  ";
+	if($CmbEmpresa!='-1')
+		$Consulta.=" and  rut_empresa='".$CmbEmpresa."' ";
+	if($CmbContrato!='S')
+		$Consulta.=" and  cod_contrato='".$CmbContrato."' ";
+	if($TxtHoja!='')
+		$Consulta.= " and num_hoja_ruta like ('%".$TxtHoja."%') ";
+	if($CmbAno!='T')
+		$Consulta.=" and  year(fecha_ingreso) ='".$CmbAno."' ";	
+	if($CmbEstado!='S')
+	{
+		switch($CmbEstado)
+		{
+			case "4":
+				$Consulta.= " and cod_estado_aprobado = 4  ";	
+			break;
+			case "5":
+				$Consulta.= " and cod_estado_aprobado = 5  ";	
+			break;
+			case "6":
+				$Consulta.= " and cod_estado_aprobado = 6  ";	
+			break;
+			case "7":
+				$Consulta.= " and cod_estado_aprobado in('7','14')  ";	
+			break;
+		}
+	}
+
+	$Resp = mysql_query($Consulta);
+	echo "<input name='CheckHoja' type='hidden'  value=''>";
+	$cont=1;
+	while ($Fila=mysql_fetch_array($Resp))
+	{
+		$Entro='N';
+		?>     	
+		<tr> 
+    	<td >
+		<a href="sget_hoja_ruta_pdf.php?NumHR=<? echo $Fila["num_hoja_ruta"];?>" target="_blank"><img src="archivos/adobe.png"  alt="Hoja Ruta PDF" border="0" align="absmiddle" /></a>&nbsp;
+		<a href="sget_detalle_estados.php?Opt=M&EsPopup=S&TxtHoja=<? echo $Fila["num_hoja_ruta"];?>" target="_blank"><img src="archivos/btn_observaciones.png"  border="0"  width='23' height='23' alt="Detalle Hoja de Ruta" align="absmiddle" /></a>
+		<? echo "<input name='CheckHoja' class='SinBorde' type='hidden'  value='".$Fila["num_hoja_ruta"]."'>" ?></td>
+	    <td ><? echo $Fila["num_hoja_ruta"]."&nbsp;"; ?></td>
+        <td ><? echo substr($Fila["fecha_ingreso"],0,10)."&nbsp;"; ?>&nbsp;</td>
+        <td ><a href="sget_info_ctto.php?Ctto=<? echo $Fila["cod_contrato"];?>" target="_blank"><img src="archivos/info2.png"  alt="Informaci�n Contrato" border="0"  align="absmiddle" /></a>&nbsp;<? echo $Fila["cod_contrato"]."&nbsp;"; ?></td>
+        <td >
+		<? 
+		  $RazonSoc=str_replace(' ','&nbsp;',FormatearNombre(DescripcionRazonSocial($Fila["rut_empresa"])));
+	?>
+		<a href="sget_info_empresa.php?Emp=<? echo $Fila["rut_empresa"];?>" target="_blank"><img src="archivos/info2.png"  alt="Informaci�n Empresa" border="0" align="absmiddle" /></a>&nbsp;<? echo $RazonSoc; 
+		  ?></td>
+          <td ><?
+		   /*$VarCodelco=AdmCttoCodelco($Fila["cod_contrato"]);
+		   $array=explode('~',$VarCodelco);
+		   echo $array[1].' '.$array[2].' '.$array[3];*/
+		   $VarCodelco=AdmCttoCodelcoHR($Fila["num_hoja_ruta"]);
+	  	   $array=explode('~',$VarCodelco);
+		   echo FormatearNombre($array[1]).' '.FormatearNombre($array[2]).' '.FormatearNombre($array[3]);
+	   	   ?>&nbsp;
+		   </td>
+		    <?
+		  	$Consulta = "SELECT * from sget_hitos ";
+			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='15'  ";
+			$RespHD = mysql_query($Consulta);
+			while ($FilaHD=mysql_fetch_array($RespHD))
+			{
+				?>
+				<td width="10%" align="center">
+				<?
+				$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
+				$RespExi = mysql_query($Consulta);
+				if($FilaExi=mysql_fetch_array($RespExi))
+				{	
+					$IcoObs=CantObs($Fila["num_hoja_ruta"],$FilaHD[cod_hito]);
+					if($FilaExi[autorizado]=='S')
+					{
+						$Entro='S';
+						?>
+						<img src="archivos/acepta_final6.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"><a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>','N')"><img src="archivos/<? echo $IcoObs;  ?>"  border="0"  alt="Muestra Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+		  				<?
+					}
+					else
+					{
+						$Entro='N';
+						?>
+						<img src="archivos/proceso.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"><a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>','M')"><img src="archivos/<? echo $IcoObs;  ?>"  border="0"  alt="Muestra Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+						<?
+					}
+				}
+				else
+				{
+					$Entro='N';
+					?>	
+					<img src="archivos/proceso.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"><a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>','N')"><img src="archivos/<? echo $IcoObs;  ?>"  border="0"  alt="Muestra Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>			
+					<?
+				}
+				?></td>
+				<?
+			}
+			?>	 		
+		     <!-- <td ><? 
+		  /* $VarContratista=AdmCttoContratista($Fila["cod_contrato"]);
+	  	   $array=explode('~',$VarContratista);
+	   	   echo $array[1].' '.$array[2].' '.$array[3];*/
+		   ?>
+		   &nbsp;
+		   </td>-->
+		    <?
+		  	//echo "agos______".$Entro."<br>";
+			$Consulta = "SELECT * from sget_hitos ";
+			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."' and  isnull(gest_tercero_final) ";
+			$RespHD = mysql_query($Consulta);
+			while ($FilaHD=mysql_fetch_array($RespHD))
+			{
+				?>
+				<td  align="center">
+				<?
+				$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
+				$RespExi = mysql_query($Consulta);
+				if($FilaExi=mysql_fetch_array($RespExi))
+				{	
+					$IcoObs2=CantObs($Fila["num_hoja_ruta"],$FilaHD[cod_hito]);
+					if($FilaExi[autorizado]=='S')
+					{
+						?>
+						<a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/<? echo $IcoObs2;  ?>"  border="0"  alt="Ingreso Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+		  				<? 
+						$Consulta=" SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito in ('3','4') and autorizado='S' ";
+						$RespGI = mysql_query($Consulta);
+						if ($FilaGI=mysql_fetch_array($RespGI))
+						{
+						?>
+						<img src="archivos/acepta_final6.png" border="0" alt="No se Puede Rechazar el Hito <? echo $FilaHD[descrip_hito];  ?> , esta aprobada en Gesti�n Integral" 	align="absmiddle">
+						<?
+						}
+						else
+						{
+						?>
+						<a href="JavaScript:Rech('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/acepta.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"></a>
+						<?
+						}
+					}
+					else
+					{
+						if($Entro =='S')
+						{
+							?>
+							<a href="JavaScript:AutorizaNomina('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/user_nomina2.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"></a>
+							<!--<a href="JavaScript:Auto('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/proceso.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"></a>-->
+							<?
+							$Consulta="SELECT * ";
+							$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
+							$Consulta.=" where num_hoja_ruta ='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' and aprob_rechazo='A' ";
+							$RespDet2=mysql_query($Consulta);
+							if($FilaDet2=mysql_fetch_array($RespDet2))
+							{
+								?>
+									<a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/<? echo $IcoObs2;  ?>"  border="0"  alt="Ingreso Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+									<a href="JavaScript:Auto('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/proceso.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"></a>
+								<?
+							}
+							else
+							{
+								?>
+								<a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/<? echo $IcoObs2;  ?>"  border="0"  alt="Ingreso Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+								<?
+							}
+						}
+						else
+						{
+							?>
+							<img src="archivos/user_nomina2.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle">
+							<a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/<? echo $IcoObs2;  ?>"  border="0"  alt="Ingreso Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+							<!--<img src="archivos/proceso.png" border="0" alt="No se Puede Autorizar el Hito <? echo $FilaHD[descrip_hito];  ?> , hasta que el Adm.Codelco Autorize el Hito" 	align="absmiddle">-->
+							<?
+						}
+						?>
+						
+						<?
+					}
+				}
+				?>
+				</td>
+				<?
+			if($CmbEstado == '6' || $CmbEstado == '7')
+			{
+				//echo "agos______".$Entro."<br>";
+				$Consulta = "SELECT * from sget_hitos ";
+				$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."' and gest_tercero_final='S' ";
+				$RespHD = mysql_query($Consulta);
+				while ($FilaHD=mysql_fetch_array($RespHD))
+				{
+					?>
+					<td  align="center">
+					<?
+					$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
+					$RespExi = mysql_query($Consulta);
+					if($FilaExi=mysql_fetch_array($RespExi))
+					{	
+						if($FilaExi[autorizado]=='S')
+						{
+						
+							?>
+							<a href="JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/file.png"  border="0"  alt="Ingreso Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+							<? 
+						
+							if($Fila[cod_estado_aprobado]=='7')
+							{?>
+							<a href="JavaScript:Rech('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/acepta.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"></a>
+							<a href="JavaScript:Cierra('<? echo $Fila["num_hoja_ruta"]; ?>','13','C')"><img src="archivos/candado_abierto.png" border="0" alt="Cerrar Proceso" 	align="absmiddle"></a>
+						
+							<?
+							}
+							if($Fila[cod_estado_aprobado]=='14')
+							{
+								?>
+								<img src="archivos/acepta_final6.png" border="0" alt="No se Puede Rechazar Se Encuentra Cerrado el Candado" 	align="absmiddle">
+								<a href="JavaScript:Cierra('<? echo $Fila["num_hoja_ruta"]; ?>','7','A')"><img src="archivos/candado_cerrado.gif" border="0" alt="Abrir Proceso" 	align="absmiddle"></a>
+								<?
+							}
+							?>
+							<?
+						}
+						else
+						{
+							if($Entro =='S')
+							{
+								?>
+								<a href="JavaScript:AutorizaNomina3('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/user_nomina2.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"></a>
+								<!--<a href="JavaScript:Auto('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/proceso.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"></a>-->
+								<?
+								$Consulta="SELECT * ";
+								$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
+								$Consulta.=" where num_hoja_ruta ='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' and aprob_rechazo='A' ";
+								$RespDet2=mysql_query($Consulta);
+								if($FilaDet2=mysql_fetch_array($RespDet2))
+								{
+									?>
+										<a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/file.png"  border="0"  alt="Ingreso Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+										<a href="JavaScript:Auto('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/proceso.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle"></a>
+									<?
+								}
+								else
+								{
+									?>
+									<a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/file.png"  border="0"  alt="Ingreso Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+									<?
+								}
+							}
+							else
+							{
+								?>
+								<img src="archivos/user_nomina2.png" border="0" alt="<? echo $FilaHD[descrip_hito];  ?>" 	align="absmiddle">
+								<a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/file.png"  border="0"  alt="Ingreso Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
+								<!--<img src="archivos/proceso.png" border="0" alt="No se Puede Autorizar el Hito <? echo $FilaHD[descrip_hito];  ?> , hasta que el Adm.Codelco Autorize el Hito" 	align="absmiddle">-->
+								<?
+							}
+						}
+					}
+				}
+			}	
+			?>
+			</td>
+			<?
+		}
+		?>	 	
+	  </tr>
+	   <?
+	   $cont++;
+	}
+}
+?>			
+</table></td><td width="15" background="archivos/images/interior/form_der.gif">&nbsp;</td>
+  </tr>
+  <tr>
+      <td width="15"><img src="archivos/images/interior/esq3em.gif" width="15" height="15" /></td>
+      <td height="1"background="archivos/images/interior/form_abajo.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15"><img src="archivos/images/interior/esq4em.gif" width="15" height="15" /></td>
+    </tr>
+  </table>
+  <?
+  CierreEncabezado()
+  ?>
+</form>

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42640 ',peso_neto='27010',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='7921910-k',nombre_chofer='hugo cavas',observacion='concentrado de cu',romana_salida='1' where correlativo='480178' and lote='23036065' and recargo='8'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43100 ',peso_neto='26330',marca='',cod_mop='523',num_sello='',transportista='',rut_chofer='12128412-k',nombre_chofer='CLAUDIO   JUCOSSI',observacion='',romana_salida='1' where correlativo='474455' and lote='22126048' and recargo='4'

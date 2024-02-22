@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44070 ',peso_neto='30100',marca='FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL CISTERNA',observacion='',romana_salida='2' where correlativo='453368' and lote='21116072' and recargo='4'

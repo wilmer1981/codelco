@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='18520',peso_neto='3350',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='23 maxisacos de telas filtro',romana_salida='1' where correlativo='463858' and lote='22056156' and recargo='3'

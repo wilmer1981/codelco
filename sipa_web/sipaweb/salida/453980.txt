@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43110',peso_neto='29330',marca='FRANJA CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='12128412-K',nombre_chofer='CLAUDIO JUCOSSI',observacion='',romana_salida='1' where correlativo='453980' and lote='21116162' and recargo='36'

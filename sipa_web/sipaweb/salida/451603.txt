@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43260',peso_neto='26680',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8551905-0',nombre_chofer='VICTOR ARANCIBIA',observacion='ladrillo reflectario en desuso ',romana_salida='1' where correlativo='451603' and lote='21106066' and recargo='4'

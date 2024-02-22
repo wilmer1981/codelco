@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='39300',peso_neto='24970',marca='TRES FRANJAS AMARILLAS',cod_mop='690',num_sello='',transportista='',rut_chofer='9277660-3',nombre_chofer='CRISTIAN BERNAL',observacion='',romana_salida='1' where correlativo='483491' and lote='23046182' and recargo='33'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44050 ',peso_neto='28360',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11222435-1',nombre_chofer='CARLOS OLIVARES',observacion='',romana_salida='1' where correlativo='483109' and lote='23046242' and recargo='9'

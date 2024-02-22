@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 31160 ',peso_neto='15180',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9016487-2',nombre_chofer='MIGUEL VALDIVIA',observacion='',romana_salida='1' where correlativo='477764' and lote='23016359' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43960',peso_neto='28530',marca='FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='10405833-7',nombre_chofer='MAXIMO SANDOVAL',observacion='',romana_salida='1' where correlativo='473249' and lote='22116067' and recargo='34'

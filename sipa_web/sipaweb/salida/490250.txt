@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 26870 ',peso_neto='1430',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='8036380-K',nombre_chofer='charles wattson',observacion='11 MAXISACOS CON REBESTIMIENTO',romana_salida='1' where correlativo='490250' and lote='23096002' and recargo='2'

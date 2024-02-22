@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 23060 ',peso_neto='7450',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='4 ivc baritina ',romana_salida='1' where correlativo='483936' and lote='23056039' and recargo='1'

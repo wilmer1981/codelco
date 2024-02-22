@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 31050 ',peso_neto='15650',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='4484766-3',nombre_chofer='MAURICIO RECABARREN',observacion='20 maxi de aridos',romana_salida='1' where correlativo='492792' and lote='23106107' and recargo='1'

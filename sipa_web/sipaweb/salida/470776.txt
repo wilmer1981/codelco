@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44830 ',peso_neto='30680',marca='DOS FRANJAS VERDES',cod_mop='690',num_sello='',transportista='',rut_chofer='8224316-K',nombre_chofer='CARLOS  FUENTES',observacion='',romana_salida='1' where correlativo='470776' and lote='22096206' and recargo='2'

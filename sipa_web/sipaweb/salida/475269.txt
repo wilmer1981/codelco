@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43450 ',peso_neto='28310',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16533411-6',nombre_chofer='Alvaro Gutierrez',observacion='escoria ct',romana_salida='1' where correlativo='475269' and lote='22126173' and recargo='3'

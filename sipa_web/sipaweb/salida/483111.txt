@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 31940 ',peso_neto='15910',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='26439747-2',nombre_chofer='RAFAEL ROJAS',observacion='',romana_salida='1' where correlativo='483111' and lote='23046162' and recargo='5'

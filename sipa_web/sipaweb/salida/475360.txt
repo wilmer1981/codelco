@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='40850',peso_neto='25130',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10493124-3',nombre_chofer='RAUL CESPEDES',observacion='cu varios',romana_salida='1' where correlativo='475360' and lote='22126179' and recargo='3'

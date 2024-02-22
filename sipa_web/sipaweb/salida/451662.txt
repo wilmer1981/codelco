@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44240',peso_neto='27950',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12911533-5',nombre_chofer='arturo gutierres ',observacion='circ. mazamorra',romana_salida='1' where correlativo='451662' and lote='21106072' and recargo='1'

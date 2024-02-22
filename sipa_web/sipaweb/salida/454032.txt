@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='45000',peso_neto='29070',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='14387504-0',nombre_chofer='Arturo Vega',observacion='',romana_salida='1' where correlativo='454032' and lote='21116181' and recargo='9'

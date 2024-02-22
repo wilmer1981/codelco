@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43840',peso_neto='28140',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13753882-2',nombre_chofer='marcos ramires',observacion='granza ladrillo',romana_salida='1' where correlativo='461251' and lote='22036247' and recargo='2'

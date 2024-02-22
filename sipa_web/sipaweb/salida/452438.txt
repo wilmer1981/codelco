@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='41900',peso_neto='28220',marca='FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='12224784-8',nombre_chofer='SERGIO MU�OZ',observacion='',romana_salida='1' where correlativo='452438' and lote='21106184' and recargo='1'

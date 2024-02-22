@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44400 ',peso_neto='26320',marca='FRANJA AZUL',cod_mop='510',num_sello='',transportista='',rut_chofer='22693400-6',nombre_chofer='GUSTAVO LINDE',observacion='',romana_salida='1' where correlativo='435004' and lote='20126137' and recargo='1'

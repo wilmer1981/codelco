@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 17710 ',peso_neto='2090',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='27 maxisacos con epp contaminados ',romana_salida='1' where correlativo='484320' and lote='23056117' and recargo='3'

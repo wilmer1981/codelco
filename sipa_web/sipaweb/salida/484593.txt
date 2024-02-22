@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='39660',peso_neto='25910',marca='EQUIS FRANJA VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='19772903-1',nombre_chofer='LUIS SILVA',observacion='',romana_salida='1' where correlativo='484593' and lote='23056046' and recargo='15'

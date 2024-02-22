@@ -1,0 +1,310 @@
+<?
+include('conectar_ori.php');
+include('funciones/siper_funciones.php');
+
+if($VisibleDivProceso=='S')
+$VisibleDiv='hidden';
+
+if(!isset($FDesde))
+	$FDesde=date('Y-m-d');
+if(!isset($FHasta))
+	$FHasta=date('Y-m-d');
+	
+$SelTarea=$NivelOrg;
+?>
+<html>
+<head>
+<title>Consulta Hist�rica</title>
+
+<script language="javascript" src="funciones/funciones_java.js"></script>
+<script language="javascript">
+
+var popup=0;
+function TeclaPulsada (tecla) 
+{ 
+	var Frm=document.FrmPrincipal;
+	var teclaCodigo = event.keyCode;
+	
+	
+		if ((teclaCodigo != 188 )&&(teclaCodigo != 37)&&(teclaCodigo != 39) &&(teclaCodigo != 190 ))
+		{
+			if ((teclaCodigo != 8) && (teclaCodigo < 48) || (teclaCodigo > 57))
+			{
+			   if ((teclaCodigo < 96) || (teclaCodigo > 105))
+			   {
+					event.keyCode=46;
+			   }		
+			}   
+		}
+		else
+		{
+			if ((teclaCodigo != 37)&&(teclaCodigo != 39)&&(teclaCodigo != 188 )&&(teclaCodigo != 190 ))
+			{
+				event.keyCode=46;
+			}	
+		}
+	
+} 
+function Proceso(Opc)
+{
+	var f=document.FrmPrincipal;
+	var Valor="";
+	var Datos="";
+	switch(Opc)
+	{
+		case "R":
+				if(f.FDesde.value=='')
+				{
+					alert('Debe Ingresar Fecha Desde');
+					f.FDesde.focus();
+					return;
+				}	
+				if(f.FHasta.value=='')
+				{
+					alert('Debe Ingresar Fecha Hasta');
+					f.FHasta.focus();
+					return;
+				}	
+				f.action='consulta_acceso_control.php';
+				f.submit();		
+		break;
+		case "C":
+				f.action='consulta_acceso_control.php?Buscar=S&Tipo=C';
+				f.submit();		
+		break;
+		case "GF":
+				URL='consulta_acceso_control_grafica.php?Buscar=S&FDesde='+f.FDesde.value+'&FHasta='+f.FHasta.value+'&USUARIO='+f.USUARIO.value+'&CmbM='+f.CmbTipoProceso.value;
+				window.open(URL,"","top=30,left=30,width=1000,height=550,status=yes,menubar=no,resizable=yes,scrollbars=yes");	
+		break;
+		case "S":
+				window.location="../principal/sistemas_usuario.php?CodSistema=29";
+		break;
+	}	
+}
+function CloseDiv()
+{
+
+	DivProceso.style.visibility='hidden';
+	DivOCu.style.visibility='visible';
+}
+function compare_dates(fecha, fecha2)  
+{  
+	var xMonth=fecha.substring(5, 7);  
+	var xDay=fecha.substring(8, 10);  
+	var xYear=fecha.substring(0,4);  
+	var yMonth=fecha2.substring(5, 7);  
+	var yDay=fecha2.substring(8, 10);  
+	var yYear=fecha2.substring(0,4); 
+	//alert(xYear) 
+	if (xYear> yYear)  
+   {  
+	   return(true)  
+   }  
+  else  
+   {  
+	 if (xYear == yYear)  
+	 {   
+	   if (xMonth> yMonth)  
+	   {  
+		   return(true)  
+	   }  
+	   else  
+	   {   
+		 if (xMonth == yMonth)  
+		 {  
+		   if (xDay> yDay)  
+			 return(true);  
+		   else  
+			 return(false);  
+		 }  
+		 else  
+		   return(false);  
+	   }  
+	 }  
+	 else  
+	   return(false);  
+  }  
+}  
+
+</script>
+<link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=165 scrolling=no height=185></IFRAME></DIV>
+<form name="FrmPrincipal" method="post" action="">
+<input name="Datos" type="hidden" value="<? echo $Datos;?>">
+<input name="Proc" type="hidden" value="<? echo $Proc;?>">
+<input type="hidden" value="<? echo $Nivel;?>" name="Nivel">
+<input type="hidden" value="<? echo $Navega;?>" name="Navega">
+<input type="hidden" value="<? echo $Estado;?>" name="Estado">
+<input type="hidden" size='100' value="<? echo $SelTarea;?>" name="SelTarea">
+
+<table width="60%" align="center"  border="0" cellpadding="0"  cellspacing="0">
+  <tr>
+	<td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
+	<td width="98%" height="15" background="imagenes/interior2/form_arriba.gif"><img src="imagenes/interior2/transparent.gif" width="4" height="15"></td>
+	<td height="1%"><img src="imagenes/interior2/esq2.gif" width="15" height="15"></td>
+  </tr>
+  <tr>
+   <td width="1%" background="imagenes/interior2/form_izq.gif"></td>
+   <td align="center"><table width="100%" border="0" cellpadding="0"  cellspacing="0">
+     <tr>
+	 <td align="center" colspan="5" class="TituloCabecera2">Consulta Control Acceso </td>
+	 </tr>
+	 <tr>       
+	   <td width="168" height="35" align="left" class="formulario"   ><img src="imagenes/LblCriterios.png" /> </td>
+       <td align="right" class="formulario" colspan="5">
+	   <div id="DivOCu" style="visibility:<? echo $VisibleDiv;?>">
+	   <a href="JavaScript:Proceso('C')"><img src="imagenes/Btn_buscar.gif"   alt="Buscar" width="25" height="27"  border="0" align="absmiddle" /></a>&nbsp;
+	   <a href="javascript:Proceso('GF')"><img src="imagenes/grafico.bmp" width="30" height="30" border="0" alt="Graficar"></a>&nbsp; <a href="javascript:window.print()"><img src="imagenes/btn_imprimir.png" alt='Imprimir' border="0" align="absmiddle" /></a>&nbsp;<a href="JavaScript:Proceso('S')"><img src="imagenes/btn_volver2.png"  alt=" Volver " width="25" height="25"  border="0" align="absmiddle"></a>       </div></td>
+	 </tr>
+     <tr>
+       <td colspan="3" class="formulario">Periodo &nbsp;&nbsp;&nbsp;</td>
+	   <td width="348" class="formulario"> Desde
+		<input type="text" size="9" readonly="" maxlength="10" name="FDesde" id="FDesde"  class="InputDer" value='<? echo $FDesde?>' />
+		&nbsp;<img src="imagenes/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha"  border="0" align="absmiddle" onClick="popFrame.fPopCalendar(FDesde,FDesde,popCal);return false" /> &nbsp;&nbsp;&nbsp;Hasta
+		<input type="text" size="9" readonly="" maxlength="10" name="FHasta" id="FHasta"  class="InputDer" value='<? echo $FHasta?>'/>
+		&nbsp;<img src="imagenes/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha"  border="0" align="absmiddle" onClick="popFrame.fPopCalendar(FHasta,FHasta,popCal);return false"/>&nbsp; </span><a href="JavaScript:Proceso('R')"></a></td>
+       <td width="191" class="formulario">&nbsp;</td>
+       </tr>
+	 <?
+		$FDesde=$FDesde." 00:00:00";
+		$FHasta=$FHasta." 23:59:59";
+	 ?>
+     <tr>
+       <td colspan="3" class="formulario">Funcionario</td>	
+	     <td class="formulario" colspan="3">
+		 <SELECT name="USUARIO" style="width:300px;" onChange="Proceso('R')">
+           <option value="T">Todos</option>
+           <?
+				//$Consulta = "SELECT distinct(T1.RUT), CONCAT(T2.APELLIDO_PATERNO, ' ', T2.APELLIDO_MATERNO, ' ', T2.NOMBRES) AS NOMBRE ";
+				//$Consulta.= " FROM proyecto_modernizacion.CONTROL_ACCESO T1 INNER JOIN proyecto_modernizacion.FUNCIONARIOS T2 ON T1.RUT = T2.RUT AND sistema='29' INNER JOIN sgrv.sgrs_control_acceso t3 on t1.RUT=t3.RUT where t1.RUT<>'' ORDER BY NOMBRE";
+				$Consulta = "SELECT distinct(T2.RUT), CONCAT(T2.APELLIDO_PATERNO, ' ', T2.APELLIDO_MATERNO, ' ', T2.NOMBRES) AS NOMBRE ";
+				$Consulta.= " FROM proyecto_modernizacion.FUNCIONARIOS T2 INNER JOIN sgrv.sgrs_control_acceso t3 on t2.RUT=t3.RUT where t2.RUT<>'' ORDER BY NOMBRE";
+				$Respuesta = mysql_query($Consulta);
+				while ($Row = mysql_fetch_array($Respuesta))
+				{
+					if($USUARIO==$Row[RUT])
+						echo "<option value='".$Row[RUT]."' SELECTed>".$Row["nombre"]."</option>\n";
+					else
+						echo "<option value='".$Row[RUT]."'>".$Row["nombre"]."</option>\n";
+				}
+			?>
+         </SELECT>
+	       <? //echo $Consulta;?></td>
+         </tr>
+     <tr>
+       <td colspan="3" class="formulario">Modulos</td>
+       <td class="formulario" colspan="3">
+	   <SELECT name="CmbTipoProceso" style="width:200">
+         <option value="T" SELECTed>Todos</option>
+         <?
+			$Consulta = "SELECT * from proyecto_modernizacion.pantallas t1 inner join sgrv.sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla";
+			$Consulta.= " where cod_sistema = '29' and cod_pantalla not in ('6','9','10','11','12','13','14','15','17','18','19')";
+			if($USUARIO!='T')			
+				$Consulta.=" and rut='".$USUARIO."' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
+			$Consulta.=" group by cod_pantalla";	
+			$Resp = mysql_query($Consulta);
+			while ($Fila = mysql_fetch_array($Resp))
+			{
+				if($CmbTipoProceso==$Fila[cod_pantalla])
+					echo "<option value='".$Fila[cod_pantalla]."' SELECTed>".$Fila["descripcion"]."</option>";
+				else
+					echo "<option value='".$Fila[cod_pantalla]."'>".$Fila["descripcion"]."</option>";				
+			}
+		   ?>
+       </SELECT><? //echo $Consulta;?></td>
+       </tr>
+   </table></td>
+   <td width="1%" background="imagenes/interior2/form_der.gif"></td>
+  </tr>
+  <tr>
+    <td width="1%" height="15"><img src="imagenes/interior2/esq3.gif" width="15" height="15"></td>
+    <td height="15" background="imagenes/interior2/form_abajo.gif"><img src="imagenes/interior2/transparent.gif" width="4" height="15"></td>
+    <td width="1%" height="15"><img src="imagenes/interior2/esq4.gif" width="15" height="15"></td>
+  </tr>
+  </table><br>	
+<table width="60%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+<?
+	if($Buscar=='S')
+	{
+?> 
+  <tr>
+    <td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
+    <td width="98%" height="15" background="imagenes/interior2/form_arriba.gif"><img src="imagenes/interior2/transparent.gif" width="4" height="15"></td>
+    <td height="1%"><img src="imagenes/interior2/esq2.gif" width="15" height="15"></td>
+  </tr>
+  <tr>
+    <td width="1%" background="imagenes/interior2/form_izq.gif"></td>
+    <td><table width="100%" border="1" align="center" cellpadding="2" cellspacing="0">
+	  <tr>
+	    <td width="18%" align="center" class="TituloCabecera">Fecha Hora</td>
+          <td width="19%" align="center" class="TituloCabecera">Ip</td>
+		  <td width="33%" align="center" class="TituloCabecera">Rut</td>
+		 <td width="30%" align="center" class="TituloCabecera">Modulo</td>
+        </tr>
+      <?
+	  		
+			$Consulta = "SELECT *,CONCAT(T3.APELLIDO_PATERNO, ' ', T3.APELLIDO_MATERNO, ' ', T3.NOMBRES) AS NOMBRE from sgrs_control_acceso t1 inner join proyecto_modernizacion.pantallas t2 on t1.pantalla=t2.cod_pantalla";
+			$Consulta.= " inner join proyecto_modernizacion.FUNCIONARIOS t3 on t1.rut=t3.rut";
+			$Consulta.= " where cod_sistema='29' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
+			if($USUARIO!='T')
+				$Consulta.= " and t1.rut='".$USUARIO."'";
+			if($CmbTipoProceso!='T')
+				$Consulta.= " and t1.pantalla='".$CmbTipoProceso."'";
+			$Consulta.= " order by t2.descripcion";
+			$Resp = mysql_query($Consulta);$Cont=0;
+			while ($Fila=mysql_fetch_array($Resp))
+			{	
+				$Cont=$Cont+1;
+			?>
+			 	<tr>
+				<td ><? echo $Fila["FECHA_HORA"]; ?></td>
+				<td align="center" ><? echo $Fila[ip]; ?>&nbsp;</td>
+				<td align="left" ><? echo $Fila["rut"]." - ".$Fila["nombre"]; ?>&nbsp;</td>
+				<td align="left" ><? echo $Fila[cod_pantalla]." - ".$Fila["descripcion"];?>&nbsp;</td>
+			  </tr>
+		    <?		
+			}
+			?>
+			 	<tr class="TituloCabecera">
+				<td colspan="3" align="right"><? echo "Total"; ?></td>
+				<td align="right"><? echo $Cont; ?>&nbsp;</td>
+			  </tr>
+    </table></td>
+    <td width="1%" background="imagenes/interior2/form_der.gif"></td>
+  </tr>
+  <tr>
+    <td width="1%" height="15"><img src="imagenes/interior2/esq3.gif" width="15" height="15"></td>
+    <td height="15" background="imagenes/interior2/form_abajo.gif"><img src="imagenes/interior2/transparent.gif" width="4" height="15"></td>
+    <td width="1%" height="15"><img src="imagenes/interior2/esq4.gif" width="15" height="15"></td>
+  </tr>
+<?
+}
+?>  
+  <input type="hidden" name="EX" value="<? echo $EX;?>">
+</table><br>
+<? 
+if (!isset($VisibleDivProceso))
+	$VisibleDivProceso='hidden';
+?>
+<!--<div id="DivOCu" style="visibility:<? echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto;  POSITION: absolute; moz-opacity: .75; opacity: .75;left: 672px; top: 33px; width:150px; height:80px;" align="center">
+<table width="100%">
+  <tr>
+    <td >&nbsp;</td>
+  </tr>
+    <tr>
+    <td >&nbsp;</td>
+  </tr>
+  </table>
+</div>-->
+</form>
+</body>
+</html>
+<?
+echo "<script language='javascript'>";
+if($Mensaje!='')
+	echo "alert('".$Mensaje."');";
+echo "</script>";
+?>
+

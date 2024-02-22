@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 38800 ',peso_neto='25780',marca='EQUIS DOS FRANJAS AZULES',cod_mop='570',num_sello='',transportista='',rut_chofer='10651007-5',nombre_chofer='RODOLFO DONOSO',observacion='',romana_salida='1' where correlativo='438936' and lote='21026003' and recargo='18'

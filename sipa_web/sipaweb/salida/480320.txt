@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40120 ',peso_neto='20390',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11956108-6',nombre_chofer='guillermo ponce',observacion='chatarra',romana_salida='1' where correlativo='480320' and lote='23036114' and recargo='1'

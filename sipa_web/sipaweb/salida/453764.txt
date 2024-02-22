@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 32490 ',peso_neto='18220',marca='FRANJA AZUL',cod_mop='510',num_sello='',transportista='',rut_chofer='10063555-0',nombre_chofer='JOSE RAMIREZ',observacion='',romana_salida='2' where correlativo='453764' and lote='21116130' and recargo='3'

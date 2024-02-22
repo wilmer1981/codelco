@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='37130',peso_neto='23360',marca='V DOS FRANJAS AMARILLAS',cod_mop='690',num_sello='',transportista='',rut_chofer='12224784-8',nombre_chofer='SERGIO MU�OZ',observacion='',romana_salida='1' where correlativo='452499' and lote='21106047' and recargo='11'

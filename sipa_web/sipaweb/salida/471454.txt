@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 34430 ',peso_neto='18670',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='22 maxisacon con desulfurizacion',romana_salida='1' where correlativo='471454' and lote='22106055' and recargo='2'

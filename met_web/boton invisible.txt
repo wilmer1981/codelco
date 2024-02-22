@@ -1,0 +1,6 @@
+			Frm.BtnSalir.style.visibility='hidden';
+			Frm.BtnImprimir.style.visibility='hidden';
+			window.print();
+			Frm.BtnSalir.style.visibility='';
+			Frm.BtnImprimir.style.visibility='';
+			break;	

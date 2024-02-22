@@ -1,0 +1,431 @@
+<?php include("../principal/conectar_ref_web.php"); 
+//aqui tengo que controlar cuando va por modificacion
+
+  if ($opcion=='M')
+      {
+
+			$consulta = "select * from ref_web.historia_gruas where fecha  = '".$fecha_grua."' and turno = '".$turno."' ";
+			$consulta.= " and cod_grua = '".$cmbgrua."' ";
+			$respuesta = mysqli_query($link, $consulta);
+	  		$fila=mysqli_fetch_array($respuesta);
+			$observacion=$fila["observacion"];
+			$cmbArea = $fila[area_mantencion];
+			$fecha_grua = $fila["fecha"];
+			$CmbEstado = $fila["estado"];;
+			$FechaInicio1 = $FechaInicio;
+			$FechaTermino1 = $FechaTermino;
+			//echo "EEE".$FechaInicio;
+			
+			
+/*			//consulta novedades esto para seguir con las novedades
+			$consulta_codigo="select * from ref_web.novedades where TURNO='".$turno."' and COD_NOVEDAD='".$cod_novedad."' "; 
+	// 	echo "NNN".$consulta_codigo;
+			$respuesta_codigo = mysqli_query($link, $consulta_codigo);
+	   		$fila_codigo=mysqli_fetch_array($respuesta_codigo);
+	   		$cod_novedad=$fila_codigo[COD_NOVEDAD];
+	   		$observaciones=$fila_codigo[NOVEDAD];
+	   		$Area=$fila_codigo[area];
+	   		$Estado=$fila_codigo["estado"];
+	   		if (isset($fila_codigo[compromiso]))
+	      	{
+		 		$ano1=substr($fila_codigo[compromiso],0,4);
+		  		$mes1=substr($fila_codigo[compromiso],5,2);
+		  	 	$dia1=substr($fila_codigo[compromiso],8,2);
+		     	echo "uno".$dia1;
+		 	}
+			else
+		 	{
+				echo "dos";
+		       	$ano1=intval(date("Y"));
+		       	$mes1=intval(date("n"));
+		       	$dia1=intval(date("j"));
+		    }  */ 
+	  } 
+    
+?>
+<HTML>
+<HEAD>
+<TITLE>Ingreso Gruas</TITLE>
+<link href="../principal/estilos/css_ref_web.css" type="text/css" rel="stylesheet">
+<LINK href="../archivos/css_ref_web.css" rel=stylesheet type=text/css>
+<LINK  href="../archivos/petalos.css" rel=stylesheet type=text/css>
+
+<script language="JavaScript">
+<!--
+function Validar(f)
+{
+	var frm = document.FrmPrincipal;
+    grua=frm.cmbgrua.value;
+	turno=frm.cmbturno.value;
+	area=frm.cmbArea.value;
+	observacion=frm.observacion.value;
+	estado = frm.CmbEstado.value;
+	fecha = frm.fecha.value;
+	opcion =frm.opcion.value;
+	
+	var Gerencia='';
+	var Mantencion='';
+	var Condicion_insegura='';
+	
+	if (f.checkbox.checked)
+	   {
+	    Mantencion='S';
+	   }
+	 if (f.checkbox2.checked)
+	   {
+	    Gerencia='S';
+	   }
+	if (f.condicion_insegura.checked)
+	   {
+	    Condicion_insegura='S';
+	   }  
+	Mensaje = confirm("Esta Seguro de la Operacion");
+		if (Mensaje==false)
+		{
+		 return;
+		}
+        else
+        {
+		
+	/*		alert (grua);
+			alert (turno);
+			alert (Gerencia);
+			alert (area);
+			alert (observacion);
+			alert (Mantencion);
+			alert (estado);
+			alert (Condicion_insegura);*/
+		if (grua == 'x')
+			alert ("Debe Seleccionar Gr�a");
+		if (area == 'S')
+			alert ("Debe Seleccionar Area Mant.");
+			
+		f.action = "ingreso_gruas02.php?Proceso=G"+"&grua="+grua+"&gerencia="+Gerencia+"&area="+area+"&turno="+turno+"&estado="+estado+"&Condicion_insegura="+Condicion_insegura+"&observacion="+observacion+"&area="+area+"&mantencion="+Mantencion+"&opcion="+opcion;
+			f.submit();
+	    }
+}
+function Recarga(frm,Pagina) // RECARGA PAGINA DE FROMULARIO
+{
+	frm.action = Pagina;
+	frm.submit();
+}
+function salir() // RECARGA PAGINA DE FROMULARIO
+{
+	var frm = document.FrmPrincipal;
+	fecha_grua = frm.fecha_grua.value;
+	opcion =frm.opcion.value;
+	
+	FechaInicio1 = frm.FechaInicio1.value;
+	FechaTermino1 = frm.FechaTermino1.value;
+	frm.action = "principal_gruas.php?opcion=M"+"&fecha_grua="+fecha_grua+"&FechaInicio1="+FechaInicio1+"&FechaTermino1="+FechaTermino1;
+	frm.submit();
+}
+//-->
+</script>
+
+<BODY>
+<form name="FrmPrincipal" method="post" action="">
+<input type="hidden" name="fecha" value="<?php echo''.$fecha.''; ?>">
+<input type="hidden" name="fecha_grua" value="<?php echo''.$fecha_grua.''; ?>">
+<input type="hidden" name="opcion" value="<?php echo''.$opcion.''; ?>">
+<input type="hidden" name="FechaInicio1" value="<?php echo''.$FechaInicio1.''; ?>">
+  <input type="hidden" name="FechaTermino1" value="<?php echo''.$FechaTermino1.''; ?>">
+  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+ <TR> 
+   <TD width=9><IMG height=16 src="archivos/hbw_bar_l.gif" width=9 border=0></TD>
+    <TD align=middle bgColor=#6b8ec6><FONT style="FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #ffffff; FONT-FAMILY: Arial; LETTER-SPACING: 3px; TEXT-ALIGN: center; TEXT-DECORATION: none" size=3><B>INGRESADOR 
+        DE GRUAS</B></FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">FECHA :&nbsp;&nbsp;&nbsp;<?phpphp  echo $fecha; ?></FONT></b></b></TD>
+    <TD align=right width=9><IMG height=16 src="archivos/hbw_bar_r.gif" width=9 border=0></TD>
+ </TR>
+</TABLE>
+
+<TABLE style="BORDER-RIGHT: #6b8ec6 2px solid; BORDER-LEFT: #6b8ec6 2px solid" cellSpacing=0 cellPadding=0 width="100%" border=0>
+ <TR> 
+   <TD style="BACKGROUND-REPEAT: repeat-x" background="archivos/bg_grad3.gif" bgColor=#d7dce8> <TABLE id=tbl cellSpacing=0 cellPadding=0 width="100%"                   border=0>
+   <TR> 
+     <TD width=8><IMG height=1 src="archivos/spaceit.gif" width=5></TD>
+     <TD> 
+  	 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TR> 
+  		  <TD><IMG height=5 src="archivos/spaceit.gif" width=1></TD>
+        </TR>
+        <TR> 
+          <TD> 
+		  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+          	<TR> 
+            	<TD align="center" class=size11 width=90><font size="1">&nbsp;</font><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">Gruas</FONT></TD>
+               	<TD><font size="1"><IMG height=1 src="archivos/spaceit.gif" width=16></font></TD>
+				<TD align="center" class=size11 width=90><font size="1">&nbsp;</font><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">Turno</FONT></TD>
+             	<TD><font size="1"><IMG height=1 src="archivos/spaceit.gif" width=16></font></TD>
+				<TD align="center" class=size11 width=90><font size="1">&nbsp;</font><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">Areas Mant.</FONT></TD>
+              	<TD><font size="1"><IMG height=1 src="archivos/spaceit.gif" width=16></font></TD>
+      		</TR>
+            <TR> 
+            	<TD> <select name="cmbgrua"  size="1" id="cmbgrua">
+                     <option value="x" selected>Seleccionar</option>
+                    <?php
+					
+					$Consulta = "SELECT nombre_subclase as gruas FROM proyecto_modernizacion.sub_clase where cod_clase = 10004 ";
+					$Consulta.= "and cod_subclase >= 1 and cod_subclase < 20  ORDER BY cod_subclase";
+					$Respuesta = mysqli_query($link, $Consulta);
+					while ($Row = mysqli_fetch_array($Respuesta))
+					{
+						if ($cmbgrua==$Row[gruas])
+							echo "<option value='".$Row[gruas]."' selected>".$Row[gruas]."</option>";
+						else
+							echo "<option value='".$Row[gruas]."'>".$Row[gruas]."</option>";
+		    		}
+
+        			?>
+                    	</select> 
+				</TD>
+             <TD width=17>&nbsp;</TD>
+             <td> 
+             <?php
+	         if (!isset($cmbturno))
+			 { 
+					$Consulta = "select case when CURTIME() between '00:00:00' and '07:59:59' then 'C' else ";
+					$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
+					$Consulta.= " case when CURTIME() between '16:00:00' and '23:59:59' then 'B' end end end as turno ";
+					
+					$Respuesta = mysqli_query($link, $Consulta);
+					if ($Fila = mysqli_fetch_array($Respuesta))
+						if ($opcion == "M")
+						{
+							$cmbturno = $turno;
+							
+						}	
+						else
+						{
+							$cmbturno = $Fila["turno"];
+							
+						}	
+					}
+				?>
+                <select name="cmbturno" size="1">
+                <option value="R">Seleccionar</option>
+                <?php
+		 	    $consulta="select nombre_subclase as turno from proyecto_modernizacion.sub_clase where cod_clase='1'";
+				$respuesta = mysqli_query($link, $consulta);
+				while ($fila1=mysqli_fetch_array($respuesta))
+				{
+					if ($cmbturno==$fila1[turno])
+						echo "<option value='".$fila1[turno]."' selected>".$fila1[turno]."</option>";
+					else
+						echo "<option value='".$fila1[turno]."'>".$fila1[turno]."</option>";
+		    	}
+				 ?>
+                 </select></td>
+				
+			 <TD width=17>&nbsp;</TD>
+             <td> 
+                    <select name="cmbArea" size="1" id="cmbArea" >
+					<option value="S">Seleccionar</option>
+                    <?php 
+					$Consulta = "SELECT nombre_subclase as tipo_mantencion FROM proyecto_modernizacion.sub_clase where cod_clase = 10004 ";
+					$Consulta.= " and cod_subclase >= 20 and cod_subclase < 30 ORDER BY cod_subclase";
+					$Respuesta = mysqli_query($link, $Consulta);
+					while ($Row1 = mysqli_fetch_array($Respuesta))
+					{
+						if ($cmbArea==$Row1[tipo_mantencion])
+							echo "<option value='".$Row1[tipo_mantencion]."' selected>".$Row1[tipo_mantencion]."</option>";
+						else
+							echo "<option value='".$Row1[tipo_mantencion]."'>".$Row1[tipo_mantencion]."</option>";
+		    		}
+					?>
+                     </select>
+                    <TD width=283>&nbsp;</TD>
+                    <TD width="60"><b><font face="Arial, Helvetica, sans-serif"></font> Enviar a :</font></b></TD>
+                    <TD width=157 onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp; 
+                    	<b><font face="Arial, Helvetica, sans-serif"> 
+                          <input name="checkbox" type="checkbox" value="checkbox" checked>
+                        Informe Mantenci&oacute;n</font></b></TD>
+                        <TD width="138" onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;<b><font face="Arial, Helvetica, sans-serif">
+                        	<input type="checkbox" name="checkbox2" value="checkbox">
+                        	Informe Gerencia</font></b>
+						</TD>
+                        <TD width="11"><b><font face="Arial, Helvetica, sans-serif"></font></b></TD>
+                </TR>
+          </TABLE></TD>
+		</TR>
+        <TR> 
+          <TD align=middle> <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+          <TR> 
+                        <TD width=274> 
+						<table cellspacing=0 cellpadding=0 width="100%" border=0>
+						<tr>
+						<TD width=42>&nbsp;</TD>
+						<td>
+						 <font style="FONT-WEIGHT: bold; COLOR: #000000">Estados</font></td>
+						</tr>
+						<tr>
+						<TD width=42>&nbsp;</TD>
+						</tr>
+						<tr>
+						<TD width=42>&nbsp;</TD>
+					<td>
+						
+					<select name="CmbEstado" size="1" id="CmbEstado" >
+					<option value="L">Seleccionar</option>
+                    <?php 
+						$Consulta = "SELECT nombre_subclase as estado FROM proyecto_modernizacion.sub_clase where cod_clase = 10004 ";
+						$Consulta.= " and cod_subclase >= 40 and cod_subclase < 50 ORDER BY cod_subclase";
+						$Respuesta = mysqli_query($link, $Consulta);
+						while ($Row2 = mysqli_fetch_array($Respuesta))
+						{
+							if ($CmbEstado==$Row2["estado"])
+							{
+							
+								echo "<option value='".$Row2["estado"]."' selected>".$Row2["estado"]."</option>";
+							}	
+							else
+								echo "<option value='".$Row2["estado"]."'>".$Row2["estado"]."</option>";
+		    			}
+					?>
+                    </select>
+                    </td>
+						</tr>
+                            <tr> 
+                            </tr>
+                            <tr> 
+                            </tr>
+                            <tr> 
+                            </tr>
+						<td></td>
+						<tr> 
+						<br>
+						<br>
+						<br>
+						<TD width=42>&nbsp;</TD>
+						<tr> </tr>
+						<tr> </tr>
+						<tr> </tr>
+						<tr> </tr>
+						<tr> </tr>
+						<tr> </tr>
+						<p>
+						<p></p>
+							<TD width=42>&nbsp;</TD>
+							  <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp; 
+							  <?php
+								if ($fila[condicion] <> '')
+								{
+							  ?>			
+									<input name="condicion_insegura" type="checkbox" value="<?php $fila[condicion]; ?>" checked>
+                                    <font style="FONT-WEIGHT: bold; COLOR: #000000">Condicion Insegura</font> 	
+							   <?php
+							   }
+							   else
+							   {
+							   ?>	
+                                <input name="condicion_insegura" type="checkbox" id="condicion_insegura" value="Condicion_insegura">
+                                 <font style="FONT-WEIGHT: bold; COLOR: #000000">Condicion Insegura</font> 
+								<?php
+								}
+								?>
+						</td> 
+			  </tr>						
+              </table></TD>
+             <TD width=42>&nbsp;</TD>
+             <TD width="657"> <TABLE height="100%" cellSpacing=0 cellPadding=0 width="100%" border=0>
+             <TR> 
+               <TD><IMG height=8 src="../archivos/spaceit.gif" width=1 border=0></TD>
+             </TR>
+             <TR> 
+               <TD> 
+			     <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                   <TR> 
+                      <TD width=7><IMG height=7  src="archivos/hbw_Corner1.gif" width=7 border=0></TD>
+                      <TD vAlign=top width="100%"><IMG height=1 src="archivos/6b8ec6dot.gif" width="100%"></TD>
+                      <TD width=7><IMG height=7 src="archivos/hbw_Corner2.gif" width=7 border=0></TD>
+                   </TR>
+                   <TR> 
+                     <TD width="100%" colSpan=3> 
+                     <TABLE style="BORDER-RIGHT: #6b8ec6 1px solid; BORDER-LEFT: #6b8ec6 1px solid"  cellSpacing=0 cellPadding=0 width="100%"  border=0>
+                        <TR> 
+                          <TD width="0%">&nbsp; 
+                          </TD>
+                          <TD width="23%"><div align="center"><IMG height=1 src="archivos/spaceit.gif" width=10 border=0></div></TD>
+                          <TD width="49%"><p><FONT style="FONT-WEIGHT: bold; COLOR: #000000">Observaciones:</FONT></p>
+                          <p align="center">
+                          <textarea name="observacion" cols="40" rows="10" > <?php echo $observacion ?></textarea>
+                          </p>
+                          <p align="center">&nbsp;</p>
+                          </TD>
+                          <TD width="28%"><IMG height=1 src="archivos/spaceit.gif" width=10 border=0></TD>
+                        </TR>
+                      </TABLE></TD>
+                    </TR>
+                    <TR> 
+                      <TD width=7><IMG height=7 src="archivos/hbw_Corner3.gif" width=7 border=0></TD>
+                      <TD vAlign=bottom><IMG height=1 src="archivos/6b8ec6dot.gif" width="100%"></TD>
+                      <TD width=7><IMG height=7 src="archivos/hbw_Corner4.gif" width=7 border=0></TD>
+                     </TR>
+                   </TABLE></TD>
+                 </TR>
+                </TABLE></TD>
+               </TR>
+               </TABLE></TD>
+               </TR>
+               <TR> 
+                 <TD><IMG height=5 src="archivos/spaceit.gif" width=1 border=0></TD>
+               </TR>
+               <TR> 
+                  <TD><div align="center"><b><font face="Arial, Helvetica, sans-serif"> 
+                      <input name="button" type="button"  onClick="JavaScript:Validar(this.form,'<?php echo $cod_grua;?>');"   value="Guardar"  >
+                      </font></b> </div></TD>
+               </TR>
+               <TR> 
+                 <TD><IMG height=5 src="archivos/spaceit.gif" width=1 border=0></TD>
+               </TR>
+               <TR> 
+                 <TD id=rasc> </TD>
+               </TR>
+               </TABLE></TD>
+               <TD width=8><IMG height=1 src="archivos/spaceit.gif" width=5></TD>
+               </TR>
+               </TABLE></TD>
+               </TR>
+               <TR> 
+                 <TD id=ca></TD>
+               </TR>
+               <TR> 
+                  <TD bgcolor="#FFFFFF"> 
+                  <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                  <TR> 
+                     <TD width=8><IMG height=1 src="archivos/spaceit.gif" width=5></TD>
+                     <TD> <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+                     <TR> 
+                        <TD> <FONT class=small><B>Sistema Jefe Turno de Refineria</B><BR>
+                    <font color="#0000FF">Formulario de Ingreso Gr&uacute;as</font></FONT></TD>
+                         <TD align=right> <TABLE cellSpacing=0 cellPadding=0 border=0>
+                         <TR> 
+                            
+                        <TD width=20><A href="javascript:salir();"><IMG height=35 hspace=3 src="archivos/btn_sec.gif" width=20 border=0></A></TD>
+                            <TD id=st vAlign=center><A href="javascript:salir();"><B><FONT color=#000000>Volver</FONT></B></A></TD>
+                          </TR>
+                          </TABLE></TD>
+                      </TR>
+                      <TR> 
+                        <TD align=middle colSpan=2> <DIV id=tele style="DISPLAY: none; PADDING-TOP: 5px"></DIV></TD>
+                      </TR>
+                    </TABLE></TD>
+                    <TD width=8><IMG height=1 src="archivos/spaceit.gif" width=5></TD>
+                  </TR>
+                 </TABLE></TD>
+                 </TR>
+                 </TABLE></TD>
+               </TR>
+               <TR> 
+                  <TD> <TABLE width="100%" border=0 cellPadding=0 cellSpacing=0 bgcolor="#FFFFFF">
+                  <TR> 
+                    <TD vAlign=bottom width=8><IMG height=8 src="archivos/hbw_line_l.gif" width=8 border=0></TD>
+                    <TD vAlign=bottom width="100%"><IMG height=2 src="archivos/6b8ec6dot.gif" width="100%"></TD>
+                    <TD vAlign=bottom align=right width=8><IMG height=8 src="archivos/hbw_line_r.gif" width=8 border=0></TD>
+                  </TR>
+                  </TABLE></TD>
+               </TR>
+               </TABLE>
+</FORM>
+</BODY>
+</HTML>

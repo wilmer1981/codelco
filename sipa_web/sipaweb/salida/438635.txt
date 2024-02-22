@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 30820 ',peso_neto='15240',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13886604-1',nombre_chofer='OSCAR LABRA�A PAREDES',observacion='',romana_salida='1' where correlativo='438635' and lote='21026114' and recargo='1'

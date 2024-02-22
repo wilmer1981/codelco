@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44830 ',peso_neto='28490',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10448514-6',nombre_chofer='patricio pereira',observacion='',romana_salida='1' where correlativo='477436' and lote='23016279' and recargo='4'

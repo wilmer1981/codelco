@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43800 ',peso_neto='30370',marca='FRANJA NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='10522376-5',nombre_chofer='MARCOS BERNAL CISTERNAS',observacion='',romana_salida='1' where correlativo='455450' and lote='21126086' and recargo='36'

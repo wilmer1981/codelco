@@ -1,0 +1,522 @@
+﻿<? 
+	$CodigoDeSistema = 2;
+	$CodigoDePantalla = 38;
+?>
+
+
+<? include("../principal/conectar_sea_web.php") ?>
+
+<html>
+<head>
+<title>Sistema de Anodos</title>
+<link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
+<script language="JavaScript">
+function ConsultarWeb(f)
+{
+	linea = "mostrar=S";
+	f.action = "sea_con_inventario.php?" + linea;
+	f.submit();
+}
+/*****************/
+function ConsultarExcel(f)
+{
+	f.action = "sea_xls_inventario.php";
+	f.submit();
+}
+/******************/
+function Salir()
+{
+	document.location = "../principal/sistemas_usuario.php?CodSistema=2";	
+}
+</script>
+<link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
+<!--
+body {
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style></head>
+
+<body>
+<form name="frmPrincipal" action="" method="post">
+<? include("../principal/encabezado.php") ?>
+
+  <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
+    <tr>
+      <td width="762" align="center" valign="top">
+	  
+	  <table width="610" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
+          <tr> 
+            <td width="76">Fecha</td>
+            <td width="192"><font size="2">&nbsp; </font> <font size="2"> 
+              <select name="mes" size="1" id="select7">
+     	<?
+			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+		 	for($i=1;$i<13;$i++)
+		  	{
+				if (($mostrar == "S") && ($i == $mes))
+					echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+				else if (($i == date("n")) && ($mostrar != "S"))
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+				else
+					echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
+			}		  
+		?>
+              </select>
+              <select name="ano" size="1">
+                <?
+			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+			{
+				if (($mostrar == "S") && ($i == $ano))
+					echo "<option selected value ='$i'>$i</option>";
+				else if (($i == date("Y")) && ($mostrar != "S"))
+					echo "<option selected value ='$i'>$i</option>";
+				else	
+					echo "<option value='".$i."'>".$i."</option>";
+			}
+		?>
+              </select>
+              </font></td>
+            <td width="321"><input name="btnconsultar" type="button" value="Consultar Web" onClick="ConsultarWeb(this.form)">
+              <input name="btnconsulta" type="button" value="Consultar Excel" onClick="ConsultarExcel(this.form)"> &nbsp; &nbsp;</td>
+          </tr>
+        </table>
+ 
+	<?        	
+		if ($mostrar == "S")
+		{
+			//Busca las leyes para trabajar.			
+			$consulta = "SELECT DISTINCT t1.cod_leyes AS codigo, t2.abreviatura AS ab1, t3.abreviatura AS ab2, t3.conversion FROM sea_web.leyes_por_hornada AS t1";
+			$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
+			$consulta = $consulta." INNER JOIN proyecto_modernizacion.unidades AS t3 ON t2.cod_unidad = t3.cod_unidad";
+			$consulta = $consulta." WHERE t1.cod_producto = 17 AND t1.valor <> '' AND t1.cod_leyes IN ('02','04','05')";
+			$consulta = $consulta." ORDER BY t2.orden_sea";
+			//echo $consulta;
+			$rs = mysql_query($consulta);
+			
+			while ($row = mysql_fetch_array($rs))
+			{	
+				$det_leyes[$row[codigo]][0] = 0; //ley.
+				$det_leyes[$row[codigo]][1] = $row[conversion]; //Unidad de conversion.				
+				
+				$total_leyes[$row[codigo]][0] = 0; //ley.
+				$total_leyes[$row[codigo]][1] = $row[conversion]; //Unidad de conversion.								
+				$total_leyes[$row[codigo]][2] = 0; //Peso.
+			}
+		
+		
+		
+			$grupos1 = array(); // (Sin Produccion).
+			$grupos2 = array(); // (Con Produccion).
+				
+			//Busca los grupos cargados, la ultima carga del mes (Sin Produccion) y la anterior a ésta (Con Produccion).
+			$consulta = "SELECT cod_subclase AS grupo FROM proyecto_modernizacion.sub_clase";
+			$consulta = $consulta." WHERE cod_clase = 2004 AND cod_subclase NOT IN (1,2,7) ORDER BY cod_subclase";
+			$rs = mysql_query($consulta);
+			
+			while ($row = mysql_fetch_array($rs))
+			{
+				$consulta = "SELECT fecha_movimiento, campo1, campo2 FROM sea_web.movimientos ";
+				$consulta = $consulta."WHERE tipo_movimiento = 2 AND campo2 = '".$row["grupo"]."'";
+				$consulta = $consulta." AND MONTH(fecha_movimiento) = ".$mes." AND YEAR(fecha_movimiento) = ".$ano;
+				$consulta = $consulta." AND campo1 IN ('M','T')";
+				$consulta = $consulta." GROUP BY fecha_movimiento";
+				$consulta = $consulta." ORDER BY fecha_movimiento DESC";
+				$consulta = $consulta." LIMIT 0,2";
+				
+				//echo $consulta."<br>";
+				$rs1 = mysql_query($consulta);
+				
+				$i = 0; 
+				while ($row1 = mysql_fetch_array($rs1))
+				{	
+					if ($i == 1)
+					{
+						$grupos2[$row1[campo2]][0] = $row1[fecha_movimiento];
+						$grupos2[$row1[campo2]][1] = $row1[campo1];					
+					}
+					else
+					{
+						$grupos1[$row1[campo2]][0] = $row1[fecha_movimiento];
+						$grupos1[$row1[campo2]][1] = $row1[campo1];
+					}
+					$i++;					
+				}															
+			}
+	
+	//$fecha_ini =date("Y-m-d", mktime(0,0,0,$mes_i,$dia_i ,$ano_i));	
+	//$fecha_ter =date("Y-m-d", mktime(0,0,0,$mes_t,($dia_t +1),$ano_t));	
+
+
+			//Genero los datos de los Grupos Sin Produccion.
+			if (count($grupos1) != 0)						
+			{
+				echo '<br><br><br>';
+				echo '<table width="600" height="25" align="center" border="0" cellspacing="0" cellpadding="0">';			
+				echo '<tr>';
+				echo '<td align="center">GRUPOS SIN PRODUCCION</td>';
+				echo '</tr>';
+				echo '</table><br>';			
+				
+				echo '<table width="600" height="25" border="0" cellspacing="0" cellpadding="0" class="ColorTabla01">';
+				echo '<tr>';
+				echo '<td width="100" align="center">Fecha</td>';				
+				echo '<td width="50" align="center">Grupo</td>';
+				echo '<td width="50" align="center">Lado</td>';
+				echo '<td width="80" align="center">Unidades</td>';
+				echo '<td width="80" align="center">Peso</td>';
+				echo '<td width="80" align="center">Cu</td>';
+				echo '<td width="80" align="center">Ag</td>';
+				echo '<td width="80" align="center">Au</td>';
+				echo '</tr>';
+				echo '</table>';
+			}			
+			
+			echo '<table width="600" height="25" border="1" cellspacing="0" cellpadding="0">';
+			
+			reset($grupos1);
+			while (list($c,$v) = each($grupos1))
+			{		
+				//Limpio el arreglo.
+				reset($total_leyes);
+				while (list($c1, $v1) = each($total_leyes))
+				{	
+					$total_leyes[$c1][0] = 0;
+					$total_leyes[$c1][2] = 0;					
+				}			
+				$fecha_aux = $v[0];
+	
+				$ano_t= substr($fecha_aux,0,4);
+				$mes_t = substr($fecha_aux,5,2);
+				$dia_t = substr($fecha_aux,8,2);
+				$fecha_ini =date("Y-m-d", mktime(0,0,0,$mes_t,($dia_t -1),$ano_t));	
+				$fecha_ter =date("Y-m-d", mktime(0,0,0,$mes_t,$dia_t ,$ano_t));
+				$consulta = "SELECT * FROM sea_web.movimientos";
+				$consulta = $consulta." WHERE tipo_movimiento = 2";
+				$consulta = $consulta." AND ((fecha_movimiento between  '".$fecha_ini."' and '".$v[0]."' AND fecha_benef = '0000-00-00')";
+				$consulta = $consulta." OR (fecha_movimiento = '".$v[0]."' AND MONTH(fecha_benef) = MONTH('".$v[0]."')))";
+				$consulta = $consulta." AND campo2 = '".$c."' AND campo1 = '".$v[1]."' AND cod_producto = 17";
+				$consulta = $consulta." and (hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";
+				$consulta = $consulta." or hora between '".$fecha_ter." 08:00:00' and '".$fecha_ter." 23:59:59')";	
+				//echo $consulta."<br>";
+				
+				$rs3 = mysql_query($consulta);
+							
+				while ($row3 = mysql_fetch_array($rs3))
+				{					
+					//Limpio el arreglo.
+					reset($det_leyes);
+					while (list($c1, $v1) = each($det_leyes))
+					{	
+						$det_leyes[$c1][0] = 0;
+					}				
+				
+					//Consulta las Leyes para los Ponderados.
+					$consulta = "SELECT t1.valor, t1.cod_leyes FROM sea_web.leyes_por_hornada AS t1";
+					$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
+					$consulta = $consulta." INNER JOIN proyecto_modernizacion.unidades AS t3 ON t2.cod_unidad = t3.cod_unidad";
+					$consulta = $consulta." WHERE t1.cod_producto = ".$row3["cod_producto"]." AND t1.cod_subproducto = ".$row3["cod_subproducto"];
+					$consulta = $consulta." AND t1.hornada = ".$row3["hornada"]." AND t1.valor <> '' AND t1.cod_leyes IN ('02','04','05')";					
+					$rs4 = mysql_query($consulta);
+									
+					//Traspaso las leyes de cada hornada a un arreglo, para que mantengan la estructura de la tabla.					
+					while ($row4 = mysql_fetch_array($rs4))
+					{	
+						$det_leyes[$row4["cod_leyes"]][0] = ($row3["peso"] * $row4["valor"] / $det_leyes[$row4["cod_leyes"]][1]); //Si son Finos.
+						
+						//Se ingresan los totales de cada Ley (Pero son los Totales de Finos).
+						$total_leyes[$row4["cod_leyes"]][0] = $total_leyes[$row4["cod_leyes"]][0] + ($row3["peso"] * $row4["valor"] / $det_leyes[$row4["cod_leyes"]][1]);
+
+						//Se ingresa el peso, solo para las hornada, en la cual sus leyes tengan algun valor valor.
+						$total_leyes[$row4["cod_leyes"]][2] = $row3["peso"] + $total_leyes[$row4["cod_leyes"]][2];						
+					}										
+				}
+				
+				$consulta = "SELECT SUM(unidades) AS unidades, SUM(peso) AS peso FROM sea_web.movimientos";
+				$consulta = $consulta." WHERE tipo_movimiento = 2";
+				$consulta = $consulta." AND ((fecha_movimiento between  '".$fecha_ini."' and '".$v[0]."' AND fecha_benef = '0000-00-00')";
+				$consulta = $consulta." OR (fecha_movimiento = '".$v[0]."' AND MONTH(fecha_benef) = MONTH('".$v[0]."')))";
+				$consulta = $consulta." AND campo2 = '".$c."' AND campo1 = '".$v[1]."' AND cod_producto = 17";
+				$consulta = $consulta." and (hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";	
+				$consulta = $consulta." or hora between '".$fecha_ter." 08:00:00' and '".$fecha_ter." 23:59:59')";	
+
+
+				$rs6 = mysql_query($consulta);
+				
+				if ($row6 = mysql_fetch_array($rs6))
+				{								
+					echo '<tr>';
+					echo '<td width="100" align="center">'.$v[0].'</td>';					
+					echo '<td width="50" align="center">'.$c.'</td>';
+					echo '<td width="50" align="center">'.$v[1].'</td>';
+					echo '<td width="80" align="center">'.$row6["unidades"].'</td>';
+					echo '<td width="80" align="center">'.$row6["peso"].'</td>';
+						
+					//Escribe el arreglo de los totales.
+					reset($total_leyes);
+					while (list($c1, $v1) = each($total_leyes))
+					{	
+						if ($v1[2] == 0)
+							echo '<td width="80" align="center">0,00</td>';
+						else 
+							echo '<td width="80" align="center">'.number_format(($v1[0] * $v1[1] / $v1[2]),2,",","").'</td>';
+					}						
+					
+					echo '</tr>';
+				}				
+			}
+			echo '</table>';
+			
+			
+			//Genero los datos de los Grupos Con Produccion.
+			if (count($grupos2) != 0)
+			{
+				echo '<br><br><br>';			
+				echo '<table width="600" height="25" align="center" border="0" cellspacing="0" cellpadding="0">';			
+				echo '<tr>';
+				echo '<td align="center">GRUPOS CON PRODUCCION</td>';
+				echo '</tr>';
+				echo '</table><br>';			
+			
+				echo '<table width="600" height="25" border="0" cellspacing="0" cellpadding="0" class="ColorTabla01">';
+				echo '<tr>';
+				echo '<td width="100" align="center">Fecha</td>';				
+				echo '<td width="50" align="center">Grupo</td>';
+				echo '<td width="50" align="center">Lado</td>';
+				echo '<td width="80" align="center">Unidades</td>';
+				echo '<td width="80" align="center">Peso</td>';
+				echo '<td width="80" align="center">Cu</td>';
+				echo '<td width="80" align="center">Ag</td>';
+				echo '<td width="80" align="center">Au</td>';
+				echo '</tr>';
+				echo '</table>';			
+			}			
+			
+			echo '<table width="600" height="25" border="1" cellspacing="0" cellpadding="0">';
+			
+			reset($grupos2);
+			while (list($c,$v) = each($grupos2))
+			{		
+				//Limpio el arreglo.
+				reset($total_leyes);
+				while (list($c1, $v1) = each($total_leyes))
+				{	
+					$total_leyes[$c1][0] = 0;
+					$total_leyes[$c1][2] = 0;					
+				}			
+			
+				$fecha_aux = $v[0];
+				$ano_t= substr($fecha_aux,0,4);
+				$mes_t = substr($fecha_aux,5,2);
+				$dia_t = substr($fecha_aux,8,2);	
+				$fecha_ini =date("Y-m-d", mktime(0,0,0,$mes_t,($dia_t -1),$ano_t));	
+				$fecha_ter =date("Y-m-d", mktime(0,0,0,$mes_t,$dia_t ,$ano_t));
+
+			
+				$consulta = "SELECT * FROM sea_web.movimientos";
+				$consulta = $consulta." WHERE tipo_movimiento = 2";
+				$consulta = $consulta." AND ((fecha_movimiento between  '".$fecha_ini."' and '".$v[0]."' AND fecha_benef = '0000-00-00')";
+
+				//$consulta = $consulta." AND ((fecha_movimiento = '".$v[0]."' AND fecha_benef = '0000-00-00')";
+				$consulta = $consulta." OR (fecha_movimiento = '".$v[0]."' AND MONTH(fecha_benef) = MONTH('".$v[0]."')))";
+				$consulta = $consulta." AND campo2 = '".$c."' AND campo1 = '".$v[1]."' AND cod_producto = 17";
+				$consulta = $consulta." and (hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";	
+				$consulta = $consulta." or hora between '".$fecha_ter." 08:00:00' and '".$fecha_ter." 23:59:59')";	
+				//echo $consulta."<br>";
+				$rs3 = mysql_query($consulta);
+							
+				while ($row3 = mysql_fetch_array($rs3))
+				{					
+					//Limpio el arreglo.
+					reset($det_leyes);
+					while (list($c1, $v1) = each($det_leyes))
+					{	
+						$det_leyes[$c1][0] = 0;
+					}				
+				
+					//Consulta las Leyes para los Ponderados.
+					$consulta = "SELECT t1.valor, t1.cod_leyes FROM sea_web.leyes_por_hornada AS t1";
+					$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
+					$consulta = $consulta." INNER JOIN proyecto_modernizacion.unidades AS t3 ON t2.cod_unidad = t3.cod_unidad";
+					$consulta = $consulta." WHERE t1.cod_producto = ".$row3["cod_producto"]." AND t1.cod_subproducto = ".$row3["cod_subproducto"];
+					$consulta = $consulta." AND t1.hornada = ".$row3["hornada"]." AND t1.valor <> '' AND t1.cod_leyes IN ('02','04','05')";					
+					$rs4 = mysql_query($consulta);
+									
+					//Traspaso las leyes de cada hornada a un arreglo, para que mantengan la estructura de la tabla.					
+					while ($row4 = mysql_fetch_array($rs4))
+					{	
+						$det_leyes[$row4["cod_leyes"]][0] = ($row3["peso"] * $row4["valor"] / $det_leyes[$row4["cod_leyes"]][1]); //Si son Finos.
+						
+						//Se ingresan los totales de cada Ley (Pero son los Totales de Finos).
+						$total_leyes[$row4["cod_leyes"]][0] = $total_leyes[$row4["cod_leyes"]][0] + ($row3["peso"] * $row4["valor"] / $det_leyes[$row4["cod_leyes"]][1]);
+
+						//Se ingresa el peso, solo para las hornada, en la cual sus leyes tengan algun valor valor.
+						$total_leyes[$row4["cod_leyes"]][2] = $row3["peso"] + $total_leyes[$row4["cod_leyes"]][2];						
+					}										
+				}
+				
+				$consulta = "SELECT SUM(unidades) AS unidades, SUM(peso) AS peso FROM sea_web.movimientos";
+				$consulta = $consulta." WHERE tipo_movimiento = 2";
+				$consulta = $consulta." AND ((fecha_movimiento between  '".$fecha_ini."' and '".$v[0]."' AND fecha_benef = '0000-00-00')";
+
+				//$consulta = $consulta." AND ((fecha_movimiento = '".$v[0]."' AND fecha_benef = '0000-00-00')";
+				$consulta = $consulta." OR (fecha_movimiento = '".$v[0]."' AND MONTH(fecha_benef) = MONTH('".$v[0]."')))";
+				$consulta = $consulta." AND campo2 = '".$c."' AND campo1 = '".$v[1]."' AND cod_producto = 17";
+				$consulta = $consulta." and (hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";	
+				$consulta = $consulta." or hora between '".$fecha_ter." 08:00:00' and '".$fecha_ter." 23:59:59')";	
+
+				$rs6 = mysql_query($consulta);
+				
+				if ($row6 = mysql_fetch_array($rs6))
+				{								
+					echo '<tr>';
+					echo '<td width="100" align="center">'.$v[0].'</td>';					
+					echo '<td width="50" align="center">'.$c.'</td>';
+					echo '<td width="50" align="center">'.$v[1].'</td>';
+					echo '<td width="80" align="center">'.$row6["unidades"].'</td>';
+					echo '<td width="80" align="center">'.$row6["peso"].'</td>';
+						
+					//Escribe el arreglo de los totales.
+					reset($total_leyes);
+					while (list($c1, $v1) = each($total_leyes))
+					{	
+						if ($v1[2] == 0)
+							echo '<td width="80" align="center">0,00</td>';
+						else 
+							echo '<td width="80" align="center">'.number_format(($v1[0] * $v1[1] / $v1[2]),2,",","").'</td>';
+					}						
+					
+					echo '</tr>';
+				}				
+			}
+			echo '</table>';
+			
+
+
+			//Genero los datos del los Grupos de Hojas Madres.
+			echo '<br><br><br>';			
+			echo '<table width="500" height="25" align="center" border="0" cellspacing="0" cellpadding="0">';			
+			echo '<tr>';
+			echo '<td align="center">GRUPOS H.M.</td>';
+			echo '</tr>';
+			echo '</table><br>';			
+		
+			echo '<table width="500" height="25" border="0" cellspacing="0" cellpadding="0" class="ColorTabla01">';
+			echo '<tr>';			
+			echo '<td width="50" align="center">Grupo</td>';
+			echo '<td width="50" align="center">Lado</td>';
+			echo '<td width="80" align="center">Unidades</td>';
+			echo '<td width="80" align="center">Peso</td>';
+			echo '<td width="80" align="center">Cu</td>';
+			echo '<td width="80" align="center">Ag</td>';
+			echo '<td width="80" align="center">Au</td>';
+			echo '</tr>';
+			echo '</table>';						
+
+			echo '<table width="500" height="25" border="1" cellspacing="0" cellpadding="0">';
+			
+			//Grupos de Hojas Madres.
+			//Corresponde a los ponderados de la segunda mitad del mes, desde del dia 15 en adelante.
+			
+			$arreglo = array(1=>1, 2=>2, 7=>7, 8=>8); //Contiene los grupos de H.M.
+			
+			reset($arreglo);
+			while (list($c,$v) = each($arreglo))
+			{
+				//Limpio el arreglo.
+				reset($total_leyes);
+				while (list($c1, $v1) = each($total_leyes))
+				{	
+					$total_leyes[$c1][0] = 0;
+					$total_leyes[$c1][2] = 0;					
+				}				
+				/*$fecha_aux = $v[0];
+				$ano_t= substr($fecha_aux,0,4);
+				$mes_t = substr($fecha_aux,5,2);
+				$dia_t = substr($fecha_aux,8,2);	
+				$fecha_ini =date("Y-m-d", mktime(0,0,0,$mes_t,($dia_t -1),$ano_t));	
+				$fecha_ter =date("Y-m-d", mktime(0,0,0,$mes_t,$dia_t ,$ano_t));*/
+
+				
+				$consulta = "SELECT * FROM sea_web.movimientos ";
+				$consulta = $consulta." WHERE tipo_movimiento = 2 AND  campo2 = '".$v."'";
+				$consulta = $consulta." AND fecha_movimiento BETWEEN '".$ano."-".$mes."-15' AND '".$ano."-".$mes."-31'";
+				$rs3 = mysql_query($consulta);
+				
+				while ($row3 = mysql_fetch_array($rs3))
+				{					
+					//Limpio el arreglo.
+					reset($det_leyes);
+					while (list($c1, $v1) = each($det_leyes))
+					{	
+						$det_leyes[$c1][0] = 0;
+					}				
+				
+					//Consulta las Leyes para los Ponderados.
+					$consulta = "SELECT t1.valor, t1.cod_leyes FROM sea_web.leyes_por_hornada AS t1";
+					$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
+					$consulta = $consulta." INNER JOIN proyecto_modernizacion.unidades AS t3 ON t2.cod_unidad = t3.cod_unidad";
+					$consulta = $consulta." WHERE t1.cod_producto = ".$row3["cod_producto"]." AND t1.cod_subproducto = ".$row3["cod_subproducto"];
+					$consulta = $consulta." AND t1.hornada = ".$row3["hornada"]." AND t1.valor <> '' AND t1.cod_leyes IN ('02','04','05')";
+					
+					$rs4 = mysql_query($consulta);
+									
+					//Traspaso las leyes de cada hornada a un arreglo, para que mantengan la estructura de la tabla.					
+					while ($row4 = mysql_fetch_array($rs4))
+					{	
+						$det_leyes[$row4["cod_leyes"]][0] = ($row3["peso"] * $row4["valor"] / $det_leyes[$row4["cod_leyes"]][1]); //Si son Finos.
+						
+						//Se ingresan los totales de cada Ley (Pero son los Totales de Finos).
+						$total_leyes[$row4["cod_leyes"]][0] = $total_leyes[$row4["cod_leyes"]][0] + ($row3["peso"] * $row4["valor"] / $det_leyes[$row4["cod_leyes"]][1]);
+
+						//Se ingresa el peso, solo para las hornada, en la cual sus leyes tengan algun valor valor.
+						$total_leyes[$row4["cod_leyes"]][2] = $row3["peso"] + $total_leyes[$row4["cod_leyes"]][2];						
+					}										
+				}
+				
+				$consulta = "SELECT SUM(unidades) AS unidades, SUM(peso) AS peso FROM sea_web.movimientos";
+				$consulta = $consulta." WHERE tipo_movimiento = 2 AND fecha_movimiento BETWEEN '".$ano."-".$mes."-15' AND '".$ano."-".$mes."-31'";
+				$consulta = $consulta." AND campo2 = '".$v."'";				
+				$rs6 = mysql_query($consulta);
+				
+				if ($row6 = mysql_fetch_array($rs6))
+				{								
+					echo '<tr>';					
+					echo '<td width="50" align="center">'.$c.'</td>';
+					echo '<td width="50" align="center">&nbsp;</td>';
+					echo '<td width="80" align="center">'.$row6["unidades"].'</td>';
+					echo '<td width="80" align="center">'.$row6["peso"].'</td>';
+						
+					//Escribe el arreglo de los totales.
+					reset($total_leyes);
+					while (list($c1, $v1) = each($total_leyes))
+					{	
+						if ($v1[2] == 0)
+							echo '<td width="80" align="center">0,00</td>';
+						else 
+							echo '<td width="80" align="center">'.number_format(($v1[0] * $v1[1] / $v1[2]),2,",","").'</td>';
+					}						
+					
+					echo '</tr>';
+				}								
+			}
+			echo '</table>';
+		}
+	?>
+
+        <br>
+        <table width="700" border="0" cellspacing="0" cellpadding="3">
+          <tr>
+            <td align="center"><input name="btnsalir" type="button" style="width=70" value="Salir" onClick="Salir()"></td>
+          </tr>
+      </table> </td>
+</tr>
+</table>
+<? include ("../principal/pie_pagina.php") ?>
+</form>
+</body>
+</html>
+<? include("../principal/cerrar_sea_web.php") ?>

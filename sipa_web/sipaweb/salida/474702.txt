@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44570 ',peso_neto='28310',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8679586-8',nombre_chofer='carlos aranda',observacion='polvos convertidores ',romana_salida='1' where correlativo='474702' and lote='22126091' and recargo='5'

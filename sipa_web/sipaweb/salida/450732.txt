@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42190 ',peso_neto='26240',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='29222471',nombre_chofer='luis carrion',observacion='',romana_salida='1' where correlativo='450732' and lote='21096208' and recargo='1'

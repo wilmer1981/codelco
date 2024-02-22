@@ -1,0 +1,222 @@
+<?
+	include("../principal/conectar_sget_web.php");
+	//include("funciones.php");
+	$Consulta="SELECT count(*) as cant from sget_hoja_ruta_nomina  ";
+	$Consulta.="where num_hoja_ruta ='".$NumHR."'";
+	//$Consulta.=" and estado='A'";
+	$Resp=mysql_query($Consulta);
+	$CantHojas=1;
+	if($Fila=mysql_fetch_array($Resp))
+	{
+		for($i=1;$i<=$Fila["Cant"];$i++)
+		{
+			if($i>12)
+			{
+				$CantHojas++;
+				$i=$i+11;
+			}			
+		}
+	}
+	//$CantHojas=3;
+	$LimitIni=0;$LimitFin=12;$Cont=1;
+	include("../principal/funciones/class.ezpdf.php");
+	include("funciones/sget_funciones.php");
+	$pdf =& new Cezpdf('LEGAL','landscape');
+	for($i=1;$i<=$CantHojas;$i++)
+	{	
+    $pdf->SELECTFont('../principal/funciones/fonts/Helvetica.afm');
+	$Consulta="SELECT t1.fecha_tramitacion,t2.rut_empresa,t2.razon_social,t2.calle,t2.telefono_comercial,t2.mail_empresa,t2.cod_ciudad,t2.cod_comuna,t2.nro_regic,t2.cod_mutual_seguridad,t2.nro_registro, ";
+	$Consulta.="t3.cod_contrato,t3.descripcion,t3.cod_gerencia,t3.cod_area,t3.rut_prev,t3.fecha_inicio,t3.fecha_termino,t3.rut_adm_contratista,t3.rut_adm_contrato ";
+	$Consulta.="from sget_hoja_ruta t1 inner join sget_contratistas t2 on t1.rut_empresa=t2.rut_empresa ";
+	$Consulta.="inner join sget_contratos t3 on t1.cod_contrato=t3.cod_contrato ";
+	$Consulta.="where t1.num_hoja_ruta='".$NumHR."'";
+	//echo $Consulta;
+	$Resp=mysql_query($Consulta);
+	$Fila=mysql_fetch_array($Resp);
+	$FechaTram=$Fila[fecha_tramitacion];
+	/* DATOS EMPRESA */
+	$RutEmp=strtoupper($Fila[rut_empresa]);
+	$RazonSocial=$Fila[razon_social];
+  	$Ciudad=DescripcionCiudad($Fila["cod_ciudad"]);
+	$Comuna=DescripcionComuna($Fila[cod_comuna]);
+	$Domicilio=$Fila[calle]." ".$Comuna.", ".$Ciudad;
+	$FonoEmp=$Fila[telefono_comercial];
+	$MailEmp=$Fila[mail_empresa];
+	$Regic=$Fila[nro_regic];
+	$Mutual=DescripcionMutual($Fila[cod_mutual_seguridad]);
+	$Registro=$Fila[nro_registro];
+	/* DATOS CONTRATOS */
+	$Ctto=$Fila["cod_contrato"];
+	$DescripCtto=$Fila["descripcion"];
+	$Gerencia=DescripcionGerencia($Fila[cod_gerencia]);
+	$Area=DescripcionArea($Fila["cod_area"]);
+	$FecIni=$Fila[fecha_inicio];
+	$FecTer=$Fila[fecha_termino];
+	$VarContratista=AdmCttoContratista($Ctto);
+    $array=explode('~',$VarContratista);
+    $AdmContratista=$array[1].' '.$array[2].' '.$array[3];
+	$VarCodelco=AdmCttoCodelcoHR($NumHR);
+    $array=explode('~',$VarCodelco);
+    $AdmCodelco=$array[1].' '.$array[2].' '.$array[3];
+	//$FechaVB=RecuperaUltHito($NumHR,'1',$array[0],'A','H');
+    /* DATOS PREVENCIONISTA*/
+	$VarPrev=DescripcionPrev($Fila[rut_prev]);
+    $array=explode('~',$VarPrev);
+    $Preve=$array[0].' '.$array[1].' '.$array[2];
+	$NumReg=$array[3];
+	$Categoria=$array[5];
+	//*V�B� HOJA DE RUTA
+	$FechaVB='';$VB_SGET='';$VB_INTEG='';$VB_INTEG='';
+	$Consulta="SELECT t1.rut_autorizador,t1.fecha_autorizacion,t2.nombres,t2.apellido_paterno,t2.apellido_materno from sget_hoja_ruta_hitos t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut_autorizador=t2.rut where t1.num_hoja_ruta='".$NumHR."' and t1.cod_hito='1'";
+	//echo $Consulta;
+	$Resp=mysql_query($Consulta);
+	if($Fila=mysql_fetch_array($Resp))
+		$FechaVB=ucfirst(strtolower($Fila["nombres"]))." ".ucfirst(strtolower($Fila["apellido_paterno"]))." ".ucfirst(strtolower($Fila["apellido_materno"]))."   Fecha: ".$Fila[fecha_autorizacion];
+		
+	$Consulta="SELECT t1.rut_autorizador,t1.fecha_autorizacion,t2.nombres,t2.apellido_paterno,t2.apellido_materno from sget_hoja_ruta_hitos t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut_autorizador=t2.rut where t1.num_hoja_ruta='".$NumHR."' and t1.cod_hito='2'";
+	//echo $Consulta;
+	$Resp=mysql_query($Consulta);
+	if($Fila=mysql_fetch_array($Resp))
+		$VB_SGET=ucfirst(strtolower($Fila["nombres"]))." ".ucfirst(strtolower($Fila["apellido_paterno"]))." ".ucfirst(strtolower($Fila["apellido_materno"]))."                  Fecha:".$Fila[fecha_autorizacion];
+
+	$Consulta="SELECT t1.rut_autorizador,t1.fecha_autorizacion,t2.nombres,t2.apellido_paterno,t2.apellido_materno from sget_hoja_ruta_hitos t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut_autorizador=t2.rut where t1.num_hoja_ruta='".$NumHR."' and t1.cod_hito='4' and autorizado='S' ";
+	//echo $Consulta;
+	$Resp=mysql_query($Consulta);
+	if($Fila=mysql_fetch_array($Resp))
+		$VB_INTEG=ucfirst(strtolower($Fila["nombres"]))." ".ucfirst(strtolower($Fila["apellido_paterno"]))." ".ucfirst(strtolower($Fila["apellido_materno"]))."                  Fecha:".$Fila[fecha_autorizacion];
+
+	$Consulta="SELECT t1.rut_autorizador,t1.fecha_autorizacion,t2.nombres,t2.apellido_paterno,t2.apellido_materno from sget_hoja_ruta_hitos t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut_autorizador=t2.rut where t1.num_hoja_ruta='".$NumHR."' and t1.cod_hito='5'";
+	//echo $Consulta;
+	$Resp=mysql_query($Consulta);
+	if($Fila=mysql_fetch_array($Resp))
+		$VB_SGET2=ucfirst(strtolower($Fila["nombres"]))." ".ucfirst(strtolower($Fila["apellido_paterno"]))." ".ucfirst(strtolower($Fila["apellido_materno"]))."                  Fecha:".$Fila[fecha_autorizacion];
+	
+	//$pdf->ezText("CODELCO DIVISION VENTANAS\n",16,array('justification'=>'left'));
+	$pdf->addText(0,600,14,"CODELCO DIVISION VENTANAS",0,0);
+	$pdf->addText(670,600,12,"HOJA N� ".$NumHR,0,0);
+	$pdf->addText(50,580,12,"SOLICITUD DE INGRESO PERSONAL: CONTRATISTA / SUBCONTRATISTA / TRANSPORTISTA",0,0);
+	$pdf->addText(640,580,12,"FECHA INGRESO ".$FechaTram,0,0);
+	//$pdf->ezStartPageNumbers(950,600,10,'','Pagina : {PAGENUM} de {TOTALPAGENUM}',1);
+	$pdf->addText(900,600,12,"P�gina ".$i." de ".$CantHojas,0,0);
+	//EMPRESA
+	$pdf->rectangle(30,500, 950,70);
+	$pdf->line(30,555,980,555);
+	$pdf->addTextWrap(30,558,830,10,"DATOS EMPRESA",$justification='center',0,0);
+	$pdf->addTextWrap(35,540,200,10,"R.U.T: ".$RutEmp,$justification='left',0,0);
+	$pdf->addTextWrap(200,540,450,10,"Razon Social: ".$RazonSocial,$justification='left',0,0);
+	$pdf->addTextWrap(35,525,350,10,"Domicilio: ".$Domicilio,$justification='left',0,0);
+	$pdf->addTextWrap(450,525,200,10,"Fono: ".$FonoEmp,$justification='left',0,0);
+	$pdf->addTextWrap(600,525,200,10,"Mail: ".$MailEmp,$justification='left',0,0);
+	$pdf->addTextWrap(35,510,200,10,"N� REGIG: ".$Regic,$justification='left',0,0);	
+	$pdf->addTextWrap(300,510,200,10,"Mutual: ".$Mutual,$justification='left',0,0);
+	$pdf->addTextWrap(600,510,200,10,"N� Registro: ".$Registro,$justification='left',0,0);
+	//CONTRATO
+	$pdf->rectangle(30,420, 950,70);
+	$pdf->line(30,475,980,475);
+	$pdf->addTextWrap(30,478,830,10,"DATOS CONTRATO",$justification='center',0,0);
+	$pdf->addTextWrap(35,460,200,10,"Contrato: ".$Ctto,$justification='left',0,0);
+	$pdf->addTextWrap(200,460,200,10,"Descripci�n: ".$DescripCtto,$justification='left',0,0);
+	$pdf->addTextWrap(35,445,345,10,"Gerencia: ".$Gerencia,$justification='left',0,0);
+	$pdf->addTextWrap(350,445,350,10,"Area: ".$Area,$justification='left',0,0);
+	$pdf->addTextWrap(680,445,200,10,"Fecha Inicio: ".$FecIni,$justification='left',0,0);
+	$pdf->addTextWrap(820,445,200,10,"Fecha T�rmino: ".$FecTer,$justification='left',0,0);
+	$pdf->addTextWrap(35,430,450,10,"Adm. Ctto. Contratista: ".$AdmContratista,$justification='left',0,0);	
+	$pdf->addTextWrap(400,430,450,10,"Adm. Ctto. Codelco: ".$AdmCodelco,$justification='left',0,0);
+	$pdf->addTextWrap(680,430,450,10,"V�B�: ".$FechaVB,$justification='left',0,0);
+	//PREVENCIONISTA
+	$pdf->rectangle(30,360, 950,50);
+	$pdf->line(30,390,980,390);
+	$pdf->addTextWrap(30,395,830,10,"DATOS EXPERTO PREVENCION DE RIESGOS",$justification='center',0,0);
+	$pdf->addTextWrap(35,370,500,10,"Experto Prevenci�n de Riesgos ".substr($Preve,0,60),$justification='left',0,0);	
+	$pdf->addTextWrap(550,370,200,10,"N� REGISTRO ".$NumReg,$justification='left',0,0);
+	$pdf->addTextWrap(730,370,200,10,"CATEGORIA ".$Categoria,$justification='left',0,0);
+	//NOMINA DE TRABAJADORES
+	$pdf->rectangle(30,330, 950,20);
+	$pdf->addTextWrap(30,335,830,10,"NOMINA DE TRABAJADORES",$justification='center',0,0);
+	$pdf->rectangle(30,310, 85,20);
+	$pdf->addTextWrap(30,315,100,10,"Ap.Paterno",$justification='center',0,0);
+	$pdf->rectangle(115,310, 85,20);
+	$pdf->addTextWrap(115,315,85,10,"Ap.Materno",$justification='center',0,0);
+	$pdf->rectangle(200,310, 85,20);
+	$pdf->addTextWrap(200,315,85,10,"Nombres",$justification='center',0,0);
+	$pdf->rectangle(285,310, 70,20);
+	$pdf->addTextWrap(285,315,70,10,"Rut",$justification='center',0,0);
+	$pdf->rectangle(355,310, 70,20);
+	$pdf->addTextWrap(355,315,70,10,"Fecha Nac.",$justification='center',0,0);
+	$pdf->rectangle(425,310, 105,20);
+	$pdf->addTextWrap(425,315,105,10,"Cargo",$justification='center',0,0);
+	$pdf->rectangle(530,310, 250,20);
+	$pdf->addTextWrap(530,315,250,10,"Direcci�n Particular",$justification='center',0,0);
+	$pdf->rectangle(780,310, 80,20);
+	$pdf->addTextWrap(780,315,80,10,"F/Ter.Estadia",$justification='center',0,0);
+	$pdf->rectangle(860,310, 55,20);
+	$pdf->addTextWrap(860,315,55,10,"Cert.Antec",$justification='center',0,0);
+	$pdf->rectangle(915,310, 65,20);
+	$pdf->addTextWrap(915,315,65,10,"N� Tarjeta",$justification='center',0,0);
+	$pdf->rectangle(30,310, 950,20);
+	$Consulta="SELECT * from sget_hoja_ruta_nomina t1 ";
+	$Consulta.=" left join sget_personal t3 on t1.rut_personal=t3.rut ";
+	$Consulta.=" left join sget_cargos t4 on t4.cod_cargo=t3.cargo";
+	//$Consulta.=" where t1.num_hoja_ruta ='".$NumHR."' and t2.estado='A'";
+	$Consulta.=" where t1.num_hoja_ruta ='".$NumHR."' order by t3.ape_paterno LIMIT ".$LimitIni.",".$LimitFin;
+	//echo $Consulta;
+	$RespDet=mysql_query($Consulta);
+	$PosF=295;$PosF2=290;
+	while($FilaDet=mysql_fetch_array($RespDet))
+	{
+	  	$Consulta="SELECT * from sget_hoja_ruta_nomina_hitos_personas where num_hoja_ruta='".$NumHR."' and rut_personal='".$FilaDet["rut"]."' order by fecha_hora desc";
+		//echo $Consulta."<br>";
+		$RespAcept=mysql_query($Consulta);
+		$FilaAcept=mysql_fetch_array($RespAcept);
+		if($FilaAcept[aprob_rechazo]!='R')
+		{
+			$Ciudad=DescripcionCiudad($FilaDet["cod_ciudad"]);
+			$Comuna=DescripcionComuna($FilaDet[cod_comuna]);
+			$pdf->rectangle(0,$PosF2, 30,20);
+			$pdf->addTextWrap(0,$PosF,30,12,$Cont."  ",$justification='right',0,0);
+			$pdf->rectangle(30,$PosF2, 85,20);
+			$pdf->addTextWrap(30,$PosF,85,10," ".ucfirst(strtolower($FilaDet[ape_paterno])),$justification='left',0,0);
+			$pdf->rectangle(115,$PosF2, 85,20);
+			$pdf->addTextWrap(115,$PosF,85,10," ".ucfirst(strtolower($FilaDet[ape_materno])),$justification='left',0,0);
+			$pdf->rectangle(200,$PosF2, 85,20);
+			$pdf->addTextWrap(200,$PosF,85,10," ".ucfirst(strtolower($FilaDet["nombres"])),$justification='left',0,0);
+			$pdf->rectangle(285,$PosF2, 70,20);
+			$pdf->addTextWrap(285,$PosF,70,10,$FilaDet["rut"],$justification='center',0,0);
+			$pdf->rectangle(355,$PosF2, 70,20);
+			$pdf->addTextWrap(355,$PosF,70,10,$FilaDet[fec_nac],$justification='center',0,0);
+			$pdf->rectangle(425,$PosF2, 105,20);
+			$pdf->addTextWrap(425,$PosF,105,10," ".ucfirst(strtolower($FilaDet[descrip_cargo])),$justification='left',0,0);
+			$pdf->rectangle(530,$PosF2, 250,20);
+			$pdf->addTextWrap(530,$PosF,250,10," ".ucfirst(strtolower($FilaDet["direccion"]))." ".$Comuna.", ".$Ciudad,$justification='left',0,0);
+			$pdf->rectangle(780,$PosF2, 80,20);
+			$pdf->addTextWrap(780,$PosF,80,10,$FilaDet[fec_fin_ctto],$justification='center',0,0);
+			$pdf->rectangle(860,$PosF2, 55,20);
+			$pdf->addTextWrap(860,$PosF,55,10,$FilaDet[certificado_ant],$justification='center',0,0);
+			$pdf->rectangle(915,$PosF2, 65,20);
+			$pdf->addTextWrap(915,$PosF,65,10,$FilaDet[nro_tarjeta],$justification='center',0,0);
+			$PosF=$PosF-20;
+			$PosF2=$PosF2-20;
+			$Cont++;	
+		}
+	}
+	$PosF2=$PosF2-40;
+	$PosF=$PosF-10;
+	$pdf->rectangle(30,$PosF2,300,50);
+	$pdf->line(30,$PosF-5,330,$PosF-5);
+	$pdf->addTextWrap(10,$PosF,330,10,"V�B� Direcci�n de Fiscalizaci�n de Terceros",$justification='center',0,0);
+	$pdf->addTextWrap(50,$PosF-25,330,10,$VB_SGET,$justification='left',0,0);
+	$pdf->rectangle(355,$PosF2,300,50);
+	$pdf->line(355,$PosF-5,655,$PosF-5);
+	$pdf->addTextWrap(335,$PosF,330,10,"V�B� Direcci�n de Prevenci�n de Riesgos",$justification='center',0,0);
+	$pdf->addTextWrap(375,$PosF-25,330,10,$VB_INTEG,$justification='left',0,0);
+	$pdf->rectangle(680,$PosF2,300,50);
+	$pdf->line(680,$PosF-5,980,$PosF-5);
+	$pdf->addTextWrap(660,$PosF,330,10,"V�B� Direcci�n de Fiscalizaci�n de Terceros",$justification='center',0,0);
+	$pdf->addTextWrap(700,$PosF-25,330,10,$VB_SGET2,$justification='left',0,0);
+	$LimitIni=$LimitIni+$LimitFin;
+	if($i<$CantHojas)
+		$pdf->ezNewPage();
+	}
+	$pdf->ezStream();
+	$pdf->Output();			
+?>

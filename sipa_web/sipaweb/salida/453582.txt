@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44750',peso_neto='31010',marca='EQUIS CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='12128412-K',nombre_chofer='CLAUDIO JUCOSSI',observacion='',romana_salida='1' where correlativo='453582' and lote='21116040' and recargo='42'

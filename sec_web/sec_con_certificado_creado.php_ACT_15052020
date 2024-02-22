@@ -1,0 +1,734 @@
+<? 
+	include("../principal/conectar_principal.php");
+	//VERSION DEL CERTIFICADO
+	$Consulta2 = "SELECT ifnull(max(version),0) as version from sec_web.certificacion_catodos ";
+	$Consulta2.= " where num_certificado = '".$NumCertificado."'";
+	
+	$Respuesta2 = mysql_query($Consulta2);
+	
+	if ($Fila2 = mysql_fetch_array($Respuesta2))
+	{
+		$Version = $Fila2["version"];
+	}
+	//-----------------------
+	$Mes = "";
+	$Lote = "";
+	$FechaCreacion = "";
+	$Emisor = "";	
+	$Consulta = "SELECT * from sec_web.certificacion_catodos ";
+	$Consulta.= " where num_certificado = '".$NumCertificado."'";
+	$Consulta.= " and version = '".$Version."'";
+	$Respuesta2 = mysql_query($Consulta);
+	if ($Fila2 = mysql_fetch_array($Respuesta2))
+	{
+		$FechaCreacion = $Fila2["fecha"];
+		$Emisor = $Fila2["rut"];
+		//substr(strtoupper($Fila3["nombres"]),0,1)
+		$ano = substr($FechaCreacion,0,4);
+		$ano1 = $ano - 1;
+		$Consulta = "SELECT * from sec_web.lote_catodo where corr_enm = '".$Fila2["corr_enm"]."' ";
+		$Consulta.= "  and (year(fecha_creacion_paquete)='".$ano."' or  year(fecha_creacion_paquete)='".$ano1."') ";
+		//$Consulta. = " and year(fecha_creacion_paquete)='".$ano."' "; 
+		$Respuesta = mysql_query($Consulta);				
+		if ($Fila = mysql_fetch_array($Respuesta))
+		{			 
+			$Mes = $Fila["cod_bulto"];
+			$Lote = $Fila["num_bulto"];
+			$ENM = $Fila["corr_enm"];	
+		}
+	}		
+	$Consulta = "SELECT t2.cod_producto,t2.cod_subproducto,";
+	$Consulta.= " t1.corr_enm,t1.cod_bulto,t1.num_bulto,count(*) as paquetes ";
+	$Consulta.= " ,sum(t2.peso_paquetes) as peso,t1.cod_cliente,t1.cod_marca";
+	$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2";
+	$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
+	$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
+	$Consulta.= " and t1.cod_bulto = '".$Mes."' and t1.num_bulto = '".$Lote."' and t1.corr_enm='".$Fila2["corr_enm"]."'";
+	$Consulta.= " group by t1.corr_enm ";
+
+	$Respuesta = mysql_query($Consulta);
+	$EnmCode = "";
+	if ($Fila = mysql_fetch_array($Respuesta))
+	{
+		$Consulta2 = "SELECT * from sec_web.programa_codelco where corr_codelco = '".$Fila["corr_enm"]."'";
+		$Respuesta2 = mysql_query($Consulta2);
+		if ($Fila2 = mysql_fetch_array($Respuesta2))
+		{
+			if ($Fila2["cod_contrato_maquila"]=="MAQ ENM")
+			{
+				$EnmCode ="E";
+			}
+			else
+			{
+				$EnmCode = "C";
+			}
+		}
+	}
+	
+	
+	$CodProducto 	= $Fila["cod_producto"];
+	$CodSubProducto = $Fila["cod_subproducto"];
+	$CodCliente 	= $Fil["cod_cliente"];
+	$NumPaquetes 	= $Fila["paquetes"];
+	$PesoLote 		= $Fila["peso"];				
+	//$FechaDisp 		= $Fila2["fecha_disponible"];			
+	$NumEnvio 		= $Fila["corr_enm"];
+	$MarcaCatodo 	= $Fila["cod_marca"];						
+	$TipoEmbarque 	= $Fila["tipo_embarque"];
+	//CONSULTA SI YA FUE CREADO Y ANULADO
+	$Consulta = "SELECT * from sec_web.solicitud_certificado ";
+	$Consulta.= " where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."'";
+	$Consulta.= " and corr_enm = '".$Fila["corr_enm"]."'";
+	$Respuesta = mysql_query($Consulta);
+	if ($Fila = mysql_fetch_array($Respuesta))
+	{
+		if ($Fila["estado_certificado"] == "A")
+		{			
+				$Anulado = "S";
+		}
+	}
+	//--------------------------------------------
+?>
+<html>
+<head>
+<title>Sistema Estadistico de Catodos</title>
+<link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
+<script language="JavaScript">
+function Proceso(opt)
+{
+	var f = document.frmPrincipal;
+	switch (opt)
+	{
+		case "C":
+			f.action = "sec_con_certificado.php";
+			f.submit();
+			break;
+		case "I":
+			f.BtnImprimir.style.visibility = 'hidden';
+			window.print();
+			break;
+		case "S":
+			f.action = "sec_con_certificado00.php";
+			f.submit();
+			break;
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+
+<body leftmargin="3" topmargin="2" marginwidth="0" marginheight="0">
+<form name="frmPrincipal" action="" method="post">
+<?	
+	if (isset($Lote))
+	{
+		$NumEnm = $Fila["corr_enm"];
+		//TABLA EMBARQUE_VENTANA FUERA por poly 11-06-2009
+		/*$Consulta = "SELECT * from sec_web.embarque_ventana where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."'";
+		$Consulta.= " and corr_enm = '".$Fila["corr_enm"]."'";
+		
+		$Respuesta = mysql_query($Consulta);
+		if ($Fila = mysql_fetch_array($Respuesta))
+		{	
+			if (strtoupper($Fila["tipo_enm_code"]) == "E") 
+			{
+				$Consulta2 = "SELECT * from sec_web.programa_enami where corr_enm = '".$Fila["corr_enm"]."'";
+				$Respuesta2 = mysql_query($Consulta2);
+				if ($Fila2 = mysql_fetch_array($Respuesta2))
+					$CodCliente = $Fila2["cod_cliente"];
+				else
+					$CodCliente = "";
+			}
+			else
+			{*/
+		$Consulta2 = "SELECT * from sec_web.programa_codelco where corr_codelco = '".$Fila["corr_enm"]."'";
+		$Respuesta2 = mysql_query($Consulta2);
+		if ($Fila2 = mysql_fetch_array($Respuesta2))
+			$CodCliente = $Fila2["cod_cliente"];
+		else
+		$CodCliente = "";
+				$FechaDisp = $Fila2["fecha_disponible"];
+		//CONSULTA SI TIENE CLIENTE POR CANJE
+		$Consulta = "SELECT * from sec_web.solicitud_certificado ";
+		$Consulta.= " where cod_bulto = '".$Mes."' and num_bulto='".$Lote."' and corr_enm = '".$NumEnvio."'";
+		$Respuesta = mysql_query($Consulta);
+		if ($Fila = mysql_fetch_array($Respuesta))
+		{
+			if ($Fila["cod_cliente2"] != "")
+				$CodCliente = $Fila["cod_cliente2"];
+		}
+		//FIN CLIENTE POR CANJE
+		//MARCA CATODO
+		$Consulta = "SELECT * from sec_web.marca_catodos where cod_marca = '".$MarcaCatodo."'";
+		$Respuesta = mysql_query($Consulta);
+		if ($Fila = mysql_fetch_array($Respuesta))
+		{
+			if ($Idioma == "E")
+				$MarcaCatodo = $Fila["descripcion"];
+			else
+				$MarcaCatodo = $Fila["descripcion_ingles"];
+		}
+		//TABLA PAQUETE_CATODO
+		$Consulta = "SHOW TABLES FROM `sec_web`";
+		$Respuesta = mysql_query($Consulta);
+		while ($Fila = mysql_fetch_array($Respuesta))
+		{
+			if ($Fila["Tables_in_sec_web"] == "tmp_leyes_catodos")
+			{
+				$Eliminar = "DROP TABLE `sec_web`.`tmp_leyes_catodos`";
+				mysql_query($Eliminar);
+			}
+		}							
+	}
+?>
+        
+  <table width="600" height="476" border="0" align="center">
+    <tr> 
+      <td width="29%" height="42" align="center"> 
+        <?
+	  	if (isset($Idioma)) 
+		{
+	  		if ($Idioma == "E")
+				echo "DEPTO. CONTROL CALIDAD<br>LABORATORIO ANALITICO";				
+			else
+				echo "QUALITY CONTROL DEPARTMENT<br>ANALYTICAL LABORATORY";
+		}
+		else
+		{
+			echo "DEPTO. CONTROL CALIDAD<br>LABORATORIO ANALITICO";
+		}			
+		?>      </td>
+      <td width="52%" align="center"><img src="../principal/imagenes/letras_codelco_2.jpg" width="170" height="50"></td>
+      <td width="19%" align="center"><strong> 
+        <? 
+		if ($Anulado == "S")
+		{
+			echo "CERTIFICADO<br>ANULADO";
+		}
+		else
+		{
+			if ($Proceso != "P")
+			{
+				if ($Valida == "N")
+				{
+					echo "COPIA NO VALIDA";
+				}
+				else
+				{
+					echo "N&deg;&nbsp;";
+					printf("%06d",$NumCertificado); 	  
+				}
+			}
+			else
+			{
+				echo "VISTA PREVIA<br>COPIA NO VALIDA";
+			}
+		}
+	  ?>
+        </strong></td>
+    </tr>
+    <tr> 
+      <td height="20" colspan="3" align="center"><font style="font-size=12px"><? echo $Error; ?></font></td>
+    </tr>
+    <tr> 
+      <td height="20" colspan="3" align="center"><strong><font style="font-size=12px"><strong><font style="font-size=12px"><strong> 
+        <? 			
+				if (isset($Idioma))
+				{
+					if ($Idioma == "I")					
+						echo "CUSTOMER:&nbsp;&nbsp;";
+					else
+						echo "<font style='font-size=14px'>EMBARQUE DE PRODUCTOS VENTANAS</font>";		
+				}
+				else
+				{
+					echo "<font style='font-size=14px'>EMBARQUE DE PRODUCTOS VENTANAS</font>";	
+				}
+	  ?>
+        </strong></font> &nbsp;&nbsp;&nbsp; 
+        <?
+			if ($Idioma == "I")
+			{
+				$Consulta = "SELECT  * from sec_web.cliente_venta where cod_cliente = '".$CodCliente."'";
+				//echo $Consulta;
+				$Respuesta = mysql_query($Consulta);
+				if ($Fila = mysql_fetch_array($Respuesta))
+				{
+					echo $Fila["sigla_cliente"];
+				}
+				else
+				{
+					$Consulta = "SELECT  * from sec_web.nave where cod_nave = '".intval($CodCliente)."'";
+					$Respuesta = mysql_query($Consulta);
+					if ($Fila = mysql_fetch_array($Respuesta))
+					{
+						echo $Fila["nombre_nave"];
+					}
+					else
+					{
+						echo "&nbsp;";
+					}
+				}
+			}										
+			 ?>
+        </strong></font></strong></td>
+    </tr>
+    <tr> 
+      <td height="14" colspan="3" align="center"> 
+        <?
+	  	if ($Proceso == "P")
+	  	{
+			$NumCertificado = "";
+	  		$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."'";
+			$Respuesta = mysql_query($Consulta);				
+			if ($Fila = mysql_fetch_array($Respuesta))
+			{
+				$Consulta = "SELECT * from sec_web.certificacion_catodos ";
+				$Consulta.= " where corr_enm = '".$Fila["corr_enm"]."'";
+				$Consulta.= " and num_certificado = '".$NumCertificado."'";
+				$Consulta.= " and version = '".$Version."'";
+				$Respuesta2 = mysql_query($Consulta);
+				if ($Fila2 = mysql_fetch_array($Respuesta2))
+				{
+					$Emisor = $Fila2["rut"];
+					$FechaCreacion  = $Fila2["fecha"];
+					$NumCertificado = $Fila2["num_certificado"];
+					$CorrEnm        = $Fila2["corr_enm"];
+				}
+			}
+			if ($NumCertificado != "")
+				echo "<font color='RED'>ESTE LOTE TIENE ASIGNADO EL CERTIFICADO N&deg;&nbsp;".$NumCertificado."</font>"; 	
+	  	}		
+	  ?>
+        &nbsp;</td>
+    </tr>
+    <tr> 
+      <td height="20" colspan="3" align="center"><font style="font-size=12px"><strong> 
+        <?
+			$Consulta = "SELECT distinct t3.cod_producto, t3.cod_subproducto, t3.descripcion ";
+			$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
+			$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete ";
+			$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t3.cod_producto = t2.cod_producto ";
+			$Consulta.= " and t3.cod_subproducto = t2.cod_subproducto ";
+			$Consulta.= " where (year(t1.fecha_creacion_paquete)='".$ano."' or year(t1.fecha_creacion_paquete)='".$ano1."')";
+			$Consulta.= " and t1.fecha_creacion_paquete  = t2.fecha_creacion_paquete and t1.corr_enm = '".$NumEnm."'  and  t1.cod_bulto = '".$Mes."' and t1.num_bulto = '".$Lote."'";
+			// echo $Consulta;
+			$Respuesta = mysql_query($Consulta);				
+			if ($Fila = mysql_fetch_array($Respuesta))
+			{
+				$Producto = $Fila["cod_producto"];
+				$SubProducto = $Fila["cod_subproducto"];
+				$Descripcion = $Fila["descripcion"];
+			}
+			else
+			{
+				$Producto = "";
+				$SubProducto = "";
+				$Descripcion = "";
+			}
+			if (($Producto == "18") && (($SubProducto == "14") || ($SubProducto == "15")))			
+			{
+				if ($Idioma == "E")
+				{
+					echo "CATODO STANDARD";
+				}
+				else
+				{
+					if (isset($Idioma))
+					{
+						echo "STANDARD CATHODE";
+					}
+					else
+					{
+						echo "&nbsp;";
+					}
+				}
+			}
+			else
+			{
+				if (($Producto == "18") && (($SubProducto == "5") || ($SubProducto == "40")))
+				{
+					if ($Idioma == "E")
+					{
+						echo "CATODO GRADO A";
+					}
+					else
+					{
+						if (isset($Idioma))
+						{
+							echo "GRADE A COPPER CATHODES";	
+						}
+						else
+						{
+							echo "&nbsp;";
+						}
+					}
+				}
+				else
+				{
+					echo strtoupper($Descripcion);
+				}
+			}			
+			?>
+        </strong></font></td>
+    </tr>
+    <tr> 
+      <td height="14" colspan="3" align="center">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td height="14" colspan="3" align="center"><strong><font style="font-size=12px"> 
+        <?
+			$NomCliente = "";
+			if ($Idioma == "E")	
+			{
+				$Consulta = "SELECT  * from sec_web.cliente_venta where cod_cliente = '".$CodCliente."'";
+				
+				$Respuesta = mysql_query($Consulta);
+				if ($Fila = mysql_fetch_array($Respuesta))
+				{
+					$NomCliente =  $Fila["sigla_cliente"];
+				}
+				else
+				{
+					$Consulta = "SELECT  * from sec_web.nave where cod_nave = '".intval($CodCliente)."'";
+					$Respuesta = mysql_query($Consulta);
+					if ($Fila = mysql_fetch_array($Respuesta))
+					{
+						$NomCliente =  $Fila["nombre_nave"];
+					}
+					else
+					{
+						echo "&nbsp;";
+					}
+				}
+				if ($EnmCode == "E")
+					echo strtoupper($NomCliente);
+				else
+					echo "CODELCO &nbsp;&nbsp;&nbsp;".strtoupper($NomCliente);
+			}
+?>
+        </font></strong></td>
+    </tr>
+    <tr> 
+      <td height="14" colspan="3" align="center"><font style="font-size=12px">&nbsp;</font></td>
+    </tr>
+    <tr> 
+      <td height="29" colspan="3"> <table width="100%" border="0" class="TablaInterior">
+          <tr> 
+            <td width="18%" height="14"> 
+              <?
+				if (isset($Idioma)) 
+				{
+					if ($Idioma == "E")
+						echo "LOTE:&nbsp;";				
+					else
+						echo "LOT:&nbsp;";
+				}
+				else
+				{
+					echo "LOTE:&nbsp;";
+				}
+			?>            </td>
+            <td> <? echo strtoupper($Mes)."-".str_pad($Lote, 6, "0", STR_PAD_LEFT); ?>            </td>
+          </tr>
+          <tr> 
+            <td> 
+              <?
+				if (isset($Idioma)) 
+				{
+					if ($Idioma == "E")
+						echo "N&deg; SERIE PAQ.:&nbsp;";				
+					else
+						echo "BUNDLE SERIES:&nbsp;";
+				}
+				else
+				{
+					echo "N&deg; SERIE PAQ.:&nbsp;";
+				}
+			?>            </td>
+            <td> 
+              <? 
+					$SeriePaquetes = "";
+					$Consulta = "SELECT t1.cod_paquete, t1.num_paquete ";
+					$Consulta.= " from sec_web.lote_catodo t1 ";	
+					$Consulta.= " where t1.cod_bulto = '".$Mes."' ";
+					$Consulta.= " and t1.num_bulto = '".$Lote."' ";
+					$Consulta.= " and corr_enm = '".$ENM."'";
+					$Consulta.= " order by t1.cod_bulto, t1.num_bulto, t1.cod_paquete, t1.num_paquete ";
+					$Respuesta = mysql_query($Consulta);
+					$CodPaquete = "";
+					$NumPaquete = "";
+					$CodPaqueteAnt = "";
+					$NumPaqueteAnt = "";
+					while ($Fila = mysql_fetch_array($Respuesta))
+					{
+						$CodPaquete = $Fila["cod_paquete"];
+						$NumPaquete = $Fila["num_paquete"];
+						if (($CodPaqueteAnt != $CodPaquete) || (($NumPaqueteAnt + 1) != $NumPaquete))
+						{
+							if ($SeriePaquetes == "")
+								$SeriePaquetes = $Fila["cod_paquete"]."-".str_pad($Fila["num_paquete"], 6, "0", STR_PAD_LEFT);
+							else
+								$SeriePaquetes = $SeriePaquetes."/".$CodPaqueteAnt."-".str_pad($NumPaqueteAnt, 6, "0", STR_PAD_LEFT)."&nbsp;&nbsp;".$Fila["cod_paquete"]."-".str_pad($Fila["num_paquete"], 6, "0", STR_PAD_LEFT);
+							//printf ("%04d",$Fila["num_paquete"]);
+						}
+						$CodPaqueteAnt = $Fila["cod_paquete"];
+						$NumPaqueteAnt = $Fila["num_paquete"];
+					}
+					if (($CodPaqueteAnt != $CodPaquete) || (($NumPaqueteAnt) != $NumPaquete))
+						$SeriePaquetes = $SeriePaquetes."&nbsp;&nbsp;".$CodPaquete."-".str_pad($NumPaquete, 6, "0", STR_PAD_LEFT);
+					else
+						$SeriePaquetes = $SeriePaquetes."/".$CodPaquete."-".str_pad($NumPaquete, 6, "0", STR_PAD_LEFT);
+				  	echo $SeriePaquetes; 
+				  ?>
+              &nbsp;</td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr> 
+      <td height="51" colspan="3" align="center"> <table width="84%" border="0" class="TablaInterior">
+          <tr> 
+            <td width="32%"> 
+              <?
+				if (isset($Idioma)) 
+				{
+					if ($Idioma == "E")
+						echo "PAQUETES:&nbsp;";				
+					else
+						echo "BUNDLES:&nbsp;";
+				}
+				else
+				{
+					echo "PAQUETES:&nbsp;";
+				}
+			?>            </td>
+            <td width="25%"><? echo number_format($NumPaquetes,0,",",".") ?>&nbsp;</td>
+            <td width="24%"> 
+              <?
+				if (isset($Idioma)) 
+				{
+					if ($Idioma == "E")
+						echo "PESO LOTE:&nbsp;";				
+					else
+						echo "NET WEIGHT:&nbsp;";
+				}
+				else
+				{
+					echo "PESO LOTE:&nbsp;";
+				}
+			?>            </td>
+            <td width="19%"><? echo number_format($PesoLote,0,",",".") ?>&nbsp;</td>
+          </tr>
+          <tr> 
+            <td> 
+              <?
+				if (isset($Idioma)) 
+				{
+					if ($Idioma == "E")
+						echo "ENM/INSTRUCCION:&nbsp;";				
+					else
+						echo "ENM/INSTRUCTION:&nbsp;";
+				}
+				else
+				{
+					echo "ENM/INSTRUCCION:&nbsp;";
+				}
+			?>            </td>
+            <td><? echo $NumEnvio ?>&nbsp;&nbsp;</td>
+            <td> 
+              <?
+				if (isset($Idioma)) 
+				{
+					if ($Idioma == "E")
+						echo "FECHA DISP.:&nbsp;";				
+					else
+						echo "&nbsp;";
+				}
+				else
+				{
+					echo "FECHA DISP.:&nbsp;";
+				}
+			?>            </td>
+            <td> 
+              <?
+				if (isset($Idioma)) 
+				{
+					if ($Idioma == "E")
+						echo substr($FechaDisp,8,2).".".substr($FechaDisp,5,2).".".substr($FechaDisp,0,4);				
+					else
+						echo "&nbsp;";
+				}
+				else
+				{
+					echo substr($FechaDisp,8,2).".".substr($FechaDisp,5,2).".".substr($FechaDisp,0,4);
+				}
+			?>            </td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr> 
+      <td height="14" colspan="3">&nbsp;</td>
+    </tr>
+    <tr valign="top"> 
+      <td height="108" colspan="3" align="center"> <table width="40%" border="1" cellpadding="3" cellspacing="0" bordercolor="#000000">
+          <tr align="center"> 
+            <td width="100%" colspan="3"><font style="font-size=12px"><strong><? echo $MarcaCatodo; ?></strong></font> 
+              <table width="100%" border="0" cellpadding="3" cellspacing="0">
+                <tr align="center"> 
+                  <td width="34%">&nbsp;</td>
+                  <td width="35%">&nbsp;</td>
+                  <td width="21%">ppm</td>
+                </tr>
+              </table>            </td>
+          </tr>
+          <?
+			if (isset($Lote))
+			{
+				/*VERSION DEL CERTIFICADO
+				$Consulta2 = "SELECT ifnull(max(version),0) as version from sec_web.certificacion_catodos ";
+				$Consulta2.= " where corr_enm = '".$NumEnvio."'";
+				$Respuesta2 = mysql_query($Consulta2);
+				if ($Fila2 = mysql_fetch_array($Respuesta2))
+				{
+					$Version = $Fila2["version"];
+				}*/
+				//-----------------------
+				$Consulta = "SELECT t1.cod_leyes, t1.valor, t1.signo";
+				$Consulta.= " from sec_web.certificacion_catodos t1 inner join proyecto_modernizacion.sub_clase t2 ";
+				$Consulta.= " on t2.cod_clase = '3009' and t1.cod_leyes = t2.nombre_subclase ";
+				$Consulta.= " where num_certificado = '".$NumCertificado."'";
+				$Consulta.= " and version = '".$Version."'";
+				$Consulta.= " group by t1.cod_leyes";
+				$Consulta.= " order by t2.valor_subclase2";
+				
+				$Respuesta = mysql_query($Consulta);
+				while ($Fila = mysql_fetch_array($Respuesta))
+				{
+					echo "<tr align='center'>\n";
+					//LEY
+					$Consulta = "SELECT * from proyecto_modernizacion.leyes where cod_leyes = '".$Fila["cod_leyes"]."'";
+					$Respuesta2 = mysql_query($Consulta);
+					if ($Fila2 = mysql_fetch_array($Respuesta2))
+					{
+						echo "<td width='34%'>".$Fila2["abreviatura"]."</td>\n";	
+					}
+					else
+                  	{
+						echo "<td width='34%'>".$Fila["cod_leyes"]."</td>\n";
+					}					
+                  	echo "<td width='35%'>".$Fila["signo"]."</td>\n";
+					if (($Fila["cod_leyes"] == "26") || ($Fila["cod_leyes"] == "48"))
+					{
+						$NumDecimales = 0;
+					}						
+					else
+					{ 
+						$NumDecimales = 1;
+					}
+					echo "<td width='21%'>".number_format($Fila["valor"],$NumDecimales,",",".")."</td>\n";		
+					echo "</tr>\n";
+				}                
+			}
+			?>
+        </table></td>
+    </tr>
+    <tr> 
+      <td height="14" colspan="3">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td height="14" colspan="3">&nbsp;</td>
+    </tr>
+    <tr> 
+      <td height="20" colspan="3" align="center"><font style="font-size:8px"> 
+        <?
+				if (isset($Idioma)) 
+				{
+					if ($Idioma == "E")
+						echo "LOS CONTENIDOS DE IMPUREZAS 
+        CORRESPONDEN A UN PROMEDIO PONDERADO DE LAS PRODUCCIONES INCLUIDAS EN 
+        EL LOTE.";				
+					else
+						echo "THE ABOVE IMPURITIES CONTENTS RESPOND TO A WEIGHTED A AVERAGE OF THE CATHODES INCLUDES IN THIS LOT.";
+				}
+				else
+				{
+					echo "LOS CONTENIDOS DE IMPUREZAS 
+        CORRESPONDEN A UN PROMEDIO PONDERADO DE LAS PRODUCCIONES INCLUIDAS EN 
+        EL LOTE.";
+				}
+			?>
+        </font></td>
+    </tr>
+    <tr> 
+      <td colspan="3" align="right"><img src="../principal/imagenes/firma_control_calidad.JPG" width="160" height="100"></td>
+    </tr>
+    
+    <tr> 
+      <td height="20" colspan="3" align="right"><strong> 
+        <?
+				if (isset($Idioma)) 
+				{
+					if ($Idioma == "E")
+						//echo "JEFE LABORATORIO ANALITICO";	
+						echo "JEFE CONTROL CALIDAD";			
+					else
+						//echo "CHIEF ANALYTICAL LABORATORY";
+						echo "CHIEF QUALITY CONTROL";
+				}
+				else
+				{
+					//echo "JEFE LABORATORIO ANALITICO";
+					echo "JEFE CONTROL CALIDAD";
+				}
+			?>
+        </strong></td>
+    </tr>
+    <tr> 
+      <td height="22" colspan="3"> 
+        <?
+		$Nombre = "";
+		$Consulta = "SELECT * from proyecto_modernizacion.funcionarios ";
+		if ($Emisor != "")
+			$Consulta.= " where rut = '".$Emisor."'";
+		else
+			$Consulta.= " where rut = '".$CookieRut."'";
+		$Respuesta = mysql_query($Consulta);
+		if ($Fila = mysql_fetch_array($Respuesta))
+		{
+			$Nombre = substr(strtoupper($Fila["nombres"]),0,1)." ".substr(strtoupper($Fila["apellido_paterno"]),0,1)." ".substr(strtoupper($Fila["apellido_materno"]),0,1);
+		}
+		echo "<strong>&nbsp;&nbsp;/".$Nombre."</strong>";
+	  ?>      </td>
+    </tr>
+    <tr> 
+      <td height="22" colspan="3" align="center"> <input type="button" name="BtnImprimir" value="Imprimir" style="width:70px" onClick="Proceso('I');">      </td>
+    </tr>
+    <tr> 
+      <td colspan="3"> 
+        <? 
+		if ($FechaCreacion == "")	  
+	  		echo date("H:i:s"); 
+		else
+			echo substr($FechaCreacion,11)
+	  ?>      </td>
+    </tr>
+    <tr> 
+      <td colspan="3"> 
+        <? 
+		echo substr($FechaCreacion,8,2).".".substr($FechaCreacion,5,2).".".substr($FechaCreacion,0,4); 
+	  	if ($Valida == "N")
+		{
+			$Nombre = "";
+			$Consulta = "SELECT * from proyecto_modernizacion.funcionarios where rut = '".$Emisor."'";
+			$Respuesta = mysql_query($Consulta);
+			if ($Fila = mysql_fetch_array($Respuesta))
+			{
+				$Nombre = ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
+			}
+			echo "<strong>&nbsp;&nbsp;Generador:&nbsp;".$Nombre."</strong>";			
+		}
+	  ?>      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

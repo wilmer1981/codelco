@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44440 ',peso_neto='27640',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7142986-5',nombre_chofer='ALVARO BERNAL',observacion='ladrillo reflectario en desuso ',romana_salida='1' where correlativo='451614' and lote='21106066' and recargo='7'

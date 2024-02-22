@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44350 ',peso_neto='30120',marca='EQUIS FRANJA VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='8224316-K',nombre_chofer='CARLOS FUENTES',observacion='',romana_salida='1' where correlativo='492490' and lote='23106057' and recargo='33'

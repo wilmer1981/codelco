@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44370 ',peso_neto='27700',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16988818-3',nombre_chofer='Joerge Arancibia',observacion='cu varios pvsa',romana_salida='1' where correlativo='482830' and lote='23046176' and recargo='10'

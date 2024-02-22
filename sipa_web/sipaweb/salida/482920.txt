@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43540 ',peso_neto='26710',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9137650-4',nombre_chofer='leonel vallejos',observacion='cu varios',romana_salida='1' where correlativo='482920' and lote='23046204' and recargo='5'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44320 ',peso_neto='27900',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11561018-k',nombre_chofer='nelson jelvez',observacion='',romana_salida='1' where correlativo='480728' and lote='23036188' and recargo='4'

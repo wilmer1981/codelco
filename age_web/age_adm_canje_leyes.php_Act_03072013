@@ -1,0 +1,862 @@
+<?
+	$CodigoDeSistema=15;
+	$CodigoDePantalla=41;
+	$TxtFechaCanje=date('Y-m-d');
+	include("../principal/conectar_principal.php");
+	$Mostrar='N';
+	if (isset($TxtLote))
+	{
+		$EstadoInput = "";
+		$Consulta ="select t1.fecha_sol_pqts,t1.fecha_canje,t1.canjeable,t1.fin_canje,t1.lote,t1.peso_muestra,t1.peso_retalla,t1.cod_subproducto,t3.descripcion as nom_subproducto,t1.rut_proveedor,t4.NOMPRV_A as nom_prv,t1.num_conjunto,";
+		$Consulta.="t1.cod_faena,t5.nommin_a as nom_faena,t6.nombre_subclase as nom_estado_lote,t7.valor_subclase1 as nom_clase_producto,t8.nombre_subclase as nom_recepcion,t1.laboratorio_externo,t1.orden_ensaye ";
+		$Consulta.="from age_web.lotes t1 left join ";
+		$Consulta.="proyecto_modernizacion.subproducto t3 on t3.cod_producto='1' and t1.cod_subproducto=t3.cod_subproducto left join ";
+		$Consulta.="rec_web.proved t4 on t1.rut_proveedor=t4.RUTPRV_A left join ";
+		$Consulta.="rec_web.minaprv t5 on t1.cod_faena=t5.codmin_a left join ";
+		$Consulta.="proyecto_modernizacion.sub_clase t6 on t6.cod_clase='15003' and t1.estado_lote=t6.cod_subclase left join ";
+		$Consulta.="proyecto_modernizacion.sub_clase t7 on t7.cod_clase='15001' and t1.clase_producto=t7.nombre_subclase left join ";
+		$Consulta.="proyecto_modernizacion.sub_clase t8 on t8.cod_clase='3104' and t1.cod_recepcion=t8.nombre_subclase ";
+		$Consulta.= "where t1.lote = '".$TxtLote."' and t1.estado_lote <>'6'";
+		//echo $Consulta;
+		$Resp = mysql_query($Consulta);
+		if ($Fila = mysql_fetch_array($Resp))
+		{
+			//DATOS DEL LOTE
+			$Mensaje='';
+			if($Fila[canjeable]!='N')
+			{	
+				$Mostrar='S';
+				$TxtLote = $Fila["lote"];
+				$CodSubProducto = $Fila["cod_subproducto"];
+				$NombreSubProducto=$Fila["nom_subproducto"];
+				$RutProveedor = $Fila["rut_proveedor"];
+				$NombrePrv=$Fila["nom_prv"];
+				$CodFaena=$Fila["cod_faena"];
+				$NombreFaena = $Fila["nom_faena"];
+				$Recepcion = $Fila["nom_recepcion"];
+				$ClaseProducto = $Fila["nom_clase_producto"];
+				$TxtConjunto = $Fila["num_conjunto"];
+				$EstadoLote = $Fila["nom_estado_lote"];
+				$PesoRetalla=$Fila["peso_retalla"];
+				$PesoMuestra=$Fila["peso_muestra"];
+				$CmbLaboratorios=$Fila["laboratorio_externo"];
+				$TxtOrdenEnsaye=$Fila["orden_ensaye"];
+				$TxtFechaCanje=$Fila["fecha_canje"];
+				$TxtFechaSolPqts=$Fila["fecha_sol_pqts"];
+				//echo "OD:".$TxtOrdenEnsaye;
+				/*if($TxtOrdenEnsaye==''||$TxtOrdenEnsaye=='ninguno')
+				{*/
+					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15010' and cod_subclase='1'";
+					$Resp2=mysql_query($Consulta);
+					$Fila2=mysql_fetch_array($Resp2);
+					//echo $Consulta;
+					$TxtOrdenEnsaye=$Fila2["valor_subclase1"];				
+				//}	
+				if($CmbLaboratorios==''||$CmbLaboratorios=='S')
+				{
+					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15010' and cod_subclase='2'";
+					$Resp2=mysql_query($Consulta);
+					$Fila2=mysql_fetch_array($Resp2);
+					//echo $Consulta;
+					$CmbLaboratorios=$Fila2["valor_subclase1"];				
+				}
+				if($TxtFechaCanje==''||$TxtFechaCanje=='0000-00-00')
+				{
+					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15010' and cod_subclase='3'";
+					$Resp2=mysql_query($Consulta);
+					$Fila2=mysql_fetch_array($Resp2);
+					//echo $Consulta;
+					$TxtFechaCanje=$Fila2["valor_subclase1"];				
+				}
+				if($TxtFechaSolPqts==''||$TxtFechaSolPqts=='0000-00-00')
+				{
+					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15010' and cod_subclase='4'";
+					$Resp2=mysql_query($Consulta);
+					$Fila2=mysql_fetch_array($Resp2);
+					//echo $Consulta;
+					$TxtFechaSolPqts=$Fila2["valor_subclase1"];				
+				}	
+				
+				$Habilitado='';
+				
+				if($Fila[fin_canje]=='S')
+				{
+					$EstadoCierre='Lote Cerrado Comercial';
+					
+					$Habilitado='disabled';
+				}	
+				else
+					$EstadoCierre='';	
+				//SE OBTIENE LAS LEYES A CANJEAR DEPENDIENDO DEL PRODUCTO
+				$ArrayLeyes=array();
+				$EncontroLeyes=true;
+				if($EncontroLeyes==true)
+				{
+					$Leyes="in ('02','04','05')";
+					$valorcu = 0;
+					$valorag = 0;
+					$valorau = 0;
+					reset($ArrayLeyes);
+					$Consulta="select t1.recargo,t1.cod_leyes,t1.valor,t1.valor2,t1.cod_unidad,t2.abreviatura,t3.abreviatura as nomley from age_web.leyes_por_lote t1 ";
+					$Consulta.="left join proyecto_modernizacion.unidades t2 on t1.cod_unidad=t2.cod_unidad left join proyecto_modernizacion.leyes t3 on t1.cod_leyes=t3.cod_leyes ";
+					$Consulta.="where lote='$TxtLote' and recargo in ('0','R') and t1.cod_leyes ".$Leyes;
+					//echo $Consulta;
+					$RespLeyes=mysql_query($Consulta);
+					while($FilaLeyes=mysql_fetch_array($RespLeyes))
+					{
+						switch($FilaLeyes["recargo"])
+						{
+							case "0":
+								if ($FilaLeyes["cod_leyes"]=='02') 
+										$valorcu = $FilaLeyes[valor];
+								if ($FilaLeyes["cod_leyes"]=='04') 
+										$valorag = $FilaLeyes[valor];
+								if ($FilaLeyes["cod_leyes"]=='05') 
+										$valorau = $FilaLeyes[valor];
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes[nomley];
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][1]=$FilaLeyes[abreviatura];
+								if($FilaLeyes[provisional]!='N')//CUANDO NO ES VIRTUAL
+									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor];//VALOR LEY PQTE 1 
+								else
+									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor2];//VALOR LEY PROVISIONAL
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][3]='';//VALOR LEY PQTE 2 
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][4]='';//VALOR LEY PQTE 3 
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][5]='';//VALOR LEY PQTE 4 
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]='';//LEY RETALLA
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][7]='';//INCIDENCIA RETALLA
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][8]='';//LEY CANJE
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][9]='';//LEY PAGO
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][10]='1';//NUM PAQUETE
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][11]='';//SEGUIMIENTO DEL CANJE
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][15]=$FilaLeyes["cod_unidad"];//COD_UNIDAD
+								break;
+							case "R":
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]=$FilaLeyes[valor];
+								break;		
+						}
+					}
+	
+					//PARA SABER SI ESTE LOTE YA TIENE CANJE GUARDADO
+					$Consulta="select * from age_web.leyes_por_lote_canje where lote='$TxtLote'";
+					$Respuesta=mysql_query($Consulta);
+					while($Fila=mysql_fetch_array($Respuesta))
+					{
+						if ($Fila["cod_leyes"]=='02' && ($Fila[valor1] != $valorcu) && $valorcu > 0)
+						{
+							$Fila[valor1] = $valorcu;
+						}
+						if ($Fila["cod_leyes"]=='04' && ($Fila[valor1] != $valorag) && $valorag > 0)
+						{
+							$Fila[valor1] = $valorag;
+						}
+						if ($Fila["cod_leyes"]=='05' && ($Fila[valor1] != $valorau) && $valorau > 0)
+						{
+							$Fila[valor1] = $valorau;
+						}
+						$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila[valor1]*1;//VALOR LEY PQTE 1 
+						$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila[valor2]*1;//VALOR LEY PQTE 2 
+						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila[valor3]*1;//VALOR LEY PQTE 3 		
+						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila[valor3]*1;//VALOR LEY PQTE 3 
+						$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila[valor4]*1;//VALOR LEY PQTE 4 
+						$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila[valor_retalla]*1;//LEY RETALLA
+						$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila[inc_retalla]*1;//INCIDENCIA RETALLA
+						$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila[ley_canje]*1;//LEY CANJE
+						$ArrayLeyes[$Fila["cod_leyes"]][9]=($Fila[inc_retalla]+$Fila[ley_canje])*1;//LEY PAGO
+						$ArrayLeyes[$Fila["cod_leyes"]][10]=$Fila[paquete_canje]*1;//NUM PAQUETE
+						$ArrayLeyes[$Fila["cod_leyes"]][11]=$Fila["observacion"];//SEGUIMIENTO DE LA LEY
+						$ArrayLeyes[$Fila["cod_leyes"]][15]=$Fila["cod_unidad"];//COD_UNIDAD
+						$ArrayLeyes[$Fila["cod_leyes"]][20]=$Fila[pendiente];//SI ES ARBITRAL
+						$ArrayLeyes[$Fila["cod_leyes"]][30]=$Fila[ley_forzada];//SI LA LEY 2 ES FORZADA
+						$CmbPlantLimPart=$Fila[plantilla_limite];
+					}
+					if($CmbPlantLimPart=='')//PLANTILLA POR DEFECTO)
+						$CmbPlantLimPart=1;	
+				}	
+			}
+			else
+			{	
+				$Mensaje='El Lote Ingresado NO es Canjeable';
+				$Habilitado='disabled';
+			}	
+		}
+	}
+	if($Calcular=='S')//CALCULA EL CANJE
+	{
+		$Datos=explode('//',$Valores);
+		while(list($c,$v)=each($Datos))
+		{
+			$Datos2=explode('~~',$v);
+			$CodLey=$Datos2[0];
+			$NomLey=$Datos2[1];
+			$NomUnidad=$Datos2[2];
+			$ValorLey1=$Datos2[3]*1;
+			$ValorLey2=$Datos2[4]*1;
+			$ValorLey3=$Datos2[5]*1;
+			$ValorLey4=$Datos2[6]*1;
+			$ValorLeyR=$Datos2[7]*1;
+			$ValorIncR=$Datos2[8]*1;
+			$ValorLeyC=$Datos2[9]*1;
+			$ValorLeyF=$Datos2[10]*1;
+			$NumPqte=$Datos2[11];
+			$ForzarLey2=$Datos2[15];
+			$Seguimiento='';
+			switch($NumPqte)
+			{
+				case "1":
+					$ArrayLeyes[$CodLey][0]=$NomLey;
+					$ArrayLeyes[$CodLey][1]=$NomUnidad;
+					$LeyCanje=$ValorLey1;
+					//echo "LEY:".$ValorLeyR."<BR>"; 	
+					if($ValorLeyR!=0)
+						$IncRetalla=(($ValorLeyR-$LeyCanje)*$PesoRetalla)/$PesoMuestra;
+					else
+						$IncRetalla=0;
+					//echo "INC_RETALLA:".$IncRetalla."<BR>";
+					$ArrayLeyes[$CodLey][7]=number_format($IncRetalla,4,',','');//INCIDENCIA RETALLA
+					$ArrayLeyes[$CodLey][8]=$LeyCanje;//LEY CANJE
+					$ArrayLeyes[$CodLey][9]=number_format($LeyCanje+$IncRetalla,4,',','');
+					$ArrayLeyes[$CodLey][10]='1';//NUM_PAQUETE
+					$Seguimiento='TOMA LEY DEL PQTE 1<br>';
+					break;
+				case "2":
+					$Entrar=true;
+					if($ForzarLey2=='S')
+					{
+						$ArrayLeyes[$CodLey][0]=$NomLey;
+						$ArrayLeyes[$CodLey][1]=$NomUnidad;
+						$ArrayLeyes[$CodLey][8]=$ValorLey2;//LEY CANJE
+						$ArrayLeyes[$CodLey][9]=number_format($ValorLey2,4,',','');
+						$ArrayLeyes[$CodLey][10]='2';//NUM_PAQUETE
+						$ArrayLeyes[$CodLey][30]='S';//LEY FORZADA
+						$Seguimiento='TOMA LEY DEL PQTE 2<br>';
+						$Entrar=false;
+					}
+					if($Entrar==true)
+					{
+						$ArrayLeyes[$CodLey][3]=$ValorLey2;//LEY CANJE
+						$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and ".$ValorLey1." between rango1 and rango2";
+						//echo $Consulta."<br>";
+						$Respuesta=mysql_query($Consulta);
+						if(!$Fila=mysql_fetch_array($Respuesta))
+						{
+							$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
+							//echo $Consulta."<br>";
+							$Respuesta2=mysql_query($Consulta);
+							$Fila2=mysql_fetch_array($Respuesta2);
+							$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
+						}
+						else
+							$LimParticion=$Fila[limite_particion]*1;
+						$Dif=abs($ValorLey1-$ValorLey2)*1;
+						$Seguimiento='TOMA LEY DEL PQTE 2<br>';
+						$Seguimiento.='LIMITE PARTICION:'.number_format($LimParticion,4,',','.')."<br>DIFERENCIA(PQTE1-PQTE2):".number_format($Dif,4,',','.')."<br>";
+						/*echo "LEY1:".$ValorLey1."<BR>";
+						echo "LEY2:".$ValorLey2."<BR>";
+						echo "DIFERENCIA ENTRE Ley1-Ley2:".$Dif."<BR>";*/
+						//echo "LIM:".$LimParticion."<BR>";
+						if((doubleval($Dif+1-1) <= doubleval($LimParticion+1-1))||(intval($Dif*100000)==intval($LimParticion*100000)))
+						{
+							$LeyCanje=($ValorLey1+$ValorLey2)/2;//LEY CANJE
+							$Seguimiento.='DIFERENCIA ENTRE PQTE1 Y PQTE2 ES MENOR O IGUAL A LIM.PART, POR LO TANTO LEY DE CANJE ES PROMEDIO ENTRE PQTE1 Y PQTE2<br>';
+						}	
+						else
+							if($ValorLey1<=$ValorLey2)
+							{	
+								$LeyCanje=$ValorLey1;//LEY CANJE
+								$Seguimiento.='DIFERENCIA ENTRE PQTE1 Y PQTE2 ES MAYOR A LIM.PART Y PQTE1 ES MENOR O IGUAL A PQTE2, POR LO TANTO LEY DE CANJE ES LA LEY DEL PQTE1<br>';
+								$Seguimiento.="SIEMPRE Y CUANDO EL VENDEDOR RENUNCIE AL ANALISIS ARBITRAL (LEY PQTE3)";
+							}	
+							else
+							{	
+								$LeyCanje=$ValorLey2;//LEY CANJE
+								$Seguimiento.='DIFERENCIA ENTRE PQTE1 Y PQTE2 ES MAYOR A LIM.PART Y PQTE1 ES MAYOR A PQTE2, POR LO TANTO LEY DE CANJE ES LA LEY DEL PQTE2<br>';
+								$Seguimiento.="SIEMPRE Y CUANDO EL VENDEDOR RENUNCIE AL ANALISIS ARBITRAL (LEY PQTE3)";
+							}
+						if($ValorLeyR!=0)
+							$IncRetalla=(($ValorLeyR-$LeyCanje)*$PesoRetalla)/$PesoMuestra;
+						else
+							$IncRetalla=0;
+						$ArrayLeyes[$CodLey][7]=number_format($IncRetalla,4,',','');//INCIDENCIA RETALLA
+						$ArrayLeyes[$CodLey][8]=$LeyCanje;
+						$ArrayLeyes[$CodLey][9]=number_format($LeyCanje+$IncRetalla,4,',','');
+						$ArrayLeyes[$CodLey][10]='2';//NUM_PAQUETE
+					}	
+					break;
+				case "3":
+					$Seguimiento='TOMA LEY DEL PQTE 3<br>';
+					$ArrayValorLeyes=array($ValorLey1,$ValorLey2,$ValorLey3);
+					sort($ArrayValorLeyes);
+					if(($ValorLey3>$ValorLey2)||($ValorLey3<$ValorLey1))
+					{
+						$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and ".$ValorLey1." between rango1 and rango2";
+						$Respuesta=mysql_query($Consulta);
+						if(!$Fila=mysql_fetch_array($Respuesta))
+						{
+							$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
+							$Respuesta2=mysql_query($Consulta);
+							$Fila2=mysql_fetch_array($Respuesta2);
+							$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
+						}
+						else
+							$LimParticion=$Fila[limite_particion]*1;
+						$Seguimiento.='LIMITE PARTICION:'.number_format($LimParticion,4,',','.')."<br>";
+						$Dif1=abs($ValorLey3-$ValorLey2)*1;
+						$Dif2=abs($ValorLey3-$ValorLey1)*1;
+						if(doubleval($Dif1+1-1)<doubleval($Dif2+1-1))
+						{
+							if(doubleval($Dif1+1-1) > doubleval($LimParticion+1-1))
+								$Seguimiento.='LA DIF.'.number_format($Dif1,4,',','.').' ENTRE LA LEY DEL PQTE3 Y LA MAS PROXIMA ES EL PQTE2. ES MAYOR AL LIM.PARTICION POR LO TANTO SE PUEDE RECURRIR AL PQTE4. EN CASO CONTRARIO <br>';
+						}
+						else
+						{
+							if(doubleval($Dif2+1-1) > doubleval($LimParticion+1-1))
+								$Seguimiento.='LA DIF.'.number_format($Dif2,4,',','.').' ENTRE LA LEY DEL PQTE3 Y LA MAS PROXIMA ES EL PQTE1. ES MAYOR AL LIM.PARTICION POR LO TANTO SE PUEDE RECURRIR AL PQTE4. EN CASO CONTRARIO <br>';																			
+						}						
+					}
+					$Seguimiento.='LEY ORDENADAS:'.$ArrayValorLeyes[0].' - '.$ArrayValorLeyes[1].' - '.$ArrayValorLeyes[2].'<br>';
+					$LeyCanje=$ArrayValorLeyes[1];//LA LEY DEL MEDIO
+					$Seguimiento.='LA LEY QUE ESTA AL CENTRO DEL ORDENAMIENTO ES LEY DEL CANJE<BR>';
+					$ArrayLeyes[$CodLey][3]=$ValorLey2;//LEY CANJE	1		
+					$ArrayLeyes[$CodLey][4]=$ValorLey3;//LEY CANJE	2
+					if($ValorLeyR!=0)
+						$IncRetalla=(($ValorLeyR-$LeyCanje)*$PesoRetalla)/$PesoMuestra;
+					else
+						$IncRetalla=0;
+					$ArrayLeyes[$CodLey][7]=number_format($IncRetalla,4,',','');//INCIDENCIA RETALLA
+					$ArrayLeyes[$CodLey][8]=$LeyCanje;
+					$ArrayLeyes[$CodLey][9]=number_format($LeyCanje+$IncRetalla,4,',','');
+					$ArrayLeyes[$CodLey][10]='3';//NUM_PAQUETE
+					break;
+				case "4":
+					$Seguimiento='TOMA LEY DEL PQTE 4<br>';
+					$ArrayValorLeyes=array($ValorLey1,$ValorLey2,$ValorLey4);
+					sort($ArrayValorLeyes);
+					if(($ValorLey4>$ValorLey2)||($ValorLey4<$ValorLey1))
+					{
+						$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and ".$ValorLey1." between rango1 and rango2";
+						$Respuesta=mysql_query($Consulta);
+						if(!$Fila=mysql_fetch_array($Respuesta))
+						{
+							$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
+							$Respuesta2=mysql_query($Consulta);
+							$Fila2=mysql_fetch_array($Respuesta2);
+							$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
+						}
+						else
+							$LimParticion=$Fila[limite_particion]*1;
+						$Seguimiento.='LIMITE PARTICION:'.number_format($LimParticion,4,',','')."<br>";
+						$Dif1=abs($ValorLey4-$ValorLey2)*1;
+						$Dif2=abs($ValorLey4-$ValorLey1)*1;
+						if(doubleval($Dif1+1-1)<doubleval($Dif2+1-1))
+						{
+							if(doubleval($Dif1+1-1) > doubleval($LimParticion+1-1))
+								$Seguimiento.='LA DIF.'.number_format($Dif1,4,',','.').' ENTRE LA LEY DEL PQTE4 Y LA MAS PROXIMA ES EL PQTE2. ES MAYOR AL LIM.PARTICION POR LO TANTO <br>';
+						}
+						else
+						{
+							if(doubleval($Dif2+1-1) > doubleval($LimParticion+1-1))
+								$Seguimiento.='LA DIF.'.number_format($Dif2,4,',','.').' ENTRE LA LEY DEL PQTE4 Y LA MAS PROXIMA ES EL PQTE1. ES MAYOR AL LIM.PARTICION POR LO TANTO <br>';																			
+						}						
+					}
+					$Seguimiento.='LEY ORDENADAS:'.$ArrayValorLeyes[0].' - '.$ArrayValorLeyes[1].' - '.$ArrayValorLeyes[2].'<br>';
+					$LeyCanje=$ArrayValorLeyes[1];//LA LEY DEL MEDIO
+					$Seguimiento.='LA LEY QUE ESTA AL CENTRO DEL ORDENAMIENTO ES LEY DEL CANJE<BR>';
+					$ArrayLeyes[$CodLey][3]=$ValorLey2;//LEY CANJE 2			
+					$ArrayLeyes[$CodLey][4]=$ValorLey3;//LEY CANJE 3
+					$ArrayLeyes[$CodLey][5]=$ValorLey4;//LEY CANJE 4
+					if($ValorLeyR!=0)
+						$IncRetalla=(($ValorLeyR-$LeyCanje)*$PesoRetalla)/$PesoMuestra;
+					else
+						$IncRetalla=0;
+					$ArrayLeyes[$CodLey][7]=number_format($IncRetalla,4,',','');//INCIDENCIA RETALLA
+					$ArrayLeyes[$CodLey][8]=$LeyCanje;
+					$ArrayLeyes[$CodLey][9]=number_format($LeyCanje+$IncRetalla,4,',','');				
+					$ArrayLeyes[$CodLey][10]='4';//NUM_PAQUETE
+					break;
+			}
+			$ArrayLeyes[$CodLey][11]=$Seguimiento;
+		}
+	}
+?>
+<html>
+<head>
+<title>AGE-Adm. Canje Leyes</title>
+<link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
+<script language="javascript" src="../principal/funciones/funciones_java.js"></script>
+<SCRIPT event=onclick() for=document>popCal.style.visibility = "hidden";</SCRIPT>
+<script language="javascript">
+var OK;
+var OTS = "";
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+function muestra(numero) 
+{
+ 	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = 'show'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'visible'");
+			eval("Txt" + numero + ".style.left = 50 ");
+		}
+	}
+}
+function oculta(numero) 
+{
+	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = hide'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'hidden'");
+		}
+	}
+}
+function RecuperarValores()
+{
+	var Frm = document.frmPrincipal;
+	var Valor='';var CodLey='';var NomLey='';var NomUnidad='';var CodUnidad='';var Seguimiento='';var Arbitral='';var LeyCheck='';var CantLeyes='';var Variable3='';var NumPqte='';
+	var Forzar='';var Ley1='';var Ley2='';var Ley3='';var Ley4='';var LeyR='';var IncR='';var LeyC='';var LeyF='';
+	var CodLab='';var OrdenEnsaye='';var ValLab='N';var ValOrdenEns='N';
+	for(i=1;i<Frm.CodLey.length;i++)
+	{
+		CantLeyes=eval("Frm.Opt"+Frm.CodLey[i].value+".length");
+		for(j=0;j<CantLeyes;j++)
+		{
+			LeyCheck=eval("Frm.Opt"+Frm.CodLey[i].value+"["+j+"].checked");
+			if(LeyCheck==true)
+			{
+				CodLey=Frm.CodLey[i].value
+				NomLey=Frm.NomLey[i].value
+				NomUnidad=Frm.NomUnidad[i].value
+				CodUnidad=Frm.CodUnidad[i].value
+				Seguimiento=Frm.Seguimiento[i].value
+				Ley1=eval("Frm.Txt"+Frm.CodLey[i].value+"[0].value");
+				Ley2=eval("Frm.Txt"+Frm.CodLey[i].value+"[1].value");
+				Ley3=eval("Frm.Txt"+Frm.CodLey[i].value+"[2].value");
+				Ley4=eval("Frm.Txt"+Frm.CodLey[i].value+"[3].value");
+				LeyR=eval("Frm.Txt"+Frm.CodLey[i].value+"[4].value");
+				IncR=eval("Frm.Txt"+Frm.CodLey[i].value+"[5].value");
+				LeyC=eval("Frm.Txt"+Frm.CodLey[i].value+"[6].value");
+				LeyF=eval("Frm.Txt"+Frm.CodLey[i].value+"[7].value");
+				NumPqte=eval("Frm.Opt"+Frm.CodLey[i].value+"["+j+"].value");
+				Arbitral='N';
+				if(Frm.CheckArbitral[i].checked==true)
+					Arbitral='S';
+				Forzar='N';	
+				if(Frm.CheckForzarLey[i].checked==true)
+					Forzar='S';
+				if(Arbitral=='S')
+				{
+					if(Frm.CmbLaboratorios.value=='S')
+						ValLab='S';
+					else
+						CodLab=Frm.CmbLaboratorios.value;					
+					if(Frm.TxtOrdenEnsaye.value=='')
+						ValOrdenEns='S';
+					else
+						OrdenEnsaye=Frm.TxtOrdenEnsaye.value;		
+				}
+				Valor=Valor+CodLey+"~~"+NomLey+"~~"+NomUnidad+"~~"+Ley1+"~~"+Ley2+"~~"+Ley3+"~~"+Ley4+"~~"+LeyR+"~~"+IncR+"~~"+LeyC+"~~"+LeyF+"~~"+NumPqte+"~~"+Seguimiento+"~~"+CodUnidad+"~~"+Arbitral+"~~"+Forzar+"~~"+CodLab+"~~"+OrdenEnsaye+"//";
+			}	
+		}	
+	}
+	Valor=Valor.substr(0,Valor.length-2);
+	if(ValLab=='S')
+	{
+		Valor='';
+		alert('Debe  Seleccionar Laboratorio Externo');
+		Frm.CmbLaboratorios.focus();	
+	}
+	if(ValOrdenEns=='S')
+	{
+		Valor='';
+		alert('Debe Ingresar Orden de Ensaye');
+		Frm.TxtOrdenEnsaye.focus();
+	}
+	return(Valor);
+}
+function Proceso(opt,opt2)
+{
+	var f = document.frmPrincipal;
+	var Valores='';
+	switch (opt)
+	{
+		case "G"://GRABAR
+			Valores=RecuperarValores();
+			if(Valores!='')
+			{	
+				f.action = "age_adm_canje_leyes01.php?Valores="+Valores+"&Proceso=G";
+				f.submit();	
+			}
+			else
+				alert('Valores no Grabados');
+			break;
+		case "MC"://MODIFICAR CIERRE OPERACIONAL
+			if(confirm('Esta seguro de Modificar Cierre Comercial'))
+			{
+				f.action = "age_adm_canje_leyes01.php?Proceso=MC";
+				f.submit();	
+			}	
+			break;
+		case "C"://CALCULAR
+			if(f.CmbPlantLimPart.value!='-1')
+			{
+				Valores=RecuperarValores();
+				f.action = "age_adm_canje_leyes.php?Valores="+Valores+"&Calcular=S";
+				f.submit();	
+			}
+			else
+			{
+				alert('Debe Seleccionar Plantilla de Limite Particion');
+				f.CmbPlantLimPart.focus();
+			}	
+			break;
+		case "CMC"://CERRAR MES COMERCIAL
+			if(confirm('Esta seguro de Cerrar Mes Comercial'))
+			{
+				f.action = "age_adm_canje_leyes01.php?Proceso=CMC";
+				f.submit();	
+			}	
+			break;
+		case "CL"://CERTIFICADO DE LEYES		
+			window.open("age_certificado_leyes.php?Valores="+f.TxtLote.value,"","top=0,left=0,width=770,height=520,scrollbars=yes,resizable = yes");
+			break;
+		case "CLC_ENM"://CERTIFICADO DE LEYES CANJE ENM		
+			window.open("age_certificado_leyes_canje_enm.php?Valores="+f.TxtLote.value,"","top=0,left=0,width=770,height=520,scrollbars=yes,resizable = yes");
+			break;
+		case "CL_ENM"://CERTIFICADO DE LEYES ENM		
+			window.open("age_certificado_leyes_enm.php?Valores="+f.TxtLote.value,"","top=0,left=0,width=770,height=520,scrollbars=yes,resizable = yes");
+			break;
+		case "CLC"://CERTIFICADO DE LEYES CANJE		
+			window.open("age_certificado_leyes_canje.php?Valores="+f.TxtLote.value,"","top=0,left=0,width=770,height=520,scrollbars=yes,resizable = yes");
+			break;
+		case "MLC"://MANTENEDOR LEYES CANJE				
+			window.open("age_leyes_canje_proceso.php","","top=130,left=120,width=550,height=180,scrollbars=no,resizable = no");
+			break;
+		case "MLP"://MANTENEDOR LIMITE DE PARTICION
+			window.open("age_limite_particion_proceso.php?TipoProceso=CANJE","","top=100,left=120,width=570,height=400,scrollbars=yes,resizable = yes");
+			break;
+		case "MOE"://MANTENEDOR ORDEN DE ENSAYE
+			window.open("age_mod_orden_ensaye.php","","top=100,left=120,width=600,height=350,scrollbars=yes,resizable = yes");
+			break;
+		case "I"://IMPRIMIR			
+			if (f.TxtLote.value==""){
+				alert("Debe Ingresar Num. Lote");
+				f.TxtLote.focus();
+				return;}
+			Valores=RecuperarValores();	
+			window.open("age_adm_canje_leyes_imprimir.php?TxtLote="+f.TxtLote.value+"&Calcular=S&Valores="+Valores,"","top=30,left=2,width=770,heiht=500,scrollbars=yes,resizable=yes");
+			break;
+		case "E"://EXCEL	
+			if (f.TxtLote.value==""){
+				alert("Debe Ingresar Num. Lote");
+				f.TxtLote.focus();
+				return;}
+			f.action="age_adm_canje_leyes_excel.php?TxtLote="+f.TxtLote.value+"&Calcular=S&Valores="+Valores;
+			f.submit();
+			break;		
+		case "R"://RECARGA					
+			f.action = "age_adm_canje_leyes.php";
+			f.submit();
+			break
+		case "S"://SALIR
+			if(opt2=='S')
+				window.close();
+			else
+			{	
+				frmPrincipal.action = "../principal/sistemas_usuario.php?CodSistema=15&Nivel=1&CodPantalla=40";
+				frmPrincipal.submit();
+			}	
+			break;			
+		case "MT": //MARCA TODO
+			var ValorChk = false;
+			if (f.ChkMarcaTodo.checked)
+				ValorChk = true;
+			for (i=1;i<f.elements.length;i++)
+			{
+				if (f.elements[i].name=="ChkRecargo")
+				{
+					f.elements[i].checked=ValorChk;
+					CCA(f.elements[i],'CL03');
+				}
+			}
+			break;
+		case "L":
+			if (f.TxtLote.value==""){
+				alert("Debe Ingresar Num. Lote");
+				f.TxtLote.focus();
+				return;}
+			window.open("age_adm_lotes_leyes.php?TxtLote="+f.TxtLote.value,"","top=10,left=70,width=550,height=500,scrollbars=yes,resizable=yes");
+			break;
+		case "ELI"://ELIMINAR REGISTRO DE LA LEYE DE CANJE PARA TOMAR VALORES ORIGINALES
+			if(confirm('Esta seguro de eliminar registro canje'))
+			{
+				//alert(opt2);
+				f.action = "age_adm_canje_leyes01.php?Proceso=ELI&CodLey="+opt2;
+				f.submit();	
+			}
+			break;
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<!--
+body {
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style></head>
+<body onLoad="window.document.frmPrincipal.TxtLote.focus();">
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=160 scrolling=no height=180></IFRAME></DIV>
+<form name="frmPrincipal" action="" method="post">
+<input type="hidden" name="Proc" value="<? echo $Proc; ?>">
+<input type="hidden" name="NewRec" value="<? echo $NewRec; ?>">
+<input type="hidden" name="TipoConsulta" value="<? echo $TipoConsulta; ?>">
+
+<? include("../principal/encabezado.php") ?>
+<table class="TablaPrincipal" width="770" height="330" cellpadding="0" cellspacing="0" >
+	<tr>
+	  <td width="760" height="330" align="center" valign="top"><br>
+<table width="750"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
+  <tr class="ColorTabla02">
+    <td colspan="4"><strong>INGRESO LOTE CANJE </strong></td>
+  </tr>
+<?
+	if ($EstOpe != "")
+	{  
+		switch ($EstOpe)
+		{
+			case "S":
+				$Clase="ErrorSI";
+				break;
+			case "N":
+				$Clase="ErrorNO";
+				break;
+		}
+		echo "<tr class='ColorTabla02'>\n";
+    	echo "<td colspan='4' class='Colum01' align='center'><font class='".$Clase."'>".$Mensaje."</font></td>\n";
+    	echo "</tr>\n";
+	}
+?>
+  <tr class="Colum01">
+    <td width="128" class="Colum01">Lote:</td>
+    <td width="282" class="Colum01"><input <? echo $EstadoInput; ?> name="TxtLote" type="text" class="InputCen" id="TxtLote" value="<? echo $TxtLote; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');">
+    <input name="BtnOK" type="button" id="BtnOK" value="OK" onClick="Proceso('R')"  onFocus="Proceso('R')">&nbsp;&nbsp;&nbsp;<font color="#FF3300"><strong><? echo $EstadoCierre;?></strong></font>
+    <td width="135" align="right" class="Colum01">Num.Conjunto:</td>
+    <td width="178" class="Colum01"><? if(isset($TxtConjunto)) echo $TxtConjunto."&nbsp;"; else echo "&nbsp;";?></td>
+  </tr>
+  <tr class="Colum01">
+    <td class="Colum01">SubProducto:</td>
+    <td class="Colum01"><? if(isset($CodSubProducto)) echo $CodSubProducto." - ".$NombreSubProducto; else echo "&nbsp;";?></td>
+    <td align="right" class="Colum01">Clase Producto:</td>
+    <td class="Colum01"><? if(isset($ClaseProducto)) echo $ClaseProducto; else echo "&nbsp;";?></td>
+  </tr>
+  <tr class="Colum01">
+    <td class="Colum01">Proveedor:</td>
+    <td class="Colum01"><? if(isset($RutProveedor)) echo $RutProveedor." - ".$NombrePrv; else echo "&nbsp;";?></td>
+    <td align="right" class="Colum01">Cod.Recepcion:</td>
+    <td class="Colum01"><? if(isset($Recepcion)) echo $Recepcion; else echo "&nbsp;";?></td>
+  </tr>
+  <tr class="Colum01">
+    <td class="Colum01">Cod Faena: </td>
+    <td class="Colum01"><? if(isset($CodFaena)) echo $CodFaena." - ".$NombreFaena; else echo "&nbsp;";?></td>
+    <td align="right" class="Colum01">Peso Retalla: </td>
+    <td class="Colum01"><? if(isset($PesoRetalla)) echo number_format($PesoRetalla,4,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?></td>
+  </tr>
+  <tr class="Colum01">
+    <td class="Colum01">Estado Lote:</td>
+    <td class="Colum01"><strong><font color="#FF3300"><? if(isset($EstadoLote)) echo strtoupper($EstadoLote); else echo "&nbsp;";?></font></strong></td>
+    <td align="right" class="Colum01">Peso Muestra: </td>
+    <td class="Colum01"><? if(isset($PesoMuestra)) echo number_format($PesoMuestra,0,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?></td>
+  </tr>
+  <tr class="Colum01">
+    <td class="Colum01">Plantilla Lim. Particion</td>
+    <td class="Colum01"><select name="CmbPlantLimPart" style="width:180">
+      <option value="-1">SELECCIONAR</option>
+      <?
+			$Consulta="select distinct cod_plantilla,nombre_plantilla from age_web.limites_particion where proceso='CANJE' order by cod_plantilla";
+			$Respuesta=mysql_query($Consulta);
+			while($Fila=mysql_fetch_array($Respuesta))
+			{
+				if($CmbPlantLimPart==$Fila["cod_plantilla"])
+					echo "<option value='$Fila["cod_plantilla"]' selected>$Fila[nombre_plantilla]</option>";
+				else
+					echo "<option value='$Fila[cod_plantilla]'>$Fila[nombre_plantilla]</option>";
+			}
+	  ?>
+    </select></td>
+    <td colspan="2" align="right" class="Colum01">
+	<input name="BtnCertLeyesCanjeEnm2" type="button" value="Cert. Leyes ENM" style="width:140px " onClick="Proceso('CL_ENM')">
+      <input name="BtnCertLeyesCanjeEnm" type="button" value="Cert. Leyes Canje ENM" style="width:140px " onClick="Proceso('CLC_ENM')"></td>
+  </tr>
+  
+	<tr align="center" class="Colum01">
+	  <td height="30" colspan="4" class="Colum01">
+		<input name="BtnCalcular" type="button" value="Calcular" style="width:70px " onClick="Proceso('C')" <? echo $Habilitado;?> >
+		<!--<input name="BtnLeyesCanje" type="button" value="Mant. Leyes Canje" style="width:140px " onClick="Proceso('MLC')">-->
+		<input name="BtnLimites" type="button" value="Mant. Limites Particion" style="width:140px " onClick="Proceso('MLP')">
+		<input name="BtnCertLeyes" type="button" value="Cert. de Leyes" style="width:125px " onClick="Proceso('CL')">
+		<input name="BtnCertLeyesCanje" type="button" value="Cert. de Leyes Canje" style="width:125px " onClick="Proceso('CLC')">
+		<input name="BtnCerrarMes" type="button" value="Cerrar Lote Comercial" style="width:140px " onClick="Proceso('CMC')" <? echo $Habilitado;?>>
+	  </td>
+	</tr>
+	</table>
+	<br>
+	<table width="750"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
+	  <tr class="ColorTabla01" align="center">
+		<td width="28">Eli</td>
+        <td width="28">Ley</td>
+		<td width="29">Unid</td>
+		<td width="71">Ley 1ra</td>
+		<td width="75">Ley 2da</td>
+		<td width="5">F</td>
+		<td width="71">Ley 3era</td>
+		<td width="71">Ley 4ta</td>
+		<td width="73">Ley Retalla</td>
+		<td width="74">Inc. Retalla</td>
+		<td width="72">Ley Canje</td>
+		<td width="72">Ley Final</td>
+		<td width="42">Arb</td>
+	  </tr>
+	  <?
+	  if ($Mostrar=='S')
+	  {
+		  echo "<input type='hidden' name='CodLey'>";
+		  echo "<input type='hidden' name='NomLey'>";
+		  echo "<input type='hidden' name='NomUnidad'>";
+		  echo "<input type='hidden' name='CodUnidad'>";
+		  echo "<input type='hidden' name='Seguimiento'>";
+		  echo "<input type='hidden' name='TxtLey'>";
+		  echo "<input type='hidden' name='OptLey'>";
+		  echo "<input type='hidden' name='CheckArbitral'>";
+		  echo "<input type='hidden' name='CheckForzarLey'>";
+		  while(list($c,$v)=each($ArrayLeyes))
+		  {
+			if ($v[0]!='')
+			{
+				$Cont++;
+				echo "<tr align='left'>";
+				echo "<td><input type='button' name='BtnEliminar' value='X' onClick=Proceso('ELI','".$c."') $Habilitado></td>";
+				echo "<td onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' class='Detalle02'>";
+				echo "<div id='Txt".$Cont."' ";
+				echo " style=\"FILTER: alpha(opacity=75);  background-color:#fff4cf; VISIBILITY: hidden; WIDTH: 500px; POSITION: absolute; moz-opacity: .75; opacity: .75; border:solid 1px Black\">";
+				//echo " style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:500px'>\n";
+				echo "<font face='courier' color='#000000' size=1><b>$v[11]<br></b>";
+				echo "</div>&nbsp;&nbsp;$v[0]<input type='hidden' name='CodLey' value='$c'><input type='hidden' name='NomLey' value='$v[0]'><input type='hidden' name='NomUnidad' value='$v[1]'><input type='hidden' name='CodUnidad' value='$v[15]'><input type='hidden' name='Seguimiento' value='$v[11]'></td>";
+				echo  "<td align='center'>$v[1]</td>";
+				$NombreOpt='Opt'.$c;$NombreTxt='Txt'.$c;//$NombreCheck='Check'.$c;
+				switch($v[10])//INDICA EL NUMERO DE PAQUETE
+				{
+					case "1"://PAQUETE PRIMERO
+						$ClaseInput1="style ='background:#66CCFF'";$ClaseInput2="";$ClaseInput3="";$ClaseInput4="";
+						$Chekeado1='checked';$Chekeado2='';$Chekeado3='';$Chekeado4='';
+						break;
+					case "2"://PAQUETE SEGUNDO
+					    $ClaseInput1='';$ClaseInput2="style ='background:#66CCFF'";$ClaseInput3="";$ClaseInput4="";
+						$Chekeado1='';$Chekeado2='checked';$Chekeado3='';$Chekeado4='';
+						break;
+					case "3"://PAQUETE TERCERO
+					 	$ClaseInput1='';$ClaseInput2='';$ClaseInput3="style ='background:#66CCFF'";$ClaseInput4='';
+						$Chekeado1='';$Chekeado2='';$Chekeado3='checked';$Chekeado4='';
+						break;
+					case "4"://PAQUETE CUARTO
+					    $ClaseInput1='';$ClaseInput2='';$ClaseInput3='';$ClaseInput4="style ='background:#66CCFF'";
+						$Chekeado1='';$Chekeado2='';$Chekeado3='';$Chekeado4='checked';
+						break;
+				}
+				echo "<td><input type='radio' name='$NombreOpt' value='1' $Chekeado1><input type='text' name='$NombreTxt' size='10' value='$v[2]' class='InputCen' readonly=true></td>";
+				echo "<td colspan='2'><input type='radio' name='$NombreOpt' value='2' $Chekeado2><input type='text' name='$NombreTxt' size='10' value='$v[3]' class='InputCen' $ClaseInput2>";
+				if($v[30]=='S')
+					echo "<input type='checkbox' name='CheckForzarLey' value='' checked></td>";
+				else
+					echo "<input type='checkbox' name='CheckForzarLey' value=''></td>";
+				echo "<td><input type='radio' name='$NombreOpt' value='3' $Chekeado3><input type='text' name='$NombreTxt' size='10' value='$v[4]' class='InputCen' $ClaseInput3></td>";
+				echo "<td><input type='radio' name='$NombreOpt' value='4' $Chekeado4><input type='text' name='$NombreTxt' size='10' value='$v[5]' class='InputCen' $ClaseInput4></td>";
+				echo "<td><input type='text' name='$NombreTxt' size='10' value='$v[6]' class='InputCen' readonly=true></td>";
+				echo "<td><input type='text' name='$NombreTxt' size='10' value='$v[7]' class='InputCen' readonly=true></td>";
+				echo "<td><input type='text' name='$NombreTxt' size='10' value='$v[8]' style ='background:#FFFFCC' class='InputCen'></td>";
+				echo "<td><input type='text' name='$NombreTxt' size='12' value='$v[9]' style ='background:#FFFF99' class='InputCen'></td>";
+				if($v[20]=='S')
+				{
+					$TieneArb='S';
+					echo "<td><input type='checkbox' name='CheckArbitral' size='12' value='' class='InputCen' checked></td>";
+				}	
+				else
+					echo "<td><input type='checkbox' name='CheckArbitral' size='12' value='' class='InputCen'></td>";
+				echo "</tr>";
+			}	
+		  }
+	  } 
+	  ?>
+  	</table><br><br><br><br><br><br>
+	<table width="750"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
+	 <tr>
+	 <td colspan="3"><strong>Laboratorios Externo</strong></td>
+	 <td colspan="7">
+	 <select name="CmbLaboratorios" style="width:150">
+	 <?
+	 	if($TieneArb=='S')
+			echo "<option value='S'>Seleccionar</option>";
+		else
+			echo "<option value='S'>Ninguno</option>";
+		$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase=15009";
+		$RespLab=mysql_query($Consulta);
+		while($FilaLab=mysql_fetch_array($RespLab))
+		{
+			if($FilaLab["cod_subclase"]==$CmbLaboratorios)
+				echo "<option value='".$FilaLab["cod_subclase"]."' selected>".$FilaLab["nombre_subclase"]."</option>";
+			else
+				echo "<option value='".$FilaLab["cod_subclase"]."'>".$FilaLab["nombre_subclase"]."</option>";
+			
+		}
+	 ?>
+	 </select>
+	 (Solo para Arbitral)
+	 </td>
+	 <td width="94"><strong>Orden de Ensaye</strong></td>
+	 <td width="229"><input type="text" name="TxtOrdenEnsaye" value="<? echo $TxtOrdenEnsaye;?>" size="15">&nbsp;
+	   <input name="BtnModOrdenEnsaye" type="button" value="Param. Canje" style="width:120px " onClick="Proceso('MOE')"></td>
+	 </tr>
+	 <tr>
+	   <td colspan="3"><strong>Fecha Canje </strong></td>
+	   <td colspan="7"><input name="TxtFechaCanje" type="text" class="InputCen" id="TxtFechaCanje" value="<? echo $TxtFechaCanje; ?>" size="15" maxlength="10" readOnly>
+         <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaCanje,TxtFechaCanje,popCal);return false"></td>
+	 <td width="94"><strong>Fecha Solic. Pqts.</strong></td>
+	 <td width="229">
+       <input name="TxtFechaSolPqts" type="text" class="InputCen" value="<? echo $TxtFechaSolPqts; ?>" size="15" maxlength="10" readOnly>
+       <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaSolPqts,TxtFechaSolPqts,popCal);return false"> </td>
+	 </tr>
+	    
+	</table>
+	<BR>
+	<table width="750"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
+	  <tr>
+	  <td  align="center">
+		<input name="BtnGrabar" type="button" value="Grabar" style="width:70px " onClick="Proceso('G')" <? echo $Habilitado;?>>
+		<input name="BtnImprimir" type="button" value="Imprimir" style="width:70px " onClick="Proceso('I')">
+		<input name="BtnExcel" type="button" value="Excel" style="width:70px " onClick="Proceso('E')">
+		<input name="BtnModCierreC" type="button" value="Mod.Cierre Comer." style="width:120px " onClick="Proceso('MC')">
+		<input name="BtnSalir" type="button" value="Salir" style="width:70px " onClick="Proceso('S','<? echo $EsPopup;?>')">
+	  </td>
+	</table>  
+</td>
+</tr>
+</table>
+<? include("../principal/pie_pagina.php") ?>
+</form>
+</body>
+</html>
+<?
+if($Mensaje!='')
+{
+	echo "<script language='JavaScript'>";
+	echo "alert('$Mensaje')";
+	echo "</script>";
+}
+?>

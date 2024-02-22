@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 40970 ',peso_neto='25880',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10351882-2',nombre_chofer='marcos sandoval',observacion='concentrado de cu',romana_salida='1' where correlativo='473926' and lote='22116194' and recargo='5'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42720 ',peso_neto='27380',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='12854343-0',nombre_chofer='rodolfo palacios',observacion='',romana_salida='1' where correlativo='474163' and lote='22126004' and recargo='5'

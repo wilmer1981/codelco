@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44640 ',peso_neto='28670',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8089365-5',nombre_chofer='Carlos Carvallo',observacion='CU VARIOS',romana_salida='1' where correlativo='471331' and lote='22106051' and recargo='4'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44320 ',peso_neto='30110',marca='V NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='15732588-4',nombre_chofer='RODRIGO  COFRE',observacion='',romana_salida='1' where correlativo='451632' and lote='21106062' and recargo='37'

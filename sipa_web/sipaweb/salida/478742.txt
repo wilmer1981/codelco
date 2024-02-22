@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43860 ',peso_neto='27230',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9050873-3',nombre_chofer='luis moraga',observacion='concentrado de cu',romana_salida='1' where correlativo='478742' and lote='23026125' and recargo='3'

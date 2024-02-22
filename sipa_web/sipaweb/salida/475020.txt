@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39930 ',peso_neto='24990',marca='TRES FRANJAS AZULES',cod_mop='570',num_sello='',transportista='',rut_chofer='5577292-4',nombre_chofer='LUIS TAMAYO',observacion='',romana_salida='1' where correlativo='475020' and lote='22126010' and recargo='21'

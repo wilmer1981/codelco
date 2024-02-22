@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44570 ',peso_neto='28850',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13811613-1',nombre_chofer='jose padilla',observacion='escoria ct',romana_salida='1' where correlativo='475187' and lote='22126150' and recargo='5'

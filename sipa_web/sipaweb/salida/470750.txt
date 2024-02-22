@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43440 ',peso_neto='27000',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9245134-8',nombre_chofer='jose zambrano',observacion='cu varios ',romana_salida='1' where correlativo='470750' and lote='22096203' and recargo='6'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44530',peso_neto='29070',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16694248-9',nombre_chofer='MANUEL   LOPEZ',observacion='',romana_salida='1' where correlativo='454043' and lote='21116184' and recargo='5'

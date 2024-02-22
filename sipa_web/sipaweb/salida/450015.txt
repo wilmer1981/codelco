@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44790',peso_neto='28590',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15525124-7',nombre_chofer=' DANIEL ROMO',observacion='circulante oxido',romana_salida='1' where correlativo='450015' and lote='21096095' and recargo='1'

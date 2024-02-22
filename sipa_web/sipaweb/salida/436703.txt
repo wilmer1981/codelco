@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42730 ',peso_neto='29060',marca='V FRANJA CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='16323568-4',nombre_chofer='MANUEL DIAZ',observacion='',romana_salida='1' where correlativo='436703' and lote='21016046' and recargo='8'

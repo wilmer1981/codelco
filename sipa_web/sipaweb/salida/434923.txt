@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 15050 ',peso_neto='6250',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='14256349-5',nombre_chofer='ANGELO SAAVEDRA',observacion='',romana_salida='1' where correlativo='434923' and lote='20126078' and recargo='3'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43170 ',peso_neto='26570',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='18383744-3',nombre_chofer='daniel diaz',observacion='ladrillo impregnado',romana_salida='1' where correlativo='488489' and lote='23076261' and recargo='1'

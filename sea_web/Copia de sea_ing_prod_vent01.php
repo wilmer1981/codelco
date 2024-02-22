@@ -1,0 +1,153 @@
+<?php
+	include("../principal/conectar_sea_web.php"); 
+	
+//*******************************************************************************//
+	//Valida que no se realicen cambios de movimientos, en la fecha ingresada.
+	
+	$valida_fecha_movimiento = $ano."-".$mes."-".$dia;
+	include("sea_valida_mes.php");
+//*******************************************************************************//
+if (strlen($mes)== 1)
+	$mes ="0".$mes;
+if (strlen($dia)== 1)
+	$dia ="0".$dia;
+		
+
+$fecha = $ano."-".$mes."-".$dia;
+$fecha_hora = $ano."-".$mes."-".$dia." ".$hora.":".$minuto;
+
+if (strlen($mes) == 1)
+$mes = "0".$mes;
+
+$num_hornada = $ano.$mes.$num_hornada;
+
+/******************************************GUARDAR****************************************/
+if ($proceso == 'G')
+{
+// asign flujo seg 瀮 n horno	 
+	 if($cmbhornos == 1 || $cmbhornos == 2)
+	 {
+	 $flujo_cor = 92;
+	 $flujo_esp = 95;
+	 $flujo_hm = 129;
+	 }
+	 
+	 if($cmbhornos == 4)
+	 {
+	 $flujo_cor = 93;
+	 $flujo_esp = 99;
+	 $flujo_hm = 131;
+	 }
+	 
+/************* Hojas Madres *********/	 
+
+	 if($uni_hojas_madres !=0 && $uni_hojas_madres != '')
+	 {
+    	$Insertar_m = "INSERT INTO sea_web.movimientos"; 
+    	$Insertar_m.=" (tipo_movimiento,cod_producto,cod_subproducto,flujo,hornada,fecha_movimiento,unidades,numero_recarga,campo1,campo2,fecha_benef,peso,estado,lote_ventana,peso_origen,zuncho,hora)";
+    	$Insertar_m.=" VALUES (1,17,8,$flujo_hm,$num_hornada,'$fecha', $uni_hojas_madres,0,'','','',$peso_hojas_madres,0,'',0,0,'$fecha_hora')";
+    	//echo "inserta hojas madres ".$Insertar_m;
+		mysqli_query($link, $Insertar_m);
+
+
+        $Consulta = "SELECT unidades,peso_unidades FROM hornadas WHERE cod_producto = 17 AND cod_subproducto = 8 AND hornada_ventana = $num_hornada"; 	
+		$rs = mysqli_query($link, $Consulta);
+		if($row = mysqli_fetch_array($rs))
+		{
+   			$unidades_total = $row["unidades"] + $uni_hojas_madres;
+   			$peso_total = $row[peso_unidades] + $peso_hojas_madres;
+
+			$Actualizar = "UPDATE hornadas SET unidades = $unidades_total, peso_unidades = $peso_total WHERE cod_producto = 17 AND cod_subproducto = 8 AND hornada_ventana = $num_hornada";
+            mysqli_query($link, $Actualizar);
+		}
+		else
+		{
+			$Insertar_h = "INSERT INTO hornadas"; 
+			$Insertar_h.= " (cod_producto,cod_subproducto,hornada_ventana,unidades,peso_unidades)";
+			$Insertar_h.= " VALUES (17,8,$num_hornada, $uni_hojas_madres, $peso_hojas_madres)";
+			mysqli_query($link, $Insertar_h);
+		}
+
+     }	
+
+/******** Corrientes ********************/	
+
+	 if($uni_corrientes !=0 && $uni_corrientes != '') 
+	 { 
+		
+    	$Insertar_m = "INSERT INTO movimientos"; 																													
+    	$Insertar_m.= " (tipo_movimiento,cod_producto,cod_subproducto,flujo,hornada,fecha_movimiento,unidades,numero_recarga,campo1,campo2,fecha_benef,peso,estado,lote_ventana,peso_origen,zuncho,hora)";
+    	$Insertar_m.= " VALUES (1,17,4,$flujo_cor,$num_hornada,'$fecha', $uni_corrientes,0,'','','',$peso_corrientes,0,'',0,0,'$fecha_hora')";
+ //   	echo "corrientes".$Insertar_m;
+		mysqli_query($link, $Insertar_m);
+
+
+        $Consulta = "SELECT unidades,peso_unidades FROM hornadas WHERE cod_producto = 17 AND cod_subproducto = 4 AND hornada_ventana = $num_hornada"; 	
+		$rs = mysqli_query($link, $Consulta);
+		if($row = mysqli_fetch_array($rs))
+		{
+   			$unidades_total = $row["unidades"] + $uni_corrientes;
+   			$peso_total = $row[peso_unidades] + $peso_corrientes;
+
+			$Actualizar = "UPDATE hornadas SET unidades = $unidades_total, peso_unidades = $peso_total WHERE cod_producto = 17 AND cod_subproducto = 4 AND hornada_ventana = $num_hornada";
+            mysqli_query($link, $Actualizar);
+		}
+		else
+		{
+			$Insertar_h = "INSERT INTO hornadas"; 
+			$Insertar_h = "$Insertar_h (cod_producto,cod_subproducto,hornada_ventana,unidades,peso_unidades)";
+			$Insertar_h = "$Insertar_h VALUES (17,4,$num_hornada, $uni_corrientes, $peso_corrientes)";
+			mysqli_query($link, $Insertar_h);
+		}
+    }
+
+	if($uni_rechazo_cte !=0 && $uni_rechazo_cte != '')
+	   {
+	  		/*rechazos fisicos de ctes ventanas*/
+		$Insertar_cte = "INSERT INTO movimientos"; 																													
+    	$Insertar_cte.= " (tipo_movimiento,cod_producto,cod_subproducto,flujo,hornada,fecha_movimiento,unidades,numero_recarga,campo1,campo2,fecha_benef,peso,estado,lote_ventana,peso_origen,zuncho,hora)";
+    	$Insertar_cte.= " VALUES (4,17,4,$flujo_cor,$num_hornada,'$fecha', $uni_rechazo_cte,0,'','','',$peso_rechazo_cte,0,'',0,0,'$fecha_hora')";
+//	echo "inser rechAZO".$Insertar_cte;
+    	mysqli_query($link, $Insertar_cte);
+
+		$Inserta = "INSERT INTO sea_web.inf_rechazos (Fecha,Fis_Vent,Quim_Vent,Calaf_Vent,Ana_Vent,";
+		$Inserta.= "Fis_HMadres,Quim_HMadres,Calaf_HMadres,Ana_HMadres,Fis_Teniente,Quim_Teniente,Calaf_Teniente,Ana_Teniente,";
+		$Inserta.= "Fis_FHVL,Quim_FHVL,Calaf_FHVL,Ana_FHVL,Fis_Disputada,Quim_Disputada,Calaf_Disputada,Ana_Disputada,";
+		$Inserta.= "Fis_Restos,Quim_Restos,Calaf_Restos,Ana_Restos,Fis_Expo,Quim_Expo,Calaf_Expo,Ana_Expo,hora)";
+		$Inserta.= " VALUES('$fecha',$uni_rechazo_cte,0,0,0,";
+		$Inserta.= "0,0,0,0,0,0,0,0,";
+		$Inserta.= "0,0,0,0,0,0,0,0,";
+		$Inserta.= "0,0,0,0,0,0,0,0,'$fecha_hora')";
+			mysqli_query($link, $Inserta);
+			
+	 }	
+
+	if($uni_rechazo_hm !=0 && $uni_rechazo_hm != '')
+	   {
+	   		$Insertar_hm = "INSERT INTO movimientos"; 																													
+    		$Insertar_hm.= " (tipo_movimiento,cod_producto,cod_subproducto,flujo,hornada,fecha_movimiento,unidades,numero_recarga,campo1,campo2,fecha_benef,peso,estado,lote_ventana,peso_origen,zuncho,hora)";
+    		$Insertar_hm.= " VALUES (4,17,8,$flujo_cor,$num_hornada,'$fecha', $uni_rechazo_hm,0,'','','',$peso_rechazo_hm,0,'',0,0,'$fecha_hora')";
+    		mysqli_query($link, $Insertar_hm);
+
+	  		/*rechazos fisicos de hm ventanas*/
+		
+	  			$Inserta = "INSERT INTO sea_web.inf_rechazos (Fecha,Fis_Vent,Quim_Vent,Calaf_Vent,Ana_Vent,";
+				$Inserta.= "Fis_HMadres,Quim_HMadres,Calaf_HMadres,Ana_HMadres,Fis_Teniente,Quim_Teniente,Calaf_Teniente,Ana_Teniente,";
+				$Inserta.= "Fis_FHVL,Quim_FHVL,Calaf_FHVL,Ana_FHVL,Fis_Disputada,Quim_Disputada,Calaf_Disputada,Ana_Disputada,";
+				$Inserta.= "Fis_Restos,Quim_Restos,Calaf_Restos,Ana_Restos,Fis_Expo,Quim_Expo,Calaf_Expo,Ana_Expo,hora)";
+				$Inserta.= " VALUES('$fecha',0,0,0,0,";
+				$Inserta.= "$uni_rechazo_hm,0,0,0,0,0,0,0,";
+				$Inserta.= "0,0,0,0,0,0,0,0,";
+				$Inserta.= "0,0,0,0,0,0,0,0,'$fecha_hora')";
+				//echo $Inserta;
+				mysqli_query($link, $Inserta);
+			
+		}	
+		echo "<Script>  
+         JavaScript:window.location = 'sea_ing_prod_vent.php';
+        </Script>"; 
+//  }
+
+}
+	include("../principal/cerrar_sea_web.php"); 
+?>

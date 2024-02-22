@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43650 ',peso_neto='28050',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='13523619-5',nombre_chofer='luis negron',observacion='concentrado de cu ',romana_salida='1' where correlativo='479754' and lote='23026339' and recargo='3'

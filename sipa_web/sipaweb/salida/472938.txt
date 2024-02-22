@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44450 ',peso_neto='27910',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15578287-0',nombre_chofer='jose cruz',observacion='CIRCULANTE OXIDO',romana_salida='1' where correlativo='472938' and lote='22116036' and recargo='4'

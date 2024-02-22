@@ -1,0 +1,492 @@
+<?php
+//ini_set("display_errors","1");
+$config = array();
+
+$fp = fopen(dirname(__FILE__)."\setting.ini", "r");
+while(!feof($fp)) {
+$linea = fgets($fp);
+	$LineaSepara = explode(":",$linea);
+
+	$config[$LineaSepara[0]] = $LineaSepara[1];
+}
+fclose($fp);
+//print_r($config);
+//exit();
+$DataBase = new MySQL(trim($config["HOST"]),'cal_web',trim($config["USER"]),trim($config["PASS"]),trim($config["PORT"])) or die("error en la conexión a la BD");
+
+
+
+function sa_buscar_soap($numero_sa,$num_sa_lims) {
+    $Arreglo = array();
+    if($numero_sa != '' || $num_sa_lims != '')
+    {
+	    $Arreglo = sa_buscar($numero_sa,$num_sa_lims);
+	    
+	    if(count($Arreglo) > 0)
+	    {
+	      	$lista = array();
+	      	foreach ($Arreglo[0] as $key => $value) {
+	        	$lista[] = new soapval($key, false, $value);
+	      	}
+	  		$ArrayFinal = array("result" => true, "response" => $lista, "error" => false);
+
+	      return $ArrayFinal;
+	    }
+	    else
+	    {
+	      return array("result" => false, "response" => null, "error" => "SA no encontrada");
+	    }    	
+    }
+    else
+    {
+      return array("result" => false, "response" => null, "error" => "No se ha enviado ningun dato a Consultar!!!");
+    }    	    
+}
+
+function sa_insertar_soap($DatosSA){
+	$Retorno = array();
+    // Recorro el arreglo de datos enviados    
+    if(count($DatosSA) > 1)
+    {    	
+    	$RetornoCreaSA = CrearSA($DatosSA);
+	    $Retorno[] = new soapval("response", false, $RetornoCreaSA);
+
+	  	$ArrayFinal = array("result" => true, "response" => $Retorno, "error" => false);
+    }
+    else
+    {
+	  	$ArrayFinal = array("result" => false, "response" => $Retorno, "error" => "Data vacia");
+    }    
+
+
+  return $ArrayFinal;    
+}
+
+function sa_insertar_estados_soap($NumeroSA,$DatosEstadosSA){
+
+    // Recorro el arreglo de datos enviados
+	$Retorno = array();
+   
+   	if(trim($NumeroSA) !='' && trim($NumeroSA) !='?')   
+   	{
+	    if(count($DatosEstadosSA) > 1)
+	    {    	
+	    	$RetornoCreaSA = Eliminacion_RegistrarEstadosSA($NumeroSA,$DatosEstadosSA);
+		    $Retorno[] = new soapval("response", false, $RetornoCreaSA);
+
+		  	$ArrayFinal = array("result" => true, "response" => $Retorno, "error" => false);
+	    }
+	    else
+	    {
+		  	$ArrayFinal = array("result" => false, "response" => $Retorno, "error" => "Data vacia");
+	    }       		
+   	}
+    else
+    {
+	  	$ArrayFinal = array("result" => false, "response" => $Retorno, "error" => "Numero SA Cabecera vacia");
+	  	//$ArrayFinal = array("result" => false, "response" => $Retorno, "error" => utf8_decode("Función no construida!!"));
+    }       		
+
+  return $ArrayFinal; 
+}
+
+function sa_insertar_leyes_soap($NumeroSA,$DatosLeyesSA){
+
+    // Recorro el arreglo de datos enviados
+	$Retorno = array();
+   
+   	if(trim($NumeroSA) !='' && trim($NumeroSA) !='?')   
+   	{
+	    if(count($DatosLeyesSA) > 1)
+	    {    	
+	    	$RetornoCreaSA = Eliminacion_RegistrarLeyesSA($NumeroSA,$DatosLeyesSA);
+		    $Retorno[] = new soapval("response", false, $RetornoCreaSA);
+
+		  	$ArrayFinal = array("result" => true, "response" => $Retorno, "error" => false);
+	    }
+	    else
+	    {
+		  	$ArrayFinal = array("result" => false, "response" => $Retorno, "error" => "Data vacia");
+	    }       		
+   	}
+    else
+    {
+	  	$ArrayFinal = array("result" => false, "response" => $Retorno, "error" => "Numero SA Cabecera vacia");
+	  	//$ArrayFinal = array("result" => false, "response" => $Retorno, "error" => utf8_decode("Función no construida!!"));
+   	}       		
+
+  return $ArrayFinal;
+}
+
+
+///FUNCIONES QUE CONSULTAN LOS DATOS EN LA BD
+function sa_buscar($numeroSA,$numSAlims)
+{
+	global $DataBase;
+	$myArray = array();
+	$SQL = " SELECT nro_solicitud,fecha_hora,id_muestra,cod_ccosto,nro_sa_lims FROM solicitud_analisis where nro_solicitud <>''";
+	if($numeroSA!='')
+		$SQL.= " and nro_solicitud = '".$numeroSA."'";
+	if($numSAlims!='')
+		$SQL.= " and nro_sa_lims = '".$numSAlims."'";
+	$result = $DataBase->consulta($SQL);
+    while($row =mysqli_fetch_assoc($result)) {
+            $myArray[] = $row;
+    }
+	return $myArray;
+}
+
+
+function CrearSA($DatosSA)
+{
+	global $DataBase;
+	$Query='';
+
+	if(!array_key_exists('0', $DatosSA))
+		$DatosRecorrer[0] = $DatosSA;
+	else
+		$DatosRecorrer = $DatosSA;
+
+	$myArray = array();
+	$Cont = 0;	
+	foreach ($DatosRecorrer as $valueDataEnviada) {
+
+		$Consulta = "select max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
+		$result = $DataBase->consulta($Consulta);
+		if ($FilaSA = mysqli_fetch_assoc($result))
+		{
+			if ((substr($FilaSA["NroMayor"],0,4)) == (date("Y")))
+				$NroSA =$FilaSA["NroMayor"]+1;										
+			else
+				$NroSA=date("Y")."000001";	
+		}
+		else
+			$NroSA=date("Y")."000001";
+
+		if(trim($valueDataEnviada["nro_sa_lims"] == '') || trim($valueDataEnviada["nro_sa_lims"] == '?'))
+			$valueDataEnviada["nro_sa_lims"] = 0;
+
+		if($valueDataEnviada["cod_area"] == '' || $valueDataEnviada["cod_area"] == '?')
+			$valueDataEnviada["cod_area"] = 0;
+
+		if($valueDataEnviada["agrupacion"] == '' || $valueDataEnviada["agrupacion"] == '?')
+			$valueDataEnviada["agrupacion"] = 0;
+
+		//SI ESTE CAMPO VIENE VACIO, ES PORQUE LA SOLICITUD NO EXISTE EN LA TABLA SOLICITUDES_ANALISIS
+		if (trim($valueDataEnviada["nro_solicitud"]) == '' || trim($valueDataEnviada["nro_solicitud"]) == '?')
+		{
+			$Origen = $valueDataEnviada["origen_sa"];
+			if(is_numeric($valueDataEnviada["nro_sa_lims"]))
+				$Origen = "LIMS";
+
+			$SQL = "SELECT nro_solicitud from cal_web.solicitud_analisis where nro_sa_lims = '".$valueDataEnviada["nro_sa_lims"]."' and recargo = '".$valueDataEnviada["recargo"]."'";
+			$result = $DataBase->consulta($SQL);
+		    if($row = mysqli_fetch_assoc($result)) 
+		    {
+				$Query = "UPDATE cal_web.solicitud_analisis set 
+				id_muestra	= '".$valueDataEnviada["id_muestra"]."'
+				,recargo	= '".$valueDataEnviada["recargo"]."'
+				,cod_producto = '".$valueDataEnviada["cod_producto"]."'
+				,cod_subproducto = '".$valueDataEnviada["cod_subproducto"]."'
+				,leyes 	= '".$valueDataEnviada["leyes"]."'
+				,cod_analisis = '".$valueDataEnviada["cod_analisis"]."'
+				,cod_tipo_muestra 	= '".$valueDataEnviada["cod_tipo_muestra"]."'
+				,tipo_solicitud = '".$valueDataEnviada["tipo_solicitud"]."'
+				,cod_area = '".$valueDataEnviada["cod_area"]."'
+				,cod_ccosto = '".$valueDataEnviada["cod_ccosto"]."'
+				,cod_periodo = '".$valueDataEnviada["cod_periodo"]."'
+				,estado_actual = '".$valueDataEnviada["estado_actual"]."'
+				,rut_proveedor = '".$valueDataEnviada["rut_proveedor"]."'
+				,observacion = '".$valueDataEnviada["observacion"]."'
+				,agrupacion = '".$valueDataEnviada["agrupacion"]."'
+				,fecha_muestra = '".$valueDataEnviada["fecha_muestra"]."'
+				,nro_semana = '".$valueDataEnviada["nro_semana"]."'
+				,año = '".$valueDataEnviada["ano"]."'
+				,mes = '".$valueDataEnviada["mes"]."'
+				,frx = '".$valueDataEnviada["frx"]."'
+				,tipo = '".$valueDataEnviada["tipo"]."'
+				,peso_retalla = '".$valueDataEnviada["peso_retalla"]."'
+				,peso_muestra = '".$valueDataEnviada["peso_muestra"]."' 
+				where nro_sa_lims	= '".$valueDataEnviada["nro_sa_lims"]."' and recargo = '".$valueDataEnviada["recargo"]."'";				
+				$SARetorno = $row["nro_solicitud"];
+		    }
+		    else
+		    {
+				$Query="INSERT INTO cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Query.="leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Query.="rut_proveedor,observacion,agrupacion,fecha_muestra,nro_semana,año,mes,frx,tipo,nro_sa_lims,origen_sa,peso_retalla) values (";
+				$Query.= "'".$valueDataEnviada["rut_funcionario"]."','".$valueDataEnviada["fecha_hora"]."','".$valueDataEnviada["id_muestra"]."','".$valueDataEnviada["recargo"]."','".$valueDataEnviada["cod_producto"]."','".$valueDataEnviada["cod_subproducto"]."','".$valueDataEnviada["leyes"]."','".$valueDataEnviada["cod_analisis"]."','".$valueDataEnviada["cod_tipo_muestra"]."','".$valueDataEnviada["tipo_solicitud"]."','".$NroSA."','".$valueDataEnviada["cod_area"]."','".$valueDataEnviada["cod_ccosto"]."','".$valueDataEnviada["cod_periodo"]."','".$valueDataEnviada["estado_actual"]."','".$valueDataEnviada["rut_proveedor"]."','".$valueDataEnviada["observacion"]."','".$valueDataEnviada["agrupacion"]."','".$valueDataEnviada["fecha_muestra"]."','".$valueDataEnviada["nro_semana"]."','".$valueDataEnviada["ano"]."','".$valueDataEnviada["mes"]."','".$valueDataEnviada["frx"]."','".$valueDataEnviada["tipo"]."','".$valueDataEnviada["nro_sa_lims"]."','".$Origen."','".$valueDataEnviada["peso_retalla"]."')";	
+				$SARetorno = $NroSA;
+			}
+		}
+		else//VIENE EL NUMERO DE SA DEL CALWEB
+		{
+			$SQL = "SELECT nro_solicitud from cal_web.solicitud_analisis where nro_solicitud = '".$valueDataEnviada["nro_solicitud"]."' and recargo = '".$valueDataEnviada["recargo"]."'";
+			//echo $SQL;
+			$result = $DataBase->consulta($SQL);
+		    if($row = mysqli_fetch_assoc($result)) 
+		    {
+				$Query = "UPDATE cal_web.solicitud_analisis set 
+				id_muestra	= '".$valueDataEnviada["id_muestra"]."'
+				,recargo	= '".$valueDataEnviada["recargo"]."'
+				,cod_producto = '".$valueDataEnviada["cod_producto"]."'
+				,cod_subproducto = '".$valueDataEnviada["cod_subproducto"]."'
+				,leyes 	= '".$valueDataEnviada["leyes"]."'
+				,cod_analisis = '".$valueDataEnviada["cod_analisis"]."'
+				,cod_tipo_muestra 	= '".$valueDataEnviada["cod_tipo_muestra"]."'
+				,tipo_solicitud = '".$valueDataEnviada["tipo_solicitud"]."'
+				,cod_area = '".$valueDataEnviada["cod_area"]."'
+				,cod_ccosto = '".$valueDataEnviada["cod_ccosto"]."'
+				,cod_periodo = '".$valueDataEnviada["cod_periodo"]."'
+				,estado_actual = '".$valueDataEnviada["estado_actual"]."'
+				,rut_proveedor = '".$valueDataEnviada["rut_proveedor"]."'
+				,observacion = '".$valueDataEnviada["observacion"]."'
+				,agrupacion = '".$valueDataEnviada["agrupacion"]."'
+				,fecha_muestra = '".$valueDataEnviada["fecha_muestra"]."'
+				,nro_semana = '".$valueDataEnviada["nro_semana"]."'
+				,año = '".$valueDataEnviada["ano"]."'
+				,mes = '".$valueDataEnviada["mes"]."'
+				,frx = '".$valueDataEnviada["frx"]."'
+				,tipo = '".$valueDataEnviada["tipo"]."'
+				,peso_retalla = '".$valueDataEnviada["peso_retalla"]."' 
+				,peso_muestra = '".$valueDataEnviada["peso_muestra"]."'
+				where nro_solicitud	= '".$valueDataEnviada["nro_solicitud"]."' and recargo = '".$valueDataEnviada["recargo"]."'";				
+				$SARetorno = $row["nro_solicitud"];
+		    }
+		    else
+		    {
+				$Query="INSERT INTO cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Query.="leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Query.="rut_proveedor,observacion,agrupacion,fecha_muestra,nro_semana,año,mes,frx,tipo,nro_sa_lims,origen_sa,peso_retalla) values (";
+				$Query.= "'".$valueDataEnviada["rut_funcionario"]."','".$valueDataEnviada["fecha_hora"]."','".$valueDataEnviada["id_muestra"]."','".$valueDataEnviada["recargo"]."','".$valueDataEnviada["cod_producto"]."','".$valueDataEnviada["cod_subproducto"]."','".$valueDataEnviada["leyes"]."','".$valueDataEnviada["cod_analisis"]."','".$valueDataEnviada["cod_tipo_muestra"]."','".$valueDataEnviada["tipo_solicitud"]."','".$valueDataEnviada["nro_solicitud"]."','".$valueDataEnviada["cod_area"]."','".$valueDataEnviada["cod_ccosto"]."','".$valueDataEnviada["cod_periodo"]."','".$valueDataEnviada["estado_actual"]."','".$valueDataEnviada["rut_proveedor"]."','".$valueDataEnviada["observacion"]."','".$valueDataEnviada["agrupacion"]."','".$valueDataEnviada["fecha_muestra"]."','".$valueDataEnviada["nro_semana"]."','".$valueDataEnviada["ano"]."','".$valueDataEnviada["mes"]."','".$valueDataEnviada["frx"]."','".$valueDataEnviada["tipo"]."','".$valueDataEnviada["nro_sa_lims"]."','".$Origen."','".$valueDataEnviada["peso_retalla"]."')";	
+				$SARetorno = $valueDataEnviada["nro_solicitud"];
+			}			
+		}
+
+		$Ejecucion = $DataBase->QueryAction(utf8_decode($Query));
+		if($Ejecucion == '')
+		{
+			$myArray[$Cont]["Error"]   	= "";
+			$myArray[$Cont]["Query"]   	= utf8_decode($Query);
+			$myArray[$Cont]["SA"] 		= $SARetorno;			
+		}
+		else
+		{
+			$myArray[$Cont]["Error"]   	= $Ejecucion;
+			$myArray[$Cont]["Query"]   	= utf8_decode($Query);
+			$myArray[$Cont]["SA"] 		= "";			
+		}
+
+		$Cont++;
+	}
+
+	return ($myArray);
+}
+
+
+function Eliminacion_RegistrarEstadosSA($NumeroSA,$DatosEstadosSA)
+{
+	global $DataBase;
+
+	if(!array_key_exists('0', $DatosEstadosSA))
+		$DatosRecorrer[0] = $DatosEstadosSA;
+	else
+		$DatosRecorrer = $DatosEstadosSA;
+
+	$myArray = array();
+	$Cont = 0;	
+
+
+	$SQL = "SELECT nro_solicitud from cal_web.solicitud_analisis where nro_solicitud = '".$NumeroSA."'";
+	$result = $DataBase->consulta($SQL);
+    if($row = mysqli_fetch_assoc($result)) 
+    {
+		//$Query = "DELETE FROM cal_web.estados_por_solicitud where nro_solicitud = '".$NumeroSA."'";
+		//if($DataBase->QueryAction($Query)=='')
+		//{
+			foreach ($DatosRecorrer as $valueDataEnviada) {
+
+				if(trim($valueDataEnviada["nro_solicitud"]) != '' || trim($valueDataEnviada["nro_solicitud"]) == '?')
+				{
+					$SQL = "SELECT fecha_hora from cal_web.estados_por_solicitud where nro_solicitud = '".$NumeroSA."' and cod_estado = '".$valueDataEnviada["cod_estado"]."' and recargo = '".$valueDataEnviada["recargo"]."'";
+					$result = $DataBase->consulta($SQL);
+				    if($row = mysqli_fetch_assoc($result)) 
+				    {
+				    	//ELIMINADOS TODOS AQUELLOS ESTADOS QUE TENGAN FECHA MAYOR A LA FECHA DEL ESTADO QUE SE ESTA MODIFICANDO
+				    	$Query = "DELETE FROM cal_web.estados_por_solicitud WHERE fecha_hora > '".$row["fecha_hora"]."' and nro_solicitud = '".$NumeroSA."' 
+				    	and cod_estado <> '".$valueDataEnviada["cod_estado"]."' and recargo = '".$valueDataEnviada["recargo"]."'";
+				    	$DataBase->QueryAction($Query);
+
+				    	$Query = "UPDATE cal_web.estados_por_solicitud set 
+				    	fecha_hora = '".$valueDataEnviada["fecha_hora"]."'
+				    	,rut_proceso = '".$valueDataEnviada["rut_proceso"]."'";
+
+						if($valueDataEnviada["recargo"] != '')
+							$Query.=",recargo = '".$valueDataEnviada["recargo"]."'";
+						else
+							$Query.=",recargo = ''";
+
+				    	$Query.="where nro_solicitud = '".$NumeroSA."' and cod_estado = '".$valueDataEnviada["cod_estado"]."' and recargo = '".$valueDataEnviada["recargo"]."'";
+					}
+					else
+					{
+						$Query = "INSERT INTO cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (
+						'".$valueDataEnviada["rut_funcionario"]."','".$valueDataEnviada["nro_solicitud"]."','".$valueDataEnviada["recargo"]."','".$valueDataEnviada["cod_estado"]."','".$valueDataEnviada["fecha_hora"]."','".$valueDataEnviada["ult_atencion"]."','".$valueDataEnviada["rut_proceso"]."')";
+					}
+
+					$myArray[$Cont]["Error"]   = $DataBase->QueryAction($Query);
+					$myArray[$Cont]["Query"]   = utf8_decode($Query);
+					$myArray[$Cont]["SA"] = $valueDataEnviada["nro_solicitud"];
+				}
+				else
+				{
+					$myArray[$Cont]["Error"]   	= "Sin numero de solicitud Enviado";
+					$myArray[$Cont]["Query"]   	= "";
+					$myArray[$Cont]["SA"] 		= "Sin numero de solicitud Enviado";			
+				}
+				$Cont++;
+			}
+		/*}
+		else
+		{
+			$myArray[$Cont]["Error"]   = $DataBase->QueryAction($Query);
+			$myArray[$Cont]["Query"]   = utf8_decode($Query);
+			$myArray[$Cont]["SA"] = $valueDataEnviada["nro_solicitud"];			
+		}	*/					
+	}
+	else
+	{
+		$myArray[$Cont]["Error"]   = "Numero de SA CALWEB enviada no Existe!!!!";
+		$myArray[$Cont]["Query"]   = utf8_decode($SQL);
+		$myArray[$Cont]["SA"] = $NumeroSA;					
+	}	
+	return ($myArray);
+}
+
+
+
+function Eliminacion_RegistrarLeyesSA($NumeroSA,$DatosLeyesSA)
+{
+	global $DataBase;
+
+	if(!array_key_exists('0', $DatosLeyesSA))
+		$DatosRecorrer[0] = $DatosLeyesSA;
+	else
+		$DatosRecorrer = $DatosLeyesSA;
+
+	$myArray = array();
+	$Cont = 0;	
+
+	$SQL = "SELECT nro_solicitud from cal_web.solicitud_analisis where nro_solicitud = '".$NumeroSA."'";
+	$result = $DataBase->consulta($SQL);
+    if($row = mysqli_fetch_assoc($result)) 
+    {
+
+		//$Query = "DELETE FROM cal_web.leyes_por_solicitud where nro_solicitud = '".$NumeroSA."'";
+		//if($DataBase->QueryAction($Query)=='')
+		//{
+			foreach ($DatosRecorrer as $valueDataEnviada) {
+
+				if(trim($valueDataEnviada["nro_solicitud"]) != '' || trim($valueDataEnviada["nro_solicitud"]) == '?')
+				{
+					if($valueDataEnviada["valor2"] == '')
+						$valueDataEnviada["valor2"] = 0;
+					if($valueDataEnviada["peso_humedo"] == '')
+						$valueDataEnviada["peso_humedo"] = 0;
+					if($valueDataEnviada["peso_seco"] == '')
+						$valueDataEnviada["peso_seco"] = 0;
+
+					$SQL = "SELECT nro_solicitud from cal_web.leyes_por_solicitud where nro_solicitud = '".$NumeroSA."' and cod_leyes = '".$valueDataEnviada["cod_leyes"]."' and recargo = '".$valueDataEnviada["recargo"]."'";
+					$result = $DataBase->consulta($SQL);
+				    if(!$row = mysqli_fetch_assoc($result)) 
+				    {
+						$Query = "INSERT INTO cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,activa,candado,valor,cod_producto,cod_subproducto,id_muestra,peso_humedo,peso_seco,signo,proceso,rut_quimico,virtual,valor2,observacion) values (
+						'".$valueDataEnviada["rut_funcionario"]."','".$valueDataEnviada["fecha_hora"]."','".$valueDataEnviada["nro_solicitud"]."','".$valueDataEnviada["recargo"]."','".$valueDataEnviada["cod_leyes"]."','".$valueDataEnviada["cod_unidad"]."','".$valueDataEnviada["activa"]."','".$valueDataEnviada["candado"]."'";
+						if($valueDataEnviada["valor"] != '')
+							$Query.=",'".$valueDataEnviada["valor"]."'";
+						else
+							$Query.=",null";
+						$Query.=",'".$valueDataEnviada["cod_producto"]."','".$valueDataEnviada["cod_subproducto"]."','".$valueDataEnviada["id_muestra"]."','".$valueDataEnviada["peso_humedo"]."','".$valueDataEnviada["peso_seco"]."','".$valueDataEnviada["signo"]."','".$valueDataEnviada["proceso"]."'
+						,'".$valueDataEnviada["rut_quimico"]."','".$valueDataEnviada["virtual"]."','".$valueDataEnviada["valor2"]."','".$valueDataEnviada["observacion"]."')";
+					}
+					else
+					{
+						$Query = "UPDATE cal_web.leyes_por_solicitud set ";
+						if($valueDataEnviada["valor"] != '')
+							$Query.=" valor = '".$valueDataEnviada["valor"]."'";
+						else
+							$Query.=" valor = null";
+
+						if($valueDataEnviada["recargo"] != '')
+							$Query.=",recargo = '".$valueDataEnviada["recargo"]."'";
+						else
+							$Query.=",recargo = ''";
+
+						$Query.="
+						,candado = '".$valueDataEnviada["candado"]."'
+						,peso_humedo = '".$valueDataEnviada["peso_humedo"]."'
+						,peso_seco = '".$valueDataEnviada["peso_seco"]."'
+						,rut_quimico = '".$valueDataEnviada["rut_quimico"]."'
+						,virtual = '".$valueDataEnviada["virtual"]."'
+						,activa = '".$valueDataEnviada["activa"]."'
+						,cod_producto = '".$valueDataEnviada["cod_producto"]."'
+						,cod_subproducto = '".$valueDataEnviada["cod_subproducto"]."'
+						,id_muestra = '".$valueDataEnviada["id_muestra"]."'
+						,signo = '".$valueDataEnviada["signo"]."'
+						,proceso = '".$valueDataEnviada["proceso"]."'
+						,valor2 = '".$valueDataEnviada["valor2"]."'
+						,cod_unidad = '".$valueDataEnviada["cod_unidad"]."'
+						where nro_solicitud = '".$NumeroSA."' and cod_leyes = '".$valueDataEnviada["cod_leyes"]."'";
+						$Query.=" and recargo = '".$valueDataEnviada["recargo"]."'";
+					}
+
+					$myArray[$Cont]["Error"]   = $DataBase->QueryAction($Query);
+					$myArray[$Cont]["Query"]   = utf8_decode($Query);
+					$myArray[$Cont]["SA"] = $valueDataEnviada["nro_solicitud"];
+
+					//SI VIENE EN BLANCO, ES PORQUE LA QUERY NO SE CALLO, AHORA PROCEDEMOS A REGISTRAR EN LA TABLA REGISTRO LEYES
+					if($myArray[$Cont]["Error"]=='')
+					{
+						Registroleyes($valueDataEnviada);
+					}
+				}
+				else
+				{
+					$myArray[$Cont]["Error"]   	= "Sin numero de solicitud Enviado";
+					$myArray[$Cont]["Query"]   	= "";
+					$myArray[$Cont]["SA"] 		= "Sin numero de solicitud Enviado";			
+				}
+				$Cont++;
+			}
+		/*}
+		else
+		{
+			$myArray[$Cont]["Error"]   = $DataBase->QueryAction($Query);
+			$myArray[$Cont]["Query"]   = utf8_decode($Query);
+			$myArray[$Cont]["SA"] = $valueDataEnviada["nro_solicitud"];			
+		}	*/					
+	}
+	else
+	{
+		$myArray[$Cont]["Error"]   = "Numero de SA CALWEB enviada no Existe!!!!";
+		$myArray[$Cont]["Query"]   = utf8_decode($SQL);
+		$myArray[$Cont]["SA"] = $NumeroSA;					
+	}	
+	
+	return ($myArray);
+}
+
+function Registroleyes($valueDataEnviada)
+{
+	global $DataBase;
+	$Query = "INSERT INTO cal_web.registro_leyes (rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,valor,peso_humedo,peso_seco,cod_unidad,candado,signo,rut_proceso) values (
+	'".$valueDataEnviada["rut_funcionario"]."','".$valueDataEnviada["fecha_hora_reg_leyes"]."','".$valueDataEnviada["nro_solicitud"]."','".$valueDataEnviada["recargo"]."','".$valueDataEnviada["cod_leyes"]."'";
+	if($valueDataEnviada["valor"] != '')	
+		$Query.= ",'".$valueDataEnviada["valor"]."'";
+	else
+		$Query.= ",null";
+	$Query.= ",'".$valueDataEnviada["peso_humedo"]."','".$valueDataEnviada["peso_seco"]."','".$valueDataEnviada["cod_unidad"]."','".$valueDataEnviada["candado"]."','".$valueDataEnviada["signo"]."','".$valueDataEnviada["rut_proceso"]."')";
+	//echo $Query."<br>";
+	$DataBase->QueryAction($Query);
+}
+?>

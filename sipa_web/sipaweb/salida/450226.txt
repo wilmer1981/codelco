@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44210 ',peso_neto='28630',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10910979-7',nombre_chofer='JOSE ABARCA FIGUEROA',observacion='circulantes oxidos',romana_salida='1' where correlativo='450226' and lote='21096124' and recargo='8'

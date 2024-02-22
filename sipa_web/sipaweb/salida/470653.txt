@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44850 ',peso_neto='30700',marca='FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='15065298-7',nombre_chofer='CRISTIAN ALVARADO',observacion='',romana_salida='2' where correlativo='470653' and lote='22096091' and recargo='25'

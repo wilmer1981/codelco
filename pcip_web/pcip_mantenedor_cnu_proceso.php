@@ -1,0 +1,275 @@
+<? 
+include("../principal/conectar_pcip_web.php");
+include("funciones/pcip_funciones.php");
+if(!isset($Ano))
+ 	$Ano=date('Y');
+
+if(!isset($Recarga))
+{
+	if ($Opcion=='M')
+	{
+		$Cod=explode('~',$Codigos);
+		$Ano=$Cod[0];
+	}
+}	
+?>
+<html>
+<head>
+<?
+	if ($Opcion=='N')
+		echo "<title>Nuevo Carga Nueva Util</title>";
+	else	
+		echo "<title>Modifica Carga Nueva Util</title>";
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script  language="JavaScript" src="../principal/funciones/funciones_java.js"></script>
+<script language="javascript" src="funciones/pcip_funciones.js"></script>
+<script language="JavaScript">
+function Proceso(Opcion)
+{
+	var f= document.FrmPopupProceso;
+	var Valida=true;
+	var Veri="";
+	var Adm="";
+	var Check="";
+	var i="";
+	var Valores="";
+	
+	switch(Opcion)
+	{	
+		case "N":
+			f.Opcion.value=Opcion;
+			Veri=ValidaCampos();
+			if (Veri==true)
+			{
+				for (i=0;i<f.TxtValorMes.length;i++)
+				{
+					Valores=Valores+f.TxtValorMes[i].value+"~~";
+				}
+				Valores=Valores.substr(0,Valores.length-2);
+				f.action = "pcip_mantenedor_cnu_proceso01.php?Opcion="+Opcion+"&Valores="+Valores;
+				f.submit();
+			}
+		break;
+		case "M":
+			f.Opcion.value=Opcion;
+			for (i=0;i<f.TxtValorMes.length;i++)
+			{
+				Valores=Valores+f.TxtValorMes[i].value+"~~";
+			}
+			Valores=Valores.substr(0,Valores.length-2);
+			f.action = "pcip_mantenedor_cnu_proceso01.php?Opcion="+Opcion+"&Valores="+Valores;
+			f.submit();
+		break;
+		case "NI":
+			f.Opcion.value='N';
+			f.action = "pcip_mantenedor_cnu_proceso.php?Opcion=N";
+			f.submit();
+		break;
+
+		case "R":	
+			f.action = "pcip_mantenedor_cnu_proceso.php?Recarga=S";
+			f.submit();
+		break;
+	}
+}
+function Salir()
+{
+	window.close();
+}
+/*function TeclaPulsada(tecla) 
+{ 
+	var Frm=document.FrmPopupProceso;
+	var teclaCodigo = event.keyCode; 
+
+		if(teclaCodigo != 189)
+		{
+			if ((teclaCodigo != 37)&&(teclaCodigo != 39))
+			{
+				if ((teclaCodigo != 8) && (teclaCodigo < 48) || (teclaCodigo > 57))
+				{
+				   if ((teclaCodigo < 96) || (teclaCodigo > 105))
+				   {
+						event.keyCode=46;
+				   }		
+				}   
+			}
+		}		
+} */
+function ValidaCampos()
+{
+	var f= document.FrmPopupProceso;
+	var Res=true;
+
+	return(Res);
+
+}
+</script>
+<style type="text/css">
+<!--
+body {
+	background-image: url();
+	background-color: #F9F9F9;
+}
+-->
+</style></head>
+
+<link href="estilos/css_pcip_web.css" rel="stylesheet" type="text/css">
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="archivos/popcjs.htm" frameBorder=0 width=160 scrolling=no height=180></IFRAME></DIV>
+<form name="FrmPopupProceso" method="post" action="" onClick="Reajuste('')">
+  <input type="hidden" name="Opcion" value="<? echo $Opcion;?>">
+ <input name="Form" type="hidden" value="<? echo $Form; ?>">
+<input name="Pagina" type="hidden" value="<? echo $Pagina; ?>">
+<input name="Codigos" type="hidden" value="<? echo $Codigos; ?>">
+
+  <table align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+  <tr>
+	<td width="15" height="15"><img src="archivos/images/interior/esq1.gif" width="15" height="15"></td>
+	<td width="955" height="15"background="archivos/images/interior/form_arriba.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15"></td>
+	<td height="15"><img src="archivos/images/interior/esq2x.gif" width="15" height="15"></td>
+  </tr>
+  <tr>
+   <td background="archivos/images/interior/form_izq.gif">&nbsp;</td>
+   <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+     <tr>
+       <td width="74%" align="left"><?	if($Opcion=='N'){?><img src="archivos/sub_tit_cnu_n.png" width="450" height="40"><? }else{?><img src="archivos/sub_tit_cnu_m.png" width="450" height="40"><? }?></td>
+       <td align="right">
+	   <a href="JavaScript:Proceso('NI')"><img src="archivos/nuevo.png"  border="0"  alt="Nuevo" align="absmiddle" /></a>
+	   <a href="JavaScript:Proceso('<? echo $Opcion;?>')"><img src="archivos/btn_guardar.png" alt="Guardar"  border="0" align="absmiddle" /></a> <a href="JavaScript:Salir()"><img src="archivos/close.png"  alt="Cerrar " align="absmiddle" border="0"></a> </td>
+     </tr>
+   </table>
+   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >
+     <tr>
+       <td colspan="3"align="center" class="TituloTablaVerde"></td>
+     </tr>
+     <tr>
+       <td width="1%" align="center" class="TituloTablaVerde"></td>
+       <td align="center"><table width="100%" border="0" align="center" cellpadding="3" cellspacing="0" class="ColorTabla02" >
+         <tr>
+           <td width="5%" height="25" class="formulario2">A&ntilde;o</td>
+           <td width="95%" colspan="3" class="FilaAbeja2">
+		   <?
+		   if($Opcion=='N')
+		   {
+		   ?>
+		   <span class="formulario2">
+             <select name="Ano" id="Ano" onChange="Proceso('R')">
+               <?
+			for ($i=2003;$i<=date("Y");$i++)
+			{
+				$Consulta="select * from pcip_ena_datos_enabal where ano='".$i."' and tipo='P'";	
+				$RespMes=mysql_query($Consulta);
+				if(!$FilaMes=mysql_fetch_array($RespMes))
+				{
+					if ($i==$Ano)
+						echo "<option selected value=\"".$i."\">".$i."</option>\n";
+					else
+						echo "<option value=\"".$i."\">".$i."</option>\n";
+				}
+			}
+			?>
+             </select>
+           </span>
+		   <?
+		    }
+		   	else
+				echo "<span class='formulario2'>".$Ano."</span>";	
+		   ?>		   </td>
+         </tr>
+
+         <tr>
+           <td colspan="4" class='formulario2'><table width="100%" border="1" cellpadding="4" cellspacing="0" >
+             <tr>
+               <td colspan="13" align="center" class="TituloTablaNaranja">Peso a Ingresar [TMS]</td>
+             </tr>
+             <tr align="center">
+			   <td width="7%" class="TituloCabecera">Tipo</td>
+			   <td width="7%" class="TituloCabecera">Enero</td>
+               <td width="7%" class="TituloCabecera">Febrero</td>
+               <td width="7%" class="TituloCabecera">Marzo</td>
+               <td width="7%" class="TituloCabecera">Abril</td>
+               <td width="7%" class="TituloCabecera">Mayo</td>
+               <td width="7%" class="TituloCabecera">Junio</td>
+               <td width="7%" class="TituloCabecera">Julio</td>
+               <td width="7%" class="TituloCabecera">Agosto</td>
+               <td width="7%" class="TituloCabecera">Septiembre</td>
+               <td width="7%" class="TituloCabecera">Octubre</td>
+               <td width="7%" class="TituloCabecera">Noviembre</td>
+               <td width="7%" class="TituloCabecera">Diciembre</td>
+             </tr>
+             <?
+				if($Opcion=='M')
+				{
+					 if($Cod[2]=='R')
+					 {
+					 ?>	
+						<td><strong>REAL</strong></td>
+					 <?
+					 }
+					 else
+					 {
+					 ?>	
+						<td><strong>PPTO</strong></td>
+					 <?
+					 }	
+					 for($i=1;$i<=12;$i++)
+					 {
+						$Consulta="select * from pcip_ena_datos_enabal where ano='".$Cod[0]."' and mes='".$i."' and cod_flujo='".$Cod[1]."' and tipo='".$Cod[2]."'";	
+						//echo $Consulta."<br>";
+						$RespMes=mysql_query($Consulta);
+						if($FilaMes=mysql_fetch_array($RespMes))
+						{
+						?>	
+						<td align="right"><input type='text' name='TxtValorMes' value='<? echo number_format($FilaMes["peso"],0,',','');?>' size='8' onkeydown='SoloNumeros(true,this)' maxlength="9"></td>
+						<?
+						}else{		
+						?>
+						<td><input type='text' name='TxtValorMes' value='' size='6' onkeydown='SoloNumeros(true,this)' maxlength="7"></td>
+						<?
+						}	
+					 }
+			   }
+			   else
+			   {
+			   		echo "<tr>";
+					echo "<td>PPTO</td>";
+					for($i=1;$i<=12;$i++)
+					{
+						echo "<td align='center'><input type='text' name='TxtValorMes' value='' size='6' onkeydown='TeclaPulsada(true)' maxlength='7'></td>";
+					}
+			   		echo "</tr>";
+			   }
+			   ?>
+           </table></td>
+           </tr>
+		 
+         <tr>
+           <td height="14" colspan="4" class="formulario2"><span class="InputRojo">(*) Datos Obligatorios</span></td>
+         </tr>
+       </table></td>
+       <td width="0%" align="center" class="TituloTablaVerde"></td>
+     </tr>
+     <tr>
+       <td colspan="3"align="center" class="TituloTablaVerde"></td>
+     </tr>
+   </table>
+   <br></td>
+   <td width="15" background="archivos/images/interior/form_der.gif">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="15" height="15"><img src="archivos/images/interior/esq3.gif" width="15" height="15" /></td>
+    <td height="1" background="archivos/images/interior/form_abajo.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+    <td width="15" height="15"><img src="archivos/images/interior/esq4.gif" width="15" height="15" /></td>
+  </tr>
+  </table>
+</form>		
+<? 
+echo "<script languaje='JavaScript'>";
+	if ($Mensaje=='1')
+		echo "alert('Carga Nueva Util Presupuestada Ingresada Correctamente');";
+	echo "</script>";
+?>
+</body>
+</html>

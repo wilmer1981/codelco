@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41840 ',peso_neto='26250',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13109837-5',nombre_chofer='MARCELO AGUILAR',observacion='',romana_salida='1' where correlativo='466619' and lote='22076084' and recargo='2'

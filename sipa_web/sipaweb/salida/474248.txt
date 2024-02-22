@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44380 ',peso_neto='27760',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10895285-7',nombre_chofer='abel manque',observacion='',romana_salida='1' where correlativo='474248' and lote='22126020' and recargo='5'

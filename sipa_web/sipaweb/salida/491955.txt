@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='42740',peso_neto='27590',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='5310499-1',nombre_chofer='RAUL LAGOS',observacion='CONCENTRADO DE CU',romana_salida='1' where correlativo='491955' and lote='23096241' and recargo='13'

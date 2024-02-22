@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='41980',peso_neto='28210',marca='TRES FRANJAS AMARILLAS',cod_mop='520',num_sello='',transportista='',rut_chofer='16331344-8',nombre_chofer='PATRICIO VILLALON',observacion='',romana_salida='1' where correlativo='453064' and lote='21116022' and recargo='1'

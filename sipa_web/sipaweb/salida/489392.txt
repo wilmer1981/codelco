@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40970 ',peso_neto='25910',marca='DOS FRANJAS NARANJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='19614360-2',nombre_chofer='PALACIO NUÑEZ',observacion='',romana_salida='1' where correlativo='489392' and lote='23086026' and recargo='17'

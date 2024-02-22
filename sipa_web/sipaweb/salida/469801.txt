@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='17760',peso_neto='2100',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='26 maxisacos con madera y carton',romana_salida='1' where correlativo='469801' and lote='22096066' and recargo='2'

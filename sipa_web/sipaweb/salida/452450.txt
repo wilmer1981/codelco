@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44280',peso_neto='28080',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8298054-7',nombre_chofer='oscar sepulveda',observacion='esc oxido',romana_salida='1' where correlativo='452450' and lote='21106185' and recargo='5'

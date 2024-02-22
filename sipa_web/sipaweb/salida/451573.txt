@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='38710',peso_neto='25080',marca='DOS FRANJAS CELESTES',cod_mop='520',num_sello='',transportista='',rut_chofer='11633971-4',nombre_chofer='EUGENIO  ARANCIBIA',observacion='',romana_salida='1' where correlativo='451573' and lote='21106011' and recargo='8'

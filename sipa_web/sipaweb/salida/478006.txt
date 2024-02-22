@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 40550 ',peso_neto='25210',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='cobre sucio',romana_salida='1' where correlativo='478006' and lote='23016405' and recargo='5'

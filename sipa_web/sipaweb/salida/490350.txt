@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44980 ',peso_neto='26010',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13222064-6',nombre_chofer='RODRIGO CRUZ SILVA',observacion='',romana_salida='1' where correlativo='490350' and lote='23096026' and recargo='1'

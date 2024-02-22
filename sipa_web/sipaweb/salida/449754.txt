@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 40800 ',peso_neto='26490',marca='V FRANJA ROJA',cod_mop='697',num_sello='',transportista='',rut_chofer='18553379-4',nombre_chofer='FRANK TEPPER',observacion='',romana_salida='2' where correlativo='449754' and lote='21096008' and recargo='19'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43430 ',peso_neto='28780',marca='EQUIS ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='14568880-9',nombre_chofer='orlando flores',observacion='',romana_salida='1' where correlativo='437199' and lote='21016249' and recargo='22'

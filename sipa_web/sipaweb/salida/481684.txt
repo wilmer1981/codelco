@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44010 ',peso_neto='27340',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7566438-9',nombre_chofer='luis cereceda',observacion='cu varios pvsa',romana_salida='1' where correlativo='481684' and lote='23036353' and recargo='7'

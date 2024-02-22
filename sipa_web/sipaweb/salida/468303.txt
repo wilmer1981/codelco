@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 30370 ',peso_neto='9840',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15065035-6',nombre_chofer='carlos maturana',observacion='',romana_salida='1' where correlativo='468303' and lote='22086090' and recargo='1'

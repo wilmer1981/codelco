@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42050 ',peso_neto='25480',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7142942-3',nombre_chofer='jose matus',observacion='concentrado cu',romana_salida='1' where correlativo='473949' and lote='22116200' and recargo='2'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43960 ',peso_neto='28410',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10348949-0',nombre_chofer='CLAUDIO PENA',observacion='fino circulante',romana_salida='2' where correlativo='454000' and lote='21116177' and recargo='5'

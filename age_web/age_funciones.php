@@ -1,0 +1,2002 @@
+<?php
+require "../principal/clasemail/class.phpmailer.php";
+
+//FUNCIONES PARA EL SISTEMA DE AGENCIA
+//FUNCION PARA TOMAR DATOS DE LOTE-RECARGO
+function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$link)
+{
+	reset($Leyes);
+	$TxtLote = $Lote["lote"];
+	//RESCATA PESO
+	$Consulta = "select t1.lote, t2.recargo, t2.peso_neto as peso_humedo, t2.peso_bruto, t2.peso_tara, ";
+	$Consulta.= " t1.peso_muestra, t1.peso_retalla, t1.cod_producto, t1.cod_subproducto, t1.rut_proveedor, ";
+	$Consulta.= " t1.fecha_recepcion, t1.cod_faena, t1.cod_recepcion, t1.clase_producto, t1.num_conjunto, ";
+	$Consulta.= " t1.remuestreo, t1.num_lote_remuestreo, t1.estado_lote, t1.modificado, t1.fin_canje, t1.canjeable, t3.recepcion ";
+	$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 on t1.lote=t2.lote ";
+	$Consulta.= " inner join proyecto_modernizacion.subproducto t3 ";
+	$Consulta.= " on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto ";
+	$Consulta.= " where t1.lote='".$Lote["lote"]."' and t2.recargo='".$Lote["recargo"]."'";
+	if ($EntreFechas=="S" && $FechaIni!="" && $FechaFin!="")
+		$Consulta.= " and t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
+	$Consulta.= " order by t1.lote, t2.recargo";
+	$RespPeso=mysqli_query($link, $Consulta);
+	if ($FilaPeso = mysqli_fetch_array($RespPeso))
+	{
+		$PesoHumedo = $FilaPeso["peso_humedo"];
+		$Lote["peso_muestra"] = $FilaPeso["peso_muestra"];
+		$Lote["peso_retalla"] = $FilaPeso["peso_retalla"];
+		$Lote["cod_producto"] = $FilaPeso["cod_producto"];
+		$Lote["cod_subproducto"] = $FilaPeso["cod_subproducto"];
+		$Lote["fecha_recepcion"] = $FilaPeso["fecha_recepcion"];
+		$Lote["rut_proveedor"] = $FilaPeso["rut_proveedor"];
+		$Lote["cod_faena"] = $FilaPeso["cod_faena"];
+		$Lote["cod_recepcion"] = $FilaPeso["cod_recepcion"];
+		$Lote["clase_producto"] = $FilaPeso["clase_producto"];
+		$Lote["num_conjunto"] = $FilaPeso["num_conjunto"];
+		$Lote["peso_bruto"] = $FilaPeso["peso_bruto"];
+		$Lote["peso_tara"] = $FilaPeso["peso_tara"];
+		$Lote["peso_neto"] = $FilaPeso["peso_humedo"];
+		$Lote["canjeable"] = $FilaPeso["canjeable"];
+		$Lote["recepcion"] = $FilaPeso["recepcion"];
+	}
+	//RESCATA LEYES
+	$PorcHum=0;		
+	$Consulta = "select distinct t1.cod_leyes, t1.valor, t1.valor2, t2.abreviatura as nom_unidad, t2.conversion, t3.abreviatura as nom_ley, t3.nombre_leyes as nombre_ley ";
+	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
+	$Consulta.= " t1.cod_unidad=t2.cod_unidad left join proyecto_modernizacion.leyes t3 on t1.cod_leyes=t3.cod_leyes";
+	$Consulta.= " where t1.lote='".$Lote["lote"]."' ";
+	//if (is_null($Lote["recargo"]) || $Lote["recargo"]==1 || $Lote["recargo"]=="0")
+		$Consulta.= " and (t1.recargo='".$Lote["recargo"]."' or t1.recargo='0')";
+	//else
+		//$Consulta.= " and t1.recargo='".$Lote["recargo"]."'";
+	if (count($Leyes)>0)
+	{
+		$Consulta.= " and (";
+		reset($Leyes);
+		while (list($k,$v)=each($Leyes))
+		{			
+			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+		}
+		$Consulta = substr($Consulta,0,strlen($Consulta)-3);
+		$Consulta.= ")";
+	}
+	$Consulta.= " order by t1.cod_leyes";
+	$RespLeyes = mysqli_query($link, $Consulta);
+	while ($FilaLeyes = mysqli_fetch_array($RespLeyes))
+	{
+		$Leyes[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"]; //CODIGO LEY
+		$Leyes[$FilaLeyes["cod_leyes"]][1] = $FilaLeyes["nom_ley"];   //ABREVIATURA
+		$Leyes[$FilaLeyes["cod_leyes"]][2] = $FilaLeyes["valor"];     //VALOR
+		$Leyes[$FilaLeyes["cod_leyes"]][3] = $FilaLeyes["cod_unidad"];//COD UNIDAD
+		$Leyes[$FilaLeyes["cod_leyes"]][4] = $FilaLeyes["nom_unidad"];//NOM UNIDAD
+		$Leyes[$FilaLeyes["cod_leyes"]][5] = $FilaLeyes["conversion"];//CONVERSION
+		$Leyes[$FilaLeyes["cod_leyes"]][6] = $FilaLeyes["nombre_ley"];//NOMBRE_LEY
+		$Leyes[$FilaLeyes["cod_leyes"]][7] = $FilaLeyes["valor2"];    //VALOR2 REAL SI VALOR ES PROVISIONAL 
+		if ($FilaLeyes["cod_leyes"]=="01")
+			$PorcHum = $FilaLeyes["valor"];	
+	}
+	//RESCATA LEYES CANJEABLES
+	if($Lote["canjeable"]=='S')
+	{
+		$Consulta = "select distinct t1.cod_leyes,(t1.inc_retalla+t1.ley_canje) as ley_canje ";
+		$Consulta.= " from age_web.leyes_por_lote_canje t1 where t1.lote='".$Lote["lote"]."' ";
+		if (is_null($Lote["recargo"]) || $Lote["recargo"]==1 || $Lote["recargo"]=="0")
+			$Consulta.= " and (t1.recargo='".$Lote["recargo"]."' or t1.recargo='0')";
+		else
+			$Consulta.= " and t1.recargo='".$Lote["recargo"]."'";
+		if (count($Leyes)>0)
+		{
+			$Consulta.= " and (";
+			reset($Leyes);
+			while (list($k,$v)=each($Leyes))
+			{			
+				$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+			}
+			$Consulta = substr($Consulta,0,strlen($Consulta)-3);
+			$Consulta.= ")";
+		}
+		$Consulta.= " order by t1.cod_leyes";
+		$RespLeyes = mysqli_query($link, $Consulta);
+		while ($FilaLeyes = mysqli_fetch_array($RespLeyes))
+		{
+			$Leyes[$FilaLeyes["cod_leyes"]][8] = $FilaLeyes["ley_canje"];//LEY FINAL DEL CANJE
+		}
+	}
+	$PesoSeco = round($PesoHumedo - (($PesoHumedo*$PorcHum)/100));//DESABILITA ROUND FARA 01-07-07
+	$PesoSeco2 = $PesoHumedo - ($PesoHumedo*$PorcHum)/100;
+	$Lote["peso_humedo"] = $PesoHumedo;
+	$Lote["peso_seco"] = $PesoSeco;	
+	$Lote["peso_seco2"] = $PesoSeco2;	
+	//echo ".................".$Lote[peso_seco]."---".$Lote[peso_seco2]."--".$Lote[peso_humedo]."--".$PorcHum."<br>";
+	
+	//-----------------CALCULO DE MERMA--------------------------
+	//ValorMerma(&$Lote,&$Leyes,$IncMerma);
+	//CONSULTO LUGAR DE DESTINO
+	$TieneConj=false;
+
+	if ($Lote["num_conjunto"]>0)
+	{
+		$Consulta = "select t1.cod_lugar, t2.descripcion_lugar ";
+		$Consulta.= " from ram_web.conjunto_ram t1 inner join ram_web.tipo_lugar t2 on t1.cod_lugar=t2.cod_tipo_lugar ";
+		$Consulta.= " where t1.cod_conjunto='01' ";
+		$Consulta.= " and t1.num_conjunto='".$Lote["num_conjunto"]."' ";
+		$RespM01 = mysqli_query($link, $Consulta);
+		if ($FilaM01 = mysqli_fetch_array($RespM01))
+		{
+			$TieneConj=true;
+			$LugarDestino=$FilaM01["cod_lugar"];
+			$NomLugar=$FilaM01["descripcion_lugar"];
+		}
+	}
+	//CONSULTO EL CONTRATO
+	$Consulta = "select * from age_web.programa_recepcion ";
+	$Consulta.= " where tipo_programa='00' and cod_producto='".$Lote["cod_producto"]."' ";
+	$Consulta.= " and cod_subproducto='".$Lote["cod_subproducto"]."' and  rut_proveedor='".$Lote["rut_proveedor"]."'";
+	$RespM01 = mysqli_query($link, $Consulta);
+	if ($FilaM01 = mysqli_fetch_array($RespM01))
+	{		
+		$Cont=$FilaM01["cod_contrato"];
+	}
+	$DescMerma="";
+	$PorcMerma=0;
+	$Fin=false;
+	BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma);
+	if (!$Fin)
+		BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma);
+	if (!$Fin)
+		BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma);
+	//VALOR MERMA
+	$Leyes["01"][30] = $PorcMerma;
+	$Leyes["01"][31] = $DescMerma;
+	//CALCULOS	
+	if ($IncMerma=="S"&&$PorcMerma!='')
+	{
+		$Leyes["01"][2] = $Leyes["01"][2] + $PorcMerma; // (%) HUM. + (%) PORC.MERMA		
+		//echo "H2O=".$Leyes["01"][2]." + MERMA=".$PorcMerma."<br>";
+		//RECALCULA PESO SECO CON NUEVA HUMEDAD
+		$Lote["peso_seco"] = $Lote["peso_humedo"] - ($Lote["peso_humedo"] * $Leyes["01"][2] / 100);
+		$Lote["peso_seco2"] = $Lote["peso_humedo"] - ($Lote["peso_humedo"] * $Leyes["01"][2] / 100);
+	}
+	//VALORES DE LA RETALLA
+	$Consulta = "select * from age_web.leyes_por_lote ";
+	$Consulta.= " where lote = '".$Lote["lote"]."' ";
+	$Consulta.= " and provisional = 'S' ";
+	$RespProvi=mysqli_query($link, $Consulta);
+	if (!$FilaProvi=mysqli_fetch_array($RespProvi))
+		ValoresRetalla($Lote,$Leyes,$IncRetalla);
+	//CALCULA FINOS
+	reset($Leyes);
+	do {			 
+		$key = key ($Leyes);
+		if ($Lote["peso_seco"]>0 && $Leyes[$key][2]>0 && $Leyes[$key][5]>0)
+			$Leyes[$key][23] = ($Lote["peso_seco"] * $Leyes[$key][2])/$Leyes[$key][5];
+		else
+			$Leyes[$key][23] = '0';
+	} while (next($Leyes));	
+}	
+
+function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosProd,$ArrLeyesProd,$EntreFechas,$IncMerma,$IncRetalla ,$FechaIni,$FechaFin,$FechaConCierre,$link)
+{
+	$ArrLeyesLote=array();
+	reset($ArrLeyesProd);
+	while(list($k,$v)=each($ArrLeyesProd))
+	{
+		$ArrLeyesLote[$k][0]=$k;
+	}
+	$CodLoteIni=substr($FechaIni,3,1).substr($FechaIni,5,2)."000";
+	$CodLoteFin=substr($FechaFin,3,1).substr($FechaFin,5,2)."999";	
+	$Consulta = "select distinct t1.lote ";
+	$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 on t1.lote = t2.lote ";	
+	$Consulta.= " where t1.lote<>'' ";
+	$Consulta.= " and (t1.estado_lote <>'6'  or (t1.estado_lote='6' and t1.mostrar_lote='S')) ";
+	//$Consulta.= " and (t1.tipo_remuestreo <>'A'  or (t1.tipo_remuestreo='A' and substring(t1.lote,1,3)='".substr($CodLoteIni,0,3)."'))";						
+	$Consulta.= " and t1.cod_producto = '".$Prod."' ";
+	$Consulta.= " and t1.cod_subproducto = '".$SubProd."' ";
+	//$Consulta.= " and t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
+	$Consulta.= " and ((t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
+	if(substr($FechaIni,0,4)=="2005")
+	{
+		$Consulta.= " and left(num_lote_remuestreo,3) in ('".substr($FechaIni,3,1).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."',''))";
+		$Consulta.= " or (tipo_remuestreo='A' AND left(num_lote_remuestreo,3)='".substr($FechaIni,3,1).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."'))";
+	}
+	else
+	{
+		$Consulta.= " and left(num_lote_remuestreo,4)in ('".substr($FechaIni,2,2).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."',''))";	
+		$Consulta.= " or (tipo_remuestreo='A' AND left(num_lote_remuestreo,4)='".substr($FechaIni,2,2).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."'))";	
+	}
+	if($ExeptoRut!='')
+		$Consulta.= " and t1.rut_proveedor not in ".$ExeptoRut;
+	if($TipoRecep!='')
+		$Consulta.= " and t1.cod_recepcion = '".$TipoRecep."'";
+	if($RutPrv!='')
+		$Consulta.= " and t1.rut_proveedor in ".$RutPrv;
+	$Consulta.= " order by t1.lote ";
+	//SUMA LAS HUMEDADES PARA LUEGO COMPARAR SI TIENE ALGO O NO
+	$SumHumedad=0;
+	$RespProd = mysqli_query($link, $Consulta);
+	$TotalPesoHumProd=0;$TotalPesoSecoProd=0;$TotalPesoTaraProd=0;$TotalPesoBrutoProd=0;$TotalPesoNetoProd=0;$TotalPesoSecoProd_R2=0;
+	while ($FilaProd=mysqli_fetch_array($RespProd))
+	{
+		$ArrDatosLote=array();
+		reset($ArrLeyesLote);	
+		do {			 
+			$k = key ($ArrLeyesLote);			
+			$ArrLeyesLote[$k][2] = "";
+			$ArrLeyesLote[$k][8] = "";
+			$ArrLeyesLote[$k][9] = "";
+			$ArrLeyesLote[$k][10] = "";
+		} while (next($ArrLeyesLote));	
+		$ArrDatosLote["lote"]=$FilaProd["lote"];
+		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre);
+		if ($ArrDatosLote["tipo_remuestreo"]=="A")
+		{
+			$ArrDatosLote["peso_humedo"]=$ArrDatosLote["peso_humedo_ori"];
+			$ArrDatosLote["peso_seco2"]=$ArrDatosLote["peso_seco2_ori"];
+			$TotalPesoHumProd=$TotalPesoHumProd  + $ArrDatosLote["peso_humedo"];
+			$TotalPesoSecoProd_R2=$TotalPesoSecoProd_R2 + round($ArrDatosLote["peso_seco2"],0);
+			$TotalPesoSecoProd_R=$TotalPesoSecoProd_R + $ArrDatosLote["peso_seco"]; //(EN CASO DE QUE HAYA QUE TRABAJAR CON PESO REDONDEADO)
+		}
+		else
+		{
+			$TotalPesoHumProd=$TotalPesoHumProd  + $ArrDatosLote["peso_humedo"];
+			switch ($SubProd)
+			{
+				case 43:
+				case 56:
+				case 58:
+					$TotalPesoSecoProd=$TotalPesoSecoProd + $ArrDatosLote["peso_seco"];
+					break;
+				default:
+					$TotalPesoSecoProd=$TotalPesoSecoProd + $ArrDatosLote["peso_seco2"];
+					break;
+			}
+			$TotalPesoSecoProd_R2=$TotalPesoSecoProd_R2 + round($ArrDatosLote["peso_seco2"],0);
+			$TotalPesoSecoProd_R=$TotalPesoSecoProd_R + $ArrDatosLote["peso_seco"]; //(EN CASO DE QUE HAYA QUE TRABAJAR CON PESO REDONDEADO)
+		}		
+		$TotalPesoTaraProd=$TotalPesoTaraProd + $ArrDatosLote["peso_tara"];
+		$TotalPesoBrutoProd=$TotalPesoBrutoProd + $ArrDatosLote["peso_bruto"];
+		$TotalPesoNetoProd=$TotalPesoNetoProd + $ArrDatosLote["peso_neto"];
+		reset($ArrLeyesLote);
+		while (list($k,$v)=each($ArrLeyesLote))
+		{
+			if ($ArrDatosLote["peso_seco2"]!=0 && $v[2]!=0 && $v[5]!=0) 
+			{
+				//SUMA LAS HUMEDADES PARA LUEGO COMPARAR SI TIENE ALGO O NO
+				if ($k=="01")
+					$SumHumedad=$SumHumedad + $v[2];
+				switch ($SubProd)
+				{
+					case 43:
+					case 56:
+					case 58:
+						//PRODUCTOS PMN
+						$ArrLeyesProd[$v[0]][2] = $ArrLeyesProd[$v[0]][2] + round(($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR
+						if($v[10]=='S')
+						{
+							//if ($k=="04")
+								//echo $ArrDatosLote["lote"]." = ".$ArrDatosLote["peso_seco23"]." * ".$v[8].")/".$v[5]."<br>";											
+							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd[$v[0]][8] + round(($ArrDatosLote["peso_seco"] * $v[8])/$v[5]);//VALOR					
+							//REDONDEADO (PARA CUADRE CON ENAMI)
+							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd[$v[0]][10] + round($v[9],0);//(($ArrDatosLote["peso_seco"] * $v[9])/$v[5]);//VALOR
+						}
+						else
+						{
+							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd[$v[0]][8] + round(($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR PRI
+							//REDONDEADO (PARA CUADRE CON ENAMI)
+							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd[$v[0]][10] + (($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR PRI
+						}
+						break;
+					default:
+						$ArrLeyesProd[$v[0]][2] = $ArrLeyesProd[$v[0]][2] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR
+						if($v[10]=='S')
+						{
+							//if ($k=="04")
+								//echo $ArrDatosLote["lote"]." = ".$ArrDatosLote["peso_seco23"]." * ".$v[8].")/".$v[5]."<br>";											
+							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd[$v[0]][8] + round(($ArrDatosLote["peso_seco2"] * $v[8])/$v[5]);//VALOR					
+							//REDONDEADO (PARA CUADRE CON ENAMI)
+							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd[$v[0]][10] + round($v[9],0);//(($ArrDatosLote["peso_seco"] * $v[9])/$v[5]);//VALOR
+						}
+						else
+						{
+							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd[$v[0]][8] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR PRI
+							//REDONDEADO (PARA CUADRE CON ENAMI)
+							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd[$v[0]][10] + (($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR PRI
+						}
+						break;
+				}				
+			}	
+			$ArrLeyesProd[$v[0]][3] = $v[3];//COD UNIDAD
+			$ArrLeyesProd[$v[0]][4] = $v[4];//NOM UNIDAD
+			$ArrLeyesProd[$v[0]][5] = $v[5];//CONVERSION
+		}
+	}
+	if ($TotalPesoSecoProd>0 && $TotalPesoHumProd>0 && $SumHumedad!=0)
+		$PorcHumLote = abs(100 - (($TotalPesoSecoProd * 100)/$TotalPesoHumProd));
+	else
+		$PorcHumLote = 0;
+	$ArrDatosProd["peso_humedo"] = $TotalPesoHumProd;
+	$ArrDatosProd["peso_seco"] = $TotalPesoSecoProd;
+	$ArrDatosProd["peso_seco3"] = $TotalPesoSecoProd_R2;
+	$ArrDatosProd["peso_seco_r"] = $TotalPesoSecoProd_R;
+	$ArrDatosProd["peso_tara"] = $TotalPesoTaraProd;
+	$ArrDatosProd["peso_bruto"] = $TotalPesoBrutoProd;
+	$ArrDatosProd["peso_neto"] = $TotalPesoNetoProd;
+	$ArrLeyesProd["01"][2] = $PorcHumLote;//VALOR
+	$ArrLeyesProd["01"][3] = 1;//COD UNIDAD
+	$ArrLeyesProd["01"][4] = "%";//NOM UNIDAD
+	$ArrLeyesProd["01"][5] = "100";//CONVERSION
+	reset($ArrLeyesProd);
+	do {			 
+		$key = key ($ArrLeyesProd);
+		if ($key=="02")
+			$ArrLeyesProd[$key][5]=100;
+		else
+			if ($key=="04" || $key=="05")
+				$ArrLeyesProd[$key][5]=1000;
+		if($key!='01')
+		{
+			if ($TotalPesoSecoProd>0 && $ArrLeyesProd[$key][2]>0 && $ArrLeyesProd[$key][5]>0)
+			{
+				$ArrLeyesProd[$key][23] = $ArrLeyesProd[$key][2];
+				$ArrLeyesProd[$key][2] = ($ArrLeyesProd[$key][2]/$TotalPesoSecoProd)*$ArrLeyesProd[$key][5];
+				$ArrLeyesProd[$key][9] = ($ArrLeyesProd[$key][8]/$TotalPesoSecoProd_R)*$ArrLeyesProd[$key][5];
+			}	
+			else
+			{
+				$ArrLeyesProd[$key][2] = '0';
+				$ArrLeyesProd[$key][9] = '0';
+			}
+		}		
+	} while (next($ArrLeyesProd));	
+}
+
+function LeyesFlujo($Flujo,$ArrDatosFlujo,$ArrLeyesFlujo,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$link)
+{
+	$Consulta = "select cod_producto, cod_subproducto, rut_proveedor from age_web.relaciones where flujo='".$Flujo."'";
+	$RespFlujo=mysqli_query($link, $Consulta);
+	while ($FilaFlujo=mysqli_fetch_array($RespFlujo))
+	{
+		$TipoRecep="";
+		$RutProv=$FilaFlujo["rut_proveedor"];
+		$Prod=$FilaFlujo["cod_producto"];
+		$SubProd=$FilaFlujo["cod_subproducto"];
+		$ArrDatosProv=array();
+		$ArrLeyesProv=array();
+		$ArrLeyesProv["01"][0]="01";
+		$ArrLeyesProv["02"][0]="02";
+		$ArrLeyesProv["04"][0]="04";
+		$ArrLeyesProv["05"][0]="05";
+		LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLeyesProv,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,"",$link);		
+		$TotalPesoHumFlujo=$TotalPesoHumFlujo  + $ArrDatosProv["peso_humedo"];
+		$TotalPesoSecoFlujo=$TotalPesoSecoFlujo + $ArrDatosProv["peso_seco3"];
+		reset($ArrLeyesProv);
+		while (list($k,$v)=each($ArrLeyesProv))
+		{
+			if ($ArrDatosProv["peso_seco"]!=0 && $v[2]!=0 && $v[5]!=0) 
+				$ArrLeyesFlujo[$k][2] = $ArrLeyesFlujo[$k][2] + $v[23];//(($ArrDatosProv["peso_seco"] * $v[2])/$v[5]);//VALOR
+			$ArrLeyesFlujo[$k][3] = $v[3];//COD UNIDAD
+			$ArrLeyesFlujo[$k][4] = $v[4];//NOM UNIDAD
+			$ArrLeyesFlujo[$k][5] = $v[5];//CONVERSION
+		}
+		//reset($ArrLeyesLote);
+		do {			 
+			$k = key ($ArrLeyesProv);			
+			$ArrLeyesProv[$k][2] = "";
+		} while (next($ArrLeyesProv));	
+	}
+	if ($TotalPesoSecoFlujo!=0 && $TotalPesoHumFlujo!=0)
+		$PorcHumProv = abs(100 - (($TotalPesoSecoFlujo * 100)/$TotalPesoHumFlujo));
+	else
+		$PorcHumProv = 0;
+	$ArrDatosFlujo["peso_humedo"] = $TotalPesoHumFlujo;
+	$ArrDatosFlujo["peso_seco"] = $TotalPesoSecoFlujo;
+	$ArrLeyesFlujo["01"][2] = $PorcHumProv;//VALOR
+	$ArrLeyesFlujo["01"][3] = 1;//COD UNIDAD
+	$ArrLeyesFlujo["01"][4] = "%";//NOM UNIDAD
+	$ArrLeyesFlujo["01"][5] = "100";//CONVERSION
+	reset($ArrLeyesFlujo);
+	do {			 
+		$key = key ($ArrLeyesFlujo);
+		if($key!='01')
+		{
+			if ($key=="02")
+			{
+				$Conv=100;
+			}
+			else
+			{
+				if ($key=="04" || $key=="05")
+					$Conv=1000;
+				else
+					$Conv=$ArrLeyesFlujo[$key][5];
+			}
+			if ($TotalPesoSecoFlujo!=0 && $ArrLeyesFlujo[$key][2]!=0 && $Conv!=0)
+			{
+				$ArrLeyesFlujo[$key][23] = $ArrLeyesFlujo[$key][2];
+				$ArrLeyesFlujo[$key][2] = ($ArrLeyesFlujo[$key][2]/$TotalPesoSecoFlujo)*$Conv;
+			}	
+			else
+				$ArrLeyesFlujo[$key][23] = '0';
+		}		
+	} while (next($ArrLeyesFlujo));	
+}
+function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeyesProv,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link)
+{
+	$ArrLeyesLote=array();
+	reset($ArrLeyesProv);
+	while (list($k,$v)=each($ArrLeyesProv))
+		$ArrLeyesLote[$k][0] = $v[0];
+	$Consulta = "select lote ";	
+	$Consulta.= " from age_web.lotes ";
+	$Consulta.= " where num_conjunto='".$Conjunto."' and rut_proveedor='".$Rut."' ";
+	$Consulta.= " and cod_producto='".$Prod."' and cod_subproducto='".$SubProd."' ";
+	$Consulta.= " and estado_lote<>'6'";
+	$RespConj=mysqli_query($link, $Consulta);
+	while ($FilaConj=mysqli_fetch_array($RespConj))
+	{
+		$ArrDatosLote=array();		
+		$ArrDatosLote["lote"]=$FilaConj["lote"];
+		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre);
+		$PesoHumProv=$PesoHumProv  + $ArrDatosLote["peso_humedo"];
+		$PesoSecoProv=$PesoSecoProv + $ArrDatosLote["peso_seco2"];
+		//echo "LOTE........ ".$ArrDatosLote["lote"]." = ".$ArrDatosLote["peso_humedo"]." - ".$ArrDatosLote["peso_seco"]."<br>";
+		reset($ArrLeyesLote);
+		while (list($k,$v)=each($ArrLeyesLote))
+		{
+			if ($ArrDatosLote["peso_seco2"]=!0 && $v[2]=!0 && $v[5]=!0) 
+				$ArrLeyesProv[$k][2] = $ArrLeyesProv[$k][2] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR
+			$ArrLeyesProv[$k][3] = $v[3];//COD UNIDAD
+			$ArrLeyesProv[$k][4] = $v[4];//NOM UNIDAD
+			$ArrLeyesProv[$k][5] = $v[5];//CONVERSION
+		}
+		//reset($ArrLeyesLote);
+		do {			 
+			$k = key ($ArrLeyesLote);			
+			$ArrLeyesLote[$k][2] = "";
+		} while (next($ArrLeyesLote));	
+	}
+	if ($PesoSecoProv>0 && $PesoHumProv>0 && $ArrDatosLote["clase_producto"]!="M")
+		$PorcHumProv = abs(100 - (($PesoSecoProv * 100)/$PesoHumProv));
+	else
+		$PorcHumProv = 0;
+	//echo "TOTAL PROV-FLUJO=".$PesoHumProv." - ".$PesoSecoProv."<br>";
+	$ArrDatosProv["peso_humedo"] = $PesoHumProv;
+	$ArrDatosProv["peso_seco"] = $PesoSecoProv;
+	$ArrLeyesProv["01"][2] = $PorcHumProv;//VALOR
+	$ArrLeyesProv["01"][3] = 1;//COD UNIDAD
+	$ArrLeyesProv["01"][4] = "%";//NOM UNIDAD
+	$ArrLeyesProv["01"][5] = "100";//CONVERSION
+	reset($ArrLeyesProv);
+	do {			 
+		$key = key ($ArrLeyesProv);
+		if($key!='01')
+		{
+			if ($key=="02")
+			{
+				$Conv=100;
+			}
+			else
+			{
+				if ($key=="04" || $key=="05")
+					$Conv=1000;
+				else
+					$Conv=$ArrLeyesProv[$key][5];
+			}
+			if ($PesoSecoProv!=0 && $ArrLeyesProv[$key][2]>0 && $Conv>0)
+			{
+				$ArrLeyesProv[$key][23] = $ArrLeyesProv[$key][2];
+				$ArrLeyesProv[$key][2] = ($ArrLeyesProv[$key][2]/$PesoSecoProv)*$Conv;
+			}	
+			else
+				$ArrLeyesProv[$key][23] = '0';
+		}		
+	} while (next($ArrLeyesProv));	
+}
+function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLeyesProv,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link)
+{	
+	$ArrLeyesLote=array();
+	reset($ArrLeyesProv);
+	//while(list($k,$v)=each($ArrLeyesProv))
+	foreach ($ArrLeyesProv as $k => $v)
+	{
+		$ArrLeyesLote[$k][0]=$k;
+	}
+	$CodLoteIni=substr($FechaIni,3,1).substr($FechaIni,5,2)."000";
+	$CodLoteFin=substr($FechaFin,3,1).substr($FechaFin,5,2)."999";		
+	$Consulta = "select distinct t1.lote ";
+	$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 on t1.lote = t2.lote ";	
+	$Consulta.= " where t1.lote<>''";
+	//$Consulta.= " and (t1.lote not in('14110076','14110126','14110176','14110219','14110220','14110234','14110235','14110264','14110265','14110340','14110341','14110597')) ";
+	$Consulta.= " and (t1.estado_lote <>'6'  or (t1.estado_lote='6' and t1.mostrar_lote='S')) ";
+	//$Consulta.= " and (t1.tipo_remuestreo <>'A'  or (t1.tipo_remuestreo='A' and substring(t1.lote,1,3)='".substr($CodLoteIni,0,3)."'))";					
+	$Consulta.= " and t1.cod_producto = '".$Prod."' ";
+	$Consulta.= " and t1.cod_subproducto = '".$SubProd."' ";
+	//$Consulta.= " and t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
+	/*$Consulta.= " and (t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' or ";
+	if(substr($FechaIni,0,4)=="2005")
+			$Consulta.= " tipo_remuestreo='A' AND left(num_lote_remuestreo,3)='".substr($FechaIni,3,1).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."')";
+		else
+			$Consulta.= " tipo_remuestreo='A' AND left(num_lote_remuestreo,4)='".substr($FechaIni,2,2).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."')";	
+	*/
+	$Consulta.= " and ((t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
+	if(substr($FechaIni,0,4)=="2005")
+	{
+		$Consulta.= " and left(num_lote_remuestreo,3) in ('".substr($FechaIni,3,1).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."',''))";
+		$Consulta.= " or (tipo_remuestreo='A' AND left(num_lote_remuestreo,3)='".substr($FechaIni,3,1).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."'))";
+	}
+	else
+	{
+		$Consulta.= " and left(num_lote_remuestreo,4) in ('".substr($FechaIni,2,2).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."',''))";	
+		$Consulta.= " or (tipo_remuestreo='A' AND left(num_lote_remuestreo,4)='".substr($FechaIni,2,2).str_pad(substr($FechaIni,5,2),2,'0',STR_PAD_LEFT)."'))";	
+	}
+	$Consulta.= " and t1.rut_proveedor = '".$RutProv."' ";
+	if($TipoRecep!='')
+		$Consulta.= " and t1.cod_recepcion = '".$TipoRecep."'";
+	$Consulta.= " order by t1.lote ";
+	$RespProv = mysqli_query($link, $Consulta);
+	//echo $Consulta."<br>";
+	$SumHumedad=0;
+	$TotalPesoHumProv=0;$TotalPesoSecoProv=0;$TotalPesoTaraProv=0;$TotalPesoBrutoProv=0;$TotalPesoNetoProv=0;$TotalPesoSecoProv_R2=0;
+	while ($FilaProv=mysqli_fetch_array($RespProv))
+	{
+		$ArrDatosLote=array();
+		reset($ArrLeyesLote);	
+		do {			 
+			$k = key ($ArrLeyesLote);			
+			$ArrLeyesLote[$k][2] = "";
+			$ArrLeyesLote[$k][8] = "";
+			$ArrLeyesLote[$k][9] = "";
+			$ArrLeyesLote[$k][10] = "";
+		} while (next($ArrLeyesLote));	
+		
+		$ArrDatosLote["lote"]=$FilaProv["lote"];
+		//echo $FilaProv["lote"]."<br>";
+		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre);
+		if ($ArrDatosLote["tipo_remuestreo"]=="A")
+		{
+			/*$TotalPesoHumProv=$TotalPesoHumProv  + $ArrDatosLote["peso_humedo_ori"];
+			$TotalPesoSecoProv=$TotalPesoSecoProv + $ArrDatosLote["peso_seco2_ori"];*/
+			$ArrDatosLote["peso_humedo"]=$ArrDatosLote["peso_humedo_ori"];
+			$ArrDatosLote["peso_seco2"]=$ArrDatosLote["peso_seco2_ori"];
+			$TotalPesoHumProv=$TotalPesoHumProv  + $ArrDatosLote["peso_humedo"];
+			$TotalPesoSecoProv_R2=$TotalPesoSecoProv_R2 + round($ArrDatosLote["peso_seco2"],0);
+			$TotalPesoSecoProv_R=$TotalPesoSecoProv_R + $ArrDatosLote["peso_seco"]; //(EN CASO DE QUE HAYA QUE TRABAJAR CON PESO REDONDEADO)
+			
+		}
+		else
+		{
+			$TotalPesoHumProv=$TotalPesoHumProv  + $ArrDatosLote["peso_humedo"];
+			switch ($SubProd)
+			{
+				case 43:
+				case 56:
+				case 58:
+					$TotalPesoSecoProv=$TotalPesoSecoProv + $ArrDatosLote["peso_seco"]; //PARA PRODUCTOS DE PLAMEN CON DECIMALES
+					break;
+				default:
+					$TotalPesoSecoProv=$TotalPesoSecoProv + $ArrDatosLote["peso_seco2"];
+					break;
+			}
+			$TotalPesoSecoProv_R2=$TotalPesoSecoProv_R2 + round($ArrDatosLote["peso_seco2"],0);
+			$TotalPesoSecoProv_R=$TotalPesoSecoProv_R + $ArrDatosLote["peso_seco"]; //(EN CASO DE QUE HAYA QUE TRABAJAR CON PESO REDONDEADO)
+			
+		}
+		$TotalPesoTaraProv=$TotalPesoTaraProv + $ArrDatosLote["peso_tara"];
+		$TotalPesoBrutoProv=$TotalPesoBrutoProv + $ArrDatosLote["peso_bruto"];
+		$TotalPesoNetoProv=$TotalPesoNetoProv + $ArrDatosLote["peso_neto"];
+		reset($ArrLeyesLote);
+		while (list($k,$v)=each($ArrLeyesLote))
+		{
+			if ($v[2]!=0 && $v[5]!=0)// $ArrDatosLote["peso_seco2"]!=0 && 
+			{
+				//SUMA LAS HUMEDADES PARA LUEGO COMPARAR SI TIENE ALGO O NO
+				if ($k=="01")
+					$SumHumedad=$SumHumedad + $v[2];
+				/*echo $v[2]."<br>";	
+				echo $v[5]."<br>";
+				echo $ArrDatosLote["peso_seco2"]."<br><br>";*/
+				switch ($SubProd)
+				{
+					case 43:
+					case 56:
+					case 58:
+						//PRODUCTOS PMN
+						$ArrLeyesProv[$v[0]][2] = $ArrLeyesProv[$v[0]][2] + round(($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR
+						if($v[10]=='S')
+						{
+							$ArrLeyesProv[$v[0]][8] = $ArrLeyesProv[$v[0]][8] + round(($ArrDatosLote["peso_seco"] * $v[8])/$v[5]);//VALOR
+							//REDONDEADO (PARA CUADRE CON ENAMI)
+							$ArrLeyesProv[$v[0]][10] = $ArrLeyesProv[$v[0]][10] + round($v[9]);//round(($ArrDatosLote["peso_seco"] * $v[8])/$v[5]);//VALOR					
+						}
+						else
+						{
+							$ArrLeyesProv[$v[0]][8] = $ArrLeyesProv[$v[0]][8] + round(($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR PRI
+							//REDONDEADO (PARA CUADRE CON ENAMI)
+							$ArrLeyesProv[$v[0]][10] = $ArrLeyesProv[$v[0]][10] + round(($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR PRI					
+						}
+						break;
+					default:
+						$ArrLeyesProv[$v[0]][2] = $ArrLeyesProv[$v[0]][2] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR
+						if($v[10]=='S')
+						{
+							/*if($v[0]=='02')
+								echo $v[0]." PesoSeco: ".$ArrDatosLote["peso_seco2"]." ---- Ley[8]: ".$v[8]."<br>";*/
+							$ArrLeyesProv[$v[0]][8] = $ArrLeyesProv[$v[0]][8] + round(($ArrDatosLote["peso_seco2"] * $v[8])/$v[5]);//VALOR
+							//REDONDEADO (PARA CUADRE CON ENAMI)
+							$ArrLeyesProv[$v[0]][10] = $ArrLeyesProv[$v[0]][10] + round($v[9]);//round(($ArrDatosLote["peso_seco"] * $v[8])/$v[5]);//VALOR					
+						}
+						else
+						{
+							//echo round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5])."<br>";
+							//if($v[0]=='02')
+							//	echo $v[0]." PesoSeco: ".$ArrDatosLote["peso_seco2"]." ---- Ley[2]: ".$v[2]." ---- Ley[60]: ".$v[60]."<br>";
+							$ArrLeyesProv[$v[0]][8] = $ArrLeyesProv[$v[0]][8] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR PRI
+							//REDONDEADO (PARA CUADRE CON ENAMI)
+							$ArrLeyesProv[$v[0]][10] = $ArrLeyesProv[$v[0]][10] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR PRI					
+						}
+						break;
+				}				
+			}				
+			$ArrLeyesProv[$v[0]][3] = $v[3];//COD UNIDAD
+			$ArrLeyesProv[$v[0]][4] = $v[4];//NOM UNIDAD
+			$ArrLeyesProv[$v[0]][5] = $v[5];//CONVERSION
+		}
+	}
+	
+	/*echo "CLASE PROD=".$ArrDatosLote["clase_producto"]."<br>";*/
+	//echo "SECO=".$TotalPesoSecoProv." HUM=".$TotalPesoHumProv."<br>";
+	if ($TotalPesoSecoProv>0 && $TotalPesoHumProv>0 && $SumHumedad!=0)
+		$PorcHumLote = abs(100 - (($TotalPesoSecoProv * 100)/$TotalPesoHumProv));
+	else
+		$PorcHumLote = 0;
+	$ArrDatosProv["peso_humedo"] = $TotalPesoHumProv;
+	$ArrDatosProv["peso_seco"] = $TotalPesoSecoProv;
+	$ArrDatosProv["peso_seco3"] = $TotalPesoSecoProv_R2;
+	$ArrDatosProv["peso_seco_r"] = $TotalPesoSecoProv_R;
+	$ArrDatosProv["peso_tara"] = $TotalPesoTaraProv;
+	$ArrDatosProv["peso_bruto"] = $TotalPesoBrutoProv;
+	$ArrDatosProv["peso_neto"] = $TotalPesoNetoProv;
+	$ArrLeyesProv["01"][2] = $PorcHumLote;//VALOR
+	$ArrLeyesProv["01"][3] = 1;//COD UNIDAD
+	$ArrLeyesProv["01"][4] = "%";//NOM UNIDAD
+	$ArrLeyesProv["01"][5] = "100";//CONVERSION
+	reset($ArrLeyesProv);
+	do {			 
+		$key = key ($ArrLeyesProv);
+		if($key!='01')
+		{
+			if ($key=="02")
+			{
+				$Conv=100;
+			}
+			else
+			{
+				if ($key=="04" || $key=="05")
+					$Conv=1000;
+				else
+					$Conv=$ArrLeyesProv[$key][5];
+			}
+			if ($TotalPesoSecoProv!=0 && $ArrLeyesProv[$key][2]!=0 && $Conv!=0)
+			{
+				$ArrLeyesProv[$key][23] = $ArrLeyesProv[$key][2];
+				$ArrLeyesProv[$key][2] = ($ArrLeyesProv[$key][2]/$TotalPesoSecoProv)*$Conv;
+				$ArrLeyesProv[$key][9] = ($ArrLeyesProv[$key][9]/$TotalPesoSecoProv_R)*$Conv;
+			}	
+			else
+			{
+				$ArrLeyesProv[$key][23] = '0';
+				$ArrLeyesProv[$key][9] = '0';
+			}	
+		}		
+	} while (next($ArrLeyesProv));	
+}
+
+//FUNCION PARA TOMAR DATOS DE LOTE COMPLETO, PONDERADO
+function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link)
+{
+	//echo $FechaIni."---".$Lote;
+	$CierreBalance = true;
+	$FechaCierreAnexo=$FechaConCierre;
+	$ArrayLeyesVacio = false;
+	if (count($LeyesPond)<=0)
+		$ArrayLeyesVacio = true;		
+	//RESCATA PESO HUMEDO
+	$Consulta = "select t1.lote, sum(t2.peso_neto) as peso_humedo, sum(t2.peso_bruto) as peso_bruto, sum(t2.peso_tara) as peso_tara,";
+	$Consulta.= " t1.peso_muestra, t1.peso_retalla, t1.cod_producto, t1.cod_subproducto, t1.rut_proveedor, ";
+	$Consulta.= " t1.fecha_recepcion, t1.cod_faena, t1.cod_recepcion, t1.clase_producto, t1.num_conjunto, t3.recepcion, t1.num_lote_remuestreo, ";
+	$Consulta.= " t1.remuestreo, t1.num_lote_remuestreo, t1.estado_lote, t1.modificado, t1.fin_canje,t1.canjeable,t1.muestra_paralela, t1.tipo_remuestreo ";
+	$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 on t1.lote=t2.lote inner join proyecto_modernizacion.subproducto t3 ";
+	$Consulta.= " on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto ";
+	$Consulta.= " where t1.lote='".$Lote["lote"]."' ";
+	if ($EntreFechas=="S" && $FechaIni!="" && $FechaFin!="")
+		$Consulta.= " and t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
+	$Consulta.= " group by lote";
+	$RespPeso=mysqli_query($link, $Consulta);
+	if ($FilaPeso = mysqli_fetch_array($RespPeso))
+	{
+		$TotalPesoHum = $FilaPeso["peso_humedo"];
+		$Lote["peso_muestra"] = $FilaPeso["peso_muestra"];
+		$Lote["peso_retalla"] = $FilaPeso["peso_retalla"];
+		$Lote["cod_producto"] = $FilaPeso["cod_producto"];
+		$Lote["cod_subproducto"] = $FilaPeso["cod_subproducto"];
+		$Lote["fecha_recepcion"] = $FilaPeso["fecha_recepcion"];
+		$Lote["rut_proveedor"] = $FilaPeso["rut_proveedor"];
+		$Lote["cod_faena"] = $FilaPeso["cod_faena"];
+		$Lote["cod_recepcion"] = $FilaPeso["cod_recepcion"];
+		$Lote["clase_producto"] = $FilaPeso["clase_producto"];
+		$Lote["num_conjunto"] = $FilaPeso["num_conjunto"];
+		$Lote["peso_bruto"] = $FilaPeso["peso_bruto"];
+		$Lote["peso_tara"] = $FilaPeso["peso_tara"];
+		$Lote["peso_neto"] = $FilaPeso["peso_humedo"];
+		$Lote["canjeable"] = $FilaPeso["canjeable"];
+		$Lote["fin_canje"] = $FilaPeso["fin_canje"];
+		$Lote["muestra_paralela"] = $FilaPeso["muestra_paralela"];
+		$Lote["recepcion"] = $FilaPeso["recepcion"];
+		$Lote["tipo_remuestreo"] = $FilaPeso["tipo_remuestreo"];
+		$Lote["num_lote_remuestreo"] = $FilaPeso["num_lote_remuestreo"];		
+	}
+	
+	//CONSULTA SI TIENE RECARGO
+	//RESCATA LEYES POR RECARGO PARA LUEGO PONDERARLAS
+	$Consulta = "select * ";
+	$Consulta.= " from age_web.detalle_lotes ";
+	$Consulta.= " where lote='".$Lote["lote"]."'";
+	$Consulta.= " order by lote, lpad(recargo,4,'0')";
+	$ContRecargos = 1;$CambioHum='N';$PorcHumAnt='NO';
+	$RespLote=mysqli_query($link, $Consulta);
+	while ($FilaLote = mysqli_fetch_array($RespLote))
+	{					
+		$PorcHum=0;	
+		$Consulta = "select distinct t1.cod_leyes, t1.valor,t1.valor2, t2.cod_unidad, t2.abreviatura as nom_unidad, t2.conversion, t3.abreviatura as nom_ley,t3.nombre_leyes as nombre_ley ";
+		$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
+		$Consulta.= " t1.cod_unidad=t2.cod_unidad left join proyecto_modernizacion.leyes t3 on t1.cod_leyes=t3.cod_leyes";
+		$Consulta.= " where t1.lote='".$FilaLote["lote"]."' ";
+		if ($ContRecargos==1)
+			$Consulta.= " and (t1.recargo='".$FilaLote["recargo"]."' or t1.recargo='0')";
+		else
+			$Consulta.= " and t1.recargo='".$FilaLote["recargo"]."'";
+		if ($ArrayLeyesVacio==false)
+		{
+			if (count($LeyesPond)>0)
+			{
+				$Consulta.= " and (";
+				reset($LeyesPond);
+				while (list($k,$v)=each($LeyesPond))
+				{			
+					$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+				}
+				$Consulta = substr($Consulta,0,strlen($Consulta)-3);
+				$Consulta.= ")";
+			}
+		}
+		$Consulta.= " order by t1.cod_leyes";
+		$RespLeyes = mysqli_query($link, $Consulta);
+		while ($FilaLeyes = mysqli_fetch_array($RespLeyes))
+		{			
+			if ($FilaLeyes["cod_leyes"]=="01")
+			{	
+				//echo $FilaLeyes["valor"];
+				$PorcHum = $FilaLeyes["valor"];
+			}	
+			//TOTAL DEL LOTE
+			/*if($FilaLote["lote"]=='507327')
+			{
+				echo $FilaLeyes["cod_leyes"]."=".$FilaLeyes["valor"]."<br>";
+			}	*/
+			$LeyesPond[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];  //CODIGO LEY
+			$LeyesPond[$FilaLeyes["cod_leyes"]][1] = $FilaLeyes["nom_ley"];//ABREVIATURA
+			$LeyesPond[$FilaLeyes["cod_leyes"]][2] = $FilaLeyes["valor"];//VALOR
+			$LeyesPond[$FilaLeyes["cod_leyes"]][3] = $FilaLeyes["cod_unidad"];//COD UNIDAD
+			$LeyesPond[$FilaLeyes["cod_leyes"]][4] = $FilaLeyes["nom_unidad"];//NOM UNIDAD
+			$LeyesPond[$FilaLeyes["cod_leyes"]][5] = $FilaLeyes["conversion"];//CONVERSION			
+			$LeyesPond[$FilaLeyes["cod_leyes"]][6] = $FilaLeyes["nombre_ley"];//NOMBRE LEY
+			$LeyesPond[$FilaLeyes["cod_leyes"]][7] = $FilaLeyes["valor2"];//VALOR2 REAL SI VALOR ES PROVISIONAL 
+		   
+		}
+		if(($PorcHumAnt!='NO')&&($PorcHum!=$PorcHumAnt))
+			$CambioHum='S';
+		else
+			$PorcHumAnt=$PorcHum;
+		//RESCATA LEYES CANJEABLES
+		if($Lote["canjeable"]=='S')
+		{
+			$Consulta = "select distinct t1.lote, t2.cod_leyes, (t2.inc_retalla+t2.ley_canje) as ley_canje, t2.pendiente, ";
+			$Consulta.= " (t2.inc_retalla+t2.valor1) as valor1";
+			$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
+			$Consulta.= " where (t1.lote='".$Lote["lote"]."' and t1.estado_lote <>'6' ";
+			$Consulta.= " and t1.fecha_canje<='".$FechaCierreAnexo."') ";
+			$Consulta.= " or (t1.lote='".$Lote["lote"]."' and t1.fecha_fin_canje between '".$FechaIni."' and '".$FechaFin."') ";	
+			if (count($Leyes)>0)
+			{
+				$Consulta.= " and (";
+				reset($Leyes);
+				while (list($k,$v)=each($Leyes))
+				{			
+					$Consulta.= " t2.cod_leyes='".$v[0]."' or";
+				}
+				$Consulta = substr($Consulta,0,strlen($Consulta)-3);
+				$Consulta.= ")";
+			}
+			$Consulta.= " order by t2.cod_leyes";
+			$RespLoteC = mysqli_query($link, $Consulta);
+			while ($FilaLoteC = mysqli_fetch_array($RespLoteC))
+			{
+				//if ($FilaLoteC["pendiente"]!="S")//NO VA ARBITRAL
+				//{
+					$LeyesPond[$FilaLoteC["cod_leyes"]][8] = $FilaLoteC["ley_canje"];//LEY FINAL DEL CANJE
+					/*if ($Lote["lote"]=='507053')
+					{
+						echo $FilaLoteC["ley_canje"]."<br>";
+					}		*/			
+					
+					$LeyesPond[$FilaLoteC["cod_leyes"]][10] = "S";//USAR LA LEY POSICION 8 Y FINO 9 PARA MOSTRAR
+				/*}
+				else				
+				{
+					$LeyesPond[$FilaLoteC["cod_leyes"]][8] = "";
+					$LeyesPond[$FilaLoteC["cod_leyes"]][10] = "N";
+				}*/
+			}
+		}
+		$Acumula=true;
+		if ($EntreFechas=="S")
+		{
+			if ($FilaLote["fecha_recepcion"]>=$FechaIni && $FilaLote["fecha_recepcion"]<=$FechaFin)
+				$Acumula=true;
+			else
+				$Acumula=false;
+		}
+		if ($Acumula==true)
+		{	
+			$PesoHumedo = $FilaLote["peso_neto"];
+			$PesoSecoAux = $PesoHumedo - round(round(($PesoHumedo*$PorcHum)/100,1),0);	
+			//$PesoSeco =$PesoHumedo - round(($PesoHumedo*$PorcHum)/100,0);	
+			$PesoSeco =$PesoHumedo - ($PesoHumedo*$PorcHum)/100;
+	
+			if($PesoSeco>=1)
+				$PesoSeco=round($PesoSeco,4);
+			//echo $PesoSeco."<br>";
+			$TotalPesoSec = $TotalPesoSec + $PesoSeco;
+			$TotalPesoSecAux = $TotalPesoSecAux + $PesoSecoAux;
+			/*if ($FilaLote["lote"]=='507053')
+			{
+				echo $TotalPesoSec."<br>";
+				echo $TotalPesoSecAux."<br>";
+			}*/
+
+		}
+		$ContRecargos++;
+	}	
+	if ($TotalPesoSec>0 && $TotalPesoHum>0)
+	{
+		if($CambioHum=='N')
+		{
+			//echo $PorcHum."KURI<br>";			
+			$PorcHumLote=$PorcHum;
+			$PorcHumLoteAux = $PorcHum;
+		}
+		else
+		{
+			$PorcHumLote = abs(100 - round(($TotalPesoSecAux * 100)/$TotalPesoHum));
+			$PorcHumLoteAux = abs(100 - round(($TotalPesoSec * 100)/$TotalPesoHum,4)); // CON PESO SECO CON DECIMALES
+			//$PorcHumLoteAux = abs(100 - ($TotalPesoSec * 100)/$TotalPesoHum);
+		}
+	}
+	else
+	{
+		
+		$PorcHumLote = 0;
+		$PorcHumLoteAux = 0;	
+	}		
+	$Lote["peso_humedo"] = $TotalPesoHum;
+	$Lote["peso_seco"] = $TotalPesoSecAux;//REDONDEADO
+	/*if ($Lote["lote"]=='507053')
+	{
+		echo "Lote:".$Lote["lote"]."<br>";
+		echo "Peso Hum:".$Lote["peso_humedo"]."<br>";
+		echo "Peso Seco:".$Lote["peso_seco"]."<br>";
+		echo "Peso Seco2:".$Lote["peso_seco2"]."<br><br>";
+	}	*/
+	
+/*		echo $TotalPesoHum."<br>";
+		echo $TotalPesoSecAux."<br>";
+		echo $PorcHumLote."<br>";
+		echo $TotalPesoSec."<br>";*/
+	$Lote["peso_seco2"] =$TotalPesoSec;	
+	//echo $Lote["lote"]." HUM=".$PorcHumLote." AUX=".$PorcHumLoteAux."<br>";
+	//if ($Lote["lote"]=='507053')
+		//echo "Ley Pond:".$LeyesPond["01"][2];
+	$LeyesPond["01"][2] = $PorcHumLote;//VALOR
+	$LeyesPond["01"][20] = $PorcHumLoteAux;//PARA CALCULO DE MERMA
+	$LeyesPond["01"][3] = 1;//COD UNIDAD
+	$LeyesPond["01"][4] = "%";//NOM UNIDAD
+	$LeyesPond["01"][5] = "100";//CONVERSION	
+	//CONSULTA PARAMETROS DE LEYES (UNIDAD, CANT DECIMALES, ETC)
+	ParamLeyes($Lote,$LeyesPond);
+	//CALCULO DE MERMA
+	$FechaMer = substr($FechaIni,7);
+	ValorMerma($Lote,$LeyesPond,$IncMerma);
+	//VALORES DE LA RETALLA
+	$Consulta = "select * from age_web.leyes_por_lote ";
+	$Consulta.= " where lote = '".$Lote["lote"]."' ";
+	$Consulta.= " and provisional = 'S' ";
+ // echo "HH".$Consulta;
+	$RespProvi=mysqli_query($link, $Consulta);
+
+	if (!$FilaProvi=mysqli_fetch_array($RespProvi))
+		ValoresRetalla($Lote,$LeyesPond,$IncRetalla);	
+	//SI ES REMUESTREO DE UN MES ANTERIOR
+	if ($Lote["tipo_remuestreo"]=="A") 
+	{
+		$LoteAju=array();
+		$LeyesAju=array();
+		$Consulta = "select * from age_web.lotes where lote='".$Lote["num_lote_remuestreo"]."'";
+		$RespR1=mysqli_query($link, $Consulta);
+		if ($FilaR1=mysqli_fetch_array($RespR1))
+		{
+			$Consulta = "select * from age_web.lotes where num_lote_remuestreo='".$FilaR1["lote"]."'";			
+			$RespR=mysqli_query($link, $Consulta);
+			if ($FilaR=mysqli_fetch_array($RespR))
+			{
+				if ($FilaR["tipo_remuestreo"]=="A")
+				{
+					$LoteAju["lote"]=$FilaR1["lote"];
+					//PESO MUESTRA Y PESO RETALLA
+					$Consulta = "select * from age_web.lotes where lote='".$FilaR1["lote"]."'";
+					$RespR2=mysqli_query($link, $Consulta);
+					if ($FilaR2=mysqli_fetch_array($RespR2))
+					{
+						$LoteAju["peso_muestra"]=$FilaR2["peso_muestra"];
+						$LoteAju["peso_retalla"]=$FilaR2["peso_retalla"];
+					}
+				}
+				else
+				{
+					$LoteAju["lote"]=$FilaR["lote"];
+					//PESO MUESTRA Y PESO RETALLA
+					$Consulta = "select * from age_web.lotes where lote='".$FilaR["lote"]."'";
+					$RespR2=mysqli_query($link, $Consulta);
+					if ($FilaR2=mysqli_fetch_array($RespR2))
+					{
+						$LoteAju["peso_muestra"]=$FilaR2["peso_muestra"];
+						$LoteAju["peso_retalla"]=$FilaR2["peso_retalla"];
+					}
+				}				
+				$Consulta = "select distinct t1.cod_leyes, t1.valor,t1.valor2, t2.cod_unidad, t2.abreviatura as nom_unidad, t2.conversion, t3.abreviatura as nom_ley,t3.nombre_leyes as nombre_ley ";
+				$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
+				$Consulta.= " t1.cod_unidad=t2.cod_unidad left join proyecto_modernizacion.leyes t3 on t1.cod_leyes=t3.cod_leyes";
+				if ($FilaR["tipo_remuestreo"]=="A")
+					$Consulta.= " where t1.lote='".$Lote["num_lote_remuestreo"]."' ";
+				else
+					$Consulta.= " where t1.lote='".$FilaR["lote"]."' ";
+				$Consulta.= " and (t1.recargo='' or t1.recargo='0')";
+				$Consulta.= " and (t1.cod_leyes in('02','04','05'))";
+				$Consulta.= " order by t1.cod_leyes";
+				$RespLeyes = mysqli_query($link, $Consulta);
+				while ($FilaLeyes = mysqli_fetch_array($RespLeyes))
+				{		
+					//TOTAL DEL LOTE
+					$LeyesAju[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];  //CODIGO LEY
+					$LeyesAju[$FilaLeyes["cod_leyes"]][1] = $FilaLeyes["nom_ley"];//ABREVIATURA
+					$LeyesAju[$FilaLeyes["cod_leyes"]][2] = $FilaLeyes["valor"];//VALOR
+					$LeyesAju[$FilaLeyes["cod_leyes"]][3] = $FilaLeyes["cod_unidad"];//COD UNIDAD
+					$LeyesAju[$FilaLeyes["cod_leyes"]][4] = $FilaLeyes["nom_unidad"];//NOM UNIDAD
+					$LeyesAju[$FilaLeyes["cod_leyes"]][5] = $FilaLeyes["conversion"];//CONVERSION			
+					$LeyesAju[$FilaLeyes["cod_leyes"]][6] = $FilaLeyes["nombre_ley"];//NOMBRE LEY
+					$LeyesAju[$FilaLeyes["cod_leyes"]][7] = $FilaLeyes["valor2"];//VALOR2 REAL SI VALOR ES PROVISIONAL 
+					//echo $FilaLeyes["cod_leyes"]." = ".$LeyesAju[$FilaLeyes["cod_leyes"]][2]."<br>";
+				} 
+				//VALORES DE LA RETALLA
+				$Consulta = "select * from age_web.leyes_por_lote ";
+				//$Consulta.= " where lote = '".$FilaR["lote"]."' ";
+				if ($FilaR["tipo_remuestreo"]=="A")
+					$Consulta.= " where lote='".$Lote["num_lote_remuestreo"]."' ";
+				else
+					$Consulta.= " where lote='".$FilaR["lote"]."' ";
+				$Consulta.= " and provisional = 'S' ";
+
+				$RespProvi=mysqli_query($link, $Consulta);
+				if (!$FilaProvi=mysqli_fetch_array($RespProvi))
+				{
+					//echo $LoteAju["lote"]." PM=".$LoteAju["peso_muestra"]." PR=".$LoteAju["peso_retalla"]."<br>";
+					ValoresRetalla($LoteAju,$LeyesAju,$IncRetalla);
+					//echo $LeyesAju["02"][2]." / ".$LeyesAju["04"][2]." / ".$LeyesAju["05"][2]."<br>";
+				}
+			}
+		}
+		//VALORES ORIGINALES
+		/*if ($FilaR["tipo_remuestreo"]=="A")
+			echo " lote=".$Lote["num_lote_remuestreo"]." -> ";
+		else
+			echo " lote=".$FilaR["lote"]." -> ";
+		echo $LeyesAju["02"][2]." / ".$LeyesAju["04"][2]." / ".$LeyesAju["05"][2]."<br>";*/
+		$LeyesPond["02"][60]=$LeyesPond["02"][2];
+		$LeyesPond["04"][60]=$LeyesPond["04"][2];
+		$LeyesPond["05"][60]=$LeyesPond["05"][2];
+		//NUEVOS VALORES (AJUSTE)				
+		//echo $FilaR["lote"]." Cu = ".$LeyesPond["02"][2]."=".$LeyesPond["02"][2]."-".$LeyesAju["02"][2]."<br>";
+		//echo $FilaR["lote"]." Ag = ".$LeyesPond["04"][2]."=".$LeyesPond["04"][2]."-".$LeyesAju["04"][2]."<br>";
+		//echo $FilaR["lote"]." Au = ".$LeyesPond["05"][2]."=".$LeyesPond["05"][2]."-".$LeyesAju["05"][2]."<br>";
+		$LeyesPond["02"][2]=$LeyesPond["02"][2] - $LeyesAju["02"][2];
+		$LeyesPond["04"][2]=$LeyesPond["04"][2] - $LeyesAju["04"][2];
+		$LeyesPond["05"][2]=$LeyesPond["05"][2] - $LeyesAju["05"][2];
+		
+	} 
+	//CALCULA FINOS	
+	reset($LeyesPond);
+	do {			 
+		$key = key ($LeyesPond);
+		if ($key=="02")
+			$LeyesPond[$key][5]=100;
+		else
+			if ($key=="04" || $key=="05")
+				$LeyesPond[$key][5]=1000;
+		/*if($Lote["lote"]=='06010130')
+		{
+			echo "cant_rec:".$ContRecargos."<br>";
+			echo "Ley:".$key."<br>";
+			echo "A--> ".$Lote["peso_seco"]."<br>";
+			echo "B--> ".$Lote["peso_seco2"]."<br>";
+			echo "C--> ".$LeyesPond[$key][2]."<br>";
+			echo "D--> ".$LeyesPond[$key][5]."<br><BR><BR>";
+		}*/
+		if ($Lote["peso_seco2"]!=0 && $LeyesPond[$key][2]!=0 && $LeyesPond[$key][5]!=0)
+		{
+			//echo "PESO SECO=".$Lote["peso_seco2"]." LEY=".$LeyesPond[$key][2]."<br>";
+			switch ($Lote["cod_subproducto"])
+			{
+				case 43:
+				case 56:
+				case 58:
+					$LeyesPond[$key][23] = ($Lote["peso_seco"] * $LeyesPond[$key][2])/$LeyesPond[$key][5];
+					$LeyesPond[$key][9] = ($Lote["peso_seco"] * $LeyesPond[$key][8])/$LeyesPond[$key][5];//FINO CANJE
+					break;
+				default:
+					/*if($ContRecargos-1==1)
+					{
+						//$LeyesPond[$key][23] = ($Lote["peso_seco"] * $LeyesPond[$key][2])/$LeyesPond[$key][5];
+						$LeyesPond[$key][9] = ($Lote["peso_seco"] * $LeyesPond[$key][8])/$LeyesPond[$key][5];//FINO CANJE
+					}
+					else
+					{*/
+						$LeyesPond[$key][23] = ($Lote["peso_seco2"] * $LeyesPond[$key][2])/$LeyesPond[$key][5];
+						$LeyesPond[$key][9] = ($Lote["peso_seco2"] * $LeyesPond[$key][8])/$LeyesPond[$key][5];//FINO CANJE
+					//}
+					break;
+			}			
+			//echo $key." = ".$LeyesPond[$key][9]." = (".$Lote["peso_seco"]." * ".round($LeyesPond[$key][8],4).")/".$LeyesPond[$key][5]."<br>";//FINO CANJE
+		}	
+		else
+		{
+			$LeyesPond[$key][23] = '0';
+			$LeyesPond[$key][9] = '0';
+		}	
+	} while (next($LeyesPond));
+	
+	//REMUESTREO DE UN MES ANTERIOR
+	if ($Lote["tipo_remuestreo"]=="A" && $Lote["penalidades"]!="S")
+	{
+		$Lote["peso_humedo_ori"]= $Lote["peso_humedo"];
+		$Lote["peso_seco_ori"] = $Lote["peso_seco"];
+		$Lote["peso_seco2_ori"] = $Lote["peso_seco2"];
+		$Lote["peso_humedo"]= 0;
+		$Lote["peso_seco"] = 0;
+		$Lote["peso_seco2"] = 0;	
+		$LeyesPond["01"][60] = $LeyesPond["01"][2];
+		//$LeyesPond["01"][2] = 0;  
+	}
+	
+}	
+
+//CALCULA INCIDENCIA DE LA RETALLA
+function ValoresRetalla($Lote,$Leyes,$CalculaInc,$link)
+{	
+	$LeyesRetalla = array();
+	$InfRetalla = array();
+	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
+	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
+	$Consulta.= " t1.cod_unidad=t2.cod_unidad ";
+	$Consulta.= " where t1.lote='".$Lote["lote"]."' ";
+	$Consulta.= " and t1.recargo='R'";	
+	$Consulta.= " order by t1.cod_leyes";
+	$RespLeyes = mysqli_query($link, $Consulta);
+	while ($FilaLeyes = mysqli_fetch_array($RespLeyes))
+	{							
+		$LeyesRetalla[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];//CODIGO
+		$LeyesRetalla[$FilaLeyes["cod_leyes"]][2] = $FilaLeyes["valor"];//VALOR
+		$LeyesRetalla[$FilaLeyes["cod_leyes"]][3] = $FilaLeyes["cod_unidad"];//COD UNIDAD
+		$LeyesRetalla[$FilaLeyes["cod_leyes"]][4] = $FilaLeyes["nom_unidad"];//NOM UNIDAD
+		$LeyesRetalla[$FilaLeyes["cod_leyes"]][5] = $FilaLeyes["conversion"];//CONVERSION
+		
+		$InfRetalla[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];//CODIGO LEY RETALLA
+		//echo $Lote["peso_retalla"]." - ".$Lote["peso_muestra"]." - ".$LeyesRetalla[$FilaLeyes["cod_leyes"]][2]."<br>";
+		if ($Lote["peso_retalla"]>0 && $Lote["peso_muestra"]>0 && $LeyesRetalla[$FilaLeyes["cod_leyes"]][2]>0)
+			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = ($LeyesRetalla[$FilaLeyes["cod_leyes"]][2]  - $Leyes[$FilaLeyes["cod_leyes"]][2]) * ($Lote["peso_retalla"]/$Lote["peso_muestra"]);  //VALOR
+		else
+			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = 0;  //VALOR
+		//CALCULA LA LEY INCLUYENDO INCIDENCIA DE LA RETALLA
+		if ($CalculaInc=="S")
+			$Leyes[$FilaLeyes["cod_leyes"]][2] = $Leyes[$FilaLeyes["cod_leyes"]][2] + ($InfRetalla[$FilaLeyes["cod_leyes"]][2]); //LEY PRI + INC. RETALLA			
+		//echo $Leyes[$FilaLeyes["cod_leyes"]][2]." + ".$InfRetalla[$FilaLeyes["cod_leyes"]][2];
+		//REGISTRA LOS VALORES DE LA RETALLA
+		$Leyes[$FilaLeyes["cod_leyes"]][12] = $FilaLeyes["valor"];     //VALOR RETALLA
+		$Leyes[$FilaLeyes["cod_leyes"]][13] = $FilaLeyes["cod_unidad"];//COD UNIDAD RETALLA
+		$Leyes[$FilaLeyes["cod_leyes"]][14] = $FilaLeyes["nom_unidad"];//NOM UNIDAD RETALLA
+		$Leyes[$FilaLeyes["cod_leyes"]][15] = $FilaLeyes["conversion"];//CONVERSION RETALLA
+		//REGISTRA LA INCIDENCIA DE LA RETALLA
+		$Leyes[$FilaLeyes["cod_leyes"]][22] = ($InfRetalla[$FilaLeyes["cod_leyes"]][2]);//VALOR INCIDENCIA
+	}
+}
+
+function ValorMerma($Lote,$Leyes,$CalculaMerma,$link)
+{
+	//CONSULTO LUGAR DE DESTINO
+	$TieneConj=false;
+	if ($Lote["num_conjunto"]>0)
+	{
+		$Consulta = "select t1.cod_lugar, t2.descripcion_lugar ";
+		$Consulta.= " from ram_web.conjunto_ram t1 inner join ram_web.tipo_lugar t2 on t1.cod_lugar=t2.cod_tipo_lugar ";
+		$Consulta.= " where t1.cod_conjunto='01' ";
+		$Consulta.= " and t1.num_conjunto='".$Lote["num_conjunto"]."' ";
+		//echo "valor".$Consulta."</br>";
+		$RespM01 = mysqli_query($link, $Consulta);
+		if ($FilaM01 = mysqli_fetch_array($RespM01))
+		{
+			$TieneConj=true;
+			$LugarDestino=$FilaM01["cod_lugar"];
+			$NomLugar=$FilaM01["descripcion_lugar"];
+		}
+	}
+	//CONSULTO EL CONTRATO
+	$Consulta = "select * from age_web.programa_recepcion ";
+	$Consulta.= " where tipo_programa='00' and cod_producto='".$Lote["cod_producto"]."' ";
+	$Consulta.= " and cod_subproducto='".$Lote["cod_subproducto"]."' and  rut_proveedor='".$Lote["rut_proveedor"]."'";
+	$RespM01 = mysqli_query($link, $Consulta);
+	if ($FilaM01 = mysqli_fetch_array($RespM01))
+	{		
+		$Cont=$FilaM01["cod_contrato"];
+	}
+	$DescMerma="";
+	$PorcMerma=0;
+	$Fin=false;
+	BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+	if (!$Fin)
+		BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+	if (!$Fin)
+		BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+	//VALOR MERMA
+	$Leyes["01"][30] = $PorcMerma;
+	$Leyes["01"][31] = $DescMerma;
+	//CALCULOS	
+	if ($CalculaMerma=="S"&&$PorcMerma!='')
+	{
+		$Leyes["01"][2] = $Leyes["01"][20] + $PorcMerma; // (%) HUM. + (%) PORC.MERMA		
+		//echo "H2O=".$Leyes["01"][20]." + MERMA=".$PorcMerma."<br>";
+		//RECALCULA PESO SECO CON NUEVA HUMEDAD
+		$Lote["peso_seco"] = $Lote["peso_humedo"] - ($Lote["peso_humedo"] * $Leyes["01"][2] / 100);
+		$Lote["peso_seco2"] = $Lote["peso_humedo"] - ($Lote["peso_humedo"] * $Leyes["01"][2] / 100);
+		//echo $Lote["peso_seco2"]." = ".$Lote["peso_humedo"]." - (".$Lote["peso_humedo"]." * ".$Leyes["01"][2]." / 100)<br>";
+	}
+	
+}
+
+function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encontro, $TieneConjunto, $Contrato, $Texto,$link)
+{
+	$LoteCon = $LoteAux["lote"];
+	$Anito = "20".substr($LoteCon,0,2);
+	$Mesi  = substr($LoteCon,2,2);
+	$Fechita= $Anito.substr($LoteCon,2,2);
+	$Porcentaje = 0;
+	//CONSULTA TIENE MERMA COMO CLASE DE PRODUCTO (COLPA, GRANZA, ETC)
+	$Consulta = "select * from age_web.mermas ";
+	$Consulta.= " where cod_producto='".$LoteAux["cod_producto"]."' ";
+	if ($Busq=="P")
+	{
+		$Consulta.= " and cod_subproducto='".$LoteAux["cod_subproducto"]."' ";
+		$Consulta.= " and rut_proveedor <> '' and cod_contrato = '' and rut_proveedor='".$LoteAux["rut_proveedor"]."' ";
+		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
+		//echo "=1=".$Consulta."</br>";
+	}
+	else if ($Busq=="C")
+	{
+		$Consulta.= " and cod_subproducto ='".$LoteAux["cod_subproducto"]."' ";
+		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
+		$Consulta.= " and cod_contrato<>'' and rut_proveedor = '' and cod_contrato='".$Contrato."'";
+		//echo "=2=".$Consulta."</br>";
+	}
+	else 
+	{
+		$Consulta.=" and rut_proveedor = '' and cod_contrato = '' ";
+		$Consulta.= " and cod_subproducto ='".$LoteAux["cod_subproducto"]."' ";
+		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
+		//echo "=3=".$Consulta."</br>";
+	}
+	$RespM01 = mysqli_query($link, $Consulta);
+	$Encontro=false;
+	while ($FilaM01 = mysqli_fetch_array($RespM01))
+	{								
+		$Porcentaje = $FilaM01["porc"];
+		$Encontro=true;
+		if ($FilaM01["tipo_aplicacion"]=="C" && $LoteAux["clase_producto"]==$FilaM01["referencia"])//CLASE DE PRODUCTO
+		{
+			$Consulta = "select * from rec_web.clases where codigo_a='".$LoteAux["clase_producto"]."'";
+			$RespM02=mysqli_query($link, $Consulta);
+			$NomClase="";
+			if ($FilaM02=mysqli_fetch_array($RespM02))
+				$NomClase=$FilaM02["DESCRP_A"];
+			switch ($Busq)
+			{
+				case "P":
+					$Texto = "Merma por Clase de Producto Aplicada Particularmente al Proveedor, cuando el producto que recepciona es ".$NomClase;
+					break;
+				case "C":
+					$Texto = "Merma por Clase de Producto Aplicada Particularmente al Contrato ".$Contrato." al que Pertenece el Proveedor, y cuando el producto que recepciona es ".$NomClase;
+					break;
+				case "S":
+					$Texto = "Merma por Clase de Producto Aplicada Genericamente a Todo el SubProducto cuando el producto que se recepciona es ".$NomClase;
+					break;
+			}
+		}
+	}
+	if (!$Encontro && $TieneConjunto)
+	{				
+		//CONSULTA TIENE MERMA COMO TIPO DE LUGAR DE RECEPCION (TOLVA, CANCHA, ETC)
+		$Consulta = "select * from age_web.mermas ";
+		$Consulta.= " where cod_producto='".$LoteAux["cod_producto"]."' ";
+		$Consulta.= " and cod_subproducto='".$LoteAux["cod_subproducto"]."' ";
+		if ($Busq=="P")
+			$Consulta.= " and rut_proveedor='".$LoteAux["rut_proveedor"]."' ";
+		if ($Busq=="C")
+			$Consulta.= " and cod_contrato like '".$Contrato."%'";
+		$Consulta.= " and tipo_aplicacion='L'";
+		$Consulta.= " and referencia='".$L_Destino."'";
+		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
+		//echo $Consulta;
+		
+		$RespM01 = mysqli_query($link, $Consulta);				
+		if ($FilaM01 = mysqli_fetch_array($RespM01))
+		{					
+			$Encontro=true;								
+			$Porcentaje = $FilaM01["porc"];
+			switch ($Busq)
+			{
+				case "P":
+					$Texto = "Merma por Lugar de Destino Aplicada Particularmente al Proveedor, cuando el producto que recepciona va a ".$D_Destino;
+					break;
+				case "C":
+					$Texto = "Merma por Lugar de Destino Aplicada Particularmente al Contrato ".$Contrato." al que Pertenece el Proveedor, y cuando el producto que recepciona va a ".$D_Destino;
+					break;
+				case "S":
+					$Texto = "Merma por Lugar de Destino Aplicada Genericamente a Todo el SubProducto cuando el producto que se recepciona va a ".$D_Destino;
+					break;
+			}
+		}
+	}
+}
+
+function ParamLeyes($Datos,$Leyes,$link)
+{
+	//PARAMETROS GENRALES PARA TODOS
+	$Consulta = "select t1.cod_leyes, t1.cod_unidad, t1.decimales, t2.abreviatura as nom_unidad, t2.conversion ";
+	$Consulta.= " from age_web.param_leyes t1 inner join proyecto_modernizacion.unidades t2 ";
+	$Consulta.= " on t1.cod_unidad=t2.cod_unidad ";
+	$Consulta.= " where t1.tipo='L' ";
+	$Consulta.= " and t1.cod_producto='1' ";
+	$Consulta.= " and t1.cod_subproducto='0' ";
+	$Consulta.= " and t1.rut_proveedor='99999999-9' ";
+	if (count($Leyes)>0)
+	{
+		$Consulta.= " and (";
+		reset($Leyes);
+		//while (list($k,$v)=each($Leyes))
+		foreach($Leyes as $k => $v)
+		{			
+			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+		}
+		$Consulta = substr($Consulta,0,strlen($Consulta)-3);
+		$Consulta.= ")";
+	}
+	$Consulta.= " order by t1.cod_leyes ";
+	$RespParam=mysqli_query($link, $Consulta);
+	while ($FilaParam=mysqli_fetch_array($RespParam))
+	{
+		$Leyes[$FilaParam["cod_leyes"]][32] = $FilaParam["cod_unidad"];//COD UNIDAD
+		$Leyes[$FilaParam["cod_leyes"]][33] = $FilaParam["nom_unidad"];//NOM UNIDAD
+		$Leyes[$FilaParam["cod_leyes"]][34] = $FilaParam["conversion"];//CONVERSION
+		$Leyes[$FilaParam["cod_leyes"]][35] = $FilaParam["decimales"];//CANT DECIMALES
+	}
+	//PARAMETROS ESPECIFICOS POR SUBPRODUCTO
+	$Consulta = "select t1.cod_leyes, t1.cod_unidad, t1.decimales, t2.abreviatura as nom_unidad, t2.conversion ";
+	$Consulta.= " from age_web.param_leyes t1 inner join proyecto_modernizacion.unidades t2 ";
+	$Consulta.= " on t1.cod_unidad=t2.cod_unidad ";
+	$Consulta.= " where t1.tipo='L' ";
+	$Consulta.= " and t1.cod_producto='1' ";
+	$Consulta.= " and t1.cod_subproducto='".$Datos["cod_subproducto"]."' ";
+	$Consulta.= " and t1.rut_proveedor='99999999-9' ";
+	if (count($Leyes)>0)
+	{
+		$Consulta.= " and (";
+		reset($Leyes);
+		while (list($k,$v)=each($Leyes))
+		{			
+			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+		}
+		$Consulta = substr($Consulta,0,strlen($Consulta)-3);
+		$Consulta.= ")";
+	}
+	$Consulta.= " order by t1.cod_leyes ";
+	$RespParam=mysqli_query($link, $Consulta);
+	while ($FilaParam=mysqli_fetch_array($RespParam))
+	{
+		$Leyes[$FilaParam["cod_leyes"]][32] = $FilaParam["cod_unidad"];//COD UNIDAD
+		$Leyes[$FilaParam["cod_leyes"]][33] = $FilaParam["nom_unidad"];//NOM UNIDAD
+		$Leyes[$FilaParam["cod_leyes"]][34] = $FilaParam["conversion"];//CONVERSION
+		$Leyes[$FilaParam["cod_leyes"]][35] = $FilaParam["decimales"];//CANT DECIMALES
+	}
+	//PARAMETROS ESPECIFICOS POR PROVEEDOR
+	$Consulta = "select t1.cod_leyes, t1.cod_unidad, t1.decimales, t2.abreviatura as nom_unidad, t2.conversion ";
+	$Consulta.= " from age_web.param_leyes t1 inner join proyecto_modernizacion.unidades t2 ";
+	$Consulta.= " on t1.cod_unidad=t2.cod_unidad ";
+	$Consulta.= " where t1.tipo='L' ";
+	$Consulta.= " and t1.cod_producto='1' ";
+	$Consulta.= " and t1.cod_subproducto='".$Datos["cod_subproducto"]."' ";
+	$Consulta.= " and t1.rut_proveedor='".$Datos["rut_proveedor"]."' ";
+	if (count($Leyes)>0)
+	{
+		$Consulta.= " and (";
+		reset($Leyes);
+		while (list($k,$v)=each($Leyes))
+		{			
+			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+		}
+		$Consulta = substr($Consulta,0,strlen($Consulta)-3);
+		$Consulta.= ")";
+	}
+	$Consulta.= " order by t1.cod_leyes ";
+	$RespParam=mysqli_query($link, $Consulta);
+	while ($FilaParam=mysqli_fetch_array($RespParam))
+	{
+		$Leyes[$FilaParam["cod_leyes"]][32] = $FilaParam["cod_unidad"];//COD UNIDAD
+		$Leyes[$FilaParam["cod_leyes"]][33] = $FilaParam["nom_unidad"];//NOM UNIDAD
+		$Leyes[$FilaParam["cod_leyes"]][34] = $FilaParam["conversion"];//CONVERSION
+		$Leyes[$FilaParam["cod_leyes"]][35] = $FilaParam["decimales"];//CANT DECIMALES
+	}
+}
+function LeyesAjusteProveedor($Ano,$Mes,$RutProv,$Prod,$SubProd,$ArrLeyesProv,$FechaCierreAnexo,$link)
+{		
+	if ($Ano<2006)
+	{
+		$LoteIni = substr($Ano,3,1)."".str_pad($Mes,2,'0',STR_PAD_LEFT)."000";
+		$LoteFin = substr($Ano,3,1)."".str_pad($Mes,2,'0',STR_PAD_LEFT)."999";
+	}
+	else
+	{
+		$LoteIni = substr($Ano,2,2)."".str_pad($Mes,2,'0',STR_PAD_LEFT)."0000";
+		$LoteFin = substr($Ano,2,2)."".str_pad($Mes,2,'0',STR_PAD_LEFT)."9999";
+	}
+	$FechaIni = $Ano."-".str_pad($Mes,2,'0',STR_PAD_LEFT)."-01";
+	$FechaFin = $Ano."-".str_pad($Mes,2,'0',STR_PAD_LEFT)."-31";
+	$CodLoteIni=substr($FechaIni,3,1).substr($FechaIni,5,2)."000";
+	$CodLoteFin=substr($FechaFin,3,1).substr($FechaFin,5,2)."999";		
+	$Consulta = "select distinct t1.lote ";
+	$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
+	$Consulta.= " where t1.lote<>'' ";
+	$Consulta.= " and (t1.estado_lote <>'6'  or (t1.estado_lote='6' and t1.mostrar_lote='S')) ";
+	$Consulta.= " and (t1.tipo_remuestreo <>'A'  or (t1.tipo_remuestreo='A' and substring(t1.lote,1,3)='".substr($CodLoteIni,0,3)."'))";						
+	$Consulta.= " and t1.cod_producto = '".$Prod."' ";
+	$Consulta.= " and t1.cod_subproducto = '".$SubProd."' ";
+	$Consulta.= " and t1.rut_proveedor = '".$RutProv."' ";
+	$Consulta.= " and ((t1.lote between '".$LoteIni."' and '".$LoteFin."' and t1.canjeable='S' and fecha_canje<='".$FechaCierreAnexo."') ";
+	$Consulta.= " or t1.fecha_fin_canje between '".$FechaIni."' and '".$FechaFin."' and substring(t1.lote,1,3)='".substr($CodLoteIni,0,3)."')";	
+	$Consulta.= " order by t1.lote ";
+	//if($RutProv=='76399040-0')
+	$RespProv = mysqli_query($link, $Consulta);
+	while ($FilaProv=mysqli_fetch_array($RespProv))
+	{
+		$Lote=array();
+		$LeyesLote=array();
+		$Lote["lote"]=$FilaProv["lote"];
+		$LeyesLote["01"][0]="01";$LeyesLote["02"][0]="02";$LeyesLote["04"][0]="04";$LeyesLote["05"][0]="05";
+		LeyesLote($Lote,$LeyesLote,"N","S","S",$FechaIni,$FechaFin,$FechaCierreAnexo);		
+		$Consulta = "select * ";
+		$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
+		$Consulta.= " where t1.lote='".$FilaProv["lote"]."'";
+
+		$RespLote = mysqli_query($link, $Consulta);		
+		$PesoConsiderado=0;
+		while ($FilaLote=mysqli_fetch_array($RespLote))
+		{			
+			switch ($FilaLote["cod_leyes"])
+			{
+				case "02":
+					$Conversion=100;
+					break;
+				case "04":
+					$Conversion=1000;
+					break;
+				case "05":
+					$Conversion=1000;
+					break;										
+			}
+			$PesoConsiderado=$PesoConsiderado+$Lote["peso_seco2"];
+			//FINO PAQUETE PRIMERO
+			$Fino_Pri = round((($FilaLote["valor1"]+$FilaLote["inc_retalla"]) * $Lote["peso_seco"]) / $Conversion);
+			//$Fino_Pri = round($LeyesLote[$FilaLote["cod_leyes"]][23]);//fara domingo 2 abril
+			//if ($Lote["lote"]=='06030006')
+			//	echo "Prim:".$Fino_Pri."<br>";
+			//FINO FINAL
+			$Fino_Fin = round((($FilaLote["ley_canje"]+$FilaLote["inc_retalla"]) * $Lote["peso_seco"]) / $Conversion);
+			//AJUSTE
+			/*if ($Lote["lote"]=='06030006')
+			{
+				echo "Fino_aju:".$Fino_Fin."<br>";
+				echo "---Ley Canje:".$FilaLote["ley_canje"]."<br>";
+				echo "---Inc.retalla:".$FilaLote["inc_retalla"]."<br>";
+				echo "---Peso Seco:".$Lote["peso_seco"]."<br>";
+			}*/	
+			/*if ($Lote["lote"]=='06030006')
+				echo "fino:".$ArrLeyesProv[$FilaLote["cod_leyes"]][23]."<br>";
+			*/	
+			$ArrLeyesProv[$FilaLote["cod_leyes"]][23] = $ArrLeyesProv[$FilaLote["cod_leyes"]][23] + ($Fino_Fin-$Fino_Pri);
+			$ArrLeyesProv[$FilaLote["cod_leyes"]][5] = $Conversion;	
+		}		
+	}	
+	//TRANSFORMA FINOS
+	reset($ArrLeyesProv);
+	do {			 
+		$key = key ($ArrLeyesProv);
+		if ($PesoConsiderado>0 && $ArrLeyesProv[$key][23]>0 && $ArrLeyesProv[$key][5]>0)
+		{
+			$ArrLeyesProv[$key][2] = round($ArrLeyesProv[$key][23]/$PesoConsiderado)*$ArrLeyesProv[$key][5];
+		}	
+		else
+		{
+			$ArrLeyesProv[$key][2] = '0';
+		}	
+	} while (next($ArrLeyesProv));
+}
+
+
+function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes,$Impurezas,$RutOperador,$PesoNeto,$Humedad,$PesoSeco,$link)
+{
+	$FechaHora=date('Y-m-d H:i');
+	$Datos=explode('~',$ProdSubProd);
+	$Consulta="select * from sipa_web.proveedores where rut_prv='$Proveedor' and hum_ult_rec<>'S'";
+	//echo "sIPA PROVEEDORES:    ".$Consulta."<br>";
+	$RespPrv=mysqli_query($link, $Consulta);
+	if($FilaPrv=mysqli_fetch_array($RespPrv))
+	{	
+		//VERIFICA SI EXISTE OTRO RECARGO CON NRO DE SOLICITUD PARA TOMAR SUS VALORES E INSERTARLO EN FORMA AUTOMATICA
+		$Consulta ="select * from cal_web.solicitud_analisis where id_muestra = '".$Lote."' and cod_producto ='".$Producto."' ";
+		$Consulta.="and cod_subproducto='".$SubProducto."' and tipo_solicitud = 'A' and ((nro_solicitud is not null) or (nro_solicitud <> ''))";
+		//echo "SOLICITUD ANALISIS EXISTE RECARGO DEL MISMO LOTE:   :    ".$Consulta."<br><BR>";
+		$Respuesta = mysqli_query($link, $Consulta);
+		if ($Fila=mysqli_fetch_array($Respuesta))
+		{
+			//echo "cUANDO EXISTE EL VALOR DE UN RECARGO, INGRESA LOS MISMOS VALORES<BR>";
+			$Actualizar = "UPDATE sipa_web.recepciones set sa_asignada=".$Fila["nro_solicitud"].",activo = 'N' where lote='".$Lote."' and recargo='".$Recargo."'";
+			//echo "ACTUALIZAMOS EN RECEPCIONES SIPA:   ".$Actualizar."<br>";
+			mysqli_query($link, $Actualizar);
+			if($Humedad==0)//solo cuando humedad sea igual a cero se ingresa con estado 5
+			{
+				$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Insertar.="leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
+				$Insertar.= "'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Lote."','".$Recargo."','".$Producto."','".$SubProducto."','01~~1//','1',";			
+				$Insertar.= "'3','A','".$Fila["nro_solicitud"]."','80','FF621','1','5','$Proveedor','','1','".$FechaHora."')";
+				//echo "HUMEDAD CON ESTADO 5:   ".$Insertar."<br><BR>";
+				mysqli_query($link, $Insertar);
+			}
+			else
+			{
+				$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Insertar.="leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
+				$Insertar.= "'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Lote."','".$Recargo."','".$Producto."','".$SubProducto."','01~~1//','1',";			
+				$Insertar.= "'3','A','".$Fila["nro_solicitud"]."','80','FF621','1','6','$Proveedor','','1','".$FechaHora."')";
+				//echo "HUMEDAD CON ESTADO 6:   ".$Insertar."<br><BR>";
+				mysqli_query($link, $Insertar);
+			}
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','1','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
+			//echo $Insertar2."<br><BR>";
+			mysqli_query($link, $Insertar2);			
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','4','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
+			//echo $Insertar2."<br><BR>";
+			mysqli_query($link, $Insertar2);
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','5','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
+			//echo $Insertar2."<br><BR>";
+			mysqli_query($link, $Insertar2);
+			
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','12','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
+			//echo $Insertar2."<br><BR>";
+			mysqli_query($link, $Insertar2);
+			if($Humedad!=0)//solo cuando humedad sea distinto de blanco
+			{
+				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','6','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
+			    echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
+				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+				//echo $Insertar2."<br><BR><BR><BR>";
+				mysqli_query($link, $Insertar2);
+			}
+			else
+			{
+				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,peso_seco,rut_quimico,candado) values (";
+				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$PesoSeco."','".$Fila["rut_funcionario"]."','0')";
+				//echo $Insertar2."<br><BR><BR><BR>";
+				mysqli_query($link, $Insertar2);
+			}
+			
+			$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
+			$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+			//echo $Insertar2."<br><BR><BR><BR>";
+			mysqli_query($link, $Insertar2);
+			
+			if($Humedad!=0)//solo cuando humedad sea distinto de blanco
+			{
+				$Insertar2="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,valor,peso_humedo,peso_seco,candado,signo,rut_proceso) values (";
+				$Insertar2.="'".$Fila["rut_funcionario"]."','".$ila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Humedad."','".$PesoNeto."','".$PesoSeco."','1','=','".$Fila["rut_funcionario"]."')";
+				//echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+			}
+			
+			if($UltRec=='S')
+			{				
+				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','0','1','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
+				//echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','0','12','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
+			//	echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+				$LeyesSA='';$LeyesImp='';					
+				$CodLeyes=$Leyes."~".$Impurezas;
+				$Leyes=explode('~',$CodLeyes);
+				//echo "leyes impurezas:    ".$CodLeyes."<br>";
+				while(list($c,$v)=each($Leyes))
+				{
+					if($v!='01')//cuando sea distinto a H2O
+					{
+						$Consulta="select cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
+						$RespUnidad=mysqli_query($link, $Consulta);
+						$FilaUnidad=mysqli_fetch_array($RespUnidad);
+						$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,rut_quimico) values (";
+						$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','0','".$v."','".$FilaUnidad["cod_unidad"]."','".$Producto."','".$SubProducto."','".$Lote."','".$Fila["rut_funcionario"]."')";
+						//echo "leyes por solicitud: recargo 0:          ".$Insertar2."<br><BR>";
+						mysqli_query($link, $Insertar2);
+						if(($v=='02')||($v=='03')||($v=='04')||($v=='05'))
+							$LeyesSA=$LeyesSA.$v."~~".$FilaUnidad["cod_unidad"]."//";
+						else
+							$LeyesImp=$LeyesImp.$v."~~".$FilaUnidad["cod_unidad"]."//";
+					}
+				}
+				$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Insertar.="leyes,impurezas,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
+				$Insertar.= "'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Lote."','0','".$Producto."','".$SubProducto."','".$LeyesSA."','".$LeyesImp."','1',";			
+				$Insertar.= "'3','A','".$Fila["nro_solicitud"]."','80','FF621','1','12','".$Proveedor."','','1','".$FechaHora."')";
+				//echo "inserta en solicitud analisis:       ".$Insertar."<br><BR>";
+				mysqli_query($link, $Insertar);
+				
+				$NSolicitudes=$Fila["nro_solicitud"];
+			}
+		}	
+		else
+		{
+			//echo "PRIMERA SOLICITUD RECARGO 1<br><br>";
+			//SE OBTIENE EL NUMERO MAYOR DE LAS SOLICITUDES
+			$Consulta = "select max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
+			$RespSA = mysqli_query($link, $Consulta);
+			if ($FilaSA = mysqli_fetch_array($RespSA))
+			{
+				if ((substr($FilaSA["NroMayor"],0,4)) == (date("Y")))
+					$NroSA =$FilaSA["NroMayor"]+1;										
+				else
+					$NroSA=date("Y")."000001";	
+			}
+			else
+				$NroSA=date("Y")."000001";	
+			
+			$Actualizar = "UPDATE sipa_web.recepciones set sa_asignada=".$NroSA.",activo = 'N' where lote='".$Lote."' and recargo='".$Recargo."'";
+			//echo "INGRESAMOS LA SA Y LOTE EN RECEPCIONES SIPA:   ".$Actualizar."<br>";
+			mysqli_query($link, $Actualizar);
+			
+			if($Humedad!=0)//solo cuando humedad sea distinto de blanco
+			{
+				$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Insertar.="leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
+				$Insertar.= "'".$RutOperador."','".$FechaHora."','".$Lote."','".$Recargo."','".$Producto."','".$SubProducto."','01~~1//','1',";			
+				$Insertar.= "'3','A','$NroSA','80','FF621','1','6','$Proveedor','','1','".$FechaHora."')";
+			//	echo "entra igual a estado 6:      ".$Insertar."<br><BR>";
+				mysqli_query($link, $Insertar);
+			}
+			else
+			{
+				$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Insertar.="leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
+				$Insertar.= "'".$RutOperador."','".$FechaHora."','".$Lote."','".$Recargo."','".$Producto."','".$SubProducto."','01~~1//','1',";			
+				$Insertar.= "'3','A','$NroSA','80','FF621','1','5','$Proveedor','','1','".$FechaHora."')";
+			//	echo "CUANDO HUMEDAD ES 0 ESTADO 5:   ".$Insertar."<br><BR>";
+				mysqli_query($link, $Insertar);
+			}			
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','1','".$FechaHora."','N','".$RutOperador."')";
+			//echo $Insertar2."<br><BR>";
+			mysqli_query($link, $Insertar2);
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','4','".$FechaHora."','N','".$RutOperador."')";
+			//echo $Insertar2."<br><BR>";
+			mysqli_query($link, $Insertar2);
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','5','".$FechaHora."','N','".$RutOperador."')";
+			//echo $Insertar2."<br><BR>";
+			mysqli_query($link, $Insertar2);
+			
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','12','".$FechaHora."','N','".$RutOperador."')";
+			mysqli_query($link, $Insertar2);
+			//echo $Insertar2."<br><BR>";
+			
+			if($Humedad!=0)//solo cuando humedad sea distinto de blanco
+			{
+				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+				$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','6','".$FechaHora."','N','".$RutOperador."')";
+			//	echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+				//echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+			}			
+			else
+			{
+				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,peso_seco,rut_quimico,candado) values (";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$PesoSeco."','".$Fila["rut_funcionario"]."','0')";
+				//echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+			}
+			
+			if($Humedad!=0)//solo cuando humedad sea distinto de blanco
+			{
+				$Insertar2="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,valor,peso_humedo,peso_seco,candado,signo,rut_proceso) values (";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Humedad."','".$PesoNeto."','".$PesoSeco."','1','=','".$RutOperador."')";
+				//echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+			}			
+			
+			if($UltRec=='S')
+			{
+				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+				$Insertar2.="'".$RutOperador."','$NroSA','0','1','".$FechaHora."','N','".$RutOperador."')";
+				echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+				$Insertar2.="'".$RutOperador."','$NroSA','0','12','".$FechaHora."','N','".$RutOperador."')";
+				//echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+				
+				$LeyesSA='';$LeyesImp='';
+				$CodLeyes=$Leyes."~".$Impurezas;
+				$Leyes=explode('~',$CodLeyes);
+				while(list($c,$v)=each($Leyes))
+				{
+					if($v!='01')//cuando sea distinto a H2O
+					{
+						$Consulta="select cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
+						$RespUnidad=mysqli_query($link, $Consulta);
+						$FilaUnidad=mysqli_fetch_array($RespUnidad);
+						$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,rut_quimico) values (";
+						$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','0','$v','".$FilaUnidad["cod_unidad"]."','".$Producto."','".$SubProducto."','".$Lote."','".$Fila["rut_funcionario"]."')";
+						//echo $Insertar2."<br><BR>";
+						mysqli_query($link, $Insertar2);
+						if(($v=='02')||($v=='03')||($v=='04')||($v=='05'))
+							$LeyesSA=$LeyesSA.$v."~~".$FilaUnidad["cod_unidad"]."//";
+						else
+							$LeyesImp=$LeyesImp.$v."~~".$FilaUnidad["cod_unidad"]."//";
+					}
+				}	
+				$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Insertar.="leyes,impurezas,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
+				$Insertar.= "'".$RutOperador."','".$FechaHora."','".$Lote."','0','".$Producto."','".$SubProducto."','$LeyesSA','$LeyesImp','1',";			
+				$Insertar.= "'3','A','$NroSA','80','FF621','1','12','$Proveedor','','1','".$FechaHora."')";
+				//echo "ad ".$Insertar."<br><BR>";
+				mysqli_query($link, $Insertar);
+				
+				$NSolicitudes=$NroSA;
+			}
+		}
+	}
+	else
+	{
+		//echo "ENTRA CUANDO PROVEEDOR NO EXISTE<BR>";
+		if($UltRec=='S')
+		{
+			$Consulta = "select max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
+			$RespSA = mysqli_query($link, $Consulta);
+			if ($FilaSA = mysqli_fetch_array($RespSA))
+			{
+				if ((substr($FilaSA["NroMayor"],0,4)) == (date("Y")))
+					$NroSA =$FilaSA["NroMayor"]+1;										
+				else
+					$NroSA=date("Y")."000001";	
+			}
+			else
+				$NroSA=date("Y")."000001";	
+			if($Humedad!=0)//solo cuando humedad sea distinto de blanco
+			{
+				$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Insertar.="leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
+				$Insertar.= "'".$RutOperador."','".$FechaHora."','".$Lote."','".$Recargo."','".$Producto."','".$SubProducto."','01~~1//','1',";			
+				$Insertar.= "'3','A','$NroSA','80','FF621','1','6','$Proveedor','','1','".$FechaHora."')";
+				//echo $Insertar."<br><BR>";
+				mysqli_query($link, $Insertar);
+			}
+			else
+			{
+				$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+				$Insertar.="leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+				$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
+				$Insertar.= "'".$RutOperador."','".$FechaHora."','".$Lote."','".$Recargo."','".$Producto."','".$SubProducto."','01~~1//','1',";			
+				$Insertar.= "'3','A','$NroSA','80','FF621','1','5','$Proveedor','','1','".$FechaHora."')";
+			//	echo $Insertar."<br><BR>";
+				mysqli_query($link, $Insertar);
+			}
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','1','".$FechaHora."','N','".$RutOperador."')";
+		//	echo $Insertar2."<br><BR>";				
+			mysqli_query($link, $Insertar2);
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','4','".$FechaHora."','N','".$RutOperador."')";
+		//	echo $Insertar2."<br><BR>";				
+			mysqli_query($link, $Insertar2);
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','5','".$FechaHora."','N','".$RutOperador."')";
+		//	echo $Insertar2."<br><BR>";				
+			mysqli_query($link, $Insertar2);
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','12','".$FechaHora."','N','".$RutOperador."')";
+		//	echo $Insertar2."<br><BR>";				
+			mysqli_query($link, $Insertar2);
+			
+			if($Humedad!=0)//solo cuando humedad sea distinto de blanco
+			{
+				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+				$Insertar2.="'".$RutOperador."','$NroSA','".$Recargo."','6','".$FechaHora."','N','".$RutOperador."')";
+		//		echo $Insertar2."<br><BR>";				
+				mysqli_query($link, $Insertar2);
+
+				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+			//	echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+			}
+			else
+			{
+				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,peso_seco,rut_quimico,candado) values (";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$PesoSeco."','".$Fila["rut_funcionario"]."','0')";
+			//	echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+			}	
+			
+			$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
+			$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+		//	echo $Insertar2."<br><BR>";
+			mysqli_query($link, $Insertar2);
+
+			if($Humedad!=0)//solo cuando humedad sea distinto de blanco
+			{
+				$Insertar2="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,valor,peso_humedo,peso_seco,candado,signo,rut_proceso) values (";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Humedad."','".$PesoNeto."','".$PesoSeco."','1','=','".$RutOperador."')";
+			//	echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+			}			
+			
+			$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+			$Insertar2.="'".$RutOperador."','$NroSA','0','1','".$FechaHora."','N','".$RutOperador."')";
+		//	echo $Insertar2."<br><BR>";
+			mysqli_query($link, $Insertar2);
+			$LeyesSA='';$LeyesImp='';
+			$CodLeyes=$Leyes."~".$Impurezas;
+			$Leyes=explode('~',$CodLeyes);
+			while(list($c,$v)=each($Leyes))
+			{
+				if($v!='01')//cuando sea distinto a H2O
+				{
+					$Consulta="select cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
+					$RespUnidad=mysqli_query($link, $Consulta);
+					$FilaUnidad=mysqli_fetch_array($RespUnidad);
+					
+					$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,rut_quimico) values (";
+					$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','0','$v','".$FilaUnidad["cod_unidad"]."','".$Producto."','".$SubProducto."','".$Lote."','".$Fila["rut_funcionario"]."')";
+					//echo $Insertar2."<br><BR>";
+					mysqli_query($link, $Insertar2);
+					if(($v=='02')||($v=='03')||($v=='04')||($v=='05'))
+						$LeyesSA=$LeyesSA.$v."~~".$FilaUnidad["cod_unidad"]."//";
+					else
+						$LeyesImp=$LeyesImp.$v."~~".$FilaUnidad["cod_unidad"]."//";
+				}
+			}	
+			
+			$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+			$Insertar.="leyes,impurezas,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
+			$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
+			$Insertar.= "'".$RutOperador."','".$FechaHora."','".$Lote."','0','".$Producto."','".$SubProducto."','$LeyesSA','$LeyesImp','1',";			
+			$Insertar.= "'3','A','$NroSA','80','FF621','1','12','$Proveedor','','1','".$FechaHora."')";
+		//	echo $Insertar."<br><BR>";
+			mysqli_query($link, $Insertar);
+		}
+	}
+	return($NSolicitudes);
+}
+
+function ModificaSA($LoteVentana,$Recargo,$RutOperador,$PesoNeto,$Humedad,$PesoSeco,$link)
+{
+	$FechaHora=date('Y-m-d H:i');
+	$ConsultaSA="select * from cal_web.solicitud_analisis where id_muestra='".$LoteVentana."' and recargo='".$Recargo."' group by id_muestra,recargo";
+	//echo "CONSULTO LA SA EN SOLICITUD ANALISIS:    ".$ConsultaSA."<br>";
+	$RespSA=mysqli_query($link, $ConsultaSA);
+	while($FilaSA=mysqli_fetch_array($RespSA))
+	{
+		$NrSA=$FilaSA["nro_solicitud"];
+		$Recargo=$FilaSA["recargo"];
+		if($Recargo!=0)// SOLO ENTRA A ESTA OPCION CUANDO ES DIFERENTE A RECARGO 0
+		{
+			$ConsultaExis="select * from cal_web.solicitud_analisis t1 inner join cal_web.estados_por_solicitud t2 on t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo";
+			$ConsultaExis.=" where t1.nro_solicitud='".$NrSA."' and  t1.recargo='".$Recargo."' and t2.cod_estado='6'";
+			//echo $ConsultaExis."<br>";
+			$RespExis=mysqli_query($link, $ConsultaExis);
+			if(!$FilaExis=mysqli_fetch_array($RespExis))
+			{
+				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+				$Insertar2.="'".$RutOperador."','$NrSA','".$Recargo."','6','".$FechaHora."','N','".$RutOperador."')";
+				//echo $Insertar2."<br><BR>";				
+				mysqli_query($link, $Insertar2);
+	
+				$Insertar2="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,valor,peso_humedo,peso_seco,candado,signo,rut_proceso) values (";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NrSA','".$Recargo."','01','1','".$Humedad."','".$PesoNeto."','".$PesoSeco."','1','=','".$RutOperador."')";
+				//echo $Insertar2."<br><BR>";
+				mysqli_query($link, $Insertar2);
+			
+				$Actualizar="UPDATE cal_web.solicitud_analisis set estado_actual='6' where nro_solicitud='".$NrSA."' and recargo='".$Recargo."'";
+				//echo $Actualizar."<br>";
+				mysqli_query($link, $Actualizar);			
+				
+				$Actualizar="UPDATE cal_web.leyes_por_solicitud set peso_humedo='".$PesoNeto."',valor='".$Humedad."',peso_seco='".$PesoSeco."',candado='1' where nro_solicitud='".$NrSA."' and recargo='".$Recargo."'";				
+				//echo $Actualizar."<br>";
+				mysqli_query($link, $Actualizar);			
+			}		
+		}
+	}
+}
+
+function EnvioCorreo($NroSolicitud,$link)	
+{	
+	$ConsultaCorreo="select * from proyecto_modernizacion.sub_clase where cod_clase='15011'";
+	$RespCorreo=mysqli_query($link, $ConsultaCorreo);
+	if($Fila=mysqli_fetch_array($RespCorreo))
+	{
+		$Correos=$Fila["nombre_subclase"];
+		$ArrayCorreos=explode(",",$Correos);
+	}
+	//while(list($C,$Correo)=each($ArrayCorreos))	
+	foreach ($ArrayCorreos as $C => $Correo)
+	{
+		if($Correo!='')
+		{
+			$NrSA=explode('-',$NroSolicitud);
+			$ConsultaSA="select * from cal_web.solicitud_analisis where nro_solicitud='".$NrSA[0]."'";
+			$RespSA = mysqli_query($link, $ConsultaSA);
+			if($FilaSA = mysqli_fetch_array($RespSA))
+			{
+				$Proveedor=$FilaSA["rut_proveedor"];
+				$SubProducto=$FilaSA["cod_subproducto"];
+			}	
+	
+			$Consulta.= "select * from sipa_web.proveedores where rut_prv='".$Proveedor."'";
+			//echo "nombre proveedor.     ".$Consulta."<br>";
+			$Resp = mysqli_query($link, $Consulta);
+			if ($Fila = mysqli_fetch_array($Resp))
+				$NomProveedor=$Fila["nombre_prv"];
+											
+			$Consulta = "select cod_subproducto, descripcion, abreviatura, LPAD(cod_subproducto,2,'0') as orden ";
+			$Consulta.= " from proyecto_modernizacion.subproducto ";
+			$Consulta.= " where cod_producto='1' and cod_subproducto='".$SubProducto."' order by orden";
+			//echo "subproductos.     ".$Consulta."<br>";
+			$Resp = mysqli_query($link, $Consulta);
+			if ($Fila = mysqli_fetch_array($Resp))
+				$SubProductoNom=$Fila["descripcion"];		
+	
+			$Asunto='Solicitudes creadas Proveedor: '.$NomProveedor.' y Subproducto: '.$SubProductoNom.'';
+			$Titulo='Solicitudes creadas';
+			$Mensaje='<strong>Proveedor:</strong>&nbsp;&nbsp;'.$NomProveedor.'</td>';
+			$Mensaje.='<br>';
+			$Mensaje.='<strong>Subproducto:</strong>&nbsp;&nbsp;'.$SubProductoNom.'</td>';
+			$Mensaje.='<table  width="80%"  border="1" align="center" cellpadding="0" cellspacing="0">';
+			//while(list($C,$SA)=each($NrSA))	
+			foreach($NrSA as $C => $SA)
+			{
+				$ConsultaSA="select * from cal_web.solicitud_analisis where nro_solicitud='".$SA."'";
+				$RespSA = mysqli_query($link, $ConsultaSA);$Lote='';
+				if($FilaSA = mysqli_fetch_array($RespSA))
+					$Lote=$FilaSA["id_muestra"];
+			
+				$ConsultaRE="select * from cal_web.solicitud_analisis where nro_solicitud='".$SA."'";
+				$RespRE = mysqli_query($link, $ConsultaRE);$RecargosLote='';
+				while($FilaRE = mysqli_fetch_array($RespRE))
+						$RecargosLote=$RecargosLote.$FilaRE["recargo"]."-";
+		
+				$RecargosLote=substr($RecargosLote,0,strlen($RecargosLote)-1);	
+				$Mensaje.='<tr>';
+				$Mensaje.='<td align="left" width="10%"><strong>Solicitud&nbsp;N�:</strong></td>';
+				$Mensaje.='<td align="left" width="10%">'.$SA.'</td>';
+				$Mensaje.='<td align="left" width="5%"><strong>Lote&nbsp;N�:</strong></td>';
+				$Mensaje.='<td align="left" width="20%">'.$Lote.'</td>';
+				$Mensaje.='<td align="left" width="5%"><strong>Recargos&nbsp;N�:</strong></td>';
+				$Mensaje.='<td align="left" width="30%">'.$RecargosLote.'</td>';
+				$Mensaje.='</tr>';
+				$Mensaje.='<tr>';
+				$Mensaje.='<td align="left" colspan="6">&nbsp;</td>';
+				$Mensaje.='</tr>';
+				$Mensaje.='<br>';
+				
+			}
+			$Mensaje.='</table>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	
+			$cuerpoMsj = '<html>';
+			$cuerpoMsj.= '<head>';
+			$cuerpoMsj.= '<title>'.$Titulo.'</title>';
+			$cuerpoMsj.= '</head>';
+			$cuerpoMsj.= '<body>';
+			$cuerpoMsj.= '<table  width="100%"  border="0" align="center">';
+			$cuerpoMsj.= '<tr><td>';
+			$cuerpoMsj='<font face="Arial" size="2">Se ha creado las siguiente solicitud con los siguientes datos:</b></font>';		
+			$cuerpoMsj.= "<br>";
+			$cuerpoMsj.= "<br>";
+			$cuerpoMsj.= ''.$Mensaje.'';
+			$cuerpoMsj.= "<br>";
+			$cuerpoMsj.= "<br>";
+			$cuerpoMsj.= "<br>";
+			$cuerpoMsj.="Servicio Automatico de Sistema Abastecimiento Minero (AGE WEB)";
+			$cuerpoMsj.= "<br>";
+			$cuerpoMsj.= '</td></tr>';
+			$cuerpoMsj.= '</table>';
+			$cuerpoMsj.= '</body></html>';
+		//echo $cuerpoMsj."<br>";
+			
+			$mail = new phpmailer();
+			//$mail->AddEmbeddedImage("includes/logo_seti.jpg","logo","includes/logo_seti.jpg","base64","image/jpg");
+			$mail->PluginDir = "../principal/includes/";
+			//$mail->Mailer = "smtp";
+			$mail->Host = "RELAYDS.codelco.cl";
+			$mail->From = "AGE WEB";
+			$mail->FromName = "AGE WEB - Sistemas Abastecimiento Minero ";
+			$mail->Subject = $Asunto;
+			$mail->Body=$cuerpoMsj;
+			$mail->IsHTML(true);
+			$mail->AltBody =str_replace('<br>','\n',$cuerpoMsj);
+			$mail->AddAddress($Correo);
+			$mail->Timeout=120;
+			//$mail->AddAttachment($Doc,$Doc);
+			$exito = $mail->Send();
+			$intentos=1; 
+			while((!$exito)&&($intentos<5)&&($mail->ErrorInfo!="SMTP Error: Data not accepted")){
+			sleep(5);
+			$exito = $mail->Send();
+			$intentos=$intentos+1;				
+			}
+			$mail->ClearAddresses();
+		}
+	}
+}
+?>

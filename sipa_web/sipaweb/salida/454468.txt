@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41840 ',peso_neto='27580',marca='V NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='15065298-7',nombre_chofer='cristian alvarado',observacion='',romana_salida='1' where correlativo='454468' and lote='21116218' and recargo='57'

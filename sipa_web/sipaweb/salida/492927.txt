@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 13570 ',peso_neto='5170',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='11476948-7',nombre_chofer='JOSE PHILIMON',observacion='',romana_salida='1' where correlativo='492927' and lote='23106126' and recargo='1'

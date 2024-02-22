@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43680 ',peso_neto='25950',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10756326-1',nombre_chofer='jorge toledo',observacion='',romana_salida='1' where correlativo='481704' and lote='23036367' and recargo='2'

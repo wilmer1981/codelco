@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44970 ',peso_neto='28510',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='19049408-k',nombre_chofer='rodrigo tapia ',observacion='escoria ct',romana_salida='1' where correlativo='475170' and lote='22126150' and recargo='4'

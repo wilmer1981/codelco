@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44860 ',peso_neto='7410',marca='TRES FRANJAS NARANJAS',cod_mop='520',num_sello='',transportista='',rut_chofer='16323568-4',nombre_chofer='MANUEL DIAZ',observacion='',romana_salida='2' where correlativo='449739' and lote='21096040' and recargo='24'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44170',peso_neto='28050',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13344599-4',nombre_chofer='MANUEL SILVA',observacion='concentrado de cu ',romana_salida='1' where correlativo='480201' and lote='23036069' and recargo='6'

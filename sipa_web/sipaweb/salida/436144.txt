@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 44330 ',peso_neto='7170',marca='V FRANJA AMARILLA',cod_mop='690',num_sello='',transportista='',rut_chofer='15561658-K',nombre_chofer='JEAN JAURE',observacion='',romana_salida='1' where correlativo='436144' and lote='21016033' and recargo='6'

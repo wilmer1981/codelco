@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 20770 ',peso_neto='4900',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='18 maxi gases refino a fuego',romana_salida='1' where correlativo='482101' and lote='23046054' and recargo='1'

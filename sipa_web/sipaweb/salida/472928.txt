@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44910 ',peso_neto='31460',marca='V AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='8492685-K',nombre_chofer='PATRICIO NEGRETE',observacion='',romana_salida='1' where correlativo='472928' and lote='22116027' and recargo='61'

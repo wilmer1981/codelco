@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40420 ',peso_neto='26580',marca='EQUIS NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='19772903-1',nombre_chofer='LUIS SILVA',observacion='',romana_salida='1' where correlativo='480825' and lote='23036011' and recargo='19'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 25690 ',peso_neto='9860',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='6 baritina ',romana_salida='1' where correlativo='484816' and lote='23056268' and recargo='1'

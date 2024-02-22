@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41440 ',peso_neto='25550',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='16847257-9',nombre_chofer='miguel zamarca',observacion='',romana_salida='1' where correlativo='480635' and lote='23036172' and recargo='1'

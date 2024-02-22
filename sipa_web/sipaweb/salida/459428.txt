@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44570 ',peso_neto='30900',marca='FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='9941698-K',nombre_chofer='MARCELINO SAN MARTIN',observacion='',romana_salida='1' where correlativo='459428' and lote='22026179' and recargo='28'

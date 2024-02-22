@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 21780 ',peso_neto='6900',marca='FRANJA NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='8090510-6',nombre_chofer='ALDO DIAZ',observacion='',romana_salida='1' where correlativo='476093' and lote='22126274' and recargo='16'

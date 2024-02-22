@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44450 ',peso_neto='29000',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='',romana_salida='1' where correlativo='492083' and lote='23106006' and recargo='2'

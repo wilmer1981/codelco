@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44460',peso_neto='27860',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12735861-3',nombre_chofer='jose bocaz',observacion='cu varios',romana_salida='1' where correlativo='470248' and lote='22096139' and recargo='6'

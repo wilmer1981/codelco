@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44340 ',peso_neto='28840',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='20501975-8',nombre_chofer='Bastian Pe�a',observacion='fino circulante',romana_salida='2' where correlativo='453999' and lote='21116177' and recargo='7'

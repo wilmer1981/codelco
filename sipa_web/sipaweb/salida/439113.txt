@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44930 ',peso_neto='30320',marca='FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='15561658-K',nombre_chofer='JEAN JAURE',observacion='',romana_salida='1' where correlativo='439113' and lote='21026209' and recargo='36'

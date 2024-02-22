@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43150 ',peso_neto='28890',marca='V VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='14538196-7',nombre_chofer='JUAN GALLEGUILLOS  PAVEZ',observacion='',romana_salida='1' where correlativo='438491' and lote='21026081' and recargo='40'

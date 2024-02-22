@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44500 ',peso_neto='28870',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8209867-4',nombre_chofer='VICTOR URZUA',observacion='circulantes mazamorra',romana_salida='1' where correlativo='451139' and lote='21096268' and recargo='1'

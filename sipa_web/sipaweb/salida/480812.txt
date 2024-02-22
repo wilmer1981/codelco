@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40670 ',peso_neto='24940',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='11700084-2',nombre_chofer='alex pascal',observacion='CU VARIOS PVSA',romana_salida='1' where correlativo='480812' and lote='23036212' and recargo='3'

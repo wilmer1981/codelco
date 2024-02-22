@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 14470 ',peso_neto='6110',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='16346719-4',nombre_chofer='LUIS TOLEDO',observacion='',romana_salida='1' where correlativo='480774' and lote='23036161' and recargo='5'

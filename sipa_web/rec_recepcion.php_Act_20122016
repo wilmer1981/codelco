@@ -1,0 +1,1559 @@
+<?
+	$CodigoDeSistema=24;
+	$CodigoDePantalla=3;
+	include("../principal/conectar_principal.php");
+	include("funciones.php");	
+	require "includes/class.phpmailer.php";
+	CerrarLotesMensuales('R');
+	$Tolerancia=ToleranciaPesaje();
+	if(isset($RNA))
+	{
+		setcookie("ROMANA",$RNA);
+		$TxtNumRomana=$RNA;
+	}
+	if($RNA!='')	
+	{	
+		setcookie("ROMANA",$RNA);
+		$TxtNumRomana=$RNA;
+	}
+	if($TxtNumRomana=='')
+		$TxtNumRomana=$_COOKIE["ROMANA"];
+
+	$EstadoInput='';
+	switch($TxtNumBascula)
+	{
+		case "1":
+			$EstOptBascula='checked';
+			$EstOptBascula2='';
+			break;
+		case "2":
+			$EstOptBascula='';
+			$EstOptBascula2='checked';
+			break;
+		default:
+			$EstOptBascula='checked';
+			$EstOptBascula2='';
+			$TxtNumBascula='1';
+			break;		
+	}
+	$TxtFecha=date('Y-m-d');
+	//$TxtHoraE=date('h:i:s');
+	$TxtHoraE=date('G:i:s');
+	//$EstPatente='disabled';
+	$EstBtnGrabar='disabled';
+	$EstBtnAnular='disabled';
+	$EstBtnImprimir='disabled';
+	$EstBtnModificar='disabled';
+	$HabilitarCmb='';
+	$RutOperador=$CookieRut;
+	$Mensaje='';$TotalLote=0;
+	if(!isset($ObjFoco))
+		$ObjFoco="TxtPatente";
+	$Mostrar='N';$HabilitarText='';
+	//DETERMINAR SI ES ENTRADA O SALIDA
+	if($TipoProceso==""&&$TxtPatente<>"")
+	{
+		$Consulta="SELECT * from sipa_web.recepciones where patente = '".trim($TxtPatente)."' and peso_bruto<>'0' and ";
+		$Consulta.="peso_tara='0' and peso_neto='0' and estado <> 'A' and tipo<>'A'";
+		//echo $Consulta;
+		$Respuesta=mysql_query($Consulta);
+		if($Fila=mysql_fetch_array($Respuesta))
+			$TipoProceso='S';
+		else
+			$TipoProceso='E';
+	}	
+	function PatenteValida($Patente,$PatenteOk,$EstPatente)
+	{
+			$EstPatente='readonly';
+			/*$Consulta="SELECT * from sipa_web.camion where patente='".$Patente."'";
+			$Respuesta=mysql_query($Consulta);
+			if($Fila=mysql_fetch_array($Respuesta))
+			{	
+				$PatenteOk=true;
+			}	
+			else
+			{	
+				$PatenteOk=false;
+				$Mensaje='Patente Camion No Registrada';
+			}*/
+			$PatenteOk=true;
+			$Mensaje='';
+	}
+	switch($TipoProceso)//DEFINE SI ES ENTRADA O SALIDA
+	{
+		case "E":
+			$EstBtnGrabar='';
+			$PatenteOk='';
+			PatenteValida(&$TxtPatente,&$PatenteOk,&$EstPatente);
+			if($PatenteOk==true)
+			{
+				switch($Proceso)
+				{
+					case "B1"://LOTE NUEVO
+						if($TxtPesoNeto=='')
+							$TxtPesoNeto=0;
+						if($TxtPesoTara=='')
+							$TxtPesoTara=0;
+						$AnoMes=substr(date('Y'),2,2).date('m');
+						$Consulta="SELECT ifnull(max(lote)+1,'".$AnoMes."0001') as lote_nuevo from sipa_web.correlativo_lote where cod_proceso='R' and lote like '$AnoMes%'";
+						//echo $Consulta;
+						$Respuesta=mysql_query($Consulta);
+						$Fila=mysql_fetch_array($Respuesta);
+						$TxtLote=str_pad($Fila[lote_nuevo],8,'0',STR_PAD_LEFT);
+						$TxtRecargo=1;
+						$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
+						$Respuesta=mysql_query($Consulta);
+						$Fila=mysql_fetch_array($Respuesta);
+						$TxtCorrelativo=$Fila["correlativo"];
+						$TxtFecha=date('Y-m-d');
+						$TxtHoraE=date('G:i:s');
+						$CmbLotes=$TxtLote;
+						$bascula_entrada='';
+						$bascula_salida='';
+						$CodMina=explode('~',$CmbMinaPlanta);
+						/*if($CmbProveedor=='90132000-4'&&$CodMina[1]=='13201.0003-8')
+							$RutProveedor='90132000-5';
+						else
+							$RutProveedor=$CmbProveedor;*/
+						$RutProveedor=$CmbProveedor;	
+						$SuBProd=explode('~',$CmbSubProducto);
+						CrearArchivoResp('R','E',$TxtCorrelativo,$TxtLote,'1',$CmbUltRecargo,$RutOperador,$TxtNumBascula,'',$TxtFecha,$TxtHoraE,'',$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,$CmbProveedor,$CodMina[1],$CmbGrupoProd,$SuBProd[0],$SuBProd[1],$TxtGuia,$TxtPatente,$CmbClase,$CmbConjunto,$TxtObs,'','','','','');
+						$Insertar="INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
+						$Insertar.="hora_entrada,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion) values(";
+						$Insertar.="'$TxtCorrelativo','$TxtLote','1','$CmbUltRecargo','".$RutOperador."','$bascula_entrada','$bascula_salida','$TxtFecha',";
+						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina[1]."','$CmbGrupoProd','$SuBProd[0]."','$SuBProd[1]."',";
+						$Insertar.="'$TxtGuia','".strtoupper(trim($TxtPatente))."','$CmbClase','$CmbConjunto','$TxtObs')";
+						//echo $Insertar;
+						mysql_query($Insertar);
+						$Actualizar="UPDATE sipa_web.correlativo_lote set lote='$TxtLote' where cod_proceso='R'";
+						mysql_query($Actualizar);
+						PesoHistorico2('R',strtoupper(trim($TxtPatente)),&$TxtPesoHistorico,&$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1]);
+						$ObjFoco='TxtGuia';
+						break;
+					case "B2"://LOTE EXISTENTE ABIERTO
+						if($TxtPesoNeto=='')
+							$TxtPesoNeto=0;
+						if($TxtPesoTara=='')
+							$TxtPesoTara=0;
+						$TipoProceso='E';//ENTRADA DE CAMION
+						$AnoMes=substr(date('Y'),3,1).date('m');
+						$Consulta="SELECT  max(lpad(recargo,2,'0'))+1 as recargo_nuevo,cod_producto,cod_subproducto,rut_prv,cod_mina,correlativo,fecha,hora_entrada,hora_salida,conjunto,cod_clase ";
+						$Consulta.="from sipa_web.recepciones where lote = '$CmbLotes' group by lote";
+						//echo $Consulta;
+						$Respuesta=mysql_query($Consulta);
+						$Fila=mysql_fetch_array($Respuesta);
+						$TxtLote=$CmbLotes;
+						$TxtRecargo=$Fila[recargo_nuevo];
+						$Consulta="SELECT  cod_producto,cod_subproducto,rut_prv,cod_mina,correlativo,fecha,hora_entrada,hora_salida,conjunto,cod_clase ";
+						$Consulta.="from sipa_web.recepciones where lote = '$CmbLotes' and recargo='1'";
+						//echo $Consulta;
+						$Respuesta=mysql_query($Consulta);
+						$Fila=mysql_fetch_array($Respuesta);
+						//$TxtFecha=date('Y-m-d');
+						//$TxtHoraE=date('h:i:s');
+						$CmbSubProducto=$Fila["cod_producto"].'~'.$Fila["cod_subproducto"];
+						$CmbProveedor=$Fila["rut_prv"];
+						$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='$CmbProveedor' and cod_mina='".$Fila["cod_mina"]."'";
+						$RespPadron=mysql_query($Consulta);
+						$FilaPadron=mysql_fetch_array($RespPadron);
+						$TxtVencPadron=$FilaPadron[fecha_padron];
+					
+						$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron[fecha_padron]."~".$Fila["conjunto"];
+						$CmbConjunto=$Fila["conjunto"];
+						$CmbClase=$Fila["cod_clase"];
+						$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
+						$Respuesta=mysql_query($Consulta);
+						$Fila=mysql_fetch_array($Respuesta);
+						$TxtCorrelativo=$Fila["correlativo"];
+						$CodMina=explode('~',$CmbMinaPlanta);
+						/*if($CmbProveedor=='90132000-4'&&$CodMina[1]=='13201.0003-8')
+							$RutProveedor='90132000-5';
+						else
+							$RutProveedor=$CmbProveedor;*/
+						$RutProveedor=$CmbProveedor;	
+						$SuBProd=explode('~',$CmbSubProducto);
+						CrearArchivoResp('R','E',$TxtCorrelativo,$TxtLote,$TxtRecargo,$CmbUltRecargo,$RutOperador,$TxtNumBascula,'',$TxtFecha,$TxtHoraE,'',$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,$CmbProveedor,$CodMina[1],$CmbGrupoProd,$SuBProd[0],$SuBProd[1],$TxtGuia,$TxtPatente,$CmbClase,$CmbConjunto,$TxtObs,'','','','','');
+						$Insertar="INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
+						$Insertar.="hora_entrada,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion) values(";
+						$Insertar.="'$TxtCorrelativo','$TxtLote','$TxtRecargo','$CmbUltRecargo','".$RutOperador."','$bascula_entrada','$bascula_salida','$TxtFecha',";
+						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina[1]."','$CmbGrupoProd','$SuBProd[0]."','$SuBProd[1]."',";
+						$Insertar.="'$TxtGuia','".strtoupper(trim($TxtPatente))."','$CmbClase','$TxtConjunto','$TxtObs')";
+						mysql_query($Insertar);
+						PesoHistorico2('R',strtoupper(trim($TxtPatente)),&$TxtPesoHistorico,&$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1]);
+						$ObjFoco='TxtObs';
+						break;	
+				}
+			}
+			break;
+		case "S"://SALIDA DEL CAMION
+			$EstBtnGrabar='';
+			$EstBtnAnular='';
+			$EstBtnImprimir='';
+			PatenteValida(&$TxtPatente,&$PatenteOk,&$EstPatente);
+			if($PatenteOk==true)
+			{
+				$ObjFoco="TxtCorrelativo";
+				$TitCmbCorr=" Corr - Lote - Rec - Prod";
+				switch($Proceso)
+				{
+					case "BC"://BUSCAR CORRELATIVO
+						$Datos=explode('~',$TxtCorrelativo);	
+						$Consulta ="SELECT distinct t1.lote,t1.recargo,t1.correlativo,t1.cod_grupo,t1.cod_producto,t1.cod_subproducto,t1.rut_prv,t1.cod_mina,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.conjunto,t1.cod_clase,";
+						$Consulta.="t1.peso_bruto,t1.guia_despacho,t1.observacion,t1.ult_registro,t1.leyes,t1.impurezas from sipa_web.recepciones t1 ";
+						$Consulta.="where lote = '".$Datos[0]."' and patente='$TxtPatente' and correlativo='".$Datos[2]."'";
+						//echo $Consulta;
+						$Resp2 = mysql_query($Consulta);
+						while($Fila = mysql_fetch_array($Resp2))
+						{
+							$TxtCorrelativo=$Fila["lote"].'~'.$Fila["recargo"].'~'.$Fila["correlativo"];
+							$TxtGuia=$Fila["guia_despacho"];
+							$TxtLote=$Fila["lote"];
+							$TxtRecargo=$Fila["recargo"];
+							$TxtFecha=$Fila["fecha"];
+							$TxtHoraE=$Fila["hora_entrada"];
+							$TxtHoraS=date('G:i:s');
+							$TxtPesoBruto=$Fila[peso_bruto];
+							$TxtPesoNeto=abs($Fila[peso_bruto]-$TxtPesoTara);
+							$CmbGrupoProd=$Fila["cod_grupo"];
+							$CmbSubProducto=$Fila["cod_producto"]."~".$Fila["cod_subproducto"];
+							/*if($CmbProveedor=='90132000-5')
+								$CmbProveedor='90132000-4';*/
+							$CmbProveedor=$Fila["rut_prv"];
+							$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='$CmbProveedor' and cod_mina='".$Fila["cod_mina"]."'";
+							//echo $Consulta."<br>";
+							$RespPadron=mysql_query($Consulta);
+							$FilaPadron=mysql_fetch_array($RespPadron);
+							$TxtVencPadron=$FilaPadron[fecha_padron];
+							$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron[fecha_padron]."~".$Fila["conjunto"];
+							//echo $CmbMinaPlanta;
+							$CmbUltRecargo=$Fila["ult_registro"];
+							$CmbConjunto=$Fila["conjunto"];
+							$CmbClase=$Fila["cod_clase"];
+							$TxtLeyes=$Fila["leyes"];
+							$TxtImpurezas=$Fila["impurezas"];
+							$TxtObs=$Fila["observacion"];
+							PesoHistorico('R',$TxtPatente,&$TxtPesoHistorico,&$TxtPorcRango,'S',$Fila["cod_producto"],$Fila["cod_subproducto"]);
+							$HabilitarCmb='disabled';
+							$HabilitarText='readonly';
+							$ObjFoco='TxtObs';
+						}	
+						break;
+				}	
+			}	
+			break;	
+	}
+	if(($TipoProceso=='E')&&(isset($CmbSubProducto)&&isset($CmbProveedor)))
+	{
+		if($TxtLote=='')
+		{
+			$SuBProd=explode('~',$CmbSubProducto);
+			$Consulta = "SELECT leyes,impurezas from age_web.relaciones ";
+			$Consulta.= " where cod_producto='".$SuBProd[0]."' and cod_subproducto='".$SuBProd[1]."' and rut_proveedor='".$CmbProveedor."'";
+			$Respuesta=mysql_query($Consulta);
+			if($Fila=mysql_fetch_array($Respuesta))
+			{
+				$TxtLeyes=$Fila["leyes"];
+				if($TxtHumedad=='S')
+					$TxtImpurezas="01~".$Fila["impurezas"];
+				else
+					$TxtImpurezas=$Fila["impurezas"];
+			}					
+		}
+	}
+	$Proceso='';
+	if(isset($CmbGrupoProd))
+	{
+		$Consulta="SELECT abast_minero from sipa_web.grupos_productos where cod_grupo='$CmbGrupoProd'";
+		$RespGrupo=mysql_query($Consulta);
+		$FilaGrupo=mysql_fetch_array($RespGrupo);
+		$AbastMinero=$FilaGrupo["abast_minero"];
+		if($AbastMinero=='N')
+			$BuscarPrv='S';
+	}
+	if(isset($BuscarPrv)&&$BuscarPrv=='S')
+	{
+		$Consulta = "SELECT * from sipa_web.proveedores where rut_prv='$CmbProveedor'";
+		$Respuesta=mysql_query($Consulta);
+		if($Fila=mysql_fetch_array($Respuesta))
+		{
+			$TxtNombrePrv=$Fila["nombre_prv"];
+			$ObjFoco='CmbLotes';
+			if($TipoProceso=='S')
+				$ObjFoco='TxtObs';
+		}	
+		else
+			if($CmbSubProducto!='S'&&$CmbProveedor!='')
+				$ObjFoco='TxtNombrePrv';	
+	}
+?>	
+<html><head>
+<title>Recepcion v5 20161011.2 - Tolerancia <? echo $Tolerancia; ?></title>
+<link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
+<script language="javascript" src="../principal/funciones/funciones_java.js"></script>
+
+<script language="javascript">
+<!--
+var OK;
+var OTS = "";
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+var digitos=20 //cantidad de digitos buscados 
+var puntero=0 
+var buffer=new Array(digitos) //declaraci�n del array Buffer 
+var cadena="" 
+setInterval(RestaurarBascula,2000);
+
+function Habilita(Bascula)
+{
+	document.getElementById(Bascula).src = "btn_verde.png";
+	document.getElementById(Bascula).alt = "Bascula Habilitada";
+		
+}
+function Deshabilita(Bascula)
+{
+	document.getElementById(Bascula).src = "btn_rojo.png";
+	document.getElementById(Bascula).alt = "Bascula Ocupada";
+		
+}
+function RestaurarBascula()
+{
+	var Bas2=0;
+	var Bas1=0;
+	var f = document.FrmRecepcion;
+	Bas2=LeerArchivo('');
+	Bas1=LeerArchivo2('');
+	if(Bas1 <= parseInt('<? echo $Tolerancia; ?>'))
+	{
+		f.Bloq1.value='';
+		Habilita('BasculaA');
+			
+	}
+	if(Bas2 <= parseInt('<? echo $Tolerancia; ?>'))
+	{
+		f.Bloq2.value='';	
+		Habilita('BasculaB');
+	}
+	if(f.TipoProceso.value=='E')
+	{
+		if(f.TxtNumBascula.value=='1' && f.Bloq1.value!='S')	
+			f.BtnPBruto.disabled=false;
+		if(f.TxtNumBascula.value=='2' && f.Bloq2.value!='S')	
+			f.BtnPBruto.disabled=false;
+				
+	}
+	if(f.TipoProceso.value=='S')
+	{
+		if(f.TxtNumBascula.value=='1' && f.Bloq1.value!='S')	
+			f.BtnPTara.disabled=false;
+		if(f.TxtNumBascula.value=='2' && f.Bloq2.value!='S')	
+			f.BtnPTara.disabled=false;
+	}
+}
+ function LeerRomana(Rom)
+{
+	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
+	var valor="";
+	var fso, f1, ts, s,retorno; 
+	var ForReading = 1; 
+	fso = new ActiveXObject("Scripting.FileSystemObject"); 
+	if(fso.FileExists(ubicacion))
+	{
+          try{  
+		  	  f = fso.OpenTextFile( ubicacion,  1,true); 
+			  valor=f.Readline();
+		  }catch(err)
+		  {
+			window.status = "LeerRomana : "+err;
+			  
+		  }
+    }
+	else
+	{
+       alert("No Existe archivo en :"+ubicacion);
+	}
+	return(valor); 
+}
+var ROMA=LeerRomana('');
+ function LeerArchivo(valor)
+{
+	
+	var error=1;
+	var ubicacion = "C:\\PesoMatic.txt";
+	var valor="";
+	var fso, f1, ts, s,retorno; 
+	var ForReading = 1; 
+	fso = new ActiveXObject("Scripting.FileSystemObject"); 
+	if(fso.FileExists(ubicacion)){
+         try{  
+		  	  f = fso.OpenTextFile( ubicacion,  1,true); 
+			  valor=f.Readline();
+		  }catch(err)
+		  {
+			window.status = "LeerArchivo : "+err;
+			  
+		  }
+        } else
+		{
+       		alert("No Existe archivo en: "+ubicacion ) 
+	   }
+		return(valor); 
+}
+
+ function LeerArchivo2(valor)
+{var error=1;
+	var ubicacion = "C:\\PesoMatic2.txt";
+var valor="";
+	var fso, f1, ts, s,retorno; 
+		var ForReading = 1; 
+	fso = new ActiveXObject("Scripting.FileSystemObject"); 
+	if(fso.FileExists(ubicacion)){
+		  try{  
+		  	  f = fso.OpenTextFile( ubicacion,  1,true); 
+			  valor=f.Readline();
+		  }catch(err)
+		  {
+			window.status = "LeerArchivo : "+err;
+			  
+		  }
+        }else {
+       alert("No Existe archivo en: "+ubicacion ) 
+	
+	   }
+		return(valor); 
+}
+
+function muestra(numero) 
+{
+ 	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = 'show'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'visible'");
+			eval("Txt" + numero + ".style.left = 450 ");
+		}
+	}
+}
+function oculta(numero) 
+{
+	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = hide'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'hidden'");
+		}
+	}
+}
+function PesoAutomatico()
+{
+	setTimeout("CapturaPeso()",500);
+}	
+/*****************/
+function CapturaPeso(tipo)
+{
+	var f = document.FrmRecepcion;
+	var PesoRangoIni =0;
+	var PesoRangoFin =0;
+	var PorcPeso =0;
+	
+	switch(tipo)
+	{
+		case "PB":
+			f.TipoProceso.value="E";
+			if(f.TxtNumBascula.value=='1')
+			{	
+				if(f.Bloq1.value=='S')
+				{
+					alert("B�scula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la b�scula.")
+				}
+				else
+				{
+					f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
+					f.Bloq1.value='S';
+					Deshabilita('BasculaA');
+					f.BtnPBruto.disabled=true;
+		
+				}
+			}else
+			{
+				if(f.Bloq2.value=='S')
+				{
+					alert("B�scula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la b�scula.")
+				}
+				else
+				{
+					f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+						f.Bloq2.value='S';
+						Deshabilita('BasculaB');
+					
+						f.BtnPBruto.disabled=true;
+				}
+					
+			}
+			
+			
+			if(parseInt(f.TxtPesoHistorico.value)!=0)
+			{	
+				PorcPeso=parseInt((f.TxtPorcRango.value*f.TxtPesoHistorico.value)/100);
+				//alert(PorcPeso);
+				PesoRangoIni=parseInt(parseInt(f.TxtPesoHistorico.value)-PorcPeso);
+				PesoRangoFin=parseInt(parseInt(f.TxtPesoHistorico.value)+PorcPeso);
+				//alert('Rangos Taras:'+PesoRangoIni+' '+PesoRangoFin);
+				if((parseInt(f.TxtPesoBruto.value)<PesoRangoIni)||(parseInt(f.TxtPesoBruto.value)>PesoRangoFin))			
+				{
+					alert('ATENCION!!!! Peso Bruto no esta dentro del Rango de Peso Bruto Historico');
+				}
+			}				
+			//if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
+			//	f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;
+			CalculaPNeto();
+			if(f.CmbLotes.disabled==true)
+				f.BtnGrabar.focus();	
+			else
+				f.CmbLotes.focus();	
+			break;
+		case "PT":
+			f.TipoProceso.value="S";
+			if(f.TxtNumBascula.value=='1')
+			{	
+				if(f.Bloq1.value=='S')
+				{
+					alert("B�scula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la b�scula.")
+				}
+				else
+				{
+					f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
+					f.Bloq1.value='S';
+					Deshabilita('BasculaA');
+					
+					f.BtnPTara.disabled=true;
+		
+				}
+			}else
+			{
+				if(f.Bloq2.value=='S')
+				{
+					alert("B�scula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la b�scula.")
+				}
+				else
+				{
+					f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
+						f.Bloq2.value='S';
+						Deshabilita('BasculaB');
+					
+						f.BtnPTara.disabled=true;
+				}
+					
+			}
+			
+			
+			
+		/*	if(f.TxtNumBascula.value=='1')			
+				f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
+			else
+				f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);*/
+			if(parseInt(f.TxtPesoHistorico.value)!=0)
+			{	
+				PorcPeso=parseInt((f.TxtPorcRango.value*f.TxtPesoHistorico.value)/100);
+				//alert(PorcPeso);
+				PesoRangoIni=parseInt(parseInt(f.TxtPesoHistorico.value)-PorcPeso);
+				PesoRangoFin=parseInt(parseInt(f.TxtPesoHistorico.value)+PorcPeso);
+				//alert('Rangos Taras:'+PesoRangoIni+' '+PesoRangoFin);
+				if((parseInt(f.TxtPesoTara.value)<PesoRangoIni)||(parseInt(f.TxtPesoTara.value)>PesoRangoFin))			
+				{
+					alert('ATENCION!!!! Peso Tara no esta dentro del Rango de Peso Tara Historico');
+				}
+			}	
+			//if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
+			//	f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;
+			CalculaPNeto();
+			f.BtnGrabar.focus();	
+			break;
+	}	
+	//setTimeout("CapturaPeso()",200);
+	f.TxtPatente.disabled='';
+	
+		
+}
+
+function buscar_op(obj,objfoco,InicioBusq,Recargar){ 
+   var f = document.FrmRecepcion;
+   var letra = String.fromCharCode(event.keyCode) 
+   if(puntero >= digitos){ 
+       cadena=""; 
+       puntero=0; 
+    }
+   //si se presiona la tecla ENTER, borro el array de teclas presionadas y salto a otro objeto... 
+   if (event.keyCode == 13||event.keyCode == 27)
+   { 
+       borrar_buffer(); 
+       if(event.keyCode != 27&&objfoco!=0) //evita foco a otro objeto si objfoco=0 
+		if(Recargar=='S')
+			Recarga(objfoco);	   
+		else
+		   objfoco.focus(); 
+    } 
+   //sino busco la cadena tipeada dentro del combo... 
+   else{ 
+       buffer[puntero]=letra; 
+       //guardo en la posicion puntero la letra tipeada 
+       cadena=cadena+buffer[puntero]; //armo una cadena con los datos que van ingresando al array 
+       puntero++; 
+
+       //barro todas las opciones que contiene el combo y las comparo la cadena... 
+       for (var opcombo=0;opcombo < obj.length;opcombo++){ 
+          if(obj[opcombo].text.substr(InicioBusq,puntero).toLowerCase()==cadena.toLowerCase()){ 
+          obj.SELECTedIndex=opcombo; 
+          } 
+       } 
+    } 
+   event.returnValue = false; //invalida la acci�n de pulsado de tecla para evitar busqueda del primer caracter 
+
+} 
+
+function borrar_buffer(){ 
+   //inicializa la cadena buscada 
+    cadena=""; 
+    puntero=0;
+}
+function muestra(numero) 
+{
+ 	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = 'show'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'visible'");
+			eval("Txt" + numero + ".style.left = 50 ");
+		}
+	}
+}
+function oculta(numero) 
+{
+	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = hide'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'hidden'");
+		}
+	}
+}
+function Proceso(opt,ObjFoco,opt2)
+{
+	var f = document.FrmRecepcion;
+	var Valores='';
+	//alert(f.TipoProceso.value);
+	switch (opt)
+	{
+		case "G"://ACTUALIZAR RECEPCION
+			if(ValidarCampos('G'))
+			{
+				if(f.ValidaPadronMin.value=='S'&&f.TxtVencPadron.value+"31" < '<? echo date("Y-m-d");?>')
+				{
+				
+					alert('La Fecha de Padron Minero Se Encuentra Vencida');
+					//return;
+				}
+				//else
+				//{
+					f.BtnGrabar.disabled=true;
+					f.action = "rec_recepcion01.php?Proceso="+opt2;
+					f.submit();	
+				//}			
+			}
+			break;
+		case "B"://BUSCA LOTE NUEVO O LOTE EXISTENTE
+			if(ValidarCampos(''))
+			{
+				if(f.CmbLotes.value=='-1')//ES LOTE NUEVO
+					f.action = "rec_recepcion.php?Proceso=B1";
+				else
+					f.action = "rec_recepcion.php?Proceso=B2";//LOTE INGRESADO
+				f.submit();	
+			}
+			break;
+		case "BC":
+			if(f.TxtCorrelativo.value!='S')
+			{
+				f.action = "rec_recepcion.php?Proceso=BC&ObjFoco="+ObjFoco.name;//BUSCAR CORRELATIVO
+				f.submit();	
+			}	
+			break;	
+		case "I"://IMPRIMIR
+			f.action = "rec_recepcion01.php?Proceso=I";
+			f.submit();	
+
+			/*if(f.TxtLote.value=='')
+			{
+				alert('No hay Correlativo para Imprimir');
+				f.TxtCorrelativo.focus();
+				return;
+			}
+			else
+			{
+				f.action = "rec_recepcion01.php?Proceso=I";
+				f.submit();	
+			}					*/
+			break;	
+		case "S"://SALIR
+			f.action = "../principal/sistemas_usuario.php?CodSistema=24";
+			f.submit();
+			break;
+		case "C"://CANCELAR
+			f.action = "rec_recepcion01.php?Proceso=C";
+			f.submit();	
+			break;
+		case "M"://MODIFICAR
+			f.TipoProceso.value="S";
+			if(f.TxtLote.value=='')
+			{
+				alert('No hay Correlativo para Modificar');
+				f.TxtCorrelativo.focus();
+				return;
+			}
+			else
+			{
+				f.action = "rec_recepcion01.php?Proceso=M";
+				f.submit();	
+			}	
+			break;
+		case "A"://ANULAR
+			if(f.TxtLote.value=='')
+			{
+				alert('No hay Correlativo para Anular');
+				f.TxtCorrelativo.focus();
+				return;
+			}
+			else
+			{
+				f.action = "rec_recepcion01.php?Proceso=A";
+				f.submit();	
+			}	
+			break;
+	}
+}
+function Recarga(ObjFoco,Tipo)
+{
+	var f = document.FrmRecepcion;
+	
+	if(f.TxtPatente.value==''&&Tipo=='S')
+		return;
+	f.action = "rec_recepcion.php?ObjFoco="+ObjFoco.name;
+	f.submit();		
+}
+function ValidarCampos(ProcesoValid)
+{
+	var f = document.FrmRecepcion;
+	var Validado=true;
+
+
+
+	if((ProcesoValid)=='G'&&(f.TxtCorrelativo.value==''||f.TxtCorrelativo.value=='S'))
+	{
+		alert('No hay Correlativo para Grabar');
+		f.TxtPatente.focus();
+		Validado=false;
+		return;
+	}
+	if(f.TxtPatente.value=='')
+	{
+		alert('Debe Ingresar Patente');
+		f.TxtPatente.focus();
+		Validado=false;
+		return;
+	}
+
+	if(f.TxtGuia.value=='')
+	{
+		alert('Debe Ingresar Guia de Despacho');
+		f.TxtGuia.focus();
+		Validado=false;
+		return;
+	}
+	if(f.TipoProceso.value=='E' && f.TxtPesoBruto.value=='')
+	{
+		alert('Debe Ingresar Peso Bruto');
+		f.BtnPBruto.focus();
+		f.CmbLotes.SELECTedIndex=0; 
+		Validado=false;
+		return;
+	}
+	if(f.TipoProceso.value=='S' && f.TxtPesoTara.value=='')
+	{
+		alert('Debe Ingresar Peso Tara');
+		f.BtnPTara.focus();
+		Validado=false;
+		return;
+	}
+	if(f.CmbSubProducto.value=='S')
+	{
+		alert('Debe Seleccionar Producto');
+		f.CmbSubProducto.focus();
+		Validado=false;
+		return;
+	}
+
+	if(f.CmbProveedor.value=='S'||f.CmbProveedor.value=='')
+	{
+		alert('Debe Seleccionar Proveedor');
+		f.CmbProveedor.focus();
+		Validado=false;
+		return;
+	}
+	try
+	{
+		if(f.CmbMinaPlanta.value=='S')
+		{
+			alert('Debe Seleccionar Mina/Planta');
+			f.CmbMinaPlanta.focus();
+			Validado=false;
+			return;
+		}
+		if(f.CmbConjunto.value=='')
+		{
+			alert('Conjunto No Asociado a Mina/Planta');
+			f.CmbConjunto.focus();
+			Validado=false;
+			return;
+		}
+		if(f.TxtLeyes.value=='')
+		{
+			alert('No hay leyes registradas para este Producto y Proveedor');
+			f.CmbLotes.value='S';
+			f.CmbLotes.focus();
+			return;
+		}
+	}	
+	catch (e)
+	{
+	}	
+	return(Validado);
+}
+function ObtenerFecPadronConj()
+{
+	var f = document.FrmRecepcion;
+	if(f.CmbMinaPlanta.value!='S')
+	{
+		var Datos=f.CmbMinaPlanta.value.split('~');
+		f.TxtVencPadron.value=Datos[2];
+		f.CmbConjunto.value=Datos[3];
+	}	
+}
+function MM_jumpMenu(targ,selObj,restore)
+{ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.SELECTedIndex].value+"'");
+  if (restore) selObj.SELECTedIndex=0;
+}
+function SeleccionRomana(tipo)
+{
+	var f = document.FrmRecepcion;
+	f.BtnPBruto.disabled=true;
+	f.BtnPTara.disabled=true;
+	window.open("rec_seleccion_romana.php?tipo="+tipo+"&Frm="+f.name,"","top=210,left=200,width=400,height=200,scrollbars=no,resizable=no,status=yes");
+	
+}
+function SeleccionBascula(NumBascula)
+{
+	var f = document.FrmRecepcion;
+	f.TxtNumBascula.value=NumBascula;
+	if(f.TxtNumRomana.value=='1' && f.TxtNumBascula.value=='1')	
+	{	//f.TxtBasculaAux.style.background='#FF0000';
+		f.TxtBasculaAux.value=1;
+	}
+	if(f.TxtNumRomana.value=='1' && f.TxtNumBascula.value=='2')	
+	{	//f.TxtBasculaAux.style.background='#009933';
+		f.TxtBasculaAux.value=2;
+	}
+	if(f.TxtNumRomana.value=='2' && f.TxtNumBascula.value=='1')	
+	{	//f.TxtBasculaAux.style.background='#FF0000';
+		f.TxtBasculaAux.value=3;
+	}
+	if(f.TxtNumRomana.value=='2' && f.TxtNumBascula.value=='2')	
+	{	//f.TxtBasculaAux.style.background='#009933';
+		f.TxtBasculaAux.value=4;
+	}
+	if(f.TipoProceso.value=='E')
+	{
+		f.TxtPesoBruto.value="";
+		f.BtnPBruto.disabled=false;
+		if(f.TxtNumBascula.value=='1' && f.Bloq1.value=='S')
+		{	f.BtnPBruto.disabled=true;
+	
+		}
+		if(f.TxtNumBascula.value=='2' && f.Bloq2.value=='S')
+		{	f.BtnPBruto.disabled=true;
+	
+		}
+	}
+	if(f.TipoProceso.value=='S')
+	{
+		f.TxtPesoTara.value='';
+		f.BtnPTara.disabled=false;
+
+		if(f.TxtNumBascula.value=='1' && f.Bloq1.value=='S')
+		{	f.BtnPTara.disabled=true;
+		
+		}if(f.TxtNumBascula.value=='2' && f.Bloq2.value=='S')
+		{
+			f.BtnPTara.disabled=true;
+		}
+	}
+	
+}
+function BuscarProveedor()
+{
+	var f = document.FrmRecepcion;
+	
+	if(f.CmbProveedor.value!='S'&&f.CmbProveedor.value!='')
+	{
+		f.action = "rec_recepcion.php?BuscarPrv=S";
+		f.submit();		
+	}	
+}
+function CalculaPNeto()
+{
+	var f = document.FrmRecepcion;
+
+	if(f.TxtPesoBruto.value!=''&&f.TxtPesoTara.value!='')
+		f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;
+	CalculaPNetoTotal();
+}
+function CalculaPNetoTotal()
+{
+	var f = document.FrmRecepcion;
+	
+	if(f.TxtPesoTotalNeto.value!=''&&f.TxtPesoNeto.value!='')
+		f.TxtPNetoTot.value=parseInt(f.TxtPesoTotalNeto.value)+parseInt(f.TxtPesoNeto.value);
+	else
+		if(f.TxtPesoTotalNeto.value!='')
+			f.TxtPNetoTot.value=parseInt(f.TxtPesoTotalNeto.value);
+}
+function SelecLeyes()
+{
+	var f = document.FrmRecepcion;
+
+	URL="rec_seleccion_leyes.php?CodLeyes="+f.TxtLeyes.value+"&CodImpurezas="+f.TxtImpurezas.value;
+	window.open(URL,"","top=30,left=30,width=600,height=500,status=yes,scrollbars=yes,resizable=yes");
+	
+}
+//-->
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<!--
+body {
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.Estilo2 {color: #FF0000}
+-->
+</style></head>
+<body <? echo 'onload=window.document.FrmRecepcion.'.$ObjFoco.'.focus()'?>>
+<form action="" method="post" name="FrmRecepcion" >
+<?
+	include("../principal/encabezado.php");
+	if(!isset($TipoProceso))
+		echo "<input type='hidden' name='TipoProceso' value=''>";
+	else
+		echo "<input type='hidden' name='TipoProceso' value='$TipoProceso'>";
+?>
+<table class="TablaPrincipal" width="770" height="330" cellpadding="0" cellspacing="0" >
+	<tr>
+	  <td width="760" height="330" align="center" valign="top"><br>
+<table width="700"  border="0" align="center" cellpadding="2" cellspacing="1" bgcolor="#000000" class="TablaInterior">
+  <tr class="ColorTabla01">
+    <td colspan="6"><strong>RECEPCION:
+	<?
+		if($TipoProceso!='S')
+		{	echo "ENTRADA DEL CAMION";
+		$Testo="ENTRADA";
+		}else
+		{	echo "SALIDA DEL CAMION";
+	$Testo="SALIDA";
+		}?>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PESANDO EN BASCULA DE <? echo $Testo;?>:
+	
+    
+     
+    <input type="hidden" id="Bloq1" name="Bloq1" class="InputCen" value="<? echo $Bloq1;?>" size="2"  >	
+	<input type="hidden" id="Bloq2" name="Bloq2" class="InputCen" value="<? echo $Bloq2;?>" size="2"  >	
+
+	<input type="hidden" name="TxtNumBascula" class="InputCen" value="<? echo $TxtNumBascula;?>" size="2" > 
+	<?
+	
+	
+		switch($TxtNumRomana)
+		{
+			case 1:
+				$BasculaA='1';
+				$BasculaB='2';
+			break;
+			case 2:
+				$BasculaA='3';
+				$BasculaB='4';
+			break;
+			default:
+					$BasculaA='S/N';
+					$BasculaB='S/N';
+			break;
+		}	
+		$Color='000000';
+	if($TxtNumRomana==1 && $TxtNumBascula==1)	
+		{$Valor=1;$Color='FF0000';}
+		if($TxtNumRomana==1 && $TxtNumBascula==2)	
+		{$Valor=2;$Color='009933';}
+			if($TxtNumRomana==2 && $TxtNumBascula==1)	
+		{$Valor=3;$Color='FF0000';}
+			if($TxtNumRomana==2 && $TxtNumBascula==2)	
+		{$Valor=4;$Color='009933';}
+			
+		
+	?>
+	<input type="text" name="TxtBasculaAux" class="InputCen" value="<? echo $Valor;?>" size="2" readonly  style="background:#F90">	
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	<?	
+
+	
+	echo $BasculaA;?>
+    
+	<input name="OptBascula" type="radio" value="radiobutton" onClick="SeleccionBascula('1')" <? echo $EstOptBascula;?>><? if($Bloq1=='S'){?><img  align="absmiddle" id="BasculaA" src="btn_rojo.png" alt="Bascula Bloqueada"><? }else{ ?> <img align="absmiddle" src="btn_verde.png" id="BasculaA" alt="Bascula Habilitada"><? } ?>
+   
+     &nbsp;&nbsp;&nbsp;&nbsp;
+    
+	<? echo $BasculaB;?>
+	<input name="OptBascula" type="radio" value="radiobutton" onClick="SeleccionBascula('2')" <? echo $EstOptBascula2;?>><? if($Bloq2=='S'){?><img align="absmiddle" id="BasculaB" src="btn_rojo.png"  alt="Bascula Bloqueada"><? }else{ ?> <img  align="absmiddle" src="btn_verde.png" id="BasculaB" alt="Bascula Habilitada"><? } ?>
+ 
+  <input type="hidden" name="TxtNumRomana" class="InputCen" value="<? echo $TxtNumRomana;?>" size="2" readonly >
+	<input name="TxtPorcRango" type="hidden" value="<? echo $TxtPorcRango; ?>" size="2">
+	<input name="TxtPesoHistorico" type="text" class="InputCen" value="<? echo $TxtPesoHistorico; ?>" size="8" readonly></strong>
+  
+ 
+  </td></tr>
+
+  <tr>
+    <td width="91" align="right" class="ColorTabla02">Patente:</td>
+    <td width="156" class="ColorTabla02" ><input name="TxtPatente" type="text" class="InputCen" id="TxtPatente2" value="<? echo strtoupper($TxtPatente); ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('N',true,this.form,'TxtGuia');" onBlur="Recarga(TxtGuia,'S')" <? echo $EstPatente;?>>    
+    <td width="91" align="right" class="ColorTabla02">Fecha:</td>
+    <td width="106" class="ColorTabla02" ><input name="TxtFecha" type="text" class="InputCen" value="<? echo $TxtFecha; ?>" size="12" maxlength="10" readonly ></td>
+    <td width="111" align="right" class="ColorTabla02">Peso Bruto :
+	</td>	
+    <td width="111" class="ColorTabla02">
+	<input <? echo $EstadoInput; ?> name="TxtPesoBruto" type="text" class="InputCen" value="<? echo $TxtPesoBruto; ?>" size="10" maxlength="10" onBlur="CalculaPNeto()" readonly ></td>
+  </tr>
+  <tr>
+    <td align="right" class="ColorTabla02">Correlativo:</td>
+	<td class="ColorTabla02">
+	<?
+		if(!isset($TipoProceso)||$TipoProceso=='E')
+		
+	{
+		//echo "prueba info";
+	?>
+    <input <? echo $EstadoInput; ?> name="TxtCorrelativo" type="text" class="InputCen" id="TxtCorrelativo" value="<? echo $TxtCorrelativo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');" readonly>      
+    <?
+	}
+	else
+	{
+	?>
+    <SELECT name="TxtCorrelativo" onChange="Proceso('BC',TxtObs)" onkeypress="buscar_op(this,TxtCorrelativo,0,'S')" onBlur="borrar_buffer()" onclick="borrar_buffer()" <? //echo $HabilitarCmb;?>>
+    <option value="S" SELECTed class="NoSelec"><? echo $TitCmbCorr;?></option>
+    <?
+		$AnoMes=substr(date('Y'),2,2).date('m');
+		$Consulta ="SELECT distinct t1.lote,t1.recargo,t1.correlativo,t1.cod_subproducto from sipa_web.recepciones t1 ";
+		$Consulta.="where patente='$TxtPatente' and peso_neto=0 and estado<>'A' order by t1.correlativo desc";
+		$RespCorr=mysql_query($Consulta);
+		while($FilaCorr=mysql_fetch_array($RespCorr))
+		{
+			$Datos=explode('~',$TxtCorrelativo);
+			if($Datos[0]==$FilaCorr["lote"]&&$Datos[1]==$FilaCorr["recargo"]&&$Datos[2]==$FilaCorr["correlativo"])
+			{
+				echo "<option value='".$FilaCorr["lote"]."~".$FilaCorr["recargo"]."~".$FilaCorr["correlativo"]."' SELECTed>".str_pad($FilaCorr["correlativo"],4,0,STR_PAD_LEFT)." - ".$FilaCorr["lote"]." - ".str_pad($FilaCorr["recargo"],2,0,STR_PAD_LEFT)." - ".str_pad($FilaCorr["cod_subproducto"],2,0,STR_PAD_LEFT)."</option>";
+			}
+			else
+			{
+				echo "<option value='".$FilaCorr["lote"]."~".$FilaCorr["recargo"]."~".$FilaCorr["correlativo"]."'>".str_pad($FilaCorr["correlativo"],4,0,STR_PAD_LEFT)." - ".$FilaCorr["lote"]." - ".str_pad($FilaCorr["recargo"],2,0,STR_PAD_LEFT)." - ".str_pad($FilaCorr["cod_subproducto"],2,0,STR_PAD_LEFT)."</option>";			
+			}
+		}
+				
+	?></SELECT>
+	<?
+		}
+	?>
+	</td>
+	<td align="right" class="ColorTabla02">Hora Entrada:</td>
+    <td class="ColorTabla02"><input name="TxtHoraE" type="text" class="InputCen" value="<? echo $TxtHoraE; ?>" size="10" maxlength="10" readonly ></td>
+    <td align="right" class="ColorTabla02">Peso Tara :</td>
+    <td class="ColorTabla02"><input <? echo $EstadoInput; ?> name="TxtPesoTara" type="text" class="InputCen" id="TxtPesoTara" value="<? echo $TxtPesoTara; ?>" size="10" maxlength="10" onBlur="CalculaPNeto()" readonly></td>
+  </tr>
+  <tr>
+    <td align="right" class="ColorTabla02">Guia Despacho :</td>
+    <td class="ColorTabla02"><input <? echo $EstadoInput; ?> name="TxtGuia" type="text" class="InputCen" id="TxtGuia" value="<? echo $TxtGuia; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'TxtGuia2');">
+	<input <? echo $EstadoInput; ?> name="TxtGuia2" type="text" class="Ghost" size='1' onKeypress="TeclaPulsada2('S',true,this.form,'CmbGrupoProd');" readonly></td>
+    <td align="right" class="ColorTabla02">Hora Salida:</td>
+    <td class="ColorTabla02"><input <? echo $EstadoInput; ?> name="TxtHoraS" type="text" class="InputCen" id="TxtHoraS2" value="<? echo $TxtHoraS; ?>" size="10" maxlength="10" readonly></td>
+    <td align="right" class="ColorTabla02">Peso Neto:</td>
+    <td class="ColorTabla02"><input <? echo $EstadoInput; ?> name="TxtPesoNeto" type="text" class="InputCen" id="TxtNeto" value="<? echo $TxtPesoNeto; ?>" size="10" maxlength="10" readonly></td>
+  </tr>
+  <tr>
+    <td align="right" class="ColorTabla02"> Producto: </td>
+    <td colspan="5" class="ColorTabla02">
+	<SELECT name="CmbGrupoProd" style="width:150" onChange="Recarga(CmbSubProducto)" onkeypress="buscar_op(this,CmbSubProducto,0,'S')" onBlur="borrar_buffer()" onclick="borrar_buffer()" <? echo $HabilitarCmb;?>>
+      <option value="S" SELECTed class="NoSelec">Seleccionar</option>
+      <?
+				$Consulta = "SELECT * from sipa_web.grupos_productos order by descripcion_grupo ";
+				$Resp = mysql_query($Consulta);
+				while ($Fila = mysql_fetch_array($Resp))
+				{
+					if ($CmbGrupoProd == $Fila["cod_grupo"])
+					{	
+						echo "<option SELECTed value='".$Fila["cod_grupo"]."'>".strtoupper($Fila["descripcion_grupo"])."</option>";
+						$ValidaPadronMin=$Fila["abast_minero"];
+					
+					}
+					else
+						echo "<option value='".$Fila["cod_grupo"]."'>".strtoupper($Fila["descripcion_grupo"])."</option>";
+				}
+			  ?>
+    </SELECT>&nbsp;<input name="ValidaPadronMin" type="hidden" class="InputCen" value="<? echo $ValidaPadronMin; ?>" size="1" readonly>
+	<SELECT name="CmbSubProducto" style="width:300" onChange="Recarga(CmbProveedor)" onkeypress="buscar_op(this,CmbProveedor,0,'S')" onBlur="borrar_buffer()" onclick="borrar_buffer()" <? echo $HabilitarCmb;?>>
+      <option value="S" SELECTed class="NoSelec">Seleccionar</option>
+      <?
+				$Consulta="SELECT  t1.cod_producto,t1.cod_subproducto,t2.abreviatura as nom_prod,t2.descripcion as nom_subprod,humedad, ";
+				$Consulta.= " case when length(t1.cod_subproducto)<2 then concat('0',t1.cod_subproducto) else t1.cod_subproducto end as orden ";
+				$Consulta.="from sipa_web.grupos_prod_subprod t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto =t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+				$Consulta.="where t1.cod_grupo='$CmbGrupoProd' order by nom_subprod";
+				$Resp = mysql_query($Consulta);
+				while ($Fila = mysql_fetch_array($Resp))
+				{
+					if ($CmbSubProducto == $Fila["cod_producto"]."~".$Fila["cod_subproducto"])
+					{	
+						echo "<option SELECTed value='".$Fila["cod_producto"]."~".$Fila["cod_subproducto"]."'>".str_pad($Fila["cod_subproducto"],2,"0",STR_PAD_LEFT)." - ".strtoupper($Fila["nom_subprod"])."</option>";
+						$TxtHumedad=$Fila["humedad"];
+					}	
+					else
+						echo "<option value='".$Fila["cod_producto"]."~".$Fila["cod_subproducto"]."'>".str_pad($Fila["cod_subproducto"],2,"0",STR_PAD_LEFT)." - ".strtoupper($Fila["nom_subprod"])."</option>";
+				}
+			  ?>
+    </SELECT>&nbsp;&nbsp;Hum:
+      <input name="TxtHumedad" type="text" class="InputCen" value="<? echo $TxtHumedad; ?>" size="2" readonly>
+	  
+	  </td>
+	  
+    </tr>
+  <tr>
+    <td align="right" class="ColorTabla02">Rut Proveedor :</td>
+	<?
+		if($AbastMinero=='S')
+		{
+	?>
+    <td colspan="5" class="ColorTabla02">
+	  <input <? echo $EstadoInput; ?> name="TxtRutPrv" type="hidden" class="InputCen" value="<? echo $TxtRutPrv; ?>" size="14" maxlength="10" onKeyDown="TeclaPulsada2('N',true,this.form,'CmbProveedor');">
+      <SELECT name="CmbProveedor" style="width:300" onkeypress=buscar_op(this,CmbMinaPlanta,0,'S') onBlur="borrar_buffer()" onclick="borrar_buffer()" <? echo $HabilitarCmb;?>>
+        <option class="NoSelec" value="S">Seleccionar</option>
+        <?
+				if(isset($CmbProveedor))
+				{
+					$SubProd=explode('~',$CmbSubProducto);
+					$Consulta = "SELECT distinct rut_prv,nombre_prv from sipa_web.proveedores t1 inner join age_web.relaciones t2 ";
+					$Consulta.= " on t1.rut_prv=t2.rut_proveedor ";
+					$Consulta.= " where t2.cod_producto='".$SubProd[0]."' and t2.cod_subproducto='".$SubProd[1]."'";// and t1.rut_prv <>'90132000-5'";
+					$Consulta.= " order by t1.nombre_prv";
+					$Resp = mysql_query($Consulta);
+					while ($Fila = mysql_fetch_array($Resp))
+					{
+						if ($CmbProveedor == $Fila["rut_prv"])
+							echo "<option SELECTed value='".$Fila["rut_prv"]."'>".str_pad($Fila["rut_prv"],10,"0",STR_PAD_LEFT)."-".$Fila["nombre_prv"]."</option>\n";
+						else
+							echo "<option value='".$Fila["rut_prv"]."'>".str_pad($Fila["rut_prv"],10,"0",STR_PAD_LEFT)."-".$Fila["nombre_prv"]."</option>\n";
+					}
+				}	
+			?>
+      </SELECT>
+      Venc.Padron:	<input name="TxtVencPadron" type="text" class="InputCen" id="TxtVencPadron" value="<? echo $TxtVencPadron; ?>" size="12" maxlength="10" readonly >
+	  </td>
+	  <? }
+	  else
+	  {
+	     echo "<td colspan='5' class='ColorTabla02'>";
+		 if($CmbProveedor=='S')
+			$CmbProveedor='';
+		 echo "<input name='CmbProveedor' type='textbox' class='InputIzq' value='$CmbProveedor' size='14' maxlength='10' onKeyDown=\"TeclaPulsada2('N',true,this.form,'TxtNombrePrv');\" onblur='BuscarProveedor()'>&nbsp;&nbsp;Nombre:&nbsp;"; 
+		 echo "<input name='TxtNombrePrv' type='textbox' class='InputIzq' value='$TxtNombrePrv' size='50' maxlength='25' onKeyDown=\"TeclaPulsada2('N',true,this.form,'CmbLotes');\">";
+	  	echo "</td>";
+	  }
+	   ?>
+    </tr>
+	<?	
+	if($AbastMinero=='S')
+	{
+    ?>
+  <tr>
+    <td align="center" class="ColorTabla02">Mina/Planta:</td>
+    <td colspan="5" bgcolor="#FFFFCC" class="Detalle03">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Codigo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nombre Faena&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sierra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Comuna </td>
+    </tr>
+  <tr>
+    <td align="right" class="ColorTabla02">&nbsp;</td>
+    <td colspan="5" class="ColorTabla02">
+	<SELECT name="CmbMinaPlanta" style="width:570" onChange="ObtenerFecPadronConj()" onKeypress="TeclaPulsada2('S',true,this.form,'BtnPBruto');" <? echo $HabilitarCmb;?>>
+      <option value="S" SELECTed class="NoSelec">Seleccionar</option>
+	  <?
+	  		if(isset($CmbMinaPlanta))
+			{
+				$SubProd=explode('~',$CmbSubProducto);
+				$Datos=explode('~',$CmbMinaPlanta);
+				$Consulta = "SELECT  t1.rut_prv,t1.cod_mina,t1.nombre_mina,t1.sierra,t1.comuna,t1.fecha_padron,t3.conjunto from sipa_web.minaprv t1 ";
+				$Consulta.= "left join sipa_web.grupos_prod_prv t2 on t2.cod_producto='1' and t2.cod_subproducto='".$SubProd[1]."' ";
+				$Consulta.= "and t2.rut_prv='".$CmbProveedor."' and t2.cod_mina=t1.cod_mina ";
+				$Consulta.= "left join sipa_web.grupos_conjunto t3 on t3.cod_grupo=t2.cod_grupo ";
+				$Consulta.= "where t1.rut_prv='$CmbProveedor' ";
+				$Consulta.= "order by t1.rut_prv,t1.cod_mina,t1.nombre_mina";
+				$Resp = mysql_query($Consulta);
+				while ($Fila = mysql_fetch_array($Resp))
+				{
+					if ($Datos[0] == $Fila["rut_prv"]&&$Datos[1] == $Fila["cod_mina"]&&$Datos[2] == $Fila["fecha_padron"]&&$Datos[3] == $Fila["conjunto"])
+						echo "<option SELECTed value='".$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$Fila["fecha_padron"]."~".$Fila["conjunto"]."'>".$Fila["cod_mina"]." | ".$Fila["nombre_mina"]." | ".$Fila["sierra"]." | ".$Fila["comuna"]."</option>\n";
+					else
+						echo "<option value='".$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$Fila["fecha_padron"]."~".$Fila["conjunto"]."'>".$Fila["cod_mina"]." | ".$Fila["nombre_mina"]." | ".$Fila["sierra"]." | ".$Fila["comuna"]."</option>\n";
+				}			
+			}
+	  ?>
+    </SELECT><? //echo $Consulta;?></td>
+    </tr>
+  <tr>
+    <td align="right" class="ColorTabla02">Tipo Recep. :</td>
+    <td class="ColorTabla02">
+	<?
+		if(isset($CmbProveedor))
+		{
+			$Consulta="SELECT * from sipa_web.rut_asignacion where rut_prv='$CmbProveedor'";
+			$Resp=mysql_query($Consulta);
+			if($Fila=mysql_fetch_array($Resp))
+				$TxtAsignacion=$Fila["asignacion"];
+			else
+				$TxtAsignacion="MAQ ENM";
+		}
+	?>
+	<input name="TxtAsignacion" type="text" class="InputCen" value="<? echo $TxtAsignacion; ?>" size="12" readonly >
+	</td>
+    <td align="right" class="ColorTabla02">Conjunto:</td>
+    <td align="left" class="ColorTabla02">
+	<? 
+	//echo $CmbConjunto."<br>";
+	//echo $Consulta;?>
+    <input name="CmbConjunto" type="text" class="InputCen" value="<? echo $CmbConjunto; ?>" size="12" maxlength="10" readonly >	</td>
+    <td align="right" class="ColorTabla02">Clase:</td>
+    <td align="left" class="ColorTabla02"><SELECT name="CmbClase" style="width:100" onkeypress=buscar_op(this,CmbLotes,0,'N') onBlur="borrar_buffer()" onclick="borrar_buffer()" >
+      
+	  <!--<option SELECTed value="G">GRANZA</option>-->
+      <?
+			$CodProdSub=explode('~',$CmbSubProducto);
+			if($CodProdSub[0]=='1')
+			{	
+				switch($CodProdSub[1])
+				{
+					case "1":
+					case "2":
+					case "4":
+					case "5":
+					case "6":
+					case "9":
+					case "13":
+						$CmbClase='G';
+						break;
+					case "17":
+					case "18":
+					case "16":
+						$CmbClase='M';
+						break;
+					default:
+						$CmbClase='O';
+						break;
+				}
+			}	
+			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15001' ";
+			if($CmbClase=='O')
+				$Consulta.="and nombre_subclase='O' ";//OTRA
+			$Consulta.="order by nombre_subclase";
+			$RespAsig=mysql_query($Consulta);
+			while($FilaAsig=mysql_fetch_array($RespAsig))
+			{
+				if($FilaAsig["nombre_subclase"]==$CmbClase)
+					echo "<option value='".$FilaAsig["nombre_subclase"]."'SELECTed>".$FilaAsig["valor_subclase1"]."</option>";
+				else
+					echo "<option value='".$FilaAsig["nombre_subclase"]."'>".$FilaAsig["valor_subclase1"]."</option>";
+			}
+		?>
+    </SELECT></td>
+  </tr>
+	<?
+	}
+	?>
+  <tr>
+    <td align="right" class="ColorTabla02">Lote:</td>
+    <td colspan="5" class="ColorTabla02">
+	  <SELECT name="CmbLotes" style="width:100" onChange="Proceso('B',TxtLote)" <? echo $HabilitarCmb;?>>
+	    <option SELECTed value="S">Seleccionar</option>
+		<option value="-1">Nuevo Lote</option>
+		<?
+			$AnoMes=substr(date('Y'),2,2).date('m');
+			$SubProd=explode('~',$CmbSubProducto);
+			$Consulta = "SELECT distinct t1.lote,t1.cod_subproducto,t1.rut_prv as rutprv from sipa_web.recepciones t1 where ";
+			$Consulta.="t1.estado<>'A' and cod_producto='$SubProd[0]."' and cod_subproducto='$SubProd[1]."' and rut_prv='".$CmbProveedor."' and ";
+			$Consulta.=" lote like '$AnoMes%' and ult_registro <> 'S' ";
+			$Consulta.=" and t1.recargo=(SELECT max((t2.recargo)*1) from sipa_web.recepciones t2 where t2.lote=t1.lote) ";
+			$Consulta.=" group by lote";
+			$Resp = mysql_query($Consulta);
+			while ($FilaLote = mysql_fetch_array($Resp))
+			{
+				if($FilaLote["lote"]==$CmbLotes)
+					echo "<option value='".$FilaLote["lote"]."'SELECTed>".$FilaLote["lote"]."</option>";
+				else
+					echo "<option value='".$FilaLote["lote"]."'>".$FilaLote["lote"]."</option>";
+			}
+		?>
+	  </SELECT>&nbsp;&nbsp;&nbsp;
+	<input <? echo $EstadoInput; ?> name="TxtLote" type="text" class="InputCen" id="TxtLote" value="<? echo $TxtLote; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');" readonly>      &nbsp;&nbsp;Rec.:
+      <input <? echo $EstadoInput; ?> name="TxtRecargo" type="text" class="InputCen" id="TxtRecargo" value="<? echo $TxtRecargo; ?>" size="4" maxlength="2" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');" readonly>
+      &nbsp;&nbsp;Ult.Rec.:
+	  <SELECT name="CmbUltRecargo" style="width:35" <? //echo $HabilitarCmb;?>>
+		<?
+			switch($CmbUltRecargo)
+			{
+				case "S":
+					echo "<option value='N'>N</option>";
+					echo "<option value='S' SELECTed>S</option>";
+					break;
+				case "N":
+					echo "<option value='N' SELECTed>N</option>";
+					echo "<option value='S'>S</option>";
+					break;
+				default:
+					echo "<option value='N' SELECTed>N</option>";
+					echo "<option value='S'>S</option>";
+					break;	
+			}		
+		?>
+	    </SELECT>
+	<?	
+	if($AbastMinero!='S')
+		echo "&nbsp;&nbsp;&nbsp;Conj.&nbsp;<input name='CmbConjunto' type='text' class='InputCen' value='$CmbConjunto' size='12' maxlength='10'>";	
+    ?>
+	</td>
+    </tr>
+  <tr>
+    <td align="right" class="ColorTabla02">Observacion:</td>
+    <td colspan="5" class="ColorTabla02">
+    <input name="TxtObs" type="text" class="InputIzq" id="TxtObs" onKeyDown="TeclaPulsada2('N',true,this.form,'BtnGrabar');" value="<? echo $TxtObs; ?>" size="100" <? echo $EstadoInput; ?>></td>
+    </tr>
+	<?	
+	if($AbastMinero=='S')
+	{
+    ?>
+  <tr>
+    <td align="right" class="ColorTabla02">Elementos:</td>
+    <td colspan="2" class="ColorTabla02"><input name="TxtLeyes" type="text" value="<? echo $TxtLeyes; ?>" size="24" readonly >
+      <input type="button" name="BtnLeyes" value="..." onClick="SelecLeyes();" size="4"></td>
+    <td align="left" class="ColorTabla02">&nbsp;</td>
+    <td colspan="2" align="right" class="ColorTabla02">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right" class="ColorTabla02">Ensayes:</td>
+    <td class="ColorTabla02"><input name="TxtImpurezas" type="text" value="<? echo $TxtImpurezas; ?>" size="24" readonly ></td>
+    <td align="left" class="ColorTabla02">&nbsp;</td>
+    <td align="right" class="ColorTabla02">&nbsp;</td>
+    <td colspan="2" align="left" class="ColorTabla02">
+	</td>
+  </tr>
+  <?
+  }
+  ?>
+  <tr>
+    <td align="right" class="ColorTabla02">&nbsp;</td>
+    <td class="ColorTabla02">&nbsp;</td>
+    <td align="right" class="ColorTabla02">&nbsp;</td>
+    <td align="right" class="ColorTabla02">&nbsp;</td>
+	<?
+		//SE CALCULA EL PESO NETO DEL LOTE
+		$TotalLote=0;
+		$Consulta="SELECT sum(peso_neto) as total_neto from sipa_web.recepciones where lote ='$TxtLote' group by lote";
+		$Respuesta=mysql_query($Consulta);
+		if($Fila=mysql_fetch_array($Respuesta))
+			$TxtPesoTotalNeto=$Fila[total_neto];
+	?>
+    <td colspan="2" align="left" class="ColorTabla02"><span class="Estilo2">TOTAL PESO NETO LOTE: </span>
+	<input type="hidden" name="TxtPesoTotalNeto" value="<? echo $TxtPesoTotalNeto;?>">
+	<input type="text" name="TxtPNetoTot" value="<? echo $TxtPNetoTot;?>" class="InputDer" size="8" readonly>
+	 </td>
+  </tr>
+	</table>
+	<br>
+	<table width="700" border="0" align="center" cellpadding="2" cellspacing="1" bgcolor="#000000" class="TablaInterior">
+	  <tr bgcolor="#FFFFFF">
+	  <td align="center" class="ColorTabla02">
+	  	<?  switch($TipoProceso)
+			{
+				case "E":
+					$EstBtnPBruto='';
+					$EstBtnPTara='disabled';
+					if($TxtNumBascula=='1' && $Bloq1=="S")
+					{
+						$EstBtnPBruto='disabled';
+					}	
+					if($TxtNumBascula=='2' && $Bloq2=="S")
+					{
+						$EstBtnPBruto='disabled';
+					}									
+					break;
+				case "S":
+					$EstBtnPBruto='disabled';
+					$EstBtnPTara='';		
+					if($TxtNumBascula=='1' && $Bloq1=="S")
+					{
+						$EstBtnPTara='disabled';
+					}	
+					if($TxtNumBascula=='2' && $Bloq2=="S")
+					{
+						$EstBtnPTara='disabled';
+					}								
+					break;
+				default:	
+					$EstBtnPBruto='disabled';
+					$EstBtnPTara='disabled';									
+					break;
+			}
+			
+		
+			
+		?>
+      <!-- 	<input type="hidden" name="TipoProceso" value="<? //echo $TipoProceso;?>">
+	 -->
+        <input name="BtnPBruto" type="button" id="BtnPBruto" style="width:70px " onClick="CapturaPeso('PB')" value="P.Bruto" <? echo $EstBtnPBruto;?>>
+        <input name="BtnPTara" type="button" id="BtnPTara" style="width:70px " onClick="CapturaPeso('PT')" value="P.Tara" <? echo $EstBtnPTara;?>>
+		<input name="BtnGrabar" type="button" value="Grabar" style="width:70px " onClick="Proceso('G','','<? echo $TipoProceso;?>')" <? echo $EstBtnGrabar;?>>
+		<input name="BtnModificar" type="button" id="BtnModificar" style="width:70px " onClick="Proceso('M')" value="Modificar" <? echo $EstBtnModificar;?>>
+		<input name="BtnCancelar" type="button" id="BtnCancelar" style="width:70px " onClick="Proceso('C')" value="Cancelar">
+		<input name="BtnAnular" type="button" style="width:70px " onClick="Proceso('A')" value="Anular" <? echo $EstBtnAnular;?>>
+		<input name="BtnImprimir" type="button" value="Imprimir" style="width:70px " onClick="Proceso('I')" <? echo $EstBtnImprimir;?>>
+		<input name="BtnSalir" type="button" value="Salir" style="width:70px " onClick="Proceso('S')"></td>
+
+</table>  
+</td>
+</tr>
+</table>
+<? include("../principal/pie_pagina.php") ?>
+</form>
+</body>
+</html>
+<?
+if($Mensaje!='')
+{
+	echo "<script language='JavaScript'>";
+	echo "alert('$Mensaje');";
+	echo "var f = document.FrmRecepcion;";
+	//echo "f.TxtPatente.focus();";
+	echo "</script>";
+}
+echo "<script language='JavaScript'>";
+echo "var f = document.FrmRecepcion;";
+echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+echo "CalculaPNetoTotal();";
+//echo "alert(f.TxtNumRomana.value);";
+echo "</script>";
+
+
+$Dias=1;
+$ConsultaCorreo="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15012' and cod_subclase='1' and valor_subclase3='S'";
+$RespCorreo=mysql_query($ConsultaCorreo);
+if($Fila=mysql_fetch_array($RespCorreo))
+{
+	$FecUltEjec=explode('-',$Fila["valor_subclase1"]);
+	$Dias=intval($Fila["valor_subclase2"]);
+	$FechaProx=date('Y-m-d',mktime(0,0,0,$FecUltEjec[1],intval($FecUltEjec[2])+$Dias,$FecUltEjec[0]));	
+	$FechaSistema=date('Y-m-d');
+	//$FechaSistema="2011-05-17";
+	if($FechaProx<$FechaSistema)
+	{
+		EnvioCorreoControlPadronMinero();
+		$Actualizar="UPDATE proyecto_modernizacion.sub_clase set valor_subclase1='".$FechaSistema."' where cod_clase='15012' and cod_subclase='1'";
+		mysql_query($Actualizar);
+		//echo "ENVIO CORREO<br>";
+	}
+}
+
+function EnvioCorreoControlPadronMinero()
+{
+	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$ConsultaCorreo="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15012' and cod_subclase='1'";
+	$RespCorreo=mysql_query($ConsultaCorreo);
+	if($Fila=mysql_fetch_array($RespCorreo))
+	{
+		$Correos=$Fila["nombre_subclase"];
+		$ArrayCorreos=explode(",",$Correos);
+	}
+	$AnoProx=explode('-',date("Y-m-",mktime(0,0,0,date('m')+1,date('d'),date('Y'))));
+	
+	$M=date('m');
+	if($M==11)
+		$M=0;
+	//$Correos='lfara@codelco.cl,lcast036@contratistas.codelco.cl';
+	$ArrayCorreos=explode(",",$Correos);
+	$Asunto='SIPA - Proximos Vencimiento Padrones Mineros';
+	//$Mensaje='Se envia Listados de Proveedores con sus Padrones Mineros Proximos a Vencer en el mes de '.$Meses[intval($M)].' del '.$AnoProx[0].'<br><br>';
+	$Mensaje='Se envia Listados de Proveedores con sus Padrones Mineros Proximos a Vencer en el mes de '.$AnoProx[1].' del '.$AnoProx[0].'<br><br>';
+	$Mensaje.='<table width="90%"  border="1" align="center">';
+	$Mensaje.='<tr><td bgcolor="#EE8E0A" align="center">Rut&nbsp;Proveedor</td><td bgcolor="#EE8E0A" align="center">Nombre&nbsp;Proveedor</td><td bgcolor="#EE8E0A" align="center">Nombre&nbsp;Mina</td><td bgcolor="#EE8E0A" align="center">Nro. Mina</td><td bgcolor="#EE8E0A" align="center">Sierra</td><td bgcolor="#EE8E0A" align="center">Comuna</td></tr>';
+	$ConsultaPadron="Select t1.*,t2.nombre_prv from sipa_web.minaprv t1 left join sipa_web.proveedores t2 on t1.rut_prv=t2.rut_prv where fecha_padron='".date("Y-m-",mktime(0,0,0,date('m')+1,date('d'),date('Y')))."' order by t2.nombre_prv,t1.nombre_mina";
+	$RespPadron=mysql_query($ConsultaPadron);
+	while($FilaPadron=mysql_fetch_array($RespPadron))
+	{
+		$Mensaje.='<tr><td>'.$FilaPadron["rut_prv"].'</td><td>'.ucwords(strtolower($FilaPadron["nombre_prv"])).'</td><td>'.ucwords(strtolower($FilaPadron["nombre_mina"])).'</td><td>'.$FilaPadron["cod_mina"].'</td><td>'.ucwords(strtolower($FilaPadron["sierra"])).'</td><td>'.ucwords(strtolower($FilaPadron["comuna"])).'</td></tr>';
+	}
+	$Mensaje.='</table>';
+foreach($ArrayCorreos as $C =>$Correo2)	
+	{
+		
+		$cuerpoMsj = '<html>';
+		$cuerpoMsj.= '<head>';
+		$cuerpoMsj.= '<title>'.$Titulo.'</title>';
+		$cuerpoMsj.= '</head>';
+		$cuerpoMsj.= '<body>';
+		$cuerpoMsj.= '<table  width="100%"  border="0" align="center">';
+		$cuerpoMsj.= '<tr><td>';
+		$cuerpoMsj.= ''.$Mensaje.'';
+		$cuerpoMsj.= "<br>";
+		$cuerpoMsj.=" Favor no responder este mensaje";
+		$cuerpoMsj.= "<br>";
+		$cuerpoMsj.="Servicio Automatico de Sistema de Pesaje 'SIPA'";
+		$cuerpoMsj.= "<br>";
+		$cuerpoMsj.= '</td></tr>';
+		$cuerpoMsj.= '</table>';
+		$cuerpoMsj.= '</body></html>';
+		
+		$mail = new phpmailer();
+		//$mail->AddEmbeddedImage("includes/logo_seti.jpg","logo","includes/logo_seti.jpg","base64","image/jpg");
+		$mail->PluginDir = "includes/";
+		//$mail->Mailer = "smtp";
+		$mail->Host = "RELAYDS.codelco.cl";
+		$mail->From = "SIPA";
+		$mail->FromName = "SIPA - Sistemas Pesaje 'SIPA' ";
+		$mail->Subject = $Asunto;
+		$mail->Body=$cuerpoMsj;
+		$mail->IsHTML(true);
+		$mail->AltBody =str_replace('<br>','\n',$cuerpoMsj);
+		$mail->AddAddress($Correo2);
+		$mail->Timeout=120;
+		//$mail->AddAttachment($Doc,$Doc);
+		$exito = $mail->Send();
+		$intentos=1; 
+		while((!$exito)&&($intentos<5)&&($mail->ErrorInfo!="SMTP Error: Data not accepted")){
+		sleep(5);
+		$exito = $mail->Send();
+		$intentos=$intentos+1;				
+		}
+		$mail->ClearAddresses();
+	}
+}
+
+?>

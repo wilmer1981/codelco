@@ -1,0 +1,869 @@
+<?php 
+	include("../principal/conectar_sea_web.php");
+	include("funciones.php");
+	
+	$CodigoDeSistema = 2;
+	$CodigoDePantalla = 9;
+	
+	$tipos = array(1=> "Recepcion", 2=> "Beneficio", 3=> "Produccion", 4=> "Traspaso", 44=> "Rechazo");
+?>
+
+<html>
+<head>
+<title>Sistema de Anodos</title>
+<link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
+<script language="JavaScript">
+function Buscar(f)
+{
+  
+	if ((f.radio1[0].checked == false) && (f.radio1[1].checked == false) && (f.radio1[2].checked == false) && (f.radio1[3].checked == false))
+	{
+		alert("Debe Seleccionar un Tipo de Movimientos");
+		return;
+	}
+	
+	if (f.cmbsubprod.value == -1)
+	{
+		alert("Debe Seleccionar el Sub-Producto");
+		return;
+	}
+
+	
+	//linea = "recargapag2=S&recargapag1=S&radio=" + f.tipo_mov.value + "&cmbsubprod=" + f.cmbsubprod.value + "&txtbuscar=" + f.busqueda.value;
+	//f.action = "sea_modificador_movimientos.php?" + linea
+	linea = "ok=S&proceso=B&radio=" + f.tipo_mov.value  + "&cmbsubprod=" + f.cmbsubprod.value + "&txtbuscar=" + f.busqueda.value;
+	f.action = "sea_modificador_movimientos01.php?" + linea;
+	f.submit();
+}
+/*********************/
+function Buscar2(f) //Busca el promedio de la Hornada.
+{
+	if (f.cmbhornada.value == -1)
+	{
+		linea = "recargapag2=S&recargapag1=S&radio=" + f.tipo_mov.value  + "&cmbsubprod=" + f.cmbsubprod.value + "&txtbuscar=" + f.txthornada.value;	
+		f.action = "sea_modificador_movimientos.php?" + linea;
+	}
+	else
+	{
+		linea = "proceso=B";
+		f.action = "sea_modificador_movimientos01.php?" + linea
+	}
+	alert (linea);
+	f.submit();		
+}
+/*********************/
+function Posicion(f) // Entrega la posicion del radio checkeado 
+{
+	pos = 0;
+	for (i=0; i<f.radio.length; i++)
+	{
+		if (f.radio[i].checked)
+		{
+			pos = i;
+			return pos;	
+		}
+	}
+	return pos;
+}
+/********************/
+function BloqueRadio(f) //Bloquea los radios no chequeados.
+{
+	for (i=0; i<f.radio.length; i++)
+	{
+		if (f.radio[i].checked == false)
+			f.radio[i].disabled = true;
+	}
+}
+/********************/
+function HabilitaCampos(f,pos)
+{
+	arreglo = f.radio[pos].value.split('/');
+
+	f.elements[parseInt(arreglo[0])+1].disabled = false; //Dia.
+	f.elements[parseInt(arreglo[0])+2].disabled = false; //Mes.
+	f.elements[parseInt(arreglo[0])+3].disabled = false; //A�o.
+
+
+	f.elements[parseInt(arreglo[0])+4].disabled = false; //Unidades.
+	
+	if ((arreglo[2] == 1) && ((f.cmbsubprod.value == 4) || (f.cmbsubprod.value == 8) || (f.cmbsubprod.value == 11)))//Tipo Movimiento Recepcion (Ventana).
+		f.elements[parseInt(arreglo[0])+5].disabled = false; //Peso.
+			
+	if ((arreglo[2] == 3) && (f.tipo_prod.value == "C")) //Tipo Movimiento Produccion de Corrientes.
+		f.elements[parseInt(arreglo[0])+5].disabled = false; //Peso.
+	
+	if ((arreglo[2] != 1) && (arreglo[2] != 4))
+	{
+		f.elements[parseInt(arreglo[0])+6].disabled = false; //Campo2 .
+		f.elements[parseInt(arreglo[0])+7].disabled = false; //Campo1.		
+	}
+
+}
+/********************/
+function Verificar(f)
+{	
+/*	for(i=0; f.elements.length -1 ; i++)
+	{
+		alert(i+ '-' + f.elements[i].name); 
+		if (i == 30)
+			return;
+	}
+*/
+
+	var pos = Posicion(f);
+		
+	//alert(f.radio[pos].value);
+		
+/*
+	BloqueRadio(f);
+	HabilitaCampos(f,pos);
+*/
+//recargapag3=S&recargapag2=S&recargapag1=S&radio1=1&cmbsubprod=4&peso_prom=276.52&cmbhornada=2003101026&txtbuscar=1026&mostrar=S&tipo_prod=C
+
+	linea = "recargapag5=S&recargapag3=S&recargapag2=S&recargapag1=S&radio=" + f.tipo_mov.value + "&cmbsubprod=" + f.cmbsubprod.value + "&txtbuscar=" + f.txthornada.value;	
+	linea = linea + "&posicion=" + pos + "&peso_prom=" + f.peso_promedio.value + "&mostrar=S" + "&tipo_prod=";
+	f.action = "sea_modificador_movimientos.php?" + linea;
+	f.submit();
+	
+}
+/********************/
+function TipoMovimiento(f,r)
+{
+	f.action = "sea_modificador_movimientos.php?recargapag1=S&radio1=" + r.value;
+	f.submit();
+}
+/********************/
+function ValidaCampos(f)
+{
+	if ((f.radio1[0].checked == false) && (f.radio1[1].checked == false) && (f.radio1[2].checked == false) && (f.radio1[3].checked == false))
+	{
+		alert("Debe Seleccionar un Tipo de Movimientos");
+		return false;
+	}
+	
+	if (f.cmbsubprod.value == -1)
+	{
+		alert("Debe Seleccionar el Sub-Producto");
+		return false;
+	}
+	
+	if (f.cmbhornada.value == -1)
+	{
+		alert("Debe Seleccionar la Hornada");
+		return false;
+	}
+	
+	if (Posicion(f)== 0)
+	{
+		alert("Debe Seleccionar un Movimiento");
+		return false;
+	}
+	
+	if (ValidaUnidades(f) == false)
+		return false;
+		
+	if (ValidaPeso(f) == false)
+		return false;
+		
+	return true;
+}
+/********************/
+function ValidaUnidades(f)
+{
+	//alert(Posicion(f));
+	//alert(f.radio[Posicion(f)].value);
+	arreglo = f.radio[Posicion(f)].value.split('/');
+	pos = parseInt(arreglo[0]) + 4;
+	
+	
+	unid_mov = parseInt(f.elements[pos].value);
+	stock = parseInt(f.txtstock.value) + parseInt(arreglo[3]);
+	
+	if (isNaN(unid_mov))
+	{	
+		alert("Debe Ingresar las Unidades del Movimiento");
+		return false;
+	}
+	
+	if ((arreglo[2] == 1) || (arreglo[2] == 3)) //Si es Recepcion � Produccion que ingrese las unidades que quiera.
+		return true;
+				
+	//Valida las Unidades en caso de los Beneficios.
+	if ((unid_mov <= 0) || (unid_mov > stock))
+	{
+		alert("Las Unidades No Son Validas");
+		return false;
+	}
+	
+	//Calcula peso para el nuevo beneficio.
+	if ((arreglo[2] == 2) || (arreglo[2] == 4))
+	{
+		diferencia = Math.abs(parseInt(unid_mov) - parseInt(arreglo[3]));
+		if (diferencia == parseInt(f.txtstock.value))
+			f.elements[pos+1].value = parseInt(arreglo[10]) + parseInt(f.txtpeso.value);
+		else
+			f.elements[pos+1].value = Math.round(f.elements[pos].value * f.peso_promedio.value);
+	}
+	
+	return true;	
+}
+/*******************/
+function ValidaPeso(f)
+{
+	arreglo = f.radio[Posicion(f)].value.split('/');
+	pos = parseInt(arreglo[0]) + 5;
+	
+	peso_mov = parseInt(f.elements[pos].value);
+	//alert(peso_mov);
+	if (isNaN(peso_mov))
+	{	
+		alert("Debe Ingresar el Peso Correspondiente a las Unidades");
+		return false;
+	}
+	
+	return true;	
+}
+/*******************/
+function Grabar(f)
+{
+	if (ValidaCampos(f))
+	{
+		pos = Posicion(f);
+		arreglo = f.radio[pos].value.split('/');
+			
+		/***  Fecha/Tipo_mov/Unidades/Campo2/Campo1/Flujo/Numero_Recarga/Cod_producto/Fecha_Benef/Peso   ***/ 	
+			
+		parametros = arreglo[1] + '/' + arreglo[2] + '/' + arreglo[3] + '/' + arreglo[4] + '/' + arreglo[5] + '/' + arreglo[6] + '/';
+		parametros = parametros + arreglo[7] + '/' + arreglo[8] + '/' + arreglo[9] + '/' + arreglo[10] + '~';
+		
+		if (arreglo[2] == 3)
+		{	
+			alert("No se puede Modificar, Utilice la Pantalla de Produccion de Restos");
+			return;
+		}
+	/*******/
+		parametros = parametros + f.elements[parseInt(arreglo[0])+3].value + '-' + f.elements[parseInt(arreglo[0])+2].value + '-'
+		parametros = parametros + f.elements[parseInt(arreglo[0])+1].value + '/';
+		parametros = parametros + arreglo[2] + '/' + f.elements[parseInt(arreglo[0])+4].value +'/';
+		parametros = parametros + f.elements[parseInt(arreglo[0])+6].value + '/' + f.elements[parseInt(arreglo[0])+7].value + '/';
+		parametros = parametros + arreglo[6] + '/' + arreglo[7] + '/' + f.elements[parseInt(arreglo[0])+5].value;
+//		alert(parametros);
+//		return;
+
+		f.action = "sea_modificador_movimientos01.php?proceso=G&parametros=" + parametros;
+		f.submit();
+	}
+}
+/*******************/
+function Eliminar(f)
+{
+	pos = Posicion(f);
+	if (pos == 0)
+	{
+		alert("Debe Seleccionar un Movimiento");
+		return;
+	}
+	//alert(f.radio[pos].value);
+	arreglo = f.radio[pos].value.split('/');
+	var valor = f.elements[parseInt(arreglo[0])+8].value;
+	if (valor == "S")		
+	{
+		total = f.txtstock.value - arreglo[3];
+		if (arreglo[2] == 1) 
+		{
+			if (total < 0)
+			{
+				alert("No Se Puede Eliminar el Registro No hay Stock Suficiente");
+				return;
+			}
+		}
+		
+		if (confirm("Esta Seguro de Eliminar el Movimiento Seleccionado"))
+		{
+			/***  Fecha/Tipo_mov/Unidades/Campo2/Campo1/Flujo/Numero_Recarga/Cod_producto/Fecha_Benef/peso   ***/ 	
+				
+			parametros = arreglo[1] + '/' + arreglo[2] + '/' + arreglo[3] + '/' + arreglo[4] + '/' + arreglo[5] + '/' + arreglo[6] + '/';
+			parametros = parametros + arreglo[7] + '/' + arreglo[8] + '/' + arreglo[9] + '/' + arreglo[10];
+			f.action = "sea_modificador_movimientos01.php?proceso=E&parametros=" + parametros;
+			f.submit();
+		}
+	}
+	else 
+	{
+		alert("El Movimiento Seleccionado No Se Puede Eliminar");
+		return;
+	}
+}
+/*******************/
+function Limpiar()
+{
+	document.location = "sea_modificador_movimientos.php";
+}
+/*******************/
+function Salir()
+{
+	document.location = "../principal/sistemas_usuario.php?CodSistema=2"
+}
+/*******************/
+function Actualizar(f)
+{
+/*
+	linea = "mostrar=S&activar=S&recargapag=S&recargapag2=S&recargapag1=S&radio=" + f.tipo_mov.value + "&cmbsubprod=" + f.cmbsubprod.value + "&txtbuscar=" + f.txthornada.value;	
+	linea = linea + "&cmbhornada=" + f.cmbhornada.value;
+	f.action = "sea_modificador_movimientos.php?" + linea;
+	f.submit();
+*/
+	window.location.reload();
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<!--
+body {
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style></head>
+
+<body>
+<form name="frm1" action="" method="post">
+<?php include("../principal/encabezado.php") ?>
+
+  <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
+    <tr>
+      <td width="762" align="center" valign="top">
+	  
+	  
+	  <table width="750" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
+          <tr> 
+            <td width="186" align="center"> 
+              <?php
+				if (($recargapag1 == "S") and ($radio1 == 1))
+					echo '<input name="radio1" type="radio" value="1" checked onClick="JavaScript:TipoMovimiento(this.form,this)">';
+				else
+					echo '<input name="radio1" type="radio" value="1" onClick="JavaScript:TipoMovimiento(this.form,this)">';
+			?>
+              Recepcion - Beneficio</td>
+            <td width="202" align="center"> 
+              <?php
+				if (($recargapag1 == "S") and ($radio1 == 2))
+					echo '<input type="radio" name="radio1" value="2" checked onClick="JavaScript:TipoMovimiento(this.form,this)">';
+				else
+					echo '<input type="radio" name="radio1" value="2" onClick="JavaScript:TipoMovimiento(this.form,this)">';
+			?>
+              Produccion - Beneficio</td>
+            <td width="175" align="center"> 
+              <?php
+				if (($recargapag1 == "S") and ($radio1 == 3))
+					echo '<input type="radio" name="radio1" value="3" checked onClick="JavaScript:TipoMovimiento(this.form,this)">';
+				else
+					echo '<input type="radio" name="radio1" value="3" onClick="JavaScript:TipoMovimiento(this.form,this)">';
+			?>
+              Rechazos - RAF</td>
+            <td width="160" align="center">
+			<?php
+				if (($recargapag1 == "S") and ($radio1 == 4))
+					echo '<input type="radio" name="radio1" value="4" checked onClick="JavaScript:TipoMovimiento(this.form,this)">';
+				else
+					echo '<input type="radio" name="radio1" value="4" onClick="JavaScript:TipoMovimiento(this.form,this)">';
+			?>			
+			 	Restos - RAF</td>
+            <?php 	
+				//CAMPO OCULTO.								
+				echo '<input type="hidden" name="tipo_mov" value="'.$radio1.'">';				
+			?>
+          </tr>
+        </table>
+        <br>
+        <table width="750" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
+          <tr> 
+
+            <td width="99">Sub-Producto</td>
+            <td><SELECT name="cmbsubprod" id="cmbsubprod">
+              <option value="-1">SELECCIONAR</option>
+              <?php					
+					if ($recargapag1 == "S")
+					{
+						if ($radio1 == 1 or $radio1 == 3) 
+							$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = 17 AND mostrar_sea = 'S'";
+						else 
+							$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = 19 AND mostrar_sea = 'S'";
+											
+						$rs = mysqli_query($link, $consulta);
+						while ($row = mysqli_fetch_array($rs))
+						{
+							if ($row["cod_subproducto"] == $cmbsubprod)
+								echo '<option value="'.$row["cod_subproducto"].'" SELECTed>'.$row["descripcion"].'</option>';
+							else
+								echo '<option value="'.$row["cod_subproducto"].'">'.$row["descripcion"].'</option>';
+						}							
+					}
+					
+				?>
+            </SELECT></td>
+            <td width="96">&nbsp;</td>
+            <td width="269"> &nbsp; &nbsp; </td>
+          </tr>
+          <tr> 
+            <td>N&deg; Hornada</td>
+            <td colspan="3"><input name="busqueda" type="text" id="busqueda"  size="10">
+				<?php
+					echo '<input type="hidden" name="txthornada" value="'.$txtbuscar.'">';
+				?>
+              <input name="btnok" type="button" id="btnok2" value="Ok" onClick="JavaScript:Buscar(this.form)"> &nbsp;&nbsp; 
+              <SELECT name="cmbhornada" id="cmbhornada" onChange="JavaScript:Buscar2(this.form)">
+                <option value="-1">SELECCIONAR</option>
+				<?php				
+					if ($recargapag2 == "S")
+					{
+						if ($radio1 == 1)
+						{
+							$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos";
+							$consulta = $consulta." WHERE cod_producto = 17 AND cod_subproducto = ".$cmbsubprod;
+							$consulta = $consulta." AND tipo_movimiento = 1 AND SUBSTRING(hornada,7,6) LIKE '".$txtbuscar."%'";
+							$consulta = $consulta." ORDER BY hornada DESC"; 							
+							$consulta = $consulta." LIMIT 0,1";						
+						}
+						else if ($radio1 == 2)
+							{
+								$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos";
+								$consulta = $consulta." WHERE cod_producto = 19 AND cod_subproducto = ".$cmbsubprod;
+								$consulta = $consulta." AND tipo_movimiento = 3 AND SUBSTRING(hornada,7,6) LIKE '".$txtbuscar."%'";
+								$consulta = $consulta." ORDER BY hornada DESC"; 
+								$consulta = $consulta." LIMIT 0,1";								
+							}
+						else if ($radio1 == 3)
+							{
+								$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos";
+								$consulta = $consulta." WHERE cod_producto = 17 AND cod_subproducto = ".$cmbsubprod;
+								$consulta = $consulta." AND tipo_movimiento = 4 AND SUBSTRING(hornada,7,6) LIKE '".$txtbuscar."%'";
+								$consulta = $consulta." ORDER BY hornada DESC"; 
+								$consulta = $consulta." LIMIT 0,1";
+							}
+						else if ($radio1 == 4)
+							{
+								$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos";
+								$consulta = $consulta." WHERE cod_producto = 19 AND cod_subproducto = ".$cmbsubprod;
+								$consulta = $consulta." AND tipo_movimiento = 4 AND SUBSTRING(hornada,7,6) LIKE '".$txtbuscar."%'";
+								$consulta = $consulta." ORDER BY hornada DESC";
+								$consulta = $consulta." LIMIT 0,1";
+							}
+						
+						$rs1 = mysqli_query($link, $consulta);
+						while ($row1 = mysqli_fetch_array($rs1))
+						{	
+						
+							if (($row1[hornada] == $cmbhornada)  and ($mostrar == "S"))
+								echo '<option value="'.$row1[hornada].'" SELECTed>'.substr($row1[hornada],6,6).'</option>';
+							else
+								echo '<option value="'.$row1[hornada].'">'.substr($row1[hornada],6,6).'</option>';							
+						}
+					}							
+				?>
+              </SELECT> 
+			<?php
+				if ($recargapag3 == "S")
+			  		echo '<input name="fecha_creacion" type="text" size="10" value="'.substr($cmbhornada,4,2).'/'.substr($cmbhornada,0,4).'" readonly>';
+				else 
+					echo '<input name="fecha_creacion" type="text" size="10" readonly>';
+			?>
+			</td>
+          </tr>
+          <tr> 
+            <td>Stock Actual</td>
+            <td>
+			<?php
+				
+				//Stock Unidad.
+				if ($recargapag3 == "S")
+				{					
+					if ($radio1 == 1 or $radio1 == 3) //Para Anodos.
+						echo '<input name="txtstock" type="text" size="10" value="'.StockActual($cmbhornada,17,$cmbsubprod).'" readonly>';
+					else					
+					{
+						//Produccion.						
+						if ($tipo_prod == "H") //Para Resto H.M.
+							echo '<input name="txtstock" type="text" size="10" value="'.StockRestoHM($cmbhornada,19,$cmbsubprod).'" readonly>';
+						else //Para Ctte.
+							echo '<input name="txtstock" type="text" size="10" value="'.StockRestoCTTE($cmbhornada,19,$cmbsubprod).'" readonly>';
+					}								
+				}
+				else
+					echo '<input name="txtstock" type="text" size="10" value="" readonly>';
+				
+			?>
+			</td>
+            <td>Peso</td>
+            <td>
+			<?php
+				//Stock Peso.
+				if ($recargapag3 == "S")
+				{					
+					if ($radio1 == 1 or $radio1 == 3)//Para Anodos.
+					{
+						$Consulta = "SELECT * from sea_web.hornadas ";
+						$Consulta.= " where cod_producto = '17'";			
+						$Consulta.= " and cod_subproducto = '".$cmbsubprod."'";
+						$Consulta.= " and hornada_ventana = '".$cmbhornada."'";
+						$Respuesta = mysqli_query($link, $Consulta);
+						if ($Row = mysqli_fetch_array($Respuesta))
+						{
+							$peso_prom = $Row[peso_unidades] / $Row["unidades"];
+						}
+						echo '<input name="txtpeso" type="text" size="10" value="'.PesoFaltante(17,$cmbsubprod,$cmbhornada).'" readonly>';
+					}
+					else
+					{						
+						if ($tipo_prod == "H")	 //Para Resto H.M. 
+						{
+							$Consulta = "SELECT * from sea_web.hornadas ";
+							$Consulta.= " where cod_producto = '19'";			
+							$Consulta.= " and cod_subproducto = '".$cmbsubprod."'";
+							$Consulta.= " and hornada_ventana = '".$cmbhornada."'";
+							$Respuesta = mysqli_query($link, $Consulta);
+							if ($Row = mysqli_fetch_array($Respuesta))
+							{
+								$peso_prom = $Row[peso_unidades] / $Row["unidades"];
+							}
+							echo '<input name="txtpeso" type="text" size="10" value="'.PesoFaltante(19,$cmbsubprod,$cmbhornada).'" readonly>';
+						}
+						else 
+						{
+							$Consulta = "SELECT * from sea_web.hornadas ";
+							$Consulta.= " where cod_producto = '19'";			
+							$Consulta.= " and cod_subproducto = '".$cmbsubprod."'";
+							$Consulta.= " and hornada_ventana = '".$cmbhornada."'";
+							$Respuesta = mysqli_query($link, $Consulta);
+							if ($Row = mysqli_fetch_array($Respuesta))
+							{
+								$peso_prom = $Row[peso_unidades] / $Row["unidades"];
+							}
+							echo '<input name="txtpeso" type="text" size="10" value="'.round(StockRestoCTTE($cmbhornada,19,$cmbsubprod) * $peso_prom).'" readonly>';							
+						}
+					}
+						
+					echo '<input name="peso_promedio" type="hidden"  value="'.$peso_prom.'">';					
+				}
+				else 
+					echo '<input name="txtpeso" type="text" size="10" value="" disabled>';
+			?>
+			</td>
+          </tr>
+        </table>
+
+<?php
+	if ($recargapag2 == "S") //Crea una Variable si es H.M � Corriente.		
+	{
+		$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2002 AND valor_subclase2 = '".$cmbsubprod."'";
+		$rs5 = mysqli_query($link, $consulta);
+		
+		if ($row5 = mysqli_fetch_array($rs5))
+			echo '<input name="tipo_prod" type="hidden" value="H">';
+		else
+			echo '<input name="tipo_prod" type="hidden" value="C">';		
+	}
+?>
+
+				
+<?php
+	//SI GRABA EL MOVIMIENTO, SE DEVUELVE A LA MISMA PAGINA ACTIVANDO LA FUNCION PARA SACAR EL PESO PROMEDIO.
+	if ($activar == "S")
+	{
+		echo '<script language="JavaScript">';
+		echo 'frm1.action = "sea_modificador_movimientos01.php?proceso=B";';
+		echo 'frm1.submit();';
+		echo '</script>';
+	}
+
+?>		
+		
+<br>
+<table width="750" border="0" cellspacing="0" cellpadding="0" class="ColorTabla01">
+  <tr>
+    <td width="176" height="20" align="center">Fecha</td>
+    <td width="75" align="center">Tipo Movimiento</td>
+    <td width="87" align="center">Unidades</td>
+    <td width="86" align="center">Peso</td>
+    <td width="85" align="center">Grupo</td>
+    <td width="86" align="center">Lado/Cuba</td>
+    <td width="139" align="center">Hornada Relacionada</td>
+  </tr>
+</table>
+<br>
+        <?php
+	if ($recargapag3 == "S")
+	{
+		echo '<table width="750" border="1" cellspacing="0" cellpadding="3">';
+
+		if ($radio1 == 1)				
+		{
+			if ($cmbsubprod==4 || $cmbsubprod==8)
+			{
+				$consulta = "SELECT * FROM sea_web.movimientos WHERE trim(cod_producto) = 17 AND cod_subproducto = ".$cmbsubprod;
+				$consulta = $consulta." AND (tipo_movimiento *1)  in (1,2,44) AND hornada = ".$cmbhornada." ORDER BY tipo_movimiento ASC, fecha_movimiento ASC";
+			}
+			else
+			{
+				$consulta = "SELECT * FROM sea_web.movimientos WHERE trim(cod_producto) = 17 AND cod_subproducto = ".$cmbsubprod;
+				$consulta = $consulta." AND (tipo_movimiento *1)  in (1,2) AND hornada = ".$cmbhornada." ORDER BY tipo_movimiento ASC, fecha_movimiento ASC";
+			}
+				
+		}
+		else if ($radio1 == 2) 
+			{
+				$consulta = "SELECT * FROM sea_web.movimientos WHERE cod_producto = 19 AND cod_subproducto = ".$cmbsubprod;
+				$consulta = $consulta." AND (tipo_movimiento * 1) in (2,3) AND hornada = ".$cmbhornada." ORDER BY tipo_movimiento DESC, fecha_movimiento ASC";
+			}
+		else if ($radio1 == 3)
+			{
+				$consulta = "SELECT * FROM sea_web.movimientos WHERE trim(cod_producto) = 17 AND cod_subproducto = ".$cmbsubprod;
+				$consulta = $consulta." AND (tipo_movimiento * 1) in (4) AND hornada = ".$cmbhornada." ORDER BY tipo_movimiento ASC, fecha_movimiento ASC";				
+			}
+		else if ($radio1 == 4) 
+			{
+				$consulta = "SELECT tipo_movimiento,cod_producto,cod_subproducto,hornada,numero_recarga,fecha_movimiento, ";
+				$consulta = $consulta." campo1,campo2,flujo,fecha_benef,SUM(peso) as peso, SUM(unidades) AS unidades";
+				$consulta = $consulta." FROM sea_web.movimientos WHERE cod_producto = 19 AND cod_subproducto = ".$cmbsubprod;
+				$consulta = $consulta." AND (tipo_movimiento * 1) in (4) AND hornada = ".$cmbhornada;
+				$consulta = $consulta." GROUP BY tipo_movimiento";
+			}
+		$rs2 = mysqli_query($link, $consulta);
+		
+		echo '<input type="hidden" name="radio" value="">'; //Radio por defecto para poder generar un arreglo de radio.
+		$fila = 16; //Fila de partida.
+		$pos_aux = 1;
+		while ($row2 = mysqli_fetch_array($rs2))
+		{
+			echo '<tr>';
+			echo '<td width="170" height="20">';
+					
+			if ($pos_aux == $posicion)
+				echo '<input type="radio" name="radio" value="'.$fila.'/'.$row2[fecha_movimiento].'/'.$row2[tipo_movimiento].'/'.$row2["unidades"].'/'.$row2[campo2].'/'.$row2[campo1].'/'.$row2["flujo"].'/'.$row2[numero_recarga].'/'.$row2["cod_producto"].'/'.$row2[fecha_benef].'/'.$row2["peso"].'" onClick="JavaScript:Verificar(this.form)" checked>&nbsp;';
+			else 
+				echo '<input type="radio" name="radio" value="'.$fila.'/'.$row2[fecha_movimiento].'/'.$row2[tipo_movimiento].'/'.$row2["unidades"].'/'.$row2[campo2].'/'.$row2[campo1].'/'.$row2["flujo"].'/'.$row2[numero_recarga].'/'.$row2["cod_producto"].'/'.$row2[fecha_benef].'/'.$row2["peso"].'" onClick="JavaScript:Verificar(this.form)">&nbsp;';
+
+			
+			//Dia.
+			if ($pos_aux != $posicion)
+			{
+				echo substr($row2[fecha_movimiento],8,2).'-'.substr($row2[fecha_movimiento],5,2).'-'.substr($row2[fecha_movimiento],0,4);
+			}
+			else
+			{
+
+				echo '<SELECT name="dia">';			
+				for ($i=1;$i<=31;$i++)
+				{									
+					if (substr($row2[fecha_movimiento],8,2) == $i)
+						echo '<option value="'.$i.'" SELECTed>'.$i.'</option>';
+					else
+						echo '<option value="'.$i.'">'.$i.'</option>';
+				}		
+				echo '</SELECT>';
+			
+				//Mes.
+		
+				echo '<SELECT name="mes">';			
+				for($i=1;$i<13;$i++)
+				{
+					if (substr($row2[fecha_movimiento],5,2) == $i)
+						echo '<option SELECTed value ="'.$i.'">'.$i.'</option>';
+					else
+						echo '<option value="'.$i.'">'.$i.'</option>\n';
+				}		
+				echo '</SELECT>';
+		
+			
+				//A�o.
+				
+				echo '<SELECT name="ano">';			
+				for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+				{
+					if (substr($row2[fecha_movimiento],0,4) == $i)
+						echo '<option SELECTed value ="'.$i.'">'.$i.'</option>';
+					else	
+						echo '<option value="'.$i.'">'.$i.'</option>';
+				}
+				echo '</SELECT>';
+			}			
+			
+			echo '</td>';
+			echo '<td width="70" align="center">'.$tipos[$row2[tipo_movimiento]].'</td>';
+
+			if ($pos_aux == $posicion)
+			{
+				echo '<td width="80" align="center"><input name="txt1" type="text" size="10" value="'.$row2["unidades"].'" onBlur="JavaScript:ValidaUnidades(this.form)"></td>';
+				echo '<td width="80" align="center"><input name="txt2" type="text" size="10" value="'.$row2["peso"].'"  onBlur="JavaScript:ValidaPeso(this.form)"></td>';			
+			}
+			else
+			{
+				echo '<td width="80" align="center">'.$row2["unidades"].'</td>';
+				echo '<td width="80" align="center">'.$row2["peso"].'</td>';
+			}
+			
+					
+			if (($row2[tipo_movimiento] == 2) or ($row2[tipo_movimiento] == 3))
+			{
+				//Campo N� 2
+				echo '<td width="80" align="center">';
+				
+				if ($pos_aux != $posicion)
+				{
+					echo $row2[campo2];	
+				}
+				else	
+				{				
+					$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2004";
+					
+					echo '<SELECT name="campo2">';
+					$rs3 = mysqli_query($link, $consulta);
+					
+					while ($row3 = mysqli_fetch_array($rs3))
+					{	
+						if ($row3["cod_subclase"] == $row2[campo2])
+							echo '<option value="'.$row3["cod_subclase"].'" SELECTed>'.$row3["cod_subclase"].'</option>';
+						else 
+							echo '<option value="'.$row3["cod_subclase"].'">'.$row3["cod_subclase"].'</option>';
+					}
+					echo '</SELECT>';
+				}
+				echo '</td>';
+				
+				//Campo N� 1
+				echo '<td width="80" align="center">';
+				
+				if ($pos_aux != $posicion)
+				{
+					echo $row2[campo1];
+				}
+				else
+				{
+				
+					echo '<SELECT name="campo1">';
+					if (($row2[campo1] == "T") or ($row2[campo1] == "M")) //Corrientes
+					{
+						if ($row2[campo1] == "T")
+						{
+							echo '<option value="T" SELECTed>TIERRA</option>';
+							echo '<option value="M">MAR</option>';
+						}
+						else 					
+						{	
+							echo '<option value="T">TIERRA</option>';
+							echo '<option value="M" SELECTed>MAR</option>';
+						}					
+					}				
+					else //H. Madre.
+					{
+						for ($i=1; $i<=42; $i++)
+						{
+							if ($row2[campo1] == $i)
+								echo '<option value="'.$i.'" SELECTed>'.$i.'</option>';
+							else 
+								echo '<option value="'.$i.'">'.$i.'</option>';
+						}
+					}
+					echo '</SELECT>';
+				}
+				echo '</td>';
+			}
+			else 
+			{
+				//Campo N� 2.
+				if ($pos_aux == $posicion)
+				{
+					echo '<td width="80" align="center"><input name="campo2" type="text" size="10" value="'.$row2[campo2].'"></td>';
+				}
+				else
+				{
+					echo '<td width="80" align="center">'.$row2[campo2].'</td>';				
+				}
+				//Campo N� 1.
+				
+				if ($pos_aux == $posicion)
+				{
+					echo '<td width="80" align="center"><input name="campo2" type="text" size="10" value="'.$row2[campo1].'"></td>';
+				}
+				else
+				{
+					echo '<td width="80" align="center">'.$row2[campo1].'</td>';
+				}
+			}			
+			
+			//Mostrar la Hornada Relacionada con el Movimiento.
+			//Si es Benefio y Su Numero de Racarga es 1, entonces mostrar la Hornada de Produccion de la cual fue parte.
+			//Si es Produccion Mostrar la Hornada de Beneficio (Numero_Recarga).
+			echo '<td width="" align="center">';
+			if (($row2[tipo_movimiento] == 2) and ($row2[numero_recarga] == 1))
+			{
+				
+				if ($row2["cod_producto"] == 17)
+					$consulta = "SELECT * FROM sea_web.movimientos WHERE tipo_movimiento = 3 AND cod_subproducto = ".$row2["cod_subproducto"];
+				else
+					$consulta = "SELECT * FROM sea_web.movimientos WHERE tipo_movimiento = 3 AND cod_subproducto = 30";
+				$consulta = $consulta." AND numero_recarga = ".$row2[hornada]." AND campo2 = '".$row2[campo2]."' AND campo1 = '".$row2[campo1]."'";
+				$consulta = $consulta." AND unidades = ".$row2["unidades"];
+				//." AND fecha_benef = '".$row2[fecha_benef]."'";
+				//echo $consulta."<br>";
+				$rs4 = mysqli_query($link, $consulta);
+				if ($row4 = mysqli_fetch_array($rs4))
+				{
+					echo substr($row4[hornada],6,6)." - ".substr($row4[hornada],4,2)."/".substr($row4[hornada],0,4);					
+					echo '<input type="hidden" name="borrar" value="N">';
+				}
+				else
+				{
+					echo '<input type="hidden" name="borrar" value="N">';
+				}
+			}
+			else if ($row2[tipo_movimiento] == 3)
+				{
+					echo substr($row2[numero_recarga],6,6)." - ".substr($row2[numero_recarga],4,2)."/".substr($row2[numero_recarga],0,4);
+					echo '<input type="hidden" name="borrar" value="N">';
+				}
+			else 
+			{
+				echo "&nbsp;";
+				
+				//Si no tiene hornada relacionada, y el tipo de movimiento es Beneficio (2), se puede borrar el movimiento.
+				// y adem�s si el movimiento es Recepcion.
+				if (($row2[tipo_movimiento] == 2) or ($row2[tipo_movimiento] == 1) or ($row2[tipo_movimiento] == 4) or ($row2[tipo_movimiento]==44) )
+					echo '<input type="hidden" name="borrar" value="S">';
+				else 
+					echo '<input type="hidden" name="borrar" value="N">';				
+			}				
+			echo '</td>';
+			
+			
+			//Asigna la posicion del radio en el formulario.
+			$fila = $fila + 2; 
+			$pos_aux++;
+		}
+		echo '</table><br>';				
+	}
+?>
+        <table width="750" border="0" cellspacing="0" cellpadding="3">
+  <tr>
+    <td align="center">
+			<?php
+				if ($recargapag3 == "S")	
+		     		echo '<input name="btnactualizar" type="Button" value="Restablecer" style="width:70" onClick="JavaScript:Actualizar(this.form)">';
+			?>
+              <input name="btngrabar" type="button" value="Grabar" style="width:70" onClick="JavaScript:Grabar(this.form)">
+			<?php
+				if (($radio1 == 1 or $radio1 == 3 or $radio1 == 2 or $radio1 == 4) and ($recargapag3 == "S"))
+              		echo '<input name="btneliminar" type="button" value="Eliminar" style="width:70" onClick="JavaScript:Eliminar(this.form)">';
+			?>
+              <input name="btnlimpiar" type="button" value="Limpiar" style="width:70" onClick="JavaScript:Limpiar()">
+              <input name="btnsalir" type="button" value="Salir" style="width:70" onClick="JavaScritp:Salir()"></td>
+  </tr>
+</table></td>
+</tr>
+</table>
+<?php include ("../principal/pie_pagina.php") ?> 
+</form>
+</body>
+</html>
+<?php include("../principal/cerrar_sea_web.php") ?>

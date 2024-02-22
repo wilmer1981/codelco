@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 15250 ',peso_neto='6930',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='9676416-2',nombre_chofer='IVAN QUINTEROS',observacion='',romana_salida='1' where correlativo='463095' and lote='22056020' and recargo='2'

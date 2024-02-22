@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 40250 ',peso_neto='27550',marca='V FRANJA ROJA',cod_mop='520',num_sello='',transportista='',rut_chofer='17976805-4',nombre_chofer='JUAN VARGAS',observacion='',romana_salida='2' where correlativo='449752' and lote='21096008' and recargo='20'

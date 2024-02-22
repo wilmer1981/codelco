@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 44760 ',peso_neto='29020',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13.331.063',nombre_chofer='Victor Porta',observacion='cu vs /enm',romana_salida='2' where correlativo='469974' and lote='22096101' and recargo='2'

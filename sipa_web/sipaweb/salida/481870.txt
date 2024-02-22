@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44160 ',peso_neto='29050',marca='EQUIS VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='10405833-7',nombre_chofer='MAXIMO SANDOVAL',observacion='',romana_salida='1' where correlativo='481870' and lote='23036242' and recargo='37'

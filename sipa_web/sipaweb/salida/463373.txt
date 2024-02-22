@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40070 ',peso_neto='24320',marca='EQUIS DOS FRANJAS CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='10251155-7',nombre_chofer='JIMY BASUALTO',observacion='',romana_salida='1' where correlativo='463373' and lote='22056004' and recargo='24'

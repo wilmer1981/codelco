@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44110 ',peso_neto='30590',marca='EQUIS NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='11633971-4',nombre_chofer='EUGENIO  ARANCIBIA',observacion='',romana_salida='1' where correlativo='436489' and lote='21016049' and recargo='60'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 38950 ',peso_neto='24940',marca='EQUIS DOS FRANJAS BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='16542506-5',nombre_chofer='ANDRES ROJAS',observacion='',romana_salida='1' where correlativo='477304' and lote='23016039' and recargo='12'

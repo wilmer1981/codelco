@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 16350 ',peso_neto='2340',marca='V FRANJA ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='7143217-3',nombre_chofer='FRANCISCO FUENTES',observacion='',romana_salida='1' where correlativo='436332' and lote='21016061' and recargo='20'

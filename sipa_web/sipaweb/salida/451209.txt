@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43480',peso_neto='28860',marca='EQUIS VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='14568880-9',nombre_chofer='ORLANDO FLORES',observacion='',romana_salida='1' where correlativo='451209' and lote='21096280' and recargo='4'

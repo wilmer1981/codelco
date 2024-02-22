@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 41580 ',peso_neto='25720',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='11508293-0',nombre_chofer='sergio zarricueta',observacion='concentrado de cu',romana_salida='1' where correlativo='480097' and lote='23036049' and recargo='10'

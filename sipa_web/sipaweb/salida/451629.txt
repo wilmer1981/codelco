@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44380 ',peso_neto='29760',marca='V NARANJA',cod_mop='693',num_sello='',transportista='',rut_chofer='7689571-6',nombre_chofer='JORGE CARVAJAL',observacion='',romana_salida='1' where correlativo='451629' and lote='21106062' and recargo='34'

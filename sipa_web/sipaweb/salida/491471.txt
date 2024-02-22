@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 38960 ',peso_neto='21540',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10433306-0',nombre_chofer='R. CASTILLO',observacion='18 maxi sacos',romana_salida='1' where correlativo='491471' and lote='23096189' and recargo='1'

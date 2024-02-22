@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44170 ',peso_neto='28810',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13539957-4',nombre_chofer='SERGIO URETA',observacion='',romana_salida='1' where correlativo='474560' and lote='22126070' and recargo='1'

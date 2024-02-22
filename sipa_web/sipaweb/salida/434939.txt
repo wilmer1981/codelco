@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44160 ',peso_neto='27830',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='oxido',romana_salida='1' where correlativo='434939' and lote='20126119' and recargo='5'

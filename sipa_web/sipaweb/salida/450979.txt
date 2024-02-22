@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43030',peso_neto='29410',marca='DOS FRANJAS AMARILLAS',cod_mop='520',num_sello='',transportista='',rut_chofer='7352390-7',nombre_chofer='LUIS GONZALEZ',observacion='',romana_salida='1' where correlativo='450979' and lote='21096205' and recargo='23'

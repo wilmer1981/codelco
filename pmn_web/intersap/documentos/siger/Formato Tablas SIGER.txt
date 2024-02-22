@@ -1,0 +1,231 @@
+ SGER_PERSONAS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RUT                                       NOT NULL NUMBER(8)
+ DIGITO_VERIFICADOR                        NOT NULL VARCHAR2(1)
+ NUMERO_PERSONAL                           NOT NULL NUMBER(8)
+ DIVISION                                           VARCHAR2(4)
+ ARCHIVO                                            VARCHAR2(25)
+ APELLIDO_PATERNO                                   VARCHAR2(25)
+ APELLIDO_MATERNO                                   VARCHAR2(25)
+ PRIMER_NOMBRE                             NOT NULL VARCHAR2(25)
+ SEGUNDO_NOMBRE                                     VARCHAR2(25)
+ SEXO                                               VARCHAR2(1)
+ CODIGO_ROL                                         NUMBER(3)
+ ITEM_ROL                                           VARCHAR2(2)
+ CODIGO_ANTICIPO                                    NUMBER(3)
+ ITEM_ANTICIPO                                      VARCHAR2(4)
+ CODIGO_C_TRABAJO                                   NUMBER(3)
+ ITEM_C_TRABAJO                                     VARCHAR2(4)
+ CODIGO_ESTADO_CEMPRESA                             NUMBER(3)
+ ITEM_ESTADO_CEMPRESA                               VARCHAR2(4)
+ CODIGO_ESCALA                                      NUMBER(3)
+ ITEM_ESCALA                                        VARCHAR2(8)
+ CODIGO_FORMA_PAGO                                  NUMBER(3)
+ ITEM_FORMA_PAGO                                    VARCHAR2(4)
+ CODIGO_LUGAR_PAGO                                  NUMBER(3)
+ ITEM_LUGAR_PAGO                                    VARCHAR2(4)
+ CODIGO_PLAZO                                       NUMBER(3)
+ ITEM_PLAZO                                         VARCHAR2(4)
+ CAREA                                              NUMBER(8)
+ CENTRO_COSTO                              NOT NULL VARCHAR2(10)
+ POSICION                                           NUMBER(8)
+ ESTADO                                             VARCHAR2(1)
+ FECHA_INGRESO_DIVISION                             DATE
+ FECHA_INGRESO_ROL                                  DATE
+ FECHA_INGRESO_SISTEMA_AFP                          DATE
+ FECHA_NACIMIENTO                                   DATE
+ FECHA_TERMINO_CONTRATO                             DATE
+ ITEM_CARGO                                         NUMBER(8)
+ SEGURO_LEY16744                                    NUMBER(9)
+ TIPO_FAENA                                         VARCHAR2(8)
+ FECHA_INGRESO_CODELCO                              DATE
+ FECHA_INGRESO_CATEGORIA                            DATE
+ FECHA_TRIENIOS                                     DATE
+ CODIGO_ESTADO_CIVIL                                NUMBER(3)
+ ITEM_ESTADO_CIVIL                                  VARCHAR2(4)
+ FECHA_INGRESO_C_TRABAJO                            DATE
+ FECHA_INGRESO_CARGO                                DATE
+ CUENTA_CORRIENTE                                   VARCHAR2(20)
+ AFP                                                VARCHAR2(4)
+ PORC_AFP                                           NUMBER(14,2)
+ PORC_SEG                                           NUMBER(14,2)
+ ISAPRE                                             VARCHAR2(4)
+ PORC_ISA                                           NUMBER(14,3)
+ FECHA_PARA_VACACIONES                              DATE
+ ANNO_REC_INDEM                                     NUMBER(2)
+ MES_REC_INDEM                                      NUMBER(2)
+ DIA_REC_INDEM                                      NUMBER(2)
+ ANNO_REC_ANT                                       NUMBER(2)
+ MES_REC_ANT                                        NUMBER(2)
+ DIA_REC_ANT                                        NUMBER(2)
+ BANCO                                              VARCHAR2(4)
+ SUCURSAL_BANCO                                     VARCHAR2(4)
+ COBRADOR_AUTORIZADO                                VARCHAR2(40)
+ RUT_COBRADOR                                       VARCHAR2(10)
+ ANNO_INDEMNIZACION                                 NUMBER(2)
+ MES_INDEMNIZACION                                  NUMBER(2)
+ DIA_INDEMNIZACION                                  NUMBER(2)
+ ANNO_ANTIGUEDAD                                    NUMBER(2)
+ MES_ANTIGUEDAD                                     NUMBER(2)
+ DIA_ANTIGUEDAD                                     NUMBER(2)
+ GRUPO_MINERO                                       VARCHAR2(8)
+ COD_ORG_PREV_FEB81                                 VARCHAR2(4)
+ COTIZ_DIFISAVIG_PACTREEM                           NUMBER(14,2)
+ FECHA_MODALIDAD_TRABAJO                            DATE
+ MODALIDAD_TRABAJO                                  VARCHAR2(8)
+ NUMERO_SSS                                         VARCHAR2(10)
+ CATEGORIA_AFEB81                                   VARCHAR2(3)
+ ROL_AFEB81                                         VARCHAR2(2)
+ INCENTIVO_TIPO                                     NUMBER(1)
+ JORNADA_SEMANAL                                    NUMBER(5,2)
+ PROF_FUNREF                                        VARCHAR2(1)
+ CONDICION_TRABAJO                                  NUMBER(1)
+ FECHA_INGRESO_AREA                                 DATE
+ FECHA_EGRESO_AREA                                  DATE
+ AREA_SEGURIDAD                                     NUMBER(8)
+ CLAUSULA_IAS_DIV                                   NUMBER(6)
+ EXTRANJERO                                         VARCHAR2(1)
+ COTIZACION_DIFERIDA                                VARCHAR2(1)
+ EXENTO_COTIZACION                                  VARCHAR2(1)
+ DESTINO_PAGO                                       VARCHAR2(4)
+ RUT_ANTERIOR                                       NUMBER(8)
+ FECHA_MOD_RUT                                      DATE
+ USUARIO_MODIFICA_RUT                               VARCHAR2(15)
+ GRUPO_NEGOCIACION                                  VARCHAR2(4)
+ SIST_TURNO_ADIC04                                  VARCHAR2(3)
+ SINDICALIZADO_AOCT04                               VARCHAR2(1)
+ 
+ 
+ 
+ SGER_EMOLUM_BASICOS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RUT                                       NOT NULL NUMBER(8)
+ CC_NOMINA                                 NOT NULL VARCHAR2(4)
+ FECHA_INICIO                              NOT NULL DATE
+ FECHA_TERMINO                             NOT NULL DATE
+ FECHA_MODIFICACION                        NOT NULL DATE
+ MONTO                                              NUMBER(9)
+ CANTIDAD                                           NUMBER(8,2)
+ UNIDAD                                             VARCHAR2(3)
+ 
+ 
+ 
+ SGER_EMOLUM_ADICIONALES
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RUT                                       NOT NULL NUMBER(8)
+ FECHA_INICIO                              NOT NULL DATE
+ FECHA_TERMINO                             NOT NULL DATE
+ FECHA_MODIFICACION                                 DATE
+ CC_NOMINA                                 NOT NULL VARCHAR2(4)
+ CANTIDAD                                           NUMBER(8,2)
+ UNIDAD                                             VARCHAR2(3)
+ 
+ 
+ 
+ SGER_LICENCIAS_MEDICAS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ NUMERO_LICENCIA                           NOT NULL VARCHAR2(10)
+ RUT                                       NOT NULL NUMBER(8)
+ CODIGO_ISAPRE_VIGENTE                     NOT NULL VARCHAR2(4)
+ CODIGO_DIAGNOSTICO                                 VARCHAR2(8)
+ DESCRIPCION_DIAGNOSTICO                            VARCHAR2(37)
+ TIPO_PROFESIONAL                                   VARCHAR2(2)
+ RUT_MEDICO                                         VARCHAR2(20)
+ NOMBRE_MEDICO                                      VARCHAR2(20)
+ FECHA_OTORGAMIENTO                                 DATE
+ FECHA_RECEPCION_ISAPRE                             DATE
+ FECHA_RECEPCION_EMPLEADOR                          DATE
+ FECHA_DIGITACION_EMPLEADOR                NOT NULL DATE
+ DIAS_LICENCIA                             NOT NULL NUMBER(3)
+ FECHA_DESDE                               NOT NULL DATE
+ FECHA_HASTA                               NOT NULL DATE
+ DIAS_AUTORIZADOS_LICENCIA                 NOT NULL NUMBER(3)
+ FECHA_DESDE_AUTORIZADA                    NOT NULL DATE
+ FECHA_HASTA_AUTORIZADA                    NOT NULL DATE
+ TIPO                                      NOT NULL VARCHAR2(2)
+ PRIMERA_CONTINUACION                      NOT NULL VARCHAR2(1)
+ PARCIAL_TOTAL                             NOT NULL VARCHAR2(1)
+ RESOLUCION                                NOT NULL VARCHAR2(2)
+ FECHA_RESOLUCION                                   DATE
+ NUMERO_LICENCIA_ANTERIOR                           VARCHAR2(10)
+ LUGAR_REPOSO                                       VARCHAR2(2)
+ DOMICILIO_REPOSO                                   VARCHAR2(70)
+ DIAS_SUBSIDIO_ANTES                       NOT NULL NUMBER(3)
+ DIAS_SUBSIDIO_MES                         NOT NULL NUMBER(3)
+ DIAS_SUBSIDIO_PENDIENTES                  NOT NULL NUMBER(3)
+ PRIMEROS_DIAS_ANTES                       NOT NULL NUMBER(3)
+ PRIMEROS_DIAS_MES                         NOT NULL NUMBER(3)
+ PRIMEROS_DIAS_PENDIENTES                  NOT NULL NUMBER(3)
+ PRIMEROS_DIAS_PREVIO                               NUMBER(3)
+ DIAS_ACUMULADOS                           NOT NULL NUMBER(4)
+ PRIMEROS_DIAS_ACUMULADOS                  NOT NULL NUMBER(4)
+ DIAS_TIEMPO_PERDIDO                                NUMBER(6)
+ FECHA_ACCIDENTE                                    DATE
+ FECHA_CALCULO                                      DATE
+ FECHA_MODIFICACION_MANUAL                          DATE
+ PROFESIONAL_INTERNO                                VARCHAR2(1)
+ 
+ 
+ 
+ SGER_ASOCIACIONES
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RUT                                       NOT NULL NUMBER(8)
+ FECHA_INICIO                              NOT NULL DATE
+ FECHA_TERMINO                             NOT NULL DATE
+ FECHA_MODIFICACION                        NOT NULL DATE
+ SUBTIPO                                   NOT NULL VARCHAR2(4)
+ CLAVE                                     NOT NULL VARCHAR2(4)
+ CANTIDAD                                  NOT NULL NUMBER(15,3)
+ UNIDAD                                    NOT NULL VARCHAR2(3)
+ 
+ 
+ 
+ SGER_CARGAS_FAMILIARES
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RUT_TRABAJADOR                            NOT NULL NUMBER(8)
+ CLASE_FAMILIA                             NOT NULL VARCHAR2(4)
+ CORRELATIVO                               NOT NULL VARCHAR2(2)
+ RUT_CARGA                                 NOT NULL NUMBER(8)
+ DIGITO_VERIFICADOR                        NOT NULL VARCHAR2(1)
+ APELLIDO_PATERNO                                   VARCHAR2(25)
+ APELLIDO_MATERNO                                   VARCHAR2(25)
+ PRIMER_NOMBRE                             NOT NULL VARCHAR2(25)
+ SEGUNDO_NOMBRE                                     VARCHAR2(25)
+ SEXO                                               VARCHAR2(1)
+ TIPO_CARGA                                NOT NULL VARCHAR2(2)
+ FECHA_NACIMIENTO                          NOT NULL DATE
+ FECHA_INICIO                              NOT NULL DATE
+ FECHA_TERMINO                             NOT NULL DATE
+ FECHA_MODIFICACION                        NOT NULL DATE
+ RUT_BENEFICIARIO                                   NUMBER(8)
+ 
+ 
+ 
+ SGER_COTIZACIONES_SALUD
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RUT                                       NOT NULL NUMBER(8)
+ FECHA_PRIMER_APORTE                       NOT NULL DATE
+ FECHA_TERMINO_APORTE                      NOT NULL DATE
+ TIPO_COTIZACION                           NOT NULL VARCHAR2(2)
+ MONTO_COTIZACION                          NOT NULL NUMBER(15,3)
+ UNIDAD                                    NOT NULL VARCHAR2(4)
+ 
+ 
+ 
+ SGER_COTIZ_PREVISIONALES
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RUT                                       NOT NULL NUMBER(8)
+ FECHA_PRIMER_APORTE                       NOT NULL DATE
+ FECHA_TERMINO_APORTE                      NOT NULL DATE
+ TIPO_CUENTA                               NOT NULL VARCHAR2(2)
+ TIPO_PLAN                                 NOT NULL VARCHAR2(2)
+ MONTO_COTIZACION                          NOT NULL NUMBER(15,3)
+ UNIDAD                                    NOT NULL VARCHAR2(4)

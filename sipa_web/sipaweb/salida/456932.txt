@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44590',peso_neto='28880',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12103029-2',nombre_chofer='Rolando Alvarez',observacion='ladrillos en desuso',romana_salida='1' where correlativo='456932' and lote='22016097' and recargo='2'

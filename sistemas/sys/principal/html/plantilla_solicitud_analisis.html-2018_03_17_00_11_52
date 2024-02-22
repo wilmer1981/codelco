@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plantilla Solicitud Analisis</title>
+    <meta name="description" content="Sistema De Información Gerencia de Servicios">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- Animation library for notifications   -->
+    <link href="css/animate.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">           
+    <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.min.css">
+ 
+    <link rel="stylesheet" type="text/css" href="css/styles2.css">
+
+    <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.min.css">
+
+
+
+</head>
+<body>
+<div class="container-fluid"">
+	<div class="row">
+		<div class="panel-group" >
+            <div class="panel panel-default" >
+              	<div class="panel-body">
+              		<form id="Formu" method="post">
+              		</form>
+              		<h2 style="text-align: center">Plantilla Solicitud An&aacute;lisis</h2>
+              		<div class="col-md-2 col-md-offset-10">  
+		               <label class="control-label" for="textinput">&nbsp;</label><br>
+		               <a href="{salir}" class="btn btn-danger pull-right btn-block" style="margin-top: -5%">Salir</a>                                  
+		            </div>
+              	</div>
+            </div>
+      	</div>
+		<div class="col-md-12">        
+			<table id="tabla" class="table table-striped table-bordered table-hover nowrap blue" cellspacing="0" width="100%" style="margin-top: -2px;" >
+				<thead>
+					<tr style="background: #5bc0de">
+						<th>
+							<a href="javascript:modal('?p=modal','&Opcion=newPlantilla&Plantilla={idPlantilla2}','#savePlantilla','contieneModal')" class="btn btn-sm btn-default"><i class="fa fa-plus" aria-hidden="true" ></i> Agregar</a>  
+
+						</th>
+						<th>Sistema</th>
+						<th>Id Muestra</th>
+						<th>Producto</th>
+						<th>SubProducto</th>
+						<th>Periodo</th>
+						<th>Tipo Analisis</th>
+						<th>Tipo Muestra</th>
+						<th>Agrupaci&oacute;n</th>
+
+					</tr>
+				</thead>
+				<tbody style="font-size: 11px">
+				<!-- BEGIN PLANTILLA -->
+					<tr >
+						<td width="8%">			
+						<a href="javascript:modal('?p=modal','&Opcion=verPlantilla&Plantilla={idPlantilla}','#editPlantilla','contieneModal')" class="btn btn-xs btn-warning" ><i class="fa fa-search" aria-hidden="true" title="Ver Plantilla"></i></a> 
+						<a href="javascript:modal('?p=modal','&Opcion=savePlantilla&Plantilla={idPlantilla}','#savePlantilla','contieneModal')" class="btn btn-xs btn-info"><i class="fa fa-edit" aria-hidden="true" title="Editar Plantilla"></i></a> 
+						<a href="javascript:eliminar('modal','eliminarPlantilla&Plantilla={idPlantilla}');"  type="button" class="btn btn-xs btn-danger "><i class="fa fa-trash" aria-hidden="true" title="Eliminar Plantilla"></i></a> 						
+						</td>
+						<td>{sistema}</td>
+						<td>{idMuestra}</td>
+						<td>{producto}</td>
+						<td>{subProducto}</td>
+						<td>{periodo}</td>
+						<td>{tipoAnalisis}</td>
+						<td>{tipoMuestra}</td>
+						<td>{agrupacion}</td>
+					</tr>
+				<!-- END PLANTILLA -->
+				</tbody>
+			</table>
+		</div>
+	</div>       
+</div> 
+
+
+<div id="contieneModal" ></div>
+
+<div id="Cargando"><img src="img/loading.gif"><p id="MensajeMostrar"></p></div>
+ 
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/moment.min.js"></script>
+<!-- Minified Bootstrap JS -->
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+<!-- <script src="js/bootstrap-datetimepicker.es.js"></script>  no funciona--> 
+<script src="js/funcion.js"></script>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/sweetalert.min.js"></script>
+
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="js/dataTables.bootstrap.min.js"></script>
+<script src="js/dataTables.responsive.min.js"></script>
+<script src="js/responsive.bootstrap.min.js"></script>
+
+<style type="text/css">
+
+#tabla_paginate {
+	text-align: left;
+}
+#tabla_filter label input {
+	margin-top: -5px;
+}
+
+</style>
+
+<script>
+$(document).ready(function() {
+    $('#tabla').DataTable();    
+
+    
+});
+
+
+
+</script>
+
+</body>
+</html>

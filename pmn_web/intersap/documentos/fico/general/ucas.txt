@@ -1,0 +1,8 @@
+        
+        Adjunto un registro de marcación de  Uca,  (tipo 1 = entrada, 0 = salida, numero de tarjeta , fecha  AAMMDD , hora E/S HHMM)
+
+                                        tipo   tarjeta   fecha      hora 
+                                        1 20020 050828 0749 
+                                        0 20020 050828 1602 
+                
+            atentamente. 

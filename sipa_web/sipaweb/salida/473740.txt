@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44690',peso_neto='28030',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='14310748-5',nombre_chofer='M TORRES',observacion='ESC.MAZAMORRA',romana_salida='1' where correlativo='473740' and lote='22116157' and recargo='5'

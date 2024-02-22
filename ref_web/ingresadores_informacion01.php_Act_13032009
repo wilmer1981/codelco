@@ -1,0 +1,71 @@
+<?
+	include("../principal/conectar_ref_web.php");
+	
+	if ($Proceso == "G")
+	{
+		$activar=1;
+		$corriente =0;
+		$corriente1 =0;
+		$fecha = $ano1.'-'.$mes1.'-'.$dia1;
+		$Col=1;
+		$arreglo = explode("~",$Valor1); //Separa los parametros en un array.
+		reset($arreglo);					
+		while (list($clave, $valor) = each($arreglo))
+		{		
+			$corriente = $valor;
+			
+			$rectificador = $Col;
+			$jefe1 =$jefe;
+			$Consulta = "select * from ref_web.rectificador_modificado where fecha = '".$fecha."' and cod_rectificador = '".$rectificador."'";
+			$rsp = mysql_query($Consulta);
+			if ($fila=mysql_fetch_array($rsp))
+			{
+				$Actualiza = "UPDATE ref_web.rectificador_modificado set corriente_aplicada = '".$corriente."', jefe_turno = '".$jefe1."'";
+				$Actualiza.=" where fecha = '".$fecha."' and cod_rectificador = '".$rectificador."'";
+				mysql_query($Actualiza);
+			}
+			else
+			{
+				$insertar = "INSERT INTO ref_web.rectificador_modificado (fecha,cod_rectificador,corriente_aplicada,jefe_turno)"; 
+				$insertar = $insertar."VALUES ('".$fecha."','".$rectificador."','".$corriente."','".$jefe1."')";
+				//echo $insertar."<br>";
+				mysql_query($insertar);
+			}
+			$Col++;
+		}
+		
+		$Col=1;
+		$arreglo = explode("~",$Valor2); //Separa los parametros en un array.
+		reset($arreglo);					
+		while (list($clave, $valor) = each($arreglo))
+		{		
+			$corriente1 = $valor;
+			$cuba = $Col;
+			$jefe2 =$jefe;
+			$Consulta1="select * from ref_web.cubas_descobrizacion where fecha = '".$fecha."' and cod_cuba = '".$cuba."'";
+			//echo $Consulta1."</br>";
+			$rsp1 = mysql_query($Consulta1);
+			if ($fila1=mysql_fetch_array($rsp1))
+			{
+				$Actualiza1="UPDATE ref_web.cubas_descobrizacion set corriente_aplicada = '".$corriente1."',jefe_turno = '".$jefe2."'";
+				$Actualiza1.=" where fecha = '".$fecha."' and cod_cuba ='".$cuba."'";
+				//echo $Actualiza1."</br>";
+				mysql_query($Actualiza1);
+			}
+			else
+			{
+				$insertar = "INSERT INTO ref_web.cubas_descobrizacion (fecha,cod_cuba,corriente_aplicada,jefe_turno)"; 
+				$insertar = $insertar."VALUES ('".$fecha."','".$cuba."','".$corriente1."','".$jefe2."')";
+				mysql_query($insertar);
+			}
+			$Col++;
+		}			
+	}	
+	
+		
+		$mensaje = "Datos Actualizados Correctamente";						
+		header("Location:ingresadores_informacion.php?fecha=".$fecha."&mensaje=".$mensaje."&activar=".$activar);		
+		include("../principal/conectar_ref_web.php");
+	
+
+?>

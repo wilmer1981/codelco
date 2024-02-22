@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 39470 ',peso_neto='23290',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='   19  maxisacos ',romana_salida='1' where correlativo='438279' and lote='21026055' and recargo='1'

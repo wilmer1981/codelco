@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44880 ',peso_neto='31030',marca='EQUIS AMARILLA',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL CISTERNA',observacion='',romana_salida='1' where correlativo='452860' and lote='21106197' and recargo='40'

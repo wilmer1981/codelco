@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43320 ',peso_neto='28040',marca='EQUIS NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='10348949-0',nombre_chofer='CLAUDIO PEÑA',observacion='',romana_salida='1' where correlativo='482070' and lote='23046024' and recargo='15'

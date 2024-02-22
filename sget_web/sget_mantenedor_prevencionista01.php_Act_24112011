@@ -1,0 +1,104 @@
+<?  include("../principal/conectar_sget_web.php");
+	$Fecha=date('Y-m-d');
+	$RutDV=$TxtRutPrv;
+	$Fecha_Hora = date("Y-m-d h:i");
+	
+	switch($Opcion)
+	{
+	
+	
+	
+		case "N":
+			$Consulta="SELECT * from sget_prevencionistas where rut_prev='".$RutDV."' ";
+			$Respuesta=mysql_query($Consulta);
+			if ($Fila=mysql_fetch_array($Respuesta))
+			{
+				$Encontro=true;				
+				header("location:sget_mantenedor_prevencionista_proceso.php?Mensaje=".$Encontro."&Opc=".$Opcion."&Volver=".$Volver);	 
+			}
+			else
+			{
+				if($CmbClase =='-1')
+					$CmbCiudad='';
+				if($CmbSubClase =='-1')
+					$CmbComuna='';	
+				$Insertar="INSERT INTO sget_prevencionistas(rut_prev,nombres, ";
+				$Insertar.=" apellido_paterno,apellido_materno,nro_registro,direccion,telefono, ";
+				$Insertar.=" contacto,cod_clase,cod_subclase,aseguradora,nro_poliza,estado) ";
+				$Insertar.="values ('".$RutDV."','".strtoupper($TxtNombres)."','".strtoupper($TxtApellidoPaterno)."','".strtoupper($TxtApellidoMaterno)."', ";
+				$Insertar.="'".strtoupper($TxtNroRegistro)."','".strtoupper($TxtDireccion)."','".strtoupper($TxtFono)."' ,'".strtoupper($TxtContacto)."', ";
+				$Insertar.="'".$CmbClase."','".$CmbSubClase."','".strtoupper($TxtAseguradora)."','".strtoupper($TxtNroPoliza)."','".$CmbEstado."') ";
+				mysql_query($Insertar);
+				if($Volver=='S')
+				{
+					echo "<script languaje='JavaScript'>";	
+					echo " window.opener.document.FrmPopupUsuario.action='sget_mantenedor_contratos_proceso.php?Prevencionista=$TxtRutPrv-$TxtDv'; ";
+					echo " window.opener.document.FrmPopupUsuario.submit();";		
+					echo " window.close();</script>";	
+				}
+				else
+				{			
+					echo "<script languaje='JavaScript'>";		
+					echo " window.opener.document.FrmPrincipal.action='sget_mantenedor_prevencionista.php'; ";
+					echo " window.opener.document.FrmPrincipal.submit();";		
+					echo " window.close();</script>";	
+				}
+			}
+		break;
+		case "M":
+			$Eliminar="delete  from sget_prevencionistas  ";
+			$Eliminar.=" where rut_prev='".$RutDV."'";	
+			mysql_query($Eliminar);
+			//echo $Eliminar;
+			if($CmbClase =='-1')
+				$CmbCiudad='';
+			if($CmbSubClase =='-1')
+				$CmbComuna='';	
+			$Insertar="INSERT INTO sget_prevencionistas(rut_prev,nombres, ";
+			$Insertar.=" apellido_paterno,apellido_materno,nro_registro,direccion,telefono, ";
+			$Insertar.=" contacto,cod_clase,cod_subclase,aseguradora,nro_poliza,estado) ";
+			$Insertar.="values ('".$RutDV."','".strtoupper($TxtNombres)."','".strtoupper($TxtApellidoPaterno)."','".strtoupper($TxtApellidoMaterno)."', ";
+			$Insertar.="'".strtoupper($TxtNroRegistro)."','".strtoupper($TxtDireccion)."','".strtoupper($TxtFono)."' ,'".strtoupper($TxtContacto)."', ";
+			$Insertar.="'".$CmbClase."','".$CmbSubClase."','".strtoupper($TxtAseguradora)."','".strtoupper($TxtNroPoliza)."','".$CmbEstado."') ";
+			mysql_query($Insertar);
+			
+			if($Volver=='S')
+			{
+				echo "<script languaje='JavaScript'>";	
+				echo " window.opener.document.FrmPopupUsuario.action='sget_mantenedor_contratos_proceso.php?Prevencionista=$TxtRutPrv-$TxtDv'; ";
+				echo " window.opener.document.FrmPopupUsuario.submit();";		
+				echo " window.close();</script>";	
+			}
+			else
+			{			
+				echo "<script languaje='JavaScript'>";		
+				echo " window.opener.document.FrmPrincipal.action='sget_mantenedor_prevencionista.php'; ";
+				echo " window.opener.document.FrmPrincipal.submit();";		
+				echo " window.close();</script>";	
+			}
+			
+			
+		break;
+		case "E":
+			$Datos = explode("//",$Valor);
+			while (list($clave,$Rut)=each($Datos))
+			{
+				$Consulta=" Select count(rut_prev) as Total from sget_contratos where rut_prev='".$Rut."'";
+				$Respuesta=mysql_query($Consulta);
+				$Fila=mysql_fetch_array($Respuesta);
+				if ($Fila[Total]<=0)
+				{
+					$Eliminar="delete from sget_prevencionistas where rut_prev='".$Rut."'";
+					mysql_query($Eliminar);
+					$Mensaje="N";
+				}
+				else
+				{
+					$Mensaje="S";
+					break;	
+				}	
+			}
+			header("location:sget_mantenedor_prevencionista.php?Mensaje=".$Mensaje);
+		break;
+	}
+?>

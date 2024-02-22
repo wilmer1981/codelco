@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44300 ',peso_neto='29860',marca='EQUIS FRANJA BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='12774916-7',nombre_chofer='MARCELO TORRES',observacion='',romana_salida='2' where correlativo='452324' and lote='21106059' and recargo='41'

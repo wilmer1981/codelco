@@ -1,0 +1,406 @@
+<?
+	include("../principal/conectar_principal.php"); 
+  $FechaInicio= date("Y");
+ 	if ($DiaIni < 10)
+		$DiaIni = "0".$DiaIni;
+	if ($MesIni < 10)
+		$MesIni = "0".$MesIni;
+	if ($DiaFin < 10)
+		$DiaFin = "0".$DiaFin;
+	if ($MesFin < 10)
+		$MesFin = "0".$MesFin;
+	//$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
+	$FechaAux = $FechaInicio;
+    $FechaAux1 = $FechaAux - 1;
+	$CodLote = 0;
+	$NumLote = 0;
+	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
+	$Consulta = "SELECT * from sec_web.lote_catodo where corr_enm = '".$NumInstruccion."'";
+    $Consulta.= " and (year(fecha_creacion_lote) ='".$FechaAux."'";
+    $Consulta.= " or year(fecha_creacion_lote) ='".$FechaAux1."')";
+	$Respuesta = mysql_query($Consulta);
+	if ($Fila = mysql_fetch_array($Respuesta))
+	{
+		$CodLote = $Fila["cod_bulto"];
+		$NumLote = $Fila["num_bulto"];
+		/*poly*/
+		$Corr_enm = $Fila["corr_enm"];
+	}
+	
+	if ($CodLote != "0" && $NumLote != "0")
+	{
+		$Consulta = "SELECT t1.cod_bulto, t1.num_bulto, t1.corr_enm, t2.cod_producto, t2.cod_subproducto,";
+		$Consulta.= " t1.cod_marca, t4.descripcion as marca, t1.corr_enm, t3.descripcion ";
+		$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
+		$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete ";
+		$Consulta.= " inner join proyecto_modernizacion.subproducto t3 ";
+		$Consulta.= " on t2.cod_producto = t3.cod_producto and t2.cod_subproducto = t3.cod_subproducto ";
+		$Consulta.= " left join sec_web.marca_catodos t4 on t1.cod_marca = t4.cod_marca ";
+		$Consulta.= " and t2.fecha_creacion_paquete  = t1.fecha_creacion_paquete";  
+		$Consulta.= " where  t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$CodLote."' and t1.num_bulto = '".$NumLote."'  and t1.corr_enm = '".$Corr_enm."'";
+		$Consulta.= " group by t1.cod_bulto, t1.num_bulto ";     
+		$Respuesta = mysql_query($Consulta);
+		//echo $Consulta;
+		while ($Fila = mysql_fetch_array($Respuesta))
+		{
+			$Producto = $Fila["cod_producto"];
+			$SubProducto = $Fila["cod_subproducto"];
+			$DescProducto = $Fila["descripcion"];
+			$Instruccion = $Fila["corr_enm"];
+			$CodMarca = $Fila["cod_marca"];
+			$Marca = $Fila["marca"];
+			if ($EnmCode == "E")
+			{
+				$Consulta = "SELECT * from sec_web.programa_enami ";
+				$Consulta.= " where corr_enm = '".$Fila["corr_enm"]."'";
+				$Respuesta2 = mysql_query($Consulta);
+				if ($Fila2 = mysql_fetch_array($Respuesta2))
+				{
+					$Consulta = "SELECT * from sec_web.cliente_venta where cod_cliente = '".$Fila2["cod_cliente"]."'";
+					$Respuesta3 = mysql_query($Consulta);
+					if ($Fila3 = mysql_fetch_array($Respuesta3))
+					{
+						$Cliente = strtoupper($Fila3["nombre_cliente"]);
+					}
+					else
+					{
+						$Consulta = "SELECT * from sec_web.nave where cod_nave = '".$Fila2["cod_cliente"]."'";
+						$Respuesta3 = mysql_query($Consulta);
+						if ($Fila3 = mysql_fetch_array($Respuesta3))
+						{
+							$Cliente = strtoupper($Fila3["nombre_nave"]);
+						}
+					}
+				}
+			}
+			else
+			{
+				$Cliente = "CODELCO";
+			}						
+		}
+	}
+	
+		//POLY 27-06-2008
+	$Consulta= "SELECT distinct t3.cod_bulto,t3.num_bulto,t1.lote_origen, t1.recargo, t1.cod_paquete, t1.num_paquete, t2.num_unidades,t2.peso_paquetes,t2.cod_estado,t2.hora";
+ 	$Consulta.= " FROM sec_web.paquete_catodo_externo AS t1 INNER JOIN sec_web.paquete_catodo AS t2";
+	$Consulta.= " inner join sec_web.lote_catodo as t3 ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete ";
+	$consulta.= " and t2.cod_paquete = t3.cod_paquete and t2.num_paquete = t3.num_paquete";
+	$Consulta.= " AND t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
+	$Consulta.= " and t1.fecha_creacion_paquete = t3.fecha_creacion_paquete ";
+	$Consulta.= " AND t1.cod_producto = t2.cod_producto AND t1.cod_subproducto = t2.cod_subproducto";	
+	$Consulta.= " where t3.cod_bulto = '".$CodLote."' and t3.num_bulto = '".$NumLote."'  and t3.corr_enm = '".$Corr_enm."' ";
+		echo "Consulta ".$Consulta."<br>";
+		$Respuestasipa = mysql_query($Consulta);
+	if ($Filasipa = mysql_fetch_array($Respuestasipa))
+	{
+		$LoteSipa = $Filasipa["lote_origen"];
+	}
+		//POLY 27-06-2008
+
+
+	
+		//POLY 27-06-2008
+	echo "Lote  ".$LoteSipa."<br>";
+	
+?>
+<html>
+<head>
+<title>Sistema Estadistico de Catodos</title>
+<link href="../Principal/estilos/css_principal.css" rel="stylesheet" type="text/css">
+<script language="JavaScript">
+function Proceso(opt)
+{
+	var f = document.frmPrincipal;
+	switch (opt)
+	{
+		case "R":
+			f.action = "sec_con_packing_list.php";
+			f.submit();
+			break;
+		case "S":
+			f.action= "../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+			f.submit();
+			break;
+		case "E":
+			f.action= "sec_con_packing_list_excel.php";
+			f.submit();
+			break;
+		case "I":
+			window.print();
+			break;
+	}
+}
+</script>
+</head>
+<body background="../Principal/imagenes/fondo3.gif" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<form name="frmPrincipal" action="" method="post">
+  <table width="770" border="0" cellpadding="2" cellspacing="1">
+    <tr> 
+      <td colspan="4"><font size="1"><strong>CODELCO CHILE - DIVISION VENTANAS</strong><br>
+        </font></td>
+      <td width="283" align="center"><strong>PACKING LIST<br>
+        CODIGO DE LOTE: <? echo strtoupper($CodLote)."-".$NumLote; ?></strong></td>
+      <td width="163" align="center">FECHA: <? echo date("d/m/Y"); ?></td>
+    </tr>
+  </table>
+  <br>
+  <table width="770" border="0" cellpadding="2" cellspacing="1">
+    <tr> 
+      <td colspan="2" align="center">
+	  <?
+	  	if ($EnmCode == "E")
+		{
+			echo "<input name='EnmCode' type='radio' value='E' checked>ENAMI&nbsp;&nbsp;";
+        	echo "<input type='radio' name='EnmCode' value='C'>CODELCO";
+		}
+		else
+		{
+			if ($EnmCode == "C")
+			{
+				echo "<input name='EnmCode' type='radio' value='E'>ENAMI&nbsp;&nbsp;";
+        		echo "<input type='radio' name='EnmCode' value='C' checked>CODELCO";
+			}
+			else
+			{
+				echo "<input name='EnmCode' type='radio' value='E' checked>ENAMI&nbsp;&nbsp;";
+        		echo "<input type='radio' name='EnmCode' value='C'>CODELCO";
+			}
+		}
+		?></td>
+    </tr>
+    <tr> 
+      <td width="174">N&ordm; INSTRUCCION: </td>
+      <td width="585"> <input name="NumInstruccion" type="text" id="NumInstruccion" value="<? echo $NumInstruccion; ?>" size="15"> 
+        <input name="button" type="submit" id="button" value="Consultar" onClick="Proceso('R');" style="width:70px"> 
+        <input name="btnimprimir" type="button" value="Imprimir" style="width:70;" onClick="JavaScript:Proceso('I')"> 
+        <input name="btnExcel" type="button" id="btnExcel" style="width:70;" onClick="JavaScript:Proceso('E')" value="Excel"> 
+        <input name="btnsalir2" type="button" style="width:70" onClick="JavaScript:Proceso('S')" value="Salir"></td>
+    </tr>
+    <tr> 
+      <td>PRODUCTO - SUBPRODUCTO:</td>
+      <td><strong><? echo $Producto." / ".$SubProducto; ?></strong></td>
+    </tr>
+    <tr> 
+      <td>DESCRIPCION:</td>
+      <td><strong>
+	  <? 
+			if ($Producto == '57')
+			{
+				$Consulta = "SELECT t2.descripcion from sec_web.pesaje_lodos as t1";
+				$Consulta.= " inner join proyecto_modernizacion.subproducto as t2";
+				$Consulta.= " on t2.cod_producto = t1.cod_producto AND t2.cod_subproducto = t1.cod_subproducto";
+				$Consulta.= " where t1.cod_producto = '".$Producto."' and t1.cod_subproducto = '12'";
+				$Consulta.= " and t1.cod_bulto = '".$CodLote."' and t1.num_bulto = '".$NumLote."' and t1.corr_ie = '".$Corr_enm."'";
+				$Consulta.= " and t1.num_pesada = '2'";
+				$rs = mysql_query($Consulta);
+				if ($row = mysql_fetch_array($rs))
+				{
+					$DescProducto = $row["descripcion"];
+				}
+			}
+
+	  		echo $DescProducto;
+	  ?>
+	  </strong></td>
+    </tr>
+    <tr> 
+      <td>N&ordm; INSTR. DE EMBARQUE</td>
+      <td><strong><? echo $Instruccion; ?></strong></td>
+    </tr>
+    <tr> 
+      <td>CLIENTE</td>
+      <td><strong><? echo $Cliente; ?></strong></td>
+    </tr>
+	
+		<?
+	if ($Instruccion >'900000')
+	{
+	?>
+	    <tr> 
+      <td>LOTE SIPA</td>
+      <td><strong><? echo $LoteSipa; ?></strong></td>
+    </tr>
+<? }?>
+
+	
+	
+  </table>  
+<br>
+  <table width="770" border="1" cellpadding="0" cellspacing="0" class="TablaDetalle">
+    <tr align="center" class="ColorTabla01"> 
+      <td width="64">MARCA</td>
+      <td width="161">DESCRIPCION</td>
+      <td width="97">PESO NETO</td>
+      <td width="101">PESO BRUTO</td>
+      <td width="60">GRUPO</td>
+      <td width="86">UNIDADES</td>
+      <td width="83">UBICACION</td>
+      <td width="99">SERIE</td>
+    </tr>    
+    <?
+	   $Consulta = "SELECT * from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
+	   $Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete ";
+	   $Consulta.= " where t1.cod_bulto = '".$CodLote."' and t1.num_bulto = '".$NumLote."' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.corr_enm = '".$Corr_enm."'";
+	   $Consulta.= " order by t1.cod_paquete,t1. num_paquete ";
+	
+	   $Respuesta = mysql_query($Consulta);
+	   $TotalPaquetes = 0;
+	   $TotalPesoBruto = 0;
+	   $TotalPesoNeto = 0;
+	   $TotalUnidades = 0;
+	   while ($Fila = mysql_fetch_array($Respuesta))
+	   {
+		  echo "<tr>\n";
+		  echo "<td align='center'>".strtoupper($CodMarca)."</td>\n";
+		  echo "<td align='center'>".strtoupper($Marca)."</td>\n";
+		  echo "<td align='center'>".number_format($Fila["peso_paquetes"],0,",",".")."</td>\n";
+		  
+			if ($Producto=='57' or $Producto=='19' or $Producto=='64')
+			{
+			
+	  			if ($Producto=='57')
+				{
+					$consuj = "SELECT t3.peso_bruto as peso_bruto from sec_web.pesaje_lodos t3 where";
+					$consuj.= " t3.cod_producto = '".$Producto."' and t3.cod_subproducto = '12'";
+					$consuj.= " and t3.cod_bulto = '".$CodLote."' and t3.num_bulto = '".$NumLote."' and t3.corr_ie = '".$Corr_enm."'";
+					$consuj.= " and t3.cod_paquete = '".$Fila["cod_paquete"]."' and t3.num_paquete = '".$Fila["num_paquete"]."'";
+					$consuj.= " and t3.num_pesada = '2'";
+				//	echo $consuj."<br>";				
+					$respuej = mysql_query($consuj);
+					if (!$Filaj = mysql_fetch_array($respuej))
+					{
+						$consuj = "SELECT t3.peso_bruto as peso_bruto from sec_web.pesaje_lodos t3 where";
+						$consuj.= " t3.cod_producto = '".$Producto."' and t3.cod_subproducto = '11'";
+						$consuj.= " and t3.cod_bulto = '".$CodLote."' and t3.num_bulto = '".$NumLote."' and t3.corr_ie = '".$Corr_enm."'";
+						$consuj.= " and t3.cod_paquete = '".$Fila["cod_paquete"]."' and t3.num_paquete = '".$Fila["num_paquete"]."'";
+						$consuj.= " and t3.num_pesada = '1'";
+						$respuej = mysql_query($consuj);
+						$Filaj = mysql_fetch_array($respuej);
+					}				
+					echo "<td align='center'>".number_format($Filaj["peso_bruto"],0,",",".")."</td>\n";
+					$TotalPesoBruto = $TotalPesoBruto + $Filaj["peso_bruto"];
+					$PesoBrutoAux = $Filaj["peso_bruto"];
+				}
+	 			else
+				{
+					if ($Producto =='19')
+					{
+					
+						echo "<td align='center'>".number_format(($Fila["peso_paquetes"] + 1),0,",",".")."</td>\n";
+						$TotalPesoBruto = $TotalPesoBruto + ($Fila["peso_paquetes"] + 1);
+						$PesoBrutoAux = $Fila["peso_paquetes"] + 1;
+					}
+					else
+					{
+						echo "<td align='center'>&nbsp;</td>\n";
+					}
+						
+				}
+	}
+	else
+	{
+		echo "<td align='center'>".number_format(($Fila["peso_paquetes"] + 1),0,",",".")."</td>\n";
+		$TotalPesoBruto = $TotalPesoBruto + ($Fila["peso_paquetes"] + 1);
+		$PesoBrutoAux = $Fila["peso_paquetes"] + 1;
+	}		
+ 
+		  
+         /* if ($Producto=='57' or $Producto =='64' or $Producto == '19')
+          {
+		  		(if ($Producto == '57')
+				{	
+                	$consuj = "SELECT t3.peso_bruto as peso_bruto from sec_web.pesaje_lodos t3 where";
+                	$consuj.= " t3.cod_producto = '".$Producto."' and t3.cod_subproducto = '12'";
+                	$consuj.= " and t3.cod_bulto = '".$CodLote."' and t3.num_bulto = '".$NumLote."' and t3.corr_ie = '".$Corr_enm."'";
+                	$consuj.= " and t3.cod_paquete = '".$Fila["cod_paquete"]."' and t3.num_paquete = '".$Fila["num_paquete"]."'";
+					$consuj.= " and t3.num_pesada = '2'";
+					//echo $consuj."<br>";				
+                	$respuej = mysql_query($consuj);
+                	if (!$Filaj = mysql_fetch_array($respuej))
+					{
+						$consuj = "SELECT t3.peso_bruto as peso_bruto from sec_web.pesaje_lodos t3 where";
+						$consuj.= " t3.cod_producto = '".$Producto."' and t3.cod_subproducto = '11'";
+						$consuj.= " and t3.cod_bulto = '".$CodLote."' and t3.num_bulto = '".$NumLote."' and t3.corr_ie = '".$Corr_enm."'";
+						$consuj.= " and t3.cod_paquete = '".$Fila["cod_paquete"]."' and t3.num_paquete = '".$Fila["num_paquete"]."'";
+						$consuj.= " and t3.num_pesada = '1'";
+						$respuej = mysql_query($consuj);
+						$Filaj = mysql_fetch_array($respuej);
+					}				
+					echo "<td align='center'>".number_format($Filaj["peso_bruto"],0,",",".")."</td>\n";
+                	$TotalPesoBruto = $TotalPesoBruto + $Filaj["peso_bruto"];
+				}	
+				if ($Producto=='64')
+			  	{
+					echo "<td align='center'>&nbsp;</td>\n";
+			  	}	
+				else
+				{
+					echo "<td align='center'>".number_format(($Fila["peso_paquetes"] + 2),0,",",".")."</td>\n";
+   		        	$TotalPesoBruto = $TotalPesoBruto + ($Fila["peso_paquetes"] + 2);
+			  	}
+					
+		}		
+		else
+		{
+			echo "<td align='center'>".number_format(($Fila["peso_paquetes"] + 1),0,",",".")."</td>\n";
+			$TotalPesoBruto = $TotalPesoBruto + ($Fila["peso_paquetes"] + 1);
+		}*/
+		
+		
+		  echo "<td align='center'>".$Fila["cod_grupo"]."</td>\n";
+		  echo "<td align='center'>".number_format($Fila["num_unidades"],0,",",".")."</td>\n";
+		  $Consulta = "SELECT * from ram_web.atributo_existencia ";
+		  $Consulta.= " where cod_existencia = '".$Fila["cod_lugar"]."'";
+		  $Respuesta2 = mysql_query($Consulta);
+		  if ($Fila2 = mysql_fetch_array($Respuesta2))
+			 echo "<td align='left'>".strtoupper($Fila2["abrev_existencia"])."</td>\n";
+          else
+			echo "<td align='left'>&nbsp;</td>\n";
+          echo "<td align='center'>".strtoupper($Fila["cod_paquete"])."-".$Fila["num_paquete"]."</td>\n";
+          $TotalPaquetes = $TotalPaquetes + 1;
+//		  $TotalPesoBruto = $TotalPesoBruto + ($Fila["peso_paquetes"] + 1);
+		  $TotalPesoNeto = $TotalPesoNeto + $Fila["peso_paquetes"];
+		  $TotalUnidades = $TotalUnidades + $Fila["num_unidades"];
+	    }
+    /* }
+     elseif ($Producto=='57')
+     {
+	      $TotalPaquetes = 0;
+	      $TotalPesoBruto = 0;
+	      $TotalPesoNeto = 0;
+	      $TotalUnidades = 0;
+ aqui jcf
+
+        $consulta = "SELECT t1.cod_paquete, t1.num_paquete, t1.fecha_pesaje, t2.corr_enm, t1.cod_bulto, t2.num_bulto, t1.marca, t2.cod_estado,";
+		$consulta.= " t1.unidades, t1.peso_neto  AS peso_paquetes, t1.peso_bruto, t1.peso_tara";
+		$consulta.= " FROM sec_web.pesaje_lodos AS t1";
+		$consulta.= " INNER JOIN sec_web.lote_catodo AS t2 ";
+		$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete";
+		$consulta.= " AND t1.corr_ie = t2.corr_enm";
+		$consulta.= " WHERE fecha_pesaje = '".$fecha."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
+
+		if ($cmbsubproducto == 11)
+			$consulta.= " AND num_pesada = '1'";
+		else
+			$consulta.= " AND num_pesada = '2'";
+
+		$consulta.= " ORDER BY cod_paquete ASC, num_paquete ASC";
+
+     }      */
+
+	?>
+	<tr align="center">
+      <td colspan="2"><strong><? echo number_format($TotalPaquetes,0,",","."); ?> Paquetes</strong></td>
+      <td><strong><? echo number_format($TotalPesoNeto,0,",","."); ?></strong></td>
+      <td><strong><? echo number_format($TotalPesoBruto,0,",","."); ?></strong></td>
+      <td>&nbsp;</td>
+      <td><strong><? echo number_format($TotalUnidades,0,",","."); ?></strong></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+<br>
+<br>
+</form>
+</body>
+</html>

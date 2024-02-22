@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44270 ',peso_neto='28060',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10260646-9',nombre_chofer='Ulises Riova',observacion='polvos convertidores',romana_salida='1' where correlativo='474650' and lote='22126082' and recargo='4'

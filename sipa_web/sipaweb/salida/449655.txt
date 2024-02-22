@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='30120',peso_neto='16220',marca='V FRANJA NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='7470092-6',nombre_chofer='CARLOS BRAVO',observacion='',romana_salida='1' where correlativo='449655' and lote='21096031' and recargo='17'

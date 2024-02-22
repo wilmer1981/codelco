@@ -1,0 +1,219 @@
+.bghead2 {
+	FONT-SIZE: 16pt; COLOR: #ffcc66; FONT-FAMILY: Verdana
+}
+.bodycopy {
+	LINE-HEIGHT: 150%
+}
+.BTsubhead {
+	FONT-SIZE: 16pt; LINE-HEIGHT: 150%; FONT-FAMILY: Georgia
+}
+.byline {
+	FONT-SIZE: 9pt
+}
+.btns {
+	BORDER-TOP-WIDTH: thin; FONT-WEIGHT: bold; BORDER-LEFT-WIDTH: thin; FONT-SIZE: 11px; BORDER-BOTTOM-WIDTH: thin; COLOR: #ffffff; LINE-HEIGHT: 11px; BACKGROUND-COLOR: #31659c; BORDER-RIGHT-WIDTH: thin; TEXT-DECORATION: none; backgroundborder-style: inset
+}
+.btnhot {
+	BORDER-RIGHT: thin outset; BORDER-TOP: thin outset; BORDER-LEFT: thin outset; CURSOR: hand; BORDER-BOTTOM: thin outset; BACKGROUND-COLOR: #ffffff
+}
+.btnahot {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #000000; LINE-HEIGHT: 11px; TEXT-DECORATION: none
+}
+.btnahot:hover {
+	COLOR: #000000
+}
+.C_head {
+	FONT: bold 11pt/160% Arial; LETTER-SPACING: 1px
+}
+.cTitle {
+	FONT-SIZE: 11px; FONT-FAMILY: Arial, Helvetica, Sans Serif; LETTER-SPACING: 1pt
+}
+.callout {
+	LINE-HEIGHT: 150%
+}
+.callouttext {
+	FONT-SIZE: 9pt
+}
+.comhead {
+	FONT-SIZE: 16pt; COLOR: #006633; FONT-FAMILY: Verdana
+}
+.date {
+	TEXT-TRANSFORM: uppercase; LETTER-SPACING: 0.1em
+}
+.dealhead {
+	FONT-SIZE: 14pt; FONT-FAMILY: Arial Black
+}
+.ednote {
+	FONT-SIZE: 9pt; LETTER-SPACING: 0.1em
+}
+.fL {
+	COLOR: black
+}
+.font8Arial {
+	FONT-SIZE: 8px; FONT-FAMILY: Arial
+}
+.font9Arial {
+	FONT-SIZE: 9px; FONT-FAMILY: Arial
+}
+.font10Arial {
+	FONT-SIZE: 10px; FONT-FAMILY: Arial
+}
+.font11Arial {
+	FONT-SIZE: 11px; FONT-FAMILY: Arial
+}
+.font12Arial {
+	FONT-SIZE: 12px; FONT-FAMILY: Arial
+}
+.font14Arial {
+	FONT-SIZE: 14px; FONT-FAMILY: Arial
+}
+.font16Arial {
+	FONT-SIZE: 16px; FONT-FAMILY: Arial
+}
+.font18Arial {
+	FONT-SIZE: 18px; FONT-FAMILY: Arial
+}
+.font20Arial {
+	FONT-SIZE: 20px; FONT-FAMILY: Arial
+}
+.font9Verdana {
+	FONT-SIZE: 9px; FONT-FAMILY: Verdana
+}
+.GoButton {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; TEXT-TRANSFORM: capitalize; WIDTH: 25px; LINE-HEIGHT: 0.85; PADDING-TOP: 3px; FONT-FAMILY: arial, helvetica, sans serif
+}
+.greenGoBtn {
+	BORDER-RIGHT: #006600 thin solid; BORDER-TOP: #cccccc thin solid; FONT-WEIGHT: bold; FONT-SIZE: 11px; TEXT-TRANSFORM: capitalize; BORDER-LEFT: #cccccc thin solid; CURSOR: hand; COLOR: #ffffff; LINE-HEIGHT: 0.85; PADDING-TOP: 3px; BORDER-BOTTOM: #006600 thin solid; FONT-FAMILY: Arial; BACKGROUND-COLOR: #009900
+}
+.guides_banter {
+	MARGIN-TOP: 10px; FONT-WEIGHT: normal; FONT-SIZE: 12px; TEXT-TRANSFORM: none; COLOR: #000000; LINE-HEIGHT: 130%; FONT-FAMILY: Arial; TEXT-ALIGN: left
+}
+.guides_blurb {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; TEXT-TRANSFORM: none; COLOR: #000000; LINE-HEIGHT: 130%; FONT-FAMILY: Arial; TEXT-ALIGN: left
+}
+.emtpy {
+	
+}
+.highlight1_on {
+	BACKGROUND-COLOR: #ffff00
+}
+.HotTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; TEXT-TRANSFORM: none; FONT-FAMILY: Arial; TEXT-ALIGN: left; margin_top: 10px
+}
+.jump {
+	FONT-SIZE: 8.5pt
+}
+.jump2 {
+	COLOR: #990000
+}
+.launchTitle {
+	FONT-SIZE: 20px; COLOR: #cc6600; FONT-FAMILY: Arial, Helvetica, Sans Serif
+}
+.leadin {
+	FONT-SIZE: 17pt; FONT-FAMILY: Georgia
+}
+.leftBar {
+	FONT-SIZE: 8pt
+}
+.leftLink {
+	FONT-SIZE: 11px; LINE-HEIGHT: 14px; FONT-FAMILY: Arial, Helvetica, Sans Serif
+}
+.list1 {
+	MARGIN-TOP: 4pt; MARGIN-LEFT: 12pt; LINE-HEIGHT: 150%; LIST-STYLE-TYPE: square
+}
+.list2 {
+	MARGIN-TOP: 4pt; MARGIN-LEFT: 12pt; LINE-HEIGHT: 150%; LIST-STYLE-TYPE: none
+}
+.maxMilesBtn {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; FONT-WEIGHT: bold; FONT-SIZE: 10pt; BACKGROUND: #ffffff; BORDER-LEFT: medium none; CURSOR: hand; COLOR: #333399; BORDER-BOTTOM: medium none; FONT-FAMILY: Arial; TEXT-DECORATION: underline
+}
+.modhilite {
+	FONT-SIZE: 9pt; TEXT-TRANSFORM: uppercase; LETTER-SPACING: 1.5pt
+}
+.nav2Link {
+	FONT-SIZE: 11px; FONT-FAMILY: Arial, Helvetica, Sans Serif
+}
+.nav2SelText {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #cc6600; FONT-FAMILY: Arial, Helvetica, Sans Serif
+}
+.nav3SelText {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #cc6600; FONT-FAMILY: Arial, Helvetica, Sans Serif
+}
+.newshead {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; FONT-FAMILY: Arial; LETTER-SPACING: 5px
+}
+.newslist {
+	LINE-HEIGHT: 165%
+}
+.newstitle {
+	FONT-SIZE: 20pt; FONT-FAMILY: Georgia
+}
+.noUnder {
+	COLOR: #ffffff; FONT-FAMILY: Arial; TEXT-DECORATION: none
+}
+.noUnder2 {
+	COLOR: #333399; TEXT-DECORATION: none
+}
+.number {
+	FONT-WEIGHT: bold; FONT-SIZE: 14pt; COLOR: #333399
+}
+.overlap2 {
+	LINE-HEIGHT: 1pt
+}
+.pullquote {
+	FONT-SIZE: 16pt; LINE-HEIGHT: 120%; FONT-FAMILY: Georgia, "Times New Roman", Times, serif
+}
+.rL {
+	COLOR: black; TEXT-DECORATION: none
+}
+.QA {
+	FONT-SIZE: 14pt; FONT-FAMILY: Verdana
+}
+.secTitle {
+	LETTER-SPACING: 0.5mm; FONT-VARIANT: small-caps
+}
+.thisweek {
+	LETTER-SPACING: 0.1em
+}
+.title {
+	FONT-SIZE: 18pt; FONT-FAMILY: Verdana
+}
+.track {
+	LETTER-SPACING: 0.1em
+}
+.whitehead {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #ffffff; FONT-FAMILY: Arial; LETTER-SPACING: 1px; TEXT-ALIGN: center; TEXT-DECORATION: none
+}
+.whitehead2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 9px; COLOR: #ffffff; FONT-FAMILY: Verdana; LETTER-SPACING: 1px; TEXT-ALIGN: center; TEXT-DECORATION: none
+}
+A {
+	COLOR: #333399
+}
+.small {
+	FONT-SIZE: 11px; FONT-FAMILY: arial
+}
+A.small {
+	FONT-SIZE: 11px; COLOR: #333399; FONT-FAMILY: Arial, Helvetica, Sans Serif
+}
+A.anchor {
+	COLOR: #000000
+}
+A:visited {
+	COLOR: #333399
+}
+A:hover {
+	COLOR: #ff6600
+}
+TD {
+	FONT-SIZE: 13px; COLOR: #000000; FONT-FAMILY: Arial, Helvetica, Sans Serif
+}
+.whitehead_u {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; TEXT-TRANSFORM: uppercase; COLOR: #ffffff; FONT-FAMILY: Arial; TEXT-ALIGN: center; TEXT-DECORATION: none
+}
+.date2 {
+	FONT-SIZE: 8.5pt; LETTER-SPACING: 0.1em
+}
+.MDBPrice {
+	FONT-WEIGHT: bold; COLOR: #cc0000
+}

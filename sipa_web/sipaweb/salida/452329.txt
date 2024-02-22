@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 42930 ',peso_neto='28320',marca='FRANJA AMARILLA',cod_mop='690',num_sello='',transportista='',rut_chofer='14568880-9',nombre_chofer='ORLANDO FLORES',observacion='',romana_salida='2' where correlativo='452329' and lote='21106082' and recargo='7'

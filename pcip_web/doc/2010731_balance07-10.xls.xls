@@ -1,0 +1,945 @@
+Codelco                             Balance Codelco Chile para I F R S                            Hora 17:06:52     Fecha 10.08.2010																	
+Chile                                 DIVISION VENTANAS JULIO 2010                                RFBILA00/JAVAL011 Página         1																	
+
+Sociedad					CL01	División		****					Imptes en		USD		
+
+	V	Soc.	Div.	Textos............................................					..Interv.informe.		..Comp. periodos			.......absolutos		...Rel	 Tot.
+	S	soc.	inf.	..................................................					(01.2010-07.2010)		(01.2010-06.2010)			.....Desviación		...Dsv	Etapa
+
+				*********************************************													
+				***************** ACTIVOS *******************													
+				*********************************************													
+				********** ACTIVOS CORRIENTES **************													
+				ACTIVOS CORRIENTES EN OPERACION													
+				Efectivo y Equivalentes al Efectivo													
+				Efectivo en Caja													
+				Fondos Fijos													
+		CL01	FV01	101451			F.F.Gerencia General Ventanas			573		549		24		4,4	
+		CL01	FV01	101453			F.F.Direccion Comunicaciones Ventanas			382		366		16		4,4	
+		CL01	FV01	101454			F.F.Gerencia de Operaciones Ventanas			286,5		274,5		12		4,4	
+		CL01	FV01	101455			F.F.Asesoría Juridica Ventanas			229,2		219,6		9,6		4,4	
+		CL01	FV01	101456			Fondo Fijo Gerencia Desarrollo Humano V			955		915		40		4,4	
+				Total Fondos Fijos						2.425,70		2.324,10		101,6		4,4	*6*
+				Total Efectivo en Caja						2.425,70		2.324,10		101,6		4,4	*5*
+				Saldos en Bancos													
+				Bancos Nacionales													
+		CL01	FV01	105400			Bco de Chile Ventanas 000-31970-08			169.175,22		256.711,66		-87.536,44		-34,1	
+		CL01	FV01	105401			Bco de Chile Ventanas Cheque 000-31970-			-199.132,16		-1.580.606,58		1.381.474,42		87,4	
+		CL01	FV01	105403			Bco de Chile Ventanas Transfer 000-3197			0		1.095.677,45		-1.095.677,45		-100	
+				Total Bancos Nacionales						-29.956,94		-228.217,47		198.260,53		86,9	*6*
+				Total Saldos en Bancos						-29.956,94		-228.217,47		198.260,53		86,9	*5*
+				Total Efectivo y Equivalentes al Efectivo						-27.531,24		-225.893,37		198.362,13		87,8	*4*
+				Otros Activos No Financieros, Corrientes													
+				Pagos Anticipados, Corriente													
+		CL01	FV01	119512			Seguros Anticipados Personal Contratist			6.316,08		7.579,31		-1.263,23		-16,7	
+		CL01	FV01	119610			Valores por Distribuir			148,42		514,9		-366,48		-71,2	
+		CL01	FV01	119685			Gastos de desestiba Cátodos a consignac			-1.499,47		-1.967,54		468,07		23,8	
+		CL01	FV01	119696			FEL- Facturas Proveedores por Distribui			42.875,85		39.824,48		3.051,37		7,7	
+				Total Pagos Anticipados, Corriente						47.840,88		45.951,15		1.889,73		4,1	*5*
+				Otros circulantes													
+		CL01	FV01	119575			Traspasos Pendientes			-582,55		1.858,29		-2.440,84		-131,3	
+		CL01	FV01	119576			Activos Fijos dados de baja			10.589,00		10.089,00		500		5	
+				Total Otros circulantes						10.006,45		11.947,29		-1.940,84		-16,2	*5*
+				Total Otros Activos No Financieros,Corrientes						57.847,33		57.898,44		-51,11		-0,1	*4*
+				Deudores Comerciales y Otras Cuentas por													
+				Cobrar, Neto, Corriente													
+				Deudores Comerciales, Neto, Corrientes													
+				Clientes por Ventas Locales													
+		CL01	FV01	112000			Cuentas por Cobrar Nacional			50.371.710,54		65.058.210,49		-14.686.499,95		-22,6	
+		CL01	FV01	112030			Provisión facturas no finalizadas-Nacio			1.060.103,17		-13.201.840,85		14.261.944,02		108	
+		CL01	FV01	112099			Corrección Clientes			118.691,75		211.459,56		-92.767,81		-43,9	
+				Total Clientes por Ventas Locales						51.550.505,46		52.067.829,20		-517.323,74		-1	*6*
+				Clientes por Ventas al Exterior													
+		CL01	FV01	112500			Cuentas por Cobrar Exterior			13.941.438,66		-5.444.177,75		19.385.616,41		356,1	
+		CL01	FV01	112530			Provisión facturas no finalizadas-Exter			6.064.531,45		-1.461.592,42		7.526.123,87		514,9	
+		CL01	FV01	112540			Productos Facturados por Despachar			-890.596,26		-6.096.919,82		5.206.323,56		85,4	
+		CL01	FV01	112599			Corrección Clientes Externos			-3.186,62		-39.501,99		36.315,37		91,9	
+				Total Clientes por Ventas al Exterior						19.112.187,23		-13.042.191,98		32.154.379,21		246,5	*6*
+				Total Deudores Comerciales, Neto, Corrientes						70.662.692,69		39.025.637,22		31.637.055,47		81,1	*5*
+				Otras Cuentas por Cobrar, Neto, Corriente													
+				Deudores Varios (neto)													
+				Cuentas Corrientes del Personal													
+		CL01	FV01	115422			Cuenta Corriente del Personal Corto Pla			4.024.425,53		3.785.907,22		238.518,31		6,3	
+		CL01	FV01	115455			Préstamos Licencias Médicas			11.516,91		3.041,83		8.475,08		278,6	
+		CL01	FV01	115460			Cuenta por Cobrar del Personal			508,23		110,4		397,83		360,4	
+		CL01	FV01	115480			Interfaz cuenta corriente Siger			0		8.128,28		-8.128,28		-100	
+				Total Cuentas Corrientes del Personal						4.036.450,67		3.797.187,73		239.262,94		6,3	*7*
+				Fondos por Rendir del Personal													
+		CL01	FV01	114710			Gastos a Rendir Trabajadores			4.943,94		5.646,82		-702,88		-12,4	
+				Total Fondos por Rendir del Personal						4.943,94		5.646,82		-702,88		-12,4	*7*
+				Deudas Ex-trabajadores													
+		CL01	FV01	114401			Ex-Trabajadores Corto Plazo			18.787,65		18.000,73		786,92		4,4	
+				Total Deudas Ex-trabajadores						18.787,65		18.000,73		786,92		4,4	*7*
+				Otros Deudores													
+		CL01	FV01	115000			Cuentas por Cobrar Misceláneos			447.598,66		527.592,26		-79.993,60		-15,2	
+		CL01	FV01	115020			Deudores Varios			4.088.464,50		4.981.580,08		-893.115,58		-17,9	
+		CL01	FV01	115025			ISAPRES por Cobrar			7.510,76		6.600,85		909,91		13,8	
+		CL01	FV01	115026			CLINICA DENTAL VENTANAS POR COBRAR			528,21		557,57		-29,36		-5,3	
+		CL01	FV01	115029			Corrección Deudores Varios - Ajuste Cam			-551,68		-551,68		0			
+		CL01	FV01	115030			Cuentas por Cobrar Sindicatos			299.768,00		299.768,00		0			
+		CL01	FV01	115031			Reclasificación Cuentas por Cobrar Sind			0		-370.392,00		370.392,00		100	
+		CL01	FV01	115099			Corrección Ctas. por Cobrar Misceláneos			73.372,95		38.619,35		34.753,60		90	
+				Total Otros Deudores						4.916.691,40		5.483.774,43		-567.083,03		-10,3	*7*
+				Anticipos a Proveedores y Contratistas													
+		CL01	FV01	114020			Anticipo a Proveedores y Contratistas			582.682,37		582.682,37		0			
+		CL01	FV01	114199			Corrección Anticipos a Proveedores y Co			23.038,22		12.356,60		10.681,62		86,4	
+				Total Anticipos a Proveedores y Contratistas						605.720,59		595.038,97		10.681,62		1,8	*7*
+				Total Deudores Varios (neto)						9.582.594,25		9.899.648,68		-317.054,43		-3,2	*6*
+				Total Otras Cuentas x Cobrar, Neto,Corriente						9.582.594,25		9.899.648,68		-317.054,43		-3,2	*5*
+				Total Deudores Comerciales y Otras Cuentas						80.245.286,94		48.925.285,90		31.320.001,04		64	*4*
+				por Cobrar, Neto, Corriente													
+				Cuentas x Cobrar a Entidades Relacionadas,													
+				Corriente													
+				Cuentas por Cobrar Empresas Relacionadas													
+		CL01	FV01	116000			Ctas. Cobrar Subs. y Filiales			1.568.844,14		650.744,66		918.099,48		141,1	
+		CL01	FV01	116099			Corrección Ctas. Cobrar Subs. y Filiale			19.950,80		19.950,80		0			
+				Total Ctas x Cobrar Empresas Relacionadas						1.588.794,94		670.695,46		918.099,48		136,9	*5*
+				Total Ctas x Cobrar a Entidades Relacionadas						1.588.794,94		670.695,46		918.099,48		136,9	*4*
+				Inventarios													
+				Suministros para la Producción													
+				Materiales e Insumos de Operación													
+		CL01	FV01	118500			Materiales e Insumos de Operación			8.094.391,96		8.228.347,55		-133.955,59		-1,6	
+				Total Materiales e Insumos de Operación						8.094.391,96		8.228.347,55		-133.955,59		-1,6	*6*
+				Provisión Materiales Obsoletos													
+		CL01	FV01	118900			Provisión Obsoletos bienes de consumo c			-3.364.981,31		-3.462.947,07		97.965,76		2,8	
+				Total Provisión Materiales Obsoletos						-3.364.981,31		-3.462.947,07		97.965,76		2,8	*6*
+				Total Suministros para la Producción						4.729.410,65		4.765.400,48		-35.989,83		-0,8	*5*
+				Trabajo en Curso													
+				Cobre y Subproductos en Proceso													
+				Cobre en Proceso													
+		CL01	FV01	117404			SPI - El Teniente Fusión, conversión y			1.705.233,68		1.776.199,66		-70.965,98		-4	
+		CL01	FV01	117405			CTI Conc. Propios Andina Fusión, conv.			2.568.141,41		2.651.342,75		-83.201,34		-3,1	
+		CL01	FV01	117410			CTI Chuquicamata Electrorefinación			3.183,15		3.183,15		0			
+		CL01	FV01	117415			CTI El Teniente Electrorefinación			2.283.305,29		2.067.698,45		215.606,84		10,4	
+		CL01	FV01	117420			CTI Salvador Electrorefinación			785,01		785,01		0			
+		CL01	FV01	117422			CTI CUCON Propio  Andina Electrorefinac			2.378.160,24		1.207.324,81		1.170.835,43		97	
+		CL01	FV01	117431			3°-P Fusión, conversión Concentrados			10.879.803,06		16.473.130,58		-5.593.327,52		-34	
+		CL01	FV01	117440			3°-P Fusión, conversión y moldeo Enami			587.303,36		345.662,06		241.641,30		69,9	
+		CL01	FV01	117532			3°-P Electrorefinación			72.638.338,91		44.780.137,81		27.858.201,10		62,2	
+		CL01	FV01	117540			3°-P Electrorefinación Enami			2.120.633,63		2.825.293,19		-704.659,56		-24,9	
+		CL01	FV01	117632			Anodos Recibidos de otras divisiones			0		-64.279.035,19		64.279.035,19		100	
+		CL01	FV01	117633			Anodos en proceso de divisiones			0		64.279.035,19		-64.279.035,19		-100	
+		CL01	FV01	117650			Recepción de maquilas a terceros			0		-62.163.605,31		62.163.605,31		100	
+		CL01	FV01	117651			Maquilas a terceros			0		62.163.605,31		-62.163.605,31		-100	
+				Total Cobre en Proceso						95.164.887,74		72.130.757,47		23.034.130,27		31,9	*7*
+				Subproductos en Proceso													
+		CL01	FV01	117357			3°- Oro en Proceso			15.482.011,72		18.432.615,94		-2.950.604,22		-16	
+		CL01	FV01	117360			SPI - Oro en SPI			4.049,75		4.054,76		-5,01		-0,1	
+		CL01	FV01	117500			CTI Salvador Barro Anódico			2.908,67		5.004,16		-2.095,49		-41,9	
+		CL01	FV01	117505			CTI Andina Barro Anódico AuAg			52.032,46		37.747,81		14.284,65		37,8	
+		CL01	FV01	117510			CTI El Teniente Barro Anódico AuAg			106.437,65		60.726,90		45.710,75		75,3	
+		CL01	FV01	117515			CTI Chuquicamata Barro Anódico AuAg			2.483,46		14.161,76		-11.678,30		-82,5	
+		CL01	FV01	117520			Barro anódico de AuAg comprado Terceros			4.720.048,60		6.697.874,70		-1.977.826,10		-29,5	
+				Total Subproductos en Proceso						20.369.972,31		25.252.186,03		-4.882.213,72		-19,3	*7*
+				Total Cobre y Subproductos en Proceso						115.534.860,05		97.382.943,50		18.151.916,55		18,6	*6*
+				Total Trabajo en Curso						115.534.860,05		97.382.943,50		18.151.916,55		18,6	*5*
+				Bienes Terminados													
+				Cobre y Subproductos Terminados													
+				Minerales Propios													
+				Cobre													
+		CL01	FV01	117985			Blister en Canje			3.932.208,88		7.967.157,18		-4.034.948,30		-50,6	
+				Total Cobre						3.932.208,88		7.967.157,18		-4.034.948,30		-50,6	*8*
+				Subproductos													
+		CL01	FV01	118210			CTI-Acido Sulfúrico			1.138.438,37		796.597,81		341.840,56		42,9	
+				Total Subproductos						1.138.438,37		796.597,81		341.840,56		42,9	*8*
+				Total Minerales Propios						5.070.647,25		8.763.754,99		-3.693.107,74		-42,1	*7*
+				Minerales de Terceros													
+				Cobre													
+		CL01	FV01	118311			Cátodo Grado A-ER			2.128.152,39		3.113.501,20		-985.348,81		-31,6	
+		CL01	FV01	118312			Cátodo Grado A-Estandar			3.525.199,04		3.418.718,26		106.480,78		3,1	
+		CL01	FV01	118313			Cátodo Grado A-ER Rechazados			667.120,87		632.176,02		34.944,85		5,5	
+		CL01	FV01	118314			Cátodo Grado A SXEW			142.080,24		142.080,24		0			
+		CL01	FV01	118318			Cátodos EW Rechazados			1.618.885,43		990.968,82		627.916,61		63,4	
+		CL01	FV01	118319			Cátodos EW Estándar			2.739.523,12		2.075.648,00		663.875,12		32	
+				Total Cobre						10.820.961,09		10.373.092,54		447.868,55		4,3	*8*
+				Subproductos													
+		CL01	FV01	118281			Oro refinado - FRV			2.875.275,66		925.693,57		1.949.582,09		210,6	
+		CL01	FV01	118282			Plata refinada - FRV			1.731.633,80		1.444.445,55		287.188,25		19,9	
+		CL01	FV01	118288			Escorias Plamen Terminado			930.454,95		0		930.454,95			
+		CL01	FV01	118289			Acido Sulfúrico			1.154.716,98		1.494.131,97		-339.414,99		-22,7	
+				Total Subproductos						6.692.081,39		3.864.271,09		2.827.810,30		73,2	*8*
+				Total Minerales de Terceros						17.513.042,48		14.237.363,63		3.275.678,85		23	*7*
+				Productos Comprados a Terceros													
+				Cobre Comprado a Terceros													
+		CL01	FV01	118043			3°-V Conc.  Cobre Comprado a Terceros			3.036.514,35		3.302.705,06		-266.190,71		-8,1	
+				Total Cobre Comprado a Terceros						3.036.514,35		3.302.705,06		-266.190,71		-8,1	*8*
+				Subproductos Comprados a Terceros													
+		CL01	FV01	118492			3º Concentrado de Oro			6.908.187,84		10.848.419,39		-3.940.231,55		-36,3	
+		CL01	FV01	118493			3°-V  Acido Sulfurico de Terceros			132.550,43		163.299,97		-30.749,54		-18,8	
+				Total Subproductos Comprados a Terceros						7.040.738,27		11.011.719,36		-3.970.981,09		-36,1	*8*
+				Total Productos Comprados a Terceros						10.077.252,62		14.314.424,42		-4.237.171,80		-29,6	*7*
+				Total Cobre y Subproductos Terminados						32.660.942,35		37.315.543,04		-4.654.600,69		-12,5	*6*
+				Total Bienes Terminados						32.660.942,35		37.315.543,04		-4.654.600,69		-12,5	*5*
+				Total Inventarios						152.925.213,05		139.463.887,02		13.461.326,03		9,7	*4*
+				Activos por Impuestos, Corrientes													
+				Impuestos por Recuperar													
+		CL01	FV01	119210			Iva Crédito Fiscal Importaciones			35.631,43		98.988,89		-63.357,46		-64	
+		CL01	FV01	119299			Asignación Iva Crédito Fiscal			4.684.704,27		4.684.704,27		0			
+		CL01	FV01	119300			Impuesto al Petróleo Ley 18502			27.112,72		18.741,95		8.370,77		44,7	
+				Total Impuestos por Recuperar						4.747.448,42		4.802.435,11		-54.986,69		-1,1	*5*
+				Total Activos por Impuestos, Corrientes						4.747.448,42		4.802.435,11		-54.986,69		-1,1	*4*
+				TOTAL ACTIVOS CORRIENTES EN OPERACION						239.537.059,44		193.694.308,56		45.842.750,88		23,7	*3*
+
+				ACTIVOS CORRIENTES, TOTAL						239.537.059,44		193.694.308,56		45.842.750,88		23,7	*2*
+										0		0		0			*2*
+				Otros Activos No Financieros, No Corriente													
+				Otros Activos Varios, No Corriente													
+		CL01	FV01	135075			Otros Activos Menores			2.437,00		2.439,00		-2		-0,1	
+		CL01	FV01	135100			Depósitos en Garantía			21.876,58		20.960,28		916,3		4,4	
+		CL01	FV01	135556			Bono Negociación Colectiva			7.186.652,40		7.186.652,40		0			
+		CL01	FV01	135557			Amortización Bono Negociación Colectiva			-2.975.758,81		-2.803.878,23		-171.880,58		-6,1	
+		CL01	FV01	135558			Reserva Amortización BTN			-4.210.893,59		-4.382.774,17		171.880,58		3,9	
+				Total Otros Activos Varios, No Corriente						24.313,58		23.399,28		914,3		3,9	*4*
+				Total Otros Activos No Financieros, No Corrie						24.313,58		23.399,28		914,3		3,9	*3*
+
+				Derechos por Cobrar No Corrientes													
+				Otras Cuentas por Cobrar, Neto, No Corriente													
+				Deudores largo plazo													
+		CL01	FV01	131030			Reclasificación Cuentas x Cobrar Sindic			0		370.392,00		-370.392,00		-100	
+		CL01	FV01	131401			Ex-Trabajadores Largo Plazo			6.901,73		6.612,66		289,07		4,4	
+		CL01	FV01	131422			Cuenta Corriente del Personal Largo Pla			6.950.953,53		6.738.162,57		212.790,96		3,2	
+				Total Deudores largo plazo						6.957.855,26		7.115.167,23		-157.311,97		-2,2	*5*
+				Total Deudores a largo plazoOtras Cuentas por						6.957.855,26		7.115.167,23		-157.311,97		-2,2	*4*
+				Cobrar, Neto, No Corriente													
+				Total Derechos por Cobrar No Corrientes						6.957.855,26		7.115.167,23		-157.311,97		-2,2	*3*
+
+				Activos Intangibles Distintos a la Plusvalia													
+				Activos Intangibles Identificables, Neto													
+				Programa Informaticos, Neto													
+		CL01	FV01	134600			Softwares			82.345,82		88.680,12		-6.334,30		-7,1	
+				Total Programa Informaticos, Neto						82.345,82		88.680,12		-6.334,30		-7,1	*5*
+				Total Activos Intangibles Identificables,Neto						82.345,82		88.680,12		-6.334,30		-7,1	*4*
+				Total Activo Intangible Distintos a Plusvalia						82.345,82		88.680,12		-6.334,30		-7,1	*3*
+
+				Propiedades, Planta y Equipo													
+				Propiedades, Planta y Equipo, Bruto													
+				Contrucción  en Curso, Bruto													
+				Obras en Curso													
+		CL01	FV01	124000			Obras en Curso			22.377.393,07		21.438.959,61		938.433,46		4,4	
+		CL01	FV01	124701			Gastos de Investigación y Estudio			2.250.814,82		2.250.837,22		-22,4			
+		CL01	FV01	124751			Provisión Gastos de Investigación y Est			-2.413.964,21		-2.413.986,61		22,4			
+				Total Obras en Curso						22.214.243,68		21.275.810,22		938.433,46		4,4	*6*
+				Total Contrucción  en Curso, Bruto						22.214.243,68		21.275.810,22		938.433,46		4,4	*5*
+				Terrenos, Bruto													
+				Terrenos													
+		CL01	FV01	120000			Terrenos			25.449.563,97		25.449.563,97		0			
+				Total Terrenos						25.449.563,97		25.449.563,97		0			*6*
+				Total Terrenos, Bruto						25.449.563,97		25.449.563,97		0			*5*
+				Edificios, Bruto													
+				Edificios													
+		CL01	FV01	120020			Edificios			52.529.462,20		52.529.462,20		0			
+		CL01	FV01	120025			Revalorización de Edificios			162.312,00		162.312,00		0			
+		CL01	FV01	120028			Desmant. Edificio			31.744,00		31.744,00		0			
+				Total Edificios						52.723.518,20		52.723.518,20		0			*6*
+				Habitaciones													
+		CL01	FV01	120060			Habitaciones			61.077,00		61.077,00		0			
+		CL01	FV01	120068			Desmant. Habitaciones			1.032,00		1.032,00		0			
+				Total Habitaciones						62.109,00		62.109,00		0			*6*
+				Total Edificios, Bruto						52.785.627,20		52.785.627,20		0			*5*
+				Planta y Equipo, Bruto													
+				Maquinarias y Equipos													
+		CL01	FV01	120030			Maquinarias y Equipos			302.244.626,31		302.244.626,31		0			
+		CL01	FV01	120035			Revalorización de Maquinarias y Equipo			564.968,00		564.968,00		0			
+		CL01	FV01	120038			Desmant. Maquinaria y Equipos			195.709,00		195.709,00		0			
+				Total Maquinarias y Equipos						303.005.303,31		303.005.303,31		0			*6*
+				Total Planta y Equipo, Bruto						303.005.303,31		303.005.303,31		0			*5*
+				Instalaciones Fijas y Accesorios, Bruto													
+				Mobiliario y Equipamientos													
+		CL01	FV01	120050			Mobiliario y Equipamiento			818.838,46		820.717,46		-1.879,00		-0,2	
+				Total Mobiliario y Equipamientos						818.838,46		820.717,46		-1.879,00		-0,2	*6*
+				Total Instalaciones Fijas y Accesorios, Bruto						818.838,46		820.717,46		-1.879,00		-0,2	*5*
+				Vehiculos de Motor, Bruto													
+				Equipos de Transporte													
+		CL01	FV01	120040			Equipos de Transportes			5.044.941,08		5.155.941,08		-111.000,00		-2,2	
+				Total Equipos de Transporte						5.044.941,08		5.155.941,08		-111.000,00		-2,2	*6*
+				Total Vehiculos de Motor, Bruto						5.044.941,08		5.155.941,08		-111.000,00		-2,2	*5*
+				Otras Propiedades, Planta y Equipo, Bruto													
+				Otros activos fijos													
+				Activos en Leasing													
+		CL01	FV01	121020			Edificios en Leasing			1.241.059,00		1.241.059,00		0			
+		CL01	FV01	121030			Maquinarias y Equipos en Leasing			2.884.776,00		2.884.776,00		0			
+				Total Activos en Leasing						4.125.835,00		4.125.835,00		0			*7*
+				Otros													
+		CL01	FV01	120152			Mantenciones Mayores			11.753.324,55		11.753.324,55		0			
+				Total Otros						11.753.324,55		11.753.324,55		0			*7*
+				Total Otros activos fijos						15.879.159,55		15.879.159,55		0			*6*
+				Mejoras a Terreno													
+		CL01	FV01	120010			Mejoras a Terrenos			5.174.877,10		5.174.877,10		0			
+		CL01	FV01	120015			Revalorización de Mejoras a Terrenos			188.798,00		188.798,00		0			
+		CL01	FV01	120018			Desmant. Mejoras a Terrenos			728		728		0			
+				Total Mejoras a Terreno						5.364.403,10		5.364.403,10		0			*6*
+				Total Otras Propiedades,Planta y Equipo,Bruto						21.243.562,65		21.243.562,65		0			*5*
+				Total Propiedades, Planta y Equipo, Bruto						430.562.080,35		429.736.525,89		825.554,46		0,2	*4*
+				Depreciación Acumulada y Deterioro de Valor,													
+				Propiedades,Planta y Equipos													
+				Depreciación Acumulada y Deterioro de Valor,													
+				Edificios													
+		CL01	FV01	120520			Depreciación Acumulada Edificios			-9.889.927,20		-9.766.253,20		-123.674,00		-1,3	
+		CL01	FV01	120525			Depreciación Acumulada Revalorización d			-18.715,00		-17.729,00		-986		-5,6	
+		CL01	FV01	120528			Dep Acum Desmant. Edificios			-4.465,00		-4.389,00		-76		-1,7	
+		CL01	FV01	120560			Depreciación Acumulada Habitaciones			-11.427,00		-11.246,00		-181		-1,6	
+		CL01	FV01	120568			Dep Acum Desment. Habitaciones			-1.031,00		-1.031,00		0			
+				Total Depreciación Acumulada y Deterioro de						-9.925.565,20		-9.800.648,20		-124.917,00		-1,3	*5*
+				Valor Edificios													
+				Depreciación Acumulada y Deterioro de Valor,													
+				Planta y Equipo													
+		CL01	FV01	120530			Depreciación Acumulada Maquinarias y Eq			-104.941.928,31		-103.961.529,31		-980.399,00		-0,9	
+		CL01	FV01	120535			Depreciación Acumulada Reval de Maquina			-171.472,00		-162.449,00		-9.023,00		-5,6	
+		CL01	FV01	120538			Dep Acum Desment. Maquinarias y equipos			-45.016,00		-44.303,00		-713		-1,6	
+				Total Depreciación Acumulada y Deterioro de						-105.158.416,31		-104.168.281,31		-990.135,00		-1	*5*
+				Valor, Planta y Equipo													
+				Depreciación Acumulada y Deterioro de Valor,													
+		CL01	FV01	120550			Depreciación Acumul Mobiliario y Equipa			-285.558,46		-281.969,46		-3.589,00		-1,3	
+				Total Depreciación Acumulada y Deterioro de						-285.558,46		-281.969,46		-3.589,00		-1,3	*5*
+				Valor, Instalaciones Fijas y Accesorios													
+				Depreciación Acumulada y Deterioro de Valor,													
+				Vehiculos de Motor													
+		CL01	FV01	120540			Depreciación Acumulada Equipos de Trans			-2.341.024,08		-2.423.590,08		82.566,00		3,4	
+				Total Depreciación Acumulada y Deterioro de						-2.341.024,08		-2.423.590,08		82.566,00		3,4	*5*
+				Valor, Vehiculos de Motor													
+				Depreciación Acumulada y Deterioro de Valor,													
+				Otros													
+				Depreciación Acumulada Activos en Leasing													
+		CL01	FV01	121520			Depreciación Acumulada Edificios en Lea			-195.303,00		-190.602,00		-4.701,00		-2,5	
+		CL01	FV01	121530			Depreciac. Acumulada Maquinaria y Equip			-1.246.922,00		-1.216.915,00		-30.007,00		-2,5	
+				Total Depreciación Acumulada Activos en Leasi						-1.442.225,00		-1.407.517,00		-34.708,00		-2,5	*6*
+				Otros Activos Fijos													
+		CL01	FV01	135641			Amortización acumulada Manteciones Mayo			-2.274.120,55		-1.770.374,55		-503.746,00		-28,5	
+				Total Otros Activos Fijos						-2.274.120,55		-1.770.374,55		-503.746,00		-28,5	*6*
+				Mejoras a Terreno													
+		CL01	FV01	120510			Depreciación Acumulada Mejoras a Terren			-1.305.207,10		-1.284.253,10		-20.954,00		-1,6	
+		CL01	FV01	120515			Depreciación Acumulada Reval. Mejoras a			-11.859,00		-11.234,00		-625		-5,6	
+		CL01	FV01	120518			Dep Acum Desmant. Mejoras a Terreno			-179		-177		-2		-1,1	
+				Total Mejoras a Terreno						-1.317.245,10		-1.295.664,10		-21.581,00		-1,7	*6*
+				Total Depreciación Acumulada y Deterioro de						-5.033.590,65		-4.473.555,65		-560.035,00		-12,5	*5*
+				 Valor, Otros													
+				Total Depreciación Acumulada y Deterioro de						-122.744.154,70		-121.148.044,70		-1.596.110,00		-1,3	*4*
+				Valor, Propiedades,Planta y Equipos													
+				Total Propiedades, Planta y Equipo						307.817.925,65		308.588.481,19		-770.555,54		-0,2	*3*
+
+				Plusvalia													
+				Plusvalia Comprada, Neto													
+				Menor valor de inversiones													
+		CL01	FV01	130565			Apertura FV-Intangibles			2.344.027,62		2.344.027,62		0			
+		CL01	FV01	130566			Apertura FV-Amortización Acumulada Inta			-429.476,10		-429.476,10		0			
+		CL01	FV01	130567			Apertura FV- IAS Rol A			3.808.398,00		3.808.398,00		0			
+		CL01	FV01	130568			Apertura FV-Amortización Acumulada IAS			-698.206,12		-698.206,12		0			
+		CL01	FV01	130569			Apertura FV- IAS Rol B			15.426.445,52		15.426.445,52		0			
+		CL01	FV01	130570			Apertura FV-Amortización Acumulada IAS			-2.828.181,82		-2.828.181,82		0			
+		CL01	FV01	130571			Apertura FV- Vacaciones Rol A			645.932,00		645.932,00		0			
+		CL01	FV01	130572			Apertura FV-Amortiz Acumulada Vacacione			-118.420,72		-118.420,72		0			
+		CL01	FV01	130573			Apertura FV- Vacaciones Rol B			1.430.315,00		1.430.315,00		0			
+		CL01	FV01	130574			Apertura FV-Amortiz Acumulada Vacacione			-262.224,60		-262.224,60		0			
+		CL01	FV01	130575			Apertura FV-Materiales Obsoletos			2.700.000,00		2.700.000,00		0			
+		CL01	FV01	130576			Apertura FV-Amortiz Acumulada Mat. Obso			-2.700.000,00		-2.700.000,00		0			
+				Total Menor valor de inversiones						19.318.608,78		19.318.608,78		0			*5*
+				Total Plusvalia Comprada, Neto						19.318.608,78		19.318.608,78		0			*4*
+				Total Plusvalia						19.318.608,78		19.318.608,78		0			*3*
+
+										334.201.049,09		335.134.336,60		-933.287,51		-0,3	*2*
+				TOTAL ACTIVOS						573.738.108,53		528.828.645,16		44.909.463,37		8,5	*1*
+
+
+
+Codelco                             Balance Codelco Chile para I F R S                            Hora 17:06:52     Fecha 10.08.2010																	
+Chile                                 DIVISION VENTANAS JULIO 2010                                RFBILA00/JAVAL011 Página         2																	
+
+Sociedad					CL01	División		****					Imptes en		USD		
+
+	V	Soc.	Div.	Textos............................................					..Interv.informe.		..Comp. periodos			.......absolutos		...Rel	 Tot.
+	S	soc.	inf.	..................................................					(01.2010-07.2010)		(01.2010-06.2010)			.....Desviación		...Dsv	Etapa
+
+				*********************************************													
+				******PATRIMONIO Y PASIVOS*******													
+				*********************************************													
+				********** PASIVOS CORRIENTES **************													
+				PASIVOS CORRIENTES EN OPERACION													
+				Otros Pasivos Financieros, Corriente													
+				Arrendamiento Financiero, Corriente													
+				Obligaciones por Leasing													
+		CL01	FV01	200700			Obligaciones por Leasing - Cuotas Corto			-551.214,00		-551.214,00		0			
+		CL01	FV01	200710			Intereses Diferidos por Leasing - Cuota			369.719,00		371.960,00		-2.241,00		-0,6	
+				Total Obligaciones por Leasing						-181.495,00		-179.254,00		-2.241,00		-1,3	*6*
+				Total Arrendamiento Financiero, Corriente						-181.495,00		-179.254,00		-2.241,00		-1,3	*5*
+				Total Otros Pasivos Financieros, Corriente						-181.495,00		-179.254,00		-2.241,00		-1,3	*4*
+				Cuentas por Pagar Comerciales y Otras Cuentas													
+				por Pagar													
+				Acreedores Comerciales, Corriente													
+				Cuentas por Pagar													
+		CL01	FV01	205000			Cuentas por Pagar			-2.911.659,52		-4.481.658,30		1.569.998,78		35	
+		CL01	FV01	205001			Cuentas por Pagar Miscelaneas			-1.398.584,00		-1.503.161,00		104.577,00		7	
+		CL01	FV01	205010			Proveedores en Consignación			-155.465,72		-265.514,86		110.049,14		41,4	
+		CL01	FV01	205015			Proveedores Consignación en Trámite MRK			-188.982,46		-92.625,09		-96.357,37		-104	
+		CL01	FV01	205099			Corrección Cuentas por Pagar			-114.180,88		890,67		-115.071,55		*919,7-	
+		CL01	FV01	207000			Compensación Entrada Mercader. Recep. F			-5.270.727,46		-6.501.194,35		1.230.466,89		18,9	
+		CL01	FV01	207010			Acreedores Varios			-16.457,63		-42.263,63		25.806,00		61,1	
+		CL01	FV01	207100			Compensación Complemen Ent Merc/Recep.F			5.270.727,46		6.501.194,35		-1.230.466,89		-18,9	
+		CL01	FV01	207200			EM/RF:Facturas sin Recepción			210.441,92		204.029,11		6.412,81		3,1	
+		CL01	FV01	207300			EM/RF:Recepciones sin Factura			-5.481.169,38		-6.705.223,46		1.224.054,08		18,3	
+				Total Cuentas por Pagar						-10.056.057,67		-12.885.526,56		2.829.468,89		22	*6*
+				Total Acreedores Comerciales, Corriente						-10.056.057,67		-12.885.526,56		2.829.468,89		22	*5*
+				Otras Cuentas por Pagar, Corriente													
+				Acreedores													
+		CL01	FV01	207650			Cheques Caducados			-1.068,30		-1.023,56		-44,74		-4,4	
+		CL01	FV01	207700			Otras Cuentas por Pagar			-11.714,84		-40.416,12		28.701,28		71	
+		CL01	FV01	207709			Corrección Otras Cuentas por Pagar			397,57		1.093,92		-696,35		-63,7	
+		CL01	FV01	207870			Maquilas por Liquidar			-1.929.498,03		-2.239.515,00		310.016,97		13,8	
+				Total Acreedores						-1.941.883,60		-2.279.860,76		337.977,16		14,8	*6*
+				Retenciones de trabajadores													
+		CL01	FV01	208602			Retenciones a Trabajadores Interfaces			-952,43		-1.441,56		489,13		33,9	
+		CL01	FV01	208604			Ret. Trabajadores x AFP-Isapres-Cajas C			-577.347,33		-658.242,84		80.895,51		12,3	
+		CL01	FV01	208605			Retenciones Voluntarios a Trabajadores			-89.234,09		-87.478,14		-1.755,95		-2	
+		CL01	FV01	208609			Corrección Acreedores por Retención a T			-5,98		-5,98		0			
+		CL01	FV01	208620			Servicio Bienestar Ventanas Rol B			-106.803,50		-119.315,94		12.512,44		10,5	
+		CL01	FV01	208650			Retenciones Judiciales a Trabajadores			-22.050,06		-19.443,54		-2.606,52		-13,4	
+				Total Retenciones de trabajadores						-796.393,39		-885.928,00		89.534,61		10,1	*6*
+				Otras Retenciones													
+		CL01	FV01	209200			Retenciones a Proveedores y Contratista			-7.572,50		-7.572,50		0			
+		CL01	FV01	209250			Retenciones Varias			-715.744,69		-670.753,04		-44.991,65		-6,7	
+				Total Otras Retenciones						-723.317,19		-678.325,54		-44.991,65		-6,6	*6*
+				Retenciones de impuestos													
+		CL01	FV01	208660			Retención Impuesto Único Trabajadores			-89.649,98		-453.721,85		364.071,87		80,2	
+		CL01	FV01	209000			Retenciones sobre Honorarios			-6.558,01		-9.801,90		3.243,89		33,1	
+		CL01	FV01	209001			Impuesto Adicional			-12.943,42		-12.116,47		-826,95		-6,8	
+		CL01	FV01	212099			Asignación Iva Débito Fiscal			-5.105.244,51		-5.105.244,51		0			
+				Total Retenciones de impuestos						-5.214.395,92		-5.580.884,73		366.488,81		6,6	*6*
+				Total Otras Cuentas por Pagar, Corriente						-8.675.990,10		-9.424.999,03		749.008,93		7,9	*5*
+				Por pagar a los Empleados													
+		CL01	FV01	205600			Remuneraciones por Pagar Rol A			215.521,63		68.825,08		146.696,55		213,1	
+		CL01	FV01	205610			Remuneraciones por Pagar Rol B			348.969,25		307.614,59		41.354,66		13,4	
+		CL01	FV01	205629			Pagos Varios al Personal por Caja			-1.534,12		-1.675,61		141,49		8,4	
+				Total Por pagar a los Empleados						562.956,76		374.764,06		188.192,70		50,2	*5*
+				Total Cuentas por Pagar Comerciales y Otras						-18.169.091,01		-21.935.761,53		3.766.670,52		17,2	*4*
+				Cuentas por Pagar													
+				Provisiones Corrientes por Beneficios a los													
+				Empleados													
+				Provisiones del Personal													
+		CL01	FV01	208210			Provisión Bono de Gestión Rol A			-3.920,54		19.519,44		-23.439,98		-120,1
+		CL01	FV01	208211			Provisión Bono de Gestión Rol B			-1.110.414,52		-950.586,84		-159.827,68		-16,8
+		CL01	FV01	208216			Provisión RB Bono Productividad			-881.299,11		-723.088,05		-158.211,06		-21,9
+		CL01	FV01	208223			Provisión Bono Asignación Vacaciones Ro			-115.607,10		-54.837,57		-60.769,53		-110,8
+		CL01	FV01	208224			Provisión Bono Asignación Vacaciones Ro			-393.398,50		-309.828,19		-83.570,31		-27
+		CL01	FV01	208235			Provisión Gratificación Rol A			-121.983,22		-96.454,90		-25.528,32		-26,5
+		CL01	FV01	208240			Provisión Gratificación Rol B			-1.601.642,74		-1.262.084,57		-339.558,17		-26,9
+		CL01	FV01	208245			Provisión Aguinaldo Navidad Rol A			-14.856,74		-12.237,10		-2.619,64		-21,4
+		CL01	FV01	208246			Provisión Aguinaldo Navidad Rol B			-326.147,06		-256.820,82		-69.326,24		-27
+		CL01	FV01	208250			Prov Aguinaldo Fiestas Patrias Rol A			-20.419,04		-17.658,06		-2.760,98		-15,6
+		CL01	FV01	208251			Prov Aguinaldo Fiestas Patrias Rol B			-563.313,08		-466.249,54		-97.063,54		-20,8
+		CL01	FV01	208260			Prov. Indem. Años de Servicios Rol A C/			-1.778.674,77		-1.704.175,30		-74.499,47		-4,4
+		CL01	FV01	208265			Prov. Indem. Años de Servicios Rol B C/			-8.674.991,91		-8.311.641,46		-363.350,45		-4,4
+		CL01	FV01	208270			Provisión Vacaciones Rol A			-1.460.816,67		-1.400.747,12		-60.069,55		-4,3
+		CL01	FV01	208271			Provisión Vacaciones Rol B			-3.865.748,29		-3.626.814,75		-238.933,54		-6,6
+		CL01	FV01	208335			Prov Menu Beneficio			-812.733,40		-908.969,02		96.235,62		10,6
+				Total Provisiones del Personal						-21.745.966,69		-20.082.673,85		-1.663.292,84		-8,3	*5*
+				Total Provisiones Corrientes por Beneficios a						-21.745.966,69		-20.082.673,85		-1.663.292,84		-8,3	*4*
+				los Empleados													
+				Otras Provisiones a Corto Plazo													
+				Otras Provisiones, Corriente													
+				Otras Provisiones													
+		CL01	FV01	208523			Provisión Fact. por Finalizar compra Cu			2.261.034,20		14.645.867,80		-12.384.833,60		-84,6	
+		CL01	FV01	208526			Provisión Costo Enami			-25.200.542,82		-25.200.542,82		0			
+		CL01	FV01	208560			Provisión Gastos Derechos de Aduana			52.838,56		54.458,84		-1.620,28		-3	
+		CL01	FV01	208562			Provisión Fletes Exterior			-59.325,49		-40.992,00		-18.333,49		-44,7	
+		CL01	FV01	208564			Provisión Fletes Nacionales			-139.274,81		-127.929,78		-11.345,03		-8,9	
+		CL01	FV01	208566			Provisión Otros Gastos Adquisición			-39.336,85		-39.253,67		-83,18		-0,2	
+		CL01	FV01	208568			Provisión Inspecciones Técnicas			-191,67		-191,67		0			
+		CL01	FV01	208599			Provisiones Varias			-193.281,32		-185.185,77		-8.095,55		-4,4	
+				Total Otras Provisiones						-23.318.080,20		-10.893.769,07		-12.424.311,13		-114	*6*
+				Total Otras Provisiones, Corriente						-23.318.080,20		-10.893.769,07		-12.424.311,13		-114	*5*
+				Total Otras Provisiones a Corto Plazo						-23.318.080,20		-10.893.769,07		-12.424.311,13		-114	*4*
+				Otros Pasivos No Financieros, Corriente													
+				Otros Ingresos Diferidos, Corriente													
+				Anticipos a Clientes													
+		CL01	FV01	112010			Anticipos de Clientes Nacionales			-4.236.449,14		-6.000.434,93		1.763.985,79		29,4	
+				Total  Anticipos a Clientes						-4.236.449,14		-6.000.434,93		1.763.985,79		29,4	*6*
+				Total Otros Ingresos Diferidos, Corriente						-4.236.449,14		-6.000.434,93		1.763.985,79		29,4	*5*
+				Total Otros Pasivos No Financieros, Corriente						-4.236.449,14		-6.000.434,93		1.763.985,79		29,4	*4*
+				TOTAL PASIVOS CORRIENTES EN OPERACION						-67.651.082,04		-59.091.893,38		-8.559.188,66		-14,5	*3*
+
+				TOTAL PASIVOS CORRIENTES						-67.651.082,04		-59.091.893,38		-8.559.188,66		-14,5	*2*
+
+				******** PASIVOS, NO CORRIENTES ******													
+				Otros Pasivos Financieros No Corrientes													
+				Arrendamiento Financiero, No Corriente													
+		CL01	FV01	220700			Obligaciones por Leasing - Cuotas Largo			-3.812.558,00		-3.858.493,00		45.935,00		1,2	
+		CL01	FV01	220710			Intereses Diferidos por Leasing - Cuota			1.448.297,00		1.478.052,00		-29.755,00		-2	
+				Total Arrendamiento Financiero, No Corriente						-2.364.261,00		-2.380.441,00		16.180,00		0,7	*4*
+				Total Otros Pasivos Financieros No Corrientes						-2.364.261,00		-2.380.441,00		16.180,00		0,7	*3*
+
+				Provisiones No Corriente por Beneficios a los													
+				Empleados													
+				Provisión Indemnización por años de Servicios													
+		CL01	FV01	225005			Prov. Indem. Años de Servicio Rol A L/P			-2.760.179,45		-2.493.234,91		-266.944,54		-10,7	
+		CL01	FV01	225010			Prov. Indem. Años de Servicio Rol B L/P			-34.870.780,01		-32.914.768,58		-1.956.011,43		-5,9	
+		CL01	FV01	225018			Provisión Compensación Gratificación			-7.664,48		-7.343,45		-321,03		-4,4	
+				Total Provisión Indemnización años de Servici						-37.638.623,94		-35.415.346,94		-2.223.277,00		-6,3	*4*
+				Total,Prov No Corriente Beneficios a Empleado						-37.638.623,94		-35.415.346,94		-2.223.277,00		-6,3	*3*
+
+				Otras Provisiones a Largo Plazo													
+				Otras provisiones a largo plazo													
+		CL01	FV01	226010			Provisión Cierre y Restauración			-1.037.790,10		-1.084.584,23		46.794,13		4,3	
+		CL01	FV01	226011			Provisiones de Contingencias			-400.000,00		-400.000,00		0			
+				Total Otras provisiones a largo plazo						-1.437.790,10		-1.484.584,23		46.794,13		3,2	*4*
+				Tota Otras Provisiones a Largo Plazo						-1.437.790,10		-1.484.584,23		46.794,13		3,2	*3*
+
+				TOTAL PASIVOS, NO CORRIENTES						-41.440.675,04		-39.280.372,17		-2.160.302,87		-5,5	*2*
+
+				PATRIMONIO													
+				Patrimonio Atribuible a los Propietarios de													
+				la Controladora													
+				Resultados Retenidos (Pérdidas Acumuladas)													
+				PERDIDA DEL EJERCICIO						20.490.800,22		60.445.431,29		-39.954.631,07		-66,1	*5*
+				Total Resultados Retenidos (Pérdidas Acumulad						20.490.800,22		60.445.431,29		-39.954.631,07		-66,1	*4*
+				Total Patrimonio Atribuible a los Propietario						20.490.800,22		60.445.431,29		-39.954.631,07		-66,1	*3*
+				de la Controladora													
+
+				Cuentas Interdivisionales													
+				Conciliación Interdivisional													
+		CL01	FV01	116900			Conciliación entre Divisiones			-794.533.362,85		-794.966.233,72		432.870,87		0,1	
+		CL01	FV01	116950			Maquilas por Cobrar a Chuquicamata			13.816.844,67		13.701.138,25		115.706,42		0,8	
+		CL01	FV01	116952			Maquilas por Cobrar a Salvador			2.281.022,71		2.275.708,47		5.314,24		0,2	
+		CL01	FV01	116954			Maquilas por Cobrar a Andina			107.526.328,57		104.481.470,44		3.044.858,13		2,9	
+		CL01	FV01	116956			Maquilas por Cobrar a El Teniente			192.870.894,33		190.704.984,76		2.165.909,57		1,1	
+		CL01	FV01	116959			Maquilas por Cobrar a P. Gaby			28.439,88		28.439,88		0			
+		CL01	FV01	116960			Maquilas por Pagar a Chuquicamata			-681.519,14		-681.519,14		0			
+		CL01	FV01	116962			Maquilas por Pagar a Salvador			-1.728.188,38		-1.728.188,38		0			
+		CL01	FV01	116966			Maquilas por Pagar a Teniente			-4.717.611,46		-4.717.611,46		0			
+				Total Conciliación Interdivisional						-485.137.151,67		-490.901.810,90		5.764.659,23		1,2	*4*
+				Total Cuentas Interdivisionales						-485.137.151,67		-490.901.810,90		5.764.659,23		1,2	*3*
+
+				TOTAL PATRIMONIO						-464.646.351,45		-430.456.379,61		-34.189.971,84		-7,9	*2*
+
+				TOTAL DE PATRIMONIO Y PASIVOS						-573.738.108,53		-528.828.645,16		-44.909.463,37		-8,5	*1*
+
+
+
+Codelco                             Balance Codelco Chile para I F R S                            Hora 17:06:52     Fecha 10.08.2010																	
+Chile                                 DIVISION VENTANAS JULIO 2010                                RFBILA00/JAVAL011 Página         3																	
+
+Sociedad					CL01	División		****					Imptes en		USD		
+
+	V	Soc.	Div.	Textos............................................					..Interv.informe.		..Comp. periodos			.......absolutos		...Rel	 Tot.
+	S	soc.	inf.	..................................................					(01.2010-07.2010)		(01.2010-06.2010)			.....Desviación		...Dsv	Etapa
+
+				ESTADOS DE RESULTADO													
+				****** ESTADOS DE RESULTADOS *****													
+				GANANCIA (PERDIDA) ANTES DE IMPUESTOS													
+				RESULTADO DE EXPLOTACION													
+				MARGEN BRUTO													
+				Ingresos de Actividades Ordinarias													
+				Cobre Propio													
+				Minerales de Terceros													
+				Productos con Minerales de Terceros													
+		CL01	FV01	403311			Venta de Cátodo Grado A-ER			-295.670.180,89		-254.337.123,89		-41.333.057,00		-16,3	
+		CL01	FV01	403312			Venta de Cátodo Grado A-Estandar			-19.750.066,61		-17.485.898,11		-2.264.168,50		-12,9	
+		CL01	FV01	403313			Venta de Cátodo Grado A-ER Rechazados			-7.665.724,36		-7.400.363,44		-265.360,92		-3,6	
+		CL01	FV01	403314			Venta de  Cátodo Grado A SXEW			-60.819,83		-60.819,83		0			
+		CL01	FV01	403318			Venta de Cátodos EW Rechazados			-496.851,14		-524.924,36		28.073,22		5,3	
+		CL01	FV01	403319			Venta de Cátodos EW Estándar			-8.592.207,40		-8.806.503,97		214.296,57		2,4	
+		CL01	FV01	403334			Ventas Scrap Anodo  Conc. de 3°			-51.045,79		-51.045,79		0			
+				Total Productos con Minerales de Terceros						-332.286.896,02		-288.666.679,39		-43.620.216,63		-15,1	*8*
+				Otros													
+		CL01	FV01	402858			Ajuste Facturas no finalizadas Ventanas			-9.443.103,42		5.580.504,79		-15.023.608,21		-269,2	
+		CL01	FV01	402859			Conciliación Ventas C/Minerales de 3º			47.245,25		40.676,72		6.568,53		16,1	
+				Total Otros						-9.395.858,17		5.621.181,51		-15.017.039,68		-267,2	*8*
+				Gastos de Embarque M.de Terceros													
+		CL01	FV01	508909			Gastos  por Minerales de Terceros			1.440.571,71		1.182.652,38		257.919,33		21,8	
+				Total Gastos de Embarque M.de Terceros						1.440.571,71		1.182.652,38		257.919,33		21,8	*8*
+				Total Minerales de Terceros						-340.242.182,48		-281.862.845,50		-58.379.336,98		-20,7	*7*
+				Total Cobre Propio						-340.242.182,48		-281.862.845,50		-58.379.336,98		-20,7	*6*
+				Cobre de Terceros													
+				Cobre comprado a terceros													
+		CL01	FV01	404043			3° Ventas Concentrado de Cobre Comprado			-83.334.884,64		-70.491.850,57		-12.843.034,07		-18,2	
+		CL01	FV01	404970			3°Conciliación Ventas Cobre			2.318.468,80		9.082.928,48		-6.764.459,68		-74,5	
+				Total Cobre comprado a terceros						-81.016.415,84		-61.408.922,09		-19.607.493,75		-31,9	*7*
+				Total Cobre de Terceros						-81.016.415,84		-61.408.922,09		-19.607.493,75		-31,9	*6*
+				Otros Subproductos													
+				Otros Subproductos propios													
+				Subproductos Propios													
+		CL01	FV01	407410			Ventas Acido Sulfúrico SPI			-4.478.959,42		-3.268.078,12		-1.210.881,30		-37,1	
+		CL01	FV01	407570			Conciliación Ventas Otros Subproductos			-55.895,69		-40.686,66		-15.209,03		-37,4	
+				Total Subproductos Propios						-4.534.855,11		-3.308.764,78		-1.226.090,33		-37,1	*9*
+				Gastos de Embarque Subproductos Propios													
+				Fletes Venta de Otros Subproductos													
+		CL01	FV01	508920			Fletes por Ventas de Subproductos			55.895,69		40.686,66		15.209,03		37,4	
+				Total Fletes Venta de Otros Subproductos						55.895,69		40.686,66		15.209,03		37,4	*10*
+				Total Gastos de Embarque Subproductos Propios						55.895,69		40.686,66		15.209,03		37,4	*9*
+										-4.478.959,42		-3.268.078,12		-1.210.881,30		-37,1	*8*
+				Subproductos con Minerales de Terceros													
+				Otros Subproductos con Minerales de 3º													
+		CL01	FV01	403189			Ventas de Escorias			2.070.892,47		2.070.892,47		0			
+		CL01	FV01	403280			Conciliación Ventas SP C/Minerales de 3			59.632,12		41.589,96		18.042,16		43,4	
+		CL01	FV01	403281			Ventas Oro refinado - FRV			-72.054.856,95		-61.252.598,52		-10.802.258,43		-17,6	
+		CL01	FV01	403282			Ventas Plata refinada - FRV			-15.628.950,60		-11.840.017,74		-3.788.932,86		-32	
+		CL01	FV01	403286			Ventas Selenio Crudo Terminado			-603.859,49		-278.815,08		-325.044,41		-116,6	
+		CL01	FV01	403287			Ventas Concentrado de Paladio-Platino			-428.043,20		-545.573,45		117.530,25		21,5	
+		CL01	FV01	403288			Ventas Escorias Plamen Terminado			-7.345.343,85		-5.785.240,73		-1.560.103,12		-27	
+		CL01	FV01	403289			Ventas de Acido Sulfurico-Minerales de			-4.521.477,39		-3.589.499,95		-931.977,44		-26	
+				Total Otros Subproductos con Minerales de 3º						-98.452.006,89		-81.179.263,04		-17.272.743,85		-21,3	*9*
+				Total Subproductos con Minerales de Terceros						-98.452.006,89		-81.179.263,04		-17.272.743,85		-21,3	*8*
+				Total Otros Subproductos propios						-102.930.966,31		-84.447.341,16		-18.483.625,15		-21,9	*7*
+				Otros Subproductos de terceros													
+				Subproductos de Terceros													
+		CL01	FV01	408693			3° Ventas Acido Sulfúrico Comprado a Te			-808.060,25		-782.657,25		-25.403,00		-3,2	
+				Total Subproductos de Terceros						-808.060,25		-782.657,25		-25.403,00		-3,2	*8*
+				Total Otros Subproductos de terceros						-808.060,25		-782.657,25		-25.403,00		-3,2	*7*
+				Total Otros Subproductos						-103.739.026,56		-85.229.998,41		-18.509.028,15		-21,7	*6*
+				Suministros y Servicios													
+				Suministros y Servicios a Divisiones													
+		CL01	FV01	408800			Ingresos de SPI			-28.794.274,54		-24.184.710,30		-4.609.564,24		-19,1	
+				Total Suministros y Servicios a Divisiones						-28.794.274,54		-24.184.710,30		-4.609.564,24		-19,1	*7*
+				Suministros y Servicios a Terceros													
+		CL01	FV01	482050			Ventas Servicios de Maquilas			-17.165.958,67		-15.332.371,98		-1.833.586,69		-12	
+				Total Suministros y Servicios a Terceros						-17.165.958,67		-15.332.371,98		-1.833.586,69		-12	*7*
+				Total Suministros y Servicios						-45.960.233,21		-39.517.082,28		-6.443.150,93		-16,3	*6*
+				Total Ingresos de Actividades Ordinarias						-570.957.858,09		-468.018.848,28		-102.939.009,81		-22	*5*
+				Costo de Ventas													
+				Cobre Propio													
+				Minerales de Terceros													
+		CL01	FV01	503311			Costo Vta. Cátodo Grado A-ER			297.992.140,91		266.269.421,01		31.722.719,90		11,9	
+		CL01	FV01	503312			Costo Vta. Cátodo Grado A-Estandar			20.865.251,58		17.918.997,35		2.946.254,23		16,4	
+		CL01	FV01	503313			Costo Vta. Cátodo Grado A-ER Rechazados			6.573.369,91		6.287.803,74		285.566,17		4,5	
+		CL01	FV01	503314			Costo Vta. Cátodo Grado A SXEW			77.764,23		77.764,23		0			
+		CL01	FV01	503318			Costo Vta Cátodos EW Rechazados			556.913,72		556.913,72		0			
+		CL01	FV01	503319			Costo Vta Cátodos EW Estándar			8.650.735,72		8.650.735,72		0			
+		CL01	FV01	503323			Factura por Finalizar Compra Minerales			-1.645.196,11		-12.174.876,75		10.529.680,64		86,5	
+		CL01	FV01	503334			Costo Vta Scrap Anodo Conc.de 3°			45.241,34		45.241,34		0			
+				Total Minerales de Terceros						333.116.221,30		287.632.000,36		45.484.220,94		15,8	*7*
+				Total Cobre Propio						333.116.221,30		287.632.000,36		45.484.220,94		15,8	*6*
+				Cobre de Terceros													
+		CL01	FV01	503366			3º Costo Venta Cátodos ER grado A			459,46		430,47		28,99		6,7	
+		CL01	FV01	504043			3° Costo Vta Conc. de Cobre Comprado a			76.792.977,39		62.652.426,48		14.140.550,91		22,6	
+				Total Cobre de Terceros						76.793.436,85		62.652.856,95		14.140.579,90		22,6	*6*
+				Otros Subproductos													
+				Otros Subproductos Propios													
+		CL01	FV01	507410			Costo Venta Acido Sulfúrico SPI			5.304.172,69		4.419.372,12		884.800,57		20	
+										5.304.172,69		4.419.372,12		884.800,57		20	*8*
+		CL01	FV01	503281			Costo Venta Oro Refinado - FRV			70.289.968,75		60.134.543,90		10.155.424,85		16,9	
+		CL01	FV01	503282			Costo Venta Plata Refinada - FRV			15.719.641,15		11.888.394,03		3.831.247,12		32,2	
+		CL01	FV01	503288			Costo Venta Escorias Plamen Terminado			8.204.589,69		7.308.397,52		896.192,17		12,3	
+		CL01	FV01	503289			Costo Vta Acido Sulfurico			6.515.318,58		5.081.579,20		1.433.739,38		28,2	
+										100.729.518,17		84.412.914,65		16.316.603,52		19,3	*8*
+				Total Otros Subproductos Propios						106.033.690,86		88.832.286,77		17.201.404,09		19,4	*7*
+				Otros Subproductos de Terceros													
+		CL01	FV01	508487			3º Costo Vta. de Oro Electrolitico			20,09		17,24		2,85		16,5	
+		CL01	FV01	508488			3º Costo Vta. de Plata Electrolitico			273,25		209,5		63,75		30,4	
+		CL01	FV01	508693			3° Costo Venta Acido Sulfúrico Comprado			935.399,69		904.650,15		30.749,54		3,4	
+				Total Otros Subproductos de Terceros						935.693,03		904.876,89		30.816,14		3,4	*7*
+				Total Otros Subproductos						106.969.383,89		89.737.163,66		17.232.220,23		19,2	*6*
+				Suministros y Servicios													
+				Suministros y Servicios a Divisiones													
+		CL01	FV01	508800			Costo de SPI			34.654.788,73		29.418.990,87		5.235.797,86		17,8	
+		CL01	FV01	508805			Ajuste Costo de SPI			-59.100,22		-59.100,22		0			
+				Total Suministros y Servicios a Divisiones						34.595.688,51		29.359.890,65		5.235.797,86		17,8	*7*
+				Suministros y Servicios a Terceros													
+		CL01	FV01	690950			Costo Vta Servicios de Maquilas			30.979.946,88		27.373.012,49		3.606.934,39		13,2	
+				Total Suministros y Servicios a Terceros						30.979.946,88		27.373.012,49		3.606.934,39		13,2	*7*
+				Total Suministros y Servicios						65.575.635,39		56.732.903,14		8.842.732,25		15,6	*6*
+				Compensación BTN													
+		CL01	FV01	690691			Compensación Costo BTN			-1.208.237,45		-1.036.356,87		-171.880,58		-16,6	
+				Total Compensación BTN						-1.208.237,45		-1.036.356,87		-171.880,58		-16,6	*6*
+				Total Costo de Ventas						581.246.439,98		495.718.567,24		85.527.872,74		17,3	*5*
+				TOTAL MARGEN BRUTO						10.288.581,89		27.699.718,96		-17.411.137,07		-62,9	*4*
+				Otros Ingresos													
+				Otros Ingresos Fuera de la Explotación													
+				Ingresos Varios													
+		CL01	FV01	482040			Multas a Proveedores			-158.161,43		-135.139,34		-23.022,09		-17	
+		CL01	FV01	495000			Otros Ingresos			-14.356,42		-12.973,88		-1.382,54		-10,7	
+		CL01	FV01	682000			Otros ingresos por ventas			-13.587,10		-13.587,10		0			
+				Total Ingresos Varios						-186.104,95		-161.700,32		-24.404,63		-15,1	*6*
+				Ventas Miscelaneas (netas)													
+				Ingreso Ventas Miscelaneas													
+		CL01	FV01	494145			Ingresos Varios Miscelaneos			-1.567.825,06		-1.284.306,31		-283.518,75		-22,1	
+				Total Ingreso Ventas Miscelaneas						-1.567.825,06		-1.284.306,31		-283.518,75		-22,1	*7*
+				Costo  Ventas Miscelaneas													
+		CL01	FV01	690345			Costos de Ventas Varias Miscelaneos			251.955,66		212.681,49		39.274,17		18,5	
+				Total Costo  Ventas Miscelaneas						251.955,66		212.681,49		39.274,17		18,5	*7*
+				Total Ventas Miscelaneas (netas)						-1.315.869,40		-1.071.624,82		-244.244,58		-22,8	*6*
+				Total Otros Ingresos Fuera de la Explotación						-1.501.974,35		-1.233.325,14		-268.649,21		-21,8	*5*
+				Total Otros Ingresos						-1.501.974,35		-1.233.325,14		-268.649,21		-21,8	*4*
+				Costos de Distribución													
+				Gastos de Ventas													
+		CL01	FV01	680012			Otros Gastos de Venta			17.403,35		17.403,35		0			
+				Total Gastos de Ventas						17.403,35		17.403,35		0			*5*
+				Total Costos de Distribución						17.403,35		17.403,35		0			*4*
+				Gastos de Administración													
+				Gastos de Administración													
+				Otros Gastos de Administración													
+				Remuneraciones													
+		CL01	FV01	600100			RA-Sueldo Base			3.257.274,52		2.800.628,84		456.645,68		16,3	
+		CL01	FV01	600165			RA-Bono Convenio Desempeño			106.354,15		90.754,04		15.600,11		17,2	
+		CL01	FV01	600170			RA-Bono de Escolaridad			18.528,02		18.528,02		0			
+		CL01	FV01	600180			RA-Bono de Vacaciones			170.976,58		117.776,51		53.200,07		45,2	
+		CL01	FV01	600190			RA-Asignación y Bonos Varios			394.918,09		330.497,86		64.420,23		19,5
+		CL01	FV01	600200			RA-Bono Gestión Divisional			305.990,30		262.479,34		43.510,96		16,6
+		CL01	FV01	600210			RA-Provisión Aguinaldos			26.227,26		22.514,38		3.712,88		16,5
+		CL01	FV01	600220			RA-Provisión Gratificación			116.018,27		95.510,75		20.507,52		21,5
+		CL01	FV01	600230			RA-Provisión Indemniz. Años de Servicio			234.372,59		93.259,43		141.113,16		151,3
+		CL01	FV01	600240			RA-Aporte Patronal Ley 16,744			13.526,16		11.582,32		1.943,84		16,8
+		CL01	FV01	600241			RA-Aporte Trabajo Pesado Ley N° 19404			4.952,59		4.244,36		708,23		16,7
+		CL01	FV01	600260			RA-Contratos a Plazo Fijo			521,89		482,8		39,09		8,1
+		CL01	FV01	600270			RA-Seguro cesantía Ley 19.728			17.428,11		14.943,25		2.484,86		16,6
+		CL01	FV01	600275			RA-Cotización Adicional Salud			571,14		418,77		152,37		36,4
+		CL01	FV01	600285			RA-Seguro Invalidez y Sobrevivencia			25.046,61		22.075,96		2.970,65		13,5
+		CL01	FV01	600400			RB-Sueldo Base			5.558.256,27		4.753.028,86		805.227,41		16,9
+		CL01	FV01	600410			RB-Sobretiempo			1.003.311,73		926.156,00		77.155,73		8,3
+		CL01	FV01	600460			RB-Asignación de Título			376.256,23		322.857,53		53.398,70		16,5
+		CL01	FV01	600480			RB-Bono de Gestión			805.197,08		690.852,42		114.344,66		16,6
+		CL01	FV01	600490			RB-Bono de Reemplazo			294.251,61		254.866,52		39.385,09		15,5
+		CL01	FV01	600530			RB-Bono de Vacaciones			364.890,43		297.178,91		67.711,52		22,8
+		CL01	FV01	600540			RB-Vales de Alimentación			821.294,85		700.930,06		120.364,79		17,2
+		CL01	FV01	600550			RB-Asignación y Bonos Varios			2.482.190,90		2.147.585,42		334.605,48		15,6
+		CL01	FV01	600560			RB-Bono Faena Contínua			1.536.266,46		1.323.760,42		212.506,04		16,1
+		CL01	FV01	600570			RB-Bono de Producción			790.753,03		669.565,11		121.187,92		18,1
+		CL01	FV01	600575			RB-Bono Negociación Colectiva			1.008.825,81		865.422,06		143.403,75		16,6
+		CL01	FV01	600580			RB-Provisión Aguinaldos			696.439,42		566.115,56		130.323,86		23
+		CL01	FV01	600590			RB-Provisión Gratificación			1.529.786,32		1.254.843,13		274.943,19		21,9
+		CL01	FV01	600600			RB-Provisión Indemniz. Años de Servicio			841.234,34		464.865,45		376.368,89		81
+		CL01	FV01	600610			RB-Aporte Patronal Ley 16,744			134.275,85		118.156,01		16.119,84		13,6
+		CL01	FV01	600611			RB-Aporte Trabajo Pesado Ley N° 19404			179.487,85		160.014,11		19.473,74		12,2
+		CL01	FV01	600620			RB-Incremento Remunerac. DL 3501			2.103.493,68		1.846.145,81		257.347,87		13,9
+		CL01	FV01	600630			RB-Contratos a Plazo Fijo			2.972,84		2.675,79		297,05		11,1
+		CL01	FV01	600640			RB-Seguro cesantía L.ey 19.728			89.716,36		80.340,74		9.375,62		11,7
+		CL01	FV01	600655			RB-Seguro Invalidez y Sobrevivencia			248.683,08		224.014,14		24.668,94		11
+		CL01	FV01	690554			Rol A Vacaciones			223.607,41		217.883,73		5.723,68		2,6
+		CL01	FV01	690555			Rol B Vacaciones			1.168.444,48		1.043.416,78		125.027,70		12	
+				Total Remuneraciones						26.952.342,31		22.816.371,19		4.135.971,12		18,1	*7*
+				Consumo de materiales													
+		CL01	FV01	601020			Maderas			199.786,72		168.367,50		31.419,22		18,7	
+		CL01	FV01	601040			Materiales de Soporte			4.538,75		4.538,75		0			
+		CL01	FV01	601090			Reactivos			833.778,49		694.043,60		139.734,89		20,1	
+		CL01	FV01	601100			Acondicionadores			338.409,38		260.198,58		78.210,80		30,1	
+		CL01	FV01	601140			Cal Calcinada			6.527,92		5.320,00		1.207,92		22,7	
+		CL01	FV01	601160			Fundentes			56.086,22		52.834,26		3.251,96		6,2	
+		CL01	FV01	601170			Refractarios			2.319.548,83		1.926.079,03		393.469,80		20,4	
+		CL01	FV01	601180			Otros Materiales para Fundición y Molde			94.850,37		83.688,74		11.161,63		13,3	
+		CL01	FV01	601190			Otros Materiales Fundición Especiales			683.723,01		580.181,58		103.541,43		17,8	
+		CL01	FV01	601200			Soldadura, Electrodos y Niples			205.358,61		173.116,06		32.242,55		18,6	
+		CL01	FV01	601210			Lubricantes			82.468,60		68.868,78		13.599,82		19,7	
+		CL01	FV01	601220			Neumáticos			237,14		184,44		52,7		28,6	
+		CL01	FV01	601240			Elementos de Desgaste			23.558,06		23.558,06		0			
+		CL01	FV01	601250			Cables, Acero, Mallas, Etc.			271.059,43		255.816,02		15.243,41		6
+		CL01	FV01	601260			Acero Estructural			117.659,21		116.744,74		914,47		0,8
+		CL01	FV01	601270			Tuberías, Válvulas y Accesorios			508.493,09		462.786,66		45.706,43		9,9
+		CL01	FV01	601280			Materiales de Construcción y Aceros Esp			102.818,82		102.818,82		0		
+		CL01	FV01	601290			Envases para Productos			252.962,70		159.708,47		93.254,23		58,4
+		CL01	FV01	601300			Materiales Obsoletos			-350.748,68		-252.782,92		-97.965,76		-38,8
+		CL01	FV01	601520			Repuestos Compresores y Bombas			83.315,05		76.692,58		6.622,47		8,6
+		CL01	FV01	601530			Repuestos Palas			30,12		30,12		0		
+		CL01	FV01	601540			Repuestos Equipos de Extracción			10.488,84		7.637,79		2.851,05		37,3
+		CL01	FV01	601550			Repuestos Equipos de Servicios			12.811,88		10.009,81		2.802,07		28
+		CL01	FV01	601560			Repuestos Equipos Concentr. y Filtros			27.979,28		27.435,33		543,95		2
+		CL01	FV01	601570			Repuestos Chancadores y Molinos			178,85		178,85		0		
+		CL01	FV01	601580			Repuestos Correas Transportadoras			6.998,22		6.998,22		0		
+		CL01	FV01	601590			Repuestos Equipos Fundición			201.701,22		173.506,59		28.194,63		16,2
+		CL01	FV01	601600			Repuestos Equipos Refinerías			27.532,81		21.113,11		6.419,70		30,4
+		CL01	FV01	601620			Repuestos en General			594.956,00		565.702,55		29.253,45		5,2
+		CL01	FV01	602000			Herramientas			69.060,56		61.893,94		7.166,62		11,6
+		CL01	FV01	602010			Material Eléctrico			1.396.879,23		1.311.891,73		84.987,50		6,5
+		CL01	FV01	602020			Material Laboratorio			58.027,55		46.280,53		11.747,02		25,4
+		CL01	FV01	602040			Implem. de Seguridad y Ropa de Trabajo			600.773,62		485.586,72		115.186,90		23,7
+		CL01	FV01	602050			Medicamentos			34.130,17		34.130,17		0		
+		CL01	FV01	602060			Víveres			6.944,63		5.636,69		1.307,94		23,2
+		CL01	FV01	602070			Utiles de Escritorio y Dibujo			45.751,92		37.344,55		8.407,37		22,5
+		CL01	FV01	602075			Muebles e Instalaciones			1.478,05		991,82		486,23		49
+		CL01	FV01	602080			Suministros Equipos Computacionales			2.535,36		1.812,03		723,33		39,9
+		CL01	FV01	602085			Suministros para Redes y Comunicaciones			10.944,88		9.819,34		1.125,54		11,5
+		CL01	FV01	602090			Equipos Computac. Menor			36.015,01		33.404,66		2.610,35		7,8
+		CL01	FV01	602100			Materiales Grles de Bodega			3.468.949,23		3.006.281,04		462.668,19		15,4
+		CL01	FV01	602400			Materiales Cargo Directo para Proyectos			2.413.749,35		2.330.040,77		83.708,58		3,6
+		CL01	FV01	604500			Fuel Oil			612.018,55		251.187,20		360.831,35		143,7
+		CL01	FV01	604510			Petróleo Diesel			1.430.046,70		1.264.977,71		165.068,99		13
+		CL01	FV01	604530			Gasolina			10.265,74		10.265,74		0		
+		CL01	FV01	604540			Carbón			1.830.565,08		1.319.781,95		510.783,13		38,7	
+		CL01	FV01	604545			Gas Natural			12.382.436,10		10.916.794,66		1.465.641,44		13,4	
+		CL01	FV01	604550			Otros Combustibles			108.930,71		94.500,92		14.429,79		15,3	
+				Total Consumo de materiales						31.236.611,38		26.997.998,29		4.238.613,09		15,7	*7*
+				Otros gastos de explotación													
+		CL01	FV01	605000			Energía Eléctrica Comprada			17.937.620,36		15.158.252,24		2.779.368,12		18,3	
+		CL01	FV01	606000			Servicios MyR Plantas e Instalaciones I			8.859.073,86		7.957.626,61		901.447,25		11,3	
+		CL01	FV01	606010			Servicios MyR Vehículos y Equipos Pesad			79.234,64		79.234,64		0			
+		CL01	FV01	606020			Servicios MyR Instalaciones Campamento,			994.325,76		846.918,00		147.407,76		17,4	
+		CL01	FV01	606100			Arriendo Vehículos y Equipos Pesados			555.282,96		516.178,09		39.104,87		7,6	
+		CL01	FV01	606110			Arriendo Vehículos y Equipos Livianos			57.458,98		40.216,82		17.242,16		42,9	
+		CL01	FV01	606130			Arriendo de Inmuebles y Misceláneos			10.905,20		7.371,39		3.533,81		47,9	
+		CL01	FV01	606140			Arriendo de Instrumentos/Equipos (Vario			31.248,58		31.116,77		131,81		0,4	
+		CL01	FV01	606150			Arriendo por contrato BOT y similares			2.604.346,83		2.241.051,85		363.294,98		16,2	
+		CL01	FV01	606200			Transporte de Cobre y Subproductos			4.351.477,28		3.493.796,84		857.680,44		24,5	
+		CL01	FV01	606210			Transporte de Personal			1.245.927,19		1.068.562,33		177.364,86		16,6	
+		CL01	FV01	606220			Transporte de Materiales y Suministros			419.090,31		347.289,35		71.800,96		20,7
+		CL01	FV01	606300			Consultorías Producción			19.782,91		19.782,91		0		
+		CL01	FV01	606310			Consultorías Seguridad			14.594,68		12.254,82		2.339,86		19,1
+		CL01	FV01	606320			Consultorías Gestión Ambiental			72.647,54		72.647,54		0		
+		CL01	FV01	606330			Consultorías Administ. y Apoyo			546.283,32		515.907,44		30.375,88		5,9
+		CL01	FV01	606340			Servicios de Embarque			268.995,51		224.419,30		44.576,21		19,9
+		CL01	FV01	606350			Servicios de Desembarque			27.729,44		26.289,06		1.440,38		5,5
+		CL01	FV01	606360			Servicios de apoyo a la producción			3.074.495,91		2.832.486,44		242.009,47		8,5
+		CL01	FV01	606365			Bonos Adicionales a Contratos			94.928,32		93.689,95		1.238,37		1,3
+		CL01	FV01	606400			Servicios de Lubricación Industrial			611,57		611,57		0		
+		CL01	FV01	606410			Servicios de Muestreo, Preparación y An			655.949,71		483.480,88		172.468,83		35,7
+		CL01	FV01	606420			Servicios de Inspección Técnica			111.230,90		73.596,68		37.634,22		51,1
+		CL01	FV01	606430			Servicios de Mantención y Soporte Compu			35.032,54		32.293,96		2.738,58		8,5
+		CL01	FV01	606440			Servicios de Alimentación y Campamentos			85.013,95		67.509,61		17.504,34		25,9
+		CL01	FV01	606450			Servicios de Aseo Industrial			1.100.645,58		907.906,54		192.739,04		21,2
+		CL01	FV01	606460			Servicios de Aseo Oficinas y Dependenci			180.970,46		180.970,46		0		
+		CL01	FV01	606470			Servicios de Seguridad y Serenía			91.408,76		87.869,67		3.539,09		4
+		CL01	FV01	606480			Servicios Comunitarios			135,71		135,71		0		
+		CL01	FV01	606490			Servicios Administrativos			93.208,08		87.165,38		6.042,70		6,9
+		CL01	FV01	606500			Servicios Varios			5.514.974,99		5.072.683,15		442.291,84		8,7
+		CL01	FV01	606505			Servicios Prof Nivel Ingeniería			343.860,50		344.924,01		-1.063,51		-0,3
+		CL01	FV01	606535			Codelco Buen Vecino			226.192,20		225.958,65		233,55		0,1
+		CL01	FV01	606750			Ingeniería Industrial			93.135,56		93.135,56		0		
+		CL01	FV01	606781			Consult/Serv Meteorología			44.223,49		38.715,62		5.507,87		14,2
+		CL01	FV01	606782			Consult/Serv Control Calidad			3.654,82		3.607,51		47,31		1,3
+		CL01	FV01	606783			Consult/Serv Jurídicos			61.216,77		52.973,89		8.242,88		15,6
+		CL01	FV01	606785			Servicios de Mediciones Topograf. y otr			8.584,55		8.584,55		0		
+		CL01	FV01	606791			Obras de Edif.Industriales y Comerciale			2.743.374,01		2.255.393,17		487.980,84		21,6
+		CL01	FV01	606821			Obras Instalaciones Eléctricas Domicili			1.579,20		1.579,20		0		
+		CL01	FV01	606830			Montaje Estructural			1.977.008,94		1.977.008,94		0		
+		CL01	FV01	606831			Montaje Mecánico			6.632,81		6.632,81		0		
+		CL01	FV01	607000			Reembolso Atención Médica y Dental			116.677,15		115.000,83		1.676,32		1,5
+		CL01	FV01	607030			Interconsulta - Exámenes y Medicamentos			14.788,96		13.614,12		1.174,84		8,6
+		CL01	FV01	607050			Tratamientos Médicos			3.088,90		3.088,90		0		
+		CL01	FV01	607090			Actividades Deportivas Sociales y Cultu			230.918,07		227.222,35		3.695,72		1,6
+		CL01	FV01	607100			Otros Beneficios al Personal			2.337.700,60		2.318.476,72		19.223,88		0,8
+		CL01	FV01	607110			Seguros al Personal			194.782,58		185.878,83		8.903,75		4,8
+		CL01	FV01	607200			Patentes e Impuestos Varios			38.118,48		20.960,40		17.158,08		81,9
+		CL01	FV01	607220			Contribuciones Bienes Raíces			80.707,66		40.748,09		39.959,57		98,1
+		CL01	FV01	607410			Gastos Capacitación País - SENCE			43.037,62		17.949,86		25.087,76		139,8
+		CL01	FV01	607415			Gastos Docencia Capacitación País No SE			9.329,50		9.320,52		8,98		0,1
+		CL01	FV01	607430			Gastos Capacitación no Recuperables			69.937,23		104.079,44		-34.142,21		-32,8
+		CL01	FV01	607438			Otros Gastos Asociados a la Capacitació			1.508,59		1.508,59		0		
+		CL01	FV01	607450			Comunicaciones			35.752,53		20.806,51		14.946,02		71,8
+		CL01	FV01	607460			Publicaciones e Impresos			17.186,59		12.681,76		4.504,83		35,5
+		CL01	FV01	607465			Personal a Honorarios			26.762,77		24.043,38		2.719,39		11,3
+		CL01	FV01	607470			Comisiones de Servicio en el País			48.456,96		42.854,25		5.602,71		13,1
+		CL01	FV01	607471			Comisiones de Servicio en el Exterior			24.633,34		17.506,03		7.127,31		40,7
+		CL01	FV01	607480			Gastos Varios			470.986,01		450.279,64		20.706,37		4,6	
+		CL01	FV01	607705			Servicios Procesamiento Interdivisional			66.301,67		66.301,67		0			
+		CL01	FV01	607800			Compra de Cobre para transformación int			311.673.506,69		245.791.647,51		65.881.859,18		26,8	
+		CL01	FV01	607820			Compra de subprod.para transform.intern			97.704.356,59		85.044.895,93		12.659.460,66		14,9	
+		CL01	FV01	690055			Resultados Servicios Interdivisionales			1.850.814,01		1.641.164,00		209.650,01		12,8	
+				Toal Otros gastos de explotación						469.703.447,18		383.757.859,24		85.945.587,94		22,4	*7*
+				Liquidaciones													
+		CL01	FV01	609990			Traspaso Costos Ordenes Producc.a Stock			-9.845.622,42		6.790.244,82		-16.635.867,24		-245	
+		CL01	FV01	609991			Aj Tarifa Real v/s St. Costos de Ventas			-424.166.792,00		-360.703.906,30		-63.462.885,70		-17,6	
+		CL01	FV01	609992			AjTarifa Real v/s St Invent Final Cu y			-9.053.186,25		-3.865.547,00		-5.187.639,25		-134,2	
+				Total Liquidaciones						-443.065.600,67		-357.779.208,48		-85.286.392,19		-23,8	*7*
+				Activación ordenes liquidadas													
+		CL01	FV01	697000			Liquidación Elementos PEP			-13.195.744,14		-12.257.333,08		-938.411,06		-7,7	
+		CL01	FV01	697010			Liquidación Ordenes Prestaciones a Terc			-73.465.599,70		-64.602.803,69		-8.862.796,01		-13,7	
+				Total Activación ordenes liquidadas						-86.661.343,84		-76.860.136,77		-9.801.207,07		-12,8	*7*
+				Total Otros Gastos de Administración						-1.834.543,64		-1.067.116,53		-767.427,11		-71,9	*6*
+				Depreciaciones y Amortizaciones												
+				Depreciaciones												
+		CL01	FV01	620010			Depreciación Mejoras a Terrenos			155.971,00		135.017,00		20.954,00		15,5
+		CL01	FV01	620015			Depreciación Retasación  Mejoras a Terr			4.369,00		3.744,00		625		16,7
+		CL01	FV01	620018			Depreciación Desmant.  Mejoras a Terren			19,74		17,74		2		11,3
+		CL01	FV01	620020			Depreciación Edificios			867.046,00		743.372,00		123.674,00		16,6
+		CL01	FV01	620025			Depreciación Retasación Edificios			6.895,00		5.909,00		986		16,7
+		CL01	FV01	620028			Depreciación Desmant. Edificios			507,05		431,05		76		17,6
+		CL01	FV01	620030			Depreciación Maquinarias y Equipos			6.968.260,00		5.987.861,00		980.399,00		16,4
+		CL01	FV01	620035			Depreciación Retasación  Maquinarias y			63.173,00		54.150,00		9.023,00		16,7
+		CL01	FV01	620038			Depreciación Desmant.  Maquinarias y Eq			4.970,01		4.257,01		713		16,7
+		CL01	FV01	620040			Depreciación Equipos de Transportes			172.252,20		143.821,20		28.431,00		19,8
+		CL01	FV01	620050			Depreciación Mobiliario y Equipamientos			39.367,00		34.394,00		4.973,00		14,5
+		CL01	FV01	620060			Depreciación Habitaciones			1.269,00		1.088,00		181		16,6
+		CL01	FV01	620068			Depreciación Desmant.  Habitaciones			0,82		0,82		0		
+		CL01	FV01	621020			Depreciación Leasing Edificios			37.296,00		32.595,00		4.701,00		14,4
+		CL01	FV01	621030			Depreciación Leasing Maquinarias y Equi			224.244,00		194.237,00		30.007,00		15,4	
+				Total Depreciaciones						8.545.639,82		7.340.894,82		1.204.745,00		16,4	*7*
+				Amortizaciones													
+		CL01	FV01	626641			Amort.Mant Mayores			2.274.120,55		1.770.374,55		503.746,00		28,5	
+				Total Amortizaciones						2.274.120,55		1.770.374,55		503.746,00		28,5	*7*
+				Total Depreciaciones y Amortizaciones						10.819.760,37		9.111.269,37		1.708.491,00		18,8	*6*
+				Total Gastos de Administración						8.985.216,73		8.044.152,84		941.063,89		11,7	*5*
+				Total Gastos de Administración						8.985.216,73		8.044.152,84		941.063,89		11,7	*4*
+				Otros Gastos													
+				Otros Egresos Fuera de la Explotación (menos)													
+		CL01	FV01	690001			Ajustes de Inventarios de Materiales			4.354,69		1.898,61		2.456,08		129,4	
+		CL01	FV01	690005			Gastos de Estudios Preinversionales			125.997,21		126.019,61		-22,4			
+		CL01	FV01	690010			Otros Gastos			-75.620,29		83.317,34		-158.937,63		-190,8	
+		CL01	FV01	690020			Pérdida por baja de Activo Fijo			2.473,00		2.473,00		0			
+		CL01	FV01	999980			Areas Tributarias AA			-1.865.002,54		0		-1.865.002,54			
+		CL01	FV01	999981			Areas Tributarias AA			1.865.002,54		0		1.865.002,54			
+				Total Otros Egresos Fuera de Explotación(meno						57.204,61		213.708,56		-156.503,95		-73,2	*5*
+				Total Otros Gastos						57.204,61		213.708,56		-156.503,95		-73,2	*4*
+				Ingresos Financieros													
+		CL01	FV01	470040			Descuento Pronto Pago Proveedores			-23.033,32		-22.762,29		-271,03		-1,2	
+		CL01	FV01	470050			Intereses recibidos de Clientes			-231.226,03		-142.136,92		-89.089,11		-62,7	
+		CL01	FV01	470140			Otros Intereses Recibidos			-95.089,99		-81.880,14		-13.209,85		-16,1	
+										-349.349,34		-246.779,35		-102.569,99		-41,6	*5*
+				Total Ingresos Financieros						-349.349,34		-246.779,35		-102.569,99		-41,6	*4*
+				Costos Financieros													
+				Gastos Financieros (menos)													
+		CL01	FV01	470540			Gastos por Descuento L/C (Clientes)			103.014,58		103.014,58		0			
+		CL01	FV01	470700			Intereses por Leasing			229.476,00		197.480,00		31.996,00		16,2	
+		CL01	FV01	470830			Costo Financiero IAS			895.449,36		751.447,96		144.001,40		19,2	
+		CL01	FV01	470950			Distribución Costos Financieros			5.819.449,01		5.819.449,01		0			
+				Total Gastos Financieros (menos)						7.047.388,95		6.871.391,55		175.997,40		2,6	*5*
+				Total Costos Financieros						7.047.388,95		6.871.391,55		175.997,40		2,6	*4*
+				Diferencias de Cambio													
+				Diferencias y Ajuste de Cambio													
+		CL01	FV01	490001			Dif. Cambio Cuentas del Personal en Pes			4.725,71		5.125,46		-399,75		-7,8	
+		CL01	FV01	490005			Dif. Cambio Otros Activos en Pesos			541.886,93		637.398,67		-95.511,74		-15	
+		CL01	FV01	490010			Dif. Cambio Otros Pasivos en Pesos			-2.075.554,83		-2.035.998,46		-39.556,37		-1,9	
+		CL01	FV01	490105			Dif. Cambio Ctas del Personal Reajustab			-2.044,08		-1.692,76		-351,32		-20,8	
+		CL01	FV01	490110			Dif. Cambio Otros Activos en UF			263.025,06		438.006,24		-174.981,18		-39,9	
+		CL01	FV01	490115			Dif. Cambio Provi Indemniz Años Serv al			-328.387,43		-766.237,35		437.849,92		57,1	
+		CL01	FV01	490210			Dif. Cambio Bancos Operación			-80.651,92		-93.246,84		12.594,92		13,5	
+		CL01	FV01	490215			Dif. Cambio Deudores por Ventas			72.107,68		107.059,90		-34.952,22		-32,6	
+		CL01	FV01	490220			Dif. Cambio Otros Activos en M. Extranj			-3.237,29		282,15		-3.519,44		-1247,4	
+		CL01	FV01	490240			Dif. Cambio Otros Pasivos en M. Extranj			-2.804,44		-3.357,85		553,41		16,5	
+				Total Diferencias y Ajuste de Cambio						-1.610.934,61		-1.712.660,84		101.726,23		5,9	*5*
+				Dif. y Ajuste Cambio Cuentas L. Plazo													
+		CL01	FV01	490630			Dif. Cbio. Otros Activos en Pesos L.P.			904,02		2.109,39		-1.205,37		-57,1	
+		CL01	FV01	490635			Dif. Cbio. Otros Pasivos en Pesos L.P.			37.790,10		84.584,23		-46.794,13		-55,3	
+		CL01	FV01	490640			Dif. Cbio. Ctas. del Personal en Pesos			208.804,86		503.369,35		-294.564,49		-58,5	
+		CL01	FV01	490645			Dif. Cambio Provi Indem. Años Serv. L/P			-168.372,87		-1.716.263,73		1.547.890,86		90,2	
+				Total Dif. y Ajuste Cambio Cuentas L. Plazo						79.126,11		-1.126.200,76		1.205.326,87		107	*5*
+				Otros Ajustes Monetarios													
+		CL01	FV01	491100			Reajustes por Obligaciones			41,88		41,88		0			
+		CL01	FV01	491200			Reajustes Ganados			-86.596,95		-83.735,68		-2.861,27		-3,4	
+				Total Otros Ajustes Monetarios						-86.555,07		-83.693,80		-2.861,27		-3,4	*5*
+				Total Diferencias de Cambio						-1.618.363,57		-2.922.555,40		1.304.191,83		44,6	*4*
+				TOTAL  RESULTADO DE EXPLOTACION						22.926.108,27		38.443.715,37		-15.517.607,10		-40,4	*3*
+
+				TOTAL GANANCIA (PERDIDA) ANTES DE IMPUESTOS						22.926.108,27		38.443.715,37		-15.517.607,10		-40,4	*2*
+
+				Gasto por Impuestos a las Ganancias													
+				Impuesto Ley 13196													
+		CL01	FV01	691000			Impuesto Ley 13196			26.179.830,97		22.001.715,92		4.178.115,05		19	
+				Total Impuesto Ley 13196						26.179.830,97		22.001.715,92		4.178.115,05		19	*3*
+
+				Total Gasto por Impuestos a las Ganancias						26.179.830,97		22.001.715,92		4.178.115,05		19	*2*
+
+				TOTAL ESTADOS DE RESULTADO						49.105.939,24		60.445.431,29		-11.339.492,05		-18,8	*1*
+
+
+
+Codelco                             Balance Codelco Chile para I F R S                            Hora 17:06:52     Fecha 10.08.2010																	
+Chile                                 DIVISION VENTANAS JULIO 2010                                RFBILA00/JAVAL011 Página         4																	
+
+Sociedad					CL01	División		****					Imptes en		USD		
+
+	V	Soc.	Div.	Textos............................................					..Interv.informe.		..Comp. periodos			.......absolutos		...Rel	 Tot.
+	S	soc.	inf.	..................................................					(01.2010-07.2010)		(01.2010-06.2010)			.....Desviación		...Dsv	Etapa
+
+				UTILIDAD (PERDIDA) DEL EJERCICIO						-49.105.939,24		-60.445.431,29		11.339.492,05		18,8	*1*
+
+
+
+Codelco                             Balance Codelco Chile para I F R S                            Hora 17:06:52     Fecha 10.08.2010																	
+Chile                                 DIVISION VENTANAS JULIO 2010                                RFBILA00/JAVAL011 Página         5																	
+
+Sociedad					CL01	División		****					Imptes en		USD		
+
+	V	Soc.	Div.	Textos............................................					..Interv.informe.		..Comp. periodos			.......absolutos		...Rel	 Tot.
+	S	soc.	inf.	..................................................					(01.2010-07.2010)		(01.2010-06.2010)			.....Desviación		...Dsv	Etapa
+
+				SIN ASIGNAR													
+		CL01	FV01	998000			Responsabilidad Boletas Garantías Prove			-1.669.869,10		-2.404.029,30		734.160,20		30,5	
+		CL01	FV01	998001			Boletas en Garantías Proveedor			1.669.869,10		2.404.029,30		-734.160,20		-30,5	
+		CL01	FV01	998096			Polizas de Seguro Recibidas			113.010,38		175.148,51		-62.138,13		-35,5	
+		CL01	FV01	998097			Responsabilidad por Polizas de Seguros			-113.010,38		-175.148,51		62.138,13		35,5	
+				TOTAL SIN ASIGNAR						0		0		0			*1*

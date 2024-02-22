@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44930 ',peso_neto='30350',marca='FRANJA VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='14568880-9',nombre_chofer='ORLANDO FLORES',observacion='',romana_salida='2' where correlativo='451976' and lote='21106103' and recargo='2'

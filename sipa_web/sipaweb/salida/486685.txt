@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43840 ',peso_neto='27650',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='28066891-5',nombre_chofer='gustavo herrera',observacion='cu varios',romana_salida='1' where correlativo='486685' and lote='23066225' and recargo='3'

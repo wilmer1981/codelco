@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44020 ',peso_neto='30010',marca='FRANJA AZUL',cod_mop='520',num_sello='',transportista='',rut_chofer='17994415-4',nombre_chofer='CRISTIAN ESCOBAR',observacion='',romana_salida='1' where correlativo='450219' and lote='21096099' and recargo='26'

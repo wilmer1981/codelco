@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='', ult_registro='',peso_bruto='',peso_neto='',marca='',cod_mop='',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='',romana_salida='' where correlativo='' and lote='' and recargo=''

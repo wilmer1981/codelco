@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42510 ',peso_neto='26280',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='29856960',nombre_chofer='ENZO MOLINA',observacion='',romana_salida='1' where correlativo='451152' and lote='21096272' and recargo='1'

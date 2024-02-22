@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44070 ',peso_neto='27070',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12727400-2',nombre_chofer='juan lagos arriola',observacion='mazamorra',romana_salida='1' where correlativo='450584' and lote='21096186' and recargo='2'

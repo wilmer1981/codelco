@@ -1,0 +1,10 @@
+#Cargando
+{ position: fixed; width: 100%; height: 100%; top: 0; text-align: center; background: #000;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    z-index:999999;
+}
+#Cargando img{ 
+	top: 40%; position: fixed; left: 46%;
+}
+ 

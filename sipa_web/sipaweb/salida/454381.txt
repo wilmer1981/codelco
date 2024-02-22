@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44240 ',peso_neto='11340',marca='TRES FRANJAS NEGRAS',cod_mop='690',num_sello='',transportista='',rut_chofer='5499602-0',nombre_chofer='HECTOR SAEZ',observacion='',romana_salida='1' where correlativo='454381' and lote='21116220' and recargo='34'

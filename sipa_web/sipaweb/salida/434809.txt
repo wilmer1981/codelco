@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 27520 ',peso_neto='14310',marca='EQUIS DOS FRANJAS BLANCA',cod_mop='520',num_sello='',transportista='',rut_chofer='7850914-7',nombre_chofer='FREDY OLIVARES',observacion='',romana_salida='1' where correlativo='434809' and lote='20126045' and recargo='58'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42830 ',peso_neto='25840',marca='FRANJA BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='23597107',nombre_chofer='',observacion='',romana_salida='1' where correlativo='438640' and lote='21026117' and recargo='1'

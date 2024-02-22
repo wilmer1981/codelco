@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 35580 ',peso_neto='20330',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='ANODOS DE PLOMO EN DESUSO 14 PALET',romana_salida='1' where correlativo='462278' and lote='22046153' and recargo='1'

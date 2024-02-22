@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Escribe Archivo</title>
+</head>
+
+<body>
+Este Script te pide mediante un InputBox que introduzca el nombre de un archivo.<br>
+Lo crea en C:/nombre.txt<br>
+Y luego te indica mediante un MsgBox que lo ha creado.<br>
+Muestra mediante un MsgBox que ha creado el archivo<br>
+Después pide que escriba un texto<br>
+Luego ese texto lo escribe en el archivo mediante WriteLine<br>
+
+Hay que tener en cuenta que VBS está basado en ActiveX y que el Internet Explorer puede estar 
+protegido para que no se ejecuten las aplicaciones ActiveX ya que pueden deñar al sistema.
+
+<Script Language="Vbscript">
+a=InputBox("Escribe el nombre de un archivo." & Chr(13) & Chr(10) & "Crearé un archivo de texto .txt con ese nombre en C:\")
+Set fso = CreateObject("Scripting.FileSystemObject")
+Dim f1
+Set f1 = fso.CreateTextFile("C:\" & a & ".txt", True)
+c=MsgBox("He creado el archivo " &a  &".txt en el disco C:")
+
+d=InputBox("Ahora escribe una frase para grabarla en el archivo anterior.")
+f1.WriteLine(d)
+f1.WriteLine("Probando 1, 2, 3.") 
+f1.WriteBlankLines(3) 
+f1.Write ("Esto es una prueba.") 
+f1.Close
+ 
+
+</Script>
+
+
+<br><br>
+Si has pulsado Sí y se ha ejecutado el ActiveX, se habrá creado un archivo con el nombre.doc <br>
+que has puesto en C:\ y se habrá grabado lo que has escrito después.
+</body>
+</html>
+ 

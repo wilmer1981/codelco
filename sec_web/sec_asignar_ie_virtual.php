@@ -1,0 +1,348 @@
+<?php 	
+	include("../principal/conectar_sec_web.php");
+
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Salir = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+
+	$Datos=explode('//',$Valores);
+	foreach($Datos as $Clave => $Valor)
+	{
+		$Datos2=explode('~~',$Valor);
+		$TxtIE=$Datos2[0];
+		$NombreProducto=$Datos2[1];
+		$NombreSubProducto=$Datos2[2];
+		$CodProducto=$Datos2[3];
+		$CodSubProducto=$Datos2[4];
+		$TxtPeso=$Datos2[5];
+		$TipoIE=$Datos2[6];
+		$TxtPesoPrep=$Datos2[7];
+		$CodMarca=$Datos2[10];
+		if ($TxtPesoPrep=='')
+		{
+			$TxtPesoPrep=0;
+		}
+		$Consulta="SELECT descripcion from sec_web.marca_catodos where cod_marca='".$CodMarca."'";
+		$Respuesta=mysqli_query($link, $Consulta);
+		if ($Fila=mysqli_fetch_array($Respuesta))
+		{
+			$Marca=$Fila["descripcion"];
+		}
+		
+	}
+
+$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
+	$rs = mysqli_query($link, $Consulta);
+	if ($row = mysqli_fetch_array($rs))
+	{
+		$TxtPesoRango=$row["peso_rango"];
+	}
+?>
+<html>
+<head>
+<script language="JavaScript">
+var OK;
+var OTS = "";
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+function muestra(numero) 
+{
+ 	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = 'show'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'visible'");
+			eval("Txt" + numero + ".style.left = 100 ");
+		}
+	}
+}
+function oculta(numero) 
+{
+	if (ns4)
+	{ 
+ 		eval("document. " + numero + ".visibility = hide'");
+	}
+ 	else	
+	{
+		if (ie4) 
+		{
+			eval("Txt" + numero + ".style.visibility = 'hidden'");
+		}
+	}
+}
+function MostrarPaquetes(cod_bulto,num_bulto,ie)
+{
+
+	window.open("sec_paquetes_series.php?CodBulto="+cod_bulto+"&NumBulto="+num_bulto+"&IE="+ie,"","top=110,left=3,width=770,height=340,scrollbars=no,resizable = yes");
+
+}
+function Recarga()
+{
+	var Frm=document.FrmAsigVirtual;
+	var TipoIE="";
+	
+	if (Frm.OpcTipoIE[0].checked)
+	{
+		TipoIE="Normal";
+	}
+	else
+	{
+		TipoIE="Virtual";
+	}
+	Frm.action="sec_programa_adm_loteo.php?TipoIE="+TipoIE;
+	Frm.submit();
+	
+}
+function RecuperarValores(PesoPreparado)
+{
+	var Frm=document.FrmAsigVirtual;
+	var Valores=new String();
+	var Peso=0;
+	var PesoIE=0;
+	
+	Peso=parseInt(PesoPreparado);
+	for (i=1;i<Frm.OptSeleccionar.length;i++)
+	{
+		if (Frm.OptSeleccionar[i].checked==true)
+		{
+			Peso=Peso+parseInt(Frm.TxtPeso[i].value);
+			Valores=Valores + Frm.OptSeleccionar[i].value +"//";
+		}
+	}
+	PesoIE=parseInt(Frm.PesoIE.value);
+ 
+
+	//if ((Peso <  PesoIE - 600 ) || (Peso > PesoIE + 300))
+	if (Peso > PesoIE)
+	{
+		alert('Los Elementos Seleccionados sobrepasan el Peso Requerido');
+		Valores='';
+	}
+    if (Peso <  (PesoIE - <?php echo $TxtPesoRango; ?>))
+	{	
+		var DifPeso = PesoIE - Peso;
+		//alert('Los Elementos Seleccionados no cumplen con el Peso Requerido');
+		if (!confirm("Hay una diferencia de " + DifPeso + " kg. \n Desea Asignar de todas maneras?"))		
+		{
+			//alert("NO ASIGNA");
+			Valores='';
+		}
+		/*else
+		{			
+			Valores = Valores + "&AsignaMenosPeso=S//";
+		}*/				
+	}
+	if (Valores!='')
+	{
+		Valores=Valores.substr(0,Valores.length-2);
+		return(Valores);	
+	}
+	else
+	{
+		Valores="";
+		return(Valores);	
+	}	
+} 
+
+function Grabar(Valores,PesoPreparado)
+{
+	var Frm=document.FrmAsigVirtual;
+	var TipoIE="";
+	var Valores2="";
+	
+	Valores2=RecuperarValores(PesoPreparado);
+	if (Valores2!="")
+	{
+	//	alert("sec_seleccionar_inicio_lote.php?Valores="+Valores+"&Valores2="+Valores2);
+		window.open("sec_seleccionar_inicio_lote.php?Valores="+Valores+"&Valores2="+Valores2,""," fullscreen=no,left=180,top=150,width=380,height=190,scrollbars=no,resizable = no");			
+	}	
+}
+
+function Salir()
+{
+	window.close();
+	
+}
+</script>
+<title>Asignar Virtual a Instrucion de Embarque</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
+<form name="FrmAsigVirtual" method="post" action="">
+  <?php
+	  echo "<input type='hidden' name='PesoIE' value='$TxtPeso'>";	
+  ?>
+  <table width="770" height="370" border="0" class="TablaPrincipal" left="5" cellpadding="5" cellspacing="0">
+  <tr>
+      <td align="center"><br>
+		<div style="position:absolute; left: 17px; top: 20px; width: 725px; height: 250px; OVERFLOW: auto;" id="div2">
+        <table width="715" border="0" class="tablainterior">
+          <tr>
+			<td align="left" class="Detalle01" >
+				<?php
+				echo "IE:&nbsp;$TxtIE&nbsp;&nbsp;|&nbsp;&nbsp;Peso:&nbsp;$TxtPeso&nbsp;&nbsp;|Peso Preparado:&nbsp;$TxtPesoPrep&nbsp;&nbsp;|&nbsp;&nbsp;Marca:&nbsp;$Marca&nbsp;($CodMarca)";
+				echo "<input TYPE='hidden' name='TxtIE' value='$TxtIE'><input TYPE='hidden' name='TxtIE' value='$Peso'>";
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td align="left" class="Detalle01">
+				<?php
+				echo "Producto:&nbsp;$NombreProducto&nbsp;&nbsp;|&nbsp;SubProducto:&nbsp;$NombreSubProducto";
+				?>
+			</td>
+        </tr>
+        </table></div>	  
+	  <div style="position:absolute; left: 17px; top: 55px; width: 725px; height: 250px; OVERFLOW: auto;" id="div2">
+	  <table width="715" border="0" cellpadding="3" cellspacing="0" bordercolor="#b26c4a" class="TablaDetalle">
+          <tr class="ColorTabla01">
+		  <?php
+			echo "<td width='20' align='center'>&nbsp;</td>";
+			echo "<td width='50' align='center'>I.E</td>";
+			echo "<td width='185' align='center'>SubProducto</td>";
+			echo "<td width='70' align='center'>L. Inicial</td>";
+			echo "<td width='45' align='center'>L. Final</td>";
+			echo "<td width='70' align='right'>Peso</td>";
+			echo "<td width='70' align='center'>Paquetes</td>";
+			echo "<td width='160' align='center'>Marca</td>";
+			echo "<td width='50' align='center'>Origen</td>";
+		  ?>	
+          </tr>
+        </table></div>
+		<div style="position:absolute; left: 20px; top: 75px; width: 735px; height: 245px; OVERFLOW: auto;" id="div2">
+		<?php
+			echo "<table width='715' border='1' cellpadding='1' cellspacing='0' class='tablainterior'>";
+			$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
+			$CrearTmp =$CrearTmp."(corr_ie bigint(8),cantidad_programada bigint(8),fecha_disponible date,";
+			$CrearTmp =$CrearTmp."cod_producto varchar(10),producto varchar(30),";
+			$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar(30),descripcion varchar(10))";
+			mysqli_query($link, $CrearTmp);
+			//CONSULTA LAS VIRTUALES
+			//CONSULTA TODAS LAS VIRTUALES
+			$Consulta="SELECT t1.corr_virtual,t1.peso_programado,t1.fecha_embarque,t1.cod_producto,t1.cod_subproducto,t6.descripcion as nombre_producto,t2.descripcion as nombre_subproducto,t1.descripcion ";
+			$Consulta=$Consulta." from sec_web.instruccion_virtual t1";
+			$Consulta=$Consulta." left join proyecto_modernizacion.productos t6 on t1.cod_producto=t6.cod_producto ";
+			$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+			if($CodProducto == '48' && $CodSubProducto == '5')
+				$Consulta=$Consulta." where t2.cod_producto='48' and t2.cod_subproducto in ('1','2','3','4','5','7','8','9')   ";
+			else
+				$Consulta=$Consulta." where t1.estado in ('P','T')  and t1.cod_producto='".$CodProducto."' and  t1.cod_subproducto='".$CodSubProducto."' ";
+			$Consulta=$Consulta." order by t1.cod_producto, t1.cod_subproducto";
+			//and t1.cod_producto='".$CodProducto."' and t1.cod_subproducto='".$CodSubProducto."' order by t1.peso_programado desc";
+			$Resultado=mysqli_query($link, $Consulta);
+			//echo $Consulta;
+			//BLOQUEO LAS CONDICIONES ANTERIORES PARA FILTRAR POR PRODUCTO Y SUBPRODUCTO
+			/*if ($CodProducto=='48')//SI ES DESPUNTE DE LAMINAS
+			{
+				$Consulta="SELECT t1.corr_virtual,t1.peso_programado,t1.fecha_embarque,t1.cod_producto,t1.cod_subproducto,t6.descripcion as nombre_producto,t2.descripcion as nombre_subproducto,t1.descripcion ";
+				$Consulta=$Consulta." from sec_web.instruccion_virtual t1";
+				$Consulta=$Consulta." left join proyecto_modernizacion.productos t6 on t1.cod_producto=t6.cod_producto ";
+				$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+				$Consulta=$Consulta." where t1.estado in ('P','T') and t1.cod_producto='".$CodProducto."' order by t1.peso_programado desc";
+				$Resultado=mysqli_query($link, $Consulta);
+			}
+			else
+			{
+				if (($CodProducto=='18')&&($CodSubProducto=='15'))
+				{
+					$Consulta="SELECT t1.corr_virtual,t1.peso_programado,t1.fecha_embarque,t1.cod_producto,t1.cod_subproducto,t6.descripcion as nombre_producto,t2.descripcion as nombre_subproducto,t1.descripcion ";
+					$Consulta=$Consulta." from sec_web.instruccion_virtual t1";
+					$Consulta=$Consulta." left join proyecto_modernizacion.productos t6 on t1.cod_producto=t6.cod_producto ";
+					$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+					$Consulta=$Consulta." where t1.estado in ('P','T') and t1.cod_producto='".$CodProducto."' and ((t1.cod_subproducto='5') or (t1.cod_subproducto='6') or ";
+					$Consulta=$Consulta."(t1.cod_subproducto='8') or (t1.cod_subproducto='9') or (t1.cod_subproducto='10'))  order by t1.peso_programado desc";
+					$Resultado=mysqli_query($link, $Consulta);
+				}
+				else
+				{
+					$Consulta="SELECT t1.corr_virtual,t1.peso_programado,t1.fecha_embarque,t1.cod_producto,t1.cod_subproducto,t6.descripcion as nombre_producto,t2.descripcion as nombre_subproducto,t1.descripcion ";
+					$Consulta=$Consulta." from sec_web.instruccion_virtual t1";
+					$Consulta=$Consulta." left join proyecto_modernizacion.productos t6 on t1.cod_producto=t6.cod_producto ";
+					$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+					$Consulta=$Consulta." where t1.estado in ('P','T') and t1.cod_producto='".$CodProducto."' and t1.cod_subproducto='".$CodSubProducto."' order by t1.peso_programado desc";
+					$Resultado=mysqli_query($link, $Consulta);
+				}	
+			}*/
+			while ($Fila=mysqli_fetch_array($Resultado))
+			{
+				$Insertar="INSERT INTO sec_web.tmpprograma (corr_ie,cantidad_programada,cod_producto,producto,cod_subproducto,subproducto,fecha_disponible,descripcion) values(";
+				$Insertar=$Insertar."$Fila["corr_virtual"],$Fila[peso_programado],'$Fila["cod_producto"]','$Fila["nombre_producto"]','".$Fila["cod_subproducto"]."','$Fila[nombre_subproducto]','".$Fila["fecha_embarque"]."','$Fila["descripcion"]')";
+				mysqli_query($link, $Insertar);   
+			}
+			$Consulta="SELECT * from sec_web.tmpprograma order by fecha_disponible";
+			$Respuesta=mysqli_query($link, $Consulta);
+			echo "<input type='hidden' name='OptSeleccionar'><input type='hidden' name='TxtPeso'>";
+			$TotalPeso=0;
+			$TotalPaquetes=0;
+			while ($Fila=mysqli_fetch_array($Respuesta))
+			{
+				$Consulta="SELECT t1.cod_bulto,t1.num_bulto,sum(t2.peso_paquetes) as peso_preparado,t1.cod_marca,t3.descripcion as marca from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 on ";
+				$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete and t1.fecha_creacion_paquete=t2.fecha_creacion_paquete ";
+				$Consulta=$Consulta." left join sec_web.marca_catodos t3 on t1.cod_marca=t3.cod_marca ";
+				$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a' and t2.cod_estado='a' group by t1.corr_enm,t1.cod_bulto,t1.num_bulto order by t1.fecha_creacion_lote desc";
+				//$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
+				//echo $Consulta;
+				$Respuesta2=mysqli_query($link, $Consulta);
+				if ($Fila2=mysqli_fetch_array($Respuesta2))
+				{
+					$Consulta="SELECT max(num_paquete) as num_bulto from sec_web.lote_catodo t1";
+					$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a'";
+					$Respuesta3=mysqli_query($link, $Consulta);
+					$Fila3=mysqli_fetch_array($Respuesta3);
+					$Consulta="SELECT count(*) as cantpaquetes from sec_web.lote_catodo t1";
+					$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a'";
+					$Respuesta4=mysqli_query($link, $Consulta);
+   //  echo $Consulta;
+					$Fila4=mysqli_fetch_array($Respuesta4);
+					$Cont2++;
+					echo "<td width='20' align='center'><input type='checkbox' name='OptSeleccionar' value='".$Fila["corr_ie"]."'><input type='hidden' name='TxtPeso' value='".$Fila2["peso_preparado"]."'></td>";
+					echo "<td width='20'>".$Fila["corr_ie"]."</td>";
+					echo "<td width='160'>".$Fila["subproducto"]."</td>";
+					echo "<td width='60'>".$Fila2["cod_bulto"]."-".$Fila2["num_bulto"]."&nbsp;</td>";
+					echo "<td width='60'>".$Fila2["cod_bulto"]."-".$Fila3["num_bulto"]."&nbsp;</td>";
+					echo "<td width='50' align='right'>".$Fila2["peso_preparado"]."&nbsp;</td>";
+					echo "<td width='50' align='right'>".$Fila4["cantpaquetes"]."&nbsp;</td>";
+					echo "<td width='130' align='left'>&nbsp;".$Fila2["marca"]."&nbsp;</td>";
+					echo "<td width='50' align='center'>".$Fila["descripcion"]."&nbsp;</td>";
+					$TotalPeso=$TotalPeso+$Fila2["peso_preparado"];
+					$TotalPaquetes=$TotalPaquetes+$Fila4["cantpaquetes"];
+					echo "</tr>";
+				}	
+			}
+			echo "<tr class='Detalle01' >";
+			echo "<td>&nbsp;</td>";
+			echo "<td>Totales</td>";
+			echo "<td>&nbsp;</td>";
+			echo "<td>&nbsp;</td>";
+			echo "<td width='50' align='right'>".$TotalPeso."&nbsp;</td>";
+			echo "<td width='50' align='right'>".$TotalPaquetes."&nbsp;</td>";
+			echo "<td>&nbsp;</td>";
+			echo "<td>&nbsp;</td>";
+			echo "</tr>";
+			echo "</table>";	
+		?>
+		</div>
+        <br>
+		<div style="position:absolute; left: 15px; top: 330px; width: 720px; height: 250px; OVERFLOW: auto;" id="div2">
+        <table width="720" border="0" class="tablainterior">
+          <tr>
+              <td align="center">
+			  	<input type="button" name="BtnGrabar" value="Grabar" style="width:90" onClick="Grabar('<?php echo $Valores;?>','<?php echo $TxtPesoPrep;?>');">
+                <input type="button" name="BtnSalir" value="Salir" style="width:90" onClick="Salir();">
+			</td>
+          </tr>
+        </table></div><br></td>
+  </tr>
+</table>
+</form>
+</body>
+</html>
+<?php
+	if (isset($Salir))
+	{
+		echo "<script languaje='JavaScript'>";
+		echo "window.opener.document.FrmProgLoteo.action='sec_programa_adm_loteo.php?Salir=S';";
+		echo "window.opener.document.FrmProgLoteo.submit();";
+		echo "window.close();";
+		echo "</script>";		
+	}
+?>

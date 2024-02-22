@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43370 ',peso_neto='29070',marca='V NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='9015294-7',nombre_chofer='PATRICIO LUCERO',observacion='',romana_salida='1' where correlativo='436046' and lote='21016014' and recargo='9'

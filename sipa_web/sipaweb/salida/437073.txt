@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 42590 ',peso_neto='26300',marca='FRANJA AMARILLA',cod_mop='510',num_sello='',transportista='',rut_chofer='16332683-3',nombre_chofer='DANIEL PRADO',observacion='',romana_salida='1' where correlativo='437073' and lote='21016230' and recargo='1'

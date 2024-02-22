@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44200',peso_neto='27990',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='26943959-9',nombre_chofer='DERWIN CHACIN ORTIZ',observacion='circulante oxidos ',romana_salida='1' where correlativo='473395' and lote='22116104' and recargo='5'

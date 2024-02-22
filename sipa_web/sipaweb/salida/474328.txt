@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41730 ',peso_neto='24590',marca='',cod_mop='454',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='',romana_salida='1' where correlativo='474328' and lote='22126027' and recargo='1'

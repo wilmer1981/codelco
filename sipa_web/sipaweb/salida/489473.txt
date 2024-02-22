@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44270 ',peso_neto='28000',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='18018133-4',nombre_chofer='diego arredondo',observacion='ladrillo',romana_salida='1' where correlativo='489473' and lote='23086142' and recargo='5'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43810 ',peso_neto='30360',marca='FRANJA AMARILLA',cod_mop='510',num_sello='',transportista='',rut_chofer='10362086-4',nombre_chofer='MARCO VERA',observacion='',romana_salida='1' where correlativo='434715' and lote='20126087' and recargo='3'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44510',peso_neto='28820',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12911533-5',nombre_chofer='arturo gutierres ',observacion='concentrado de cu',romana_salida='1' where correlativo='478403' and lote='23026073' and recargo='9'

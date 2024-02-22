@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43990 ',peso_neto='27440',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17112001-2',nombre_chofer='PABLO GALLARDO',observacion='cu varios',romana_salida='1' where correlativo='485799' and lote='23066104' and recargo='10'

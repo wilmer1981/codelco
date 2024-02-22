@@ -1,0 +1,325 @@
+<? 	
+ 	$CodigoDeSistema = 3;
+	$CodigoDePantalla =11;
+	include("../principal/conectar_sec_web.php");
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$Rut =$CookieRut;
+	$Fecha_Hora = date("d-m-Y h:i");
+	$Encontro=false;
+	$Encontro1=false;
+	if($TxtGuia1 <> "")
+	{
+		$Consulta = "select * from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia1."' ";
+		$Respuesta =mysql_query($Consulta);
+		if($Fila =mysql_fetch_array($Respuesta))
+		{
+			$Lote=$Fila["cod_bulto"]." ".$Fila["num_bulto"];
+			$IE=$Fila["corr_enm"];
+			$Encontro=true;
+		}
+	}
+	if($TxtGuia2 <> "")
+	{
+		$Consulta = "select * from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia2."' ";
+		$Respuesta2 =mysql_query($Consulta);
+		if($Fila2 =mysql_fetch_array($Respuesta2))
+		{
+			$Lote2=$Fila2["cod_bulto"]." ".$Fila2["num_bulto"];
+			$IE2=$Fila2["corr_enm"];
+			$Encontro1=true;
+		}
+	}
+?>
+<html>
+<head>
+<SCRIPT event=onclick() for=document>popCal.style.visibility = "hidden";</SCRIPT>
+<script language="JavaScript">
+function Salir()
+{
+	var Frm=document.FrmProceso;
+	//Frm.action= "../principal/sistemas_usuario.php?CodSistema=3";
+	Frm.action= "../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=65";
+	Frm.submit();
+
+}
+function Buscar()
+{
+	var Frm=document.FrmProceso;
+		if(Frm.TxtGuia1.value == "")
+	{ 
+		alert("Ingrese Guia N� 1");
+		Frm.TxtGuia1.focus();
+		return;
+		
+	}
+	if(Frm.TxtGuia2.value == "")
+	{
+		alert("Ingrese Guia N� 2");
+		Frm.TxtGuia2.focus();
+		return;
+		
+	}	
+	if(Frm.TxtGuia1.value == Frm.TxtGuia2.value)
+	{
+		alert("Ingrese Numeros de Guias Diferentes");
+		Frm.TxtGuia1.value="";
+		Frm.TxtGuia2.value="";
+		Frm.TxtGuia1.focus();
+		return;
+		
+	}
+	
+	Frm.action="sec_modifica_numguia.php?Buscar=S&TxtGuia1="+Frm.TxtGuia1.value + "&TxtGuia2=" + Frm.TxtGuia2.value;
+	Frm.submit();
+	
+}
+function Actualiza()
+{
+    var Frm=document.FrmProceso;
+	Frm.action="sec_modifica_numguia01.php?TxtGuia1=" + Frm.TxtGuia1.value + "&TxtGuia2=" + Frm.TxtGuia2.value;
+	Frm.submit();
+}
+
+</script>
+<title>Proceso</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+body {
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<body>
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=160 scrolling=no height=180></IFRAME></DIV>
+<form name="FrmProceso" method="post" action="">
+  <? include("../principal/encabezado.php")?>
+  <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
+    <tr>
+    <td width="776" align="center" valign="top">
+	<table width="490" border="0" class="TablaInterior">
+          <tr> 
+            <td width="49"><font size="2">&nbsp; </font></td>
+            <td width="69"><font size="2">Num Guia 1 </font></td>
+            <td width="111"><font size="1"><font size="2"> </font></font><font size="2">
+              <input name="TxtGuia1" type="text"  value="<? echo $TxtGuia1; ?>" size="13" maxlength="10">
+              </font></td>
+            <td width="71">N&deg; Guia 2 </td>
+            <td width="165"><font size="2">
+              <input name="TxtGuia2" type="text"  value="<? echo $TxtGuia2; ?>" size="13" maxlength="10">
+</font> </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td colspan="4"><div align="center"><font size="2">
+                <input name="btnBuscar" type="button" id="btnBuscar3" value="Buscar" onClick="Buscar();">
+            <?
+			//if($Encontro ==true && $Encontro1 == true )
+			if($Encontro ==true && $TxtGuia2 <> "")
+
+			{
+				if($Mensaje <> 'S')
+				{
+			?>
+			    <input name="BtnActualiza" type="button" id="BtnActualiza" value="Actualiza" onClick="Actualiza();">
+             <?
+			 	}
+			 }
+			 ?>
+			    <input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();">
+</font></div></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+		<div  style='FILTER: alpha(opacity=100); overflow:auto;   WIDTH: 357px; height:204px; POSITION: absolute; moz-opacity: .75; opacity: .75; border:solid 1px Black; left: 25px; top: 142px'>
+          <table width="338" border="1" cellpadding="3" cellspacing="0" bordercolor="#b26c4a" class="TablaDetalle">
+          <tr class="ColorTabla01"> 
+           <!-- <td width="17"> <input type="hidden" name="CheckTodos" value="checkbox"> 
+            </td>-->
+            <td width="45"><div align="center">NumGuia</div></td>
+            <td width="60">Lote</td>
+            <td width="79" align="center"><div align="center">#Paquete</div></td>
+           <!--<td width="116" align="left"><div align="left">Producto/SubProducto</div></td>-->
+            </tr>
+         
+        
+       <? 
+	  	  // echo $Encontro."<br>";
+	  //echo "enc".$Encontro."<br>";
+	   if($Encontro == true)
+	   {
+			//echo "<table width='752' border='1' cellpadding='3' cellspacing='0' bordercolor='#b26c4a'>";
+			$MostrarBtn='N';
+			$Consulta = "select  distinct cod_paquete,num_paquete,t2.cod_bulto,t2.num_bulto,t2.corr_enm,t2.num_guia ";
+			$Consulta.=" from sec_web.det_guia_despacho_emb t1";
+			$Consulta.=" inner join sec_web.guia_despacho_emb t2 on t1.num_guia=t2.num_guia ";
+			$Consulta.=" where t2.num_guia='".$TxtGuia1."' ";
+			$Consulta.=" order by cod_paquete,num_paquete ";
+			$Respuesta = mysql_query($Consulta);
+			//echo $Consulta;
+			//echo "<input name ='checkbox' type='hidden' ><input name ='MesPaqueteI' type='hidden' ><input name ='NumPaqueteI' type='hidden' ><input name ='MesPaqueteF' type='hidden' ><input name ='NumPaqueteF' type='hidden' >";
+			while ($Fila=mysql_fetch_array($Respuesta))
+			{
+				echo "<tr>";
+				//echo "<td width='5'>&nbsp;</td>";
+				echo "<td width='20'>".$Fila["num_guia"]."</td>";
+				echo "<td width='60'>".$Fila["cod_bulto"]."-".$Fila["num_bulto"]."</td>";
+				echo "<td width='79'>".$Fila["cod_paquete"]."-".$Fila["num_paquete"]."&nbsp;</td>";
+				/*$Consulta="select num_unidades,peso_paquetes,t2.cod_estado,t2.cod_producto,t2.cod_subproducto from sec_web.lote_catodo t1 ";
+				$Consulta.=" inner join sec_web.paquete_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
+				$Consulta.=" and t1.num_paquete=t2.num_paquete and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete ";
+				$Consulta.=" where cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."' and corr_enm='".$Fila["corr_enm"]."' 	";
+				$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  	";
+				$Consulta.=" and t1.cod_paquete='".$Fila["cod_paquete"]."' and t2.num_paquete='".$Fila["num_paquete"]."'";
+				$Resp1=mysql_query($Consulta);
+				if($Fila4=mysql_fetch_array($Resp1))
+				{
+					$Unidades=$Fila4["num_unidades"];
+					$PesoU=$Fila4["peso_paquetes"];
+				}	
+				else
+				{
+					$Unidades="Error";
+					$PesoU=$Fila4["peso_paquetes"];
+				}
+				$Consulta=" select * from proyecto_modernizacion.subproducto where ";
+				$Consulta.=" cod_producto='".$Fila4["cod_producto"]."' and cod_subproducto='".$Fila4["cod_subproducto"]."'";
+				$RespPro=mysql_query($Consulta);
+				if($FilaPro = mysql_fetch_array($RespPro))
+					$SubPro=$FilaPro["descripcion"];
+				else	
+					$SubPro="";
+					
+				echo "<td width='300'>".$SubPro."</td>";
+				echo "<td width='89'>".$Unidades."&nbsp;</td>";
+				echo "<td width='79'>".$PesoU."&nbsp;</td>";
+				if($Fila4["cod_estado"]=='a')
+					$Estado="A";
+				else
+					$Estado="C";	
+				echo "<td width='79' align='center'><strong>".$Estado."&nbsp;</strong></td>";
+				if($Fila4["cod_estado"]=='a')
+					$MostrarBtn='S';
+				$TotalPesoU=$TotalPesoU	+$PesoU;*/ 
+					
+				echo "</tr>";
+			}
+		}
+		//echo "</table>";  
+		?>
+        <br>
+		
+		</table>
+		</div>
+		
+		<div  style='FILTER: alpha(opacity=100); overflow:auto;   WIDTH: 357px; height:204px; POSITION: absolute; moz-opacity: .75; opacity: .75; border:solid 1px Black; left: 387px; top: 143px'>
+          <table width="338" border="1" cellpadding="3" cellspacing="0" bordercolor="#b26c4a" class="TablaDetalle">
+          <tr class="ColorTabla01"> 
+            <!--<td width="17"> <input type="hidden" name="CheckTodos" value="checkbox"> 
+            </td>-->
+            <td width="45"><div align="center">NumGuia</div></td>
+            <td width="60">Lote</td>
+            <td width="79" align="center"><div align="center">#Paquete</div></td>
+           <!--<td width="116" align="left"><div align="left">Producto/SubProducto</div></td>-->
+            </tr>
+         
+        
+       <? 
+	  // echo $Encontro."<br>";
+	   if($Encontro1 == true)
+	   {
+			//echo "<table width='752' border='1' cellpadding='3' cellspacing='0' bordercolor='#b26c4a'>";
+			$MostrarBtn='N';
+			$Consulta = "select  distinct cod_paquete,num_paquete,t2.cod_bulto,t2.num_bulto,t2.corr_enm,t2.num_guia ";
+			$Consulta.=" from sec_web.det_guia_despacho_emb t1";
+			$Consulta.=" inner join sec_web.guia_despacho_emb t2 on t1.num_guia=t2.num_guia ";
+			$Consulta.=" where t2.num_guia='".$TxtGuia2."' ";
+			$Consulta.=" order by cod_paquete,num_paquete ";
+			$Respuesta2 = mysql_query($Consulta);
+			//echo $Consulta;
+			//echo "<input name ='checkbox' type='hidden' ><input name ='MesPaqueteI' type='hidden' ><input name ='NumPaqueteI' type='hidden' ><input name ='MesPaqueteF' type='hidden' ><input name ='NumPaqueteF' type='hidden' >";
+			while ($Fila2=mysql_fetch_array($Respuesta2))
+			{
+				echo "<tr>";
+				//echo "<td width='5'>&nbsp;</td>";
+				echo "<td width='30'>".$Fila2["num_guia"]."</td>";
+				echo "<td width='60'>".$Fila2["cod_bulto"]."-".$Fila2["num_bulto"]."</td>";
+				echo "<td width='79'>".$Fila2["cod_paquete"]." ".$Fila2["num_paquete"]."&nbsp;</td>";
+				/*$Consulta="select num_unidades,peso_paquetes,t2.cod_estado,t2.cod_producto,t2.cod_subproducto from sec_web.lote_catodo t1 ";
+				$Consulta.=" inner join sec_web.paquete_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
+				$Consulta.=" and t1.num_paquete=t2.num_paquete and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete ";
+				$Consulta.=" where cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."' and corr_enm='".$Fila["corr_enm"]."' 	";
+				$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  	";
+				$Consulta.=" and t1.cod_paquete='".$Fila["cod_paquete"]."' and t2.num_paquete='".$Fila["num_paquete"]."'";
+				$Resp1=mysql_query($Consulta);
+				if($Fila4=mysql_fetch_array($Resp1))
+				{
+					$Unidades=$Fila4["num_unidades"];
+					$PesoU=$Fila4["peso_paquetes"];
+				}	
+				else
+				{
+					$Unidades="Error";
+					$PesoU=$Fila4["peso_paquetes"];
+				}
+				$Consulta=" select * from proyecto_modernizacion.subproducto where ";
+				$Consulta.=" cod_producto='".$Fila4["cod_producto"]."' and cod_subproducto='".$Fila4["cod_subproducto"]."'";
+				$RespPro=mysql_query($Consulta);
+				if($FilaPro = mysql_fetch_array($RespPro))
+					$SubPro=$FilaPro["descripcion"];
+				else	
+					$SubPro="";
+					
+				echo "<td width='300'>".$SubPro."</td>";
+				echo "<td width='89'>".$Unidades."&nbsp;</td>";
+				echo "<td width='79'>".$PesoU."&nbsp;</td>";
+				if($Fila4["cod_estado"]=='a')
+					$Estado="A";
+				else
+					$Estado="C";	
+				echo "<td width='79' align='center'><strong>".$Estado."&nbsp;</strong></td>";
+				if($Fila4["cod_estado"]=='a')
+					$MostrarBtn='S';
+				$TotalPesoU=$TotalPesoU	+$PesoU;*/ 
+					
+				echo "</tr>";
+			}
+		}
+		//echo "</table>"; 
+		 mysql_close($link);
+		?>
+        <br>
+		
+		</table>
+		</div>
+	  </td>
+  </tr>
+</table>
+ <? include("../principal/pie_pagina.php");
+ 
+  		echo "<script languaje='JavaScript'>";
+		echo "var frm=document.FrmProceso;";
+		if($Mensaje == "S")
+		{
+			//if ($Encontro==false)
+			//{
+				echo "alert('Registro Actualizados Correctamente');";
+			//}
+		}
+		echo "</script>"
+  ?>
+</form>
+</body>
+</html>

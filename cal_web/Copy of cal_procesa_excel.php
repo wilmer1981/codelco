@@ -1,0 +1,214 @@
+<?php
+session_start();
+	include("../principal/conectar_cal_web.php");
+	$Directorio='excel';
+	$Seg=date("s");
+	require_once 'reader.php';
+
+
+	/*require_once('Classes/PHPExcel.php');
+	require_once('Classes/PHPExcel/Reader/Excel2007.php');
+	include 'Classes/PHPExcel/IOFactory.php';*/
+	$ID="Leyes";
+	if($Archivo_name!='none')
+	{
+		
+		
+		$Array=explode('.',$Archivo_name);
+		$extencion = end($Array);
+		if(strtoupper($extencion)=='XLS')
+		{
+			if(strtoupper($extencion)!='EXE'&&strtoupper($extencion)!='ZIP'&&strtoupper($extencion)!='RAR')
+			{
+				$Acento=false;
+				for ($j = 0;$j <= strlen($Archivo_name); $j++)
+				{
+					switch(substr($Archivo_name,$j,1))
+					{
+						case "á":
+						case "Á":
+						case "é":
+						case "É":
+						case "í":
+						case "Í":
+						case "ó":
+						case "Ó":
+						case "ú":
+						case "Ú":
+							$Acento=true;
+						break;
+					}
+				}
+				if($Acento==false)
+				{
+						$NombreArchivo="XLS_".$ID."_".$Archivo_name;
+						if(is_file($Directorio."/".$NombreArchivo))
+						{
+							unlink($Directorio."/".$NombreArchivo);
+							
+						}	
+						if (copy($Archivo, $Directorio."/".$NombreArchivo))
+						{
+							$ProcesaArchivo = "S";
+						}
+						else
+							$ProcesaArchivo = "N";
+				}
+			}
+		}
+		else
+		{
+			?>
+            <script language="JavaScript">
+function ProcesoExcel(Opcion)
+{
+	var f= document.FrmCargaExcel;
+	switch(Opcion)
+	{
+	
+		case "S":
+			window.close();
+		break;
+	}
+}
+</script>
+		<link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
+<style>
+.InputRojo{
+	text-align:left;
+	color:#FF0000;
+}
+		</style><body class="TablaPrincipal">	
+			  <table width="441" border="0" align="center" cellpadding="3" cellspacing="0" class="TablaPrincipal" >
+      
+     <tr align="center" >
+       <td colspan="6" ><span class="InputRojo">Debe Seleccionar archivos con extenci&oacute;n XLS</span></td>
+     </tr>
+     <tr align="center" bgcolor="#FFFFFF" class="Detalle02">
+      <td colspan="6" >
+	<input name="BtnCancelar" type="button" id="BtnCancelar" style="width:80" value="Cancelar" onClick="ProcesoExcel('S')">&nbsp;</td>
+    </tr>
+    
+  </table>
+
+			
+			<?php
+			
+		}
+	}
+	
+if($ProcesaArchivo=='S')
+{	
+	$Eliminar="delete from cal_web.tmp_solicitud_excel where run_registro='".$CookieRut."'";
+	mysqli_query($link, $Eliminar);	
+	$Hoja=0;
+	/*if($extencion=='xlsx')
+		$inputFileType = 'Excel2007';
+	if($extencion=='xls')
+		$inputFileType = 'Excel5';
+	$inputFileName = './'.$Directorio.'/'.$NombreArchivo;
+	$objReader = PHPExcel_IOFactory::createReader($inputFileType);
+	$objPHPExcel = $objReader->load($inputFileName); //reemplazar por el nombre del archivo
+	$objPHPExcel->setActiveSheetIndex(0);
+	$rows=$objPHPExcel->getActiveSheet()->getHighestRow();
+	$cols=PHPExcel_Cell::columnIndexFromString($objPHPExcel->getActiveSheet()->getHighestColumn());
+	*/
+	$data = new Spreadsheet_Excel_Reader();
+	$data->read($Directorio."/".$NombreArchivo);
+	error_reporting(E_ALL ^ E_NOTICE);
+
+//echo "NN3N ".$data->sheets[$Hoja]['cells'][4][3];
+//echo " Fin ".$data->sheets[$Hoja]['numRows'];
+	for($i=4;$i<=$data->sheets[$Hoja]['numRows'];$i++)
+	{ 
+		if(is_numeric($data->sheets[$Hoja]['cells'][$i][3]))
+		{
+	
+	/*
+		if(is_numeric($objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(2,$i)->getValue()))
+		{*/	
+			$NroSolicitud=$data->sheets[$Hoja]['cells'][$i][3];
+			$IdMuestra=$data->sheets[$Hoja]['cells'][$i][2];
+			$FinoLeyAg=$data->sheets[$Hoja]['cells'][$i][9];
+			
+			$FinoLeyAu=$data->sheets[$Hoja]['cells'][$i][10];
+			$RetLeyAg=$data->sheets[$Hoja]['cells'][$i][11];
+			$RetLeyAu=$data->sheets[$Hoja]['cells'][$i][12];
+			$PesoRetalla=$data->sheets[$Hoja]['cells'][$i][13];
+			$UniLeyAg=$data->sheets[$Hoja]['cells'][$i][17];
+			$UniLeyAu=$data->sheets[$Hoja]['cells'][$i][18];
+			$UniRetLeyAg=$data->sheets[$Hoja]['cells'][$i][19];
+			$UniRetLeyAu=$data->sheets[$Hoja]['cells'][$i][20];
+			$UniPesoRetalla=$data->sheets[$Hoja]['cells'][$i][21];
+	/*		echo "NroSolicitud ".$NroSolicitud."<br>";
+			echo "IdMuestra ".$IdMuestra."<br>";
+			echo "UniPesoRetalla ".$UniPesoRetalla."<br>";
+			
+			$FinoLeyAg=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(8,$i)->getValue();
+			$FinoLeyAu=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(9,$i)->getValue();
+			$RetLeyAg=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(10,$i)->getValue();
+			$RetLeyAu=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(11,$i)->getValue();
+			$PesoRetalla=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(12,$i)->getValue();	
+			$UniLeyAg=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(16,$i)->getValue();
+			$UniLeyAu=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(17,$i)->getValue();
+			$UniRetLeyAg=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(18,$i)->getValue();
+			$UniRetLeyAu=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(19,$i)->getValue();
+			$UniPesoRetalla=$objPHPExcel->getActiveSheet(0)->getCellByColumnAndRow(20,$i)->getValue();		
+*/		//PLATA
+		
+		Insertartmp($NroSolicitud,$IdMuestra,$FinoLeyAg,$UniLeyAg,$FinoLeyAu,$UniLeyAu,$RetLeyAg,$UniRetLeyAg,$RetLeyAu,$UniRetLeyAu,$PesoRetalla,$UniPesoRetalla,$CookieRut);
+/*
+			if($FinoLeyAg!='' )
+				Insertartmp($NroSolicitud,'0','04',$UniLeyAg,$FinoLeyAg,'',$CookieRut);	 
+			if($RetLeyAg!='')
+				Insertartmp($NroSolicitud,'R','04',$UniRetLeyAg,$RetLeyAg,$PesoRetalla,$CookieRut); 	
+		ORO		
+			if($FinoLeyAu!='') 
+				Insertartmp($NroSolicitud,'0','05',$UniLeyAu,$FinoLeyAu,'',$CookieRut);	
+			if($RetLeyAu!='')
+				Insertartmp($NroSolicitud,'R','05',$UniRetLeyAu,$RetLeyAu,$PesoRetalla,$CookieRut);	
+*/		}
+	}
+	echo "<script languaje='JavaScript'>";
+	echo "window.opener.document.FrmTraspasoExcel.action='cal_traspaso_leyes_excel.php?Elim=N';";
+	echo "window.opener.document.FrmTraspasoExcel.submit();";
+	echo "window.close();</script>";
+}
+
+
+
+	function Insertartmp($NroSolicitud,$IdMuestra,$ley_ag,$unidad_ag,$ley_au,$unidad_au,$r_ley_ag,$r_unidad_ag,$r_ley_au,$r_unidad_au,$r_peso,$r_unidad_peso,$Rut)
+	{
+
+		$Insertar="insert into tmp_solicitud_excel(nro_solicitud,id_muestra,ley_ag,unidad_ag,ley_au,unidad_au,";
+		$Insertar.="r_ley_ag,r_unidad_ag,r_ley_au,r_unidad_au,r_peso,r_unidad_peso,fecha_registro,run_registro)";
+		$Insertar.="values('".$NroSolicitud."','".$IdMuestra."',";
+		if($ley_ag!='')
+			$Insertar.="'".$ley_ag."',";
+		else
+			$Insertar.="NULL,";
+		$Insertar.="'".str_pad($unidad_ag, 2, "0", STR_PAD_LEFT)."',";
+		if($ley_au!='')
+			$Insertar.="'".$ley_au."',";
+		else
+			$Insertar.="NULL,";
+		$Insertar.="'".str_pad($unidad_au, 2, "0", STR_PAD_LEFT)."',";
+		if($r_ley_ag!='')
+			$Insertar.="'".$r_ley_ag."',";
+		else
+			$Insertar.="NULL,";
+		$Insertar.="'".str_pad($r_unidad_ag, 2, "0", STR_PAD_LEFT)."',";
+		if($r_ley_au!='')
+			$Insertar.="'".$r_ley_au."',";
+		else
+			$Insertar.="NULL,";				
+		$Insertar.="'".str_pad($r_unidad_au, 2, "0", STR_PAD_LEFT)."',";
+		if($r_peso!='')
+			$Insertar.="'".$r_peso."',";
+		else
+			$Insertar.="null,";
+		$Insertar.="'".str_pad($r_unidad_peso, 2, "0", STR_PAD_LEFT)."','".date('Y-m-d H:i:s')."','".$Rut."')";
+		mysqli_query($link, $Insertar);
+		
+	}
+?>

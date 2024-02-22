@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 23980 ',peso_neto='10180',marca='V VERDE',cod_mop='520',num_sello='',transportista='',rut_chofer='15343257-0',nombre_chofer='RODRIGO CATALAN',observacion='',romana_salida='1' where correlativo='435085' and lote='20126073' and recargo='14'

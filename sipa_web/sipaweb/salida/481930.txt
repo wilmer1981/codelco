@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39270 ',peso_neto='23420',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='11508293-0',nombre_chofer='sergio zarricueta',observacion='cu varios pvsa',romana_salida='1' where correlativo='481930' and lote='23046013' and recargo='1'

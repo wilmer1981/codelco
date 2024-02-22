@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43010 ',peso_neto='29610',marca='DOS FRANJAS NARANJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='10522376-5',nombre_chofer='MARCOS BERNAL CISTERNAS',observacion='',romana_salida='1' where correlativo='454310' and lote='21116202' and recargo='21'

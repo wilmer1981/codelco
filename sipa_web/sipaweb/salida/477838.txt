@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='38860',peso_neto='24440',marca='TRES FRANJAS ROJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='9277660-3',nombre_chofer='CRISTIAN BERNAL',observacion='',romana_salida='1' where correlativo='477838' and lote='23016035' and recargo='51'

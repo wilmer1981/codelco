@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='39540',peso_neto='25240',marca='EQUIS DOS FRANJAS ROJAS',cod_mop='510',num_sello='',transportista='',rut_chofer='8005333-9',nombre_chofer='LUIS CHAVEZ',observacion='',romana_salida='1' where correlativo='450435' and lote='21096029' and recargo='12'

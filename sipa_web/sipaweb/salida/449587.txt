@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 27070 ',peso_neto='11750',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='17425679-9',nombre_chofer='',observacion='9 palet de plomo',romana_salida='1' where correlativo='449587' and lote='21096019' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43040 ',peso_neto='27160',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='12940270-9',nombre_chofer='CRISTIAN LIUCUIME',observacion='CU VARIOS PVSA',romana_salida='1' where correlativo='481376' and lote='23036305' and recargo='4'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='26640',peso_neto='10970',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='22 MAXISACOS CON ARIDOS',romana_salida='1' where correlativo='472449' and lote='22106207' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44920 ',peso_neto='31110',marca='EQUIS DOS FRANJAS BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='7143217-3',nombre_chofer='FRANCISCO FUENTES',observacion='',romana_salida='1' where correlativo='459974' and lote='22036006' and recargo='16'

@@ -1,0 +1,75 @@
+<?
+include("../principal/conectar_principal.php");
+if($TxtRecargo=='N')
+{
+	$Criterio="";		
+}
+else
+{
+	$Criterio=" and recargo = '".$TxtRecargo."'";
+}
+if ($Plantilla<>'')
+{
+	$Eliminar ="delete from cal_web.leyes_por_solicitud where rut_funcionario ='".$RutF."' and nro_solicitud = '".$SA."' and fecha_hora ='".$Fecha."'".$Criterio;
+	mysql_query($Eliminar);
+	if($TxtRecargo=='N')
+	{
+		$Consulta = "select cod_producto,cod_subproducto,id_muestra from cal_web.solicitud_analisis where rut_funcionario='".$RutF."' and nro_solicitud=".$SA;
+		$RespuestaAux =mysql_query($Consulta);
+		$FilaAux = mysql_fetch_array($RespuestaAux);
+		$Producto=$FilaAux["cod_producto"];
+		$SubProducto=$FilaAux["cod_subproducto"];
+		$Muestra=$FilaAux["id_muestra"];
+	}
+	else
+	{
+		$Consulta = "select cod_producto,cod_subproducto,id_muestra from cal_web.solicitud_analisis where rut_funcionario='".$RutF."' and nro_solicitud=".$SA." and recargo='".$TxtRecargo."'";
+		$RespuestaAux =mysql_query($Consulta);
+		$FilaAux = mysql_fetch_array($RespuestaAux);
+		$Producto=$FilaAux["cod_producto"];
+		$SubProducto=$FilaAux["cod_subproducto"];
+		$Muestra=$FilaAux["id_muestra"];
+	}
+	$Consulta ="select t3.cod_unidad,t3.tipo_leyes,t2.cod_leyes ";
+	$Consulta = $Consulta."from cal_web.plantillas t1 inner join cal_web.leyes_por_plantillas t2 on t1.rut_funcionario = t2.rut_funcionario and t1.cod_plantilla = t2.cod_plantilla ";
+	$Consulta = $Consulta."inner join proyecto_modernizacion.leyes t3  on t2.cod_leyes = t3.cod_leyes "; 
+	$Consulta = $Consulta."where t1.rut_funcionario = '".$RutPlant."' and t1.cod_plantilla ='".$Plantilla."'";
+	$Respuesta = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Respuesta))
+	{
+		if($TxtRecargo=='N')
+		{
+			$Insertar ="insert into cal_web.leyes_por_solicitud(rut_funcionario,nro_solicitud,cod_unidad,fecha_hora,cod_leyes,cod_producto,cod_subproducto,id_muestra)";
+			$Insertar.="values ('$RutF','$SA','".$Fila["cod_unidad"]."','$Fecha','".$Fila["cod_leyes"]."','$Producto','$SubProducto','$Muestra')";
+		}
+		else
+		{
+			$Insertar ="insert into cal_web.leyes_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_unidad,fecha_hora,cod_leyes,cod_producto,cod_subproducto,id_muestra)";
+			$Insertar.="values ('$RutF','$SA','$TxtRecargo','".$Fila["cod_unidad"]."','$Fecha','".$Fila["cod_leyes"]."','$Producto','$SubProducto','$Muestra')";
+		}	
+		mysql_query($Insertar);
+		if ($Fila["tipo_leyes"] == '0')
+		{	
+			$Leyes = $Leyes.$Fila["cod_leyes"].'~~'.$Fila[cod_unidad].'//';
+		}	
+		
+		if ($Fila["tipo_leyes"] == '1')
+		{	
+			$Impurezas = $Impurezas.$Fila["cod_leyes"].'~~'.$Fila[cod_unidad].'//';
+	
+		}
+	}
+	$Actualizar= "UPDATE cal_web.solicitud_analisis set leyes='".$Leyes."', impurezas ='".$Impurezas."' , cod_ccosto='".$CCosto."'  where rut_funcionario = '".$RutF."' and nro_solicitud = '".$SA."' and fecha_hora = '".$Fecha."'".$Criterio;
+	mysql_query($Actualizar);
+}
+else
+{
+	$Actualizar= "UPDATE cal_web.solicitud_analisis set cod_ccosto='".$CCosto."'  where rut_funcionario = '".$RutF."' and nro_solicitud = '".$SA."' and fecha_hora = '".$Fecha."'".$Criterio;
+	mysql_query($Actualizar);
+}
+echo "<script languaje='JavaScript'>";
+echo "window.opener.document.FrmMuestras.action='cal_adm_solicitud_muestreo.php';";
+echo "window.opener.document.FrmMuestras.submit();";
+echo "window.close();</script>";
+	
+?>

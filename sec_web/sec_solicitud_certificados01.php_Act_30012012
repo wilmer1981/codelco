@@ -1,0 +1,101 @@
+<? 	
+	include("../principal/conectar_sec_web.php");
+	$Rut =$CookieRut;
+	$Fecha=date('Y-m-d H:i:s');
+	switch ($Proceso)
+	{  
+		case "G":
+			$Datos=explode('//',$Valores);
+			foreach($Datos as $Clave => $Valor)
+			{
+				$Datos2=explode('~~',$Valor);
+				/*echo "ie".$Datos2[0]."<br>";
+				echo "cod_bulto".$Datos2[1]."<br>";
+				echo "num".$Datos2[2]."<br>";*/
+				$Consulta = "select corr_enm from sec_web.solicitud_certificado where corr_enm = '".$Datos2[0]."'";
+				$Consulta.= " and cod_bulto = '".$Datos2[1]."' and num_bulto = '".$Datos2[2]."' and year(fecha_hora)= year('".$Fecha."')";
+				$Sel = mysql_query($Consulta);
+			//	echo "RR.".$Consulta;
+				if ($Fila=mysql_fetch_array($Sel))
+				{
+					$a = 1;  
+				}	
+				else
+				{
+					$Insertar="insert into sec_web.solicitud_certificado (corr_enm,cod_bulto,num_bulto, ";
+					$Insertar.=" estado,fecha_hora,rut) values(";
+					$Insertar.=" '".$Datos2[0]."','".$Datos2[1]."','".$Datos2[2]."','".$CmbEstado."','".$Fecha."','".$Rut."') ";
+					mysql_query($Insertar);
+					//echo $Insertar;
+				}	
+			}
+			header("location:sec_solicitud_certificados.php?CmbMes=".$CmbMes."&CmbAno=".$CmbAno."&Estado=".$Estado."&Mostrar=S");
+			break;
+		case "G_Cliente":
+			$Actualizar = "UPDATE sec_web.solicitud_certificado set ";
+			if ($Cliente == "N")
+				$Actualizar.= " cod_cliente2 = ''";
+			else
+				$Actualizar.= " cod_cliente2 = '".$Cliente."'";
+			$Actualizar.= " where cod_bulto = '".$CodBulto."'";
+			$Actualizar.= " and num_bulto = '".$NumBulto."'";
+			$Actualizar.= " and corr_enm = '".$IE."'";
+			mysql_query($Actualizar);
+			header("location:sec_solicitud_certificados02.php?CodBulto=".$CodBulto."&NumBulto=".$NumBulto."&CodCliente=".$CodCliente."&IE=".$IE."&CorrCanje=".$CorrCanje);
+			break;
+			
+		case "H":
+			$Datos=explode('//',$Valores);
+			foreach($Datos as $Clave => $Valor)
+			{
+				$Datos2=explode('~~',$Valor);  
+			/*	echo "ie".$Datos2[0]."<br>";
+				echo "cod_bulto".$Datos2[1]."<br>";
+				echo "num".$Datos2[2]."<br>";*/
+				$Consulta = "select * from sec_web.solicitud_certificado where corr_enm = '".$Datos2[0]."'";
+				$Consulta.= " and cod_bulto = '".$Datos2[1]."' and num_bulto = '".$Datos2[2]."' and year(fecha_hora)= year('".$Fecha."')";
+				$Consulta.= " and generacion = 'S' and estado_certificado = 'A'";
+				$Resp = mysql_query($Consulta);
+			//	echo "RR.".$Consulta;
+				if ($Fila1=mysql_fetch_array($Resp))
+				{
+					$Consulta = "select * from sec_web.certificacion_catodos where corr_enm = '".$Fila1["corr_enm"]."'";
+					$Consulta.= " and num_certificado = '".$Fila1["num_certificado"]."' and year(fecha) = year('".$Fila1["fecha_hora"]."')";
+				//	echo "WWW".$Consulta;
+					$Resp1 = mysql_query($Consulta);
+					if ($Fila2=mysql_fetch_array($Resp1))
+					{
+						$Elimina = "delete  from sec_web.solicitud_certificado where corr_enm = '".$Datos2[0]."'";
+	  					$Elimina.= " and cod_bulto = '".$Datos2[1]."' and num_bulto = '".$Datos2[2]."' and year(fecha_hora)= year('".$Fecha."')";
+						$Elimina.= " and generacion = 'S'  and estado_certificado = 'A'";
+						mysql_query($Elimina);
+					//	echo "EE".$Elimina;
+						
+						$Elimina1 = "delete  from sec_web.certificacion_catodos where corr_enm = '".$Fila1["corr_enm"]."'";
+						$Elimina1.= " and num_certificado = '".$Fila1["num_certificado"]."' and year(fecha) = year('".$Fila1["fecha_hora"]."')";
+						mysql_query($Elimina1);
+					//	echo "Hola".$Elimina1;
+					}	
+				}	
+				else
+				{
+					$Consulta = "select * from sec_web.solicitud_certificado where corr_enm = '".$Datos2[0]."'";
+					$Consulta.= " and cod_bulto = '".$Datos2[1]."' and num_bulto = '".$Datos2[2]."' and year(fecha_hora)= year('".$Fecha."')";
+					$Consulta.= " and generacion = 'N' and estado_certificado = 'A'";
+					$RespN = mysql_query($Consulta);
+					//	echo "RR.".$Consulta;
+					if ($FilaN=mysql_fetch_array($RespN))
+					{
+						$EliminaN = "delete  from sec_web.solicitud_certificado where corr_enm = '".$Datos2[0]."'";
+						$EliminaN.= " and cod_bulto = '".$Datos2[1]."' and num_bulto = '".$Datos2[2]."' and year(fecha_hora)= year('".$Fecha."')";
+						$EliminaN.= " and generacion = 'N'  and estado_certificado = 'A'";
+						mysql_query($EliminaN);
+					//	echo "EE".$Elimina;
+					}
+				}	
+			}
+			header("location:sec_solicitud_certificados.php?CmbMes=".$CmbMes."&CmbAno=".$CmbAno."&Estado=".$Estado."&Mostrar=S");
+			break;
+			
+	}
+?>

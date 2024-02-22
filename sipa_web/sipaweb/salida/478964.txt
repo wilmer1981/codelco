@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41330 ',peso_neto='25630',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='15 binz con baritina ',romana_salida='1' where correlativo='478964' and lote='23026189' and recargo='1'

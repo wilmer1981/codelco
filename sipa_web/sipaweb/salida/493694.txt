@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='40630',peso_neto='24830',marca='',cod_mop='633',num_sello='',transportista='',rut_chofer='78801520-8',nombre_chofer='san geronimo',observacion='',romana_salida='1' where correlativo='493694' and lote='23106201' and recargo='14'

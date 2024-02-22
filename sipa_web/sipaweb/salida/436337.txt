@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43390 ',peso_neto='28950',marca='DOS FRANJAS NEGRAS',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL CISTERNA',observacion='',romana_salida='1' where correlativo='436337' and lote='21016065' and recargo='8'

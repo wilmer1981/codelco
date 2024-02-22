@@ -1,0 +1,33 @@
+<?
+	include("../principal/conectar_scop_web.php");
+	include("funciones/scop_funciones.php");
+	$Encontro=false;
+	$Rut=$CookieRut;
+	$Fecha=date('Y-m-d H:i:s');
+	switch($Opcion)
+	{  
+		case "N"://Grabar Correo
+				$Consulta="select max(cod_subclase+1) as maximo from proyecto_modernizacion.sub_clase where cod_clase='33007' ";
+				$Resp=mysql_query($Consulta);
+				if($Fila=mysql_fetch_array($Resp))
+				{
+					$CodSubclase=$Fila[maximo];
+				}
+				$InsertaCorreos="INSERT INTO proyecto_modernizacion.sub_clase (cod_clase,cod_subclase,nombre_subclase,valor_subclase1,valor_subclase2,valor_subclase3,valor_subclase4,valor_subclase5,valor_subclase6,valor_subclase7)";
+				$InsertaCorreos.=" values('33007','".$CodSubclase."','".$Correo."','".$CmbProceso."',0,0,0,0,0,0)";
+				mysql_query($InsertaCorreos);	
+				header('location:scop_mantenedor_correos.php?Opc=N&Mensaje=1');
+		break;	
+		case "M":
+				$Actualizar="UPDATE proyecto_modernizacion.sub_clase set nombre_subclase='".$Correo."', valor_subclase1='".$CmbProceso."'";
+				$Actualizar.="where cod_clase='33007' and cod_subclase='".$Dato."'";
+				mysql_query($Actualizar);
+				header('location:scop_mantenedor_correos.php?Opc=N&Mensaje=2');
+		break;
+		case "E":
+				$ELiminar="delete from proyecto_modernizacion.sub_clase where cod_clase='33007' and cod_subclase='".$Dato."'";
+				mysql_query($ELiminar);
+				header('location:scop_mantenedor_correos.php?Opc=N&Mensaje=3');
+		break;    
+	}
+?>		

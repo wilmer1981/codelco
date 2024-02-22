@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44270 ',peso_neto='28540',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17636658-3',nombre_chofer='elvis pe�a',observacion='',romana_salida='1' where correlativo='455010' and lote='21126064' and recargo='2'

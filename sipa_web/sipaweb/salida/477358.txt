@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41430 ',peso_neto='27100',marca='EQUIS CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='9277660-3',nombre_chofer='CRISTIAN BERNAL',observacion='',romana_salida='1' where correlativo='477358' and lote='23016262' and recargo='6'

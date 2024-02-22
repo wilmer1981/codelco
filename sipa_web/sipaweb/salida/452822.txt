@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43640 ',peso_neto='29370',marca='TRES FRANJAS BLANCAS',cod_mop='520',num_sello='',transportista='',rut_chofer='7407646',nombre_chofer='MARIO OLGUIN',observacion='',romana_salida='1' where correlativo='452822' and lote='21106235' and recargo='50'

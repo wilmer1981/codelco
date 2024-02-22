@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43360 ',peso_neto='28840',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='13.304.870',nombre_chofer='JOSE POBLETE ROJAS',observacion='cu varios',romana_salida='1' where correlativo='470091' and lote='22096115' and recargo='9'

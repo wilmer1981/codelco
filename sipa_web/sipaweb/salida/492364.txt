@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42870 ',peso_neto='28180',marca='V BLANCA',cod_mop='630',num_sello='',transportista='',rut_chofer='17707273-7',nombre_chofer='DANIEL SALVO',observacion='',romana_salida='1' where correlativo='492364' and lote='23106015' and recargo='26'

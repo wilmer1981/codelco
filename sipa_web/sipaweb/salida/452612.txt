@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44980 ',peso_neto='27410',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='7671253-0',nombre_chofer='CARLOS CORREA FIGUEROA',observacion='',romana_salida='2' where correlativo='452612' and lote='21106212' and recargo='1'

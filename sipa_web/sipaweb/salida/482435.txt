@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42860 ',peso_neto='27190',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='7921910-k',nombre_chofer='hugo cavas',observacion='cu pvsa',romana_salida='1' where correlativo='482435' and lote='23046108' and recargo='1'

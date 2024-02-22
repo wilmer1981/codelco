@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43170 ',peso_neto='14470',marca='EQUIS FRANJA AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='',romana_salida='1' where correlativo='451289' and lote='21106004' and recargo='19'

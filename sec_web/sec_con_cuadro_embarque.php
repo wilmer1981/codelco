@@ -1,0 +1,732 @@
+<?php
+	$CodigoDeSistema = 3;
+	include("../principal/conectar_principal.php");
+	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+?>
+<html>
+<head>
+<title>Sistema Estadistico de Catodos</title>
+<link href="../Principal/estilos/css_principal.css" rel="stylesheet" type="text/css">
+<script language="JavaScript">
+function Proceso(opt)
+{	
+	var f = document.frmPrincipal;
+	switch (opt)
+	{								
+		case "S":
+			f.action = "sec_con_cuadro_embarque00.php";
+			f.submit();
+			break;
+		case "I":
+			f.BtnImprimir.style.visibility = 'hidden';
+			f.BtnSalir.style.visibility = 'hidden';
+			window.print();
+			f.BtnImprimir.style.visibility = '';
+			f.BtnSalir.style.visibility = '';
+			break;
+	}
+}
+
+function DetalleIE(n)
+{
+	window.open("sec_con_cuadro_embarque_detalle.php?IE=" + n,"","top=50,left=10,width=500,height=400,scrollbars=yes,resizable = yes");
+}
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<body background="../Principal/imagenes/fondo3.gif" leftmargin="2" topmargin="2" marginwidth="0" marginheight="0">
+<form name="frmPrincipal" action="" method="post">
+
+  <div align="center"><strong>CUADRO EMBARQUE COBRE ELECTROLITICO Y SUB-PRODUCTOS<br>
+    CORRESPONDIENTE AL MES DE <?php echo strtoupper($Meses[$Mes-1]); ?><br>
+    <br>
+    </strong>
+    <table width="709" border="1" cellpadding="1" cellspacing="0">
+      <tr class="ColorTabla01"> 
+        <td width="179"><strong>DESTINO</strong></td>
+        <td width="33"><strong>PESO KGS.</strong></td>
+        <td width="232"><strong>MEDIO TRANSP.</strong></td>
+        <td width="239"><strong>INSTRUCCION DE EMBARQUE </strong></td>
+      </tr>
+      <tr> 
+        <td colspan="4" class="ColorTabla01"><strong>ENAMI EXPORTACION</strong></td>
+      </tr>
+      <?php	  	
+	$Consulta = "SELECT t3.cod_pais,sum(t1.peso_bruto) as peso, t2.cod_cliente, t2.cod_nave, t4.nombre_pais, t5.nombre_nave ";
+	$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+	$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+	$Consulta.= " inner join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+	$Consulta.= " inner join sec_web.nave t5 on t2.cod_nave = t5.cod_nave ";
+	$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+	$Consulta.= " and (t2.destino <> 'LX')";
+	$Consulta.= " and t1.cod_estado = 'I'";
+	$Consulta.= " and t2.cod_producto = '18' and t2.cod_subproducto = '40'";
+	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
+	$Consulta.= " order by t5.nombre_nave ";
+	//echo $Consulta;
+	$Respuesta = mysqli_query($link, $Consulta);
+	$PesoIE = 0;
+	$TotalExpEnami = 0;
+	$TotalPqtesExpEnami = 0;
+	$TotalPesoIEExpEnami = 0;
+	$Color = "";
+	while ($Fila = mysqli_fetch_array($Respuesta))
+	{			
+		if ($Color == "")
+			$Color = "";		
+		else	$Color = "";
+		echo "<tr bgcolor='".$Color."'>\n";		
+		echo "<td>".$Fila["nombre_pais"]."</td>\n";		
+		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";
+		echo "<td align='center'>".$Fila["nombre_nave"]."</td>\n";
+		$TotalExpEnami = $TotalExpEnami + $Fila["peso"];		
+		$Consulta = "SELECT distinct t1.corr_enm ";
+		$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+		$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+		$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+		$Consulta.= " and (t2.destino <> 'LX')";
+		$Consulta.= " and t1.cod_estado = 'I'";
+		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
+		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
+		$Consulta.= " order by t1.corr_enm";
+		$Resp2 = mysqli_query($link, $Consulta);
+		$StrIE = "";
+		$TipoEmb = "";		
+		while ($Fila2 = mysqli_fetch_array($Resp2))
+		{
+			$StrIE = $StrIE."<a href='JavaScript:DetalleIE(".$Fila2["corr_enm"].");'>".$Fila2["corr_enm"]."</a>-";
+		}		
+		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
+	}
+?>
+      <tr> 
+        <td bgcolor="#CCCCCC"><strong>TOTAL EXPORTACION</strong></td>
+        <td align="right" bgcolor="#CCCCCC"><?php echo number_format($TotalExpEnami,0,",",".");?></td>
+        <td colspan="2" align="right" bgcolor="#CCCCCC">&nbsp;</td>
+      </tr>
+      <tr> 
+        <td colspan="4" class="ColorTabla01"><strong>ENAMI NACIONAL</strong></td>
+      </tr>      
+      <?php	  	
+	$Consulta = "SELECT t3.cod_pais,sum(t1.peso_bruto) as peso, t2.cod_cliente, t2.cod_nave, t4.nombre_pais, t5.nombre_nave ";
+	$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+	$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+	$Consulta.= " inner join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+	$Consulta.= " inner join sec_web.nave t5 on t2.cod_nave = t5.cod_nave ";
+	$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+	$Consulta.= " and (t2.destino = 'LX')";
+	$Consulta.= " and t1.cod_estado = 'I'";
+	$Consulta.= " and t2.cod_producto = '18' and t2.cod_subproducto = '40'";
+	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
+	$Consulta.= " order by t5.nombre_nave ";
+	$Respuesta = mysqli_query($link, $Consulta);
+	$PesoIE = 0;
+	$TotalNacEnami = 0;
+	$TotalPqtesNacEnami = 0;
+	$TotalPesoIENacEnami = 0;
+	$Color = "#CCCCCC";
+	while ($Fila = mysqli_fetch_array($Respuesta))
+	{			
+		if ($Color == "")
+			$Color = "";		
+		else	$Color = "";
+		echo "<tr bgcolor='".$Color."'>\n";		
+		echo "<td>".$Fila["nombre_nave"]."</td>\n";		
+		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";
+		$TotalNacEnami = $TotalNacEnami + $Fila["peso"];		
+		$Consulta = "SELECT distinct t1.corr_enm ";
+		$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+		$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+		$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+		$Consulta.= " and (t2.destino = 'LX')";
+		$Consulta.= " and t1.cod_estado = 'I'";
+		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
+		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
+		$Consulta.= " order by t1.corr_enm";
+		$Resp2 = mysqli_query($link, $Consulta);
+		$StrIE = "";
+		$TipoEmb = "";
+		while ($Fila2 = mysqli_fetch_array($Resp2))
+		{
+			$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila2["corr_enm"]."'";
+			$Resp3 = mysqli_query($link, $Consulta);			
+			if ($Fila3 = mysqli_fetch_array($Resp3))
+			{
+				$TipoEmb = $Fila3["tipo_embarque"];
+			}
+			$StrIE = $StrIE."<a href='JavaScript:DetalleIE(".$Fila2["corr_enm"].");'>".$Fila2["corr_enm"]."</a>-";
+		}
+		switch ($TipoEmb)
+		{
+			case "T":
+				echo "<td align='center'>Via Terrestre</td>\n";
+				break;
+			case "A":
+				echo "<td align='center'>Via Maritima</td>\n";
+				break;
+			case "E":
+				echo "<td align='center'>Via Maritima</td>\n";		
+				break;
+			default:
+				echo "<td align='center'>&nbsp;</td>\n";		
+				break;
+		}
+		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
+		echo "</tr>";		
+	}
+?>
+      <tr> 
+        <td bgcolor="#CCCCCC"><strong>TOTAL NACIONAL</strong></td>
+        <td align="right" bgcolor="#CCCCCC"><?php echo number_format($TotalNacEnami,0,",",".");?></td>
+        <td colspan="2" align="right" bgcolor="#CCCCCC">&nbsp;</td>
+      </tr>
+      <tr> 
+        <td bgcolor="#CCCCCC"><strong>TOTAL ENAMI</strong></td>
+        <td align="right" bgcolor="#CCCCCC"><?php echo number_format(($TotalExpEnami + $TotalNacEnami),0,",",".");?></td>
+        <td colspan="2" align="right" bgcolor="#CCCCCC">&nbsp;</td>
+      </tr>
+      <!--    </table>-->
+      <?php
+$ArrCodelco = array();
+$NumFilas=0;
+$Consulta = "SELECT distinct cod_contrato_maquila ";
+$Consulta.= " from sec_web.programa_codelco ";
+$Consulta.= " where fecha_devolucion_maquila between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31'";
+$Consulta.= " order by cod_contrato_maquila";
+$RespA = mysqli_query($link, $Consulta);
+$Cont = 2;
+$TotalDespCodelco = 0;
+while ($FilaA = mysqli_fetch_array($RespA))
+{	
+	$TipoContrato = "";
+	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
+	$Consulta.= " where cod_clase = '3016'";
+	$Consulta.= " and nombre_subclase = '".$FilaA["cod_contrato_maquila"]."'";
+	$Consulta.= " order by cod_subclase";
+	$Resp1 = mysqli_query($link, $Consulta);
+	if ($Fila = mysqli_fetch_array($Resp1))
+		$TipoContrato = $Fila["valor_subclase1"];
+	$ArrCodelco[$Cont-2][0] = $TipoContrato;
+	echo "<tr> \n";
+	echo "<td colspan='4' class='ColorTabla01'><strong>".$TipoContrato." EXPORACION</strong></td>\n";
+	echo "</tr>\n";
+	$Consulta = "SELECT t2.corr_codelco,ifnull(t3.cod_pais,'') as pais1,ifnull(t5.cod_bandera,'') as pais2,sum(t1.peso_bruto) as peso,"; 
+	$Consulta.= " t2.cod_cliente, t5.nombre_nave, ifnull(t4.nombre_pais,'') as nom_pais1, ifnull(t6.nombre_pais,'') as nom_pais2";
+	$Consulta.= " from sec_web.guia_despacho_emb t1 ";
+	$Consulta.= " inner join sec_web.programa_codelco t2 on t1.corr_enm = t2.corr_codelco ";
+	$Consulta.= " left join sec_web.cliente_venta t3 on t2.cod_cliente = t3.cod_cliente ";
+	$Consulta.= " left join sec_web.nave t5 on t2.cod_cliente = t5.cod_nave ";
+	$Consulta.= " left join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+	$Consulta.= " left join sec_web.paises t6 on t5.cod_bandera = t6.cod_pais ";
+	$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+	$Consulta.= " and t2.cod_contrato_maquila = '".$FilaA["cod_contrato_maquila"]."'";
+	$Consulta.= " and (t3.cod_pais <> '997' or t5.cod_bandera <> '997')";
+	$Consulta.= " and t1.cod_estado = 'I'";
+	$Consulta.= " and t2.cod_producto = '18' and t2.cod_subproducto = '40'";
+	//$Consulta.= " group by t3.cod_pais, t2.cod_cliente";
+	$Consulta.= " group by t2.corr_codelco ";
+	$Consulta.= " order by t2.corr_codelco";				
+	//echo $Consulta;
+	$Respuesta = mysqli_query($link, $Consulta);
+	$TotalExpCodelco = "";
+	$TotalPqtesExpCode = 0;
+	$TotalPqtesNacCode = 0;
+    $TotalPesoIEExpCode = 0;
+	$TotalPesoIENacCode = 0;
+	$PesoIE = 0;
+	$Color = "";
+	while ($Fila = mysqli_fetch_array($Respuesta))
+	{			
+		if ($Color == "")
+			$Color = "";		
+		else	$Color = "";
+		echo "<tr bgcolor='".$Color."'>\n";
+		if (!is_null($Fila["nom_pais1"]) and  $Fila["nom_pais1"] != "")		
+		{
+			echo "<td>".$Fila["nom_pais1"]."</td>\n";		
+		}
+		else
+		{
+			if (!is_null($Fila["nom_pais2"]) and  $Fila["nom_pais2"] != "")
+				echo "<td>".$Fila["nom_pais2"]."</td>\n";
+			else
+				echo "<td>&nbsp;</td>\n";
+		}
+		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";
+		if (!is_null($Fila["nombre_nave"]) && $Fila["nombre_nave"] != "")
+			echo "<td align='center'>".$Fila["nombre_nave"]."</td>\n";
+		else	echo "<td>&nbsp;</td>\n";
+		$TotalExpCodelco = $TotalExpCodelco + $Fila["peso"];							
+		$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila["corr_codelco"]."'";
+		$Resp3 = mysqli_query($link, $Consulta);
+		$StrIE = "";
+		$TipoEmb = "";		
+		while ($Fila3 = mysqli_fetch_array($Resp3))
+		{
+			$StrIE = $StrIE."<a href='JavaScript:DetalleIE(".$Fila["corr_codelco"].");'>".$Fila["corr_codelco"]."</a>-";
+		}		
+		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
+		echo "</tr>\n";
+	}
+	$ArrCodelco[$Cont-2][1] = 0;
+	$ArrCodelco[$Cont-2][1] = $ArrCodelco[$Cont-2][1] + $TotalExpCodelco;
+	$TotalDespCodelco = $TotalDespCodelco + $TotalExpCodelco;	
+	echo "<tr bgcolor='#CCCCCC'> \n";
+	echo "<td><strong>TOTAL EXPORTACION</strong></td>\n";
+	echo "<td align='right'>".number_format($TotalExpCodelco,0,",",".")."</td>\n";
+	echo "<td align='right'>&nbsp;</td>\n";
+	echo "<td align='right'>&nbsp;</td>\n";
+	echo "</tr>\n";
+	echo "<tr> \n";
+	echo "<td colspan='4' class='ColorTabla01'><strong>".$TipoContrato." NACIONAL</strong></td>\n";
+	echo "</tr>\n";
+	$Consulta = "SELECT t2.corr_codelco,ifnull(t3.cod_pais,'') as pais1,ifnull(t5.cod_bandera,'') as pais2,sum(t1.peso_bruto) as peso,"; 
+	$Consulta.= " t2.cod_cliente, t5.nombre_nave, ifnull(t4.nombre_pais,'') as nom_pais1, ifnull(t6.nombre_pais,'') as nom_pais2";
+	$Consulta.= " from sec_web.guia_despacho_emb t1 ";
+	$Consulta.= " inner join sec_web.programa_codelco t2 on t1.corr_enm = t2.corr_codelco ";
+	$Consulta.= " left join sec_web.cliente_venta t3 on t2.cod_cliente = t3.cod_cliente ";
+	$Consulta.= " left join sec_web.nave t5 on t2.cod_cliente = t5.cod_nave ";
+	$Consulta.= " left join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+	$Consulta.= " left join sec_web.paises t6 on t5.cod_bandera = t6.cod_pais ";
+	$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+	$Consulta.= " and t2.cod_contrato_maquila = '".$FilaA["cod_contrato_maquila"]."'";
+	$Consulta.= " and (t3.cod_pais = '997' or t5.cod_bandera = '997')";
+	$Consulta.= " and t1.cod_estado = 'I'";
+	$Consulta.= " and t2.cod_producto = '18' and t2.cod_subproducto = '40'";
+	$Consulta.= " group by t3.cod_pais, t2.cod_cliente";
+	$Consulta.= " order by t2.cod_cliente";				
+	//echo $Consulta;
+	$Respuesta = mysqli_query($link, $Consulta);
+	$PesoIE = 0;
+	$TotalNacCodelco = 0;
+	$Color = "";
+	while ($Fila = mysqli_fetch_array($Respuesta))
+	{			
+		if ($Color == "")
+			$Color = "";		
+		else	$Color = "";
+		echo "<tr bgcolor='".$Color."'>\n";		
+		echo "<td>".$Fila["nombre_nave"]."</td>\n";				
+		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";
+		$TotalNacCodelco = $TotalNacCodelco + $Fila["peso"];		
+		$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila["corr_codelco"]."'";
+		$Resp4 = mysqli_query($link, $Consulta);
+		$StrIE = "";			
+		if ($Fila4 = mysqli_fetch_array($Resp4))
+		{
+			$StrIE = $StrIE."<a href='JavaScript:DetalleIE(".$Fila["corr_codelco"].");'>".$Fila["corr_codelco"]."</a>-";
+			$TipoEmb = $Fila4["tipo_embarque"];
+		}		
+		switch ($TipoEmb)
+		{
+			case "T":
+				echo "<td align='center'>Via Terrestre</td>\n";
+				break;
+			case "A":
+				echo "<td align='center'>Via Maritima</td>\n";
+				break;
+			case "E":
+				echo "<td align='center'>Via Maritima</td>\n";		
+				break;
+			default:
+				echo "<td align='center'>&nbsp;</td>\n";		
+				break;
+		}
+		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
+	}
+	$ArrCodelco[$Cont-2][1] = $ArrCodelco[$Cont-2][1] + $TotalNacCodelco;
+	$TotalDespCodelco = $TotalDespCodelco + $TotalNacCodelco;
+	echo "<tr bgcolor='#CCCCCC'><td><strong>TOTAL NACIONAL</strong></td>\n";
+	echo "<td align='right'>".number_format($TotalNacCodelco,0,",",".")."</td>\n";
+	echo "<td align='right'>&nbsp;</td>\n";
+    echo "<td align='right'>&nbsp;</td>\n";    
+	echo "</tr>\n";
+	echo "<tr bgcolor='#CCCCCC'> \n";
+	echo "<td><strong>TOTAL CODELCO</strong></td>\n";
+	echo "<td align='right'>".number_format(($TotalExpCodelco + $TotalNacCodelco),0,",",".")."</td>\n";
+	echo "<td align='right'>&nbsp;</td>\n";
+    echo "<td align='right'>&nbsp;</td>\n";    
+	echo "</tr>\n";
+	//echo "</table>\n";
+	$Cont++;
+}
+?>
+      <tr class="ColorTabla01"> 
+        <td><strong>TOTALES GRADO A</strong></td>
+        <td colspan="3">&nbsp;</td>
+      </tr>
+      <?php	
+	while (list($k,$v)=each($ArrCodelco))
+	{
+		if ($v[0] != "")
+		{
+			echo "<tr> \n";
+			echo "<td>TOTAL ".$v[0]."</td>\n";
+			echo "<td align='right'>".number_format($v[1],0,",",".")."</td>\n";
+			echo "<td colspan='3'>&nbsp;</td>\n";
+			echo "</tr>\n";
+		}
+	}
+?>
+      <tr> 
+        <td>TOTAL ENAMI</td>
+        <td align="right"><?php echo number_format(($TotalExpEnami + $TotalNacEnami),0,",",".");?></td>
+        <td colspan='3'>&nbsp;</td>
+      </tr>
+      <tr> 
+        <td bgcolor="#CCCCCC"><strong>DESPACHO MENSUAL</strong></td>
+        <td align="right" bgcolor="#CCCCCC"><?php echo number_format(($TotalDespCodelco + ($TotalExpEnami + $TotalNacEnami)),0,",",".");?></td>
+        <td colspan='3' bgcolor="#CCCCCC">&nbsp;</td>
+      </tr>
+    <?php 
+$Consulta = "SELECT distinct t7.cod_producto, t7.cod_subproducto, t3.descripcion  ";
+$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 on t1.corr_enm = t2.corr_enm ";
+$Consulta.= " inner join sec_web.lote_catodo t6 on t1.cod_bulto = t6.cod_bulto ";
+$Consulta.= " and t1.num_bulto = t6.num_bulto inner join sec_web.paquete_catodo t7 on t6.cod_paquete = t7.cod_paquete ";
+$Consulta.= " and t6.num_paquete = t7.num_paquete and t6.fecha_creacion_paquete = t7.fecha_creacion_paquete ";
+$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t7.cod_producto = t3.cod_producto and t7.cod_subproducto = t3.cod_subproducto";
+$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+$Consulta.= " and t7.cod_producto = '18' and (t7.cod_subproducto not in(6,8,9,10,12,40))";
+$Consulta.= " order by t7.cod_producto, t7.cod_subproducto ";
+$RespA = mysqli_query($link, $Consulta);
+while ($FilaA = mysqli_fetch_array($RespA))
+{
+	echo "<tr> \n";
+	echo "<td colspan='5' class='ColorTabla01'><strong>".$FilaA["descripcion"]."</strong></td>\n";
+	echo "</tr>\n";			
+	$Consulta = "SELECT t3.cod_pais, t2.cod_cliente, t2.cod_nave, t4.nombre_pais, t5.nombre_nave, t2.destino, t2.cod_producto as prod_prog, t2.cod_subproducto as subprod_prog ";
+	$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+	$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+	$Consulta.= " inner join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+	$Consulta.= " inner join sec_web.nave t5 on t2.cod_nave = t5.cod_nave ";
+	$Consulta.= " inner join sec_web.lote_catodo t6 on t1.cod_bulto = t6.cod_bulto ";
+	$Consulta.= " and t1.num_bulto = t6.num_bulto inner join sec_web.paquete_catodo t7 on t6.cod_paquete = t7.cod_paquete ";
+	$Consulta.= " and t6.num_paquete = t7.num_paquete and t6.fecha_creacion_paquete = t7.fecha_creacion_paquete ";
+	$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+	//$Consulta.= " and (t2.destino <> 'LX')";
+	$Consulta.= " and t1.cod_estado = 'I'";
+	$Consulta.= " and t7.cod_producto = '".$FilaA["cod_producto"]."' and t7.cod_subproducto = '".$FilaA["cod_subproducto"]."'";
+	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
+	$Consulta.= " order by t5.nombre_nave ";
+	$Respuesta = mysqli_query($link, $Consulta);
+	$PesoIE = 0;
+	$TotalExpEnami = 0;
+	$TotalPqtesExpEnami = 0;
+	$TotalPesoIEExpEnami = 0;
+	$Color = "";
+	while ($Fila = mysqli_fetch_array($Respuesta))
+	{			
+		if ($Color == "")
+			$Color = "";		
+		else	$Color = "";
+		echo "<tr bgcolor='".$Color."'>\n";
+		//---------PESO----------------
+		$Consulta = "SELECT sum(t1.peso_bruto) as peso ";
+		$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+		$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+		$Consulta.= " inner join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+		$Consulta.= " inner join sec_web.nave t5 on t2.cod_nave = t5.cod_nave ";
+		$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+		$Consulta.= " and t1.cod_estado = 'I'";
+		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
+		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
+		$Consulta.= " and t2.cod_producto = '".$Fila["prod_prog"]."'";
+		$Consulta.= " and t2.cod_subproducto = '".$Fila["subprod_prog"]."'";
+		$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
+		$Consulta.= " order by t5.nombre_nave ";
+		$Resp2 = mysqli_query($link, $Consulta);
+		$Peso = 0;
+		if ($Fila2 = mysqli_fetch_array($Resp2))
+		{
+			$Peso = $Fila2["peso"];
+		}
+		//------------------
+		if (strtoupper($Fila["destino"]) == "LX")		
+		{
+			echo "<td>".$Fila["nombre_nave"]."</td>\n";		
+			echo "<td align='right'>".number_format($Peso,0,",",".")."</td>\n";			
+		}
+		else
+		{
+			echo "<td>".$Fila["nombre_pais"]."</td>\n";		
+			echo "<td align='right'>".number_format($Peso,0,",",".")."</td>\n";
+			echo "<td align='center'>".$Fila["nombre_nave"]."</td>\n";
+		}
+		$TotalExpEnami = $TotalExpEnami + $Peso;		
+		$Consulta = "SELECT distinct t1.corr_enm ";
+		$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+		$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+		$Consulta.= " inner join sec_web.lote_catodo t4 on t1.cod_bulto = t4.cod_bulto ";
+		$Consulta.= " and t1.num_bulto = t4.num_bulto inner join sec_web.paquete_catodo t5 on t4.cod_paquete = t5.cod_paquete ";
+		$Consulta.= " and t4.num_paquete = t5.num_paquete and t4.fecha_creacion_paquete = t5.fecha_creacion_paquete ";
+		$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+		//$Consulta.= " and (t2.destino <> 'LX')";
+		$Consulta.= " and t1.cod_estado = 'I'";
+		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
+		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
+		$Consulta.= " and t5.cod_producto = '".$FilaA["cod_producto"]."' and t5.cod_subproducto = '".$FilaA["cod_subproducto"]."'";
+		$Consulta.= " order by t1.corr_enm";
+		$Resp2 = mysqli_query($link, $Consulta);
+		$StrIE = "";
+		$TipoEmb = "";
+		while ($Fila2 = mysqli_fetch_array($Resp2))
+		{
+			$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila2["corr_enm"]."'";
+			$Resp3 = mysqli_query($link, $Consulta);			
+			if ($Fila3 = mysqli_fetch_array($Resp3))
+			{
+				$TipoEmb = $Fila3["tipo_embarque"];
+			}
+			$StrIE = $StrIE."<a href='JavaScript:DetalleIE(".$Fila2["corr_enm"].");'>".$Fila2["corr_enm"]."</a>-";
+		}
+		if (strtoupper($Fila["destino"]) == "LX")		
+		{
+			switch ($TipoEmb)
+			{
+				case "T":
+					echo "<td align='center'>Via Terrestre</td>\n";
+					break;
+				case "A":
+					echo "<td align='center'>Via Maritima</td>\n";
+					break;
+				case "E":
+					echo "<td align='center'>Via Maritima</td>\n";		
+					break;
+				default:
+					echo "<td align='center'>&nbsp;</td>\n";		
+					break;
+			}
+		}
+		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
+	}
+	echo "<tr bgcolor='#CCCCCC'> \n";
+	echo "<td><strong>TOTAL ".$FilaA["descripcion"]."</strong></td>\n";
+	echo "<td align='right'>".number_format($TotalExpEnami,0,",",".")."</td>\n";
+	echo "<td colspan='3'>&nbsp;</td>\n";
+	echo "</tr>\n";
+}	
+//DESPUNTES Y LAMINAS	
+	echo "<tr> \n";
+	echo "<td colspan='5' class='ColorTabla01'><strong>DESPUNTES Y LAMINAS</strong></td>\n";
+	echo "</tr>\n";		
+	$Consulta = "SELECT t3.cod_pais, t2.cod_cliente, t2.cod_nave, t4.nombre_pais, t5.nombre_nave, t2.destino, t2.cod_producto as prod_prog, t2.cod_subproducto as subprod_prog ";
+	$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+	$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+	$Consulta.= " inner join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+	$Consulta.= " inner join sec_web.nave t5 on t2.cod_nave = t5.cod_nave ";
+	$Consulta.= " inner join sec_web.lote_catodo t6 on t1.cod_bulto = t6.cod_bulto ";
+	$Consulta.= " and t1.num_bulto = t6.num_bulto inner join sec_web.paquete_catodo t7 on t6.cod_paquete = t7.cod_paquete ";
+	$Consulta.= " and t6.num_paquete = t7.num_paquete and t6.fecha_creacion_paquete = t7.fecha_creacion_paquete ";
+	$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+	$Consulta.= " and t1.cod_estado = 'I'";
+	$Consulta.= " and t7.cod_producto = '48'";
+	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
+	$Consulta.= " order by t5.nombre_nave ";
+	$Respuesta = mysqli_query($link, $Consulta);
+	$PesoIE = 0;
+	$TotalExpEnami = 0;
+	$TotalPqtesExpEnami = 0;
+	$TotalPesoIEExpEnami = 0;
+	while ($Fila = mysqli_fetch_array($Respuesta))
+	{	
+		echo "<tr>\n";
+		//---------PESO----------------
+		$Consulta = "SELECT sum(t1.peso_bruto) as peso ";
+		$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+		$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+		$Consulta.= " inner join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+		$Consulta.= " inner join sec_web.nave t5 on t2.cod_nave = t5.cod_nave ";
+		$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+		$Consulta.= " and t1.cod_estado = 'I'";
+		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
+		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
+		$Consulta.= " and t2.cod_producto = '".$Fila["prod_prog"]."'";
+		$Consulta.= " and t2.cod_subproducto = '".$Fila["subprod_prog"]."'";
+		$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
+		$Consulta.= " order by t5.nombre_nave ";
+		$Resp2 = mysqli_query($link, $Consulta);
+		$Peso = 0;
+		if ($Fila2 = mysqli_fetch_array($Resp2))
+		{
+			$Peso = $Fila2["peso"];
+		}
+		//------------------
+		if (strtoupper($Fila["destino"]) == "LX")		
+		{
+			echo "<td>".$Fila["nombre_nave"]."</td>\n";		
+			echo "<td align='right'>".number_format($Peso,0,",",".")."</td>\n";			
+		}
+		else
+		{
+			echo "<td>".$Fila["nombre_pais"]."</td>\n";		
+			echo "<td align='right'>".number_format($Peso,0,",",".")."</td>\n";
+			echo "<td align='center'>".$Fila["nombre_nave"]."</td>\n";
+		}
+		$TotalExpEnami = $TotalExpEnami + $Peso;		
+		$Consulta = "SELECT distinct t1.corr_enm ";
+		$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+		$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+		$Consulta.= " inner join sec_web.lote_catodo t4 on t1.cod_bulto = t4.cod_bulto ";
+		$Consulta.= " and t1.num_bulto = t4.num_bulto inner join sec_web.paquete_catodo t5 on t4.cod_paquete = t5.cod_paquete ";
+		$Consulta.= " and t4.num_paquete = t5.num_paquete and t4.fecha_creacion_paquete = t5.fecha_creacion_paquete ";
+		$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+		$Consulta.= " and t1.cod_estado = 'I'";
+		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
+		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
+		$Consulta.= " and t5.cod_producto = '48' ";
+		$Consulta.= " order by t1.corr_enm";
+		$Resp2 = mysqli_query($link, $Consulta);
+		$StrIE = "";
+		$TipoEmb = "";
+		while ($Fila2 = mysqli_fetch_array($Resp2))
+		{
+			$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila2["corr_enm"]."'";
+			$Resp3 = mysqli_query($link, $Consulta);			
+			if ($Fila3 = mysqli_fetch_array($Resp3))
+			{
+				$TipoEmb = $Fila3["tipo_embarque"];
+			}
+			$StrIE = $StrIE."<a href='JavaScript:DetalleIE(".$Fila2["corr_enm"].");'>".$Fila2["corr_enm"]."</a>-";
+		}
+		if (strtoupper($Fila["destino"]) == "LX")		
+		{
+			switch ($TipoEmb)
+			{
+				case "T":
+					echo "<td align='center'>Via Terrestre</td>\n";
+					break;
+				case "A":
+					echo "<td align='center'>Via Maritima</td>\n";
+					break;
+				case "E":
+					echo "<td align='center'>Via Maritima</td>\n";		
+					break;
+				default:
+					echo "<td align='center'>&nbsp;</td>\n";		
+					break;
+			}
+		}
+		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
+	}
+	echo "<tr bgcolor='#CCCCCC'> \n";
+	echo "<td><strong>TOTAL ".$FilaA["descripcion"]."</strong></td>\n";
+	echo "<td align='right'>".number_format($TotalExpEnami,0,",",".")."</td>\n";
+	echo "<td align='right' colspan='3'>&nbsp;</td>\n";
+	echo "</tr>\n";	
+//CATODOS ELECROWINING
+	echo "<tr> \n";
+	echo "<td colspan='5' class='ColorTabla01'><strong>CATODOS ELECTROWINING</strong></td>\n";
+	echo "</tr>\n";		
+	$Consulta = "SELECT t3.cod_pais, t2.cod_cliente, t2.cod_nave, t4.nombre_pais, t5.nombre_nave, t2.destino, t2.cod_producto as prod_prog, t2.cod_subproducto as subprod_prog ";
+	$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+	$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+	$Consulta.= " inner join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+	$Consulta.= " inner join sec_web.nave t5 on t2.cod_nave = t5.cod_nave ";
+	$Consulta.= " inner join sec_web.lote_catodo t6 on t1.cod_bulto = t6.cod_bulto ";
+	$Consulta.= " and t1.num_bulto = t6.num_bulto inner join sec_web.paquete_catodo t7 on t6.cod_paquete = t7.cod_paquete ";
+	$Consulta.= " and t6.num_paquete = t7.num_paquete and t6.fecha_creacion_paquete = t7.fecha_creacion_paquete ";
+	$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+	$Consulta.= " and t1.cod_estado = 'I'";
+	$Consulta.= " and t7.cod_producto = '18' and t7.cod_subproducto in(6,8,9,10,12)";
+	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
+	$Consulta.= " order by t5.nombre_nave ";
+	$Respuesta = mysqli_query($link, $Consulta);
+	$PesoIE = 0;
+	$TotalExpEnami = 0;
+	$TotalPqtesExpEnami = 0;
+	$TotalPesoIEExpEnami = 0;
+	$Color = "";
+	while ($Fila = mysqli_fetch_array($Respuesta))
+	{	
+		echo "<tr>\n";
+		//---------PESO----------------
+		$Consulta = "SELECT sum(t1.peso_bruto) as peso ";
+		$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.programa_enami t2 ";
+		$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+		$Consulta.= " inner join sec_web.paises t4 on t3.cod_pais = t4.cod_pais ";
+		$Consulta.= " inner join sec_web.nave t5 on t2.cod_nave = t5.cod_nave ";
+		$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+		$Consulta.= " and t1.cod_estado = 'I'";
+		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
+		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
+		$Consulta.= " and t2.cod_producto = '".$Fila["prod_prog"]."'";
+		$Consulta.= " and t2.cod_subproducto = '".$Fila["subprod_prog"]."'";
+		$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
+		$Consulta.= " order by t5.nombre_nave ";
+		$Resp2 = mysqli_query($link, $Consulta);
+		$Peso = 0;
+		if ($Fila2 = mysqli_fetch_array($Resp2))
+		{
+			$Peso = $Fila2["peso"];
+		}
+		//------------------
+		if (strtoupper($Fila["destino"]) == "LX")		
+		{
+			echo "<td>".$Fila["nombre_nave"]."</td>\n";		
+			echo "<td align='right'>".number_format($Peso,0,",",".")."</td>\n";			
+		}
+		else
+		{
+			echo "<td>".$Fila["nombre_pais"]."</td>\n";		
+			echo "<td align='right'>".number_format($Peso,0,",",".")."</td>\n";
+			echo "<td align='center'>".$Fila["nombre_nave"]."</td>\n";
+		}
+		$TotalExpEnami = $TotalExpEnami + $Peso;		
+		$Consulta = "SELECT distinct t1.corr_enm ";
+		$Consulta.= " from sec_web.guia_despeacho_emb t1 inner join sec_web.programa_enami t2 ";
+		$Consulta.= " on t1.corr_enm = t2.corr_enm inner join sec_web.puertos t3 on t2.cod_puerto_destino = t3.cod_puerto";
+		$Consulta.= " inner join sec_web.lote_catodo t4 on t1.cod_bulto = t4.cod_bulto ";
+		$Consulta.= " and t1.num_bulto = t4.num_bulto inner join sec_web.paquete_catodo t5 on t4.cod_paquete = t5.cod_paquete ";
+		$Consulta.= " and t4.num_paquete = t5.num_paquete and t4.fecha_creacion_paquete = t5.fecha_creacion_paquete ";
+		$Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
+		$Consulta.= " and t1.cod_estado = 'I'";
+		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
+		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
+		$Consulta.= " and t5.cod_producto = '18' and t5.cod_subproducto in(6,8,9,10,12)";
+		$Consulta.= " order by t1.corr_enm";
+		$Resp2 = mysqli_query($link, $Consulta);
+		$StrIE = "";
+		$TipoEmb = "";
+		while ($Fila2 = mysqli_fetch_array($Resp2))
+		{
+			$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila2["corr_enm"]."'";
+			$Resp3 = mysqli_query($link, $Consulta);			
+			if ($Fila3 = mysqli_fetch_array($Resp3))
+			{
+				$TipoEmb = $Fila3["tipo_embarque"];
+			}
+			$StrIE = $StrIE."<a href='JavaScript:DetalleIE(".$Fila2["corr_enm"].");'>".$Fila2["corr_enm"]."</a>-";
+		}
+		if (strtoupper($Fila["destino"]) == "LX")		
+		{
+			switch ($TipoEmb)
+			{
+				case "T":
+					echo "<td align='center'>Via Terrestre</td>\n";
+					break;
+				case "A":
+					echo "<td align='center'>Via Maritima</td>\n";
+					break;
+				case "E":
+					echo "<td align='center'>Via Maritima</td>\n";		
+					break;
+				default:
+					echo "<td align='center'>&nbsp;</td>\n";		
+					break;
+			}
+		}
+		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
+	}
+	echo "<tr bgcolor='#CCCCCC'> \n";
+	echo "<td><strong>TOTAL ".$FilaA["descripcion"]."</strong></td>\n";
+	echo "<td align='right'>".number_format($TotalExpEnami,0,",",".")."</td>\n";
+	echo "<td align='right' colspan='3'>&nbsp;</td>\n";	
+	echo "</tr>\n";	
+?>
+    </table><br>
+    <input name="BtnImprimir" type="button" id="BtnImprimir2" value="Imprimir" style="width:70px;" onClick="Proceso('I')">
+    <input name="BtnSalir" type="button" id="BtnSalir" value="Salir" style="width:70px;" onClick="Proceso('S')">
+    </strong> </div>
+</form>  
+</body>
+</html>

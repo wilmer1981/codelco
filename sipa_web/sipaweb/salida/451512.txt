@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39990 ',peso_neto='25560',marca='EQUIS FRANJA NARANJA',cod_mop='510',num_sello='',transportista='',rut_chofer='15974796-4',nombre_chofer='RICARDO TORRES',observacion='',romana_salida='1' where correlativo='451512' and lote='21106047' and recargo='3'

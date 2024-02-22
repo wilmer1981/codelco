@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='42590',peso_neto='28900',marca='EQUIS DOS FRANJAS NEGRAS',cod_mop='690',num_sello='',transportista='',rut_chofer='12224784-8',nombre_chofer='SERGIO MU�OZ',observacion='',romana_salida='1' where correlativo='449687' and lote='21096038' and recargo='5'

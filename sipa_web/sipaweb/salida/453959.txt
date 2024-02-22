@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43270',peso_neto='26370',marca='FRANJA AZUL',cod_mop='510',num_sello='',transportista='',rut_chofer='35686376-3',nombre_chofer='LUIS AGUIRRE',observacion='',romana_salida='1' where correlativo='453959' and lote='21116143' and recargo='2'

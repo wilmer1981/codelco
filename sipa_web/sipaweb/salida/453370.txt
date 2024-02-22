@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 42840 ',peso_neto='29350',marca='FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='10522376-5',nombre_chofer='MARCOS BERNAL CISTERNAS',observacion='',romana_salida='2' where correlativo='453370' and lote='21116072' and recargo='6'

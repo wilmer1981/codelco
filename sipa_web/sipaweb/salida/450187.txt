@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43460 ',peso_neto='27030',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11994534-8',nombre_chofer='juan carrasco',observacion='circulante oxido',romana_salida='1' where correlativo='450187' and lote='21096124' and recargo='3'

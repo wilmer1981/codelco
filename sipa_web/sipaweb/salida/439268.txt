@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 44930 ',peso_neto='30930',marca='FRANJA VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='7143217-3',nombre_chofer='FRANCISCO FUENTES',observacion='',romana_salida='1' where correlativo='439268' and lote='21026219' and recargo='32'

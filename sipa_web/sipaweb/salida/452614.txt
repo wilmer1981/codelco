@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44840 ',peso_neto='27010',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8247184-7',nombre_chofer='IVAN MONTENEGRO',observacion='',romana_salida='2' where correlativo='452614' and lote='21106214' and recargo='1'

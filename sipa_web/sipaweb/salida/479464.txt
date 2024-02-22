@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 16650 ',peso_neto='970',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='26 maxisacos con papel carton ',romana_salida='1' where correlativo='479464' and lote='23026247' and recargo='4'

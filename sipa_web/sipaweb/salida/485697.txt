@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43600 ',peso_neto='26260',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='4503800-9',nombre_chofer='carlos vera',observacion='',romana_salida='1' where correlativo='485697' and lote='23066081' and recargo='9'

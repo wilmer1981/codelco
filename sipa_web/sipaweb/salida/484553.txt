@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='43850',peso_neto='26590',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12952206-2',nombre_chofer='Julio Alfonso',observacion='',romana_salida='1' where correlativo='484553' and lote='23056137' and recargo='10'

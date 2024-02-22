@@ -1,0 +1,248 @@
+<?php 	
+	include("../principal/conectar_principal.php");
+	if (!isset($ChkOrden))
+		$ChkOrden="R";
+	if (!isset($ChkHumedadN))
+		$ChkHumedadN="checked";
+	$NomBtnGrabar='Grabar';
+	if ($Recarga=='S')
+	{
+		$Proceso='M';
+		$NomBtnGrabar='Modificar';
+		$EstadoRutPrv='readonly';
+		$TxtRutPrv=$CmbProveedor;
+		$Consulta = "select rut_prv as RUTPRV_A, nombre_prv as NOMPRV_A,hum_ult_rec  from sipa_web.proveedores where rut_prv='".$TxtRutPrv."'";
+		$Respuesta=mysqli_query($link, $Consulta);
+		$Fila=mysqli_fetch_array($Respuesta);
+		$Datos = explode("-",$Fila["RUTPRV_A"]);
+		$TxtRutPrv=$Datos[0];
+		if($Fila[hum_ult_rec]=='S')
+		{
+			$ChkHumedadS="checked";
+			$ChkHumedadN="";
+		}
+		else
+		{
+			$ChkHumedadS="";
+			$ChkHumedadN="checked";
+		}
+		$TxtDv=$Datos[1];
+		$TxtNomPrv=$Fila["NOMPRV_A"];
+	}
+	else
+	{
+		$Proceso='N';
+		$EstadoRutPrv='';
+		$TxtRutPrv='';$TxtNomPrv='';$TxtDv='';
+		$ChkHumedadS="";
+			$ChkHumedadN="checked";
+	}
+?>
+<html>
+<head>
+<script language="javascript" src="../principal/funciones/funciones_java.js"></script>
+<script language="JavaScript">
+function Grabar(Proceso,Valores)
+{
+	var Frm=document.FrmProceso;
+	
+	if (Proceso=='N')
+	{
+		if (Frm.TxtRutPrv.value == "")
+		{
+			alert("Debe Ingresar Rut Proveedor")
+			Frm.TxtRutPrv.focus();
+			return;
+		}
+	}
+	if (Frm.TxtNomPrv.value == "")
+	{
+		alert("Debe Ingresar Nombre Proveedor");
+		Frm.TxtNomPrv.focus();
+		return;
+	}
+	
+	if(Frm.CheckHumedadS.checked)
+	{
+		ChkHumedad='S';
+	}
+	else
+	{
+		ChkHumedad='N';
+	}
+	Frm.action="age_proveedores_proceso01.php?Proceso="+Proceso+"&ChkHumedad="+ChkHumedad;
+	Frm.submit();
+}
+function Eliminar()
+{
+	var Frm=document.FrmProceso;
+	
+	if (Frm.TxtRutPrv.value!='')
+	{
+		Frm.action="age_proveedores_proceso01.php?Proceso=E";
+		Frm.submit();
+	}	
+}
+
+function Recarga(Tipo)
+{
+	var Frm=document.FrmProceso;
+	
+	switch(Tipo)
+	{
+		case '1':
+			Frm.action="age_proveedores_proceso.php?Recarga=S";	
+			break;
+		case '2':
+			Frm.action="age_proveedores_proceso.php";	
+			break;
+	}
+	Frm.submit();
+}
+
+function Salir()
+{
+	window.close();
+	
+}
+function Recarga2()
+{
+	var Frm=document.FrmProceso;
+	Frm.action="age_proveedores_proceso.php";
+	Frm.submit();	
+}
+function Recarga3()
+{
+	var Frm=document.FrmProceso;
+	Frm.action="age_proveedores_proceso.php?TipoBusq=3";
+	Frm.submit();	
+}
+function CalculaDv()
+{	
+	var f=document.FrmProceso;	
+	var T=f.TxtRutPrv.value;
+	if (T!="")
+	{
+		var M=0,S=1;
+		for(;T;T=Math.floor(T/10))
+		S=(S+T%10*(9-M++%6))%11;
+		f.TxtDv.value= S?S-1:'k';
+	}
+	else
+	{
+		//alert("No hay ningun Rut Ingresado");
+		return;
+	}
+}
+</script>
+<title>Ingreso de Proveedores</title>
+<link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
+<?php
+	echo "<body onload='document.FrmProceso.CmbProveedor.focus()' background='../principal/imagenes/fondo3.gif' leftmargin='3' topmargin='5' marginwidth='0' marginheight='0'>";
+?>
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=165 scrolling=no height=185></IFRAME></DIV>
+<form name="FrmProceso" method="post" action="">
+  <table width="546" height="157" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
+    <tr>
+    <td width="554"><table width="535" border="1" cellpadding="2" cellspacing="0" class="TablaInterior">
+          <tr>
+            <td class="Colum01">Ordenar Por </td>
+            <td><?php
+switch ($ChkOrden)
+{
+	case "R":
+		echo '<input checked name="ChkOrden" type="radio" value="R" onClick="Recarga2()">Rut&nbsp;&nbsp;';
+		echo '<input name="ChkOrden" type="radio" value="N" onClick="Recarga2()">Nombre';
+		break;
+	case "N":
+		echo '<input name="ChkOrden" type="radio" value="R" onClick="Recarga2()">Rut&nbsp;&nbsp;';
+		echo '<input checked name="ChkOrden" type="radio" value="N" onClick="Recarga2()">Nombre';
+		break;
+
+}
+
+?>
+              &nbsp;---> Filtro Prv&nbsp;
+            <input type="text" name="TxtFiltroPrv" size="10" value="<?php echo $TxtFiltroPrv;?>">
+            <input name="BtnOkA2" type="button" value="Ok" onClick="Recarga3()"></td>
+          </tr>
+          <tr>
+            <td class="Colum01">Proveedores</td>
+            <td><select name="CmbProveedor" style="width:280" onChange="Recarga('1');" onKeyDown="TeclaPulsada2('N',false,this.form,'TxtRutPrv')">
+                <option value="-1">SELECCIONAR</option>
+                <?php
+				$Consulta = "select rut_prv as RUTPRV_A, nombre_prv as NOMPRV_A from sipa_web.proveedores "; 
+				if($TipoBusq=='3'&&$TxtFiltroPrv!='')
+				   $Consulta.= " where nombre_prv like '%".$TxtFiltroPrv."%'";     
+				switch ($ChkOrden)
+				{
+					case "R":
+						$Consulta.= "order by lpad(rut_prv,10,'0')";
+						break;
+					case "N":
+						$Consulta.= "order by trim(nombre_prv)";
+						break;
+				
+				}
+				$Resp = mysqli_query($link, $Consulta);
+				while ($Fila = mysqli_fetch_array($Resp))
+				{
+					if ($CmbProveedor == $Fila["RUTPRV_A"])
+						echo "<option selected value='".$Fila["RUTPRV_A"]."'>".str_pad($Fila["RUTPRV_A"],10,"0",STR_PAD_LEFT)."-".$Fila["NOMPRV_A"]."</option>";
+					else
+						echo "<option value='".$Fila["RUTPRV_A"]."'>".str_pad($Fila["RUTPRV_A"],10,"0",STR_PAD_LEFT)."-".$Fila["NOMPRV_A"]."</option>";
+				}
+			    ?>
+              </select></td>
+          </tr>
+          <tr> 
+            <td class="Colum01">Rut Prv</td>
+            <td><input name="TxtRutPrv" type="text" class="InputDer" onBlur="CalculaDv()" onKeyDown="TeclaPulsada2('N',false,this.form,'TxtNomPrv')" value="<?php echo $TxtRutPrv;?>" size="12" maxlength="10" <?php echo $EstadoRutPrv?>>
+            -
+            <input name="TxtDv" type="text" class="InputCen" id="TxtDv" value="<?php echo $TxtDv; ?>" size="3" maxlength="1"> 
+            (Ej: 12345678) el sistema entrega el D.V. </td>
+          </tr>
+          <tr> 
+            <td width="91" height="22" class="Colum01">Nombre Prv</td>
+            <td width="415"><input name="TxtNomPrv" type="text" value="<?php echo $TxtNomPrv;?>" class="InputIzq" size="75" onKeyDown="TeclaPulsada2('N',false,this.form,'BtnGrabar')"> 
+            </td>
+          </tr>
+          <tr> 
+            <td height="22" class="Colum01">Recargo Automatico Humedad </td>
+            <td>SI<input type="radio" id="CheckHumedadS" name="CheckHumedad" <?phpphp echo $ChkHumedadS; ?> value="S" >
+          NO <input type="radio" id="CheckHumedadN" name="CheckHumedad"  <?phpphp echo $ChkHumedadN; ?> value="N" >
+            
+            </td>
+          </tr>
+        </table>
+        <br>
+        <table width="535" border="0" cellpadding="5" class="TablaInterior">
+          <tr> 
+            <td  align="center" width="509">
+			  <input type="button" name="BtnGrabar" value="<?php echo $NomBtnGrabar;?>" style="width:60" onClick="Grabar('<?php echo $Proceso;?>','<?php echo $Valores;?>')">
+              <input type="button" name="BtnCancelar" value="Cancelar" style="width:60" onClick="Recarga('2');">
+			  <input type="button" name="BtnEliminar" value="Eliminar" style="width:60" onClick="Eliminar();">
+			  <input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();">
+            </td>
+          </tr>
+        </table> </td>
+  </tr>
+</table>
+  </form>
+</body>
+</html>
+<?php
+	if (isset($EncontroCoincidencia))
+	{
+		if ($EncontroCoincidencia==true)
+		{
+			echo "<script languaje='javascript'>";
+			echo "var Frm=document.FrmProceso;";
+			echo "alert('Codigo ya fue Ingresado');";
+			echo "Frm.TxtCodigo.focus();";
+			echo "</script>";
+		}
+	}
+?>

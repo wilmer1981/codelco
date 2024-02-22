@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='30970',peso_neto='13560',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10433306-0',nombre_chofer='R. CASTILLO',observacion='',romana_salida='1' where correlativo='483481' and lote='23046320' and recargo='1'

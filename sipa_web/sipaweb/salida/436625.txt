@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44470 ',peso_neto='30300',marca='V FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='13288809-4',nombre_chofer='GERARD BRANTE L.',observacion='',romana_salida='1' where correlativo='436625' and lote='21016021' and recargo='38'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 13860 ',peso_neto='2600',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='  Zunchos',romana_salida='1' where correlativo='438705' and lote='21026132' and recargo='1'

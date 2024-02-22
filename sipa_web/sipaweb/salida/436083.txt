@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41930 ',peso_neto='26650',marca='EQUIS CELESTE',cod_mop='570',num_sello='',transportista='',rut_chofer='5577292-4',nombre_chofer='LUIS TAMAYO',observacion='',romana_salida='1' where correlativo='436083' and lote='21016014' and recargo='11'

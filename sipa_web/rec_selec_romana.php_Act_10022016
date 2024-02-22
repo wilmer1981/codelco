@@ -1,0 +1,47 @@
+<?
+	$CodigoDeSistema=24;
+	$CodigoDePantalla=3;
+	include("../principal/conectar_principal.php");
+	include("funciones.php");
+	
+
+?>	
+<html><head>
+<title>Lectura de Romana</title>
+<link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
+<script language="javascript" src="../principal/funciones/funciones_java.js"></script>
+<script language="javascript">
+
+ function LeerRomana(Rom)
+{
+	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
+	var valor="";
+	var fso, f1, ts, s,retorno; 
+	var ForReading = 1; 
+	fso = new ActiveXObject("Scripting.FileSystemObject"); 
+	if(fso.FileExists(ubicacion))
+	{
+          f = fso.OpenTextFile( ubicacion, ForReading); 
+		  valor=f.Readline(); 
+    }
+	else
+	{
+       alert("No Existe archivo en :"+ubicacion);
+	}
+	return(valor); 
+}
+var ROMA=LeerRomana('');
+function Redirecciona(Pag)
+{	
+	ROMA=LeerRomana('');
+	var f = document.FromSelecRomana;
+	f.action= Pag+".php?RNA="+ROMA;
+	f.submit();	
+}
+</script>
+<body onLoad="Redirecciona('<? echo $Dir;?>')">
+<form action="" method="post" name="FromSelecRomana" >
+</form>
+</body>
+</head>
+</html>

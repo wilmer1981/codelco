@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 36950 ',peso_neto='21910',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9234047-3',nombre_chofer='MIGUEL VERA.',observacion='cu varios',romana_salida='1' where correlativo='475391' and lote='22126191' and recargo='4'

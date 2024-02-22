@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 12210 ',peso_neto='2360',marca='',cod_mop='200',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='   tolva  6',romana_salida='1' where correlativo='439110' and lote='21026218' and recargo='1'

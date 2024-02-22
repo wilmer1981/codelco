@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='42800',peso_neto='29220',marca='EQUIS FRANJA BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='9015294-7',nombre_chofer='PATRICIO LUCERO',observacion='',romana_salida='1' where correlativo='481950' and lote='23046017' and recargo='1'

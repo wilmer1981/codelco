@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44970 ',peso_neto='31160',marca='V AZUL',cod_mop='520',num_sello='',transportista='',rut_chofer='8580833-8',nombre_chofer='JAIME PEREZ',observacion='',romana_salida='1' where correlativo='434730' and lote='20126055' and recargo='20'

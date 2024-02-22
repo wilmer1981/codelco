@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39280 ',peso_neto='25020',marca='V VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='16709015-K',nombre_chofer='PABLO TORRES',observacion='',romana_salida='1' where correlativo='469411' and lote='22096003' and recargo='3'

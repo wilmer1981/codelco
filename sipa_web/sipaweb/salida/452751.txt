@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 23660 ',peso_neto='9640',marca='FRANJA NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL CISTERNA',observacion='',romana_salida='2' where correlativo='452751' and lote='21106197' and recargo='27'

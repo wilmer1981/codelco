@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44620 ',peso_neto='27580',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13272002-9',nombre_chofer='LUIS GAETE',observacion='',romana_salida='1' where correlativo='485703' and lote='23066081' and recargo='10'

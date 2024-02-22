@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 24240 ',peso_neto='5180',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13763678-6',nombre_chofer='alejandro cortes',observacion='      MALLAS',romana_salida='1' where correlativo='481312' and lote='23036288' and recargo='1'

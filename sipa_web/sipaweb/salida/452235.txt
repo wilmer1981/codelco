@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='39980',peso_neto='25590',marca='DOS FRANJAS NARANJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='14538196-7',nombre_chofer='JUAN GALLEGUILLOS  PAVEZ',observacion='',romana_salida='1' where correlativo='452235' and lote='21106152' and recargo='1'

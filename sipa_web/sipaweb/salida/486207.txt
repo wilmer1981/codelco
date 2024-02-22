@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 23910 ',peso_neto='9950',marca='EQUIS NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='5499602-0',nombre_chofer='HECTOR SAEZ',observacion='',romana_salida='1' where correlativo='486207' and lote='23066135' and recargo='27'

@@ -1,0 +1,45 @@
+.tabsoff {	COLOR: #ffffff}
+.tabsoffline {	BACKGROUND-IMAGE: url(seleccion.jpg)}
+.tabsonline {	BACKGROUND-IMAGE: url(no_seleccion.jpg)}
+.tabslinetall {	BACKGROUND-IMAGE: url(tab-back_line_tall.gif)}
+.tabsline {	BACKGROUND-IMAGE: url(final.jpg)}
+.tabson {	COLOR: #ffffff}
+.tabstext {	COLOR: #ffffff}
+.tabsfronton {	BACKGROUND-IMAGE: url(tab-front_on.gif)}
+.tabsmidon2 {	BACKGROUND-IMAGE: url(tab-mid_on2.gif)}
+.tabsendoff {	BACKGROUND-IMAGE: url(tab-end_off.gif)}
+.tabsfrontoff {	BACKGROUND-IMAGE: url(tab-front_off.gif)}
+.tabsmidon1 {	BACKGROUND-IMAGE: url(tab-mid_on1.gif)}
+.tabsendon {	BACKGROUND-IMAGE: url(tab-end_on.gif)}
+.tabs A:hover {	TEXT-DECORATION: none}
+.tabslinetall {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: repeat-x}
+.tabsoffline {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: repeat-x}
+.tabsonline {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: repeat-x}
+.tabsline {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: repeat-x}
+.tabstext {	WIDTH: 75px}
+.tabsdate {	COLOR: #ffffff; WIDTH: 150px}
+.tabsfronton {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: no-repeat}
+.tabsmidon2 {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: no-repeat}
+.tabsendoff {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: no-repeat}
+.tabsfrontoff {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: no-repeat}
+.tabsmidon1 {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: no-repeat}
+.tabsendon {	BACKGROUND-POSITION: 50% bottom; BACKGROUND-REPEAT: no-repeat}
+.textad {	PADDING-BOTTOM: 8px; PADDING-LEFT: 8px; PADDING-RIGHT: 2px; PADDING-TOP: 2px}
+.hdrtbl {	COLOR: #ffffff; BACKGROUND-COLOR: #4766a6}
+.fondo {	COLOR: #ffffff; BACKGROUND-COLOR: #264989}
+A {	TEXT-DECORATION: none}
+A:active {	TEXT-DECORATION: underline; COLOR: #ffcc00;}
+A:hover {	TEXT-DECORATION: underline}
+A IMG {	BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-RIGHT: medium none; BORDER-TOP: medium none}
+BODY {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+DIV {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+SPAN {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+P {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+UL {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+LI {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+TD {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+TH {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+INPUT {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+SELECT {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+TEXTAREA {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}
+BUTTON {	FONT-FAMILY: Arial, sans-serif; FONT-SIZE: 10px}

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44260',peso_neto='27880',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16891255-2',nombre_chofer='roberto tapia',observacion='concentrado de cu ',romana_salida='1' where correlativo='479832' and lote='23036007' and recargo='1'

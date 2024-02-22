@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44640 ',peso_neto='28310',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='esc he',romana_salida='1' where correlativo='435921' and lote='20126262' and recargo='7'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41840 ',peso_neto='28070',marca='FRANJA ROJA',cod_mop='520',num_sello='',transportista='',rut_chofer='12128412-K',nombre_chofer='CLAUDIO JUCOSSI',observacion='',romana_salida='1' where correlativo='454252' and lote='21116211' and recargo='7'

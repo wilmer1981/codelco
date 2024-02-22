@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44340 ',peso_neto='27210',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13172423-3',nombre_chofer='guillermo ledezma',observacion='',romana_salida='1' where correlativo='474543' and lote='22126065' and recargo='5'

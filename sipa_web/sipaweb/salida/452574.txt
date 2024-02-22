@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44700 ',peso_neto='30850',marca='FRANJA AZUL',cod_mop='520',num_sello='',transportista='',rut_chofer='8580833-8',nombre_chofer='JAIME PEREZ',observacion='',romana_salida='2' where correlativo='452574' and lote='21106204' and recargo='11'

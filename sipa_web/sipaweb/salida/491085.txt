@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43200',peso_neto='25950',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10323104-3',nombre_chofer='JULIO GONZALEZ',observacion='',romana_salida='1' where correlativo='491085' and lote='23096125' and recargo='10'

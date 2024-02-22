@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 16980 ',peso_neto='7850',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='14333916-5',nombre_chofer='FRANCISCO MENESES',observacion='TUBOS Y LAMINAS DE COBRE',romana_salida='1' where correlativo='469443' and lote='22096011' and recargo='1'

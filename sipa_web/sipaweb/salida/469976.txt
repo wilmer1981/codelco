@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44410 ',peso_neto='28460',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13.342.662',nombre_chofer='Marcelino Huerta',observacion='cu varios',romana_salida='1' where correlativo='469976' and lote='22096101' and recargo='4'

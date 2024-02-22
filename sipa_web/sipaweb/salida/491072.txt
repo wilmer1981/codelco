@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 25310 ',peso_neto='8370',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='tubos y despuntes de cobre ',romana_salida='1' where correlativo='491072' and lote='23096129' and recargo='1'

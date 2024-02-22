@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 17140 ',peso_neto='2450',marca='DOS FRANJAS AMARILLAS',cod_mop='693',num_sello='',transportista='',rut_chofer='7689571-6',nombre_chofer='JORGE  CARVAJAL',observacion='',romana_salida='2' where correlativo='453386' and lote='21116072' and recargo='17'

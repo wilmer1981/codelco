@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='29380',peso_neto='14710',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7160291-5',nombre_chofer='JUAN SAZO OSSANDON',observacion='',romana_salida='1' where correlativo='450055' and lote='21096106' and recargo='1'

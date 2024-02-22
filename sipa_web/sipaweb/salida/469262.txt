@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39800 ',peso_neto='25340',marca='V NEGRA',cod_mop='510',num_sello='',transportista='',rut_chofer='8005333-9',nombre_chofer='LUIS CHAVEZ',observacion='',romana_salida='1' where correlativo='469262' and lote='22086105' and recargo='29'

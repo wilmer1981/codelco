@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44740',peso_neto='28390',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='19298217-0',nombre_chofer='Vicente Aguilera',observacion='cu varios',romana_salida='1' where correlativo='472134' and lote='22106162' and recargo='6'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44430',peso_neto='28020',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10600603-2',nombre_chofer='Francisco Arriagada',observacion='esc oxido',romana_salida='1' where correlativo='452625' and lote='21106215' and recargo='1'

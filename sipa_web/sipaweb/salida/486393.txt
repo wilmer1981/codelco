@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43900 ',peso_neto='30600',marca='FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='10522376-5',nombre_chofer='MARCOS BERNAL CISTERNAS',observacion='',romana_salida='1' where correlativo='486393' and lote='23066190' and recargo='11'

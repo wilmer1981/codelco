@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='38920',peso_neto='24870',marca='V DOS FRANJAS VERDES',cod_mop='697',num_sello='',transportista='',rut_chofer='18553379-4',nombre_chofer='FRANK TEPPER',observacion='',romana_salida='1' where correlativo='452531' and lote='21106047' and recargo='16'

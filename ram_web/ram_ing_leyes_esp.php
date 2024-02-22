@@ -1,0 +1,516 @@
+<?php
+	$CodigoDeSistema = 5;
+	$CodigoDePantalla = 3;
+	include("../principal/conectar_principal.php");
+?>	
+<html>
+<head>
+<title>Sistema de RAM</title>
+<link href="../principal/estilos/css_imp_web.css" type="text/css" rel="stylesheet">
+<script language="JavaScript">
+<!--
+function Proceso(opt)
+{
+	var f=document.frmPrincipal;
+	switch (opt)
+	{
+		case "G": // GRABA o MODIFICA
+			if (f.Productos.value == "S")
+			{
+				alert("Debe seleccionar Producto");
+				f.Productos.focus();
+				return;
+			}
+			if (f.SubProductos.value == "S")
+			{
+				alert("Debe seleccionar Sub-Producto");
+				f.SubProductos.focus();
+				return;
+			}
+			if (f.Conjunto.value == "S")
+			{
+				alert("Debe seleccionar Conjunto");
+				f.Conjunto.focus();
+				return;
+			}
+			f.action = "ram_ing_leyes_esp01.php?Proceso=G";
+			f.submit();
+			break;
+		case "E": // ELIMINAR
+			if (f.Productos.value == "S")
+			{
+				alert("Debe seleccionar Producto");
+				f.Productos.focus();
+				return;
+			}
+			if (f.SubProductos.value == "S")
+			{
+				alert("Debe seleccionar Sub-Producto");
+				f.SubProductos.focus();
+				return;
+			}
+			if (f.Conjunto.value == "S")
+			{
+				alert("Debe seleccionar Conjunto");
+				f.Conjunto.focus();
+				return;
+			}
+			f.action = "ram_ing_leyes_esp01.php?Proceso=E";
+			f.submit();
+			break;
+		case "R": //RECARGA PAGINA			
+			f.action = "ram_ing_leyes_esp.php?";
+			f.submit();
+			break;
+		case "CL": //CONSULTA LEYES EN CONTROL DE CALIDAD			
+			f.action = "ram_ing_leyes_esp.php?BuscaLey=S";
+			f.submit();
+			break;
+
+		case "S":  //SALIR
+			f.action = "../principal/sistemas_usuario.php?CodSistema=7";
+			f.submit();
+			break;
+		case "C":
+			var URL = "ram_con_leyes_especiales.php";
+			window.open(URL,"","top=35,left=10,width=750,height=460,scrollbars=yes,resizable = YES");
+			break;			 			 			
+		case "CLMA":
+			var URL = "ram_con_leyes_especiales2.php?Producto="+f.Productos.value+"&SubProducto="+f.SubProductos.value+"&Conjunto="+f.Conjunto.value+"&Ano="+f.Ano.value+"&Mes="+f.Mes.value;
+			window.open(URL,"","top=35,left=10,width=850,height=550,scrollbars=yes,resizable = YES,status=yes");
+			break;			 			 			
+
+	}
+}
+//-->
+</script>
+<body leftmargin="3" topmargin="2" marginwidth="0" marginheight="0">
+<form name="frmPrincipal" action="" method="post">
+<?php 
+	include("../principal/encabezado.php");
+?>
+  <table width="770" border="0" cellspacing="0" cellpadding="5" class="TablaPrincipal">
+    <tr>
+      <td height="380" align="center" valign="top"> 
+        <table width="750" height="97" border="0" cellpadding="1" cellspacing="1" class="TablaInterior">
+          <tr> 
+            <td width="15" height="23" align="right"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">            </td>
+            <td width="55">Producto</td>
+            <td width="371"><select name="Productos" style="width:350" onChange="Proceso('R');">
+                <option selected value="S">Seleccionar</option>
+                <?php
+	$Consulta = "select * from proyecto_modernizacion.productos order by descripcion";
+	$result = mysqli_query($link, $Consulta);
+	while ($Row = mysqli_fetch_array($result))
+	{
+		if ($Productos == $Row["cod_producto"])
+		{
+			echo "<option selected value='".$Row["cod_producto"]."'>".$Row["cod_producto"]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+		}
+		else
+		{
+			echo "<option value='".$Row["cod_producto"]."'>".$Row["cod_producto"]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+		}
+	}
+?>
+              </select> </td>
+            <td align="center" valign="middle"><input type="button" name="BtnGrabar" value="Grabar" onClick="Proceso('G');" style="width:70px">
+            <input name="BtnEliminar" type="button" id="BtnEliminar" style="width:70px" onClick="Proceso('E');" value="Eliminar"></td>
+          </tr>
+          <tr> 
+            <td height="23" align="right"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11"></td>
+            <td>SubProducto</td>
+            <td><select name="SubProductos" style="width:350" onChange="Proceso('R');">
+                <option selected value="S">Seleccionar</option>
+                <?php
+	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto = '".$Productos."' order by descripcion";
+	$result = mysqli_query($link, $Consulta);
+	while ($Row = mysqli_fetch_array($result))
+	{
+		if ($SubProductos == $Row[cod_subproducto])
+		{
+			echo "<option selected value='".$Row[cod_subproducto]."'>".$Row[cod_subproducto]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+		}
+		else
+		{
+			echo "<option value='".$Row[cod_subproducto]."'>".$Row[cod_subproducto]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+		}
+	}
+?>
+              </select></td>
+            <td align="center" valign="middle"><input name="BtnConsultar" type="button" id="BtnConsultar2" style="width:70px" onClick="Proceso('C');" value="Consultar">
+            <input type="button" name="BtnSalir" value="Salir" onClick="Proceso('S');" style="width:70px"></td>
+          </tr>
+          <tr> 
+            <td height="23" align="right"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11"></td>
+            <td>Conjunto</td>
+            <td><select name="Conjunto" style="width:350" onChange="Proceso('R');">
+                <option selected value="S">Seleccionar</option>
+                <?php
+	$Consulta = "select distinct num_conjunto ";
+	$Consulta.= " from ram_web.conjunto_ram ";
+	$Consulta.= " where cod_producto = '".$Productos."' ";
+	$Consulta.= " and cod_subproducto = '".$SubProductos."'";
+	$Consulta.= " order by num_conjunto";
+	$result = mysqli_query($link, $Consulta);
+	while ($Row = mysqli_fetch_array($result))
+	{
+		$Consulta = "select descripcion ";
+		$Consulta.= " from ram_web.conjunto_ram ";
+		$Consulta.= " where cod_producto = '".$Productos."' ";
+		$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
+		$Consulta.= " and num_conjunto = '".$Row[num_conjunto]."' ";
+		$Consulta.= " order by num_conjunto";
+		$Resultado = mysqli_query($link, $Consulta);
+		if ($Row2 = mysqli_fetch_array($Resultado))
+		{
+			$Descripcion = $Row2["descripcion"];
+		}
+		if ($Conjunto == $Row[num_conjunto])
+		{
+			echo "<option selected value='".$Row[num_conjunto]."'>".$Row[num_conjunto]."&nbsp;-&nbsp;".ucwords(strtolower($Descripcion))."</option>\n";
+		}
+		else
+		{
+			echo "<option value='".$Row[num_conjunto]."'>".$Row[num_conjunto]."&nbsp;-&nbsp;".ucwords(strtolower($Descripcion))."</option>\n";
+		}
+	}
+?>
+              </select></td>
+            <td align="center" valign="middle"><input name="BtnConsultar2" type="button" style="width:180px" onClick="Proceso('CLMA');" value="Consultar Leyes Mes Anterior"></td>
+          </tr>
+          <tr> 
+            <td height="23" align="center"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">            </td>
+            <td height="23" colspan="2"> <select name="Mes" onChange="Proceso('R');">
+                <?php
+				for ($i = 1; $i <= 12;$i++)
+				{
+					if (isset($Mes))
+					{
+						if ($Mes == $i)
+							echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
+						else
+							echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
+					}
+					else
+					{
+						if ($i == date("n"))
+							echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
+						else
+							echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
+					}
+				}			  	
+			  ?>
+              </select> <select name="Ano" onChange="Proceso('R');">
+                <?php
+				for ($i = (date("Y")-1); $i <= (date("Y") + 1);$i++)
+				{
+					if (isset($Ano))
+					{
+						if ($Ano == $i)
+							echo "<option selected value='".$i."'>".$i."</option>\n";
+						else
+							echo "<option value='".$i."'>".$i."</option>\n";
+					}
+					else
+					{
+						if ($i == date("Y"))
+							echo "<option selected value='".$i."'>".$i."</option>\n";
+						else
+							echo "<option value='".$i."'>".$i."</option>\n";
+					}
+				}			  	
+			  ?>
+              </select> 
+              <?php
+				$Consulta = "select distinct cod_conjunto, num_conjunto from ram_web.conjunto_ram ";
+				$Consulta.= " where cod_producto = '".$Productos."' ";
+				$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
+				$Consulta.= " and num_conjunto = '".$Conjunto."'";
+				//echo $Consulta;
+				$Respuesta = mysqli_query($link, $Consulta);
+				if ($Fila = mysqli_fetch_array($Respuesta))
+				{
+					$CodConjunto = $Fila["cod_conjunto"];
+				}
+				echo "<input type='hidden' name='CodConjunto' value='".$CodConjunto."'>\n";
+				echo "<input type='hidden' name='RutProveedor' value='".$RutProveedor."'>\n";
+				//VERIFICA SI EL CONJUNTO TIENE LEYES ESPECIALES INGRESADAS
+				$Consulta = "select * from ram_web.leyes_especiales ";
+				$Consulta.= " where cod_producto = '".$Productos."' ";
+				$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
+				$Consulta.= " and num_conjunto = '".$Conjunto."'";
+				$Consulta.= " and tipo_ley = '".$TipoLey."'";
+				$Consulta.= " and fecha = '".$Ano."-".$Mes."-01'";
+				$Respuesta = mysqli_query($link, $Consulta);
+				//echo $Consulta;
+				if ($Fila = mysqli_fetch_array($Respuesta))
+				{
+					$TipoLey == $Fila["tipo_ley"];
+					$H2O = $Fila["v_h2o"];
+					$Cu = $Fila["v_cu"];
+					$Ag = $Fila["v_ag"];
+					$Au = $Fila["v_au"];
+					$As = $Fila["v_as"];
+					$S = $Fila["v_s"];
+					$Pb = $Fila["v_pb"];
+					$Fe = $Fila["v_fe"];
+					$Si = $Fila["v_si"];
+					$CaO = $Fila["v_cao"];
+					$AL2O3 = $Fila["v_al2o3"];
+					$MgO = $Fila["v_mgo"];
+					$Sb = $Fila["v_sb"];
+					$Cd = $Fila["v_cd"];
+					$Hg = $Fila["v_hg"];
+					$Te = $Fila["v_te"];
+					$Zn = $Fila["v_zn"];
+					$Fe3O4 = $Fila["v_fe3o4"];
+				}
+				else
+				{
+					$H2O = "";
+					$Cu = "";
+					$Ag = "";
+					$Au = "";
+					$As = "";
+					$S = "";
+					$Pb = "";
+					$Fe = "";
+					$Si = "";
+					$CaO = "";
+					$AL2O3 = "";
+					$MgO = "";
+					$Sb = "";
+					$Cd = "";
+					$Hg = "";
+					$Te = "";
+					$Zn = "";
+					$Fe3O4 = "";
+				}
+				if($BuscaLey=='S')
+				{
+					$H2O = "";
+					$Cu = "";
+					$Ag = "";
+					$Au = "";
+					$As = "";
+					$S = "";
+					$Pb = "";
+					$Fe = "";
+					$Si = "";
+					$CaO = "";
+					$AL2O3 = "";
+					$MgO = "";
+					$Sb = "";
+					$Cd = "";
+					$Hg = "";
+					$Te = "";
+					$Zn = "";
+					$Fe3O4 = "";
+					
+					$FechaIni = $Ano."-".$Mes."-01 00:00:00";
+					$FechaFin = $Ano."-".$Mes."-31 23:59:59";
+					$Consulta="select t1.nro_solicitud,t3.cod_leyes,t3.valor,t3.signo,t4.abreviatura from cal_web.solicitud_analisis t1 ";
+					$Consulta.="inner join cal_web.leyes_por_solicitud t3 on t1.rut_funcionario=t3.rut_funcionario and t1.fecha_hora = t3.fecha_hora and t1.nro_solicitud = t3.nro_solicitud and t1.recargo = t3.recargo ";
+					$Consulta.="inner join proyecto_modernizacion.leyes t4 on t3.cod_leyes = t4.cod_leyes where (t1.cod_periodo='3') and (t1.estado_actual <> '7') and t1.cod_producto ='".$Productos."' and t1.cod_subproducto ='".$SubProductos."' ";
+					$Consulta.="and (t1.fecha_muestra between '".$FechaIni."' and '".$FechaFin."') and t1.id_muestra='".trim($Conjunto)."'";
+					//echo $Consulta;
+					$RespLey=mysqli_query($link, $Consulta);
+					while($FilaLey=mysqli_fetch_array($RespLey))
+					{
+						$H2O = "0,5";
+						if($FilaLey["cod_leyes"]=='02')
+							$Cu =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='04')
+							$Ag =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='05')
+							$Au =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='08')
+							$As =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='26')
+							$S =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='39')
+							$Pb =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='31')
+							$Fe =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='118')
+							$Si =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='82')
+							$CaO =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='25')
+							$AL2O3 =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='12')
+							$MgO =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='09')
+							$Sb =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='58')
+							$Cd =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='34')
+							$Hg =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='44')
+							$Te =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='10')
+							$Zn =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey["cod_leyes"]=='63')
+							$Fe3O4 =number_format($FilaLey[valor],3,'.',',');
+					}
+				}
+				if($BuscaLeyesAnt=='S')//obbtiene leyes de otros meses y otros conjuntos
+				{
+					//echo $Valores;
+					$Datos=explode('//',$Valores);
+					$Datos2=explode('~',$Datos[0]);
+					$LeyesAnt=explode('~',$Datos[1]);
+					$TipoLey=$Datos2[0];
+					$H2O = $LeyesAnt[0];
+					$Cu = number_format($LeyesAnt[1],3,'.',',');
+					$Ag = number_format($LeyesAnt[2],3,'.',',');
+					$Au = number_format($LeyesAnt[3],3,'.',',');
+					$As = number_format($LeyesAnt[4],3,'.',',');
+					$S = number_format($LeyesAnt[5],3,'.',',');
+					$Pb = number_format($LeyesAnt[6],3,'.',',');
+					$Fe = number_format($LeyesAnt[7],3,'.',',');
+					$Si = number_format($LeyesAnt[8],3,'.',',');
+					$CaO = number_format($LeyesAnt[9],3,'.',',');
+					$AL2O3 = number_format($LeyesAnt[10],3,'.',',');
+					$MgO = number_format($LeyesAnt[11],3,'.',',');
+					$Sb = number_format($LeyesAnt[12],3,'.',',');
+					$Cd = number_format($LeyesAnt[13],3,'.',',');
+					$Hg = number_format($LeyesAnt[14],3,'.',',');
+					$Te = number_format($LeyesAnt[15],3,'.',',');
+					$Zn = number_format($LeyesAnt[16],3,'.',',');
+					$Fe3O4 = number_format($LeyesAnt[17],3,'.',',');
+				}	
+				if ($TipoLey == "S")
+				{
+					echo "<input type='radio' name='TipoLey' value='S' checked  onClick=\"Proceso('R');\">Ley de Stock&nbsp;&nbsp;\n";
+              		echo "<input type='radio' name='TipoLey' value='O'  onClick=\"Proceso('R');\">Ley Operacional\n";
+				}
+				else
+				{	
+					if ($TipoLey == "O")
+					{
+						echo "<input type='radio' name='TipoLey' value='S'  onClick=\"Proceso('R');\">Ley de Stock&nbsp;&nbsp;\n";
+              			echo "<input type='radio' name='TipoLey' value='O' checked  onClick=\"Proceso('R');\">Ley Operacional\n";
+						?>
+						<input name="BtnConsultarLeyes" type="button" style="width:80px" onClick="Proceso('CL');" value="Cons.Leyes">
+						<?php
+						
+					}
+					else
+					{
+						echo "<input type='radio' name='TipoLey' value='S' checked  onClick=\"Proceso('R');\">Ley de Stock&nbsp;&nbsp;\n";
+              			echo "<input type='radio' name='TipoLey' value='O'  onClick=\"Proceso('R');\">Ley Operacional\n";
+					}
+				}
+			?>            </td>
+            <td height="23" align="center">&nbsp;</td>
+          </tr>
+        </table>
+        <br>       
+        <table width="288" height="342" border="0" cellpadding="3" cellspacing="0" Class="TablaDetalle">
+          <tr align="center" valign="middle" class="ColorTabla01"> 
+            <td width="59" height="18"><strong>Ley</strong></td>
+            <td width="181"><strong>Valor</strong></td>
+            <td width="181">Unid.</td>
+          </tr>
+          <tr align="center" valign="middle">
+            <td height="18">H2O</td>
+            <td><input type="text" name="H2O" value="<?php echo $H2O; ?>"></td>
+            <td>%</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Cu</td>
+            <td><input type="text" name="Cu" value="<?php echo $Cu; ?>"></td>
+            <td>%</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Ag</td>
+            <td><input type="text" name="Ag" value="<?php echo $Ag; ?>"></td>
+            <td>%</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Au</td>
+            <td><input type="text" name="Au" value="<?php echo $Au; ?>"></td>
+            <td>%</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">As</td>
+            <td><input type="text" name="As" value="<?php echo $As; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">S</td>
+            <td><input type="text" name="S" value="<?php echo $S; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Pb</td>
+            <td><input type="text" name="Pb" value="<?php echo $Pb; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Fe</td>
+            <td><input type="text" name="Fe" value="<?php echo $Fe; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Si</td>
+            <td><input type="text" name="Si" value="<?php echo $Si; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">CaO</td>
+            <td><input type="text" name="CaO" value="<?php echo $CaO; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Al2O3</td>
+            <td><input type="text" name="AL2O3" value="<?php echo $AL2O3; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">MgO</td>
+            <td><input type="text" name="MgO" value="<?php echo $MgO; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Sb</td>
+            <td><input type="text" name="Sb" value="<?php echo $Sb; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Cd</td>
+            <td><input type="text" name="Cd" value="<?php echo $Cd; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Hg</td>
+            <td><input type="text" name="Hg" value="<?php echo $Hg; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Te</td>
+            <td><input type="text" name="Te" value="<?php echo $Te; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Zn</td>
+            <td><input type="text" name="Zn" value="<?php echo $Zn; ?>"></td>
+            <td>ppm</td>
+          </tr>
+          <tr align="center" valign="middle"> 
+            <td height="18">Fe3O4</td>
+            <td><input type="text" name="Fe3O4" value="<?php echo $Fe3O4; ?>"></td>
+            <td>ppm</td>
+          </tr>
+        </table> 
+        <br>
+      </td>
+    </tr>
+  </table>
+
+<?php include("../principal/pie_pagina.php");?>
+</form>
+</body>
+</html>

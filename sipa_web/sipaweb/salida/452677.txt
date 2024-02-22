@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 43570 ',peso_neto='29750',marca='DOS FRANJAS VERDES',cod_mop='520',num_sello='',transportista='',rut_chofer='8580833-8',nombre_chofer='JAIME PEREZ',observacion='',romana_salida='2' where correlativo='452677' and lote='21106103' and recargo='29'

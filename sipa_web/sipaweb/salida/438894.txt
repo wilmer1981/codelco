@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43950 ',peso_neto='30140',marca='FRANJA BLANCA',cod_mop='520',num_sello='',transportista='',rut_chofer='8580833-8',nombre_chofer='JAIME PEREZ',observacion='',romana_salida='1' where correlativo='438894' and lote='21026168' and recargo='2'

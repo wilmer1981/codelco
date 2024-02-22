@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43330 ',peso_neto='27620',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16251291-9',nombre_chofer='jorge jimenez',observacion='andina',romana_salida='2' where correlativo='470769' and lote='22096200' and recargo='17'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 18120 ',peso_neto='2300',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='epp contaminados 22 maxisacos',romana_salida='1' where correlativo='466995' and lote='22076137' and recargo='1'

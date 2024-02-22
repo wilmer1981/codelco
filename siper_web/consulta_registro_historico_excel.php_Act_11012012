@@ -1,0 +1,95 @@
+<?
+include('conectar_ori.php');
+include('funciones/siper_funciones.php');
+
+header("Content-Type:  application/vnd.ms-excel");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");  
+if($VisibleDivProceso=='S')
+$VisibleDiv='hidden';
+
+if(!isset($FDesde))
+	$FDesde=date('Y-m-d');
+if(!isset($FHasta))
+	$FHasta=date('Y-m-d');
+?>
+<html>
+<head>
+<title>Consulta Hist�rica</title>
+<form name="FrmPrincipal" method="post" action="">
+<br>
+<table width="100%" border="1" align="center" cellpadding="2" cellspacing="0">
+  <tr>
+    <td width="20%" align="center" class="TituloCabecera">Funcionario</td>
+    <td width="15%" align="center" class="TituloCabecera">Fecha</td>
+    <td width="15%" align="center" class="TituloCabecera">Tipo Proceso</td>
+    <td width="30%" align="center" class="TituloCabecera">Observaci&oacute;n</td>
+    <td width="30%" align="center" class="TituloCabecera">Observaci&oacute;n (Solo Modificaci&oacute;n)</td>
+    <td width="20%" align="center" class="TituloCabecera">Observaci�n (Eliminaci�n)</td>
+    <td width="20%" align="center" class="TituloCabecera">Observaci�n (Sustituci�n)</td>
+  </tr>
+  <?
+			$FDesde=$FDesde." 00:00:00";
+			$FHasta=$FHasta." 23:59:59";
+
+			$Consulta = "SELECT * from sgrs_registro_historico t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='29000' and t1.tipo_proceso=t2.cod_subclase";
+			$Consulta.= " where rut_funcionario<>'' and fecha_registro between '".$FDesde."' and '".$FHasta."'";
+			if($CmbFuncionario!='T')
+				$Consulta.=" and rut_funcionario='".$CmbFuncionario."'";
+			if($CmbTipoProceso!='T')
+				$Consulta.=" and tipo_proceso='".$CmbTipoProceso."'";
+			if($SelTarea!='')
+				$Consulta.=" and parent like '%".$SelTarea."%'";					
+			$Consulta.=" order by fecha_registro";	
+			//echo $Consulta."<br>";
+			$Resp = mysql_query($Consulta);
+			while ($Fila=mysql_fetch_array($Resp))
+			{
+				$Consulta1="SELECT * from proyecto_modernizacion.funcionarios where rut='".$Fila["rut_funcionario"]."'";
+				//echo $Consulta;
+				$Resultado=mysql_query($Consulta1);
+				if($Fila1=mysql_fetch_array($Resultado))
+					$Nombre=$Fila1["apellido_paterno"]." ".$Fila1["apellido_materno"]." ".$Fila1["nombres"];
+					
+				if($Fila[observacion2]=='')
+					$Obs2='';
+				else
+					$Obs2=$Fila[observacion2];	
+				if($Fila[obs_elimina]=='')
+				{
+					$Obs3="<td align='center' >&nbsp;</td>
+						   <td align='center' >&nbsp;</td>";		
+				}
+				else
+				{
+					if($Fila[Tipo_Eli_Sust]!='')
+					{
+						if($Fila[Tipo_Eli_Sust]==1)//ELIMINACI�N
+						{
+							$Obs3="<td align='left' >".$Fila[obs_elimina]."</td>
+								   <td align='center' >&nbsp;</td>";		
+						}	
+						if($Fila[Tipo_Eli_Sust]==2)//SUSTITUCION
+						{
+							$Obs3="<td align='center' >&nbsp;</td>
+								   <td align='left' >".$Fila[obs_elimina]."</td>";
+						}	
+					}	
+				}	
+					?>
+			  <tr>
+				<td ><? echo $Fila["rut_funcionario"]." ".$Nombre; ?></td>
+				<td align="center" ><? echo $Fila[fecha_registro]; ?>&nbsp;</td>
+				<td align="center" ><? echo $Fila["nombre_subclase"]; ?>&nbsp;</td>
+				<td align="center" ><? echo $Fila["observacion"];?>
+				  &nbsp;</td>
+				<td align="center" ><? echo $Obs2;?>&nbsp;</td>
+				<? echo $Obs3;?>
+			  </tr>
+			  <?		
+			}
+?>
+</table>
+</form>
+</body>
+</html>

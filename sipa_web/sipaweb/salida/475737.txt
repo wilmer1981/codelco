@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43650 ',peso_neto='28890',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='15568747-9',nombre_chofer='patricio lobos',observacion='bajo cuchara',romana_salida='1' where correlativo='475737' and lote='22126246' and recargo='3'

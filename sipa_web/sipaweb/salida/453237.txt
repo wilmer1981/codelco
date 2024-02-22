@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='35380',peso_neto='20140',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='14276898-4',nombre_chofer='Miguel Briones ',observacion='22 maxi desulfurizacion',romana_salida='1' where correlativo='453237' and lote='21116047' and recargo='1'

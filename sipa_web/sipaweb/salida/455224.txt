@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='41190',peso_neto='24760',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8551905-0',nombre_chofer='VICTOR ARANCIBIA',observacion='',romana_salida='1' where correlativo='455224' and lote='21126094' and recargo='6'

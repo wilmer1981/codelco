@@ -1,0 +1,161 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SICT</title>
+    <meta name="description" content="Sistema De Información Gerencia de Servicios">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">        
+    <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+</head>
+<body id="index">
+
+<div class="login container-fluid">
+    <div class="col-md-6 col-md-offset-3">
+
+        <div class="row">
+        <div id="boxHeader" class="col-md-12 col-sm-12 col-xs-12" align="center">
+            <div class="col-md-2" style="margin-top: 20px;">
+                <img src="img/costo3.png" height="80">
+            </div>
+            <div class="col-md-10 title">
+                <p>(SSP-GSYS)</p>
+                <h4>Servicios a las Personas</h4>
+            </div>
+        </div>
+        </div>      
+        <div class="row">
+        <div id="boxBody" class="card card-containerChange">            
+                <h5 class="bg-warning" align="center"><strong>Debido a motivos de seguridad es necesario que actualice su contrase&ntilde;a.<br><h6>(*)Nota: La contrase&ntilde;a debe tener una combinaci&oacute;n de letras y n&uacute;mero con un m&iacute;nimo de 8 caracteres.</h6></strong></h5>
+                <br>
+                <form class="form-signin form-inline" id="Change" name="Change" action="" method="post" data-toggle='validator' style="color: white;">
+                    <div class="control-group">
+                      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <label for="email" class="col-md-6 col-sm-6 col-xs-6">Rut:</label>
+                        <p class="col-md-6 col-sm-6 col-xs-6">{RUT}</p>
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <label for="email" class="col-md-6 col-sm-6 col-xs-6">Nombre:</label>
+                        <p class="col-md-6 col-sm-6 col-xs-6">{NOMBRE}</p>
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <label for="email" class="col-md-6 col-sm-6 col-xs-6">Ape. Paterno:</label>
+                        <p class="col-md-6 col-sm-6 col-xs-6">{PATERNO}</p>
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <label for="email" class="col-md-6 col-sm-6 col-xs-6">Ape. Materno:</label>
+                        <p class="col-md-6 col-sm-6 col-xs-6">{MATERNO}</p>
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <label for="email" class="col-md-6 col-sm-6 col-xs-6">Clave Actual:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <input type="password" id="inputActual" name="inputActual" class="form-control input-sm" placeholder="Clave Actual" required="required" autofocus>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <label for="email" class="col-md-6 col-sm-6 col-xs-6">Nueva Clave:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <input type="password" id="inputNew" name="inputNew" class="form-control input-sm" data-validation="length alphanumeric" data-validation-length="min8" pattern="[a-zA-Z0-9]+" placeholder="Nueva Clave" onblur="alfanumerico($(this).val(),this.id)" required="required" autofocus>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <label for="email" class="col-md-6 col-sm-6 col-xs-6">Reingrese Nueva Clave:</label>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <input type="password" id="inputNew2" name="inputNew2" class="form-control input-sm" data-validation="length alphanumeric" data-validation-length="min8" pattern="[a-zA-Z0-9]+" placeholder="Reingrese Nueva Clave" onblur="alfanumerico($(this).val(),this.id)" required="required" autofocus>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                          <br>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <button class="btn btn-lg btn-primary btn-block btn-Change" type="button">Cambiar</button>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <a href="?p={PagCancel}" class="btn btn-lg btn-danger btn-block btn-Cancel" type="button">Cancelar</a>                       
+                        </div>
+                      </div>
+                    </div>
+                </form><!-- /form -->
+                <h6 align="center"><strong class="bg-warning">&nbsp;</strong></h6>
+            <!--<a href="#" class="forgot-password">Forgot the password?</a>-->
+        </div><!-- /card-container -->
+      </div>
+    </div>
+</div><!-- /container -->
+
+</body>
+</html>
+
+<script src="js/jquery-3.2.1.js"</script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/sweetalert.min.js"></script>
+<script src="js/jquery.rut.js"></script>
+<script src="js/funcion.js"></script>
+<script src="js/login.js"></script> 
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script type="text/javascript">
+$.validate({
+    lang: 'es'
+});
+</script>
+<style type="text/css">
+
+.form-group{ padding: 3px; }
+
+body{
+   
+    /*background-image: linear-gradient(#79a06d, #79a06d); */
+     background-image: url(img/cerroscolom.jpg) ;
+    /* background-position: center center;*/
+     background-attachment: fixed;
+     background-repeat: no-repeat;
+     background-size: cover;
+     background-color: white;
+
+
+
+}
+
+#boxHeader {    
+    color: white;   
+}
+
+.title p{
+    margin-top: 5%;
+    /*font-family:BAUHS93;*/
+    font-family: times;
+    font-style: normal;
+    font-size:3.0em;
+    /*letter-spacing: 2px   ;  */
+    
+}
+
+#boxBody{
+
+    border: 1px solid rgb(200, 200, 200);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+    /*background: rgba(178,86, 34, 0.9);*/
+    /*background-image: linear-gradient(#6E737C,#402000);*/
+    background: linear-gradient(rgba(110,115,124,0.9), rgba(64,32,0,0.9));
+    /*opacity: 0.5;*/
+    border-radius: 4px;
+
+    min-height: 350px;
+}
+
+.input-group{
+    margin-bottom: 22px;
+}
+
+#contact_form{
+     
+}
+
+h2{
+    text-align:center;
+    color:#fff;
+}
+</style>

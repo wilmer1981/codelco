@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 29980 ',peso_neto='16450',marca='EQUIS FRANJA AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='7352390-7',nombre_chofer='LUIS GONZALEZ',observacion='',romana_salida='1' where correlativo='451556' and lote='21106059' and recargo='16'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 35930 ',peso_neto='20440',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='18629015-1',nombre_chofer='Nicole',observacion='20 maxisacos yeso',romana_salida='1' where correlativo='459194' and lote='22026180' and recargo='1'

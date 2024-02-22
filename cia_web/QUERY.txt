@@ -1,0 +1,4 @@
+select t1.codigo, t1.marca, t1.modelo, t1.nro_serie, t2.nombre_subclase
+from cia_web.hardware t1 inner join proyecto_modernizacion.sub_clase t2
+on t1.tipo=t2.valor_subclase3 and left(t1.codigo,3)=t2.valor_subclase1 
+[where left(t1.codigo,3)="IMP"]

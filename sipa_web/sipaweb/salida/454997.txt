@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42190 ',peso_neto='29360',marca='EQUIS CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='17976805-4',nombre_chofer='JUAN VARGAS',observacion='',romana_salida='1' where correlativo='454997' and lote='21126003' and recargo='24'

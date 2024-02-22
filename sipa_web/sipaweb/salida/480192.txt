@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44020 ',peso_neto='28200',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='16308767-7',nombre_chofer='claudio berrios',observacion='concentrado de cu ',romana_salida='1' where correlativo='480192' and lote='23036086' and recargo='3'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39070 ',peso_neto='24420',marca='TRES FRANJAS AZULES',cod_mop='690',num_sello='',transportista='',rut_chofer='19614360-2',nombre_chofer='PLACIDO NUÑEZ',observacion='',romana_salida='1' where correlativo='490912' and lote='23096008' and recargo='14'

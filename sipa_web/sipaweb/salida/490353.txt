@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 20340 ',peso_neto='5280',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='8036380-k',nombre_chofer='charles wattson',observacion='3 pins con borras',romana_salida='1' where correlativo='490353' and lote='23096027' and recargo='1'

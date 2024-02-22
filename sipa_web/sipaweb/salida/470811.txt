@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44390 ',peso_neto='28180',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16657504-4',nombre_chofer='rodrigo araneda',observacion='cu andina',romana_salida='1' where correlativo='470811' and lote='22096209' and recargo='1'

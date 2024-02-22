@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='17420',peso_neto='1670',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='24 maxi elem contaminasdos aceite',romana_salida='1' where correlativo='489883' and lote='23086212' and recargo='1'

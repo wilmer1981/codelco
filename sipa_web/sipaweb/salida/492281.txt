@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='22700',peso_neto='7270',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='78801520-8',nombre_chofer='san geronimo',observacion='6 maxi baritina',romana_salida='1' where correlativo='492281' and lote='23106033' and recargo='1'

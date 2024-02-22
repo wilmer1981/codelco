@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44710 ',peso_neto='31270',marca='FRANJA AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='9015294-7',nombre_chofer='PATRICIO LUCERO',observacion='',romana_salida='1' where correlativo='454319' and lote='21116202' and recargo='29'

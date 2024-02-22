@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42700 ',peso_neto='28210',marca='FRANJA ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='14538196-7',nombre_chofer='JUAN GALLEGUILLOS  PAVEZ',observacion='',romana_salida='1' where correlativo='437349' and lote='21016185' and recargo='8'

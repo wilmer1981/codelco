@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44020 ',peso_neto='27590',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11889683-1',nombre_chofer='cristian molina',observacion='circulante oxido',romana_salida='1' where correlativo='453092' and lote='21116023' and recargo='7'

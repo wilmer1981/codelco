@@ -1,0 +1,64 @@
+#letra1{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 16px;
+	color: #0002D9;
+}
+
+#letra2{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+	color: #0002D9;
+}
+
+#letra3{
+	color: Black;
+	font-size: 17px;
+	font-weight: bolder;
+}
+
+#letra4{
+	color: Black;
+	font-size: 13px;
+	font-weight: bolder;
+}
+
+#titulo1{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 20px; 
+   color: Black;
+}
+
+#titulo2{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 20px; 
+   color: Black;
+	margin-top: -6px;
+}
+
+#titulo3{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 17px; 
+   color: Black;
+	margin-top: -12px;
+	}
+
+#combo1{
+	margin-left: 120px;
+}
+
+#campo1{
+	background-color: #51D952;
+	border: 1px double Black;
+	color: #191970;
+	font-size: 16px;
+	border: 1px double Black;
+}
+
+#campo2{
+	background-color: #FEFF6E;
+	border: 1px double Black;
+	color: #00008B;
+	font-size: 16px;
+	border: 1px double Black;
+	
+}

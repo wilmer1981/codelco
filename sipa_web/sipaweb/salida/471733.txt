@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43710 ',peso_neto='27470',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10456359-7',nombre_chofer='R. Santibañez',observacion='CU VARIOS',romana_salida='1' where correlativo='471733' and lote='22106105' and recargo='4'

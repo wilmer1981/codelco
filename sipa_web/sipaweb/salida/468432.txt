@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='39340',peso_neto='25660',marca='EQUIS CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='18518782-9',nombre_chofer='GERMAN ARAVENA',observacion='',romana_salida='1' where correlativo='468432' and lote='22086004' and recargo='10'

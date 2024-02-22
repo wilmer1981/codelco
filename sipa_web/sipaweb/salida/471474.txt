@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44960',peso_neto='29250',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16777096-7',nombre_chofer='claudio peña',observacion='OXIDOS ',romana_salida='1' where correlativo='471474' and lote='22106063' and recargo='5'

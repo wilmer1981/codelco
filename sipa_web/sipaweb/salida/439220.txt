@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 27090 ',peso_neto='10890',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='chatarra en desuso',romana_salida='1' where correlativo='439220' and lote='21026230' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44670',peso_neto='30970',marca='FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='9015294-7',nombre_chofer='PATRICIO LUCERO',observacion='',romana_salida='1' where correlativo='481587' and lote='23036345' and recargo='2'

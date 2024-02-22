@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39440 ',peso_neto='24700',marca='EQUIS DOS FRANJAS AZULES',cod_mop='690',num_sello='',transportista='',rut_chofer='11602171-4',nombre_chofer='ARMANDO SANCHEZ',observacion='',romana_salida='1' where correlativo='483665' and lote='23046015' and recargo='30'

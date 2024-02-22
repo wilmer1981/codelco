@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42860 ',peso_neto='26240',marca='FRANJA CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='21375405',nombre_chofer='RICARDO OGAS',observacion='',romana_salida='1' where correlativo='438908' and lote='21026182' and recargo='2'

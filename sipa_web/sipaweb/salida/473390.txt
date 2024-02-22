@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44790 ',peso_neto='28080',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='26747519-9',nombre_chofer='DIEGO LUNA OSORIO',observacion='circulantes oxidos',romana_salida='1' where correlativo='473390' and lote='22116104' and recargo='1'

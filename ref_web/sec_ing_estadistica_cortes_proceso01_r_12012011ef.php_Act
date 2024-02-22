@@ -1,0 +1,222 @@
+<?
+	include("../principal/conectar_sec_web.php");
+		//saco rut
+
+	$Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
+	$Respuesta = mysql_query($Consulta);
+	$Fila=mysql_fetch_array($Respuesta);
+	$Nivel=$Fila["nivel"];
+	$Fecha_Hora = date("d-m-Y h:i");
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$Rut =$CookieRut;
+	$HoraActual = date("H");
+	$MinutoActual = date("i");
+	$Fecha_modif = date("Y-m-d");
+	if (strlen($mes1)==1)  
+	{
+		$mes1='0'.$mes1;
+	}
+	if (strlen($dia1)==1)
+	{
+		$dia1='0'.$dia1;
+	}	
+		
+
+	$fecha_des = $ano1."-".$mes1."-".$dia1." ".$hr1.":".$mm1;
+	//echo "f".$fecha_des;
+	$var=strlen($mes2);
+	
+	if ($var==1)
+	{
+		$mes2="0$mes2";
+		
+		
+	}
+	$var=strlen($dia2);
+	if($var==1)
+	{
+		$dia2="0$dia2";
+	}	
+	$var=strlen($hr2);
+	if($var==1)
+	{
+		$hr2="0$hr2";
+	}	
+	$var=strlen($mm2); 
+	if($var==1)
+	{
+		$mm2="0$mm2";
+	}	
+
+	
+		
+	$fecha_con = $ano2."-".$mes2."-".$dia2." ".$hr2.":".$mm2;
+
+	if (($proceso == "G") and ($opcion == "N"))
+	{
+		//echo "TIPO DESC:".$tipo_desc."<BR>";
+		if ($tipo_desc!='R')
+		{
+				$consulta = "SELECT * FROM sec_web.cortes_refineria WHERE cod_grupo = '".$cmbgrupo."' AND fecha_desconexion = '".$fecha_des."'";
+				//echo $consulta."<br>";
+				$rs = mysql_query($consulta);
+				if ($row = mysql_fetch_array($rs))
+				{
+					$mensaje = "Ya Exite la Fecha de Desconexion para Este Grupo";
+					header("Location:sec_ing_estadistica_cortes_proceso_ref.php?activar=&mensaje=".$mensaje);
+				}
+			    else
+				 {
+						 $insertar = "INSERT INTO sec_web.cortes_refineria (tipo_desconexion,cod_grupo,fecha_desconexion,fecha_conexion,kahdird,kahdirc)";
+						 $insertar = $insertar." VALUES ('".$cmbtipo."','".$cmbgrupo."','".$fecha_des."','".$fecha_con."',".$txtkah1.",'".$txtkah2."')";		
+						 mysql_query($insertar);
+						 //echo $insertar."<br>";
+						 if (strlen($mes1)==1)
+							 {
+							  $mes1='0'.$mes1;
+							 }
+						 if (strlen($dia1)==1)
+							{
+							  $dia1='0'.$dia1;
+							}
+						 $fecha=$ano1.'-'.$mes1.'-'.$dia1;
+						 //echo "PROGRAMA:".$programa."<br>";
+						  if ($programa<>"PP")
+				  			{
+								//header("Location:Conexiones.php?fecha=".$fecha);
+								header("Location:sec_ing_estadistica_cortes_proceso_ref.php?fecha=".$fecha);//PARA MODIFICAR
+							}
+						  if ($programa=="PP")
+						  	{
+								header("Location:sec_ing_estadistica_cortes_proceso_ref2.php?opcion=N&fecha=".$fecha);
+								
+							}
+					} 
+			}
+		else {
+				$consulta="select distinct cod_grupo from ref_web.grupo_electrolitico2 where rectificador='".$cmbrectificador."' order by cod_grupo";
+				$respuesta=mysql_query($consulta);
+				while ($row_grupo=mysql_fetch_array($respuesta))
+					{
+						$insertar = "INSERT INTO sec_web.cortes_refineria (tipo_desconexion,cod_grupo,fecha_desconexion,fecha_conexion,kahdird,kahdirc)";
+						$insertar = $insertar." VALUES ('".$cmbtipo."','".$row_grupo["cod_grupo"]."','".$fecha_des."','".$fecha_con."',".$txtkah1.",'".$txtkah2."')";		
+						mysql_query($insertar);
+						//echo $insertar."<br>";
+					
+					}
+				 if (strlen($mes1)==1)
+					 {
+					  $mes1='0'.$mes1;
+					 }
+				 if (strlen($dia1)==1)
+					{
+					  $dia1='0'.$dia1;
+					}
+				$fecha=$ano1.'-'.$mes1.'-'.$dia1;
+
+				 
+			 		if ($programa<>"PP")
+						 {
+							header("Location:Conexiones.php?fecha=".$fecha);
+							
+						}
+					if ($programa=="PP")
+						{
+							header("Location:sec_ing_estadistica_cortes_proceso_ref2.php?opcion=N&fecha=".$fecha);
+							
+						}
+			 }					  
+			/*}*/
+	}
+		
+	if (($proceso == "G") and ($opcion == "M"))
+	{
+
+
+		//selecciono datos para guardar datos que seran modificados e insertar en tabla modificaciones
+		$Consulta = " select tipo_desconexion,substring(fecha_conexion,1,16) as fecha_c,kahdird,kahdirc  from sec_web.cortes_refineria";
+		$Consulta = $Consulta."  WHERE cod_grupo = '".$cmbgrupo."' AND fecha_desconexion = '".$fecha_des."'";
+ 		$fila = mysql_query($Consulta);
+		if ($row = mysql_fetch_array($fila))
+		{
+			$Tipo 		= $row[tipo_desconexion];
+			$Fecha_con 	= $row[fecha_c];
+			$Kd 		= $row[kahdird];
+			$Kc 		= $row[kahdirc];
+			$estado1 = '0';
+			$estado2 = '0';
+			$estado3 = '0';
+			$estado4 = '0';
+		//echo "Tipo".$Tipo;
+		
+		 	if($Tipo <> $cmbtipo)
+		 	{
+		 		$estado1 = '1';
+		 	}
+		 	if($Kd <> $txtkah1)
+		 	{
+		 		$estado2 = '1'; 
+		 	}
+
+			
+			if($Fecha_con <> $fecha_con)
+		 	{
+				$estado3 = '1'; 
+		 	}
+
+		 	if($Kc <> $txtkah2)
+		 	{ 
+		 		$estado4 = '1';
+		 	}
+		
+		
+			//GRABO LOS DATOS DEL QUE MODIFICA
+			$insertar = "INSERT INTO ref_web.control_movimientos (fecha_movimiento,fecha_modificacion,rut_modificacion,estado1,estado2,estado3,estado4)";
+			$insertar = $insertar." VALUES ('".$fecha_des."','".$Fecha_modif."','".$Rut."','".$estado1."','".$estado2."','".$estado3."','".$estado4."')"; 
+			mysql_query($insertar);
+		}
+		
+		$actualizar = "UPDATE sec_web.cortes_refineria SET tipo_desconexion = '".$cmbtipo."',fecha_conexion = '".$fecha_con."'";
+		$actualizar = $actualizar.",kahdird = '".$txtkah1."',kahdirc = '".$txtkah2."'";
+		$actualizar = $actualizar." WHERE cod_grupo = '".$cmbgrupo."' AND fecha_desconexion = '".$fecha_des."'";
+		mysql_query($actualizar);
+		if (strlen($mes1)==1)  
+		    {
+			   $mes1='0'.$mes1;
+			}
+		if (strlen($dia1)==1)
+		    {
+			   $dia1='0'.$dia1;
+			}	
+		$fecha=$ano1.'-'.$mes1.'-'.$dia1;
+		//header("Location:Conexiones.php?fecha=".$fecha);
+		
+		
+		 if ($programa<>"PP")
+			{
+
+				header("Location:Conexiones.php?fecha=".$fecha);
+				//header("Location:sec_ing_estadistica_cortes_proceso_ref.php?fecha=".$fecha);
+			}
+		if ($programa=="PP")
+			{
+			
+			
+				header("Location:sec_ing_estadistica_cortes_proceso_ref2.php?fecha=".$fecha);
+			}
+
+	}
+	
+	if ($proceso == "E")
+	{
+		
+			$eliminar = "DELETE FROM sec_web.cortes_refineria WHERE cod_grupo = '".$cod_grupo."' AND fecha_desconexion = '".$fecha_desconexion."'";
+			mysql_query($eliminar);
+		
+		
+		
+		header("Location:Conexiones.php?fecha=".$fecha);	
+	}
+	
+	include("../principal/cerrar_sec_web.php");
+?>

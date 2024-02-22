@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='38700',peso_neto='24960',marca='EQUIS BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='16107986-3',nombre_chofer='SERGIO VEAS',observacion='',romana_salida='1' where correlativo='491402' and lote='23096008' and recargo='24'

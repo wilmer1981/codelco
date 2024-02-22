@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 18080 ',peso_neto='2270',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='22 maxi estructuras y revestimiemto',romana_salida='1' where correlativo='466365' and lote='22076059' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='38070',peso_neto='23910',marca='DOS FRANJAS CELESTES',cod_mop='690',num_sello='',transportista='',rut_chofer='10718505-4',nombre_chofer='MARCELO OYANEDEL',observacion='',romana_salida='1' where correlativo='476231' and lote='23016014' and recargo='10'

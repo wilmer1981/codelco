@@ -1,0 +1,34 @@
+<?
+$ArrArchivos = array();
+$Dir = 'archivos/clientes';
+$Directorio=opendir($Dir);
+$i=0;
+while ($Archivo = readdir($Directorio)) 
+{
+	if($Archivo != '..' && $Archivo !='.' && $Archivo !='')
+	{ 		
+		$FechaHora = date("d-m-Y H:i:s", filemtime($Dir."/".$Archivo));
+		$Peso = filesize($Dir."/".$Archivo);
+		$ArrArchivo[$i][0] = $Archivo;
+		$ArrArchivo[$i][1] = $FechaHora;
+		$ArrArchivo[$i][2] = $Peso;
+	}
+	$i++;
+}
+closedir($Directorio);
+if (count($ArrArchivo)>0)
+{
+	reset($ArrArchivo);
+	krsort($ArrArchivo);
+	while (list($k,$v)=each($ArrArchivo))
+	{
+			echo "<tr>\n";
+			echo "<td align='center'><a href=\"JavaScript:DelFile('".$v[0]."')\"><img src=\"../principal/imagenes/ico_borrado.gif\" border='0'></a></td>\n";
+			echo "<td><img src=\"../principal/imagenes/img_listado.gif\" border='0' align='absmiddle'>&nbsp;".$v[0]."</td>\n";
+			echo "<td align='center'>".$v[1]."</td>\n";
+			echo "<td align='right'>".number_format($v[2]/1000,3,",",".")."</td>\n";
+			echo "</tr>\n";
+	}
+}
+clearstatcache();
+?>

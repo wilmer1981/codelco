@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39860 ',peso_neto='24560',marca='V FRANJA BLANCA',cod_mop='570',num_sello='',transportista='',rut_chofer='5577292-4',nombre_chofer='LUIS TAMAYO',observacion='',romana_salida='1' where correlativo='483900' and lote='23056019' and recargo='8'

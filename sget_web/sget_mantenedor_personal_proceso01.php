@@ -1,0 +1,271 @@
+<?
+	//echo "PROCESO:".$Proc;
+	include("../principal/conectar_sget_web.php");
+    include("funciones/sget_funciones.php");
+	//$TxtNumeroCert=number_format($TxtNumeroCert,0,",",".");
+	switch ($Proc)
+	{
+		case "G"://GRABA PERSONA
+		    $Existe=false;$Existe2=false;
+			$Consulta="SELECT * from sget_personal where rut ='".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."'";
+			$Resp=mysql_query($Consulta);
+			//echo $Consulta;
+			if($Fila=mysql_fetch_array($Resp))
+			{
+				$Existe=true;
+				header("location:sget_mantenedor_personal_proceso.php?Existe=".$Existe."&Proceso=M&Valores=".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT));
+			}
+			else
+			{		
+				if($TxtFechaCert=='')
+					$TxtFechaCert='0000-00-00';
+				if($TxtFechaCurso=='')
+					$TxtFechaCurso='0000-00-00';  
+				$Beca='N';
+				
+		
+				//$CER=substr($TxtNumeroCert,1,3).".".substr($TxtNumero_Cert,4,3).".".substr($TxtNumero_Cert,7,3);
+				$Insertar="INSERT INTO sget_personal(rut,nombres,ape_paterno,ape_materno,fec_nac,cargo,tipo,cod_ciudad,cod_comuna,fec_ini_ctto,fec_fin_ctto,certificado_ant,direccion,telefono1,telefono2,rut_empresa,cod_contrato,estado,observacion,nro_tarjeta,sueldo,cod_sindicato,cod_turno,cod_afp,fecha_certif,sexo,beca,cod_salud,cod_region,cargas_familiares,cod_aseguradora,tipo_ctto,tipo_educ,pasaporte,fecha_termino_curso,num_cert_antecedentes) values (";
+				$Insertar.="'".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."','".strtoupper($TxtNom)."','".strtoupper($TxtPat)."','".strtoupper($TxtMat)."','".FormatoFechaAAAAMMDD($TxtFechaNac)."','".$CmbCargo."','".ValidaEntero($CmbTipoPersona)."','".ValidaEntero($CmbCiudad)."','".ValidaEntero($CmbComunas)."','".$TxtFecIniCtto."','".$TxtFecFinCtto."','".$CertAnt."','".strtoupper($TxtDir)."','".$TxtFono1."','".$TxtFono2."',";
+				$Insertar.="'".$CmbEmpresa."','".$CmbContrato."','".$Est."','".$TxtObs."',";
+				if($TxtTarj=='Provisoria'||$TxtTarj=='Provisor')
+					$Insertar.="'".trim($TxtTarj)."'";
+				else
+					$Insertar.="'".str_pad(trim($TxtTarj),8,'0',STR_PAD_LEFT)."'";	
+				$Insertar.=",".intval(str_replace('.','',$Sueldo)).",'".ValidaEntero($CmbSindicato)."','".ValidaEntero($CmbTurnos)."','".ValidaEntero($CmbAfp)."','".$TxtFechaCert."','".$Sexo."','".$Beca."','".ValidaEntero($CmbSalud)."','".$CmbRegion."','".intval($TxtCargas)."','".intval($CmbAseguradora)."','".intval($CmbTipoCtto)."','".$CmbEscolaridad."','".$Pasaporte."','".$TxtFechaCurso."', '".str_replace(".","",$TxtNumeroCert)."')";  
+				mysql_query($Insertar);
+			//	echo $Insertar;
+				if($Archivo!='none' && $Archivo!='')
+				{
+					$Extension=explode('.',$Archivo);
+					if(strtoupper($Extension[1])!='EXE'&&strtoupper($Extension[1])!='ZIP'&&strtoupper($Extension[1])!='RAR')
+					{
+						$Directorio='fotos';
+						$NombreArchivo=str_pad(strtoupper($TxtRut),10,'0',STR_PAD_LEFT).".jpg";
+						//echo $NombreArchivo;
+						copy($Archivo, $Directorio."/".$NombreArchivo);
+					}   
+				}
+				//INSERTA EN SISTEMA UCAS PARA GENERACION DE MARCAS
+				$Insertar="INSERT INTO uca_web.uca_personas(rut,nombres,ape_paterno,ape_materno,direccion,telefono1,telefono2,rut_empresa,cod_contrato,estado,observacion,nro_tarjeta,tipo,aut_vehiculo,creacion_tarjeta,fecha_final_ctto) values (";
+				$Insertar.="'".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."','".strtoupper($TxtNom)."','".strtoupper($TxtPat)."','".strtoupper($TxtMat)."','".strtoupper($TxtDir)."','".$TxtFono1."','".$TxtFono2."',";
+				$Insertar.="'".$CmbEmpresa."','".$CmbContrato."','".$Est."','".$TxtObs."',";
+				if($TxtTarj=='Provisoria'||$TxtTarj=='Provisor')
+					$Insertar.="'".trim($TxtTarj)."'";
+				else
+					$Insertar.="'".str_pad(trim($TxtTarj),8,'0',STR_PAD_LEFT)."'";	
+				$Insertar.=",'E','','S','".$TxtFecFinCtto."')";
+				mysql_query($Insertar);
+				//------------------------------
+				
+				if($TxtFecFinCtto=='')
+					$TxtFecFinCtto='0000-00-00';
+				if($TxtFecIniCtto=='')
+					$TxtFecIniCtto='0000-00-00';
+				$Insertar="INSERT INTO sget_personal_historia(cod_contrato,rut_empresa,rut,activo,fecha_ingreso,fecha_termino,sueldo) values('".$CmbContrato."','".$CmbEmpresa."','".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."','S','".$TxtFecIniCtto."','".$TxtFecFinCtto."',".intval(str_replace('.','',$Sueldo)).")";		
+				mysql_query($Insertar);	
+				echo "<script languaje='JavaScript'>";
+				echo "window.opener.document.frmPrincipal.action='sget_mantenedor_personal.php?Buscar=S&MostrarInact=N&Rut=".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."';";
+				echo "window.opener.document.frmPrincipal.submit();";
+				echo "window.close();</script>";
+			}	
+			break;	
+		case "M"://MODIFICA PERSONA
+	//	echo "AAAAA".$TxtNumeroCert;
+				if($TxtFechaCert=='')
+					$TxtFechaCert='0000-00-00';
+				if($TxtFechaCurso=='')
+					$TxtFechaCurso='0000-00-00';
+				//echo "NNN".$TxtNumeroCert;
+				$Actualizar=" UPDATE  sget_personal set ";
+				$Actualizar.="nombres='".strtoupper($TxtNom)."',ape_paterno='".strtoupper($TxtPat)."',ape_materno='".strtoupper($TxtMat)."',fec_nac='".FormatoFechaAAAAMMDD($TxtFechaNac)."',cargo='".$CmbCargo."',tipo='".ValidaEntero($CmbTipoPersona)."',direccion='".strtoupper($TxtDir)."',cod_ciudad='".ValidaEntero($CmbCiudad)."',cod_comuna='".ValidaEntero($CmbComunas)."',";
+				$Actualizar.="telefono1='".$TxtFono1."',telefono2='".$TxtFono2."',rut_empresa='".$CmbEmpresa."',cod_contrato='".$CmbContrato."',";
+				$Actualizar.="estado='".$Est."',observacion='".$TxtObs."',cod_region='".$CmbRegion."',";
+				if($TxtTarj=='Provisoria'||$TxtTarj=='Provisor')
+					$Actualizar.="nro_tarjeta='".trim($TxtTarj)."',";
+				else
+					$Actualizar.="nro_tarjeta='".str_pad(trim($TxtTarj),8,'0',STR_PAD_LEFT)."',";					
+				$Actualizar.="certificado_ant='".$CertAnt."',fec_ini_ctto='".$TxtFecIniCtto."',fec_fin_ctto='".$TxtFecFinCtto."',sueldo=".intval(str_replace('.','',$TxtSueldo)).",cod_afp='".ValidaEntero($CmbAfp)."',cod_sindicato='".ValidaEntero($CmbSindicato)."',cod_turno='".ValidaEntero($CmbTurnos)."',fecha_certif='".$TxtFechaCert."' ";  	
+				$Actualizar.=",sexo='".$Sexo."',beca='".$Beca."',cod_salud='".ValidaEntero($CmbSalud)."',cargas_familiares='".intval($TxtCargas)."', cod_aseguradora='".intval($CmbAseguradora)."',tipo_ctto='".intval($CmbTipoCtto)."',fecha_termino_curso='".$TxtFechaCurso."',tipo_educ='".$CmbEscolaridad."',pasaporte='".$Pasaporte."',num_cert_antecedentes= '".str_replace(".","",$TxtNumeroCert)."' where rut='".$TxtRut."'";
+	//echo "WW".$Actualizar;																																																																																									
+				mysql_query($Actualizar);
+				if($Archivo!='none' && $Archivo!='')
+				{
+					$Extension=explode('.',$Archivo);
+					if(strtoupper($Extension[1])!='EXE'&&strtoupper($Extension[1])!='ZIP'&&strtoupper($Extension[1])!='RAR')
+					{
+						$Directorio='fotos';
+						$NombreArchivo=str_pad(strtoupper($TxtRut),10,'0',STR_PAD_LEFT).".jpg";
+						copy($Archivo, $Directorio."/".$NombreArchivo);
+					}
+				}
+				$Actualizar=" UPDATE  uca_web.uca_personas set ";
+				$Actualizar.="nombres='".$TxtNom."',ape_paterno='".$TxtPat."',ape_materno='".$TxtMat."',direccion='".$TxtDir."',";
+				$Actualizar.="telefono1='".$TxtFono1."',telefono2='".$TxtFono2."',rut_empresa='".$CmbEmpresa."',cod_contrato='".$CmbContrato."',";
+				$Actualizar.="estado='".$Est."',observacion='".$TxtObs."',";
+				if($TxtTarj=='Provisoria'||$TxtTarj=='Provisor')
+					$Actualizar.="nro_tarjeta='".trim($TxtTarj)."',";
+				else
+					$Actualizar.="nro_tarjeta='".str_pad(trim($TxtTarj),8,'0',STR_PAD_LEFT)."',";					
+				$Actualizar.="fecha_final_ctto='".$TxtFecFinCtto."' ";
+				$Actualizar.=" where rut='".$TxtRut."' and  tipo = 'E' ";
+			//	echo $Actualizar;
+				mysql_query($Actualizar);
+				
+			
+				$Consulta="SELECT * from sget_personal_historia where cod_contrato='".$CmbContrato."' and rut_empresa='".$CmbEmpresa."' and rut='".$TxtRut."'";
+				//echo $Consulta."<br>";
+				$Resp=mysql_query($Consulta);
+				if(!$Fila=mysql_fetch_array($Resp))
+				{	
+					$Actualizar="UPDATE sget_personal_historia set activo='N' where rut='".$TxtRut."'";
+					mysql_query($Actualizar);
+					if($TxtFecFinCtto=='')
+					$TxtFecFinCtto='0000-00-00';
+					if($TxtFecIniCtto=='')
+					$TxtFecIniCtto='0000-00-00';
+					$Insertar="INSERT INTO sget_personal_historia(cod_contrato,rut_empresa,rut,activo,fecha_ingreso,fecha_termino,sueldo) values('".$CmbContrato."','".$CmbEmpresa."','".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."','S','".$TxtFecIniCtto."','".$TxtFecFinCtto."',".intval(str_replace('.','',$Sueldo)).")";		
+					mysql_query($Insertar);				
+				}
+				//echo $Insertar."<br>";
+				/*echo "<script languaje='JavaScript'>";
+				echo "window.opener.document.frmPrincipal.action='sget_mantenedor_personal.php?BuscarRut=S&MostrarInact=N&Rut=".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."';";
+				echo "window.opener.document.frmPrincipal.submit();";
+				echo "window.close();</script>";*/
+				$Proceso="M";
+				
+				//header("location:sget_mantenedor_personal_proceso.php?Valores=".$TxtRut."&Proceso=".$Proceso."&TxtRuta=".$TxtRuta);
+				header("location:sget_mantenedor_personal_proceso.php?Valores=".$TxtRut."&Proceso=".$Proceso);	
+				break;
+		case "T"://TRASPASA A CODELCO A CTTO.9998 Y EMPRESA 61704000-K ---- 
+				$Consulta="SELECT * from uca_web.uca_personas where rut ='".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."' and tipo = 'C'";
+				$Resp=mysql_query($Consulta);
+				//echo $Consulta;
+				if($Fila=mysql_fetch_array($Resp))
+				{
+					$Eliminar=" delete from sget_personal ";
+					$Eliminar.=" where rut='".$TxtRut."'";
+					//echo $Eliminar;
+					mysql_query($Eliminar);
+				}
+				else
+				{
+					$Actualizar=" UPDATE  sget_personal set ";
+					$Actualizar.="rut_empresa='61704000-K',cod_contrato='9998',";
+					if($TxtTarj=='Provisoria'||$TxtTarj=='Provisor')
+						$Actualizar.="nro_tarjeta='".trim($TxtTarj)."',";
+					else
+						$Actualizar.="nro_tarjeta='".str_pad(trim($TxtTarj),8,'0',STR_PAD_LEFT)."',";					
+					$Actualizar.="tipo='C',fecha_final_ctto='".$TxtFechaCtto."',observacion='".strtoupper($TxtPat)." ".strtoupper(substr($TxtMat,0,1)).".".strtoupper(substr($TxtNom,0,7))."' ";
+					$Actualizar.=" where rut='".$TxtRut."' and  tipo = 'E' ";
+					//echo $Actualizar;
+					mysql_query($Actualizar);
+					if($Archivo!='none')
+					{
+						$Extension=explode('.',$Archivo);
+						if(strtoupper($Extension[1])!='EXE'&&strtoupper($Extension[1])!='ZIP'&&strtoupper($Extension[1])!='RAR')
+						{
+							$Directorio='fotos';
+							$NombreArchivo=str_pad(strtoupper($TxtRut),10,'0',STR_PAD_LEFT).".jpg";
+							copy($Archivo, $Directorio."/".$NombreArchivo);
+						}
+					}
+				}			
+				echo "<script languaje='JavaScript'>";
+				echo "window.opener.document.frmPrincipal.action='sget_mantenedor_personal.php?BuscarRut=S&MostrarInact=N&Rut=".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."';";
+				echo "window.opener.document.frmPrincipal.submit();";
+				echo "window.close();</script>";
+				$Proceso="M";	
+				break;								
+		case "E"://ELIMINAR PERSONA
+				$Datos=explode('//',$Valores);
+				foreach($Datos as $c => $v)
+				{
+					$Datos2=explode('~',$v);
+					$Eliminar=" delete from sget_personal ";
+					$Eliminar.=" where rut='".$Datos2[0]."' ";
+					//echo $Eliminar;
+					mysql_query($Eliminar);
+					$Eliminar=" delete from uca_web.uca_personas ";
+					$Eliminar.=" where rut='".$Datos2[0]."' and tipo = 'E' ";
+					//echo $Eliminar;
+					mysql_query($Eliminar);
+					
+				}
+				if($CmbEmpresa!='S')
+	 				header("location:sget_mantenedor_personal.php?BuscarEmp=S&CmbEmpresa=".$CmbEmpresa);
+				else
+					header("location:sget_mantenedor_personal.php");	
+				break;
+		case "MT"://MODIFICA SOLO TARJETA
+				$Encontro='N';
+				if($TxtTarj!='Provisoria'&&$TxtTarj!='Provisor')
+				{
+					$Consulta="SELECT * from sget_personal where nro_tarjeta='".$TxtTarj."'";
+					$Resp=mysql_query($Consulta);
+					//echo $Consulta;
+					if($FilaDet=mysql_fetch_array($Resp))
+						$Encontro='S';
+				}
+				if($Encontro=='N')
+				{
+					$Actualizar=" UPDATE  sget_personal set ";
+					if($TxtTarj=='Provisoria'||$TxtTarj=='Provisor')
+						$Actualizar.="nro_tarjeta='".trim($TxtTarj)."'";
+					else
+						$Actualizar.="nro_tarjeta='".str_pad(trim($TxtTarj),8,'0',STR_PAD_LEFT)."'";	
+					$Actualizar.=" where rut='".$Valores."'";				
+					//echo $Actualizar;
+					mysql_query($Actualizar);
+					
+					$Actualizar=" UPDATE  uca_web.uca_personas set ";
+					if($TxtTarj=='Provisoria'||$TxtTarj=='Provisor')
+						$Actualizar.="nro_tarjeta='".trim($TxtTarj)."'";
+					else
+						$Actualizar.="nro_tarjeta='".str_pad(trim($TxtTarj),8,'0',STR_PAD_LEFT)."'";					
+					$Actualizar.=" where rut='".$Valores."' and  tipo = 'E' ";
+					//echo $Actualizar;
+					mysql_query($Actualizar);
+					echo "<script languaje='JavaScript'>";
+					echo "window.opener.document.frmPrincipal.action='sget_mantenedor_personal.php?Buscar=S&MostrarInact=N&TxtRut=".str_pad(trim($Valores),10,'0',STR_PAD_LEFT)."';";
+					echo "window.opener.document.frmPrincipal.submit();";
+					echo "window.close();</script>";
+				}
+				else
+				{
+	 				$Mensaje='Tarjeta ya esta Asignada a un Trabajador';
+					header("location:sget_mantenedor_personal_proceso_tarjeta.php?Valores=".$Valores."&Mensaje=".$Mensaje);
+				}
+				break;
+		case "MF"://MODIFICA MASIVAMENTE FECHA FIN DE CONTRATO
+				$Mensaje='Datos Actualizados Satisfactoriamente';
+				$Datos=explode('~~',$Valores);
+				$Dia = date("d");
+				$Mes = date("m");
+				$Ano = date("Y");
+				$FechaHoy = $Ano."-".$Mes."-".$Dia;
+			//	echo "FF".$FechaHoy;
+				foreach($Datos as $c => $v)
+				{
+					$Actualizar=" UPDATE  sget_personal set fec_fin_ctto='".trim($TxtFecFinCtto)."'";
+					if (trim($TxtFecFinCtto) == $FechaHoy)
+						$Actualizar.=",estado = 'I'";
+					if (trim($TxtFecFinCtto) > $FechaHoy)	
+						$Actualizar.=",estado = 'A'";
+					$Actualizar.=" where rut='".$v."'";
+					//aqui poner el if comparando con la fecha de hoy definir fecha hoy poly				
+					//echo $Actualizar;
+					mysql_query($Actualizar);
+					//echo "AAAA".$Actualizar;  
+				}
+			
+				
+				header("location:sget_mantenedor_personal_proceso_fecha_ctto.php?Valores=".$Valores."&Mensaje=".$Mensaje);
+				/*echo "<script languaje='JavaScript'>";
+				echo "window.opener.document.frmPrincipal.action='sget_mantenedor_personal.php?Buscar=S&MostrarInact=N';";
+				echo "window.opener.document.frmPrincipal.submit();";
+				echo "window.close();</script>";*/
+				break;
+	}
+
+?>

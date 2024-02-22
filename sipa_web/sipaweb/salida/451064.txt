@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42290 ',peso_neto='26280',marca='FRANJA ROJA',cod_mop='510',num_sello='',transportista='',rut_chofer='34641608-4',nombre_chofer='MANUEL ORTEGA',observacion='',romana_salida='1' where correlativo='451064' and lote='21096209' and recargo='2'

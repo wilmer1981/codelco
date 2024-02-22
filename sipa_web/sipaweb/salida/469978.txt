@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44130',peso_neto='28200',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12.723.649',nombre_chofer='Luis H.',observacion='cu varios',romana_salida='1' where correlativo='469978' and lote='22096101' and recargo='6'

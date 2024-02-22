@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44390 ',peso_neto='27730',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8162331-7',nombre_chofer='S. Lucas',observacion='circulante oxido',romana_salida='1' where correlativo='473318' and lote='22116090' and recargo='2'

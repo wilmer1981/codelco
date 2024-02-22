@@ -1,0 +1,64 @@
+<?
+	include("../principal/conectar_principal.php");
+	switch ($Proceso)
+	{
+		case "G":
+			$Consulta="select * from proyecto_modernizacion.sub_clase ";
+			$Consulta.=" where cod_clase='3004' and nombre_subclase='".$Codigo."'";
+			$Respuesta=mysql_query($Consulta);
+			while($Fila=mysql_fetch_array($Respuesta))
+			{
+				$Mes=$Fila["cod_subclase"];
+			}		
+			$Datos=explode('//',$Valores);
+			while(list($c,$v)=each($Datos))
+			{
+				$Datos2=explode('~',$v);
+				$MesPaqueteI=$Datos2[0];
+				$NumPaqueteI=$Datos2[1];
+				$NumPaqueteF=$Datos2[3];
+				$Actualizar="UPDATE sec_web.paquete_catodo set cod_producto='$CmbProductos',cod_subproducto='$cmbsubproducto' ";
+				$Actualizar.=" where (cod_paquete='".$MesPaqueteI."' and num_paquete between '".$NumPaqueteI."' and '".$NumPaqueteF."') and LEFT(fecha_creacion_paquete,4)='".$Ano."'";
+				mysql_query($Actualizar);
+				
+				$Actualizar="UPDATE sec_web.paquete_catodo_externo set cod_producto='$CmbProductos',cod_subproducto='$cmbsubproducto' ";
+				$Actualizar.=" where (cod_paquete='".$MesPaqueteI."' and num_paquete between '".$NumPaqueteI."' and '".$NumPaqueteF."') and LEFT(fecha_creacion_paquete,4)='".$Ano."'";
+				mysql_query($Actualizar);
+
+				$Consulta="select corr_enm,cod_producto,cod_subproducto from sec_web.lote_catodo  where (cod_paquete='".$MesPaqueteI."' and num_paquete between '".$NumPaqueteI."' and '".$NumPaqueteF."') and LEFT(fecha_creacion_paquete,4)='".$Ano."' group by corr_enm";
+				$Respuesta=mysql_query($Consulta);
+				if($Fila=mysql_fetch_array($Respuesta))
+				{
+					$Correlativo=$Fila["corr_enm"];
+					$AUXCmbProductos=$Fila["cod_producto"];
+					$Auxcmbsubproducto=$Fila["cod_subproducto"];
+				}	
+
+				$Actualizar="UPDATE sec_web.instruccion_virtual set cod_producto='$CmbProductos',cod_subproducto='$cmbsubproducto' ";
+				$Actualizar.=" where cod_producto='".$AUXCmbProductos."' and cod_subproducto='".$Auxcmbsubproducto."' and  corr_virtual='".$Correlativo."' ";
+				mysql_query($Actualizar);
+				
+				$Actualizar="UPDATE sec_web.programa_codelco set cod_producto='$CmbProductos',cod_subproducto='$cmbsubproducto' ";
+				$Actualizar.=" where cod_producto='".$AUXCmbProductos."' and cod_subproducto='".$Auxcmbsubproducto."' and  corr_codelco='".$Correlativo."' ";
+				mysql_query($Actualizar);
+
+				$Actualizar="UPDATE sec_web.programa_enami set cod_producto='$CmbProductos',cod_subproducto='$cmbsubproducto' ";
+				$Actualizar.=" where cod_producto='".$AUXCmbProductos."' and cod_subproducto='".$Auxcmbsubproducto."' and  corr_enm='".$Correlativo."' ";
+				mysql_query($Actualizar);
+				
+				$Actualizar="UPDATE sec_web.programa_enami_codelco set cod_producto='$CmbProductos',cod_subproducto='$cmbsubproducto' ";
+				$Actualizar.=" where cod_producto='".$AUXCmbProductos."' and cod_subproducto='".$Auxcmbsubproducto."' and  corr_ie='".$Correlativo."' ";
+				mysql_query($Actualizar);
+
+				$Actualizar="UPDATE sec_web.lote_catodo set cod_producto='$CmbProductos',cod_subproducto='$cmbsubproducto' ";
+				$Actualizar.=" where (cod_paquete='".$MesPaqueteI."' and num_paquete between '".$NumPaqueteI."' and '".$NumPaqueteF."') and LEFT(fecha_creacion_paquete,4)='".$Ano."'";
+				mysql_query($Actualizar);
+				echo "<script languaje='JavaScript'>";
+				echo "window.opener.document.FrmProceso.action='sec_adm_lotes.php?Mostrar=S&Mostrar2=S&CodBulto=".$Codigo."&NumBulto=".$Numero."&Ano=".$Ano."&Mes=".$Mes."';";
+				echo "window.opener.document.FrmProceso.submit();";
+				echo "window.close();";
+				echo "</script>";				
+			}
+			break;			
+	}
+?>

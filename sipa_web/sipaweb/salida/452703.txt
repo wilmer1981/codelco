@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43540',peso_neto='27800',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11890521-0',nombre_chofer='Marcelo Flores',observacion='circulantes mazamorra',romana_salida='1' where correlativo='452703' and lote='21106224' and recargo='6'

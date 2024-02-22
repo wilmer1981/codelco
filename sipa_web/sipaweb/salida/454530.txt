@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42010 ',peso_neto='26190',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='31527804',nombre_chofer='cesar emil',observacion='',romana_salida='1' where correlativo='454530' and lote='21116251' and recargo='1'

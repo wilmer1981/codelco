@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44130 ',peso_neto='28030',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12.967.570',nombre_chofer='JOSÉ ALIRO CONTRERAS ARAVENA',observacion='CU VARIOS',romana_salida='1' where correlativo='470506' and lote='22096172' and recargo='8'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44100 ',peso_neto='25840',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10244788-3',nombre_chofer='ALEJANDRO CONTRERAS COLLAO',observacion='dinamico aprobado pero si tiket',romana_salida='2' where correlativo='459105' and lote='22026168' and recargo='1'

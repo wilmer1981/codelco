@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42720 ',peso_neto='28790',marca='V DOS FRANJAS CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='',romana_salida='1' where correlativo='449847' and lote='21096061' and recargo='29'

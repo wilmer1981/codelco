@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='28150',peso_neto='14510',marca='DOS FRANJAS VERDES',cod_mop='520',num_sello='',transportista='',rut_chofer='7352390-7',nombre_chofer='LUIS GONZALEZ',observacion='',romana_salida='1' where correlativo='454207' and lote='21116187' and recargo='60'

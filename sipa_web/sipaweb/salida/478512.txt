@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44380',peso_neto='28080',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='concentrado de cu',romana_salida='1' where correlativo='478512' and lote='23026087' and recargo='7'

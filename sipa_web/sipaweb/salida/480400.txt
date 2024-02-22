@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41570 ',peso_neto='27190',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='concentrado de cu',romana_salida='1' where correlativo='480400' and lote='23036112' and recargo='7'

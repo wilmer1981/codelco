@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44910 ',peso_neto='4430',marca='EQUIS VERDE',cod_mop='520',num_sello='',transportista='',rut_chofer='11225659-8',nombre_chofer='MAURICIO SALVO',observacion='',romana_salida='1' where correlativo='451193' and lote='21096070' and recargo='66'

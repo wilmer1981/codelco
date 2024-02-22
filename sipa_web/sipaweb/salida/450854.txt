@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 43820 ',peso_neto='29350',marca='TRES FRANJAS BLANCAS',cod_mop='690',num_sello='',transportista='',rut_chofer='14538196-7',nombre_chofer='JUAN GALLEGUILLOS  PAVEZ',observacion='',romana_salida='2' where correlativo='450854' and lote='21096103' and recargo='29'

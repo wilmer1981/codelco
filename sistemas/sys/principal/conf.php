@@ -1,0 +1,54 @@
+<?php
+ini_set('display_errors',0);
+
+require_once("config/bd_mysqli.php");
+require_once("config/template.inc.php");
+//require_once("../conf/bd.php");
+//require_once("config/template.inc.php");
+$rootPath      = "proyecto/sistemas/sys/principal";
+$rootPathLogin = "proyecto/sistemas/";
+$rootOrigen    = "proyecto/principal/"; 
+
+$isSecure = false;
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+	$isSecure = true;
+}
+else if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
+	$isSecure = true;
+}
+
+if ($isSecure)
+	$config['url_principal'] = "https://".$_SERVER['SERVER_NAME'];
+else
+	$config['url_principal'] = "http://".$_SERVER['SERVER_NAME'];
+
+$config['url_path'] = $config['url_principal']."/".$rootPath."/";
+
+$config['rootOrigen'] = $config['url_principal']."/".$rootOrigen."sistemas_usuario.php?CodSistema=".$_SESSION["CodSistemaSel"];
+
+if(!$_SESSION["CodSistemaSel"] && $_GET["p"] != "index")
+{	
+	session_destroy();
+	header("location:".$config['url_principal']."/".$rootPath);
+	exit();
+}
+
+$config['server_port']	= $_SERVER['SERVER_PORT'];
+$config['dir_root'] 	= $_SERVER['DOCUMENT_ROOT'];
+$config['dir_uri']		= $_SERVER["REQUEST_URI"];
+
+$config['dir_requeridos'] = $config['dir_root']."/".$rootPath."/config";
+$config['dir_html'] = $config['dir_root']."/".$rootPath."/html";
+$config['dir_file'] = $config['dir_root']."/".$rootPath."/file";
+
+
+$Meses = array("ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE");
+$pathServer 		= $config['url_principal']."/".$rootPath."/";
+$pathServerAndPort	= $config['url_principal'].":".$config['server_port']."/".$rootPath."/";
+
+//MYSQL
+$hostname 	= "VEVMMYSQLP01";
+$MysqlUserPHP 	= "adm_web";
+$MysqlPassPHP 	= "codweb2015";
+$dbMysql_schema = "cal_web";
+?>

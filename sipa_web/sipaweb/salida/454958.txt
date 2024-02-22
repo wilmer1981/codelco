@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43320',peso_neto='29290',marca='EQUIS NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='9272715-7',nombre_chofer='VICTOR BERNAL PIZARRO',observacion='',romana_salida='1' where correlativo='454958' and lote='21126048' and recargo='8'

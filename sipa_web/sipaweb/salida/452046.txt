@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 19290 ',peso_neto='4920',marca='EQUIS FRANJA ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='9277660-3',nombre_chofer='CRISTIAN BERNAL',observacion='',romana_salida='1' where correlativo='452046' and lote='21106009' and recargo='35'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43940 ',peso_neto='27430',marca='',cod_mop='697',num_sello='',transportista='',rut_chofer='13747776-9',nombre_chofer='carlos abalos',observacion='',romana_salida='1' where correlativo='474561' and lote='22126070' and recargo='2'

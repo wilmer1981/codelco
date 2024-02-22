@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43200',peso_neto='29920',marca='DOS FRANJAS BLANCAS',cod_mop='690',num_sello='',transportista='',rut_chofer='10522376-5',nombre_chofer='MARCOS BERNAL',observacion='',romana_salida='1' where correlativo='491646' and lote='23096212' and recargo='12'

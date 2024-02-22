@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43920 ',peso_neto='29940',marca='V NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='7143217-3',nombre_chofer='FRANCISCO FUENTES',observacion='',romana_salida='1' where correlativo='436034' and lote='21016014' and recargo='7'

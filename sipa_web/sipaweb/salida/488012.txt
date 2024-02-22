@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44920 ',peso_neto='27640',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15473951-3',nombre_chofer='Cesar Verdejo',observacion='CU VARIOS',romana_salida='1' where correlativo='488012' and lote='23076178' and recargo='8'

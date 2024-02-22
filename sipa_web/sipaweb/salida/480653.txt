@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44830',peso_neto='29020',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10884025-0',nombre_chofer='GABRIEL ROMO',observacion='',romana_salida='1' where correlativo='480653' and lote='23036156' and recargo='5'

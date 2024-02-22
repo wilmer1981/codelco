@@ -1,0 +1,21 @@
+PATRICIO:
+
+Te adjunto lo conversado.
+El requerimiento de Lorenzo Restovic está en el primer archivo, en el párrafo "Datos Maestros"
+El archivo "Proveed-fin700" es el archivo completo que se sacó del fin700 con todos los proveedores que tiene el maestro actualmente.  Pienso que sobre esa base debemos trabajar y limpiarlo y completarlo con la información solicitada.
+El archivo "proveedore-remu" es el mismo archivo anterior en el cual Claudio Olguin marcó con una T cuando es trabajador y una R cuando es beneficiaria de retención judicial.  Pienso que estos rut debiéramos mantenerlo hasta que aclaremos si los eliminamos o no.
+El archivo "proveedo-bddai" corresponde a los proveedores de materiales que debelaren llevar la marca PR
+El  archivo "registro-vigente-contratistas" son los contratistas que deben llevar la marca CO
+
+Todos los que nos queden con marca debieran llevar la marca MI
+
+Mañana voy a Andina,  cualquier cosa la vemos el jueves.
+
+Atte.
+
+JORGE AVALOS JARAMILLO
+JEFE CONTABILIDAD
+FUNDICION Y REFINERIA VENTANAS
+CODELCO DIVISION VENTANAS
+FONO 32-933389
+E-MAIL:  javalos@enami.cl

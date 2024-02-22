@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 37640 ',peso_neto='21600',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='16971408-8',nombre_chofer='gabriel vera ',observacion='',romana_salida='1' where correlativo='450240' and lote='21096130' and recargo='2'

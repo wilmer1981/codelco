@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44940 ',peso_neto='29000',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17636658-3',nombre_chofer='elvis peña',observacion='escoria oxidos',romana_salida='2' where correlativo='471962' and lote='22106139' and recargo='5'

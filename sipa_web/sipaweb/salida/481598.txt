@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='37710',peso_neto='22190',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='20 maxisacos con yeso',romana_salida='1' where correlativo='481598' and lote='23036350' and recargo='1'

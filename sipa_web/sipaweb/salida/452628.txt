@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44350',peso_neto='27410',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7876481-3',nombre_chofer='TULIO PONCE ',observacion='esc oxido',romana_salida='1' where correlativo='452628' and lote='21106215' and recargo='3'

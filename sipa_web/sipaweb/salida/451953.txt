@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43040',peso_neto='2590',marca='DOS FRANJAS ROJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='15732588-4',nombre_chofer='RODRIGO  COFRE',observacion='',romana_salida='1' where correlativo='451953' and lote='21106109' and recargo='7'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 27550 ',peso_neto='14110',marca='DOS FRANJAS BLANCAS',cod_mop='520',num_sello='',transportista='',rut_chofer='8224316-K',nombre_chofer='CARLOS  FUENTES',observacion='',romana_salida='1' where correlativo='435883' and lote='20126259' and recargo='1'

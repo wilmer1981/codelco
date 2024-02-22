@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43540 ',peso_neto='27670',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13773508-3',nombre_chofer='juan julio',observacion='cu blister',romana_salida='1' where correlativo='488507' and lote='23076261' and recargo='6'

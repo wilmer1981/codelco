@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43850 ',peso_neto='29630',marca='EQUIS NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='18518782-9',nombre_chofer='GERMAN ARAVENA',observacion='',romana_salida='1' where correlativo='474681' and lote='22126011' and recargo='32'

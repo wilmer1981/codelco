@@ -1,0 +1,222 @@
+<? 	
+	include("../principal/conectar_sec_web.php");
+	$Datos=explode('//',$Valores);
+	
+	
+
+					
+	foreach($Datos as $Clave => $Valor)
+	{
+		$Datos2=explode('~~',$Valor);
+		$IE=$Datos2[0];
+		$NombreProducto=$Datos2[1];
+		$NombreSubProducto=$Datos2[2];
+		$CodProducto=$Datos2[3];
+		$CodSubProducto=$Datos2[4];
+		$Peso=$Datos2[5];
+		$TipoIE=$Datos2[6];
+		$PesoPreparado=$Datos2[7];
+		$Marca=$Datos2[10];
+		if ($PesoPreparado=='')
+		{
+			$PesoPreparado=0;
+		}
+	}
+	switch ($TipoIE)
+	{
+		case "E":
+			$Actualizar="UPDATE sec_web.programa_enami set estado1='R',estado2='P' where corr_enm=".$IE;
+			mysql_query($Actualizar);
+			break;
+		case "C":
+			$Actualizar="UPDATE sec_web.programa_codelco set estado1='R',estado2='P' where corr_codelco=".$IE;
+			mysql_query($Actualizar);
+			break;
+	}		
+	$IEBorrarVirtual=array();
+	//RECUPERA EL LOTE INICIAL SELECCIONADO EN EL CMBLOTEINICIAL
+	$Lote=explode('~~',$CmbLoteInicial);
+	$CodBultoInicial=$Lote[0];
+	$NumBultoInicial=$Lote[1];
+	$CompletoPeso=false;
+	//SE ACTUALIZA EN CASO QUE YA LA IE TENGA ASIGNADO UN LOTE Y ESTE NO SEA EL SELECCIONADO
+	//PARA USARLO COMO LOTE PRINCIPAL, SI NO QUE EL DE LA IE VIRTUAL
+	$Actualizar="UPDATE sec_web.lote_catodo set cod_bulto='".$CodBultoInicial."',num_bulto=".$NumBultoInicial;
+	$Actualizar= $Actualizar." where corr_enm=".$IE." and cod_estado='a'";
+	mysql_query($Actualizar);
+	$Datos=explode('//',$Valores2);
+	if ($PesoPreparado==0)
+	{
+		$CodMarca=$Lote[2];
+		$PesoVirtual=0;
+	}
+	else
+	{
+		$CodMarca=$Marca;
+		$PesoVirtual=$PesoPreparado;
+	}
+	foreach($Datos as $Clave => $Valor)
+	{
+		$Datos2=explode('~~',$Valor);
+		$IEVirtual=$Datos2[0];
+		$Consulta="SELECT t1.cod_bulto,t1.num_bulto,t1.cod_paquete,t1.num_paquete,t2.peso_paquetes";
+		$Consulta=$Consulta." from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 on ";
+		$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete ";
+		$Consulta=$Consulta." where t1.corr_enm=".$IEVirtual." and t1.cod_estado='a' and t2.cod_estado='a' order by t1.num_paquete";
+		$Respuesta=mysql_query($Consulta);
+		while ($Fila=mysql_fetch_array($Respuesta))
+		{
+			$PesoVirtual=$PesoVirtual+$Fila["peso_paquetes"];
+			if ($Peso>=$PesoVirtual)
+			{	
+				$CompletoPeso=true;
+				switch ($TipoIE)
+				{
+					case "E":
+						$Actualizar = "UPDATE sec_web.programa_enami set ";
+						$Actualizar.= " estado2 = 'T' ";
+						$Actualizar.= " where corr_enm=".$IE;
+						mysql_query($Actualizar);
+						break;
+					case "C":
+						$Actualizar = "UPDATE sec_web.programa_codelco set ";
+						$Actualizar.= " estado2 = 'T' ";
+						$Actualizar.= " where corr_codelco=".$IE;
+						mysql_query($Actualizar);
+						break;
+				}
+				$Actualizar = "UPDATE sec_web.lote_catodo set ";
+				$Actualizar.= " cod_bulto='".$CodBultoInicial."',num_bulto=".$NumBultoInicial.",corr_enm=".$IE." ";
+				$Actualizar.= " where corr_enm=".$IEVirtual." and cod_bulto='".$Fila["cod_bulto"]."'";
+				$Actualizar.= " and num_bulto=".$Fila["num_bulto"]." and cod_paquete='".$Fila["cod_paquete"]."' ";
+				$Actualizar.= " and num_paquete=".$Fila["num_paquete"];
+				mysql_query($Actualizar);
+				$Actualizar = "UPDATE sec_web.pesaje_lodos set ";
+				$Actualizar.= " cod_bulto='".$CodBultoInicial."',num_bulto=".$NumBultoInicial.",corr_ie=".$IE." ";
+				$Actualizar.= " where corr_ie=".$IEVirtual." and cod_bulto='".$Fila["cod_bulto"]."'";
+				$Actualizar.= " and num_bulto=".$Fila["num_bulto"]." and cod_paquete='".$Fila["cod_paquete"]."' ";
+				$Actualizar.= " and num_paquete=".$Fila["num_paquete"];
+				mysql_query($Actualizar);
+				//echo $Actualizar."<br>";
+				$IEBorrarVirtual[$IEVirtual]=$IEVirtual;
+				/*if ($CompletoPeso==true)
+				{
+					$Actualizar="UPDATE sec_web.lote_catodo set disponibilidad='T',cod_marca='$CodMarca' where corr_enm=".$IE." and cod_estado='a'"; 
+					//$Actualizar="UPDATE sec_web.lote_catodo set disponibilidad='T',cod_marca='$CodMarca' where corr_enm=".$IE; 
+					mysql_query($Actualizar);
+					$IEVirtual='';
+				}*/
+			}
+			else
+			{
+				$PesoVirtual=$PesoVirtual-$Fila["peso_paquetes"];
+			}	
+		}
+	}
+	/*$Consulta="Select cantidad_programada from  sec_web.programa_codelco where corr_codelco = '".$IE."' ";
+	$rs = mysql_query($Consulta);
+	if ($row = mysql_fetch_array($rs))
+	{
+		$TxtCantidad=$row["cantidad_programada"];
+	}
+	$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
+	$rs = mysql_query($Consulta);
+	if ($row = mysql_fetch_array($rs))
+	{
+		$TxtPesoRango=$row["peso_rango"];
+	}
+	$consulta = "SELECT IFNULL(SUM(peso_paquetes),0) AS peso FROM sec_web.lote_catodo AS t1";
+	$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
+	$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete  AND t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
+	$consulta.= " WHERE t1.corr_enm = '".$IE."' ";
+	$rs = mysql_query($consulta);
+	$row = mysql_fetch_array($rs);
+	$TxtAcumulado = $row["peso"];
+	if ($TxtAcumulado >= (($TxtCantidad*1000) - $TxtPesoRango ))
+	{
+		$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = 'T'";
+		$actualizar.= " WHERE corr_codelco = '".$IE."' AND estado2 NOT IN ('C','A')";
+		mysql_query($actualizar);
+		$actualizar = "UPDATE sec_web.programa_enami SET estado2 = 'T'";
+		$actualizar.= " WHERE corr_enm = '".$IE."' AND estado2 NOT IN ('C','A')";
+		mysql_query($actualizar);	
+		$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = 'T'";
+		$actualizar.= " WHERE corr_enm = '".$IE."'";
+		mysql_query($actualizar);
+		$Estado="T";
+		$CompletoPeso=true;
+	}
+	else
+	{
+		if($TxtAcumulado>=0)
+		{
+			$Estado="P";
+		}
+		else
+		{
+			$Estado="T";
+			$CompletoPeso=true;
+		}
+		$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = '".$Estado."'";
+		$actualizar.= " WHERE corr_codelco = '".$IE."' AND estado2 NOT IN ('C','A')";
+		mysql_query($actualizar);
+		$actualizar = "UPDATE sec_web.programa_enami SET estado2 = '".$Estado."'";
+		$actualizar.= " WHERE corr_enm = '".$IE."' AND estado2 NOT IN ('C','A')";
+		mysql_query($actualizar);	
+		$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$Estado."'";
+		$actualizar.= " WHERE corr_enm = '".$IE."'";
+		mysql_query($actualizar);
+	}	*/
+	//Actualiza LOTE CATODO (el codigo fue sacado desde arriba)
+	if ($CompletoPeso==true)
+	{
+		//$Actualizar="UPDATE sec_web.lote_catodo set disponibilidad='".$Estado."',cod_marca='$CodMarca' where corr_enm=".$IE." and cod_estado='a'"; 
+		$Actualizar="UPDATE sec_web.lote_catodo set disponibilidad='T',cod_marca='$CodMarca' where corr_enm=".$IE; 
+		mysql_query($Actualizar);
+		$IEVirtual='';
+	}
+	if ($IEVirtual!='')
+	{
+		$Consulta="SELECT min(num_paquete) as lote_inicio";
+		$Consulta=$Consulta." from sec_web.lote_catodo where corr_enm=".$IEVirtual." and cod_estado='a'";
+		$Respuesta=mysql_query($Consulta);
+		if($Fila=mysql_fetch_array($Respuesta))
+		{
+			$Actualizar="UPDATE sec_web.lote_catodo set num_bulto=".$Fila[lote_inicio]." where corr_enm=".$IEVirtual;
+			mysql_query($Actualizar);
+			$Actualizar = "UPDATE sec_web.pesaje_lodos set num_bulto=".$NumBultoInicial." where corr_ie='".$IEVirtual."'"; 
+			mysql_query($Actualizar);
+			$Consulta="SELECT t1.cod_bulto,t1.num_bulto,sum(t2.peso_paquetes) as peso_preparado from sec_web.lote_catodo t1 inner";
+			$Consulta=$Consulta." join sec_web.paquete_catodo t2 on ";
+			$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete ";
+			$Consulta=$Consulta." where t1.corr_enm=".$IEVirtual." and t1.cod_estado='a' and t2.cod_estado='a'"; 
+			$Consulta=$Consulta."group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
+			$Respuesta2=mysql_query($Consulta);
+			$Fila2=mysql_fetch_array($Respuesta2);
+			$Peso=$Fila2["peso_preparado"];
+			$Actualizar="UPDATE sec_web.instruccion_virtual set peso_programado=".$Peso.",estado='T' where corr_virtual=".$IEVirtual;
+			mysql_query($Actualizar);
+		}
+		else
+		{
+			$IEVirtual='';
+		}
+	}	
+	
+	
+	
+	while (list($Clave,$Valor)=each($IEBorrarVirtual))
+	{
+		$IE=$Valor;
+		if ($IE!=$IEVirtual)
+		{
+			$Eliminar="delete from sec_web.instruccion_virtual where corr_virtual=".$IE;
+			mysql_query($Eliminar);
+		}	
+	}		
+	echo "<script languaje='JavaScript'>";
+	echo "window.opener.document.FrmAsigVirtual.action='sec_asignar_ie_virtual.php?Salir=S';";
+	echo "window.opener.document.FrmAsigVirtual.submit();";
+	echo "window.close();";
+	echo "</script>";
+?>

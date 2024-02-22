@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43350 ',peso_neto='29000',marca='FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='8224316-K',nombre_chofer='CARLOS  FUENTES',observacion='',romana_salida='1' where correlativo='451325' and lote='21106013' and recargo='18'

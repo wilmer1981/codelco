@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44740 ',peso_neto='28960',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7564738-7',nombre_chofer='Ramon pontigo',observacion='cu varios',romana_salida='1' where correlativo='470634' and lote='22096193' and recargo='1'

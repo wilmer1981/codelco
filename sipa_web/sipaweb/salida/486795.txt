@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43600 ',peso_neto='27010',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15802388-1',nombre_chofer='jorge cortes',observacion='cu varios',romana_salida='1' where correlativo='486795' and lote='23066244' and recargo='1'

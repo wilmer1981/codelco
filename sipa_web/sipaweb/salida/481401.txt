@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 43020 ',peso_neto='27300',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='27337594-5',nombre_chofer='JONATHAN FANEITE',observacion='cu varios',romana_salida='2' where correlativo='481401' and lote='23036307' and recargo='2'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43590',peso_neto='26660',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16371785-9',nombre_chofer='J. Oses',observacion='escoria mazamorra',romana_salida='1' where correlativo='473588' and lote='22116136' and recargo='3'

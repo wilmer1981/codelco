@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44730',peso_neto='28480',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16.657.504',nombre_chofer='ARANEDA PÉREZ RODRIGO ',observacion='cu andina',romana_salida='1' where correlativo='470481' and lote='22096169' and recargo='2'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43360 ',peso_neto='29100',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='10063555-0',nombre_chofer='JOSE  RAMIREZ',observacion='',romana_salida='2' where correlativo='451951' and lote='21106009' and recargo='34'

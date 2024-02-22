@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 32100 ',peso_neto='18220',marca='FRANJA AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='16330464-3',nombre_chofer='OMAR NAVIA',observacion='',romana_salida='1' where correlativo='455307' and lote='21126105' and recargo='6'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 38680 ',peso_neto='24390',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='12939094-8',nombre_chofer='roberto san martin',observacion='cu varios',romana_salida='1' where correlativo='480634' and lote='23036152' and recargo='10'

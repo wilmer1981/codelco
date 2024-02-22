@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40560 ',peso_neto='24840',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='13209769-0',nombre_chofer='jorge guajardo',observacion='concentrado de cu ',romana_salida='1' where correlativo='480532' and lote='23036137' and recargo='6'

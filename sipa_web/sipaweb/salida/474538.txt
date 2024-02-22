@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44310 ',peso_neto='27640',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15864916-0',nombre_chofer='C. Fernandez',observacion='',romana_salida='1' where correlativo='474538' and lote='22126065' and recargo='2'

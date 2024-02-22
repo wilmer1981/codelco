@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43290 ',peso_neto='28460',marca='EQUIS FRANJA VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='8090510-6',nombre_chofer='ALDO DIAZ',observacion='',romana_salida='2' where correlativo='467656' and lote='22076224' and recargo='24'

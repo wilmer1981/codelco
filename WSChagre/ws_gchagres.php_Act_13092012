@@ -1,0 +1,370 @@
+<?
+require_once('lib/nusoap.php');
+include('conectar.php');
+$server = new soap_server;
+$ns="http://localhost/Proyecto/WSChagre";
+$server->configurewsdl('Web Service Codelco-Chagres',$ns);
+$server->wsdl->schematargetnamespace=$ns;
+$server->register('Autentifica',array('user' => 'xsd:string','pwd' => 'xsd:string','dato' => 'xsd:string'),array('return' => 'xsd:string'),$ns);
+
+
+function ObtenerColor($Color)
+{
+	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase='2011' and nombre_subclase like '%".substr($Color,0,3)."%'";
+	$RespColor= mysql_query($Consulta);
+	if($FilaColor = mysql_fetch_assoc($RespColor))
+	{
+		$Color=$FilaColor["valor_subclase1"];
+	}else
+	{
+		$Color='ST';
+	}
+	return $Color;
+}
+function RecorrerXml($Data) {
+require("xml2array.php"); 
+	$FechaAMD=date('Y-m-d');	
+	$PRODUCTO='1';
+	$SUBPRODUCTO='17';
+	$PRODUCTOSEA='17';
+	$SUBPRODUCTOSEA='3';
+$CODORIGEN='3';
+$ANULAGUIA=0;
+//$data=$Data;	
+
+$data=xml2array($Data);	
+$NroGuia=$data['GUIA_SGDD_1']['NUM_EMIGUIA'];
+	
+//return $data['GUIA_SGDD_1']['NUM_EMIGUIA'];
+//$response = simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
+	if(is_null($data['GUIA_SGDD_1']['NUM_EMIGUIA']) || (trim($data['GUIA_SGDD_1']['NUM_EMIGUIA'])==''))
+	{
+			$buffer= '<Retorno><NroGuia>'.$NroGuia.'</NroGuia>';
+			$buffer.='<Estado>100</Estado>';
+			$buffer.='<Descripcion>Xml No Valido En Estructura</Descripcion>';
+			$buffer.='<Fecha>'.date('Y-m-d H:i:s').'</Fecha></Retorno>';
+			$buffer2=str_replace('"',chr (34),str_replace('/',chr (47),str_replace('<',chr (60),str_replace('>',chr (62),($buffer)))));
+			return new soapval('return', 'xsd:string',$buffer2); 
+			$server->service($HTTP_RAW_POST_DATA);
+	}
+	else
+	{	
+			try
+			{
+					$CODMINA='05506.0003-5';//Por defecto es 
+					$CODGRUPO='2';//Default
+					$Vagones='';
+					$NroGuia=$data['GUIA_SGDD_1']['NUM_EMIGUIA'];
+					$PATENTE=$data['GUIA_SGDD_1']['NOM_CHOFER'];	
+					$RUTPROV=$data['GUIA_SGDD_1']['RUTEMPRESA'];
+					$fecha=$data['GUIA_SGDD_1']['COMPLEMENTO_PLANILLA']['fecha'];//1202011
+					$ANULAGUIA=$data['GUIA_SGDD_1']['COMPLEMENTO_PLANILLA']['G_ANULADA'];//1202011	
+					$FechaGuia=substr($fecha,4,4)."-".substr($fecha,2,2)."-".substr($fecha,0,2);
+					$fecha=substr($fecha,4,4)."-".substr($fecha,2,2)."-".substr($fecha,0,2);
+					$LoteOrigen=$data['GUIA_SGDD_1']['COMPLEMENTO_PLANILLA']['lote'];
+					$COLORES=explode(';',$data['GUIA_SGDD_1']['COMPLEMENTO_PLANILLA']['COLOR_OREJA_RESUMEN']);
+					$UNIDADTOTALCOLOR=explode(';',$data['GUIA_SGDD_1']['COMPLEMENTO_PLANILLA']['NUM_ANODOS_RESUMEN']);
+					$PESOTOTALCOLOR=explode(';',$data['GUIA_SGDD_1']['COMPLEMENTO_PLANILLA']['TONELADAS_RESUMEN']);
+					$CODGRUPO='2';//Default
+					for($x=0;$x < (count($COLORES)-1);$x++)
+					{
+						//$Msj.="  DETALLE  Color ".$COLORES[$x]." Unidad ".$UNIDADTOTALCOLOR[$x]." Peso ".$PESOTOTALCOLOR[$x]."\r\n";
+						$Marca= ObtenerColor($COLORES[$x]);
+						//$Vagones=$Vagones." N BAGON ".$Id['num_vagon']."\r\n";
+						$Piezas=$UNIDADTOTALCOLOR[$x];
+						$Atados=0;
+						$KBRUTO=0;
+						$KNETO=$PESOTOTALCOLOR[$x];
+				
+						$Consulta = "SELECT * from sea_web.recepcion_externa_detalle where guia='".$NroGuia."'";
+						$Resp = mysql_query($Consulta);
+						if(!$Fila = mysql_fetch_assoc($Resp))
+						{
+								$Insertar = "INSERT INTO sea_web.recepcion_externa_detalle(guia,corr,fecha,lote_origen,atados,piezas,marca,peso_bruto,peso_tara,peso_neto,patente) ";
+								$Insertar.= " values('".$NroGuia."','1','".$fecha."','".$LoteOrigen."',";
+								$Insertar.= "'".$Atados."','".$Piezas."','".$Marca."','".$KBRUTO."','0','".$KNETO."','".$PATENTE."')";
+								mysql_query($Insertar);
+								//return $Insertar;
+						}
+						else
+						{
+							$Consulta="Select max(corr) as Maxima from sea_web.recepcion_externa_detalle where guia='".$NroGuia."'";
+							$Resp2 = mysql_query($Consulta);
+							$Fila2 = mysql_fetch_assoc($Resp2);
+							$Insertar = "INSERT INTO sea_web.recepcion_externa_detalle(guia,corr,fecha,lote_origen,atados,piezas,marca,peso_bruto,peso_tara,peso_neto,patente) ";
+							$Insertar.= " values('".$NroGuia."','".(intval($Fila2[Maxima])+1)."','".$fecha."','".$LoteOrigen."',";
+							$Insertar.= "'".$Atados."','".$Piezas."','".$Marca."','".$KBRUTO."','0','".$KNETO."','".$PATENTE."')";
+							mysql_query($Insertar);
+							//return $Insertar;
+						}
+					 }
+			
+					$Consulta = "SELECT lote_origen,marca,ifnull(sum(peso_neto),0) as peso_neto,ifnull(sum(piezas),0) as piezas from sea_web.recepcion_externa_detalle where guia='".$NroGuia."' group by guia,lote_origen,marca";
+					$Resp = mysql_query($Consulta);
+					while($Fila = mysql_fetch_assoc($Resp))
+					{    
+						$Lote= $Fila["lote_origen"];
+						$Marca =$Fila["marca"];
+						$CantPeso = $Fila["peso_neto"];
+						$CantPiezas = $Fila["piezas"];
+						$Consulta = "SELECT * from sea_web.recepcion_externa where guia='".$NroGuia."' and lote_origen='".$Lote."' and marca='".$Marca."'";
+						$Consulta.="  and cod_producto = '".$PRODUCTOSEA."' and cod_subproducto = '".$SUBPRODUCTOSEA."' ";
+						$Resp2 = mysql_query($Consulta);
+						if(!$Fila2 = mysql_fetch_assoc($Resp2))
+						{
+							$AnoMes = substr(date('Y'),2,2)."".date('m');
+							$Consulta1 = "SELECT ifnull(max(lote)+1,'".$AnoMes."0001') as lote_nuevo from sipa_web.correlativo_lote where cod_proceso='R' and lote like '".$AnoMes."%'";
+							$Resp3= mysql_query($Consulta1);
+							if($Fila3 = mysql_fetch_assoc($Resp3))
+							{	
+								$LoteVentana = str_pad($Fila3['lote_nuevo'],8,'0',STR_PAD_LEFT);
+							}
+							$Actualizar = "UPDATE sipa_web.correlativo_lote set lote='".$LoteVentana."' where cod_proceso='R'";
+							mysql_query($Actualizar);
+							$Consulta2 = "SELECT IFNULL(MAX(ciclo),0) AS ciclo FROM sea_web.relaciones WHERE cod_origen = '".$CODORIGEN."'";
+							$Resp4= mysql_query($Consulta2);
+							if($Fila4 = mysql_fetch_assoc($Resp4))
+							{
+								$CicloAux = $Fila4['ciclo'];     
+							}
+							$Consulta3 ="SELECT MAX(hornada_ventana) AS hornada_max FROM sea_web.relaciones";
+							$Consulta3.=" WHERE cod_origen ='".$CODORIGEN."' AND ciclo ='".$CicloAux."'";
+							$Resp5= mysql_query($Consulta3);
+							if($Fila5 = mysql_fetch_assoc($Resp5))
+							{
+								if(is_null($Fila5['hornada_max']) || substr($Fila5['hornada_max'],8,3)=='999')
+								{
+									$Consulta4="SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2005 AND cod_subclase = 2";		
+									$Resp6= mysql_query($Consulta4);
+									if($Fila6 = mysql_fetch_assoc($Resp6))
+									{
+										$Hornada = $Fila6["valor_subclase"];
+									}
+									else
+									{
+										$Hornada = substr(($Fila5['hornada_max']+1),6,6);
+									}
+									$Hornada = date('Y')."".date('m').$Hornada;	
+								}
+								else
+								{	$Hornada = substr(($Fila5['hornada_max']+1),6,6);
+									$Hornada = date('Y')."".date('m').$Hornada;	
+								}	
+								$Consulta5 = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2005 AND cod_subclase = 2";
+								$Resp7= mysql_query($Consulta5);
+								if($Fila7 = mysql_fetch_assoc($Resp7))
+								{
+									if(substr($Hornada,7,4)==$Fila7["valor_subclase1"])
+										$Ciclo = $CicloAux + 1;
+									else
+										$Ciclo = $CicloAux;					
+								} 
+								$Insertar ="INSERT INTO sea_web.relaciones (cod_origen,lote_ventana,lote_origen,hornada_ventana,marca,ciclo)";
+								$Insertar.=" VALUES ('".$CODORIGEN."','".$LoteVentana."','".$LoteOrigen."','".$Hornada."','".trim($Marca)."','".$Ciclo."')";
+								mysql_query($Insertar);
+								$Insertar = "INSERT INTO sea_web.recepcion_externa(guia,cod_producto,cod_subproducto,lote_origen,lote_ventana,peso,peso_recep,piezas,piezas_recep,marca,fecha,estado,fecha_guia)";
+								$Insertar.= " values('".$NroGuia."','".$PRODUCTOSEA."','".$SUBPRODUCTOSEA."','".$LoteOrigen."','".$LoteVentana."','".$CantPeso."',0,'".$CantPiezas."','0','".trim($Marca)."','".date('Y-m-d')."','','".$FechaGuia."')";
+								mysql_query($Insertar);
+							
+								$Consulta5 = "SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
+								$Resp7= mysql_query($Consulta5);
+								if($Fila7 = mysql_fetch_assoc($Resp7))
+								{   
+									$Corr = $Fila7["correlativo"];
+								}
+								$Insertar ="INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
+								$Insertar.="rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion,tipo,peso_neto) values(";
+								$Insertar.="'".$Corr."','".$LoteVentana."','1','N','9999999-9','0','0','".date('Y-m-d')."',";
+								$Insertar.="'".$RUTPROV."','".$CODMINA."','".$CODGRUPO."','".$PRODUCTO."','".$SUBPRODUCTO."','".$NroGuia."','FEPASA','M','','CARGADO DESDE INTERFAZ CHAGRES','P','".$CantPeso."')";
+								mysql_query($Insertar);
+							}
+							else
+							{
+								if($Fila2["guia"] <> $NroGuia)
+								{
+									$LoteVentana = $Fila2["lote_ventana"];
+									$Consulta = "SELECT * from sea_web.recepcion_externa where guia='".$NroGuia."' and lote_origen='".$LoteOrigen."'";
+									$Resp7= mysql_query($Consulta);
+									if(!$Fila7 = mysql_fetch_assoc($Resp7))
+									{ 
+										$Insertar = "INSERT INTO sea_web.recepcion_externa(guia,cod_producto,cod_subproducto,lote_origen,lote_ventana,peso,peso_recep,piezas,piezas_recep,marca,fecha,estado,fecha_guia) ";
+										$Insertar.= "values('".$NroGuia."','".$PRODUCTOSEA."',".$SUBPRODUCTOSEA."','".$LoteOrigen."','".$LoteVentana."',";
+										$Insertar.="'".$CantPeso."',0,'".$CantPiezas."','0','".trim($Marca)."','".date('Y-m-d')."','','".$FechaGuia."')";
+										mysql_query($Insertar);
+										$Consulta2 = "SELECT  max(lpad(recargo,2,'0'))+1 as recargo_nuevo from sipa_web.recepciones where lote = '".$LoteVentana."' group by lote";
+										$Resp5= mysql_query($Consulta2);
+										if($Fila5 = mysql_fetch_assoc($Resp5))
+										{
+											$Rec = $Fila5["recargo_nuevo"];
+											$Consulta3 = "SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
+											$Resp4= mysql_query($Consulta3);
+											if($Fila4 = mysql_fetch_assoc($Resp4))
+											{
+												$Corr = $Fila4["correlativo"];
+												$Insertar= "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
+												$Insertar.= "rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion,tipo,peso_neto) values(";
+												$Insertar.= "'".$Corr."','".$LoteVentana."','".$Rec."','N','9999999-9','0','0','".$FechaAMD."',";
+												$Insertar.= "'".$RUTPROV."','".$CODMINA."','".$CODGRUPO."','".$PRODUCTO."','".$SUBPRODUCTO."',";
+												$Insertar.= "'".$NroGuia."','FEPASA','M','','','P','".$CantPeso."')";
+												mysql_query($Insertar);
+											}
+										}			
+									}
+								}
+							}
+						}
+					}
+					$Consulta = "SELECT * from sea_web.recepcion_externa where estado not in ('C','X') and peso<>peso_recep"; // Cerrado y Anulado
+					$Resp = mysql_query($Consulta);
+					while($Fila = mysql_fetch_assoc($Resp))
+					{
+						$Consulta = "SELECT * from sipa_web.recepciones where lote='".$Fila["lote_ventana"]."' and peso_neto<>'0' and fecha <> '".$FechaAMD."'";
+						$Resp2 = mysql_query($Consulta);
+						if(!$Fila2 = mysql_fetch_assoc($Resp2))
+						{	
+							$Consulta = "SELECT  * from sipa_web.recepciones where lote = '".$Fila["lote_ventana"]."' and peso_neto=0 and guia_despacho='".$Fila2["guia"]."'";
+							$Resp3 = mysql_query($Consulta);
+							if($Fila3 = mysql_fetch_assoc($Resp3))
+							{
+								$Consulta = "SELECT  max(lpad(recargo,2,'0'))+1 as recargo_nuevo from sipa_web.recepciones where lote = '".$Fila["lote_ventana"]."' group by lote";
+								$Resp4 = mysql_query($Consulta);
+								if($Fila4 = mysql_fetch_assoc($Resp4))
+								{
+									$Rec = $Fila4["recargo_nuevo"];
+								}
+								$Consulta = "SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
+								$Resp4 = mysql_query($Consulta);
+								if($Fila4 = mysql_fetch_assoc($Resp4))
+								{
+									$Corr = $Fila4["correlativo"];	
+								}
+								$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
+								$Insertar.="rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion,tipo) values(";
+								$Insertar.="'".$Corr."','".$Fila["lote_ventana"]."','".$Rec."','N','9999999-9','0','0','".$FechaAMD."',";
+								$Insertar.="'".$RUTPROV."','".$CODMINA."','".$CODGRUPO."','".$PRODUCTO."','".$SUBPRODUCTO."','".$Fila["guia"]."','FEPASA','M','','','P')";
+								mysql_query($Insertar);
+							}
+						}
+					}
+					
+					if($ANULAGUIA!=0)
+					{	
+						$ConsultaGuiasAnuladas="SELECT t1.hornada,t3.lote_ventana,t3.guia from movimientos t1 inner join relaciones t2 ";
+						$ConsultaGuiasAnuladas.=" on t1.hornada=t2.hornada_ventana inner join recepcion_externa t3 on ";
+						$ConsultaGuiasAnuladas.="t2.lote_ventana=t3.lote_ventana where t3.guia='".$ANULAGUIA."'";
+						$Resp = mysql_query($ConsultaGuiasAnuladas);
+						if(!$Fila = mysql_fetch_assoc($Resp))
+						{
+							$ElimiHornada="SELECT t2.hornada_ventana from sea_web.recepcion_externa t1 inner join sea_web.relaciones  t2 on t1.lote_ventana=t2.lote_ventana where t1.guia='".$ANULAGUIA."'";
+							$RespHornada = mysql_query($ElimiHornada);
+							while($FilaHornada = mysql_fetch_assoc($RespHornada))
+							{
+								$Eliminar="delete from sea_web.hornadas where hornada_ventana='".$FilaHornada["hornada_ventana"]."'";
+								mysql_query($Eliminar);	
+							}		
+							$Eliminar="delete from sea_web.relaciones where lote_ventana in(SELECT lote_ventana from sea_web.recepcion_externa where guia='".$ANULAGUIA."') ";
+							mysql_query($Eliminar);
+							$Eliminar="delete from sea_web.recepcion_externa where guia='".$ANULAGUIA."' ";
+							mysql_query($Eliminar);
+							$Eliminar="delete from sea_web.recepcion_externa_detalle  guia='".$ANULAGUIA."' ";
+							mysql_query($Eliminar);
+							$Eliminar="delete from sipa_web.recepciones where guia_despacho='".$ANULAGUIA."' ";
+							mysql_query($Eliminar);
+						}
+						else
+						{
+								$Insertar="INSERT INTO guias_solicitud_anulacion(guia,fecha_hora,estado)";
+								$Insertar.="values('".$ANULAGUIA."','".date('Y-m-d G:i:s')."','P')";
+								mysql_query($Insertar);	
+										
+						}
+					}
+					
+					$EstadoSolicitud=1;
+					$buffer= '<Retorno><NroGuia>'.$NroGuia.'</NroGuia>';
+					$buffer.='<Estado>'.$EstadoSolicitud.'</Estado>';
+					$buffer.='<Descripcion>Registro Ingresado Satisfactoriamente</Descripcion>';
+					$buffer.='<Fecha>'.date('Y-m-d H:i:s').'</Fecha></Retorno>';
+					$buffer2=str_replace('"',chr (34),str_replace('/',chr (47),str_replace('<',chr (60),str_replace('>',chr (62),($buffer)))));
+					//return new soapval('return', 'xsd:string',$buffer2); 
+					return $buffer2;
+		
+					$server->service($HTTP_RAW_POST_DATA); 
+				
+					
+				}
+			catch(Exception $e){
+				$EstadoSolicitud=100;
+				$buffer= '<Retorno><NroGuia>'.$NroGuia.'</NroGuia>';
+				$buffer.='<Estado>'.$EstadoSolicitud.'</Estado>';
+				$buffer.='<Descripcion>'.$e->getLine()."  - ".$e->getMessage().'</Descripcion>';
+				$buffer.='<Fecha>'.date('Y-m-d H:i:s').'</Fecha></Retorno>';
+				$buffer2=str_replace('"',chr (34),str_replace('/',chr (47),str_replace('<',chr (60),str_replace('>',chr (62),($buffer)))));
+				return $buffer2;
+				//	return new soapval('return', 'xsd:string',$buffer2); 
+				$server->service($HTTP_RAW_POST_DATA); 
+			}	
+		
+	}
+	
+}
+
+function Respalda($Data){
+
+		$NomAr=date('Ymd');
+		$Fecha_Hora_Actual=date('Y-m-d H:i:s');
+		$Archivo="xml\xml_".$NomAr.'.txt';		
+		$name_file=$Archivo;
+		if(is_file($name_file)) 
+			$file=fopen($name_file,"r+");
+		else
+			$file=fopen($name_file,"w+");
+		$Mensaje="***************************************************************************************************\r\n";
+		$Mensaje.="FECHA HORA INICIO ".date("Y-m-d G:i:s")."\r\n";
+		$Mensaje.=$Data;
+		$Mensaje.="\r\n";
+		$Mensaje.="FECHA HORA FINALIZACION ".date("Y-m-d G:i:s")."\r\n";
+		while (!feof($file))
+		{
+			$linea=fgets($file);
+			$lineasalto=nl2br($linea);
+			$txt=$txt."".nl2br($linea);
+		}
+		$test=$Mensaje; 
+		fwrite($file,$test,strlen($test)); 
+		fclose($file);
+	return("Archivo procesado");
+}
+
+function Autentifica($user,$pwd,$dato) 
+{
+	if($user=='AngloAmerican')
+	{
+		if($pwd=='81dc9bdb52d04dc20036dbd8313ed055')
+		{
+			Respalda($dato);
+			$valor= RecorrerXml($dato);
+			return($valor);
+		}
+		else
+		{
+			return "pwd incorrecta";
+		}
+	}
+	else
+	{
+		return "Usuario no Valido";
+	}
+}
+if (isset($HTTP_RAW_POST_DATA)) { 
+$input = $HTTP_RAW_POST_DATA; 
+} 
+else { 
+$input = implode("\r\n", file('php://input')); 
+}
+
+$server->service($input);
+exit;
+
+
+?>

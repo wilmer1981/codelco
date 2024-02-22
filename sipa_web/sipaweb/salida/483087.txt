@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43420 ',peso_neto='25820',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7708348-0',nombre_chofer='juan rivera',observacion='cu varios',romana_salida='1' where correlativo='483087' and lote='23046223' and recargo='10'

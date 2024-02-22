@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='40070',peso_neto='24710',marca='EQUIS BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='19772903-1',nombre_chofer='LUIS SILVA',observacion='',romana_salida='1' where correlativo='486800' and lote='23066006' and recargo='27'

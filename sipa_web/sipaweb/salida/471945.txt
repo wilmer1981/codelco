@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 33750 ',peso_neto='18190',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9505749-5',nombre_chofer='pablo ',observacion='22 maxi desulfurizacion',romana_salida='1' where correlativo='471945' and lote='22106151' and recargo='1'

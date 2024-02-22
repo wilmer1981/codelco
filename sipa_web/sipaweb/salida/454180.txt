@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 34130 ',peso_neto='19810',marca='FRANJA NARANJA',cod_mop='520',num_sello='',transportista='',rut_chofer='4484766-3',nombre_chofer='MAURICIO   RECABARREN    YA�EZ',observacion='',romana_salida='2' where correlativo='454180' and lote='21116187' and recargo='38'

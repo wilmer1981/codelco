@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 43280 ',peso_neto='29820',marca='DOS FRANJAS NEGRAS',cod_mop='520',num_sello='',transportista='',rut_chofer='11633971-4',nombre_chofer='EUGENIO  ARANCIBIA',observacion='',romana_salida='2' where correlativo='453391' and lote='21116020' and recargo='74'

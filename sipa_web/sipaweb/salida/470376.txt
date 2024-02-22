@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43670',peso_neto='28710',marca='EQUIS ROJA',cod_mop='693',num_sello='',transportista='',rut_chofer='7689571-6',nombre_chofer='JORGE CARVAJAL',observacion='',romana_salida='1' where correlativo='470376' and lote='22096121' and recargo='54'

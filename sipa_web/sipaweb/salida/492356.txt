@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40740 ',peso_neto='26560',marca='V FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='12216812-3',nombre_chofer='ALEXIS FERRER',observacion='',romana_salida='1' where correlativo='492356' and lote='23106048' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43240 ',peso_neto='27990',marca='FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='10405833-7',nombre_chofer='MAXIMO SANDOVAL',observacion='',romana_salida='1' where correlativo='479650' and lote='23026219' and recargo='25'

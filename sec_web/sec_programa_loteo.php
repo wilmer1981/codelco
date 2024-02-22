@@ -1,0 +1,756 @@
+<?php 	
+	$CodigoDeSistema = 3;
+	$CodigoDePantalla = 10;
+	include("../principal/conectar_sec_web.php");
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+   /*
+	if (!isset($CmbAno))
+		$CmbAno=date('Y');
+	if (!isset($CmbMes))
+		$CmbMes=date('n');
+	
+	if (!isset($Programa))
+		$Programa="N";*/
+	if(isset($_REQUEST["CmbDias"])){
+		$CmbDias = $_REQUEST["CmbDias"];
+	}else{
+		$CmbDias=date('d');
+	}
+	if(isset($_REQUEST["CmbMes"])){
+		$CmbMes = $_REQUEST["CmbMes"];
+	}else{
+		$CmbMes=date('n');
+	}
+	if(isset($_REQUEST["CmbAno"])){
+		$CmbAno = $_REQUEST["CmbAno"];
+	}else{
+		$CmbAno=date('Y');
+	}
+	if(isset($_REQUEST["Orden"])){
+		$Orden = $_REQUEST["Orden"];
+	}else{
+		$Orden = "";
+	}
+	if(isset($_REQUEST["Mensaje"])){
+		$Mensaje = $_REQUEST["Mensaje"];
+	}else{
+		$Mensaje = "";
+	}
+	if(isset($_REQUEST["ValorCheck"])){
+		$ValorCheck = $_REQUEST["ValorCheck"];
+	}else{
+		$ValorCheck = "";
+	}
+	if(isset($_REQUEST["Programa"])){
+		$Programa = $_REQUEST["Programa"];
+	}else{
+		$Programa = 'N';
+	}
+	
+?>
+<html>
+<head>
+<script language="JavaScript">
+var OK;
+var OTS = "";
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+function muestra(numero) 
+{
+ 	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = 'show'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'visible'");
+			eval("Txt" + numero + ".style.left = 100 ");
+		}
+	}
+}
+function oculta(numero) 
+{
+	if (ns4)
+	{ 
+ 		eval("document. " + numero + ".visibility = hide'");
+	}
+ 	else	
+	{
+		if (ie4) 
+		{
+			eval("Txt" + numero + ".style.visibility = 'hidden'");
+		}
+	}
+}
+function VerAnteriores()
+{
+	var Frm=document.FrmProgLoteo;
+
+	window.open("sec_programa_loteo_anteriores.php","","top=195,left=180,width=410,height=230,scrollbars=no,resizable = no");	
+	
+}
+function AnularIE()
+{
+	var Frm=document.FrmProgLoteo;
+	var Valores=new String();
+	var TipoEstado="";
+	for (i=1;i<Frm.elements.length;i++)
+	{
+		if (Frm.elements[i].checked==true && Frm.elements[i].name=="CheckProgLoteo")
+		{
+			Valores=Valores + Frm.elements[i].value +"//";
+			TipoEstado=Frm.elements[i+2].value;
+		}	
+	}
+	if (Valores!='')
+	{
+		if (TipoEstado=="C" || TipoEstado=="T")
+		{
+			alert("Solo se pueden Anular las Ordenes que no esten Con Num. de Envio (C) ni Terminadas de Pesar (T)");
+			return;
+		}
+		else
+		{
+			Valores=Valores.substr(0,Valores.length-2);
+			if (confirm('Esta Seguro de Anular la Instruccion de Embarque'))
+			{						
+				Frm.action="sec_programa_loteo_proceso01.php?Proceso=A&Valores="+Valores;
+				Frm.submit();
+			}	
+		}
+	}
+	else
+	{
+		alert("No hay nada seleccionado para Anular");
+		return;
+	}			
+}
+
+
+function ActivarIE()
+{
+var Frm=document.FrmProgLoteo;
+	var Valores=new String();
+	var TipoEstado="";
+	for (i=1;i<Frm.elements.length;i++)
+	{
+		if (Frm.elements[i].checked==true && Frm.elements[i].name=="CheckProgLoteo")
+		{
+			Valores=Valores + Frm.elements[i].value +"//";
+			TipoEstado=Frm.elements[i+2].value;
+		}	
+	}
+	if (Valores!='')
+	{
+		
+			Valores=Valores.substr(0,Valores.length-2);
+			if (confirm('Esta Seguro de Activar la Instruccion de Embarque'))
+			{						
+				Frm.action="sec_programa_loteo_proceso01.php?Proceso=ACT&Valores="+Valores;
+				Frm.submit();
+			}	
+		
+	}
+	else
+	{
+		alert("No hay nada seleccionado para Activar");
+		return;
+	}	
+}
+function Recarga()
+{
+	var Frm=document.FrmProgLoteo;
+	var Programa="";
+	
+	if (Frm.OpcPrograma[0].checked)
+	{
+		Programa="S";
+	}
+	if (Frm.OpcPrograma[1].checked)
+	{
+		Programa="N";
+	}
+	if (Frm.OpcPrograma[2].checked)
+	{
+		Programa="A";
+	}
+	Frm.action="sec_programa_loteo.php?Programa="+Programa;
+	Frm.submit();
+}
+
+function Buscar()
+{
+	var Frm=document.FrmProgLoteo;
+	
+	Frm.action="sec_programa_loteo.php";
+	Frm.submit();
+
+}
+function RecuperarValores()
+{
+	var Frm=document.FrmProgLoteo;
+	var Valores=new String();
+	for (i=1;i<Frm.CheckProgLoteo.length;i++)
+	{
+		if ((Frm.CheckProgLoteo[i].checked==true)&&(Frm.NumProgLoteo[i].value==''))
+		{
+			Valores=Valores + Frm.CheckProgLoteo[i].value +"//";
+		}	
+	}
+	if (Valores!='')
+	{
+		Valores=Valores.substr(0,Valores.length-2);
+		return(Valores);	
+	}
+	else
+	{
+		Valores="";
+		return(Valores);	
+	}	
+	
+} 
+function MostrarPopupProceso(Proceso)
+{
+	var Frm=document.FrmProgLoteo;
+	var Valores="";
+	var Resp="";
+	switch (Proceso)
+	{
+		case "N":
+			Valores=RecuperarValores();
+			if (Valores!='')
+			{
+				//window.open("sec_programa_loteo_proceso.php?Proceso="+Proceso+"&Valores="+Valores+"&CmbAno="+Frm.CmbAno.value+"&CmbMes="+Frm.CmbMes.value+"&CmbDias="+Frm.CmbDias.value,"","top=195,left=180,width=410,height=190,scrollbars=no,resizable = no");
+				window.open("sec_programa_loteo_proceso.php?Proceso="+Proceso+"&Valores="+Valores,"","top=195,left=180,width=410,height=190,scrollbars=no,resizable = no");
+			}	
+			break;
+	} 
+}
+
+function Salir()
+{
+	var Frm=document.FrmProgLoteo;
+	Frm.action="../principal/sistemas_usuario.php?CodSistema=3";
+	Frm.submit();
+	
+}
+
+function Imprimir(opt)
+{
+	var f=document.FrmProgLoteo;
+	switch (opt)
+	{
+		case "W":
+			window.open("sec_programa_loteo_imp_web.php", "","menubar=no resizable=yes Top=30 Left=50 width=670 height=500 scrollbars=yes");
+			 break;
+	}
+}
+
+function OrdenEmbarque(opt)
+{
+	var Frm=document.FrmProgLoteo;
+	switch (opt)
+	{
+		case "N":
+			window.open("sec_programa_loteo_orden_emb.php?Accion=N&Prog=<?php echo $Programa; ?>", "","statusbar=yes, menubar=no, resizable=yes, top=50, left=50, width=650, height=500, scrollbars=yes");
+			break;
+		case "M":
+			var Valor=new String();
+			var Cont=0;
+			for (i=1;i<Frm.CheckProgLoteo.length;i++)
+			{
+				if ((Frm.CheckProgLoteo[i].checked==true)&&(Frm.CheckProgLoteo[i].value!=""))
+				{
+					Valor = Frm.CheckProgLoteo[i].value;
+					Cont++;
+				}	
+			}
+			if (Valor=="")
+			{
+				alert("No hay nada seleccionado para Modificar");
+				return;
+			}
+			else
+			{
+				if (Cont > 1)
+				{
+					alert("Solo puede seleccionar una Orden a la Vez");
+					return;
+				}
+				else
+				{
+					var largo=Valor.length;
+					var tipo=Valor.substring(largo-1,largo);
+					if (tipo=="C")
+					{
+						window.open("sec_programa_loteo_orden_emb.php?Accion=M&Valor="+Valor+"&Prog=<?php echo $Programa; ?>", "","status=yes, menubar=yes, resizable=yes, top=50, left=50, width=650, height=500, scrollbars=yes");
+					}
+					else
+					{
+						/*if (tipo=="E")
+							window.open("sec_programa_loteo_orden_emb_enm.php?Accion=M&Valor="+Valor+"&Prog=<?php echo $Programa; ?>", "","statusbar=yes, menubar=no, resizable=yes, top=50, left=50, width=650, height=500, scrollbars=yes");
+						else
+							alert("Tipo NO Definido");*/
+						alert("Solo se Pueden Modificar las Solicitudes de CODELCO\nSi tiene algo que modificar contacte a Informatica\n3488 o en su defecto al 3399");
+					}
+				}
+			}			
+			break;
+	}
+}
+
+function Proceso(opt,orden)
+{
+	var f=document.FrmProgLoteo;
+	switch (opt)
+	{
+		case "O":
+			f.action="sec_programa_loteo.php?Programa=<?php echo $Programa; ?>&Orden="+orden;
+			f.submit();
+			break;
+	}
+	
+}
+</script>
+<title>Programa de Loteo Enami - Codelco</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.Estilo1 {color: #FFFFFF}
+</style>
+<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
+<form name="FrmProgLoteo" method="post" action="">
+<?php 
+	include("../principal/encabezado.php");
+	$Activo="";
+	switch ($Programa)
+	{
+		case "A":
+			$ActivaFecha="disabled";
+			break;
+		case "N":
+			$Activo="";
+			$ActivaFecha="disabled";
+			break;
+		case "S":
+			$Activo="disabled";
+			$ActivaFecha="";
+			break;	
+	
+	}
+  ?>
+  <table width="770" height="350" border="0" class="TablaPrincipal" left="5" cellpadding="5" cellspacing="0">
+  <tr>
+      <td align="center" valign="top"><br>
+	  <table width="750" border="1" cellpadding="2" cellspacing="0" class="TablaInterior">
+	  <tr align="center" class="ColorTabla02">
+	  <td width="339">Con N Programa	    <?php
+			/*if (!isset($Programa))
+				$Programa='N';
+				*/
+
+			switch ($Programa)
+			{
+				case "S":
+					echo "<input type='radio' name='OpcPrograma' value='' onclick='Recarga()' checked>&nbsp;&nbsp;Fecha:&nbsp;&nbsp;";
+					break;
+				default:
+					echo "<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>&nbsp;&nbsp;Fecha:&nbsp;&nbsp;";
+					break;
+			}
+			?>
+			<select <?php echo $ActivaFecha; ?> name='CmbMes' onchange='Recarga()'>
+			  <?php
+					for($i=1;$i<13;$i++)
+					{
+						if (isset($CmbMes))
+						{
+							if ($i==$CmbMes)
+								echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+							else
+								echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+						}	
+						else
+						{
+							if ($i==date("n"))
+								echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+							else
+								echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+						}	
+					}
+					?>
+		      </select>
+					<select <?php echo $ActivaFecha; ?> name='CmbAno' onchange='Recarga()'>
+				<?php
+					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+					{
+						if (isset($CmbAno))
+						{
+							if ($i==$CmbAno)
+								echo "<option selected value ='$i'>$i</option>";
+							else	
+								echo "<option value='".$i."'>".$i."</option>";
+						}
+						else
+						{
+							if ($i==date("Y"))
+								echo "<option selected value ='$i'>$i</option>";
+							else	
+								echo "<option value='".$i."'>".$i."</option>";
+						}		
+					}
+					?>
+			</select>			</td>
+	  <td width="278">Sin N&deg; Programa<?php
+			switch ($Programa)
+			{
+				case "N":
+					echo "<input type='radio' name='OpcPrograma' value='' onclick='Recarga()' checked>";	
+					break;
+				default:
+					echo "<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>";	
+					break;
+			}
+			?>
+		    </td><td width="80">Anuladas
+			<?php
+			switch ($Programa)
+			{
+				case "A":
+					echo "<input type='radio' name='OpcPrograma' value='' onclick='Recarga()' checked>";
+					break;
+				default:
+					echo "<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>";
+					break;
+			}
+			?>
+			</td>
+	  </tr>
+	  <tr align="center">
+	    <td height="26" colspan="2">
+		<input type='button' name='BtnPLAnteriores' onClick='VerAnteriores()' style='width:90' value='Ver Anteriores'>
+		<input name='BtnNuevaOrden' type='button' id="BtnNuevaOrden" style='width:90' onClick="OrdenEmbarque('N')" value='Nueva Orden'>
+		<input name='BtnModifOrden' type='button' id="BtnModifOrden" style='width:90' onClick="OrdenEmbarque('M')" value='Modifica Orden'>
+     
+     <?php
+if($Programa=='A')
+{ ?>
+    <input type='button' name='BtnActivar' value='Activar' style='width:70' onClick='ActivarIE();'>
+<?php 
+}
+else
+{
+?>
+   <input type='button' name='BtnAnular' value='Anular' style='width:70' onClick='AnularIE();'>
+<?php
+}?>
+<input name="BtnImprimir" type="button" id="BtnImprimir2" style="width:80" onClick="Imprimir('W')" value="Imprimir">
+        <input type="button" name="BtnSalir" value="Salir" style="width:80px" onClick="Salir()"></td>
+	    <td bgcolor="#999999" onMouseOver="JavaScript:muestra(0)" onMouseOut="JavaScript:oculta(0)"><span class="Estilo1"><strong>&gt;&gt;</strong> Estados </span></td>
+	  </tr>
+	  </table>
+	  <div style="position:absolute; left: 7px; top: 135px; width: 760px; height: 255px; OVERFLOW: auto;" id="div2">
+	      <table width="740" border="1" cellpadding="1" cellspacing="0" class="TablaDetalle">
+            <tr class="ColorTabla01"> 
+              <td width='30' align="center">&nbsp;</td>
+              <td width='55' align="center"><a href="JavaScript:Proceso('O','Or_01');">I.E.</a></td>
+              <td width='200' align="center">Nave/Cliente</td>
+              <td width='100' align="center">Asig.</td>
+              <td width='60' align="center">Contrato</td>
+              <td width='40' align="center">Cuota</td>
+              <td width='40' align="center">Pto.<br>Dest.</td>
+              <td width='50' align="center">Tons.</td>
+              <td width='50' align="center"><a href="JavaScript:Proceso('O','Or_02');">Fecha Prog.</a><br>
+              </td>
+              <td width='50' align="center"><a href="JavaScript:Proceso('O','Or_03');">Fecha Preemb</a><br>
+              </td>
+              <td width='40' align="center"><a href="JavaScript:Proceso('O','Or_04');">Prog.Loteo</a><br>
+              </td>
+              <td width="20" align="center"><a href="JavaScript:Proceso('O','Or_05');">Est.</a></td>
+            </tr>
+          <!--</table>
+        </div>
+		<div style="position:absolute; left: 7px; top: 115px; width: 760px; height: 240px; OVERFLOW: auto;" id="div2">-->
+		<?php
+			if (strlen($CmbMes)==1)
+			{
+				$CmbMes="0".$CmbMes;
+			}
+			$FechaInicio=$CmbAno."-".$CmbMes."-01 00:00:00";
+			$FechaTermino=$CmbAno."-".$CmbMes."-31 23:59:59";
+			//echo "<table width='740' border='1' cellpadding='1' cellspacing='0' class='TablaDetalle'>";
+			$MostrarBoton=false;
+			$CrearTmp ="CREATE TEMPORARY TABLE IF NOT EXISTS sec_web.tmpprograma "; 
+			$CrearTmp =$CrearTmp."(corr_ie bigint(8),cliente_nave varchar(30),fecha date,fecha_programacion date,";
+			$CrearTmp =$CrearTmp."cantidad_programada double(10,1),num_prog_loteo int(11),producto varchar(30),";
+			$CrearTmp =$CrearTmp."subproducto varchar (30),pto_destino varchar (30),pto_emb varchar (30),";
+			$CrearTmp =$CrearTmp."tipo char(1),cod_contrato varchar(15),estado char(1),fecha_disponible date,";
+			$CrearTmp =$CrearTmp."descripcion varchar(255),enm_code char(1),contrato varchar(20), cuota int(2), cod_puerto varchar(10), cod_puerto_destino varchar(10))";
+			mysqli_query($link, $CrearTmp);
+			//CONSULTA TABLA PROGRAMA ENAMI
+			$Consulta="SELECT t1.descripcion,t1.fecha_disponible,t1.estado2,t1.cod_marca,t6.descripcion as producto,";
+			$Consulta=$Consulta."t2.descripcion as subproducto,t3.nom_aero_puerto as pto_emb,t4.nom_aero_puerto as pto_destino,";
+			$Consulta=$Consulta."(case when not isnull(t6.nombre_nave) then t6.nombre_nave else t5.sigla_cliente end) as nombre_cliente,";
+			$Consulta=$Consulta." t1.eta_programada,t1.corr_enm,t1.cantidad_embarque,t1.fecha_embarque,t1.num_prog_loteo, ";
+			$Consulta=$Consulta." t1.cod_contrato, t1.mes_cuota, t1.cod_puerto, t1.cod_puerto_destino ";
+			$Consulta=$Consulta." from sec_web.programa_enami t1";
+			$Consulta=$Consulta." left join proyecto_modernizacion.productos t6 on t1.cod_producto=t6.cod_producto ";
+			$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+			$Consulta=$Consulta." left join sec_web.puertos t3 on t1.cod_puerto=t3.cod_puerto ";
+			$Consulta=$Consulta." left join sec_web.puertos t4 on t1.cod_puerto_destino=t4.cod_puerto ";
+			$Consulta=$Consulta." left join sec_web.cliente_venta t5 on t1.cod_cliente=t5.cod_cliente ";
+			$Consulta=$Consulta." left join sec_web.nave t6 on t1.cod_nave=t6.cod_nave ";
+			if ($Programa=='S')
+			{
+				$Consulta=$Consulta." left join sec_web.programa_loteo t7 on t1.num_prog_loteo=t7.num_prog_loteo ";
+				//$Consulta=$Consulta." where t1.tipo <> 'V' and t1.estado2 <>'L' and t7.fecha_hora between '".$FechaInicio."' and '".$FechaTermino."'";
+				$Consulta=$Consulta." where t1.tipo <> 'V' and t1.estado2 <>'L' and t1.fecha_disponible between '".$FechaInicio."' and '".$FechaTermino."'";
+			}
+			else
+			{
+				$Consulta=$Consulta." where t1.tipo <> 'V' and t1.estado2 <>'C' and t1.estado2 <>'L'";
+			}
+			$Resultado=mysqli_query($link, $Consulta);
+			while ($Fila=mysqli_fetch_array($Resultado))
+			{
+				$Insertar="INSERT INTO sec_web.tmpprograma (corr_ie,cliente_nave,fecha_programacion,cantidad_programada,num_prog_loteo ,producto,subproducto,pto_destino ,pto_emb,tipo,cod_contrato,estado,fecha_disponible,descripcion,enm_code,contrato,cuota,cod_puerto,cod_puerto_destino) values(";
+				$Insertar=$Insertar." '".'".$Fila["corr_enm"]."'."','".$Fila["nombre_cliente"]."','".$Fila["eta_programada"]."','".$Fila["cantidad_embarque"]."','".$Fila["num_prog_loteo"]."','".$Fila["producto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["cod_marca"]."','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','".$Fila["descripcion"]."','E','".$Fila["cod_contrato"]."','".$Fila["mes_cuota"]."','".$Fila["cod_puerto"]."','".$Fila["cod_puerto_destino"]."')";
+				mysqli_query($link, $Insertar);
+			}
+			//CONSULTA TABLA PROGRAMA CODELCO
+			$Consulta="SELECT t1.descripcion,t1.fecha_disponible,t1.estado2,t1.cod_contrato_maquila,(case when not isnull(t4.nombre_nave) then t4.nombre_nave else t3.nombre_cliente end) as nombre_cliente,t1.corr_codelco,t6.descripcion as producto,t2.descripcion as subproducto,";
+			$Consulta=$Consulta." t1.fecha_programacion,t1.cantidad_programada,t1.num_prog_loteo,t1.cod_contrato, t1.mes_cuota,t1.cod_puerto,t1.cod_puerto_destino ";
+			$Consulta=$Consulta." from sec_web.programa_codelco  t1";
+			$Consulta=$Consulta." left join proyecto_modernizacion.productos t6 on t1.cod_producto=t6.cod_producto ";
+			$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+			$Consulta=$Consulta." left join sec_web.cliente_venta t3 on t1.cod_cliente=t3.cod_cliente ";
+			$Consulta=$Consulta." left join sec_web.nave t4 on ceiling(t1.cod_cliente)=t4.cod_nave ";
+			if ($Programa=='S')
+			{
+				$Consulta=$Consulta." left join sec_web.programa_loteo t7 on t1.num_prog_loteo=t7.num_prog_loteo ";
+				//$Consulta=$Consulta." where t1.estado2 <>'L' and t7.fecha_hora between '".$FechaInicio."' and '".$FechaTermino."'";
+				$Consulta=$Consulta." where t1.estado2 <>'L' and t1.fecha_disponible between '".$FechaInicio."' and '".$FechaTermino."'";
+			}
+			else
+			{
+				$Consulta=$Consulta." where t1.estado2 <>'C' and t1.estado2 <>'L'";
+			}			
+			$Resultado=mysqli_query($link, $Consulta);
+			while ($Fila=mysqli_fetch_array($Resultado))
+			{
+				$Insertar="INSERT INTO sec_web.tmpprograma (corr_ie,cliente_nave,fecha_programacion,cantidad_programada,num_prog_loteo ,producto,subproducto,tipo,cod_contrato,estado,fecha_disponible,descripcion,enm_code,contrato,cuota,cod_puerto,cod_puerto_destino) values(";
+				$Insertar=$Insertar." '".$Fila["corr_codelco"]."','".$Fila["nombre_cliente"]."','".$Fila["fecha_programacion"]."','".'".$Fila["cantidad_programada"]."'."','".$Fila["num_prog_loteo"]."','".$Fila["producto"]."','".$Fila["subproducto"]."','C','".$Fila["cod_contrato_maquila"]."','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','".$Fila["descripcion"]."','C','".$Fila["cod_contrato"]."','".$Fila["mes_cuota"]."','".$Fila["cod_puerto"]."','".$Fila["cod_puerto_destino"]."')";
+				mysqli_query($link, $Insertar);   
+			}
+			switch ($Programa)
+			{
+				case "S":
+					$Consulta="SELECT * from sec_web.tmpprograma where estado<>'A' and not isnull(num_prog_loteo) and  num_prog_loteo<>'' ";
+					break;
+				case "N":
+					$Consulta="SELECT * from sec_web.tmpprograma where estado<>'A' and (isnull(num_prog_loteo) or num_prog_loteo='') ";	
+					break;	
+				case "A":
+					$Consulta="SELECT * from sec_web.tmpprograma where estado='A' ";	
+					break;	
+			}
+			switch ($Orden)
+			{
+				case "Or_01":
+					$Consulta.= "ORDER BY corr_ie, fecha_programacion ";
+					break;
+				case "Or_02":
+					$Consulta.= "order by  fecha_programacion, corr_ie ";
+					break;
+				case "Or_03":
+					$Consulta.= "order by  fecha_disponible, corr_ie ";
+					break;
+				case "Or_04":
+					$Consulta.= "order by num_prog_loteo, corr_ie, fecha_programacion ";
+					break;
+				case "Or_05":
+					$Consulta.= "order by estado,corr_ie, fecha_programacion ";
+					break;
+				default:
+					$Consulta.= "order by corr_ie, fecha_programacion ";
+					break;
+			}	
+			$Respuesta=mysqli_query($link, $Consulta);
+			echo "<input type='hidden' name='CheckProgLoteo'><input type='hidden' name ='NumProgLoteo'><input type='hidden' name='CheckFecha'>";
+			$Cont2=0;//WSO
+			while ($Valor=mysqli_fetch_array($Respuesta))
+			{
+				$MostrarBoton=true;
+				$Cont2++;
+				if ($Valor["estado"]=='A')
+				{
+					echo "<tr class='colortabla04'>"; 							
+				}
+				else
+				{
+					if (($Programa!='S')&&(($Valor["estado"]=='M')||(date($Valor["fecha_disponible"])<=date("Y-m-d"))))
+					{
+						echo "<tr class='colortabla06'>";
+					}	 							
+					else
+					{					
+						echo "<tr>";
+					}	 
+				}					
+				if ((is_null($Valor["num_prog_loteo"]))||($Valor["num_prog_loteo"]=='')||($Valor["num_prog_loteo"]==0))
+				{
+					if ($Valor["estado"]=='A')
+					{
+						//echo "<td width='15'><input type='checkbox' name='CheckProgLoteo' disabled ><input type='hidden' name ='NumProgLoteo' value='".$Valor["num_prog_loteo"]."'></td>";					
+						echo "<td align='center'><input type='checkbox' name='CheckProgLoteo' value='".$Valor["corr_ie"]."~~".$Valor["tipo"]."'><input type='hidden' name ='NumProgLoteo' value='".$Valor["num_prog_loteo"]."'></td>";					
+					}
+					else
+					{
+						$pos = strpos($ValorCheck, $Valor["corr_ie"]."~~".$Valor["tipo"]."//");
+						if ($pos === false)
+						{ 						
+							echo "<td align='center'><input type='checkbox' name='CheckProgLoteo' value='".$Valor["corr_ie"]."~~".$Valor["tipo"]."'><input type='hidden' name ='NumProgLoteo' value=''></td>";
+						}
+						else
+						{
+							//echo "<td width='15'><input type='checkbox' name='CheckProgLoteo' value='".$Valor["corr_ie"]."~~".$Valor["tipo"]."' checked><input type='hidden' name ='NumProgLoteo' value=''></td>";						
+							echo "<td align='center'><input type='checkbox' name='CheckProgLoteo' value='".$Valor["corr_ie"]."~~".$Valor["tipo"]."'><input type='hidden' name ='NumProgLoteo' value=''></td>";						
+						}	
+					}	
+				}
+				else
+				{
+					//echo "<td width='15'><input type='checkbox' name='CheckProgLoteo' disabled checked><input type='hidden' name ='NumProgLoteo' value='".$Valor["num_prog_loteo"]."'></td>";					
+					echo "<td align='center'><input type='checkbox' name='CheckProgLoteo' value='".$Valor["corr_ie"]."~~".$Valor["tipo"]."'><input type='hidden' name ='NumProgLoteo' value='".$Valor["num_prog_loteo"]."'></td>";					
+				}					
+				echo "<td  align='center' onMouseOver='JavaScript:muestra(".$Cont2.");' onMouseOut='JavaScript:oculta(".$Cont2.");' bgcolor='#cccccc'>";
+				echo "<div id='Txt".$Cont2."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:550px'>\n";
+				echo "<font face='courier' color='#000000' size=1><b>Producto:&nbsp;</b>".$Valor["producto"]."&nbsp;<b>Sub-Producto:&nbsp;</b>".$Valor["subproducto"]." </font><br>";
+				if ($enm_code == "E")
+				{
+					$DescPtoEmb="";
+					$DescPtoDes="";
+					$Consulta = "select * from sec_web.puertos where cod_puerto='".$Valor["pto_emb"]."' or cod_puerto='".$Valor["pto_destino"]."'";
+					$RespPto=mysqli_query($link, $Consulta);
+					while ($FilaPto=mysqli_fetch_array($RespPto))
+					{
+						switch ($FilaPto["cod_puerto"])
+						{
+							case $Valor["pto_emb"]:
+								$DescPtoEmb=$FilaPto["nom_aero_puerto"];
+								break;
+							case $Valor["pto_destino"]:
+								$DescPtoDes=$FilaPto["nom_aero_puerto"];
+								break;
+						}
+					}
+					echo "<font face='courier' color='#000000' size=1><b>Puerto Embarque: </b>".$Valor["pto_emb"]."&nbsp;-&nbsp;".$DescPtoEmb."<br><b>Puerto Destino: </b>".$Valor["pto_destino"]."&nbsp;-&nbsp;".$DescPtoDes."</font><br>";
+				}
+				else
+				{
+					$DescPtoEmb="";
+					$DescPtoDes="";
+					$Consulta = "select * from sec_web.puertos where cod_puerto='".$Valor["cod_puerto"]."' or cod_puerto='".$Valor["cod_puerto_destino"]."'";
+					$RespPto=mysqli_query($link, $Consulta);
+					while ($FilaPto=mysqli_fetch_array($RespPto))
+					{
+						switch ($FilaPto["cod_puerto"])
+						{
+							case $Valor["cod_puerto"]:
+								$DescPtoEmb=$FilaPto["nom_aero_puerto"];
+								break;
+							case $Valor["cod_puerto_destino"]:
+								$DescPtoDes=$FilaPto["nom_aero_puerto"];
+								break;
+						}
+					}
+					echo "<font face='courier' color='#000000' size=1><b>Puerto Embarque: </b>".$Valor["cod_puerto"]."&nbsp;-&nbsp;".$DescPtoEmb."<br><b>Puerto Destino: </b>".$Valor["cod_puerto_destino"]."&nbsp;-&nbsp;".$DescPtoDes."</font><br>";
+				}
+				echo "<font face='courier' color='#000000' size=1><b>Descripcion: </b>".$Valor["descripcion"]."</font><br>";
+				echo "</div>".$Valor["corr_ie"]."</td>";
+				if ($Valor["cliente_nave"]<>"")
+					echo "<td>".strtoupper($Valor["cliente_nave"])."</td>";
+				else	echo "<td>&nbsp;</td>";
+				if ($Valor["cod_contrato"]<>"")
+					echo "<td align='center'>".$Valor["cod_contrato"]."</td>";
+				else
+					echo "<td align='center'>&nbsp;</td>";
+				if ($Valor["contrato"]<>"")
+					echo "<td align='center'>".$Valor["contrato"]."</td>";
+				else	echo "<td align='center'>&nbsp;</td>";
+				if ($Valor["cuota"]!="")
+					echo "<td align='center'>".$Valor["cuota"]."</td>";
+				else
+					echo "<td align='center'>&nbsp;</td>";
+				if ($Valor["cod_puerto_destino"]!="")
+					echo "<td align='center'>".$Valor["cod_puerto_destino"]."</td>";
+				else
+					echo "<td align='center'>&nbsp;</td>";
+				echo "<td align='right'>".number_format($Valor["cantidad_programada"],1,",",".")."&nbsp;</td>";
+				echo "<td align='right'>".substr($Valor["fecha_programacion"],8,2)."/".substr($Valor["fecha_programacion"],5,2)."/".substr($Valor["fecha_programacion"],2,2)."</td>";
+				echo "<td align='center'>".substr($Valor["fecha_disponible"],8,2)."/".substr($Valor["fecha_disponible"],5,2)."/".substr($Valor["fecha_disponible"],2,2)."</td>";						
+				if ($Valor["num_prog_loteo"]==0)
+				{
+					$Valor["num_prog_loteo"]='';
+				}
+				echo "<td class='colortabla02' align='center'>".$Valor["num_prog_loteo"]."&nbsp;</td>";
+				echo "<td align='center'>".$Valor["estado"]."&nbsp;<input type='hidden' name='ChkEstadoOrden' value='".$Valor["estado"]."'></td>";
+				echo "</tr>";
+			}
+			$BorrarTmp="drop table sec_web.tmpprograma";
+			mysqli_query($link, $BorrarTmp);
+			//echo "";	
+		?>
+		</table>
+		</div>
+        <br>
+		<div id='Txt0' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:550px'>
+          <table width="580" height="90" border="0">
+          <tr>
+            <td align="center" valign="middle">
+			
+                <table background="../principal/imagenes/fondo3.gif" width="550" height="48" border="1" align="center" cellpadding="1" cellspacing="0" class="TablaInterior">
+                  <tr>
+                    <td colspan="6" class="ColorTabla01"><em><strong>ESTADOS:</strong></em></td>
+                  </tr>
+                  <tr>
+                    <td width="30" align="center"><strong>A</strong></td>
+                    <td width="130">Anulado</td>
+                    <td width="30" align="center"><strong>P</strong></td>
+                    <td width="130">Pesandose</td>
+                    <td width="40" align="center"><strong>AUTO</strong></td>
+                    <td width="163">Pesaje Produccion diario </td>
+                  </tr>
+                  <tr>
+                    <td align="center"><strong>M</strong></td>
+                    <td>Peso Modificado </td>
+                    <td align="center"><strong>T</strong></td>
+                    <td>Terminado de Pesar </td>
+                    <td align="center"><strong>C</strong></td>
+                    <td>Con Numero de Envio </td>
+                  </tr>
+                </table>                
+              </td>
+          </tr>
+      </table></div></td>
+  </tr>
+</table>
+  <?php include("../principal/pie_pagina.php")?>
+</form>
+</body>
+</html>
+<?php
+	if (isset($EncontroRelacion))
+	{
+		if ($EncontroRelacion==true)
+		{
+			echo "<script languaje='javascript'>";
+			echo "alert('Uno o mas Elementos no fueron eliminados por tener grupos asociados');";	
+			echo "</script>";
+		}
+	}
+	if (isset($Mensaje))
+	{
+		echo "<script languaje='javascript'>";
+		echo "alert('".$Mensaje."');";	
+		echo "</script>";
+	}
+?>

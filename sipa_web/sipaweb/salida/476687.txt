@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='21530',peso_neto='7570',marca='V FRANJA NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL',observacion='',romana_salida='1' where correlativo='476687' and lote='23016040' and recargo='35'

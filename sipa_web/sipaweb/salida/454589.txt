@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 35020 ',peso_neto='19510',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='14585548-9',nombre_chofer='Victor Aguilera',observacion='22 maxisacos celdas fad',romana_salida='1' where correlativo='454589' and lote='21116260' and recargo='1'

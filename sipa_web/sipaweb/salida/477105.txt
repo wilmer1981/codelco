@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44440 ',peso_neto='27500',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12686507-4',nombre_chofer='MAURICIO TRONCOSO',observacion='finos circulantes ',romana_salida='1' where correlativo='477105' and lote='23016191' and recargo='4'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43260 ',peso_neto='25840',marca='FRANJA BLANCA',cod_mop='510',num_sello='',transportista='',rut_chofer='36951843-7',nombre_chofer='LAUTARO CENTURION',observacion='',romana_salida='1' where correlativo='436694' and lote='21016148' and recargo='4'

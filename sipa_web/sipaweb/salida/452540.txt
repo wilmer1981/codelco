@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43420 ',peso_neto='25530',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='7882687-8',nombre_chofer='MANUEL DELGADO B.',observacion='',romana_salida='1' where correlativo='452540' and lote='21106202' and recargo='1'

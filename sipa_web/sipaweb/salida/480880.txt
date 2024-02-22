@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 38440 ',peso_neto='22810',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='12445864-1',nombre_chofer='christian segovia',observacion='Cu varios PVSA',romana_salida='1' where correlativo='480880' and lote='23036222' and recargo='2'

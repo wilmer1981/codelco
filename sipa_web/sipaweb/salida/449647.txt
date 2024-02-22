@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='45020',peso_neto='31300',marca='V FRANJA NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='10431760-K',nombre_chofer='JUAN   GALLEGUILLOS',observacion='',romana_salida='1' where correlativo='449647' and lote='21096031' and recargo='13'

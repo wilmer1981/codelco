@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44910',peso_neto='29020',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='5336338-5',nombre_chofer='DILSER MAGNE',observacion='embarque fino circulantes',romana_salida='1' where correlativo='472667' and lote='22106244' and recargo='5'

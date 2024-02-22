@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44770 ',peso_neto='1950',marca='TRES FRANJAS VERDES',cod_mop='510',num_sello='',transportista='',rut_chofer='12774916-7',nombre_chofer='MARCELO TORRES',observacion='',romana_salida='1' where correlativo='464977' and lote='22066051' and recargo='13'

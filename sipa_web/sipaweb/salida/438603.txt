@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 22730 ',peso_neto='8090',marca='FRANJA AZUL',cod_mop='570',num_sello='',transportista='',rut_chofer='8437281-1',nombre_chofer='JOSE  MARDONES',observacion='',romana_salida='1' where correlativo='438603' and lote='21026109' and recargo='3'

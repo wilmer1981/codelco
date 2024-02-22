@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='17350',peso_neto='1690',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='25 maxi envases solventes',romana_salida='1' where correlativo='480890' and lote='23036217' and recargo='1'

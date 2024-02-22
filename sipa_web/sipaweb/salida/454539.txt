@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44030 ',peso_neto='26370',marca='FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='23482910-6',nombre_chofer='WALTER ALCANO',observacion='',romana_salida='1' where correlativo='454539' and lote='21116143' and recargo='3'

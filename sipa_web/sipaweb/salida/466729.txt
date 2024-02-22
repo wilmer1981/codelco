@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='37240',peso_neto='23540',marca='V NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='18518782-9',nombre_chofer='GERMAN ARAVENA',observacion='',romana_salida='1' where correlativo='466729' and lote='22076086' and recargo='12'

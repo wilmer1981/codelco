@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 37570 ',peso_neto='21750',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='20 maxisacos de yeso solido ',romana_salida='1' where correlativo='483998' and lote='23056081' and recargo='1'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44510 ',peso_neto='27140',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='9735698-k',nombre_chofer='GUILLERMO MONCADA MANRIQUEZ',observacion='',romana_salida='2' where correlativo='452577' and lote='21106206' and recargo='1'

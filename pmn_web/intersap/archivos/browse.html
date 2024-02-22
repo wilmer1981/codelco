@@ -1,0 +1,1199 @@
+
+var sBase = "<BASE href='http://www.capacitacion.lod.cl/webdocs/home.htm'>";
+var glFiles = '';
+var glFilesCodif = '';
+
+function Ventana(url) 
+{
+w=630;h=400;
+var winl = (screen.width - w) / 2;
+var wint = (screen.height - h) / 2;
+winprops = 'height='+h+',width='+w+',top='+wint+',left='+winl+',resizable=yes,menubar=no,location=no,toolbar=no,status=no,scrollbars=yes,directories=no'
+var win = window.open('/browse.asp?pagina=' + url, '', winprops);
+}
+
+function ir()
+{
+
+document.mnperf.prfl.value=document.frmperfilesSgnUsr.perfilesSgnUsr.options[document.frmperfilesSgnUsr.perfilesSgnUsr.selectedIndex].value;
+if(document.mnperf.prfl.value == 1 )
+{
+document.mnperf.pagina.value='codelco/global/lista_contratos.htm';
+}
+if(document.mnperf.prfl.value == 2 )
+{
+document.mnperf.pagina.value='codelco/global/lista_contratos.htm';
+}
+if(document.mnperf.prfl.value == 3 )
+{
+document.mnperf.pagina.value='codelco/global/lista_contratos.htm';
+}
+if(document.mnperf.prfl.value == 4 )
+{
+document.mnperf.pagina.value='codelco/global/cartera_administradores.htm';
+}
+if(document.mnperf.prfl.value == 5 )
+{
+document.mnperf.pagina.value='codelco/global/cartera_administradores.htm';
+}
+if(document.mnperf.prfl.value == 6 )
+{
+document.mnperf.pagina.value='codelco/global/lista_contratos.htm';
+}
+if(document.mnperf.prfl.value == 7 )
+{
+document.mnperf.pagina.value='codelco/global/lista_contratos.htm';
+}
+if(document.mnperf.prfl.value == 8 )
+{
+document.mnperf.pagina.value='codelco/global/cartera_ejecutivo.htm';
+}
+if(document.mnperf.prfl.value == 9 )
+{
+document.mnperf.pagina.value='codelco/global/cartera_ejecutivo.htm';
+}
+document.mnperf.submit();
+}
+
+lnPerfilesDisponibles = 0;
+TAB_Perf = new Array();
+
+TAB_Perf[lnPerfilesDisponibles] = new Array();
+TAB_Perf[lnPerfilesDisponibles][0] = '3';
+TAB_Perf[lnPerfilesDisponibles][1] = 'Administrador Contratista';
+lnPerfilesDisponibles++;
+
+TAB_Perf[lnPerfilesDisponibles] = new Array();
+TAB_Perf[lnPerfilesDisponibles][0] = '5';
+TAB_Perf[lnPerfilesDisponibles][1] = 'Superior Contratista';
+lnPerfilesDisponibles++;
+
+TAB_Perf[lnPerfilesDisponibles] = new Array();
+TAB_Perf[lnPerfilesDisponibles][0] = '7';
+TAB_Perf[lnPerfilesDisponibles][1] = 'Asistente Contratista';
+lnPerfilesDisponibles++;
+
+
+document.write('<STYLE TYPE="text/css" MEDIA="print">.noprint {display: none;}</STYLE>');
+document.write('<div class="noprint">')
+document.write('<TABLE cellSpacing=0 cellPadding=0 width=138 border=0>');
+document.write('<TR>');
+document.write('<TD width=138 height=40 valign="top" class="pie">')
+document.write('<table width="138" border="0" cellspacing="0" cellpadding="0">');
+document.write('<tr>')
+document.write('<td><img src="images/menu_botones/1pixel.gif" width="2" height="4"></td>')
+document.write('</tr>');
+document.write('<tr>')
+document.write('<td><a href="/browse.asp?pagina=codelco/global/buscador.htm"><img src="images/menu_botones/buscador%20folios.gif" border="0"></a></td>')
+document.write('</tr>')
+document.write('</table>');
+document.write('</TD>');
+document.write('</TR>');
+
+opsSel = -1;
+opsSel = '';
+if(opsSel == '')
+{
+opsSel= -1;
+}
+
+document.write('<TR>');
+document.write('<TD width=138 height=40 valign="top" class="pie">');
+document.write('<form name=frmperfilesSgnUsr>')
+document.write('<select name="perfilesSgnUsr" style="font: 9px Arial;" class="titulo_cafe" onchange="ir();">');
+
+for(i=0;i<lnPerfilesDisponibles;i++)
+{
+if(Number(TAB_Perf[i][0])==Number(opsSel))
+{
+document.write('<option value="' + TAB_Perf[i][0] + '" selected>' + TAB_Perf[i][1] + '</option>');
+}
+else
+{
+document.write('<option value="' + TAB_Perf[i][0] + '">' + TAB_Perf[i][1] + '</option>');
+}
+}
+
+document.write('</select>')
+document.write('</form>');
+document.write('</TD>');
+document.write('</TR>');
+document.write('</TABLE>');
+document.write('<TABLE cellSpacing=0 cellPadding=0 width=138 border=0>');
+document.write('<TR>');
+document.write('<TD width=138>');
+document.write('<table width=137 height="100%" border=0 cellpadding=0 cellspacing=0 id="menu">');
+
+vMarcaMenu = '4';
+if(vMarcaMenu == '')
+{
+vMarcaMenu = -1;
+}
+else
+{
+parseInt(vMarcaMenu);
+vMarcaMenu = vMarcaMenu - 1;
+}
+
+correlativo = 0; konstant = 1;
+
+correlativo++;
+
+vPath  = '';
+vEsLink = '';
+vTipo  = '1';
+vTitulo = 'Libro de Obra';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/home.htm';
+vEsLink = '1';
+vTipo  = '2';
+vTitulo = 'LOD Vigentes';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/acon/apertura_inicio.htm';
+vEsLink = '1';
+vTipo  = '3';
+vTitulo = 'Aperturas';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/acon/cierre_LO_inicio.htm';
+vEsLink = '1';
+vTipo  = '3';
+vTitulo = 'Cierres';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/global/nuevo_folio_inicio.htm';
+vEsLink = '1';
+vTipo  = '3';
+vTitulo = 'Nuevos Folios';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/acon/folios_pendientes_inicio.htm';
+vEsLink = '1';
+vTipo  = '3';
+vTitulo = 'Folios Pendientes';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/acon/borradores_pendientes_inicio.htm';
+vEsLink = '1';
+vTipo  = '3';
+vTitulo = 'Borradores Pendientes';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/global/cambio_asistente.htm';
+vEsLink = '1';
+vTipo  = '3';
+vTitulo = 'Cambio Asistentes';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/acon/historico.htm';
+vEsLink = '1';
+vTipo  = '2';
+vTitulo = 'LOD Históricos';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/global/buscador_impresion.htm';
+vEsLink = '1';
+vTipo  = '2';
+vTitulo = 'LOD Impresión';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = '';
+vEsLink = '';
+vTipo  = '1';
+vTitulo = 'LOD Asociados';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+correlativo++;
+
+vPath  = 'codelco/acon/libros_asociados.htm';
+vEsLink = '1';
+vTipo  = '2';
+vTitulo = 'Ver Libros';
+vEspopup = '';
+vEsSeparador = '';
+vPrflDeault = '3';
+
+if(vPrflDeault == '2' && konstant == 1)
+{
+vMarcaMenu = Number(vMarcaMenu) + konstant;
+}
+konstant = 0;
+
+if(vTipo == '1')
+{
+document.write('<tr>')
+document.write('<td width="140" class="texto_bold">' + vTitulo + '</td>')
+document.write('</tr>');
+}
+
+if(vTipo == '2')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="3" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+if(vTipo == '3')
+{
+document.write('<TR>');
+document.write('<td onMouseOver="sobre(this,&#39;#e3e2e2&#39;);" onMouseOut="fuera(this,&#39;#FFFFFF&#39;);" height="20"><img src="images/menu_botones/1pixel.gif" width="8" height="8"><img src="images/menu_botones/vineta.gif" width="9" height="8">');
+if(vEsLink == '1')
+{
+if(vEspopup=='1')
+{ 
+document.write('<a href="javascript: Ventana(&#39;' + vPath + '&#39;)">');
+}
+else
+{
+document.write('<a href="/browse.asp?pagina=' + vPath + '">');
+}
+if(Number(vMarcaMenu) == Number(correlativo))
+{
+document.write('<span class="bold">' + vTitulo + '</span>');
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</a>')
+}
+else
+{
+document.write(vTitulo);
+}
+document.write('</TD>');
+document.write('</TR>');
+}
+
+
+document.write('</TABLE>');
+document.write('</TD>');
+document.write('</TR>');
+document.write('</TABLE>');
+document.write('<P>&nbsp;</P>')
+document.write('</div>');
+
+document.write('<form name="mnperf" method="post" action="/browse.asp">')
+document.write('<input type="hidden" name="pagina"><input type="hidden" name="prfl">')
+document.write('</form>');
+
+if(lnPerfilesDisponibles > 1)
+{
+document.frmperfilesSgnUsr.perfilesSgnUsr.value = vPrflDeault;
+}

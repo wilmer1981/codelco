@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43690',peso_neto='28600',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='26550367-5',nombre_chofer='RUBÉN ESCALONA',observacion='circulante oxidos',romana_salida='1' where correlativo='473259' and lote='22116076' and recargo='4'

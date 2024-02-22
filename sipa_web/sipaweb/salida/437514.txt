@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 25150 ',peso_neto='11580',marca='DOS FRANJAS BLANCAS',cod_mop='520',num_sello='',transportista='',rut_chofer='18257655-7',nombre_chofer='MARCEL MALDONADO',observacion='',romana_salida='2' where correlativo='437514' and lote='21016320' and recargo='12'

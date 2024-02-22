@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44850 ',peso_neto='30670',marca='DOS FRANJAS VERDES',cod_mop='690',num_sello='',transportista='',rut_chofer='10806102-2',nombre_chofer='CARLOS ZUÑIGA',observacion='',romana_salida='1' where correlativo='463863' and lote='22056152' and recargo='27'

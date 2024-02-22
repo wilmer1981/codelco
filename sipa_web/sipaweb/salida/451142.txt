@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44780 ',peso_neto='28530',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15112547-6',nombre_chofer='MARCELO QUINTANILLA',observacion='circulantes mazamorra',romana_salida='1' where correlativo='451142' and lote='21096268' and recargo='4'

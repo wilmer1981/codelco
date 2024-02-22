@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44670 ',peso_neto='28210',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='14378929-2',nombre_chofer='BORIS GAETE FUENTES',observacion='finos circulantes ',romana_salida='1' where correlativo='477118' and lote='23016210' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='40060',peso_neto='22990',marca='',cod_mop='530',num_sello='',transportista='',rut_chofer='16332857-7',nombre_chofer='daniela escobar',observacion='',romana_salida='1' where correlativo='474263' and lote='22126019' and recargo='3'

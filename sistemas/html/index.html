@@ -1,0 +1,151 @@
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <meta name="description" content="Sistema De Información Gerencia de Servicios">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">        
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+</head>
+<body>
+
+ <div class="container-fluid">
+
+        <div class="col-md-4 col-md-offset-4 " id="box">
+            <div class="row">
+            <div id="boxHeader" class="col-md-12 col-sm-12 col-xs-12" align="center">
+                <div class="col-md-2" style="margin-top: 30px;">
+                    <!--<img src="img/costo3.png" height="80">-->
+                </div>
+                <div class="col-md-10 title">
+                    <p></p>
+                    <h4></h4>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="boxBody" id="boxBody">
+                <form class="form-horizont" id="Login" name="Login" action="" method="post" data-toggle='validator'>
+                    <p>Favor Ingrese Rut y Contrase&ntilde;a</p>
+                    <div id="email-error-dialog" style="background-color: white; margin-top: 40px;"></div>
+                    <div class="form-group ">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="input-group ">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input type="rut" id="inputRut" name="inputRut" class="form-control Rut" pattern="\d{3,8}-[\d|kK]{1}" placeholder="Rut" required="required" autofocus>
+                            </div>
+                        </div>
+                    
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" id="inputPassword" class="form-control pass8" placeholder="Contrase&ntilde;a" data-validation="length alphanumeric" data-validation-length="4-13" data-validation-error-msg="Contrase&ntilde;a min. 7 caracteres Alfanumerica" data-validation-error-msg-container="#email-error-dialog" required>                                
+                            </div>
+                        </div>
+                    
+                        <div class="col-md-8 col-md-offset-2">
+                            <button class="btn btn-lg btn-primary btn-block btn-login" id="LoginButton" type="button">Ingresar</button>
+                            <a href="/desarrollo/proyecto/sistemas/sys/principal/?p=gen_solicitud_analisis">Continuar</a>
+                        </div>
+                    </div>                     
+                </form>
+            </div>
+            </div>
+        </div> 
+
+</div>
+</body>
+<div id="Cargando"><img src="img/loading.gif"><p id="MensajeMostrar"></p></div>
+</html>
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/sweetalert.min.js"></script>
+<script src="js/jquery.rut.js"></script>
+<script src="js/funcion.js"></script>
+<script src="js/login.js"></script>
+<script src="js/validaRut.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script type="text/javascript">
+$.validate({
+    lang: 'es',
+});
+$("#inputPassword").keypress(function (e) {
+    if (e.which == 13) {
+       $("#LoginButton").click();
+    }
+});
+</script>
+<style type="text/css">
+
+/*@font-face {
+    font-family: "BAUHS93";
+    font-style: normal;
+    font-weight: normal;
+    src: local("?"), url("BAUHS93.TTF") format("ttf"), url("BAUHS93.TTF") format("truetype");
+}*/
+body{
+   
+    background-image: linear-gradient(#79a06d, #79a06d); 
+     /*background-image: url(img/cerroscolom.jpg) ;*/
+    /* background-position: center center;*/
+     background-attachment: fixed;
+     background-repeat: no-repeat;
+     background-size: cover;
+     background-color: white;
+
+
+
+}
+
+
+#boxHeader {    
+    color: white;   
+}
+
+.title p{
+    margin-top: 5%;
+    /*font-family:BAUHS93;*/
+    font-family: times;
+    font-style: normal;
+    font-size:3.0em;
+    /*letter-spacing: 2px   ;  */
+    
+}
+#boxBody p{
+    margin-top: 5%;
+    color: white;
+    text-align: center;
+     margin-bottom:  10px;
+}
+
+#boxBody{
+ margin-top: 15%;
+    border: 1px solid rgb(200, 200, 200);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+    /*background: rgba(178,86, 34, 0.9);*/
+    /*background-image: linear-gradient(#6E737C,#402000);*/
+    background: linear-gradient(rgba(110,115,124,0.9), rgba(64,32,0,0.9));
+    /*opacity: 0.5;*/
+    border-radius: 4px;
+
+    min-height: 350px;
+}
+
+.input-group{
+    margin-bottom: 22px;
+}
+
+#contact_form{
+     
+}
+
+h2{
+    text-align:center;
+    color:#fff;
+}
+ 
+</style>

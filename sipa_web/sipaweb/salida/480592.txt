@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 16790 ',peso_neto='8150',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='18095612-3',nombre_chofer='MATIAS ESCOBEDO',observacion='',romana_salida='1' where correlativo='480592' and lote='23036161' and recargo='3'

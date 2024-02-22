@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44520 ',peso_neto='28160',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17134730-0',nombre_chofer='Jose Huenchu�ir',observacion='CIRCULANTE OXIDO ',romana_salida='2' where correlativo='449743' and lote='21096049' and recargo='5'

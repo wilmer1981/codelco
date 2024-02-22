@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44810 ',peso_neto='29940',marca='EQUIS AZUL',cod_mop='693',num_sello='',transportista='',rut_chofer='7689571-6',nombre_chofer='JORGE CARVAJAL',observacion='',romana_salida='1' where correlativo='454550' and lote='21116248' and recargo='26'

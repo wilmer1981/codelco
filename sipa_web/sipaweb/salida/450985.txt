@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 44950 ',peso_neto='28310',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16522307-1',nombre_chofer='Victor Zamorano',observacion='circulante masamorra',romana_salida='2' where correlativo='450985' and lote='21096243' and recargo='2'

@@ -1,0 +1,10 @@
+[DEFAULT]
+BASEURL=http://vevmwebp01/proyecto/index.php
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,2
+[InternetShortcut]
+URL=http://vevmwebp01/proyecto/index.php
+IDList=
+IconFile=Z:\Archivo Romana\IMG_1656-ConvertImage (1).ico
+IconIndex=0
+HotKey=0

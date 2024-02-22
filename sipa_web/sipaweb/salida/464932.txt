@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42870 ',peso_neto='28410',marca='EQUIS BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='9277660-3',nombre_chofer='CRISTIAN BERNAL',observacion='',romana_salida='1' where correlativo='464932' and lote='22066057' and recargo='4'

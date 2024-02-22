@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44120',peso_neto='27530',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15595686-0',nombre_chofer='NESTOR RAMIREZ',observacion='',romana_salida='1' where correlativo='485498' and lote='23066063' and recargo='10'

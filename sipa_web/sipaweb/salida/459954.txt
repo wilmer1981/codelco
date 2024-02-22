@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42890 ',peso_neto='26030',marca='FRANJA ROJA',cod_mop='510',num_sello='',transportista='',rut_chofer='17795473-K',nombre_chofer='ALEJANDRIO SALVAN',observacion='',romana_salida='1' where correlativo='459954' and lote='22036074' and recargo='2'

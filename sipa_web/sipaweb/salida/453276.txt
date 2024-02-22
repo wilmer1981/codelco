@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43640 ',peso_neto='30430',marca='FRANJA AZUL',cod_mop='520',num_sello='',transportista='',rut_chofer='7850914-7',nombre_chofer='FREDY OLIVARES',observacion='',romana_salida='1' where correlativo='453276' and lote='21116055' and recargo='2'

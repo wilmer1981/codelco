@@ -1,0 +1,215 @@
+<?php 	
+	$CodigoDeSistema = 9;
+	$CodigoDePantalla = 2;
+	include("../principal/conectar_pac_web.php");
+?>
+<html>
+<head>
+<script language="JavaScript">
+function RecuperarValoresCheckeado()
+{
+	var Frm=document.FrmIngTransp;
+	var Valores="";
+
+	for (i=1;i<Frm.CheckTransp.length;i++)
+	{
+		if (Frm.CheckTransp[i].checked==true)
+		{
+			Valores=Valores + Frm.TxtRutO[i].value+"//";
+		}
+	}
+	return(Valores);	
+}
+function CheckearTodo()
+{
+	var Frm=document.FrmIngTransp;
+	try
+	{
+		Frm.CheckTransp[0];
+		for (i=1;i<Frm.CheckTransp.length;i++)
+		{
+			if (Frm.CheckTodos.checked==true)
+			{
+				Frm.CheckTransp[i].checked=true;
+			}
+			else
+			{
+				Frm.CheckTransp[i].checked=false;
+			}	
+		}
+	}
+	catch (e)
+	{
+	}
+}
+function SoloUnElementoCheck()
+{
+	var Frm=document.FrmIngTransp;
+	var CantCheck=0;
+	for (i=1;i<Frm.CheckTransp.length;i++)
+	{
+		if (Frm.CheckTransp[i].checked==true)
+		{
+			CantCheck=CantCheck+1;
+		}
+	}
+	if (CantCheck > 1)
+	{
+		alert("Debe Seleccionar solo un Elemento");
+		return(false);
+	}
+	else
+	{
+		return(true);
+	}
+}
+function SeleccionoCheck()
+{
+	var Frm=document.FrmIngTransp;
+	var Encontro="";
+	
+	Encontro=false; 
+	for (i=1;i<Frm.CheckTransp.length;i++)
+	{
+		if (Frm.CheckTransp[i].checked==true)
+		{
+			Encontro=true;
+			break;
+		}
+	}
+	if (Encontro==false)
+	{
+		alert("Debe Seleccionar un Elemento");
+		return(false);
+	}
+	else
+	{
+		return(true);
+	}
+}
+
+function MostrarPopupProceso(Proceso)
+{
+	var Frm=document.FrmIngTransp;
+	var Valores="";
+	var Resp="";
+	switch (Proceso)
+	{
+		case "N":
+			window.open("pac_ingreso_transportista_proceso.php?Proceso="+Proceso,"","top=110,left=180,width=410,height=330,scrollbars=no,resizable = no");
+			break;
+		case "M":
+			if (SeleccionoCheck()) 
+			{
+				if (SoloUnElementoCheck())
+				{
+					Valores=RecuperarValoresCheckeado();
+					window.open("pac_ingreso_transportista_proceso.php?Proceso="+Proceso+"&Valores="+Valores,"","top=110,left=180,width=410,height=330,scrollbars=no,resizable = no");		
+				}	
+			}	
+			break;
+		case "E":
+			if (SeleccionoCheck()) 
+			{
+				Resp=confirm("Esta seguro de Eliminar los Datos Seleccionados?");
+				if (Resp==true)
+				{
+					Valores=RecuperarValoresCheckeado();
+					Frm.action="pac_ingreso_transportista_proceso01.php?Proceso="+Proceso+"&Valores="+Valores;
+					Frm.submit();
+				}			
+			}	
+			break;	
+	} 
+}
+
+function Salir()
+{
+	var Frm=document.FrmIngTransp;
+	Frm.action="../principal/sistemas_usuario.php?CodSistema=9&Nivel=1&CodPantalla=21";
+	Frm.submit();
+}
+</script>
+<title>Ingreso de Transportista</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
+<form name="FrmIngTransp" method="post" action="">
+  <?php include("../principal/encabezado.php")?>
+  <table width="770" height="316" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
+    <tr> 
+      <td align="center" valign="top"><br> 
+        <?php
+			echo "<table width='750' border='1' cellpadding='3' cellspacing='0' >";
+			echo "<tr class='ColorTabla01'>"; 
+			echo "<td width='20'><input type='checkbox' name='CheckTodos' value='checkbox' onClick='CheckearTodo();'></td>";
+			echo "<td width='90' align='center'>Rut</td>";
+			echo "<td width='180' align='left'>Nombre</td>";
+			echo "<td width='180' align='left'>Direcci&oacute;n</td>";
+			echo "<td width='60' align='left'>Ciudad</td>";
+			echo "<td width='60' align='center'>Tel&eacute;fono</td>";
+			echo "<td width='60' align='center'>Fax</td>";
+			echo "<td width='60' align='center'>Giro Transp</td>";
+/*			echo "<td width='180' align='center'>Indicador de Traslado</td>";*/
+			echo "</tr>";
+			$Consulta = "select * from pac_web.transportista order by nombre";
+			$Resultado=mysqli_query($link, $Consulta);
+/*			$JoinIndicador = "select p.nombre from pac_web.pac_indicador_traslado p
+JOIN pac_web.transportista o ON o.indicador_traslado = p.indicador";*/
+			echo "<input type='hidden' name='CheckTransp'><input type='hidden' name ='TxtRutO'>";
+			while ($Fila=mysqli_fetch_array($Resultado))
+			{
+				echo "<tr>"; 
+				echo "<td align='left'><input type='checkbox' name='CheckTransp' value='checkbox'></td>";
+				echo "<td width='90' align='right'>".$Fila["rut_transportista"]."<input type='hidden' name ='TxtRutO' value ='".$Fila["rut_transportista"]."'></td>";
+				echo "<td width='150' align='left'>".$Fila["nombre"]."</td>";
+				echo "<td width='150' align='left'>".$Fila["direccion"]."&nbsp;</td>";
+				echo "<td width='60' align='left'>".$Fila["ciudad"]."&nbsp;</td>";
+				echo "<td width='60' align='right'>".$Fila["telefono"]."&nbsp;</td>";
+				echo "<td width='60' align='right'>".$Fila["fax"]."&nbsp;</td>";
+				echo "<td width='60' align='right'>".$Fila["giro_transp"]."&nbsp;</td>";
+/*				$Consulta2= "select * from pac_web.pac_indicador_traslado where indicador=".$Fila["indicador_traslado"];
+				$Resultado2=mysqli_query($link, $Consulta2);
+				while ($Fila2=mysqli_fetch_array($Resultado2))
+					{
+				echo "<td width='150' align='left'>".$Fila2["nombre"]."&nbsp;</td>";
+					}*/
+				echo "</tr>";
+			}
+			echo "</table>";
+		?>
+        <br> <table width="750" border="0" class="tablainterior">
+          <tr> 
+            <td align="center"> <input type="button" name="BtnNuevo" value="Nuevo" style="width:60" onClick="MostrarPopupProceso('N');"> 
+              <input type="button" name="BtnModificar" value="Modificar" style="width:60" onClick="MostrarPopupProceso('M');"> 
+              <input type="button" name="BtnEliminar" value="Eliminar" style="width:60" onClick="MostrarPopupProceso('E');"> 
+              <input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();"></td>
+          </tr>
+        </table>
+        <br>
+      </td>
+    </tr>
+  </table>
+  <?php include("../principal/pie_pagina.php")?>
+</form>
+</body>
+</html>
+<?php
+	if (isset($EncontroRelacion))
+	{
+		if ($EncontroRelacion==true)
+		{
+			echo "<script languaje='javascript'>";
+			echo "alert('Uno o mas Elementos no fueron eliminados por tener grupos asociados');";	
+			echo "</script>";
+		}
+	}
+	if (isset($reg_delete))
+	{
+		if ($reg_delete==true)
+		{
+			echo "<script languaje='javascript'>";
+			echo "alert('Registro eliminado correctamente.');";	
+			echo "</script>";
+		}
+	}
+?>

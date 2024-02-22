@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43630 ',peso_neto='28340',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7407646-7',nombre_chofer='MARIO OLGUIN',observacion='',romana_salida='1' where correlativo='449589' and lote='21096010' and recargo='18'

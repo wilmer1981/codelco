@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44830 ',peso_neto='26380',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8293964-4',nombre_chofer='JOSE BOLADOS',observacion='',romana_salida='1' where correlativo='468348' and lote='22086098' and recargo='1'

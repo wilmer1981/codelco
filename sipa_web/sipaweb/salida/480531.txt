@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40270 ',peso_neto='25790',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='11994398-1',nombre_chofer='JOSE URIBE',observacion='concentrado de cu',romana_salida='1' where correlativo='480531' and lote='23036137' and recargo='7'

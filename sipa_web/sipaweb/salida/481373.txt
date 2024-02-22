@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43230 ',peso_neto='27690',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='14901741-0',nombre_chofer='RUBEN GONZALEZ',observacion='CU VARIOS PVSA',romana_salida='1' where correlativo='481373' and lote='23036305' and recargo='1'

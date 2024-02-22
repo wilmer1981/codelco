@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43190 ',peso_neto='19330',marca='EQUIS AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='8090510-6',nombre_chofer='ALDO DIAZ',observacion='',romana_salida='1' where correlativo='455117' and lote='21126034' and recargo='31'

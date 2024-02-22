@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42750 ',peso_neto='24450',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='7908874-9',nombre_chofer='RAUL RIVERA',observacion='',romana_salida='1' where correlativo='454217' and lote='21116210' and recargo='1'

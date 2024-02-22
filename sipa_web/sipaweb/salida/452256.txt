@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44620',peso_neto='30770',marca='FRANJA BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='9941698-K',nombre_chofer='MARCELINO SAN MARTIN',observacion='',romana_salida='1' where correlativo='452256' and lote='21106125' and recargo='29'

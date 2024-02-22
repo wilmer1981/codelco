@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43890 ',peso_neto='29000',marca='DOS FRANJAS VERDES',cod_mop='630',num_sello='',transportista='',rut_chofer='17707273-7',nombre_chofer='DANIEL SALVO ',observacion='',romana_salida='1' where correlativo='487173' and lote='23076017' and recargo='3'

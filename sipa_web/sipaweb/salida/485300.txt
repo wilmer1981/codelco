@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44930 ',peso_neto='29030',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='28013137-7',nombre_chofer='JOHN VARGAS',observacion='cobre varios ',romana_salida='1' where correlativo='485300' and lote='23066018' and recargo='4'

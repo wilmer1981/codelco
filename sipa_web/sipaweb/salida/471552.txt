@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44950 ',peso_neto='28890',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10348949-0',nombre_chofer='CLAUDIO PENA',observacion='oxidos',romana_salida='1' where correlativo='471552' and lote='22106079' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44630 ',peso_neto='29860',marca='V BLANCA',cod_mop='693',num_sello='',transportista='',rut_chofer='7689571-6',nombre_chofer='JORGE CARVAJAL',observacion='',romana_salida='1' where correlativo='472791' and lote='22116011' and recargo='38'

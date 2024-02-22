@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44080 ',peso_neto='30000',marca='V FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='15732588-4',nombre_chofer='RODRIGO  COFRE',observacion='',romana_salida='1' where correlativo='453521' and lote='21116072' and recargo='55'

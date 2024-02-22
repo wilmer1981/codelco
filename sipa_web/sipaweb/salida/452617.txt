@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43160 ',peso_neto='29590',marca='FRANJA NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='11633971-4',nombre_chofer='EUGENIO  ARANCIBIA',observacion='',romana_salida='1' where correlativo='452617' and lote='21106152' and recargo='59'

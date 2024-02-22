@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43180',peso_neto='28150',marca='V BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='8090510-6',nombre_chofer='ALDO DIAZ',observacion='',romana_salida='1' where correlativo='456594' and lote='22016038' and recargo='24'

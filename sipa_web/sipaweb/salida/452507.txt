@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='43450',peso_neto='28770',marca='V NEGRA',cod_mop='693',num_sello='',transportista='',rut_chofer='7689571-6',nombre_chofer='JORGE CARVAJAL',observacion='',romana_salida='1' where correlativo='452507' and lote='21106159' and recargo='13'

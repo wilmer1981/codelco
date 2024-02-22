@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 41780 ',peso_neto='25250',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16184375-k',nombre_chofer='jorge picon',observacion='CU PVSA',romana_salida='1' where correlativo='482446' and lote='23046108' and recargo='10'

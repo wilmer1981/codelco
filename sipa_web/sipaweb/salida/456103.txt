@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 40740 ',peso_neto='24670',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9432913-2',nombre_chofer='RICARDO CAMPUZANO',observacion='',romana_salida='1' where correlativo='456103' and lote='21126231' and recargo='1'

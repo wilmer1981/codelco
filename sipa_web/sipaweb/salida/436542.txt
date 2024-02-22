@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 34820 ',peso_neto='19480',marca='EQUIS FRANJA NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='8458834-2',nombre_chofer='JOSE  GAJARDO',observacion='',romana_salida='1' where correlativo='436542' and lote='21016021' and recargo='31'

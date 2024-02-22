@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44920 ',peso_neto='30490',marca='FRANJA ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='7714093-K',nombre_chofer='ERNESTO CISTERNAS',observacion='',romana_salida='1' where correlativo='438664' and lote='21026074' and recargo='52'

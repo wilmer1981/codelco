@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44190',peso_neto='27840',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10864077-4',nombre_chofer='wilfredo diaz',observacion='cu sucio',romana_salida='1' where correlativo='490822' and lote='23096089' and recargo='3'

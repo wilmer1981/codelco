@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 37500 ',peso_neto='2190',marca='EQUIS DOS FRANJAS BLANCA',cod_mop='510',num_sello='',transportista='',rut_chofer='14509126-8',nombre_chofer='EMILIO VERA',observacion='',romana_salida='1' where correlativo='483314' and lote='23046186' and recargo='46'

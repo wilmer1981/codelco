@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44310 ',peso_neto='27070',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12217929-k',nombre_chofer='marco veas',observacion='',romana_salida='1' where correlativo='490135' and lote='23086247' and recargo='9'

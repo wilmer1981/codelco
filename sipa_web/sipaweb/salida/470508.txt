@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44940',peso_neto='28870',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17260875-8',nombre_chofer='V. Alvarez',observacion='CU VARIOS',romana_salida='1' where correlativo='470508' and lote='22096172' and recargo='7'

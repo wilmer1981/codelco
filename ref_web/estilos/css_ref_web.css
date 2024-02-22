@@ -1,0 +1,20 @@
+BODY {	MARGIN: 0px 0px 0px 3px}
+BODY {	COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px}
+
+.Cabecera {	COLOR: #ffffff; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px}
+.ColorTabla01 {	BACKGROUND-COLOR: #b26c4a; BACKGROUND-IMAGE: url(../imagenes/fondo_detalle.gif); COLOR: #fffff2}
+.ColorTabla02 {	BACKGROUND-COLOR: #eeeeee}
+.Borde {	BORDER-BOTTOM: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid}
+TABLE {	COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px; FONT-STYLE: normal}
+.TablaPrincipal {	BACKGROUND-COLOR: #eeeee2; BACKGROUND-IMAGE: url(../imagenes/fondo3.gif); BORDER-BOTTOM: #000099 1px solid; BORDER-LEFT: #000099 1px solid; BORDER-RIGHT: #000099 1px solid; BORDER-TOP: #000099 1px solid; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
+.TablaInterior {	BORDER-BOTTOM: #000000 2px solid; BORDER-LEFT: #000000 1px solid; BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #000000 1px solid; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
+.TablaDetalle {	BORDER-BOTTOM: #000000 2px solid; BORDER-LEFT: #000000 1px solid; BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #000000 1px solid; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
+FONT {	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px; FONT-STYLE: normal}
+INPUT {	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px; FONT-STYLE: normal}
+.SinBorde {	BACKGROUND-COLOR: #eeeee2; BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
+.ConBorde {	BORDER-BOTTOM: #000000 11px solid; BORDER-LEFT: #000000 11px solid; BORDER-RIGHT: #000000 11px solid; BORDER-TOP: #000000 11px solid}
+.TituloTabla {	BACKGROUND: #ffff00; COLOR: #0000ff; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px; FONT-STYLE: normal}
+.Detalle01 {	BACKGROUND: #ffffff; COLOR: #0000ff; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px; FONT-STYLE: normal}
+.Detalle02 {	BACKGROUND: #cccccc; COLOR: #0000ff; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px; FONT-STYLE: normal}
+SELECT {	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; FONT-SIZE: 10px; FONT-STYLE: normal}
+.boton {	BACKGROUND: #ffff00; COLOR: #0000ff; FONT-SIZE: 10px; FONT-STYLE: normal}

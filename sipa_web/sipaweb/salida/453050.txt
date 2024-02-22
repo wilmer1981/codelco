@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44630',peso_neto='30450',marca='V BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='15732588-4',nombre_chofer='RODRIGO  COFRE',observacion='',romana_salida='1' where correlativo='453050' and lote='21116017' and recargo='3'

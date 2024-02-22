@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42820 ',peso_neto='25290',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15731873-K',nombre_chofer='gabriel contreras',observacion='CU SUCIO',romana_salida='1' where correlativo='491009' and lote='23096114' and recargo='4'

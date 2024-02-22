@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 38430 ',peso_neto='24600',marca='DOS FRANJAS BLANCAS',cod_mop='570',num_sello='',transportista='',rut_chofer='13496227-5',nombre_chofer='MARCELO P',observacion='',romana_salida='1' where correlativo='492185' and lote='23106010' and recargo='8'

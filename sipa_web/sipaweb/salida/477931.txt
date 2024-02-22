@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='41190',peso_neto='22840',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16251291-9',nombre_chofer='jorge jimenez',observacion='cu sucio',romana_salida='1' where correlativo='477931' and lote='23016384' and recargo='5'

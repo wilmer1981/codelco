@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44280',peso_neto='30010',marca='DOS FRANJAS AZULES',cod_mop='690',num_sello='',transportista='',rut_chofer='15065298-7',nombre_chofer='CRISTIAN ALVARADO',observacion='',romana_salida='1' where correlativo='451149' and lote='21096115' and recargo='44'

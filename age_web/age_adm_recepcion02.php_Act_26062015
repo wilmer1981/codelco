@@ -1,0 +1,539 @@
+<?
+	include("../principal/conectar_principal.php"); 
+	if ($Proc == "M")
+	{
+		$EstadoInput = "readonly";
+		$Consulta = "select * ";
+		$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 ";
+		$Consulta.= " on t1.lote = t2.lote";
+		$Consulta.= " where t1.lote = '".$TxtLote."'";
+		$Consulta.= " and t2.recargo = '".$TxtRecargo."'";
+		$Resp = mysql_query($Consulta);
+		if ($Fila = mysql_fetch_array($Resp))
+		{
+			//DATOS DEL LOTE
+			$TxtLote = $Fila["lote"];
+			$CmbSubProducto = $Fila["cod_subproducto"];
+			$CmbProveedor = $Fila["rut_proveedor"];
+			$CmbCodFaena = $Fila["cod_faena"];
+			$CmbCodRecepcion = $Fila["cod_recepcion"];
+			$CmbCodRecepcionENM = $Fila["cod_recepcion_enm"];
+			$CmbClaseProducto = $Fila["clase_producto"];
+			$TxtConjunto = $Fila["num_conjunto"];
+			$TxtMuestraParalela = $Fila["muestra_paralela"];
+			$TxtLoteRemuestreo = $Fila["num_lote_remuestreo"];
+			$CmbEstadoLote = $Fila["estado_lote"];
+			$TxtCancha = $Fila["cancha"];
+			$CmbEstadoRecargo = $Fila["estado_recargo"];
+			//DATOS DEL DETALLE
+			if ($NewRec != "S")
+			{
+				$TxtRecargo = $Fila["recargo"];
+				$TxtFolio = $Fila["folio"];
+				$TxtCorrelativo = $Fila["corr"];
+				$TxtFechaRecep = $Fila["fecha_recepcion"];
+				$ChkFinLote = $Fila["fin_lote"];
+				$TxtPesoBruto = $Fila["peso_bruto"];
+				$TxtPesoTara = $Fila["peso_tara"];
+				$TxtPesoNeto = $Fila["peso_neto"];
+				$TxtGuia = $Fila["guia_despacho"];
+				$TxtPatente = $Fila["patente"];
+				$CmbAutorizado = $Fila["autorizado"];
+			}
+			else
+			{
+				$Consulta = "select ifnull(max(recargo*1),0) as ult_recargo from age_web.detalle_lotes ";
+				$Consulta.= " where lote='".$TxtLote."'";
+				$Resp2 = mysql_query($Consulta);
+				if ($Fila2 = mysql_fetch_array($Resp2))
+					$TxtRecargo = $Fila2["ult_recargo"] + 1;
+				else
+					$TxtRecargo = 1;
+				$TxtFolio = "";
+				$TxtCorrelativo = "";
+				$TxtFechaRecep = date("Y-m-d");
+				$ChkFinLote = "N";
+				$TxtPesoBruto = 0;
+				$TxtPesoTara = 0;
+				$TxtPesoNeto = 0;
+				$TxtGuia = "";
+				$TxtPatente = "";
+				$CmbAutorizado = "N";
+			}//FIN SI ES NEWREC!= "S"
+		}
+	}
+?>
+<html>
+<head>
+<title>Sistema de Agencia</title>
+<link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
+<script language="javascript" src="../principal/funciones/funciones_java.js"></script>
+<SCRIPT event=onclick() for=document>popCal.style.visibility = "hidden";</SCRIPT>
+<script language="javascript">
+function Proceso(opt)
+{
+	var f = document.frmProceso;
+	switch (opt)
+	{
+		case "G":
+			if (f.TxtLote.value==""){
+				alert("Debe Ingresar Num. Lote");
+				f.TxtLote.focus();
+				return;}
+			if (f.TxtConjunto.value==""){
+				alert("Debe Ingresar Num. Conjunto");
+				f.TxtConjunto.focus();
+				return;}
+			if (f.CmbSubProducto.value=="S"){
+				alert("Debe Seleccinar SubProducto");
+				f.CmbSubProducto.focus();
+				return;}
+			if (f.CmbEstadoLote.value=="S"){
+				alert("Debe Seleccinar Estado del Lote");
+				f.CmbEstadoLote.focus();
+				return;}
+			if (f.CmbProveedor.value=="S"){
+				alert("Debe Seleccionar Proveedor");
+				f.CmbProveedor.focus();
+				return;}
+			if (f.CmbCodFaena.value=="S"){
+				alert("Debe Seleccionar Faena");
+				f.CmbCodFaena.focus();
+				return;}
+			if (f.CmbClaseProducto.value=="S"){
+				alert("Debe Seleccionar Clase de Producto");
+				f.CmbClaseProducto.focus();
+				return;}
+			if (f.CmbCodRecepcion.value=="S"){
+				alert("Debe Tipo de Recepcion");
+				f.CmbCodRecepcion.focus();
+				return;}
+			if (f.TxtRecargo.value=="" || f.TxtRecargo.value=="0"){
+				alert("Debe Ingresar Num. de Recargo");
+				f.TxtRecargo.focus();
+				return;}
+			if (f.TxtFolio.value==""){
+				alert("Debe Ingresar Num. de Folio");
+				f.TxtFolio.focus();
+				return;}
+			/*if (f.TxtCorrelativo.value==""){
+				alert("Debe Ingresar Correlativo");
+				f.TxtCorrelativo.focus();
+				return;}*/
+			if (f.TxtFechaRecep.value==""){
+				alert("Debe Ingresar Fecha de Recepcion");
+				f.TxtFechaRecep.focus();
+				return;}
+			if (f.TxtGuia.value==""){
+				alert("Debe Ingresar Num. de Guia de Despacho");
+				f.TxtGuia.focus();
+				return;}
+			if (f.TxtPesoBruto.value==""){
+				alert("Debe Ingresar Peso Bruto");
+				f.TxtPesoBruto.focus();
+				return;}
+			if (f.TxtPesoTara.value==""){
+				alert("Debe Ingresar Peso Tara");
+				f.TxtPesoTara.focus();
+				return;}
+			if (f.TxtPesoNeto.value==""){
+				alert("Debe Ingresar Peso Neto");
+				f.TxtPesoNeto.focus();
+				return;}
+			if (f.TxtPatente.value==""){
+				alert("Debe Ingresar Patente del Camion");
+				f.TxtPatente.focus();
+				return;}
+			else{
+				f.TxtPatente.value=f.TxtPatente.value.toUpperCase();
+			}
+			if (f.CmbEstadoRecargo.value=="S"){
+				alert("Debe Seleccinar Estado del Recargo");
+				f.CmbEstadoRecargo.focus();
+				return;}
+			if (f.NewRec.value=="S") 
+				f.action = "age_adm_recepcion01.php?Proceso=NR";
+			else
+				f.action = "age_adm_recepcion01.php?Proceso=" + f.Proc.value;
+			f.submit();
+			break;
+		case "I":
+			f.BtnGuardar.style.visibility = "hidden";
+			f.BtnImprimir.style.visibility = "hidden";
+			f.BtnSalir.style.visibility = "hidden";
+			window.print();
+			f.BtnGuardar.style.visibility = "visible";
+			f.BtnImprimir.style.visibility = "visible";
+			f.BtnSalir.style.visibility = "visible";
+			break;
+		case "NR": //NUEVO RECARGO
+			f.NewRec.value = "S";
+			f.action = "age_adm_recepcion02.php";
+			f.submit();
+			break;
+		case "R": //RECARGA		
+			if (f.CmbRecargo.value!="S")
+			{
+				f.TxtRecargo.value = f.CmbRecargo.value;
+				f.action = "age_adm_recepcion02.php";
+				f.submit();
+			}
+			break
+		case "S":
+			window.opener.document.frmPrincipal.action = "age_adm_recepcion.php?TipoCon="+f.TipoConsulta.value;
+			window.opener.document.frmPrincipal.submit();
+			window.close();
+			break;
+		case "CE":
+			window.open("age_adm_recepcion04.php","","top=0,left=5,width=770,height=520,scrollbars=yes,resizable = yes,status=yes");
+		break;	
+	}
+}
+function Recarga3()
+{
+	var Frm=document.frmProceso;
+	Frm.action="age_adm_recepcion02.php?TipoBusq=3";
+	Frm.submit();	
+}
+</script>
+<style type="text/css">
+<!--
+body {
+	background-image: url(../principal/imagenes/fondo3.gif);
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-right: 3px;
+	margin-bottom: 6px;
+}
+-->
+</style><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+
+<body>
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=160 scrolling=no height=180></IFRAME></DIV>
+<form name="frmProceso" method="post" action="">
+<input type="hidden" name="Proc" value="<? echo $Proc; ?>">
+<input type="hidden" name="NewRec" value="<? echo $NewRec; ?>">
+<input type="hidden" name="TipoConsulta" value="<? echo $TipoConsulta; ?>">
+<table width="500"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
+  <tr class="ColorTabla01">
+    <td colspan="4"><strong>OPERACION:
+	<?
+	switch ($Proc)
+	{
+		case "M":
+			echo "Modificando Lote-Recargo";
+			break;
+		case "N":
+			echo "Insertando Nuevo Lote-Recargo";
+			break;
+		default:
+			echo "Operacion. No Identificada";
+		}
+	?></strong></td>
+  </tr>
+  <tr class="ColorTabla02">
+    <td><strong>DATOS DEL LOTE </strong></td>
+    <td>&nbsp;</td>
+    <td colspan="2" align="center"><strong>CARGAR DESDE EXCEL</strong><a href="JavaScript:Proceso('CE','','')"><img src="../principal/imagenes/ico_excel5.jpg" alt="Carga Lotes desde Excel"  border="0" align="absmiddle" /></a></td>
+    </tr>
+<?
+	if ($EstOpe != "")
+	{  
+		switch ($EstOpe)
+		{
+			case "S":
+				$Clase="ErrorSI";
+				break;
+			case "N":
+				$Clase="ErrorNO";
+				break;
+		}
+		echo "<tr class='ColorTabla02'>\n";
+    	echo "<td colspan='4' class='Colum01' align='center'><font class='".$Clase."'>".$Mensaje."</font></td>\n";
+    	echo "</tr>\n";
+	}
+?>
+  <tr class="Colum01">
+    <td width="92" class="Colum01">Lote:</td>
+    <td width="180" class="Colum01"><input <? echo $EstadoInput; ?> name="TxtLote" type="text" class="InputCen" id="TxtLote" value="<? echo $TxtLote; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'TxtConjunto');"></td>
+    <td width="103" align="right" class="Colum01">Num.Conjunto:</td>
+    <td width="98" class="Colum01"><input name="TxtConjunto" type="text" class="InputDer" id="TxtConjunto2" value="<? echo $TxtConjunto; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'CmbSubProducto');"></td>
+  </tr>
+  <tr class="Colum01">
+    <td class="Colum01">SubProducto:</td>
+    <td class="Colum01"><select name="CmbSubProducto" class="Select01" id="CmbSubProducto" onKeyDown="TeclaPulsada2('N',true,this.form,'CmbEstadoLote');">
+	<option value="S" class="NoSelec">SELECCIONAR</option>
+<?
+	$Consulta = "select cod_subproducto, descripcion, abreviatura, LPAD(cod_subproducto,2,'0') as orden ";
+	$Consulta.= " from proyecto_modernizacion.subproducto ";
+	$Consulta.= " where cod_producto='1' order by orden";
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
+	{
+		if ($CmbSubProducto == $Fila["cod_subproducto"])
+			echo  "<option selected value='".$Fila["cod_subproducto"]."'>".$Fila["orden"]." - ".$Fila["abreviatura"]."</option>\n";
+		else
+			echo  "<option value='".$Fila["cod_subproducto"]."'>".$Fila["orden"]." - ".$Fila["abreviatura"]."</option>\n";
+	}
+?>	
+    </select></td>
+    <td align="right" class="Colum01">Estado del Lote:</td>
+    <td class="Colum01"><select name="CmbEstadoLote" class="Select01" id="CmbEstadoLote"  onkeydown="TeclaPulsada2('N',true,this.form,'CmbProveedor');">
+      <option value="S" class="NoSelec">SELECCIONAR</option>
+      <?
+	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15003' order by cod_subclase";
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
+	{
+		if ($Fila["cod_subclase"]==$CmbEstadoLote)
+			echo "<option selected value='".$Fila["cod_subclase"]."'>".$Fila["nombre_subclase"]."</option>\n";
+		else
+			echo "<option value='".$Fila["cod_subclase"]."'>".$Fila["nombre_subclase"]."</option>\n";
+	}
+?>
+    </select></td>
+  </tr>
+  <tr class="Colum01">
+    <td class="Colum01">Proveedor: </td>
+    <td colspan="3" class="Colum01"><select name="CmbProveedor" class="Select01" onKeyDown="TeclaPulsada2('N',true,this.form,'CmbCodFaena');" style="width:270">
+	<option value="S" class="NoSelec">SELECCIONAR</option>
+<?
+	$Consulta = "select * ";
+	$Consulta.= " from sipa_web.proveedores ";
+	if($TipoBusq=='3'&&$TxtFiltroPrv!='')
+	   $Consulta.= " where nombre_prv like '%".$TxtFiltroPrv."%'";    	
+	$Consulta.= " order by TRIM(nombre_prv) ";
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
+	{
+		$Datos = explode("-",$Fila["rut_prv"]);
+		$RutAux = ($Datos[0]*1)."-".$Datos[1];
+		if ($CmbProveedor == $RutAux)
+			echo  "<option selected value='".$RutAux."'>".str_pad($Fila["rut_prv"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre_prv"]."</option>\n";
+		else
+			echo  "<option value='".$RutAux."'>".str_pad($Fila["rut_prv"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre_prv"]."</option>\n";
+	}
+?>	
+    </select>
+      Filtro 
+      <input type="text" name="TxtFiltroPrv" size="10">
+      <input name="BtnOkA2" type="button" value="Ok" onClick="Recarga3()"></td>
+    </tr>
+  <tr class="Colum01">
+    <td class="Colum01">Cod Faena: </td>
+    <td colspan="3" class="Colum01"><select name="CmbCodFaena" class="Select01" onKeyDown="TeclaPulsada2('N',true,this.form,'CmbClaseProducto');">
+	<option value="S" class="NoSelec">SELECCIONAR</option>
+<?
+	$Consulta = "select distinct cod_mina,nombre_mina from sipa_web.minaprv order by nombre_mina ";
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
+	{
+		if ($CmbCodFaena == $Fila["cod_mina"])
+			echo "<option selected value='".$Fila["cod_mina"]."'>".$Fila["cod_mina"]." - ".$Fila["nombre_mina"]."</option>\n";
+		else
+			echo "<option value='".$Fila["cod_mina"]."'>".$Fila["cod_mina"]." - ".$Fila["nombre_mina"]."</option>\n";
+	}
+?>	
+    </select></td>
+    </tr>
+  <tr class="Colum01">
+    <td class="Colum01">Clase Producto:</td>
+    <td class="Colum01"><select name="CmbClaseProducto" class="Select01" onKeyDown="TeclaPulsada2('N',true,this.form,'CmbCodRecepcion');">
+	<option value="S" class="NoSelec">SELECCIONAR</option>
+      <?
+	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15001' order by nombre_subclase";
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
+	{
+		if ($Fila["nombre_subclase"]==$CmbClaseProducto)
+			echo "<option selected value='".$Fila["nombre_subclase"]."'>".$Fila["valor_subclase1"]."</option>\n";
+		else
+			echo "<option value='".$Fila["nombre_subclase"]."'>".$Fila["valor_subclase1"]."</option>\n";
+	}
+?>
+    </select></td>
+    <td align="right" class="Colum01">Muestra Paral.:</td>
+    <td class="Colum01"><input name="TxtMuestraParalela" type="text" class="InputDer" id="TxtLoteRemuestreo" value="<? echo $TxtMuestraParalela; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtLoteRemuestreo');"></td>
+  </tr>
+  <tr class="Colum01">
+    <td class="Colum01">Cod.Recep:</td>
+    <td class="Colum01"><select name="CmbCodRecepcion" class="Select01" onkeydown="TeclaPulsada2('N',true,this.form,'TxtMuestraParalela');">
+      <option value="S" class="NoSelec">SELECCIONAR</option>
+<?
+	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
+	$Consulta.= " where cod_clase='3104' ";
+	$Consulta.= " order by cod_subclase ";
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
+	{
+		if ($CmbCodRecepcion==$Fila["nombre_subclase"])
+			echo "<option selected value='".$Fila["nombre_subclase"]."'>".strtoupper($Fila["nombre_subclase"])."</option>\n";
+		else
+			echo "<option value='".$Fila["nombre_subclase"]."'>".strtoupper($Fila["nombre_subclase"])."</option>\n";
+	}
+?>
+    </select></td>
+    <td align="right" class="Colum01">Lote Remues.:</td>
+    <td class="Colum01"><input name="TxtLoteRemuestreo" type="text" class="InputDer" id="TxtLoteRemuestreo3" value="<? echo $TxtLoteRemuestreo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtRecargo');"></td>
+  </tr>
+  <tr class="Colum01">
+    <td class="Colum01">Cod.Recep.ENM : </td>
+    <td class="Colum01"><select name="CmbCodRecepcionENM" class="Select01" id="CmbCodRecepcionENM" onkeydown="TeclaPulsada2('N',true,this.form,'TxtMuestraParalela');">
+      <option value="S" class="NoSelec">SELECCIONAR</option>
+      <?
+	$Consulta = "select COD_C, DESC_A from rec_web.tipos  where indica='R' order by DESC_A ";
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
+	{
+		if ($Fila["COD_C"]==$CmbCodRecepcionENM)
+			echo "<option selected value='".$Fila["COD_C"]."'>".$Fila["DESC_A"]."</option>\n";
+		else
+			echo "<option value='".$Fila["COD_C"]."'>".$Fila["DESC_A"]."</option>\n";
+	}
+?>
+    </select></td>
+    <td align="right" class="Colum01">Cancha:</td>
+    <td class="Colum01"><input name="TxtCancha" type="text" class="InputDer" value="<? echo $TxtCancha; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtRecargo');"></td>
+  </tr>
+</table>
+<br>
+<table width="500"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
+  <tr class="ColorTabla02">
+    <td colspan="5"><strong>
+<?
+	if ($NewRec == "S")
+		echo "<font style='color=#FF0000'>INGRESAR DATOS DEL NUEVO RECARGO</font>";
+	else
+		echo "DATOS DEL RECARGO";
+?>	 </strong></td>
+  </tr>
+  <tr>
+    <td width="97" class="Colum01">Num.Recargo:</td>
+    <td width="74" class="Colum01"><input <? if ($NewRec!="S"){echo $EstadoInput;} ?> name="TxtRecargo" type="text" class="InputDer" id="TxtRecargo" value="<? echo $TxtRecargo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtFechaRecep');"></td>
+    <td width="80" class="Colum01"><select name="CmbRecargo" onChange="Proceso('R')">
+      <option value="S">Recargos</option>
+      <?
+	$Consulta = "select recargo, LPAD(recargo,2,'0') as orden from age_web.detalle_lotes ";
+	$Consulta.= " where lote='".$TxtLote."' order by orden";
+	$Resp= mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
+	{
+		if ($Fila["recargo"]==$TxtRecargo)
+			echo "<option selected value='".$Fila["recargo"]."'>".$Fila["orden"]."</option>\n";
+		else
+			echo "<option value='".$Fila["recargo"]."'>".$Fila["orden"]."</option>\n";
+	}
+	
+?>
+    </select></td>
+    <td width="103" align="right" class="Colum01">Fin Lote:</td>
+    <td width="113" class="Colum01">
+      <?
+	switch ($ChkFinLote)
+	{
+		case "S":
+			echo "<input checked name='ChkFinLote' type='radio' value='S'>Si&nbsp;\n";
+			echo "<input name='ChkFinLote' type='radio' value='N'>No</td>\n";
+			break;
+		default:
+			echo "<input name='ChkFinLote' type='radio' value='S'>Si&nbsp;\n";
+			echo "<input checked name='ChkFinLote' type='radio' value='N'>No</td>\n";
+			break;
+	}
+?>  
+  </tr>
+  <tr>
+    <td class="Colum01">Fecha Recep:</td>
+    <td colspan="2" class="Colum01">      <input name="TxtFechaRecep" type="text" class="InputCen" id="TxtFechaRecep2" value="<? echo $TxtFechaRecep; ?>" size="15" maxlength="10" readonly onKeyDown="TeclaPulsada2('S',false,this.form,'TxtFolio');">
+      <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaRecep,TxtFechaRecep,popCal);return false"></td>
+    <td align="right" class="Colum01">Peso Bruto:</td>
+    <td class="Colum01"><input name="TxtPesoBruto" type="text" id="TxtPesoBruto" value="<? echo $TxtPesoBruto;?>" size="10" maxlength="10" class="InputDer" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPesoTara');"></td>
+  </tr>
+  <tr>
+    <td class="Colum01">Folio:</td>
+    <td colspan="2" class="Colum01"><input name="TxtFolio" type="text" class="InputDer" id="TxtFolio2" value="<? echo $TxtFolio; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtCorrelativo');"></td>
+    <td align="right" class="Colum01">Peso Tara:</td>
+    <td class="Colum01"><input name="TxtPesoTara" type="text" class="InputDer" id="TxtPesoTara" value="<? echo $TxtPesoTara; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPesoNeto');"></td>
+  </tr>
+  <tr>
+    <td class="Colum01">&nbsp;</td>
+    <td colspan="2" class="Colum01"><input name="TxtCorrelativo" type="hidden" class="InputDer" id="TxtCorrelativo2" value="<? echo $TxtCorrelativo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtGuia');" readonly></td>
+    <td align="right" class="Colum01">Peso Neto:</td>
+    <td class="Colum01"><input name="TxtPesoNeto" type="text" class="InputDer" id="TxtPesoNeto" value="<? echo $TxtPesoNeto;?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPatente');"></td>
+  </tr>
+  <tr>
+    <td class="Colum01">Guia Despacho:</td>
+    <td colspan="2" class="Colum01">      <input name="TxtGuia" type="text" class="InputCen" id="TxtGuia2" value="<? echo $TxtGuia; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPesoBruto');"></td>
+    <td align="right" class="Colum01">Patente:</td>
+    <td class="Colum01"><input name="TxtPatente" type="text" class="InputCen" id="TxtPatente2" value="<? echo $TxtPatente; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('N',false,this.form,'CmbEstadoRecargo');"></td>
+  </tr>
+  <tr>
+    <td class="Colum01">Autorizado:</td>
+    <td colspan="2" class="Colum01">
+	<select name="CmbAutorizado">
+	<?
+	switch ($CmbAutorizado)
+	{
+		case "S":
+			echo "<option value='T' class='NoSelec'>SELECCIONAR</option>\n";
+			echo "<option selected value='S'>SI</option>\n";
+			echo "<option value='N'>NO</option>\n";
+			echo "<option value='R'>REENVIO</option>\n";
+			break;
+		case "N":
+			echo "<option value='T' class='NoSelec'>SELECCIONAR</option>\n";
+			echo "<option value='S'>SI</option>\n";
+			echo "<option selected value='N'>NO</option>\n";
+			echo "<option value='R'>REENVIO</option>\n";
+			break;
+		case "R":
+			echo "<option value='T' class='NoSelec'>SELECCIONAR</option>\n";
+			echo "<option value='S'>SI</option>\n";
+			echo "<option value='N'>NO</option>\n";
+			echo "<option selected value='R'>REENVIO</option>\n";
+			break;
+		default:
+			echo "<option selected value='T' class='NoSelec'>SELECCIONAR</option>\n";
+			echo "<option value='S'>SI</option>\n";
+			echo "<option value='N'>NO</option>\n";
+			echo "<option value='R'>REENVIO</option>\n";
+			break;
+	}
+	?>
+	</select>	
+      </td>
+    <td align="right" class="Colum01">Estado de Recargo:</td>
+    <td class="Colum01"><select name="CmbEstadoRecargo" class="Select01" id="CmbEstadoRecargo"  onkeydown="TeclaPulsada2('N',true,this.form,'');">
+      <option value="S" class="NoSelec">SELECCIONAR</option>
+      <?
+	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15003' order by cod_subclase";
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
+	{
+		if ($Fila["cod_subclase"]==$CmbEstadoRecargo)
+			echo "<option selected value='".$Fila["cod_subclase"]."'>".$Fila["nombre_subclase"]."</option>\n";
+		else
+			echo "<option value='".$Fila["cod_subclase"]."'>".$Fila["nombre_subclase"]."</option>\n";
+	}
+?>
+    </select></td>
+  </tr>
+  <tr align="center" valign="middle">
+    <td height="30" colspan="5" class="Colum01"><input name="BtnGuardar" type="button" id="BtnGuardar" value="Guardar" style="width:70px " onClick="Proceso('G')">
+<? 
+	if ($Proc == "M")
+	{
+?>	
+      <input name="BtnNuevoRec" type="button" id="BtnNuevoRec" value="Nuevo Recargo" style="width:100px " onClick="Proceso('NR')">
+<?
+	}
+?>	 
+      <input name="BtnImprimir" type="button" id="BtnImprimir" value="Imprimir" style="width:70px " onClick="Proceso('I')">
+      <input name="BtnSalir" type="button" id="BtnSalir" value="Salir" style="width:70px " onClick="Proceso('S')"></td>
+    </tr>
+</table>
+</form>
+</body>
+</html>

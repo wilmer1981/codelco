@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44800',peso_neto='28430',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11888704-2',nombre_chofer='jaime leal',observacion='rsc.oxido',romana_salida='1' where correlativo='452535' and lote='21106194' and recargo='8'

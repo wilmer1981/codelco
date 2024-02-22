@@ -1,0 +1,321 @@
+﻿<? 
+	include("../principal/conectar_sea_web.php");
+	$CodigoDeSistema = 2;
+?>
+
+<html>
+<head>
+<title>Documento sin t&iacute;tulo</title>
+<link rel="stylesheet" href="../principal/estilos/css_sea_web.css" type="text/css">
+<script language="JavaScript">
+function Grabar()
+{
+		frm = document.frml;
+
+		var rechac = frm.rechac.value * 1;
+		var rechah = frm.rechah.value * 1;
+		var aprobadoc = frm.aprobado_c.value * 1;
+		var aprobadoh = frm.aprobado_h.value * 1;
+		if (rechac > 0 || rechah > 0)
+		{
+			frm.action = "sea_util_ing_rechazos01.php?Procesa=9&TxtHornada=" + frm.TxtHornada.value + "&rechac=" + rechac + "&rechah=" + rechah +"&aprobadoc=" +aprobadoc +"&aprobadoh="+ aprobadoh;
+			frm.submit();		
+		}
+}
+/***********************/
+function Limpiar()
+{
+	document.location = "sea_util_ing_rechazos.php";
+}
+/******************/
+function Verifica1()
+{
+	var frm = document.frml;
+	frm.aprobado_c.value = (frm.SaldoC.value * 1) - (frm.rechac.value * 1);
+	frm.apro_tot.value = (frm.aprobado_c.value * 1) + (frm.aprobado_h.value * 1);
+	frm.recha_tot.value = (frm.rechac.value * 1) + (frm.rechah.value * 1);
+
+}
+/******************/
+function Verifica2()
+{
+	var frm = document.frml;
+	frm.aprobado_h.value = (frm.SaldoHM.value * 1) - (frm.rechah.value * 1);
+	frm.apro_tot.value = (frm.aprobado_c.value * 1) + (frm.aprobado_h.value * 1);
+	frm.recha_tot.value = (frm.rechac.value * 1) + (frm.rechah.value * 1);
+
+}
+
+/****************/
+function Salir()
+{
+	document.location = "../principal/sistemas_usuario.php?CodSistema=2&Nivel=1";
+}
+function Buscar()
+{
+
+	var frm = document.frml;
+	if (frm.TxtHornada.value =="" || frm.TxtHornada.value == 0)
+	{
+		alert ("numero de Hornada debe ingresarse");
+		return
+	}
+	frm.action = "sea_util_ing_rechazos.php?Mostrar=S&TxtHornada=" + frm.TxtHornada.value;
+	frm.submit();
+
+}
+/***************/
+function BuscarRechazo()
+{
+	var  frm = document.frml;
+	if (frm.TxtHornada.value =="" || frm.TxtHornada.value == 0)
+	{
+		alert ("numero de Hornada debe ingresarse");
+		return
+	}
+	frm.action = "sea_util_ing_rechazos.php?mostrar=S";
+	frm.submit();
+
+}
+/***************/
+</script>
+</head>
+
+<body leftmargin="3" topmargin="5">
+<form name="frml" action="" method="post">
+<? include("../principal/encabezado.php") ?>
+
+  <table width="770" border="0" cellpadding="5" cellspacing="0" background="../principal/imagenes/fondo3.gif" class="TablaPrincipal">
+    <tr>
+      <td width="762" align="center" valign="middle">
+
+		<table width="500" border="0" cellspacing="0" cellpadding="2" class="TablaInterior">
+          <tr> 
+            <td>Buscar Hornada</td>
+			<td width="50">
+			<?
+			    echo '<input name="TxtHornada" id="TxtHornada" type="text" size="15" value="'.$TxtHornada.'">';
+			 ?>
+			</td>
+            <td width="50"> 
+              <input name="btnok" type="button" value="OK" onClick="JavaScript:Buscar()">
+			  </td>
+          </tr>
+        </table>
+          <table width="500" border="0" cellspacing="0" cellpadding="3" class="ColorTabla01">
+            <tr> 
+              <td height="20" align="center">Producto</td>
+              
+            <td align="center">Unidades Producidas</td>
+            </tr>
+          </table>
+        <table width="500" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
+          <tr> 
+            <td width="229">Anodos Corrientes</td>
+            <td width="507" align="center">
+			<?
+				$unid_cor = 0;
+				if ($Mostrar == "S")
+				{
+					$consulta = "SELECT * FROM sea_web.hornadas WHERE cod_producto = 17 AND cod_subproducto = 4 AND hornada_ventana = ".$TxtHornada;
+					$rs = mysql_query($consulta);
+					if ($row = mysql_fetch_array($rs))
+					{
+						$unid_cor = $row["unidades"]; 
+						echo '<input name="unid_cor" type="text" size="10" align="right" value="'.$unid_cor.'" disabled>';
+					}
+					else
+					{
+						echo '<input name="unid_cor" type="text" align="right" size="10" value="'.$unid_cor.'" disabled>';
+					}
+				}
+				else
+				{
+					echo '<input name="unid_cor" type="text" align="right" size="10" value="'.$unid_cor.'" disabled>';
+				}
+					
+			?>
+			</td>
+          </tr>
+          <tr> 
+            <td>Anodos Hojas Madres</td>
+            <td align="center">
+			<?
+				$unid_hm = 0;
+				if ($Mostrar == "S")
+				{
+					$consulta = "SELECT * FROM sea_web.hornadas WHERE cod_producto = 17 AND cod_subproducto = 8 AND hornada_ventana = '".$TxtHornada."'";
+					$rs1 = mysql_query($consulta);
+					if ($row1 = mysql_fetch_array($rs1)) 
+				    {
+						$unid_hm = $row1["unidades"];
+						echo '<input name="unid_hm" type="text" align="right" size="10" value="'.$unid_hm.'" disabled>';
+					}
+					else 
+					{
+						echo '<input name="unid_hm" type="text" align="right" size="10" value="'.$unid_hm.'" disabled>';
+					}
+				}
+				else 
+				{
+					echo '<input name="unid_hm" type="text" align="right" size="10" value="'.$unid_hm.'" disabled>';
+				}
+					
+			?>
+			</td>
+          </tr>
+        </table>
+        <br>
+        <table width="600" border="0" cellspacing="0" cellpadding="0" class="ColorTabla01">
+          <tr> 
+            <td width="148" height="20" align="center">&nbsp;</td>
+			<td width="148" height="20" align="center">Saldo Hornada</td>
+            <td width="148" align="center">Rechazos</td>
+            <td width="148" align="center">Aprobados</td>
+          </tr>
+		</table>
+		</div>
+
+       <table width="600" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">	  
+          <tr> 
+            <td height="20">Anodos corrientes</td>
+            <td align="center">
+				<? 
+					$SaldoC = 0;
+					if ($Mostrar == "S")
+					{
+						$unidad_cte = 0;
+						$consulta="Select sum(unidades) as unidades_c from sea_web.movimientos where tipo_movimiento IN ('2','4','10') ";
+						$consulta.=" and cod_producto = '17' and cod_subproducto = '4' and hornada = '".$TxtHornada."'";
+						$resp=mysql_query($consulta);
+						if ($Fila=mysql_fetch_array($resp))
+						{
+							$SaldoC = $unid_cor - $Fila[unidades_c];
+						
+							if ($SaldoC > 0)
+							{						
+								echo '<input name="SaldoC" type="text" align="right" value="'.$SaldoC.'" size="10">';
+							}
+							else
+							{ 
+								$SaldoC = 0;
+								echo '<input name="SaldoC" type="text" align="right" value="'.$SaldoC.'" size="10">';
+							}
+						}
+						else
+						{ 
+								echo '<input name="SaldoC" type="text" align="right" value="'.$SaldoC.'" size="10">';
+						}
+					}
+					else
+					{
+								echo '<input name="SaldoC" type="text" align="right" value="'.$SaldoC.'" size="10">';
+					}
+				?>
+			</td>
+            <td align="center">
+				<? 
+					if ($SaldoC > 0)
+						echo '<input name="rechac" type="text" align="right" value="'.$rechac.'" onBlur="JavaScritp:Verifica1()" size="10">';
+					else 
+						echo '<input name="rechac" type="text" align="right" value="'.$rechac.'" size="10">'; 
+				?>
+			</td>
+            <td align="center">
+				<? 
+						echo '<input name="aprobado_c" type="text" align="right" value="'.$aprobado_c.'" size="10">';
+				?>
+			</td>
+          </tr>
+          <tr>
+            <td height="20">Anodos Hoja Madre</td>
+            <td align="center">
+			<? 
+			
+				if ($Mostrar == "S")
+				{
+					$SaldoHM = 0;
+					$consulta="Select sum(unidades) as unidades_h from sea_web.movimientos where tipo_movimiento IN ('2','4','10') ";
+					$consulta.=" and cod_producto = '17' and cod_subproducto = '8' and hornada = '".$TxtHornada."'";
+					$resp1=mysql_query($consulta);
+					if ($Fila1=mysql_fetch_array($resp1))
+					{
+							$SaldoHM = $unid_hm - $Fila1[unidades_h]; 
+							if ($SaldoHM > 0)
+							{						
+								echo '<input name="SaldoHM" type="text" align="right" value="'.$SaldoHM.'" size="10">';
+							}
+							else
+							{ 
+								$SaldoHM = 0;
+								echo '<input name="SaldoHM" type="text" align="right" value="'.$SaldoHM.'" size="10">';
+							}
+					}
+					else
+					{ 
+								echo '<input name="SaldoHM" type="text" align="right" value="'.$SaldoHM.'" size="10">';
+					}
+					
+				}
+				else
+				{
+				echo '<input name="SaldoHM" type="text" align="right" value="'.$SaldoHM.'" size="10">';
+				}
+					
+			?></td>
+            <td align="center">
+			<? 
+				if ($SaldoHM > 0)
+					echo '<input name="rechah" type="text" align="right" value="'.$rechah.'" onBlur="JavaScript:Verifica2()" size="10">';
+				else
+					echo '<input name="rechah" type="text" align="right" value="'.$rechah.'" size="10">';
+			?></td>
+            <td align="center">
+			<? 	
+					echo '<input name="aprobado_h" type="text" align="right" value="'.$aprobado_h.'" size="10">';
+			?></td>
+          </tr>
+          <tr> 
+            <td width="148" height="20">Total Produccion (Unidades)</td>
+            <td width="148" align="center"> 
+              	<? 
+						if ($Mostrar =="S")
+						{
+							$saldo_hor = $saldo_hor + $SaldoC + $SaldoHM;
+							echo '<input name="saldo_hor" type="text" align="right" value="'.$saldo_hor.'" size="10">';		
+						}
+						else
+						{				
+							echo '<input name="saldo_hor" type="text" align="right" value="" size="10">';				
+						}		
+				?>
+            </td>
+            <td width="148" align="center"> 
+              	<? 
+						echo '<input name="recha_tot" type="text" align="right" value="'.$recha_tot.'" size="10">';
+				?>
+            </td>
+            <td width="148" align="center"> 
+              	<? 
+						echo '<input name="apro_tot" type="text" align="right" value="'.$apro_tot.'" size="10">';
+				?>
+            </td>
+          </tr>
+        </table>
+        <br>
+
+        <table width="750" border="0" cellspacing="0" cellpadding="3">
+    <tr> 
+      <td align="center"><input name="btngrabar" type="button" value="Grabar" style="width:60" onClick="JavaScript:Grabar(this.form)"> 
+            <input name="btnlimpiar" type="button"  value="Limpiar" style="width:60" onClick="JavaScript:Buscar()">
+            <input name="btnsalir" type="button" style="width:60" value="Salir" onClick="JavaScript:Salir()"></td>
+    </tr>
+  </table>
+    
+</td>
+</tr>
+</table>
+<? include ("../principal/pie_pagina.php") ?>    
+</form>
+</body>
+</html>

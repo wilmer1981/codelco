@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44370',peso_neto='28690',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='19518236-1',nombre_chofer='Anyelo Luengo',observacion='ladrillo en desuso',romana_salida='1' where correlativo='456938' and lote='22016097' and recargo='6'

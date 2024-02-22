@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44070',peso_neto='30260',marca='FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='5499602-0',nombre_chofer='HECTOR SAEZ',observacion='',romana_salida='1' where correlativo='452489' and lote='21106181' and recargo='31'

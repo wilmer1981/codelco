@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42520 ',peso_neto='27650',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='14181786-8',nombre_chofer='leonardo ordenes',observacion='circulantes oxidos ',romana_salida='1' where correlativo='473474' and lote='22116119' and recargo='2'

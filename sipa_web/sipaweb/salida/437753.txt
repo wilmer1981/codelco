@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42500 ',peso_neto='26230',marca='FRANJA AZUL',cod_mop='510',num_sello='',transportista='',rut_chofer='28511734-8',nombre_chofer='JUAN MOSCOSO',observacion='',romana_salida='1' where correlativo='437753' and lote='21016247' and recargo='2'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42940 ',peso_neto='28440',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17994415-4',nombre_chofer='CRISTIAN ESCOBAR',observacion='',romana_salida='1' where correlativo='438992' and lote='21026192' and recargo='12'

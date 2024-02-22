@@ -1,0 +1,97 @@
+<?php 	
+
+include('conectar_ori.php');
+include("../principal/graficos/phpchartdir.php");
+set_time_limit(5000);
+$Cont=0;
+$ArregloNom=array();
+$ArrCant=array();
+
+$FDesdeT=$FDesde;
+$FHastaT=$FHasta;
+$FDesde=$FDesde." 00:00:00";
+$FHasta=$FHasta." 23:59:59";
+
+
+//echo "PANTALLA:   ".$CmbM;
+$Consulta="SELECT  * from proyecto_modernizacion.pantallas t1 inner join sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla where cod_sistema='29' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
+if($USUARIO!='T')
+	$Consulta.= " and t2.rut='".$USUARIO."'";
+if($CmbM!='T')
+	$Consulta.=" and t1.cod_pantalla='".$CmbM."'";
+$Consulta.=" group by t1.cod_pantalla order by t1.descripcion ";
+//echo $Consulta."<br>";
+$Respuesta=mysql_query($Consulta);
+while($Fila=mysql_fetch_array($Respuesta))
+{	
+	$ArregloNom[$Cont]=$Fila["descripcion"];
+	
+	$Consulta1="SELECT  count(*) as Cantidad from proyecto_modernizacion.pantallas t1 inner join sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla where cod_sistema='29' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
+	$Consulta1.= " and t2.rut='".$Fila["rut"]."'";
+	$Consulta1.=" and cod_pantalla='".$Fila[cod_pantalla]."' order by t1.descripcion";
+	//echo $Consulta1."<br>";
+	$Respuesta1=mysql_query($Consulta1);$Cant=0;
+	$Fila1=mysql_fetch_array($Respuesta1);
+	$Cant=$Fila1["cantidad"];
+	$ArrCant[$Cont]=$Cant;
+	$Cont=$Cont+1;
+}
+
+#The data for the bar chart
+
+#Create a XYChart object of size 600 x 250 pixels
+$c = new XYChart(1100, 500);
+
+if($USUARIO=='T')
+	$Usu='Todos';
+else
+{
+	$Consulta1="SELECT  CONCAT(T1.APELLIDO_PATERNO, ' ', T1.APELLIDO_MATERNO, ' ', T1.NOMBRES) AS NOMBRE  from proyecto_modernizacion.funcionarios t1 where t1.rut='".$USUARIO."'";
+	$Respuesta1=mysql_query($Consulta1);
+	$Fila1=mysql_fetch_array($Respuesta1);
+	//echo $Consulta1."<br>";
+	$Usu=$Fila1["nombre"];	
+}	
+#Add a title to the chart using Arial Bold Italic font
+$c->addTitle("Control Acceso (Gr�fico) Rango Fechas: ".$FDesdeT." - ".$FHastaT.", Funcionario: ".$Usu."", "arialbi.ttf");
+
+#Set the plotarea at (100, 30) and of size 400 x 200 pixels. Set the
+#plotarea border, background and grid lines to Transparent
+$c->setPlotArea(250, 80, 400, 200, Transparent, Transparent, Transparent,
+    Transparent, Transparent);
+
+#Add a bar chart layer using the given data. Use a gradient color for the
+#bars, where the gradient is from dark green (0x008000) to white (0xffffff)
+$layer = $c->addBarLayer($ArrCant, $c->gradientColor(200, 0, 1000, 0, 0x8000,
+    0xffffff));
+
+#Swap the axis so that the bars are drawn horizontally
+$c->swapXY(true);
+
+#Set the bar gap to 10%
+$layer->setBarGap(0.2);
+
+#Use the format "US$ xxx millions" as the bar label
+$layer->setAggregateLabelFormat("{value} Cant. Personas");
+
+#Set the bar label font to 10 pts Times Bold Italic/dark red (0x663300)
+$layer->setAggregateLabelStyle("timesbi.ttf", 10, 0x663300);
+
+#Set the labels on the x axis
+$textbox = $c->xAxis->setLabels($ArregloNom);
+
+#Set the x axis label font to 10pt Arial Bold Italic
+$textbox->setFontStyle("arialbi.ttf");
+$textbox->setFontSize(10);
+
+#Set the x axis to Transparent, with labels in dark red (0x663300)
+$c->xAxis->setColors(Transparent, 0x663300);
+
+#Set the y axis and labels to Transparent
+$c->yAxis->setColors(Transparent, Transparent);
+
+#output the chart in PNG format
+header("Content-type: image/png");
+print($c->makeChart2(PNG));
+
+?>

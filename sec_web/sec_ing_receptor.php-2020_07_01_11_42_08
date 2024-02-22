@@ -1,0 +1,270 @@
+<?
+include("../principal/conectar_principal.php");
+if ($Mostrar=="S")
+{
+	$Consulta="select * from sec_web.prestador ";
+	$Consulta.=" where cod_prestador_servicio='".$CmbReceptor."' ";
+	$Respuesta=mysql_query($Consulta);
+	if($Fila=mysql_fetch_array($Respuesta))
+	{
+		$NombreCliente=$Fila["nombre"];
+		$CodReceptor=$Fila["cod_prestador_servicio"];
+		$Rut=$Fila["rut"];
+		$Sigla=$Fila["sigla"];
+		$Direccion=$Fila["direccion"];
+		$CodPais=$Fila["cod_pais"];
+		$Telefono1=$Fila["telefono_1"];
+		$Telefono2=$Fila[telefono_2];
+		$Fax=$Fila[fax];
+		$Observacion=$Fila["observacion"];
+		$CodPrestador=$Fila["cod_prestador_servicio"];
+		$TxtComuna=$Fila["comuna"];
+		$TxtCiudad=$Fila[ciudad];
+		$TxtAlmSAP=$Fila["almacen_sap"];
+		$TxtDivSAP=$Fila["division_sap"];
+	}
+	else
+	{
+		$NombreCliente="";
+		$Sigla="";
+		$Direccion="";
+		$CodPais="";
+		$Telefono1="";
+		$Telefono2="";
+		$Fax="";
+		$Observacion="";
+		$CodPrestador="";
+	}
+}
+?>
+<html>
+<head>
+<title>Ingreso SubCliente</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="JavaScript">
+function Grabar()
+{
+	var frm =document.FrmIngreso;	 
+	if(frm.Rut.value=="")
+	{
+		alert("Debe Ingresar Rut ");
+		frm.Rut.focus();
+		return;
+	}
+	if(frm.NombreCliente.value=="")
+	{
+		alert("Debe Ingresar Nombre Cliente");
+		frm.NombreCliente.focus();
+		return;
+	}
+	if(frm.Sigla.value=="")
+	{
+		alert("Debe Ingresar Sigla");
+		frm.Sigla.focus();
+		return;
+	}
+	if(frm.Direccion.value=="")
+	{
+		alert("Debe Ingresar Direccion");
+		frm.Direccion.focus();
+		return;
+	}
+	if(frm.TxtComuna.value=="")
+	{
+		alert("Debe Ingresar La Comuna");
+		frm.TxtComuna.focus();
+		return;
+	}
+	if(frm.TxtCiudad.value=="")
+	{
+		alert("Debe Ingresar La Ciudad");
+		frm.TxtCiudad.focus();
+		return;
+	}
+	frm.action="sec_autorizacion_despacho01.php?Rut="+frm.Rut.value +"&Nombre="+frm.NombreCliente.value+"&Sigla="+frm.Sigla.value+"&Direccion="+frm.Direccion.value+"&CodPais="+frm.CodPais.value+"&Telefono1="+frm.Telefono1.value+"&Telefono2="+frm.Telefono2.value+"&Fax="+frm.Fax.value+"&Obs="+frm.Observacion.value+"&RutC="+frm.RutClienteAux.value+"&TipoEmbarque="+frm.TipoEmbarqueAux.value+"&Proceso=AgregarReceptor";
+	frm.submit(); 
+}
+function Salir()
+{
+	var frm =document.FrmIngreso;	 
+	window.close();
+}
+function BuscarReceptor(R,T)
+{
+	var frm =document.FrmIngreso;	 
+	frm.action="sec_ing_receptor.php?RutCliente="+R+"&TipoEmb="+T+"&Mostrar=S";
+	frm.submit(); 
+}
+function Nuevo(R,T)
+{
+	var frm =document.FrmIngreso;	 
+	frm.NombreCliente.value="";
+	frm.Rut.value="";
+	frm.Sigla.value="";
+	frm.Direccion.value="";
+	frm.CodPais.value="";
+	frm.Telefono1.value="";
+	frm.Telefono2.value="";
+	frm.Fax.value="";
+	frm.TxtComuna.value="";
+	frm.TxtCiudad.value="";
+	frm.TxtDivSAP.value="";
+	frm.TxtAlmSAP.value="";
+	frm.Observacion.value="";
+	frm.action="sec_ing_receptor.php?RutCliente="+R+"&TipoEmb="+T+"&Bloquear=S";
+	frm.submit(); 
+}
+</script>
+</head>
+
+<body background="../principal/imagenes/fondo3.gif">
+<form name="FrmIngreso" method="post" action="">
+<input name="RutClienteAux" type="hidden" value="<? echo $RutCliente  ?>">
+<input name="TipoEmbarqueAux" type="hidden" value="<? echo $TipoEmbarque  ?>">
+  <table width="435" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5" >
+    <tr>
+      <td width="552"><table width="423" height="148" border="0" cellpadding="3" cellspacing="0" class="TablaInterior">
+          <tr> 
+            <td colspan="4"><div align="center">Ingreso Receptor</div></td>
+          </tr>
+          <tr> 
+            <td height="18" colspan="4">&nbsp;</td>
+          </tr>
+          <tr>
+            <?
+			if ($Bloquear!="S")
+			{
+				  echo "<td height='18'>Receptor</td>";
+				  echo "<td height='18' colspan='3'>: ";
+				  echo"<select name='CmbReceptor' onChange=\"BuscarReceptor('$RutCliente','$TipoEmbarque');\">";
+				  echo "<option value='-1'>Seleccionar</option>";
+				  $Consulta="select * from sec_web.prestador  order by nombre ";
+				  $Respuesta=mysql_query($Consulta);
+				  while($Fila=mysql_fetch_array($Respuesta))
+				  {
+					if($CmbReceptor==$Fila["cod_prestador_servicio"])
+					{
+						echo "<option value='".$Fila["cod_prestador_servicio"]."' selected>".$Fila["nombre"]."</option>";
+					}
+					else
+					{
+						echo "<option value='".$Fila["cod_prestador_servicio"]."'>".$Fila["nombre"]."</option>";
+					} 
+				  }
+				  echo"</select>";
+				  echo "</td>";
+			 }
+			 ?>	
+		    <td height="18">&nbsp;</td>
+          </tr>
+          <tr> 
+            <td height="18">Cod Receptor</td>
+            <td height="18" colspan="3">:
+             <?
+			 if($Bloquear=="S")
+			 {
+			 	$Consulta="select max(CEILING(cod_prestador_servicio)) as mayor  from sec_web.prestador  ";
+				$Respuesta3=mysql_query($Consulta);
+				$Fila3=mysql_fetch_array($Respuesta3);
+				$Mayor=$Fila3["mayor"]+1;
+			 	$CodReceptor=$Mayor;
+			 }
+			 
+			 ?>
+			  <input name="CodReceptor" type="text"  style="width:50" value="<? echo $CodReceptor?>"><span class="InputRojo">(*)</span></td>
+          </tr>
+          <tr> 
+            <td>Rut</td>
+
+            <td width="98" >: <input name="Rut" type="text"   style="width:80" value="<?  echo $Rut ?>"><span class="InputRojo">(*)</span>
+              </td>
+
+            <td width="98" colspan="2">
+                <input name="CodPrestador" type="hidden" id="CodPrestador" style="width:80" value="<? echo $CodPrestador?>"></td>
+          </tr>
+          <tr> 
+            <td width="97">Nombre</td>
+            <td colspan="3">: 
+                <input name="NombreCliente" type="text" id="NombreCliente"  style="width:200" maxlenght="30" value="<?  echo $NombreCliente   ?>" ><span class="InputRojo">(*)</span>
+             </td>
+       
+          </tr>
+          <tr> 
+            <td height="18">Sigla</td>
+            <td colspan="3">: 
+              <input name="Sigla" type="text" id="Sigla" style="width:200" maxlength="15"> value="<?  echo $Sigla ?>"><span class="InputRojo">(*)</span></td>
+           
+          </tr>
+
+            <td height="22"> Direcci�n</td>
+ <td colspan="3">: <input name="Direccion" type="text" id="Direccion" style="width:200" maxlenght="30" value="<? echo $Direccion  ?>"><span class="InputRojo">(*)</span></td>
+   
+          </tr>
+          <tr> 
+            <td height="22">Cod Pais</td>
+            <td colspan="2">: <input name="CodPais" type="text"  id="CodPais" style="width:80" value="<? echo $CodPais?>"> </td>
+             <td>&nbsp;</td>
+          </tr>
+          <tr> 
+            <td height="22">Telefono 1</td>
+            <td>: <input name="Telefono1" type="text" id="Telefono1" style="width:80" value="<? echo $Telefono1?>">
+              </td>
+            <td>Telefono 2</td>
+            <td>:<input name="Telefono2" type="text" id="Telefono2" style="width:80" value="<? echo $Telefono2?>"></td>
+          </tr>
+          <tr> 
+            <td height="22">Fax</td>
+            <td colspan="2">: 
+              <input name="Fax" type="text" id="Fax" style="width:80" value="<? echo $Fax?>"> 
+            </td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td height="22">Observaci&oacute;n</td>
+            <td colspan="3">:
+<input name="Observacion" type="text" id="Observacion" style="width:200" value="<? echo $Observacion?>"></td>
+          
+          </tr>
+          <tr> 
+            <td height="22">Comuna</td>
+            <td>:
+              <input name="TxtComuna" type="text" id="TxtComuna" style="width:90" maxlength="20" value="<? echo $TxtComuna;?>"><span class="InputRojo">(*)</span></td>
+            <td>Ciudad</td>
+            <td>:
+              <input name="TxtCiudad" type="text" id="TxtCiudad" style="width:90" maxlength="20" value="<? echo $TxtCiudad;?>"><span class="InputRojo">(*)</span></td>
+          </tr>
+          <tr> 
+            <td height="22">Divisi&oacute;n SAP</td>
+            <td>:
+              <input name="TxtDivSAP" type="text" id="TxtDivSAP" style="width:50" maxlength="6" value="<? echo $TxtDivSAP;?>"></td>
+            <td>Almac&eacute;n SAP</td>
+            <td>:
+              <input name="TxtAlmSAP" type="text" id="TxtAlmSAP" style="width:50" maxlength="12" value="<? echo $TxtAlmSAP;?>"></td>
+          </tr>
+        </table>
+        <br>
+        <table width="425" border="0" cellpadding="3" cellspacing="0" class="TablaInterior">
+          <tr> 
+            <td> <div align="center">
+                <input name="BtnNuevo" type="button" style="width:50"  id="BtnNuevo" value="Nuevo" onClick="Nuevo('<? echo $RutCliente ?>','<? echo $TipoEmbarque ?>')" >
+                <input name="BtnGrabar" type="button" style="width:50"  id="BtnGrabar" value="Grabar" onClick="Grabar('')" >
+                <input name="BtnSalir" style="width:50" type="button" id="BtnSalir" value="Salir" onClick="Salir();">
+              </div></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+<?
+	echo "<script languaje='JavaScript'>";
+	echo "var frm=document.FrmIngreso;";
+	if ($Mensaje!='')
+	{
+		echo "alert('".$Mensaje."');";
+	}
+	echo "</script>"
+?>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43580 ',peso_neto='29780',marca='DOS FRANJAS VERDES',cod_mop='520',num_sello='',transportista='',rut_chofer='16300771-1',nombre_chofer='ENRIQUE ESCOBAR',observacion='',romana_salida='2' where correlativo='449747' and lote='21096040' and recargo='33'

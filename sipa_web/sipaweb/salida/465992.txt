@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='43980',peso_neto='26020',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16313693-7',nombre_chofer='IVAN BUGUENO CONTRERAS ',observacion='',romana_salida='1' where correlativo='465992' and lote='22076006' and recargo='1'

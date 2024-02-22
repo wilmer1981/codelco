@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43700 ',peso_neto='30010',marca='EQUIS ROJA',cod_mop='520',num_sello='',transportista='',rut_chofer='16323568-4',nombre_chofer='MANUEL DIAZ',observacion='',romana_salida='1' where correlativo='436434' and lote='21016047' and recargo='33'

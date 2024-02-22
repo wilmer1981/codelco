@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='41630',peso_neto='28040',marca='DOS FRANJAS VERDES',cod_mop='520',num_sello='',transportista='',rut_chofer='11633971-4',nombre_chofer='EUGENIO  ARANCIBIA',observacion='',romana_salida='1' where correlativo='449853' and lote='21096070' and recargo='19'

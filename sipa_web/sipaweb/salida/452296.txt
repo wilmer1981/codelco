@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='S',peso_bruto=' 16850 ',peso_neto='2530',marca='EQUIS FRANJA AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='16709015-K',nombre_chofer='PABLO TORRES',observacion='',romana_salida='2' where correlativo='452296' and lote='21106153' and recargo='3'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 23380 ',peso_neto='7640',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='4 IBC  baritina',romana_salida='1' where correlativo='484768' and lote='23056250' and recargo='2'

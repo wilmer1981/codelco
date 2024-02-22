@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44600 ',peso_neto='27080',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12219620-8',nombre_chofer='victor urrutia',observacion='concentrado cu varios ',romana_salida='1' where correlativo='483274' and lote='23046267' and recargo='4'

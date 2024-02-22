@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 34960 ',peso_neto='18140',marca='',cod_mop='410',num_sello='',transportista='',rut_chofer='17143176-k',nombre_chofer='cristopher vera',observacion='       CHATARRA',romana_salida='1' where correlativo='480903' and lote='23036226' and recargo='1'

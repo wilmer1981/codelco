@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43870 ',peso_neto='26100',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9885478-9',nombre_chofer='jaime zepeda',observacion='',romana_salida='1' where correlativo='491002' and lote='23096111' and recargo='5'

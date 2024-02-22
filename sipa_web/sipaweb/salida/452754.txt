@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44970',peso_neto='31130',marca='EQUIS BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='5499602-0',nombre_chofer='HECTOR SAEZ',observacion='',romana_salida='1' where correlativo='452754' and lote='21106197' and recargo='32'

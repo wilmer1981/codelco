@@ -1,0 +1,387 @@
+<? 	
+ 	$CodigoDeSistema = 3;
+	$CodigoDePantalla =28;
+	include("../principal/conectar_sec_web.php");
+		$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+?>
+<html>
+<head>
+<script language="JavaScript">
+var OK;
+var OTS = "";
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+function muestra(numero) 
+{
+ 	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = 'show'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'visible'");
+			eval("Txt" + numero + ".style.left = 355 ");
+		}
+	}
+}
+function oculta(numero) 
+{
+	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = hide'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'hidden'");
+		}
+	}
+}
+function Salir()
+{
+	var Frm=document.FrmProceso;
+	Frm.action= "../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+	Frm.submit();
+}
+function Consultar()
+{
+	var Frm=document.FrmProceso;
+	var Orden="";
+	if(Frm.radio[0].checked)
+	{
+		Orden="PorEnvio";
+	
+	}
+	else
+	{
+		Orden="PorIE";
+	
+	}
+	Frm.action="sec_consulta_envios.php?Orden="+Orden+"&Mostrar=S";
+	Frm.submit();
+}
+function Excel()
+{
+	var Frm=document.FrmProceso;
+	Frm.action="sec_xls_consulta_envios.php?CmbMes="+Frm.CmbMes.value+"&CmbAno="+Frm.CmbAno.value;
+	Frm.submit();
+}
+
+function Imprimir()
+{
+	var Frm=document.FrmProceso;
+	window.print();
+}
+function Historial(Codigo,Numero,IE)
+{
+	var Frm=document.FrmProceso;
+	window.open("sec_con_detalle_lotes.php?Codigo="+ Codigo+"&Numero="+Numero+"&IE="+IE,"","top=50,left=10,width=740,height=300,scrollbars=yes,resizable = yes");					
+}
+function Certificado(Numero,IE)
+{
+
+	window.open("sec_con_certificado_creado.php?NumCertificado="+ Numero+"&Idioma=E&Valida=N","","top=50,left=10,width=700,height=600,scrollbars=yes,resizable = yes");					
+}
+</script>
+<title>Proceso</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<body background="../principal/imagenes/fondo3.gif">
+<center>
+<form name="FrmProceso" method="post" action="">
+    <table width="1000" border="0" cellpadding="0" cellspacing="0" class="TablaPrincipal" left="5">
+      <tr>
+      <td width="883" align="left"> 
+        <br>
+		<table width="1000" border="0" class="TablaInterior">
+            <tr> 
+              <td  align="center" width="130"><div align="left"><strong>Consulta 
+                  de Envios</strong></div></td>
+              <td  align="center" width="197"><strong> 
+                <?
+				 if($Orden=='PorEnvio')
+				  	echo "<input type='radio' name='radio' value='ConEnvio' checked>";
+                 else
+				 	echo "<input type='radio' name='radio' value='ConEnvio'>";
+				 ?>
+                </strong>Por Envio<strong> 
+                <?
+				if($Orden=='PorIE')
+					echo "<input type='radio' name='radio' value='IE' checked>";
+					else
+						echo "<input type='radio' name='radio' value='IE'>";	
+                ?>
+				</strong> Por IE</td>
+              <td  align="center" width="167"><div align="left"> 
+                  <?
+			echo"<SELECT name='CmbMes'>";
+			for($i=1;$i<13;$i++)
+			{
+				if (isset($CmbMes))
+				{
+					if ($i==$CmbMes)
+					{
+						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+					}
+					else
+					{
+						echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+					}
+				
+				}	
+				else
+				{
+					if ($i==date("n"))
+					{
+						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+					}
+					else
+					{
+						echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+					}
+				}	
+			}
+			echo "</SELECT>";
+			echo "<SELECT name='CmbAno'>";
+			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+			{
+				if (isset($CmbAno))
+				{
+					if ($i==$CmbAno)
+						{
+							echo "<option SELECTed value ='$i'>$i</option>";
+						}
+					else	
+						{
+							echo "<option value='".$i."'>".$i."</option>";
+						}
+				}
+				else
+				{
+					if ($i==date("Y"))
+						{
+							echo "<option SELECTed value ='$i'>$i</option>";
+						}
+					else	
+						{
+							echo "<option value='".$i."'>".$i."</option>";
+						}
+				}		
+			}
+			echo "</SELECT>";
+	?>
+                </div></td>
+              <td  align="center" width="270"> <div align="left"> 
+                  <input name="BtnConsultar" type="button" id="BtnConsultar5" value="Consultar" style="width:60px;" onClick="Consultar('');">
+                  <input name="BtnImprimir22" type="button" id="BtnImprimir22" value="Imprimir" style="width:60px;" onClick="Imprimir();">
+                  <input name="BtnExcel" type="button" id="BtnImprimir5" value="Excel" style="width:60px;" onClick="Excel();">
+                  <input type="button" name="BtnSalir2" value="Salir" style="width:60" onClick="Salir();">
+                </div></td>
+            </tr>
+          </table>
+		<br>
+        <table width="1000" height="20" border="1" cellpadding="3" cellspacing="0">
+          <tr class="ColorTabla01"> 
+            <!--<td width="20"><div align="left"></div></td>-->
+            <td width="31"align="center">Envio</td>
+            <td width="46" align="left"><div align="center">I.E.</div></td>
+            <td width="80" align="left"><div align="center">Eta.Programa</div></td>
+            <td width="39" align="left"><div align="left">Num.Lote</div></td>
+            <td width="26" align="left"><div align="left">Cant</div></td>
+            <td width="30" align="left"><div align="left">Peso</div></td>
+            <td width="46"><div align="center"></div>
+              <div align="center">Marca Lote</div></td>
+            <td width="56"><div align="center">Cliente</div></td>
+            <td width="67" align="left"><div align="left">Sub Producto</div></td>
+           <td width="48" align="rigth"><div align="right">Contrato</div></td>
+		   <td width="41" align="rigth"><div align="right">Cuota</div></td>
+		    <td width="60" align="rigth"><div align="right">Tipo.Contr.</div></td>
+		   <td width="50" align="rigth"><div align="right">Nave</div></td>
+            <td width="53" align="rigth"><div align="right">Paq.Desp</div></td>
+            <td width="59"><div align="right">Peso.Desp</div></td>
+           <td width="40">Cert</td>
+           <td width="54"><div align="center">F.Confirmacion</div></td>
+		   <td width="74"><div align="center">Usuario</div></td>
+          </tr>
+       <!-- </table>-->
+        <?
+			if ($Mostrar=='S')
+			{
+				if (strlen($CmbMes)==1)
+				{
+					$CmbMes="0".$CmbMes;
+				}
+				$Fecha_Envio=$CmbAno."-".$CmbMes;
+				//echo "<table width='876' border='1' cellpadding='1' cellspacing='0' class='tablainterior'>";
+				$Consulta="SELECT * from sec_web.embarque_ventana t1 ";
+				$Consulta.=" where t1.tipo <> 'V' and substring(t1.fecha_envio,1,7) ='".$Fecha_Envio."'	";
+				if ($Orden=='PorEnvio')
+				{
+				$Consulta.="	order by  t1.num_envio desc ";
+				}
+				else
+				{
+					$Consulta.="	order by  t1.corr_enm desc ";
+				}
+				//echo $Consulta."<br>";
+				$Respuesta=mysql_query($Consulta);
+				$Cont=0;
+				while ($Fila=mysql_fetch_array($Respuesta))
+				{
+					
+					$Cont++;
+					$Guias="";
+					$FechaDespacho="";
+					$Usuario="";
+					$FechaConf="";
+					if($Cont=='1') 
+					echo "<tr bgcolor='#FFFFFF'>"; 
+					else
+					echo "<tr bgcolor='#CCCCCC'>"; 
+					//echo "<td width='18'><input name='checkbox' type='checkbox'  value='".$Fila["corr_enm"]."'></td>";
+					echo "<td width='40' align='center'>".$Fila["num_envio"]."</td>";
+					$Cont2++;
+					$Consulta="SELECT * from sec_web.guia_despacho_emb where num_envio='".$Fila["num_envio"]."' ";
+					$Consulta.=" and corr_enm='".$Fila["corr_enm"]."' ";
+					$Respuesta1=mysql_query($Consulta);
+					while($Fila1=mysql_fetch_array($Respuesta1))
+					{
+						$Guias=$Guias.$Fila1["num_guia"]."-";
+						$FechaDespacho=$Fila1[fecha_guia];	
+					}
+					echo "<td width='46' onMouseOver='JavaScript:muestra(".$Cont2.");' onMouseOut='JavaScript:oculta(".$Cont2.");'>";
+					echo "<div id='Txt".$Cont2."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:350px'>\n";
+					echo "<font face='courier' color='#000000' size=1><b>Fecha Despacho: </b>".$FechaDespacho."</font><br>";
+					echo "<font face='courier' color='#000000' size=1><b>Guias: </b>".$Guias."</font><br>";
+					echo "</div>".$Fila["corr_enm"]."&nbsp;</td>";
+					echo "<td width='80'>".$Fila["fecha_programacion"]."</td>";
+					echo "<td width='60' align='center'><a href=\"JavaScript:Historial('".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."','".$Fila["corr_enm"]."')\">\n";
+					echo $Fila["cod_bulto"]."-".$Fila["num_bulto"]."</td>\n";
+					//echo "<td width='45' align='center'>".$Fila["cod_bulto"]."-".$Fila["num_bulto"]."</td>";
+					echo "<td width='44' align='center'>".$Fila["bulto_paquetes"]."</td>";
+					echo "<td width='41' align='center'>".$Fila["bulto_peso"]."&nbsp;</td>";
+					$Consulta="SELECT distinct t1.cod_marca,t2.descripcion from sec_web.lote_catodo t1 ";
+					$Consulta.="inner join sec_web.marca_catodos t2 on t1.cod_marca=t2.cod_marca ";
+					$Consulta.=" where corr_enm='".$Fila["corr_enm"]."' and cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."'	";
+					$Respuesta4=mysql_query($Consulta);
+					$Fila4=mysql_fetch_array($Respuesta4);
+					echo "<td width='74' align='center'>".$Fila4["descripcion"]."&nbsp;</td>";
+					$Consulta="SELECT * from sec_web.nave where cod_nave ='".$Fila["cod_cliente"]."'";
+					$Respuesta2=mysql_query($Consulta);
+					if($Fila2=mysql_fetch_array($Respuesta2))
+					{
+						$Cliente=$Fila2["nombre_nave"];
+					}
+					else
+					{
+						$Consulta="SELECT * from sec_web.cliente_venta where cod_cliente ='".$Fila[cod_cliente]."'";
+						$Respuesta2=mysql_query($Consulta);
+						if($Fila2=mysql_fetch_array($Respuesta2))
+						{
+							$Cliente=$Fila2["sigla_cliente"];
+						}
+					}
+					echo "<td width='99' align='center'>".$Cliente."&nbsp;</td>";
+					$Consulta="SELECT abreviatura from proyecto_modernizacion.subproducto where cod_producto='".$Fila["cod_producto"]."' ";
+					$Consulta.=" and cod_subproducto='".$Fila["cod_subproducto"]."'	";
+					$Respuesta6=mysql_query($Consulta);
+					$Fila6=mysql_fetch_array($Respuesta6);
+					echo "<td width='90' align='left'>".$Fila6["abreviatura"]."&nbsp;</td>";
+					$Consulta="SELECT cod_contrato,mes_cuota from sec_web.programa_enami where corr_enm='".$Fila["corr_enm"]."'";
+					$Respuesta7=mysql_query($Consulta);
+					if($Fila7=mysql_fetch_array($Respuesta7))
+					{
+						echo "<td width='48' align='center'>".$Fila7["cod_contrato"]."&nbsp;</td>";
+						echo "<td width='41' align='center'>".$Fila7["mes_cuota"]."&nbsp;</td>";
+						echo "<td width='41' align='center'>VTA ENM</td>";				
+					}
+					else
+					{
+						$Consulta="SELECT cod_contrato,mes_cuota from sec_web.programa_codelco where corr_codelco='".$Fila["corr_enm"]."'";
+						$Respuesta7=mysql_query($Consulta);
+						if($Fila7=mysql_fetch_array($Respuesta7))
+						{
+							echo "<td width='48' align='center'>".$Fila7["cod_contrato"]."&nbsp;</td>";
+							echo "<td width='41' align='center'>".$Fila7["mes_cuota"]."&nbsp;</td>";
+						}
+						else
+						{
+							echo "<td width='48' align='center'>&nbsp;</td>";
+							echo "<td width='41' align='center'>&nbsp;</td>";
+						}
+						$Consulta="SELECT cod_contrato_maquila from sec_web.programa_codelco where corr_codelco='".$Fila["corr_enm"]."' ";
+						$Respuesta9=mysql_query($Consulta);
+						$Fila9=mysql_fetch_array($Respuesta9);
+						echo "<td width='60' align='center'>".$Fila9["cod_contrato_maquila"]."&nbsp;</td>";
+					}
+					$Consulta="SELECT nombre_nave from sec_web.nave where cod_nave='".$Fila["cod_nave"]."'";
+					$Respuesta8=mysql_query($Consulta);
+					if($Fila8=mysql_fetch_array($Respuesta8))
+					{
+						echo "<td width='60' align='center'>".$Fila8["nombre_nave"]."</td>";
+					}
+					else
+					{
+						echo "<td width='60' align='center'>&nbsp;</td>";
+					}
+					echo "<td width='55' align='center'>".$Fila["despacho_paquetes"]."&nbsp;</td>";
+					echo "<td width='59' align='center'>".$Fila[despacho_peso]."&nbsp;</td>";
+					$Consulta="SELECT distinct num_certificado from sec_web.certificacion_catodos ";
+					$Consulta.=" where corr_enm='".$Fila["corr_enm"]."' and year(fecha)= '".$CmbAno."' ";
+					$Respuesta4=mysql_query($Consulta);
+					//echo $Consulta."<br>";
+					if($Fila4=mysql_fetch_array($Respuesta4))
+					{
+						echo "<td width='69' align='center'><a href=\"JavaScript:Certificado('".$Fila4["num_certificado"]."','".$Fila["corr_enm"]."')\">\n";
+						echo $Fila4["num_certificado"]."</td>\n";
+					}
+					else
+					{
+						echo "<td width='69' align='center'>&nbsp;</td>";
+					}
+					$Consulta="SELECT t1.usuario,t1.fecha_confirmacion,t2.nombres,t2.apellido_paterno from sec_web.programa_codelco t1 ";
+					$Consulta.=" inner join proyecto_modernizacion.funcionarios t2 on t1.usuario =t2.rut 	";
+					$Consulta.=" where t1.corr_codelco='".$Fila["corr_enm"]."'  and not isnull(t1.usuario) ";
+					$Respuesta5=mysql_query($Consulta);
+					//echo $Consulta."<br>";
+					if($Fila5=mysql_fetch_array($Respuesta5))
+					{
+						$FechaConf=$Fila5["fecha_confirmacion"];
+						$Usuario=substr($Fila5["nombres"],0,1)." ".$Fila5["apellido_paterno"];	
+					}
+					else
+					{
+						$Consulta="SELECT usuario,fecha_confirmacion,t2.nombres,t2.apellido_paterno from sec_web.programa_enami t1";
+						$Consulta.=" inner join proyecto_modernizacion.funcionarios t2 on t1.usuario =t2.rut 	";
+						$Consulta.=" where corr_enm='".$Fila["corr_enm"]."'  and not isnull(usuario) ";
+						//echo $Consulta."<br>";
+						$Respuesta6=mysql_query($Consulta);
+						$Fila6=mysql_fetch_array($Respuesta6);
+						//$FechaConf=substr($Fila6["fecha_confirmacion"],0,10);
+						$FechaConf=$Fila6["fecha_confirmacion"];
+						$Usuario=substr($Fila6["nombres"],0,1)." ".$Fila6["apellido_paterno"];	
+					}
+					echo "<td width='100' align='center'>".$FechaConf."&nbsp;</td>";				
+					echo "<td width='100' align='center'>".$Usuario."&nbsp;</td>";
+					echo "</tr>";
+					
+					if($Cont=='2')
+						$Cont=0;
+				}
+				echo "</table>";	
+				$Guias="";
+			}
+		?>
+        <br> <table width="785" border="0" class="TablaInterior">
+          <tr> 
+            <td  align="center" width="270"><div align="left"></div></td>
+            <td  align="center" width="502"><div align="left"> 
+                <input name="BtnImprimir" type="button" id="BtnImprimir" value="Imprimir" style="width:60px;" onClick="Imprimir();">
+                <input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();">
+              </div></td>
+          </tr>
+        </table>
+   <!--   </td>
+  </tr>-->
+</table>
+  </form>
+  </center>
+</body>
+</html>

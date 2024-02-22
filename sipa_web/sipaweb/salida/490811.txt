@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 21990 ',peso_neto='8100',marca='TRES FRANJAS AMARILLAS',cod_mop='690',num_sello='',transportista='',rut_chofer='5499602-0',nombre_chofer='HECTOR SAEZ',observacion='',romana_salida='2' where correlativo='490811' and lote='23096082' and recargo='21'

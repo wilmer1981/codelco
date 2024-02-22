@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 29720 ',peso_neto='14270',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13109837-5',nombre_chofer='MARCELO AGUILAR',observacion='diferencia de peso por agua autorizado',romana_salida='1' where correlativo='491869' and lote='23096238' and recargo='2'

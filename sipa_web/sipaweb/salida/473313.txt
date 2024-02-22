@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44050 ',peso_neto='28960',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='26001232-0',nombre_chofer='Luis Parra ',observacion='circulante oxido',romana_salida='1' where correlativo='473313' and lote='22116090' and recargo='4'

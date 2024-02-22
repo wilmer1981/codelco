@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44710 ',peso_neto='28770',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12172708-0',nombre_chofer='GUSTAVO CHAVEZ',observacion='ladrillos en desuso',romana_salida='1' where correlativo='451371' and lote='21106028' and recargo='6'

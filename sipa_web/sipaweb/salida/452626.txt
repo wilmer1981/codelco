@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44840',peso_neto='28170',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16522307-1',nombre_chofer='Victor Zamorano',observacion='esc Oxido',romana_salida='1' where correlativo='452626' and lote='21106215' and recargo='2'

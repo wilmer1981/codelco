@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 16960 ',peso_neto='10010',marca='V FRANJA NARANJA',cod_mop='200',num_sello='',transportista='',rut_chofer='19427014-3',nombre_chofer='HUMBERTO MARDONES',observacion='',romana_salida='1' where correlativo='474670' and lote='22126090' and recargo='1'

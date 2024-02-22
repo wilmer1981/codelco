@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44720 ',peso_neto='28550',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11936112-5',nombre_chofer='vivtor valderrama',observacion='escoria ct',romana_salida='1' where correlativo='475215' and lote='22126162' and recargo='4'

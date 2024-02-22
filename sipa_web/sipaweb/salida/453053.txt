@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 31660 ',peso_neto='18350',marca='V BLANCA',cod_mop='520',num_sello='',transportista='',rut_chofer='11548239-4',nombre_chofer='JOSE  TORRES',observacion='',romana_salida='2' where correlativo='453053' and lote='21116017' and recargo='2'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44640 ',peso_neto='30830',marca='V NARANJA',cod_mop='520',num_sello='',transportista='',rut_chofer='15892899-K',nombre_chofer='JORGE BARRIOS',observacion='',romana_salida='1' where correlativo='438307' and lote='21026057' and recargo='7'

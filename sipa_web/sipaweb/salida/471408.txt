@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44400 ',peso_neto='30210',marca='FRANJA NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='8224316-K',nombre_chofer='CARLOS  FUENTES',observacion='',romana_salida='1' where correlativo='471408' and lote='22106058' and recargo='4'

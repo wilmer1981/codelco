@@ -1,0 +1,131 @@
+<?php
+	        ob_end_clean();
+        $file_name=basename($_SERVER['PHP_SELF']).".xls";
+        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
+        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+        $filename = urlencode($filename);
+        }
+        $filename = iconv('UTF-8', 'gb2312', $filename);
+        $file_name = str_replace(".php", "", $file_name);
+        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+        
+        header("content-disposition: attachment;filename={$file_name}");
+        header( "Cache-Control: public" );
+        header( "Pragma: public" );
+        header( "Content-type: text/csv" ) ;
+        header( "Content-Dis; filename={$file_name}" ) ;
+        header("Content-Type:  application/vnd.ms-excel");
+ 	header("Expires: 0");
+  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	include("../principal/conectar_principal.php"); 
+
+	$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date('d');
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date('m');
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date('Y');
+	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date('d');
+	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date('m');
+	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date('Y');
+/*
+	if (!isset($DiaIni))
+	{
+		$DiaIni = date("d");
+		$MesIni = date("m");
+		$AnoIni = date("Y");
+		$DiaFin = date("d");
+		$MesFin = date("m");
+		$AnoFin = date("Y");
+	}
+	*/
+	if ($DiaIni < 10)
+		$DiaIni = "0".$DiaIni;
+	if ($MesIni < 10)
+		$MesIni = "0".$MesIni;
+	if ($DiaFin < 10)
+		$DiaFin = "0".$DiaFin;
+	if ($MesFin < 10)
+		$MesFin = "0".$MesFin;
+ 	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
+	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
+?>
+<html>
+<head>
+<title>Sistema Estadistico de Catodo</title>
+<script language="JavaScript">
+function Proceso(opt)
+{
+	var f=document.frmPrincipal;
+	switch (opt)
+	{
+		case "C":
+			f.action ="sec_con_inf_resumen_tot_emb.php";
+			f.submit();
+			break;
+		case "S":
+			f.action ="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+			f.submit();
+			break;
+		case "I":
+			window.print();
+			break;
+	}
+}
+</script>
+</head>
+
+<body class="TablaPrincipal">
+<form name="frmPrincipal" action="" method="post">
+  <br>
+  <table width="617" height="14"  border="1" align="center" cellpadding="0" cellspacing="0">
+    <tr class="ColorTabla01"> 
+      <td width="500" align="center" colspan="5">RESUMEN GUIAS DE DESPACHO</td>
+	 </tr>
+	</table>   	
+  <BR>
+  <table width="617" height="14"  border="1" align="center" cellpadding="0" cellspacing="0">
+    <tr class="ColorTabla01"> 
+      <td width="78" align="center">CODIGO</td>
+      <td width="294" align="center">DESCRIPCION PRODUCTO</td>
+      <td width="75" align="center">PESO</td>
+      <td width="82" align="center">PAQUETES</td>
+      <td width="76" align="center">UNIDADES</td>
+    </tr>
+    <?php  
+	$Consulta = "SELECT t2.cod_producto,t2.cod_subproducto,t4.descripcion, count(*) as num_paquetes, ";
+	$Consulta.= "sum(t2.num_unidades) as unidades, sum(t2.peso_paquetes) as peso  ";
+	$Consulta.= "from sec_web.guia_despacho_emb t1 inner join sec_web.paquete_catodo t2  ";
+	$Consulta.= "on t1.num_guia=t2.num_guia and t1.fecha_guia=t2.fecha_embarque inner join proyecto_modernizacion.subproducto t4  ";
+	$Consulta.= "on t2.cod_producto = t4.cod_producto and t2.cod_subproducto = t4.cod_subproducto  ";
+	$Consulta.= "where t1.cod_estado <>'A' and t1.fecha_guia between '".$FechaInicio."' and '".$FechaTermino."'  ";
+	$Consulta.= " and t2.cod_estado = 'c'";
+	$Consulta.= "group by t2.cod_producto, t2.cod_subproducto order by t1.fecha_guia desc";
+	$Respuesta = mysqli_query($link, $Consulta);
+	$TotalPeso = 0;
+	$TotalPaquetes = 0;
+	$TotalUnidades = 0;
+	while ($Fila = mysqli_fetch_array($Respuesta))
+	{
+		echo "<tr>\n";
+		echo "<td align='center'>".$Fila["cod_producto"]."/".$Fila["cod_subproducto"]."</td>\n";
+		echo "<td>".$Fila["descripcion"]."</td>\n";
+		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($Fila["num_paquetes"],0,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($Fila["unidades"],0,",",".")."</td>\n";
+		echo "</tr>\n";
+		$TotalPeso = $TotalPeso + $Fila["peso"];
+		$TotalPaquetes = $TotalPaquetes + $Fila["num_paquetes"];
+		$TotalUnidades = $TotalUnidades + $Fila["unidades"];
+	}
+?>
+    <tr class="ColorTabla02"> 
+      <td align="left" colspan="2"><strong>TOTALES</strong></td>
+      <td align="right"><strong><?php echo number_format($TotalPeso,0,",","."); ?></strong></td>
+      <td align="right"><strong><?php echo number_format($TotalPaquetes,0,",","."); ?></strong></td>
+      <td align="right"><strong><?php echo number_format($TotalUnidades,0,",","."); ?></strong></td>
+    </tr>
+  </table>  <br>
+</form>
+</body>
+</html>
+<?php include("../principal/cerrar_ram_web.php") ?>

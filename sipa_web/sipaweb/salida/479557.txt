@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 17470 ',peso_neto='1880',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='8036380-k',nombre_chofer='charles wattson',observacion='26 maxi con elementos contaminados con aceite',romana_salida='1' where correlativo='479557' and lote='23026297' and recargo='1'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43610 ',peso_neto='28700',marca='TRES FRANJAS CELESTES',cod_mop='693',num_sello='',transportista='',rut_chofer='7689571-6',nombre_chofer='JORGE CARVAJAL',observacion='',romana_salida='2' where correlativo='449726' and lote='21096038' and recargo='9'

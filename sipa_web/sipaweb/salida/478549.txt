@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42740 ',peso_neto='27500',marca='FRANJA AMARILLA',cod_mop='690',num_sello='',transportista='',rut_chofer='10405833-7',nombre_chofer='MAXIMO SANDOVAL',observacion='',romana_salida='1' where correlativo='478549' and lote='23026109' and recargo='1'

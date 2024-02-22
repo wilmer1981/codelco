@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 30080 ',peso_neto='8520',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='15815541-9',nombre_chofer='MARCOS SOTO',observacion='',romana_salida='1' where correlativo='452803' and lote='21106064' and recargo='10'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 20790 ',peso_neto='6820',marca='TRES FRANJAS NARANJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='7143217-3',nombre_chofer='FRANCISCO FUENTES',observacion='',romana_salida='2' where correlativo='450576' and lote='21096160' and recargo='55'

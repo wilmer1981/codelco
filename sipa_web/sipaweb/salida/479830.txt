@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44170',peso_neto='28470',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17618887-1',nombre_chofer='Mirko Ramirez',observacion='cu varios',romana_salida='1' where correlativo='479830' and lote='23036002' and recargo='6'

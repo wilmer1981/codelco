@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42050 ',peso_neto='26200',marca='FRANJA CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='26660686-9',nombre_chofer='DANIEL SILVA',observacion='',romana_salida='1' where correlativo='453428' and lote='21116084' and recargo='1'

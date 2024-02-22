@@ -1,0 +1,446 @@
+﻿<?
+include("../principal/conectar_principal.php");
+$Fecha_Hora = date("d-m-Y h:i");
+$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+$Rut =$CookieRut;
+$CodigoDeSistema = 1;
+$CodigoDePantalla = 5;
+$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
+$Respuesta =mysql_query($Consulta);
+if($Fila =mysql_fetch_array($Respuesta))
+{
+	$Nivel = $Fila["nivel"];
+}
+
+if($Elim!='N')
+{
+	
+$Eliminar=" delete from cal_web.tmp_solicitud_excel where run_registro='".$CookieRut."'";
+		mysql_query($Eliminar);
+}
+
+?>
+<html>
+<head>
+<title>Traspaso Leyes desde Excel</title>
+<link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
+<script language="JavaScript">
+<!--LAYERS
+var OK;
+var OTS = "";
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+
+function muestra(numero) 
+{
+	//alert(numero);
+ 	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = 'show'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'visible'");
+			eval("Txt" + numero + ".style.left = 130 ");
+			//eval("Txt" + numero + ".style.top = document.checkTodos.top ");
+			//eval("Txt" + numero + ".style.top = window.event.y ");
+		}
+	}
+}
+
+function oculta(numero) 
+{
+	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = hide'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'hidden'");
+		}
+	}
+}
+function Activar()
+{
+	
+
+
+}
+// FIN LAYERS-->
+function Proceso(Opcion)
+{
+	var frm=document.FrmTraspasoExcel;
+	switch (Opcion)
+	{
+		case "G": 
+			
+		Datos=Recuperar(frm.name,'CheckSol');
+		if(Datos!='')
+		{
+			if(confirm("¿Esta seguro de cargar los datos seleccionados?"))
+			{	
+				frm.action='cal_traspaso_leyes_excel01.php?Opcion=GE&Datos='+Datos;
+				frm.submit();
+			}
+			
+		}
+		else
+		{
+			alert("Debe Seleccionar Solicitud a traspasar ")	
+		}
+	break;	
+	case "S":
+		frm.action="../principal/sistemas_usuario.php?CodSistema=1";
+			frm.submit();
+			break;
+			
+			case "CARGAR":
+				URL="cal_cargar_excel.php";
+				opciones='top=50px,left=150px, toolbar=0,resizable=0,menubar=0,status=1,width=480,height=350,scrollbars=1,resizable=yes';
+				window.open(URL,"",opciones);
+			break;	
+		case "D":
+			ValidarDetalle();
+			break;			
+		case "E":
+			ValidarCambiarEstado();
+			break; 
+	}	
+
+}
+function CheckearTodo(f,nomchk,nomchkT)
+{
+	var Check=new Object();
+	var CheckT=new Object();
+	
+	try
+	{
+		eval("document."+f.name+"."+nomchk+"[0]");
+		Check=eval("document."+f.name+"."+nomchk);
+		CheckT=eval("document."+f.name+"."+nomchkT);
+		for (i=1;i<Check.length;i++)
+		{
+			if (CheckT.checked==true){
+				if(Check[i].disabled==false)
+					Check[i].checked=true;
+			}
+			else{
+				if(Check[i].disabled==false)
+					Check[i].checked=false;
+			}
+		}
+	}
+	catch (e)
+	{
+	}
+}
+function Recuperar(f,inputchk)
+{
+	var Valores="";
+	var Encontro=false;
+	for (i=1;i<eval("document."+f+"."+inputchk+".length");i++)
+	{
+		if (eval("document."+f+"."+inputchk+"["+i+"].checked")==true)
+		{
+			
+				Valores =Valores + (eval("document."+f+"."+inputchk+"["+i+"].value")) +  "//" ;
+				Encontro=true;
+			
+		}
+	}
+	Valores=Valores.substr(0,Valores.length-2);
+	return(Valores);
+}
+function Historial(SA,Rec)
+{
+	window.open("cal_con_registro_leyes_solo.php?SA="+ SA+"&Recargo="+Rec,"","top=50,left=10,width=790,height=450,scrollbars=yes,resizable = yes");					
+}
+
+</script>
+</head>
+<body leftmargin="3" topmargin="3" marginwidth="0" marginheight="0">
+<form name="FrmTraspasoExcel" method="post" action="">
+<input type="hidden" name="LimitIni" value="<? echo $LimitIni; ?>">
+  <? include("../principal/encabezado.php")?>
+  <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5" >
+    <tr>
+      <td width="756" align="center" valign="top"><table width="761" border="0" align="center" cellpadding="2" cellspacing="1" bgcolor="#333333" class="TablaInterior">
+          <tr bgcolor="#FFFFFF"> 
+            <td width="87">Usuario:</td>
+            <td width="274">
+              <?
+		$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from funcionarios where rut = '".$Rut."'";
+	  	$Resultado= mysql_query($Consulta);
+		if ($Fila =mysql_fetch_array($Resultado))
+			echo $Rut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
+	  	else
+			{
+		  		$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
+				$Respuesta = mysql_query($Consulta);
+				if ($Fila=mysql_fetch_array($Respuesta))
+					echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
+			}
+		  ?>
+            </td>
+            <td width="117">Fecha:</td>
+            <td width="247"> 
+           <? 
+		    echo $Fecha_Hora; 
+			if (!isset($FechaHora))
+  			{
+				echo "<input name='FechaHora' type='hidden' value='".date('Y-m-d H:i')."'>";
+				$FechaHora=date('Y-m-d H:i');
+ 			}
+  			else
+				echo "<input name='FechaHora' type='hidden' value='".$FechaHora."'>";
+		   ?>
+              </strong></font></font></td>
+          </tr>
+          <tr align="center" bgcolor="#FFFFFF" class="Detalle02">
+            <td colspan="4"><input name="BtnCargar" type="button" id="BtnCargar" style="width:80" value="Cargar Excel" onClick="Proceso('CARGAR');">
+            <input name="BtnProcesar" type="button" id="BtnProcesar" value="Guardar" style="width:80" onClick="Proceso('G');">
+             <input name="BtnSalir2" type="button" id="BtnSalir2" value="Salir" style="width:80" onClick="Proceso('S');"></td>
+        
+          
+          
+          </tr>
+        </table>
+        <br>        <table width="760" border="0" cellpadding="2" cellspacing="1" bgcolor="#333333" class="TablaDetalle" >
+          <tr align="center" class="ColorTabla01">
+            <td width="38" height="34">Todos<br>
+                <input name="ChkTodos" type="checkbox" onClick="CheckearTodo(this.form,'CheckSol','ChkTodos');" value="checkbox">
+                <input name="CheckSol" type="hidden">
+                
+                </td>
+                <td >S.A</td>
+                <td>Id Muestra</td>
+                <td>Mas Info.</td>
+                <td>Leyes Ag</td>
+                <td>Unidad Ag</td>
+                <td>Leyes Au</td>        
+                <td>Unidad Au</td>
+                <td>R. Mas Info.</td>
+                <td>R. Leyes Ag</td>
+                <td>R. Unidad Ag</td>
+                <td>R. Leyes Au</td>        
+                <td>R. Unidad Au</td>
+                <td>R. Peso </td>
+                </tr>
+          <?
+		$Consulta = "select t1.id_muestra,ceiling(t1.unidad_ag) as unidad_ag,ceiling(t1.unidad_au) as unidad_au, ceiling(t1.r_unidad_ag) as r_unidad_ag, ceiling(t1.r_unidad_au) as r_unidad_au,  ";
+		$Consulta.= "t1.nro_solicitud,t1.ley_au,t1.ley_ag,t1.r_ley_ag,t1.r_ley_au,t1.r_peso
+		 from cal_web.tmp_solicitud_excel t1 where t1.run_registro='".$CookieRut."' ";
+		$Respuesta = mysql_query($Consulta);$Cont2=0;
+		while($Row = mysql_fetch_array($Respuesta))
+		{
+			$Cont2++;
+			$Msj="";
+			if ($BgCgolor=="#FFFFFF")
+				$BgCgolor="#EFEFEF";
+			else
+				$BgCgolor="#FFFFFF";
+		$Bloquear=false;	
+		if(ExisteSA($Row["nro_solicitud"])==false)
+		{
+			$Bloquear=true;	
+			$Msj.=" | Solicitud no existe o estado es distinto a recepcionado en laboratorio/atendido por el químico" ;
+		}
+		else
+		{
+					
+			if($Row[ley_ag]!='')//PLATA 04
+			{	
+				$Ms='';
+				if($Row[ley_ag]<0)
+				{	$Bloquear=true;	
+					$Msj.=" | Ley Ag : Ley < 0";
+				}
+				else
+					if(ValidaLeyes($Row["nro_solicitud"],'0','04',$Row[unidad_ag],&$Ms)==false)
+					{	
+						$Bloquear=true;
+						$Msj.=" | Ley Ag : Unidad con Problema ".$Ms;
+					}
+			}
+			
+			if($Row[ley_au]!='')//ORO 04
+			{	$Ms='';
+				if($Row[ley_au]<0)
+				{
+					$Bloquear=true;	
+					$Msj.=" | Ley Au : Ley < 0";
+				}
+				else
+					if(ValidaLeyes($Row["nro_solicitud"],'0','05',$Row[unidad_au],&$Ms)==false)
+					{
+						$Bloquear=true;
+						$Msj.=" | Ley Au : Unidad con Problema ".$Ms;
+					}
+			}
+			
+			//RECARGO
+			if($Row[r_ley_ag]!='') //PLATA 04
+			{$Ms='';
+				if($Row[r_ley_ag]<0)
+				{	
+					$Bloquear=true;	
+					$Msj.=" | Retalla Ag : Ley < 0";
+				}else
+					if(ValidaLeyes($Row["nro_solicitud"],'R','04',$Row[r_unidad_ag],&$Ms)==false)
+				{
+					$Bloquear=true;
+					$Msj.=" | Retalla Ag : Unidad con Problema ".$Ms;
+				}
+			}
+			if($Row[r_ley_au]!='')//ORO 05
+			{$Ms='';
+				if($Row[r_ley_au]<0)
+				{	$Bloquear=true;	
+					$Msj.=" | Retalla Au : Ley < 0";
+					}
+				else
+					if(ValidaLeyes($Row["nro_solicitud"],'R','05',$Row[r_unidad_au],&$Ms)==false)
+					{
+						$Bloquear=true;
+						$Msj.=" | Retalla Au : Unidad con Problema ".$Ms;
+					}
+			}
+			if($Row[r_peso]!='')
+				if($Row[r_peso]<0)
+					{$Bloquear=true;		
+					$Msj.=" | Peso Retalla < 0 ";
+					}
+		}			
+						
+			if($Bloquear==true)
+				$BgCgolor="#FF0000";
+			echo "<tr bgcolor=\"".$BgCgolor."\">";	?>	
+			 <td> <?
+			  $Var=""; 
+			if($Bloquear!=true)
+			{
+				$VerDetRet='';
+				if($Row[r_peso]!='' && $Row[r_peso]!=0)
+					$VerDetRet="<a href=javascript:Historial('".$Row["nro_solicitud"]."','R')>Ver</a>";
+				$VerDet="<a href=javascript:Historial('".$Row["nro_solicitud"]."','0')>Ver</a>";
+				
+			?><input name="CheckSol" type="checkbox"  value="<? echo $Row["nro_solicitud"];?>">
+            
+            <?
+				$Var="<td>".$Row["nro_solicitud"]."</td>";
+			 }
+			else
+			{
+				
+				$Var="<td onMouseOver='JavaScript:muestra(".$Cont2.");' onMouseOut='JavaScript:oculta(".$Cont2.");' >";
+				$Var.="<div id='Txt".$Cont2."'  style= 'position:Absolute; background-color:#ffffff; visibility:hidden; border:solid 1px Black;width:200px'>";
+		 		$Var.="<font face='courier' color='#000000' size=1>".$Msj."</font></div>";
+				$Var.=$Row['nro_solicitud']."</td>";
+			}
+			
+			
+			?></td>
+            <?   echo $Var;?>     
+            <td><? echo $Row["id_muestra"];?></td>
+			<td><? echo $VerDet;?></td>
+            <td ><? echo $Row[ley_ag];?></td>
+			<td><?
+					if($Row[ley_ag]!='')
+						echo ObtenerDescripcionUnidad($Row[unidad_ag]);
+			
+			?></td>
+			<td><? echo $Row[ley_au];?></td>
+			<td><? 
+					if($Row[ley_au]!='')
+						echo ObtenerDescripcionUnidad($Row[unidad_au]);
+						
+			?></td>
+			<td><? echo $VerDetRet;?></td>
+            <td><? echo $Row[r_ley_ag];?></td>
+			<td><? 
+					if($Row[r_ley_ag]!='')
+						echo ObtenerDescripcionUnidad($Row[r_unidad_ag]);
+			
+			?></td>
+			<td><? 	echo $Row[r_ley_au];?></td>
+			<td><?
+				if($Row[r_ley_au]!='')
+				 echo ObtenerDescripcionUnidad($Row[r_unidad_au]);
+				 
+			?></td>
+			<td><? echo $Row[r_peso];?></td>
+			</tr>	
+					<?	
+						
+		}
+						
+		
+			?>
+            </td>
+          </tr></table>
+     </td>
+    </tr>
+  </table>
+ <? include("../principal/pie_pagina.php");
+function ValidaLeyes($Solicitud,$Recargo,$Leyes,$UnidadExcel,$Msje)
+{
+ 
+	$Retorno=false;	
+	$Consulta="Select * from cal_web.leyes_por_solicitud  t1 ";
+	$Consulta.=" where t1.nro_solicitud='".$Solicitud."' and  ";
+	if($Recargo=='R')
+	{
+			$Consulta.=" (t1.recargo='R') ";
+
+	}
+	else
+	{
+			$Consulta.=" (t1.recargo='".$Recargo."' or  t1.recargo='') ";
+
+		}
+	$Consulta.=" and ceiling(t1.cod_leyes)=ceiling('".$Leyes."')";
+	$Resp = mysql_query($Consulta);
+	if($Fila = mysql_fetch_array($Resp))
+	{
+		if($Fila[cod_unidad]==$UnidadExcel)
+			$Retorno=true;	
+		
+	}
+	else
+	{
+		$Retorno=false;
+		$Msje=' No existe ley en los registros. ';
+	}
+	
+	return($Retorno);
+ 
+}
+ function ExisteSA($Solicitud)
+{
+ 
+	$Retorno=false;	
+	$Consulta="Select * from cal_web.solicitud_analisis  t1 where t1.nro_solicitud='".$Solicitud."' and  t1.estado_actual in (4,5,32,6) ";
+	$Resp = mysql_query($Consulta);
+	if($Fila = mysql_fetch_array($Resp))
+	{
+		$Retorno=true;	
+	}
+	return($Retorno);
+ 
+}
+function ObtenerDescripcionUnidad($Unidad)
+{
+	$Retorno="S/U";	
+	$Consulta="Select * from proyecto_modernizacion.unidades  t1 where t1.cod_unidad=CEILING('".$Unidad."')";
+	// echo $Consulta."<br>";
+	$Resp = mysql_query($Consulta);
+	if($Fila = mysql_fetch_array($Resp))
+	{
+	$Retorno=$Fila["abreviatura"];	
+	}
+	return($Retorno);
+	}
+ 
+ 
+ ?>
+</form>
+</body>
+</html>

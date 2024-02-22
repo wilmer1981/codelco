@@ -1,0 +1,465 @@
+<?
+$CodigoDeSistema = 1;
+include("../principal/conectar_principal.php");
+set_time_limit(1000);
+
+$Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
+//echo "Consulta".$Consulta;
+$Respuesta = mysql_query($Consulta);
+$Fila=mysql_fetch_array($Respuesta);
+$Nivel=$Fila["nivel"];
+?>
+<html>
+<head>
+<title>Control de Calidad</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<script language="JavaScript">
+function Proceso(opt)
+{
+	var f = document.frmPrincipal;
+	switch (opt)
+	{
+		case "S":
+			f.action="../principal/sistemas_usuario.php?CodSistema=1&Nivel=1&CodPantalla=22";
+			f.submit(); 
+			break;
+		case "C":
+			if (f.NumFin.value == "")
+			{
+				alert("Debe Seleccionar Rango de Solictudes");
+			}
+			else
+			{
+				f.action = "cal_con_busca_solicitudes.php";
+				f.submit();
+			}
+			break;
+		case "E":
+			f.action = "cal_xls_busca_solicitudes.php";
+			f.submit();
+			break;
+	}
+}
+
+function Historial(SA,Rec)
+{
+	window.open("cal_con_registro_leyes_solo.php?SA="+ SA+"&Recargo="+Rec,"","top=50,left=10,width=790,height=450,scrollbars=yes,resizable = yes");					
+}
+
+function Recarga(URL,LimiteIni)
+{
+	var frm=document.frmPrincipal;
+	frm.LimitIni.value = LimiteIni;
+	frm.action=URL + "?LimitIni=" + LimiteIni;
+	frm.submit(); 
+}
+function Imprimir()
+{
+	window.print();
+}
+</script>
+</head>
+<body background="../principal/imagenes/fondo3.gif">
+<form name="frmPrincipal" action="" method="post">
+<?
+	if (!isset($LimitIni))
+		$LimitIni = 0;
+	if (!isset($LimitFin))
+		$LimitFin = 10;
+?>
+<input type="hidden" name="LimitIni" value="<? echo $LimitIni; ?>">
+  <table width="765" border="0">
+    <tr> 
+      <td width="695" align="center" valign="middle"><strong>Consulta de Solicitudes</strong></td>
+    </tr>
+  </table>
+  <br>
+  <table width="760" border="0" class="TablaDetalle">
+    <tr> 
+      <td width="92" height="24"><font size="1"><font size="2">#SolI</font></font></td>
+      <td width="77"><font size="1"><font size="1"><font size="2"> 
+        <select name="AnoIni2" style="width:60px;">
+          <?
+			for ($i=date("Y")-4;$i<=date("Y")+1;$i++)
+			{
+				if (isset($AnoIni2))
+				{
+					if ($i == $AnoIni2)
+						echo "<option selected value='".$i."'>".$i."</option>\n";
+					else	echo "<option value='".$i."'>".$i."</option>\n";
+				}
+				else
+				{
+					if ($i == date("Y"))
+						echo "<option selected value='".$i."'>".$i."</option>\n";
+					else	echo "<option value='".$i."'>".$i."</option>\n";
+				}
+			}
+		?>
+        </select>
+        </font></font></font> </td>
+      <td width="68"><font size="1"><font size="1"><font size="1"><font size="2"> 
+        <input name="NumIni" type="text" id="NumIni" value="<? echo $NumIni; ?>" size="10" maxlength="15">
+        </font></font></font></font></td>
+      <td width="68"><div align="right"><font size="1"><font size="1"></font></font></div></td>
+      <td width="97"><font size="1"><font size="1"><font size="2">#SolF</font></font></font></td>
+      <td width="65"><select name="AnoFin2" style="width:60px;">
+          <?
+			for ($i=date("Y")-4;$i<=date("Y")+1;$i++)
+			{
+				if (isset($AnoFin2))
+				{
+					if ($i == $AnoFin2)
+						echo "<option selected value='".$i."'>".$i."</option>\n";
+					else	echo "<option value='".$i."'>".$i."</option>\n";
+				}
+				else
+				{
+					if ($i == date("Y"))
+						echo "<option selected value='".$i."'>".$i."</option>\n";
+					else	echo "<option value='".$i."'>".$i."</option>\n";
+				}
+			}
+		?>
+        </select> </td>
+      <td width="260"><input name="NumFin" type="text" id="NumFin3" value="<? echo $NumFin; ?>" size="10" maxlength="15"></td>
+    </tr>
+    <tr> 
+      <td height="24">Periodo</td>
+      <td colspan="3"><strong> 
+        <select name="CmbPeriodo" style="width:110">
+          <option value ='-1' selected>Todos</option>\n;
+              
+    <?  
+				$Consulta = "select * from sub_clase where cod_clase = 2 order by valor_subclase1";
+				$Respuesta= mysql_query($Consulta);
+				while ($Fila = mysql_fetch_array($Respuesta))
+				{
+					if ($CmbPeriodo == $Fila["cod_subclase"])
+					{
+						echo "<option value = '".$Fila["cod_subclase"]."' selected>".ucwords(strtolower($Fila["nombre_subclase"]))."</option>\n";
+					}
+					else
+					{
+						echo "<option value = '".$Fila["cod_subclase"]."'>".ucwords(strtolower($Fila["nombre_subclase"]))."</option>\n";
+					}
+				}
+		      ?>
+        </select>
+        </strong></td>
+      <td>Lineas por P&aacute;g.</td>
+      <td colspan="2"><input name="LimitFin" type="text" id="LimitFin" value="<? echo $LimitFin;?>" size="12" maxlength="12"></td>
+    </tr>
+    <tr align="center" valign="middle"> 
+      <td height="24"><div align="left"><font size="1"></font></div></td>
+      <td height="24" colspan="3"><div align="left"> </div></td>
+      <td height="24" colspan="3"><div align="left"> 
+          <input type="button" name="BtnConsulta2" value="Consultar" onClick="Proceso('C');" style="width:70px;">
+          <input type="button" name="BtnExcel2" value="Excel" onClick="Proceso('E');" style="width:70px;">
+          <input name="BtnImprimir" type="button" id="BtnImprimir" value="Imprimir" onClick="Imprimir();">
+          <input type="button" name="BtnSalir2" value="Salir" onClick="Proceso('S')" style="width:70px;">
+        </div></td>
+    </tr>
+  </table>
+  <br>
+<?
+	switch ($CmbPeriodo)
+	{
+		case "-1":
+			break; 
+		case "1":
+			$AgrupPeriodo=" and (t1.cod_periodo = '1') ";
+			break;
+		case "2":
+			$AgrupPeriodo=" and (t1.cod_periodo = '2') ";
+			break;
+		case "3":
+			$AgrupPeriodo=" and (t1.cod_periodo = '3') ";
+			break;
+		case "4":
+			$AgrupPeriodo=" and (t1.cod_periodo = '4') ";
+			break;			
+		case "5":
+			$AgrupPeriodo=" and (t1.cod_periodo = '5') ";
+			break;			
+	}
+	$FechaIni = $AnoIni."-".$MesIni."-".$DiaIni;
+	$FechaFin = $AnoFin."-".$MesFin."-".$DiaFin;
+	if (!isset($AnoIni2))
+	$AnoIni2 = 0;
+	if (!isset($NumIni))
+		$NumIni = 0;
+	if (!isset($AnoFin2))
+		$AnoFin2 = 0;
+	if (!isset($NumFin))
+		$NumFin = 0;
+
+	//$SolIniLims=$NumIni;
+	//$SolIniLims=$NumFin;
+
+	$SolIni = $AnoIni2."000000";
+	$SolFin = $AnoFin2."000000";
+
+	$SolIni = $SolIni + $NumIni;
+	$SolFin = $SolFin + $NumFin;
+
+	$Consulta = "select STRAIGHT_JOIN distinct(t2.cod_leyes), t3.abreviatura ";
+	if($AnoIni2 < 2009 && $AnoIni2 > 2000)                                                 // esto es por respaldos de leyes antiguas 26-10-2010
+		$Consulta.= " from cal_histo.solicitud_analisis_a_".$AnoIni2." t1 inner join cal_histo.leyes_por_solicitud_a_".$AnoIni2." t2 ";
+		else
+		$Consulta.= " from cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2 ";
+	$Consulta.= " on t1.nro_solicitud = t2.nro_solicitud and t1.recargo = t2.recargo and  t1.fecha_hora = t2.fecha_hora and "; 
+	$Consulta.= " t1.rut_funcionario  = t2.rut_funcionario inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes = t3.cod_leyes ";
+	if (($Nivel=='13')||($Nivel=='1')||($Nivel=='2')||($Nivel=='3')||($Nivel=='5'))
+	{
+		$Consulta.= " where (t1.nro_solicitud between '".$SolIni."' and '".$SolFin."') or (t1.nro_sa_lims between '".$NumIni."' and '".$NumFin."')";
+	}
+	else 
+	{
+		$Consulta.= " where (t1.nro_solicitud between '".$SolIni."' and '".$SolFin."') (t1.nro_sa_lims between '".$NumIni."' and '".$NumFin."') and  t1.cod_producto <> 1 ";
+	}
+	if ($CmbPeriodo!='-1')
+	{
+		$Consulta.=" and (t1.cod_periodo = '".$CmbPeriodo."') ";
+	}
+	$Consulta.= " order by t2.cod_leyes ";
+	//echo "uno".$Consulta."<br>";
+	$Respuesta = mysql_query($Consulta);
+	$LargoArreglo = 0;
+	while ($Row = mysql_fetch_array($Respuesta))
+	{
+		$ArregloLeyes[$LargoArreglo][0] = $Row["cod_leyes"];
+		$ArregloLeyes[$LargoArreglo][1] = $Row["abreviatura"];
+		$LargoArreglo++;
+	}
+	$Total = ($LargoArreglo * 70) + 550;
+	
+?>	    
+  <table width="<? echo $Total;?>" border="1" cellpadding="0" cellspacing="0" class="TablaDetalle">
+    <tr align="center" valign="middle" class="ColorTabla01"> 
+      <td width="110"><strong># Solicitud</strong></td>
+      <td width="80"><strong>Agrupacion</strong></td>
+	  <td width="80"><strong>Id. Muestra</strong></td>
+      <td width="130"><strong>Fecha Muestra</strong></td>
+      <td width="67"><strong>Producto</strong></td>
+      <td width="85"><strong>SubProducto</strong></td>
+      <td width="99"><strong>Estado</strong></td>
+      <?
+	for ($i = 0; $i < $LargoArreglo; $i++)
+	{
+		echo "<td width='70'>".$ArregloLeyes[$i][1]."</td>\n";
+	}
+?>
+    </tr>
+    <?	
+	$Consulta = "select fecha_muestra,nro_solicitud,recargo, if(length(recargo)=1,concat('0',recargo),recargo) as recargo_ordenado, id_muestra, ";
+	$Consulta.= " rut_funcionario, fecha_hora,agrupacion,fecha_muestra ";
+	if($AnoIni2 < 2009 && $AnoIni2 > 2000)                                      // esto es para leyes respaldadas 26-10-2010
+		$Consulta.= " from cal_histo.solicitud_analisis_a_".$AnoIni2." t1 ";
+		else
+		$Consulta.= " ,nro_sa_lims from cal_web.solicitud_analisis t1 ";
+	if (($Nivel=='13')||($Nivel=='1')||($Nivel=='2')||($Nivel=='3')||($Nivel=='5')||($Nivel=='8'))
+	{
+		$Consulta.= " where (t1.nro_solicitud between '".$SolIni."' and '".$SolFin."') ";
+	}
+	else
+	{
+		$Consulta.= " where (t1.nro_solicitud between '".$SolIni."' and '".$SolFin."') and t1.cod_producto <> 1";
+	}
+	$Consulta.= " and (not isnull(nro_solicitud) or nro_solicitud = '')";
+	if ($CmbPeriodo!='-1')
+	{
+		$Consulta.=" and (t1.cod_periodo = '".$CmbPeriodo."') ";
+	}
+	$Consulta.= " order by nro_solicitud,recargo_ordenado";
+	//echo "dos".$Consulta."<br>";
+	$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
+	$Respuesta = mysql_query($Consulta);
+	while ($Row = mysql_fetch_array($Respuesta))
+	{
+		echo "<tr align='left' valign='middle'>\n";
+		if (is_null($Row["recargo"]) || ($Row["recargo"] == ""))
+		{
+			$Recargo='N';
+			if ($Row["nro_sa_lims"]=='') {
+				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Recargo."')\">\n";
+				echo $Row["nro_solicitud"]."</a></td>\n";
+			}else{
+				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Recargo."')\">\n";
+				echo $Row["nro_sa_lims"]."</a></td>\n";
+			}
+
+			//echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Recargo."')\">\n";
+			//echo $Row["nro_solicitud"]."</a></td>\n";
+		}
+		else
+		{
+			if ($Row["nro_sa_lims"]=='') {
+				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Row["recargo"]."')\">\n";
+				echo $Row["nro_solicitud"]."-".$Row["recargo"]."</td>\n";
+			}else{
+				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Row["recargo"]."')\">\n";
+			echo $Row["nro_sa_lims"]."-".$Row["recargo"]."</td>\n";
+			}
+
+
+			//echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Row["recargo"]."')\">\n";
+			//echo $Row["nro_solicitud"]."-".$Row["recargo"]."</td>\n";
+		}
+		$Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase = 1004 and cod_subclase = '".$Row["agrupacion"]."'";
+		$Resp1=mysql_query($Consulta);
+		$Fil1=mysql_fetch_array($Resp1);
+		echo "<td>".$Fil1["nombre_subclase"]."</td>\n";
+		echo "<td>".$Row["id_muestra"]."</td>\n";
+		if ((!is_null($Row[fecha_muestra])) && ($Row[fecha_muestra] != ""))
+			echo "<td align='center'>".substr($Row[fecha_muestra],8,2)."/".substr($Row[fecha_muestra],5,2)."/".substr($Row[fecha_muestra],0,4)." ".substr($Row[fecha_muestra],11,5)."</td>\n";
+		else
+			echo "<td align='center'>&nbsp;</td>\n";
+		//----------------------Producto y  Subproducto --------------------------------------
+		$Consulta = "select STRAIGHT_JOIN  t2.abreviatura as AbrevProducto,t3.abreviatura as AbrevSubProducto ";
+		if($AnoIni2 < 2009 && $AnoIni2 > 2000)								// para consulta leyes respaldadas 26-10-2010
+			$Consulta.=" from cal_histo.solicitud_analisis_a_".$AnoIni2." t1 ";
+			else
+			$Consulta.=" from cal_web.solicitud_analisis t1 ";
+		$Consulta.= " inner join proyecto_modernizacion.productos t2 on t1.cod_producto = t2.cod_producto  ";
+		$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t2.cod_producto = t3.cod_producto and t1.cod_subproducto = t3.cod_subproducto ";
+		$Consulta.= " where t1.nro_solicitud = '".$Row["nro_solicitud"]."' ";
+		if (is_null($Row["recargo"]) || ($Row["recargo"] == ""))
+		{	
+			$Consulta = $Consulta;
+		}
+		else	
+		{
+			$Consulta.= " and recargo = '".$Row["recargo"]."'";
+		}
+		//echo "tre".$Consulta."<br>";
+		$Resp=mysql_query($Consulta);
+		$Fila=mysql_fetch_array($Resp);  
+		echo "<td align ='center'>".$Fila[AbrevProducto]."</td>";
+		echo "<td align = 'center'>".$Fila[AbrevSubProducto]."</td>";
+		//---------ESTADO ACTUAL---------------------------------------
+		if($AnoIni2 < 2009 && $AnoIni2 > 2000)
+			$Consulta = "select * from cal_histo.solicitud_analisis_a_".$AnoIni2." t1 "; 
+			else
+			$Consulta = "select * from cal_web.solicitud_analisis t1 "; 
+		$Consulta.=" left join proyecto_modernizacion.sub_clase t2 ";
+		$Consulta.= " on t2.cod_clase = '1002' and t1.estado_actual = t2.cod_subclase ";		
+		$Consulta.= " where nro_solicitud = '".$Row["nro_solicitud"]."'";
+		if (is_null($Row["recargo"]) || ($Row["recargo"] == ""))
+			$Consulta = $Consulta;
+		else	$Consulta.= " and recargo = '".$Row["recargo"]."'";
+		$Resp = mysql_query($Consulta);
+		if ($Row2 = mysql_fetch_array($Resp))
+			echo "<td>".$Row2["nombre_subclase"]."</td>\n";
+		else	echo "<td>&nbsp;</td>\n";
+		//-------------------------------------------------------
+		for ($i = 0; $i < $LargoArreglo; $i++)
+		{
+			if($AnoIni2 < 2009 && $AnoIni2 > 2000)
+				$Consulta = "select *,t2.abreviatura from cal_histo.leyes_por_solicitud_a_".$AnoIni2." t1";
+				else
+				$Consulta = "select *,t2.abreviatura from cal_web.leyes_por_solicitud t1";
+			$Consulta.= " inner join proyecto_modernizacion.unidades t2 on t1.cod_unidad = t2.cod_unidad ";  
+			$Consulta.= " where t1.nro_solicitud = '".$Row["nro_solicitud"]."'";
+			if (!is_null($Row["recargo"]) || ($Row["recargo"] != ""))
+			{
+				$Consulta.= " and t1.recargo = '".$Row["recargo"]."' ";
+			}
+			$Consulta.= " and t1.cod_leyes = '".$ArregloLeyes[$i][0]."'";
+			//echo "mmm".$Consulta."</br>";
+			$Resp = mysql_query($Consulta);
+			if ($Row2 = mysql_fetch_array($Resp))
+			{
+				if ((is_null($Row2[valor])) || ($Row2[valor] == ""))
+				{	
+					if ($Row2[signo]=="N")
+					{
+						echo "<td width='70'>ND</td>\n";
+					}
+					else
+					{	
+						echo "<td width='70'>&nbsp;</td>\n";
+					}
+				}
+				else	//echo "<td width='70'>".$Row2[valor]."&nbsp;</td>\n";
+					if ($Row2[candado]== 1)
+					{
+						if($Row2[signo]=="=")
+						{
+							echo "<td width='70'><font color='green'>".number_format($Row2[valor],3)."&nbsp;".$Row2["abreviatura"]."</font></td>\n";
+						}
+						else
+						{
+							echo "<td width='70'><font color='green'>".$Row2[signo].number_format($Row2[valor],3)."&nbsp;".$Row2["abreviatura"]."</font></td>\n";
+						}
+					}
+					else
+					{
+						if($Row2[signo]=="=")
+						{
+							echo "<td width='70'>".number_format($Row2[valor],3)."&nbsp;".$Row2["abreviatura"]."</td>\n";
+						}
+						else
+						{
+							echo "<td width='70'>".$Row2[signo].number_format($Row2[valor],3)."&nbsp;".$Row2["abreviatura"]."</td>\n";
+						}
+					}
+			}
+			else
+			{
+				echo "<td width='70' align='center'><img src='../principal/imagenes/ico_x.gif'></td>\n";
+			}				
+		}
+		echo "</tr>\n";
+	}
+?>
+  </table>
+  <table width="760" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td height="25" align="center" valign="middle">Paginas &gt;&gt; 
+              <?		
+		$Consulta = "select count(*) as total_registros ";
+		if($AnoIni2 < 2009 && $AnoIni2 > 2000)
+			$Consulta.= " from cal_histo.solicitud_analisis_a_".$AnoIni2." t1 ";
+			else
+			$Consulta.= " ,nro_sa_lims from cal_web.solicitud_analisis t1 ";
+		if (($Nivel=='13')||($Nivel=='1')||($Nivel=='2')||($Nivel=='3')||($Nivel=='5'))
+		{
+			$Consulta.= " where (t1.nro_solicitud between '".$SolIni."' and '".$SolFin."') or (t1.nro_sa_lims between '".$SolIni."' and '".$SolFin."')";
+		}
+		else
+		{
+			$Consulta.= " where (t1.nro_solicitud between '".$SolIni."' and '".$SolFin."') (t1.nro_sa_lims between '".$SolIni."' and '".$SolFin."') and t1.cod_producto <> 1 ";
+		}
+		$Consulta.= " and (not isnull(nro_solicitud) or nro_solicitud = '')";
+		if ($CmbPeriodo!='-1')
+		{
+			$Consulta.=" and (t1.cod_periodo = '".$CmbPeriodo."') ";
+		}
+		//echo "vvv".$Consulta;
+		$Respuesta = mysql_query($Consulta);
+		$Row = mysql_fetch_array($Respuesta);
+		$Coincidencias = $Row["total_registros"];
+		$NumPaginas = ($Coincidencias / $LimitFin);
+		$LimitFinAnt = $LimitIni;
+		$StrPaginas = "";
+		for ($i = 0; $i <= $NumPaginas; $i++)
+		{
+			$LimitIni = ($i * $LimitFin);
+			if ($LimitIni == $LimitFinAnt)
+			{
+				$StrPaginas.= "<strong>".($i + 1)."</strong>&nbsp;-&nbsp;\n";
+			}
+			else
+			{
+				$StrPaginas.=  "<a href=JavaScript:Recarga('cal_con_busca_solicitudes.php','".($i * $LimitFin)."');>";
+				$StrPaginas.= ($i + 1)."</a>&nbsp;-&nbsp;\n";
+			}
+		}
+		echo substr($StrPaginas,0,-15);
+?>
+            </td>
+          </tr></table>
+</form>
+</body>
+</html>

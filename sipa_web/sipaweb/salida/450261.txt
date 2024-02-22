@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44120',peso_neto='30460',marca='FRANJA NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='15974796-4',nombre_chofer='RICARDO TORRES',observacion='',romana_salida='1' where correlativo='450261' and lote='21096134' and recargo='7'

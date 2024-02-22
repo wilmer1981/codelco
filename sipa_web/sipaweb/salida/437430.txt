@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44970 ',peso_neto='31020',marca='DOS FRANJAS ROJAS',cod_mop='520',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='',romana_salida='2' where correlativo='437430' and lote='21016249' and recargo='40'

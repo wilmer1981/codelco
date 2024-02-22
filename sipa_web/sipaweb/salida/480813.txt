@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43580 ',peso_neto='28530',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='9057031-5',nombre_chofer='jose prado',observacion='CU VARIOS PVSA',romana_salida='1' where correlativo='480813' and lote='23036212' and recargo='7'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='45000',peso_neto='26250',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8567333-5',nombre_chofer='JOSE FERNANDEZ',observacion='',romana_salida='1' where correlativo='459233' and lote='22026193' and recargo='1'

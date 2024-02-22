@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43980 ',peso_neto='29270',marca='V DOS FRANJAS AZUL',cod_mop='520',num_sello='',transportista='',rut_chofer='497791-2',nombre_chofer='ENRIQUE ESCOBAR',observacion='',romana_salida='1' where correlativo='436236' and lote='21016021' and recargo='16'

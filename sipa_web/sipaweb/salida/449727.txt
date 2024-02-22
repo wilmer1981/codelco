@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44890 ',peso_neto='31340',marca='TRES FRANJAS CELESTES',cod_mop='520',num_sello='',transportista='',rut_chofer='15083238-1',nombre_chofer='HECTOR VILLALON',observacion='',romana_salida='2' where correlativo='449727' and lote='21096038' and recargo='10'

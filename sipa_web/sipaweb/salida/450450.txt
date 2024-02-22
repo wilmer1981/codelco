@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41000 ',peso_neto='2350',marca='TRES FRANJAS AMARILLAS',cod_mop='520',num_sello='',transportista='',rut_chofer='12128412-K',nombre_chofer='CLAUDIO JUCOSSI',observacion='',romana_salida='1' where correlativo='450450' and lote='21096079' and recargo='9'

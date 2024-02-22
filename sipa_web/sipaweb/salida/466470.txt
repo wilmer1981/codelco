@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44140 ',peso_neto='27470',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='131870684-',nombre_chofer='Alexis Puebla',observacion='PTE',romana_salida='1' where correlativo='466470' and lote='22076067' and recargo='3'

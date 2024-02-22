@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44300 ',peso_neto='26060',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11729899-k',nombre_chofer='WASHINGTON',observacion='',romana_salida='1' where correlativo='486975' and lote='23066282' and recargo='1'

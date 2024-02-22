@@ -1,0 +1,134 @@
+<?
+	header("Content-Type:  application/vnd.ms-excel");
+ 	header("Expires: 0");
+  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
+	include("../principal/conectar_sget_web.php");
+	include("funciones/sget_funciones.php");
+$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+?>
+<html>
+<head>
+<title>Reporte Empresas</title>
+<body>
+
+<form name="frmPrincipal" action="" method="post">
+		
+		<table border="1" >
+		<tr>
+		<td bgcolor="#3399FF" bordercolorlight="#3399FF" align="center" >N�</td>
+		<td align="center">Rut</td>
+		<td align="center" >Digito</td>
+		<td align="center" >Empresa </td>
+		<td  align="center">Direcci�n </td>
+		<td align="center" >N� Telefono </td>
+		<td  align="center">Comuna </td>
+		<td  align="center">Ciudad</td>
+		<td  align="center">Regi�n  </td>
+		<td  align="center">Nombre Represetante Legal</td>
+		<td  align="center">Rut</td>
+		<td  align="center">E-Mail</td>
+		<td align="center">Nro.&nbsp;Celular</td>
+		<td  align="center">Mutual Seguridad</td>
+		<td  align="center">Fecha Ven.Cert.Mutual</td>
+		<td  align="center">Cant. Ctto.</td>
+		</tr><?
+		$Consulta="SELECT * from sget_contratistas t1  left join sget_mutuales_seg t2 on t1.cod_mutual_seguridad=t2.cod_mutual ";
+		$Consulta.=" left join  proyecto_modernizacion.sub_clase t3  on t1.estado=t3.cod_subclase and t3.cod_clase='30007'";
+	
+		$Consulta.="  where t1.rut_empresa<>'' ";
+		if($TxtRutPrv!='')
+			$Consulta.= " and t1.rut_empresa= '".str_pad($TxtRutPrv,8,'0',l_pad)."-".$TxtDv."' ";
+		if($TxtRazonSocial!='')
+			$Consulta.= " and upper(t1.razon_social) like ('%".strtoupper(trim($TxtRazonSocial))."%') ";
+		if($TxtFantasia != "")
+			$Consulta.= " and upper(t1.nombre_fantasia) like ('%".strtoupper(trim($TxtFantasia))."%') ";
+		
+		if($CmbMutuales != "-1")
+			$Consulta.="  and  t1.cod_mutual_seguridad='".$CmbMutuales."' ";
+		$Consulta.= "order by t1.razon_social";	
+		$RespMod=mysql_query($Consulta);
+		$Cont=1;
+		while($FilaMod=mysql_fetch_array($RespMod))
+		{
+			$Empresa=$FilaMod[rut_empresa];
+			
+			$RUT1=substr($Empresa,0,2);
+			$RUT2=substr($Empresa,2,3);
+			$RUT3=substr($Empresa,5,3);
+			$RUT4=substr($Empresa,9,1);
+		
+			$RUTN=$RUT1.".".$RUT2.".".$RUT3;
+			$RUTD=$RUT4;
+			$RazonSocial=$FilaMod[razon_social];
+			$Fantasia=$FilaMod[nombre_fantasia];
+			$Mutual=$FilaMod["abreviatura"];
+			$FechaCert=$FilaMod[fecha_ven_cert]; 	
+			$Nombre=$FilaMod[repres_legal1];
+			$RutLegal = $FilaMod[rut_legal1];
+			$Email=$FilaMod[mail_repres_legal1];
+			$Telefono=$FilaMod[telefono_repres1];
+			$Celular=$FilaMod[celular_repres_legal1];
+			$Estado=$FilaMod[estado_emp];
+			$Par=($Cont % 2);
+			?>
+			<td><? echo $Cont; ?>&nbsp;</td>
+			<td><? echo $RUTN; ?>&nbsp;</td>
+			<td><? echo $RUTD; ?>&nbsp;</td>
+			<td><? echo ucwords(strtolower($RazonSocial)); ?>&nbsp;</td>
+			<td><? echo $FilaMod[calle]; ?>&nbsp;</td>
+			<td><? echo $FilaMod[telefono_comercial]; ?>&nbsp;</td>
+			<?
+				$Consulta = "SELECT nom_comuna from sget_comunas  where cod_comuna  = '".$FilaMod[cod_comuna]."' ";
+				$RespCom=mysql_query($Consulta);
+				if ($FilaCom=mysql_fetch_array($RespCom))
+				{ 
+					echo "<td>".$FilaCom[nom_comuna]." </td>";
+					
+				}
+				$Consulta = "SELECT nom_ciudad from sget_ciudades  where cod_ciudad = '".$FilaMod["cod_ciudad"]."' ";
+				$RespCiu=mysql_query($Consulta);
+				if ($FilaCiu=mysql_fetch_array($RespCiu))
+				{ 
+					echo "<td>".$FilaCiu[nom_ciudad]." </td>";
+				}
+				$Consulta = "SELECT nom_region from sget_regiones  where cod_region = '".$FilaMod[cod_region]."' ";
+				$RespReg=mysql_query($Consulta);
+				if ($FilaReg=mysql_fetch_array($RespReg))
+				{ 
+					echo "<td>".$FilaReg[nom_region]." </td>";
+				}
+			?>
+			<td><? echo $Nombre; ?>&nbsp;</td>
+			<td><? echo $RutLegal; ?>&nbsp;</td>
+			<td><? echo $Email; ?>&nbsp;</td>
+			<td><? echo $Celular; ?>&nbsp;</td>
+			<td><? echo $Mutual; ?>&nbsp;</td>
+			<td><? echo $FechaCert; ?>&nbsp;</td>
+			
+			
+			<td><? 
+				$Consulta="SELECT count(rut_empresa) as Cantidad from sget_contratos where rut_empresa='".$FilaMod[rut_empresa]."' and estado='1'";
+				$RespCant=mysql_query($Consulta);
+				if($FilaCant=mysql_fetch_array($RespCant))
+				{
+				echo $FilaCant[Cantidad];
+				}
+				else
+				{echo "0";
+				 }?>
+				
+			
+				&nbsp;</td>
+			</tr>
+		<?
+			$Cont++;
+		}
+		?></table>
+	
+
+
+</form>
+
+</body>
+</html>

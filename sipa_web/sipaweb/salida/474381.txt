@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 40300 ',peso_neto='23290',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16403500-K',nombre_chofer='FRANCISCO VERA',observacion='',romana_salida='1' where correlativo='474381' and lote='22126032' and recargo='5'

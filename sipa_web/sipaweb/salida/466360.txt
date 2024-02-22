@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43240 ',peso_neto='28700',marca='DOS FRANJAS VERDES',cod_mop='690',num_sello='',transportista='',rut_chofer='9941698-K',nombre_chofer='MARCELINO SAN MARTIN',observacion='',romana_salida='1' where correlativo='466360' and lote='22076056' and recargo='20'

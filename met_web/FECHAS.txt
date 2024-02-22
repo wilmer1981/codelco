@@ -1,0 +1,11 @@
+str_pad($var,cantdig,"caracter de reeleno",STR_PAD_LEFT)
+$Fecha=$fechaInicio
+whilw($Fecha<=$FechaTermino)
+{
+	$FechaIni=substr($Fecha,0,7)."01";
+	$FechaFin=substr($Fecha,0,7)."31";
+	consulta    
+	
+    $Fecha=mktime(0,0,0,substr($Fecha,5,2)+1,substr($Fecha,8,2),  substr($Fecha,0,4))
+}
+

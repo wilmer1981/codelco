@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43380 ',peso_neto='29320',marca='EQUIS FRANJA AMARILLA',cod_mop='697',num_sello='',transportista='',rut_chofer='18553379-4',nombre_chofer='FRANK TEPPER',observacion='',romana_salida='1' where correlativo='461573' and lote='22046009' and recargo='18'

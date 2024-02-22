@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44560',peso_neto='27540',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15314818-k',nombre_chofer='raul valdivia',observacion='',romana_salida='1' where correlativo='474550' and lote='22126067' and recargo='5'

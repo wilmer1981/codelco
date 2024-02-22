@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43980 ',peso_neto='30080',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='5499602-0',nombre_chofer='HECTOR SAEZ',observacion='AUTORIZADO POR PRODUCTOS FINALES',romana_salida='1' where correlativo='469434' and lote='22096004' and recargo='2'

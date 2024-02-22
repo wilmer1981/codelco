@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42560 ',peso_neto='26340',marca='FRANJA CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='18515902-7',nombre_chofer='JOSE LYNCHT',observacion='',romana_salida='1' where correlativo='435000' and lote='20126010' and recargo='3'

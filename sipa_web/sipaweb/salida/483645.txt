@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44290',peso_neto='27980',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15754711-9',nombre_chofer='ALEXIS ARAYA',observacion='',romana_salida='1' where correlativo='483645' and lote='23046325' and recargo='10'

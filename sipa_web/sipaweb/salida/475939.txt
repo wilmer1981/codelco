@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='25180',peso_neto='9930',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='22 maxisacos con pentoxido de vanadio ',romana_salida='1' where correlativo='475939' and lote='22126281' and recargo='1'

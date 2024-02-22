@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44740 ',peso_neto='30040',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='14568880-9',nombre_chofer='ORLANDO FLORES',observacion='autorizado por correo a salir con diferencias de peso',romana_salida='2' where correlativo='468304' and lote='22086067' and recargo='18'

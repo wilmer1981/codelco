@@ -1,0 +1,147 @@
+<?
+include("../principal/conectar_sget_web.php");
+include("funciones/sget_funciones.php");
+header("Content-Type:  application/vnd.ms-excel");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
+?>
+<html>
+<head>
+<title>Reporte Empresas Detallado Excel</title>
+<script language="javascript" src="funciones/sget_funciones.js"></script>
+<body>
+<form name="frmPrincipal" action="" method="post">
+  <table border="1" align="center" cellpadding="2" cellspacing="0" >
+    <tr>
+      <td rowspan="2" align="center" class="TituloTablaVerde" >Rut&nbsp;Empresa </td>
+      <td  rowspan="2" align="center" class="TituloTablaVerde">Raz&oacute;n&nbsp;Social </td>
+      <td  rowspan="2"align="center" class="TituloTablaVerde" >Nombre&nbsp;Fantasia </td>
+      <td  rowspan="2" align="center"  class="TituloTablaVerde">Mutual&nbsp;Seguridad </td>
+      <td rowspan="2" align="center"  class="TituloTablaVerde">Direcci&oacute;n</td>
+      <td rowspan="2" align="center"  class="TituloTablaVerde">Tel&eacute;fono </td>
+      <td  rowspan="2" align="center"  class="TituloTablaVerde">Correo </td>
+      <td rowspan="2" align="center"  class="TituloTablaVerde">Repre.Legal</td>
+      <td colspan="12" class="TituloTablaVerde"align="center">Datos Contrato </td>
+    </tr>
+    <tr>
+      <td  class="TituloTablaVerde" align="center">Nro&nbsp;Ctto. </td>
+      <td  class="TituloTablaVerde" align="center">Nombre&nbsp;Ctto. </td>
+      <td  class="TituloTablaVerde" align="center">Centro&nbsp;Costo </td>
+      <td  class="TituloTablaVerde" align="center">Fecha&nbsp;Inicio </td>
+      <td  class="TituloTablaVerde" align="center">Fecha&nbsp;Termino </td>
+      <td  class="TituloTablaVerde" align="center">Reuni�n&nbsp;Arranque </td>
+      <td  class="TituloTablaVerde" align="center">Adm.&nbsp;Ctto Codelco</td>
+      <td  class="TituloTablaVerde" align="center">Email</td>
+      <td  class="TituloTablaVerde" align="center">Adm.&nbsp;Ctto Empresa</td>
+      <td  class="TituloTablaVerde" align="center">Email</td>
+      <td  class="TituloTablaVerde" align="center">Prevencionista</td>
+      <td  class="TituloTablaVerde" align="center">Categoria Prev.</td>
+    </tr>
+    <?
+		$Consulta="SELECT count(t4.cod_contrato) as row, t1.*,t2.*,t3.* from sget_contratistas t1  left join sget_mutuales_seg t2 on t1.cod_mutual_seguridad=t2.cod_mutual ";
+		$Consulta.=" left join  proyecto_modernizacion.sub_clase t3  on t1.estado=t3.cod_subclase and t3.cod_clase='30007'";
+		$Consulta.=" inner join  sget_contratos t4  on t1.rut_empresa=t4.rut_empresa ";
+		$Consulta.="  where t1.rut_empresa<>'' ";
+		if($TxtRutPrv!='')
+			$Consulta.= " and t1.rut_empresa= '".str_pad($TxtRutPrv,8,'0',l_pad)."-".$TxtDv."' ";
+		if($TxtRazonSocial!='')
+			$Consulta.= " and upper(t1.razon_social) like ('%".strtoupper(trim($TxtRazonSocial))."%') ";
+		if($TxtFantasia != "")
+			$Consulta.= " and upper(t1.nombre_fantasia) like ('%".strtoupper(trim($TxtFantasia))."%') ";
+		if($CmbMutuales != "-1")
+			$Consulta.="  and  t1.cod_mutual_seguridad='".$CmbMutuales."' ";
+		if($CmbEstado!='-1')	
+			$Consulta.="  and  t4.estado='".$CmbEstado."' ";
+			
+		$Consulta.=" group by t1.rut_empresa order by razon_social";
+		
+		$RespMod=mysql_query($Consulta);
+		
+		$Cont=1;
+		while($FilaMod=mysql_fetch_array($RespMod))
+		{
+			$Empresa=$FilaMod[rut_empresa];
+			$RazonSocial=$FilaMod[razon_social];
+			$Direccion=$FilaMod[calle];
+			$Fantasia=$FilaMod[nombre_fantasia];
+			$Mutual=DescripcionMutual($FilaMod[cod_mutual_seguridad]);
+			$Nombre=FormatearNombre($FilaMod[repres_legal1]);
+			$Email=$FilaMod[mail_empresa];
+			$Telefono=$FilaMod[telefono_comercial];
+			$Celular=$FilaMod[celular_repres_legal1];
+			$RepLegal=$FilaMod[repres_legal1];
+			$Estado=$FilaMod[estado_emp];
+			$Par=($Cont % 2);
+			if($Par==1)
+			{
+				?>
+    <tr class="FilaAbeja">
+      <?
+			}
+			else
+			{
+				?>
+    <tr class="FilaAbeja">
+      <? 
+			}
+			?>
+      <td rowspan="<? echo $FilaMod[row];	?>"><?  echo FormatearRun($FilaMod[rut_empresa]); ?>&nbsp;</td>
+      <td rowspan="<? echo $FilaMod[row];	?>"><? echo FormatearNombre($RazonSocial); ?>&nbsp;</td>
+      <td rowspan="<? echo $FilaMod[row];	?>"><? echo str_replace(' ','&nbsp;',FormatearNombre($Fantasia)); ?>&nbsp;</td>
+      <td rowspan="<? echo $FilaMod[row];	?>"><? echo $Mutual; ?>&nbsp;</td>
+      <td rowspan="<? echo $FilaMod[row];	?>"><? echo $Direccion; ?>&nbsp;</td>
+      <td rowspan="<? echo $FilaMod[row];	?>"><? echo $Telefono; ?>&nbsp;</td>
+      <td rowspan="<? echo $FilaMod[row];	?>"><? echo $Email; ?>&nbsp;</td>
+      <td rowspan="<? echo $FilaMod[row];	?>"><? echo $RepLegal; ?>&nbsp;</td>
+      <? 
+		$Consulta="SELECT * from sget_contratos where rut_empresa='".$FilaMod[rut_empresa]."'";
+		if($CmbEstado!='-1')	
+			$Consulta.="  and  estado='".$CmbEstado."' ";
+		//echo $Consulta."<br>";
+		$RespCtto=mysql_query($Consulta);
+		while($FilaCtto=mysql_fetch_array($RespCtto))
+		{
+			$DatosContrato= AdmCodelco($FilaCtto[rut_adm_contrato]);
+			$DatosContratista=AdmCttoContratista($FilaCtto["cod_contrato"]);
+			$MCtto=explode('~',$DatosContrato);
+			$ADMCTTO=$MCtto[1]."&nbsp;".$MCtto[2]."&nbsp;".$MCtto[3];
+			$EmailCtto=$MCtto[5];
+			$MCttista=explode('~',$DatosContratista);
+			$ADMCTTISTA=$MCttista[1]."&nbsp;".$MCttista[2]."&nbsp;".$MCttista[3];
+			$EmailCtta=$MCttista[5];
+			$DatosPrev=DescripcionPrev($FilaCtto[rut_prev]);
+			$MPrev=explode('~',$DatosPrev);
+			$PREVCIO=$MPrev[0]."&nbsp;".$MPrev[1]."&nbsp;".$MPrev[2];
+			$CATPREV=$MPrev[5]."&nbsp;".$MPrev[6];
+			$ReunArranque='';
+			if($FilaCtto[fecha_venc_bol_garantia]!='' && $FilaCtto[fecha_venc_bol_garantia]!='0000-00-00')
+				$ReunArranque=$FilaCtto[fecha_venc_bol_garantia];
+		  ?>
+		  <td><? echo $FilaCtto["cod_contrato"]; ?>&nbsp;</td>
+		  <td><? echo $FilaCtto["descripcion"]; ?>&nbsp;</td>
+		  <td><? 
+					$Area=DescripcionArea($FilaCtto["cod_area"]);
+					echo $Area; ?>
+			&nbsp;</td>
+		  <td><? echo $FilaCtto[fecha_inicio]; ?>&nbsp;</td>
+		  <td ><? echo $FilaCtto[fecha_termino]; ?>&nbsp;</td>
+		  <td align="center"><? echo $ReunArranque; ?>&nbsp;</td>
+		  <td ><? echo $ADMCTTO ?>&nbsp;</td>
+		  <td ><? echo $EmailCtto ?>&nbsp;</td>
+		  <td ><? echo $ADMCTTISTA; ?>&nbsp;</td>
+		  <td ><? echo $EmailCtta ?>&nbsp;</td>
+		  <td ><? echo $PREVCIO; ?>&nbsp;</td>
+		  <td ><? echo $CATPREV; ?>&nbsp;</td>
+		</tr>
+		<? 
+			
+				}
+				?>
+    <?
+			$Cont++;
+		}
+		?>
+  </table>
+</form>
+</body>
+</html>

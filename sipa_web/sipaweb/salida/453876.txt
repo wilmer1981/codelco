@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='39630',peso_neto='25350',marca='EQUIS CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='10063555-0',nombre_chofer='JOSE RAMIREZ',observacion='',romana_salida='1' where correlativo='453876' and lote='21116136' and recargo='10'

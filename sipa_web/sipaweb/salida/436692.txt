@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42300 ',peso_neto='25830',marca='FRANJA BLANCA',cod_mop='510',num_sello='',transportista='',rut_chofer='30385683-8',nombre_chofer='ORLANDO OLIVAREZ',observacion='',romana_salida='1' where correlativo='436692' and lote='21016148' and recargo='2'

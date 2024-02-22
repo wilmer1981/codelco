@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 18300 ',peso_neto='4700',marca='DOS FRANJAS VERDES',cod_mop='520',num_sello='',transportista='',rut_chofer='10431760-K',nombre_chofer='JUAN   GALLEGUILLOS',observacion='',romana_salida='2' where correlativo='451088' and lote='21096115' and recargo='23'

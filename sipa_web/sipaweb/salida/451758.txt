@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44360 ',peso_neto='8210',marca='FRANJA ROJA',cod_mop='520',num_sello='',transportista='',rut_chofer='16330464-3',nombre_chofer='OMAR NAVIA',observacion='',romana_salida='1' where correlativo='451758' and lote='21106084' and recargo='3'

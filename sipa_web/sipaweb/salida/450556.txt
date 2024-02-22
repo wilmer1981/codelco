@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='15980',peso_neto='2370',marca='V DOS FRANJAS ROJAS',cod_mop='520',num_sello='',transportista='',rut_chofer='15974796-4',nombre_chofer='RICARDO TORRES',observacion='',romana_salida='1' where correlativo='450556' and lote='21096160' and recargo='40'

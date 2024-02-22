@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43980 ',peso_neto='29460',marca='TRES FRANJAS AMARILLAS',cod_mop='510',num_sello='',transportista='',rut_chofer='10063555-0',nombre_chofer='JOSE RAMIREZ',observacion='',romana_salida='1' where correlativo='456945' and lote='22016006' and recargo='43'

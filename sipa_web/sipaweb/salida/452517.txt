@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43800',peso_neto='28070',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11319572-k',nombre_chofer='ricardo campos',observacion='escoria oxido',romana_salida='1' where correlativo='452517' and lote='21106194' and recargo='3'

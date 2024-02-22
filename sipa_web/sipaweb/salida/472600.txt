@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44900',peso_neto='16840',marca='DOS FRANJAS AZULES',cod_mop='690',num_sello='',transportista='',rut_chofer='10182333-4',nombre_chofer='MANUEL LOPEZ',observacion='',romana_salida='1' where correlativo='472600' and lote='22106223' and recargo='28'

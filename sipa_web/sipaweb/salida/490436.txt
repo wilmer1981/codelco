@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 43120 ',peso_neto='28570',marca='DOS FRANJAS VERDES',cod_mop='690',num_sello='',transportista='',rut_chofer='7714093-K',nombre_chofer='ERNESTO CISTERNAS',observacion='',romana_salida='2' where correlativo='490436' and lote='23096038' and recargo='8'

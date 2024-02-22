@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44160 ',peso_neto='27290',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17367418-k',nombre_chofer='rodrigo cepeda',observacion='cu vario',romana_salida='1' where correlativo='479643' and lote='23026310' and recargo='1'

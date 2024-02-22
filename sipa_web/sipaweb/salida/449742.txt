@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 11770 ',peso_neto='530',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='BOTELLAS PLASTICAS ',romana_salida='2' where correlativo='449742' and lote='21096054' and recargo='1'

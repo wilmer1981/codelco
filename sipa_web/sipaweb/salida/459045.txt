@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43310 ',peso_neto='26380',marca='FRANJA CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='17452352-5',nombre_chofer='SERGIO ALDECO',observacion='',romana_salida='1' where correlativo='459045' and lote='22026162' and recargo='1'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 16410 ',peso_neto='8060',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='13788182-9',nombre_chofer='RODOLFO VILLALOBOS',observacion='despuntes',romana_salida='1' where correlativo='454535' and lote='21116200' and recargo='9'

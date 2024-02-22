@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44210',peso_neto='29610',marca='V BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='14568880-9',nombre_chofer='ORLANDO FLORES',observacion='',romana_salida='1' where correlativo='459387' and lote='22026202' and recargo='18'

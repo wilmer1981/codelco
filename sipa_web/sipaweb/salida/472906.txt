@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43960 ',peso_neto='27230',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8824529-6',nombre_chofer='JORGE PEREZ',observacion='EMBARQUE FINO CIRCULANTE',romana_salida='1' where correlativo='472906' and lote='22116031' and recargo='3'

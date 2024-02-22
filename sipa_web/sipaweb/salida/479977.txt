@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44790 ',peso_neto='29070',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='15034269-4',nombre_chofer='cristian portilla ',observacion='cu varios',romana_salida='1' where correlativo='479977' and lote='23036038' and recargo='1'

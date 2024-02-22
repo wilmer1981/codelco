@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40010 ',peso_neto='25030',marca='EQUIS FRANJA CELESTE',cod_mop='630',num_sello='',transportista='',rut_chofer='13429125-7',nombre_chofer='JAVIER ESPINOZA',observacion='',romana_salida='1' where correlativo='453648' and lote='21116110' and recargo='5'

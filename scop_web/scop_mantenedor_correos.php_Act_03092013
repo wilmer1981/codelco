@@ -1,0 +1,241 @@
+<?
+    include("../principal/conectar_scop_web.php");
+    include("funciones/scop_funciones.php");
+
+if($Opc=='M')
+{
+	$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='33007' and cod_subclase='".$Dato."'";
+	$Resp=mysql_query($Consulta);
+	if($Fila=mysql_fetch_array($Resp))
+	{
+		$CodSubclase=$Fila["cod_subclase"];
+		$Correo=$Fila["nombre_subclase"];
+		$CmbProceso=$Fila["valor_subclase1"];
+		$Tipo=$Fila["valor_subclase2"];
+	}	
+}
+if(!isset($Opc))
+	$Opc=='N';
+?>
+<html>
+<head>
+<title>Mantenedor de Correos</title>
+<style type="text/css">
+<!--
+body {
+	background-image: url();
+	background-color: #f9f9f9;
+}
+-->
+</style>
+<script language="javascript" src="../scop_web/funciones/scop_funciones.js"></script>
+<script language="javascript">
+
+var popup=0;
+function Proceso(Opc)
+{
+	var f=document.FrmPrincipal;
+	var Valor="";
+	var Datos="";
+	switch(Opc)
+	{
+		case "N":
+			if(f.Correo.value=='')
+			{
+				alert("Debe Ingresar Correo");
+				f.Correo.focus()
+				return;
+			}
+			if(f.CmbProceso.value=='-1')
+			{
+				alert("Debe Seleccionar Tipo Proceso");
+				f.CmbProceso.focus()
+				return;
+			}
+			var ValidaMail=validarEmail(f.Correo.value);			
+			if(ValidaMail==false)
+			{
+				alert("Correo Incorrecto");
+				f.Correo.focus()
+				return;
+			}
+			else
+			{				
+				f.action="scop_mantenedor_correos01.php?Opcion="+Opc;
+				f.submit();
+			}
+		break;
+		case "M":
+			f.action="scop_mantenedor_correos01.php?Opcion="+Opc+"&Dato="+f.CodSubclase.value;
+			f.submit();
+		break;
+		case "I"://IMPRIMIR
+			window.print();
+		break;			
+		case "R":
+			f.action = "scop_mantenedor_contratos.php";
+			f.submit();
+		break;		
+		case "S":
+				window.location="../principal/sistemas_usuario.php?CodSistema=33";
+		break;
+	}	
+}
+function Modificar(Dato)
+{
+	var f=document.FrmPrincipal;
+	f.action="scop_mantenedor_correos.php?Opc=M&Dato="+Dato;
+	f.submit();
+}
+function Eliminar(Dato)
+{
+	var f=document.FrmPrincipal;
+	mensaje=confirm("�Esta Seguro de Eliminar Este Correo?");
+	if(mensaje==true)
+	{
+		f.action="scop_mantenedor_correos01.php?Opcion=E&Dato="+Dato;
+		f.submit();
+	}
+}
+function Resumen(Dato)
+{
+	var popup=0;
+	var f=document.FrmPrincipal;
+	URL="scop_mantenedor_contratos_resumen_detalle.php?Datos="+Dato;
+	opciones='left=50,top=30,toolbar=0,resizable=0,menubar=0,status=1,width=1000,height=500,scrollbars=1';
+	verificar_popup(popup);
+	popup=window.open(URL,"",opciones);
+	popup.focus();
+	popup.moveTo((screen.width - 1024)/2,0);
+}
+</script>
+<link href="../scop_web/estilos/css_scop_web.css" rel="stylesheet" type="text/css">
+<form name="FrmPrincipal" method="post" action="">
+<?
+ $IP_SERV = $HTTP_HOST;
+ EncabezadoPagina($IP_SERV,'mantenedor_correos.png')
+ ?>
+   <table width="950" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+      <tr>
+      <td width="15" height="15"><img src="../scop_web/archivos/images/interior/esq1em.png" width="15" height="15" /></td>
+      <td width="920" height="15"background="../scop_web/archivos/images/interior/form_arriba.png"><img src="../scop_web/archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15" height="15"><img src="../scop_web/archivos/images/interior/esq2em.png" width="15" height="15" /></td>
+      </tr>
+    <tr>
+      <td width="15" background="../scop_web/archivos/images/interior/form_izq3.png">&nbsp;</td>
+      <td>
+		<table width="100%" cellpadding="2" cellspacing="0">
+		  <tr>
+				<td width="19%" align="left" class='formulario2'>&nbsp;</td>
+	            <td align="right" class='formulario2' >				
+			    <a href="JavaScript:Proceso('<? echo $Opc;?>')"><img src="archivos/grabar.png"  border="0"  alt="Nuevo" align="absmiddle" /></a> 
+				<a href="JavaScript:Proceso('S')"><img src="archivos/salir.png"  border="0"  alt=" Volver " align="absmiddle"></a></td>
+		  </tr>
+      <tr>
+    	<td width="19%" height="17" class='formulario2'>Correo<? if($Opc=='M') {echo "<input type='hidden' name='CodSubclase' value='".$CodSubclase."'";}?></td>
+    	<td colspan="3" class="formulario2" ><input type="text" name="Correo" size="60" maxlength="60" value='<? echo $Correo;?>'></tr>
+      <tr>
+    	<td width="19%" height="17" class='formulario2'>Tipo Proceso</td>
+    	<td colspan="3" class="formulario2" >
+			 <select name="CmbProceso">
+			  <option value="-1" selected="selected">Seleccionar</option>
+			  <?
+				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='33009' ";			
+				$Resp=mysql_query($Consulta);
+				while ($Fila=mysql_fetch_array($Resp))
+				{
+					if ($CmbProceso==$Fila["cod_subclase"])
+						echo "<option selected value='".$Fila["cod_subclase"]."'>".ucfirst($Fila["nombre_subclase"])."</option>\n";
+					else
+						echo "<option value='".$Fila["cod_subclase"]."'>".ucfirst($Fila["nombre_subclase"])."</option>\n";
+				}
+			  ?>
+		  </select><? //echo 	$Consulta."<br>";?>         
+		  </tr>	 
+	   </table>   
+	</td>
+      <td width="15" background="../scop_web/archivos/images/interior/form_der.png">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="15" height="15"><img src="../scop_web/archivos/images/interior/esq3em.png" width="15" height="15" /></td>
+      <td height="15" background="../scop_web/archivos/images/interior/form_abajo.png"><img src="../scop_web/archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15" height="15"><img src="../scop_web/archivos/images/interior/esq4em.png" width="15" height="15" /></td>
+    </tr>
+  </table>	
+  <br>	
+<table width="950" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+   <tr>
+  <td><img src="../scop_web/archivos/images/interior/esq1em.gif" width="15" /></td>
+  <td width="920" background="../scop_web/archivos/images/interior/form_arriba.gif"><img src="../scop_web/archivos/images/interior/transparent.gif" width="4" /></td>
+  <td ><img src="../scop_web/archivos/images/interior/esq2em.gif" width="15" /></td>
+   	</tr>
+      <tr>
+       <td background="../scop_web/archivos/images/interior/form_izq.gif">&nbsp;</td>
+        <td align="center">  
+	    <table width="930" border="1" cellpadding="4" cellspacing="0" >
+     
+	  <tr align="center">
+		  <td width="40%" class="TituloTablaVerde">Proceso Descripci�n</td>
+		  <td width="51%" class="TituloTablaVerde">Correo</td>
+          <td width="9%" class="TituloTablaVerde">Elim/Mod</td>
+	  </tr>
+<?
+	$Consulta2=" select t2.cod_subclase as cod_proceso,t1.nombre_subclase as nom_correo,t2.nombre_subclase as nom_proceso from proyecto_modernizacion.sub_clase t1";
+	$Consulta2.=" inner join proyecto_modernizacion.sub_clase t2 on t1.cod_clase='33007' and t2.cod_clase='33009' and  t1.valor_subclase1=t2.cod_subclase ";
+	$Consulta2.=" group by t2.cod_subclase order by t2.cod_subclase";
+	$Resp2=mysql_query($Consulta2);$Cont=0;
+	while ($Fila2=mysql_fetch_array($Resp2))
+	{	
+		$Cont=$Cont+1;
+		$ConsultaCuenta="select * from proyecto_modernizacion.sub_clase where cod_clase='33007' and valor_subclase1='".$Fila2[cod_proceso]."' order by cod_subclase";
+		$RespCuenta=mysql_query($ConsultaCuenta);$Rowspan=0;
+		while($FilaCuenta=mysql_fetch_array($RespCuenta))
+		{
+			$Rowspan=$Rowspan+1;		
+		}
+		?>
+		 <tr <? echo ColorGrilla($Cont);?> >
+			<td <? echo ColorGrilla($Cont);?> align="left" rowspan="<? echo $Rowspan;?>"><? echo $Fila2[nom_proceso]; ?></td>
+		<?
+		$Consulta3="select * from proyecto_modernizacion.sub_clase where cod_clase='33007' and  valor_subclase1='".$Fila2[cod_proceso]."' order by cod_subclase,nombre_subclase";
+		$Resp3=mysql_query($Consulta3);
+		while ($Fila3=mysql_fetch_array($Resp3))
+		{		
+			?>		
+				<td align="left" <? echo ColorGrilla($Cont);?>><? echo $Fila3["nombre_subclase"]; ?></td>		
+				<td align="center" <? echo ColorGrilla($Cont);?>>
+				<? echo "<a href=JavaScript:Eliminar('".$Fila3["cod_subclase"]."')><img src='archivos/eliminar2.png' width='18' height='18' border='0' alt='Eliminar' align='absmiddle'></a>
+				<a href=JavaScript:Modificar('".$Fila3["cod_subclase"]."')><img src='archivos/modificar2.png' width='18' height='18' border='0'  alt='Modificar' align='absmiddle'></a>"; ?></td>		
+			</tr>
+			<?
+		}
+	}
+?>			
+     </table>	 
+	</td>
+ </td>
+   <td width="10" background="../scop_web/archivos/images/interior/form_der.gif">&nbsp;</td>
+   </tr>
+    <tr>
+      <td width="15"><img src="../scop_web/archivos/images/interior/esq3em.gif" width="15" height="15" /></td>
+      <td height="1"background="../scop_web/archivos/images/interior/form_abajo.gif"><img src="../scop_web/archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15"><img src="../scop_web/archivos/images/interior/esq4em.gif" width="15" height="15" /></td>
+    </tr>
+  </table>
+ </tr>
+</table>
+<? include("pie_pagina.php");?>
+</form>
+</body>
+</html>
+<?
+	echo "<script languaje='JavaScript'>";
+	if ($Mensaje=='1')
+		echo "alert('Correo Ingresado Exitosamente');";
+	if ($Mensaje=='2')
+		echo "alert('Correo Modificado con Exito');";
+	if ($Mensaje=='3')
+		echo "alert('Correo Eliminado Exitosamente');";
+	echo "</script>";
+
+?>

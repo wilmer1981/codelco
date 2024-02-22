@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43930',peso_neto='28090',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16059835-2',nombre_chofer='ANDRES TAPIA',observacion='concentrado cu varios ',romana_salida='1' where correlativo='482548' and lote='23046114' and recargo='9'

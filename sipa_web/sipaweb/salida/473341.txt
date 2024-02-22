@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44280 ',peso_neto='27620',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17971686-0',nombre_chofer='Lazaro Contador',observacion='circulante oxido',romana_salida='1' where correlativo='473341' and lote='22116094' and recargo='1'

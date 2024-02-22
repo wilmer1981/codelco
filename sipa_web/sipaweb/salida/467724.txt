@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43450 ',peso_neto='29220',marca='EQUIS AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='9941698-K',nombre_chofer='MARCELINO SAN MARTIN',observacion='',romana_salida='2' where correlativo='467724' and lote='22076233' and recargo='12'

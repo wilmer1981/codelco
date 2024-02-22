@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43830 ',peso_neto='28580',marca='V DOS FRANJAS CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='8458834-2',nombre_chofer='JOSE  GAJARDO',observacion='',romana_salida='1' where correlativo='437413' and lote='21016146' and recargo='36'

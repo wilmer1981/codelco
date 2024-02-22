@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 24790 ',peso_neto='9570',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='14276898-4',nombre_chofer='Miguel Briones ',observacion='totem de aridos',romana_salida='1' where correlativo='454331' and lote='21116164' and recargo='7'

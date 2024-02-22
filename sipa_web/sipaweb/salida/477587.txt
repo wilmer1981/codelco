@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 31920 ',peso_neto='15760',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='13935127-4',nombre_chofer='andres avila',observacion='22 sacos',romana_salida='1' where correlativo='477587' and lote='23016319' and recargo='3'

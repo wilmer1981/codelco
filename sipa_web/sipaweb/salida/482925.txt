@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43530 ',peso_neto='27610',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11222435-1',nombre_chofer='CARLOS OLIVARES',observacion='concentrado cu varios',romana_salida='1' where correlativo='482925' and lote='23046204' and recargo='6'

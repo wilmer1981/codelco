@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44590 ',peso_neto='28370',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12364139-6',nombre_chofer='Cristian Saavedra',observacion='circulante mazamorra',romana_salida='1' where correlativo='451941' and lote='21106108' and recargo='3'

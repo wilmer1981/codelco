@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42200 ',peso_neto='26460',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='12568547-1',nombre_chofer='claudio monardez',observacion='',romana_salida='1' where correlativo='480639' and lote='23036172' and recargo='3'

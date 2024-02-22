@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44440',peso_neto='28260',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='6390120-2',nombre_chofer='LUIS FARIA',observacion='ladrillo desuso',romana_salida='1' where correlativo='456180' and lote='21126244' and recargo='1'

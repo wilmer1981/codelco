@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 40600 ',peso_neto='24380',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10399377-6',nombre_chofer='Juan Huerta ',observacion='20 maxisacos de barro anodico',romana_salida='2' where correlativo='451940' and lote='21106111' and recargo='1'

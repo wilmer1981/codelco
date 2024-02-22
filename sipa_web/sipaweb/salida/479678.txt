@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41880 ',peso_neto='26470',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='14603288-5',nombre_chofer='santiago alvarez',observacion='cu varios',romana_salida='1' where correlativo='479678' and lote='23026310' and recargo='7'

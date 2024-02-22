@@ -1,0 +1,289 @@
+<?
+	include("../principal/conectar_principal.php");
+	require "includes/class.phpmailer.php";
+	include("funciones.php");
+	$RutOperador=$CookieRut;
+	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
+	$Resp=mysql_query($Consultar);
+	if ($Row=mysql_fetch_array($Resp))
+	{
+		$OperSalida=strtoupper(substr($Row["nombres"],0,1)).strtoupper(substr($Row["apellido_paterno"],0,1)).strtoupper(substr($Row["apellido_materno"],0,1));		
+	}
+	switch($Proceso)
+	{
+		case "E"://ACTUALIZAR RECEPCION
+			if($TxtPesoBruto=='')
+				$TxtPesoBruto=0;
+			if($TxtPesoTara=='')
+				$TxtPesoTara=0;
+			if($TxtPesoNeto=='')
+				$TxtPesoNeto=0;
+			if($SoloTara=='TARA')
+			{
+				$TxtObs=$SoloTara;
+				$Conjunto='';$SubProductos='';$Productos='';
+			}
+			else
+			{
+				//AGREGA MOVIMIENTO CONJUNTO EN RAM
+				$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $Conjunto AND estado != 'f' order by fecha_creacion desc";
+				$rs = mysql_query($consulta);
+				//echo $consulta."<br>";
+				if($row = mysql_fetch_array($rs))
+				{
+					$cod_conjunto = $row[cod_conjunto];
+					$cod_lugar = $row[cod_lugar];
+					$num_lugar = $row[num_lugar];
+					
+					if(strlen($cod_conjunto) == 1)
+						$cod_conjunto = "0".$cod_conjunto;				
+		
+					if(strlen($cod_lugar) == 1)
+						$cod_lugar = "0".$cod_lugar;				
+		
+					if(strlen($num_lugar) == 1)
+						$num_lugar = "0".$num_lugar;				
+		
+					$Insertar = "INSERT INTO ram_web.movimiento_conjunto (COD_EXISTENCIA,FECHA_MOVIMIENTO,COD_CONJUNTO,NUM_CONJUNTO,COD_LUGAR_ORIGEN,
+								 LUGAR_ORIGEN,COD_CONJUNTO_DESTINO,CONJUNTO_DESTINO,COD_LUGAR_DESTINO,LUGAR_DESTINO,PESO_SECO_MOVIDO,PESO_HUMEDO_MOVIDO,
+								 PESO_HUMEDO_ACUMULADO,ESTADO_VALIDACION,ORIGEN)";
+			
+					$fecha = $TxtFecha.' '.date("H:i:s");
+					$Insertar = "$Insertar VALUES('02','".$fecha."','03','$Conjunto','0','0','$cod_conjunto','$Conjunto','$cod_lugar','$num_lugar',0,$TxtPesoNeto,0,0,'A')";												  
+					mysql_query($Insertar);
+					
+				}
+				
+			}
+			CrearArchivoResp('O','E',$TxtCorrelativo,'','','',$RutOperador,$TxtNumBascula,'',$TxtFecha,$TxtHoraE,'',$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,'','','','','',$TxtGuia,$TxtPatente,'',$Conjunto,$TxtObs,'','','','','');
+			$Actualizar="UPDATE sipa_web.otros_pesaje set bascula_entrada='$TxtNumBascula',bascula_salida='$TxtNumBascula',peso_bruto='".$TxtPesoBruto."',peso_tara='".$TxtPesoTara."',peso_neto='".$TxtPesoNeto."',patente='".strtoupper($TxtPatente)."',nombre='".$Productos."',";
+			$Actualizar.="guia_despacho='".$TxtGuia."',conjunto='".$Conjunto."',descripcion='".$SubProductos."',observacion='".$TxtObs."',romana_entrada='$TxtNumRomana',romana_salida='$TxtNumRomana' ";
+			$Actualizar.="where correlativo='".$TxtCorrelativo."'";//echo $Actualizar;
+			mysql_query($Actualizar);
+			
+      		//ImprimirOtrosPesajes($TxtCorrelativo,$TxtNumRomana,$OperSalida);
+			header('location:rec_circulantes.php?TxtNumBascula='.$TxtNumBascula);
+			break;
+		/*case "S"://ACTUALIZAR SALIDA
+			CrearArchivoResp('O','S',$TxtCorrelativo,'','','',$RutOperador,'',$TxtNumBascula,$TxtFecha,$TxtHoraE,$TxtHoraS,$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,$TxtNombre,'','',$TxtDescripcion,'',$TxtGuia,$TxtPatente,'',$TxtConjunto,$TxtObs,'','','','','');			
+			$Actualizar="UPDATE sipa_web.otros_pesaje set bascula_salida='$TxtNumBascula',peso_bruto='".$TxtPesoBruto."',peso_tara='".$TxtPesoTara."',peso_neto='".$TxtPesoNeto."',hora_salida='".$TxtHoraS."',";
+			$Actualizar.="nombre='".$TxtNombre."',descripcion='".$TxtDescripcion."',observacion='".$TxtObs."',romana_salida='$TxtNumRomana' ";
+			$Actualizar.="where correlativo='".$TxtCorrelativo."'";
+			mysql_query($Actualizar);
+			ImprimirOtrosPesajes($TxtCorrelativo,$TxtNumRomana,$OperSalida);
+			header('location:rec_circulantes.php?TxtNumBascula='.$TxtNumBascula);
+			break;*/
+		case "A"://ANULAR
+			$Actualizar="UPDATE sipa_web.otros_pesaje set estado='A',observacion='".$TxtObs."' ";
+			$Actualizar.="where correlativo='".$TxtCorrelativo."'";
+			mysql_query($Actualizar);
+			header('location:rec_circulantes.php?TxtNumBascula='.$TxtNumBascula);
+			break;	
+		case "C"://CANCELAR
+			if($TipoProceso=='E')
+			{
+				if($TxtCorrelativo!='')
+				{
+					$Eliminar="delete from sipa_web.otros_pesaje where correlativo='".$TxtCorrelativo."' and patente='".trim($TxtPatente)."' and (peso_neto='0' or peso_neto='') ";
+					mysql_query($Eliminar);
+					//echo $Eliminar;			
+				}	
+			}
+			header('location:rec_circulantes.php?TxtNumBascula='.$TxtNumBascula);
+			break;	
+		case "MC"://modofica los circulantes
+				$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $Conjunto AND estado != 'f' order by fecha_creacion desc";
+				$rs = mysql_query($consulta);
+				if($row = mysql_fetch_array($rs))
+				{
+					$cod_conjunto = $row[cod_conjunto];
+					$num_conjunto = $row["num_conjunto"];
+					$cod_existencia = $row[cod_existencia];
+					$conjunto_destino = $row[conjunto_destino];
+					$lugar_destino = $row[lugar_destino];
+					$cod_lugar = $row[cod_lugar];
+					$num_lugar = $row[num_lugar];
+					
+					if(strlen($cod_conjunto) == 1)
+						$cod_conjunto = "0".$cod_conjunto;				
+		
+					if(strlen($cod_lugar) == 1)
+						$cod_lugar = "0".$cod_lugar;				
+		
+					if(strlen($num_lugar) == 1)
+						$num_lugar = "0".$num_lugar;				
+		
+					$fecha = $TxtFecha.' '.date("H:i:s");
+					$consulta = "SELECT * FROM sipa_web.otros_pesaje WHERE correlativo='".$TxtCorrelativo."'";
+					$rs = mysql_query($consulta);
+					if($row = mysql_fetch_array($rs))
+					{
+						/*$ProAnt=$row["nombre"];
+						$SubProAnt=$row["descripcion"];
+						$ConjuntoAnt=$row["conjunto"];
+						$DatosANT=$DatosANT.$row["nombre"]."~".$row["descripcion"]."~".$row["conjunto"]."~".$row["observacion"];*/
+						
+						$Fecha=$row["fecha"];	
+						$num_conj_ant=$row["conjunto"];						
+						$Actualizar="UPDATE ram_web.movimiento_conjunto set NUM_CONJUNTO='".$Conjunto."', CONJUNTO_DESTINO='".$Conjunto."', LUGAR_DESTINO='".$num_lugar."' where COD_EXISTENCIA='02' and COD_CONJUNTO='03' and NUM_CONJUNTO='".$num_conj_ant."' and left(FECHA_MOVIMIENTO,10) = '".$Fecha."'";
+						mysql_query($Actualizar);
+					}					
+				}
+				$Actualizar="UPDATE sipa_web.otros_pesaje set nombre='".$Productos."',conjunto='".$Conjunto."',descripcion='".$SubProductos."',observacion='".$TxtObs."'";
+				$Actualizar.="where correlativo='".$TxtCorrelativo."'";
+				//echo $Actualizar."<br>";
+				mysql_query($Actualizar);
+
+				/*$consulta = "SELECT * FROM sipa_web.otros_pesaje WHERE correlativo='".$TxtCorrelativo."'";
+				$rs = mysql_query($consulta);
+				if($row = mysql_fetch_array($rs))
+				{
+					$ProDes=$row["nombre"];
+					$SubProDes=$row["descripcion"];
+					$ConjuntoDes=$row["conjunto"];
+					$DatosDES=$DatosDES.$row["nombre"]."~".$row["descripcion"]."~".$row["conjunto"]."~".$row["observacion"];
+				}
+				$DatosANT=explode("~",$DatosANT);
+				$DatosDES=explode("~",$DatosDES);
+				while(list($c,$v)=each($DatosANT))
+				{
+					if($DatosANT[$c]!=$DatosDES[$c])
+						$DatosMod=$DatosMod.$c."~".$DatosANT[$c]."~".$DatosDES[$c]."//";
+				}
+				
+				if($DatosMod!='')
+					FuncionCorreoCirculante($DatosMod,$TxtCorrelativo,$ProAnt,$SubProAnt,$ConjuntoAnt,$ProDes,$SubProDes,$ConjuntoDes);*/
+				
+				header('location:rec_adm_lote06.php?TxtCorr='.$TxtCorrelativo.'&Msj=S');
+		break;	
+	}
+	
+/*function FuncionCorreoCirculante($DatosMod,$Corr,$ProAnte,$SubProAnte,$ConjuntoAnte,$ProDesp,$SubProDesp,$ConjuntoDesp)
+{
+	$ConsultaCorreo="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='8005'";
+	$RespCorreo=mysql_query($ConsultaCorreo);
+	if($Fila=mysql_fetch_array($RespCorreo))
+	{
+		$Correos=$Fila["nombre_subclase"];
+		$ArrayCorreos=explode(",",$Correos);
+	}
+	foreach($ArrayCorreos as $C =>$Correo2)	
+	{
+		$DatosMod=explode("//",$DatosModificados);
+		$Asunto='Modificaci�n Datos Circulantes, Correlativo '.$Corr.'';
+		$Titulo='Modificacion Datos Circulantes, Correlativo '.$Corr.'';
+		$Mensaje='<font face="Arial" size="2">Modificaci�n de Circulantes Realizada</b><br>';
+		$Mensaje.='<br>';
+		$Mensaje.='Los Datos Modificados para Correlativo '.$Corr.' Son:<br><br>';
+		
+		while(list($c,$v)=each($DatosMod))
+		{
+			$DatosMod1=explode("~",$v);	
+			switch($DatosMod1[0])
+			{
+				case "0";
+					$ProAnt=$DatosMod1[1];
+					$ProDes=$DatosMod1[2];
+					$Consulta = "SELECT * from proyecto_modernizacion.productos where cod_producto ='".$ProAnt."' order by descripcion";
+					$result = mysql_query($Consulta);
+					while ($Row = mysql_fetch_array($result))
+						$Mensaje.='Producto Anterior '.$Row["descripcion"];
+					$Mensaje.='<br>';
+					$Consulta = "SELECT * from proyecto_modernizacion.productos where cod_producto ='".$ProDes."' order by descripcion";
+					$result = mysql_query($Consulta);
+					while ($Row = mysql_fetch_array($result))
+						$Mensaje.='Producto Actual '.$Row["descripcion"];
+					$Mensaje.='<br><br>';
+				break;
+				case "1";
+					$SubProAnt=$DatosMod1[1];
+					$SubProDes=$DatosMod1[2];
+					$Consulta = "SELECT distinct t1.cod_subproducto,t1.cod_subproducto,t1.descripcion from proyecto_modernizacion.subproducto t1 inner join ram_web.conjunto_ram t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+					$Consulta.= "where t1.cod_producto = '".$ProAnte."' and t1.cod_subproducto='".$SubProAnt."' and t2.estado='a' order by t1.descripcion";
+					$result = mysql_query($Consulta);
+					if($Row = mysql_fetch_array($result))
+						$Mensaje.='Sub-Producto Anterior: '.$Row["descripcion"];
+					$Mensaje.='<br>';
+					$Consulta = "SELECT distinct t1.cod_subproducto,t1.cod_subproducto,t1.descripcion from proyecto_modernizacion.subproducto t1 inner join ram_web.conjunto_ram t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+					$Consulta.= "where t1.cod_producto = '".$ProDesp."' and t1.cod_subproducto='".$SubProDes."' and t2.estado='a' order by t1.descripcion";
+					$result = mysql_query($Consulta);
+					if($Row = mysql_fetch_array($result))
+						$Mensaje.='Sub-Producto Actual: '.$Row["descripcion"];
+					$Mensaje.='<br><br>';
+				break;
+				case "2";
+					$ConjAnt=$DatosMod1[1];
+					$ConjDes=$DatosMod1[2];
+					$Consulta = "SELECT descripcion ";
+					$Consulta.= " from ram_web.conjunto_ram ";
+					$Consulta.= " where cod_producto = '".$ProAnte."' ";
+					$Consulta.= " and cod_subproducto = '".$SubProAnte."' ";
+					$Consulta.= " and num_conjunto = '".$ConjAnt."' and estado='a'";
+					$Consulta.= " order by num_conjunto";
+					$Resultado = mysql_query($Consulta);
+					if ($Row2 = mysql_fetch_array($Resultado))
+						$Mensaje.='Conjunto Anterior: '.$Row2["descripcion"];
+					$Mensaje.='<br>';
+					$Consulta = "SELECT descripcion ";
+					$Consulta.= " from ram_web.conjunto_ram ";
+					$Consulta.= " where cod_producto = '".$ProDesp."' ";
+					$Consulta.= " and cod_subproducto = '".$SubProDes."' ";
+					$Consulta.= " and num_conjunto = '".$ConjDes."' and estado='a'";
+					$Consulta.= " order by num_conjunto";
+					$Resultado = mysql_query($Consulta);
+					if ($Row2 = mysql_fetch_array($Resultado))
+						$Mensaje.='Conjunto Actual: '.$Row2["descripcion"];
+					$Mensaje.='<br><br>';
+				break;
+				case "3";
+					$ObsAnt=$DatosMod1[1];
+					$ObsDes=$DatosMod1[2];
+					$Mensaje.='Observaci�n Anterior: '.$ObsAnt;
+					$Mensaje.='Observaci�n Actual: '.$ObsDes;
+					$Mensaje.='<br><br>';
+				break;		
+			}
+		}
+		
+		$cuerpoMsj = '<html>';
+		$cuerpoMsj.= '<head>';
+		$cuerpoMsj.= '<title>'.$Titulo.'</title>';
+		$cuerpoMsj.= '</head>';
+		$cuerpoMsj.= '<body>';
+		$cuerpoMsj.= '<table  width="100%"  border="0" align="center">';
+		$cuerpoMsj.= '<tr><td>';
+		$cuerpoMsj.= ''.$Mensaje.'';
+		$cuerpoMsj.= "<br>";
+		$cuerpoMsj.="Por Su Atenci�n Muchas Gracias";
+		$cuerpoMsj.= "<br>";
+		$cuerpoMsj.="Servicio Automatico de Sistema de Pesaje 'SIPA'";
+		$cuerpoMsj.= "<br>";
+		$cuerpoMsj.= '</td></tr>';
+		$cuerpoMsj.= '</table>';
+		$cuerpoMsj.= '</body></html>';
+		
+		$mail = new phpmailer();
+		//$mail->AddEmbeddedImage("includes/logo_seti.jpg","logo","includes/logo_seti.jpg","base64","image/jpg");
+		$mail->PluginDir = "includes/";
+		//$mail->Mailer = "smtp";
+		$mail->Host = "RELAYDS.codelco.cl";
+		$mail->From = "SIPA";
+		$mail->FromName = "SIPA - Sistemas Pesaje 'SIPA' ";
+		$mail->Subject = $Asunto;
+		$mail->Body=$cuerpoMsj;
+		$mail->IsHTML(true);
+		$mail->AltBody =str_replace('<br>','\n',$cuerpoMsj);
+		$mail->AddAddress($Correo2);
+		$mail->Timeout=120;
+		//$mail->AddAttachment($Doc,$Doc);
+		$exito = $mail->Send();
+		$intentos=1; 
+		while((!$exito)&&($intentos<5)&&($mail->ErrorInfo!="SMTP Error: Data not accepted")){
+		sleep(5);
+		$exito = $mail->Send();
+		$intentos=$intentos+1;				
+		}
+		$mail->ClearAddresses();
+	}
+}*/
+?>

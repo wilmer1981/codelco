@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 38780 ',peso_neto='24970',marca='V FRANJA ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='12224784-8',nombre_chofer='SERGIO MU�OZ',observacion='',romana_salida='1' where correlativo='449538' and lote='21096005' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44150',peso_neto='28480',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='24489319-8',nombre_chofer='RUBEN GIMENES',observacion='',romana_salida='1' where correlativo='474409' and lote='22126043' and recargo='3'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42360 ',peso_neto='29450',marca='FRANJA AMARILLA',cod_mop='570',num_sello='',transportista='',rut_chofer='10651007-5',nombre_chofer='RODOLFO DONOSO',observacion='',romana_salida='1' where correlativo='437909' and lote='21016386' and recargo='28'

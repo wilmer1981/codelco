@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44970 ',peso_neto='31550',marca='FRANJA AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='8224316-K',nombre_chofer='CARLOS  FUENTES',observacion='',romana_salida='1' where correlativo='437911' and lote='21016386' and recargo='27'

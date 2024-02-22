@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44170',peso_neto='27800',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='19049408-k',nombre_chofer='rodrigo tapia ',observacion='FINO CIRCULANTE',romana_salida='1' where correlativo='477028' and lote='23016173' and recargo='4'

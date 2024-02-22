@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43630',peso_neto='27290',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10553794-8',nombre_chofer='giovanni caceres',observacion='cu varios',romana_salida='1' where correlativo='483189' and lote='23046245' and recargo='6'

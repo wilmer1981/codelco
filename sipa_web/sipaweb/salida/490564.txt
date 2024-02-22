@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44530 ',peso_neto='30630',marca='EQUIS NARANJA',cod_mop='510',num_sello='',transportista='',rut_chofer='15817057-4',nombre_chofer='VICTOR OTAZO',observacion='',romana_salida='1' where correlativo='490564' and lote='23096013' and recargo='23'

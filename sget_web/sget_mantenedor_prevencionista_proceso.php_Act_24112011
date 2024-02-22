@@ -1,0 +1,358 @@
+<? include("../principal/conectar_sget_web.php");
+	if(!isset($CmbClase))
+		$CmbClase="-1";
+	if(isset($CmbPrevencionista))
+	{
+		if($CmbPrevencionista=='-1')	
+		{
+		
+			$Opc='N';
+		}	
+		else
+		{
+			$Consulta="SELECT * from sget_prevencionistas where rut_prev = '".$CmbPrevencionista."'";
+			$Resp=mysql_query($Consulta);
+			if($Fila=mysql_fetch_array($Resp))
+			{
+				$TxtRutPrv=substr(str_pad($Fila["rut_prev"],10,'0',l_pad),0,10);
+				$TxtDv=substr(str_pad($Fila["rut_prev"],12,'0',l_pad),11,1);
+				$TxtNombres=$Fila["nombres"];
+				$TxtApellidoPaterno=$Fila["apellido_paterno"];
+				$TxtApellidoMaterno=$Fila["apellido_materno"];
+				$TxtNroRegistro=$Fila["nro_registro"];
+				$TxtDireccion=$Fila["direccion"];
+				$TxtFono=$Fila["telefono"];
+				$TxtContacto=$Fila["contacto"];
+				$TxtAseguradora=$Fila["aseguradora"];
+				$TxtNroPoliza=$Fila["nro_poliza"];
+				if($Rec != 'S')
+				{
+					$CmbClase=$Fila["cod_clase"];
+					$CmbSubClase=$Fila["cod_subclase"];
+				}
+				$CmbEstado=$Fila["estado"];
+				$Opc='M';
+			}
+		
+		}
+	}
+	else
+	{
+			
+		if ($Opc=='M')
+		{
+			if(!isset($Valores))
+				$RutReq=$TxtRutPrv."-".$TxtDv;
+			else
+				$RutReq=$Valores;
+			$Consulta="SELECT * from sget_prevencionistas where rut_prev = '".$RutReq."'";
+			$Resp=mysql_query($Consulta);
+			if($Fila=mysql_fetch_array($Resp))
+			{
+				$TxtRutPrv=substr(str_pad($Fila["rut_prev"],10,'0',l_pad),0,10);
+				$TxtDv=substr(str_pad($Fila["rut_prev"],12,'0',l_pad),11,1);
+				$TxtNombres=$Fila["nombres"];
+				$TxtApellidoPaterno=$Fila["apellido_paterno"];
+				$TxtApellidoMaterno=$Fila["apellido_materno"];
+				$TxtNroRegistro=$Fila["nro_registro"];
+				$TxtDireccion=$Fila["direccion"];
+				$TxtFono=$Fila["telefono"];
+				$TxtContacto=$Fila["contacto"];
+				$TxtAseguradora=$Fila["aseguradora"];
+				$TxtNroPoliza=$Fila["nro_poliza"];
+				if($Rec != 'S')
+				{
+					$CmbClase=$Fila["cod_clase"];
+					$CmbSubClase=$Fila["cod_subclase"];
+				}
+				$CmbEstado=$Fila["estado"];
+			}
+		}
+
+	}
+?>
+<html>
+<head>
+<?
+	if ($Opc=='N')
+		$VarTitulo='Nuevo Prevencionista';
+	else	
+		$VarTitulo='Modifica Prevencionista';
+	echo "<title>$VarTitulo</title>";
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="javascript" src="funciones/sget_funciones.js"></script>
+<script language="JavaScript">
+
+
+function Proceso(Opcion)
+{
+	var f= document.FrmProceso;
+	var Valida=true;
+	var Veri="";
+	switch(Opcion)
+	{
+		case "N":
+			Veri=ValidaCampos(Valida,Opcion);
+			if (Veri==true)
+			{
+				f.action = "sget_mantenedor_prevencionista01.php?Opcion="+Opcion; 
+				f.submit();
+			}
+		break;
+		case "M":
+			Veri=ValidaCampos(Valida,Opcion);
+			if (Veri==true)
+			{
+				f.action = "sget_mantenedor_prevencionista01.php?Opcion="+Opcion;
+				f.submit();
+			}
+		break;
+		case "R":
+			f.action = "sget_mantenedor_prevencionista_proceso.php?Opcion="+Opcion+"&CmbClase="+f.CmbClase.value+"&Rec=S";
+			f.submit();
+		break;
+	}
+}
+function Salir()
+{
+	window.close();
+}
+
+function ValidaCampos(Res,Opcion)
+{
+	var f= document.FrmProceso;
+	
+	if(f.TxtRutPrv.value == '')
+		{
+			alert("Debe Ingresar Rut Empresa");
+			f.TxtRutPrv.focus();
+			Res=false;
+			return;
+		}
+		valor= new Object(document.FrmProceso.TxtRutPrv.value);
+		foco = new Object(document.FrmProceso.TxtRutPrv.focus());
+		var bandera = Rut(document.FrmProceso.TxtRutPrv.value,'Rut Empresa', foco, valor);
+		if(bandera == false)
+		{
+			Res=false;
+			return;
+			
+		}
+		
+	
+	if (f.TxtNombres.value=="")
+	{
+		alert("Debe Ingresar Nombres");
+		f.TxtNombres.focus();
+		Res=false;
+		return;
+	}
+	if (f.TxtApellidoPaterno.value=="")
+	{
+		alert("Debe Ingresar Apellido Paterno");
+		f.TxtApellidoPaterno.focus();
+		Res=false;
+		return;
+	}
+	if (f.TxtApellidoMaterno.value=="")
+	{
+		alert("Debe Ingresar Apellido Materno");
+		f.TxtApellidoMaterno.focus();
+		Res=false;
+		return;
+	}
+	if(f.CmbClase.value=='-1')
+	{
+		alert("Debe Seleccionar Clase");
+		return;
+	}
+	if(f.CmbSubClase.value=='-1'&&f.CmbClase.value=='30000')
+	{
+		alert("Debe Seleccionar SubClase");
+		return;
+	}
+
+	if(f.CmbEstado.value=='-1')
+	{
+		alert("Debe Seleccionar Estado");
+		return;
+	}
+	return(Res);
+}
+
+</script>
+</head>
+<?
+if ($Opc=='N')
+	echo '<body onLoad="document.FrmProceso.TxtRutPrv.focus();">';
+	else
+		echo '<body onLoad="document.FrmProceso.TxtNombres.focus();">';
+?>
+<link href="estilos/css_sget_web.css" rel="stylesheet" type="text/css">
+<form name="FrmProceso" method="post" action="">
+<input name="Opc" type="hidden" value="<? echo $Opc; ?>">
+<input name="Volver" type="hidden" value="<? echo $Volver; ?>">
+<table width="90%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+  <tr>
+	<td height="15"><img src="archivos/images/interior/esq1.gif" width="15" height="15"></td>
+	<td width="848" height="15"background="archivos/images/interior/form_arriba.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15"></td>
+	<td height="15"><img src="archivos/images/interior/esq2.gif" width="15" height="15"></td>
+  </tr>
+  <tr>
+   <td background="archivos/images/interior/form_izq.gif">&nbsp;</td>
+   <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+     <tr>
+       <td width="74%" align="left"><?	if($Opc=='N'){?><img src="archivos/sub_tit_prev_n.png"><? }else{?><img src="archivos/sub_tit_prev_m.png"><?	}?></td>
+       <td align="right"><a href="JavaScript:Proceso('<? echo $Opc;?>')"><img src="archivos/btn_guardar.png" alt="Guardar"  border="0" align="absmiddle" /></a> <a href="JavaScript:Salir()"><img src="archivos/close.png"  alt="Cerrar " align="absmiddle" border="0"></a> </td>
+     </tr>
+   </table>
+   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >
+     <tr>
+       <td colspan="3"align="center" class="TituloTablaVerde"></td>
+     </tr>
+     <tr>
+       <td width="1%" align="center" class="TituloTablaVerde"></td>
+       <td align="center"><table width="100%" border="0" align="center" cellpadding="3" cellspacing="0" >
+         <tr>
+           <td class="formulario2">Rut</td>
+           <!--<td class="titulos_tablas"><input name="TxtRutPrv" type="text" class="InputDer" onBlur="CalculaDv(TxtRutPrv,TxtDv,this.form)" onKeyDown="TeclaPulsada('')"  value="<? echo $TxtRutPrv;?>" size="12" maxlength="10" <? echo $EstadoRutPrv?>>-->
+           <td colspan="2" class="formulariosimple" ><?
+			 if ($Opc=='N')
+			 {
+			  	echo '<input name="TxtRutPrv" type="text"  value="'.$TxtRutPrv.'" size="12" maxlength="10">';
+			 }
+			 else
+			 {
+			 	echo '<input name="TxtRutPrv" type="text"   readonly  value="'.$TxtRutPrv.'" size="12" maxlength="10">';
+			 }
+			 ?>
+            	(Ej: 12345678-6, Sin Puntos '.')  </td>
+         </tr>
+         <tr>
+           <td width="111" class="formulario2">Nombres </td>
+           <td width="382" colspan="2" class="formulariosimple" ><input name="TxtNombres" type="text" id="TxtNombres" style="width:350" value="<? echo $TxtNombres; ?>" >
+               <span class="InputRojo">(*)</span></td>
+         </tr>
+         <tr>
+           <td height="33" class="formulario2">Apellido Paterno </td>
+           <td colspan="2" class="formulariosimple" ><input name="TxtApellidoPaterno" type="text" id="TxtApellidoPaterno" style="width:350" value="<? echo $TxtApellidoPaterno; ?>" >
+             <span class="InputRojo">(*)</span></td>
+         </tr>
+         <tr>
+           <td height="33" class="formulario2">Apellido Materno </td>
+           <td colspan="2" class="formulariosimple" ><input name="TxtApellidoMaterno" type="text" id="TxtApellidoMaterno" style="width:300" value="<? echo $TxtApellidoMaterno; ?>">
+             <span class="InputRojo">(*)</span></td>
+         </tr>
+         <tr>
+           <td height="25" class="formulario2">Nro Registro </td>
+           <td colspan="2" class="formulariosimple" ><input name="TxtNroRegistro" type="text" id="TxtNroRegistro" style="width:200" value="<? echo $TxtNroRegistro ; ?>"></td>
+         </tr>
+         <tr>
+           <td height="25" class="formulario2">Aseguradora</td>
+           <td colspan="2" class="formulariosimple" ><input name="TxtAseguradora" type="text" id="TxtAseguradora" style="width:200" value="<? echo $TxtAseguradora ; ?>"></td>
+         </tr>
+         <tr>
+           <td height="25" class="formulario2">N&ordm; P&oacute;liza </td>
+           <td colspan="2" class="formulariosimple" ><input name="TxtNroPoliza" type="text" id="TxtNroPoliza" style="width:200" value="<? echo $TxtNroPoliza ; ?>"></td>
+         </tr>
+         <tr>
+           <td height="25" class="formulario2">Direcci&oacute;n</td>
+           <td colspan="2" class="formulariosimple" ><input name="TxtDireccion" type="text" id="TxtDireccion" style="width:200" value="<? echo $TxtDireccion ; ?>"></td>
+         </tr>
+         <tr>
+           <td height="25" class="formulario2">Telefono</td>
+           <td colspan="2" class="formulariosimple" ><input name="TxtFono" type="text" id="TxtFono" style="width:200" value="<? echo $TxtFono ; ?>"></td>
+         </tr>
+         <tr>
+           <td height="25" class="formulario2">Contacto</td>
+           <td colspan="2" class="formulariosimple" ><input name="TxtContacto" type="text" id="TxtContacto" style="width:200" value="<? echo $TxtContacto ; ?>"></td>
+         </tr>
+         <tr>
+           <td height="25" class="formulario2">Clase</td>
+           <td colspan="2" class="formulariosimple" ><SELECT name="CmbClase" onChange="Proceso('R');">
+               <option value="-1" class="NoSelec">Seleccionar</option>
+               <?
+			  $Consulta = "SELECT * from proyecto_modernizacion.clase where cod_clase in ('30000','30001')   ";
+			  $Consulta.= " order by nombre_clase ";			
+			  $Resp2=mysql_query($Consulta);
+			  while ($Fila2=mysql_fetch_array($Resp2))
+			  {
+				if ($CmbClase==$Fila2["cod_clase"])
+					echo "<option SELECTed value='".$Fila2["cod_clase"]."'>".ucfirst($Fila2["nombre_clase"])."</option>\n";
+				else
+					echo "<option value='".$Fila2["cod_clase"]."'>".ucfirst($Fila2["nombre_clase"])."</option>\n";
+			   }
+			   ?>
+             </SELECT>
+             <span class="InputRojo">(*)</span> </td>
+         </tr>
+         <tr>
+           <td height="25" class="formulario2">SubClase</td>
+           <td colspan="2" class="formulariosimple" ><SELECT name="CmbSubClase" >
+               <option value="-1" class="NoSelec">Seleccionar</option>
+               <?
+			  $Consulta = "SELECT * from proyecto_modernizacion.sub_clase  where cod_clase='".$CmbClase."'  ";
+			  $Consulta.= " order by nombre_subclase ";			
+			  $Resp3=mysql_query($Consulta);
+			  while ($Fila3=mysql_fetch_array($Resp3))
+			  {
+				if ($CmbSubClase==$Fila3["cod_subclase"])
+					echo "<option SELECTed value='".$Fila3["cod_subclase"]."'>".ucfirst($Fila3["nombre_subclase"])."</option>\n";
+				else
+					echo "<option value='".$Fila3["cod_subclase"]."'>".ucfirst($Fila3["nombre_subclase"])."</option>\n";
+			   }
+			   ?>
+             </SELECT>
+               <? //echo $Consulta; ?>           
+               <span class="InputRojo">(*) Solo Para Clase Sergeonamin</span></td>
+         </tr>
+         <tr>
+           <td height="25" class="formulario2">Estado</td>
+           <td colspan="2" class="formulariosimple" ><SELECT name="CmbEstado" >
+               <option value="-1" class="NoSelec">Seleccionar</option>
+               <?
+	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' ";			
+		$Resp=mysql_query($Consulta);
+		while ($FilaTC=mysql_fetch_array($Resp))
+		{
+			if ($CmbEstado==$FilaTC["cod_subclase"])
+				echo "<option SELECTed value='".$FilaTC["cod_subclase"]."'>".ucfirst($FilaTC["nombre_subclase"])."</option>\n";
+			else
+				echo "<option value='".$FilaTC["cod_subclase"]."'>".ucfirst($FilaTC["nombre_subclase"])."</option>\n";
+		}
+			?>
+           </SELECT>
+             <span class="InputRojo">(*)</span></td>
+         </tr>
+         <tr>
+           <td height="25" colspan="3" class="formulario2"><span class="InputRojo">(*) Datos Obligatorios</span></td>
+           </tr>
+       </table></td>
+       <td width="0%" align="center" class="TituloTablaVerde"></td>
+     </tr>
+     <tr>
+       <td colspan="3"align="center" class="TituloTablaVerde"></td>
+     </tr>
+   </table>
+   <br></td>
+   <td width="1" background="archivos/images/interior/form_der.gif">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="1" height="15"><img src="archivos/images/interior/esq3.gif" width="15" height="15" /></td>
+    <td height="1" background="archivos/images/interior/form_abajo.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+    <td width="1" height="15"><img src="archivos/images/interior/esq4.gif" width="15" height="15" /></td>
+  </tr>
+   </table>
+  <input name="TxtRutO" type="hidden"   value="<? echo $Valores ; ?>">
+  <!--<input name="TxtTieneReq" type="hidden"   value="<? echo $TieneReq ; ?>">
+  <input name="TxtGrupoU" type="hidden"   value="<? echo $TxtGrupoU ; ?>">-->
+</form>
+</body>
+</html>
+<? 
+	echo "<script languaje='JavaScript'>";
+	if ($Mensaje==true)
+		echo "alert('Este Prevencionista  ya Existe');";
+	echo "</script>";
+?>

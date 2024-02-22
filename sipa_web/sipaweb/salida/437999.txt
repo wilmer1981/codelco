@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44260 ',peso_neto='28250',marca='EQUIS FRANJA NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='10181076-3',nombre_chofer='MARCO PINOCHET',observacion='',romana_salida='1' where correlativo='437999' and lote='21026005' and recargo='6'

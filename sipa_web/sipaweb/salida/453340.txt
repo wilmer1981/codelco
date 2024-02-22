@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43600',peso_neto='29440',marca='EQUIS FRANJA NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='15732588-4',nombre_chofer='RODRIGO  COFRE',observacion='',romana_salida='1' where correlativo='453340' and lote='21116010' and recargo='20'

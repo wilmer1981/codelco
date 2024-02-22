@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 34390 ',peso_neto='18500',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='10609594-9',nombre_chofer='claudio vascu�an ',observacion=' 24 maxisacos',romana_salida='1' where correlativo='451443' and lote='21106040' and recargo='1'

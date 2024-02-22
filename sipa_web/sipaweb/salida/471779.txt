@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44120',peso_neto='28010',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='19298137-9',nombre_chofer='jorge cisternas',observacion='oxidos',romana_salida='1' where correlativo='471779' and lote='22106114' and recargo='1'

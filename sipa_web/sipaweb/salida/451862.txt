@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43880 ',peso_neto='27330',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11758139-k',nombre_chofer='SERGIO CORREA',observacion='circ. mazamorra',romana_salida='1' where correlativo='451862' and lote='21106099' and recargo='4'

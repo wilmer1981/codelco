@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42930 ',peso_neto='27080',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9554767-2',nombre_chofer='jorge flores',observacion='cu pvsa',romana_salida='1' where correlativo='482436' and lote='23046108' and recargo='2'

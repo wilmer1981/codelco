@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43780 ',peso_neto='26260',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='30491005',nombre_chofer='gustavo mairan',observacion='',romana_salida='1' where correlativo='474126' and lote='22116243' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44570 ',peso_neto='28900',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11520388-6',nombre_chofer='LUIS TAPIA',observacion='escoria ct',romana_salida='1' where correlativo='476033' and lote='22126294' and recargo='4'

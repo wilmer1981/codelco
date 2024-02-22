@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 36160 ',peso_neto='15600',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='96607990-6',nombre_chofer='juan',observacion='16 maxi sacos con aridos',romana_salida='1' where correlativo='491759' and lote='23096224' and recargo='2'

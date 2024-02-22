@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43240 ',peso_neto='29320',marca='EQUIS DOS FRANJAS NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL CISTERNA',observacion='',romana_salida='1' where correlativo='450961' and lote='21096205' and recargo='13'

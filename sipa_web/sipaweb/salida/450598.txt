@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 34780 ',peso_neto='19540',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='14276898-4',nombre_chofer='Miguel Briones ',observacion='22 maxi lodo riles',romana_salida='1' where correlativo='450598' and lote='21096192' and recargo='1'

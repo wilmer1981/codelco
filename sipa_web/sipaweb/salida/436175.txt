@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43200 ',peso_neto='14020',marca='FRANJA NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='12259518-8',nombre_chofer='MARCO BRICE�O',observacion='',romana_salida='1' where correlativo='436175' and lote='21016040' and recargo='2'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 38850 ',peso_neto='23630',marca='DOS FRANJAS ROJAS',cod_mop='570',num_sello='',transportista='',rut_chofer='5577292-4',nombre_chofer='LUIS TAMAYO',observacion='',romana_salida='1' where correlativo='438278' and lote='21026005' and recargo='18'

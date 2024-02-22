@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44100 ',peso_neto='27740',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='5918754-6',nombre_chofer='JUAN CISTERNAS',observacion='concentrado de cu',romana_salida='1' where correlativo='474115' and lote='22116236' and recargo='2'

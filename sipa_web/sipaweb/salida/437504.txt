@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 41190 ',peso_neto='27230',marca='V FRANJA BLANCA',cod_mop='520',num_sello='',transportista='',rut_chofer='16300771-1',nombre_chofer='ENRIQUE ESCOBAR',observacion='',romana_salida='1' where correlativo='437504' and lote='21016018' and recargo='20'

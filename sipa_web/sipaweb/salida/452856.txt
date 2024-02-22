@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 37660 ',peso_neto='24090',marca='EQUIS CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='10431760-K',nombre_chofer='JUAN   GALLEGUILLOS',observacion='',romana_salida='2' where correlativo='452856' and lote='21106235' and recargo='73'

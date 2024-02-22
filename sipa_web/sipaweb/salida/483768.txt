@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 23560 ',peso_neto='10070',marca='FRANJA NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='9272715-7',nombre_chofer='VICTOR BERNAL PIZARRO',observacion='',romana_salida='1' where correlativo='483768' and lote='23046316' and recargo='36'

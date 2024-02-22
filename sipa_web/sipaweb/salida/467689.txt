@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 39140 ',peso_neto='24950',marca='EQUIS DOS FRANJAS AZULES',cod_mop='690',num_sello='',transportista='',rut_chofer='9277660-3',nombre_chofer='CRISTIAN BERNAL',observacion='',romana_salida='2' where correlativo='467689' and lote='22076100' and recargo='21'

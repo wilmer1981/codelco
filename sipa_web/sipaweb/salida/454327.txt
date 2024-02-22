@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43100 ',peso_neto='29020',marca='DOS FRANJAS ROJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='13545623',nombre_chofer='MARCELO FERNANDEZ',observacion='',romana_salida='1' where correlativo='454327' and lote='21116220' and recargo='5'

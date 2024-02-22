@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43710 ',peso_neto='27810',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10424050-k',nombre_chofer='jose valenzuela',observacion='escoria ct',romana_salida='1' where correlativo='475265' and lote='22126173' and recargo='2'

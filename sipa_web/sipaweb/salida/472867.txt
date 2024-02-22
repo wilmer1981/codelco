@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44120 ',peso_neto='28090',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='26479492-7',nombre_chofer='jorge luna',observacion='fino circulante',romana_salida='1' where correlativo='472867' and lote='22116028' and recargo='5'

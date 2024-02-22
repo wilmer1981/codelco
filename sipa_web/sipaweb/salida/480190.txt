@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41580 ',peso_neto='27040',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='22726322-9',nombre_chofer='grgorio choquevillca',observacion='concentrado de cu',romana_salida='1' where correlativo='480190' and lote='23036086' and recargo='2'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 30410 ',peso_neto='14570',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='16 desulfurizacion',romana_salida='1' where correlativo='485471' and lote='23066056' and recargo='1'

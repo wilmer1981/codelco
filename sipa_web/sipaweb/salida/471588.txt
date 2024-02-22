@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44620 ',peso_neto='29060',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='20501975-8',nombre_chofer='Bastian Peña',observacion='oxido',romana_salida='1' where correlativo='471588' and lote='22106085' and recargo='2'

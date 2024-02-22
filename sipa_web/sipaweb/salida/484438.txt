@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39060 ',peso_neto='24890',marca='EQUIS FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='10718505-4',nombre_chofer='MARCELO OYANEDEL',observacion='',romana_salida='1' where correlativo='484438' and lote='23056164' and recargo='4'

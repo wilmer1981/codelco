@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44730',peso_neto='31000',marca='FRANJA NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='9941698-K',nombre_chofer='MARCELINO SAN MARTIN',observacion='',romana_salida='1' where correlativo='451762' and lote='21106004' and recargo='27'

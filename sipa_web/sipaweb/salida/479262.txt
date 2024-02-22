@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39110 ',peso_neto='24340',marca='V DOS FRANJAS ROJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='20688817-2',nombre_chofer='ANGEL URIGOITIA',observacion='',romana_salida='1' where correlativo='479262' and lote='23026160' and recargo='8'

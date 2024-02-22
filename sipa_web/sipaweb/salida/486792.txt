@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43510 ',peso_neto='27070',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15801653-2',nombre_chofer='braulio parra',observacion='cu varios ',romana_salida='1' where correlativo='486792' and lote='23066243' and recargo='8'

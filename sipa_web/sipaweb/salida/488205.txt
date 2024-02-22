@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='36570',peso_neto='17290',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='16 maxi con yeso',romana_salida='1' where correlativo='488205' and lote='23076214' and recargo='1'

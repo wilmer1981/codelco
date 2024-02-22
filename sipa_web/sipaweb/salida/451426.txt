@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44460 ',peso_neto='28440',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10348949-0',nombre_chofer='CLAUDIO PENA',observacion='ladrillos desuso',romana_salida='1' where correlativo='451426' and lote='21106035' and recargo='5'

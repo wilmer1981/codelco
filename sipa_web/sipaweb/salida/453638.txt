@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 38970 ',peso_neto='24940',marca='EQUIS DOS FRANJAS VERDE',cod_mop='520',num_sello='',transportista='',rut_chofer='6328266-9',nombre_chofer='ADEMIL CABRERA',observacion='',romana_salida='1' where correlativo='453638' and lote='21116022' and recargo='18'

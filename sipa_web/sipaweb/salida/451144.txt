@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44930 ',peso_neto='28640',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12365237-1',nombre_chofer='hever gonzalez',observacion='',romana_salida='1' where correlativo='451144' and lote='21096268' and recargo='8'

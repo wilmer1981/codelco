@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44480 ',peso_neto='27320',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='1317242-3',nombre_chofer='GUILLERMO ANTONIO LEDEZMA ',observacion='circulantes oxidos',romana_salida='1' where correlativo='473380' and lote='22116103' and recargo='2'

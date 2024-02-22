@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 21340 ',peso_neto='1140',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='96607990-6',nombre_chofer='juan',observacion='20 maxisacos con papel carton',romana_salida='1' where correlativo='490533' and lote='23096050' and recargo='2'

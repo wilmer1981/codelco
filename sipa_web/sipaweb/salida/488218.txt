@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44350 ',peso_neto='26900',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='14241403-1',nombre_chofer='RENATO VICENCIO',observacion='',romana_salida='1' where correlativo='488218' and lote='23076206' and recargo='9'

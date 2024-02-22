@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44530 ',peso_neto='30850',marca='DOS FRANJAS VERDES',cod_mop='520',num_sello='',transportista='',rut_chofer='15974796-4',nombre_chofer='RICARDO TORRES',observacion='',romana_salida='2' where correlativo='451084' and lote='21096115' and recargo='22'

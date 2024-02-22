@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43180 ',peso_neto='26320',marca='FRANJA AZUL',cod_mop='510',num_sello='',transportista='',rut_chofer='31108239-6',nombre_chofer='JUAN AREVALO',observacion='',romana_salida='1' where correlativo='449916' and lote='21096082' and recargo='1'

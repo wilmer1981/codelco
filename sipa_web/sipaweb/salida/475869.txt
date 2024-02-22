@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44910 ',peso_neto='28170',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='26572426-4',nombre_chofer='leonardo garcia',observacion='',romana_salida='1' where correlativo='475869' and lote='22126265' and recargo='3'

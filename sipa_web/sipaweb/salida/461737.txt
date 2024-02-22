@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 27980 ',peso_neto='8800',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11804326-k',nombre_chofer='luis mora carrasco',observacion='chatarra',romana_salida='1' where correlativo='461737' and lote='22046071' and recargo='1'

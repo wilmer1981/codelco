@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42720 ',peso_neto='27050',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10226662-5',nombre_chofer='DANILO BALCAZAR ',observacion='circulantes mazamorra',romana_salida='1' where correlativo='451141' and lote='21096268' and recargo='3'

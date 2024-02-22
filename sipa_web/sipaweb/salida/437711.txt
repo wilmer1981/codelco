@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43600 ',peso_neto='28710',marca='DOS FRANJAS NEGRAS',cod_mop='690',num_sello='',transportista='',rut_chofer='8090510-6',nombre_chofer='ALDO DIAZ',observacion='',romana_salida='1' where correlativo='437711' and lote='21016286' and recargo='19'

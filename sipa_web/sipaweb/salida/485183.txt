@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44150',peso_neto='26840',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13453428-1',nombre_chofer='EDUARDO GARAY DIAZ',observacion='cobre varios ',romana_salida='1' where correlativo='485183' and lote='23066004' and recargo='1'

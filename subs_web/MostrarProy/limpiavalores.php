@@ -1,0 +1,24 @@
+<?
+		$dia1="------";
+		$dia2="------";
+		$dia3="------";
+		$imponible1="------------";
+		$imponible2="------------";
+		$imponible3="------------";
+		$porc_afp_1="-------";
+		$porc_afp_2="-------";
+		$porc_afp_3="-------";
+		for($i=0;$i<=3;$i++)
+		{
+			$mostrar_valor_afp[$i]="---------";			
+			$mostrar_fonasa[$i]="-----------";
+			$uf_isapre[$i]="-------";
+			$mostrar_valor_isapre[$i]="---------";
+			$mostrar_valor_afecto[$i]="------------";
+			$desc_valor_afecto[$i]="------------";
+			$mostrar_total_afecto[$i]="-----------------";
+		}
+		$mostrar_dias_licencia="--------------";
+		$mostrar_valor_diario="---------------";
+		$mostrar_total_a_pagar="--------------";
+?>

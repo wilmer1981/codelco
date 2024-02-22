@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 11780 ',peso_neto='3350',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='16068012-1',nombre_chofer='JESE LONCOMILLA',observacion='',romana_salida='1' where correlativo='463379' and lote='22056076' and recargo='1'

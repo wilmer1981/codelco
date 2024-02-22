@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='42980',peso_neto='12170',marca='V VERDE',cod_mop='520',num_sello='',transportista='',rut_chofer='8492685-K',nombre_chofer='PATRICIO NEGRETE',observacion='',romana_salida='1' where correlativo='452192' and lote='21106094' and recargo='74'

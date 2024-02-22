@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44100',peso_neto='28370',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17636658-3',nombre_chofer='elvis pe�a',observacion='ladrillo desuso',romana_salida='1' where correlativo='453167' and lote='21116034' and recargo='2'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44570',peso_neto='30460',marca='FRANJA CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='15065298-7',nombre_chofer='CRISTIAN ALVARADO',observacion='',romana_salida='1' where correlativo='451963' and lote='21106109' and recargo='24'

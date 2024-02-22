@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44580 ',peso_neto='28610',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='27829193-6',nombre_chofer='miguel torres',observacion='',romana_salida='1' where correlativo='485794' and lote='23066107' and recargo='2'

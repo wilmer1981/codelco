@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43600 ',peso_neto='27720',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8476398-5',nombre_chofer='JORGE CORDOBA',observacion='cu varios',romana_salida='2' where correlativo='485115' and lote='23056328' and recargo='4'

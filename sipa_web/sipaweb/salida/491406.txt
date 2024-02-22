@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44860 ',peso_neto='4610',marca='EQUIS AMARILLA',cod_mop='690',num_sello='',transportista='',rut_chofer='8090510-6',nombre_chofer='ALDO DIAZ ',observacion='',romana_salida='2' where correlativo='491406' and lote='23096174' and recargo='17'

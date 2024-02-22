@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43210',peso_neto='7550',marca='FRANJA NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='16331344-8',nombre_chofer='PATRICIO VILLALON',observacion='',romana_salida='1' where correlativo='454562' and lote='21116254' and recargo='6'

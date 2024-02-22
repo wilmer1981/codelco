@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42120 ',peso_neto='26780',marca='EQUIS NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='19772903-1',nombre_chofer='LUIS SILVA',observacion='',romana_salida='1' where correlativo='486504' and lote='23066006' and recargo='20'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44020',peso_neto='28490',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11888704-2',nombre_chofer='jaime leal',observacion='CU VARIOS',romana_salida='1' where correlativo='471486' and lote='22106068' and recargo='11'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43240',peso_neto='28640',marca='V CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='12774916-7',nombre_chofer='MARCELO TORRES',observacion='',romana_salida='1' where correlativo='451678' and lote='21106062' and recargo='68'

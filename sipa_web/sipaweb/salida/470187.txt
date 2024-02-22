@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44170 ',peso_neto='29680',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='13304870-7',nombre_chofer='jose poblete',observacion='cu varios',romana_salida='1' where correlativo='470187' and lote='22096133' and recargo='14'

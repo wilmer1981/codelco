@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44820 ',peso_neto='27900',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12686507-4',nombre_chofer='MAURICIO TRONCOSO',observacion='escoria ct',romana_salida='1' where correlativo='476280' and lote='23016017' and recargo='4'

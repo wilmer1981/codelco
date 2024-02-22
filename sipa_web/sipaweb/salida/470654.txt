@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 32090 ',peso_neto='18210',marca='FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL CISTERNA',observacion='',romana_salida='2' where correlativo='470654' and lote='22096091' and recargo='26'

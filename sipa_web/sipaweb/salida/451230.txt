@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 18110 ',peso_neto='2020',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='12423751-3',nombre_chofer='Gido Delgado',observacion='1 totem telas filtro',romana_salida='1' where correlativo='451230' and lote='21096282' and recargo='2'

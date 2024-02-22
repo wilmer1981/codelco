@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 38870 ',peso_neto='24910',marca='EQUIS AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='',romana_salida='1' where correlativo='434968' and lote='20126125' and recargo='1'

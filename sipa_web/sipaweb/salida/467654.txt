@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 17490 ',peso_neto='1830',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='22 maxisacos elementos contaminados',romana_salida='2' where correlativo='467654' and lote='22076228' and recargo='1'

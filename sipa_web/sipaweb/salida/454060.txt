@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 45000 ',peso_neto='29200',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11738284-2',nombre_chofer='HECTOR QUIROZ',observacion='',romana_salida='1' where correlativo='454060' and lote='21116186' and recargo='2'

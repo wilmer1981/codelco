@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Generar Solicitud Analisis</title>
+    <meta name="description" content="Sistema De Información Gerencia de Servicios">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- Animation library for notifications   -->
+    <link href="css/animate.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">        
+    <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles2.css">  
+<!-- 	<link href="css/paper-dashboard.css" rel="stylesheet"/> -->
+<link rel="stylesheet" type="text/css" href="js/table/dataTables.bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 0%;">
+  <div class="row">
+  	<div class="panel-group" >
+      <div class="panel panel-primary" > 
+        <div class="panel-body" >
+          <h2 style="text-align: center">Generaci&oacute;n de Solicitud An&aacute;lisis</h2>
+          <form id="JForm" method="post">              
+            <div class="col-md-12">
+              <div class="form-group">
+                  <label for="exampleFormControlSelect1">Plantillas</label>
+	                <SELECT class="form-control" name="plantilla" id="plantilla" >
+                    <option value="-1">Seleccione La Plantilla</option>
+                    <!-- BEGIN CMBSOLICITUD -->
+                    <option value="{valuePlantilla}" {chePlantilla}  > {id_muestra} | {nomPlantilla} | {nomProducto} | {nomSubProducto} </option>
+                    <!-- END CMBSOLICITUD -->
+                  </SELECT>
+	            </div>
+            </div>
+            <div class="col-md-3">  
+               <label class="control-label" for="textinput">Cantidad Muestras</label><br>
+ 
+               <input type="number" id="cantidad" name="cantidad" min="1" max="10" value="1">
+            </div>
+            <div class="col-md-3">  
+               <label class="control-label" for="textinput">&nbsp;</label><br>
+               <input type="button" class="btn btn-info btn-block" value="Cargar" onclick="ProcesarAccion('gen_solicitud_analisis01','cargar_solicitud','JForm')">                                  
+            </div>
+            <div class="col-md-3">  
+               <!-- <label class="control-label" for="textinput">&nbsp;FechaHora</label> --><br>
+               <input type="hidden" id="fechaHora" name="fechaHora" value="{fechaHora}" >
+            </div>
+            <div class="col-md-3">  
+               <label class="control-label" for="textinput">&nbsp;</label><br>
+               <a href="{salir}" class="btn btn-danger pull-right btn-block">Salir</a>                                  
+            </div>
+             
+          </form> 
+        </div>
+      </div>
+    </div>    
+  	<div class="col-md-12">        
+      <table id="tabla" class="table table-striped table-bordered table-hover nowrap" cellspacing="0" width="100%">
+        <thead>
+          <tr style="background: #5bc0de">
+            <th>Editar/Eliminar</th>
+            <th>Fecha Hora</th>
+            <th>Id Muestra</th>
+            <th>Area</th>
+            <th>C.Costo</th>
+            <th>Leyes</th>
+            <th>impurezas</th>
+            <th>S.A</th>
+            <th>Periodos</th>
+            <th>Generar SA</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 11px">
+        <!-- BEGIN SOLICITUD -->
+          <tr>
+          
+            <td width="8%"  >
+
+             <a href="javascript:modal('?p=modal','&Opcion=editarSolicitud&Solicitud={IdSolicitud}','#editSolicitud','contieneModal')" class="btn btn-xs btn-info" {disabled} title="Editar Solicitud"><i class="fa fa-edit" aria-hidden="true" ></i></a>  
+            <a href="javascript:eliminar('modal','eliminarsolicitud&Solicitud={IdSolicitud}');" id="{IdSolicitud}" type="button" class="btn btn-xs btn-danger" {disabled} title="Eliminar Solicitud"><i class="fa fa-trash" aria-hidden="true"></i></a> 
+            </td>
+            <td>{fechaHora}</td>
+            <td>{idMuestra}</td>
+            <td>{nombreArea}</td>
+            <td>{centroCosto}</td>
+            <td>{leyes}</td>
+            <td>{impurezas}</td>
+            <td>{sa}</td>
+            <td>{periodo}</td>
+            <td><a href="javascript:ProcesarAccion('modal','asignarSA&Solicitud={IdSolicitud}','JForm')" id="asignar+{IdSolicitud}" class="btn btn-xs btn-info"  {disabled2} ><i class="fa fa-gears btn-xs" aria-hidden="true" {disabled2}></i> </a> </td>
+            <!-- <td><a href="javascript:modal('?p=modal','&Opcion=asignarSA&Solicitud={IdSolicitud}','')" id="asignar+{IdSolicitud}" class="btn btn-sm btn-info"  {disabled2} ><i class="fa fa-gears" aria-hidden="true" {disabled2}></i> </a> </td> 
+            onclick="ProcesarAccion('modal','guardarSolicitud','formulario')"
+            -->
+          </tr>
+          <!-- END SOLICITUD -->
+        </tbody>
+      </table>
+    </div>
+  </div>       
+</div>
+<div id="contieneModal"></div>
+<div id="Cargando"><img src="img/loading.gif"><p id="MensajeMostrar"></p></div>
+ 
+<script src="js/jquery-3.2.1.min.js"></script>
+ <script src="js/moment.min.js"></script>
+<!-- Minified Bootstrap JS -->
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+<!-- <script src="js/bootstrap-datetimepicker.es.js"></script>  no funciona--> 
+
+<script src="js/funcion.js"></script>
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/sweetalert.min.js"></script>
+
+<script src="js/table/jquery.dataTables.min.js"></script>
+<script src="js/table/dataTables.bootstrap.min.js"></script>
+<script src="js/table/dataTables.responsive.min.js"></script>
+<script src="js/table/responsive.bootstrap.min.js"></script>
+
+ <style type="text/css">
+#tabla_paginate {
+  text-align: left;
+}
+
+</style>
+
+<script>
+$(document).ready(function() {
+    $('#tabla').DataTable();    
+
+  
+
+});
+
+
+
+</script>
+
+</body>
+</html>
+
+
+

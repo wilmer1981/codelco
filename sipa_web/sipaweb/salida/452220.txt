@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44660',peso_neto='27630',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7876481-3',nombre_chofer='TULIO PONCE ',observacion='',romana_salida='1' where correlativo='452220' and lote='21106149' and recargo='2'

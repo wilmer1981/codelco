@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44710',peso_neto='27560',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16576658-K',nombre_chofer='PABLO TARKOWSKI',observacion='',romana_salida='1' where correlativo='482463' and lote='23046114' and recargo='5'

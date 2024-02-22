@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43060 ',peso_neto='29220',marca='FRANJA CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='6660026-2',nombre_chofer='JUAN BERNAL',observacion='',romana_salida='1' where correlativo='454001' and lote='21116162' and recargo='50'

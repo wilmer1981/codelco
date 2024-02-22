@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44910 ',peso_neto='31180',marca='FRANJA NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='10182333-4',nombre_chofer='MANUEL LOPEZ',observacion='',romana_salida='1' where correlativo='467473' and lote='22076118' and recargo='61'

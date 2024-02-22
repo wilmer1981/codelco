@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44200 ',peso_neto='25920',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9977763-k',nombre_chofer='RENE ALFONSO GARCES DIAZ',observacion='',romana_salida='2' where correlativo='456086' and lote='21126226' and recargo='1'

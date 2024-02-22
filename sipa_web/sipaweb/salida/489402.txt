@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42790 ',peso_neto='25540',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='14314383-K',nombre_chofer='WILSON SOTO',observacion='CHATARRA',romana_salida='1' where correlativo='489402' and lote='23086134' and recargo='2'

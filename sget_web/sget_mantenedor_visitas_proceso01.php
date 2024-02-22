@@ -1,0 +1,137 @@
+<?
+include("../principal/conectar_sget_web.php");
+include("funciones/sget_funciones.php");
+
+switch($Opcion)
+{
+	case "N":
+			$Consulta="SELECT ifnull(max(corr_visita)+1,1) as maximo from sget_visitas ";
+			$Resp=mysql_query($Consulta);
+			if($Fila=mysql_fetch_array($Resp))
+			{
+				if($Fila["maximo"]=='')
+					$CorrVI=1;
+				else		
+					$CorrVI=$Fila["maximo"];
+			}
+			if($TxtFecha=='')
+				$TxtFecha='0000-00-00';
+			$Insertar="INSERT INTO sget_visitas (corr_visita,fecha_ingreso,rut,pasaporte,nombres,apellido_paterno,apellido_materno,empresa,fecha_das,area,solicitada_por,observacion,rut_registro_solicita,motivo,cargo_visita,contrato_orden,telefono_solicita,cargo_solicita,estado,autorizado_por)";
+			$Insertar.="values('".$CorrVI."','".$TxtFechaIng."','".$TxtRut."','".$Pasaport."','".$TxtNombre."','".$TxtPat."','".$TxtMat."','".$TxtEmpresa."','".$TxtFecha."','".$TxtArea."','".$TxtSolicita."','".$Obs."','".$CookieRut."','".$Motivo."','".$TxtCargo."','".$TxtCtto_orden."','".$TxtFono."','".$TxtCargoSol."','V','".$CookieRut."')";
+			//echo $Insertar;
+			mysql_query($Insertar);
+			
+			echo "<script lenguaje='JavaScript'>";
+			echo "window.opener.document.FrmPrincipal.action='sget_mantenedor_visitas.php?Cons=S&RecupFecha=S&FechaD=".$TxtFechaIng."&FechaH=".$TxtFechaIng."&RutBus=".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."';";
+			echo "window.opener.document.FrmPrincipal.submit();";
+			echo "window.close();";						
+			echo "</script>";
+			//header('location:sget_mantenedor_visitas_proceso.php?Opc=M&Msj=G&CorrV='.$CorrVI);
+	break;
+	case "M":
+			if($TxtFecha=='')
+				$TxtFecha='0000-00-00';
+			$Actualiza="UPDATE sget_visitas set estado='V',rut='".$TxtRut."',pasaporte='".$Pasaport."',fecha_ingreso='".$TxtFechaIng."',nombres='".$TxtNombre."',apellido_paterno='".$TxtPat."',apellido_materno='".$TxtMat."',empresa='".$TxtEmpresa."',fecha_das='".$TxtFecha."',area='".$TxtArea."',solicitada_por='".$TxtSolicita."',motivo='".$Motivo."',observacion='".$Obs."',rut_registro_solicita='".$CookieRut."',cargo_visita='".$TxtCargo."',contrato_orden='".$TxtCtto_orden."',telefono_solicita='".$TxtFono."',cargo_solicita='".$TxtCargoSol."'";
+			$Actualiza.=" ,autorizado_por='".$CookieRut."' where corr_visita='".$CorrVisita."'";
+			//echo $Actualiza;
+			mysql_query($Actualiza);
+			echo "<script lenguaje='JavaScript'>";
+			echo "window.opener.document.FrmPrincipal.action='sget_mantenedor_visitas.php?Cons=S&RecupFecha=S&FechaD=".$TxtFechaIng."&FechaH=".$TxtFechaIng."&RutBus=".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."';";
+			echo "window.opener.document.FrmPrincipal.submit();";
+			echo "window.close();";						
+			echo "</script>";
+	break;
+	case "E":
+			$Datos=explode('//',$Valor);
+			foreach($Datos as $c => $v)
+			{
+				$Eliminar="delete from sget_visitas where corr_visita='".$v."'";
+				mysql_query($Eliminar);
+			}
+			header('location:sget_mantenedor_visitas.php?Msj=E&Cons=S');
+	break;
+	case "GHE"://GRABA LA ENTRADA DE LA VISITA.
+			$Dato=explode('//',$Datos);
+			while(list($c,$Datos)=each($Dato))
+			{
+				$Corr=explode('~',$Datos);
+				$Actualiza="UPDATE sget_visitas set hora_entrada='".$Hora.":".$Minutos.":00',patente='".$TxtPatente."' where corr_visita='".$Corr[0]."'";
+				//echo $Actualiza."<br>";
+				mysql_query($Actualiza);
+			}
+			header('location:sget_mantenedor_visitas_control.php?Cons=S&Opc=M&Msj=ME&CorrVisita='.$Datos.'&TxtFecha='.$TxtFecha.'&TxtFechaH='.$TxtFechaH);
+	break;
+	case "GHS"://GRABA LA Salida DE LA VISITA.
+			$Dato=explode('//',$Datos);
+			while(list($c,$Datos)=each($Dato))
+			{
+				$Corr=explode('~',$Datos);
+				$Actualiza="UPDATE sget_visitas set hora_salida='".$HoraS.":".$MinutoS.":00' where corr_visita='".$Corr[0]."'";
+				//echo $Actualiza."<br>";
+				mysql_query($Actualiza);
+			}
+			header('location:sget_mantenedor_visitas_control.php?Cons=S&Opc=M&Msj=MS&CorrVisita='.$Datos.'&TxtFecha='.$TxtFecha.'&TxtFechaH='.$TxtFechaH);
+	break;
+	case "GOBS"://GRABA OBSERVACION DE CONTROL VISITA
+			$Dato=explode('//',$Datos);
+			while(list($c,$Datos)=each($Dato))
+			{
+				$Corr=explode('~',$Datos);
+				$Actualiza="UPDATE sget_visitas set observacion_control='".$TxtObsControl."' where corr_visita='".$Corr[0]."'";
+				//echo $Actualiza."<br>";
+				mysql_query($Actualiza);
+			}
+			header('location:sget_mantenedor_visitas_control.php?Cons=S&Opc=M&Msj=MO&CorrVisita='.$Datos.'&TxtFecha='.$TxtFecha.'&TxtFechaH='.$TxtFechaH);
+	break;
+	case "ReIng":
+		$Actualiza="UPDATE sget_visitas set estado='I' where corr_visita='".$Visita."'";
+		//echo $Actualiza."<br>";
+		mysql_query($Actualiza);
+		header('location:sget_mantenedor_visitas.php?Cons=S&Msj=ReIng&Cod='.$Visita);
+	break;
+	
+	//ACTUALIZA FECHA DAS DESDE MANTENEDOR FECHA DAS
+	case "ModDAS":
+		$CorrV=explode('//',$CorrV);
+		while(list($c,$v)=each($CorrV))
+		{
+			$v=explode('~',$v);
+			$Autoriza="UPDATE sget_visitas set fecha_das='".$TxtFechaD."' where corr_visita='".$v[0]."'";
+			mysql_query($Autoriza);
+			
+			$Autoriza="UPDATE sget_personal set fecha_das='".$TxtFechaD."' where rut='".$v[1]."'";
+			mysql_query($Autoriza);
+		}
+		header('location:sget_mantenedor_das_visitas.php?Cons=S&Msj=DASact&TxtRut='.$TxtRut.'&TxtPat='.$TxtPat.'&TxtMat='.$TxtMat.'&TxtEMP='.$TxtEMP.'&TxtFecha='.$TxtFecha.'&TxtFechaH='.$TxtFechaH);
+	break;
+	
+	//MANTENEDOR DE AUTORIZACION DE VISITAS.
+	/*case "AutoVisita"://AUTORIZA VISITA
+		$AutorizaPor=DatosUsuario($CookieRut);
+		$Auto=explode('//',$Autoriza);
+		while(list($c,$v)=each($Auto))
+		{
+			$Autoriza="UPDATE sget_visitas set estado='V',autorizado_por='".$AutorizaPor."', observacion_autoriza='' where corr_visita='".$v."'";
+			mysql_query($Autoriza);
+		}
+		header('location:sget_mantenedor_auto_visita.php?Cons=S&Msj=AutoS');
+	break;*/
+	case "ReVisita"://RECHAZA VISITA
+		$AutorizaPor=DatosUsuario($CookieRut);
+		$Rechaza=explode('//',$RechazaVis);
+		while(list($c,$v)=each($Rechaza))
+		{
+			$Autoriza="UPDATE sget_visitas set estado='R',observacion_autoriza='".$TxtObsAutoriza."',autorizado_por='".$AutorizaPor."' where corr_visita='".$v."'";
+			mysql_query($Autoriza);
+		}
+		//header('location:sget_mantenedor_auto_visita.php?Cons=S&Msj=RechS');
+
+		echo "<script lenguaje='JavaScript'>";
+		echo "window.opener.document.FrmPrincipal.action='sget_mantenedor_visitas.php?Cons=S';";
+		echo "window.opener.document.FrmPrincipal.submit();";
+		echo "window.close();";						
+		echo "</script>";
+		
+	break;
+}
+?>

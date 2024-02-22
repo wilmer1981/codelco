@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='41260',peso_neto='25910',marca='V ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='20688817-2',nombre_chofer='ANGEL URIGOITIA',observacion='',romana_salida='1' where correlativo='477478' and lote='23016039' and recargo='16'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43070 ',peso_neto='30020',marca='EQUIS AZUL',cod_mop='520',num_sello='',transportista='',rut_chofer='7320907-2',nombre_chofer='JUAN GALLEGUILLOS',observacion='',romana_salida='2' where correlativo='452582' and lote='21106152' and recargo='32'

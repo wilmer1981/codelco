@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44740 ',peso_neto='28400',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15803448-4',nombre_chofer='eduardo navarro',observacion='cu varios',romana_salida='1' where correlativo='470585' and lote='22096181' and recargo='1'

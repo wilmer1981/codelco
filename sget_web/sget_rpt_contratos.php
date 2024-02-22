@@ -1,0 +1,598 @@
+<?
+		include("../principal/conectar_sget_web.php");
+		include("funciones/sget_funciones.php");
+$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+ $CodigoDeSistema = 27;
+ $CodigoDePantalla = 7;
+ if(isset($CodCtto))
+ 	$TxtBuscaCod=$CodCtto;
+if(!isset($CmbEmpresa))
+	$CmbEmpresa='-1';
+?>
+<html>
+<head>
+<title>Reporte Contratos</title>
+<link href="estilos/css_sget_web.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="funciones/sget_funciones.js"></script>
+<script language="JavaScript">
+
+function Limpia()
+{
+		var f = document.frmPrincipal;
+		f.TxtFechaInicio.value=''	
+		f.TxtFechaTermino.value=''	
+		f.TxtFechaTermino.style.background='#FFFFFF';//
+		f.TxtFechaInicio.style.background='#FFFFFF';//
+}
+function Procesos(TipoProceso)
+{
+	var f = document.frmPrincipal;
+	var Agrupados='N';
+	switch(TipoProceso)
+	{
+		case "R":	
+			f.action ="sget_rpt_contratos.php?Recarga=S";
+			f.submit();
+		break;
+		case "C"://BUSCA EMPRESA EN SISTEMA CONTRATOS VENTANAS Y LOS EXPORTA HACIA SISTEMA UCAS
+			f.action = "sget_rpt_contratos.php?Buscar=S";
+			f.submit();
+		break;
+		case "E"://EXCEL
+			URL='sget_rpt_contratos_excel.php?TxtContrato='+f.TxtContrato.value+"&TxtDescripcion="+f.TxtDescripcion.value+"&CmbEmpresa="+f.CmbEmpresa.value+"&TxtFechaInicio="+f.TxtFechaInicio.value+"&TxtFechaTermino="+f.TxtFechaTermino.value+"&CmbTipoCtto="+f.CmbTipoCtto.value;
+			URL=URL+"&CmbEstado="+f.CmbEstado.value+"&CmbGerencias="+f.CmbGerencias.value+"&CmbAreas="+f.CmbAreas.value+"&CmbAdmCtto="+f.CmbAdmCtto.value+"&CmbAvisoVenc="+f.CmbAvisoVenc.value+"&CmbAcuerdo="+f.CmbAcuerdo.value +"&CmbClasificacion="+f.CmbClasificacion.value ;
+			window.open(URL,"","top=30,left=30,width=1000,height=550,status=yes,menubar=no,resizable=yes,scrollbars=yes");
+			break;
+		case "I"://IMPRIMIR
+			window.print();
+			break;			
+		case "S":
+			window.location="../principal/sistemas_usuario.php?CodSistema=30&Nivel=1&CodPantalla=22";
+		break;
+	}
+}
+</script>
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="archivos/popcjs.htm" frameBorder=0 width=160 scrolling=no height=180></IFRAME></DIV>
+<body>
+
+<form name="frmPrincipal" action="" method="post">
+<?
+ $IP_SERV = $HTTP_HOST;
+ EncabezadoPagina($IP_SERV,'rpt_contratos.png')
+ ?>
+<table width="950" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+   <tr>
+      <td width="15" height="15"><img src="archivos/images/interior/esq1em.png" width="15" height="15" /></td>
+      <td width="920" height="15"background="archivos/images/interior/form_arriba.png"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15" height="15"><img src="archivos/images/interior/esq2em.png" width="15" height="15" /></td>
+    </tr>
+  <tr>
+  <td width="15" background="archivos/images/interior/form_izq3.png">&nbsp;</td>
+   <td>
+	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="ColorTabla02" >
+	<tr>
+		<td align="left" class='formulario2'><img src="archivos/images/interior/t_buscadorGlobal4.png"></td>
+	    <td align="right" class='formulario2'>
+		<a href="JavaScript:Procesos('C')"><span class="formulario2"></span><img src="archivos/Find2.png"   alt="Buscar"  border="0" align="absmiddle" /></a>    
+		
+		   	  	<a href="JavaScript:Procesos('E')"><img src="archivos/ico_excel5.jpg"   alt="Excel"  border="0" align="absmiddle" /></a>&nbsp;
+	<a href="JavaScript:Procesos('I')"><img src="archivos/Impresora2.png"   alt="Imprimir" border="0" align="absmiddle"  ></a>
+		
+		<a href="JavaScript:Procesos('S')"><img src="archivos/volver2.png" align="absmiddle" alt="Volver" border="0"></a>		</td>
+	</tr>
+</table>
+        <table width="100%" height="203" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+    <td height="17" class='formulario2'>Nro. Contrato</td>
+            <td class="formulario2" ><input name="TxtContrato" type="text" id="TxtContrato3" value="<? echo $TxtContrato; ?>" size="25"> 
+            <td class="formulario2" >Con Acuerdo Marco     
+    <td class="formulario2" ><span class="formulariosimple">
+      <SELECT name="CmbAcuerdo" >
+	  <option value="T" SELECTed="SELECTed">Todos</option>
+        <?
+					switch($CmbAcuerdo)
+					{
+						case "S":
+							echo "<option value='S' SELECTed>Si</option>";
+							echo "<option value='N' >No</option>";
+							echo "<option value='E' >Ex</option>";
+							echo "<option value='T' >Todos</option>";
+							break;
+						case "N":
+							echo "<option value='S' >Si</option>";
+							echo "<option value='N' SELECTed>No</option>";
+							echo "<option value='E' >Ex</option>";
+							echo "<option value='T' >Todos</option>";
+							break;
+							
+							case "E":
+							echo "<option value='S' >Si</option>";
+							echo "<option value='N' >No</option>";
+							echo "<option value='E' SELECTed>Ex</option>";
+							echo "<option value='T' >Todos</option>";
+							break;
+						default:
+							echo "<option value='S'>Si</option>";
+							echo "<option value='N'>No</option>";
+							echo "<option value='E' >Ex</option>";
+							echo "<option value='T' SELECTed>Todos</option>";
+							break;
+					}
+					
+				   ?>
+      </SELECT>
+    </span> </td>   
+  </tr>
+  <tr>
+    <td height="17" class='formulario2'>Descripci&oacute;n</td>
+    <td colspan="3" class='formulario2'><input name="TxtDescripcion" type="text" id="TxtDescripcion" value="<? echo $TxtDescripcion; ?>" size="65">  </tr>
+  <tr>
+    <td height="17" class='formulario2'>Empresa</td>
+    <td colspan="3" class='formulario2'><input name="TxtEmpresa" type="text" id="TxtEmpresa" maxlength="20"  size="6" value="<? echo $TxtEmpresa; ?>" >
+			<a href="JavaScript:Procesos('R')"><img src="archivos/Find2.png"   alt="Buscar"  border="0" align="absmiddle" /></a>
+<SELECT name="CmbEmpresa" id="CmbEmpresa" >
+      <option value="-1" class="NoSelec">Todas</option>
+      <?
+	  $Consulta = "SELECT * from sget_contratistas where estado='1' ";
+	  if($TxtEmpresa!='')
+	  	 $Consulta.= "and  upper(razon_social) like '%".strtoupper(trim($TxtEmpresa))."%' ";
+	 	$Consulta.= " order by razon_social ";
+		$Resp=mysql_query($Consulta);
+		while ($FilaTC=mysql_fetch_array($Resp))
+		{
+			if (strtoupper($CmbEmpresa)==strtoupper($FilaTC["rut_empresa"]))
+				echo "<option SELECTed value='".$FilaTC["rut_empresa"]."'>".$FilaTC["rut_empresa"]." - ".ucfirst($FilaTC["razon_social"])."</option>\n";
+			else
+				echo "<option value='".$FilaTC["rut_empresa"]."'>".$FilaTC["rut_empresa"]." - ".ucfirst($FilaTC["razon_social"])."</option>\n";
+		}
+			?>
+    </SELECT>  </tr>
+      <tr>
+    <td width="168"class='formulario2'>Fecha &nbsp;Inicio Desde </td>
+    <td width="268" class='formulario2' >
+	
+	<input name="TxtFechaInicio" type="text" readonly   size="10" value="<? echo $TxtFechaInicio; ?>"  >
+	&nbsp;<img src="archivos/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="22" height="18" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaInicio,TxtFechaInicio,popCal);return false"></a>&nbsp;<a href="JavaScript:Limpia()"><img src="archivos/ico_eliminar.gif"   alt="Limpiar Fecha "  border="0" align="absmiddle" /></a>
+    <td width="122" class='formulario2' >Fecha&nbsp;Inicio Hasta    
+    <td width="360" class="formulario2"><input name="TxtFechaTermino" type="text" readonly   size="10"  value="<? echo $TxtFechaTermino; ?>" >      
+      &nbsp;<img src="archivos/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="22" height="18" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaTermino,TxtFechaTermino,popCal);return false">&nbsp;<a href="JavaScript:Limpia()"><img src="archivos/ico_eliminar.gif"   alt="Limpiar Fecha"  border="0" align="absmiddle" /></a>          </tr>
+  
+	<tr>
+  <td height="25" class="formulario2">Tipo Contrato </td>
+            <td class="formulario2" ><SELECT name="CmbTipoCtto" id="CmbTipoCtto"  >
+      <option value="-1" class="NoSelec">Todos</option>
+      <?
+		 $Consulta = "SELECT * from sget_tipo_contrato ";			
+		$Resp=mysql_query($Consulta);
+		while ($FilaTC=mysql_fetch_array($Resp))
+		{
+			if ($CmbTipoCtto==$FilaTC["cod_tipo_contrato"])
+				echo "<option SELECTed value='".$FilaTC["cod_tipo_contrato"]."'>".ucfirst($FilaTC["descrip_tipo_contrato"])."</option>\n";
+			else
+				echo "<option value='".$FilaTC["cod_tipo_contrato"]."'>".ucfirst($FilaTC["descrip_tipo_contrato"])."</option>\n";
+		}
+			?>
+    </SELECT>	</td>
+            <td class="formulario2" >Estado&nbsp;</td>
+			<td class="formulario2">
+			<SELECT name="CmbEstado" >
+               <option value="-1" class="NoSelec">Todos</option>
+               <?
+	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' ";			
+		$Resp=mysql_query($Consulta);
+		while ($FilaTC=mysql_fetch_array($Resp))
+		{
+			if ($CmbEstado==$FilaTC["cod_subclase"])
+				echo "<option SELECTed value='".$FilaTC["cod_subclase"]."'>".ucfirst($FilaTC["nombre_subclase"])."</option>\n";
+			else
+				echo "<option value='".$FilaTC["cod_subclase"]."'>".ucfirst($FilaTC["nombre_subclase"])."</option>\n";
+		}
+			?>
+             </SELECT>			</td>
+	</tr>
+	<tr> 
+		    <td height="33" class="formulario2">Gerencia </td>
+            <td class="formulario2"><SELECT name="CmbGerencias" onChange="Procesos('R');">
+              <option value="-1">Todas</option>
+              <?
+			  $Consulta = "SELECT cod_gerencia,descrip_gerencias from sget_gerencias order by descrip_gerencias ";			
+			  $Resp4=mysql_query($Consulta);
+			  while ($Fila4=mysql_fetch_array($Resp4))
+			  {
+				if ($CmbGerencias==$Fila4["cod_gerencia"])
+					echo "<option SELECTed value='".$Fila4["cod_gerencia"]."'>".$Fila4["descrip_gerencias"]."</option>\n";
+				else
+					echo "<option value='".$Fila4["cod_gerencia"]."'>".$Fila4["descrip_gerencias"]."</option>\n";
+			  }
+			 ?>
+            </SELECT></td>
+            <td colspan="1" class="formulario2" >Areas&nbsp;&nbsp;</td>
+			<td class="formulario2">
+              <SELECT name="CmbAreas" >
+                <option value="-1" >Todas</option>
+                <?
+			  $Consulta = "SELECT cod_area,descrip_area,cod_cc from sget_areas where cod_gerencia=".$CmbGerencias." order by descrip_area ";			
+			  $Resp4=mysql_query($Consulta);
+			  while ($Fila4=mysql_fetch_array($Resp4))
+			  {
+				if ($CmbAreas==$Fila4["cod_area"])
+					echo "<option SELECTed value='".$Fila4["cod_area"]."'>".$Fila4["cod_cc"]." - ".$Fila4["descrip_area"]."</option>\n";
+				else
+					echo "<option value='".$Fila4["cod_area"]."'>".$Fila4["cod_cc"]." - ".$Fila4["descrip_area"]."</option>\n";
+			  }
+			 ?>
+              </SELECT></td>
+          </tr>
+		  <tr>
+		  <td class="formulario2"> Adm. Contrato</td>
+		  <td class="formulario2">
+		  <SELECT name="CmbAdmCtto" id="CmbAdmCtto" >
+      <option value="-1" class="NoSelec">Todos</option>
+      <?
+	  $Consulta = "SELECT * from sget_administrador_contratos order by ape_paterno ";			
+		$Resp=mysql_query($Consulta);
+		while ($FilaTC=mysql_fetch_array($Resp))
+		{
+			if ($CmbAdmCtto==$FilaTC["rut_adm_contrato"])
+					echo "<option SELECTed value='".$FilaTC["rut_adm_contrato"]."'>".ucfirst(strtolower($FilaTC["ape_paterno"]))." ".ucfirst(strtolower($FilaTC["ape_materno"]))."  ".ucfirst(strtolower($FilaTC["nombres"]))."</option>\n";
+			else
+				echo "<option value='".$FilaTC["rut_adm_contrato"]."'>".ucfirst(strtolower($FilaTC["ape_paterno"]))." ".ucfirst(strtolower($FilaTC["ape_materno"]))."  ".ucfirst(strtolower($FilaTC["nombres"]))."</option>\n";
+		}
+			?>
+    </SELECT></td>
+		  <td class="formulario2">Aviso Vencimiento </td>
+		    <td class="formulario2"><span class="formulariosimple"> 
+              <SELECT name="CmbAvisoVenc" >
+                <option value="-1" class="NoSelec">Sin Aviso</option>
+                <?
+	    $Consulta = "SELECT cod_subclase,ceiling(nombre_subclase) as nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30016' order by nombre_subclase asc";			
+		$Resp=mysql_query($Consulta);
+		while ($FilaTC=mysql_fetch_array($Resp))
+		{
+			if ($CmbAvisoVenc==$FilaTC["nombre_subclase"])
+				echo "<option SELECTed value='".$FilaTC["nombre_subclase"]."'>".ucfirst($FilaTC["nombre_subclase"])." Meses</option>\n";
+			else
+				echo "<option value='".$FilaTC["nombre_subclase"]."'>".ucfirst($FilaTC["nombre_subclase"])." Meses</option>\n";
+		}?>
+              </SELECT>
+              &nbsp;&nbsp;Clasificaci&oacute;n &nbsp;&nbsp;
+              <SELECT name="CmbClasificacion" >
+                <?
+					switch($CmbClasificacion)
+					{
+						case "1":
+							echo "<option value='1' SELECTed>Servicios</option>";
+							echo "<option value='2' >Transitorios</option>";
+							echo "<option value='3' >Convenios</option>";
+							echo "<option value='4' >Sindicatos</option>";
+							echo "<option value='5' >Staf</option>";
+							echo "<option value='6' >Otros</option>";
+							echo "<option value='7' >Todos</option>";
+							
+							
+							break;
+						case "2":
+							echo "<option value='1' >Servicios</option>";
+							echo "<option value='2' SELECTed >Transitorios</option>";
+							echo "<option value='3' >Convenios</option>";
+							echo "<option value='4' >Sindicatos</option>";
+							echo "<option value='5' >Staf</option>";
+							echo "<option value='6' >Otros</option>";
+							echo "<option value='7' >Todos</option>";
+							break;
+							
+							case "3":
+							echo "<option value='1' >Servicios</option>";
+							echo "<option value='2' >Transitorios</option>";
+							echo "<option value='3' SELECTed >Convenios</option>";
+							echo "<option value='4' >Sindicatos</option>";
+							echo "<option value='5' >Staf</option>";
+							echo "<option value='6' >Otros</option>";
+							echo "<option value='7' >Todos</option>";
+							break;
+							
+							case "4":
+							echo "<option value='1' >Servicios</option>";
+							echo "<option value='2' >Transitorios</option>";
+							echo "<option value='3' >Convenios</option>";
+							echo "<option value='4' SELECTed >Sindicatos</option>";
+							echo "<option value='5' >Staf</option>";
+							echo "<option value='6' >Otros</option>";
+							echo "<option value='7' >Todos</option>";
+							break;
+		
+							case "5":
+							echo "<option value='1' >Servicios</option>";
+							echo "<option value='2' >Transitorios</option>";
+							echo "<option value='3' >Convenios</option>";
+							echo "<option value='4' >Sindicatos</option>";
+							echo "<option value='5' SELECTed >Staf</option>";
+							echo "<option value='6' >Otros</option>";
+							echo "<option value='7' >Todos</option>";
+							break;
+		
+							case "6":
+							echo "<option value='1' >Servicios</option>";
+							echo "<option value='2' >Transitorios</option>";
+							echo "<option value='3' >Convenios</option>";
+							echo "<option value='4' >Sindicatos</option>";
+							echo "<option value='5' >Staf</option>";
+							echo "<option value='6'SELECTed  >Otros</option>";
+							echo "<option value='7' >Todos</option>";
+							break;
+			
+							
+						default:
+							echo "<option value='1' >Servicios</option>";
+							echo "<option value='2' >Transitorios</option>";
+							echo "<option value='3' >Convenios</option>";
+							echo "<option value='4' >Sindicatos</option>";
+							echo "<option value='5' >Staf</option>";
+							echo "<option value='6'SELECTed  >Otros</option>";
+							echo "<option value='7' SELECTed>Todos</option>";
+							break;
+					}
+					
+				   ?>
+              </SELECT>
+              </span></td>
+		 </tr>
+	
+
+		  
+	
+<!--  <tr>
+    <td width="70"class='formulario2'>Fecha&nbsp;Inicio </td>
+    <td ><input name="TxtFechaInicio" type="text" readonly   size="10" value="<? echo $TxtFechaInicio; ?>" >&nbsp;<img src="archivos/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="22" height="18" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaInicio,TxtFechaInicio,popCal);return false">   
+    <td width="84" class='formulario2' >Fecha&nbsp;Termino     
+    <td width="146" ><input name="TxtFechaTermino" type="text" readonly   size="10"  value="<? echo $TxtFechaTermino; ?>" >&nbsp;<img src="archivos/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="22" height="18" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaTermino,TxtFechaTermino,popCal);return false">    </tr>
+	-->
+</table>
+  </td>
+  <td width="15" background="archivos/images/interior/form_der.png">&nbsp;</td>
+  </tr>
+ <tr>
+      <td width="15" height="15"><img src="archivos/images/interior/esq3em.png" width="15" height="15" /></td>
+      <td height="15" background="archivos/images/interior/form_abajo.png"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15" height="15"><img src="archivos/images/interior/esq4em.png" width="15" height="15" /></td>
+    </tr>
+  </table>	
+    <br>
+  <?
+  	$dif=0;
+	if($TxtFechaInicio != "")
+	{		
+		$dif=resta_fechas($TxtFechaTermino,$TxtFechaInicio);
+	}
+  
+  if($Buscar=='S')
+  {
+   
+   	if($dif>=0)
+  	{
+  
+		?>
+		<table width="1060"  border="0"  align="center" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+		<tr>
+		  <td><img src="archivos/images/interior/esq1em.gif" width="15" /></td>
+		  <td width="914" background="archivos/images/interior/form_arriba.gif"><img src="archivos/images/interior/transparent.gif" width="4" /></td>
+		  <td ><img src="archivos/images/interior/esq2em.gif" width="15" /></td>
+    	</tr>
+		<tr>
+		<td background="archivos/images/interior/form_izq.gif">&nbsp;</td>
+		<td>
+		<table width="1700" border="1" align="center" cellpadding="2" cellspacing="0" >
+		<tr>
+		<td width="17" align="center" class="TituloTablaVerde" >N�</td>
+		<td width="40" align="center" class="TituloTablaVerde">Rut</td>
+		<td width="73" class="TituloTablaVerde"align="center" >Empresa </td>
+		<td width="60" class="TituloTablaVerde" align="center" >Contrato</td>
+		<td width="138" class="TituloTablaVerde" align="center">Descripci&oacute;n</td>
+		
+		<td width="83" class="TituloTablaVerde" align="center">Fecha&nbsp;Inicio </td>
+		<td width="91" class="TituloTablaVerde"align="center">Fecha&nbsp;Termino </td>
+		<td width="109" class="TituloTablaVerde" align="center">Adm.Codelco </td>
+		<!--<td width="95" class="TituloTablaVerde" align="center">Adm.Contratista</td>-->
+		    <td width="37" class="TituloTablaVerde" align="center">Adm.Contratista</td>
+		 <td width="104" class="TituloTablaVerde" align="center">Prevencionista</td>
+		<td width="36" class="TituloTablaVerde" align="center">Dotac.</td>
+		   
+		</tr><?
+		$CuentaDotacion= 0;
+		//echo "RR".$CmbClasificacion."--".$CmbTipoCtto;
+		$Consulta="SELECT t6.descrip_tipo_contrato,t5.nombre_subclase as estado_ctto,t4.nombres as nom_contratista,t4.ape_paterno as ape_p_contratista,t4.ape_materno as ape_m_contratista,t3.nombres,t3.ape_paterno,t3.ape_materno,t1.cod_contrato,t1.descripcion,t1.rut_empresa,t2.razon_social,t1.fecha_inicio,t1.fecha_termino,t1.rut_adm_contrato ";
+		$Consulta.=" from sget_contratos t1  left join sget_contratistas t2  on t1.rut_empresa=t2.rut_empresa ";
+		$Consulta.=" left join  sget_administrador_contratos t3  on t1.rut_adm_contrato=t3.rut_adm_contrato ";
+		$Consulta.=" left join  sget_administrador_contratistas t4  on t1.rut_adm_contratista=t4.rut_adm_contratista ";
+		$Consulta.=" left join  proyecto_modernizacion.sub_clase t5  on t1.estado=t5.cod_subclase and t5.cod_clase='30007'";
+		$Consulta.=" left join  sget_tipo_contrato t6  on t1.cod_tipo_contrato=t6.cod_tipo_contrato ";
+		
+		$Consulta.="  where t1.cod_contrato<>'' ";
+		if($TxtContrato!='')
+			$Consulta.= " and upper(t1.cod_contrato) like ('%".strtoupper(trim($TxtContrato))."%') ";
+		if($TxtDescripcion!='')
+			$Consulta.= " and upper(t1.descripcion) like ('%".strtoupper(trim($TxtDescripcion))."%') ";
+		if($CmbEmpresa != "-1")
+			$Consulta.="  and  t1.rut_empresa='".$CmbEmpresa."' ";
+		if($CmbTipoCtto != "-1")
+			$Consulta.="  and  t1.cod_tipo_contrato='".$CmbTipoCtto."' ";
+		if($CmbAdmCtto != "-1")
+			$Consulta.="  and  t1.rut_adm_contrato='".$CmbAdmCtto."' ";
+		if($CmbEstado != "-1")
+			$Consulta.="  and  t1.estado='".$CmbEstado."' ";
+		if($CmbGerencias != "-1")
+			$Consulta.="  and  t1.cod_gerencia='".$CmbGerencias."' ";
+		if($CmbAreas != "-1")
+			$Consulta.="  and  t1.cod_area='".$CmbAreas."' ";
+		if($TxtFechaInicio != "")
+		{		
+			$Consulta.=" and  t1.fecha_inicio between '".$TxtFechaInicio." 00:00:00' and '".$TxtFechaTermino." 23:59:59'";
+			$dif=resta_fechas($TxtFechaTermino,$TxtFechaInicio);
+		}
+		if($CmbAvisoVenc!='-1')
+		{
+			$Consulta.="  and  t1.aviso_vencimiento='".$CmbAvisoVenc."' ";
+		}
+		if($CmbAcuerdo!='T')
+			$Consulta.="  and  t1.acuerdo_marco='".$CmbAcuerdo."' ";
+		if ($CmbClasificacion!= 'T')
+			$Consulta.=" and t1.clasificacion = '".$CmbClasificacion."' ";	
+		$Consulta.= " order by t2.razon_social";
+		//	echo "PP".$Consulta;
+		$RespMod=mysql_query($Consulta);
+		echo "<input type='hidden' name='CheckCtto'>";
+		$Cont=1;
+		$Contador = 0;
+		while($FilaMod=mysql_fetch_array($RespMod))
+		{
+			$Mostrar='S';
+			if($CmbAvisoVenc!='-1')
+			{
+				$MesDesc=$CmbAvisoVenc;
+				$Fecha=explode('-',$FilaMod[fecha_termino]);
+				if($MesDesc>12)
+				{	
+					$A�o=abs(intval($Fecha[0])-1);
+					$MesDesc=abs($MesDesc-12);
+				}
+				else
+					$A�o=$Fecha[0];
+				if($MesDesc<=12)
+					$Mes=(intval($Fecha[1])-intval($MesDesc));
+				else
+					$Mes=$Fecha[1];
+				$Dia=$Fecha[2];
+				$FechaAviso=date('Y-m-d',mktime(0,0,0,$Mes,$Dia,$A�o,1));
+				//echo $FechaAviso."<br>";
+				if(date('Y-m-d')>=$FechaAviso)
+					$Mostrar='S';
+				else
+					$Mostrar='N';
+			}
+			$Contrato=$FilaMod["cod_contrato"];
+			$TipoCtto=$FilaMod[descrip_tipo_contrato];
+			$Descripcion=$FilaMod["descripcion"];
+			$Empresa=$FilaMod[razon_social];	
+			$FechaInicio=$FilaMod[fecha_inicio];
+			$FechaTermino=$FilaMod[fecha_termino];
+			$AdmCtto=FormatearNombre($FilaMod["nombres"])."&nbsp;".FormatearNombre($FilaMod[ape_paterno])."&nbsp;".FormatearNombre($FilaMod[ape_materno]);
+			$AdmContratista=FormatearNombre($FilaMod[nom_contratista])."&nbsp;".FormatearNombre($FilaMod[ape_p_contratista])."&nbsp;".FormatearNombre($FilaMod[ape_m_contratista]);
+			$Estado=$FilaMod[estado_ctto];
+			$Par=($Cont % 2);
+			
+			$RutEmpresa = $FilaMod[rut_empresa];
+			$RUT1=substr($RutEmpresa,0,2);
+			$RUT2=substr($RutEmpresa,2,3);
+			$RUT3=substr($RutEmpresa,5,3);
+			$RUT4=substr($RutEmpresa,9,1);
+		
+			$RUTN=$RUT1.".".$RUT2.".".$RUT3."-".$RUT4;
+			
+			if($Mostrar=='S')
+			{
+			if($Par==1)
+			{
+				?>
+				<tr class="FilaAbeja">
+				<?
+			}
+			else
+			{
+				?>
+				<tr class="FilaAbeja">
+				<? 
+			}
+			?>
+			<td><? echo $Cont; ?></td>
+			<td width="80"> <? echo $RUTN; ?></td>
+			<td width="200"><a href="sget_info_empresa.php?Emp=<? echo $FilaMod["rut_empresa"];?>" target="_blank"><img src="archivos/info2.png"  alt="Informaci�n Empresa" border="0" width='23' height='23' align="absmiddle" /></a>&nbsp;<? echo str_replace(' ','&nbsp;',FormatearNombre($Empresa)); ?>&nbsp;</td>
+
+			<td> <!--<a  href="estilos/css_sget_web.css?Ctto=<? //echo $FilaMod["cod_contrato"];?>"  target="_blank">-->
+			<a href="sget_info_ctto.php?Ctto=<? echo $FilaMod["cod_contrato"];?>" target="_blank"><img src="archivos/info2.png"   alt="Detalle Contrato"  border="0" align="absmiddle" /></a>&nbsp;<? echo $FilaMod["cod_contrato"]; ?>&nbsp;</td>
+
+
+			<td width="300"><? echo FormatearNombre($Descripcion); ?>&nbsp;</td>
+			
+			
+			<td><? echo $FechaInicio; ?>&nbsp;</td>
+			<td><? echo $FechaTermino; ?>&nbsp;</td>
+			<td width="300"><? echo $AdmCtto; ?>&nbsp;</td>
+			
+			<td width="300"><? echo $AdmContratista; ?>&nbsp;</td>
+				<td align="left" width="300">
+				<? 
+	
+				$Consulta = "SELECT t1.nombres,t1.apellido_paterno,t1.apellido_materno, t2.cod_contrato from sget_prevencionistas t1";
+				$Consulta.= " left join sget_contratos t2";
+				$Consulta.= " on t1.rut_prev = t2.rut_prev left join sget_contratistas t3";
+				$Consulta.= " on t2.rut_empresa=t3.rut_empresa where t2.rut_empresa = '".$FilaMod["rut_empresa"]."' and cod_contrato='".$FilaMod["cod_contrato"]."'";
+				//echo $Consulta;
+				$RespPrev=mysql_query($Consulta);
+				if($FilaPrev=mysql_fetch_array($RespPrev))
+				{
+					$previsionista =FormatearNombre($FilaPrev["nombres"])."&nbsp;".FormatearNombre($FilaPrev["apellido_paterno"])."&nbsp;".FormatearNombre($FilaPrev["apellido_materno"]);
+					echo $previsionista ;
+				}
+				else
+				{
+					echo "&nbsp;";
+				}		
+				?>
+				&nbsp;</td>
+							
+				<td align="right">
+				<? 
+				$Consulta="SELECT count(rut) as Cantidad from sget_personal where cod_contrato='".$FilaMod["cod_contrato"]."' and estado='A'";
+				$RespCant=mysql_query($Consulta);
+				if($FilaCant=mysql_fetch_array($RespCant))
+				{
+					echo $FilaCant[Cantidad];
+				}
+				else
+				{
+					echo "0";
+				}
+				$CuentaDotacion=$CuentaDotacion+$FilaCant[Cantidad];
+				
+			?>
+				&nbsp;</td>
+
+			</tr>
+		<?
+		//echo "WW".$CuentaDotacion;
+			$Cont++;
+			}
+		}
+		?></table>
+	  </td>
+	  <td width="22" background="archivos/images/interior/form_der.gif">&nbsp;</td>
+	  </tr>
+	  <tr>
+      <td width="15"><img src="archivos/images/interior/esq3em.gif" width="15" height="15" /></td>
+      <td height="1"background="archivos/images/interior/form_abajo.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15"><img src="archivos/images/interior/esq4em.gif" width="15" height="15" /></td>
+    </tr>
+  </table>
+	<? 
+	}
+}	
+  CierreEncabezado()
+?>
+</form>
+<? 
+if ($dif<0)
+{
+	echo "<script languaje='JavaScript'>";
+	echo "alert('Las fechas No han sido correctamente Ingresadas');";
+	echo "Limpia();";
+	echo "</script>";
+}
+?>
+
+
+
+</body>
+</html>

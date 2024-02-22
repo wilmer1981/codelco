@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44820 ',peso_neto='26730',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10748163-K',nombre_chofer='olivares',observacion='',romana_salida='1' where correlativo='449994' and lote='21096092' and recargo='1'

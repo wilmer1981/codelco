@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='23960',peso_neto='5770',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='15561658-k',nombre_chofer='JEAN JAURE BERNAL',observacion='8 MAXISACOS CON BORRAS ACIDAS ',romana_salida='1' where correlativo='476448' and lote='23016053' and recargo='2'

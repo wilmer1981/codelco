@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44020 ',peso_neto='30230',marca='DOS FRANJAS CELESTES',cod_mop='510',num_sello='',transportista='',rut_chofer='15817057-4',nombre_chofer='VICTOR OTAZO',observacion='',romana_salida='1' where correlativo='489634' and lote='23086127' and recargo='18'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 28250 ',peso_neto='7800',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='96607990-6',nombre_chofer='juan',observacion='17 pallets con aceite usados ',romana_salida='1' where correlativo='490069' and lote='23086246' and recargo='2'

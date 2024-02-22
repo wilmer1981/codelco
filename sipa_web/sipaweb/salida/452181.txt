@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43260',peso_neto='29710',marca='FRANJA NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='10431760-K',nombre_chofer='JUAN   GALLEGUILLOS',observacion='',romana_salida='1' where correlativo='452181' and lote='21106094' and recargo='72'

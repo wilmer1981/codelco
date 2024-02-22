@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44150 ',peso_neto='28130',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='26644760-4',nombre_chofer='orlando sarmiento',observacion='cu vs',romana_salida='1' where correlativo='493920' and lote='23106239' and recargo='6'

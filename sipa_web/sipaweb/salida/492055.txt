@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41600 ',peso_neto='28410',marca='FRANJA VERDE',cod_mop='520',num_sello='',transportista='',rut_chofer='7320907-2',nombre_chofer='JUAN GALLEGUILLOS CAMUS',observacion='',romana_salida='1' where correlativo='492055' and lote='23096243' and recargo='46'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 17480 ',peso_neto='1640',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='26 maxisacos con madera y carton contaminada',romana_salida='1' where correlativo='485249' and lote='23066002' and recargo='3'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43200 ',peso_neto='28830',marca='EQUIS AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='9277660-3',nombre_chofer='CRISTIAN BERNAL',observacion='',romana_salida='2' where correlativo='487477' and lote='23076030' and recargo='21'

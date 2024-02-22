@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 40840 ',peso_neto='24510',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13193803-9',nombre_chofer='victor acevedo',observacion='ESCORIA OXIDO',romana_salida='1' where correlativo='491324' and lote='23096168' and recargo='7'

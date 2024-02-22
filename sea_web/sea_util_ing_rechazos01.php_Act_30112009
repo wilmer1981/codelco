@@ -1,0 +1,124 @@
+<? 
+	include("../principal/conectar_sea_web.php");
+?>
+
+<html>
+<head>
+<title>Sistema de Anodos</title>
+<?
+	
+	$Horno = substr($TxtHornada,6,1);
+	if ($Horno==4)
+	{
+	 	$flujo_cor = 93;
+	 	$flujo_esp = 99;
+	 	$flujo_hm = 131;
+	}
+	if ($Horno==1 || $Horno==2)
+	{
+	 	$flujo_cor = 92;
+	 	$flujo_esp = 95;
+	 	$flujo_hm = 129;
+	 }
+ if ($Procesa==9)
+ {	 
+	 	$promhm = 0;
+		$promcte = 0;
+		$unidades = 0;
+		$peso = 0;
+		$peso_rechazo_hm = 0;
+		$peso_rechazo_ct = 0;
+		$unidad_ok_hm = 0;
+		$peso_ok_hm = 0;
+		$unidad_ok_ct = 0;
+		$peso_ok_ct = 0;
+	 	$Consulta ="Select * from sea_web.hornadas  where cod_producto = '17' and cod_subproducto in ('4','8') and  hornada_ventana = '".$TxtHornada."'";
+		$Consulta.=" order by cod_subproducto";
+		$Rsp = mysql_query($Consulta);
+		while($Fila=mysql_fetch_array($Rsp))
+		{
+			if ($Fila["cod_subproducto"]=='4')
+			{
+				if ($rechac > 0)
+				{
+					$promcte = $Fila[peso_unidades] / $Fila["unidades"];
+					$peso_rechazado_ct = round($rechac * $promcte);
+					$unidad_ok_ct = $Fila["unidades"] - $rechac;
+					$peso_ok_ct = $Fila[peso_unidades] - $peso_rechazado_ct;
+					
+					$consulta="SELECT * from sea_web.movimientos where hornada = '".$TxtHornada."' and cod_producto = '17' ";
+					$consulta.=" and cod_subproducto = '4' and tipo_movimiento = '1'";
+					$rsp1 = mysql_query($consulta);
+					if ($Fila1 = mysql_fetch_array($rsp1))
+					{
+						$Inserta = "INSERT INTO sea_web.movimientos"; 
+    					$Inserta.=" (tipo_movimiento,cod_producto,cod_subproducto,flujo,hornada,fecha_movimiento,unidades,numero_recarga,campo1,campo2,fecha_benef,peso,estado,lote_ventana,peso_origen,zuncho,hora)";
+    					$Inserta.=" VALUES (44,17,4,'".$flujo_cor."','".$TxtHornada."','".$Fila1[fecha_movimiento]."','".$rechac."',0,'','','1001-01-01','".$peso_rechazado_ct."',0,'',0,0,'".$Fila1[hora]."')";
+	 					mysql_query($Inserta);
+
+						$actualizar = "UPDATE sea_web.movimientos set unidades = '".$unidad_ok_ct."',peso= '".$peso_ok_ct."' where tipo_movimiento = '1' and ";
+						$actualizar.=" hornada = '".$TxtHornada."' and cod_producto = '17' and cod_subproducto = '4'";
+						mysql_query($actualizar);
+					}
+				}
+			}
+			else
+			{ 
+				if ($rechah > 0)
+				{
+					$promhm = $Fila[peso_unidades] / $Fila["unidades"];
+					$peso_rechazado_hm = round($rechah * $promhm);
+					$unidad_ok_hm = $Fila["unidades"] - $rechah;
+					$peso_ok_hm = $Fila[peso_unidades] - $peso_rechazado_hm;
+					
+					$consulta="SELECT * from sea_web.movimientos where hornada = '".$TxtHornada."' and cod_producto = '17' ";
+					$consulta.=" and cod_subproducto = '8' and tipo_movimiento = '1'";
+					$rsp2 = mysql_query($consulta);
+					if ($Fila2 = mysql_fetch_array($rsp2))
+					{
+		    			$Insertar = "INSERT INTO sea_web.movimientos"; 
+    					$Insertar.=" (tipo_movimiento,cod_producto,cod_subproducto,flujo,hornada,fecha_movimiento,unidades,numero_recarga,campo1,campo2,fecha_benef,peso,estado,lote_ventana,peso_origen,zuncho,hora)";
+    					$Insertar.=" VALUES (44,17,8,'".$flujo_hm."','".$TxtHornada."','".$Fila2[fecha_movimiento]."','".$rechah."',0,'','','1001-01-01','".$peso_rechazado_hm."',0,'',0,0,'".$Fila2[hora]."')";
+						mysql_query($Insertar);
+			
+						$actualiza = "UPDATE sea_web.movimientos set unidades = '".$unidad_ok_hm."',peso= '".$peso_ok_hm."' where tipo_movimiento = '1' and ";
+						$actualiza.=" hornada = '".$TxtHornada."' and cod_producto = '17' and cod_subproducto = '8'";
+						mysql_query($actualiza);
+					}
+				}
+			 }
+		}
+	
+		/*if ($rechac > 0 || $rechah > 0)
+		{
+			$consulta ="Select distinct fecha_movimiento from sea_web.movimientos where tipo_movimiento = '1' and cod_producto = '17' and ";
+			$consulta.=" hornada = '".$TxtHornada."'";
+			$resp3=mysql_query($consulta);
+			if ($Fila3=mysql_fetch_array($resp3))
+			{
+				$fecha = $Fila3[fecha_movimiento];
+			}
+		
+			$consultar="SELECT * from sea_web.inf_rechazos where Fecha = '".$fecha."'";
+			$resp4=mysql_query($consultar);
+			if ($Fila4 = mysql_fetch_array($resp4))
+			{
+				$tonhm = number_format(($peso_rechazado_hm / 1000),0,"","");
+				$tonct = number_format(($peso_rechazado_ct / 1000),0,"","");
+				$actualizo ="UPDATE sea_web.inf_rechazos set Fis_Vent = Fis_Vent + '".$tonct."',Fis_HMadres =  Fis_HMadres + '".$tonhm."' where Fecha = '".$fecha."'";
+				mysql_query($actualizo);
+				
+			}
+			
+		}*/
+		$rechac = 0;
+		$rechah = 0;
+		$TxtHornada = "";
+}		
+		echo "<Script>JavaScript:window.location = 'sea_util_ing_rechazos.php';
+		</Script>"; 
+
+
+?>
+</head>
+</html>

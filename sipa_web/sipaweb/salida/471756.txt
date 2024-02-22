@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43790 ',peso_neto='27920',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12402371-8',nombre_chofer='S. Arancibia',observacion='CU VARIOS',romana_salida='1' where correlativo='471756' and lote='22106105' and recargo='9'

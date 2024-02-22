@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 22320 ',peso_neto='6470',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='4 bidones baritina',romana_salida='1' where correlativo='483612' and lote='23046352' and recargo='1'

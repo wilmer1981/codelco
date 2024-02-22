@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44620 ',peso_neto='31160',marca='V ROJA',cod_mop='520',num_sello='',transportista='',rut_chofer='16323568-4',nombre_chofer='MANUEL DIAZ',observacion='',romana_salida='1' where correlativo='437225' and lote='21016255' and recargo='4'

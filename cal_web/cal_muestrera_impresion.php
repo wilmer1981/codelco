@@ -1,0 +1,318 @@
+<?php
+header("Content-Type:  apliccation/msword");
+header("Content-Disposition: inline; filename=".$R."-".$D."_".date('Y-m-d').".doc");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+header('Content-Transfer-Encoding: binary');
+
+include("../principal/conectar_principal.php");
+include ("../Principal/conectar_cal_web.php");
+$Fecha_Hora = date("d-m-Y");
+
+//reviso impresion existente
+$Consulta ="select corr_impresion from cal_web.solicitud_analisis where nro_solicitud='".$txtnro_solicitud."'";
+$Resultado= mysqli_query($link, $Consulta);
+$Fila =mysqli_fetch_array($Resultado);
+if ($Fila["corr_impresion"] == "")
+{
+	//obtengo correlativo
+	$Consulta ="select max(corr_impresion) as corr_impresion from solicitud_analisis";
+	$Resultado= mysqli_query($link, $Consulta);
+	if ($Resultado == ""){
+		$corr_impresion = 0;
+	}else{
+		if ($Fila =mysqli_fetch_array($Resultado)){
+			$corr_impresion = $Fila["corr_impresion"];
+		}else{
+			$corr_impresion = 0;
+		}
+	}
+
+	$corr_impresion = $corr_impresion + 1;
+	$Actualiza= "UPDATE solicitud_analisis set corr_impresion=".$corr_impresion." where nro_solicitud='".$txtnro_solicitud."' and recargo ='".$recargo."'";
+	mysqli_query($link, $Actualiza);
+}else
+{
+	$corr_impresion = $Fila["corr_impresion"];	
+
+}
+
+
+?>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Impresi&oacute;n de Solicitudes de Muestreo</title>
+		<style type="text/css">
+        <!--
+        .estilo1 {
+        font-family: Calibri;
+        font-size: 8px;
+
+        }
+        -->
+        </style>
+
+    </head> 
+    <body>
+    
+<?php
+
+//obtengo datos de la solicitud
+$Consulta ="select * from solicitud_analisis where nro_solicitud=".$txtnro_solicitud;
+$Resultado = mysqli_query($link, $Consulta);
+$Fila=mysqli_fetch_array($Resultado);
+$txtid_muestra = $Fila["id_muestra"];
+$txtnro_solicitud = $Fila["nro_solicitud"];
+
+//SubProducto
+$Consulta = "select proyecto_modernizacion.subproducto.*";
+$Consulta =$Consulta." from proyecto_modernizacion.subproducto";
+$Consulta =$Consulta." inner join cal_web.solicitud_analisis on proyecto_modernizacion.subproducto.cod_producto = cal_web.solicitud_analisis.cod_producto";
+$Consulta =$Consulta." and proyecto_modernizacion.subproducto.cod_subproducto = cal_web.solicitud_analisis.cod_subproducto";
+$Consulta =$Consulta." where cal_web.solicitud_analisis.nro_solicitud=" .$txtnro_solicitud." and recargo ='".$recargo."'"; $Resultado2 = mysqli_query($link, $Consulta);
+$Fila2=mysqli_fetch_array($Resultado2);
+$txtsubproducto = $Fila2["descripcion"];
+
+
+// Analisis
+$Consulta ="SELECT proyecto_modernizacion.leyes.abreviatura as abrev";
+$Consulta =$Consulta." FROM cal_web.solicitud_analisis";
+$Consulta =$Consulta." INNER JOIN cal_web.leyes_por_solicitud ON cal_web.solicitud_analisis.nro_solicitud = cal_web.leyes_por_solicitud.nro_solicitud AND cal_web.solicitud_analisis.recargo = cal_web.leyes_por_solicitud.recargo";
+$Consulta =$Consulta." INNER JOIN proyecto_modernizacion.leyes ON proyecto_modernizacion.leyes.cod_leyes = cal_web.leyes_por_solicitud.cod_leyes";
+$Consulta =$Consulta." WHERE cal_web.solicitud_analisis.nro_solicitud = '".$txtnro_solicitud."' AND cal_web.solicitud_analisis.recargo ='".$recargo."'";
+$Respuesta3 = mysqli_query($link, $Consulta); 
+//echo $Consulta."<br>";
+$cont = 1;
+while ($Fila3 =mysqli_fetch_array ($Respuesta3))
+{
+	if ($cont == 1){
+		$analisis1=$analisis1.$Fila3["abrev"];
+	}else{
+		$analisis1=$analisis1.",".$Fila3["abrev"];
+	}
+	
+	$cont++;
+
+}
+?>
+        <table cellpadding="0" cellspacing="0" >
+            <tr>
+              <td class="estilo1">
+                <table  cellpadding="0" cellspacing="0" >
+                    <tr align="center" >
+                        <td  width="106"><img src="../principal/imagenes/logocodelco.png" align='absmiddle'></td>
+                        <?php echo "<td  align='center' colspan='10'>&nbsp;&nbsp;&nbsp;Solicitud de Muestreo y Preparaci&oacute;n Muestras N&deg;".$corr_impresion."</td>" ?>
+                    </tr> 
+                    <tr><td>&nbsp;</td></tr> 
+                    <tr>
+                    	<td  >Lote:</td>
+                         <?php echo "<td>".$txtid_muestra."</td>" ?>
+                         <td  >&nbsp;&nbsp;&nbsp;</td>
+                         <td  >Conjunto:________________</td>
+                         <td  >&nbsp;&nbsp;&nbsp;</td>
+                         <td  width="34" >S.A.:</td><?php echo "<td>" .$txtnro_solicitud." ";
+						 if($recargo !="" )
+						 	echo "-".$recargo."";
+						 ?>
+						 </td>
+                    </tr>
+                    <tr>
+                    	<td>SubProducto:</td>
+                        <?php echo "<td colspan='3'>".$txtsubproducto."</td>" ?>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td >An&aacute;lisis:</td>
+                        <td colspan="3"><?php echo $analisis1?></td>
+
+                    </tr>
+                </table>
+                <table cellpadding="0" cellspacing="0" >    
+                	<tr><td>&nbsp;</td></tr>       
+                    <tr>
+                        <td colspan="6">Pesos ponderados por recargo:</td>
+                    </tr>
+                    <tr>
+                        <td>1:____</td>
+                        <td>2:____</td>
+                        <td>3:____</td>
+                        <td>4:____</td>
+                        <td>5:____</td>
+                        <td>6:____</td>
+                        <td>7:____</td>
+                        <td>8:____</td>
+                        <td>9:____</td>
+                        <td>10:____</td>
+                        
+                    </tr>
+                    <tr>
+                        <td>11:____</td>
+                        <td>12:____</td>
+                        <td>13:____</td>
+                        <td>14:____</td>
+                        <td>15:____</td>
+                        <td>16:____</td>
+                        <td>17:____</td>
+                        <td>18:____</td>
+                        <td>19:____</td>
+                        <td>20:____</td>
+                       
+                        
+                    </tr>
+                    <tr> 
+                    	 <td>21:____</td>
+                        <td>22:____</td>
+                        <td>23:____</td>
+                    </tr>
+                </table>
+                <table cellpadding="0" cellspacing="0" >                  
+                    <tr>
+                        <td>Muestrero:_________________________________</td>
+                        <td>Observaci&oacute;n:______________________</td>
+                    </tr>  
+                    <tr>
+                        <td>Procedimiento:_____________________________</td>
+                    </tr> 
+                    <tr>
+                        <td>Preparador:________________________________</td>
+                        <td>Observaci&oacute;n:______________________</td>
+                    </tr>
+                    <tr>
+                        <td>Procedimiento:_____________________________</td>
+                    </tr>                      
+                    <tr>
+                        <td>Refinador:_________________________________</td>
+                        <td>Observaci&oacute;n:______________________</td>
+                    </tr> 
+                    <tr>
+                        <td>Procedimiento:_____________________________</td>
+                    </tr>                      
+                     <tr>
+                        <td>Entrega Codelco:___________________________</td>
+                        <td>Fecha:&nbsp;  <?php echo $Fecha_Hora ;  ?> </td>
+                    </tr> 
+                       
+                     <tr>
+                        <td>Recibo por servicio:__________________________</td>
+                        <td>Hora:__________ Retalla:__________</td>
+                    </tr> 
+                     <tr>
+                        <td colspan="2">Firma Recepci&oacute;n Conforme Codelco_______________________________________________</td>
+                    </tr> 
+                     <tr>
+                        <td colspan="2">_____________________________________________________________________________</td>
+                    </tr>                                                                        
+                </table>
+                <br><br>
+                <table  cellpadding="0" cellspacing="0" >
+                    <tr align="center" >
+                        <td  width="106"><img src="../principal/imagenes/logocodelco.png" align='absmiddle'></td>
+                        <?php echo "<td  align='center' colspan='10'>&nbsp;&nbsp;&nbsp;Solicitud de Muestreo y Preparaci&oacute;n Muestras N&deg;".$corr_impresion."</td>" ?>
+                    </tr> 
+                    <tr><td>&nbsp;</td></tr> 
+                    <tr>
+                    	<td  >Lote:</td>
+                         <?php echo "<td>".$txtid_muestra."</td>" ?>
+                         <td  >&nbsp;&nbsp;&nbsp;</td>
+                         <td  >Conjunto:________________</td>
+                         <td  >&nbsp;&nbsp;&nbsp;</td>
+                          <td  width="34" >S.A.:</td><?php echo "<td>" .$txtnro_solicitud." ";
+						 if($recargo !="" )
+						 	echo "-".$recargo."";
+						 ?>
+						 </td>
+                    </tr>
+                    <tr>
+                    	<td>SubProducto:</td>
+                        <?php echo "<td colspan='3'>".$txtsubproducto."</td>" ?>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td >An&aacute;lisis:</td>
+                        <td colspan="3"><?php echo $analisis1?></td>
+
+                    </tr>
+                </table>
+                <table cellpadding="0" cellspacing="0" >    
+                      <tr><td>&nbsp;</td></tr>    
+                    <tr>
+                        <td colspan="6">Pesos ponderados por recargo:</td>
+                    </tr>
+                    <tr>
+                        <td>1:____</td>
+                        <td>2:____</td>
+                        <td>3:____</td>
+                        <td>4:____</td>
+                        <td>5:____</td>
+                        <td>6:____</td>
+                        <td>7:____</td>
+                        <td>8:____</td>
+                        <td>9:____</td>
+                        <td>10:____</td>
+                        
+                    </tr>
+                    <tr>
+                        <td>11:____</td>
+                        <td>12:____</td>
+                        <td>13:____</td>
+                        <td>14:____</td>
+                        <td>15:____</td>
+                        <td>16:____</td>
+                        <td>17:____</td>
+                        <td>18:____</td>
+                        <td>19:____</td>
+                        <td>20:____</td>
+                       
+                        
+                    </tr>
+                    <tr> 
+                    	<td>21:____</td>
+                        <td>22:____</td>
+                        <td>23:____</td>
+                    </tr>
+                </table>
+                <table cellpadding="0" cellspacing="0" >                  
+                    <tr>
+                        <td>Muestrero:_________________________________</td>
+                        <td>Observaci&oacute;n:______________________</td>
+                    </tr>  
+                    <tr>
+                        <td>Procedimiento:_____________________________</td>
+                    </tr> 
+                    <tr>
+                        <td>Preparador:________________________________</td>
+                        <td>Observaci&oacute;n:______________________</td>
+                    </tr>
+                    <tr>
+                        <td>Procedimiento:_____________________________</td>
+                    </tr>                      
+                    <tr>
+                        <td>Refinador:_________________________________</td>
+                        <td>Observaci&oacute;n:______________________</td>
+                    </tr> 
+                    <tr>
+                        <td>Procedimiento:_____________________________</td>
+                    </tr>                     
+                     <tr>
+                        <td>Entrega Codelco:___________________________</td>
+                        <td>Fecha:&nbsp;  <?php echo $Fecha_Hora ;  ?> </td>
+                    </tr> 
+                        
+                     <tr>
+                        <td>Recibo por servicio:__________________________</td>
+                        <td>Hora:__________ Retalla:__________</td>
+                    </tr> 
+                     <tr>
+                        <td colspan="2">Firma Recepci&oacute;n Conforme Codelco_______________________________________________</td>
+                    </tr> 
+                     <tr>
+                        <td colspan="2">_____________________________________________________________________________</td>
+                    </tr>                                                                        
+                </table>
+              </td>
+           </tr>
+        </table>
+    </body>
+</html>

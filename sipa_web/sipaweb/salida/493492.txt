@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41240 ',peso_neto='24110',marca='FRANJA BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='24650100-9',nombre_chofer='MARCELO VIRGILI',observacion='',romana_salida='1' where correlativo='493492' and lote='23106036' and recargo='3'

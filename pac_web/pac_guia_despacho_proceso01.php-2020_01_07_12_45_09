@@ -1,0 +1,236 @@
+<?
+	include("../principal/conectar_pac_web.php");
+	$HoraI = date("h:i".':00');
+	$HoraT = date("h:i".':00');
+	$Rut =$CookieRut;
+	if(trim($Toneladas)=='')
+		$Toneladas=0;
+	if(trim($TxtMts)=='')
+		$TxtMts=0;
+	if(trim($FechaHoraRomana)=='undefined')
+		$FechaHoraRomana='0000-00-00 00:00:00';
+		
+		
+	switch ($Proceso)
+	{
+		case "N":
+			if ($Ver=='C')//Graba Para los Camiones  
+			{	
+				$Consulta="select * from pac_web.guia_despacho where num_guia='".$NumGuia."'";
+				$Respuesta=mysql_query($Consulta);
+				if ($Fila=mysql_fetch_array($Respuesta))
+				{
+					header("location:pac_guia_despacho_proceso.php?Mostrar=S");
+				}
+				else
+				{   
+					$Insertar="insert into pac_web.guia_despacho (num_guia,nro_patente,nro_patente_rampla,rut_transportista,rut_cliente,fecha_hora, ";
+					$Insertar.=" brazo_carga,toneladas,volumen_m3,descripcion,estado,cod_estanque,rut_funcionario,tipo_guia,valor_unitario,rut_chofer,fecha_hora_romana,corr_romana) values ";
+					$Insertar.=" ('".$NumGuia."','".$CmbPatente."','".$CmbPatenteRampla."','".$CmbTransp."','".$CmbCliente."','".$FechaHora."','".$CmbBrazo."', ";
+					$Insertar.=" '".str_replace(",",".",$Toneladas)."','".str_replace(",",".",$TxtMts)."','".$Observacion."','S','".$CmbEstanque."','".$Rut."','C','".str_replace(",",".",$VUnitario)."','$CmbChofer','$FechaHoraRomana','$TxtCorrRomana')";
+					mysql_query($Insertar);
+				//echo "Inser ".$Insertar."<br>";
+					$Insertar="insert into pac_web.movimientos(fecha_hora,toneladas,volumen_m3,cod_estanque_origen,tipo_movimiento,rut_funcionario, ";
+					$Insertar.= " hora_inicio,hora_final) values ";
+					$Insertar.=" ('".$FechaHora."','".str_replace(",",".",$Toneladas)."','".str_replace(",",".",$TxtMts)."','".$CmbEstanque."','5','".$Rut."','".$HoraI."','".$HoraT."')  ";
+					mysql_query($Insertar);
+					//	echo "Inser ".$Insertar."<br>";
+					$Actualiza ="UPDATE sipa_web.datos_ejes set cod_transportista='".substr($CmbTransp, 0, strlen($CmbTransp) - 2)."',";
+					$Actualiza.="nom_transportista='',";
+					$Actualiza.= "guia='".trim($NumGuia)."',";
+					$Actualiza.= "cod_tipo_carga='5',";
+					$Actualiza.= "tipo_carga='LIQUIDA',";
+					$Actualiza.= "validar_tolerancia='N' ";
+					$Actualiza.= "where patente='".trim($CmbPatente)."' and folio='".trim($TxtCorrRomana)."'";
+					mysql_query($Actualiza);
+					//	echo "Actualiza ".$Actualiza."<br>";
+									
+				}
+			}
+			else//Graba en caso de buque    
+			{
+				$Consulta="select * from pac_web.guia_despacho where num_guia='".$NumGuia."'";
+				$Respuesta=mysql_query($Consulta);
+				if ($Fila=mysql_fetch_array($Respuesta))
+				{
+					header("location:pac_guia_despacho_proceso.php?Mostrar=S");
+				}
+				else
+				{
+					$Insertar="insert into pac_web.guia_despacho (num_guia,nro_patente,rut_transportista,rut_cliente,fecha_hora, ";
+					$Insertar.=" brazo_carga,toneladas,volumen_m3,descripcion,estado,cod_estanque,rut_funcionario,tipo_guia,valor_unitario) values ";
+					$Insertar.=" ('".$NumGuia."','".$CmbPatente."','".$CmbTransp."','".$CmbCliente."','".$FechaHora."','".$CmbBrazo."', ";
+					$Insertar.=" '".str_replace(",",".",$Toneladas)."','".str_replace(",",".",$TxtMts)."','".$Observacion."','S','','".$Rut."','B','".str_replace(",",".",$VUnitario)."')";
+					mysql_query($Insertar);
+					$Consulta="select valor1 from pac_web.parametros where codigo='1'";
+					$Respuesta=mysql_query($Consulta);
+					$Fila=mysql_fetch_array($Respuesta);
+					$Densidad=str_replace('.',',',$Fila[valor1]);						
+					if($TxtEK1!='')
+					{
+						$TxtMts=((str_replace(",",".",$TxtEK1)*10000)/$Densidad)/10000;
+						$Insertar="insert into pac_web.movimientos(fecha_hora,toneladas,volumen_m3,cod_estanque_origen,tipo_movimiento,rut_funcionario, ";
+						$Insertar.= " hora_inicio,hora_final) values ";
+						$Insertar.=" ('".$FechaHora."','".str_replace(",",".",$TxtEK1)."','".str_replace(",",".",$TxtMts)."','1','7','".$Rut."','".$HoraI."','".$HoraT."')  ";
+						mysql_query($Insertar);
+						//echo $Insertar;
+					}
+					if($TxtEK2!='')
+					{
+						$TxtMts=((str_replace(",",".",$TxtEK2)*10000)/$Densidad)/10000;
+						$Insertar="insert into pac_web.movimientos(fecha_hora,toneladas,volumen_m3,cod_estanque_origen,tipo_movimiento,rut_funcionario, ";
+						$Insertar.= " hora_inicio,hora_final) values ";
+						$Insertar.=" ('".$FechaHora."','".str_replace(",",".",$TxtEK2)."','".str_replace(",",".",$TxtMts)."','2','7','".$Rut."','".$HoraI."','".$HoraT."')  ";
+						mysql_query($Insertar);
+						//echo $Insertar;
+					}
+					if($TxtEK3!='')
+					{
+						$TxtMts=((str_replace(",",".",$TxtEK3)*10000)/$Densidad)/10000;
+						$Insertar="insert into pac_web.movimientos(fecha_hora,toneladas,volumen_m3,cod_estanque_origen,tipo_movimiento,rut_funcionario, ";
+						$Insertar.= " hora_inicio,hora_final) values ";
+						$Insertar.=" ('".$FechaHora."','".str_replace(",",".",$TxtEK3)."','".str_replace(",",".",$TxtMts)."','3','7','".$Rut."','".$HoraI."','".$HoraT."')  ";
+						mysql_query($Insertar);
+						//echo $Insertar;
+					}
+					if($TxtEK4!='')
+					{
+						$TxtMts=((str_replace(",",".",$TxtEK4)*10000)/$Densidad)/10000;
+						$Insertar="insert into pac_web.movimientos(fecha_hora,toneladas,volumen_m3,cod_estanque_origen,tipo_movimiento,rut_funcionario, ";
+						$Insertar.= " hora_inicio,hora_final) values ";
+						$Insertar.=" ('".$FechaHora."','".str_replace(",",".",$TxtEK4)."','".str_replace(",",".",$TxtMts)."','4','7','".$Rut."','".$HoraI."','".$HoraT."')  ";
+						mysql_query($Insertar);
+						//echo $Insertar;
+					}
+					
+				}
+			}
+				echo "<script languaje='JavaScript'>";
+				echo "window.opener.document.FrmGuia.action='pac_guia_despacho.php';";
+				echo "window.opener.document.FrmGuia.submit();";
+				echo "window.close();";
+				echo "</script>";
+				break;
+		case "M":
+		
+		
+		if(strlen($FechaHoraRomana)>25)
+		$FechaHoraRomana=trim(substr($FechaHoraRomana,0,20));
+			if ($Ver=='C')
+			{
+				$Modificar="UPDATE pac_web.guia_despacho set num_guia='".$NumGuia."',nro_patente='".$CmbPatente."',nro_patente_rampla='".$CmbPatenteRampla."',rut_transportista='".$CmbTransp."',rut_cliente='".$CmbCliente."', ";
+				$Modificar.=" brazo_carga = '".$CmbBrazo."',toneladas = '".str_replace(",",".",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."', descripcion ='".$Observacion."',cod_estanque='".$CmbEstanque."',valor_unitario='".str_replace(",",".",$VUnitario)."',rut_chofer='$CmbChofer',fecha_hora_romana='$FechaHoraRomana',corr_romana='$TxtCorrRomana' ";
+				$Modificar.=" where correlativo = '".$Correlativo."' ";
+				mysql_query($Modificar);
+				//echo $Modificar."<br>";
+				$Consulta=" select fecha_hora from pac_web.guia_despacho where correlativo = '".$Correlativo."'  ";
+				$Respuesta1=mysql_query($Consulta);
+				$Fila1=mysql_fetch_array($Respuesta1);   
+				$Modificar="UPDATE pac_web.movimientos set toneladas = '".str_replace(",",".",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."',cod_estanque_origen = '".str_replace(",",".",$CmbEstanque)."' where fecha_hora = '".$Fila1["fecha_hora"]."' ";
+				mysql_query($Modificar);
+				//echo $Modificar."<br>";
+			}
+			else
+			{
+				$Modificar="UPDATE pac_web.guia_despacho set num_guia='".$NumGuia."',rut_transportista='".$CmbTransp."',rut_cliente='".$CmbCliente."',nro_patente='".$CmbPatente."',";
+				$Modificar.=" brazo_carga = '".$CmbBrazo."',toneladas = '".str_replace(",",".",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."',descripcion ='".$Observacion."',cod_estanque='".$CmbEstanque."',valor_unitario='".str_replace(",",".",$VUnitario)."'";
+				$Modificar.=" where correlativo= '".$Correlativo."' ";
+				mysql_query($Modificar);
+			//	echo $Modificar."<br>";
+				$Consulta=" select fecha_hora from pac_web.guia_despacho where correlativo = '".$Correlativo."'  ";
+				$Respuesta1=mysql_query($Consulta);
+				$Fila1=mysql_fetch_array($Respuesta1);
+				$Consulta="consulta * from pac_web.movimientos where fecha_hora = '".$Fila1["fecha_hora"]."' ";
+				$Respuesta2=mysql_query($Consulta);
+				$Fila2=mysql_fetch_array($Respuesta2);
+				$HoraI = $Fila2[hora_inicio];
+				$HoraT = $Fila2[hora_final];
+				$Eliminar="delete from pac_web.movimientos where fecha_hora = '".$Fila1["fecha_hora"]."' ";
+				mysql_query($Eliminar);
+				$Consulta="select valor1 from pac_web.parametros where codigo='1'";
+				$Respuesta=mysql_query($Consulta);
+				$Fila=mysql_fetch_array($Respuesta);
+				$Densidad=str_replace('.',',',$Fila[valor1]);						
+				if($TxtEK1!='')
+				{
+					$TxtMts=((str_replace(",",".",$TxtEK1)*10000)/$Densidad)/10000;
+					$Insertar="insert into pac_web.movimientos(fecha_hora,toneladas,volumen_m3,cod_estanque_origen,tipo_movimiento,rut_funcionario, ";
+					$Insertar.= " hora_inicio,hora_final) values ";
+					$Insertar.=" ('".$Fila1["fecha_hora"]."','".str_replace(",",".",$TxtEK1)."','".str_replace(",",".",$TxtMts)."','1','7','".$Rut."','".$HoraI."','".$HoraT."')  ";
+					mysql_query($Insertar);
+			//		echo "INSERtAR  1".$Insertar;
+				}
+				if($TxtEK2!='')
+				{
+					$TxtMts=((str_replace(",",".",$TxtEK2)*10000)/$Densidad)/10000;
+					$Insertar="insert into pac_web.movimientos(fecha_hora,toneladas,volumen_m3,cod_estanque_origen,tipo_movimiento,rut_funcionario, ";
+					$Insertar.= " hora_inicio,hora_final) values ";
+					$Insertar.=" ('".$Fila1["fecha_hora"]."','".str_replace(",",".",$TxtEK2)."','".str_replace(",",".",$TxtMts)."','2','7','".$Rut."','".$HoraI."','".$HoraT."')  ";
+					mysql_query($Insertar);
+				//		echo "INSERtAR 2".$Insertar;
+				}
+				if($TxtEK3!='')
+				{
+					$TxtMts=((str_replace(",",".",$TxtEK3)*10000)/$Densidad)/10000;
+					$Insertar="insert into pac_web.movimientos(fecha_hora,toneladas,volumen_m3,cod_estanque_origen,tipo_movimiento,rut_funcionario, ";
+					$Insertar.= " hora_inicio,hora_final) values ";
+					$Insertar.=" ('".$Fila1["fecha_hora"]."','".str_replace(",",".",$TxtEK3)."','".str_replace(",",".",$TxtMts)."','3','7','".$Rut."','".$HoraI."','".$HoraT."')  ";
+					mysql_query($Insertar);
+				//	echo "INSERtAR 3".$Insertar;
+				}
+				if($TxtEK4!='')
+				{
+					$TxtMts=((str_replace(",",".",$TxtEK4)*10000)/$Densidad)/10000;
+					$Insertar="insert into pac_web.movimientos(fecha_hora,toneladas,volumen_m3,cod_estanque_origen,tipo_movimiento,rut_funcionario, ";
+					$Insertar.= " hora_inicio,hora_final) values ";
+					$Insertar.=" ('".$Fila1["fecha_hora"]."','".str_replace(",",".",$TxtEK4)."','".str_replace(",",".",$TxtMts)."','4','7','".$Rut."','".$HoraI."','".$HoraT."')  ";
+					mysql_query($Insertar);
+				//	echo "INSERtAR 4".$Insertar;
+				}
+			}
+			echo "<script languaje='JavaScript'>";
+			echo "window.opener.document.FrmGuia.action='pac_guia_despacho.php';";
+			echo "window.opener.document.FrmGuia.submit();";
+			echo "window.close();";
+			echo "</script>";
+			break;
+		case "A":
+			$Datos=$Valores;
+			for ($i=0;$i<=strlen($Datos);$i++)
+			{
+				if (substr($Datos,$i,2)=="//")
+				{
+					$Guia=substr($Datos,0,$i);
+					$Actualizar ="UPDATE  pac_web.guia_despacho set estado ='N'  where num_guia ='".$Guia."'";
+					mysql_query($Actualizar);
+					$Consulta=" select fecha_hora from pac_web.guia_despacho where num_guia = '".$Guia."'  ";
+					$Respuesta=mysql_query($Consulta);
+					$Fila=mysql_fetch_array($Respuesta);   
+					$Eliminar ="delete from pac_web.movimientos where fecha_hora = '".$Fila["fecha_hora"]."' and tipo_movimiento = '5' ";
+					mysql_query($Eliminar);
+					$Datos=substr($Datos,$i+2);
+					$i=0;
+				}
+			}
+			header("location:pac_guia_despacho.php?CmbTipoGuia=G");
+			break;	
+		case "I":
+			$Datos=$Valores;
+			for ($i=0;$i<=strlen($Datos);$i++)
+			{
+				if (substr($Datos,$i,2)=="//")
+				{
+					$Guia=substr($Datos,0,$i);
+					$Actualizar="UPDATE pac_web.guia_despacho set estado ='I' where num_guia = '".$Guia."'";
+					mysql_query($Actualizar);
+					$Datos=substr($Datos,$i+2);
+					$i=0;
+				}
+			}	
+		header("location:pac_guia_despacho.php?Proceso=".$Proceso);
+		break;
+		case "S":
+			header("location:pac_guia_despacho.php?Proceso=G");
+		break;
+	}
+?>

@@ -1,0 +1,37 @@
+<?  
+	include("../principal/conectar_scop_web.php");
+	include("funciones/scop_funciones.php");	
+	
+	$Encontro=false;
+	$Rut=$CookieRut;
+	$Fecha=date('Y-m-d H:i:s');
+		//ENVIO DE CORREOS
+	switch($Opcion)
+	{
+		case "G":	
+			set_time_limit(5000);
+			$Consulta="select * from scop_inventario where cod_estado='1'";
+			$Resp=mysql_query($Consulta);
+			while($Fila=mysql_fetch_array($Resp))
+			{
+				$Contrato=$Fila["cod_contrato"];
+				$NumContrato=$Fila[num_contrato];
+				$TipoContrato=$Fila[cod_tipo_contr];
+				CambioDeEstado($Rut,$Contrato,$Fecha,$Ano,$CmbMes,2);//ESTA FUNCION DE ENCUNTRA EN LA PAGINAS DE FUNCIONES
+			}
+			$CorrCheck=explode("~",$CorrCheck);
+			while(list($c,$v)=each($CorrCheck))
+			{
+				$Consulta="select * from proyecto_modernizacion.sub_clase";
+				$Consulta.=" where cod_clase='33007' and cod_subclase='".$v."' and nombre_subclase<>'' and not isnull(nombre_subclase) and valor_subclase1='1'";
+				$RespCorreo=mysql_query($Consulta);
+				if($FilaCorreo=mysql_fetch_array($RespCorreo))
+				{
+						EnvioCorreo($FilaCorreo["nombre_subclase"],'3',$TipEst,$Ano,$CmbMes,$Meses,'PV',$TipoContrato,'',$TextObs,'','','');//PV PROCESO VALIDADO PARA ANO Y MES				
+				}
+			}
+			$Mensaje='1';
+			header('location:scop_valida_inventario_proceso.php?Opc=G&Mensaje='.$Mensaje.'&A='.$Ano.'&T=T');												
+		break;
+	}
+?>

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42280 ',peso_neto='25930',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8551905-0',nombre_chofer='VICTOR ARANCIBIA',observacion='ladrillos en desuso',romana_salida='1' where correlativo='454283' and lote='21116216' and recargo='4'

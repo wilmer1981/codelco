@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43710 ',peso_neto='29940',marca='EQUIS VERDE',cod_mop='520',num_sello='',transportista='',rut_chofer='16330464-3',nombre_chofer='OMAR NAVIA',observacion='',romana_salida='1' where correlativo='453739' and lote='21116041' and recargo='22'

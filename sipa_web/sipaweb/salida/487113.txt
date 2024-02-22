@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 12000 ',peso_neto='3700',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='13788716-9',nombre_chofer='GREGORIO LETELIER',observacion='',romana_salida='1' where correlativo='487113' and lote='23066306' and recargo='2'

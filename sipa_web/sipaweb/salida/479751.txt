@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43570 ',peso_neto='27690',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='10822563-7',nombre_chofer='marcos meneses',observacion='concentrado de cu ',romana_salida='1' where correlativo='479751' and lote='23026339' and recargo='2'

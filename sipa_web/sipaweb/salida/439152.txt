@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43650 ',peso_neto='29120',marca='DOS FRANJAS BLANCAS',cod_mop='690',num_sello='',transportista='',rut_chofer='15561658-K',nombre_chofer='JEAN JAURE',observacion='',romana_salida='1' where correlativo='439152' and lote='21026219' and recargo='5'

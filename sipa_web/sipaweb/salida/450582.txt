@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44300',peso_neto='28600',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10226662-5',nombre_chofer='DANILO BALCAZAR ',observacion='mazamorra',romana_salida='1' where correlativo='450582' and lote='21096186' and recargo='3'

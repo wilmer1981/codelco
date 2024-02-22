@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40500 ',peso_neto='26520',marca='DOS FRANJAS BLANCAS',cod_mop='690',num_sello='',transportista='',rut_chofer='18518782-9',nombre_chofer='GERMAN ARAVENA',observacion='',romana_salida='1' where correlativo='474479' and lote='22126011' and recargo='20'

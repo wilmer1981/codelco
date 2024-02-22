@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42940 ',peso_neto='25620',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8436573-4',nombre_chofer='herman robles',observacion='cu varios',romana_salida='1' where correlativo='489108' and lote='23086086' and recargo='9'

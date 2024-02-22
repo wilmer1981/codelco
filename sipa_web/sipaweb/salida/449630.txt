@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44010',peso_neto='28290',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10226662-5',nombre_chofer='DANILO BALCAZAR ',observacion='circulante oxido',romana_salida='1' where correlativo='449630' and lote='21096027' and recargo='4'

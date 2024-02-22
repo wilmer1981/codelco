@@ -1,0 +1,308 @@
+ChartDirector 2.5.2 for Win2000/NT/XP/ME/98, Linux/FreeBSD/Solaris
+Copyright (C) 2002 Advanced Software Engineering Limited
+All Rights Reserved
+
+************************** RELEASE NOTES *************************
+
+******************** Enhancements Since Ver 2.0 ******************
+
+Horizontal Bar Charts
+=====================
+ChartDirector now supports horizontal bar charts at the same level
+as vertical bar charts. For example, stacked bar charts, multi-bar
+charts, 3D effects, data labels, clickable image maps, etc., are
+all available in horizontal bar charts.
+
+Arbitrary X-Axis Data
+=====================
+In previous versions of ChartDirector, data points are assumed to
+be evenly distributed on the x-axis. ChartDirector now supports
+arbitrary x-values for data points. Data series can be irregularly
+distributed on the x-axis.
+
+Scatter Chart Layer
+===================
+Scatter Chart Layer is a new ChartDirector layer type. Scatter 
+charts plot data points at arbitrary xy positions using built-in 
+or user defined symbols.
+
+Trend Line Layer
+================
+Trend Line Layer is a new ChartDirector layer type. A trend line 
+is a straight line that best fits a number of data points computed 
+using linear regression (least square method).
+
+CandleStick Chart Layer
+=======================
+CandleStick Layer is a new ChartDirector layer type. Candlestick 
+charts represent high-low-open-close data as "candle shapes".
+
+Pie Chart Side Label Layout
+===========================
+ChartDirector now supports a new method of positioning sector
+labels where the labels are positioned on the left and right sides
+of the chart (instead of circularly around the pie). In this new
+method, the labels can automatically shift up and down to avoid
+overlapping with each others, which typically will occur when there
+are a lot of very small sectors crowded together.
+
+Line Chart Missing Data Points Handling
+=======================================
+For a line chart, previous version of ChartDirector handles missing
+data points (NoValue) as discontinuous lines.
+
+In ChartDirector Ver 2.5, a line can be drawn to join through the
+missing point. The line can be of the same style and color as the
+normal lines in the line chart, or can be of different style (e.g.
+a dash line with different color).
+
+Data Gap for HLOC
+=================
+In previous versions of ChartDirector, the data points for HLOC
+charts always use up all the available width, that is, there is no
+gap between adjacent HLOC data points. In ChartDirector Ver 2.5, it
+is now possible to specify the gap in between adjacent HLOC data
+points (similar to how bar gaps are specified in bar charts).
+
+Axis Width
+==========
+ChartDirector now supports configurable axis width.
+
+Configurable Zero Affinity During Auto-Scaling
+==============================================
+When ChartDirector auto-scales an axis, it will try to start the 
+axis from zero, unless the data range (difference between maximum 
+and minimal values) is small compare to the data values. For 
+example, if the data values are in between 1000.2 to 1000.8, 
+ChartDirector will not start the axis from zero, because the data 
+range (= 0.6) is small compare to the data values. In previous 
+versions of ChartDirector, small means 20% or less (that is, zero 
+affinity of 80%).
+
+In ChartDirector Ver 2.5, the zero affinity is configurable. A 
+zero affinity of 100% will ensure ChartDirector always start the 
+axis from zero. A zero affinity of 0% will mean ChartDirector will 
+not have any special preference to the zero point when performing 
+auto- scaling.
+
+Sign Character Numeric Formatting
+=================================
+ChartDirector now supports configurable negative sign character in 
+numeric formatting. By default, the negative sign character is "-". 
+A common usage is to set it to an empty string, so negative numbers 
+will look like positive numbers. This is often used in y-axis that 
+pointd downwards (such as represeting the depth of the ocean floor).
+
+Data Labels Support for All XY Chart Layers
+===========================================
+In previous versions of ChartDirector, only bar chart layers and 
+line chart layers support data labels. This is now extended to all 
+layer types.
+
+Custom Data Label
+=================
+In previous versions of ChartDirector, data labels applies to all
+data points. In ChartDirector Ver 2.5, you can add a custom data
+label to a particular data point to override the general data label
+settings.
+
+Data Label Formatting
+=====================
+In previous versions of ChartDirector, data labels show the values 
+of the data points, with configurable numeric formatting. In 
+ChartDirector Ver 2.5, data labels can also be formatted to show 
+other things related to the data points, such as the data set 
+names, the x-label of the data points, etc. Data label formatting 
+now employs the same parameter substitution meachanism 
+used in query parameters formatting in image maps.
+
+Legend Keys Formatting for Pie Charts
+=====================================
+For a pie chart, by default, the legend keys will contain the names
+of the sectors. In ChartDirector Ver 2.5, the legend keys can be
+formatted to also include the values of the sectors as well
+as the percentages of the sectors.
+
+Configurable Legend Keys Ordering
+=================================
+By default, the name of the first data set will be entered as the
+first legend key, the name of the second data set as the second
+legend key, and so on.
+
+ChartDirector now supports entering the names as the legend keys in
+reverse order, or not to enter the names as legend keys at all.
+
+One common scenario is for a stacked bar chart with positive data
+and using vertical legend keys layout. In a stacked bar, the first
+data set will appear at the bottom, and subsequent data sets will
+stack on top (assuming positive data). If a vertical legend
+box is used, it may be desirable the last data set to be the top
+legend key, and the first data set to be the bottom legend key. In
+other words, it may be desirable to reverse the order of the legend
+keys for that stacked bar chart layer.
+
+X-Axis Mark Labels
+==================
+In previous versions of ChartDirector, only y-axis marks have text
+labels. This is now extended to x-axis marks.
+
+Mark Label Positioning
+======================
+In previous versions of ChartDirector, mark labels are positioned 
+as tickd on the axis. In ChartDirector Ver 2.5, it is now possible 
+to configure where to put the mark labels (e.g. on top of the mark 
+lines).
+
+More Auto Data Colors
+=====================
+In previous versions of ChartDirector, the default auto-color 
+palette contains 16 colors. In ChartDirector Ver 2.5, the color 
+palette has increased to 32 data colors.
+
+SameAsMainColor
+===============
+ChartDirector now supports a special color called SameAsMainColor, 
+which means the color is the same as the main color used for the 
+primary object of interest. This is typically used to specify the 
+colors of objects associated with data sets. 
+
+For example, in a pie chart, if the sector label background color 
+is set to SameAsMainColor, the actual sector label background 
+colors will be the same as the fill colors of sectors to which they 
+are associated with.
+
+ImageMapWidth for Lines
+=======================
+For a clickable line chart, if the line is thin, it would be hard 
+to click on it. So when creating the image map for the line, 
+ChartDirector always assume the line is very thick, no matter what
+its actual thickness is.
+
+In previous version of ChartDirector, the assumed thickness for the
+purpose of image map generation is always 10 pixels. This is now
+configurable.
+
+More flexible getHTMLImageMap parameters
+========================================
+When using the getHTMLImageMap method to generate image maps,
+ChartDirector performs parameter substitution on the query
+parameters and the extra attributes arguments of the method. This
+is now extended to include the url argument. Also, the method now
+better supports using client side Javascript as the url.
+
+
+********************** Changes Since Ver 2.0 *********************
+
+Pie Chart Sectors Have No Border By Default
+===========================================
+In previous versions of ChartDirector, the default sector border
+color is equal to the default line color. In ChartDirector Ver 2.5,
+the default sector border color is "SameAsMainColor", which means
+the color is the same as the corresponding sector fill color. As a
+result, the sectors appear as borderless.
+
+The reason for this change is because in most cases, the pie chart
+looks better without the borders, especially when there are small
+sectors.
+
+Auto Data Colors are Slightly Lighter
+=====================================
+The automatic data colors are slightly lighter than that in the
+previous versions of ChartDirector. For example, the original red
+color (0xff0000) is change to 0xff3333, and the original blue color
+(0x0000ff) is changed to (0x6666ff).
+
+The reason for this change is to enhance the readability of data
+labels. For example, in a bar chart, the data labels are drawn on
+top of the bar segments. If the data colors are too dark, it is
+hard to read the data labels (which by default is black in color).
+
+1 Pixel Layout Change
+=====================
+Compare to previous versions of ChartDirector, the position of the
+plot area now moves 1 pixel downwards, and its width also increases
+by 1 pixel. This more accurately reflects the position and size of
+the plot area as specified in the setPlotArea method.
+
+ArrayIndex in RecordSetToArray Function
+=======================================
+(The RecordSetToArray function applies to ChartDirector for
+ASP/COM/VB only.)
+
+In previous versions of ChartDirector, the RecordSetToArray
+function will use the value in the "Index" column as the array
+index. The column name is now changed to "ArrayIndex". It is
+because "Index" is a reserved word in SQL and the use of "Index" as
+column name is incompatible with a number of databases. For
+compatibility, the "Index" column name is also supported but its
+use is discouraged.
+
+
+********************** Upgrade Considerations ********************
+
+Code Compatibility
+==================
+ChartDirector Ver 2.5 is designed to be code compatible with all
+previous versions of ChartDirector.
+
+That means all source code should run without modification.
+
+For the C++ Edition of ChartDirector, although the C++ source code
+does not need to be modified, they have to be recompiled and linked
+to the new ChartDirector library "chartdir25.dll". If you do not
+want to recompile your source code, you can continue to use the
+existing ChartDirector library "chartdir20.dll" in existing
+projects, and use the new ChartDirector library "chartdir25.dll" in
+new projects. These two DLL libraries can co- exists on the same
+machine without conflicts.
+
+Behavioural Compatibility
+=========================
+The charts produced by ChartDirector Ver 2.5 could be slightly
+different from the charts produced by earlier versions of
+ChartDirector using the same source code. The section on "Changes
+Since Ver 2.0" describes the changes in details.
+
+License Compatibility
+=====================
+Advanced Software Engineering's licensing policy is that all
+commercial software licenses will be entitled to free upgrade for
+the next version of the software, and thereafter, free upgrade for
+another 12 months.
+
+Therefore, all existing ChartDirector Ver 1.x and Ver 2.x licenses
+are still valid for ChartDirector Ver 2.0. The license code is
+compatible and does not need to change.
+
+Upgrade Procedure
+=================
+To upgrade ChartDirector, simply install the new version on top of 
+the old version.
+
+Like all other software installation process, you should stop your 
+existing version of ChartDirector before installing a new version. 
+If you are using a web server with ChartDirector, you may need to 
+stop your web server.
+
+For Microsoft IIS, you will need to stop the "World Wide Web 
+Publishing" services using the Service Control Panel (in W2K, it is 
+in Control Panel/Administrative Tools/Services) Stopping IIS using 
+the "Internet Services Manager" is not sufficient, as it does not 
+actually unload the web server.
+
+For the ASP/COM/VB and .NET editions of ChartDirector, the first 
+time you run the setup program, it will prompt you to uninstall the 
+existing version of ChartDirector. After that, you can run the 
+setup program again, and it will install the new version.
+
+For the .NET editions of ChartDirector, please remember to UPDATE 
+the "netchartdir.dll", which may have been copied to the "bin" 
+subdirectory under the ASP.NET application root, in the Global 
+Assembly Cache or in other places.
+
+For the PHP/Perl/Python Editions of ChartDirector, please remember 
+to UPDATE the files "phpchartdir.php", "perlchartdir.pm" and 
+"pychartdir.py" respectively. These files may have been copied to 
+your scripting directory or directories. It is not possible to use 
+the old versions of these library files with the new version of 
+ChartDirector DLL.

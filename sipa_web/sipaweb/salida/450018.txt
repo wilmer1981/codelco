@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='17600',peso_neto='2270',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='14276898-4',nombre_chofer='Miguel Briones ',observacion='',romana_salida='1' where correlativo='450018' and lote='21096094' and recargo='1'

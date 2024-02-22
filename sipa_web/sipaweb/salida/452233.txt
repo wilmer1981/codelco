@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44260 ',peso_neto='27880',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12364139-6',nombre_chofer='Cristian Saavedra',observacion='',romana_salida='1' where correlativo='452233' and lote='21106149' and recargo='7'

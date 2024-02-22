@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 16900 ',peso_neto='8550',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='17497822-0',nombre_chofer='LUIS FLORES',observacion='',romana_salida='1' where correlativo='451597' and lote='21106064' and recargo='1'

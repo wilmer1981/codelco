@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='41800',peso_neto='27630',marca='EQUIS FRANJA ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='10718505-4',nombre_chofer='MARCELO OYANEDEL',observacion='',romana_salida='1' where correlativo='473505' and lote='22116107' and recargo='6'

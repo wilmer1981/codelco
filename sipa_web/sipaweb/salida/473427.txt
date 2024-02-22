@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44600 ',peso_neto='31340',marca='FRANJA CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='12774916-7',nombre_chofer='MARCELO TORRES',observacion='',romana_salida='1' where correlativo='473427' and lote='22116100' and recargo='43'

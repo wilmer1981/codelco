@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 42930 ',peso_neto='28620',marca='FRANJA CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='9683087-4',nombre_chofer='GUILLERMO ARANCIBIA',observacion='',romana_salida='2' where correlativo='452457' and lote='21106181' and recargo='18'

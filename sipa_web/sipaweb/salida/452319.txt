@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 41880 ',peso_neto='28200',marca='FRANJA AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='7352390-7',nombre_chofer='LUIS GONZALEZ',observacion='',romana_salida='2' where correlativo='452319' and lote='21106082' and recargo='8'

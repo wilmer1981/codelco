@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44940 ',peso_neto='29840',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='17422864-7',nombre_chofer='diego araya',observacion='BAJO CUCHARA',romana_salida='1' where correlativo='475756' and lote='22126252' and recargo='2'

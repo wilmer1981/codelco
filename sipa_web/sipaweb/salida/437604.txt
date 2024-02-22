@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44680 ',peso_neto='31170',marca='FRANJA ROJA',cod_mop='520',num_sello='',transportista='',rut_chofer='15974796-4',nombre_chofer='RICARDO TORRES',observacion='',romana_salida='1' where correlativo='437604' and lote='21016325' and recargo='43'

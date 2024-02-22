@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 17260 ',peso_neto='1880',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='18 maxi de estructuras y revestimientos',romana_salida='1' where correlativo='434764' and lote='20126097' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 17870 ',peso_neto='2500',marca='DOS FRANJAS ROJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='7407646-7',nombre_chofer='MARIO OLGUIN',observacion='',romana_salida='1' where correlativo='456873' and lote='22016082' and recargo='12'

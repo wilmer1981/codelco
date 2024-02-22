@@ -1,0 +1,224 @@
+<?
+include ("../Principal/conectar_cal_web.php");	
+//$FechaP = $CmbAnoP."-".$CmbMesP."-".$CmbDiaP." ".$HoraAnalisis.":".$MinutosLixiv;
+$FechaP=date('Y-m-d G:i:s');
+
+$Valores_Check=$ValoresSA;
+$RutProceso =$CookieRut;
+for ($j = 0;$j <= strlen($ValoresSA); $j++)
+{
+	
+	if (substr($ValoresSA,$j,2) == "//")
+		{
+			$SARutRec = substr($ValoresSA,0,$j);
+			for ($x=0;$x<=strlen($SARutRec);$x++)
+			{
+				if (substr($SARutRec,$x,2) == "~~")
+				{
+					$SA = substr($SARutRec,0,$x);			
+					$RutRec = substr($SARutRec,$x+2,strlen($SARutRec));
+					for ($y = 0 ; $y <=strlen($RutRec); $y++ )
+					{
+						if (substr($RutRec,$y,2)=="||")
+						{
+							$Rut = substr($RutRec,0,$y);
+							$Recargo =substr($RutRec,$y+2,strlen($RutRec));
+							//pregunta si el valor del combbo es 7 o eliminado 
+							if ($CmbTipo == 7)
+							{
+								//si la solicitud no tiene recargo
+								if ($Recargo == 'N')
+								{
+									//inserta  nuevo registro en estados_por_solicitud  
+									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
+									$insertar.="values ('".$Rut."','". $SA."','7','".$FechaP."','".$RutProceso."')";
+									mysql_query($insertar);
+									//actualiza el campo estado_actual asignado 7 en soliciud de analisis  
+									$Actualizar= "UPDATE  cal_web.solicitud_analisis set estado_actual ='7' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'";
+									mysql_query($Actualizar);
+								}
+								//if ($Recargo !='0') 
+								//{
+									$Consulta ="select * from cal_web.solicitud_analisis where (nro_solicitud = '".$SA."' ";
+									$Consulta=$Consulta." and rut_funcionario = '".$Rut."' and recargo = '".$Recargo."') ";
+									$Respuesta=mysql_query($Consulta);
+									$Fila=mysql_fetch_array($Respuesta);   
+									//Elimina en solictud de analisis
+									$Eliminar="delete from cal_web.solicitud_analisis where  ";
+									$Eliminar.=" nro_solicitud = '".$SA."' and rut_funcionario and recargo = '".$Recargo."' ";
+									$Eliminar.= " and id_muestra = '".$Fila["id_muestra"]."' and fecha_hora = '".$Fila["fecha_hora"]."'";
+									mysql_query($Eliminar);
+									$Eliminar = "delete from cal_web.estados_por_solicitud where nro_solicitud = '".$SA."' and recargo = '".$Recargo."' ";		
+									mysql_query($Eliminar); 
+									//Elimina en leyes por solicitud
+									$Eliminar = "delete from cal_web.leyes_por_solicitud where nro_solicitud = '".$SA."' and rut_funcionario = '".$Rut."' ";	
+									$Eliminar.= " and recargo = '".$Recargo."' and fecha_hora = '".$Fila["fecha_hora"]."' ";
+									mysql_query($Eliminar);
+								//}
+							}
+							//Pregunta si le valor del combo es 8 o pendiente
+							if ($CmbTipo == 8)
+							{
+								//si la solicitud no tiene recargo
+								if ($Recargo == 'N')
+								{
+									//inserta  nuevo registro en estados_por_solicitud  
+									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
+									$insertar.="values ('".$Rut."','". $SA."','8','".$FechaP."','".$RutProceso."')";
+									mysql_query($insertar);
+									//actualiza el campo estado_actual asignado 8 en soliciud de analisis  
+									$Actualizar= "UPDATE  cal_web.solicitud_analisis set estado_actual ='8' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'";
+									mysql_query($Actualizar);
+								}
+								else 
+								//si la solicitud  tiene recargo
+								{
+									//inserta  nuevo registro en estados_por_solicitud  
+									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,rut_proceso)";
+									$insertar.="values ('".$Rut."','". $SA."','".$Recargo."','8','".$FechaP."','".$RutProceso."')";
+									mysql_query($insertar);
+									//actualiza el campo estado_actual asignado 7 en soliciud de analisis
+									$Actualizar= "UPDATE  cal_web.solicitud_analisis set estado_actual ='8' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo ='".$Recargo."'";
+									mysql_query($Actualizar);
+								
+								}
+							}
+							//Pregunta si le valor del combo es 14 o activado
+							if ($CmbTipo == 14)
+							{
+								//si la solicitud no tiene recargo
+								if ($Recargo == 'N')
+								{
+									//inserta  nuevo registro en estados_por_solicitud  
+									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
+									$insertar.="values ('".$Rut."','". $SA."','14','".$FechaP."','".$RutProceso."')";
+									//mysql_query($insertar);
+									//actualiza el campo estado_actual asignado 13 en soliciud de analisis osea asignarle el estado At.Muestrera  
+									$Actualizar= "UPDATE  cal_web.solicitud_analisis set estado_actual ='13' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'";
+									mysql_query($Actualizar);
+								}
+								else 
+								//si la solicitud  tiene recargo
+								{
+									//inserta  nuevo registro en estados_por_solicitud  
+									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,recargo,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
+									$insertar.="values ('".$Rut."','".$Recargo."','". $SA."','14','".$FechaP."','".$RutProceso."')";
+									mysql_query($insertar);
+									//actualiza el campo estado_actual asignado 13 en soliciud de analisis osea asignarle el estado At.Muestrera  
+									$Actualizar= "UPDATE  cal_web.solicitud_analisis set estado_actual ='13' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo ='".$Recargo."'";
+									mysql_query($Actualizar);
+								}
+							}
+							//Pregunta si el estado es finalizado
+							if ($CmbTipo == 6 )
+							{
+								if ($Recargo == 'N')
+								{
+									//actualiza  el campo estado actual en solicitud de analisis asignando 3
+									$Actualizar= "UPDATE   cal_web.solicitud_analisis set estado_actual ='".$CmbTipo."' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'";
+									mysql_query($Actualizar);
+									//inserta un nuevo registro en estados_por_solicitud con el estado 3 = enviar a c calidad 
+									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
+									$insertar.="values ('".$Rut."','". $SA."','".$CmbTipo."','".$FechaP."','".$RutProceso."')";
+									mysql_query($insertar);
+								}
+								else 
+								//Tiene Recargo 
+								{
+									//actualiza  el campo estado actual en solicitud de analisis asignando 3
+									$Actualizar= "UPDATE   cal_web.solicitud_analisis set estado_actual ='".$CmbTipo."' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo = '".$Recargo."'";
+									mysql_query($Actualizar);
+									//inserta un nuevo registro en estados_por_solicitud con el estado 3 = enviar a c calidad 
+									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,recargo,rut_proceso)";
+									$insertar.="values ('".$Rut."','". $SA."','".$CmbTipo."','".$FechaP."','".$Recargo."','".$RutProceso."')";
+									mysql_query($insertar);
+								}
+							
+							}
+							//pregunta si el valor del combo es igual a enviar control calidad 
+							if ($CmbTipo == 3 )
+							{
+								//si no tiene recargo
+								if ($Recargo == 'N')
+								{
+									//actualiza  el campo estado actual en solicitud de analisis asignando 3
+									$Actualizar= "UPDATE   cal_web.solicitud_analisis set estado_actual ='".$CmbTipo."' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'";
+									mysql_query($Actualizar);
+									//inserta un nuevo registro en estados_por_solicitud con el estado 3 = enviar a c calidad 
+									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
+									$insertar.="values ('".$Rut."','". $SA."','".$CmbTipo."','".$FechaP."','".$RutProceso."')";
+									//echo "AQUIIIIII".$insertar;
+									mysql_query($insertar);
+
+									//AGREGADO POR RENE 12-09-2013 -- AGREGAMOS EL ESTADO ATENTIDA POR MUESTRERA
+									$insertar ="insert into estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
+									$insertar.="values ('$Rut','$SA','13','$FechaP','".$RutProceso."')";
+									mysql_query($insertar);
+								}
+								else 
+								//Tiene Recargo 
+								{
+									//actualiza  el campo estado actual en solicitud de analisis asignando 3
+									$Actualizar= "UPDATE   cal_web.solicitud_analisis set estado_actual ='".$CmbTipo."' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo = '".$Recargo."'";
+									//echo "actualiza:    ".$Actualizar."<br>";
+									mysql_query($Actualizar);
+									//inserta un nuevo registro en estados_por_solicitud con el estado 3 = enviar a c calidad 
+									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,recargo,rut_proceso)";
+									$insertar.="values ('".$Rut."','". $SA."','".$CmbTipo."','".$FechaP."','".$Recargo."','".$RutProceso."')";
+									//echo "doSSSSSSSSSSSSSSSSSS         ".$insertar."<br>";
+									mysql_query($insertar);
+
+									//AGREGADO POR RENE 12-09-2013 -- AGREGAMOS EL ESTADO ATENTIDA POR MUESTRERA
+									$insertar ="insert into estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,recargo,rut_proceso)";
+									$insertar.="values ('$Rut','$SA','13','$FechaP','".$Recargo."','".$RutProceso."')";
+									mysql_query($insertar);
+								}
+							}		
+							
+							if (($CmbTipo == 50) || ($CmbTipo == 51) || ($CmbTipo == 52) || ($CmbTipo == 53) || ($CmbTipo == 54) || ($CmbTipo == 55))
+							{
+								if ($Recargo == 'N') 
+								{
+									// "voy asignar fechas a estados sin recargos"."<br>";
+									$Consulta = "select * from cal_web.estados_por_solicitud where (rut_funcionario = '".$Rut."') and (nro_solicitud = '".$SA."') and  (cod_estado between  '50' and '55') ";
+									$Respuesta = mysql_query ($Consulta);
+									while ($Fila=mysql_fetch_array($Respuesta))
+									{
+										if ($Fila["cod_estado"] == $CmbTipo)
+										{
+											$Actualizar ="	UPDATE cal_web.estados_por_solicitud set ult_atencion = 'N' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' ";
+											mysql_query($Actualizar);	
+											$Actualizar ="	UPDATE cal_web.estados_por_solicitud set ult_atencion = 'S',fecha_hora ='".$FechaP."' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and cod_estado=".$Fila["cod_estado"]."";
+											mysql_query($Actualizar);			
+										}
+									} 
+								 }
+								else
+								{
+									// "voy asignar fechas a estados con recargos"."<br>";
+									$Consulta = "select * from cal_web.estados_por_solicitud where (rut_funcionario = '".$Rut."') and (nro_solicitud = '".$SA."') and (recargo = '".$Recargo."') and (cod_estado between  '50' and '55') ";
+									$Respuesta = mysql_query ($Consulta);
+									while ($Fila=mysql_fetch_array($Respuesta))
+									{
+										if ($Fila["cod_estado"] == $CmbTipo)
+										{
+											$Actualizar ="	UPDATE cal_web.estados_por_solicitud set ult_atencion = 'N' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo = '".$Recargo."' ";
+											mysql_query($Actualizar);			
+											$Actualizar ="	UPDATE cal_web.estados_por_solicitud set ult_atencion = 'S',fecha_hora ='".$FechaP."' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo='".$Recargo."' and cod_estado=".$Fila["cod_estado"]."";
+											mysql_query($Actualizar);			
+										}
+									}
+								}
+							}								
+						}				
+					}	
+				}
+			}
+
+		$ValoresSA = substr($ValoresSA,$j + 2);
+		$j = 0;
+		}
+}
+//header("location:../cal_web/cal_adm_solicitud_muestrera.php?CmbEstado=".$CmbEstado."&LimitIni=".$LimitIni."&LimitFin=".$LimitFin."&TxtFechaIni=".$TxtFechaIni."&TxtFechaFin=".$TxtFechaFin."&Valores_Check=".$Valores_Check."&CmbTipo=".$CmbTipo."&CmbAnoSol=".$CmbAnoSol."&NSol=".$NSol);
+//header("location:../cal_web/cal_adm_solicitud_muestreo_jefe.php?CmbEstado=".$CmbEstado."&LimitIni=".$LimitIni."&LimitFin=".$LimitFin."&CmbAno=".$CmbAno."&CmbMes=".$CmbMes."&CmbDias=".$CmbDias."&CmbAnoT=".$CmbAnoT."&CmbMesT=".$CmbMesT."&CmbDiasT=".$CmbDiasT."&Valores_Check=".$Valores_Check."&CmbTipo=".$CmbTipo);
+?>

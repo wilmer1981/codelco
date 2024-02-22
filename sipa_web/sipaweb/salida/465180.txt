@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44660 ',peso_neto='30250',marca='TRES FRANJAS VERDES',cod_mop='520',num_sello='',transportista='',rut_chofer='8293964-4',nombre_chofer='JOSE BOLADOS',observacion='',romana_salida='1' where correlativo='465180' and lote='22066069' and recargo='36'

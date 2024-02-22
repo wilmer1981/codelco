@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42550 ',peso_neto='28300',marca='FRANJA AZUL',cod_mop='510',num_sello='',transportista='',rut_chofer='12016836-3',nombre_chofer='CARLOS FERNANDEZ',observacion='',romana_salida='1' where correlativo='491166' and lote='23096142' and recargo='3'

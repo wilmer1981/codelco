@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='41480',peso_neto='26290',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='14181786-8',nombre_chofer='leonardo ordenes',observacion='escoria ct',romana_salida='1' where correlativo='475263' and lote='22126170' and recargo='2'

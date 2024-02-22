@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44710 ',peso_neto='28770',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13344599-4',nombre_chofer='MANUEL SILVA',observacion='cu vario',romana_salida='1' where correlativo='479618' and lote='23026285' and recargo='6'

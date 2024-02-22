@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44140 ',peso_neto='27950',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10570666-9',nombre_chofer='pomar collao',observacion='EMBARQUE FINO CIRCULANTES',romana_salida='1' where correlativo='472602' and lote='22106231' and recargo='3'

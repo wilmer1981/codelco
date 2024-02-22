@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 30030 ',peso_neto='14100',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8380785-7',nombre_chofer='DANIEL HERRERA',observacion='despuntes laminas iniciales',romana_salida='1' where correlativo='452911' and lote='21106064' and recargo='12'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44410 ',peso_neto='30050',marca='EQUIS FRANJA NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='7714093-K',nombre_chofer='ERNESTO CISTERNAS',observacion='',romana_salida='1' where correlativo='436338' and lote='21016065' and recargo='27'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 40150 ',peso_neto='23010',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10472673-9',nombre_chofer='E. Maldonado',observacion='20 maxisacos ',romana_salida='1' where correlativo='482015' and lote='23046031' and recargo='1'

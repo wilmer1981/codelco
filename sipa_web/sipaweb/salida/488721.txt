@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44900',peso_neto='28160',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8872269-8',nombre_chofer='patricio aravena',observacion='',romana_salida='1' where correlativo='488721' and lote='23086014' and recargo='10'

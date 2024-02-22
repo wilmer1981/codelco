@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44330',peso_neto='26930',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11889683-1',nombre_chofer='cristian molina',observacion='circ. mazamorra',romana_salida='1' where correlativo='451853' and lote='21106099' and recargo='5'

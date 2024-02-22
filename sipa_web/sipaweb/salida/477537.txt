@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44810',peso_neto='31090',marca='FRANJA BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='10182333-4',nombre_chofer='MANUEL LOPEZ',observacion='',romana_salida='1' where correlativo='477537' and lote='23016272' and recargo='51'

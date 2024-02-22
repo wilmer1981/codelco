@@ -1,0 +1,193 @@
+<html> 
+<head> 
+  <script language="JavaScript"> 
+   function cerosIzq(sVal, nPos){ 
+    var sRes = sVal; 
+    for (var i = sVal.length; i < nPos; i++) 
+     sRes = "0" + sRes; 
+    return sRes; 
+   } 
+
+   function armaFecha(nDia, nMes, nAno){ 
+    var sRes = cerosIzq(String(nDia), 2); 
+    sRes = sRes + "/" + cerosIzq(String(nMes), 2); 
+    sRes = sRes + "/" + cerosIzq(String(nAno), 4); 
+    return sRes; 
+   } 
+
+   function sumaMes(nDia, nMes, nAno, nSum){ 
+    if (nSum >= 0){ 
+     for (var i = 0; i < Math.abs(nSum); i++){ 
+      if (nMes == 12){ 
+       nMes = 1; 
+       nAno += 1; 
+      } else nMes += 1; 
+     } 
+    } else { 
+     for (var i = 0; i < Math.abs(nSum); i++){ 
+      if (nMes == 1){ 
+       nMes = 12; 
+       nAno -= 1; 
+      } else nMes -= 1; 
+     } 
+    } 
+    return armaFecha(nDia, nMes, nAno); 
+   } 
+
+   function esBisiesto(nAno){ 
+    var bRes = true; 
+    res = bRes && (nAno % 4 == 0); 
+    res = bRes && (nAno % 100 != 0); 
+    res = bRes || (nAno % 400 == 0); 
+    return bRes; 
+   } 
+
+   function finMes(nMes, nAno){ 
+    var nRes = 0; 
+    switch (nMes){ 
+     case 1: nRes = 31; break; 
+     case 2: nRes = 28; break; 
+     case 3: nRes = 31; break; 
+     case 4: nRes = 30; break; 
+     case 5: nRes = 31; break; 
+     case 6: nRes = 30; break; 
+     case 7: nRes = 31; break; 
+     case 8: nRes = 31; break; 
+     case 9: nRes = 30; break; 
+     case 10: nRes = 31; break; 
+     case 11: nRes = 30; break; 
+     case 12: nRes = 31; break; 
+    } 
+    return nRes + (((nMes == 2) && esBisiesto(nAno))? 1: 0); 
+   } 
+
+   function diasDelAno(nAno){ 
+    var nRes = 365; 
+    if (esBisiesto(nAno)) nRes++; 
+    return nRes; 
+   } 
+
+   function anosEntre(nDi0, nMe0, nAn0, nDi1, nMe1, nAn1){ 
+    var nRes = Math.max(0, nAn1 - nAn0 - 1); 
+    if (nAn1 != nAn0) 
+     if ((nMe1 > nMe0) || ((nMe1 == nMe0) && (nDi1 >= nDi0))) 
+      nRes++; 
+    return nRes; 
+   } 
+
+   function mesesEntre(nDi0, nMe0, nAn0, nDi1, nMe1, nAn1){ 
+    var nRes; 
+    if ((nMe1 < nMe0) || ((nMe1 == nMe0) && (nDi1 < nDi0))) nMe1 += 12; 
+    nRes = Math.max(0, nMe1 - nMe0 - 1); 
+    if ((nDi1 > nDi0) && (nMe1 != nMe0)) nRes++; 
+    return nRes; 
+   } 
+
+   function diasEntre(nDi0, nMe0, nAn0, nDi1, nMe1, nAn1){ 
+    var nRes; 
+    if (nDi1 < nDi0) nDi1 += finMes(nMe0, nAn0); 
+    nRes = Math.max(0, nDi1 - nDi0); 
+    return nRes; 
+   } 
+
+   function mayorOIgual(nDi0, nMe0, nAn0, nDi1, nMe1, nAn1){ 
+    var bRes = false; 
+    bRes = bRes || (nAn1 > nAn0); 
+    bRes = bRes || ((nAn1 == nAn0) && (nMe1 > nMe0)); 
+    bRes = bRes || ((nAn1 == nAn0) && (nMe1 == nMe0) && (nDi1 >= nDi0)); 
+    return bRes; 
+   } 
+
+   function calcula(){ 
+    var sFc0 = document.frm.fecha0.value; // Se asume válida 
+    var sFc1 = document.frm.fecha1.value; // Se asume válida 
+    var nDi0 = parseInt(sFc0.substr(0, 2), 10); 
+    var nMe0 = parseInt(sFc0.substr(3, 2), 10); 
+    var nAn0 = parseInt(sFc0.substr(6, 4), 10); 
+    var nDi1 = parseInt(sFc1.substr(0, 2), 10); 
+    var nMe1 = parseInt(sFc1.substr(3, 2), 10); 
+    var nAn1 = parseInt(sFc1.substr(6, 4), 10); 
+    if (mayorOIgual(nDi0, nMe0, nAn0, nDi1, nMe1, nAn1)){ 
+     var nAno = anosEntre(nDi0, nMe0, nAn0, nDi1, nMe1, nAn1); 
+     var nMes = mesesEntre(nDi0, nMe0, nAn0, nDi1, nMe1, nAn1); 
+     var nDia = diasEntre(nDi0, nMe0, nAn0, nDi1, nMe1, nAn1); 
+     var nTtM = nAno * 12 + nMes; 
+     var nTtD = nDia; 
+     for (var i = nAn0; i < nAn0 + nAno; i++) nTtD += diasDelAno(nAno); 
+     for (var j = nMe0; j < nMe0 + nMes; j++) nTtD += finMes(j, nAn1); 
+     var nTSS = Math.floor(nTtD / 7); 
+     var nTSD = nTtD % 7; 
+     document.frm.difDMA.value = String(nAno) + " años, " + String(nMes) + " meses, " + String(nDia) + " días"; 
+     document.frm.difDM.value = String(nTtM) + " meses, " + String(nDia) + " días"; 
+     document.frm.difD.value = String(nTtD) + " días"; 
+     document.frm.difSD.value = String(nTSS) + " semanas, " + String(nTSD) + " días"; 
+    } else alert("Error en rango"); 
+   } 
+  </script> 
+</head> 
+<body> 
+  <form name="frm"> 
+   <table border="0"> 
+    <tr> 
+     <td> 
+      <table border="1"> 
+       <tr> 
+        <td align="right"> 
+         Fecha inicial (dd/mm/aaaa) 
+        </td> 
+        <td> 
+         <input type="text" name="fecha0" value="31/08/1996"> 
+        </td> 
+       </tr> 
+       <tr> 
+        <td align="right"> 
+         Fecha final (dd/mm/aaaa) 
+        </td> 
+        <td> 
+         <input type="text" name="fecha1" value="09/07/1999"> 
+        </td> 
+       </tr> 
+       <tr> 
+        <td align="right"> 
+         Diferencia (D,M,A) 
+        </td> 
+        <td> 
+         <input type="text" name="difDMA" readonly> 
+        </td> 
+       </tr> 
+       <tr> 
+        <td align="right"> 
+         Diferencia (D,M) 
+        </td> 
+        <td> 
+         <input type="text" name="difDM" readonly> 
+        </td> 
+       </tr> 
+       <tr> 
+        <td align="right"> 
+         Diferencia (D) 
+        </td> 
+        <td> 
+         <input type="text" name="difD" readonly> 
+        </td> 
+       </tr> 
+       <tr> 
+        <td align="right"> 
+         Diferencia (SD) 
+        </td> 
+        <td> 
+         <input type="text" name="difSD" readonly> 
+        </td> 
+       </tr> 
+      </table> 
+     </td> 
+    </tr> 
+    <tr> 
+     <td align="center"> 
+      <input type="button" value="Calcular" onclick="calcula()"> 
+     </td> 
+    </tr> 
+   </table> 
+  </form> 
+</body> 
+</html> 

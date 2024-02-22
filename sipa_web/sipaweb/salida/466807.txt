@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43040 ',peso_neto='26090',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12948901-4',nombre_chofer='M. Riquielme M.',observacion='   PTE',romana_salida='1' where correlativo='466807' and lote='22076115' and recargo='8'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42920 ',peso_neto='28920',marca='DOS FRANJAS BLANCAS',cod_mop='510',num_sello='',transportista='',rut_chofer='15817057-4',nombre_chofer='VICTOR OTAZO',observacion='',romana_salida='1' where correlativo='493267' and lote='23106102' and recargo='34'

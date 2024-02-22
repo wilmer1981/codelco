@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44150 ',peso_neto='27850',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='esc   oxido',romana_salida='1' where correlativo='435049' and lote='20126134' and recargo='9'

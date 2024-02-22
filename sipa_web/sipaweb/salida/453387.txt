@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44790 ',peso_neto='31260',marca='DOS FRANJAS AMARILLAS',cod_mop='520',num_sello='',transportista='',rut_chofer='9015294-7',nombre_chofer='PATRICIO LUCERO',observacion='',romana_salida='2' where correlativo='453387' and lote='21116072' and recargo='18'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 38840 ',peso_neto='24090',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10351882-2',nombre_chofer='marcos sandoval',observacion='cu tte pvsa',romana_salida='2' where correlativo='487909' and lote='23076150' and recargo='6'

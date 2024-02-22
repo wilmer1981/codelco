@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43570 ',peso_neto='29610',marca='DOS FRANJAS VERDES',cod_mop='520',num_sello='',transportista='',rut_chofer='11225659-8',nombre_chofer='MAURICIO SALVO',observacion='',romana_salida='2' where correlativo='449746' and lote='21096040' and recargo='32'

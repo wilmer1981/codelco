@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 16050 ',peso_neto='2060',marca='FRANJA AMARILLA',cod_mop='510',num_sello='',transportista='',rut_chofer='15817057-4',nombre_chofer='VICTOR OTAZO',observacion='',romana_salida='1' where correlativo='486370' and lote='23066160' and recargo='7'

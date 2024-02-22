@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 42890 ',peso_neto='29070',marca='EQUIS FRANJA CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='6660026-2',nombre_chofer='JUAN BERNAL',observacion='',romana_salida='2' where correlativo='453114' and lote='21116020' and recargo='12'

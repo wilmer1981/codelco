@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 19000 ',peso_neto='3420',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='12423751-3',nombre_chofer='Gido Delgado',observacion='TOTEM ESTRUCTURA Y REVESTIMIENTO',romana_salida='1' where correlativo='451515' and lote='21106055' and recargo='1'

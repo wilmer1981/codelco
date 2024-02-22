@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 43270 ',peso_neto='21430',marca='FRANJA AMARILLA',cod_mop='690',num_sello='',transportista='',rut_chofer='17994415-4',nombre_chofer='CRISTIAN ESCOBAR',observacion='',romana_salida='1' where correlativo='439233' and lote='21026177' and recargo='5'

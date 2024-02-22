@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 40820 ',peso_neto='24090',marca='FRANJA NEGRA',cod_mop='510',num_sello='',transportista='',rut_chofer='35686376',nombre_chofer='',observacion='',romana_salida='1' where correlativo='438707' and lote='21026118' and recargo='5'

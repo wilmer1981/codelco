@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43730',peso_neto='27500',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16713666-4',nombre_chofer='fernando ubeda',observacion='cu varios',romana_salida='1' where correlativo='480199' and lote='23036069' and recargo='8'

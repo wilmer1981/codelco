@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44690 ',peso_neto='28290',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='25247528-1',nombre_chofer='FERNANDO ALBERTO CONTRERAS ',observacion='esc.mazamorra',romana_salida='1' where correlativo='473695' and lote='22116149' and recargo='4'

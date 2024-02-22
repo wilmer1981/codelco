@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43120',peso_neto='27210',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='5581299-3',nombre_chofer='WILFREDO BERNAL',observacion='finos circulantes',romana_salida='1' where correlativo='453916' and lote='21116158' and recargo='7'

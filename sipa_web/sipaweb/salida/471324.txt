@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44100 ',peso_neto='27440',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17081230-1',nombre_chofer='fabian vidal',observacion='CU VARIOS',romana_salida='1' where correlativo='471324' and lote='22106047' and recargo='4'

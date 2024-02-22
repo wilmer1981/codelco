@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41470 ',peso_neto='27050',marca='FRANJA NARANJA',cod_mop='510',num_sello='',transportista='',rut_chofer='9862281-0',nombre_chofer='JUAN VARGAS',observacion='',romana_salida='1' where correlativo='480856' and lote='23036182' and recargo='15'

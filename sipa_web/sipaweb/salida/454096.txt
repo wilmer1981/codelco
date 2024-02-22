@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44920 ',peso_neto='26780',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9886242-0',nombre_chofer='JUAN BARRAZA',observacion='',romana_salida='2' where correlativo='454096' and lote='21116191' and recargo='1'

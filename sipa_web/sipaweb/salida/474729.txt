@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44510 ',peso_neto='27930',marca='',cod_mop='697',num_sello='',transportista='',rut_chofer='21738136-k',nombre_chofer='J. Suarez',observacion='escoria ct',romana_salida='1' where correlativo='474729' and lote='22126081' and recargo='5'

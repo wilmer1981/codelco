@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44690 ',peso_neto='26590',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9925456-4',nombre_chofer='Raul Avila',observacion='',romana_salida='1' where correlativo='452161' and lote='21106143' and recargo='1'

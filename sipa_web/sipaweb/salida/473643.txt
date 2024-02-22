@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39740 ',peso_neto='25830',marca='DOS FRANJAS BLANCAS',cod_mop='690',num_sello='',transportista='',rut_chofer='9957385-6',nombre_chofer='OSVALDO ARENAS',observacion='',romana_salida='1' where correlativo='473643' and lote='22116016' and recargo='21'

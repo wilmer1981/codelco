@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42550 ',peso_neto='28370',marca='DOS FRANJAS AMARILLAS',cod_mop='520',num_sello='',transportista='',rut_chofer='9683087-4',nombre_chofer='GUILLERMO ARANCIBIA',observacion='',romana_salida='1' where correlativo='435934' and lote='20126258' and recargo='2'

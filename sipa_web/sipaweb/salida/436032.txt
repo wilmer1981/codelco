@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto=' 39940 ',peso_neto='23690',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='20 maxi sacos con barro anodico ',romana_salida='1' where correlativo='436032' and lote='21016020' and recargo='1'

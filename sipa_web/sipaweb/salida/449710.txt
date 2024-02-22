@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 43940 ',peso_neto='30010',marca='FRANJA NEGRA',cod_mop='690',num_sello='',transportista='',rut_chofer='5499602-0',nombre_chofer='HECTOR SAEZ',observacion='',romana_salida='2' where correlativo='449710' and lote='21096040' and recargo='15'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42950 ',peso_neto='26000',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13536668-4',nombre_chofer='carlos campo',observacion='',romana_salida='1' where correlativo='490011' and lote='23086239' and recargo='2'

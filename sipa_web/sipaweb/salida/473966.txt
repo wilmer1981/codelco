@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44730 ',peso_neto='28040',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11990394-7',nombre_chofer='YERKO COX',observacion='',romana_salida='1' where correlativo='473966' and lote='22116206' and recargo='3'

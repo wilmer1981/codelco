@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 37960 ',peso_neto='23340',marca='V FRANJA ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='13288809-4',nombre_chofer='GERARD BRANTE L.',observacion='',romana_salida='1' where correlativo='436685' and lote='21016145' and recargo='1'

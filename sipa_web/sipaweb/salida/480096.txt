@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41550 ',peso_neto='25990',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='10270931-4',nombre_chofer='ariel julio',observacion='concentrado de cu',romana_salida='1' where correlativo='480096' and lote='23036049' and recargo='9'

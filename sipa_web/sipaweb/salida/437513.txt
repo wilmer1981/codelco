@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43520 ',peso_neto='28230',marca='FRANJA AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='8458834-2',nombre_chofer='JOSE  GAJARDO',observacion='',romana_salida='1' where correlativo='437513' and lote='21016327' and recargo='1'

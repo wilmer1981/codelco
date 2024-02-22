@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44140 ',peso_neto='28960',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9528141-9',nombre_chofer='MARCO TAPIA TAPIA',observacion='',romana_salida='1' where correlativo='474960' and lote='22126126' and recargo='3'

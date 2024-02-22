@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto='  6020 ',peso_neto='2020',marca='',cod_mop='200',num_sello='',transportista='',rut_chofer='7550898-0',nombre_chofer='HECTOR SANCHEZ',observacion='',romana_salida='1' where correlativo='459933' and lote='22036066' and recargo='1'

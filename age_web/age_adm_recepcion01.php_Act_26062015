@@ -1,0 +1,1029 @@
+<?
+	include("../principal/conectar_principal.php");
+	set_time_limit(1000);
+	include("age_funciones.php");
+	require_once 'reader.php';
+	
+	switch ($Proceso)
+	{
+		case "N": //NUEVO LOTE
+			$Remuestreo="N";
+			if ($TxtLoteRemuestreo!="")
+				$Remuestreo="S";				
+			$EstOpe = "";
+			$Mensaje = "";
+			//INSERTA EN LA TABLA LOTE
+			$Insertar = "insert into age_web.lotes (lote, cod_producto, cod_subproducto, rut_proveedor, fecha_recepcion, cancha, ";
+			$Insertar.= "cod_faena, cod_recepcion, clase_producto, num_conjunto, muestra_paralela, remuestreo, num_lote_remuestreo, estado_lote, modificado, cod_recepcion_enm) ";
+			$Insertar.= " values('".$TxtLote."','1', '".$CmbSubProducto."','".$CmbProveedor."', '".$TxtFechaRecep."', '".$TxtCancha."', '".$CmbCodFaena."', ";
+			$Insertar.= " '".$CmbCodRecepcion."', '".$CmbClaseProducto."', '".$TxtConjunto."', '".$TxtMuestraParalela."', '".$Remuestreo."', '".$TxtLoteRemuestreo."',";
+			$Insertar.= " '".$CmbEstadoLote."','S','".$CmbCodRecepcionENM."')";
+			mysql_query ($Insertar);	
+			if (mysql_errno($link)==0)
+			{
+				$EstOpe1 = "S";
+				$Mensaje = "Operacion Realizada";
+			}
+			else
+			{
+				$EstOpe1 = "N";
+				$Mensaje = "Error ".mysql_errno($link);
+				$Mensaje.= ", ".mysql_error($link)."<br>";
+			}	
+			//INSERTA EN LA TABLA DETALLE_LOTE
+			$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+			$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo, modificado) ";
+			$Insertar.= " values('".$TxtLote."','".intval($TxtRecargo)."', '".$TxtFolio."','".$TxtCorrelativo."', '".$TxtFechaRecep."', '', ";
+			$Insertar.= " '', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
+			$Insertar.= " '".$TxtPatente."', '".$CmbAutorizado."', '".$CmbEstadoRecargo."','S')";
+			mysql_query($Insertar);
+
+			//INSERTA EN REC_WEB.RECEPCIONES
+			$Consulta = "select * from sipa_web.proveedores where rut_prv ='".$CmbProveedor."'";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+				$NomProveedor=$FilaAux["nombre_perv"];
+ 
+			$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+				$NomSubProducto=$FilaAux["descripcion"];
+ 
+			$Consulta = "select * from sipa_web.minaprv where cod_mina='".$CmbCodFaena."' ";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+			{
+				$NomFaena=$FilaAux["nombre_mina"]; 
+				$Sierra=$FilaAux["sierra"]; 
+				$Comuna=$FilaAux["comuna"]; 
+				$IdFaena=$FilaAux["ind_faena"]; 
+			}
+
+			$Consulta = "select * from rec_web.clases where codigo_a='".$CmbClaseProducto."'";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+				$NomClaseProducto=$FilaAux["DESCRP_A"];
+ 
+			$Consulta = "select * from rec_web.tipos where INDICA='R' and COD_C='".$CmbCodRecepcionENM."'";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+				$NomTipoRecep=$FilaAux["DESC_A"]; 
+				
+			$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
+                  $Resp = mysql_query($Consulta);
+                  if ($Row = mysql_fetch_array($Resp))
+				$correl = $Row[correl];
+			$correl = $correl + 1;
+			$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,";
+			$Insertar.= "bascula_salida,fecha,hora_entrada,hora_salida,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_producto,";
+			$Insertar.= "cod_subproducto,guia_despacho,conjunto,observacion,activo,estado,humedad,cod_grupo,sa_asignada,romana_entrada,";
+			$Insertar.= "romana_salida,tipo,patente) VALUES ('".$correl."','".$TxtLote."','".$TxtRecargo."','".$ChkFinLote."','99999999','0','0',";
+			$Insertar.= " '".$TxtFechaRecep."','00:00:00','00:00:00','".$TxtPesoBruto."','".$TxtPesoTara."','".$TxtPesoNeto."',";
+                  $Insertar.= " '".$CmbProveedor."','".$CmbCodFaena."',1,'".$CmbSubProducto."','".$TxtGuia."',";
+			$Insertar.= "'".$TxtConjunto."','Ingresado x Abastecimiento','S','','S','','0','0','0','','".$TxtPatente."')";
+			mysql_query($Insertar);
+			//echo $Insertar;
+			//FIN INSERTA EN RECEPCIONES
+			if (mysql_errno($link)==0)
+			{
+				$EstOpe2 = "S";
+				$Mensaje = "Operacion Realizada";
+			}
+			else
+			{
+				$EstOpe2 = "N";
+				$Mensaje = "Error ".mysql_errno($link);
+				$Mensaje.= ", ".mysql_error($link)."<br>";
+			}	
+			if ($EstOpe1=="S" && $EstOpe2=="S")
+				$EstOpe = "S";
+			else
+				$EstOpe = "N";
+			header("location:age_adm_recepcion02.php?TipoConsulta=".$TipoConsulta."&Proc=M&TxtLote=".$TxtLote."&TxtRecargo=".$TxtRecargo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);
+			break;
+		case "M": //MODIFICA LOTE
+			$Remuestreo="N";
+			$Control = 0;
+			if ($TxtLoteRemuestreo!="")
+				$Remuestreo="S";	
+			$EstOpe = "";
+			$Mensaje = "";
+			$Consulta = "select * from age_web.detalle_lotes where lote='".$TxtLote."' and recargo='".$TxtRecargo."'";
+			$Resp = mysql_query($Consulta);
+			if ($Fila = mysql_fetch_array($Resp))
+			{
+				//CONSULTA ESTADO ANTERIOR DEL LOTE
+				$EstadoLoteAnt = "";
+				$Consulta = "select estado_lote from age_web.lotes ";
+				$Consulta.= " where lote='".$TxtLote."'";
+				$Resp2 = mysql_query($Consulta);
+				if ($Fila2 = mysql_fetch_array($Resp2))
+				{
+					$EstadoLoteAnt = $Fila2["estado_lote"];
+				} 
+				//ACTUALIZA LOTE
+				$Actualizar = "UPDATE age_web.lotes set ";
+				$Actualizar.= " cod_subproducto='".$CmbSubProducto."'";
+				$Actualizar.= " ,rut_proveedor='".$CmbProveedor."'";
+				$Actualizar.= " ,cod_faena='".$CmbCodFaena."'";
+				if ($TxtRecargo == "1")
+					$Actualizar.= " ,fecha_recepcion='".$TxtFechaRecep."'";
+				$Actualizar.= " ,cod_recepcion='".$CmbCodRecepcion."'";
+				$Actualizar.= " ,cod_recepcion_enm='".$CmbCodRecepcionENM."'";
+				$Actualizar.= " ,clase_producto='".$CmbClaseProducto."'";
+				$Actualizar.= " ,num_conjunto='".$TxtConjunto."'";
+				$Actualizar.= " ,cancha='".$TxtCancha."'";
+				$Actualizar.= " ,muestra_paralela='".$TxtMuestraParalela."'";
+				$Actualizar.= " ,remuestreo='".$Remuestreo."'";
+				$Actualizar.= " ,num_lote_remuestreo='".$TxtLoteRemuestreo."'";
+				$Actualizar.= " ,estado_lote='".$CmbEstadoLote."' ";
+				$Actualizar.= " ,modificado='S' ";
+				$Actualizar.= " where lote='".$TxtLote."'";
+				mysql_query($Actualizar);
+			
+
+				//ACTUALIZA BASE DATOS DEL LOTE/RECARGO sipa_web.recepciones
+				
+				$Consulta = "select * from sipa_web.proveedores where rut_prv='".$CmbProveedor."'";
+				$RespAux = mysql_query($Consulta);
+				if ($FilaAux=mysql_fetch_array($RespAux))
+					$NomProveedor=$FilaAux["nombre_prv"];
+ 
+				$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";
+				$RespAux = mysql_query($Consulta);
+				if ($FilaAux=mysql_fetch_array($RespAux))
+					$NomSubProducto=$FilaAux["descripcion"]; 
+
+				$Consulta = "select * from sipa_web.minaprv where cod_mina='".$CmbCodFaena."' ";
+				$RespAux = mysql_query($Consulta);
+				if ($FilaAux=mysql_fetch_array($RespAux))
+				{
+					$NomFaena=$FilaAux["nombre_mina"]; 
+					$Sierra=$FilaAux["sierra"]; 
+					$Comuna=$FilaAux["comuna"]; 
+					$IdFaena=$FilaAux["ind_faena"]; 
+				}
+				$Consulta = "select * from rec_web.clases where codigo_a='".$CmbClaseProducto."'";
+				$RespAux = mysql_query($Consulta);
+				if ($FilaAux=mysql_fetch_array($RespAux))
+					$NomClaseProducto=$FilaAux["DESCRP_A"];
+ 
+				$Consulta = "select * from rec_web.tipos where INDICA='R' and COD_C='".$CmbCodRecepcionENM."'";
+				$RespAux = mysql_query($Consulta);
+				if ($FilaAux=mysql_fetch_array($RespAux))
+					$NomTipoRecep=$FilaAux["DESC_A"]; 
+
+				/*---------------------FIN ACTUALIZA SIPA_WEB*/
+				if (mysql_errno($link)==0)
+				{
+					$EstOpe1 = "S";
+					$Mensaje = "Operacion Realizada";
+				}
+				else
+				{
+					$EstOpe1 = "N";
+					$Mensaje = "Error ".mysql_errno($link);
+					$Mensaje.= ", ".mysql_error($link)."<br>";
+				}	
+				//ACTUALIZA DETALLE_LOTES
+				$Actualizar = "UPDATE age_web.detalle_lotes set ";
+				$Actualizar.= " folio='".$TxtFolio."'";
+				$Actualizar.= " ,corr='".$TxtCorrelativo."'";
+				$Actualizar.= " ,fecha_recepcion='".$TxtFechaRecep."'";
+				$Actualizar.= " ,fin_lote='".$ChkFinLote."'";
+				$Actualizar.= " ,peso_bruto='".$TxtPesoBruto."'";
+				$Actualizar.= " ,peso_tara='".$TxtPesoTara."'";
+				$Actualizar.= " ,peso_neto='".$TxtPesoNeto."'";
+				$Actualizar.= " ,guia_despacho='".$TxtGuia."'";
+				$Actualizar.= " ,patente='".$TxtPatente."'";
+				$Actualizar.= " ,autorizado='".$CmbAutorizado."'";
+				$Actualizar.= " ,estado_recargo='".$CmbEstadoRecargo."'";
+				$Actualizar.= " ,modificado='S' ";
+				$Actualizar.= " where lote='".$TxtLote."' and recargo='".$TxtRecargo."'";
+				mysql_query($Actualizar);	
+				if (mysql_errno($link)==0)
+				{
+					$EstOpe2 = "S";
+					$Mensaje = "Operacion Realizada";
+				}
+				else
+				{
+					$EstOpe2 = "N";
+					$Mensaje.= "Error ".mysql_errno($link);
+					$Mensaje.= ", ".mysql_error($link);
+				}	
+				//ACTUALIZA ESTADO DE LOS RECARGOS SEGUN ESTADO DE LOTE
+				$EstadoActualizar = 0;				
+				if ($EstadoLoteAnt != $CmbEstadoLote)
+				{
+					$EstadoActualizar = $CmbEstadoLote;
+				}				
+				if ($EstadoActualizar!=0)
+				{
+					//ACTUALIZA ESTADO DEL LOTE DEPENDIENDO DE LOS RECARGOS
+					$Actualizar = "UPDATE age_web.detalle_lotes set ";				
+					$Actualizar.= " estado_recargo='".$EstadoActualizar."'";
+					$Actualizar.= " where lote='".$TxtLote."'";
+					mysql_query($Actualizar);
+				}
+					
+				//ACTUALIZA ESTADO DEL LOTE SEGUN RECARGOS
+				$EstadoActualizar=0;
+				$ContEstados=0;				
+				$Consulta = "select distinct estado_recargo from age_web.detalle_lotes ";
+				$Consulta.= " where lote='".$TxtLote."'";
+				$Resp2 = mysql_query($Consulta);
+				while ($Fila2 = mysql_fetch_array($Resp2))
+				{					
+					$EstadoActualizar = $Fila2["estado_recargo"];
+					$ContEstados++;
+				} 
+				if ($ContEstados==1 && $EstadoActualizar!=0)
+				{				
+					//ACTUALIZA ESTADO DEL LOTE DEPENDIENDO DE LOS RECARGOS
+					$Actualizar = "UPDATE age_web.lotes set ";				
+					$Actualizar.= " estado_lote='".$EstadoActualizar."'";
+					$Actualizar.= " where lote='".$TxtLote."'";
+					mysql_query($Actualizar);
+				}
+				
+				if ($EstOpe1=="S" && $EstOpe2=="S")
+					$EstOpe = "S";
+				else
+					$EstOpe = "N";
+				//ACTUALIZA BASE DATOS DEL LOTE/RECARGO SIPA_WEB.RECEPCIONES
+				$Actualizar = "UPDATE sipa_web.recepciones SET ";
+				$Actualizar.= " fecha 	='".$TxtFechaRecep."', ";
+				$Actualizar.= " ult_registro= '".$ChkFinLote."', ";
+				$Actualizar.= " peso_bruto  = '".$TxtPesoBruto."', peso_tara ='".$TxtPesoTara."',";
+				$Actualizar.=" peso_neto '".$TxtPesoNeto."', ";
+				$Actualizar.= " guia_despacho = '".$TxtGuia."', patente = '".$TxtPatente."', activo ='M' ";
+				$Actualizar.= " WHERE lote  = '".$TxtLote."' AND recargo = '".$TxtRecargo."' ";
+				mysql_query($Actualizar);
+				//echo $Actualizar;
+				//ACTUALIZA  DATOS DEL LOTE SIPA WEB
+				if ($Control==0)
+				{
+					$Actualizar="UPDATE sipa_web.recepciones set conjunto='".$TxtConjunto."', ";
+					$Actualizar.= " rut_prv='".$CmbProveedor."',";
+					$Actualizar.= " cod_mina ='".$CmbCodFaena."',";
+					$Actualizar.= " cod_subproducto = '".$CmbSubProducto."'";
+					$Actualizar.= " where lote='".$TxtLote."'";
+					//echo $Actualizar;
+					mysql_query($Actualizar);
+					$Control = 1;
+				}
+				/*----------FIN ACTUALIZA REC_WEB--------------------------------*/		
+			}
+			else
+			{
+				$EstOpe = "N";
+				$Mensaje = "ERROR, No se ha encontrado el Lote-Recargo";
+			}
+			header("location:age_adm_recepcion02.php?TipoConsulta=".$TipoConsulta."&Proc=M&TxtLote=".$TxtLote."&TxtRecargo=".$TxtRecargo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);
+			break;
+		case "E":
+			$Datos = explode("//",$TxtValores);
+			foreach($Datos as $k => $v)
+			{
+				$Datos2 = explode("-",$v);
+				$Lote = $Datos2[0];
+				$Recargo = $Datos2[1];
+				//ELIMINA RECARGO
+				$Eliminar = "delete from age_web.detalle_lotes ";
+				$Eliminar.= " where lote='".$Lote."' and recargo='".$Recargo."'";
+				mysql_query($Eliminar);
+				//ELIMINA DATOS EN SIPA_WEB
+				$Eliminar = "delete from sipa_web.recepciones ";
+				$Eliminar.= " where lote ='".$Lote."' and recargo ='".$Recargo."'";
+				mysql_query($Eliminar);
+				//CONSULTA SI QUEDA ALGUN RECARGO DEL LOTE, SI NO QUEDAN ELIMINA EL LOTE DE LA TABLA LOTE
+				$Consulta = "select ifnull(count(recargo),0) as cantidad from age_web.detalle_lotes where lote='".$Lote."'";
+				$Resp = mysql_query($Consulta);
+				if ($Fila = mysql_fetch_array($Resp))
+				{
+					if ($Fila["cantidad"]<1)
+					{
+						$Eliminar = "delete from age_web.lotes ";
+						$Eliminar.= " where lote='".$Lote."'";
+						mysql_query($Eliminar);
+						//ELIMINA DATOS EN SIPA_WEB
+						$Eliminar = "delete from sipa_web.recepciones ";
+						$Eliminar.= " where lote ='".$Lote."' ";
+						mysql_query($Eliminar);
+					}
+				}
+				else
+				{
+					$Eliminar = "delete from age_web.lotes ";
+					$Eliminar.= " where lote='".$Lote."'";
+					mysql_query($Eliminar);
+					//ELIMINA DATOS EN SIPA_WEB
+					$Eliminar = "delete from sipa_web.recepciones ";
+					$Eliminar.= " where lote ='".$Lote."' ";
+					mysql_query($Eliminar);
+				}
+			}
+			echo "<script language='JavaScript'>";
+			echo "window.location='age_adm_recepcion.php?TipoCon=".$TipoBusqueda."&TxtFechaIni=".$TxtFechaIni."&TxtFechaFin=".$TxtFechaFin."&TxtLoteIni=".$TxtLoteIni."&TxtLoteFin=".$TxtLoteFin."&CmbSubProducto=".$CmbSubProducto."&LimitFin=".$LimitFin."';";
+			echo "</script>";			
+			break;
+		case "NR": //NUEVO RECARGO
+			//INSERTA EN LA TABLA DETALLE_LOTE EL NUEVO RECARGO
+			$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+			$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo,modificado) ";
+			$Insertar.= " values('".$TxtLote."','".intval($TxtRecargo)."', '".$TxtFolio."','".$TxtCorrelativo."', '".$TxtFechaRecep."', '', ";
+			$Insertar.= " '', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
+			$Insertar.= " '".$TxtPatente."', '".$CmbAutorizado."', '".$CmbEstadoRecargo."','S')";
+			mysql_query ($Insertar);	
+			if (mysql_errno($link)==0)
+			{
+				$EstOpe = "S";
+				$Mensaje = "Operacion Realizada";
+			}
+			else
+			{
+				$EstOpe = "N";
+				$Mensaje = "Error ".mysql_errno($link);
+				$Mensaje.= ", ".mysql_error($link)."<br>";
+			}	
+			//INSERTA EN sipa_web.RECEPCIONES
+			$Consulta = "select * from sipa_web.proveedores where rut_prv ='".$CmbProveedor."'";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+				$NomProveedor=$FilaAux["nombre_prv"]; 
+			$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+				$NomSubProducto=$FilaAux["descripcion"]; 
+			$Consulta = "select * from sipa_web.minaprv where cod_mina ='".$CmbCodFaena."' ";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+			{
+				$NomFaena=$FilaAux["nombre_mina"]; 
+				$Sierra=$FilaAux["sierra"]; 
+				$Comuna=$FilaAux["comuna"]; 
+				$IdFaena=$FilaAux["ind_faena"]; 
+			}
+			$Consulta = "select * from rec_web.clases where codigo_a='".$CmbClaseProducto."'";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+				$NomClaseProducto=$FilaAux["DESCRP_A"]; 
+			$Consulta = "select * from rec_web.tipos where INDICA='R' and COD_C='".$CmbCodRecepcionENM."'";
+			$RespAux = mysql_query($Consulta);
+			if ($FilaAux=mysql_fetch_array($RespAux))
+				$NomTipoRecep=$FilaAux["DESC_A"]; 
+
+
+			$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
+                  $Resp = mysql_query($Consulta);
+                  if ($Row = mysql_fetch_array($Resp))
+				$correl = $Row[correl];
+			$correl = $correl + 1;
+			$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,";
+			$Insertar.= "bascula_salida,fecha,hora_entrada,hora_salida,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_producto,";
+			$Insertar.= "cod_subproducto,guia_despacho,conjunto,observacion,activo,estado,humedad,cod_grupo,sa_asignada,romana_entrada,";
+			$Insertar.= "romana_salida,tipo,patente) VALUES ('".$correl."','".$TxtLote."','".$TxtRecargo."','".$ChkFinLote."','99999999','0','0',";
+			$Insertar.= " '".$TxtFechaRecep."','00:00:00','00:00:00','".$TxtPesoBruto."','".$TxtPesoTara."','".$TxtPesoNeto."',";
+                  $Insertar.= " '".$CmbProveedor."','".$CmbCodFaena."',1,'".$CmbSubProducto."','".$TxtGuia."',";
+			$Insertar.= "'".$TxtConjunto."','Ingresado x Abastecimiento','S','','S','','0','0','0','','".$TxtPatente."')";
+			mysql_query($Insertar);
+			//echo $Insertar;
+			//FIN INSERTA EN RECEPCIONES
+			header("location:age_adm_recepcion02.php?TipoConsulta=".$TipoConsulta."&Proc=M&TxtLote=".$TxtLote."&TxtRecargo=".$TxtRecargo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);
+			break;
+		case "OM": //OPERACIONES MASIVAS
+			$Datos = explode("//",$TxtValores);
+			foreach($Datos as $k => $v)
+			{
+				$Datos2 = explode("-",$v);
+				if ($CmbEstadoRecargo != "S")
+				{
+					//ACTUALIZA ESTADO DEL RECARGO
+					$Actualizar = "UPDATE age_web.detalle_lotes set ";				
+					$Actualizar.= " estado_recargo='".$CmbEstadoRecargo."'";
+					$Actualizar.= " , modificado = 'S'";
+					$Actualizar.= " where lote='".$Datos2[0]."' and recargo='".$Datos2[1]."'";
+					mysql_query($Actualizar);
+					//ACTUALIZA BASE DATOS DEL LOTE/RECARGO REC_WEB.RECEPCIONES
+					$Actualizar = "UPDATE rec_web.recepciones SET ";
+					$Actualizar.= " `ACTIVO`='M' ";
+					$Actualizar.= " WHERE `LOTE_A` = '".$Datos2[0]."' AND `RECARG_A` = '".$Datos2[1]."' ";
+					mysql_query($Actualizar);
+					//echo $Actualizar."<br>";
+					//ACTUALIZA ESTADO DEL LOTE SEGUN RECARGOS
+					$EstadoActualizar=0;
+					$ContEstados=0;				
+					$Consulta = "select distinct estado_recargo from age_web.detalle_lotes ";
+					$Consulta.= " where lote='".$Datos2[0]."'";
+					$Resp2 = mysql_query($Consulta);
+					while ($Fila2 = mysql_fetch_array($Resp2))
+					{					
+						$EstadoActualizar = $Fila2["estado_recargo"];
+						$ContEstados++;
+					} 
+					if ($ContEstados==1 && $EstadoActualizar!=0)
+					{				
+						//ACTUALIZA ESTADO DEL LOTE DEPENDIENDO DE LOS RECARGOS
+						$Actualizar = "UPDATE age_web.lotes set ";				
+						$Actualizar.= " estado_lote='".$EstadoActualizar."'";
+						$Actualizar.= " , modificado = 'S'";
+						$Actualizar.= " where lote='".$Datos2[0]."'";
+						mysql_query($Actualizar);
+						//ACTUALIZA BASE DATOS DEL LOTE/RECARGO REC_WEB.RECEPCIONES
+						$Actualizar = "UPDATE rec_web.recepciones SET ";
+						$Actualizar.= " `ACTIVO`='M' ";
+						$Actualizar.= " WHERE `LOTE_A` = '".$Datos2[0]."'  ";
+						mysql_query($Actualizar);
+						//echo $Actualizar."<br>";
+					}
+				}
+				if ($CmbAutorizado != "T")
+				{
+					//ACTUALIZA ESTADO DEL RECARGO
+					$Actualizar = "UPDATE age_web.detalle_lotes set ";				
+					$Actualizar.= " autorizado='".$CmbAutorizado."'";
+					$Actualizar.= " , modificado = 'S'";
+					$Actualizar.= " where lote='".$Datos2[0]."' and recargo='".$Datos2[1]."'";
+					mysql_query($Actualizar);	
+					//ACTUALIZA BASE DATOS DEL LOTE/RECARGO REC_WEB.RECEPCIONES
+					$Actualizar = "UPDATE rec_web.recepciones SET ";
+					$Actualizar.= " `ACTIVO`='M' ";
+					$Actualizar.= " WHERE `LOTE_A` = '".$Datos2[0]."' AND `RECARG_A` = '".$Datos2[1]."' ";
+					mysql_query($Actualizar);
+					//echo $Actualizar."<br>";
+				}
+				if ($CmbClaseProducto != "S")
+				{
+					//ACTUALIZA CLASE DE PRODUCTO DE LA TABLA LOTE
+					$Actualizar = "UPDATE age_web.lotes set ";				
+					$Actualizar.= " clase_producto = '".$CmbClaseProducto."'";
+					$Actualizar.= " , modificado = 'S'";
+					$Actualizar.= " where lote = '".$Datos2[0]."'";
+					mysql_query($Actualizar);
+					//ACTUALIZA BASE DATOS DEL LOTE/RECARGO REC_WEB.RECEPCIONES
+					$Consulta = "select * from rec_web.clases where codigo_a='".$CmbClaseProducto."'";
+					$RespAux = mysql_query($Consulta);
+					if ($FilaAux=mysql_fetch_array($RespAux))
+						$NomClaseProducto=$FilaAux["DESCRP_A"]; 								
+					$Actualizar = "UPDATE rec_web.recepciones SET ";
+					$Actualizar.= " `C_CLAS_A`='".$CmbClaseProducto."', `D_CLAS_A`='".$NomClaseProducto."', ";
+					$Actualizar.= " `ACTIVO`='M' ";
+					$Actualizar.= " WHERE `LOTE_A` = '".$Datos2[0]."' ";
+					mysql_query($Actualizar);
+					//echo $Actualizar."<br>";
+				}
+				if ($CmbCodRecepcion != "S")
+				{
+					//ACTUALIZA COD RECEPCION DE LA TABLA LOTE
+					$Actualizar = "UPDATE age_web.lotes set ";				
+					$Actualizar.= " cod_recepcion = '".$CmbCodRecepcion."'";
+					$Actualizar.= " , modificado = 'S'";
+					$Actualizar.= " where lote = '".$Datos2[0]."'";
+					mysql_query($Actualizar);
+				}
+				if ($CmbCodRecepcionENM != "S")
+				{
+					//ACTUALIZA COD RECEPCION DE LA TABLA LOTE
+					$Actualizar = "UPDATE age_web.lotes set ";				
+					$Actualizar.= " cod_recepcion_enm = '".$CmbCodRecepcionENM."'";
+					$Actualizar.= " , modificado = 'S'";
+					$Actualizar.= " where lote = '".$Datos2[0]."'";
+					mysql_query($Actualizar);
+					//ACTUALIZA REC_WEB.RECEPCIONES
+					$Consulta = "select * from rec_web.tipos where INDICA='R' and COD_C='".$CmbCodRecepcionENM."'";
+					$RespAux = mysql_query($Consulta);
+					if ($FilaAux=mysql_fetch_array($RespAux))
+						$NomTipoRecep=$FilaAux["DESC_A"]; 
+					$Actualizar = "UPDATE rec_web.recepciones SET ";
+					$Actualizar.= " `C_RECP_A`='".$CmbCodRecepcionENM."', `D_RECP_A`='".$NomTipoRecep."', ";
+					$Actualizar.= " `ACTIVO`='M' ";
+					$Actualizar.= " WHERE `LOTE_A`='".$Datos2[0]."' ";
+					mysql_query($Actualizar);
+					//echo $Actualizar."<br>";
+					/*---------------------FIN ACTUALIZA REC_WEB*/
+				}
+			}			
+			echo "<script language='JavaScript'>";
+			if ($Pag=="Lotes")
+				echo "window.opener.document.frmPrincipal.action='age_adm_lotes.php';";
+			else
+				echo "window.opener.document.frmPrincipal.action='age_adm_recepcion.php?TipoCon=".$TipoConsulta."';";
+			echo "window.opener.document.frmPrincipal.submit();";
+			echo "window.close();";
+			echo "</script>";			
+			break;
+		case "NLE": //NUEVO LOTE CARGADO DESDE UN EXCEL	
+			//-----------------ELIMINO LAS TABLAS SI SE QUEDARON CREADAS SIN--------------------
+			$EliminaTabla="drop table age_web.lotes_temp";
+			mysql_query($EliminaTabla);
+			$EliminaTabla1="drop table age_web.lotes_temp_detalle";
+			mysql_query($EliminaTabla1);				
+				
+			$Directorio='doc';		
+			if($Archivo_name!='none')
+			{
+				$Extension=explode('.',$Archivo_name);
+				if(strtoupper($Extension[1])!='EXE'&&strtoupper($Extension[1])!='ZIP'&&strtoupper($Extension[1])!='RAR')
+				{
+					$Acento=false;
+					for ($j = 0;$j <= strlen($Archivo_name); $j++)
+					{
+						switch(substr($Archivo_name,$j,1))
+						{
+							case "�":
+								$Archivo_name=str_replace( "�","a",$Archivo_name);
+							break;
+							case "�":
+								$Archivo_name=str_replace( "�","A",$Archivo_name);
+							break;
+							case "�":
+								$Archivo_name=str_replace( "�","e",$Archivo_name);
+							break;
+							case "�":
+								$Archivo_name=str_replace( "�","E",$Archivo_name);
+							break;
+							case "�":
+								$Archivo_name=str_replace( "�","i",$Archivo_name);
+							break;
+							case "�":
+								$Archivo_name=str_replace( "�","I",$Archivo_name);
+							break;
+							case "�":
+								$Archivo_name=str_replace( "�","o",$Archivo_name);
+							break;
+							case "�":
+								$Archivo_name=str_replace( "�","O",$Archivo_name);
+							break;
+							case "�":
+								$Archivo_name=str_replace( "�","u",$Archivo_name);
+							break;
+							case "�":
+								$Archivo_name=str_replace( "�","U",$Archivo_name);
+							break;
+							case "&":
+								$Archivo_name=str_replace( "&","",$Archivo_name);
+							break;
+							case "$":
+								$Archivo_name=str_replace( "$","",$Archivo_name);
+							break;
+							case "#":
+								$Archivo_name=str_replace( "#","",$Archivo_name);
+							break;
+							case "'":
+								$Archivo_name=str_replace( "'","",$Archivo_name);
+							break;
+						}
+					}
+					if($Acento==false)
+					{						
+						$NombreArchivo=$Proceso."_".$Archivo_name;
+						if (copy($Archivo, $Directorio."/".$NombreArchivo))
+							$ProcesaArchivo = "S";
+						else
+							$ProcesaArchivo = "N";
+					}
+				}	
+			}
+			if($ProcesaArchivo=="S")
+			{
+				//--------------CREO TABLAS TEMPORARIAS----------------
+				$Crear="CREATE TABLE age_web.lotes_temp ( `lote` varchar(30) NOT NULL default '', `cod_producto` varchar(10) NOT NULL default '0',";
+				$Crear.="`cod_subproducto` varchar(10) NOT NULL default '0',";
+				$Crear.="`rut_proveedor` varchar(10) NOT NULL default '0',";
+				$Crear.="`fecha_recepcion` date  default Null,";
+				$Crear.="`cod_recepcion` varchar(20) default Null,";
+				$Crear.="`clase_producto` char(1)  default Null,";
+				$Crear.="`num_conjunto` varchar(6) NOT NULL default '0',";
+				$Crear.="`remuestreo` char(1) NOT NULL default '0',";
+				$Crear.="`estado_lote` char(1) NOT NULL default '0',";
+				$Crear.="`cod_faena` varchar(12) default null,";
+				$Crear.="`modificado` char(1)  default NULL,";
+				$Crear.="`peso_muestra` double(10,6) NOT NULL default '0',";
+				$Crear.="`peso_retalla` double(10,6) NOT NULL default '0', ";
+				$Crear.="`fin_canje` char(1) NOT NULL default '0', ";
+				$Crear.="`cancha` varchar(20) NOT NULL default '0', ";
+				$Crear.="`fecha_vence_padron` date   default NULL,";
+				$Crear.="`cod_recepcion_enm` varchar(10) NOT NULL default '',";
+				$Crear.="`guia_despacho` varchar(10) NOT NULL default '0',";
+				$Crear.="UNIQUE KEY `Ind01` (`lote`), KEY `Ind02` (`lote`,`cod_producto`,`cod_subproducto`,`rut_proveedor`,`fecha_recepcion`))";
+				mysql_query($Crear);
+				//echo $Crear."<br>";
+				$Crear2="CREATE TABLE age_web.lotes_temp_detalle ( `lote` varchar(30)  default null,";
+				$Crear2.="`recargo` char(2)  default null,";
+				$Crear2.="`folio` bigint(4) default null,";
+				$Crear2.="`corr` bigint(4) default null,";
+				$Crear2.="`fecha_recepcion` date  default null,";
+				$Crear2.="`hora_entrada` time  default null,";
+				$Crear2.="`hora_salida` time default Null,";
+				$Crear2.="`fin_lote` char(1) default null,";
+				$Crear2.="`peso_bruto` double(50,5) default null,";
+				$Crear2.="`peso_tara` double(50,5)  default null,";
+				$Crear2.="`peso_neto` double(50,5) default null,";
+				$Crear2.="`guia_despacho` varchar(10) NOT NULL default '0',";
+				$Crear2.="`patente` varchar(10) NOT NULL default '0',";
+				$Crear2.="`autorizado` char(1) NOT NULL default '0', ";
+				$Crear2.="`estado_recargo` char(1) NOT NULL default '0', ";
+				$Crear2.="`modificado` char(1) NOT NULL default '0', ";
+				$Crear2.="`observacion` varchar(255) NOT NULL default '',";
+				$Crear2.="`pastas` varchar(255) NOT NULL default '',";
+				$Crear2.="`impurezas` varchar(255) NOT NULL default '',";
+				$Crear2.="`humedad` double(50,5) NOT NULL default '0',";
+				$Crear2.="`peso_seco` double(50,5) default null,";
+				$Crear2.="`obsloten` blob default null,";
+				$Crear2.="PRIMARY KEY (`lote`,`recargo`,`guia_despacho`), UNIQUE KEY `Ind01` (`lote`,`recargo`,`guia_despacho`), KEY `Ind02` (`lote`,`recargo`) )";
+				mysql_query($Crear2);
+
+				$data = new Spreadsheet_Excel_Reader();
+				$data->read($Directorio."/".$NombreArchivo); 
+				error_reporting(E_ALL ^ E_NOTICE);
+				$Hoja=0;$Det='N';$Lotes='';$LotesNo='';
+				for ($i = 0; $i <= $data->sheets[$Hoja]['numRows']; $i++) 
+				{
+					if(substr(trim($data->sheets[$Hoja]['cells'][$i][1]),0,4)=='LOTE')
+					{						
+						//-------------FECHA DE CADA LOTE------
+						$TxtFechaRecep=$data->sheets[$Hoja]['cells'][$i][10];	
+						//echo $TxtFechaRecep."<br>";
+						$TxtFechaRecep=explode("/",$TxtFechaRecep);
+						$DIA=intval($TxtFechaRecep[0]);
+						$MES=$TxtFechaRecep[1];
+						$ANO=$TxtFechaRecep[2];					
+						$TxtFechaRecep=date('Y-m-d',mktime(0,0,0,$MES,$DIA+1,$ANO));
+						//echo $TxtFechaRecep."<br>";
+						//--------LOTE DE ENTRADA PARA PODER SABER DESPUES SI EXISTE O NO EN LA BASE DE DATOS------
+						$EntradaLote=trim($data->sheets[$Hoja]['cells'][$i][3]);
+						if($EntradaLote!='')
+						{
+							//--------------INSERTAR EN LOTE------------	
+							$Insertar = "insert into age_web.lotes_temp (lote,cod_producto, cod_subproducto, rut_proveedor, fecha_recepcion, cancha, ";
+							$Insertar.= "cod_faena, cod_recepcion, clase_producto,num_conjunto, estado_lote, modificado, cod_recepcion_enm) ";
+							$Insertar.= " values('".$EntradaLote."','1','".$CmbSubProducto."','".$CmbProveedor."', '".$TxtFechaRecep."', '".$TxtCancha."', '".$CmbCodFaena."', ";
+							$Insertar.= " '".$CmbCodRecepcion."', '".$CmbClaseProducto."', '".$TxtConjunto."',";
+							$Insertar.= " '".$CmbEstadoLote."','S','".$CmbCodRecepcionENM."')";
+							mysql_query ($Insertar);
+							
+							$Lotes=$Lotes.$EntradaLote."~";	
+						}
+					}		
+					if(is_numeric($data->sheets[$Hoja]['cells'][$i][1])&&$data->sheets[$Hoja]['cells'][$i][2]!=''&&$data->sheets[$Hoja]['cells'][$i][3]!='')
+					{
+						$Recargo=trim($data->sheets[$Hoja]['cells'][$i][1]);
+						$PatCamion=trim($data->sheets[$Hoja]['cells'][$i][2]);
+						$GuiaDes=trim($data->sheets[$Hoja]['cells'][$i][3]);
+						//$EntradaLote=$EntradaLote.'-'.$GuiaDes;
+						//echo "1".trim($data->sheets[$Hoja]['cells'][$i][7])."<br>";
+						//echo "1".trim($data->sheets[$Hoja]['cells'][$i][8])."<br>";
+						//echo "1".trim($data->sheets[$Hoja]['cells'][$i][9])."<br><br>";
+						$PesoBruto=str_replace(',','.',trim($data->sheets[$Hoja]['cells'][$i][7]));
+						$PesoTara=str_replace(',','.',trim($data->sheets[$Hoja]['cells'][$i][8]));
+						$PesoNeto=str_replace(',','.',trim($data->sheets[$Hoja]['cells'][$i][9]));
+						$Humedad=str_replace(',','.',trim($data->sheets[$Hoja]['cells'][$i][10]));
+						$PesoSeco=str_replace(',','.',trim($data->sheets[$Hoja]['cells'][$i][11]));
+						//echo "2".$PesoBruto."<br>";
+						//echo "2".$PesoTara."<br>";
+						//echo "2".$PesoNeto."<br><br>";
+						
+						$PesoBruto=str_replace('.','',$PesoBruto*1000);
+						$PesoTara=str_replace('.','',$PesoTara*1000);
+						$PesoNeto=str_replace('.','',$PesoNeto*1000);						
+						$PesoSeco=str_replace('.','',$PesoSeco*1000);
+						//echo "3".$PesoBruto."<br>";
+						//echo "3".$PesoTara."<br>";
+						//echo "3".$PesoNeto."<br><br><br><br><br>";
+						/*$Consulta="select guia_despacho,recargo,lote,patente,peso_bruto,peso_tara,peso_neto from age_web.detalle_lotes where recargo='".$Recargo."' and guia_despacho='".$GuiaDes."' and observacion='".$EntradaLote."'";
+						$Resp = mysql_query($Consulta);
+						if(!$Fila = mysql_fetch_array($Resp))
+						{
+							$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
+							$Resp = mysql_query($Consulta);
+							if ($Row = mysql_fetch_array($Resp))
+								$correl = $Row[correl];
+							$correl = $correl + 1;
+							
+							$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+							$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo, modificado,observacion) ";
+							$Insertar.= " values('".$TxtLoteMod."','".intval($Recargo)."', '0','".$correl."', '".$TxtFechaRecep."', '0:00:00', ";
+							$Insertar.= " '0:00:00', 'N', '".$PesoBruto."', '".$PesoTara."', '".$PesoNeto."', '".$GuiaDes."', ";
+							$Insertar.= " '".$PatCamion."', 'S', '1','S','".$EntradaLote."')";
+							mysql_query($Insertar);
+	
+							$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,";
+							$Insertar.= "bascula_salida,fecha,hora_entrada,hora_salida,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_producto,";
+							$Insertar.= "cod_subproducto,guia_despacho,conjunto,observacion,activo,estado,humedad,cod_grupo,sa_asignada,romana_entrada,";
+							$Insertar.= "romana_salida,tipo,patente) VALUES ('".$correl."','".$TxtLoteMod."','".$Recargo."','N','99999999','0','0',";
+							$Insertar.= " '".$TxtFechaRecep."','00:00:00','00:00:00','".$PesoBruto."','".$PesoTara."','".$PesoNeto."',";
+							$Insertar.= " '".$CmbProveedor."','".$CmbCodFaena."',1,'".$CmbSubProducto."','".$GuiaDes."',";
+							$Insertar.= "'".$TxtConjunto."','Ingresado x Abastecimiento','S','','S','0','0','0','0','','".$PatCamion."')";
+							mysql_query($Insertar);
+						}
+						else
+						{
+							//ACTUALIZO LOS DATOS SOLAMENTE CUANDO EL LOTE DE ENTRADA EXISTE EN LA BASE DE DATOS
+							$Actualizar="UPDATE age_web.detalle_lotes set patente='".$PatCamion."',peso_bruto='".$PesoBruto."',peso_tara='".$PesoTara."',peso_neto='".$PesoNeto."',fin_lote='N'";
+							$Actualizar.=" where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."' and guia_despacho='".$Fila["guia_despacho"]."'";	
+							//echo $Actualizar."<br>";
+							mysql_query($Actualizar);
+							
+							$Actualizar="UPDATE sipa_web.recepciones set patente='".$PatCamion."',peso_bruto='".$PesoBruto."',peso_tara='".$PesoTara."',peso_neto='".$PesoNeto."',ult_registro='N'";
+							$Actualizar.=" where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."' and guia_despacho='".$Fila["guia_despacho"]."'";	
+							mysql_query($Actualizar);
+						}		*/
+						if($EntradaLote!='')
+						{
+							$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
+							$Resp = mysql_query($Consulta);
+							if ($Row = mysql_fetch_array($Resp))
+								$correl = $Row[correl];
+							$correl = $correl + 1;
+							
+							   $Consulta = "select leyes,impurezas from age_web.relaciones ";
+							   $Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."' and rut_proveedor='".$CmbProveedor."'";
+							   $Respuesta=mysql_query($Consulta);
+							   if($Fila=mysql_fetch_array($Respuesta))
+                               {
+                                        $TxtLeyes=$Fila[leyes];
+                                        $TxtImpurezas="01~".$Fila[impurezas];
+                               }    
+							if($TxtLeyes=='01~02~04~05')
+								$TxtLeyes='02~04~05';
+							if($Humedad=='')
+								$Humedad=0;	
+								
+							//PREGUNTAMOS SI LA GUIA QUE VIENE, YA SE ENCUENTRA INGRESADA EN LA TABLA DETALLE LOTE	
+							$Consulta="select lote from age_web.detalle_lotes where guia_despacho='".$GuiaDes."'";	
+							//echo $Consulta."<br />";
+							$RESP=mysql_query($Consulta);$LotesNo='';
+							if($FILALote=mysql_fetch_assoc($RESP))
+								$LotesNo=$LotesNo."G~".$GuiaDes."~L~".$EntradaLote."~R~".$Recargo."//".$FILALote[lote];
+							
+							$Insertar = "insert into age_web.lotes_temp_detalle (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+							$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo, modificado,observacion,pastas,impurezas,humedad,peso_seco,obsloten) ";
+							$Insertar.= " values('".$EntradaLote."','".intval($Recargo)."', '0','".$correl."', '".$TxtFechaRecep."', '0:00:00', ";
+							$Insertar.= " '0:00:00', 'N', '".$PesoBruto."', '".$PesoTara."', '".$PesoNeto."', '".$GuiaDes."', ";
+							$Insertar.= " '".$PatCamion."', 'S', '1','S','".$EntradaLote."','". $TxtLeyes."','".$TxtImpurezas."','".$Humedad."','".$PesoSeco."','".$LotesNo."')";
+							//echo "insertar:    ".$Insertar."<br>";
+							mysql_query($Insertar);
+							
+							$Actualiza="UPDATE age_web.lotes_temp set guia_despacho='".$GuiaDes."' where lote='".$EntradaLote."'";
+							mysql_query($Actualiza);
+						}
+					}										
+					if(trim($data->sheets[$Hoja]['cells'][$i][3])=='TOTAL LOTE')
+					{	
+						/*$Consulta="select lote,recargo from age_web.detalle_lotes where lote='".$TxtLoteMod."' order by recargo desc";
+						$Resp = mysql_query($Consulta);
+						if($Fila = mysql_fetch_array($Resp))
+						{
+							$FinLote='S';
+							$Actualizar="UPDATE age_web.detalle_lotes set fin_lote='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";	
+							mysql_query($Actualizar);
+						}
+						$Consulta="select lote,recargo from sipa_web.recepciones where lote='".$TxtLoteMod."' order by recargo desc";
+						$Resp = mysql_query($Consulta);
+						if($Fila = mysql_fetch_array($Resp))
+						{
+							$FinLote='S';
+							$Actualizar="UPDATE sipa_web.recepciones set ult_registro='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";	
+							mysql_query($Actualizar);
+						}*/
+						$Consulta="select lote,recargo from age_web.lotes_temp_detalle where lote='".$EntradaLote."' order by recargo desc";
+						$Resp = mysql_query($Consulta);
+						if($Fila = mysql_fetch_array($Resp))
+						{
+							$FinLote='S';
+							$Actualizar="UPDATE age_web.lotes_temp_detalle set fin_lote='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";	
+							mysql_query($Actualizar);
+						}
+					}									
+				}			
+			}
+			if($LotesNo!='')
+				$LotesNo=substr($LotesNo,0,strlen($LotesNo)-1);
+				
+			unlink($Directorio."/".$NombreArchivo);
+			
+			$Lotes=substr($Lotes,0,strlen($Lotes)-1);
+			
+			header("location:age_adm_recepcion05.php?Lotes=".$Lotes."&Opcion=MO");//&LN=".$LotesNo
+			//header("location:age_adm_recepcion04.php");
+			/*echo "<script language='JavaScript'>";				
+			echo "window.opener.document.frmProceso.action='age_adm_recepcion04.php?Lotes=$Lotes&Opcion=MO';";
+			echo "window.opener.document.frmProceso.submit();";
+			echo "window.close();";
+			echo "</script>";*/
+			break;	
+			case "GRDL"://GUARDA RESULTADO DE LOTES MOSTRADOS
+					$ConsultaTemp="select * from age_web.lotes_temp";
+					$RespTemp = mysql_query($ConsultaTemp);
+					while($FilaTemp = mysql_fetch_array($RespTemp))
+					{						
+						$LoteTemporal=$FilaTemp[lote];
+						$CodSubProducto=$FilaTemp["cod_subproducto"];
+						$RutProveedor=$FilaTemp["rut_proveedor"];
+						$FechaRecepcion=$FilaTemp[fecha_recepcion];
+						$Cancha=$FilaTemp[cancha];
+						$Cod_Faena=$FilaTemp[cod_faena];
+						$CodRecepcion=$FilaTemp[cod_recepcion];
+						$ClaseProducto=$FilaTemp[clase_producto];
+						$NumConjunto=$FilaTemp["num_conjunto"];
+						$EstadoLote=$FilaTemp[estado_lote];
+						$CodRecepEnm=$FilaTemp[cod_recepcion_enm];
+						$LoteOrigen=$FilaTemp[lote].'-'.$FilaTemp["guia_despacho"];
+							
+						//-----------------CONSULTO POR EL LOTE, SI NO EXISTE LO INSERTA-------------------
+						$Consulta1="select lote from age_web.detalle_lotes where observacion='".$LoteOrigen."'";
+						$Resp1 = mysql_query($Consulta1);
+						if(!$Fila1 = mysql_fetch_array($Resp1))
+						{
+							$Consulta1="select lote,observacion from age_web.detalle_lotes where observacion like '%".$FilaTemp[lote]."%'";
+							$Resp1 = mysql_query($Consulta1);
+							if(!$Fila1 = mysql_fetch_array($Resp1))
+							{
+									//-----------------------CONSULTO EL NUMERO EXISTENTE EN SIPA_WEB------------------------
+									$ConsultaCorr="select lote from sipa_web.correlativo_lote where cod_proceso='R'";
+									$RespCorr=mysql_query($ConsultaCorr);
+									$FilaCorr=mysql_fetch_array($RespCorr);
+									$TxtAno=substr($FilaCorr[lote],0,2);
+									$TxtMes=substr($FilaCorr[lote],2,2);						   						   
+									$TxtCorrRecep=intval(substr($FilaCorr[lote],4,4))+1;
+																						   
+									//--------------------------ACTUALIZAR CORRELATIVO EN SIPA_WEB-------------------------	 		
+									$TxtLoteMod=str_pad($TxtAno,2,'0',STR_PAD_LEFT).str_pad($TxtMes,2,'0',STR_PAD_LEFT).str_pad($TxtCorrRecep,4,'0',STR_PAD_LEFT);
+									$Lotes=$Lotes.$TxtLoteMod."~";
+									$Actualizar="UPDATE sipa_web.correlativo_lote set lote='$TxtLoteMod' where cod_proceso='R'";
+									//echo "ACTUALIZA EL DATO DEL CORRELATIVO SIPA".$Actualizar."<br>";
+									mysql_query($Actualizar);
+		
+									$Insertar = "insert into age_web.lotes (lote,cod_producto, cod_subproducto, rut_proveedor, fecha_recepcion, cancha, ";
+									$Insertar.= "cod_faena, cod_recepcion, clase_producto,num_conjunto, estado_lote, modificado, cod_recepcion_enm) ";
+									$Insertar.= " values('".$TxtLoteMod."','1','".$CmbSubProducto."','".$RutProveedor."', '".$FechaRecepcion."', '".$Cancha."', '".$Cod_Faena."', ";
+									$Insertar.= " '".$CodRecepcion."', '".$ClaseProducto."', '".$NumConjunto."',";
+									$Insertar.= " '".$EstadoLote."','S','".$CodRecepEnm."')";
+									//echo "INGRESA EL LOTE EN LA TABLA LOTE    ".$Insertar."<br>";
+									mysql_query ($Insertar);
+							}
+							else
+							{
+								$Lotes=$Lotes.$Fila1[lote]."~";
+								$TxtLoteMod=$Fila1[lote];							
+							}
+						}
+						else
+						{
+							$Lotes=$Lotes.$Fila1[lote]."~";
+							$TxtLoteMod=$Fila1[lote];							
+						}
+						//-------consulto los lotes detalle de cada uno de ellos-------------			
+						$ConsultaDetalle="select * from age_web.lotes_temp_detalle where lote='".$LoteTemporal."'";
+						//echo $ConsultaDetalle."<br>";
+						$RespDet = mysql_query($ConsultaDetalle);
+						while($FilaDet = mysql_fetch_array($RespDet))
+						{
+							$Recargo=$FilaDet["recargo"];
+							$FechaRecarDet=$FilaDet[fecha_recepcion];
+							$PesoBruto=$FilaDet[peso_bruto];
+							$PesoTara=$FilaDet["peso_tara"];
+							$PesoNeto=$FilaDet[peso_neto];
+							$GuiaDespa=$FilaDet["guia_despacho"];
+							$Patente=$FilaDet["patente"];
+							$LoteOrigen=$FilaDet["observacion"].'-'.$FilaDet["guia_despacho"];
+							$FinLote=$FilaDet[fin_lote];
+							$Hum=$FilaDet[humedad];
+							$PesSeco=$FilaDet[peso_seco];
+							$Ley=str_replace('~','',$FilaDet[pastas]);	
+							$Impu=str_replace('~','',$FilaDet[impurezas]);	
+							
+							
+							//CONSULTAMOS SI EXISTE EN EL DETALLE LOTE, SINO ES ASI, INSERTAMOS LOS DATOS DEL DETALLE DE LA TEMPORAL
+							$ConsultaRecargo="select * from age_web.detalle_lotes where recargo='".$FilaDet["recargo"]."' and guia_despacho='".$FilaDet["guia_despacho"]."' and observacion='".$LoteOrigen."'";
+							//echo "Consulto detalle detalle lotes:     ".$ConsultaRecargo."<br>";
+							$RespRecargo = mysql_query($ConsultaRecargo);
+							if(!$FilaRecargo = mysql_fetch_array($RespRecargo))
+							{
+								//validamos si el recargo existe pero viene con diferente guia.
+								$ConsultaRecargo="select * from age_web.detalle_lotes where recargo='".$FilaDet["recargo"]."' and observacion like '%".$FilaDet["observacion"]."%'";
+								//echo "Consulto detalle detalle lotes:     ".$ConsultaRecargo."<br>";
+								$RespRecargo = mysql_query($ConsultaRecargo);
+								if(!$FilaRecargo = mysql_fetch_array($RespRecargo))
+								{
+									$ConsultaRow ="Select max(correlativo) as correl from sipa_web.recepciones";
+									$RespRow = mysql_query($ConsultaRow);
+									if ($Row = mysql_fetch_array($RespRow))
+										$correl = $Row[correl];
+									$correl = $correl + 1;
+									
+									$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+									$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo, modificado,observacion,pastas,impurezas) ";
+									$Insertar.= " values('".$TxtLoteMod."','".intval($Recargo)."', '0','".$correl."', '".$FechaRecarDet."', '0:00:00', ";
+									$Insertar.= " '0:00:00', '".$FinLote."', '".$PesoBruto."', '".$PesoTara."', '".$PesoNeto."', '".$GuiaDespa."', ";
+									$Insertar.= " '".$Patente."', 'S', '1','S','".$LoteOrigen."','".$Ley."','".$Impu."')";
+									//echo "INSERTAMOS EN DETALLE LOTES:   ".$Insertar."<br>";
+									mysql_query($Insertar);
+			
+									$ConsultaLote="select * from age_web.lotes_temp where lote='".$LoteTemporal."'";
+									$RespLote = mysql_query($ConsultaLote);
+									if($FilaLote = mysql_fetch_array($RespLote))
+									{
+										$Proveedor=$FilaLote["rut_proveedor"];
+										$CodFaena=$FilaLote[cod_faena];
+										$SubProducto=$FilaLote["cod_subproducto"];
+										$Guia=$FilaLote["rut_proveedor"];
+										$Conjunto=$FilaLote["num_conjunto"];
+										$Proveedor=$FilaLote["rut_proveedor"];
+									}	
+																
+									$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,";
+									$Insertar.= "bascula_salida,fecha,hora_entrada,hora_salida,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_producto,";
+									$Insertar.= "cod_subproducto,guia_despacho,conjunto,observacion,activo,estado,humedad,cod_grupo,sa_asignada,romana_entrada,";
+									$Insertar.= "romana_salida,tipo,patente,leyes,impurezas,cod_clase) VALUES ('".$correl."','".$TxtLoteMod."','".$Recargo."','".$FinLote."','99999999','0','0',";
+									$Insertar.= " '".$FechaRecarDet."','00:00:00','00:00:00','".$PesoBruto."','".$PesoTara."','".$PesoNeto."',";
+									$Insertar.= " '".$Proveedor."','".$CodFaena."',1,'".$SubProducto."','".$GuiaDespa."',";
+									$Insertar.= "'".$Conjunto."','Ingresado x Abastecimiento','S','','S','0','0','0','0','','".$Patente."','".$FilaDet[pastas]."','".$FilaDet[impurezas]."','".$ClaseProducto."')";
+									//echo "INSERTAMOS EN RECEPCIONES SIPA:   ".$Insertar."<br>";
+									mysql_query($Insertar);
+									
+																	
+									//FUNCION PARA CREAR SOLICITUDES.
+									//echo $TxtLoteMod." ".$FinLote."<br>";							
+									$SolicitudesCreadas=CrearSA($TxtLoteMod,$Recargo,$RutProveedor,$FinLote,'1',$CmbSubProducto,$FilaDet[pastas],$FilaDet[impurezas],$CookieRut,$PesoNeto,$Hum,$PesSeco);							
+								}
+							}
+							else
+							{
+								//ACTUALIZO LOS DATOS SOLAMENTE CUANDO EL LOTE DE ENTRADA EXISTE EN LA BASE DE DATOS
+								$Actualizar="UPDATE age_web.detalle_lotes set patente='".$FilaRecargo["patente"]."',peso_bruto='".$PesoBruto."',peso_tara='".$PesoTara."',peso_neto='".$PesoNeto."',fin_lote='".$FinLote."'";
+								$Actualizar.=" where lote='".$FilaRecargo[lote]."' and recargo='".$FilaRecargo["recargo"]."' and guia_despacho='".$FilaRecargo["guia_despacho"]."'";	
+								//echo $Actualizar."<br>";
+								mysql_query($Actualizar);
+								
+								$Actualizar="UPDATE sipa_web.recepciones set patente='".$FilaRecargo["patente"]."',peso_bruto='".$PesoBruto."',peso_tara='".$PesoTara."',peso_neto='".$PesoNeto."',ult_registro='".$FinLote."'";
+								$Actualizar.=" where lote='".$FilaRecargo[lote]."' and recargo='".$FilaRecargo["recargo"]."' and guia_despacho='".$FilaRecargo["guia_despacho"]."'";	
+								//echo $Actualizar."<br>";
+								mysql_query($Actualizar);
+								
+								if($Hum!=0)
+								{
+									//modifico solicitudes creadas
+									ModificaSA($FilaRecargo[lote],$FilaRecargo["recargo"],$CookieRut,$PesoNeto,$Hum,$PesSeco);
+								}
+							}
+						}				
+						if($SolicitudesCreadas!='')	
+							$SolicitudFinales=$SolicitudFinales.$SolicitudesCreadas."-";
+						//---------------------HAGO EL CAMBIO DEL ULTIMO REGISTRO DEL LOTE A S-------------------------
+						$Actualizar="UPDATE age_web.detalle_lotes set fin_lote='N' where lote='".$TxtLoteMod."'";	
+						//echo $Actualizar."<br>";
+						mysql_query($Actualizar);
+						$Consulta="select lote,recargo,ceiling(recargo) as RecOrden from age_web.detalle_lotes where lote='".$TxtLoteMod."' order by RecOrden desc";
+						$Resp = mysql_query($Consulta);
+						if($Fila = mysql_fetch_array($Resp))
+						{
+							$FinLote='S';
+							$Actualizar="UPDATE age_web.detalle_lotes set fin_lote='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";	
+							//echo $Actualizar."<br>";
+							mysql_query($Actualizar);
+						}
+						$Actualizar="UPDATE sipa_web.recepciones set ult_registro='N' where lote='".$TxtLoteMod."'";
+						//echo $Actualizar."<br>";
+						mysql_query($Actualizar);
+						$Consulta="select lote,recargo,ceiling(recargo) as RecOrden from sipa_web.recepciones where lote='".$TxtLoteMod."' order by RecOrden desc";
+						$Resp = mysql_query($Consulta);
+						if($Fila = mysql_fetch_array($Resp))
+						{
+							$FinLote='S';
+							$Actualizar="UPDATE sipa_web.recepciones set ult_registro='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";
+							//echo $Actualizar."<br>";
+							mysql_query($Actualizar);
+						}						
+					}	
+					
+					if($SolicitudFinales!='')
+					{	
+						$SolicitudFinales=substr($SolicitudFinales,0,strlen($SolicitudFinales)-1);
+						//echo "solicitudes antes de enviar por correo:     ".$SolicitudFinales."<br>";
+						//ENVIAR CORREOS despues de tener el ultimo registro ingresado
+						EnvioCorreo($SolicitudFinales);									
+					}
+					$EliminaTabla="drop table age_web.lotes_temp";
+					mysql_query($EliminaTabla);
+					$EliminaTabla1="drop table age_web.lotes_temp_detalle";
+					mysql_query($EliminaTabla1);
+					
+					$Lotes=substr($Lotes,0,strlen($Lotes)-1);
+					header("location:age_adm_recepcion04.php?Lotes=".$Lotes."&Opcion=MO");
+			break;
+			case "ERDL"://ELIMINAR RESULTADO DE LOTES MOSTRADOS
+					$EliminaTabla="drop table age_web.lotes_temp";
+					mysql_query($EliminaTabla);
+					$EliminaTabla1="drop table age_web.lotes_temp_detalle";
+					mysql_query($EliminaTabla1);
+					
+					header("location:age_adm_recepcion04.php");
+			break;
+	}
+	
+	
+	
+	
+?>

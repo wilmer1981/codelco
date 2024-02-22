@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43600 ',peso_neto='29560',marca='EQUIS FRANJA AZUL',cod_mop='520',num_sello='',transportista='',rut_chofer='11738284-2',nombre_chofer='HECTOR QUIROZ',observacion='',romana_salida='1' where correlativo='437250' and lote='21016162' and recargo='57'

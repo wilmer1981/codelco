@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43960 ',peso_neto='27220',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7554411-1',nombre_chofer='emilio jaure',observacion='esc anodica',romana_salida='1' where correlativo='473728' and lote='22116152' and recargo='7'

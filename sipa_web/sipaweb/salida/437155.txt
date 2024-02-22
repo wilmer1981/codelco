@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43130 ',peso_neto='26290',marca='FRANJA AZUL',cod_mop='510',num_sello='',transportista='',rut_chofer='34854359',nombre_chofer='GABRIEL FAUNDER',observacion='',romana_salida='1' where correlativo='437155' and lote='21016247' and recargo='1'

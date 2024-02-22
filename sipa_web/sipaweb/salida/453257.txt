@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='38480',peso_neto='24700',marca='EQUIS DOS FRANJAS AZULES',cod_mop='520',num_sello='',transportista='',rut_chofer='16300771-1',nombre_chofer='ENRIQUE ESCOBAR',observacion='',romana_salida='1' where correlativo='453257' and lote='21116022' and recargo='9'

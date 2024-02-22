@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44980',peso_neto='28440',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16522307-1',nombre_chofer='',observacion='circulante oxido',romana_salida='1' where correlativo='449586' and lote='21096017' and recargo='5'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 44860 ',peso_neto='31350',marca='V DOS FRANJAS AZUL',cod_mop='520',num_sello='',transportista='',rut_chofer='7320907-2',nombre_chofer='JUAN GALLEGUILLOS',observacion='',romana_salida='1' where correlativo='437543' and lote='21016325' and recargo='11'

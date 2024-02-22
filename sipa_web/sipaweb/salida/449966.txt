@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 45000 ',peso_neto='30400',marca='EQUIS NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='14568880-9',nombre_chofer='ORLANDO FLORES',observacion='',romana_salida='1' where correlativo='449966' and lote='21096089' and recargo='8'

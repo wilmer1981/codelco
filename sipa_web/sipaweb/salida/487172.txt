@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42820 ',peso_neto='28990',marca='DOS FRANJAS VERDES',cod_mop='510',num_sello='',transportista='',rut_chofer='15817057-4',nombre_chofer='VICTOR OTAZO',observacion='',romana_salida='1' where correlativo='487172' and lote='23076017' and recargo='4'

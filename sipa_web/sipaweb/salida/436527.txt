@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 37650 ',peso_neto='21940',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='24 maxisacos polvo pepa',romana_salida='1' where correlativo='436527' and lote='21016125' and recargo='2'

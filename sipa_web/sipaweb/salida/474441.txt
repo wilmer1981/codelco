@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 17570 ',peso_neto='440',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9399344-6',nombre_chofer='Pablo Rosales',observacion='1 palet de aceite contaminado ',romana_salida='1' where correlativo='474441' and lote='22126045' and recargo='2'

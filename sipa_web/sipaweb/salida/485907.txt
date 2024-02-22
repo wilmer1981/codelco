@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43540',peso_neto='29180',marca='FRANJA NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='7714093-K',nombre_chofer='ERNESTO CISTERNAS',observacion='',romana_salida='1' where correlativo='485907' and lote='23066041' and recargo='29'

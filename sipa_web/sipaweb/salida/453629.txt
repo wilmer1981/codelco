@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 38540 ',peso_neto='22330',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10399377-6',nombre_chofer='Juan Huerta ',observacion='20 maxisacos',romana_salida='1' where correlativo='453629' and lote='21116103' and recargo='1'

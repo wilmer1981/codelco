@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='S',peso_bruto=' 44080 ',peso_neto='26050',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='',romana_salida='2' where correlativo='438401' and lote='21026073' and recargo='1'

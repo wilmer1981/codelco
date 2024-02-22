@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44970 ',peso_neto='31010',marca='EQUIS AZUL',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL CISTERNA',observacion='',romana_salida='2' where correlativo='467720' and lote='22076233' and recargo='8'

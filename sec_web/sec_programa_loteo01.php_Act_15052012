@@ -1,0 +1,96 @@
+<?
+	include("../principal/conectar_principal.php");
+	switch ($EnmCode)
+	{
+		case "C":
+			switch ($Proceso)
+			{
+				case "G":
+					if ($CmbCliente!="S")
+						$CmbCliente=$CmbCliente;
+					else
+						$CmbCliente=$CmbNave;
+					$Cliente_Nave="";
+					if ($CmbAsignacion=="S")
+						$CmbAsignacion="";
+					if ($CmbCliente=="S")
+						$CmbCliente="";
+					if ($CmbProducto=="S")
+						$CmbProducto="";
+					if ($CmbSubProducto=="S")
+						$CmbSubProducto="";
+					if ($CmbPtoEmbarque=="S")
+						$CmbPtoEmbarque="";
+					if ($CmbPtoDestino=="S")
+						$CmbPtoDestino="";
+					if ($CmbNave=="S")
+						$CmbNave="";
+					$Consulta = "select * from sec_web.programa_codelco where corr_codelco='".$TxtNumOrden."'";
+					$Resp=mysql_query($Consulta);
+					if ($Fila = mysql_fetch_array($Resp))
+					{
+						if ($Accion=="M")
+						{
+							$FechaMaxima=date("Y-m-d");
+							if ($TxtNumProgLoteo!="" && $TxtNumProgLoteo!="0")
+							{
+								$Consulta = "select * from sec_web.programa_loteo where num_prog_loteo='".$TxtNumProgLoteo."'";
+								$RespAux=mysql_query($Consulta);
+								if (!$FilaAux=mysql_fetch_array($RespAux)) 
+								{
+									$Insertar = "insert into sec_web.programa_loteo(num_prog_loteo,fecha_hora,fecha_maxima,estado,descripcion) ";
+									$Insertar.= "values('".$TxtNumProgLoteo."','".date('Y-m-d h:i')."','".$FechaMaxima."','P','".$TxtDescripcion."')";
+									mysql_query($Insertar)."<br>";
+								}
+							}
+							//echo $TxtNumProgLoteo."-".$Fila["num_prog_loteo"];
+							$Actualizar = "UPDATE sec_web.programa_codelco set ";
+							$Actualizar.= " cod_contrato_maquila='".$CmbAsignacion."', ";
+							$Actualizar.= " fecha_devolucion_maquila='".$TxtFechaDevo."', numero_semana='".$TxtNumSemana."', ";
+							$Actualizar.= " partida='".$TxtPartida."', fecha_programacion='".$TxtFechaProg."', ";
+							$Actualizar.= " cod_cliente='".$CmbCliente."', cod_producto='".$CmbProducto."', cod_subproducto='".$CmbSubProducto."', ";
+							$Actualizar.= " cantidad_programada='".$TxtCantidad."', num_prog_loteo='".$TxtNumProgLoteo."', fecha_disponible='".$TxtFechaDisp."', ";
+							$Actualizar.= " descripcion='".$TxtDescripcion."', cod_contrato='".$TxtContrato."', mes_cuota='".$TxtCuota."', cod_puerto='".$CmbPtoEmbarque."', ";
+							$Actualizar.= " cod_puerto_destino='".$CmbPtoDestino."' ";
+							$Actualizar.= " where corr_codelco='".$TxtNumOrden."' ";
+							mysql_query($Actualizar);
+							//echo $Actualizar;
+						}
+					}
+					else
+					{
+						if ($Accion=="N")
+						{
+							if ($TxtNumProgLoteo!="" && $TxtNumProgLoteo!="0")
+							{
+								$Consulta = "select * from sec_web.programa_loteo where num_prog_loteo='".$TxtNumProgLoteo."'";
+								$RespAux=mysql_query($Consulta);
+								if (!$FilaAux=mysql_fetch_array($RespAux)) 
+								{								
+									$FechaMaxima=date("Y-m-d");
+									$Insertar = "insert into sec_web.programa_loteo(num_prog_loteo,fecha_hora,fecha_maxima,estado,descripcion) ";
+									$Insertar.= "values('".$TxtNumProgLoteo."','".date('Y-m-d h:i')."','".$FechaMaxima."','P','".$TxtDescripcion."')";
+									mysql_query($Insertar)."<br>";
+								}
+							}
+							$Insertar = "insert into sec_web.programa_codelco (corr_codelco, cod_contrato_maquila, ";
+							$Insertar.= " fecha_devolucion_maquila, numero_semana, partida, fecha_programacion, ";
+							$Insertar.= " cod_cliente, cod_producto, cod_subproducto, cantidad_programada, estado1, estado2, ";
+							$Insertar.= " num_prog_loteo, fecha_disponible, descripcion, estado3, estado4, fecha_confirmacion, ";
+							$Insertar.= " usuario, modif_usuario, cod_contrato, mes_cuota, cod_puerto, cod_puerto_destino) ";
+							$Insertar.= " values('".$TxtNumOrden."','".$CmbAsignacion."','".$TxtFechaDevo."','".$TxtNumSemana."','".$TxtPartida."', ";
+							$Insertar.= " '".$TxtFechaProg."','".$CmbCliente."','".$CmbProducto."','".$CmbSubProducto."','".$TxtCantidad."','','','".$TxtNumProgLoteo."',";
+							$Insertar.= " '".$TxtFechaDisp."','".$TxtDescripcion."','','','','','','".$TxtContrato."','".$TxtCuota."','".$CmbPtoEmbarque."','".$CmbPtoDestino."')";
+							mysql_query($Insertar);
+							//echo $Insertar;
+						}
+					}
+					$Valor=$TxtNumOrden."~~C";
+					header("location:sec_programa_loteo_orden_emb.php?Accion=".$Accion."&Valor=".$Valor."&Prog=".$Prog);
+					break;					
+			}
+			break;
+		case "E":
+			break;
+	}
+?>

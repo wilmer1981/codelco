@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44970 ',peso_neto='30850',marca='EQUIS DOS FRANJAS ROJAS',cod_mop='697',num_sello='',transportista='',rut_chofer='18553379-4',nombre_chofer='FRANK TEPPER',observacion='',romana_salida='1' where correlativo='451596' and lote='21106041' and recargo='4'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43130 ',peso_neto='28930',marca='EQUIS DOS FRANJAS NARANJA',cod_mop='697',num_sello='',transportista='',rut_chofer='18553379-4',nombre_chofer='FRANK TEPPER',observacion='',romana_salida='1' where correlativo='449827' and lote='21096008' and recargo='30'

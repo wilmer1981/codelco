@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='70',peso_neto='10',marca='',cod_mop='453',num_sello='',transportista='',rut_chofer='15560938-9',nombre_chofer='luis castillo',observacion='',romana_salida='1' where correlativo='449758' and lote='21096057' and recargo='1'

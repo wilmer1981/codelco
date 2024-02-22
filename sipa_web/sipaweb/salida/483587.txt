@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto='  6990 ',peso_neto='2150',marca='',cod_mop='200',num_sello='',transportista='',rut_chofer='8236450-1',nombre_chofer='MANUEL AGUILERA',observacion='',romana_salida='1' where correlativo='483587' and lote='23046308' and recargo='3'

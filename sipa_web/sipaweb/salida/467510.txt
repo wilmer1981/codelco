@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42780 ',peso_neto='26300',marca='FRANJA CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='33611764-K',nombre_chofer='JUAN PAEZ',observacion='',romana_salida='1' where correlativo='467510' and lote='22076208' and recargo='2'

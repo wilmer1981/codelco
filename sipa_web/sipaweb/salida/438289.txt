@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 19850 ',peso_neto='4530',marca='FRANJA VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='5363078-2',nombre_chofer='SANTIAGO CATALAN',observacion='',romana_salida='2' where correlativo='438289' and lote='21026028' and recargo='25'

@@ -1,0 +1,545 @@
+ <head>
+
+ </head>
+<meta charset="utf-8">
+<div id="editSolicitud" class="modal" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title"> Editar Muestra</h4>
+          </div>
+          <div class="modal-body">
+          <fieldset>
+            <form class="form-horizontal" id="formulario" method="post">
+              <input type="hidden" id="plantilla2" name="plantilla2" value="{plantilla}">
+              <input type="hidden" id="idMuestraOri" name="idMuestraOri" value="{idMuestraOri}">
+              <input type="hidden" id="cod_producto" name="cod_producto" value="{cod_producto}">
+              <input type="hidden" id="cod_subProducto" name="cod_subProducto" value="{cod_subProducto}">
+              <input type="hidden" id="fechaOri" name="fechaOri" value="{fechaOri}">
+
+              
+
+
+              <div class="form-group col-md-12">
+              <h4><span>Id Muestra</span></h4>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar-check-o fa-fw"></i></span>
+                    <input type="text" class="form-control" name="idMuestra" id="idMuestra"  value="{idMuestra}" placeholder="{idMuestra}" required="required"/>
+                  </div>
+              </div>
+              <div class="form-group col-md-12">
+              <h4><span>Fecha Muestra</span></h4>
+                   <div class="input-group">
+                   <span class="input-group-addon"><i class="fa fa-calendar-check-o fa-fw"></i></span>
+                        <input size="16" type="text" class="form-control" id="datetime" name='datetime'  required="required" >
+                     </div>
+              </div>                  
+            </form>
+          </fieldset>
+          </div>
+          <div class="modal-footer">
+              <input type="button" class="btn btn-info" onclick="ProcesarAccion('modal','guardarSolicitud','formulario')"  value='Guardar'>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div id="Leyes" class="modal" role="dialog"  aria-hidden="true" style="z-index: 7000">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title"> Leyes e Impurezas</h4>
+          </div>
+          <div class="modal-body">
+          <fieldset>
+            <form class="form-horizontal" id="formulario00" method="post">
+
+              <!-- <input type="text" id="plantilla" name="plantilla" value="{plantilla}"> -->
+            
+
+              <div class="container-fluid">
+                <div class="col-md-4 col-md-offset-8">
+                  <input type="button" class="btn btn-info pull-right" onclick="ProcesarAccion('modal','aplicarLeyes','formulario00')"  value='Aplicar Ley'>
+                </div>
+
+                <div class="control-group">
+                <div class="col-sm-12 col-md-12 col-lg-12" >
+                    <h4 class="modal-title" style="text-align: center;"> Leyes</h4><br>
+                  </div> 
+                    <div class="col-sm-12 col-md-12 col-lg-12">                         
+                    <!-- BEGIN LISTLEYES -->
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+
+                          <input type="checkbox" name="ley{idLey}" id="ley{idLey}" {checked{idLey}} onclick="mostrarUnidades('unidades{idLey}',this)" style="min-height: 40px;">{nombreLey}
+                          <SELECT class="form-control" name="unidades{idLey}" id="unidades{idLey}" style="display: {VISUALIZACOMBOLEYES}" >
+                            <option value="-1">Elija Unidad</option>
+                            <!-- BEGIN UNIDAD -->
+                            <option value="{ValueUnidad}"  {SELECTedunidadLeyes{idLey}~~{ValueUnidad}}> {nombUnidad}  </option>
+                            <!-- END UNIDAD -->
+                          </SELECT>
+                        
+                    </div>
+                    <!-- END LISTLEYES -->
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-12">
+                     <h4 class="modal-title" style="text-align: center;"> Impurezas</h4><br>
+                  </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                     <!-- BEGIN IMPUREZAS -->
+                        <div class="col-sm-2 col-md-4 col-lg-2">
+
+                            <input type="checkbox" name="impure{idImpure}" id="impure{idImpure}" {checked{idImpure}} onclick="mostrarUnidades('unidades{idImpure}',this)">{nombreImpure}
+                            <SELECT class="form-control" name="unidades{idImpure}" id="unidades{idImpure}" style="display: {VISUALIZACOMBOIMPURE}" >
+                            <option value="-1">Elija Unidad</option>
+                            <!-- BEGIN UNIDAD -->
+                            <option value="{ValueUnidad}" {SELECTedunidadImpure{idImpure}~~{ValueUnidad}} > {nombUnidad}  </option>
+                            <!-- END UNIDAD -->
+                          </SELECT>
+                          
+                        </div>
+                    <!-- END IMPUREZAS -->
+                   </div>
+                   <div class="col-sm-12 col-md-12 col-lg-12">
+                    <h4 class="modal-title" style="text-align: center;"> Leyes Fisicas</h4><br>
+                  </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                     <!-- BEGIN LEYFIS -->
+                        <div class="col-sm-2 col-md-2 col-lg-2">
+
+                            <input type="checkbox" name="impure{idLeyFis}" id="impure{idLeyFis}" {checked{idLeyFis}} onclick="mostrarUnidades('unidades{idLeyFis}',this)">{nombreLeyFis}
+                            <SELECT class="form-control" name="unidades{idLeyFis}" id="unidades{idLeyFis}" style="display: {VISUALIZACOMBOIMPUREDOS}" >
+                            <option value="-1">Elija Unidad</option>
+                            <!-- BEGIN UNIDAD -->
+                            <option value="{ValueUnidad}" {SELECTedunidadImpureDos{idLeyFis}~~{ValueUnidad}}> {nombUnidad}  </option>
+                            <!-- END UNIDAD -->
+                          </SELECT>  
+                        </div>
+                    <!-- END LEYFIS -->
+                   </div>
+                </div> 
+              </div>            
+
+                    
+            </form>
+          </fieldset>
+          </div>
+          <div class="modal-footer">
+              <input type="button" class="btn btn-info" onclick="ProcesarAccion('modal','aplicarLeyes','formulario00')"  value='Aplicar Ley'>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div> 
+
+
+</div>
+
+
+<div id="editPlantilla" class="modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title"> Mantenedor Plantilla</h4>
+          </div>
+          <div class="modal-body">
+          <fieldset>
+            <form class="form-horizontal" id="formulario2" method="post">
+              <div class="col-md-12">
+
+                 
+
+                   <div class=" col-xs-6 col-sm-6 col-md-6  ">
+                    <label class="control-label" for="textinput">Sistema</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-calendar-check-o fa-fw"></i></span>
+                      <input id="sistema" type="text" class="form-control" name="sistema" placeholder="{sistema}" value="{sistema}" readonly>
+                    </div>
+                  </div> 
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Fecha Creacion Plantilla</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                      <input id="fecha" type="text" class="form-control" name="fecha" placeholder="{fecha}" value="{fecha}" readonly>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-12 col-md-6">
+                    <label class="control-label" for="textinput">Id Muestra</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-calendar-check-o fa-fw"></i></span>
+                      <input id="idmuestra" type="text" class="form-control" name="idmuestra" placeholder="{idmuestra}" value="{idmuestra}" readonly>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-12 col-md-6">
+                    <label class="control-label" for="textinput">Tipo Muestra</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-calendar-check-o fa-fw"></i></span>
+                      <input id="tipoMuestra" type="text" class="form-control" name="tipoMuestra" placeholder="{tipoMuestra}" value="{tipoMuestra}" readonly>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-12 col-md-12">
+                    <label class="control-label" for="textinput">Descripci&oacute;n</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-drivers-license-o"></i></span>
+                      <input id="descripcion" type="text" class="form-control" name="descripcion" placeholder="{descripcion}" value="{descripcion}" readonly>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Centro costo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                      <input id="cCosto" type="text" class="form-control" name="cCosto" placeholder="{cCosto}" value="{cCosto}" readonly>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Area</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                      <input id="area" type="text" class="form-control" name="area" placeholder="{area}" value="{area}" readonly>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Producto</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-cube"></i></span>
+                      <input id="producto" type="text" class="form-control" name="producto" placeholder="{producto}" value="{producto}" readonly>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Sub Producto</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-cubes"></i></span>
+                      <input id="subProducto" type="text" class="form-control" name="subProducto" placeholder="{subProducto}" value="{subProducto}" readonly>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Tipo An&aacute;lisis</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-file-archive-o"></i></span>
+                      <input id="tipoAnalis" type="text" class="form-control" name="tipoAnalis" placeholder="{tipoAnalis}" value="{tipoAnalis}" readonly>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Tipo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-eyedropper"></i></span>
+                      <input id="tipo" type="text" class="form-control" name="tipo" placeholder="{tipo}" value="{tipo}" readonly>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Agrupaci&oacute;n</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-object-group"></i></span>
+                      <input id="agrupacion" type="text" class="form-control" name="agrupacion" placeholder="{agrupacion}" value="{agrupacion}" readonly>
+                    </div>
+                  </div>
+                  
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Periodo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-repeat"></i></span>
+                      <input id="periodo" type="text" class="form-control" name="periodo" placeholder="{periodo}" value="{periodo}" readonly>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Leyes</label>
+                    <div class="input-group">
+
+                      <span class="input-group-addon"><i class="fa fa-flask"></i></span>
+                      <input id="leyesNew" type="text" class="form-control" name="leyesNew" placeholder="{leyes}" value="{leyes}" readonly>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Impurezas</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-flask"></i></span>
+                      <input id="impurezasNew" type="text" class="form-control" name="impurezasNew" placeholder="{impurezas}" value="{impurezas}" readonly>
+                    </div>
+                  </div>
+                  
+              </div>
+                 
+            </form>
+          </fieldset>
+          </div>
+          <div class="modal-footer">
+               <!-- <input type="button" class="btn btn-info" onclick="ProcesarAccion('modal','guardarPlantilla','formulario2')"  value='Guardar'> -->
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div id="savePlantilla" class="modal" tabindex="-1" role="dialog"  aria-hidden="true" style="z-index: 6000">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title"> Mantenedor Plantilla</h4>
+          </div>
+          <div class="modal-body">
+          <fieldset>
+
+            <form class="form-horizontal" name="formulario3" id="formulario3" method="post">
+              
+              <input type="hidden" id="idProducto" name="idProducto" value="{idProducto}">
+              <input type="hidden" id="idSubProducto" name="idSubProducto" value="{idSubProducto}">
+              <input type="hidden" id="idmuestraOri" name="idmuestraOri" value="{idmuestraOri}">
+              <input type="hidden" id="fechaOri" name="fechaOri" value="{fechaOri}">
+
+
+              <div class="col-md-12">
+
+                  <div class="col-xs-12 col-sm-12 col-md-12">
+                    <label class="control-label" for="textinput">Sistema</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-calendar-check-o fa-fw"></i></span>
+                      <SELECT class="form-control" name="sistema" id="sistema" required>
+                        <option value="-1">Elija Sistema</option>
+                        <!-- BEGIN NOMSISTEMA -->
+                        <option value="{vSistema}" {cheSistema}  > {sigSistema} - {nombSistema}  </option>
+                        <!-- END NOMSISTEMA -->
+                      </SELECT>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-12 col-md-6">
+                    <label class="control-label" for="textinput">Id Muestra</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-calendar-check-o fa-fw"></i></span>
+                      <input id="idmuestra" type="text"  class="form-control" name="idmuestra" placeholder="{idmuestra}" value="{idmuestra}" maxlength="17" required>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-12 col-md-6">
+                    <label class="control-label" for="textinput">Tipo Muestra</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-eyedropper"></i></span>
+                      <SELECT class="form-control" name="tipoMuestra" id="tipoMuestra" required >
+                        <option value="-1">Elija Tipo Muestra</option>
+                        
+                        <option value="1" {cheTipoMuestra1}  > Analisis  </option>
+                        <option value="2" {cheTipoMuestra2}  > Muestreo  </option>
+                        <option value="3" {cheTipoMuestra3}  > Analisis y Muestreo  </option>
+                      </SELECT>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-12 col-md-12">
+                    <label class="control-label" for="textinput">Descripci&oacute;n</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-drivers-license-o"></i></span>
+                      <input id="descripcion" type="text" class="form-control" name="descripcion" placeholder="{descripcion}" value="{descripcion}" required>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label class="control-label" for="textinput">Centro Costo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-dollar" ></i></span>
+                      <SELECT class="form-control" name="cCosto" id="cCosto" required>
+                        <option value="-1">Elija Centro Costo</option>
+                        <!-- BEGIN NOMCCOSTO -->
+                        <option value="{vcCosto}" {checCosto}  > {nombcCosto}  </option>
+                        <!-- END NOMCCOSTO -->
+                      </SELECT>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+
+                    <label class="control-label" for="textinput">Area</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                      <SELECT class="form-control" name="area" id="area" required>
+                        <option value="-1">Elija Area</option>
+                        <!-- BEGIN NOMAREA -->
+                        <option value="{varea}" {chearea}  > {nombarea}  </option>
+                        <!-- END NOMAREA -->
+                      </SELECT>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+
+                    <label class="control-label" for="textinput">Producto</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-cube"></i></span>
+                      <SELECT class="form-control" name="producto" id="producto" required onchange="recargarCombos('modal','obtenerSubProducto','cmbsubProducto','formulario3')">
+                        <option value="-1">Elija Producto</option>
+                        <!-- BEGIN NOMPRODUCTO -->
+                        <option value="{vProducto}" {cheProducto}  > {nombProducto}  </option>
+                        <!-- END NOMPRODUCTO -->
+                      </SELECT>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+
+                    <label class="control-label" for="textinput">Sub Producto</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-cubes"></i></span>
+                      <SELECT class="form-control" name="cmbsubProducto" id="cmbsubProducto" required>
+                        <option value="-1">Elija Sub Producto</option>
+
+                      </SELECT>
+                    </div>
+                  </div> 
+
+                  <div class="col-xs-6 col-sm-6 col-md-6" >
+
+                    <label class="control-label" for="textinput">Tipo An&aacute;lisis</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-file-archive-o"></i></span>
+                      <SELECT class="form-control" name="tipoAnalis" id="tipoAnalis" required >
+                        <option value="-1">Elija Tipo An&aacute;lisis</option>
+                        <!-- BEGIN TIPOANALISIS -->
+                        <option value="{vTipoAnalisis}" {cheTipoAnalisis}  > {nombTipoAnalisis}  </option>
+                        <!-- END TIPOANALISIS -->
+                      </SELECT>
+                    </div>
+
+
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+
+                    <label class="control-label" for="textinput">Tipo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-eyedropper"></i></span>
+                      <SELECT class="form-control" name="tipo" id="tipo" required >
+                        <option value="-1">Elija Tipo Muestra</option>
+                        <!-- BEGIN TIPO -->
+                        <option value="{vTipo}" {cheTipo}  > {nombTipo}  </option>
+                        <!-- END TIPO -->
+                      </SELECT>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+
+                    <label class="control-label" for="textinput">Agrupaci&oacute;n</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-object-group"></i></span>
+                      <SELECT class="form-control" name="agrupacion" id="agrupacion" required >
+                        <option value="-1">Elija Agrupacion</option>
+                        <!-- BEGIN TIPOAGRUPACION -->
+                        <option value="{vAgrupacion}" {cheAgrupacion}  > {nombAgrupacion}  </option>
+                        <!-- END TIPOAGRUPACION -->
+                      </SELECT>
+                    </div>
+
+                  </div>
+
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+
+                    <label class="control-label" for="textinput">Periodo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-eyedropper"></i></span>
+                      <SELECT class="form-control" name="periodo" id="periodo" required >
+                        <option value="-1">Elija Periodo</option>
+                        <!-- BEGIN TIPOPERIODO -->
+                        <option value="{vPeriodo}" {chePeriodo}  > {nombPeriodo}  </option>
+                        <!-- END TIPOPERIODO -->
+                      </SELECT>
+                    </div>
+
+                  </div>
+
+                  <div>
+                    
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                      <label class="control-label" for="textinput">Leyes</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-flask"></i></span>
+
+                        <input id="leyesSave" type="text" class="form-control" name="leyesSave" placeholder="{leyes}" value="{leyes}" readonly>
+                        <!-- <button type="button" class="btn btn-success" value="Cargar Mas Leyes" data-toggle="modal" data-target="#Leyes" style="width: 100%"><i class="fa fa-search-plus"></i> Cargar Mas Leyes</button> -->
+                        <!-- <input id="leyes" type="text" class="form-control" name="leyes" placeholder="{leyes}" value="{leyes}" > -->
+                      </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                      <label class="control-label" for="textinput">Impurezas</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-flask"></i></span>
+                        <input id="impurezasSave" type="text" class="form-control" name="impurezasSave" placeholder="{impurezas}" value="{impurezas}" readonly>
+                        <!-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#Leyes" style="width: 100%"  ><i class="fa fa-search-plus"></i> Cargar Mas Impurezas</button> -->
+                      </div>
+                    </div>
+                      <div class="col-xs-12 col-sm-12 col-md-12"> 
+                        <button type="button" class="btn btn-success"  data-toggle="modal" data-target="#Leyes"  style="width: 100%"  ><i class="fa fa-search-plus"></i> Editar Leyes/Impurezas</button>
+                      </div>
+                      
+                  </div>
+
+                  
+              </div>
+                 
+            </form>
+          </fieldset>
+          </div>
+          <div class="modal-footer">
+               <input type="button" class="btn btn-info" onclick="ProcesarAccion('modal','{guardarPlantilla}','formulario3')"  value='Guardar'>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div id="contieneModal2"></div>
+
+
+<script type="text/javascript">
+
+
+
+
+recargarCombos('modal','obtenerSubProducto','cmbsubProducto','formulario3');
+
+
+$(document).ready(function() {
+   
+
+    $("#datetime").datetimepicker({
+      format: 'Y-MM-DD hh:mm:ss',
+      autoclose: true,
+      todayBtn: true
+    });
+
+});
+
+
+</script>
+ 
+
+<style type="text/css">
+.inputRojo  {
+    background-color: #FFC0A4;
+    color: #EB5E28; 
+  }
+ h5{
+  font-size: 1.5em;
+ } 
+  #divIngresador{ margin: 0;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;}
+.footerMovil {
+bottom: 0;
+background: white;
+padding-bottom: 45px;
+margin: 0 auto !important;
+text-align: right !important;
+width: 100% !important;
+height: 40px;
+position: fixed; }  
+
+ 
+#leyes {
+    z-index: 300 ;
+  }
+
+</style>
+ 
+ 

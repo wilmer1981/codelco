@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 44730 ',peso_neto='29130',marca='FRANJA VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='10718505-4',nombre_chofer='MARCELO OYANEDEL',observacion='',romana_salida='1' where correlativo='438288' and lote='21026028' and recargo='23'

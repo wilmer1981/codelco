@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42990 ',peso_neto='30010',marca='EQUIS CELESTE',cod_mop='570',num_sello='',transportista='',rut_chofer='10651007-5',nombre_chofer='RODOLFO DONOSO',observacion='',romana_salida='1' where correlativo='437951' and lote='21016265' and recargo='64'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44020',peso_neto='30370',marca='TRES FRANJAS CELESTES',cod_mop='690',num_sello='',transportista='',rut_chofer='12224784-8',nombre_chofer='SERGIO MU�OZ',observacion='',romana_salida='1' where correlativo='453161' and lote='21116007' and recargo='12'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43780 ',peso_neto='29510',marca='FRANJA BLANCA',cod_mop='520',num_sello='',transportista='',rut_chofer='9683087-4',nombre_chofer='GUILLERMO ARANCIBIA',observacion='',romana_salida='1' where correlativo='451118' and lote='21096214' and recargo='63'

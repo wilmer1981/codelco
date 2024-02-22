@@ -1,0 +1,25 @@
+#campo1{
+	background-color: #695CB8;
+	border: 1px double Black;
+	color: White;
+	font-size: 16px;
+	border: 1px double Black;
+	
+}
+#campo2{
+	background-color: #F3EBA3;
+	font-size: 16px;
+	border: 1px double Black;
+	color: Black;
+}
+
+#boton1{
+	font-size: 16px;
+	font-family: "Times New Roman", Times, serif;
+	color: #0002EE;
+}
+
+#tabla1{
+	border: 1px double Black;
+	background-color: #F6F0BC;
+	}

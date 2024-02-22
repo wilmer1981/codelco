@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 42730 ',peso_neto='26310',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12364139-6',nombre_chofer='Cristian Saavedra',observacion='circulantes oxidos',romana_salida='2' where correlativo='450184' and lote='21096124' and recargo='1'

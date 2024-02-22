@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44820 ',peso_neto='30460',marca='V FRANJA ROJA',cod_mop='510',num_sello='',transportista='',rut_chofer='14541190-4',nombre_chofer='FRANCISCO   HERNANDEZ',observacion='',romana_salida='1' where correlativo='450807' and lote='21096079' and recargo='10'

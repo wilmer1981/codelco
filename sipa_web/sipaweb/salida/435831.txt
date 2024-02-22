@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42950 ',peso_neto='19690',marca='EQUIS FRANJA AZUL',cod_mop='510',num_sello='',transportista='',rut_chofer='6134071-8',nombre_chofer='FRANCISCO VERA',observacion='',romana_salida='1' where correlativo='435831' and lote='20126247' and recargo='9'

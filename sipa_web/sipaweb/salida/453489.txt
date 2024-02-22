@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42530 ',peso_neto='26240',marca='FRANJA CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='24381156-2',nombre_chofer='JOSE AGUIRRE',observacion='',romana_salida='1' where correlativo='453489' and lote='21116084' and recargo='2'

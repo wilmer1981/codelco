@@ -1,0 +1,29 @@
+Estimado, la documentación del programa dice que no importa el formato de salida este puede ser convertido al formato que necesita SAP. Que es el siguiente:
+ 
+PERNR(8)  Número de personal                       
+ZAUSW(8)  Número de identificación (Infotipo 0050) 
+LDATE(8)  Fecha de contabilización                 
+LTIME(6)  Hora de contabilización                  
+ERDAT(8)  Fecha de registro                        
+ERTIM(6)  Hora de registro                         
+SATZA(3)  Clase de hecho temporal                  
+TERID(4)  ID de terminal                           
+
+El número de identificación corresponde al número de la tarjeta de ingreso de tiempos y es registrada en SAP en el infotipo 0050. Este número debe ser único y relaciona a la tarjeta con el número de personal SAP.
+ 
+Las fechas de contabilización y Hora de Contabilización se refieren a la fecha y hora en que se realiza el registro de tiempos en el sistema.
+ 
+La fecha de registro y hora de registro indican las marcas realizadas por el trabajador. Así en un mismo día por lo menos debería existir dos registros donde el primero se asume como la entrada y el segundo como la salida.
+ 
+La clase de hecho temporal es un código para identificar si la marca corresponde a la entrada o la salida. P10 Entrada, P20 Salida.
+ 
+Lo que necesitamos es un ejemplo y estructura del archivo que se genera actualmente en ventanas para poder comenzar con las adecuaciones de la interfaz de carga.
+ 
+ 
+atte..,
+ 
+Cristian Farfán Zenteno
+Consultor SAP
+Depto. Centro de Competencias SAP - GCTIC
+)56-2-6903571 
+ 

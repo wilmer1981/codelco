@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44670 ',peso_neto='28300',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8551905-0',nombre_chofer='VICTOR ARANCIBIA',observacion='granza',romana_salida='1' where correlativo='466001' and lote='22076005' and recargo='1'

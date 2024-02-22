@@ -1,0 +1,690 @@
+<? 	
+	$Fecha_Hora = date("d-m-Y h:i");
+	$CodigoDeSistema = 9;
+	$CodigoDePantalla = 3;
+	$Rut =$CookieRut;
+	include("../principal/conectar_pac_web.php");
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	switch($Proceso)
+	{
+		case "M":
+			$Datos=$Valores;
+			for ($i=0;$i<=strlen($Datos);$i++)
+			{
+				if (substr($Datos,$i,2)=="//")
+					$Guia=substr($Datos,0,$i);
+			}
+			$Consulta ="select *,t2.rut_chofer from pac_web.guia_despacho t1 ";
+			$Consulta.=" left join pac_web.choferes t2 on t1.rut_transportista = t2.rut_transportista "; 
+			$Consulta.=" where num_guia ='".$Guia."' ";
+			$Respuesta=mysql_query($Consulta);
+			$Fila1=mysql_fetch_array($Respuesta);
+			$NumGuia=$Fila1["num_guia"];
+			$FechaGuia=$Fila1["fecha_hora"];
+			if (!isset($CmbPatente))
+				$CmbPatente=$Fila1[nro_patente];	
+			if (!isset($CmbPatenteRampla))
+				$CmbPatenteRampla=$Fila1[nro_patente_rampla];	
+			if (!isset($CmbTransp))
+				$CmbTransp=$Fila1[rut_transportista];	
+			if (!isset($CmbCliente))
+				$CmbCliente=$Fila1[rut_cliente];	
+			if (!isset($CmbChofer))
+				$CmbChofer=$Fila1[rut_chofer];	
+			$CmbBrazo=$Fila1[brazo_carga];
+			$CmbEstanque=$Fila1[cod_estanque];
+			if (!isset($Toneladas))
+				$Toneladas=$Fila1[toneladas];
+			$TxtMts=$Fila1[volumen_m3];
+			$TxtCorrRomana=$Fila1[corr_romana];
+			$Observacion=$Fila1["descripcion"];
+			$Ver=$Fila1[tipo_guia];
+			if($Ver=='B')//BUQUE
+			{
+				$Consulta="select * from pac_web.movimientos where fecha_hora='".$FechaGuia."'";
+				$RespMov=mysql_query($Consulta);
+				while($FilaMov=mysql_fetch_array($RespMov))
+				{
+					switch($FilaMov["cod_estanque_origen"])
+					{
+						case "1":
+							$TxtEK1=$FilaMov["toneladas"];
+							break;
+						case "2":
+							$TxtEK2=$FilaMov["toneladas"];
+							break;
+						case "3":
+							$TxtEK3=$FilaMov["toneladas"];
+							break;
+						case "4":
+							$TxtEK4=$FilaMov["toneladas"];
+							break;
+					}
+				}
+			}
+			$Correlativo=$Fila1[correlativo];
+			$VUnitario=$Fila1[valor_unitario];
+			break;	
+	}	
+?>
+<html>
+<head>
+<script language="JavaScript">
+function Calcula(Densidad)//METROS CUBICOS A TONELADAS
+{
+	var Frm=document.FrmProceso;
+	
+	Frm.Toneladas.value=Math.round(Number(Frm.TxtMts.value.replace(',','.'))*Number(Densidad.replace(',','.'))*100)/100;
+	return;
+		
+}
+function Calcula2(Densidad)//TONELADAS A METROS CUBICOS
+{
+	var Frm=document.FrmProceso;
+	
+	Frm.TxtMts.value=Math.round(Number(Frm.Toneladas.value.replace(',','.'))*10000/Number(Densidad.replace(',','.')))/10000;
+	return;
+		
+}
+
+function Grabar(Proceso,V,C,Tipo,checkbox)//V=variable Opcion Ver ,sirve para el proceso si es camion o barco/C=Correlativo 
+{
+	var Frm=document.FrmProceso;
+	var FechaHoraRomana="";
+	
+	if (Frm.NumGuia.value == "")
+	{
+		alert("Debe Ingresar Numero Guia");
+		Frm.NumGuia.focus();
+		return;
+	}
+	if (Frm.CmbTransp.value == "-1")
+	{
+		alert("Debe Seleccionar Transportista");
+		Frm.CmbTransp.focus();
+		return;
+	}
+	if (Frm.CmbCliente.value == "-1")
+	{
+		alert("Debe Seleccionar Cliente");
+		Frm.CmbCliente.focus();
+		return;
+	}
+	if (V=='C')
+	{	
+		if (Frm.CmbChofer.value == "-1")
+		{
+			alert("Debe Seleccionar Chofer");
+			Frm.CmbChofer.focus();
+			return;
+		}
+	}	
+	if (V=='C')
+	{	
+		if (Frm.CmbPatente.value == "-1")
+		{
+			alert("Debe Seleccionar Patente");
+			Frm.CmbPatente.focus();
+			return;
+		}
+		if (Frm.CmbPatenteRampla.value == "-1")
+		{
+			alert("Debe Seleccionar Patente Rampla");
+			Frm.CmbPatenteRampla.focus();
+			return;
+		}
+		if (Frm.CmbPatente.value==Frm.CmbPatenteRampla.value)
+		{
+			alert("Patente Camion debe ser distinta a Patente Rampla");
+			Frm.CmbPatenteRampla.focus();
+			return;
+		}
+		if (Frm.CmbEstanque.value == "-1")
+		{
+			alert("Debe Seleccionar Estanque");
+			Frm.CmbEstanque.focus();
+			return;
+		}
+		if (Frm.CmbBrazo.value == "-1")
+		{
+			alert("Debe Seleccionar Brazo");
+			Frm.CmbBrazo.focus();
+			return;
+		}
+		if(Frm.TxtCorrRomana.value==''||Frm.TxtCorrRomana.value=='0')
+		{
+			alert("Correlativo Romana no existe");
+			Frm.TxtCorrRomana.focus();
+			return;
+		}
+		
+	}	
+	if (Frm.Toneladas.value == "-1")
+	{
+		alert("Debe Seleccionar Toneladas");
+		Frm.Toneladas.focus();
+		return;
+	}
+	if (Frm.VUnitario.value == "")
+	{
+		alert("Debe Ingresar Valor Unitario");
+		Frm.VUnitario.focus();
+		return;
+	}
+	if (Tipo=='P')
+	{
+	    if (checkbox=='1')
+		   {
+		    FechaHoraRomana=Frm.Toneladas.options[Frm.Toneladas.selectedIndex].text;	
+			}
+		else {FechaHoraRomana=Frm.Toneladas.text;}
+	}
+	
+	if (Proceso=='N')
+	{
+		if ((V=='C')||(V=='B'))//Para que grabe en el 01 pero para Camion
+		{	
+			Frm.action="pac_guia_despacho_proceso01.php?Proceso="+Proceso +"&Ver="+V+"&FechaHoraRomana="+FechaHoraRomana+"&checkbox="+checkbox;
+			Frm.submit();
+		}
+	}
+	if (Proceso=='M')
+	{
+		Frm.action="pac_guia_despacho_proceso01.php?Proceso="+Proceso + "&Ver="+V+"&Correlativo="+C+"&FechaHoraRomana="+FechaHoraRomana+"&checkbox="+checkbox;
+		Frm.submit();
+	}
+}
+function Salir()
+{
+	window.close();
+}
+function Recarga(Proceso,Valor,Ver,checkbox)
+{
+	var Frm=document.FrmProceso;
+	var checkbox = chekea(checkbox);
+	
+	Frm.action="pac_guia_despacho_proceso.php?Proceso="+Proceso+"&Valores="+Valor+"&Ver="+Ver+"&checkbox="+checkbox;//+"&CmbEstanque="+Frm.CmbEstanque.value+"&CmbBrazo="+Frm.CmbBrazo.value+"&Observacion="+Frm.Observacion.value;
+	Frm.submit();
+}
+function chekea(cuadro)
+{
+ var f=document.FrmProceso;
+ if (f.checkbox.checked)
+	return f.checkbox.value;
+else 
+	return 0;
+}
+
+function RecargaCheck (Proceso,Opc)
+{
+	var Frm=document.FrmProceso;
+	if(Opc=='1')
+	{
+		Frm.action="pac_guia_despacho_proceso.php?Proceso="+Proceso + "&Ver=C";
+		Frm.submit();
+	}
+	else
+	{
+		Frm.action="pac_guia_despacho_proceso.php?Proceso="+Proceso + "&Ver=B";
+		Frm.submit();
+	}
+}
+function TeclaPulsada (tecla) 
+{ 
+	var Frm=document.FrmProceso;
+	var teclaCodigo = event.keyCode; 
+	if ((teclaCodigo != 188 )&&(teclaCodigo != 110 )&&(teclaCodigo != 190 )&&(teclaCodigo != 37)&&(teclaCodigo != 39))
+	{
+		if (((teclaCodigo != 8) && (teclaCodigo !=9)) && (teclaCodigo < 48) || (teclaCodigo > 57))
+		{
+		   if ((teclaCodigo < 96) || (teclaCodigo > 105))
+		   {
+				event.keyCode=46;
+		   }		
+		}   
+	}
+}
+
+</script>
+<title>Proceso</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<body leftmargin="3" topmargin="5" background="../principal/imagenes/fondo3.gif" marginwidth="0" marginheight="0" onLoad="document.FrmProceso.NumGuia.focus();">
+<form name="FrmProceso" method="post" action="">
+	<table width="733" border="1" cellpadding="2" cellspacing="0"  class="TablaInterior">
+          <tr> 
+            <td colspan="3" align="left"><strong>Responsable:  
+              <?
+				$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from proyecto_modernizacion.funcionarios where rut = '".$Rut."'";
+			 	$Resultado= mysql_query($Consulta);
+				if ($Fila =mysql_fetch_array($Resultado))
+					echo $Rut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
+				else
+				{
+					$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
+					$Respuesta = mysql_query($Consulta);
+					if ($Fila=mysql_fetch_array($Respuesta))
+						echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
+				}
+		  	  ?>
+              </strong> </td>
+            <td width="201"><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Fecha Hora:&nbsp;<? echo $Fecha_Hora ?> 
+              </strong>&nbsp; <strong> 
+              <?
+					if (!isset($FechaHora))
+					{
+						echo "<input name='FechaHora' type='hidden' value='".date('Y-m-d H:i')."'>";
+						$FechaHora=date('Y-m-d H:i');
+					}
+					else
+						echo "<input name='FechaHora' type='hidden' value='".$FechaHora."'>";
+				  ?>
+              </strong></font></font></td>
+          </tr>
+          <tr>
+		    <td width="152">Transporte</td> 
+            <td colspan="3"> 
+              <?
+					if ($Proceso!='M')	
+					{
+						if ($Ver == 'C')
+							echo "<input name='RadioC' type='radio'   onClick=\"RecargaCheck('$Proceso','1');\" value='C' checked>";
+						else
+							echo "<input name='RadioC' type='radio'   onClick=\"RecargaCheck('$Proceso','1');\" value='C'>";
+						echo "Camion";
+					}
+					if ($Proceso!='M')	
+					{
+						echo "<font size='1'><font size='2' face='Verdana, Arial, Helvetica, sans-serif'>";
+						 if ($Ver=='B')
+							echo  "<input type='radio' name='RadioB' value='B' onClick=\"RecargaCheck('$Proceso','2');\" checked>";
+						 else
+							echo  "<input type='radio' name='RadioB' value='B' onClick=\"RecargaCheck('$Proceso','2');\">";
+						 echo "Buque";
+					 }
+					 if($Proceso=='M')
+					 {
+					 	echo "<strong>";
+						if ($Ver=='B')
+							echo strtoupper("Buque");
+						else
+							echo strtoupper("Camion");
+						echo "</strong>";	
+					 }
+			 ?> 
+			 </td>
+          </tr>
+          <tr> 
+            <td>Num Guia</td>
+            <td width="158" colspan="3">
+			<?
+				if ($Proceso=='M')
+					echo "<input name='NumGuia' type='text'  style='width:100' value=".$NumGuia.">";
+				else
+					echo "<input name='NumGuia' type='text' id='Num' style='width:100' value='$NumGuia' maxlength='10'>";
+			?>
+			</td>
+          </tr>
+		  <tr>
+		  <td width='95'>Transp.</td>
+		  <td colspan="3">
+			<?	
+				echo "<select name='CmbTransp' style='width:300' onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox');>";
+				echo "<option value ='-1' selected>Seleccionar</option> ";
+				$Consulta="select rut_transportista,nombre from pac_web.transportista order by nombre";
+				$Respuesta=mysql_query($Consulta);
+				while ($Fila=mysql_fetch_array($Respuesta))
+				{
+					if ($CmbTransp==$Fila[rut_transportista])
+						echo "<option value ='$Fila[rut_transportista]' selected>$Fila[rut_transportista]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+					else
+						echo "<option value ='$Fila[rut_transportista]' >$Fila[rut_transportista]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+				}
+				echo "</select>";
+			?>
+			</td>
+   		  </tr>	
+          <tr> 
+            <td>Cliente</td>
+            <td colspan='3'> 
+              <?
+				echo "<select name='CmbCliente' style='width:300' onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox');>";
+				echo "<option value ='-1' selected>Seleccionar</option>";
+				$Consulta="select distinct(t1.rut_cliente),t1.nombre,t1.precio_us,t1.ubicacion from pac_web.clientes t1 ";
+				$Consulta.=" inner join pac_web.relacion_cliente_transp t2 on t1.rut_cliente = t2.rut_cliente ";
+				$Consulta.=" where t2.rut_transportista = '".$CmbTransp."' order by t1.nombre";
+				$Respuesta=mysql_query($Consulta);
+				while ($Fila=mysql_fetch_array($Respuesta))
+				{
+					if ($CmbCliente == $Fila[rut_cliente])
+					{
+						echo "<option value ='$Fila[rut_cliente]' selected>$Fila[rut_cliente]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+						$VUnitario=$Fila[precio_us];
+						$Ubicacion=$Fila[ubicacion];
+					}
+					else
+						echo "<option value ='$Fila[rut_cliente]'>$Fila[rut_cliente]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+				}
+				echo "</select>&nbsp;";
+				if ($Ver=='C')
+				{
+					echo "Chofer&nbsp;&nbsp;";
+					echo "<select name='CmbChofer' style='width:275'>";
+					echo "<option value ='-1' selected>Seleccionar</option>";
+					$Consulta="select t1.rut_chofer,t1.nombre from pac_web.choferes t1 ";
+					$Consulta.=" inner join pac_web.transportista t2 on t1.rut_transportista = t2.rut_transportista ";
+					$Consulta.= " where t2.rut_transportista = '".$CmbTransp."' order by t1.nombre ";
+					$Respuesta=mysql_query($Consulta);
+					while ($Fila=mysql_fetch_array($Respuesta))
+					{
+						if ($CmbChofer == $Fila[rut_chofer])
+							echo "<option value ='$Fila[rut_chofer]' selected>$Fila[rut_chofer]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+						else
+							echo "<option value ='$Fila[rut_chofer]'>$Fila[rut_chofer]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+					}
+					echo "</select>";
+				}
+			?>
+			</td>
+          </tr>
+          <tr> 
+            <td>
+			<?
+			if ($Ver=='C')
+				echo "Patente";
+			else
+				echo "&nbsp;";
+			?>
+			</td>
+			<td colspan="3"> 
+              <?
+				if ($Ver =='C' )
+				{
+					echo "<select name='CmbPatente' onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox');>";
+					echo "<option value ='-1' selected>Seleccionar</option>";
+					$Consulta="select nro_patente,fecha_rev_tecnica,tipo2 from pac_web.camiones_por_transportista where rut_transportista='".$CmbTransp."' and tipo ='C' ";
+					$Respuesta=mysql_query($Consulta);
+					while ($Fila=mysql_fetch_array($Respuesta))
+					{
+						if ($CmbPatente==$Fila[nro_patente])
+						{
+							echo "<option value =".$Fila[nro_patente]." selected >".$Fila[nro_patente]."</option>";
+							$Patente=$Fila[nro_patente];
+							$FechaRevTecnica=$Fila[fecha_rev_tecnica];
+							$Tipo=$Fila[tipo2];
+						}
+						else
+							echo "<option value =".$Fila[nro_patente].">".$Fila[nro_patente]."</option>";
+					}			
+					echo "</select>&nbsp;";
+					if (date($FechaRevTecnica)<date('Y-m-d'))
+						echo "<strong>[RT:<font color='red'>".$FechaRevTecnica."</font>]&nbsp;</strong>";
+					else
+						echo "<strong>[RT:<font color='green'>".$FechaRevTecnica."</font>]&nbsp;</strong>";
+					echo "Patente Rampla&nbsp;&nbsp;";
+					echo "<select name='CmbPatenteRampla' onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox')>";
+					echo "<option value ='-1' selected>Seleccionar</option>";
+					$Consulta="select nro_patente,fecha_rev_tecnica,fecha_cert_estanque from pac_web.camiones_por_transportista where rut_transportista='".$CmbTransp."' and tipo ='R' ";
+					$Respuesta=mysql_query($Consulta);
+					while ($Fila=mysql_fetch_array($Respuesta))
+					{
+						if ($CmbPatenteRampla==$Fila[nro_patente])
+						{
+							echo "<option value =".$Fila[nro_patente]." selected >".$Fila[nro_patente]."</option>";
+							$FechaRevTecnicaRampla=$Fila[fecha_rev_tecnica];
+							$FechaCertEK=$Fila[fecha_cert_estanque];
+						}
+						else
+							echo "<option value =".$Fila[nro_patente].">".$Fila[nro_patente]."</option>";
+					}			
+					echo "</select>&nbsp;&nbsp;";
+					if (date($FechaRevTecnicaRampla)<date('Y-m-d'))
+						echo "<strong>[RT:<font color='red'>".$FechaRevTecnicaRampla."</font>]&nbsp;</strong>";
+					else
+						echo "<strong>[RT:<font color='green'>".$FechaRevTecnicaRampla."</font>]&nbsp;</strong>";
+					if (date($FechaCertEK)<date('Y-m-d'))
+						echo "<strong>[Cert-EK:<font color='red'>".$FechaCertEK."</font>]</strong>";
+					else
+						echo "<strong>[Cert-EK:<font color='green'>".$FechaCertEK."</font>]</strong>";
+				}
+				else
+					echo "&nbsp;";
+				?>
+            </td>
+          <tr> 
+			<?
+				if ($Ver =='C' )
+				{
+					echo "<td>Estanque</td>";
+					echo "<td><select name='CmbEstanque' onChange=Recarga('$Proceso','$Valores','$Ver')>";
+					echo "<option value='-1' selected>Seleccionar</option>";
+					$Consulta="select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase =9001 and valor_subclase1 ='0' ";
+					$Respuesta=mysql_query($Consulta);
+					while($Fila=mysql_fetch_array($Respuesta))
+					{
+						if ($CmbEstanque == $Fila["cod_subclase"])
+							echo "<option value='".$Fila["cod_subclase"]."' selected>".$Fila["nombre_subclase"]."</option>"; 
+						else
+							echo "<option value='".$Fila["cod_subclase"]."'>".$Fila["nombre_subclase"]."</option>"; 
+					}
+				    echo "</select></td>";
+				    echo "<td>Brazo Carga</td>"; 
+				    echo "<td align='center'><select name='CmbBrazo'>";
+				    echo "<option value='-1' selected>Seleccionar</option>";
+					$Consulta="select nombre,codigo from pac_web.parametros where (codigo between 10 and 14)";
+					$Respuesta=mysql_query($Consulta);
+					while($Fila=mysql_fetch_array($Respuesta))
+					{
+						if ($CmbBrazo==$Fila[codigo])
+							echo "<option value='".$Fila[codigo]."' selected >".$Fila["nombre"]."</option>";
+						else
+							echo "<option value='".$Fila[codigo]."' >".$Fila["nombre"]."</option>";
+					}
+				   echo "</select></td>";
+				}
+				else
+				{
+					echo "<td>Distribucion EKs</td>";
+					echo "<td align='left' colspan='3'>";
+					echo "EK1&nbsp;&nbsp;<input type='text' name='TxtEK1' value='$TxtEK1' size='10' onKeyDown='TeclaPulsada()' maxlength='12'>&nbsp;Ton.&nbsp;&nbsp;&nbsp;";
+					echo "EK2&nbsp;&nbsp;<input type='text' name='TxtEK2' value='$TxtEK2' size='10' onKeyDown='TeclaPulsada()' maxlength='12'>&nbsp;Ton.&nbsp;&nbsp;&nbsp;";
+					echo "EK3&nbsp;&nbsp;<input type='text' name='TxtEK3' value='$TxtEK3' size='10' onKeyDown='TeclaPulsada()' maxlength='12'>&nbsp;Ton.&nbsp;&nbsp;&nbsp;";
+					echo "EK4&nbsp;&nbsp;<input type='text' name='TxtEK4' value='$TxtEK4' size='10' onKeyDown='TeclaPulsada()' maxlength='12'>&nbsp;Ton.";
+				}   
+			?>	  
+          </tr>
+		   <tr>
+		    <td>Proceso Automatico</td> 
+            <td colspan="3"> 
+              <?
+					if (($Ver == 'C') and ($checkbox=='1'))
+						echo "<input name='checkbox' type='checkbox' value='1' onClick=\"Recarga('$Proceso','$Valores','$Ver','$checkbox');\" checked>";
+					else
+						echo "<input name='checkbox' type='checkbox' value='1' onClick=\"Recarga('$Proceso','$Valores','$Ver','$checkbox');\" >";
+			 ?>
+            </td>
+          </tr> 
+		  <tr> 
+            <?  				
+				$Densidad=0;
+				if (isset($CmbEstanque)&&($CmbEstanque!='-1')&&($CmbEstanque!=''))
+				{
+					$Consulta="select valor1 from pac_web.parametros where codigo=".$CmbEstanque;
+					$Respuesta=mysql_query($Consulta);
+					$Fila=mysql_fetch_array($Respuesta);
+					$Densidad=str_replace('.',',',$Fila[valor1]);						
+				}
+				else
+				{
+					$Consulta="select valor1 from pac_web.parametros where codigo='1'";
+					$Respuesta=mysql_query($Consulta);
+					$Fila=mysql_fetch_array($Respuesta);
+					$Densidad=str_replace('.',',',$Fila[valor1]);						
+				}
+				if (($Ver=='C') and ($checkbox=='1'))
+				{ 
+					if ($Tipo=='E')//CAMION ENAMI
+					{
+						echo "<td>Mts.cc</td>";
+						echo "<td>";
+						if ($Densidad==0)
+							echo "<input name='TxtMts' type='text' onKeyDown='TeclaPulsada()' style='width:100' value='$TxtMts' maxlength='10'>&nbsp;&nbsp;";										
+						else
+							echo "<input name='TxtMts' type='text' onBlur=\"Calcula('$Densidad');\" onKeyDown='TeclaPulsada()' style='width:100' value='$TxtMts' maxlength='10'>&nbsp;&nbsp;";				
+						if ($Toneladas=='-1')
+							echo "Toneledas&nbsp;<input name='Toneladas' type='text' onKeyDown='TeclaPulsada()' style='width:100' value='' maxlength='10'>";				
+						else
+							echo "Toneledas&nbsp;<input name='Toneladas'  type='text' onKeyDown='TeclaPulsada()' style='width:100' value='$Toneladas' maxlength='10'>";										
+					}
+					else
+					{   
+						echo "<td>Toneladas</td>";//CAMION PARTICULAR
+						echo "<td>";
+						echo "<select name='Toneladas' style='width:310' onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox')>";
+						echo "<option value='-1' selected>Seleccionar</option>";
+						if (isset($Patente))
+						{   
+							if ($Proceso=='M')
+								$FechaActual=substr($FechaGuia,0,10);
+							else
+								$FechaActual=date("Y-m-d");
+							$FechaDesde=date( "Y-m-d", mktime(0,0,0,substr($FechaActual,5,2),substr($FechaActual,8,2)-3,substr($FechaActual,0,4)));
+							$Consulta="select fecha,hora_entrada,peso_neto from sipa_web.despachos where patente='".$Patente."' and fecha between'".$FechaDesde."' and '".$FechaActual."'";
+							$RespPesaje=mysql_query($Consulta);
+							while ($Fila=mysql_fetch_array($RespPesaje))
+							{
+								if ($Toneladas==($Fila[peso_neto]/1000))
+									echo "<option value='".($Fila[peso_neto]/1000)."' selected>".$Fila["fecha"]." ".$Fila[hora_entrada]." Peso:  ".($Fila[peso_neto]/1000)."</option>";
+								else
+									echo "<option value='".($Fila[peso_neto]/1000)."'>".$Fila["fecha"]." ".$Fila[hora_entrada]." Peso:".($Fila[peso_neto]/1000)."</option>";								
+							}
+						}
+						echo "</select>&nbsp;&nbsp;Mts.cc&nbsp;";
+						if ($Toneladas=='-1')
+							echo "<input name='TxtMts' type='text'  onKeyDown='TeclaPulsada()' style='width:100' value='' maxlength='10'>";				
+						else
+						{
+							if ($Densidad==0)
+								$Ton="";
+							else
+								$Ton=number_format($Toneladas/str_replace(',','.',$Densidad),5);
+							echo "<input name='TxtMts' type='text' onKeyDown='TeclaPulsada()' style='width:100' value='$Ton' maxlength='10'>";										
+						}	
+					}	
+				}
+				else 
+				{
+					if ($Tipo=='E')//CAMION ENAMI
+					{
+						echo "<td>Mts.cc&nbsp;</td>";
+						echo "<td>";
+						if ($Densidad==0)
+							echo "<input name='TxtMts' type='text' onKeyDown='TeclaPulsada()' style='width:100' value='$TxtMts' maxlength='10'>&nbsp;&nbsp;";				
+						else
+							echo "<input name='TxtMts' type='text' onKeyDown='TeclaPulsada()' onBlur=\"Calcula('$Densidad');\"  style='width:100' value='$TxtMts' maxlength='10'>&nbsp;&nbsp;";				
+						if ($Toneladas=='')
+							echo "&nbsp;&nbsp;Toneladas&nbsp;<input name='Toneladas' type='text' onKeyDown='TeclaPulsada()' style='width:100' value='' maxlength='10'>";				
+						else
+							echo "&nbsp;&nbsp;Toneladas&nbsp;<input name='Toneladas' type='text' onKeyDown='TeclaPulsada()' style='width:100' value='$Toneladas' maxlength='10'>";									
+						echo "</td>";
+					}				   
+					else
+					{
+						echo "<td>Toneladas&nbsp;</td>";
+						echo "<td>";
+						echo "<input name='Toneladas' type='text' onBlur=\"Calcula2('$Densidad');\" onKeyDown='TeclaPulsada()' style='width:100' value='$Toneladas' maxlength='10'>";									
+						if ($Densidad==0)
+							echo "&nbsp;&nbsp;Mts.cc&nbsp;<input name='TxtMts' type='text' onKeyDown='TeclaPulsada()' style='width:100' value='$TxtMts' maxlength='10'>&nbsp;&nbsp;";				
+						else
+							echo "&nbsp;&nbsp;Mts.cc&nbsp;<input name='TxtMts' type='text' onKeyDown='TeclaPulsada()' style='width:100' value='$TxtMts' maxlength='10'>&nbsp;&nbsp;";				
+						echo "</td>";
+					}		
+				}
+				echo "</td>";
+			?>
+		  <td>Valor Unitario</td>
+            <td><input name="VUnitario" type="text" onKeyDown="TeclaPulsada()" style="width:100" value="<? echo $VUnitario;?>" maxlength="12" readonly></td>
+          </tr>
+		  <tr>
+		  <td>Corr-Romana</td>
+		  <td colspan="3">
+		  <?
+		  if($Proceso=='N')
+		  {
+			  $Consulta="select * from sipa_web.despachos where patente='".$CmbPatente."' and peso_bruto = '0' and peso_tara <> '0' and peso_neto = '0' and fecha = '".date('Y-m-d')."'";
+			  $RespSipa=mysql_query($Consulta);
+			 //echo $Consulta;
+			  if($FilaSipa=mysql_fetch_array($RespSipa))
+				$TxtCorrRomana=$FilaSipa[correlativo];
+		  }		
+		  ?>
+		  <input type="text" name="TxtCorrRomana" value="<? echo $TxtCorrRomana;?>" maxlength="8" size="9" onKeyDown="TeclaPulsada();">
+		  </td>
+		  </tr>
+          <tr> 
+            <td>Glosa</td>
+			<?
+				if (!isset($Observacion))
+				{
+					$Consulta="select nombre from pac_web.parametros where codigo=15";
+					$Respuesta=mysql_query($Consulta);
+					$Fila=mysql_fetch_array($Respuesta);
+					$Observacion=$Fila["nombre"];
+				}
+			?>
+            <td colspan="3"><textarea name="Observacion" cols="40" rows="5" wrap="VIRTUAL"><? echo $Observacion; ?></textarea></td>
+          </tr>
+        </table>
+        <br>
+        <table width="733" border="0" cellpadding="5" class="TablaInterior">
+          <tr> 
+            <td  align="center" width="713">
+			  <?
+				if ((isset($FechaRevTecnica))||(isset($FechaCertEK))||(isset($FechaRevTecnicaRampla)))
+				{
+					if ((isset($FechaRevTecnica))&&(date($FechaRevTecnica)<date('Y-m-d')))
+					{
+						$Grabar='N';
+						$Mens='1';
+					}
+					if ((isset($FechaRevTecnicaRampla))&&(date($FechaRevTecnica)<date('Y-m-d')))
+					{
+						$Grabar='N';
+						$Mens='2';
+					}
+					if ((isset($FechaCertEK))&&(date($FechaCertEK)<date('Y-m-d')))
+					{
+						$Grabar='N';
+						$Mens='2';
+					}
+				}	
+				 if ($Grabar=='N')
+					echo "<input type='button' name='BtnGrabar' value='Grabar' style='width:60' disabled>";
+				 else
+					echo "<input type='button' name='BtnGrabar' value='Grabar' style='width:60' onClick=Grabar('$Proceso','$Ver','$Correlativo','$Tipo','$checkbox')>";				 
+			  ?>
+              <input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();">
+			  <input type="button" name="BtnRecarga" value="Actualizar" style="width:70" onClick="Recarga('<? echo $Proceso; ?>','<? echo $Valores; ?>','<? echo $Ver; ?>');">
+              &nbsp; </td>
+          </tr>
+        </table>
+  </form>
+</body>
+</html>
+<?
+	if ($Grabar=='N')
+	{
+		echo "<script languaje='javascript'>";
+		if ($Mens=='1')
+			echo "alert('Fecha Revision Tecnica Vencida del Camion');";
+		else
+			echo "alert('Fecha Revision Tecnica o Certificacion de Estanque Vencida de la Rampla');";
+		echo "</script>";
+	}	
+	if ($Mostrar=='S')
+	{
+		echo "<script languaje='javascript'>";
+		echo "var Frm=document.FrmProceso;";
+		echo "alert('Esta Guia ya existe');";
+		echo "</script>";
+	}
+?>

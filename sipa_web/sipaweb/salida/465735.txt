@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 43760 ',peso_neto='25790',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15574019-1',nombre_chofer='Jaime Miranda Rojas',observacion='',romana_salida='1' where correlativo='465735' and lote='22066166' and recargo='1'

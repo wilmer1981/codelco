@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 17360 ',peso_neto='2130',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='6 maxi de copela',romana_salida='2' where correlativo='439206' and lote='21026223' and recargo='1'

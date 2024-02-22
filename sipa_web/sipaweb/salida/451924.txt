@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 44940 ',peso_neto='31220',marca='TRES FRANJAS NEGRAS',cod_mop='520',num_sello='',transportista='',rut_chofer='15083238-1',nombre_chofer='HECTOR VILLALON',observacion='',romana_salida='2' where correlativo='451924' and lote='21106026' and recargo='22'

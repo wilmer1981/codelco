@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 32980 ',peso_neto='17280',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='8036380-K',nombre_chofer='charles wattson',observacion='20 MAX CON DESULFURIZANTE',romana_salida='1' where correlativo='481431' and lote='23036314' and recargo='1'

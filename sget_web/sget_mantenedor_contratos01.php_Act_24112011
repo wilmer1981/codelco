@@ -1,0 +1,307 @@
+<? include("../principal/conectar_sget_web.php");
+include("funciones/sget_funciones.php");
+	$Fecha_Creacion= date("Y-m-d G:i:s");
+	   
+	switch($Opcion)
+	{
+		case "N"://NUEVO CONTRATO
+			$Consulta="Select * from sget_contratos where cod_contrato='".$TxtContrato."' ";
+			$Resp=mysql_query($Consulta);
+			if(!$Fila=mysql_fetch_array($Resp))
+			{
+				if($TxtFechaSolp=='')
+					$TxtFechaSolp='0000-00-00';
+				if($TxtFechaGarantia=='')
+					$TxtFechaGarantia='0000-00-00';	
+				if($TxtFechaReajuste=='')	
+					$TxtFechaReajuste='0000-00-00';  	
+				if($TxtFechaReajusteResultado=='')	
+					$TxtFechaReajusteResultado='0000-00-00';		
+					
+				$Insertar="Insert Into sget_contratos(cod_contrato,descripcion,cod_gerencia,cod_area,monto_ctto,rut_empresa,fecha_inicio,fecha_termino";
+				$Insertar.=",cod_tipo_contrato,rut_adm_contrato,rut_adm_contratista,fecha_venc_bol_garantia,rut_prev,tipo_cambio,tipo_ctto,aviso_vencimiento,poliza,bono,reajuste,seguro,eco4,sobreTiempo,gratificacion,indemnizacion,estado,acuerdo_marco,periodo_facturacion,clasificacion)";
+				$Insertar.="values('".$TxtContrato."','".strtoupper($TxtDescripcion)."','".$CmbGerencias."','".$CmbAreas."','".str_replace('.','',$TxtMontoCtto)."','".$CmbEmpresa."','".$TxtFechaInicio."','".$TxtFechaTermino."'";
+				$Insertar.=",'".$CmbTipoCtto."','".$CmbAdmCtto."','".$CmbAdmContratista."','".$TxtFechaGarantia."','".$CmbPrevencionista."','".$CmbMoneda."','".$CmbTipoCttoPers."','".$CmbAvisoVenc."','".$TxtPoliza."','".$CmbBono."','".$CmbReaj."','".$CmbSeg."','".$CmbEco4."','".$CmbSobreT."','".$CmbGratif."','".$CmbIndem."','1','".$CmbAcuerdo."','".$CmbFacturacion."' ,'".$CmbClasificacion."' )";
+				mysql_query($Insertar);
+				
+				if($Form!='')
+				{
+			
+					echo "<script languaje='JavaScript'>";		
+					echo " window.opener.document.$Form.action='$Pagina?Contrato=$TxtContrato&Empresa=$CmbEmpresa'; ";
+					echo " window.opener.document.$Form.submit();";		
+					echo " window.close();</script>";
+				}
+				else
+				{
+					//echo "hola11".$TxtContrato;
+					//header("location:sget_mantenedor_contratos.php?Buscar=S&Mensaje=0&Opcion=M&TxtContrato=".$TxtContrato); 
+					echo "<script languaje='JavaScript'>";
+					
+					//&TxtContrato2='+TxtContrato+'&TxtDescripcion2='+Descripcion+'&CmbEmpresa2='+Empresa;
+					echo "window.opener.document.frmPrincipal.action='sget_mantenedor_contratos.php?Buscar=S&TxtContrato2='".$TxtContrato."'&TxtDescripcion2='".$Descripcion."'&CmbEmpresa2='".$Empresa."' ";
+					echo "window.opener.document.frmPrincipal.submit();";
+					echo "window.close();</script>";
+				}
+			}
+			else
+			{
+			
+				 header("location:sget_mantenedor_contratos_proceso.php?Mensaje=2&Opcion=M&TxtContrato=".$TxtContrato);
+			}
+			
+			
+		break;
+	
+		case "M"://MODIFICAR CONTRATO
+				if($TxtFechaSolp=='')
+					$TxtFechaSolp='0000-00-00';
+					//echo "EE".$CmbFacturacion;
+				$Actualizar="UPDATE  sget_contratos SET cod_contrato='".strtoupper($TxtContrato)."', descripcion='".strtoupper($TxtDescripcion)."',cod_gerencia='".$CmbGerencias."',cod_area='".$CmbAreas."',monto_ctto='".str_replace('.','',$TxtMontoCtto)."'";
+				$Actualizar.=",rut_empresa='".$CmbEmpresa."',fecha_inicio='".$TxtFechaInicio."',fecha_termino='".$TxtFechaTermino."'";
+				$Actualizar.=",cod_tipo_contrato='".$CmbTipoCtto."',rut_adm_contrato='".$CmbAdmCtto."',rut_adm_contratista='".$CmbAdmContratista."'";
+				$Actualizar.=",fecha_venc_bol_garantia='".$TxtFechaGarantia."',rut_prev='".$CmbPrevencionista."',tipo_cambio='".$CmbMoneda."',tipo_ctto='".$CmbTipoCttoPers."',aviso_vencimiento='".$CmbAvisoVenc."',poliza='".$TxtPoliza."',estado='1' ";
+				$Actualizar.=",bono='".$CmbBono."',reajuste='".$CmbReaj."',seguro='".$CmbSeg."',eco4='".$CmbEco4."',sobretiempo='".$CmbSobreT."',gratificacion='".$CmbGratif."',indemnizacion='".$CmbIndem."',acuerdo_marco='".$CmbAcuerdo."' ,periodo_facturacion = '".$CmbFacturacion."' ,clasificacion = '".$CmbClasificacion."'   ";
+				if ($NewOpc =='S')
+					$Actualizar.=" where cod_contrato='".$ContAnt."'";
+				else
+					$Actualizar.=" where cod_contrato='".$TxtContrato."'";
+				echo $Actualizar;
+				mysql_query($Actualizar);
+				
+				if ($NewOpc=='S')
+				{
+					$Consulta1 ="SELECT * from des_sget.sget_bonos_contratistas where cod_contrato = '".$ContAnt."'";
+					$Resp1=mysql_query($Consulta1);
+					if ($Fila1=mysql_fetch_array($Resp1))
+					{
+						$Actualiza1="UPDATE des_sget.sget_bonos_contratistas set cod_contrato = '".$TxtContrato."' ";
+						$Actualiza1.=" where cod_contrato = '".$ContAnt."'";
+						mysql_query($Actualiza1);
+					}
+
+					$Consulta2 ="SELECT * from des_sget.sget_facturas_contrato where cod_contrato = '".$ContAnt."'";
+					$Resp2=mysql_query($Consulta2);
+					if ($Fila2=mysql_fetch_array($Resp2))
+					{
+						$Actualiza2="UPDATE des_sget.sget_facturas_contrato set cod_contrato = '".$TxtContrato."' ";
+						$Actualiza2.=" where cod_contrato = '".$ContAnt."'";
+						mysql_query($Actualiza2);
+					}
+
+					$Consulta3 ="SELECT * from des_sget.sget_hoja_ruta where cod_contrato = '".$ContAnt."'";
+					$Resp3=mysql_query($Consulta3);
+					if ($Fila3=mysql_fetch_array($Resp3))
+					{
+						$Actualiza3="UPDATE des_sget.sget_hoja_ruta set cod_contrato = '".$TxtContrato."' ";
+						$Actualiza3.=" where cod_contrato = '".$ContAnt."'";
+						mysql_query($Actualiza3);
+					}
+
+					$Consulta4 ="SELECT * from des_sget.sget_personal where cod_contrato = '".$ContAnt."'";
+					$Resp4=mysql_query($Consulta4);
+					if ($Fila4=mysql_fetch_array($Resp4))
+					{
+						$Actualiza4="UPDATE des_sget.sget_personal set cod_contrato = '".$TxtContrato."' ";
+						$Actualiza4.=" where cod_contrato = '".$ContAnt."'";
+						mysql_query($Actualiza4);
+					}
+
+					$Consulta5 ="SELECT * from des_sget.sget_personal_historia where cod_contrato = '".$ContAnt."'";
+					$Resp5=mysql_query($Consulta5);
+					if ($Fila5=mysql_fetch_array($Resp5))
+					{
+						$Actualiza5="UPDATE des_sget.sget_personal_historia set cod_contrato = '".$TxtContrato."' ";
+						$Actualiza5.=" where cod_contrato = '".$ContAnt."'";
+						mysql_query($Actualiza5);
+					}
+
+					$Consulta6 ="SELECT * from des_sget.sget_sub_contratistas where cod_contrato = '".$ContAnt."'";
+					$Resp6=mysql_query($Consulta6);
+					if ($Fila6=mysql_fetch_array($Resp6))
+					{
+						$Actualiza6="UPDATE des_sget.sget_sub_contratistas set cod_contrato = '".$TxtContrato."' ";
+						$Actualiza6.=" where cod_contrato = '".$ContAnt."'";
+						mysql_query($Actualiza6);
+					}
+				}
+				
+				if($Form!='')
+				{
+					echo "<script languaje='JavaScript'>";		
+					echo " window.opener.document.$Form.action='$Pagina?Contrato=$TxtContrato&Empresa=$CmbEmpresa'; ";
+					echo " window.opener.document.$Form.submit();";		
+					echo " window.close();</script>";
+				}
+				else
+				{
+				
+			//	echo "RR".$TxtContrato;
+				header("location:sget_mantenedor_contratos_proceso.php?Mensaje=3&Opcion=M&TxtContrato=".$TxtContrato."&CmbFacturacion=".$CmbFacturacion ."&CmbClasificacion=".$CmbClasificacion); 
+																													
+				}
+				
+		break;
+		
+		case "E"://ELIMINAR CONTRATO
+			$Datos = explode("//",$Valores);
+			while (list($clave,$Contrato)=each($Datos))
+			{
+				$Eliminar="delete from sget_contratos where cod_contrato='".$Contrato."'";
+				mysql_query($Eliminar);	
+			}
+			header("location:sget_mantenedor_contratos.php?Mensaje=1&Buscar=S");
+			
+		break;
+		
+		case "GMC"://GRABAR MODIFICACIONES AL CONTRATO
+			if($TxtFechaModCtto=='')
+				$TxtFechaModCtto='0000-00-00';
+			if($TxtMontoModCtto=='')
+				$TxtMontoModCtto=0;	
+				
+			$Consulta="Select ifnull(max(num_modificacion)+1,1) as Cont from sget_modificaciones_contrato where cod_contrato='".$TxtContrato."'";
+			$RespCorr=mysql_query($Consulta);
+			if($FilaCorr=mysql_fetch_array($RespCorr))
+			{
+				$Correlativo=$FilaCorr[Cont];
+			}	
+			$Insertar="Insert Into sget_modificaciones_contrato(cod_contrato,num_modificacion,cod_tipo_modificacion,fecha,monto,fecha_sistema,observacion)";
+			$Insertar.="values('".$TxtContrato."','".$Correlativo."','".$CmbTipoModificacion."','".$TxtFechaModCtto."','".$TxtMontoModCtto."','".$Fecha_Creacion."','".strtoupper($Obs)."')";
+			mysql_query($Insertar);
+			header("location:sget_mantenedor_contratos_proceso.php?Mensaje=4&Opcion=M&TxtContrato=".$TxtContrato);
+						
+		break;
+		case "MMC"://MODIFICAR MODIFICACIONES AL CONTRATO
+			if($TxtFechaModCtto=='')
+				$TxtFechaModCtto='0000-00-00';
+			if($TxtMontoModCtto=='')
+				$TxtMontoModCtto=0;		
+			$Actualizar="UPDATE  sget_modificaciones_contrato SET cod_tipo_modificacion='".$CmbTipoModificacion."',fecha='".$TxtFechaModCtto."',monto='".$TxtMontoModCtto."'";
+			$Actualizar.=",fecha_sistema='".$Fecha_Creacion."',observacion='".strtoupper($Obs)."'";
+			$Actualizar.=" where cod_contrato='".$TxtContrato."' and num_modificacion='".$Num."' ";
+			mysql_query($Actualizar);
+			header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato);
+						
+		break;
+		
+		case "GDF"://GRABAR MODIFICAR FACTURAS.
+			if($TxtFechaIngDoc=='')
+				$TxtFechaIngDoc='0000-00-00';
+			if($TxtFechaIngContabilidad=='')
+				$TxtFechaIngContabilidad='0000-00-00';
+			if($TxtFechaIngLiberacion=='')
+				$TxtFechaIngLiberacion='0000-00-00';
+			if($TxtFechaEmiDoc=='')
+				$TxtFechaEmiDoc='0000-00-00';
+			if($Fecha=='')
+				$Fecha=date("Y-m-d G:i:s");
+			/*$Consulta="SELECT count(rut) as Cantidad from sget_personal where cod_contrato='".$TxtContrato."' and estado='A'";
+			$RespCant=mysql_query($Consulta);
+			if($FilaCant=mysql_fetch_array($RespCant))
+			{	$Dota= $FilaCant[Cantidad];
+			}
+			else
+			{	$Dota=0;
+			}*/
+			
+			$Insertar="Insert Into sget_facturas_contrato(cod_contrato,fecha_hora,nro_factura,ano,mes,fecha_emi_doc,fecha_ing_doc,fecha_ing_cont,fecha_liber,dotacion)";
+			$Insertar.="values('".$TxtContrato."','".$Fecha."','".$NFactura."','".$CmbAnoDF."','".$CmbMesDF."','".$TxtFechaEmiDoc."','".$TxtFechaIngDoc."','".$TxtFechaIngContabilidad."','".$TxtFechaIngLiberacion."','".$TxtDot."')";
+			mysql_query($Insertar);	
+			//echo $Insertar."<br>";
+			if ($MasFac=="S")
+				header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato."&CmbAnoDF=".$CmbAnodDF."&CmbMesDF=".$CmbMesDF."&TxtFechaIngDoc=".$TxtFechaIngDoc."&TxtFechaIngContabilidad=".$TxtFechaIngContabilidad."&TxtDot=".$TxtDot);
+				else		
+				header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato);
+		break;
+		case "EDF"://MODIFICAR MODIFICACIONES AL CONTRATO
+			
+			$Delete="delete from sget_facturas_contrato where cod_contrato='".$TxtContrato."' and fecha_hora='".$Fecha."'";
+			mysql_query($Delete);
+			header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato);
+						
+		break;
+		case "EMC"://ELIMINAR MODIFICACIONES AL CONTRATO
+			$Eliminar="delete from sget_modificaciones_contrato where cod_contrato='".$TxtContrato."' and num_modificacion='".$num."'";
+			mysql_query($Eliminar);		
+			header("location:sget_mantenedor_contratos_proceso.php?Mensaje=5&Opcion=M&TxtContrato=".$TxtContrato);
+						
+		break;
+
+		case "GSC"://GRABAR SUBCONTRATISTAS
+			$Insertar="INSERT INTO sget_sub_contratistas(cod_contrato,rut_empresa) ";
+			$Insertar.="values ('".$TxtContrato."','".$CmbSubEmpresa."') ";
+			mysql_query($Insertar);
+			header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato);
+		
+		break;
+		case "ESC"://ELIMINAR SUBCONTRATISTAS
+			$Delete="delete from  sget_sub_contratistas where cod_contrato='".$TxtContrato."' and rut_empresa='".$Clave."'";
+			mysql_query($Delete);
+			header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato);
+
+		break;
+		case "GRC"://GRABAR REAJUSTE CONTRATOS
+			//echo "Fecha Reajuste: ".$TxtFechaReajuste."<br>";
+			//echo "Fecha Fin Ctto: ".$TxtFechaTermino."<br><br>";
+			$FechaAux=$TxtFechaReajuste;
+			$Dias=0;
+			while($Dias<=0)
+			{
+				$FechaReaj=$FechaAux;
+				$Fecha=explode('-',$FechaAux);
+				$A�o=$Fecha[0];
+				$Mes=$Fecha[1];
+				$Dia=$Fecha[2];
+				$FechaAux=date('Y-m-d',mktime(0,0,0,$Mes+$CmbReajuste,$Dia,$A�o,1));
+				//echo $FechaAux."<br>";
+				$Dias=resta_fechas($FechaAux,$TxtFechaTermino);
+				if($Dias<=0)
+				{
+					$Insertar="INSERT INTO sget_reajustes_contratos(cod_contrato,tipo,fecha_reajuste,tipo_reajuste,fecha_reajustada,estado,monto,tipo_cambio) values ";
+					$Insertar.="('".$TxtContrato."','C','".$FechaReaj."','".$CmbReajuste."','".$FechaAux."','P','".str_replace('.','',$TxtMontoCtto)."','".$CmbMoneda."')";
+					mysql_query($Insertar);
+				}
+				//echo $Dias."<br>";
+			}
+			header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato);
+
+		break;
+		case "ERC"://ELIMINAR REAJUSTE CONTRATOS
+			$Delete="delete from  sget_reajustes_contratos where cod_contrato='".$TxtContrato."' and corr='".$Corr."'";
+			mysql_query($Delete);
+			header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato);
+
+		break;
+		case "GRS"://GRABAR REAJUSTE SUELDOS CONTRATISTAS
+			$FechaAux=$TxtFechaReajuste2;
+			$Dias=0;
+			while($Dias<=0)
+			{
+				$FechaReaj=$FechaAux;
+				$Fecha=explode('-',$FechaAux);
+				$A�o=$Fecha[0];
+				$Mes=$Fecha[1];
+				$Dia=$Fecha[2];
+				$FechaAux=date('Y-m-d',mktime(0,0,0,$Mes+$CmbReajuste2,$Dia,$A�o,1));
+				//echo $FechaAux."<br>";
+				$Dias=resta_fechas($FechaAux,$TxtFechaTermino);
+				if($Dias<=0)
+				{
+					$Insertar="INSERT INTO sget_reajustes_contratos(cod_contrato,tipo,fecha_reajuste,tipo_reajuste,fecha_reajustada,estado,monto,tipo_cambio) values ";
+					$Insertar.="('".$TxtContrato."','S','".$FechaReaj."','".$CmbReajuste2."','".$FechaAux."','P',0,'')";
+					mysql_query($Insertar);
+				}
+				//echo $Dias."<br>";
+			}
+			header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato);
+
+		break;
+		case "ERS"://ELIMINAR REAJUSTE SUELDOS CONTRATISTAS
+			$Delete="delete from  sget_reajustes_contratos where cod_contrato='".$TxtContrato."' and corr='".$Corr."'";
+			mysql_query($Delete);
+			header("location:sget_mantenedor_contratos_proceso.php?Opcion=M&TxtContrato=".$TxtContrato);
+		break;
+		
+	}
+?>

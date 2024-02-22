@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44170',peso_neto='26030',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10598084-1',nombre_chofer='RODOLFO CALLEJAS IBACACHE',observacion='',romana_salida='1' where correlativo='476886' and lote='23016155' and recargo='1'

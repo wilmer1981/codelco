@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='40390',peso_neto='26240',marca='EQUIS DOS FRANJAS CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='16107986-3',nombre_chofer='SERGIO VEAS',observacion='',romana_salida='1' where correlativo='488887' and lote='23086026' and recargo='5'

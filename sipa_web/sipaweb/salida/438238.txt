@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 35670 ',peso_neto='20840',marca='FRANJA NARANJA',cod_mop='690',num_sello='',transportista='',rut_chofer='16574048-3',nombre_chofer='CRISTIAN GAETE CISTERNAS',observacion='',romana_salida='1' where correlativo='438238' and lote='21026028' and recargo='18'

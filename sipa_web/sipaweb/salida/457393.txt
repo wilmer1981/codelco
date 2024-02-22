@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39910 ',peso_neto='25360',marca='EQUIS VERDE',cod_mop='510',num_sello='',transportista='',rut_chofer='10843712-K',nombre_chofer='ROBINSON LOPEZ',observacion='',romana_salida='1' where correlativo='457393' and lote='22016006' and recargo='69'

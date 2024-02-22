@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42120 ',peso_neto='26250',marca='FRANJA AMARILLA',cod_mop='510',num_sello='',transportista='',rut_chofer='29222113-4',nombre_chofer='RICARDO LEGGIO',observacion='',romana_salida='1' where correlativo='489040' and lote='23086079' and recargo='2'

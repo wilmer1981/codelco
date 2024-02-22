@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43860',peso_neto='26260',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13332007-5',nombre_chofer='RICHARD TRIVIK',observacion='cu varios',romana_salida='1' where correlativo='489978' and lote='23086226' and recargo='4'

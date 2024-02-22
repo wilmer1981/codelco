@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44790 ',peso_neto='27860',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='18697739-4',nombre_chofer='Francisco Diaz',observacion='esc anodica',romana_salida='1' where correlativo='473729' and lote='22116152' and recargo='5'

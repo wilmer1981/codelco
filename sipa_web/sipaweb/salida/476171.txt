@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 41970 ',peso_neto='24070',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12887555-7',nombre_chofer='boris silva',observacion='',romana_salida='1' where correlativo='476171' and lote='22126315' and recargo='1'

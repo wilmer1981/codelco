@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44010 ',peso_neto='27450',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7142986-5',nombre_chofer='ALVARO BERNAL',observacion='fino circulante',romana_salida='2' where correlativo='453994' and lote='21116177' and recargo='2'

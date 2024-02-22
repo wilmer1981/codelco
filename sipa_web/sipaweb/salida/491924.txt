@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44280',peso_neto='26060',marca='EQUIS CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='7142987-3',nombre_chofer='JORGE BERNAL CISTERNAS',observacion='',romana_salida='1' where correlativo='491924' and lote='23096243' and recargo='10'

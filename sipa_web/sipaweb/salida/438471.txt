@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 36290 ',peso_neto='23350',marca='EQUIS AMARILLA',cod_mop='570',num_sello='',transportista='',rut_chofer='10651007-5',nombre_chofer='RODOLFO DONOSO',observacion='',romana_salida='1' where correlativo='438471' and lote='21026005' and recargo='26'

@@ -1,0 +1,1 @@
+window.open("comet_ajuste_cuenta.php?Valores="+Valores+"&Mes="+Frm.CmbMes.value+"&Ano="+Frm.CmbAno.value,""," fullscreen=no,left=165,top=100,width=430,height=370,scrollbars=no,resizable = no");

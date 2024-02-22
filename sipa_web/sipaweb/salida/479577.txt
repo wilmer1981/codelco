@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43520 ',peso_neto='27810',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='12807334-5',nombre_chofer='david cortes',observacion='cu varios ',romana_salida='1' where correlativo='479577' and lote='23026298' and recargo='1'

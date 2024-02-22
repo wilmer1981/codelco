@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43250 ',peso_neto='26070',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='19020730-7',nombre_chofer='bryan lucero',observacion='cu varios',romana_salida='1' where correlativo='470600' and lote='22096181' and recargo='9'

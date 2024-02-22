@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44990 ',peso_neto='28380',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16824311-1',nombre_chofer='hugo colque',observacion='bajo cuchara',romana_salida='1' where correlativo='475396' and lote='22126194' and recargo='2'

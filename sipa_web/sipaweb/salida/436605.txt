@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 38230 ',peso_neto='23460',marca='TRES FRANJAS CELESTES',cod_mop='520',num_sello='',transportista='',rut_chofer='7771675-0',nombre_chofer='JUAN  MARDONES',observacion='',romana_salida='1' where correlativo='436605' and lote='21016014' and recargo='39'

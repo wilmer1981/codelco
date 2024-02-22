@@ -1,0 +1,397 @@
+<?
+include("../principal/conectar_sea_web.php");
+$CodigoDeSistema=2;
+if($Proceso == 'E')
+{
+	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;
+	$Eliminar = "DELETE FROM sea_web.inf_rechazos WHERE fecha = '$Fecha'";	
+	mysql_query($Eliminar);
+	
+	$Proceso = "B";
+}
+if($Proceso == 'B')
+{
+	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;
+	$fecha2 = $Fecha.':'.$hora.':'.$minuto;
+	//$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha' and hora = '$fecha2' ";
+	$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha'";
+	//echo $Consulta;
+	$rs = mysql_query($Consulta);
+	$Fila = mysql_fetch_array($rs);
+	$hora = substr($Fila[hora],11,2);
+	$minuto = substr($Fila[hora],14,2);
+	
+	if($Fila[Fis_Vent] == 0)
+		$Fis_Vent = '';	
+	else	
+		$Fis_Vent = $Fila[Fis_Vent];	
+
+	if($Fila[Quim_Vent] == 0)
+		$Quim_Vent = '';	
+	else
+		$Quim_Vent = $Fila[Quim_Vent];	
+
+	if($Fila[Calaf_Vent] == 0)
+		$Calaf_Vent = '';	
+	else
+		$Calaf_Vent = $Fila[Calaf_Vent];	
+
+	if($Fila[Ana_Vent] == 0)
+		$Ana_Vent = '';	
+	else
+		$Ana_Vent = $Fila[Ana_Vent];	
+
+	if($Fila[Fis_HMadres] == 0)
+		$Fis_HMadres = '';	
+	else	
+		$Fis_HMadres = $Fila[Fis_HMadres];	
+
+	if($Fila[Quim_HMadres] == 0)
+		$Quim_HMadres = '';	
+	else
+		$Quim_HMadres = $Fila[Quim_HMadres];	
+
+	if($Fila[Calaf_HMadres] == 0)
+		$Calaf_HMadres = '';	
+	else
+		$Calaf_HMadres = $Fila[Calaf_HMadres];	
+
+	if($Fila[Ana_HMadres] == 0)
+		$Ana_HMadres = '';	
+	else
+		$Ana_HMadres = $Fila[Ana_HMadres];	
+
+	if($Fila[Fis_Teniente] == 0)
+		$Fis_Teniente = '';	
+	else
+		$Fis_Teniente = $Fila[Fis_Teniente];	
+
+	if($Fila[Quim_Teniente] == 0)
+		$Quim_Teniente = '';	
+	else
+		$Quim_Teniente = $Fila[Quim_Teniente];	
+
+	if($Fila[Calaf_Teniente] == 0)
+		$Calaf_Teniente = '';	
+	else
+		$Calaf_Teniente = $Fila[Calaf_Teniente];	
+
+	if($Fila[Ana_Teniente] == 0)
+		$Ana_Teniente = '';	
+	else
+		$Ana_Teniente = $Fila[Ana_Teniente];	
+
+	if($Fila[Fis_FHVL] == 0)
+		$Fis_FHVL = '';	
+	else
+		$Fis_FHVL = $Fila[Fis_FHVL];	
+
+	if($Fila[Quim_FHVL] == 0)
+		$Quim_FHVL = '';	
+	else
+		$Quim_FHVL = $Fila[Quim_FHVL];	
+
+	if($Fila[Calaf_FHVL] == 0)
+		$Calaf_FHVL = '';	
+	else
+		$Calaf_FHVL = $Fila[Calaf_FHVL];	
+
+	if($Fila[An_FHVL] == 0)
+		$Ana_FHVL = '';	
+	else
+		$Ana_FHVL = $Fila[Ana_FHVL];	
+
+	if($Fila[Fis_Disputada] == 0)
+		$Fis_Disputada = '';	
+	else
+		$Fis_Disputada = $Fila[Fis_Disputada];	
+
+	if($Fila[Quim_Disputada] == 0)
+		$Quim_Disputada = '';	
+	else
+		$Quim_Disputada = $Fila[Quim_Disputada];	
+
+	if($Fila[Calaf_Disputada] == 0)
+		$Calaf_Disputada = '';	
+	else
+		$Calaf_Disputada = $Fila[Calaf_Disputada];	
+
+	if($Fila[Ana_Disputada] == 0)
+		$Ana_Disputada = '';	
+	else
+		$Ana_Disputada = $Fila[Ana_Disputada];	
+
+	if($Fila[Fis_Restos] == 0)
+		$Fis_Restos = '';	
+	else
+		$Fis_Restos = $Fila[Fis_Restos];	
+
+	if($Fila[Quim_Restos] == 0)
+		$Quim_Restos = '';	
+	else
+		$Quim_Restos = $Fila[Quim_Restos];	
+
+	if($Fila[Calaf_Restos] == 0)
+		$Calaf_Restos = '';	
+	else
+		$Calaf_Restos = $Fila[Calaf_Restos];	
+
+	if($Fila[Ana_Restos] == 0)
+		$Ana_Restos = '';	
+	else
+		$Ana_Restos = $Fila[Ana_Restos];	
+   	if($Fila[Fis_Expo] == 0)
+		$Fis_Expo = '';
+	else
+		$Fis_Expo = $Fila[Fis_Expo];
+
+	if($Fila[Quim_Expo] == 0)
+		$Quim_Expo = '';
+	else
+		$Quim_Expo = $Fila[Quim_Expo];
+
+	if($Fila[Calaf_Expo] == 0)
+		$Calaf_Expo = '';
+	else
+		$Calaf_Expo = $Fila[Calaf_Expo];
+
+	if($Fila[Ana_Expo] == 0)
+		$Ana_Expo = '';
+	else
+		$Ana_Expo = $Fila[Ana_Expo];
+
+}
+?>
+<html>
+<head>
+<title>Ingreso de Rechazos</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
+<script language="JavaScript">
+function Proceso(opc)
+{
+var f = document.FrmPrincipal;
+
+	switch(opc)
+	{
+		case "G": 
+			if (f.hora.value =='' || f.hora.value == 0)
+        	{
+                alert ("Debe ingresar Hora ");
+         		return
+        	}
+
+	   	    if (f.minuto.value =='')
+        	{
+                alert ("Debe ingresar Minutos ");
+            	return
+        	}
+
+			f.action="sea_ing_rechazo_fisico01.php?Proceso=G";
+			f.submit();
+			break;		
+		case "B": 
+			f.action="sea_ing_rechazo_fisico.php?Proceso=B";
+			f.submit();
+			break;		
+		case "E": 
+			f.action="sea_ing_rechazo_fisico.php?Proceso=E";
+			f.submit();
+			break;		
+		case "S":
+			document.location = "../principal/sistemas_usuario.php?CodSistema=2&Nivel=1";										 	
+			break;
+	}
+
+}
+function valida_hora()
+{
+	var f = FrmPrincipal;
+		
+	var largo = f.hora.value.length;
+		if (largo == 1)
+			f.hora.value = "0"+f.hora.value;
+}
+
+function valida_minuto()
+{
+		var f = FrmPrincipal;
+		
+		var largo1 = f.minuto.value.length;
+		if (largo1 == 1)
+			f.minuto.value = "0"+f.minuto.value;
+
+	
+}
+function TeclaPulsada1(salto) 
+{ 
+	var f = FrmPrincipal;
+	var teclaCodigo = event.keyCode; 	
+	if (teclaCodigo == 13)
+	{		
+		eval("f." + salto + ".focus();");
+	}
+}
+
+</script>
+<style type="text/css">
+<!--
+body {
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style></head>
+
+<body>
+<form name="FrmPrincipal" method="post" action="">
+<? include("../principal/encabezado.php")?>
+<table width="770" height="330" border="0" class="TablaPrincipal"> 
+<tr> 
+	<td align="center" valign="top">
+	  <p><b><b>R E C H A Z O S<b></b></p>
+        <table width="494" border="1" cellspacing="0" cellpadding="0" class="TablaDetalle">
+          <tr> 
+            <td width="74" align="center">Fecha</td>
+            <td colspan="5"><SELECT name="Dia" style="width:50px;">
+                <?
+				for ($i = 1;$i <= 31; $i++)
+				{
+					if (isset($Dia))
+					{
+						if ($Dia == $i)
+							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+						else	echo "<option value='".$i."'>".$i."</option>\n";
+					}
+					else
+					{
+						if ($i == date("j"))
+							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+						else	echo "<option value='".$i."'>".$i."</option>\n";
+					}
+				}
+			  ?>
+              </SELECT> <SELECT name="Mes" style="width:90px;">
+                <?
+                $Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
+				for ($i = 1;$i <= 12; $i++)
+				{
+					if (isset($Mes))
+					{
+						if ($Mes == $i)
+							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					}
+					else
+					{
+						if ($i == date("n"))
+							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					}
+				}
+				?>
+              </SELECT> <SELECT name="Ano" style="width:60px;">
+                <?
+				for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
+				{
+					if (isset($Ano))
+					{
+						if ($Ano == $i)
+							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+						else	echo "<option value='".$i."'>".$i."</option>\n";
+					}
+					else
+					{
+						if ($i == date("Y"))
+							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+						else	echo "<option value='".$i."'>".$i."</option>\n";
+					}
+				}
+				?>
+
+						
+              </SELECT>
+              Hora :
+              <input type="text" name="hora" size="2" onKeyDown="TeclaPulsada1('minuto')" value="<? echo $hora;?>" onBlur="valida_hora(this.form)"> 
+              Min.
+              <input type="text" name="minuto" size="2" onKeyDown="TeclaPulsada1('Fis_Teniente')" value="<? echo $minuto;?>" onBlur="valida_minuto(this.form)">
+              <input type="button" name="BtnBuscar" value="Buscar" style="width:70px" onClick="Proceso('B');"></td>
+          </tr>
+          <tr class="ColorTabla01"> 
+            <td width="74" height="14" align="center">ANODOS</td>
+            <td width="101" align="center">Fisi
+              
+            co</td>
+            <td width="102" align="center">Quimico</td>
+            <td width="106" align="center">Calafateo</td>
+            <td width="98" align="center">Mold. Sin Analis.</td>
+          </tr>
+           <tr> 
+            <td>VENT. CTE</td>
+            <td align="center"><input type="text" name="Fis_Vent" style="width:70px" value="<? echo $Fis_Vent; ?>"></td>
+            <td align="center"><input type="text" name="Quim_Vent" style="width:70px" value="<? echo $Quim_Vent; ?>"></td>
+            <td align="center"><input type="text" name="Calaf_Vent" style="width:70px" value="<? echo $Calaf_Vent; ?>"></td>
+            <td align="center"><input type="text" name="Ana_Vent" style="width:70px" value="<? echo $Ana_Vent; ?>"></td>
+          </tr>
+          <tr> 
+            <td>H. MADRES</td>
+            <td align="center"><input type="text" name="Fis_HMadres" style="width:70px" value="<? echo $Fis_HMadres; ?>"></td>
+            <td align="center"><input type="text" name="Quim_HMadres" style="width:70px" value="<? echo $Quim_HMadres; ?>"></td>
+            <td align="center"><input type="text" name="Calaf_HMadres" style="width:70px" value="<? echo $Calaf_HMadres; ?>"></td>
+            <td align="center"><input type="text" name="Ana_HMadres" style="width:70px" value="<? echo $Ana_HMadres; ?>"></td>
+          </tr>
+          <tr> 
+            <td>TENIENTE</td>
+            <td align="center"><input type="text" name="Fis_Teniente" style="width:70px" onKeyDown="TeclaPulsada1('Quim_Teniente')"  value="<? echo $Fis_Teniente; ?>"></td>
+            <td align="center"><input type="text" name="Quim_Teniente" style="width:70px" onKeyDown="TeclaPulsada1('Calaf_Teniente')"  value="<? echo $Quim_Teniente; ?>"></td>
+            <td align="center"><input type="text" name="Calaf_Teniente" style="width:70px" onKeyDown="TeclaPulsada1('Ana_Teniente')" value="<? echo $Calaf_Teniente; ?>"></td>
+            <td align="center"><input type="text" name="Ana_Teniente" style="width:70px" onKeyDown="TeclaPulsada1('Fis_FHVL')"value="<? echo $Ana_Teniente; ?>"></td>
+          </tr>
+          <tr> 
+            <td>FHVL CTE.</td>
+            <td align="center"><input type="text" name="Fis_FHVL" style="width:70px"onKeyDown="TeclaPulsada1('Quim_FHVL')" value="<? echo $Fis_FHVL; ?>"></td>
+            <td align="center"><input type="text" name="Quim_FHVL" style="width:70px"onKeyDown="TeclaPulsada1('Calaf_FHVL')" value="<? echo $Quim_FHVL; ?>"></td>
+            <td align="center"><input type="text" name="Calaf_FHVL" style="width:70px"onKeyDown="TeclaPulsada1('Ana_FHVL')" value="<? echo $Calaf_FHVL; ?>"></td>
+            <td align="center"><input type="text" name="Ana_FHVL" style="width:70px"onKeyDown="TeclaPulsada1('Fis_Disputada')" value="<? echo $Ana_FHVL; ?>"></td>
+          </tr>
+          <tr> 
+            <td>ANGLO AMERICAN</td>
+            <td align="center"><input type="text" name="Fis_Disputada" style="width:70px"onKeyDown="TeclaPulsada1('Quim_Disputada')" value="<? echo $Fis_Disputada; ?>"></td>
+            <td align="center"><input type="text" name="Quim_Disputada" style="width:70px"onKeyDown="TeclaPulsada1('Calaf_Disputada')" value="<? echo $Quim_Disputada; ?>"></td>
+            <td align="center"><input type="text" name="Calaf_Disputada" style="width:70px"onKeyDown="TeclaPulsada1('Ana_Disputada')" value="<? echo $Calaf_Disputada; ?>"></td>
+            <td align="center"><input type="text" name="Ana_Disputada" style="width:70px"onKeyDown="TeclaPulsada1('Fis_Restos')" value="<? echo $Ana_Disputada; ?>"></td>
+          </tr>
+          <tr> 
+            <td>RESTOS</td>
+            <td align="center"><input type="text" name="Fis_Restos" style="width:70px"onKeyDown="TeclaPulsada1('Quim_Restos')" value="<? echo $Fis_Restos; ?>"></td>
+            <td align="center"><input type="text" name="Quim_Restos" style="width:70px"onKeyDown="TeclaPulsada1('Calaf_Restos')" value="<? echo $Quim_Restos; ?>"></td>
+            <td align="center"><input type="text" name="Calaf_Restos" style="width:70px"onKeyDown="TeclaPulsada1('Ana_Restos')" value="<? echo $Calaf_Restos; ?>"></td>
+            <td align="center"><input type="text" name="Ana_Restos" style="width:70px"onKeyDown="TeclaPulsada1('Fis_Expo')" value="<? echo $Ana_Restos; ?>"></td>
+          </tr>
+          <tr>
+            <td>EXPO/EMB</td>
+            <td align="center"><input type="text" name="Fis_Expo" style="width:70px"onKeyDown="TeclaPulsada1('Quim_Expo')" value="<? echo $Fis_Expo; ?>"></td>
+            <td align="center"><input type="text" name="Quim_Expo" style="width:70px"onKeyDown="TeclaPulsada1('Calaf_Expo')" value="<? echo $Quim_Expo; ?>"></td>
+            <td align="center"><input type="text" name="Calaf_Expo" style="width:70px"onKeyDown="TeclaPulsada1('Ana_Expo')" value="<? echo $Calaf_Expo; ?>"></td>
+            <td align="center"><input type="text" name="Ana_Expo" style="width:70px"onKeyDown="TeclaPulsada1('BtnGuardar')" value="<? echo $Ana_Expo; ?>"></td>
+          </tr>
+
+        </table>
+	  <br>
+        <table width="420" border="1" cellspacing="0" cellpadding="0" class="TablaDetalle">
+          <tr> 
+            <td width="415" align="center"> <input type="button" name="BtnGuardar" value="Grabar" style="width:70px" onClick="Proceso('G');"> 
+              <input type="button" name="BtnEliminar" value="Eliminar" style="width:70px" onClick="Proceso('E');"> 
+              <input type="button" name="BtnSalir" value="Salir" style="width:70px" onClick="Proceso('S');"> 
+            </td>
+          </tr>
+      </table> </td>
+</tr>
+</table>
+<? include("../principal/pie_pagina.php")?>
+</form>
+
+</body>
+</html>

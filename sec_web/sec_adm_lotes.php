@@ -1,0 +1,773 @@
+<?php 	
+ 	$CodigoDeSistema = 3;
+	$CodigoDePantalla =11;
+	include("../principal/conectar_sec_web.php");
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Rut = $CookieRut;
+	$Fecha_Hora = date("d-m-Y h:i");
+	$Fecha = date('Y-m-d');
+	$anito=substr($Fecha,0,4);
+
+	/*********************************************************** */
+	if(isset($_REQUEST["Ver"])){
+		$Ver = $_REQUEST["Ver"];
+	}else{
+		$Ver = "";
+	}
+	if(isset($_REQUEST["Mensaje"])){
+		$Mensaje = $_REQUEST["Mensaje"];
+	}else{
+		$Mensaje = "";
+	}
+	if(isset($_REQUEST["Mostrar"])){
+		$Mostrar = $_REQUEST["Mostrar"];
+	}else{
+		$Mostrar = "";
+	}
+	if(isset($_REQUEST["Mostrar2"])){
+		$Mostrar2 = $_REQUEST["Mostrar2"];
+	}else{
+		$Mostrar2 = "";
+	}
+	if(isset($_REQUEST["Mostrar3"])){
+		$Mostrar3 = $_REQUEST["Mostrar3"];
+	}else{
+		$Mostrar3 = "";
+	}
+	
+	if(isset($_REQUEST["NumBulto"])){
+		$NumBulto = $_REQUEST["NumBulto"];
+	}else{
+		$NumBulto = "";
+	}
+	if(isset($_REQUEST["CmbAno"])){
+		$CmbAno = $_REQUEST["CmbAno"];
+	}else{
+		$CmbAno = "";
+	}
+	if(isset($_REQUEST["CmbCodBulto"])){
+		$CmbCodBulto = $_REQUEST["CmbCodBulto"];
+	}else{
+		$CmbCodBulto = "";
+	}
+	if(isset($_REQUEST["CmbSerie"])){
+		$CmbSerie = $_REQUEST["CmbSerie"];
+	}else{
+		$CmbSerie = "";
+	}
+	if(isset($_REQUEST["CodBulto"])){
+		$CodBulto = $_REQUEST["CodBulto"];
+	}else{
+		$CodBulto = "";
+	}
+	if(isset($_REQUEST["Mes"])){
+		$Mes = $_REQUEST["Mes"];
+	}else{
+		$Mes = "";
+	}
+
+	
+
+	/*********************************************************** */
+	//echo "hhhhhhhhhhhhhhhhhhhhhh".$Fecha."xx".$anito;
+	$Consulta = "SELECT * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'  ";
+
+	$Respuesta =mysqli_query($link, $Consulta);
+	if($Fila =mysqli_fetch_array($Respuesta))
+	{
+		$Nivel = $Fila["nivel"];
+	}
+	if ($Mostrar=="S")
+	{
+		/*$Consulta="SELECT cod_marca,corr_enm from lote_catodo ";
+		$Consulta
+		$Consulta.=" where cod_bulto='".$CmbCodBulto."' and num_bulto='".$NumBulto."'";
+		$Respuesta=mysqli_query($link, $Consulta);
+		$Fila=mysqli_fetch_array($Respuesta);
+		$Marca=$Fila["cod_marca"];
+		$ENM=$Fila["corr_enm"];*/
+	}
+?>
+<html>
+<head>
+<script language="JavaScript">
+function Salir()
+{
+	var Frm=document.FrmProceso;
+	Frm.action= "../principal/sistemas_usuario.php?CodSistema=3";
+	Frm.submit();
+}
+function Recarga()
+{
+	var Frm=document.FrmProceso;
+	var CodBulto="";
+	//alert(Frm.CmbSerie.value);
+	CodBulto=(Frm.CmbSerie.value.substr(0,1));
+	NumBulto=(Frm.CmbSerie.value.substr(2,Frm.CmbSerie.value.length));
+	Frm.action="sec_adm_lotes.php?Mostrar=S&CodBulto="+CodBulto+"&NumBulto="+NumBulto+"&Mostrar2=S&Mes="+Frm.CmbCodBulto.value;
+	Frm.submit();
+}
+function CambiarMarca(codigo,numero)
+{
+	var Frm=document.FrmProceso;
+	window.open("sec_asignar_marca.php?Ano="+Frm.CmbAno.value+"&Codigo="+codigo +"&Numero="+numero,""," fullscreen=no,width=700,height=400,scrollbars=yes,resizable = yes");
+}
+function ModificarProd(codigo,numero,prod,subprod)
+{
+	var Frm=document.FrmProceso;
+	var Frm=document.FrmProceso;
+	var LargoForm =Frm.elements.length;
+	var cont =0;
+	var MesI="";
+	var NumI="";
+	var MesF="";
+	var NumF="";
+	var sub_producto="";
+	var CheckeoDetalle=false;
+	var Datos="";
+	var sw=0;
+	var l = 0;
+	var a =  Frm.checkbox.length;
+	
+	for (i=1;i<Frm.checkbox.length;i++)
+	{
+		if (Frm.checkbox[i].checked==true)
+		{
+			MesI =Frm.MesPaqueteI[i].value ;
+			NumI =Frm.NumPaqueteI[i].value ;
+			MesF =Frm.MesPaqueteF[i].value ;
+			NumF =Frm.NumPaqueteF[i].value ;
+			if (a> 2)
+				sub_producto=Frm.subprod[l].value;
+			else
+				sub_producto=Frm.subprod.value;
+			CheckeoDetalle=true;
+			sw++;
+			Datos=Datos+MesI+"~"+NumI+"~"+MesF+"~"+NumF+"//";		
+		}
+		l++;	
+	}
+	if (CheckeoDetalle==false)
+	{
+		alert("No Hay Elementos Seleccionados");
+	}
+	else
+	{
+		Datos=Datos.substr(0,Datos.length-2);
+		//alert(Datos);
+		window.open("sec_modificar_producto.php?Ano="+Frm.CmbAno.value+"&Codigo="+codigo +"&Numero="+numero+"&CmbProductos="+prod+"&cmbsubproducto="+subprod+"&Valores="+Datos,""," fullscreen=no,width=400,height=250,scrollbars=yes,resizable = yes");		
+	}
+	
+}
+
+function Detalle()
+{
+	var Frm=document.FrmProceso;
+	var LargoForm =Frm.elements.length;
+	var cont =0;
+	var MesI="";
+	var NumI="";
+	var MesF="";
+	var NumF="";
+	var sub_producto="";
+	var CheckeoDetalle=false;
+	var sw=0;
+	var l = 0;
+	var a =  Frm.checkbox.length;
+	
+	for (i=1;i<Frm.checkbox.length;i++)
+	{
+		if (Frm.checkbox[i].checked==true)
+		{
+			MesI =Frm.MesPaqueteI[i].value ;
+			NumI =Frm.NumPaqueteI[i].value ;
+			MesF =Frm.MesPaqueteF[i].value ;
+			NumF =Frm.NumPaqueteF[i].value ;
+			if (a> 2)
+			{
+				sub_producto=Frm.subprod[l].value;
+			}
+			else
+			{
+			sub_producto=Frm.subprod.value;
+			}
+			CheckeoDetalle=true;
+			sw++;
+			
+		}
+		l++;	
+	}
+	if (CheckeoDetalle==false)
+	{
+		alert("No Hay Elementos Seleccionados ");
+	}
+	else
+	{
+		if (sw > 1)
+		{
+			alert("Debe Seleccionar Solo un Elemento");
+		}
+		else
+		{
+			CodBulto=(Frm.CmbSerie.value.substr(0,1));
+			NumBulto=(Frm.CmbSerie.value.substr(2,Frm.CmbSerie.value.length));
+
+			window.open("sec_detalle_paquete.php?Ano="+Frm.CmbAno.value+"&subproducto="+sub_producto+"&Codigo="+CodBulto +"&Numero="+NumBulto+"&MesI="+MesI+"&NumI="+NumI+"&MesF="+MesF+"&NumF="+NumF+"&Ano="+Frm.CmbAno.value,""," fullscreen=no,width=680,height=400,scrollbars=yes,resizable = yes");
+		}
+	}
+}
+function CierreLotesAnteriores()
+{
+	var Frm=document.FrmProceso;
+	var Valores="";
+	var Resp="";
+	if(Frm.CmbSerie.value!='-1')
+	{	
+		if(confirm("�Esta seguro de realizar el cierre de los años anteriores?"))
+		{
+			window.open("sec_proceso_cierre_lote.php?Anio="+Frm.CmbAno.value+"&CodBulto="+Frm.CmbCodBulto.value+"&NroBulto="+Frm.CmbSerie.value,"","top=80,left=180,width=400,height=200,scrollbars=yes,resizable =no");
+		}
+	}
+	else
+	{
+		alert("Debe Seleccionar el lote que cerrar�, recuerde anular la gu�a que hace referencia al lote del año actual. ")
+		
+	}
+	
+	
+}
+function MostrarPopupProceso(Proceso)
+{
+	var Frm=document.FrmProceso;
+	var Valores="";
+	var Resp="";
+	switch (Proceso)
+	{
+		case "N":
+			window.open("sec_ingreso_marca_proceso.php?Proceso="+Proceso,"","top=80,left=180,width=430,height=300,scrollbars=no,resizable = no");
+			break;
+	}
+}
+function Eliminar(Ano,codigo,numero)
+{
+	var Frm=document.FrmProceso;
+	var mensaje = confirm("�Seguro que desea Quitar la Relacion?");
+	var Valores="";
+	if (mensaje==true)
+	{
+		for (i=1;i<Frm.checkbox.length;i++)
+		{
+			Valores =Valores + Frm.checkbox[i].value +  "//" ;
+		}
+		Valores=Valores.substr(0,Valores.length-2);
+		Frm.action="sec_conf_inicial_lotes_proceso01.php?AnoLote="+Frm.CmbAno.value+"&Codigo="+codigo +"&Numero="+numero+"&Valores="+Valores+"&Proceso=QuitarRelacion";
+		Frm.submit();
+	}
+	else
+	{
+		return;
+	}
+}
+function ModFechaLote()
+{
+	var Frm=document.FrmProceso;
+	CodBulto=(Frm.CmbSerie.value.substr(0,1));
+	NumBulto=(Frm.CmbSerie.value.substr(2,Frm.CmbSerie.value.length));
+	window.open("sec_adm_lote_modifica_fecha.php?CodBulto="+CodBulto +"&NumBulto="+NumBulto+"&CmbAno="+Frm.CmbAno.value,""," fullscreen=no,width=800,height=400,scrollbars=yes,resizable = yes");
+}
+</script>
+<title>Proceso</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+body{
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+</style>
+<body>
+<form name="FrmProceso" method="post" action="">
+  <?php include("../principal/encabezado.php")?>
+  <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
+    <tr>
+    <td width="776" align="center" valign="top"
+	><table width="754" border="0" class="TablaInterior">
+          <tr> 
+            <td width="27"><font size="2">&nbsp; </font></td>
+            <td width="126"><font size="2">A&ntilde;o</font><font size="1"><font size="2"><font size="1"><font size="2"><font size="1"><font size="2"> 
+              <SELECT name="CmbAno" size="1" id="SELECT9" style="width:70px;" onChange="Recarga();">
+                <?php
+			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+			{
+				if (isset($CmbAno))
+				{
+					if ($i==$CmbAno)
+						{
+							echo "<option SELECTed value ='$i'>$i</option>";
+						}
+					else	
+						{
+							echo "<option value='".$i."'>".$i."</option>";
+						}
+				}
+				else
+				{
+					if ($i==date("Y"))
+						{
+							echo "<option SELECTed value ='$i'>$i</option>";
+						}
+					else	
+						{
+							echo "<option value='".$i."'>".$i."</option>";
+						}
+				}		
+			}
+			?>
+              </SELECT>
+              </font></font><font size="2"></font></font></font></font></font></td>
+            <td width="36"><font size="1"><font size="2"> </font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Mes</font></font></td>
+            <td width="99"><font size="2"> 
+              <SELECT name="CmbCodBulto" onChange="Recarga();">
+                <?php
+				if ($Mostrar2!="S")
+				{	
+					$Mes=date("n");
+					$CmbCodBulto=$Mes;		
+				}
+				else
+				{
+					$CmbCodBulto=$Mes;		
+				}
+				$Consulta="SELECT * from proyecto_modernizacion.sub_clase ";
+				$Consulta.=" where cod_clase='3004' and cod_subclase between 1 and 12   ";
+				$Respuesta=mysqli_query($link, $Consulta);
+				while($Fila=mysqli_fetch_array($Respuesta))
+				{
+					if ($CmbCodBulto==$Fila["cod_subclase"])
+					{
+						echo "<option value=".$Fila["cod_subclase"]." SELECTed>".$Fila["nombre_subclase"]."</option>";	
+					}
+					else
+					{
+						echo "<option value=".$Fila["cod_subclase"].">".$Fila["nombre_subclase"]."</option>";	
+					}
+				}
+				?>
+              </SELECT>
+              </font></td>
+            <td width="88">N&deg; Lote</td>
+            <td width="88"><SELECT name="CmbSerie" onChange="Recarga();">
+            <option value="-1">Seleccionar</option>
+            <?php
+			if ($Ver=="S")
+			{
+				$CmbAno=date("Y");
+			}
+			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='3004' and cod_subclase='".$CmbCodBulto."' ";
+			$Respuesta0=mysqli_query($link, $Consulta);
+			$Fila0=mysqli_fetch_array($Respuesta0);
+			$CodBulto=$Fila0["nombre_subclase"];
+			$Consulta="SELECT distinct cod_bulto,num_bulto from sec_web.lote_catodo where   ";
+			$Consulta.=" substring(fecha_creacion_lote,1,4)='".$CmbAno."' and cod_bulto='".$CodBulto."' ";
+			$Consulta.="  order by cod_bulto,num_bulto	";
+			$Respuesta=mysqli_query($link, $Consulta);
+			while($Fila=mysqli_fetch_array($Respuesta))
+			{
+				if (($CodBulto==$Fila["cod_bulto"])&&($NumBulto==$Fila["num_bulto"]))
+				{
+					echo "<option value='".$Fila["cod_bulto"]."-".$Fila["num_bulto"]."'SELECTed>".$Fila["cod_bulto"]."-".$Fila["num_bulto"]."</option>";
+				}
+				else
+				{
+					echo "<option value='".$Fila["cod_bulto"]."-".$Fila["num_bulto"]."'>".$Fila["cod_bulto"]."-".$Fila["num_bulto"]."</option>";
+				}
+			}
+			?>
+              </SELECT> </td>
+            <td width="79">Marca</td>
+            <td colspan="2"> 
+              <?php
+				//if ($Mostrar=="S")
+				//{
+					$Consulta="SELECT distinct t1.cod_marca,t2.descripcion,t1.corr_enm from sec_web.lote_catodo t1";
+					$Consulta.=" left join sec_web.marca_catodos t2 on t1.cod_marca = t2.cod_marca	";
+					$Consulta.=" where t1.cod_bulto ='".$CodBulto."' and t1.num_bulto='".$NumBulto."' and substring(fecha_creacion_lote,1,4)='".$CmbAno."'";
+					//echo $Consulta."<br>";
+					$Respuesta=mysqli_query($link, $Consulta);
+					$Fila=mysqli_fetch_array($Respuesta);
+					//$Descripcion=$Fila["descripcion"];
+					if(isset($Fila["descripcion"])){
+						$Descripcion=$Fila["descripcion"];
+					}else{
+						$Descripcion="";
+					}
+					//$CodMarca=$Fila["cod_marca"];
+					if(isset($Fila["cod_marca"])){
+						$CodMarca=$Fila["cod_marca"];
+					}else{
+						$CodMarca="";
+					}
+					//$IE=$Fila["corr_enm"];
+					if(isset($Fila["corr_enm"])){
+						$IE=$Fila["corr_enm"];
+					}else{
+						$IE="";
+					}
+				//}
+			echo $CodMarca;
+			echo "&nbsp;&nbsp;";
+			echo $Descripcion;
+			?>
+              <input name="MarcaBulto" type="hidden" value="<?php echo $CodMarca; ?>"> 
+            </td>
+          </tr>
+          <tr> 
+            <td>&nbsp;</td>
+            <td>Total paquetes</td>
+            <td colspan="2"> 
+              <?php
+			//if ($Mostrar=="S")
+			//{
+				$Consulta="SELECT count(num_paquete) as numero from sec_web.lote_catodo ";
+				$Consulta.=" where cod_bulto='".$CodBulto."' and num_bulto='".$NumBulto."' and "; //substring(fecha_creacion_lote,1,4)='".$CmbAno."'	";
+				$Consulta.=" LEFT(fecha_creacion_lote,4) between '".$CmbAno."' and '".$anito."'";
+				$Respuesta=mysqli_query($link, $Consulta);
+				$Fila=mysqli_fetch_array($Respuesta);	
+				echo $Fila["numero"];
+			//}
+			?>
+            </td>
+            <td>Total Unidades</td>
+            <td> 
+              <?php
+				$Consulta="SELECT sum(num_unidades) as suma_unidades,sum(peso_paquetes) as suma_paquetes, t2.cod_subproducto as cod_subproducto1 from sec_web.lote_catodo t1 ";
+				$Consulta.=" inner join sec_web.paquete_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
+				$Consulta.=" and t1.num_paquete=t2.num_paquete ";
+				$Consulta.=" where cod_bulto='".$CodBulto."' and num_bulto='".$NumBulto."' and  ";
+				$Consulta.=" LEFT(fecha_creacion_lote,4) between '".$CmbAno."' and '".$anito."'";
+				$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and t1.cod_estado=t2.cod_estado";
+                 //poly 12-02-2008
+                //$Consulta.=" group by t2.cod_subproducto";
+                $Consulta.=" group by t2.cod_producto";
+			//	echo $Consulta;
+				$Respuesta=mysqli_query($link, $Consulta);
+				$Fila=mysqli_fetch_array($Respuesta);
+				//$SumaUnidades=$Fila["suma_unidades"];
+				if(isset($Fila["suma_unidades"])){
+					$SumaUnidades=$Fila["suma_unidades"];
+				}else{
+					$SumaUnidades=0;
+				}
+				//$SumaPeso=$Fila["suma_paquetes"];
+				if(isset($Fila["suma_paquetes"])){
+					$SumaPeso=$Fila["suma_paquetes"];
+				}else{
+					$SumaPeso=0;
+				}
+				/*$Consulta="SELECT t1.cod_paquete,t1.num_paquete,t2.num_unidades,t2.peso_paquetes from sec_web.lote_catodo t1 ";
+				$Consulta.=" inner join sec_web.paquete_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
+				$Consulta.=" and t1.num_paquete=t2.num_paquete ";
+				$Consulta.=" where cod_bulto='".$CodBulto."' and num_bulto='".$NumBulto."' and LEFT(fecha_creacion_lote,4)='".$CmbAno."'	";
+				//echo $Consulta;
+				$Respuesta=mysqli_query($link, $Consulta);
+				while($Fila=mysqli_fetch_array($Respuesta))
+				{
+					$SumaUnidades=$SumaUnidades+$Fila["num_unidades"];
+					$SumaPeso=$SumaPeso+$Fila["peso_paquetes"];
+				}*/	
+               // $subproducto_consulta = $Fila["cod_subproducto1"];
+				if(isset($Fila["cod_subproducto1"])){
+					$subproducto_consulta = $Fila["cod_subproducto1"];
+				}else{
+					$subproducto_consulta = "";
+				}
+
+				echo $SumaUnidades;
+			?>
+              &nbsp;</td>
+            <td>Total Peso</td>
+            <td width="77"> 
+              <?php
+			echo $SumaPeso;
+			?>
+            </td>
+            <td width="93">IE:<?php echo $IE ?></td>
+          </tr>
+        </table>
+		<br>
+          <table width="752" border="0" cellpadding="3" cellspacing="0" bordercolor="#b26c4a" class="TablaDetalle">
+          <tr class="ColorTabla01"> 
+            <td width="42"> <input type="hidden" name="CheckTodos" value="checkbox"> 
+            </td>
+            <td width="92"><div align="center">#Inicial S-Lote</div></td>
+            <td width="88" align="left"><div align="center">#Final S-Lote</div></td>
+            <td width="221" align="left"><div align="center">Producto/SubProducto</div></td>
+            <td width="89"><div align="center">Unidades Serie</div></td>
+            <td width="79"><div align="center"></div>
+              <div align="center">Peso Serie</div></td>
+          </tr>
+        </table>
+       <?php
+  		echo "<table width='752' border='1' cellpadding='3' cellspacing='0' bordercolor='#b26c4a'>";
+		$Consulta = "SELECT  distinct t1.cod_paquete,t1.num_paquete,substr(t1.fecha_creacion_paquete,1,4) as anop";
+		$Consulta.=" from sec_web.lote_catodo t1  ";
+		$Consulta.=" where t1.cod_bulto='".$CodBulto."' and t1.num_bulto='".$NumBulto."' and substring(t1.fecha_creacion_lote,1,4) between '".$CmbAno."' and '".$anito."' ";
+		$Consulta.=" order by fecha_creacion_lote desc,cod_paquete,num_paquete ";
+		//echo "con-----".$Consulta;
+		$Respuesta = mysqli_query($link, $Consulta);
+		$cont=1;
+		$arreglo=array();
+		$i=0;
+		while ($Fila=mysqli_fetch_array($Respuesta))
+		{
+			$arreglo[$i]=	array($Fila["cod_paquete"],$Fila["num_paquete"],$Fila["anop"]);
+			$i++;
+		}
+		reset($arreglo);
+		$sw=0;
+		$vector=array();
+		$a=0;
+		$i=0;
+		while ($i < count($arreglo))
+		{
+			if ($arreglo[$i][0]==$arreglo[$i+1][0])
+			{
+				if($arreglo[$i][1]==($arreglo[$i+1][1]-1))
+				{
+					if($sw==0)
+					{
+						$vector[$a][0]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//inicial
+						$sw=1;
+					}
+					else
+					{
+						if ($arreglo[$i+1][1]!=($arreglo[$i+2][1]-1))
+						{
+							$vector[$a][1]=$arreglo[$i+1][0]."-".$arreglo[$i+1][1]."-".$arreglo[$i+1][2];//final
+							$sw=0;
+							$a++;
+							$i++;
+						}
+					}
+				}
+				else
+				{
+					if ($sw==0)
+					{	
+						$vector[$a][0]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//inicial
+						$vector[$a][1]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//final
+						$a++;
+					}
+					else
+					{
+						$vector[$a][1]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//final
+						$sw=0;
+						$a++;
+					}
+				}
+			}
+			else
+			{
+				if ((count($arreglo)-$i)<=1)//fin del arreglo
+				{
+					if ($vector[$a][0]=="")
+					{
+						$vector[$a][0]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//inicial
+					}
+					$vector[$a][1]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//final
+				}		
+				else
+				{
+					if ($sw==1)
+					{
+						$vector[$a][1]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//final
+						$a++;
+						$sw=0;
+					}
+					else
+					{
+						$vector[$a][0]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//inicial
+						$vector[$a][1]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//final
+						$a++;
+					}
+				}
+			}
+			$i++;
+		}		
+		reset($vector);
+		echo "<input name ='checkbox' type='hidden' ><input name ='MesPaqueteI' type='hidden' ><input name ='NumPaqueteI' type='hidden' ><input name ='MesPaqueteF' type='hidden' ><input name ='NumPaqueteF' type='hidden' >";
+		$j=1;
+		foreach($vector as $Clave => $Valor)
+		{
+			
+			$Inicial=explode("-",$Valor[0]);
+			$Final=explode("-",$Valor[1]);
+			//echo $Inicial[0]."-".$Inicial[1];
+			echo "<tr>";
+      		echo "<td width='42px'><input name='checkbox' type='checkbox'  value='".$Inicial[0]."~".$Inicial[1]."~".$Final[0]."~".$Final[1]."'></td>";
+			echo "<td width='92'>".$Inicial[0]."-".$Inicial[1]."</td>";
+			echo "<td width='92'>".$Final[0]."-".$Final[1]."</td>";
+			
+			
+			//echo "<td width='92'>".$Valor[0]."</td>";
+			//echo "<td width='92'>".$Valor[1]."</td>";
+			$MesPaqueteI=$Inicial[0];
+			echo "<input type='hidden' name='MesPaqueteI' value='".$Inicial[0]."'>";
+			$NumPaqueteI=$Inicial[1];
+			echo "<input type='hidden' name='NumPaqueteI' value='".$Inicial[1]."'>";
+			$Fechapi=$Inicial[2];
+			//echo "<input type='hidden' name='Fechapi' value='".$Inicial[2]."'>";
+			$MesPaqueteF=$Final[0];
+			echo "<input type='hidden' name='MesPaqueteF' value='".$Final[0]."'>";
+			
+			$NumPaqueteF=$Final[1];
+			echo "<input type='hidden' name='NumPaqueteF' value='".$Final[1]."'>";
+			$Fechapf=$Final[2];
+			//echo "<input type='hidden' name='Fechapf' value='".$Final[2]."'>";
+			//echo $Fechapi."-".$Fechapf;
+			/*$CodPaqueteI=$Inicial[0];
+			$NumPaqueteI=$Inicial[1];  
+			echo "<input type='hidden' name='CodPaqueteINumPaqueteI' value='".$Inicial[0]."~".$Inicial[1]."'>";*/
+			$cont = $cont +  9;
+			$Consulta="SELECT t1.cod_producto, t1.cod_subproducto,t2.descripcion,t2.abreviatura as abrevP,t3.abreviatura from sec_web.paquete_catodo t1";
+			$Consulta.=" inner join proyecto_modernizacion.productos t2 on t1.cod_producto=t2.cod_producto";
+			$Consulta.=" inner join proyecto_modernizacion.subproducto t3 on t2.cod_producto=t3.cod_producto";
+			//$Consulta.=" inner join sec_web.lote_catodo t4 on t1.cod_paquete = t4.cod_paquete and";
+			//$Consulta.=" t1.num_paquete = t4.num_paquete";  
+			$Consulta.=" where  cod_paquete='".$MesPaqueteI."' and num_paquete='".$NumPaqueteI."'";
+			
+			//$Consulta.="and substring(fecha_creacion_paquete,1,4)='".$CmbAno."' ";
+			$Consulta.=" and substring(fecha_creacion_paquete,1,4)=substr('".$Fechapi."',1,4)";
+			//$Consulta.=" and t1.cod_subproducto = t3.cod_subproducto";
+   
+
+   
+   
+           // poly 28-02-2008 lote A-2829 $Consulta.=" and t1.cod_subproducto = '".$subproducto_consulta."'";
+			$Consulta.="and t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
+			//echo "con".$Consulta;
+			$Respuesta3=mysqli_query($link, $Consulta);
+			$Fila3=mysqli_fetch_array($Respuesta3);
+			echo "<td width='221'>".$Fila3["descripcion"]."/".$Fila3["abreviatura"]."&nbsp;</td>";
+			$Consulta="SELECT sum(num_unidades) as unidades, sum(peso_paquetes) as paquetes from sec_web.paquete_catodo t1";
+			$Consulta.=" inner join sec_web.lote_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
+			$Consulta.=" and t1.num_paquete=t2.num_paquete ";					
+			$Consulta.=" where (t1.cod_paquete='".$MesPaqueteI."' and t1.num_paquete between '".$NumPaqueteI."' and '".$NumPaqueteF."' and t1.cod_estado=t2.cod_estado)  and  ";
+			$Consulta.=" t2.cod_bulto='".$CodBulto."' and t2.num_bulto='".$NumBulto."' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and LEFT(t2.fecha_creacion_lote,4) between '".$CmbAno."' and '".$anito."'  and t1.cod_producto='".$Fila3["cod_producto"]."' and t1.cod_subproducto='".$Fila3["cod_subproducto"]."'";
+			//and t2.corr_enm='".$IE."'
+//echo $Consulta;
+			$Respuesta4=mysqli_query($link, $Consulta);
+			$Fila4=mysqli_fetch_array($Respuesta4);
+			$subprod = $Fila3["cod_subproducto"];
+			echo "<input type='hidden' name='subprod' value='".$subprod."'>";
+			//echo "<input type='hidden' name='sub_producto['".$i."']."' value='".$sub_producto."'>"
+			echo "<td width='89'>".$Fila4["unidades"]."&nbsp;</td>";
+			echo "<td width='79'>".$Fila4["paquetes"]."&nbsp;</td>";
+			echo "</tr>";
+			$j++;
+		}
+		echo "</table>";
+		?>
+        <br>
+        <table width="751" border="0" class="TablaInterior">
+          <tr> 
+            <td  align="center" width="180px"><div align="left">Cliente:
+			<?php	
+			$Consulta="SELECT * from sec_web.programa_enami where corr_enm='".$IE."' ";
+			$Respuesta=mysqli_query($link, $Consulta);
+			$Cliente=""; // WSO
+			if($Fila=mysqli_fetch_array($Respuesta))
+			{
+				$Consulta="SELECT * from sec_web.cliente_venta where cod_cliente='".$Fila["cod_cliente"]."' ";
+				$Respuesta1=mysqli_query($link, $Consulta);
+				if ($Fila1=mysqli_fetch_array($Respuesta1))
+				{
+					$Cliente=$Fila1["sigla_cliente"];
+				}
+				else
+				{
+					$Consulta="SELECT * from sec_web.nave where cod_nave='".$Fila["cod_cliente"]."' ";
+					$Respuesta2=mysqli_query($link, $Consulta);
+					if ($Fila2=mysqli_fetch_array($Respuesta2))
+					{
+						$Cliente=$Fila1["nombre_nave"];
+					}
+				}
+			}
+			else
+			{
+				$Consulta="SELECT * from sec_web.programa_codelco where corr_codelco='".$IE."' ";
+				$Respuesta3=mysqli_query($link, $Consulta);
+				if($Fila3=mysqli_fetch_array($Respuesta3))
+				{
+					$Consulta="SELECT * from sec_web.cliente_venta where cod_cliente='".$Fila3["cod_cliente"]."' ";
+					$Respuesta4=mysqli_query($link, $Consulta);
+					if ($Fila4=mysqli_fetch_array($Respuesta4))
+					{
+						$Cliente=$Fila4["sigla_cliente"];
+					}
+					else
+					{
+						$Consulta="SELECT * from sec_web.nave where cod_nave='".$Fila3["cod_cliente"]."' ";
+						$Respuesta4=mysqli_query($link, $Consulta);
+						if ($Fila4=mysqli_fetch_array($Respuesta4))
+						{
+							$Cliente=$Fila4["nombre_nave"];
+						}
+					}
+				}
+			}
+			echo $Cliente;
+			?>
+			</div></td>
+            <td  align="center" width="700"><div align="left"> 
+                <input name="BtnActualizar" type="submit" id="BtnActualizar" style="width:60" value="Actualizar">
+                <input name="BtnDetalle" type="button" id="BtnDetalle" style="width:60" onClick="Detalle()" value="Detalle">
+																		 										
+				<input name="BtnMarca" type="button" id="BtnNueva" style="width:80" onClick="MostrarPopupProceso('N')" value="Nueva Marca">
+
+               <?php
+			   if (($Nivel=='6')||($Nivel=='1')||($Nivel=='2'))
+      
+				{
+					echo "<input name='BtnAsignar' type='button'  style='width:60' value='Marca' onClick=\"CambiarMarca('$CodBulto','$NumBulto')\">";
+					
+					if($IE<900000)
+						echo "<input name='BtnEliminar' type='button'  style='width:90' value='Quitar Relacion' onClick=\"Eliminar('$CmbAno','$CodBulto','$NumBulto')\" >";
+					else
+						echo "<input name='BtnModProd' type='button'  style='width:90' value='Prod_SubProd' onClick=\"ModificarProd('$CodBulto','$NumBulto','".$Fila3["cod_producto"]."','".$Fila3["cod_subproducto"]."')\">";	
+				}
+				?>
+                <input name="BtnCierre" type="button" id="BtnCierre" style="width:80" onClick="CierreLotesAnteriores()" value="Cierre Lotes ">
+
+				<input type="button" name="BtnModFechaLote" value="Modif. Fecha" style="width:80" onClick="ModFechaLote();">
+				<input type="button" name="BtnSalir" value="Salir" style="width:40" onClick="Salir();">
+              </div></td>
+          </tr>
+      </table> </td>
+  </tr>
+</table>
+ <?php include("../principal/pie_pagina.php");
+ 
+  		echo "<script languaje='JavaScript'>";
+		echo "var frm=document.FrmProceso;";
+		if ($Mensaje=='S')
+		{
+			echo "alert('Este Lote esta Asociado a una Inst Embarque');";
+		}
+		if ($Mensaje2=='S')
+		{
+			echo "alert('No se Puede Deshacer El Lote por que esta cerrado');";
+		}
+		if($Mensaje3!="")
+		{
+			echo "alert('".$Mensaje3."');";	
+		}		
+		echo "</script>"
+  ?>
+</form>
+</body>
+</html>

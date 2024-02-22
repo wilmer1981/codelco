@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44910 ',peso_neto='31030',marca='V FRANJA NARANJA',cod_mop='520',num_sello='',transportista='',rut_chofer='6660026-2',nombre_chofer='JUAN BERNAL',observacion='',romana_salida='1' where correlativo='453441' and lote='21116055' and recargo='50'

@@ -1,0 +1,620 @@
+<? 
+	include("../principal/conectar_sget_web.php");
+	include("funciones/sget_funciones.php");
+	if(!isset($Estado))
+		$Estado='T';
+?>
+<html>
+<head>
+<?
+if(!isset($TxtFecha))
+	$TxtFecha=date('Y-m-d');
+if(!isset($TxtFechaH))
+	$TxtFechaH=date('Y-m-d');
+if(!isset($Hora))
+	$Hora=date('G');
+if(!isset($Minutos))
+	$Minutos=date('i');
+if(!isset($HoraS))
+	$HoraS=date('G');
+if(!isset($MinutoS))
+	$MinutoS=date('i');
+		echo "<title>Control de Visitas</title>";
+?>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="javascript" src="funciones/sget_funciones.js"></script>
+<script language="JavaScript">
+function Proceso(Opcion)
+{
+	var f= document.FrmProceso;
+	var Valida=true;
+	var Veri="";
+	switch(Opcion)
+	{
+		case "B":
+			f.action = "sget_mantenedor_visitas_control.php?Cons=S";
+			f.submit();
+		break;
+		case "S":
+			window.location="../principal/sistemas_usuario.php?CodSistema=30";
+		break;
+		case "GOBS":
+			if(SoloUnElemento(f.name,'CheckRut','E'))
+			{
+				//Datos=Recuperar(f.name,'CheckRut');
+				Datos='';
+				for(i=0;i<f.elements.length;i++)
+				{
+					if(f.elements[i].name=='CheckRut' && f.elements[i].checked==true)
+						Datos=Datos+f.elements[i].value+"//";
+				}
+				Datos=Datos.substr(0,Datos.length-2);
+				f.Datos.value=Datos;
+				f.action = "sget_mantenedor_visitas_proceso01.php?Opcion=GOBS";
+				f.submit();
+			}			
+		break;
+		case "GHE":
+			if(SoloUnElemento(f.name,'CheckRut','E'))
+			{
+				//Datos=Recuperar(f.name,'CheckRut');
+				Datos='';
+				for(i=0;i<f.elements.length;i++)
+				{
+					if(f.elements[i].name=='CheckRut' && f.elements[i].checked==true)
+						Datos=Datos+f.elements[i].value+"//";
+				}
+				Datos=Datos.substr(0,Datos.length-2);
+				f.Datos.value=Datos;
+				f.action = "sget_mantenedor_visitas_proceso01.php?Opcion=GHE";
+				f.submit();
+			}			
+		break;
+		case "GHS":
+			if(SoloUnElemento(f.name,'CheckRut','E'))
+			{
+				//Datos=Recuperar(f.name,'CheckRut');
+				var Datos='';
+				for (i=0;i<f.elements.length;i++)
+				{			
+					if(f.elements[i].checked==true && f.elements[i].name=='CheckRut')
+					{	
+						if(f.elements[i+1].value=='' || f.elements[i+1].value=='00:00:00')
+						{
+							alert('No se puede(n) ingresar hora(s) de salida, \nya que la(s) visita(s) no se encuentra dentro de Codelco.');										
+							return;
+						}
+						else
+						{	
+							Datos = Datos+f.elements[i].value+"//";
+						}
+					}
+				}
+				Datos=Datos.substr(0,Datos.length-2);
+				f.Datos.value=Datos;
+/*				var CorrValor=Datos.split('~');
+				if(CorrValor[1]=='00:00:00')
+				{
+					alert('No se puede ingresar hora de salida, ya que la visita no se encuentra dentro de Codelco.')
+					return;
+				}			
+				else
+				{
+*/					f.action = "sget_mantenedor_visitas_proceso01.php?Opcion=GHS";
+					f.submit();
+				//}
+			}			
+		break;
+		case "EX":
+			URL='sget_mantenedor_visitas_control_excel.php?TxtFecha='+f.TxtFecha.value+'&TxtFechaH='+f.TxtFechaH.value+'&TxtRut='+f.TxtRut.value+'&Estado='+f.Estado.value+'&TxtNom='+f.TxtNom.value+'&TxtPat='+f.TxtPat.value+'&TxtEmp='+f.TxtEmp.value+'&TxtCttoOC='+f.TxtCttoOC.value;
+			window.open(URL,"","top=30,left=30,width=1000,height=550,status=yes,menubar=no,resizable=yes,scrollbars=yes");
+		break;
+	}
+}
+function Salir()
+{
+	window.close();
+}
+function VerMsj(Msj)
+{
+	if (Msj=='ME')
+		alert('Hora entrada de visita ingresada con �xito');
+	if (Msj=='MS')
+		alert('Hora salida de visita ingresada con �xito');
+	if (Msj=='MO')
+		alert('Observaci�n ingresada con �xito');
+}
+
+</script>
+</head>
+
+<link href="estilos/css_sget_web.css" rel="stylesheet" type="text/css">
+<?
+if(isset($Msj))
+{
+?>
+<body onLoad="VerMsj('<? echo $Msj?>')">
+<?
+}
+else
+{
+?>
+<body>
+<?
+}
+?>
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="archivos/popcjs.htm" frameBorder=0 width=160 scrolling=no height=180></IFRAME></DIV>
+<form name="FrmProceso" method="post" action="">
+<input name="Opc" type="hidden" value="<? echo $Opc; ?>">
+<input name="NewOpc" type="hidden" value="<? echo $NewOpc; ?>">
+<input name="Pagina" type="hidden" value="<? echo $Pagina; ?>">
+<input name="Datos" type="hidden" size="200">
+
+<table width="100%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+  <tr>
+	<td height="15"><img src="archivos/images/interior/esq1em.gif" width="15" height="15"></td>
+	<td width="848" height="15"background="archivos/images/interior/form_arriba.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15"></td>
+	<td height="15"><img src="archivos/images/interior/esq2em.gif" width="15" height="15"></td>
+  </tr>
+  <tr>
+   <td background="archivos/images/interior/form_izq.gif">&nbsp;</td>
+   <td>
+   <table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+              
+            <td width="50%" align="left"><img src="archivos/sub_tit_visita_c.png" width="450" height="40"></td>
+              <td width="50%" align="left">
+			  &nbsp;<a href="JavaScript:Proceso('EX')"><img src="archivos/excel.png"  alt=" Excel " width="25" height="25"  border="0" align="absmiddle"></a>
+			  <a href="JavaScript:Proceso('S')"><img src="archivos/volver.png"  alt=" Volver " width="25" height="24"  border="0" align="absmiddle"></a>   </td>
+  </tr>
+   </table>
+   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >
+     <tr>
+       <td colspan="3"align="center" class="TituloTablaVerde"></td>
+     </tr>
+     <tr>
+       <td width="1%" align="center" class="TituloTablaVerde"></td>
+            <td align="center"><table width="100%" border="0" align="center" cellpadding="3" cellspacing="0" >
+                <tr> 
+                  <td class="FilaAbeja2">Fecha de Busqueda </td>
+                  <td colspan="8" class="FilaAbeja2">Desde&nbsp;
+				  <input name="TxtFecha" type="text" readonly   size="10"  value="<? echo $TxtFecha; ?>" >
+				  &nbsp;<img src="archivos/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="22" height="18" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFecha,TxtFecha,popCal);return false">
+				  &nbsp;&nbsp;Hasta&nbsp;<input name="TxtFechaH" type="text" readonly   size="10"  value="<? echo $TxtFechaH; ?>" >
+				  &nbsp;<img src="archivos/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="22" height="18" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaH,TxtFechaH,popCal);return false">&nbsp;<a href="JavaScript:Proceso('B')"><img src="archivos/Find2.png" alt="Buscar" width="29" height="25"  border="0" align="absmiddle" /></a></td>
+                </tr>
+                <tr> 
+                  <td class="FilaAbeja2">Rut Visitas </td>
+                  <td width="102" class="FilaAbeja2"><input name="TxtRut" type="text" id="TxtRut"  size="12" value="<? echo $TxtRut;?>" ></td>
+                  <td width="128" class="FilaAbeja2">Nombres</td>
+                  <td width="185" class="FilaAbeja2"><input name="TxtNom" type="text" id="TxtNom" size="35" maxlength="40" value="<? echo $TxtNom;?>" ></td>
+                  <td width="97" class="FilaAbeja2">Apellido Paterno </td>
+                  <td width="169" class="FilaAbeja2"><input name="TxtPat" type="text" id="TxtPat" size="30" maxlength="25" value="<? echo $TxtPat;?>"></td>
+                  <td width="100" rowspan="2" class="FilaAbeja2">&nbsp;</td>
+                  <td width="136" class="FilaAbeja2">&nbsp;</td>
+                  <td width="156" class="FilaAbeja2">&nbsp;</td>
+                </tr>
+                <tr> 
+                  <td class="FilaAbeja2">Estado Visitas </td>
+                  <td class="FilaAbeja2">
+				  <SELECT name="Estado">
+				  <?
+				    switch($Estado)
+					{
+						case "1":
+								?>
+								  <option value="T">Todos</option>
+								  <option value="1" SELECTed="SELECTed">En Proceso</option>
+								  <option value="2">Terminadas</option>
+								  <option value="3">Rechazada</option>
+								<?							
+						break;
+						case "2":
+								?>
+								  <option value="T">Todos</option>
+								  <option value="1">En Proceso</option>
+								  <option value="2" SELECTed="SELECTed">Terminadas</option>
+								  <option value="3">Rechazada</option>
+								<?							
+						break;
+						case "3":
+								?>
+								  <option value="T">Todos</option>
+								  <option value="1">En Proceso</option>
+								  <option value="2">Terminadas</option>
+								  <option value="3" SELECTed="SELECTed">Rechazada</option>
+								<?							
+						break;
+						default:
+								?>
+								  <option value="T" SELECTed="SELECTed">Todos</option>
+								  <option value="1">En Proceso</option>
+								  <option value="2">Terminadas</option>
+								  <option value="3">Rechazada</option>
+								<?							
+						break;
+					}
+				  ?>
+				  </SELECT>&nbsp;&nbsp;<a href="JavaScript:Proceso('B')"></a> </td>
+                  <td class="FilaAbeja2">Empresa o Instituci&oacute;n </td>
+                  <td class="FilaAbeja2"><input name="TxtEmp" type="text" id="TxtEmp" size="45" maxlength="40"value="<? echo $TxtEmp;?>" ></td>
+                  <td class="FilaAbeja2">Contrato/OC</td>
+                  <td class="FilaAbeja2"><input name="TxtCttoOC" type="text" size="30" maxlength="25" value="<? echo $TxtCttoOC;?>"></td>
+                  <td class="FilaAbeja2">&nbsp;</td>
+                  <td class="FilaAbeja2">&nbsp;</td>
+                </tr>
+                <tr> 
+                  <td width="125" class="FilaAbeja2">&nbsp;</td>
+                  <td colspan="3" class="FilaAbeja2">&nbsp;</td>
+                  <td colspan="5" class="FilaAbeja2">&nbsp;</td>
+                </tr>
+                <tr> 
+                  <td class="FilaAbeja2" style="border-top-color:#4679AC; border-top-style:solid; border-top-width:thin;">&nbsp;</td>
+                  <td colspan="3" class="FilaAbeja2" style="border-top-color:#4679AC; border-top-style:solid; border-top-width:thin;">&nbsp;</td>
+                  <td class="FilaAbeja2" style="border-top-color:#4679AC; border-top-style:solid; border-top-width:thin;">&nbsp;</td>
+                  <td class="FilaAbeja2" style="border-top-color:#4679AC; border-top-style:solid; border-top-width:thin;">&nbsp;</td>
+                  <td class="FilaAbeja2" style="border-top-color:#4679AC; border-top-style:solid; border-top-width:thin;">&nbsp;</td>
+                  <td class="FilaAbeja2" style="border-top-color:#4679AC; border-top-style:solid; border-top-width:thin;">&nbsp;</td>
+                  <td class="FilaAbeja2" style="border-top-color:#4679AC; border-top-style:solid; border-top-width:thin;">&nbsp;</td>
+                </tr>
+                <tr> 
+                  <td height="25" class="FilaAbeja2">Hora Entrada </td>
+                  <td class="FilaAbeja2">
+                    <SELECT name="Hora">
+                      <?
+					for ($i=0;$i<=23;$i++)
+					{
+						if ($i<10)
+							$Valor = "0".$i;
+						else	$Valor = $i;
+						if (isset($Hora))
+						{	
+							if ($Hora == $Valor)
+								echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							else	
+								echo "<option value='".$Valor."'>".$Valor."</option>\n";		
+						}
+						else
+						{	
+							if ($HoraActual == $Valor)
+								echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							else
+								echo "<option value='".$Valor."'>".$Valor."</option>\n";		
+						}
+					}
+					?>
+                    </SELECT>
+                    <strong>:</strong>
+                    <SELECT name="Minutos">
+                      <?
+					for ($i=0;$i<=59;$i++)
+					{
+					if ($i<10)
+						$Valor = "0".$i;
+					else
+						$Valor = $i;
+						if (isset($Minutos))
+						{	
+							if ($Minutos == $Valor)
+								echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							else	
+								echo "<option value='".$Valor."'>".$Valor."</option>\n";		
+						}
+						else
+						{	
+							if ($MinutoActual == $Valor)
+								echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							else
+								echo "<option value='".$Valor."'>".$Valor."</option>\n";		
+						}
+					}
+					?>
+                  </SELECT></td>
+                  <td colspan="2" align="left" class="FilaAbeja2">Patente Visita&nbsp;&nbsp; 
+                    <input name="TxtPatente" type="text" id="TxtPatente" size="8" maxlength="8">
+                    <span class="InputRojo">(Ingreso por Vigilancia).&nbsp;<a href="JavaScript:Proceso('GHE')"><img src="archivos/btn_guardar.png" alt="Guardar (Hora entrada y Patente)"  border="0" align="absmiddle" /></a></span></td>
+                  <td align="left" class="FilaAbeja2">Hora Salida</td>
+                  <td align="left" class="FilaAbeja2"><SELECT name="HoraS">
+                    <?
+					for ($i=0;$i<=23;$i++)
+					{
+						if ($i<10)
+							$Valor = "0".$i;
+						else	$Valor = $i;
+						if (isset($HoraS))
+						{	
+							if ($HoraS == $Valor)
+								echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							else	
+								echo "<option value='".$Valor."'>".$Valor."</option>\n";		
+						}
+						else
+						{	
+							if ($HoraActual == $Valor)
+								echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							else
+								echo "<option value='".$Valor."'>".$Valor."</option>\n";		
+						}
+					}
+					?>
+                  </SELECT>
+                    <strong>:</strong>
+                    <SELECT name="MinutoS">
+                      <?
+					for ($i=0;$i<=59;$i++)
+					{
+					if ($i<10)
+						$Valor = "0".$i;
+					else
+						$Valor = $i;
+						if (isset($MinutoS))
+						{	
+							if ($MinutoS == $Valor)
+								echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							else	
+								echo "<option value='".$Valor."'>".$Valor."</option>\n";		
+						}
+						else
+						{	
+							if ($MinutoActual == $Valor)
+								echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							else
+								echo "<option value='".$Valor."'>".$Valor."</option>\n";		
+						}
+					}
+					?>
+                    </SELECT>
+&nbsp;<a href="JavaScript:Proceso('GHS')"><img src="archivos/btn_guardar.png" alt="Guardar (Hora Salida)"  border="0" align="absmiddle" /></a></td>
+                  <td align="left" class="FilaAbeja2">Observaci&oacute;n</td>
+                  <td colspan="2" align="left" class="FilaAbeja2"><textarea name="TxtObsControl" cols="60" rows="2"></textarea>
+                  <a href="JavaScript:Proceso('GOBS')"><img src="archivos/btn_guardar.png" alt="Guardar Observaci�n"  border="0" align="absmiddle" /></a></td>
+                </tr>
+                <tr> 
+                  <td colspan="9" class="FilaAbeja2"><label></label>
+                    <table width="100%" border="1" align="center" cellpadding="2" cellspacing="0" bgcolor="#FFFFFF">
+                      <tr>
+ 			            <td width="2%" class="TituloTablaVerde"><input class='SinBorde' type="checkbox" name="ChkTodos" value="" onClick="CheckearTodo(this.form,'CheckRut','ChkTodos');" /></td>
+                        <td width="4%" align="center" class="TituloTablaVerde">Fecha<br>Ingreso</td>
+						<td width="4%" align="center" class="TituloTablaVerde">Hora Entrada </td>
+                        <td width="3%" align="center" class="TituloTablaVerde">Hora Salida </td>
+                        <td width="5%" align="center" class="TituloTablaVerde">Rut</td>
+                        <td width="10%" align="center" class="TituloTablaVerde">Nombre</td>
+						<td width="10%" align="center" class="TituloTablaVerde">Cargo</td>
+                        <td width="16%" align="center" class="TituloTablaVerde">Empresa </td>
+						<td width="16%" align="center" class="TituloTablaVerde">Ctto/OC</td>
+                        <td width="10%" align="center" class="TituloTablaVerde">&Aacute;rea a Visitar </td>
+                        <td width="9%" align="center" class="TituloTablaVerde">Visita solicitada por</td>
+                        <td width="5%" align="center" class="TituloTablaVerde">Telefono</td>
+						 <td width="5%" align="center" class="TituloTablaVerde">Patente </td>
+			            <td width="6%" align="center" class="TituloTablaVerde">Fecha&nbsp;DAS. (Ini.)</td>
+			            <td width="6%" align="center" class="TituloTablaVerde">Fecha&nbsp;DAS. (Venc.)</td>
+                        <td width="12%" align="center" class="TituloTablaVerde">Motivo<br>Solicitante</td>
+                        <td width="12%" align="center" class="TituloTablaVerde">Observaci&oacute;n<br>Solicitante </td>
+						<td width="12%" align="center" class="TituloTablaVerde">Observaci&oacute;n<br>Control Visita</td>
+						<td width="12%" align="center" class="TituloTablaVerde">Autorizado Por</td>
+						<td width="12%" align="center" class="TituloTablaVerde">Observaci&oacute;n<br>Autorizador</td>
+                      </tr>
+                      <?
+			if($Cons=='S')
+			{
+				$ConsultaC="SELECT valor_subclase1,valor_subclase2,valor_subclase3 from proyecto_modernizacion.sub_clase where cod_clase='30024'";
+				$RC=mysql_query($ConsultaC);
+				$FC=mysql_fetch_array($RC);
+				$AnoDAS=$FC["valor_subclase1"];
+				
+				$Consulta="SELECT * from sget_visitas where corr_visita<>'' ";
+				if($Estado=='3')//Rechazada.
+					$Consulta.=" and estado='R'";	
+				else
+					if($Estado!='T')
+						$Consulta.=" and estado='V'";
+					else
+						$Consulta.=" and estado in ('V','R')";	
+				if($TxtRut!='')
+					$Consulta.=" and rut='".$TxtRut."'";	
+				if($CorrVisita!='')
+					$Consulta.=" and corr_visita='".$CorrVisita."'";
+				if($TxtFecha!='')
+					$Consulta.=" and fecha_ingreso between '".$TxtFecha."' and '".$TxtFechaH."'";	
+				if($Estado!='T')
+				{	
+					if($Estado=='1')//En Proceso.
+						$Consulta.=" and (hora_entrada='0:00:00' or (hora_entrada<>'0:00:00' and hora_salida='0:00:00'))";	
+					if($Estado=='2')//Terminada.
+						$Consulta.=" and hora_entrada<>'0:00:00' and hora_salida<>'0:00:00'";	
+				}
+				if($TxtEmp!='')
+					$Consulta.=" and empresa like '%".$TxtEmp."%'";	
+				if($TxtCttoOC!='')
+					$Consulta.=" and contrato_orden like '%".$TxtCttoOC."%'";	
+				if($TxtNom!='')
+					$Consulta.=" and nombres like '%".$TxtNom."%'";	
+				if($TxtPat!='')
+					$Consulta.=" and apellido_paterno like '%".$TxtPat."%'";	
+				if($TxtMat!='')
+					$Consulta.=" and apellido_materno like '%".$TxtMat."%'";	
+				$Consulta.=" order by apellido_paterno,apellido_materno,nombres";	
+				$Resp = mysql_query($Consulta);
+				//echo $Consulta;
+				echo "<input name='CheckRut' type='hidden'  value=''>";
+				$Cont=1;$EncontroReg='N';
+				while ($Fila=mysql_fetch_array($Resp))
+				{
+					$EncontroReg='S';
+					if($Fila["hora_entrada"]=='')
+						$Fila["hora_entrada"]='00:00:00';
+					if($Fila["hora_salida"]=='')
+						$Fila["hora_salida"]='00:00:00';
+
+					if($Fila["hora_salida"]=='00:00:00')	
+						$ColorSalida="<span class='InputRojo'>".substr($Fila["hora_salida"],0,5)."</span>";
+					else
+						$ColorSalida=substr($Fila["hora_salida"],0,5);	
+					if($Fila["hora_entrada"]=='00:00:00')	
+						$ColorEnt="<span class='InputRojo'>".substr($Fila["hora_entrada"],0,5)."</span>";
+					else
+						$ColorEnt=substr($Fila["hora_entrada"],0,5);
+
+					$MuestraBlanco='N';
+					if($Fila["fecha_das"]<=date('Y-m-d'))
+						$Color1="bgcolor=#FF0000";
+					else
+					{
+						if($Fila["hora_entrada"]!='00:00:00'&&$Fila["hora_salida"]!='00:00:00')
+							$Color='bgcolor="#C1FF84"';
+						else
+						{
+							if($Fila["hora_entrada"]=='00:00:00'&&$Fila["hora_salida"]=='00:00:00')
+								$Color='bgcolor="#FFFFFF"';							
+							list($YVis,$MVis,$DVis)=explode('-',$Fila['fecha_ingreso']);
+							list($HVis,$MinVis)=explode(':',$Fila['hora_entrada']);						
+							$fecha1=mktime(intval($HVis),intval($MinVis),0,intval($MVis),intval($DVis),intval($YVis));
+							
+							$fecha2=mktime(intval(date('H')),intval(date('m')),intval(date('s')),intval(date('m')),intval(date('d')),intval(date('Y')));
+							$segundos=$fecha2-$fecha1;
+							
+							// Ahora pasas de segundos, a horas
+							$horas=$segundos/60/60;
+							
+							
+							if($Fila["hora_entrada"]!='00:00:00' && $Fila["hora_salida"]=='00:00:00')
+							{
+								if(intval(round($horas)) >= 12)	 					
+								{
+									$Color='bgcolor="#FF0000"';
+									$MuestraBlanco='S';
+								}
+								if($MuestraBlanco=='N')
+									$Color='bgcolor="#FFFFFF"';							
+							}
+						}	
+					}	
+					if($Fila["hora_entrada"]!='00:00:00'&&$Fila["hora_salida"]!='00:00:00')
+						$Color='bgcolor="#C1FF84"';
+					else
+					{
+						if($Fila["hora_entrada"]=='00:00:00'&&$Fila["hora_salida"]=='00:00:00')
+							$Color='bgcolor="#FFFFFF"';		
+/*						
+list($YVis,$MVis,$DVis)=explode('/',$Fila['fecha_ingreso']);
+						list($HVis,$MinVis)=explode(':',$Fila['hora_entrada']);
+
+						$hora=$Fila["hora_entrada"];
+						list($hora1, $minut) = split(':', $hora); 
+
+						$FechaTope=date(''.$YVis.''.$MVis.''.$DVis.' '.$hora1.':'.$minut.'',strtotime("12 hour"));
+						echo "Fecha Tope:   ".$FechaTope."<br>";
+						$Valor2=strtotime(date('G'),date('i'),0,date('m'),date('d'),date('Y'));
+*/						
+						list($YVis,$MVis,$DVis)=explode('-',$Fila['fecha_ingreso']);
+						list($HVis,$MinVis)=explode(':',$Fila['hora_entrada']);						
+						$fecha1=mktime(intval($HVis),intval($MinVis),0,intval($MVis),intval($DVis),intval($YVis));
+						
+						$fecha2=mktime(intval(date('H')),intval(date('m')),intval(date('s')),intval(date('m')),intval(date('d')),intval(date('Y')));
+						$segundos=$fecha2-$fecha1;
+						
+						// Ahora pasas de segundos, a horas
+						$horas=$segundos/60/60;
+						
+						if($Fila["hora_entrada"]!='00:00:00' && $Fila["hora_salida"]=='00:00:00')
+						{
+						    if(intval(round($horas)) >= 12)	 					
+							{
+								$Color='bgcolor="#FF0000"';
+								$MuestraBlanco='S';
+							}
+							if($MuestraBlanco=='N')
+								$Color='bgcolor="#FFFFFF"';							
+						}
+					}	
+						
+					if($Fila[fecha_das]=='0000-00-00')
+					{
+						 //$FechaDAS="<span class='InputRojo'>Sin DAS</span>";
+						 //$FechaTerminoDAS="<span class='InputRojo'>Sin DAS</span>";
+						 $FechaDAS="";
+						 $FechaTerminoDAS="";
+					}
+					else
+					{
+						$FechaDAS=$Fila[fecha_das];
+						$FechaDASAux=explode('-',$Fila[fecha_das]);
+						$FechaDASAux[0]=$FechaDASAux[0]+$AnoDAS;
+						$FechaTerminoDAS=$FechaDASAux[0]."-".$FechaDASAux[1]."-".$FechaDASAux[2];
+						if($FechaTerminoDAS< date('Y-m-d') || $FechaPreoExpi< date('Y-m-d'))
+							$Checked='checked=checked';	
+						if($FechaTerminoDAS< date('Y-m-d'))	
+							$FechaTerminoDAS="<span class='InputRojo'>".$FechaTerminoDAS."</span>";
+						else
+							$FechaTerminoDAS=$FechaTerminoDAS;	
+					}
+					?>
+					  <tr>
+					    <td <? echo $Color;?> width="2%">
+						<? 
+							if($Fila["estado"]!='R')//Rechazada.
+							{
+								if($MuestraBlanco=='N')
+									echo "<input name='CheckRut' class='SinBorde' type='checkbox'  value='".$Fila["corr_visita"]."'>";
+								else
+									echo "&nbsp;";		
+							}
+							else
+								echo "&nbsp;";	
+						?>						</td>
+                        <td <? echo $Color;?> width="4%" align="center"><? echo $Fila["fecha_ingreso"];?>&nbsp;
+						<td <? echo $Color;?> width="4%" align="center"><? echo $ColorEnt;?>&nbsp;
+                        <input type="hidden" name="HoraEn" value='<? echo $Fila["hora_entrada"];?>'></td>
+                        <td <? echo $Color;?> width="3%" align="center"><? echo $ColorSalida;?>&nbsp;</td>
+                        <td <? echo $Color;?> width="5%" align="center"><? echo $Fila["rut"];?></td>
+                        <td <? echo $Color;?> width="10%" align="left"><? echo ucwords(strtolower($Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"]));?></td>
+                        <td <? echo $Color;?> width="16%" align="left"><? echo ucwords(strtolower($Fila["cargo_visita"]));?>&nbsp;</td>
+						<td <? echo $Color;?> width="16%" align="left"><? echo ucwords(strtolower($Fila["empresa"]));?>&nbsp;</td>
+						<td <? echo $Color;?> width="16%" align="left"><? echo ucwords(strtolower($Fila["contrato_orden"]));?>&nbsp;</td>
+                        <td <? echo $Color;?> width="10%" align="left"><? echo ucwords(strtolower($Fila["area"]));?>&nbsp;</td>
+                        <td <? echo $Color;?> width="9%" align="left"><? echo ucwords(strtolower($Fila["solicitada_por"]));?>&nbsp;</td>
+                         <td <? echo $Color;?> width="5%" align="left"><? echo $Fila["telefono_solicita"];?>&nbsp;</td>
+						<td <? echo $Color;?> width="5%" align="center"><? echo $Fila["patente"];?>&nbsp;</td>
+                        <td <? echo $Color;?> width="6%" align="center"><? echo $FechaDAS;?>&nbsp;</td>
+                        <td <? echo $Color;?> width="6%" align="center"><? echo $FechaTerminoDAS;?>&nbsp;</td>
+                        <td <? echo $Color;?> width="12%" align="center"><textarea name="Motivo" cols="30" readonly="readonly"><? echo $Fila["motivo"];?></textarea></td>
+                        <td <? echo $Color;?> width="12%" align="center"><textarea name="ObsSolic" cols="30" readonly="readonly"><? echo $Fila["observacion"];?></textarea></td>
+						<td <? echo $Color;?> width="12%" align="center"><textarea name="ObsControl" cols="30" readonly="readonly"><? echo $Fila["observacion_control"];?></textarea></td>
+						<td <? echo $Color;?> width="6%" align="center"><? echo ucwords(strtolower($Fila["autorizado_por"]));?>&nbsp;</td>
+						<td <? echo $Color;?> width="12%" align="center"><textarea name="ObsAuto" cols="30" readonly="readonly"><? echo $Fila["observacion_autoriza"];?></textarea></td>
+                      </tr>
+                      <?		$Cont++;
+				}
+				if($EncontroReg=='N')
+				{
+					?>
+					  <tr>
+					    <td colspan="20" align="center"><span class="InputRojo"><? echo "B�squeda sin Resultados" ?></span></td>
+					  </tr>	
+					<?					
+				}
+			}
+			?>
+                    </table></td>
+                </tr>
+              </table></td>
+       <td width="0%" align="center" class="TituloTablaVerde"></td>
+     </tr>
+     <tr>
+       <td colspan="3"align="center" class="TituloTablaVerde"></td>
+     </tr>
+   </table>
+   <br></td>
+   <td width="1" background="archivos/images/interior/form_der.gif">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="1" height="15"><img src="archivos/images/interior/esq3em.gif" width="15" height="15" /></td>
+    <td height="1" background="archivos/images/interior/form_abajo.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+    <td width="1" height="15"><img src="archivos/images/interior/esq4em.gif" width="15" height="15" /></td>
+  </tr>
+  </table>
+</form>
+</body>
+</html>

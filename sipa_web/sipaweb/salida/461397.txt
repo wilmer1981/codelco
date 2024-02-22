@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43550 ',peso_neto='27520',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13977776-k',nombre_chofer='ALEJANDRO CARVAJAL',observacion='granza ladrillo',romana_salida='1' where correlativo='461397' and lote='22046001' and recargo='5'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43090 ',peso_neto='29370',marca='DOS FRANJAS CELESTES',cod_mop='520',num_sello='',transportista='',rut_chofer='16323568-4',nombre_chofer='MANUEL DIAZ',observacion='',romana_salida='1' where correlativo='436119' and lote='21016017' and recargo='24'

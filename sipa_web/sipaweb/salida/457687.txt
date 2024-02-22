@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43420 ',peso_neto='30160',marca='FRANJA AMARILLA',cod_mop='510',num_sello='',transportista='',rut_chofer='12774916-7',nombre_chofer='MARCELO TORRES',observacion='',romana_salida='2' where correlativo='457687' and lote='22016211' and recargo='2'

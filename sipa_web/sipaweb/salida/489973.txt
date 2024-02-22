@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44010 ',peso_neto='26980',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='8978323-2',nombre_chofer='ivan carranza',observacion='cu varios',romana_salida='1' where correlativo='489973' and lote='23086226' and recargo='3'

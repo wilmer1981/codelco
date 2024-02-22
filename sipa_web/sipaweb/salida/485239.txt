@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42240 ',peso_neto='28230',marca='V VERDE',cod_mop='510',num_sello='',transportista='',rut_chofer='18331075-5',nombre_chofer='NICOLAS PAVEZ',observacion='',romana_salida='1' where correlativo='485239' and lote='23066015' and recargo='7'

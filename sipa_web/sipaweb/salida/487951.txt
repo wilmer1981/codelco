@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43280',peso_neto='26360',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15066678-3',nombre_chofer='ARTURO CANALES',observacion='',romana_salida='1' where correlativo='487951' and lote='23076166' and recargo='3'

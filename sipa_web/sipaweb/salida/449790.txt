@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43200',peso_neto='27640',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11890521-0',nombre_chofer='Marcelo Flores',observacion='circulante oxido ',romana_salida='1' where correlativo='449790' and lote='21096060' and recargo='1'

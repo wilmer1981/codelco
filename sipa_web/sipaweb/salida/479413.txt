@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43730 ',peso_neto='28030',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='33634413-1',nombre_chofer='anibal viloria',observacion='concentrado de cu ',romana_salida='1' where correlativo='479413' and lote='23026264' and recargo='1'

@@ -1,0 +1,206 @@
+<?
+	include("../principal/conectar_pcip_web.php");
+	include("funciones/pcip_funciones.php");
+	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+if(!isset($Ano))
+ 	$Ano=date('Y');
+if(!isset($Mes))
+ 	$Mes=date('m');
+if(!isset($AnoFin))
+ 	$AnoFin=date('Y');
+if(!isset($MesFin))
+ 	$MesFin=date('m');
+if(!isset($CmbContr))
+	$CmbContr='-1';		
+?>
+<html>
+<head>
+<title>Reporte Ingresos Proyectados Cu Ag Au</title>
+<style type="text/css">s
+<!--
+body {
+	background-image: url();
+	background-color: #f9f9f9;
+}
+-->
+</style>
+<link href="estilos/css_pcip_web.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="funciones/pcip_funciones.js"></script>
+<script language="JavaScript">
+function Proceso(TipoProceso)
+{
+	var f = document.frmPrincipal;
+	switch(TipoProceso)
+	{
+		case "C":
+			if(f.CmbProductos.value=='-1')
+			{
+				alert("Debe seleccionar un Producto");
+				f.CmbProductos.focus();
+				return;
+			}
+			f.action = "pcip_rpt_ingresos_proyectados_cu_ag_au.php?Buscar=S";
+			f.submit();
+		break;
+		case "E"://GENERA EXCEL
+			URL='pcip_rpt_ingresos_proyectados_cu_ag_au_excel.php?&CmbProductos='+f.CmbProductos.value+'&Ano='+f.Ano.value+'&Mes='+f.Mes.value+'&MesFin='+f.MesFin.value;
+			window.open(URL,"","top=30,left=30,width=1000,height=550,status=yes,menubar=yes,resizable=yes,scrollbars=yes");
+		break;				
+		case "R":
+			f.action = "pcip_rpt_ingresos_proyectados_cu_ag_au.php";
+			f.submit();
+			break;	
+		case "I"://IMPRIMIR
+			window.print();
+			break;			
+		case "S":
+			window.location="../principal/sistemas_usuario.php?CodSistema=31&Nivel=1&CodPantalla=14";
+		break;
+	
+	}
+	
+}
+</script>
+<DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="archivos/popcjs.htm" frameBorder=0 width=160 scrolling=no height=180></IFRAME></DIV>
+<body>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+</style></head>
+<body>
+<form name="frmPrincipal" action="" method="post">
+<?
+ $IP_SERV = $HTTP_HOST;
+ EncabezadoPagina($IP_SERV,'ingresos_proyectados_report_cu_ag_au.png')
+?>
+<table width="950" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+   <tr>
+      <td width="15" height="15"><img src="archivos/images/interior/esq1em.png" width="15" height="15" /></td>
+      <td width="920" height="15"background="archivos/images/interior/form_arriba.png"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15" height="15"><img src="archivos/images/interior/esq2em.png" width="15" height="15" /></td>
+    </tr>
+  <tr>
+   <td  width="15" background="archivos/images/interior/form_izq3.png">&nbsp;</td>
+   <td>
+	<table width="100%" border="0" align="center" cellpadding="2" cellspacing="0" class="ColorTabla02" >
+	<tr>
+		<td width="82%" align="left" class='formulario2'><img src="archivos/images/interior/t_buscadorGlobal4.png"></td>
+	    <td width="18%" align="right" class='formulario2'>
+		<a href="JavaScript:Proceso('C')"><span class="formulario2"></span></a><a href="JavaScript:Proceso('C')"><img src="archivos/Find2.png"   alt="Buscar"  border="0" align="absmiddle" /></a> 
+		<a href="JavaScript:Proceso('E')"><img src="archivos/ico_excel5.jpg"   alt="Excel"  border="0" align="absmiddle" /></a>&nbsp;
+		<a href="JavaScript:Proceso('I')"><img src="archivos/Impresora2.png"   alt="Imprimir" border="0" align="absmiddle"  ></a> 
+		<a href="JavaScript:Proceso('S')"><img src="archivos/volver2.png" align="absmiddle" alt="Volver" border="0"></a></td>
+	</tr>
+</table>
+<table width="100%" align="center" cellpadding="2" cellspacing="0" class="ColorTabla02">
+   <tr>
+   <td width="77" height="17" class='formulario2'>Productos</td>
+   <td class="formulario2"><select name="CmbProductos">
+   <option value="-1" class="NoSelec">Seleccionar</option>
+   <?
+   $Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase='31012' and cod_subclase in ('1','2','3') order by cod_subclase ";	 	
+   $Resp=mysql_query($Consulta);
+   while ($Fila=mysql_fetch_array($Resp))
+   {
+		if ($CmbProductos==$Fila["cod_subclase"])
+			echo "<option selected value='".$Fila["cod_subclase"]."'>".ucfirst(strtolower($Fila["nombre_subclase"]))."</option>\n";
+		else
+			echo "<option value='".$Fila["cod_subclase"]."'>".ucfirst(strtolower($Fila["nombre_subclase"]))."</option>\n";
+   }
+   ?>
+   </select><? //echo $Consulta;?>   
+   </td>
+   </tr>
+   <tr>
+    <td height="25" class='formulario2'>Periodo</td>
+    <td colspan="5" class='formulario2'>A&ntilde;o &nbsp;&nbsp;&nbsp;
+      <select name="Ano" id="Ano">
+        <?
+				for ($i=2003;$i<=date("Y");$i++)
+				{
+					if ($i==$Ano)
+						echo "<option selected value=\"".$i."\">".$i."</option>\n";
+					else
+						echo "<option value=\"".$i."\">".$i."</option>\n";
+				}
+			  ?>
+      </select>
+      &nbsp;Desde 
+	   </select>
+		<select name="Mes" id="Mes">
+		<?
+		for ($i=1;$i<=12;$i++)
+		{
+			if ($i==$Mes)
+				echo "<option selected value=\"".$i."\">".$Meses[$i-1]."</option>\n";
+			else
+				echo "<option value=\"".$i."\">".$Meses[$i-1]."</option>\n";
+		}
+		?>
+		</select>      
+		Hasta
+	   </select>
+		<select name="MesFin">
+		<?
+			for ($i=1;$i<=12;$i++)
+			{
+				if ($i==$MesFin)
+					echo "<option selected value=\"".$i."\">".$Meses[$i-1]."</option>\n";
+				else
+					echo "<option value=\"".$i."\">".$Meses[$i-1]."</option>\n";
+			}
+		?>
+		</select>  
+	</td> 
+	</tr>	 
+ </table>  
+  <td width="15" background="archivos/images/interior/form_der.png">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="15" ><img src="archivos/images/interior/esq3em.png" width="15" height="15" /></td>
+      <td height="15" background="archivos/images/interior/form_abajo.png"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+      <td width="15" ><img src="archivos/images/interior/esq4em.png" width="15" height="15" /></td>
+    </tr>
+  </table>	
+    <br>
+    <table width="100%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
+      <tr>
+        <td ><img src="archivos/images/interior/esq1em.gif" width="15" /></td>
+        <td width="935" background="archivos/images/interior/form_arriba.gif"><img src="archivos/images/interior/transparent.gif" width="4" /></td>
+        <td ><img src="archivos/images/interior/esq2em.gif" width="15" /></td>
+      </tr>
+        <td background="archivos/images/interior/form_izq.gif">&nbsp;</td>
+          <td>
+		  <?
+		  switch($CmbProductos)
+		  {
+		  	case "1":
+				include('pcip_rpt_ingresos_proyectados_cobre.php');
+			break;
+		  	case "2":
+				include('pcip_rpt_ingresos_proyectados_plata.php');
+			break;
+		  	case "3":
+				include('pcip_rpt_ingresos_proyectados_oro.php');
+			break;			
+		  }
+		  ?>
+		  &nbsp;</td>
+          <td width="15" background="archivos/images/interior/form_der.gif">&nbsp;</td>
+      </tr>
+      <tr>
+        <td width="15"><img src="archivos/images/interior/esq3em.gif" width="15" height="15" /></td>
+        <td height="15"background="archivos/images/interior/form_abajo.gif"><img src="archivos/images/interior/transparent.gif" width="4" height="15" /></td>
+        <td width="15"><img src="archivos/images/interior/esq4em.gif" width="15" height="15" /></td>
+      </tr>
+    </table></td>
+ </tr>
+  </table>
+	<? include("pie_pagina.php")?>
+
+</form>
+</body>
+</html>
+<?
+?>

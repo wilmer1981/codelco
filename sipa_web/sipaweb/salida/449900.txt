@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41820 ',peso_neto='29060',marca='V VERDE',cod_mop='520',num_sello='',transportista='',rut_chofer='17976805-4',nombre_chofer='JUAN VARGAS',observacion='',romana_salida='1' where correlativo='449900' and lote='21096008' and recargo='33'

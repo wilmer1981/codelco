@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44180 ',peso_neto='20200',marca='FRANJA CELESTE',cod_mop='520',num_sello='',transportista='',rut_chofer='15343257-0',nombre_chofer='RODRIGO CATALAN',observacion='',romana_salida='1' where correlativo='435097' and lote='20126146' and recargo='1'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44070 ',peso_neto='26920',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15851728-0',nombre_chofer='RODRIGO MOMDACA',observacion='',romana_salida='1' where correlativo='490916' and lote='23096101' and recargo='5'

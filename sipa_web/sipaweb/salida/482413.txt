@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44500 ',peso_neto='30550',marca='V FRANJA ROJA',cod_mop='690',num_sello='',transportista='',rut_chofer='10718505-4',nombre_chofer='MARCELO OYANEDEL',observacion='',romana_salida='1' where correlativo='482413' and lote='23046017' and recargo='6'

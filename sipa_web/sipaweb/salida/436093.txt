@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43010 ',peso_neto='28360',marca='V NARANJA',cod_mop='520',num_sello='',transportista='',rut_chofer='8458834-2',nombre_chofer='JOSE  GAJARDO',observacion='',romana_salida='1' where correlativo='436093' and lote='21016021' and recargo='7'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto=' 44110 ',peso_neto='7300',marca='V DOS FRANJAS ROJAS',cod_mop='520',num_sello='',transportista='',rut_chofer='7320907-2',nombre_chofer='JUAN GALLEGUILLOS',observacion='',romana_salida='1' where correlativo='437647' and lote='21016325' and recargo='58'

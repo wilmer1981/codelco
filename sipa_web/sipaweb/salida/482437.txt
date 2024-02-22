@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42630 ',peso_neto='26780',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='10822563-7',nombre_chofer='marcos meneses',observacion='cu pvsa',romana_salida='1' where correlativo='482437' and lote='23046108' and recargo='3'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 30660 ',peso_neto='16820',marca='',cod_mop='420',num_sello='',transportista='',rut_chofer='8580833-8',nombre_chofer='jaime perez',observacion='',romana_salida='1' where correlativo='449615' and lote='21096023' and recargo='7'

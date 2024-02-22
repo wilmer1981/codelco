@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 41480 ',peso_neto='25810',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='10958861-k',nombre_chofer='carlos aguirre',observacion='cu varios',romana_salida='1' where correlativo='480175' and lote='23036065' and recargo='6'

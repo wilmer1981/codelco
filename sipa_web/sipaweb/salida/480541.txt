@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43930 ',peso_neto='28100',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10884325-0',nombre_chofer='gabriel romo',observacion='concentrado de cu',romana_salida='1' where correlativo='480541' and lote='23036092' and recargo='6'

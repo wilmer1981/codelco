@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43960 ',peso_neto='30050',marca='EQUIS CELESTE',cod_mop='690',num_sello='',transportista='',rut_chofer='15065298-7',nombre_chofer='CRISTIAN ALVARADO',observacion='',romana_salida='2' where correlativo='477846' and lote='23016332' and recargo='13'

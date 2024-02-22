@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44630',peso_neto='27900',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11516796-0',nombre_chofer='JOSE PIZARRO',observacion='CU VARIO',romana_salida='1' where correlativo='491302' and lote='23096147' and recargo='10'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44210',peso_neto='28030',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15058078-1',nombre_chofer='CRISTIAN ARAVENA',observacion='cu andina',romana_salida='1' where correlativo='470748' and lote='22096200' and recargo='5'

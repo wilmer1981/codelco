@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 44220 ',peso_neto='27850',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10242562-6',nombre_chofer='nelson morales',observacion='circulantes oxidos ',romana_salida='1' where correlativo='473516' and lote='22116119' and recargo='5'

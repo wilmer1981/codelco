@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44030 ',peso_neto='30230',marca='FRANJA AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='8580833-8',nombre_chofer='JAIME PEREZ',observacion='',romana_salida='1' where correlativo='451742' and lote='21106082' and recargo='2'

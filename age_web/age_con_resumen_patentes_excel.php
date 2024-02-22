@@ -1,0 +1,131 @@
+<?php
+	        ob_end_clean();
+        $file_name=basename($_SERVER['PHP_SELF']).".xls";
+        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+        $filename = urlencode($filename);
+        }
+        $filename = iconv('UTF-8', 'gb2312', $filename);
+        $file_name = str_replace(".php", "", $file_name);
+        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+        
+        header("content-disposition: attachment;filename={$file_name}");
+        header( "Cache-Control: public" );
+        header( "Pragma: public" );
+        header( "Content-type: text/csv" ) ;
+        header( "Content-Dis; filename={$file_name}" ) ;
+        header("Content-Type:  application/vnd.ms-excel");
+ 	header("Expires: 0");
+  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");		
+	include("../principal/conectar_principal.php");
+	include("../age_web/age_funciones.php");	
+?>
+<html>
+<head>
+<title>AGE-Resumen Pesos Netos Por Camion Excel</title>
+</head>
+<body>
+<form name="frmPrincipal" action="" method="post">
+  <table width="620" border="0" align="center">
+    <tr>
+      <td width="294">CODELCO CHILE<br>
+        DIVISION VENTANAS       <br> </td>
+      <td width="296" align="right">FECHA:&nbsp;<?php echo date("d-m-Y")?></td>
+    </tr>
+    <tr align="center">
+      <td height="30" colspan="2"><strong><u>RESUMEN DE PESO NETO POR CAMION</u></strong></td>
+    </tr>
+    <tr align="center">
+      <td colspan="2">PERIODO: <?php echo substr($TxtFechaIni,8,2)."-".substr($TxtFechaIni,5,2)."-".substr($TxtFechaIni,0,4)." al ".substr($TxtFechaFin,8,2)."-".substr($TxtFechaFin,5,2)."-".substr($TxtFechaFin,0,4); ?></td>
+    </tr>
+    <tr align="center">
+      <td colspan="2">&nbsp;</td>
+    </tr>
+  </table>
+  <br>
+	<?php
+	$ColSpan=3;	
+	echo "<table width=\"400\"  border=\"1\" align=\"center\" cellpadding=\"3\" cellspacing=\"0\">\n";
+	$Consulta = "select distinct t1.rut_proveedor,t1.cod_subproducto ";
+	$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes  t2 ";
+	$Consulta.= " on t1.lote = t2.lote inner join sipa_web.proveedores t3 on t1.rut_proveedor=t3.rut_prv ";
+	$Consulta.= " where t1.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
+	if ($CmbSubProducto != "S")
+	{
+		$Consulta.= " and t1.cod_producto = '1' ";
+		$Consulta.= " and t1.cod_subproducto = '".$CmbSubProducto."' ";
+	}
+	if ($CmbProveedor != "S")
+		$Consulta.= " and t1.rut_proveedor = '".$CmbProveedor."' ";
+	$Consulta.= " order by t1.rut_proveedor ";
+	//echo $Consulta."<br>";
+	$RespPrv = mysqli_query($link, $Consulta);
+	while ($FilaPrv = mysqli_fetch_array($RespPrv))	
+	{			
+		$TotPrv=0;
+		echo "<tr class=\"ColorTabla01\">\n";			
+		$Consulta = "select * from sipa_web.proveedores ";
+		$Consulta.= "where rut_prv = '".$FilaPrv["rut_proveedor"]."'";		
+		$RespAux2 = mysqli_query($link, $Consulta);
+		if ($FilaAux2 = mysqli_fetch_array($RespAux2))
+		{
+			$NomPrv = $FilaAux2["nombre_prv"];
+		}
+		else
+			$NomPrv = "SIN IDENTIFICACION";		
+		echo "<td align=\"left\" colspan=\"".$ColSpan."\">".str_pad($FilaPrv["rut_proveedor"],2,'0',STR_PAD_LEFT)." - ".$NomPrv."</td>";					
+		echo "</tr>\n";
+		//TITULO
+		$Consulta="select distinct t1.cod_subproducto,abreviatura as NomProd,t1.cod_producto,t2.cod_subproducto from age_web.lotes t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+		$Consulta.= " where t1.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
+		//if ($CmbProveedor != "S")
+			$Consulta.= "and t1.rut_proveedor = '".$FilaPrv["rut_proveedor"]."' ";
+		if ($CmbSubProducto != "S")
+		{
+			$Consulta.= " and t1.cod_producto = '1' ";
+			$Consulta.= " and t1.cod_subproducto = '".$FilaPrv["cod_subproducto"]."' ";
+		}
+		$RespProd=mysqli_query($link, $Consulta);
+		//echo $Consulta."<br>";
+		while($FilaProd=mysqli_fetch_array($RespProd))
+		{
+			$TotProd=0;
+			echo "<tr class=\"Detalle02\">";
+			echo "<td colspan='3'>".$FilaProd[NomProd]."</td>";
+			echo "</tr>";
+			echo "<tr class=\"ColorTabla02\">\n";		
+			echo "<td align=\"center\" width=\"150\">Patente</td>\n";
+			echo "<td align=\"center\" width=\"150\">Guia</td>\n";	
+			echo "<td align=\"center\" width=\"100\">Peso Neto</td>\n";
+			echo "</tr>\n";
+			$Consulta="select * from age_web.lotes t1 inner join age_web.detalle_lotes t2 on t1.lote=t2.lote ";
+			$Consulta.="where t1.rut_proveedor='".$FilaPrv["rut_proveedor"]."' and t1.cod_producto='".$FilaProd["cod_producto"]."' and cod_subproducto='".$FilaProd["cod_subproducto"]."' ";
+			$Consulta.="and t1.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
+			//echo $Consulta."<br>";
+			$RespDeta=mysqli_query($link, $Consulta);
+			while($FilaDeta=mysqli_fetch_array($RespDeta))
+			{
+				echo "<tr>";
+				echo "<td align=\"center\">".$FilaDeta["patente"]."</td>";
+				echo "<td align=\"center\">".$FilaDeta["guia_despacho"]."</td>";
+				echo "<td align=\"right\">".number_format($FilaDeta[peso_neto],0,'','.')."</td>";
+				echo "</tr>";
+				$TotProd=$TotProd+$FilaDeta[peso_neto];
+			}
+			//TOTAL PRODUCTO
+			echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\"><td colspan='2' align=\"left\">TOTAL: ".strtoupper($FilaProd[NomProd])."</td>\n";
+			echo "<td align=\"right\">".number_format($TotProd,0,',','.')."</td>\n";
+			echo "</tr>\n";	
+			$TotPrv=$TotPrv+$TotProd;
+		}
+		//TOTAL PROVEEDOR
+		echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\"><td colspan='2' align=\"left\">TOTAL: ".str_pad($FilaPrv["rut_proveedor"],2,'0',STR_PAD_LEFT)." ".strtoupper($NomPrv)."</td>\n";
+		echo "<td align=\"right\">".number_format($TotPrv,0,',','.')."</td>\n";
+		echo "</tr>\n";	
+	}//FIN PRV
+	echo "</table>\n";
+	?>  
+</form>
+</body>
+</html>

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44870 ',peso_neto='30460',marca='V NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='17273750-1',nombre_chofer='JUAN DIAZ',observacion='',romana_salida='2' where correlativo='434867' and lote='20126019' and recargo='11'

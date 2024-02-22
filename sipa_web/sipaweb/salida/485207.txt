@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 39130 ',peso_neto='25380',marca='EQUIS VERDE',cod_mop='690',num_sello='',transportista='',rut_chofer='19772903-1',nombre_chofer='LUIS SILVA',observacion='',romana_salida='1' where correlativo='485207' and lote='23066006' and recargo='2'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44250 ',peso_neto='27680',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15361493-8',nombre_chofer='rodrigo martinez',observacion='circulante oxido',romana_salida='1' where correlativo='473031' and lote='22116053' and recargo='3'

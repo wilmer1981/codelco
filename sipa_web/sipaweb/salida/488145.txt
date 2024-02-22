@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44460 ',peso_neto='26960',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='14476943-0',nombre_chofer='ronny ahumada ',observacion='',romana_salida='1' where correlativo='488145' and lote='23076206' and recargo='1'

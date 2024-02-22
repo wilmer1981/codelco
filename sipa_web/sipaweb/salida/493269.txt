@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='41820',peso_neto='25790',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='7160291-5',nombre_chofer='JUAN SAZO OSSANDON',observacion='concentrado de cu',romana_salida='1' where correlativo='493269' and lote='23106150' and recargo='13'

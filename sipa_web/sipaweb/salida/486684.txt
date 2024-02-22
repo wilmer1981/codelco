@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42750 ',peso_neto='26680',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='4503642-1',nombre_chofer='mario manrique',observacion='cu varios',romana_salida='1' where correlativo='486684' and lote='23066225' and recargo='4'

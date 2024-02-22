@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44810 ',peso_neto='27780',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10736144-8',nombre_chofer='cesar ortiz',observacion=' cu varios pvsa',romana_salida='2' where correlativo='482704' and lote='23046156' and recargo='7'

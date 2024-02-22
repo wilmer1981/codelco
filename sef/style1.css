@@ -1,0 +1,35 @@
+body{
+	font-family: "Times New Roman", Times, serif;
+}
+
+#campo1{
+	background-color: #6E61B9;
+	border: 1px double Black;
+	color: White;
+	font-size: 18px;
+	}
+
+#campo2{
+	background-color: #F6F0BC;
+	font-size: 17px;
+	border: 1px double Black;
+	}
+
+#campo3{
+	font-size: 18px;
+	border: 1px double Black;
+	background-color: #F6F0BC;
+}	
+	
+#tabla1{
+	border: 1px double Black;
+	background-color: #F6F0BC;
+	font-size: 17px;
+	font-family: "Times New Roman", Times, serif;
+}
+
+#boton1{
+	font-size: 16px;
+	font-family: "Times New Roman", Times, serif;
+	color: #0002EE;
+}

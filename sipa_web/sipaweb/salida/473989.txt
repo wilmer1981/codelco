@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 45000 ',peso_neto='27030',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='12349922-0',nombre_chofer='LEONARDO ALVAREZ PIZARRO',observacion='',romana_salida='1' where correlativo='473989' and lote='22116213' and recargo='1'

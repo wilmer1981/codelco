@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44010 ',peso_neto='29500',marca='FRANJA BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='12774916-7',nombre_chofer='MARCELO TORRES',observacion='',romana_salida='1' where correlativo='451106' and lote='21096214' and recargo='55'

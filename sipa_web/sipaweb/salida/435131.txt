@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44620 ',peso_neto='31610',marca='DOS FRANJAS CELESTES',cod_mop='520',num_sello='',transportista='',rut_chofer='11548239-4',nombre_chofer='JOSE  TORRES',observacion='',romana_salida='1' where correlativo='435131' and lote='20126103' and recargo='55'

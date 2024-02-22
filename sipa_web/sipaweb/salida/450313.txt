@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44100 ',peso_neto='22170',marca='FRANJA AMARILLA',cod_mop='520',num_sello='',transportista='',rut_chofer='6328266-9',nombre_chofer='ADEMIL CABRERA',observacion='',romana_salida='1' where correlativo='450313' and lote='21096141' and recargo='5'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44210 ',peso_neto='28140',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13365350-3',nombre_chofer='moises manuel cisterna silva',observacion='andina',romana_salida='1' where correlativo='470996' and lote='22096223' and recargo='15'

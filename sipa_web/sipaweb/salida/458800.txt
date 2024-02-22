@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 29570 ',peso_neto='14870',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='6767092-2',nombre_chofer='JAIME VARAS',observacion='',romana_salida='1' where correlativo='458800' and lote='22026123' and recargo='1'

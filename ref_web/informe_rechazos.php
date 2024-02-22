@@ -1,0 +1,565 @@
+<?php include("../principal/conectar_ref_web.php");
+
+
+	$proceso  = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"";
+	
+
+	//if (!isset($DiaIni))
+	if ($DiaIni=="")
+	{
+		$DiaIni = date("d");
+		$MesIni = date("m");
+		$AnoIni = date("Y");
+		$DiaFin = date("d");
+		$MesFin = date("m");
+		$AnoFin = date("Y");
+	}
+	if ($DiaIni < 10)
+		$DiaIni = "0".$DiaIni;
+	if ($MesIni < 10)
+		$MesIni = "0".$MesIni;
+	if ($DiaFin < 10)
+		$DiaFin = "0".$DiaFin;
+	if ($MesFin < 10)
+		$MesFin = "0".$MesFin;
+ 	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
+	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
+	
+	?>
+		
+<HTML>
+<HEAD>
+      <TITLE> Informe Semanal Planta Tratamiento Electrolito</TITLE>
+<link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">	  	  
+<script language="JavaScript">
+function Salir()
+{
+	document.location ="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+	//document.location = "../principal/sistemas_usuario.php?CodSistema=10&Nivel=1&CodPantalla=7";
+}
+/**********/
+function Recarga1()
+{	
+	var f = document.frmPrincipal;
+	f.action = "ingreso_cat_ini.php?recargapag1=S";
+	f.submit();
+}
+/**********/
+function Recarga2()
+{	
+	var f = document.frmPrincipal;
+	f.action = "ingreso_cat_ini02.php?recargapag2=S";
+	f.submit();
+}
+/**********/
+function ValidarCampos()
+{
+      var f = document.frmPrincipal;
+
+    if (f.centro_costo.value == -1)
+	{
+		alert("Debe Seleccionar el Centro de Costo");
+        f.centro_costo.focus();
+		return false;
+  	}
+    if (f.rut_usuario.value == -1)
+	{
+		alert("Debe Selecionar el Usuario");
+        f.rut_usuario.focus();
+		return false;
+	}
+    if (f.tipo_equipo.value == -1)
+	{
+        alert("Debe Seleccionar el Tipo de Equipo");
+        f.tipo_equipo.focus();
+		return false;
+	}
+	if (f.codigo_equipo.value == 0)
+	{
+		alert("Debe Seleccionar el Codigo de Equipo");
+        f.codigo_equipo.focus();
+		return false;
+	}
+    if (f.Num_serie_equipo.value == "")
+	{
+        alert("Debe Ingresar el Numero de Serie del Equipo");
+        f.Num_serie_equipo.focus();
+		return false;
+	}
+    if (f.marca.value == -1)
+	{
+		alert("Debe Seleccionar la Marca del Equipo");
+        f.marca.focus();
+		return false;
+	}
+
+	if (f.modelo_equipo.value == -1)
+	{
+		alert("Debe Seleccionar el Modelo");
+        f.modelo_equipo.focus();
+		return false;
+	}
+
+   if (f.txt_ga_equipo.value == 0)
+	{
+        alert("Debe Ingresar la Garat�a en meses");
+        f.txt_ga_equipo.focus();
+		return false;
+	}
+
+	if (f.txt_num_pedidos.value == 0)
+	{
+        alert("Debe Ingresar el Numero PM");
+        f.txt_num_pedidos.focus();
+		return false;
+	}
+
+	if (f.txt_num_orden.value == 0)
+	{
+        alert("Debe Ingresar el numero de Orden");
+        f.txt_num_orden.focus();
+		return false;
+	}
+    if (f.proveedor.value == -1)
+	{
+        alert("Debe Seleccionar Proveedor");
+        f.proveedor.focus();
+		return false;
+	}
+    if (f.tipo_equipo.value == 1)
+    {
+        if (f.procesador.value == -1)
+	    {
+        alert("Debe Seleccionar Procesador");
+        f.procesador.focus();
+		return false;
+	    }
+        if (f.frecuencia.value == -1)
+	    {
+        alert("Debe Seleccionar la velocidad de Procesador");
+        f.frecuenciar.focus();
+		return false;
+	    }
+        if (f.txt_puer_par.value == 0)
+	    {
+        alert("Debe ingresar el n�mero de puertas paralelas");
+        f.txt_puer_par.focus();
+		return false;
+	    }
+        if (f.txt_puer_ser.value == 0)
+	    {
+        alert("Debe ingresar el n�mero de puertas seriales");
+        f.txt_puer_ser.focus();
+		return false;
+	    }
+        if (f.txt_puer_usb.value == 0)
+	    {
+        alert("Debe ingresar el numero de puertas USB");
+        f.txt_puer_usb.focus();
+		return false;
+	    }
+
+    }
+   	return true;
+}
+function detalle(fecha,grupo,turno)
+{
+	var Frm=document.frmPrincipal;
+	window.open("detalle_rechazos.php?fecha="+ fecha+"&grupo="+grupo+"&turno="+turno,"","top=50,left=10,width=740,height=300,scrollbars=yes,resizable = yes");					
+}
+
+/***************/
+
+function Guardar()
+{
+	var f = document.frmPrincipal;
+	f.action = "desc_par01.php?proceso=G";
+	f.submit();
+}
+
+/**********/
+function Proceso(f)
+{
+	var f = document.frmPrincipal;
+	f.action = "informe_rechazos.php?proceso=C";
+	f.submit();
+}
+/**********/
+function Modificar()
+{
+	var f = document.frmPrincipal;
+	f.action = "desc_par01.php?proceso=M";
+	f.submit();
+}
+function Imprimir()
+{
+	window.print();
+}
+function Excel()
+{
+	var  f=document.frmPrincipal;
+	var fechaini=f.AnoIni.value+"-"+f.MesIni.value+"-"+f.DiaIni.value;
+	var fechafin=f.AnoFin.value+"-"+f.MesFin.value+"-"+f.DiaFin.value;
+	var AnoIni=f.AnoIni.value;
+	var MesIni=f.MesIni.value;
+    var DiaIni=f.DiaIni.value;
+	var AnoFin=f.AnoFin.value;
+	var MesFin=f.MesFin.value;
+	var DiaFin=f.DiaFin.value;
+
+	document.location = "../ref_web/informe_rechazos_xls.php?AnoIni="+AnoIni+"&MesIni="+MesIni+"&DiaIni="+DiaIni+"&AnoFin="+AnoFin+"&MesFin="+MesFin+"&DiaFin="+DiaFin;
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></HEAD>
+<BODY background="../principal/imagenes/fondo3.gif" >
+<FORM name="frmPrincipal" action="" method="post">
+  <?php /*include("../principal/encabezado.php");*/ ?>
+  <?php
+?>
+ 
+          
+  <p align="center"><font color="#0000FF"><strong>InformeRechazos Catodos Comerciales</strong></font></p>
+          </div>
+        <div align="left"> 
+          
+    <table width="955" border="0" cellpadding="3" class="TablaInterior">
+      <tr> 
+        <td width="95">Informe Desde</td>
+        <td width="271"> <select name="DiaIni" style="width:50px;">
+            <?php
+						for ($i = 1;$i <= 31; $i++)
+						{
+							if (isset($DiaIni))
+							{
+								if ($DiaIni == $i)
+									echo "<option selected value='".$i."'>".$i."</option>\n";
+								else	echo "<option value='".$i."'>".$i."</option>\n";
+							}
+							else
+							{
+								if ($i == date("j"))
+									echo "<option selected value='".$i."'>".$i."</option>\n";
+								else	echo "<option value='".$i."'>".$i."</option>\n";
+							}
+						}
+					  ?>
+          </select> <select name="MesIni" style="width:90px;">
+            <?php    
+						for ($i = 1;$i <= 12; $i++)
+						{$Meses=array('Enero','Febrero','Marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
+							if (isset($MesIni))
+							{
+								if ($MesIni == $i)
+									echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+								else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+							}
+							else
+							{
+								if ($i == date("n"))
+									echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+								else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+							}
+						}
+						?>
+          </select> <select name="AnoIni" style="width:60px;">
+            <?php
+						for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
+						{
+							if (isset($AnoIni))
+							{
+								if ($AnoIni == $i)
+									echo "<option selected value='".$i."'>".$i."</option>\n";
+								else	echo "<option value='".$i."'>".$i."</option>\n";
+							}
+							else
+							{
+								if ($i == date("Y"))
+									echo "<option selected value='".$i."'>".$i."</option>\n";
+								else	echo "<option value='".$i."'>".$i."</option>\n";
+							}
+						}
+				?>
+          </select></td>
+        <td width="63"> <div align="left">Hasta</div></td>
+        <td width="489"> <div align="left"> 
+            <select name="DiaFin" style="width:50px;">
+              <?php
+	  	for ($i = 1;$i <= 31; $i++)
+		{
+			if (isset($DiaFin))
+			{
+				if ($DiaFin == $i)
+					echo "<option selected value='".$i."'>".$i."</option>\n";
+				else	echo "<option value='".$i."'>".$i."</option>\n";
+			}
+			else
+			{
+				if ($i == date("j"))
+					echo "<option selected value='".$i."'>".$i."</option>\n";
+				else	echo "<option value='".$i."'>".$i."</option>\n";
+			}
+		}
+	  ?>
+            </select>
+            <select name="MesFin" style="width:90px;">
+              <?php
+		for ($i = 1;$i <= 12; $i++)
+		{
+			if (isset($MesFin))
+			{
+				if ($MesFin == $i)
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+			}
+			else
+			{
+				if ($i == date("n"))
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+			}
+		}
+		?>
+            </select>
+            <select name="AnoFin" style="width:60px;">
+              <?php
+		for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
+		{
+			if (isset($AnoFin))
+			{
+				if ($AnoFin == $i)
+					echo "<option selected value='".$i."'>".$i."</option>\n";
+				else	echo "<option value='".$i."'>".$i."</option>\n";
+			}
+			else
+			{
+				if ($i == date("Y"))
+					echo "<option selected value='".$i."'>".$i."</option>\n";
+				else	echo "<option value='".$i."'>".$i."</option>\n";
+			}
+		}
+		?>
+            </select>
+            <input type="button" name="BtnConsultar" value="Consultar" style="width:70px" onClick="Proceso('C');">
+          </div></td>
+      </tr>
+    </table>
+          <font face="Arial, Helvetica, sans-serif"> </font></div></td>
+    </tr>
+    <tr> 
+      <td height="88" align="center" bordercolor="#0000FF"> <div align="left"> 
+          
+        <table width="958" height="25" border="2" cellpadding="2" cellspacing="2" bordercolor="#b26c4a" class="TablaDetalle">
+          <tr class="ColorTabla01"> 
+            <td width="83" height="22"> 
+              <div align="center"><font color="#FFFFFF">fecha</font></div></td>
+            <td width="71"><font color="#FFFFFF"><strong>Circuito</strong></font></td>
+            <td width="70"> 
+              <div align="center"><strong>Grupo</strong></div>
+              <div align="center"></div></td>
+            <td width="73"> 
+              <div align="center"><strong>Turno</strong></div>
+              <div align="center"></div>
+              <div align="center"><font color="#FFFFFF"></font></div>
+              <div align="center"></div></td>
+            <td width="73"> 
+              <div align="center">NE</div></td>
+            <td width="70"> 
+              <div align="center">ND</div></td>
+            <td width="68"> 
+              <div align="center">RA</div></td>
+            <td width="71"> 
+              <div align="center">CL</div></td>
+            <td width="70"> 
+              <div align="center">CS</div></td>
+            <td width="70"> 
+              <div align="center">QU</div></td>
+            <td width="70"> 
+              <div align="center">RE</div></td>
+            <td width="70"> 
+              <div align="center">AI</div></td>
+            <td width="74"> 
+              <div align="center">OT</div></td>
+            <td width="68"><div align="center">Total Rechazos</div></td>
+			<td width="68"><div align="center">Recuperado Menor</div></td>
+            <td width="66"><div align="center">Recuperado Mayor</div></td>
+          </tr>
+        </table>
+       
+
+          <table width="958" border="1">
+            <tr> 
+			<?php 
+			    if ($proceso == "C") 
+              	   {
+					  $FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
+					   $FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
+					   $Consulta_fecha ="select  distinct fecha from cal_web.rechazo_catodos as t1 " ;
+					   $Consulta_fecha = $Consulta_fecha."where t1.fecha between '".$FechaInicio."' and '".$FechaTermino."'";
+					  
+					   $Respuesta_fecha = mysqli_query($link, $Consulta_fecha);
+					   $total_ne=0;//WSO
+					   $total_nd=0; $total_ra=0; $total_cl=0; $total_cs=0;
+					   $total_qu=0;
+					   $total_re=0;
+					   $total_ai=0;
+					   $total_ot=0;
+					   $total_total_rechazos=0; $total_menor=0; $total_recuperados=0;
+
+					   while($Fila_fecha = mysqli_fetch_array($Respuesta_fecha))
+					      {
+			                 $Consulta ="select  grupo,turno,ifnull(sum(unid_recup),0) as recuperado_tot, ifnull(sum(recup_menor),0) as recuperado_menor, ifnull(sum(estampa),0) as ne, ifnull(sum(dispersos),0) as nd, ifnull(sum(rayado),0) as ra, ";
+					         $Consulta =$Consulta."ifnull(sum(cordon_superior),0) as cs, ifnull(sum(cordon_lateral),0) as cl,ifnull(sum(quemados),0) as qu,ifnull(sum(redondos),0) as re,ifnull(sum(aire),0) as ai,";
+							 $Consulta.=" ifnull(sum(otros),0) as ot from cal_web.rechazo_catodos as t1 " ;
+					         $Consulta = $Consulta."where fecha= '".$Fila_fecha["fecha"]."' group by grupo order by fecha,grupo,turno";
+							
+							 $Respuesta2 = mysqli_query($link, $Consulta);
+					         $pasada='S';
+					         while ($Fila2 = mysqli_fetch_array($Respuesta2))
+							  {
+									 echo "<tr>\n";
+									 if (strlen($Fila2["grupo"])==1)
+										{$Fila2["grupo"]='0'.$Fila2["grupo"];}
+										$consulta2="select distinct cod_circuito from sec_web.grupo_electrolitico2 where cod_grupo='".$Fila2["grupo"]."'";
+										$Respuesta3 = mysqli_query($link, $consulta2);
+										$Fila3 = mysqli_fetch_array($Respuesta3);
+										
+										if ($pasada=='S')
+										   {    
+											  
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'><a href=\"JavaScript:detalle('".$Fila_fecha["fecha"]."','".$Fila2["grupo"]."','".$Fila2["turno"]."')\">\n";
+												echo $Fila_fecha["fecha"]."</td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila3["cod_circuito"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["grupo"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["turno"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["ne"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["nd"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[ra]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[cl]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[cs]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[qu]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[re]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[ai]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[ot]."&nbsp</font></td>\n";	
+												$total_rechazos=$Fila2["nd"]+$Fila2["ne"]+$Fila2[ra]+$Fila2[cl]+$Fila2[cs]+$Fila2[ot];  
+												$total_rechazos=$total_rechazos+$Fila2[qu]+$Fila2[re]+$Fila2[ai]; 
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>$total_rechazos&nbsp</font></td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["recuperado_menor"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["recuperado_tot"]."&nbsp</font></td>\n";
+												$total_nd=$total_nd+$Fila2["nd"];
+												$total_ne=$total_ne+$Fila2["ne"];
+												$total_ra=$total_ra+$Fila2[ra];
+												$total_cl=$total_cl+$Fila2[cl];
+												$total_cs=$total_cs+$Fila2[cs];
+												$total_qu=$total_qu+$Fila2[qu];
+												$total_re=$total_re+$Fila2[re];
+												$total_ai=$total_ai+$Fila2[ai];
+												$total_ot=$total_ot+$Fila2[ot];
+												$total_total_rechazos = $total_total_rechazos+$total_rechazos;
+												$total_menor       = $total_menor      +$Fila2["recuperado_menor"];
+												$total_recuperados = $total_recuperados+$Fila2["recuperado_tot"];
+												echo "</tr>\n";
+												$pasada='N';
+											}
+										else{ echo "<td width='120' align='center' class='detalle01'><font color='blue'><a href=\"JavaScript:detalle('".$Fila_fecha["fecha"]."','".$Fila2["grupo"]."','".$Fila2["turno"]."')\">\n";
+												echo $Fila_fecha["fecha"]."</td>\n";
+												echo "<td width='120' align='center'><font color='black'>".$Fila3["cod_circuito"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center'><font color='black'>".$Fila2["grupo"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center'><font color='black'>".$Fila2["turno"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center'><font color='black'>".$Fila2["ne"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center'><font color='black'>".$Fila2["nd"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center'><font color='black'>".$Fila2[ra]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center'><font color='black'>".$Fila2[cl]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center'><font color='black'>".$Fila2[cs]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center'><font color='black'>".$Fila2[qu]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center'><font color='black'>".$Fila2[re]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center'><font color='black'>".$Fila2[ai]."&nbsp</font></td>\n";	  
+												echo "<td width='120' align='center'><font color='black'>".$Fila2[ot]."&nbsp</font></td>\n";	
+												$total_rechazos=$Fila2["nd"]+$Fila2["ne"]+$Fila2[ra]+$Fila2[cl]+$Fila2[cs]+$Fila2[ot]; 
+												$total_rechazos=$total_rechazos+$Fila2[qu]+$Fila2[re]+$Fila2[ai]; 
+												echo "<td width='120' align='center'><font color='black'>$total_rechazos&nbsp</font></td>\n";
+												echo "<td width='120' align='center'<font color='black'>".$Fila2["recuperado_menor"]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center'><font color='black'>".$Fila2["recuperado_tot"]."&nbsp</font></td>\n";
+												$total_nd=$total_nd+$Fila2["nd"];
+												$total_ne=$total_ne+$Fila2["ne"];
+												$total_ra=$total_ra+$Fila2[ra];
+												$total_cl=$total_cl+$Fila2[cl];
+												$total_cs=$total_cs+$Fila2[cs];
+												$total_qu=$total_qu+$Fila2[qu];
+												$total_re=$total_re+$Fila2[re];
+												$total_ai=$total_ai+$Fila2[ai];
+												$total_ot=$total_ot+$Fila2[ot];
+												$total_total_rechazos=$total_total_rechazos+$total_rechazos;
+												$total_menor      =$total_menor      +$Fila2["recuperado_menor"];
+												$total_recuperados=$total_recuperados+$Fila2["recuperado_tot"];
+												echo "</tr>\n";
+												$pasada='S';}		
+										}
+								}		
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>---&nbsp</font></td>\n";
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>Totales&nbsp</font></td>\n";
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>---&nbsp</font></td>\n";
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>---&nbsp</font></td>\n";
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_ne&nbsp</font></td>\n";
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_nd&nbsp</font></td>\n";
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_ra&nbsp</font></td>\n";
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_cl&nbsp</font></td>\n";	  
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_cs&nbsp</font></td>\n";	  
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_qu&nbsp</font></td>\n";	  
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_re&nbsp</font></td>\n";	  
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_ai&nbsp</font></td>\n";	  
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_ot&nbsp</font></td>\n";	
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_total_rechazos&nbsp</font></td>\n";
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_menor&nbsp</font></td>\n";
+								echo "<td width='120' align='center' class='detalle01'><font color='red'>$total_recuperados&nbsp</font></td>\n";
+								
+					     }		  	  
+								  
+			?>  
+          </table>
+		  
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+		  </div></td>
+    </tr>
+    <tr>
+
+	<td height="30" align="center"> <div align="center"><font face="Arial, Helvetica, sans-serif"> 
+        <?php
+	  		//Campo oculto.
+			echo '<input name="opcion" type="hidden" size="40" value="'.$opcion.'">';
+	  	?>
+        <input type="button" name="btnimprimir" value="Imprimir" style="width:70" onClick="Imprimir()" >
+        <input type="button" name="btnexcel3" value="Excel" style="width:70" onClick="Excel()" title="Ejecutar Planilla Excel con datos de informes">
+        <input name="btnsalir" type="button" style="width:70" value="Salir" onClick="Salir()">
+        </font></div></td>
+		  </tr>
+    <tr> 
+	  <td height="40" align="center" valign="middle"> <font face="Arial, Helvetica, sans-serif">&nbsp; 
+        </font><br>
+
+ <?php /*include("../principal/pie_pagina.php");*/ ?>
+  <font face="Arial, Helvetica, sans-serif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  </font> <font face="Arial, Helvetica, sans-serif">&nbsp; </font><font face="Arial, Helvetica, sans-serif">&nbsp; 
+  </font> 
+</FORM>
+</BODY>
+</HTML>
+<?php
+	if (isset($Mensaje))
+	{
+		echo "<script languaje='javascript'>";
+		echo "alert('".$Mensaje."')";
+		echo "</script>";
+	
+	}
+?>
+

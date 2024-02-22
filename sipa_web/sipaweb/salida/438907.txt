@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42560 ',peso_neto='26230',marca='FRANJA CELESTE',cod_mop='510',num_sello='',transportista='',rut_chofer='16649234-3',nombre_chofer='CLAUDIO QUARCHONI',observacion='',romana_salida='1' where correlativo='438907' and lote='21026182' and recargo='1'

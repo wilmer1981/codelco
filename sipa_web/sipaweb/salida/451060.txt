@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44250',peso_neto='27710',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='11994534-8',nombre_chofer='juan carrasco',observacion='circulante mazamorra',romana_salida='1' where correlativo='451060' and lote='21096253' and recargo='4'

@@ -1,0 +1,7 @@
+ChartDirector 2.5 for Win2000/NT/XP/ME/98, Linux/FreeBSD/Solaris
+Copyright (C) 2002 Advanced Software Engineering Limited
+All Rights Reserved
+
+To order a commercial license to use the ChartDirector software, 
+please refer to Advanced Software Engineering Limited's web site 
+at www.advsofteng.com for details. 

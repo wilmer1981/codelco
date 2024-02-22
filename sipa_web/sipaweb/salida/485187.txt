@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44250 ',peso_neto='27320',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10632590-1',nombre_chofer='LUIS MORALES',observacion='cobre varios ',romana_salida='1' where correlativo='485187' and lote='23066004' and recargo='4'

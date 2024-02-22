@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='38700',peso_neto='23280',marca='EQUIS DOS FRANJAS BLANCA',cod_mop='690',num_sello='',transportista='',rut_chofer='10445021-0',nombre_chofer='GABRIEL URIGOITIA',observacion='',romana_salida='1' where correlativo='474917' and lote='22126051' and recargo='7'

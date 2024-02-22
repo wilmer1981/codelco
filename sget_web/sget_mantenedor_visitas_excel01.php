@@ -1,0 +1,274 @@
+<?
+include("../principal/conectar_sget_web.php");
+
+require_once 'reader.php';
+$Directorio='doc';
+
+switch($Opcion)
+{
+	case "procesa":
+		if($file_name!='none')
+		{
+			$Extension=explode('.',$file_name);
+			if(strtoupper($Extension[1])=='XLS')
+			{
+				$Acento=false;
+				for ($j = 0;$j <= strlen($file_name[$Cont]); $j++)
+				{
+					switch(substr($file_name[$Cont],$j,1))
+					{
+						case "":
+							$file_name=str_replace( "","a",$file_name);
+						break;
+						case "":
+							$file_name=str_replace( "","A",$file_name);
+						break;
+						case "":
+							$file_name=str_replace( "","e",$file_name);
+						break;
+						case "":
+							$file_name=str_replace( "","E",$file_name);
+						break;
+						case "":
+							$file_name=str_replace( "","i",$file_name);
+						break;
+						case "":
+							$file_name=str_replace( "","I",$file_name);
+						break;
+						case "":
+							$file_name=str_replace( "","o",$file_name);
+						break;
+						case "":
+							$file_name=str_replace( "","O",$file_name);
+						break;
+						case "":
+							$file_name=str_replace( "","u",$file_name);
+						break;
+						case "":
+							$file_name=str_replace( "","U",$file_name);
+						break;
+						case "&":
+							$file_name=str_replace( "&","",$file_name);
+						break;
+						case "$":
+							$file_name=str_replace( "$","",$file_name);
+						break;
+						case "#":
+							$file_name=str_replace( "#","",$file_name);
+						break;
+						case "'":
+							$file_name=str_replace( "'","",$file_name);
+						break;		
+					}
+				}
+				if($Acento==false)
+				{
+					$NombreArchivo="carga_visitas.".$Extension[1];
+					//echo $NombreArchivo."<br>";
+					if(file_exists($Directorio.'/'.$NombreArchivo))
+					{
+						unlink($Directorio.'/'.$NombreArchivo);
+					}	
+					if (copy($file, $Directorio."/".$NombreArchivo))
+					{
+						$ProcesaArchivo = "S";
+					}
+					else
+					{
+						$ProcesaArchivo = "N";
+						header('location:sget_mantenedor_visitas_excel.php?Msj=NC');	
+					}	
+				}
+			}
+			else
+			{
+			  header('location:sget_mantenedor_visitas_excel.php?Msj=NE');	
+			}	
+		}	
+		//echo $ProcesaArchivo;
+		if($ProcesaArchivo=='S')
+		{
+			$Elimina="delete from sget_visitas_tmp where rut_registro_solicita='".$CookieRut."'";
+			mysql_query($Elimina);
+			
+			$data = new Spreadsheet_Excel_Reader();
+			$data->read($Directorio."/".$NombreArchivo);
+			error_reporting(E_ALL ^ E_NOTICE);
+			$Hoja=1;$Det='N';
+			//$IniCol=1;
+			//$IniCol=2;
+			$Consulta="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut='".$CookieRut."'";
+			$Resp=mysql_query($Consulta);
+			$Fila=mysql_fetch_array($Resp);
+			$NombreAutoriza=$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"];
+			
+			if(trim($data->sheets[$Hoja]['cells'][1][3])=='Nombres')
+			{
+				for ($i = 2; $i <= $data->sheets[$Hoja]['numRows']; $i++) 
+				{
+					$TxtRut=trim($data->sheets[$Hoja]['cells'][$i][1]);
+					$TxtRut=str_replace('.','',$TxtRut);
+					$TxtRut=str_replace(',','',$TxtRut);				
+					$Pasapor=trim($data->sheets[$Hoja]['cells'][$i][2]);
+					$Pasaporte='N';
+					if($TxtRut=='')	
+					{
+						$TxtRut=$Pasapor;
+						$Pasaporte='S';
+					}	
+					if(trim($TxtRut)!='')
+					{
+						$Consulta="SELECT ifnull(max(corr_visita)+1,1) as maximo from sget_visitas_tmp ";
+						$Resp=mysql_query($Consulta);
+						if($Fila=mysql_fetch_array($Resp))
+						{
+							if($Fila["maximo"]=='')
+								$CorrVI=1;
+							else		
+								$CorrVI=$Fila["maximo"];
+						}
+						$Nombre=trim($data->sheets[$Hoja]['cells'][$i][3]);
+						$ApPate=trim($data->sheets[$Hoja]['cells'][$i][4]);
+						$ApMate=trim($data->sheets[$Hoja]['cells'][$i][5]);
+						$CargoVis=trim($data->sheets[$Hoja]['cells'][$i][6]);
+						$Motivo=trim($data->sheets[$Hoja]['cells'][$i][7]);
+						$Empresa=trim($data->sheets[$Hoja]['cells'][$i][8]);
+						$CttoOC=trim($data->sheets[$Hoja]['cells'][$i][9]);
+						$Area=trim($data->sheets[$Hoja]['cells'][$i][10]);
+						$NombreAutoriza=trim($data->sheets[$Hoja]['cells'][$i][11]);
+						$CargoSol=trim($data->sheets[$Hoja]['cells'][$i][12]);
+						$TxtFono=trim($data->sheets[$Hoja]['cells'][$i][13]);
+						$Observacion=trim($data->sheets[$Hoja]['cells'][$i][14]);
+						
+						$ConExist="SELECT rut from sget_visitas where fecha_ingreso='".$TxtFechaIng."' and rut='".$TxtRut."'";
+						//echo $ConExist."<br>";
+						$Resp=mysql_query($ConExist);
+						if($Fila=mysql_fetch_array($Resp))
+						{
+							$RutExist=$RutExist.$TxtRut.", ";
+						}
+						else
+						{
+							$Consulta="SELECT fecha_ingreso from sget_visitas where rut='".$TxtRut."' order by fecha_ingreso desc";	
+							$Resp=mysql_query($Consulta);$FechaTope='';
+							if($Fila=mysql_fetch_array($Resp))
+							{
+								$FecUltIng=explode('-',$Fila[fecha_ingreso]);
+								$FechaTope=date('Y-m-d',mktime(0,0,0,intval($FecUltIng[1]),intval($FecUltIng[2])+7,intval($FecUltIng[0])));
+							}	 
+							if($FechaTope!='')
+							{
+								if($TxtFechaIng<$FechaTope)
+									$RutDias=$RutDias.$TxtRut.", ";
+							}
+							$Insertar="INSERT INTO sget_visitas_tmp (corr_visita,fecha_ingreso,rut,pasaporte,nombres,apellido_paterno,apellido_materno,empresa,contrato_orden,area,solicitada_por,rut_registro_solicita,telefono_solicita,";
+							$Insertar.=" motivo,cargo_visita,fecha_das,observacion,cargo_solicita)";
+							$Insertar.=" values ('".$CorrVI."','".$TxtFechaIng."','".$TxtRut."','".$Pasaporte."','".strtoupper($Nombre)."','".strtoupper($ApPate)."','".strtoupper($ApMate)."','".$Empresa."','".$CttoOC."','".strtoupper($Area)."','".$NombreAutoriza."','".$CookieRut."','".$TxtFono."','".$Motivo."','".strtoupper($CargoVis)."','00-00-00','".$Observacion."','".strtoupper($CargoSol)."')";
+							//echo "CARGA Visitas:    ".$Insertar."<br><br>";
+							mysql_query($Insertar);
+						}
+					}
+				}
+				$Msj='S';					
+			}
+			else
+				$Msj='NEx';					
+		}	
+		if($RutDias !='')
+			$RutDias=substr($RutDias,0,strlen($RutDias)-2);	
+		if($RutExist !='')
+			$RutExist=substr($RutExist,0,strlen($RutExist)-2);	
+		header('location:sget_mantenedor_visitas_excel.php?Msj='.$Msj.'&RutExist='.$RutExist.'&FechaIMsj='.$TxtFechaIng.'&RutDias='.$RutDias)	;	
+		
+	break;
+	case "carga":
+		$Consulta="SELECT * from sget_visitas_tmp where rut_registro_solicita='".$CookieRut."'";
+		$Resp=mysql_query($Consulta);
+		while($Filas=mysql_fetch_array($Resp))
+		{
+			if($Filas[pasaporte]=='N')
+			{
+				$RutTMP=valida_rut($Filas["rut"]);
+				if($RutTMP==true)
+				{
+					$Consulta="SELECT ifnull(max(corr_visita)+1,1) as maximo from sget_visitas ";
+					$Resp2=mysql_query($Consulta);
+					if($Fila=mysql_fetch_array($Resp2))
+					{
+						if($Fila["maximo"]=='')
+							$CorrVI=1;
+						else		
+							$CorrVI=$Fila["maximo"];
+					}
+					$TxtFecha=$Filas[fecha_ingreso];
+					$Insertar="INSERT INTO sget_visitas (corr_visita,fecha_ingreso,rut,pasaporte,nombres,apellido_paterno,apellido_materno,empresa,contrato_orden,fecha_das,area,solicitada_por,observacion,rut_registro_solicita,telefono_solicita,motivo,cargo_visita,cargo_solicita,estado,autorizado_por)";
+					$Insertar.="values('".$CorrVI."','".$Filas[fecha_ingreso]."','".$Filas["rut"]."','".$Filas[pasaporte]."','".$Filas["nombres"]."','".$Filas["apellido_paterno"]."','".$Filas["apellido_materno"]."','".$Filas[empresa]."','".$Filas[contrato_orden]."','".$Filas[fecha_das]."','".$Filas[area]."','".$Filas[solicitada_por]."','".$Filas["observacion"]."','".$Filas[rut_registro_solicita]."','".$Filas[telefono_solicita]."','".$Filas[motivo]."','".$Filas[cargo_visita]."','".$Filas[cargo_solicita]."','V','".$CookieRut."')";
+					//echo $Insertar;
+					mysql_query($Insertar);
+				}
+			}
+			else
+			{
+				$Consulta="SELECT ifnull(max(corr_visita)+1,1) as maximo from sget_visitas ";
+				$Resp2=mysql_query($Consulta);
+				if($Fila=mysql_fetch_array($Resp2))
+				{
+					if($Fila["maximo"]=='')
+						$CorrVI=1;
+					else		
+						$CorrVI=$Fila["maximo"];
+				}
+				$TxtFecha=$Filas[fecha_ingreso];
+				$Insertar="INSERT INTO sget_visitas (corr_visita,fecha_ingreso,rut,pasaporte,nombres,apellido_paterno,apellido_materno,empresa,contrato_orden,fecha_das,area,solicitada_por,observacion,rut_registro_solicita,telefono_solicita,motivo,cargo_visita,cargo_solicita,estado,autorizado_por)";
+				$Insertar.="values('".$CorrVI."','".$Filas[fecha_ingreso]."','".$Filas["rut"]."','".$Filas[pasaporte]."','".$Filas["nombres"]."','".$Filas["apellido_paterno"]."','".$Filas["apellido_materno"]."','".$Filas[empresa]."','".$Filas[contrato_orden]."','".$Filas[fecha_das]."','".$Filas[area]."','".$Filas[solicitada_por]."','".$Filas["observacion"]."','".$Filas[rut_registro_solicita]."','".$Filas[telefono_solicita]."','".$Filas[motivo]."','".$Filas[cargo_visita]."','".$Filas[cargo_solicita]."','V','".$CookieRut."')";
+				//echo $Insertar;
+				mysql_query($Insertar);
+			}
+		}
+		$Elimina="delete from sget_visitas_tmp where rut_registro_solicita='".$CookieRut."'";
+		mysql_query($Elimina);
+		//header('location:sget_mantenedor_visitas_excel.php?Ing=R');
+		echo "<script lenguaje='JavaScript'>";
+		echo "window.opener.document.FrmPrincipal.action='sget_mantenedor_visitas.php?Cons=S&RecupFecha=S&FechaD=".$TxtFecha."&FechaH=".$TxtFecha."';";
+		echo "window.opener.document.FrmPrincipal.submit();";
+		echo "window.close();";						
+		echo "</script>";
+			
+	break;
+}
+
+function valida_rut($r)
+{
+	$r=strtoupper(ereg_replace('\.|,|-','',$r));
+	$sub_rut=substr($r,0,strlen($r)-1);
+	$sub_dv=substr($r,-1);
+	$x=2;
+	$s=0;
+	for ( $i=strlen($sub_rut)-1;$i>=0;$i-- )
+	{
+		if ( $x >7 )
+		{
+			$x=2;
+		}
+		$s += $sub_rut[$i]*$x;
+		$x++;
+	}
+	$dv=11-($s%11);
+	if ( $dv==10 )
+	{
+		$dv='K';
+	}
+	if ( $dv==11 )
+	{
+		$dv='0';
+	}
+	if ( $dv==$sub_dv )
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+?>

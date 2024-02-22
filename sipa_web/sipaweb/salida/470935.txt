@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 39590 ',peso_neto='24870',marca='',cod_mop='310',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='andina',romana_salida='2' where correlativo='470935' and lote='22096214' and recargo='9'

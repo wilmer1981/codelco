@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='43470',peso_neto='29470',marca='V AMARILLA',cod_mop='690',num_sello='',transportista='',rut_chofer='18518782-9',nombre_chofer='GERMAN ARAVENA',observacion='',romana_salida='1' where correlativo='493618' and lote='23106037' and recargo='14'

@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43450 ',peso_neto='29530',marca='DOS FRANJAS AMARILLAS',cod_mop='520',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='',romana_salida='2' where correlativo='453374' and lote='21116072' and recargo='15'

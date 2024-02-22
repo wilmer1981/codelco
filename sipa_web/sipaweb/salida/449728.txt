@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44100 ',peso_neto='27960',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13776027-4',nombre_chofer='Manuel Aranguiz',observacion='',romana_salida='2' where correlativo='449728' and lote='21096050' and recargo='2'

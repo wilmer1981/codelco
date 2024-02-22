@@ -1,0 +1,1047 @@
+<?
+	header("Content-Type:  application/vnd.ms-excel");
+ 	header("Expires: 0");
+  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	include("../principal/conectar_principal.php");
+	// $link = mysql_connect('10.56.11.7','adm_bd','672312');
+ mysql_select_db("ram_web",$link);
+	set_time_limit(450);
+
+?>
+<html>
+<head>
+<title>Balance RAM</title>
+</head>
+
+<body>
+<form name="frmPrincipal" action="" method="post">
+<table width="523" border="0" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
+  <tr align="center">
+    <td colspan="11"><strong>
+	<?
+		if ($TipoMovimiento != "T")
+		{
+			$Consulta = "select * from proyecto_modernizacion.sub_clase ";
+			$Consulta.= " where cod_clase = '7002'";
+			$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
+			$Consulta.= " order by cod_subclase";
+			$Respuesta = mysql_query($Consulta);
+			if ($Fila = mysql_fetch_array($Respuesta))					
+				echo strtoupper($Fila["nombre_subclase"]);
+			else
+				echo "&nbsp;";
+		}
+		else
+		{
+			echo "BALANCE RAM";
+		}
+				?></strong></td>
+  </tr>
+  <tr>
+    <td colspan="11">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="117" colspan="3"><strong>AGRUPADO POR: </strong></td>
+    <td width="269" colspan="5"><?
+	if ($Agrup == "C")
+	{
+		echo "CONJUNTO";
+	}
+	else
+	{
+		if ($Agrup == "P")
+		{
+			echo "PROVEEDOR";
+		}
+		else
+		{
+			echo "&nbsp;";
+		}	
+	}
+    ?></td>
+    <td width="122" align="center" colspan="2"><input name="BtnImprimir" type="button" value="Imprimir" style="width:70px;" onClick="Proceso('I')">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3"><strong>PERIODO</strong></td>
+    <td colspan="5"><?
+	if ($Acum == "D")
+	{
+		echo str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;
+		$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+		$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+	}
+	else
+	{
+		if ($Acum == "A")
+		{
+			echo "01-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano." AL ".str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;			
+			$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-01";
+			$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+		}
+		else
+		{
+			echo "&nbsp;";
+		}	
+	}
+    ?></td>
+    <td align="center" colspan="2"><input name="BtnSalir" type="button" value="Salir" style="width:70px;" onClick="Proceso('S')"></td>
+  </tr>
+</table>
+<br>
+<br>
+<?
+if ($ChkPMineros=="S" && $ChkCirculantes=="S")
+{
+	$CodConjunto = "in(01,03)";
+}
+else
+{
+	if ($ChkPMineros=="S" && $ChkCirculantes!="S")
+	{
+		$CodConjunto = "in(01)";
+	}
+	else
+	{
+		if ($ChkPMineros!="S" && $ChkCirculantes=="S")
+		{
+			$CodConjunto = "in(03)";
+		}
+		else
+		{
+			if ($ChkPMineros!="S" && $ChkCirculantes!="S")
+			{
+				$CodConjunto = "in(01)";
+			}
+		}
+	}
+}
+echo "<table width='700' border='1' align='center' cellpadding='0' cellspacing='0' class='TablaDetalle02'>\n";
+echo "<tr align='center' class='ColorTabla02'>\n";
+echo "<td width='10'>Prod.</td>\n";
+switch ($Agrup)
+{
+	case "C":
+		echo "<td width='70'>Cjto</td>\n";
+		echo "<td width='230'>Desc</td>\n";
+		break;	
+	case "P":
+		echo "<td width='100'>Rut</td>\n";
+		echo "<td width='200'>Proveedor</td>\n";
+		break;
+}  
+echo "<td width='50'>P.Hum<br>(Kg)</td>";    
+if ($FinoLeyes=="L") echo "<td width='50'>Porc.Hum.<br>(%)</td>\n"; else echo "<td width='50'>P.Sec<br>(Kg)</td>\n";
+echo "<td width='40'>Cu<br>";
+if ($FinoLeyes=="L") echo "(%)"; else echo "(Kg)";
+echo "</td>\n";
+echo "<td width='40'>Ag<br>";
+if ($FinoLeyes=="L") echo "(G/T)"; else echo "(G/T)";
+echo "</td>\n";
+echo "<td width='40'>Au<br>";
+if ($FinoLeyes=="L") echo "(G/T)"; else echo "(G/T)";
+echo "</td>\n";
+echo "<td width='40'>As<br>";
+if ($FinoLeyes=="L") echo "(ppm)"; else echo "(Kg)";
+echo "</td>\n";
+echo "<td width='40'>S<br>";
+if ($FinoLeyes=="L") echo "(ppm)"; else echo "(Kg)";
+echo "</td>\n";
+echo "<td width='40'>Pb<br>";
+if ($FinoLeyes=="L") echo "(ppm)"; else echo "(Kg)";
+echo "</td>\n";
+echo "<td width='40'>Sb<br>";
+if ($FinoLeyes=="L") echo "(ppm)"; else echo "(Kg)";
+echo "</td>\n";
+echo "</tr>\n";
+$Consulta = "select * from proyecto_modernizacion.sub_clase ";
+$Consulta.= " where cod_clase = '7002'";
+if ($TipoMovimiento != "T")
+	$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
+$Consulta.= " order by cod_subclase";
+$Resp1 = mysql_query($Consulta);
+$DifPesoHum=0;
+while ($Fila1 = mysql_fetch_array($Resp1))
+{		
+	$CodConjuntoAnt="";
+	if ($TipoMovimiento == "T")
+	{
+		echo "<tr class='ColorTabla01'>\n";
+		echo "<td colspan='11'><strong>".$Fila1["cod_subclase"].".-".strtoupper($Fila1["nombre_subclase"])."</strong></td>\n";
+		echo "</tr>\n";
+	}	
+	switch ($Agrup)
+	{
+		case "C":
+			switch ($Fila1["cod_subclase"])	
+			{
+				case 3://BENEFICIO DIRECTO
+					$Consulta = " SELECT t2.cod_producto, t2.cod_subproducto,t1.cod_conjunto, t1.num_conjunto,";
+					$Consulta.= " t2.descripcion,Sum(t1.peso_humedo) AS peso_humedo,Sum(t1.peso_seco) AS peso_seco, Sum(t1.fino_cu) AS fino_cu, Sum(t1.fino_ag) AS fino_ag,";
+					$Consulta.= " Sum(t1.fino_au) AS fino_au, Sum(t1.fino_as) AS fino_as, Sum(t1.fino_s) AS fino_s, Sum(t1.fino_pb) AS fino_pb, Sum(t1.fino_sb) AS fino_sb";
+					$Consulta.= " FROM ram_web.movimiento_proveedor t1 INNER JOIN ram_web.conjunto_ram t2 ON (t1.num_conjunto = t2.num_conjunto)";
+					$Consulta.= " AND (t1.cod_conjunto = t2.cod_conjunto) INNER JOIN ram_web.movimiento_conjunto t3 ON (t1.num_conjunto = t3.num_conjunto) ";
+					$Consulta.= " AND (t1.conjunto_destino = t3.conjunto_destino) AND (t1.fecha_movimiento = t3.fecha_movimiento)";
+					$Consulta.= " AND case when t1.cod_conjunto='03' then (t3.cod_existencia = 5 OR t3.cod_existencia = 6 OR t3.cod_existencia = 16) ";
+					$Consulta.= " else (t3.cod_existencia <> 5 AND t3.cod_existencia <> 6 AND t3.cod_existencia <> 16) end ";					
+					$Consulta.= " WHERE t1.cod_conjunto ".$CodConjunto;			
+					$Consulta.= " and t2.estado='a' ";
+					if ($TxtConjunto!="")
+						$Consulta.= " and t1.num_conjunto =".$TxtConjunto;	
+					$Consulta.= " and t1.peso_humedo > 0";
+					$Consulta.= " and (t1.cod_existencia in(05,12,15,16))";					
+					$FechaFinAux = date("Y-m-d", mktime(1,0,0,substr($FechaFin,5,2),substr($FechaFin,8,2)+1,substr($FechaFin,0,4)));
+					$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni." 08:00:00' and '".$FechaFinAux." 07:59:59'";						
+					$Consulta.= " GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto";
+					$Consulta.= " ORDER BY t1.cod_conjunto, t1.num_conjunto";					
+					break;
+				case 4://TRASPASO
+					$Consulta = " SELECT t2.cod_producto, t2.cod_subproducto,t1.cod_conjunto, t1.num_conjunto,";
+					$Consulta.= " t2.descripcion,Sum(t1.peso_humedo) AS peso_humedo,Sum(t1.peso_seco) AS peso_seco, Sum(t1.fino_cu) AS fino_cu, Sum(t1.fino_ag) AS fino_ag,";
+					$Consulta.= " Sum(t1.fino_au) AS fino_au, Sum(t1.fino_as) AS fino_as, Sum(t1.fino_s) AS fino_s, Sum(t1.fino_pb) AS fino_pb, Sum(t1.fino_sb) AS fino_sb";
+					$Consulta.= " FROM ram_web.movimiento_proveedor t1 INNER JOIN ram_web.conjunto_ram t2 ON (t1.num_conjunto = t2.num_conjunto)";
+					$Consulta.= " AND (t1.cod_conjunto = t2.cod_conjunto) INNER JOIN ram_web.movimiento_conjunto t3 ON (t1.num_conjunto = t3.num_conjunto) ";
+					$Consulta.= " AND (t1.conjunto_destino = t3.conjunto_destino) AND (t1.fecha_movimiento = t3.fecha_movimiento)";
+					$Consulta.= " AND case when t1.cod_conjunto='03' then (t3.cod_lugar_destino <= 12 OR t3.cod_lugar_destino >= 26) AND (t3.cod_existencia = 6 OR t3.cod_existencia = 15) ";
+					$Consulta.= " else (t3.cod_lugar_destino > 12 OR t3.cod_lugar_destino < 26) AND (t3.cod_existencia = 6 OR t3.cod_existencia = 15) end ";					
+					$Consulta.= " WHERE t1.cod_conjunto ".$CodConjunto;				
+					$Consulta.= " and t2.estado='a' ";
+					if ($TxtConjunto!="")
+						$Consulta.= " and t1.num_conjunto= ".$TxtConjunto;				
+					$Consulta.= " and t1.peso_humedo > 0";
+					$Consulta.= " and (t1.cod_existencia in(05,12,15,16))";	
+					$FechaFinAux = date("Y-m-d", mktime(1,0,0,substr($FechaFin,5,2),substr($FechaFin,8,2)+1,substr($FechaFin,0,4)));
+					$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni." 08:00:00' and '".$FechaFinAux." 07:59:59'";						
+					$Consulta.= " GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto";
+					$Consulta.= " ORDER BY t1.cod_conjunto, t1.num_conjunto";
+					//echo $Consulta;
+					break;
+				default:
+					$Consulta = " SELECT t2.cod_producto, t2.cod_subproducto,t1.cod_conjunto, t1.num_conjunto,";
+					$Consulta.= " t2.descripcion,Sum(t1.peso_humedo) AS peso_humedo,Sum(t1.peso_seco) AS peso_seco, Sum(t1.fino_cu) AS fino_cu, Sum(t1.fino_ag) AS fino_ag,";
+					$Consulta.= " Sum(t1.fino_au) AS fino_au, Sum(t1.fino_as) AS fino_as, Sum(t1.fino_s) AS fino_s, Sum(t1.fino_pb) AS fino_pb, Sum(t1.fino_sb) AS fino_sb";
+					$Consulta.= " FROM ram_web.movimiento_proveedor t1 INNER JOIN ram_web.conjunto_ram t2 ON (t1.num_conjunto = t2.num_conjunto)";
+					$Consulta.= " AND (t1.cod_conjunto = t2.cod_conjunto)";
+					$Consulta.= " WHERE t1.cod_conjunto ".$CodConjunto;			
+					$Consulta.= " and t2.estado='a' ";
+					if ($TxtConjunto!="")
+						$Consulta.= " and t1.num_conjunto =".$TxtConjunto;
+					$Consulta.= " and t1.peso_humedo > 0";
+					$Consulta.= " and (t1.cod_existencia ".$Fila1["valor_subclase1"].")";
+					if ($Fila1["cod_subclase"] == 1 || $Fila1["cod_subclase"] == 6) //STOCK INICIAL Y FINAL
+					{
+						if ($Fila1["cod_subclase"] == 1)//STOCK INICIAL
+						{
+							if ($Acum=="A")
+								$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni."' and '".$FechaIni."'";
+							else
+								$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaFin."' and '".$FechaFin."'";
+						}					
+						if ($Fila1["cod_subclase"] == 6)//STOCK FINAL
+							$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaFin."' and '".$FechaFin."'";
+					}
+					else
+					{
+						if ($Fila1["cod_subclase"] == 2) //RECEPCION
+						{
+							$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni."' and '".$FechaFin."'";
+						}
+						else //EL RESTO DE LOS MOVIMIENTOS QUE ES POR TURNO
+						{
+							$FechaFinAux = date("Y-m-d", mktime(1,0,0,substr($FechaFin,5,2),substr($FechaFin,8,2)+1,substr($FechaFin,0,4)));
+							$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni." 08:00:00' and '".$FechaFinAux." 07:59:59'";
+						}
+					}
+					$Consulta.= " GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto";
+					$Consulta.= " ORDER BY t1.cod_conjunto, t1.num_conjunto";
+					break;
+			}			
+			break;			
+		case "P": //AGRUPADO POR PROVEEDOR
+			switch ($Fila1["cod_subclase"])	
+			{
+				case 3://BENEFICIO DIRECTO
+					$Consulta = " SELECT t2.cod_producto, t2.cod_subproducto,t1.rut_proveedor, t4.nombre, t1.cod_conjunto, t1.num_conjunto, t5.descripcion, ";
+					$Consulta.= " t2.descripcion,Sum(t1.peso_humedo) AS peso_humedo,Sum(t1.peso_seco) AS peso_seco, Sum(t1.fino_cu) AS fino_cu, Sum(t1.fino_ag) AS fino_ag,";
+					$Consulta.= " Sum(t1.fino_au) AS fino_au, Sum(t1.fino_as) AS fino_as, Sum(t1.fino_s) AS fino_s, Sum(t1.fino_pb) AS fino_pb, Sum(t1.fino_sb) AS fino_sb";
+					$Consulta.= " FROM ram_web.movimiento_proveedor t1 INNER JOIN ram_web.conjunto_ram t2 ON (t1.num_conjunto = t2.num_conjunto)";
+					$Consulta.= " AND (t1.cod_conjunto = t2.cod_conjunto) INNER JOIN ram_web.movimiento_conjunto t3 ON (t1.num_conjunto = t3.num_conjunto) ";
+					$Consulta.= " AND (t1.conjunto_destino = t3.conjunto_destino) AND (t1.fecha_movimiento = t3.fecha_movimiento)";
+					$Consulta.= " AND case when t1.cod_conjunto='03' then (t3.cod_existencia = 5 OR t3.cod_existencia = 6 OR t3.cod_existencia = 16) ";
+					$Consulta.= " else (t3.cod_existencia <> 5 AND t3.cod_existencia <> 6 AND t3.cod_existencia <> 16) end ";					
+					$Consulta.= " LEFT JOIN ram_web.proveedor t4 ON trim(t1.rut_proveedor)=trim(t4.rut_proveedor)";
+					$Consulta.= " INNER JOIN proyecto_modernizacion.subproducto t5 ON t2.cod_producto = t5.cod_producto AND t2.cod_subproducto = t5.cod_subproducto ";
+					$Consulta.= " WHERE t1.cod_conjunto ".$CodConjunto;			
+					$Consulta.= " and t2.estado='a' ";			
+					$Consulta.= " and t1.peso_humedo > 0";
+					$Consulta.= " and (t1.cod_existencia in(05,12,15,16))";					
+					$FechaFinAux = date("Y-m-d", mktime(1,0,0,substr($FechaFin,5,2),substr($FechaFin,8,2)+1,substr($FechaFin,0,4)));
+					$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni." 08:00:00' and '".$FechaFinAux." 07:59:59'";						
+					$Consulta.= " GROUP BY t2.cod_producto, t2.cod_subproducto, t1.rut_proveedor";
+					$Consulta.= " ORDER BY t2.cod_producto, t2.cod_subproducto, t1.rut_proveedor";
+					break;
+				case 4://TRASPASO
+					$Consulta = " SELECT t2.cod_producto, t2.cod_subproducto,t1.rut_proveedor, t4.nombre, t1.cod_conjunto, t1.num_conjunto, t5.descripcion, ";
+					$Consulta.= " t2.descripcion,Sum(t1.peso_humedo) AS peso_humedo,Sum(t1.peso_seco) AS peso_seco, Sum(t1.fino_cu) AS fino_cu, Sum(t1.fino_ag) AS fino_ag,";
+					$Consulta.= " Sum(t1.fino_au) AS fino_au, Sum(t1.fino_as) AS fino_as, Sum(t1.fino_s) AS fino_s, Sum(t1.fino_pb) AS fino_pb, Sum(t1.fino_sb) AS fino_sb";
+					$Consulta.= " FROM ram_web.movimiento_proveedor t1 INNER JOIN ram_web.conjunto_ram t2 ON (t1.num_conjunto = t2.num_conjunto)";
+					$Consulta.= " AND (t1.cod_conjunto = t2.cod_conjunto) INNER JOIN ram_web.movimiento_conjunto t3 ON (t1.num_conjunto = t3.num_conjunto) ";
+					$Consulta.= " AND (t1.conjunto_destino = t3.conjunto_destino) AND (t1.fecha_movimiento = t3.fecha_movimiento)";
+					$Consulta.= " AND case when t1.cod_conjunto='03' then (t3.cod_lugar_destino <= 12 OR t3.cod_lugar_destino >= 26) AND (t3.cod_existencia = 6 OR t3.cod_existencia = 15) ";
+					$Consulta.= " else (t3.cod_lugar_destino > 12 OR t3.cod_lugar_destino < 26) AND (t3.cod_existencia = 6 OR t3.cod_existencia = 15) end ";					
+					$Consulta.= " LEFT JOIN ram_web.proveedor t4 ON trim(t1.rut_proveedor)=trim(t4.rut_proveedor)";
+					$Consulta.= " INNER JOIN proyecto_modernizacion.subproducto t5 ON t2.cod_producto = t5.cod_producto AND t2.cod_subproducto = t5.cod_subproducto ";
+					$Consulta.= " WHERE t1.cod_conjunto ".$CodConjunto;							
+					$Consulta.= " and t2.estado='a' ";	
+					$Consulta.= " and t1.peso_humedo > 0";
+					$Consulta.= " and (t1.cod_existencia in(05,12,15,16))";	
+					$FechaFinAux = date("Y-m-d", mktime(1,0,0,substr($FechaFin,5,2),substr($FechaFin,8,2)+1,substr($FechaFin,0,4)));
+					$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni." 08:00:00' and '".$FechaFinAux." 07:59:59'";						
+					$Consulta.= " GROUP BY t2.cod_producto, t2.cod_subproducto, t1.rut_proveedor";
+					$Consulta.= " ORDER BY t2.cod_producto, t2.cod_subproducto, t1.rut_proveedor";
+					break;
+				default:
+					$Consulta = " SELECT t2.cod_producto, t2.cod_subproducto,t1.rut_proveedor, t3.nombre, t1.cod_conjunto, t1.num_conjunto, t4.descripcion, ";
+					$Consulta.= " t2.descripcion,Sum(t1.peso_humedo) AS peso_humedo,Sum(t1.peso_seco) AS peso_seco, Sum(t1.fino_cu) AS fino_cu, Sum(t1.fino_ag) AS fino_ag,";
+					$Consulta.= " Sum(t1.fino_au) AS fino_au, Sum(t1.fino_as) AS fino_as, Sum(t1.fino_s) AS fino_s, Sum(t1.fino_pb) AS fino_pb, Sum(t1.fino_sb) AS fino_sb";
+					$Consulta.= " FROM ram_web.movimiento_proveedor t1 INNER JOIN ram_web.conjunto_ram t2 ON (t1.num_conjunto = t2.num_conjunto)";
+					$Consulta.= " AND (t1.cod_conjunto = t2.cod_conjunto) LEFT JOIN ram_web.proveedor t3 ON trim(t1.rut_proveedor)=trim(t3.rut_proveedor)";
+					$Consulta.= " INNER JOIN proyecto_modernizacion.subproducto t4 ON t2.cod_producto = t4.cod_producto AND t2.cod_subproducto = t4.cod_subproducto ";
+					$Consulta.= " WHERE t1.cod_conjunto ".$CodConjunto;			
+					$Consulta.= " and t2.estado='a' ";
+					$Consulta.= " and t1.peso_humedo > 0";
+					$Consulta.= " and (t1.cod_existencia ".$Fila1["valor_subclase1"].")";
+					if ($Fila1["cod_subclase"] == 1 || $Fila1["cod_subclase"] == 6) //STOCK INICIAL Y FINAL
+					{
+						if ($Fila1["cod_subclase"] == 1)//STOCK INICIAL
+						{
+							if ($Acum=="A")
+								$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni."' and '".$FechaIni."'";
+							else
+								$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaFin."' and '".$FechaFin."'";
+						}					
+						if ($Fila1["cod_subclase"] == 6)//STOCK FINAL
+							$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaFin."' and '".$FechaFin."'";
+					}
+					else
+					{
+						if ($Fila1["cod_subclase"] == 2) //RECEPCION
+						{
+							$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni."' and '".$FechaFin."'";
+						}
+						else //EL RESTO DE LOS MOVIMIENTOS QUE ES POR TURNO
+						{
+							$FechaFinAux = date("Y-m-d", mktime(1,0,0,substr($FechaFin,5,2),substr($FechaFin,8,2)+1,substr($FechaFin,0,4)));
+							$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaIni." 08:00:00' and '".$FechaFinAux." 07:59:59'";
+						}
+					}
+					$Consulta.= " GROUP BY t2.cod_producto, t2.cod_subproducto, t1.rut_proveedor";
+					$Consulta.= " ORDER BY t2.cod_producto, t2.cod_subproducto, t1.rut_proveedor";
+					break;
+			}			
+			break;
+	}	
+	//echo $Consulta."</br>";
+	$Respuesta = mysql_query($Consulta);
+	//SUBTOTALES
+	$SubTotalHum = 0;
+	$SubTotalSeco = 0;
+	$SubTotalCu = 0;
+	$SubTotalAg = 0;
+	$SubTotalAu = 0;
+	$SubTotalAs = 0;
+	$SubTotalS = 0;
+	$SubTotalPb = 0;	
+	$SubTotalSb = 0;
+	//TOTALES
+	$TotalHum = 0;
+	$TotalSeco = 0;
+	$TotalCu = 0;
+	$TotalAg = 0;
+	$TotalAu = 0;
+	$TotalAs = 0;
+	$TotalS = 0;
+	$TotalPb = 0;	
+	$TotalSb = 0;
+	$OtrosProd = false;
+	$Cont = 1;
+	while ($Fila = mysql_fetch_array($Respuesta))
+	{
+		if ($CodConjuntoAnt != $Fila["cod_conjunto"])
+		{
+			if ($Cont != 1)
+			{
+				//ESCRIBE SUBTOTALES
+				echo "<tr align='right' bgcolor='#FFFFFF'>\n";
+				echo "<td colspan='3'>TOTAL ";
+				if ($OtrosProd == true)
+				{
+					echo "OTROS PRODUCTOS";
+					$OtrosProd = false;
+				}
+				else
+				{
+					switch ($CodConjuntoAnt)
+					{
+						case "01":
+							echo "PROD. MINEROS";
+							break;						
+						case "03":
+							echo "CIRCULANTES";
+							break;
+					}	
+				}
+				echo "</td>\n";
+				echo "<td>".number_format($SubTotalHum,0,",",".")."</td>\n";
+				echo "<td>\n";	
+				if ($FinoLeyes == "L")
+				{
+					if ($SubTotalHum>0 && $SubTotalSeco>0)
+						echo number_format(abs(100-(($SubTotalSeco/$SubTotalHum)*100)),2,",",".");
+					else
+						echo "0";
+				}
+				else
+				{
+					echo number_format($SubTotalSeco,0,",",".");
+				}						
+				echo "</td>\n";	
+				echo "<td>\n"; 
+				if ($FinoLeyes == "L")
+				{
+					if ($SubTotalCu > 0 && $SubTotalSeco > 0)
+						echo number_format(abs(100-(($SubTotalSeco/$SubTotalHum)*100)),$CantDec,",",".");
+					else
+						echo "0";
+				}
+				else
+				{
+					echo number_format($SubTotalCu,$CantDec,",",".");
+				}
+				echo "</td>\n";
+				echo "<td>\n";
+				if ($FinoLeyes == "L")
+				{
+					if ($SubTotalAg > 0 && $SubTotalSeco > 0)
+						echo number_format(($SubTotalAg/$SubTotalSeco)*1000,$CantDec,",",".");
+					else
+						echo "0";
+				}
+				else
+				{
+					echo number_format($SubTotalAg,$CantDec,",",".");
+				}
+				echo "</td>\n";
+				echo "<td>\n";
+				if ($FinoLeyes == "L")
+				{
+					if ($SubTotalAu > 0 && $SubTotalSeco > 0)
+						echo number_format(($SubTotalAu/$SubTotalSeco)*1000,$CantDec,",",".");
+					else
+						echo "0";
+				}
+				else
+				{
+					echo number_format($SubTotalAu,$CantDec,",",".");
+				}
+				echo "</td>\n";
+				echo "<td>\n"; 
+				if ($FinoLeyes == "L")
+				{
+					if ($SubTotalAs > 0 && $SubTotalSeco > 0)
+						echo number_format(($SubTotalAs/$SubTotalSeco)*100,$CantDec,",",".");
+					else
+						echo "0";
+				}
+				else
+				{
+					echo number_format($SubTotalAs,$CantDec,",",".");
+				}
+				echo "</td>\n";
+				echo "<td>\n"; 
+				if ($FinoLeyes == "L")
+				{
+					if ($SubTotalS > 0 && $SubTotalSeco > 0)
+						echo number_format(($SubTotalS/$SubTotalSeco)*100,$CantDec,",",".");
+					else
+						echo "0";
+				}
+				else
+				{
+					echo number_format($SubTotalS,$CantDec,",",".");
+				}
+				echo "</td>\n";
+				echo "<td>\n";
+				if ($FinoLeyes == "L")
+				{
+					if ($SubTotalPb > 0 && $SubTotalSeco > 0)
+						echo number_format(($SubTotalPb/$SubTotalSeco)*100,$CantDec,",",".");
+					else
+						echo "0";
+				}
+				else
+				{
+					echo number_format($SubTotalPb,$CantDec,",",".");
+				}
+				echo "</td>\n";
+				echo "<td>\n";
+				if ($FinoLeyes == "L")
+				{
+					if ($SubTotalSb > 0 && $SubTotalSeco > 0)
+						echo number_format(($SubTotalSb/$SubTotalSeco)*100,$CantDec,",",".");
+					else
+						echo "0";
+				}
+				else
+				{
+					echo number_format($SubTotalSb,$CantDec,",",".");
+				}
+				echo "</td>\n";
+				echo "</tr>\n";
+				//SUBTOTALES A CERO
+				$SubTotalHum = 0;
+				$SubTotalSeco = 0;
+				$SubTotalCu = 0;
+				$SubTotalAg = 0;
+				$SubTotalAu = 0;
+				$SubTotalAs = 0;
+				$SubTotalS = 0;
+				$SubTotalPb = 0;
+				$SubTotalSb = 0;
+			}
+			echo "<tr align='center' class='ColorTabla01'>\n";
+			echo "<td colspan='12'>";
+			switch ($Fila["cod_conjunto"])
+			{
+				case "01":
+					echo "*** PRODUCTOS MINEROS ***";
+					break;				
+				case "03":
+					echo "*** CIRCULANTES ***";
+					break;
+			}	
+			echo "</td>\n";
+			echo "</tr>\n";
+		}
+		else
+		{
+			if ($NumConjuntoAnt<9000 && $Fila["num_conjunto"] >=9000)
+			{
+				if ($Cont != 1)
+				{
+					//ESCRIBE SUBTOTALES
+					echo "<tr align='right' bgcolor='#FFFFFF'>\n";
+					echo "<td colspan='3'>TOTAL ";
+					if ($OtrosProd == true)
+					{
+						echo "OTROS PRODUCTOS";
+						$OtrosProd = false;
+					}
+					else
+					{
+						switch ($CodConjuntoAnt)
+						{
+							case "01":
+								echo "PROD. MINEROS";
+								break;							
+							case "03":
+								echo "CIRCULANTES";
+								break;
+						}	
+					}
+					echo "</td>";
+					echo "<td>".number_format($SubTotalHum,0,",",".")."</td>\n";
+					echo "<td>\n";	
+					if ($FinoLeyes == "L")
+					{
+						if ($SubTotalHum>0 && $SubTotalSeco>0)
+							echo number_format(abs(100-(($SubTotalSeco/$SubTotalHum)*100)),2,",",".");
+						else
+							echo "0";
+					}
+					else
+					{
+						echo number_format($SubTotalSeco,0,",",".");
+					}						
+					echo "</td>\n";	
+					echo "<td>\n";
+					if ($FinoLeyes == "L")
+					{
+						if ($SubTotalCu > 0 && $SubTotalSeco > 0)
+							echo number_format(($SubTotalCu/$SubTotalSeco)*100,$CantDec,",",".");
+						else
+							echo "0";
+					}
+					else
+					{
+						echo number_format($SubTotalCu,$CantDec,",",".");
+					}
+					echo "</td>\n";				
+					echo "<td>\n";
+					if ($FinoLeyes == "L")
+					{
+						if ($SubTotalAg > 0 && $SubTotalSeco > 0)
+							echo number_format(($SubTotalAg/$SubTotalSeco)*1000,$CantDec,",",".");
+						else
+							echo "0";
+					}
+					else
+					{
+						echo number_format($SubTotalAg,$CantDec,",",".");
+					}
+					echo "</td>\n";
+					echo "<td>\n";
+					if ($FinoLeyes == "L")
+					{
+						if ($SubTotalAu > 0 && $SubTotalSeco > 0)
+							echo number_format(($SubTotalAu/$SubTotalSeco)*1000,$CantDec,",",".");
+						else
+							echo "0";
+					}
+					else
+					{
+						echo number_format($SubTotalAu,$CantDec,",",".");
+					}
+					echo "</td>\n";
+					echo "<td>\n"; 
+					if ($FinoLeyes == "L")
+					{
+						if ($SubTotalAs > 0 && $SubTotalSeco > 0)
+							echo number_format(($SubTotalAs/$SubTotalSeco)*100,$CantDec,",",".");
+						else
+							echo "0";
+					}
+					else
+					{
+						echo number_format($SubTotalAs,$CantDec,",",".");
+					}
+					echo "</td>\n";
+					echo "<td>\n"; 
+					if ($FinoLeyes == "L")
+					{
+						if ($SubTotalS > 0 && $SubTotalSeco > 0)
+							echo number_format(($SubTotalS/$SubTotalSeco)*100,$CantDec,",",".");
+						else
+							echo "0";
+					}
+					else
+					{
+						echo number_format($SubTotalS,$CantDec,",",".");
+					}
+					echo "</td>\n";
+					echo "<td>\n";
+					if ($FinoLeyes == "L")
+					{
+						if ($SubTotalPb > 0 && $SubTotalSeco > 0)
+							echo number_format(($SubTotalPb/$SubTotalSeco)*100,$CantDec,",",".");
+						else
+							echo "0";
+					}
+					else
+					{
+						echo number_format($SubTotalPb,$CantDec,",",".");
+					}
+					echo "</td>\n";
+					echo "<td>\n";
+					if ($FinoLeyes == "L")
+					{
+						if ($SubTotalSb > 0 && $SubTotalSeco > 0)
+							echo number_format(($SubTotalSb/$SubTotalSeco)*100,$CantDec,",",".");
+						else
+							echo "0";
+					}
+					else
+					{
+						echo number_format($SubTotalSb,$CantDec,",",".");
+					}
+					echo "</td>\n";
+					echo "</tr>\n";	
+					//SUBTOTALES A CERO
+					$SubTotalHum = 0;
+					$SubTotalSeco = 0;
+					$SubTotalCu = 0;
+					$SubTotalAg = 0;
+					$SubTotalAu = 0;
+					$SubTotalAs = 0;
+					$SubTotalS = 0;
+					$SubTotalPb = 0;
+					$SubTotalSb = 0;
+				}
+				echo "<tr align='center' class='ColorTabla01'>\n";
+				echo "<td colspan='12'>";
+				echo "*** OTROS PRODUCTOS ***";
+				echo "</td>\n";
+				echo "</tr>\n";
+				$OtrosProd = true;
+			}
+		}
+		echo "<tr align='center'>\n";
+		echo "<td>".$Fila["cod_subproducto"]."</td>\n";
+		switch ($Agrup)
+		{
+			case "C":
+				echo "<td>".str_pad($Fila["cod_conjunto"],2,"0",STR_PAD_LEFT)." | ".$Fila["num_conjunto"]."</td>\n";
+				echo "<td align='left'>".substr(strtoupper($Fila["descripcion"]),0,16)."</td>\n";
+				break;	
+			case "P":
+				echo "<td align='right'>".$Fila["rut_proveedor"]."</td>\n";
+				if ($Fila["rut_proveedor"]!="9000000000")
+					echo "<td align='left'>".$Fila["nombre"]."</td>\n";
+				else
+					echo "<td align='left'>".$Fila["descripcion"]."</td>\n";
+				break;
+		}						
+		switch ($FinoLeyes)
+		{
+			case "L":
+				$PesoHumedo = $Fila["peso_humedo"];
+				$PesoSeco = $Fila["peso_seco"];
+				if ($Fila["peso_humedo"]>0 && $Fila["peso_seco"]>0)
+					$PorcHum = abs(100-(($Fila["peso_seco"]/$Fila["peso_humedo"])*100));
+				else
+					$PorcHum = 0;				
+				if ($Fila["fino_cu"]>0 && $Fila["peso_seco"]>0)
+					$Cu = ($Fila["fino_cu"]/$Fila["peso_seco"])*100;
+				else
+					$Cu = 0;
+				if ($Fila["fino_ag"]>0 && $Fila["peso_seco"]>0)
+					$Ag = ($Fila["fino_ag"]/$Fila["peso_seco"])*1000;
+				else
+					$Ag = 0;
+				if ($Fila["fino_au"]>0 && $Fila["peso_seco"]>0)
+					$Au = ($Fila["fino_au"]/$Fila["peso_seco"])*1000;
+				else
+					$Au = 0;
+				if ($Fila["fino_as"]>0 && $Fila["peso_seco"]>0)
+					$As = ($Fila["fino_as"]/$Fila["peso_seco"])*100;
+				else
+					$As = 0;
+				if ($Fila["fino_s"]>0 && $Fila["peso_seco"]>0)
+					$S = ($Fila["fino_s"]/$Fila["peso_seco"])*100;
+				else
+					$S = 0;
+				if ($Fila["fino_pb"]>0 && $Fila["peso_seco"]>0)
+					$Pb =  ($Fila["fino_pb"]/$Fila["peso_seco"])*100;
+				else
+					$Pb = 0;
+				if ($Fila["fino_sb"]>0 && $Fila["peso_seco"]>0)
+					$Sb =  ($Fila["fino_sb"]/$Fila["peso_seco"])*100;
+				else
+					$Sb = 0;				
+				$CantDecHum = 1;
+				$CantDecCu = 2;
+				$CantDecAg = 0;
+				$CantDecAu = 1;
+				$CantDecAs = 3;
+				$CantDecS = 1;
+				$CantDecPb = 2;
+				$CantDecSb = 3;
+				break;
+			case "F":
+				$PesoHumedo = $Fila["peso_humedo"];
+				$PesoSeco = $Fila["peso_seco"];
+				$Cu = $Fila["fino_cu"];
+				$Ag = $Fila["fino_ag"];
+				$Au = $Fila["fino_au"];
+				$As = $Fila["fino_as"];
+				$S = $Fila["fino_s"];
+				$Pb =  $Fila["fino_pb"];
+				$Sb =  $Fila["fino_sb"];
+				$CantDecHum = 0;
+				$CantDecCu = 0;
+				$CantDecAg = 0;
+				$CantDecAu = 0;
+				$CantDecAs = 0;
+				$CantDecS = 0;
+				$CantDecPb = 0;
+				$CantDecSb = 0;
+				break;
+		}		
+		echo "<td align='right'>".number_format($PesoHumedo,0,",",".")."</td>\n";
+		if ($FinoLeyes == "L")
+			echo "<td align='right'>".number_format($PorcHum,$CantDecHum,",",".")."</td>\n";	
+		else
+			echo "<td align='right'>".number_format($PesoSeco,0,",",".")."</td>\n";	
+		echo "<td align='right'>".number_format($Cu,$CantDecCu,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($Ag,$CantDecAg,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($Au,$CantDecAu,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($As,$CantDecAs,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($S,$CantDecS,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($Pb,$CantDecPb,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($Sb,$CantDecSb,",",".")."</td>\n";
+		echo "</tr>\n";
+		//SUBTOTALES
+		$SubTotalHum = $SubTotalHum + $Fila["peso_humedo"];
+		$SubTotalSeco = $SubTotalSeco + $Fila["peso_seco"];
+		$SubTotalCu = $SubTotalCu + $Fila["fino_cu"];
+		$SubTotalAg = $SubTotalAg + $Fila["fino_ag"];
+		$SubTotalAu = $SubTotalAu + $Fila["fino_au"];
+		$SubTotalAs = $SubTotalAs + $Fila["fino_as"];
+		$SubTotalS = $SubTotalS + $Fila["fino_s"];
+		$SubTotalPb = $SubTotalPb + $Fila["fino_pb"];	
+		$SubTotalSb = $SubTotalSb + $Fila["fino_sb"];	
+		//TOTALES
+		$TotalHum = $TotalHum + $Fila["peso_humedo"];
+		$TotalSeco = $TotalSeco + $Fila["peso_seco"];
+		$TotalCu = $TotalCu + $Fila["fino_cu"];
+		$TotalAg = $TotalAg + $Fila["fino_ag"];
+		$TotalAu = $TotalAu + $Fila["fino_au"];
+		$TotalAs = $TotalAs + $Fila["fino_as"];
+		$TotalS = $TotalS + $Fila["fino_s"];
+		$TotalPb = $TotalPb + $Fila["fino_pb"];
+		$TotalSb = $TotalSb + $Fila["fino_sb"];	
+		$CodConjuntoAnt = $Fila["cod_conjunto"];
+		$NumConjuntoAnt = $Fila["num_conjunto"];
+		$Cont++;
+	}	
+	//ESCRIBE SUBTOTALES
+	echo "<tr align='right' bgcolor='#FFFFFF'>\n";
+	echo "<td colspan='3'>TOTAL ";
+	if ($OtrosProd == true)
+	{
+		echo "OTROS PRODUCTOS";
+		$OtrosProd = false;
+	}
+	else
+	{
+		switch ($CodConjuntoAnt)
+		{
+			case "01":
+				echo "PROD. MINEROS";
+				break;			
+			case "03":
+				echo "CIRCULANTES";
+				break;
+		}	
+	}
+	echo "</td>";
+	echo "<td>".number_format($SubTotalHum,0,",",".")."</td>\n";
+	echo "<td>\n";	
+	if ($FinoLeyes == "L")
+	{
+		if ($SubTotalHum>0 && $SubTotalSeco>0)
+			echo number_format(abs(100-(($SubTotalSeco/$SubTotalHum)*100)),2,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($SubTotalSeco,0,",",".");
+	}						
+	echo "</td>\n";	
+	echo "<td>\n"; 
+	if ($FinoLeyes == "L")
+	{
+		if ($SubTotalCu > 0 && $SubTotalSeco > 0)
+			echo number_format(($SubTotalCu/$SubTotalSeco)*100,$CantDecCu,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($SubTotalCu,$CantDecCu,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n";
+	if ($FinoLeyes == "L")
+	{
+		if ($SubTotalAg > 0 && $SubTotalSeco > 0)
+			echo number_format(($SubTotalAg/$SubTotalSeco)*1000,$CantDecAg,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($SubTotalAg,$CantDecAg,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n";
+	if ($FinoLeyes == "L")
+	{
+		if ($SubTotalAu > 0 && $SubTotalSeco > 0)
+			echo number_format(($SubTotalAu/$SubTotalSeco)*1000,$CantDecAu,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($SubTotalAu,$CantDecAu,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n"; 
+	if ($FinoLeyes == "L")
+	{
+		if ($SubTotalAs > 0 && $SubTotalSeco > 0)
+			echo number_format(($SubTotalAs/$SubTotalSeco)*100,$CantDecAs,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($SubTotalAs,$CantDecAs,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n"; 
+	if ($FinoLeyes == "L")
+	{
+		if ($SubTotalS > 0 && $SubTotalSeco > 0)
+			echo number_format(($SubTotalS/$SubTotalSeco)*100,$CantDecS,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($SubTotalS,$CantDecS,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n";
+	if ($FinoLeyes == "L")
+	{
+		if ($SubTotalPb > 0 && $SubTotalSeco > 0)
+			echo number_format(($SubTotalPb/$SubTotalSeco)*100,$CantDecPb,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($SubTotalPb,$CantDecPb,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n";
+	if ($FinoLeyes == "L")
+	{
+		if ($SubTotalSb > 0 && $SubTotalSeco > 0)
+			echo number_format(($SubTotalSb/$SubTotalSeco)*100,$CantDecSb,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($SubTotalSb,$CantDecSb,",",".");
+	}
+	echo "</td>\n";
+	echo "</tr>\n";	
+	//SUBTOTALES A CERO
+	$SubTotalHum = 0;
+	$SubTotalSeco = 0;
+	$SubTotalCu = 0;
+	$SubTotalAg = 0;
+	$SubTotalAu = 0;
+	$SubTotalAs = 0;
+	$SubTotalS = 0;
+	$SubTotalPb = 0;
+	$SubTotalSb = 0;	
+	//ESCRIBE TOTALES	
+	echo "<tr align='right' bgcolor='#FFFFFF'>\n";
+	echo "<td colspan='3'>TOTAL ".strtoupper($Fila1["nombre_subclase"])."</td>\n";		
+	echo "<td>".number_format($TotalHum,0,",",".")."</td>\n";
+	echo "<td>\n";
+	if ($FinoLeyes == "L")
+	{
+		if ($TotalHum>0 && $TotalSeco>0)
+			echo number_format(abs(100-(($TotalSeco/$TotalHum)*100)),2,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($TotalSeco,0,",",".");
+	}							
+	echo "<td>\n"; 
+	if ($FinoLeyes == "L")
+	{
+		if ($TotalCu > 0 && $TotalSeco > 0)
+			echo number_format(($TotalCu/$TotalSeco)*100,$CantDecCu,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($TotalCu,$CantDecCu,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n";
+	if ($FinoLeyes == "L")
+	{
+		if ($TotalAg > 0 && $TotalSeco > 0)
+			echo number_format(($TotalAg/$TotalSeco)*1000,$CantDecAg,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($TotalAg,$CantDecAg,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n";
+	if ($FinoLeyes == "L")
+	{
+		if ($TotalAu > 0 && $TotalSeco > 0)
+			echo number_format(($TotalAu/$TotalSeco)*1000,$CantDecAu,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($TotalAu,$CantDecAu,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n"; 
+	if ($FinoLeyes == "L")
+	{
+		if ($TotalAs > 0 && $TotalSeco > 0)
+			echo number_format(($TotalAs/$TotalSeco)*100,$CantDecAs,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($TotalAs,$CantDecAs,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n"; 
+	if ($FinoLeyes == "L")
+	{
+		if ($TotalS > 0 && $TotalSeco > 0)
+			echo number_format(($TotalS/$TotalSeco)*100,$CantDecS,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($TotalS,$CantDecS,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n";
+	if ($FinoLeyes == "L")
+	{
+		if ($TotalPb > 0 && $TotalSeco > 0)
+			echo number_format(($TotalPb/$TotalSeco)*100,$CantDecPb,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($TotalPb,$CantDecPb,",",".");
+	}
+	echo "</td>\n";
+	echo "<td>\n";
+	if ($FinoLeyes == "L")
+	{
+		if ($TotalSb > 0 && $TotalSeco > 0)
+			echo number_format(($TotalSb/$TotalSeco)*100,$CantDecSb,",",".");
+		else
+			echo "0";
+	}
+	else
+	{
+		echo number_format($TotalSb,$CantDecSb,",",".");
+	}
+	echo "</td>\n";
+	echo "</tr>\n";		
+}	
+echo "</table>\n";
+?>	
+</form>
+</body>
+</html>

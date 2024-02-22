@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 43830 ',peso_neto='26260',marca='FRANJA AMARILLA',cod_mop='510',num_sello='',transportista='',rut_chofer='95759031-4',nombre_chofer='JOEL MALAVE',observacion='',romana_salida='1' where correlativo='456277' and lote='21126253' and recargo='2'

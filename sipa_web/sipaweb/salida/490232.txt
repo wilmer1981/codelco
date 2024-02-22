@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 25430 ',peso_neto='10070',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='8036380-K',nombre_chofer='charles wattson',observacion='10 BIN DE BARITINA',romana_salida='1' where correlativo='490232' and lote='23096002' and recargo='1'

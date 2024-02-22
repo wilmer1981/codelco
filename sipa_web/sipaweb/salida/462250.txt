@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 17070 ',peso_neto='2550',marca='EQUIS AMARILLA',cod_mop='510',num_sello='',transportista='',rut_chofer='14541190-4',nombre_chofer='FRANCISCO   HERNANDEZ',observacion='',romana_salida='1' where correlativo='462250' and lote='22046149' and recargo='4'

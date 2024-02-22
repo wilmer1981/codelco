@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42020 ',peso_neto='25670',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='10472673-9',nombre_chofer='E. Maldonado',observacion='cu sucio',romana_salida='1' where correlativo='490819' and lote='23096089' and recargo='1'

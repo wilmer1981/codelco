@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 30020 ',peso_neto='13890',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='10609594-9',nombre_chofer='claudio vascuñan ',observacion='18 MAXISACOS',romana_salida='1' where correlativo='462312' and lote='22046156' and recargo='3'

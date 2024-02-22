@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44340 ',peso_neto='27160',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='17968977-4',nombre_chofer='jair rozas',observacion='CONCENTRADO DE CU ',romana_salida='1' where correlativo='480110' and lote='23036069' and recargo='1'

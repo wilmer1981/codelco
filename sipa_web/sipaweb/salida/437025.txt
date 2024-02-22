@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44180 ',peso_neto='30190',marca='V FRANJA VERDE',cod_mop='520',num_sello='',transportista='',rut_chofer='10405833-7',nombre_chofer='MAXIMO SANDOVAL',observacion='',romana_salida='2' where correlativo='437025' and lote='21016013' and recargo='20'

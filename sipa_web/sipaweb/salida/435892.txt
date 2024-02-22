@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42380 ',peso_neto='25960',marca='FRANJA ROJA',cod_mop='510',num_sello='',transportista='',rut_chofer='26919885',nombre_chofer='',observacion='',romana_salida='1' where correlativo='435892' and lote='20126136' and recargo='3'

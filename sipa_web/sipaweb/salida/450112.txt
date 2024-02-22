@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44850 ',peso_neto='30570',marca='EQUIS NEGRA',cod_mop='520',num_sello='',transportista='',rut_chofer='6328266-9',nombre_chofer='ADEMIL CABRERA',observacion='',romana_salida='1' where correlativo='450112' and lote='21096115' and recargo='3'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 23970 ',peso_neto='8120',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='9507549-5',nombre_chofer='JUAN MANZO',observacion='14 max laminilla plomo',romana_salida='1' where correlativo='488270' and lote='23076235' and recargo='1'

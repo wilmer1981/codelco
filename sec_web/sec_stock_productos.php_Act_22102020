@@ -1,0 +1,466 @@
+<? 	
+	$CodigoDeSistema = 3;
+	$CodigoDePantalla = 41;
+	include("../principal/conectar_sec_web.php");
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	$Rut =$CookieRut;
+	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'";
+	$Respuesta =mysql_query($Consulta);
+	if($Fila =mysql_fetch_array($Respuesta))
+	{
+		$Nivel = $Fila["nivel"];
+	}
+	if (!isset($CmbAno))
+	{
+		$CmbAno=date('Y');
+	}
+	if (!isset($CmbMes))
+	{
+		$CmbMes=date('n');
+	}
+	else
+	{
+		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase =".$CmbMes;
+		$Respuesta =mysql_query($Consulta);
+		
+		if($Fila =mysql_fetch_array($Respuesta))
+		{
+			$Letra=$Fila["nombre_subclase"];
+		}		
+	}
+	if ($Letra=="M")
+		$ano_nuevo = $CmbAno + 1;
+?>
+<html>
+<head>
+<script language="JavaScript">
+var OK;
+var OTS = "";
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+function muestra(numero) 
+{
+ 	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = 'show'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'visible'");
+			eval("Txt" + numero + ".style.left = 100 ");
+		}
+	}
+}
+function MostrarPaquetes(cod_bulto,num_bulto,ie)
+{
+	window.open("sec_paquetes_series.php?CodBulto="+cod_bulto+"&NumBulto="+num_bulto+"&IE="+ie,"","top=110,left=3,width=770,height=340,scrollbars=no,resizable = yes");
+}
+function oculta(numero) 
+{
+	if (ns4)
+	{ 
+ 		eval("document. " + numero + ".visibility = hide'");
+	}
+ 	else	
+	{
+		if (ie4) 
+		{
+			eval("Txt" + numero + ".style.visibility = 'hidden'");
+		}
+	}
+}
+function RecuperarValores()
+{
+	var Frm=document.FrmStockSec;
+	var Valores=new String();
+	
+	for (i=1;i<Frm.TxtStockFinal.length;i++)
+	{
+		Valores=Valores + Frm.TxtStockFinal[i].value +"~~"+Frm.TxtCodProducto[i].value+"~~"+Frm.TxtCodSubProducto[i].value+"//";
+	}
+	if (Valores!='')
+	{
+		Valores=Valores.substr(0,Valores.length-2);
+		return(Valores);	
+	}
+	else
+	{
+		Valores="";
+		return(Valores);	
+	}	
+} 
+
+function Recarga()
+{
+	var Frm=document.FrmStockSec;
+	
+	Frm.action="sec_stock_productos.php";
+	Frm.submit();
+	
+}
+function Imprimir()
+{
+	window.print();	
+}
+
+function Excel()
+{
+	var Frm=document.FrmStockSec;
+	
+	Frm.action="sec_stock_productos_excel.php";
+	Frm.submit();
+	
+}
+
+function Grabar()
+{
+	var Frm=document.FrmStockSec;
+	var Valores="";
+	
+	if (confirm('Esta Seguro de Grabar los Datos'))
+	{
+		Valores=RecuperarValores();
+		Frm.action="sec_stock_productos01.php?Valores="+Valores;
+		Frm.submit();
+	}	
+}
+
+function Salir()
+{
+	var Frm=document.FrmStockSec;
+	Frm.action="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+	Frm.submit();
+	
+}
+</script>
+<title>Stock Catodos Productos</title>
+<link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
+<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
+<form name="FrmStockSec" method="post" action="">
+  <? include("../principal/encabezado.php")?>
+  <table width="770" border="0" class="TablaPrincipal" left="5" cellpadding="5" cellspacing="0">
+  <tr>
+      <td align="center"><br>
+	  <table width="730" border="0" class="tablainterior">
+	  <tr>
+	  <td>&nbsp;&nbsp;Mes Consulta:&nbsp;&nbsp;
+	  <?
+		//echo"<select name='CmbMes' onchange='Recarga()'>";
+		echo"<select name='CmbMes'>";
+	
+		for($i=1;$i<13;$i++)
+		{
+			if (isset($CmbMes))
+			{
+				if ($i==$CmbMes)
+				{
+					echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+				}
+				else
+				{
+					echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+				}
+			
+			}	
+			else
+			{
+				if ($i==date("n"))
+				{
+					echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+				}
+				else
+				{
+					echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+				}
+			}	
+		}
+		echo "</select>";
+		echo "<select name='CmbAno' onchange='Recarga()'>";
+
+		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+		{
+			if (isset($CmbAno))
+			{
+				if ($i==$CmbAno)
+					{
+						echo "<option selected value ='$i'>$i</option>";
+					}
+				else	
+					{
+						echo "<option value='".$i."'>".$i."</option>";
+					}
+			}
+			else
+			{
+				if ($i==date("Y"))
+					{
+						echo "<option selected value ='$i'>$i</option>";
+					}
+				else	
+					{
+						echo "<option value='".$i."'>".$i."</option>";
+					}
+			}		
+		}
+		echo "</select>&nbsp;&nbsp;";
+		echo "<input type='button' name='BtnRecarga' value='Ok' style='width:35' onClick='Recarga();'>";			
+	  ?>
+	  </td>
+	  </tr>
+	  </table><br>	  
+	  <table width="730" border="1" cellpadding="3" cellspacing="0" class="TablaDetalle">
+          <tr class="ColorTabla01">
+		    <td align="center">&nbsp;</td>
+			<td width='60' align="center">Existencia</td>
+			<td colspan="3" width='' align="center">&nbsp;</td>
+			<td width='' align="center">Existencia Final</td>
+			
+          </tr>
+          <tr class="ColorTabla01">
+		    <td align="center">Tipo Producto</td>
+			<td width='60' align="center">Inicial</td>
+			<td width='' align="center">Paquetes</td>
+			<td width='' align="center">Traspaso</td>
+			<td width='' align="center">Embarques</td>
+			<td width='' align="center">En Lotes</td>
+          </tr>
+		  <?
+			if (strlen($CmbMes)==1)
+			{
+				$CmbMes="0".$CmbMes;
+			}
+			$FechaInicio=$CmbAno."-".$CmbMes."-01";
+				
+			$FechaInicioNew=date('Y-m-d',mktime(0,0,0,$CmbMes-1,'01',$CmbAno));
+			$FechaTerminoNew=date('Y-m-d',mktime(0,0,0,$CmbMes-1,'31',$CmbAno));
+
+			$FechaTermino=$CmbAno."-".$CmbMes."-31";
+			
+			$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='3103' order by cod_subclase";
+			$Respuesta3=mysql_query($Consulta);
+			$TotalInicial=0;
+			$TotalPaquetes=0;
+			$TotalTraspaso=0;
+			$TotalEmbarque=0;
+			$TotalFinal=0;
+			$TotalPreparacion=0;
+			$TotalTotal=0;
+			
+			
+			while ($Fila3=mysql_fetch_array($Respuesta3))
+			{
+				echo "<tr>";
+				
+				echo "<td colspan='8' class='detalle01'><strong>".$Fila3["nombre_subclase"]."</STRONG></td>";
+				/*echo "<td class='detalle01'>&nbsp;</td>";
+				echo "<td class='detalle01'>&nbsp;</td>";
+				echo "<td class='detalle01'>&nbsp;</td>";
+				echo "<td class='detalle01'>&nbsp;</td>";
+				echo "<td class='detalle01'>&nbsp;</td>";*/
+				echo "</tr>";	
+				$Consulta="select cod_producto,cod_subproducto,abreviatura as nombre from proyecto_modernizacion.subproducto where stock_sec='".$Fila3["cod_subclase"]."' order by orden_stock_sec";
+				$Respuesta=mysql_query($Consulta);
+				
+				echo "<input type='hidden' name='TxtCodProducto'><input type='hidden' name='TxtCodSubProducto'><input type='hidden' name='TxtStockFinal'>";
+				$SubTotalInicial=0;
+				$SubTotalPaquetes=0;
+				$SubTotalTraspaso=0;
+				$SubTotalEmbarque=0;
+				$SubTotalFinal=0;
+				$SubTotal_Preparacion=0;
+				$SubTotal_total=0;
+	
+				
+				while ($Fila=mysql_fetch_array($Respuesta))
+				{
+					$StockFinal=0;
+					$ExistenciaFinal=0;
+					echo "<tr>";
+					echo "<td width='200'>".$Fila["nombre"]."</td>";
+					//STOCK INICIAL
+					$Consulta="select peso as peso_inicial from sec_web.stock_final where tipo='1' and cod_producto='".$Fila["cod_producto"]."'";
+					$Consulta=$Consulta." and cod_subproducto ='".$Fila["cod_subproducto"]."' and fecha ";
+					//$Consulta=$Consulta." between subdate('$FechaInicio',interval 1 month) and subdate('$FechaTermino',interval 1 month)"; 
+					$Consulta=$Consulta." between '$FechaInicioNew' and '$FechaTerminoNew'"; 
+					$Respuesta2=mysql_query($Consulta);
+					//echo $Consulta.";<br>";
+
+					if ($Fila2=mysql_fetch_array($Respuesta2))
+					{
+						echo "<td class='detalle01' width='60' align='right'>".number_format($Fila2[peso_inicial],0,',','.')."</td>";
+						$StockFinal=$StockFinal+$Fila2[peso_inicial];
+						$SubTotalInicial=$SubTotalInicial+$Fila2[peso_inicial];
+						$TotalInicial=$TotalInicial+$Fila2[peso_inicial];
+					}
+					else
+					{
+						echo "<td class='detalle01' width='60' align='right'>0</td>";
+					}
+					//STOCK PAQUETES
+					$Paquetes=0;
+					//ASI ESTABA
+					/*$Consulta="select sum(peso_paquetes) as peso_paquetes  from sec_web.paquete_catodo where cod_producto='".$Fila["cod_producto"]."'";
+					$Consulta=$Consulta." and cod_subproducto ='".$Fila["cod_subproducto"]."' and cod_paquete='".$Letra."' and year(fecha_creacion_paquete)=".$CmbAno;
+					$Consulta.=" group by cod_producto,cod_subproducto"; */
+					//$Consulta.=" or year(fecha_creacion_paquete)='".$ano_nuevo."' and cod_paquete = '".$Letra."')";
+					//echo "DD".$Letra;
+					$CmbAno2 = $CmbAno + 1;
+					$Consulta="select sum(peso_paquetes) as peso_paquetes ";
+					$Consulta.=" from sec_web.paquete_catodo t1 ";
+					$Consulta.="	inner join sec_web.lote_catodo t2 ";
+					$Consulta.=" on t1.cod_paquete=t2.cod_paquete  and t1.num_paquete=t2.num_paquete ";
+					$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete ";
+					$Consulta.=" where t1.cod_producto='".$Fila["cod_producto"]."'";
+					$Consulta.=" and t1.cod_subproducto ='".$Fila["cod_subproducto"]."' and ";
+					if ($Letra=="M")
+					{
+						$Consulta.=" ((t1.cod_paquete='".$Letra."' and year(t1.fecha_creacion_paquete)= '".$CmbAno."' and month(t1.fecha_creacion_paquete) > '01') or ";
+						$Consulta.=" (t1.cod_paquete='".$Letra."' and year(t1.fecha_creacion_paquete)= '".$CmbAno2."'))";
+					}
+					else
+					{
+						$Consulta.=" t1.cod_paquete='".$Letra."' and year(t1.fecha_creacion_paquete)= '".$CmbAno."' ";
+					}
+					$Consulta.=" group by t1.cod_producto,t1.cod_subproducto"; 
+					//echo "Con".$Consulta;
+					$Respuesta2=mysql_query($Consulta);
+					if ($Fila2=mysql_fetch_array($Respuesta2))
+					{
+						echo "<td width='60' align='right'>".number_format($Fila2["peso_paquetes"],0,',','.')."</td>";
+						$StockFinal=$StockFinal+$Fila2["peso_paquetes"];
+						$SubTotalPaquetes=$SubTotalPaquetes+$Fila2["peso_paquetes"];
+						$TotalPaquetes=$TotalPaquetes+$Fila2["peso_paquetes"];
+						$Paquetes=$Fila2["peso_paquetes"];
+					}
+					else
+					{
+						echo "<td width='60' align='right'>0</td>";
+					}
+					//STOCK TRASPASO
+					$Consulta="select sum(peso) as peso_traspaso  from sec_web.traspaso where cod_producto='".$Fila["cod_producto"]."'";
+					$Consulta=$Consulta." and cod_subproducto ='".$Fila["cod_subproducto"]."' and fecha_traspaso ";
+					$Consulta=$Consulta." between '$FechaInicio' and '$FechaTermino'";
+					$Consulta=$Consulta." group by cod_producto,cod_subproducto"; 
+					$Respuesta2=mysql_query($Consulta);
+					if ($Fila2=mysql_fetch_array($Respuesta2))
+					{
+						echo "<td width='60' align='right'>".number_format($Fila2["peso_traspaso"],0,',','.')."</td>";
+						$StockFinal=abs($StockFinal-$Fila2["peso_traspaso"]);
+						$SubTotalTraspaso=$SubTotalTraspaso+$Fila2["peso_traspaso"];
+						$TotalTraspaso=$TotalTraspaso+$Fila2["peso_traspaso"];
+					}
+					else
+					{
+						echo "<td width='60' align='right'>0</td>";
+					}
+					//STOCK EMBARQUE
+					$Consulta = "select sum(t2.peso_paquetes) as peso_embarque  ";
+					$Consulta.= "from sec_web.guia_despacho_emb t1 inner join sec_web.paquete_catodo t2  ";
+					$Consulta.= "on t1.num_guia=t2.num_guia ";
+					$Consulta.= "where (t1.cod_estado <>'A') and (t1.fecha_guia between '".$FechaInicio."' and '".$FechaTermino."')";
+					$Consulta.= " and (t2.cod_estado = 'c') and (t2.cod_producto='".$Fila["cod_producto"]."' and t2.cod_subproducto ='".$Fila["cod_subproducto"]."')";
+					$Consulta.= "group by t2.cod_producto, t2.cod_subproducto ";
+					//echo "Embarque".$Consulta;
+					$Respuesta2=mysql_query($Consulta);
+					if ($Fila2=mysql_fetch_array($Respuesta2))
+					{
+						echo "<td width='60' align='right'>".number_format($Fila2[peso_embarque],0,',','.')."</td>";
+						$StockFinal=abs($StockFinal-$Fila2[peso_embarque]);
+						$SubTotalEmbarque=$SubTotalEmbarque+$Fila2[peso_embarque];
+						$TotalEmbarque=$TotalEmbarque+$Fila2[peso_embarque];
+					}
+					else
+					{
+						echo "<td width='60' align='right'>0</td>";
+					}
+					echo "<td class='detalle01' width='60' align='right'>".number_format($StockFinal,0,',','.')."</td>";
+					$SubTotalFinal=$SubTotalFinal+$StockFinal;
+					$TotalFinal=$TotalFinal+$StockFinal;
+
+					$Enpreparacion=0;
+					
+					
+					
+						/*$Consulta = "select * from sec_web.catodo_por_pesar t1 ";
+						$Consulta.= " where t1.cod_producto='".$Fila["cod_producto"]."'";
+						$Consulta.=" and t1.cod_subproducto ='".$Fila["cod_subproducto"]."'";
+  						$Respuesta4=mysql_query($Consulta);
+						if ($Fila4=mysql_fetch_array($Respuesta4))
+						{
+							$Enpreparacion=	$Fila4[catodo_por_pesar] * 1000;
+						}	
+							
+							$ExistenciaFinal = $StockFinal + $Enpreparacion;
+							$SubTotal_Preparacion = $SubTotal_Preparacion + $Enpreparacion;
+							$SubTotal_total = $SubTotal_total +  $ExistenciaFinal;
+							$TotalPreparacion = $TotalPreparacion + $Enpreparacion;
+						echo "<td  width='60' align='right'>".number_format($Enpreparacion,0,',','.')."</td>";
+						echo "<td class='detalle01' width='60' align='right'>".number_format($ExistenciaFinal,0,',','.')."</td>";*/
+					
+
+					
+					//$SubTotalFinal=$SubTotalFinal+$StockFinal;
+					//$TotalFinal=$TotalFinal+$StockFinal;
+					
+					
+					
+					
+				echo "<input type='hidden' name='TxtCodProducto' value='".$Fila["cod_producto"]."'><input type='hidden' name='TxtCodSubProducto' value='".$Fila["cod_subproducto"]."'><input type='hidden' name='TxtStockFinal' value='".$StockFinal."'>";				
+				echo "</tr>";
+				}
+				echo "<tr>";
+				echo "<td class='detalle01'>SUB-TOTAL</td>";
+				echo "<td class='detalle01' width='60' align='right'>".number_format($SubTotalInicial,0,',','.')."</td>";
+				echo "<td class='detalle01' width='60' align='right'>".number_format($SubTotalPaquetes,0,',','.')."</td>";
+				echo "<td class='detalle01' width='60' align='right'>".number_format($SubTotalTraspaso,0,',','.')."</td>";
+				echo "<td class='detalle01' width='60' align='right'>".number_format($SubTotalEmbarque,0,',','.')."</td>";
+				echo "<td class='detalle01' width='60' align='right'>".number_format($SubTotalFinal,0,',','.')."</td>";
+				/*echo "<td class='detalle01' width='60' align='right'>".number_format($SubTotal_Preparacion,0,',','.')."</td>";
+				echo "<td class='detalle01' width='60' align='right'>".number_format($SubTotal_total,0,',','.')."</td>";*/
+											
+
+				$SubTotalInicial=0;
+				$SubTotalPaquetes=0;
+				$SubTotalTraspaso=0;
+				$SubTotalEmbarque=0;
+				$SubTotalFinal=0;
+				$SubTotal_Preparacion=0;
+				$SubTotal_total=0;
+				echo "</tr>";	
+			}	
+			//$TotalTotal = $TotalFinal + $TotalPreparacion;
+			echo "<td class='detalle01' width='60' align='left'><strong>TOTALES</strong></td>";
+			echo "<td class='detalle01' width='60' align='right'><strong>".number_format($TotalInicial,0,',','.')."</td>";
+			echo "<td class='detalle01' width='60' align='right'><strong>".number_format($TotalPaquetes,0,',','.')."</td>";
+			echo "<td class='detalle01' width='60' align='right'><strong>".number_format($TotalTraspaso,0,',','.')."</td>";
+			echo "<td class='detalle01' width='60' align='right'><strong>".number_format($TotalEmbarque,0,',','.')."</td>";
+			echo "<td class='detalle01' width='60' align='right'><strong>".number_format($TotalFinal,0,',','.')."</strong></td>";
+			/*echo "<td class='detalle01' width='60' align='right'><strong>".number_format($TotalPreparacion,0,',','.')."</strong></td>";
+			echo "<td class='detalle01' width='60' align='right'><strong>".number_format($TotalTotal,0,',','.')."</strong></td>";*/
+			
+
+		  ?>
+		  
+        </table>
+        <br>
+          <table width="730" border="0" class="tablainterior">
+          <tr>
+              <td align="center">
+			  <?
+				if (($Nivel=='1')||($Nivel=='6'))
+				{
+					echo "<input type='button' name='BtnGrabar' value='Grabar' style='width:90' onClick='Grabar();'>";
+				}	
+			  ?>
+                <input type="button" name="BtnImprimir" value="Imprimir" style="width:90" onClick="Imprimir();">
+				<input type="button" name="BtnExcel" value="Excel" style="width:90" onClick="Excel();">
+				<input type="button" name="BtnSalir" value="Salir" style="width:90" onClick="Salir();">
+			</td>
+          </tr>
+        </table>
+      </td>
+  </tr>
+</table>
+  <? include("../principal/pie_pagina.php")?>
+</form>
+</body>
+</html>

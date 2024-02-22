@@ -1,0 +1,64 @@
+<?php
+	include("../principal/conectar_principal.php");
+
+	$fecha_embarque='2020-06-29';
+	$anio_creacion='2020';
+	$Nro_Guia='';
+	$Sequencia=1;
+	
+
+	$Consulta = "select * from sec_web._aux_guias_con_problema";// where num_guia=630435 ";
+	$Respuesta = mysqli_query($link, $Consulta);
+	
+
+	
+	
+	$LOTE="";
+	$PAQUETE="";
+	$EMBARQUE="";
+	//echo $Consulta;
+	while ($Fila = mysqli_fetch_array($Respuesta))
+	{	
+		if($Fila["num_guia"]!='')
+		{
+			$Nro_Guia=$Fila["num_guia"];
+			
+			if($Nro_Guia!=$Guia_Aux)
+			{	
+				$ELIMINAR = "DELETE from sec_web.det_guia_despacho_emb WHERE num_guia='".$Fila["num_guia"]."' ;";
+				$Guia_Aux=$Nro_Guia;
+				$Sequencia=1;
+				echo $ELIMINAR." <br>";
+			}
+			/*$Consulta = "select * from sec_web.paquete_catodo WHERE cod_paquete ='".$Fila["cod_paquete"]."' AND num_paquete = '".$Fila["num_paquete"]."' ";
+			$Consulta.= " and  YEAR(fecha_creacion_paquete)='".$anio_creacion."'";
+			$Respuesta2 = mysqli_query($link, $Consulta);
+			if ($Fila2 = mysqli_fetch_array($Respuesta2))
+			{*/
+				$Actualizar="UPDATE  sec_web.paquete_catodo set cod_estado='c', num_guia='".$Fila["num_guia"]."',fecha_embarque='".$fecha_embarque."' WHERE cod_paquete ='".$Fila["cod_paquete"]."' AND num_paquete = '".$Fila["num_paquete"]."' ";
+				$Actualizar.= " and  YEAR(fecha_creacion_paquete)='".$anio_creacion."';";
+				$PAQUETE=$PAQUETE.$Actualizar."<br>";
+				$Actualizar2="UPDATE  sec_web.lote_catodo set cod_estado='c' WHERE cod_paquete ='".$Fila["cod_paquete"]."' AND num_paquete = '".$Fila["num_paquete"]."' ";
+				$Actualizar2.= " and  YEAR(fecha_creacion_paquete)='".$anio_creacion."' ;";
+				$LOTE=$LOTE.$Actualizar2."<br>";
+				$Insertar="insert into sec_web.det_guia_despacho_emb(cod_existencia,num_guia,secuencia_guia,cod_paquete,num_paquete,cod_estado,SW,num_guia_aux) ";
+				$Insertar.="values('05','".$Fila["num_guia"]."','".$Sequencia."','".$Fila["cod_paquete"]."','".$Fila["num_paquete"]."','I',1,null); ";
+				$EMBARQUE=$EMBARQUE.$Insertar."<br>";
+				
+				$Sequencia=$Sequencia+1;
+				
+				
+			/*}
+			else
+			{
+				"<br> NO EXISTE PQUETE => GUIA ".$Fila["num_guia"]."    => ".$Fila["cod_paquete"]."-".$Fila["num_paquete"]."<br>";
+				
+			}*/
+		}
+
+	}
+	echo $PAQUETE;
+	echo $LOTE;
+	echo $EMBARQUE;
+	
+?>

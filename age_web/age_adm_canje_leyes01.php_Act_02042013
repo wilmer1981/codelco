@@ -1,0 +1,69 @@
+<?
+	include("../principal/conectar_principal.php");
+	
+	$Fecha=$TxtFechaCanje;
+	$FechaSolPqts=$TxtFechaSolPqts;
+	$Param='';
+	switch ($Proceso)
+	{
+		case "G"://NUEVO
+			$Eliminar ="delete from age_web.leyes_por_lote_canje where lote='$TxtLote'";
+			//echo $Eliminar;
+			mysql_query($Eliminar);
+			$Datos=explode('//',$Valores);
+			while(list($c,$v)=each($Datos))
+			{
+				$Datos2=explode('~~',$v);
+				$CodLey=$Datos2[0];
+				$NomLey=$Datos2[1];
+				$NomUnidad=$Datos2[2];
+				$ValorLey1=$Datos2[3];
+				$ValorLey2=$Datos2[4];
+				$ValorLey3=$Datos2[5];
+				$ValorLey4=$Datos2[6];
+				$ValorLeyR=$Datos2[7];
+				$ValorIncR=$Datos2[8];
+				$ValorLeyC=$Datos2[9];
+				$ValorLeyF=$Datos2[10];
+				$NumPqte=$Datos2[11];
+				$Seguimiento=$Datos2[12];
+				$CodUnidad=$Datos2[13];
+				$Arbitral=$Datos2[14];
+				$ForzarLey2=$Datos2[15];
+				$CodLab=$Datos2[16];
+				$OrdenEnsaye=$Datos2[17];
+				$Insertar="insert into age_web.leyes_por_lote_canje(lote,recargo,cod_leyes,valor1,valor2,valor3,valor4,cod_unidad,paquete_canje,valor_retalla,inc_retalla,ley_canje,observacion,plantilla_limite,pendiente,ley_forzada) values (";
+				$Insertar.="'$TxtLote','0','$CodLey','".str_replace(',','.',$ValorLey1)."','".str_replace(',','.',$ValorLey2)."','".str_replace(',','.',$ValorLey3)."','".str_replace(',','.',$ValorLey4)."','$CodUnidad',";
+				$Insertar.="'$NumPqte','".str_replace(',','.',$ValorLeyR)."','".str_replace(',','.',$ValorIncR)."','".str_replace(',','.',$ValorLeyC)."','$Seguimiento','$CmbPlantLimPart','$Arbitral','$ForzarLey2')";
+				mysql_query($Insertar);
+				//echo $Insertar."<br>";
+				$Actualizar="UPDATE age_web.lotes set canjeable='S',fecha_sol_pqts='$FechaSolPqts',fecha_canje='$Fecha',laboratorio_externo='$CodLab',orden_ensaye='$OrdenEnsaye' ";
+				$Actualizar.="where lote='".$TxtLote."'";
+				mysql_query($Actualizar);
+				//$Param="?TxtLote=".$TxtLote."&Calcular=S&Valores=".$Valores;
+				$Param="?TxtLote=".$TxtLote;
+			}		
+			break;
+		case "CMC"://CERRAR LOTE COMERCIAL
+			$Actualizar="UPDATE age_web.lotes set fin_canje='S', fecha_fin_canje='$Fecha',estado_lote='4' ";
+			$Actualizar.="where lote='".$TxtLote."'";
+			mysql_query($Actualizar);
+			$Actualizar="UPDATE age_web.detalle_lotes set estado_recargo='4' ";
+			$Actualizar.="where lote='".$TxtLote."'";
+			mysql_query($Actualizar);
+			//$Param="?TxtLote=".$TxtLote."&Calcular=S&Valores=".$Valores;
+			$Param="?TxtLote=".$TxtLote;
+			break;
+		case "MC"://MODIFICAR LOTE COMERCIAL
+			$Actualizar="UPDATE age_web.lotes set fin_canje='', fecha_fin_canje='',estado_lote='1' ";
+			$Actualizar.="where lote='".$TxtLote."'";
+			mysql_query($Actualizar);
+			$Actualizar="UPDATE age_web.detalle_lotes set estado_recargo='1' ";
+			$Actualizar.="where lote='".$TxtLote."'";
+			mysql_query($Actualizar);
+			//$Param="?TxtLote=".$TxtLote."&Calcular=S&Valores=".$Valores;
+			$Param="?TxtLote=".$TxtLote;
+			break;
+	}
+	header("location:age_adm_canje_leyes.php".$Param);
+?>

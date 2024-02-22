@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 36770 ',peso_neto='22550',marca='',cod_mop='510',num_sello='',transportista='',rut_chofer='12939094-8',nombre_chofer='roberto san martin',observacion='Cu varis PVSA',romana_salida='1' where correlativo='480887' and lote='23036222' and recargo='4'

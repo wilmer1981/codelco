@@ -1,0 +1,1025 @@
+<?php
+	$CodigoDeSistema=24;
+	$CodigoDePantalla=7;
+	include("../principal/conectar_principal.php");
+	include("funciones.php");
+	if(!isset($CmbTipoRegistro))
+		$CmbTipoRegistro='R';
+	if (!isset($TxtFechaIni))
+		$TxtFechaIni = date("Y-m-d");
+	if (!isset($TxtFechaFin))
+		$TxtFechaFin = date("Y-m-d");
+	if (!isset($LimitIni))
+		$LimitIni=0;
+	if (!isset($LimitFin))
+		$LimitFin=999;	
+	$ArrLeyes = array();
+	$Consulta = "SELECT * from proyecto_modernizacion.leyes ";
+	$RespLeyes = mysqli_query($link, $Consulta);	
+	while ($FilaLeyes = mysqli_fetch_array($RespLeyes))
+	{
+		$ArrLeyes[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];
+		$ArrLeyes[$FilaLeyes["cod_leyes"]][1] = $FilaLeyes["abreviatura"];
+	}
+?>
+<html>
+<head>
+<title>SIPA-Adm.Recepcion</title>
+<link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
+<script language="javascript" src="../principal/funciones/funciones_java.js"></script>
+<SCRIPT event=onclick() for=document>popCal.style.visibility = "hidden";</SCRIPT>
+<script language="VBScript">
+function LeerRomana(valor)	
+
+	ubicacion = "c:\PesaMatic\bascula.txt"	
+	Set fs = CreateObject("Scripting.FileSystemObject")
+	Set file = fs.OpenTextFile(ubicacion,1,true) //Crea el archivo si no existe.
+	
+	//Validar si el peso del archivo ==  0 no leer. 
+	
+	Set file2 = fs.getFile(ubicacion) 
+	tamano = file2.size	
+
+	if (tamano <> 0)	then
+		valor = file.ReadLine
+		valor = file.ReadLine
+		valor = file.ReadLine
+		valor = file.ReadLine
+		LeerRomana = valor
+	else
+		LeerRomana = valor
+	end if
+		
+end function 
+</script>
+<script language="javascript">
+var OK;
+var OTS = "";
+ns4 = (document.layers)? true:false
+ie4 = (document.all)? true:false
+function muestra(numero) 
+{
+ 	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = 'show'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'visible'");
+			//eval("Txt" + numero + ".style.left = 50 ");
+		}
+	}
+}
+function oculta(numero) 
+{
+	if (ns4){ 
+ 		eval("document. " + numero + ".visibility = hide'");
+	}
+ 	else	{
+		if (ie4) {
+			eval("Txt" + numero + ".style.visibility = 'hidden'");
+		}
+	}
+}
+
+function Proceso(opt,valor)
+{
+	var f=document.frmPrincipal;
+	var Corr="";
+	switch (opt)
+	{
+		case "BOL":
+			var TxtLotes = "";
+			for (i=1;i<f.elements.length;i++)
+			{
+				if (f.elements[i].name=="ChkLote" &&f.elements[i].checked==true)
+				{	
+					TxtLotes = TxtLotes + f.elements[i+1].value + "-" + f.elements[i + 2].value + "//";
+					Corr=f.elements[i].value;
+				}	
+			}
+			if (TxtLotes == "")
+			{
+				alert("No hay Nada Seleccionado");
+				return;
+			}
+			if (f.CmbTipoRegistro.value!='O'&&TxtLotes == "-//")
+			{
+				alert("No se Puede Generar Boleta, Correlativo Sin Lote");
+				return;
+			}
+			TxtLotes = TxtLotes.substring(0,(TxtLotes.length-2));
+			if(f.CmbTipoRegistro.value=='O')
+				TxtLotes=Corr;
+			window.open("rec_adm_lote_boleta.php?Valores="+TxtLotes+"&TipoReg="+f.CmbTipoRegistro.value+"&TxtNumRomana="+f.TxtNumRomana.value,"","top=0,left=0,width=770,height=520,scrollbars=yes,resizable = yes");
+			break;
+		case "GUI":
+			var TxtCorr = "";
+			for (i=1;i<f.elements.length;i++)
+			{
+				if (f.elements[i].name=="ChkLote" &&f.elements[i].checked==true)
+					TxtCorr = f.elements[i].value+"//";
+			}
+			if (TxtCorr == "")
+			{
+				alert("No hay Nada Seleccionado");
+				return;
+			}
+			TxtCorr = TxtCorr.substring(0,(TxtCorr.length-2));
+			window.open("rec_impresion_guia_despacho.php?Valores="+TxtCorr+"&TipoReg="+f.CmbTipoRegistro.value+"&TxtNumRomana="+f.TxtNumRomana.value,"","top=0,left=0,width=770,height=520,scrollbars=yes,resizable = yes");	
+			break;
+		case "XLS":
+			if(f.OptAnulados.checked==true)
+				f.action = "rec_adm_lote_excel.php?VerAnulados=S&TipoCon=<?php echo $TipoCon; ?>&Orden=<?php echo $Orden; ?>";
+			else
+				f.action = "rec_adm_lote_excel_2.php?TipoCon=<?php echo $TipoCon; ?>&Orden=<?php echo $Orden; ?>";
+			f.submit();
+			break;
+		case "OM": //OPERACIONES MASIVAS
+			var TxtLotes = "";
+			for (i=1;i<f.elements.length;i++)
+			{
+				if (f.elements[i].name=="ChkLote" &&f.elements[i].checked==true)
+					TxtLotes = TxtLotes + f.elements[i].value + "-" + f.elements[i + 1].value + "//";
+			}
+			if (TxtLotes == "")
+			{
+				alert("No hay Nada Seleccionado");
+				return;
+			}
+			TxtLotes = TxtLotes.substring(0,(TxtLotes.length-2));
+			window.open("rec_adm_lote03.php?Proc=OM&TxtValores="+TxtLotes+"&TipoRegistro="+f.CmbTipoRegistro.value,"","top=100,left=50,width=550,height=300,scrollbars=yes,resizable=yes");
+			break;
+		case "NL":
+			window.open("rec_adm_lote02.php?TipoConsulta=<?php echo $TipoCon; ?>&Proc=N","","top=10,left=30,width=550,height=480,scrollbars=yes,resizable=yes");
+			break;
+		case "CF":
+			f.TxtLoteIni.value = "";
+			f.TxtLoteFin.value = "";
+			if(f.OptAnulados.checked==true)
+				f.action = "rec_adm_lote.php?TipoCon=CF&VerAnulados=S";
+			else
+				f.action = "rec_adm_lote.php?TipoCon=CF";
+			f.submit();
+			break;
+		case "CL"://BUSQUEDA POR LOTE
+			if(f.CmbTipoRegistro.value!='O')
+			{
+				if (f.TxtLoteIni.value=="")
+				{
+					alert("Debe Ingresar Lote Inicial");
+					f.TxtLoteIni.focus();
+					return;
+				}
+				if (f.TxtLoteFin.value=="" && f.TxtLoteIni.value!="")
+					f.TxtLoteFin.value = f.TxtLoteIni.value;
+				f.CmbSubProducto.value="S";
+				if(f.OptAnulados.checked==true)
+					f.action = "rec_adm_lote.php?TipoCon=CL&Orden=L&VerAnulados=S";
+				else
+					f.action = "rec_adm_lote.php?TipoCon=CL&Orden=L";
+				f.submit();
+			}
+			else
+				alert('Otros Pesaje no Usa Lotes');	
+			break;
+		case "M":
+			var TxtCorr = "";
+			for (i=1;i<f.elements.length;i++)
+			{
+				if (f.elements[i].name=="ChkLote" &&f.elements[i].checked==true)
+					TxtCorr = f.elements[i].value;
+			}
+			if (TxtCorr == "")
+			{
+				alert("No hay Nada Seleccionado");
+				return;
+			}
+			switch(f.CmbTipoRegistro.value)
+			{
+				case "R":
+					window.open("rec_adm_lote02.php?TipoConsulta=<?php echo $TipoCon; ?>&Proc=M&TxtCorr="+TxtCorr,"","top=10,left=10,width=650,height=480,scrollbars=yes,resizable=yes");
+					break;
+				case "D":
+					window.open("rec_adm_lote04.php?TipoConsulta=<?php echo $TipoCon; ?>&Proc=M&TxtCorr="+TxtCorr,"","top=10,left=30,width=550,height=480,scrollbars=yes,resizable=yes");
+					break;
+				case "O":
+					window.open("rec_adm_lote05.php?TipoConsulta=<?php echo $TipoCon; ?>&Proc=M&TxtCorr="+TxtCorr,"","top=10,left=30,width=550,height=480,scrollbars=yes,resizable=yes");
+					break;		
+			}
+			break;
+		case "E":
+			var TxtCorr = "";
+			for (i=1;i<f.elements.length;i++)
+			{
+				if (f.elements[i].name=="ChkLote" &&f.elements[i].checked==true)
+					TxtCorr = TxtCorr+f.elements[i].value+"//";
+			}
+			if (TxtCorr== "")
+			{
+				alert("No hay Nada Seleccionado para Eliminar");
+				return;
+			}
+			else
+			{
+				var msg = confirm("�Esta Seguro de Eliminar estos Registros Permanentemente?");
+				if (msg==true)
+				{
+					TxtCorr = TxtCorr.substring(0,(TxtCorr.length-2));
+					switch(f.CmbTipoRegistro.value)
+					{
+						case "R":
+							f.action = "rec_adm_lote01.php?Proceso=E&TxtValores="+TxtCorr+"&TipoRegistro=R";
+							break;
+						case "D":
+							f.action = "rec_adm_lote01.php?Proceso=E&TxtValores="+TxtCorr+"&TipoRegistro=D";
+							break;
+						case "O":
+							f.action = "rec_adm_lote01.php?Proceso=E&TxtValores="+TxtCorr+"&TipoRegistro=O";
+							break;
+					}		
+					f.submit();
+				}
+				else
+				{
+					return;
+				}
+			}
+			break;
+		case "S"://SALIR
+			f.action = "../principal/sistemas_usuario.php?CodSistema=24";
+			f.submit();
+			break;
+		case "O": //ORDENA
+			if(f.OptAnulados.checked==true)
+				f.action = "rec_adm_lote.php?VerAnulados=S&LimitIni=<?php echo $LimitIni; ?>&TipoCon=<?php echo $TipoCon; ?>&Orden=" + valor;
+			else
+				f.action = "rec_adm_lote.php?LimitIni=<?php echo $LimitIni; ?>&TipoCon=<?php echo $TipoCon; ?>&Orden=" + valor;
+			f.submit();
+			break;
+		case "R": //RECARGA
+			f.action = "rec_adm_lote.php?LimitIni=<?php echo $LimitIni; ?>&TipoCon=<?php echo $TipoCon; ?>&Orden=<?php echo $Orden; ?>&"+valor;
+			f.submit();
+			break;
+		case "MT": //MARCA TODO
+			var ValorChk = false;
+			if (f.ChkMarcaTodo.checked)
+				ValorChk = true;
+			for (i=1;i<f.elements.length;i++)
+			{
+				if (f.elements[i].name=="ChkLote")
+				{
+					f.elements[i].checked=ValorChk;
+					CCA(f.elements[i],'CL03');
+				}
+			}
+			break;
+		case "I":
+			if(confirm('Esta Seguro de Imprimir Boleta'))
+			{
+				var TxtLotes = "";
+				for (i=1;i<f.elements.length;i++)
+				{
+					if (f.elements[i].name=="ChkLote" &&f.elements[i].checked==true)
+					{
+						TxtLotes = TxtLotes + f.elements[i].value + "-" + f.elements[i + 1].value+ "-" + f.elements[i + 2].value + "//";
+					}
+				}
+				if (TxtLotes == "")
+				{
+					alert("No hay Nada Seleccionado");
+					return;
+				}
+				TxtLotes = TxtLotes.substring(0,(TxtLotes.length-2));
+				//alert(TxtLotes);
+				f.action = "rec_adm_lote01.php?Proceso=I&TxtValores="+TxtLotes+"&TipoRegistro="+f.CmbTipoRegistro.value+"&TxtNumRomana="+f.TxtNumRomana.value;
+				f.submit();
+			}	
+			break;
+	}
+}
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<!--
+body {
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+a:link {
+	color: #FFFFFF;
+}
+a:visited {
+	color: #FFFFFF;
+}
+a:hover {
+	color: #FFFFFF;
+}
+a:active {
+	color: #FFFF00;
+}
+-->
+</style></head>
+
+<body><DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
+BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
+<IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=160 scrolling=no height=180></IFRAME></DIV>
+<form name="frmPrincipal" action="" method="post">
+<?php include("../principal/encabezado.php") ?>
+<input type="hidden" name="TipoBusqueda" value="<?php echo $TipoCon; ?>">
+<table class="TablaPrincipal" width="770">
+	<tr>
+	  <td width="770" height="340" align="center" valign="top"><br>
+		  <table width="750"  border="1" cellpadding="2" cellspacing="0" class="TablaInterior">
+            <tr>
+              <td colspan="4"></td>
+            </tr>
+            <tr>
+				<td>Administrar por:</td>
+              <td colspan="3">
+			  <SELECT name="CmbTipoRegistro" onChange="Proceso('R')">
+			  <option value="S" SELECTed>Seleccionar</option>
+			  <?php
+			  	switch($CmbTipoRegistro)
+				{
+					case "R"://RECEPCION
+						echo "<option value='R' SELECTed>Recepcion</option>";
+						echo "<option value='D'>Despachos</option>";
+						echo "<option value='O'>Otros Pesaje</option>";
+						break;
+					case "D"://DESPACHOS
+						echo "<option value='R'>Recepcion</option>";
+						echo "<option value='D' SELECTed>Despachos</option>";
+						echo "<option value='O'>Otros Pesaje</option>";
+						break;
+					case "O"://OTROS PESAJE
+						echo "<option value='R'>Recepcion</option>";
+						echo "<option value='D'>Despachos</option>";
+						echo "<option value='O' SELECTed>Otros Pesaje</option>";
+						break;
+					default:
+						echo "<option value='R' SELECTed>Recepcion</option>";
+						echo "<option value='D'>Despachos</option>";
+						echo "<option value='O'>Otros Pesaje</option>";
+						break;						
+				}
+			  ?>
+			  </SELECT>
+			  <input type="hidden" name="TxtNumRomana" value="<?php echo $TxtNumRomana;?>">
+			  </td>
+            </tr>
+            <tr>
+              <td width="13%">Entre Fechas:</td>
+              <td width="35%"><input name="TxtFechaIni" type="text" class="InputCen" value="<?php echo $TxtFechaIni; ?>" size="15" maxlength="10" readOnly>
+              <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onclick="popFrame.fPopCalendar(TxtFechaIni,TxtFechaIni,popCal);return false"> Al 
+              <input name="TxtFechaFin" type="text" class="InputCen" id="TxtFechaFin" value="<?php echo $TxtFechaFin; ?>" size="15" maxlength="10" readOnly>
+              <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onclick="popFrame.fPopCalendar(TxtFechaFin,TxtFechaFin,popCal);return false"></td>
+              <td width="11%">Grupo Prod :</td>
+              <td><span class="ColorTabla02">
+              <SELECT name="CmbGrupoProd" style="width:250" onChange="Proceso('R')" <?php echo $HabilitarCmb;?>>
+                <option value="S" SELECTed class="NoSelec">Todos</option>
+                <?php
+				$Consulta = "SELECT * from sipa_web.grupos_productos order by descripcion_grupo ";
+				$Resp = mysqli_query($link, $Consulta);
+				while ($Fila = mysqli_fetch_array($Resp))
+				{
+					if ($CmbGrupoProd == $Fila["cod_grupo"])
+						echo "<option SELECTed value='".$Fila["cod_grupo"]."'>".strtoupper($Fila["descripcion_grupo"])."</option>";
+					else
+						echo "<option value='".$Fila["cod_grupo"]."'>".strtoupper($Fila["descripcion_grupo"])."</option>";
+				}
+			  ?>
+              </SELECT>
+</span> </td>
+            </tr>
+            <tr>
+              <td>Por Lote: </td>
+              <td><input name="TxtLoteIni" type="text" class="InputDer" id="TxtLoteIni" value="<?php echo $TxtLoteIni; ?>" size="15" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtLoteFin');"> 
+                Al
+                  <input name="TxtLoteFin" type="text" class="InputDer" id="TxtLoteFin" value="<?php echo $TxtLoteFin; ?>" size="15" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'');">
+                  <input name="BtnConsultar2" type="button" id="BtnConsultar2" style="width:40px " onClick="Proceso('CL')" value="OK"></td>
+              <td>SubProducto:</td>
+              <td>                <span class="ColorTabla02">
+                <SELECT name="CmbSubProducto" style="width:250" <?php echo $HabilitarCmb;?>>
+                  <option value="S" SELECTed class="NoSelec">Todos</option>
+                  <?php
+				$Consulta="SELECT  t1.cod_producto,t1.cod_subproducto,t2.abreviatura as nom_prod,t2.descripcion as nom_subprod, ";
+				$Consulta.= " case when length(t1.cod_subproducto)<2 then concat('0',t1.cod_subproducto) else t1.cod_subproducto end as orden ";
+				$Consulta.="from sipa_web.grupos_prod_subprod t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto =t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+				$Consulta.="where t1.cod_grupo='$CmbGrupoProd' order by nom_subprod";
+				$Resp = mysqli_query($link, $Consulta);
+				while ($Fila = mysqli_fetch_array($Resp))
+				{
+					if ($CmbSubProducto == $Fila["cod_producto"]."~".$Fila["cod_subproducto"])
+						echo "<option SELECTed value='".$Fila["cod_producto"]."~".$Fila["cod_subproducto"]."'>".str_pad($Fila["cod_subproducto"],2,"0",STR_PAD_LEFT)." - ".strtoupper($Fila["nom_subprod"])."</option>";
+					else
+						echo "<option value='".$Fila["cod_producto"]."~".$Fila["cod_subproducto"]."'>".str_pad($Fila["cod_subproducto"],2,"0",STR_PAD_LEFT)." - ".strtoupper($Fila["nom_subprod"])."</option>";
+				}
+			  ?>
+                </SELECT>
+              </span>
+              <input name="BtnConsultar" type="button" id="BtnConsultar" style="width:40px " onClick="Proceso('CF')" value="OK"></td></tr>
+            <tr>
+              <td>Ver Anulados </td>
+              <td>
+			  <?php 
+			  if ($VerAnulados=='S') 
+			  {
+			  ?>
+				  <input type="checkbox" name="OptAnulados" value="checkbox" checked>
+			  <?php
+				}
+				else
+				{
+			  ?>
+			  	<input type="checkbox" name="OptAnulados" value="checkbox">
+				<?php
+				}
+				?>
+			  </td>
+              <td>&nbsp;</td>
+              <td>Ver:
+              <input name="LimitFin" type="text" class="InputCen" value="<?php echo $LimitFin; ?>" size="7" maxlength="4" onKeyDown="TeclaPulsada2('S',false,this.form,'');">
+              lineas </td>
+            </tr>
+            <tr align="center" class="ColorTabla02">
+              <td colspan="2">              <input name="BtnOpemasiva" type="button" id="BtnOpemasiva" style="width:100px " onClick="Proceso('OM')" value="Ope. Masiva">
+                <input name="BtnModificar" type="button" id="BtnModificar" style="width:70px " onClick="Proceso('M')" value="Modificar">
+                <input name="BtnEliminar" type="button" id="BtnEliminar" style="width:70px " onClick="Proceso('E')" value="Eliminar">
+                <input name="BtnExcel" type="button" id="BtnExcel" style="width:70px " onClick="Proceso('XLS')" value="Excel"></td>
+              <td colspan="2"><input name="BtnImprimir2" type="button" id="BtnImprimir3" style="width:100px " onClick="Proceso('BOL')" value="Boleta PDF">
+                <input name="BtnImprimir" type="button" id="BtnImprimir" style="width:100px " onClick="Proceso('I')" value="Imprimir Boleta">
+                <?php
+			  	if($CmbTipoRegistro=='D')
+				{
+				?>
+				<input name="BtnGuia" type="button" style="width:100px " onClick="Proceso('GUI')" value="Guia Despacho">
+				<?php } ?>
+				<input name="BtnSalir" type="button" id="BtnSalir" value="Salir" style="width:70px " onClick="Proceso('S')"></td>
+            </tr>
+        </table>
+		  <br>
+		  <table width="750"  border="1" cellpadding="2" cellspacing="0" class="TablaDetalle">
+            <tr class="ColorTabla01">
+              <td width="4%"><input type="checkbox" name="ChkMarcaTodo" value="" onClick="Proceso('MT')"></td>
+              <td width="5%"><a href="JavaScript:Proceso('O','F');">Fecha</a></td>
+              <td width="5%"><a href="JavaScript:Proceso('O','O');">Correl.</a></td>
+			  <?php if($CmbTipoRegistro=='R'||$CmbTipoRegistro=='D') 
+			  {
+			  ?>
+              <td width="4%"><a href="JavaScript:Proceso('O','L');">Lote</a></td>
+              <td width="4%">Rec</td>
+              <td width="2%">U</td>
+			  <?php
+			  }
+              ?>
+			  <td width="6%"><a href="JavaScript:Proceso('O','E');">Patente</a></td>
+              <td width="6%">P.Bruto</td>
+              <td width="6%">P.Tara</td>
+              <td width="6%">P.Neto</td>
+              <td width="6%"><a href="JavaScript:Proceso('O','G');">Guia</a></td>
+			  <?php if($CmbTipoRegistro=='R'||$CmbTipoRegistro=='D') 
+			  {
+			  ?>
+              <td width="11%"><a href="JavaScript:Proceso('O','T');">Producto</a></td>
+              <td width="15%"><a href="JavaScript:Proceso('O','P');">Proveedor</a></td>
+			  <?php
+			  }
+			  else
+			  {
+              ?>
+			  <td width="11%"><a href="JavaScript:Proceso('O','T');">Nombre</a></td>
+              <td width="21%"><a href="JavaScript:Proceso('O','P');">Descripcion</a></td>
+			  <?php
+			  }
+			  ?>
+			  <td width="4%"><a href="JavaScript:Proceso('O','C');">Conj</a></td>
+            </tr>
+<?php	
+if (isset($TipoCon) && $TipoCon!="")	
+{
+	switch($CmbTipoRegistro)
+	{
+		case "R"://RECEPCION
+			$NombreTabla='sipa_web.recepciones';
+			break;
+		case "D"://DESPACHOS
+			$NombreTabla='sipa_web.despachos';
+			break;
+		case "O"://OTROS PESAJE
+			$NombreTabla='sipa_web.otros_pesaje';
+			break;
+		default:
+			$NombreTabla='sipa_web.recepciones';
+			break;	
+	}
+	$Consulta = "SELECT fecha,correlativo, peso_bruto,peso_tara,peso_neto,guia_despacho,patente, conjunto, ";
+	switch($CmbTipoRegistro)
+	{
+		case "R"://RECEPCION
+			$Consulta.= " lote,recargo,ult_registro,t5.nombre_prv as nom_proveedor,t6.valor_subclase1 as cod_clase,t1.cod_subproducto,";
+			$Consulta.= " t4.abreviatura, t1.rut_prv, LPAD(recargo,2,'0') as orden, leyes, impurezas,";
+			break;
+		case "D"://DESPACHOS
+			$Consulta.= " lote,recargo,ult_registro,cod_mop,t1.cod_subproducto,";		
+			$Consulta.= " t4.abreviatura,t1.rut_prv, LPAD(recargo,2,'0') as orden, leyes, impurezas,";
+			break;
+		case "O"://OTROS PESAJE	
+			$Consulta.= " nombre,descripcion,";
+			break;
+	}
+	$Consulta.= " hora_entrada,hora_salida from ".$NombreTabla." t1 ";
+	switch($CmbTipoRegistro)
+	{
+		case "R":
+			$Consulta.= " left join proyecto_modernizacion.subproducto t4 on ";
+			$Consulta.= " t1.cod_producto=t4.cod_producto and t1.cod_subproducto=t4.cod_subproducto ";
+			$Consulta.= " left join sipa_web.proveedores t5 on t1.rut_prv=t5.rut_prv  ";
+			$Consulta.= " left join proyecto_modernizacion.sub_clase t6 on t6.cod_clase='15001' and t6.nombre_subclase=t1.cod_Clase ";
+			break;
+		case "D":
+			$Consulta.= " left join proyecto_modernizacion.subproducto t4 on ";
+			$Consulta.= " t1.cod_producto=t4.cod_producto and t1.cod_subproducto=t4.cod_subproducto ";
+			break;	
+	}
+	$Est=" estado <> 'A'";
+	if ($VerAnulados=='S')
+		$Est="estado = 'A'";
+	switch ($TipoCon)
+	{
+		case "CF":
+			if($CmbTipoRegistro=='R')
+				$Consulta.= " where $Est and fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."' and tipo <> 'A' ";		
+			else
+				$Consulta.= " where $Est and fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";		
+			if($CmbTipoRegistro!='O')			
+			{
+				$ProdSubProd=explode('~',$CmbSubProducto);
+				if ($CmbGrupoProd!= "S"&&$CmbSubProducto== "S")
+				{
+					$ConsultaGrupo = "SELECT distinct cod_producto,cod_subproducto from sipa_web.grupos_prod_subprod where cod_grupo='$CmbGrupoProd'";
+					$RespAgrup=mysqli_query($link, $ConsultaGrupo);
+					while($FilaGrup=mysqli_fetch_array($RespAgrup))
+					{
+						$CodProd=$CodProd."(t1.cod_producto='".$FilaGrup["cod_producto"]."' and t1.cod_subproducto='".$FilaGrup["cod_subproducto"]."') or ";
+						//$CodProd=$CodProd."'".$FilaGrup["cod_producto"]."',";
+					}
+					$CodProd=substr($CodProd,0,strlen($CodProd)-3);	
+					//$CodProd=substr($CodProd,0,strlen($CodProd)-1);	
+					//$Consulta.= " and t1.cod_producto in (".$CodProd.")";
+					$Consulta.= " and (".$CodProd.")";
+				}	
+				if ($CmbSubProducto!= "S")
+					$Consulta.= " and t1.cod_producto='".$ProdSubProd[0]."' and t1.cod_subproducto='".$ProdSubProd[1]."'";
+			}
+			break;
+		case "CL":
+			if($CmbTipoRegistro=='R')				
+				$Consulta.= " where $Est and lote between '".str_pad($TxtLoteIni,8,0,STR_PAD_LEFT)."' and '".str_pad($TxtLoteFin,8,0,STR_PAD_LEFT)."' and tipo <> 'A'";		
+			else
+				$Consulta.= " where $Est and lote between '".str_pad($TxtLoteIni,8,0,STR_PAD_LEFT)."' and '".str_pad($TxtLoteFin,8,0,STR_PAD_LEFT)."'";		
+			break;
+	}
+	switch ($Orden)
+	{
+		case "F"://FECHA RECEPCION
+			switch($CmbTipoRegistro)
+			{
+				case "R":
+				case "D":
+					$Consulta.= " order by fecha,lote,orden ";
+					break;
+				case "O":
+					$Consulta.= " order by fecha ";
+					break;	
+			}		
+			break;
+		case "O"://CORRELATIVO
+			switch($CmbTipoRegistro)
+			{
+				case "R":
+				case "D":
+					$Consulta.= " order by correlativo,lote, orden ";
+					break;
+				case "O":
+					$Consulta.= " order by correlativo ";
+					break;	
+			}		
+			break;
+		case "L"://LOTE
+			switch($CmbTipoRegistro)
+			{
+				case "R":
+				case "D":
+					$Consulta.= " order by t1.lote, orden ";
+					break;
+			}		
+			break;
+		case "E"://PATENTE
+			switch($CmbTipoRegistro)
+			{
+				case "R":
+				case "D":
+					$Consulta.= " order by t1.patente, orden ";
+					break;
+				case "O":	
+					$Consulta.= " order by t1.patente ";
+					break;
+			}		
+			
+			break;
+		case "G"://GUIA DESPACHO
+			switch($CmbTipoRegistro)
+			{
+				case "R":
+				case "D":
+					$Consulta.= " order by guia_despacho,lote,orden ";
+					break;
+				case "O":	
+					$Consulta.= " order by guia_despacho ";
+					break;
+			}		
+			break;
+		case "T"://PRODUCTO
+			switch($CmbTipoRegistro)
+			{
+				case "R":
+					$Consulta.= " order by lpad(t1.cod_subproducto,3,'0'), rut_prv,lote, orden ";
+					break;
+				case "D":
+					$Consulta.= " order by lpad(t1.cod_producto,3,'0'),lpad(t1.cod_subproducto,3,'0'), rut_prv,lote, orden ";
+					break;
+				case "D":
+					$Consulta.= " order by nombre";
+					break;
+			}		
+			break;
+		case "P"://PROVEEDOR
+			switch($CmbTipoRegistro)
+			{
+				case "R":
+				case "D":
+					$Consulta.= " order by rut_prv, lpad(t1.cod_producto,3,'0'),lpad(t1.cod_subproducto,3,'0'),lote, orden ";
+					break;
+				case "O":	
+					$Consulta.= " order by descripcion ";
+					break;
+			}		
+			break;
+		case "C"://CONJUNTO
+			switch($CmbTipoRegistro)
+			{
+				case "R":
+				case "D":
+					$Consulta.= " order by conjunto, lote, orden ";
+					break;
+				case "O":	
+					$Consulta.= " order by conjunto";
+					break;
+			}		
+			break;
+		default://POR PROVEEDOR
+			switch($CmbTipoRegistro)
+			{
+				case "R":
+				case "D":
+					$Consulta.= " order by rut_prv, lpad(t1.cod_producto,3,'0'),lpad(t1.cod_subproducto,3,'0'),lote,orden ";
+					break;
+			}		
+			break;
+	}	
+	$ConsultaAux = $Consulta;	
+	$Consulta.= " limit ".$LimitIni.", ".$LimitFin."";	
+	//echo $Consulta;
+	$Resp = mysqli_query($link, $Consulta);
+	//PARA SABER EL TOTAL DE REGISTROS
+	//echo $ConsultaAux;
+	$Respuesta = mysqli_query($link, $ConsultaAux);
+	$Coincidencias =  mysqli_num_rows($Respuesta);
+	$TotPesoBr = 0;$TotPesoTr = 0;$TotPesoNt = 0;$ContReg = 0;$Reg = 0;
+	$ProdAnt="";$SubProdAnt="";$RutAnt="";$Tipo_Recep="";
+	while ($Fila = mysqli_fetch_array($Resp))
+	{
+		$Tipo_Recep=$Fila["recepcion"];
+		$Decimales=0;
+		if ($Orden=="T")
+		{
+			if (($ProdAnt!="" && $SubProdAnt!="") && ($ProdAnt!=$Fila["cod_producto"] || $SubProdAnt!=$Fila["cod_subproducto"]))
+			{
+				if ($RutAnt!=$Fila["rut_proveedor"])
+					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, &$TotPesoBrAnt, &$TotPesoTrAnt, &$TotPesoNtAnt, &$Reg, $Decimales);
+				EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, &$TotPesoBrAntSubProd, &$TotPesoTrAntSubProd, &$TotPesoNtAntSubProd, &$RegSubProd, $Decimales);
+			}
+			else
+			{
+				if (($ProdAnt!="" && $SubProdAnt!="" && $RutAnt!="") && 
+				($ProdAnt==$Fila["cod_producto"] && $SubProdAnt==$Fila["cod_subproducto"] && $RutAnt!=$Fila["rut_proveedor"]))
+				{
+					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, &$TotPesoBrAnt, &$TotPesoTrAnt, &$TotPesoNtAnt, &$Reg, $Decimales);
+				}
+			}
+		}
+		//NOMBRE_PROV
+		switch($CmbTipoRegistro)
+		{
+			case "R":
+				$NomProv = $Fila["nom_proveedor"];
+				break;
+			case "D":
+				ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila[correlativo],$Fila["guia_despacho"],&$RutProved,&$NombreProved);
+				$NomProv = $NombreProved;
+				break;
+			case "O":
+				$NomProv = $Fila["descripcion"];
+				break;
+		}
+		echo "<tr >\n";
+		echo "<td align='center'><input type='checkbox' name='ChkLote' value='".$Fila["correlativo"]."' onClick=\"CCA(this,'CL03')\">";
+		echo "<input type='hidden' name='ChkRecargo' value='".$Fila["lote"]."'></td>\n";
+		echo "<input type='hidden' name='ChkCorr' value='".$Fila["recargo"]."'></td>\n";
+		echo "<td align='center'>".substr($Fila["fecha"],8,2)."/".substr($Fila["fecha"],5,2)."</td>\n";
+		echo "<td onMouseOver=\"JavaScript:muestra('".$Fila["correlativo"]."');\" onMouseOut=\"JavaScript:oculta('".$Fila["correlativo"]."');\" class='Detalle02'>";
+		echo "<div id='Txt".$Fila["correlativo"]."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:400px'>\n";
+		echo "<table width='400' border='1' cellpadding='2' cellspacing='1'>";
+		echo "<tr><td>HORA ENTRADA:</td><td>".$Fila["hora_entrada"]."</td></tr>";
+		echo "<tr><td>HORA SALIDA:</td><td>".$Fila["hora_salida"]."</td></tr>";
+		switch($CmbTipoRegistro)
+		{
+			case "R"://RECEPCION
+				echo "<tr><td width='100'>CLASE:</td><td>".$Fila["cod_clase"]."&nbsp;</td></tr>";
+				//RESCATA PASTAS E IMPUREZAS
+				$Pastas = explode('~',$Fila["leyes"]);;
+				$Impurezas = explode('~',$Fila["impurezas"]);
+				$ArrPastas=array();
+				$ArrImpurezas=array();
+				if (strlen($Pastas)>1)
+				{
+					while(list($c,$v)=each($Pastas))
+					{
+						$ArrPastas[$v][0]=$v;
+						$ArrPastas[$v][1]="S";
+					}
+				}
+				if (strlen($Impurezas)>1)
+				{
+					foreach($Impurezas as $c => $v)
+					{
+						$ArrImpurezas[$v][0]=$v;
+						$ArrImpurezas[$v][1]="S";
+					}
+				}			
+				//PASTAS
+				echo "<tr><td>PASTAS:</td><td>";
+				reset($ArrPastas);
+				$StrLeyes = "";
+				while (list($k,$v)=each($ArrPastas))
+					$StrLeyes = $StrLeyes.$ArrLeyes[$v[0]][1].", ";
+				if ($StrLeyes!="")
+				{
+					$StrLeyes=substr($StrLeyes,0,strlen($StrLeyes)-2);
+					echo $StrLeyes."&nbsp;</td></tr>";
+				}
+				else
+					echo "&nbsp;</td></tr>";
+				//IMPUREZAS
+				echo "<tr><td>IMPUREZAS:</td><td>";
+				reset($ArrImpurezas);
+				$StrLeyes = "";
+				while (list($k,$v)=each($ArrImpurezas))
+					$StrLeyes = $StrLeyes.$ArrLeyes[$v[0]][1].", ";
+				if ($StrLeyes!="")
+				{
+					$StrLeyes=substr($StrLeyes,0,strlen($StrLeyes)-2);
+					echo $StrLeyes."&nbsp;</td></tr>";
+				}
+				else
+					echo "&nbsp;</td></tr>";
+				
+				break;
+			case "D"://DESPACHOS
+				echo "<tr><td width='100'>COD MOP:</td><td>".$Fila["cod_mop"]."&nbsp;</td></tr>";
+				break;
+		}
+		echo "</table></div>".str_pad($Fila["correlativo"],6,0,STR_PAD_LEFT)."&nbsp;</td>";
+		if($CmbTipoRegistro=='R'||$CmbTipoRegistro=='D')
+		{
+			echo "<td align='center'>".str_pad($Fila["lote"],5,0,STR_PAD_LEFT)."</td>\n";
+			echo "<td align='center'>".str_pad($Fila["recargo"],2,0,STR_PAD_LEFT)."</td>\n";
+			if ($Fila["ult_registro"]!="" && !is_null($Fila["ult_registro"]))
+				echo "<td align='center'>".$Fila["ult_registro"]."</td>\n";
+			else
+				echo "<td>&nbsp;</td>\n";
+		}		
+		echo "<td align='center'>".$Fila["patente"]."</td>\n";	
+		echo "<td align='right'>".number_format($Fila["peso_bruto"],$Decimales,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($Fila["peso_tara"],$Decimales,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($Fila["peso_neto"],$Decimales,",",".")."</td>\n";
+		if ($Fila["guia_despacho"]!="" && !is_null($Fila["guia_despacho"]))
+			echo "<td align='center'>".$Fila["guia_despacho"]."</td>\n";
+		else
+			echo "<td>&nbsp;</td>\n";
+		if($CmbTipoRegistro=='R'||$CmbTipoRegistro=='D')
+		{
+			if ($Fila["abreviatura"]!="" && !is_null($Fila["abreviatura"]))
+				echo "<td>".$Fila["abreviatura"]."</td>\n";
+			else
+				echo "<td>&nbsp;</td>\n";
+		}
+		else
+			echo "<td>".$Fila["nombre"]."&nbsp;</td>\n";		
+		echo "<td>".substr($NomProv,0,18)."&nbsp;</td>\n";
+		if ($Fila["conjunto"]!="")
+			echo "<td align='center'>".$Fila["conjunto"]."</td>\n";
+		else
+			echo "<td align='center'>&nbsp;</td>\n";
+		echo "</tr>\n";
+		$TotPesoBr = $TotPesoBr + $Fila["peso_bruto"];
+		$TotPesoTr = $TotPesoTr + $Fila["peso_tara"];
+		$TotPesoNt = $TotPesoNt + $Fila["peso_neto"];
+		$TotPesoBrAnt = $TotPesoBrAnt + $Fila["peso_bruto"];
+		$TotPesoTrAnt = $TotPesoTrAnt + $Fila["peso_tara"];
+		$TotPesoNtAnt = $TotPesoNtAnt + $Fila["peso_neto"];
+		$TotPesoBrAntSubProd = $TotPesoBrAntSubProd + $Fila["peso_bruto"];
+		$TotPesoTrAntSubProd = $TotPesoTrAntSubProd + $Fila["peso_tara"];
+		$TotPesoNtAntSubProd = $TotPesoNtAntSubProd + $Fila["peso_neto"];
+		$NomProdAnt = $Fila["abreviatura"];
+		$NomRutAnt = $NomProv;
+		$ProdAnt = $Fila["cod_producto"];
+		$SubProdAnt =$Fila["cod_subproducto"];
+		$RutAnt = $Fila["rut_proveedor"];
+		$ContReg++;
+		$Reg++;
+		$RegSubProd++;
+	}
+	/*if (($Orden=="T")&&($CmbTipoRegistro=='R'||$CmbTipoRegistro=='D'))		
+	{
+		EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, &$TotPesoBrAnt, &$TotPesoTrAnt, &$TotPesoNtAnt, &$Reg, $Decimales);
+		EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, &$TotPesoBrAntSubProd, &$TotPesoTrAntSubProd, &$TotPesoNtAntSubProd, &$RegSubProd, $Decimales);
+	}*/
+	//TOTAL POR CONSULTA
+	$Consulta = "SELECT sum(t1.peso_bruto) as peso_bruto, sum(t1.peso_tara) as peso_tara, sum(t1.peso_neto) as peso_neto ";
+	$Consulta.= " from sipa_web.recepciones t1 left join sipa_web.proveedores t3 on ";
+	$Consulta.= " t3.rut_prv=t1.rut_prv ";
+	switch ($TipoCon)
+	{
+		case "CF":
+			$Consulta.= " where t1.fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."'";		
+			if ($CmbProducto!="S")
+				$Consulta.= " and t1.cod_producto='1' ";
+			if ($CmbSubProducto!="S")
+				$Consulta.= "  and t1.cod_subproducto='".$CmbSubProducto."'";		
+			break;
+		case "CL":				
+			$Consulta.= " where t1.lote between '".$TxtLoteIni."' and '".$TxtLoteFin."'";		
+			break;
+	}	
+	$Consulta.= " and $Est ";
+	$Resp = mysqli_query($link, $Consulta);
+	if ($Fila = mysqli_fetch_array($Resp))
+	{
+		$TotConPesoBr = $Fila["peso_bruto"];
+		$TotConPesoTr = $Fila["peso_tara"];
+		$TotConPesoNt = $Fila["peso_neto"];		
+	}
+	//FIN TOTAL POR CONSULTA	
+}	
+function EscribeSubTotal($Opt, $NomProd, $NomRut, $PesoBr, $PesoTr, $PesoNt, $RegAux, $Decimales)
+{	
+	switch ($Opt)
+	{
+		case "P":
+			echo '<tr class="Detalle03">';
+			echo '<td colspan="4" align="left"><strong>TOTAL SUBPRODUCTO</strong></td>';
+			break;
+		case "R":
+			echo '<tr class="Detalle01">';
+			echo '<td colspan="4" align="left"><strong>TOTAL PROVEEDOR</strong></td>';
+			break;
+	}
+	echo '<td colspan="3" align="center"><strong>'.$RegAux.'</strong></td>';	
+	echo '<td align="right"><strong>'.number_format($PesoBr,$Decimales,",",".").'</strong></td>';
+	echo '<td align="right"><strong>'.number_format($PesoTr,$Decimales,",",".").'</strong></td>';
+	echo '<td align="right"><strong>'.number_format($PesoNt,$Decimales,",",".").'</strong></td>';
+	switch ($Opt)
+	{
+		case "P":
+			echo '<td colspan="1" align="left">&nbsp;</td>';
+			echo '<td colspan="5" align="left"><strong>'.$NomProd.'</strong></td>';
+			break;
+		case "R":
+			echo '<td colspan="2" align="left">&nbsp;</td>';
+			echo '<td colspan="4" align="left"><strong>'.$NomRut.'</strong></td>';
+			break;
+	}
+	echo '</tr>';
+	$NomProd = "";
+	$NomRut = "";
+	$PesoBr = 0;
+	$PesoTr = 0;
+	$PesoNt = 0;
+	$RegAux = 0;
+}
+?>			
+<?php
+	if($CmbTipoRegistro=='R'||$CmbTipoRegistro=='D')
+	{
+		$Colum1='4';
+		$Colum2=3;
+	}
+	else
+	{
+		$Colum1=3;
+		$Colum2=0;
+	}
+?>
+            <tr class="ColorTabla02">
+              <td colspan="<?php echo $Colum1;?>"><strong>TOTAL PAGINA </strong></td>
+              <td colspan="<?php echo $Colum2;?>" align="center"><strong><?php echo number_format($ContReg,0,",",".");?> </strong></td>
+			  <td align="right"><?php echo number_format($TotPesoBr,0,",",".");?></td>
+              <td align="right"><?php echo number_format($TotPesoTr,0,",",".");?></td>
+              <td align="right"><?php echo number_format($TotPesoNt,0,",",".");?></td>
+              <td colspan="6">&nbsp;</td>
+            </tr>
+		</table>	
+<?php
+	if ($Coincidencias>$LimitFin)			
+	{
+?>	<br>	
+<table width="377"  border="1" cellpadding="2" cellspacing="0" class="TablaDetalle">
+  <tr class="ColorTabla01">
+              <td><strong>TOTAL CONSULTA</strong></td>
+              <td width="17%"><strong>P.Bruto</strong></td>
+              <td width="16%"><strong>P.Tara</strong></td>
+              <td width="16%"><strong>P.Neto</strong></td>
+          </tr>
+			<tr class="ColorTabla02">
+              <td><strong><?php echo number_format($Coincidencias,0,",",".");?> Reg.</strong></td>
+              <td align="right"><?php echo number_format($TotConPesoBr,0,",",".");?></td>
+              <td align="right"><?php echo number_format($TotConPesoTr,0,",",".");?></td>
+              <td align="right"><?php echo number_format($TotConPesoNt,0,",",".");?></td>
+            </tr>
+		</table>
+<br>
+<?php
+	}
+?>			
+        	              
+<?php
+if (isset($TipoCon))
+{
+	if ($Coincidencias > $LimitFin)
+	{
+		$NumPaginas = ($Coincidencias / $LimitFin);	
+		echo "<table border='0' cellpadding='0' cellspacing='0'><tr>\n";
+		echo "<td width='14' align='center' valign='middle'>\n";
+		if (($LimitIni-$LimitFin) >= 0)
+		{
+			echo "<a href=\"JavaScript:Proceso('R','LimitIni=".($LimitIni-$LimitFin)."')\">";
+			echo "<img src='../principal/imagenes/ico_atras_ano.gif' width='14' height='18' border='0' align='absmiddle'></td>\n";
+			echo "</a>";
+		}	
+		$LimitIniAnt = $LimitIni;
+		$LimitFinAnt = $LimitIni;
+		$StrPaginas = "";
+		echo "<td align='center' valign='middle' bgcolor='#004584'>&nbsp;&nbsp;\n";
+		for ($i = 0; $i <= $NumPaginas; $i++)
+		{
+			$LimitIni = ($i * $LimitFin);
+			if ($LimitIni == $LimitFinAnt)
+			{
+				$StrPaginas.= "<strong><font color='yellow'>".($i + 1)."</strong>&nbsp;-&nbsp;</font>\n";
+			}
+			else
+			{
+				$StrPaginas.=  "<a href=\"JavaScript:Proceso('R','LimitIni=".($i * $LimitFin)."')\">";
+				$StrPaginas.= "".($i + 1)."</a>&nbsp;<font color='#FFFFFF'>-</font>&nbsp;\n";
+			}
+		}
+		echo substr($StrPaginas,0,-15);
+		echo "&nbsp;&nbsp;</td>\n";
+		echo "<td width='15' align='center' valign='middle'>\n";
+		if (($LimitIniAnt+$LimitFin) <= $Coincidencias)
+		{
+			echo "<a href=\"JavaScript:Proceso('R','LimitIni=".($LimitIniAnt+$LimitFin)."')\">";
+			echo "<img src='../principal/imagenes/ico_ade_mes.gif' width='15' height='18' border='0' align='absmiddle'></td>\n";
+			echo "</a>";
+		}	
+		echo "</tr>\n";
+		echo "</table>\n";
+	}	
+}	
+?>	  </td>
+	</tr>
+</table>
+<input type="hidden" name="LimitFinAnt" value="<?php echo $LimitFinAnt; ?>">
+<?php include("../principal/pie_pagina.php") ?>
+</form>
+</body>
+</html>
+<?php
+echo "<script language='JavaScript'>";
+echo "var f = document.frmPrincipal;";
+echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+//echo "alert(f.TxtNumRomana.value);";
+echo "</script>";
+?>

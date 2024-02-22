@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='4', ult_registro='N',peso_bruto=' 43250 ',peso_neto='29230',marca='DOS FRANJAS AMARILLAS',cod_mop='510',num_sello='',transportista='',rut_chofer='15817057-4',nombre_chofer='VICTOR OTAZO',observacion='',romana_salida='2' where correlativo='489711' and lote='23086127' and recargo='25'

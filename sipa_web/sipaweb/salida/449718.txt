@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44560 ',peso_neto='28460',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15112547-6',nombre_chofer='MARCELO QUINTANILLA',observacion='',romana_salida='2' where correlativo='449718' and lote='21096050' and recargo='1'

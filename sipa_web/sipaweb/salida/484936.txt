@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 26240 ',peso_neto='1230',marca='',cod_mop='630',num_sello='',transportista='',rut_chofer='17945754-7',nombre_chofer='FERNANDO  ROMO',observacion='18 maxisacos con elementos con taminados con aceite',romana_salida='1' where correlativo='484936' and lote='23056289' and recargo='2'

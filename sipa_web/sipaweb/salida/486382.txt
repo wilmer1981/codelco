@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42530 ',peso_neto='27390',marca='DOS FRANJAS ROJAS',cod_mop='690',num_sello='',transportista='',rut_chofer='16331344-8',nombre_chofer='PATRICIO VILLALON',observacion='',romana_salida='1' where correlativo='486382' and lote='23066163' and recargo='12'

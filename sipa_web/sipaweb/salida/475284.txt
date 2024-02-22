@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='S',peso_bruto='44570',peso_neto='29260',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='13184518-9',nombre_chofer='aldo proust',observacion='bajo cuchara',romana_salida='1' where correlativo='475284' and lote='22126174' and recargo='5'

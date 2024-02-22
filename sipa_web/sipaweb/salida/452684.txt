@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 44920 ',peso_neto='31470',marca='DOS FRANJAS VERDES',cod_mop='520',num_sello='',transportista='',rut_chofer='8492685-K',nombre_chofer='PATRICIO NEGRETE',observacion='',romana_salida='2' where correlativo='452684' and lote='21106103' and recargo='38'

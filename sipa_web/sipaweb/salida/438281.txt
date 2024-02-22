@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 17140 ',peso_neto='1640',marca='',cod_mop='520',num_sello='',transportista='',rut_chofer='',nombre_chofer='',observacion='totem elementos contaminados  aceite',romana_salida='1' where correlativo='438281' and lote='21026050' and recargo='1'

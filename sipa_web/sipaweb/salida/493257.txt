@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='3', ult_registro='N',peso_bruto=' 43220 ',peso_neto='27250',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='9733362-9',nombre_chofer='eliseo matus',observacion='cu vs',romana_salida='2' where correlativo='493257' and lote='23106150' and recargo='8'

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 44420 ',peso_neto='28670',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='16058429-7',nombre_chofer='diego cabrera',observacion='cu varios',romana_salida='1' where correlativo='492485' and lote='23106060' and recargo='1'

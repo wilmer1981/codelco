@@ -1,0 +1,448 @@
+<?php
+include("../principal/conectar_principal.php");
+$Fecha_Hora = date("d-m-Y h:i:s");
+$Directorio='excel';
+require_once 'reader.php';
+switch($Opcion)
+{	
+	case "P"://PROCESA DATOS EXCEL Y LOS ARROJA A UNA TEMPORAL
+			
+			if($Archivo_name!='none')
+			{
+					$Acento=false;
+					for ($j = 0;$j <= strlen($Archivo_name); $j++)
+					{
+						switch(substr($Archivo_name,$j,1))
+						{
+							case "á":
+							case "Á":
+							case "é":
+							case "É":
+							case "í":
+							case "Í":
+							case "ó":
+							case "Ó":
+							case "ú":
+							case "Ú":
+								$Acento=true;
+							break;
+						}
+					}
+					if($Acento==false)
+					{
+							$NombreArchivo="XLS_".$ID."_".$Archivo_name;
+							if(is_file($Directorio."/".$NombreArchivo))
+							{
+								unlink($Directorio."/".$NombreArchivo);
+								
+							}	
+							if (copy($Archivo, $Directorio."/".$NombreArchivo))
+							{
+								$ProcesaArchivo = "S";
+							}
+							else
+								$ProcesaArchivo = "N";
+					}
+			}	
+			if($ProcesaArchivo=='S')
+			{
+				//eliminamos la tabla si existe
+				//mysql_query('drop table if exists cal_web.tmp_leyes_generica');
+				//creamos la tabla temporal
+				$TablaTMP="CREATE TABLE if not EXISTS cal_web.tmp_leyes_generica (nro_solicitud bigint(10), 
+							cod_leyes varchar(10), 
+							cod_unidad varchar(5),
+							valor  varchar(9),
+							run_registro varchar(12),
+							existe char(1),
+							orden char(2)
+							); 
+							";
+				mysql_query($TablaTMP);	
+				
+				$Eliminar="delete from cal_web.tmp_leyes_generica where run_registro='".$CookieRut."'";
+				mysql_query($Eliminar);	
+				$Hoja=2;
+
+				$data = new Spreadsheet_Excel_Reader();
+				$data->read($Directorio."/".$NombreArchivo);
+				error_reporting(E_ALL ^ E_NOTICE);
+			
+				for($i=3;$i<=4;$i++)
+				{
+					for($k=3;$k<=55;$k++)
+					{
+						if(trim($data->sheets[$Hoja]['cells'][$i][$k])!='')
+						{
+							ObtengoLey(strtoupper(trim($data->sheets[$Hoja]['cells'][$i][$k])),$k,&$Salida);
+						}
+					}
+				}
+				
+				for($i=4;$i<=$data->sheets[$Hoja]['numRows'];$i++)
+				{ 
+					if(trim(is_numeric($data->sheets[$Hoja]['cells'][$i][2]))!='')
+					{
+						for($k=3;$k<=107;$k++)
+						{
+							if($k<='54')
+							{
+								$Existe='N';
+								$REsp=mysql_query("select * from cal_web.solicitud_analisis where nro_solicitud='".$data->sheets[$Hoja]['cells'][$i][2]."'");
+								if($F=mysql_fetch_assoc($REsp))
+									$Existe='S';
+								$valor=trim($data->sheets[$Hoja]['cells'][$i][$k]);	
+								if($valor!='')
+								{
+									$Inserta="insert into cal_web.tmp_leyes_generica (nro_solicitud,cod_leyes,valor,run_registro,existe,orden)
+									values('".$data->sheets[$Hoja]['cells'][$i][2]."','".$Salida[$k]."','".$valor."','".$CookieRut."','".$Existe."','".$k."')";
+									mysql_query($Inserta);
+									//echo $Inserta."<br>";
+								}
+									$posAct=3;
+							}
+							if($k>='56')
+							{
+								//echo $k."<br>";
+								//echo $data->sheets[$Hoja]['cells'][4][$k]."    ";
+								$unidad=trim($data->sheets[$Hoja]['cells'][$i][$k]);	
+								//echo $unidad."<br>";
+								if($unidad!='')
+								{
+									$Actualiza="UPDATE cal_web.tmp_leyes_generica set cod_unidad='".$unidad."' 
+									where nro_solicitud='".$data->sheets[$Hoja]['cells'][$i][2]."' and cod_leyes='".$Salida[$posAct]."'";
+									//echo $Actualiza."<br>";
+									mysql_query($Actualiza);								
+								}
+									$posAct++;
+							}
+						}
+					}
+				}
+			}
+			unlink($Directorio."/".$NombreArchivo);
+			header("location:cal_traspaso_leyes_excel_generica.php?p=s");
+	break;
+	case 'GE':
+		
+				$ID=explode('//',$Datos);
+				//LISTADO DE SOLICITUDES
+				while(list($c,$v)=each($ID))
+				{
+					if($v!='')
+					{		
+						$Recargo='';
+						$RUT_FUNC=ObtenerRutFuncionario($v);
+							
+						$Consulta="Select * from cal_web.solicitud_analisis where nro_solicitud='".$v."' and recargo in ('R')";
+						$Resp1 = mysql_query($Consulta);
+						if($Row1 = mysql_fetch_array($Resp1))
+						{
+							if($Row1["estado_actual"]=='6' || $Row1["estado_actual"]=='32' )
+							{
+								$Actualizar=" Update cal_web.solicitud_analisis set estado_actual='".$Row1["estado_actual"]."' ";
+								$Actualizar.=" where nro_solicitud='".$v."' and recargo in ('R') ";
+								mysql_query($Actualizar);
+							}
+							else
+							{
+								$Actualizar=" Update cal_web.solicitud_analisis set estado_actual='5' ";
+								$Actualizar.=" where nro_solicitud='".$v."' and recargo in ('R') ";
+								mysql_query($Actualizar);	
+							}
+						}
+						
+						$Consulta="Select * from cal_web.solicitud_analisis where nro_solicitud='".$v."' and recargo in ('0','')";
+						$Resp2 = mysql_query($Consulta);
+						if($Row2 = mysql_fetch_array($Resp2))
+						{
+							$RecargoSolicitud=$Row2["recargo"];
+							if($Row2["estado_actual"]=='6' || $Row2["estado_actual"]=='32' )
+							{
+								$Actualizar=" Update cal_web.solicitud_analisis set estado_actual='".$Row2["estado_actual"]."' ";
+								$Actualizar.=" where nro_solicitud='".$v."' and recargo = '".$RecargoSolicitud."' ";
+								mysql_query($Actualizar);
+							}
+							else
+							{
+								$Actualizar=" Update cal_web.solicitud_analisis set estado_actual='5' ";
+								$Actualizar.=" where nro_solicitud='".$v."' and recargo = '".$RecargoSolicitud."' ";
+								mysql_query($Actualizar);	
+							}
+						}
+
+						$Consulta="Select * from cal_web.estados_por_solicitud  where nro_solicitud='".$Solicitud."' and recargo='".$Recargo."' and cod_estado='5'";
+						$Resp = mysql_query($Consulta);
+						if($Fila = mysql_fetch_array($Resp))
+						{
+							$Actualizar=" Update cal_web.estados_por_solicitud set  rut_proceso='".$RutQuimico."',fecha_hora='".date('Y-m-d H:i:s')."'"; 
+							$Actualizar.=" where  nro_solicitud='".$Solicitud."' and recargo='".$Recargo."'  and cod_estado='5'"; 
+							mysql_query($Actualizar);
+						}
+						else
+						{
+							$Insertar=" insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso)VALUES"; 
+							$Insertar.="('".$RutProceso."','".$Solicitud."','".$Recargo."','5','".date('Y-m-d H:i:s')."','N','".$RutQuimico."')"; 
+							mysql_query($Insertar);
+						}
+						
+						//INGRESO LAS LEYES DE LAS SOLICITUES O ACTUALIZO
+						$Consulta = "select * from cal_web.tmp_leyes_generica where run_registro='".$CookieRut."'  and nro_solicitud='".$v."'";
+						$Respuesta = mysql_query($Consulta);$Cont2=0;
+						while($Row = mysql_fetch_array($Respuesta))
+						{	
+							if(trim($Row[valor])!='')
+								ActualizarLeyesSolicitud($v,'',$Row["cod_leyes"],$Row[valor],$CookieRut,$RUT_FUNC,$Row[cod_unidad]);			
+						}
+						
+						$Consulta="select cod_producto,cod_subproducto from cal_web.solicitud_analisis where nro_solicitud ='".$v."'";
+						$Respuesta = mysql_query($Consulta);
+						if($Row5 = mysql_fetch_array($Respuesta))
+						{
+							$SubProducto=$Row5["cod_subproducto"];
+							$Producto=$Row5["cod_producto"];
+						
+							if (($Producto == "18" && ($SubProducto == "6" || $SubProducto == "7" || $SubProducto == "8"  || 
+							$SubProducto == "17"  || $SubProducto == "16" || $SubProducto == "49" || $SubProducto == "9" || $SubProducto == "10" || 
+							$SubProducto == "12" || $SubProducto == "56"  || $SubProducto == "45" || $SubProducto =="48" || $SubProducto =="53"
+							|| $Subproducto == "50" || $SubProducto == "51" || $SubProducto == "52" || $SubProducto =="54")) 
+							|| ($Producto == "48" && ($SubProducto == "2"))
+							|| ($Producto == "17" && ($SubProducto == "1" || $SubProducto == "2" || $SubProducto == "3" || $SubProducto == "4"))
+							|| ($Producto == "16" && $SubProducto == "24")||($Producto == "19"))
+							{
+								IngresaCobre($Row5["cod_producto"],$Row5["cod_subproducto"],$v,date('Y-m-d H:i:s'),$RUT_FUNC,$CookieRut);
+							}
+						}
+						
+						CheckeaCierreSA($v);												
+					}
+				}
+	
+	header("location:cal_traspaso_leyes_excel_generica.php?g=s");
+	break;
+}
+function ActualizarLeyesSolicitud($Solicitud,$Recargo,$Leyes,$Valor,$RutQuimico,$RutProceso,$Unidad)
+{
+	$RetornoUni=ObtengoUnidad($Unidad);
+	$Candado=1;
+	if(trim($Valor)=='')
+		$Candado=0;
+    
+	$Actualizar=" Update cal_web.leyes_por_solicitud  set candado='".$Candado."'";
+	if(trim($Valor)=='')
+		$Actualizar.=",valor=null";
+	else
+		$Actualizar.=",valor='".$Valor."'";
+	$Actualizar.=",rut_quimico='".$RutQuimico."',proceso='6',cod_unidad='".$RetornoUni."'";
+	$Actualizar.=" where nro_solicitud='".$Solicitud."' and recargo='".$Recargo."' and cod_leyes='".$Leyes."'";
+	mysql_query($Actualizar);
+	
+	$Consulta="select * from cal_web.registro_leyes where nro_solicitud='".$Solicitud."' and ";
+	$Consulta.=" recargo='".$Recargo."'";
+	$Consulta.="  and cod_leyes='".$Leyes."' ";
+	$Resp = mysql_query($Consulta);
+	if(!$Fila = mysql_fetch_array($Resp))
+	{
+		$InsertarReg=" INSERT INTO cal_web.registro_leyes (select rut_funcionario,'".date('Y-m-d H:i:s')."',nro_solicitud,recargo,cod_leyes,";
+		$InsertarReg.=" valor,peso_humedo,peso_seco,cod_unidad,'0',signo,rut_quimico from cal_web.leyes_por_solicitud ";
+		$InsertarReg.=" where nro_solicitud='".$Solicitud."' and recargo='".$Recargo."' and cod_leyes='".$Leyes."' order by fecha_hora desc);";
+		mysql_query($InsertarReg);
+	 
+	}
+	$InsertarReg2=" INSERT INTO cal_web.registro_leyes (select rut_funcionario,'".date('Y-m-d H:i:s')."',nro_solicitud,recargo,cod_leyes,";
+	$InsertarReg2.=" valor,peso_humedo,peso_seco,cod_unidad,candado,signo,rut_quimico from cal_web.leyes_por_solicitud ";
+	$InsertarReg2.=" where nro_solicitud='".$Solicitud."' and recargo='".$Recargo."' and cod_leyes='".$Leyes."' order by fecha_hora desc);";
+	mysql_query($InsertarReg2);
+	
+}
+function CheckeaCierreSA($sa)
+{
+	$Consulta="select t1.nro_solicitud, t1.recargo, t1.id_muestra, t1.fecha_hora, t1.rut_funcionario ";
+	$Consulta.=" ,count(t2.candado) as total_candados, sum(t2.candado) as cerrados,case when count(t2.candado) = sum(t2.candado) then 'S' else 'N' end as error";
+	$Consulta.=" from cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2 ";
+	$Consulta.=" on t1.nro_solicitud = t2.nro_solicitud and t1.recargo = t2.recargo";
+	$Consulta.=" where t1.estado_actual='5' and t1.nro_solicitud ='".$sa."' group by t1.nro_solicitud, t1.recargo order by error desc";
+	$Respuesta = mysql_query($Consulta);
+//		echo $Consulta."<br><br>";
+	if($Row4 = mysql_fetch_array($Respuesta))
+	{	
+		if($Row4["error"]== "S") 
+		{
+			if(is_null($Row4["recargo"]) || $Row4["recargo"]=="" || $Row4["recargo"]=="0" )
+			{
+				$Actualizar = "UPDATE cal_web.solicitud_analisis set estado_actual='6' ";
+				$Actualizar.= " where nro_solicitud ='".$Row4["nro_solicitud"]."' ";
+				mysql_query($Actualizar);
+				$Consulta = "select count(*) as cantreg from cal_web.estados_por_solicitud where nro_solicitud='".$Row4["nro_solicitud"]."'";
+				$Consulta.= " and rut_funcionario='".$Row4["rut_funcionario"]."' and cod_estado='6' ";
+				$Resp2=mysql_query($Consulta);
+				if($Row2=mysql_fetch_array($Resp2))
+				{
+					if($Row2["cantreg"]== 0) 
+					{		
+						$Consulta3 =" select * from cal_web.estados_por_solicitud where nro_solicitud='".$Row4["nro_solicitud"]."'";
+						$Consulta3.=" and rut_funcionario='".$Row4["rut_funcionario"]."' and cod_estado='5'";
+						$Resp3=mysql_query($Consulta3);
+						if($Row3=mysql_fetch_array($Resp3))
+						{	$Insertar = "insert into cal_web.estados_por_solicitud ";
+							$Insertar.="(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_estado,ult_atencion,rut_proceso) ";
+							$Insertar.=" values ('".$Row4["rut_funcionario"]."','".$Row4["fecha_hora"]."','".$Row4["nro_solicitud"]."','".$Row4["recargo"]."',";
+							$Insertar.=" '6','N','".$Row4["rut_proceso"]."') ";
+							mysql_query($Insertar);
+						//	echo "Insertar ".$Insertar."<br>";
+						}
+					}
+				}
+			}
+			else
+			{
+				$Actualizar = "UPDATE cal_web.solicitud_analisis set estado_actual='6' where nro_solicitud = '".$Row["nro_solicitud"]."' and recargo ='".$Row["recargo"]."' ";
+				mysql_query($Actualizar);
+				$Consulta = "select count(*) as cantreg from cal_web.estados_por_solicitud where nro_solicitud='".$Row["nro_solicitud"]."' and recargo  ='".$Row["recargo"]."'";
+				$Consulta.= " and rut_funcionario= '".$Row["rut_funcionario"]."' and cod_estado='6'";
+				$Resp3=mysql_query($Consulta);
+				if($Row3=mysql_fetch_array($Resp3))
+				{
+					if($Row3["cantreg"]== 0) 
+					{	$Consulta = "select * from cal_web.estados_por_solicitud where nro_solicitud='".$Row4["nro_solicitud"]."' and  ='".$Row4["recargo"]."'";
+						$Consulta.=" and rut_funcionario='".$Row4["rut_funcionario"]."' and cod_estado='5'";
+					//	echo $Consulta."<br>";
+						$Resp3=mysql_query($Consulta);
+						if($Row3=mysql_fetch_array($Resp3))
+						{	$Insertar = "insert into cal_web.estados_por_solicitud ";
+							$Insertar.="(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_estado,ult_atencion,rut_proceso) ";
+							$Insertar.=" values ('".$Row4["rut_funcionario"]."','".$Row4["fecha_hora"]."','".$Row4["nro_solicitud"]."','".$Row4["recargo"]."',";
+							$Insertar.=" '6','N','".$Row4["rut_proceso"]."') ";
+							mysql_query($Insertar);
+				//			echo "Insertar ".$Insertar."<br>";
+						}
+					}
+				}
+			}
+		
+		}	
+	}	
+}
+function ObtenerRutFuncionario($Solicitud)
+{
+	$Consulta="Select * from cal_web.solicitud_analisis  t1 where t1.nro_solicitud='".$Solicitud."' ";
+	$Resp = mysql_query($Consulta);
+	if($Fila = mysql_fetch_array($Resp))
+	{
+		$RUT=$Fila["rut_funcionario"];	
+	}
+	return ($RUT);
+}
+function ObtengoLey($Columna,$pos,$CodLEY)
+{
+	$Consulta="select cod_leyes from proyecto_modernizacion.leyes where upper(abreviatura)='".$Columna."'";
+	$Resp = mysql_query($Consulta);
+	if($Fila = mysql_fetch_array($Resp))
+	{
+		$CodLEY[$pos]=$Fila["cod_leyes"];
+	}
+	else
+		$CodLEY[$pos]=$Columna;
+}
+function ObtengoUnidad($Columna)
+{
+	$Consulta="select cod_unidad from proyecto_modernizacion.unidades where upper(abreviatura)='".$Columna."'";
+	$Resp = mysql_query($Consulta);$CodUni='';
+	if($Fila = mysql_fetch_array($Resp))
+	{
+		$CodUni=$Fila[cod_unidad];
+	}
+	return($CodUni);	
+}
+
+function IngresaCobre($Prod,$SubPro,$NumSA,$FechaR,$RutFun,$RutQuim)
+{
+
+	$Consulta = "select count(*) as candados_imp_abiertos ";
+	$Consulta.= " from cal_web.leyes_por_solicitud ";
+	$Consulta.= " where nro_solicitud=".$NumSA;
+	$Consulta.= " and candado <> '1'";
+	$Consulta.= " and cod_leyes <> '02'";
+	$RespProd = mysql_query($Consulta);
+	$Fila = mysql_fetch_array($RespProd);
+	if ($Fila["candados_imp_abiertos"] == 0)
+	{
+		$Consulta = "select * ";
+		$Consulta.= " from cal_web.leyes_por_solicitud ";
+		$Consulta.= " where nro_solicitud=".$NumSA;
+		if (($Prod==16 || $Prod==17 || $Prod==19) || ($Prod==18 && ($SubPro== '16' || $SubPro=='17' || $SubPro=='49')))
+			$Consulta.= " and (cod_leyes <> '02')";
+		else
+			$Consulta.= " and (cod_leyes <> '02' and cod_leyes <> '48')";
+		$RespProd = mysql_query($Consulta);
+		$SumaImpurezas = 0;
+		$LeyCu = 0;
+		while ($FilaProd = mysql_fetch_array($RespProd))
+		{
+			$ValorImpureza = 0;
+			$ValorImpureza = $FilaProd["valor"];
+			if (($FilaProd["signo"] == "<") && ($ValorImpureza == 0.5 && $ValorImpureza > 0.2))
+				$ValorImpureza = 0.4;
+			if (($FilaProd["signo"] == "<") && ($ValorImpureza == 0.2 && $ValorImpureza > 0.1))
+				$ValorImpureza = 0.1;
+			$SumaImpurezas = $SumaImpurezas + $ValorImpureza;
+		}
+		if ($Prod==16 || $Prod==17|| $Prod==19)
+		{
+			$LeyCu = 100 - (($SumaImpurezas + 100) / 10000);
+			$LeyCu = round($LeyCu,2);
+		}
+		else
+			$LeyCu = 100 - (($SumaImpurezas) / 10000);
+		
+		$Actualizar = "UPDATE cal_web.leyes_por_solicitud set valor=".$LeyCu.",cod_unidad='1',proceso = '6',signo='=',rut_quimico='".$RutQuim."' ";
+	/*	$Var='';
+		$Var=LimiteControl($NumSA,'02','1',$LeyCu);
+		if($Var=='S')
+			$Actualizar.= " , observacion='".$CookieRut."' ";
+		else
+			$Actualizar.= " , observacion=NULL ";
+	*/	$Actualizar.= " where nro_solicitud=".$NumSA." and rut_funcionario ='".$RutFun."' and cod_leyes ='02'";
+		mysql_query($Actualizar);
+		//echo $Actualizar."<br>";
+		$Insertar="insert into cal_web.registro_leyes(nro_solicitud,fecha_hora,rut_funcionario,cod_leyes,valor,cod_unidad,candado,signo,rut_proceso) values(";
+		$Insertar=$Insertar.$NumSA.",'";
+		$Insertar=$Insertar.$FechaR."','";
+		$Insertar=$Insertar.$RutFun."','";
+		$Insertar=$Insertar."02',";
+		$Insertar=$Insertar.$LeyCu.",'";
+		$Insertar=$Insertar."1',";
+		$Insertar=$Insertar."'0','=','".$RutQuim."')";
+		mysql_query($Insertar);
+		//echo $Insertar."<br>";
+		$Actualizar="UPDATE cal_web.leyes_por_solicitud set candado='1',rut_quimico='".$RutQuim."' ";		
+	/*	$Var='';
+		$Var=LimiteControl($NumSA,'02','1',$LeyCu);
+		if($Var=='S')
+			$Actualizar.= " , observacion='".$CookieRut."' ";
+		else
+			$Actualizar.= " , observacion=NULL ";
+			
+*/		$Actualizar.="  where nro_solicitud=".$NumSA." and rut_funcionario ='".$RutFun."' and cod_leyes ='02' ";
+		mysql_query($Actualizar);
+		
+		
+		$Consulta = "select valor,cod_unidad,(case when peso_humedo is null then 'NULL' else peso_humedo end) as peso_humedo,(case when peso_seco is null then 'NULL' else peso_seco end) as peso_seco from cal_web.leyes_por_solicitud where nro_solicitud=".$NumSA." and rut_funcionario ='".$RutFun."' and cod_leyes ='02'";
+		$Respuesta=mysql_query($Consulta);
+		$Fila=mysql_fetch_array($Respuesta);
+		$Insertar="insert into cal_web.registro_leyes(nro_solicitud,fecha_hora,rut_funcionario,cod_leyes,peso_humedo,peso_seco,valor,cod_unidad,candado,rut_proceso,signo) values(";
+		$Insertar=$Insertar.$NumSA.",'";
+		$Insertar=$Insertar.$FechaR."','";
+		$Insertar=$Insertar.$RutFun."','";
+		$Insertar=$Insertar."02',";
+		$Insertar=$Insertar.$Fila["peso_humedo"].",";
+		$Insertar=$Insertar.$Fila["peso_seco"].",";
+		$Insertar=$Insertar.$LeyCu.",'";
+		$Insertar=$Insertar."1',";
+		$Insertar=$Insertar."'1','".$RutQuim."','=')";
+		mysql_query($Insertar);//INSERTA EL REGISTRO DE LEYES
+		//echo $Insertar;
+	}
+	return;
+}
+?>

@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='2', ult_registro='N',peso_bruto='44680',peso_neto='28110',marca='',cod_mop='690',num_sello='',transportista='',rut_chofer='15156727-4',nombre_chofer='Marco Muñoz C.',observacion='cu varios',romana_salida='1' where correlativo='470315' and lote='22096152' and recargo='3'

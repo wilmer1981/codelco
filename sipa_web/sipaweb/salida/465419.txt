@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 42070 ',peso_neto='27590',marca='V AZUL',cod_mop='510',num_sello='',transportista='',rut_chofer='8005333-9',nombre_chofer='LUIS CHAVEZ',observacion='',romana_salida='1' where correlativo='465419' and lote='22066057' and recargo='54'

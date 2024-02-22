@@ -1,0 +1,1 @@
+update sipa_web.despachos set bascula_salida='1', ult_registro='S',peso_bruto=' 42380 ',peso_neto='25470',marca='FRANJA BLANCA',cod_mop='510',num_sello='',transportista='',rut_chofer='32212173-3',nombre_chofer='JOSE SOSA',observacion='',romana_salida='1' where correlativo='456214' and lote='21126246' and recargo='1'

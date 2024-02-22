@@ -1,0 +1,1 @@
+UPDATE sipa_web.despachos set bascula_salida='1', ult_registro='N',peso_bruto=' 40760 ',peso_neto='26660',marca='DOS FRANJAS NEGRAS',cod_mop='520',num_sello='',transportista='',rut_chofer='4484766-3',nombre_chofer='MAURICIO RECABARREN',observacion='',romana_salida='1' where correlativo='450894' and lote='21096103' and recargo='54'
