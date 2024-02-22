@@ -1,5 +1,6 @@
 <?php 
-	include("../principal/conectar_principal.php"); 	  				
+	include("../principal/conectar_principal.php"); 	
+	$IE  = isset($_REQUEST["IE"])?$_REQUEST["IE"]:"";  				
 	$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$IE."'";
 	$Resp = mysqli_query($link, $Consulta);			
 	if ($Fila = mysqli_fetch_array($Resp))
@@ -49,8 +50,8 @@
 	$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and t1.cod_estado=t2.cod_estado 	";
 	$Respuesta=mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Respuesta);
-	$SumaUnidades=$Fila[suma_unidades];
-	$SumaPeso=$Fila[suma_paquetes];				
+	$SumaUnidades=$Fila["suma_unidades"];
+	$SumaPeso=$Fila["suma_paquetes"];				
 	//SERIE DE PAQUETES
 	$SeriePaquetes = "";
 	$Consulta = "SELECT t1.cod_paquete, t1.num_paquete ";

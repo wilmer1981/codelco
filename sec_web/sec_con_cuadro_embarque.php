@@ -2,6 +2,9 @@
 	$CodigoDeSistema = 3;
 	include("../principal/conectar_principal.php");
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Mes  = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano  = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 ?>
 <html>
 <head>
@@ -228,7 +231,7 @@ while ($FilaA = mysqli_fetch_array($RespA))
 	$Consulta.= " order by t2.corr_codelco";				
 	//echo $Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
-	$TotalExpCodelco = "";
+	$TotalExpCodelco = 0;
 	$TotalPqtesExpCode = 0;
 	$TotalPqtesNacCode = 0;
     $TotalPesoIEExpCode = 0;
@@ -356,7 +359,7 @@ while ($FilaA = mysqli_fetch_array($RespA))
         <td colspan="3">&nbsp;</td>
       </tr>
       <?php	
-	while (list($k,$v)=each($ArrCodelco))
+	foreach($ArrCodelco as $k => $v)
 	{
 		if ($v[0] != "")
 		{
@@ -389,8 +392,10 @@ $Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-"
 $Consulta.= " and t7.cod_producto = '18' and (t7.cod_subproducto not in(6,8,9,10,12,40))";
 $Consulta.= " order by t7.cod_producto, t7.cod_subproducto ";
 $RespA = mysqli_query($link, $Consulta);
+$descrip="";
 while ($FilaA = mysqli_fetch_array($RespA))
 {
+	$descrip=$FilaA["descripcion"];
 	echo "<tr> \n";
 	echo "<td colspan='5' class='ColorTabla01'><strong>".$FilaA["descripcion"]."</strong></td>\n";
 	echo "</tr>\n";			
@@ -527,6 +532,7 @@ while ($FilaA = mysqli_fetch_array($RespA))
 	$TotalExpEnami = 0;
 	$TotalPqtesExpEnami = 0;
 	$TotalPesoIEExpEnami = 0;
+	
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{	
 		echo "<tr>\n";
@@ -609,7 +615,7 @@ while ($FilaA = mysqli_fetch_array($RespA))
 		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
 	}
 	echo "<tr bgcolor='#CCCCCC'> \n";
-	echo "<td><strong>TOTAL ".$FilaA["descripcion"]."</strong></td>\n";
+	echo "<td><strong>TOTAL ".$descrip."</strong></td>\n";
 	echo "<td align='right'>".number_format($TotalExpEnami,0,",",".")."</td>\n";
 	echo "<td align='right' colspan='3'>&nbsp;</td>\n";
 	echo "</tr>\n";	
@@ -718,7 +724,7 @@ while ($FilaA = mysqli_fetch_array($RespA))
 		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
 	}
 	echo "<tr bgcolor='#CCCCCC'> \n";
-	echo "<td><strong>TOTAL ".$FilaA["descripcion"]."</strong></td>\n";
+	echo "<td><strong>TOTAL ".$descrip."</strong></td>\n";
 	echo "<td align='right'>".number_format($TotalExpEnami,0,",",".")."</td>\n";
 	echo "<td align='right' colspan='3'>&nbsp;</td>\n";	
 	echo "</tr>\n";	

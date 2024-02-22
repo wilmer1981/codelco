@@ -2,6 +2,7 @@
 	        ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -16,11 +17,13 @@
         header( "Content-type: text/csv" ) ;
         header( "Content-Dis; filename={$file_name}" ) ;
         header("Content-Type:  application/vnd.ms-excel");
- 	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-	$CodigoDeSistema = 3;
-	include("../principal/conectar_principal.php");
-	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		$CodigoDeSistema = 3;
+		include("../principal/conectar_principal.php");
+		$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+		$Mes  = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+		$Ano  = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 ?>
 <html>
 <head>
@@ -214,6 +217,7 @@ $Consulta.= " order by cod_contrato_maquila";
 $RespA = mysqli_query($link, $Consulta);
 $Cont = 2;
 $TotalDespCodelco = 0;
+
 while ($FilaA = mysqli_fetch_array($RespA))
 {	
 	$TipoContrato = "";
@@ -249,7 +253,7 @@ while ($FilaA = mysqli_fetch_array($RespA))
 	$Consulta.= " order by t2.corr_codelco";*/				
 	//echo $Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
-	$TotalExpCodelco = "";
+	$TotalExpCodelco = 0;
 	$TotalPqtesExpCode = 0;
 	$TotalPqtesNacCode = 0;
     $TotalPesoIEExpCode = 0;
@@ -400,7 +404,7 @@ while ($FilaA = mysqli_fetch_array($RespA))
         <td colspan="3">&nbsp;</td>
       </tr>
       <?php	
-	while (list($k,$v)=each($ArrCodelco))
+	foreach($ArrCodelco as $k => $v)
 	{
 		if ($v[0] != "")
 		{
@@ -434,8 +438,10 @@ $Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-"
 $Consulta.= " and t7.cod_producto = '18' and (t7.cod_subproducto not in(6,8,9,10,12,40))";
 $Consulta.= " order by t7.cod_producto, t7.cod_subproducto ";
 $RespA = mysqli_query($link, $Consulta);
+$descrip="";
 while ($FilaA = mysqli_fetch_array($RespA))
 {
+	$descrip=$FilaA["descripcion"];
 	echo "<tr> \n";
 	echo "<td colspan='4'><strong>".$FilaA["descripcion"]."</strong></td>\n";
 	echo "</tr>\n";			
@@ -654,7 +660,7 @@ while ($FilaA = mysqli_fetch_array($RespA))
 		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
 	}
 	echo "<tr bgcolor='#CCCCCC'> \n";
-	echo "<td><strong>TOTAL ".$FilaA["descripcion"]."</strong></td>\n";
+	echo "<td><strong>TOTAL ".$descrip."</strong></td>\n";
 	echo "<td align='right'>".number_format($TotalExpEnami,0,",",".")."</td>\n";
 	echo "<td align='right' colspan='2'>&nbsp;</td>\n";
 	echo "</tr>\n";	
@@ -763,7 +769,7 @@ while ($FilaA = mysqli_fetch_array($RespA))
 		echo "<td align='center'>".substr($StrIE,0,strlen($StrIE)-1)."</td>\n";
 	}
 	echo "<tr bgcolor='#CCCCCC'> \n";
-	echo "<td><strong>TOTAL ".$FilaA["descripcion"]."</strong></td>\n";
+	echo "<td><strong>TOTAL ".$descrip."</strong></td>\n";
 	echo "<td align='right'>".number_format($TotalExpEnami,0,",",".")."</td>\n";
 	echo "<td align='right' colspan='2'>&nbsp;</td>\n";	
 	echo "</tr>\n";	

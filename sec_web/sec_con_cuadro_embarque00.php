@@ -2,6 +2,9 @@
 	$CodigoDeSistema = 3;
 	include("../principal/conectar_principal.php");
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Mes  = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano  = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 ?>
 <html>
 <head>
