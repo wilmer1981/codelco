@@ -3,6 +3,12 @@
 	$CodigoDePantalla =16; 
 	include("../principal/conectar_principal.php");
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	
+	$Generado = isset($_REQUEST["Generado"])?$_REQUEST["Generado"]:"";
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Dia = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+
 	$PaqLavar = "";
 	$PaqStandard = "";
 	$PaqCatodosGranel = "";
@@ -11,6 +17,7 @@
 	$Observacion = "";
 	$Validacion = "";
 	$Genera = false;
+
 	if (isset($Dia))
 	{
 		$FechaInf = $Ano."-".$Mes."-".$Dia;
@@ -56,7 +63,6 @@ function Proceso(opt)
 			f.Dia.value = f.DiaAyer.value;
 			f.Mes.value = f.MesAyer.value;
 			f.Ano.value = f.AnoAyer.value;
-
 			f.action = "sec_informe_diario1.php?ConsultaGeneral=S";
 			f.submit();
 			break;

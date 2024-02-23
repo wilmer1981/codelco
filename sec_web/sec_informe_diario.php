@@ -1,10 +1,15 @@
 <?php  //$link = mysql_connect('10.56.11.7','adm_bd','672312');
  include("../principal/conectar_principal.php");
- mysql_SELECT_db("sec_web",$link);
+ //mysql_SELECT_db("sec_web",$link);
 	set_time_limit(2000);
 
 	$Dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","S�bado");
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Ano = $_REQUEST["Ano"];
+	$Mes = $_REQUEST["Mes"];
+	$Dia = $_REQUEST["Dia"];
+
 	$str_dia = date("w", mktime(0,0,0,$Mes,$Dia,$Ano));
 	$EnPreparacion =0;
 	$FechaInf = $Ano."-".str_pad($Mes,2, "0", STR_PAD_LEFT)."-".str_pad($Dia,2, "0", STR_PAD_LEFT);
@@ -182,15 +187,15 @@
 	while ($Fila2=mysqli_fetch_array($Respuesta2))
 	{
 		if ($Fila2["cod_subproducto"] == 40)
-			$StockIniGradoA = abs($StockIniGradoA - $Fila2[peso_embarque]);
+			$StockIniGradoA = abs($StockIniGradoA - $Fila2["peso_embarque"]);
 		
 		if ($Fila2["cod_subproducto"] == 46)	
-			$StockIni1ER = abs($StockIni1ER - $Fila2[peso_embarque]);
+			$StockIni1ER = abs($StockIni1ER - $Fila2["peso_embarque"]);
 		if ($Fila2["cod_subproducto"] == 2)	
-			$StockIni2ER  = abs($StockIni2ER  - $Fila2[peso_embarque]);
+			$StockIni2ER  = abs($StockIni2ER  - $Fila2["peso_embarque"]);
 		if ($Fila2["cod_subproducto"] == 18)	
-			$StockIni3ER = $StockIni3ER - $Fila2[peso_embarque];
-		$TotalExistencia = abs($TotalExistencia - $Fila2[peso_embarque]);
+			$StockIni3ER = $StockIni3ER - $Fila2["peso_embarque"];
+		$TotalExistencia = abs($TotalExistencia - $Fila2["peso_embarque"]);
 	}
 	
 	$TotalExistencia = ($TotalExistencia + Validacion) / 1000;

@@ -1,29 +1,35 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");        
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 //	 $link = mysql_connect('10.56.11.7','adm_bd','672312');
- mysql_SELECT_db("sec_web",$link);
+ //mysql_SELECT_db("sec_web",$link);
 	set_time_limit(1000);
 	$Dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","S�bado");
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Ano = $_REQUEST["Ano"];
+	$Mes = $_REQUEST["Mes"];
+	$Dia = $_REQUEST["Dia"];
+	//$ConsultaGeneral = $_REQUEST["ConsultaGeneral"];
+
 	$str_dia = date("w", mktime(0,0,0,$Mes,$Dia,$Ano));
 	$EnPreparacion =0;
 	$FechaInf = $Ano."-".str_pad($Mes,2, "0", STR_PAD_LEFT)."-".str_pad($Dia,2, "0", STR_PAD_LEFT);
@@ -37,6 +43,11 @@
 	$Consulta.= " where fecha = '".$FechaInf."'";
 	$Resp = mysqli_query($link, $Consulta);
 	$Genera = false;
+	$PaqLavar=0; //WSO
+	$PaqStandard=0;
+	$PaqStandardGranel=0; //WSO
+	$PaqCatodosGranel=0;
+	$Validacion=0;
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 		$Genera = true;
@@ -200,18 +211,18 @@
 	while ($Fila2=mysqli_fetch_array($Respuesta2))
 	{
 		if ($Fila2["cod_subproducto"] == 40)
-			$StockIniGradoA = abs($StockIniGradoA - $Fila2[peso_embarque]);
+			$StockIniGradoA = abs($StockIniGradoA - $Fila2["peso_embarque"]);
 		
 		if ($Fila2["cod_subproducto"] == 46)	
-			$StockIni1ER = abs($StockIni1ER - $Fila2[peso_embarque]);
+			$StockIni1ER = abs($StockIni1ER - $Fila2["peso_embarque"]);
 		if ($Fila2["cod_subproducto"] == 2)	
-			$StockIni2ER  = abs($StockIni2ER  - $Fila2[peso_embarque]);
+			$StockIni2ER  = abs($StockIni2ER  - $Fila2["peso_embarque"]);
 		if ($Fila2["cod_subproducto"] == 18)	
-			$StockIni3ER = $StockIni3ER - $Fila2[peso_embarque];
-		$TotalExistencia = abs($TotalExistencia - $Fila2[peso_embarque]);
+			$StockIni3ER = $StockIni3ER - $Fila2["peso_embarque"];
+		$TotalExistencia = abs($TotalExistencia - $Fila2["peso_embarque"]);
 	}
 	
-	$TotalExistencia = ($TotalExistencia + Validacion) / 1000;
+	$TotalExistencia = ($TotalExistencia + $Validacion) / 1000;
 	$TotalProdComerciales =  $TotalProdComerciales / 1000;
 	//PREPARADOS
 	$PreparadosGradoA = $StockIniGradoA / 1000;

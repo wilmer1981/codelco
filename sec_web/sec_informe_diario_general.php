@@ -3,8 +3,15 @@
 	$CodigoDePantalla =16; 
 	include("../principal/conectar_principal.php");
 	// $link = mysql_connect('10.56.11.7','adm_bd','672312');
- mysql_SELECT_db("sec_web",$link);
+    //mysql_SELECT_db("sec_web",$link);
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+
+	$Generado = isset($_REQUEST["Generado"])?$_REQUEST["Generado"]:"";
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Dia = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	
 	$PaqLavar = "";
 	$PaqStandard = "";
 	$PaqCatodosGranel = "";

@@ -1,16 +1,15 @@
 <?php
 	//$DiaAuxSig=13+1;
-	//echo date("Y-m-d", mktime(1,0,0,10,$DiaAuxSig,2006));
-	
-			
-
-
-	
-	
+	//echo date("Y-m-d", mktime(1,0,0,10,$DiaAuxSig,2006));	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla =16; 
 	include("../principal/conectar_principal.php");
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Dia = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+
 	$PaqLavar = "";
 	$PaqPesar = "";
 	$PaqStandard = "";

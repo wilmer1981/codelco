@@ -1,5 +1,5 @@
 <?php
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
@@ -188,14 +188,14 @@
 	while ($Fila2=mysqli_fetch_array($Respuesta2))
 	{
 		if ($Fila2["cod_subproducto"] == 40)
-			$StockIniGradoA = abs($StockIniGradoA - $Fila2[peso_embarque]);
+			$StockIniGradoA = abs($StockIniGradoA - $Fila2["peso_embarque"]);
 		if ($Fila2["cod_subproducto"] == 46)	
-			$StockIni1ER = abs($StockIni1ER - $Fila2[peso_embarque]);
+			$StockIni1ER = abs($StockIni1ER - $Fila2["peso_embarque"]);
 		if ($Fila2["cod_subproducto"] == 2)	
-			$StockIni2ER  = abs($StockIni2ER  - $Fila2[peso_embarque]);
+			$StockIni2ER  = abs($StockIni2ER  - $Fila2["peso_embarque"]);
 		if ($Fila2["cod_subproducto"] == 18)	
-			$StockIni3ER = $StockIni3ER - $Fila2[peso_embarque];
-		$TotalExistencia = abs($TotalExistencia - $Fila2[peso_embarque]);
+			$StockIni3ER = $StockIni3ER - $Fila2["peso_embarque"];
+		$TotalExistencia = abs($TotalExistencia - $Fila2["peso_embarque"]);
 	}	
 	$TotalExistencia = ($TotalExistencia + Validacion) / 1000;
 	$TotalProdComerciales =  $TotalProdComerciales / 1000;
