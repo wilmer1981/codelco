@@ -82,7 +82,7 @@
 				echo "<td>".substr($Row2[fecha_movimiento],8,2)."/".substr($Row2[fecha_movimiento],5,2)."/".substr($Row2[fecha_movimiento],0,4)."</td>\n";
 			else
 				echo "<td>&nbsp;</td>\n";
-			echo "<td align='left'>".$Row[nom_subproducto]."</td>\n";
+			echo "<td align='left'>".$Row["nom_subproducto"]."</td>\n";
 			echo "<td align='left'><strong>";
 			if (($Row["cod_producto"]==17) && (($Row["cod_subproducto"] == 4) || ($Row["cod_subproducto"]==8)))
 			{
@@ -193,7 +193,7 @@
 			}
 			echo "<tr>\n";
 			echo "<td align='center'>".substr($Row[fecha_movimiento],8,2)."/".substr($Row[fecha_movimiento],5,2)."/".substr($Row[fecha_movimiento],0,4)."</td>\n";
-			echo "<td>".$Row[nom_subproducto]."</td>\n";
+			echo "<td>".$Row["nom_subproducto"]."</td>\n";
 			echo "<td align='center'>".$Row[campo2]."</td>\n";
 			echo "<td align='center'>".$Row[campo1]."</td>\n";
 			echo "<td align='right'>".$Row["unidades"]."</td>\n";

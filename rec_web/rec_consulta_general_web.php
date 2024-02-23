@@ -522,7 +522,7 @@ function Proceso(opt)
 						echo "<td>".$Row[cod_faena]."&nbsp;</td>\n";
 						echo "<td>".$Row[nom_faena]."&nbsp;</td>\n";
 						echo "<td>".$Row[cod_subproducto]."</td>\n";
-						echo "<td>".$Row[nom_subproducto]."</td>\n";
+						echo "<td>".$Row["nom_subproducto"]."</td>\n";
 						echo "<td>".$Row[guia_despacho]."</td>\n";
 						echo "<td>".$Row["patente"]."</td>\n";
 						echo "<td>".$Row[num_conjunto]."&nbsp;</td>\n";
@@ -554,7 +554,7 @@ function Proceso(opt)
 						echo "<td>".$Row[cod_faena]."&nbsp;</td>\n";
 						echo "<td>".$Row[nom_faena]."&nbsp;</td>\n";
 						echo "<td>".$Row[cod_subproducto]."</td>\n";
-						echo "<td>".$Row[nom_subproducto]."</td>\n";
+						echo "<td>".$Row["nom_subproducto"]."</td>\n";
 						echo "<td>".$Row[guia_despacho]."</td>\n";
 						echo "<td>".$Row["patente"]."</td>\n";
 						echo "<td>".$Row[num_conjunto]."&nbsp;</td>\n";
@@ -568,7 +568,7 @@ function Proceso(opt)
 						echo "<tr bgcolor='#FFFFFF'> \n";
 						echo "<td align='left'>".$Row["rut_proveedor"]."</td>\n";
 						echo "<td align='left'>".$Row[nom_proveedor]."</td>\n";
-						echo "<td align='left'>".$Row[nom_subproducto]."</td>\n";
+						echo "<td align='left'>".$Row["nom_subproducto"]."</td>\n";
 						echo "<td align='right'>".$Row[peso_bruto]."</td>\n";
 						echo "<td align='right'>".$Row["peso_tara"]."</td>\n";
 						echo "<td align='right'>".$Row[peso_neto]."</td>\n";

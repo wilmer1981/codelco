@@ -1,10 +1,13 @@
 <?php
 	include("../principal/conectar_principal.php"); 
-	if (!isset($MesIni))
-	{
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-	}
+
+	$Orden = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$CodProducto = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+
 	$MesIni = str_pad($MesIni,2,"0",STR_PAD_LEFT);
  	$FechaInicio = $AnoIni."-".$MesIni."-01";
 	$FechaTermino = $AnoIni."-".$MesIni."-31";
@@ -59,7 +62,6 @@ function Fax(Orden)
 
 <link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
 <style type="text/css">
-<!--
 a:link {
 	color: #FFFFFF;
 }
@@ -72,7 +74,6 @@ a:hover {
 a:active {
 	color: #FFFF00;
 }
--->
 </style>
 </head>
 
@@ -164,13 +165,13 @@ a:active {
 				if ($MesIni == $i)
 					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-			}
+			}/*
 			else
 			{
 				if ($i == date("n"))
 					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-			}
+			}*/
 		}
 		?>
         </SELECT>
@@ -183,13 +184,13 @@ a:active {
 				if ($AnoIni == $i)
 					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
-			}
+			}/*
 			else
 			{
 				if ($i == date("Y"))
 					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
-			}
+			}*/
 		}
 		?>
       </SELECT></td>
@@ -247,12 +248,12 @@ a:active {
     <?php  
 	
 		//$FechaAux = $AnoIni."-".str_pad($MesIni,2, "0", STR_PAD_LEFT)."-".str_pad($DiaIni,2, "0", STR_PAD_LEFT);
-		$FechaAux = $AnoIni."-".str_pad($MesIni,2, "0", STR_PAD_LEFT);
-		
-//echo "FECHA".$FechaAux;
-     $FechaControl = $FechaAux - 1;
+	$FechaAux = $AnoIni."-".str_pad($MesIni,2, "0", STR_PAD_LEFT);
+	//echo "<br>FECHA:".$FechaAux;
+   // $FechaControl = $FechaAux - 1; //desactivado por WSO, error al activar
+	$FechaControl = $FechaAux;
      // echo "FECHA".$FechaControl;
-	 $Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
+	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase = '3004' and cod_subclase = '".intval(substr($FechaAux,5,2))."'"	;
 	//echo "Con".$Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
@@ -260,8 +261,7 @@ a:active {
 	{
 		$MesConsulta = $FilaMes["nombre_subclase"];
 	}
-	
-	
+		
 	$CrearTmp = "create temporary table if not exists sec_web.tmp_orden "; 
 	//$CrearTmp = "create  table if not exists sec_web.tmp_orden "; 
 	$CrearTmp.= "(corr_enm bigint(8), ";
@@ -317,11 +317,8 @@ a:active {
 		$Consulta.= " left join sec_web.marca_catodos t3 on t1.cod_marca=t3.cod_marca ";
 		//$Consulta.= " inner join proyecto_modernizacion.subproducto t4 on t2.cod_producto=t4.cod_producto and t2.cod_subproducto=t4.cod_subproducto ";
  		$Consulta.= " where t0.corr_enm <80000 and t0.estado<>'A' and t0.fecha_embarque between '".$FechaInicio."' and '".$FechaTermino."' ";
-	
 		$Consulta.= " and year(t1.fecha_creacion_lote)  >= '".$FechaControl."'";
-		
-	
-	
+			
 	if ($CodProducto!="S")
 		$Consulta.= " and  t0.cod_producto='".$CodProducto."' ";
 	if ($SubProducto!="S")
@@ -354,9 +351,13 @@ a:active {
 	$TotalPaquetes = 0;
 	$TotalUnidades = 0;
 	$MaqAnt=""; 
+	$Asig="";
 	//echo $Consulta."<br>";
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
+		if(isset($Fila["asignacion"])){
+			$Asig=$Fila["asignacion"];
+		}
 		//CONSULTA ASIGNACION Y FECHA DISPONIBILIDAD		
 		$Asignacion="";
 		$FechaDisp = "";
@@ -473,7 +474,7 @@ a:active {
 		$Consulta.="where corr_enm='".$Fila["corr_enm"]."'";
 		$RespSubProd=mysqli_query($link, $Consulta);
 		if($FilaSubProd=mysqli_fetch_array($RespSubProd))
-			echo "<td align=\"center\">".$FilaSubProd[nom_subproducto]."</td>\n";	
+			echo "<td align=\"center\">".$FilaSubProd["nom_subproducto"]."</td>\n";	
 		else
 			echo "<td align=\"center\">&nbsp;</td>\n";	
 		echo "</tr>\n";
@@ -489,7 +490,8 @@ a:active {
 		//-----------------------------------------------------
 		$MaqAnt=$Fila["asignacion"]; 
 	}
-	if ($MaqAnt != $Fila["asignacion"] && $MaqAnt!="" && $Orden=="Or_05")
+	//if ($MaqAnt != $Fila["asignacion"] && $MaqAnt!="" && $Orden=="Or_05")
+	if ($MaqAnt != $Asig && $MaqAnt!="" && $Orden=="Or_05")
 	{	
 		echo "<tr class=\"Detalle02\">\n";
 		echo "<td align=\"center\" colspan=\"4\"><b>TOTAL&nbsp;&nbsp;".strtoupper($MaqAnt)."</b></td>\n";

@@ -48,7 +48,7 @@
 			$pdf->addTextWrap(425,730,150,12,$meses[substr($Fila["fecha"],5,2)-1],$justification='left',0,0);
 			$pdf->addTextWrap(490,730,150,12,substr($Fila["fecha"],0,4),$justification='left',0,0);
 			$pdf->addTextWrap(35,720,150,11,"RUT : ".$Fila["rut_prv"],$justification='left',0,0);
-			$pdf->addTextWrap(230,585,350,13,$Fila[nom_subproducto],$justification='left',0,0);
+			$pdf->addTextWrap(230,585,350,13,$Fila["nom_subproducto"],$justification='left',0,0);
 			$pdf->addTextWrap(230,553,150,13,"LOTE: ".$Fila["lote"],$justification='left',0,0);
 			$pdf->addTextWrap(230,523,150,13,"RECARGO: ".$Fila["recargo"],$justification='left',0,0);
 			$pdf->addTextWrap(230,492,150,13,"N� SELLO: ".$Fila[num_sello],$justification='left',0,0);

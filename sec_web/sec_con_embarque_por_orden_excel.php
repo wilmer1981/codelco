@@ -1,32 +1,38 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-
-
 	include("../principal/conectar_principal.php"); 
+
+	$Orden = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$CodProducto = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	/*
 	if (!isset($MesIni))
 	{
 		$MesIni = date("m");
 		$AnoIni = date("Y");
-	}
-	$MesIni = str_pad($MesIni,2,"0",STR_PAD_LEFT);
+	}*/
+	$MesIni      = str_pad($MesIni,2,"0",STR_PAD_LEFT);
  	$FechaInicio = $AnoIni."-".$MesIni."-01";
 	$FechaTermino = $AnoIni."-".$MesIni."-31";
 ?>
@@ -68,8 +74,9 @@
 		//$FechaAux = $AnoIni."-".str_pad($MesIni,2, "0", STR_PAD_LEFT)."-".str_pad($DiaIni,2, "0", STR_PAD_LEFT);
 		$FechaAux = $AnoIni."-".str_pad($MesIni,2, "0", STR_PAD_LEFT);
 		
-//echo "FECHA".$FechaAux;
-     $FechaControl = $FechaAux - 1;
+		//echo "FECHA".$FechaAux;
+      // $FechaControl = $FechaAux - 1; //desactivado por WSO, error al activar
+	$FechaControl = $FechaAux;
      // echo "FECHA".$FechaControl;
 	 $Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase = '3004' and cod_subclase = '".intval(substr($FechaAux,5,2))."'"	;
@@ -177,9 +184,13 @@
 	$TotalPaquetes = 0;
 	$TotalUnidades = 0;
 	$MaqAnt=""; 
+	$Asig="";
 	//echo $Consulta."<br>";
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
+		if(isset($Fila["asignacion"])){
+			$Asig=$Fila["asignacion"];
+		}
 		//CONSULTA ASIGNACION Y FECHA DISPONIBILIDAD		
 		$Asignacion="";
 		$FechaDisp = "";
@@ -296,7 +307,7 @@
 		$Consulta.="where corr_enm='".$Fila["corr_enm"]."'";
 		$RespSubProd=mysqli_query($link, $Consulta);
 		if($FilaSubProd=mysqli_fetch_array($RespSubProd))
-			echo "<td align=\"center\">".$FilaSubProd[nom_subproducto]."</td>\n";	
+			echo "<td align=\"center\">".$FilaSubProd["nom_subproducto"]."</td>\n";	
 		else
 			echo "<td align=\"center\">&nbsp;</td>\n";	
 		echo "</tr>\n";
@@ -312,7 +323,8 @@
 		//-----------------------------------------------------
 		$MaqAnt=$Fila["asignacion"]; 
 	}
-	if ($MaqAnt != $Fila["asignacion"] && $MaqAnt!="" && $Orden=="Or_05")
+	//if ($MaqAnt != $Fila["asignacion"] && $MaqAnt!="" && $Orden=="Or_05")
+	if ($MaqAnt != $Asig && $MaqAnt!="" && $Orden=="Or_05")
 	{	
 		echo "<tr class=\"Detalle02\">\n";
 		echo "<td align=\"center\" colspan=\"4\"><b>TOTAL&nbsp;&nbsp;".strtoupper($MaqAnt)."</b></td>\n";
