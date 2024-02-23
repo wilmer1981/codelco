@@ -180,7 +180,7 @@ body {
 						else
 						{
 							$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,pto_destino ,pto_emb,tipo,estado,estado2,fecha_disponible,tipoie,descripcion) values(";
-							$Insertar=$Insertar."$Fila["corr_enm"],'$Fila["nombre_cliente"]',$Fila[cantidad_embarque],'$Fila["num_prog_loteo"]','$Fila["cod_producto"]','$Fila["producto"]','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','E','$Fila["descripcion"]')";
+							$Insertar=$Insertar."$Fila["corr_enm"],'".$Fila["nombre_cliente"]."',$Fila[cantidad_embarque],'$Fila["num_prog_loteo"]','$Fila["cod_producto"]','$Fila["producto"]','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','E','$Fila["descripcion"]')";
 							mysqli_query($link, $Insertar);
 						}	
 					}
@@ -201,7 +201,7 @@ body {
 						else
 						{
 							$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,tipo,estado,estado2,fecha_disponible,tipoie,descripcion) values(";
-							$Insertar=$Insertar."$Fila["corr_codelco"],'$Fila["nombre_cliente"]',$Fila["cantidad_programada"],'$Fila["num_prog_loteo"]','$Fila["cod_producto"]','$Fila["producto"]','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','C','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','C','$Fila["descripcion"]')";
+							$Insertar=$Insertar."$Fila["corr_codelco"],'".$Fila["nombre_cliente"]."',$Fila["cantidad_programada"],'$Fila["num_prog_loteo"]','$Fila["cod_producto"]','$Fila["producto"]','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','C','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','C','$Fila["descripcion"]')";
 							mysqli_query($link, $Insertar);
 						}	   
 					}
@@ -263,7 +263,7 @@ body {
 					while ($Fila=mysqli_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,tipo,estado,estado2,fecha_disponible,tipoie) values(";
-						$Insertar=$Insertar."$Fila["corr_codelco"],'$Fila["nombre_cliente"]',$Fila["cantidad_programada"],'$Fila["num_prog_loteo"]','$Fila["cod_producto"]','$Fila["producto"]','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','C','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','C')";
+						$Insertar=$Insertar."$Fila["corr_codelco"],'".$Fila["nombre_cliente"]."',$Fila["cantidad_programada"],'$Fila["num_prog_loteo"]','$Fila["cod_producto"]','$Fila["producto"]','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','C','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','C')";
 						mysqli_query($link, $Insertar);   
 					}
 					$Consulta="select * from sec_web.tmpprograma order by fecha_disponible";

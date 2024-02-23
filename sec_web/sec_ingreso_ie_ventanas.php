@@ -183,7 +183,7 @@ body {
 				 	$Consulta="SELECT * from sec_web.cliente_venta where cod_cliente='".$CodCliente."'";
 					$Respuesta=mysqli_query($link, $Consulta);	
 					$Fila=mysqli_fetch_array($Respuesta);
-					echo "<input type='text' name='TxtNombreCliente' style='width:500' readonly value='$Fila["nombre_cliente"]' class='detalle01'>";
+					echo "<input type='text' name='TxtNombreCliente' style='width:500' readonly value='".$Fila["nombre_cliente"]."' class='detalle01'>";
 				 }
 				 else
 				 {

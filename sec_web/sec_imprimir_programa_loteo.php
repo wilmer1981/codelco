@@ -88,7 +88,7 @@ function Salir()
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,producto,subproducto,cod_contrato,fecha_disponible) values(";
-				$Insertar=$Insertar."$Fila["corr_enm"],'$Fila["nombre_cliente"]',$Fila[cantidad_embarque],'$Fila["producto"]','".$Fila["subproducto"]."','','".$Fila["fecha_disponible"]."')";
+				$Insertar=$Insertar."$Fila["corr_enm"],'".$Fila["nombre_cliente"]."',$Fila[cantidad_embarque],'$Fila["producto"]','".$Fila["subproducto"]."','','".$Fila["fecha_disponible"]."')";
 				mysqli_query($link, $Insertar);
 			}
 			//CONSULTA TABLA PROGRAMA CODELCO
@@ -103,7 +103,7 @@ function Salir()
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,producto,subproducto,cod_contrato,fecha_disponible) values(";
-				$Insertar=$Insertar."$Fila["corr_codelco"],'$Fila["nombre_cliente"]',$Fila["cantidad_programada"],'$Fila["producto"]','".$Fila["subproducto"]."','$Fila["cod_contrato_maquila"]','".$Fila["fecha_disponible"]."')";
+				$Insertar=$Insertar."$Fila["corr_codelco"],'".$Fila["nombre_cliente"]."',$Fila["cantidad_programada"],'$Fila["producto"]','".$Fila["subproducto"]."','$Fila["cod_contrato_maquila"]','".$Fila["fecha_disponible"]."')";
 				mysqli_query($link, $Insertar);   
 			}
 			$Consulta="SELECT * from sec_web.tmpprograma order by fecha_disponible";

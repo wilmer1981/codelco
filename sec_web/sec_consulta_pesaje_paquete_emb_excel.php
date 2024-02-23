@@ -1,30 +1,27 @@
 <?php 	
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
- 	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
-	include("../principal/conectar_sec_web.php");
-	if (!isset($CmbDias))
-	{
-		$CmbDias=date('j');
-		$CmbMes=date('n');
-		$CmbAno=date('Y');
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
 	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
+	include("../principal/conectar_sec_web.php");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbDias      = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
 ?>
 <html>
 <head><title>Consulta Pesaje de Paquetes a Embarque Excel</title></head>
@@ -63,6 +60,7 @@
 	$Consulta.="where concat(t2.fecha_creacion_paquete,' ',t2.hora) between '".$Fecha." 08:00:00' and '".$Fecha2." 07:59:59' and t2.cod_producto in (18,48) ";
 	$Consulta.="group by t2.cod_producto,t2.cod_subproducto";
 	$RespuestaAgrup=mysqli_query($link, $Consulta);
+	$TotCtds=0;//WSO
 	while($FilaAgrup=mysqli_fetch_array($RespuestaAgrup))
 	{
 		$SubTotPqts=0;
@@ -88,7 +86,7 @@
 		while($Fila=mysqli_fetch_array($Respuesta))
 		{
 			$Insertar="insert into sec_web.tmpConsultaEmb(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-			$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','$Fila["nombre_cliente"]','$Fila[toneladas]','$Fila["cod_marca"]','$Fila["cod_paquete"]','$Fila[lote_inicio]','$Fila[lote_final]','$Fila["paquetes"]','$Fila[catodos]','$Fila[peso_neto]')";
+			$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','".$Fila["nombre_cliente"]."','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 			mysqli_query($link, $Insertar);
 		}
 		$Consulta="SELECT t1.cod_paquete,min(t1.num_paquete) as lote_inicio,max(t1.num_paquete) as lote_final,count(*) as paquetes,t4.cantidad_programada as toneladas,t3.descripcion as subproducto,t1.corr_enm,sum(num_unidades) as catodos,t1.cod_marca,sum(peso_paquetes) as peso_neto,";
@@ -104,7 +102,7 @@
 		while($Fila=mysqli_fetch_array($Respuesta))
 		{
 			$Insertar="insert into sec_web.tmpConsultaEmb(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-			$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','$Fila["nombre_cliente"]','$Fila[toneladas]','$Fila["cod_marca"]','$Fila["cod_paquete"]','$Fila[lote_inicio]','$Fila[lote_final]','$Fila["paquetes"]','$Fila[catodos]','$Fila[peso_neto]')";
+			$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','".$Fila["nombre_cliente"]."','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 			mysqli_query($link, $Insertar);
 		}
 		$Consulta="SELECT t1.cod_paquete,min(t1.num_paquete) as lote_inicio,max(t1.num_paquete) as lote_final,count(*) as paquetes,t4.peso_programado as toneladas,t3.descripcion as subproducto,t1.corr_enm,sum(num_unidades) as catodos,t1.cod_marca,sum(peso_paquetes) as peso_neto ";
@@ -117,7 +115,7 @@
 		while($Fila=mysqli_fetch_array($Respuesta))
 		{
 			$Insertar="insert into sec_web.tmpConsultaEmb(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-			$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','','$Fila[toneladas]','$Fila["cod_marca"]','$Fila["cod_paquete"]','$Fila[lote_inicio]','$Fila[lote_final]','$Fila["paquetes"]','$Fila[catodos]','$Fila[peso_neto]')";
+			$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','$Fila[lote_final]','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 			mysqli_query($link, $Insertar);
 		}
 		$Consulta="SELECT * from sec_web.tmpConsultaEmb";
@@ -125,23 +123,23 @@
 		while($Fila=mysqli_fetch_array($Respuesta))
 		{
 			echo "<tr>";
-			echo "<td>$Fila["subproducto"]</td>";
-			echo "<td>$Fila["corr_ie"]</td>";
-			echo "<td>$Fila["cliente_nave"]&nbsp;</td>";
-			echo "<td>".$Fila[toneladas]."</td>";
-			echo "<td>$Fila["marca"]</td>";
-			echo "<td>$Fila[cod_lote]</td>";
-			echo "<td>".$Fila[num_lote_inicio]."-".$Fila[num_lote_final]."</td>";
+			echo "<td>".$Fila["subproducto"]."</td>";
+			echo "<td>".$Fila["corr_ie"]."</td>";
+			echo "<td>".$Fila["cliente_nave"]."&nbsp;</td>";
+			echo "<td>".$Fila["toneladas"]."</td>";
+			echo "<td>".$Fila["marca"]."</td>";
+			echo "<td>".$Fila["cod_lote"]."</td>";
+			echo "<td>".$Fila["num_lote_inicio"]."-".$Fila["num_lote_final"]."</td>";
 			echo "<td>".$Fila["paquetes"]."</td>";
-			echo "<td>".$Fila[catodos]."</td>";
-			echo "<td>".$Fila[peso_neto]."</td>";				
+			echo "<td>".$Fila["catodos"]."</td>";
+			echo "<td>".$Fila["peso_neto"]."</td>";				
 			echo "</tr>";
 			$SubTotPqts=$SubTotPqts+$Fila["paquetes"];
-			$SubTotCtds=$SubTotCtds+$Fila[catodos];
-			$SubTotPesoNeto=$SubTotPesoNeto+$Fila[peso_neto];
+			$SubTotCtds=$SubTotCtds+$Fila["catodos"];
+			$SubTotPesoNeto=$SubTotPesoNeto+$Fila["peso_neto"];
 			$TotPqts=$TotPqts+$Fila["paquetes"];
-			$TotCtds=$TotCtds+$Fila[catodos];
-			$TotPesoNeto=$TotPesoNeto+$Fila[peso_neto];
+			$TotCtds=$TotCtds+$Fila["catodos"];
+			$TotPesoNeto=$TotPesoNeto+$Fila["peso_neto"];
 		}
 		echo "<tr>";
 		echo "<td>&nbsp;</td>";

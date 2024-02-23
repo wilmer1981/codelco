@@ -321,7 +321,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 	while($Fila=mysqli_fetch_array($Respuesta))
 	{
 		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-		$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','$Fila["nombre_cliente"]','$Fila[toneladas]','$Fila["cod_marca"]','$Fila["cod_paquete"]','$Fila[lote_inicio]','$Fila[lote_final]','$Fila["paquetes"]','$Fila[catodos]','$Fila["peso_neto"]')";
+		$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','".$Fila["nombre_cliente"]."','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 		mysqli_query($link, $Insertar);
 	}
 	$Consulta="SELECT t1.cod_paquete,min(t1.num_paquete) as lote_inicio,max(t1.num_paquete) as lote_final,count(*) as paquetes,";
@@ -338,7 +338,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 	while($Fila=mysqli_fetch_array($Respuesta))
 	{
 		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-		$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','','$Fila[toneladas]','$Fila["cod_marca"]','$Fila["cod_paquete"]','$Fila[lote_inicio]','$Fila[lote_final]','$Fila["paquetes"]','$Fila[catodos]','$Fila["peso_neto"]')";
+		$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','$Fila["paquetes"]','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 		mysqli_query($link, $Insertar);
 	}
 	$Consulta="SELECT * from sec_web.tmpConsultaEmb2";

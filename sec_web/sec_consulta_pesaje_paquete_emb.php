@@ -3,12 +3,10 @@
 	$CodigoDePantalla = 55;
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	if (!isset($CmbDias))
-	{
-		$CmbDias=date('j');
-		$CmbMes=date('n');
-		$CmbAno=date('Y');
-	}
+
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbDias      = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
 ?>
 <html>
 <head>
@@ -212,6 +210,7 @@ function Salir()
 			$Consulta.="group by t2.cod_producto,t2.cod_subproducto";
 			//echo "con".$Consulta;
 			$RespuestaAgrup=mysqli_query($link, $Consulta);
+			$TotCtds=0;//WSO
 			while($FilaAgrup=mysqli_fetch_array($RespuestaAgrup))
 			{
 				$SubTotPqts=0;
@@ -233,12 +232,12 @@ function Salir()
 				$Consulta.="left join sec_web.cliente_venta t5 on t4.cod_cliente=t5.cod_cliente ";
 				$Consulta.="left join sec_web.nave t6 on t4.cod_nave=t6.cod_nave ";
 				$Consulta.="where concat(t2.fecha_creacion_paquete,' ',t2.hora) between '".$Fecha." 08:00:00' and '".$Fecha2." 07:59:59' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and t2.cod_producto='".$FilaAgrup["cod_producto"]."' and t2.cod_subproducto='".$FilaAgrup["cod_subproducto"]."' group by t1.corr_enm";
-    //echo "con".$Consulta;
+   				 //echo "con".$Consulta;
 				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
 					$Insertar="insert into sec_web.tmpConsultaEmb(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-					$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','$Fila["nombre_cliente"]','$Fila[toneladas]','$Fila["cod_marca"]','$Fila["cod_paquete"]','$Fila[lote_inicio]','$Fila[lote_final]','$Fila["paquetes"]','$Fila[catodos]','$Fila["peso_neto"]')";
+					$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','".$Fila["nombre_cliente"]."','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 					mysqli_query($link, $Insertar);
 				}
 				$Consulta="SELECT t1.cod_paquete,min(t1.num_paquete) as lote_inicio,max(t1.num_paquete) as lote_final,count(*) as paquetes,t4.cantidad_programada as toneladas,t3.descripcion as subproducto,t1.corr_enm,sum(num_unidades) as catodos,t1.cod_marca,sum(peso_paquetes) as peso_neto,";
@@ -256,7 +255,7 @@ function Salir()
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
 					$Insertar="insert into sec_web.tmpConsultaEmb(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-					$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','$Fila["nombre_cliente"]','$Fila[toneladas]','$Fila["cod_marca"]','$Fila["cod_paquete"]','$Fila[lote_inicio]','$Fila[lote_final]','$Fila["paquetes"]','$Fila[catodos]','$Fila["peso_neto"]')";
+					$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','".$Fila["nombre_cliente"]."','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 					mysqli_query($link, $Insertar);
 				}
 				$Consulta="SELECT t1.cod_paquete,min(t1.num_paquete) as lote_inicio,max(t1.num_paquete) as lote_final,count(*) as paquetes,t4.peso_programado as toneladas,t3.descripcion as subproducto,t1.corr_enm,sum(num_unidades) as catodos,t1.cod_marca,sum(peso_paquetes) as peso_neto ";
@@ -272,31 +271,32 @@ function Salir()
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
 					$Insertar="insert into sec_web.tmpConsultaEmb(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-					$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','','$Fila[toneladas]','$Fila["cod_marca"]','$Fila["cod_paquete"]','$Fila[lote_inicio]','$Fila[lote_final]','$Fila["paquetes"]','$Fila[catodos]','$Fila["peso_neto"]')";
+					$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 					mysqli_query($link, $Insertar);
 				}
 				$Consulta="SELECT * from sec_web.tmpConsultaEmb";
 				
 				$Respuesta=mysqli_query($link, $Consulta);
+				
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
 					echo "<tr>";
-					echo "<td>$Fila["subproducto"]</td>";
-					echo "<td>$Fila["corr_ie"]</td>";
-					echo "<td>$Fila["cliente_nave"]&nbsp;</td>";
-					echo "<td align='right'>".number_format($Fila[toneladas],0,'','.')."</td>";
-					echo "<td align='center'>$Fila["marca"]</td>";
-					echo "<td align='center'>$Fila[cod_lote]</td>";
-					echo "<td>".$Fila[num_lote_inicio]."-".$Fila[num_lote_final]."</td>";
+					echo "<td>".$Fila["subproducto"]."</td>";
+					echo "<td>".$Fila["corr_ie"]."</td>";
+					echo "<td>".$Fila["cliente_nave"]."&nbsp;</td>";
+					echo "<td align='right'>".number_format($Fila["toneladas"],0,'','.')."</td>";
+					echo "<td align='center'>".$Fila["marca"]."</td>";
+					echo "<td align='center'>".$Fila["cod_lote"]."</td>";
+					echo "<td>".$Fila["num_lote_inicio"]."-".$Fila["num_lote_final"]."</td>";
 					echo "<td align='right'>".number_format($Fila["paquetes"],0,'','.')."</td>";
-					echo "<td align='right'>".number_format($Fila[catodos],0,'','.')."</td>";
+					echo "<td align='right'>".number_format($Fila["catodos"],0,'','.')."</td>";
 					echo "<td align='right'>".number_format($Fila["peso_neto"],0,'','.')."</td>";				
 					echo "</tr>";
 					$SubTotPqts=$SubTotPqts+$Fila["paquetes"];
-					$SubTotCtds=$SubTotCtds+$Fila[catodos];
+					$SubTotCtds=$SubTotCtds+$Fila["catodos"];
 					$SubTotPesoNeto=$SubTotPesoNeto+$Fila["peso_neto"];
 					$TotPqts=$TotPqts+$Fila["paquetes"];
-					$TotCtds=$TotCtds+$Fila[catodos];
+					$TotCtds=$TotCtds+$Fila["catodos"];
 					$TotPesoNeto=$TotPesoNeto+$Fila["peso_neto"];
 				}
 				echo "<tr class='detalle02'>";
