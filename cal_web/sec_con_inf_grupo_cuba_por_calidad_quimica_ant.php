@@ -256,11 +256,11 @@ function Historial(SA,Rec)
 				{
 					if ($row[valor] <= $fila[grado_a_codelco])
 						$conta_a_co = 1;
-					if (($row[valor] <= $fila[grado_a_enami])&&($row[valor] > $fila[grado_a_codelco])) 
+					if (($row[valor] <= $fila["grado_a_enami"])&&($row[valor] > $fila[grado_a_codelco])) 
 						$conta_a_enm = 1;
-					if ($row[valor] <= $fila[rechazo]&&($row[valor] > $fila[grado_a_enami]))
+					if ($row[valor] <= $fila[rechazo]&&($row[valor] > $fila["grado_a_enami"]))
 						$conta_r = 1;
-					if ($row[valor] <= $fila[estandar]&&($row[valor] > $fila[rechazo]))
+					if ($row[valor] <= $fila["estandar"]&&($row[valor] > $fila[rechazo]))
 						$conta_s = 1;
 					$cont = $cont + 1;
 				}
@@ -365,9 +365,9 @@ function Historial(SA,Rec)
 				{
 					if ($row[valor] <= $fila[grado_a_codelco])
 						$conta_a_co = 1;
-					if (($row[valor] <= $fila[grado_a_enami])&&($row[valor] > $fila[grado_a_codelco])) 
+					if (($row[valor] <= $fila["grado_a_enami"])&&($row[valor] > $fila[grado_a_codelco])) 
 						$conta_a_enm = 1;
-					if ($row[valor] <= $fila[rechazo]&&($row[valor] > $fila[grado_a_enami]))
+					if ($row[valor] <= $fila[rechazo]&&($row[valor] > $fila["grado_a_enami"]))
 						$conta_r = 1;
 					if ($row[valor] <= $fila[estandar]&&($row[valor] > $fila[rechazo]))
 						$conta_s = 1;

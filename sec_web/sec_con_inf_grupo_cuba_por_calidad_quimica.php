@@ -1,5 +1,17 @@
 <?php
 	include("../principal/conectar_principal.php"); 
+
+	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+
+	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+
+
 	if (!isset($DiaIni))
 	{
 		$DiaIni = date("d");
@@ -17,6 +29,7 @@
 		$DiaFin = "0".$DiaFin;
 	if ($MesFin < 10)
 		$MesFin = "0".$MesFin;
+
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 ?>
@@ -229,21 +242,21 @@ function Historial(SA,Rec)
 			$conta_a_co = 0;$conta_a_enm = 0;$conta_r = 0;$conta_s = 0;$Recargo = "";$estado = 0;					
 			while($row = mysqli_fetch_array($rs))
 			{				
-				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = $row["cod_leyes"]";
+				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = '".$row["cod_leyes"]."' ";
 				//echo "tres".$Consulta;
 				$Rs = mysqli_query($link, $Consulta);
 				if($fila = mysqli_fetch_array($Rs))
 				{
-					if ($row["valor"] <= $fila[grado_a_codelco])
+					if ($row["valor"] <= $fila["grado_a_codelco"])
 						$conta_a_co = 1;
 					else	
-						if (($row["valor"] <= $fila[grado_a_enami])&&($row["valor"] > $fila[grado_a_codelco])) 
+						if (($row["valor"] <= $fila["grado_a_enami"])&&($row["valor"] > $fila["grado_a_codelco"])) 
 							$conta_a_enm = 1;
 						else	
-							if ($row["valor"] <= $fila[rechazo]&&($row["valor"] > $fila[grado_a_enami]))
+							if ($row["valor"] <= $fila["rechazo"]&&($row["valor"] > $fila["grado_a_enami"]))
 								$conta_r = 1;
 							else	
-								if ($row["valor"] <= $fila[estandar]&&($row["valor"] > $fila[rechazo]))
+								if ($row["valor"] <= $fila["estandar"]&&($row["valor"] > $fila["rechazo"]))
 									$conta_s = 1;
 					$cont = $cont + 1;
 				}
@@ -315,13 +328,13 @@ function Historial(SA,Rec)
 				$Rs = mysqli_query($link, $Consulta);
 				if($fila = mysqli_fetch_array($Rs))
 				{
-					if ($row["valor"] <= $fila[grado_a_codelco])
+					if ($row["valor"] <= $fila["grado_a_codelco"])
 						$conta_a_co = 1;
-					if (($row["valor"] <= $fila[grado_a_enami])&&($row["valor"] > $fila[grado_a_codelco])) 
+					if (($row["valor"] <= $fila["grado_a_enami"])&&($row["valor"] > $fila["grado_a_codelco"])) 
 						$conta_a_enm = 1;
-					if ($row["valor"] <= $fila[rechazo]&&($row["valor"] > $fila[grado_a_enami]))
+					if ($row["valor"] <= $fila["rechazo"]&&($row["valor"] > $fila["grado_a_enami"]))
 						$conta_r = 1;
-					if ($row["valor"] <= $fila[estandar]&&($row["valor"] > $fila[rechazo]))
+					if ($row["valor"] <= $fila["estandar"]&&($row["valor"] > $fila["rechazo"]))
 						$conta_s = 1;
 					$cont = $cont + 1;
 				}

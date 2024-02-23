@@ -605,16 +605,16 @@ else
 					$Rs = mysqli_query($link, $Consulta);
 					if($fila = mysqli_fetch_array($Rs))
 					{
-						if ($Fila2["valor"] <= $fila[grado_a_codelco])
+						if ($Fila2["valor"] <= $fila["grado_a_codelco"])
 							$conta_a_co = 1;
 						else	
-							if (($Fila2["valor"] <= $fila[grado_a_enami])&&($Fila2["valor"] > $fila[grado_a_codelco])) 
+							if (($Fila2["valor"] <= $fila["grado_a_enami"])&&($Fila2["valor"] > $fila["grado_a_codelco"])) 
 								$conta_a_enm = 1;
 							else	
-								if ($Fila2["valor"] <= $fila[rechazo]&&($Fila2["valor"] > $fila[grado_a_enami]))
+								if ($Fila2["valor"] <= $fila["rechazo"]&&($Fila2["valor"] > $fila["grado_a_enami"]))
 									$conta_r = 1;
 								else	
-									if ($Fila2["valor"] <= $fila[estandar]&&($Fila2["valor"] > $fila[rechazo]))
+									if ($Fila2["valor"] <= $fila["estandar"]&&($Fila2["valor"] > $fila["rechazo"]))
 										$conta_s = 1;
 						$cont = $cont + 1;
 					}

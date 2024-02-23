@@ -14,7 +14,7 @@
 				$TxtSTD1=$Fila[grado_a_codelco];
 				$TxtSTD2=$Fila[grado_a_enami];
 				$TxtSTD3=$Fila[rechazo];
-				$TxtSTD4=$Fila[estandar];
+				$TxtSTD4=$Fila["estandar"];
 				$TxtSTD5=$Fila[off_grade];
 			
 			}	
