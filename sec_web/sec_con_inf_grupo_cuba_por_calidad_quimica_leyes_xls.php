@@ -1,25 +1,35 @@
 <?php
-	         ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
 	 include("../principal/conectar_principal.php"); 
 	 set_time_limit(800);
+	 $Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+
+	 $AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	 $MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	 $DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+ 
+	 $AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	 $MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	 $DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	 /*
 	if (!isset($DiaIni))
 	{
 		$DiaIni = date("d");
@@ -28,7 +38,7 @@
 		$DiaFin = date("d");
 		$MesFin = date("m");
 		$AnoFin = date("Y");
-	}
+	}*/
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -62,14 +72,15 @@
     <td width="99">NRO SOLICITUD</td>
     <td width="66">ESTADO</td>
 	<?php
+	/*
 	for ($i = 0; $i < $LargoArreglo; $i++)
 	{
 		echo "<td width='70' colspan='2'>".$ArregloLeyes[$i][1]."</td>\n";
-	}
+	}*/
 	?>
   </tr>
   <?php
-	if ($Buscar==S)
+	if ($Buscar=="S")
 	{
 		$TotalPeso = 0;
 		$Consulta = " SELECT distinct t1.nro_solicitud,t1.recargo,t1.id_muestra,t1.fecha_muestra from cal_web.solicitud_analisis t1 ";
@@ -90,7 +101,7 @@
 			$Malo = 0;					
 			while($row = mysqli_fetch_array($rs))
 			{				
-				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = $row["cod_leyes"]";
+				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = '".$row["cod_leyes"]."' ";
 				$Rs = mysqli_query($link, $Consulta);
 				if($fila = mysqli_fetch_array($Rs))
 				{
@@ -194,7 +205,7 @@
 	?>
   </tr>
   <?php
-	if ($Buscar==S)
+	if ($Buscar=="S")
 	{
 		$TotalPeso = 0;
 		$Consulta = " SELECT distinct t1.nro_solicitud,t1.recargo,t1.id_muestra,t1.fecha_muestra from cal_web.solicitud_analisis t1 ";
@@ -215,18 +226,18 @@
 			$std_1='';$std_2='';$std_3='';$std_og='';
 			while($row = mysqli_fetch_array($rs))
 			{				
-				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos_ew WHERE cod_leyes = $row["cod_leyes"]";
+				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos_ew WHERE cod_leyes = '".$row["cod_leyes"]."' ";
 				//echo $Consulta;
 				$Rs = mysqli_query($link, $Consulta);
 				if($fila = mysqli_fetch_array($Rs))
 				{
-					if ($row["valor"] <= $fila[std_1])
+					if ($row["valor"] <= $fila["std_1"])
 						$std_1='S';
-					if($row["valor"] > $fila[std_1] && $row["valor"] <= $fila[std_2])
+					if($row["valor"] > $fila["std_1"] && $row["valor"] <= $fila["std_2"])
 						$std_2='S';
-					if($row["valor"] > $fila[std_2] && $row["valor"] <= $fila[std_3])
+					if($row["valor"] > $fila["std_2"] && $row["valor"] <= $fila["std_3"])
 						$std_3='S';
-					if($row["valor"] > $fila[std_3])
+					if($row["valor"] > $fila["std_3"])
 						$std_og='S';	
 					/*if ($row["valor"] <= $fila["grado_a_codelco"])
 						$conta_a_co = 1;
@@ -294,7 +305,7 @@
 			$RespEti=mysqli_query($link, $Consulta);
 			if($FilaEti=mysqli_fetch_array($RespEti))
 			{
-				echo number_format($FilaEti[suma_paquetes],0,",",".");
+				echo number_format($FilaEti["suma_paquetes"],0,",",".");
 			}
 			echo '&nbsp';
 			echo "</td>";
