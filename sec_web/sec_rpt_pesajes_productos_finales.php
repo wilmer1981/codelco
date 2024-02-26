@@ -1,6 +1,23 @@
 <?php include("../principal/conectar_principal.php");
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
-if (!isset($DiaIni))
+
+	$CookieRut= $_COOKIE["CookieRut"];
+	
+	$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date('d');
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date('m');
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date('Y');
+
+	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date('d');
+	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date('m');
+	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date('Y');
+
+	$CmbProducto = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+
+/*
+
+	if (!isset($DiaIni))
 	{
 		$DiaIni = date("j");
 		$MesIni = date("n");
@@ -9,6 +26,7 @@ if (!isset($DiaIni))
 		$MesFin = date("n");
 		$AnoFin = date("Y");
 	}
+	*/
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -216,7 +234,7 @@ function Recarga3()
          <option selected value='T'>TODOS</option>
       		<?php
 			
-			while (list($clave,$valor) = each($productos))
+			foreach($productos as $clave => $valor)
 			{
 				if ($clave == $CmbProducto)
 					echo '<option value="'.$clave.'" selected>'.$valor.'</option>';
@@ -228,10 +246,11 @@ function Recarga3()
               </select>
       </td>
       <td width="119">Sub-Producto:</td>
-       <td width="119"><select name="CmbSubProducto" id="CmbSubProducto"  onChange="Recarga3()">
-                    <option value="T">TODOS</option>
+       <td width="119">
+			<select name="CmbSubProducto" id="CmbSubProducto"  onChange="Recarga3()">
+                <option value="T">TODOS</option>
                 <?php	
-			$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$CmbProducto." ";
+			$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$CmbProducto."' ";
 			if($CmbProducto==48)
 			{
 				$consulta.=" and cod_subproducto not in(10)";
@@ -318,6 +337,8 @@ function Recarga3()
 			$Consulta1.=" ORDER BY fecha_creacion_paquete ASC ";
 			
 			$Respuesta=mysqli_query($link, $Consulta1);
+			$SumaPeso=0;
+			$SumaUnidades=0;
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 					if ($Fila["cod_estado"]=="c")
@@ -334,8 +355,8 @@ function Recarga3()
 					$Fila1=mysqli_fetch_array($Respuesta1);
 					$Producto=$Fila1["abreviatura"];	
 				   ?><tr>
-					 <td><?php echo $Fila[fecha_creacion_paquete];?></td>
-					 <td><?php echo $Fila[cod_paquete]."-".$Fila["num_paquete"];?></td>
+					 <td><?php echo $Fila["fecha_creacion_paquete"];?></td>
+					 <td><?php echo $Fila["cod_paquete"]."-".$Fila["num_paquete"];?></td>
 					 <td><?php echo $Fila["peso_paquetes"];?></td>
 					 <td><?php echo $Fila["num_unidades"];?></td>
 					 <td><?php echo $Estado;?></td>

@@ -1,27 +1,42 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
 	header("Expires: 0");
 	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");  
 	include("../principal/conectar_principal.php");
 
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
 	
+	$CookieRut= $_COOKIE["CookieRut"];
+
+	$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date('d');
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date('m');
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date('Y');
+
+	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date('d');
+	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date('m');
+	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date('Y');
+
+	$CmbProducto = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -87,6 +102,8 @@
 				$Consulta1.=" and cod_subproducto = '".$CmbSubProducto."'";	
 			$Consulta1.=" ORDER BY fecha_creacion_paquete ASC ";
 		   	$Respuesta=mysqli_query($link, $Consulta1);
+			$SumaPeso=0;
+			$SumaUnidades=0;
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 					if ($Fila["cod_estado"]=="c")
@@ -103,7 +120,7 @@
 					$Fila1=mysqli_fetch_array($Respuesta1);
 					$Producto=$Fila1["abreviatura"];	
 				   ?><tr>
-					 <td><?php echo $Fila[fecha_creacion_paquete];?></td>
+					 <td><?php echo $Fila["fecha_creacion_paquete"];?></td>
 					 <td><?php echo $Fila["cod_paquete"]."-".$Fila["num_paquete"];?></td>
 					 <td><?php echo $Fila["peso_paquetes"];?></td>
 					 <td><?php echo $Fila["num_unidades"];?></td>
