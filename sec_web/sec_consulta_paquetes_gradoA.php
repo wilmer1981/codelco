@@ -3,9 +3,21 @@
 	$CodigoDePantalla =28;
 	include("../principal/conectar_sec_web.php");
 	set_time_limit(3000);
-   $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-		$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
+    $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
 
+	
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Recarga = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+
+	$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	$CmbEstado = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	
+	
+	
 ?>
 <html>
 <head>
@@ -302,7 +314,7 @@ function Imprimir()
 					echo "<td width='41' align='center'>".FechaDMA($Fila["fecha_creacion_lote"])."&nbsp;</td>";
 					echo "<td width='60' align='center'>".$Fila["cod_paquete"]."</td>\n";
 					echo "<td width='60' align='center'>".$Fila["num_paquete"]."</td>\n";
-					echo "<td width='41' align='center'>".FechaDMA($Fila[fecha_creacion_paquete])."&nbsp;</td>";
+					echo "<td width='41' align='center'>".FechaDMA($Fila["fecha_creacion_paquete"])."&nbsp;</td>";
 					echo "<td width='44' align='center'>".$Fila["cod_estado"]."</td>";
 					echo "<td width='44' align='right'>".$Fila["peso_paquetes"]."</td>";
 					echo "<td width='41' align='right'>".$Fila["num_unidades"]."&nbsp;</td>";

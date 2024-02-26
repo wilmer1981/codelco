@@ -1,28 +1,37 @@
 <?php 	
  	set_time_limit(3000);
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla =28;
 	include("../principal/conectar_sec_web.php");
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	
+	$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	$CmbEstado = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 
 ?>
 <html>
@@ -106,7 +115,7 @@
             <td><div align="center">Promedio</div></td
           </tr>
         <?php
-			$Mostrar='S';
+			//$Mostrar='S';
 			if ($Mostrar=='S')
 			{
 				if (strlen($CmbMes)==1)
@@ -159,7 +168,7 @@
 					echo "<td align='center'>".FechaDMA($Fila["fecha_creacion_lote"])."</td>";
 					echo "<td align='center'>".$Fila["cod_paquete"]."</td>\n";
 					echo "<td align='right'>".$Fila["num_paquete"]."</td>\n";
-					echo "<td align='center'>".FechaDMA($Fila[fecha_creacion_paquete])."&nbsp;</td>";
+					echo "<td align='center'>".FechaDMA($Fila["fecha_creacion_paquete"])."&nbsp;</td>";
 					echo "<td align='center'>".$Fila["cod_estado"]."</td>";
 					echo "<td align='right'>".$Fila["peso_paquetes"]."</td>";
 					echo "<td align='right'>".$Fila["num_unidades"]."</td>";

@@ -149,7 +149,7 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 	while($FilaPqte=mysql_fetch_array($RespPqte))
 	{
 		$CodCircuitoEti=ObtieneCircuito($FilaPqte["cod_grupo"]);
-		$FechaPqte=explode('-',$FilaPqte[fecha_creacion_paquete]);
+		$FechaPqte=explode('-',$FilaPqte["fecha_creacion_paquete"]);
 		$FechaRenov=ObtieneFechaRenov($FilaPqte["cod_grupo"],$FechaPqte[1],$FechaPqte[2],$FechaPqte[0]);
 		$FechaCreaGrupoDatos=explode('-',$FechaRenov);
 		$id_paquete='VE-REF-'.str_pad($FechaCreaGrupoDatos[2],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[1],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[0],4,"0").'-'.str_pad($CodCircuitoEti,2,"0",STR_PAD_LEFT).str_pad($FilaPqte["cod_grupo"],2,"0",STR_PAD_LEFT).'-'.$FilaPqte[cod_paquete]."-".$FilaPqte["num_paquete"];
@@ -435,7 +435,7 @@ function ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdL
 	$RespFec=mysql_query($Consulta);
 	if($FilaPqte=mysql_fetch_array($RespFec))
 	{
-		$FechaR=explode('-',$FilaPqte[fecha_creacion_paquete]);
+		$FechaR=explode('-',$FilaPqte["fecha_creacion_paquete"]);
 		if(intval($Grupo)<50)
 		{
 			$FechaRenov=ObtieneFechaRenov(intval($Grupo),$FechaR[1],$FechaR[2],$FechaR[0]);

@@ -153,7 +153,7 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 	while($FilaPqte=mysql_fetch_array($RespPqte))
 	{
 		$CodCircuitoEti=ObtieneCircuito($FilaPqte["cod_grupo"]);
-		$FechaPqte=explode('-',$FilaPqte[fecha_creacion_paquete]);
+		$FechaPqte=explode('-',$FilaPqte["fecha_creacion_paquete"]);
 		$FechaRenov=ObtieneFechaRenov($FilaPqte["cod_grupo"],$FechaPqte[1],$FechaPqte[2],$FechaPqte[0]);
 		$FechaCreaGrupoDatos=explode('-',$FechaRenov);
 	
