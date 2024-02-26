@@ -1,24 +1,29 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	include("../principal/conectar_principal.php");
+
+	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 ?>
 <html>
 <head>
@@ -146,12 +151,12 @@ if($Buscar=='S')
 			$ProdReal = $Fila["peso"]/1000;
 		echo "<td align='center'>".number_format($ProdReal,3,',','.')."</td>";
 		$TotProdReal=$TotProdReal+$ProdReal;
-		ObtienePorcRechazo($FechaIniMes,$FechaIni,$FechaFin,$LetraMes,&$PorcRechazo);
+		ObtienePorcRechazo($FechaIniMes,$FechaIni,$FechaFin,$LetraMes,$PorcRechazo,$link);
 		echo "<td align='center'>".number_format($ProdReal*$PorcRechazo,3,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumProdReal),0,',','.')."</td>";
 		$AcumProdReal=$AcumProdReal+$ProdReal;
 		echo "<td align='center'>".number_format(round(($ProdReal*$PorcRechazo)-($ProdRef*$FactorRechazo)),0,',','.')."</td>";
-		ObtieneCompPreembarque($FechaIni,&$Peso);
+		ObtieneCompPreembarque($FechaIni,$Peso,$link);
 		$CompPree = $Peso;
 		echo "<td align='center'>".number_format(round($CompPree),0,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumCompPree),0,',','.')."</td>";
@@ -163,7 +168,7 @@ if($Buscar=='S')
 		$TotProgValidado=$TotProgValidado+$ProgValidado;
 		$AcumProgValidado=$AcumProgValidado+$ProgValidado;
 		echo "<td align='center'>".number_format($AcumProgValidado,3,',','.')."</td>";
-		ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,&$Peso);
+		ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link);
 		$PesajeReal = $Peso;
 		echo "<td align='center'>".number_format(round($PesajeReal),0,',','.')."</td>";
 		$TotPesajeReal=$TotPesajeReal+$PesajeReal;
@@ -188,12 +193,12 @@ if($Buscar=='S')
 		echo "<td align='center'>".number_format(($AcumPesajeReal/1000)-$AcumProgValidado,3,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($ProdRef*$FactorRechazo),0,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumCat2),0,',','.')."</td>";
-		ObtieneEta($FechaIni,&$Peso);
+		ObtieneEta($FechaIni,$Peso,$link);
 		$PesoEta=$Peso;
 		echo "<td align='center'>".number_format(round($PesoEta),0,',','.')."</td>";
 		$AcumEta=$AcumEta+$PesoEta;
 		echo "<td align='center'>".number_format(round($AcumEta),0,',','.')."</td>";
-		ObtienePesoGuiasDespacho($FechaIni,&$Peso);
+		ObtienePesoGuiasDespacho($FechaIni,$Peso,$link);
 		$PesoGuia=$Peso;
 		echo "<td align='center'>".number_format(($PesoGuia/1000),1,',','.')."</td>";
 		$DifGuia=$PesoEta-($PesoGuia/1000);
@@ -223,7 +228,7 @@ if($Buscar=='S')
 	echo "</tr>";
 }
 
-function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
+function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link)
 {
 	$Peso=0;
 	$CrearTmp ="create temporary table if not exists sec_web.tmpConsultaEmb2 "; 
@@ -278,7 +283,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 	while($Fila=mysqli_fetch_array($Respuesta))
 	{
 		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-		$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','$Fila["cod_paquete"]','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
+		$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 		mysqli_query($link, $Insertar);
 	}
 	$Consulta="SELECT * from sec_web.tmpConsultaEmb2";
@@ -290,7 +295,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 
 }
 
-function ObtieneCompPreembarque($FechaInicio,$Peso)
+function ObtieneCompPreembarque($FechaInicio,$Peso,$link)
 {
 	//CONSULTA TABLA PROGRAMA ENAMI
 	$Peso=0;
@@ -311,7 +316,7 @@ function ObtieneCompPreembarque($FechaInicio,$Peso)
 		$Peso=$Peso+$Fila["peso_neto"];		
 	}
 }
-function ObtieneEta($FechaInicio,$Peso)
+function ObtieneEta($FechaInicio,$Peso,$link)
 {
 	//CONSULTA TABLA PROGRAMA ENAMI
 	$Peso=0;
@@ -325,7 +330,7 @@ function ObtieneEta($FechaInicio,$Peso)
 		$Peso=$Peso+$Fila["peso_neto"];		
 	}
 }
-function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$PorcRechazo)
+function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$PorcRechazo,$link)
 {
 	$Consulta = "SELECT * from sec_web.informe_diario ";
 	$Consulta.= " where fecha = '".$FechaInicio."'";
@@ -370,7 +375,7 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 
 
 }
-function ObtienePesoGuiasDespacho($FechaInicio,$Peso)
+function ObtienePesoGuiasDespacho($FechaInicio,$Peso,$link)
 {
 	//CONSULTA TABLA PROGRAMA ENAMI
 	$Peso=0;

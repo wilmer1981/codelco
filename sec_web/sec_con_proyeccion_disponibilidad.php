@@ -1,6 +1,9 @@
 <?php
 	include("../principal/conectar_principal.php");
 	set_time_limit(3000);
+	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 ?>
 <html>
 <head>
@@ -39,12 +42,10 @@ function Proceso(opt)
 
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style></head>
 
 <body>
@@ -138,6 +139,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     </tr>
 
 <?php
+
 if($Buscar=='S')
 {
 	$FechaIniMes=$ano."-".str_pad($mes,2,"0",STR_PAD_LEFT)."-01";
@@ -162,7 +164,9 @@ if($Buscar=='S')
 	$Consulta="SELECT factor_rechazo,factor_rechazo_prog,dia from sec_web.parametros_mensual_proyeccion where ano='".$ano."' and mes='".$mes."'";
 
 	$Respuesta = mysqli_query($link, $Consulta);
-
+	$FactorRechazo=0;
+	$PorcRechazoProg=0; // $PorcRechazo ??
+	$DiaCierre=0;
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$FactorRechazo = $Fila["factor_rechazo"];
@@ -180,6 +184,9 @@ if($Buscar=='S')
 	$LetraMes=$row["nombre_subclase"];
 	
 	$CantDiasNeg=0;
+	$AcumPesajeReal=0;
+	$AcumDifGuia=0;
+	$AcumEta=0;
 	for($i=1;$i<=$Dias;$i++)
 	{
 		echo "<tr>";
@@ -208,28 +215,30 @@ if($Buscar=='S')
 			$ProdReal = $Fila["peso"]/1000;
 		echo "<td align='center'>".number_format($ProdReal,3,',','.')."</td>";
 		$TotProdReal=$TotProdReal+$ProdReal;
-		ObtienePorcRechazo($FechaIniMes,$FechaIni,$FechaFin,$LetraMes,&$PorcRechazo);
-		echo "<td align='center'>".number_format($ProdReal*$PorcRechazo,3,',','.')."</td>";
+		ObtienePorcRechazo($FechaIniMes,$FechaIni,$FechaFin,$LetraMes,$PorcRechazoProg,$link);
+		echo "<td align='center'>".number_format($ProdReal*$PorcRechazoProg,3,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumProdReal),0,',','.')."</td>";
 		$AcumProdReal=$AcumProdReal+$ProdReal;
-		echo "<td align='center'>".number_format(round(($ProdReal*$PorcRechazo)-($ProdRef*$FactorRechazo)),0,',','.')."</td>";
-		ObtieneCompPreembarque($FechaIni,&$Peso);
+		echo "<td align='center'>".number_format(round(($ProdReal*$PorcRechazoProg)-($ProdRef*$FactorRechazo)),0,',','.')."</td>";
+		ObtieneCompPreembarque($FechaIni,$Peso,$link);
 		$CompPree = $Peso;
 		echo "<td align='center'>".number_format(round($CompPree),0,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumCompPree),0,',','.')."</td>";
 		$AcumCompPree=$AcumCompPree+$CompPree;
 		echo "<td align='center'>".number_format(round($ProgPesaje),0,',','.')."</td>";
 		$TotProgPesaje=$TotProgPesaje+$ProgPesaje;
+
 		if($PorcRechazoProg!=0)
 			$ProgValidado=$ProgPesaje*$PorcRechazoProg;
 		else
 			$ProgValidado=$ProgPesaje;
+
 		echo "<td align='center'>".number_format($ProgValidado,0,',','.')."</td>";
 		$TotProgValidado=$TotProgValidado+$ProgValidado;
 		$AcumProgValidado=$AcumProgValidado+$ProgValidado;
 		echo "<td align='center'>".number_format($AcumProgValidado,0,',','.')."</td>";
 
-		ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,&$Peso);
+		ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link);
 		$PesajeReal = $Peso;
 		echo "<td align='center'>".number_format(round($PesajeReal),0,',','.')."</td>";
 		$TotPesajeReal=$TotPesajeReal+$PesajeReal;
@@ -257,12 +266,12 @@ if($Buscar=='S')
 		}	
 		echo "<td align='center'>".number_format(round($ProdRef*$FactorRechazo),0,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumCat2),0,',','.')."</td>";
-		ObtieneEta($FechaIni,&$Peso);
+		ObtieneEta($FechaIni,$Peso,$link);
 		$PesoEta=$Peso;
 		echo "<td align='center'>".number_format(round($PesoEta),0,',','.')."</td>";
 		$AcumEta=$AcumEta+$PesoEta;
 		echo "<td align='center'>".number_format(round($AcumEta),0,',','.')."</td>";
-		ObtienePesoGuiasDespacho($FechaIni,&$Peso);
+		ObtienePesoGuiasDespacho($FechaIni,$Peso,$link);
 		$PesoGuia=$Peso;
 		echo "<td align='center'>".number_format(($PesoGuia/1000),1,',','.')."</td>";
 		$DifGuia=$PesoEta-($PesoGuia/1000);
@@ -292,7 +301,7 @@ if($Buscar=='S')
 	echo "</tr>";
 }
 
-function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
+function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link)
 {
 
 	$Peso=0;
@@ -338,7 +347,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 	while($Fila=mysqli_fetch_array($Respuesta))
 	{
 		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
-		$Insertar.="'".$Fila["subproducto"]."','$Fila["corr_enm"]','','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','$Fila["paquetes"]','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
+		$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 		mysqli_query($link, $Insertar);
 	}
 	$Consulta="SELECT * from sec_web.tmpConsultaEmb2";
@@ -350,7 +359,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 
 }
 
-function ObtieneCompPreembarque($FechaInicio,$Peso)
+function ObtieneCompPreembarque($FechaInicio,$Peso,$link)
 {
 
 	//CONSULTA TABLA PROGRAMA ENAMI
@@ -364,7 +373,7 @@ function ObtieneCompPreembarque($FechaInicio,$Peso)
 		$Peso=$Peso+$Fila["peso_neto"];		
 	}
 }
-function ObtieneEta($FechaInicio,$Peso)
+function ObtieneEta($FechaInicio,$Peso,$link)
 {
 
 	//CONSULTA TABLA PROGRAMA ENAMI
@@ -378,13 +387,15 @@ function ObtieneEta($FechaInicio,$Peso)
 		$Peso=$Peso+$Fila["peso_neto"];		
 	}
 }
-
-function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$PorcRechazo)
+ //$PorcRechazoProg era.... $PorcRechazo
+function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$PorcRechazoProg,$link)
 {
 
 	$Consulta = "SELECT * from sec_web.informe_diario ";
 	$Consulta.= " where fecha = '".$FechaInicio."'";
 	$Resp = mysqli_query($link, $Consulta);
+	$PaqStandard=0;
+	$PaqStandardGranel=0;
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 		$PaqStandard = $Fila["peso_paquete_standard"];
@@ -396,6 +407,7 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 	$Consulta.= " and cod_producto = '18'";
 	$Consulta.= " and cod_subproducto = '1'";
 	$Respuesta = mysqli_query($link, $Consulta);
+	$ComercialAcumulado=0;
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$ComercialAcumulado = $Fila["peso"];
@@ -418,10 +430,10 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 	$StandardAcumulado = $PesadoEmbarque + $PqtesSinPesarGranel;
 	//PORCENTAJE DE STANDARD
 	if($ComercialAcumulado<>0)
-		$PorcRechazo =round((100-(100 * ($StandardAcumulado/$ComercialAcumulado)))/100,4);
+		$PorcRechazoProg =round((100-(100 * ($StandardAcumulado/$ComercialAcumulado)))/100,4);
 
 }
-function ObtienePesoGuiasDespacho($FechaInicio,$Peso)
+function ObtienePesoGuiasDespacho($FechaInicio,$Peso,$link)
 {
 
 	//CONSULTA TABLA  GUIAS DE DESPACHO
