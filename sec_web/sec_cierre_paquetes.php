@@ -15,7 +15,7 @@
 		{
 			$Lote=$Fila["cod_bulto"]." ".$Fila["num_bulto"];
 			$IE=$Fila["corr_enm"];
-			$TxtFechaFin=$Fila[fecha_guia];
+			$TxtFechaFin=$Fila["fecha_guia"];
 			$Encontro=true;
 		}
 	}

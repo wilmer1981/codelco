@@ -119,7 +119,7 @@
 						$Fila2=mysqli_fetch_array($Respuesta2);
 						echo "<td width='40' align='center'>".$Fila[ie]."</td>";
 						echo "<td width='120'>".$Fila[cliente]."</td>";
-						echo "<td width='100'>".$Fila[puerto]."&nbsp;</td>";
+						echo "<td width='100'>".$Fila["puerto"]."&nbsp;</td>";
 						echo "<td width='100'>".$Fila[marca]."&nbsp;</td>";
 						echo "<td width='60' align='center'>".number_format($Fila["bulto_paquetes"],0,',','.')."&nbsp;</td>";
 						echo "<td width='60' align='right'>".number_format($Fila2["unidades"],0,',','.')."&nbsp;</td>";

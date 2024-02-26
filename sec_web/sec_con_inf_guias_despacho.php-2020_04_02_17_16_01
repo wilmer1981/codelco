@@ -337,7 +337,7 @@ function Proceso(opt)
 			//--------------------CONSULTO TRANSPORTISTA----------------------------------------------
 			$Consulta = "SELECT t2.nombre_transportista as nombre from sec_web.transporte_persona t1 ";
 			$Consulta.= " left join sec_web.transporte t2 on t1.rut_transportista=t2.rut_transportista and t1.patente_camion=t2.patente_transporte";
-			$Consulta.= " where t1.patente_camion='".$Fila2[patente_guia]."' and t1.rut_chofer='".$Fila2["rut_chofer"]."'";
+			$Consulta.= " where t1.patente_camion='".$Fila2["patente_guia"]."' and t1.rut_chofer='".$Fila2["rut_chofer"]."'";
 			$Respuesta3 = mysql_query($Consulta);
 			if ($Fila3 = mysql_fetch_array($Respuesta3))
 			{

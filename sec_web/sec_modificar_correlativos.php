@@ -94,7 +94,7 @@ if($Buscar=='S')
 	while($FilaSec=mysqli_fetch_array($RespSec))
 	{
 		echo "<tr>";
-		echo "<td align='center'><input type='radio' name='Opt' onclick=ModificarCorr('".trim($FilaSec[patente_guia])."','".$FilaSec["num_guia"]."','".$FilaSec[num_secuencia]."')></td>";
+		echo "<td align='center'><input type='radio' name='Opt' onclick=ModificarCorr('".trim($FilaSec["patente_guia"])."','".$FilaSec["num_guia"]."','".$FilaSec[num_secuencia]."')></td>";
 		echo "<td align='center'>".$FilaSec[patente_guia]."</td>";
 		echo "<td align='center'>".$FilaSec["num_guia"]."</td>";
 		echo "<td align='center'>".$FilaSec[num_secuencia]."</td>";

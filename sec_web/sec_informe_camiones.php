@@ -1,5 +1,9 @@
 <?php 	
 	include("../principal/conectar_principal.php");
+
+	$FechaInicio  = isset($_REQUEST["FechaInicio"])?$_REQUEST["FechaInicio"]:"";
+	$FechaTermino = isset($_REQUEST["FechaTermino"])?$_REQUEST["FechaTermino"]:"";
+
 ?>
 <html>
 <head>
@@ -58,7 +62,7 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
           
         </tr>
         <?php  
-	$cont = 0;
+	    $cont = 0;
 		$cont1 = 0;
 		$Eliminar="drop table sec_web.tmpcamiones";
 		//$Eliminar="delete from sec_web.tmpcamiones";
@@ -73,12 +77,13 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 		$Consulta = "SELECT distinct  puerto from sec_web.tmp_despacho_diario";
 		$Consulta.= " where enm < 9999 and puerto != '' order by puerto desc";
 		$Resp100= mysqli_query($link, $Consulta);
+		$TotalCamiones = 0;//WSO
 		while ($Row1 = mysqli_fetch_array($Resp100))
 		{
-			$TotalCamiones = 0;
+			//$TotalCamiones = 0;
 			$Consulta = "SELECT  t2.fecha_guia,t2.patente_guia,t2.hora_guia,t1.cod_nave,t1.cod_puerto,t1.corr_enm";
   			$Consulta.= " from sec_web.embarque_ventana  t1, sec_web.guia_despacho_emb t2 ";
-			$Consulta.= " where t1.cod_puerto = '".$Row1[puerto]."'  and t2.fecha_guia between  '".$FechaInicio."' and '".$FechaTermino."' ";
+			$Consulta.= " where t1.cod_puerto = '".$Row1["puerto"]."'  and t2.fecha_guia between  '".$FechaInicio."' and '".$FechaTermino."' ";
 			$Consulta.= " and t1.corr_enm = t2.corr_enm  and t2.cod_estado <> 'A'   and t2.corr_enm <9999 ";
 			$Consulta.=" order by t2.fecha_guia,t2.patente_guia,t1.cod_nave";
 		//	echo "CC".$Consulta."<br>";		
@@ -89,16 +94,16 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 				$horas1 = 0;
 				$horas2 = 0;
 				$Consulta = "SELECT *  from sec_web.tmpcamiones";
-				$Consulta.= " where fecha_camion = '".$Row11[fecha_guia]."' and patente_camion ='".$Row11[patente_guia]."'";
+				$Consulta.= " where fecha_camion = '".$Row11["fecha_guia"]."' and patente_camion ='".$Row11["patente_guia"]."'";
 				//echo "QQ".$Consulta."<br";
-			//echo "WWW".$Row11[fecha_guia]."--".$Row11[patente_guia]."---".$Row11["cod_nave"]."<br>";			
+			//echo "WWW".$Row11["fecha_guia"]."--".$Row11["patente_guia"]."---".$Row11["cod_nave"]."<br>";			
 				$Resp300 = mysqli_query($link, $Consulta);
 				if ($Fila2=mysqli_fetch_array($Resp300))
 				{
 					if ($Row11["cod_puerto"] == 'LX1')
 					{
-						$hora1 = substr($Fila2[hora_camion],0,2);
-						$hora2 = substr($Row11[hora_guia],0,2);
+						$hora1 = substr($Fila2["hora_camion"],0,2);
+						$hora2 = substr($Row11["hora_guia"],0,2);
 					
 						if (abs($hora1 - $hora2) > 3)
 							$a = 0;
@@ -107,8 +112,8 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 					}
 					else
 					{
-						$hora1 = substr($Fila2[hora_camion],0,2);
-						$hora2 = substr($Row11[hora_guia],0,2);
+						$hora1 = substr($Fila2["hora_camion"],0,2);
+						$hora2 = substr($Row11["hora_guia"],0,2);
 					
 						if (abs($hora1 - $hora2) > 5)
 							$a = 0;
@@ -122,7 +127,7 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 				{
 				
 				$Consulta = "SELECT nave,asignacion from sec_web.tmp_despacho_diario";
-				$Consulta.= " where  puerto = '".$Row1[puerto]."' and nave = '".$Row11["cod_nave"]."' and enm < 9999 ";
+				$Consulta.= " where  puerto = '".$Row1["puerto"]."' and nave = '".$Row11["cod_nave"]."' and enm < 9999 ";
 				$Consulta.= " and enm = '".$Row11["corr_enm"]."'  group by nave, asignacion";
 			//	echo "AA".$Consulta."<br>";  
 				$Resp1000= mysqli_query($link, $Consulta);
@@ -133,7 +138,7 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 					//if ($Row11["cod_nave"] == '1244')
 					//echo "SSS".$Row20["asignacion"]."<br>";
 					$Insertar= "insert into sec_web.tmpcamiones(fecha_camion,patente_camion,nave_camion,asignacion,puerto_camion,hora_camion,enm_camion) values(";
-					$Insertar.= " '".$Row11[fecha_guia]."','".$Row11[patente_guia]."','".$Row11["cod_nave"]."','".$Asignacion."','".$Row11["cod_puerto"]."','".$Row11[hora_guia]."','".$Row11["corr_enm"]."')";
+					$Insertar.= " '".$Row11["fecha_guia"]."','".$Row11["patente_guia"]."','".$Row11["cod_nave"]."','".$Asignacion."','".$Row11["cod_puerto"]."','".$Row11["hora_guia"]."','".$Row11["corr_enm"]."')";
 					mysqli_query($link, $Insertar);
 					//echo "QQ".$Insertar."<br>";
 					$cont = $cont + 1;
@@ -148,7 +153,7 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 			$TotalPuerto =0;
 			
 			$Consulta = "SELECT nom_aero_puerto from sec_web.puertos"; 
-			$Consulta.= " where cod_puerto = '".$Fila4[puerto_camion]."'";
+			$Consulta.= " where cod_puerto = '".$Fila4["puerto_camion"]."'";
 			$Respuesta1 = mysqli_query($link, $Consulta);
 			//echo "EEEE".$Consulta;
 			while($Fila3=mysqli_fetch_array($Respuesta1))
@@ -164,14 +169,14 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 				
 				$Consulta = "SELECT distinct  nave_camion";
 				$Consulta.= " from sec_web.tmpcamiones";
-				$Consulta.= " where puerto_camion =  '".$Fila4[puerto_camion]."'";
+				$Consulta.= " where puerto_camion =  '".$Fila4["puerto_camion"]."'";
 				$Consulta.= " order by nave_camion";
 				//echo "Neeeeeeeeee".$Consulta;
 				$RespuestaN = mysqli_query($link, $Consulta);
 				while($FilaN=mysqli_fetch_array($RespuestaN))
 				{
 					$Consulta = "SELECT nombre_nave, cod_nave from sec_web.nave";
-					$Consulta.= " where cod_nave = '".$FilaN[nave_camion]."'";
+					$Consulta.= " where cod_nave = '".$FilaN["nave_camion"]."'";
 				//	echo "NAVE".$Consulta;
 				
 					$RespNave = mysqli_query($link, $Consulta);
@@ -187,7 +192,7 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 					$TotalCamionesNave=0;
 					$Consulta = "SELECT distinct nave_camion,asignacion, count(patente_camion) as camiones";
 					$Consulta.= " from sec_web.tmpcamiones ";
-					$Consulta.= " where puerto_camion = '".$Fila4[puerto_camion]."' and nave_camion = '".$FilaNave["cod_nave"]."'";
+					$Consulta.= " where puerto_camion = '".$Fila4["puerto_camion"]."' and nave_camion = '".$FilaNave["cod_nave"]."'";
 					$Consulta.= " group by nave_camion, asignacion";
 			//		echo "OO".$Consulta;
 					$Respasig= mysqli_query($link, $Consulta);

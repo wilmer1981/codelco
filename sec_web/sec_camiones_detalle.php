@@ -3,8 +3,16 @@
 	$CodigoDePantalla =11;
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut= $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
+
+	$puerto  = isset($_REQUEST["puerto"])?$_REQUEST["puerto"]:"";
+	$nave    = isset($_REQUEST["nave"])?$_REQUEST["nave"]:"";
+	$enm     = isset($_REQUEST["enm"])?$_REQUEST["enm"]:"";
+	$Camiones    = isset($_REQUEST["Camiones"])?$_REQUEST["Camiones"]:"";
+	$FechaInicio  = isset($_REQUEST["FechaInicio"])?$_REQUEST["FechaInicio"]:"";
+	$FechaTermino = isset($_REQUEST["FechaTermino"])?$_REQUEST["FechaTermino"]:"";
 ?>
 <html>
 <head>
@@ -76,18 +84,18 @@ function Salir()
 			$ContGuia = $ContGuia + 1;
 			$Camiones1 = $Camiones1 + 1;
 			//$ContCamiones = $ContCamiones +1;
-			if ($Fila[patente_guia] == $Patente_ant )
+			if ($Fila["patente_guia"] == $Patente_ant )
 			{
 				echo "<tr bgcolor=\"#F9900\">";
 				$Camiones1 = $Camiones1 - 1;
 			}
-			echo "<td width='74'>".$Fila[fecha_guia]."</td>";
+			echo "<td width='74'>".$Fila["fecha_guia"]."</td>";
 
 			echo "<td width='70'>".$Fila["corr_enm"]."</td>";
-			$Patente_ant = $Fila[patente_guia];
+			$Patente_ant = $Fila["patente_guia"];
 			
-			echo "<td width='180'>".$Fila[nombre_persona]."</td>";
-			echo "<td width='70'>".$Fila[patente_guia]."</td>";
+			echo "<td width='180'>".$Fila["nombre_persona"]."</td>";
+			echo "<td width='70'>".$Fila["patente_guia"]."</td>";
 			echo "<td width='84'>".$Fila["num_guia"]."</td>";
 			echo "</tr>";
 		}

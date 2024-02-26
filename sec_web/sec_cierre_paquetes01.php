@@ -29,7 +29,7 @@
 				$Actualizar.=" and fecha_creacion_paquete ='".$Fila4[fecha_creacion_paquete]."' ";	
 				//echo $Actualizar."<br>";
 				mysqli_query($link, $Actualizar);
-				$Actualizar=" UPDATE sec_web.paquete_catodo set cod_estado ='c',fecha_embarque='".$Fila[fecha_guia]."',num_guia='".$Fila["num_guia"]."'  ";
+				$Actualizar=" UPDATE sec_web.paquete_catodo set cod_estado ='c',fecha_embarque='".$Fila["fecha_guia"]."',num_guia='".$Fila["num_guia"]."'  ";
 				//$Actualizar.="  and corr_enm='".$Fila["corr_enm"]."' 	";
 				$Actualizar.="   where cod_paquete='".$Fila["cod_paquete"]."' and num_paquete='".$Fila["num_paquete"]."'";
 				$Actualizar.=" and fecha_creacion_paquete ='".$Fila4[fecha_creacion_paquete]."' ";	

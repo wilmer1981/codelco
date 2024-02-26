@@ -1,8 +1,20 @@
 <?php
 	include("../principal/conectar_principal.php"); 
 	// $link = mysql_connect('10.56.11.7','adm_bd','672312');
- mysql_SELECT_db("sec_web",$link);
- if (!isset($DiaIni))
+ 	//mysql_SELECT_db("sec_web",$link);
+
+	 $AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	 $MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	 $DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+ 
+	 $AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	 $MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	 $DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+
+	 $vcontrol = isset($_REQUEST["vcontrol"])?$_REQUEST["vcontrol"]:"";
+	 
+	/*
+ 	if (!isset($DiaIni))
 	{
 		$DiaIni = date("d");
 		$MesIni = date("m");
@@ -11,6 +23,7 @@
 		$MesFin = date("m");
 		$AnoFin = date("Y");
 	}  
+	*/
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -19,52 +32,49 @@
 		$DiaFin = "0".$DiaFin;
 	if ($MesFin < 10)
 		$MesFin = "0".$MesFin;
+
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 	
 ?>	
 
-
 <html>
 <head>
 <title>Sistema Estadistico de Catodos</title>
 <script language="JavaScript">
-function Proceso(opt)
-{
-	var f=document.frmPrincipal;
-	switch (opt)
+	function Proceso(opt)
 	{
-		case "C":
-			//f.action ="sec_con_inf_despacho_diario_poly.php";
-			f.action ="sec_con_inf_despacho_diario.php?vcontrol=S";
-			f.submit();
-			break;
-		case "E":
-			f.action ="sec_con_inf_despacho_diario_excel.php";
-			f.submit();
-			break;
-		case "CA":
-			var frm = document.frmPrincipal;
-			var FechaInicio = frm.FechaInicio.value;
-			var FechaTermino = frm.FechaTermino.value;
+		var f=document.frmPrincipal;
+		switch (opt)
+		{
+			case "C":
+				//f.action ="sec_con_inf_despacho_diario_poly.php";
+				f.action ="sec_con_inf_despacho_diario.php?vcontrol=S";
+				f.submit();
+				break;
+			case "E":
+				f.action ="sec_con_inf_despacho_diario_excel.php";
+				f.submit();
+				break;
+			case "CA":
+				var frm = document.frmPrincipal;
+				var FechaInicio = frm.FechaInicio.value;
+				var FechaTermino = frm.FechaTermino.value;
+				window.open("sec_informe_camiones.php?FechaInicio="+FechaInicio+"&FechaTermino="+FechaTermino,"","statusbar=yes, menubar=no, resizable=yes, top=50, left=50, width=650, height=500, scrollbars=yes");
+				//	window.open("sec_informe_camiones.php?Accion=N&Prog=<?php //echo $Programa; ?>",                           "","statusbar=yes, menubar=no, resizable=yes, top=50, left=50, width=650, height=500, scrollbars=yes");
+				break;
 
-		window.open("sec_informe_camiones.php?FechaInicio="+FechaInicio+"&FechaTermino="+FechaTermino,"","statusbar=yes, menubar=no, resizable=yes, top=50, left=50, width=650, height=500, scrollbars=yes")
-	
-		//	window.open("sec_informe_camiones.php?Accion=N&Prog=<?php echo $Programa; ?>",                           "","statusbar=yes, menubar=no, resizable=yes, top=50, left=50, width=650, height=500, scrollbars=yes");
-			break;
-	
-			
-		case "S":
-			f.action ="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
-			f.submit();
-			break;
-		case "I":
-			window.print();
-			break;
-	}
-}   
-
-</script><link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
+			case "S":
+				f.action ="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+				f.submit();
+				break;
+			case "I":
+				window.print();
+				break;
+		}
+	}   
+</script>
+<link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 </head>
 
 <body class="TablaPrincipal">
@@ -247,7 +257,7 @@ function Proceso(opt)
 	$TotalGuias = 0;
 	$TotalCamiones = 0;
 	$ArregloFecha=0;
-		$Borrar="Delete from sec_web.tmp_despacho_diario";
+		$Borrar="DELETE from sec_web.tmp_despacho_diario";
 		mysqli_query($link, $Borrar);
 		$FechaAux = $FechaInicio;
 	while ($FechaInicio<= $FechaTermino)  
@@ -372,7 +382,7 @@ function Proceso(opt)
 				echo "<td align='center'>".$Fila["cod_bulto"]."-".$Fila["num_bulto"]."</td>\n";
 				$Consulta = "SELECT t2.nombre_transportista as nombre from sec_web.transporte_persona t1 ";
 				$Consulta.= " left join sec_web.transporte t2 on t1.rut_transportista=t2.rut_transportista and t1.patente_camion=t2.patente_transporte";
-				$Consulta.= " where t1.patente_camion='".$Fila[patente_guia]."' and t1.rut_chofer='".$Fila["rut_chofer"]."'";
+				$Consulta.= " where t1.patente_camion='".$Fila["patente_guia"]."' and t1.rut_chofer='".$Fila["rut_chofer"]."'";
 				$Respuesta3 = mysqli_query($link, $Consulta);
 				if ($Fila4 = mysqli_fetch_array($Respuesta3))
 				{
@@ -550,10 +560,10 @@ function Proceso(opt)
 		while ($Row = mysqli_fetch_array($Resp1))
 		{
 
-			if ($Row[puerto] != "")
+			if ($Row["puerto"] != "")
 			{
 				$Consulta = "SELECT nom_aero_puerto from sec_web.puertos";
-				$Consulta.= " where cod_puerto = '".$Row[puerto]."'";
+				$Consulta.= " where cod_puerto = '".$Row["puerto"]."'";
 				
 				$Resp2 = mysqli_query($link, $Consulta);
 				while ($Fila1 = mysqli_fetch_array($Resp2))
@@ -574,12 +584,12 @@ function Proceso(opt)
 					//echo "<td>&nbsp;</td>\n";
 					echo  "</tr>\n";
 					$Consulta = " SELECT distinct nave from sec_web.tmp_despacho_diario";
-					$Consulta.= " where puerto = '".$Row[puerto]."' and enm <15000";
+					$Consulta.= " where puerto = '".$Row["puerto"]."' and enm <15000";
 					$Resp3= mysqli_query($link, $Consulta);
 					while ($Fila4 = mysqli_fetch_array($Resp3))
 					{
 						$Consulta = "SELECT nombre_nave from sec_web.nave";
-						$Consulta.= " where cod_nave = '".$Fila4[nave]."'";
+						$Consulta.= " where cod_nave = '".$Fila4["nave"]."'";
 						$Resp4 = mysqli_query($link, $Consulta);
 						$Fila2=mysqli_fetch_array($Resp4);
 						$TotalPaquetes=0;
@@ -597,7 +607,7 @@ function Proceso(opt)
 					//	echo "<td>&nbsp;</td>\n";
 						echo  "</tr>\n";
 						$Consulta = " SELECT distinct asignacion  from sec_web.tmp_despacho_diario";
-						$Consulta.= " where puerto = '".$Row[puerto]."' and nave = '".$Fila4[nave]."' and enm <15000";
+						$Consulta.= " where puerto = '".$Row["puerto"]."' and nave = '".$Fila4["nave"]."' and enm <15000";
 						$Respasig= mysqli_query($link, $Consulta);
 						while ($Filaasig = mysqli_fetch_array($Respasig))
 						{
@@ -616,8 +626,8 @@ function Proceso(opt)
 							//echo "<td>&nbsp;</td>\n";
 							$Consulta = "SELECT producto,subproducto,sum(paquetes) as paquetes,sum(peso_neto) as neto,sum(peso_bruto) as bruto,";
 							$Consulta.=" sum(camiones) as camiones from sec_web.tmp_despacho_diario";
-							$Consulta.= " where puerto = '".$Row[puerto]."'";
-							$Consulta.= " and nave = '".$Fila4[nave]."' and asignacion = '".$Filaasig[asignacion]."' and enm <15000"; 
+							$Consulta.= " where puerto = '".$Row["puerto"]."'";
+							$Consulta.= " and nave = '".$Fila4["nave"]."' and asignacion = '".$Filaasig["asignacion"]."' and enm <15000"; 
 							$Consulta.= " group by puerto,nave,asignacion,producto,subproducto"; 
 							//echo "WW".$Consulta;
 							$Resp5= mysqli_query($link, $Consulta);
@@ -629,32 +639,32 @@ function Proceso(opt)
 									echo "<td>&nbsp;</td>\n";
 									echo "<td>".$Fila3["producto"]."/".$Fila3["subproducto"]. "</td>\n";
 									echo "<td align='right'>".number_format($Fila3["paquetes"],0,",",".")."</td>\n";
-									echo "<td align='right'>".number_format($Fila3[neto],0,",",".")."</td>\n";
-									echo "<td align='right'>".number_format($Fila3[bruto],0,",",".")."</td>\n";
+									echo "<td align='right'>".number_format($Fila3["neto"],0,",",".")."</td>\n";
+									echo "<td align='right'>".number_format($Fila3["bruto"],0,",",".")."</td>\n";
 									//echo "<td>&nbsp;</td>\n";
 									echo  "</tr>\n";
 									//Total asignacion
-									$TotalAsigN		= $TotalAsigN	 + $Fila3[neto];
-									$TotalAsigB		= $TotalAsigB	 + $Fila3[bruto];
+									$TotalAsigN		= $TotalAsigN	 + $Fila3["neto"];
+									$TotalAsigB		= $TotalAsigB	 + $Fila3["bruto"];
 									$TotalAsigP		= $TotalAsigP	 + $Fila3["paquetes"];	
 									
 									//Total Nave		
-									$TotalNaveN   = $TotalNaveN  	+  $Fila3[neto];
-									$TotalNaveB   = $TotalNaveB  	+  $Fila3[bruto];
+									$TotalNaveN   = $TotalNaveN  	+  $Fila3["neto"];
+									$TotalNaveB   = $TotalNaveB  	+  $Fila3["bruto"];
 									$TotalPaquetes  = $TotalPaquetes +  $Fila3["paquetes"];
 									
-									$TotalCamionesNave = $TotalCamionesNave + $Fila3[camiones];
+									$TotalCamionesNave = $TotalCamionesNave + $Fila3["camiones"];
 									
 									//Total Puerto
 									$TotalPuertoPaq = $TotalPuertoPaq +  $Fila3["paquetes"];
-									$TotalPuertoN = $TotalPuertoN 	  +  $Fila3[neto];
-									$TotalPuertoB = $TotalPuertoB     +  $Fila3[bruto];
-									$TotalPuertoC = $TotalPuertoC     +  $Fila3[camiones];
+									$TotalPuertoN = $TotalPuertoN 	  +  $Fila3["neto"];
+									$TotalPuertoB = $TotalPuertoB     +  $Fila3["bruto"];
+									$TotalPuertoC = $TotalPuertoC     +  $Fila3["camiones"];
 									//Total Total
 									$TotalP = $TotalP + $Fila3["paquetes"];
-									$TotalN = $TotalN + $Fila3[neto];
-									$TotalB = $TotalB + $Fila3[bruto];
-									$TotalC = $TotalC + $Fila3[camiones];
+									$TotalN = $TotalN + $Fila3["neto"];
+									$TotalB = $TotalB + $Fila3["bruto"];
+									$TotalC = $TotalC + $Fila3["camiones"];
 									
 							}
 							
@@ -702,16 +712,16 @@ function Proceso(opt)
 		{
 			echo "<tr class='ColorTabla01'>";
 			echo "<td align'left' colspan='4'<strong>OTROS DESPACHOS</srtong></td>\n";
-			echo "<td align='right'>".number_format($Fila6[otro_paquetes],0,",",".")."</td>\n";
-			echo "<td align='right'>".number_format($Fila6[otro_neto],0,",",".")."</td>\n";
-			echo "<td align='right'>".number_format($Fila6[otro_bruto],0,",",".")."</td>\n";
-		//	echo "<td align='right'>".number_format($Fila6[otro_camiones],0,",",".")."</td>\n";
+			echo "<td align='right'>".number_format($Fila6["otro_paquetes"],0,",",".")."</td>\n";
+			echo "<td align='right'>".number_format($Fila6["otro_neto"],0,",",".")."</td>\n";
+			echo "<td align='right'>".number_format($Fila6["otro_bruto"],0,",",".")."</td>\n";
+		//	echo "<td align='right'>".number_format($Fila6["otro_camiones"],0,",",".")."</td>\n";
 			echo  "</tr>\n";
 		}
-		$TotalP = $TotalP + $Fila6[otro_paquetes];
-		$TotalN = $TotalN + $Fila6[otro_neto];
-		$TotalB = $TotalB + $Fila6[otro_bruto];
-		$TotalC = $TotalC + $Fila6[otro_camiones];
+		$TotalP = $TotalP + $Fila6["otro_paquetes"];
+		$TotalN = $TotalN + $Fila6["otro_neto"];
+		$TotalB = $TotalB + $Fila6["otro_bruto"];
+		$TotalC = $TotalC + $Fila6["otro_camiones"];
 		echo "<tr class='ColorTabla01'>";
 		echo "<td align'left' colspan='4'<strong>TOTAL DESPACHO</srtong></td>\n";
 		echo "<td align='right'>".number_format($TotalP,0,",",".")."</td>\n";

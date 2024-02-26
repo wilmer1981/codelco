@@ -244,7 +244,7 @@ function Certificado(Numero,IE)
 					while($Fila1=mysql_fetch_array($Respuesta1))
 					{
 						$Guias=$Guias.$Fila1["num_guia"]."-";
-						$FechaDespacho=$Fila1[fecha_guia];	
+						$FechaDespacho=$Fila1["fecha_guia"];	
 					}
 					echo "<td width='46' onMouseOver='JavaScript:muestra(".$Cont2.");' onMouseOut='JavaScript:oculta(".$Cont2.");'>";
 					echo "<div id='Txt".$Cont2."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:350px'>\n";
