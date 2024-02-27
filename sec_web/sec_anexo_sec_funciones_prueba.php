@@ -67,9 +67,9 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 								$PorcHum = $Fila2["valor"];							
 							else											
 								$PorcHum = 0;							
-							$PesoHum = (($Fila[peso_produccion]-$Fila["peso_tara"])*$PorcHum)/100;
-							$PesoSeco = ($Fila[peso_produccion]-$Fila["peso_tara"]) - $PesoHum;
-							$TotalPHum = $TotalPHum + ($Fila[peso_produccion]-$Fila["peso_tara"]);
+							$PesoHum = (($Fila["peso_produccion"]-$Fila["peso_tara"])*$PorcHum)/100;
+							$PesoSeco = ($Fila["peso_produccion"]-$Fila["peso_tara"]) - $PesoHum;
+							$TotalPHum = $TotalPHum + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 							$TotalPSeco = $TotalPSeco + $PesoSeco;
 							if ($Producto==64 && ($SubProducto==1 || $SubProducto==7))
 							{

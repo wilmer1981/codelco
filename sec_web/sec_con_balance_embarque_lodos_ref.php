@@ -502,11 +502,11 @@ function BuscaLeyesProduccion($CodBulto, $NumBulto, $Arreglo, $link)
 				if($Fila2 = mysqli_fetch_array($Rs2))
 				{
 					$PorcHum = $Fila2["valor"];						
-					$PesoHum = (($Fila[peso_produccion]-$Fila["peso_tara"])*$PorcHum)/100;					
-					$PesoSeco = ($Fila[peso_produccion]-$Fila["peso_tara"]) - $PesoHum;					
-					$TotalPHum = $TotalPHum + ($Fila[peso_produccion]-$Fila["peso_tara"]);
+					$PesoHum = (($Fila["peso_produccion"]-$Fila["peso_tara"])*$PorcHum)/100;					
+					$PesoSeco = ($Fila["peso_produccion"]-$Fila["peso_tara"]) - $PesoHum;					
+					$TotalPHum = $TotalPHum + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 					$TotalPSeco = $TotalPSeco + $PesoSeco;
-					$SumPesoHumedo = $SumPesoHumedo + ($Fila[peso_produccion]-$Fila["peso_tara"]);
+					$SumPesoHumedo = $SumPesoHumedo + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 					$SumPesoSeco = $SumPesoSeco + $PesoSeco;
 					$ArrLeyes[$Fila2["cod_leyes"]][0] = $Fila2["cod_leyes"];
 					$ArrLeyes[$Fila2["cod_leyes"]][3] = 100;
@@ -515,11 +515,11 @@ function BuscaLeyesProduccion($CodBulto, $NumBulto, $Arreglo, $link)
 				else
 				{
 					$PorcHum = 0;	
-					$PesoHum = (($Fila[peso_produccion]-$Fila["peso_tara"])*$PorcHum)/100;
-					$PesoSeco = ($Fila[peso_produccion]-$Fila["peso_tara"]) - $PesoHum;
-					$TotalPHum = $TotalPHum + ($Fila[peso_produccion]-$Fila["peso_tara"]);
+					$PesoHum = (($Fila["peso_produccion"]-$Fila["peso_tara"])*$PorcHum)/100;
+					$PesoSeco = ($Fila["peso_produccion"]-$Fila["peso_tara"]) - $PesoHum;
+					$TotalPHum = $TotalPHum + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 					$TotalPSeco = $TotalPSeco + $PesoSeco;
-					$SumPesoHumedo = $SumPesoHumedo + ($Fila[peso_produccion]-$Fila["peso_tara"]);
+					$SumPesoHumedo = $SumPesoHumedo + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 					$SumPesoSeco = $SumPesoSeco + $PesoSeco;												  
 				}									
 				//RESCATA LEYES DE CALIDAD

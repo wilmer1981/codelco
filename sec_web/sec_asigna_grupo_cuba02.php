@@ -1,12 +1,24 @@
 <?php
 	include("../principal/conectar_principal.php");
 	$Mensaje = "";
+	$Proceso= $_REQUEST["Proceso"];
+	$Participa= $_REQUEST["Participa"];
+	$TipoProd= $_REQUEST["TipoProd"];
+	$PesoProd= $_REQUEST["PesoProd"];
+	$Fecha   = $_REQUEST["Fecha"];
+	$Grupo   = $_REQUEST["Grupo"];
+	$Valores= $_REQUEST["Valores"];
+
+	$NumBulto= $_REQUEST["NumBulto"];
+	$CodBulto= $_REQUEST["CodBulto"];
+	$FechaLote=$_REQUEST["FechaLote"];
+
 	switch ($Proceso)
 	{		
 		case "G":
 			//echo count($Participa)."<br>";
 			//echo $TipoProd."<br>";
-			while (list($i,$v) = each($Participa))
+			foreach ($Participa as $i => $v )
 			{				
 				if ($v != "0")
 				{

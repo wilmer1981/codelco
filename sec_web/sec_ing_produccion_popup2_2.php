@@ -136,7 +136,7 @@ function Salir()
 	$rs = mysqli_query($link, $consulta);
 	while ($row = mysqli_fetch_array($rs))
 	{
-		$Total = $Total + $row[peso_produccion];
+		$Total = $Total + $row["peso_produccion"];
 	}
 	//echo '<input name="Total" id="Total" type="hidden" value="'.$Total.'">';
 
@@ -149,11 +149,11 @@ function Salir()
 		echo '<td width="125" align="center">'.$row["cod_grupo"].'</td>';
 		echo '<td width="125" align="center">'.$row[fecha_produccion].'</td>';
 		echo '<td width="125" align="center">'.$row[hora].'</td>';
-		echo '<td width="125" align="center">'.$row[peso_produccion].'</td>';		
-		echo '<td width="1" align="center"><input type="checkbox" name="CheckElim" onClick="CheckElim_Onclick('.$row[peso_produccion].')" value="'.$row[peso_produccion].'">';
+		echo '<td width="125" align="center">'.$row["peso_produccion"].'</td>';		
+		echo '<td width="1" align="center"><input type="checkbox" name="CheckElim" onClick="CheckElim_Onclick('.$row["peso_produccion"].')" value="'.$row["peso_produccion"].'">';
 		echo '<input name="Fecha_sel" type="hidden" value="'.$row[fecha_produccion].'"/>';
 		echo '<input name="Hora_sel" type="hidden" value="'.$row[hora].'"/>';
-		echo '<input name="Peso_sel" type="hidden" value="'.$row[peso_produccion].'"/>';
+		echo '<input name="Peso_sel" type="hidden" value="'.$row["peso_produccion"].'"/>';
 		echo '<input name="Valor" type="hidden" value="'.$row["cod_grupo"].'/'.$row[cod_cuba].'/'.$row[cod_lado].'/'.$row[fecha_produccion].'/'.$row["cod_producto"].'/'.$row["cod_subproducto"].'/'.$row[hora].'"/>';
 		echo '</input>';
 		echo '</td>';

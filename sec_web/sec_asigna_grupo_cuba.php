@@ -1,7 +1,15 @@
 <?php
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla =16; 
-	include("../principal/conectar_principal.php")
+	include("../principal/conectar_principal.php");
+
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date('Y');
+	$NumBulto= isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
+	$CodBulto= isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"A";
+	$UnidLote= isset($_REQUEST["UnidLote"])?$_REQUEST["UnidLote"]:"";
+	$PesoLote= isset($_REQUEST["PesoLote"])?$_REQUEST["PesoLote"]:"";
+	
+
 ?>
 <html>
 <head>
@@ -79,24 +87,24 @@ function Historial(SA)
             <td width="95">A&Ntilde;O:</td>
             <td><select name="Ano" onChange="Recarga();">
                 <?php
-	for ($i = 2003; $i <= date("Y")+1;$i++)
-	{
-		if (isset($Ano))
-		{
-			if ($Ano == $i)
-				echo "<option selected value='".$i."'>".$i."</option>\n";
-			else
-				echo "<option value='".$i."'>".$i."</option>\n";
-		}
-		else
-		{
-			if (date("Y") == $i)
-				echo "<option selected value='".$i."'>".$i."</option>\n";
-			else
-				echo "<option value='".$i."'>".$i."</option>\n";
-		}
-	}		
-?>
+					for ($i = 2003; $i <= date("Y")+1;$i++)
+					{
+						if (isset($Ano))
+						{
+							if ($Ano == $i)
+								echo "<option selected value='".$i."'>".$i."</option>\n";
+							else
+								echo "<option value='".$i."'>".$i."</option>\n";
+						}
+						else
+						{
+							if (date("Y") == $i)
+								echo "<option selected value='".$i."'>".$i."</option>\n";
+							else
+								echo "<option value='".$i."'>".$i."</option>\n";
+						}
+					}		
+				?>
               </select> </td>
             <td> COD.LOTE:</td>
             <td><select name="CodBulto" onChange="Recarga();">
@@ -116,48 +124,50 @@ function Historial(SA)
             <td width="259"><select name="NumBulto" onChange="Recarga();">
                 <option value="S">Seleccione</option>
                 <?php
-	if (!isset($Ano))
-		$Ano = date("Y");
-	if (!isset($CodBulto))
-		$CodBulto = "A";
-	$Consulta = "select distinct t1.cod_bulto, t1.num_bulto ";
-	$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2";
-	$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
-	$Consulta.= " and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
-	$Consulta.= " where t1.cod_bulto = '".$CodBulto."'";
-	$Consulta.= " and year(t1.fecha_creacion_lote) = '".$Ano."'";
-	$Consulta.= " and t2.cod_producto = '18'";
-	$Consulta.= " and t2.cod_subproducto in (3,42,43,44)";
-	$Consulta.= " order by t1.cod_bulto, t1.num_bulto";
-	$Respuesta = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Respuesta))
-	{
-		if ($Fila["num_bulto"] == $NumBulto)
-			echo "<option selected value = '".$Fila["num_bulto"]."'>".strtoupper($CodBulto)."-".str_pad($Fila["num_bulto"],6,0,STR_PAD_LEFT)."</option>\n";
-		else
-			echo "<option value = '".$Fila["num_bulto"]."'>".strtoupper($CodBulto)."-".str_pad($Fila["num_bulto"],6,0,STR_PAD_LEFT)."</option>\n";
-	}
-		
-?>
+					//if (!isset($Ano))
+					//	$Ano = date("Y");
+					//if (!isset($CodBulto))
+					//	$CodBulto = "A";
+
+					$Consulta = "select distinct t1.cod_bulto, t1.num_bulto ";
+					$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2";
+					$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
+					$Consulta.= " and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
+					$Consulta.= " where t1.cod_bulto = '".$CodBulto."'";
+					$Consulta.= " and year(t1.fecha_creacion_lote) = '".$Ano."'";
+					$Consulta.= " and t2.cod_producto = '18'";
+					$Consulta.= " and t2.cod_subproducto in (3,42,43,44)";
+					$Consulta.= " order by t1.cod_bulto, t1.num_bulto";
+					$Respuesta = mysqli_query($link, $Consulta);
+					while ($Fila = mysqli_fetch_array($Respuesta))
+					{
+						if ($Fila["num_bulto"] == $NumBulto)
+							echo "<option selected value = '".$Fila["num_bulto"]."'>".strtoupper($CodBulto)."-".str_pad($Fila["num_bulto"],6,0,STR_PAD_LEFT)."</option>\n";
+						else
+							echo "<option value = '".$Fila["num_bulto"]."'>".strtoupper($CodBulto)."-".str_pad($Fila["num_bulto"],6,0,STR_PAD_LEFT)."</option>\n";
+					}
+						
+				?>
               </select></td>
           </tr>
           <tr> 
             <?php
-	$Consulta = "select t1.cod_bulto, t1.num_bulto, t1.fecha_creacion_lote, sum(t2.num_unidades) as unidades, sum(t2.peso_paquetes) as peso";
-	$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
-	$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete ";
-	$Consulta.= " and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
-	$Consulta.= " where t1.cod_bulto = '".$CodBulto."'";
-	$Consulta.= " and t1.num_bulto = '".$NumBulto."'";
-	$Consulta.= " group by t1.cod_bulto, t1.num_bulto";
-	$Respuesta = mysqli_query($link, $Consulta);
-	if ($Fila = mysqli_fetch_array($Respuesta))
-	{
-		$UnidLote = $Fila["unidades"];
-		$PesoLote = $Fila["peso"];
-		$FechaLote = $Fila["fecha_creacion_lote"];
-	}
-?>
+				$Consulta = "select t1.cod_bulto, t1.num_bulto, t1.fecha_creacion_lote, sum(t2.num_unidades) as unidades, sum(t2.peso_paquetes) as peso";
+				$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
+				$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete ";
+				$Consulta.= " and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
+				$Consulta.= " where t1.cod_bulto = '".$CodBulto."'";
+				$Consulta.= " and t1.num_bulto = '".$NumBulto."'";
+				$Consulta.= " group by t1.cod_bulto, t1.num_bulto";
+				$Respuesta = mysqli_query($link, $Consulta);
+				$FechaLote="";
+				if ($Fila = mysqli_fetch_array($Respuesta))
+				{
+					$UnidLote = $Fila["unidades"];
+					$PesoLote = $Fila["peso"];
+					$FechaLote = $Fila["fecha_creacion_lote"];
+				}
+			?>
             <input type="hidden" name="FechaLote" value="<?php echo $FechaLote; ?>">
             <td height="28">UNID. LOTE:</td>
             <td> <input name="UnidLote" readonly="" type="text" id="UnidLote5" value="<?php echo $UnidLote; ?>" size="15" maxlength="7"> 
@@ -188,44 +198,44 @@ function Historial(SA)
             <td width="14%">PARTICIPA</td>
           </tr>
           <?php		  
-	$Encontro = false;
-	//CONSULTA SI YA FUE ASIGNADO A ESTE LOTE
-	$Consulta = "select * from sec_web.catodos_desc_normal ";
-	$Consulta.= " where cod_bulto = '".$CodBulto."'";
-	$Consulta.= " and num_bulto = '".$NumBulto."'";
-	$Consulta.= " and fecha_creacion_bulto = '".$FechaLote."'";
-	$Consulta.= " order by fecha_produccion, grupo";
-	$Respuesta = mysqli_query($link, $Consulta);
-	$UnidTotal = 0;
-	$PesoTotal = 0;
-	while ($Fila = mysqli_fetch_array($Respuesta))
-	{
-		$Encontro = true;
-		$Valores = $Fila["cod_bulto"]."/".$Fila["num_bulto"]."/".$Fila["fecha_creacion_bulto"]."/".$Fila["grupo"]."/".$Fila["cuba"]."/".$Fila["fecha_produccion"];
-		$FechaProd = substr($Fila["fecha_produccion"],8,2)."/".substr($Fila["fecha_produccion"],5,2)."/".substr($Fila["fecha_produccion"],0,4);
-		echo "<tr>\n";
-		echo "<td align='center'><input type='radio' name='RadioElim' value='".$Valores."'></td>\n";
-		echo "<td align='center'>".$FechaProd."</td>\n";
-		echo "<td align='center'>".$Fila["grupo"]."</td>\n";
-		echo "<td align='right'>".number_format($Fila["peso_produccion"],0,",",".")."</td>\n";
-		if ($Fila["participa"] == "T")
-			$Desc = "TOTAL";
-		else
-			$Desc = "PARCIAL";
-		echo "<td align='center'>".$Desc."</td>\n";
-		echo "</tr>\n";
-		$PesoTotal = $PesoTotal + $Fila["peso_produccion"];
-	}
-	if ($Encontro == false)
-	{
-		echo "<tr>\n";
-		echo "<td>&nbsp;</td>\n";
-		echo "<td>&nbsp;</td>\n";
-		echo "<td>&nbsp;</td>\n";
-		echo "<td>&nbsp;</td>\n";
-		echo "<td>&nbsp;</td>\n";
-		echo "</tr>\n";
-	}
+			$Encontro = false;
+			//CONSULTA SI YA FUE ASIGNADO A ESTE LOTE
+			$Consulta = "select * from sec_web.catodos_desc_normal ";
+			$Consulta.= " where cod_bulto = '".$CodBulto."'";
+			$Consulta.= " and num_bulto = '".$NumBulto."'";
+			$Consulta.= " and fecha_creacion_bulto = '".$FechaLote."'";
+			$Consulta.= " order by fecha_produccion, grupo";
+			$Respuesta = mysqli_query($link, $Consulta);
+			$UnidTotal = 0;
+			$PesoTotal = 0;
+			while ($Fila = mysqli_fetch_array($Respuesta))
+			{
+				$Encontro = true;
+				$Valores = $Fila["cod_bulto"]."/".$Fila["num_bulto"]."/".$Fila["fecha_creacion_bulto"]."/".$Fila["grupo"]."/".$Fila["cuba"]."/".$Fila["fecha_produccion"];
+				$FechaProd = substr($Fila["fecha_produccion"],8,2)."/".substr($Fila["fecha_produccion"],5,2)."/".substr($Fila["fecha_produccion"],0,4);
+				echo "<tr>\n";
+				echo "<td align='center'><input type='radio' name='RadioElim' value='".$Valores."'></td>\n";
+				echo "<td align='center'>".$FechaProd."</td>\n";
+				echo "<td align='center'>".$Fila["grupo"]."</td>\n";
+				echo "<td align='right'>".number_format($Fila["peso_produccion"],0,",",".")."</td>\n";
+				if ($Fila["participa"] == "T")
+					$Desc = "TOTAL";
+				else
+					$Desc = "PARCIAL";
+				echo "<td align='center'>".$Desc."</td>\n";
+				echo "</tr>\n";
+				$PesoTotal = $PesoTotal + $Fila["peso_produccion"];
+			}
+			if ($Encontro == false)
+			{
+				echo "<tr>\n";
+				echo "<td>&nbsp;</td>\n";
+				echo "<td>&nbsp;</td>\n";
+				echo "<td>&nbsp;</td>\n";
+				echo "<td>&nbsp;</td>\n";
+				echo "<td>&nbsp;</td>\n";
+				echo "</tr>\n";
+			}
 ?>
           <tr align="center"> 
             <td colspan="3" align="right"><strong>TOTAL</strong></td>

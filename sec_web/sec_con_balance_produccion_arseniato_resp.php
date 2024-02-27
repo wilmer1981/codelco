@@ -170,15 +170,15 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			  echo'<td align="center">'.$Fila["cant"].'</td>';
 			  $TotalCant = $TotalCant + $Fila["cant"];
 			  $CantSemana = $CantSemana + $Fila["cant"];
-			  echo'<td align="center">'.number_format($Fila[peso_produccion]-$Fila["peso_tara"],0,",",".").'</td>';
+			  echo'<td align="center">'.number_format($Fila["peso_produccion"]-$Fila["peso_tara"],0,",",".").'</td>';
 			  if ($NroSA == "")
 			  	echo'<td align="center">&nbsp;</td>';
 			  else
 			  	echo'<td align="center"><a href=\'JavaScript:Historial('.$NroSA.')\'>'.$NroSA.'</a></td>';
 			  echo'<td align="center">'.number_format($PorcHum,2,",",".").'</td>';					  
-			  $PesoHum = (($Fila[peso_produccion]-$Fila["peso_tara"])*$PorcHum)/100;
-			  $PesoSeco = ($Fila[peso_produccion]-$Fila["peso_tara"]) - $PesoHum;
-			  $TotalPHum = $TotalPHum + ($Fila[peso_produccion]-$Fila["peso_tara"]);
+			  $PesoHum = (($Fila["peso_produccion"]-$Fila["peso_tara"])*$PorcHum)/100;
+			  $PesoSeco = ($Fila["peso_produccion"]-$Fila["peso_tara"]) - $PesoHum;
+			  $TotalPHum = $TotalPHum + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 			  $TotalPSeco = $TotalPSeco + $PesoSeco;
 			  echo'<td align="center">'.number_format($PesoSeco,0,",",".").'</td>';
 			  echo'<td align="center">&nbsp;</td>';
@@ -191,7 +191,7 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			  //Vars. Acumuladores
 			  $Cont++;
 			  $SumUnid = $SumUnid + $row[unid];
-			  $SumPesoHumedo = $SumPesoHumedo + ($Fila[peso_produccion]-$Fila["peso_tara"]);
+			  $SumPesoHumedo = $SumPesoHumedo + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 			  $AcumHumedad = $AcumHumedad + number_format($Fila2["valor"],2,".","");
 			  $SumPesoSeco = $SumPesoSeco + number_format($PesoSeco,0,"","");				  	
 			  //echo "hhhh".$AcumHumedad;

@@ -164,7 +164,7 @@
 		
 		$hh_mm = explode(':', $row[hora]); //0: hora, 1:minuto.
 		
-		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row[peso_produccion];
+		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row["peso_produccion"];
 		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S";
@@ -200,7 +200,7 @@
 
 		$hh_mm = explode(':', $row[hora]); //0: hora, 1:minuto.		
 		
-		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row[peso_produccion]."&txtcuba=".$row[cod_cuba];
+		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row["peso_produccion"]."&txtcuba=".$row[cod_cuba];
 		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;		
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S&txtlado=".$row[cod_lado];
@@ -540,7 +540,7 @@
 		$rs = mysqli_query($link, $consulta);
 		if ($row = mysqli_fetch_array($rs))
 		{
-			$linea.= "&txtpeso=".$row[peso_produccion];
+			$linea.= "&txtpeso=".$row["peso_produccion"];
 			
 			if (($cmbproducto == 57) or ($cmbproducto == 64) or ($cmbproducto == 66))
 				$linea.= "&txtpesotara=".$row["peso_tara"];

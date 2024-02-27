@@ -199,13 +199,13 @@ function Salir()
 			//echo '<td width="250" height="25" align="left"><input type="radio" name="radio" value="'.$fecha.'/'.$row[hora].'" onClick="Chequear(this)">'.$cont.'</td>';		
 			echo '<td width="250" height="25" align="left"><input type="radio" name="radio" value="'.$row[fecha_produccion].'/'.$row[hora].'" onClick="Chequear(this)">'.$cont.'</td>';			
 
-			echo '<td width="250" height="25" align="center">'.$row[peso_produccion].'</td>';
+			echo '<td width="250" height="25" align="center">'.$row["peso_produccion"].'</td>';
 			echo '<td width="250" height="25" align="center">'.$row["peso_tara"].'</td>';
-			echo '<td width="250" height="25" align="center">'.($row[peso_produccion]-$row["peso_tara"]).'</td>';
+			echo '<td width="250" height="25" align="center">'.($row["peso_produccion"]-$row["peso_tara"]).'</td>';
 			echo '</tr>';
-			$suma = $suma + $row[peso_produccion];
+			$suma = $suma + $row["peso_produccion"];
 			$tara = $tara + $row["peso_tara"];
-			$neto = $neto + ($row[peso_produccion]-$row["peso_tara"]);
+			$neto = $neto + ($row["peso_produccion"]-$row["peso_tara"]);
 			$cont++;
 		}
 		

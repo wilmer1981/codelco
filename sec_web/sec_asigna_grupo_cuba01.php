@@ -1,5 +1,16 @@
 <?php
-	include("../principal/conectar_principal.php")
+	include("../principal/conectar_principal.php");
+
+	$Mensaje= isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date('Y');
+	$NumBulto= isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
+	$CodBulto= isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"";
+	$FechaLote= isset($_REQUEST["FechaLote"])?$_REQUEST["FechaLote"]:"";
+	$ConsProd= isset($_REQUEST["ConsProd"])?$_REQUEST["ConsProd"]:"";
+
+	//$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date('d');
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date('m');
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date('Y');
 ?>
 <html>
 <head>
@@ -168,7 +179,7 @@ function CalculaPeso(ind)
   <br>
 <?php	
 	$ArrGrupos = explode("///",$Mensaje);
-	while (list($i,$v) = each($ArrGrupos))
+	foreach($ArrGrupos as $i => $v)
 	{
 		if ($v != "")
 			echo "<center>El Grupo <strong>".$v."</strong> no tiene la Pesada correspondiente al Resto Sobrante<center><br>";
@@ -217,7 +228,7 @@ if (strtoupper($ConsProd) == "S")
 	{			
 		//-----.
 		$consulta = "SELECT * FROM sec_web.produccion_catodo";
-		$consulta.= " WHERE fecha_produccion = '".$Fila[fecha_produccion]."' AND cod_grupo = '".$Fila["cod_grupo"]."'";
+		$consulta.= " WHERE fecha_produccion = '".$Fila["fecha_produccion"]."' AND cod_grupo = '".$Fila["cod_grupo"]."'";
 		$consulta.= " AND cod_producto = '18' AND cod_subproducto = '3' AND cod_muestra = 'N' ";
 		//echo $consulta."<br><br>";
 		
@@ -236,8 +247,8 @@ if (strtoupper($ConsProd) == "S")
 			$Consulta.= " AND t1.recargo = t2.recargo ";
 			$Consulta.= " AND left(t2.id_muestra,2) like '%".$row["cod_grupo"]."%'";
 			$Consulta.= " WHERE t1.cod_producto = '18' AND t1.cod_subproducto = '3'";
-			$Consulta.= "AND left(t1.fecha_muestra,10) = '".$row[fecha_produccion]."'";
-			$Consulta.= " AND left(t1.id_muestra,2) like '%".$row["cod_grupo"]."%' AND right(t1.id_muestra,2) like '%".$row[cod_cuba]."%'";
+			$Consulta.= "AND left(t1.fecha_muestra,10) = '".$row["fecha_produccion"]."'";
+			$Consulta.= " AND left(t1.id_muestra,2) like '%".$row["cod_grupo"]."%' AND right(t1.id_muestra,2) like '%".$row["cod_cuba"]."%'";
 			$Consulta.= " AND t2.valor != '' AND t2.cod_leyes != '48'";
 			$Consulta.= " AND t1.cod_periodo='1' ";
 			$Consulta.= " AND t1.tipo='1' ";
@@ -263,23 +274,23 @@ if (strtoupper($ConsProd) == "S")
 				if($row2 = mysqli_fetch_array($rs2))
 				{
 					$cont = $cont + 1;
-					if ($row1["valor"] <= $row2[grado_a])
+					if ($row1["valor"] <= $row2["grado_a"])
 					{
 						$conta_a = 1;
 					}	
-					if (($row1["valor"] > $row2[grado_a]) && ($row1["valor"] <= $row2[b_115]))
+					if (($row1["valor"] > $row2["grado_a"]) && ($row1["valor"] <= $row2["b_115"]))
 					{
 						$conta_b = 1;
 					}	
-					if ($row1["valor"] > $row2[b_115])
+					if ($row1["valor"] > $row2["b_115"])
 					{
 						$conta_r = 1;
 					}	
 
 					
 					/*$Valor = $Valor + $row1["valor"];			
-					$Grado_A = $Grado_A + $row2[grado_a];  								
-					$Astm = $Astm + $row2[b_115];*/
+					$Grado_A = $Grado_A + $row2["grado_a"];  								
+					$Astm = $Astm + $row2["b_115"];*/
 				}
 				
 				$nro_solicitud = $row1["nro_solicitud"]; 
@@ -296,31 +307,31 @@ if (strtoupper($ConsProd) == "S")
 				if($conta_r == 1)
 				{
 					$Class = "R";
-					$clave = $row[fecha_produccion].'~'.$row["cod_grupo"].'~'.$row[cod_cuba];					
-					$Cubas_R[$clave] =  array(0=> $row[fecha_produccion], 1=>$row["cod_grupo"], 2=>$row[cod_cuba], 3=>$row[peso_produccion]);
+					$clave = $row["fecha_produccion"].'~'.$row["cod_grupo"].'~'.$row["cod_cuba"];					
+					$Cubas_R[$clave] =  array(0=> $row["fecha_produccion"], 1=>$row["cod_grupo"], 2=>$row["cod_cuba"], 3=>$row["peso_produccion"]);
 					$conta_a = 0;
 					$conta_b = 0;
 				}
 				if($conta_b == 1)
 				{
 					$Class = "B 115";
-					$clave = $row[fecha_produccion].'~'.$row["cod_grupo"].'~'.$row[cod_cuba];					
-					$Cubas_B[$clave] = array(0=> $row[fecha_produccion], 1=>$row["cod_grupo"], 2=>$row[cod_cuba], 3=>$row[peso_produccion]);
+					$clave = $row["fecha_produccion"].'~'.$row["cod_grupo"].'~'.$row["cod_cuba"];					
+					$Cubas_B[$clave] = array(0=> $row["fecha_produccion"], 1=>$row["cod_grupo"], 2=>$row["cod_cuba"], 3=>$row["peso_produccion"]);
 					$conta_a = 0;
 				}
 				if($conta_a == 1)
 				{
 					$Class = "A";
-					$clave = $row[fecha_produccion].'~'.$row["cod_grupo"].'~'.$row[cod_cuba];
-					$Cubas_A[$clave] = array(0=>$row[fecha_produccion], 1=>$row["cod_grupo"], 2=>$row[cod_cuba], 3=>$row[peso_produccion]); 				
+					$clave = $row["fecha_produccion"].'~'.$row["cod_grupo"].'~'.$row["cod_cuba"];
+					$Cubas_A[$clave] = array(0=>$row["fecha_produccion"], 1=>$row["cod_grupo"], 2=>$row["cod_cuba"], 3=>$row["peso_produccion"]); 				
 				}
 				
 			}
 			else
 			{
 				//No hay solicitud;
-				$clave = $row[fecha_produccion].'~'.$row["cod_grupo"].'~'.$row[cod_cuba];					
-				$Cubas_N[$clave] =  array(0=> $row[fecha_produccion], 1=>$row["cod_grupo"], 2=>$row[cod_cuba], 3=>$row[peso_produccion]);
+				$clave = $row["fecha_produccion"].'~'.$row["cod_grupo"].'~'.$row["cod_cuba"];					
+				$Cubas_N[$clave] =  array(0=> $row["fecha_produccion"], 1=>$row["cod_grupo"], 2=>$row["cod_cuba"], 3=>$row["peso_produccion"]);
 			}
 				
 			//echo "TIPO: ".$Class."<br><br>";		
@@ -340,7 +351,7 @@ if (strtoupper($ConsProd) == "S")
 	switch ($subproducto)
 	{
 		case "42": //Grado A. 
-				while (list($c, $v) = each($Cubas_A))
+				foreach ($Cubas_A as $c => $v)
 				{
 					$insertar = "INSERT INTO sec_web.listado_grupo (fecha,grupo,cuba,peso) VALUES ('".$v[0]."', '".$v[1]."', '".$v[2]."', '".$v[3]."')";
 					mysqli_query($link, $insertar);
@@ -349,7 +360,7 @@ if (strtoupper($ConsProd) == "S")
 				break;
 				
 		case "43": //B-115.
-				while (list($c, $v) = each($Cubas_B))
+				foreach ($Cubas_B as $c => $v)
 				{
 					$insertar = "INSERT INTO sec_web.listado_grupo (fecha,grupo,cuba,peso) VALUES ('".$v[0]."', '".$v[1]."', '".$v[2]."', '".$v[3]."')";
 					mysqli_query($link, $insertar);
@@ -358,7 +369,7 @@ if (strtoupper($ConsProd) == "S")
 				break;
 				
 		case "44": //Rechazado.
-				while (list($c, $v) = each($Cubas_R))
+				foreach ($Cubas_R as $c => $v)
 				{
 					$insertar = "INSERT INTO sec_web.listado_grupo (fecha,grupo,cuba,peso) VALUES ('".$v[0]."', '".$v[1]."', '".$v[2]."', '".$v[3]."')";
 					mysqli_query($link, $insertar);
@@ -538,7 +549,7 @@ else
 		echo "<td align='center'>CUBA</td>\n";
 		echo "<td align='center'>PESO</td>\n";
 		echo "</tr>\n";  
-		while(list($c,$v) = each($Cubas_N))
+		foreach ($Cubas_N as $c => $v)
 		{	
 			echo "<tr>\n";
 			echo "<td align='center'>".$v[0]."</td>\n";

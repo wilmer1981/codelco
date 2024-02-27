@@ -267,17 +267,17 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			echo'<td align="center">'.$Fila["cant"].'</td>';
 			$TotalCant = $TotalCant + $Fila["cant"];
 			$CantSemana = $CantSemana + $Fila["cant"];
-			echo'<td align="center">'.number_format($Fila[peso_produccion]-$Fila["peso_tara"],0,",",".").'</td>';
+			echo'<td align="center">'.number_format($Fila["peso_produccion"]-$Fila["peso_tara"],0,",",".").'</td>';
 			if ($NroSA=="")
 				echo'<td align="center">&nbsp;</td>';
 			else
 				echo'<td align="center">'.$NroSA.'</td>';
 			echo'<td align="center">'.number_format($PorcHum,2,",",".").'</td>';					  
-			$PesoHum = (($Fila[peso_produccion]-$Fila["peso_tara"])*$PorcHum)/100;
-			$PesoSeco = ($Fila[peso_produccion]-$Fila["peso_tara"]) - $PesoHum;
-			$TotalPHum = $TotalPHum + ($Fila[peso_produccion]-$Fila["peso_tara"]);
+			$PesoHum = (($Fila["peso_produccion"]-$Fila["peso_tara"])*$PorcHum)/100;
+			$PesoSeco = ($Fila["peso_produccion"]-$Fila["peso_tara"]) - $PesoHum;
+			$TotalPHum = $TotalPHum + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 			$TotalPSeco = $TotalPSeco + $PesoSeco;
-			$SumPesoHumedo = $SumPesoHumedo + ($Fila[peso_produccion]-$Fila["peso_tara"]);
+			$SumPesoHumedo = $SumPesoHumedo + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 			$SumPesoSeco = $SumPesoSeco + $PesoSeco;		
 			echo'<td align="center">'.number_format($PesoSeco,0,",",".").'</td>';
 			//RESCATA LEYES DE CALIDAD
