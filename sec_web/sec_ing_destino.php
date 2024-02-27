@@ -1,5 +1,24 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+
+	$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$BuscarCliente   = isset($_REQUEST["BuscarCliente"])?$_REQUEST["BuscarCliente"]:"";
+	$TipoBusqueda   = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+
+	$CmbRutCliente   = isset($_REQUEST["CmbRutCliente"])?$_REQUEST["CmbRutCliente"]:"";
+	$TxtRutDestino   = isset($_REQUEST["TxtRutDestino"])?$_REQUEST["TxtRutDestino"]:"";
+	$TxtDvDestino    = isset($_REQUEST["TxtDvDestino"])?$_REQUEST["TxtDvDestino"]:"";
+
+	$TxtCiudad     = isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtCiudad"]:"";
+	$TxtComuna     = isset($_REQUEST["TxtComuna"])?$_REQUEST["TxtComuna"]:"";
+	$TxtDireccion  = isset($_REQUEST["TxtDireccion"])?$_REQUEST["TxtDireccion"]:"";
+	$cmbregion     = isset($_REQUEST["cmbregion"])?$_REQUEST["cmbregion"]:"";
+	$TxtRepresentante = isset($_REQUEST["TxtRepresentante"])?$_REQUEST["TxtRepresentante"]:"";
+	$TxtFono    = isset($_REQUEST["TxtFono"])?$_REQUEST["TxtFono"]:"";
+	$TxtCelular = isset($_REQUEST["TxtCelular"])?$_REQUEST["TxtCelular"]:"";
+
+
 	$tope = strlen($Valores);
     $TxtCliente = substr($Valores,0,($tope - 2));
 
@@ -12,12 +31,12 @@
 	$Consulta = "SELECT ceiling(ifnull(max(Id),0))+1 as Id FROM sec_web.sub_cliente_vta";
 	$rs = mysqli_query($link, $Consulta);	
 	$Fila = mysqli_fetch_array($rs);
-	$TxtId = $Fila[Id];
+	$TxtId = $Fila["Id"];
 
 	$Consulta = "SELECT ifnull(max(ceiling(cod_sub_cliente)),0)+1 as subcliente FROM sec_web.sub_cliente_vta WHERE cod_cliente = '$TxtCliente'";
 	$rs2 = mysqli_query($link, $Consulta);
 	$Fila2 = mysqli_fetch_array($rs2);
-	$TxtSubCliente = $Fila2[subcliente];
+	$TxtSubCliente = $Fila2["subcliente"];
 	$TxtSubCliente=str_pad($TxtSubCliente,3,"0",STR_PAD_LEFT);
 	
 	if ($BuscarCliente=='S')
@@ -37,13 +56,13 @@
 		$Rut=explode('-',$Fila["rut"]);
 		$TxtRutDestino=$Rut[0];
 		$TxtDvDestino=$Rut[1];
-		$TxtCiudad=$Fila[ciudad];
+		$TxtCiudad=$Fila["ciudad"];
 		$TxtComuna=$Fila["comuna"];
 		//$cmbregion=$Fila[region];
 		$TxtDireccion=$Fila["direccion"];
-		$TxtRepresentante=$Fila[representante];
-		$TxtFono=$Fila[fono1];
-		$TxtCelular=$Fila[fono2];
+		$TxtRepresentante=$Fila["representante"];
+		$TxtFono=$Fila["fono1"];
+		$TxtCelular=$Fila["fono2"];
 	}
 
 ?>
@@ -173,11 +192,11 @@ function Cancelar()
 					{
 						if ($CmbRutCliente==$Fila["cod_cliente"])
 						{
-							echo "<option value='$Fila["cod_cliente"]' SELECTed>$Fila["nombre_cliente"]</option>";
+							echo "<option value='".$Fila["cod_cliente"]."' SELECTed>".$Fila["nombre_cliente"]."</option>";
 						}
 						else
 						{
-							echo "<option value='$Fila["cod_cliente"]'>$Fila["nombre_cliente"]</option>";
+							echo "<option value='".$Fila["cod_cliente"]."'>".$Fila["nombre_cliente"]."</option>";
 						}
 					}
 					echo "<option value='-'>&nbsp;</option>";
@@ -190,11 +209,11 @@ function Cancelar()
 					{
 						if ($CmbRutCliente==$Fila["cod_cliente"])
 						{
-							echo "<option value='$Fila["cod_cliente"]' SELECTed>$Fila["nombre_cliente"]</option>";
+							echo "<option value='".$Fila["cod_cliente"]."' SELECTed>".$Fila["nombre_cliente"]."</option>";
 						}
 						else
 						{
-							echo "<option value='$Fila["cod_cliente"]'>$Fila["nombre_cliente"]</option>";
+							echo "<option value='".$Fila["cod_cliente"]."'>".$Fila["nombre_cliente"]."</option>";
 						}
 					}
 					

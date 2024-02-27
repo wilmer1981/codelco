@@ -74,7 +74,7 @@ function Salir()
 			echo '<tr>';
 			$cont=1;
 		}
-		echo "<td width='140'><input type='radio' name='IdCliente' value='".$Row["cod_sub_cliente"]."~".$Row["cod_cliente"]."~".$Row[ciudad]."~".$Row["direccion"]."~".str_replace("�"," ",$Row["rut_cliente"])."~".$Row["comuna"]."' onClick='CargaDatos(this);' ><input type='hidden' name='Cliente' value='".$R["cod_cliente"]e]."'>\n";
+		echo "<td width='140'><input type='radio' name='IdCliente' value='".$Row["cod_sub_cliente"]."~".$Row["cod_cliente"]."~".$Row["ciudad"]."~".$Row["direccion"]."~".str_replace("�"," ",$Row["rut_cliente"])."~".$Row["comuna"]."' onClick='CargaDatos(this);' ><input type='hidden' name='Cliente' value='".$R["cod_cliente"]e]."'>\n";
 		echo "$Row["nombre_nave"]&nbsp;".str_replace("�"," ",$Row["direccion"])."&nbsp;$Row["comuna"]</td>";
 		$cont =$cont+ 1;
 	}

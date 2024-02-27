@@ -1,5 +1,6 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+  $Rut = isset($_REQUEST["Rut"])?$_REQUEST["Rut"]:"";
 ?>
 <html>
 <head>
@@ -23,7 +24,7 @@ function Salir()
 	$row = mysqli_fetch_array($rs);
     echo'<tr>';
       echo'<td width="30%"><strong>RUT CLIENTE</strong></td>';
-      echo'<td>&nbsp;'.$row[rut].'</td>';
+      echo'<td>&nbsp;'.$row["rut"].'</td>';
     echo'</tr>';
     echo'<tr>';
       echo'<td><strong>CLIENTE</strong></td>';
@@ -56,11 +57,11 @@ function Salir()
 			echo'<tr>';
 			  echo'<td align="center">'.$Fila["cod_sub_cliente"].'&nbsp;</td>';
 			  echo'<td>'.$Fila["direccion"].'&nbsp;</td>';
-			  echo'<td align="center">'.$Fila[ciudad].'&nbsp;</td>';
+			  echo'<td align="center">'.$Fila["ciudad"].'&nbsp;</td>';
 			  echo'<td>'.$Fila["comuna"].'&nbsp;</td>';
-			  echo'<td align="center">'.$Fila[region].'&nbsp;</td>';
-			  echo'<td align="center">'.$Fila[fono].'&nbsp;</td>';
-			  echo'<td align="center">'.$Fila[celular].'&nbsp;</td>';
+			  echo'<td align="center">'.$Fila["region"].'&nbsp;</td>';
+			  echo'<td align="center">'.$Fila["fono"].'&nbsp;</td>';
+			  echo'<td align="center">'.$Fila["celular"].'&nbsp;</td>';
 			echo'</tr>';
 		}	
 	 ?>

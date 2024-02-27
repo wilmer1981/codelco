@@ -45,7 +45,7 @@
 			$pdf->line(5,145, 595,145);
 			$pdf->addTextWrap(0,695,350,10,"SE�OR(ES)",$justification='left',0,0);
 			$pdf->addTextWrap(45,680,350,11,strtoupper(nl2br($Fila[cliente])),$justification='left',0,0);
-			$pdf->addTextWrap(45,665,350,11,strtoupper($Fila[direc_cliente].", ".$Fila[ciudad]),$justification='left',0,0);
+			$pdf->addTextWrap(45,665,350,11,strtoupper($Fila[direc_cliente].", ".$Fila["ciudad"]),$justification='left',0,0);
 			
 			if ($Fila[tipo_guia]=='C')//SOLO SI ES CAMION MUESTRA LA FECHA
 			{

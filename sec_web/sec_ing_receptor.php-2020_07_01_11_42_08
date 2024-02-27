@@ -19,7 +19,7 @@ if ($Mostrar=="S")
 		$Observacion=$Fila["observacion"];
 		$CodPrestador=$Fila["cod_prestador_servicio"];
 		$TxtComuna=$Fila["comuna"];
-		$TxtCiudad=$Fila[ciudad];
+		$TxtCiudad=$Fila["ciudad"];
 		$TxtAlmSAP=$Fila["almacen_sap"];
 		$TxtDivSAP=$Fila["division_sap"];
 	}

@@ -47,7 +47,7 @@
 			$cmbcontrato=str_pad($Fila[num_contrato],6,"0",STR_PAD_LEFT).str_pad($Fila[num_subcontrato],6,"0",STR_PAD_LEFT);
 			$TxtPesoVenta = $Fila[peso_venta];
 			$cmbtransportista = $Fila[transportista];
-			$TxtRepresentante = $Fila[representante];
+			$TxtRepresentante = $Fila["representante"];
 			$cmbproducto = $Fila["cod_producto"];
 			$cmbsubproducto = $Fila["cod_subproducto"];
 			$radio1 = $Fila[estado_peso];

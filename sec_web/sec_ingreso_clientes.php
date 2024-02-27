@@ -2,10 +2,10 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 47;
 	include("../principal/conectar_fac_web.php");
-	if (!isset($CmbOpcion))
-	{
-		$CmbOpcion='V';
-	}
+
+	$CmbOpcion = isset($_REQUEST["CmbOpcion"])?$_REQUEST["CmbOpcion"]:"V";
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+
 ?>
 <html>
 <head>

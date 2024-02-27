@@ -1,5 +1,22 @@
 <?php
 	include("../principal/conectar_fac_web.php");
+
+	$Proceso   = $_REQUEST["Proceso"];
+	$TxtCodigo = $_REQUEST["TxtCodigo"];
+	$TxtRut    = $_REQUEST["TxtRut"];
+	$TxtDv     = $_REQUEST["TxtDv"];
+
+	$TxtNombre   = $_REQUEST["TxtNombre"];
+	$TxtNombre2  = $_REQUEST["TxtNombre2"];
+	$TxtDireccion  = $_REQUEST["TxtDireccion"];
+	$TxtCiudad     = $_REQUEST["TxtCiudad"];
+	$TxtComuna     = $_REQUEST["TxtComuna"];
+	$TxtRepresentante  = $_REQUEST["TxtRepresentante"];
+	$cmbregion        = $_REQUEST["cmbregion"];
+	$TxtTelefono      = $_REQUEST["TxtTelefono"];
+	$TxtTelefono2     = $_REQUEST["TxtTelefono2"];
+	$CheckVD     = $_REQUEST["CheckVD"];
+	
 	$RutCliente=$TxtRut."-".$TxtDv;
 	$Regiones =array("I Regi�n","II Regi�n","III Regi�n","IV Regi�n","V Regi�n","VI Regi�n","VII Regi�n","VIII Regi�n","IX Regi�n","X Regi�n","XI Regi�n","XII Regi�n","Regi�n Metrop.");	
 	$DirecGuiaDespacho=$TxtDireccion;
@@ -9,14 +26,17 @@
 	}
 	if ($TxtComuna!='')
 	{
-		$DirecGuiaDespacho=eregi_replace($TxtComuna,'',$DirecGuiaDespacho)." ".$TxtComuna;
+		//$DirecGuiaDespacho=eregi_replace($TxtComuna,'',$DirecGuiaDespacho)." ".$TxtComuna;
+		//$DirecGuiaDespacho=preg_replace($TxtComuna,'',$DirecGuiaDespacho)." ".$TxtComuna;
+		$DirecGuiaDespacho=mb_eregi_replace($TxtComuna,'',$DirecGuiaDespacho)." ".$TxtComuna;
 	}	
+	$Region="";
 	if ($cmbregion!='-1')
 	{
 		$DirecGuiaDespacho=$DirecGuiaDespacho." ".$Region;
 		$Region=$Regiones[$cmbregion];
 	}
-	if ($CheckVD==on)
+	if ($CheckVD=="on")
 	{
 		$CheckVD='V';
 	}
@@ -44,7 +64,7 @@
 				$Consulta = "SELECT ceiling(ifnull(max(Id),0))+1 as Id FROM sec_web.sub_cliente_vta";
 				$rs = mysqli_query($link, $Consulta);	
 				$Fila = mysqli_fetch_array($rs);
-				$TxtId = $Fila[Id];
+				$TxtId = $Fila["Id"];
 				$Insertar = "INSERT INTO sec_web.sub_cliente_vta(Id,cod_cliente,rut_cliente,cod_sub_cliente,ciudad,comuna,direccion,region,representante,fono,celular)";
 				$Insertar = $Insertar." values('$TxtId','$TxtCodigo','$RutCliente','001','$TxtCiudad','$TxtComuna','$DirecGuiaDespacho','$cmbregion','$TxtRepresentante','$TxtTelefono','$TxtTelefono2')";
 				mysqli_query($link, $Insertar);
@@ -65,13 +85,14 @@
 				$Consulta = "SELECT ceiling(ifnull(max(Id),0))+1 as Id FROM sec_web.sub_cliente_vta";
 				$rs = mysqli_query($link, $Consulta);	
 				$Fila = mysqli_fetch_array($rs);
-				$TxtId = $Fila[Id];
+				$TxtId = $Fila["Id"];
 				$Insertar = "insert into sec_web.sub_cliente_vta(Id,cod_cliente,rut_cliente,cod_sub_cliente,ciudad,comuna,direccion,region,representante,fono,celular)";
 				$Insertar = $Insertar." values('$TxtId','$TxtCodigo','$RutCliente','001','$TxtCiudad','$TxtComuna','$DirecGuiaDespacho','$cmbregion','$TxtRepresentante','$TxtTelefono','$TxtTelefono2')";
 				mysqli_query($link, $Insertar);
 			}
 			break;
 		case "E":
+			$Valores   = $_REQUEST["Valores"];
 			$EncontroRelacion=false;
 			$Datos=explode('//',$Valores);
 			foreach($Datos as $Clave => $Valor)

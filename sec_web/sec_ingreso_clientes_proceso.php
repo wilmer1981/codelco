@@ -3,6 +3,25 @@
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_sec_web.php");
 	$Regiones =array("I Regi�n","II Regi�n","III Regi�n","IV Regi�n","V Regi�n","VI Regi�n","VII Regi�n","VIII Regi�n","IX Regi�n","X Regi�n","XI Regi�n","XII Regi�n","Regi�n Metrop.");	
+	
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$BuscarRut = isset($_REQUEST["BuscarRut"])?$_REQUEST["BuscarRut"]:"";
+	$TxtRut    = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtDv     = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+	$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$TxtNombre   = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtNombre2  = isset($_REQUEST["TxtNombre2"])?$_REQUEST["TxtNombre2"]:"";
+	$TxtDireccion  = isset($_REQUEST["TxtDireccion"])?$_REQUEST["TxtDireccion"]:"";
+	$TxtCiudad     = isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtCiudad"]:"";
+	$TxtComuna     = isset($_REQUEST["TxtComuna"])?$_REQUEST["TxtComuna"]:"";
+	$TxtRepresentante  = isset($_REQUEST["TxtRepresentante"])?$_REQUEST["TxtRepresentante"]:"";
+	$cmbregion        = isset($_REQUEST["cmbregion"])?$_REQUEST["cmbregion"]:"";
+	$TxtTelefono      = isset($_REQUEST["TxtTelefono"])?$_REQUEST["TxtTelefono"]:"";
+	$TxtTelefono2     = isset($_REQUEST["TxtTelefono2"])?$_REQUEST["TxtTelefono2"]:"";
+
+
+
 	switch($Proceso)
 	{
 		case "N":

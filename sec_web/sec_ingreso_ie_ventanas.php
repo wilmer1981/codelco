@@ -202,9 +202,9 @@ body {
 					while($Fila = mysqli_fetch_array($Respuesta))
 					{
 						if($Fila["cod_cliente"]."~~".$Fila["cod_sub_cliente"] == $CmbDestino)
-							echo '<option value="'.$Fila["cod_cliente"]."~~".$Fila["cod_sub_cliente"].'" SELECTed>'.$Fila[ciudad].' - '.$Fila["comuna"].' - '.$Fila["direccion"].'</option>';
+							echo '<option value="'.$Fila["cod_cliente"]."~~".$Fila["cod_sub_cliente"].'" SELECTed>'.$Fila["ciudad"].' - '.$Fila["comuna"].' - '.$Fila["direccion"].'</option>';
 						else	
-							echo '<option value="'.$Fila["cod_cliente"]."~~".$Fila["cod_sub_cliente"].'">'.$Fila[ciudad].' - '.$Fila["comuna"].' - '.$Fila["direccion"].'</option>';
+							echo '<option value="'.$Fila["cod_cliente"]."~~".$Fila["cod_sub_cliente"].'">'.$Fila["ciudad"].' - '.$Fila["comuna"].' - '.$Fila["direccion"].'</option>';
 					}
 					echo "</SELECT>";
   			  ?>

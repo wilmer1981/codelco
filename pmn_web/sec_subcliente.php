@@ -77,8 +77,8 @@ function AgregarCliente()//N� Envio
 		}
 		//echo "<input type='radio'  name='IdFecha' value='".$Row["fecha"]."' onClick=\"Proceso('E');\">\n";
 		echo "<td width='120'><input type='radio' name='IdCliente' value='".$Row[cod_sub_cliente]."' onClick=\"Proceso('C','$Envio');\">\n";
-		echo "<input type='hidden' name='Ciudad' value='".$Row[ciudad]."'>\n";
-		$Ciudad=$Row[ciudad];
+		echo "<input type='hidden' name='Ciudad' value='".$Row["ciudad"]."'>\n";
+		$Ciudad=$Row["ciudad"];
 		echo "<input type='hidden' name='Direccion' value='".$Row[direccion]."'>\n";
 		$Direccion=$Row[direccion];
 		echo "<input type='hidden' name='Rut' value='".$Row[rut_cliente]."'>\n";

@@ -520,7 +520,7 @@ function TeclaPulsada (tecla)
 						$CorrInternoCliente=$Fila[corr_interno_cliente];
 						$NombreCli=$Fila["nombre"];
 						$RutCliente=$Fila[rut_cliente];
-						$CiudadCli=$Fila[ciudad];
+						$CiudadCli=$Fila["ciudad"];
 						$VUnitario=$Fila[precio_us];
 						$Direccion=$Fila[direccion];
 						$DVSAP=$Fila[div_sap];

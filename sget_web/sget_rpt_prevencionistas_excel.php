@@ -84,7 +84,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
       <td align="left" rowspan="<? echo $CantEmp;?>"><? echo strtoupper($Filas["apellido_paterno"]." ".$Filas["apellido_materno"]." ".$Filas["nombres"]); ?></td>
       <td align="left" rowspan="<? echo $CantEmp;?>"><? echo strtoupper(str_pad($Filas[rut_prev],10,0,STR_PAD_LEFT)); ?></td>
       <td align="left" rowspan="<? echo $CantEmp;?>"><? echo $Filas[telefono]; ?>&nbsp;</td>
-      <td align="left" rowspan="<? echo $CantEmp;?>"><? echo $Filas[celular]; ?>&nbsp;</td>
+      <td align="left" rowspan="<? echo $CantEmp;?>"><? echo $Filas["celular"]; ?>&nbsp;</td>
       <td align="left" rowspan="<? echo $CantEmp;?>"><? echo $Filas[email_1]; ?>&nbsp;</td>
       <td align="left" rowspan="<? echo $CantEmp;?>"><? echo $Filas[email_2]; ?>&nbsp;</td>
       <td align="left" rowspan="<? echo $CantEmp;?>"><? echo ucwords(strtolower($TxtSerga)); ?>&nbsp;</td>

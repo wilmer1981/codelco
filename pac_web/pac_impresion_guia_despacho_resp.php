@@ -28,7 +28,7 @@
 			pdf_set_font($g,$TipoLetra, 18,"host", 0 );
 			pdf_set_font($g,$TipoLetra2, 10,"host", 0 );
 			pdf_show_xy($g,strtoupper(nl2br($Fila[cliente])),70,-70);
-			pdf_show_xy($g,strtoupper($Fila[direc_cliente].", ".$Fila[ciudad]),70,-85);
+			pdf_show_xy($g,strtoupper($Fila[direc_cliente].", ".$Fila["ciudad"]),70,-85);
 			pdf_set_font($g,$TipoLetra2, 12,"host", 0 );
 			pdf_show_xy($g,substr($Fila["fecha_hora"],8,2),430,-87);
 			pdf_show_xy($g,$meses[substr($Fila["fecha_hora"],5,2)-1],460,-87);

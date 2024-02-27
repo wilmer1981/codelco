@@ -1,5 +1,17 @@
 <?php 
 include("../principal/conectar_principal.php");
+$Proceso = $_REQUEST["Proceso"];
+$TxtId      = $_REQUEST["TxtId"];
+$TxtCliente = $_REQUEST["TxtCliente"];
+$TxtRut     = $_REQUEST["TxtRut"];
+$TxtSubCliente = $_REQUEST["TxtSubCliente"];
+$TxtCiudad     = $_REQUEST["TxtCiudad"];
+$TxtComuna     = $_REQUEST["TxtComuna"];
+$TxtDireccion = $_REQUEST["TxtDireccion"];
+$cmbregion    = $_REQUEST["cmbregion"];
+$TxtRepresentante = $_REQUEST["TxtRepresentante"];
+$TxtFono    = $_REQUEST["TxtFono"];
+$TxtCelular = $_REQUEST["TxtCelular"];
 
 if($Proceso == "G")
 {		

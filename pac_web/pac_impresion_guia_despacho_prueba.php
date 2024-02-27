@@ -23,7 +23,7 @@
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
 			$pdf->addTextWrap(55,750,350,10,strtoupper(nl2br($Fila[cliente])),$justification='left',0,0);
-			$pdf->addTextWrap(55,735,350,10,strtoupper($Fila[direc_cliente].", ".$Fila[ciudad]),$justification='left',0,0);
+			$pdf->addTextWrap(55,735,350,10,strtoupper($Fila[direc_cliente].", ".$Fila["ciudad"]),$justification='left',0,0);
 			if ($Fila[tipo_guia]=='C')//SOLO SI ES CAMION MUESTRA LA FECHA
 			{
 				$pdf->addTextWrap(430,732,50,12,substr($Fila["fecha_hora"],8,2),$justification='left',0,0);

@@ -93,7 +93,7 @@
 				$Resp1=mysqli_query($link, $Consulta);
 				$Fil1=mysqli_fetch_array($Resp1);
 				$Direccion=$Fil1["direccion"];
-				$Ciudad=$Fil1[ciudad];		
+				$Ciudad=$Fil1["ciudad"];		
 				$RutCliente=$Fil1[rut_cliente];		
 			}
 		}

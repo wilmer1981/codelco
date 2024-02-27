@@ -26,7 +26,7 @@ if ($Mostrar=="S")
 		if($Fila1=mysqli_fetch_array($Respuesta1))
 		{
 			$RutIngCliente=$Fila1["rut_cliente"];
-			$Ciudad=$Fila1[ciudad];
+			$Ciudad=$Fila1["ciudad"];
 			$Comuna=$Fila1["comuna"];
 			$Direccion=$Fila1["direccion"];
 		}
