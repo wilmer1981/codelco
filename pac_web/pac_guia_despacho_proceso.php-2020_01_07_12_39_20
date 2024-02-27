@@ -522,7 +522,7 @@ function TeclaPulsada (tecla)
 						$RutCliente=$Fila[rut_cliente];
 						$CiudadCli=$Fila["ciudad"];
 						$VUnitario=$Fila[precio_us];
-						$Direccion=$Fila[direccion];
+						$Direccion=$Fila["direccion"];
 						$DVSAP=$Fila[div_sap];
 						$ALMSAP=$Fila["almacen_sap"];
 						$ObserCliente=$Fila[glosa];

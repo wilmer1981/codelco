@@ -258,10 +258,10 @@
 		
 			$valores = $valores."&mostrar=S&recargapag=S&verificatabla=S&agregafila=N&mostrar=S&numero=".$cont;
 			
-			$arreglo1 = explode("-",substr($row1[fecha_ini],0,10)); //0: año, 1: mes, 2: dia.
-			$arreglo2 = explode(":",substr($row1[fecha_ini],11,5)); //0: Hr, 1: mm.
-			$arreglo3 = explode("-",substr($row1[fecha_ter],0,10));
-			$arreglo4 = explode(":",substr($row1[fecha_ter],11,5));
+			$arreglo1 = explode("-",substr($row1["fecha_ini"],0,10)); //0: año, 1: mes, 2: dia.
+			$arreglo2 = explode(":",substr($row1["fecha_ini"],11,5)); //0: Hr, 1: mm.
+			$arreglo3 = explode("-",substr($row1["fecha_ter"],0,10));
+			$arreglo4 = explode(":",substr($row1["fecha_ter"],11,5));
 			
 			$valores = $valores."&ano1=".$arreglo1[0]."&mes1=".$arreglo1[1]."&dia1=".$arreglo1[2]."&hr1=".$arreglo2[0]."&mm1=".$arreglo2[1];
 			$valores = $valores."&ano2=".$arreglo3[0]."&mes2=".$arreglo3[1]."&dia2=".$arreglo3[2]."&hr2=".$arreglo4[0]."&mm2=".$arreglo4[1];

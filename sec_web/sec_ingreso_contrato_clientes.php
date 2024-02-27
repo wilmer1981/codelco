@@ -2,13 +2,24 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 48;
 	include("../principal/conectar_pac_web.php");
-	
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$NumContrato   = isset($_REQUEST["NumContrato"])?$_REQUEST["NumContrato"]:"";
+	$NumSubContrato   = isset($_REQUEST["NumSubContrato"])?$_REQUEST["NumSubContrato"]:"";
+	$estado   = isset($_REQUEST["estado"])?$_REQUEST["estado"]:"";
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+
+	$prod   = isset($_REQUEST["prod"])?$_REQUEST["prod"]:"";
+	$subprod= isset($_REQUEST["subprod"])?$_REQUEST["subprod"]:"";
+
+
 	if($Proceso == "E")
 	{
 		$Consulta = "SELECT count(*) as num FROM sec_web.det_contrato WHERE num_contrato = $NumContrato AND num_subcontrato = $NumSubContrato";
 		$rs = mysqli_query($link, $Consulta);
 		$Fila = mysqli_fetch_array($rs);
-		$num = $Fila[num];
+		$num = $Fila["num"];
 		if($num == 1)
 		{
 			$Eliminar = "DELETE FROM sec_web.contrato WHERE num_contrato = $NumContrato AND num_subcontrato = $NumSubContrato";
@@ -343,30 +354,31 @@ function Salir()
 
 			$Resultado=mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='CheckContrato'><input type='hidden' name ='TxtCodigoO'>";
+			$Cont2=0;
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Cont2++;
 				echo "<tr>"; 
 				echo "<td align='left'width='2%'><input type='radio' name='CheckContrato' value='checkbox'></td>";
 				$Consulta = "SELECT t1.nombre_cliente as cliente FROM sec_web.cliente_venta as t1 Inner Join sec_web.contrato as t2"; 
-				$Consulta = $Consulta." ON t1.cod_cliente = t2.cod_cliente WHERE t2.num_contrato = $Fila[num_contrato]";
+				$Consulta = $Consulta." ON t1.cod_cliente = t2.cod_cliente WHERE t2.num_contrato = '".$Fila["num_contrato"]."' ";
 				$result = mysqli_query($link, $Consulta);
 				$Fil = mysqli_fetch_array($result);				
-				$Cliente = $Fil[cliente];
+				$Cliente = $Fil["cliente"];
 		
 				$Contrato=str_pad($Fila["num_contrato"],6,"0",STR_PAD_LEFT);
 				$SubContrato=str_pad($Fila["num_subcontrato"],6,"0",STR_PAD_LEFT);
 				echo "<td width='6%' align='left' onMouseOver='JavaScript:muestra(".$Cont2.");' onMouseOut='JavaScript:oculta(".$Cont2.");' bgcolor='#cccccc'>".$Contrato."&nbsp;<input type='hidden' name ='TxtCodigoO' value ='".$Fila["num_contrato"]."'>";
 				echo "<div id='Txt".$Cont2."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:380px'>\n";
 				echo "<font face='courier' color='#000000' size=1><b>Nro Contrato:&nbsp;</b>".$Contrato."</font><br>";
-				echo "<font face='courier' color='#000000' size=1><b>Nombre Contrato:&nbsp;</b>".$Fila[nom_contrato]."</font><br>";
+				echo "<font face='courier' color='#000000' size=1><b>Nombre Contrato:&nbsp;</b>".$Fila["nom_contrato"]."</font><br>";
 				
 				if($SubContrato != 0 && $SubContrato != '')
 				    echo "<font face='courier' color='#000000' size=1><b>Nro SubContrato:&nbsp;</b>".$SubContrato."</font><br>";
 				echo "<font face='courier' color='#000000' size=1><b>Cliente:&nbsp;</b>".$Cliente."</font><br>";
 				$ie = '';
-				$Consulta = "SELECT * FROM sec_web.det_contrato_por_ie WHERE num_contrato = ".$Fila[num_contrato];				
-				$Consulta.= " AND num_subcontrato = ".$Fila[num_subcontrato];
+				$Consulta = "SELECT * FROM sec_web.det_contrato_por_ie WHERE num_contrato = ".$Fila["num_contrato"];				
+				$Consulta.= " AND num_subcontrato = ".$Fila["num_subcontrato"];
 				$Consulta.= " AND cod_producto = ".$Fila["cod_producto"];
 				$Consulta.= " AND cod_subproducto = ".$Fila["cod_subproducto"];
 				$Consulta.= " ORDER BY corr_ie";
@@ -379,11 +391,11 @@ function Salir()
                     
 					if($Row["cod_sub_cliente"] != '')
 					{
-						$Consulta = "SELECT * FROM sec_web.sub_cliente_vta WHERE cod_cliente = '$Fila["cod_cliente"]' AND cod_sub_cliente = '$Row["cod_sub_cliente"]'";
+						$Consulta = "SELECT * FROM sec_web.sub_cliente_vta WHERE cod_cliente = '".$Fila["cod_cliente"]."' AND cod_sub_cliente = '".$Row["cod_sub_cliente"]."'";
 						$result = mysqli_query($link, $Consulta);
 						while($row = mysqli_fetch_array($result))
 						{
-						    $Destino = $Destino.', '.$row[direccion];                      					
+						    $Destino = $Destino.', '.$row["direccion"];                      					
 						}
 					}	
 				}
@@ -391,14 +403,14 @@ function Salir()
 				$tope2 = strlen($Destino);
 				echo "<font face='courier' color='#000000' size=1><b>IE:&nbsp;</b>".substr($ie,1,$tope)."</font><br>";
 				echo "<font face='courier' color='#000000' size=1><b>Destino:&nbsp;</b>".substr($Destino,1,$tope2)."</font><br>";
-				if($Fila[confeccion] == "G")
+				if($Fila["confeccion"] == "G")
 					$Confeccion = "Granel";
-				if($Fila[confeccion] == "L")
+				if($Fila["confeccion"] == "L")
 					$Confeccion = "Lote";
 				echo "<font face='courier' color='#000000' size=1><b>Confección: </b>".$Confeccion."</font><br>";
 				echo "</div></td>";				
-				echo "<input type='hidden' name='Contrato' value='".$Fila[num_contrato]."'>";
-				echo "<input type='hidden' name='SubContrato' value='".$Fila[num_subcontrato]."'>";
+				echo "<input type='hidden' name='Contrato' value='".$Fila["num_contrato"]."'>";
+				echo "<input type='hidden' name='SubContrato' value='".$Fila["num_subcontrato"]."'>";
 				echo "<input type='hidden' name='producto' value='".$Fila["cod_producto"]."'>";
 				echo "<input type='hidden' name='subproducto' value='".$Fila["cod_subproducto"]."'>";
 				$Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$Fila["cod_producto"]." AND cod_subproducto = ".$Fila["cod_subproducto"]."";

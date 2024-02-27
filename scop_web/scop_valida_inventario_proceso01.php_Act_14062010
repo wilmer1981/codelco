@@ -15,7 +15,7 @@
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Contrato=$Fila["cod_contrato"];
-				$NumContrato=$Fila[num_contrato];
+				$NumContrato=$Fila["num_contrato"];
 				$TipoContrato=$Fila[cod_tipo_contr];
 				CambioDeEstado($Rut,$Contrato,$Fecha,$Ano,$CmbMes,2);//ESTA FUNCION DE ENCUNTRA EN LA PAGINAS DE FUNCIONES
 			}

@@ -43,7 +43,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 					$NomTipoContrato=$Fila[nom_tipo_contr];
 					$CodContrato=$Fila["cod_contrato"];
 					$NomContrato=$Fila[descrip_contrato];
-					$NumContrato=$Fila[num_contrato];
+					$NumContrato=$Fila["num_contrato"];
 					$TipoFlujo=$Fila[tipo_flujo];
 				  ?>
          <tr height="24">

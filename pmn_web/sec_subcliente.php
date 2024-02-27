@@ -79,11 +79,11 @@ function AgregarCliente()//N� Envio
 		echo "<td width='120'><input type='radio' name='IdCliente' value='".$Row[cod_sub_cliente]."' onClick=\"Proceso('C','$Envio');\">\n";
 		echo "<input type='hidden' name='Ciudad' value='".$Row["ciudad"]."'>\n";
 		$Ciudad=$Row["ciudad"];
-		echo "<input type='hidden' name='Direccion' value='".$Row[direccion]."'>\n";
-		$Direccion=$Row[direccion];
+		echo "<input type='hidden' name='Direccion' value='".$Row["direccion"]."'>\n";
+		$Direccion=$Row["direccion"];
 		echo "<input type='hidden' name='Rut' value='".$Row[rut_cliente]."'>\n";
 		$Rut=$Row[rut_cliente];
-		echo "$Row[nombre_nave]&nbsp;$Row[direccion]</td>";
+		echo "$Row[nombre_nave]&nbsp;$Row["direccion"]</td>";
 		$cont =$cont+ 1;
 	}
 ?>

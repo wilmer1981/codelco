@@ -34,17 +34,17 @@
 			$Dia = substr($Fila[fecha_contrato],8,2);
 			$Ano = substr($Fila[fecha_contrato],0,4);
 			$Mes = substr($Fila[fecha_contrato],5,2);
-			$DiaIni = substr($Fila[fecha_ini],8,2);
-			$AnoIni = substr($Fila[fecha_ini],0,4);
-			$MesIni = substr($Fila[fecha_ini],5,2);			
-			$DiaTer = substr($Fila[fecha_ter],8,2);
-			$AnoTer = substr($Fila[fecha_ter],0,4);
-			$MesTer = substr($Fila[fecha_ter],5,2);			
+			$DiaIni = substr($Fila["fecha_ini"],8,2);
+			$AnoIni = substr($Fila["fecha_ini"],0,4);
+			$MesIni = substr($Fila["fecha_ini"],5,2);			
+			$DiaTer = substr($Fila["fecha_ter"],8,2);
+			$AnoTer = substr($Fila["fecha_ter"],0,4);
+			$MesTer = substr($Fila["fecha_ter"],5,2);			
 			$TxtContrato=str_pad($Fila[num_cont_transporte],6,"0",STR_PAD_LEFT);
 			$Contrato = $Fila[num_cont_transporte];
 			$TxtNombreCont=$Fila[nombre_contrato];
 			$estado = $Fila[vigente];
-			$cmbcontrato=str_pad($Fila[num_contrato],6,"0",STR_PAD_LEFT).str_pad($Fila[num_subcontrato],6,"0",STR_PAD_LEFT);
+			$cmbcontrato=str_pad($Fila["num_contrato"],6,"0",STR_PAD_LEFT).str_pad($Fila["num_subcontrato"],6,"0",STR_PAD_LEFT);
 			$TxtPesoVenta = $Fila[peso_venta];
 			$cmbtransportista = $Fila[transportista];
 			$TxtRepresentante = $Fila["representante"];
@@ -370,11 +370,11 @@ function Salir()
 				$rs = mysqli_query($link, $Consulta);
 				while($row = mysqli_fetch_array($rs))
 				{
-					$contrato = str_pad($row[num_contrato],6,"0",STR_PAD_LEFT).str_pad($row[num_subcontrato],6,"0",STR_PAD_LEFT);
+					$contrato = str_pad($row["num_contrato"],6,"0",STR_PAD_LEFT).str_pad($row["num_subcontrato"],6,"0",STR_PAD_LEFT);
 					if($contrato == $cmbcontrato)
-							echo '<option value="'.$contrato.'" SELECTed>'.str_pad($row[num_contrato],6,"0",STR_PAD_LEFT).' - '.str_pad($row[num_subcontrato],6,"0",STR_PAD_LEFT).' - '.$row[nom_contrato].'</option>';
+							echo '<option value="'.$contrato.'" SELECTed>'.str_pad($row["num_contrato"],6,"0",STR_PAD_LEFT).' - '.str_pad($row["num_subcontrato"],6,"0",STR_PAD_LEFT).' - '.$row["nom_contrato"].'</option>';
 					else 
-						echo '<option value="'.$contrato.'">'.str_pad($row[num_contrato],6,"0",STR_PAD_LEFT).' - '.str_pad($row[num_subcontrato],6,"0",STR_PAD_LEFT).' - '.$row[nom_contrato].'</option>';				
+						echo '<option value="'.$contrato.'">'.str_pad($row["num_contrato"],6,"0",STR_PAD_LEFT).' - '.str_pad($row[num_subcontrato],6,"0",STR_PAD_LEFT).' - '.$row["nom_contrato"].'</option>';				
 				}
 			  ?>
               </SELECT> </td>

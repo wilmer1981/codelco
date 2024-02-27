@@ -317,12 +317,12 @@
 			$Ano = substr($Row[fecha_carga],0,4);
 			$Mes = substr($Row[fecha_carga],5,2);		
 			//Fechas De Registro De Busqueda
-			$DiaIni = substr($Row[fecha_ini],8,2);
-			$AnoIni = substr($Row[fecha_ini],0,4);
-			$MesIni = substr($Row[fecha_ini],5,2);		
-			$DiaTer = substr($Row[fecha_ter],8,2);
-			$AnoTer = substr($Row[fecha_ter],0,4);
-			$MesTer = substr($Row[fecha_ter],5,2);		
+			$DiaIni = substr($Row["fecha_ini"],8,2);
+			$AnoIni = substr($Row["fecha_ini"],0,4);
+			$MesIni = substr($Row["fecha_ini"],5,2);		
+			$DiaTer = substr($Row["fecha_ter"],8,2);
+			$AnoTer = substr($Row["fecha_ter"],0,4);
+			$MesTer = substr($Row["fecha_ter"],5,2);		
 		}				
 
 

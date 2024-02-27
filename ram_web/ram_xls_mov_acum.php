@@ -530,7 +530,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				
 				if($row7 = mysqli_fetch_array($rs7))
 				{
-					$fecha_t = substr($row7[fecha_ter],0,10);				
+					$fecha_t = substr($row7["fecha_ter"],0,10);				
 				}*/
 
 				//Existencia Final

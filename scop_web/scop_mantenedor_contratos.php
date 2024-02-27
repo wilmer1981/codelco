@@ -302,7 +302,7 @@ if($Buscar=='S')
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
-		$NumContrato=$FilaTC[num_contrato];
+		$NumContrato=$FilaTC["num_contrato"];
 		$Contrato=$FilaTC["cod_contrato"];
 		if($FilaTC[tipo_cu]==1)
 		{
@@ -341,7 +341,7 @@ if($Buscar=='S')
       	<tr bgcolor="#FFFFFF">
         <td  align="center"><? echo "<input name='CheckTipoDoc' class='SinBorde' type='checkbox'  value='".$Contrato."'>" ?></td>
 		<td align="left"><a href="JavaScript:Resumen('<? echo $Contrato;?>')"><? echo $NumContrato; ?></a></td>		
-        <td align="center"><? echo $FilaTC[fecha_contrato]; ?></td>
+        <td align="center"><? echo $FilaTC["fecha_contrato"]; ?></td>
 		<td align="left"><? echo $FilaTC[descrip_contrato]; ?>&nbsp;</td>
 		<td align="center"><? echo $FilaTC[nom_tipo_contr]; ?>&nbsp;</td>		
         <td align="center"><? echo $MESCU; ?>&nbsp;</td>		

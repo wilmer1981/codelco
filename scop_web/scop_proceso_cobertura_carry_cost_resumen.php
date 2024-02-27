@@ -564,7 +564,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 									}
 									if($PF!='')
 										$PF=substr($PF,0,strlen($PF)-1);
-									echo "<td>".$Fila[num_contrato]."</td>";									
+									echo "<td>".$Fila["num_contrato"]."</td>";									
 									if($CmbAcuerdo=='P')
 									{
 										echo "<td>".$PF."&nbsp;</td>";

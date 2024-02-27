@@ -163,9 +163,9 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		
 		if($row4 = mysqli_fetch_array($rs4))
 		{
-			$fecha_ini = $row4[fecha_ini];
+			$fecha_ini = $row4["fecha_ini"];
 			$fecha_ter = $row4["fecha_ter"];
-			echo '<td width="40%" align="center" colspan="5"><strong>Inicio Mov : '.substr($row4[fecha_ini],0,10).' &nbsp;&nbsp;&nbsp;Termino Mov : '.substr($row4["fecha_ter"],0,10).'</strong></td>';
+			echo '<td width="40%" align="center" colspan="5"><strong>Inicio Mov : '.substr($row4["fecha_ini"],0,10).' &nbsp;&nbsp;&nbsp;Termino Mov : '.substr($row4["fecha_ter"],0,10).'</strong></td>';
 		}
 		echo '</tr></table>';
 

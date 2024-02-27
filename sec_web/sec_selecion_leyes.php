@@ -1,10 +1,24 @@
 ﻿<?php
 	include("../principal/conectar_principal.php");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
 	$Leyes=array();
 	$Impurezas=array();
 	$i=0;
 	$f=0;
+	
+	$Opcion   = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$radio    = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+	$radio1   = isset($_REQUEST["radio1"])?$_REQUEST["radio1"]:"";
+	$radio2   = isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+	$Transporte   = isset($_REQUEST["Transporte"])?$_REQUEST["Transporte"]:"";
+
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Productos   = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
+
 	$SA_Aux=$Valores;
 	if (($Opcion=='Generar')||($Opcion=='Rutinaria'))
 	{
@@ -271,12 +285,12 @@ function ValidarGenerar(valores,Productos,SubProducto,Opcion,Proceso)
 					}
 					if ($Encontro== false)
      				{
-						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];
+						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];
 						echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";					
 					}
 					else
 					{
-						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."' checked>".$Fila[abrev];
+						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."' checked>".$Fila["abrev"];
 						echo "<input type ='hidden' name='TxtUnidad' value='$Unidad'>";
 					}
 					echo '</td>';
@@ -322,12 +336,12 @@ function ValidarGenerar(valores,Productos,SubProducto,Opcion,Proceso)
 				}
 				if ($Encontro == false)
    				{
-					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];		
+					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];		
 					echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";
 				}
 				else
 				{
-					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."' checked>".$Fila[abrev];						
+					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."' checked>".$Fila["abrev"];						
 					echo "<input type ='hidden' name='TxtUnidad' value='$Unidad'>";
 				}	
 				echo "</td>";
@@ -359,7 +373,7 @@ function ValidarGenerar(valores,Productos,SubProducto,Opcion,Proceso)
 					echo '<tr>';
 					$cont=1;
 				}
-				echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];		
+				echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];		
 				echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";
 				
 				echo "</td>";

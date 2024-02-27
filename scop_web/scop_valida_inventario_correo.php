@@ -90,7 +90,7 @@ include("funciones/scop_funciones.php");
 							$Datos=1;
 							$NomTipoContrato=$Fila[nom_tipo_contr];
 							$CodTipoContrato=$Fila[cod_tipo_contr];
-							$NumContrato=$Fila[num_contrato];
+							$NumContrato=$Fila["num_contrato"];
 							$CodContrato=$Fila["cod_contrato"];
 							$NomContrato=$Fila[descrip_contrato];
 							//$Cu=$Fila[acuerdo_cu];$Ag=$Fila[acuerdo_ag];$Au=$Fila[acuerdo_au];

@@ -190,7 +190,7 @@ if($Buscar=='S')
 	//echo $Consulta."<br>";
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
-		$NumContrato=$FilaTC[num_contrato];
+		$NumContrato=$FilaTC["num_contrato"];
 		$Contrato=$FilaTC["cod_contrato"];
 		if($FilaTC[tipo_cu]==1)
 		{

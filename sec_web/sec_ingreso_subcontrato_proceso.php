@@ -2,23 +2,56 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_sec_web.php");
+
+	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+
+	$DiaIni   = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni   = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni   = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+
+	$DiaTer   = isset($_REQUEST["DiaTer"])?$_REQUEST["DiaTer"]:date("d");
+	$MesTer   = isset($_REQUEST["MesTer"])?$_REQUEST["MesTer"]:date("m");
+	$AnoTer   = isset($_REQUEST["AnoTer"])?$_REQUEST["AnoTer"]:date("Y");
+
+	$DiaRen   = isset($_REQUEST["DiaRen"])?$_REQUEST["DiaRen"]:date("d");
+	$MesRen   = isset($_REQUEST["MesRen"])?$_REQUEST["MesRen"]:date("m");
+	$AnoRen   = isset($_REQUEST["AnoRen"])?$_REQUEST["AnoRen"]:date("Y");
+
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$NumContrato   = isset($_REQUEST["NumContrato"])?$_REQUEST["NumContrato"]:"";
+	$NumSubContrato   = isset($_REQUEST["NumSubContrato"])?$_REQUEST["NumSubContrato"]:"";
+	$TxtNomContrato   = isset($_REQUEST["TxtNomContrato"])?$_REQUEST["TxtNomContrato"]:"";
+	$TxtPesoVent   = isset($_REQUEST["TxtPesoVent"])?$_REQUEST["TxtPesoVent"]:"";
+	$TxtPesoVent   = isset($_REQUEST["TxtPesoVent"])?$_REQUEST["TxtPesoVent"]:"";
+	$TxtPrecioCompVent   = isset($_REQUEST["TxtPrecioCompVent"])?$_REQUEST["TxtPrecioCompVent"]:"";
+
+	$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$Contrato   = isset($_REQUEST["Contrato"])?$_REQUEST["Contrato"]:"";
+	$SubContrato   = isset($_REQUEST["SubContrato"])?$_REQUEST["SubContrato"]:"";
+	$producto   = isset($_REQUEST["producto"])?$_REQUEST["producto"]:"";
+	$subproducto= isset($_REQUEST["subproducto"])?$_REQUEST["subproducto"]:"";
+	
 	
 	switch($Proceso)
 	{
 		case "P":
-			$Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = $NumContrato AND num_subcontrato = 0";
+			$Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = '".$NumContrato."' AND num_subcontrato = 0";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
             
 			$TxtContrato=str_pad($NumContrato,6,"0",STR_PAD_LEFT);
 			$Contrato = $NumContrato;
 			$estado = "V";
-			$ContratoVent = $Fila[contrato_vent];
+			$ContratoVent = $Fila["contrato_vent"];
 
             //SubContrato
 			if($NumSubContrato != '' && $NumSubContrato != 0)
 			{
-			    $Consulta = "SELECT ifnull(max(num_subcontrato),0)+1 as mayor from sec_web.det_contrato WHERE num_contrato = $Contrato";
+			    $Consulta = "SELECT ifnull(max(num_subcontrato),0)+1 as mayor from sec_web.det_contrato WHERE num_contrato = '".$Contrato."'";
 			    $Result = mysqli_query($link, $Consulta);
 			    $Fil=mysqli_fetch_array($Result);
 			    $TxtSubContrato=str_pad($Fil["mayor"],6,"0",STR_PAD_LEFT);
@@ -36,34 +69,34 @@
 			break;
 			
 		case "M":
-			$Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = $Contrato AND num_subcontrato = $SubContrato AND cod_producto = $producto AND cod_subproducto = $subproducto";
+			$Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = '".$Contrato."' AND num_subcontrato = '".$SubContrato."' AND cod_producto = '".$producto."' AND cod_subproducto = '".$subproducto."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$Dia = substr($Fila["fecha"],8,2);
-			$Ano = substr($Fila["fecha"],0,4);
-			$Mes = substr($Fila["fecha"],5,2);			
-			$DiaIni = substr($Fila[fecha_ini],8,2);
-			$AnoIni = substr($Fila[fecha_ini],0,4);
-			$MesIni = substr($Fila[fecha_ini],5,2);			
-			$DiaTer = substr($Fila[fecha_ter],8,2);
-			$AnoTer = substr($Fila[fecha_ter],0,4);
-			$MesTer = substr($Fila[fecha_ter],5,2);			
-			$DiaRen = substr($Fila[fecha_ren],8,2);
-			$AnoRen = substr($Fila[fecha_ren],0,4);
-			$MesRen = substr($Fila[fecha_ren],5,2);						
-			$TxtContrato=str_pad($Fila[num_contrato],6,"0",STR_PAD_LEFT);
-			$Contrato = $Fila[num_contrato];
-			$ContratoVent = $Fila[contrato_vent];
-			$estado = $Fila[vigente];			
-			$TxtNomContrato = $Fila[nom_contrato];
-			$TxtSubContrato=str_pad($Fila[num_subcontrato],6,"0",STR_PAD_LEFT);
-			$SubContrato = $Fila[num_subcontrato];
+			$Dia = substr($Fila["fecha_contrato"],8,2);
+			$Ano = substr($Fila["fecha_contrato"],0,4);
+			$Mes = substr($Fila["fecha_contrato"],5,2);			
+			$DiaIni = substr($Fila["fecha_ini"],8,2);
+			$AnoIni = substr($Fila["fecha_ini"],0,4);
+			$MesIni = substr($Fila["fecha_ini"],5,2);			
+			$DiaTer = substr($Fila["fecha_ter"],8,2);
+			$AnoTer = substr($Fila["fecha_ter"],0,4);
+			$MesTer = substr($Fila["fecha_ter"],5,2);			
+			$DiaRen = substr($Fila["fecha_ren"],8,2);
+			$AnoRen = substr($Fila["fecha_ren"],0,4);
+			$MesRen = substr($Fila["fecha_ren"],5,2);						
+			$TxtContrato=str_pad($Fila["num_contrato"],6,"0",STR_PAD_LEFT);
+			$Contrato = $Fila["num_contrato"];
+			$ContratoVent = $Fila["contrato_vent"];
+			$estado = $Fila["vigente"];			
+			$TxtNomContrato = $Fila["nom_contrato"];
+			$TxtSubContrato=str_pad($Fila["num_subcontrato"],6,"0",STR_PAD_LEFT);
+			$SubContrato = $Fila["num_subcontrato"];
 			$cmbproducto = $Fila["cod_producto"];
 			$cmbsubproducto = $Fila["cod_subproducto"];
-			$TxtPesoVent = $Fila[peso_vendido];
-			$TxtPrecioCompVent = $Fila[precio_compraventa];
+			$TxtPesoVent = $Fila["peso_vendido"];
+			$TxtPrecioCompVent = $Fila["precio_compraventa"];
 
-			$Consulta1="SELECT * FROM sec_web.contrato WHERE num_contrato = $Contrato";
+			$Consulta1="SELECT * FROM sec_web.contrato WHERE num_contrato = '".$Contrato."'";
 			$Respuesta1=mysqli_query($link, $Consulta1);
 			$Fila1=mysqli_fetch_array($Respuesta1);
 			$cmbcliente = $Fila1["cod_cliente"];
@@ -129,13 +162,13 @@ function Salir()
 						if ($Dia == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("j"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 			  ?>
               </SELECT> <SELECT name="Mes" style="width:90px;">
@@ -148,13 +181,13 @@ function Salir()
 						if ($Mes == $i)
 							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("n"))
 							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}*/
 				}
 				?>
               </SELECT> <SELECT name="Ano" style="width:60px;">
@@ -166,13 +199,13 @@ function Salir()
 						if ($Ano == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("Y"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 				?>
               </SELECT></td>
@@ -188,13 +221,13 @@ function Salir()
 						if ($DiaIni == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("j"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 			  ?>
               </SELECT> <SELECT name="MesIni" style="width:90px;">
@@ -207,13 +240,13 @@ function Salir()
 						if ($MesIni == $i)
 							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("n"))
 							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}*/
 				}
 				?>
               </SELECT> <SELECT name="AnoIni" style="width:60px;">
@@ -225,13 +258,13 @@ function Salir()
 						if ($AnoIni == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("Y"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 				?>
               </SELECT></td>
@@ -247,13 +280,13 @@ function Salir()
 						if ($DiaRen == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("j"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 			  ?>
               </SELECT> <SELECT name="MesRen" style="width:90px;">
@@ -266,13 +299,13 @@ function Salir()
 						if ($MesRen == $i)
 							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("n"))
 							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}*/
 				}
 				?>
               </SELECT> <SELECT name="AnoRen" style="width:60px;">
@@ -284,13 +317,13 @@ function Salir()
 						if ($AnoRen == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("Y"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 				?>
               </SELECT></td>
@@ -306,13 +339,13 @@ function Salir()
 						if ($DiaTer == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("j"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 			  ?>
               </SELECT> <SELECT name="MesTer" style="width:90px;">
@@ -325,13 +358,13 @@ function Salir()
 						if ($MesTer == $i)
 							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("n"))
 							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}*/
 				}
 				?>
               </SELECT> <SELECT name="AnoTer" style="width:60px;">
@@ -343,13 +376,13 @@ function Salir()
 						if ($AnoTer == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("Y"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 				?>
               </SELECT> </td>

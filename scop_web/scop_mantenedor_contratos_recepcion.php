@@ -110,7 +110,7 @@ function RecargaREC(Opc,check)
 				  while ($Fila=mysql_fetch_array($Resp))
 				  {
 						$Contrato=$Fila["cod_contrato"];
-						$NumContrato=$Fila[num_contrato];
+						$NumContrato=$Fila["num_contrato"];
 						$NomFlujo=$Fila[nom_flujo];	
 						$TipoFlujo=$Fila[tipo_flujo];	
 						$TipoInventario=$Fila[tipo_inventario];

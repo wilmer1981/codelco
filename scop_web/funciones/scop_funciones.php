@@ -350,7 +350,7 @@ function EnvioCorreo($Correo,$NumEstado,$TipoEst,$Ano,$Mes,$Meses,$TipoEstado,$T
 			$Consulta="select * from scop_contratos where cod_contrato='".$v."'";
 			$Resp=mysql_query($Consulta);
 			while($Fila=mysql_fetch_array($Resp))
-			    $Contratos=$Contratos."N�&nbsp;".$Fila[num_contrato].",";
+			    $Contratos=$Contratos."N�&nbsp;".$Fila["num_contrato"].",";
 		}
 		$Contratos=substr($Contratos,0,strlen($Contratos)-1);
 		$TipoEst2=substr($TipoEst,0,strlen($TipoEst)-1);

@@ -127,7 +127,7 @@
 			$valores = $valores."&parametros=".$parametros;
 		
 		
-			$arreglo = explode("-",$row[fecha_ini]); //0: ano, 1: mes, 2: dia.
+			$arreglo = explode("-",$row["fecha_ini"]); //0: ano, 1: mes, 2: dia.
 			$valores = $valores."&ano=".$arreglo[0]."&mes=".$arreglo[1]."&dia=".substr($arreglo[2],0,2);
 		}				
 

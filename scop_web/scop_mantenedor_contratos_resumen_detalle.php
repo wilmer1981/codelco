@@ -47,7 +47,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  $Resp1=mysql_query($Consulta1);	
 	  if ($Fila1=mysql_fetch_array($Resp1))
 	  {
-	  	$NumContrato=$Fila1[num_contrato];
+	  	$NumContrato=$Fila1["num_contrato"];
    ?>	
 	   <td align="left" colspan="4">Contrato&nbsp;&nbsp;&nbsp;&nbsp;<? echo $NumContrato;?></td>
    <? }?>	  

@@ -70,7 +70,7 @@
 				$Consulta.="where cod_sub_cliente='".$Fila["cod_sub_cliente"]."' and rut_cliente='".$Fila[rut_cliente]."'	";
 				$Resp1=mysqli_query($link, $Consulta);
 				$Fil1=mysqli_fetch_array($Resp1);
-				$Direccion=$Fil1[direccion];
+				$Direccion=$Fil1["direccion"];
 				$Ciudad=$Fil1["ciudad"];		
 				$RutCliente=$Fil1[rut_cliente];		
 				
@@ -274,7 +274,7 @@ function Transporte()
 				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysqli_fetch_array($Resp);
 				$Ciudad=$Fila["ciudad"];
-				$Direccion=$Fila[direccion];
+				$Direccion=$Fila["direccion"];
 				$RutCliente=$Fila[rut_cliente];			*/
 			}
 			

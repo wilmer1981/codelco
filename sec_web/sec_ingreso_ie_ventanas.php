@@ -142,18 +142,18 @@ body {
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						$Valor=$Fila[num_contrato]."~~".$Fila[num_subcontrato]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"];
+						$Valor=$Fila["num_contrato"]."~~".$Fila["num_subcontrato"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"];
 						if ($CmbContrato==$Valor)
 						{								
-							echo "<option value='".$Fila[num_contrato]."~~".$Fila[num_subcontrato]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."' SELECTed>".str_pad($Fila[num_contrato],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila[num_subcontrato],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila[contrato_vent],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;".$Fila["producto"]." - ".$Fila["subproducto"]."</option>";
-							$TxtNombreContrato=$Fila[nom_contrato];
+							echo "<option value='".$Fila["num_contrato"]."~~".$Fila["num_subcontrato"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."' SELECTed>".str_pad($Fila["num_contrato"],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila["num_subcontrato"],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila["contrato_vent"],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;".$Fila["producto"]." - ".$Fila["subproducto"]."</option>";
+							$TxtNombreContrato=$Fila["nom_contrato"];
 							$TxtPesoContrato=$Fila[peso_vendido];
 							$CodCliente=$Fila["cod_cliente"];
-							$Confeccion=$Fila[confeccion];
+							$Confeccion=$Fila["confeccion"];
 						}
 						else
 						{
-							echo "<option value='".$Fila[num_contrato]."~~".$Fila[num_subcontrato]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."'>".str_pad($Fila[num_contrato],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila[num_subcontrato],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila[contrato_vent],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;".$Fila["producto"]." - ".$Fila["subproducto"]."</option>";
+							echo "<option value='".$Fila["num_contrato"]."~~".$Fila["num_subcontrato"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."'>".str_pad($Fila["num_contrato"],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila["num_subcontrato"],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila["contrato_vent"],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;".$Fila["producto"]." - ".$Fila["subproducto"]."</option>";
 						}	
 					}						
 					echo "</SELECT>";

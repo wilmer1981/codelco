@@ -107,14 +107,14 @@
 					$pdf->addTextWrap(50,185,200,11,strtoupper($Fila[chofer]),$justification='left',0,0);
 					$pdf->addTextWrap(55,170,200,11,strtoupper($Fila[rut_chofer]),$justification='left',0,0);
 					$pdf->addTextWrap(100,157,200,11,strtoupper($Fila[registro]),$justification='left',0,0);
-					$pdf->addTextWrap(50,143,200,11,strtoupper($Fila[direccion]),$justification='left',0,0);
+					$pdf->addTextWrap(50,143,200,11,strtoupper($Fila["direccion"]),$justification='left',0,0);
 					$pdf->addTextWrap(370,185,200,11,strtoupper($Fila[transportista]),$justification='left',0,0);
 					$pdf->addTextWrap(370,170,200,11,strtoupper($Fila[marca]),$justification='left',0,0);
 					$pdf->addTextWrap(370,157,200,11,strtoupper($Fila[nro_patente]),$justification='left',0,0);					
 					/*pdf_show_xy($g,strtoupper($Fila[chofer]),77,-620);
 					pdf_show_xy($g,strtoupper($Fila[rut_chofer]),80,-634);
 					pdf_show_xy($g,strtoupper($Fila[registro]),130,-646);
-					pdf_show_xy($g,strtoupper($Fila[direccion]),75,-658);
+					pdf_show_xy($g,strtoupper($Fila["direccion"]),75,-658);
 					pdf_show_xy($g,strtoupper($Fila[transportista]),380,-620);
 					pdf_show_xy($g,strtoupper($Fila[marca]),380,-634);
 					pdf_show_xy($g,strtoupper($Fila[nro_patente]),380,-646);

@@ -1,7 +1,21 @@
 <?php
 include("../principal/conectar_cal_web.php");
+
+$CookieRut = $_COOKIE["CookieRut"];
+$Proceso   = $_REQUEST["Proceso"];
+
+$ValoresLeyes         = $_REQUEST["ValoresLeyes"];
+$ValoresImpurezas     = $_REQUEST["ValoresImpurezas"];
+$ValoresLeyesFisicas  = $_REQUEST["ValoresLeyesFisicas"];
+$Muestras  = $_REQUEST["Muestras"];
+$Opcion    = $_REQUEST["Opcion"];
+$radio     = $_REQUEST["radio"];
+$radio1    = $_REQUEST["radio1"];
+$radio2    = $_REQUEST["radio2"];
+$Transporte  = $_REQUEST["Transporte"];
+
 $ValCheck = $Muestras;
-$Rut=$CookieRut;
+$Rut = $CookieRut;
 /*if ($Opcion == 'Generar')
 {
 	$Fecha="";

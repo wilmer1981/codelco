@@ -1020,7 +1020,7 @@ function FicoCreaArchivoBoletasPen($NomArchivo)
 	while($Fila=mysqli_fetch_array($Respuesta))
 	{
 		$Correl=$Fila[correlativo]-1;
-		$Actualizar="UPDATE fico_clientes_miscelaneos set direccion='".$Fila[direccion]."', ";
+		$Actualizar="UPDATE fico_clientes_miscelaneos set direccion='".$Fila["direccion"]."', ";
 		$Actualizar.=" comuna='".$Fila["comuna"]."',pais='".$Fila[pais]."' ";
 		$Actualizar.=" where correlativo='".$Correl."' and rut <> 1 ";
 		mysqli_query($link, $Actualizar);

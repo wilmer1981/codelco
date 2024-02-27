@@ -150,7 +150,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -272,7 +272,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -345,7 +345,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -467,7 +467,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -540,7 +540,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -662,7 +662,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -737,7 +737,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -859,7 +859,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -1143,7 +1143,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row["fecha"],8,2)."-".substr($row["fecha"],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha"],8,2)."-".substr($row["fecha"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -1221,7 +1221,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -1299,7 +1299,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -1377,7 +1377,7 @@ function Proceso(opc)
 		 $rs = mysql_query($Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -1455,7 +1455,7 @@ function Proceso(opc)
 		 $Rs = mysql_query($Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
-      <td align="center"><? if ($row[fecha_ini]!="" && !is_null($row[fecha_ini])){echo substr($row[fecha_ini],8,2)."-".substr($row[fecha_ini],5,2);}else{echo "&nbsp;";} ?></td>
+      <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ini],0,5)  ?>&nbsp;</td>
       <td align="center"><? echo substr($row[hora_ter],0,5)  ?>&nbsp;</td>
@@ -2226,7 +2226,7 @@ function Proceso(opc)
 		$rs = mysql_query($Consulta);
 		while ($row = mysql_fetch_array($rs))
 		{
-			$arreglo[] = array($row["campo1"], $row[hora_ini], $row[hora_ter], $row[fecha_ini]);
+			$arreglo[] = array($row["campo1"], $row[hora_ini], $row[hora_ter], $row["fecha_ini"]);
 		}
 
 	?>

@@ -2,23 +2,75 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_sec_web.php");
+
+	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+
+	$DiaIni   = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni   = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni   = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+
+	$DiaTer   = isset($_REQUEST["DiaTer"])?$_REQUEST["DiaTer"]:date("d");
+	$MesTer   = isset($_REQUEST["MesTer"])?$_REQUEST["MesTer"]:date("m");
+	$AnoTer   = isset($_REQUEST["AnoTer"])?$_REQUEST["AnoTer"]:date("Y");
+
+	$DiaRen   = isset($_REQUEST["DiaRen"])?$_REQUEST["DiaRen"]:date("d");
+	$MesRen   = isset($_REQUEST["MesRen"])?$_REQUEST["MesRen"]:date("m");
+	$AnoRen   = isset($_REQUEST["AnoRen"])?$_REQUEST["AnoRen"]:date("Y");
+
+	
+	$NumContrato   = isset($_REQUEST["NumContrato"])?$_REQUEST["NumContrato"]:"";
+	$NumSubContrato   = isset($_REQUEST["NumSubContrato"])?$_REQUEST["NumSubContrato"]:"";
+	$ContratoVent   = isset($_REQUEST["ContratoVent"])?$_REQUEST["ContratoVent"]:"";
+	$TxtNomContrato   = isset($_REQUEST["TxtNomContrato"])?$_REQUEST["TxtNomContrato"]:"";
+	$TxtContrato   = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
+
+
+	$cmbcliente   = isset($_REQUEST["cmbcliente"])?$_REQUEST["cmbcliente"]:"";
+	$cmbproducto   = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto   = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+
+	$radio   = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+	$radio1   = isset($_REQUEST["radio1"])?$_REQUEST["radio1"]:"";
+	$radio2   = isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+	$ValorCheck   = isset($_REQUEST["ValorCheck"])?$_REQUEST["ValorCheck"]:"";
+	$ValorCheck2   = isset($_REQUEST["ValorCheck2"])?$_REQUEST["ValorCheck2"]:"";
+	$TxtPesoVent   = isset($_REQUEST["TxtPesoVent"])?$_REQUEST["TxtPesoVent"]:"";
+	$Leyes   = isset($_REQUEST["Leyes"])?$_REQUEST["Leyes"]:"";
+	$Transporte   = isset($_REQUEST["Transporte"])?$_REQUEST["Transporte"]:"";
+	$TxtPrecioCompVent   = isset($_REQUEST["TxtPrecioCompVent"])?$_REQUEST["TxtPrecioCompVent"]:"";
+
+	$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$estado   = isset($_REQUEST["estado"])?$_REQUEST["estado"]:"";
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Contrato   = isset($_REQUEST["Contrato"])?$_REQUEST["Contrato"]:"";
+	$SubContrato   = isset($_REQUEST["SubContrato"])?$_REQUEST["SubContrato"]:"";
+	$producto   = isset($_REQUEST["producto"])?$_REQUEST["producto"]:"";
+	$subproducto= isset($_REQUEST["subproducto"])?$_REQUEST["subproducto"]:"";
+
+	$AnalisisComercial = isset($_REQUEST["AnalisisComercial"])?$_REQUEST["AnalisisComercial"]:"";
+	$AnalisisImpurezas = isset($_REQUEST["AnalisisImpurezas"])?$_REQUEST["AnalisisImpurezas"]:"";
+	
+
 	
 	switch($Proceso)
 	{
 		case "P":
-			$Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = $NumContrato AND num_subcontrato = 0";
+			$Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = '".$NumContrato."' AND num_subcontrato = 0";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
             
 			$TxtContrato=str_pad($NumContrato,6,"0",STR_PAD_LEFT);
 			$Contrato = $NumContrato;
 			$estado = "V";
-			$ContratoVent = $Fila[contrato_vent];
+			$ContratoVent = $Fila["contrato_vent"];
 
             //SubContrato
 			if($NumSubContrato != '' && $NumSubContrato != 0)
 			{
-			    $Consulta = "SELECT ifnull(max(num_subcontrato),0)+1 as mayor from sec_web.det_contrato WHERE num_contrato = $Contrato";
+			    $Consulta = "SELECT ifnull(max(num_subcontrato),0)+1 as mayor from sec_web.det_contrato WHERE num_contrato = '".$Contrato."'";
 			    $Result = mysqli_query($link, $Consulta);
 			    $Fil=mysqli_fetch_array($Result);
 			    $TxtSubContrato=str_pad($Fil["mayor"],6,"0",STR_PAD_LEFT);
@@ -28,9 +80,9 @@
             } 
 			else
 			{
-				$Dia = substr($Fila[fecha_contrato],8,2);
-			    $Ano = substr($Fila[fecha_contrato],0,4);
-			    $Mes = substr($Fila[fecha_contrato],5,2);		
+				$Dia = substr($Fila["fecha_contrato"],8,2);
+			    $Ano = substr($Fila["fecha_contrato"],0,4);
+			    $Mes = substr($Fila["fecha_contrato"],5,2);		
 			}
 			break;
 
@@ -45,42 +97,42 @@
 			
 		case "M":
             if($SubContrato != '' && $SubContrato != 0)
-			  $Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = $Contrato AND num_subcontrato = $SubContrato AND cod_producto = $producto AND cod_subproducto = $subproducto";
+			  $Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = '".$Contrato."' AND num_subcontrato = '".$SubContrato."' AND cod_producto = '".$producto."' AND cod_subproducto = '".$subproducto."'";
             else
-			  $Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = $Contrato AND cod_producto = $producto AND cod_subproducto = $subproducto";
+			  $Consulta="SELECT * FROM sec_web.det_contrato WHERE num_contrato = '".$Contrato."' AND cod_producto = '".$producto."' AND cod_subproducto = '".$subproducto."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$Dia = substr($Fila[fecha_contrato],8,2);
-			$Ano = substr($Fila[fecha_contrato],0,4);
-			$Mes = substr($Fila[fecha_contrato],5,2);			
-			$DiaIni = substr($Fila[fecha_ini],8,2);
-			$AnoIni = substr($Fila[fecha_ini],0,4);
-			$MesIni = substr($Fila[fecha_ini],5,2);			
-			$DiaTer = substr($Fila[fecha_ter],8,2);
-			$AnoTer = substr($Fila[fecha_ter],0,4);
-			$MesTer = substr($Fila[fecha_ter],5,2);			
-			$DiaRen = substr($Fila[fecha_ren],8,2);
-			$AnoRen = substr($Fila[fecha_ren],0,4);
-			$MesRen = substr($Fila[fecha_ren],5,2);			
-			$TxtContrato=str_pad($Fila[num_contrato],6,"0",STR_PAD_LEFT);
-			$Contrato = $Fila[num_contrato];
-			$ContratoVent = $Fila[contrato_vent];
-			$TxtNomContrato = $Fila[nom_contrato];
-			$TxtSubContrato=str_pad($Fila[num_subcontrato],6,"0",STR_PAD_LEFT);
-			$SubContrato = $Fila[num_subcontrato];
+			$Dia = substr($Fila["fecha_contrato"],8,2);
+			$Ano = substr($Fila["fecha_contrato"],0,4);
+			$Mes = substr($Fila["fecha_contrato"],5,2);			
+			$DiaIni = substr($Fila["fecha_ini"],8,2);
+			$AnoIni = substr($Fila["fecha_ini"],0,4);
+			$MesIni = substr($Fila["fecha_ini"],5,2);			
+			$DiaTer = substr($Fila["fecha_ter"],8,2);
+			$AnoTer = substr($Fila["fecha_ter"],0,4);
+			$MesTer = substr($Fila["fecha_ter"],5,2);			
+			$DiaRen = substr($Fila["fecha_ren"],8,2);
+			$AnoRen = substr($Fila["fecha_ren"],0,4);
+			$MesRen = substr($Fila["fecha_ren"],5,2);			
+			$TxtContrato=str_pad($Fila["num_contrato"],6,"0",STR_PAD_LEFT);
+			$Contrato     = $Fila["num_contrato"];
+			$ContratoVent = $Fila["contrato_vent"];
+			$TxtNomContrato = $Fila["nom_contrato"];
+			$TxtSubContrato=str_pad($Fila["num_subcontrato"],6,"0",STR_PAD_LEFT);
+			$SubContrato = $Fila["num_subcontrato"];
 			$cmbproducto = $Fila["cod_producto"];
 			$cmbsubproducto = $Fila["cod_subproducto"];
-			$TxtPesoVent = $Fila[peso_vendido];
-			$estado = $Fila[vigente];
-			$radio1 = $Fila[estado_vendido];
-			$TxtPrecioCompVent = $Fila[precio_compraventa];
-			$radio2 = $Fila[estado_compraventa];
-			$ValorCheck = $Fila[analisis_comercial];
-			$ValorCheck2 = $Fila[analisis_impurezas];
-			$radio = $Fila[confeccion];
-			$Transporte = $Fila[transporte];
+			$TxtPesoVent    = $Fila["peso_vendido"];
+			$estado = $Fila["vigente"];
+			$radio1 = $Fila["estado_vendido"];
+			$TxtPrecioCompVent = $Fila["precio_compraventa"];
+			$radio2            = $Fila["estado_compraventa"];
+			$ValorCheck        = $Fila["analisis_comercial"];
+			$ValorCheck2       = $Fila["analisis_impurezas"];
+			$radio      = $Fila["confeccion"];
+			$Transporte = $Fila["transporte"];
 
-			$Consulta1="SELECT * FROM sec_web.contrato WHERE num_contrato = $Contrato";
+			$Consulta1="SELECT * FROM sec_web.contrato WHERE num_contrato ='".$Contrato."'";
 			$Respuesta1=mysqli_query($link, $Consulta1);
 			$Fila1=mysqli_fetch_array($Respuesta1);
 			$cmbcliente = $Fila1["cod_cliente"];
@@ -115,6 +167,15 @@ function Mostrar_Leyes(Proceso)
 	var radio2 = "";
 	var Transporte = "";
 	var LargoForm = f.elements.length;
+
+	for (i = 0; i < LargoForm; i++)
+	{
+		if ((f.elements[i].name == "radio") && (f.elements[i].checked == true))
+		{
+			radio =  f.elements[i].value;
+			break;
+		}
+	}
 	
 	for (i = 0; i < LargoForm; i++)
 	{
@@ -557,11 +618,11 @@ function Salir()
 					{
 						if ($cmbcliente==$Fila["cod_cliente"])
 						{
-							echo "<option value='$Fila["cod_cliente"]' SELECTed>$Fila["nombre_cliente"]</option>";
+							echo "<option value='".$Fila["cod_cliente"]."' SELECTed>".$Fila["nombre_cliente"]."</option>";
 						}
 						else
 						{
-							echo "<option value='$Fila["cod_cliente"]'>$Fila["nombre_cliente"]</option>";
+							echo "<option value='".$Fila["cod_cliente"]."'>".$Fila["nombre_cliente"]."</option>";
 						}
 					}
 					
@@ -575,11 +636,11 @@ function Salir()
 					{
 						if ($cmbcliente==$Fila["cod_cliente"])
 						{
-							echo "<option value='$Fila["cod_cliente"]' SELECTed>$Fila["nombre_cliente"]</option>";
+							echo "<option value='".$Fila["cod_cliente"]."' SELECTed>".$Fila["nombre_cliente"]."</option>";
 						}
 						else
 						{
-							echo "<option value='$Fila["cod_cliente"]'>$Fila["nombre_cliente"]</option>";
+							echo "<option value='".$Fila["cod_cliente"]."'>".$Fila["nombre_cliente"]."</option>";
 						}
 					}
 					

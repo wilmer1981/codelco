@@ -20,9 +20,9 @@ if($Proceso == "B")
 		$Saldo = $row["campo4"];
 		$Observ = $row["campo5"];
 
-		$Dia = substr($row[fecha_ini],8,2);
-		$Mes = substr($row[fecha_ini],5,2);					  			
-		$Ano = substr($row[fecha_ini],0,4);	
+		$Dia = substr($row["fecha_ini"],8,2);
+		$Mes = substr($row["fecha_ini"],5,2);					  			
+		$Ano = substr($row["fecha_ini"],0,4);	
 		
 		$hhIni = intval(substr($row[hora_ini],0,2));
 		$mmIni = intval(substr($row[hora_ini],3,2));

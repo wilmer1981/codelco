@@ -70,8 +70,8 @@
 	while($Fila = mysql_fetch_array($rs))
 	{
 		echo "<tr>\n";
-		$dia = substr($Fila[fecha_ini],8,2);
-		$mes = substr($Fila[fecha_ini],5,2);					  			
+		$dia = substr($Fila["fecha_ini"],8,2);
+		$mes = substr($Fila["fecha_ini"],5,2);					  			
 		
 		echo "<td align='center'>".$dia."-".$mes."</td>\n";
 		echo "<td align='center'>".substr($Fila[hora_ini],0,5)."</td>\n";
@@ -112,8 +112,8 @@
 	while($Fila = mysql_fetch_array($rs))
 	{
 		echo "<tr>\n";
-		$dia = substr($Fila[fecha_ini],8,2);
-		$mes = substr($Fila[fecha_ini],5,2);					  			
+		$dia = substr($Fila["fecha_ini"],8,2);
+		$mes = substr($Fila["fecha_ini"],5,2);					  			
 		
 		echo "<td align='right'>".$dia."-".$mes."&nbsp;</td>\n";
 		echo "<td align='right'>".substr($Fila[hora_ini],0,5)."&nbsp;</td>\n";
@@ -370,7 +370,7 @@
 		{			
 			echo "<tr>\n"; 
 			echo "<td>".$procesos[$Fila[campo2]]."</td>\n";
-			echo "<td align='right'>".substr($Fila[fecha_ini],8,2)."-".substr($Fila[fecha_ini],5,2)."&nbsp;</td>\n";
+			echo "<td align='right'>".substr($Fila["fecha_ini"],8,2)."-".substr($Fila["fecha_ini"],5,2)."&nbsp;</td>\n";
 			echo "<td align='right'>".substr($Fila[hora_ini],0,5)."&nbsp;</td>\n";
 			echo "<td align='right'>".substr($Fila[hora_ter],0,5)."&nbsp;</td>\n";
 			
@@ -415,8 +415,8 @@
 	while($Fila = mysql_fetch_array($rs))
 	{
 		echo "<tr>\n";
-		$dia = substr($Fila[fecha_ini],8,2);
-		$mes = substr($Fila[fecha_ini],5,2);					  			
+		$dia = substr($Fila["fecha_ini"],8,2);
+		$mes = substr($Fila["fecha_ini"],5,2);					  			
 		
 		echo "<td align='right'>".$dia."-".$mes."&nbsp;</td>\n";
 		echo "<td align='right'>".substr($Fila[hora_ini],0,5)."&nbsp;</td>\n";
@@ -452,8 +452,8 @@
 	while($Fila = mysql_fetch_array($rs))
 	{
 		echo "<tr>\n";
-		$dia = substr($Fila[fecha_ini],8,2);
-		$mes = substr($Fila[fecha_ini],5,2);					  			
+		$dia = substr($Fila["fecha_ini"],8,2);
+		$mes = substr($Fila["fecha_ini"],5,2);					  			
 		
 		echo "<td align='right'>".$dia."-".$mes."&nbsp;</td>\n";
 		echo "<td align='right'>".substr($Fila[hora_ini],0,5)."&nbsp;</td>\n";
@@ -489,8 +489,8 @@
 	while($Fila = mysql_fetch_array($rs))
 	{
 		echo "<tr>";
-		$dia = substr($Fila[fecha_ini],8,2);
-		$mes = substr($Fila[fecha_ini],5,2);					  			
+		$dia = substr($Fila["fecha_ini"],8,2);
+		$mes = substr($Fila["fecha_ini"],5,2);					  			
 		
 		echo "<td align='right'>".$dia."-".$mes."&nbsp;</td>\n";
 		echo "<td align='right'>".substr($Fila[hora_ini],0,5)."&nbsp;</td>\n";

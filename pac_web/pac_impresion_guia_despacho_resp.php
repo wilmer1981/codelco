@@ -100,7 +100,7 @@
 				pdf_show_xy($g,strtoupper($Fila[chofer]),77,-620);
 				pdf_show_xy($g,strtoupper($Fila[rut_chofer]),80,-634);
 				pdf_show_xy($g,strtoupper($Fila[registro]),130,-646);
-				pdf_show_xy($g,strtoupper($Fila[direccion]),75,-658);
+				pdf_show_xy($g,strtoupper($Fila["direccion"]),75,-658);
 				pdf_show_xy($g,strtoupper($Fila[transportista]),380,-620);
 				pdf_show_xy($g,strtoupper($Fila[marca]),380,-634);
 				pdf_show_xy($g,strtoupper($Fila[nro_patente]),380,-646);

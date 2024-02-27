@@ -16,7 +16,7 @@
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
 			$CodCliente=$Fila["cod_cliente"];
-			$Confeccion=$Fila[confeccion];
+			$Confeccion=$Fila["confeccion"];
 			$RutCliente=$Fila["rut"];
 			$Insertar="insert into sec_web.programa_enami (corr_enm,cod_producto,cod_subproducto,";
 			$Insertar=$Insertar."eta_programada,fecha_disponible,cod_contrato,cod_cliente,cantidad_embarque,cod_marca,num_prog_loteo,estado1,estado2,tipo,tipo_pesada) values(";

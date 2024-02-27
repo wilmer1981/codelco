@@ -22,9 +22,9 @@ if($Proceso == "B")
 		$Ollas = $row[campo5];
 		$Destino = $row[campo7];
 
-		$Dia = substr($row[fecha_ini],8,2);
-		$Mes = substr($row[fecha_ini],5,2);					  			
-		$Ano = substr($row[fecha_ini],0,4);	
+		$Dia = substr($row["fecha_ini"],8,2);
+		$Mes = substr($row["fecha_ini"],5,2);					  			
+		$Ano = substr($row["fecha_ini"],0,4);	
 		
 		$hhIni = intval(substr($row[hora_ini],0,2));
 		$mmIni = intval(substr($row[hora_ini],3,2));

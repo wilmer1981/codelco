@@ -1019,7 +1019,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 									}
 									if($PF!='')
 										$PF=substr($PF,0,strlen($PF)-1);
-									echo "<td><a href=JavaScript:DetalleContrato('".$DetalleContrato."','".$Fila["cod_contrato"]."') class='LinkSinLinea'>".$Fila[num_contrato]."</a></td>";									
+									echo "<td><a href=JavaScript:DetalleContrato('".$DetalleContrato."','".$Fila["cod_contrato"]."') class='LinkSinLinea'>".$Fila["num_contrato"]."</a></td>";									
 									if($CmbAcuerdo=='P')
 									{
 										echo "<td>".$PF."&nbsp;</td>";

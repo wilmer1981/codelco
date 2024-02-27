@@ -313,7 +313,7 @@ body {
 				echo "<td width='7%' align='left' onMouseOver='JavaScript:muestra(".$Cont2.");' onMouseOut='JavaScript:oculta(".$Cont2.");' bgcolor='#cccccc'>".$Contrato_Transp;
 				echo "<div id='Txt".$Cont2."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:350px'>\n";
 				echo "<font face='courier' color='#000000' size=1><b>Nombre Contrato:&nbsp;</b>".$Fila["nombre_contrato"]."</font><br>";
-				echo "<font face='courier' color='#000000' size=1><b>Nro SubContrato Vent:&nbsp;</b>".str_pad($Fila[num_subcontrato],6,"0",STR_PAD_LEFT)."</font><br>";
+				echo "<font face='courier' color='#000000' size=1><b>Nro SubContrato Vent:&nbsp;</b>".str_pad($Fila["num_subcontrato"],6,"0",STR_PAD_LEFT)."</font><br>";
 				$Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = $Fila["cod_producto"] AND cod_subproducto = $Fila["cod_subproducto"]";
 				$result = mysqli_query($link, $Consulta);
 				$row = mysqli_fetch_array($result);
@@ -322,15 +322,15 @@ body {
 	
 				echo "<td width='9%' align='left'>".$Contrato."</td>";				
 				echo "<input type='hidden' name='Contrato' value='".$Fila[num_cont_transporte]."'>";
-				echo "<input type='hidden' name='ContratoVent' value='".$Fila[num_contrato]."'>";
-				echo "<input type='hidden' name='SubContratoVent' value='".$Fila[num_subcontrato]."'>";
+				echo "<input type='hidden' name='ContratoVent' value='".$Fila["num_contrato"]."'>";
+				echo "<input type='hidden' name='SubContratoVent' value='".$Fila["num_subcontrato"]."'>";
 
 				//Saldos
 				$Consulta = "SELECT * FROM sec_web.det_contrato WHERE num_contrato = $Contrato AND vigente = 'V'";
 				$res = mysqli_query($link, $Consulta);
 				if($row = mysqli_fetch_array($res))
 				{
-					$SubContrato = $row[num_subcontrato];					
+					$SubContrato = $row["num_subcontrato"];					
 					$Producto = $row["cod_producto"];					
 					$SubProducto = $row["cod_subproducto"];					
 				}
