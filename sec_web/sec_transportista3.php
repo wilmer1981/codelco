@@ -1,4 +1,12 @@
-<?php include("../principal/conectar_pmn_web.php");?>
+<?php 
+include("../principal/conectar_pmn_web.php");
+
+$TxtIE         = isset($_REQUEST["TxtIE"])?$_REQUEST["TxtIE"]:"";
+$CmbContrato   = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
+$CmbDestino    = isset($_REQUEST["CmbDestino"])?$_REQUEST["CmbDestino"]:"";
+$TxtPeso       = isset($_REQUEST["TxtPeso"])?$_REQUEST["TxtPeso"]:"";
+
+?>
 <html>
 <head>
 <title>Lista de Transportista</title>

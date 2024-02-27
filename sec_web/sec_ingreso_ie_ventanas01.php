@@ -1,14 +1,23 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");
+
+	$Proceso     = $_REQUEST["Proceso"];
+	$Confeccion  = $_REQUEST["Confeccion"];
+	$CmbContrato = $_REQUEST["CmbContrato"];
+	$CmbDestino  = $_REQUEST["CmbDestino"];
+	$TxtIE       = $_REQUEST["TxtIE"];
+	$TxtPeso     = $_REQUEST["TxtPeso"];
+	$Valores2    = $_REQUEST["Valores2"];
+	
 	switch ($Proceso)
 	{
 		case "G":
-			$Fecha=date('Y-m-d');
+			$Fecha =date('Y-m-d');
 			$Fecha2=date('Y-m-d',mktime(0,0,0,date('n'),date('j')+3,date('Y')));
-			$Valor=explode('~~',$CmbContrato);
-			$NumContrato=$Valor[0];
+			$Valor =explode('~~',$CmbContrato);
+			$NumContrato   =$Valor[0];
 			$NumSubContrato=$Valor[1];
-			$CodProducto=$Valor[2];
+			$CodProducto   =$Valor[2];
 			$CodSubProducto=$Valor[3];
 			$Consulta="SELECT t1.cod_cliente,t3.rut,t2.confeccion from sec_web.contrato t1 inner join  sec_web.det_contrato t2 on t1.num_contrato=t2.num_contrato ";
 			$Consulta.="inner join cliente_venta t3 on t1.cod_cliente=t3.cod_cliente ";
@@ -62,7 +71,7 @@
 				mysqli_query($link, $Insertar);
 				$Fecha3 = date("Y-m-d");
 				$Datos3=explode('//',$Valores2);
-				while(list($Clave1,$Valor3)=each($Datos3))
+				foreach($Datos3 as $Clave1 => $Valor3)
 				{
 					$RutTrasp=$Valor3;
 					$Insertar="insert into sec_web.relacion_transporte_inst_embarque ";	

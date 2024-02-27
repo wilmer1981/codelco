@@ -6,6 +6,20 @@
 	$Resultado = mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Resultado);
 	$IE_Ven=$Fila["mayor"];
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Buscar   = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$Selecciono   = isset($_REQUEST["Selecciono"])?$_REQUEST["Selecciono"]:"";
+	$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	
+	$CmbContrato   = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
+	$TxtNombreContrato   = isset($_REQUEST["TxtNombreContrato"])?$_REQUEST["TxtNombreContrato"]:"";
+	$CodCliente   = isset($_REQUEST["CodCliente"])?$_REQUEST["CodCliente"]:"";
+	$CmbDestino   = isset($_REQUEST["CmbDestino"])?$_REQUEST["CmbDestino"]:"";
+
+	$TxtPesoContrato   = isset($_REQUEST["TxtPesoContrato"])?$_REQUEST["TxtPesoContrato"]:0;
+
 ?>
 <html>
 <head>
@@ -94,14 +108,12 @@ function Salir()
 ?>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style><form name="FrmProceso" method="post" action="">
 <?php include("../principal/encabezado.php")?>
   <table width="770"  height="330" border="0" cellpadding="0" cellspacing="0" class="TablaPrincipal" left="5">
@@ -140,6 +152,8 @@ body {
 					$Consulta=$Consulta." where vigente='V'";
 					
 					$Respuesta=mysqli_query($link, $Consulta);
+					//$TxtPesoContrato=0;
+					$Confeccion="";
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						$Valor=$Fila["num_contrato"]."~~".$Fila["num_subcontrato"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"];
@@ -147,7 +161,7 @@ body {
 						{								
 							echo "<option value='".$Fila["num_contrato"]."~~".$Fila["num_subcontrato"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."' SELECTed>".str_pad($Fila["num_contrato"],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila["num_subcontrato"],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".str_pad($Fila["contrato_vent"],6,'0',STR_PAD_LEFT)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;".$Fila["producto"]." - ".$Fila["subproducto"]."</option>";
 							$TxtNombreContrato=$Fila["nom_contrato"];
-							$TxtPesoContrato=$Fila[peso_vendido];
+							$TxtPesoContrato=$Fila["peso_vendido"];
 							$CodCliente=$Fila["cod_cliente"];
 							$Confeccion=$Fila["confeccion"];
 						}
@@ -218,10 +232,16 @@ body {
 				if ($CmbContrato!='-1')
 				{
 					$Valor=explode('~~',$CmbContrato);
-					$TxtPesoMaximo=0;
+					//$TxtPesoMaximo=0;
 					$TxtPeso=0;
-					$Consulta="SELECT corr_ie,peso from sec_web.det_contrato_por_ie where num_contrato='".$Valor[0]."' and num_subcontrato='".$Valor[1]."'";
-					$Consulta.=" and cod_producto ='".$Valor[2]."' and cod_subproducto='".$Valor[3]."'";
+					$Valor0 = isset($Valor[0])?$Valor[0]:"";
+					$Valor1 = isset($Valor[1])?$Valor[1]:"";
+					$Valor2 = isset($Valor[2])?$Valor[2]:"";
+					$Valor3 = isset($Valor[3])?$Valor[3]:"";
+						
+					
+					$Consulta="SELECT corr_ie,peso from sec_web.det_contrato_por_ie where num_contrato='".$Valor0."' and num_subcontrato='".$Valor1."'";
+					$Consulta.=" and cod_producto ='".$Valor2."' and cod_subproducto='".$Valor3."'";
 					$Respuesta=mysqli_query($link, $Consulta);
 					echo "<table border='1' cellspacing='0' cellpadding='0' class='TablaInterior'>";
 					echo "<tr class='ColorTabla01'>";
@@ -231,16 +251,16 @@ body {
 					while($Fila=mysqli_fetch_array($Respuesta))
 					{
 						echo "<tr>";
-						echo "<td align='center'>&nbsp;$Fila["corr_ie"]&nbsp;</td>";
-						echo "<td align='right'>&nbsp;$Fila["peso"]&nbsp;</td>";
+						echo "<td align='center'>&nbsp;".$Fila["corr_ie"]."&nbsp;</td>";
+						echo "<td align='right'>&nbsp;".$Fila["peso"]."&nbsp;</td>";
 						echo "</tr>";
-						$TxtPeso=$TxtPeso+$Fila["peso"];
+						$TxtPeso=$TxtPeso + $Fila["peso"];
 					}
 					echo "<tr class='Detalle01'>";
 					echo "<td align='center'>Total</td>";
 					echo "<td align='right'>&nbsp;$TxtPeso&nbsp;</td>";
 					echo "</tr>";
-					$TxtPeso=$TxtPesoContrato-$TxtPeso;
+					$TxtPeso=$TxtPesoContrato - $TxtPeso;
 					$TxtPesoMaximo=$TxtPeso;
 					echo "</table><strong>Peso Maximo De La IE: ".$TxtPesoMaximo." Ton.<strong>";
 				}
