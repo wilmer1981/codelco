@@ -3,9 +3,18 @@
 	$CodigoDePantalla =66;
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut=$_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
 	$Encontro=false;
+
+	$Buscar   = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TxtGuia  = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$TxtFechaFin  = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]: date("Y-m-d");
+	//$Lote  = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$Lote="";
+	$IE="";
+
 	if($TxtGuia <> "")
 	{
 		$Consulta = "select * from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia."' order by fecha_guia desc ";
@@ -14,7 +23,7 @@
 		if($Fila =mysqli_fetch_array($Respuesta))
 		{
 			$Lote=$Fila["cod_bulto"]." ".$Fila["num_bulto"];
-			$IE=$Fila["corr_enm"];
+			$IE  =$Fila["corr_enm"];
 			$TxtFechaFin=$Fila["fecha_guia"];
 			$Encontro=true;
 		}
@@ -54,14 +63,12 @@ function Funcionarios()
 <link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style>
 <body>
 <DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
@@ -119,6 +126,10 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
           </tr>
         
        <?php
+	   $cont = 0;
+	   $TotalUnidades=0;
+	   $TotalPeso=0;
+	   $MostrarBtn='S';
 	   if($Encontro == true)
 	   {
 			//echo "<table width='752' border='1' cellpadding='3' cellspacing='0' bordercolor='#b26c4a'>";
@@ -177,38 +188,26 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$MostrarBtn='S';
                      $cont++;
 				echo "</tr>";
-
 			}
-   
-
-
-
-
 		}
   
-  			echo "<tr class='Detalle01'>";
-     
-             echo "<td>&nbsp;</td>";
-			echo "<td width='92' align='center'><strong>Total Gu�a </strong></td>";
-
-
-      echo "<td align='left'><strong>".$cont."</strong</td>";
-			echo "<td>&nbsp;</td>";
-			echo "<td align='left'><strong>".$TotalUnidades."</strong></td> ";
-			echo "<td align='left'><strong>".$TotalPeso."</strong></td> ";
-            echo "<td>&nbsp;</td>";
-			echo "</tr>";
-
+		echo "<tr class='Detalle01'>";
+		echo "<td>&nbsp;</td>";
+		echo "<td width='92' align='center'><strong>Total Gu�a </strong></td>";
+		echo "<td align='left'><strong>".$cont."</strong</td>";
+		echo "<td>&nbsp;</td>";
+		echo "<td align='left'><strong>".$TotalUnidades."</strong></td> ";
+		echo "<td align='left'><strong>".$TotalPeso."</strong></td> ";
+		echo "<td>&nbsp;</td>";
+		echo "</tr>";
   
-  
-  
-       /*   echo "<tr>";
-         echo "<td>Total</td>";
-    echo "<td width='300'>".$TotalUnidades."</td>";
-    echo "</tr>";   */
+			/*   echo "<tr>";
+				echo "<td>Total</td>";
+			echo "<td width='300'>".$TotalUnidades."</td>";
+			echo "</tr>";   */
 
-		//echo "</table>";
-        // aqui poly agrego totales 17-04-2008
+				//echo "</table>";
+				// aqui poly agrego totales 17-04-2008
   
 		?>
         <br>

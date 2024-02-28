@@ -195,7 +195,7 @@
 		//echo $Consulta;
 		$Resp=mysql_query($Consulta);
 		$Fila=mysql_fetch_array($Resp);
-			$Cant=$Fila[cantidad];
+			$Cant=$Fila["cantidad"];
 		$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."' and t2.autorizado='S' ";
 		//echo $Consulta;
@@ -230,7 +230,7 @@
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."'  ";
 		$Resp=mysql_query($Consulta);
 		$Fila=mysql_fetch_array($Resp);
-			$Cant=$Fila[cantidad];
+			$Cant=$Fila["cantidad"];
 		$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."' and t2.autorizado='S' ";
 		$Resp2=mysql_query($Consulta);

@@ -61,7 +61,7 @@ switch($Opcion)
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and  inicial='S'";
 			$Resp=mysql_query($Consulta);
 			$Fila=mysql_fetch_array($Resp);
-				$Cant=$Fila[cantidad];
+				$Cant=$Fila["cantidad"];
 			$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and t2.autorizado='S' and  inicial='S' ";
 			$Resp2=mysql_query($Consulta);
@@ -87,7 +87,7 @@ switch($Opcion)
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and  final='S'";
 			$Resp=mysql_query($Consulta);
 			$Fila=mysql_fetch_array($Resp);
-				$Cant=$Fila[cantidad];
+				$Cant=$Fila["cantidad"];
 			$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and t2.autorizado='S' and  final='S' ";
 			$Resp2=mysql_query($Consulta);
@@ -131,7 +131,7 @@ switch($Opcion)
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and  inicial='S'";
 			$Resp=mysql_query($Consulta);
 			$Fila=mysql_fetch_array($Resp);
-				$Cant=$Fila[cantidad];
+				$Cant=$Fila["cantidad"];
 			$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and t2.autorizado='S' and  inicial='S' ";
 			$Resp2=mysql_query($Consulta);
@@ -167,7 +167,7 @@ switch($Opcion)
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and  final='S'";
 			$Resp=mysql_query($Consulta);
 			$Fila=mysql_fetch_array($Resp);
-				$Cant=$Fila[cantidad];
+				$Cant=$Fila["cantidad"];
 			$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and t2.autorizado='S' and  final='S' ";
 			$Resp2=mysql_query($Consulta);

@@ -1,5 +1,10 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Cierre = $_REQUEST["Cierre"];
+	$Func   = $_REQUEST["Func"];
+	$TxtFechaFin   = $_REQUEST["TxtFechaFin"];
+	$TxtGuia       = $_REQUEST["TxtGuia"];
+
 	$Entro=false;
 	$Consulta = "select  distinct cod_paquete,num_paquete,t2.cod_bulto,t2.num_bulto,t2.corr_enm,t2.fecha_guia,t2.num_guia ";
 	$Consulta.=" from sec_web.det_guia_despacho_emb t1";
@@ -26,13 +31,13 @@
 				$Actualizar=" UPDATE sec_web.lote_catodo set cod_estado ='c'  where  ";
 				$Actualizar.="  cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."' and corr_enm='".$Fila["corr_enm"]."' 	";
 				$Actualizar.=" and cod_paquete='".$Fila["cod_paquete"]."' and num_paquete='".$Fila["num_paquete"]."'";
-				$Actualizar.=" and fecha_creacion_paquete ='".$Fila4[fecha_creacion_paquete]."' ";	
+				$Actualizar.=" and fecha_creacion_paquete ='".$Fila4["fecha_creacion_paquete"]."' ";	
 				//echo $Actualizar."<br>";
 				mysqli_query($link, $Actualizar);
 				$Actualizar=" UPDATE sec_web.paquete_catodo set cod_estado ='c',fecha_embarque='".$Fila["fecha_guia"]."',num_guia='".$Fila["num_guia"]."'  ";
 				//$Actualizar.="  and corr_enm='".$Fila["corr_enm"]."' 	";
 				$Actualizar.="   where cod_paquete='".$Fila["cod_paquete"]."' and num_paquete='".$Fila["num_paquete"]."'";
-				$Actualizar.=" and fecha_creacion_paquete ='".$Fila4[fecha_creacion_paquete]."' ";	
+				$Actualizar.=" and fecha_creacion_paquete ='".$Fila4["fecha_creacion_paquete"]."' ";	
 				//echo $Actualizar."<br>";
 				mysqli_query($link, $Actualizar);
 			
@@ -49,7 +54,7 @@
 			$Resp2=mysqli_query($link, $Consulta);
 			if($Fila2=mysqli_fetch_array($Resp2))
 			{
-				if($Fila1[cantidad] == $Fila2[cantidad])
+				if($Fila1["cantidad"] == $Fila2["cantidad"])
 				{
 					$Actualizar="UPDATE  sec_web.embarque_ventana set despacho_paquetes=bulto_paquetes ";
 					$Actualizar.=" , despacho_peso=bulto_peso  where corr_enm = '".$Fila["corr_enm"]."' and   ";
