@@ -1910,7 +1910,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
         <tr>
 		  <td align="center"><a href="JavaScript:ElimDF('<? echo $FilaDF["fecha_hora"];?>','<? echo $TxtContrato; ?>')"><img src="archivos/elim_hito.png"  alt="Eliminar " align="absmiddle" border="0" width='15' height='15'></a>&nbsp;</td>
 		  <td align="center"><? echo $FilaDF["ano"];?></td>
-		  <td align="center"><? echo $meses[($FilaDF[mes]-1)];?></td>
+		  <td align="center"><? echo $meses[($FilaDF["mes"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           -1)];?></td>
 		  <td align="center"><? echo $FilaDF[nro_factura];?>&nbsp;</td>
           <td align="center"><? echo $FilaDF[dotacion];?>&nbsp;</td>
 		  <td align="center"><? echo $FilaDF[fecha_emi_doc];?>&nbsp;</td>

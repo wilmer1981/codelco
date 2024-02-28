@@ -1,7 +1,18 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Proceso  = $_REQUEST["Proceso"];
 	
-	switch($Proceso)
+	$mes  = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano  = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$tonelaje = isset($_REQUEST["tonelaje"])?$_REQUEST["tonelaje"]:"";
+	$factor  = isset($_REQUEST["factor"])?$_REQUEST["factor"]:"";
+	$factor2  = isset($_REQUEST["factor2"])?$_REQUEST["factor2"]:"";
+	$Dia  = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+	$valortonelaje = isset($_REQUEST["valortonelaje"])?$_REQUEST["valortonelaje"]:"";
+	$mes_ton  = isset($_REQUEST["mes_ton"])?$_REQUEST["mes_ton"]:"";
+	$ano_ton  = isset($_REQUEST["ano_ton"])?$_REQUEST["ano_ton"]:"";
+switch($Proceso)
 	{
 		case "N":
 			$Insertar = "INSERT INTO sec_web.parametros_mensual_proyeccion (mes,ano,tonelaje,factor_rechazo,factor_rechazo_prog,dia) VALUES ('$mes','$ano','$tonelaje','".str_replace(",",".",$factor)."','".str_replace(",",".",$factor2)."','".$Dia."')";

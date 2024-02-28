@@ -1,12 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php");
+  $mes  = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano  = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+
 	$ConsultaTemp="SELECT * FROM sec_web.parametros_mensual_proyeccion WHERE ano='$ano' AND mes='$mes'";
-    $Respuesta=mysqli_query($link, $ConsultaTemp);
+  $Respuesta=mysqli_query($link, $ConsultaTemp);
 	$Fila=mysqli_fetch_array($Respuesta);
 ?>
 <html>
 <head>
-<title>Proceso Modificación</title>
+<title>Proceso Modificaciï¿½n</title>
 <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 <script language="javascript">
@@ -29,7 +32,6 @@ function Proceso(opt)
 </script>
 
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 	margin-left: 10px;
@@ -37,7 +39,6 @@ body {
 	margin-right: 3px;
 	margin-bottom: 6px;
 }
--->
 </style><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
 
 <body>
@@ -58,23 +59,23 @@ body {
   <!--<tr class="Colum01">
     <td class="Colum01">Tonelaje Mes Anterior</td>
     <td class="Colum01">
-	  <input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="valortonelaje" size="12" value="<?php echo $Fila[tonelaje] ?>">      
+	  <input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="valortonelaje" size="12" value="<?php echo $Fila["tonelaje"] ?>">      
     </td>
   </tr>-->
 <tr class="Colum01">
     <td class="Colum01">Factor</td>
     <td class="Colum01">
-	  <input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="factor" size="12" value="<?php echo $Fila[factor_rechazo] ?>">
+	  <input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="factor" size="12" value="<?php echo $Fila["factor_rechazo"] ?>">
       </td>
 </tr>
 
   <tr class="Colum01">
     <td class="Colum01">Factor Prog </td>
-     <td class="Colum01"><input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="factor2" size="12" value="<?php echo $Fila[factor_rechazo_prog] ?>"></td>
+     <td class="Colum01"><input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="factor2" size="12" value="<?php echo $Fila["factor_rechazo_prog"] ?>"></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Dia Cierre</td>
-     <td class="Colum01"><input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="Dia" size="6" value="<?php echo $Fila[dia] ?>">
+     <td class="Colum01"><input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="Dia" size="6" value="<?php echo $Fila["dia"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ?>">
      (Afecta columna DIFER DIA -- PESAJE)</td>
   </tr>
   <tr align="center" class="Colum01">

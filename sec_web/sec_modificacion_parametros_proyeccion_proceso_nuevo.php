@@ -1,5 +1,14 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$mes  = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano  = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$factor  = isset($_REQUEST["factor"])?$_REQUEST["factor"]:"";
+	$factor2  = isset($_REQUEST["factor2"])?$_REQUEST["factor2"]:"";
+	$Dia  = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+	
+
+
 ?>
 <html>
 <head>
@@ -26,7 +35,6 @@ function Proceso(opt)
 </script>
 
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 	margin-left: 10px;
@@ -34,7 +42,6 @@ body {
 	margin-right: 3px;
 	margin-bottom: 6px;
 }
--->
 </style><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
 
 <body>
@@ -45,7 +52,7 @@ body {
   </tr>
   
   <tr class="ColorTabla02">
-    <td colspan="2" class="Colum01"><strong>INSERCIÓN PARAMETROS NUEVOS</strong></td>
+    <td colspan="2" class="Colum01"><strong>INSERCIï¿½N PARAMETROS NUEVOS</strong></td>
     </tr>
 	<tr class="Colum01">
     <td class="Colum01">Fecha</td>
@@ -94,7 +101,10 @@ body {
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Dia Cierre</td>
-     <td class="Colum01"><input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="Dia" size="6" value="<?php echo $Fila[dia] ?>">
+     <td class="Colum01">
+		<input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="Dia" size="6" value="<?php echo $Dia;?>">
+		<!--
+		<input type="text" onkeydown="TeclaPulsada2('S',true,this.form,'');" name="Dia" size="6" value="<?php //echo $Fila["dia"] ?>">-->
      (Afecta columna DIFER DIA -- PESAJE)</td>
   </tr>
   

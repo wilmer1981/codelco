@@ -1,9 +1,14 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$mes  = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano  = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
 ?>
 <html>
 <head>
-<title>PARÁMETROS PROYECCIÓN</title>
+<title>PARï¿½METROS PROYECCIï¿½N</title>
 <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 <script language="javascript">
@@ -55,12 +60,10 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style></head>
 
 <body>
@@ -70,7 +73,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 <form name="frmPrincipal" action="" method="post">
 <table width="600"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr align="center" class="ColorTabla01">
-    <td colspan="2"><strong>PARÁMETROS PROYECCIÓN</strong></td>
+    <td colspan="2"><strong>PARï¿½METROS PROYECCIï¿½N</strong></td>
   </tr>
   <tr>
     <td width="10" bgcolor="#FFFFFF">MES/A&Ntilde;O</td>
@@ -118,7 +121,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 <table width="430" border="1" align="center" cellpadding="2" cellspacing="0" >
   <tr class="ColorTabla02">
     <td width="81" align="center">MES</td>
-	<td width="81" align="center">AÑO</td>
+	<td width="81" align="center">Aï¿½O</td>
     <td width="107" align="center">STOCK MES ANTERIOR (TON.) </td>
 	<td width="135" align="center">FACTOR RECH.</td>
 	<td width="135" align="center">FACTOR RECH. PROG</td>
@@ -132,13 +135,13 @@ if($Buscar=='S')
 	$RespSec=mysqli_query($link, $Consulta);
 	while($FilaSec=mysqli_fetch_array($RespSec))
 	{
-		$formateo=number_format($FilaSec[tonelaje],0,"",".");
-		$format_factor=number_format($FilaSec[factor_rechazo],2,",",".");
-		$format_factor_prog=number_format($FilaSec[factor_rechazo_prog],4,",",".");
-		$dia=$FilaSec[dia];
+		$formateo=number_format($FilaSec["tonelaje"],0,"",".");
+		$format_factor=number_format($FilaSec["factor_rechazo"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ,2,",",".");
+		$format_factor_prog=number_format($FilaSec["factor_rechazo_prog"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ,4,",",".");
+		$dia=$FilaSec["dia"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ;
 		echo "<tr>";
-		echo "<td align='center'>".$Meses[$FilaSec[mes]-1]."</td>";
-		echo "<td align='center'>".$FilaSec[ano]."</td>";
+		echo "<td align='center'>".$Meses[$FilaSec["mes"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           -1]."</td>";
+		echo "<td align='center'>".$FilaSec["ano"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ."</td>";
 		echo "<td align='center'>".$formateo."</td>";
 		echo "<td align='center'>".$format_factor."</td>";
 		echo "<td align='center'>".$format_factor_prog."</td>";
@@ -154,13 +157,13 @@ if($Buscar=='T')
 	$RespSec=mysqli_query($link, $Consulta);
 	while($FilaSec=mysqli_fetch_array($RespSec))
 	{
-		$formateo=number_format($FilaSec[tonelaje],0,"",".");
-		$format_factor=number_format($FilaSec[factor_rechazo],2,",",".");
-		$format_factor_prog=number_format($FilaSec[factor_rechazo_prog],4,",",".");
-		$dia=$FilaSec[dia];
+		$formateo=number_format($FilaSec["tonelaje"],0,"",".");
+		$format_factor=number_format($FilaSec["factor_rechazo"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ,2,",",".");
+		$format_factor_prog=number_format($FilaSec["factor_rechazo_prog"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ,4,",",".");
+		$dia=$FilaSec["dia"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ;
 		echo "<tr>";
-		echo "<td align='center'>".$Meses[$FilaSec[mes]-1]."</td>";
-		echo "<td align='center'>".$FilaSec[ano]."</td>";
+		echo "<td align='center'>".$Meses[$FilaSec["mes"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           -1]."</td>";
+		echo "<td align='center'>".$FilaSec["ano"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ."</td>";
 		echo "<td align='center'>".$formateo."</td>";
 		echo "<td align='center'>".$format_factor."</td>";
 		echo "<td align='center'>".$format_factor_prog."</td>";
@@ -175,13 +178,13 @@ if($Buscar=='R')
 	$RespSec=mysqli_query($link, $Consulta);
 	while($FilaSec=mysqli_fetch_array($RespSec))
 	{
-		$formateo=number_format($FilaSec[tonelaje],0,"",".");
-		$format_factor=number_format($FilaSec[factor_rechazo],2,",",".");
-		$format_factor_prog=number_format($FilaSec[factor_rechazo_prog],4,",",".");
-		$dia=$FilaSec[dia];
+		$formateo=number_format($FilaSec["tonelaje"],0,"",".");
+		$format_factor=number_format($FilaSec["factor_rechazo"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ,2,",",".");
+		$format_factor_prog=number_format($FilaSec["factor_rechazo_prog"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ,4,",",".");
+		$dia=$FilaSec["dia"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ;
 		echo "<tr>";
-		echo "<td align='center'>".$Meses[$FilaSec[mes]-1]."</td>";
-		echo "<td align='center'>".$FilaSec[ano]."</td>";
+		echo "<td align='center'>".$Meses[$FilaSec["mes"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           -1]."</td>";
+		echo "<td align='center'>".$FilaSec["ano"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ."</td>";
 		echo "<td align='center'>".$formateo."</td>";
 		echo "<td align='center'>".$format_factor."</td>";
 		echo "<td align='center'>".$format_factor_prog."</td>";

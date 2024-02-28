@@ -83,19 +83,19 @@ if(!isset($CmbEmpresa))
 				</tr>
 				<?
 			}
-			if($MesAnt!=$FilaMod[mes])
+			if($MesAnt!=$FilaMod["mes"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           )
 			{
 			?>
 				<tr>
 				<td>&nbsp;</td>
-				<td colspan="6"><? echo $meses[$FilaMod[mes]-1]."&nbsp;";?></td>
+				<td colspan="6"><? echo $meses[$FilaMod["mes"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           -1]."&nbsp;";?></td>
 				</tr>
 			<?
 			}
 			$EmpAnt=$FilaMod[rut_empresa];
 			$ContratoAnt=$FilaMod["cod_contrato"];
 			$AnoAnt=$FilaMod["ano"];
-			$MesAnt=$FilaMod[mes];
+			$MesAnt=$FilaMod["mes"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ;
 			?>
 		
 		

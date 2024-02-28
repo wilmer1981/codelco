@@ -168,7 +168,7 @@ if(!isset($CmbEmpresa))
 				if ($FilaFac=mysql_fetch_array($RespFac))
 				{ 
 					$AnoFac = $FilaFac["ano"];
-					$MesFac = $FilaFac[mes];
+					$MesFac = $FilaFac["mes"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ;
 					//$meses[$FilaMod[mes];
 					//echo "RR".$AnoFac."--".$MesFac;
 				//	echo "<td>".$FilaGer[descrip_gerencias]."; </td>";
