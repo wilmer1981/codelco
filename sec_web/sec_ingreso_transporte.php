@@ -2,10 +2,21 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 50;
 	include("../principal/conectar_pac_web.php");
+
+	
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+
+	$Contrato         = isset($_REQUEST["Contrato"])?$_REQUEST["Contrato"]:"";
+	$ContratoVent     = isset($_REQUEST["ContratoVent"])?$_REQUEST["ContratoVent"]:"";
+	$SubContratoVent  = isset($_REQUEST["SubContratoVent"])?$_REQUEST["SubContratoVent"]:"";
+
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$estado= isset($_REQUEST["estado"])?$_REQUEST["estado"]:"T";
 	
 	if($Proceso == "E")
 	{
-		$Eliminar = "DELETE FROM sec_web.contrato_transporte WHERE num_cont_transporte = $Contrato AND num_contrato = $ContratoVent AND num_subcontrato = $SubContratoVent";
+		$Eliminar = "DELETE FROM sec_web.contrato_transporte WHERE num_cont_transporte = '".$Contrato."' AND num_contrato = '".$ContratoVent."' AND num_subcontrato = '".$SubContratoVent."' ";
 		mysqli_query($link, $Eliminar);
 	}
 ?>
@@ -224,16 +235,16 @@ function Salir()
 </script>
 <title>Ingreso Transporte</title>
 <link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
-<!--
-body {
-	margin-left: 3px;
-	margin-top: 3px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-}
--->
-</style><body>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+	body {
+		margin-left: 3px;
+		margin-top: 3px;
+		margin-right: 0px;
+		margin-bottom: 0px;
+	}
+</style>
+<body>
 <form name="FrmIngCliente" method="post" action="">
   <?php include("../principal/encabezado.php")?>
   <table width="770" height="330" border="0" cellpadding="0" cellspacing="0" class="TablaPrincipal" left="5">
@@ -281,6 +292,7 @@ body {
         <?php
 			echo "<table width='760' border='1' cellpadding='0' cellspacing='0'>";
 			echo "<tr class='ColorTabla01'>"; 
+			echo "<td width='10%' align='center'></td>";
 			echo "<td width='10%' align='center'>Cont Trasp.</td>";
 			echo "<td width='9%' align='center'>Cont. Vent.</td>";
 			echo "<td width='9%' align='center'>Peso Contr.</td>";
@@ -293,6 +305,7 @@ body {
 			echo "</tr>";
 			if(strlen($Mes) == 1)
 				$Mes = '0'.$Mes;
+
 			$Fecha = $Ano.'-'.$Mes;
 			if($Proceso == "B")			
 				$Consulta = "SELECT * from sec_web.contrato_transporte WHERE vigente = '$estado' order by num_cont_transporte";
@@ -302,6 +315,7 @@ body {
 			
 			$Resultado=mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='CheckContrato'><input type='hidden' name ='TxtCodigoO'>";
+			$Cont2=0;
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Cont2++;
@@ -314,19 +328,19 @@ body {
 				echo "<div id='Txt".$Cont2."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:350px'>\n";
 				echo "<font face='courier' color='#000000' size=1><b>Nombre Contrato:&nbsp;</b>".$Fila["nombre_contrato"]."</font><br>";
 				echo "<font face='courier' color='#000000' size=1><b>Nro SubContrato Vent:&nbsp;</b>".str_pad($Fila["num_subcontrato"],6,"0",STR_PAD_LEFT)."</font><br>";
-				$Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = $Fila["cod_producto"] AND cod_subproducto = $Fila["cod_subproducto"]";
+				$Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$Fila["cod_producto"]."' AND cod_subproducto = '".$Fila["cod_subproducto"]."' ";
 				$result = mysqli_query($link, $Consulta);
 				$row = mysqli_fetch_array($result);
 				echo "<font face='courier' color='#000000' size=1><b>Producto:&nbsp;</b>".$row["descripcion"]."</font><br>";
 				echo "</td>";				
 	
 				echo "<td width='9%' align='left'>".$Contrato."</td>";				
-				echo "<input type='hidden' name='Contrato' value='".$Fila[num_cont_transporte]."'>";
+				echo "<input type='hidden' name='Contrato' value='".$Fila["num_cont_transporte"]."'>";
 				echo "<input type='hidden' name='ContratoVent' value='".$Fila["num_contrato"]."'>";
 				echo "<input type='hidden' name='SubContratoVent' value='".$Fila["num_subcontrato"]."'>";
 
 				//Saldos
-				$Consulta = "SELECT * FROM sec_web.det_contrato WHERE num_contrato = $Contrato AND vigente = 'V'";
+				$Consulta = "SELECT * FROM sec_web.det_contrato WHERE num_contrato = '".$Contrato."' AND vigente = 'V'";
 				$res = mysqli_query($link, $Consulta);
 				if($row = mysqli_fetch_array($res))
 				{
@@ -335,7 +349,7 @@ body {
 					$SubProducto = $row["cod_subproducto"];					
 				}
 
-				$peso = '';
+				$peso = 0;
 				$Consulta = "SELECT * FROM sec_web.det_contrato WHERE num_contrato = ".$Contrato;				
 				$Consulta.= " AND num_subcontrato = ".$SubContrato;
 				$Consulta.= " AND cod_producto = ".$Producto;
@@ -343,16 +357,16 @@ body {
 				$result = mysqli_query($link, $Consulta);
 				while ($Row = mysqli_fetch_array($result))
 				{
-					$peso = $peso + $Row[peso_vendido];
+					$peso = $peso + $Row["peso_vendido"];
 				}
-				echo "<td width='9%' align='left'>".$Fila[peso_venta]."&nbsp;&nbsp;".$Fila[estado_peso]."</td>";
-				$Saldo = $peso - $Fila[peso_venta];
+				echo "<td width='9%' align='left'>".$Fila["peso_venta"]."&nbsp;&nbsp;".$Fila["estado_peso"]."</td>";
+				$Saldo = $peso - $Fila["peso_venta"];
 				echo "<td width='9%' align='left'>".$Saldo."&nbsp;</td>";
 
-				$Consulta = "SELECT nombre_transportista FROM sec_web.transporte WHERE rut_transportista = '$Fila[transportista]'";
+				$Consulta = "SELECT nombre_transportista FROM sec_web.transporte WHERE rut_transportista = '".$Fila["transportista"]."'";
 				$Rs = mysqli_query($link, $Consulta);
 				$Fila1 = mysqli_fetch_array($Rs);
-				$Transportista = $Fila1[nombre_transportista];				
+				$Transportista = $Fila1["nombre_transportista"];				
 
 				echo "<td width='17%'>".$Transportista."</td>";
 				echo "<td width='17%' align='left'>".$Fila["representante"]."</td>";

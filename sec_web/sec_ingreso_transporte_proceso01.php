@@ -1,7 +1,34 @@
 <?php
  include("../principal/conectar_sec_web.php");
 
-  if($Proceso == "G")
+ $Proceso = $_REQUEST["Proceso"];
+ $Dia   = $_REQUEST["Dia"];
+ $Mes   = $_REQUEST["Mes"];
+ $Ano   = $_REQUEST["Ano"];
+
+ $DiaIni   = $_REQUEST["DiaIni"];
+ $MesIni   = $_REQUEST["MesIni"];
+ $AnoIni   = $_REQUEST["AnoIni"];
+
+ $DiaTer   = $_REQUEST["DiaTer"];
+ $MesTer   = $_REQUEST["MesTer"];
+ $AnoTer   = $_REQUEST["AnoTer"];
+ $cmbcontrato  = $_REQUEST["cmbcontrato"];
+
+	$TxtRut  = $_REQUEST["TxtRut"];
+	$estado  = $_REQUEST["estado"];
+	$TxtContrato  = $_REQUEST["TxtContrato"];
+	$TxtNombreCont     = $_REQUEST["TxtNombreCont"];
+	$cmbtransportista  = $_REQUEST["cmbtransportista"];
+	$TxtRepresentante  = $_REQUEST["TxtRepresentante"];
+	$cmbproducto     = $_REQUEST["cmbproducto"];
+	$cmbsubproducto  = $_REQUEST["cmbsubproducto"];
+	$Contrato  = $_REQUEST["Contrato"];
+	$TxtPesoVenta  = $_REQUEST["TxtPesoVenta"];
+	$Transporte  = $_REQUEST["Transporte"];
+	$radio1  = $_REQUEST["radio1"];
+
+if($Proceso == "G")
   {
 
 	    $Fecha = $Ano.'-'.$Mes.'-'.$Dia;
@@ -10,7 +37,7 @@
 		$contrato = intval(substr($cmbcontrato,0,6));
 		$subcontrato = intval(substr($cmbcontrato,6,6));
 		
-	 	$Consulta = "SELECT * FROM sec_web.contrato_transporte WHERE num_cont_transporte = $Contrato AND num_contrato = $contrato AND num_subcontrato = $subcontrato";
+	 	$Consulta = "SELECT * FROM sec_web.contrato_transporte WHERE num_cont_transporte = '".$Contrato."' AND num_contrato = '".$contrato."' AND num_subcontrato = '".$subcontrato."' ";
 		$rs = mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		if($row = mysqli_fetch_array($rs))
@@ -28,7 +55,7 @@
 			$Actualiza.= "fecha_ini = '$FechaIni',fecha_ter = '$FechaTer',";
 			$Actualiza.= "vigente = '$estado',tipo_contrato = '$Transporte',";
 			$Actualiza.= "cod_producto = '$cmbproducto',cod_subproducto = '$cmbsubproducto'";
-			$Actualiza.=" WHERE num_cont_transporte = $Contrato AND num_contrato = $contrato AND num_subcontrato = $subcontrato";			
+			$Actualiza.=" WHERE num_cont_transporte = '".$Contrato."' AND num_contrato = '".$contrato."' AND num_subcontrato = '".$subcontrato."'";			
 			mysqli_query($link, $Actualiza);
 	//		echo $Actualiza;
 		}

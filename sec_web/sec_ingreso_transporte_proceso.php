@@ -2,19 +2,53 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_sec_web.php");
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+
+	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+
+	$DiaIni   = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni   = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni   = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+
+	$DiaTer   = isset($_REQUEST["DiaTer"])?$_REQUEST["DiaTer"]:date("d");
+	$MesTer   = isset($_REQUEST["MesTer"])?$_REQUEST["MesTer"]:date("m");
+	$AnoTer   = isset($_REQUEST["AnoTer"])?$_REQUEST["AnoTer"]:date("Y");
+
+	
+	$TxtContrato  = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
+	$cmbcontrato  = isset($_REQUEST["cmbcontrato"])?$_REQUEST["cmbcontrato"]:"";
+	$TxtRut  = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$estado  = isset($_REQUEST["estado"])?$_REQUEST["estado"]:"";
+	$TxtNombreCont     = isset($_REQUEST["TxtNombreCont"])?$_REQUEST["TxtNombreCont"]:"";
+	$cmbtransportista  = isset($_REQUEST["cmbtransportista"])?$_REQUEST["cmbtransportista"]:"";
+	$TxtRepresentante  = isset($_REQUEST["TxtRepresentante"])?$_REQUEST["TxtRepresentante"]:"";
+	$cmbproducto     = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto  = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	$Contrato  = isset($_REQUEST["Contrato"])?$_REQUEST["Contrato"]:"";
+	$TxtPesoVenta  = isset($_REQUEST["TxtPesoVenta"])?$_REQUEST["TxtPesoVenta"]:"";
+	$Transporte  = isset($_REQUEST["Transporte"])?$_REQUEST["Transporte"]:"";
+	$radio1  = isset($_REQUEST["radio1"])?$_REQUEST["radio1"]:"";
+
+	$ContratoVent  = isset($_REQUEST["ContratoVent"])?$_REQUEST["ContratoVent"]:"";
+	$SubContratoVent  = isset($_REQUEST["SubContratoVent"])?$_REQUEST["SubContratoVent"]:"";
+
 	
 	switch($Proceso)
 	{
 
 		case "P":
-			$Consulta="SELECT * FROM sec_web.contrato_transporte WHERE num_cont_transporte = $Contrato AND num_contrato = $ContratoVent";
+			$Consulta="SELECT * FROM sec_web.contrato_transporte WHERE num_cont_transporte = '".$Contrato."' AND num_contrato = '".$ContratoVent."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$Dia = substr($Fila[fecha_contrato],8,2);
-			$Ano = substr($Fila[fecha_contrato],0,4);
-			$Mes = substr($Fila[fecha_contrato],5,2);			
-			$TxtContrato=str_pad($Fila[num_cont_transporte],6,"0",STR_PAD_LEFT);
-			$Contrato = $Fila[num_cont_transporte];
+			$Dia = substr($Fila["fecha_contrato"],8,2);
+			$Ano = substr($Fila["fecha_contrato"],0,4);
+			$Mes = substr($Fila["fecha_contrato"],5,2);			
+			$TxtContrato=str_pad($Fila["num_cont_transporte"],6,"0",STR_PAD_LEFT);
+			$Contrato = $Fila["num_cont_transporte"];
 			$estado = "V";
 			break;
 
@@ -28,30 +62,30 @@
 			break;
 			
 		case "M":
-			$Consulta="SELECT * FROM sec_web.contrato_transporte WHERE num_cont_transporte = $Contrato AND num_contrato = $ContratoVent";
+			$Consulta="SELECT * FROM sec_web.contrato_transporte WHERE num_cont_transporte = '".$Contrato."' AND num_contrato = '".$ContratoVent."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$Dia = substr($Fila[fecha_contrato],8,2);
-			$Ano = substr($Fila[fecha_contrato],0,4);
-			$Mes = substr($Fila[fecha_contrato],5,2);
+			$Dia = substr($Fila["fecha_contrato"],8,2);
+			$Ano = substr($Fila["fecha_contrato"],0,4);
+			$Mes = substr($Fila["fecha_contrato"],5,2);
 			$DiaIni = substr($Fila["fecha_ini"],8,2);
 			$AnoIni = substr($Fila["fecha_ini"],0,4);
 			$MesIni = substr($Fila["fecha_ini"],5,2);			
 			$DiaTer = substr($Fila["fecha_ter"],8,2);
 			$AnoTer = substr($Fila["fecha_ter"],0,4);
 			$MesTer = substr($Fila["fecha_ter"],5,2);			
-			$TxtContrato=str_pad($Fila[num_cont_transporte],6,"0",STR_PAD_LEFT);
-			$Contrato = $Fila[num_cont_transporte];
-			$TxtNombreCont=$Fila[nombre_contrato];
-			$estado = $Fila[vigente];
+			$TxtContrato=str_pad($Fila["num_cont_transporte"],6,"0",STR_PAD_LEFT);
+			$Contrato = $Fila["num_cont_transporte"];
+			$TxtNombreCont=$Fila["nombre_contrato"];
+			$estado = $Fila["vigente"];
 			$cmbcontrato=str_pad($Fila["num_contrato"],6,"0",STR_PAD_LEFT).str_pad($Fila["num_subcontrato"],6,"0",STR_PAD_LEFT);
-			$TxtPesoVenta = $Fila[peso_venta];
-			$cmbtransportista = $Fila[transportista];
+			$TxtPesoVenta = $Fila["peso_venta"];
+			$cmbtransportista = $Fila["transportista"];
 			$TxtRepresentante = $Fila["representante"];
 			$cmbproducto = $Fila["cod_producto"];
 			$cmbsubproducto = $Fila["cod_subproducto"];
-			$radio1 = $Fila[estado_peso];
-			$Transporte = $Fila[tipo_contrato];
+			$radio1 = $Fila["estado_peso"];
+			$Transporte = $Fila["tipo_contrato"];
 			break;
 	}	
 
@@ -374,7 +408,7 @@ function Salir()
 					if($contrato == $cmbcontrato)
 							echo '<option value="'.$contrato.'" SELECTed>'.str_pad($row["num_contrato"],6,"0",STR_PAD_LEFT).' - '.str_pad($row["num_subcontrato"],6,"0",STR_PAD_LEFT).' - '.$row["nom_contrato"].'</option>';
 					else 
-						echo '<option value="'.$contrato.'">'.str_pad($row["num_contrato"],6,"0",STR_PAD_LEFT).' - '.str_pad($row[num_subcontrato],6,"0",STR_PAD_LEFT).' - '.$row["nom_contrato"].'</option>';				
+						echo '<option value="'.$contrato.'">'.str_pad($row["num_contrato"],6,"0",STR_PAD_LEFT).' - '.str_pad($row["num_subcontrato"],6,"0",STR_PAD_LEFT).' - '.$row["nom_contrato"].'</option>';				
 				}
 			  ?>
               </SELECT> </td>
@@ -403,9 +437,9 @@ function Salir()
 				while($row = mysqli_fetch_array($Rs))
 				{
 					if ($row["rut_transportista"] == $cmbtransportista)
-						echo '<option value="'.$row["rut_transportista"].'" SELECTed>'.$row["rut_transportista"].' - '.$row[nombre_transportista].'</option>';
+						echo '<option value="'.$row["rut_transportista"].'" SELECTed>'.$row["rut_transportista"].' - '.$row["nombre_transportista"].'</option>';
 					else 
-						echo '<option value="'.$row["rut_transportista"].'">'.$row["rut_transportista"].' - '.$row[nombre_transportista].'</option>';
+						echo '<option value="'.$row["rut_transportista"].'">'.$row["rut_transportista"].' - '.$row["nombre_transportista"].'</option>';
 				}	
 			?>
               </SELECT> </td>
