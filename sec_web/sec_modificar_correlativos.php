@@ -1,8 +1,9 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if(!isset($TxtFechaIni))
-		$TxtFechaIni=date('Y-m-d');
+
+	$TxtFechaIni = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m-d');
 	$TxtFechaIniMes=substr(date('Y-m-d'),0,7)."-01";	
+	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 ?>
 <html>
 <head>
@@ -42,14 +43,11 @@ function ModificarCorr(Patente,Guia,Corr)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style></head>
-
 <body>
 <DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
 BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
@@ -94,10 +92,10 @@ if($Buscar=='S')
 	while($FilaSec=mysqli_fetch_array($RespSec))
 	{
 		echo "<tr>";
-		echo "<td align='center'><input type='radio' name='Opt' onclick=ModificarCorr('".trim($FilaSec["patente_guia"])."','".$FilaSec["num_guia"]."','".$FilaSec[num_secuencia]."')></td>";
-		echo "<td align='center'>".$FilaSec[patente_guia]."</td>";
+		echo "<td align='center'><input type='radio' name='Opt' onclick=ModificarCorr('".trim($FilaSec["patente_guia"])."','".$FilaSec["num_guia"]."','".$FilaSec["num_secuencia"]."')></td>";
+		echo "<td align='center'>".$FilaSec["patente_guia"]."</td>";
 		echo "<td align='center'>".$FilaSec["num_guia"]."</td>";
-		echo "<td align='center'>".$FilaSec[num_secuencia]."</td>";
+		echo "<td align='center'>".$FilaSec["num_secuencia"]."</td>";
 		echo "<td align='center'>".$FilaSec["cod_bulto"]."</td>";
 		echo "<td align='center'>".$FilaSec["num_bulto"]."</td>";
 		echo "<td align='right'>".$FilaSec["num_envio"]."</td>";

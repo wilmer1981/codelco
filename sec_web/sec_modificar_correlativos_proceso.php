@@ -1,7 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+  $Patente     = isset($_REQUEST["Patente"])?$_REQUEST["Patente"]:"";
+  $Guia  = isset($_REQUEST["Guia"])?$_REQUEST["Guia"]:"";
+  $TxtCorr  = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:"";
+
+  $PatenteOri  = isset($_REQUEST["PatenteOri"])?$_REQUEST["PatenteOri"]:$Patente;
+/*
 	if(!isset($PatenteOri))
 	  $PatenteOri=$Patente;
+  */
 
 ?>
 <html>
@@ -28,7 +36,6 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 	margin-left: 10px;
@@ -36,8 +43,9 @@ body {
 	margin-right: 3px;
 	margin-bottom: 6px;
 }
--->
-</style><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
 
 <body>
 <form name="frmProceso" method="post" action="">
