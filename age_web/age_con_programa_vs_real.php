@@ -74,7 +74,7 @@ if($Buscar=='S')
 			//echo $Clave1."<br>";
 			if ($Grupo=="P" || $Grupo=="V")
 			{
-				$ArregloRecep[$Clave1][1] = $ArregloRecep[$Clave1][1] + $Fila[ene];
+				$ArregloRecep[$Clave1][1] = $ArregloRecep[$Clave1][1] + $Fila["ene"];
 				$ArregloRecep[$Clave1][2] = $ArregloRecep[$Clave1][2] + $Fila[feb];
 				$ArregloRecep[$Clave1][3] = $ArregloRecep[$Clave1][3] + $Fila[mar];
 				$ArregloRecep[$Clave1][4] = $ArregloRecep[$Clave1][4] + $Fila[abr];
@@ -82,7 +82,7 @@ if($Buscar=='S')
 				$ArregloRecep[$Clave1][6] = $ArregloRecep[$Clave1][6] + $Fila[jun];
 				$ArregloRecep[$Clave1][7] = $ArregloRecep[$Clave1][7] + $Fila[jul];
 				$ArregloRecep[$Clave1][8] = $ArregloRecep[$Clave1][8] + $Fila[ago];
-				$ArregloRecep[$Clave1][9] = $ArregloRecep[$Clave1][9] + $Fila[sep];
+				$ArregloRecep[$Clave1][9] = $ArregloRecep[$Clave1][9] + $Fila["sep"];
 				$ArregloRecep[$Clave1][10] = $ArregloRecep[$Clave1][10] + $Fila[oct];
 				$ArregloRecep[$Clave1][11] = $ArregloRecep[$Clave1][11] + $Fila[nov];
 				$ArregloRecep[$Clave1][12] = $ArregloRecep[$Clave1][12] + $Fila[dic];
@@ -102,7 +102,7 @@ if($Buscar=='S')
 					$RespAux=mysqli_query($link, $Consulta);
 					if ($FilaAux = mysqli_fetch_array($RespAux))
 					{
-						$ArregloRecep[$Clave1][1] = $ArregloRecep[$Clave1][1] + $FilaAux[ene];
+						$ArregloRecep[$Clave1][1] = $ArregloRecep[$Clave1][1] + $FilaAux["ene"];
 						$ArregloRecep[$Clave1][2] = $ArregloRecep[$Clave1][2] + $FilaAux[feb];
 						$ArregloRecep[$Clave1][3] = $ArregloRecep[$Clave1][3] + $FilaAux[mar];
 						$ArregloRecep[$Clave1][4] = $ArregloRecep[$Clave1][4] + $FilaAux[abr];
@@ -110,7 +110,7 @@ if($Buscar=='S')
 						$ArregloRecep[$Clave1][6] = $ArregloRecep[$Clave1][6] + $FilaAux[jun];
 						$ArregloRecep[$Clave1][7] = $ArregloRecep[$Clave1][7] + $FilaAux[jul];
 						$ArregloRecep[$Clave1][8] = $ArregloRecep[$Clave1][8] + $FilaAux[ago];
-						$ArregloRecep[$Clave1][9] = $ArregloRecep[$Clave1][9] + $FilaAux[sep];
+						$ArregloRecep[$Clave1][9] = $ArregloRecep[$Clave1][9] + $FilaAux["sep"];
 						$ArregloRecep[$Clave1][10] = $ArregloRecep[$Clave1][10] + $FilaAux[oct];
 						$ArregloRecep[$Clave1][11] = $ArregloRecep[$Clave1][11] + $FilaAux[nov];
 						$ArregloRecep[$Clave1][12] = $ArregloRecep[$Clave1][12] + $FilaAux[dic];

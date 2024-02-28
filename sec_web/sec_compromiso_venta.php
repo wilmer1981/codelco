@@ -4,8 +4,24 @@
 	include("../principal/conectar_principal.php");
 	$meses =array ("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
 	$meses2 =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
-	$Fecha_Hora = date("d-m-Y h:i");	
+	$Fecha_Hora = date("d-m-Y h:i");
+	
+	
+	
+	$Tipo = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$MesIni2 = isset($_REQUEST["MesIni2"])?$_REQUEST["MesIni2"]:date("m");
+	$AnoIni2 = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:date("Y");
+
+	$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$Pais        = isset($_REQUEST["Pais"])?$_REQUEST["Pais"]:"";
+	$CmbContrato = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
+	
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	
+
 ?>
 <html>
 <head>
@@ -158,17 +174,17 @@ function TeclaPulsada (tecla)
       <td width="291" align="center" valign="top"><font size="1"><font size="1"><font size="1"><font size="1"><font size="2"> 
         <select name="Tipo" onChange="Recarga();">
           <?php
-	if ($Tipo == "C")
-	{
-		echo "<option value='E'>ENAMI</option>\n";
-		echo "<option selected value='C'>CODELCO</option>\n";
-	}
-	else
-	{
-		echo "<option selected value='E'>ENAMI</option>\n";
-		echo "<option value='C'>CODELCO</option>\n";
-	}
-?>
+			if ($Tipo == "C")
+			{
+				echo "<option value='E'>ENAMI</option>\n";
+				echo "<option selected value='C'>CODELCO</option>\n";
+			}
+			else
+			{
+				echo "<option selected value='E'>ENAMI</option>\n";
+				echo "<option value='C'>CODELCO</option>\n";
+			}
+		?>
         </select>
         </font></font></font></font></font><font size="1"><font size="1"><font size="1"><font size="1"><font size="2"> 
         <select name="MesIni2">
@@ -338,11 +354,16 @@ function TeclaPulsada (tecla)
 			{
 				echo "<select name='CmbContrato' style='width:90' >\n";
                 echo "<option value='-1'>Seleccionar</option>\n";
-				if ($Tipo == "E")
+				//$EnmCode="";
+				if ($Tipo == "E"){
 					$EnmCode = "enami";
-				if ($Tipo == "C")
+				}
+				
+				if ($Tipo == "C"){
 					$EnmCode = "codelco";
-				$Consulta="select distinct cod_contrato from sec_web.programa_".$EnmCode." where cod_cliente = '".$CmbCliente."' ";
+				}
+				echo "Tipo:".$EnmCode;
+				$Consulta="SELECT distinct cod_contrato from sec_web.programa_$EnmCode where cod_cliente = '".$CmbCliente."' ";
 				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
@@ -413,6 +434,12 @@ function TeclaPulsada (tecla)
 		$J=16;
 		$CodPaisAnt = 0;
 		$CodPais = 0;
+		$Total=0;
+		$TotalEne=0; $TotalFeb=0; $TotalMar=0; $TotalAbr=0; $TotalMay=0; $TotalJun=0;
+		$TotalJul=0; $TotalAgo=0; $TotalSep=0; $TotalOct=0; $TotalNov=0; $TotalDic=0;
+		$Total2=0;
+		$TotalEne2=0; $TotalFeb2=0; $TotalMar2=0; $TotalAbr2=0; $TotalMay2=0; $TotalJun2=0;
+		$TotalJul2=0; $TotalAgo2=0; $TotalSep2=0; $TotalOct2=0; $TotalNov2=0; $TotalDic2=0;
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$CodPais = substr($Fila["cod_cliente"],0,2);
@@ -468,35 +495,35 @@ function TeclaPulsada (tecla)
 			$V_Oct = "";
 			$V_Nov = "";
 			$V_Dic = "";
-			if ($Fila[ene]!=0)
-				$V_Ene = $Fila[ene];
-			if ($Fila[feb]!=0)
-				$V_Feb = $Fila[feb];
-			if ($Fila[mar]!=0)
-				$V_Mar = $Fila[mar];
-			if ($Fila[abr]!=0)
-				$V_Abr = $Fila[abr];
-			if ($Fila[may]!=0)
-				$V_May = $Fila[may];
-			if ($Fila[jun]!=0)
-				$V_Jun = $Fila[jun];
-			if ($Fila[jul]!=0)
-				$V_Jul = $Fila[jul];
-			if ($Fila[ago]!=0)
-				$V_Ago = $Fila[ago];
-			if ($Fila[sep]!=0)
-				$V_Sep = $Fila[sep];
-			if ($Fila[oct]!=0)
-				$V_Oct = $Fila[oct];
-			if ($Fila[nov]!=0)
-				$V_Nov = $Fila[nov];
-			if ($Fila[dic]!=0)
-				$V_Dic = $Fila[dic];
+			if ($Fila["ene"]!=0)
+				$V_Ene = $Fila["ene"];
+			if ($Fila["feb"]!=0)
+				$V_Feb = $Fila["feb"];
+			if ($Fila["mar"]!=0)
+				$V_Mar = $Fila["mar"];
+			if ($Fila["abr"]!=0)
+				$V_Abr = $Fila["abr"];
+			if ($Fila["may"]!=0)
+				$V_May = $Fila["may"];
+			if ($Fila["jun"]!=0)
+				$V_Jun = $Fila["jun"];
+			if ($Fila["jul"]!=0)
+				$V_Jul = $Fila["jul"];
+			if ($Fila["ago"]!=0)
+				$V_Ago = $Fila["ago"];
+			if ($Fila["sep"]!=0)
+				$V_Sep = $Fila["sep"];
+			if ($Fila["oct"]!=0)
+				$V_Oct = $Fila["oct"];
+			if ($Fila["nov"]!=0)
+				$V_Nov = $Fila["nov"];
+			if ($Fila["dic"]!=0)
+				$V_Dic = $Fila["dic"];
 			echo "<tr>";
 			echo "<td align='center'><input type='checkbox' name='ChkContrato1[".$i."]' value='".$Fila["cod_contrato"]."'></td>";
 			echo "<td align='center'><input type='hidden' style='width:60' readonly name='ChkContrato[".$i."]' value='".$Fila["cod_contrato"]."'>".$Fila["cod_contrato"]."</td>";
 			echo "<td align='center'><input type='hidden' style='width:80' readonly name='ChkCliente[".$i."]' value='".$Fila["cod_cliente"]."'>".$Sigla."</td>";
-			echo "<td align='center'><input type='text' style='width:55' readonly name='ChkTonelajeTotal[".$i."]' value='".$Fila[tonelaje_total]."'></td>";
+			echo "<td align='center'><input type='text' style='width:55' readonly name='ChkTonelajeTotal[".$i."]' value='".$Fila["tonelaje_total"]."'></td>";
 			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje1[".$i."]' value='".$V_Ene."' onBlur=\"Calcula(".($J+4).");\"></td>";
 			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje2[".$i."]' value='".$V_Feb."' onBlur=\"Calcula(".($J+4).");\"></td>";
 			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje3[".$i."]' value='".$V_Mar."' onBlur=\"Calcula(".($J+4).");\"></td>";
@@ -511,39 +538,40 @@ function TeclaPulsada (tecla)
 			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje12[".$i."]' value='".$V_Dic."' onBlur=\"Calcula(".($J+4).");\"></td>";			
 			echo "</tr>";
 			//TOTAL POR PAIS
-			$Total = $Total + $Fila[tonelaje_total];
-			$TotalEne = $TotalEne + $Fila[ene];
-			$TotalFeb = $TotalFeb + $Fila[feb];
-			$TotalMar = $TotalMar + $Fila[mar];
-			$TotalAbr = $TotalAbr + $Fila[abr];
-			$TotalMay = $TotalMay + $Fila[may];
-			$TotalJun = $TotalJun + $Fila[jun];
-			$TotalJul = $TotalJul + $Fila[jul];
-			$TotalAgo = $TotalAgo + $Fila[ago];
-			$TotalSep = $TotalSep + $Fila[sep];
-			$TotalOct = $TotalOct + $Fila[oct];
-			$TotalNov = $TotalNov + $Fila[nov];
-			$TotalDic = $TotalDic + $Fila[dic];
+			$Total = $Total + $Fila["tonelaje_total"];
+			$TotalEne = $TotalEne + $Fila["ene"];
+			$TotalFeb = $TotalFeb + $Fila["feb"];
+			$TotalMar = $TotalMar + $Fila["mar"];
+			$TotalAbr = $TotalAbr + $Fila["abr"];
+			$TotalMay = $TotalMay + $Fila["may"];
+			$TotalJun = $TotalJun + $Fila["jun"];
+			$TotalJul = $TotalJul + $Fila["jul"];
+			$TotalAgo = $TotalAgo + $Fila["ago"];
+			$TotalSep = $TotalSep + $Fila["sep"];
+			$TotalOct = $TotalOct + $Fila["oct"];
+			$TotalNov = $TotalNov + $Fila["nov"];
+			$TotalDic = $TotalDic + $Fila["dic"];
 			//TOTAL TOTAL
-			$Total2 = $Total2 + $Fila[tonelaje_total];
-			$TotalEne2 = $TotalEne2 + $Fila[ene];
-			$TotalFeb2 = $TotalFeb2 + $Fila[feb];
-			$TotalMar2 = $TotalMar2 + $Fila[mar];
-			$TotalAbr2 = $TotalAbr2 + $Fila[abr];
-			$TotalMay2 = $TotalMay2 + $Fila[may];
-			$TotalJun2 = $TotalJun2 + $Fila[jun];
-			$TotalJul2 = $TotalJul2 + $Fila[jul];
-			$TotalAgo2 = $TotalAgo2 + $Fila[ago];
-			$TotalSep2 = $TotalSep2 + $Fila[sep];
-			$TotalOct2 = $TotalOct2 + $Fila[oct];
-			$TotalNov2 = $TotalNov2 + $Fila[nov];
-			$TotalDic2 = $TotalDic2 + $Fila[dic];
+			$Total2 = $Total2 + $Fila["tonelaje_total"];
+			$TotalEne2 = $TotalEne2 + $Fila["ene"];
+			$TotalFeb2 = $TotalFeb2 + $Fila["feb"];
+			$TotalMar2 = $TotalMar2 + $Fila["mar"];
+			$TotalAbr2 = $TotalAbr2 + $Fila["abr"];
+			$TotalMay2 = $TotalMay2 + $Fila["may"];
+			$TotalJun2 = $TotalJun2 + $Fila["jun"];
+			$TotalJul2 = $TotalJul2 + $Fila["jul"];
+			$TotalAgo2 = $TotalAgo2 + $Fila["ago"];
+			$TotalSep2 = $TotalSep2 + $Fila["sep"];
+			$TotalOct2 = $TotalOct2 + $Fila["oct"];
+			$TotalNov2 = $TotalNov2 + $Fila["nov"];
+			$TotalDic2 = $TotalDic2 + $Fila["dic"];
 			$i++;
 			$J=$J+16;
 			$CodPaisAnt = substr($Fila["cod_cliente"],0,2);
 		}
 		$Consulta = "select * from sec_web.paises where abreviatura = '".$CodPaisAnt."'";
 		$Resp2 = mysqli_query($link, $Consulta);
+		$NomPais="";
 		if ($Fila2 = mysqli_fetch_array($Resp2))
 			$NomPais = $Fila2["nombre_pais"];
 		echo "<tr>";
@@ -616,48 +644,48 @@ function TeclaPulsada (tecla)
 			echo "<td align='center'><input type='checkbox' name='ChkContrato1[".$i."]' value='".$Fila["cod_contrato"]."'><input type='hidden' style='width:60' readonly name='ChkContrato[".$i."]' value='".$Fila["cod_contrato"]."'></td>";
 			//echo "<td align='center'><input type='hidden' style='width:60' readonly name='ChkContrato[".$i."]' value='".$Fila["cod_contrato"]."'>".$Fila["cod_contrato"]."</td>";
 			echo "<td><input type='hidden' style='width:80' readonly name='ChkCliente[".$i."]' value='".$Fila["cod_cliente"]."'>".$Sigla."</td>";
-			echo "<td align='center'><input type='text' style='width:55' readonly name='ChkTonelajeTotal[".$i."]' value='".$Fila[tonelaje_total]."'></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje1[".$i."]' value='".$Fila[ene]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje2[".$i."]' value='".$Fila[feb]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje3[".$i."]' value='".$Fila[mar]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje4[".$i."]' value='".$Fila[abr]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje5[".$i."]' value='".$Fila[may]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje6[".$i."]' value='".$Fila[jun]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje7[".$i."]' value='".$Fila[jul]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje8[".$i."]' value='".$Fila[ago]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje9[".$i."]' value='".$Fila[sep]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje10[".$i."]' value='".$Fila[oct]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje11[".$i."]' value='".$Fila[nov]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje12[".$i."]' value='".$Fila[dic]."' onBlur=\"Calcula(".($J+4).");\"></td>";			
+			echo "<td align='center'><input type='text' style='width:55' readonly name='ChkTonelajeTotal[".$i."]' value='".$Fila["tonelaje_total"]."'></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje1[".$i."]' value='".$Fila["ene"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje2[".$i."]' value='".$Fila["feb"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje3[".$i."]' value='".$Fila["mar"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje4[".$i."]' value='".$Fila["abr"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje5[".$i."]' value='".$Fila["may"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje6[".$i."]' value='".$Fila["jun"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje7[".$i."]' value='".$Fila["jul"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje8[".$i."]' value='".$Fila["ago"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje9[".$i."]' value='".$Fila["sep"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje10[".$i."]' value='".$Fila["oct"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje11[".$i."]' value='".$Fila["nov"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelaje12[".$i."]' value='".$Fila["dic"]."' onBlur=\"Calcula(".($J+4).");\"></td>";			
 			echo "</tr>";
 			//TOTAL POR PAIS
-			$Total = $Total + $Fila[tonelaje_total];
-			$TotalEne = $TotalEne + $Fila[ene];
-			$TotalFeb = $TotalFeb + $Fila[feb];
-			$TotalMar = $TotalMar + $Fila[mar];
-			$TotalAbr = $TotalAbr + $Fila[abr];
-			$TotalMay = $TotalMay + $Fila[may];
-			$TotalJun = $TotalJun + $Fila[jun];
-			$TotalJul = $TotalJul + $Fila[jul];
-			$TotalAgo = $TotalAgo + $Fila[ago];
-			$TotalSep = $TotalSep + $Fila[sep];
-			$TotalOct = $TotalOct + $Fila[oct];
-			$TotalNov = $TotalNov + $Fila[nov];
-			$TotalDic = $TotalDic + $Fila[dic];
+			$Total = $Total + $Fila["tonelaje_total"];
+			$TotalEne = $TotalEne + $Fila["ene"];
+			$TotalFeb = $TotalFeb + $Fila["feb"];
+			$TotalMar = $TotalMar + $Fila["mar"];
+			$TotalAbr = $TotalAbr + $Fila["abr"];
+			$TotalMay = $TotalMay + $Fila["may"];
+			$TotalJun = $TotalJun + $Fila["jun"];
+			$TotalJul = $TotalJul + $Fila["jul"];
+			$TotalAgo = $TotalAgo + $Fila["ago"];
+			$TotalSep = $TotalSep + $Fila["sep"];
+			$TotalOct = $TotalOct + $Fila["oct"];
+			$TotalNov = $TotalNov + $Fila["nov"];
+			$TotalDic = $TotalDic + $Fila["dic"];
 			//TOTAL TOTAL
-			$Total2 = $Total2 + $Fila[tonelaje_total];
-			$TotalEne2 = $TotalEne2 + $Fila[ene];
-			$TotalFeb2 = $TotalFeb2 + $Fila[feb];
-			$TotalMar2 = $TotalMar2 + $Fila[mar];
-			$TotalAbr2 = $TotalAbr2 + $Fila[abr];
-			$TotalMay2 = $TotalMay2 + $Fila[may];
-			$TotalJun2 = $TotalJun2 + $Fila[jun];
-			$TotalJul2 = $TotalJul2 + $Fila[jul];
-			$TotalAgo2 = $TotalAgo2 + $Fila[ago];
-			$TotalSep2 = $TotalSep2 + $Fila[sep];
-			$TotalOct2 = $TotalOct2 + $Fila[oct];
-			$TotalNov2 = $TotalNov2 + $Fila[nov];
-			$TotalDic2 = $TotalDic2 + $Fila[dic];
+			$Total2 = $Total2 + $Fila["tonelaje_total"];
+			$TotalEne2 = $TotalEne2 + $Fila["ene"];
+			$TotalFeb2 = $TotalFeb2 + $Fila["feb"];
+			$TotalMar2 = $TotalMar2 + $Fila["mar"];
+			$TotalAbr2 = $TotalAbr2 + $Fila["abr"];
+			$TotalMay2 = $TotalMay2 + $Fila["may"];
+			$TotalJun2 = $TotalJun2 + $Fila["jun"];
+			$TotalJul2 = $TotalJul2 + $Fila["jul"];
+			$TotalAgo2 = $TotalAgo2 + $Fila["ago"];
+			$TotalSep2 = $TotalSep2 + $Fila["sep"];
+			$TotalOct2 = $TotalOct2 + $Fila["oct"];
+			$TotalNov2 = $TotalNov2 + $Fila["nov"];
+			$TotalDic2 = $TotalDic2 + $Fila["dic"];
 			$i++;
 			$J=$J+16;
 			$CodPaisAnt = substr($Fila["cod_cliente"],0,2);

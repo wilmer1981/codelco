@@ -1,6 +1,33 @@
 <?php
 	include("../principal/conectar_principal.php");
+
 	$Rut =$CookieRut;
+
+	$Proceso = $_REQUEST["Proceso"];
+	$Tipo    = $_REQUEST["Tipo"];
+	$MesIni2 = $_REQUEST["MesIni2"];
+	$AnoIni2 = $_REQUEST["AnoIni2"];
+	$CmbCliente  = $_REQUEST["CmbCliente"];
+	$Pais        = $_REQUEST["Pais"];
+	$CmbContrato = $_REQUEST["CmbContrato"];
+	$Tonelada    = $_REQUEST["Tonelada"];
+	$ChkContrato1= $_REQUEST["ChkContrato1"];
+	$ChkTonelajeTotal= $_REQUEST["ChkTonelajeTotal"];
+	$ChkTonelaje1 =$_REQUEST["ChkTonelaje1"];
+	$ChkTonelaje2 =$_REQUEST["ChkTonelaje2"];
+	$ChkTonelaje3 =$_REQUEST["ChkTonelaje3"];
+	$ChkTonelaje4 =$_REQUEST["ChkTonelaje4"];
+	$ChkTonelaje5 =$_REQUEST["ChkTonelaje5"];
+	$ChkTonelaje6 =$_REQUEST["ChkTonelaje6"];
+	$ChkTonelaje7 =$_REQUEST["ChkTonelaje7"];
+	$ChkTonelaje8 =$_REQUEST["ChkTonelaje8"];
+	$ChkTonelaje9 =$_REQUEST["ChkTonelaje9"];
+	$ChkTonelaje10 =$_REQUEST["ChkTonelaje10"];
+	$ChkTonelaje11 =$_REQUEST["ChkTonelaje11"];
+	$ChkTonelaje12 =$_REQUEST["ChkTonelaje12"];
+
+	$ChkCliente = $_REQUEST["ChkCliente"];
+
 	if ($Tipo == "E")
 		$Cliente = $CmbCliente;
 	else
@@ -31,7 +58,7 @@
 		case "G": //GRABAR
 			if (count($ChkContrato1)>0)
 			{
-				while (list($i,$p) = each($ChkContrato1))
+				foreach($ChkContrato1 as $i => $p)
 				{
 					if ($ChkTonelaje1[$i]=='')
 					{
@@ -109,7 +136,7 @@
 		case "E":
 			if (count($ChkContrato1)>0)
 			{
-				while (list($i,$p) = each($ChkContrato1))
+				foreach($ChkContrato1 as $i => $p)
 				{
 					// ELIMINA DETALLE
 					$Eliminar = "delete from  sec_web.programa_ventas ";

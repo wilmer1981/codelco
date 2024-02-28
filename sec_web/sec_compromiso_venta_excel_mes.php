@@ -1,21 +1,22 @@
 <?php 
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+		$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	$CodigoDeSistema = 3;
@@ -23,8 +24,13 @@
 	include("../principal/conectar_principal.php");
 	$meses =array ("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
 	$meses2 =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");	
+
+	$Tipo    = $_REQUEST["Tipo"];
+	$MesIni2 = $_REQUEST["MesIni2"];
+	$AnoIni2 = $_REQUEST["AnoIni2"];
 ?>
 <html>
 <head>
@@ -59,6 +65,12 @@
 		$J=10;
 		$CodPaisAnt = 0;
 		$CodPais = 0;
+		$Total=0;
+		$TotalEne=0; $TotalFeb=0; $TotalMar=0; $TotalAbr=0; $TotalMay=0; $TotalJun=0;
+		$TotalJul=0; $TotalAgo=0; $TotalSep=0; $TotalOct=0; $TotalNov=0; $TotalDic=0;
+		$Total2=0;
+		$TotalEne2=0; $TotalFeb2=0; $TotalMar2=0; $TotalAbr2=0; $TotalMay2=0; $TotalJun2=0;
+		$TotalJul2=0; $TotalAgo2=0; $TotalSep2=0; $TotalOct2=0; $TotalNov2=0; $TotalDic2=0;
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$CodPais = substr($Fila["cod_cliente"],0,2);
@@ -136,71 +148,71 @@
 			switch ($MesIni2)
 			{
 				case 1:
-					echo "<td align='right'>".number_format($Fila[ene],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["ene"],0,",",".")."</td>";
 					break;
 				case 2:
-					echo "<td align='right'>".number_format($Fila[feb],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["feb"],0,",",".")."</td>";
 					break;
 				case 3:
-					echo "<td align='right'>".number_format($Fila[mar],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["mar"],0,",",".")."</td>";
 					break;
 				case 4:
-					echo "<td align='right'>".number_format($Fila[abr],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["abr"],0,",",".")."</td>";
 					break;
 				case 5:
-					echo "<td align='right'>".number_format($Fila[may],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["may"],0,",",".")."</td>";
 					break;
 				case 6:
-					echo "<td align='right'>".number_format($Fila[jun],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["jun"],0,",",".")."</td>";
 					break;
 				case 7:
-					echo "<td align='right'>".number_format($Fila[jul],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["jul"],0,",",".")."</td>";
 					break;
 				case 8:
-					echo "<td align='right'>".number_format($Fila[ago],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["ago"],0,",",".")."</td>";
 					break;
 				case 9:
-					echo "<td align='right'>".number_format($Fila[sep],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["sep"],0,",",".")."</td>";
 					break;
 				case 10:
-					echo "<td align='right'>".number_format($Fila[oct],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["oct"],0,",",".")."</td>";
 					break;
 				case 11:
-					echo "<td align='right'>".number_format($Fila[nov],0,",",".")."</td>";
+					echo "<td align='right'>".number_format($Fila["nov"],0,",",".")."</td>";
 					break;
 				case 12:
-					echo "<td align='right'>".number_format($Fila[dic],0,",",".")."</td>";			
+					echo "<td align='right'>".number_format($Fila["dic"],0,",",".")."</td>";			
 					break;
 			}
 			echo "</tr>";
 			//TOTAL POR PAIS
-			$Total = $Total + $Fila[tonelaje_total];
-			$TotalEne = $TotalEne + $Fila[ene];
-			$TotalFeb = $TotalFeb + $Fila[feb];
-			$TotalMar = $TotalMar + $Fila[mar];
-			$TotalAbr = $TotalAbr + $Fila[abr];
-			$TotalMay = $TotalMay + $Fila[may];
-			$TotalJun = $TotalJun + $Fila[jun];
-			$TotalJul = $TotalJul + $Fila[jul];
-			$TotalAgo = $TotalAgo + $Fila[ago];
-			$TotalSep = $TotalSep + $Fila[sep];
-			$TotalOct = $TotalOct + $Fila[oct];
-			$TotalNov = $TotalNov + $Fila[nov];
-			$TotalDic = $TotalDic + $Fila[dic];
+			$Total = $Total + $Fila["tonelaje_total"];
+			$TotalEne = $TotalEne + $Fila["ene"];
+			$TotalFeb = $TotalFeb + $Fila["feb"];
+			$TotalMar = $TotalMar + $Fila["mar"];
+			$TotalAbr = $TotalAbr + $Fila["abr"];
+			$TotalMay = $TotalMay + $Fila["may"];
+			$TotalJun = $TotalJun + $Fila["jun"];
+			$TotalJul = $TotalJul + $Fila["jul"];
+			$TotalAgo = $TotalAgo + $Fila["ago"];
+			$TotalSep = $TotalSep + $Fila["sep"];
+			$TotalOct = $TotalOct + $Fila["oct"];
+			$TotalNov = $TotalNov + $Fila["nov"];
+			$TotalDic = $TotalDic + $Fila["dic"];
 			//TOTAL TOTAL
-			$Total2 = $Total2 + $Fila[tonelaje_total];
-			$TotalEne2 = $TotalEne2 + $Fila[ene];
-			$TotalFeb2 = $TotalFeb2 + $Fila[feb];
-			$TotalMar2 = $TotalMar2 + $Fila[mar];
-			$TotalAbr2 = $TotalAbr2 + $Fila[abr];
-			$TotalMay2 = $TotalMay2 + $Fila[may];
-			$TotalJun2 = $TotalJun2 + $Fila[jun];
-			$TotalJul2 = $TotalJul2 + $Fila[jul];
-			$TotalAgo2 = $TotalAgo2 + $Fila[ago];
-			$TotalSep2 = $TotalSep2 + $Fila[sep];
-			$TotalOct2 = $TotalOct2 + $Fila[oct];
-			$TotalNov2 = $TotalNov2 + $Fila[nov];
-			$TotalDic2 = $TotalDic2 + $Fila[dic];
+			$Total2 = $Total2 + $Fila["tonelaje_total"];
+			$TotalEne2 = $TotalEne2 + $Fila["ene"];
+			$TotalFeb2 = $TotalFeb2 + $Fila["feb"];
+			$TotalMar2 = $TotalMar2 + $Fila["mar"];
+			$TotalAbr2 = $TotalAbr2 + $Fila["abr"];
+			$TotalMay2 = $TotalMay2 + $Fila["may"];
+			$TotalJun2 = $TotalJun2 + $Fila["jun"];
+			$TotalJul2 = $TotalJul2 + $Fila["jul"];
+			$TotalAgo2 = $TotalAgo2 + $Fila["ago"];
+			$TotalSep2 = $TotalSep2 + $Fila["sep"];
+			$TotalOct2 = $TotalOct2 + $Fila["oct"];
+			$TotalNov2 = $TotalNov2 + $Fila["nov"];
+			$TotalDic2 = $TotalDic2 + $Fila["dic"];
 			$i++;
 			$J=$J+16;
 			$CodPaisAnt = substr($Fila["cod_cliente"],0,2);

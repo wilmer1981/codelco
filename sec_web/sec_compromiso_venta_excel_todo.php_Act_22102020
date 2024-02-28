@@ -102,12 +102,12 @@
 			echo "<td align='right'>".number_format($Fila[feb],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[mar],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[abr],0,",",".")."</td>";
-			echo "<td align='right'>".number_format($Fila[may],0,",",".")."</td>";
+			echo "<td align='right'>".number_format($Fila["may"],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[jun],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[jul],0,",",".")."</td>";
-			echo "<td align='right'>".number_format($Fila[ago],0,",",".")."</td>";
-			echo "<td align='right'>".number_format($Fila[sep],0,",",".")."</td>";
-			echo "<td align='right'>".number_format($Fila[oct],0,",",".")."</td>";
+			echo "<td align='right'>".number_format($Fila["ago"],0,",",".")."</td>";
+			echo "<td align='right'>".number_format($Fila["sep"],0,",",".")."</td>";
+			echo "<td align='right'>".number_format($Fila["oct"],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[nov],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[dic],0,",",".")."</td>";			
 			echo "</tr>";
@@ -117,12 +117,12 @@
 			$TotalFeb = $TotalFeb + $Fila[feb];
 			$TotalMar = $TotalMar + $Fila[mar];
 			$TotalAbr = $TotalAbr + $Fila[abr];
-			$TotalMay = $TotalMay + $Fila[may];
+			$TotalMay = $TotalMay + $Fila["may"];
 			$TotalJun = $TotalJun + $Fila[jun];
 			$TotalJul = $TotalJul + $Fila[jul];
-			$TotalAgo = $TotalAgo + $Fila[ago];
-			$TotalSep = $TotalSep + $Fila[sep];
-			$TotalOct = $TotalOct + $Fila[oct];
+			$TotalAgo = $TotalAgo + $Fila["ago"];
+			$TotalSep = $TotalSep + $Fila["sep"];
+			$TotalOct = $TotalOct + $Fila["oct"];
 			$TotalNov = $TotalNov + $Fila[nov];
 			$TotalDic = $TotalDic + $Fila[dic];
 			//TOTAL TOTAL
@@ -135,7 +135,7 @@
 			$TotalJun2 = $TotalJun2 + $Fila[jun];
 			$TotalJul2 = $TotalJul2 + $Fila[jul];
 			$TotalAgo2 = $TotalAgo2 + $Fila[ago];
-			$TotalSep2 = $TotalSep2 + $Fila[sep];
+			$TotalSep2 = $TotalSep2 + $Fila["sep"];
 			$TotalOct2 = $TotalOct2 + $Fila[oct];
 			$TotalNov2 = $TotalNov2 + $Fila[nov];
 			$TotalDic2 = $TotalDic2 + $Fila[dic];
