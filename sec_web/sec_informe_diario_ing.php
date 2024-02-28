@@ -157,14 +157,14 @@ function Calcula()
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else
 							echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("j"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else
 							echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 			?>
               </SELECT> <SELECT name="Mes" id="Mes">
@@ -177,14 +177,14 @@ function Calcula()
 							echo "<option SELECTed value='".$i."'>".$Meses[$i-1]."</option>\n";
 						else
 							echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i ==date("n"))
 							echo "<option SELECTed value='".$i."'>".$Meses[$i-1]."</option>\n";
 						else
 							echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
-					}
+					}*/
 				}
 			?>
               </SELECT> <SELECT name="Ano" id="Ano">
@@ -197,14 +197,14 @@ function Calcula()
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else
 							echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i ==date("Y"))
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
 						else
 							echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 			?>
               </SELECT> <input name="BtnVer" type="button" id="BtnVer" value="Ver" onClick="Proceso('R');"></td>

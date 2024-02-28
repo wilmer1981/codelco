@@ -2,9 +2,9 @@
 	include("../principal/conectar_principal.php");
 
 	$Proceso = $_REQUEST["Proceso"];
-	$Ano = $_REQUEST["Ano"];
-	$Mes = $_REQUEST["Mes"];
-	$Dia = $_REQUEST["Dia"];
+	$Ano     = $_REQUEST["Ano"];
+	$Mes     = $_REQUEST["Mes"];
+	$Dia     = $_REQUEST["Dia"];
 
 	$RecuperadoDiario = $_REQUEST["RecuperadoDiario"];
 	$RecuperadoAcumulado = $_REQUEST["RecuperadoAcumulado"];
