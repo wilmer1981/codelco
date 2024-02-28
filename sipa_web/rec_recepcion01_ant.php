@@ -51,10 +51,10 @@
 				if($FilaGrupo=mysqli_fetch_array($RespGrupo))
 				{
 					$Entrar='S';
-					if($FilaGrupo[valor_subclase3]!=''&&$FilaGrupo[valor_subclase3]!='0')
+					if($FilaGrupo["valor_subclase3"]!=''&&$FilaGrupo["valor_subclase3"]!='0')
 					{
 						$Entrar='N';
-						$ArraySubprod=explode(',',$FilaGrupo[valor_subclase3]);
+						$ArraySubprod=explode(',',$FilaGrupo["valor_subclase3"]);
 						while(list($c,$v)=each($ArraySubprod))
 						{
 							if ($v==$Fila["cod_subproducto"])

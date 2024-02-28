@@ -4,11 +4,16 @@
 	$Mensaje='';
 	include("../principal/conectar_principal.php");
 
+	$Eliminar= isset($_REQUEST["Eliminar"])?$_REQUEST["Eliminar"]:"";
+	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";	
 
 	if($Eliminar=='S')
 	{
 		$Dato=explode('//',$Valores);
-		while(list($c,$v)=each($Dato))
+		foreach($Dato as $c => $v)
 		{
 			$Datos=explode('~',$v);
 			$Elimina="delete from proyecto_modernizacion.sub_clase where cod_clase='3105' and cod_subclase='".$Datos[0]."'";
@@ -270,16 +275,16 @@ function CheckearTodo(f,nomchk,nomchkT)
 					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						$Clave=$Fila["cod_subclase"]."~".$Fila[valor_subclase2]."~".$Fila[valor_subclase3];
+						$Clave=$Fila["cod_subclase"]."~".$Fila["valor_subclase2"]."~".$Fila["valor_subclase3"];
 						
-						?>
-            <tr bgcolor="#FFFFFF">
-              <td align="center"><input name='CheckTipo'  type='checkbox'  value='<?php echo $Clave;?>'></td>
-              <td align='left'><?php echo ucwords(strtolower($Fila[Prod]));?></td>
-              <td align='left'><?php echo ucwords(strtolower($Fila[SubProd]));?></td>
-              <td align='right'><?php echo $Fila["valor_subclase1"];?></td>
-            </tr>
-            <?php
+					?>
+						<tr bgcolor="#FFFFFF">
+						<td align="center"><input name='CheckTipo'  type='checkbox'  value='<?php echo $Clave;?>'></td>
+						<td align='left'><?php echo ucwords(strtolower($Fila["Prod"]));?></td>
+						<td align='left'><?php echo ucwords(strtolower($Fila["SubProd"]));?></td>
+						<td align='right'><?php echo $Fila["valor_subclase1"];?></td>
+						</tr>
+					<?php
 					}					
 				}	
 			?>

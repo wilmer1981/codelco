@@ -204,7 +204,7 @@ function Salir(f)
 					$consulta = "SELECT MAX(nivel) AS maximo FROM niveles_por_sistema WHERE cod_sistema = ".$cmbsistema;
 					$rs = mysqli_query($link, $consulta);
 					$row = mysqli_fetch_array($rs);
-					if ($row[maximo] == "")
+					if ($row["maximo"] == "")
 						$num = "";
 					else 	
 						$num = $row[maximo] + 1;

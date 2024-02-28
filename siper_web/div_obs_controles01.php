@@ -8,10 +8,10 @@
 		$Resp=mysql_query($Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
-			if($Fila[maximo]=='')
+			if($Fila["maximo"]=='')
 				$TxtVeriObs='1';
 			else		
-				$TxtVeriObs=$Fila[maximo];
+				$TxtVeriObs=$Fila["maximo"];
 		}
 		
 		$Inserta="INSERT INTO sgrs_sipercontroles_obs  (CIDCONTROL,CCONTROL,CPELIGRO,TOBSERVACION,CAREA,CCONTACTO)";

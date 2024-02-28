@@ -11,7 +11,7 @@
 				$Resp=mysql_query($Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
-					$CodSubclase=$Fila[maximo];
+					$CodSubclase=$Fila["maximo"];
 				}
 				$InsertaCorreos="INSERT INTO proyecto_modernizacion.sub_clase (cod_clase,cod_subclase,nombre_subclase,valor_subclase1,valor_subclase2,valor_subclase3,valor_subclase4,valor_subclase5,valor_subclase6,valor_subclase7)";
 				$InsertaCorreos.=" values('33007','".$CodSubclase."','".strtolower($Correo)."','".$CmbProceso."',0,0,0,0,0,0)";

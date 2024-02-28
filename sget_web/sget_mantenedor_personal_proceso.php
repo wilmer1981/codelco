@@ -109,7 +109,7 @@
 					$RAno=mysql_query($Con);
 					$FAno=mysql_fetch_assoc($RAno);
 					$PreocupaAno=$FAno["valor_subclase2"];
-					$OcupaAno=$FAno[valor_subclase3];
+					$OcupaAno=$FAno["valor_subclase3"];
 					$DASAno=$FAno["valor_subclase1"];
 					if(trim($Fila[fecha_das])!='0000-00-00' && trim($Fila[fecha_das])!='')	
 					{

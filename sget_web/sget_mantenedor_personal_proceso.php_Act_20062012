@@ -111,7 +111,7 @@
 						$RAno=mysql_query($Con);
 						$FAno=mysql_fetch_assoc($RAno);
 						$PreocupaAno=$FAno["valor_subclase2"];
-						$OcupaAno=$FAno[valor_subclase3];
+						$OcupaAno=$FAno["valor_subclase3"];
 						$DASAno=$FAno["valor_subclase1"];
 						
 					    $FechaTerminoOcupacional=explode('-',$Fila[fecha_vigencia_exa_preo]);

@@ -11,7 +11,7 @@ if($Opc=='M')
 		$CodSubclase=$Fila["cod_subclase"];
 		$Correo=$Fila["nombre_subclase"];
 		$CmbProceso=$Fila["valor_subclase1"];
-		$Tipo=$Fila[valor_subclase2];
+		$Tipo=$Fila["valor_subclase2"];
 	}	
 }
 if(!isset($Opc))

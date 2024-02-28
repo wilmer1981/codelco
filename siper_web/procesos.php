@@ -329,10 +329,10 @@
 						$Resp=mysql_query($Consulta);
 						if($Fila=mysql_fetch_array($Resp))
 						{
-							if($Fila[maximo]=='')
+							if($Fila["maximo"]=='')
 								$TxtVeriObs='1';
 							else		
-								$TxtVeriObs=$Fila[maximo];
+								$TxtVeriObs=$Fila["maximo"];
 						}
 						
 						$Inserta="INSERT INTO sgrs_sipercontroles_obs  (CIDCONTROL,CCONTROL,CPELIGRO,TOBSERVACION,CAREA,CCONTACTO)";
@@ -394,10 +394,10 @@
 								$Resp=mysql_query($Consulta);
 								if($Fila=mysql_fetch_array($Resp))
 								{
-									if($Fila[maximo]=='')
+									if($Fila["maximo"]=='')
 										$TxtVeriObs='1';
 									else		
-										$TxtVeriObs=$Fila[maximo];
+										$TxtVeriObs=$Fila["maximo"];
 								}
 								
 								$Inserta="INSERT INTO sgrs_sipercontroles_obs  (CIDCONTROL,CCONTROL,CPELIGRO,TOBSERVACION,CAREA,CCONTACTO)";
@@ -439,10 +439,10 @@
 						$Resp=mysql_query($Consulta);
 						if($Fila=mysql_fetch_array($Resp))
 						{
-							if($Fila[maximo]=='')
+							if($Fila["maximo"]=='')
 								$CodVeriObs='1';
 							else		
-								$CodVeriObs=$Fila[maximo];
+								$CodVeriObs=$Fila["maximo"];
 						}
 						$Inserta="INSERT INTO sgrs_sipercontroles_obs  (CIDCONTROL,CCONTROL,CPELIGRO,TOBSERVACION,CAREA,CCONTACTO)";
 						$Inserta.=" values('".$CodVeriObs."','".$DatosObs2[1]."','".$CodPel."','".trim($DatosObs2[0])."','".$CODAREA."','".$CodCC."')";		
@@ -527,10 +527,10 @@
 							$Resp=mysql_query($Consulta);
 							if($Fila=mysql_fetch_array($Resp))
 							{
-								if($Fila[maximo]=='')
+								if($Fila["maximo"]=='')
 									$TxtVeriObs='1';
 								else		
-									$TxtVeriObs=$Fila[maximo];
+									$TxtVeriObs=$Fila["maximo"];
 							}
 							
 							$Inserta="INSERT INTO sgrs_siperverificadores_obs  (CIDVERIFICADOR,COD_VERIFICADOR,CPELIGRO,TOBSERVACION,CAREA,CCONTACTO)";
@@ -571,10 +571,10 @@
 						$Resp=mysql_query($Consulta);
 						if($Fila=mysql_fetch_array($Resp))
 						{
-							if($Fila[maximo]=='')
+							if($Fila["maximo"]=='')
 								$CodVeriObs='1';
 							else		
-								$CodVeriObs=$Fila[maximo];
+								$CodVeriObs=$Fila["maximo"];
 						}
 						$Inserta="INSERT INTO sgrs_siperverificadores_obs  (CIDVERIFICADOR,COD_VERIFICADOR,CPELIGRO,TOBSERVACION,CAREA,CCONTACTO)";
 						$Inserta.=" values('".$CodVeriObs."','".$DatosObs2[1]."','".$CodPel."','".$DatosObs2[0]."','".$CODAREA."','".$CodCC."')";		

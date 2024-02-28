@@ -13,7 +13,7 @@ if ($Opc=='M')
 	$FC=mysql_fetch_array($RC);
 	$AnoDAS=$FC["valor_subclase1"];
 	//$AnoPreo=$FC["valor_subclase2"];
-	$Ano2Ocu=$FC[valor_subclase3];
+	$Ano2Ocu=$FC["valor_subclase3"];
 
 	$Consulta="SELECT * from sget_visitas where corr_visita = '".$CorrV."'";
 	 $Resp=mysql_query($Consulta);
@@ -95,8 +95,8 @@ if($BusDatos=='S')
 	$RC=mysql_query($ConsultaC);
 	$FC=mysql_fetch_array($RC);
 	$AnoDAS=$FC["valor_subclase1"];
-	//$AnoPreo=$FC[valor_subclase2];
-	$Ano2Ocu=$FC[valor_subclase3];
+	//$AnoPreo=$FC["valor_subclase2"];
+	$Ano2Ocu=$FC["valor_subclase3"];
 
 	$TxtNombre='';
 	$TxtPat='';

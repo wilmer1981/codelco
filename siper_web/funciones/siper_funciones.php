@@ -48,10 +48,10 @@ function InsertaHistorico($Rut,$TipoProceso,$Obs,$Obs2,$Parent,$ObsEli)
 	$Resp=mysql_query($Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
-		if($Fila[maximo]=='')
+		if($Fila["maximo"]=='')
 			$Corr='1';
 		else		
-			$Corr=$Fila[maximo];
+			$Corr=$Fila["maximo"];
 	}
 	$Inserta="INSERT INTO sgrs_registro_historico (correlativo,fecha_registro,rut_funcionario,tipo_proceso,observacion,Observacion2,parent,obs_elimina,Tipo_Eli_Sust) values('".$Corr."','".$Fecha."','".$Rut."','".$TipoProceso."','".$Obs."','".$Obs2."','".$Parent."','".$ObsEli."','1')";
 	//echo $Inserta;
@@ -64,10 +64,10 @@ function InsertaHistoricoIdent($Rut,$TipoProceso,$Obs,$Obs2,$Parent,$ObsEli,$Tip
 	$Resp=mysql_query($Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
-		if($Fila[maximo]=='')
+		if($Fila["maximo"]=='')
 			$Corr='1';
 		else		
-			$Corr=$Fila[maximo];
+			$Corr=$Fila["maximo"];
 	}
 	$Inserta="INSERT INTO sgrs_registro_historico (correlativo,fecha_registro,rut_funcionario,tipo_proceso,observacion,Observacion2,parent,obs_elimina,Tipo_Eli_Sust) values('".$Corr."','".$Fecha."','".$Rut."','".$TipoProceso."','".$Obs."','".$Obs2."','".$Parent."','".$ObsEli."','".$TipoES."')";
 	//echo $Inserta;

@@ -12,7 +12,7 @@
 	$R=mysql_query($Consulta);$Hora1='08:00:00';$Hora2='07:59:59';
 	if($F=mysql_fetch_assoc($R))
 	{	$Hora1=$F[valor_subclase2];
-		$Hora2=$F[valor_subclase3];}
+		$Hora2=$F["valor_subclase3"];}
 	
 	$SumaDia='N';
 	if(intval(substr($Hora1,0,2)) > intval(substr($Hora2,0,2)))

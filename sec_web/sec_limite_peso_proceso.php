@@ -2,7 +2,18 @@
 include("../principal/conectar_principal.php");
 $Fecha_Hora = date("d-m-Y h:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-$Rut =$CookieRut;
+$CookieRut = $_COOKIE["CookieRut"];
+$Rut       = $CookieRut;
+
+$Opc = isset($_REQUEST["Opc"])?$_REQUEST["Opc"]:"";
+
+$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+$TxtPesoLimite = isset($_REQUEST["TxtPesoLimite"])?$_REQUEST["TxtPesoLimite"]:"";
+
+$OP = isset($_REQUEST["OP"])?$_REQUEST["OP"]:"";
+
 
 if($Opc=='M')
 {
@@ -12,19 +23,22 @@ if($Opc=='M')
 	if($Fila=mysqli_fetch_array($Resp))
 	{
 		$CodSubclase=$Fila["cod_subclase"];
-		$CmbProductos=$Fila[valor_subclase2];
-		$CmbSubProducto=$Fila[valor_subclase3];
+		$CmbProductos=$Fila["valor_subclase2"];
+		$CmbSubProducto=$Fila["valor_subclase3"];
 		$TxtPesoLimite=$Fila["valor_subclase1"];
 	}
-}
+}/*
 else
 {
 		$CmbProductos='-1';
 		$CmbSubProducto='-1';
 		$TxtPesoLimite='';
-}
+}*/
 if($OP=='G')
 {
+	$Prod = isset($_REQUEST["Prod"])?$_REQUEST["Prod"]:"";
+	$SubProd = isset($_REQUEST["SubProd"])?$_REQUEST["SubProd"]:"";
+	$Peso = isset($_REQUEST["Peso"])?$_REQUEST["Peso"]:"";
 
 	$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='3105' and valor_subclase2='".$Prod."' and valor_subclase3='".$SubProd."'";
 	$Resp=mysqli_query($link, $Consulta);
@@ -34,10 +48,10 @@ if($OP=='G')
 		$Resp2=mysqli_query($link, $Consulta2);
 		if($Fila2=mysqli_fetch_array($Resp2))
 		{
-			if($Fila2[maximo]=='')
+			if($Fila2["maximo"]=='')
 				$CodSubClase='1';
 			else		
-				$CodSubClase=$Fila2[maximo];
+				$CodSubClase=$Fila2["maximo"];
 		}	
 		$Insertar="insert into proyecto_modernizacion.sub_clase(cod_subclase,cod_clase,valor_subclase1,valor_subclase2,valor_subclase3)";
 		$Insertar.=" values('".$CodSubClase."','3105','".$Peso."','".$Prod."','".$SubProd."')";
@@ -60,8 +74,13 @@ if($OP=='G')
 if($OP=='M')
 {
 	//echo $CodSubM."<br>";
+	$CodSubM = isset($_REQUEST["CodSubM"])?$_REQUEST["CodSubM"]:"";
+	$Prod = isset($_REQUEST["Prod"])?$_REQUEST["Prod"]:"";
+	$SubProd = isset($_REQUEST["SubProd"])?$_REQUEST["SubProd"]:"";
+	$Peso = isset($_REQUEST["Peso"])?$_REQUEST["Peso"]:"";
+
 	$DatoM=explode('~',$CodSubM);
-	while(list($c,$CodSubclaseM)=each($DatoM))
+	foreach($DatoM as $c => $CodSubclaseM)
 	{
 		//echo $CodSubclaseM;
 		$Actualizar="UPDATE proyecto_modernizacion.sub_clase set valor_subclase1='$Peso' where cod_clase='3105' and cod_subclase='".$CodSubclaseM."'";
@@ -317,7 +336,8 @@ function CheckearTodo(f,nomchk,nomchkT)
 				  </tr>					
 				<?php
 					$Valores=explode('//',$Valores);
-					while(list($c,$v)=each($Valores))
+					$CodLimites="";
+					foreach($Valores as $c => $v)
 					{
 						$Dato=explode('~',$v);						
 						$CodLimites=$CodLimites.$Dato[0]."~";						

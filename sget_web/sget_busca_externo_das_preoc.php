@@ -282,7 +282,7 @@ if($Buscar=='S')
 			$FC=mysql_fetch_array($RC);
 			$AnoDAS=$FC["valor_subclase1"];
 			$PreocupaAno=$FC["valor_subclase2"];
-			$Ano2Ocu=$FC[valor_subclase3];
+			$Ano2Ocu=$FC["valor_subclase3"];
 			
 			$FechaDAS=explode('-',$Fila[fecha_das]);
 			if($FechaDAS[0]!='' && $FechaDAS[0]!='0000')

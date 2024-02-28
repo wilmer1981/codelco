@@ -130,7 +130,7 @@ function FuncionEnvioCorreo($Corr)
 			$Patente=$FilaReg["patente"];
 			$Guia=$FilaReg["guia_despacho"];
 			$Prod=$FilaReg[Prod];
-			$SubProd=$FilaReg[SubProd];
+			$SubProd=$FilaReg["SubProd"];
 			$PesoBrutoSipa=$FilaReg["peso_bruto"];
 			$PesoBrutoSec=$FilaReg[peso_sec];
 			$PesoControl=$FilaReg[peso_control];

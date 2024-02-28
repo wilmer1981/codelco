@@ -80,7 +80,7 @@ function Imprimir()
 				$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2002 AND cod_subclase = ".$cmborigen;
 				$rs = mysqli_query($link, $consulta);
 				$row = mysqli_fetch_array($rs);
-				$codigos = $row["valor_subclase1"].",".$row[valor_subclase2].",".$row[valor_subclase3];
+				$codigos = $row["valor_subclase1"].",".$row[valor_subclase2].",".$row["valor_subclase3"];
 			
 				$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_producto = 19 AND cod_proceso = 3";
 				$consulta = $consulta." AND cod_subproducto in (".$codigos.")";

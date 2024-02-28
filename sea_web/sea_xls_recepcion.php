@@ -186,7 +186,7 @@ function Imprimir()
 				//echo $consulta;
 				$rs = mysqli_query($link, $consulta);
 				$row = mysqli_fetch_array($rs);
-				$codigos = $row["valor_subclase1"].",".$row[valor_subclase2].",".$row[valor_subclase3];
+				$codigos = $row["valor_subclase1"].",".$row[valor_subclase2].",".$row["valor_subclase3"];
 			
 				$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_producto = 17 AND cod_proceso = 1";
 				$consulta = $consulta." AND cod_subproducto in (".$codigos.")";

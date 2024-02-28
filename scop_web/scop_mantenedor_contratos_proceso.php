@@ -82,10 +82,10 @@ else
 	$Resp=mysql_query($Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
-		if($Fila[maximo]=='')
+		if($Fila["maximo"]=='')
 			$TxtContrato='1';
 		else		
-			$TxtContrato=$Fila[maximo];
+			$TxtContrato=$Fila["maximo"];
 	}
 		$TxtNumContrato='';
 		$TxtDescripcion='';

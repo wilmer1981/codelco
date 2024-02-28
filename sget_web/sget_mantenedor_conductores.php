@@ -331,7 +331,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$FC=mysql_fetch_array($RC);
 				$AnoDAS=$FC["valor_subclase1"];
 				$AnoPreo=$FC["valor_subclase2"];
-				$Ano2Ocu=$FC[valor_subclase3];
+				$Ano2Ocu=$FC["valor_subclase3"];
 				echo "<input name='CheckConduc' type='hidden'  value=''>";
 				$Consulta="SELECT *,t1.corr_conductor from sget_conductores t1 left join sget_conductores_licencias t2 on t1.corr_conductor=t2.corr_conductor where t1.corr_conductor<>''";
 				if($TxtPat!='')

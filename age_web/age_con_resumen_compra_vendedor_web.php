@@ -113,7 +113,7 @@ body {
 			echo "</tr>\n";
 			$Consulta="select * from proyecto_modernizacion.subproducto t1 inner join age_web.lotes t2 on t1.mostrar_age='S' and t1.cod_producto=t2.cod_producto and ";
 			$Consulta.="t1.cod_subproducto=t2.cod_subproducto where  t2.lote between '".$LoteIni."' and '".$LoteFin."' and t2.cod_recepcion = '".$FilaAsig[cod_recepcion]."' ";
-			if($FilaClaseProd[valor_subclase2]=='METALICO')
+			if($FilaClaseProd["valor_subclase2"]=='METALICO')
 				$Consulta.="and t2.clase_producto='M' ";
 			else
 				$Consulta.="and t2.clase_producto<>'M' ";

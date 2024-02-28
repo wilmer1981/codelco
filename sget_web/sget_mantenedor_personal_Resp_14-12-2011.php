@@ -532,7 +532,7 @@ $Con="SELECT valor_subclase1,valor_subclase2 from proyecto_modernizacion.sub_cla
 $RAno=mysql_query($Con);
 $FAno=mysql_fetch_assoc($RAno);
 $PreocupaAno=$FAno["valor_subclase2"];
-$OcupaAno=$FAno[valor_subclase3];
+$OcupaAno=$FAno["valor_subclase3"];
 $DASAno=$FAno["valor_subclase1"];
 
 $Consulta="SELECT t1.estado,t1.rut,t1.fecha_das,t1.fecha_vig_exa_ocup,t1.fecha_vigencia_exa_preo,t2.fecha_exa_pst,t2.fecha_vig_licencia FROM sget_personal t1 left join sget_conductores t2 on t1.rut=t2.rut";

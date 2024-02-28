@@ -8,7 +8,7 @@ if ($Opc=='M')
 	$FC=mysql_fetch_array($RC);
 	$AnoDAS=$FC["valor_subclase1"];
 	$AnoPreo=$FC["valor_subclase2"];
-	$Ano2Ocu=$FC[valor_subclase3];
+	$Ano2Ocu=$FC["valor_subclase3"];
 
 	$Consulta="SELECT * from sget_conductores where corr_conductor = '".$CorrCond."'";
 	//echo $Consulta;

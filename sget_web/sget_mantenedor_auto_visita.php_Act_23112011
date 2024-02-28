@@ -226,7 +226,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$FC=mysql_fetch_array($RC);
 				$AnoDAS=$FC["valor_subclase1"];
 				//$AnoPreo=$FC["valor_subclase2"];
-				//$Ano2Ocu=$FC[valor_subclase3];
+				//$Ano2Ocu=$FC["valor_subclase3"];
 
 				$Consulta="SELECT * from sget_visitas where corr_visita<>'' and estado='I'";
 				if($TxtRut!='')
