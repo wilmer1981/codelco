@@ -1,12 +1,20 @@
 <?php 	
  	$CodigoDeSistema = 3;
-	$CodigoDePantalla =11;
+	$CodigoDePantalla =68;
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut=$_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
 	$Encontro=false;
 	$Encontro1=false;
+
+	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TxtGuia1   = isset($_REQUEST["TxtGuia1"])?$_REQUEST["TxtGuia1"]:"";
+	$TxtGuia2   = isset($_REQUEST["TxtGuia2"])?$_REQUEST["TxtGuia2"]:"";
+
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+
 	if($TxtGuia1 <> "")
 	{
 		$Consulta = "select * from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia1."' order by fecha_guia desc ";
@@ -15,7 +23,7 @@
 		{
 			$Lote=$Fila["cod_bulto"]." ".$Fila["num_bulto"];
 			$IE=$Fila["corr_enm"];
-			$FechaGuia=$Fila[fecha_guia];
+			$FechaGuia=$Fila["fecha_guia"];
 			$Encontro=true;
 		}
 	}
@@ -27,7 +35,7 @@
 		{
 			$Lote2=$Fila2["cod_bulto"]." ".$Fila2["num_bulto"];
 			$IE2=$Fila2["corr_enm"];
-			$FechaGuia2=$Fila[fecha_guia];
+			$FechaGuia2=$Fila["fecha_guia"];
 			$Encontro1=true;
 		}
 	}
@@ -86,14 +94,12 @@ function Actualiza()
 <link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style>
 <body>
 <DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
@@ -215,7 +221,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			}
 		}
 		//echo "</table>"; 
-		 mysql_close($link);
+		// mysql_close($link);
 		?>
         <br>
 		
