@@ -114,15 +114,15 @@ function Modificar(Valores)
 		if ($row[cod_muestra] == "S")
 		{
 			//echo '<td width="125"><input type="radio" name="radiobutton" value="'.$row["cod_grupo"].'/'.$row[fecha_produccion].'" onClick="Chequear(this)">'.$row["cod_grupo"].'</td>';
-			echo '<td width="125">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="sec_ing_produccion_popup_cambio_fecha.php?cod_grupo='.$row["cod_grupo"].'&cmbproducto='.$cmbproducto.'&cmbsubproducto='.$cmbsubproducto.'&fecha='.$fecha./*.$row[fecha_produccion].*/'&lado='.$row[cod_lado].'&Fecha2='.$Fecha2.'">'.$row["cod_grupo"].'</a></td>';
+			echo '<td width="125">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="sec_ing_produccion_popup_cambio_fecha.php?cod_grupo='.$row["cod_grupo"].'&cmbproducto='.$cmbproducto.'&cmbsubproducto='.$cmbsubproducto.'&fecha='.$fecha./*.$row[fecha_produccion].*/'&lado='.$row["cod_lado"].'&Fecha2='.$Fecha2.'">'.$row["cod_grupo"].'</a></td>';
 		}
 		else
 		{
-			echo '<td width="125">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="sec_ing_produccion_popup222.php?cod_grupo='.$row["cod_grupo"].'&cmbproducto='.$cmbproducto.'&cmbsubproducto='.$cmbsubproducto.'&fecha='.$fecha./*.$row[fecha_produccion].*/'&lado='.$row[cod_lado].'&Fecha2='.$Fecha2.'">'.$row["cod_grupo"].'</a></td>';
-			//echo '<td width="125">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="sec_ing_produccion_popup222.php?cod_grupo='.$row["cod_grupo"].'&cmbproducto='.$cmbproducto.'&cmbsubproducto='.$cmbsubproducto.'&fecha='.$row[fecha_produccion].'&lado='.$row[cod_lado].'&Fecha2_mov='.$row[hora].'">'.$row["cod_grupo"].'</a></td>';
+			echo '<td width="125">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="sec_ing_produccion_popup222.php?cod_grupo='.$row["cod_grupo"].'&cmbproducto='.$cmbproducto.'&cmbsubproducto='.$cmbsubproducto.'&fecha='.$fecha./*.$row[fecha_produccion].*/'&lado='.$row["cod_lado"].'&Fecha2='.$Fecha2.'">'.$row["cod_grupo"].'</a></td>';
+			//echo '<td width="125">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="sec_ing_produccion_popup222.php?cod_grupo='.$row["cod_grupo"].'&cmbproducto='.$cmbproducto.'&cmbsubproducto='.$cmbsubproducto.'&fecha='.$row[fecha_produccion].'&lado='.$row["cod_lado"].'&Fecha2_mov='.$row[hora].'">'.$row["cod_grupo"].'</a></td>';
 		}	
 	//echo "entro22222";
-		echo '<td width="125" height="25" align="center">'.$row[cod_lado].'&nbsp;</td>';
+		echo '<td width="125" height="25" align="center">'.$row["cod_lado"].'&nbsp;</td>';
 		if ($row[cod_muestra] == "S")
 		{
 			echo '<td width="125" align="center">'.$row["peso"];

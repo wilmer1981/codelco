@@ -3,10 +3,25 @@
 	$CodigoDePantalla =67;
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut=$_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
 	$Encontro=false;
 	$Encontro1=false;
+
+	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$Actualizar = isset($_REQUEST["Actualizar"])?$_REQUEST["Actualizar"]:"";
+	$TxtGrupo   = isset($_REQUEST["TxtGrupo"])?$_REQUEST["TxtGrupo"]:"";
+	$TxtFecha   = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:"";
+	$TxtFechaNueva   = isset($_REQUEST["TxtFechaNueva"])?$_REQUEST["TxtFechaNueva"]:"";
+	$TxtHora   = isset($_REQUEST["TxtHora"])?$_REQUEST["TxtHora"]:"";
+	$TxtMinuto = isset($_REQUEST["TxtMinuto"])?$_REQUEST["TxtMinuto"]:"";
+	$Lado   = isset($_REQUEST["Lado"])?$_REQUEST["Lado"]:"";
+	$Peso   = isset($_REQUEST["Peso"])?$_REQUEST["Peso"]:"";
+	$Producto = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+
 	if($Actualizar=='S')
 	{
 		$TxtGrupo="";
@@ -28,7 +43,7 @@
 		if($Fila=mysqli_fetch_array($Respuesta))
 		{
 			$TxtFechaNueva=$TxtFecha;
-			$Lado=$Fila[cod_lado];
+			$Lado=$Fila["cod_lado"];
 			$Peso=$Fila["peso"];
 			$Producto=$Fila["descripcion"];
 			$Encontro="S";
@@ -98,14 +113,12 @@ function Proceso(Opcion)
 <link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style>
 <body>
 <DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
@@ -146,9 +159,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <tr>
           <td>&nbsp;</td>
           <td>Nueva Hora</td>
-          <td colspan="3"><input type="text" name="TxtHora" value="<?php echo $Hora;?>" size="4" maxlength="2">
+          <td colspan="3"><input type="text" name="TxtHora" value="<?php echo $TxtHora;?>" size="4" maxlength="2">
             :
-            <input type="text" name="TxtMinuto" value="<?php echo $Minuto;?>" size="4" maxlength="2"></td>
+            <input type="text" name="TxtMinuto" value="<?php echo $TxtMinuto;?>" size="4" maxlength="2"></td>
         </tr>
         <tr>
           <td>&nbsp;</td>

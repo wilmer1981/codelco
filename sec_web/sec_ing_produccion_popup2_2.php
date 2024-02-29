@@ -154,7 +154,7 @@ function Salir()
 		echo '<input name="Fecha_sel" type="hidden" value="'.$row[fecha_produccion].'"/>';
 		echo '<input name="Hora_sel" type="hidden" value="'.$row[hora].'"/>';
 		echo '<input name="Peso_sel" type="hidden" value="'.$row["peso_produccion"].'"/>';
-		echo '<input name="Valor" type="hidden" value="'.$row["cod_grupo"].'/'.$row[cod_cuba].'/'.$row[cod_lado].'/'.$row[fecha_produccion].'/'.$row["cod_producto"].'/'.$row["cod_subproducto"].'/'.$row[hora].'"/>';
+		echo '<input name="Valor" type="hidden" value="'.$row["cod_grupo"].'/'.$row[cod_cuba].'/'.$row["cod_lado"].'/'.$row[fecha_produccion].'/'.$row["cod_producto"].'/'.$row["cod_subproducto"].'/'.$row[hora].'"/>';
 		echo '</input>';
 		echo '</td>';
 		echo '</tr>';

@@ -127,12 +127,12 @@
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
 					$grupos[$row1["cod_grupo"]][0] = $row1["cod_grupo"]; //Grupo.
-					$grupos[$row1["cod_grupo"]][1] = $row1[cod_lado]; //Lado. 
+					$grupos[$row1["cod_grupo"]][1] = $row1["cod_lado"]; //Lado. 
 				
 				
 					//Ultima Cuba Ingresada.
 					$consulta = "SELECT cod_cuba FROM sec_web.produccion_catodo";
-					$consulta.= " WHERE fecha_produccion = '".$row[fecha_produccion]."' AND cod_grupo = '".$row["cod_grupo"]."' AND cod_lado = '".$row1[cod_lado]."'";
+					$consulta.= " WHERE fecha_produccion = '".$row[fecha_produccion]."' AND cod_grupo = '".$row["cod_grupo"]."' AND cod_lado = '".$row1["cod_lado"]."'";
 					$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 					$consulta.= " ORDER BY hora DESC";
 					$consulta.= " LIMIT 0,1";
@@ -145,7 +145,7 @@
 							
 					//Primera Cuba Ingresada Del Lado.
 					$consulta = "SELECT cod_cuba FROM sec_web.produccion_catodo";
-					$consulta.= " WHERE fecha_produccion = '".$row[fecha_produccion]."' AND cod_grupo = '".$row["cod_grupo"]."' AND cod_lado = '".$row1[cod_lado]."'";
+					$consulta.= " WHERE fecha_produccion = '".$row[fecha_produccion]."' AND cod_grupo = '".$row["cod_grupo"]."' AND cod_lado = '".$row1["cod_lado"]."'";
 					$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 					$consulta.= " ORDER BY hora ASC";
 					$consulta.= " LIMIT 0,1";
@@ -188,7 +188,7 @@
 					}
 															
 					$consulta = "SELECT cod_cuba FROM sec_web.produccion_catodo";
-					$consulta.= " WHERE fecha_produccion = '".$row[fecha_produccion]."' AND cod_grupo = '".$row["cod_grupo"]."' AND cod_lado = '".$row1[cod_lado]."'";
+					$consulta.= " WHERE fecha_produccion = '".$row[fecha_produccion]."' AND cod_grupo = '".$row["cod_grupo"]."' AND cod_lado = '".$row1["cod_lado"]."'";
 					$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";		
 					$rs3 = mysqli_query($link, $consulta);
 					//echo $consulta."<br>";		
