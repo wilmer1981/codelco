@@ -2,16 +2,24 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 76;
 	include("../principal/conectar_sec_web.php");
-	
 	//$link = mysql_connect('10.56.11.7','adm_bd','672312');
 	//mysql_select_db("sec_web", $link);	
 	
 	global $descripcion_puerto,$aux_nombre_marca;
+
+	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TxtGuia  = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$Msj  = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
+
+	$Existe='N';
+	$FechaGuia="";
+	$Numenvio="";
+	$InsEmb="";
 	if($Buscar=='S')
 	{
        $Consulta="SELECT * FROM sec_web.GUIA_DESPACHO_EMB WHERE NUM_GUIA = '".$TxtGuia."' and (cod_estado = 'I' or cod_estado = 'A') order by fecha_guia desc ";
 	   $R=mysqli_query($link, $Consulta);
-	   if(mysql_num_rows($R)==0)
+	   if(mysqli_num_rows($R)==0)
 	   {
             $Msj=utf8_decode("Nº Guía No Existe, Reingrese...");
             $TxtGuia= "";
@@ -20,6 +28,7 @@
 	   {
 		   $F=mysqli_fetch_assoc($R);
            $control_guia =$F["cod_estado"];
+
            if($control_guia == "A")
 		   {
                 $Msj=utf8_decode("Guía Fué Anulada, Reingrese...");
@@ -31,6 +40,7 @@
                     $FechaGuia = $F["fecha_guia"];
                 else
                     $FechaGuia = "";
+
                 $Existe='S';
                 $Patente1 = $F["patente_guia"];
                 $CodLote = $F["cod_bulto"];
@@ -60,8 +70,8 @@
                     else
                         $aux_cliente = $F2["cod_cliente"];
 
-                    poner_estado_lote($e_lote,&$estado_lote);
-                    sacar_datos_personas($Patente1,$RutChofer,&$nombre_transportista,&$tara,&$patente_acoplado,&$nombre_chofer);
+                    poner_estado_lote($e_lote,$estado_lote);
+                    sacar_datos_personas($Patente1,$RutChofer,$nombre_transportista,$tara,$patente_acoplado,$nombre_chofer,$link);
                     $Cliente=sacar_cliente($F2["cod_cliente"]);
                     if($F2["tipo_enm_code"] == "E")
 					{
@@ -73,7 +83,7 @@
                         $titulo= "       CODELCO";
                         $Msj="Revise Formulario Impresora...\nGuía Despacho CODELCO";
 					}
-                    sacar_marca($NumLote,$CodLote,$aux_puerto);
+                    sacar_marca($NumLote,$CodLote,$aux_puerto,$link);
 			   }
 		   }
 	   }
@@ -144,7 +154,7 @@ function Mensaje(Msj)
 <input type="hidden" name="despacho_peso_aux" id="despacho_peso_aux" value="<?php echo $despacho_peso_aux;?>" />
 <input type="hidden" name="Numenvio" id="Numenvio" value="<?php echo $Numenvio;?>" />
 <input type="hidden" name="InsEmb" id="InsEmb" value="<?php echo $InsEmb;?>" />
-<input type="hidden" name="InsEmb" id="InsEmb" value="<?php echo $InsEmb;?>" />
+<!--<input type="hidden" name="InsEmb" id="InsEmb" value="<?php //echo $InsEmb;?>" />-->
 <input type="hidden" name="CodLote" id="CodLote" value="<?php echo $CodLote;?>" />
 <input type="hidden" name="NumLote" id="NumLote" value="<?php echo $NumLote;?>" />
 <input type="hidden" name="TxtGuia2" id="TxtGuia2" value="<?php echo $TxtGuia;?>" />
@@ -206,7 +216,9 @@ function Mensaje(Msj)
 			$Consulta.=" and d.fecha_guia = '".$FechaGuia."'";
 		//	echo $Consulta."<br>";
 			$R=mysqli_query($link, $Consulta);
-			$Contador=mysql_num_rows($R);
+			$Contador=mysqli_num_rows($R);
+			$PesoNeto=0;
+			$TotUni=0;
 			while($Listar=mysqli_fetch_assoc($R))
 			{
 				$strcodpaquete = $Listar["cod_paquete"];
@@ -271,7 +283,7 @@ function Mensaje(Msj)
 </body>
 </html>
 <?php
-function sacar_datos_personas($Patente,$Rut,$nombre_transportista,$tara,$patente_acoplado,$nombre_chofer)
+function sacar_datos_personas($Patente,$Rut,$nombre_transportista,$tara,$patente_acoplado,$nombre_chofer,$link)
 {  
     $p = "select * from sec_web.transporte_persona where patente_camion = '".$Patente."'  and rut_chofer = '".$Rut."'";
     $R=mysqli_query($link, $p);
@@ -309,7 +321,7 @@ function poner_estado_lote($e_lote,$estado_lote)
 		$estado_lote = "CONTINUACIÓN ";
 	
 }
-function sacar_cliente($aux_cliente)
+function sacar_cliente($aux_cliente,$link)
 {
 	$aux = $aux_cliente;
 	if($aux == "0")
@@ -334,7 +346,7 @@ function sacar_cliente($aux_cliente)
 	}
 	return($Cliente);
 }
-function sacar_marca($num_lote,$cod_lote,$aux_puerto)
+function sacar_marca($num_lote,$cod_lote,$aux_puerto,$link)
 {
 	global $descripcion_puerto,$aux_nombre_marca;
     $Consulta = "select  l.cod_marca, m.descripcion from sec_web.marca_catodos m, lote_catodo l where l.cod_bulto = '".$cod_lote."' ";

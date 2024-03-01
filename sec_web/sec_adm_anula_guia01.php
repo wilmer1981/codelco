@@ -2,7 +2,15 @@
 	include("../principal/conectar_sec_web.php");	
 	
 	//$link = mysql_connect('10.56.11.7','adm_bd','672312');
-	//mysql_SELECT_db("sec_web", $link);	
+	//mysql_SELECT_db("sec_web", $link);
+	$CookieRut = $_COOKIE["CookieRut"];
+	$despacho_paquetes_aux  = isset($_REQUEST["despacho_paquetes_aux"])?$_REQUEST["despacho_paquetes_aux"]:"";
+	$despacho_peso_aux  = isset($_REQUEST["despacho_peso_aux"])?$_REQUEST["despacho_peso_aux"]:"";
+	$Numenvio  = isset($_REQUEST["Numenvio"])?$_REQUEST["Numenvio"]:"";
+	$InsEmb  = isset($_REQUEST["InsEmb"])?$_REQUEST["InsEmb"]:"";
+	$CodLote  = isset($_REQUEST["CodLote"])?$_REQUEST["CodLote"]:"";	
+	$NumLote  = isset($_REQUEST["NumLote"])?$_REQUEST["NumLote"]:"";
+	$TxtGuia2  = isset($_REQUEST["TxtGuia2"])?$_REQUEST["TxtGuia2"]:"";
 	
 	$Consulta ="SELECT p.fecha_creacion_paquete,d.cod_paquete, d.num_paquete, p.peso_paquetes, p.num_unidades ";
 	$Consulta.=" from  sec_web.paquete_catodo p, sec_web.det_guia_despacho_emb d where p.cod_paquete = d.cod_paquete ";
@@ -10,7 +18,8 @@
 	$Consulta.=" and d.num_guia = '".$TxtGuia2."'";
 	//echo $Consulta."<br><br>";
 	$R=mysqli_query($link, $Consulta);
-	$Contador=mysql_num_rows($R);$Log='';
+	$Contador=mysqli_num_rows($R);
+	$Log='';
 	while($Listar=mysqli_fetch_assoc($R))
 	{
 		//FechaAux = Year(paquetes.TextMatrix(i, 6)) & "-" & Month(paquetes.TextMatrix(i, 6)) & "-" & Day(paquetes.TextMatrix(i, 6))

@@ -229,7 +229,7 @@ function Proceso(opt)
 	$Respuesta = mysqli_query($link, $Consulta);
 //echo "FF".$Consulta;
 		echo 
-		mysql_num_rows($Respuesta);*/
+		mysqli_num_rows($Respuesta);*/
 		$FechaAux = $FechaInicio;
 	while ($FechaInicio<= $FechaTermino)  
 	{
