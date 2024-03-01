@@ -7,15 +7,24 @@
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
 
 	/*echo $Pro."<br>";*/
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$cmbproducto  = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"-1";
+	$cmbsubproducto  = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"-1";
+	$TxtNombreGDE  = isset($_REQUEST["TxtNombreGDE"])?$_REQUEST["TxtNombreGDE"]:"";
+	$TxtCodSAP  = isset($_REQUEST["TxtCodSAP"])?$_REQUEST["TxtCodSAP"]:"";
+	$TxtUnidadSAP  = isset($_REQUEST["TxtUnidadSAP"])?$_REQUEST["TxtUnidadSAP"]:"";
+
 	switch($Proceso)
 	{
 		case "N":
 			break;
 		case "M": 
-			$Cod_Producto=$Valores;
+			$Cod_Producto = $Valores;
 			$Matriz=explode("-",$Valores);
-					$cmbproducto=$Matriz[0];
-					$cmbsubproducto=$Matriz[1];
+			$cmbproducto=$Matriz[0];
+			$cmbsubproducto=$Matriz[1];
 			$Consulta="select * from sec_web.homologacion_producto_sap where cod_producto_sec='".$Matriz[0]."' and cod_subproducto_sec='".$Matriz[1]."'"; 
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
@@ -23,9 +32,7 @@
 			$TxtNombre=$Fila["denominacion_sap"];
 			$TxtNombreGDE=$Fila["denominacion_sap"];
 			$TxtUnidadSAP=$Fila["cod_unidad_sap"];
-		
-
-			break;	
+		break;	
 	}
 
 ?>

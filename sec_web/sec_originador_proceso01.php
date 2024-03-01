@@ -71,7 +71,7 @@
 		echo "<script languaje='JavaScript'>";
 		echo "window.opener.document.FrmIngOriginador.action='sec_originador.php';";
 		echo "window.opener.document.FrmIngOriginador.submit();";
-		//echo "window.close();";
+		echo "window.close();";
 		echo "alert('".$msg."');";
 		echo "</script>";
 

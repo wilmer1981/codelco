@@ -1,15 +1,25 @@
 <?php
    
 	include("../principal/conectar_ram_web.php");
-	mysql_select_db("ram_web",$link);
+	//mysql_select_db("ram_web",$link);
 
-	if(strlen($dia) == 1)
+$generador   = isset($_REQUEST["generador"])?$_REQUEST["generador"]:"";
+$ano   = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$mes   = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$dia   = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+$ano2   = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y");
+$mes2   = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");
+$dia2   = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:date("d");
+
+if(strlen($dia) == 1)
 		$dia = '0'.$dia;
 	
-	if(strlen($mes) == 1)
+if(strlen($mes) == 1)
 		$mes = '0'.$mes;
-	$IpUsuario=	str_replace('.','',$REMOTE_ADDR);
-	$NombreTabla1="ram_web.tmp_table".$IpUsuario;
+
+$REMOTE_ADDR='101.23.5.0.1';
+$IpUsuario    =	str_replace('.','',$REMOTE_ADDR);
+$NombreTabla1 ="ram_web.tmp_table".$IpUsuario;
 	//echo $NombreTabla1;
 ?>
 <html>
@@ -57,8 +67,12 @@ function Salir()
 $fecha_ini = $ano.'-'.$mes.'-'.$dia.' 00:00:00';
 $fecha_ter = $ano.'-'.$mes.'-'.$dia.' 23:59:59';
 
-$fecha_i = $ano.'-'.$mes.'-'.$dia.' 08:00:00';
+//$fecha_i = $ano.'-'.$mes.'-'.$dia.' 08:00:00';
+$fecha_i = date("Y-m-d",mktime(8,0,0,$mes,$dia,$ano))." 08:00:00";
 $fecha_t = date("Y-m-d",mktime(7,59,59,$mes,($dia + 1),$ano))." 07:59:59";
+
+//$FechaInicio =date("Y-m-d", mktime(1,0,0,$MesIni,$DiaIni ,$AnoIni));	
+//$FechaTermino =date("Y-m-d", mktime(1,0,0,$MesFin,($DiaFin +1),$AnoFin));	
 
 $fecha = $ano.'-'.$mes.'-'.$dia;
 $arreglo = array();

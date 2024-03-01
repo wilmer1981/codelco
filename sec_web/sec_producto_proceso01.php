@@ -1,9 +1,23 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$cmbproducto  = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"-1";
+	$cmbsubproducto  = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"-1";
+	$TxtNombreGDE  = isset($_REQUEST["TxtNombreGDE"])?$_REQUEST["TxtNombreGDE"]:"";
+	$TxtCodSAP  = isset($_REQUEST["TxtCodSAP"])?$_REQUEST["TxtCodSAP"]:"";
+	$TxtUnidadSAP  = isset($_REQUEST["TxtUnidadSAP"])?$_REQUEST["TxtUnidadSAP"]:"";
+	$CheckEst   = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:"";
+
+	$TxtRut     = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtDv      = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+
 	$RutOriginador=$TxtRut."-".$TxtDv;
-			if($CheckEst == ''){
-				$CheckEst = 0;
-			}
+	if($CheckEst == ''){
+		$CheckEst = 0;
+	}
 	
 	switch ($Proceso)
 	{
@@ -46,7 +60,8 @@
 				if($Datos[$i]!='')
 				{
 					$Matriz=explode("-",$Datos[$i]);
-					$Consulta = "select * from sec_web.guia_despacho_emb t1 inner join inner join sec_web.embarque_ventana t2 on t1.corr_enm=t2.corr_enm where t2.cod_producto='".$Matriz[0]."' and t2.cod_subproducto='".$Matriz[1]."'";
+					$Consulta = "select * from sec_web.guia_despacho_emb t1";
+					$Consulta.= " inner join sec_web.embarque_ventana t2 on t1.corr_enm=t2.corr_enm where t2.cod_producto='".$Matriz[0]."' and t2.cod_subproducto='".$Matriz[1]."'";
 					$Resultado=mysqli_query($link, $Consulta);
 					if (!$Fila=mysqli_fetch_array($Resultado))
 					{
@@ -74,7 +89,7 @@
 		echo "<script languaje='JavaScript'>";
 		echo "window.opener.document.FrmProducto.action='sec_producto.php?Msg=".$Msg."';";
 		echo "window.opener.document.FrmProducto.submit();";
-		echo "window.close();";
+		//echo "window.close();";
 		echo "</script>";
 	}	
 

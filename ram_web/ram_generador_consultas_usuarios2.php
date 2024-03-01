@@ -3,7 +3,22 @@ $CodigoDeSistema = 7;
 $CodigoDePantalla = 7;
 include("../principal/conectar_ram_web.php");
 
- mysql_select_db("ram_web",$link);
+//mysql_select_db("ram_web",$link);
+
+$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Proceso3   = isset($_REQUEST["Proceso3"])?$_REQUEST["Proceso3"]:"";
+$Proceso4   = isset($_REQUEST["Proceso4"])?$_REQUEST["Proceso4"]:"";
+$ano   = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$mes   = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$dia   = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+
+$ano2   = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y");
+$mes2   = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");
+$dia2   = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:date("d");
+
+$cmbconsulta   = isset($_REQUEST["cmbconsulta"])?$_REQUEST["cmbconsulta"]:"";
+
+
 $Ayer = date("Y-m-d", mktime(0,0,0,date("m"),(date("d")-1),date("Y")));
 $DiaAyer = intval(substr($Ayer,8,2));
 $MesAyer = intval(substr($Ayer,5,2));
@@ -329,7 +344,7 @@ history.back();
 <body leftmargin="0" topmargin="2">
 <form name="formulario" method="post" action="">
   <?php include("../principal/encabezado.php")?>
-  <?php include("../principal/conectar_ram_web") ?> 
+  <?php include("../principal/conectar_ram_web.php") ?> 
 
 <input type="hidden" name="DiaAyer" value="<?php echo $DiaAyer; ?>">
 <input type="hidden" name="MesAyer" value="<?php echo $MesAyer; ?>">

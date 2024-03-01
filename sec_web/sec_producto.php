@@ -1,17 +1,18 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");
-	 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
+	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 79;
 	
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+
+	$cmbproducto  = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"-1";
+	$cmbsubproducto  = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"-1";
+	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$reg_delete  = isset($_REQUEST["reg_delete"])?$_REQUEST["reg_delete"]:"";
+	$Msj  = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
 	
-	if (!isset($cmbproducto))
-	{
-		$cmbproducto='-1';
-		$cmbsubproducto='-1';
-	}
 ?>
 <html>
 <head>
@@ -246,16 +247,15 @@ function MostrarPopupProceso(Proceso)
 		while ($Fila=mysqli_fetch_array($Resultado))
 		{
 			echo "<tr>"; 
-				echo "<td align='left'><input type='checkbox' name='CheckCod' value='".$Fila[cod_producto_sec]."-".$Fila[cod_subproducto_sec]."'></td>";
-				echo "<td align='right'>".$Fila[DESC_PRODUCTO]."&nbsp;</td>";
-				echo "<td align='right'>".$Fila[DESC_SUBPRODUCTO]."&nbsp;</td>";
-				echo "<td align='right'>".$Fila[codigo_material]."&nbsp;</td>";
-				echo "<td align='right'>".$Fila[denominacion_sap]."&nbsp;</td>";
-				echo "<td align='right'>".$Fila[COD_UNIDAD_SAP]."&nbsp;</td>";
-
+				echo "<td align='left'><input type='checkbox' name='CheckCod' value='".$Fila["cod_producto_sec"]."-".$Fila["cod_subproducto_sec"]."'></td>";
+				echo "<td align='right'>".$Fila["DESC_PRODUCTO"]."&nbsp;</td>";
+				echo "<td align='right'>".$Fila["DESC_SUBPRODUCTO"]."&nbsp;</td>";
+				echo "<td align='right'>".$Fila["codigo_material"]."&nbsp;</td>";
+				echo "<td align='right'>".$Fila["denominacion_sap"]."&nbsp;</td>";
+				echo "<td align='right'>".$Fila["COD_UNIDAD_SAP"]."&nbsp;</td>";
 			echo "</tr>";
 		}
-		echo "</table>";
+		echo "</table>"
 		?>
       </td>
   </tr>
