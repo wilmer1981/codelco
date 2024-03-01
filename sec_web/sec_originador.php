@@ -6,14 +6,11 @@
 	$CodigoDePantalla = 78;
 	
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	if (!isset($CmbMes))
-	{
-		$CmbMes=date('n');
-	}
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-	}
+
+	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$reg_delete        = isset($_REQUEST["reg_delete"])?$_REQUEST["reg_delete"]:"";
 	
 ?>
 <html>
@@ -181,11 +178,11 @@ function Salir()
 		while ($Fila=mysqli_fetch_array($Resultado))
 		{
 			echo "<tr>"; 
-				echo "<td align='left'><input type='checkbox' name='CheckCod' value='".$Fila[cod_originador]."'></td>";
+				echo "<td align='left'><input type='checkbox' name='CheckCod' value='".$Fila["cod_originador"]."'></td>";
 				echo "<td align='right'>".$Fila["rut"]."&nbsp;</td>";
 				echo "<td align='right'>".$Fila["nombre"]."&nbsp;</td>";
-				echo "<td align='right'>".$Fila[lugar]."&nbsp;</td>";
-				echo "<td align='right'>".$Fila[div_sap]."&nbsp;</td>";
+				echo "<td align='right'>".$Fila["lugar"]."&nbsp;</td>";
+				echo "<td align='right'>".$Fila["div_sap"]."&nbsp;</td>";
 				echo "<td align='right'>".$Fila["almacen_sap"]."&nbsp;</td>";
 				if($Fila["activo"] == 1){
 					echo "<td align='left'>SI</td>";

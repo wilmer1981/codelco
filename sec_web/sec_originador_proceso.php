@@ -4,13 +4,25 @@
 	$CodigoDePantalla = 65;
 	include("../principal/conectar_sec_web.php");
 
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$Rut     = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$Dv      = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+	$Nombre  = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$Lugar   = isset($_REQUEST["TxtLugar"])?$_REQUEST["TxtLugar"]:"";
+	$DivSap  = isset($_REQUEST["TxtDivSap"])?$_REQUEST["TxtDivSap"]:"";
+	$AlmSap  = isset($_REQUEST["TxtAlmSap"])?$_REQUEST["TxtAlmSap"]:"";
+	$Estado  = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:"";
+	
+	$Cod_Ori="";
 	switch($Proceso)
 	{
 		case "N":
 			break;
 		case "M": 
 			$Cod_Ori=$Valores;
-/*			echo $Cod_Ori;*/
+			/* echo $Cod_Ori; */
 			for ($i=0;$i<=strlen($Cod_Ori);$i++)
 
 			$Consulta="select * from sec_web.sec_originador where cod_originador='".$Cod_Ori."'";
@@ -24,7 +36,7 @@
 			$DivSap=$Fila["div_sap"];
 			$AlmSap=$Fila["almacen_sap"];
 			
-			$Estado="";
+			//$Estado="";
 			if($Fila["activo"]==1)
 				$Estado="checked";
 
@@ -65,14 +77,14 @@ function Grabar(Proceso)
 	}
 	if(Frm.TxtDivSap.value == "")
 	{
-		alert("Debe Ingresar División SAP")
+		alert("Debe Ingresar Divisiï¿½n SAP")
 		Frm.TxtDivSap.focus();
 			Frm.BtnGrabar.disabled = false;
 		return;
 	}
 		if(Frm.TxtAlmSap.value == "")
 	{
-		alert("Debe Ingresar Almacén SAP")
+		alert("Debe Ingresar Almacï¿½n SAP")
 		Frm.TxtAlmSap.focus();
 			Frm.BtnGrabar.disabled = false;
 		return;
@@ -115,14 +127,14 @@ function Salir()
     <td><table width="395" border="0" cellpadding="5" class="TablaInterior">
           <tr> 
             <td>
-            	<input type="hidden" name="cod_originador" id="cod_originador" value="<?phpphp echo $Cod_Ori; ?>">Rut</td>
+            	<input type="hidden" name="cod_originador" id="cod_originador" value="<?php echo $Cod_Ori; ?>">Rut</td>
             <td> 
             	<input type='text' name='TxtRut' id='TxtRut' value='<?php echo $Rut;?>' style='width:80' maxlength='8'>&nbsp;-&nbsp;<input type='text' name ='TxtDv' id ='TxtDv' style='width:20' maxlength='2' value='<?php echo $Dv;?>'><span class=" InputRojo">(*)</span>
             </td>
           </tr>
           <tr> 
             <td>Nombre</td>
-            <td><input type="text" name="TxtNombre" id="TxtNombre" style="width:250" maxlength="40" value="<?phpphp echo $Nombre; ?>"><span class=" InputRojo">(*)</span>
+            <td><input type="text" name="TxtNombre" id="TxtNombre" style="width:250" maxlength="40" value="<?php echo $Nombre; ?>"><span class=" InputRojo">(*)</span>
             </td>
           </tr>
             <td>Lugar</td>
@@ -137,7 +149,7 @@ function Salir()
           <tr> 
             <td>Estado</td>
             <td align='left'>
-           <input type='checkbox' name='CheckEst' <?phpphp echo $Estado; ?> value="0" ></td>
+           <input type='checkbox' name='CheckEst' <?php echo $Estado; ?> value="0" ></td>
           </tr>
         </table>
         <br>
