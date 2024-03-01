@@ -1,5 +1,6 @@
 <?php
 	include("../principal/conectar_principal.php");	
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 ?>
 <html>
 <head>
@@ -57,11 +58,11 @@ function Proceso(opc,Valores,Valor,Valor2)
 	while($row = mysqli_fetch_array($rs))
 	{
 		echo '<tr>';
-      	echo '<td align="left"><input type="radio" name="radio" onClick="Proceso(\'C\',\''.$Valores.'\', \''.$row["rut_chofer"].'\', \''.$row[patente_camion].'\')"></td>';
-      	echo '<td align="right">'.$row[rut_chofer].'</td>';
+      	echo '<td align="left"><input type="radio" name="radio" onClick="Proceso(\'C\',\''.$Valores.'\', \''.$row["rut_chofer"].'\', \''.$row["patente_camion"].'\')"></td>';
+      	echo '<td align="right">'.$row["rut_chofer"].'</td>';
       	echo '<td align="left">&nbsp;'.$row["nombre_persona"].'</td>';
-		echo '<td align="left">&nbsp;'.$row[fono1_persona].'</td>';
-		echo '<td align="left">&nbsp;'.$row[patente_camion].'</td>';
+		echo '<td align="left">&nbsp;'.$row["fono1_persona"].'</td>';
+		echo '<td align="left">&nbsp;'.$row["patente_camion"].'</td>';
     	echo '</tr>';
 	}
 ?>

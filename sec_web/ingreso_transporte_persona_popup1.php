@@ -1,5 +1,8 @@
 <?php
 	include("../principal/conectar_principal.php");	
+
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	
 ?>
 <html>
 <head>
@@ -52,8 +55,8 @@ function Proceso(opc,Valores,Valor)
 	while($row = mysqli_fetch_array($rs))
 	{
 		echo '<tr>';
-      	echo '<td align="left"><input type="radio" name="radio" onClick="Proceso(\'C\',\''.$Valores.'\', \''.$row[patente_transporte].'\')"></td>';
-      	echo '<td align="left">&nbsp;'.$row[patente_transporte].'</td>';
+      	echo '<td align="left"><input type="radio" name="radio" onClick="Proceso(\'C\',\''.$Valores.'\', \''.$row["patente_transporte"].'\')"></td>';
+      	echo '<td align="left">&nbsp;'.$row["patente_transporte"].'</td>';
     	echo '</tr>';
 	}
 ?>

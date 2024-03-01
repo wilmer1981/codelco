@@ -1,9 +1,30 @@
 <?php 	
-	include("../principal/conectar_comet_web.php");
-	if(!isset($CheckRut))
-		$CheckRut='N';
+	//include("../principal/conectar_comet_web.php");
+	include("../principal/conectar_principal.php");
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CheckRut = isset($_REQUEST["CheckRut"])?$_REQUEST["CheckRut"]:"N";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$TxtRutPersona = isset($_REQUEST["TxtRutPersona"])?$_REQUEST["TxtRutPersona"]:"";
+	$TxtRutTrans   = isset($_REQUEST["TxtRutTrans"])?$_REQUEST["TxtRutTrans"]:"";
+	$TxtSWP        = isset($_REQUEST["TxtSWP"])?$_REQUEST["TxtSWP"]:"";
+	$TxtNombrePers = isset($_REQUEST["TxtNombrePers"])?$_REQUEST["TxtNombrePers"]:"";
+	$TxtCodCalJuri = isset($_REQUEST["TxtCodCalJuri"])?$_REQUEST["TxtCodCalJuri"]:"";
+	$TxtCodRegion  = isset($_REQUEST["TxtCodRegion"])?$_REQUEST["TxtCodRegion"]:"";
+	$TxtCiudad     = isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtCiudad"]:"";
+	$TxtDomicilio  = isset($_REQUEST["TxtDomicilio"])?$_REQUEST["TxtDomicilio"]:"";
+	$TxtFono1   = isset($_REQUEST["TxtFono1"])?$_REQUEST["TxtFono1"]:"";
+	$TxtFono2   = isset($_REQUEST["TxtFono2"])?$_REQUEST["TxtFono2"]:"";
+	$TxtFax     = isset($_REQUEST["TxtFax"])?$_REQUEST["TxtFax"]:"";
+	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$Patente = isset($_REQUEST["Patente"])?$_REQUEST["Patente"]:"";
+	$rut_persona = isset($_REQUEST["rut_persona"])?$_REQUEST["rut_persona"]:"";
+	
+
 	$Datos=explode('//',$Valores);
 	$TxtRutTrans=$Datos[0];
+
 	switch($Proceso)
 	{
 		case "NP":
@@ -11,7 +32,7 @@
 			$TxtSWP=''; $TxtPatente='';
 			break;
 		case "MP":
-			$Consulta = "select * from sec_web.persona where rut_persona='$rut_persona' ";
+			$Consulta = "SELECT * from sec_web.persona where rut_persona='$rut_persona' ";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
 			$TxtRutPersona=$rut_persona;
@@ -266,7 +287,7 @@ function Salir()
 	
 	if ($modifi=="S")
 	{
-		echo "alert('Ud. procederá a Modificar ya que la persona existe, si desea ingresar presione Cancelar y cambie Rut o Patente');";
+		echo "alert('Ud. procederï¿½ a Modificar ya que la persona existe, si desea ingresar presione Cancelar y cambie Rut o Patente');";
  	} 
    echo "</script>";
 ?>

@@ -1,6 +1,41 @@
 <?php
 	include("../principal/conectar_principal.php");
 	$EncontroRelacion=false;
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$CheckRut = isset($_REQUEST["CheckRut"])?$_REQUEST["CheckRut"]:"N";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Mrut     = isset($_REQUEST["Mrut"])?$_REQUEST["Mrut"]:"";
+	$TxtRut     = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+
+	$TxtPatente   = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtNombre    = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtMarca     = isset($_REQUEST["TxtMarca"])?$_REQUEST["TxtMarca"]:"";
+	$TxtAno       = isset($_REQUEST["TxtAno"])?$_REQUEST["TxtAno"]:"";
+	$TxtPeso      = isset($_REQUEST["TxtPeso"])?$_REQUEST["TxtPeso"]:"";
+	$TxtCapacidad = isset($_REQUEST["TxtCapacidad"])?$_REQUEST["TxtCapacidad"]:"";
+	$TxtAcoplado  = isset($_REQUEST["TxtAcoplado"])?$_REQUEST["TxtAcoplado"]:"";
+	$TxtSW        = isset($_REQUEST["TxtSW"])?$_REQUEST["TxtSW"]:"";	
+	$TxtGiro     = isset($_REQUEST["TxtGiro"])?$_REQUEST["TxtGiro"]:"";
+
+	//if($Proceso=="NP" || $Proceso=="MP" || $Proceso=="EP"  ){
+	$TxtRutPersona = isset($_REQUEST["TxtRutPersona"])?$_REQUEST["TxtRutPersona"]:"";
+	$TxtRutTrans = isset($_REQUEST["TxtRutTrans"])?$_REQUEST["TxtRutTrans"]:"";
+	$TxtSWP = isset($_REQUEST["TxtSWP"])?$_REQUEST["TxtSWP"]:"";
+	$TxtNombrePers = isset($_REQUEST["TxtNombrePers"])?$_REQUEST["TxtNombrePers"]:"";
+	$TxtCodCalJuri = isset($_REQUEST["TxtCodCalJuri"])?$_REQUEST["TxtCodCalJuri"]:"";
+	$TxtCodRegion = isset($_REQUEST["TxtCodRegion"])?$_REQUEST["TxtCodRegion"]:"";
+	$TxtCiudad = isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtCiudad"]:"";
+	$TxtDomicilio = isset($_REQUEST["TxtDomicilio"])?$_REQUEST["TxtDomicilio"]:"";
+	$TxtFono1 = isset($_REQUEST["TxtFono1"])?$_REQUEST["TxtFono1"]:"";
+	$TxtFono2 = isset($_REQUEST["TxtFono2"])?$_REQUEST["TxtFono2"]:"";
+	$TxtFax = isset($_REQUEST["TxtFax"])?$_REQUEST["TxtFax"]:"";
+	//}
+		
+
+	$Existe="N";
+
 	switch ($Proceso)
 	{
 		case "IT"://NUEVo
@@ -47,7 +82,7 @@
 				}
 				else{
 					$Existe="S";
-						}
+				}
 						
 			break;
 		case "MP"://MODIFICA PERSONA
@@ -70,7 +105,7 @@
 		case "E"://ELIMINAR TRANSPORTE
 			$EncontroRelacion=false;
 			$Datos=explode('//',$Valores);
-			while (list($Clave,$Valores)=each($Datos))
+			foreach($Datos as $Clave => $Valores)
 			{
 				//$Consulta="select * from sec_web.transporte_persona where rut_transportista ='$Valor'";
 				//echo $Consulta;
@@ -122,7 +157,7 @@
 				
 				echo "window.opener.document.FrmIngTransporte.action='ingreso_transporte_persona.php?Msj=".$Msj."';";
 				echo "window.opener.document.FrmIngTransporte.submit();";
-				echo "window.close();";
+				//echo "window.close();";
 				echo "</script>";
 			}
 		}	
@@ -137,7 +172,7 @@
 					echo "<script languaje='JavaScript'>";
 					echo "window.opener.document.FrmIngTransporte.action='ingreso_transporte_persona.php';";
 					echo "window.opener.document.FrmIngTransporte.submit();";
-					echo "window.close();";
+					//echo "window.close();";
 					echo "</script>";
 			}
 		}	

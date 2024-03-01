@@ -37,16 +37,17 @@
 	//$CodigoDePantalla = 69;
 	$CodigoDePantalla = 70;
 	
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	if (!isset($CmbMes))
-	{
-		$CmbMes=date('n');
-	}
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-	}
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	
+	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$BuscarNombre  = isset($_REQUEST["BuscarNombre"])?$_REQUEST["BuscarNombre"]:"";
+	$TxtBuscar  = isset($_REQUEST["TxtBuscar"])?$_REQUEST["TxtBuscar"]:"";
+
+	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:false;
+	$Msj  = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
+	
+
 ?>
 <html>
 <head>
@@ -229,7 +230,7 @@ function Salir()
 		echo "<td width='200' align='center'>Nombre Transportista</td>";
 		echo "<td width='50' align='center'>Cant</td>";
 		echo "</tr>";
-		$Consulta="select distinct rut_transportista,nombre_transportista from sec_web.transporte ";
+		$Consulta="SELECT distinct rut_transportista,nombre_transportista from sec_web.transporte ";
 		if($BuscarNombre=='S'&&$TxtBuscar!='*'&&$TxtBuscar!='')
 			$Consulta.="where nombre_transportista like '".$TxtBuscar."%' ";
 		$Consulta.="order by nombre_transportista";
@@ -239,15 +240,18 @@ function Salir()
 		while ($Fila=mysqli_fetch_array($Resultado))
 		{
 			echo "<tr>"; 
-			echo "<td align='left'><input type='checkbox' name='CheckCod' value='$Fila["rut_transportista"]' onclick=\"CCA(this,'CL03')\"></td>";
+			echo "<td align='left'><input type='checkbox' name='CheckCod' value='".$Fila["rut_transportista"]."' onclick=\"CCA(this,'CL03')\"></td>";
 			echo "<td align='right'>".$Fila["rut_transportista"]."&nbsp;</td>";
-			echo "<td align='left'><a href=JavaScript:Detalle('$Fila["rut_transportista"]')>".$Fila[nombre_transportista]."&nbsp;</a></td>";
+			echo "<td align='left'><a href=JavaScript:Detalle('".$Fila["rut_transportista"]."')>".$Fila["nombre_transportista"]."&nbsp;</a></td>";
 			$consulta = "SELECT ifnull(count(*),0) as cant ";
 			$consulta.= "FROM sec_web.transporte_persona where rut_transportista='".$Fila["rut_transportista"]."' ";
 			$consulta.= "group by rut_transportista";
 			$rs = mysqli_query($link, $consulta);
 			$FilaCant=mysqli_fetch_array($rs);
-			echo "<td align='right'>".$FilaCant["cant"]."&nbsp;</td>";
+
+			$FilaCant = isset($FilaCant["cant"])?$FilaCant["cant"]:0;
+
+			echo "<td align='right'>".$FilaCant."&nbsp;</td>";
 			echo "</tr>";
 		}
 		echo "</table>";

@@ -1,7 +1,24 @@
 <?php 	
 	include("../principal/conectar_principal.php");
-	if(!isset($CheckRut))
-		$CheckRut='N';
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CheckRut = isset($_REQUEST["CheckRut"])?$_REQUEST["CheckRut"]:"N";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Mrut     = isset($_REQUEST["Mrut"])?$_REQUEST["Mrut"]:"";
+	$TxtRut     = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+
+	$TxtPatente   = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtNombre    = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtMarca     = isset($_REQUEST["TxtMarca"])?$_REQUEST["TxtMarca"]:"";
+	$TxtAno       = isset($_REQUEST["TxtAno"])?$_REQUEST["TxtAno"]:"";
+	$TxtPeso      = isset($_REQUEST["TxtPeso"])?$_REQUEST["TxtPeso"]:"";
+	$TxtCapacidad = isset($_REQUEST["TxtCapacidad"])?$_REQUEST["TxtCapacidad"]:"";
+	$TxtAcoplado  = isset($_REQUEST["TxtAcoplado"])?$_REQUEST["TxtAcoplado"]:"";
+	$TxtSW        = isset($_REQUEST["TxtSW"])?$_REQUEST["TxtSW"]:"";
+	
+	$TxtGiro     = isset($_REQUEST["TxtGiro"])?$_REQUEST["TxtGiro"]:"";
+	$Existe      = isset($_REQUEST["Existe"])?$_REQUEST["Existe"]:"";
+
 	switch($Proceso)
 	{
 		case "IT":
@@ -31,12 +48,6 @@
 <head>
 <script language="javascript" src="validarut.js"></script>
 <script language="javascript">
-
-
-
-
-
-
 function Grabar(Proceso,Valores,Existe)
 {
 	var Frm=document.FrmProceso;
@@ -81,10 +92,7 @@ function Grabar(Proceso,Valores,Existe)
 		}
 	}
 	Frm.action="ingreso_transporte_persona_proceso01.php?Buscar=S&Proceso="+Proceso+"&TxtRut="+Frm.TxtRut.value+"&Valores="+Valores;
-	Frm.submit(); 	
-
-	
-	
+	Frm.submit(); 		
 }
 
 function Salir()
@@ -200,7 +208,7 @@ function Salir()
 		if($Existe == "S")
 		{
 			echo "<script languaje='javascript'>";
-			echo "alert('El transportista que trata de ingresar ya existe, debe cambiar Rut ó Patente ó Acoplado');";	//valído que no exista 
+			echo "alert('El transportista que trata de ingresar ya existe, debe cambiar Rut ï¿½ Patente ï¿½ Acoplado');";	//valï¿½do que no exista 
 			echo "</script>";
 		}
 ?>
