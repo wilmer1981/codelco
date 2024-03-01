@@ -4,14 +4,16 @@
 	//$CodigoDePantalla = 69;
 	$CodigoDePantalla = 72;
 	
-		$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	$Rut =$CookieRut;
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Rut = $CookieRut;
 	//$Fecha_Hora = date("d-m-Y h:i");
-	
-	
+	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TxtFechaFin  = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');
+	//$TxtBuscar  = isset($_REQUEST["TxtBuscar"])?$_REQUEST["TxtBuscar"]:"";
+
 	$Encontro=false;
 	if ($Buscar != 'S')
-	$TxtFechaFin=date('Y-m-d');
 	//if($TxtFechaFin <> "")
 	{
 		
@@ -20,7 +22,7 @@
 		$Respuesta =mysqli_query($link, $Consulta);
 		if($Fila =mysqli_fetch_array($Respuesta))
 		{
-			$Lote=$Fila[cod_lote]." ".$Fila[num_lote];
+			$Lote=$Fila["cod_lote"]." ".$Fila["num_lote"];
 			$Encontro=true;
 		}
 	}
@@ -198,6 +200,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		echo "<td width='100' align='center'>Peso</td>";
 		echo "</tr>";
 		
+		$TotalUnidades=0;
+		$TotalPeso =0;
+		$cont = 0;
 		if($Encontro == true)
 		{
 			$cont = 0;
@@ -210,12 +215,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			{
 				echo "<tr>"; 
 				//echo "FFF".$Fila["cod_paquete"];
-				echo "<td align='left'><input type='checkbox' name='CheckCod' value='".$Fila["fecha_hora"]."~".$Fila[patente]."~".$Fila["cod_paquete"]."~".$Fila["num_paquete"]."'></td>";
+				echo "<td align='left'><input type='checkbox' name='CheckCod' value='".$Fila["fecha_hora"]."~".$Fila["patente"]."~".$Fila["cod_paquete"]."~".$Fila["num_paquete"]."'></td>";
 				echo "<td align='left'>".$Fila["fecha_hora"]."&nbsp;</td>";
-				echo "<td align='right'>".$Fila[patente]."&nbsp;</td>";
+				echo "<td align='right'>".$Fila["patente"]."&nbsp;</td>";
 				echo "<td align='right'>".$Fila["cod_paquete"]."&nbsp;</td>";
 				echo "<td align='right'>".$Fila["num_paquete"]."&nbsp;</td>";
-				echo "<td align='right'>".$Fila[peso_paquete]."&nbsp;</td>";
+				echo "<td align='right'>".$Fila["peso_paquete"]."&nbsp;</td>";
 				$cont = $cont + 1;
 				echo "</tr>";
 			}
