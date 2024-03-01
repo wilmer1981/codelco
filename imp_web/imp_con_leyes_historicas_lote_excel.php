@@ -208,7 +208,7 @@ else
 		}    
 		reset($ArrLeyes);
 		$ColSpan=0;
-		//while (list($k,$v)=each($ArrLeyes))
+		//foreach($ArrLeyes as $k => $v)
 		foreach ($ArrLeyes as $k => $v)  
 		{
 			//if ($v["usada"]=="S")
@@ -259,7 +259,7 @@ else
 				$ArrLeyes[$CodLey]["valor"] = $Fila["c_".str_pad($i,2,'0',STR_PAD_LEFT).""];				
 			}		
 			reset($ArrLeyes);
-			//while (list($k,$v)=each($ArrLeyes))
+			//foreach($ArrLeyes as $k => $v)
 			
 			foreach ($ArrLeyes as $k => $v) 
 			{

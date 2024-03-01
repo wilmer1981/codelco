@@ -519,7 +519,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			echo "<td align='center'>P.Hum.<br>Kg.</td>\n";
 		echo "<td align='center'>P.Seco<br>Kg.</td>\n";
 		reset($ArrLeyes);
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			if($k!=''&&$v[1]!='')
 			{
@@ -641,7 +641,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 							echo "<td align='center'>".number_format($DatosLoteRec["peso_humedo"],0,",",".")."</td>\n";										
 						echo "<td align='center'>".number_format($DatosLoteRec["peso_seco"],0,",",".")."</td>\n";									
 						reset($ArrLeyes);
-						while (list($k,$v)=each($ArrLeyes))
+						foreach($ArrLeyes as $k => $v)
 						{
 							$Color="";
 							if ($k=="01" && $Humedad==true)

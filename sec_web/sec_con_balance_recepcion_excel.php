@@ -141,7 +141,7 @@
       <td width="80" rowspan="2">PESO </td>
       <?php	
 	reset($ArrLeyes);
-	while (list($k,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $k => $v)
 	{
 		echo "<td width='25'>".$v[1]."<br>";
 		if ($FinoLeyes == "F")
@@ -222,7 +222,7 @@
 			$Color = "";
 		echo "<tr bgcolor = '".$Color."'>\n";
 		reset($ArrLeyes);	
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			$v[2] = "";
 		}	
@@ -309,7 +309,7 @@
 		if ($Certif == true)
 		{
 			reset($ArrLeyes);
-			while (list($k,$v)=each($ArrLeyes))
+			foreach($ArrLeyes as $k => $v)
 			{
 				if ($v[0] != "48")				
 					$SumaImpurezas = $SumaImpurezas + ($v[2]/1000);
@@ -317,7 +317,7 @@
 			$ArrLeyes["02"][2] = 100 - $SumaImpurezas;
 		}				
 		reset($ArrLeyes);
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			if ($FinoLeyes == "L")
 			{

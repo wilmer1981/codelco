@@ -163,7 +163,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 	<td width="73" rowspan="2">PESO </td>
     <?php
 	reset($ArrLeyes);
-	while (list($k,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $k => $v)
 	{
 		echo "<td width='25'>".$v[1]."<br>";
 		if ($FinoLeyes == "F")
@@ -272,7 +272,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 			$Color = "";
 		echo "<tr bgcolor = '".$Color."'>\n";
 		reset($ArrLeyes);
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			$v[2] = "";
 		}
@@ -436,7 +436,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 				while ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{
 					reset($ArrLeyes);
-					while (list($k,$v)=each($ArrLeyes))
+					foreach($ArrLeyes as $k => $v)
 					{
 						if ($v[0] == $Fila2["cod_leyes"])
 						{
@@ -465,7 +465,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 		{
 			$SumaImpurezas = "";
 			reset($ArrLeyes);
-			while (list($k,$v)=each($ArrLeyes))
+			foreach($ArrLeyes as $k => $v)
 			{
 				if ($v[0] != "48")
 				{
@@ -485,7 +485,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 			$ArrLeyes["02"][2] = 99.99;
 		}*/
 		reset($ArrLeyes);
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			if ($FinoLeyes == "L")
 			{

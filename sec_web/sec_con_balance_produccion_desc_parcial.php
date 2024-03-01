@@ -1,14 +1,28 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+
+	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"1";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
+
+
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
 	if ($FinoLeyes == "F")
 		$Unidad = "kg";
 	else	$Unidad = "%";
-	if (!isset($DiaIni))
+	if ($DiaIni=="")
 	{
 		$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		$DiaIni = "01";
+		$DiaIni = "1";
 		$MesIni = $MesFin;
 		$AnoIni = $AnoFin;		
 	}
@@ -163,7 +177,8 @@ function Salir()
 		$Consulta.= " and cod_subproducto = '".$SubProducto."'";
 		$Consulta.= " and fecha_produccion between '".$fecha_aux."' and '".$fecha_aux."'";					
 		$Consulta.= " group by cod_grupo";				
-		$Rs = mysqli_query($link, $Consulta);		
+		$Rs = mysqli_query($link, $Consulta);	
+		$SumPesoSeco=0;	
 		while($Fila = mysqli_fetch_array($Rs))
 		{					
 			echo'<tr>';
@@ -222,7 +237,7 @@ function Salir()
 			$Consulta.= " and t1.cod_producto = '".$Producto."' ";
 			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."'";
 			$Consulta.= " and t1.tipo = '1'";
-			$Consulta.= " AND t2.cod_leyes IN(";
+			$Consulta.= " AND t2.cod_leyes IN (";
 			reset($ArrLeyes);
 			foreach($ArrLeyes as $v => $k)
 			{

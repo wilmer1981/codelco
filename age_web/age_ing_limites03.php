@@ -103,7 +103,7 @@ body {
     
 <?php  	
 	reset($ArrLeyes);
-	while (list($k,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $k => $v)
 	{
 		echo "<td colspan='3' align='center'>".$v["abreviatura"]."</td>\n";  		
 	}
@@ -148,7 +148,7 @@ body {
 		echo "<td >".$Fila["descripcion"]."</td>\n";
 		reset($ArrLeyes);
 		$Color="";
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			if ($Color=="#FFFFFF")
 				$Color="";

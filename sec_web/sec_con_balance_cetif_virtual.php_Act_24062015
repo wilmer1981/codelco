@@ -692,7 +692,7 @@ else
 				}
 			}			
 			reset($ArrLeyes);
-			while (list($k,$v)=each($ArrLeyes))
+			foreach($ArrLeyes as $k => $v)
 			{
 				$Consulta = "SELECT t1.valor, t1.signo ";
 				$Consulta.= " from sec_web.tmp_leyes_grupos t1 left join proyecto_modernizacion.sub_clase t2 ";

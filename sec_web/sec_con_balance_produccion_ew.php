@@ -1,9 +1,22 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+
+	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"";
+
 	if ($FinoLeyes == "F")
 		$Unidad = "kg";
-	else	$Unidad = "%";
-	if (!isset($DiaIni))
+	else	
+		$Unidad = "%";
+	if ($DiaIni=="")
 	{
 		$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
@@ -155,6 +168,7 @@ function Salir()
 	$fecha_aux = $fecha_ini;
 	$Cont = 0;
 	$TotalPSeco = 0;
+	$SumPesoSeco=0;		
 	while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 	{		
 		$dia = substr($fecha_aux,8,2);
@@ -164,7 +178,8 @@ function Salir()
 		$Consulta.= " and cod_subproducto = '".$SubProducto."'";
 		$Consulta.= " and fecha_produccion between '".$fecha_aux."' and '".$fecha_aux."'";					
 		$Consulta.= " group by cod_grupo";				
-		$Rs = mysqli_query($link, $Consulta);		
+		$Rs = mysqli_query($link, $Consulta);
+		
 		while($Fila = mysqli_fetch_array($Rs))
 		{					
 			echo'<tr>';
@@ -179,6 +194,9 @@ function Salir()
 			{				
 				$ArrLeyes[$key][1] = "";				
 			}
+
+			//$Consulta.= " AND t2.cod_leyes IN(04,05)";
+			//$Consulta.= " ORDER BY t3.cod_leyes";	
 		 	//---------------------------LEYES DE CALIDAD---------------------------------
 			$Consulta = "SELECT t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
 			$Consulta.= " t2.signo, t1.nro_solicitud, t3.abreviatura, t2.cod_unidad, t5.conversion ";
@@ -296,12 +314,12 @@ function Salir()
 			$Consulta.= " and t1.fecha_hora = t2.fecha_hora and t1.rut_funcionario = t2.rut_funcionario and t1.recargo = t2.recargo ";
 			$Consulta.= " inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes = t3.cod_leyes";					
 			$Consulta.= " inner join proyecto_modernizacion.unidades t5 on t2.cod_unidad = t5.cod_unidad";
-			$Consulta.= " where t1.fecha_muestra between '".$Fecha1." 00:00:00' and '".$Fecha2." 23:59:59'";				
+			$Consulta.= " where t1.fecha_muestra between '".$Fecha1." 00:00:00' and '".$Fecha2." 23:59:59' ";				
 			$Consulta.= " and cod_periodo = '2' ";				
 			$Consulta.= " and t1.estado_actual <> '16' and t1.estado_actual <> '7'";
 			$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1'";
 			$Consulta.= " and t1.cod_producto = '".$Producto."' ";
-			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."'";
+			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
 			$Consulta.= " and t1.tipo = '1'";
 			$Consulta.= " AND t2.cod_leyes IN(";
 			reset($ArrLeyes);
@@ -309,10 +327,10 @@ function Salir()
 			{
 				$Consulta.= "'".$k[0]."',";
 			}
-			$Consulta = substr($Consulta,0,strlen($Consulta)-1);
+			$Consulta= substr($Consulta,0,strlen($Consulta)-1);
 			$Consulta.= ")";
 			$Consulta.= " ORDER BY t3.cod_leyes";	
-			//echo $Consulta;
+			//echo "Consulta:".$Consulta;
 			$Resp2 = mysqli_query($link, $Consulta);
 			$SA = "";			
 			while ($Fila2 = mysqli_fetch_array($Resp2))

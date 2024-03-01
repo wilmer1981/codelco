@@ -206,7 +206,7 @@ function Informacion(Mes,Lote)
       <td width="80" rowspan="2" align="center">PESO Kg.</td>
       <?php	
 	reset($ArrLeyes);
-	while (list($k,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $k => $v)
 	{
 		echo "<td width='25'>".$v[1]."<br>";
 		if ($FinoLeyes == "F")
@@ -407,7 +407,7 @@ function Informacion(Mes,Lote)
 			$ArrLeyes["02"][2] = 99.99;				
 		}									
 		reset($ArrLeyes);			
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			if ($FinoLeyes == "L")
 			{

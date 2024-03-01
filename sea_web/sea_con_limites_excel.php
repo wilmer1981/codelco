@@ -205,7 +205,7 @@ function Proceso(o)
     <td width="35">CANT.</td>
     <td width="35">PESO</td>
     <?php	
-	//while (list($k,$v)=each($ArrLeyes))
+	//foreach($ArrLeyes as $k => $v)
 	foreach ($ArrLeyes as $k=>$v)
 	{
 		if ($v[1]!="")
@@ -319,7 +319,7 @@ function Proceso(o)
 				$ArrLeyes[$Fila2["cod_leyes"]][4] = $Fila2["valor"];
 		}
 		reset($ArrLeyes);
-		//while (list($k,$v)=each($ArrLeyes))
+		//foreach($ArrLeyes as $k => $v)
 		foreach ($ArrLeyes as $k=>$v)
 		{
 			$Color = "";

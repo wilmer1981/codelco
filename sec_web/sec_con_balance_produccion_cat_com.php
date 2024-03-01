@@ -1,14 +1,29 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"1";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
+
+
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	
 	if ($FinoLeyes == "F")
 		$Unidad = "kg";
-	else	$Unidad = "%";
-	if (!isset($DiaIni))
+	else	
+		$Unidad = "%";
+
+	if ($DiaIni=="")
 	{
-		$DiaFin = "31";
+		//$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		$DiaIni = "01";
+		//$DiaIni = "01";
 		$MesIni = $MesFin;
 		$AnoIni = $AnoFin;		
 	}
@@ -161,10 +176,11 @@ function Salir()
 		$Consulta = "SELECT cod_grupo, sum(peso_produccion) as peso_produccion, fecha_produccion ";
 		$Consulta.= " from sec_web.produccion_catodo";
 		$Consulta.= " where cod_producto = '".$Producto."'";
-		$Consulta.= " and cod_subproducto = '".$SubProducto."'";
-		$Consulta.= " and fecha_produccion between '".$fecha_aux."' and '".$fecha_aux."'";					
+		$Consulta.= " and cod_subproducto = '".$SubProducto."'";	
+		$Consulta.= " and fecha_produccion between '".$fecha_aux."' and '".$fecha_aux."'";				
 		$Consulta.= " group by cod_grupo";				
-		$Rs = mysqli_query($link, $Consulta);		
+		$Rs = mysqli_query($link, $Consulta);
+		$SumPesoSeco=0;		
 		while($Fila = mysqli_fetch_array($Rs))
 		{					
 			echo'<tr>';
@@ -193,13 +209,13 @@ function Salir()
 			$Consulta.= " where t1.fecha_muestra between '".$FechaAux1." 00:00:00' and '".$FechaAux2." 23:59:59'";										
 			$Consulta.= " and ((t1.tipo = 1 and (t1.id_muestra = '".$Fila["cod_grupo"]."' or t1.id_muestra = '".intval($Fila["cod_grupo"])."')) ";
 			$Consulta.= " or (t1.tipo = '2' and (t1.id_muestra = '".$Fila["cod_grupo"]."-R' or t1.id_muestra = '".intval($Fila["cod_grupo"])."-R'))) ";												
-			$Consulta.= " and cod_periodo = '1' ";			
-			$Consulta.= " and t1.estado_actual <> '16' and t1.estado_actual <> '7'";
-			$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1'";
-			$Consulta.= " and t1.cod_producto = '".$Producto."' ";			
-			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."'";
-			$Consulta.= " and t1.tipo = '1'";	
-			$Consulta.= " AND t2.cod_leyes IN(";
+			$Consulta.= " AND cod_periodo = '1' ";			
+			$Consulta.= " AND t1.estado_actual <> '16' and t1.estado_actual <> '7'";
+			$Consulta.= " AND t1.frx <> 'S' and t1.cod_analisis = '1'";
+			$Consulta.= " AND t1.cod_producto = '".$Producto."' ";			
+			$Consulta.= " AND t1.cod_subproducto = '".$SubProducto."'";
+			$Consulta.= " AND t1.tipo = '1'";	
+			$Consulta.= " AND t3.cod_leyes IN(";
 			reset($ArrLeyes);
 			foreach($ArrLeyes as $v => $k)
 			{
@@ -312,12 +328,12 @@ function Salir()
 			reset($ArrLeyes);
 			foreach($ArrLeyes as $v => $k)
 			{
-				$Consulta.= "'".$k[0]."',";
+				$Consulta.= " '".$k[0]."',";			
 			}
 			$Consulta = substr($Consulta,0,strlen($Consulta)-1);
 			$Consulta.= ")";
 			$Consulta.= " ORDER BY t3.cod_leyes";	
-			//echo $Consulta;
+			//echo "CONSULTA:".$Consulta;
 			$Resp2 = mysqli_query($link, $Consulta);
 			$SA = "";			
 			while ($Fila2 = mysqli_fetch_array($Resp2))

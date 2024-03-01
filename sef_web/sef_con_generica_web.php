@@ -264,7 +264,7 @@ function Historial(SA)
 	if ($ChkLeyes == "S")
 	{
 		reset($ArrLeyes);
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			echo "<td>".$v[1]."</td>\n";
 		}
@@ -272,7 +272,7 @@ function Historial(SA)
 	if ($ChkFinos == "S")
 	{
 		reset($ArrLeyes);
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			echo "<td>".$v[1]."</td>\n";
 		}

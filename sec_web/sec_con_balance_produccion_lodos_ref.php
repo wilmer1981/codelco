@@ -1,6 +1,8 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+
 	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
 
 	if ($FinoLeyes == "F")
 		$Unidad = "kg";
@@ -13,8 +15,6 @@
 	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
 	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
 	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"";
-
-	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
 
 	//if (!isset($DiaIni))
 	if ($DiaIni=="")
@@ -178,211 +178,11 @@ $TotalFe = 0;
 $TotalNi = 0;
 $TotalPb = 0;
 $SumPesoSeco=0; //WSO
-$CantSemana="0.0";  //WSO
-$SumPesoHumedo="0.0"; //WSO
+$CantSemana=0;  //WSO
+$SumPesoHumedo=0; //WSO
 while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 {
-		//******************************CORTE DE SEMANAS******************************************
-		if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
-		{  	
-			if ($dia == 7)
-			{
-				$Fecha1 = $AnoFin."-".$MesFin."-01";					
-				$Fecha2 = $AnoFin."-".$MesFin."-07";
-			}
-			else
-			{
-				if ($dia == 14)
-				{					
-					$Fecha1 = $AnoFin."-".$MesFin."-08";					
-					$Fecha2 = $AnoFin."-".$MesFin."-14";
-				}
-				else
-				{
-					if ($dia == 21)
-					{					
-						$Fecha1 = $AnoFin."-".$MesFin."-15";					
-						$Fecha2 = $AnoFin."-".$MesFin."-21";
-					}
-					else
-					{
-						if (($dia >= 22) && ($dia <= 31))
-						{				
-							$Fecha1 = $AnoFin."-".$MesFin."-22";					
-							$Fecha2 = $AnoFin."-".$MesFin."-31";
-						}
-					}							
-				}								
-			}
-			if ($SumPesoSeco > 0 && $SumPesoHumedo > 0)
-				$PorcHumedad = abs(100 - (($SumPesoSeco/$SumPesoHumedo)*100));
-			else
-				$PorcHumedad = 0;
-			echo'<tr class="detalle01">';
-			echo'<td>Total Semana</td>';
-			echo'<td align="center">'.number_format((float)$CantSemana,0,",",".").'</td>';
-			echo'<td align="center">'.number_format((float)$SumPesoHumedo,0,",",".").'</td>';
-			echo'<td align="center">&nbsp;</td>';
-			echo'<td align="center">'.number_format($PorcHumedad,2,",",".").'</td>';
-			echo'<td align="center">'.number_format((float)$SumPesoSeco,0,",",".").'</td>';
-			echo'<td align="center">&nbsp;</td>';			
-			reset($ArrLeyes);
-			foreach($ArrLeyes as $v => $k)
-			{					
-				switch ($FinoLeyes)
-				{
-					case "F":
-						echo "<td align='center'>".number_format($k[6],2,",",".")."</td>";	
-						break;
-					case "L":
-						if ($SumPesoSeco>0 && $k[6]>0 && $k[3]>0)
-							$Fino = (($k[6]/$SumPesoSeco)*$k[3]);
-						else
-							$Fino=0;
-						echo "<td align='center'>".number_format($Fino,2,",",".")."</td>";
-						break;
-				}
-				$ArrLeyes[$k[0]][5] = $ArrLeyes[$k[0]][5] + $k[6];
-			}			
-			//Acumuladores		
-			$PorcHumedad = "";
-			$SumPesoSeco = "";
-			$CantSemana = "";
-			$SumPesoHumedo = "";
-			$Cont = 0;
-			//LIMPIA ARREGLO DE LEYES
-			reset($ArrLeyes);
-			foreach($ArrLeyes as $key => $values)
-			{				
-				$ArrLeyes[$key][6] = "";				
-			}
-		}
-		//FIN SEMANAS
-		$dia = substr($fecha_aux,8,2);
-		$Consulta = "SELECT t1.fecha_produccion,sum(t1.peso_produccion) as peso_produccion, sum(t1.peso_tara) as peso_tara, count(*) as cant ";
-		$Consulta.= " from sec_web.produccion_catodo t1";
-		$Consulta.= " where t1.cod_producto = '".$Producto."' ";
-		$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
-		$Consulta.= " and t1.fecha_produccion ='".$fecha_aux."'";
-		$Consulta.= " group by fecha_produccion";		
-		//echo "..".$Consulta;
-		$Rs = mysqli_query($link, $Consulta);
-		$TotalPHum=0;//WSO
-		while($Fila = mysqli_fetch_array($Rs))
-		{			
-			//LIMPIA ARREGLO LEYES	
-			$Consulta = "SELECT t2.nro_solicitud, ifnull(t3.valor,0)as valor";
-			$Consulta.= " from cal_web.solicitud_analisis t2 ";
-			$Consulta.= " inner join cal_web.leyes_por_solicitud t3 on t2.fecha_hora=t3.fecha_hora ";
-			$Consulta.= " and t2.nro_solicitud=t3.nro_solicitud and t3.cod_producto=t2.cod_producto ";
-			$Consulta.= " and t3.cod_subproducto=t2.cod_subproducto ";
-			$Consulta.= " where t2.cod_producto = '".$Producto."' ";
-			$Consulta.= " and t2.cod_subproducto = '".$SubProducto."' ";
-			$Consulta.= " and left(t2.fecha_muestra,10) ='".$fecha_aux."'";
-			$Consulta.= " and t3.cod_leyes='01' ";
-			$Consulta.= " and t2.estado_actual <> '16' and t2.estado_actual <> '7'";
-			$Consulta.= " and t2.frx <> 'S' and t2.cod_analisis = '1' and t2.tipo = '1'";	
-			$Rs2 = mysqli_query($link, $Consulta);
-			if($Fila2 = mysqli_fetch_array($Rs2))
-			{
-				$NroSA = $Fila2["nro_solicitud"];
-				$PorcHum = $Fila2["valor"];
-			}
-			else
-			{
-				$NroSA = "";
-				$PorcHum = 0;
-			}
-			reset($ArrLeyes);
-			do {			 
-			  $key = key ($ArrLeyes);
-			  $ArrLeyes[$key][1] = "";
-			} while (next($ArrLeyes));				
-			echo'<tr>';
-			echo'<td align="center">'.$Fila["fecha_produccion"].'</td>';
-			echo'<td align="center">'.$Fila["cant"].'</td>';
-			$TotalCant = $TotalCant + $Fila["cant"];
-			$CantSemana = $CantSemana + $Fila["cant"];
-			echo'<td align="center">'.number_format($Fila["peso_produccion"]-$Fila["peso_tara"],0,",",".").'</td>';
-			if ($NroSA=="")
-				echo'<td align="center">&nbsp;</td>';
-			else
-				echo'<td align="center"><a href=\'JavaScript:Historial('.$NroSA.')\'>'.$NroSA.'</a></td>';
-			echo'<td align="center">'.number_format($PorcHum,2,",",".").'</td>';					  
-			$PesoHum = (($Fila["peso_produccion"]-$Fila["peso_tara"])*$PorcHum)/100;
-			$PesoSeco = ($Fila["peso_produccion"]-$Fila["peso_tara"]) - $PesoHum;
-			$TotalPHum = $TotalPHum + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
-			$TotalPSeco = $TotalPSeco + $PesoSeco;
-			$SumPesoHumedo = $SumPesoHumedo + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
-			$SumPesoSeco = $SumPesoSeco + $PesoSeco;		
-			echo'<td align="center">'.number_format($PesoSeco,0,",",".").'</td>';
-			//RESCATA LEYES DE CALIDAD
-		 	$Consulta = " SELECT t1.fecha_produccion, t2.nro_solicitud, t3.cod_leyes, ifnull(t3.valor,0) as valor, t3.cod_unidad, t4.conversion ";
-			$Consulta.= " from sec_web.produccion_catodo t1";
-			$Consulta.= " left join cal_web.solicitud_analisis t2 on t1.fecha_produccion=left(t2.fecha_muestra,10) and ";
-			$Consulta.= " t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
-			$Consulta.= " left join cal_web.leyes_por_solicitud t3 on t2.fecha_hora=t3.fecha_hora ";
-			$Consulta.= " and t2.nro_solicitud=t3.nro_solicitud and t3.cod_producto=t2.cod_producto ";
-			$Consulta.= " and t3.cod_subproducto=t2.cod_subproducto inner join proyecto_modernizacion.unidades t4 ";
-			$Consulta.= " on t3.cod_unidad = t4.cod_unidad ";
-			$Consulta.= " where t1.cod_producto = '".$Producto."' ";
-			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
-			$Consulta.= " and t1.fecha_produccion ='".$fecha_aux."'";
-			$Consulta.= " and t2.cod_periodo = '1' ";
-			$Consulta.= " and t2.estado_actual <> '16' and t2.estado_actual <> '7'";
-			$Consulta.= " and t2.frx <> 'S' and t2.cod_analisis = '1' and t2.tipo = '1'";
-			$Consulta.= " AND t3.cod_leyes IN(";
-			reset($ArrLeyes);
-			foreach($ArrLeyes as $v => $k)
-			{
-				$Consulta.= "'".$k[0]."',";
-			}
-			$Consulta = substr($Consulta,0,strlen($Consulta)-1);
-			$Consulta.= ")";
-			$Consulta.= " ORDER BY t3.cod_leyes";	
-			//echo "CC".$Consulta;
-			$Resp2 = mysqli_query($link, $Consulta);
-			$SA = "";			
-			while ($Fila2 = mysqli_fetch_array($Resp2))
-			{
-				$SA = $Fila2["nro_solicitud"];
-				$ArrLeyes[$Fila2["cod_leyes"]][1] = $Fila2["valor"];
-				$ArrLeyes[$Fila2["cod_leyes"]][3] = $Fila2["conversion"];
-				$ArrLeyes[$Fila2["cod_leyes"]][6] = $ArrLeyes[$Fila2["cod_leyes"]][6] + (($PesoSeco*$Fila2["valor"])/$Fila2["conversion"]);
-			}
-			if ($SA != "")
-				echo'<td align="center"><a href=\'JavaScript:Historial('.$SA.')\'>'.$SA.'</a></td>';
-			else
-				echo'<td align="center">&nbsp;</td>';
-			reset($ArrLeyes);
-			foreach($ArrLeyes as $v => $k)
-			{
-				switch ($FinoLeyes)
-				{
-					case "L":
-						echo "<td align='center'>".number_format($k[1],2,",",".")."</td>";	
-						break;
-					case "F":
-						if ($PesoSeco>0 && $k[1]>0 && $k[3]>0)
-							$Fino = (($PesoSeco*$k[1])/$k[3]);
-						else
-							$Fino=0;
-						echo "<td align='center'>".number_format($Fino,2,",",".")."</td>";
-						break;
-				}													
-			}			
-			//Vars. Acumuladores
-			$Cont++;					  	
-			echo'</tr>';
-		}
-
-		$consulta = "SELECT DATE_ADD('".$fecha_aux."',INTERVAL 1 DAY) AS fecha";
-		$rs10 = mysqli_query($link, $consulta);
-		$row10 = mysqli_fetch_array($rs10);
-		$fecha_aux = $row10["fecha"];		
-		
-}
-	//******************************CORTE PARA LA ULTIMA SEMANA******************************************
+	//******************************CORTE DE SEMANAS******************************************
 	if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
 	{  	
 		if ($dia == 7)
@@ -414,14 +214,17 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 				}							
 			}								
 		}
-		$PorcHumedad = abs(100 - (($SumPesoSeco/$SumPesoHumedo)*100));
+		if ($SumPesoSeco > 0 && $SumPesoHumedo > 0)
+			$PorcHumedad = abs(100 - (($SumPesoSeco/$SumPesoHumedo)*100));
+		else
+			$PorcHumedad = 0;
 		echo'<tr class="detalle01">';
 		echo'<td>Total Semana</td>';
-		echo'<td align="center">'.number_format($CantSemana,0,",",".").'</td>';
-		echo'<td align="center">'.number_format($SumPesoHumedo,0,",",".").'</td>';
+		echo'<td align="center">'.number_format((float)$CantSemana,0,",",".").'</td>';
+		echo'<td align="center">'.number_format((float)$SumPesoHumedo,0,",",".").'</td>';
 		echo'<td align="center">&nbsp;</td>';
 		echo'<td align="center">'.number_format($PorcHumedad,2,",",".").'</td>';
-		echo'<td align="center">'.number_format($SumPesoSeco,0,",",".").'</td>';
+		echo'<td align="center">'.number_format((float)$SumPesoSeco,0,",",".").'</td>';
 		echo'<td align="center">&nbsp;</td>';			
 		reset($ArrLeyes);
 		foreach($ArrLeyes as $v => $k)
@@ -447,13 +250,211 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 		$CantSemana = "";
 		$SumPesoHumedo = "";
 		$Cont = 0;
+	
 		//LIMPIA ARREGLO DE LEYES
 		reset($ArrLeyes);
 		foreach($ArrLeyes as $key => $values)
 		{				
 			$ArrLeyes[$key][6] = "";				
-		}		
+		}
+	}
+	//FIN SEMANAS
+	$dia = substr($fecha_aux,8,2);
+	$Consulta = "SELECT t1.fecha_produccion,sum(t1.peso_produccion) as peso_produccion, sum(t1.peso_tara) as peso_tara, count(*) as cant ";
+	$Consulta.= " from sec_web.produccion_catodo t1";
+	$Consulta.= " where t1.cod_producto = '".$Producto."' ";
+	$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
+	$Consulta.= " and t1.fecha_produccion ='".$fecha_aux."'";
+	$Consulta.= " group by fecha_produccion";		
+	//echo "..".$Consulta;
+	$Rs = mysqli_query($link, $Consulta);
+	//$TotalPHum=0;//WSO
+	while($Fila = mysqli_fetch_array($Rs))
+	{			
+		//LIMPIA ARREGLO LEYES	
+		$Consulta = "SELECT t2.nro_solicitud, ifnull(t3.valor,0)as valor";
+		$Consulta.= " from cal_web.solicitud_analisis t2 ";
+		$Consulta.= " inner join cal_web.leyes_por_solicitud t3 on t2.fecha_hora=t3.fecha_hora ";
+		$Consulta.= " and t2.nro_solicitud=t3.nro_solicitud and t3.cod_producto=t2.cod_producto ";
+		$Consulta.= " and t3.cod_subproducto=t2.cod_subproducto ";
+		$Consulta.= " where t2.cod_producto = '".$Producto."' ";
+		$Consulta.= " and t2.cod_subproducto = '".$SubProducto."' ";
+		$Consulta.= " and left(t2.fecha_muestra,10) ='".$fecha_aux."'";
+		$Consulta.= " and t3.cod_leyes='01' ";
+		$Consulta.= " and t2.estado_actual <> '16' and t2.estado_actual <> '7'";
+		$Consulta.= " and t2.frx <> 'S' and t2.cod_analisis = '1' and t2.tipo = '1'";	
+		$Rs2 = mysqli_query($link, $Consulta);
+		if($Fila2 = mysqli_fetch_array($Rs2))
+		{
+			$NroSA = $Fila2["nro_solicitud"];
+			$PorcHum = $Fila2["valor"];
+		}
+		else
+		{
+			$NroSA = "";
+			$PorcHum = 0;
+		}
+		reset($ArrLeyes);
+		do {			 
+			$key = key ($ArrLeyes);
+			$ArrLeyes[$key][1] = "";
+		} while (next($ArrLeyes));				
+		echo'<tr>';
+		echo'<td align="center">'.$Fila["fecha_produccion"].'</td>';
+		echo'<td align="center">'.$Fila["cant"].'</td>';
+		$TotalCant = $TotalCant + $Fila["cant"];
+		$CantSemana = $CantSemana + $Fila["cant"];
+		echo'<td align="center">'.number_format($Fila["peso_produccion"]-$Fila["peso_tara"],0,",",".").'</td>';
+		if ($NroSA=="")
+			echo'<td align="center">&nbsp;</td>';
+		else
+			echo'<td align="center"><a href=\'JavaScript:Historial('.$NroSA.')\'>'.$NroSA.'</a></td>';
+		echo'<td align="center">'.number_format($PorcHum,2,",",".").'</td>';					  
+		$PesoHum = (($Fila["peso_produccion"]-$Fila["peso_tara"])*$PorcHum)/100;
+		$PesoSeco = ($Fila["peso_produccion"]-$Fila["peso_tara"]) - $PesoHum;
+		$TotalPHum = $TotalPHum + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
+		$TotalPSeco = $TotalPSeco + $PesoSeco;
+		$SumPesoHumedo = $SumPesoHumedo + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
+		$SumPesoSeco = $SumPesoSeco + $PesoSeco;		
+		echo'<td align="center">'.number_format($PesoSeco,0,",",".").'</td>';
+		//RESCATA LEYES DE CALIDAD
+		$Consulta = " SELECT t1.fecha_produccion, t2.nro_solicitud, t3.cod_leyes, ifnull(t3.valor,0) as valor, t3.cod_unidad, t4.conversion ";
+		$Consulta.= " from sec_web.produccion_catodo t1";
+		$Consulta.= " left join cal_web.solicitud_analisis t2 on t1.fecha_produccion=left(t2.fecha_muestra,10) and ";
+		$Consulta.= " t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+		$Consulta.= " left join cal_web.leyes_por_solicitud t3 on t2.fecha_hora=t3.fecha_hora ";
+		$Consulta.= " and t2.nro_solicitud=t3.nro_solicitud and t3.cod_producto=t2.cod_producto ";
+		$Consulta.= " and t3.cod_subproducto=t2.cod_subproducto inner join proyecto_modernizacion.unidades t4 ";
+		$Consulta.= " on t3.cod_unidad = t4.cod_unidad ";
+		$Consulta.= " where t1.cod_producto = '".$Producto."' ";
+		$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
+		$Consulta.= " and t1.fecha_produccion ='".$fecha_aux."'";
+		$Consulta.= " and t2.cod_periodo = '1' ";
+		$Consulta.= " and t2.estado_actual <> '16' and t2.estado_actual <> '7'";
+		$Consulta.= " and t2.frx <> 'S' and t2.cod_analisis = '1' and t2.tipo = '1'";
+		$Consulta.= " AND t3.cod_leyes IN(";
+		reset($ArrLeyes);
+		foreach($ArrLeyes as $v => $k)
+		{
+			$Consulta.= "'".$k[0]."',";
+		}
+		$Consulta = substr($Consulta,0,strlen($Consulta)-1);
+		$Consulta.= ")";
+		$Consulta.= " ORDER BY t3.cod_leyes";	
+		//echo "CC".$Consulta;
+		$Resp2 = mysqli_query($link, $Consulta);
+		$SA = "";			
+		while ($Fila2 = mysqli_fetch_array($Resp2))
+		{
+			$SA = $Fila2["nro_solicitud"];
+			$ArrLeyes[$Fila2["cod_leyes"]][1] = $Fila2["valor"];
+			$ArrLeyes[$Fila2["cod_leyes"]][3] = $Fila2["conversion"];
+			$ArrLeyes[$Fila2["cod_leyes"]][6] = $ArrLeyes[$Fila2["cod_leyes"]][6] + (($PesoSeco*$Fila2["valor"])/$Fila2["conversion"]);
+		}
+		if ($SA != "")
+			echo'<td align="center"><a href=\'JavaScript:Historial('.$SA.')\'>'.$SA.'</a></td>';
+		else
+			echo'<td align="center">&nbsp;</td>';
+		reset($ArrLeyes);
+		foreach($ArrLeyes as $v => $k)
+		{
+			switch ($FinoLeyes)
+			{
+				case "L":
+					echo "<td align='center'>".number_format($k[1],2,",",".")."</td>";	
+					break;
+				case "F":
+					if ($PesoSeco>0 && $k[1]>0 && $k[3]>0)
+						$Fino = (($PesoSeco*$k[1])/$k[3]);
+					else
+						$Fino=0;
+					echo "<td align='center'>".number_format($Fino,2,",",".")."</td>";
+					break;
+			}													
+		}			
+		//Vars. Acumuladores
+		$Cont++;					  	
+		echo'</tr>';
+	}
+
+	$consulta = "SELECT DATE_ADD('".$fecha_aux."',INTERVAL 1 DAY) AS fecha";
+	$rs10 = mysqli_query($link, $consulta);
+	$row10 = mysqli_fetch_array($rs10);
+	$fecha_aux = $row10["fecha"];		
+		
+}
+//******************************CORTE PARA LA ULTIMA SEMANA******************************************
+if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
+{  	
+	if ($dia == 7)
+	{
+		$Fecha1 = $AnoFin."-".$MesFin."-01";					
+		$Fecha2 = $AnoFin."-".$MesFin."-07";
+	}
+	else
+	{
+		if ($dia == 14)
+		{					
+			$Fecha1 = $AnoFin."-".$MesFin."-08";					
+			$Fecha2 = $AnoFin."-".$MesFin."-14";
+		}
+		else
+		{
+			if ($dia == 21)
+			{					
+				$Fecha1 = $AnoFin."-".$MesFin."-15";					
+				$Fecha2 = $AnoFin."-".$MesFin."-21";
+			}
+			else
+			{
+				if (($dia >= 22) && ($dia <= 31))
+				{				
+					$Fecha1 = $AnoFin."-".$MesFin."-22";					
+					$Fecha2 = $AnoFin."-".$MesFin."-31";
+				}
+			}							
+		}								
+	}
+	$PorcHumedad = abs(100 - (($SumPesoSeco/$SumPesoHumedo)*100));
+	echo'<tr class="detalle01">';
+	echo'<td>Total Semana</td>';
+	echo'<td align="center">'.number_format($CantSemana,0,",",".").'</td>';
+	echo'<td align="center">'.number_format($SumPesoHumedo,0,",",".").'</td>';
+	echo'<td align="center">&nbsp;</td>';
+	echo'<td align="center">'.number_format($PorcHumedad,2,",",".").'</td>';
+	echo'<td align="center">'.number_format($SumPesoSeco,0,",",".").'</td>';
+	echo'<td align="center">&nbsp;</td>';			
+	reset($ArrLeyes);
+	foreach($ArrLeyes as $v => $k)
+	{					
+		switch ($FinoLeyes)
+		{
+			case "F":
+				echo "<td align='center'>".number_format($k[6],2,",",".")."</td>";	
+				break;
+			case "L":
+				if ($SumPesoSeco>0 && $k[6]>0 && $k[3]>0)
+					$Fino = (($k[6]/$SumPesoSeco)*$k[3]);
+				else
+					$Fino=0;
+				echo "<td align='center'>".number_format($Fino,2,",",".")."</td>";
+				break;
+		}
+		$ArrLeyes[$k[0]][5] = $ArrLeyes[$k[0]][5] + $k[6];
+	}			
+	//Acumuladores		
+	$PorcHumedad = "";
+	$SumPesoSeco = "";
+	$CantSemana = "";
+	$SumPesoHumedo = "";
+	$Cont = 0;
+	//LIMPIA ARREGLO DE LEYES
+	reset($ArrLeyes);
+	foreach($ArrLeyes as $key => $values)
+	{				
+		$ArrLeyes[$key][6] = "";				
 	}		
+}		
 ?>
 <tr>
       <td align="center"><strong>TOTAL MES</strong></td>

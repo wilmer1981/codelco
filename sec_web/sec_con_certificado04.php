@@ -583,7 +583,7 @@ else
 			}			
 			$conta_a_co = 0;$conta_a_enm = 0;$conta_r = 0;$conta_s = 0;$Recargo = "";$estado = 0;					
 			reset($ArrLeyes);
-			//while (list($k,$v)=each($ArrLeyes))
+			//foreach($ArrLeyes as $k => $v)
 			foreach($ArrLeyes as $k => $v)
 			{
 				$Consulta = "SELECT t1.valor, t1.signo ";

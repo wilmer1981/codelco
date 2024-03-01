@@ -196,7 +196,7 @@ function Informacion(Mes,Lote,Ano)
 	<td width="80" rowspan="2">PESO </td>
     <?php	
 	reset($ArrLeyes);
-	while (list($k,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $k => $v)
 	{
 		echo "<td width='25'>".$v[1]."<br>";
 		if ($FinoLeyes == "F")
@@ -383,7 +383,7 @@ function Informacion(Mes,Lote,Ano)
 		{
 			$SumaImpurezas = "";
 			reset($ArrLeyes);
-			while (list($k,$v)=each($ArrLeyes))
+			foreach($ArrLeyes as $k => $v)
 			{
 				if ($v[0] != "48")
 				{
@@ -403,7 +403,7 @@ function Informacion(Mes,Lote,Ano)
 			$ArrLeyes["02"][2] = 99.99;
 		}*/						
 		reset($ArrLeyes);
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			if ($FinoLeyes == "L")
 			{

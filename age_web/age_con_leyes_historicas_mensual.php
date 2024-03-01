@@ -330,7 +330,7 @@ if ($Plantilla!="S")
 	}    
 	reset($ArrLeyes);
 	$ColSpan=0;
-	while (list($k,$v)=each($ArrLeyes))   
+	foreach($ArrLeyes as $k => $v)   
 	{
 		if ($v["usada"]=="S")
 		{
@@ -409,7 +409,7 @@ if ($Plantilla!="S")
 			$ArrLeyes[$CodLey]["valor"] = $Fila["c_".str_pad($i,2,'0',STR_PAD_LEFT).""];
 		}		
 		reset($ArrLeyes);
-		while (list($k,$v)=each($ArrLeyes))	
+		foreach($ArrLeyes as $k => $v)	
 		{
 			if ($v["usada"]=="S")
 			{

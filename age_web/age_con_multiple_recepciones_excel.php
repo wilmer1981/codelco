@@ -497,7 +497,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			echo "<td align='center'>P.Hum.<br>Kg.</td>\n";
 		echo "<td align='center'>P.Seco<br>Kg.</td>\n";
 		reset($ArrLeyes);
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			if ($OpcHLF == "F")
 			{
@@ -642,7 +642,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 					{	
 						echo "<td align='center'>".number_format($PesoSeco,0,",",".")."</td>\n";									
 						reset($ArrLeyes);
-						while (list($k,$v)=each($ArrLeyes))
+						foreach($ArrLeyes as $k => $v)
 						{
 							if ($k=="01" && $Humedad==true)
 								echo "<td align='center'>".number_format($v[2],$ArrParamLeyes[$k][2],",",".")."</td>\n";

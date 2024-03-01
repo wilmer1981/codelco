@@ -3,7 +3,19 @@
 	$CodigoDePantalla =16; 
 	include("../principal/conectar_principal.php");
 	include("sec_con_balance_crea_cetif_virtual.php");
-	if (!isset($DiaIni))
+
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"";
+
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+
+	if ($DiaIni=="")
 	{
 		$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
@@ -200,7 +212,7 @@ function Informacion(Mes,Lote,Corr,NumPaquetes,PesoLote)
       <td width="80" rowspan="2" align="center">PESO Kg</td>
      <?php	
 	reset($ArrLeyes);
-	while (list($k,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $k => $v)
 	{
 		echo "<td width='25'>".$v[1]."<br>";
 		if ($FinoLeyes == "F")
@@ -255,7 +267,7 @@ function Informacion(Mes,Lote,Corr,NumPaquetes,PesoLote)
     <?php  
 	$ArrTotal = array();
 	$ano2 = substr($FechaAux,0,4);
-	$ano2 = $ano2 + 1;
+	$ano2 = (int)$ano2 + 1;
   	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase = '3004' and cod_subclase = '".intval(substr($FechaAux,5,2))."'"	;
 	//echo "Con".$Consulta;
@@ -294,6 +306,7 @@ function Informacion(Mes,Lote,Corr,NumPaquetes,PesoLote)
 	//echo "Con".$Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;
+	$TotalPaquetes=0;
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($Color == "")
@@ -419,7 +432,7 @@ function Informacion(Mes,Lote,Corr,NumPaquetes,PesoLote)
 			$ArrLeyes["02"][2] = 99.99;				
 		}									
 		reset($ArrLeyes);			
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			if ($FinoLeyes == "L")
 			{

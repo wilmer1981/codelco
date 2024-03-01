@@ -143,7 +143,7 @@ CATODOS      </td>
       <td width="80" rowspan="2" align="center">PESO Kg</td>
       <?php	
 	reset($ArrLeyes);
-	while (list($k,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $k => $v)
 	{
 		echo "<td width='25'>".$v[1]."<br>";
 		if ($FinoLeyes == "F")
@@ -265,7 +265,7 @@ CATODOS      </td>
 			$Color = "";
 		echo "<tr bgcolor = '".$Color."'>\n";
 		reset($ArrLeyes);	
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			$v[2] = "";
 		}	
@@ -389,7 +389,7 @@ CATODOS      </td>
 			$ArrLeyes["02"][2] = 99.99;				
 		}									
 		reset($ArrLeyes);			
-		while (list($k,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $k => $v)
 		{
 			if ($FinoLeyes == "L")
 			{

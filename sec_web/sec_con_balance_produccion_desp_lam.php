@@ -1,6 +1,22 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if (!isset($DiaIni))
+
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+
+	$FinoLeyes   = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+	$ProdCons    = isset($_REQUEST["ProdCons"])?$_REQUEST["ProdCons"]:"";
+	$SubProdCons = isset($_REQUEST["SubProdCons"])?$_REQUEST["SubProdCons"]:"";
+	$FechaCons = isset($_REQUEST["FechaCons"])?$_REQUEST["FechaCons"]:date("Y-m-d");
+	$Peso = isset($_REQUEST["Peso"])?$_REQUEST["Peso"]:0;
+
+
+	//if (!isset($DiaIni))
+	if ($DiaIni=="")
 	{
 		$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
@@ -11,24 +27,7 @@
 	}
 	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;	
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
-	
-function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso)
-{
-	$Peso = 0;
-	//PESO DEL PRODUCTO-SUBPRODUCTO						
-	$Consulta = "SELECT cod_producto, cod_subproducto, sum(peso_produccion) as peso ";
-	$Consulta.= " from sec_web.produccion_catodo";
-	$Consulta.= " where cod_producto = '".$ProdCons."'";
-	$Consulta.= " and cod_subproducto = '".$SubProdCons."'";
-	$Consulta.= " and fecha_produccion between '".$FechaCons."' and '".$FechaCons."'";				
-	$Consulta.= " group by cod_producto, cod_subproducto ";
-	$Respuesta = mysqli_query($link, $Consulta);
-	$Peso = 0;
-	if ($Fila = mysqli_fetch_array($Respuesta))
-	{
-		$Peso = $Fila["peso"];		
-	}
-}		
+		
 ?>
 <html>
 <head>
@@ -118,14 +117,22 @@ function Detalle(ano,cod_lote,num_lote)
 	$TotalOrejas = 0;
 	$TotalBarrido = 0;
 	$Total = 0;
+	$PesoGuillotina=0;
+	$PesoRechazConOreja=0;
+	$PesoRechazSinOreja=0;
+	$PesoLaminas=0;
+	$PesoBarrido=0;
+	$SA="";
+	$Ley_S="";
+	$Ley_O="";
 	while ($FechaAux <= $FechaTermino)
 	{
 		// RESCATA PESOS
-		RescataPeso(48, 3, $FechaAux, &$PesoGuillotina, &$SA, &$Ley_S, &$Ley_O);
-		RescataPeso(48, 8, $FechaAux, &$PesoRechazConOreja, &$SA, &$Ley_S, &$Ley_O);
-		RescataPeso(48, 9, $FechaAux, &$PesoRechazSinOreja, &$SA, &$Ley_S, &$Ley_O);
-		RescataPeso(48, 6, $FechaAux, &$PesoLaminas, &$SA, &$Ley_S, &$Ley_O);
-		RescataPeso(48, 10, $FechaAux, &$PesoBarrido, &$SA, &$Ley_S, &$Ley_O);
+		RescataPeso(48, 3, $FechaAux, $PesoGuillotina, $SA, $Ley_S, $Ley_O, $link);
+		RescataPeso(48, 8, $FechaAux, $PesoRechazConOreja, $SA, $Ley_S, $Ley_O, $link);
+		RescataPeso(48, 9, $FechaAux, $PesoRechazSinOreja, $SA, $Ley_S, $Ley_O, $link);
+		RescataPeso(48, 6, $FechaAux, $PesoLaminas, $SA, $Ley_S, $Ley_O, $link);
+		RescataPeso(48, 10, $FechaAux, $PesoBarrido, $SA, $Ley_S, $Ley_O, $link);
 		$PesoGuillotina = ($PesoGuillotina + $PesoRechazSinOreja + $PesoRechazConOreja);			
 		//CONSULTA CANTIDAD DE PESADAS DEL DIA
 		$Consulta = "SELECT distinct cod_grupo, cod_cuba, count(*) as cant_pesadas";
@@ -205,8 +212,8 @@ function Detalle(ano,cod_lote,num_lote)
 			echo "<td align='right' bgcolor='#FFFF66'>".number_format($Ley2,0,",",".")."</td> \n";
 			if ($i==1)
 			{			
-				RescataPeso(48, 2, $FechaAux, &$PesoOrejas, &$SA, &$Ley_S, &$Ley_O);
-				RescataPeso(48, 10, $FechaAux, &$PesoBarrido, &$SA, &$Ley_S, &$Ley_O);				
+				RescataPeso(48, 2, $FechaAux, $PesoOrejas, $SA, $Ley_S, $Ley_O, $link);
+				RescataPeso(48, 10, $FechaAux, $PesoBarrido, $SA, $Ley_S, $Ley_O, $link);				
 				$SubTotal = $PesoGuillotina + $PesoLaminas + $PesoOrejas;
 				echo "<td rowspan='".$rowSpan."' align='right'>".number_format($SubTotal,0,",",".")."</td> \n";
 				echo "<td rowspan='".$rowSpan."' align='right' bgcolor='#FFCC99'>".number_format($PesoBarrido,0,",",".")."</td> \n";				
@@ -253,3 +260,25 @@ function Detalle(ano,cod_lote,num_lote)
 </form>
 </body>
 </html>
+<?php
+	        // RescataPeso(48, 2, $FechaAux, $PesoOrejas, $SA, $Ley_S, $Ley_O, $link);
+	//function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso,$link)
+	function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso, $SA, $Ley_S, $Ley_O, $link)
+	{
+		//PESO DEL PRODUCTO-SUBPRODUCTO						
+		$Consulta = "SELECT cod_producto, cod_subproducto, sum(peso_produccion) as peso ";
+		$Consulta.= " FROM sec_web.produccion_catodo";
+		$Consulta.= " WHERE cod_producto = '".$ProdCons."'";
+		$Consulta.= " AND cod_subproducto = '".$SubProdCons."'";
+		$Consulta.= " AND fecha_produccion between '".$FechaCons."' and '".$FechaCons."'";				
+		$Consulta.= " GROUP BY cod_producto, cod_subproducto ";
+		$Respuesta = mysqli_query($link, $Consulta);
+		$Peso = 0;
+		if ($Fila = mysqli_fetch_array($Respuesta))
+		{
+			$Peso = $Fila["peso"];		
+		}
+	}
+
+?>
+

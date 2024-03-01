@@ -21,7 +21,7 @@
 		$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		$DiaIni = "01";
+		$DiaIni = "1";
 		$MesIni = $MesFin;
 		$AnoIni = $AnoFin;		
 	}
@@ -61,7 +61,6 @@ function Historial(SA)
 {
 	window.open("../cal_web/cal_con_registro_leyes.php?SA="+ SA,"","top=50,left=10,width=790,height=450,scrollbars=yes,resizable = yes");					
 }
-
 </script>
 </head>
 
@@ -248,7 +247,6 @@ function Historial(SA)
 		$MesConsulta = $Fila["nombre_subclase"];
 	}
 	$Color = "";
-	$TotalPeso = 0;	
 	$Consulta = "SELECT STRAIGHT_JOIN ifnull(t2.cod_bulto,'') as cod_bulto, ifnull(t2.num_bulto,'0') as num_bulto, sum(t1.peso_paquetes) as peso";
 	$Consulta.= " from sec_web.paquete_catodo t1 left join sec_web.lote_catodo t2";
 	$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
@@ -258,7 +256,7 @@ function Historial(SA)
 	$Consulta.= " and t1.cod_producto = '".$Producto."' and t1.cod_subproducto = '11'";
 	$Consulta.= " group by t2.cod_bulto,  t2.num_bulto";
 	$Respuesta = mysqli_query($link, $Consulta);
-	$TotalPeso = 0;
+	$TotalPeso = 0.0;
 	$TotalHumedo=0; //WSO
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
