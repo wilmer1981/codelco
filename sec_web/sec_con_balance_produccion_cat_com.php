@@ -1,6 +1,8 @@
 <?php
 	include("../principal/conectar_sec_web.php");
 	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 
 	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
 	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
@@ -9,9 +11,6 @@
 	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
 	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
 
-
-	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
-	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 	
 	if ($FinoLeyes == "F")
 		$Unidad = "kg";

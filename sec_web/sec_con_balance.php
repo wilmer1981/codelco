@@ -11,7 +11,6 @@
 	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date('Y');
 	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date('m');
 	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date('d');
-
 	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date('Y');
 	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date('m');
 	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date('d');

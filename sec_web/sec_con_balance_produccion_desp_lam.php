@@ -261,7 +261,7 @@ function Detalle(ano,cod_lote,num_lote)
 </body>
 </html>
 <?php
-	        // RescataPeso(48, 2, $FechaAux, $PesoOrejas, $SA, $Ley_S, $Ley_O, $link);
+	// RescataPeso(48, 2, $FechaAux, $PesoOrejas, $SA, $Ley_S, $Ley_O, $link);
 	//function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso,$link)
 	function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso, $SA, $Ley_S, $Ley_O, $link)
 	{

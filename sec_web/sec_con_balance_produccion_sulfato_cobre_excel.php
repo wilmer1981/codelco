@@ -1,33 +1,44 @@
 <?php 	
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	include("../principal/conectar_sec_web.php");
+	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"01";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
 	if ($FinoLeyes == "F")
 		$Unidad = "kg";
 	else	$Unidad = "%";	
-	if (!isset($DiaIni))
+	if ($DiaIni=="")
 	{
-		$DiaFin = "31";
+		//$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		$DiaIni = "01";
+		//$DiaIni = "01";
 		$MesIni = $MesFin;
 		$AnoIni = $AnoFin;		
 	}
@@ -45,7 +56,7 @@ function Excel()
 {
 	var Frm=document.FrmStockSec;
 	
-	Frm.action="sec_con_balance_produccion_sulfato_cobre_excel";
+	Frm.action="sec_con_balance_produccion_sulfato_cobre_excel.php";
 	Frm.submit();
 }
 function Salir()
@@ -138,6 +149,16 @@ function Historial(SA)
 			$TotalFe = 0;
 			$TotalNi = 0;
 			$TotalPb = 0;
+
+			/****************************** */
+			$SubTotalPSeco=0;
+			$PondHum=0;
+			$SubTotalPHumPTE=0;
+			$SubTotalPHumPMN=0;	
+			$TotalPHumPMN=0;
+			$TotalPHumPTE=0;
+			$TotalPSecoPTE=0;
+			/***************************** */
 			for ($i=1;$i<=31;$i++)
 			{
 				if (strlen($i)==1)
@@ -157,7 +178,7 @@ function Historial(SA)
 				$Consulta=$Consulta." group by fecha_produccion";				
 				$Respuesta2=mysqli_query($link, $Consulta);
 				$Fila2=mysqli_fetch_array($Respuesta2);
-				if (!is_null($Fila2[fecha_produccion]))
+				if (isset($Fila2["fecha_produccion"]) && !is_null($Fila2["fecha_produccion"]))
 				{
 					$TotalCantPMN = $TotalCantPMN + $Fila2["cant"];
 					echo "<td align='right'>".$Fila2["cant"]."</td>";
@@ -178,7 +199,7 @@ function Historial(SA)
 				$Consulta.= " group by fecha_produccion";
 				$Respuesta3=mysqli_query($link, $Consulta);
 				$Fila3=mysqli_fetch_array($Respuesta3);
-				if (!is_null($Fila3[fecha_produccion]))
+				if (isset($Fila3["fecha_produccion"]) && !is_null($Fila3["fecha_produccion"]))
 				{
 					//PARA PLANTA DE TRATAMIENTO ELECTROLITO(PTE) HUMEDAD
 					$Consulta="SELECT t2.nro_solicitud,ifnull(t3.valor,0)as valor";
@@ -333,10 +354,12 @@ function Historial(SA)
 						}
 						$Cant++;
 					}
+					/*
 					$SubTotalPSeco=0;
 					$PondHum=0;
 					$SubTotalPHumPTE=0;
-					$SubTotalPHumPMN=0;						
+					$SubTotalPHumPMN=0;	
+					*/					
 					if ($Cant>0)
 					{						
 						for ($j=0;$j<6-$Cant;$j++)
@@ -362,44 +385,129 @@ function Historial(SA)
       <td align="right"><?php echo number_format($TotalCantPTE,0,",",".");?></td>
       <td align="right"><?php echo number_format($TotalPHumPTE,0,",",".");?></td>
       <td align="right">&nbsp;</td>
-      <td align="right"><?php echo number_format((($TotalPHumPTE-$TotalPSecoPTE) * 100) / $TotalPHumPTE,3,",","."); ?></td>
+      <td align="right"><?php 
+	  	  if($TotalPHumPTE >0 ){
+			$TotalPHP = (($TotalPHumPTE-$TotalPSecoPTE) * 100) / $TotalPHumPTE;
+		  }else{
+			$TotalPHP = 0;
+		  }
+	  //echo number_format((($TotalPHumPTE-$TotalPSecoPTE) * 100) / $TotalPHumPTE,3,",","."); 
+	  echo number_format($TotalPHP,3,",","."); 
+	  ?></td>
       <td align="right"><?php echo number_format($TotalPSecoPTE,0,",",".");?></td>
       <td align="right">&nbsp;</td>
       <td align="right"><?php 
-	  	if ($FinoLeyes == "L")
-	  		echo number_format(($TotalCu/$TotalPSecoPTE),3,",",".");
-		else
-			echo number_format(($TotalCu/$TotalPSecoPTE)*100,0,",",".");
+		if ($FinoLeyes == "L"){
+			if($TotalPSecoPTE >0 ){
+				$TotalPSP = $TotalCu/$TotalPSecoPTE;
+			}else{
+				$TotalPSP = 0;
+			}
+				//echo number_format(($TotalCu/$TotalPSecoPTE),3,",",".");
+				echo number_format($TotalPSP,3,",",".");
+			}else{
+				if($TotalPSecoPTE >0 ){
+					$TotalPSP = ($TotalCu/$TotalPSecoPTE)*100;
+				}else{
+					$TotalPSP = 0;
+				}
+				echo number_format($TotalPSP,0,",",".");
+			}
+
 	  ?></td>
       <td align="right"><?php 
-	  	if ($FinoLeyes == "L")	
-	  		echo number_format(($TotalAs/$TotalPSecoPTE),3,",",".");
-		else
-			echo number_format(($TotalAs/$TotalPSecoPTE)*100,0,",",".");
+	  	if ($FinoLeyes == "L"){
+			if($TotalPSecoPTE >0 ){
+			  $TotalPSec = $TotalAs/$TotalPSecoPTE;
+			}else{
+			  $TotalPSec = 0;
+			}
+				//echo number_format(($TotalAs/$TotalPSecoPTE),3,",",".");
+			  echo number_format($TotalPSec,3,",",".");
+		  }else{
+			  if($TotalPSecoPTE >0 ){
+				  $TotalPSec = ($TotalAs/$TotalPSecoPTE)*100;
+			  }else{
+				  $TotalPSec = 0;
+			  }
+			  echo number_format($TotalPSec,0,",",".");
+		  }
 		?></td>
       <td align="right"><?php 
-	  	if ($FinoLeyes == "L")	
-	  		echo number_format(($TotalSb/$TotalPSecoPTE),3,",",".");
-		else
-			echo number_format(($TotalSb/$TotalPSecoPTE)*100,3,",",".");
+	  	if ($FinoLeyes == "L"){
+			if($TotalPSecoPTE >0 ){
+			  $TotalPSPTE = $TotalSb/$TotalPSecoPTE;
+			}else{
+			  $TotalPSPTE = 0;
+			}
+				//echo number_format(($TotalSb/$TotalPSecoPTE),3,",",".");
+			  echo number_format($TotalPSPTE,3,",",".");
+		  }else{
+			  if($TotalPSecoPTE >0 ){
+				  $TotalPSPTE = ($TotalSb/$TotalPSecoPTE)*100;
+				}else{
+				  $TotalPSPTE = 0;
+			  }
+			  //echo number_format(($TotalSb/$TotalPSecoPTE)*100,3,",",".");
+			  echo number_format($TotalPSPTE,3,",",".");
+		  }
 		?></td>
       <td align="right"><?php 
-	  	if ($FinoLeyes == "L")	
-	  		echo number_format(($TotalFe/$TotalPSecoPTE),3,",",".");
-		else
-			echo number_format(($TotalFe/$TotalPSecoPTE)*100,3,",",".");
+	  	if ($FinoLeyes == "L"){
+			if($TotalPSecoPTE >0 ){
+				 $TotalPSPTE = $TotalFe/$TotalPSecoPTE;
+			 }else{
+				 $TotalPSPTE = 0;
+			 }
+			 //echo number_format(($TotalFe/$TotalPSecoPTE),3,",",".");
+			 echo number_format($TotalPSPTE,3,",",".");
+		 }else{
+			 if($TotalPSecoPTE >0 ){
+				 $TotalPSPTE = ($TotalFe/$TotalPSecoPTE)*100;
+			 }else{
+				 $TotalPSPTE = 0;
+			 }
+			 //echo number_format(($TotalFe/$TotalPSecoPTE)*100,3,",",".");
+			 echo number_format($TotalPSPTE,3,",",".");
+		 }
 		?></td>
       <td align="right"><?php 
-	  	if ($FinoLeyes == "L")	
-	  		echo number_format(($TotalNi/$TotalPSecoPTE),3,",",".");
-		else
-			echo number_format(($TotalNi/$TotalPSecoPTE)*100,3,",",".");
+	  	if ($FinoLeyes == "L"){
+			if($TotalPSecoPTE >0 ){
+				$TotalPSPTE = $TotalNi/$TotalPSecoPTE;
+			}else{
+				$TotalPSPTE = 0;
+			}
+	  		//echo number_format(($TotalNi/$TotalPSecoPTE),3,",",".");
+			echo number_format($TotalPSPTE,3,",",".");
+		}else{
+			if($TotalPSecoPTE >0 ){
+				$TotalPSPTE = ($TotalNi/$TotalPSecoPTE)*100;
+			}else{
+				$TotalPSPTE = 0;
+			}
+			//echo number_format(($TotalNi/$TotalPSecoPTE)*100,3,",",".");
+			echo number_format($TotalPSPTE,3,",",".");
+		}
 		?></td>
       <td align="right"><?php 
-	 	if ($FinoLeyes == "L")	
-	  		echo number_format(($TotalPb/$TotalPSecoPTE),3,",",".");
-		else
-			echo number_format(($TotalPb/$TotalPSecoPTE)*100,3,",",".");
+	 	if ($FinoLeyes == "L"){
+			if($TotalPSecoPTE >0 ){
+				$TotalPSPTE = $TotalPb/$TotalPSecoPTE;
+			}else{
+				$TotalPSPTE = 0;
+			}
+	  		//echo number_format(($TotalPb/$TotalPSecoPTE),3,",",".");
+			echo number_format($TotalPSPTE,3,",",".");
+		}else{
+			if($TotalPSecoPTE >0 ){
+				$TotalPSPTE = ($TotalPb/$TotalPSecoPTE)*100;
+			}else{
+				$TotalPSPTE = 0;
+			}
+			//echo number_format(($TotalPb/$TotalPSecoPTE)*100,3,",",".");
+			echo number_format($TotalPSPTE,3,",",".");
+		}
 		?></td>
     </tr>
     <tr> 

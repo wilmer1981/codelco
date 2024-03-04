@@ -1,53 +1,53 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
-	if (!isset($DiaIni))
+
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"01";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
+
+	$FinoLeyes   = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+	$ProdCons    = isset($_REQUEST["ProdCons"])?$_REQUEST["ProdCons"]:"";
+	$SubProdCons = isset($_REQUEST["SubProdCons"])?$_REQUEST["SubProdCons"]:"";
+	$FechaCons = isset($_REQUEST["FechaCons"])?$_REQUEST["FechaCons"]:date("Y-m-d");
+	$Peso = isset($_REQUEST["Peso"])?$_REQUEST["Peso"]:0;
+
+	if ($DiaIni=="")
 	{
-		$DiaFin = "31";
+		//$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		$DiaIni = "01";
+		//$DiaIni = "01";
 		$MesIni = $MesFin;
 		$AnoIni = $AnoFin;		
 	}
 	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;	
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 	
-function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso)
-{
-	$Peso = 0;
-	//PESO DEL PRODUCTO-SUBPRODUCTO						
-	$Consulta = "SELECT cod_producto, cod_subproducto, sum(peso_produccion) as peso ";
-	$Consulta.= " from sec_web.produccion_catodo";
-	$Consulta.= " where cod_producto = '".$ProdCons."'";
-	$Consulta.= " and cod_subproducto = '".$SubProdCons."'";
-	$Consulta.= " and fecha_produccion between '".$FechaCons."' and '".$FechaCons."'";				
-	$Consulta.= " group by cod_producto, cod_subproducto ";
-	$Respuesta = mysqli_query($link, $Consulta);
-	$Peso = 0;
-	if ($Fila = mysqli_fetch_array($Respuesta))
-	{
-		$Peso = $Fila["peso"];		
-	}
-}		
+
+	
 ?>
 <html>
 <head>
@@ -105,13 +105,22 @@ function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso)
 	$TotalOrejas = 0;
 	$TotalBarrido = 0;
 	$Total = 0;
+	$PesoGuillotina=0;
+	$PesoRechazConOreja=0;
+	$PesoRechazSinOreja=0;
+	$PesoLaminas=0;
+	$PesoBarrido=0;
+	$SA="";
+	$Ley_S="";
+	$Ley_O="";
+	$PesoOrejas = 0;
 	while ($FechaAux <= $FechaTermino)
 	{
 		// RESCATA PESOS
-		RescataPeso(48, 1, $FechaAux, &$PesoGuillotina, &$SA, &$Ley_S, &$Ley_O);
-		RescataPeso(48, 6, $FechaAux, &$PesoLaminas, &$SA, &$Ley_S, &$Ley_O);
+		RescataPeso(48, 1, $FechaAux, $PesoGuillotina, $SA, $Ley_S, $Ley_O, $link);
+		RescataPeso(48, 6, $FechaAux, $PesoLaminas, $SA, $Ley_S, $Ley_O, $link);
 		//RescataPeso(48, 2, $FechaAux, &$PesoOrejas, &$SA, &$Ley_S, &$Ley_O);
-		RescataPeso(48, 10, $FechaAux, &$PesoBarrido, &$SA, &$Ley_S, &$Ley_O);
+		RescataPeso(48, 10, $FechaAux, $PesoBarrido, $SA, $Ley_S, $Ley_O, $link);
 		$SubTotal = $PesoGuillotina + $PesoLaminas + $PesoOrejas;
 		$Total = $Total + $SubTotal;
 		$TotalGuillotina = $TotalGuillotina + $PesoGuillotina;
@@ -232,3 +241,23 @@ function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso)
 </form>
 </body>
 </html>
+<?php
+    //function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso, $link)
+	function RescataPeso($ProdCons, $SubProdCons, $FechaCons, $Peso, $SA, $Ley_S, $Ley_O, $link)
+	{
+		//PESO DEL PRODUCTO-SUBPRODUCTO						
+		$Consulta = "SELECT cod_producto, cod_subproducto, sum(peso_produccion) as peso ";
+		$Consulta.= " FROM sec_web.produccion_catodo";
+		$Consulta.= " WHERE cod_producto = '".$ProdCons."'";
+		$Consulta.= " AND cod_subproducto = '".$SubProdCons."'";
+		$Consulta.= " AND fecha_produccion between '".$FechaCons."' and '".$FechaCons."'";				
+		$Consulta.= " GROUP BY cod_producto, cod_subproducto ";
+		$Respuesta = mysqli_query($link, $Consulta);
+		$Peso = 0;
+		if ($Fila = mysqli_fetch_array($Respuesta))
+		{
+			$Peso = $Fila["peso"];		
+		}
+	}
+
+?>

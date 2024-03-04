@@ -180,6 +180,7 @@ $TotalPb = 0;
 $SumPesoSeco=0; //WSO
 $CantSemana=0;  //WSO
 $SumPesoHumedo=0; //WSO
+$PorcHumedad = 0;
 while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 {
 	//******************************CORTE DE SEMANAS******************************************
@@ -245,12 +246,13 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			$ArrLeyes[$k[0]][5] = $ArrLeyes[$k[0]][5] + $k[6];
 		}			
 		//Acumuladores		
-		$PorcHumedad = "";
-		$SumPesoSeco = "";
-		$CantSemana = "";
-		$SumPesoHumedo = "";
+		
+		$PorcHumedad = 0;
+		$SumPesoSeco = 0;
+		$CantSemana = 0;
+		$SumPesoHumedo = 0;
 		$Cont = 0;
-	
+			
 		//LIMPIA ARREGLO DE LEYES
 		reset($ArrLeyes);
 		foreach($ArrLeyes as $key => $values)
@@ -415,7 +417,12 @@ if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
 			}							
 		}								
 	}
-	$PorcHumedad = abs(100 - (($SumPesoSeco/$SumPesoHumedo)*100));
+
+	if($SumPesoHumedo>0){
+		$PorcHumedad = abs(100 - (($SumPesoSeco/$SumPesoHumedo)*100));
+	}else{
+		$PorcHumedad = 0;
+	}
 	echo'<tr class="detalle01">';
 	echo'<td>Total Semana</td>';
 	echo'<td align="center">'.number_format($CantSemana,0,",",".").'</td>';
@@ -443,10 +450,10 @@ if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
 		$ArrLeyes[$k[0]][5] = $ArrLeyes[$k[0]][5] + $k[6];
 	}			
 	//Acumuladores		
-	$PorcHumedad = "";
-	$SumPesoSeco = "";
-	$CantSemana = "";
-	$SumPesoHumedo = "";
+	$PorcHumedad = 0;
+	$SumPesoSeco = 0;
+	$CantSemana = 0;
+	$SumPesoHumedo = 0;
 	$Cont = 0;
 	//LIMPIA ARREGLO DE LEYES
 	reset($ArrLeyes);
@@ -454,16 +461,26 @@ if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
 	{				
 		$ArrLeyes[$key][6] = "";				
 	}		
-}		
+}	
 ?>
 <tr>
       <td align="center"><strong>TOTAL MES</strong></td>
       <td align="center"><?php echo number_format($TotalCant,0,",","."); ?></td>
       <td align="center"><?php echo number_format($TotalPHum,0,",","."); ?></td>
       <td align="center">&nbsp;</td>
-      <td align="center"><?php echo number_format((($TotalPHum-$TotalPSeco)*100)/$TotalPHum,2,",","."); ?></td>
+      <td align="center">
+			<?php 
+				if($TotalPHum>0){
+					$TotalMes = (($TotalPHum-$TotalPSeco)*100)/$TotalPHum;
+				}else{
+					$TotalMes = 0;
+				}
+	 		 //echo number_format((($TotalPHum-$TotalPSeco)*100)/$TotalPHum,2,",","."); 
+	 		 echo number_format($TotalMes,2,",","."); 
+	  		?>
+	  </td>
       <td align="center"><?php echo number_format($TotalPSeco,0,",","."); ?></td> 
-<?php
+	<?php
 	 
 	reset($ArrLeyes);
 	do {			 
@@ -487,7 +504,13 @@ if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
 	reset($ArrLeyes);
 	foreach($ArrLeyes as $v => $k)
 	{
-		$Consulta.= "'".$k[0]."',";
+		if(isset($k[0])){
+			$k0=$k[0];
+		}else{
+			$k0="";
+		}
+		//$Consulta.= "'".$k[0]."',";
+		$Consulta.= "'".$k0."',";
 	}
 	$Consulta = substr($Consulta,0,strlen($Consulta)-1);
 	$Consulta.= ")";
@@ -507,10 +530,17 @@ if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
 		echo'<td align="center"><a href=\'JavaScript:Historial('.$SA.')\'>'.$SA.'</a></td>';
 	else
 		echo'<td align="center">&nbsp;</td>';
+
 	reset($ArrLeyes);
 	foreach($ArrLeyes as $v => $k)
 	{
-		if ($k[0]=="02" || $k[0]=="04" || $k[0]=="05")
+		if(isset($k[0])){
+			$k0=$k[0];
+		}else{
+			$k0="";
+		}
+		//if ($k[0]=="02" || $k[0]=="04" || $k[0]=="05")
+		if ($k0=="02" || $k0=="04" || $k0=="05")
 		{
 			switch ($FinoLeyes)
 			{
@@ -531,7 +561,7 @@ if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
 			switch ($FinoLeyes)
 			{
 				case "L":
-					echo "<td align='center'>".number_format($k[1],2,",",".")."</td>";	
+					echo "<td align='center'>".number_format((float)$k[1],2,",",".")."</td>";	
 					break;
 				case "F":
 					if ($TotalPSeco>0 && $k[1]>0 && $k[3]>0)
@@ -543,9 +573,10 @@ if($dia == '07' || $dia == '14' || $dia == '21' || $dia == '31')
 			}
 		}		
 	}								
-?></td>      
+   ?>
+</tr>      
     
-  </table>
+</table>
 </form>
 </body>
 </html>

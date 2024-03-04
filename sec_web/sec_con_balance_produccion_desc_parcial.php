@@ -2,27 +2,28 @@
 	include("../principal/conectar_sec_web.php");
 
 	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 
 	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
 	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
-	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"1";
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"01";
 	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
 	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
 
 
-	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
-	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 
 	if ($FinoLeyes == "F")
 		$Unidad = "kg";
-	else	$Unidad = "%";
+	else	
+		$Unidad = "%";
 	if ($DiaIni=="")
 	{
-		$DiaFin = "31";
+		//$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		$DiaIni = "1";
+		//$DiaIni = "01";
 		$MesIni = $MesFin;
 		$AnoIni = $AnoFin;		
 	}

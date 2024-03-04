@@ -3,12 +3,23 @@
 	$CodigoDePantalla =16; 
 	include("../principal/conectar_principal.php");
 	include("sec_con_balance_crea_cetif_virtual.php");
-	if (!isset($DiaIni))
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:$AnoFin;
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:$MesFin;
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"01";
+
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+
+	if ($DiaIni=="")
 	{
-		$DiaIni = "01";
-		$MesIni = $MesFin;
-		$AnoIni = $AnoFin;
-		$DiaFin = "31";
+		//$DiaIni = "01";
+		//$MesIni = $MesFin;
+		//$AnoIni = $AnoFin;
+		//$DiaFin = "31";
 	}
 	$FechaAux = $AnoIni."-".str_pad($MesIni,2, "0", STR_PAD_LEFT)."-".str_pad($DiaIni,2, "0", STR_PAD_LEFT);	
 	$FechaTermino = $AnoFin."-".str_pad($MesFin,2, "0", STR_PAD_LEFT)."-".str_pad($DiaFin,2, "0", STR_PAD_LEFT);
@@ -120,6 +131,7 @@ function Historial(SA)
 <br>
 <?php
 	$ArrLeyesFinal = array();
+	$ArrLeyes = array();
 	$FechaAux = $AnoIni."-".str_pad($MesIni,2, "0", STR_PAD_LEFT)."-".str_pad($DiaIni,2, "0", STR_PAD_LEFT);
 	$FechaInicio = $FechaAux;
 	$FechaTermino = $AnoFin."-".str_pad($MesFin,2, "0", STR_PAD_LEFT)."-".str_pad($DiaFin,2, "0", STR_PAD_LEFT);
@@ -277,6 +289,7 @@ function Historial(SA)
 	$Consulta = "SELECT * from sec_web.tmp_stock_ini order by cod_bulto, num_bulto";
 	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;
+	$TotalHumedo=0;
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($Color == "")
@@ -327,7 +340,7 @@ function Historial(SA)
 		$NroSA = "";
 		if ($SubProducto == 11)
 		{
-			BuscaLeyesProduccion($Fila["cod_bulto"],$Fila["num_bulto"],&$ArrLeyesFinal);
+			BuscaLeyesProduccion($Fila["cod_bulto"],$Fila["num_bulto"],$ArrLeyesFinal,$link);
 			$Humedad = 0;
 			reset($ArrLeyesFinal);		
 			foreach($ArrLeyesFinal as $v => $k)
@@ -338,7 +351,7 @@ function Historial(SA)
 		}
 		else
 		{
-			BuscaLeyesAnalisis($Fila["cod_bulto"],$Fila["num_bulto"],&$ArrLeyesFinal,&$Humedad,&$NroHumedad,&$NroSA);			
+			BuscaLeyesAnalisis($Fila["cod_bulto"],$Fila["num_bulto"],$ArrLeyesFinal,$Humedad,$NroHumedad,$NroSA,$link);			
 		}
 		$PesoHumedo = $Fila["peso"];
 		$PesoSeco = abs($PesoHumedo - (($PesoHumedo*$Humedad)/100));
@@ -472,7 +485,7 @@ function Historial(SA)
 </body>
 </html>
 <?php
-function BuscaLeyesProduccion($CodBulto, $NumBulto, &$Arreglo)
+function BuscaLeyesProduccion($CodBulto, $NumBulto, $Arreglo, $link)
 {
 	//SELECCIONA LAS DISTINTAS SERIES CON SUS PESOS
 	$Consulta = "SELECT t2.cod_paquete, SUM(t2.peso_paquetes) as peso_sublote, year(t2.fecha_creacion_paquete) as ano, t3.cod_subclase as mes ";
@@ -672,7 +685,7 @@ function BuscaLeyesProduccion($CodBulto, $NumBulto, &$Arreglo)
 	} while (next($Arreglo));	
 }
 
-function BuscaLeyesAnalisis($CodBulto, $NumBulto, &$Arreglo, &$LeyHum, &$SAHum, &$SA)
+function BuscaLeyesAnalisis($CodBulto, $NumBulto, $Arreglo, $LeyHum, $SAHum, $SA, $link)
 {
 	//PESO DEL LOTE
 	$Consulta = "SELECT ifnull(t2.cod_bulto,'') as cod_bulto, ifnull(t2.num_bulto,'0') as num_bulto, sum(t1.peso_paquetes) as peso";

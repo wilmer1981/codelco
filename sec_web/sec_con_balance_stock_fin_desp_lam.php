@@ -16,15 +16,25 @@
 	$FechaTermino = date("Y-m-d", mktime(0,0,0,substr($FechaAux,5,2) + 1,01,substr($FechaAux,0,4)));
 	$FechaTermino = date("Y-m-d", mktime(0,0,0,substr($FechaTermino,5,2),intval(substr($FechaTermino,8,2)) - 1,substr($FechaTermino,0,4)));	
 	*/
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:$AnoFin;
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:$MesFin;
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"01";
+
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
 	
-	if (!isset($DiaIni))
+	if ($DiaIni=="")
 	{
-		$DiaFin = "31";
+		//$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		$DiaIni = "01";
-		$MesIni = $MesFin;
-		$AnoIni = $AnoFin;		
+		//$DiaIni = "01";
+		//$MesIni = $MesFin;
+		//$AnoIni = $AnoFin;		
 	}
 	$AnoAnt = $AnoFin - 1;
 	$Ano = $AnoFin;

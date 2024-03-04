@@ -1,26 +1,39 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");  
 	include("../principal/conectar_principal.php");
 	include("sec_con_balance_crea_cetif_virtual.php");
-	if (!isset($DiaIni))
+
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"";
+
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+
+	if ($DiaIni=="")
 	{
 		$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
@@ -98,6 +111,7 @@
 <br>
 <?php
 	$ArrLeyesFinal = array();
+	$ArrLeyes=array();//WSO
 	$FechaAux = $AnoIni."-".str_pad($MesIni,2, "0", STR_PAD_LEFT)."-".str_pad($DiaIni,2, "0", STR_PAD_LEFT);
 	$FechaInicio = $FechaAux;
 	$FechaTermino = $AnoFin."-".str_pad($MesFin,2, "0", STR_PAD_LEFT)."-".str_pad($DiaFin,2, "0", STR_PAD_LEFT);
@@ -224,6 +238,7 @@
 	$Consulta.= " group by t2.cod_bulto,  t2.num_bulto";
 	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;
+	$TotalHumedo=0;
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($Color == "")
@@ -274,7 +289,7 @@
 		$NroSA = "";
 		if ($SubProducto == 11)
 		{
-			BuscaLeyesProduccion($Fila["cod_bulto"],$Fila["num_bulto"],&$ArrLeyesFinal);
+			BuscaLeyesProduccion($Fila["cod_bulto"],$Fila["num_bulto"],$ArrLeyesFinal,$link);
 			$Humedad = 0;
 			reset($ArrLeyesFinal);		
 			foreach($ArrLeyesFinal as $v => $k)
@@ -285,7 +300,7 @@
 		}
 		else
 		{
-			BuscaLeyesAnalisis($Fila["cod_bulto"],$Fila["num_bulto"],&$ArrLeyesFinal,&$Humedad,&$NroHumedad,&$NroSA);			
+			BuscaLeyesAnalisis($Fila["cod_bulto"],$Fila["num_bulto"],$ArrLeyesFinal,$Humedad,$NroHumedad,$NroSA,$link);			
 		}
 		$PesoHumedo = $Fila["peso"];
 		$PesoSeco = abs($PesoHumedo - (($PesoHumedo*$Humedad)/100));
@@ -418,7 +433,7 @@
 </body>
 </html>
 <?php
-function BuscaLeyesProduccion($CodBulto, $NumBulto, &$Arreglo)
+function BuscaLeyesProduccion($CodBulto, $NumBulto, $Arreglo, $link)
 {
 	//SELECCIONA LAS DISTINTAS SERIES CON SUS PESOS
 	$Consulta = "SELECT t2.cod_paquete, SUM(t2.peso_paquetes) as peso_sublote, year(t2.fecha_creacion_paquete) as ano, t3.cod_subclase as mes ";
@@ -604,7 +619,7 @@ function BuscaLeyesProduccion($CodBulto, $NumBulto, &$Arreglo)
 	} while (next($Arreglo));	
 }
 
-function BuscaLeyesAnalisis($CodBulto, $NumBulto, &$Arreglo, &$LeyHum, &$SAHum, &$SA)
+function BuscaLeyesAnalisis($CodBulto, $NumBulto, $Arreglo, $LeyHum, $SAHum, $SA, $link)
 {
 	//PESO DEL LOTE
 	$Consulta = "SELECT ifnull(t2.cod_bulto,'') as cod_bulto, ifnull(t2.num_bulto,'0') as num_bulto, sum(t1.peso_paquetes) as peso";

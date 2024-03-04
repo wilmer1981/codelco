@@ -1,19 +1,33 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+	$FinoLeyes    = isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"01";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
 	if ($FinoLeyes == "F")
 		$Unidad = "kg";
-	else	$Unidad = "%";
-	if (!isset($DiaIni))
+	else	
+		$Unidad = "%";
+
+
+	if ($DiaIni=="")
 	{
-		$DiaFin = "31";
+		//$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		$DiaIni = "01";
+		//$DiaIni = "01";
 		$MesIni = $MesFin;
 		$AnoIni = $AnoFin;		
 	}
 	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;	
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
+
 	if($SubProducto == 8)
 		$subproducto = "ARSENIATO FERRICO";
 	else	
@@ -128,7 +142,7 @@ $TotalSb = 0;
 $TotalFe = 0;
 $TotalNi = 0;
 $TotalPb = 0;
-//echo "FF".$fecha_aux."-".$fecha_ter;
+echo "FF:".$fecha_aux."-".$fecha_ter;
 while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 {
 		$dia = substr($fecha_aux,8,2);
@@ -138,7 +152,7 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 		$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
 		$Consulta.= " and t1.fecha_produccion ='".$fecha_aux."'";
 		$Consulta=$Consulta." group by fecha_produccion";		
-		//echo "EEE".$Consulta;
+		echo "EEE:".$Consulta;
 		$Rs = mysqli_query($link, $Consulta);
 		while($Fila = mysqli_fetch_array($Rs))
 		{
@@ -168,7 +182,7 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 				$PorcHum = 0;
 			}
 			echo'<tr>';
-			  echo'<td align="center">'.$Fila[fecha_produccion].'</td>';
+			  echo'<td align="center">'.$Fila["fecha_produccion"].'</td>';
 			  echo'<td align="center">'.$Fila["cant"].'</td>';
 			  $TotalCant = $TotalCant + $Fila["cant"];
 			  $CantSemana = $CantSemana + $Fila["cant"];
@@ -192,7 +206,7 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 
 			  //Vars. Acumuladores
 			  $Cont++;
-			  $SumUnid = $SumUnid + $row[unid];
+			  $SumUnid = $SumUnid + $row["unid"];
 			  $SumPesoHumedo = $SumPesoHumedo + ($Fila["peso_produccion"]-$Fila["peso_tara"]);
 			  $AcumHumedad = $AcumHumedad + number_format($Fila2["valor"],2,".","");
 			  $SumPesoSeco = $SumPesoSeco + number_format($PesoSeco,0,"","");				  	
@@ -235,8 +249,8 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 				  $ConsultaN.= " FROM cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2";
 				  $ConsultaN.= " on t1.fecha_hora = t2.fecha_hora and t1.rut_funcionario = t2.rut_funcionario and ";
 				  $ConsultaN.= " t1.nro_solicitud = t2.nro_solicitud and t1.recargo = t2.recargo ";
-				  $ConsultaN.= " WHERE t1.cod_producto = ".$Producto."";
-				  $ConsultaN.= " AND t1.cod_subproducto = ".$SubProducto." ";
+				  $ConsultaN.= " WHERE t1.cod_producto = '".$Producto."' ";
+				  $ConsultaN.= " AND t1.cod_subproducto = '".$SubProducto."' ";
 				  $ConsultaN.= " AND t1.fecha_muestra between '".$Fecha1." 00:00:00' and '".$Fecha2." 23:59:59'";
 				  $ConsultaN.= " AND t2.cod_leyes IN('02','08','09','31','36','39')"; 
 				  $ConsultaN.= " AND t1.cod_periodo = '2'"; //SEMANAL
@@ -252,8 +266,8 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 				  	$Consulta.= " FROM cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2";
 				  	$Consulta.= " on t1.fecha_hora = t2.fecha_hora and t1.rut_funcionario = t2.rut_funcionario and ";
 				  	$Consulta.= " t1.nro_solicitud = t2.nro_solicitud and t1.recargo = t2.recargo ";
-				  	$Consulta.= " WHERE t1.nro_solicitud = ".$FilaN[solicitud]." and t1.cod_producto = ".$Producto."";
-				  	$Consulta.= " AND t1.cod_subproducto = ".$SubProducto." ";
+				  	$Consulta.= " WHERE t1.nro_solicitud = '".$FilaN["solicitud"]."' and t1.cod_producto = '".$Producto."' ";
+				  	$Consulta.= " AND t1.cod_subproducto = '".$SubProducto."' ";
 				  	$Consulta.= " AND t1.fecha_muestra between '".$Fecha1." 00:00:00' and '".$Fecha2." 23:59:59'";
 				  	$Consulta.= " AND t2.cod_leyes IN('02','08','09','31','36','39')"; 
 				  	$Consulta.= " AND t1.cod_periodo = '2'"; //SEMANAL
