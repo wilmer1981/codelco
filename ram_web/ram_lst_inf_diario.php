@@ -99,7 +99,7 @@ $Total_exist = 0;
 	  while ($row = mysqli_fetch_array($rs))
 	  {		 		
 			$Insertar = "INSERT INTO tmp_table (cod_existencia,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo,estado_validacion)";
-			$Insertar = "$Insertar VALUES ($row[cod_existencia],$row[num_conjunto],$row[conjunto_destino],'".$row[fecha_movimiento]."',$row[peso_humedo_movido],$row[estado_validacion])";
+			$Insertar = "$Insertar VALUES ($row["cod_existencia"],$row[num_conjunto],$row[conjunto_destino],'".$row[fecha_movimiento]."',$row["peso_humedo_movido"],$row["estado_validacion"])";
 			mysqli_query($link, $Insertar);
 	  }
 
@@ -188,7 +188,7 @@ $Total_exist = 0;
 					$rs5 = mysqli_query($link, $Consulta);
 					if ($row5 = mysqli_fetch_array($rs5))
 					{						
-						$peso_trasp = $row5[peso_trasp];
+						$peso_trasp = $row5["peso_trasp"];
 						$peso_benef = $row5[peso_benef];
 						$peso_val = $row5[peso_val];
 					}			
@@ -262,7 +262,7 @@ $Total_exist = 0;
 						echo '<td align="right">'.$conjunto_destino.'</td>';				
 					}
 			   							
-					//$peso_trasp = $row5[peso_trasp];	
+					//$peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 					
 					$Valores = str_replace(' ','%20',"ram_con_recep.php?cod_exist=06&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_i."&Fecha_ter=".$fecha_t);
@@ -360,7 +360,7 @@ $Total_exist = 0;
 	  while ($row = mysqli_fetch_array($rs))
 	  {		 		
 			$Insertar = "INSERT INTO tmp_table2 (cod_existencia,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, estado_validacion)";
-			$Insertar = "$Insertar VALUES ($row[cod_existencia],$row[num_conjunto],$row[conjunto_destino],'".$row[fecha_movimiento]."',$row[peso_humedo_movido],$row[estado_validacion])";
+			$Insertar = "$Insertar VALUES ($row["cod_existencia"],$row[num_conjunto],$row[conjunto_destino],'".$row[fecha_movimiento]."',$row["peso_humedo_movido"],$row["estado_validacion"])";
 			mysqli_query($link, $Insertar);
 	  }
 
@@ -518,11 +518,11 @@ $Total_exist = 0;
 					$rs5 = mysqli_query($link, $Consulta);
 					if ($row5 = mysqli_fetch_array($rs5))
 					{						
-						$peso_trasp = $row5[peso_trasp];
+						$peso_trasp = $row5["peso_trasp"];
 						$peso_benef = $row5[peso_benef];
 						$peso_val = $row5[peso_val];
 					}
-					//$peso_trasp = $row5[peso_trasp];	
+					//$peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 	
 					$Valores = str_replace(' ','%20',"ram_con_recep.php?cod_exist=06&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_i."&Fecha_ter=".$fecha_t);
@@ -1001,7 +1001,7 @@ $Total_exist = 0;
 	
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-					$peso_trasp = $row5[peso_trasp];	
+					$peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 
 					$Valores = str_replace(' ','%20',"ram_con_recep.php?cod_exist=11&Conjunto=".$valor[0]."&Fecha_ini=".$fecha_i."&Fecha_ter=".$fecha_t);

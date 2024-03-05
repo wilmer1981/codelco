@@ -466,7 +466,7 @@ if($Proceso == 'B'|| $Proceso == 'B2')
 		  while ($row = mysqli_fetch_array($rs))
 		  {		 		
 				$Insertar = "INSERT INTO ram_web.tmp_table (cod_existencia,fecha_movimiento,num_conjunto,conjunto_destino,peso_humedo,validacion)";
-				$Insertar = "$Insertar VALUES ('".$row[cod_existencia]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row[peso_humedo],0)";
+				$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row[peso_humedo],0)";
 				mysqli_query($link, $Insertar);
 		  }
 		  
@@ -477,7 +477,7 @@ if($Proceso == 'B'|| $Proceso == 'B2')
 		  while ($row = mysqli_fetch_array($rs))
 		  {		 		
 					$Insertar = "INSERT INTO ram_web.tmp_table (cod_existencia,fecha_movimiento,num_conjunto,conjunto_destino,peso_humedo,validacion)";
-					$Insertar = "$Insertar VALUES ('".$row[cod_existencia]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row[peso_humedo_movido],$row[estado_validacion])";
+					$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row["peso_humedo_movido"],$row["estado_validacion"])";
 					mysqli_query($link, $Insertar);
 		  }
 
@@ -488,7 +488,7 @@ if($Proceso == 'B'|| $Proceso == 'B2')
 		  while ($row = mysqli_fetch_array($rs))
 		  {		 		
 					$Insertar = "INSERT INTO ram_web.tmp_table (cod_existencia,fecha_movimiento,num_conjunto,conjunto_destino,peso_humedo,validacion)";
-					$Insertar = "$Insertar VALUES ('".$row[cod_existencia]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row[peso_humedo_movido],$row[estado_validacion])";
+					$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row["peso_humedo_movido"],$row["estado_validacion"])";
 					mysqli_query($link, $Insertar);
 		  }*/
 
@@ -513,13 +513,13 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 		echo '<tr>';				 
 		echo '<td>'.$row[fecha_movimiento].'</td>';
 		//consulto tipo movimiento
-		$Consulta = "SELECT * FROM ram_web.atributo_existencia WHERE cod_existencia = $row[cod_existencia]";
+		$Consulta = "SELECT * FROM ram_web.atributo_existencia WHERE cod_existencia = $row["cod_existencia"]";
 		$rs2 = mysqli_query($link, $Consulta);
 		if($row2 = mysqli_fetch_array($rs2))
 			echo'<td>'.strtoupper($row2[nombre_existencia]).'</td>';
 			echo'<td align="center">'.$row[num_conjunto].'</td>';		  	
 			echo'<td align="center">'.$row[conjunto_destino].'</td>';  
-		if(($stock_ini == '' || $row[cod_existencia] == 02 ) && ($stock_ini == '' || $row[cod_existencia] == 06))
+		if(($stock_ini == '' || $row["cod_existencia"] == 02 ) && ($stock_ini == '' || $row["cod_existencia"] == 06))
 		{
 				
 			$Consulta = "SELECT SUM(peso_humedo) as peso_humedo FROM ram_web.tmp_table WHERE cod_existencia = 13
@@ -538,7 +538,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			$stock_ini = $stock_final;
 			echo'<td align="right">'.number_format($stock_ini,0,",",".").'</td>';				
 		}
-		if($row[cod_existencia] == 2)
+		if($row["cod_existencia"] == 2)
 		{
 			$Consulta = "SELECT SUM(peso_humedo) as peso_humedo FROM ram_web.tmp_table WHERE cod_existencia ='02'
 			AND num_conjunto = ".$row[num_conjunto]." AND fecha_movimiento = '".$fecha."' ";
@@ -550,7 +550,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 				echo'<td align="right">'.number_format($stock_recep,0,",",".").'</td>';
 			}
 		}
-		if($row[cod_existencia] != 2)
+		if($row["cod_existencia"] != 2)
 		{
 			$Consulta = "SELECT distinct (peso_humedo + validacion) as peso_humedo ";
 			$Consulta.= " FROM ram_web.tmp_table WHERE num_conjunto = ".$row["num_conjunto"];
@@ -561,13 +561,13 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			{
 				$stock_benef = $row3[peso_humedo]; 
 				
-				if (($stock_ini=='') || ($row[cod_existencia] == 15 && $row[conjunto_destino] == $num_conjunto))
+				if (($stock_ini=='') || ($row["cod_existencia"] == 15 && $row[conjunto_destino] == $num_conjunto))
 				{
 					$stock_final = $stock_ini * 1 + $row3[peso_humedo] * 1;
 				}
 				else
 				{
-					if(($row[cod_existencia] == 15 || $row[cod_existencia] == 06 || $row[cod_existencia] == 05))
+					if(($row["cod_existencia"] == 15 || $row["cod_existencia"] == 06 || $row["cod_existencia"] == 05))
 						$stock_final = ($stock_ini * 1) - ($row3[peso_humedo] * 1);			
 				}
 				if ($stock_final < 0)

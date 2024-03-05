@@ -410,10 +410,10 @@ body {
 			  
 			  while($row = mysqli_fetch_array($rs))
 			  {
-				if ($row[cod_existencia] == $cmbmovimiento AND ($Proceso2 == "B" || $Proceso == "B" || $Proceso == "M"))
-					echo '<option value="'.$row[cod_existencia].'" selected>'.$row[nombre_existencia].'</option>';
+				if ($row["cod_existencia"] == $cmbmovimiento AND ($Proceso2 == "B" || $Proceso == "B" || $Proceso == "M"))
+					echo '<option value="'.$row["cod_existencia"].'" selected>'.$row[nombre_existencia].'</option>';
 				else
-					echo '<option value="'.$row[cod_existencia].'">'.$row[nombre_existencia].'</option>';									
+					echo '<option value="'.$row["cod_existencia"].'">'.$row[nombre_existencia].'</option>';									
 			  
 			  }		  
 			  echo'</select>';

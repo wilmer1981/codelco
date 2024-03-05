@@ -128,11 +128,11 @@ function Imprimir()
 		{
 			echo'<tr>';
 			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
-			echo'<td align="center">'.$row[cod_existencia].'</td>';
+			echo'<td align="center">'.$row["cod_existencia"].'</td>';
 			echo'<td align="center">'.$row[conjunto_destino].'</td>';
-			echo'<td align="center">'.$row[peso_humedo_movido].'</td>';
+			echo'<td align="center">'.$row["peso_humedo_movido"].'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[peso_humedo_movido];
+			$Peso_Total = $Peso_Total + $row["peso_humedo_movido"];
 		}
 
 
@@ -154,14 +154,14 @@ function Imprimir()
 		{
 			echo'<tr>';
 			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
-			echo'<td align="center">'.$row[cod_existencia].'</td>';
+			echo'<td align="center">'.$row["cod_existencia"].'</td>';
 			echo'<td align="center">'.$row[conjunto_destino].'</td>';
 			echo'<td align="center">'.$row[lugar_destino].'</td>';
-			$peso = $row[peso_humedo_movido] + $row[estado_validacion];
-			echo'<td align="center">'.$row[peso_humedo_movido].'</td>';
-			echo'<td align="center">'.$row[estado_validacion].'</td>';
+			$peso = $row["peso_humedo_movido"] + $row["estado_validacion"];
+			echo'<td align="center">'.$row["peso_humedo_movido"].'</td>';
+			echo'<td align="center">'.$row["estado_validacion"].'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[peso_humedo_movido] + $row[estado_validacion];
+			$Peso_Total = $Peso_Total + $row["peso_humedo_movido"] + $row["estado_validacion"];
 		}
 
 
@@ -181,13 +181,13 @@ function Imprimir()
 		{
 			echo'<tr>';
 			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
-			echo'<td align="center">'.$row[cod_existencia].'</td>';
+			echo'<td align="center">'.$row["cod_existencia"].'</td>';
 			echo'<td align="center">'.$row[num_conjunto].'</td>';
-			$peso = $row[peso_humedo_movido] + $row[estado_validacion];
-			echo'<td align="center">'.$row[peso_humedo_movido].'</td>';
-			echo'<td align="center">'.$row[estado_validacion].'</td>';
+			$peso = $row["peso_humedo_movido"] + $row["estado_validacion"];
+			echo'<td align="center">'.$row["peso_humedo_movido"].'</td>';
+			echo'<td align="center">'.$row["estado_validacion"].'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[peso_humedo_movido] + $row[estado_validacion];
+			$Peso_Total = $Peso_Total + $row["peso_humedo_movido"] + $row["estado_validacion"];
 		}
 
 
@@ -207,11 +207,11 @@ function Imprimir()
 		{
 			echo'<tr>';
 			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
-			echo'<td align="center">'.$row[cod_existencia].'</td>';
+			echo'<td align="center">'.$row["cod_existencia"].'</td>';
 			echo'<td align="center">'.$row[conjunto_destino].'</td>';
-			echo'<td align="center">'.$row[peso_humedo_movido].'</td>';
+			echo'<td align="center">'.$row["peso_humedo_movido"].'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[peso_humedo_movido];
+			$Peso_Total = $Peso_Total + $row["peso_humedo_movido"];
 		}
 
 
@@ -231,11 +231,11 @@ function Imprimir()
 		{
 			echo'<tr>';
 			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
-			echo'<td align="center">'.$row[cod_existencia].'</td>';
+			echo'<td align="center">'.$row["cod_existencia"].'</td>';
 			echo'<td align="center">'.$row[conjunto_destino].'</td>';
-			echo'<td align="center">'.$row[peso_humedo_movido].'</td>';
+			echo'<td align="center">'.$row["peso_humedo_movido"].'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[peso_humedo_movido];
+			$Peso_Total = $Peso_Total + $row["peso_humedo_movido"];
 		}
 
 

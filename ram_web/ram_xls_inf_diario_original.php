@@ -265,7 +265,7 @@ $Total_exist = 0;
 					$rs5 = mysqli_query($link, $Consulta);
 					if($row5 = mysqli_fetch_array($rs5))
 					{
-						$peso_trasp = $row5[peso_trasp];	
+						$peso_trasp = $row5["peso_trasp"];	
 						$Total_trasp = $Total_trasp + $peso_trasp;		
 						
 						if($peso_trasp != 0)				
@@ -541,7 +541,7 @@ $Total_exist = 0;
 					$rs5 = mysqli_query($link, $Consulta);
 					if($row5 = mysqli_fetch_array($rs5))
 					{
-						$peso_trasp = $row5[peso_trasp];	
+						$peso_trasp = $row5["peso_trasp"];	
 						$Total_trasp = $Total_trasp + $peso_trasp;		
 		
 						if($peso_trasp != 0)				
@@ -820,7 +820,7 @@ $Total_exist = 0;
 					$rs5 = mysqli_query($link, $Consulta);
 					if($row5 = mysqli_fetch_array($rs5))
 					{
-						$peso_trasp = $row5[peso_trasp];	
+						$peso_trasp = $row5["peso_trasp"];	
 						$Total_trasp = $Total_trasp + $peso_trasp;		
 
 						if($peso_trasp != 0)				
@@ -989,7 +989,7 @@ $Total_exist = 0;
 	
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-					$peso_trasp = $row5[peso_trasp];	
+					$peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 
 					if($peso_trasp != 0)

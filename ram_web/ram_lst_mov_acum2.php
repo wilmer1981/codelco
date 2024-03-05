@@ -193,7 +193,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-            	    $peso_trasp = $row5[peso_trasp];	
+            	    $peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 
 					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=06&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
@@ -401,7 +401,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-            	    $peso_trasp = $row5[peso_trasp];	
+            	    $peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=06&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
 					if($peso_trasp != 0)				

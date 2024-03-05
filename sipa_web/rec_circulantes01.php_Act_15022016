@@ -31,7 +31,7 @@
 				//echo $consulta."<br>";
 				if($row = mysql_fetch_array($rs))
 				{
-					$cod_conjunto = $row[cod_conjunto];
+					$cod_conjunto = $row["cod_conjunto"];
 					$cod_lugar = $row[cod_lugar];
 					$num_lugar = $row[num_lugar];
 					
@@ -96,7 +96,7 @@
 				$rs = mysql_query($consulta);
 				if($row = mysql_fetch_array($rs))
 				{
-					$cod_conjunto = $row[cod_conjunto];
+					$cod_conjunto = $row["cod_conjunto"];
 					$num_conjunto = $row["num_conjunto"];
 					$cod_existencia = $row[cod_existencia];
 					$conjunto_destino = $row[conjunto_destino];

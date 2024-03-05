@@ -134,14 +134,14 @@ function Modificar()
 	{
 		echo '<tr><td>';
 		
-		$consulta = "SELECT nombre_existencia FROM ram_web.atributo_existencia WHERE cod_existencia = ".$row[cod_existencia];
+		$consulta = "SELECT nombre_existencia FROM ram_web.atributo_existencia WHERE cod_existencia = ".$row["cod_existencia"];
 		$rs3 = mysqli_query($link, $consulta);
 		if($row3 = mysqli_fetch_array($rs3))
 		{
 			$existencia = $row3[nombre_existencia];
 		}
 		echo '<input type="radio" name="radio" value="'.$row[fecha_movimiento].'">'.$existencia.'</td>';//0
-		echo '<input type="hidden" name="cod_existencia" size="3" value="'.$row[cod_existencia].'">';//1
+		echo '<input type="hidden" name="cod_existencia" size="3" value="'.$row["cod_existencia"].'">';//1
 
 		echo '<td align="center">'.$row[fecha_movimiento].'</td>';					 
 	
@@ -197,17 +197,17 @@ function Modificar()
 				}
 				
 		}
-		echo '<td align="center">'.number_format($row[peso_humedo_movido]/1000,3,",","").'</td>';
+		echo '<td align="center">'.number_format($row["peso_humedo_movido"]/1000,3,",","").'</td>';
 		echo '<input type="hidden" name="peso_humedo" size="3" value="'.$row[peso_humedo_movido].'">';//15
-		if($row[estado_validacion] != 0)
+		if($row["estado_validacion"] != 0)
 		{
 			echo '<input type="hidden" name="estado_val" size="3" value="1">';//16
-		    echo '<td align="center">'.number_format($row[estado_validacion]/1000,3,",","").'</td></tr>';
+		    echo '<td align="center">'.number_format($row["estado_validacion"]/1000,3,",","").'</td></tr>';
 		}
 		else
 		{
 			echo '<input type="hidden" name="estado_val" size="3" value="0">';//16
-		    echo '<td align="center">'.number_format($row[estado_validacion]/1000,3,",","").'</td></tr>';
+		    echo '<td align="center">'.number_format($row["estado_validacion"]/1000,3,",","").'</td></tr>';
 		}
 	}
 

@@ -115,7 +115,7 @@ $fecha = $ano.'-'.$mes.'-'.$dia;
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-            	    $peso_trasp = $row5[peso_trasp];	
+            	    $peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 					echo '<td align="center">'.number_format($peso_trasp,0,"",".") .'</td>';
 				}
@@ -240,7 +240,7 @@ $Total_exist = 0;
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-            	    $peso_trasp = $row5[peso_trasp];	
+            	    $peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 					echo '<td align="center">'.number_format($peso_trasp,0,"",".") .'</td>';
 				}
@@ -366,7 +366,7 @@ $Total_exist = 0;
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-            	    $peso_trasp = $row5[peso_trasp];	
+            	    $peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 					echo '<td align="center">'.number_format($peso_trasp,0,"",".") .'</td>';
 				}
@@ -493,7 +493,7 @@ $Total_exist = 0;
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-            	    $peso_trasp = $row5[peso_trasp];	
+            	    $peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 					echo '<td align="center">'.number_format($peso_trasp,0,"",".") .'</td>';
 				}

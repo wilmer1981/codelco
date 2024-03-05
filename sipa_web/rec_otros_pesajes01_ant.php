@@ -36,7 +36,7 @@
 				//echo $consulta."<br>";
 				if($row = mysqli_fetch_array($rs))
 				{
-					$cod_conjunto = $row[cod_conjunto];
+					$cod_conjunto = $row["cod_conjunto"];
 					$cod_lugar = $row[cod_lugar];
 					$num_lugar = $row[num_lugar];
 					$CProd=$row["cod_producto"];
