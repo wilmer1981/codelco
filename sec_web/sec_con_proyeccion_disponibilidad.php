@@ -1,9 +1,10 @@
 <?php
 	include("../principal/conectar_principal.php");
 	set_time_limit(3000);
+
 	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
-	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
-	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 ?>
 <html>
 <head>
@@ -220,6 +221,7 @@ if($Buscar=='S')
 		echo "<td align='center'>".number_format(round($AcumProdReal),0,',','.')."</td>";
 		$AcumProdReal=$AcumProdReal+$ProdReal;
 		echo "<td align='center'>".number_format(round(($ProdReal*$PorcRechazoProg)-($ProdRef*$FactorRechazo)),0,',','.')."</td>";
+		$Peso=0;//WSO
 		ObtieneCompPreembarque($FechaIni,$Peso,$link);
 		$CompPree = $Peso;
 		echo "<td align='center'>".number_format(round($CompPree),0,',','.')."</td>";

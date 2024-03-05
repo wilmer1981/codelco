@@ -4,13 +4,12 @@
 	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
 	$filename="";
 	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-	$filename = urlencode($filename);
+		$filename = urlencode($filename);
 	}
 	$filename = iconv('UTF-8', 'gb2312', $filename);
 	$file_name = str_replace(".php", "", $file_name);
 	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-	
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
 	header("content-disposition: attachment;filename={$file_name}");
 	header( "Cache-Control: public" );
 	header( "Pragma: public" );
@@ -22,8 +21,8 @@
 	include("../principal/conectar_principal.php");
 
 	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
-	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
-	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 ?>
 <html>
 <head>
@@ -105,6 +104,9 @@ if($Buscar=='S')
 	$Consulta="SELECT factor_rechazo,factor_rechazo_prog,dia from sec_web.parametros_mensual_proyeccion where ano='".$ano."' and mes='".$mes."'";
 	$Respuesta = mysqli_query($link, $Consulta);
 	//$FactorRechazo=0.98;
+	$FactorRechazo=0; //WSO
+	$PorcRechazoProg=0; // $PorcRechazo ??
+	$DiaCierre=0; //WSO
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$FactorRechazo = $Fila["factor_rechazo"];
@@ -115,11 +117,16 @@ if($Buscar=='S')
 	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysqli_fetch_array($Respuesta))
 		$AcumProgPesaje2 = $Fila["tonelaje"];
+
 	$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = '3004' and cod_subclase='".intval($mes)."'";		
 	$rs = mysqli_query($link, $consulta);
 	$row = mysqli_fetch_array($rs);
 	$LetraMes=$row["nombre_subclase"];
+	
 	$CantDiasNeg=0;
+	$AcumPesajeReal=0;//WSO
+	$AcumDifGuia=0;//WSO
+	$AcumEta=0;//WSO
 	for($i=1;$i<=$Dias;$i++)
 	{
 		echo "<tr>";
@@ -151,11 +158,12 @@ if($Buscar=='S')
 			$ProdReal = $Fila["peso"]/1000;
 		echo "<td align='center'>".number_format($ProdReal,3,',','.')."</td>";
 		$TotProdReal=$TotProdReal+$ProdReal;
-		ObtienePorcRechazo($FechaIniMes,$FechaIni,$FechaFin,$LetraMes,$PorcRechazo,$link);
-		echo "<td align='center'>".number_format($ProdReal*$PorcRechazo,3,',','.')."</td>";
+		ObtienePorcRechazo($FechaIniMes,$FechaIni,$FechaFin,$LetraMes,$PorcRechazoProg,$link);
+		echo "<td align='center'>".number_format($ProdReal*$PorcRechazoProg,3,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumProdReal),0,',','.')."</td>";
 		$AcumProdReal=$AcumProdReal+$ProdReal;
-		echo "<td align='center'>".number_format(round(($ProdReal*$PorcRechazo)-($ProdRef*$FactorRechazo)),0,',','.')."</td>";
+		echo "<td align='center'>".number_format(round(($ProdReal*$PorcRechazoProg)-($ProdRef*$FactorRechazo)),0,',','.')."</td>";
+		$Peso=0;//WSO
 		ObtieneCompPreembarque($FechaIni,$Peso,$link);
 		$CompPree = $Peso;
 		echo "<td align='center'>".number_format(round($CompPree),0,',','.')."</td>";
@@ -330,11 +338,13 @@ function ObtieneEta($FechaInicio,$Peso,$link)
 		$Peso=$Peso+$Fila["peso_neto"];		
 	}
 }
-function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$PorcRechazo,$link)
+function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$PorcRechazoProg,$link)
 {
 	$Consulta = "SELECT * from sec_web.informe_diario ";
 	$Consulta.= " where fecha = '".$FechaInicio."'";
 	$Resp = mysqli_query($link, $Consulta);
+	$PaqStandard=0;
+	$PaqStandardGranel=0;
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 		$PaqStandard = $Fila["peso_paquete_standard"];
@@ -371,7 +381,7 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 	$StandardAcumulado = $PesadoEmbarque + $PqtesSinPesarGranel;
 	//PORCENTAJE DE STANDARD
 	if($ComercialAcumulado<>0)
-		$PorcRechazo =round((100-(100 * ($StandardAcumulado/$ComercialAcumulado)))/100,4);
+		$PorcRechazoProg =round((100-(100 * ($StandardAcumulado/$ComercialAcumulado)))/100,4);
 
 
 }
