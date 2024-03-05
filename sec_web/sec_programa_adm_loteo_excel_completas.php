@@ -1,24 +1,26 @@
 <?php 	
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename=0;
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_sec_web.php");
+	$TipoIE    = isset($_REQUEST["TipoIE"])?$_REQUEST["TipoIE"]:"";
+
 ?>
 <html>
 <head>
@@ -73,7 +75,7 @@
 					while ($Fila=mysqli_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,pto_destino ,pto_emb,tipo,estado,estado2,fecha_disponible,tipoie) values(";
-						$Insertar=$Insertar."$Fila["corr_enm"],'$Fila["sigla_cliente"]',$Fila[cantidad_embarque],'$Fila["num_prog_loteo"]','$Fila["cod_producto"]','$Fila["producto"]','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','E')";
+						$Insertar=$Insertar."'".$Fila["corr_enm"]."','".$Fila["sigla_cliente"]."','".$Fila["cantidad_embarque"]."','".$Fila["num_prog_loteo"]."','".$Fila["cod_producto"]."','".$Fila["producto"]."','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','E')";
 						mysqli_query($link, $Insertar);
 					}
 					//CONSULTA TABLA PROGRAMA CODELCO
@@ -88,7 +90,7 @@
 					while ($Fila=mysqli_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,tipo,estado,estado2,fecha_disponible,tipoie) values(";
-						$Insertar=$Insertar."$Fila["corr_codelco"],'".$Fila["nombre_cliente"]."',$Fila["cantidad_programada"],'$Fila["num_prog_loteo"]','$Fila["cod_producto"]','$Fila["producto"]','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','C','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','C')";
+						$Insertar=$Insertar."'".$Fila["corr_codelco"]."','".$Fila["nombre_cliente"]."','".$Fila["cantidad_programada"]."','".$Fila["num_prog_loteo"]."','".$Fila["cod_producto"]."','".$Fila["producto"]."','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','C','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','C')";
 						mysqli_query($link, $Insertar);   
 					}
 					$Consulta="select * from sec_web.tmpprograma order by fecha_disponible";
@@ -113,7 +115,7 @@
 					while ($Fila=mysqli_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,pto_destino ,pto_emb,tipo,estado,estado2,fecha_disponible,tipoie) values(";
-						$Insertar=$Insertar."$Fila["corr_enm"],'$Fila["sigla_cliente"]',$Fila[cantidad_embarque],'$Fila["num_prog_loteo"]','$Fila["cod_producto"]','$Fila["producto"]','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','E')";
+						$Insertar=$Insertar."'".$Fila["corr_enm"]."','".$Fila["sigla_cliente"]."','".$Fila["cantidad_embarque"]."','".$Fila["num_prog_loteo"]."','".$Fila["cod_producto"]."','".$Fila["producto"]."','".$Fila["cod_subproducto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["estado2"]."','".$Fila["estado1"]."','".$Fila["fecha_disponible"]."','E')";
 						mysqli_query($link, $Insertar);
 					}
 					$Consulta="select * from sec_web.tmpprograma order by fecha_disponible";
@@ -122,6 +124,7 @@
 			}
 			$Respuesta=mysqli_query($link, $Consulta);
 			$TotalPesoPrep=0;
+			$Cont2=0;
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				if ($TipoIE=='Completas')
@@ -155,18 +158,32 @@
 					}	
 					$MostrarBoton=true;
 					$Cont2++;
+
+					$corr_ie = isset($Fila["corr_ie"])?$Fila["corr_ie"]:"";
+					$producto = isset($Fila["producto"])?$Fila["producto"]:"";
+					$subproducto = isset($Fila["subproducto"])?$Fila["subproducto"]:"";
+					$cod_producto = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
+					$cod_subproducto = isset($Fila["cod_subproducto"])?$Fila["cod_subproducto"]:"";
+					$cantidad_programada = isset($Fila["cantidad_programada"])?$Fila["cantidad_programada"]:0;
+					$tipoie              = isset($Fila["tipoie"])?$Fila["tipoie"]:"";
+					$peso_preparado = isset($Fila2["peso_preparado"])?$Fila2["peso_preparado"]:0;
+					$cod_bulto      = isset($Fila2["cod_bulto"])?$Fila2["cod_bulto"]:"";
+					$num_bulto      = isset($Fila2["num_bulto"])?$Fila2["num_bulto"]:"";
+					$cod_marca      = isset($Fila2["cod_marca"])?$Fila2["cod_marca"]:"";
+					$estado         = isset($Fila2["estado"])?$Fila2["estado"]:"";
+
 					echo "<td width='40' align='center'>".$Fila["num_prog_loteo"]."</td>";
-					echo "<td width='40' align='center'>".$Fila["corr_ie"]."</td>";
-					echo "<td width='160'>".$Fila["subproducto"]."&nbsp;</td>";
+					echo "<td width='40' align='center'>".$corr_ie."</td>";
+					echo "<td width='160'>".$subproducto."&nbsp;</td>";
 					echo "<td width='160'>".$Fila["cliente_nave"]."&nbsp;</td>";
 					echo "<td width='100' align='center'>".$Fila["fecha_disponible"]."</td>";
-					echo "<td width='60' align='right'>".($Fila["cantidad_programada"]*1000)."</td>";
-					echo "<td width='60' align='right'>".$Fila2["peso_preparado"]."&nbsp;</td>";
-					echo "<td width='60' align='right'>".abs($Fila["cantidad_programada"]*1000-$Fila2["peso_preparado"])."&nbsp;</td>";
-					if ($Fila2["cod_bulto"]!="")
+					echo "<td width='60' align='right'>".($cantidad_programada*1000)."</td>";
+					echo "<td width='60' align='right'>".$peso_preparado."&nbsp;</td>";
+					echo "<td width='60' align='right'>".abs($cantidad_programada*1000-$peso_preparado)."&nbsp;</td>";
+					if ($cod_bulto!="")
 					{
-						echo "<td width='60' align='right'><a href=\"JavaScript:MostrarPaquetes('".$Fila2["cod_bulto"]."','".$Fila2["num_bulto"]."','".$Fila["corr_ie"]."')\">\n";
-						echo $Fila2["cod_bulto"]."-".$Fila2["num_bulto"]."</a></td>\n";
+						echo "<td width='60' align='right'><a href=\"JavaScript:MostrarPaquetes('".$cod_bulto."','".$num_bulto."','".$corr_ie."')\">\n";
+						echo $cod_bulto."-".$num_bulto."</a></td>\n";
 					}
 					else
 					{
@@ -174,7 +191,7 @@
 					}					
 					echo "<td width='40' align='center'>".$Fila["estado"]."&nbsp;</td>";
 					
-					$TotalPesoPrep=$TotalPesoPrep+$Fila2["peso_preparado"];
+					$TotalPesoPrep=$TotalPesoPrep+$peso_preparado;
 					$Fila2["cod_bulto"]="";
 					$Fila2["num_bulto"]="";
 					$Fila2["peso_preparado"]="";

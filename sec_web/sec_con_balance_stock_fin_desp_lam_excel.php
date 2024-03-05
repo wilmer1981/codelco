@@ -153,7 +153,7 @@
 		//}
 		//else
 		//{
-			$Insertar = "insert into sec_web.tmp_stock_ini2 (cod_bulto, num_bulto, ano_creacion, peso) ";
+			$Insertar = "INSERT INTO sec_web.tmp_stock_ini2 (cod_bulto, num_bulto, ano_creacion, peso) ";
 			$Insertar.= "values('".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."','','".$Fila["peso"]."')";
 			mysqli_query($link, $Insertar);
 		//}
@@ -183,7 +183,7 @@
 		if($Fila4 = mysqli_fetch_array($Resp4))
 		{	
 			//ESTA TRASPASADO
-			$Insertar = "insert into sec_web.tmp_stock_ini2 (cod_bulto, num_bulto, ano_creacion, peso) ";
+			$Insertar = "INSERT INTO sec_web.tmp_stock_ini2 (cod_bulto, num_bulto, ano_creacion, peso) ";
 			$Insertar.= "values('".$Fila3["cod_bulto"]."','".$Fila3["num_bulto"]."','','".$Fila4["peso"]."')";
 			mysqli_query($link, $Insertar); 
 		}

@@ -21,7 +21,7 @@
 			if ($Fila["valor"] == "0")
 			{
 				//INSERTA REGISTRO EN TABLA CIERRE MES
-				$Insertar = "insert into proyecto_modernizacion.cierre_mes (cod_sistema, ano, mes, fecha_cierre, cod_bloqueo, estado, rut_funcionario) ";
+				$Insertar = "INSERT INTO proyecto_modernizacion.cierre_mes (cod_sistema, ano, mes, fecha_cierre, cod_bloqueo, estado, rut_funcionario) ";
 				$Insertar.= " values('15','".$Ano."','".$Mes."','".date("Y-m-d H:i:s")."','1', 'C', '".$CookieRut."')";
 				mysqli_query($link, $Insertar);
 				//ACTUALIZO REGISTRO EN TABLA FLUJOS MES
@@ -48,7 +48,7 @@
 			else
 			{
 				//INSERTA REGISTRO EN TABLA CIERRE MES
-				$Insertar = "insert into proyecto_modernizacion.cierre_mes (cod_sistema, ano, mes, fecha_cierre, cod_bloqueo, estado, rut_funcionario) ";
+				$Insertar = "INSERT INTO proyecto_modernizacion.cierre_mes (cod_sistema, ano, mes, fecha_cierre, cod_bloqueo, estado, rut_funcionario) ";
 				$Insertar.= " values('15','".$Ano."','".$Mes."','".date("Y-m-d H:i:s")."','1', 'A', '".$CookieRut."')";
 				//echo $Insertar."<br>";
 				mysqli_query($link, $Insertar);

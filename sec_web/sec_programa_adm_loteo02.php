@@ -1,6 +1,9 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");	
 	//echo $Valores."<br>"; 
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Cierra         = isset($_REQUEST["Cierra"])?$_REQUEST["Cierra"]:"";
+
 	$Datos=explode('//',$Valores);
 	$CodLote = "";
 	$NumLote = "";
@@ -11,10 +14,10 @@
 		$IE=$Datos2[0];
 		$NombreProducto=$Datos2[1];
 		$NombreSubProducto=$Datos2[2];
-		$CodProducto=$Datos2[3];
-		$CodSubProducto=$Datos2[4];
-		$Peso=$Datos2[5];
-		$TipoIE=$Datos2[6];
+		$CodProducto    = $Datos2[3];
+		$CodSubProducto = $Datos2[4];
+		$Peso    = $Datos2[5];
+		$TipoIE  = $Datos2[6];
 		$CodLote = $Datos2[8];
 		$NumLote = $Datos2[9];
 		$PesoPreparado=$Datos2[7];

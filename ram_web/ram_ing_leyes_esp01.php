@@ -80,7 +80,7 @@
 			else
 			{
 				//INSERTA
-				$Insertar = "insert into ram_web.leyes_especiales (cod_producto,cod_subproducto,cod_conjunto,num_conjunto,fecha,";
+				$Insertar = "INSERT INTO ram_web.leyes_especiales (cod_producto,cod_subproducto,cod_conjunto,num_conjunto,fecha,";
 				$Insertar.= "v_h2o,v_cu,v_ag,v_au,v_as,v_s,v_pb,v_fe,v_si,v_cao,v_al2o3,v_mgo,v_sb,v_cd,v_hg,v_te,v_zn,v_fe3o4, tipo_ley) ";
 				$Insertar.= " values('".$Productos."','".$SubProductos."','".$CodConjunto."','".$Conjunto."','".$Ano."-".$Mes."-01','".str_replace(",",".",$H2O)."','".str_replace(",",".",$Cu)."'";
 				$Insertar.= ",'".str_replace(",",".",$Ag)."','".str_replace(",",".",$Au)."','".str_replace(",",".",$As)."','".str_replace(",",".",$S)."','".str_replace(",",".",$Pb)."'";

@@ -26,7 +26,7 @@ $Valores        = $_REQUEST["Valores"];
 			}
 			else
 			{
-				$Insertar=" insert into interfaces_codelco.asignaciones ";
+				$Insertar=" INSERT INTO interfaces_codelco.asignaciones ";
 				$Insertar.=" (asignacion,rut_proveedor,entrada,salida,agrupados) values(";
 				$Insertar.=" '".$TxtAsig."','".$CmbRutPrv."','".$TxtEntrada."',";
 				$Insertar.=" '".$TxtSalida."','".$Agrupados."')";

@@ -22,7 +22,7 @@
 			}
 			else
 			{
-				$Insertar=" insert into interfaces_codelco.empaque ";
+				$Insertar=" INSERT INTO interfaces_codelco.empaque ";
 				$Insertar.=" (cod_empaque,descripcion) values(";
 				$Insertar.=" '".$TxtCodigo."','".strtoupper($TxtDescrip)."')";
 				mysqli_query($link, $Insertar);

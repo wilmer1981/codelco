@@ -239,7 +239,7 @@ if($Buscar=='S')
 function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link)
 {
 	$Peso=0;
-	$CrearTmp ="create temporary table if not exists sec_web.tmpConsultaEmb2 "; 
+	$CrearTmp ="CREATE TEMPORARY table if not exists sec_web.tmpConsultaEmb2 "; 
 	$CrearTmp =$CrearTmp."(subproducto varchar (30),corr_ie bigint(8),cliente_nave varchar(30),";
 	$CrearTmp =$CrearTmp."toneladas bigint(8),marca varchar(10),cod_lote varchar(1),num_lote_inicio varchar(12),";
 	$CrearTmp =$CrearTmp."num_lote_final varchar(12),paquetes bigint(8),catodos bigint(8),peso_neto bigint(8))";
@@ -259,7 +259,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link)
 	$Respuesta=mysqli_query($link, $Consulta);
 	while($Fila=mysqli_fetch_array($Respuesta))
 	{
-		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
+		$Insertar="INSERT INTO sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
 		$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','".$Fila["nombre_cliente"]."','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 		mysqli_query($link, $Insertar);
 	}
@@ -276,7 +276,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link)
 	$Respuesta=mysqli_query($link, $Consulta);
 	while($Fila=mysqli_fetch_array($Respuesta))
 	{
-		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
+		$Insertar="INSERT INTO sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
 		$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','".$Fila["nombre_cliente"]."','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 		mysqli_query($link, $Insertar);
 	}
@@ -290,7 +290,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link)
 	$Respuesta=mysqli_query($link, $Consulta);
 	while($Fila=mysqli_fetch_array($Respuesta))
 	{
-		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
+		$Insertar="INSERT INTO sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
 		$Insertar.="'".$Fila["subproducto"]."','".$Fila["corr_enm"]."','','".$Fila["toneladas"]."','".$Fila["cod_marca"]."','".$Fila["cod_paquete"]."','".$Fila["lote_inicio"]."','".$Fila["lote_final"]."','".$Fila["paquetes"]."','".$Fila["catodos"]."','".$Fila["peso_neto"]."')";
 		mysqli_query($link, $Insertar);
 	}

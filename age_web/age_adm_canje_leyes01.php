@@ -42,7 +42,7 @@
 					$ValorLeyR=0;
 				if($ValorIncR=='')
 					$ValorIncR=0;
-				$Insertar="insert into age_web.leyes_por_lote_canje(lote,recargo,cod_leyes,valor1,valor2,valor3,valor4,cod_unidad,paquete_canje,valor_retalla,inc_retalla,ley_canje,observacion,plantilla_limite,pendiente,ley_forzada) values (";
+				$Insertar="INSERT INTO age_web.leyes_por_lote_canje(lote,recargo,cod_leyes,valor1,valor2,valor3,valor4,cod_unidad,paquete_canje,valor_retalla,inc_retalla,ley_canje,observacion,plantilla_limite,pendiente,ley_forzada) values (";
 				$Insertar.="'$TxtLote','0','$CodLey','".str_replace(',','.',$ValorLey1)."','".str_replace(',','.',$ValorLey2)."','".str_replace(',','.',$ValorLey3)."','".str_replace(',','.',$ValorLey4)."','$CodUnidad',";
 				$Insertar.="'$NumPqte','".str_replace(',','.',$ValorLeyR)."','".str_replace(',','.',$ValorIncR)."','".str_replace(',','.',$ValorLeyC)."','$Seguimiento','$CmbPlantLimPart','$Arbitral','$ForzarLey2')";
 				//echo $Insertar."<br>";

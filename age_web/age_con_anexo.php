@@ -50,7 +50,7 @@
 			{			
 				if ($Fila["flujo"]!="" && !is_null($Fila["flujo"]))
 				{
-					$Insertar = "insert into age_web.flujos_mes(ano, mes, flujo, peso, fino_cu, fino_ag, fino_au)";
+					$Insertar = "INSERT INTO age_web.flujos_mes(ano, mes, flujo, peso, fino_cu, fino_ag, fino_au)";
 					$Insertar.= " values('".$Ano."','".$Mes."','".$Fila["flujo"]."','".$Fila["peso_seco"]."','".$Fila["fino_cu"]."','".$Fila["fino_ag"]."','".$Fila["fino_au"]."')";
 					mysqli_query($link, $Insertar);
 					//echo $Insertar."<br>";

@@ -92,7 +92,7 @@
 						else
 						{
 							//INSERTA NUEVO REGISTRO
-							$Insertar = "insert into interfaces_codelco.registro_traspaso(tipo_registro, ano, mes, referencia, tipo_movimiento, registro, ";
+							$Insertar = "INSERT INTO interfaces_codelco.registro_traspaso(tipo_registro, ano, mes, referencia, tipo_movimiento, registro, ";
 							$Insertar.= " fecha_guia, fecha_traspaso, cantidad_traspaso, cod_producto, cod_subproducto, orden_produccion, clase_valorizacion, almacen) ";
 							$Insertar.= " values('".$SAP_Tipo."','".$Ano."','".$Mes."','".$L_SAP_Lote."','".$SAP_TipoMov."','".$Linea."', ";
 							$Insertar.= " '".$Fecha1."', '".$Fecha2."', '".$CantTraspaso."', '".$Prod."', '".$SubProd."', '".$SAP_OrdenProd_Manual."', '".$SAP_ClaseValoriz_Manual."', '".$L_SAP_Almacen."')";

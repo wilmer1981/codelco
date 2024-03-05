@@ -6,7 +6,7 @@
 	//------------------------PREPARAMOS PARA INGRESAR DATOS-------------------------
 	//AGE_WEB LEYES POR LOTE
 	$VHumedadAux=str_replace(',','.',$VHumedad);
-	$Inserta="insert into age_web.leyes_por_lote (lote,recargo,cod_leyes,valor,cod_unidad,valor2,provisional,modificado,ano)";
+	$Inserta="INSERT INTO age_web.leyes_por_lote (lote,recargo,cod_leyes,valor,cod_unidad,valor2,provisional,modificado,ano)";
 	$Inserta.=" values('".$Lote."','".$Recargo."','01','".$VHumedadAux."','1','0','','','".substr($SA,0,4)."')";
 	mysqli_query($link, $Inserta);
 	
@@ -16,7 +16,7 @@
 	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysqli_fetch_array($Resp))
 	{
-		$Insertar="insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
+		$Insertar="INSERT INTO cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,recargo,cod_producto,cod_subproducto,";
 		$Insertar.="leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,";
 		$Insertar.="rut_proveedor,observacion,agrupacion,fecha_muestra) values (";
 		$Insertar.= "'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Lote."','".$Recargo."','".$Fila["cod_producto"]."','".$Fila["cod_subproducto"]."','01~~1//','1',";			
@@ -31,31 +31,31 @@
 		$PesoSeco=($PesoNeto*$VHumedad)/100;
 		$PesoSeco=$PesoNeto-$PesoSeco;
 		
-		$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
+		$Insertar2="INSERT INTO cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
 		$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Fila["cod_producto"]."','".$Fila["cod_subproducto"]."','".$Lote."','".$PesoNeto."','".$VHumedadAux."','".round($PesoSeco)."','".$Fila["rut_funcionario"]."','1')";
 		//echo $Insertar2."<br><BR><BR><BR>";
 		mysqli_query($link, $Insertar2);
 		
 		//------------------------ESTADOS POR SOLICITUD--------------------------
-		$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+		$Insertar2="INSERT INTO cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
 		$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','1','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
 		//echo $Insertar2."<br><BR>";
 		mysqli_query($link, $Insertar2);			
-		$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+		$Insertar2="INSERT INTO cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
 		$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','4','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
 		//echo $Insertar2."<br><BR>";
 		mysqli_query($link, $Insertar2);			
-		$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+		$Insertar2="INSERT INTO cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
 		$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','5','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
 		//echo $Insertar2."<br><BR>";
 		mysqli_query($link, $Insertar2);			
-		$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
+		$Insertar2="INSERT INTO cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
 		$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','6','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
 		//echo $Insertar2."<br><BR>";
 		mysqli_query($link, $Insertar2);
 		
 		//------------------------------REGISTROS LEYES------------------------------------------
-		$Insertar2="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,valor,peso_humedo,peso_seco,candado,signo,rut_proceso) values (";
+		$Insertar2="INSERT INTO cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,valor,peso_humedo,peso_seco,candado,signo,rut_proceso) values (";
 		$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$VHumedadAux."','".$PesoNeto."','".round($PesoSeco)."','1','=','".$Fila["rut_funcionario"]."')";
 		//echo $Insertar2."<br><BR>";
 		mysqli_query($link, $Insertar2);

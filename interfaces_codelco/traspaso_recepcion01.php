@@ -70,7 +70,7 @@
 				else
 					$LineaR='1'.$FechaDoc.$FechaCont.$ClaseMov.$Centro.$Almacen.$OrdenProd.$CodMaterial.$Cantidad.$UnidadMedida.$LoteT.$ClaseVal921.$Status;
 				fwrite($ArchivoR,$LineaR."\r\n");
-				$Insertar="insert into interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
+				$Insertar="INSERT INTO interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
 				$Insertar.="'5','$Ano','$Mes','$Lote','$ClaseMov','$LineaR')";
 				mysqli_query($link, $Insertar);
 				//PARA ARCHIVO LEYES DE RECEPCIONES

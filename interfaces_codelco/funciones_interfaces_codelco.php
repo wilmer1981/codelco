@@ -490,7 +490,7 @@ function ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdL
 function InsertarLineaTmp($CorrIE,$Tipo,$Linea)
 {
 	//$Consulta="select ifnull(max(corr)+1,1) as corr from tmp_archivo_embarque";
-	$Insertar="insert into interfaces_codelco.tmp_archivo_embarque (corr,tipo,linea) values ('".$CorrIE."','".$Tipo."','".$Linea."')";
+	$Insertar="INSERT INTO interfaces_codelco.tmp_archivo_embarque (corr,tipo,linea) values ('".$CorrIE."','".$Tipo."','".$Linea."')";
 	mysqli_query($link, $Insertar);
 }
 function CreaArchivoTxt($Archivo1,$Archivo2)

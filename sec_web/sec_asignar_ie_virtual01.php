@@ -2,8 +2,11 @@
 	include("../principal/conectar_sec_web.php");
 	//echo $Valores."<br>";
 	//echo $Valores2."<br>";
+
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$Valores2 = isset($_REQUEST["Valores2"])?$_REQUEST["Valores2"]:"";
+
+	$CmbLoteInicial = isset($_REQUEST["CmbLoteInicial"])?$_REQUEST["CmbLoteInicial"]:"";
 
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
@@ -26,11 +29,11 @@
 	switch ($TipoIE)
 	{
 		case "E":
-			$Actualizar="UPDATE sec_web.programa_enami set estado1='R',estado2='P' where corr_enm=".$IE;
+			$Actualizar="UPDATE sec_web.programa_enami set estado1='R',estado2='P' where corr_enm='".$IE."' ";
 			mysqli_query($link, $Actualizar);
 			break;
 		case "C":
-			$Actualizar="UPDATE sec_web.programa_codelco set estado1='R',estado2='P' where corr_codelco=".$IE;
+			$Actualizar="UPDATE sec_web.programa_codelco set estado1='R',estado2='P' where corr_codelco='".$IE."' ";
 			mysqli_query($link, $Actualizar);
 			break;
 	}		
@@ -42,7 +45,7 @@
 	$NumBultoInicial=$Lote[1];
 	//CAMBIO REALIZADO POR DVS 14_05_2012 - LF
 	$Consulta="SELECT fecha_creacion_lote from sec_web.lote_catodo  ";
-	$Consulta.="where cod_bulto='".$CodBultoInicial."' and num_bulto=".$NumBultoInicial." and cod_estado='a' order by fecha_creacion_lote desc ";
+	$Consulta.="where cod_bulto='".$CodBultoInicial."' and num_bulto='".$NumBultoInicial."' and cod_estado='a' order by fecha_creacion_lote desc ";
 	$RespFec=mysqli_query($link, $Consulta);
 	if($FilaFec=mysqli_fetch_assoc($RespFec))
 		$FechaCreaLote=$FilaFec["fecha_creacion_lote"];
@@ -73,7 +76,7 @@
 		$Consulta="SELECT t1.cod_bulto,t1.num_bulto,t1.cod_paquete,t1.num_paquete,t2.peso_paquetes";
 		$Consulta=$Consulta." from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 on ";
 		$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete ";
-		$Consulta=$Consulta." where t1.corr_enm=".$IEVirtual." and t1.cod_estado='a' and t2.cod_estado='a' order by t1.num_paquete";
+		$Consulta=$Consulta." where t1.corr_enm='".$IEVirtual."' and t1.cod_estado='a' and t2.cod_estado='a' order by t1.num_paquete";
 		//$Consulta=$Consulta." where t1.corr_enm=".$IEVirtual." order by t1.num_paquete";
 		$Respuesta=mysqli_query($link, $Consulta);
 		while ($Fila=mysqli_fetch_array($Respuesta))
@@ -146,7 +149,7 @@
 		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($Respuesta))
 		{
-			$Actualizar="UPDATE sec_web.lote_catodo set num_bulto=".$Fila[lote_inicio]." where corr_enm=".$IEVirtual;
+			$Actualizar="UPDATE sec_web.lote_catodo set num_bulto=".$Fila["lote_inicio"]." where corr_enm=".$IEVirtual;
 			mysqli_query($link, $Actualizar);
 			$Actualizar = "UPDATE sec_web.pesaje_lodos set num_bulto=".$NumBultoInicial." where corr_ie=".$IEVirtual."'"; 
 			mysqli_query($link, $Actualizar);
@@ -180,6 +183,6 @@
 	echo "<script languaje='JavaScript'>";
 	echo "window.opener.document.FrmAsigVirtual.action='sec_asignar_ie_virtual.php?Salir=S';";
 	echo "window.opener.document.FrmAsigVirtual.submit();";
-	echo "window.close();";
+	//echo "window.close();";
 	echo "</script>";
 ?>

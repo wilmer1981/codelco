@@ -1,22 +1,29 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");	
+
+	$Proceso        = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores        = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$ElimVirtual    = isset($_REQUEST["ElimVirtual"])?$_REQUEST["ElimVirtual"]:"";
+	$CorrEnmVirElim = isset($_REQUEST["CorrEnmVirElim"])?$_REQUEST["CorrEnmVirElim"]:"";
+	$Cierra         = isset($_REQUEST["Cierra"])?$_REQUEST["Cierra"]:"";
+
 	$Datos=explode('//',$Valores);
 	$CodLote = "";
 	$NumLote = "";
 	foreach($Datos as $Clave => $Valor)
 	{
 		$Datos2=explode('~~',$Valor);
-		$IE=$Datos2[0];
-		$NombreProducto=$Datos2[1];
-		$NombreSubProducto=$Datos2[2];
-		$CodProducto=$Datos2[3];    
-		$CodSubProducto=$Datos2[4];
-		$Peso=$Datos2[5];
-		$TipoIE=$Datos2[6];
-		$CodLote = $Datos2[8];
-		$NumLote = $Datos2[9];
-		$PesoPreparado=$Datos2[7];
-		$Marca=$Datos2[10];
+		$IE                = $Datos2[0];
+		$NombreProducto    = $Datos2[1];
+		$NombreSubProducto = $Datos2[2];
+		$CodProducto   = $Datos2[3];    
+		$CodSubProducto= $Datos2[4];
+		$Peso          = $Datos2[5];
+		$TipoIE        = $Datos2[6];
+		$CodLote       = $Datos2[8];
+		$NumLote       = $Datos2[9];
+		$PesoPreparado = $Datos2[7];
+		$Marca         = $Datos2[10];
 		if ($PesoPreparado=='')
 		{
 			$PesoPreparado=0;

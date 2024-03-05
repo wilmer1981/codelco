@@ -113,7 +113,7 @@ CmbAlmacen:
 				$Linea.= str_pad($SAP_Status,1," ",STR_PAD_LEFT);
 				$Linea.= str_pad($SAP_Msg,80," ",STR_PAD_LEFT);
 				fwrite($Archivo,$Linea."\r\n");
-				$Insertar="insert into interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
+				$Insertar="INSERT INTO interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
 				$Insertar.="'1','$Ano','$Mes','$SAP_Lote','$SAP_TipoMov','$Linea')";
 				mysqli_query($link, $Insertar);
 				$L_SAP_CodMaterial = "";

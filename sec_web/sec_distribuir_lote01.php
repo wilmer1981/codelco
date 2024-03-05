@@ -1,5 +1,9 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Tipo    = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
 	
 	switch ($Proceso)
 	{
@@ -57,7 +61,7 @@
 				mysqli_query($link, $Actualizar);		
 			}
 			$Fecha=date('Y-m-d');
-			$Insertar="insert into sec_web.instruccion_virtual(corr_virtual,peso_programado,fecha_embarque,cod_producto,cod_subproducto,descripcion,estado) values (";
+			$Insertar="INSERT INTO sec_web.instruccion_virtual(corr_virtual,peso_programado,fecha_embarque,cod_producto,cod_subproducto,descripcion,estado) values (";
 			$Insertar=$Insertar."$IEVirtual,$Peso,'$Fecha','$CodProducto','$CodSubProducto','ADM','T')";
 			mysqli_query($link, $Insertar); 
 			echo "<script languaje='JavaScript'>";
@@ -114,26 +118,27 @@
 			}
 			if ($PesoLote!='')
 			{
-				$Consulta="SELECT cod_subclase from proyecto_modernizacion.sub_clase where cod_clase=3004 and nombre_subclase='".$CodBulto."'";
+				$Consulta="SELECT cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='3004' and nombre_subclase='".$CodBulto."'";
 				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysqli_fetch_array($Respuesta);
-				$CodLetra=$Fila["cod_subclase"];
+				//$CodLetra=$Fila["cod_subclase"];
+				$CodLetra=isset($Fila["cod_subclase"])?$Fila["cod_subclase"]:"";
 				if (strlen($CodLetra)==1)
 				{
 					$CodLetra="0".$CodLetra;
 				}
-			    if (($CodLetra==01) or ($CodLetra==03) or ($CodLetra==05) or
-				    ($CodLetra==07) or ($CodLetra==08) or($CodLetra==10) or
-					($CodLetra==12))
+			    if (($CodLetra=='01') || ($CodLetra=='03') || ($CodLetra=='05') ||
+				    ($CodLetra=='07') || ($CodLetra=='08') || ($CodLetra=='10') ||
+					($CodLetra=='12'))
 				{
 						$Diat=31;
 				}
-				if (($CodLetra==04) or ($CodLetra==06) or ($CodLetra==09) or
-				    ($CodLetra==11))
+				if (($CodLetra=='04') || ($CodLetra=='06') || ($CodLetra=='09') ||
+				    ($CodLetra=='11'))
 				{
 						$Diat=30;
 				}
-				if  ($CodLetra==02)
+				if  ($CodLetra=='02')
 				{
 				        $Diat=28;
 				}
@@ -151,11 +156,11 @@
 				$Consulta=$Consulta." where corr_enm=".$IE." and cod_estado='a'";
 				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysqli_fetch_array($Respuesta);
-				$Paquetes=$Fila[cant_paquetes];
+				$Paquetes=$Fila["cant_paquetes"];
 				$Hornada=date('Y').$CodLetra.$NumBulto.$CodLetra;
-				$Insertar="insert into sec_web.traspaso (hornada,fecha_traspaso,peso,unidades,fecha_creacion_lote,cod_producto,cod_subproducto,cod_bulto,num_bulto,sw) values (";
-				$Insertar=$Insertar."$Hornada,'$FechaTraspaso',$PesoLote,$Paquetes,'$FechaCreacionLote','$CodProducto','$CodSubProducto','$CodBulto','$NumBulto','$Tipo')";
-				 mysqli_query($link, $Insertar);
+				$Insertar="INSERT INTO sec_web.traspaso (hornada,fecha_traspaso,peso,unidades,fecha_creacion_lote,cod_producto,cod_subproducto,cod_bulto,num_bulto,sw) values (";
+				$Insertar=$Insertar."'$Hornada','$FechaTraspaso','$PesoLote','$Paquetes','$FechaCreacionLote','$CodProducto','$CodSubProducto','$CodBulto','$NumBulto','$Tipo')";
+				mysqli_query($link, $Insertar);
 				//INSERTA EN TABLA sea_web.movimientos
 				if ($Tipo==1)
 				{
@@ -172,28 +177,28 @@
 					$HoraActual = date("H:i:s");
 					$FechaHoraActual = $FechaTraspaso." ".$HoraActual;
 //aca inserta en SEA
-					$InsertMov="insert into sea_web.movimientos (tipo_movimiento,cod_producto,cod_subproducto,hornada,numero_recarga,fecha_movimiento,campo1,campo2,unidades,flujo,peso,hora)";
+					$InsertMov="INSERT INTO sea_web.movimientos (tipo_movimiento,cod_producto,cod_subproducto,hornada,numero_recarga,fecha_movimiento,campo1,campo2,unidades,flujo,peso,hora)";
 					$InsertMov=$InsertMov."values(1,'$CodProducto','$CodSubProducto','$Hornada',0,'$FechaTraspaso','9999','9999','$Paquetes','$flujo','$PesoLote','$FechaHoraActual')";
 					//echo "INSERT".$InsertMov;
                 	mysqli_query($link, $InsertMov);
 
 					//INSERTA EN TABLA sea_web.hornadas     
-					$InsertHor="insert into sea_web.hornadas (cod_producto,cod_subproducto,hornada_ventana,unidades,peso_unidades,Analizada,estado)";
+					$InsertHor="INSERT INTO sea_web.hornadas (cod_producto,cod_subproducto,hornada_ventana,unidades,peso_unidades,Analizada,estado)";
 					$InsertHor=$InsertHor." values($CodProducto,$CodSubProducto,$Hornada,$Paquetes,$PesoLote,'N',0)";
 					 mysqli_query($link, $InsertHor);
 			}
 				//UPDATE DE CORR_ENM,COD_ESTADO DE LOTE Y COD_ESTADO PAQUETES
 				$Consulta="SELECT cod_bulto,num_bulto,cod_paquete,num_paquete from sec_web.lote_catodo ";
-				$Consulta=$Consulta." where corr_enm=".$IE." and cod_estado='a'";
+				$Consulta=$Consulta." where corr_enm='".$IE."' and cod_estado='a'";
 				$Respuesta=mysqli_query($link, $Consulta);
-				$Actualizar="UPDATE sec_web.lote_catodo set corr_enm='$Hornada',cod_estado='c' where cod_bulto='".$CodBulto."' and num_bulto=".$NumBulto." and corr_enm=".$IE;
+				$Actualizar="UPDATE sec_web.lote_catodo set corr_enm='".$Hornada."',cod_estado='c' where cod_bulto='".$CodBulto."' and num_bulto='".$NumBulto."' and corr_enm='".$IE."' ";
 				mysqli_query($link, $Actualizar);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
 					$Consulta="SELECT cod_paquete,num_paquete,fecha_creacion_paquete,peso_paquetes from sec_web.paquete_catodo  where cod_paquete='".$Fila["cod_paquete"]."' and num_paquete=".$Fila["num_paquete"]." and cod_estado='a'";
 					$Respuesta2=mysqli_query($link, $Consulta);
 					$Fila2=mysqli_fetch_array($Respuesta2);
-					$Insertar="insert into sec_web.det_traspaso (hornada,cod_paquete,num_paquete,fecha_creacion_paquete,peso_paquete) values (";
+					$Insertar="INSERT INTO sec_web.det_traspaso (hornada,cod_paquete,num_paquete,fecha_creacion_paquete,peso_paquete) values (";
 					$Insertar=$Insertar."$Hornada,'".$Fila2["cod_paquete"]."',".$Fila2["num_paquete"].",'".$Fila2[fecha_creacion_paquete]."',".$Fila2["peso_paquetes"].")";	
 					mysqli_query($link, $Insertar);
 					$Actualizar="UPDATE sec_web.paquete_catodo set cod_estado='c' where cod_paquete='".$Fila["cod_paquete"]."' and num_paquete=".$Fila["num_paquete"]." and cod_estado='a'";
@@ -270,7 +275,7 @@
 			        $Fila=mysqli_fetch_array($Resultado);
 					$TxtNumEnvio=$Fila["mayor"];
 					$FechaEnvio=date('Y-m-d');
-					$Insertar="insert into sec_web.embarque_ventana (num_envio,corr_enm,cod_bulto,num_bulto, ";
+					$Insertar="INSERT INTO sec_web.embarque_ventana (num_envio,corr_enm,cod_bulto,num_bulto, ";
 					$Insertar.=" fecha_embarque,fecha_programacion,bulto_paquetes,bulto_peso,cod_marca,cod_producto";
 					$Insertar.=",cod_subproducto,cod_cliente,cod_puerto,cod_agente,cod_estiba,cod_acopio,cod_confirmado,";
 					$Insertar.=" tipo_embarque,tipo_enm_code,cod_nave,num_viaje,cod_sub_cliente,rut_cliente,fecha_envio,tipo) values(";
@@ -282,10 +287,10 @@
 					mysqli_query($link, $Actualizar);
 					$Fecha3 = date("Y-m-d");
 					$Datos3=explode('//',$Valores2);
-					while(list($Clave1,$Valor3)=each($Datos3))
+					foreach($Datos3 as $Clave1 => $Valor3)
 					{
 						$RutTrasp=$Valor3[0];
-						$Insertar="insert into relacion_transporte_inst_embarque ";	
+						$Insertar="INSERT INTO relacion_transporte_inst_embarque ";	
 						$Insertar.="(rut_transportista,corr_enm,fecha)  ";
 						$Insertar.= " values ('".$RutTrasp."','".$corr_enm."','".$Fecha3."')";
 						mysqli_query($link, $Insertar);

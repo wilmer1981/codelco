@@ -41,7 +41,7 @@
 						$FinoAu = str_replace(",","",substr($Linea,79,11));
 						if ($PesoSeco<>0 || $PesoHumedo<>0 || $FinoCu<>0 || $FinoAg<>0 || $FinoAu<>0)
 						{
-							$Insertar = "insert into age_web.recepciones (ano, mes, cod_producto, cod_subproducto, rut_proveedor, peso_seco, peso_humedo, fino_cu, fino_ag, fino_au) ";
+							$Insertar = "INSERT INTO age_web.recepciones (ano, mes, cod_producto, cod_subproducto, rut_proveedor, peso_seco, peso_humedo, fino_cu, fino_ag, fino_au) ";
 							$Insertar.= " VALUES('".$Ano."','".$Mes."','1','".trim($SubProducto)."','".trim($RutProveedor)."','".$PesoSeco."','".$PesoHumedo."','".$FinoCu."','".$FinoAg."','".$FinoAu."')";
 							mysqli_query($link, $Insertar);		
 						}

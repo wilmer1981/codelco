@@ -18,7 +18,7 @@
 			}
 			$FechaAux1 = date("Y-m-d", mktime(0,0,0,$Mes+1,1,$Ano));
 			$FechaAux2 = date("Y-m-d", mktime(0,0,0,intval(substr($FechaAux1,5,2)),1-1,intval(substr($FechaAux1,0,4))));
-			$Insertar = "insert into ram_web.stock_piso ";
+			$Insertar = "INSERT INTO ram_web.stock_piso ";
 			$Insertar.= " (fecha,cod_existencia,cod_producto,cod_subproducto,peso_humedo, peso_seco, fino_cu, fino_ag, fino_au, fino_as, tipo_calculo) ";
 			$Insertar.= " VALUES('".$FechaAux2."','01','".$Producto."','".$SubProducto."','".$PesoHum."',";
 			$Insertar.= " '".$P_Seco."','".$F_Cu."','".$F_Ag."','".$F_Au."','".$F_As."','".$ChkLeyes."')";

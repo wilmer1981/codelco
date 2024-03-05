@@ -13,7 +13,7 @@
 			$EstOpe = "";
 			$Mensaje = "";
 			//INSERTA EN LA TABLA LOTE
-			$Insertar = "insert into age_web.lotes (lote, cod_producto, cod_subproducto, rut_proveedor, fecha_recepcion, cancha, ";
+			$Insertar = "INSERT INTO age_web.lotes (lote, cod_producto, cod_subproducto, rut_proveedor, fecha_recepcion, cancha, ";
 			$Insertar.= "cod_faena, cod_recepcion, clase_producto, num_conjunto, muestra_paralela, remuestreo, num_lote_remuestreo, estado_lote, modificado, cod_recepcion_enm) ";
 			$Insertar.= " values('".$TxtLote."','1', '".$CmbSubProducto."','".$CmbProveedor."', '".$TxtFechaRecep."', '".$TxtCancha."', '".$CmbCodFaena."', ";
 			$Insertar.= " '".$CmbCodRecepcion."', '".$CmbClaseProducto."', '".$TxtConjunto."', '".$TxtMuestraParalela."', '".$Remuestreo."', '".$TxtLoteRemuestreo."',";
@@ -31,7 +31,7 @@
 				$Mensaje.= ", ".mysql_error($link)."<br>";
 			}	
 			//INSERTA EN LA TABLA DETALLE_LOTE
-			$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+			$Insertar = "INSERT INTO age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
 			$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo, modificado) ";
 			$Insertar.= " values('".$TxtLote."','".intval($TxtRecargo)."', '".$TxtFolio."','".$TxtCorrelativo."', '".$TxtFechaRecep."', '', ";
 			$Insertar.= " '', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
@@ -330,7 +330,7 @@
 			break;
 		case "NR": //NUEVO RECARGO
 			//INSERTA EN LA TABLA DETALLE_LOTE EL NUEVO RECARGO
-			$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+			$Insertar = "INSERT INTO age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
 			$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo,modificado) ";
 			$Insertar.= " values('".$TxtLote."','".intval($TxtRecargo)."', '".$TxtFolio."','".$TxtCorrelativo."', '".$TxtFechaRecep."', '', ";
 			$Insertar.= " '', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
@@ -656,7 +656,7 @@
 						if($EntradaLote!='')
 						{
 							//--------------INSERTAR EN LOTE------------	
-							$Insertar = "insert into age_web.lotes_temp (lote,cod_producto, cod_subproducto, rut_proveedor, fecha_recepcion, cancha, ";
+							$Insertar = "INSERT INTO age_web.lotes_temp (lote,cod_producto, cod_subproducto, rut_proveedor, fecha_recepcion, cancha, ";
 							$Insertar.= "cod_faena, cod_recepcion, clase_producto,num_conjunto, estado_lote, modificado, cod_recepcion_enm) ";
 							$Insertar.= " values('".$EntradaLote."','1','".$CmbSubProducto."','".$CmbProveedor."', '".$TxtFechaRecep."', '".$TxtCancha."', '".$CmbCodFaena."', ";
 							$Insertar.= " '".$CmbCodRecepcion."', '".$CmbClaseProducto."', '".$TxtConjunto."',";
@@ -701,7 +701,7 @@
 								$correl = $Row[correl];
 							$correl = $correl + 1;
 							
-							$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+							$Insertar = "INSERT INTO age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
 							$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo, modificado,observacion) ";
 							$Insertar.= " values('".$TxtLoteMod."','".intval($Recargo)."', '0','".$correl."', '".$TxtFechaRecep."', '0:00:00', ";
 							$Insertar.= " '0:00:00', 'N', '".$PesoBruto."', '".$PesoTara."', '".$PesoNeto."', '".$GuiaDes."', ";
@@ -757,7 +757,7 @@
 							if($FILALote=mysql_fetch_assoc($RESP))
 								$LotesNo=$LotesNo."G~".$GuiaDes."~L~".$EntradaLote."~R~".$Recargo."//".$FILALote[lote];
 							
-							$Insertar = "insert into age_web.lotes_temp_detalle (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+							$Insertar = "INSERT INTO age_web.lotes_temp_detalle (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
 							$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo, modificado,observacion,pastas,impurezas,humedad,peso_seco,obsloten) ";
 							$Insertar.= " values('".$EntradaLote."','".intval($Recargo)."', '0','".$correl."', '".$TxtFechaRecep."', '0:00:00', ";
 							$Insertar.= " '0:00:00', 'N', '".$PesoBruto."', '".$PesoTara."', '".$PesoNeto."', '".$GuiaDes."', ";
@@ -855,7 +855,7 @@
 									//echo "ACTUALIZA EL DATO DEL CORRELATIVO SIPA".$Actualizar."<br>";
 									mysql_query($Actualizar);
 		
-									$Insertar = "insert into age_web.lotes (lote,cod_producto, cod_subproducto, rut_proveedor, fecha_recepcion, cancha, ";
+									$Insertar = "INSERT INTO age_web.lotes (lote,cod_producto, cod_subproducto, rut_proveedor, fecha_recepcion, cancha, ";
 									$Insertar.= "cod_faena, cod_recepcion, clase_producto,num_conjunto, estado_lote, modificado, cod_recepcion_enm) ";
 									$Insertar.= " values('".$TxtLoteMod."','1','".$CmbSubProducto."','".$RutProveedor."', '".$FechaRecepcion."', '".$Cancha."', '".$Cod_Faena."', ";
 									$Insertar.= " '".$CodRecepcion."', '".$ClaseProducto."', '".$NumConjunto."',";
@@ -913,7 +913,7 @@
 										$correl = $Row[correl];
 									$correl = $correl + 1;
 									
-									$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+									$Insertar = "INSERT INTO age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
 									$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo, modificado,observacion,pastas,impurezas) ";
 									$Insertar.= " values('".$TxtLoteMod."','".intval($Recargo)."', '0','".$correl."', '".$FechaRecarDet."', '0:00:00', ";
 									$Insertar.= " '0:00:00', '".$FinLote."', '".$PesoBruto."', '".$PesoTara."', '".$PesoNeto."', '".$GuiaDespa."', ";

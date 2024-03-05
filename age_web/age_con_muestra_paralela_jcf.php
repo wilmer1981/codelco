@@ -309,7 +309,7 @@ if ($Mostrar=="S")
 						$LoteR=$LoteR."@".$Row[lote];
 						$cuenta = $cuenta + 1;
 					 }
-					 $Inserto ="insert into  age_web.tmp_control(lote_t) values ('".$Lote."')";
+					 $Inserto ="INSERT INTO  age_web.tmp_control(lote_t) values ('".$Lote."')";
 					 mysqli_query($link, $Inserto);
 					 //echo $Inserto;
 				 }

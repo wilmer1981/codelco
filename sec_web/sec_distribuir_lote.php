@@ -1,5 +1,10 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");
+
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$PesoCalculado  = isset($_REQUEST["PesoCalculado"])?$_REQUEST["PesoCalculado"]:0;
+	$TxtNumBultoFin = isset($_REQUEST["TxtNumBultoFin"])?$_REQUEST["TxtNumBultoFin"]:"";
+
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
 	{
@@ -20,11 +25,7 @@
 	$Consulta="SELECT max(num_paquete) as numbultofin from sec_web.lote_catodo where cod_bulto='".$CodBulto."' and num_bulto=".$NumBulto." and corr_enm=".$IE;
 	$Respuesta=mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Respuesta);
-	$NumBultoFinal=$Fila[numbultofin];
-	if (!isset($PesoCalculado))
-	{
-		$PesoCalculado=0;
-	}
+	$NumBultoFinal=$Fila["numbultofin"];
 ?>
 <html>
 <head>

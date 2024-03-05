@@ -36,7 +36,7 @@ function SapValidos($ProdAux, $AnoAux, $MesAux, $link)
 	{
 			$Referencia = "";
 			$Referencia ="$anito$MesAux$FilaAux["corr_enm"]";
-			$Inserta = "insert into interfaces_codelco.tmp_control_pas (ano,mes,referencia) ";
+			$Inserta = "INSERT INTO interfaces_codelco.tmp_control_pas (ano,mes,referencia) ";
 			$Inserta.=" values(".$AnoAux.",".$MesAux.",'".$Referencia."')";
 			mysqli_query($link, $Inserta);
 	}

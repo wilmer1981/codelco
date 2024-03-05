@@ -2,27 +2,31 @@
 	include("../principal/conectar_sec_web.php");
 
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	$Salir = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+	//$Salir = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+
+	echo "Valores:".$Valores;
+	//Valores:63838 ~~ CATODOS ~~ CATODOS GRADO A ~~ 18 ~~ 40 ~~ 200000 ~~ C~~ ~~ ~~ ~~ ~~
 
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
 	{
-		$Datos2=explode('~~',$Valor);
-		$TxtIE=$Datos2[0];
-		$NombreProducto=$Datos2[1];
-		$NombreSubProducto=$Datos2[2];
-		$CodProducto=$Datos2[3];
-		$CodSubProducto=$Datos2[4];
-		$TxtPeso=$Datos2[5];
-		$TipoIE=$Datos2[6];
-		$TxtPesoPrep=$Datos2[7];
-		$CodMarca=$Datos2[10];
+		$Datos2            = explode('~~',$Valor);
+		$TxtIE             = $Datos2[0];
+		$NombreProducto    = $Datos2[1];
+		$NombreSubProducto = $Datos2[2];
+		$CodProducto       = $Datos2[3];
+		$CodSubProducto    = $Datos2[4];
+		$TxtPeso           = $Datos2[5];
+		$TipoIE            = $Datos2[6];
+		$TxtPesoPrep       = $Datos2[7];
+		$CodMarca          = $Datos2[10];
 		if ($TxtPesoPrep=='')
 		{
 			$TxtPesoPrep=0;
 		}
 		$Consulta="SELECT descripcion from sec_web.marca_catodos where cod_marca='".$CodMarca."'";
 		$Respuesta=mysqli_query($link, $Consulta);
+		$Marca="";
 		if ($Fila=mysqli_fetch_array($Respuesta))
 		{
 			$Marca=$Fila["descripcion"];
@@ -30,7 +34,7 @@
 		
 	}
 
-$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
+	$Consulta="SELECT peso_rango from  sec_web.sec_parametro_peso";
 	$rs = mysqli_query($link, $Consulta);
 	if ($row = mysqli_fetch_array($rs))
 	{
@@ -180,7 +184,8 @@ function Salir()
 			<td align="left" class="Detalle01" >
 				<?php
 				echo "IE:&nbsp;$TxtIE&nbsp;&nbsp;|&nbsp;&nbsp;Peso:&nbsp;$TxtPeso&nbsp;&nbsp;|Peso Preparado:&nbsp;$TxtPesoPrep&nbsp;&nbsp;|&nbsp;&nbsp;Marca:&nbsp;$Marca&nbsp;($CodMarca)";
-				echo "<input TYPE='hidden' name='TxtIE' value='$TxtIE'><input TYPE='hidden' name='TxtIE' value='$Peso'>";
+				echo "<input TYPE='hidden' name='TxtIE' value='$TxtIE'>";
+				//echo "<input TYPE='hidden' name='TxtIE' value='$TxtIE'><input TYPE='hidden' name='TxtIE' value='$Peso'>";
 				?>
 			</td>
 		</tr>
@@ -211,7 +216,7 @@ function Salir()
 		<div style="position:absolute; left: 20px; top: 75px; width: 735px; height: 245px; OVERFLOW: auto;" id="div2">
 		<?php
 			echo "<table width='715' border='1' cellpadding='1' cellspacing='0' class='tablainterior'>";
-			$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
+			$CrearTmp ="CREATE TEMPORARY TABLE IF NOT EXISTS sec_web.tmpprograma "; 
 			$CrearTmp =$CrearTmp."(corr_ie bigint(8),cantidad_programada bigint(8),fecha_disponible date,";
 			$CrearTmp =$CrearTmp."cod_producto varchar(10),producto varchar(30),";
 			$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar(30),descripcion varchar(10))";
@@ -265,7 +270,7 @@ function Salir()
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Insertar="INSERT INTO sec_web.tmpprograma (corr_ie,cantidad_programada,cod_producto,producto,cod_subproducto,subproducto,fecha_disponible,descripcion) values(";
-				$Insertar=$Insertar."$Fila["corr_virtual"],$Fila[peso_programado],'$Fila["cod_producto"]','$Fila["nombre_producto"]','".$Fila["cod_subproducto"]."','$Fila[nombre_subproducto]','".$Fila["fecha_embarque"]."','$Fila["descripcion"]')";
+				$Insertar=$Insertar."'".$Fila["corr_virtual"]."','".$Fila["peso_programado"]."','".$Fila["cod_producto"]."','".$Fila["nombre_producto"]."','".$Fila["cod_subproducto"]."','".$Fila["nombre_subproducto"]."','".$Fila["fecha_embarque"]."','".$Fila["descripcion"]."')";
 				mysqli_query($link, $Insertar);   
 			}
 			$Consulta="SELECT * from sec_web.tmpprograma order by fecha_disponible";
@@ -278,18 +283,18 @@ function Salir()
 				$Consulta="SELECT t1.cod_bulto,t1.num_bulto,sum(t2.peso_paquetes) as peso_preparado,t1.cod_marca,t3.descripcion as marca from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 on ";
 				$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete and t1.fecha_creacion_paquete=t2.fecha_creacion_paquete ";
 				$Consulta=$Consulta." left join sec_web.marca_catodos t3 on t1.cod_marca=t3.cod_marca ";
-				$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a' and t2.cod_estado='a' group by t1.corr_enm,t1.cod_bulto,t1.num_bulto order by t1.fecha_creacion_lote desc";
+				$Consulta=$Consulta." where t1.corr_enm='".$Fila["corr_ie"]."' and t1.cod_estado='a' and t2.cod_estado='a' group by t1.corr_enm,t1.cod_bulto,t1.num_bulto order by t1.fecha_creacion_lote desc";
 				//$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
 				//echo $Consulta;
 				$Respuesta2=mysqli_query($link, $Consulta);
 				if ($Fila2=mysqli_fetch_array($Respuesta2))
 				{
 					$Consulta="SELECT max(num_paquete) as num_bulto from sec_web.lote_catodo t1";
-					$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a'";
+					$Consulta=$Consulta." where t1.corr_enm='".$Fila["corr_ie"]."' and t1.cod_estado='a'";
 					$Respuesta3=mysqli_query($link, $Consulta);
 					$Fila3=mysqli_fetch_array($Respuesta3);
 					$Consulta="SELECT count(*) as cantpaquetes from sec_web.lote_catodo t1";
-					$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a'";
+					$Consulta=$Consulta." where t1.corr_enm='".$Fila["corr_ie"]."' and t1.cod_estado='a'";
 					$Respuesta4=mysqli_query($link, $Consulta);
    //  echo $Consulta;
 					$Fila4=mysqli_fetch_array($Respuesta4);

@@ -43,7 +43,7 @@
 				}
 				else
 				{
-					$Insertar = "insert into age_web.ajustes(ano, mes, cod_producto, cod_subproducto, rut_proveedor ";
+					$Insertar = "INSERT INTO age_web.ajustes(ano, mes, cod_producto, cod_subproducto, rut_proveedor ";
 					switch ($CodLeyes)
 					{
 						case "01":
@@ -105,7 +105,7 @@
 			else
 			{
 				//INSERTO
-				$Insertar = "insert into age_web.ajustes(ano, mes, cod_producto, cod_subproducto, ";
+				$Insertar = "INSERT INTO age_web.ajustes(ano, mes, cod_producto, cod_subproducto, ";
 				$Insertar.= " rut_proveedor, peso_seco, fino_cu, fino_ag, fino_au)";
 				$Insertar.= " values ('".$CmbAno."','".$CmbMes."','1','".$CmbSubProducto."',";
 				$Insertar.= " '".$CmbProveedor."','".str_replace(",",".",$TxtAjuPeso)."',";

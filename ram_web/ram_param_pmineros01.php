@@ -3,7 +3,7 @@
 	switch ($Proceso)
 	{
 		case "G":
-			$Insertar = "insert into ram_web.flujo_rut ";
+			$Insertar = "INSERT INTO ram_web.flujo_rut ";
 			$Insertar.= " (cod_existencia, cod_producto, cod_subproducto, rut, destino, flujo, nodo) ";
 			$Insertar.= " VALUES('".$Tipo."','".$Producto."','".$SubProducto."','".$Rut."','".$Destino."','".$Flujo."', '".$Nodo."')";
 			mysqli_query($link, $Insertar);

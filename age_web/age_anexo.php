@@ -69,7 +69,7 @@
 				//GRABA DATOS EN FLUJO MES
 				if ($Flujo!="0" && $Flujo!="" && !is_null($Flujo) && $Flujo!="S" )
 				{
-					$Insertar = "insert into age_web.flujos_mes(ano, mes, flujo, peso, fino_cu, fino_ag, fino_au)";
+					$Insertar = "INSERT INTO age_web.flujos_mes(ano, mes, flujo, peso, fino_cu, fino_ag, fino_au)";
 					$Insertar.= " values('".$Ano."','".$Mes."','".$Flujo."','".$ArrDatosFlujo["peso_seco"]."','".$Fino_Cu."','".$Fino_Ag."','".$Fino_Au."')";
 					mysqli_query($link, $Insertar);
 					//echo $Insertar."<br>";

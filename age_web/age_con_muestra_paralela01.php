@@ -101,7 +101,7 @@
 						{
 							$Provisional=$FilaAux["provisional"];
 						}
-						$Insertar = "insert into age_web.leyes_por_lote (lote, recargo, cod_leyes, valor, cod_unidad, valor2, provisional,modificado,ano) ";
+						$Insertar = "INSERT INTO age_web.leyes_por_lote (lote, recargo, cod_leyes, valor, cod_unidad, valor2, provisional,modificado,ano) ";
 						$Insertar.= " values('".$Remuestreo."','".$FilaAux["recargo"]."','".$FilaAux["cod_leyes"]."','".$FilaAux["valor"]."','".$FilaAux["cod_unidad"]."','".$FilaAux["valor2"]."',";
 						$Insertar.="'".$Provisional."','S','".$FilaAux["ano"]."')";
 						mysqli_query($link, $Insertar);

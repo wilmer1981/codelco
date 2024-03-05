@@ -78,7 +78,7 @@
 			$respue=mysqli_query($link, $Consu);
 			while($Row=mysqli_fetch_array($respue))
 			{
-				$InserTmp="insert into age_web.tmp_lotes (lote,cod_producto,cod_subproducto,fecha_recepcion,rut_proveedor)";
+				$InserTmp="INSERT INTO age_web.tmp_lotes (lote,cod_producto,cod_subproducto,fecha_recepcion,rut_proveedor)";
 				$InserTmp.=" values ('".$Row["lote"]."','".$Row["cod_producto"]."','".$Row["cod_subproducto"]."','".$Row["fecha_recepcion"]."',";
 				$InserTmp.="'".$Row["rut_proveedor"]."')";
 				mysqli_query($link, $InserTmp);
@@ -282,7 +282,7 @@
 					//echo "FLUJO:".$Flujo."<br>";
 					if ($Flujo!="0" && $Flujo!="" && !is_null($Flujo) && $Flujo!="S" )
 					{
-						$Insertar = "insert into age_web.flujos_mes(ano, mes, flujo, peso, fino_cu, fino_ag, fino_au)";
+						$Insertar = "INSERT INTO age_web.flujos_mes(ano, mes, flujo, peso, fino_cu, fino_ag, fino_au)";
 						$Insertar.= " values('".$Ano."','".$Mes."','".$Flujo."','".$TotalPesoSeco."','".$TotalFinoCu."','".$TotalFinoAg."','".$TotalFinoAu."')";
 						mysqli_query($link, $Insertar);
 						$TotalPesoSeco=0;$TotalFinoCu=0;$TotalFinoAg=0;$TotalFinoAu=0;

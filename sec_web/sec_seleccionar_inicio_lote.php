@@ -1,5 +1,6 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");
+
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$Valores2 = isset($_REQUEST["Valores2"])?$_REQUEST["Valores2"]:"";
 
@@ -73,7 +74,7 @@ function Salir()
 					$Datos2=explode('~~',$Valor);
 					$IEVirtual=$Datos2[0];
 					$Consulta="SELECT cod_bulto,num_bulto,cod_marca";
-					$Consulta=$Consulta." from sec_web.lote_catodo where corr_enm=".$IEVirtual." and cod_estado='a' ";
+					$Consulta=$Consulta." from sec_web.lote_catodo where corr_enm='".$IEVirtual."' and cod_estado='a' ";
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
 					$Consulta="SELECT descripcion from sec_web.marca_catodos where cod_marca='".$Fila["cod_marca"]."'";

@@ -5,8 +5,12 @@
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 	$TipoIE = isset($_REQUEST["TipoIE"])?$_REQUEST["TipoIE"]:"Normal";
-	$Error = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"Error";
-	$Salir = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+	$Error  = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"Error";
+	$Salir  = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+
+	$Msj    = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
+	//$Mensaje    = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	
 	/*
 	if(isset($_REQUEST["Msj"])){
 		$Msj = $_REQUEST["Msj"];
@@ -421,7 +425,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 			{
 			
 				case "Normal":
-					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
+					$CrearTmp ="CREATE TEMPORARY table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cliente_nave varchar(30),fecha date,fecha_programacion date,";
 					$CrearTmp =$CrearTmp."cantidad_programada double,num_prog_loteo varchar(3),cod_producto varchar(10),producto varchar(30),";
 					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar (30),pto_destino varchar (30),pto_emb varchar (30),";
@@ -480,7 +484,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta="SELECT * from sec_web.tmpprograma where estado <> 'T' order by fecha_disponible";
 					break;
 				case "Virtual":
-					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
+					$CrearTmp ="CREATE TEMPORARY table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cantidad_programada bigint(8),fecha_disponible date,";
 					$CrearTmp =$CrearTmp."cod_producto varchar(10),producto varchar(30),";
 					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar(30),descripcion varchar(10),origen varchar(20))";
@@ -503,7 +507,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta="SELECT * from sec_web.tmpprograma order by corr_ie";	
 					break;
 				case "Completas":
-					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
+					$CrearTmp ="CREATE TEMPORARY table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cliente_nave varchar(30),fecha date,fecha_programacion date,";
 					$CrearTmp =$CrearTmp."cantidad_programada bigint(8),num_prog_loteo varchar(3),cod_producto varchar(10),producto varchar(30),";
 					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar (30),pto_destino varchar (30),pto_emb varchar (30),";
@@ -546,7 +550,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta="SELECT * from sec_web.tmpprograma order by fecha_disponible";
      // echo "RR".$Consulta;
 					break;
-					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
+					$CrearTmp ="CREATE TEMPORARY table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cliente_nave varchar(30),fecha date,fecha_programacion date,";
 					$CrearTmp =$CrearTmp."cantidad_programada bigint(8),num_prog_loteo varchar(3),cod_producto varchar(10),producto varchar(30),";
 					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar (30),pto_destino varchar (30),pto_emb varchar (30),";
@@ -573,7 +577,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					break;	
 					
 				case "NormalVentanas":
-					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
+					$CrearTmp ="CREATE TEMPORARY table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cliente_nave varchar(30),fecha date,fecha_programacion date,";
 					$CrearTmp =$CrearTmp."cantidad_programada double(10,3),num_prog_loteo varchar(3),cod_producto varchar(10),producto varchar(30),";
 					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar (30),pto_destino varchar (30),pto_emb varchar (30),";
@@ -599,7 +603,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta="SELECT * from sec_web.tmpprograma order by fecha_disponible";
 					break;	
 				case "Ventanas":
-					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
+					$CrearTmp ="CREATE TEMPORARY table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cliente_nave varchar(30),fecha date,fecha_programacion date,";
 					$CrearTmp =$CrearTmp."cantidad_programada double(10,3),num_prog_loteo varchar(3),cod_producto varchar(10),producto varchar(30),";
 					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar (30),pto_destino varchar (30),pto_emb varchar (30),";
@@ -662,32 +666,37 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					}	
 					$MostrarBoton=true; 
 					$Cont2++;
-					echo "<td width='10' align='center'><input type='radio' name='OptSeleccionar' value='".$Fila["corr_ie"]."~~".$Fila["producto"]."~~".$Fila["subproducto"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."~~".($Fila["cantidad_programada"]*1000)."~~".$Fila["tipoie"]."~~".$Fila2["peso_preparado"]."~~".$Fila2["cod_bulto"]."~~".$Fila2["num_bulto"]."~~".$Fila2["cod_marca"]."~~".$Fila["estado"]."'></td>";
+
+					$corr_ie = isset($Fila["corr_ie"])?$Fila["corr_ie"]:"";
+					$producto = isset($Fila["producto"])?$Fila["producto"]:"";
+					$subproducto = isset($Fila["subproducto"])?$Fila["subproducto"]:"";
+					$cod_producto = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
+					$cod_subproducto = isset($Fila["cod_subproducto"])?$Fila["cod_subproducto"]:"";
+					$cantidad_programada = isset($Fila["cantidad_programada"])?$Fila["cantidad_programada"]:0;
+					$tipoie              = isset($Fila["tipoie"])?$Fila["tipoie"]:"";
+					$peso_preparado = isset($Fila2["peso_preparado"])?$Fila2["peso_preparado"]:0;
+					$cod_bulto      = isset($Fila2["cod_bulto"])?$Fila2["cod_bulto"]:"";
+					$num_bulto      = isset($Fila2["num_bulto"])?$Fila2["num_bulto"]:"";
+					$cod_marca      = isset($Fila2["cod_marca"])?$Fila2["cod_marca"]:"";
+					$estado         = isset($Fila2["estado"])?$Fila2["estado"]:"";
+
+					echo "<td width='10' align='center'><input type='radio' name='OptSeleccionar' value='".$corr_ie."~~".$producto."~~".$subproducto."~~".$cod_producto."~~".$cod_subproducto."~~".($cantidad_programada*1000)."~~".$tipoie."~~".$peso_preparado."~~".$cod_bulto."~~".$num_bulto."~~".$cod_marca."~~".$estado."'></td>";
+					//echo "<td width='10' align='center'><input type='radio' name='OptSeleccionar' value='".$Fila["corr_ie"]."~~".$Fila["producto"]."~~".$Fila["subproducto"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."~~".($Fila["cantidad_programada"]*1000)."~~".$Fila["tipoie"]."~~".$Fila2["peso_preparado"]."~~".$Fila2["cod_bulto"]."~~".$Fila2["num_bulto"]."~~".$Fila2["cod_marca"]."~~".$Fila["estado"]."'></td>";
 					echo "<td width='40' align='center'>".$Fila["num_prog_loteo"]."</td>";
 					echo "<td width='40'  onMouseOver='JavaScript:muestra(".$Cont2.");' onMouseOut='JavaScript:oculta(".$Cont2.");' bgcolor='#cccccc'>";
 					echo "<div id='Txt".$Cont2."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:550px'>\n";
-					echo "<font face='courier' color='#000000' size=1><b>Producto:&nbsp;</b>".$Fila["producto"]."&nbsp;<b>Sub-Producto:&nbsp;</b>".$Fila["subproducto"]." </font><br>";
+					echo "<font face='courier' color='#000000' size=1><b>Producto:&nbsp;</b>".$producto."&nbsp;<b>Sub-Producto:&nbsp;</b>".$subproducto." </font><br>";
 					echo "<font face='courier' color='#000000' size=1><b>Puerto Embarque: </b>".$Fila["pto_emb"]."&nbsp;<b>Puerto Destino: </b>".$Fila["pto_destino"]."</font><br>";
 					echo "<font face='courier' color='#000000' size=1><b>Descripcion: </b>".$Valor["descripcion"]."</font><br>";
-					echo "</div>".$Fila["corr_ie"]."</td>";
-					echo "<td width='160'>".$Fila["subproducto"]."&nbsp;</td>";
+					echo "</div>".$corr_ie."</td>";
+					echo "<td width='160'>".$subproducto."&nbsp;</td>";
 					echo "<td width='160'>".$Fila["cliente_nave"]."&nbsp;</td>";
 					echo "<td width='100' align='center'>".$Fila["fecha_disponible"]."</td>";
-					echo "<td width='60' align='right'>".($Fila["cantidad_programada"]*1000)."</td>";
-					echo "<td width='60' align='right'>".$Fila2["peso_preparado"]."&nbsp;</td>";
-					if(isset($Fila2["peso_preparado"])){
-						$Fil2=$Fila2["peso_preparado"];
-					}else{
-						$Fil2=0;
-					}
-					if(isset($Fila["cantidad_programada"])){
-						$Fil=$Fila["cantidad_programada"];
-					}else{
-						$Fil=0;
-					}
+					echo "<td width='60' align='right'>".($cantidad_programada*1000)."</td>";
+					echo "<td width='60' align='right'>".$peso_preparado."&nbsp;</td>";
 					//echo "<td width='60' align='right'>".abs($Fila["cantidad_programada"]*1000-$Fila2["peso_preparado"])."&nbsp;</td>";
-					echo "<td width='60' align='right'>".abs($Fil*1000-$Fil2)."&nbsp;</td>";
-					if ($Fila2["cod_bulto"]!="")
+					echo "<td width='60' align='right'>".abs((int)$cantidad_programada*1000-(int)$peso_preparado)."&nbsp;</td>";
+					if ($cod_bulto!="")
 					{
 					//echo "VV".$Fila2["fecha"];
 						echo "<td width='60' align='right'><a href=\"JavaScript:MostrarPaquetes('".$Fila2["cod_bulto"]."','".$Fila2["num_bulto"]."','".$Fila["corr_ie"]."','".$Fila2["fecha"]."')\">\n";
@@ -699,7 +708,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					}					
 					echo "<td width='40' align='center'>".$Fila["estado"]."&nbsp;</td>";
 					
-					$TotalPesoPrep=$TotalPesoPrep+$Fila2["peso_preparado"];
+					$TotalPesoPrep = $TotalPesoPrep + (int)$peso_preparado;
 					$Fila2["cod_bulto"]="";
 					$Fila2["num_bulto"]="";
 					$Fila2["peso_preparado"]="";
@@ -719,18 +728,34 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 						//if($Fila["corr_ie"]=='904807')
 												
 						$Cont2++;
+
+						$corr_ie = isset($Fila["corr_ie"])?$Fila["corr_ie"]:"";
+						$producto = isset($Fila["producto"])?$Fila["producto"]:"";
+						$subproducto = isset($Fila["subproducto"])?$Fila["subproducto"]:"";
+						$cod_producto = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
+						$cod_subproducto = isset($Fila["cod_subproducto"])?$Fila["cod_subproducto"]:"";
+						$cantidad_programada = isset($Fila["cantidad_programada"])?$Fila["cantidad_programada"]:0;
+						$tipoie              = isset($Fila["tipoie"])?$Fila["tipoie"]:"";
+
+						$peso_preparado = isset($Fila2["peso_preparado"])?$Fila2["peso_preparado"]:0;
+						$cod_bulto      = isset($Fila2["cod_bulto"])?$Fila2["cod_bulto"]:"";
+						$num_bulto      = isset($Fila2["num_bulto"])?$Fila2["num_bulto"]:"";
+						$cod_marca      = isset($Fila2["cod_marca"])?$Fila2["cod_marca"]:"";
+						$estado         = isset($Fila2["estado"])?$Fila2["estado"]:"";
+
 						if($Fila["subproducto"]=='')
 							echo "<td width='20' align='center'><a href=JavaScript:EliminaVirtual('ELVir','".$Fila["corr_ie"]."','".$TipoIE."') class='SinBorde'><img src='../principal/imagenes/eliminar.png' border='0'></a></td>";
 						else
-							echo "<td width='20' align='center'>&nbsp;</td>";	
-						echo "<td width='20' align='center'><input type='radio' name='OptSeleccionar' value='".$Fila["corr_ie"]."~~".$Fila["producto"]."~~".$Fila["subproducto"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."~~".($Fila["cantidad_programada"]*1000)."~~".$Fila["tipoie"]."~~".$Fila2["peso_preparado"]."~~".$Fila2["cod_bulto"]."~~".$Fila2["num_bulto"]."~~".$Fila2["cod_marca"]."'></td>";
-						echo "<td width='40'>".$Fila["corr_ie"]."</td>";
-						echo "<td width='260'>".$Fila["subproducto"]."&nbsp;</td>";
+							echo "<td width='20' align='center'>&nbsp;</td>";
+
+						echo "<td width='20' align='center'><input type='radio' name='OptSeleccionar' value='".$corr_ie."~~".$producto."~~".$subproducto."~~".$cod_producto."~~".$cod_subproducto."~~".($cantidad_programada*1000)."~~".$tipoie."~~".$peso_preparado."~~".$cod_bulto."~~".$num_bulto."~~".$cod_marca."'></td>";
+						echo "<td width='40'>".$corr_ie."</td>";
+						echo "<td width='260'>".$subproducto."&nbsp;</td>";
 						echo "<td width='100' align='center'>".$Fila["fecha_disponible"]."</td>";
-						echo "<td width='80' align='right'>".'".$Fila["cantidad_programada"]."'."</td>";
-						echo "<td width='80' align='right'>".$Fila2["peso_preparado"]."&nbsp;</td>";
-						echo "<td width='80' align='right'>".abs($Fila["cantidad_programada"]-$Fila2["peso_preparado"])."&nbsp;</td>";
-						if ($Fila2["cod_bulto"]!="")
+						echo "<td width='80' align='right'>".$cantidad_programada."</td>";
+						echo "<td width='80' align='right'>".$peso_preparado."&nbsp;</td>";
+						echo "<td width='80' align='right'>".abs($cantidad_programada-$peso_preparado)."&nbsp;</td>";
+						if ($cod_bulto!="")
 						{
 						//echo "VVfff".$Fila2["fecha"];
 							echo "<td width='70' align='right'><a href=\"JavaScript:MostrarPaquetes('".$Fila2["cod_bulto"]."','".$Fila2["num_bulto"]."','".$Fila["corr_ie"]."','".$Fila2["fecha_creacion_lote"]."')\">\n";
@@ -740,7 +765,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 						{
 							echo "<td width='70' align='right'>&nbsp;</td>";
 						}
-						$TotalPesoPrep=$TotalPesoPrep+$Fila2["peso_preparado"];
+						$TotalPesoPrep = $TotalPesoPrep + $peso_preparado;
 						if ($Fila["origen"]==0)
 						{
 							echo "<td width='90' align='center'>".$Fila["descripcion"]."&nbsp;</td>";

@@ -30,7 +30,7 @@
 			}
 			else
 			{
-				$Insertar=" insert into interfaces_codelco.ordenes_produccion ";
+				$Insertar=" INSERT INTO interfaces_codelco.ordenes_produccion ";
 				$Insertar.=" (asignacion,cod_producto,cod_subproducto,codigo_op,cod_material_sap,unidad_medida, ";
 				$Insertar.=" centro,clase_valorizacion ";
 				$Insertar.=" ) values(";
