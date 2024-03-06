@@ -2,6 +2,10 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 3;
 	include("../principal/conectar_pac_web.php");
+
+	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$CmbTransporte  = isset($_REQUEST["CmbTransporte"])?$_REQUEST["CmbTransporte"]:"";
+	
 ?>
 <html>
 <head>
@@ -228,7 +232,7 @@ function Salir()
 			echo "<td width='60' align='left'>Transporte</td>";
 			//echo "<td width='70' align='left'>Marca</td>";
 			//echo "<td width='70' align='center'>Modelo</td>";
-			//echo "<td width='40' align='center'>Año</td>";
+			//echo "<td width='40' align='center'>Aï¿½o</td>";
 			echo "<td width='50' align='center'>Carga</td>";
 			echo "<td width='50' align='center'>Tara</td>";
 			echo "<td width='80' align='center'>Rev.Tecn.</td>";
@@ -236,19 +240,20 @@ function Salir()
 			echo "</tr>";
 			if ($CmbTransporte=='-1')
 			{
-				$Filtro='';
+				$Filtro="";
 			}
 			else
 			{
 				$Filtro="and t1.tipo='".$CmbTransporte."'";
 			}
-			$Consulta = "select t3.nombre as nombre_transp,t1.nro_patente,t1.marca,t1.modelo,t1.año,t1.carga,";
+			$Consulta = "select t3.nombre as nombre_transp,t1.nro_patente,t1.marca,t1.modelo,t1.aÃ±o,t1.carga,";
 			$Consulta = $Consulta." t1.tara,t1.fecha_rev_tecnica,t1.fecha_cert_estanque,t1.tipo ";
 			$Consulta = $Consulta." from pac_web.camiones_por_transportista t1 ";
 			$Consulta = $Consulta." inner join pac_web.transportista t3 on t1.rut_transportista=t3.rut_transportista ".$Filtro." order by nombre_transp";
 			$Resultado=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			echo "<input type='hidden' name='CheckPatente'><input type='hidden' name ='TxtPatenteO'>";
+			$Cont=0;
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				echo "<tr>"; 
@@ -258,9 +263,9 @@ function Salir()
 				echo "<td width='95'  onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' class='detalle01'>";
 				echo "<div id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:300px'>\n";
 				echo "<font face='courier' color='#000000' size=1><b>Nro Patente:&nbsp;&nbsp;: </b>".$Fila["nro_patente"]." <b>Marca: </b>".$Fila["marca"]."</font><br>";
-				echo "<font face='courier' color='#000000' size=1><b>Modelo: </b>".$Fila["modelo"]."        <b>Año: </b>".$Fila["año"]."</font><br>";
+				echo "<font face='courier' color='#000000' size=1><b>Modelo: </b>".$Fila["modelo"]."        <b>AÃ±o: </b>".$Fila["aÃ±o"]."</font><br>";
 				echo "</div>".$Fila["nro_patente"]."</td>";
-				switch ($Fila[tipo])
+				switch ($Fila["tipo"])
 				{
 					case "C":
 						echo "<td width='60' align='left'>Camion</td>";
@@ -274,7 +279,7 @@ function Salir()
 				}
 				//echo "<td width='70' align='left'>".$Fila["marca"]."</td>";
 				//echo "<td width='70' align='right'>".$Fila["modelo"]."</td>";
-				//echo "<td width='40' align='right'>".$Fila["año"]."</td>";
+				//echo "<td width='40' align='right'>".$Fila["aÃ±o"]."</td>";
 				echo "<td width='50' align='right'>".$Fila["carga"]."&nbsp;</td>";
 				echo "<td width='50' align='right'>".$Fila["tara"]."&nbsp;</td>";
 				if ((date($Fila["fecha_rev_tecnica"]))<(date('Y-m-d')))

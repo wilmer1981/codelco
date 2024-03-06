@@ -3,6 +3,35 @@
 	$CodigoDePantalla = 3;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$TipoTransp = isset($_REQUEST["TipoTransp"])?$_REQUEST["TipoTransp"]:"";	
+	$CmbTransp = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
+	$Marca = isset($_REQUEST["Marca"])?$_REQUEST["Marca"]:"";
+	$Modelo = isset($_REQUEST["Modelo"])?$_REQUEST["Modelo"]:"";
+	$Carga = isset($_REQUEST["Carga"])?$_REQUEST["Carga"]:"";	
+	$Tara = isset($_REQUEST["Tara"])?$_REQUEST["Tara"]:"";	
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";	
+	$Patente = isset($_REQUEST["Patente"])?$_REQUEST["Patente"]:"";	
+
+	$CmbDiaRT = isset($_REQUEST["CmbDiaRT"])?$_REQUEST["CmbDiaRT"]:date("d");	
+	$CmbMesRT = isset($_REQUEST["CmbMesRT"])?$_REQUEST["CmbMesRT"]:date("m");	
+	$CmbAnoRT = isset($_REQUEST["CmbAnoRT"])?$_REQUEST["CmbAnoRT"]:date("Y");
+	$CmbDiaCE = isset($_REQUEST["CmbDiaCE"])?$_REQUEST["CmbDiaCE"]:date("d");	
+	$CmbMesCE = isset($_REQUEST["CmbMesCE"])?$_REQUEST["CmbMesCE"]:date("m");	
+	$CmbAnoCE = isset($_REQUEST["CmbAnoCE"])?$_REQUEST["CmbAnoCE"]:date("Y");
+	
+	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";	
+	
+	
+
+	//$Patente="";
+	//$Marca="";
+	//$Modelo="";
+	//$Ano="";
+	//$Carga="";
+	//$Tara="";
 	switch($Proceso)
 	{
 		case "N":
@@ -16,7 +45,7 @@
 					$Patente=substr($Datos,0,$i);
 				}
 			}
-			$Consulta = "select t3.rut_transportista,t3.nombre as nombre_transp,t1.nro_patente,t1.marca,t1.modelo,t1.a�o,t1.carga,t1.tara,t1.fecha_rev_tecnica,t1.fecha_cert_estanque,t1.tipo,t1.tipo2 from pac_web.camiones_por_transportista t1 ";
+			$Consulta = "select t3.rut_transportista,t3.nombre as nombre_transp,t1.nro_patente,t1.marca,t1.modelo,t1.año,t1.carga,t1.tara,t1.fecha_rev_tecnica,t1.fecha_cert_estanque,t1.tipo,t1.tipo2 from pac_web.camiones_por_transportista t1 ";
 			$Consulta = $Consulta." inner join pac_web.transportista t3 on t1.rut_transportista=t3.rut_transportista where nro_patente ='".$Patente."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
@@ -24,7 +53,7 @@
 			$RutTransp=$Fila["rut_transportista"];
 			$Marca=$Fila["marca"];
 			$Modelo=$Fila["modelo"];
-			$A�o=$Fila["a�o"];
+			$Ano=$Fila["año"];
 			$Carga=$Fila["carga"];
 			$Tara=$Fila["tara"];
 			if (!is_null($Fila["fecha_rev_tecnica"]))
@@ -179,7 +208,7 @@ function Salir()
               <?php
 			  	if ($Proceso=='N')
 				{
-					if (isset($TipoTransp))
+					if ($TipoTransp)
 					{
 						switch ($TipoTransp)
 						{
@@ -249,7 +278,7 @@ function Salir()
 						$Respuesta=mysqli_query($link, $Consulta);
 						while ($Fila=mysqli_fetch_array($Respuesta))
 						{
-							echo "<option value ='$Fila[rut_transportista]'>$Fila[rut_transportista]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='".$Fila["rut_transportista"]."'>".$Fila["rut_transportista"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 						}
 						echo "</select></td>";
 					}	
@@ -298,7 +327,7 @@ function Salir()
 				{
 					echo "<td>Modelo</td>";
 					echo "<td><input type='text' name='TxtModelo' style='width:100' maxlength='30' value='$Modelo'>";
-					echo "A&ntilde;o <input type='text' name='TxtA&ntilde;o' style='width:40' maxlength='4' value='$A�o' onKeyDown='SoloNumeros();'></td>";			
+					echo "A&ntilde;o <input type='text' name='TxtAno' style='width:40' maxlength='4' value='$Ano' onKeyDown='SoloNumeros();'></td>";			
 				}
 				else
 				{
@@ -480,9 +509,9 @@ function Salir()
 						}
 						else
 						{
-							if (isset($CmbDiasCE))
+							if ($CmbDiaCE)
 							{
-							if ($i==$CmbDiasCE)
+							if ($i==$CmbDiaCE)
 							{
 								echo "<option selected value= '".$i."'>".$i."</option>";
 							}
@@ -521,7 +550,7 @@ function Salir()
 						}
 						else
 						{
-							if (isset($CmbMesCE))
+							if ($CmbMesCE)
 							{
 								if ($i==$CmbMesCE)
 								{
@@ -563,7 +592,7 @@ function Salir()
 						}
 						else
 						{
-							if (isset($CmbAnoCE))
+							if ($CmbAnoCE)
 							{
 								if ($i==$CmbAnoCE)
 									{
