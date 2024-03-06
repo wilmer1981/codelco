@@ -1,9 +1,29 @@
 <?php
 	include("../principal/conectar_pac_web.php");
-	$RutCliente=$TxtRut."-".$TxtDv;
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtRut  = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtDv = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$TxtPrecioUS = isset($_REQUEST["TxtPrecioUS"])?$_REQUEST["TxtPrecioUS"]:0;
+	$CmbTras     = isset($_REQUEST["CmbTras"])?$_REQUEST["CmbTras"]:"";
+	$TxtReferencia = isset($_REQUEST["TxtReferencia"])?$_REQUEST["TxtReferencia"]:"";
+	$TxtNombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtDireccion = isset($_REQUEST["TxtDireccion"])?$_REQUEST["TxtCiudad"]:"";
+	$TxtCiudad    = isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtDireccion"]:"";
+	$TxtTelefonos  = isset($_REQUEST["TxtTelefonos"])?$_REQUEST["TxtTelefonos"]:"";
+	$TxtFax    = isset($_REQUEST["TxtFax"])?$_REQUEST["TxtFax"]:"";
+	$TxtGiroCliente   = isset($_REQUEST["TxtGiroCliente"])?$_REQUEST["TxtGiroCliente"]:"";
+	$TxtGlosa  = isset($_REQUEST["TxtGlosa"])?$_REQUEST["TxtGlosa"]:"";
+	$TxtDivSAP  = isset($_REQUEST["TxtDivSAP"])?$_REQUEST["TxtDivSAP"]:"";
+	$TxtAlmacenSap  = isset($_REQUEST["TxtAlmacenSap"])?$_REQUEST["TxtAlmacenSap"]:"";
+	$TxtContrato  = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
+	$TxtCorrCliente  = isset($_REQUEST["TxtCorrCliente"])?$_REQUEST["TxtCorrCliente"]:"";
+	
+	$RutCliente       = $TxtRut."-".$TxtDv;
 	$TxtIndicadorTras = $CmbTras;
-	if($TxtPrecioUS=='')
-	$TxtPrecioUS=0;
+
 	switch ($Proceso)
 	{
 		case "N":
@@ -32,7 +52,7 @@
 			$EncontroRelacion=false;
 			$Valores=substr($Valores,0,strlen($Valores)-2);
 			$Datos=explode("//",$Valores);
-			while (list($Clave,$Valor)=each($Datos))
+			foreach($Datos as $Clave => $Valor)
 			{
 				$Datos2=explode("~",$Valor);			
 				$RutCliente=$Datos2[0];

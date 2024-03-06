@@ -1,5 +1,5 @@
 <?php 	
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
 		$filename = "";

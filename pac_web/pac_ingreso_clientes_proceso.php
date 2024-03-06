@@ -3,6 +3,27 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_pac_web.php");
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$TxtRut = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtDv  = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+	$Referencia = isset($_REQUEST["Referencia"])?$_REQUEST["Referencia"]:"";
+	$Nombre     = isset($_REQUEST["Nombre"])?$_REQUEST["Nombre"]:"";
+	$Direccion = isset($_REQUEST["Direccion"])?$_REQUEST["Ciudad"]:"";
+	$Ciudad    = isset($_REQUEST["Ciudad"])?$_REQUEST["Direccion"]:"";
+	$CmbTras   = isset($_REQUEST["CmbTras"])?$_REQUEST["CmbTras"]:"";
+	$Telefono  = isset($_REQUEST["Telefono"])?$_REQUEST["Telefono"]:"";
+	$Fax    = isset($_REQUEST["Fax"])?$_REQUEST["Fax"]:"";
+	$Precio = isset($_REQUEST["Precio"])?$_REQUEST["Precio"]:"";
+	$Giro   = isset($_REQUEST["Giro"])?$_REQUEST["Giro"]:"";
+	$Glosa  = isset($_REQUEST["Glosa"])?$_REQUEST["Glosa"]:"";
+	$DivSap  = isset($_REQUEST["DivSap"])?$_REQUEST["DivSap"]:"";
+	$AlmacenSap  = isset($_REQUEST["AlmacenSap"])?$_REQUEST["AlmacenSap"]:"";
+	$Contrato  = isset($_REQUEST["Contrato"])?$_REQUEST["Contrato"]:"";
+
+	$corr_interno_cliente="";
 	switch($Proceso)
 	{
 		case "N":
@@ -53,7 +74,7 @@
 			$Giro=$Fila["giro_cliente"];
 			$Contrato=$Fila["contrato"];
 			$Indicador=$Fila["indicador_traslado"];
-			$ConsultaIndTras= "select * from pac_web.pac_indicador_traslado where indicador=".$Indicador;
+			$ConsultaIndTras= "select * from pac_web.pac_indicador_traslado where indicador='".$Indicador."' ";
 				$ResultTras=mysqli_query($link, $ConsultaIndTras);
 				while ($FilaTras=mysqli_fetch_array($ResultTras))
 					{
@@ -186,12 +207,12 @@ function Salir()
 				$RespuestaInd=mysqli_query($link, $ConsultaInd);
 				while ($FilaIndTras=mysqli_fetch_array($RespuestaInd))
 				{
-					if ($Indicador==$FilaIndTras[indicador])
+					if ($Indicador==$FilaIndTras["indicador"])
 						{
-						echo "<option value ='$FilaIndTras[indicador]' selected>$FilaIndTras[indicador]&nbsp;-&nbsp;$FilaIndTras["nombre"]</option>";
+						echo "<option value ='".$FilaIndTras["indicador"]."' selected>".$FilaIndTras["indicador"]."&nbsp;-&nbsp;".$FilaIndTras["nombre"]."</option>";
 						}
 					else
-						echo "<option value ='$FilaIndTras[indicador]' >$FilaIndTras[indicador]&nbsp;-&nbsp;$FilaIndTras["nombre"]</option>";
+						echo "<option value ='".$FilaIndTras["indicador"]."' >".$FilaIndTras["indicador"]."&nbsp;-&nbsp;".$FilaIndTras["nombre"]."</option>";
 				}
 				echo "</select>";
 			?><span class=" InputRojo">(*)</span>
