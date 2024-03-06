@@ -11,7 +11,7 @@
 			//echo $Eliminar;
 			mysqli_query($link, $Eliminar);
 			$Datos=explode('//',$Valores);
-			while(list($c,$v)=each($Datos))
+			foreach($Datos as $c => $v)
 			{
 				$Datos2=explode('~~',$v);
 				$CodLey=$Datos2[0];

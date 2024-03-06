@@ -16,7 +16,7 @@
 	$ArrLeyes["01"][0]="01";
 	$Datos=explode('//',$TxtCodLeyes);
 	$ContLeyes=0;
-	while(list($c,$v)=each($Datos))
+	foreach($Datos as $c => $v)
 	{
 		$ContLeyes++;
 		$Datos2=explode('~',$v);

@@ -1,8 +1,16 @@
 <?php
 	include("../principal/conectar_fac_web.php");
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtMarca  = isset($_REQUEST["TxtMarca"])?$_REQUEST["TxtMarca"]:"";
+	$BuscarMarca  = isset($_REQUEST["BuscarMarca"])?$_REQUEST["BuscarMarca"]:"";
+	$TxtDes  = isset($_REQUEST["TxtDes"])?$_REQUEST["TxtDes"]:"";
+	$TxtDes1  = isset($_REQUEST["TxtDes1"])?$_REQUEST["TxtDes1"]:"";
+
 	$MarcaCatodo=$TxtMarca;
-	$Desceipcion=$TxtDes;
+	$Descripcion=$TxtDes;
 	$Descripcion1=$TxtDes1;
+
 	switch ($Proceso)
 	{
 		case "N":

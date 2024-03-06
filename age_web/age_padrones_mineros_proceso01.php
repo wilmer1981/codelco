@@ -18,7 +18,7 @@
 			break;
 		case "E"://ELIMINAR MINA/PLANTA
 			$Datos=explode('//',$Valores);
-			while(list($c,$v)=each($Datos))
+			foreach($Datos as $c => $v)
 			{
 				$Datos2=explode('~',$v);
 				$Eliminar ="delete from sipa_web.minaprv where cod_mina='$Datos2[1]' and rut_prv='$Datos2[0]'";

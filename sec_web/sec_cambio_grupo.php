@@ -2,6 +2,7 @@
 	include("../principal/conectar_principal.php");
 
   // NumI=4580&NumF=4590&MesI=D&Valores=D//4580//2022-04-02//c&CodigoLote=D&NumeroLote=4580&Ano=2022
+
 $NumI        = $_REQUEST["NumI"];
 $NumF        = $_REQUEST["NumF"];
 $MesI        = $_REQUEST["MesI"];
@@ -12,7 +13,7 @@ $NumeroLote  = $_REQUEST["NumeroLote"];
 $Ano         = $_REQUEST["Ano"];
 
 
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 ?>
 <html>
 <head>

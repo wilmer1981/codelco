@@ -17,7 +17,7 @@
 	$Datos=explode('//',$TxtCodLeyes);
 	$ContLeyes=0;
 	$LeyesImp='(';
-	while(list($c,$v)=each($Datos))
+	foreach($Datos as $c => $v)
 	{
 		$ContLeyes++;
 		$Datos2=explode('~',$v);

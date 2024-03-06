@@ -8,66 +8,22 @@
 	$Fecha_Hora = date("d-m-Y h:i");
 	$Fecha = date('Y-m-d');
 	$anito=substr($Fecha,0,4);
-
 	/*********************************************************** */
-	if(isset($_REQUEST["Ver"])){
-		$Ver = $_REQUEST["Ver"];
-	}else{
-		$Ver = "";
-	}
-	if(isset($_REQUEST["Mensaje"])){
-		$Mensaje = $_REQUEST["Mensaje"];
-	}else{
-		$Mensaje = "";
-	}
-	if(isset($_REQUEST["Mostrar"])){
-		$Mostrar = $_REQUEST["Mostrar"];
-	}else{
-		$Mostrar = "";
-	}
-	if(isset($_REQUEST["Mostrar2"])){
-		$Mostrar2 = $_REQUEST["Mostrar2"];
-	}else{
-		$Mostrar2 = "";
-	}
-	if(isset($_REQUEST["Mostrar3"])){
-		$Mostrar3 = $_REQUEST["Mostrar3"];
-	}else{
-		$Mostrar3 = "";
-	}
-	
-	if(isset($_REQUEST["NumBulto"])){
-		$NumBulto = $_REQUEST["NumBulto"];
-	}else{
-		$NumBulto = "";
-	}
-	if(isset($_REQUEST["CmbAno"])){
-		$CmbAno = $_REQUEST["CmbAno"];
-	}else{
-		$CmbAno = "";
-	}
-	if(isset($_REQUEST["CmbCodBulto"])){
-		$CmbCodBulto = $_REQUEST["CmbCodBulto"];
-	}else{
-		$CmbCodBulto = "";
-	}
-	if(isset($_REQUEST["CmbSerie"])){
-		$CmbSerie = $_REQUEST["CmbSerie"];
-	}else{
-		$CmbSerie = "";
-	}
-	if(isset($_REQUEST["CodBulto"])){
-		$CodBulto = $_REQUEST["CodBulto"];
-	}else{
-		$CodBulto = "";
-	}
-	if(isset($_REQUEST["Mes"])){
-		$Mes = $_REQUEST["Mes"];
-	}else{
-		$Mes = "";
-	}
+	$Ver     = isset($_REQUEST["Ver"])?$_REQUEST["Ver"]:"";
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Mensaje2 = isset($_REQUEST["Mensaje2"])?$_REQUEST["Mensaje2"]:"";
+	$Mostrar2 = isset($_REQUEST["Mostrar2"])?$_REQUEST["Mostrar2"]:"";
+	$Mostrar3 = isset($_REQUEST["Mostrar3"])?$_REQUEST["Mostrar3"]:"";
 
-	
+	$CodBulto = isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"";
+	$CmbSerie = isset($_REQUEST["CmbSerie"])?$_REQUEST["CmbSerie"]:"";	
+
+	$CmbAno      = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$Mes         = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$CmbCodBulto = isset($_REQUEST["CmbCodBulto"])?$_REQUEST["CmbCodBulto"]:"";
+	$NumBulto    = isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
+	$Mensaje3    = isset($_REQUEST["Mensaje3"])?$_REQUEST["Mensaje3"]:"";
 
 	/*********************************************************** */
 	//echo "hhhhhhhhhhhhhhhhhhhhhh".$Fecha."xx".$anito;
@@ -312,7 +268,7 @@ body{
 						{
 							echo "<option value='".$i."'>".$i."</option>";
 						}
-				}
+				}/*
 				else
 				{
 					if ($i==date("Y"))
@@ -323,7 +279,7 @@ body{
 						{
 							echo "<option value='".$i."'>".$i."</option>";
 						}
-				}		
+				}	*/	
 			}
 			?>
               </SELECT>
@@ -369,7 +325,7 @@ body{
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='3004' and cod_subclase='".$CmbCodBulto."' ";
 			$Respuesta0=mysqli_query($link, $Consulta);
 			$Fila0=mysqli_fetch_array($Respuesta0);
-			$CodBulto=$Fila0["nombre_subclase"];
+			$CodBulto=isset($Fila0["nombre_subclase"])?$Fila0["nombre_subclase"]:"";
 			$Consulta="SELECT distinct cod_bulto,num_bulto from sec_web.lote_catodo where   ";
 			$Consulta.=" substring(fecha_creacion_lote,1,4)='".$CmbAno."' and cod_bulto='".$CodBulto."' ";
 			$Consulta.="  order by cod_bulto,num_bulto	";
@@ -533,7 +489,10 @@ body{
 		$i=0;
 		while ($i < count($arreglo))
 		{
-			if ($arreglo[$i][0]==$arreglo[$i+1][0])
+			$arreglo0 = isset($arreglo[$i][0])?$arreglo[$i][0]:"";
+			$arreglo1 = isset($arreglo[$i+1][0])?$arreglo[$i+1][0]:"";
+			//if ($arreglo[$i][0]==$arreglo[$i+1][0])
+			if ($arreglo0==$arreglo1)
 			{
 				if($arreglo[$i][1]==($arreglo[$i+1][1]-1))
 				{
@@ -544,7 +503,10 @@ body{
 					}
 					else
 					{
-						if ($arreglo[$i+1][1]!=($arreglo[$i+2][1]-1))
+						$arreglo1 = isset($arreglo[$i+1][1])?$arreglo[$i+1][1]:"";
+						$arreglo2 = isset($arreglo[$i+2][1])?$arreglo[$i+2][1]:"";
+						//if ($arreglo[$i+1][1]!=($arreglo[$i+2][1]-1))
+						if ((int)$arreglo1!=((int)$arreglo2-1))
 						{
 							$vector[$a][1]=$arreglo[$i+1][0]."-".$arreglo[$i+1][1]."-".$arreglo[$i+1][2];//final
 							$sw=0;
@@ -573,7 +535,8 @@ body{
 			{
 				if ((count($arreglo)-$i)<=1)//fin del arreglo
 				{
-					if ($vector[$a][0]=="")
+					$vector0 = isset($vector[$a][0])?$vector[$a][0]:"";
+					if ($vector0=="")
 					{
 						$vector[$a][0]=$arreglo[$i][0]."-".$arreglo[$i][1]."-".$arreglo[$i][2];//inicial
 					}
@@ -611,7 +574,6 @@ body{
 			echo "<td width='92'>".$Inicial[0]."-".$Inicial[1]."</td>";
 			echo "<td width='92'>".$Final[0]."-".$Final[1]."</td>";
 			
-			
 			//echo "<td width='92'>".$Valor[0]."</td>";
 			//echo "<td width='92'>".$Valor[1]."</td>";
 			$MesPaqueteI=$Inicial[0];
@@ -642,27 +604,31 @@ body{
 			//$Consulta.="and substring(fecha_creacion_paquete,1,4)='".$CmbAno."' ";
 			$Consulta.=" and substring(fecha_creacion_paquete,1,4)=substr('".$Fechapi."',1,4)";
 			//$Consulta.=" and t1.cod_subproducto = t3.cod_subproducto";
-   
-
-   
-   
+      
            // poly 28-02-2008 lote A-2829 $Consulta.=" and t1.cod_subproducto = '".$subproducto_consulta."'";
 			$Consulta.="and t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
 			//echo "con".$Consulta;
 			$Respuesta3=mysqli_query($link, $Consulta);
 			$Fila3=mysqli_fetch_array($Respuesta3);
-			echo "<td width='221'>".$Fila3["descripcion"]."/".$Fila3["abreviatura"]."&nbsp;</td>";
+
+			$descripcion = isset($Fila3["descripcion"])?$Fila3["descripcion"]:"";
+			$abreviatura = isset($Fila3["abreviatura"])?$Fila3["abreviatura"]:"";
+			$cod_producto = isset($Fila3["cod_producto"])?$Fila3["cod_producto"]:"";
+			$cod_subproducto = isset($Fila3["cod_subproducto"])?$Fila3["cod_subproducto"]:"";
+
+			echo "<td width='221'>".$descripcion."/".$abreviatura."&nbsp;</td>";
 			$Consulta="SELECT sum(num_unidades) as unidades, sum(peso_paquetes) as paquetes from sec_web.paquete_catodo t1";
 			$Consulta.=" inner join sec_web.lote_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
 			$Consulta.=" and t1.num_paquete=t2.num_paquete ";					
 			$Consulta.=" where (t1.cod_paquete='".$MesPaqueteI."' and t1.num_paquete between '".$NumPaqueteI."' and '".$NumPaqueteF."' and t1.cod_estado=t2.cod_estado)  and  ";
-			$Consulta.=" t2.cod_bulto='".$CodBulto."' and t2.num_bulto='".$NumBulto."' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and LEFT(t2.fecha_creacion_lote,4) between '".$CmbAno."' and '".$anito."'  and t1.cod_producto='".$Fila3["cod_producto"]."' and t1.cod_subproducto='".$Fila3["cod_subproducto"]."'";
+			$Consulta.=" t2.cod_bulto='".$CodBulto."' and t2.num_bulto='".$NumBulto."' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and LEFT(t2.fecha_creacion_lote,4) between '".$CmbAno."' and '".$anito."'  and t1.cod_producto='".$cod_producto."' and t1.cod_subproducto='".$cod_subproducto."'";
 			//and t2.corr_enm='".$IE."'
-//echo $Consulta;
+			//echo $Consulta;
 			$Respuesta4=mysqli_query($link, $Consulta);
 			$Fila4=mysqli_fetch_array($Respuesta4);
-			$subprod = $Fila3["cod_subproducto"];
-			echo "<input type='hidden' name='subprod' value='".$subprod."'>";
+			//$subprod = $Fila3["cod_subproducto"];
+			//echo "<input type='hidden' name='subprod' value='".$subprod."'>";
+			echo "<input type='hidden' name='subprod' value='".$cod_subproducto."'>";
 			//echo "<input type='hidden' name='sub_producto['".$i."']."' value='".$sub_producto."'>"
 			echo "<td width='89'>".$Fila4["unidades"]."&nbsp;</td>";
 			echo "<td width='79'>".$Fila4["paquetes"]."&nbsp;</td>";
@@ -721,6 +687,8 @@ body{
 				}
 			}
 			echo $Cliente;
+			$cod_producto = isset($Fila3["cod_producto"])?$Fila3["cod_producto"]:"";
+			$cod_subproducto = isset($Fila3["cod_subproducto"])?$Fila3["cod_subproducto"]:"";
 			?>
 			</div></td>
             <td  align="center" width="700"><div align="left"> 
@@ -731,14 +699,13 @@ body{
 
                <?php
 			   if (($Nivel=='6')||($Nivel=='1')||($Nivel=='2'))
-      
 				{
 					echo "<input name='BtnAsignar' type='button'  style='width:60' value='Marca' onClick=\"CambiarMarca('$CodBulto','$NumBulto')\">";
 					
 					if($IE<900000)
 						echo "<input name='BtnEliminar' type='button'  style='width:90' value='Quitar Relacion' onClick=\"Eliminar('$CmbAno','$CodBulto','$NumBulto')\" >";
 					else
-						echo "<input name='BtnModProd' type='button'  style='width:90' value='Prod_SubProd' onClick=\"ModificarProd('$CodBulto','$NumBulto','".$Fila3["cod_producto"]."','".$Fila3["cod_subproducto"]."')\">";	
+						echo "<input name='BtnModProd' type='button'  style='width:90' value='Prod_SubProd' onClick=\"ModificarProd('$CodBulto','$NumBulto','".$cod_producto."','".$cod_subproducto."')\">";	
 				}
 				?>
                 <input name="BtnCierre" type="button" id="BtnCierre" style="width:80" onClick="CierreLotesAnteriores()" value="Cierre Lotes ">

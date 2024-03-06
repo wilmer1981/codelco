@@ -14,7 +14,7 @@
 	$Datos=explode('//',$TxtCodLeyes);
 	//echo $TxtCodLeyes."<br>";
 	$ExisteAgua="N";
-	while(list($c,$v)=each($Datos))
+	foreach($Datos as $c => $v)
 	{
 		$Datos2=explode('~',$v);
 		if($Datos2[0]!='')

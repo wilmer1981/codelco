@@ -11,7 +11,7 @@
 	$pdf =& new Cezpdf('a4');
     $pdf->selectFont('../principal/funciones/fonts/Helvetica.afm');
 	$Datos=explode('//',$Valores);
-	while(list($c,$v)=each($Datos))
+	foreach($Datos as $c => $v)
 	{
 		$pdf->ezText("<u>CERTIFICADO LEYES</u>\n",15,array('justification'=>'center'));
 		$Lote=$v;

@@ -451,7 +451,7 @@ switch ($ChkOrden)
 				if($Fila["leyes"]!=''||$Fila["impurezas"]!='')
 					$LeyesImp=$Fila["leyes"].'~'.$Fila["impurezas"];
 				$Datos=explode('~',$LeyesImp);
-				while(list($c,$v)=each($Datos))
+				foreach($Datos as $c => $v)
 				{
 					if($v!='')
 					{

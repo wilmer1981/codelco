@@ -143,7 +143,7 @@ function Detalle(Datos)
     	<td colspan="3" class="formulario2" >
 		<?
 			$Datos=explode('~',$DivChecked);
-			while(list($c,$v)=each($Datos))
+			foreach($Datos as $c => $v)
 			{
 				switch($v)
 				{
@@ -216,7 +216,7 @@ if($Buscar=='S')
 	if($FilaExiste=mysql_fetch_array($RespExiste))
 	{
 		$Datos=explode('~',$DivChecked);
-		while(list($c,$v)=each($Datos))
+		foreach($Datos as $c => $v)
 		{
 			$DatoDiv=$DatoDiv."'".$v."',";
 		}	

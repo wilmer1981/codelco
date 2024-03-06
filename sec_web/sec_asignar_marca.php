@@ -1,4 +1,12 @@
-<?php include("../principal/conectar_pmn_web.php");?>
+<?php 
+include("../principal/conectar_pmn_web.php");
+//Ano=2023&Codigo=A&Numero=2171
+
+$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+$Codigo  = isset($_REQUEST["Codigo"])?$_REQUEST["Codigo"]:"";
+$Numero  = isset($_REQUEST["Numero"])?$_REQUEST["Numero"]:"";
+
+?>
 <html>
 <head>
 <title>Lista de Clientes</title>
@@ -59,6 +67,7 @@ function Proceso(opt,C,A,N,IE)
 	echo "<input type='hidden' name='IdMarca'> ";
 	while ($Row = mysqli_fetch_array($Respuesta))
 	{
+		$cod_marca   = isset($Row["cod_marca"])?$Row["cod_marca"]:"";
 		if($cont==6) 
 		{
 			echo '</tr>';
@@ -66,18 +75,20 @@ function Proceso(opt,C,A,N,IE)
 			$cont=1;
 		}
 		$Consulta="SELECT *  from sec_web.lote_catodo ";
-		$Consulta.=" where cod_bulto='".$Codigo."' and num_bulto='".$Numero."' and substring(fecha_creacion_lote,1,4)='".$Ano."' and cod_marca='".$Row["cod_marca"]."'	";
+		$Consulta.=" where cod_bulto='".$Codigo."' and num_bulto='".$Numero."' and substring(fecha_creacion_lote,1,4)='".$Ano."' and cod_marca='".$cod_marca."'	";
 		$Respuesta1=mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($Respuesta1))
 		{
-			echo "<td><input type='radio' name='IdMarca' value='".$Row["cod_marca"]."' onClick=\"Proceso('E','$Codigo','$Ano','$Numero','".$Fila["corr_enm"]."');\" checked>\n";
+			$corr_enm   = isset($Fila["corr_enm"])?$Fila["corr_enm"]:"";
+			echo "<td><input type='radio' name='IdMarca' value=".$cod_marca." onClick=\"Proceso('E','$Codigo','$Ano','$Numero','$corr_enm');\" checked>\n";
 		}
 		else
 		{
-			echo "<td><input type='radio' name='IdMarca' value='".$Row["cod_marca"]."' onClick=\"Proceso('E','$Codigo','$Ano','$Numero','".$Fila["corr_enm"]."');\">\n";
+			$corr_enm   = isset($Fila["corr_enm"])?$Fila["corr_enm"]:"";
+			echo "<td><input type='radio' name='IdMarca' value=".$cod_marca." onClick=\"Proceso('E','$Codigo','$Ano','$Numero','$corr_enm');\">\n";
 		}
 		//echo "$Row["descripcion"]</td>";
-  echo "$Row["cod_marca"]</td>";
+       echo "$cod_marca</td>";
 		$cont =$cont+ 1;
 	}
 ?>

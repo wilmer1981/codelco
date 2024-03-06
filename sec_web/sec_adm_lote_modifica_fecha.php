@@ -1,10 +1,17 @@
 <?php
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	$Rut =$CookieRut;
+
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$Rut        = $CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
-	$Fecha = date('Y-m-d');
-	$anito=substr($Fecha,0,4);
+	$Fecha      = date('Y-m-d');
+	$anito      = substr($Fecha,0,4);
+
+	$CmbAno   = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$CodBulto = isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"";
+	$NumBulto = isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
+
 ?>
 <html>
 <head>
@@ -42,14 +49,12 @@ function Salir()
 <link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style><body>
 <form name="form1" method="post" action="">
 <input type="hidden" name="CmbAno" value="<?php echo $CmbAno?>">
@@ -133,8 +138,9 @@ body {
 				//echo $Consulta;
 				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysqli_fetch_array($Respuesta);
-				$SumaUnidades=$Fila[suma_unidades];
-				$SumaPeso=$Fila[suma_paquetes];
+
+				$SumaUnidades= isset($Fila["suma_unidades"])?$Fila["suma_unidades"]:"";
+				$SumaPeso    = isset($Fila["suma_paquetes"])?$Fila["suma_paquetes"]:"";
 				/*$Consulta="select t1.cod_paquete,t1.num_paquete,t2.num_unidades,t2.peso_paquetes from sec_web.lote_catodo t1 ";
 				$Consulta.=" inner join sec_web.paquete_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
 				$Consulta.=" and t1.num_paquete=t2.num_paquete ";
@@ -146,7 +152,7 @@ body {
 					$SumaUnidades=$SumaUnidades+$Fila["num_unidades"];
 					$SumaPeso=$SumaPeso+$Fila["peso_paquetes"];
 				}*/	
-                $subproducto_consulta = $Fila[cod_subproducto1];
+                $subproducto_consulta = isset($Fila["cod_subproducto1"])?$Fila["cod_subproducto1"]:"";
 
 				echo $SumaUnidades;
 			?>
@@ -199,7 +205,9 @@ body {
 		$i=0;
 		while ($i < count($arreglo))
 		{
-			if ($arreglo[$i][0]==$arreglo[$i+1][0])
+			$arreglo1= isset($arreglo[$i][0])?$arreglo[$i][0]:"";
+			$arreglo2= isset($arreglo[$i+1][0])?$arreglo[$i+1][0]:"";
+			if ($arreglo1==$arreglo2)
 			{
 				if($arreglo[$i][1]==($arreglo[$i+1][1]-1))
 				{
@@ -210,7 +218,9 @@ body {
 					}
 					else
 					{
-						if ($arreglo[$i+1][1]!=($arreglo[$i+2][1]-1))
+						$arreglo1= isset($arreglo[$i+1][1])?$arreglo[$i+1][1]:0;
+						$arreglo2= isset($arreglo[$i+2][1])?$arreglo[$i+2][1]:0;	
+						if ($arreglo1!=($arreglo2-1))
 						{
 							$vector[$a][1]=$arreglo[$i+1][0]."-".$arreglo[$i+1][1]."-".$arreglo[$i+1][2];//final
 							$sw=0;
@@ -322,15 +332,19 @@ body {
 			//echo "con".$Consulta;
 			$Respuesta3=mysqli_query($link, $Consulta);
 			$Fila3=mysqli_fetch_array($Respuesta3);
-			echo "<td width='221'>".$Fila3["descripcion"]."/".$Fila3["abreviatura"]."&nbsp;</td>";
+			$descripcion = isset($Fila3["descripcion"])?$Fila3["descripcion"]:"";
+			$abreviatura = isset($Fila3["abreviatura"])?$Fila3["abreviatura"]:"";
+			$cod_producto = isset($Fila3["cod_producto"])?$Fila3["cod_producto"]:"";
+			$cod_subproducto = isset($Fila3["cod_subproducto"])?$Fila3["cod_subproducto"]:"";
+			echo "<td width='221'>".$descripcion."/".$abreviatura."&nbsp;</td>";
 			$Consulta="select sum(num_unidades) as unidades, sum(peso_paquetes) as paquetes from sec_web.paquete_catodo t1";
 			$Consulta.=" inner join sec_web.lote_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
 			$Consulta.=" and t1.num_paquete=t2.num_paquete ";					
 			$Consulta.=" where (t1.cod_paquete='".$MesPaqueteI."' and t1.num_paquete between '".$NumPaqueteI."' and '".$NumPaqueteF."' and t1.cod_estado=t2.cod_estado)  and  ";
-			$Consulta.=" t2.cod_bulto='".$CodBulto."' and t2.num_bulto='".$NumBulto."' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and LEFT(t2.fecha_creacion_lote,4) between '".$CmbAno."' and '".$anito."' and t2.corr_enm='".$IE."' and t1.cod_producto='".$Fila3["cod_producto"]."' and t1.cod_subproducto='".$Fila3["cod_subproducto"]."'";
+			$Consulta.=" t2.cod_bulto='".$CodBulto."' and t2.num_bulto='".$NumBulto."' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and LEFT(t2.fecha_creacion_lote,4) between '".$CmbAno."' and '".$anito."' and t2.corr_enm='".$IE."' and t1.cod_producto='".$cod_producto."' and t1.cod_subproducto='".$cod_subproducto."'";
 			$Respuesta4=mysqli_query($link, $Consulta);
 			$Fila4=mysqli_fetch_array($Respuesta4);
-			$subprod = $Fila3["cod_subproducto"];
+			$subprod = $cod_subproducto;
 			echo "<input type='hidden' name='subprod' value='".$subprod."'>";
 			//echo "<input type='hidden' name='sub_producto['".$i."']' value='".$sub_producto."'>"
 			echo "<td width='89'>".$Fila4["unidades"]."&nbsp;</td>";
@@ -347,6 +361,7 @@ body {
               <?php	
 			$Consulta="select * from sec_web.programa_enami where corr_enm='".$IE."' ";
 			$Respuesta=mysqli_query($link, $Consulta);
+			$Cliente="";//WSO
 			if($Fila=mysqli_fetch_array($Respuesta))
 			{
 				$Consulta="select * from sec_web.cliente_venta where cod_cliente='".$Fila["cod_cliente"]."' ";

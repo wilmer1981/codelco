@@ -2,25 +2,32 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 11;
 	include("../principal/conectar_sec_web.php");
-		switch($Proceso)
-		{
-			case "N":
-				$Consulta = "SELECT *  from sec_web.marca_catodos where cod_marca='".$TxtMarca."'";
-				$Resultado = mysqli_query($link, $Consulta);
-				$Fila=mysqli_fetch_array($Resultado);
-				if ($BuscarMarca=='S')
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtMarca  = isset($_REQUEST["TxtMarca"])?$_REQUEST["TxtMarca"]:"";
+	$BuscarMarca  = isset($_REQUEST["BuscarMarca"])?$_REQUEST["BuscarMarca"]:"";
+	$TxtDes  = isset($_REQUEST["TxtDes"])?$_REQUEST["TxtDes"]:"";
+	$TxtDes1  = isset($_REQUEST["TxtDes1"])?$_REQUEST["TxtDes1"]:"";
+
+	switch($Proceso)
+	{
+		case "N":
+			$Consulta = "SELECT *  from sec_web.marca_catodos where cod_marca='".$TxtMarca."'";
+			$Resultado = mysqli_query($link, $Consulta);
+			$Fila=mysqli_fetch_array($Resultado);
+			if ($BuscarMarca=='S')
+			{
+				$MarcaCatodo=$TxtMarca;
+				$Consulta="SELECT * from sec_web.marca_catodos where cod_marca='".$MarcaCatodo."'";
+				$Respuesta=mysqli_query($link, $Consulta);
+				if ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					$MarcaCatodo=$TxtMarca;
-					$Consulta="SELECT * from sec_web.marca_catodos where cod_marca='".$MarcaCatodo."'";
-					$Respuesta=mysqli_query($link, $Consulta);
-					if ($Fila=mysqli_fetch_array($Respuesta))
-					{
-						$Mensaje='C�digo Marca ya Existe,Reingrese...';
-						$TxtMarca="";
-					}
+					$Mensaje='C�digo Marca ya Existe,Reingrese...';
+					$TxtMarca="";
 				}
-			break;
-		}			
+			}
+		break;
+	}			
 ?>
 <html>
 <head>

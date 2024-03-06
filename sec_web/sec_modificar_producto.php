@@ -1,5 +1,12 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");
+
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+	$Codigo  = isset($_REQUEST["Codigo"])?$_REQUEST["Codigo"]:"";
+	$Numero  = isset($_REQUEST["Numero"])?$_REQUEST["Numero"]:"";
+	$CmbProductos  = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$cmbsubproducto  = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	
 ?>
 <html>
@@ -23,7 +30,7 @@ function Grabar(Valores,ano)
 	}
 	if (confirm('Esta Seguro de Modificar los Datos'))
 	{
-		Frm.action="sec_modificar_producto01.php?Proceso=G&Valores="+Valores+"&ano="+ano+"&CodigoLote="+Frm.Codigo.value+"&NumeroLote="+Frm.Numero.value;
+		Frm.action="sec_modificar_producto01.php?Proceso=G&Valores="+Valores+"&Ano="+ano+"&CodigoLote="+Frm.Codigo.value+"&NumeroLote="+Frm.Numero.value;
 		Frm.submit();
 	}	
 }

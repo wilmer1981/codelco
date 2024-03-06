@@ -81,7 +81,7 @@
 				$Leyes=substr($Leyes,0,strlen($Leyes)-1);
 			fwrite($Archivo,$Leyes."\r\n");
 			$Datos=explode('~',$Fila["impurezas"]);
-			while(list($c,$v)=each($Datos))
+			foreach($Datos as $c => $v)
 			{
 				$Consulta="SELECT * from proyecto_modernizacion.leyes where cod_leyes ='".$v."'";
 				$RespLeyes=mysql_query($Consulta);

@@ -19,7 +19,7 @@
 	$ArrTotalesProd=array();
 	$Datos=explode('//',$TxtCodLeyes);
 	$ExisteAgua="N";
-	while(list($c,$v)=each($Datos))
+	foreach($Datos as $c => $v)
 	{
 		$Datos2=explode('~',$v);
 		if($Datos2[0]!='')

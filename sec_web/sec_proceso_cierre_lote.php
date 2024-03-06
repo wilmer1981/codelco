@@ -1,9 +1,15 @@
-<?php 	include("../principal/conectar_sec_web.php");	
-	$Matriz=explode('-',$_GET["NroBulto"]);	
-	$CodBulto=$Matriz[0];
-	$NumBulto=$Matriz[1];
-	$Anio=$_GET["Anio"];
-		$MensajeAux="";
+<?php
+	include("../principal/conectar_sec_web.php");	
+
+	$Anio     = isset($_REQUEST["Anio"])?$_REQUEST["Anio"]:"";
+	$CodBulto = isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"";
+	$NroBulto = isset($_REQUEST["NroBulto"])?$_REQUEST["NroBulto"]:"";
+	$Matriz   = explode('-',$NroBulto);	
+	$CodBulto = $Matriz[0];
+	$NumBulto = $Matriz[1];
+
+	$MensajeAux="";
+
 	$Consulta ="Select * from lote_catodo where cod_bulto = '".$CodBulto."' AND num_bulto= '".$NumBulto."' and year(fecha_creacion_lote)='".date('Y')."'  and cod_estado='a'";
 	$Mensaje='Proceso realizado correctamente. favor de cerrar mensaje';
 	$Respuesta4=mysqli_query($link, $Consulta);
@@ -17,15 +23,15 @@
 		}
 		else
 		{
-			ProcesarCierre();
+			ProcesarCierre($link);
 		}
 	}
 	else
 	{
-		ProcesarCierre();	
+		ProcesarCierre($link);	
 	}
 	
-	function ProcesarCierre()
+	function ProcesarCierre($link)
 	{
 		global $CodBulto;
 		global $NumBulto;

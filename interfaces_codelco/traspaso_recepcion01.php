@@ -23,7 +23,7 @@
 			$ArchivoR = fopen("archivos_recepcion/registro_recepcion_".$FechaHora.".doc","w+");
 			$ArchivoL = fopen("archivos_recepcion/registro_leyes_".$FechaHora.".doc","w+");
 			$Datos=explode('//',$Valores);
-			while(list($c,$v)=each($Datos))
+			foreach($Datos as $c => $v)
 			{
 				$Datos2=explode('~~',$v);
 				$Lote=$Datos2[0];

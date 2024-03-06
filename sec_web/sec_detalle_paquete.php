@@ -1,31 +1,18 @@
 <?php 
 include("../principal/conectar_principal.php");
 // Ano=2022&subproducto=11&Codigo=J&Numero=50000&MesI=J&NumI=50000&MesF=J&NumF=50003&Ano=2022
+$Ano  = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+$Mes  = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+$subproducto  = isset($_REQUEST["subproducto"])?$_REQUEST["subproducto"]:"";
+$Codigo  = isset($_REQUEST["Codigo"])?$_REQUEST["Codigo"]:"";
+$Numero  = isset($_REQUEST["Numero"])?$_REQUEST["Numero"]:"";
+$MesI    = isset($_REQUEST["MesI"])?$_REQUEST["MesI"]:"";
+$NumI    = isset($_REQUEST["NumI"])?$_REQUEST["NumI"]:"";
+$MesF    = isset($_REQUEST["MesF"])?$_REQUEST["MesF"]:"";
+$NumF    = isset($_REQUEST["NumF"])?$_REQUEST["NumF"]:"";
 
-$Ano         = $_REQUEST["Ano"];
-$subproducto = $_REQUEST["subproducto"];
-$Codigo      = $_REQUEST["Codigo"];
-$Numero      = $_REQUEST["Numero"];
-$MesI        = $_REQUEST["MesI"];
-$NumI        = $_REQUEST["NumI"];
-$MesF        = $_REQUEST["MesF"];
-$NumF        = $_REQUEST["NumF"];
-
-$Mes        = $_REQUEST["Mes"];
-
-if(isset($_REQUEST["Mensaje"])){
-	$Mensaje = $_REQUEST["Mensaje"];
-}else {
-	$Mensaje = "";
-}
-if(isset($_REQUEST["Mostrar"])){
-	$Mostrar = $_REQUEST["Mostrar"];
-}else {
-	$Mostrar = "";
-}
-
-
-
+$Mensaje  = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+$Mostrar  = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 
 ?>
 <html>
@@ -196,6 +183,8 @@ function CheckearTodo()
 			$Consulta.=" order by	t1.cod_paquete,t1.num_paquete	";
 			//echo $Consulta."<br>";
 			$Respuesta=mysqli_query($link, $Consulta);
+			$SumaPeso=0;
+			$SumaUnidades=0;
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				echo "<tr>";

@@ -25,7 +25,7 @@
 		$TxtFechaSolicitud = $Fila3[fechasol];
 	}
 	$Datos=explode('//',$Valores);
-	while(list($c,$v)=each($Datos))
+	foreach($Datos as $c => $v)
 	{
 			
 		$Lote = $v;

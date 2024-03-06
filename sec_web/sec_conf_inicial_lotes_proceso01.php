@@ -1,31 +1,35 @@
 <?php
 	include("../principal/conectar_sec_web.php");
 
-	$Proceso  = $_REQUEST["Proceso"];
-	$CmbGrupo = $_REQUEST["CmbGrupo"];
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Codigo  = isset($_REQUEST["Codigo"])?$_REQUEST["Codigo"]:"";
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+	$Numero  = isset($_REQUEST["Numero"])?$_REQUEST["Numero"]:"";
+	$Marca   = isset($_REQUEST["Marca"])?$_REQUEST["Marca"]:"";
+	$IE      = isset($_REQUEST["IE"])?$_REQUEST["IE"]:"";
 
-	/*
-<input name="ValoresAux" type="hidden" value="<?php echo $Valores  ?>">
-<input name="CodLote" type="hidden" value="<?php echo $CodigoLote  ?>">
-<input name="NumLote" type="hidden" value="<?php echo $NumeroLote ?>">
-<input name="AnoAux" type="hidden" value="<?php echo $Ano  ?>">
-<input name="NumIAux" type="hidden" value="<?php echo $NumI  ?>">
-<input name="NumFAux" type="hidden" value="<?php echo $NumF ?>">
-*/
+	$CmbGrupo = isset($_REQUEST["CmbGrupo"])?$_REQUEST["CmbGrupo"]:"";
 
-/******* cambio grupo *********/
-$ValoresAux = $_REQUEST["ValoresAux"];
-$AnoAux     = $_REQUEST["AnoAux"];
-$NumIAux     = $_REQUEST["NumIAux"];
-$NumFAux     = $_REQUEST["NumFAux"];
-$MesIAux     = $_REQUEST["MesIAux"];
-$CodLote     = $_REQUEST["CodLote"];
-$NumLote     = $_REQUEST["NumLote"];
+	/******* cambio grupo *********/
+	$ValoresAux = isset($_REQUEST["ValoresAux"])?$_REQUEST["ValoresAux"]:"";
+	$AnoAux     = isset($_REQUEST["AnoAux"])?$_REQUEST["AnoAux"]:"";
+	$NumIAux     = isset($_REQUEST["NumIAux"])?$_REQUEST["NumIAux"]:"";
+	$NumFAux     = isset($_REQUEST["NumFAux"])?$_REQUEST["NumFAux"]:"";
+	$MesIAux     = isset($_REQUEST["MesIAux"])?$_REQUEST["MesIAux"]:"";
+	$CodLote     = isset($_REQUEST["CodLote"])?$_REQUEST["CodLote"]:"";
+	$NumLote     = isset($_REQUEST["NumLote"])?$_REQUEST["NumLote"]:"";
+	/*********************************** */
+
+	$CodBulto = isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"";
+	$NumBulto = isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$AnoLote  = isset($_REQUEST["AnoLote"])?$_REQUEST["AnoLote"]:"";
 
 	$FechaCreacion= date("Y-m-d");
 	//$Ano=date("Y");
-	$Rut =$CookieRut;
-	$FechaConsulta=substr($FechaO,0,4);
+	$CookieRut     = $_COOKIE["CookieRut"];
+	$Rut           = $CookieRut;
+	//$FechaConsulta = substr($FechaO,0,4);
 
 	switch ($Proceso)	
 	{
@@ -76,11 +80,10 @@ $NumLote     = $_REQUEST["NumLote"];
 				
 				$FechaEmbIni=$Ano."-01-01";
 				$FechaEmbFin=(intval($Ano)+1)."-12-01";
-				$Actualizar="UPDATE sec_web.embarque_ventana set cod_marca ='".$Marca."' where fecha_embarque between '".$FechaEmbIni."' and '".$FechaEmbFin."'";
+				$Actualizar="UPDATE sec_web.embarque_ventana set cod_marca ='".$Marca."' WHERE fecha_embarque between '".$FechaEmbIni."' and '".$FechaEmbFin."'";
 				$Actualizar.=" and cod_bulto='".$Codigo."' and num_bulto='".$Numero."' and corr_enm='".$IE."'";
 				mysqli_query($link, $Actualizar);
-				echo $Actualizar;
-				
+				//echo $Actualizar;
 			}
 			echo "<script languaje='JavaScript'>";
 			echo "window.opener.document.FrmProceso.action='sec_adm_lotes.php?CmbAno=".$Ano."&Mes=".$Mes."&CmbCodBulto=".$Mes."&NumBulto=".$Numero."&Mensaje3=".$Mensaje3."';";
@@ -126,9 +129,9 @@ $NumLote     = $_REQUEST["NumLote"];
 						$Consulta.=" group by t2.cod_producto,t2.cod_subproducto";
 						$Respuesta1=mysqli_query($link, $Consulta);
 						$Fila1=mysqli_fetch_array($Respuesta1);
-						$Suma=($Fila1["suma_paquetes"]);
-						$IE=$Fila1["corr_enm"];
-						$Disponibilidad=$Fila1["disponibilidad"];
+						$Suma          =isset($Fila1["suma_paquetes"])?$Fila1["suma_paquetes"]:"";
+						$IE            =isset($Fila1["corr_enm"])?$Fila1["corr_enm"]:"";
+						$Disponibilidad=isset($Fila1["disponibilidad"])?$Fila1["disponibilidad"]:"";
 						$Consulta="select * from sec_web.programa_enami where corr_enm='".$IE."'";
 						$Respuesta2=mysqli_query($link, $Consulta);
 						//echo $Consulta."<br>";
@@ -153,9 +156,10 @@ $NumLote     = $_REQUEST["NumLote"];
 							$Respuesta2=mysqli_query($link, $Consulta);
 							$Fila2=mysqli_fetch_array($Respuesta2);
 							//echo $Consulta;
-							$Cantidad=($Fila2["cantidad_programada"]*1000);
-							$Estado=$Fila2["estado2"];	
-							if ($Fila2["estado2"]=="A")
+							$cantidad_programada = isset($Fila2["cantidad_programada"])?$Fila2["cantidad_programada"]:0;
+							$Cantidad=($cantidad_programada*1000);
+							$Estado  = isset($Fila2["estado2"])?$Fila2["estado2"]:"";	
+							if ($Estado=="A")
 							{
 								$Actualizar="UPDATE sec_web.programa_codelco set estado1='' where corr_codelco='".$IE." '";
 							}
@@ -165,16 +169,22 @@ $NumLote     = $_REQUEST["NumLote"];
 							}
 							mysqli_query($link, $Actualizar);
 						}
+						$cod_producto    = isset($Fila1["cod_producto"])?$Fila1["cod_producto"]:"";
+						$cod_subproducto = isset($Fila1["cod_subproducto"])?$Fila1["cod_subproducto"]:"";
+						$cod_bulto       = isset($Fila1["cod_bulto"])?$Fila1["cod_bulto"]:"";
+						$num_bulto       = isset($Fila1["num_bulto"])?$Fila1["num_bulto"]:"";
+						$fecha_creacion_lote  = isset($Fila1["fecha_creacion_lote"])?$Fila1["fecha_creacion_lote"]:"";
+
 						$insertar="insert into sec_web.instruccion_virtual ";
 						$insertar.="(corr_virtual,fecha_embarque,cod_producto,cod_subproducto,peso_programado,descripcion,estado)  ";
-						$insertar.= " values ('".$IEVirtual."','".$AnoActual."-12-31','".$Fila1["cod_producto"]."','".$Fila1["cod_subproducto"]."',";
+						$insertar.= " values ('".$IEVirtual."','".$AnoActual."-12-31','".$cod_producto."','".$cod_subproducto."',";
 						$insertar.=" '".$Cantidad."','ADM','".$Disponibilidad."') ";
 						mysqli_query($link, $insertar);
 						//echo $insertar."<br>";
-						$Actualizar="UPDATE sec_web.lote_catodo set corr_enm ='".$IEVirtual."',cod_bulto='".$arreglo[0]."',num_bulto='".$arreglo[1]."'  "; 
-						$Actualizar.=" where cod_bulto='".$Fila1["cod_bulto"]."' and num_bulto=".$Fila1["num_bulto"]."	";
-						$Actualizar.=" and fecha_creacion_lote='".$Fila1["fecha_creacion_lote"]."' and corr_enm='".$IE."'	";
-						$Actualizar.=" and cod_paquete='".$arreglo[0]."' and num_paquete between '".$arreglo[1]."'	and '".$arreglo[3]."'		";
+						$Actualizar="UPDATE sec_web.lote_catodo set corr_enm ='$IEVirtual',cod_bulto='$arreglo[0]',num_bulto='$arreglo[1]'  "; 
+						$Actualizar.=" WHERE cod_bulto='".$cod_bulto."' and num_bulto='".$num_bulto."' ";
+						$Actualizar.=" AND fecha_creacion_lote='".$fecha_creacion_lote."' and corr_enm='".$IE."'	";
+						$Actualizar.=" AND cod_paquete='".$arreglo[0]."' and num_paquete between '".$arreglo[1]."'	and '".$arreglo[3]."' ";
 						//echo $Actualizar."<br>";
 						mysqli_query($link, $Actualizar);
 					}

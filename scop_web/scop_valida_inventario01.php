@@ -39,7 +39,7 @@
 		break;
 		case "ET":	
 			$Datos=explode("~",$Valores);
-			while(list($c,$v)=each($Datos))	
+			foreach($Datos as $c => $v)	
 			{		
 				$Consulta="select * from scop_inventario where ano='".$Ano."' and cod_contrato='".$v."' and cod_estado='2'";
 				if($CmbMes!='T')

@@ -17,7 +17,7 @@
 			break;
 		case "M"://CERRAR MES MASIVO
 			$Datos=explode('//',$Valores);
-			while(list($c,$v)=each($Datos))
+			foreach($Datos as $c => $v)
 			{
 				$Actualizar="UPDATE age_web.lotes set  fecha_cierre_op='$Fecha',estado_lote='4' ";//4 CIERRE OPERACIONAL
 				$Actualizar.="where lote='".$v."'";
@@ -42,7 +42,7 @@
 			break;	
 		case "MC"://GRABAR CANJE(CON O SIN CANJE)
 			$Datos=explode('//',$Valores);
-			while(list($c,$v)=each($Datos))
+			foreach($Datos as $c => $v)
 			{
 				$Actualizar="UPDATE age_web.lotes set canjeable='$OptCanje' ";
 				$Actualizar.="where lote='".$v."'";

@@ -25,7 +25,7 @@
 			$Fecha=$ano."-".$mes."-".$dia;
 			$Hora=$Fecha." ".$hh.":".$mm;
 			$Datos=explode('@@',$Valores);
-			//while(list($c,$v)=each($Datos))
+			//foreach($Datos as $c => $v)
 			foreach ($Datos as $c => $v)
 			{
 				$Datos2=explode('//',$v);

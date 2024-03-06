@@ -5,7 +5,7 @@
 	$pdf =& new Cezpdf('a4');
     $pdf->selectFont('../principal/funciones/fonts/Helvetica.afm');
 	$Datos=explode('//',$Valores);
-	while(list($c,$v)=each($Datos))
+	foreach($Datos as $c => $v)
 	{
 		$Datos2=explode('-',$v);
 		$Lote = $Datos2[0];

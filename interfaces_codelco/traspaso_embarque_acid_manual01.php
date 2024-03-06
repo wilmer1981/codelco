@@ -80,7 +80,7 @@ CmbAlmacen:
 			$Archivo = fopen("archivos_embarque/".$Producto."_embarque_".$FechaHora.".doc","w+");
 			$ArchivoLeyes = fopen("archivos_embarque/".$Producto."_leyes_embarque_".$FechaHora.".doc","w+");
 			$Datos=explode('//',$Valor);
-			//while(list($c,$v)=each($Datos))
+			//foreach($Datos as $c => $v)
 			foreach ($Datos as $c => $v)
 			{
 				$Datos2=explode('~',$v);
