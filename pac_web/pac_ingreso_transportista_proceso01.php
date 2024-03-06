@@ -1,6 +1,19 @@
 <?php
 	include("../principal/conectar_pac_web.php");
-	$RutTransp=$TxtRut."-".$TxtDv;
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtRut  = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtDv = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$TxtNombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtDireccion = isset($_REQUEST["TxtDireccion"])?$_REQUEST["TxtCiudad"]:"";
+	$TxtCiudad    = isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtDireccion"]:"";
+	$TxtTelefono  = isset($_REQUEST["TxtTelefono"])?$_REQUEST["TxtTelefono"]:"";
+	$TxtFax    = isset($_REQUEST["TxtFax"])?$_REQUEST["TxtFax"]:"";
+	$TxtGiro   = isset($_REQUEST["TxtGiro"])?$_REQUEST["TxtGiro"]:"";
+
+	$RutTransp = $TxtRut."-".$TxtDv;
 	/*$TxtIndicadorTras = $CmbTras;*/
 	/*echo $TxtIndicadorTras;*/
 	switch ($Proceso)

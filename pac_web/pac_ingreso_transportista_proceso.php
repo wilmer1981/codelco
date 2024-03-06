@@ -3,6 +3,21 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_pac_web.php");
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$TxtRut = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtDv  = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+	$Nombre     = isset($_REQUEST["Nombre"])?$_REQUEST["Nombre"]:"";
+	$Direccion = isset($_REQUEST["Direccion"])?$_REQUEST["Ciudad"]:"";
+	$Ciudad    = isset($_REQUEST["Ciudad"])?$_REQUEST["Direccion"]:"";
+	$Telefono  = isset($_REQUEST["Telefono"])?$_REQUEST["Telefono"]:"";
+	$Fax    = isset($_REQUEST["Fax"])?$_REQUEST["Fax"]:"";
+	$Giro   = isset($_REQUEST["Giro"])?$_REQUEST["Giro"]:"";
+
+
+
 	switch($Proceso)
 	{
 		case "N":
@@ -29,14 +44,14 @@
 			$Consulta="select * from pac_web.transportista where rut_transportista='".$RutTransp."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$Nombre=$Fila["nombre"];
-			$Direccion=$Fila["direccion"];
-			$Ciudad=$Fila["ciudad"];
-			$Telefono=$Fila["telefono"];
-			$Fax=$Fila["fax"];
-			$Giro=$Fila["giro_transp"];
-			$Indicador=$Fila["indicador_traslado"];
-			$ConsultaIndTras= "select * from pac_web.pac_indicador_traslado where indicador=".$Indicador;
+			$Nombre    = $Fila["nombre"];
+			$Direccion = $Fila["direccion"];
+			$Ciudad    = $Fila["ciudad"];
+			$Telefono  = $Fila["telefono"];
+			$Fax       = $Fila["fax"];
+			$Giro      = $Fila["giro_transp"];
+			$Indicador = isset($Fila["indicador_traslado"])?$Fila["indicador_traslado"]:"";
+			$ConsultaIndTras= "select * from pac_web.pac_indicador_traslado where indicador='".$Indicador."' ";
 				$ResultTras=mysqli_query($link, $ConsultaIndTras);
 				while ($FilaTras=mysqli_fetch_array($ResultTras))
 					{
