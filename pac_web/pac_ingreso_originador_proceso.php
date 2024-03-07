@@ -4,6 +4,17 @@
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_pac_web.php");
 
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$Nombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$Rut        = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$Dv         = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+	$Lugar      = isset($_REQUEST["TxtLugar"])?$_REQUEST["TxtLugar"]:"";	
+	$DivSap     = isset($_REQUEST["TxtDivSap"])?$_REQUEST["TxtDivSap"]:"";
+	$AlmSap     = isset($_REQUEST["TxtAlmSap"])?$_REQUEST["TxtAlmSap"]:"";
+	$Estado     = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:0;
+
 	switch($Proceso)
 	{
 		case "N":
@@ -64,14 +75,14 @@ function Grabar(Proceso)
 
 	if (Frm.TxtDivSap.value == "")
 	{
-		alert("Debe Ingresar División SAP")
+		alert("Debe Ingresar Divisiï¿½n SAP")
 		Frm.TxtDivSap.focus();
 		return;
 	}
 
 	if (Frm.TxtAlmSap.value == "")
 	{
-		alert("Debe Ingresar Almacén SAP")
+		alert("Debe Ingresar Almacï¿½n SAP")
 		Frm.TxtAlmSap.focus();
 		return;
 	}
