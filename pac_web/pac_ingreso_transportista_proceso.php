@@ -10,13 +10,11 @@
 	$TxtRut = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
 	$TxtDv  = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
 	$Nombre     = isset($_REQUEST["Nombre"])?$_REQUEST["Nombre"]:"";
-	$Direccion = isset($_REQUEST["Direccion"])?$_REQUEST["Ciudad"]:"";
-	$Ciudad    = isset($_REQUEST["Ciudad"])?$_REQUEST["Direccion"]:"";
+	$Direccion = isset($_REQUEST["Direccion"])?$_REQUEST["Direccion"]:"";
+	$Ciudad    = isset($_REQUEST["Ciudad"])?$_REQUEST["Ciudad"]:"";
 	$Telefono  = isset($_REQUEST["Telefono"])?$_REQUEST["Telefono"]:"";
 	$Fax    = isset($_REQUEST["Fax"])?$_REQUEST["Fax"]:"";
 	$Giro   = isset($_REQUEST["Giro"])?$_REQUEST["Giro"]:"";
-
-
 
 	switch($Proceso)
 	{

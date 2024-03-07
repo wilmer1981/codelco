@@ -2,6 +2,22 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla =4;
 	include("../principal/conectar_pac_web.php");
+
+	
+	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbTransp  = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
+	$Nombre     = isset($_REQUEST["Nombre"])?$_REQUEST["Nombre"]:"";
+	$Direccion    = isset($_REQUEST["Direccion"])?$_REQUEST["Direccion"]:"";
+	$Rut    = isset($_REQUEST["Rut"])?$_REQUEST["Rut"]:"";
+	$DV    = isset($_REQUEST["DV"])?$_REQUEST["DV"]:"";
+	$Registro    = isset($_REQUEST["Registro"])?$_REQUEST["Registro"]:"";
+	$RutTransp    = isset($_REQUEST["RutTransp"])?$_REQUEST["RutTransp"]:"";
+	
+	
+
 	switch($Proceso)
 	{
 		case "N":
@@ -143,7 +159,7 @@ function validarNumero(e) {
 						$Respuesta=mysqli_query($link, $Consulta);
 						while ($Fila=mysqli_fetch_array($Respuesta))
 						{
-							echo "<option value ='$Fila[rut_transportista]'>$Fila[rut_transportista]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='".$Fila["rut_transportista"]."'>".$Fila["rut_transportista"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 						}
 						echo "</select></td>";
 					}	
@@ -224,7 +240,7 @@ function validarNumero(e) {
 </body>
 </html>
 <?php
-	if (isset($EncontroCoincidencia))
+	if ($EncontroCoincidencia)
 	{
 		if ($EncontroCoincidencia==true)
 		{

@@ -1,7 +1,19 @@
 <?php
 	include("../principal/conectar_pac_web.php");
-	$Entrar=true;
-	$Rut=str_replace('.','',$TxtRut)."-".$TxtDv;
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbTransp     = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
+	$TxtNombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtDireccion  = isset($_REQUEST["TxtDireccion"])?$_REQUEST["TxtDireccion"]:"";
+	$TxtRut    = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtDv     = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+	$TxtRegistro  = isset($_REQUEST["TxtRegistro"])?$_REQUEST["TxtRegistro"]:"";
+	$Tipo         = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+
+	$Entrar = true;
+	$Rut    = str_replace('.','',$TxtRut)."-".$TxtDv;
 	
 	switch ($Proceso)
 	{
