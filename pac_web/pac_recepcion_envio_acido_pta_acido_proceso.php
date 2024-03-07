@@ -4,9 +4,35 @@
 	$CodigoDePantalla = 9;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
-	$HoraActual = date("H");
+	
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbDia = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:date("d");
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbHora = isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:date("H");
+	$CmbMinutos = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:date("i");
+
+	$CmbDiaT = isset($_REQUEST["CmbDiaT"])?$_REQUEST["CmbDiaT"]:date("d");
+	$CmbMesT = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+	$CmbAnoT = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+	$HoraFinal   = isset($_REQUEST["CmbHoraFinal"])?$_REQUEST["CmbHoraFinal"]:date("H");
+	$MinutoFinal = isset($_REQUEST["CmbMinutoFinal"])?$_REQUEST["CmbMinutoFinal"]:date("i");
+
+	$CodEKOrigen  = isset($_REQUEST["CmbEstanqueOrigen"])?$_REQUEST["CmbEstanqueOrigen"]:"";
+	$CodEKDestino  = isset($_REQUEST["CmbEstanqueDestino"])?$_REQUEST["CmbEstanqueDestino"]:"";
+	$Volumen      = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
+	$CmbOperario  = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
+	$TxtMts       = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$RutF         = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
+
+	$HoraActual   = date("H");
 	$MinutoActual = date("i");
+	$FechaHora = date("Y-m-d H:i:s");
+
 	switch($Proceso)
 	{
 		case "N":
@@ -24,18 +50,18 @@
 			$Consulta="select * from pac_web.movimientos where fecha_hora='".$FechaHora."' and tipo_movimiento=2";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$Volumen=str_replace(".",",",$Fila["toneladas"]);
-			$TxtMts=str_replace(".",",",$Fila["volumen_m3"]);
-			$HoraInicio=substr($Fila["hora_inicio"],0,2);
-			$MinutoInicio=substr($Fila["hora_inicio"],3,2);
-			$HoraFinal=substr($Fila["hora_final"],0,2);
-			$MinutoFinal=substr($Fila["hora_final"],3,2);
-			$CodEKOrigen=$Fila["cod_estanque_origen"];
-			$CodEKDestino=$Fila["cod_estanque_destino"];
-			$RutF=$Fila["rut_funcionario"];
-			$CmbAnoT=substr($Fila["fecha_hora_termino"],0,4);
-			$CmbMesT=substr($Fila["fecha_hora_termino"],5,2);
-			$CmbDiasT=substr($Fila["fecha_hora_termino"],8,2);
+			$Volumen      =str_replace(".",",",$Fila["toneladas"]);
+			$TxtMts       =str_replace(".",",",$Fila["volumen_m3"]);
+			$HoraInicio   =substr($Fila["hora_inicio"],0,2);
+			$MinutoInicio =substr($Fila["hora_inicio"],3,2);
+			$HoraFinal    =substr($Fila["hora_final"],0,2);
+			$MinutoFinal  =substr($Fila["hora_final"],3,2);
+			$CodEKOrigen  =$Fila["cod_estanque_origen"];
+			$CodEKDestino =$Fila["cod_estanque_destino"];
+			$RutF         =$Fila["rut_funcionario"];
+			$CmbAnoT      =substr($Fila["fecha_hora_termino"],0,4);
+			$CmbMesT      =substr($Fila["fecha_hora_termino"],5,2);
+			$CmbDiaT      =substr($Fila["fecha_hora_termino"],8,2);
 			break;	
 	}	
 
@@ -180,9 +206,9 @@ function Salir()
 					echo "<select name='CmbDia' id='select7' size='1' style='width:40px;'>";
 					for ($i=1;$i<=31;$i++)
 					{
-						if (isset($CmbDias))
+						if ($CmbDia)
 						{
-							if ($i==$CmbDias)
+							if ($i==$CmbDia)
 							{
 								echo "<option selected value= '".$i."'>".$i."</option>";
 							}
@@ -214,7 +240,7 @@ function Salir()
 				  echo "<select name='CmbMes' size='1' style='width:90px;'>";
 				  for($i=1;$i<13;$i++)
 				  {
-						if (isset($CmbMes))
+						if ($CmbMes)
 						{
 							if ($i==$CmbMes)
 							{
@@ -248,7 +274,7 @@ function Salir()
 					echo "<select name='CmbAno' size='1' style='width:70px;'>";
 					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 					{
-						if (isset($CmbAno))
+						if ($CmbAno)
 						{
 							if ($i==$CmbAno)
 								{
@@ -283,7 +309,7 @@ function Salir()
 						if ($i<10)
 							$Valor = "0".$i;
 						else	$Valor = $i;
-						if (isset($HoraActual))
+						if ($HoraActual)
 						{	
 							if ($HoraActual == $Valor)
 								echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
@@ -310,7 +336,7 @@ function Salir()
 						$Valor = "0".$i;
 					else
 						$Valor = $i;
-						if (isset($MinutoFinal))
+						if ($MinutoFinal)
 						{	
 							if ($MinutoFinal == $Valor)
 								echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
@@ -335,7 +361,7 @@ function Salir()
 				$Consulta="select valor1 from pac_web.parametros where codigo=2";
 				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysqli_fetch_array($Respuesta);
-				$Densidad=$Fila[valor1];						
+				$Densidad=$Fila["valor1"];						
 			?>
             <td>Toneladas</td>
             <td> <input type="text" name="TxtVolumen" style="width:80" onKeyDown="TeclaPulsada()" maxlength="10" value="<?php echo $Volumen;?>"></td>
@@ -435,7 +461,7 @@ function Salir()
 					if ($i<10)
 						$Valor = "0".$i;
 					else	$Valor = $i;
-					if (isset($HoraFinal))
+					if ($HoraFinal)
 					{	
 						if ($HoraFinal == $Valor)
 							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
@@ -461,7 +487,7 @@ function Salir()
 					$Valor = "0".$i;
 				else
 					$Valor = $i;
-					if (isset($MinutoFinal))
+					if ($MinutoFinal)
 					{	
 						if ($MinutoFinal == $Valor)
 							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";

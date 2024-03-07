@@ -16,7 +16,7 @@
 	$CmbMinutoFinal = isset($_REQUEST["CmbMinutoFinal"])?$_REQUEST["CmbMinutoFinal"]:"";
 	
 	$CmbEstanque  = isset($_REQUEST["CmbEstanque"])?$_REQUEST["CmbEstanque"]:"";
-	$TxtVolumen   = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
+	$TxtVolumen      = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
 	$CmbOperario  = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
 	$TxtMts       = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
 	$RutF         = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
@@ -63,7 +63,7 @@
 		echo "<script languaje='JavaScript'>";
 		echo "window.opener.document.FrmIngEnvioDespAcido.action='pac_ingreso_envio_despacho_acido.php';";
 		echo "window.opener.document.FrmIngEnvioDespAcido.submit();";
-		//echo "window.close();";
+		echo "window.close();";
 		echo "</script>";	
 	}	
 ?>
