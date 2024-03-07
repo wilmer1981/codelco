@@ -2,6 +2,9 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 28;
 	include("../principal/conectar_pac_web.php");
+
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$reg_delete = isset($_REQUEST["reg_delete"])?$_REQUEST["reg_delete"]:"";
 ?>
 <html>
 <head>

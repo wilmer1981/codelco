@@ -3,6 +3,14 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_pac_web.php");
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+
+	$Nombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$Cod_Unidad = isset($_REQUEST["cod_unidad"])?$_REQUEST["cod_unidad"]:"";
+	$Cod_sap    = isset($_REQUEST["TxtCodSap"])?$_REQUEST["TxtCodSap"]:"";	
+	$Estado     = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:"";
 
 	switch($Proceso)
 	{
@@ -28,8 +36,6 @@
 <html>
 <head>
 <script language="JavaScript">
-
-
 
 function Grabar(Proceso)
 {

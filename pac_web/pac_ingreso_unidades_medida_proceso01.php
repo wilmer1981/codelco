@@ -1,10 +1,14 @@
 <?php
 	include("../principal/conectar_pac_web.php");
 
-			if($CheckEst == ''){
-				$CheckEst = 0;
-			}
-	
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$TxtNombre    = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$cod_unidad   = isset($_REQUEST["cod_unidad"])?$_REQUEST["cod_unidad"]:"";
+	$TxtCodSap    = isset($_REQUEST["TxtCodSap"])?$_REQUEST["TxtCodSap"]:"";	
+	$CheckEst     = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:0;
+
 	switch ($Proceso)
 	{
 		case "N":
