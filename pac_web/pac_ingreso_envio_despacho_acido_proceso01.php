@@ -1,8 +1,30 @@
 <?php
 	include("../principal/conectar_pac_web.php");
-	$RutCliente=$TxtRut."-".$TxtDv;
-	$HoraInicio=$CmbHoraInicio.":".$CmbMinutoInicio.":00";
-	$HoraFinal=$CmbHoraFinal.":".$CmbMinutoFinal.":00";
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbDia = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:"";
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$CmbHora= isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:"";
+	$CmbMinutos   = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:"";
+
+	$CmbHoraInicio = isset($_REQUEST["CmbHoraInicio"])?$_REQUEST["CmbHoraInicio"]:"";
+	$CmbMinutoInicio = isset($_REQUEST["CmbMinutoInicio"])?$_REQUEST["CmbMinutoInicio"]:"";
+	$CmbHoraFinal   = isset($_REQUEST["CmbHoraFinal"])?$_REQUEST["CmbHoraFinal"]:"";
+	$CmbMinutoFinal = isset($_REQUEST["CmbMinutoFinal"])?$_REQUEST["CmbMinutoFinal"]:"";
+	
+	$CmbEstanque  = isset($_REQUEST["CmbEstanque"])?$_REQUEST["CmbEstanque"]:"";
+	$TxtVolumen   = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
+	$CmbOperario  = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
+	$TxtMts       = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$RutF         = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
+	$FechaHora    = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+
+	//$RutCliente = $TxtRut."-".$TxtDv;
+	$HoraInicio = $CmbHoraInicio.":".$CmbMinutoInicio.":00";
+	$HoraFinal  = $CmbHoraFinal.":".$CmbMinutoFinal.":00";
 	switch ($Proceso)
 	{
 		case "N":
@@ -41,7 +63,7 @@
 		echo "<script languaje='JavaScript'>";
 		echo "window.opener.document.FrmIngEnvioDespAcido.action='pac_ingreso_envio_despacho_acido.php';";
 		echo "window.opener.document.FrmIngEnvioDespAcido.submit();";
-		echo "window.close();";
+		//echo "window.close();";
 		echo "</script>";	
 	}	
 ?>
