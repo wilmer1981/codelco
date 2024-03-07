@@ -2,6 +2,8 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 7;
 	include("../principal/conectar_pac_web.php");
+	
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 ?>
 <html>
 <head>

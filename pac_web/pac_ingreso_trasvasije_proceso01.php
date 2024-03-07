@@ -1,8 +1,25 @@
 <?php
 	include("../principal/conectar_pac_web.php");
-	$RutCliente=$TxtRut."-".$TxtDv;
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbDia = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:"";
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$CmbHora = isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:"";
+	$CmbMinutos = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:"";
+	$TxtMts = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$CmbEstanqueOrigen  = isset($_REQUEST["CmbEstanqueOrigen"])?$_REQUEST["CmbEstanqueOrigen"]:"";
+	$CmbEstanqueDestino = isset($_REQUEST["CmbEstanqueDestino"])?$_REQUEST["CmbEstanqueDestino"]:"";
+	$TxtVolumen      = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
+	$CmbOperario     = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
+	$FechaHora       = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+
+	//$RutCliente=$TxtRut."-".$TxtDv;
 	$HoraInicio=date('h:i'.':00');
 	$HoraFinal=date('h:i:'.':00');
+	
 	switch ($Proceso)
 	{
 		case "N":
@@ -40,7 +57,7 @@
 		echo "<script languaje='JavaScript'>";
 		echo "window.opener.document.FrmIngTrasvasije.action='pac_ingreso_trasvasije.php';";
 		echo "window.opener.document.FrmIngTrasvasije.submit();";
-		echo "window.close();";
+		//echo "window.close();";
 		echo "</script>";	
 	}	
 ?>

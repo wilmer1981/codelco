@@ -3,9 +3,27 @@
 	$CodigoDePantalla = 7;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
-	$HoraActual = date("H");
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbDiaT = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:"";
+	$CmbMesT = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAnoT = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$HoraAnalisis = isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:"";
+	$MinutosLixiv = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:"";
+	$CodEKOrigen  = isset($_REQUEST["CmbEstanqueOrigen"])?$_REQUEST["CmbEstanqueOrigen"]:"";
+	$CodEKDestino = isset($_REQUEST["CmbEstanqueDestino"])?$_REQUEST["CmbEstanqueDestino"]:"";
+	$Volumen      = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
+	$CmbOperario  = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
+		
+	$HoraActual   = date("H");
 	$MinutoActual = date("i");
+
+	$FechaHora = date("Y-m-d H:i:s");
+
 	switch($Proceso)
 	{
 		case "N":
@@ -22,12 +40,12 @@
 			}
 			$Consulta="select * from pac_web.movimientos where fecha_hora='".$FechaHora."' and tipo_movimiento=4";
 			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila=mysqli_fetch_array($Respuesta);
-			$Volumen=str_replace(".",",",$Fila["toneladas"]);
-			$TxtMts=str_replace(".",",",$Fila["volumen_m3"]);
-			$CodEKOrigen=$Fila["cod_estanque_origen"];
-			$CodEKDestino=$Fila["cod_estanque_destino"];
-			$RutF=$Fila["rut_funcionario"];
+			$Fila  = mysqli_fetch_array($Respuesta);
+			$Volumen  = str_replace(".",",",$Fila["toneladas"]);
+			$TxtMts   = str_replace(".",",",$Fila["volumen_m3"]);
+			$CodEKOrigen  = $Fila["cod_estanque_origen"];
+			$CodEKDestino = $Fila["cod_estanque_destino"];
+			$RutF = $Fila["rut_funcionario"];
 			break;	
 	}	
 
@@ -156,9 +174,9 @@ function Salir()
 					echo "<select name='CmbDia' id='select7' size='1' style='width:40px;'>";
 					for ($i=1;$i<=31;$i++)
 					{
-						if (isset($CmbDiasT))
+						if ($CmbDiaT)
 						{
-							if ($i==$CmbDiasT)
+							if ($i==$CmbDiaT)
 							{
 								echo "<option selected value= '".$i."'>".$i."</option>";
 							}
@@ -193,7 +211,7 @@ function Salir()
 	    		 echo "<select name='CmbMes' size='1' style='width:90px;'>";
 				  for($i=1;$i<13;$i++)
 				  {
-						if (isset($CmbMesT))
+						if ($CmbMesT)
 						{
 							if ($i==$CmbMesT)
 							{
@@ -231,7 +249,7 @@ function Salir()
 					echo "<select name='CmbAno' size='1' style='width:70px;'>";
 					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 					{
-						if (isset($CmbAnoT))
+						if ($CmbAnoT)
 						{
 							if ($i==$CmbAnoT)
 								{
@@ -264,7 +282,7 @@ function Salir()
 						if ($i<10)
 							$Valor = "0".$i;
 						else	$Valor = $i;
-						if (isset($HoraAnalisis))
+						if ($HoraAnalisis)
 						{	
 							if ($HoraAnalisis == $Valor)
 								echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
@@ -291,7 +309,7 @@ function Salir()
 						$Valor = "0".$i;
 					else
 						$Valor = $i;
-						if (isset($MinutosLixiv))
+						if ($MinutosLixiv)
 						{	
 							if ($MinutosLixiv == $Valor)
 								echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
@@ -362,7 +380,7 @@ function Salir()
 				$Consulta="select valor1 from pac_web.parametros where codigo=2";
 				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysqli_fetch_array($Respuesta);
-				$Densidad=$Fila[valor1];						
+				$Densidad=$Fila["valor1"];						
 			?> 
             <td>Toneladas</td>
             <td> 
