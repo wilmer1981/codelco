@@ -3,6 +3,11 @@
 	$CodigoDePantalla = 3;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+
+	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
 	switch($Proceso)
 	{
 		case "N":
@@ -137,7 +142,7 @@ function Salir()
 						$Respuesta=mysqli_query($link, $Consulta);
 						while ($Fila=mysqli_fetch_array($Respuesta))
 						{
-							echo "<option value ='$Fila[rut_cliente]~$Fila[corr_interno_cliente]'>$Fila[rut_cliente]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='z".$Fila["rut_cliente"]."~".$Fila["corr_interno_cliente"]."'>".$Fila["rut_cliente"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 						}
                			echo "</select>";
 
@@ -162,7 +167,7 @@ function Salir()
 						$Respuesta=mysqli_query($link, $Consulta);
 						while ($Fila=mysqli_fetch_array($Respuesta))
 						{
-							echo "<option value ='$Fila[rut_transportista]'>$Fila[rut_transportista]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='".$Fila["rut_transportista"]."'>".$Fila["rut_transportista"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 						}
 						echo "</select>";
 					}	

@@ -2,6 +2,17 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla =4;
 	include("../principal/conectar_pac_web.php");
+
+	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$Codigo   = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
+	$Nombre   = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$Val1     = isset($_REQUEST["TxtValor1"])?$_REQUEST["TxtValor1"]:"";
+	$Val2     = isset($_REQUEST["TxtValor2"])?$_REQUEST["TxtValor2"]:"";
+
+
 	switch($Proceso)
 	{
 		case "N":
@@ -33,7 +44,7 @@ function TeclaPulsada (tecla)
 { 
 var teclaCodigo = event.keyCode; 
 var teclaReal = String.fromCharCode(teclaCodigo); 
-alert("Código de la tecla: " + teclaCodigo + "\nTecla pulsada: " + teclaReal); 
+alert("Cï¿½digo de la tecla: " + teclaCodigo + "\nTecla pulsada: " + teclaReal); 
 }*/ 
 
 
@@ -131,7 +142,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroCoincidencia))
+	if ($EncontroCoincidencia)
 	{
 		if ($EncontroCoincidencia==true)
 		{

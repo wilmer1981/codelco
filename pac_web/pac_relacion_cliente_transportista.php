@@ -2,6 +2,7 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 24;
 	include("../principal/conectar_pac_web.php");
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 ?>
 <html>
 <head>
@@ -181,7 +182,7 @@ function Salir()
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				echo "<tr>"; 
-				echo "<td align='left'><input type='checkbox' name='CheckRelacion' value='$Fila[rut_cliente]~~$Fila[rut_transportista]~~$Fila[corr_interno_cliente]'></td>";
+				echo "<td align='left'><input type='checkbox' name='CheckRelacion' value='".$Fila["rut_cliente"]."~~".$Fila["rut_transportista"]."~~".$Fila["corr_interno_cliente"]."'></td>";
 				echo "<td align='left'>".$Fila["nombre_cliente"]."</td>";
 				echo "<td align='left'>".$Fila["nombre_transp"]."</td>";
 				echo "</tr>";
@@ -204,7 +205,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion)
 	{
 		if ($EncontroRelacion==true)
 		{

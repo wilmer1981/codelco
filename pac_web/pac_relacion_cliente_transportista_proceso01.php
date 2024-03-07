@@ -1,12 +1,19 @@
 <?php
 	include("../principal/conectar_pac_web.php");
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Tipo = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+
+	$CmbCliente = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$CmbTransp = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
+
 	$Entrar=true;
 	$Arr=explode('~',$CmbCliente);
 	$CmbCliente=$Arr[0];
 	$CorrInterno=$Arr[1];
 	switch ($Proceso)
 	{
-		
 		case "N":
 			$Consulta="select * from pac_web.relacion_cliente_transp where rut_cliente='$CmbCliente'and corr_interno_cliente='$CorrInterno' and rut_transportista='$CmbTransp'";
 			$Respuesta=mysqli_query($link, $Consulta);
@@ -25,7 +32,7 @@
 		case "E":
 			$EncontroRelacion=false;
 			$Datos=explode("//",$Valores);
-			while (list($Clave,$Valor)=each($Datos))
+			foreach($Datos as $Clave => $Valor)
 			{
 				$Datos2=explode("~~",$Valor);			
 				$Cliente=$Datos2[0];

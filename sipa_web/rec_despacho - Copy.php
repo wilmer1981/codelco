@@ -297,7 +297,7 @@
 									$RespGrupo=mysqli_query($link, $Consulta);
 									$FilaGrupo=mysqli_fetch_array($RespGrupo);
 									$CmbGrupoProd=$FilaGrupo["cod_grupo"];
-									$CmbProveedor=$FilaPac["rut_cliente"].'~'.$FilaPac[corr_interno_cliente];
+									$CmbProveedor=$FilaPac["rut_cliente"].'~'.$FilaPac["corr_interno_cliente"];
 									$CmbTipoDespacho='V';
 									$TxtRutChofer=$FilaPac["rut_chofer"];
 									$TxtNomChofer=$FilaPac["nombre"];
@@ -1410,7 +1410,7 @@ switch($TxtNumRomana)
 								$Resp = mysqli_query($link, $Consulta);
 								while ($Fila = mysqli_fetch_array($Resp))
 								{
-									if (strtoupper($CmbProveedor) == strtoupper($Fila["rut_cliente"].'~'.$Fila[corr_interno_cliente]))
+									if (strtoupper($CmbProveedor) == strtoupper($Fila["rut_cliente"].'~'.$Fila["corr_interno_cliente"]))
 									{
 										$TipoDespacho=$Fila[indicador_traslado];
 										?><input  size="60" type="text"  class="InputIzq" <?php echo $BloqueoTxt.$Class;?> name="nnnn" value="<?php echo str_pad($Fila["rut_cliente"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre"]; ?>"> <?php 
@@ -1448,8 +1448,8 @@ switch($TxtNumRomana)
 									if ($pos === false)
 										echo "EN CASO QUE RUT NO CONTENGA GUION O SE RUT MAL INGRESADO";
 									else
-										if (strtoupper($CmbProveedor) == strtoupper($Fila["rut_cliente"].'~'.$Fila[corr_interno_cliente]))
-											echo "<option SELECTed value='".$Fila["rut_cliente"].'~'.$Fila[corr_interno_cliente]."'>".str_pad($Fila["rut_cliente"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre"]."</option>\n";
+										if (strtoupper($CmbProveedor) == strtoupper($Fila["rut_cliente"].'~'.$Fila["corr_interno_cliente"]))
+											echo "<option SELECTed value='".$Fila["rut_cliente"].'~'.$Fila["corr_interno_cliente"]."'>".str_pad($Fila["rut_cliente"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre"]."</option>\n";
 										else
 											echo "<option value='".$Fila["rut_cliente"].'~'.$Fila[corr_interno_cliente]."'>".str_pad($Fila["rut_cliente"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre"]."</option>\n";
 								}

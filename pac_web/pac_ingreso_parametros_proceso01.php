@@ -1,5 +1,15 @@
 <?php
 	include("../principal/conectar_pac_web.php");
+
+	
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$TxtCodigo = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
+	$TxtNombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtValor1     = isset($_REQUEST["TxtValor1"])?$_REQUEST["TxtValor1"]:"";
+	$TxtValor2     = isset($_REQUEST["TxtValor2"])?$_REQUEST["TxtValor2"]:"";
+
 	$Entrar=true;
 	switch ($Proceso)
 	{

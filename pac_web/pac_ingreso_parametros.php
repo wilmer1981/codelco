@@ -2,6 +2,8 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 5;
 	include("../principal/conectar_pac_web.php");
+
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 ?>
 <html>
 <head>
@@ -179,7 +181,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion)
 	{
 		if ($EncontroRelacion==true)
 		{
