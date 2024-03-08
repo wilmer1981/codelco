@@ -1,7 +1,28 @@
 <?php 	
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
+	//$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+
+	$Ano    =isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes    =isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+
+	
+	$CheckEK         = isset($_REQUEST["CheckEK"])?$_REQUEST["CheckEK"]:"";
+	$TxtStockInicial = isset($_REQUEST["TxtStockInicial"])?$_REQUEST["TxtStockInicial"]:"";
+	$TxtStockActual  = isset($_REQUEST["TxtStockActual"])?$_REQUEST["TxtStockActual"]:"";
+	$TxtRecepcion = isset($_REQUEST["TxtRecepcion"])?$_REQUEST["TxtRecepcion"]:"";
+	$TxtEnvio     = isset($_REQUEST["TxtEnvio"])?$_REQUEST["TxtEnvio"]:"";
+	$CmbSigno     = isset($_REQUEST["CmbSigno"])?$_REQUEST["CmbSigno"]:"";
+	$TxtAjuste    = isset($_REQUEST["TxtAjuste"])?$_REQUEST["TxtAjuste"]:"";
+
+
 	switch($Proceso)
 	{
 		case "N":
@@ -13,9 +34,9 @@
 				if (substr($Datos,$i,2)=="//")
 				{
 					
-					$AnoMes=substr($Datos,0,$i);
-					$Ano=substr($AnoMes,0,4);
-					$Mes=substr($AnoMes,4);
+					$AnoMes =substr($Datos,0,$i);
+					$Ano    =substr($AnoMes,0,4);
+					$Mes    =substr($AnoMes,4);
 					break;
 				}
 			}
@@ -138,7 +159,7 @@ function Calcula(J)
 <?php
 	if ($Proceso=='N')
 	{
-		echo "<body onload='document.FrmProceso.CmbAno.focus()' background='../principal/imagenes/fondo3.gif' leftmargin='3' topmargin='5' marginwidth='0' marginheight='0'>";
+		//echo "<body onload='document.FrmProceso.CmbAno.focus()' background='../principal/imagenes/fondo3.gif' leftmargin='3' topmargin='5' marginwidth='0' marginheight='0'>";
 	}
 	else
 	{
@@ -152,14 +173,14 @@ function Calcula(J)
       <td valign="top">
 <table width="590" border="0" align="center" cellpadding="5" class="TablaInterior">
           <tr> 
-            <td> Año 
+            <td> Aï¿½o 
               <?php
 				if ($Proceso!="M")
 				{
 					echo "<select name='CmbAno' size='1' style='width:70px;'>";
 					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 					{
-						if (isset($CmbAno))
+						if ($CmbAno)
 						{
 							if ($i==$CmbAno)
 								{
@@ -170,7 +191,7 @@ function Calcula(J)
 								{
 									echo "<option value='".$i."'>".$i."</option>";
 								}
-						}
+						}/*
 						else
 						{
 							if ($i==date("Y"))
@@ -182,14 +203,14 @@ function Calcula(J)
 								{
 									echo "<option value='".$i."'>".$i."</option>";
 								}
-						}		
+						}*/		
 					}
-				echo "</select>";
-			}
-			else
-			{
+				    echo "</select>";
+			    }
+			    else
+			    {
 				echo $Ano;
-			}   
+			    }   
 				
 			?>
               Mes 
@@ -199,7 +220,7 @@ function Calcula(J)
 				  echo "<select name='CmbMes' size='1' style='width:90px;' >";
 				  for($i=1;$i<13;$i++)
 				  {
-						if (isset($CmbMes))
+						if ($CmbMes)
 						{
 							if ($i==$CmbMes)
 							{
@@ -247,14 +268,22 @@ function Calcula(J)
 			echo "<td width='100' align='center'>Ajustes(Ton)</td>";
 			echo "<td width='100' align='center'>Stock-Actual(Ton)</td>";
 			echo "</tr>";
-			$Consulta="select count(*) as TotalRegistro from pac_web.stock_estanques t1 left join proyecto_modernizacion.sub_clase t2 on t2.cod_clase = 9001 and t1.cod_estanque=t2.cod_subclase where ano=".$Ano." and mes=".$Mes;
+			//$Consulta="select count(*) as TotalRegistro from pac_web.stock_estanques t1 left join proyecto_modernizacion.sub_clase t2 on t2.cod_clase = '9001' and t1.cod_estanque=t2.cod_subclase where ano=".$Ano." and mes=".$Mes;
+			$Consulta=" SELECT count(*) as TotalRegistro from pac_web.stock_estanques t1";
+			$Consulta.=" LEFT JOIN proyecto_modernizacion.sub_clase t2 on t2.cod_clase = '9001' and t1.cod_estanque=t2.cod_subclase ";
+			$Consulta.=" WHERE EXTRACT(YEAR FROM t1.fecha)='".$Ano."' AND EXTRACT(MONTH FROM t1.fecha)='".$Mes."' ";	
+			//echo $Consulta;	
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
 			if ($Fila["TotalRegistro"] > 0 )
 			{
 				$FechaDesde=$Ano."-".$Mes."-01 00:00:01";
 				$FechaHasta=$Ano."-".$Mes."-31 23:59:59";
-				$Consulta="select * from pac_web.stock_estanques t1 left join proyecto_modernizacion.sub_clase t2 on t2.cod_clase = 9001 and t1.cod_estanque=t2.cod_subclase where ano=".$Ano." and mes=".$Mes." and t2.cod_subclase <> '5' order by t1.cod_estanque";
+				//$Consulta="select * from pac_web.stock_estanques t1 left join proyecto_modernizacion.sub_clase t2 on t2.cod_clase = 9001 and t1.cod_estanque=t2.cod_subclase where ano=".$Ano." and mes=".$Mes." and t2.cod_subclase <> '5' order by t1.cod_estanque";
+				$Consulta="SELECT * from pac_web.stock_estanques t1 ";
+				$Consulta.=" LEFT JOIN proyecto_modernizacion.sub_clase t2 on t2.cod_clase = '9001' and t1.cod_estanque=t2.cod_subclase";
+				$Consulta.=" WHERE EXTRACT(YEAR FROM t1.fecha)='".$Ano."' AND EXTRACT(MONTH FROM t1.fecha)='".$Mes."' AND t2.cod_subclase <> '5'";
+				$Consulta.=" ORDER BY t1.cod_estanque";				
 				$Respuesta=mysqli_query($link, $Consulta);
 				$i=1;
 				if ($Proceso=='M')
@@ -269,6 +298,7 @@ function Calcula(J)
 				{
 					echo "<tr>";
 					$StockActual=0;
+					$StockActual2=0;//wso
 					echo "<td width='40'><input type='checkbox' name='CheckEK[".$i."]' value='".$Fila["cod_estanque"]."'>".$Fila["nombre_subclase"]."</td>";
 					if ($Fila["stock_inicial"]!=0)
 					{
@@ -287,7 +317,11 @@ function Calcula(J)
 							$AnoStock=$Ano;
 							$MesStock=$Mes-1;								
 						}
-						$Consulta="select stock_actual from pac_web.stock_estanques where ano=".$AnoStock." and mes=".$MesStock." and cod_estanque=".$Fila[cod_estanque];						
+						//$Consulta="select stock_actual from pac_web.stock_estanques where ano=".$AnoStock." and mes=".$MesStock." and cod_estanque=".$Fila["cod_estanque"];						
+						
+						$Consulta="SELECT stock_actual from pac_web.stock_estanques";						
+						$Consulta.=" WHERE EXTRACT(YEAR FROM fecha)='".$AnoStock."' AND EXTRACT(MONTH FROM fecha)='".$MesStock."' AND cod_estanque='".$Fila["cod_estanque"]."' ";						
+						
 						$RespuestaStock=mysqli_query($link, $Consulta);
 						if ($FilaStock=mysqli_fetch_array($RespuestaStock))
 						{	
@@ -309,8 +343,8 @@ function Calcula(J)
 					{
 						$Recepcion=$Recepcion+$Fila2["toneladas"];	
 					}
-					$StockActual=$Fila["stock_inicial"]+$Recepcion;
-					$StockActual2=$StockActual2+$Recepcion;
+					$StockActual = $Fila["stock_inicial"]+$Recepcion;
+					$StockActual2= $StockActual2 + $Recepcion;
 					echo "<td width='100' align='center'><input type='text' style='width:70' name ='TxtRecepcion[".$i."]' value ='".$Recepcion."' readonly></td>";
 					$Envio=0;
 					$Consulta="select * from pac_web.movimientos where (tipo_movimiento=1 or tipo_movimiento=4 or tipo_movimiento=5 or tipo_movimiento=7) and fecha_hora between '".$FechaDesde."' and '".$FechaHasta."' and cod_estanque_origen = ".$Fila["cod_estanque"];
@@ -324,7 +358,7 @@ function Calcula(J)
 					echo "<td width='100' align='center'><input type='text' style='width:70' name ='TxtEnvio[".$i."]' value ='".$Envio."' readonly></td>";
 					echo "<td width='100' align='center'>";
 					echo "<select name='CmbSigno[".$i."]' size='1' style='width:35px;' >";
-					if ($Fila[signo]=='+')
+					if ($Fila["signo"]=='+')
 					{
 						echo "<option value='+' selected>+</option>";
 						echo "<option value='-' >-</option>";

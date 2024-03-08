@@ -3,6 +3,9 @@
 	$CodigoDePantalla = 10;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:false;
+
 ?>
 <html>
 <head>
@@ -143,7 +146,7 @@ function Salir()
 			echo "<table width='750' border='1' cellpadding='3' cellspacing='0' >";
 			echo "<tr class='ColorTabla01'>"; 
 			echo "<td width='20'><input type='checkbox' name='CheckTodos' value='checkbox' onClick='CheckearTodo();'></td>";
-			echo "<td width='40' align='center'>Año</td>";
+			echo "<td width='40' align='center'>Aï¿½o</td>";
 			echo "<td width='40' align='center'>Mes</td>";
 			echo "<td width='50' align='center'>Estanque</td>";
 			echo "<td width='90' align='center'>Stock Ini.</td>";
@@ -153,8 +156,12 @@ function Salir()
 			echo "<td width='90' align='center'>Stock Actual</td>";
 			echo "</tr>";
 			$AnoMes=0;
-			$Consulta = "select t1.ano,t1.mes,t1.stock_inicial,t1.recepcion,t1.envio,t1.signo,t1.ajuste,t1.stock_actual,t2.nombre_subclase as estanque " ;
-			$Consulta = $Consulta." from pac_web.stock_estanques t1 left join proyecto_modernizacion.sub_clase t2 on t2.cod_clase=9001 and t1.cod_estanque=t2.cod_subclase where t2.cod_subclase <> '5' order by ano,mes,cod_estanque";
+			//$Consulta = "SELECT t1.ano, t1.mes, t1.stock_inicial, t1.recepcion, t1.envio, t1.signo, t1.ajuste, t1.stock_actual, t2.nombre_subclase as estanque " ;
+			$Consulta = "SELECT EXTRACT(YEAR FROM t1.fecha) as ano, EXTRACT(MONTH FROM t1.fecha) as mes, t1.stock_inicial, t1.recepcion, t1.envio, t1.signo, t1.ajuste, t1.stock_actual, t2.nombre_subclase as estanque " ;
+			$Consulta.=" FROM pac_web.stock_estanques t1";
+			$Consulta.=" LEFT JOIN proyecto_modernizacion.sub_clase t2 ON t2.cod_clase='9001' and t1.cod_estanque=t2.cod_subclase";
+			$Consulta.=" WHERE t2.cod_subclase <> '5' ";
+			$Consulta.=" ORDER BY ano, mes,t1.cod_estanque";	
 			$Resultado=mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='CheckStock'><input type='hidden' name ='TxtAno'><input type='hidden' name ='TxtMes'>";
 			while ($Fila=mysqli_fetch_array($Resultado))
@@ -163,7 +170,7 @@ function Salir()
 				if ($AnoMes!=$AnoMesAux)
 				{
 					echo "<tr>"; 
-					echo "<td with='20' align='left'><input type='checkbox' name='CheckStock' value='checkbox'><input type='hidden' name='TxtAno' value='".$Fila[ano]."'><input type='hidden' name='TxtMes' value='".$Fila[mes]."'></td>";
+					echo "<td with='20' align='left'><input type='checkbox' name='CheckStock' value='checkbox'><input type='hidden' name='TxtAno' value='".$Fila["ano"]."'><input type='hidden' name='TxtMes' value='".$Fila["mes"]."'></td>";
 					echo "<td width='40' align='center'><strong>".$Fila["ano"]."</strong></td>";
 					echo "<td width='40' align='center'><strong>".$meses[$Fila["mes"]-1]."</strong></td>";
 					echo "<td width='60' align='center'>&nbsp;</td>";
@@ -219,10 +226,12 @@ function Salir()
 		?>
         <br> <table width="750" border="0" class="tablainterior">
           <tr> 
-            <td align="center"> <input type="button" name="BtnNuevo" value="Nuevo" style="width:60" onClick="MostrarPopupProceso('N');"> 
-              <input type="button" name="BtnModificar" value="Modificar" style="width:60" onClick="MostrarPopupProceso('M');"> 
-              <input type="button" name="BtnEliminar" value="Eliminar" style="width:60" onClick="MostrarPopupProceso('E');"> 
-              <input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();"></td>
+            <td align="center">
+				<input type="button" name="BtnNuevo" value="Nuevo" style="width:60" onClick="MostrarPopupProceso('N');"> 
+            	<input type="button" name="BtnModificar" value="Modificar" style="width:60" onClick="MostrarPopupProceso('M');"> 
+            	<input type="button" name="BtnEliminar" value="Eliminar" style="width:60" onClick="MostrarPopupProceso('E');"> 
+            	<input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();">
+			</td>
           </tr>
         </table>
         <br>
@@ -234,7 +243,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion)
 	{
 		if ($EncontroRelacion==true)
 		{
