@@ -2,6 +2,7 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 13;
 	include("../principal/conectar_pac_web.php");
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 ?>
 <html>
 <head>
@@ -187,11 +188,11 @@ function Salir()
 				echo "<td width='60' align='center'>".$Fila["num_guia"]."</td>";
 				if ($Fila["tipo_recepcion"]==0)
 				{
-					echo "<td width='50' align='left'>Devolucion<input type='hidden' name ='TxtTipoRecep' value='$Fila[tipo_recepcion]'></td>";
+					echo "<td width='50' align='left'>Devolucion<input type='hidden' name ='TxtTipoRecep' value='".$Fila["tipo_recepcion"]."'></td>";
 				}
 				else
 				{
-					echo "<td width='50' align='left'>Servicio<input type='hidden' name ='TxtTipoRecep' value='$Fila[tipo_recepcion]'></td>";
+					echo "<td width='50' align='left'>Servicio<input type='hidden' name ='TxtTipoRecep' value='".$Fila["tipo_recepcion"]."'></td>";
 				}
 				echo "<td width='60' align='left'>".$Fila["movimiento"]."</td>";
 				echo "</tr>";

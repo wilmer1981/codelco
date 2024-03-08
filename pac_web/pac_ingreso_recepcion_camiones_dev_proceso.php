@@ -3,9 +3,34 @@
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	$Rut =$CookieRut;
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Rut       = $CookieRut;
+
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbDia = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:date("d");
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$HoraAnalisis = isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:date("H");
+	$MinutosLixiv = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:date("i");
+
+	$Guia = isset($_REQUEST["Guia"])?$_REQUEST["Guia"]:"";
+	$TxtNumGuia = isset($_REQUEST["TxtNumGuia"])?$_REQUEST["TxtNumGuia"]:"";
+	$CmbTransportista = isset($_REQUEST["CmbTransportista"])?$_REQUEST["CmbTransportista"]:"";
+	$CmbPatentes = isset($_REQUEST["CmbPatentes"])?$_REQUEST["CmbPatentes"]:"";
+	$Volumen = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
+	$CodEKDestino = isset($_REQUEST["CmbEstanqueDestino"])?$_REQUEST["CmbEstanqueDestino"]:"";
+	$CmbOperario = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
+	$TipoRecep = isset($_REQUEST["TipoRecep"])?$_REQUEST["TipoRecep"]:"";
+	$RutF = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
+	$Ok = isset($_REQUEST["Ok"])?$_REQUEST["Ok"]:"";
+	$FechaHora = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+
 	$HoraActual = date("H");
 	$MinutoActual = date("i");
+	//$FechaHora = date("Y-m-d H:i:s");
 	switch($Proceso)
 	{
 		case "N":
@@ -23,9 +48,9 @@
 			$Consulta="select * from pac_web.recepcion_camiones where fecha_hora='".$FechaHora."' and tipo_movimiento=6";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$Guia=$Fila["num_guia"];
-			$RutF=$Fila[rut_funcionario];
-			$Ok='S';
+			$Guia = $Fila["num_guia"];
+			$RutF = $Fila["rut_funcionario"];
+			$Ok   ='S';
 			break;	
 	}	
 
@@ -207,7 +232,7 @@ function Salir()
 					echo "<select name='CmbDia' id='select7' size='1' style='width:40px;'>";
 					for ($i=1;$i<=31;$i++)
 					{
-						if (isset($CmbDia))
+						if ($CmbDia)
 						{
 							if ($i==$CmbDia)
 							{
@@ -241,7 +266,7 @@ function Salir()
 				  echo "<select name='CmbMes' size='1' style='width:90px;'>";
 				  for($i=1;$i<13;$i++)
 				  {
-						if (isset($CmbMes))
+						if ($CmbMes)
 						{
 							if ($i==$CmbMes)
 							{
@@ -275,7 +300,7 @@ function Salir()
 					echo "<select name='CmbAno' size='1' style='width:70px;'>";
 					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 					{
-						if (isset($CmbAno))
+						if ($CmbAno)
 						{
 							if ($i==$CmbAno)
 								{
@@ -310,7 +335,7 @@ function Salir()
 						if ($i<10)
 							$Valor = "0".$i;
 						else	$Valor = $i;
-						if (isset($HoraAnalisis))
+						if ($HoraAnalisis)
 						{	
 							if ($HoraAnalisis == $Valor)
 								echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
@@ -337,7 +362,7 @@ function Salir()
 						$Valor = "0".$i;
 					else
 						$Valor = $i;
-						if (isset($MinutosLixiv))
+						if ($MinutosLixiv)
 						{	
 							if ($MinutosLixiv == $Valor)
 								echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
@@ -395,13 +420,16 @@ function Salir()
             <td>Transportista</td>
             <td> 
               <?php
-				if ((isset($Ok))&&($Ok=='S'))
-				{	
+				//if (($Ok) && ($Ok=='S'))
+				if ($Ok=='S')
+				{
 					$Consulta="select t2.rut_transportista,t2.nombre from pac_web.guia_despacho t1 left join pac_web.transportista t2 on t1.rut_transportista=t2.rut_transportista  where num_guia='".$TxtNumGuia."'and estado='I'";
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
-					echo "<input type='hidden' name='CmbTransportista' value='$Fila[rut_transportista]'>";
-					echo $Fila[rut_transportista]."-".$Fila["nombre"];
+					$rut_transportista= isset($Fila["rut_transportista"])?$Fila["rut_transportista"]:"";
+					$nombre= isset($Fila["nombre"])?$Fila["nombre"]:"";
+					echo "<input type='hidden' name='CmbTransportista' value='".$rut_transportista."'>";
+					echo $rut_transportista."-".$nombre;
 				}	
 			  ?>
             </td>
@@ -410,16 +438,21 @@ function Salir()
             <td>Patente</td>
             <td> 
               <?php
-				if ((isset($Ok))&&($Ok=='S'))
+				//if (($Ok) && ($Ok=='S'))
+				if ($Ok=='S')
 				{	
 					$Consulta="select nro_patente,toneladas,cod_estanque,rut_funcionario from pac_web.guia_despacho where num_guia='".$TxtNumGuia."' and estado='I'";
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
-					echo "<input type='hidden' name='CmbPatentes' value='$Fila[nro_patente]'>";
-					echo $Fila[nro_patente];
-					$Volumen=$Fila[toneladas];
-					$CodEKDestino=$Fila[cod_estanque];
-					$Rut=$Fila[rut_funcionario];
+					$nro_patente= isset($Fila["nro_patente"])?$Fila["nro_patente"]:"";
+					$toneladas  = isset($Fila["toneladas"])?$Fila["toneladas"]:"";
+					$cod_estanque= isset($Fila["cod_estanque"])?$Fila["cod_estanque"]:"";
+					$rut_funcionario= isset($Fila["rut_funcionario"])?$Fila["rut_funcionario"]:"";
+					echo "<input type='hidden' name='CmbPatentes' value='".$nro_patente."'>";
+					echo $nro_patente;
+					$Volumen     =$toneladas;
+					$CodEKDestino=$cod_estanque;
+					$Rut         =$rut_funcionario;
 				}	
 			  ?>
             </td>
@@ -428,7 +461,8 @@ function Salir()
             <td>Toneladas Recep.</td>
             <td>
 			<?php 
-				if ((isset($Ok))&&($Ok=='S'))
+				//if (($Ok) && ($Ok=='S'))
+				if ($Ok=='S')
 				{	
 					echo "<input type='text' name='TxtVolumen' style='width:80' onKeyDown='TeclaPulsada();' maxlength='10' value='$Volumen'>"; 
 				}

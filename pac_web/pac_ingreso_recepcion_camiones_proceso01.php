@@ -1,5 +1,25 @@
 <?php
 	include("../principal/conectar_pac_web.php");
+	
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbDia = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:date("d");
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbHora    = isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:date("H");
+	$CmbMinutos = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:date("i");
+
+	$NumGuia = isset($_REQUEST["NumGuia"])?$_REQUEST["NumGuia"]:"";
+	$CmbTransportista = isset($_REQUEST["CmbTransportista"])?$_REQUEST["CmbTransportista"]:"";
+	$CmbPatentes = isset($_REQUEST["CmbPatentes"])?$_REQUEST["CmbPatentes"]:"";
+	$TxtVolumen = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
+	$CmbEstanqueDestino = isset($_REQUEST["CmbEstanqueDestino"])?$_REQUEST["CmbEstanqueDestino"]:"";
+	$CmbOperario = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
+	$TipoRecep = isset($_REQUEST["TipoRecep"])?$_REQUEST["TipoRecep"]:"";
+	$RutF = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
+	$FechaHora = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+
 	$HoraInicio=date('h:i:')."00";
 	$HoraFinal=date('h:i:')."00";
 	switch ($Proceso)

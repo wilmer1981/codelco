@@ -3,9 +3,30 @@
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbDia = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:date("d");
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$HoraAnalisis = isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:date("H");
+	$MinutosLixiv = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:date("i");
+
+	$TxtNumGuia = isset($_REQUEST["TxtNumGuia"])?$_REQUEST["TxtNumGuia"]:"";
+	$CmbTransportista = isset($_REQUEST["CmbTransportista"])?$_REQUEST["CmbTransportista"]:"";
+	$CmbPatentes = isset($_REQUEST["CmbPatentes"])?$_REQUEST["CmbPatentes"]:"";
+	$Volumen = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
+	$CodEKDestino = isset($_REQUEST["CmbEstanqueDestino"])?$_REQUEST["CmbEstanqueDestino"]:"";
+	$CmbOperario = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
+	$TipoRecep = isset($_REQUEST["TipoRecep"])?$_REQUEST["TipoRecep"]:"";
+	$RutF = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
+
 	$HoraActual = date("H");
 	$MinutoActual = date("i");
+	$FechaHora = date("Y-m-d H:i:s");
 	switch($Proceso)
 	{
 		case "N":
@@ -20,22 +41,22 @@
 					break;
 				}
 			}
-			$Consulta="select * from pac_web.recepcion_camiones where fecha_hora='".$FechaHora."' and tipo_movimiento=6";
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila=mysqli_fetch_array($Respuesta);
-			$TipoRecep=$Fila[tipo_recepcion];
-			if (!isset($CmbTransportista))
+			$Consulta  = "select * from pac_web.recepcion_camiones where fecha_hora='".$FechaHora."' and tipo_movimiento=6";
+			$Respuesta = mysqli_query($link, $Consulta);
+			$Fila      = mysqli_fetch_array($Respuesta);
+			$TipoRecep = $Fila["tipo_recepcion"];
+			if ($CmbTransportista=="")
 			{
-				$CmbTransportista=$Fila[rut_transportista];	
+				$CmbTransportista=$Fila["rut_transportista"];	
 			}
-			if (!isset($CmbPatentes))
+			if ($CmbPatentes=="")
 			{
-				$CmbPatentes=$Fila[nro_patente];
+				$CmbPatentes=$Fila["nro_patente"];
 			}
-			$Volumen=str_replace(".",",",$Fila["volumen"]);
-			$CodEKDestino=$Fila["cod_estanque"];
-			$TxtNumGuia=$Fila["num_guia"];
-			$RutF=$Fila["rut_funcionario"];
+			$Volumen     = str_replace(".",",",$Fila["volumen"]);
+			$CodEKDestino= $Fila["cod_estanque"];
+			$TxtNumGuia  = $Fila["num_guia"];
+			$RutF        = $Fila["rut_funcionario"];
 			break;	
 	}	
 
@@ -205,7 +226,7 @@ function Salir()
 					echo "<select name='CmbDia' id='select7' size='1' style='width:40px;'>";
 					for ($i=1;$i<=31;$i++)
 					{
-						if (isset($CmbDia))
+						if ($CmbDia)
 						{
 							if ($i==$CmbDia)
 							{
@@ -239,7 +260,7 @@ function Salir()
 				  echo "<select name='CmbMes' size='1' style='width:90px;'>";
 				  for($i=1;$i<13;$i++)
 				  {
-						if (isset($CmbMes))
+						if ($CmbMes)
 						{
 							if ($i==$CmbMes)
 							{
@@ -273,7 +294,7 @@ function Salir()
 					echo "<select name='CmbAno' size='1' style='width:70px;'>";
 					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 					{
-						if (isset($CmbAno))
+						if ($CmbAno)
 						{
 							if ($i==$CmbAno)
 								{
@@ -310,7 +331,7 @@ function Salir()
 						if ($i<10)
 							$Valor = "0".$i;
 						else	$Valor = $i;
-						if (isset($HoraAnalisis))
+						if ($HoraAnalisis)
 						{	
 							if ($HoraAnalisis == $Valor)
 								echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
@@ -337,7 +358,7 @@ function Salir()
 						$Valor = "0".$i;
 					else
 						$Valor = $i;
-						if (isset($MinutosLixiv))
+						if ($MinutosLixiv)
 						{	
 							if ($MinutosLixiv == $Valor)
 								echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
@@ -372,13 +393,13 @@ function Salir()
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($Fila[rut_transportista]==$CmbTransportista)
+						if ($Fila["rut_transportista"]==$CmbTransportista)
 						{
-							echo "<option value='".$Fila[rut_transportista]."' selected>".$Fila[rut_transportista]."-".$Fila["nombre"]."</option>";
+							echo "<option value='".$Fila["rut_transportista"]."' selected>".$Fila["rut_transportista"]."-".$Fila["nombre"]."</option>";
 						}
 						else
 						{
-							echo "<option value='".$Fila[rut_transportista]."'>".$Fila[rut_transportista]."-".$Fila["nombre"]."</option>";					
+							echo "<option value='".$Fila["rut_transportista"]."'>".$Fila["rut_transportista"]."-".$Fila["nombre"]."</option>";					
 						}	
 					}
 					echo "</select>";
@@ -395,13 +416,13 @@ function Salir()
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbPatentes==$Fila[nro_patente])
+						if ($CmbPatentes==$Fila["nro_patente"])
 						{
-							echo "<option value='".$Fila[nro_patente]."' selected>".$Fila[nro_patente]."</option>";
+							echo "<option value='".$Fila["nro_patente"]."' selected>".$Fila["nro_patente"]."</option>";
 						}
 						else
 						{
-							echo "<option value='".$Fila[nro_patente]."'>".$Fila[nro_patente]."</option>";
+							echo "<option value='".$Fila["nro_patente"]."'>".$Fila["nro_patente"]."</option>";
 						}	
 					}
 					echo "</select>";
@@ -463,7 +484,9 @@ function Salir()
         <br>
         <table width="500" border="0" cellpadding="5" class="TablaInterior">
           <tr> 
-            <td  align="center" width="509"><input type="button" name="BtnGrabar" value="Grabar" style="width:60" onClick="Grabar('<?php echo $Proceso;?>','<?php echo $Valores;?>','<?php echo $FechaHora;?>','<?php echo $TipoRecep;?>','<?php echo $Ok;?>')">
+            <td  align="center" width="509">
+				<!--<input type="button" name="BtnGrabar" value="Grabar" style="width:60" onClick="Grabar('<?php //echo $Proceso;?>','<?php //echo $Valores;?>','<?php //echo $FechaHora;?>','<?php //echo $TipoRecep;?>','<?php //echo $Ok;?>')">-->
+			<input type="button" name="BtnGrabar" value="Grabar" style="width:60" onClick="Grabar('<?php echo $Proceso;?>','<?php echo $Valores;?>','<?php echo $FechaHora;?>','<?php echo $TipoRecep;?>','')">
               <input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();">
               &nbsp; </td>
           </tr>
