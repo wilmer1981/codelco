@@ -220,11 +220,11 @@ function Salir()
 			  while($Fila=mysqli_fetch_array($Respuesta))
 			  {
   				  
-				  //echo "patente:".$Fila[nro_patente]." tipo:".$Fila[tipo]." fecha:".$Fila[fecha_rev_tecnica]."<".date($FechaInicio);
+				  //echo "patente:".$Fila["nro_patente"]." tipo:".$Fila[tipo]." fecha:".$Fila[fecha_rev_tecnica]."<".date($FechaInicio);
 				  if (($Fila[tipo]=='C')&&(date($Fila[fecha_rev_tecnica])<date($FechaInicio)))
 				  {
 					  echo "<tr>";
-					  echo "<td width='70' align='left'>".$Fila[nro_patente]."</td>";
+					  echo "<td width='70' align='left'>".$Fila["nro_patente"]."</td>";
 					  echo "<td width='70' align='left'>".$Fila[tipotransp]."</td>";
 					  echo "<td width='100' align='left'>".$Fila[marca]."</td>";
 					  echo "<td width='100' align='left'>".$Fila[modelo]."</td>";
@@ -235,7 +235,7 @@ function Salir()
 				  if (($Fila[tipo]=='R')&&((date($Fila[fecha_rev_tecnica])<date($FechaInicio))||(date($Fila[fecha_cert_estanque])<date($FechaInicio))))
 				  {
 					  echo "<tr>";
-					  echo "<td width='70' align='left'>".$Fila[nro_patente]."</td>";
+					  echo "<td width='70' align='left'>".$Fila["nro_patente"]."</td>";
 					  echo "<td width='70' align='left'>".$Fila[tipotransp]."</td>";
 					  echo "<td width='100' align='left'>".$Fila[marca]."</td>";
 					  echo "<td width='100' align='left'>".$Fila[modelo]."</td>";

@@ -45,7 +45,7 @@
 			  {
 				  echo "<tr>";
 				  echo "<td align='center'>".$Fila["num_guia"]."</td>";
-				  echo "<td align='center'>".$Fila[nro_patente]."</td>";
+				  echo "<td align='center'>".$Fila["nro_patente"]."</td>";
 				  echo "<td align='center'>".$Fila["fecha_hora"]."</td>";
 				  echo "<td align='center'>".$Fila[estanque]."</td>";
 				  echo "<td align='center'>".$Fila[toneladas]."</td>";

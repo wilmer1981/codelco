@@ -2,11 +2,48 @@
 	$Fecha_Hora = date("d-m-Y h:i");
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 3;
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
-	if (!isset($CmbBrazo))
-		$CmbBrazo='-1';	
+
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Ver = isset($_REQUEST["Ver"])?$_REQUEST["Ver"]:"";
+
+	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$hh = isset($_REQUEST["hh"])?$_REQUEST["hh"]:date("H");
+	$mm = isset($_REQUEST["mm"])?$_REQUEST["mm"]:date("i");
+
+	$CmbBrazo = isset($_REQUEST["CmbBrazo"])?$_REQUEST["CmbBrazo"]:'-1';
+	$checkbox = isset($_REQUEST["checkbox"])?$_REQUEST["checkbox"]:"";
+	$NumGuia = isset($_REQUEST["NumGuia"])?$_REQUEST["NumGuia"]:"";
+	$CmbOri = isset($_REQUEST["CmbOri"])?$_REQUEST["CmbOri"]:"";
+	$CmbTransp = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
+	$CmbCliente = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$CmbChofer = isset($_REQUEST["CmbChofer"])?$_REQUEST["CmbChofer"]:"";
+	$CmbPatente = isset($_REQUEST["CmbPatente"])?$_REQUEST["CmbPatente"]:"";
+	$CmbPatenteRampla = isset($_REQUEST["CmbPatenteRampla"])?$_REQUEST["CmbPatenteRampla"]:"";
+	$Toneladas = isset($_REQUEST["Toneladas"])?$_REQUEST["Toneladas"]:0;
+	$TxtMts = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$TxtCorrRomana = isset($_REQUEST["TxtCorrRomana"])?$_REQUEST["TxtCorrRomana"]:"";
+	$CmbProd = isset($_REQUEST["CmbProd"])?$_REQUEST["CmbProd"]:"";
+	$VUnitario = isset($_REQUEST["VUnitario"])?$_REQUEST["VUnitario"]:"";
+	$TxtObservacionAUX = isset($_REQUEST["TxtObservacionAUX"])?$_REQUEST["TxtObservacionAUX"]:"";
+	$TxtObservacionFun = isset($_REQUEST["TxtObservacionFun"])?$_REQUEST["TxtObservacionFun"]:"";
+	
+	$CmbEstanque = isset($_REQUEST["CmbEstanque"])?$_REQUEST["CmbEstanque"]:"";
+	$TxtSellos = isset($_REQUEST["TxtSellos"])?$_REQUEST["TxtSellos"]:"";
+
+	$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	
+	
+
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	$Correlativo="";
 	switch($Proceso)
 	{
 		case "M":
@@ -25,31 +62,32 @@
 			$NumGuia=$Fila1["num_guia"];
 			$FechaGuia=$Fila1["fecha_hora"];
 			if (!isset($CmbPatente))
-				$CmbPatente=$Fila1[nro_patente];	
+				$CmbPatente=$Fila1["nro_patente"];	
 			if (!isset($CmbPatenteRampla))
-				$CmbPatenteRampla=$Fila1[nro_patente_rampla];	
+				$CmbPatenteRampla=$Fila1["nro_patente_rampla"];	
 			if (!isset($CmbTransp))
-				$CmbTransp=$Fila1[rut_transportista];	
+				$CmbTransp=$Fila1["rut_transportista"];	
 			if (!isset($CmbCliente))
-				$CmbCliente=$Fila1[rut_cliente].'~'.$Fila1[corr_interno_cliente];	
+				$CmbCliente=$Fila1["rut_cliente"].'~'.$Fila1["corr_interno_cliente"];	
 			if (!isset($CmbChofer))
-				$CmbChofer=$Fila1[rut_chofer];	
+				$CmbChofer=$Fila1["rut_chofer"];	
 			if (!isset($CmbOri))
-				$CmbOri=$Fila1[cod_originador];	
+				$CmbOri=$Fila1["cod_originador"];	
 				
 			if (!isset($CmbProd))
 				$CmbProd=$Fila1["cod_producto"];	
 				
-				 $TxtSellos=$Fila1[sellos];	
+				 $TxtSellos=$Fila1["sellos"];	
 				
-			$CmbBrazo=$Fila1[brazo_carga];
-			$CmbEstanque=$Fila1[cod_estanque];
+			$CmbBrazo=$Fila1["brazo_carga"];
+			$CmbEstanque=$Fila1["cod_estanque"];
 			if (!isset($Toneladas))
-				$Toneladas=$Fila1[toneladas];
-			$TxtMts=$Fila1[volumen_m3];
-			$TxtCorrRomana=$Fila1[corr_romana];
+				$Toneladas=$Fila1["toneladas"];
+			
+			$TxtMts=$Fila1["volumen_m3"];
+			$TxtCorrRomana=$Fila1["corr_romana"];
 			$Observacion=$Fila1["descripcion"];
-			$Ver=$Fila1[tipo_guia];
+			$Ver=$Fila1["tipo_guia"];
 			if($Ver=='B')//BUQUE
 			{
 				$Consulta="select * from pac_web.movimientos where fecha_hora='".$FechaGuia."'";
@@ -73,8 +111,8 @@
 					}
 				}
 			}
-			$Correlativo=$Fila1[correlativo];
-			$VUnitario=$Fila1[valor_unitario];
+			$Correlativo=$Fila1["correlativo"];
+			$VUnitario=$Fila1["valor_unitario"];
 			break;
 
 	}	
@@ -235,7 +273,6 @@ function Grabar(Proceso,V,C,Tipo,checkbox)//V=variable Opcion Ver ,sirve para el
 	{
 		if(confirm("�Est� seguro de generar la GDE.?"))
 		{
-			
 			document.getElementById("BtnGDE").disabled = true;
 			Frm.action="pac_guia_despacho_proceso01.php?Proceso="+Proceso + "&Ver="+V+"&Correlativo="+C+"&FechaHoraRomana="+FechaHoraRomana+"&checkbox="+checkbox;
 			Frm.submit();
@@ -323,7 +360,7 @@ function TeclaPulsada (tecla)
           <td>Fecha Hora Gu&iacute;a:</td>
    <td width="327"> 
 <select name="dia" size="1">
-			<?php
+	<?php
 		$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 		for ($i=1;$i<=31;$i++)
 		{	
@@ -441,16 +478,16 @@ function TeclaPulsada (tecla)
 				$Respuesta=mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					if ($CmbOri==$Fila[cod_originador])
-					{	echo "<option value ='$Fila[cod_originador]' selected>$Fila[rut]&nbsp;-&nbsp;$Fila["nombre"]</option>";
-						$txtorirut=$Fila[rut];
+					if ($CmbOri==$Fila["cod_originador"])
+					{	echo "<option value ='".$Fila["cod_originador"]."' selected>".$Fila["rut"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
+						$txtorirut=$Fila["rut"];
 						$txtorinombre=$Fila["nombre"];
-						$txtorilugar=$Fila[lugar];
-						$txtoridivsap=$Fila[div_sap];
+						$txtorilugar=$Fila["lugar"];
+						$txtoridivsap=$Fila["div_sap"];
 						$txtorialmacensap=$Fila["almacen_sap"];
 				    }
 					else{
-						echo "<option value ='$Fila[cod_originador]' >$Fila[rut]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+						echo "<option value ='".$Fila["cod_originador"]."' >".$Fila["rut"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 					}
 				}
 				echo "</select>";
@@ -478,15 +515,15 @@ function TeclaPulsada (tecla)
 				$Respuesta=mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					if ($CmbTransp==$Fila[rut_transportista])
-					{	echo "<option value ='$Fila[rut_transportista]' selected>$Fila[rut_transportista]&nbsp;-&nbsp;$Fila["nombre"]</option>";
-						$TxtTranspRut=$Fila[rut_transportista];
+					if ($CmbTransp==$Fila["rut_transportista"])
+					{	echo "<option value ='".$Fila["rut_transportista"]."' selected>".$Fila["rut_transportista"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
+						$TxtTranspRut=$Fila["rut_transportista"];
 						$TxtTranspNombre=$Fila["nombre"];
-						$TxtTranspGiro=$Fila[giro_transp];
-						/*$TxtTranspIndicador=$Fila[indicador_traslado];*/
+						$TxtTranspGiro=$Fila["giro_transp"];
+						/*$TxtTranspIndicador=$Fila["indicador_traslado"];*/
 					}
 					else
-						echo "<option value ='$Fila[rut_transportista]' >$Fila[rut_transportista]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+						echo "<option value ='".$Fila["rut_transportista"]."' >".$Fila["rut_transportista"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 				}
 				echo "</select>";
 			?>
@@ -500,18 +537,19 @@ function TeclaPulsada (tecla)
             <td>Cliente </td>
             <td> 
               <?php
-              			$NombreCli="";
-              			$VUnitario="";
-						$Direccion="";
-						$ObserCliente="";
-						$RutCliente="";
-						$CiudadCli="";
-						$DVSAP="";
-						$ALMSAP="";
-						$TxtCliIndicador="";
-						$GiroCliente="";
-						$Contrato="";
-					echo "<select name='CmbCliente'  onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox');>";
+				$NombreCli="";
+				$VUnitario="";
+				$Direccion="";
+				$ObserCliente="";
+				$RutCliente="";
+				$CiudadCli="";
+				$DVSAP="";
+				$ALMSAP="";
+				$TxtCliIndicador="";
+				$GiroCliente="";
+				$Contrato="";
+				$CorrInternoCliente="";
+				echo "<select name='CmbCliente'  onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox');>";
 				echo "<option value ='-1' selected>Seleccionar</option>";
 				$Consulta="select distinct(t1.rut_cliente),t1.corr_interno_cliente,t1.nombre,t1.contrato,t1.precio_us,t1.direccion,t1.div_sap,t1.almacen_sap,t1.glosa,t1.ciudad,t1.indicador_traslado,t1.giro_cliente from pac_web.clientes t1 ";
 				$Consulta.=" inner join pac_web.relacion_cliente_transp t2 on t1.rut_cliente = t2.rut_cliente and t1.corr_interno_cliente=t2.corr_interno_cliente";
@@ -519,24 +557,24 @@ function TeclaPulsada (tecla)
 				$Respuesta=mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					if ($CmbCliente == $Fila[rut_cliente].'~'.$Fila[corr_interno_cliente])
+					if ($CmbCliente == $Fila["rut_cliente"].'~'.$Fila["corr_interno_cliente"])
 					{
-						echo "<option value ='$Fila[rut_cliente]~$Fila[corr_interno_cliente]' selected>$Fila[rut_cliente]&nbsp;-&nbsp;$Fila["nombre"]</option>";
-						$CorrInternoCliente=$Fila[corr_interno_cliente];
+						echo "<option value ='".$Fila["rut_cliente"]."~".$Fila["corr_interno_cliente"]."' selected>".$Fila["rut_cliente"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
+						$CorrInternoCliente=$Fila["corr_interno_cliente"];
 						$NombreCli=$Fila["nombre"];
-						$RutCliente=$Fila[rut_cliente];
-						$CiudadCli=$Fila[ciudad];
-						$VUnitario=$Fila[precio_us];
+						$RutCliente=$Fila["rut_cliente"];
+						$CiudadCli=$Fila["ciudad"];
+						$VUnitario=$Fila["precio_us"];
 						$Direccion=$Fila["direccion"];
-						$DVSAP=$Fila[div_sap];
-						$ALMSAP=$Fila[almacen_sap];
-						$ObserCliente=$Fila[glosa];
-						$TxtCliIndicador=$Fila[indicador_traslado];
-						$GiroCliente=$Fila[giro_cliente];
-						$Contrato=$Fila[contrato];
+						$DVSAP=$Fila["div_sap"];
+						$ALMSAP=$Fila["almacen_sap"];
+						$ObserCliente=$Fila["glosa"];
+						$TxtCliIndicador=$Fila["indicador_traslado"];
+						$GiroCliente=$Fila["giro_cliente"];
+						$Contrato=$Fila["contrato"];
 					}
 					else
-						echo "<option value ='$Fila[rut_cliente]~$Fila[corr_interno_cliente]'>$Fila[rut_cliente]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+						echo "<option value ='".$Fila["rut_cliente"]."~".$Fila["corr_interno_cliente"]."'>".$Fila["rut_cliente"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 				}
 				echo "</select>";
 				/*echo "Query = ".$Consulta;*/
@@ -606,13 +644,13 @@ function TeclaPulsada (tecla)
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbChofer == $Fila[rut_chofer]){
-							echo "<option value ='$Fila[rut_chofer]' selected>$Fila[rut_chofer]&nbsp;-&nbsp;$Fila["nombre"]</option>";
-						$RutChofer=$Fila[rut_chofer];
+						if ($CmbChofer == $Fila["rut_chofer"]){
+							echo "<option value ='".$Fila["rut_chofer"]."' selected>".$Fila["rut_chofer"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
+						$RutChofer=$Fila["rut_chofer"];
 						$NombreChofer=$Fila["nombre"];
 						}
 						else
-							echo "<option value ='$Fila[rut_chofer]'>$Fila[rut_chofer]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='".$Fila["rut_chofer"]."'>".$Fila["rut_chofer"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 					}
 					echo "</select>";
 				}
@@ -647,17 +685,19 @@ function TeclaPulsada (tecla)
 					echo "<option value ='-1' selected>Seleccionar</option>";
 					$Consulta="select nro_patente,fecha_rev_tecnica,tipo2 from pac_web.camiones_por_transportista where rut_transportista='".$CmbTransp."' and tipo ='C' ";
 					$Respuesta=mysqli_query($link, $Consulta);
+					$Tipo=""; //WSO
+					$FechaRevTecnica="";//WSO
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbPatente==$Fila[nro_patente])
+						if ($CmbPatente==$Fila["nro_patente"])
 						{
-							echo "<option value =".$Fila[nro_patente]." selected >".$Fila[nro_patente]."</option>";
-							$PatenteC=$Fila[nro_patente];
-							$FechaRevTecnica=$Fila[fecha_rev_tecnica];
-							$Tipo=$Fila[tipo2];
+							echo "<option value =".$Fila["nro_patente"]." selected >".$Fila["nro_patente"]."</option>";
+							$PatenteC=$Fila["nro_patente"];
+							$FechaRevTecnica=$Fila["fecha_rev_tecnica"];
+							$Tipo=$Fila["tipo2"];
 						}
 						else
-							echo "<option value =".$Fila[nro_patente].">".$Fila[nro_patente]."</option>";
+							echo "<option value =".$Fila["nro_patente"].">".$Fila["nro_patente"]."</option>";
 					}			
 					echo "</select>&nbsp;";
 					if (date($FechaRevTecnica)<date('Y-m-d'))
@@ -669,17 +709,20 @@ function TeclaPulsada (tecla)
 					echo "<option value ='-1' selected>Seleccionar</option>";
 					$Consulta="select nro_patente,fecha_rev_tecnica,fecha_cert_estanque from pac_web.camiones_por_transportista where rut_transportista='".$CmbTransp."' and tipo ='R' ";
 					$Respuesta=mysqli_query($link, $Consulta);
+					$PatenteR="";//WSO
+					$FechaRevTecnicaRampla="";//WSO
+					$FechaCertEK="";//WSO
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbPatenteRampla==$Fila[nro_patente])
+						if ($CmbPatenteRampla==$Fila["nro_patente"])
 						{
-							echo "<option value =".$Fila[nro_patente]." selected >".$Fila[nro_patente]."</option>";
-							$PatenteR=$Fila[nro_patente];
-							$FechaRevTecnicaRampla=$Fila[fecha_rev_tecnica];
-							$FechaCertEK=$Fila[fecha_cert_estanque];
+							echo "<option value =".$Fila["nro_patente"]." selected >".$Fila["nro_patente"]."</option>";
+							$PatenteR=$Fila["nro_patente"];
+							$FechaRevTecnicaRampla=$Fila["fecha_rev_tecnica"];
+							$FechaCertEK=$Fila["fecha_cert_estanque"];
 						}
 						else
-							echo "<option value =".$Fila[nro_patente].">".$Fila[nro_patente]."</option>";
+							echo "<option value =".$Fila["nro_patente"].">".$Fila["nro_patente"]."</option>";
 					}			
 					echo "</select>&nbsp;&nbsp;";
 					if (date($FechaRevTecnicaRampla)<date('Y-m-d'))
@@ -729,14 +772,14 @@ function TeclaPulsada (tecla)
 					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbBrazo==$Fila[codigo])
+						if ($CmbBrazo==$Fila["codigo"])
 						{
-							echo "<option value='".$Fila[codigo]."' selected >".$Fila["nombre"]."</option>";
+							echo "<option value='".$Fila["codigo"]."' selected >".$Fila["nombre"]."</option>";
 							$BrazoCarga = $Fila["nombre"];
 						}
 						else
 						{
-							echo "<option value='".$Fila[codigo]."' >".$Fila["nombre"]."</option>";
+							echo "<option value='".$Fila["codigo"]."' >".$Fila["nombre"]."</option>";
 						}
 					}
 					if($CmbBrazo==0)
@@ -768,7 +811,7 @@ function TeclaPulsada (tecla)
 		    <td>Proceso Autom&aacute;tico</td> 
             <td colspan="3"> 
               <?php
-					if (($Ver == 'C') and ($checkbox=='1'))
+					if (($Ver == 'C') && ($checkbox=='1'))
 						echo "<input name='checkbox' type='checkbox' value='1' onClick=\"Recarga('$Proceso','$Valores','$Ver','$checkbox');\" checked>";
 					else
 						echo "<input name='checkbox' type='checkbox' value='1' onClick=\"Recarga('$Proceso','$Valores','$Ver','$checkbox');\" >";
@@ -780,19 +823,19 @@ function TeclaPulsada (tecla)
 		////	echo "TxtMts ".$TxtMts."<br>";
 			//echo "Estanque ".$CmbEstanque."<br>";		
 				$Densidad=0;
-				if (isset($CmbEstanque)&&($CmbEstanque!='-1')&&($CmbEstanque!=''))
+				if ($CmbEstanque && ($CmbEstanque!='-1') && ($CmbEstanque!=''))
 				{
 					$Consulta="select valor1 from pac_web.parametros where codigo=".$CmbEstanque;
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
-					$Densidad=str_replace('.',',',$Fila[valor1]);						
+					$Densidad=str_replace('.',',',$Fila["valor1"]);						
 				}
 				else
 				{
 					$Consulta="select valor1 from pac_web.parametros where codigo='1'";
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
-					$Densidad=str_replace('.',',',$Fila[valor1]);						
+					$Densidad=str_replace('.',',',$Fila["valor1"]);						
 				}
 			//	echo "Densidad ".$Densidad."<br>";
 				if (($Ver=='C') and ($checkbox=='1'))
@@ -827,10 +870,10 @@ function TeclaPulsada (tecla)
 							$RespPesaje=mysqli_query($link, $Consulta);
 							while ($Fila=mysqli_fetch_array($RespPesaje))
 							{
-								if ($Toneladas==($Fila[peso_neto]/1000))
-									echo "<option value='".($Fila[peso_neto]/1000)."' selected>".$Fila["fecha"]." ".$Fila[hora_entrada]." Peso:  ".($Fila[peso_neto]/1000)."</option>";
+								if ($Toneladas==($Fila["peso_neto"]/1000))
+									echo "<option value='".($Fila["peso_neto"]/1000)."' selected>".$Fila["fecha"]." ".$Fila["hora_entrada"]." Peso:  ".($Fila["peso_neto"]/1000)."</option>";
 								else
-									echo "<option value='".($Fila[peso_neto]/1000)."'>".$Fila["fecha"]." ".$Fila[hora_entrada]." Peso:".($Fila[peso_neto]/1000)."</option>";								
+									echo "<option value='".($Fila["peso_neto"]/1000)."'>".$Fila["fecha"]." ".$Fila["hora_entrada"]." Peso:".($Fila["peso_neto"]/1000)."</option>";								
 							}
 						}
 						echo "</select>&nbsp;&nbsp;Mts.cc&nbsp;";
@@ -889,7 +932,7 @@ function TeclaPulsada (tecla)
 			  $RespSipa=mysqli_query($link, $Consulta);
 			 //echo $Consulta;
 			  if($FilaSipa=mysqli_fetch_array($RespSipa))
-				$TxtCorrRomana=$FilaSipa[correlativo];
+				$TxtCorrRomana=$FilaSipa["correlativo"];
 		  }		
 		  ?>
 		  <input type="text" name="TxtCorrRomana" value="<?php echo $TxtCorrRomana;?>" maxlength="8" size="9" onKeyDown="TeclaPulsada();">
@@ -909,14 +952,14 @@ function TeclaPulsada (tecla)
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						if ($CmbProd == $Fila["cod_producto"]){
-							echo "<option value ='$Fila["cod_producto"]' selected>$Fila[cod_sap]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='".$Fila["cod_producto"]."' selected>".$Fila["cod_sap"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 								$ProductoNombre=$Fila["nombre"];
-              					$CodSapProducto=$Fila[cod_sap];
-								$VarConcentracion=$Fila[concentracion];
-								$VarNU=$Fila[NU];
+              					$CodSapProducto=$Fila["cod_sap"];
+								$VarConcentracion=$Fila["concentracion"];
+								$VarNU=$Fila["NU"];
 						}
 						else
-							echo "<option value ='$Fila["cod_producto"]'>$Fila[cod_sap]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='".$Fila["cod_producto"]."'>".$Fila["cod_sap"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 						
 					}
 					echo "</select>";
@@ -941,13 +984,13 @@ function TeclaPulsada (tecla)
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						if ($CmbUnidad == $Fila[cod_unidad]){
-							echo "<option value ='$Fila[cod_unidad]' selected>$Fila[cod_sap]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='$Fila[cod_unidad]' selected>$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
 
-								$txtCodSapUni=$Fila[cod_sap];
+								$txtCodSapUni=$Fila["cod_sap"];
 								$txtUnidadNm=$Fila["nombre"];
 						}
 						else
-							echo "<option value ='$Fila[cod_unidad]' >$Fila[cod_sap]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='$Fila[cod_unidad]' >$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
 
 					}
 					echo "</select>";*/
@@ -981,19 +1024,20 @@ function TeclaPulsada (tecla)
           <tr> 
             <td  align="center" width="713">
 			  <?php
-				if ((isset($FechaRevTecnica))||(isset($FechaCertEK))||(isset($FechaRevTecnicaRampla)))
+			  $Grabar="S";//WSO
+				if (($FechaRevTecnica ||$FechaCertEK) || $FechaRevTecnicaRampla)
 				{
-					if ((isset($FechaRevTecnica))&&(date($FechaRevTecnica)<date('Y-m-d')))
+					if ($FechaRevTecnica && (date($FechaRevTecnica)<date('Y-m-d')))
 					{
 						$Grabar='N';
 						$Mens='1';
 					}
-					if ((isset($FechaRevTecnicaRampla))&&(date($FechaRevTecnica)<date('Y-m-d')))
+					if ($FechaRevTecnicaRampla && (date($FechaRevTecnica)<date('Y-m-d')))
 					{
 						$Grabar='N';
 						$Mens='2';
 					}
-					if ((isset($FechaCertEK))&&(date($FechaCertEK)<date('Y-m-d')))
+					if ( $FechaCertEK && (date($FechaCertEK)<date('Y-m-d')))
 					{
 						$Grabar='N';
 						$Mens='2';

@@ -419,7 +419,7 @@ function Generar(Opcion)
 		echo "<td width='175' align='left'>".$Fila["cliente"]."</td>";
 		echo "<td width='80' align='left'>".$Fila["nombre_subclase"]."</td>";
 		echo "<td width='67' align='center'>".number_format($Fila["toneladas"],2)."</td>";
-		if ($Fila[tipo_guia]=='C')
+		if ($Fila["tipo_guia"]=='C')
 		{
 			$TipoGuia='Camion';
 		}
@@ -428,7 +428,7 @@ function Generar(Opcion)
 			$TipoGuia='Buque';
 		}
 		echo "<td width='67' align='left'>".$TipoGuia."</td>";
-		$Consulta ="select fecha_rev_tecnica,fecha_cert_estanque from pac_web.camiones_por_transportista where nro_patente = '".$Fila[nro_patente]."' ";
+		$Consulta ="select fecha_rev_tecnica,fecha_cert_estanque from pac_web.camiones_por_transportista where nro_patente = '".$Fila["nro_patente"]."' ";
 		$Respuesta2=mysqli_query($link, $Consulta);
 		$Fila2=mysqli_fetch_array($Respuesta2);
 		if ((date($Fila2[fecha_rev_tecnica])) < (date($Fecha_Hora)))

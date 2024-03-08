@@ -63,7 +63,7 @@
 				echo "<td align='left'>".$Fila["nombre"]."</td>";
 				echo "<td align='center'>".$Fila[toneladas]."</td>";
 				echo "<td align='right'>".$Fila[valor_unitario]."</td>";
-				if ($Fila[tipo_guia]=='C')
+				if ($Fila["tipo_guia"]=='C')
 				{
 					echo "<td align='center'>Camion</td>";
 				}

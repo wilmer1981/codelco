@@ -25,7 +25,7 @@
 			$FechaGuia=$Fila1["fecha_hora"];
 			if (!isset($CmbPatente))
 			{
-				$CmbPatente=$Fila1[nro_patente];	
+				$CmbPatente=$Fila1["nro_patente"];	
 			}
 			if (!isset($CmbPatenteRampla))
 			{
@@ -51,7 +51,7 @@
 			}	
 			$TxtMts=$Fila1[volumen_m3];
 			$Observacion=$Fila1["descripcion"];
-			$Ver=$Fila1[tipo_guia];
+			$Ver=$Fila1["tipo_guia"];
 			$Correlativo=$Fila1[correlativo];
 			$VUnitario=$Fila1[valor_unitario];
 			break;	
@@ -417,16 +417,16 @@ function TeclaPulsada (tecla)
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbPatente==$Fila[nro_patente])
+						if ($CmbPatente==$Fila["nro_patente"])
 						{
-							echo "<option value =".$Fila[nro_patente]." selected >".$Fila[nro_patente]."</option>";
-							$Patente=$Fila[nro_patente];
+							echo "<option value =".$Fila["nro_patente"]." selected >".$Fila["nro_patente"]."</option>";
+							$Patente=$Fila["nro_patente"];
 							$FechaRevTecnica=$Fila[fecha_rev_tecnica];
 							$Tipo=$Fila[tipo2];
 						}
 						else
 						{
-							echo "<option value =".$Fila[nro_patente].">".$Fila[nro_patente]."</option>";
+							echo "<option value =".$Fila["nro_patente"].">".$Fila["nro_patente"]."</option>";
 						}
 					}			
 					echo "</select>&nbsp;";
@@ -445,15 +445,15 @@ function TeclaPulsada (tecla)
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbPatenteRampla==$Fila[nro_patente])
+						if ($CmbPatenteRampla==$Fila["nro_patente"])
 						{
-							echo "<option value =".$Fila[nro_patente]." selected >".$Fila[nro_patente]."</option>";
+							echo "<option value =".$Fila["nro_patente"]." selected >".$Fila["nro_patente"]."</option>";
 							$FechaRevTecnicaRampla=$Fila[fecha_rev_tecnica];
 							$FechaCertEK=$Fila[fecha_cert_estanque];
 						}
 						else
 						{
-							echo "<option value =".$Fila[nro_patente].">".$Fila[nro_patente]."</option>";
+							echo "<option value =".$Fila["nro_patente"].">".$Fila["nro_patente"]."</option>";
 						}
 					}			
 					echo "</select>&nbsp;&nbsp;";

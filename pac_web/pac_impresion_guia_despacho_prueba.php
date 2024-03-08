@@ -24,14 +24,14 @@
 			$Fila=mysqli_fetch_array($Respuesta);
 			$pdf->addTextWrap(55,750,350,10,strtoupper(nl2br($Fila[cliente])),$justification='left',0,0);
 			$pdf->addTextWrap(55,735,350,10,strtoupper($Fila[direc_cliente].", ".$Fila["ciudad"]),$justification='left',0,0);
-			if ($Fila[tipo_guia]=='C')//SOLO SI ES CAMION MUESTRA LA FECHA
+			if ($Fila["tipo_guia"]=='C')//SOLO SI ES CAMION MUESTRA LA FECHA
 			{
 				$pdf->addTextWrap(430,732,50,12,substr($Fila["fecha_hora"],8,2),$justification='left',0,0);
 				$pdf->addTextWrap(460,732,80,12,$meses[substr($Fila["fecha_hora"],5,2)-1],$justification='left',0,0);
 				$pdf->addTextWrap(569,732,50,12,substr($Fila["fecha_hora"],0,4),$justification='left',0,0);
 			}
 			$pdf->addTextWrap(0,715,150,11,"RUT : ".$Fila[rut_cliente],$justification='left',0,0);	
-			if ($Fila[tipo_guia]=='C')//SOLO SI ES CAMION MUESTRA TONELADAS
+			if ($Fila["tipo_guia"]=='C')//SOLO SI ES CAMION MUESTRA TONELADAS
 			{
 			    $toneladas=number_format($Fila[toneladas],2);
 				$pdf->addTextWrap(165,618,150,11,number_format($Fila[toneladas],2),$justification='left',0,0);
@@ -67,21 +67,21 @@
 				$pdf->addTextWrap(5,420,200,11,strtoupper($FilaEncargado[valor1]),$justification='center',0,0);
 				$pdf->addTextWrap(5,405,200,11,$FilaEncargado["nombre"],$justification='center',0,0);
 			}
-			if ($Fila[tipo_guia]=='C')//SOLO SI ES CAMION MUESTRA DATOS
+			if ($Fila["tipo_guia"]=='C')//SOLO SI ES CAMION MUESTRA DATOS
 			{
 				$FechaRomana=substr($Fila[fecha_hora_romana],0,10);
 				$HoraRomana=substr($Fila[fecha_hora_romana],11,8);
 				if (($FechaRomana<>'0000-00-00') and ($HoraRomana<>'00:00:00'))
 		        {
-					$Consulta="select peso_bruto,peso_tara,peso_neto from sipa_web.despachos where patente='".$Fila[nro_patente]."' and fecha='".$FechaRomana."' and hora_entrada='".$HoraRomana."'";
+					$Consulta="select peso_bruto,peso_tara,peso_neto from sipa_web.despachos where patente='".$Fila["nro_patente"]."' and fecha='".$FechaRomana."' and hora_entrada='".$HoraRomana."'";
 				}
 				else 
 				{
-					$consulta_fecha="select max(fecha) as fecha from sipa_web.despachos where patente='".$Fila[nro_patente]."'";
+					$consulta_fecha="select max(fecha) as fecha from sipa_web.despachos where patente='".$Fila["nro_patente"]."'";
 					$Respfecha=mysqli_query($link, $consulta_fecha);
 					$Fila_fecha=mysqli_fetch_array($Respfecha);
 					//echo $consulta_fecha;
-					$Consulta="select peso_bruto,peso_tara,peso_neto from sipa_web.despachos where patente='".$Fila[nro_patente]."' and fecha='".$Fila_fecha["fecha"]."' ";}
+					$Consulta="select peso_bruto,peso_tara,peso_neto from sipa_web.despachos where patente='".$Fila["nro_patente"]."' and fecha='".$Fila_fecha["fecha"]."' ";}
 					$RespPesaje=mysqli_query($link, $Consulta);
 					$Fila2=mysqli_fetch_array($RespPesaje);
 					if ($Fila[tipo2]=='E')
@@ -110,14 +110,14 @@
 					$pdf->addTextWrap(50,143,200,11,strtoupper($Fila["direccion"]),$justification='left',0,0);
 					$pdf->addTextWrap(370,185,200,11,strtoupper($Fila[transportista]),$justification='left',0,0);
 					$pdf->addTextWrap(370,170,200,11,strtoupper($Fila[marca]),$justification='left',0,0);
-					$pdf->addTextWrap(370,157,200,11,strtoupper($Fila[nro_patente]),$justification='left',0,0);					
+					$pdf->addTextWrap(370,157,200,11,strtoupper($Fila["nro_patente"]),$justification='left',0,0);					
 					/*pdf_show_xy($g,strtoupper($Fila[chofer]),77,-620);
 					pdf_show_xy($g,strtoupper($Fila[rut_chofer]),80,-634);
 					pdf_show_xy($g,strtoupper($Fila[registro]),130,-646);
 					pdf_show_xy($g,strtoupper($Fila["direccion"]),75,-658);
 					pdf_show_xy($g,strtoupper($Fila[transportista]),380,-620);
 					pdf_show_xy($g,strtoupper($Fila[marca]),380,-634);
-					pdf_show_xy($g,strtoupper($Fila[nro_patente]),380,-646);
+					pdf_show_xy($g,strtoupper($Fila["nro_patente"]),380,-646);
 					pdf_set_font($g,$TipoLetra2, 12,"host", 0 );*/
 					if (($Fila[tipo2]=='P') and ($FechaRomana<>'0000-00-00') and ($HoraRomana<>'00:00:00'))
 					{

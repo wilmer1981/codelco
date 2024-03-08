@@ -3,26 +3,28 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_pac_web.php");
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
 	$Consulta = "select * from proyecto_modernizacion.funcionarios ";
-			$Consulta.= " where rut='".$CookieRut."'";
-			$Resp=mysqli_query($link, $Consulta);
-			$Favoritos="";
-			if ($Fila=mysqli_fetch_array($Resp))
+	$Consulta.= " where rut='".$CookieRut."'";
+	$Resp=mysqli_query($link, $Consulta);
+	$Favoritos="";
+	if ($Fila=mysqli_fetch_array($Resp))
+	{
+		$Favoritos=$Fila["favoritos"];
+		$PrimerNombre=$Fila["nombres"];
+		for ($i=0;$i<=strlen($PrimerNombre);$i++)
+		{
+			if (substr($PrimerNombre,$i,1)==" ")
 			{
-				$Favoritos=$Fila["favoritos"];
-				$PrimerNombre=$Fila["nombres"];
-				for ($i=0;$i<=strlen($PrimerNombre);$i++)
-				{
-					if (substr($PrimerNombre,$i,1)==" ")
-					{
-						$PrimerNombre=trim(substr($PrimerNombre,0,$i));
-						break;
-					}
-				}
-				$NombreUser = ucwords(strtolower($PrimerNombre))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".strtoupper(substr($Fila["apellido_materno"],0,1)).".";
-				$Caduca=$Fila["caduca"];
+				$PrimerNombre=trim(substr($PrimerNombre,0,$i));
+				break;
 			}
+		}
+		$NombreUser = ucwords(strtolower($PrimerNombre))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".strtoupper(substr($Fila["apellido_materno"],0,1)).".";
+		$Caduca=$Fila["caduca"];
+	}
 
 	$NG = substr(str_replace("//","-",$Valores),0,-1);
 

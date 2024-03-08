@@ -316,7 +316,7 @@
 									$TxtRutChofer=$FilaPac["rut_chofer"];
 									$TxtNomChofer=$FilaPac["nombre"];
 									$TxtCorrelativo=$TxtCorrelativo."~".$FilaPac["num_guia"]."~A";
-									$TxtSello=$FilaPac[sellos];
+									$TxtSello=$FilaPac["sellos"];
 									$TxtObs=$FilaPac["descripcion"];
 									$Class=" style='background-color:#F9F8F3'";
 									$Bloqueo="disabled ";
@@ -1447,7 +1447,7 @@ switch($TxtNumRomana)
 								{
 									if (strtoupper($CmbProveedor) == strtoupper($Fila["rut_cliente"].'~'.$Fila["corr_interno_cliente"]))
 									{
-										$TipoDespacho=$Fila[indicador_traslado];
+										$TipoDespacho=$Fila["indicador_traslado"];
 										?><input  size="60" type="text"  class="InputIzq" <?php echo $BloqueoTxt.$Class;?> name="nnnn" value="<?php echo str_pad($Fila["rut_cliente"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre"]; ?>"> <?php 
 										break;
 									}     

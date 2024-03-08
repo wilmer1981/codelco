@@ -1,17 +1,17 @@
 <?php 	
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-	}
-	if (!isset($CmbMes))
-	{
-		$CmbMes=date('n');
-	}
+
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 12;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Fecha_Hora = date("Y-m-d" );
+
+$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("n");
+$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbTipoGuia = isset($_REQUEST["CmbTipoGuia"])?$_REQUEST["CmbTipoGuia"]:"";
+
+
 ?>
 <html>
 <head>
@@ -353,7 +353,7 @@ function Generar(Opcion)
 		}
 		else
 		{
-			if (isset($CmbMes))
+			if ($CmbMes)
 			{
 				if ($i==$CmbMes)
 				{
@@ -395,7 +395,7 @@ function Generar(Opcion)
 		}
 		else
 		{
-			if (isset($CmbAno))
+			if ($CmbAno)
 			{
 				if ($i==$CmbAno)
 					{
@@ -513,7 +513,7 @@ function Generar(Opcion)
 		
 		<td width='58'>
 			<?php
-			 if ($Fila[url_gde_local] !='') 	
+			 if ($Fila["url_gde_local"] !='') 	
 			{		
 				?>
 				<a href="JavaScript:HistorialGDE('<?php echo $Fila["num_guia"];?>')">
@@ -535,15 +535,15 @@ function Generar(Opcion)
 		echo "<td width='80' align='left'>".$Fila["producto"]."&nbsp;</td>";
 		echo "<td width='80' align='left'>".$Fila["nombre_subclase"]."&nbsp;</td>";
 		echo "<td width='67' align='center'>".number_format($Fila["toneladas"],2)."</td>";
-		if ($Fila[tipo_guia]=='C')
+		if ($Fila["tipo_guia"]=='C')
 			$TipoGuia='Camion';
 		else
 			$TipoGuia='Buque';
 		echo "<td width='67' align='left'>".$TipoGuia."</td>";
-		$Consulta ="select fecha_rev_tecnica,fecha_cert_estanque from pac_web.camiones_por_transportista where nro_patente = '".$Fila[nro_patente]."' ";
+		$Consulta ="select fecha_rev_tecnica,fecha_cert_estanque from pac_web.camiones_por_transportista where nro_patente = '".$Fila["nro_patente"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ."' ";
 		$Respuesta2=mysqli_query($link, $Consulta);
 		$Fila2=mysqli_fetch_array($Respuesta2);
-		if ((date($Fila2[fecha_rev_tecnica])) < (date($Fecha_Hora)))
+		if ((date($Fila2["fecha_rev_tecnica"])) < (date($Fecha_Hora)))
 			echo "<td width='68' align='center'><input type='text' style='width:20' style= 'background:red' ></td>";
 		else
 			echo "<td width='68' align='center'><input type='text' style='width:20' style= 'background:green' ></td>";

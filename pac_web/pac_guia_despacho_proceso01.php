@@ -4,7 +4,49 @@
 
 	$HoraI = date("h:i".':00'); 
 	$HoraT = date("h:i".':00');
+
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$NG = isset($_REQUEST["NG"])?$_REQUEST["NG"]:"";
+	$Ver = isset($_REQUEST["Ver"])?$_REQUEST["Ver"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Correlativo = isset($_REQUEST["Correlativo"])?$_REQUEST["Correlativo"]:"";
+	$FechaHoraRomana = isset($_REQUEST["FechaHoraRomana"])?$_REQUEST["FechaHoraRomana"]:"";
+	$checkbox = isset($_REQUEST["checkbox"])?$_REQUEST["checkbox"]:"";
+
+	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$hh = isset($_REQUEST["hh"])?$_REQUEST["hh"]:date("H");
+	$mm = isset($_REQUEST["mm"])?$_REQUEST["mm"]:date("i");
+
+
+	$CmbOri = isset($_REQUEST["CmbOri"])?$_REQUEST["CmbOri"]:"";
+	$CmbTransp = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
+	$CmbCliente = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$CmbChofer = isset($_REQUEST["CmbChofer"])?$_REQUEST["CmbChofer"]:"";
+	$CmbPatente = isset($_REQUEST["CmbPatente"])?$_REQUEST["CmbPatente"]:"";
+	$CmbPatenteRampla = isset($_REQUEST["CmbPatenteRampla"])?$_REQUEST["CmbPatenteRampla"]:"";
+	$Toneladas = isset($_REQUEST["Toneladas"])?$_REQUEST["Toneladas"]:0;
+	$TxtMts = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$TxtCorrRomana = isset($_REQUEST["TxtCorrRomana"])?$_REQUEST["TxtCorrRomana"]:"";
+
+	$TxtRutCliente = isset($_REQUEST["TxtRutCliente"])?$_REQUEST["TxtRutCliente"]:"";
+	$CorrInternoCliente = isset($_REQUEST["CorrInternoCliente"])?$_REQUEST["CorrInternoCliente"]:"";
+	$TxtNombreCli = isset($_REQUEST["TxtNombreCli"])?$_REQUEST["TxtNombreCli"]:"";
+	$TxtCiudadCli = isset($_REQUEST["TxtCiudadCli"])?$_REQUEST["TxtCiudadCli"]:"";
+	$TxtVUnitario = isset($_REQUEST["TxtVUnitario"])?$_REQUEST["TxtVUnitario"]:"";
+	$TxtDireccionCli = isset($_REQUEST["TxtDireccionCli"])?$_REQUEST["TxtDireccionCli"]:"";
+	$TxtObserCliente = isset($_REQUEST["TxtObserCliente"])?$_REQUEST["TxtObserCliente"]:"";
+	$TxtDivSAp       = isset($_REQUEST["TxtDivSAp"])?$_REQUEST["TxtDivSAp"]:"";
+	$TxtAlmacenSap   = isset($_REQUEST["TxtAlmacenSap"])?$_REQUEST["TxtAlmacenSap"]:"";
+	$TxtCliIndicador = isset($_REQUEST["TxtCliIndicador"])?$_REQUEST["TxtCliIndicador"]:"";
+	$TxtGiroCliente  = isset($_REQUEST["TxtGiroCliente"])?$_REQUEST["TxtGiroCliente"]:"";
+	$TxtContrato     = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
+	
+
 	$rut =$CookieRut;
+
 	if(trim($Toneladas)=='')
 		$Toneladas=0;
 	if(trim($TxtMts)=='')
@@ -186,7 +228,7 @@ switch ($Proceso)
 {
 	
 	    case "GDE":
-			ModificarPAC();
+			ModificarPAC($link);
 			GenerarGDE($xmlEnvioGDE);	
 		
 			$codRespuesta = $result[DATOS_RESPUESTA][CODIGO_RESPUESTA];
@@ -565,7 +607,7 @@ $xmlHeaderAnular="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/so
 
 //-------------------------------------------------
 
-function ModificarPAC()
+function ModificarPAC($link)
 {
 	
 	global $FechaHoraRomana;

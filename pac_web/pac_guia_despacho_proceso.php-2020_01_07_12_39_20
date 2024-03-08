@@ -25,7 +25,7 @@
 			$NumGuia=$Fila1["num_guia"];
 			$FechaGuia=$Fila1["fecha_hora"];
 			if (!isset($CmbPatente))
-				$CmbPatente=$Fila1[nro_patente];	
+				$CmbPatente=$Fila1["nro_patente"];	
 			if (!isset($CmbPatenteRampla))
 				$CmbPatenteRampla=$Fila1[nro_patente_rampla];	
 			if (!isset($CmbTransp))
@@ -49,7 +49,7 @@
 			$TxtMts=$Fila1[volumen_m3];
 			$TxtCorrRomana=$Fila1[corr_romana];
 			$Observacion=$Fila1["descripcion"];
-			$Ver=$Fila1[tipo_guia];
+			$Ver=$Fila1["tipo_guia"];
 			if($Ver=='B')//BUQUE
 			{
 				$Consulta="select * from pac_web.movimientos where fecha_hora='".$FechaGuia."'";
@@ -644,15 +644,15 @@ function TeclaPulsada (tecla)
 					$Respuesta=mysql_query($Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
-						if ($CmbPatente==$Fila[nro_patente])
+						if ($CmbPatente==$Fila["nro_patente"])
 						{
-							echo "<option value =".$Fila[nro_patente]." selected >".$Fila[nro_patente]."</option>";
-							$PatenteC=$Fila[nro_patente];
+							echo "<option value =".$Fila["nro_patente"]." selected >".$Fila["nro_patente"]."</option>";
+							$PatenteC=$Fila["nro_patente"];
 							$FechaRevTecnica=$Fila[fecha_rev_tecnica];
 							$Tipo=$Fila[tipo2];
 						}
 						else
-							echo "<option value =".$Fila[nro_patente].">".$Fila[nro_patente]."</option>";
+							echo "<option value =".$Fila["nro_patente"].">".$Fila["nro_patente"]."</option>";
 					}			
 					echo "</select>&nbsp;";
 					if (date($FechaRevTecnica)<date('Y-m-d'))
@@ -666,15 +666,15 @@ function TeclaPulsada (tecla)
 					$Respuesta=mysql_query($Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
-						if ($CmbPatenteRampla==$Fila[nro_patente])
+						if ($CmbPatenteRampla==$Fila["nro_patente"])
 						{
-							echo "<option value =".$Fila[nro_patente]." selected >".$Fila[nro_patente]."</option>";
-							$PatenteR=$Fila[nro_patente];
+							echo "<option value =".$Fila["nro_patente"]." selected >".$Fila["nro_patente"]."</option>";
+							$PatenteR=$Fila["nro_patente"];
 							$FechaRevTecnicaRampla=$Fila[fecha_rev_tecnica];
 							$FechaCertEK=$Fila[fecha_cert_estanque];
 						}
 						else
-							echo "<option value =".$Fila[nro_patente].">".$Fila[nro_patente]."</option>";
+							echo "<option value =".$Fila["nro_patente"].">".$Fila["nro_patente"]."</option>";
 					}			
 					echo "</select>&nbsp;&nbsp;";
 					if (date($FechaRevTecnicaRampla)<date('Y-m-d'))

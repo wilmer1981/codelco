@@ -63,7 +63,7 @@
 				  if (($Fila[tipo]=='C')&&(date($Fila[fecha_rev_tecnica])<date($FechaInicio)))
 				  {
 					  echo "<tr>";
-					  echo "<td>".$Fila[nro_patente]."</td>";
+					  echo "<td>".$Fila["nro_patente"]."</td>";
 					  echo "<td>".$Fila[tipotransp]."</td>";
 					  echo "<td>".$Fila[marca]."</td>";
 					  echo "<td>".$Fila[modelo]."</td>";
@@ -74,7 +74,7 @@
 				  if (($Fila[tipo]=='R')&&((date($Fila[fecha_rev_tecnica])<date($FechaInicio))||(date($Fila[fecha_cert_estanque])<date($FechaInicio))))
 				  {
 					  echo "<tr>";
-					  echo "<td>".$Fila[nro_patente]."</td>";
+					  echo "<td>".$Fila["nro_patente"]."</td>";
 					  echo "<td>".$Fila[tipotransp]."</td>";
 					  echo "<td>".$Fila[marca]."</td>";
 					  echo "<td>".$Fila[modelo]."</td>";

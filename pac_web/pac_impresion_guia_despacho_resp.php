@@ -74,11 +74,11 @@
 			$PosAux="-".$Pos;			
 			pdf_show_xy($g,strtoupper($Descripcion),240,$PosAux);//MAX 45 CARACTERES POR LINEA*/
 			pdf_show_xy($g,"US$ ".$Fila[valor_unitario],535,-210);
-			if ($Fila[tipo_guia]=='C')//SOLO SI ES CAMION MUESTRA DATOS
+			if ($Fila["tipo_guia"]=='C')//SOLO SI ES CAMION MUESTRA DATOS
 			{
 				$FechaRomana=substr($Fila[fecha_hora_romana],0,10);
 				$HoraRomana=substr($Fila[fecha_hora_romana],11,8);
-				$Consulta="select pesobr_a,pesotr_a,pesont_a from rec_web.otros_pesajes where patent_a='".$Fila[nro_patente]."' and fecha_a='".$FechaRomana."' and hora_a='".$HoraRomana."'";
+				$Consulta="select pesobr_a,pesotr_a,pesont_a from rec_web.otros_pesajes where patent_a='".$Fila["nro_patente"]."' and fecha_a='".$FechaRomana."' and hora_a='".$HoraRomana."'";
 				$RespPesaje=mysqli_query($link, $Consulta);
 				$Fila2=mysqli_fetch_array($RespPesaje);
 				if ($Fila[tipo2]=='E')
@@ -103,7 +103,7 @@
 				pdf_show_xy($g,strtoupper($Fila["direccion"]),75,-658);
 				pdf_show_xy($g,strtoupper($Fila[transportista]),380,-620);
 				pdf_show_xy($g,strtoupper($Fila[marca]),380,-634);
-				pdf_show_xy($g,strtoupper($Fila[nro_patente]),380,-646);
+				pdf_show_xy($g,strtoupper($Fila["nro_patente"]),380,-646);
 				if ($Fila[tipo2]=='P')
 				{
 					pdf_show_xy($g,number_format(($Fila2[pesobr_a]/1000),2),410,-658);

@@ -304,7 +304,7 @@ function  Salir()
 				echo "<tr>";
 				echo "<td width='125' align='center'>".$Fila["fecha_hora"]."</td>";
 				echo "<td width='50' align='center'><a href=\"JavaScript:Historial('".$Fila["num_guia"]."')\">".$Fila["num_guia"]."</td>";
-				echo "<td width='60'  align='center'>".$Fila[nro_patente]."</td>";
+				echo "<td width='60'  align='center'>".$Fila["nro_patente"]."</td>";
 				echo "<td width='125'  align='left'>".$Fila["nombre"]."</td>";
 				echo "<td width='50'  align='right'>".$Fila[toneladas]."</td>";
 				echo "<td width='50'  align='right'>".$Fila[valor_unitario]."</td>";

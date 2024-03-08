@@ -3,35 +3,41 @@
 	$Fecha_Hora2 = date("Y-m-d");
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 3;
-	$Rut =$CookieRut;
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Rut       = $CookieRut;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	$Consulta ="select * from pac_web.guia_despacho t1 where num_guia ='".$Valores."'";
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$Consulta ="SELECT * from pac_web.guia_despacho t1 WHERE num_guia ='".$Valores."'";
 	$Respuesta=mysqli_query($link, $Consulta);
 	$Fila1=mysqli_fetch_array($Respuesta);
-	$NumGuia=$Fila1["num_guia"];
-	$CmbPatente=$Fila1[nro_patente];
-	$CmbPatenteRampla=$Fila1[nro_patente_rampla];	
-	$CmbTransp=$Fila1[rut_transportista];	
-	$CmbCliente=$Fila1[rut_cliente];	
-	$CmbChofer=$Fila1[rut_chofer];	
-	$CmbBrazo=$Fila1[brazo_carga];
-	$CmbEstanque=$Fila1[cod_estanque];
-	$Toneladas=$Fila1[toneladas];
-	$VolumenM3=$Fila1[volumen_m3];
-	$Observacion=$Fila1["descripcion"];
-	$Operador=$Fila1[rut_funcionario];
-	$Opc=$Fila1[tipo_guia];
-	$VUnitario=$Fila1[valor_unitario];
-	$Fecha_Hora=$Fila1["fecha_hora"];
-	$DivSap=$Fila1[div_sap];
-	$AlmSap=$Fila1["almacen_sap"];
-	$Sellos=$Fila1[sellos];
-	$CodProd=$Fila1["cod_producto"];
-	$CodUnidad=$Fila1[cod_unidad];
-	$CodOri=$Fila1[cod_originador];
-	$estadoGuia = $Fila1[estado];
-	$corr_interno_cliente = $Fila1[corr_interno_cliente];
+	$NumGuia          = $Fila1["num_guia"];
+	$CmbPatente       = $Fila1["nro_patente"];
+	$CmbPatenteRampla = $Fila1["nro_patente_rampla"];	
+	$CmbTransp        = $Fila1["rut_transportista"];	
+	$CmbCliente       = $Fila1["rut_cliente"];	
+	$CmbChofer        = $Fila1["rut_chofer"];	
+	$CmbBrazo         = $Fila1["brazo_carga"];
+	$CmbEstanque      = $Fila1["cod_estanque"];
+	$Toneladas        = $Fila1["toneladas"];
+	$VolumenM3        = $Fila1["volumen_m3"];
+	$Observacion      = $Fila1["descripcion"];
+	$Operador         = $Fila1["rut_funcionario"];
+	$Opc              = $Fila1["tipo_guia"];
+	$VUnitario        = $Fila1["valor_unitario"];
+	$Fecha_Hora       = $Fila1["fecha_hora"];
+	$DivSap           = $Fila1["div_sap"];
+	$AlmSap           = $Fila1["almacen_sap"];
+	$Sellos           = $Fila1["sellos"];
+	$CodProd          = $Fila1["cod_producto"];
+	$CodUnidad        = $Fila1["cod_unidad"];
+	$CodOri           = $Fila1["cod_originador"];
+	$estadoGuia       = $Fila1["estado"];
+	$corr_interno_cliente = $Fila1["corr_interno_cliente"];
+
 	if ($estadoGuia=="N") {
 		$query = "select observacion from pac_web.pac_anulacion_guia where nro_guia ='".$Valores."'";
 		$resp=mysqli_query($link, $query);
@@ -135,13 +141,13 @@ function Salir()
 				$Consulta ="select fecha_rev_tecnica,fecha_cert_estanque from pac_web.camiones_por_transportista where nro_patente = '".$CmbPatente."' ";
 				$Resp=mysqli_query($link, $Consulta);
 				$Fil=mysqli_fetch_array($Resp);
-				if ((date($Fil[fecha_rev_tecnica]))< (date($Fecha_Hora2)))
+				if ((date($Fil["fecha_rev_tecnica"]))< (date($Fecha_Hora2)))
 				{
-					echo "[R.T:<font color='red'>".$Fil[fecha_rev_tecnica]."</font>]";
+					echo "[R.T:<font color='red'>".$Fil["fecha_rev_tecnica"]."</font>]";
 				}
 				else
 				{
-					echo "[R.T:<font color='green'>".$Fil[fecha_rev_tecnica]."</font>]";
+					echo "[R.T:<font color='green'>".$Fil["fecha_rev_tecnica"]."</font>]";
 				}
 				echo "</td>";
 				?>
@@ -238,8 +244,9 @@ function Salir()
 				$Consulta=" select nombre from pac_web.parametros where (codigo between 10 and 14) and codigo = '".$CmbBrazo."' ";
 				$Respuesta4=mysqli_query($link, $Consulta);
 				$Fila4=mysqli_fetch_array($Respuesta4);
-				echo "<input name='CmbBrazo' type='hidden'  style='width:100' value=".$Fila4["nombre"].">";
-            	echo $Fila4["nombre"];
+				$nombre = isset($Fila4["nombre"])?$Fila4["nombre"]:"";
+				echo "<input name='CmbBrazo' type='hidden'  style='width:100' value=".$nombre.">";
+            	echo $nombre;
 				?>
             </td>
           </tr>
@@ -271,22 +278,22 @@ function Salir()
 				$Resp=mysqli_query($link, $Consulta);
 				$Fil=mysqli_fetch_array($Resp);
 				echo "[R.T:";
-				if ((date($Fil[fecha_rev_tecnica])) < (date($Fecha_Hora2)))
+				if ((date($Fil["fecha_rev_tecnica"])) < (date($Fecha_Hora2)))
 				{
-					echo "<font color='red'>".$Fil[fecha_rev_tecnica]."</font>]";
+					echo "<font color='red'>".$Fil["fecha_rev_tecnica"]."</font>]";
 				}
 				else
 				{
-					echo "<font color='green'>".$Fil[fecha_rev_tecnica]."</font>]";
+					echo "<font color='green'>".$Fil["fecha_rev_tecnica"]."</font>]";
 				}
 				echo "&nbsp;&nbsp;[C.E:";
-				if ((date($Fil[fecha_cert_estanque])) < (date($Fecha_Hora2)))
+				if ((date($Fil["fecha_cert_estanque"])) < (date($Fecha_Hora2)))
 				{
-					echo "<font color='red'>".$Fil[fecha_cert_estanque]."</font>]";
+					echo "<font color='red'>".$Fil["fecha_cert_estanque"]."</font>]";
 				}
 				else
 				{
-					echo "<font color='green'>".$Fil[fecha_cert_estanque]."</font>]";
+					echo "<font color='green'>".$Fil["fecha_cert_estanque"]."</font>]";
 				}
 			?>
 			</td>
@@ -298,8 +305,9 @@ function Salir()
 		$Consulta=" select * from pac_web.pac_unidades_medida where cod_unidad = '".$CodUnidad."'";
 			  $Respuesta=mysqli_query($link, $Consulta);
 			  $Fila=mysqli_fetch_array($Respuesta);
-			   echo "<input name='CodProd' type='hidden' style='width:100' value=".$Fila["nombre"].">";
-               echo $Fila["nombre"];
+			  $nombre = isset($Fila["nombre"])?$Fila["nombre"]:"";
+			   echo "<input name='CodProd' type='hidden' style='width:100' value=".$nombre.">";
+               echo $nombre;
 			  ?>
             </td> 
             <td>Valor Unitario</td>
