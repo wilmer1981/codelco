@@ -4,56 +4,9 @@
 	include("../principal/conectar_principal.php");
 	include("funciones.php");	
 	require "includes/class.phpmailer.php";
-
-	$TipoProceso = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
-	$RNA = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
-	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
-	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
-	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
-	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
-	
-	$AbastMinero = isset($_REQUEST["AbastMinero"])?$_REQUEST["AbastMinero"]:"";
-	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
-	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
-	$TxtLote = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
-	$Bloq1 = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
-	$Bloq2 = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
-	
-	$EstPatente = isset($_REQUEST["EstPatente"])?$_REQUEST["EstPatente"]:"";
-	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
-	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
-	$TxtGuia = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
-	
-	$CmbGrupoProd = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
-	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
-	$TxtHumedad = isset($_REQUEST["TxtHumedad"])?$_REQUEST["TxtHumedad"]:"";
-	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
-	
-	$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
-
-	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
-	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
-	$TxtHoraS = isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";
-	$TxtPesoTara = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
-	$TxtHoraE = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
-	$TxtNombrePrv = isset($_REQUEST["TxtNombrePrv"])?$_REQUEST["TxtNombrePrv"]:"";
-	
-	$CmbLotes = isset($_REQUEST["CmbLotes"])?$_REQUEST["CmbLotes"]:"";
-	$TxtLote = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
-	$TxtRecargo = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
-	$CmbUltRecargo = isset($_REQUEST["CmbUltRecargo"])?$_REQUEST["CmbUltRecargo"]:"";	
-	$CmbConjunto = isset($_REQUEST["CmbConjunto"])?$_REQUEST["CmbConjunto"]:"";
-	$TxtPNetoTot = isset($_REQUEST["TxtPNetoTot"])?$_REQUEST["TxtPNetoTot"]:"";
-	
-	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
-	$TxtFecha = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date("Y-m-d");
-	$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
-
-	
-	CerrarLotesMensuales('R',$link);
-	$Tolerancia=ToleranciaPesaje($link);
-
-	if($RNA)
+	CerrarLotesMensuales('R');
+	$Tolerancia=ToleranciaPesaje();
+	if(isset($RNA))
 	{
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
@@ -64,7 +17,7 @@
 		$TxtNumRomana=$RNA;
 	}
 	if($TxtNumRomana=='')
-		$TxtNumRomana=isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
+		$TxtNumRomana=$_COOKIE["ROMANA"];
 
 	$EstadoInput='';
 	switch($TxtNumBascula)
@@ -94,7 +47,7 @@
 	$HabilitarCmb='';
 	$RutOperador=$CookieRut;
 	$Mensaje='';$TotalLote=0;
-	if($ObjFoco=="")
+	if(!isset($ObjFoco))
 		$ObjFoco="TxtPatente";
 	$Mostrar='N';$HabilitarText='';
 	//DETERMINAR SI ES ENTRADA O SALIDA
@@ -126,13 +79,12 @@
 			$PatenteOk=true;
 			$Mensaje='';
 	}
-	/*DEFINE SI ES ENTRADA O SALIDA*/
-	switch($TipoProceso)
+	switch($TipoProceso)//DEFINE SI ES ENTRADA O SALIDA
 	{
 		case "E":
 			$EstBtnGrabar='';
 			$PatenteOk='';
-			PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
+			PatenteValida(&$TxtPatente,&$PatenteOk,&$EstPatente);
 			if($PatenteOk==true)
 			{
 				switch($Proceso)
@@ -169,13 +121,13 @@
 						$Insertar="INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
 						$Insertar.="hora_entrada,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion) values(";
 						$Insertar.="'$TxtCorrelativo','$TxtLote','1','$CmbUltRecargo','".$RutOperador."','$bascula_entrada','$bascula_salida','$TxtFecha',";
-						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina[1]','$CmbGrupoProd','$SuBProd[0]','$SuBProd[1]',";
+						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina[1]."','$CmbGrupoProd','$SuBProd[0]."','$SuBProd[1]."',";
 						$Insertar.="'$TxtGuia','".strtoupper(trim($TxtPatente))."','$CmbClase','$CmbConjunto','$TxtObs')";
 						//echo $Insertar;
 						mysqli_query($link, $Insertar);
 						$Actualizar="UPDATE sipa_web.correlativo_lote set lote='$TxtLote' where cod_proceso='R'";
 						mysqli_query($link, $Actualizar);
-						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1]);
+						PesoHistorico2('R',strtoupper(trim($TxtPatente)),&$TxtPesoHistorico,&$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1]);
 						$ObjFoco='TxtGuia';
 						break;
 					case "B2"://LOTE EXISTENTE ABIERTO
@@ -224,10 +176,10 @@
 						$Insertar="INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
 						$Insertar.="hora_entrada,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion) values(";
 						$Insertar.="'$TxtCorrelativo','$TxtLote','$TxtRecargo','$CmbUltRecargo','".$RutOperador."','$bascula_entrada','$bascula_salida','$TxtFecha',";
-						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina[1]','$CmbGrupoProd','$SuBProd[0]','$SuBProd[1]',";
+						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina[1]."','$CmbGrupoProd','$SuBProd[0]."','$SuBProd[1]."',";
 						$Insertar.="'$TxtGuia','".strtoupper(trim($TxtPatente))."','$CmbClase','$TxtConjunto','$TxtObs')";
 						mysqli_query($link, $Insertar);
-						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1]);
+						PesoHistorico2('R',strtoupper(trim($TxtPatente)),&$TxtPesoHistorico,&$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1]);
 						$ObjFoco='TxtObs';
 						break;	
 				}
@@ -237,7 +189,7 @@
 			$EstBtnGrabar='';
 			$EstBtnAnular='';
 			$EstBtnImprimir='';
-			PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
+			PatenteValida(&$TxtPatente,&$PatenteOk,&$EstPatente);
 			if($PatenteOk==true)
 			{
 				$ObjFoco="TxtCorrelativo";
@@ -280,7 +232,7 @@
 							$TxtLeyes=$Fila["leyes"];
 							$TxtImpurezas=$Fila["impurezas"];
 							$TxtObs=$Fila["observacion"];
-							PesoHistorico('R',$TxtPatente,$TxtPesoHistorico,$TxtPorcRango,'S',$Fila["cod_producto"],$Fila["cod_subproducto"],$link);
+							PesoHistorico('R',$TxtPatente,&$TxtPesoHistorico,&$TxtPorcRango,'S',$Fila["cod_producto"],$Fila["cod_subproducto"]);
 							$HabilitarCmb='disabled';
 							$HabilitarText='readonly';
 							$ObjFoco='TxtObs';
@@ -308,19 +260,19 @@
 			}					
 		}
 	}
-	//$Proceso='';
+	$Proceso='';
 	if(isset($CmbGrupoProd))
 	{
-		$Consulta="SELECT abast_minero from sipa_web.grupos_productos where cod_grupo='".$CmbGrupoProd."'";
+		$Consulta="SELECT abast_minero from sipa_web.grupos_productos where cod_grupo='$CmbGrupoProd'";
 		$RespGrupo=mysqli_query($link, $Consulta);
 		$FilaGrupo=mysqli_fetch_array($RespGrupo);
-		$AbastMinero=isset($FilaGrupo["abast_minero"])?$FilaGrupo["abast_minero"]:"";
+		$AbastMinero=$FilaGrupo["abast_minero"];
 		if($AbastMinero=='N')
 			$BuscarPrv='S';
 	}
 	if(isset($BuscarPrv)&&$BuscarPrv=='S')
 	{
-		$Consulta = "SELECT * from sipa_web.proveedores where rut_prv='".$CmbProveedor."'";
+		$Consulta = "SELECT * from sipa_web.proveedores where rut_prv='$CmbProveedor'";
 		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($Respuesta))
 		{
@@ -340,6 +292,7 @@
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 
 <script language="javascript">
+<!--
 var OK;
 var OTS = "";
 ns4 = (document.layers)? true:false
@@ -1002,8 +955,10 @@ function SelecLeyes()
 	window.open(URL,"","top=30,left=30,width=600,height=500,status=yes,scrollbars=yes,resizable=yes");
 	
 }
+//-->
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -1011,12 +966,13 @@ body {
 	margin-bottom: 0px;
 }
 .Estilo2 {color: #FF0000}
+-->
 </style></head>
 <body <?php echo 'onload=window.document.FrmRecepcion.'.$ObjFoco.'.focus()'?>>
 <form action="" method="post" name="FrmRecepcion" >
 <?php
 	include("../principal/encabezado.php");
-	if($TipoProceso=="")
+	if(!isset($TipoProceso))
 		echo "<input type='hidden' name='TipoProceso' value=''>";
 	else
 		echo "<input type='hidden' name='TipoProceso' value='$TipoProceso'>";
@@ -1361,7 +1317,7 @@ body {
 			$AnoMes=substr(date('Y'),2,2).date('m');
 			$SubProd=explode('~',$CmbSubProducto);
 			$Consulta = "SELECT distinct t1.lote,t1.cod_subproducto,t1.rut_prv as rutprv from sipa_web.recepciones t1 where ";
-			$Consulta.="t1.estado<>'A' and cod_producto='".$SubProd[0]."' and cod_subproducto='".$SubProd[1]."' and rut_prv='".$CmbProveedor."' and ";
+			$Consulta.="t1.estado<>'A' and cod_producto='$SubProd[0]."' and cod_subproducto='$SubProd[1]."' and rut_prv='".$CmbProveedor."' and ";
 			$Consulta.=" lote like '$AnoMes%' and ult_registro <> 'S' ";
 			$Consulta.=" and t1.recargo=(SELECT max((t2.recargo)*1) from sipa_web.recepciones t2 where t2.lote=t1.lote) ";
 			$Consulta.=" group by lote";
@@ -1536,14 +1492,14 @@ if($Fila=mysqli_fetch_array($RespCorreo))
 	//$FechaSistema="2011-05-17";
 	if($FechaProx<$FechaSistema)
 	{
-		EnvioCorreoControlPadronMinero($link);
+		EnvioCorreoControlPadronMinero();
 		$Actualizar="UPDATE proyecto_modernizacion.sub_clase set valor_subclase1='".$FechaSistema."' where cod_clase='15012' and cod_subclase='1'";
 		mysqli_query($link, $Actualizar);
 		//echo "ENVIO CORREO<br>";
 	}
 }
 
-function EnvioCorreoControlPadronMinero($link)
+function EnvioCorreoControlPadronMinero()
 {
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	$ConsultaCorreo="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15012' and cod_subclase='1'";
@@ -1572,8 +1528,7 @@ function EnvioCorreoControlPadronMinero($link)
 		$Mensaje.='<tr><td>'.$FilaPadron["rut_prv"].'</td><td>'.ucwords(strtolower($FilaPadron["nombre_prv"])).'</td><td>'.ucwords(strtolower($FilaPadron["nombre_mina"])).'</td><td>'.$FilaPadron["cod_mina"].'</td><td>'.ucwords(strtolower($FilaPadron["sierra"])).'</td><td>'.ucwords(strtolower($FilaPadron["comuna"])).'</td></tr>';
 	}
 	$Mensaje.='</table>';
-	$Titulo="";
-	foreach($ArrayCorreos as $C =>$Correo2)	
+foreach($ArrayCorreos as $C =>$Correo2)	
 	{
 		
 		$cuerpoMsj = '<html>';

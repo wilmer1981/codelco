@@ -3,13 +3,14 @@
 	//include_once('config.php');
 
 	//////// agregado por WSO //////////
-	/*
+	
 	if(isset($_COOKIE["CookieRut"])){
 		$CookieRut = $_COOKIE["CookieRut"]; 
 	}else{
 		$CookieRut = ""; 
-	}*/
-	$CookieRut = $_COOKIE["CookieRut"]; 
+	}
+
+	//$CookieRut = $_COOKIE["CookieRut"]; 
 
     $link = mysqli_connect(CONEXION_HOST_BD,CONEXION_HOST_USER,CONEXION_HOST_PWD,"proyecto_modernizacion") or die ("Error al conectar con el servidor");
 	//mysql_select_db("proyecto_modernizacion", $link);

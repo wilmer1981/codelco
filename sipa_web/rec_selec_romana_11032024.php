@@ -35,7 +35,7 @@ $ficheros2  = scandir($directorio, 1);
 print_r($ficheros1);
 print_r($ficheros2);
 */
-//echo "<br>Direc:".$Dir;
+echo "<br>Direc:".$Dir;
 	
 $Tolerancia=ToleranciaPesaje($link);
 ?>	
@@ -100,10 +100,9 @@ var valor="";
 	}
 	return(valor); 
 }
-//var ROMA=LeerRomana('');
+var ROMA=LeerRomana('');
 function Redirecciona(Pag)
 {	
-	/*
 	var Bloq1='';
 	var Bloq2='';
 	var f = document.FromSelecRomana;
@@ -118,15 +117,6 @@ function Redirecciona(Pag)
 	{
 		Bloq2='S';
 	}
-	f.action= Pag+".php?RNA="+ROMA+"&Bloq1="+Bloq1+"&Bloq2="+Bloq2;
-	//alert(f.action);
-	f.submit();	
-	*/
-
-	var Bloq1='';
-	var Bloq2='';
-	var ROMA="";
-	var f = document.FromSelecRomana;
 	f.action= Pag+".php?RNA="+ROMA+"&Bloq1="+Bloq1+"&Bloq2="+Bloq2;
 	//alert(f.action);
 	f.submit();	
