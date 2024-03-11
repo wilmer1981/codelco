@@ -5,31 +5,30 @@
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
 
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Ver      = isset($_REQUEST["Ver"])?$_REQUEST["Ver"]:"";
 
-	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
-	$Ver = isset($_REQUEST["Ver"])?$_REQUEST["Ver"]:"";
+	$checkbox = isset($_REQUEST["checkbox"])?$_REQUEST["checkbox"]:"";
 
 	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
-	$hh = isset($_REQUEST["hh"])?$_REQUEST["hh"]:date("H");
-	$mm = isset($_REQUEST["mm"])?$_REQUEST["mm"]:date("i");
+	$hh  = isset($_REQUEST["hh"])?$_REQUEST["hh"]:date("H");
+	$mm  = isset($_REQUEST["mm"])?$_REQUEST["mm"]:date("i");
 
 	$CmbBrazo = isset($_REQUEST["CmbBrazo"])?$_REQUEST["CmbBrazo"]:'-1';
-	$checkbox = isset($_REQUEST["checkbox"])?$_REQUEST["checkbox"]:"";
-	$NumGuia = isset($_REQUEST["NumGuia"])?$_REQUEST["NumGuia"]:"";
-	$CmbOri = isset($_REQUEST["CmbOri"])?$_REQUEST["CmbOri"]:"";
-	$CmbTransp = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
+	$NumGuia  = isset($_REQUEST["NumGuia"])?$_REQUEST["NumGuia"]:"";
+	$CmbOri   = isset($_REQUEST["CmbOri"])?$_REQUEST["CmbOri"]:"";
+	$CmbTransp  = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
 	$CmbCliente = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
-	$CmbChofer = isset($_REQUEST["CmbChofer"])?$_REQUEST["CmbChofer"]:"";
+	$CmbChofer  = isset($_REQUEST["CmbChofer"])?$_REQUEST["CmbChofer"]:"";
 	$CmbPatente = isset($_REQUEST["CmbPatente"])?$_REQUEST["CmbPatente"]:"";
 	$CmbPatenteRampla = isset($_REQUEST["CmbPatenteRampla"])?$_REQUEST["CmbPatenteRampla"]:"";
 	$Toneladas = isset($_REQUEST["Toneladas"])?$_REQUEST["Toneladas"]:0;
-	$TxtMts = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$TxtMts    = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
 	$TxtCorrRomana = isset($_REQUEST["TxtCorrRomana"])?$_REQUEST["TxtCorrRomana"]:"";
-	$CmbProd = isset($_REQUEST["CmbProd"])?$_REQUEST["CmbProd"]:"";
+	$CmbProd   = isset($_REQUEST["CmbProd"])?$_REQUEST["CmbProd"]:"";
 	$VUnitario = isset($_REQUEST["VUnitario"])?$_REQUEST["VUnitario"]:"";
 	$TxtObservacionAUX = isset($_REQUEST["TxtObservacionAUX"])?$_REQUEST["TxtObservacionAUX"]:"";
 	$TxtObservacionFun = isset($_REQUEST["TxtObservacionFun"])?$_REQUEST["TxtObservacionFun"]:"";
@@ -38,6 +37,7 @@
 	$TxtSellos = isset($_REQUEST["TxtSellos"])?$_REQUEST["TxtSellos"]:"";
 
 	$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	
 	
 

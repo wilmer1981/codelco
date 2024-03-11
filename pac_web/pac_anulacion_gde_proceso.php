@@ -5,6 +5,7 @@
 	include("../principal/conectar_pac_web.php");
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	
 
 	$Consulta = "select * from proyecto_modernizacion.funcionarios ";
 	$Consulta.= " where rut='".$CookieRut."'";

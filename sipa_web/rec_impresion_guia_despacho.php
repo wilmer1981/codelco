@@ -55,7 +55,7 @@
 			$pdf->addTextWrap(230,461,150,13,$Fila["observacion"],$justification='left',0,0);
 			$pdf->addTextWrap(55,170,150,13,$Fila[nombre_chofer],$justification='left',0,0);
 			$pdf->addTextWrap(60,160,150,13,$Fila["rut_chofer"],$justification='left',0,0);
-			$pdf->addTextWrap(120,156,150,13,$Fila[registro],$justification='left',0,0);
+			$pdf->addTextWrap(120,156,150,13,$Fila["registro"],$justification='left',0,0);
 			$pdf->addTextWrap(55,144,150,13,$Fila["direccion"],$justification='left',0,0);
 			$pdf->addTextWrap(380,170,150,13,$Fila[transportista],$justification='left',0,0);
 			$pdf->addTextWrap(380,168,150,13,$Fila["marca"],$justification='left',0,0);

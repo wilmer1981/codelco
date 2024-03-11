@@ -96,7 +96,7 @@
 		$params = array();
 		
 		while ($FilaParam=mysql_fetch_assoc($respParams)){
-			$params[$FilaParam["nombre"]] = $FilaParam[valor1];
+			$params[$FilaParam["nombre"]] = $FilaParam["valor1"];
 
 		}
 
@@ -276,9 +276,9 @@ switch ($Proceso)
 					$RespGrupo=mysqli_query($link, $Consulta);
 					$FilaGrupo=mysqli_fetch_array($RespGrupo);
 					$CmbGrupoProd=$FilaGrupo["cod_grupo"];
-					$CmbProveedor=$FilaPac[rut_cliente].'~'.$FilaPac[corr_interno_cliente];
+					$CmbProveedor=$FilaPac["rut_cliente"].'~'.$FilaPac[corr_interno_cliente];
 					$CmbTipoDespacho='V';
-					$TxtRutChofer=$FilaPac[rut_chofer];
+					$TxtRutChofer=$FilaPac["rut_chofer"];
 					$TxtNomChofer=$FilaPac["nombre"];
 					$Consulta ="select nombre from pac_web.transportista where rut_transportista='".$FilaPac[rut_transportista]."'";
 					$RespTransP = mysqli_query($link, $Consulta);
@@ -385,7 +385,7 @@ switch ($Proceso)
 								$Consulta="select valor1 from pac_web.parametros where codigo='1'";
 								$Respuesta=mysqli_query($link, $Consulta);
 								$Fila=mysqli_fetch_array($Respuesta);
-								$Densidad=str_replace('.',',',$Fila[valor1]);						
+								$Densidad=str_replace('.',',',$Fila["valor1"]);						
 								if($TxtEK1!='')
 								{
 									$TxtMts=((str_replace(",",".",$TxtEK1)*10000)/$Densidad)/10000;
@@ -452,7 +452,7 @@ echo "<script languaje='JavaScript'>";
 		$consultaGDE ="select * from pac_web.guia_despacho where num_guia ='".$NG."'";
 		$respuesta=mysqli_query($link, $consultaGDE);
 		$fila1=mysqli_fetch_array($respuesta);
-		$rutCliente=$fila1[rut_cliente];
+		$rutCliente=$fila1["rut_cliente"];
 		$codOri=$fila1[cod_originador];
 		$fechaEmision=$fila1["fecha_hora"];
 		
@@ -469,7 +469,7 @@ echo "<script languaje='JavaScript'>";
 		$rutEmisor=$fila2[rut];
 
 		
-		$vUni=$fila1[valor_unitario];
+		$vUni=$fila1["valor_unitario"];
 		$ton=$fila3[peso_neto];
 
 		$montoTotal=$ton*$vUni;
@@ -668,7 +668,7 @@ function ModificarPAC($link)
 				$Consulta="select valor1 from pac_web.parametros where codigo='1'";
 				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysqli_fetch_array($Respuesta);
-				$Densidad=str_replace('.',',',$Fila[valor1]);						
+				$Densidad=str_replace('.',',',$Fila["valor1"]);						
 				if($TxtEK1!='')
 				{
 					$TxtMts=((str_replace(",",".",$TxtEK1)*10000)/$Densidad)/10000;
