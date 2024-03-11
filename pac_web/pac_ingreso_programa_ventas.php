@@ -3,8 +3,39 @@
 	$CodigoDePantalla = 14;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sept","Oct","Nov","Dic");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$AnoIni2     = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:"";
+	$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$CmbContrato = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
+	$Tonelada    = isset($_REQUEST["Tonelada"])?$_REQUEST["Tonelada"]:"";
+	$FechaHora   = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+	$ChkContrato1= isset($_REQUEST["ChkContrato1"])?$_REQUEST["ChkContrato1"]:"";
+	$ChkContrato = isset($_REQUEST["ChkContrato"])?$_REQUEST["ChkContrato"]:"";
+	$ChkCliente  = isset($_REQUEST["ChkCliente"])?$_REQUEST["ChkCliente"]:"";
+	$ChkTonelajeTotal= isset($_REQUEST["ChkTonelajeTotal"])?$_REQUEST["ChkTonelajeTotal"]:"";
+	$ChkTonelaje1    = isset($_REQUEST["ChkTonelaje1"])?$_REQUEST["ChkTonelaje1"]:"";
+	$ChkTonelaje2    = isset($_REQUEST["ChkTonelaje2"])?$_REQUEST["ChkTonelaje2"]:"";
+	$ChkTonelaje3    = isset($_REQUEST["ChkTonelaje3"])?$_REQUEST["ChkTonelaje3"]:"";
+	$ChkTonelaje4    = isset($_REQUEST["ChkTonelaje4"])?$_REQUEST["ChkTonelaje4"]:"";
+	$ChkTonelaje5    = isset($_REQUEST["ChkTonelaje5"])?$_REQUEST["ChkTonelaje5"]:"";
+	$ChkTonelaje6    = isset($_REQUEST["ChkTonelaje6"])?$_REQUEST["ChkTonelaje6"]:"";
+	$ChkTonelaje7    = isset($_REQUEST["ChkTonelaje7"])?$_REQUEST["ChkTonelaje7"]:"";
+	$ChkTonelaje8    = isset($_REQUEST["ChkTonelaje8"])?$_REQUEST["ChkTonelaje8"]:"";
+	$ChkTonelaje9    = isset($_REQUEST["ChkTonelaje9"])?$_REQUEST["ChkTonelaje9"]:"";
+	$ChkTonelaje10    = isset($_REQUEST["ChkTonelaje10"])?$_REQUEST["ChkTonelaje10"]:"";
+	$ChkTonelaje11    = isset($_REQUEST["ChkTonelaje11"])?$_REQUEST["ChkTonelaje11"]:"";
+	$ChkTonelaje12    = isset($_REQUEST["ChkTonelaje12"])?$_REQUEST["ChkTonelaje12"]:"";
+	
+	
+	
+
 ?>
 <html>
 <head>
@@ -198,7 +229,7 @@ function TeclaPulsada (tecla)
       <td width="147" align="center" valign="top"><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
         <?php echo $Fecha_Hora ?> </strong>&nbsp; <strong> 
         <?php
-					if (!isset($FechaHora))
+					if ($FechaHora=="")
 					{
 						echo "<input name='FechaHora' type='hidden' value='".date('Y-m-d H:i')."'>";
 						$FechaHora=date('Y-m-d H:i');
@@ -228,13 +259,13 @@ function TeclaPulsada (tecla)
 			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
-				if ($CmbCliente==$Fila[rut_cliente])
+				if ($CmbCliente==$Fila["rut_cliente"])
 				{
-					echo "<option value = '$Fila[rut_cliente]' selected>$Fila[rut_cliente]&nbsp;-&nbsp;$Fila["nombre"]</option>";	
+					echo "<option value = '".$Fila["rut_cliente"]."' selected>".$Fila["rut_cliente"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";	
 				}
 				else
 				{
-					echo "<option value = '$Fila[rut_cliente]'>$Fila[rut_cliente]&nbsp;-&nbsp;$Fila["nombre"]</option>";	
+					echo "<option value = '".$Fila["rut_cliente"]."'>".$Fila["rut_cliente"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";	
 				}
 			}
 			?>
@@ -248,13 +279,13 @@ function TeclaPulsada (tecla)
 				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
-					if ($CmbContrato==$Fila[nro_contrato])
+					if ($CmbContrato==$Fila["nro_contrato"])
 					{
-						echo "<option value = '".$Fila[nro_contrato]."' selected>".$Fila[nro_contrato]."</option>";	
+						echo "<option value = '".$Fila["nro_contrato"]."' selected>".$Fila["nro_contrato"]."</option>";	
 					}
 					else
 					{
-						echo "<option value = '".$Fila[nro_contrato]."'>".$Fila[nro_contrato]."</option>";	
+						echo "<option value = '".$Fila["nro_contrato"]."'>".$Fila["nro_contrato"]."</option>";	
 					}
 				}
 				?>
@@ -294,22 +325,22 @@ function TeclaPulsada (tecla)
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			echo "<tr>";
-			echo "<td align='center'><input type='checkbox' name='ChkContrato1[".$i."]' value='".$Fila[nro_contrato]."'></td>";
-			echo "<td align='center'><input type='text' style='width:60'  name='ChkContrato[".$i."]' readonly value='".$Fila[nro_contrato]."'></td>";
-			echo "<td align='center'><input type='text' style='width:80' name='ChkCliente[".$i."]' value='".$Fila[rut_cliente]."'></td>";
-			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelajeTotal[".$i."]' value='".$Fila[tonelaje_total]."'></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje1[".$i."]' value='".$Fila[tonelaje1]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje2[".$i."]' value='".$Fila[tonelaje2]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje3[".$i."]' value='".$Fila[tonelaje3]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje4[".$i."]' value='".$Fila[tonelaje4]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje5[".$i."]' value='".$Fila[tonelaje5]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje6[".$i."]' value='".$Fila[tonelaje6]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje7[".$i."]' value='".$Fila[tonelaje7]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje8[".$i."]' value='".$Fila[tonelaje8]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje9[".$i."]' value='".$Fila[tonelaje9]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje10[".$i."]' value='".$Fila[tonelaje10]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje11[".$i."]' value='".$Fila[tonelaje11]."' onBlur=\"Calcula(".($J+4).");\"></td>";
-			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje12[".$i."]' value='".$Fila[tonelaje12]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='checkbox' name='ChkContrato1[".$i."]' value='".$Fila["nro_contrato"]."'></td>";
+			echo "<td align='center'><input type='text' style='width:60'  name='ChkContrato[".$i."]' readonly value='".$Fila["nro_contrato"]."'></td>";
+			echo "<td align='center'><input type='text' style='width:80' name='ChkCliente[".$i."]' value='".$Fila["rut_cliente"]."'></td>";
+			echo "<td align='center'><input type='text' style='width:55' name='ChkTonelajeTotal[".$i."]' value='".$Fila["tonelaje_total"]."'></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje1[".$i."]' value='".$Fila["tonelaje1"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje2[".$i."]' value='".$Fila["tonelaje2"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje3[".$i."]' value='".$Fila["tonelaje3"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje4[".$i."]' value='".$Fila["tonelaje4"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje5[".$i."]' value='".$Fila["tonelaje5"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje6[".$i."]' value='".$Fila["tonelaje6"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje7[".$i."]' value='".$Fila["tonelaje7"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje8[".$i."]' value='".$Fila["tonelaje8"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje9[".$i."]' value='".$Fila["tonelaje9"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje10[".$i."]' value='".$Fila["tonelaje10"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje11[".$i."]' value='".$Fila["tonelaje11"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
+			echo "<td align='center'><input type='text' style='width:40' name='ChkTonelaje12[".$i."]' value='".$Fila["tonelaje12"]."' onBlur=\"Calcula(".($J+4).");\"></td>";
 			
 			echo "</tr>";
 			$i++;
