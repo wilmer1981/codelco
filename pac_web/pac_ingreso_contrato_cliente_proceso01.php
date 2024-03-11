@@ -1,7 +1,30 @@
 <?php
 	include("../principal/conectar_pac_web.php");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$ProcesoAux  = isset($_REQUEST["ProcesoAux"])?$_REQUEST["ProcesoAux"]:"";
+	$FechaHora   = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+	
+	$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$TxtContrato  = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
+	$TxtNroControl  = isset($_REQUEST["TxtNroControl"])?$_REQUEST["TxtNroControl"]:"";
+	$CmbNumCuotas  = isset($_REQUEST["CmbNumCuotas"])?$_REQUEST["CmbNumCuotas"]:"";	
+	$TxtTotalToneladas  = isset($_REQUEST["TxtTotalToneladas"])?$_REQUEST["TxtTotalToneladas"]:"";
+	$CmbMesInicio  = isset($_REQUEST["CmbMesInicio"])?$_REQUEST["CmbMesInicio"]:"";
+	$CmbAnoInicio  = isset($_REQUEST["CmbAnoInicio"])?$_REQUEST["CmbAnoInicio"]:"";
+	$CmbMesFinal  = isset($_REQUEST["CmbMesFinal"])?$_REQUEST["CmbMesFinal"]:"";
+	$CmbAnoFinal  = isset($_REQUEST["CmbAnoFinal"])?$_REQUEST["CmbAnoFinal"]:"";
+	$CmbDia  = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:"";
+	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+
+	$TxtToneladas  = isset($_REQUEST["TxtToneladas"])?$_REQUEST["TxtToneladas"]:"";
+
 	$Fecha=$CmbAno."-".$CmbMes."-".$CmbDia;
+
 	echo $Proceso."<br>";
 	switch ($Proceso)
 	{
@@ -12,6 +35,7 @@
 			if ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				$Mostrar='S';
+				//echo "existe";
 			}
 			else
 			{
@@ -20,6 +44,7 @@
 				$Insertar.= "values('".$CmbCliente."','".$TxtContrato."','".$TxtNroControl."','".$CmbNumCuotas."','".str_replace(",",".",$TxtTotalToneladas)."','".$CmbMesInicio."','".$CmbMesFinal."','".$CmbAnoInicio."','".$CmbAnoFinal."')";
 				mysqli_query($link, $Insertar);
 				$CmbCliente="";
+				//echo $Insertar;
 			}
 			echo "<script languaje='JavaScript'>";
 			echo "window.opener.document.FrmIngContrato.action='pac_ingreso_contrato_cliente.php';";
@@ -43,7 +68,7 @@
 			$Consulta="select toneladas from pac_web.contrato_cliente where nro_contrato='".$TxtContrato."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$FilaTon=mysqli_fetch_array($Respuesta);
-			$TotToneladasContrato=$FilaTon[toneladas];
+			$TotToneladasContrato=$FilaTon["toneladas"];
 			$Consulta="select sum(toneladas) as TotalToneladas from pac_web.detalle_contrato ";
 			$Consulta.=" where nro_contrato = '".$TxtContrato."'";
 			$Respuesta=mysqli_query($link, $Consulta);
@@ -53,7 +78,7 @@
 			$Respuesta=mysqli_query($link, $Consulta);
 			if ($Fila=mysqli_fetch_array($Respuesta))
 			{
-				$TotToneladasDetalle=$FilaTon[TotalToneladas] + (str_replace(",",".",$TxtToneladas)-$Fila[toneladas]);
+				$TotToneladasDetalle=$FilaTon["TotalToneladas"] + (str_replace(",",".",$TxtToneladas)-$Fila["toneladas"]);
 				if ($TotToneladasContrato>=$TotToneladasDetalle)
 				{
 					$Actualizar="UPDATE pac_web.detalle_contrato set toneladas='".str_replace(",",".",$TxtToneladas)."' where nro_contrato='".$TxtContrato."' and fecha ='".$Fecha."'";
@@ -66,7 +91,7 @@
 			}
 			else
 			{
-				$TotToneladasDetalle=$FilaTon[TotalToneladas] + str_replace(",",".",$TxtToneladas);
+				$TotToneladasDetalle=$FilaTon["TotalToneladas"] + str_replace(",",".",$TxtToneladas);
 				if ($TotToneladasContrato>=$TotToneladasDetalle)
 				{
 					$Insertar="insert into pac_web.detalle_contrato (nro_contrato,fecha,toneladas) values (";
@@ -121,7 +146,7 @@
 			$Respuesta=mysqli_query($link, $Consulta);
 			if ($Fila=mysqli_fetch_array($Respuesta))
 			{
-				header("location:pac_ingreso_contrato_cliente_proceso.php?Proceso=".$ProcesoAux."&Valores=".$Valores."&TxtToneladas=".str_replace(".",",",$Fila[toneladas])."&CmbDia=".$CmbDia."&CmbMes=".$CmbMes."&CmbAno=".$CmbAno);		
+				header("location:pac_ingreso_contrato_cliente_proceso.php?Proceso=".$ProcesoAux."&Valores=".$Valores."&TxtToneladas=".str_replace(".",",",$Fila["toneladas"])."&CmbDia=".$CmbDia."&CmbMes=".$CmbMes."&CmbAno=".$CmbAno);		
 			}
 			else
 			{

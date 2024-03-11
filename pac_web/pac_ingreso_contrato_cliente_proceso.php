@@ -4,10 +4,44 @@
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	//$meses =array ("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sept","Oct","Nov","Dic");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$BuscarContrato  = isset($_REQUEST["BuscarContrato"])?$_REQUEST["BuscarContrato"]:"";	
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mostrar2 = isset($_REQUEST["Mostrar2"])?$_REQUEST["Mostrar2"]:"";
+
+	$FechaHora   = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+	$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$CmbNumCuotas  = isset($_REQUEST["CmbNumCuotas"])?$_REQUEST["CmbNumCuotas"]:"";
+	
+	$TxtContrato  = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
+	$TxtTotalToneladas  = isset($_REQUEST["TxtTotalToneladas"])?$_REQUEST["TxtTotalToneladas"]:"";
+	$CmbMesInicio  = isset($_REQUEST["CmbMesInicio"])?$_REQUEST["CmbMesInicio"]:"";
+	$CmbAnoInicio  = isset($_REQUEST["CmbAnoInicio"])?$_REQUEST["CmbAnoInicio"]:"";
+	$CmbMesFinal  = isset($_REQUEST["CmbMesFinal"])?$_REQUEST["CmbMesFinal"]:"";
+	$CmbAnoFinal  = isset($_REQUEST["CmbAnoFinal"])?$_REQUEST["CmbAnoFinal"]:"";
+	$CmbDia  = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:"";
+	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+
+	$TxtRef  = isset($_REQUEST["TxtRef"])?$_REQUEST["TxtRef"]:"";
+	$TxtNroControl  = isset($_REQUEST["TxtNroControl"])?$_REQUEST["TxtNroControl"]:"";
+	$TxtToneladas  = isset($_REQUEST["TxtToneladas"])?$_REQUEST["TxtToneladas"]:"";
+	$TxtToneladas  = isset($_REQUEST["TxtToneladas"])?$_REQUEST["TxtToneladas"]:"";
+
+
+
+	
+
 	if ($Proceso=='M')
 	{
+		$RutCliente="";
+		$Contrato="";
 		$Datos=$Valores;
 		for ($i=0;$i<=strlen($Datos);$i++)
 		{
@@ -30,15 +64,15 @@
 		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysqli_fetch_array($Respuesta);
 		$Nombre=$Fila["nombre"];
-		$TxtRef=$Fila[referencia];
-		$TxtNroControl=$Fila[correlativo];
-		$TxtContrato=$Fila[nro_contrato];
+		$TxtRef=$Fila["referencia"];
+		$TxtNroControl=$Fila["correlativo"];
+		$TxtContrato=$Fila["nro_contrato"];
 		$TxtTotalToneladas=str_replace(".",",",$Fila["toneladas"]);
-		$CmbNumCuotas=$Fila[nro_cuotas];
-		$CmbMesInicio=$Fila[mes_inicio];
-		$CmbMesFinal=$Fila[mes_final];
-		$CmbAnoInicio=$Fila[ano_inicio];
-		$CmbAnoFinal=$Fila[ano_final];		
+		$CmbNumCuotas=$Fila["nro_cuotas"];
+		$CmbMesInicio=$Fila["mes_inicio"];
+		$CmbMesFinal=$Fila["mes_final"];
+		$CmbAnoInicio=$Fila["ano_inicio"];
+		$CmbAnoFinal=$Fila["ano_final"];		
 	}
 	
 ?>
@@ -236,7 +270,7 @@ function Activar(Frm)
       <td width="133" align="center" valign="top"><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
         <?php echo $Fecha_Hora ?> </strong>&nbsp; <strong> 
         <?php
-			if (!isset($FechaHora))
+			if ($FechaHora=="")
 			{
 				echo "<input name='FechaHora' type='hidden' value='".date('Y-m-d H:i')."'>";
 				$FechaHora=date('Y-m-d H:i');
@@ -266,23 +300,23 @@ function Activar(Frm)
 					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbCliente==$Fila[rut_cliente])
+						if ($CmbCliente==$Fila["rut_cliente"])
 						{
-							echo "<option value = '$Fila[rut_cliente]' selected>$Fila[rut_cliente]&nbsp;-&nbsp;$Fila["nombre"]</option>";	
+							echo "<option value = '".$Fila["rut_cliente"]."' selected>".$Fila["rut_cliente"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";	
 						}
 						else
 						{
-							echo "<option value = '$Fila[rut_cliente]'>$Fila[rut_cliente]&nbsp;-&nbsp;$Fila["nombre"]</option>";	
+							echo "<option value = '".$Fila["rut_cliente"]."'>".$Fila["rut_cliente"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";	
 						}
 					}
 					echo "</select>";
-					if ((isset($Buscar))&&($Buscar=='S'))
+					if (isset($Buscar) && $Buscar=='S')
 					{
 						$Consulta = "select * from pac_web.clientes where rut_cliente='".$CmbCliente."'";
 						$Respuesta=mysqli_query($link, $Consulta);
 						if ($Fila=mysqli_fetch_array($Respuesta))
 						{
-							echo "<input name='TxtRef' type='text' style='width:120' readonly value ='".$Fila[referencia]."'>"; 	
+							echo "<input name='TxtRef' type='text' style='width:120' readonly value ='".$Fila["referencia"]."'>"; 	
 						}
 						else
 						{
@@ -292,7 +326,7 @@ function Activar(Frm)
 						$Respuesta=mysqli_query($link, $Consulta);
 						if ($Fila=mysqli_fetch_array($Respuesta))
 						{
-							$Corr=$Fila[mayor] +  1;
+							$Corr=$Fila["mayor"] +  1;
 							echo "<input name='TxtNroControl' type='text' style='width:50' value ='".$Corr."' readonly>";
 						}
 						else
@@ -459,7 +493,7 @@ function Activar(Frm)
 				echo "<select name='CmbDia' id='select7' size='1' style='width:40px;'>";
 				for ($i=1;$i<=31;$i++)
 				{
-					if (isset($CmbDia))
+					if ($CmbDia)
 					{
 						if ($i==$CmbDia)
 						{
@@ -487,7 +521,7 @@ function Activar(Frm)
 				//for($i=1;$i<13;$i++)
 				for($i=$CmbMesInicio;$i<$CmbMesFinal+1;$i++)
 				{
-					if (isset($CmbMes))
+					if ($CmbMes)
 					{
 						if ($i==$CmbMes)
 						{
@@ -515,7 +549,7 @@ function Activar(Frm)
 				echo "<select name='CmbAno' size='1' style='width:70px;'>";
 				for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 				{
-					if (isset($CmbAno))
+					if ($CmbAno)
 					{
 						if ($i==$CmbAno)
 							{
@@ -564,7 +598,7 @@ function Activar(Frm)
 					}
 					reset($Dias);
 					ksort($Dias);
-					while(list($Clave,$Valor)=each($Dias))
+					foreach($Dias as $Clave => $Valor)
 					{
 						echo "<td width='50'>";
 						echo $Valor[0];
@@ -582,21 +616,21 @@ function Activar(Frm)
 					{
 						echo "<tr>";
 						reset($Dias);
-						while(list($Clave,$Valor)=each($Dias))
+						foreach($Dias as $Clave => $Valor)
 						{
 							$Dias[$Clave][0]="&nbsp;";				
 						}
-						$Mes=substr($Fila[AnoMes],5,2);
+						$Mes=substr($Fila["AnoMes"],5,2);
 						echo "<td width='60'>&nbsp;".$meses[$Mes-1]."</td>";
-						$Consulta="select * from pac_web.detalle_contrato where nro_contrato=".$TxtContrato." and fecha between '".$Fila[AnoMes]."-01' and '".$Fila[AnoMes]."-31'";
+						$Consulta="select * from pac_web.detalle_contrato where nro_contrato=".$TxtContrato." and fecha between '".$Fila["AnoMes"]."-01' and '".$Fila["AnoMes"]."-31'";
 						$Respuesta2 = mysqli_query($link, $Consulta);
 						while ($Fila2 = mysqli_fetch_array($Respuesta2))
 						{
 							$Dia=substr($Fila2["fecha"],8,2);
-							$Dias[$Dia][0]=str_replace(".",",",$Fila2[toneladas]);
+							$Dias[$Dia][0]=str_replace(".",",",$Fila2["toneladas"]);
 						}
 						reset($Dias);
-						while(list($Clave,$Valor)=each($Dias))
+						foreach($Dias as $Clave => $Valor)
 						{
 							echo "<td width='50' align='right'>";
 							echo $Valor[0];

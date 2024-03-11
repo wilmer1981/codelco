@@ -3,6 +3,9 @@
 	$CodigoDePantalla = 22;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 ?>
 <html>
 <head>
