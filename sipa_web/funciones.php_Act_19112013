@@ -36,7 +36,7 @@
 			fwrite($Archivo,$Fila["fecha"]."\r\n");
 			fwrite($Archivo,$Fila["recargo"]."\r\n");
 			fwrite($Archivo,$Fila["ult_registro"]."\r\n");
-			fwrite($Archivo,$Fila[fecha_padron]."\r\n");
+			fwrite($Archivo,$Fila["fecha_padron"]."\r\n");
 			fwrite($Archivo,$Fila["peso_tara"]."\r\n");
 			fwrite($Archivo,$Fila["hora_salida"]."\r\n");
 			fwrite($Archivo,$Fila["peso_neto"]."\r\n");
@@ -126,7 +126,7 @@
 			fwrite($Archivo,$Fila["fecha"]."\r\n");
 			fwrite($Archivo,$Fila["recargo"]."\r\n");
 			fwrite($Archivo,$Fila["ult_registro"]."\r\n");
-			fwrite($Archivo,$Fila[fecha_padron]."\r\n");
+			fwrite($Archivo,$Fila["fecha_padron"]."\r\n");
 			fwrite($Archivo,$Fila["peso_tara"]."\r\n");
 			fwrite($Archivo,$Fila["hora_salida"]."\r\n");
 			fwrite($Archivo,$Fila["peso_neto"]."\r\n");

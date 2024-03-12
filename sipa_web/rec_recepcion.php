@@ -5,19 +5,25 @@
 	include("funciones.php");	
 	require "includes/class.phpmailer.php";
 
+	$RNA   = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
+	$Bloq1 = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
+	$Bloq2 = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
+
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+
 	$TipoProceso = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
-	$RNA = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
 	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
 	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
 	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
 	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+	$TxtPorcRango = isset($_REQUEST["TxtPorcRango"])?$_REQUEST["TxtPorcRango"]:"";
+	
 	
 	$AbastMinero = isset($_REQUEST["AbastMinero"])?$_REQUEST["AbastMinero"]:"";
 	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
 	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
 	$TxtLote = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
-	$Bloq1 = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
-	$Bloq2 = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
+
 	
 	$EstPatente = isset($_REQUEST["EstPatente"])?$_REQUEST["EstPatente"]:"";
 	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
@@ -49,7 +55,6 @@
 	$TxtFecha = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date("Y-m-d");
 	$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
 
-	
 	CerrarLotesMensuales('R',$link);
 	$Tolerancia=ToleranciaPesaje($link);
 
@@ -204,9 +209,9 @@
 						$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='$CmbProveedor' and cod_mina='".$Fila["cod_mina"]."'";
 						$RespPadron=mysqli_query($link, $Consulta);
 						$FilaPadron=mysqli_fetch_array($RespPadron);
-						$TxtVencPadron=$FilaPadron[fecha_padron];
+						$TxtVencPadron=$FilaPadron["fecha_padron"];
 					
-						$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron[fecha_padron]."~".$Fila["conjunto"];
+						$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron["fecha_padron"]."~".$Fila["conjunto"];
 						$CmbConjunto=$Fila["conjunto"];
 						$CmbClase=$Fila["cod_clase"];
 						$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
@@ -248,7 +253,7 @@
 						$Datos=explode('~',$TxtCorrelativo);	
 						$Consulta ="SELECT distinct t1.lote,t1.recargo,t1.correlativo,t1.cod_grupo,t1.cod_producto,t1.cod_subproducto,t1.rut_prv,t1.cod_mina,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.conjunto,t1.cod_clase,";
 						$Consulta.="t1.peso_bruto,t1.guia_despacho,t1.observacion,t1.ult_registro,t1.leyes,t1.impurezas from sipa_web.recepciones t1 ";
-						$Consulta.="where lote = '".$Datos[0]."' and patente='$TxtPatente' and correlativo='".$Datos[2]."'";
+						$Consulta.="where lote = '".$Datos[0]."' and patente='".$TxtPatente."' and correlativo='".$Datos[2]."'";
 						//echo $Consulta;
 						$Resp2 = mysqli_query($link, $Consulta);
 						while($Fila = mysqli_fetch_array($Resp2))
@@ -271,8 +276,8 @@
 							//echo $Consulta."<br>";
 							$RespPadron=mysqli_query($link, $Consulta);
 							$FilaPadron=mysqli_fetch_array($RespPadron);
-							$TxtVencPadron=$FilaPadron[fecha_padron];
-							$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron[fecha_padron]."~".$Fila["conjunto"];
+							$TxtVencPadron=$FilaPadron["fecha_padron"];
+							$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron["fecha_padron"]."~".$Fila["conjunto"];
 							//echo $CmbMinaPlanta;
 							$CmbUltRecargo=$Fila["ult_registro"];
 							$CmbConjunto=$Fila["conjunto"];
@@ -367,8 +372,12 @@ function RestaurarBascula()
 	//var Bas2=0;
 //	var Bas1=0;
 	var f = document.FrmRecepcion;
-	var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
-	var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
+	//var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
+	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
+
+	var Bas1 ="<?php LeerArchivo('PesoMatic.txt'); ?>";
+	var Bas2 ="<?php LeerArchivo('PesoMatic2.txt'); ?>";
+
 	if(Bas1 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
 		f.Bloq1.value='';
@@ -414,6 +423,7 @@ function RestaurarBascula()
 		}
 	}
 }
+/*
  function LeerRomana(Rom)
 {
 	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
@@ -437,7 +447,11 @@ function RestaurarBascula()
 	}
 	return(valor); 
 }
-var ROMA=LeerRomana('');
+*/
+//var ROMA=LeerRomana('');
+//var ROMA=LeerArchivo('ROMANA.txt');
+var ROMA="<?php LeerArchivo('ROMANA.txt'); ?>";
+/*
  function LeerArchivo(valor)
 {
 	
@@ -462,8 +476,9 @@ var ROMA=LeerRomana('');
 	   }
 		return(valor); 
 }
-
- function LeerArchivo2(valor)
+*/
+/*
+function LeerArchivo2(valor)
 {var error=1;
 	var ubicacion = "C:\\PesoMatic2.txt";
 var valor="";
@@ -485,7 +500,7 @@ var valor="";
 	   }
 		return(valor); 
 }
-
+*/
 function muestra(numero) 
 {
  	if (ns4){ 
@@ -533,7 +548,8 @@ function CapturaPeso(tipo)
 				}
 				else
 				{
-					f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);					
+					f.TxtPesoBruto.value = "<?php LeerArchivo('PesoMatic2.txt'); ?>";
 					f.Bloq1.value='S';
 					Deshabilita('BasculaA');
 					f.BtnPBruto.disabled=true;
@@ -547,7 +563,8 @@ function CapturaPeso(tipo)
 				}
 				else
 				{
-					f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+					f.TxtPesoBruto.value = "<?php LeerArchivo('PesoMatic.txt'); ?>";
 						f.Bloq2.value='S';
 						Deshabilita('BasculaB');
 					
@@ -587,12 +604,11 @@ function CapturaPeso(tipo)
 				}
 				else
 				{
-					f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
+					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
+					f.TxtPesoTara.value ="<?php LeerArchivo('PesoMatic2.txt'); ?>";
 					f.Bloq1.value='S';
-					Deshabilita('BasculaA');
-					
-					f.BtnPTara.disabled=true;
-		
+					Deshabilita('BasculaA');					
+					f.BtnPTara.disabled=true;		
 				}
 			}else
 			{
@@ -602,11 +618,11 @@ function CapturaPeso(tipo)
 				}
 				else
 				{
-					f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
-						f.Bloq2.value='S';
-						Deshabilita('BasculaB');
-					
-						f.BtnPTara.disabled=true;
+					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
+					f.TxtPesoTara.value ="<?php LeerArchivo('PesoMatic.txt'); ?>";
+					f.Bloq2.value='S';
+					Deshabilita('BasculaB');					
+					f.BtnPTara.disabled=true;
 				}
 					
 			}
@@ -811,8 +827,6 @@ function ValidarCampos(ProcesoValid)
 {
 	var f = document.FrmRecepcion;
 	var Validado=true;
-
-
 
 	if((ProcesoValid)=='G'&&(f.TxtCorrelativo.value==''||f.TxtCorrelativo.value=='S'))
 	{
@@ -1518,7 +1532,9 @@ if($Mensaje!='')
 }
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmRecepcion;";
-echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+//echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+$Romana = LeerArhivo('ROMANA.txt');
+echo "f.TxtNumRomana.value=".$Romana;
 echo "CalculaPNetoTotal();";
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";

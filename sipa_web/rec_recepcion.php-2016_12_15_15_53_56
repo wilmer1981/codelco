@@ -156,9 +156,9 @@
 						$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='$CmbProveedor' and cod_mina='".$Fila["cod_mina"]."'";
 						$RespPadron=mysql_query($Consulta);
 						$FilaPadron=mysql_fetch_array($RespPadron);
-						$TxtVencPadron=$FilaPadron[fecha_padron];
+						$TxtVencPadron=$FilaPadron["fecha_padron"];
 					
-						$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron[fecha_padron]."~".$Fila["conjunto"];
+						$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron["fecha_padron"]."~".$Fila["conjunto"];
 						$CmbConjunto=$Fila["conjunto"];
 						$CmbClase=$Fila["cod_clase"];
 						$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
@@ -223,8 +223,8 @@
 							//echo $Consulta."<br>";
 							$RespPadron=mysql_query($Consulta);
 							$FilaPadron=mysql_fetch_array($RespPadron);
-							$TxtVencPadron=$FilaPadron[fecha_padron];
-							$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron[fecha_padron]."~".$Fila["conjunto"];
+							$TxtVencPadron=$FilaPadron["fecha_padron"];
+							$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron["fecha_padron"]."~".$Fila["conjunto"];
 							//echo $CmbMinaPlanta;
 							$CmbUltRecargo=$Fila["ult_registro"];
 							$CmbConjunto=$Fila["conjunto"];

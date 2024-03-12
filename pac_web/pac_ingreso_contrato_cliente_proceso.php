@@ -10,6 +10,7 @@
 
 	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
 	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 	$BuscarContrato  = isset($_REQUEST["BuscarContrato"])?$_REQUEST["BuscarContrato"]:"";	
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
@@ -32,11 +33,6 @@
 	$TxtRef  = isset($_REQUEST["TxtRef"])?$_REQUEST["TxtRef"]:"";
 	$TxtNroControl  = isset($_REQUEST["TxtNroControl"])?$_REQUEST["TxtNroControl"]:"";
 	$TxtToneladas  = isset($_REQUEST["TxtToneladas"])?$_REQUEST["TxtToneladas"]:"";
-	$TxtToneladas  = isset($_REQUEST["TxtToneladas"])?$_REQUEST["TxtToneladas"]:"";
-
-
-
-	
 
 	if ($Proceso=='M')
 	{
@@ -53,7 +49,7 @@
 					if (substr($RutContrato,$j,2)=="~~")
 					{
 						$RutCliente=substr($RutContrato,0,$j);
-						$Contrato=substr($RutContrato,$j+2);
+						$Contrato  =substr($RutContrato,$j+2);
 					}
 				}						
 				break;
@@ -61,6 +57,7 @@
 		}
 		$Consulta="select t1.rut_cliente,t1.nro_contrato,t1.correlativo,t1.nro_cuotas,t1.toneladas,t1.mes_inicio,t1.mes_final,";
 		$Consulta=$Consulta."t1.ano_inicio,t1.ano_final,t2.nombre,t2.referencia from pac_web.contrato_cliente t1 inner join pac_web.clientes t2 on t1.rut_cliente=t2.rut_cliente where t1.rut_cliente='".$RutCliente."' and t1.nro_contrato='".$Contrato."'";
+		echo "Consulta:".$Consulta;
 		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysqli_fetch_array($Respuesta);
 		$Nombre=$Fila["nombre"];
