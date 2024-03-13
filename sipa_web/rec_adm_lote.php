@@ -4,6 +4,8 @@
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
 
+	$CmbProducto = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
+
 	if(isset($_REQUEST["CmbTipoRegistro"])){
 		$CmbTipoRegistro = $_REQUEST["CmbTipoRegistro"];
 	}else{
@@ -74,7 +76,8 @@
 	}else{
 		$HabilitarCmb = '';
 	}
-	
+
+	$LimitFinAnt = isset($_REQUEST["LimitFinAnt"])?$_REQUEST["LimitFinAnt"]:"";
 
 	
 	
@@ -109,6 +112,7 @@
 <SCRIPT event=onclick() for=document>popCal.style.visibility = "hidden";</SCRIPT>
 
 <script language="javascript">
+	/*
 function LeerRomana(Rom)
 {
 	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
@@ -132,7 +136,7 @@ function LeerRomana(Rom)
        alert("No Existe archivo en :"+ubicacion);
 	}
 	return(valor); 
-}
+}*/
 var OK;
 var OTS = "";
 ns4 = (document.layers)? true:false
@@ -707,10 +711,13 @@ if (isset($TipoCon) && $TipoCon!="")
 			if($CmbTipoRegistro=='R'||$CmbTipoRegistro=='D')			
 			{
 				$ProdSubProd=explode('~',$CmbSubProducto);
+				$ProdSubProd0=isset($ProdSubProd[0])?$ProdSubProd[0]:"";
+				$ProdSubProd1=isset($ProdSubProd[1])?$ProdSubProd[1]:"";
 				if ($CmbGrupoProd!= "S"&&$CmbSubProducto== "S")
 				{
 					$ConsultaGrupo = "SELECT distinct cod_producto,cod_subproducto from sipa_web.grupos_prod_subprod where cod_grupo='$CmbGrupoProd'";
 					$RespAgrup=mysqli_query($link, $ConsultaGrupo);
+					$CodProd="";//WSO
 					while($FilaGrup=mysqli_fetch_array($RespAgrup))
 					{
 						$CodProd=$CodProd."(t1.cod_producto='".$FilaGrup["cod_producto"]."' and t1.cod_subproducto='".$FilaGrup["cod_subproducto"]."') or ";
@@ -722,7 +729,8 @@ if (isset($TipoCon) && $TipoCon!="")
 					$Consulta.= " and (".$CodProd.")";
 				}	
 				if ($CmbSubProducto!= "S")
-					$Consulta.= " and t1.cod_producto='".$ProdSubProd[0]."' and t1.cod_subproducto='".$ProdSubProd[1]."'";
+
+					$Consulta.= " and t1.cod_producto='".$ProdSubProd0."' and t1.cod_subproducto='".$ProdSubProd1."'";
 			}
 			if($CmbTipoRegistro=='O'||$CmbTipoRegistro=='C')//PARA OTROS PESAJE Y CIRCULANTES
 			{
@@ -859,14 +867,19 @@ if (isset($TipoCon) && $TipoCon!="")
 	$Resp = mysqli_query($link, $Consulta);
 	//PARA SABER EL TOTAL DE REGISTROS
 	//echo $ConsultaAux;
-	$Respuesta = mysqli_query($link, $ConsultaAux);
+	$Respuesta    = mysqli_query($link, $ConsultaAux);
 	$Coincidencias =  mysqli_num_rows($Respuesta);
+
 	$TotPesoBr = 0;$TotPesoTr = 0;$TotPesoNt = 0;$ContReg = 0;$Reg = 0;
-	$ProdAnt="";$SubProdAnt="";$RutAnt="";$Tipo_Recep="";
+	$ProdAnt=""; $SubProdAnt=""; $RutAnt=""; $Tipo_Recep="";
+
+	$TotPesoBrAnt=0; $TotPesoTrAnt=0; $TotPesoNtAnt=0; $TotPesoBrAntSubProd=0; $TotPesoTrAntSubProd=0;
+	$TotPesoNtAntSubProd=0; $RegSubProd=0;
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
-		$Tipo_Recep=$Fila["recepcion"];
-		$Decimales=0;
+
+		$Tipo_Recep = isset($Fila["recepcion"])?$Fila["recepcion"]:"";
+		$Decimales  = 0;
 		if ($Orden=="T")
 		{
 			if (($ProdAnt!="" && $SubProdAnt!="") && ($ProdAnt!=$Fila["cod_producto"] || $SubProdAnt!=$Fila["cod_subproducto"]))
@@ -929,11 +942,13 @@ if (isset($TipoCon) && $TipoCon!="")
 			case "R"://RECEPCION
 				echo "<tr><td width='100'>CLASE:</td><td>".$Fila["cod_clase"]."&nbsp;</td></tr>";
 				//RESCATA PASTAS E IMPUREZAS
-				$Pastas = explode('~',$Fila["leyes"]);;
+				$Pastas    = explode('~',$Fila["leyes"]);;
 				$Impurezas = explode('~',$Fila["impurezas"]);
-				$ArrPastas=array();
+				$ArrPastas   =array();
 				$ArrImpurezas=array();
-				if (strlen($Pastas)>1)
+	
+				//if (strlen($Pastas)>1)
+				if (count($Pastas)>1)
 				{
 					foreach($Pastas as $c => $v)
 					{
@@ -941,7 +956,8 @@ if (isset($TipoCon) && $TipoCon!="")
 						$ArrPastas[$v][1]="S";
 					}
 				}
-				if (strlen($Impurezas)>1)
+				//if (strlen($Impurezas)>1)
+				if (count($Impurezas)>1)
 				{
 					foreach($Impurezas as $c => $v)
 					{
@@ -953,7 +969,7 @@ if (isset($TipoCon) && $TipoCon!="")
 				echo "<tr><td>PASTAS:</td><td>";
 				reset($ArrPastas);
 				$StrLeyes = "";
-				while (list($k,$v)=each($ArrPastas))
+				foreach($ArrPastas as $k => $v)
 					$StrLeyes = $StrLeyes.$ArrLeyes[$v[0]][1].", ";
 				if ($StrLeyes!="")
 				{
@@ -966,7 +982,7 @@ if (isset($TipoCon) && $TipoCon!="")
 				echo "<tr><td>IMPUREZAS:</td><td>";
 				reset($ArrImpurezas);
 				$StrLeyes = "";
-				while (list($k,$v)=each($ArrImpurezas))
+				foreach($ArrImpurezas as $k => $v)
 					$StrLeyes = $StrLeyes.$ArrLeyes[$v[0]][1].", ";
 				if ($StrLeyes!="")
 				{
@@ -1028,9 +1044,9 @@ if (isset($TipoCon) && $TipoCon!="")
 		$TotPesoNtAntSubProd = $TotPesoNtAntSubProd + $Fila["peso_neto"];
 		$NomProdAnt = $Fila["abreviatura"];
 		$NomRutAnt = $NomProv;
-		$ProdAnt = $Fila["cod_producto"];
+		$ProdAnt = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
 		$SubProdAnt =$Fila["cod_subproducto"];
-		$RutAnt = $Fila["rut_proveedor"];
+		$RutAnt = isset($Fila["rut_proveedor"])?$Fila["rut_proveedor"]:"";
 		$ContReg++;
 		$Reg++;
 		$RegSubProd++;
@@ -1203,7 +1219,10 @@ if (isset($TipoCon))
 <?php
 echo "<script language='JavaScript'>";
 echo "var f = document.frmPrincipal;";
-echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+$Romana = LeerArchivo('ROMANA.txt');
+echo "f.TxtNumRomana.value=".$Romana.";";
+//echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";
 ?>

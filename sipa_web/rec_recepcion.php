@@ -19,6 +19,7 @@
 	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
 	$TxtPorcRango = isset($_REQUEST["TxtPorcRango"])?$_REQUEST["TxtPorcRango"]:"";
 	$CmbClase = isset($_REQUEST["CmbClase"])?$_REQUEST["CmbClase"]:"";
+	$TxtRutPrv = isset($_REQUEST["TxtRutPrv"])?$_REQUEST["TxtRutPrv"]:"";
 	
 	$AbastMinero = isset($_REQUEST["AbastMinero"])?$_REQUEST["AbastMinero"]:"";
 	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
@@ -60,8 +61,6 @@
 	$ValidaPadronMin = isset($_REQUEST["ValidaPadronMin"])?$_REQUEST["ValidaPadronMin"]:"";
 	$TxtVencPadron = isset($_REQUEST["TxtVencPadron"])?$_REQUEST["TxtVencPadron"]:"";
 	$CmbMinaPlanta = isset($_REQUEST["CmbMinaPlanta"])?$_REQUEST["CmbMinaPlanta"]:"";
-	
-	
 	
 
 	CerrarLotesMensuales('R',$link);
@@ -1242,9 +1241,11 @@ body {
 				if(isset($CmbProveedor))
 				{
 					$SubProd=explode('~',$CmbSubProducto);
+					$SubProd0 = isset($SubProd[0])?$SubProd[0]:"";
+					$SubProd1 = isset($SubProd[1])?$SubProd[1]:"";
 					$Consulta = "SELECT distinct rut_prv,nombre_prv from sipa_web.proveedores t1 inner join age_web.relaciones t2 ";
 					$Consulta.= " on t1.rut_prv=t2.rut_proveedor ";
-					$Consulta.= " where t2.cod_producto='".$SubProd[0]."' and t2.cod_subproducto='".$SubProd[1]."'";// and t1.rut_prv <>'90132000-5'";
+					$Consulta.= " where t2.cod_producto='".$SubProd0."' and t2.cod_subproducto='".$SubProd1."'";// and t1.rut_prv <>'90132000-5'";
 					$Consulta.= " order by t1.nombre_prv";
 					$Resp = mysqli_query($link, $Consulta);
 					while ($Fila = mysqli_fetch_array($Resp))

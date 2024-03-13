@@ -5,37 +5,36 @@
 	$CookieRut=$_COOKIE["CookieRut"];
 	$RutOperador=$CookieRut;
 
+	//Proceso=E&TxtValores=464434&TipoRegistro=R
+
 	$Proceso          = $_REQUEST["Proceso"];
-	$TxtValores       = $_REQUEST["TxtValores"];
-	$TipoRegistro     = $_REQUEST["TipoRegistro"];
-	$TxtConjunto      = $_REQUEST["TxtConjunto"];
-	$CmbEstadoLote    = $_REQUEST["CmbEstadoLote"];
-	$CmbClaseProducto = $_REQUEST["CmbClaseProducto"];
-	$TxtNumRomana     = $_REQUEST["TxtNumRomana"];
-	
+	$TxtValores       = isset($_REQUEST["TxtValores"])?$_REQUEST["TxtValores"]:"";
+	$TipoRegistro     = isset($_REQUEST["TipoRegistro"])?$_REQUEST["TipoRegistro"]:"";
+	$TxtConjunto      = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$CmbEstadoLote    = isset($_REQUEST["CmbEstadoLote"])?["CmbEstadoLote"]:"";
+	$CmbClaseProducto = isset($_REQUEST["CmbClaseProducto"])?$_REQUEST["CmbClaseProducto"]:"";
+	$TxtNumRomana     = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
 
-	$TxtCorr 		 = $_REQUEST["TxtCorr"];
-	$CmbTipoDespacho = $_REQUEST["CmbTipoDespacho"];
+	$TxtCorr 		 = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:"";
+	$CmbTipoDespacho = isset($_REQUEST["CmbTipoDespacho"])?$_REQUEST["CmbTipoDespacho"]:"";
 
-	$TxtLote = $_REQUEST["TxtLote"];
-	$CmbGrupoProd = $_REQUEST["CmbGrupoProd"];
-	$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	$CmbProveedor = $_REQUEST["CmbProveedor"];
-	$CmbMinaPlanta = $_REQUEST["CmbMinaPlanta"];
-	$CmbClase = $_REQUEST["CmbClase"];
-	$TxtAsignacion = $_REQUEST["TxtAsignacion"];
-	$TxtRecargo = $_REQUEST["TxtRecargo"];
-	$TxtFechaRecep = $_REQUEST["TxtFechaRecep"];
-	$TxtPatente = $_REQUEST["TxtPatente"];
-	$TxtCorrelativo = $_REQUEST["TxtCorrelativo"];
-	$TxtGuia = $_REQUEST["TxtGuia"];
-	$TxtObs = $_REQUEST["TxtObs"];
-	$ChkFinLote = $_REQUEST["ChkFinLote"];
-	$TxtPesoBruto = $_REQUEST["TxtPesoBruto"];
-	$TxtPesoTara = $_REQUEST["TxtPesoTara"];
-	$TxtPesoNeto = $_REQUEST["TxtPesoNeto"];
-
-
+	$TxtLote = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$CmbGrupoProd = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbMinaPlanta = isset($_REQUEST["CmbMinaPlanta"])?$_REQUEST["CmbMinaPlanta"]:"";
+	$CmbClase = isset($_REQUEST["CmbClase"])?$_REQUEST["CmbClase"]:"";
+	$TxtAsignacion = isset($_REQUEST["TxtAsignacion"])?$_REQUEST["TxtAsignacion"]:"";
+	$TxtRecargo = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
+	$TxtFechaRecep = isset($_REQUEST["TxtFechaRecep"])?$_REQUEST["TxtFechaRecep"]:"";
+	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+	$TxtGuia = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+	$ChkFinLote = isset($_REQUEST["ChkFinLote"])?$_REQUEST["ChkFinLote"]:"";
+	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoTara = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
 
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
 	$Resp=mysqli_query($link, $Consultar);
@@ -113,7 +112,7 @@
 					$Actualizar.= " ,fecha='".$TxtFechaRecep."'";
 					$Actualizar.= " ,cod_clase='".$CmbClase."'";
 					$Actualizar.= " ,conjunto='".$TxtConjunto."'";
-					$Actualizar.= " ,estado='".$CmbEstadoLote."' ";
+					$Actualizar.= " ,estado='".$CmbEstadoLote."'";
 					$Actualizar.= " ,ult_registro='".$ChkFinLote."' ";
 					$Actualizar.= " ,patente='".trim($TxtPatente)."' ";
 					$Actualizar.= " ,guia_despacho='".$TxtGuia."' ";
@@ -142,15 +141,16 @@
 
 						$DATOSANT=explode("~",$DatosAnteriores);
 						$DATOSACT=explode("~",$DatosActualizados);
-						while(list($c,$v)=each($DATOSANT))
+						$DatosMod='';//WSO
+						foreach($DATOSANT as $c => $v)
 						{
 							if($DATOSANT[$c]!=$DATOSACT[$c])
-								$DatosMod=$DatosMod.$c."~".$DATOSANT[$c]."~".$DATOSACT[$c]."//";
+								$DatosMod = $DatosMod.$c."~".$DATOSANT[$c]."~".$DATOSACT[$c]."//";
 						}
 						if($DatosMod!='')
 						{
 							$DatosMod=substr($DatosMod,0,strlen($DatosMod)-2);						
-							FuncionEnvioCorreo($LoteAnt,$LoteAct,$DatosMod,$RutPrvAnt,$RutPrvAct,$ProductoAnt,$ProductoAct);						
+							FuncionEnvioCorreo($LoteAnt,$LoteAct,$DatosMod,$RutPrvAnt,$RutPrvAct,$ProductoAnt,$ProductoAct,$link);						
 						}
 					}					
 				    header("location:rec_adm_lote02.php?Proc=M&TxtCorr=".$TxtCorr."&TxtRecargo=".$TxtRecargo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);
@@ -226,12 +226,12 @@
 						$Consulta="SELECT * from sipa_web.recepciones where correlativo='".$Corr."'";
 						$RespLote=mysqli_query($link, $Consulta);
 						$FilaLote=mysqli_fetch_array($RespLote);
-						$SA=$FilaLote["sa_asignada"];
-						$Lote=$FilaLote["lote"];
-						$Recargo=$FilaLote["recargo"];
-						$Producto=$FilaLote["cod_producto"];
-						$SubProducto=$FilaLote["cod_subproducto"];
-						$UltRec=$FilaLote["ult_registro"];
+						$SA=isset($FilaLote["sa_asignada"])?$FilaLote["sa_asignada"]:"";
+						$Lote=isset($FilaLote["lote"])?$FilaLote["lote"]:"";
+						$Recargo=isset($FilaLote["recargo"])?$FilaLote["recargo"]:"";
+						$Producto=isset($FilaLote["cod_producto"])?$FilaLote["cod_producto"]:"";
+						$SubProducto=isset($FilaLote["cod_subproducto"])?$FilaLote["cod_subproducto"]:"";
+						$UltRec=isset($FilaLote["ult_registro"])?$FilaLote["ult_registro"]:"";
 						if($UltRec=='S')
 						{	
 							EliminarSARec($SA,$Lote,0,$Producto,$SubProducto,$UltRec,$link);
@@ -314,7 +314,8 @@
 			header("location:rec_adm_lote.php?CmbTipoRegistro=".$TipoRegistro."&TxtFechaIni=".$TxtFechaIni."&TxtFechaFin=".$TxtFechaFin."&TxtLoteIni=".$TxtLoteIni."&TxtLoteFin=".$TxtLoteFin."&CmbSubProducto=".$CmbSubProducto."&LimitFin=".$LimitFin);			
 			//header("location:rec_adm_lote.php?CmbTipoRegistro=".$TipoRegistro."&LimitFin=".$LimitFin."&TipoCon=CF");			
 			break;	
-	}
+}
+
 function ModificacionSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Proceso,$link)
 {
 	$FechaHora=date('Y-m-d H:i');

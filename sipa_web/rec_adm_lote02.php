@@ -1,79 +1,32 @@
 <?php
 	include("../principal/conectar_principal.php"); 
+	
+	$Proc       = isset($_REQUEST["Proc"])?$_REQUEST["Proc"]:'';
+	$TxtCorr    = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:'';
+	$TxtRecargo = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:'';
 
-	if(isset($_REQUEST["Proc"])){
-		$Proc = $_REQUEST["Proc"];
-	}else{
-		$Proc = '';
-	}
-	if(isset($_REQUEST["TipoConsulta"])){
-		$TipoConsulta = $_REQUEST["TipoConsulta"];
-	}else{
-		$TipoConsulta = '';
-	}
-	if(isset($_REQUEST["TxtCorr"])){
-		$TxtCorr = $_REQUEST["TxtCorr"];
-	}else{
-		$TxtCorr = '';
-	}
-	if(isset($_REQUEST["Recarga"])){
-		$Recarga = $_REQUEST["Recarga"];
-	}else{
-		$Recarga = '';
-	}
+	$CmbMinaPlanta = isset($_REQUEST["CmbMinaPlanta"])?$_REQUEST["CmbMinaPlanta"]:'';
+	$TipoConsulta  = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
 
-	if(isset($_REQUEST["DesbPesos"])){
-		$DesbPesos = $_REQUEST["DesbPesos"];
-	}else{
-		$DesbPesos = '';
-	}
-	if(isset($_REQUEST["ObjFoco"])){
-		$ObjFoco = $_REQUEST["ObjFoco"];
-	}else{
-		$ObjFoco = '';
-	}
-	if(isset($_REQUEST["BuscarPrv"])){
-		$BuscarPrv = $_REQUEST["BuscarPrv"];
-	}else{
-		$BuscarPrv = '';
-	}
-		
+	$Recarga = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+	$DesbPesos = isset($_REQUEST["DesbPesos"])?$_REQUEST["DesbPesos"]:"";
+	$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
 
-	/*
-	if(isset($_REQUEST["TxtLote"])){
-		$TxtLote = $_REQUEST["TxtLote"];
-	}else{
-		$TxtLote = '';
-	}
-	if(isset($_REQUEST["TxtConjunto"])){
-		$TxtConjunto = $_REQUEST["TxtConjunto"];
-	}else{
-		$TxtConjunto = '';
-	}
-	if(isset($_REQUEST["CmbGrupoProd"])){
-		$CmbGrupoProd = $_REQUEST["CmbGrupoProd"];
-	}else{
-		$CmbGrupoProd = '';
-	}
-	if(isset($_REQUEST["CmbSubProducto"])){
-		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	}else{
-		$CmbSubProducto = '';
-	}
-	if(isset($_REQUEST["CmbEstadoLote"])){
-		$CmbEstadoLote = $_REQUEST["CmbEstadoLote"];
-	}else{
-		$CmbEstadoLote = '';
-	}
+	$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";
+	$NewRec = isset($_REQUEST["NewRec"])?$_REQUEST["NewRec"]:"";
+	$EstOpe = isset($_REQUEST["EstOpe"])?$_REQUEST["EstOpe"]:"";	
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+
+	$TxtLote      = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$TxtConjunto  = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$CmbGrupoProd = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbEstadoLote = isset($_REQUEST["CmbEstadoLote"])?$_REQUEST["CmbEstadoLote"]:"";
+
 	if(isset($_REQUEST["CmbProveedor"])){
 		$CmbProveedor = $_REQUEST["CmbProveedor"];
 	}else{
 		$CmbProveedor = '';
-	}
-	if(isset($_REQUEST["CmbMinaPlanta"])){
-		$CmbMinaPlanta = $_REQUEST["CmbMinaPlanta"];
-	}else{
-		$CmbMinaPlanta = '';
 	}
 	if(isset($_REQUEST["CmbClase"])){
 		$CmbClase = $_REQUEST["CmbClase"];
@@ -130,16 +83,8 @@
 	}else{
 		$TxtPesoTara = '';
 	}
-	if(isset($_REQUEST["TxtPesoNeto"])){
-		$TxtPesoNeto = $_REQUEST["TxtPesoNeto"];
-	}else{
-		$TxtPesoNeto = '';
-	}*/
+	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
 	
-
-
-
-
 	/******************************************************* */
 	if ($Proc == "M" && $Recarga!='S')
 	{

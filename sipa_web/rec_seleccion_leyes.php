@@ -1,6 +1,17 @@
 <?php
 	include("../principal/conectar_principal.php");
-	$CodLeyes=$CodLeyes."~".$CodImpurezas."~";
+
+	//$CodLeyes     = isset($_REQUEST["CodLeyes"])?$_REQUEST["CodLeyes"]:"";
+	//$CodImpurezas = isset($_REQUEST["CodImpurezas"])?$_REQUEST["CodImpurezas"]:"";
+	 //$CodLeyes=$CodLeyes."~".$CodImpurezas."~";
+
+	$TxtLeyesMuestra = isset($_REQUEST["TxtLeyesMuestra"])?$_REQUEST["TxtLeyesMuestra"]:"";
+	$TxtCodLeyes     = isset($_REQUEST["CodLeyes"])?$_REQUEST["CodLeyes"]:"";
+	$TxtCodImpurezas = isset($_REQUEST["CodImpurezas"])?$_REQUEST["CodImpurezas"]:"";
+
+	$Pag = isset($_REQUEST["Pag"])?$_REQUEST["Pag"]:"";
+
+	$CodLeyes=$TxtCodLeyes."~".$TxtCodImpurezas."~";
 ?>
 <html>
 <head>
@@ -55,11 +66,9 @@ function Proceso(opt,pag)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
