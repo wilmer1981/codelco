@@ -10,6 +10,7 @@
 	$Bloq2 = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
 
 	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";	
 
 	$TipoProceso = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
 	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
@@ -49,12 +50,19 @@
 	$TxtRecargo = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
 	$CmbUltRecargo = isset($_REQUEST["CmbUltRecargo"])?$_REQUEST["CmbUltRecargo"]:"";	
 	$CmbConjunto = isset($_REQUEST["CmbConjunto"])?$_REQUEST["CmbConjunto"]:"";
+	$TxtPesoTotalNeto = isset($_REQUEST["TxtPesoTotalNeto"])?$_REQUEST["TxtPesoTotalNeto"]:"";
 	$TxtPNetoTot = isset($_REQUEST["TxtPNetoTot"])?$_REQUEST["TxtPNetoTot"]:"";
 	$TxtImpurezas = isset($_REQUEST["TxtImpurezas"])?$_REQUEST["TxtImpurezas"]:"";
 	
 	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
 	$TxtFecha = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date("Y-m-d");
 	$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
+	$ValidaPadronMin = isset($_REQUEST["ValidaPadronMin"])?$_REQUEST["ValidaPadronMin"]:"";
+	$TxtVencPadron = isset($_REQUEST["TxtVencPadron"])?$_REQUEST["TxtVencPadron"]:"";
+	$CmbMinaPlanta = isset($_REQUEST["CmbMinaPlanta"])?$_REQUEST["CmbMinaPlanta"]:"";
+	
+	
+	
 
 	CerrarLotesMensuales('R',$link);
 	$Tolerancia=ToleranciaPesaje($link);
@@ -104,7 +112,7 @@
 		$ObjFoco="TxtPatente";
 	$Mostrar='N';$HabilitarText='';
 	//DETERMINAR SI ES ENTRADA O SALIDA
-	if($TipoProceso==""&&$TxtPatente<>"")
+	if($TipoProceso=="" && $TxtPatente<>"")
 	{
 		$Consulta="SELECT * from sipa_web.recepciones where patente = '".trim($TxtPatente)."' and peso_bruto<>'0' and ";
 		$Consulta.="peso_tara='0' and peso_neto='0' and estado <> 'A' and tipo<>'A'";
@@ -300,9 +308,11 @@
 	{
 		if($TxtLote=='')
 		{
-			$SuBProd=explode('~',$CmbSubProducto);
+			$SubProd=explode('~',$CmbSubProducto);
+			$SubProd0 = isset($SubProd[0])?$SubProd[0]:"";
+			$SubProd1 = isset($SubProd[1])?$SubProd[1]:"";
 			$Consulta = "SELECT leyes,impurezas from age_web.relaciones ";
-			$Consulta.= " where cod_producto='".$SuBProd[0]."' and cod_subproducto='".$SuBProd[1]."' and rut_proveedor='".$CmbProveedor."'";
+			$Consulta.= " where cod_producto='".$SubProd0."' and cod_subproducto='".$SubProd1."' and rut_proveedor='".$CmbProveedor."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysqli_fetch_array($Respuesta))
 			{
@@ -348,13 +358,13 @@
 <script language="javascript">
 var OK;
 var OTS = "";
-ns4 = (document.layers)? true:false
-ie4 = (document.all)? true:false
-var digitos=20 //cantidad de digitos buscados 
-var puntero=0 
-var buffer=new Array(digitos) //declaraci�n del array Buffer 
-var cadena="" 
-setInterval(RestaurarBascula,2000);
+ns4 = (document.layers)? true:false;
+ie4 = (document.all)? true:false;
+var digitos=20; //cantidad de digitos buscados 
+var puntero=0; 
+var buffer=new Array(digitos); //declaraci�n del array Buffer 
+var cadena="";
+setInterval("RestaurarBascula()",2000);
 
 function Habilita(Bascula)
 {
@@ -376,8 +386,8 @@ function RestaurarBascula()
 	//var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
 	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
 
-	var Bas1 ="<?php LeerArchivo('PesoMatic.txt'); ?>";
-	var Bas2 ="<?php LeerArchivo('PesoMatic2.txt'); ?>";
+	var Bas1 = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
+	var Bas2 = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
 
 	if(Bas1 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
@@ -451,7 +461,7 @@ function RestaurarBascula()
 */
 //var ROMA=LeerRomana('');
 //var ROMA=LeerArchivo('ROMANA.txt');
-var ROMA="<?php LeerArchivo('ROMANA.txt'); ?>";
+var ROMA= '<?php echo LeerArchivo('ROMANA.txt'); ?>';
 /*
  function LeerArchivo(valor)
 {
@@ -527,7 +537,8 @@ function oculta(numero)
 }
 function PesoAutomatico()
 {
-	setTimeout("CapturaPeso()",500);
+	//setTimeout("CapturaPeso()",500);
+	setTimeout(CapturaPeso,500);
 }	
 /*****************/
 function CapturaPeso(tipo)
@@ -550,7 +561,7 @@ function CapturaPeso(tipo)
 				else
 				{
 					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);					
-					f.TxtPesoBruto.value = "<?php LeerArchivo('PesoMatic2.txt'); ?>";
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
 					f.Bloq1.value='S';
 					Deshabilita('BasculaA');
 					f.BtnPBruto.disabled=true;
@@ -565,7 +576,7 @@ function CapturaPeso(tipo)
 				else
 				{
 					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-					f.TxtPesoBruto.value = "<?php LeerArchivo('PesoMatic.txt'); ?>";
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
 						f.Bloq2.value='S';
 						Deshabilita('BasculaB');
 					
@@ -606,7 +617,7 @@ function CapturaPeso(tipo)
 				else
 				{
 					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
-					f.TxtPesoTara.value ="<?php LeerArchivo('PesoMatic2.txt'); ?>";
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
 					f.Bloq1.value='S';
 					Deshabilita('BasculaA');					
 					f.BtnPTara.disabled=true;		
@@ -620,7 +631,7 @@ function CapturaPeso(tipo)
 				else
 				{
 					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
-					f.TxtPesoTara.value ="<?php LeerArchivo('PesoMatic.txt'); ?>";
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('PesoMatic.txt'); ?>';
 					f.Bloq2.value='S';
 					Deshabilita('BasculaB');					
 					f.BtnPTara.disabled=true;
@@ -1003,7 +1014,7 @@ function CalculaPNetoTotal()
 {
 	var f = document.FrmRecepcion;
 	
-	if(f.TxtPesoTotalNeto.value!=''&&f.TxtPesoNeto.value!='')
+	if(f.TxtPesoTotalNeto.value!='' && f.TxtPesoNeto.value!='')
 		f.TxtPNetoTot.value=parseInt(f.TxtPesoTotalNeto.value)+parseInt(f.TxtPesoNeto.value);
 	else
 		if(f.TxtPesoTotalNeto.value!='')
@@ -1122,8 +1133,7 @@ body {
     <td align="right" class="ColorTabla02">Correlativo:</td>
 	<td class="ColorTabla02">
 	<?php
-		if(!isset($TipoProceso)||$TipoProceso=='E')
-		
+	if($TipoProceso=="" || $TipoProceso=='E')	
 	{
 		//echo "prueba info";
 	?>
@@ -1278,9 +1288,16 @@ body {
 	  		if(isset($CmbMinaPlanta))
 			{
 				$SubProd=explode('~',$CmbSubProducto);
+				$SubProd1 = isset($SubProd[1])?$SubProd[1]:"";
+
 				$Datos=explode('~',$CmbMinaPlanta);
+				$Datos0 = isset($Datos[0])?$Datos[0]:"";
+				$Datos1 = isset($Datos[1])?$Datos[1]:"";
+				$Datos2 = isset($Datos[2])?$Datos[2]:"";
+				$Datos3 = isset($Datos[3])?$Datos[3]:"";
+
 				$Consulta = "SELECT  t1.rut_prv,t1.cod_mina,t1.nombre_mina,t1.sierra,t1.comuna,t1.fecha_padron,t3.conjunto from sipa_web.minaprv t1 ";
-				$Consulta.= "left join sipa_web.grupos_prod_prv t2 on t2.cod_producto='1' and t2.cod_subproducto='".$SubProd[1]."' ";
+				$Consulta.= "left join sipa_web.grupos_prod_prv t2 on t2.cod_producto='1' and t2.cod_subproducto='".$SubProd1."' ";
 				$Consulta.= "and t2.rut_prv='".$CmbProveedor."' and t2.cod_mina=t1.cod_mina ";
 				$Consulta.= "left join sipa_web.grupos_conjunto t3 on t3.cod_grupo=t2.cod_grupo ";
 				$Consulta.= "where t1.rut_prv='$CmbProveedor' ";
@@ -1288,7 +1305,7 @@ body {
 				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
-					if ($Datos[0] == $Fila["rut_prv"]&&$Datos[1] == $Fila["cod_mina"]&&$Datos[2] == $Fila["fecha_padron"]&&$Datos[3] == $Fila["conjunto"])
+					if ($Datos0 == $Fila["rut_prv"]&&$Datos1 == $Fila["cod_mina"]&&$Datos2 == $Fila["fecha_padron"]&&$Datos3 == $Fila["conjunto"])
 						echo "<option SELECTed value='".$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$Fila["fecha_padron"]."~".$Fila["conjunto"]."'>".$Fila["cod_mina"]." | ".$Fila["nombre_mina"]." | ".$Fila["sierra"]." | ".$Fila["comuna"]."</option>\n";
 					else
 						echo "<option value='".$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$Fila["fecha_padron"]."~".$Fila["conjunto"]."'>".$Fila["cod_mina"]." | ".$Fila["nombre_mina"]." | ".$Fila["sierra"]." | ".$Fila["comuna"]."</option>\n";
@@ -1375,8 +1392,10 @@ body {
 		<?php
 			$AnoMes=substr(date('Y'),2,2).date('m');
 			$SubProd=explode('~',$CmbSubProducto);
+			$SubProd0 = isset($SubProd[0])?$SubProd[0]:"";
+			$SubProd1 = isset($SubProd[1])?$SubProd[1]:"";
 			$Consulta = "SELECT distinct t1.lote,t1.cod_subproducto,t1.rut_prv as rutprv from sipa_web.recepciones t1 where ";
-			$Consulta.="t1.estado<>'A' and cod_producto='".$SubProd[0]."' and cod_subproducto='".$SubProd[1]."' and rut_prv='".$CmbProveedor."' and ";
+			$Consulta.="t1.estado<>'A' and cod_producto='".$SubProd0."' and cod_subproducto='".$SubProd1."' and rut_prv='".$CmbProveedor."' and ";
 			$Consulta.=" lote like '$AnoMes%' and ult_registro <> 'S' ";
 			$Consulta.=" and t1.recargo=(SELECT max((t2.recargo)*1) from sipa_web.recepciones t2 where t2.lote=t1.lote) ";
 			$Consulta.=" group by lote";
@@ -1456,7 +1475,7 @@ body {
 		$Consulta="SELECT sum(peso_neto) as total_neto from sipa_web.recepciones where lote ='$TxtLote' group by lote";
 		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($Respuesta))
-			$TxtPesoTotalNeto=$Fila[total_neto];
+			$TxtPesoTotalNeto=$Fila["total_neto"];
 	?>
     <td colspan="2" align="left" class="ColorTabla02"><span class="Estilo2">TOTAL PESO NETO LOTE: </span>
 	<input type="hidden" name="TxtPesoTotalNeto" value="<?php echo $TxtPesoTotalNeto;?>">
@@ -1534,8 +1553,9 @@ if($Mensaje!='')
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmRecepcion;";
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
-$Romana = LeerArhivo('ROMANA.txt');
-echo "f.TxtNumRomana.value=".$Romana;
+
+$Romana = LeerArchivo('ROMANA.txt');
+echo "f.TxtNumRomana.value=".$Romana.";";
 echo "CalculaPNetoTotal();";
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";

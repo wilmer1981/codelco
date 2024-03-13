@@ -39,7 +39,6 @@ print_r($ficheros2);
 	
 $Tolerancia=ToleranciaPesaje($link);
 
-
 $ROMA = LeerArchivo('ROMANA.txt');
 $Bas1 = LeerArchivo('PesoMatic.txt');
 $Bas2 = LeerArchivo('PesoMatic2.txt');
