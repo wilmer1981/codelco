@@ -1,7 +1,36 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
+	$CookieRut = $_COOKIE["CookieRut"];	
 	$RutOperador=$CookieRut;
+
+	$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Bloq1 = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
+	$Bloq2 = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
+	
+	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
+	$TxtPesoBruto  = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$CmbUltRecargo = isset($_REQUEST["CmbUltRecargo"])?$_REQUEST["CmbUltRecargo"]:"";
+	$TxtRecargo  = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
+	$TxtPatente  = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtGuia     = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$CmbClase    = isset($_REQUEST["CmbClase"])?$_REQUEST["CmbClase"]:"";
+	$CmbConjunto = isset($_REQUEST["CmbConjunto"])?$_REQUEST["CmbConjunto"]:"";
+	$TxtObs      = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+	$TxtHumedad  = isset($_REQUEST["TxtHumedad"])?$_REQUEST["TxtHumedad"]:"";
+	$TxtLeyes    = isset($_REQUEST["TxtLeyes"])?$_REQUEST["TxtLeyes"]:"";
+	$TxtImpurezas = isset($_REQUEST["TxtImpurezas"])?$_REQUEST["TxtImpurezas"]:"";
+	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+	$TxtLote        = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtNombrePrv = isset($_REQUEST["TxtNombrePrv"])?$_REQUEST["TxtNombrePrv"]:"";
+	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtPesoNeto  = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+	$TxtHoraS = isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";
+	$TxtHoraE = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
+	$TxtFecha = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:"";
+
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
 	$Resp=mysqli_query($link, $Consultar);
 	if ($Row=mysqli_fetch_array($Resp))
@@ -48,11 +77,11 @@
 				if($FilaGrupo=mysqli_fetch_array($RespGrupo))
 				{
 					$Entrar='S';
-					if($FilaGrupo["valor_subclase3"]!=''&&$FilaGrupo["valor_subclase3"]!='0')
+					if($FilaGrupo["valor_subclase3"]!='' && $FilaGrupo["valor_subclase3"]!='0')
 					{
 						$Entrar='N';
 						$ArraySubprod=explode(',',$FilaGrupo["valor_subclase3"]);
-						while(list($c,$v)=each($ArraySubprod))
+						foreach($ArraySubprod as $c => $v)
 						{
 							if ($v==$Fila["cod_subproducto"])
 							{
@@ -63,7 +92,7 @@
 					}
 					//echo "CREA SA<br>";
 					if($Entrar=='S')
-						CrearSA($TxtLote,$TxtRecargo,$Fila[proveedor],$CmbUltRecargo,$Fila["cod_producto"],$Fila["cod_subproducto"],$TxtLeyes,$TxtImpurezas,$RutOperador);			
+						CrearSA($TxtLote,$TxtRecargo,$Fila["proveedor"],$CmbUltRecargo,$Fila["cod_producto"],$Fila["cod_subproducto"],$TxtLeyes,$TxtImpurezas,$RutOperador,$link);			
 				}
 			}
 			header('location:rec_recepcion.php?TxtNumBascula='.$TxtNumBascula."&Bloq1=".$Bloq1."&Bloq2=".$Bloq2);

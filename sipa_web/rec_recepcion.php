@@ -17,14 +17,13 @@
 	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
 	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
 	$TxtPorcRango = isset($_REQUEST["TxtPorcRango"])?$_REQUEST["TxtPorcRango"]:"";
-	
+	$CmbClase = isset($_REQUEST["CmbClase"])?$_REQUEST["CmbClase"]:"";
 	
 	$AbastMinero = isset($_REQUEST["AbastMinero"])?$_REQUEST["AbastMinero"]:"";
 	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
 	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
 	$TxtLote = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
 
-	
 	$EstPatente = isset($_REQUEST["EstPatente"])?$_REQUEST["EstPatente"]:"";
 	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
 	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
@@ -33,6 +32,7 @@
 	$CmbGrupoProd = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
 	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$TxtHumedad = isset($_REQUEST["TxtHumedad"])?$_REQUEST["TxtHumedad"]:"";
+	$TxtLeyes = isset($_REQUEST["TxtLeyes"])?$_REQUEST["TxtLeyes"]:"";
 	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
 	
 	$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
@@ -50,6 +50,7 @@
 	$CmbUltRecargo = isset($_REQUEST["CmbUltRecargo"])?$_REQUEST["CmbUltRecargo"]:"";	
 	$CmbConjunto = isset($_REQUEST["CmbConjunto"])?$_REQUEST["CmbConjunto"]:"";
 	$TxtPNetoTot = isset($_REQUEST["TxtPNetoTot"])?$_REQUEST["TxtPNetoTot"]:"";
+	$TxtImpurezas = isset($_REQUEST["TxtImpurezas"])?$_REQUEST["TxtImpurezas"]:"";
 	
 	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
 	$TxtFecha = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date("Y-m-d");
