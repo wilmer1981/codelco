@@ -7,11 +7,12 @@
 
 	//Proceso=E&TxtValores=464434&TipoRegistro=R
 
-	$Proceso          = $_REQUEST["Proceso"];
+	$Proceso          = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TipoConsulta     = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
 	$TxtValores       = isset($_REQUEST["TxtValores"])?$_REQUEST["TxtValores"]:"";
 	$TipoRegistro     = isset($_REQUEST["TipoRegistro"])?$_REQUEST["TipoRegistro"]:"";
 	$TxtConjunto      = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
-	$CmbEstadoLote    = isset($_REQUEST["CmbEstadoLote"])?["CmbEstadoLote"]:"";
+	$CmbEstadoLote    = isset($_REQUEST["CmbEstadoLote"])?$_REQUEST["CmbEstadoLote"]:"";
 	$CmbClaseProducto = isset($_REQUEST["CmbClaseProducto"])?$_REQUEST["CmbClaseProducto"]:"";
 	$TxtNumRomana     = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
 
@@ -35,6 +36,15 @@
 	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
 	$TxtPesoTara = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
 	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+
+	$TxtFechaIni = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:"";
+	$TxtFechaFin = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:"";
+	$LimitIni    = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+	$LimitFin    = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:999;
+	$TxtLoteIni = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+
+
 
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
 	$Resp=mysqli_query($link, $Consultar);
@@ -70,7 +80,7 @@
 								{
 									$Entrar='N';
 									$ArraySubprod=explode(',',$FilaGrupo["valor_subclase3"]);
-									while(list($c,$v)=each($ArraySubprod))
+									foreach($ArraySubprod as $c => $v)
 									{
 										if ($v==$Fila["cod_subproducto"])
 										{
@@ -100,7 +110,7 @@
 						if($DatosAnteriores!='')
 							$DatosAnteriores=substr($DatosAnteriores,0,strlen($DatosAnteriores)-1);
 					}
-					
+					//echo "EStado:".$CmbEstadoLote."<br>";
 					$Actualizar = "UPDATE sipa_web.recepciones set ";
 					$Actualizar.= " lote='".trim($TxtLote)."'";
 					$Actualizar.= " ,recargo='".trim($TxtRecargo)."'";
@@ -122,6 +132,7 @@
 					$Actualizar.= " ,observacion='".$TxtObs."' ";
 					$Actualizar.= " where correlativo='".$TxtCorr."'";
 					//echo $Actualizar;
+					//exit();
 					mysqli_query($link, $Actualizar);
 					
 					//BUSCO LOS DATOS YA ACTUALIZADOS
@@ -152,8 +163,9 @@
 							$DatosMod=substr($DatosMod,0,strlen($DatosMod)-2);						
 							FuncionEnvioCorreo($LoteAnt,$LoteAct,$DatosMod,$RutPrvAnt,$RutPrvAct,$ProductoAnt,$ProductoAct,$link);						
 						}
-					}					
-				    header("location:rec_adm_lote02.php?Proc=M&TxtCorr=".$TxtCorr."&TxtRecargo=".$TxtRecargo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);
+					}	
+					//rec_adm_lote02.php?TipoConsulta=CF&Proc=M&TxtCorr=464845				
+				    header("location:rec_adm_lote02.php?TipoConsulta=".$TipoConsulta."&Proc=M&TxtCorr=".$TxtCorr."&TxtRecargo=".$TxtRecargo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);
 					break;
 				case "D":
 					$Actualizar = "UPDATE sipa_web.despachos set ";
@@ -216,6 +228,9 @@
 			break;
 		case "E":
 			$Datos = explode("//",$TxtValores);
+			//echo "ENTROOOO a ELIMINAR";
+			//echo "TipoConsulta:".$TipoConsulta;
+			//exit();
 			foreach($Datos as $k => $v)
 			{
 				$Datos2 = explode("-",$v);
@@ -255,7 +270,13 @@
 				//echo $Eliminar."<br>";
 			}
 			echo "<script language='JavaScript'>";
-			echo "window.location='rec_adm_lote.php?CmbTipoRegistro=".$TipoRegistro."&TxtFechaIni=".$TxtFechaIni."&TxtFechaFin=".$TxtFechaFin."&TxtLoteIni=".$TxtLoteIni."&TxtLoteFin=".$TxtLoteFin."&CmbSubProducto=".$CmbSubProducto."&LimitFin=".$LimitFin."';";
+			//echo "window.location='rec_adm_lote.php?CmbTipoRegistro=".$TipoRegistro."&TxtFechaIni=".$TxtFechaIni."&TxtFechaFin=".$TxtFechaFin."&TxtLoteIni=".$TxtLoteIni."&TxtLoteFin=".$TxtLoteFin."&CmbSubProducto=".$CmbSubProducto."&LimitFin=".$LimitFin."';";
+			
+			echo "window.location='rec_adm_lote.php?TipoCon=".$TipoConsulta."';";	
+
+			//echo "window.opener.document.frmPrincipal.action='rec_adm_lote.php?TipoCon=".$TipoConsulta."';";
+			//echo "window.opener.document.frmPrincipal.submit();";
+			//echo "window.close();";
 			echo "</script>";			
 			break;
 		case "OM": //OPERACIONES MASIVAS
@@ -286,7 +307,8 @@
 				mysqli_query($link, $Actualizar);
 			}			
 			echo "<script language='JavaScript'>";
-			echo "window.opener.document.frmPrincipal.action='rec_adm_lote.php';";
+			//echo "window.opener.document.frmPrincipal.action='rec_adm_lote.php';";
+			echo "window.opener.document.frmPrincipal.action='rec_adm_lote.php?TipoCon=".$TipoConsulta."';";
 			echo "window.opener.document.frmPrincipal.submit();";
 			echo "window.close();";
 			echo "</script>";

@@ -299,7 +299,7 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 			$Consulta = "SELECT  max(lpad(recargo,2,'0'))+1 as recargo_nuevo from sipa_web.recepciones where lote = '".$LoteVentana."' group by lote";
 			$RespAux = mysqli_query($link, $Consulta);
 			$FilaAux=mysqli_fetch_array($RespAux);
-			$Rec=$FilaAux[recargo_nuevo];
+			$Rec=$FilaAux["recargo_nuevo"];
 			
 			$Consulta = "SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
 			$RespCorr = mysqli_query($link, $Consulta);
@@ -389,7 +389,7 @@ if ($Proceso == 'EL')//ELIMINAR LOTE
 			$RespAux = mysqli_query($link, $Consulta);
 			if($FilaAux=mysqli_fetch_array($RespAux))
 			{	
-				$Rec=$FilaAux[recargo_nuevo];
+				$Rec=$FilaAux["recargo_nuevo"];
 			}
 			else
 			{

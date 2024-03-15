@@ -13,6 +13,7 @@
 	$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";	
 
 	$TipoProceso = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
 	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
 	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
@@ -140,14 +141,18 @@
 			$Mensaje='';
 	}
 	/*DEFINE SI ES ENTRADA O SALIDA*/
+	echo "TipoProceso:".$TipoProceso;
 	switch($TipoProceso)
 	{
 		case "E":
+			 echo "Entroooo";
 			$EstBtnGrabar='';
 			$PatenteOk='';
-			PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
+			$PatenteOk=PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
+			echo "PatenteOk:".$PatenteOk;
 			if($PatenteOk==true)
-			{
+			{ echo "PatenteOk:".$PatenteOk;
+				echo "Proceso:".$Proceso;
 				switch($Proceso)
 				{
 					case "B1"://LOTE NUEVO
@@ -160,7 +165,7 @@
 						//echo $Consulta;
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
-						$TxtLote=str_pad($Fila[lote_nuevo],8,'0',STR_PAD_LEFT);
+						$TxtLote=str_pad($Fila["lote_nuevo"],8,'0',STR_PAD_LEFT);
 						$TxtRecargo=1;
 						$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
 						$Respuesta=mysqli_query($link, $Consulta);
@@ -188,7 +193,7 @@
 						mysqli_query($link, $Insertar);
 						$Actualizar="UPDATE sipa_web.correlativo_lote set lote='$TxtLote' where cod_proceso='R'";
 						mysqli_query($link, $Actualizar);
-						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1]);
+						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1],$link);
 						$ObjFoco='TxtGuia';
 						break;
 					case "B2"://LOTE EXISTENTE ABIERTO
@@ -204,7 +209,7 @@
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
 						$TxtLote=$CmbLotes;
-						$TxtRecargo=$Fila[recargo_nuevo];
+						$TxtRecargo=$Fila["recargo_nuevo"];
 						$Consulta="SELECT  cod_producto,cod_subproducto,rut_prv,cod_mina,correlativo,fecha,hora_entrada,hora_salida,conjunto,cod_clase ";
 						$Consulta.="from sipa_web.recepciones where lote = '$CmbLotes' and recargo='1'";
 						//echo $Consulta;
@@ -240,7 +245,7 @@
 						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina[1]','$CmbGrupoProd','$SuBProd[0]','$SuBProd[1]',";
 						$Insertar.="'$TxtGuia','".strtoupper(trim($TxtPatente))."','$CmbClase','$TxtConjunto','$TxtObs')";
 						mysqli_query($link, $Insertar);
-						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1]);
+						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1],$link);
 						$ObjFoco='TxtObs';
 						break;	
 				}
@@ -384,9 +389,8 @@ function RestaurarBascula()
 	var f = document.FrmRecepcion;
 	//var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
 	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
-
-	var Bas1 = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
-	var Bas2 = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
+	var Bas1 = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
+	var Bas2 = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
 
 	if(Bas1 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
@@ -758,6 +762,7 @@ function Proceso(opt,ObjFoco,opt2)
 		case "B"://BUSCA LOTE NUEVO O LOTE EXISTENTE
 			if(ValidarCampos(''))
 			{
+				alert("OHH");
 				if(f.CmbLotes.value=='-1')//ES LOTE NUEVO
 					f.action = "rec_recepcion.php?Proceso=B1";
 				else
@@ -839,7 +844,7 @@ function ValidarCampos(ProcesoValid)
 	var f = document.FrmRecepcion;
 	var Validado=true;
 
-	if((ProcesoValid)=='G'&&(f.TxtCorrelativo.value==''||f.TxtCorrelativo.value=='S'))
+	if((ProcesoValid)=='G' && (f.TxtCorrelativo.value==''||f.TxtCorrelativo.value=='S'))
 	{
 		alert('No hay Correlativo para Grabar');
 		f.TxtPatente.focus();
@@ -1135,6 +1140,7 @@ body {
 	if($TipoProceso=="" || $TipoProceso=='E')	
 	{
 		//echo "prueba info";
+		echo "TipoProcesooooo:".$TipoProceso;
 	?>
     <input <?php echo $EstadoInput; ?> name="TxtCorrelativo" type="text" class="InputCen" id="TxtCorrelativo" value="<?php echo $TxtCorrelativo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');" readonly>      
     <?php
@@ -1496,10 +1502,12 @@ body {
 					if($TxtNumBascula=='1' && $Bloq1=="S")
 					{
 						$EstBtnPBruto='disabled';
+						//$EstBtnPBruto='';   //WSO  
 					}	
 					if($TxtNumBascula=='2' && $Bloq2=="S")
 					{
 						$EstBtnPBruto='disabled';
+						//$EstBtnPBruto='';   //WSO
 					}									
 					break;
 				case "S":

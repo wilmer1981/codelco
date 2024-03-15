@@ -85,7 +85,7 @@
 						//echo $Consulta;
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
-						$TxtLote=str_pad($Fila[lote_nuevo],8,'0',STR_PAD_LEFT);
+						$TxtLote=str_pad($Fila["lote_nuevo"],8,'0',STR_PAD_LEFT);
 						$TxtRecargo=1;
 						$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
 						$Respuesta=mysqli_query($link, $Consulta);
@@ -129,7 +129,7 @@
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
 						$TxtLote=$CmbLotes;
-						$TxtRecargo=$Fila[recargo_nuevo];
+						$TxtRecargo=$Fila["recargo_nuevo"];
 						$Consulta="SELECT  cod_producto,cod_subproducto,rut_prv,cod_mina,correlativo,fecha,hora_entrada,hora_salida,conjunto,cod_clase ";
 						$Consulta.="from sipa_web.recepciones where lote = '$CmbLotes' and recargo='1'";
 						//echo $Consulta;

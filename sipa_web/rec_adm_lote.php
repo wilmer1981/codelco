@@ -5,96 +5,24 @@
 	include("funciones.php");
 
 	$CmbProducto = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
+	$TipoCon     = isset($_REQUEST["TipoCon"])?$_REQUEST["TipoCon"]:"";
 
-	if(isset($_REQUEST["CmbTipoRegistro"])){
-		$CmbTipoRegistro = $_REQUEST["CmbTipoRegistro"];
-	}else{
-		$CmbTipoRegistro = 'R';
-	}
-	if(isset($_REQUEST["TxtFechaIni"])){
-		$TxtFechaIni = $_REQUEST["TxtFechaIni"];
-	}else{
-		$TxtFechaIni = date("Y-m-d");
-	}
-	if(isset($_REQUEST["TxtFechaFin"])){
-		$TxtFechaFin = $_REQUEST["TxtFechaFin"];
-	}else{
-		$TxtFechaFin = date("Y-m-d");
-	}
-	if(isset($_REQUEST["LimitIni"])){
-		$LimitIni = $_REQUEST["LimitIni"];
-	}else{
-		$LimitIni = 0;
-	}
-	if(isset($_REQUEST["LimitFin"])){
-		$LimitFin = $_REQUEST["LimitFin"];
-	}else{
-		$LimitFin = 999;
-	}
-	if(isset($_REQUEST["TxtNumRomana"])){
-		$TxtNumRomana = $_REQUEST["TxtNumRomana"];
-	}else{
-		$TxtNumRomana = "";
-	}
-	if(isset($_REQUEST["CmbGrupoProd"])){
-		$CmbGrupoProd = $_REQUEST["CmbGrupoProd"];
-	}else{
-		$CmbGrupoProd = "";
-	}
-	if(isset($_REQUEST["CmbSubProducto"])){
-		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	}else{
-		$CmbSubProducto = '';
-	}
-	if(isset($_REQUEST["VerAnulados"])){
-		$VerAnulados = $_REQUEST["VerAnulados"];
-	}else{
-		$VerAnulados = '';
-	}
-	if(isset($_REQUEST["TipoCon"])){
-		$TipoCon = $_REQUEST["TipoCon"];
-	}else{
-		$TipoCon = '';
-	}
-	if(isset($_REQUEST["Orden"])){
-		$Orden = $_REQUEST["Orden"];
-	}else{
-		$Orden = '';
-	}
-	if(isset($_REQUEST["TxtLoteIni"])){
-		$TxtLoteIni = $_REQUEST["TxtLoteIni"];
-	}else{
-		$TxtLoteIni = '';
-	}
-	if(isset($_REQUEST["TxtLoteFin"])){
-		$TxtLoteFin = $_REQUEST["TxtLoteFin"];
-	}else{
-		$TxtLoteFin = '';
-	}
-	if(isset($_REQUEST["HabilitarCmb"])){
-		$HabilitarCmb = $_REQUEST["HabilitarCmb"];
-	}else{
-		$HabilitarCmb = '';
-	}
+	$CmbTipoRegistro = isset($_REQUEST["CmbTipoRegistro"])?$_REQUEST["CmbTipoRegistro"]:'R';
+	$TxtFechaIni = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date("Y-m-d");
+	$TxtFechaFin = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date("Y-m-d");
+	$LimitIni    = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+	$LimitFin    = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:999;
 
-	$LimitFinAnt = isset($_REQUEST["LimitFinAnt"])?$_REQUEST["LimitFinAnt"]:"";
+	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+	$CmbGrupoProd = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$VerAnulados  = isset($_REQUEST["VerAnulados"])?$_REQUEST["VerAnulados"]:"";
+	$Orden        = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$TxtLoteIni   = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin   = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+	$HabilitarCmb = isset($_REQUEST["HabilitarCmb"])?$_REQUEST["HabilitarCmb"]:"";
+	$LimitFinAnt  = isset($_REQUEST["LimitFinAnt"])?$_REQUEST["LimitFinAnt"]:"";	
 
-	
-	
-	
-
-/*
-	if(!isset($CmbTipoRegistro))
-		$CmbTipoRegistro='R';
-	if (!isset($TxtFechaIni))
-		$TxtFechaIni = date("Y-m-d");
-	if (!isset($TxtFechaFin))
-		$TxtFechaFin = date("Y-m-d");
-	if (!isset($LimitIni))
-		$LimitIni=0;
-	if (!isset($LimitFin))
-		$LimitFin=999;	
-		*/
 	$ArrLeyes = array();
 	$Consulta = "SELECT * from proyecto_modernizacion.leyes ";
 	$RespLeyes = mysqli_query($link, $Consulta);	
@@ -232,7 +160,7 @@ function Proceso(opt,valor)
 				return;
 			}
 			TxtLotes = TxtLotes.substring(0,(TxtLotes.length-2));
-			window.open("rec_adm_lote03.php?Proc=OM&TxtValores="+TxtLotes+"&TipoRegistro="+f.CmbTipoRegistro.value,"","top=100,left=50,width=550,height=300,scrollbars=yes,resizable=yes");
+			window.open("rec_adm_lote03.php?TipoConsulta=<?php echo $TipoCon; ?>&Proc=OM&TxtValores="+TxtLotes+"&TipoRegistro="+f.CmbTipoRegistro.value,"","top=100,left=50,width=550,height=300,scrollbars=yes,resizable=yes");
 			break;
 		case "NL":
 			window.open("rec_adm_lote02.php?TipoConsulta=<?php echo $TipoCon; ?>&Proc=N","","top=10,left=30,width=550,height=480,scrollbars=yes,resizable=yes");
@@ -330,13 +258,13 @@ function Proceso(opt,valor)
 					switch(f.CmbTipoRegistro.value)
 					{
 						case "R":
-							f.action = "rec_adm_lote01.php?Proceso=E&TxtValores="+TxtCorr+"&TipoRegistro=R";
+							f.action = "rec_adm_lote01.php?TipoConsulta=<?php echo $TipoCon; ?>&Proceso=E&TxtValores="+TxtCorr+"&TipoRegistro=R";
 							break;
 						case "D":
-							f.action = "rec_adm_lote01.php?Proceso=E&TxtValores="+TxtCorr+"&TipoRegistro=D";
+							f.action = "rec_adm_lote01.php?TipoConsulta=<?php echo $TipoCon; ?>&Proceso=E&TxtValores="+TxtCorr+"&TipoRegistro=D";
 							break;
 						case "O":
-							f.action = "rec_adm_lote01.php?Proceso=E&TxtValores="+TxtCorr+"&TipoRegistro=O";
+							f.action = "rec_adm_lote01.php?TipoConsulta=<?php echo $TipoCon; ?>&Proceso=E&TxtValores="+TxtCorr+"&TipoRegistro=O";
 							break;
 					}		
 					f.submit();
@@ -378,7 +306,8 @@ function Proceso(opt,valor)
 		case "I":
 			if(confirm('Esta Seguro de Imprimir Boleta'))
 			{
-				TxtNumRomana=LeerRomana('');	
+				//TxtNumRomana=LeerRomana('');	
+				TxtNumRomana='<?php echo LeerArchivo('ROMANA.txt'); ?>';
 				var TxtLotes = "";
 				for (i=1;i<f.elements.length;i++)
 				{

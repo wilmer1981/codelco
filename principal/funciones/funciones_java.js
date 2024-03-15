@@ -954,10 +954,10 @@ function oNumero(numero)
 //Propiedades 
 this.valor = numero || 0
 this.dec = -1;
-//Métodos 
+//Mï¿½todos 
 this.formato = numFormat;
 this.ponValor = ponValor;
-//Definición de los métodos 
+//Definiciï¿½n de los mï¿½todos 
 function ponValor(cad)
 {
 if (cad =='-' || cad=='+') return

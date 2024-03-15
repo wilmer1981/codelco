@@ -84,6 +84,12 @@
 		$TxtPesoTara = '';
 	}
 	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+
+	if(isset($_REQUEST["HabilitarCmb"])){
+		$HabilitarCmb = $_REQUEST["HabilitarCmb"];
+	}else{
+		$HabilitarCmb = '';
+	}
 	
 	/******************************************************* */
 	if ($Proc == "M" && $Recarga!='S')
@@ -260,7 +266,8 @@ function Proceso(opt,Lote)
 			}
 			break
 		case "S":
-			window.opener.document.frmPrincipal.action = "rec_adm_lote.php?TipoCon="+f.TipoConsulta.value;
+			window.opener.document.frmPrincipal.action = "rec_adm_lote.php?TipoCon=<?php echo $TipoConsulta; ?>";
+			//window.opener.document.frmPrincipal.action = "rec_adm_lote.php?TipoCon="+f.TipoConsulta.value;
 			window.opener.document.frmPrincipal.submit();
 			window.close();
 			break;
@@ -500,8 +507,8 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	   ?>
   </tr>
   	<?php
-		if($AbastMinero=='S')
-		{
+	if($AbastMinero=='S')
+	{
 	?>	
   <tr class="Colum01">
     <td class="Colum01">Cod Mina/Planta: </td>
@@ -509,21 +516,29 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <SELECT name="CmbMinaPlanta" style="width:400" onChange="ObtenerFecPadronConj()" onKeyDown="TeclaPulsada2('N',false,this.form,'BtnPBruto');" <?php echo $HabilitarCmb;?>>
         <option value="S" SELECTed class="NoSelec">Seleccionar</option>
         <?php
+		echo "CmbMinaPlanta:".$CmbMinaPlanta;
+		echo "<br>CmbSubProducto:".$CmbSubProducto."<br>";
 	  		if(isset($CmbMinaPlanta))
 			{
 				$SubProd=explode('~',$CmbSubProducto);
 				$Datos=explode('~',$CmbMinaPlanta);
+ 				//CmbMinaPlanta:35100-8 ~ 03301.0006-1~ 7009
+				 //rutProv   = $Datos[0]=35100-8
+				 //cod_mina  = $Datos[1] = 03301.0006-1
+				 //conjunto  = $Datos[2] = 7009
 				$Consulta = "SELECT  t1.rut_prv,t1.cod_mina,t1.nombre_mina,t1.sierra,t1.comuna,t1.fecha_padron,t3.conjunto from sipa_web.minaprv t1 ";
 				$Consulta.= "left join sipa_web.grupos_prod_prv t2 on t2.cod_producto='1' and t2.cod_subproducto='".$SubProd[1]."' ";
 				$Consulta.= "and t2.rut_prv='".$CmbProveedor."' and t2.cod_mina=t1.cod_mina ";
 				$Consulta.= "left join sipa_web.grupos_conjunto t3 on t3.cod_grupo=t2.cod_grupo ";
 				$Consulta.= "where t1.rut_prv='".$CmbProveedor."' ";
 				$Consulta.= "order by t1.rut_prv,t1.cod_mina,t1.nombre_mina";
+				echo "<br>Consulta:".$Consulta;
 				$Resp = mysqli_query($link, $Consulta);
+				
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
-					if ($Datos[0] == $Fila["rut_prv"]&&$Datos[1] == $Fila["cod_mina"]&&$Datos[2] == $Fila["conjunto"])
-						echo "<option SELECTed value='".$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$Fila["conjunto"]."'>".$Fila["cod_mina"]." | ".$Fila["nombre_mina"]." | ".$Fila["sierra"]." | ".$Fila["comuna"]."</option>\n";
+					if (($Datos[0] == $Fila["rut_prv"]) && ($Datos[1] == $Fila["cod_mina"]) && ($Datos[2] == $Fila["conjunto"]))
+						echo "<option selected value='".$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$Fila["conjunto"]."'>".$Fila["cod_mina"]." | ".$Fila["nombre_mina"]." | ".$Fila["sierra"]." | ".$Fila["comuna"]."</option>\n";
 					else
 						echo "<option value='".$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$Fila["conjunto"]."'>".$Fila["cod_mina"]." | ".$Fila["nombre_mina"]." | ".$Fila["sierra"]." | ".$Fila["comuna"]."</option>\n";
 				}			

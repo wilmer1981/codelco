@@ -347,7 +347,7 @@
 						$Consulta="SELECT ifnull(max(lote)+1,'".$AnoMes."6001') as lote_nuevo from sipa_web.correlativo_lote where cod_proceso='D' and lote like '$AnoMes%'";
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
-						$TxtLote=str_pad($Fila[lote_nuevo],8,'0',STR_PAD_LEFT);
+						$TxtLote=str_pad($Fila["lote_nuevo"],8,'0',STR_PAD_LEFT);
 						$TxtRecargo=1;
 						$CmbLotes=$TxtLote;
 						$SubProd=explode('~',$CmbSubProducto);
@@ -373,7 +373,7 @@
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
 						$TxtLote=$CmbLotes;
-						$TxtRecargo=$Fila[recargo_nuevo];
+						$TxtRecargo=$Fila["recargo_nuevo"];
 						//BUSCAR DATOS DE RECARGO 1 QUE DEBEN SER LOS MISMOS PARA LOS DEMAS
 						$Consulta="SELECT cod_producto,cod_subproducto,cod_despacho,rut_prv,correlativo,fecha,hora_entrada,hora_salida,conjunto ";
 						$Consulta.="from sipa_web.despachos where lote = '$CmbLotes' and recargo='1'";

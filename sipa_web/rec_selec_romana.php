@@ -42,12 +42,13 @@ $Tolerancia=ToleranciaPesaje($link);
 $ROMA = LeerArchivo('ROMANA.txt');
 $Bas1 = LeerArchivo('PesoMatic.txt');
 $Bas2 = LeerArchivo('PesoMatic2.txt');
-/*
-echo "ROMA:".$ROMA;
-echo "<br>Bloq1:".$Bloq1;
-echo "<br>Bloq2:".$Bloq2;
-*/
 
+echo "Tolerancia:".$Tolerancia;
+echo "<br>ROMA:".$ROMA;
+echo "<br>Bas1:".$Bas1;
+echo "<br>Bas2:".$Bas2;
+
+//exit();
 ?>	
 <html><head>
 <title>Lectura de Romana</title>

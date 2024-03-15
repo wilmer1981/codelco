@@ -6,6 +6,8 @@
 	}else{
 		$Proc = '';
 	}
+	$TipoConsulta  = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+
 	if(isset($_REQUEST["TxtValores"])){
 		$TxtValores = $_REQUEST["TxtValores"];
 	}else{
@@ -81,11 +83,11 @@ function Proceso(opt)
 				alert("No ha seleccionado NADA para Modificar");
 				return;
 			}
-			f.action = "rec_adm_lote01.php?Proceso=OM";
+			f.action = "rec_adm_lote01.php?TipoConsulta=<?php echo $TipoConsulta; ?>&Proceso=OM";
 			f.submit();
 			break;
 		case "S":
-		    window.opener.document.frmPrincipal.action = 'rec_adm_lote.php'
+		    window.opener.document.frmPrincipal.action = "rec_adm_lote.php?TipoCon=<?php echo $TipoConsulta; ?>";
 			window.opener.document.frmPrincipal.submit();
 			window.close();
 			break;

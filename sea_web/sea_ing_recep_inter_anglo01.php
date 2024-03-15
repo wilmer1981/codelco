@@ -114,7 +114,7 @@ if ($Proceso == 'CT')//CERRAR ANGLO Y TRASPASAR AL MES SIGUIENTE
 		$Consulta = "SELECT ifnull(max(lote)+1,'".$AnoMes."0001') as lote_nuevo from sipa_web.correlativo_lote where cod_proceso='R' and lote like '".$AnoMes."%'";
 		$RespLote=mysqli_query($link, $Consulta);
 		$FilaLote=mysqli_fetch_array($RespLote);
-		$LoteVentana = str_pad($FilaLote[lote_nuevo],8,"0",STR_PAD_LEFT);
+		$LoteVentana = str_pad($FilaLote["lote_nuevo"],8,"0",STR_PAD_LEFT);
 		$Actualizar = "UPDATE sipa_web.correlativo_lote set lote='".$LoteVentana."' where cod_proceso='R'";
 		mysqli_query($link, $Actualizar);	
 		

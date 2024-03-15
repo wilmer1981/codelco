@@ -1,32 +1,64 @@
 <?php
-	    ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	include("funciones.php");	
 
+	$Proceso          = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbProducto      = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
+	$TipoConsulta     = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$TxtValores       = isset($_REQUEST["TxtValores"])?$_REQUEST["TxtValores"]:"";
+	$TipoRegistro     = isset($_REQUEST["TipoRegistro"])?$_REQUEST["TipoRegistro"]:"";
+	$TxtConjunto      = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$CmbEstadoLote    = isset($_REQUEST["CmbEstadoLote"])?$_REQUEST["CmbEstadoLote"]:"";
+	$CmbClaseProducto = isset($_REQUEST["CmbClaseProducto"])?$_REQUEST["CmbClaseProducto"]:"";
+	$TxtNumRomana     = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+
+	$TxtCorr 		 = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:"";
+	$CmbTipoDespacho = isset($_REQUEST["CmbTipoDespacho"])?$_REQUEST["CmbTipoDespacho"]:"";
+
+	$TxtLote        = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$CmbGrupoProd   = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbMinaPlanta  = isset($_REQUEST["CmbMinaPlanta"])?$_REQUEST["CmbMinaPlanta"]:"";
+	$CmbClase       = isset($_REQUEST["CmbClase"])?$_REQUEST["CmbClase"]:"";
+	$TxtAsignacion  = isset($_REQUEST["TxtAsignacion"])?$_REQUEST["TxtAsignacion"]:"";
+	$TxtRecargo     = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
+	$TxtFechaRecep  = isset($_REQUEST["TxtFechaRecep"])?$_REQUEST["TxtFechaRecep"]:"";
+	$TxtPatente     = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+	$TxtGuia        = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$TxtObs         = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+	$ChkFinLote     = isset($_REQUEST["ChkFinLote"])?$_REQUEST["ChkFinLote"]:"";
+	$TxtPesoBruto   = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoTara    = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtPesoNeto    = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+
+
 
 
 	$VerAnulados = $_REQUEST["VerAnulados"];
-	$TipoCon = $_REQUEST["TipoCon"];
-	$Orden = $_REQUEST["Orden"];
+	$TipoCon     = $_REQUEST["TipoCon"];
+	$Orden       = $_REQUEST["Orden"];
 	$CmbTipoRegistro = $_REQUEST["CmbTipoRegistro"];
 
 
@@ -311,9 +343,13 @@ if (isset($TipoCon) && $TipoCon!="")
 	$Coincidencias =  mysqli_num_rows($Respuesta);
 	$TotPesoBr = 0;$TotPesoTr = 0;$TotPesoNt = 0;$ContReg = 0;$Reg = 0;
 	$ProdAnt="";$SubProdAnt="";$RutAnt="";$Tipo_Recep="";
+
+	$TotPesoBrAnt=0; $TotPesoTrAnt=0; $TotPesoNtAnt=0; $TotPesoBrAntSubProd=0; $TotPesoTrAntSubProd=0;
+	$TotPesoNtAntSubProd=0; $RegSubProd=0;
+
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
-		$Tipo_Recep=$Fila["recepcion"];
+		$Tipo_Recep=isset($Fila["recepcion"])?$Fila["recepcion"]:"";
 		$Decimales=0;
 		if ($Orden=="T")
 		{
@@ -411,9 +447,9 @@ if (isset($TipoCon) && $TipoCon!="")
 		$TotPesoNtAntSubProd = $TotPesoNtAntSubProd + $Fila["peso_neto"];
 		$NomProdAnt = $Fila["abreviatura"];
 		$NomRutAnt = $NomProv;
-		$ProdAnt = $Fila["cod_producto"];
+		$ProdAnt = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
 		$SubProdAnt =$Fila["cod_subproducto"];
-		$RutAnt = $Fila["rut_proveedor"];
+		$RutAnt = isset($Fila["rut_proveedor"])?$Fila["rut_proveedor"]:"";
 		$ContReg++;
 		$Reg++;
 		$RegSubProd++;
