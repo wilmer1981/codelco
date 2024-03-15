@@ -48,7 +48,7 @@
 	$TxtNombrePrv = isset($_REQUEST["TxtNombrePrv"])?$_REQUEST["TxtNombrePrv"]:"";
 	
 	$CmbLotes = isset($_REQUEST["CmbLotes"])?$_REQUEST["CmbLotes"]:"";
-	$TxtLote = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$TxtLote  = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
 	$TxtRecargo = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
 	$CmbUltRecargo = isset($_REQUEST["CmbUltRecargo"])?$_REQUEST["CmbUltRecargo"]:"";	
 	$CmbConjunto = isset($_REQUEST["CmbConjunto"])?$_REQUEST["CmbConjunto"]:"";
@@ -146,6 +146,7 @@
 	{
 		case "E":
 			 echo "Entroooo";
+			 echo "<br>Proceso:".$Proceso;
 			$EstBtnGrabar='';
 			$PatenteOk='';
 			$PatenteOk=PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
@@ -762,7 +763,7 @@ function Proceso(opt,ObjFoco,opt2)
 		case "B"://BUSCA LOTE NUEVO O LOTE EXISTENTE
 			if(ValidarCampos(''))
 			{
-				alert("OHH");
+				//alert("OHH");
 				if(f.CmbLotes.value=='-1')//ES LOTE NUEVO
 					f.action = "rec_recepcion.php?Proceso=B1";
 				else
