@@ -5,8 +5,41 @@
 	$CodigoDePantalla=5;
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
+
+
+	$RNA     = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
+	$Bloq1   = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
+	$Bloq2   = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
+
+	$TxtNumBascula  = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
+	$TxtBasculaAux  = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
+	$TipoProceso    = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:'';
+
+	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
+	$TxtFecha   = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date("Y-m-d");
+	$TxtCorrel  = isset($_REQUEST["TxtCorrel"])?$_REQUEST["TxtCorrel"]:"";
+	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
+	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
+	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtHoraS     = isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";	
+	$TxtHoraE     = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
+	$TxtPesoNeto  = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+	$TxtGuia      = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$TxtConjunto  = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+
+	$TxtNombre    = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtDescripcion = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$TxtObs        = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+
+
+
 	$EstadoInput='';
-		if(isset($RNA))
+	if(isset($RNA))
 	{
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
@@ -17,7 +50,7 @@
 		$TxtNumRomana=$RNA;
 	}
 	if($TxtNumRomana=='')
-		$TxtNumRomana=$_COOKIE["ROMANA"];
+		$TxtNumRomana=isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
 
 	switch($TxtNumBascula)
 	{
@@ -36,6 +69,7 @@
 			break;		
 	}
 	//$EstPatente='disabled';
+	$EstPatente='';//WSO
 	$EstBtnGrabar='disabled';
 	$EstBtnAnular='disabled';
 	$EstBtnImprimir='disabled';
@@ -56,7 +90,7 @@
 	}	
 	$RutOperador=$CookieRut;
 	$Mensaje='';$TotalLote=0;
-	if(!isset($ObjFoco))
+	if($ObjFoco=="")
 		$ObjFoco="TxtPatente";
 	$Mostrar='N';$HabilitarText='';
 	//$TipoUpdate='GR';
@@ -86,7 +120,7 @@
 				$TxtPesoNeto=0;
 			if($TxtPesoTara=='')
 				$TxtPesoTara=0;				
-			PatenteValida(&$TxtPatente,&$PatenteOk,&$EstPatente);
+			PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
 			if($PatenteOk==true&&$RecargaConj!='S')
 			{
 				$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.otros_pesaje";
@@ -110,7 +144,7 @@
 			$EstBtnGrabar='';
 			$EstBtnAnular='';
 			$EstBtnImprimir='';
-			PatenteValida(&$TxtPatente,&$PatenteOk,&$EstPatente);
+			PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
 			if($PatenteOk==true&&$RecargaConj!='S')
 			{
 				$ObjFoco="TxtCorrelativo";
@@ -164,7 +198,7 @@ var puntero=0
 var buffer=new Array(digitos) //declaraci�n del array Buffer 
 var cadena="" 
 
-
+/*
  function LeerRomana(Rom)
 {
 	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
@@ -182,12 +216,14 @@ var cadena=""
        alert("No Existe archivo en :"+ubicacion);
 	}
 	return(valor); 
-}
-var ROMA=LeerRomana('');
- function LeerArchivo(valor)
+}*/
+//var ROMA=LeerRomana('');
+var ROMA='<?php echo LeerArchivo('ROMANA.txt'); ?>';
+/*
+function LeerArchivo(valor)
 {
 	var ubicacion = "C:\\PesoMatic.txt";
-var valor="";
+    var valor="";
 	var fso, f1, ts, s,retorno; 
 		var ForReading = 1; 
 	fso = new ActiveXObject("Scripting.FileSystemObject"); 
@@ -200,8 +236,9 @@ var valor="";
 	   }
 		return(valor); 
 }
-
- function LeerArchivo2(valor)
+*/
+/*
+function LeerArchivo2(valor)
 {
 	var ubicacion = "C:\\PesoMatic2.txt";
 var valor="";
@@ -217,6 +254,7 @@ var valor="";
 	   }
 		return(valor); 
 }
+*/
 function muestra(numero) 
 {
  	if (ns4){ 
@@ -254,20 +292,26 @@ function CapturaPeso(tipo)
 	{
 		case "PB":
 			f.TipoProceso.value="E";
-			if(f.TxtNumBascula.value=='1')			
-				f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
-			else
-				f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+			if(f.TxtNumBascula.value=='1'){		
+				//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
+			}else{
+				//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
+			}
 			if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
 				f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;	
 			f.BtnGrabar.focus();	
 			break;
 		case "PT":
 			f.TipoProceso.value="S";
-			if(f.TxtNumBascula.value=='1')						
-				f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-			else
-				f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+			if(f.TxtNumBascula.value=='1'){					
+				//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
+			}else{
+				//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
+			}
 			if(parseInt(f.TxtPesoTara.value)>parseInt(f.TxtPesoBruto.value))
 			{
 				PesoAux=f.TxtPesoBruto.value;
@@ -534,7 +578,6 @@ function CalculaPNeto()
 //-->
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -542,7 +585,6 @@ body {
 	margin-bottom: 0px;
 }
 .Estilo2 {color: #FF0000}
--->
 </style></head>
 <body <?php echo 'onload=window.document.FrmOtrosPesajes.'.$ObjFoco.'.focus()'?>>
 <form action="" method="post" name="FrmOtrosPesajes" >
@@ -781,7 +823,9 @@ if($Mensaje!='')
 }
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmOtrosPesajes;";
-echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+//echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+$Romana = LeerArchivo('ROMANA.txt');
+echo "f.TxtNumRomana.value=".$Romana.";";
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";
 
