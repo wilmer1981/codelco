@@ -4,12 +4,9 @@
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
 
-
-	if(isset($_REQUEST["Dir"])){
-		$Dir=$_REQUEST["Dir"];
-	}else{
-		$Dir="";
-	}
+	$Dir  = isset($_REQUEST["Dir"])?$_REQUEST["Dir"]:"";
+	$tipo = isset($_REQUEST["tipo"])?$_REQUEST["tipo"]:"";
+	$Frm  = isset($_REQUEST["Frm"])?$_REQUEST["Frm"]:"";
 /*
 	if(isset($_REQUEST["RNA"])){
 		$RNA=$_REQUEST["RNA"];
@@ -42,11 +39,12 @@ $Tolerancia=ToleranciaPesaje($link);
 $ROMA = LeerArchivo('ROMANA.txt');
 $Bas1 = LeerArchivo('PesoMatic.txt');
 $Bas2 = LeerArchivo('PesoMatic2.txt');
-
+/*
 echo "Tolerancia:".$Tolerancia;
 echo "<br>ROMA:".$ROMA;
 echo "<br>Bas1:".$Bas1;
 echo "<br>Bas2:".$Bas2;
+*/
 
 //exit();
 ?>	

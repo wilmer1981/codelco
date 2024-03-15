@@ -65,7 +65,7 @@
 				$Consulta ="SELECT numtarjeta from sipa_web.datos_ejes where folio='".$TxtCorr."'";
 				$RespEjes = mysqli_query($link, $Consulta);
 				$FilaEjes = mysqli_fetch_array($RespEjes);
-				$TxtTarjeta=$FilaEjes[numtarjeta];
+				$TxtTarjeta=$FilaEjes["numtarjeta"];
 			}
 		}
 	}

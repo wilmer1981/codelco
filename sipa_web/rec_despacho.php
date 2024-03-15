@@ -6,6 +6,58 @@
 	include("funciones.php");
 	//echo date_default_timezone_get()."<br>";
 	//echo date('d-m-y H:i:s');
+	$CookieRut = $_COOKIE["CookieRut"];
+
+	$RNA     = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
+	$Bloq1   = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
+	$Bloq2   = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
+	$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
+
+	$TxtNumBascula  = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
+	$TxtBasculaAux  = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
+	$TipoProceso    = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:'';
+	$Proceso        = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+
+	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$Bloqueo    = isset($_REQUEST["Bloqueo"])?$_REQUEST["Bloqueo"]:"";
+	$BloqueoTxt = isset($_REQUEST["BloqueoTxt"])?$_REQUEST["BloqueoTxt"]:"";	 
+	$TotPesEjes = isset($_REQUEST["TotPesEjes"])?$_REQUEST["TotPesEjes"]:"";
+	$LimpiaPag  = isset($_REQUEST["LimpiaPag"])?$_REQUEST["LimpiaPag"]:"";
+
+	$TxtFecha   = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date("Y-m-d");
+	$TxtCorrel  = isset($_REQUEST["TxtCorrel"])?$_REQUEST["TxtCorrel"]:"";
+	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
+	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
+	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtHoraS     = isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";	
+	$TxtHoraE     = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
+	$TxtPesoNeto  = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+	$TxtGuia      = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$CmbGrupoProd = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";	
+	$CmbProveedor    = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbTipoDespacho = isset($_REQUEST["CmbTipoDespacho"])?$_REQUEST["CmbTipoDespacho"]:"";
+	$CmbLotes   = isset($_REQUEST["CmbLotes"])?$_REQUEST["CmbLotes"]:"";
+	$TxtLote    = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$TxtRecargo = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
+	$CmbUltRecargo = isset($_REQUEST["CmbUltRecargo"])?$_REQUEST["CmbUltRecargo"]:"";	
+	$TxtObs        = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+	$TxtRutChofer  = isset($_REQUEST["TxtRutChofer"])?$_REQUEST["TxtRutChofer"]:"";
+	$TxtNomChofer  = isset($_REQUEST["TxtNomChofer"])?$_REQUEST["TxtNomChofer"]:"";
+	$CmbCodMop = isset($_REQUEST["CmbCodMop"])?$_REQUEST["CmbCodMop"]:"";
+	$TxtTarjeta = isset($_REQUEST["TxtTarjeta"])?$_REQUEST["TxtTarjeta"]:"";
+	$TxtPesoTotalNeto = isset($_REQUEST["TxtPesoTotalNeto"])?$_REQUEST["TxtPesoTotalNeto"]:0;
+	$TxtPNetoTot = isset($_REQUEST["TxtPNetoTot"])?$_REQUEST["TxtPNetoTot"]:0;
+	$OrigenDatosGuia = isset($_REQUEST["OrigenDatosGuia"])?$_REQUEST["OrigenDatosGuia"]:"";
+	$TxtPorcRango = isset($_REQUEST["TxtPorcRango"])?$_REQUEST["TxtPorcRango"]:"";
+	$DifLimitePeso = isset($_REQUEST["DifLimitePeso"])?$_REQUEST["DifLimitePeso"]:"";
+	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+	
+
+	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+
 	if(isset($RNA))
 	{
 		setcookie("ROMANA",$RNA);
@@ -17,9 +69,9 @@
 		$TxtNumRomana=$RNA;
 	}
 	if($TxtNumRomana=='')
-		$TxtNumRomana=$_COOKIE["ROMANA"];
+		$TxtNumRomana=isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
 
-	CerrarLotesMensuales('D');
+	CerrarLotesMensuales('D',$link);
 	
 	if ($LimpiaPag=='S')
 	{
@@ -36,8 +88,9 @@
 	}
 	$EstadoInput='';$EstPatente='';$EstBtnPBruto='';$EstBtnPTara='';$EstPesoOk='';
 	$EstBtnGrabar='disabled';$EstBtnAnular='disabled';$EstBtnImprimir='disabled';$EstBtnModificar='disabled';
-	//$HabilitarCmb='';
-	$HabilitarCmb2='';
+	$HabilitarCmb='';
+	//$HabilitarCmb2='';
+	$Class="";
 	switch($TxtNumBascula)
 	{
 		case "1":
@@ -56,13 +109,13 @@
 	}
 	$RutOperador=$CookieRut;
 	$Mensaje='';$TotalLote=0;
-	if(!isset($ObjFoco))
+	if($ObjFoco=="")
 		$ObjFoco="TxtPatente";
 	
 //DETERMINAR SI ES ENTRADA O SALIDA
-	if($TipoProceso==""&&$TxtPatente<>"")
+	if($TipoProceso=='' && $TxtPatente<>"")
 	{
-		$Consulta="SELECT * from sipa_web.despachos where patente = '$TxtPatente' and peso_bruto='0' and estado<>'A' order by fecha desc";
+		$Consulta="SELECT * from sipa_web.despachos where patente = '".$TxtPatente."' and peso_bruto='0' and estado<>'A' order by fecha desc";
 		$Respuesta=mysqli_query($link, $Consulta);
 		if(!$Fila=mysqli_fetch_array($Respuesta))
 		{
@@ -70,7 +123,7 @@
 		}
 		else
 		{	
-			$Consulta="SELECT * from sipa_web.despachos where patente = '$TxtPatente' and peso_bruto='0' and ";
+			$Consulta="SELECT * from sipa_web.despachos where patente = '".$TxtPatente."' and peso_bruto='0' and ";
 			$Consulta.="peso_tara<>'0' and peso_neto='0' and estado<>'A'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysqli_fetch_array($Respuesta))
@@ -85,7 +138,8 @@
 			}
 		}
 	}	
-	$Mostrar='N';$HabilitarText='';
+	$Mostrar='N';
+	$HabilitarText='';
 	function PatenteValida($Patente,$PatenteOk,$EstPatente,$Mensaje)
 	{
 			/*$Consulta="SELECT * from sipa_web.camion where patente='".$Patente."'";
@@ -104,7 +158,8 @@
 			$Mensaje='';
 	}
 	//echo "TipoProceso ".$TipoProceso."<br>";
-	switch($TipoProceso)//DEFINE SI ES ENTRADA O SALIDA
+	//DEFINE SI ES ENTRADA O SALIDA
+	switch($TipoProceso)
 	{
 		case "E":
 			$EstBtnGrabar='';
@@ -113,10 +168,10 @@
 				$TxtPesoNeto=0;
 			if($TxtPesoTara=='')
 				$TxtPesoTara=0;			
-			PatenteValida(&$TxtPatente,&$PatenteOk,&$EstPatente,&$Mensaje);
+			PatenteValida($TxtPatente,$PatenteOk,$EstPatente,$Mensaje);
 			if($PatenteOk==true&&$TxtCorrelativo=='')
 			{
-				PesoHistorico('D',$TxtPatente,&$TxtPesoHistorico,&$TxtPorcRango,'E','','');
+				PesoHistorico('D',$TxtPatente,$TxtPesoHistorico,$TxtPorcRango,'E','','',$link);
 
 				//$Consultad="SELECT patente ";
 				//$Consultad.="from despachos where lote='' and recargo='' and bascula_entrada='' and bascula_salida ='' and patente ='".$TxtPatente."' ";
@@ -163,7 +218,7 @@
 			$EstBtnGrabar='';
 			$EstBtnAnular='';
 			$EstBtnImprimir='';
-			PatenteValida(&$TxtPatente,&$PatenteOk,&$EstPatente,&$Mensaje);
+			PatenteValida($TxtPatente,$PatenteOk,$EstPatente,$Mensaje);
 			if($PatenteOk==true)
 			{
 				$TitCmbCorr="Seleccionar";
@@ -177,7 +232,7 @@
 						$Consulta.="t1.cod_despacho,t1.cod_mop,t1.peso_bruto,t1.peso_tara,t1.observacion, t1.rut_chofer, t1.nombre_chofer from sipa_web.despachos t1 ";
 						$Consulta.="where correlativo='".$Datos[0]."'";
 						$Resp2 = mysqli_query($link, $Consulta);
-					//	echo "Consulta 1 ".$Consulta."<br>";
+					    echo "Consulta 1 ".$Consulta."<br>";
 						while($Fila = mysqli_fetch_array($Resp2))
 						{
 							$TxtCorrelativo=$Fila["correlativo"];
@@ -190,17 +245,17 @@
 							$TxtHoraS=date('G:i:s');
 							$TxtPesoTara=$Fila["peso_tara"];
 							$TxtPesoNeto=abs($TxtPesoBruto-$TxtPesoTara);
-							$CmbTipoDespacho=$Fila[cod_despacho];
+							$CmbTipoDespacho=$Fila["cod_despacho"];
 							$CmbConjunto=$Fila["conjunto"];
 							$TxtObs=$Fila["observacion"];
 							$CmbCodMop=$Fila["cod_mop"];
 							$Consulta ="SELECT numtarjeta,pestotejes from sipa_web.datos_ejes where folio='".$Datos[0]."'";
 							$RespEjes = mysqli_query($link, $Consulta);
 							$FilaEjes = mysqli_fetch_array($RespEjes);
-							$TxtTarjeta=$FilaEjes[numtarjeta];
-							$TotPesEjes = $FilaEjes[pestotejes];
+							$TxtTarjeta=$FilaEjes["numtarjeta"];
+							$TotPesEjes = $FilaEjes["pestotejes"];
 							$TxtRutChofer = $Fila["rut_chofer"];
-							$TxtNomChofer = $Fila[nombre_chofer];
+							$TxtNomChofer = $Fila["nombre_chofer"];
 						//	echo "OrigenDatosGuia ".$OrigenDatosGuia."<br>"; 
 							switch($OrigenDatosGuia)
 							{
@@ -216,14 +271,14 @@
 									$Consulta.="inner join sec_web.embarque_ventana t3 on t3.num_envio=t1.num_envio and t3.cod_bulto=t1.cod_bulto and t3.num_bulto=t1.num_bulto ";
 									$Consulta.="left join sec_web.persona t4 on  t1.rut_chofer=t4.rut_persona ";
 									$Consulta.="left join sec_web.marca_catodos t5 on t3.cod_marca=t5.cod_marca ";
-									$Consulta.="where t1.num_secuencia='$TxtCorrelativo' and t1.num_guia='$Datos[1]."' and t1.cod_estado <> 'A' ";
+									$Consulta.="where t1.num_secuencia='".$TxtCorrelativo."' and t1.num_guia='".$Datos[1]."' and t1.cod_estado <> 'A' ";
 									//$Consulta.="and substring(t1.fecha_guia,1,4)=substring('".$FechaTermino."',1,4) ";
 									$Consulta.="group by t3.cod_producto,t3.cod_subproducto	";
 									$RespSec=mysqli_query($link, $Consulta);
 									$FilaSec=mysqli_fetch_array($RespSec);
 									$CmbSubProducto=$FilaSec["cod_producto"]."~".$FilaSec["cod_subproducto"];
 									//SE RECUPERA EL GRUPO A PARTIR DEL PRODUCTO Y SUBPRODUCTO OBTENIDOS DEL ORIGEN
-									$Consulta="SELECT distinct cod_grupo from sipa_web.grupos_prod_subprod where cod_producto='$FilaSec["cod_producto"]."' and cod_subproducto='$FilaSec["cod_subproducto"]."'";
+									$Consulta="SELECT distinct cod_grupo from sipa_web.grupos_prod_subprod where cod_producto='".$FilaSec["cod_producto"]."' and cod_subproducto='".$FilaSec["cod_subproducto"]."'";
 									$RespGrupo=mysqli_query($link, $Consulta);
 									$FilaGrupo=mysqli_fetch_array($RespGrupo);
 									$CmbGrupoProd=$FilaGrupo["cod_grupo"];
@@ -252,7 +307,7 @@
 										case "T":
 											if($FilaSec["cod_sub_cliente"]=='*')
 											{
-												$Consulta="SELECT rut from sec_web.cliente_venta where cod_cliente='$FilaSec["cod_cliente"]."'";
+												$Consulta="SELECT rut from sec_web.cliente_venta where cod_cliente='".$FilaSec["cod_cliente"]."'";
 												$RespC=mysqli_query($link, $Consulta);
 												if($FilaC=mysqli_fetch_array($RespC))
 													$CmbProveedor=$FilaC["rut"];
@@ -268,7 +323,7 @@
 									$CmbTipoDespacho='V';
 									$TxtMarca=$FilaSec["marca"];
 									$TxtRutChofer=$FilaSec["rut_chofer"];
-									$TxtNomChofer=$FilaSec[nombre_chofer];
+									$TxtNomChofer=$FilaSec["nombre_chofer"];
 									$TxtCorrelativo=$TxtCorrelativo."~".$FilaSec["num_guia"]."~C";
 									$Consulta = "SELECT count(*) as tot_paquetes ";
 									$Consulta.= " from sec_web.paquete_catodo t2  inner join sec_web.lote_catodo t3 ";
@@ -280,7 +335,7 @@
 									if($FilaPaq=mysqli_fetch_array($RespPaq))
 									{
 										
-										$TxtPesoNetoSec=abs($FilaSec["peso_bruto"]+$FilaPaq[tot_paquetes]+$TxtPesoTara);
+										$TxtPesoNetoSec=abs($FilaSec["peso_bruto"]+$FilaPaq["tot_paquetes"]+$TxtPesoTara);
 									}
 									//$TxtPesoNetoSec=abs($FilaSec["peso_bruto"];									
 									$ObjFoco='TxtObs';//TxtPesoNetoSec
@@ -294,11 +349,11 @@
 									$Consulta.="where t1.num_guia='".$Datos[1]."' and t1.nro_patente ='".$TxtPatente."'  order by fecha_hora desc";
 									$RespPac=mysqli_query($link, $Consulta);
 									$FilaPac=mysqli_fetch_array($RespPac);
-									$CmbSubProducto=$FilaPac[cod_sipa];
+									$CmbSubProducto=$FilaPac["cod_sipa"];
 										
-									if(strpos($FilaPac[cod_sipa],'~'))
+									if(strpos($FilaPac["cod_sipa"],'~'))
 									{
-										$CmbSubProducto=$FilaPac[cod_sipa];
+										$CmbSubProducto=$FilaPac["cod_sipa"];
 										$CodProd=$Codigos[0];
 										$CodSub=$Codigos[1];
 									}
@@ -324,7 +379,7 @@
 									$Consulta ="SELECT numtarjeta from sipa_web.datos_ejes where folio='".$Datos[0]."'";
 									$RespEjes = mysqli_query($link, $Consulta);
 									$FilaEjes = mysqli_fetch_array($RespEjes);
-									$TxtTarjeta=$FilaEjes[numtarjeta];
+									$TxtTarjeta=$FilaEjes["numtarjeta"];
 									
 									$Consulta ="SELECT nombre from pac_web.transportista where rut_transportista='".$FilaPac["rut_transportista"]."'";
 									$RespTransP = mysqli_query($link, $Consulta);
@@ -382,7 +437,7 @@
 						$CmbSubProducto=$Fila["cod_producto"]."~".$Fila["cod_subproducto"];
 						$CmbProveedor=$Fila["rut_prv"];
 						$CmbConjunto=$Fila["conjunto"];
-						$CmbTipoDespacho=$Fila[cod_despacho];
+						$CmbTipoDespacho=$Fila["cod_despacho"];
 						//SE ACTUALIZA EL CORRELATIVO CON DATOS OBTENIDOS
 						$SubProd=explode('~',$CmbSubProducto);
 						$Datos=explode('~',$TxtCorrelativo);
@@ -431,7 +486,7 @@
 		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($Respuesta))
 		{
-			$TxtNomChofer=$Fila[nombre_chofer];
+			$TxtNomChofer=$Fila["nombre_chofer"];
 			$ObjFoco='CmbCodMop';	
 		}	
 		else
@@ -463,7 +518,6 @@ if($BloqueoTxt!='')
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 
 <script language="javascript">
-<!--
 var OK;
 var OTS = "";
 ns4 = (document.layers)? true:false
@@ -472,8 +526,8 @@ var digitos=20 //cantidad de digitos buscados
 var puntero=0 
 var buffer=new Array(digitos) //declaraci�n del array Buffer 
 var cadena="" 
-
- function LeerRomana(Rom)
+/*
+function LeerRomana(Rom)
 {
 	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
 	var valor="";
@@ -491,7 +545,10 @@ var cadena=""
 	}
 	return(valor); 
 }
-var ROMA=LeerRomana('');
+*/
+//var ROMA=LeerRomana('');
+var ROMA= '<?php echo LeerArchivo('ROMANA.txt'); ?>';
+/*
  function LeerArchivo(valor)
 {
 	var ubicacion = "C:\\PesoMatic.txt";
@@ -509,13 +566,15 @@ var valor="";
 	  
 		return(valor); 
 }
+*/
+/*
 
- function LeerArchivo2(valor)
+function LeerArchivo2(valor)
 {
 	var ubicacion = "C:\\PesoMatic2.txt";
-var valor="";
+	var valor="";
 	var fso, f1, ts, s,retorno; 
-		var ForReading = 1; 
+	var ForReading = 1; 
 	fso = new ActiveXObject("Scripting.FileSystemObject"); 
 	if(fso.FileExists(ubicacion)){
           f = fso.OpenTextFile( ubicacion, ForReading); 
@@ -526,6 +585,7 @@ var valor="";
 	   }
 	 	return(valor); 
 }
+*/
 
 function muestra(numero) 
 {
@@ -577,12 +637,16 @@ function CapturaPeso(tipo)
 			//f.TipoProceso.value="S";
 			 if(f.TxtNumBascula.value=='1')
 			 	{
-					f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = f.TxtPesoBruto.value;
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
 				}
 				
 			   else
 				{
-					f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+					//.TxtPesoBruto.value = f.TxtPesoBruto.value;
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
 				}
 		//if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
 			//	f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;
@@ -600,10 +664,13 @@ function CapturaPeso(tipo)
 			break;
 		case "PT":
 			//f.TipoProceso.value="E";
-			 if(f.TxtNumBascula.value=='1')
-				f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-			 else
-				f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+			 if(f.TxtNumBascula.value=='1'){
+				//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
+				f.TxtPesoTara.value = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
+			 }else{
+				//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+				f.TxtPesoTara.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
+			 }
 			//f.TxtPesoTara.value = 13400;
 			if(parseInt(f.TxtPesoHistorico.value)!=0)
 			{	
@@ -656,7 +723,7 @@ function buscar_op(obj,objfoco,InicioBusq,Recargar){
        //barro todas las opciones que contiene el combo y las comparo la cadena... 
        for (var opcombo=0;opcombo < obj.length;opcombo++){ 
           if(obj[opcombo].text.substr(InicioBusq,puntero).toLowerCase()==cadena.toLowerCase()){ 
-          obj.SELECTedIndex=opcombo; 
+          obj.SelectedIndex=opcombo; 
           } 
        } 
     } 
@@ -1073,11 +1140,8 @@ function CalculaPNetoTotal()
 		if(f.TxtPesoTotalNeto.value!='')
 			f.TxtPNetoTot.value=parseInt(f.TxtPesoTotalNeto.value);
 }
-
-//-->
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -1085,7 +1149,6 @@ body {
 	margin-bottom: 0px;
 }
 .Estilo2 {color: #FF0000}
--->
 </style></head>
 <body <?php echo 'onload=window.document.FrmDespacho.'.$ObjFoco.'.focus()'?>>
 <form action="" method="post" name="FrmDespacho" >
@@ -1098,7 +1161,7 @@ body {
 	echo "<input type='hidden' name='TotPesEjes' value='$TotPesEjes'>";
 	$TxtCorrel = substr($TxtCorrelativo,0,6);
 	echo "<input type='hidden' name='TxtCorrel' value='$TxtCorrel'>";
-	if(!isset($TipoProceso))
+	if($TipoProceso=='')
 		echo "<input type='hidden' name='TipoProceso' value=''>";
 	else
 		echo "<input type='hidden' name='TipoProceso' value='$TipoProceso'>";
@@ -1180,8 +1243,9 @@ switch($TxtNumRomana)
   </tr>
   <tr>
     <td align="right" class="ColorTabla02">Correlativo:</td>
-	<td class="ColorTabla02"><?php
-		if(!isset($TipoProceso)||$TipoProceso=='E')
+	<td class="ColorTabla02">
+	<?php
+	if($TipoProceso=='' || $TipoProceso=='E')
 	{
 	?>
 	  <input <?php echo $EstadoInput; ?> name="TxtCorrelativo" type="text" class="InputCen" id="TxtCorrelativo" value="<?php echo $TxtCorrelativo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');" readonly>      
@@ -1191,7 +1255,7 @@ switch($TxtNumRomana)
 	{
 	?>
     <SELECT name="TxtCorrelativo" onChange="Proceso('BC',TxtObs)" onkeypress="buscar_op(this,TxtCorrelativo,0,'S')" onBlur="borrar_buffer()" onclick="borrar_buffer()" >
-    <option value="S" SELECTed class="NoSelec"><?php echo $TitCmbCorr;?></option>
+    <option value="S" Selected class="NoSelec"><?php echo $TitCmbCorr;?></option>
     <?php
 		$AnoMes=substr(date('Y'),2,2).date('m');
 		$OrigenGuia='';
@@ -1219,6 +1283,7 @@ switch($TxtNumRomana)
 		$Consulta2.="where t1.patente='".strtoupper($TxtPatente)."' and t1.peso_neto=0 and t1.estado<>'A' ";
 		$Consulta2.="and substring(t1.fecha,1,10)=substring(t2.fecha_hora,1,10) group by t1.correlativo order by t1.correlativo desc ";
 		$RespCorr=mysqli_query($link, $Consulta2);
+		//$OrigenGuia='';
 		while($FilaCorr=mysqli_fetch_array($RespCorr))
 		{
 			$OrigenGuia='A';
@@ -1731,7 +1796,7 @@ switch($TxtNumRomana)
 		//echo $Consulta;
 		$Respuesta=mysqli_query($link, $Consulta);$TxtPesoTotalNeto=0;
 		if($Fila=mysqli_fetch_array($Respuesta))
-			$TxtPesoTotalNeto=$Fila[total_neto];
+			$TxtPesoTotalNeto=$Fila["total_neto"];
 	?>
     <td colspan="2" align="left" class="ColorTabla02"><span class="Estilo2">TOTAL PESO LOTE:</span>
 	<input type="hidden" name="TxtPesoTotalNeto" value="<?php echo $TxtPesoTotalNeto;?>">
@@ -1843,7 +1908,9 @@ if($ProdSubProd[0]=='18')
 
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmDespacho;";
-echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+//echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+$Romana = LeerArchivo('ROMANA.txt');
+echo "f.TxtNumRomana.value=".$Romana.";";
 echo "CalculaPNetoTotal();";
 echo "</script>";
 	

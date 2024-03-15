@@ -115,7 +115,7 @@
 							$TxtHoraS=date('G:i:s');
 							$TxtPesoTara=$Fila["peso_tara"];
 							$TxtPesoNeto=abs($TxtPesoBruto-$TxtPesoTara);
-							$CmbTipoDespacho=$Fila[cod_despacho];
+							$CmbTipoDespacho=$Fila["cod_despacho"];
 							$CmbConjunto=$Fila["conjunto"];
 							$TxtObs=$Fila["observacion"];
 							$CmbCodMop=$Fila["cod_mop"];
@@ -123,7 +123,7 @@
 							//echo $Consulta."<br>";
 							$RespEjes = mysqli_query($link, $Consulta);
 							$FilaEjes = mysqli_fetch_array($RespEjes);
-							$TxtTarjeta=$FilaEjes[numtarjeta];
+							$TxtTarjeta=$FilaEjes["numtarjeta"];
 							switch($OrigenDatosGuia)
 							{
 								case "C"://DATOS CATODOS
@@ -187,7 +187,7 @@
 									$CmbTipoDespacho='V';
 									$TxtMarca=$FilaSec["marca"];
 									$TxtRutChofer=$FilaSec["rut_chofer"];
-									$TxtNomChofer=$FilaSec[nombre_chofer];
+									$TxtNomChofer=$FilaSec["nombre_chofer"];
 									$TxtCorrelativo=$TxtCorrelativo."~".$FilaSec["num_guia"]."~C";
 									$Consulta = "SELECT count(*) as tot_paquetes ";
 									$Consulta.= " from sec_web.paquete_catodo t2  inner join sec_web.lote_catodo t3 ";
@@ -225,7 +225,7 @@
 									//echo $Consulta."<br>";
 									$RespEjes = mysqli_query($link, $Consulta);
 									$FilaEjes = mysqli_fetch_array($RespEjes);
-									$TxtTarjeta=$FilaEjes[numtarjeta];
+									$TxtTarjeta=$FilaEjes["numtarjeta"];
 									$ObjFoco='TxtObs';
 									break;	
 								default:
@@ -277,7 +277,7 @@
 						$CmbSubProducto=$Fila["cod_producto"]."~".$Fila["cod_subproducto"];
 						$CmbProveedor=$Fila["rut_prv"];
 						$CmbConjunto=$Fila["conjunto"];
-						$CmbTipoDespacho=$Fila[cod_despacho];
+						$CmbTipoDespacho=$Fila["cod_despacho"];
 						//SE ACTUALIZA EL CORRELATIVO CON DATOS OBTENIDOS
 						$SubProd=explode('~',$CmbSubProducto);
 						$Datos=explode('~',$TxtCorrelativo);
@@ -326,7 +326,7 @@
 		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($Respuesta))
 		{
-			$TxtNomChofer=$Fila[nombre_chofer];
+			$TxtNomChofer=$Fila["nombre_chofer"];
 			$ObjFoco='CmbCodMop';	
 		}	
 		else

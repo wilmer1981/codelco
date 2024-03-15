@@ -25,7 +25,6 @@
 	$AbastMinero = isset($_REQUEST["AbastMinero"])?$_REQUEST["AbastMinero"]:"";
 	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
 	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
-	$TxtLote = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
 
 	$EstPatente = isset($_REQUEST["EstPatente"])?$_REQUEST["EstPatente"]:"";
 	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
@@ -33,12 +32,12 @@
 	$TxtGuia = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
 	
 	$CmbGrupoProd = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
-	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";	
+	$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
 	$TxtHumedad = isset($_REQUEST["TxtHumedad"])?$_REQUEST["TxtHumedad"]:"";
 	$TxtLeyes = isset($_REQUEST["TxtLeyes"])?$_REQUEST["TxtLeyes"]:"";
 	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
 	
-	$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
 
 	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
 	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
