@@ -38,7 +38,7 @@
 				{
 					$cod_conjunto = $row["cod_conjunto"];
 					$cod_lugar = $row[cod_lugar];
-					$num_lugar = $row[num_lugar];
+					$num_lugar = $row["num_lugar"];
 					$CProd=$row["cod_producto"];
 					$CSProd=$row["cod_subproducto"];
 					if(strlen($cod_conjunto) == 1)

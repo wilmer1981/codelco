@@ -5,13 +5,12 @@
 	include("funciones.php");	
 	require "includes/class.phpmailer.php";
 
-	$RNA   = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
-	$Bloq1 = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
-	$Bloq2 = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
+	$RNA     = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
+	$Bloq1   = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
+	$Bloq2   = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
 
-	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Mensaje   = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";	
-
 	$TipoProceso = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";

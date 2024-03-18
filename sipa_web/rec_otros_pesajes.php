@@ -16,8 +16,11 @@
 	$TxtNumBascula  = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
 	$TxtBasculaAux  = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
 	$TipoProceso    = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:'';
+	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
+	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
 
 	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$EstPatente = isset($_REQUEST["EstPatente"])?$_REQUEST["EstPatente"]:"";
 	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
 	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
 	$TxtFecha   = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date("Y-m-d");
@@ -35,6 +38,11 @@
 	$TxtNombre    = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
 	$TxtDescripcion = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
 	$TxtObs        = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+
+	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+
+
+	
 
 
 
@@ -69,7 +77,6 @@
 			break;		
 	}
 	//$EstPatente='disabled';
-	$EstPatente='';//WSO
 	$EstBtnGrabar='disabled';
 	$EstBtnAnular='disabled';
 	$EstBtnImprimir='disabled';
@@ -613,29 +620,29 @@ body {
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PESANDO EN BASCULA DE <?php echo $Testo;?> :
 <input type="hidden" name="TxtNumBascula" class="InputCen" value="<?php echo $TxtNumBascula;?>" size="2" > 
 <?php
-switch($TxtNumRomana)
+		switch($TxtNumRomana)
 		{
-			case 1:
-				$BasculaA='1';
-				$BasculaB='2';
-			break;
-			case 2:
-				$BasculaA='3';
-				$BasculaB='4';
-			break;
-			default:
-					$BasculaA='S/N';
-					$BasculaB='S/N';
-			break;
+					case 1:
+						$BasculaA='1';
+						$BasculaB='2';
+					break;
+					case 2:
+						$BasculaA='3';
+						$BasculaB='4';
+					break;
+					default:
+							$BasculaA='S/N';
+							$BasculaB='S/N';
+					break;
 		}	
 		$Color='000000';
-	if($TxtNumRomana==1 && $TxtNumBascula==1)	
+		if($TxtNumRomana==1 && $TxtNumBascula==1)	
 		{$Valor=1;$Color='FF0000';}
 		if($TxtNumRomana==1 && $TxtNumBascula==2)	
 		{$Valor=2;$Color='009933';}
-			if($TxtNumRomana==2 && $TxtNumBascula==1)	
+		if($TxtNumRomana==2 && $TxtNumBascula==1)	
 		{$Valor=3;$Color='FF0000';}
-			if($TxtNumRomana==2 && $TxtNumBascula==2)	
+		if($TxtNumRomana==2 && $TxtNumBascula==2)	
 		{$Valor=4;$Color='009933';}
 			
 		

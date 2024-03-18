@@ -32,8 +32,8 @@
 				if($row = mysql_fetch_array($rs))
 				{
 					$cod_conjunto = $row["cod_conjunto"];
-					$cod_lugar = $row[cod_lugar];
-					$num_lugar = $row[num_lugar];
+					$cod_lugar = $row["cod_lugar"];
+					$num_lugar = $row["num_lugar"];
 					
 					if(strlen($cod_conjunto) == 1)
 						$cod_conjunto = "0".$cod_conjunto;				
@@ -101,7 +101,7 @@
 					$cod_existencia = $row[cod_existencia];
 					$conjunto_destino = $row[conjunto_destino];
 					$lugar_destino = $row[lugar_destino];
-					$cod_lugar = $row[cod_lugar];
+					$cod_lugar = $row["cod_lugar"];
 					$num_lugar = $row[num_lugar];
 					
 					if(strlen($cod_conjunto) == 1)

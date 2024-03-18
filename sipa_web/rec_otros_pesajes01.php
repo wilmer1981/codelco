@@ -1,13 +1,47 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
-	$RutOperador=$CookieRut;
-	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
-	$Resp=mysqli_query($link, $Consultar);
-	if ($Row=mysqli_fetch_array($Resp))
+
+	$CookieRut    = $_COOKIE["CookieRut"];
+	$RutOperador  = $CookieRut;
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+
+	$TxtNumBascula  = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
+	$TxtBasculaAux  = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
+	$TipoProceso    = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:'';
+	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
+	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+
+	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$EstPatente = isset($_REQUEST["EstPatente"])?$_REQUEST["EstPatente"]:"";
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
+	$TxtFecha   = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:"";
+	$TxtCorrel  = isset($_REQUEST["TxtCorrel"])?$_REQUEST["TxtCorrel"]:"";
+	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
+	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
+	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtHoraS     = isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";	
+	$TxtHoraE     = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
+	$TxtPesoNeto  = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+	$TxtGuia      = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$TxtConjunto  = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+
+	$TxtNombre      = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtDescripcion = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$TxtObs         = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+
+	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+
+
+	$Consultar   = "SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
+	$Resp = mysqli_query($link, $Consultar);
+	if($Row=mysqli_fetch_array($Resp))
 	{
 		$OperSalida=strtoupper(substr($Row["nombres"],0,1)).strtoupper(substr($Row["apellido_paterno"],0,1)).strtoupper(substr($Row["apellido_materno"],0,1));		
 	}
+
 	switch($Proceso)
 	{
 		case "E"://ACTUALIZAR RECEPCION
@@ -37,8 +71,8 @@
 				if($row = mysqli_fetch_array($rs))
 				{
 					$cod_conjunto = $row["cod_conjunto"];
-					$cod_lugar = $row[cod_lugar];
-					$num_lugar = $row[num_lugar];
+					$cod_lugar = $row["cod_lugar"];
+					$num_lugar = $row["num_lugar"];
 					$CProd=$row["cod_producto"];
 					$CSProd=$row["cod_subproducto"];
 					if(strlen($cod_conjunto) == 1)
