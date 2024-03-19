@@ -896,4 +896,17 @@ function DefinirArregloLeyes($L_Prod, $L_SubProd, $ArregloLeyes)
 		}	
 	}
 }
+
+/***************Lee archivos TXT********************** */
+function LeerArchivo($archivo)
+{
+	$nombre=$archivo;
+	$arc = fopen('C:/PesaMatic/'.$nombre,"r");
+	while(! feof($arc))  {
+		$linea = fgets($arc);
+	}
+	fclose($arc);
+
+	return($linea); 
+}
 ?>

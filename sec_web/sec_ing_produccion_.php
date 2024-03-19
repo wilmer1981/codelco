@@ -1,5 +1,6 @@
 ﻿<?php 
 	include("../principal/conectar_sec_web.php");
+	include("funciones_interfaces_codelco.php");
 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 7;
@@ -9,74 +10,26 @@
 	
 	//echo "SA__uno__".$SA_C_STD2."<br>";	
 	//echo $tipo_ie;
+	echo "NO SALEEE";
 
-	if(isset($_REQUEST["mensaje"])){
-		$mensaje = $_REQUEST["mensaje"];
-	}else{
-		$mensaje = "";
-	}
-	if(isset($_REQUEST["cmbmovimiento"])){
-		$cmbmovimiento = $_REQUEST["cmbmovimiento"];
-	}else{
-		$cmbmovimiento = "";
-	}
-	if(isset($_REQUEST["cmbproducto"])){
-		$cmbproducto = $_REQUEST["cmbproducto"];
-	}else{
-		$cmbproducto = "";
-	}
-	if(isset($_REQUEST["cmbsubproducto"])){
-		$cmbsubproducto = $_REQUEST["cmbsubproducto"];
-	}else{
-		$cmbsubproducto = "";
-	}
-
-	if(isset($_REQUEST["recargapag1"])){
-		$recargapag1 = $_REQUEST["recargapag1"];
-	}else{
-		$recargapag1 = "";
-	}
-	if(isset($_REQUEST["recargapag2"])){
-		$recargapag2 = $_REQUEST["recargapag2"];
-	}else{
-		$recargapag2 = "";
-	}
-	if(isset($_REQUEST["recargapag3"])){
-		$recargapag3 = $_REQUEST["recargapag3"];
-	}else{
-		$recargapag3 = "";
-	}
-	if(isset($_REQUEST["recargapag4"])){
-		$recargapag4 = $_REQUEST["recargapag4"];
-	}else{
-		$recargapag4 = "";
-	}
-	if(isset($_REQUEST["recargapag5"])){
-		$recargapag5 = $_REQUEST["recargapag5"];
-	}else{
-		$recargapag5 = "";
-	}
-	if(isset($_REQUEST["accion"])){
-		$accion = $_REQUEST["accion"];
-	}else{
-		$accion = "";
-	}
-	if(isset($_REQUEST["opcion"])){
-		$opcion = $_REQUEST["opcion"];
-	}else{
-		$opcion = "";
-	}
-	if(isset($_REQUEST["peso_auto"])){
-		$peso_auto = $_REQUEST["peso_auto"];
-	}else{
-		$peso_auto = "";
-	}
+	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
+	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:;
+	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
+	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
+	$recargapag4 = isset($_REQUEST["recargapag4"])?$_REQUEST["recargapag4"]:"";
+	$recargapag5 = isset($_REQUEST["recargapag5"])?$_REQUEST["recargapag5"]:"";
+	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$peso_auto   = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";
 
 ?>
 
 <html>
 <head>
-<title>Ingreso Pesaje Producción</title>
+<title>Ingreso Pesaje Producción jhadsjhsajdjas jhasdjhsakjdsak jmkasdas</title>
 <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
 <script language="JavaScript">
 function str_pad(input, pad_length, pad_string, pad_type) {
@@ -118,17 +71,20 @@ function str_pad(input, pad_length, pad_string, pad_type) {
     } 
     return input;
 }
+
 function PesoAutomatico()
 {
 	setTimeout("CapturaPeso()",500);
-}	
+}
+
 /*****************/
 function CapturaPeso()
 {
 	var f = document.frm1;
 	
 	if (f.checkpeso.checked == true)
-		f.txtpeso.value = LeerArchivo(f.txtpeso.value);
+		//f.txtpeso.value = LeerArchivo(f.txtpeso.value);
+		f.txtpeso.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>'; 
 		
 	setTimeout("CapturaPeso()",200);	
 }
@@ -1282,7 +1238,6 @@ function BuscarIE()
 	
 	document.location = "sec_ing_produccion01.php?proceso=B7" + linea;
 }
-/***************/
 function BuscarIE_Lodo() //Solo para los Lodos.
 {
 	var f = document.frm1;
@@ -1305,7 +1260,7 @@ function BuscarIE_Lodo() //Solo para los Lodos.
 	//document.location = "sec_ing_produccion01.php?proceso=B7" + linea;
 	document.location = "sec_ing_produccion01.php?proceso=B9" + linea;
 }
-/***************/
+
 function BusarSerieLodo()
 {
 	var f = document.frm1;
@@ -1329,7 +1284,7 @@ function BusarSerieLodo()
 	f.action = "sec_ing_produccion01.php?proceso=B11" + linea;
 	f.submit();
 }
-/***************/
+
 function VerDatos()
 {	
 	var f = document.frm1;	
@@ -1361,26 +1316,16 @@ function VerDatos()
 		case '2' :  window.open("sec_ing_produccion_popup2.php?"+linea,"","top=195,left=180,width=540,height=350,scrollbars=no,resizable=no");
 					break;
 		case '3' :
-			/*if(f.cmbsubproducto.value =='16' || f.cmbsubproducto.value =='17' || f.cmbsubproducto.value =='49')
-			{
-				//alert("if");
-				window.open("sec_ing_produccion_popup3.php?"+linea+"&SA_C_STD="+f.SA_C_STD.value,"","top=195,left=180,width=540,height=360,scrollbars=no,resizable=no");
-			}
-			else
-			{
-				//alert("else");*/
-				window.open("sec_ing_produccion_popup3.php?"+linea,"","top=195,left=180,width=540,height=360,scrollbars=no,resizable=no");
-			/*}*/
-		break;
-					
+					window.open("sec_ing_produccion_popup3.php?"+linea,"","top=195,left=180,width=540,height=360,scrollbars=no,resizable=no");
+					break;					
 	}
 }
-/***************/
+
 function VerMarca()
 {	
 	window.open("sec_asignar_marca2.php?",""," fullscreen=no,width=700,height=400,scrollbars=yes,resizable = yes");
 }
-/***************/
+
 function DesbloqueCheck()
 {
 	var f = document.frm1;	
@@ -1390,13 +1335,13 @@ function DesbloqueCheck()
 		f.txtlote.readonly = true;
 	}
 }
-/***************/
+
 function Traspaso()
 {
 	linea = '';
 	window.open("sec_ing_produccion_popup_traspaso.php?"+linea,"","top=195,left=180,width=540,height=350,scrollbars=no,resizable=no");	
 }
-/***************/
+
 function TeclaPulsada (salto) 
 { 
 	var f = document.frm1;
@@ -1431,7 +1376,7 @@ function TeclaPulsada (salto)
 		}		
 	}
 }
-/****************/
+
 function TeclaPulsada3(salto)
 {
 	var f = document.frm1;
@@ -1451,17 +1396,17 @@ function TeclaPulsada3(salto)
 		}
 	}
 }
-/***************/
+
 function Limpiar()
 {
 	document.location = "sec_ing_produccion.php";	
 }
-/***************/
+
 function Salir()
 {		
 	document.location = "../principal/sistemas_usuario.php?CodSistema=3";
 }
-/**************/
+
 function Posicionar()
 {	
 	var f = document.frm1;
@@ -1492,7 +1437,7 @@ function Posicionar()
 		}
 	}		
 }
-/*************/
+
 function Posicionar3()
 {
 	var f = document.frm1;
@@ -1504,7 +1449,7 @@ function Posicionar3()
 	}
 
 }
-/*************/
+
 function ValGrupo()
 {	
 	var f = document.frm1;
@@ -1546,6 +1491,7 @@ function ValGrupo()
 			PoneDatos();
 	}				
 }
+
 function PoneDatos()
 {	
 	try{
@@ -1571,74 +1517,7 @@ function PoneDatos()
 		alert("malo");
 	}
 }
-/*************/
-function ValCuba()
-{	
-	var f = document.frm1;
-	
-	if (f.txtcuba.value == "")
-		return;
-		
-	if (f.cmbmovimiento == '2' && f.cmbproducto.value == '48' && f.cmbsubproducto.value)		
-	{
-		if (f.txtcuba.value.length == 1) 
-			f.txtcuba.value = '0' + f.txtcuba.value;		
-		return;
-	}		
-	
-	if ((f.txtcuba.value != 'f') && (f.txtcuba.value != 'F'))
-	{
-		if (isNaN(parseInt(f.txtcuba.value)))
-		{			
-			<?php
-			if ($cmbmovimiento == '2' and $cmbproducto == '48' and $cmbsubproducto == '2')
-				echo "alert('El Correlativo No Es Valido');";
-			else
-				echo "alert('La Cuba No Es Valido');";
-			?>			
-			f.txtcuba.focus();
-			return;
-		}
 
-		<?php
-			if ($cmbmovimiento == '2' and $cmbproducto == '48' and $cmbsubproducto == '2')
-			{
-					echo "if (f.txtcuba.value.length == 1) ";
-						echo "f.txtcuba.value = '0' + f.txtcuba.value;";
-			}
-			else
-			{
-				if ($cmbmovimiento == '2' and $cmbproducto == '18' and $cmbsubproducto == '1'){
-					echo "if ((parseInt(Number(f.txtgrupo.value)) == 49)){"; 
-						echo "if ((parseInt(Number(f.txtcuba.value)) < 1) || (parseInt(Number(f.txtcuba.value)) > 60)){";
-						echo "alert('La Cuba Esta Fuera del Rango 1 al 60');";
-						echo "f.txtcuba.focus();";
-						echo "return;}";
-					echo "};";
-					echo "else{";
-						echo "if ((parseInt(Number(f.txtcuba.value)) < 1) || (parseInt(Number(f.txtcuba.value)) > 48)){";
-						echo "alert('La Cuba Esta Fuera del Rango 1 al 42');";
-						echo "f.txtcuba.focus();";
-						echo "return;}";
-					echo "}";
-
-				}else{
-				
-				echo "if ((parseInt(Number(f.txtcuba.value)) < 1) || (parseInt(Number(f.txtcuba.value)) > 48)){";
-					echo "alert('La Cuba Esta Fuera del Rango 1 al 42');";
-					echo "f.txtcuba.focus();";
-					echo "return;}";
-				echo "else{";
-					echo "if (f.txtcuba.value.length == 1) ";
-						echo "f.txtcuba.value = '0' + f.txtcuba.value;}";
-				}
-			}
-		?>							
-	}
-	else
-		f.txtcuba.value = 'F';
-}
-/*************/
 function ValLado()
 {
 	var f = document.frm1;
@@ -1666,7 +1545,7 @@ function ValLado()
 		else 
 			f.txtlado.value = f.txtlado.value.toUpperCase();
 }
-/*************/
+
 function ValMuestra()
 {	
 	var f = document.frm1;
@@ -1686,11 +1565,10 @@ function ValMuestra()
 		Bloquea2();
 	}
 }
-/*****************/
+
 function Listar_IE(valor)
 {
 	var f = document.frm1;
-
 	linea = "recargapag1=S&recargapag2=S&recargapag3=S&recargapag4=S";
 	linea = linea + "&cmbmovimiento=" + f.cmbmovimiento.value + "&cmbproducto=" + f.cmbproducto.value + "&cmbsubproducto=" + f.cmbsubproducto.value
 	linea = linea + "&listar_ie=" + valor;
@@ -1708,7 +1586,7 @@ function Listar_IE(valor)
 	
 	document.location = "sec_ing_produccion.php?" + linea;
 }
-/***************/
+
 function RecargaGrupo()
 {
 	var f = document.frm1;
@@ -1735,8 +1613,7 @@ function RecargaGrupo()
 	linea = linea + "&pesoprog=" + f.txtpesoprog.value + "&genera_lote=" + f.genera_lote.value;
 	linea = linea + "&peso_prog_ok=" + f.peso_prog_ok.value + "&marca=" + f.txtmarca.value + "&paq_inicial=" + f.paq_inicial.value + "&cmbinstruccion=" + f.cmbinstruccion.value 
 	+ "&grupo=" + f.txtgrupo.value + "&unidades=" + f.txtunidades.value + "&peso=" + f.txtpeso.value + "&cuba=" + f.txtcuba.value + "&SA_C_STD2=" + f.SA_C_STD.value;
-	
-			
+
 	if (f.radio[0].checked == true)
 		linea = linea + "&listar_ie=P";
 	else if (f.radio[1].checked == true)
@@ -1747,11 +1624,10 @@ function RecargaGrupo()
 	else 
 		linea = linea + "&peso_auto=";
 	
-
 	f.action = "sec_ing_produccion.php?" + linea;
 	f.submit();
 }
-/************/
+
 function CalculaPesoBolsa()
 {	
 	var f = document.frm1;
@@ -1761,13 +1637,11 @@ function CalculaPesoBolsa()
 		alert("Debe Ingresar Las Unidades");
 		return;
 	}
-			
 	var valor = (parseFloat(f.txtunidades.value) * parseFloat(f.txtpesounitario.value));
 	f.txtpesobolsa.value = Math.round(valor);
-	
 	CalculaPesoNetoLodo();
 }
-/***************/
+
 function CalculaPesoNetoLodo()
 {
 	var f = document.frm1;
@@ -1777,7 +1651,7 @@ function CalculaPesoNetoLodo()
 	else
 		f.txtpesoneto.value =  parseInt(f.txtpeso.value) - parseInt(f.txtpesotara.value);
 }
-/***************/
+
 function ReCalculaCajon()
 {
 	var f = document.frm1;
@@ -1794,27 +1668,7 @@ function EjecEtiqueta()
 
 </script>
 </head>
-
-<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0" onLoad="Posicionar()">
-<SCRIPT LANGUAGE="VBScript">
-	<!--
-	Function LeerArchivo(valor)
-		ubicacion = "c:\PesoMatic.txt"	
-		Set fs = CreateObject("Scripting.FileSystemObject")
-		Set file = fs.OpenTextFile(ubicacion,1,true) //Crea el archivo si no existe.
-		
-		//Validar si el peso del archivo ==  0 no leer. 
-		Set file2 = fs.getFile(ubicacion) 
-		tamano = file2.size	
-		if (tamano <> 0)	then
-			valor = file.ReadLine
-			LeerArchivo = valor
-		else
-			LeerArchivo = valor
-		end if
-	End function 
-	-->
-</SCRIPT>
+<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0" onload="Posicionar()">
 <form name="frm1" action="" method="post">
 <?php include("../principal/encabezado.php"); ?>
   <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
@@ -1827,8 +1681,9 @@ function EjecEtiqueta()
   </tr>
           <tr> 
 		  	
-            <td width="262"> Tipo Movimiento</td>
-            <td width="326">            <SELECT name="cmbmovimiento" onChange="Recarga1()">
+            <td width="262"> Tipo Movimiento OHHH OKOKOK</td>
+            <td width="326">
+				<SELECT name="cmbmovimiento" onChange="Recarga1()">
               <option value="-1">SELECCIONAR</option>
             	<?php		  
 					foreach($movimientos as $clave => $valor)
@@ -1862,64 +1717,64 @@ function EjecEtiqueta()
           <tr> 
             <td>Sub-Producto</td>
             <td> 
-              <SELECT name="cmbsubproducto" onChange="Recarga3()">
+            	<SELECT name="cmbsubproducto" onChange="Recarga3()">
                 <option value="-1">SELECCIONAR</option>
                 <?php	
-			$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$cmbproducto." AND tipo_mov LIKE '%".$cmbmovimiento."%'";
+					$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$cmbproducto." AND tipo_mov LIKE '%".$cmbmovimiento."%'";
+					//echo '<option value="-1">'.$consulta.'</option>';
+					$var1 = $consulta;
+					$rs   = mysqli_query($link, $consulta);
+					while ($row = mysqli_fetch_array($rs))
+					{
+						$codigo = $row["cod_subproducto"];
+						$descripcion = $row["descripcion"];
+						if (($cmbmovimiento == 3) and ($cmbproducto == 48) and ($codigo == 1))	
+							$descripcion = "LAMINAS";
+					
+						if (($codigo == $cmbsubproducto) and ($recargapag3 == "S"))
+							echo '<option value="'.$codigo.'" SELECTed>'.$descripcion.'</option>';
+						else
+							echo '<option value="'.$codigo.'">'.$descripcion.'</option>';
+					}						
+		        ?>
+           		</SELECT>	   
+			</td>
+          </tr>
+        </table><br>
+			<?php
+			//CONSULTO POR NOMBRES PARA ETIQUETAS DE IMPRESION
+			$consulta = "SELECT abreviatura_etiqueta_sec FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$cmbproducto."' and cod_subproducto='".$cmbsubproducto."'";
 			//echo '<option value="-1">'.$consulta.'</option>';
 			$var1 = $consulta;
 			$rs = mysqli_query($link, $consulta);
-			while ($row = mysqli_fetch_array($rs))
+			if ($row = mysqli_fetch_array($rs))
 			{
-				$codigo = $row["cod_subproducto"];
-				$descripcion = $row["descripcion"];
-				if (($cmbmovimiento == 3) and ($cmbproducto == 48) and ($codigo == 1))	
-					$descripcion = "LAMINAS";
-			
-				if (($codigo == $cmbsubproducto) and ($recargapag3 == "S"))
-					echo '<option value="'.$codigo.'" SELECTed>'.$descripcion.'</option>';
+				if($row["abreviatura_etiqueta_sec"]!='')
+					$descripcion_etiq=$row["abreviatura_etiqueta_sec"];
 				else
-					echo '<option value="'.$codigo.'">'.$descripcion.'</option>';
-			}						
-		?>
-           </SELECT>
-  <?php //echo "Con".$consulta; ?> 		   </td>
-          </tr>
-        </table><br>
-<?php
-//CONSULTO POR NOMBRES PARA ETIQUETAS DE IMPRESION
-$consulta = "SELECT abreviatura_etiqueta_sec FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$cmbproducto."' and cod_subproducto='".$cmbsubproducto."'";
-//echo '<option value="-1">'.$consulta.'</option>';
-$var1 = $consulta;
-$rs = mysqli_query($link, $consulta);
-if ($row = mysqli_fetch_array($rs))
-{
-	if($row["abreviatura_etiqueta_sec"]!='')
-		$descripcion_etiq=$row["abreviatura_etiqueta_sec"];
-	else
-		$descripcion_etiq=$descripcion;
-	echo "<input type='hidden' name='SubProdEtiq' value='".$descripcion_etiq."'>";
+					$descripcion_etiq=$descripcion;
+				echo "<input type='hidden' name='SubProdEtiq' value='".$descripcion_etiq."'>";
 
-}
-//echo $cmbmovimiento."<br>";
-	if ($recargapag3 == "S") {	
-		switch ($cmbmovimiento) {
-			case 1:
-				include("sec_ing_produccion_1.php");
-				break;
-			case 2:
-				include("sec_ing_produccion_2.php");
-				break;
-			case 3:
-				if ($cmbproducto == '57') //Lodos
-					//include("sec_ing_produccion_4.php");	
-					include("sec_ing_produccion_5.php");	
-				else
-					include("sec_ing_produccion_3.php");	
-				break;
-		}	 
-	}
-?>  
+			}
+			//echo $cmbmovimiento."<br>";
+			if ($recargapag3 == "S") {	
+				switch ($cmbmovimiento) {
+					case 1:
+						include("sec_ing_produccion_1.php");
+						break;
+					case 2:
+						include("sec_ing_produccion_2.php");
+						break;
+					case 3:
+						if ($cmbproducto == '57') //Lodos
+							//include("sec_ing_produccion_4.php");	
+							include("sec_ing_produccion_5.php");	
+						else
+							include("sec_ing_produccion_3.php");	
+						break;
+				}	 
+			}
+			?>  
   <table width="600" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
     <tr>
             <td align="center"> 
