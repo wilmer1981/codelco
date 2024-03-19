@@ -1,6 +1,36 @@
 <?php
 	include("../principal/conectar_sec_web.php");
-	
+
+	$proceso    = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$peso_auto  = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";	
+
+	$existe_sec     = isset($_REQUEST["existe_sec"])?$_REQUEST["existe_sec"]:"";
+	$existe_rec     = isset($_REQUEST["existe_rec"])?$_REQUEST["existe_rec"]:"";
+	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
+	$activa_sipa    = isset($_REQUEST["activa_sipa"])?$_REQUEST["activa_sipa"]:"";
+	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	$mostrar        = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$peso_auto        = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";
+	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
+	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+
+	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
+	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
+	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
+
+	$recargapag4 = isset($_REQUEST["recargapag4"])?$_REQUEST["recargapag4"]:"";
+	$recargapag5 = isset($_REQUEST["recargapag5"])?$_REQUEST["recargapag5"]:"";
+	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+
+	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
+	$hh     = isset($_REQUEST["hh"])?$_REQUEST["hh"]:"";
+	$mm     = isset($_REQUEST["mm"])?$_REQUEST["mm"]:"";
+
 	$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
 		$rs = mysqli_query($link, $Consulta);
 	if ($row = mysqli_fetch_array($rs))
@@ -97,7 +127,7 @@ switch($proceso)
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$linea = "existe_sec=S&existe_rec=S&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtrecargo=".$txtrecargo;
-			$cmbsubproducto=$row["cod_subproducto"];//$linea.= "&txtpeso=".$row[peso_recepcion]."&txtguia=".$row["num_guia"]."&txtpatente=".$row[patente_camion]."&txtorigen=".$row[peso_origen];
+			$cmbsubproducto=$row["cod_subproducto"];//$linea.= "&txtpeso=".$row["peso_recepcion"]."&txtguia=".$row["num_guia"]."&txtpatente=".$row[patente_camion]."&txtorigen=".$row[peso_origen];
 			$cmbproducto=$row["cod_producto"];//$linea.= "&txtrut=".$row["rut_proveedor"];
 		}
 		else
@@ -134,8 +164,8 @@ switch($proceso)
 		$row = mysqli_fetch_array($rs);
 		$fecha = explode("-",$row[fecha_recepcion]); //0: ao, 1:mes, 2: dia.
 						
-		$linea.= "txtpeso=".$row[peso_recepcion]."&txtguia=".$row["num_guia"]."&txtpatente=".$row[patente_camion]."&txtrecargo=".$row["recargo"];
-		$linea.= "&txtorigen=".$row[peso_origen]."&txtrut=".$row["rut_proveedor"]."&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtzuncho=".$row[peso_zuncho];
+		$linea.= "txtpeso=".$row["peso_recepcion"]."&txtguia=".$row["num_guia"]."&txtpatente=".$row[patente_camion]."&txtrecargo=".$row["recargo"];
+		$linea.= "&txtorigen=".$row[peso_origen]."&txtrut=".$row["rut_proveedor"]."&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtzuncho=".$row["peso_zuncho"];
 		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&opcion=M&tipo_reg=L";
@@ -531,7 +561,7 @@ switch($proceso)
 			echo 'alert("'.$mensaje.'");';
 			echo 'window.history.back()';
 			echo '</script>';
-			break;			
+			//break;			
 		}
 		else
 			$linea = "txtnumpaq=".$txtnumlote."&cmbcodpaq=".$cod_paq[$cmbcodlote];
@@ -694,7 +724,7 @@ switch($proceso)
 				echo 'alert("'.$mensaje.'");';
 				echo 'window.history.back()';
 				echo '</script>';
-				break;
+				//break;
 			}
 			
 			$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
@@ -711,7 +741,7 @@ switch($proceso)
 			echo 'alert("'.$mensaje.'");';
 			echo 'window.history.back()';
 			echo '</script>';
-			break;			
+			//break;			
 		} 	
 	}		
 	
@@ -799,7 +829,7 @@ switch($proceso)
 			echo 'alert("'.$mensaje.'");';
 			echo 'window.history.back()';
 			echo '</script>';
-			break;		
+			//break;		
 		}				
 	}
 	
@@ -903,7 +933,7 @@ switch($proceso)
 				echo 'alert("'.$mensaje.'");';
 				echo 'window.history.back()';
 				echo '</script>';
-				break;								
+				//break;								
 			}
 			else
 			{
@@ -1014,7 +1044,7 @@ switch($proceso)
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;			
+					//break;			
 				}
 
 				//Consulta si existe paquete en el ao.
@@ -1034,7 +1064,7 @@ switch($proceso)
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;			
+					//break;			
 				}
 				else
 				{			
@@ -1056,7 +1086,7 @@ switch($proceso)
 						echo 'alert("'.$mensaje.'");';
 						echo 'window.history.back()';
 						echo '</script>';
-						break;			
+						//break;			
 					}  
 					else
 					{
@@ -1079,7 +1109,7 @@ switch($proceso)
 							echo 'alert("'.$mensaje.'");';
 							echo 'window.history.back()';
 							echo '</script>';
-							break;						
+							//break;						
 						}
 												
 						
@@ -1129,7 +1159,7 @@ switch($proceso)
 							echo 'alert("'.$mensaje.'");';
 							echo 'window.history.back()';
 							echo '</script>';
-							break;						
+							//break;						
 						}						
 						else
 						{	
@@ -1286,7 +1316,7 @@ switch($proceso)
 				echo 'alert("'.$mensaje.'");';
 				echo 'window.history.back()';
 				echo '</script>';
-				break;			
+				//break;			
 			}
 			//Consulta si existe paquete en el ao.
 			$consulta = "SELECT * FROM sec_web.paquete_catodo";
@@ -1301,7 +1331,7 @@ switch($proceso)
 				echo 'alert("'.$mensaje.'");';
 				echo 'window.history.back()';
 				echo '</script>';
-				break;			
+				//break;			
 			}
 			else
 			{			
@@ -1319,7 +1349,7 @@ switch($proceso)
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;			
+					//break;			
 				}
 				else 
 				{	
@@ -1341,7 +1371,7 @@ switch($proceso)
 						echo 'alert("'.$mensaje.'");';
 						echo 'window.history.back()';
 						echo '</script>';
-						break;										
+						//break;										
 					}
 					else
 					{
@@ -1994,7 +2024,7 @@ if ($proceso == "E")
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;					
+					//break;					
 				}
 				else 
 				{
@@ -2072,7 +2102,7 @@ if ($proceso == "E")
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;
+					//break;
 				}
 			}
 			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
@@ -2219,7 +2249,7 @@ if ($proceso == "E")
 						echo 'alert("'.$mensaje.'");';
 						echo 'window.history.back()';
 						echo '</script>';
-						break;
+						//break;
 					}
 					else
 					{					
@@ -2381,7 +2411,7 @@ if ($proceso == "E")
 	if ($proceso == "T") //Traspaso de Paquetes.
 	{	
 		reset($checkbox);
-		while (list($c,$v) = each($checkbox))
+		foreach($checkbox as $c => $v)
 		{							
 			//Replica el Registro en paquete_catodo.
 			$consulta = "SELECT * FROM sec_web.paquete_catodo_externo";
@@ -2414,13 +2444,13 @@ if ($proceso == "E")
 		$row = mysqli_fetch_array($rs);
 		$fecha_emb = date("Y").'-12-31';
 		$insertar = "INSERT INTO sec_web.instruccion_virtual (corr_virtual,fecha_embarque,cod_producto,cod_subproducto,descripcion,estado)";
-		$insertar.= " VALUES ('".$row[instruccion_virtual]."', '".$fecha_emb."', '".$cmbproducto."', '".$cmbsubproducto."', 'PSJE', 'N')"; 
+		$insertar.= " VALUES ('".$row["instruccion_virtual"]."', '".$fecha_emb."', '".$cmbproducto."', '".$cmbsubproducto."', 'PSJE', 'N')"; 
 		//echo $insertar."<br>";
 		mysqli_query($link, $insertar);
 		$linea.= "tipo_ie=V"; //Virtual.
 		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
-		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$row[instruccion_virtual];
+		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$row["instruccion_virtual"];
 		$linea.= "&encontro_ie=S&listar_ie=V&recargapag4=S";
 		if ($cmbmovimiento == 1)
 		{	

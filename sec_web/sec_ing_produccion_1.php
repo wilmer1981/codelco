@@ -1,6 +1,33 @@
 <?php
 	//RECEPCION.
-	
+
+	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
+	$hh     = isset($_REQUEST["hh"])?$_REQUEST["hh"]:"";
+	$mm     = isset($_REQUEST["mm"])?$_REQUEST["mm"]:"";
+
+	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
+	$genera_lote    = isset($_REQUEST["genera_lote"])?$_REQUEST["genera_lote"]:"";
+	$agrega_paq     = isset($_REQUEST["agrega_paq"])?$_REQUEST["agrega_paq"]:"";
+	$peso_prog_ok   = isset($_REQUEST["peso_prog_ok"])?$_REQUEST["peso_prog_ok"]:"";
+	$tipo_ie        = isset($_REQUEST["tipo_ie"])?$_REQUEST["tipo_ie"]:"";
+	$tipo_reg       = isset($_REQUEST["tipo_reg"])?$_REQUEST["tipo_reg"]:"";
+	$existe_sec     = isset($_REQUEST["existe_sec"])?$_REQUEST["existe_sec"]:"";
+	$existe_rec     = isset($_REQUEST["existe_rec"])?$_REQUEST["existe_rec"]:"";
+	$mostrar        = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
+
+	$SubProdEtiq    = isset($_REQUEST["SubProdEtiq"])?$_REQUEST["SubProdEtiq"]:"";
+	$etapa          = isset($_REQUEST["etapa"])?$_REQUEST["etapa"]:"";
+	$fecha_aux      = isset($_REQUEST["fecha_aux"])?$_REQUEST["fecha_aux"]:"";
+
+	$txtlote      = isset($_REQUEST["txtlote"])?$_REQUEST["txtlote"]:"";
+	$txtrecarg    = isset($_REQUEST["txtrecargo"])?$_REQUEST["txtrecargo"]:"";
+	$txtpeso      = isset($_REQUEST["txtpeso"])?$_REQUEST["txtpeso"]:"";
+
+	$cmbinstruccion = isset($_REQUEST["cmbinstruccion"])?$_REQUEST["cmbinstruccion"]:"";
+
 	//Asigna a un arreglo los codigos de paqutes.
 	$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 3004";
 	$rs = mysqli_query($link, $consulta);
@@ -33,7 +60,6 @@
 	
 	//Campo Ocultos.
 	echo '<input type="hidden" name="tipo_reg" value="'.$tipo_reg.'">'; //Lote ó Paquete.
-	echo '<input name="fecha_aux" type="hidden" value="'.$ano.'-'.$mes.'-'.$dia.'">';
 
 	if ($existe_sec == "S")
 		echo '<input name="existe_sec" type="hidden" value="S">';

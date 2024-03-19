@@ -67,9 +67,9 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 {
 	$AnoMenos = $AnoAux - 1;
 	if ($ProdAux!="")
-		DefinirArregloLeyes($ProdAux, $SubProdAux, &$ArregloLeyes);	
+		DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 	else
-		DefinirArregloLeyes("18", $SubProdAux, &$ArregloLeyes);	
+		DefinirArregloLeyes("18", $SubProdAux, $ArregloLeyes);	
 	$Consulta = "select  t0.cod_bulto, t0.num_bulto, t0.cod_marca, t0.corr_enm, t3.abreviatura as descripcion, tt.fecha_disponible, ";
 	$Consulta.= " tt.cod_producto, tt.cod_subproducto, t2.fecha_guia,sum(t1.peso_paquetes) As peso, fecha_creacion_lote, tt.cod_puerto, tt.cod_puerto_destino, ";
 	$Consulta.= " count(t0.num_paquete) as num_paquetes, sum(t1.num_unidades) as num_unidades, t4.descripcion as descrip_marca, t4.descripcion_ingles as marca_ingles, tt.cod_contrato_maquila as asignacion ";
@@ -270,9 +270,9 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 	if (($ProdAux=="" && $SubProdAux=="") || ($ProdAux=="34" && $SubProdAux=="2"))
 	{
 		if ($ProdAux!="")
-			DefinirArregloLeyes($ProdAux, $SubProdAux, &$ArregloLeyes);	
+			DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 		else
-			DefinirArregloLeyes("34", $SubProdAux, &$ArregloLeyes);	
+			DefinirArregloLeyes("34", $SubProdAux, $ArregloLeyes);	
 		//RESCATA ORO
 		$Consulta = "select * from pmn_web.embarque_oro ";
 		$Consulta.= " where fecha between '".$AnoAux."-".$MesAux."-01' and '".$AnoAux."-".$MesAux."-31' ";
@@ -342,9 +342,9 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 		$NumActa=$Datos[1];
   $pp = '0';
 		if ($ProdAux!="")
-			DefinirArregloLeyes($ProdAux, $SubProdAux, &$ArregloLeyes);	
+			DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 		else
-			DefinirArregloLeyes("29", $SubProdAux, &$ArregloLeyes);	
+			DefinirArregloLeyes("29", $SubProdAux, $ArregloLeyes);	
 		$Consulta = "select * ";
 		$Consulta.= " from pmn_web.embarque_plata t1 inner join pmn_web.detalle_embarque_plata t2 ";
 		$Consulta.= " on t1.num_acta=t2.num_acta ";
@@ -443,9 +443,9 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 
 		if ($ProdAux!="")
 		
-			DefinirArregloLeyes($ProdAux, $SubProdAux, &$ArregloLeyes);	
+			DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 		else
-			DefinirArregloLeyes("", $SubProdAux, &$ArregloLeyes);
+			DefinirArregloLeyes("", $SubProdAux, $ArregloLeyes);
 		//TABLA PRODUCCION_SUBPRODUCTOS
 	
 		$Consulta = "select * from pmn_web.produccion_subproductos t1";
@@ -634,9 +634,9 @@ function RescataAcido($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote
 	$FechaIni=$AnoAux."-".str_pad($MesAux,2,'0',STR_PAD_LEFT)."-01";
 	$FechaFin=$AnoAux."-".str_pad($MesAux,2,'0',STR_PAD_LEFT)."-31";
 	if ($ProdAux!="")
-		DefinirArregloLeyes($ProdAux, $SubProdAux, &$ArregloLeyes);	
+		DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 	else
-		DefinirArregloLeyes("46", $SubProdAux, &$ArregloLeyes);	
+		DefinirArregloLeyes("46", $SubProdAux, $ArregloLeyes);	
 	$Consulta = "select t1.rut_cliente, t1.num_guia, t1.fecha_hora,sum(t1.toneladas) as toneladas, t2.nombre ";
 	$Consulta.= " from pac_web.guia_despacho t1 inner join pac_web.clientes t2 on t1.rut_cliente=t2.rut_cliente ";
 	$Consulta.= " where t1.fecha_hora between '".$FechaIni." 00:00:00' and '".$FechaFin." 23:59:59' ";

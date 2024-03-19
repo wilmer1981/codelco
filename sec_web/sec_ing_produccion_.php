@@ -1668,7 +1668,11 @@ function EjecEtiqueta()
 
 </script>
 </head>
+<!--
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0" onload="Posicionar()">
+-->
+<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
+
 <form name="frm1" action="" method="post">
 <?php include("../principal/encabezado.php"); ?>
   <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
@@ -1677,7 +1681,7 @@ function EjecEtiqueta()
 	   
   <table width="600" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
   <tr></tr>
-    <td> Version 3 </td>
+    <td> Version 31 </td>
   </tr>
           <tr> 
 		  	

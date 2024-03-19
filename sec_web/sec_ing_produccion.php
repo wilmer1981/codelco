@@ -1,5 +1,6 @@
 ﻿<?php 
 	include("../principal/conectar_sec_web.php");
+	include("funciones_interfaces_codelco.php");
 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 7;
@@ -9,12 +10,31 @@
 	
 	//echo "SA__uno__".$SA_C_STD2."<br>";	
 	//echo $tipo_ie;
+	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
+	$activa_sipa    = isset($_REQUEST["activa_sipa"])?$_REQUEST["activa_sipa"]:"";
+	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
+	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
+	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
+	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
+	$recargapag4 = isset($_REQUEST["recargapag4"])?$_REQUEST["recargapag4"]:"";
+	$recargapag5 = isset($_REQUEST["recargapag5"])?$_REQUEST["recargapag5"]:"";
+	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	
+	$peso_auto   = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";
+
+
+
 ?>
 
 <html>
 <head>
 <title>Ingreso Pesaje Producción</title>
 <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
+<!--
 <script language="VBScript">
 function LeerArchivo(valor)	
 
@@ -36,6 +56,7 @@ function LeerArchivo(valor)
 
 end function 
 </script>
+-->
 
 <script language="JavaScript">
 function str_pad (input, pad_length, pad_string, pad_type) {
@@ -87,7 +108,8 @@ function CapturaPeso()
 	var f = document.frm1;
 	
 	if (f.checkpeso.checked == true)
-		f.txtpeso.value = LeerArchivo(f.txtpeso.value);
+		//f.txtpeso.value = LeerArchivo(f.txtpeso.value);
+		f.txtpeso.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>'; 
 		
 	setTimeout("CapturaPeso()",200);	
 }
@@ -1838,8 +1860,8 @@ $var1 = $consulta;
 $rs = mysqli_query($link, $consulta);
 if ($row = mysqli_fetch_array($rs))
 {
-	if($row[abreviatura_etiqueta_sec]!='')
-		$descripcion_etiq=$row[abreviatura_etiqueta_sec];
+	if($row["abreviatura_etiqueta_sec"]!='')
+		$descripcion_etiq=$row["abreviatura_etiqueta_sec"];
 	else
 		$descripcion_etiq=$descripcion;
 	echo "<input type='hidden' name='SubProdEtiq' value='".$descripcion_etiq."'>";

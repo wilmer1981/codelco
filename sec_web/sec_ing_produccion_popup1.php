@@ -1,4 +1,15 @@
-﻿<?php	include("../principal/conectar_sec_web.php"); ?>
+﻿<?php
+include("../principal/conectar_sec_web.php"); 
+
+$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+$mostrar        = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+
+$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+
+?>
 <html>
 <head>
 <title>Detalle de Recepción</title>
@@ -128,15 +139,15 @@ function Salir()
 	{
 		echo '<tr>';
 		
-		$row[lote_origen] =str_pad($row[lote_origen],8,'0',STR_PAD_LEFT); 
-		//  echo "EE".$row[lote_origen]."--".$row["recargo"];   
+		$row["lote_origen"] = str_pad($row["lote_origen"],8,'0',STR_PAD_LEFT); 
+		//  echo "EE".$row["lote_origen"]."--".$row["recargo"];   
 		   
-		echo '<td width="125"><input type="radio" name="radiobutton" value="'.$row[lote_origen].'-'.$row["recargo"].'" onClick="Chequear(this)"><a href="sec_ing_produccion_popup11.php?lote='.$row[lote_origen].'&recargo='.$row["recargo"].'&producto='.$row["cod_producto"].'&subproducto='.$row["cod_subproducto"].'">'.$row[lote_origen].'-'.$row["recargo"].'</a>&nbsp;&nbsp;&nbsp;<a href="JavaScript:ModificarLote('.$row[lote_origen].','.$row["recargo"].')"><img src="../principal/imagenes/modificar_sea.png" class="SinBorde" alt="Modificar Lote"></a></td>';
+		echo '<td width="125"><input type="radio" name="radiobutton" value="'.$row["lote_origen"].'-'.$row["recargo"].'" onClick="Chequear(this)"><a href="sec_ing_produccion_popup11.php?lote='.$row["lote_origen"].'&recargo='.$row["recargo"].'&producto='.$row["cod_producto"].'&subproducto='.$row["cod_subproducto"].'">'.$row["lote_origen"].'-'.$row["recargo"].'</a>&nbsp;&nbsp;&nbsp;<a href="JavaScript:ModificarLote('.$row["lote_origen"].','.$row["recargo"].')"><img src="../principal/imagenes/modificar_sea.png" class="SinBorde" alt="Modificar Lote"></a></td>';
                                                                                                                                                                                                                                                                                                                                  
-		//echo '<td width="125"><input type="radio" name="radiobutton" value="'.$row[lote_origen].'-'.$row["recargo"].'" onClick="Chequear(this)"><a href="sec_ing_produccion_popup11.php?lote='.$row[lote_origen].'&recargo='.$row["recargo"].'&producto='.$row["cod_producto"].'&subproducto='.$row["cod_subproducto"].'">'.$row[lote_origen].'-'.$row["recargo"].'</a></td>';
+		//echo '<td width="125"><input type="radio" name="radiobutton" value="'.$row["lote_origen"].'-'.$row["recargo"].'" onClick="Chequear(this)"><a href="sec_ing_produccion_popup11.php?lote='.$row["lote_origen"].'&recargo='.$row["recargo"].'&producto='.$row["cod_producto"].'&subproducto='.$row["cod_subproducto"].'">'.$row["lote_origen"].'-'.$row["recargo"].'</a></td>';
 		echo '<td width="125" align="center">'.$row["num_guia"].'</td>';
-		echo '<td width="125" align="center">'.$row[peso_recepcion].'</td>';
-		echo '<td width="125" align="center">'.$row[peso_zuncho].'</td>';
+		echo '<td width="125" align="center">'.$row["peso_recepcion"].'</td>';
+		echo '<td width="125" align="center">'.$row["peso_zuncho"].'</td>';
 		echo '</tr>';
 	}
 	
