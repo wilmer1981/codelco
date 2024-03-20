@@ -1,23 +1,31 @@
-<?php	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+<?php	
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_pac_web.php");
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbEstanque  = isset($_REQUEST["CmbEstanque"])?$_REQUEST["CmbEstanque"]:"";
+	$AnoIni       = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+	$MesIni       = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
+	$AnoFin       = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin       = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
 ?>
 <html>
 <head>
@@ -46,22 +54,22 @@
 		{
 			$Filtro=" and t1.cod_estanque='".$CmbEstanque."'";		
 		}
-		$Consulta = "select count(*) as TotalRegistro ";
+		$Consulta = "SELECT count(*) as TotalRegistro ";
 		$Consulta.= " from pac_web.stock_estanques t1 left join proyecto_modernizacion.sub_clase t2 on ";
 		$Consulta.= " t2.cod_clase = 9001 and t1.cod_estanque=t2.cod_subclase ";
-		$Consulta.= " where (ano >= '".$AnoIni."' and ano <= '".$AnoFin."') ";
-		$Consulta.= " and (mes >= '".$MesIni."' and mes <= '".$MesFin."')";
+		$Consulta.= " where (YEAR(t1.fecha) >= '".$AnoIni."' and YEAR(t1.fecha) <= '".$AnoFin."') ";
+		$Consulta.= " and (MONTH(t1.fecha) >= '".$MesIni."' and MONTH(t1.fecha) <= '".$MesFin."')";
 		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysqli_fetch_array($Respuesta);
 		if ($Fila["TotalRegistro"] > 0 )
 		{
 			$FechaDesde=$Ano."-".$Mes."-01 00:00:01";
 			$FechaHasta=$Ano."-".$Mes."-31 23:59:59";
-			$Consulta = "select * from pac_web.stock_estanques t1 left join proyecto_modernizacion.sub_clase t2 ";
-			$Consulta.= " on t2.cod_clase = 9001 and t1.cod_estanque=t2.cod_subclase ";
-			$Consulta.= " where (ano >= '".$AnoIni."' and ano <= '".$AnoFin."') ";
-			$Consulta.= " and (mes >= '".$MesIni."' and mes <= '".$MesFin."')";
-			$Consulta.= " and t2.cod_subclase <> '5' ".$Filtro." order by t1.ano, t1.mes, t1.cod_estanque";
+			$Consulta = "SELECT YEAR(t1.fecha) ano,MONTH(t1.fecha) mes,t1.cod_estanque,t1.stock_inicial,t1.stock_actual, t1.ajuste, t1.signo, t1.envio,t1.recepcion, t2.nombre_subclase from pac_web.stock_estanques t1";
+			$Consulta.= " LEFT JOIN proyecto_modernizacion.sub_clase t2 ON t2.cod_clase = 9001 and t1.cod_estanque=t2.cod_subclase ";
+			$Consulta.= " WHERE ((YEAR(t1.fecha) >= '".$AnoIni."' and (YEAR(t1.fecha) <= '".$AnoFin."') ";
+			$Consulta.= " and (MONTH(t1.fecha) >= '".$MesIni."' and MONTH(t1.fecha) <= '".$MesFin."')";
+			$Consulta.= " and t2.cod_subclase <> '5' ".$Filtro." order by ano, mes, t1.cod_estanque";
 			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
