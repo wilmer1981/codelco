@@ -280,11 +280,11 @@
 									$Consulta.="where t1.num_guia='".$Datos[1]."' and t1.nro_patente ='".$TxtPatente."'";
 									$RespPac=mysqli_query($link, $Consulta);
 									$FilaPac=mysqli_fetch_array($RespPac);
-									$CmbSubProducto=$FilaPac[cod_sipa];
+									$CmbSubProducto=$FilaPac["cod_sipa"];
 										
-									if(strpos($FilaPac[cod_sipa],'~'))
+									if(strpos($FilaPac["cod_sipa"],'~'))
 									{
-										$CmbSubProducto=$FilaPac[cod_sipa];
+										$CmbSubProducto=$FilaPac["cod_sipa"];
 										$CodProd=$Codigos[0];
 										$CodSub=$Codigos[1];
 									}

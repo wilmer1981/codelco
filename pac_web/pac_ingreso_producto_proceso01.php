@@ -1,9 +1,16 @@
 <?php
 	include("../principal/conectar_pac_web.php");
 
-			if($CheckEst == ''){
-				$CheckEst = 0;
-			}
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$TxtCodSap    = isset($_REQUEST["TxtCodSap"])?$_REQUEST["TxtCodSap"]:"";
+	$TxtNombre    = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$CheckEst     = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:0;
+	$TxtConcentracion    = isset($_REQUEST["TxtConcentracion"])?$_REQUEST["TxtConcentracion"]:"";
+	$TxtNU    = isset($_REQUEST["TxtNU"])?$_REQUEST["TxtNU"]:"";
+	$CmbProductoSipa    = isset($_REQUEST["CmbProductoSipa"])?$_REQUEST["CmbProductoSipa"]:"";
+	$cod_producto    = isset($_REQUEST["cod_producto"])?$_REQUEST["cod_producto"]:"";
 	
 	switch ($Proceso)
 	{

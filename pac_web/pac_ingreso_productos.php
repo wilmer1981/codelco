@@ -2,6 +2,10 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 27;
 	include("../principal/conectar_pac_web.php");
+
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$reg_delete       = isset($_REQUEST["reg_delete"])?$_REQUEST["reg_delete"]:"";
+
 ?>
 <html>
 <head>
@@ -42,7 +46,7 @@ function CheckearTodo()
 			{
 				Frm.CheckProd[i].checked=true;
 			}
-			else
+		else
 			{
 				Frm.CheckProd[i].checked=false;
 			}	
@@ -163,18 +167,18 @@ function Salir()
 			$Consulta = "select * from pac_web.pac_productos order by nombre";
 			$Resultado=mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='CheckProd'><input type='hidden' name ='TxtCodProd'>";
-			while ($Fila=mysqli_fetch_array($Resultado))
-			{$NombreProdSipa='';
-				if(strpos($Fila[cod_sipa],'~'))
+			while ($Fila=mysqli_fetch_array($Resultado)){
+				$NombreProdSipa='';
+				if(strpos($Fila["cod_sipa"],'~'))
 				{
-					$Codigos=explode("~", $Fila[cod_sipa]);
+					$Codigos=explode("~", $Fila["cod_sipa"]);
 					$CodProd=$Codigos[0];
 					$CodSub=$Codigos[1];
 					$ConsultaProd="select descripcion as nom_subprod  from proyecto_modernizacion.subproducto  where cod_producto ='".$CodProd."' and cod_subproducto='".$CodSub."'";
 					$ResultadoProd=mysqli_query($link, $ConsultaProd);
 					if($FilaProd=mysqli_fetch_array($ResultadoProd))
 					{
-						$NombreProdSipa=$FilaProd[nom_subprod];
+						$NombreProdSipa=$FilaProd["nom_subprod"];
 					}
 				}
 				echo "<tr>"; 

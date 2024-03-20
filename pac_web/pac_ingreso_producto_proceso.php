@@ -4,6 +4,17 @@
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_pac_web.php");
 
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$Cod_sap    = isset($_REQUEST["TxtCodSap"])?$_REQUEST["TxtCodSap"]:"";
+	$Nombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$Estado     = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:0;
+	$Concentracion    = isset($_REQUEST["TxtConcentracion"])?$_REQUEST["TxtConcentracion"]:"";
+	$NU    = isset($_REQUEST["TxtNU"])?$_REQUEST["TxtNU"]:"";
+	$CmbSubProducto    = isset($_REQUEST["CmbProductoSipa"])?$_REQUEST["CmbProductoSipa"]:"";
+	$cod_producto    = isset($_REQUEST["cod_producto"])?$_REQUEST["cod_producto"]:"";
+
 	/*echo $Pro."<br>";*/
 	switch($Proceso)
 	{
