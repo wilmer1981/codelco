@@ -1,6 +1,16 @@
  <?php
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$CmbDias       = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbDiasT      = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+	$CmbMesT       = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+	$CmbAnoT      = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+
+	$CmbEstado      = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
 ?>
 <html>
 <head>
@@ -298,26 +308,27 @@ function  Salir()
 			$Consulta=$Consulta." left join proyecto_modernizacion.sub_clase t4 on t4.cod_clase=9002 and t4.nombre_subclase=t1.rut_funcionario ";
 			$Consulta=$Consulta." left join proyecto_modernizacion.sub_clase t5 on t5.cod_clase=9000 and t5.cod_subclase=t1.tipo_movimiento where fecha_hora between '".$FechaInicio."' and '".$FechaTermino."'".$Filtro;
 			$Respuesta=mysqli_query($link, $Consulta);
+			$Total=0;
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
 				echo "<tr>";
 				echo "<td width='125' align='center'>".$Fila["fecha_hora"]."</td>";
-				echo "<td width='60'  align='center'>".$Fila[toneladas]."</td>";
-				echo "<td width='60'  align='center'>".$Fila[hora_inicio]."</td>";
-				echo "<td width='60'  align='center'>".$Fila[hora_final]."</td>";
-				echo "<td width='50'  align='center'>".$Fila[ek_origen]."&nbsp;</td>";
-				echo "<td width='50'  align='center'>".$Fila[ek_destino]."&nbsp;</td>";
-				echo "<td width='110' align='left'>".$Fila[operador]."</td>";
+				echo "<td width='60'  align='center'>".$Fila["toneladas"]."</td>";
+				echo "<td width='60'  align='center'>".$Fila["hora_inicio"]."</td>";
+				echo "<td width='60'  align='center'>".$Fila["hora_final"]."</td>";
+				echo "<td width='50'  align='center'>".$Fila["ek_origen"]."&nbsp;</td>";
+				echo "<td width='50'  align='center'>".$Fila["ek_destino"]."&nbsp;</td>";
+				echo "<td width='110' align='left'>".$Fila["operador"]."</td>";
 			  	if ($CmbEstado=='-1')
 				{
-					echo "<td width='100' align='left'>".$Fila[movimiento]."&nbsp;</td>";
+					echo "<td width='100' align='left'>".$Fila["movimiento"]."&nbsp;</td>";
 				}
 				else
 				{
 					echo "<td width='100' align='left'>&nbsp;</td>";
 				}
 				echo "</tr>";
-				$Total=$Total+$Fila[toneladas];
+				$Total=$Total+$Fila["toneladas"];
 			}
 			echo "<tr class='Detalle01'>";
 			echo "<td>Total</td>";
