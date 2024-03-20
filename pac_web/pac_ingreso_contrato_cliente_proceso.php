@@ -26,9 +26,9 @@
 	$CmbAnoInicio  = isset($_REQUEST["CmbAnoInicio"])?$_REQUEST["CmbAnoInicio"]:"";
 	$CmbMesFinal  = isset($_REQUEST["CmbMesFinal"])?$_REQUEST["CmbMesFinal"]:"";
 	$CmbAnoFinal  = isset($_REQUEST["CmbAnoFinal"])?$_REQUEST["CmbAnoFinal"]:"";
-	$CmbDia  = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:"";
-	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
-	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$CmbDia  = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:date("d");
+	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 
 	$TxtRef  = isset($_REQUEST["TxtRef"])?$_REQUEST["TxtRef"]:"";
 	$TxtNroControl  = isset($_REQUEST["TxtNroControl"])?$_REQUEST["TxtNroControl"]:"";
@@ -57,7 +57,7 @@
 		}
 		$Consulta="select t1.rut_cliente,t1.nro_contrato,t1.correlativo,t1.nro_cuotas,t1.toneladas,t1.mes_inicio,t1.mes_final,";
 		$Consulta=$Consulta."t1.ano_inicio,t1.ano_final,t2.nombre,t2.referencia from pac_web.contrato_cliente t1 inner join pac_web.clientes t2 on t1.rut_cliente=t2.rut_cliente where t1.rut_cliente='".$RutCliente."' and t1.nro_contrato='".$Contrato."'";
-		echo "Consulta:".$Consulta;
+		//echo "Consulta:".$Consulta;
 		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysqli_fetch_array($Respuesta);
 		$Nombre=$Fila["nombre"];

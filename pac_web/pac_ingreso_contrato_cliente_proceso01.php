@@ -8,9 +8,12 @@
 	$ProcesoAux  = isset($_REQUEST["ProcesoAux"])?$_REQUEST["ProcesoAux"]:"";
 	$FechaHora   = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
 	
-	$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
-	$TxtContrato  = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
-	$TxtNroControl  = isset($_REQUEST["TxtNroControl"])?$_REQUEST["TxtNroControl"]:"";
+	$CmbCliente    = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$TxtRutCliente = isset($_REQUEST["TxtRutCliente"])?$_REQUEST["TxtRutCliente"]:"";
+	$TxtContrato   = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
+	$TxtNroControl = isset($_REQUEST["TxtNroControl"])?$_REQUEST["TxtNroControl"]:"";
+	$TxtRef  = isset($_REQUEST["TxtRef"])?$_REQUEST["TxtRef"]:"";
+	$TxtToneladas  = isset($_REQUEST["TxtToneladas"])?$_REQUEST["TxtToneladas"]:"";
 	$CmbNumCuotas  = isset($_REQUEST["CmbNumCuotas"])?$_REQUEST["CmbNumCuotas"]:"";	
 	$TxtTotalToneladas  = isset($_REQUEST["TxtTotalToneladas"])?$_REQUEST["TxtTotalToneladas"]:"";
 	$CmbMesInicio  = isset($_REQUEST["CmbMesInicio"])?$_REQUEST["CmbMesInicio"]:"";
@@ -25,7 +28,6 @@
 
 	$Fecha=$CmbAno."-".$CmbMes."-".$CmbDia;
 
-	echo $Proceso."<br>";
 	switch ($Proceso)
 	{
 		case "N": //GRABAR CONTRATO
@@ -42,8 +44,10 @@
 				$Insertar = "insert into pac_web.contrato_cliente ";
 				$Insertar.= "(rut_cliente,nro_contrato,correlativo,nro_cuotas,toneladas,mes_inicio,mes_final,ano_inicio,ano_final) ";
 				$Insertar.= "values('".$CmbCliente."','".$TxtContrato."','".$TxtNroControl."','".$CmbNumCuotas."','".str_replace(",",".",$TxtTotalToneladas)."','".$CmbMesInicio."','".$CmbMesFinal."','".$CmbAnoInicio."','".$CmbAnoFinal."')";
+				//echo $Insertar;
+				//exit();
 				mysqli_query($link, $Insertar);
-				$CmbCliente="";
+				//$CmbCliente="";
 				//echo $Insertar;
 			}
 			echo "<script languaje='JavaScript'>";
@@ -107,9 +111,11 @@
 			break;
 				
 		case "M": //MODIFICA LOS DATOS DEL CONTRATO
-			$Actualizar="UPDATE pac_web.contrato_cliente set nro_cuotas='".$CmbNumCuotas."',toneladas='".str_replace(",",".",$TxtTotalToneladas)."',";
-			$Actualizar=$Actualizar."mes_inicio='".$CmbMesInicio."',ano_inicio='".$CmbAnoInicio."',mes_final='".$CmbMesFinal."',";
-			$Actualizar=$Actualizar."ano_final='".$CmbAnoFinal."' where rut_cliente='".$TxtRutCliente."' and nro_contrato='".$TxtContrato."'";
+			$Actualizar="UPDATE pac_web.contrato_cliente set nro_cuotas='$CmbNumCuotas',toneladas='".str_replace(",",".",$TxtTotalToneladas)."',";
+			$Actualizar=$Actualizar."mes_inicio='$CmbMesInicio',ano_inicio='$CmbAnoInicio',mes_final='$CmbMesFinal',";
+			$Actualizar=$Actualizar."ano_final='$CmbAnoFinal' WHERE rut_cliente='".$TxtRutCliente."' and nro_contrato='".$TxtContrato."'";
+			//echo $Actualizar;
+			//exit();
 			mysqli_query($link, $Actualizar);
 			header("location:pac_ingreso_contrato_cliente_proceso.php?Proceso=".$Proceso."&Valores=".$Valores);		
 			break;
