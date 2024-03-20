@@ -1,20 +1,23 @@
 <?php 	
-	session_start();
-	session_destroy('Valores');
+	//session_start();
+	//session_destroy('Valores');
 
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-	}
-	if (!isset($CmbMes))
-	{
-		$CmbMes=date('n');
-	}
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 26;
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Fecha_Hora = date("Y-m-d" );
+
+	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+
+	$CmbOpcion  = isset($_REQUEST["CmbOpcion"])?$_REQUEST["CmbOpcion"]:"";
+	$CmbEK      = isset($_REQUEST["CmbEK"])?$_REQUEST["CmbEK"]:"";
+	$Leyes      = isset($_REQUEST["Leyes"])?$_REQUEST["Leyes"]:"";
+	
+
+
 ?>
 <html>
 <head>
@@ -194,11 +197,11 @@ function Salir()
 			{
 				if ($CmbEK==$Fila["cod_subclase"])
 				{
-					echo "<option value='$Fila["cod_subclase"]' selected>$Fila["nombre_subclase"]</option>";
+					echo "<option value='".$Fila["cod_subclase"]."' selected>".$Fila["nombre_subclase"]."</option>";
 				}
 				else
 				{
-					echo "<option value='$Fila["cod_subclase"]'>$Fila["nombre_subclase"]</option>";
+					echo "<option value='".$Fila["cod_subclase"]."'>".$Fila["nombre_subclase"]."</option>";
 				}
 			}
 			echo "</select>&nbsp;&nbsp;";
@@ -258,11 +261,11 @@ function Salir()
 		while ($Fila=mysqli_fetch_array($Resultado))
 		{
 			echo "<tr>"; 
-			echo "<td width='30' align='center'>$Fila[estanque]</td>";
+			echo "<td width='30' align='center'>$Fila["estanque"]</td>";
 			echo "<td width='70' align='center'>$Fila[fecha]</td>";
-			echo "<td width='150'>&nbsp;".$Fila["nombre_leyes"]."&nbsp;(".$Fila[cod_ley].")</td>";
-			echo "<td width='35' align='right'>$Fila[valor]</td>";
-			echo "<td width='40'>&nbsp;$Fila["abreviatura"]</td>";
+			echo "<td width='150'>&nbsp;".$Fila["nombre_leyes"]."&nbsp;(".$Fila["cod_ley"].")</td>";
+			echo "<td width='35' align='right'>".$Fila["valor"]."</td>";
+			echo "<td width='40'>".$Fila["abreviatura"]."</td>";
 			echo "</tr>";
 		}
 	}	

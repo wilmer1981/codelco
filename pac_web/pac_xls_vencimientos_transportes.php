@@ -1,24 +1,34 @@
-<?php         ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+<?php         
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_pac_web.php");
-	include("../principal/conectar_pac_web.php");
+
+	
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$CmbDias       = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+
+	$CmbTransporte      = isset($_REQUEST["CmbTransporte"])?$_REQUEST["CmbTransporte"]:"";
+
 ?>
 <html>
 <head>
@@ -60,39 +70,39 @@
 			  $Respuesta=mysqli_query($link, $Consulta);			  
 			  while($Fila=mysqli_fetch_array($Respuesta))
 			  {
-				  if (($Fila[tipo]=='C')&&(date($Fila[fecha_rev_tecnica])<date($FechaInicio)))
+				  if (($Fila["tipo"]=='C')&&(date($Fila["fecha_rev_tecnica"])<date($FechaInicio)))
 				  {
 					  echo "<tr>";
 					  echo "<td>".$Fila["nro_patente"]."</td>";
-					  echo "<td>".$Fila[tipotransp]."</td>";
-					  echo "<td>".$Fila[marca]."</td>";
-					  echo "<td>".$Fila[modelo]."</td>";
-					  echo "<td><strong><font color='red'>".$Fila[fecha_rev_tecnica]."</font></strong></td>";
+					  echo "<td>".$Fila["tipotransp"]."</td>";
+					  echo "<td>".$Fila["marca"]."</td>";
+					  echo "<td>".$Fila["modelo"]."</td>";
+					  echo "<td><strong><font color='red'>".$Fila["fecha_rev_tecnica"]."</font></strong></td>";
 	   				  echo "<td>&nbsp;</td>";
 					  echo "</tr>";
 				   }  				  
-				  if (($Fila[tipo]=='R')&&((date($Fila[fecha_rev_tecnica])<date($FechaInicio))||(date($Fila[fecha_cert_estanque])<date($FechaInicio))))
+				  if (($Fila["tipo"]=='R')&&((date($Fila["fecha_rev_tecnica"])<date($FechaInicio))||(date($Fila["fecha_cert_estanque"])<date($FechaInicio))))
 				  {
 					  echo "<tr>";
 					  echo "<td>".$Fila["nro_patente"]."</td>";
-					  echo "<td>".$Fila[tipotransp]."</td>";
-					  echo "<td>".$Fila[marca]."</td>";
-					  echo "<td>".$Fila[modelo]."</td>";
-					  if (date($Fila[fecha_rev_tecnica])<date($FechaInicio))
+					  echo "<td>".$Fila["tipotransp"]."</td>";
+					  echo "<td>".$Fila["marca"]."</td>";
+					  echo "<td>".$Fila["modelo"]."</td>";
+					  if (date($Fila["fecha_rev_tecnica"])<date($FechaInicio))
 					  {
-					  	echo "<td><strong><font color='red'>".$Fila[fecha_rev_tecnica]."</font></strong></td>";
+					  	echo "<td><strong><font color='red'>".$Fila["fecha_rev_tecnica"]."</font></strong></td>";
 					  }
 					  else
 					  {
-					  	echo "<td><strong><font color='green'>".$Fila[fecha_rev_tecnica]."</font></strong></td>";
+					  	echo "<td><strong><font color='green'>".$Fila["fecha_rev_tecnica"]."</font></strong></td>";
 					  }
-					  if (date($Fila[fecha_cert_estanque])<date($FechaInicio))
+					  if (date($Fila["fecha_cert_estanque"])<date($FechaInicio))
 					  {
-  					  	echo "<td><strong><font color='red'>".$Fila[fecha_cert_estanque]."</font></strong></td>";
+  					  	echo "<td><strong><font color='red'>".$Fila["fecha_cert_estanque"]."</font></strong></td>";
 					  }
 					  else
 					  {
-					  	echo "<td><strong><font color='green'>".$Fila[fecha_cert_estanque]."</font></strong></td>";	
+					  	echo "<td><strong><font color='green'>".$Fila["fecha_cert_estanque"]."</font></strong></td>";	
 					  } 	
 					  echo "</tr>";
 				   }  				  

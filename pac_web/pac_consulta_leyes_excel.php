@@ -1,24 +1,35 @@
 <?php 	
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	        
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	include("../principal/conectar_pac_web.php");
+
+	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+
+	$CmbOpcion  = isset($_REQUEST["CmbOpcion"])?$_REQUEST["CmbOpcion"]:"";
+	$CmbEK      = isset($_REQUEST["CmbEK"])?$_REQUEST["CmbEK"]:"";
+	$Leyes      = isset($_REQUEST["Leyes"])?$_REQUEST["Leyes"]:"";
+
 ?>
 <html>
 <head>
@@ -54,11 +65,11 @@
 		while ($Fila=mysqli_fetch_array($Resultado))
 		{
 			echo "<tr>"; 
-			echo "<td align='center'>$Fila[estanque]</td>";
-			echo "<td align='center'>$Fila["fecha"]</td>";
-			echo "<td>&nbsp;".$Fila["nombre_leyes"]."&nbsp;(".$Fila[cod_ley].")</td>";
-			echo "<td align='right'>$Fila[valor]</td>";
-			echo "<td>&nbsp;$Fila["abreviatura"]</td>";
+			echo "<td align='center'>".$Fila["estanque"]."</td>";
+			echo "<td align='center'>".$Fila["fecha"]."</td>";
+			echo "<td>&nbsp;".$Fila["nombre_leyes"]."&nbsp;(".$Fila["cod_ley"].")</td>";
+			echo "<td align='right'>".$Fila["valor"]."</td>";
+			echo "<td>".$Fila["abreviatura"]."</td>";
 			echo "</tr>";
 		}
 	}	

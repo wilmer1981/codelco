@@ -320,39 +320,39 @@ function Proceso(opt)
 					{
 						$H2O = "0,5";
 						if($FilaLey["cod_leyes"]=='02')
-							$Cu =number_format($FilaLey[valor],3,'.',',');
+							$Cu =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='04')
-							$Ag =number_format($FilaLey[valor],3,'.',',');
+							$Ag =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='05')
-							$Au =number_format($FilaLey[valor],3,'.',',');
+							$Au =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='08')
-							$As =number_format($FilaLey[valor],3,'.',',');
+							$As =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='26')
-							$S =number_format($FilaLey[valor],3,'.',',');
+							$S =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='39')
-							$Pb =number_format($FilaLey[valor],3,'.',',');
+							$Pb =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='31')
-							$Fe =number_format($FilaLey[valor],3,'.',',');
+							$Fe =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='118')
-							$Si =number_format($FilaLey[valor],3,'.',',');
+							$Si =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='82')
-							$CaO =number_format($FilaLey[valor],3,'.',',');
+							$CaO =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='25')
-							$AL2O3 =number_format($FilaLey[valor],3,'.',',');
+							$AL2O3 =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='12')
-							$MgO =number_format($FilaLey[valor],3,'.',',');
+							$MgO =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='09')
-							$Sb =number_format($FilaLey[valor],3,'.',',');
+							$Sb =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='58')
-							$Cd =number_format($FilaLey[valor],3,'.',',');
+							$Cd =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='34')
-							$Hg =number_format($FilaLey[valor],3,'.',',');
+							$Hg =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='44')
-							$Te =number_format($FilaLey[valor],3,'.',',');
+							$Te =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='10')
-							$Zn =number_format($FilaLey[valor],3,'.',',');
+							$Zn =number_format($FilaLey["valor"],3,'.',',');
 						if($FilaLey["cod_leyes"]=='63')
-							$Fe3O4 =number_format($FilaLey[valor],3,'.',',');
+							$Fe3O4 =number_format($FilaLey["valor"],3,'.',',');
 					}
 				}
 				if($BuscaLeyesAnt=='S')//obbtiene leyes de otros meses y otros conjuntos

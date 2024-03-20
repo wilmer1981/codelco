@@ -1,6 +1,13 @@
 <?php
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$CmbDias       = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+
+	$CmbTransporte      = isset($_REQUEST["CmbTransporte"])?$_REQUEST["CmbTransporte"]:"";
 ?>
 <html>
 <head>
@@ -220,40 +227,40 @@ function Salir()
 			  while($Fila=mysqli_fetch_array($Respuesta))
 			  {
   				  
-				  //echo "patente:".$Fila["nro_patente"]." tipo:".$Fila[tipo]." fecha:".$Fila[fecha_rev_tecnica]."<".date($FechaInicio);
-				  if (($Fila[tipo]=='C')&&(date($Fila[fecha_rev_tecnica])<date($FechaInicio)))
+				  //echo "patente:".$Fila["nro_patente"]." tipo:".$Fila["tipo"]." fecha:".$Fila["fecha_rev_tecnica"]."<".date($FechaInicio);
+				  if (($Fila["tipo"]=='C')&&(date($Fila["fecha_rev_tecnica"])<date($FechaInicio)))
 				  {
 					  echo "<tr>";
 					  echo "<td width='70' align='left'>".$Fila["nro_patente"]."</td>";
-					  echo "<td width='70' align='left'>".$Fila[tipotransp]."</td>";
-					  echo "<td width='100' align='left'>".$Fila[marca]."</td>";
-					  echo "<td width='100' align='left'>".$Fila[modelo]."</td>";
-					  echo "<td width='110' align='center'><strong><font color='red'>".$Fila[fecha_rev_tecnica]."</font></strong></td>";
+					  echo "<td width='70' align='left'>".$Fila["tipotransp"]."</td>";
+					  echo "<td width='100' align='left'>".$Fila["marca"]."</td>";
+					  echo "<td width='100' align='left'>".$Fila["modelo"]."</td>";
+					  echo "<td width='110' align='center'><strong><font color='red'>".$Fila["fecha_rev_tecnica"]."</font></strong></td>";
 	   				  echo "<td width='110'>&nbsp;</td>";
 					  echo "</tr>";
 				   }  				  
-				  if (($Fila[tipo]=='R')&&((date($Fila[fecha_rev_tecnica])<date($FechaInicio))||(date($Fila[fecha_cert_estanque])<date($FechaInicio))))
+				  if (($Fila["tipo"]=='R')&&((date($Fila["fecha_rev_tecnica"])<date($FechaInicio))||(date($Fila["fecha_cert_estanque"])<date($FechaInicio))))
 				  {
 					  echo "<tr>";
 					  echo "<td width='70' align='left'>".$Fila["nro_patente"]."</td>";
-					  echo "<td width='70' align='left'>".$Fila[tipotransp]."</td>";
-					  echo "<td width='100' align='left'>".$Fila[marca]."</td>";
-					  echo "<td width='100' align='left'>".$Fila[modelo]."</td>";
-					  if (date($Fila[fecha_rev_tecnica])<date($FechaInicio))
+					  echo "<td width='70' align='left'>".$Fila["tipotransp"]."</td>";
+					  echo "<td width='100' align='left'>".$Fila["marca"]."</td>";
+					  echo "<td width='100' align='left'>".$Fila["modelo"]."</td>";
+					  if (date($Fila["fecha_rev_tecnica"])<date($FechaInicio))
 					  {
-					  	echo "<td width='110' align='center'><strong><font color='red'>".$Fila[fecha_rev_tecnica]."</font></strong></td>";
+					  	echo "<td width='110' align='center'><strong><font color='red'>".$Fila["fecha_rev_tecnica"]."</font></strong></td>";
 					  }
 					  else
 					  {
-					  	echo "<td width='110' align='center'><strong><font color='green'>".$Fila[fecha_rev_tecnica]."</font></strong></td>";
+					  	echo "<td width='110' align='center'><strong><font color='green'>".$Fila["fecha_rev_tecnica"]."</font></strong></td>";
 					  }
-					  if (date($Fila[fecha_cert_estanque])<date($FechaInicio))
+					  if (date($Fila["fecha_cert_estanque"])<date($FechaInicio))
 					  {
-  					  	echo "<td width='110' align='center'><strong><font color='red'>".$Fila[fecha_cert_estanque]."</font></strong></td>";
+  					  	echo "<td width='110' align='center'><strong><font color='red'>".$Fila["fecha_cert_estanque"]."</font></strong></td>";
 					  }
 					  else
 					  {
-					  	echo "<td width='110' align='center'><strong><font color='green'>".$Fila[fecha_cert_estanque]."</font></strong></td>";	
+					  	echo "<td width='110' align='center'><strong><font color='green'>".$Fila["fecha_cert_estanque"]."</font></strong></td>";	
 					  } 	
 					  echo "</tr>";
 				   }  				  

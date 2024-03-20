@@ -42,18 +42,18 @@
 			$RespLeyes=mysqli_query($link, $Consulta);
 			while($FilaLeyes=mysqli_fetch_array($RespLeyes))
 			{
-				$ArrayLeyes[$FilaLeyes[cod_ley]][0]='';//NOMBRE DE LA LEY
-				$ArrayLeyes[$FilaLeyes[cod_ley]][1]='';//UNIDAD DE LA LEY
-				$ArrayLeyes[$FilaLeyes[cod_ley]][2]='';//VALOR LEY PQTE 1 
-				$ArrayLeyes[$FilaLeyes[cod_ley]][3]='';//VALOR LEY PQTE 2 
-				$ArrayLeyes[$FilaLeyes[cod_ley]][4]='';//VALOR LEY PQTE 3 
-				$ArrayLeyes[$FilaLeyes[cod_ley]][5]='';//VALOR LEY PQTE 4 
-				$ArrayLeyes[$FilaLeyes[cod_ley]][6]='';//LEY RETALLA
-				$ArrayLeyes[$FilaLeyes[cod_ley]][7]='';//INCIDENCIA RETALLA
-				$ArrayLeyes[$FilaLeyes[cod_ley]][8]='';//LEY CANJE
-				$ArrayLeyes[$FilaLeyes[cod_ley]][9]='';//LEY PAGO
-				$ArrayLeyes[$FilaLeyes[cod_ley]][10]='';//NUM PAQUETE
-				$Leyes=$Leyes.$FilaLeyes[cod_ley]."','";
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][0]='';//NOMBRE DE LA LEY
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][1]='';//UNIDAD DE LA LEY
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][2]='';//VALOR LEY PQTE 1 
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][3]='';//VALOR LEY PQTE 2 
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][4]='';//VALOR LEY PQTE 3 
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][5]='';//VALOR LEY PQTE 4 
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][6]='';//LEY RETALLA
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][7]='';//INCIDENCIA RETALLA
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][8]='';//LEY CANJE
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][9]='';//LEY PAGO
+				$ArrayLeyes[$FilaLeyes["cod_ley"]][10]='';//NUM PAQUETE
+				$Leyes=$Leyes.$FilaLeyes["cod_ley"]."','";
 				$EncontroLeyes=true;
 			}
 			if($EncontroLeyes==true)
