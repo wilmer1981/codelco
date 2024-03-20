@@ -1,6 +1,23 @@
 <?php
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+
+	$CmbDias       = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+
+	$CmbDiasT      = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+	$CmbMesT       = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+	$CmbAnoT      = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+
+	$CmbClientes      = isset($_REQUEST["CmbClientes"])?$_REQUEST["CmbClientes"]:"";
+	
+	
+
+
+
 ?>
 <html>
 <head>
@@ -250,13 +267,13 @@ function Salir()
 			  $Respuesta=mysqli_query($link, $Consulta);			  
 			  while($Fila=mysqli_fetch_array($Respuesta))
 			  {
-				if ($CmbClientes==$Fila[rut_cliente])
+				if ($CmbClientes==$Fila["rut_cliente"])
 				{
-					echo "<option value='".$Fila[rut_cliente]."' selected>".$Fila["nombre"]."</option>";
+					echo "<option value='".$Fila["rut_cliente"]."' selected>".$Fila["nombre"]."</option>";
 				}
 				else
 				{
-					echo "<option value='".$Fila[rut_cliente]."'>".$Fila["nombre"]."</option>";
+					echo "<option value='".$Fila["rut_cliente"]."'>".$Fila["nombre"]."</option>";
 				}		  
 			  }
 		  ?>
@@ -297,8 +314,8 @@ function Salir()
 				  echo "<td width='50' align='center'><a href=\"JavaScript:Historial('".$Fila["num_guia"]."')\">".$Fila["num_guia"]."</td>";
 				  echo "<td width='50' align='center'>".$Fila["nro_patente"]."</td>";
 				  echo "<td width='130' align='center'>".$Fila["fecha_hora"]."</td>";
-				  echo "<td width='60' align='center'>".$Fila[estanque]."</td>";
-				  echo "<td width='60' align='center'>".$Fila[toneladas]."</td>";
+				  echo "<td width='60' align='center'>".$Fila["estanque"]."</td>";
+				  echo "<td width='60' align='center'>".$Fila["toneladas"]."</td>";
 				  echo "</tr>";				  
 			  } 	
 		}		
