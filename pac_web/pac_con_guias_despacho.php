@@ -1,6 +1,17 @@
  <?php
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$CmbDias       = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbDiasT      = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+	$CmbMesT       = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+	$CmbAnoT      = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+
+	$CmbGuias      = isset($_REQUEST["CmbGuias"])?$_REQUEST["CmbGuias"]:"";
+
 ?>
 <html>
 <head>
@@ -299,6 +310,7 @@ function  Salir()
 			$Consulta=$Consulta." left join  proyecto_modernizacion.sub_clase t3 on t3.cod_clase=9002 and t1.rut_funcionario =t3.nombre_subclase ";
 			$Consulta=$Consulta." where fecha_hora between '".$FechaInicio."' and '".$FechaTermino."'".$Filtro;
 			$Respuesta=mysqli_query($link, $Consulta);
+			$Total=0;
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
 				echo "<tr>";
@@ -306,8 +318,8 @@ function  Salir()
 				echo "<td width='50' align='center'><a href=\"JavaScript:Historial('".$Fila["num_guia"]."')\">".$Fila["num_guia"]."</td>";
 				echo "<td width='60'  align='center'>".$Fila["nro_patente"]."</td>";
 				echo "<td width='125'  align='left'>".$Fila["nombre"]."</td>";
-				echo "<td width='50'  align='right'>".$Fila[toneladas]."</td>";
-				echo "<td width='50'  align='right'>".$Fila[valor_unitario]."</td>";
+				echo "<td width='50'  align='right'>".$Fila["toneladas"]."</td>";
+				echo "<td width='50'  align='right'>".$Fila["valor_unitario"]."</td>";
 				if ($Fila[tipo_guia]=='C')
 				{
 					echo "<td width='50'  align='center'>Camion</td>";
@@ -316,9 +328,9 @@ function  Salir()
 				{
 					echo "<td width='50'  align='center'>Buque</td>";
 				}
-				echo "<td width='110' align='left'>".$Fila[operador]."</td>";
+				echo "<td width='110' align='left'>".$Fila["operador"]."</td>";
 				echo "</tr>";
-				$Total=$Total+$Fila[toneladas];
+				$Total=$Total+$Fila["toneladas"];
 			}
 			echo "<tr class='Detalle01'>";
 			echo "<td>&nbsp;</td>";
