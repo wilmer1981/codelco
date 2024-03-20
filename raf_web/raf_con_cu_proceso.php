@@ -126,22 +126,22 @@ function Proceso(opc)
 			{
 				if($fila1["cod_leyes"] == '02')
 				{
-					$Cu = $Cu + $fila1[valor];
-					$AcumCu = $AcumCu + $fila1[valor];
+					$Cu = $Cu + $fila1["valor"];
+					$AcumCu = $AcumCu + $fila1["valor"];
 					$Cont1++;
 					$cont1++;
 				}
 				if($fila1["cod_leyes"] == '04')
 				{
-					$Ag = $Ag + $fila1[valor];
-					$AcumAg = $AcumAg + $fila1[valor];
+					$Ag = $Ag + $fila1["valor"];
+					$AcumAg = $AcumAg + $fila1["valor"];
 					$Cont2++;
 					$cont2++;
 				}
 				if($fila1["cod_leyes"] == '05')
 				{
-					$Au = $Au + $fila1[valor];
-					$AcumAu = $AcumAu + $fila1[valor];
+					$Au = $Au + $fila1["valor"];
+					$AcumAu = $AcumAu + $fila1["valor"];
 					$Cont3++;
 					$cont3++;
 				}
@@ -215,22 +215,22 @@ function Proceso(opc)
 			{
 				if($fila1["cod_leyes"] == '02')
 				{
-					$Cu = $Cu + $fila1[valor];
-					$AcumCu = $AcumCu + $fila1[valor];
+					$Cu = $Cu + $fila1["valor"];
+					$AcumCu = $AcumCu + $fila1["valor"];
 					$Cont1++;
 					$cont1++;
 				}
 				if($fila1["cod_leyes"] == '04')
 				{
-					$Ag = $Ag + $fila1[valor];
-					$AcumAg = $AcumAg + $fila1[valor];
+					$Ag = $Ag + $fila1["valor"];
+					$AcumAg = $AcumAg + $fila1["valor"];
 					$Cont2++;
 					$cont2++;
 				}
 				if($fila1["cod_leyes"] == '05')
 				{
-					$Au = $Au + $fila1[valor];
-					$AcumAu = $AcumAu + $fila1[valor];
+					$Au = $Au + $fila1["valor"];
+					$AcumAu = $AcumAu + $fila1["valor"];
 					$Cont3++;
 					$cont3++;
 				}
@@ -306,22 +306,22 @@ function Proceso(opc)
 			{
 				if($fila1["cod_leyes"] == '02')
 				{
-					$Cu = $Cu + $fila1[valor];
-					$AcumCu = $AcumCu + $fila1[valor];
+					$Cu = $Cu + $fila1["valor"];
+					$AcumCu = $AcumCu + $fila1["valor"];
 					$Cont1++;
 					$cont1++;
 				}
 				if($fila1["cod_leyes"] == '04')
 				{
-					$Ag = $Ag + $fila1[valor];
-					$AcumAg = $AcumAg + $fila1[valor];
+					$Ag = $Ag + $fila1["valor"];
+					$AcumAg = $AcumAg + $fila1["valor"];
 					$Cont2++;
 					$cont2++;
 				}
 				if($fila1["cod_leyes"] == '05')
 				{
-					$Au = $Au + $fila1[valor];
-					$AcumAu = $AcumAu + $fila1[valor];
+					$Au = $Au + $fila1["valor"];
+					$AcumAu = $AcumAu + $fila1["valor"];
 					$Cont3++;
 					$cont3++;
 				}
@@ -396,22 +396,22 @@ function Proceso(opc)
 			{
 				if($fila1["cod_leyes"] == '02')
 				{
-					$Cu = $Cu + $fila1[valor];
-					$AcumCu = $AcumCu + $fila1[valor];
+					$Cu = $Cu + $fila1["valor"];
+					$AcumCu = $AcumCu + $fila1["valor"];
 					$Cont1++;
 					$cont1++;
 				}
 				if($fila1["cod_leyes"] == '04')
 				{
-					$Ag = $Ag + $fila1[valor];
-					$AcumAg = $AcumAg + $fila1[valor];
+					$Ag = $Ag + $fila1["valor"];
+					$AcumAg = $AcumAg + $fila1["valor"];
 					$Cont2++;
 					$cont2++;
 				}
 				if($fila1["cod_leyes"] == '05')
 				{
-					$Au = $Au + $fila1[valor];
-					$AcumAu = $AcumAu + $fila1[valor];
+					$Au = $Au + $fila1["valor"];
+					$AcumAu = $AcumAu + $fila1["valor"];
 					$Cont3++;
 					$cont3++;
 				}
@@ -486,22 +486,22 @@ function Proceso(opc)
 			{
 				if($fila1["cod_leyes"] == '02')
 				{
-					$Cu = $Cu + $fila1[valor];
-					$AcumCu = $AcumCu + $fila1[valor];
+					$Cu = $Cu + $fila1["valor"];
+					$AcumCu = $AcumCu + $fila1["valor"];
 					$Cont1++;
 					$cont1++;
 				}
 				if($fila1["cod_leyes"] == '04')
 				{
-					$Ag = $Ag + $fila1[valor];
-					$AcumAg = $AcumAg + $fila1[valor];
+					$Ag = $Ag + $fila1["valor"];
+					$AcumAg = $AcumAg + $fila1["valor"];
 					$Cont2++;
 					$cont2++;
 				}
 				if($fila1["cod_leyes"] == '05')
 				{
-					$Au = $Au + $fila1[valor];
-					$AcumAu = $AcumAu + $fila1[valor];
+					$Au = $Au + $fila1["valor"];
+					$AcumAu = $AcumAu + $fila1["valor"];
 					$Cont3++;
 					$cont3++;
 				}
@@ -579,22 +579,22 @@ function Proceso(opc)
 				if($Fila["cod_leyes"] == '02')
 				{
 					$cont1++;
-					$Cu = $Cu + $Fila[valor];
-					$AcumCu = $AcumCu + $Fila[valor];
+					$Cu = $Cu + $Fila["valor"];
+					$AcumCu = $AcumCu + $Fila["valor"];
 					$Cont1++;
 				}
 				if($Fila["cod_leyes"] == '04')
 				{
 					$cont2++;
-					$Ag = $Ag + $Fila[valor];
-					$AcumAg = $AcumAg + $Fila[valor];
+					$Ag = $Ag + $Fila["valor"];
+					$AcumAg = $AcumAg + $Fila["valor"];
 					$Cont2++;
 				}
 				if($Fila["cod_leyes"] == '05')
 				{
 					$cont3++;
-					$Au = $Au + $Fila[valor];
-					$AcumAu = $AcumAu + $Fila[valor];
+					$Au = $Au + $Fila["valor"];
+					$AcumAu = $AcumAu + $Fila["valor"];
 					$Cont3++;
 				}
 		}		  	
@@ -663,22 +663,22 @@ function Proceso(opc)
 				if($Fila["cod_leyes"] == '02')
 				{
 					$cont1++;
-					$Cu = $Cu + $Fila[valor];
-					$AcumCu = $AcumCu + $Fila[valor];
+					$Cu = $Cu + $Fila["valor"];
+					$AcumCu = $AcumCu + $Fila["valor"];
 					$Cont1++;
 				}
 				if($Fila["cod_leyes"] == '04')
 				{
 					$cont2++;
-					$Ag = $Ag + $Fila[valor];
-					$AcumAg = $AcumAg + $Fila[valor];
+					$Ag = $Ag + $Fila["valor"];
+					$AcumAg = $AcumAg + $Fila["valor"];
 					$Cont2++;
 				}
 				if($Fila["cod_leyes"] == '05')
 				{
 					$cont3++;
-					$Au = $Au + $Fila[valor];
-					$AcumAu = $AcumAu + $Fila[valor];
+					$Au = $Au + $Fila["valor"];
+					$AcumAu = $AcumAu + $Fila["valor"];
 					$Cont3++;
 				}
 		}		  	
@@ -844,22 +844,22 @@ function Proceso(opc)
 					if($Fila["cod_leyes"] == '02')
 					{
 						$cont1++;
-						$Cu = $Cu + $Fila[valor];
-						$AcumCu = $AcumCu + $Fila[valor];
+						$Cu = $Cu + $Fila["valor"];
+						$AcumCu = $AcumCu + $Fila["valor"];
 						$Cont1++;
 					}
 					if($Fila["cod_leyes"] == '04')
 					{
 						$cont2++;
-						$Ag = $Ag + $Fila[valor];
-						$AcumAg = $AcumAg + $Fila[valor];
+						$Ag = $Ag + $Fila["valor"];
+						$AcumAg = $AcumAg + $Fila["valor"];
 						$Cont2++;
 					}
 					if($Fila["cod_leyes"] == '05')
 					{
 						$cont3++;
-						$Au = $Au + $Fila[valor];
-						$AcumAu = $AcumAu + $Fila[valor];
+						$Au = $Au + $Fila["valor"];
+						$AcumAu = $AcumAu + $Fila["valor"];
 						$Cont3++;
 					}
 			}		  	

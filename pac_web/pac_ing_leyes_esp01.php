@@ -1,5 +1,18 @@
 <?php
 	include("../principal/conectar_pac_web.php");
+
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbDia       = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:"";
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+
+	$CmbEK      = isset($_REQUEST["CmbEK"])?$_REQUEST["CmbEK"]:"";
+	$Leyes      = isset($_REQUEST["Leyes"])?$_REQUEST["Leyes"]:"";
+	$Valor      = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+	$Unidad      = isset($_REQUEST["Unidad"])?$_REQUEST["Unidad"]:"";
+
 	$Fecha=$CmbAno."-".$CmbMes."-".$CmbDia;
 	switch ($Proceso)
 	{
@@ -49,7 +62,7 @@
 			break;
 		case "E":
 			$Datos=explode('/',$Valores);
-			while(list($Clave,$Valor)=each($Datos))
+			foreach($Datos as $Clave => $Valor)
 			{
 				$Correlativo=$Valor;
 				$Eliminar = "delete from pac_web.leyes_por_estanques where ";

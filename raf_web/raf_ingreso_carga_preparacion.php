@@ -1475,12 +1475,12 @@ body {
 							while($fila1 = mysql_fetch_array($resp))
 							{
 								if($fila1["cod_leyes"] == '08')
-									$As = $fila1[valor];
+									$As = $fila1["valor"];
 								if($fila1["cod_leyes"] == '09')
-									$Sb = $fila1[valor];
+									$Sb = $fila1["valor"];
 
 								if($fila1["cod_leyes"] == '31')
-									$Fe = $fila1[valor];
+									$Fe = $fila1["valor"];
 							}
 							echo "<td width='8%' align='center'>".number_format($As,0,'','')."&nbsp;</td>";	
 							echo "<td width='8%' align='center'>".number_format($Sb,0,'','')."&nbsp;</td>";
@@ -1712,12 +1712,12 @@ body {
 						while($fila1 = mysql_fetch_array($resp))
 						{
 							if($fila1["cod_leyes"] == '08')
-								$As = $fila1[valor];
+								$As = $fila1["valor"];
 							if($fila1["cod_leyes"] == '09')
-								$Sb = $fila1[valor];
+								$Sb = $fila1["valor"];
 	
 							if($fila1["cod_leyes"] == '31')
-								$Fe = $fila1[valor];
+								$Fe = $fila1["valor"];
 						}
 						echo "<td width='8%' align='center'>".number_format($As,0,'','')."&nbsp;</td>";	
 						echo "<td width='8%' align='center'>".number_format($Sb,0,'','')."&nbsp;</td>";

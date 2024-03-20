@@ -171,11 +171,11 @@ function Proceso(opc)
 				  while($fila1 = mysql_fetch_array($resp2))
 				  {
 						if($fila1["cod_leyes"] == '08')
-							$As = $fila1[valor];
+							$As = $fila1["valor"];
 						if($fila1["cod_leyes"] == '09')
-							$Sb = $fila1[valor];
+							$Sb = $fila1["valor"];
 						if($fila1["cod_leyes"] == '31')
-							$Fe = $fila1[valor];
+							$Fe = $fila1["valor"];
 				  }
                   if($As !=0)
 				  {

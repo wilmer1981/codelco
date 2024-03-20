@@ -1,6 +1,21 @@
 <?php
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	//$Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Valor      = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"0.0";
+	$Unidad     = isset($_REQUEST["Unidad"])?$_REQUEST["Unidad"]:"";
+	$CmbEK      = isset($_REQUEST["CmbEK"])?$_REQUEST["CmbEK"]:"";
+	$Leyes      = isset($_REQUEST["Leyes"])?$_REQUEST["Leyes"]:"";
+
+	$CmbDia       = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:date("d");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$FechaProceso = isset($_REQUEST["FechaProceso"])?$_REQUEST["FechaProceso"]:"";
+	$FechaMuestra = isset($_REQUEST["FechaProceso"])?$_REQUEST["FechaProceso"]:"";
+
 	if ($Proceso == "M")
 	{
 		$Datos=explode('/',$Valores);
@@ -10,13 +25,13 @@
 		$result = mysqli_query($link, $sql);
 		if ($row=mysqli_fetch_array($result))
 		{
-			$CmbEK=$row[cod_estanque];
-			$CmbDia=substr($row["fecha"],8,2);
-			$CmbMes=substr($row["fecha"],5,2);
-			$CmbAno=substr($row["fecha"],0,4);
-			$Leyes=$row["cod_leyes"];
-			$Valor= $row[valor];
-			$Unidad = $row[cod_unidad];
+			$CmbEK  = $row["cod_estanque"];
+			$CmbDia = substr($row["fecha"],8,2);
+			$CmbMes = substr($row["fecha"],5,2);
+			$CmbAno = substr($row["fecha"],0,4);
+			$Leyes  = $row["cod_leyes"];
+			$Valor  = $row["valor"];
+			$Unidad = $row["cod_unidad"];
 		}
 		else
 		{
@@ -100,11 +115,11 @@ function Proceso(opt,Valores)
 			{
 				if ($CmbEK==$Fila["cod_subclase"])
 				{
-					echo "<option value='$Fila["cod_subclase"]' selected>$Fila["nombre_subclase"]</option>";
+					echo "<option value='".$Fila["cod_subclase"]."' selected>".$Fila["nombre_subclase"]."</option>";
 				}
 				else
 				{
-					echo "<option value='$Fila["cod_subclase"]'>$Fila["nombre_subclase"]</option>";
+					echo "<option value='".$Fila["cod_subclase"]."'>".$Fila["nombre_subclase"]."</option>";
 				}
 			}
 		?>
@@ -270,13 +285,13 @@ function Proceso(opt,Valores)
 			$result = mysqli_query($link, $sql);
 			while ($row = mysqli_fetch_array($result))
 			{
-				if ($Unidad == $row[cod_unidad])
+				if ($Unidad == $row["cod_unidad"])
 				{
-					echo "<option selected value='".$row[cod_unidad]."'>".strtoupper($row["abreviatura"])."</option>\n";
+					echo "<option selected value='".$row["cod_unidad"]."'>".strtoupper($row["abreviatura"])."</option>\n";
 				}
 				else
 				{
-					echo "<option value='".$row[cod_unidad]."'>".strtoupper($row["abreviatura"])."</option>\n";
+					echo "<option value='".$row["cod_unidad"]."'>".strtoupper($row["abreviatura"])."</option>\n";
 				}
 			}
 		 ?>

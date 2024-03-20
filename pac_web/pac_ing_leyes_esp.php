@@ -2,6 +2,7 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 25;
 	include("../principal/conectar_principal.php");
+
 	$sql = "select * from leyes order by cod_leyes";
 	$result = mysqli_query($link, $sql);
 	while ($row = mysqli_fetch_array($result))
@@ -11,12 +12,12 @@
 	}
 	include("../principal/cerrar_principal.php");
     $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-		$CmbMes=date('m');
-		$CmbDia=date('d');
-	}
+
+	$Buscar      = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$CmbDia       = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:date("d");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+
 ?>	
 <html>
 <head>
@@ -286,11 +287,11 @@ function Salir()
 		{
 			echo "<tr>";
 			echo "<td width='10'><input type='checkbox' name='CheckLeyes' value='$Fila[correlativo]'></td>";
-			echo "<td width='30' align='center'>$Fila[estanque]</td>";
-			echo "<td width='70' align='center'>$Fila["fecha"]</td>";
-			echo "<td width='150'>&nbsp;".$Fila["nombre_leyes"]."&nbsp;(".$Fila[cod_ley].")</td>";
-			echo "<td width='35' align='right'>$Fila[valor]</td>";
-			echo "<td width='40'>&nbsp;$Fila["abreviatura"]</td>";
+			echo "<td width='30' align='center'>".$Fila["estanque"]."</td>";
+			echo "<td width='70' align='center'>".$Fila["fecha"]."</td>";
+			echo "<td width='150'>&nbsp;".$Fila["nombre_leyes"]."&nbsp;(".$Fila["cod_ley"].")</td>";
+			echo "<td width='35' align='right'>".$Fila["valor"]."</td>";
+			echo "<td width='40'>".$Fila["abreviatura"]."</td>";
 			echo "</tr>";
 		}
       ?>		
