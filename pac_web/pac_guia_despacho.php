@@ -6,10 +6,16 @@
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Fecha_Hora = date("Y-m-d" );
 
-$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("n");
-$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
-$CmbTipoGuia = isset($_REQUEST["CmbTipoGuia"])?$_REQUEST["CmbTipoGuia"]:"";
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbTipoGuia = isset($_REQUEST["CmbTipoGuia"])?$_REQUEST["CmbTipoGuia"]:"";
+	$CheckGuia = isset($_REQUEST["CheckGuia"])?$_REQUEST["CheckGuia"]:"";
+	$TxtNumGuiaO = isset($_REQUEST["TxtNumGuiaO"])?$_REQUEST["TxtNumGuiaO"]:"";
+	$TxtNumGuiANULA = isset($_REQUEST["TxtNumGuiANULA"])?$_REQUEST["TxtNumGuiANULA"]:"";
+	
+	
+
 
 
 ?>
@@ -340,7 +346,7 @@ function Generar(Opcion)
 	echo "<select name='CmbMes' size='1' style='width:90px;' onchange='Recarga()'>";
 	for($i=1;$i<13;$i++)
 	{
-		if ($Proceso=='M')
+		if (isset($Proceso)=='M')
 		{
 			if ($i==$CmbMes)
 			{
@@ -353,7 +359,7 @@ function Generar(Opcion)
 		}
 		else
 		{
-			if ($CmbMes)
+			if (isset($CmbMes))
 			{
 				if ($i==$CmbMes)
 				{
@@ -382,7 +388,7 @@ function Generar(Opcion)
 	echo "<select name='CmbAno' size='1' style='width:70px;' onchange='Recarga()'>";
 	for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 	{
-		if ($Proceso=='M')
+		if (isset($Proceso)=='M')
 		{
 			if ($i==$CmbAno)
 			{
@@ -395,7 +401,7 @@ function Generar(Opcion)
 		}
 		else
 		{
-			if ($CmbAno)
+			if (isset($CmbAno))
 			{
 				if ($i==$CmbAno)
 					{
@@ -421,7 +427,7 @@ function Generar(Opcion)
 	}
 	echo "</select>";
 	echo "<select name='CmbTipoGuia' style='width:150' onchange='Recarga();'>";
-	switch ($CmbTipoGuia)
+	switch (isset($CmbTipoGuia))
 	{
 		case "G":
 			echo "<option value='G' selected>Creadas/Generadas</option>";
@@ -584,7 +590,7 @@ function Generar(Opcion)
 	    	echo "&nbsp; <input name='BtnAnular' type='button' id='BtnAnular' style='width:60' onClick=\"MostrarPopupProceso('A');\" value='Anular'>";
 			echo " &nbsp;";*/
 		}
-		if (($CmbTipoGuia=='V'))
+		if ($CmbTipoGuia=='V')
 		{ 
 		 	echo "<input name='BtnSalir' type='button' id='BtnCancelar' style='width:60' onClick='Salir2();' value='Salir'>";
 		}

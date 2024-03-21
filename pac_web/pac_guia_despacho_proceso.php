@@ -39,11 +39,11 @@
 	$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	
-	
+	$Correlativo = isset($_REQUEST["Correlativo"])?$_REQUEST["Correlativo"]:"";
 
 	include("../principal/conectar_pac_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	$Correlativo="";
+	
 	switch($Proceso)
 	{
 		case "M":
@@ -53,35 +53,35 @@
 				if (substr($Datos,$i,2)=="//")
 					$Guia=substr($Datos,0,$i);
 			}
-			$Consulta ="select *,t2.rut_chofer from pac_web.guia_despacho t1 ";
+			$Consulta ="SELECT *,t2.rut_chofer FROM pac_web.guia_despacho t1 ";
 			$Consulta.=" left join pac_web.choferes t2 on t1.rut_transportista = t2.rut_transportista and t1.rut_chofer=t2.rut_chofer "; 
-			$Consulta.=" where correlativo ='".$Guia."' ";
+			$Consulta.=" WHERE correlativo ='".$Guia."' ";
 			//echo $Consulta."<br>";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila1=mysqli_fetch_array($Respuesta);
 			$NumGuia=$Fila1["num_guia"];
 			$FechaGuia=$Fila1["fecha_hora"];
-			if (!isset($CmbPatente))
+			if ($CmbPatente=="")
 				$CmbPatente=$Fila1["nro_patente"];	
-			if (!isset($CmbPatenteRampla))
+			if ($CmbPatenteRampla=="")
 				$CmbPatenteRampla=$Fila1["nro_patente_rampla"];	
-			if (!isset($CmbTransp))
+			if ($CmbTransp=="")
 				$CmbTransp=$Fila1["rut_transportista"];	
-			if (!isset($CmbCliente))
+			if ($CmbCliente=="")
 				$CmbCliente=$Fila1["rut_cliente"].'~'.$Fila1["corr_interno_cliente"];	
-			if (!isset($CmbChofer))
+			if ($CmbChofer=="")
 				$CmbChofer=$Fila1["rut_chofer"];	
-			if (!isset($CmbOri))
+			if ($CmbOri=="")
 				$CmbOri=$Fila1["cod_originador"];	
 				
-			if (!isset($CmbProd))
+			if ($CmbProd=="")
 				$CmbProd=$Fila1["cod_producto"];	
 				
 				 $TxtSellos=$Fila1["sellos"];	
 				
 			$CmbBrazo=$Fila1["brazo_carga"];
 			$CmbEstanque=$Fila1["cod_estanque"];
-			if (!isset($Toneladas))
+			if ($Toneladas==0)
 				$Toneladas=$Fila1["toneladas"];
 			
 			$TxtMts=$Fila1["volumen_m3"];
@@ -366,7 +366,7 @@ function TeclaPulsada (tecla)
 		{	
 			if (($mostrar == "S") && ($i == $dia))			
 				echo "<option selected value= '".$i."'>".$i."</option>";				
-			else if (($i == date("j")) and ($mostrar != "S")) 
+			else if (($i == date("d")) and ($mostrar != "S")) 
 					echo "<option selected value= '".$i."'>".str_pad($i,2, "0",STR_PAD_LEFT)."</option>";											
 			else					
 				echo "<option value='".$i."'>".str_pad($i,2, "0",STR_PAD_LEFT)."</option>";												
@@ -379,7 +379,7 @@ function TeclaPulsada (tecla)
 		{
 			if (($mostrar == "S") && ($i == $mes))
 				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
-			else if (($i == date("n")) && ($mostrar != "S"))
+			else if (($i == date("m")) && ($mostrar != "S"))
 					echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 			else
 				echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
