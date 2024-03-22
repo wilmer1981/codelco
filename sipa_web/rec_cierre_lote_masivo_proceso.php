@@ -1,5 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php"); 
+
+$TipoRegistro = isset($_REQUEST["TipoRegistro"])?$_REQUEST["TipoRegistro"]:'';
+$TxtValores   = isset($_REQUEST["TxtValores"])?$_REQUEST["TxtValores"]:'';
+$Operacion    = isset($_REQUEST["Operacion"])?$_REQUEST["Operacion"]:'';
+$EstOpe       = isset($_REQUEST["EstOpe"])?$_REQUEST["EstOpe"]:'';
+$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:'';
+$Proc         = isset($_REQUEST["Proc"])?$_REQUEST["Proc"]:'';
+
+
+
 ?>
 <html>
 <head>
@@ -30,7 +40,6 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 	margin-left: 10px;
@@ -38,8 +47,8 @@ body {
 	margin-right: 3px;
 	margin-bottom: 6px;
 }
--->
-</style><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+</style><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
 
 <body>
 <form name="frmProceso" method="post" action="">

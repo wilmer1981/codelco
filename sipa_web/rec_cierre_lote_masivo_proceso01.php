@@ -2,7 +2,13 @@
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
 	//echo $TxtValores;
-	$RutOperador=$CookieRut;
+	$CookieRut   = $_COOKIE["CookieRut"];
+	$RutOperador = $CookieRut;
+	$TipoRegistro = isset($_REQUEST["TipoRegistro"])?$_REQUEST["TipoRegistro"]:'';
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:'';
+	$TxtValores = isset($_REQUEST["TxtValores"])?$_REQUEST["TxtValores"]:'';
+	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:'';
+
 	switch($TipoRegistro)
 	{
 		case "R":
@@ -30,7 +36,7 @@
 					$Resp=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Resp);
 					$Consulta = "SELECT leyes,impurezas from age_web.relaciones ";
-					$Consulta.= " where cod_producto='".$Fila["cod_producto"]."' and cod_subproducto='".$Fila["cod_subproducto"]."' and rut_proveedor='".$Fila[proveedor]."'";
+					$Consulta.= " where cod_producto='".$Fila["cod_producto"]."' and cod_subproducto='".$Fila["cod_subproducto"]."' and rut_proveedor='".$Fila["proveedor"]."'";
 					$Resp2=mysqli_query($link, $Consulta);
 					$Fila2=mysqli_fetch_array($Resp2);
 					//CrearSA($Datos2[0],$Datos2[1],$Fila[proveedor],'S',$Fila["cod_producto"],$Fila["cod_subproducto"],$Fila["leyes"],$Fila["impurezas"],$RutOperador);							
@@ -68,10 +74,10 @@
 				switch($TipoRegistro)
 				{
 					case "R":
-						ImprimirRecepcion($Datos2[2],$TxtNumRomana);
+						ImprimirRecepcion($Datos2[2],$TxtNumRomana,'',$link);
 						break;
 					case "D":
-						ImprimirDespachos($Datos2[2],$TxtNumRomana);
+						ImprimirDespachos($Datos2[2],$TxtNumRomana,'',$link);
 						break;
 				}
 			}	

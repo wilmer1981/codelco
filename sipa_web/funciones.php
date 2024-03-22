@@ -12,6 +12,7 @@ function ToleranciaPesaje($link)
 	
 }
 	function ImprimirRecepcion($Correlativo,$Romana,$OpeSalida,$link)
+	//function ImprimirRecepcion($Correlativo,$Romana,$link)
 	{
 		$Consulta = "SELECT t1.correlativo,t1.bascula_entrada , t1.bascula_salida, t1.rut_operador, t1.lote, t1.Correlativo, t1.peso_bruto, ";
 		$Consulta.= "t1.hora_entrada , t1.fecha, t1.recargo, t1.ult_registro, t1.conjunto, ";
@@ -939,12 +940,12 @@ function LeerArchivo($ruta, $archivo)
 {
 	$nombre=$archivo;
 	if($ruta!=""){
-		$ubicacion = 'C:/'.$ruta.'/'.$nombre;
+		$ubicacion = $ruta."/".$nombre;
 	}else{
-		$ubicacion = 'C:/'.$nombre;
+		$ubicacion = $nombre;
 	}
 	//$arc = fopen('C:/PesaMatic/'.$nombre,"r");
-	$arc = fopen($ubicacion,"r");
+	$arc = fopen('C:/'.$ubicacion,"r");
 	while(! feof($arc))  {
 		$linea = fgets($arc);
 	}

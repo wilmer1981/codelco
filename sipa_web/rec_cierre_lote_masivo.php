@@ -2,40 +2,28 @@
 	$CodigoDeSistema=24;
 	$CodigoDePantalla=10;
 	include("../principal/conectar_principal.php");
-
+	include("funciones.php");
 	/*
 	if(isset($_REQUEST["CmbTipoRegistro"])){
 		$Proceso = $_REQUEST["CmbTipoRegistro"];
 	}else{
 		$CmbTipoRegistro = "";
 	}
-*/
-if(isset($_REQUEST["TipoCon"])){
-	$TipoCon = $_REQUEST["TipoCon"];
-}else{
-	$TipoCon = "";
-}
-if(isset($_REQUEST["ObjFoco"])){
-	$ObjFoco = $_REQUEST["ObjFoco"];
-}else{
-	$ObjFoco = "";
-}
-
-if(isset($_REQUEST["CmbGrupoProd"])){
-	$CmbGrupoProd = $_REQUEST["CmbGrupoProd"];
-}else{
-	$CmbGrupoProd = "";
-}
-if(isset($_REQUEST["CmbSubProducto"])){
-	$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-}else{
-	$CmbSubProducto = "";
-}
-
-$HabilitarCmb='';
-
 	if(!isset($CmbTipoRegistro))
 		$CmbTipoRegistro='R';
+	*/
+	$CmbTipoRegistro = isset($_REQUEST["CmbTipoRegistro"])?$_REQUEST["CmbTipoRegistro"]:'R';
+	$TipoCon        = isset($_REQUEST["TipoCon"])?$_REQUEST["TipoCon"]:"";
+	$ObjFoco        = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"BtnConsultar";
+	$CmbGrupoProd   = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$OpcLote        = isset($_REQUEST["OpcLote"])?$_REQUEST["OpcLote"]:"";
+	$Orden          = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$LimitIni       = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:"";
+	$TxtNumRomana	= isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+
+    $HabilitarCmb='';
+
 	$ArrLeyes = array();
 	$Consulta = "SELECT * from proyecto_modernizacion.leyes ";
 	$RespLeyes = mysqli_query($link, $Consulta);	
@@ -44,17 +32,16 @@ $HabilitarCmb='';
 		$ArrLeyes[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];
 		$ArrLeyes[$FilaLeyes["cod_leyes"]][1] = $FilaLeyes["abreviatura"];
 	}
-	//if(!isset($ObjFoco))
-	if($ObjFoco=="")
-		$ObjFoco="BtnConsultar";
-	if(!isset($OpcLote)||$OpcLote=='N')
+//	if(!isset($ObjFoco))
+//		$ObjFoco="BtnConsultar";
+
+	//if(!isset($OpcLote)||$OpcLote=='N')
+	if($OpcLote=="" || $OpcLote=='N')
 	{
 		$EstOpc1='checked';
 		$EstOpc2='';
 		$NomBtnGrabar='Cerrar Lote';
-	}	
-	else
-	{
+	}else{
 		$EstOpc1='';
 		$EstOpc2='checked';
 		$NomBtnGrabar='Abrir Lote';
@@ -248,8 +235,8 @@ function borrar_buffer(){
 }
 </script>
 <script language="VBScript">
+	/*
 	function LeerRomana(valor)	
-
 		ubicacion = "c:\PesaMatic\bascula.txt"	
 		Set fs = CreateObject("Scripting.FileSystemObject")
 		Set file = fs.OpenTextFile(ubicacion,1,true) //Crea el archivo si no existe.
@@ -270,6 +257,7 @@ function borrar_buffer(){
 		end if
 			
 	end function 
+	*/
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -429,10 +417,10 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 <?php	
 if (isset($TipoCon) && $TipoCon!="")	
 {
-	$TxtFechaIni=date('Y-m-d');
-	$TxtFechaFin=date('Y-m-d');
-	//$TxtFechaIni='2006-03-01';
-	//$TxtFechaFin='2006-03-31';
+	//$TxtFechaIni=date('Y-m-d');
+	//$TxtFechaFin=date('Y-m-d');
+	$TxtFechaIni='2006-03-01';
+	$TxtFechaFin='2006-03-31';
 	switch($CmbTipoRegistro)
 	{
 		case "R"://RECEPCION
@@ -526,7 +514,8 @@ if (isset($TipoCon) && $TipoCon!="")
 		$Impurezas = explode('~',$Fila["impurezas"]);
 		$ArrPastas=array();
 		$ArrImpurezas=array();
-		if (strlen($Pastas)>1)
+		//if (strlen($Pastas)>1)
+		if (count($Pastas)>1)
 		{
 			foreach($Pastas as $c => $v)
 			{
@@ -534,7 +523,8 @@ if (isset($TipoCon) && $TipoCon!="")
 				$ArrPastas[$v][1]="S";
 			}
 		}
-		if (strlen($Impurezas)>1)
+		//if (strlen($Impurezas)>1)
+		if (count($Impurezas)>1)
 		{
 			foreach($Impurezas as $c => $v)
 			{
@@ -543,10 +533,10 @@ if (isset($TipoCon) && $TipoCon!="")
 			}
 		}			
 		//NOMBRE_PROV			
-		if ($Fila2["nom_proveedor"]=="")
+		if ($Fila["nom_proveedor"]=="")
 			$NomProv = $Fila["nom_proveedor"];
 		else
-			$NomProv = $Fila["rut_proveedor"];
+			$NomProv = isset($Fila["rut_proveedor"])?$Fila["rut_proveedor"]:"";
 		//SOLICITUD DEL LOTE
 		$Consulta = "SELECT distinct t2.nro_solicitud ,t2.recargo , t2.estado_actual, t3.nombre_subclase";
 		$Consulta.= " from ".$NombreTabla." t1 ";
@@ -595,8 +585,8 @@ if (isset($TipoCon) && $TipoCon!="")
 		//PASTAS
 		echo "<tr><td>PASTAS:</td><td>";
 		reset($ArrPastas);
-		$StrLeyes = "";
-		while (list($k,$v)=each($ArrPastas))
+		$StrLeyes = "";		
+		foreach($ArrPastas as $k => $v)
 		{
 			$StrLeyes = $StrLeyes.$ArrLeyes[$v[0]][1].", ";
 		}
@@ -613,7 +603,7 @@ if (isset($TipoCon) && $TipoCon!="")
 		echo "<tr><td>IMPUREZAS:</td><td>";
 		reset($ArrImpurezas);
 		$StrLeyes = "";
-		while (list($k,$v)=each($ArrImpurezas))
+		foreach($ArrImpurezas as $k => $v)
 		{
 			$StrLeyes = $StrLeyes.$ArrLeyes[$v[0]][1].", ";
 		}
@@ -626,6 +616,7 @@ if (isset($TipoCon) && $TipoCon!="")
 		{
 			echo "&nbsp;</td></tr>";
 		}
+		$Decimales=0;
 		echo "</table></div>".$Fila["patente"]."</td>\n";
 		echo "<td align='right'>".number_format($Fila["peso_bruto"],$Decimales,",",".")."</td>\n";
 		echo "<td align='right'>".number_format($Fila["peso_tara"],$Decimales,",",".")."</td>\n";
@@ -659,7 +650,16 @@ if (isset($TipoCon) && $TipoCon!="")
 <?php
 echo "<script language='JavaScript'>";
 echo "var f = document.frmPrincipal;";
-echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+//echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+$ubicacion = 'PesaMatic';
+$archivo   = 'bascula.txt';
+$Romana    = LeerArchivo($ubicacion,$archivo);
+//echo "Romana:".$Romana;
+if($Romana==""){
+	echo "f.TxtNumRomana.value='".$Romana."';";
+}else{
+	echo "f.TxtNumRomana.value=".$Romana.";";
+}
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";
 ?>
