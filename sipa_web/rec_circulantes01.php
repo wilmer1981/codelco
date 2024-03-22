@@ -2,13 +2,19 @@
 	include("../principal/conectar_principal.php");
 	require "includes/class.phpmailer.php";
 	include("funciones.php");
-	$RutOperador=$CookieRut;
+	$CookieRut   = $_COOKIE["CookieRut"];
+	$RutOperador = $CookieRut;
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TipoProceso 	= isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
+
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
 	$Resp=mysqli_query($link, $Consultar);
 	if ($Row=mysqli_fetch_array($Resp))
 	{
 		$OperSalida=strtoupper(substr($Row["nombres"],0,1)).strtoupper(substr($Row["apellido_paterno"],0,1)).strtoupper(substr($Row["apellido_materno"],0,1));		
 	}
+	
+
 	switch($Proceso)
 	{
 		case "E"://ACTUALIZAR RECEPCION
@@ -96,11 +102,11 @@
 				$rs = mysqli_query($link, $consulta);
 				if($row = mysqli_fetch_array($rs))
 				{
-					$cod_conjunto = $row[cod_conjunto];
+					$cod_conjunto = $row["cod_conjunto"];
 					$num_conjunto = $row["num_conjunto"];
-					$cod_existencia = $row[cod_existencia];
+					$cod_existencia = $row["cod_existencia"];
 					$conjunto_destino = $row["conjunto_destino"];
-					$lugar_destino = $row[lugar_destino];
+					$lugar_destino = $row["lugar_destino"];
 					$cod_lugar = $row["cod_lugar"];
 					$num_lugar = $row["num_lugar"];
 					

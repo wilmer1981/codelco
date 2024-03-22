@@ -935,10 +935,16 @@ if(!$correo->Send()) {
 }
 
 /***************Lee archivos TXT********************** */
-function LeerArchivo($archivo)
+function LeerArchivo($ruta, $archivo)
 {
 	$nombre=$archivo;
-	$arc = fopen('C:/PesaMatic/'.$nombre,"r");
+	if($ruta!=""){
+		$ubicacion = 'C:/'.$ruta.'/'.$nombre;
+	}else{
+		$ubicacion = 'C:/'.$nombre;
+	}
+	//$arc = fopen('C:/PesaMatic/'.$nombre,"r");
+	$arc = fopen($ubicacion,"r");
 	while(! feof($arc))  {
 		$linea = fgets($arc);
 	}

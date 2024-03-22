@@ -152,7 +152,7 @@ function Imprimir()
 			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
 			echo'<td align="center">'.$row["cod_existencia"].'</td>';
 			echo'<td align="center">'.$row[conjunto_destino].'</td>';
-			echo'<td align="center">'.$row[lugar_destino].'</td>';
+			echo'<td align="center">'.$row["lugar_destino"].'</td>';
 			$peso = $row["peso_humedo_movido"] + $row["estado_validacion"];
 			echo'<td align="center">'.number_format($row["peso_humedo_movido"],0,",",".").'</td>';
 			echo'<td align="center">'.$row["estado_validacion"].'</td>';
@@ -178,7 +178,7 @@ function Imprimir()
 			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
 			echo'<td align="center">'.$row["cod_existencia"].'</td>';
 			echo'<td align="center">'.$row[num_conjunto].'</td>';
-			echo'<td align="center">'.$row[lugar_destino].'</td>';
+			echo'<td align="center">'.$row["lugar_destino"].'</td>';
 			$peso = $row["peso_humedo_movido"] + $row["estado_validacion"];
 			echo'<td align="center">'.number_format($row["peso_humedo_movido"],0,",",".").'</td>';
 			echo'<td align="center">'.$row["estado_validacion"].'</td>';
@@ -248,7 +248,7 @@ function Imprimir()
 			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
 			echo'<td align="center">'.$row["cod_existencia"].'</td>';
 			echo'<td align="center">'.$row[conjunto_destino].'</td>';
-			echo'<td align="center">'.$row[lugar_destino].'</td>';
+			echo'<td align="center">'.$row["lugar_destino"].'</td>';
 			echo'<td align="center">'.$row["estado_validacion"].'</td>';
 			echo'</tr>';
 			$Peso_Total = $Peso_Total + $row["estado_validacion"];

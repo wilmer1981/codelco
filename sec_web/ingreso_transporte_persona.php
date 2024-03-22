@@ -26,7 +26,7 @@
 	  $Resp=mysqli_query($link, $Consulta);
 	  while($Fila=mysqli_fetch_array($Resp))
 	  {
-	  		echo $Fila[cod_existencia]."<br>";
+	  		echo $Fila["cod_existencia"]."<br>";
 			echo $Fila[num_conjunto]."<br>";
 			echo $Fila[conjunto_destino]."<br>";
 			echo $Fila[fecha_movimiento]."<br>";

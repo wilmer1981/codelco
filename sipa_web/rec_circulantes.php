@@ -5,6 +5,7 @@
 	$CodigoDePantalla=16;
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$EstadoInput='';
 	/*
 	if(isset($RNA))
@@ -12,49 +13,35 @@
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
 	}*/
-	if(isset($_REQUEST["ObjFoco"])){
-		$ObjFoco = $_REQUEST["ObjFoco"];
-	}else{
-		$ObjFoco = "";
-	}
-	if(isset($_REQUEST["CmbRecarga"])){
-		$CmbRecarga = $_REQUEST["CmbRecarga"];
-	}else{
-		$CmbRecarga = "";
-	}
-	if(isset($_REQUEST["Productos"])){
-		$Productos = $_REQUEST["Productos"];
-	}else{
-		$Productos = "";
-	}
-	if(isset($_REQUEST["SubProductos"])){
-		$SubProductos = $_REQUEST["SubProductos"];
-	}else{
-		$SubProductos = "";
-	}
-	if(isset($_REQUEST["Conjunto"])){
-		$Conjunto = $_REQUEST["Conjunto"];
-	}else{
-		$Conjunto = "";
-	}
-	
-	if(isset($_REQUEST["TxtNumBascula"])){
-		$TxtNumBascula = $_REQUEST["TxtNumBascula"];
-	}else{
-		$TxtNumBascula = "";
-	}
-	if(isset($_REQUEST["RNA"])){
-		setcookie("ROMANA",$RNA);
-		$TxtNumRomana=$RNA;
-	}else{
-		$RNA = "";
-	}
+		$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
+		$CmbRecarga = isset($_REQUEST["CmbRecarga"])?$_REQUEST["CmbRecarga"]:"";
+		$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+		$SubProductos = isset($_REQUEST["SubProductos"])?$_REQUEST["SubProductos"]:"";
+		$Conjunto = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
+		$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
+		$TxtBasculaTara = isset($_REQUEST["TxtBasculaTara"])?$_REQUEST["TxtBasculaTara"]:"";
+		$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
+		$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+		$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
+		$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
+		
+		
+		
+		$RNA = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
 
+		if(isset($RNA) && $RNA!=''){
+			setcookie("ROMANA",$RNA);
+			$TxtNumRomana=$RNA;
+		}else{
+			$RNA = "";
+		}
+    /*
 	if($RNA!='')	
 	{	
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
-	}
+	}*/
+	/*
 
 	if(isset($_REQUEST["TxtNumRomana"])){
 		$TxtNumRomana=$RNA;
@@ -63,61 +50,19 @@
 	}
 	if($TxtNumRomana=='')
 		$TxtNumRomana=$_COOKIE["ROMANA"];
-
-	
-	if(isset($_REQUEST["TipoProceso"])){
-		$TipoProceso = $_REQUEST["TipoProceso"];
-	}else{
-		$TipoProceso = "";
-	}
-	if(isset($_REQUEST["TxtPatente"])){
-		$TxtPatente = $_REQUEST["TxtPatente"];
-	}else{
-		$TxtPatente = "";
-	}
-	if(isset($_REQUEST["TxtCorrelativo"])){
-		$TxtCorrelativo = $_REQUEST["TxtCorrelativo"];
-	}else{
-		$TxtCorrelativo = "";
-	}
-	if(isset($_REQUEST["TxtObs"])){
-		$TxtObs = $_REQUEST["TxtObs"];
-	}else{
-		$TxtObs = "";
-	}
-	if(isset($_REQUEST["TxtFecha"])){
-		$TxtFecha = $_REQUEST["TxtFecha"];
-	}else{
-		$TxtFecha = "";
-	}
-	if(isset($_REQUEST["TxtHoraE"])){
-		$TxtHoraE = $_REQUEST["TxtHoraE"];
-	}else{
-		$TxtHoraE = "";
-	}
-	if(isset($_REQUEST["TxtHoraS"])){
-		$TxtHoraS = $_REQUEST["TxtHoraS"];
-	}else{
-		$TxtHoraS = "";
-	}
-	if(isset($_REQUEST["TxtPesoBruto"])){
-		$TxtPesoBruto = $_REQUEST["TxtPesoBruto"];
-	}else{
-		$TxtPesoBruto = "";
-	}
-	if(isset($_REQUEST["TxtPesoTara"])){
-		$TxtPesoTara = $_REQUEST["TxtPesoTara"];
-	}else{
-		$TxtPesoTara = "";
-	}
-	if(isset($_REQUEST["TxtPesoNeto"])){
-		$TxtPesoNeto = $_REQUEST["TxtPesoNeto"];
-	}else{
-		$TxtPesoNeto = "";
-	}
-	
-	
-	
+	*/
+	$TxtNumRomana	= isset($_REQUEST["TxtNumRomana"])?$RNA:"";
+	$TipoProceso 	= isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
+	$TxtPatente 	= isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+	$TitCmbCorr     = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
+	$TxtObs 		= isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+	$TxtFecha 		= isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date('Y-m-d');
+	$TxtHoraE 		= isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
+	$TxtHoraS 		= isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";
+	$TxtPesoBruto 	= isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoTara 	= isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtPesoNeto 	= isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
 		
 	switch($TxtNumBascula)
 	{
@@ -157,8 +102,9 @@
 	}	
 	$RutOperador=$CookieRut;
 	$Mensaje='';$TotalLote=0;
-	if(!isset($ObjFoco))
+	if($ObjFoco=="")
 		$ObjFoco="TxtPatente";
+
 	$Mostrar='N';$HabilitarText='';
 	//$TipoUpdate='GR';
 	function PatenteValida($Patente,$PatenteOk,$EstPatente,$Mensaje,$TxtPesoTara,$link)
@@ -188,7 +134,8 @@
 			$PatenteOk=true;
 			//$Mensaje='';
 	}
-	switch($TipoProceso)//DEFINE SI ES ENTRADA O SALIDA
+	//DEFINE SI ES ENTRADA O SALIDA
+	switch($TipoProceso)
 	{
 		case "E":
 			$EstBtnGrabar='';
@@ -316,8 +263,8 @@ function PesoAutomatico()
 {
 	setTimeout("CapturaPeso()",500);
 }	
-
- function LeerRomana(Rom)
+/*
+function LeerRomana(Rom)
 {
 	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
 	var valor="";
@@ -334,9 +281,11 @@ function PesoAutomatico()
        alert("No Existe archivo en :"+ubicacion);
 	}
 	return(valor); 
-}
-var ROMA=LeerRomana('');
- function LeerArchivo(valor)
+}*/
+//var ROMA=LeerRomana('');
+var ROMA='<?php echo LeerArchivo('PesaMatic','ROMANA.txt');?>';
+/*
+function LeerArchivo(valor)
 {
 	var ubicacion = "C:\\PesoMatic.txt";
 var valor="";
@@ -353,7 +302,7 @@ var valor="";
 		return(valor); 
 }
 
- function LeerArchivo2(valor)
+function LeerArchivo2(valor)
 {
 	var ubicacion = "C:\\PesoMatic2.txt";
 var valor="";
@@ -369,6 +318,7 @@ var valor="";
 	   }
 		return(valor); 
 }
+*/
 /*****************/
 function CapturaPeso(tipo)
 {
@@ -379,20 +329,26 @@ function CapturaPeso(tipo)
 	{
 		case "PB":
 			f.TipoProceso.value="E";
-			if(f.TxtNumBascula.value=='1')			
-				f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
-			else
-				f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+			if(f.TxtNumBascula.value=='1'){		
+				//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+			}else{
+				//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+			}
 			if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
 				f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;	
 			f.BtnGrabar.focus();	
 			break;
 		case "PT":
 			f.TipoProceso.value="S";
-			if(f.TxtNumBascula.value=='1')						
-				f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-			else
-				f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+			if(f.TxtNumBascula.value=='1'){					
+				//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
+				f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+			}else{
+				//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+				f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+			}
 			if(parseInt(f.TxtPesoTara.value)>parseInt(f.TxtPesoBruto.value))
 			{
 				PesoAux=f.TxtPesoBruto.value;
@@ -710,7 +666,8 @@ function IngresaTara()
 }
 //-->
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -718,13 +675,14 @@ body {
 	margin-bottom: 0px;
 }
 .Estilo2 {color: #FF0000}
-</style></head>
-<body <?php echo 'onload=window.document.FrmOtrosPesajes.'.$ObjFoco.'.focus()'?>>
+</style>
+</head>
+<body <?php echo 'onload=window.document.FrmOtrosPesajes.'.$ObjFoco.'.focus()';?>>
 <form action="" method="post" name="FrmOtrosPesajes" >
 <input type="hidden" name="TxtBasculaTara" value="<?php echo $TxtBasculaTara;?>">
 <input type="hidden" name="SoloTara" value="">
 <?php
-	if(!isset($TipoProceso))
+	if($TipoProceso=="")
 		echo "<input type='hidden' name='TipoProceso' value=''>";
 	else
 		echo "<input type='hidden' name='TipoProceso' value='$TipoProceso'>";
@@ -769,20 +727,17 @@ body {
 		$Color='000000';
 	if($TxtNumRomana==1 && $TxtNumBascula==1)	
 		{$Valor=1;$Color='FF0000';}
-		if($TxtNumRomana==1 && $TxtNumBascula==2)	
+	if($TxtNumRomana==1 && $TxtNumBascula==2)	
 		{$Valor=2;$Color='009933';}
-			if($TxtNumRomana==2 && $TxtNumBascula==1)	
+	if($TxtNumRomana==2 && $TxtNumBascula==1)	
 		{$Valor=3;$Color='FF0000';}
-			if($TxtNumRomana==2 && $TxtNumBascula==2)	
+	if($TxtNumRomana==2 && $TxtNumBascula==2)	
 		{$Valor=4;$Color='009933';}
 			
 		
 	?>
 	<input type="text" name="TxtBasculaAux" class="InputCen" value="<?php echo $Valor;?>" size="2" readonly style="background:#<?php echo $Color;?>">	
-	<?php	
-
-	
-	echo $BasculaA;?>
+	<?php echo $BasculaA;?>
 	<input name="OptBascula" type="radio" value="radiobutton" onClick="SeleccionBascula('1')" <?php echo $EstOptBascula;?>>
 	<?php echo $BasculaB;?>
 	<input name="OptBascula" type="radio" value="radiobutton" onClick="SeleccionBascula('2')" <?php echo $EstOptBascula2;?>>
@@ -803,7 +758,7 @@ body {
     <td align="right" class="ColorTabla02">Correlativo:</td>
 	<td class="ColorTabla02">
 	<?php
-		if(!isset($TipoProceso)||$TipoProceso=='E')
+	if($TipoProceso=="" || $TipoProceso=='E')
 	{
 	?>
     <input <?php echo $EstadoInput; ?> name="TxtCorrelativo" type="text" class="InputCen" id="TxtCorrelativo" value="<?php echo $TxtCorrelativo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');" readonly>      
@@ -1022,7 +977,9 @@ if($Mensaje!='')
 }
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmOtrosPesajes;";
-echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
+$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
+echo "f.TxtNumRomana.value=".$Romana.";";
+//echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";
 

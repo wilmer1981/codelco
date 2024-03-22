@@ -186,9 +186,9 @@ function Modificar()
 				echo '<input type="hidden" name="nombre_conjunto_d" size="3" value="'.$row3["descripcion"].'">';//11
 
 				echo '<input type="hidden" name="cod_lugar_d" size="3" value="'.$row[cod_lugar_destino].'">';//12
-				echo '<input type="hidden" name="num_lugar_d" size="3" value="'.$row[lugar_destino].'">';//13
+				echo '<input type="hidden" name="num_lugar_d" size="3" value="'.$row["lugar_destino"].'">';//13
 				
-				$Consulta = "SELECT * FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = $row[cod_lugar_destino] AND num_lugar = $row[lugar_destino]";
+				$Consulta = "SELECT * FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = $row[cod_lugar_destino] AND num_lugar = $row["lugar_destino"]";
 				$rs5 = mysqli_query($link, $Consulta);
 
 				if($row5 = mysqli_fetch_array($rs5))
