@@ -34,7 +34,7 @@
 if($ElimVirtual=='S')
 {
 	$Eliminar="delete from instruccion_virtual where corr_virtual='".$CorrEnmVirElim."'";
-	//echo $Eliminar;
+	echo $Eliminar;
 	mysqli_query($link, $Eliminar);
 	
 	header("location:sec_programa_adm_loteo.php?TipoIE=Virtual&Msj=Intrucci�n Eliminada con �xito.");
@@ -42,6 +42,7 @@ if($ElimVirtual=='S')
 else
 {
 	//poly Lote Despachado//
+	//echo "Entroooo";
 	if (($CodLote == "") || ($NumLote == "") && ($Proceso == 'F'))
 	{
 		//echo "hola".$Proceso;

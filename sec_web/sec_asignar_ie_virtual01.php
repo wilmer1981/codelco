@@ -3,9 +3,8 @@
 	//echo $Valores."<br>";
 	//echo $Valores2."<br>";
 
-	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	$Valores2 = isset($_REQUEST["Valores2"])?$_REQUEST["Valores2"]:"";
-
+	$Valores        = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Valores2       = isset($_REQUEST["Valores2"])?$_REQUEST["Valores2"]:"";
 	$CmbLoteInicial = isset($_REQUEST["CmbLoteInicial"])?$_REQUEST["CmbLoteInicial"]:"";
 
 	$Datos=explode('//',$Valores);

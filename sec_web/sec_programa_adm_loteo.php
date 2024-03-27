@@ -5,8 +5,17 @@
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 	$TipoIE = isset($_REQUEST["TipoIE"])?$_REQUEST["TipoIE"]:"Normal";
+	$OpcTipoIE = isset($_REQUEST["OpcTipoIE"])?$_REQUEST["OpcTipoIE"]:"";
 	$Error  = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"Error";
 	$Salir  = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+/*
+	OpcTipoIE: 
+CheckProgLoteo: 
+NumProgLoteo: 
+CheckFecha:
+*/ 
+
+	
 
 	$Msj    = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
 	//$Mensaje    = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
@@ -335,7 +344,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 	  <tr>
 	
 	  <?php
-	 // echo "HHH".$TipoIE;
+	  echo "HHH".$TipoIE;
 			
 			switch ($TipoIE)
 			{
@@ -633,6 +642,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 			$TotalPesoPrep=0;
 			echo "<input type='hidden' name='CheckProgLoteo'><input type='hidden' name ='NumProgLoteo'><input type='hidden' name='CheckFecha'><input type='hidden' name='OptSeleccionar'>";
 			$Cont2=0; //WSO
+			//var_dump($Respuesta);
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				if (($TipoIE=='Normal')||($TipoIE=='Completas')||($TipoIE=='Ventanas')||($TipoIE=='NormalVentanas'))
@@ -657,7 +667,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 						$Consulta="SELECT t1.cod_bulto,t1.num_bulto,t1.cod_marca,sum(t2.peso_paquetes) as peso_preparado,t1.fecha_creacion_lote as fecha from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 on ";
 						$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete ";
 					//	$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t2.cod_subproducto=".$Fila["cod_subproducto"]." and t1.cod_estado='a' and t2.cod_estado='a' group by t1.corr_enm,t1.cod_bulto,t1.num_bulto order by t1.fecha_creacion_lote desc";
-      				$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]."  and t1.cod_estado='a' and t2.cod_estado='a' group by t1.corr_enm,t1.cod_bulto,t1.num_bulto order by t1.fecha_creacion_lote desc";
+      				    $Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]."  and t1.cod_estado='a' and t2.cod_estado='a' group by t1.corr_enm,t1.cod_bulto,t1.num_bulto order by t1.fecha_creacion_lote desc";
                             //se agrega a la consulta el subproducto ya que se repinten paquetes en difentes lotes 13-02-2008 poly
                         //  echo "VV".$Consulta;
 						//$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
@@ -678,7 +688,10 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$cod_bulto      = isset($Fila2["cod_bulto"])?$Fila2["cod_bulto"]:"";
 					$num_bulto      = isset($Fila2["num_bulto"])?$Fila2["num_bulto"]:"";
 					$cod_marca      = isset($Fila2["cod_marca"])?$Fila2["cod_marca"]:"";
-					$estado         = isset($Fila2["estado"])?$Fila2["estado"]:"";
+					$estado         = isset($Fila["estado"])?$Fila["estado"]:"";
+
+					//echo "cod_marca:".$cod_marca;
+					//echo "<br>Estado:".$estado."<br>";
 
 					echo "<td width='10' align='center'><input type='radio' name='OptSeleccionar' value='".$corr_ie."~~".$producto."~~".$subproducto."~~".$cod_producto."~~".$cod_subproducto."~~".($cantidad_programada*1000)."~~".$tipoie."~~".$peso_preparado."~~".$cod_bulto."~~".$num_bulto."~~".$cod_marca."~~".$estado."'></td>";
 					//echo "<td width='10' align='center'><input type='radio' name='OptSeleccionar' value='".$Fila["corr_ie"]."~~".$Fila["producto"]."~~".$Fila["subproducto"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."~~".($Fila["cantidad_programada"]*1000)."~~".$Fila["tipoie"]."~~".$Fila2["peso_preparado"]."~~".$Fila2["cod_bulto"]."~~".$Fila2["num_bulto"]."~~".$Fila2["cod_marca"]."~~".$Fila["estado"]."'></td>";
@@ -687,7 +700,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					echo "<div id='Txt".$Cont2."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:550px'>\n";
 					echo "<font face='courier' color='#000000' size=1><b>Producto:&nbsp;</b>".$producto."&nbsp;<b>Sub-Producto:&nbsp;</b>".$subproducto." </font><br>";
 					echo "<font face='courier' color='#000000' size=1><b>Puerto Embarque: </b>".$Fila["pto_emb"]."&nbsp;<b>Puerto Destino: </b>".$Fila["pto_destino"]."</font><br>";
-					echo "<font face='courier' color='#000000' size=1><b>Descripcion: </b>".$Valor["descripcion"]."</font><br>";
+					echo "<font face='courier' color='#000000' size=1><b>Descripcion: </b>".$Fila["descripcion"]."</font><br>";
 					echo "</div>".$corr_ie."</td>";
 					echo "<td width='160'>".$subproducto."&nbsp;</td>";
 					echo "<td width='160'>".$Fila["cliente_nave"]."&nbsp;</td>";
@@ -724,11 +737,15 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 						//$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
 					//echo "PPP".$Consulta."<br>";
 						$Respuesta2=mysqli_query($link, $Consulta);
+
+						//var_dump($Respuesta2);
+
 						$Fila2=mysqli_fetch_array($Respuesta2);
 						//if($Fila["corr_ie"]=='904807')
+						echo $Fila2;
 												
 						$Cont2++;
-
+                        
 						$corr_ie = isset($Fila["corr_ie"])?$Fila["corr_ie"]:"";
 						$producto = isset($Fila["producto"])?$Fila["producto"]:"";
 						$subproducto = isset($Fila["subproducto"])?$Fila["subproducto"]:"";
@@ -741,14 +758,14 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 						$cod_bulto      = isset($Fila2["cod_bulto"])?$Fila2["cod_bulto"]:"";
 						$num_bulto      = isset($Fila2["num_bulto"])?$Fila2["num_bulto"]:"";
 						$cod_marca      = isset($Fila2["cod_marca"])?$Fila2["cod_marca"]:"";
-						$estado         = isset($Fila2["estado"])?$Fila2["estado"]:"";
+						$estado         = isset($Fila["estado"])?$Fila["estado"]:"";
 
 						if($Fila["subproducto"]=='')
 							echo "<td width='20' align='center'><a href=JavaScript:EliminaVirtual('ELVir','".$Fila["corr_ie"]."','".$TipoIE."') class='SinBorde'><img src='../principal/imagenes/eliminar.png' border='0'></a></td>";
 						else
 							echo "<td width='20' align='center'>&nbsp;</td>";
 
-						echo "<td width='20' align='center'><input type='radio' name='OptSeleccionar' value='".$corr_ie."~~".$producto."~~".$subproducto."~~".$cod_producto."~~".$cod_subproducto."~~".($cantidad_programada*1000)."~~".$tipoie."~~".$peso_preparado."~~".$cod_bulto."~~".$num_bulto."~~".$cod_marca."'></td>";
+						echo "<td width='20' align='center'><input type='radio' name='OptSeleccionar' value='".$corr_ie."~~".$producto."~~".$subproducto."~~".$cod_producto."~~".$cod_subproducto."~~".($cantidad_programada*1000)."~~".$tipoie."~~".$peso_preparado."~~".$cod_bulto."~~".$num_bulto."~~".$cod_marca."~~".$estado."'></td>";
 						echo "<td width='40'>".$corr_ie."</td>";
 						echo "<td width='260'>".$subproducto."&nbsp;</td>";
 						echo "<td width='100' align='center'>".$Fila["fecha_disponible"]."</td>";

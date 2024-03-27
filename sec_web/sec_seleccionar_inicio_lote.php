@@ -4,6 +4,9 @@
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$Valores2 = isset($_REQUEST["Valores2"])?$_REQUEST["Valores2"]:"";
 
+	$CodBulto="";
+	$NumBulto="";
+	$CodMarca="";
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
 	{

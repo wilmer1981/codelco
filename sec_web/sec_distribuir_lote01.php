@@ -4,6 +4,11 @@
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$Tipo    = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+
+	$TxtCodBultoIni    = isset($_REQUEST["TxtCodBultoIni"])?$_REQUEST["TxtCodBultoIni"]:"";
+	$TxtNumBultoIni    = isset($_REQUEST["TxtNumBultoIni"])?$_REQUEST["TxtNumBultoIni"]:0;
+	$TxtCodBultoFin    = isset($_REQUEST["TxtCodBultoFin"])?$_REQUEST["TxtCodBultoFin"]:"";
+	$TxtNumBultoFin    = isset($_REQUEST["TxtNumBultoFin"])?$_REQUEST["TxtNumBultoFin"]:0;
 	
 	switch ($Proceso)
 	{
@@ -31,7 +36,7 @@
 			{
 				$IEVirtual=$Fila["numero"]+1;
 			}
-			$TxtNumBultoFin=$TxtNumBultoFin+1;
+			$TxtNumBultoFin = $TxtNumBultoFin + 1;
 			$Consulta="SELECT sum(t2.peso_paquetes) as peso_preparado from sec_web.lote_catodo t1 inner";
 			$Consulta=$Consulta." join sec_web.paquete_catodo t2 on ";
 			$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete ";
@@ -71,10 +76,10 @@
 			echo "</script>";
 			break;
 		case "C":
-			$TxtCodBultoIni;
-			$TxtNumBultoIni;
-			$TxtCodBultoFin;
-			$TxtNumBultoFin;
+			//$TxtCodBultoIni;
+			//$TxtNumBultoIni;
+			//$TxtCodBultoFin;
+			//$TxtNumBultoFin;
 			$Consulta="SELECT sum(t2.peso_paquetes) as peso from sec_web.lote_catodo t1 inner join paquete_catodo t2 on";
 			$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete=t2.num_paquete where t1.cod_bulto='".$TxtCodBultoIni."' and t1.num_bulto=".$TxtNumBultoIni;
 			$Consulta=$Consulta." and t1.num_paquete between ".$TxtNumBultoIni." and ".$TxtNumBultoFin;
@@ -158,8 +163,10 @@
 				$Fila=mysqli_fetch_array($Respuesta);
 				$Paquetes=$Fila["cant_paquetes"];
 				$Hornada=date('Y').$CodLetra.$NumBulto.$CodLetra;
+
 				$Insertar="INSERT INTO sec_web.traspaso (hornada,fecha_traspaso,peso,unidades,fecha_creacion_lote,cod_producto,cod_subproducto,cod_bulto,num_bulto,sw) values (";
-				$Insertar=$Insertar."'$Hornada','$FechaTraspaso','$PesoLote','$Paquetes','$FechaCreacionLote','$CodProducto','$CodSubProducto','$CodBulto','$NumBulto','$Tipo')";
+				$Insertar.="'$Hornada','$FechaTraspaso','$PesoLote','$Paquetes','$FechaCreacionLote','$CodProducto','$CodSubProducto','$CodBulto','$NumBulto','$Tipo')";
+				//echo $Insertar;
 				mysqli_query($link, $Insertar);
 				//INSERTA EN TABLA sea_web.movimientos
 				if ($Tipo==1)
@@ -184,7 +191,7 @@
 
 					//INSERTA EN TABLA sea_web.hornadas     
 					$InsertHor="INSERT INTO sea_web.hornadas (cod_producto,cod_subproducto,hornada_ventana,unidades,peso_unidades,Analizada,estado)";
-					$InsertHor=$InsertHor." values($CodProducto,$CodSubProducto,$Hornada,$Paquetes,$PesoLote,'N',0)";
+					$InsertHor=$InsertHor." values('$CodProducto','$CodSubProducto','$Hornada','$Paquetes','$PesoLote','N',0)";
 					 mysqli_query($link, $InsertHor);
 			}
 				//UPDATE DE CORR_ENM,COD_ESTADO DE LOTE Y COD_ESTADO PAQUETES
@@ -198,10 +205,15 @@
 					$Consulta="SELECT cod_paquete,num_paquete,fecha_creacion_paquete,peso_paquetes from sec_web.paquete_catodo  where cod_paquete='".$Fila["cod_paquete"]."' and num_paquete=".$Fila["num_paquete"]." and cod_estado='a'";
 					$Respuesta2=mysqli_query($link, $Consulta);
 					$Fila2=mysqli_fetch_array($Respuesta2);
-					$Insertar="INSERT INTO sec_web.det_traspaso (hornada,cod_paquete,num_paquete,fecha_creacion_paquete,peso_paquete) values (";
-					$Insertar=$Insertar."$Hornada,'".$Fila2["cod_paquete"]."',".$Fila2["num_paquete"].",'".$Fila2[fecha_creacion_paquete]."',".$Fila2["peso_paquetes"].")";	
+					$cod_paquete= isset($Fila2["cod_paquete"])?$Fila2["cod_paquete"]:"";
+					$num_paquete= isset($Fila2["num_paquete"])?$Fila2["num_paquete"]:"";
+					$fecha_creacion_paquete= isset($Fila2["fecha_creacion_paquete"])?$Fila2["fecha_creacion_paquete"]:"";
+					$peso_paquetes= isset($Fila2["peso_paquetes"])?$Fila2["peso_paquetes"]:"";
+					
+					$Insertar="INSERT INTO sec_web.det_traspaso (hornada,cod_paquete,num_paquete,fecha_creacion_paquete,peso_paquete)";
+					$Insertar=$Insertar." values('$Hornada','$cod_paquete','$num_paquete','$fecha_creacion_paquete','$peso_paquetes')";	
 					mysqli_query($link, $Insertar);
-					$Actualizar="UPDATE sec_web.paquete_catodo set cod_estado='c' where cod_paquete='".$Fila["cod_paquete"]."' and num_paquete=".$Fila["num_paquete"]." and cod_estado='a'";
+					$Actualizar="UPDATE sec_web.paquete_catodo set cod_estado='c' where cod_paquete='".$Fila["cod_paquete"]."' and num_paquete='".$Fila["num_paquete"]."' and cod_estado='a'";
 					mysqli_query($link, $Actualizar);
 				}
 				$Eliminar="delete from sec_web.instruccion_virtual where corr_virtual=".$IE;

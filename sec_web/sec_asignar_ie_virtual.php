@@ -5,7 +5,6 @@
 	//$Salir = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
 
 	echo "Valores:".$Valores;
-	//Valores:63838 ~~ CATODOS ~~ CATODOS GRADO A ~~ 18 ~~ 40 ~~ 200000 ~~ C~~ ~~ ~~ ~~ ~~
 
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
@@ -102,20 +101,17 @@ function RecuperarValores(PesoPreparado)
 	var Frm=document.FrmAsigVirtual;
 	var Valores=new String();
 	var Peso=0;
-	var PesoIE=0;
-	
+	var PesoIE=0;	
 	Peso=parseInt(PesoPreparado);
 	for (i=1;i<Frm.OptSeleccionar.length;i++)
 	{
 		if (Frm.OptSeleccionar[i].checked==true)
 		{
-			Peso=Peso+parseInt(Frm.TxtPeso[i].value);
+			Peso=Peso + parseInt(Frm.TxtPeso[i].value);
 			Valores=Valores + Frm.OptSeleccionar[i].value +"//";
 		}
 	}
 	PesoIE=parseInt(Frm.PesoIE.value);
- 
-
 	//if ((Peso <  PesoIE - 600 ) || (Peso > PesoIE + 300))
 	if (Peso > PesoIE)
 	{
