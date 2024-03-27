@@ -1,8 +1,18 @@
-<? 	
+<?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 37;
 	include("../principal/conectar_sec_web.php");
-	$Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	//$Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$CmbBascula = isset($_REQUEST["CmbBascula"])?$_REQUEST["CmbBascula"]:"";
+	
+	$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+
+	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 
 ?>
 <html>
@@ -74,7 +84,7 @@ function Salir()
 <link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
 <form name="FrmConsultaPatron" method="post" action="">
-  <? include("../principal/encabezado.php")?>
+  <?php include("../principal/encabezado.php")?>
   
  <table width="768" height="350" border="0" class="TablaPrincipal" left="6" cellpadding="6" cellspacing="0">
 	  <tr>
@@ -83,7 +93,7 @@ function Salir()
       <tr>
       <td width="86">Fecha Inicio: </td>
       <td width="259"><select name="DiaIni" id="DiaIni" style="width:50px;">
-          <?
+          <?php
 	  	for ($i = 1;$i <= 31; $i++)
 		{
 			if (isset($DiaIni))
@@ -102,7 +112,7 @@ function Salir()
 		}
 	  ?>
         </select> <select name="MesIni" id="MesIni" style="width:90px;">
-          <?
+          <?php
 		for ($i = 1;$i <= 12; $i++)
 		{
 			if (isset($MesIni))
@@ -120,7 +130,7 @@ function Salir()
 		}
 		?>
         </select> <select name="AnoIni" id="AnoIni" style="width:60px;">
-          <?
+          <?php
 		for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
 		{
 			if (isset($AnoIni))
@@ -140,7 +150,7 @@ function Salir()
         </select></td>
       <td width="119">Fecha Termino:</td>
       <td width="265"><select name="DiaFin" id="DiaFin"  style="width:50px;">
-          <?
+          <?php
 	  	for ($i = 1;$i <= 31; $i++)
 		{
 			if (isset($DiaFin))
@@ -158,7 +168,7 @@ function Salir()
 		}
 	  ?>
         </select> <select name="MesFin"  id="MesFin" style="width:90px;">
-          <?
+          <?php
 		for ($i = 1;$i <= 12; $i++)
 		{
 			if (isset($MesFin))
@@ -176,7 +186,7 @@ function Salir()
 		}
 		?>
         </select> <select name="AnoFin"  id="AnoFin" style="width:60px;">
-          <?
+          <?php
 		for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
 		{
 			if (isset($AnoFin))
@@ -200,7 +210,7 @@ function Salir()
     <td width="119">B&aacute;scula:</td>
      <td  colspan="3"><select name="CmbBascula"  id="CmbBascula" >
          <option selected value='T'>TODOS</option>
-      		<?
+      		<?php
 			
 			$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3112";
 			$Resp=mysqli_query($link, $Consulta);
@@ -224,7 +234,7 @@ function Salir()
       </td>
     </tr>
   </table>
-  <? if($Buscar=='S')
+  <?php if($Buscar=='S')
   {
 	  
 	  
@@ -250,7 +260,7 @@ function Salir()
         <br>
         <table width="730" border="1" align="center" cellpadding="2" cellspacing="1"  class="TablaDetalle">
          <tr> 
-             <td colspan="9"><div align="center">Periodo: <strong>Desde :</strong><? echo $Fechainiturno;?>  <strong>Hasta :</strong><? echo $Fechafturno;?></div></td>
+             <td colspan="9"><div align="center">Periodo: <strong>Desde :</strong><?php echo $Fechainiturno;?>  <strong>Hasta :</strong><?php echo $Fechafturno;?></div></td>
  
           </tr>
           <tr class="ColorTabla01"> 
@@ -262,7 +272,7 @@ function Salir()
      
             </tr>
          
-			<?  
+			<?php  
 			$cont = 1;			
 			$Consulta1=" select t1.*,t2.nombres,t2.apellido_paterno,t2.apellido_materno from sec_web.sec_registro_peso_patron t1 left join proyecto_modernizacion.funcionarios t2 on t1.usuario=t2.rut ";
 			$Consulta1.=" where (t1.fecha_registro  BETWEEN  '".$Fechainiturno."' and  '".$Fechafturno."' )";
@@ -285,25 +295,25 @@ function Salir()
 				$NombreUser = ucwords(strtolower($PrimerNombre))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".strtoupper(substr($Fila["apellido_materno"],0,1)).".";
 				?>
                 <tr>
-				<td><? echo $cont;?></td>
-				<td><? echo $Fila[fecha_registro];?></td>
-				<td><? echo $Fila[descripcion];?></td>
-				<td align="right"><? echo number_format($Fila[peso],1,',','.');?></td>
-				<td><? echo $NombreUser;?></td>
+				<td><?php echo $cont;?></td>
+				<td><?php echo $Fila["fecha_registro"];?></td>
+				<td><?php echo $Fila["descripcion"];?></td>
+				<td align="right"><?php echo number_format($Fila["peso"],1,',','.');?></td>
+				<td><?php echo $NombreUser;?></td>
 				</tr>
-				<?	
+				<?php	
 				$cont++;
 			}
 			
 			?>
         </table> 
         
-        <? }
+        <?php }
 		?>
         </td>
     </tr>
   </table>
-  <? include("../principal/pie_pagina.php")?>
+  <?php include("../principal/pie_pagina.php")?>
 </form>
 </body>
 </html>

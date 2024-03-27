@@ -1,7 +1,8 @@
 <?php 	
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -21,7 +22,17 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 37;
 	include("../principal/conectar_sec_web.php");
-	$Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	//$Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$CmbBascula = isset($_REQUEST["CmbBascula"])?$_REQUEST["CmbBascula"]:"";
+	
+	$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+
+	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 
 ?>
 <html>
@@ -86,7 +97,7 @@
 				?>
                 <tr>
 				<td><?php echo $cont;?></td>
-				<td><?php echo $Fila[fecha_registro];?></td>
+				<td><?php echo $Fila["fecha_registro"];?></td>
 				<td><?php echo $Fila["descripcion"];?></td>
 				<td align="right"><?php echo number_format($Fila["peso"],1,',','.');?></td>
 				<td><?php echo $NombreUser;?></td>
