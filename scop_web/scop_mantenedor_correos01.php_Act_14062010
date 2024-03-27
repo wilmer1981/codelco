@@ -8,7 +8,7 @@
 	{  
 		case "N"://Grabar Correo
 				$Consulta="select max(cod_subclase+1) as maximo from proyecto_modernizacion.sub_clase where cod_clase='33007' ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					$CodSubclase=$Fila["maximo"];

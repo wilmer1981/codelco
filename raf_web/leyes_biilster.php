@@ -39,7 +39,7 @@
 		}	
 		//NUMERO SEMANA
 		$Consulta = "select week('".$FechaAux."') as num_semana";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$Fila2 = mysql_fetch_array($Resp2);
 		$NumSemana = $Fila2["num_semana"];			
 		//LEYES SEMANALES				
@@ -61,7 +61,7 @@
 			$Consulta.= " and (t2.cod_leyes = '02' or t2.cod_leyes = '04' or t2.cod_leyes = '05')";						
 		$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 		$Consulta.= " order by t1.id_muestra, t2.cod_leyes";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{	
 			for ($j=$PriDia;$j<=$UltDia;$j++)	

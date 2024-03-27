@@ -179,7 +179,7 @@ function TarjetaProvisoria(Rut)
 				if($BuscarEmp=='S'&&$TxtBuscaEmp!='')
 					$Consulta.=" and upper(razon_social) like '%".strtoupper($TxtBuscaEmp)."%'";
 				$Consulta.=" order by razon_social";	
-				$RespEmp=mysql_query($Consulta);
+				$RespEmp=mysqli_query($link, $Consulta);
 				while($FilaEmp=mysql_fetch_array($RespEmp))
 				{
 					if(strtoupper($FilaEmp[rut_empresa])==strtoupper($CmbEmpresa))
@@ -276,7 +276,7 @@ function TarjetaProvisoria(Rut)
 				}
 				$Consulta.="order by ape_paterno";
 				echo "<input type='hidden' name='CheckPers'>";
-				$RespPersona=mysql_query($Consulta);
+				$RespPersona=mysqli_query($link, $Consulta);
 				while($FilaPersona=mysql_fetch_array($RespPersona))
 				{
 					echo "<tr bgcolor='#FFFFFF'>";
@@ -297,7 +297,7 @@ function TarjetaProvisoria(Rut)
 						echo "<td align='center'><a href=javascript:TarjetaProvisoria('".$FilaPersona["rut"]."')>Tarjeta Provisoria</a></td>";
 					//include("../principal/conectar_ssgc.php");
 					$Consulta="SELECT * from sget_contratistas where rut_empresa='".$FilaPersona[rut_empresa]."'";
-					$RespEmp=mysql_query($Consulta);
+					$RespEmp=mysqli_query($link, $Consulta);
 					if($FilaEmp=mysql_fetch_array($RespEmp))
 						echo "<td><a href='sget_info_empresa.php?Emp=".$FilaPersona[rut_empresa]."' target='_blank'><img src='archivos/info2.png'  alt='Informaci�n Empresa' border='0' width='23' height='23' align='absmiddle' /></a>&nbsp;".FormatearNombre($FilaEmp[razon_social])."&nbsp;</td>";
 					else

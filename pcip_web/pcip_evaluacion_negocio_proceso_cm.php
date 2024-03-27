@@ -25,7 +25,7 @@
                  <option value="T" class="Selected">Seleccionar</option>
                  <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31037' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbLey==$Fila["cod_subclase"])
@@ -42,7 +42,7 @@
                             <option value="T" class="Selected">Seleccionar</option>
                             <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31013' and cod_subclase in('1','19','20') ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbUnidad==$Fila["cod_subclase"])
@@ -57,7 +57,7 @@
                             <option value="-1" selected="selected" class="Selected">Seleccionar</option>
                             <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31036' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbDivMat==$Fila["cod_subclase"])
@@ -78,7 +78,7 @@
 				   $ArraLeyes=array();
 				   $Consulta="select nombre_subclase as nom_ley,t1.cod_ley from pcip_eva_negocios_material t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31037' and t1.cod_ley=t2.cod_subclase ";
 				   $Consulta.=" where t1.corr='".$Cod."' group by t1.cod_ley order by cod_ley";
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		echo "<td width='15%' align='center' class='TituloCabecera' colspan='2'>".$Fila[nom_ley]."</td>";	
@@ -90,7 +90,7 @@
 				   $Consulta="select nombre_subclase as nom_div,cod_subclase as cod_div from pcip_eva_negocios_material t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31036' and t1.cod_division=t2.cod_subclase ";
 				   $Consulta.=" where t1.corr='".$Cod."' group by t1.cod_division order by cod_division";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		echo "<tr>";
@@ -101,7 +101,7 @@
 						{
 						   $Consulta="select t1.valor,t2.nombre_subclase as nom_unidad from pcip_eva_negocios_material t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31013' and t1.cod_unidad=t2.cod_subclase ";
 						   $Consulta.=" where t1.corr='".$Cod."' and t1.cod_division='".$Fila[cod_div]."' and t1.cod_ley='".$v."' order by t1.cod_ley";
-						   $Resp2=mysql_query($Consulta);
+						   $Resp2=mysqli_query($link, $Consulta);
 						   if($Fila2=mysql_fetch_array($Resp2))
 						   {
 								echo "<td width='15%' align='center'>".number_format($Fila2[valor],2,',','.')."&nbsp;".$Fila2[nom_unidad]."</td>";

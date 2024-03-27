@@ -359,7 +359,7 @@ function Salir(f)
                 <?
 	$Consulta = "SELECT distinct(T1.RUT), CONCAT(T2.APELLIDO_PATERNO, ' ', T2.APELLIDO_MATERNO, ' ', T2.NOMBRES) AS NOMBRE ";
 	$Consulta.= " FROM proyecto_modernizacion.CONTROL_ACCESO T1 INNER JOIN proyecto_modernizacion.FUNCIONARIOS T2 ON T1.RUT = T2.RUT  ORDER BY NOMBRE";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($Respuesta))
 	{
 		echo "<option value='".$Row[RUT]."'>".$Row["nombre"]."</option>\n";
@@ -373,7 +373,7 @@ function Salir(f)
                 <option value="S">Todos</option>
                 <?
 	$Consulta = "SELECT * FROM proyecto_modernizacion.SISTEMAS ORDER BY COD_SISTEMA";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($Respuesta))
 	{
 		echo "<option value='".$Row[cod_sistema]."'>".ucwords(strtolower($Row["descripcion"]))."</option>\N";

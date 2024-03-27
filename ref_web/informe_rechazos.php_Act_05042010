@@ -391,7 +391,7 @@ function Excel()
 					         $Consulta =$Consulta."ifnull(sum(cordon_superior),0) as cs, ifnull(sum(cordon_lateral),0) as cl, ifnull(sum(otros),0) as ot from cal_web.rechazo_catodos as t1 " ;
 					         $Consulta = $Consulta."where fecha= '".$Fila_fecha["fecha"]."' group by grupo order by fecha,grupo,turno";
 							
-							 $Respuesta2 = mysql_query($Consulta);
+							 $Respuesta2 = mysqli_query($link, $Consulta);
 					         $pasada='S';
 					         while ($Fila2 = mysql_fetch_array($Respuesta2))
 							  {

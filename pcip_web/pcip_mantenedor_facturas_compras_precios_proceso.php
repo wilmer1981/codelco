@@ -23,7 +23,7 @@ if ($Opc=='M')
 	$Consulta="select * from pcip_fac_compra_precios t1 ";
 	$Consulta.=" where t1.ano='".$Datos[0]."'and t1.mes='".$Datos[1]."'and t1.cod_fino='".$Datos[2]."' ";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$CmbFino=$Fila["cod_fino"];
@@ -66,7 +66,7 @@ function Proceso(Opcion)
 			}			
 				if(f.Ano.value=='-1')
 			{
-				alert("Debe Seleccionar Año");
+				alert("Debe Seleccionar Aï¿½o");
 				f.Ano.focus();
 				return;
 			}	
@@ -100,7 +100,7 @@ function Proceso(Opcion)
 			}			
 				if(f.Ano.value=='-1')
 			{
-				alert("Debe Seleccionar Año");
+				alert("Debe Seleccionar Aï¿½o");
 				f.Ano.focus();
 				return;
 			}	
@@ -177,7 +177,7 @@ if ($Opc=='N')
 			   <option value="-1" class="NoSelec" >Seleccionar</option>
 			   <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31012' and cod_subclase in('1','2','3')";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbFino==$FilaTC["cod_subclase"])
@@ -254,7 +254,7 @@ if ($Opc=='N')
               <option value="-1" class="NoSelec">Seleccionar</option>
               <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31001' and cod_subclase in ('1','2','3')";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMoneda==$FilaTC["cod_subclase"])
@@ -295,7 +295,7 @@ if ($Opc=='N')
 	if ($Mensaje1==true)
 		echo "alert('Ingreso Satisfactorio');";
 	if ($Mensaje2==true)
-		echo "alert('Modificación Satisfactoria');";
+		echo "alert('Modificaciï¿½n Satisfactoria');";
 		
 	echo "</script>";
      

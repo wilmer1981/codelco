@@ -5,7 +5,7 @@
 	$matriz=split("/",$FechaSist);
 	$dia=$matriz[0];
 	$mes=$matriz[1];
-	$año=$matriz[2];
+	$aï¿½o=$matriz[2];
 	if(!isset($Ano))
 		$Ano=date('Y');	
 	if(!isset($Mes))
@@ -151,7 +151,7 @@ function Recarga(Opt)
         </tr>
       </table><br>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
-            <tr><td colspan="13" class="TituloTablaVerde" align="center">INDICADOR DE DATOS PROCESADOS AÑO 
+            <tr><td colspan="13" class="TituloTablaVerde" align="center">INDICADOR DE DATOS PROCESADOS Aï¿½O 
               <select name="Ano2" id="select" onchange="Recarga();">
                 <?
 	for ($i=date("Y")-4;$i<=date("Y");$i++)
@@ -223,9 +223,9 @@ if(isset($Mensaje)&&$Mensaje!='')
 function ExisteDatoIng($Ano,$Mes)
 {
 	
-	$Consulta="select * from pcip_svp_valorizacproduccion where VPaño='".$Ano."' and VPmes='".$Mes."'";
+	$Consulta="select * from pcip_svp_valorizacproduccion where VPaï¿½o='".$Ano."' and VPmes='".$Mes."'";
 	//echo $Consulta."<br>";
-	$Resp2=mysql_query($Consulta);
+	$Resp2=mysqli_query($link, $Consulta);
 	if($Fila2=mysql_fetch_array($Resp2))
 		return(true);
 	else

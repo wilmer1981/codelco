@@ -12,7 +12,7 @@
 		else
 			$RutPer=$TxtRutPer.'-'.$TxtDv;
 		$Consulta="SELECT * from sget_personal where rut='$RutPer'";
-		$RespPer=mysql_query($Consulta);
+		$RespPer=mysqli_query($link, $Consulta);
 		if($FilaPer=mysql_fetch_array($RespPer))
 		{
 			$TxtPat=$FilaPer[ape_paterno];
@@ -253,7 +253,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="S" SELECTed="SELECTed">Seleccionar</option>
 		<?
 		$Consulta="SELECT * from sget_cargos order by descrip_cargo";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCargo==$Fila[cod_cargo])
@@ -276,7 +276,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
           <option value="S" SELECTed="SELECTed">Seleccionar</option>
           <?
 		$Consulta="SELECT * from sget_ciudades order by nom_ciudad";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCiudad==$Fila["cod_ciudad"])
@@ -301,7 +301,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="S" SELECTed="SELECTed">Seleccionar</option>
             <?
 		$Consulta="SELECT * from sget_afp order by descripcion_afp";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbAfp==$Fila[cod_afp])
@@ -320,7 +320,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="S" SELECTed="SELECTed">Seleccionar</option>
             <?
 			$Consulta="SELECT * from sget_isapre order by descripcion";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if($CmbIsapre==$Fila[cod_isapre])
@@ -339,7 +339,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="S" SELECTed="SELECTed">Seleccionar</option>
             <?
 			$Consulta="SELECT * from sget_sindicato order by descripcion ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if($CmbSindicato==$Fila[cod_sindicato])

@@ -56,7 +56,7 @@
 		$Consulta="SELECT * from sipa_web.recepciones where patente = '".trim($TxtPatente)."' and peso_bruto<>'0' and ";
 		$Consulta.="peso_tara='0' and peso_neto='0' and estado <> 'A' and tipo<>'A'";
 		//echo $Consulta;
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 			$TipoProceso='S';
 		else
@@ -66,7 +66,7 @@
 	{
 			$EstPatente='readonly';
 			/*$Consulta="SELECT * from sipa_web.camion where patente='".$Patente."'";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Respuesta))
 			{	
 				$PatenteOk=true;
@@ -97,12 +97,12 @@
 						$AnoMes=substr(date('Y'),2,2).date('m');
 						$Consulta="SELECT ifnull(max(lote)+1,'".$AnoMes."0001') as lote_nuevo from sipa_web.correlativo_lote where cod_proceso='R' and lote like '$AnoMes%'";
 						//echo $Consulta;
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						$TxtLote=str_pad($Fila["lote_nuevo"],8,'0',STR_PAD_LEFT);
 						$TxtRecargo=1;
 						$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						$TxtCorrelativo=$Fila["correlativo"];
 						$TxtFecha=date('Y-m-d');
@@ -140,21 +140,21 @@
 						$Consulta="SELECT  max(lpad(recargo,2,'0'))+1 as recargo_nuevo,cod_producto,cod_subproducto,rut_prv,cod_mina,correlativo,fecha,hora_entrada,hora_salida,conjunto,cod_clase ";
 						$Consulta.="from sipa_web.recepciones where lote = '$CmbLotes' group by lote";
 						//echo $Consulta;
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						$TxtLote=$CmbLotes;
 						$TxtRecargo=$Fila["recargo_nuevo"];
 						$Consulta="SELECT  cod_producto,cod_subproducto,rut_prv,cod_mina,correlativo,fecha,hora_entrada,hora_salida,conjunto,cod_clase ";
 						$Consulta.="from sipa_web.recepciones where lote = '$CmbLotes' and recargo='1'";
 						//echo $Consulta;
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						//$TxtFecha=date('Y-m-d');
 						//$TxtHoraE=date('h:i:s');
 						$CmbSubProducto=$Fila["cod_producto"].'~'.$Fila["cod_subproducto"];
 						$CmbProveedor=$Fila["rut_prv"];
 						$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='$CmbProveedor' and cod_mina='".$Fila["cod_mina"]."'";
-						$RespPadron=mysql_query($Consulta);
+						$RespPadron=mysqli_query($link, $Consulta);
 						$FilaPadron=mysql_fetch_array($RespPadron);
 						$TxtVencPadron=$FilaPadron["fecha_padron"];
 					
@@ -162,7 +162,7 @@
 						$CmbConjunto=$Fila["conjunto"];
 						$CmbClase=$Fila["cod_clase"];
 						$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						$TxtCorrelativo=$Fila["correlativo"];
 						$CodMina=explode('~',$CmbMinaPlanta);
@@ -202,7 +202,7 @@
 						$Consulta.="t1.peso_bruto,t1.guia_despacho,t1.observacion,t1.ult_registro,t1.leyes,t1.impurezas from sipa_web.recepciones t1 ";
 						$Consulta.="where lote = '".$Datos[0]."' and patente='$TxtPatente' and correlativo='".$Datos[2]."'";
 						//echo $Consulta;
-						$Resp2 = mysql_query($Consulta);
+						$Resp2 = mysqli_query($link, $Consulta);
 						while($Fila = mysql_fetch_array($Resp2))
 						{
 							$TxtCorrelativo=$Fila["lote"].'~'.$Fila["recargo"].'~'.$Fila["correlativo"];
@@ -221,7 +221,7 @@
 							$CmbProveedor=$Fila["rut_prv"];
 							$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='$CmbProveedor' and cod_mina='".$Fila["cod_mina"]."'";
 							echo $Consulta."<br>";
-							$RespPadron=mysql_query($Consulta);
+							$RespPadron=mysqli_query($link, $Consulta);
 							$FilaPadron=mysql_fetch_array($RespPadron);
 							$TxtVencPadron=$FilaPadron["fecha_padron"];
 							$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron["fecha_padron"]."~".$Fila["conjunto"];
@@ -250,7 +250,7 @@
 			$Consulta = "SELECT leyes,impurezas from age_web.relaciones ";
 			$Consulta.= " where cod_producto='".$SuBProd[0]."' and cod_subproducto='".$SuBProd[1]."' and rut_proveedor='".$CmbProveedor."'";
 		echo "Consulta 2 ".$Consulta."<br>";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Respuesta))
 			{
 				$TxtLeyes=$Fila["leyes"];
@@ -265,7 +265,7 @@
 	if(isset($CmbGrupoProd))
 	{
 		$Consulta="SELECT abast_minero from sipa_web.grupos_productos where cod_grupo='$CmbGrupoProd'";
-		$RespGrupo=mysql_query($Consulta);
+		$RespGrupo=mysqli_query($link, $Consulta);
 		$FilaGrupo=mysql_fetch_array($RespGrupo);
 		$AbastMinero=$FilaGrupo["abast_minero"];
 		if($AbastMinero=='N')
@@ -274,7 +274,7 @@
 	if(isset($BuscarPrv)&&$BuscarPrv=='S')
 	{
 		$Consulta = "SELECT * from sipa_web.proveedores where rut_prv='$CmbProveedor'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 		{
 			$TxtNombrePrv=$Fila["nombre_prv"];
@@ -1044,7 +1044,7 @@ body {
 		$AnoMes=substr(date('Y'),2,2).date('m');
 		$Consulta ="SELECT distinct t1.lote,t1.recargo,t1.correlativo,t1.cod_subproducto from sipa_web.recepciones t1 ";
 		$Consulta.="where patente='$TxtPatente' and peso_neto=0 and estado<>'A' order by t1.correlativo desc";
-		$RespCorr=mysql_query($Consulta);
+		$RespCorr=mysqli_query($link, $Consulta);
 		while($FilaCorr=mysql_fetch_array($RespCorr))
 		{
 			$Datos=explode('~',$TxtCorrelativo);
@@ -1084,7 +1084,7 @@ body {
       <option value="S" SELECTed class="NoSelec">Seleccionar</option>
       <?
 				$Consulta = "SELECT * from sipa_web.grupos_productos order by descripcion_grupo ";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($CmbGrupoProd == $Fila["cod_grupo"])
@@ -1105,7 +1105,7 @@ body {
 				$Consulta.= " case when length(t1.cod_subproducto)<2 then concat('0',t1.cod_subproducto) else t1.cod_subproducto end as orden ";
 				$Consulta.="from sipa_web.grupos_prod_subprod t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto =t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 				$Consulta.="where t1.cod_grupo='$CmbGrupoProd' order by nom_subprod";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($CmbSubProducto == $Fila["cod_producto"]."~".$Fila["cod_subproducto"])
@@ -1141,7 +1141,7 @@ body {
 					$Consulta.= " on t1.rut_prv=t2.rut_proveedor ";
 					$Consulta.= " where t2.cod_producto='".$SubProd[0]."' and t2.cod_subproducto='".$SubProd[1]."'";// and t1.rut_prv <>'90132000-5'";
 					$Consulta.= " order by t1.nombre_prv";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					while ($Fila = mysql_fetch_array($Resp))
 					{
 						if ($CmbProveedor == $Fila["rut_prv"])
@@ -1190,7 +1190,7 @@ body {
 				$Consulta.= "left join sipa_web.grupos_conjunto t3 on t3.cod_grupo=t2.cod_grupo ";
 				$Consulta.= "where t1.rut_prv='$CmbProveedor' ";
 				$Consulta.= "order by t1.rut_prv,t1.cod_mina,t1.nombre_mina";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($Datos[0] == $Fila["rut_prv"]&&$Datos[1] == $Fila["cod_mina"]&&$Datos[2] == $Fila["fecha_padron"]&&$Datos[3] == $Fila["conjunto"])
@@ -1209,7 +1209,7 @@ body {
 		if(isset($CmbProveedor))
 		{
 			$Consulta="SELECT * from sipa_web.rut_asignacion where rut_prv='$CmbProveedor'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 				$TxtAsignacion=$Fila["asignacion"];
 			else
@@ -1257,7 +1257,7 @@ body {
 			if($CmbClase=='O')
 				$Consulta.="and nombre_subclase='O' ";//OTRA
 			$Consulta.="order by nombre_subclase";
-			$RespAsig=mysql_query($Consulta);
+			$RespAsig=mysqli_query($link, $Consulta);
 			while($FilaAsig=mysql_fetch_array($RespAsig))
 			{
 				if($FilaAsig["nombre_subclase"]==$CmbClase)
@@ -1285,7 +1285,7 @@ body {
 			$Consulta.=" lote like '$AnoMes%' and ult_registro <> 'S' ";
 			$Consulta.=" and t1.recargo=(SELECT max((t2.recargo)*1) from sipa_web.recepciones t2 where t2.lote=t1.lote) ";
 			$Consulta.=" group by lote";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			while ($FilaLote = mysql_fetch_array($Resp))
 			{
 				if($FilaLote["lote"]==$CmbLotes)
@@ -1359,7 +1359,7 @@ body {
 		//SE CALCULA EL PESO NETO DEL LOTE
 		$TotalLote=0;
 		$Consulta="SELECT sum(peso_neto) as total_neto from sipa_web.recepciones where lote ='$TxtLote' group by lote";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 			$TxtPesoTotalNeto=$Fila[total_neto];
 	?>

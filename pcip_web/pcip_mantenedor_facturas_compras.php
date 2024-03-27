@@ -148,7 +148,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				   <?					    
 					$Consulta = "select distinct(t1.rut_proveedor),t2.nom_proveedor from pcip_fac_compra t1 inner join";
 					$Consulta.= " pcip_fac_proveedores t2 on t1.rut_proveedor=t2.rut_proveedor";		
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbRut==$Fila["rut_proveedor"])
@@ -165,7 +165,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					   <option value="T" class="Selected">Todos</option>
 					   <?					    
 						$Consulta = "select distinct(cuota) from pcip_fac_compra";		
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Resp))
 						{
 							if ($CmbCuota==$Fila["cuota"])
@@ -183,7 +183,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						   <?
 							$Consulta = "select distinct(cod_subclase),nombre_subclase from pcip_fac_compra t2 inner join";
 							$Consulta.= " proyecto_modernizacion.sub_clase t1 where t1.cod_clase='31017' and t2.tipo=t1.cod_subclase";							
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							while ($FilaTC=mysql_fetch_array($Resp))
 							{
 								if ($CmbTipoContrato==$FilaTC["cod_subclase"])
@@ -329,7 +329,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		if(trim($TxtFact)=='')
 			$Consulta.=" and fecha_emision BETWEEN '".$FechaInicio."' AND '".$FechaTermino."'";				
 	    $Consulta.=" order by num_factura,t1.rut_proveedor,fecha_emision";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		echo "<input type='hidden' name='CheckDisp'>";
 		//echo $Consulta;
 		while($Fila=mysql_fetch_array($Resp))

@@ -17,7 +17,7 @@ if($Proceso == "B")
 	$Consulta.= " AND seccion_report = '".$Seccion."'";
 	$Consulta.= " AND campo1='".$Letra."' ";
 	$Consulta.= " AND campo2 = '".$etapa."'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($row = mysql_fetch_array($rs))
 	{		
 		$Unidades = $row["campo3"];

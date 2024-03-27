@@ -359,7 +359,7 @@
 			if($valor[7]=='17'&&$cmbsubprod=='2')//MODIFICA EN RECEPCION_EXTERNA TTE
 			{
 				$Consulta="SELECT * from sea_web.relaciones where hornada_ventana = '".$cmbhornada."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$Consulta2="SELECT guia_despacho from sipa_web.recepciones where lote = '".$Fila[lote_ventana]."' and recargo='".$valor[6]."'";
 				$Respuesta2=mysql_query($Consulta2);
@@ -367,7 +367,7 @@
 				$GuiaOrigen=$Fila2["guia_despacho"];
 				$Consulta="SELECT piezas_recep,peso_recep from sea_web.recepcion_externa ";
 				$Consulta = $Consulta." WHERE cod_producto = '".$valor[7]."' AND cod_subproducto = '".$cmbsubprod."' AND lote_ventana = '".$Fila[lote_ventana]."' and guia='".$GuiaOrigen."'"; 
-				$RespRecep=mysql_query($Consulta);
+				$RespRecep=mysqli_query($link, $Consulta);
 				$FilaRecep=mysql_fetch_array($RespRecep);
 				$Piezas=$FilaRecep[piezas_recep]-intval($valor[2]);
 				$Peso=$FilaRecep[peso_recep]-intval($valor[9]);

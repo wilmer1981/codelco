@@ -37,7 +37,7 @@ switch ($Opcion)
 									$Consulta ="select * from cal_web.solicitud_analisis where (nro_solicitud = '".$Sa."' ";
 									$Consulta=$Consulta." and rut_funcionario = '".$Rut."' and recargo = '".$Recargo."') ";
 									//echo $Consulta."<br>";
-									$Respuesta=mysql_query($Consulta);
+									$Respuesta=mysqli_query($link, $Consulta);
 									$Fila=mysql_fetch_array($Respuesta);   
 									//Elimina en solictud de analisis
 									$Eliminar="delete from cal_web.solicitud_analisis where  ";
@@ -104,7 +104,7 @@ switch ($Opcion)
 									}
 									$Consulta="select nro_solicitud,recargo  from estados_por_solicitud where (nro_solicitud = '".$SA."' ";
 									$Consulta = $Consulta."and rut_funcionario = '".Rut."' and cod_estado = 13)  ";
-									$Respuesta= mysql_query($Consulta);
+									$Respuesta= mysqli_query($link, $Consulta);
 									if ($Fila=mysql_fetch_array($Respuesta))	
 									{
 										//nada
@@ -139,7 +139,7 @@ switch ($Opcion)
 									}
 									$Consulta="select nro_solicitud,recargo  from estados_por_solicitud where (nro_solicitud = '".$SA."' ";
 									$Consulta = $Consulta."and recargo = '".Recargo."' and rut_funcionario = '".$Rut."' and cod_estado = 13)  ";
-									$Respuesta= mysql_query($Consulta);
+									$Respuesta= mysqli_query($link, $Consulta);
 									if ($Fila=mysql_fetch_array($Respuesta))	
 									{
 									//nada
@@ -196,7 +196,7 @@ switch ($Opcion)
 										mysql_query($Actualizar);
 										//echo $Actualizar;
 										$Consulta = "select * from estados_por_solicitud where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and cod_estado = '2'";
-										$Respuesta = mysql_query($Consulta);
+										$Respuesta = mysqli_query($link, $Consulta);
 										if (!$Fila=mysql_fetch_array($Respuesta)) 
 										{
 											$insertar ="insert into estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
@@ -212,7 +212,7 @@ switch ($Opcion)
 										mysql_query($Actualizar);
 										$Consulta = "select * from estados_por_solicitud where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'and recargo = '".$Recargo."' and cod_estado = '2'";
 				
-										$Respuesta = mysql_query($Consulta);
+										$Respuesta = mysqli_query($link, $Consulta);
 										if (!$Fila=mysql_fetch_array($Respuesta)) 
 										{
 											$insertar ="insert into estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,recargo,rut_proceso)";
@@ -253,7 +253,7 @@ switch ($Opcion)
 										//$AuxMuestras = $Muestras;
 										//Consulta que devuelve los estados asociados a una solicitud para la asignacion automatica  
 										$Consulta  = "select * from estados_por_solicitud where nro_solicitud = '".$SA."' and (cod_estado between  '50' and '55') order by recargo ";	
-										$Respuesta = mysql_query($Consulta);
+										$Respuesta = mysqli_query($link, $Consulta);
 										while ($Fila = mysql_fetch_array($Respuesta))
 										{
 											//elimina los estados asociados a una solicitud anteriormente 
@@ -269,7 +269,7 @@ switch ($Opcion)
 											//inserta en estado por solicitud el estado 13
 											$Consulta="select nro_solicitud,recargo  from estados_por_solicitud where (nro_solicitud = '".$SA."' ";
 											$Consulta = $Consulta."and rut_funcionario = '".Rut."' and recargo = '".$Recargo."' and cod_estado = 13)  ";
-											$Respuesta2= mysql_query($Consulta);
+											$Respuesta2= mysqli_query($link, $Consulta);
 											if ($Fila2=mysql_fetch_array($Respuesta2))	
 											{
 												//nada

@@ -26,7 +26,7 @@ if ($Opc=='M')
 	$Consulta.= " left join proyecto_modernizacion.sub_clase t4 on t4.cod_clase='31008' and t1.cod_mercado=t4.cod_subclase";
 	$Consulta.=" where t1.cod_contrato='".$Datos[0]."'";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtContrato=$Fila["cod_contrato"];
@@ -222,7 +222,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				  <option value="-1" selected="selected">Seleccionar</option>
 				  <?
 					$Consulta = "select rut_proveedor,nom_proveedor from pcip_fac_proveedores order by nom_proveedor";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbRutProveedor==$Fila["rut_proveedor"])
@@ -235,7 +235,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				  <span class="InputRojo">(*)</span></td>			  
          </tr>
 		<tr>	 		 		  				 				  	 
-           <td width="171" class="formulario2">Descripción Cliente</td>
+           <td width="171" class="formulario2">Descripciï¿½n Cliente</td>
            <td class="formulariosimple" colspan="6">
 		   <input name="TxtDescripcion" maxlength= "48"  size="60" type="text" id="TxtDescripcion" value="<? echo $TxtDescripcion; ?>">
 		   </td>
@@ -248,7 +248,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						   <?
 							$Consulta = "select t1.cod_producto,t2.nom_producto from pcip_fac_productos_por_proveedores t1";
 							$Consulta.= " inner join pcip_fac_productos_facturas t2 on t1.cod_producto=t2.cod_producto where rut_proveedor='".$CmbRutProveedor."'";			
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							while ($FilaTC=mysql_fetch_array($Resp))
 							{
 								if ($CmbProducto==$FilaTC["cod_producto"])
@@ -266,7 +266,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				   <option value="-1" class="NoSelec">Seleccionar</option>
 					   <?
 						$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31017' ";			
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($FilaTC=mysql_fetch_array($Resp))
 						{
 							if ($CmbTipoContrato==$FilaTC["cod_subclase"])
@@ -284,7 +284,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				   <option value="-1" class="NoSelec">Seleccionar</option>
 					   <?
 						$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31008' ";			
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($FilaTC=mysql_fetch_array($Resp))
 						{
 							if ($CmbMercado==$FilaTC["cod_subclase"])
@@ -386,7 +386,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])

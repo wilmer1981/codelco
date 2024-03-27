@@ -58,7 +58,7 @@ if(!isset($CmbContr))
 				if($CmbProducto!='T')
 					$Consulta.=" and t1.cod_producto='".$CmbProducto."'";	
 				//echo $Consulta."<br>"; 	
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					$NomProducto=$Fila["nombre_subclase"];
@@ -109,7 +109,7 @@ function DatosProyectadosSVP($Producto,$Proveedor,$Ano,$Mes)
    $Consulta="select Vporden,Vptm,VPmaterial,Vptipinv,VPordenrel,Vpordes from pcip_inp_asignacion";
    $Consulta.=" where cod_producto='".$Producto."' and cod_proveedor='".$Proveedor."'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
      $Orden=$Fila[Vporden];
@@ -138,7 +138,7 @@ function DatosProyectadosPPC($Producto,$Proveedor,$Ano,$Mes)
    $Consulta="select Vporden,Vptm,VPmaterial,Vptipinv from pcip_inp_asignacion";
    $Consulta.=" where cod_producto='".$Producto."' and cod_proveedor='".$Proveedor."' and dato='2'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    while($Fila=mysql_fetch_array($Resp))
    {
 		$Asignacion=$Fila[Vporden];

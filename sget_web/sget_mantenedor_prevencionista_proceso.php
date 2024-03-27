@@ -5,7 +5,7 @@
 	{
 		$Consulta="SELECT * from sget_personal where rut = '".$Rut."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			//$TxtRutPrv=substr(str_pad($Fila["rut_prev"],10,'0',l_pad),0,10);				
@@ -21,7 +21,7 @@
 			$TxtTitulo=$Fila["titulo"];
 			//$TxtTipoCont=$Fila["tipo_contrato"];
 			$Consulta="SELECT t1.cod_contrato,t2.descripcion from sget_personal t1 inner join sget_contratos t2 on t1.cod_contrato=t2.cod_contrato where rut='".$TxtRutPrv."'";
-			$Resp1=mysql_query($Consulta);
+			$Resp1=mysqli_query($link, $Consulta);
 			if($Fila1=mysql_fetch_array($Resp1))
 			{
 				$TxtTipoCont=$Fila1["cod_contrato"]." - ".$Fila1["descripcion"];
@@ -39,7 +39,7 @@
 				$RutReq=$Valores;
 			$Consulta="SELECT * from sget_prevencionistas where rut_prev = '".$RutReq."'";
 			//echo $Consulta;
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				//$TxtRutPrv=substr(str_pad($Fila["rut_prev"],10,'0',l_pad),0,10);
@@ -67,7 +67,7 @@
 				$DocTitulo=$Fila[titulo_prof];
 				
 				$Consulta="SELECT t1.cod_contrato,t2.descripcion from sget_personal t1 inner join sget_contratos t2 on t1.cod_contrato=t2.cod_contrato where rut='".$TxtRutPrv."'";
-				$Resp1=mysql_query($Consulta);
+				$Resp1=mysqli_query($link, $Consulta);
 				if($Fila1=mysql_fetch_array($Resp1))
 				{
 					$TxtTipoCont=$Fila1["cod_contrato"]." - ".$Fila1["descripcion"];
@@ -388,7 +388,7 @@ else
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEstado==$FilaTC["cod_subclase"])
@@ -454,7 +454,7 @@ else
                   </tr>
 				  <?
 				  $Consulta="SELECT * from sget_contratos where rut_prev='".$TxtRutPrv."'  order by fecha_termino desc,descripcion";				  
-				  $Resp=mysql_query($Consulta);$Cont=1;$ContNV=0;$ContV=0;
+				  $Resp=mysqli_query($link, $Consulta);$Cont=1;$ContNV=0;$ContV=0;
 				  while($Filas=mysql_fetch_array($Resp))
 				  {
 				  		

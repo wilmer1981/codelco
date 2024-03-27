@@ -15,7 +15,7 @@
 			//echo $Insertar;
 			
 			$Consulta="SELECT * from sgrs_organica where CORGANICA='".$Tipo."'";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($RespTipo))
 				$ORGAAREA=$Fila[NORGANICA];//NOMBRE DE LA DESCIPCION DONDE SE INGRESO LA AREA
 			OrigenOrg($Parent,&$Ruta)	;
@@ -26,7 +26,7 @@
 			{
 				$Consulta="SELECT CAREA from sgrs_areaorg where NAREA='".$Descrip."' and CPARENT='".$Parent."' and FAREA='".date('Y-m-d')."' and CTAREA='".$Tipo."'";	
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);		
 				$CAREA=$Fila[CAREA];
 				$Insertar="INSERT INTO sgrs_siperoperaciones (CAREA,MIDENTIFICADO,MVALIDADO,MRUTINARIA,TCPARENT) values('".$CAREA."',0,0,'$Rutinario','')";
@@ -37,12 +37,12 @@
 			{
 				$Consulta="SELECT CAREA from sgrs_areaorg where NAREA='".$Descrip."' and CPARENT='".$Parent."' and FAREA='".date('Y-m-d')."' and CTAREA='".$Tipo."'";	
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);		
 				$CAREA=$Fila[CAREA];
 				$Consulta="SELECT COD_GERENCIAS from sgrs_acceso_organica where RUT='".$CookieRut."'";	
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);		
 				$CGER=$Fila[COD_GERENCIAS].",".$CAREA;
 				$Actualizar="UPDATE sgrs_acceso_organica set COD_GERENCIAS='".$CGER."' where RUT='".$CookieRut."'";
@@ -62,12 +62,12 @@
 
 			$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
 			//echo $Consulta."<br>";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($RespTipo);
 			$NAREA=$Fila[NAREA];//NOMBRE DE LA DESCIPCION DONDE SE MODIFICO EL AREA
 			$CTipo=$Fila[CTAREA];
 			$Consulta="SELECT * from sgrs_organica where CORGANICA='".$CTipo."'";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($RespTipo))
 				$ORGAAREA=$Fila[NORGANICA];//NOMBRE DE LA DESCIPCION DONDE SE INGRESO LA AREA
 
@@ -79,7 +79,7 @@
 			//echo $Modificar."<br>";
 			//AGREGA REGISTRO HISTORICO
 			$Consulta="SELECT * from sgrs_organica where CORGANICA='".$Tipo."'";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($RespTipo))
 				$ORGAAREA2=$Fila[NORGANICA];//NOMBRE DE LA DESCIPCION DONDE SE INGRESO LA AREA
 				
@@ -90,13 +90,13 @@
 			//FIN AGREGA REGISTRO HISTORICO
 			$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$CODAREA."'";	
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);		
 			if($Fila[CTAREA]=='8')
 			{
 				$Consulta="SELECT * from sgrs_siperoperaciones where CAREA='".$CODAREA."'";	
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))	
 				{
 					$Actualizar="UPDATE sgrs_siperoperaciones set MRUTINARIA='$Rutinario' where CAREA='".$CODAREA."'";
@@ -120,13 +120,13 @@
 			$Area=$Descrip;
 			$Consulta="SELECT * from sgrs_areaorg where CPARENT='".$Parent."'";	
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))		
 			{
 				$ParentAux=substr($Parent,0,strlen($Parent)-1);
 				$CODAREA=ObtenerCodParent(&$Parent);
 				$Consulta="SELECT * from sgrs_siperpeligros where CAREA='".$CODAREA."' and MVIGENTE <> '0' ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Resp))		
 				{
 					$ConsultaAreaNom="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
@@ -160,7 +160,7 @@
 			$CODAREA=ObtenerCodParent(&$Parent);
 			//$Datos=explode('//',$DatosPel);
 			$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NOMAREA=$Fila[NAREA];
 			$Datos=explode('//',$DatosObsPel);
@@ -170,11 +170,11 @@
 				$ObsAux=str_replace("'",'"',$DatosObs[2]);
 
 				$Consulta="SELECT * from sgrs_siperpeligros where CAREA='".$CODAREA."' and CPELIGRO='".$DatosObs[0]."' and CCONTACTO='".$DatosObs[1]."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$OBSPRINCIPAL=$Fila[TOBSERVACION];
 				$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$DatosObs[1]."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$NOMPELI=$Fila[NCONTACTO];
 				
@@ -196,23 +196,23 @@
 			$CODAREA=ObtenerCodParent(&$Parent);
 			$Consulta="SELECT * from sgrs_sipercontroles where CPELIGRO='".$CodPel."'";
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))		
 			{
 				$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$NOMAREA=$Fila[NAREA];
 				
 				$Consulta="SELECT * from sgrs_siperpeligros where CAREA='".$CODAREA."' and CPELIGRO='".$CodPel."'";
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$CODPELI=$Fila[CCONTACTO];	
 							
 				$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$CODPELI."'";
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$NOMPELI=$Fila[NCONTACTO];
 				
@@ -250,7 +250,7 @@
 			{
 				$Dato2=explode('~',$v);		
 				$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$Dato2[0]."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$NOMPELI=$NOMPELI.$Dato2[0]." - ".$Fila[NCONTACTO].", ";
 
@@ -259,7 +259,7 @@
 				mysql_query($Insertar);
 			}
 			$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NOMAREA=$Fila[NAREA];
 			
@@ -272,17 +272,17 @@
 		break;
 		case "GC"://AGREGAR CONTROLES AL PELIGRO
 			$Consulta="SELECT QPROBHIST,QCONSECHIST from sgrs_codcontactos where CCONTACTO ='".$CodContacto."'";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			$PH=$Fila[QPROBHIST];		
 			$Consulta="SELECT CCONTACTO from sgrs_siperpeligros where CPELIGRO='".$CodPel."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$CodCC=$Fila[CCONTACTO];
 			$ParentFun=$Parent;
 			$CODAREA=ObtenerCodParent(&$Parent);
 			//SACO EL AREA EN LA QUE SE TRABAJA
 			$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NOMAREA=$Fila[NAREA];
 			$Eliminar="delete from sgrs_sipercontroles where CCONTACTO='".$CodCC."' and CPELIGRO='".$CodPel."'";
@@ -298,7 +298,7 @@
 					$AplicoCtrl=true;
 				$Consulta="SELECT * from sgrs_sipercontroles where CPELIGRO='".$CodPel."' and CCONTACTO='".$CodCC."' and CCONTROL='".$Datos2[0]."'";
 				//echo "Consulta  controles:   ".$Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					//echo "existe<br>";
@@ -322,11 +322,11 @@
 						$MCONTROL=$Datos2[1];
 					//echo "aca";
 					$Consulta="SELECT * from sgrs_sipercontroles_obs where TOBSERVACION='".$Datos2[2]."' and CCONTROL='".$Datos2[0]."' and CAREA='".$CODAREA."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if(!$Fila=mysql_fetch_array($Resp))
 					{
 						$Consulta="SELECT max(CIDCONTROL+1) as maximo from sgrs_sipercontroles_obs ";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if($Fila=mysql_fetch_array($Resp))
 						{
 							if($Fila["maximo"]=='')
@@ -342,11 +342,11 @@
 					}
 						
 					$Consulta="SELECT * from sgrs_sipercontroles where  CPELIGRO='".$CodPel."' and CCONTACTO='".$CodCC."' and CCONTROL='".$Datos2[0]."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Resp);
 					$OBS=$Fila[TOBSERVACION];$VERI=$Fila[VERIFICADOR_OPER];$ESPE=$Fila[ESPECIFICACION_CTRL];
 					$Consulta="SELECT * from sgrs_tipo_verificador where COD_VERIFICADOR='".$VERI."'";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);
 					$NONVERI1=$Fila[DESCRIP_VERIFICADOR];
 						
@@ -361,11 +361,11 @@
 					if($Datos2[1]!='NA')
 						RegistroSiper(15,$CookieRut,'MC',$Obs);
 					$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$CodCC."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Resp);
 					$NOMCONTACT=$Fila[NCONTACTO];
 					$Consulta="SELECT NCONTROL,QPESOESP from sgrs_codcontroles where CCONTROL='".$Datos2[0]."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Resp);
 					$NOMCONTROL=$Fila[NCONTROL];
 
@@ -387,11 +387,11 @@
 						if($Datos2[2]!='')
 						{
 							$Consulta="SELECT * from sgrs_sipercontroles_obs where TOBSERVACION='".$Datos2[2]."' and CCONTROL='".$Datos2[0]."' and CAREA='".$CODAREA."'";
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							if(!$Fila=mysql_fetch_array($Resp))
 							{
 								$Consulta="SELECT max(CIDCONTROL+1) as maximo from sgrs_sipercontroles_obs ";
-								$Resp=mysql_query($Consulta);
+								$Resp=mysqli_query($link, $Consulta);
 								if($Fila=mysql_fetch_array($Resp))
 								{
 									if($Fila["maximo"]=='')
@@ -411,11 +411,11 @@
 						RegistroSiper(15,$CookieRut,'GC',$Obs);
 
 						$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$CodCC."'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Resp);
 						$NOMCONTACT=$Fila[NCONTACTO];
 						$Consulta="SELECT NCONTROL,QPESOESP from sgrs_codcontroles where CCONTROL='".$Datos2[0]."'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Resp);
 						$NOMCONTROL=$Fila[NCONTROL];
 						
@@ -436,7 +436,7 @@
 					if($DatosObs2[0]!='')
 					{
 						$Consulta="SELECT max(CIDCONTROL+1) as maximo from sgrs_sipercontroles_obs ";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if($Fila=mysql_fetch_array($Resp))
 						{
 							if($Fila["maximo"]=='')
@@ -483,17 +483,17 @@
 		break;
 		case "GVP"://AGREGAR VERIFICADOR PARA PELIGRO
 			$Consulta="SELECT QPROBHIST,QCONSECHIST from sgrs_codcontactos where CCONTACTO ='".$CodContacto."'";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			$PH=$Fila[QPROBHIST];		
 			$Consulta="SELECT CCONTACTO from sgrs_siperpeligros where CPELIGRO='".$CodPel."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$CodCC=$Fila[CCONTACTO];
 			$ParentFun=$Parent;
 			$CODAREA=ObtenerCodParent(&$Parent);
 			//SACO EL AREA EN LA QUE SE TRABAJA
 			$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NOMAREA=$Fila[NAREA];
 			$AplicoCtrl=false;	
@@ -520,11 +520,11 @@
 					if($Datos2[2]!='')
 					{
 						$Consulta="SELECT * from sgrs_siperverificadores_obs where TOBSERVACION='".$Datos2[2]."' and COD_VERIFICADOR='".$Datos2[0]."' and CAREA='".$CODAREA."'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if(!$Fila=mysql_fetch_array($Resp))
 						{
 							$Consulta="SELECT max(CIDVERIFICADOR+1) as maximo from sgrs_siperverificadores_obs ";
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							if($Fila=mysql_fetch_array($Resp))
 							{
 								if($Fila["maximo"]=='')
@@ -540,16 +540,16 @@
 					}
 
 					$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$CodCC."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Resp);
 					$NOMCONTACT=$Fila[NCONTACTO];
 					$Consulta="SELECT NCONTROL,QPESOESP from sgrs_codcontroles where CCONTROL='".$Datos2[0]."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Resp);
 					$NOMCONTROL=$Fila[NCONTROL];
 					$Consulta="SELECT * from sgrs_tipo_verificador where COD_VERIFICADOR='".$Datos2[0]."'";
 					//echo $Consulta."<br>";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);
 					$NONVERI=$Fila[DESCRIP_VERIFICADOR];
 					
@@ -568,7 +568,7 @@
 					if($DatosObs2[0]!='')
 					{
 						$Consulta="SELECT max(CIDVERIFICADOR+1) as maximo from sgrs_siperverificadores_obs ";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if($Fila=mysql_fetch_array($Resp))
 						{
 							if($Fila["maximo"]=='')
@@ -624,11 +624,11 @@
 			mysql_query($Actualizar);					
 			//echo $Actualizar."<br>";
 			$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NOMAREA=$Fila[NAREA];
 			$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$CodCC."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NOMCONTACT=$Fila[NCONTACTO];
 
@@ -649,7 +649,7 @@
 			while(list($c,$v)=each($CONTACTOS))
 			{
 				$Consulta="SELECT * from sgrs_sipercontroles where CAREA='".$CODAREA."' and CCONTACTO='".$v."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Resp))
 				{
 					$NOTIENECONTROLES='S';									
@@ -662,13 +662,13 @@
 				//echo $Actualizar."<br>";
 				mysql_query($Actualizar);	
 				$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$NOMAREA=$Fila[NAREA];
 	
 				$Consulta="SELECT AVISO_CORREO,AVISO_CORREO2,RUT_JEFE,RUT_EXPERTO from sgrs_acceso_organica where RUT='".	$CookieRut."'";
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					if($Fila[AVISO_CORREO]!='')
@@ -707,7 +707,7 @@
 			//echo $Actualizar2."<br>";
 			mysql_query($Actualizar2);	
 			$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NAREA=$Fila[NAREA];
 			
@@ -730,7 +730,7 @@
 			mysql_query($Actualizar2);	
 
 			$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NAREA=$Fila[NAREA];
 			$Obs="Se a DesValidado Tarea ".$NAREA."";	
@@ -862,7 +862,7 @@
 			while(list($clave,$Codigo)=each($Datos))
 			{
 				$Consulta="SELECT * from sgrs_medambientes where CLUGAR='".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')
@@ -893,14 +893,14 @@ function EnvioCorreo($Correo,$CodSelTarea,$Rut,$MRCAL,$RUT_JE_EX)
 {	
 	$CODAREA=ObtenerCodParent($CodSelTarea);	
 	$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resp);
 	$NOMAREA=$Fila[NAREA];
 
 	$Asunto='Solicitud de validaci�n tarea '.$NOMAREA.'';
 	$Titulo='SASSO - Sistema de Aseguramiento de Seguridad y Salud Ocupacional';	
 	$Consulta="SELECT * from proyecto_modernizacion.funcionarios where rut='".$Rut."'";
-	$Resul=mysql_query($Consulta);
+	$Resul=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resul))
 		$Nombre="<strong>".$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"]."</strong>";
 	$Mensaje="<font face='Arial, Helvetica, sans-serif' size='2'>El Usuario ".strtoupper($Nombre)." a finalizado la identificaci�n  de peligros de la Tarea ".$NOMAREA.", para su Validaci�n.</font>";	
@@ -918,7 +918,7 @@ function EnvioCorreo($Correo,$CodSelTarea,$Rut,$MRCAL,$RUT_JE_EX)
 
 			$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.MVALIDADO,t1.QPROBHIST,t1.QCONSECHIST from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$CODAREA."' group by t1.CPELIGRO order by NCONTACTO";
 			//echo $Consulta;
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
 				$PH='';$CH='';$PC='';$CC='';$Validado='';
@@ -942,7 +942,7 @@ function EnvioCorreo($Correo,$CodSelTarea,$Rut,$MRCAL,$RUT_JE_EX)
 					$Consulta.=" inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES";
 					$Consulta.=" where t1.CPELIGRO ='".$Fila[CPELIGRO]."'";
 					//echo $Consulta."<br>";
-					$RespCtrl=mysql_query($Consulta);
+					$RespCtrl=mysqli_query($link, $Consulta);
 					while($FilaCtrl=mysql_fetch_array($RespCtrl))
 					{
 						$Mensaje.="<tr>";

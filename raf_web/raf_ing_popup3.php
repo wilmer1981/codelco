@@ -11,7 +11,7 @@ if($Proceso == "B")
 	$Consulta.= " AND fecha_ini='".$Ano."-".$Mes."-".$Dia."'";
 	$Consulta.= " AND hora_ini='".$hhIni.":".$mmIni.":00'";
 	$Consulta.= " AND hora_ter='".$hhTer.":".$mmTer.":00'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($row = mysql_fetch_array($rs))
 	{
 		$etapa = $row["campo1"];

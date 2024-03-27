@@ -47,7 +47,7 @@ $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 		if($CmbMutuales != "-1")
 			$Consulta.="  and  t1.cod_mutual_seguridad='".$CmbMutuales."' ";
 		$Consulta.= "order by t1.razon_social";	
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=1;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{
@@ -82,20 +82,20 @@ $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 			<td><? echo $FilaMod[telefono_comercial]; ?>&nbsp;</td>
 			<?
 				$Consulta = "SELECT nom_comuna from sget_comunas  where cod_comuna  = '".$FilaMod[cod_comuna]."' ";
-				$RespCom=mysql_query($Consulta);
+				$RespCom=mysqli_query($link, $Consulta);
 				if ($FilaCom=mysql_fetch_array($RespCom))
 				{ 
 					echo "<td>".$FilaCom[nom_comuna]." </td>";
 					
 				}
 				$Consulta = "SELECT nom_ciudad from sget_ciudades  where cod_ciudad = '".$FilaMod["cod_ciudad"]."' ";
-				$RespCiu=mysql_query($Consulta);
+				$RespCiu=mysqli_query($link, $Consulta);
 				if ($FilaCiu=mysql_fetch_array($RespCiu))
 				{ 
 					echo "<td>".$FilaCiu[nom_ciudad]." </td>";
 				}
 				$Consulta = "SELECT nom_region from sget_regiones  where cod_region = '".$FilaMod[cod_region]."' ";
-				$RespReg=mysql_query($Consulta);
+				$RespReg=mysqli_query($link, $Consulta);
 				if ($FilaReg=mysql_fetch_array($RespReg))
 				{ 
 					echo "<td>".$FilaReg[nom_region]." </td>";
@@ -111,7 +111,7 @@ $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 			
 			<td><? 
 				$Consulta="SELECT count(rut_empresa) as Cantidad from sget_contratos where rut_empresa='".$FilaMod[rut_empresa]."' and estado='1'";
-				$RespCant=mysql_query($Consulta);
+				$RespCant=mysqli_query($link, $Consulta);
 				if($FilaCant=mysql_fetch_array($RespCant))
 				{
 				echo $FilaCant[Cantidad];

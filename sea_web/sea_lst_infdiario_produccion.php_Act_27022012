@@ -46,7 +46,7 @@ function Imprimir()
 $Consulta = "SELECT DISTINCT CASE WHEN LENGTH(campo2)=1 THEN CONCAT('0',campo2) ELSE campo2 END AS grupo , campo2";
 $Consulta = $Consulta."	FROM sea_web.movimientos WHERE tipo_movimiento = 3 AND cod_producto = 19 AND cod_subproducto != 8";
 $Consulta = $Consulta."	AND fecha_movimiento = '".$fecha_ter."' ORDER BY grupo";
-$rs = mysql_query($Consulta);
+$rs = mysqli_query($link, $Consulta);
 
 echo'<table width="500"  border="1" cellspacing="0" cellpadding="0" align="center">';
 	
@@ -125,7 +125,7 @@ echo'</table><br>';
 $Consulta = "SELECT DISTINCT CASE WHEN LENGTH(campo2)=1 THEN CONCAT('0',campo2) ELSE campo2 END AS grupo , campo2";
 $Consulta = $Consulta."	FROM sea_web.movimientos WHERE tipo_movimiento = 3 AND cod_producto = 19 AND cod_subproducto != 8";
 $Consulta = $Consulta."	AND fecha_movimiento = '".$fecha_ter."' ORDER BY grupo";
-$rs = mysql_query($Consulta);
+$rs = mysqli_query($link, $Consulta);
 
 echo'<table width="500"  border="1" cellspacing="0" cellpadding="0" align="center">';
 	

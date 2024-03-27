@@ -5,7 +5,7 @@
 	{
 		case "N":
 			$Consulta="select cuenta_ingreso from pcip_ere_productos where cuenta_ingreso='".$TxtIngreso."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{
 				$Mensaje=false;
@@ -18,7 +18,7 @@
 			else
 			{
 				$Consulta="select * from pcip_ere_productos where cuenta_ingreso='".$TxtIngreso."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
 				if($Fila=mysql_fetch_array($Resp))
 				{

@@ -106,7 +106,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                 <option value="T" class="NoSelec">Todas</option>
                 <?
 				$Consulta = "SELECT * from sget_contratistas order by razon_social ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -173,7 +173,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                 <?
 		$FechaActual=date("Y")."-".date("m")."-".date("d");
 		$Consulta="SELECT * from sget_contratos where rut_empresa='".$CmbEmpresa."' order by fecha_termino desc";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			if ($FechaActual > $FilaCtto[fecha_termino])
@@ -253,7 +253,7 @@ if($Buscar=='S')
 		$Consulta.=" and  t1.cod_contrato='".$CmbContrato."' ";
 	$Consulta.="group by t1.num_hoja_ruta ORDER BY t1.num_hoja_ruta DESC";	
 	//echo $Consulta;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	$cont=1;$TotPers=0;
 	while ($Fila_HR=mysql_fetch_array($Resp))
 	{

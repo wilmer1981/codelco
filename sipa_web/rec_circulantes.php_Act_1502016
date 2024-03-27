@@ -35,7 +35,7 @@
 		//$Consulta.="and peso_bruto<>'0' ";
 		$Consulta.="and peso_tara='0' and peso_neto='0' and estado <> 'A'";
 		//echo $Consulta;
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 			$TipoProceso='S';
 		else
@@ -52,7 +52,7 @@
 			$EstPatente='readonly';
 			$Consulta="SELECT peso_tara,fecha from sipa_web.otros_pesaje where patente='".$Patente."' and observacion='TARA' order by fecha desc, hora_entrada desc";
 			//echo $Consulta;
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Respuesta))
 			{	
 				$PatenteOk=true;
@@ -83,7 +83,7 @@
 			{
 				$TxtPesoBruto=0;$TxtPesoTara=0;$TxtPesoNeto=0;
 				$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.otros_pesaje";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$TxtCorrelativo=$Fila["correlativo"];
 				$TxtFecha=date('Y-m-d');
@@ -115,7 +115,7 @@
 						$Consulta.="t1.peso_bruto,t1.guia_despacho,t1.nombre,t1.descripcion,t1.observacion from sipa_web.otros_pesaje t1 ";
 						$Consulta.="where patente='$TxtPatente' and correlativo='".$TxtCorrelativo."'";
 						//echo $Consulta;
-						$Resp2 = mysql_query($Consulta);
+						$Resp2 = mysqli_query($link, $Consulta);
 						while($Fila = mysql_fetch_array($Resp2))
 						{
 							$TxtCorrelativo=$Fila["correlativo"];
@@ -660,7 +660,7 @@ else
 		$AnoMes=substr(date('Y'),2,2).date('m');
 		$Consulta ="SELECT distinct t1.correlativo from sipa_web.otros_pesaje t1 ";
 		$Consulta.="where patente='$TxtPatente' and peso_neto=0 and estado<>'A' order by t1.correlativo desc";
-		$RespCorr=mysql_query($Consulta);
+		$RespCorr=mysqli_query($link, $Consulta);
 		while($FilaCorr=mysql_fetch_array($RespCorr))
 		{
 			if($FilaCorr["correlativo"]==$TxtCorrelativo)
@@ -688,7 +688,7 @@ else
       <option SELECTed value="S">Seleccionar</option>
       <?
 	$Consulta = "SELECT * from proyecto_modernizacion.productos where cod_producto ='42' order by descripcion";
-	$result = mysql_query($Consulta);
+	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		if ($Productos == $Row["cod_producto"])
@@ -714,7 +714,7 @@ else
       <?
 	$Consulta = "SELECT distinct t1.cod_subproducto,t1.cod_subproducto,t1.descripcion from proyecto_modernizacion.subproducto t1 inner join ram_web.conjunto_ram t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 	$Consulta.= "where t1.cod_producto = '".$Productos."' and t2.estado='a' order by t1.descripcion";
-	$result = mysql_query($Consulta);
+	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		if ($SubProductos == $Row["cod_subproducto"])
@@ -744,7 +744,7 @@ else
 	$Consulta.= " where cod_producto = '".$Productos."' ";
 	$Consulta.= " and cod_subproducto = '".$SubProductos."' and estado='a' and fecha_creacion between '".$FechaDesde."' and '".$FechaHasta."'";
 	$Consulta.= " order by num_conjunto";
-	$result = mysql_query($Consulta);
+	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		$Consulta = "SELECT descripcion ";
@@ -753,7 +753,7 @@ else
 		$Consulta.= " and cod_subproducto = '".$SubdProductos."' ";
 		$Consulta.= " and num_conjunto = '".$Row["num_conjunto"]."' and estado='a'";
 		$Consulta.= " order by num_conjunto";
-		$Resultado = mysql_query($Consulta);
+		$Resultado = mysqli_query($link, $Consulta);
 		if ($Row2 = mysql_fetch_array($Resultado))
 		{
 			$Descripcion = $Row2["descripcion"];

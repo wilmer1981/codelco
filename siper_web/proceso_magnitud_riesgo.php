@@ -70,7 +70,7 @@ f.submit();
 	$Consulta.=" inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema and t2.nivel=t3.nivel";
 	$Consulta.= " where t1.rut= '".$Usuario."' ";
 	//echo $Consulta;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resp);
 		$NombreJEFE=$Usuario." - ".$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"];
 		$Perfil=$Fila["descripcion"];
@@ -83,7 +83,7 @@ f.submit();
 	if($MRCAL=='1')
 	{
 		$Consulta="SELECT MVALIDADO from sgrs_siperpeligros where CAREA='".$CODAREA."' and MVALIDADO='0'";
-		$Resultado=mysql_query($Consulta);
+		$Resultado=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resultado))
 		{
 		?>
@@ -110,7 +110,7 @@ f.submit();
 <? 
 $Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.MVALIDADO,t1.MR1,t1.MR2,t1.QPROBHIST,t1.QCONSECHIST from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$CODAREA."' group by t1.CPELIGRO order by NCONTACTO";
 //echo $Consulta;
-$Resultado=mysql_query($Consulta);
+$Resultado=mysqli_query($link, $Consulta);
 while ($Fila=mysql_fetch_array($Resultado))
 {
 	$PH='';$CH='';$PC='';$CC='';$Validado='';
@@ -133,7 +133,7 @@ while ($Fila=mysql_fetch_array($Resultado))
 					$Consulta.=" inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES";
 					$Consulta.=" where t1.CPELIGRO ='".$Fila[CPELIGRO]."'";
 					//echo $Consulta."<br>";
-					$RespCtrl=mysql_query($Consulta);
+					$RespCtrl=mysqli_query($link, $Consulta);
 					while($FilaCtrl=mysql_fetch_array($RespCtrl))
 					{
 						echo "<tr>";
@@ -358,13 +358,13 @@ if(!isset($NUE))
 {
 	$Consulta="SELECT * from sgrs_siperpeligros where CAREA='".$CODAREA."' and (MR1='0' or MR2='0')";
 	//echo $Consulta."<br>";
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	if(!$Fila=mysql_fetch_array($Resultado))
 	{
 		$Enviar='';
 		$Consulta="SELECT * from sgrs_siperpeligros where CAREA='".$CODAREA."' and MR1>'0' and MR2>'0'";
 		//echo $Consulta."<br>";
-		$Resultado=mysql_query($Consulta);
+		$Resultado=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resultado))
 		{
 			if($Fila[MR1]!=$Fila[MR2])
@@ -376,7 +376,7 @@ if(!isset($NUE))
 			//echo "envio";
 			$Consulta="SELECT RUT,AVISO_CORREO,AVISO_CORREO2,RUT_JEFE,RUT_EXPERTO from sgrs_acceso_organica where RUT='".$CookieRut."'";
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				
@@ -415,14 +415,14 @@ function EnvioCorreo2($Correo,$CodSelTarea,$Rut,$MRCAL,$RUT_JE_EX)
 {	
 	$CODAREA=ObtenerCodParent($CodSelTarea);	
 	$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resp);
 	$NOMAREA=$Fila[NAREA];
 
 	$Asunto='No acuerdo en validaci�n de tarea '.$NOMAREA.'.';
 	$Titulo='SASSO - Sistema de Aseguramiento de Seguridad y Salud Ocupacional';	
 	$Consulta="SELECT * from proyecto_modernizacion.funcionarios where rut='".$Rut."'";
-	$Resul=mysql_query($Consulta);
+	$Resul=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resul))
 		$Nombre="<strong>".$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"]."</strong>";
 	$Mensaje="<font face='Arial, Helvetica, sans-serif' size='2'>Estimados:<br> Debido a la diferencia de magnitud de los peligros, es necesario llegar a un acuerdo de magnitud.<br></font>";	
@@ -441,7 +441,7 @@ function EnvioCorreo2($Correo,$CodSelTarea,$Rut,$MRCAL,$RUT_JE_EX)
 
 			$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.MVALIDADO,t1.MR1,t1.MR2 from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$CODAREA."' group by t1.CCONTACTO order by NCONTACTO";
 			//echo $Consulta;
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
 				$PH='';$CH='';$PC='';$CC='';$Validado='';
@@ -465,7 +465,7 @@ function EnvioCorreo2($Correo,$CodSelTarea,$Rut,$MRCAL,$RUT_JE_EX)
 					$Consulta.=" inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES";
 					$Consulta.=" where t1.CPELIGRO ='".$Fila[CPELIGRO]."'";
 					//echo $Consulta."<br>";
-					$RespCtrl=mysql_query($Consulta);
+					$RespCtrl=mysqli_query($link, $Consulta);
 					while($FilaCtrl=mysql_fetch_array($RespCtrl))
 					{
 						$Mensaje.="<tr>";

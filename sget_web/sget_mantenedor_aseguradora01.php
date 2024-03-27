@@ -5,7 +5,7 @@
 	{
 		case "N":
 			$Consulta = "SELECT ifnull(max(cod_aseguradora),0) as mayor from sget_aseguradoras "; 
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$Mayor=$Fila["mayor"] + 1;			
 			

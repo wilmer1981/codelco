@@ -104,7 +104,7 @@
 	else
 		$Consulta.= " where cod_equipo ".$EquipoSef." ";
 	$Consulta.= "and cod_producto ".$ProductoSef;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$PesoBase = 0;
 	if ($Fila = mysql_fetch_array($Respuesta))
 		$PesoBase = $Fila["Peso_base"];
@@ -155,7 +155,7 @@
 	}
 	$Consulta.= " and (t1.valor <> '' and NOT isnull(t1.valor))";
 	$Consulta.= " order by t1.cod_leyes";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		$ArrLeyes[$Fila["cod_leyes"]][0] = $Fila["cod_leyes"];
@@ -299,7 +299,7 @@ function Historial(SA)
 		$Consulta.= " and destino ".$Destino;
 		$Consulta.= " group by Fecha, Cod_equipo, Turno, Num_carga";
 		$Consulta.= " order by turno, num_carga";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		$i=0;		
 		while ($Fila = mysql_fetch_array($Respuesta))
@@ -320,7 +320,7 @@ function Historial(SA)
 					$Consulta.= " and turno = '".$Fila["Turno"]."'";
 					$Consulta.= " group by turno, num_carga";
 					$Consulta.= " order by turno, num_carga";
-					$Resp2 = mysql_query($Consulta);
+					$Resp2 = mysqli_query($link, $Consulta);
 					if ($Fila2 = mysql_fetch_array($Resp2))
 					{
 						$Descuento = $Fila2["Cantidad_mov"];
@@ -386,7 +386,7 @@ function Historial(SA)
 					}
 					$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 					$Consulta.= " order by t1.id_muestra";
-					$Resp2 = mysql_query($Consulta);
+					$Resp2 = mysqli_query($link, $Consulta);
 					$ContSA = mysql_num_rows($Resp2);					
 					if ($ContSA == 0)
 					{
@@ -401,7 +401,7 @@ function Historial(SA)
 						$Consulta.= " and origen ".$Origen;
 						$Consulta.= " and destino ".$Destino;
 						$Consulta.= " order by turno, num_carga";
-						$Resp2 = mysql_query($Consulta);
+						$Resp2 = mysqli_query($link, $Consulta);
 						$ContSA = mysql_num_rows($Resp2);
 						include("../principal/cerrar_sef_web.php");
 						include("../principal/conectar_principal.php");
@@ -440,7 +440,7 @@ function Historial(SA)
 				}
 				$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 				$Consulta.= " order by t1.id_muestra";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				$ContSAs = mysql_num_rows($Resp2);
 				$PesoReg = $v[9]*$PesoBase; //OLLAS X PESO_BASE
 				if ($TipoInforme == 1 || $TipoInforme == 2 || $TipoInforme == 3)
@@ -477,7 +477,7 @@ function Historial(SA)
 				}
 				$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 				$Consulta.= " order by t1.id_muestra";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				$SA = "";
 				$ContSA = 1;
 				while ($Fila2 = mysql_fetch_array($Resp2))
@@ -625,7 +625,7 @@ function Historial(SA)
 			}
 			$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 			$Consulta.= " order by t1.id_muestra";
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$SA = "";
 			while ($Fila2 = mysql_fetch_array($Resp2))
 			{			
@@ -687,7 +687,7 @@ function Historial(SA)
 				}
 				//NUMERO SEMANA
 				$Consulta = "SELECT week('".$FechaAux."') as num_semana";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				$Fila2 = mysql_fetch_array($Resp2);
 				$NumSemana = $Fila2["num_semana"];
 				$PesoReg = $SemanalCantMov*$PesoBase;
@@ -730,7 +730,7 @@ function Historial(SA)
 				}
 				$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 				$Consulta.= " order by t1.id_muestra";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				$SA = "";
 				while ($Fila2 = mysql_fetch_array($Resp2))
 				{			
@@ -796,7 +796,7 @@ function Historial(SA)
 			}
 			//NUMERO SEMANA
 			$Consulta = "SELECT week('".$FechaAux."') as num_semana";
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$Fila2 = mysql_fetch_array($Resp2);
 			$NumSemana = $Fila2["num_semana"];
 			$PesoReg = $SemanalCantMov*$PesoBase;
@@ -839,7 +839,7 @@ function Historial(SA)
 			}
 			$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 			$Consulta.= " order by t1.id_muestra";
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$SA = "";
 			while ($Fila2 = mysql_fetch_array($Resp2))
 			{			
@@ -926,7 +926,7 @@ function Historial(SA)
 		$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 		$Consulta.= " order by t1.id_muestra";	
 		$SA = "";
-		$Resp2 = mysql_query($Consulta);	
+		$Resp2 = mysqli_query($link, $Consulta);	
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{			
 			$ArrLeyes[$Fila2["cod_leyes"]][2] = $Fila2["valor"];

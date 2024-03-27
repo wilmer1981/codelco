@@ -98,7 +98,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
          <option value="-1" class="InputRojo">Todos</option>
          <?
 				$Consulta = "select * from ipif_parametros_sistema where cod_parametro in ('3','4','5')  ";			
-				$Respp=mysql_query($Consulta);
+				$Respp=mysqli_query($link, $Consulta);
 				while ($FilaCrit=mysql_fetch_array($Respp))
 				{
 					if ($CmbTipo==$FilaCrit["cod_parametro"])
@@ -147,7 +147,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					break;
 				}
 				
-			$RespSolp=mysql_query($Consulta);
+			$RespSolp=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			while($FilaSolp=mysql_fetch_array($RespSolp))
 			{

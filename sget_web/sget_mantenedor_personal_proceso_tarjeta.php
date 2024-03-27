@@ -60,7 +60,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       </tr>
 <?
 	$Consulta="SELECT nombres,ape_paterno,ape_materno,nro_tarjeta from sget_personal where rut='".$Valores."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	if($FilaDet=mysql_fetch_array($Resp))
 	{

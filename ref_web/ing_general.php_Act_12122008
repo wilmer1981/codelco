@@ -114,7 +114,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					$Consulta = "select case when CURTIME() between '00:00:00' and '07:59:59' then 'C' else ";
 					$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
 					$Consulta.= " case when CURTIME() between '16:00:00' and '23:59:59' then 'B' end end end as turno ";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 				if ($Fila = mysql_fetch_array($Respuesta))
 					$cmbturno = $Fila["turno"];
 				}

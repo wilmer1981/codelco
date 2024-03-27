@@ -11,7 +11,7 @@ switch($Proceso)
 {
 	case "A"://Autoriza
 		$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$NumHoja."' and cod_hito='".$H."' ";
-		$RespHD = mysql_query($Consulta);
+		$RespHD = mysqli_query($link, $Consulta);
 		if($FilaHD=mysql_fetch_array($RespHD))
 		{
 			if($FilaHD[autorizado]!='S')
@@ -36,7 +36,7 @@ switch($Proceso)
 		   	$array=explode('~',$VarCodelco);
 		   	$EMail=$array[5];
 			$Consulta="SELECT cod_contrato,rut_empresa from sget_hoja_ruta where num_hoja_ruta='".$NumHoja."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$ArrayCtto=explode('~',DescripCtto($Fila["cod_contrato"]));
 			$Ctto=$ArrayCtto[0]." ".$ArrayCtto[1];

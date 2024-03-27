@@ -26,7 +26,7 @@
 			{
 								
 				$Consulta="select * from pcip_eec_equipos_por_sistema where cod_equipo='".$TxtCodigo."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				if(!$Fila=mysql_fetch_array($Respuesta))
 				{

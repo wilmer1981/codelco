@@ -61,7 +61,7 @@ function Procesos(TipoProceso)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar los Centro de Costos Seleccionados?"))
+				if (confirm("ï¿½Desea Eliminar los Centro de Costos Seleccionados?"))
 				{
 					f.action = "pcip_mantenedor_centro_costos_proceso01.php?Opcion=E&Valores="+Valores;
 					f.submit();
@@ -117,7 +117,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  <option value="T" selected="selected">Todas</option>
 	  <?
 	  $Consulta = "select cod_gerencia,descrip_gerencias from pcip_eec_gerencias order by descrip_gerencias ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbGerencias==$Fila["cod_gerencia"])
@@ -174,7 +174,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.=" and t1.descrip_area like '%".$TxtDescripcion."%'";		
 				$Consulta.=" order by t1.cod_cc";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);				
+				$Resp=mysqli_query($link, $Consulta);				
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					$Corr=$Fila[cod_area];

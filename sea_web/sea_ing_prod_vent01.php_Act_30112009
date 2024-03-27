@@ -51,7 +51,7 @@ if ($proceso == 'G')
 
 
         $Consulta = "SELECT unidades,peso_unidades FROM hornadas WHERE cod_producto = 17 AND cod_subproducto = 8 AND hornada_ventana = $num_hornada"; 	
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		if($row = mysql_fetch_array($rs))
 		{
    			$unidades_total = $row["unidades"] + $uni_hojas_madres;
@@ -83,7 +83,7 @@ if ($proceso == 'G')
 
 
         $Consulta = "SELECT unidades,peso_unidades FROM hornadas WHERE cod_producto = 17 AND cod_subproducto = 4 AND hornada_ventana = $num_hornada"; 	
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		if($row = mysql_fetch_array($rs))
 		{
    			$unidades_total = $row["unidades"] + $uni_corrientes;

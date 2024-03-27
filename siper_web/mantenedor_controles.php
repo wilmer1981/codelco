@@ -160,7 +160,7 @@ function Salir()
 			  <option value="T" SELECTed="NoSelect">Todos</option>
 			  <?
 				$Consulta="SELECT CCONTROL,NCONTROL from sgrs_codcontroles where CCONTROL<>'' order by NCONTROL";				
-				$Resultado=mysql_query($Consulta);
+				$Resultado=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resultado))
 				{
 					if($CmbControl==$Fila[CCONTROL])
@@ -191,7 +191,7 @@ function Salir()
 						$Consulta.=" and CCONTROL='".$CmbControl."'";
 					//$Consulta.=" and QPESOESP>='0'";	
 					$Consulta.=" order by NCONTROL";
-					$Resultado=mysql_query($Consulta);echo "<input name='CheckCon' type='hidden'  value=''>";
+					$Resultado=mysqli_query($link, $Consulta);echo "<input name='CheckCon' type='hidden'  value=''>";
 					while ($Fila=mysql_fetch_array($Resultado))
 					{		
 						if($MPROBCONSEC==1)
@@ -232,7 +232,7 @@ if($Proceso=='MC')
 {
 	$Consulta="SELECT * from sgrs_codcontroles where CCONTROL='".$CmbControl1."'";
 	//echo $Consulta;
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resultado))
 	{
 		$TxtDescripcion=$Fila[NCONTROL];
@@ -251,7 +251,7 @@ if($Proceso=='AC')
 	$CheckVigVis='checked';
 	$Consulta="SELECT MPROBCONSEC from sgrs_codcontroles where CCONTROL = '".$CmbControl1."'";
 	//echo $Consulta."<br>";
-	$Result=mysql_query($Consulta);
+	$Result=mysqli_query($link, $Consulta);
 	$Fila2=mysql_fetch_array($Result);
 	$CmbProbConsec=$Fila2[MPROBCONSEC];	
 	
@@ -303,7 +303,7 @@ if($Proceso=='AC')
 			  if($Proceso=='AC')
 			  {
 				$Consulta = "SELECT max(ceiling(CCONTROL) +1) as mayor from sgrs_codcontroles"; 
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$Mayor=$Fila["mayor"];			
 			  ?>
@@ -391,7 +391,7 @@ include('div_obs_elimina_mantenedor.php');
 		while(list($c,$v)=each($Dato))
 		{
 			$Consulta="SELECT NCONTROL,QPESOESP from sgrs_codcontroles where CCONTROL='".$v."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NOMCONTROL=$NOMCONTROL.$v."-".$Fila[NCONTROL].", ";
 			

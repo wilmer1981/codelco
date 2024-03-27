@@ -61,7 +61,7 @@ function Proceso(Opt)
 			$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas t1 inner join sget_personal t2 on t1.rut_personal=t2.rut ";
 			$Consulta.=" left join sget_cargos t3 on t3.cod_cargo=t2.cargo";
 			$Consulta.=" where t1.num_hoja_ruta ='".$NumHoja."' and t2.rut='".$RutPer."' and cod_hito='2' order by t2.ape_paterno";
-			$RespDet=mysql_query($Consulta);
+			$RespDet=mysqli_query($link, $Consulta);
 			$FilaDet=mysql_fetch_array($RespDet);	
 			$Nombre=$FilaDet["rut"]." - ".$FilaDet[ape_paterno]." ".$FilaDet[ape_materno]." ".$FilaDet["nombres"];
 		?>

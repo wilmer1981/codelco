@@ -153,7 +153,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		/*echo "***************************"."<br>";
 		echo "ADMINISTRADOR".$ADMINISTRADOR."<br>";*/
  		$Consulta = "select * from  ipif_ceco_solicitante where cuenta_solicitante='".$Cuenta."' and cod_perfil='".$ADMINISTRADOR."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		/*echo "***************************"."<br>";
 		echo $Consulta."<br>";;*/
 		if ($FilaT=mysql_fetch_array($Resp))
@@ -182,7 +182,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
          <option value="-1" class="NoSelec">Todos</option>
          <?
 			$Consulta = "select * from  proyecto_modernizacion.sub_clase where cod_clase=1 order by valor_subclase1";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaT=mysql_fetch_array($Resp))
 				{
 					if ($CmbTurno==$FilaT["cod_subclase"])
@@ -224,7 +224,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta="select * from ipif_novedades where fecha_ingreso='".$FB."'  and estado >=1  and ceco_origen='".$Ceco."' ";
 			if($CmbTurno != '-1')
 				$Consulta.=" and turno='".$CmbTurno."'";
-			$RespSolp=mysql_query($Consulta);
+			$RespSolp=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			echo "<input name='Check' class='SinBorde' type='hidden'  value=''>";
 			while($FilaSolp=mysql_fetch_array($RespSolp))
@@ -287,7 +287,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta="select * from ipif_novedades where fecha_ingreso  < '".$FB."' and estado >= 1 and estado <> 2 and ceco_origen='".$Ceco."'";
 			if($CmbTurno != '-1')
 				$Consulta.=" and turno='".$CmbTurno."'";
-			$RespSolp=mysql_query($Consulta);
+			$RespSolp=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			echo "<input name='Check' class='SinBorde' type='hidden'  value=''>";
 			while($FilaSolp=mysql_fetch_array($RespSolp))

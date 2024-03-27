@@ -25,7 +25,7 @@
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
 	$Consulta="select count(*) as cant from age_web.lotes where lote between '$LoteIni' and '$LoteFin' and estado_lote not in ('4','6')";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Respuesta))
 	{
 		$CantLotesAbiertos=$Fila[cant];
@@ -137,7 +137,7 @@
 		}	
 		
 		//echo $Consulta;
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($Resp))
 		{
 			$DatosLote= array();
@@ -158,7 +158,7 @@
 			$Consulta.= " inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='1002' and t3.cod_subclase=t2.estado_actual  ";
 			$Consulta.= " where t1.lote = '".$TxtLote."' ";			
 			$Consulta.= " and (t2.recargo='0' or t2.recargo='') ";	
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 			{
 				$SA=$FilaAux["nro_solicitud"];
@@ -177,7 +177,7 @@
 			$Consulta.= " inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='1002' and t3.cod_subclase=t2.estado_actual  ";
 			$Consulta.= " where t1.lote = '".$TxtLote."' ";			
 			$Consulta.= " and t2.recargo='R' ";	
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 			{
 				$SA_Retalla=$FilaAux["nro_solicitud"];
@@ -195,7 +195,7 @@
 			$Consulta.= " inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='1002' and t3.cod_subclase=t2.estado_actual  ";
 			$Consulta.= " where t1.lote = '".$TxtLote."' ";			
 			$Consulta.= " and (t2.recargo='0' or t2.recargo='' or isnull(t2.recargo)) and estado_actual not in ('7','16')";	
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 			{
 				$SA_Paralela=$FilaAux["nro_solicitud"];
@@ -247,7 +247,7 @@
 			//SOLICITUD DEL LOTE
 			$Consulta = "select cod_leyes,valor ";
 			$Consulta.= " from cal_web.leyes_por_solicitud where nro_solicitud='".$SA."' and id_muestra = '".$TxtLote."' and recargo > 0 and (cod_leyes='01' and valor IS NULL) and cod_producto= '1' and cod_subproducto not in ('16','17','18','56') ";			
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 				echo "<td bgcolor='red'>&nbsp;</td>\n";
 			else

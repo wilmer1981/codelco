@@ -16,7 +16,7 @@ if ($Opc=='M')
 	$Consulta="SELECT * from sget_mutuales_seg ";
 	$Consulta.=" where cod_mutual='".$Valores."' ";
 	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["cod_mutual"];
@@ -28,7 +28,7 @@ if ($Opc=='M')
 else
 {
 	$Consulta="SELECT max(cod_mutual+1) as maximo from sget_mutuales_seg ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["maximo"];
@@ -153,7 +153,7 @@ if ($Opc=='N')
             <option value="-1" class="NoSelec">Seleccionar</option>
             <?
 	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEstado==$FilaTC["cod_subclase"])

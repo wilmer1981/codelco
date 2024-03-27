@@ -9,7 +9,7 @@
 	$Consulta.=" from proyecto_modernizacion.leyes ";
 	$Consulta.= " where cod_leyes<>''";
 	//echo $Consulta;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$DatosLeyes[$Fila["cod_leyes"]]=$Fila["ley"];
@@ -87,7 +87,7 @@
 	}	
 	if ((($TipoConsulta == "R") || ($TipoConsulta == "D")) && ($Producto != "S"))
 	{
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Row = mysql_fetch_array($Respuesta))
 			echo $Row["cod_subproducto"]." - ".$Row["nom_subpro"];
 		else
@@ -131,7 +131,7 @@
 	}	
 	if ((($TipoConsulta == "R") || ($TipoConsulta == "D"))  && ($RutProveedor != "S"))
 	{
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Row = mysql_fetch_array($Respuesta))
 			echo $Row["rut_prv"]." - ".$Row["nombre_prv"];
 		else
@@ -386,7 +386,7 @@
 	$TotalTara=0;
 	$TotalNeto=0;
 	//echo "consulta:".$Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($Respuesta))
 	{
 		switch ($TipoConsulta)

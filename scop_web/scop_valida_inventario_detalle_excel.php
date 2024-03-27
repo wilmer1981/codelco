@@ -16,7 +16,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
          <?
 			$Datos=explode("~",$Valores);
 			$Consulta="select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='33002' and cod_subclase='".$Datos[3]."'";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			if($FilaTipo=mysql_fetch_array($RespTipo))
 			{				
 				 ?>
@@ -37,7 +37,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 					$Consulta.=" and t1.cod_contrato='".$Datos[0]."'";
 				$Consulta.=" group by t1.cod_contrato ";
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					$NomTipoContrato=$Fila[nom_tipo_contr];
@@ -51,7 +51,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
          </tr>
          <?
 							$Consulta="select tipo_flujo,tipo_inventario from scop_contratos_flujos where cod_contrato='".$CodContrato."' group by tipo_inventario";
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							while($Fila=mysql_fetch_array($Resp))
 							{
 								$TipoFlujo2=$Fila[tipo_flujo];
@@ -317,7 +317,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$CodContrato,$TipoFlujo,$CodFlujo,$ArrFinos,$i)
 {
 	$Consulta="select * from scop_contratos_flujos where cod_contrato='".$CodContrato."' and tipo_inventario='".$i."' and flujo='".$CodFlujo."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		if($Fila[tipo_inventario]=='1')
@@ -338,7 +338,7 @@ function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$CodContrato,$TipoFlujo,$CodFlujo
 		$Consulta="select peso,cobre,plata,oro from scop_datos_enabal where ano='".$AnoFlujo."' and cod_flujo='".$Flujo."' and origen='".$TipoFlujo."' and tipo_mov='".$TipoMovimiento."'";		
 		if($MesFlujo!='T')
 			$Consulta.=" and mes='".$MesFlujo."'";
-		$RespValor=mysql_query($Consulta);$Peso=0;$Cu=0;$Ag=0;$Au=0;
+		$RespValor=mysqli_query($link, $Consulta);$Peso=0;$Cu=0;$Ag=0;$Au=0;
 		if($FilaValor=mysql_fetch_array($RespValor))
 		{
 			$Peso=$FilaValor["peso"];

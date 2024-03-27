@@ -51,13 +51,13 @@ function Proceso(TipoProceso)
 		case "C":
 			if(f.CmbGrupo.value=='-1')
 			{
-				alert("Debe seleccionar Grupo Asignación");
+				alert("Debe seleccionar Grupo Asignaciï¿½n");
 				f.CmbGrupo.focus();
 				return;
 			}					
 			if(f.CmbAsig.value=='-1')
 			{
-				alert("Debe seleccionar Asignación");
+				alert("Debe seleccionar Asignaciï¿½n");
 				f.CmbAsig.focus();
 				return;
 			}					
@@ -74,7 +74,7 @@ function Proceso(TipoProceso)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar los datos Seleccionados?"))
+				if (confirm("ï¿½Desea Eliminar los datos Seleccionados?"))
 				{
 					f.action = "pcip_mantenedor_variaciones_inventarios_proceso01.php?Opcion=E&Cod="+Valores;
 					f.submit();
@@ -126,12 +126,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 </table>
 <table width="100%" align="center" cellpadding="2" cellspacing="0" class="ColorTabla02">
 <tr>
-<td width="16%" height="17" class='formulario2'>Grupo Asignación</td>
+<td width="16%" height="17" class='formulario2'>Grupo Asignaciï¿½n</td>
 <td width="84%" class="formulario2" ><select name="CmbGrupo" onChange="Proceso('R')">
   <option value="-1" selected="selected">Seleccionar</option>
   <?
 	$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31044'order by cod_subclase ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
 		if ($CmbGrupo==$FilaTC["cod_subclase"])
@@ -148,7 +148,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   <?
 	$Consulta = "select distinct t1.cod_subclase,t1.nombre_subclase from proyecto_modernizacion.sub_clase t1 inner join proyecto_modernizacion.sub_clase t2";
 	$Consulta.= " on t1.cod_clase='31045' and t2.cod_subclase=t1.valor_subclase1 where t1.valor_subclase1='".$CmbGrupo."' order by t1.cod_subclase ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
 		if ($CmbAsig==$FilaTC["cod_subclase"])
@@ -164,7 +164,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	   <option value="-1" class="NoSelec">Todos</option>
 	   <?
 		$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31009' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbArea==$FilaTC["cod_subclase"])
@@ -180,7 +180,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	   <option value="-1" class="NoSelec">Todos</option>
 	   <?
 		$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31010'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbMaqui==$FilaTC["cod_subclase"])
@@ -196,7 +196,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	   <option value="-1" class="NoSelec">Todos</option>
 	   <?
 		$Consulta ="select cod_producto,nom_producto from pcip_svp_productos_inventarios order by cod_producto";	
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		echo $Consulta;
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
@@ -258,7 +258,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		if($CmbProd!='-1')
 			$Consulta.= " and t3.cod_producto='".$CmbProd."' ";
 	    $Consulta.=" order by t1.cod_asignacion,t1.cod_maquila,t1.cod_area";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		echo "<input type='hidden' name='CheckDisp'>";
 		//echo $Consulta;
 		while($Fila=mysql_fetch_array($Resp))

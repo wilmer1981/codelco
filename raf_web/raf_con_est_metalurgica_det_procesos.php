@@ -41,7 +41,7 @@ body {
 	$Consulta = "select distinct hornada, campo1 from raf_web.datos_operacionales ";
 	$Consulta.= " where hornada = '".$Hornada."'";
 	$Consulta.= " order by hornada, campo1";
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	while ($FilaAux = mysql_fetch_array($RespAux))
 	{
 		$Consulta = "SELECT * FROM raf_web.datos_operacionales ";
@@ -52,7 +52,7 @@ body {
 		$Consulta.= " and (ISNULL(campo4) or campo4<>'S' or campo4='')"; 
 		$Consulta.= " and campo1 <> ''";
 		$Consulta.= " order by fecha_ini, hora_ini, hora_ter ";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{
 			$Tiempo = 0;
@@ -66,7 +66,7 @@ body {
 			$FH_IniCarga = $Fila2["fecha_ini"]." ".$Fila2["hora_ini"];
 			$FH_FinCarga = $FechaFinAux." ".$Fila2["hora_ter"];
 			$Consulta = "select TIMEDIFF('".$FH_FinCarga."', '".$FH_IniCarga."') as diferencia ";				
-			$Resp3 = mysql_query($Consulta);
+			$Resp3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Resp3))
 			{				
 				$Hora = intval(substr($Fila3["diferencia"],0,2));
@@ -92,7 +92,7 @@ body {
 	$Consulta.= " and campo1 <> ''";
 	$Consulta.= " and campo2 <> '1'";
 	$Consulta.= " order by campo2, campo1, fecha_ini, hora_ini ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		$Tiempo = 0;
@@ -106,7 +106,7 @@ body {
 		$FH_IniCarga = $Fila["fecha_ini"]." ".$Fila["hora_ini"];
 		$FH_FinCarga = $FechaFinAux." ".$Fila["hora_ter"];
 		$Consulta = "select TIMEDIFF('".$FH_FinCarga."', '".$FH_IniCarga."') as diferencia ";				
-		$Resp3 = mysql_query($Consulta);
+		$Resp3 = mysqli_query($link, $Consulta);
 		if ($Fila3 = mysql_fetch_array($Resp3))
 		{				
 			$Hora = intval(substr($Fila3["diferencia"],0,2));
@@ -154,7 +154,7 @@ body {
 	$Consulta.= " and campo1 <> ''";
 	$Consulta.= " and campo2 = '1'";
 	$Consulta.= " order by campo1, fecha_ini, hora_ini ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		echo "<tr>\n";
@@ -199,7 +199,7 @@ body {
 	$Consulta.= " and t1.seccion_report='10'";
 	$Consulta.= " and t1.campo1 <> ''";
 	$Consulta.= " order by t1.campo1, t1.campo2 ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		echo "<tr>\n";

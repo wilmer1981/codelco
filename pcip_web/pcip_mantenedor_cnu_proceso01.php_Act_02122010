@@ -29,7 +29,7 @@ switch($Opcion)
 			if($v=='')
 				$v=0;
 			$Consulta="select * from pcip_ena_datos_enabal where ano='".$Cod[0]."' and mes='".$Mes."' and tipo='".$Cod[2]."'";	
-			$RespMes=mysql_query($Consulta);
+			$RespMes=mysqli_query($link, $Consulta);
 			if($FilaMes=mysql_fetch_array($RespMes))
 			{
 				$Actualizar="UPDATE pcip_ena_datos_enabal set peso='".str_replace(',','.',$v)."' where ano='".$Cod[0]."' and cod_nodo='".$Cod[1]."' and mes='".$Mes."' and tipo='".$Cod[2]."'";	

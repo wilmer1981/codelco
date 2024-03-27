@@ -4,7 +4,7 @@
 	$Consulta="SELECT count(*) as cant from sget_hoja_ruta_nomina  ";
 	$Consulta.="where num_hoja_ruta ='".$NumHR."'";
 	//$Consulta.=" and estado='A'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$CantHojas=1;
 	if($Fila=mysql_fetch_array($Resp))
 	{
@@ -31,7 +31,7 @@
 	$Consulta.="inner join sget_contratos t3 on t1.cod_contrato=t3.cod_contrato ";
 	$Consulta.="where t1.num_hoja_ruta='".$NumHR."'";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resp);
 	$FechaTram=$Fila[fecha_tramitacion];
 	/* DATOS EMPRESA */
@@ -69,25 +69,25 @@
 	$FechaVB='';$VB_SGET='';$VB_INTEG='';$VB_INTEG='';
 	$Consulta="SELECT t1.rut_autorizador,t1.fecha_autorizacion,t2.nombres,t2.apellido_paterno,t2.apellido_materno from sget_hoja_ruta_hitos t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut_autorizador=t2.rut where t1.num_hoja_ruta='".$NumHR."' and t1.cod_hito='1'";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 		$FechaVB=ucfirst(strtolower($Fila["nombres"]))." ".ucfirst(strtolower($Fila["apellido_paterno"]))." ".ucfirst(strtolower($Fila["apellido_materno"]))."   Fecha: ".$Fila[fecha_autorizacion];
 		
 	$Consulta="SELECT t1.rut_autorizador,t1.fecha_autorizacion,t2.nombres,t2.apellido_paterno,t2.apellido_materno from sget_hoja_ruta_hitos t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut_autorizador=t2.rut where t1.num_hoja_ruta='".$NumHR."' and t1.cod_hito='2'";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 		$VB_SGET=ucfirst(strtolower($Fila["nombres"]))." ".ucfirst(strtolower($Fila["apellido_paterno"]))." ".ucfirst(strtolower($Fila["apellido_materno"]))."                  Fecha:".$Fila[fecha_autorizacion];
 
 	$Consulta="SELECT t1.rut_autorizador,t1.fecha_autorizacion,t2.nombres,t2.apellido_paterno,t2.apellido_materno from sget_hoja_ruta_hitos t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut_autorizador=t2.rut where t1.num_hoja_ruta='".$NumHR."' and t1.cod_hito='4' and autorizado='S' ";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 		$VB_INTEG=ucfirst(strtolower($Fila["nombres"]))." ".ucfirst(strtolower($Fila["apellido_paterno"]))." ".ucfirst(strtolower($Fila["apellido_materno"]))."                  Fecha:".$Fila[fecha_autorizacion];
 
 	$Consulta="SELECT t1.rut_autorizador,t1.fecha_autorizacion,t2.nombres,t2.apellido_paterno,t2.apellido_materno from sget_hoja_ruta_hitos t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut_autorizador=t2.rut where t1.num_hoja_ruta='".$NumHR."' and t1.cod_hito='5'";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 		$VB_SGET2=ucfirst(strtolower($Fila["nombres"]))." ".ucfirst(strtolower($Fila["apellido_paterno"]))." ".ucfirst(strtolower($Fila["apellido_materno"]))."                  Fecha:".$Fila[fecha_autorizacion];
 	
@@ -160,13 +160,13 @@
 	//$Consulta.=" where t1.num_hoja_ruta ='".$NumHR."' and t2.estado='A'";
 	$Consulta.=" where t1.num_hoja_ruta ='".$NumHR."' order by t3.ape_paterno LIMIT ".$LimitIni.",".$LimitFin;
 	//echo $Consulta;
-	$RespDet=mysql_query($Consulta);
+	$RespDet=mysqli_query($link, $Consulta);
 	$PosF=295;$PosF2=290;
 	while($FilaDet=mysql_fetch_array($RespDet))
 	{
 	  	$Consulta="SELECT * from sget_hoja_ruta_nomina_hitos_personas where num_hoja_ruta='".$NumHR."' and rut_personal='".$FilaDet["rut"]."' order by fecha_hora desc";
 		//echo $Consulta."<br>";
-		$RespAcept=mysql_query($Consulta);
+		$RespAcept=mysqli_query($link, $Consulta);
 		$FilaAcept=mysql_fetch_array($RespAcept);
 		if($FilaAcept[aprob_rechazo]!='R')
 		{

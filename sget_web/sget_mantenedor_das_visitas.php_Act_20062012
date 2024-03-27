@@ -196,7 +196,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($TxtMat!='')
 					$Consulta.=" and apellido_materno like '%".$TxtMat."%'";
 				$Consulta.=" group by rut order by apellido_paterno,apellido_materno,nombres,fecha_ingreso desc,empresa";	
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				echo "<input name='CheckVisita' type='hidden'  value=''>";
 				$Cont=1;

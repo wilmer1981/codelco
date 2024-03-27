@@ -14,13 +14,13 @@ switch($Opcion)
 						$Consulta = "select t1.id_muestra,ceiling(t1.unidad_ag) as unidad_ag,ceiling(t1.unidad_au) as unidad_au, ceiling(t1.r_unidad_ag) as r_unidad_ag, ceiling(t1.r_unidad_au) as r_unidad_au,  ";
 						$Consulta.= "t1.nro_solicitud,t1.ley_au,t1.ley_ag,t1.r_ley_ag,t1.r_ley_au,t1.r_peso
 						 from cal_web.tmp_solicitud_excel t1 where t1.run_registro='".$CookieRut."'  and t1.nro_solicitud='".$v."'";
-						$Respuesta = mysql_query($Consulta);$Cont2=0;
+						$Respuesta = mysqli_query($link, $Consulta);$Cont2=0;
 						if($Row = mysql_fetch_array($Respuesta))
 						{
 							$RUT_FUNC=ObtenerRutFuncionario($v);
 	
 							$Consulta="Select * from cal_web.solicitud_analisis where nro_solicitud='".$v."' and recargo in ('R')";
-							$Resp1 = mysql_query($Consulta);
+							$Resp1 = mysqli_query($link, $Consulta);
 							if($Row1 = mysql_fetch_array($Resp1))
 							{
 								if($Row1["estado_actual"]=='6' || $Row1["estado_actual"]=='32' )
@@ -38,7 +38,7 @@ switch($Opcion)
 							}
 							
 							$Consulta="Select * from cal_web.solicitud_analisis where nro_solicitud='".$v."' and recargo in ('0','')";
-							$Resp2 = mysql_query($Consulta);
+							$Resp2 = mysqli_query($link, $Consulta);
 							if($Row2 = mysql_fetch_array($Resp2))
 							{
 								$RecargoSolicitud=$Row2["recargo"];
@@ -91,7 +91,7 @@ switch($Opcion)
 						$Consulta.=" from cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2 ";
 						$Consulta.=" on t1.nro_solicitud = t2.nro_solicitud and t1.recargo = t2.recargo";
 						$Consulta.=" where t1.estado_actual='5' and t1.nro_solicitud ='".$v."' group by t1.nro_solicitud, t1.recargo order by error desc";
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						if($Row4 = mysql_fetch_array($Respuesta))
 						{	
 							if($Row4["error"]== "S") 
@@ -103,7 +103,7 @@ switch($Opcion)
 									mysql_query($Actualizar);
 									$Consulta = "select count(*) as cantreg from cal_web.estados_por_solicitud where nro_solicitud='".$Row4["nro_solicitud"]."'";
 									$Consulta.= " and rut_funcionario='".$Row4["rut_funcionario"]."' and cod_estado='6' ";
-									$Resp2=mysql_query($Consulta);
+									$Resp2=mysqli_query($link, $Consulta);
 									if($Row2=mysql_fetch_array($Resp2))
 									{
 										if($Row2["cantreg"]== 0) 
@@ -161,7 +161,7 @@ function ActualizarLeyesSolicitud($Solicitud,$Recargo,$Leyes,$Valor,$RutQuimico,
 	mysql_query($Actualizar);
 //		echo "ACT 0 ".$Actualizar."<br>";
 	$Consulta="Select * from cal_web.estados_por_solicitud  where nro_solicitud='".$Solicitud."' and recargo='".$Recargo."' and cod_estado='5'";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if($Fila = mysql_fetch_array($Resp))
 	{
 		$Actualizar=" Update cal_web.estados_por_solicitud set  rut_proceso='".$RutQuimico."',fecha_hora='".date('Y-m-d H:i:s')."'"; 
@@ -177,7 +177,7 @@ function ActualizarLeyesSolicitud($Solicitud,$Recargo,$Leyes,$Valor,$RutQuimico,
 	//	echo "INST 1 ".$Insertar."<br>";
 	}	
 	$Consulta="select * from cal_web.registro_leyes where nro_solicitud='".$Solicitud."' and recargo='".$Recargo."' and cod_leyes='".$Leyes."' ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if(!$Fila = mysql_fetch_array($Resp))
 	{
 		$InsertarReg=" INSERT INTO cal_web.registro_leyes (select rut_funcionario,'".date('Y-m-d H:i:s')."',nro_solicitud,recargo,cod_leyes,";
@@ -197,7 +197,7 @@ function ActualizarLeyesSolicitud($Solicitud,$Recargo,$Leyes,$Valor,$RutQuimico,
 function ObtenerRutFuncionario($Solicitud)
 {
 	$Consulta="Select * from cal_web.solicitud_analisis  t1 where t1.nro_solicitud='".$Solicitud."' ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if($Fila = mysql_fetch_array($Resp))
 	{
 		$RUT=$Fila["rut_funcionario"];	

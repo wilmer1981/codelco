@@ -59,7 +59,7 @@ function Procesos(TipoProceso)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar las Asignaciones Seleccionadas?"))
+				if (confirm("ï¿½Desea Eliminar las Asignaciones Seleccionadas?"))
 				{
 					f.action = "pcip_mantenedor_asignaciones_ppc_proceso01.php?Opcion=E&Valores="+Valores;
 					f.submit();
@@ -118,7 +118,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="-1" selected="selected">Todos</option>
             <?
 	    $Consulta = "select * from pcip_svp_asignacion where mostrar_ppc='1' order by cod_asignacion";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$Fila["cod_asignacion"])
@@ -135,7 +135,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="-1" class="NoSelec">Todos</option>
             <?
 	    $Consulta = "select * from pcip_svp_asignaciones_productos where cod_asignacion='".$CmbProd."' and tipo='PPC'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbAsig==$Fila["cod_producto"])
@@ -190,7 +190,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if($CmbAsig!='-1')
 		$Consulta.="and t1.cod_procedencia='".$CmbAsig."'";	
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);$Cont=0;
+	$Resp=mysqli_query($link, $Consulta);$Cont=0;
 	echo "<input name='CheckAsig' type='hidden'>";
 	while($Fila=mysql_fetch_array($Resp))
 	{
@@ -235,7 +235,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if ($Mensaje=='1')
 		echo "alert('Asignaciones (s) Eliminado(s) Correctamente');";
 	if($Mensaje!='1'&&$Cont==0&&$Buscar=='S')
-		echo "alert('Información de Asignacion No Encontrada');";	
+		echo "alert('Informaciï¿½n de Asignacion No Encontrada');";	
 	echo "</script>";
 ?>	
 </body>

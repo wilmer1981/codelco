@@ -74,7 +74,7 @@ function Recarga(Opt)
                 <option value="-1" class="NoSelec">Seleccionar</option>
                 <?
 				$Consulta = "SELECT * from sget_contratistas order by razon_social ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -142,7 +142,7 @@ function Recarga(Opt)
                 <?
 		$FechaActual=date("Y")."-".date("m")."-".date("d");
 		$Consulta="SELECT * from sget_contratos where rut_empresa='".$CmbEmpresa."' order by fecha_termino desc";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			if ($FechaActual > $FilaCtto[fecha_termino])
@@ -208,7 +208,7 @@ function Recarga(Opt)
           <option value="S" SELECTed="SELECTed">Todos</option>
           <?
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' order by cod_subclase";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if($CmbEstado==$Fila["cod_subclase"])
@@ -273,7 +273,7 @@ if($Cons=='S')
 		$Consulta.= " and cod_estado_aprobado <>'3' ";	
 	$Consulta.= " order by num_hoja_ruta desc, cod_estado_aprobado asc   ";		
 	//echo $Consulta;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckHoja' type='hidden'  value=''>";
 	$cont=1;
 	while ($Fila_HR=mysql_fetch_array($Resp))
@@ -312,12 +312,12 @@ if($Cons=='S')
 			$Consulta = "SELECT max(fecha_hora) as fecha_hora from sget_reg_estados  ";
 			$Consulta.= " where num_hoja_ruta='".$Fila_HR[num_hoja_ruta]."'";
 			$Consulta.= " group by num_hoja_ruta ";
-			$RespCrea=mysql_query($Consulta);
+			$RespCrea=mysqli_query($link, $Consulta);
 			$FilaCrea=mysql_fetch_array($RespCrea);
 			
 			$Consulta = "SELECT cod_estado,tipo from sget_reg_estados  ";
 			$Consulta.= " where num_hoja_ruta='".$Fila_HR[num_hoja_ruta]."' and fecha_hora='".$FilaCrea["fecha_hora"]."'";
-			$RespCrea=mysql_query($Consulta);
+			$RespCrea=mysqli_query($link, $Consulta);
 			if($FilaCrea=mysql_fetch_array($RespCrea))
 			{
 				if($FilaCrea["cod_estado"]!='14')
@@ -327,7 +327,7 @@ if($Cons=='S')
 				if($FilaCrea["tipo"] =='E')
 				{
 					$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase ='".$FilaCrea["cod_estado"]."' ";
-					$Resp2=mysql_query($Consulta);
+					$Resp2=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Resp2);
 					{
 						$Estado=str_replace(' ','&nbsp;',$Fila2["nombre_subclase"]);
@@ -336,7 +336,7 @@ if($Cons=='S')
 				else
 				{
 					$Consulta="SELECT * from sget_hitos where cod_hito='".$FilaCrea["cod_estado"]."' ";
-					$Resp2=mysql_query($Consulta);
+					$Resp2=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Resp2);
 					{
 						$Estado=str_replace(' ','&nbsp;',$Fila2[descrip_hito]);

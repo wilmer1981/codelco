@@ -24,7 +24,7 @@
 		//$Consulta.=" and left(hornada,4) = '".$Ano."'";
 		$Consulta.=" and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 		//echo $Consulta;
-		$res = mysql_query($Consulta);		
+		$res = mysqli_query($link, $Consulta);		
 		$Row = mysql_fetch_array($res);
 		$Solera = $Row[solera];
 		$cmbturno = $Row[turno];
@@ -52,7 +52,7 @@
 				$Consulta.= " WHERE right(hornada,5) = $Hornada";
 			//$Consulta.=" and left(hornada,4) = '".$Ano."'";
 			$Consulta.=" and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$fila = mysql_fetch_array($resp);
 			if($fila["fecha"] != '')
 			{
@@ -450,7 +450,7 @@ body {
             <td width="50"><b>Encargado:</b></td>
             <td colspan="4">&nbsp; 
               <? $Consulta = "SELECT * FROM proyecto_modernizacion.funcionarios WHERE rut = '$CookieRut'";
-			   $rs = mysql_query($Consulta);
+			   $rs = mysqli_query($link, $Consulta);
 			   $fil = mysql_fetch_array($rs);
 			   echo $fil["nombres"].' '.$fil["apellido_paterno"].' '.$fil["apellido_materno"];				
 			   echo '<input type="hidden" name="encargado" value="'.$CookieRut.'">';
@@ -570,7 +570,7 @@ body {
 		//$Consulta.=" and left(hornada,4) = '".$Ano."'";
 		$Consulta.= " and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 		$Consulta.= " ORDER BY turno, grupo";
-		$Resp = mysql_query($Consulta);	
+		$Resp = mysqli_query($link, $Consulta);	
 
 		$pos = 9;
 		$i=0;
@@ -628,7 +628,7 @@ body {
 					$Consulta.= " AND turno = '$Row[turno]' and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 					$Consulta.= " ORDER BY cod_producto,cod_subproducto";
 
-				$Resultado=mysql_query($Consulta);
+				$Resultado=mysqli_query($link, $Consulta);
 				
 				while ($Fila=mysql_fetch_array($Resultado))
 				{
@@ -650,7 +650,7 @@ body {
 						$Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto"; 
 						$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
 						$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
-						$rs = mysql_query($Consulta);
+						$rs = mysqli_query($link, $Consulta);
 						$Fil = mysql_fetch_array($rs);
 						 
 						echo "<td width='15%' align='left'>".$Fil["abreviatura"]."</td>";		
@@ -678,7 +678,7 @@ body {
 						$Consulta.= " AND hornada_sea = '".$Fila[hornada_sea]."'";
 						$Consulta.= " AND turno = '".$Row[turno]."' and  left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 						//echo "uno".$Consulta."</br>";
-						$Rs = mysql_query($Consulta);						
+						$Rs = mysqli_query($link, $Consulta);						
 						$fila = mysql_fetch_array($Rs);						
 
 						if($Proceso == 'B' || $Proceso == 'H')
@@ -698,7 +698,7 @@ body {
 						$Consulta.= " AND hornada_sea = '".$Fila[hornada_sea]."'";
 						$Consulta.= " AND turno = '".$Row[turno]."' and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 						//echo "dos".$Consulta."</br>";
-						$Res = mysql_query($Consulta);						
+						$Res = mysqli_query($link, $Consulta);						
 						$Fil2 = mysql_fetch_array($Res);
 						
 						//Maneja Saldo
@@ -742,7 +742,7 @@ body {
 							$Consulta.= " AND hornada_sea = '".$Fila[hornada_sea]."'";
 							$Consulta.= " AND turno = '".$Row[turno]."' and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 							//echo "tres".$Consulta."<br>";
-							$Rs = mysql_query($Consulta);						
+							$Rs = mysqli_query($link, $Consulta);						
 							$fila = mysql_fetch_array($Rs);						
 							$unid1 = $fila["unidades"];
 							$peso1 = $fila["peso"];
@@ -764,7 +764,7 @@ body {
 							$Consulta.= " AND hornada_sea = '".$Fila[hornada_sea]."'";
 							$Consulta.= " AND turno = '".$Row[turno]."' and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 							//echo "cuatro".$Consulta."</br>";
-							$Rs = mysql_query($Consulta);						
+							$Rs = mysqli_query($link, $Consulta);						
 							$fila = mysql_fetch_array($Rs);						
 							$unid2 = $fila["unidades"];
 							$peso2 = $fila["peso"];
@@ -786,7 +786,7 @@ body {
 							$Consulta.= " AND hornada_sea = '".$Fila[hornada_sea]."'";
 							$Consulta.= " AND turno = '".$Row[turno]."' and left(hornada,6) between '".$AnoI."' and '".$AnoF."' ";
 							//echo "cinco".$Consulta."</br>";
-							$Rs = mysql_query($Consulta);						
+							$Rs = mysqli_query($link, $Consulta);						
 							$fila = mysql_fetch_array($Rs);						
 							$unid3 = $fila["unidades"];
 							$peso3 = $fila["peso"];
@@ -809,7 +809,7 @@ body {
 							$Consulta.= " AND hornada_sea = '".$Fila[hornada_sea]."'";
 							$Consulta.= " AND turno = '".$Row[turno]."' and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 							//echo"seis".$Consulta."</br>";
-							$Rs = mysql_query($Consulta);						
+							$Rs = mysqli_query($link, $Consulta);						
 							$fila = mysql_fetch_array($Rs);						
 							$unid4 = $fila["unidades"];
 							$peso4 = $fila["peso"];

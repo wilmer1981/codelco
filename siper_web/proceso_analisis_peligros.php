@@ -28,7 +28,7 @@
             <?	
 				
 			$Consulta="SELECT t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."' and MVIGENTE='1'";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resultado);
 			$CodTarea=$Fila[CTAREA];
 			if($CodTarea==8)
@@ -105,7 +105,7 @@
 					<?
 					$TotGAcep=0;$TotGMod=0;$TotGInacep=0;$Total=0;
 					$Consulta="SELECT t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."' and t1.MVIGENTE='1'";
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Resultado);
 					$CodTarea=$Fila[CTAREA];
 					if($CodTarea==8)
@@ -114,14 +114,14 @@
 						$Filtro2="t1.CPARENT like '%".$CodSelTarea."%' ";			
 					$Consulta="SELECT t3.NCONTACTO,t2.CCONTACTO from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA inner join sgrs_codcontactos t3 on t2.CCONTACTO=t3.CCONTACTO ";
 					$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro2." group by t2.CCONTACTO order by t2.CCONTACTO ";
-					$RespPel=mysql_query($Consulta);
+					$RespPel=mysqli_query($link, $Consulta);
 					//echo $Consulta."<br>";
 					while($FilaPel=mysql_fetch_array($RespPel))
 					{
 						$TotAcep=0;$TotMod=0;$TotInacep=0;$TotMriAcep=0;$TotMriMode=0;$TotMriInac=0;
 						$Consulta="SELECT * from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 						$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro2." and t2.CCONTACTO='".$FilaPel[CCONTACTO]."' ";
-						$RespP=mysql_query($Consulta);
+						$RespP=mysqli_query($link, $Consulta);
 						//echo $Consulta."<br>";
 						while($FilaP=mysql_fetch_array($RespP))
 						{
@@ -196,7 +196,7 @@
 			$Filtro="t1.CPARENT like '%".$CodSelTarea.$CAREA.",%' ";			
 		$Consulta="SELECT t2.MR1,t2.MR2 from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 		$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro;
-		$RespPel=mysql_query($Consulta);
+		$RespPel=mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
 		while($FilaPel=mysql_fetch_array($RespPel))
 		{

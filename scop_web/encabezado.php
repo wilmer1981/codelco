@@ -3,7 +3,7 @@
 	if ((isset($CodigoDeSistema)) && (isset($CodigoDePantalla)))
 	{
 		$Consulta = "Select * from proyecto_modernizacion.pantallas where cod_sistema = ".$CodigoDeSistema." and cod_pantalla = ".$CodigoDePantalla;
-		$Resultado = mysql_query($Consulta);
+		$Resultado = mysqli_query($link, $Consulta);
 		if ($Row = mysql_fetch_array($Resultado))
 		{
 			$TituloPagina = ucwords(strtolower($Row["descripcion"]));

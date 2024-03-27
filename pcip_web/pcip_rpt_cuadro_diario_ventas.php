@@ -113,7 +113,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   <option value="-1" selected="noSelec">Todos</option>
   <?
 	$Consulta = "select distinct(cod_contrato) from pcip_cdv_cuadro_diario_ventas order by cod_contrato ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CmbContr==$Fila["cod_contrato"])
@@ -133,7 +133,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.=" and t2.cod_subclase=t1.cod_mercado";
 		if($CmbContr!='-1')
 		$Consulta.=" where cod_contrato='".$CmbContr."'";												
-		$Resp=mysql_query($Consulta);		
+		$Resp=mysqli_query($link, $Consulta);		
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbMerc==$Fila["cod_subclase"])
@@ -152,7 +152,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.=" pcip_cdv_productos_ventas t1 inner join pcip_cdv_cuadro_diario_ventas t2 on t1.cod_producto=t2.cod_producto ";
 		if($CmbContr!='-1')
 		$Consulta.=" where cod_contrato='".$CmbContr."' and vigente='S' order by nom_producto";	 	
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$Fila["cod_producto"])
@@ -170,7 +170,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.=" pcip_cdv_tipo_ventas_cdv t1 inner join pcip_cdv_cuadro_diario_ventas t2 on t1.tipo_venta=t2.tipo_venta ";
 		    if($CmbContr!='-1')
 			$Consulta.=" where cod_contrato='".$CmbContr."'order by nom_venta";									
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbVenta==$Fila["tipo_venta"])
@@ -186,7 +186,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbConAjuste==$FilaTC["nombre_subclase"])
@@ -251,7 +251,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				   <select name="CmbMostrar" >
 				   <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31027' ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($FilaTC=mysql_fetch_array($Resp))
 					{
 						if ($CmbMostrar==$FilaTC["cod_subclase"])
@@ -320,7 +320,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				else
 					$Consulta.= " and nombre_subclase in('N')";	
 				$Consulta.= "order by ajuste";			
-				$RespTC=mysql_query($Consulta);
+				$RespTC=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($RespTC))
 				{
 					$FinosTotal=0;$TotalNeto=0;$TotalEstFle=0;$TotalIva=0;$TotalTotal=0;$Precio=0;$Precio2=0;
@@ -388,7 +388,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta.=" group by t1.cod_producto,t1.tipo_venta ";
 						$Consulta.=" order by t1.fecha_emision,cod_contrato ";
 					}	
-					$Resp=mysql_query($Consulta);				
+					$Resp=mysqli_query($link, $Consulta);				
 					//echo $Consulta;
 					while($Fila=mysql_fetch_array($Resp))
 					{
@@ -562,7 +562,7 @@ function ValoresIn($Asig,$Area,$Maqui,$Prod,$Ano,$MesAux)
 	if($MesAux!='T')
 		$Consulta.=" and t1.mes='".$MesAux."'";
 	//echo $Consulta."<br>";
-	$Respaux=mysql_query($Consulta);
+	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux=mysql_fetch_array($Respaux))
 	{
 		$Valor=$Filaaux["total"];
@@ -586,7 +586,7 @@ function ValorPpto($Asig,$Area,$Maqui,$Prod,$Ano,$MesAux1)
 	if($MesAux1!='T')
 		$Consulta.=" and t1.mes='".$MesAux1."'";
 	echo $Consulta."<br>";
-	$Respaux=mysql_query($Consulta);
+	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux1=mysql_fetch_array($Respaux))
 	{
 		$ValorPpto=$Filaaux1["total"];

@@ -7,7 +7,7 @@
 	{
 		case "G"://MODIFICAR BONO
 		/*	$Consulta = "SELECT * from tmp_cert";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				$Actualizar1="Update sget_personal set num_cert_antecedentes = '".$Fila[certificado]."' ";

@@ -174,7 +174,7 @@ function DesAnular(HR,H)
               <option value="-1" class="NoSelec">Seleccionar</option>
               <?
 				$Consulta = "SELECT * from sget_contratistas order by razon_social ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -243,7 +243,7 @@ function DesAnular(HR,H)
 		if(isset($CmbEmpresa)&&$CmbEmpresa!='-1')
 			$Consulta.=" and rut_empresa='".$CmbEmpresa."'"	;
 		$Consulta.=" order by descripcion";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			if ($FechaActual > $FilaCtto[fecha_termino])
@@ -308,7 +308,7 @@ function DesAnular(HR,H)
               <option value="S" SELECTed="SELECTed">Seleccionar</option>
               <?
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase in ('5','6','15') order by cod_subclase";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if($CmbEstado==$Fila["cod_subclase"])
@@ -351,7 +351,7 @@ function DesAnular(HR,H)
            <?
 		  	//$Consulta = "SELECT * from sget_hitos ";
 			//$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-			//$RespH = mysql_query($Consulta);
+			//$RespH = mysqli_query($link, $Consulta);
 			//while ($FilaH=mysql_fetch_array($RespH))
 			//{
 				?>
@@ -394,7 +394,7 @@ if($Cons=='S')
 	}
 	$Consulta.= " order by cod_estado_aprobado asc   ";	
 	//echo $Consulta;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckHoja' type='hidden'  value=''>";
 	$cont=1;
 	while ($Fila=mysql_fetch_array($Resp))
@@ -406,7 +406,7 @@ if($Cons=='S')
 		<?
 		$Consulta = "SELECT * from sget_hitos ";
 		$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-		$RespHD = mysql_query($Consulta);
+		$RespHD = mysqli_query($link, $Consulta);
 		while ($FilaHD=mysql_fetch_array($RespHD))
 		{
 			$Entro='N';
@@ -414,7 +414,7 @@ if($Cons=='S')
 			$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 			$Consulta.=" where num_hoja_ruta ='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' and aprob_rechazo='A' ";
 		//	echo $Consulta;
-			$RespDet2=mysql_query($Consulta);
+			$RespDet2=mysqli_query($link, $Consulta);
 			if(!$FilaDet2=mysql_fetch_array($RespDet2))
 			{
 				if($Fila[cod_estado_aprobado]=='5' && $CmbEstado!='3')
@@ -460,11 +460,11 @@ if($Cons=='S')
 		    <?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='14'  ";
-			$RespHD = mysql_query($Consulta);
+			$RespHD = mysqli_query($link, $Consulta);
 			while ($FilaHD=mysql_fetch_array($RespHD))
 			{
 				$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
-				$RespExi = mysql_query($Consulta);
+				$RespExi = mysqli_query($link, $Consulta);
 				if($FilaExi=mysql_fetch_array($RespExi))
 				{	
 					if($FilaExi[autorizado]=='S')
@@ -481,7 +481,7 @@ if($Cons=='S')
 		  	//echo "agos______".$Entro."<br>";
 			$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-			$RespHD = mysql_query($Consulta);
+			$RespHD = mysqli_query($link, $Consulta);
 			while ($FilaHD=mysql_fetch_array($RespHD))
 			{
 				$Personal=$FilaHD[personal];
@@ -490,14 +490,14 @@ if($Cons=='S')
 				<?
 				$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
 				//echo $Consulta;
-				$RespExi = mysql_query($Consulta);
+				$RespExi = mysqli_query($link, $Consulta);
 				if($FilaExi=mysql_fetch_array($RespExi))
 				{	
 					$IcoObs2=CantObs($Fila["num_hoja_ruta"],$FilaHD[cod_hito]);
 					if($FilaExi[autorizado]=='S')
 					{
 						$Consulta=" SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito in ('5') and autorizado='S' ";
-						$RespGI = mysql_query($Consulta);
+						$RespGI = mysqli_query($link, $Consulta);
 						if ($FilaGI=mysql_fetch_array($RespGI))
 						{
 							?>
@@ -525,7 +525,7 @@ if($Cons=='S')
 								$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas";
 								$Consulta.=" where num_hoja_ruta ='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' and aprob_rechazo='A' ";
 								//echo $Consulta."<br>";
-								$RespDet2=mysql_query($Consulta);
+								$RespDet2=mysqli_query($link, $Consulta);
 								if($FilaDet2=mysql_fetch_array($RespDet2))
 								{
 									?>
@@ -684,7 +684,7 @@ function EnvioCorreoFechasVenc($FechaSistema)
 	$Consulta="SELECT * from sget_personal t1 where";
 	$Consulta.=" t1.rut<>'' and t1.fec_fin_ctto > '".date('Y-m-d')."' and t1.estado='A' and ";
 	$Consulta.=" (DATE_ADD(t1.fecha_das,INTERVAL 1 YEAR)<='".$FSistema."' or t1.fecha_das='0000-00-00' or t1.fecha_das is null or t1.fecha_vigencia_exa_preo<='".$FSistema."' or t1.fecha_vigencia_exa_preo is null or t1.fecha_vigencia_exa_preo='0000-00-00' or t1.fecha_vig_exa_ocup<='".$FSistema."' or t1.fecha_vig_exa_ocup is null or t1.fecha_vig_exa_ocup='0000-00-00')";
-	$RespFecVen=mysql_query($Consulta);
+	$RespFecVen=mysqli_query($link, $Consulta);
 	if($FilaFecVen=mysql_fetch_array($RespFecVen))
 	{
 		$Pasa2='S';
@@ -692,7 +692,7 @@ function EnvioCorreoFechasVenc($FechaSistema)
 		$Consulta.=" t1.rut<>'' and t1.fec_fin_ctto > '".date('Y-m-d')."' and t1.estado='A' and ";
 		$Consulta.=" (DATE_ADD(t1.fecha_das,INTERVAL 1 YEAR)<='".$FSistema."' or t1.fecha_das='0000-00-00' or t1.fecha_das is null or t1.fecha_vigencia_exa_preo<='".$FSistema."' or t1.fecha_vigencia_exa_preo is null or t1.fecha_vigencia_exa_preo='0000-00-00' or t1.fecha_vig_exa_ocup<='".$FSistema."' or t1.fecha_vig_exa_ocup is null or t1.fecha_vig_exa_ocup='0000-00-00') order by t1.cod_contrato";
 		//echo $Consulta;
-		$RespFecVen=mysql_query($Consulta);$ContratosEnvio='';
+		$RespFecVen=mysqli_query($link, $Consulta);$ContratosEnvio='';
 		while($FilaFecVen=mysql_fetch_array($RespFecVen))
 		{
 			$Lic="SELECT tipo_licencia from sget_conductores_licencias where corr_conductor='".$FilaFecVen[corr_conductor]."'";
@@ -998,7 +998,7 @@ function EnvioCorreoFechasVenc2($FechaSistema)
 	$Consulta="SELECT * from sget_personal where";
 	$Consulta.=" rut<>'' and fec_fin_ctto > '".date('Y-m-d')."' and estado='A' and ";
 	$Consulta.=" (DATE_ADD(fecha_das,INTERVAL 1 YEAR)<='".$FSistema."' or fecha_vigencia_exa_preo<='".$FSistema."' or fecha_das='' or fecha_das is null or fecha_vigencia_exa_preo='' or fecha_vigencia_exa_preo is null )";
-	$RespFecVen=mysql_query($Consulta);
+	$RespFecVen=mysqli_query($link, $Consulta);
 	if($FilaFecVen=mysql_fetch_array($RespFecVen))
 	{
 		$Pasa2='S';
@@ -1006,11 +1006,11 @@ function EnvioCorreoFechasVenc2($FechaSistema)
 		$Consulta.=" t1.rut<>'' and t1.fec_fin_ctto > '".date('Y-m-d')."' and t1.estado='A' and ";
 		$Consulta.=" (DATE_ADD(t1.fecha_das,INTERVAL 1 YEAR)<='".$FSistema."' or t1.fecha_das='0000-00-00' or t1.fecha_das is null or t1.fecha_vigencia_exa_preo<='".$FSistema."' or t1.fecha_vigencia_exa_preo is null or t1.fecha_vigencia_exa_preo='0000-00-00' or t1.fecha_vig_exa_ocup<='".$FSistema."' or t1.fecha_vig_exa_ocup is null or t1.fecha_vig_exa_ocup='0000-00-00')";
 		$Consulta.=" group by t1.cod_contrato";
-		$RespFecVen=mysql_query($Consulta);$ContratosEnvio='';$Mensaje2='';
+		$RespFecVen=mysqli_query($link, $Consulta);$ContratosEnvio='';$Mensaje2='';
 		while($FilaFecVen=mysql_fetch_array($RespFecVen))
 		{
 			$Consulta="SELECT razon_social from sget_contratistas where rut_empresa='".$FilaFecVen[rut_empresa]."'";
-			$RespEmp=mysql_query($Consulta);
+			$RespEmp=mysqli_query($link, $Consulta);
 			if($FilaEmp=mysql_fetch_assoc($RespEmp))
 			{
 				$NomEmpresa=substr($FilaEmp[razon_social],0,40);
@@ -1211,7 +1211,7 @@ function ClassEnvio($Correo2,$Asunto,$Mensaje2,$Quien)
 	$mail->Host = "VEFVEX03.codelco.cl";
 
 	$Consulta="Select nombre_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_subclase='1' and cod_clase='30027'";
-	$Resp0= mysql_query($Consulta);
+	$Resp0= mysqli_query($link, $Consulta);
 	if($Fila0 = mysql_fetch_array($Resp0))
 	{
 		$Cuenta=$Fila0["nombre_subclase"];

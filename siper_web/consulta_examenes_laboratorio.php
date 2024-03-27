@@ -154,7 +154,7 @@ function ValidarRango()
 				<option value='T' SELECTed>Todos</option>
 				  <?
 					$Consulta="SELECT t1.CTEXAMEN,t1.NEXAMEN,t1.QPARAMETRO,t2.NUNIDAD from sgrs_codexlaboratorio t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NEXAMEN ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						if($CmbTipoExamen==$Fila[CTEXAMEN])
@@ -259,7 +259,7 @@ function ValidarRango()
 				}
 				$Consulta.="group by t2.rut,t1.CEXAMEN order by t2.ape_paterno";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);echo "<input type='hidden' name='CheckRut'>";
+				$Resp=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckRut'>";
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";

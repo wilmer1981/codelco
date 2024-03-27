@@ -2,7 +2,7 @@
 	include("../principal/conectar_sec_web.php");
 	
 	$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if ($row = mysql_fetch_array($rs))
 	{
 		$TxtPesoRango=$row["peso_rango"];
@@ -2128,13 +2128,13 @@ if ($proceso == "E")
 
 				//Agregado por Adan 08-05-2012
 				$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				if ($row = mysql_fetch_array($rs))
 				{
 					$TxtPesoRango=$row["peso_rango"];
 				}
 				$Consulta="Select cantidad_programada from  sec_web.programa_codelco where corr_codelco = '".$cmbinstruccion."' ";
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				if ($row = mysql_fetch_array($rs))
 				{
 					$TxtCantidad=$row["cantidad_programada"];
@@ -2282,13 +2282,13 @@ if ($proceso == "E")
 					
 					//Agregado por Adan 08-05-2012
 					$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
-					$rs = mysql_query($Consulta);
+					$rs = mysqli_query($link, $Consulta);
 					if ($row = mysql_fetch_array($rs))
 					{
 						$TxtPesoRango=$row["peso_rango"];
 					}
 					$Consulta="Select cantidad_programada from  sec_web.programa_codelco where corr_codelco = '".$cmbinstruccion."' ";
-					$rs = mysql_query($Consulta);
+					$rs = mysqli_query($link, $Consulta);
 					if ($row = mysql_fetch_array($rs))
 					{
 						$TxtCantidad=$row["cantidad_programada"];
@@ -2483,7 +2483,7 @@ function EnvioCorreo($CodPaquete,$Lote,$Instruccion,$Peso,$Paquete,$Producto,$Su
 	$NomSubProducto=$row["descripcion"];
 	
 	$Consulta="SELECT nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='3108'";
-	$Resul=mysql_query($Consulta);
+	$Resul=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resul))
 	{
 		$Mensaje='<table width="90%" align="center"  border="0" cellpadding="0"  cellspacing="0">';

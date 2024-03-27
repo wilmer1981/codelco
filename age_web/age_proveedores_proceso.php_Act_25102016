@@ -12,7 +12,7 @@
 		$EstadoRutPrv='readonly';
 		$TxtRutPrv=$CmbProveedor;
 		$Consulta = "select rut_prv as RUTPRV_A, nombre_prv as NOMPRV_A,hum_ult_rec  from sipa_web.proveedores where rut_prv='".$TxtRutPrv."'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Respuesta);
 		$Datos = explode("-",$Fila["RUTPRV_A"]);
 		$TxtRutPrv=$Datos[0];
@@ -186,7 +186,7 @@ switch ($ChkOrden)
 						break;
 				
 				}
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($CmbProveedor == $Fila["RUTPRV_A"])

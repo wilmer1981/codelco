@@ -15,7 +15,7 @@ if ($Plantilla<>'')
 	if($TxtRecargo=='N')
 	{
 		$Consulta = "select cod_producto,cod_subproducto,id_muestra from cal_web.solicitud_analisis where rut_funcionario='".$RutF."' and nro_solicitud=".$SA;
-		$RespuestaAux =mysql_query($Consulta);
+		$RespuestaAux =mysqli_query($link, $Consulta);
 		$FilaAux = mysql_fetch_array($RespuestaAux);
 		$Producto=$FilaAux["cod_producto"];
 		$SubProducto=$FilaAux["cod_subproducto"];
@@ -24,7 +24,7 @@ if ($Plantilla<>'')
 	else
 	{
 		$Consulta = "select cod_producto,cod_subproducto,id_muestra from cal_web.solicitud_analisis where rut_funcionario='".$RutF."' and nro_solicitud=".$SA." and recargo='".$TxtRecargo."'";
-		$RespuestaAux =mysql_query($Consulta);
+		$RespuestaAux =mysqli_query($link, $Consulta);
 		$FilaAux = mysql_fetch_array($RespuestaAux);
 		$Producto=$FilaAux["cod_producto"];
 		$SubProducto=$FilaAux["cod_subproducto"];
@@ -34,7 +34,7 @@ if ($Plantilla<>'')
 	$Consulta = $Consulta."from cal_web.plantillas t1 inner join cal_web.leyes_por_plantillas t2 on t1.rut_funcionario = t2.rut_funcionario and t1.cod_plantilla = t2.cod_plantilla ";
 	$Consulta = $Consulta."inner join proyecto_modernizacion.leyes t3  on t2.cod_leyes = t3.cod_leyes "; 
 	$Consulta = $Consulta."where t1.rut_funcionario = '".$RutPlant."' and t1.cod_plantilla ='".$Plantilla."'";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		if($TxtRecargo=='N')

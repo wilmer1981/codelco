@@ -2,7 +2,7 @@
   include("conectar_infDiario_web.php");
 
   $Consulta="Select * from informe_diario.usuarios where Grupo = '".$CmbGrupo."' and DESCRIPCION_GRUPO !=''";
-  $Resp=mysql_query($Consulta);
+  $Resp=mysqli_query($link, $Consulta);
   if ($Row=mysql_fetch_array($Resp))
   {
   		$TxtDescripcion = $Row[DESCRIPCION_GRUPO];
@@ -11,7 +11,7 @@
  {
 		case "G":
 			$Consulta = "Select * from informe_diario.usuarios where RUT = '".$TxtRut."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if ($Row=mysql_fetch_array($Resp))
 			{
 					$actualizo="Update informe_diario.usuarios set PASSWORD = md5('".strtoupper(trim($TxtPassword))."'),";

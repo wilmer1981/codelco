@@ -88,7 +88,7 @@ function DetalleReal(tipo,mes,cliente,contrato)
                 echo "<option value='S'>Todos</option>\n";
 				$Consulta = "SELECT * from sec_web.paises ";
 				$Consulta.= " order by nombre_pais";
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Respuesta))
 				{
 					if ($Pais == $Fila["cod_pais"])
@@ -105,7 +105,7 @@ function DetalleReal(tipo,mes,cliente,contrato)
 				$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
 				$Consulta.= " where cod_clase = '3016'";
 				$Consulta.= " order by cod_subclase";
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Respuesta))
 				{
 					if ($Pais == $Fila["nombre_subclase"])
@@ -135,7 +135,7 @@ function DetalleReal(tipo,mes,cliente,contrato)
 					$Consulta.= " where substring(cod_cliente,1,2) = 'ZU' ";
 					$Consulta.= " and substring(cod_cliente,1,2) <> 'VD'";//VENTA DIRECTA 
 					$Consulta.= " order by sigla_cliente";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila = mysql_fetch_array($Respuesta))
 					{
 						if ($CmbCliente == $Fila["cod_cliente"])
@@ -151,7 +151,7 @@ function DetalleReal(tipo,mes,cliente,contrato)
 					$Consulta.= " and substring(cod_cliente,1,2) <> 'ZU'";
 					$Consulta.= " and substring(cod_cliente,1,2) <> 'VD'";//VENTA DIRECTA
 					$Consulta.= " order by sigla_cliente";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila = mysql_fetch_array($Respuesta))
 					{
 						if ($CmbCliente == $Fila["cod_cliente"])
@@ -206,7 +206,7 @@ if ($Tipo != "C")
 if ($Tipo == "E")
 {
 	$Consulta = "SELECT * from sec_web.paises where cod_pais = '".$Pais."'";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Respuesta))
 		$Sigla = $Fila["abreviatura"];
 	$Consulta = "SELECT * from sec_web.programa_ventas t1 inner join sec_web.cliente_venta t2 ";
@@ -229,14 +229,14 @@ else
 $CodPaisAnt = "";
 $CodPais = "";
 $SaldoEnami = 0;
-$Respuesta = mysql_query($Consulta);
+$Respuesta = mysqli_query($link, $Consulta);
 $i=1;
 while ($Fila = mysql_fetch_assoc($Respuesta))
 {
 	if ($Tipo == "E")
 	{
 		$Consulta = "SELECT * from sec_web.cliente_venta where cod_cliente = '".$Fila["cod_cliente"]."'";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_assoc($Resp2))
 			$NomCliente = $Fila2["sigla_cliente"];
 		else
@@ -245,7 +245,7 @@ while ($Fila = mysql_fetch_assoc($Respuesta))
 	else
 	{
 		$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3016' and nombre_subclase = '".$Fila["cod_cliente"]."'";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_assoc($Resp2))
 			$NomCliente = $Fila2["valor_subclase1"];
 		else
@@ -258,7 +258,7 @@ while ($Fila = mysql_fetch_assoc($Respuesta))
 		if ($i != 1)
 		{
 			$Consulta = "SELECT * from sec_web.paises where abreviatura = '".$CodPaisAnt."'";
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			if ($Fila2 = mysql_fetch_array($Resp2))
 				$NomPais = $Fila2["nombre_pais"];
 			echo "<tr bgcolor='#FFFF99'>";
@@ -425,7 +425,7 @@ while ($Fila = mysql_fetch_assoc($Respuesta))
 		}
 	}
 	//echo $Consulta."<br>";
-	$Resp2 = mysql_query($Consulta);
+	$Resp2 = mysqli_query($link, $Consulta);
 	$PesoReal = 0;
 	$ArrMeses = array();
 	while ($Fila2 = mysql_fetch_array($Resp2))

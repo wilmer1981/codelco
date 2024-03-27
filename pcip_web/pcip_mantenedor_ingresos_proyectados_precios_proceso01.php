@@ -11,7 +11,7 @@ switch($Opcion)
 		    $MensajeExiste=false;
 			$Val=explode('~',$v);	
 		    $Consulta="select cod_producto,ano,mes from pcip_inp_precios_dore where dato='".$CmbDatos."' and  cod_producto='".$CmbProducto."' and ano='".$Ano."' and mes='".$Val[1]."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			if(!$Fila=mysql_fetch_array($Resp))
 			{

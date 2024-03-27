@@ -9,7 +9,7 @@
 	$Consulta.=" inner join sget_administrador_contratistas t4 on t2.rut_adm_contratista=t4.rut_adm_contratista ";
 	$Consulta.=" where num_hoja_ruta='".$TxtHoja."' ";
 	/*echo $Consulta;*/
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resp);
 	$Empresa=$Fila[razon_social];
 	$Contrato=$Fila["cod_contrato"].' '.$Fila["descripcion"];
@@ -77,7 +77,7 @@ function Procesos(Opt)
 	
 		$Consulta = "SELECT * from sget_registro_actividad ";
 		$Consulta.= " where num_hoja_ruta='".$NumHr."' and fecha_hora='".$Fecha."' and rut='".$Run."'";
-		$RespCrea=mysql_query($Consulta);
+		$RespCrea=mysqli_query($link, $Consulta);
 		while($FilaCrea=mysql_fetch_array($RespCrea))
 		{
 			?>
@@ -85,7 +85,7 @@ function Procesos(Opt)
               <td align="center" ><? echo $FilaCrea["FECHA_HORA"]; ?> </td>
               <td align="left" ><?
 			$Consulta="SELECT * from proyecto_modernizacion.funcionarios where rut='".$FilaCrea["rut"]."' ";
-			$Resp1=mysql_query($Consulta);
+			$Resp1=mysqli_query($link, $Consulta);
 			$Fila1=mysql_fetch_array($Resp1);
 			{
 				echo substr($Fila1["nombres"],0,1).'.'.$Fila1["apellido_paterno"].' '.$Fila1["apellido_materno"];
@@ -94,7 +94,7 @@ function Procesos(Opt)
               </td>
               <td  align="left" ><?
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase ='".$FilaCrea["cod_estado"]."' ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				{
 					echo $Fila["nombre_subclase"];
@@ -104,7 +104,7 @@ function Procesos(Opt)
               <td  align="left" ><?
 			
 			$Consulta="SELECT * from  sget_personal where rut='".$FilaCrea["rut_funcionario"]."' ";
-			$Resp1=mysql_query($Consulta);
+			$Resp1=mysqli_query($link, $Consulta);
 			$Fila1=mysql_fetch_array($Resp1);
 			{
 				echo substr($Fila1["nombres"],0,1).'.'.$Fila1[ape_paterno].' '.$Fila1[ape_materno];
@@ -123,7 +123,7 @@ function Procesos(Opt)
 			     <td align="center" >
 				 <?
 			    $Consulta="SELECT * from  sget_hoja_ruta_nomina_hitos_personas where fecha_hora='".$FilaCrea["FECHA_HORA"]."' and num_hoja_ruta='".$NumHr."' and rut_personal='".$FilaCrea["rut_funcionario"]."'";
-				$RespTar=mysql_query($Consulta);
+				$RespTar=mysqli_query($link, $Consulta);
 				$FilaTar=mysql_fetch_array($RespTar);
 				{
 					echo $FilaTar[num_tarjeta];

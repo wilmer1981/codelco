@@ -10,7 +10,7 @@
 	$Consulta.=" left join  sget_gerencias t7  on t1.cod_gerencia=t7.cod_gerencia ";
 	$Consulta.=" left join  sget_areas t8  on t1.cod_area=t8.cod_area ";
 	$Consulta.=" where t1.cod_contrato='".$Ctto."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		//PARA EMPRESAS SUBCONTRATISTA
@@ -52,7 +52,7 @@
 	 $Consulta.= "where cod_clase='30003'  and cod_subclase='".$TipoCT."'";	
 	if ($CmbTipoCtto=='N')
 	 $Consulta.= "where cod_clase='30004'  and cod_subclase='".$TipoCT."'";	
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($FilaTC=mysql_fetch_array($Resp))
 		{
 		$DetCtto=$FilaTC["nombre_subclase"];
@@ -230,7 +230,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if(isset($Emp)&&$Emp!='')
 		$Consulta.=" and t1.rut_empresa='".$Emp."' ";
 	$Consulta.=" order by t1.ape_paterno";
-	$Respd=mysql_query($Consulta);
+	$Respd=mysqli_query($link, $Consulta);
 	while($Filad=mysql_fetch_array($Respd))
 	{
 	?>

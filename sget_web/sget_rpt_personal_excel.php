@@ -96,7 +96,7 @@
 		if($CmbTipoCtto!='S')
 			$Consulta.="  and  t1.tipo_ctto ='".$CmbTipoCtto."' ";
 		$Consulta.=" order by t1.ape_paterno";	
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=0;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{

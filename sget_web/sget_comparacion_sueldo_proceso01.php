@@ -26,7 +26,7 @@
 			$CttoSL=str_replace($CttoSL,'.','');
 			*/
 			$Consulta="SELECT * from sget_comparacion_sueldo where rut_funcionario ='".$TxtRut."' and cod_contrato='".$Contrato."' and rut_empresa='".$Empresa."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				$Actualizar=" UPDATE  sget_comparacion_sueldo set ";

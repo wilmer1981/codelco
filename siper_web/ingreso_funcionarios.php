@@ -205,7 +205,7 @@ function Salir()
 		echo "<SELECT name='CmbRut' style='width:320' onchange=Recarga('')>";
 		echo "<option value='-1'>SELECCIONAR</option>";
 		$Consulta="SELECT t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 inner join sistemas_por_usuario t2 on t1.rut=t2.rut where t2.cod_sistema='29' order by apellido_paterno";
-		$Resultado=mysql_query($Consulta);
+		$Resultado=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resultado))
 		{
 			if(strlen($Fila["rut"])==9)
@@ -292,7 +292,7 @@ function Salir()
 				$Consulta.=" where t2.cod_sistema='29' and apellido_paterno like '".$TxtApePaterno."%' order by apellido_paterno";
 				break;
 		}
-		$Resultado=mysql_query($Consulta);
+		$Resultado=mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
 		echo "<input type='hidden' name='CheckCod'>";$Cont=0;
 		while ($Fila=mysql_fetch_array($Resultado))

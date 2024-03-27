@@ -8,14 +8,14 @@
 		$Ptl1=$Ptl;	
 	$Consulta="select * from pcip_eec_sistemas t1 ";
 	$Consulta.=" where t1.cod_sistema='".$Cod."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$NomSistema=$Fila["nom_sistema"];
 	}
 			
 ?>
-<title>Información Sistema <? echo $Ctto;?></title>
+<title>Informaciï¿½n Sistema <? echo $Ctto;?></title>
 <link href="estilos/css_pcip_web.css" rel="stylesheet" type="text/css">
 <script language="javascript" src="funciones/pcip_funciones.js"></script>
 <script language="javascript">
@@ -62,7 +62,7 @@ function Salir()
 			echo "<span class='TituloTablaVerdeActiva'>"; 
 		else 
 			echo "<span class='TituloTablaVerde'>"; ?>
-		   Información Equipos Por Sistema
+		   Informaciï¿½n Equipos Por Sistema
 		</span></a></td>  	
 		<td width="0%" ><img src="archivos/tab_separator.gif"></td>
 		<?
@@ -78,7 +78,7 @@ function Salir()
 				echo '<span class="TituloTablaVerdeActiva">';  
 			else
 				echo '<span class="TituloTablaVerde">';?>
-			 Información Centro Costo por Sistema
+			 Informaciï¿½n Centro Costo por Sistema
 			 </span></a></td>
 		<td width="0%" ><img src="archivos/tab_separator.gif"  ></td>
 		<? 	 if ($Ptl=="IS") 
@@ -93,7 +93,7 @@ function Salir()
 			echo '<span class="TituloTablaVerdeActiva">';  
 		else 
 			echo '<span class="TituloTablaVerde">'; ?>
-			Información Indicadores por Sistema
+			Informaciï¿½n Indicadores por Sistema
 			</span></a></td>
   </table>
 	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >

@@ -123,7 +123,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="-1" selected="selected">Seleccionar</option>
         <?
 	    $Consulta = "select * from pcip_svp_asignacion where mostrar_asig='1' order by nom_asignacion ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$Fila["cod_asignacion"])
@@ -227,7 +227,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <td width="74%" class="TituloTablaVerde" rowspan="2" align="center">Unidad</td>
 			<?
 			$Consulta="select t1.cod_negocio,t2.nom_negocio from pcip_svp_asignaciones_titulos t1 inner join pcip_svp_negocios t2 on t1.cod_negocio=t2.cod_negocio where t1.cod_asignacion='".$CmbProd."' and t1.vigente='1' and t1.mostrar_asig='1' and t2.cod_negocio<>'4' and t2.mostrar_asig='1'  group by t1.cod_asignacion,t1.cod_negocio order by t2.orden";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			while($Fila=mysql_fetch_array($Resp))
 			{			    
@@ -245,7 +245,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta="select t1.cod_titulo,t1.nom_titulo from pcip_svp_asignaciones_titulos t1 inner join pcip_svp_negocios t2 on t1.cod_negocio=t2.cod_negocio ";
 			$Consulta.="where t1.cod_asignacion='".$CmbProd."' and t1.vigente='1' and t1.mostrar_asig='1' and t2.cod_negocio<>'4' and t2.mostrar_asig='1'  group by t1.cod_titulo order by t2.orden,t1.orden";
 			//echo $Consulta;
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 			?>	
@@ -263,7 +263,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta="select distinct t1.cod_asignacion,t1.cod_producto,t1.nom_asignacion,t1.orden,t1.tipo,t1.vigente,t1.origen,t1.cod_unidad from pcip_svp_asignaciones_productos t1 inner join pcip_svp_productos_procedencias t2 on t2.cod_procedencia=t1.cod_producto";
 				$Consulta.=" where t1.cod_asignacion='".$CmbProd."' and t1.tipo='SVP' group by t1.cod_asignacion,t1.cod_producto order by t1.orden";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Cant=1;
 				while($Fila=mysql_fetch_array($Resp))
 				{
@@ -274,7 +274,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta="select count(*) as tot_fil from pcip_svp_asignaciones_productos t1 inner join  pcip_svp_productos_procedencias t2 on t1.cod_producto=t2.cod_procedencia";
 						$Consulta.=" where t1.cod_asignacion='".$CmbProd."' and t1.tipo='SVP' group by t1.cod_asignacion,t1.cod_producto order by t1.orden";
 						//echo $Consulta."<br>";
-						$RespCant=mysql_query($Consulta);
+						$RespCant=mysqli_query($link, $Consulta);
 						while($FilaCant=mysql_fetch_array($RespCant))
 							$CantFilas++;
 						echo "<tr>";
@@ -287,7 +287,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta="select t1.cod_titulo as cod_tit,t1.orden,t2.cod_negocio from pcip_svp_asignaciones_titulos t1 inner join pcip_svp_negocios t2 on t1.cod_negocio=t2.cod_negocio ";
 					$Consulta.="where t1.cod_asignacion='".$CmbProd."' and t1.vigente='1' and t2.cod_negocio<>'4' and t1.mostrar_asig='1' and t2.mostrar_asig='1' group by t1.cod_titulo order by t2.orden,t1.orden";
 					//echo $Consulta."<br>";
-					$RespTit=mysql_query($Consulta);					
+					$RespTit=mysqli_query($link, $Consulta);					
 					while($FilaTit=mysql_fetch_array($RespTit))
 					{
 						$Clase='';
@@ -300,7 +300,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta="select t1.cod_negocio,t2.origen,t2.nodo,t2.signo,t2.factor,t2.num_orden,t2.num_orden_relacionada,t2.cod_material,t2.consumo_interno,t2.vptm from pcip_svp_negocios t1 inner join pcip_svp_productos_procedencias t2 on t1.cod_negocio=t2.cod_negocio and t2.origen in ('SVP','CDV','ENA','PMN')";
 						$Consulta.="where t2.cod_asignacion='".$CmbProd."' and t2.ano='".$Ano."' and t2.cod_procedencia='".$Fila["cod_producto"]."' and t2.cod_titulo='".$FilaTit[cod_tit]."' and t1.vigente='1' and t1.cod_negocio<>'4' and t1.mostrar_asig='1' order by t1.orden";
 						//echo $Consulta."<br>";
-						$Resp2=mysql_query($Consulta);$Cantidad=0;
+						$Resp2=mysqli_query($link, $Consulta);$Cantidad=0;
 						while($Fila2=mysql_fetch_array($Resp2))
 						{
 						  //echo "entrooooo<br>";
@@ -323,7 +323,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 										if(!is_null($Fila2[vptm])&&$Fila2[vptm]<>0)
 											$Consulta.=" and vptm='".$Fila2[vptm]."'";
 										//echo "SVP:   ".$Consulta."<br>"; 
-										$Resp3=mysql_query($Consulta);$CantidadAux=0;$Cantidad=0;
+										$Resp3=mysqli_query($link, $Consulta);$CantidadAux=0;$Cantidad=0;
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
 											$CantidadAux=($Fila3[VPcantidad])*$Fila2[factor];	
@@ -337,7 +337,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							  break;	
 							  case "CDV":		
 								$Consulta="select sum(kilos_finos) as kilos_finos from pcip_cdv_cuadro_diario_ventas where cod_producto='".$Fila2[num_orden]."' and ano='".$Ano."' and mes='".$i."' and ajuste='N' and tipo_venta='8'";
-								$Resp3=mysql_query($Consulta);
+								$Resp3=mysqli_query($link, $Consulta);
 								//echo "CDV:   ".$Consulta."<br>";
 								while($Fila3=mysql_fetch_array($Resp3))
 								{
@@ -370,7 +370,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 										break;
 								}
 								$Consulta.=" as kilos_finos from pcip_ena_datos_enabal where origen='".$Fila2[origen]."' and cod_flujo='".$Fila2[num_orden]."' and ano='".$Ano."' and mes='".$i."' and tipo_dato='F' and tipo_mov='".$Fila2["nodo"]."'";
-								$Resp3=mysql_query($Consulta);
+								$Resp3=mysqli_query($link, $Consulta);
 								while($Fila3=mysql_fetch_array($Resp3))
 								{
 									if($Fila2[signo]=='')
@@ -404,7 +404,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta="select distinct t1.cod_asignacion,t1.cod_producto,t1.nom_asignacion,t1.orden,t1.tipo,t1.vigente,t1.origen,t1.cod_unidad from pcip_svp_asignaciones_productos t1 inner join pcip_svp_productos_procedencias t2 on t1.cod_producto=t2.cod_procedencia";
 				$Consulta.=" where t1.cod_asignacion='".$CmbProd."' and t1.tipo='SVP' group by t1.cod_asignacion,t1.cod_producto order by t1.orden";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Cant=1;
 				while($Fila=mysql_fetch_array($Resp))
 				{
@@ -415,7 +415,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					//$Consulta="select cod_titulo as cod_tit,orden from pcip_svp_asignaciones_titulos where vigente='1' and cod_asignacion='".$CmbProd."' and cod_negocio<>'4' order by orden";
 					$Consulta="select t2.cod_negocio,t1.cod_titulo as cod_tit,t1.orden from pcip_svp_asignaciones_titulos t1 inner join pcip_svp_negocios t2 on t1.cod_negocio=t2.cod_negocio ";
 					$Consulta.="where t1.cod_asignacion='".$CmbProd."' and t1.vigente='1' and t1.mostrar_asig='1' and t2.cod_negocio<>'4' and t2.mostrar_asig='1' group by t1.cod_titulo order by t2.orden,t1.orden";
-					$RespTit=mysql_query($Consulta);
+					$RespTit=mysqli_query($link, $Consulta);
 					//echo $Consulta."<br>";
 					while($FilaTit=mysql_fetch_array($RespTit))
 					{
@@ -430,7 +430,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta.="where t2.cod_asignacion='".$CmbProd."' and t2.ano='".$Ano."' and t2.cod_procedencia='".$Fila["cod_producto"]."' and t2.cod_titulo='".$FilaTit[cod_tit]."' and t1.vigente='1' and t1.cod_negocio<>'4' and t1.mostrar_asig='1' order by t1.orden";
 						//if($Fila[nom_asignacion]=='CATODOS GRADO A')
 						//echo $Consulta."<br>";
-						$Resp2=mysql_query($Consulta);$Encontro='N';$Cantidad=0;
+						$Resp2=mysqli_query($link, $Consulta);$Encontro='N';$Cantidad=0;
 						while($Fila2=mysql_fetch_array($Resp2))
 						{												
 							switch($Fila2[origen])
@@ -446,7 +446,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 										if(!is_null($Fila2[vptm])&&$Fila2[vptm]<>0)
 											$Consulta.=" and vptm='".$Fila2[vptm]."'";
 											//echo $Consulta."<br>";
-										$Resp3=mysql_query($Consulta);$Cantidad=0;
+										$Resp3=mysqli_query($link, $Consulta);$Cantidad=0;
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
 											if($Fila2[signo]=='')
@@ -460,7 +460,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 								case "CDV":
 										$Consulta="select kilos_finos from pcip_cdv_cuadro_diario_ventas where cod_producto='".$Fila2[num_orden]."' and ano='".$Ano."' and mes>='".$Mes."' and mes<='".$MesFin."' and ajuste='N' and tipo_venta='8'";
 										//echo $Consulta."<br>";
-										$Resp3=mysql_query($Consulta);
+										$Resp3=mysqli_query($link, $Consulta);
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
 											if($Fila2[signo]=='')
@@ -492,7 +492,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 												break;
 										}
 										$Consulta.=" as kilos_finos from pcip_ena_datos_enabal where origen='".$Fila2[origen]."' and cod_flujo='".$Fila2[num_orden]."' and ano='".$Ano."' and mes='".$Mes."' and tipo_dato='F' and tipo_mov='".$Fila2["nodo"]."'";
-										$Resp3=mysql_query($Consulta);
+										$Resp3=mysqli_query($link, $Consulta);
 										//echo $Consulta."<br>";
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
@@ -542,7 +542,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 {
 	$Consulta="select count(*) as cantidad from pcip_svp_asignaciones_titulos where vigente='1' and cod_asignacion='".$CodAsig."' and cod_negocio='".$CodNeg."' and mostrar_asig='1'";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 		return($Fila[cantidad]);
 	else
@@ -554,7 +554,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 //	$Consulta="select distinct t1.cod_asignacion,t1.cod_producto,t1.nom_asignacion,t1.orden,t1.tipo,t1.vigente,t1.origen,t1.cod_unidad from pcip_svp_asignaciones_productos t1 inner join pcip_svp_productos_procedencias t2 on t1.cod_producto=t2.cod_procedencia";
 //	$Consulta.=" where t1.cod_asignacion='".$CmbProd."' and t1.tipo='SVP' group by t1.cod_asignacion,t1.cod_producto order by t1.orden";
 //	//echo $Consulta;
-//	$Resp=mysql_query($Consulta);
+//	$Resp=mysqli_query($link, $Consulta);
 //	$Cant=1;
 //	while($Fila=mysql_fetch_array($Resp))
 //	{
@@ -562,7 +562,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 //		//$Consulta="select cod_titulo as cod_tit,orden from pcip_svp_asignaciones_titulos where vigente='1' and cod_asignacion='".$CmbProd."' and cod_negocio<>'4' order by orden";
 //		$Consulta="select t2.cod_negocio,t1.cod_titulo as cod_tit,t1.orden from pcip_svp_asignaciones_titulos t1 inner join pcip_svp_negocios t2 on t1.cod_negocio=t2.cod_negocio ";
 //		$Consulta.="where t1.cod_asignacion='".$CmbProd."' and t1.vigente='1' and t2.cod_negocio<>'4' and t2.mostrar_asig='1' group by t1.cod_titulo order by t2.orden,t1.orden";
-//		$RespTit=mysql_query($Consulta);
+//		$RespTit=mysqli_query($link, $Consulta);
 //		//echo $Consulta."<br>";
 //		while($FilaTit=mysql_fetch_array($RespTit))
 //		{
@@ -570,7 +570,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 //			$Consulta.="where t2.cod_asignacion='".$CmbProd."' and t2.ano='".$Ano."' and t2.cod_procedencia='".$Fila["cod_producto"]."' and t2.cod_titulo='".$FilaTit[cod_tit]."' and t1.vigente='1' and t1.cod_negocio<>'4' and t1.mostrar_asig='1' order by t1.orden";
 //			//if($Fila[nom_asignacion]=='CATODOS GRADO A')
 //			//echo $Consulta."<br>";
-//			$Resp2=mysql_query($Consulta);$Encontro='N';$Cantidad=0;
+//			$Resp2=mysqli_query($link, $Consulta);$Encontro='N';$Cantidad=0;
 //			while($Fila2=mysql_fetch_array($Resp2))
 //			{			
 //				switch($Fila2[origen])
@@ -585,7 +585,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 //								$Consulta.=" and VPordes='".$Fila2[consumo_interno]."'";
 //							if(!is_null($Fila2[vptm])&&$Fila2[vptm]<>0)
 //								$Consulta.=" and vptm='".$Fila2[vptm]."'";
-//							$Resp3=mysql_query($Consulta);
+//							$Resp3=mysqli_query($link, $Consulta);
 //							while($Fila3=mysql_fetch_array($Resp3))
 //							{
 //								if($Fila2[signo]=='+')
@@ -602,7 +602,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 //					case "CDV":
 //							$Consulta="select kilos_finos from pcip_cdv_cuadro_diario_ventas where cod_producto='".$Fila2[num_orden]."' and ano='".$Ano."' and mes>='".$Mes."' and mes<='".$MesFin."' and ajuste='N' and tipo_venta='8'";
 //							//echo $Consulta."<br>";
-//							$Resp3=mysql_query($Consulta);
+//							$Resp3=mysqli_query($link, $Consulta);
 //							while($Fila3=mysql_fetch_array($Resp3))
 //							{
 //								if($Fila2[signo]=='+')
@@ -635,7 +635,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 //									break;
 //							}
 //							$Consulta.=" as kilos_finos from pcip_ena_datos_enabal where origen='".$Fila2[origen]."' and ano='".$Ano."' and mes='".$Mes."' and tipo_dato='F' and tipo_mov='2' ";
-//							$Resp3=mysql_query($Consulta);
+//							$Resp3=mysqli_query($link, $Consulta);
 //							//echo $Consulta."<br>";
 //							while($Fila3=mysql_fetch_array($Resp3))
 //							{

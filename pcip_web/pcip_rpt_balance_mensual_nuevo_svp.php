@@ -115,7 +115,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <?
 	    $Consulta = "select distinct t2.nombre_subclase,t2.cod_subclase from pcip_svp_balance_mensual t1 inner join proyecto_modernizacion.sub_clase t2 where t2.cod_clase='31054'";			
 		$Consulta.= " and t1.cod_producto=t2.cod_subclase";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbProducto==$Fila["cod_subclase"])
@@ -153,7 +153,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<?
 	    $Consulta = "select  distinct t2.nombre_subclase,t2.cod_subclase from pcip_svp_balance_mensual t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31057'";			
 		$Consulta.= " and t1.cod_titulo=t2.cod_subclase where valor_subclase1='".$CmbNegocio."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTitulo==$FilaTC["cod_subclase"])
@@ -223,7 +223,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($CmbTitulo!='T')
 					$Consulta.= " and t1.cod_titulo='".$CmbTitulo."'";
 				$Consulta.= "  order by orden ";		
-				$RespBal=mysql_query($Consulta);
+				$RespBal=mysqli_query($link, $Consulta);
 				while ($FilaBal=mysql_fetch_array($RespBal))
 				{
 					echo "<tr class='TituloTablaNaranja'>";

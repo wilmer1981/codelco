@@ -6,7 +6,7 @@
 		case "N":
 		    $Mensaje=false;	
 			$Consulta= " select rut_proveedor from pcip_fac_proveedores  where rut_proveedor='".$TxtRut."'";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{	
 			    $Mensaje1=false;			
@@ -39,7 +39,7 @@
 			while (list($clave,$TxtRut)=each($Datos))
 			{								
 				$Consulta="select * from pcip_fac_productos_por_proveedores where rut_proveedor='".$TxtRut."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				if(!$Fila=mysql_fetch_array($Respuesta))
 				{

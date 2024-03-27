@@ -167,7 +167,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					
 					$Consulta = "SELECT nombre_subclase as gruas FROM proyecto_modernizacion.sub_clase where cod_clase = 10004 ";
 					$Consulta.= "and cod_subclase >= 1 and cod_subclase < 20  ORDER BY cod_subclase";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Row = mysql_fetch_array($Respuesta))
 					{
 						if ($cmbgrua==$Row[gruas])
@@ -188,7 +188,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
 					$Consulta.= " case when CURTIME() between '16:00:00' and '23:59:59' then 'B' end end end as turno ";
 					
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					if ($Fila = mysql_fetch_array($Respuesta))
 						if ($opcion == "M")
 						{
@@ -224,7 +224,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                     <? 
 					$Consulta = "SELECT nombre_subclase as tipo_mantencion FROM proyecto_modernizacion.sub_clase where cod_clase = 10004 ";
 					$Consulta.= " and cod_subclase >= 20 and cod_subclase < 30 ORDER BY cod_subclase";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Row1 = mysql_fetch_array($Respuesta))
 					{
 						if ($cmbArea==$Row1[tipo_mantencion])
@@ -270,7 +270,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                     <? 
 						$Consulta = "SELECT nombre_subclase as estado FROM proyecto_modernizacion.sub_clase where cod_clase = 10004 ";
 						$Consulta.= " and cod_subclase >= 40 and cod_subclase < 50 ORDER BY cod_subclase";
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						while ($Row2 = mysql_fetch_array($Respuesta))
 						{
 							if ($CmbEstado==$Row2["estado"])

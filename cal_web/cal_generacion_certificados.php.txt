@@ -418,7 +418,7 @@ function Salir()
                 <? 
 					
 					$Consulta="select cod_producto,descripcion from proyecto_modernizacion.productos order by descripcion"; 
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbProductos==$Fila["cod_producto"])
@@ -448,7 +448,7 @@ function Salir()
 				if ($CmbProductos == '1')
 				{
 					$Consulta="select cod_subproducto,descripcion from subproducto where cod_producto = '".$CmbProductos."' and ((mostrar <> 16) or (mostrar <> 17)) "; 
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -464,7 +464,7 @@ function Salir()
 				else
 				{
 					$Consulta="select cod_subproducto,descripcion from subproducto where cod_producto = '".$CmbProductos."'"; 
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -507,7 +507,7 @@ function Salir()
 				$Consulta = "select t1.rut_proveedor,t1.nombre from imp_web.proveedores t1 ";
 			  	$Consulta = $Consulta.$Estado;
 			  	$Consulta = $Consulta." where t2.cod_subproducto = '".$CmbSubProducto."' order by t1.rut_proveedor ";			  
-			  	$Respuesta=mysql_query($Consulta);			
+			  	$Respuesta=mysqli_query($link, $Consulta);			
 				while ($Fila=mysql_fetch_array($Respuesta))
 				{
 					if ($CmbRutProveedor == $Fila["rut_proveedor"])
@@ -574,7 +574,7 @@ function Salir()
 							$RutP=substr($CmbRutProveedor,0,strlen($CmbRutProveedor)-1).'-'.substr($CmbRutProveedor,strlen($CmbRutProveedor)-1,1);
 							$Consulta = $Consulta." and (t3.fecha_hora between '".$FechaI."' and '".$FechaT ."') and(t3.rut_proveedor = '".$RutP."')  ";
 						}
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						
 						while ($Fila=mysql_fetch_array($Respuesta))
 						{
@@ -603,7 +603,7 @@ function Salir()
 						$Consulta = $Consulta." and (t1.rut_funcionario = t1.rut_funcionario) "; 
 						$Consulta = $Consulta." where (t1.cod_producto = ".$CmbProductos.") and (t1.cod_subproducto = ".$CmbSubProducto.") ";
 						$Consulta = $Consulta." and (t2.fecha_hora between '".$FechaI."' and '".$FechaT."') and (t1.estado_actual = '6' or t1.estado_actual = '32') "; 					
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Respuesta))
 						{
 							echo "<tr>";
@@ -644,7 +644,7 @@ function Salir()
 						$Consulta = $Consulta. " order by t1.nro_solicitud "; 
 						//echo $Consulta."<br>";
 						//echo $Consulta;
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Respuesta))
 						{
 
@@ -664,11 +664,11 @@ function Salir()
 							if ($Fila["tipo_solicitud"]=='A')
 							{
 								$Consulta = " select count(*) as NroSol from cal_web.solicitud_analisis where nro_solicitud = '".$Fila["nro_solicitud"]."'"; 
-								$Respuesta2 = mysql_query($Consulta);
+								$Respuesta2 = mysqli_query($link, $Consulta);
 								$Fila2 = mysql_fetch_array($Respuesta2);
 								$N1 = $Fila2["NroSol"];
 								$Consulta = " select count(*) as NroSolF from cal_web.solicitud_analisis where nro_solicitud = '".$Fila["nro_solicitud"]."' and estado_actual = '6'"; 
-								$Respuesta3 = mysql_query($Consulta);
+								$Respuesta3 = mysqli_query($link, $Consulta);
 								$Fila3=mysql_fetch_array($Respuesta3);
 								$N2=$Fila3["NroSolF"];
 								if ($Fila2["NroSol"] == $Fila3["NroSolF"])
@@ -805,7 +805,7 @@ Todos</td>
 						$Consulta = $Consulta. " inner join proyecto_modernizacion.productos t4 on t4.cod_producto = t1.cod_producto "; 
 						$Consulta = $Consulta. " where (nro_solicitud = '".$Solicitud."') and (estado_actual = '6' or estado_actual = '32')";
 					 	//echo $Consulta."<br>";
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						while ($Fila = mysql_fetch_array($Respuesta))
 						{
 
@@ -837,7 +837,7 @@ Todos</td>
 				$Consulta = $Consulta. " inner join proyecto_modernizacion.productos t4 on t4.cod_producto = t1.cod_producto "; 
 				$Consulta = $Consulta. " where (nro_solicitud = '".$TxtSA."') ";//cambios
 				//echo $Consulta;
-			 	$Respuesta = mysql_query($Consulta);
+			 	$Respuesta = mysqli_query($link, $Consulta);
 			 	while ($Fila = mysql_fetch_array($Respuesta))
 				{
 					if (($Fila["tipo_solicitud"]=='R') && (($Fila["estado_actual"] == '6' )|| ($Fila["estado_actual"] == '32')))
@@ -859,11 +859,11 @@ Todos</td>
 					if ($Fila["tipo_solicitud"]=='A')	
 					{
 						$Consulta = " select count(*) as NroSol from cal_web.solicitud_analisis where nro_solicitud = '".$Fila["nro_solicitud"]."'"; 
-						$Respuesta2 = mysql_query($Consulta);
+						$Respuesta2 = mysqli_query($link, $Consulta);
 						$Fila2 = mysql_fetch_array($Respuesta2);
 						$N1 = $Fila2["NroSol"];
 						$Consulta = " select count(*) as NroSolF from cal_web.solicitud_analisis where nro_solicitud = '".$Fila["nro_solicitud"]."' and estado_actual = '6'"; 
-						$Respuesta3 = mysql_query($Consulta);
+						$Respuesta3 = mysqli_query($link, $Consulta);
 						$Fila3=mysql_fetch_array($Respuesta3);
 						$N2=$Fila3["NroSolF"];
 						if ($Fila2["NroSol"] == $Fila3["NroSolF"])

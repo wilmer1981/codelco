@@ -15,7 +15,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 <td align="left" class="formulario">
 	<?
 	$Consulta = "SELECT * from sget_contratistas where rut_empresa='".$CmbEmpresa."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
 		echo FormatearNombre($FilaTC["razon_social"]);
@@ -29,7 +29,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 <td align="left" class="formulario">
 <?
 $Consulta="SELECT * from sget_contratos where cod_contrato='".$CmbContrato."'";
-$RespCtto=mysql_query($Consulta);
+$RespCtto=mysqli_query($link, $Consulta);
 while($FilaCtto=mysql_fetch_array($RespCtto))
 {
 	echo $FilaCtto["cod_contrato"]."--->".FormatearNombre($FilaCtto["descripcion"]);
@@ -43,7 +43,7 @@ while($FilaCtto=mysql_fetch_array($RespCtto))
 <td align="left" class="formulario">
 <?
 $Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase='".$CmbEstado."'";
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 while($Fila=mysql_fetch_array($Resp))
 {
 	echo $Fila["nombre_subclase"];
@@ -85,7 +85,7 @@ if($Cons=='S')
 		$Consulta.= " and cod_estado_aprobado <>'3' ";		
 	$Consulta.= " order by num_hoja_ruta desc, cod_estado_aprobado asc   ";		
 	//echo $Consulta;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	$cont=1;
 	while ($Fila_HR=mysql_fetch_array($Resp))
 	{
@@ -116,18 +116,18 @@ if($Cons=='S')
 			$Consulta = "SELECT max(fecha_hora) as fecha_hora from sget_reg_estados  ";
 			$Consulta.= " where num_hoja_ruta='".$Fila_HR[num_hoja_ruta]."'";
 			$Consulta.= " group by num_hoja_ruta ";
-			$RespCrea=mysql_query($Consulta);
+			$RespCrea=mysqli_query($link, $Consulta);
 			$FilaCrea=mysql_fetch_array($RespCrea);
 			
 			$Consulta = "SELECT cod_estado,tipo from sget_reg_estados  ";
 			$Consulta.= " where num_hoja_ruta='".$Fila_HR[num_hoja_ruta]."' and fecha_hora='".$FilaCrea["fecha_hora"]."'";
-			$RespCrea=mysql_query($Consulta);
+			$RespCrea=mysqli_query($link, $Consulta);
 			if($FilaCrea=mysql_fetch_array($RespCrea))
 			{
 				if($FilaCrea["tipo"] =='E')
 				{
 					$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase ='".$FilaCrea["cod_estado"]."' ";
-					$Resp2=mysql_query($Consulta);
+					$Resp2=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Resp2);
 					{
 						echo str_replace(' ','&nbsp;',$Fila2["nombre_subclase"]);
@@ -136,7 +136,7 @@ if($Cons=='S')
 				else
 				{
 					$Consulta="SELECT * from sget_hitos where cod_hito='".$FilaCrea["cod_estado"]."' ";
-					$Resp2=mysql_query($Consulta);
+					$Resp2=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Resp2);
 					{
 						echo str_replace(' ','&nbsp;',$Fila2[descrip_hito]);

@@ -19,7 +19,7 @@
 		if($Opcion=='NPREM')
 			$Consulta="select max(cod_subclase+1) as maximo from proyecto_modernizacion.sub_clase where cod_clase='31052' ";	
 		//echo $Consulta."<br>";
-		$Resp=mysql_query($Consulta);		
+		$Resp=mysqli_query($link, $Consulta);		
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtCodigo=$Fila["maximo"];
@@ -149,7 +149,7 @@ function Salir()
          </tr>
 		 <?
 		  if($Opcion=='NREC')
-				$Nombre='Nombre Recuperación';
+				$Nombre='Nombre Recuperaciï¿½n';
 		  if($Opcion=='NCAR')
 		  		$Nombre='Nombre Cargo';	
 		  if($Opcion=='NCON')
@@ -174,7 +174,7 @@ function Salir()
 				   <td width="5%" class="TituloTablaVerde">Elim.</td>
 				   <td width="5%" class="TituloTablaVerde">Modi.</td>
 				   <td width="6%" class="TituloTablaVerde">Codigo</td>
-				   <td width="82%" class="TituloTablaVerde">Código</td>
+				   <td width="82%" class="TituloTablaVerde">Cï¿½digo</td>
 				 </tr>
              <?			 
 				if($Opcion=='NREC')
@@ -189,7 +189,7 @@ function Salir()
 					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='31037' order by cod_subclase";
 				if($Opcion=='NPREM')
 					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='31052' order by cod_subclase";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				while ($Fila=mysql_fetch_array($Resp))
 				{

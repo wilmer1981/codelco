@@ -163,7 +163,7 @@ function Cierra(HR,Est,Tipo)
               <option value="-1" class="NoSelec">Seleccionar</option>
               <?
 				$Consulta = "SELECT * from sget_contratistas order by razon_social ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -229,7 +229,7 @@ function Cierra(HR,Est,Tipo)
               <?
 		$FechaActual=date("Y")."-".date("m")."-".date("d");
 		$Consulta="SELECT * from sget_contratos where fecha_termino >= '".$FechaActual."' order by fecha_termino desc";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			if ($FechaActual > $FilaCtto[fecha_termino])
@@ -294,7 +294,7 @@ function Cierra(HR,Est,Tipo)
               <option value="S" SELECTed="SELECTed">Seleccionar</option>
               <?
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase in ('4','5','6','7') order by cod_subclase";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if($CmbEstado==$Fila["cod_subclase"])
@@ -337,7 +337,7 @@ function Cierra(HR,Est,Tipo)
 		   <?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='15'  ";
-			$RespH = mysql_query($Consulta);
+			$RespH = mysqli_query($link, $Consulta);
 			while ($FilaH=mysql_fetch_array($RespH))
 			{
 				?>
@@ -350,7 +350,7 @@ function Cierra(HR,Est,Tipo)
            <?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."' and  isnull(gest_tercero_final) ";
-			$RespH = mysql_query($Consulta);
+			$RespH = mysqli_query($link, $Consulta);
 			while ($FilaH=mysql_fetch_array($RespH))
 			{
 				?>
@@ -364,7 +364,7 @@ function Cierra(HR,Est,Tipo)
 			{
 				$Consulta = "SELECT * from sget_hitos ";
 				$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."' and  gest_tercero_final ='S' ";
-				$RespH = mysql_query($Consulta);
+				$RespH = mysqli_query($link, $Consulta);
 				while ($FilaH=mysql_fetch_array($RespH))
 				{
 					?>
@@ -408,7 +408,7 @@ if($Cons=='S')
 		}
 	}
 
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckHoja' type='hidden'  value=''>";
 	$cont=1;
 	while ($Fila=mysql_fetch_array($Resp))
@@ -441,14 +441,14 @@ if($Cons=='S')
 		    <?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='15'  ";
-			$RespHD = mysql_query($Consulta);
+			$RespHD = mysqli_query($link, $Consulta);
 			while ($FilaHD=mysql_fetch_array($RespHD))
 			{
 				?>
 				<td width="10%" align="center">
 				<?
 				$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
-				$RespExi = mysql_query($Consulta);
+				$RespExi = mysqli_query($link, $Consulta);
 				if($FilaExi=mysql_fetch_array($RespExi))
 				{	
 					$IcoObs=CantObs($Fila["num_hoja_ruta"],$FilaHD[cod_hito]);
@@ -489,14 +489,14 @@ if($Cons=='S')
 		  	//echo "agos______".$Entro."<br>";
 			$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."' and  isnull(gest_tercero_final) ";
-			$RespHD = mysql_query($Consulta);
+			$RespHD = mysqli_query($link, $Consulta);
 			while ($FilaHD=mysql_fetch_array($RespHD))
 			{
 				?>
 				<td  align="center">
 				<?
 				$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
-				$RespExi = mysql_query($Consulta);
+				$RespExi = mysqli_query($link, $Consulta);
 				if($FilaExi=mysql_fetch_array($RespExi))
 				{	
 					$IcoObs2=CantObs($Fila["num_hoja_ruta"],$FilaHD[cod_hito]);
@@ -506,7 +506,7 @@ if($Cons=='S')
 						<a href=	"JavaScript:Obs('<? echo $FilaHD[cod_hito]; ?>','<? echo $Fila["num_hoja_ruta"]; ?>')"><img src="archivos/<? echo $IcoObs2;  ?>"  border="0"  alt="Ingreso Observaci�n <? echo $FilaHD[descrip_hito];  ?>" align=	"absmiddle" /></a>
 		  				<? 
 						$Consulta=" SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito in ('3','4') and autorizado='S' ";
-						$RespGI = mysql_query($Consulta);
+						$RespGI = mysqli_query($link, $Consulta);
 						if ($FilaGI=mysql_fetch_array($RespGI))
 						{
 						?>
@@ -531,7 +531,7 @@ if($Cons=='S')
 							$Consulta="SELECT * ";
 							$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 							$Consulta.=" where num_hoja_ruta ='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' and aprob_rechazo='A' ";
-							$RespDet2=mysql_query($Consulta);
+							$RespDet2=mysqli_query($link, $Consulta);
 							if($FilaDet2=mysql_fetch_array($RespDet2))
 							{
 								?>
@@ -567,14 +567,14 @@ if($Cons=='S')
 				//echo "agos______".$Entro."<br>";
 				$Consulta = "SELECT * from sget_hitos ";
 				$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."' and gest_tercero_final='S' ";
-				$RespHD = mysql_query($Consulta);
+				$RespHD = mysqli_query($link, $Consulta);
 				while ($FilaHD=mysql_fetch_array($RespHD))
 				{
 					?>
 					<td  align="center">
 					<?
 					$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
-					$RespExi = mysql_query($Consulta);
+					$RespExi = mysqli_query($link, $Consulta);
 					if($FilaExi=mysql_fetch_array($RespExi))
 					{	
 						if($FilaExi[autorizado]=='S')
@@ -612,7 +612,7 @@ if($Cons=='S')
 								$Consulta="SELECT * ";
 								$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 								$Consulta.=" where num_hoja_ruta ='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' and aprob_rechazo='A' ";
-								$RespDet2=mysql_query($Consulta);
+								$RespDet2=mysqli_query($link, $Consulta);
 								if($FilaDet2=mysql_fetch_array($RespDet2))
 								{
 									?>

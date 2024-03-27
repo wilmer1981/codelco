@@ -15,7 +15,7 @@ if($Proceso != "G")
 	$Consulta.= " OR cod_producto=39 and cod_subproducto=6 ";
 	$Consulta.= " OR cod_producto=42 and cod_subproducto=21)";
 	$Consulta.= " AND turno = '$cmbturno'";
-	$Rs = mysql_query($Consulta);
+	$Rs = mysqli_query($link, $Consulta);
 	$Row = mysql_fetch_array($Rs);
 	$Total = $Row[unid];
 	$PesoTotal = $Row["peso"];
@@ -25,7 +25,7 @@ if($Proceso != "G")
 	$Consulta.= " OR cod_producto=39 and cod_subproducto=6 ";
 	$Consulta.= " OR cod_producto=42 and cod_subproducto=21)";
 	$Consulta.= " AND turno = '$cmbturno'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	while($Fila = mysql_fetch_array($rs))
 	{
 		if($Fila["cod_producto"] == 42 AND $Fila[cod_subproducto] == 21)
@@ -48,7 +48,7 @@ if($Proceso != "G")
 	}
 	$Consulta = "SELECT * FROM raf_web.movimientos WHERE left(fecha_carga,10) = '$fecha' AND hornada = $hornada";
 	$Consulta.= " AND turno = '$cmbturno'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($row = mysql_fetch_array($rs))
 	{
 		$Proceso2 = 'S';
@@ -142,7 +142,7 @@ if($Proceso != "G")
 {
 	$Consulta = "SELECT * FROM proyecto_modernizacion.sub_clase";
 	$Consulta.= " WHERE cod_clase = 8002";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	while($Fila = mysql_fetch_array($rs))
 	{
 		if($Fila["cod_subclase"] == 1)

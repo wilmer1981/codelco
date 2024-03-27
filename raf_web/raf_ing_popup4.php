@@ -13,7 +13,7 @@ if($Proceso != "G" && $Proceso != "E")
 {
 	$Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE fecha='$Fecha'";
 	$Consulta.= " AND hornada = $Hornada AND tipo_report = 2 AND seccion_report = '$Seccion'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($row = mysql_fetch_array($rs))
 	{
 		$observacion = $row[campo8];				

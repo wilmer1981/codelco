@@ -14,7 +14,7 @@ if($Proceso == "B")
 	$Consulta.= " AND fecha_ini='".$FechaIni."' ";
 	$Consulta.= " AND hora_ini='".$hhIni.":".$mmIni.":00' ";
 	$Consulta.= " AND hora_ter='".$hhTer.":".$mmTer.":00' ";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($row = mysql_fetch_array($rs))
 	{
 		$GasIni = $row[campo3];
@@ -113,7 +113,7 @@ if($Proceso == "G")
 //PESO OLLAS ESCORIA RETEN
 $Consulta = "select * from proyecto_modernizacion.sub_clase ";
 $Consulta.= " where cod_clase = '12003'";
-$Resp = mysql_query($Consulta);
+$Resp = mysqli_query($link, $Consulta);
 if ($Fila = mysql_fetch_array($Resp))
 {
 	$PesoOllasBasc = $Fila["nombre_subclase"];
@@ -406,7 +406,7 @@ function Proceso(opc)
               <?
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='12001' order by cod_subclase ";	
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Destino == $Fila["nombre_subclase"])

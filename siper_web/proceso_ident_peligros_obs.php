@@ -25,7 +25,7 @@
 	//$Consulta="SELECT * from sgrs_codcontactos where MVIGENTE ='1' and MOPCIONAL='1' and CCONTACTO NOT IN ".$Peligros." and NCONTACTO <> '' order by CCONTACTO";
 	$Consulta="SELECT *,ceiling(CCONTACTO) as order_codigo from sgrs_codcontactos where MVIGENTE ='1' and MOPCIONAL='1' and NCONTACTO <> '' order by NCONTACTO";
 	//echo $Consulta;
-	$Resultado=mysql_query($Consulta);echo "<input type='hidden' name='CheckPel'>";
+	$Resultado=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckPel'>";
 	while ($Fila=mysql_fetch_array($Resultado))
 	{
 		$CmbProbH=$Fila[QPROBHIST];

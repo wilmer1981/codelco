@@ -7,7 +7,7 @@ $Fecha_Sistema= date("Y-m-d");
 $Fecha_Creacion= date("Y-m-d G:i:s");
 $Rut=$CookieRut;
 $Consulta="Select * from sget_ruta_archivo where rut='".$CookieRut."'";
-$Resp0= mysql_query($Consulta);
+$Resp0= mysqli_query($link, $Consulta);
 if($Fila0 = mysql_fetch_array($Resp0))
 {
 	//$RutaOrigen=$Fila0[origen];//'C:\SGEPVB';

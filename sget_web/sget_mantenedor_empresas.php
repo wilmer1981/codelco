@@ -141,7 +141,7 @@ body {
               <option value="-1" class="NoSelec">Todos</option>
               <?
 			$Consulta = "SELECT * from sget_ciudades order by nom_ciudad ";			
-			$Resp1=mysql_query($Consulta);
+			$Resp1=mysqli_query($link, $Consulta);
 			while ($Fila1=mysql_fetch_array($Resp1))
 			{
 				if ($CmbCiudad==$Fila1["cod_ciudad"])
@@ -200,7 +200,7 @@ if($Cons=='S')
 		$Consulta.= " and upper(razon_social) like ('%".strtoupper($TxtRazon)."%') ";
 	if($TxtNombreFantasia!='')
 		$Consulta.= " and upper(nombre_fantasia) like ('%".strtoupper($TxtNombreFantasia)."%') ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckRut' type='hidden'  value=''>";
 	$Cont=1;

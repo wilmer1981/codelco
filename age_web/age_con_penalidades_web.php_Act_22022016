@@ -160,7 +160,7 @@ body {
 	$Consulta.= " order by t1.cod_recepcion ";
 	//echo "uno".$Consulta."<br>";
 	$RutPrv2='';
-	$RespTipoRecep = mysql_query($Consulta);
+	$RespTipoRecep = mysqli_query($link, $Consulta);
 	if ($ChkDetalle!="L")
 		$ColSpan = $ColSpan + 1;
 	while ($FilaTipoRecep = mysql_fetch_array($RespTipoRecep))
@@ -231,14 +231,14 @@ body {
 			$Consulta.= " and t1.rut_proveedor = '".$CmbProveedor."' ";
 		$Consulta.= " order by t1.cod_producto, orden ";
 		//echo "dos".$Consulta."<br>";
-		$Resp01 = mysql_query($Consulta);
+		$Resp01 = mysqli_query($link, $Consulta);
 		while ($Fila01 = mysql_fetch_array($Resp01))	
 		{			
 			echo "<tr bgcolor=\"#CCCCCC\">\n";			
 			$Consulta = "select * from proyecto_modernizacion.subproducto ";
 			$Consulta.= "where cod_producto = '".$Fila01["cod_producto"]."' and cod_subproducto='".$Fila01["cod_subproducto"]."'";		
 			//echo "tre".$Consulta."<br>";
-			$RespAux2 = mysql_query($Consulta);
+			$RespAux2 = mysqli_query($link, $Consulta);
 			if ($FilaAux2 = mysql_fetch_array($RespAux2))
 				$NomSubProd = $FilaAux2["descripcion"];
 			else
@@ -267,7 +267,7 @@ body {
 			$Consulta.= " order by t1.cod_recepcion, t1.rut_proveedor ";
 			//echo "cin".$Consulta."<br>";
 			$RutPrv='';
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			while ($FilaAux = mysql_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -276,7 +276,7 @@ body {
 				$Consulta = "select rut_prv as RUTPRV_A, nombre_prv as NOMPRV_A";
 				$Consulta.= " from sipa_web.proveedores ";
 				$Consulta.= " where rut_prv = '".$RutAux."'";
-				$RespProv = mysql_query($Consulta);	
+				$RespProv = mysqli_query($link, $Consulta);	
 				//echo "sei".$Consulta."<br>";
 				while ($FilaProv = mysql_fetch_array($RespProv))
 				{
@@ -325,7 +325,7 @@ body {
 				//$Consulta.= " and t1.lote='07040376'";
 				$Consulta.= " group by t1.lote order by t1.lote, orden";
 				//echo "sie".$Consulta."<br>";
-				$RespLote = mysql_query($Consulta);
+				$RespLote = mysqli_query($link, $Consulta);
 				//aqui incluyo mermas;
 				$PorcMerma=0;$SiMerma=0;$VarMerma=0;$PrvMerma=0;
 				//$Anito = substr($TxtFechaIni,0,4);
@@ -334,7 +334,7 @@ body {
 				$Consulta.= " where cod_producto='".$Fila01["cod_producto"]."' ";
 				$Consulta.= " and cod_subproducto='".$Fila01["cod_subproducto"]."' ";
 				$Consulta.=" and ((year(fecha) < '".$CmbAno."') or (year(fecha) = '".$CmbAno."' and month(fecha) <= '".$CmbMes."'))";
-				$RespMerma=mysql_query($Consulta);
+				$RespMerma=mysqli_query($link, $Consulta);
 				while ($FilaMerma=mysql_fetch_array($RespMerma))
 				{
 					if($FilaMerma["rut_proveedor"]=="")

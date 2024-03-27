@@ -8,7 +8,7 @@ include('conectar_ori.php');
 		if($v!=''&&$v!='0')
 		{
 			$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			if($CodNiveles<$Fila[CTAREA])
 				$CodNiveles=$Fila[CTAREA];
@@ -168,7 +168,7 @@ function CloseDiv()
 		 <? 
 			$Consulta="SELECT * from sgrs_lugares where MVIGENTE='1' and CAREA ='".$CodSelTarea."' order by NLUGAR";
 			//echo $Consulta;
-			$Resultado=mysql_query($Consulta);echo "<input type='hidden' name='CheckLugar'>";
+			$Resultado=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckLugar'>";
 			echo "<input type='hidden' name='CodPel'>";
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
@@ -209,7 +209,7 @@ else
 			
 			$Consulta="Select * from sgrs_lugares where CLUGAR='".$DatosLugar."' ";
 			//echo $Consulta;
-			$Resp1 = mysql_query($Consulta);
+			$Resp1 = mysqli_query($link, $Consulta);
 			if ($Fila1=mysql_fetch_array($Resp1))
 			{
 			 $TxtNombre=$Fila1[NLUGAR];

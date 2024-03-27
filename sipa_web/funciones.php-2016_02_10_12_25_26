@@ -17,7 +17,7 @@
 		$Consulta.= "left join proyecto_modernizacion.funcionarios t9 on t1.rut_operador=t9.rut ";
 		$Consulta.= "where correlativo='".$Correlativo."' and t1.tipo<>'A'";//TIPO=A SON LOTES AUTOMATICOS DE TENIENTES
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			//$NomArchivo = "R".$Romana."_CorrImprimir.txt";
@@ -47,7 +47,7 @@
 			{
 				$Consulta = "SELECT sum(peso_neto) as tot_peso_lote from sipa_web.recepciones  where lote='".$Fila["lote"]."' group by lote";
 				//echo $Consulta."<br>";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				$Fila2 = mysql_fetch_array($Resp2);
 				fwrite($Archivo,"PESO TOTAL LOTE:".$Fila2["tot_peso_lote"]."\r\n");
 			}
@@ -73,7 +73,7 @@
 			foreach($Datos as $c => $v)
 			{
 				$Consulta="SELECT * from proyecto_modernizacion.leyes where cod_leyes ='".$v."'";
-				$RespLeyes=mysql_query($Consulta);
+				$RespLeyes=mysqli_query($link, $Consulta);
 				if($FilaLeyes=mysql_fetch_array($RespLeyes))
 					$Leyes=$Leyes.$FilaLeyes["abreviatura"]."~";
 			}
@@ -84,7 +84,7 @@
 			foreach($Datos as $c => $v)
 			{
 				$Consulta="SELECT * from proyecto_modernizacion.leyes where cod_leyes ='".$v."'";
-				$RespLeyes=mysql_query($Consulta);
+				$RespLeyes=mysqli_query($link, $Consulta);
 				if($FilaLeyes=mysql_fetch_array($RespLeyes))
 					$Impurezas=$Impurezas.$FilaLeyes["abreviatura"]."~";
 			}
@@ -110,7 +110,7 @@
 		$Consulta.= "left join proyecto_modernizacion.sub_clase t6 on t6.valor_subclase1= t1.cod_despacho ";
 		$Consulta.= "left join proyecto_modernizacion.funcionarios t9 on t1.rut_operador=t9.rut ";
 		$Consulta.= "where correlativo='".$Correlativo."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			//$NomArchivo = "R".$Romana."_CorrImprimir.txt";
@@ -137,7 +137,7 @@
 			{
 				$Consulta = "SELECT sum(peso_neto) as tot_peso_lote from sipa_web.despachos  where lote='".$Fila["lote"]."' group by lote";
 				//echo $Consulta."<br>";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				$Fila2 = mysql_fetch_array($Resp2);
 				fwrite($Archivo,"PESO TOTAL LOTE:".$Fila2["tot_peso_lote"]."\r\n");
 			}
@@ -171,7 +171,7 @@
 		$Consulta.= "left join proyecto_modernizacion.funcionarios t2 on t1.rut_operador=t2.rut ";		
 		$Consulta.= "where correlativo='".$Correlativo."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			//$NomArchivo = "R".$Romana."_CorrImprimir.txt";
@@ -282,7 +282,7 @@
 				$Consulta = "SELECT distinct rut as rut_cliente,sigla_cliente from sec_web.cliente_venta ";
 				$Consulta.= "where rut='$RutPrv'";
 				//echo "uno".$Consulta."<br>";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				if($Fila2 = mysql_fetch_array($Resp2))
 				{
 					$RutProved=$Fila2["rut_cliente"];
@@ -292,7 +292,7 @@
 				{
 					$Consulta = "SELECT distinct t2.rut_cliente,nombre_nave as sigla_cliente from sec_web.nave t1 inner join ";
 					$Consulta.= "sec_web.sub_cliente_vta t2 on t1.cod_nave=t2.cod_cliente where rut_cliente ='$RutPrv' group by rut_cliente";
-					$Resp2 = mysql_query($Consulta);
+					$Resp2 = mysqli_query($link, $Consulta);
 					//echo "dosssss".$Consulta."<br>";				
 					if($Fila2 = mysql_fetch_array($Resp2))
 					{
@@ -306,7 +306,7 @@
 						$Consulta.="where t1.num_secuencia='$Corr' and t1.num_guia='$Guia' and t1.cod_estado <> 'A'";
 						$Consulta.="group by t3.cod_producto,t3.cod_subproducto	";
 						//echo "tres".$Consulta."<br>";
-						$RespSec=mysql_query($Consulta);
+						$RespSec=mysqli_query($link, $Consulta);
 						$FilaSec=mysql_fetch_array($RespSec);
 						switch($FilaSec["tipo_embarque"])
 						{
@@ -326,7 +326,7 @@
 						$Consulta= "SELECT distinct rut as rut_cliente,sigla as sigla_cliente from sec_web.prestador ";
 						$Consulta.= "where cod_prestador_servicio='$CodPrestador' and rut ='$RutPrv' group by rut";
 						//echo "cuatro".$Consulta."<br>";
-						$Resp2 = mysql_query($Consulta);
+						$Resp2 = mysqli_query($link, $Consulta);
 						if($Fila2 = mysql_fetch_array($Resp2))
 						{
 							$RutProved=$Fila2["rut_cliente"];
@@ -335,7 +335,7 @@
 						else
 						{
 							$Consulta = "SELECT distinct rut_cliente,nombre from pac_web.clientes where rut_cliente='$RutPrv'";
-							$Resp2 = mysql_query($Consulta);
+							$Resp2 = mysqli_query($link, $Consulta);
 							//echo "cinco".$Consulta."<br>";				
 							if($Fila2 = mysql_fetch_array($Resp2))
 							{
@@ -345,7 +345,7 @@
 							else
 							{
 								$Consulta = "SELECT distinct rut_prv,nombre_prv from sipa_web.proveedores where rut_prv='$RutPrv'";
-								$Resp2 = mysql_query($Consulta);
+								$Resp2 = mysqli_query($link, $Consulta);
 								//echo "seis".$Consulta."<br>";					
 								if ($Fila2 = mysql_fetch_array($Resp2))
 								{
@@ -373,7 +373,7 @@
 		$Datos=explode('~',$ProdSubProd);
 		$Consulta="SELECT * from sipa_web.proveedores where rut_prv='$Proveedor' and hum_ult_rec<>'S'";
 		//echo $Consulta."<br>";
-		$RespPrv=mysql_query($Consulta);
+		$RespPrv=mysqli_query($link, $Consulta);
 		if($FilaPrv=mysql_fetch_array($RespPrv))
 		{
 			$Consulta2 = "SELECT valor1, valor2 from proyecto_modernizacion.clase where cod_clase = '1012' ";
@@ -387,7 +387,7 @@
 			$Consulta ="SELECT * from cal_web.solicitud_analisis where id_muestra = '".$Lote."' and cod_producto ='".$Producto."' ";
 			$Consulta.="and cod_subproducto='".$SubProducto."' and tipo_solicitud = 'A' and ((nro_solicitud is not null) or (nro_solicitud <> ''))";
 			//echo $Consulta."<br><BR>";
-			$Respuesta = mysql_query($Consulta);
+			$Respuesta = mysqli_query($link, $Consulta);
 			if ($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Actualizar = "UPDATE sipa_web.recepciones set sa_asignada=".$Fila["nro_solicitud"].",activo = 'N' where lote='".$Lote."' and recargo='".$Recargo."'";
@@ -420,7 +420,7 @@
 					foreach($Leyes as  $c =>$v)
 					{
 						$Consulta="SELECT cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
-						$RespUnidad=mysql_query($Consulta);
+						$RespUnidad=mysqli_query($link, $Consulta);
 						$FilaUnidad=mysql_fetch_array($RespUnidad);
 						if($v!='01')
 						{
@@ -451,7 +451,7 @@
 				//echo "PRIMERA SOLICITUD RECARGO 1<br><br>";
 				//SE OBTIENE EL NUMERO MAYOR DE LAS SOLICITUDES
 				$Consulta = "SELECT max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
-				$RespSA = mysql_query($Consulta);
+				$RespSA = mysqli_query($link, $Consulta);
 				if ($FilaSA = mysql_fetch_array($RespSA))
 				{
 					if ((substr($FilaSA["NroMayor"],0,4)) == (date("Y")))
@@ -490,7 +490,7 @@
 					foreach($Leyes as  $c =>$v)
 					{
 						$Consulta="SELECT cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
-						$RespUnidad=mysql_query($Consulta);
+						$RespUnidad=mysqli_query($link, $Consulta);
 						$FilaUnidad=mysql_fetch_array($RespUnidad);
 						if($v!='01')
 						{
@@ -522,7 +522,7 @@
 			if($UltRec=='S')
 			{
 				$Consulta = "SELECT max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
-				$RespSA = mysql_query($Consulta);
+				$RespSA = mysqli_query($link, $Consulta);
 				if ($FilaSA = mysql_fetch_array($RespSA))
 				{
 					if ((substr($FilaSA["NroMayor"],0,4)) == (date("Y")))
@@ -557,7 +557,7 @@
 				foreach($Leyes as  $c =>$v)
 				{
 					$Consulta="SELECT cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
-					$RespUnidad=mysql_query($Consulta);
+					$RespUnidad=mysqli_query($link, $Consulta);
 					$FilaUnidad=mysql_fetch_array($RespUnidad);
 					if($v!='01')					
 					{
@@ -594,7 +594,7 @@
 		//echo $FechaAnt."<br>";
 		$Consulta="SELECT * from sipa_web.cierre_lotes_mensual where substring(fecha,1,7)='".substr($FechaAnt,0,7)."' and tipo='$TipoRegistro'";
 		//echo $Consulta."<br>";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if(!$Fila=mysql_fetch_array($Resp))
 		{
 			$UltDiaMes=date('d',mktime(0,0,0,date("m"),1-1,  date("Y")));
@@ -608,7 +608,7 @@
 			$Consulta.= " lpad(recargo,2,'0')=(SELECT max(lpad(recargo,2,'0')) from sipa_web.recepciones where lote=t1.lote) and ult_registro='N' "; 
 			$Consulta.= " group by lote ";
 			//echo $Consulta;
-			$RespLote=mysql_query($Consulta);
+			$RespLote=mysqli_query($link, $Consulta);
 			while($FilaLote=mysql_fetch_array($RespLote))
 			{
 				$Actualizar="UPDATE sipa_web.recepciones set ult_registro='S' ";
@@ -626,7 +626,7 @@
 			$Consulta.= " lpad(recargo,2,'0')=(SELECT max(lpad(recargo,2,'0')) from sipa_web.despachos where lote=t1.lote) and ult_registro='N' "; 
 			$Consulta.= " group by lote ";
 			//echo $Consulta."<br>";
-			$RespLote=mysql_query($Consulta);
+			$RespLote=mysqli_query($link, $Consulta);
 			while($FilaLote=mysql_fetch_array($RespLote))
 			{
 				$Actualizar="UPDATE sipa_web.despachos set ult_registro='S' ";
@@ -677,7 +677,7 @@ function PesoHistorico($TipoProceso,$Patente,$TxtPesoHistorico,$TxtPorcRango,$Pr
 {
 	$TxtPorcRango=0;
 	$Consulta="SELECT * from proyecto_modernizacion.clase where cod_clase='24002'";
-	$RespPorc=mysql_query($Consulta);
+	$RespPorc=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($RespPorc))
 		$TxtPorcRango=$Fila["valor1"];
 	$TxtPesoHistorico=0;	
@@ -686,22 +686,22 @@ function PesoHistorico($TipoProceso,$Patente,$TxtPesoHistorico,$TxtPorcRango,$Pr
 		case "R":
 			$Consulta="SELECT max(correlativo) as corr from sipa_web.recepciones where patente='$Patente' and peso_tara <> 0 ";
 			$Consulta.="and cod_producto='$Prod' and cod_subproducto='$SubProd'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp));
 			{
 				$Consulta="SELECT peso_tara from sipa_web.recepciones where correlativo='".$Fila["corr"]."' ";
-				$RespPeso=mysql_query($Consulta);
+				$RespPeso=mysqli_query($link, $Consulta);
 				$FilaPeso=mysql_fetch_array($RespPeso);
 				$TxtPesoHistorico=$FilaPeso["peso_tara"];
 			}
 			break;
 		case "D":
 			$Consulta="SELECT max(correlativo) as corr from sipa_web.despachos where patente='$Patente' and peso_tara <> 0 ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp));
 			{
 				$Consulta="SELECT peso_tara from sipa_web.despachos where correlativo='".$Fila["corr"]."' ";
-				$RespPeso=mysql_query($Consulta);
+				$RespPeso=mysqli_query($link, $Consulta);
 				$FilaPeso=mysql_fetch_array($RespPeso);
 				$TxtPesoHistorico=$FilaPeso["peso_tara"];
 			}
@@ -712,7 +712,7 @@ function PesoHistorico2($TipoProceso,$Patente,$TxtPesoHistorico,$TxtPorcRango,$P
 {
 	$TxtPorcRango=0;
 	$Consulta="SELECT * from proyecto_modernizacion.clase where cod_clase='24002'";
-	$RespPorc=mysql_query($Consulta);
+	$RespPorc=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($RespPorc))
 		$TxtPorcRango=$Fila["valor1"];
 	$TxtPesoHistorico=0;	
@@ -722,13 +722,13 @@ function PesoHistorico2($TipoProceso,$Patente,$TxtPesoHistorico,$TxtPorcRango,$P
 			$PesoBrutoAcum=0;$ContPesos=0;
 			$Consulta="SELECT peso_bruto from sipa_web.recepciones where patente='$Patente' and peso_bruto <> 0 ";
 			$Consulta.="and cod_producto='$Prod' and cod_subproducto='$SubProd' order by correlativo desc LIMIT 5";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$PesoBrutoAcum=$PesoBrutoAcum+$FilaPeso["peso_bruto"];
 				$ContPesos++;
 				/*$Consulta="SELECT peso_bruto from sipa_web.recepciones where correlativo='".$Fila["corr"]."' ";
-				$RespPeso=mysql_query($Consulta);
+				$RespPeso=mysqli_query($link, $Consulta);
 				$FilaPeso=mysql_fetch_array($RespPeso);
 				$TxtPesoHistorico=$FilaPeso["peso_bruto"];*/
 			}
@@ -737,11 +737,11 @@ function PesoHistorico2($TipoProceso,$Patente,$TxtPesoHistorico,$TxtPorcRango,$P
 			break;
 		case "D":
 			$Consulta="SELECT max(correlativo) as corr from sipa_web.despachos where patente='$Patente' and peso_bruto <> 0 ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				$Consulta="SELECT peso_bruto from sipa_web.despachos where correlativo='".$Fila["corr"]."' ";
-				$RespPeso=mysql_query($Consulta);
+				$RespPeso=mysqli_query($link, $Consulta);
 				$FilaPeso=mysql_fetch_array($RespPeso);
 				$TxtPesoHistorico=$FilaPeso["peso_bruto"];
 			}

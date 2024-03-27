@@ -85,7 +85,7 @@ function Salir()
              <option value="-1" selected="selected">Seleccionar</option>
              <?
 	  $Consulta = "select * from pcip_svp_productos_sap order by cod_sap ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$FilaTC["cod_sap"])
@@ -103,7 +103,7 @@ function Salir()
              <option value="-1" selected="selected">Seleccionar</option>
              <?
 			  	$Consulta = "select * from pcip_svp_materiales ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMaterial==$FilaTC["MAcodigo"])
@@ -122,7 +122,7 @@ function Salir()
 			 <option value="-1" selected="selected">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31043' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbTipoMov==$FilaTC["cod_subclase"])
@@ -149,7 +149,7 @@ function Salir()
 				$Consulta = "select t1.RMmaterial,t2.MAcodigo,t2.MAdescripcion,t2.MAorden,t3.nombre_subclase as TipoMov from pcip_svp_relmateriales t1 inner join pcip_svp_materiales t2 on t1.RMmaterial=t2.MAcodigo ";
 				$Consulta.= "inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31043' and t3.cod_subclase=t1.tipo_movimiento_svp ";
 				$Consulta.= "where t1.RMmaterialequivalente='".$CmbProd."' order by t2.MAorden";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {

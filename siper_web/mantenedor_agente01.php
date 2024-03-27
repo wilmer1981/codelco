@@ -10,7 +10,7 @@
 			if($TxtQLPP=='')
 			$TxtQLPP=0;
 			$Consulta = "SELECT ifnull(max(CAGENTE),0) as mayor from sgrs_cagentes"; 
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$Mayor=$Fila["mayor"] + 1;			
 			$Inserta="INSERT INTO sgrs_cagentes (CAGENTE,NAGENTE,CUNIDAD,QLPP,MVIGENTE)";
@@ -34,11 +34,11 @@
 			{
 				$DatosRel='N';
 				$Consulta="SELECT * from sgrs_medpersonales where CAGENTE='".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$DatosRel='S';
 				$Consulta="SELECT * from sgrs_medambientes where CAGENTE='".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')

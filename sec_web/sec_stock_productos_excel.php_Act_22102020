@@ -8,7 +8,7 @@
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Rut =$CookieRut;
 	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'";
-	$Respuesta =mysql_query($Consulta);
+	$Respuesta =mysqli_query($link, $Consulta);
 	if($Fila =mysql_fetch_array($Respuesta))
 	{
 		$Nivel = $Fila["nivel"];
@@ -24,7 +24,7 @@
 	else
 	{
 		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase =".$CmbMes;
-		$Respuesta =mysql_query($Consulta);
+		$Respuesta =mysqli_query($link, $Consulta);
 		if($Fila =mysql_fetch_array($Respuesta))
 		{
 			$Letra=$Fila["nombre_subclase"];
@@ -65,7 +65,7 @@
 			$FechaInicio=$CmbAno."-".$CmbMes."-01";
 			$FechaTermino=$CmbAno."-".$CmbMes."-31";
 			$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='3103' order by cod_subclase";
-			$Respuesta3=mysql_query($Consulta);
+			$Respuesta3=mysqli_query($link, $Consulta);
 			$TotalInicial=0;
 			$TotalPaquetes=0;
 			$TotalTraspaso=0;
@@ -77,7 +77,7 @@
 				echo "<td colspan='6' ><strong>".$Fila3["nombre_subclase"]."</STRONG></td>";
 				echo "</tr>";	
 				$Consulta="select cod_producto,cod_subproducto,abreviatura as nombre from proyecto_modernizacion.subproducto where stock_sec='".$Fila3["cod_subclase"]."' order by orden_stock_sec";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				echo "<input type='hidden' name='TxtCodProducto'><input type='hidden' name='TxtCodSubProducto'><input type='hidden' name='TxtStockFinal'>";
 				$SubTotalInicial=0;
 				$SubTotalPaquetes=0;
@@ -93,7 +93,7 @@
 					$Consulta="select peso as peso_inicial from sec_web.stock_final where cod_producto='".$Fila["cod_producto"]."'";
 					$Consulta=$Consulta." and cod_subproducto ='".$Fila["cod_subproducto"]."' and fecha ";
 					$Consulta=$Consulta." between subdate('$FechaInicio',interval 1 month) and subdate('$FechaTermino',interval 1 month)"; 
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					if ($Fila2=mysql_fetch_array($Respuesta2))
 					{
 						echo "<td  width='60' align='right'>".number_format($Fila2[peso_inicial],0,',','.')."</td>";
@@ -110,7 +110,7 @@
 					$Consulta="select sum(peso_paquetes) as peso_paquetes  from sec_web.paquete_catodo where cod_producto='".$Fila["cod_producto"]."'";
 					$Consulta=$Consulta." and cod_subproducto ='".$Fila["cod_subproducto"]."' and cod_paquete='".$Letra."' and year(fecha_creacion_paquete)=".$CmbAno;
 					$Consulta=$Consulta." group by cod_producto,cod_subproducto"; 
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					if ($Fila2=mysql_fetch_array($Respuesta2))
 					{
 						echo "<td width='60' align='right'>".number_format($Fila2["peso_paquetes"],0,',','.')."</td>";
@@ -128,7 +128,7 @@
 					$Consulta=$Consulta." and cod_subproducto ='".$Fila["cod_subproducto"]."' and fecha_traspaso ";
 					$Consulta=$Consulta." between '$FechaInicio' and '$FechaTermino'";
 					$Consulta=$Consulta." group by cod_producto,cod_subproducto"; 
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					if ($Fila2=mysql_fetch_array($Respuesta2))
 					{
 						echo "<td width='60' align='right'>".number_format($Fila2["peso_traspaso"],0,',','.')."</td>";
@@ -147,7 +147,7 @@
 					$Consulta.= "where (t1.cod_estado <>'A') and (t1.fecha_guia between '".$FechaInicio."' and '".$FechaTermino."')";
 					$Consulta.= " and (t2.cod_estado = 'c') and (t2.cod_producto='".$Fila["cod_producto"]."' and t2.cod_subproducto ='".$Fila["cod_subproducto"]."')";
 					$Consulta.= "group by t2.cod_producto, t2.cod_subproducto ";
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					if ($Fila2=mysql_fetch_array($Respuesta2))
 					{
 						echo "<td width='60' align='right'>".number_format($Fila2[peso_embarque],0,',','.')."</td>";

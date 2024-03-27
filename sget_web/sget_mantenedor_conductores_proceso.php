@@ -12,7 +12,7 @@ if ($Opc=='M')
 
 	$Consulta="SELECT * from sget_conductores where corr_conductor = '".$CorrCond."'";
 	//echo $Consulta;
-	 $Resp=mysql_query($Consulta);
+	 $Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		//$TxtRutPrv=str_pad($Fila["rut_empresa"],10,'0',l_pad);
@@ -48,7 +48,7 @@ if ($Opc=='M')
 		if($TxtFechaDAS=='0000-00-00' && $TxtFechaDAS=='')
 		{
 			$Consulta="SELECT fecha_das from sget_personal where rut='".$TxtRut."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 				$FechaDAS=$Fila[fecha_das];
 		}
@@ -85,7 +85,7 @@ if ($Opc=='M')
 		$CheckedD='';
 		$Consulta="SELECT * from sget_conductores_licencias where corr_conductor = '".$CorrCond."'";
 		//echo $Consulta;
-		 $Resp=mysql_query($Consulta);
+		 $Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($Fila[tipo_licencia]=='A5')
@@ -111,7 +111,7 @@ if ($Opc=='M')
 if($BusDatos=='S')
 {
 	$Consulta="SELECT * from sget_personal where rut='".$TxtRut."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtNombre=$Fila["nombres"];

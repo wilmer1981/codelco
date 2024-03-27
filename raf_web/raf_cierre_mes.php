@@ -17,7 +17,7 @@ if($Proceso == "G")
 if($Proceso == "B")
 {
 	$Consulta = "SELECT * FROM raf_web.cierre_mes WHERE fecha = '$fecha'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($Fila = mysql_fetch_array($rs))
 	{
 	

@@ -41,7 +41,7 @@
 			{
 				$Consulta="SELECT NCONTACTO from sgrs_codcontactos where CCONTACTO='".$CodPel."'";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NCONTACTO];
 			}
@@ -80,7 +80,7 @@
 			if($Control!='T')
 			{
 				$Consulta="SELECT NCONTROL from sgrs_codcontroles where CCONTROL='".$Control."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NCONTROL];
 			}
@@ -93,7 +93,7 @@
 			if($TipoControl!='T')
 			{
 				$Consulta="SELECT NTCONTROLES from sgrs_tipo_controles where CTCONTROLES='".$TipoControl."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NTCONTROLES];
 			}
@@ -111,7 +111,7 @@
 	 <? 
 			$CODAREA=ObtenerCodParent($CodSelTarea);
 			$Consulta="SELECT t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."'";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resultado);
 			$CodTarea=$Fila[CTAREA];
 			if($CodTarea==8)
@@ -155,7 +155,7 @@
 			//$Consulta2.=" group by t1.CAREA ";	
 			$Consulta=$Consulta.$Consulta2." group by t1.CAREA ";
 			//echo $Consulta;
-			$Resp=mysql_query($Consulta);$TotTarea=0;$TotPel=0;
+			$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				echo "<tr>";
@@ -190,7 +190,7 @@
 				else
 					$Consulta=$Consulta.$Consulta2." group by t3.CPELIGRO ";
 				//echo $Consulta;
-				$Resp2=mysql_query($Consulta);
+				$Resp2=mysqli_query($link, $Consulta);
 				while($Fila2=mysql_fetch_array($Resp2))
 				{
 					$PH='';$CH='';$PC='';$CC='';$Validado='';
@@ -206,7 +206,7 @@
 						echo $Descrip;
 					echo "<table width='96%' border='0' cellspacing='0' cellpadding='0'>";
 					$Consulta="SELECT t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES,t1.TOBSERVACION from sgrs_sipercontroles t1 inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES where t1.CPELIGRO ='".$Fila2[CPELIGRO]."'";
-					$RespCtrl=mysql_query($Consulta);
+					$RespCtrl=mysqli_query($link, $Consulta);
 					while($FilaCtrl=mysql_fetch_array($RespCtrl))
 					{
 						echo "<tr>";

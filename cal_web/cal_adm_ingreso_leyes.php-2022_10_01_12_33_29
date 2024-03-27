@@ -3,7 +3,7 @@ $CodigoDeSistema = 1;
 $CodigoDePantalla = 6;
 include("../principal/conectar_principal.php");
 $Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
-$Respuesta = mysql_query($Consulta);
+$Respuesta = mysqli_query($link, $Consulta);
 $Fila=mysql_fetch_array($Respuesta);
 $Nivel=$Fila["nivel"];
 $Fecha_Hora = date("d-m-Y h:i");
@@ -408,7 +408,7 @@ function ValidarModificar()
             <td> 
               <?
 				$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from funcionarios where rut = '".$Rut."'";
-	  			$Resultado= mysql_query($Consulta);
+	  			$Resultado= mysqli_query($link, $Consulta);
 				if ($Fila =mysql_fetch_array($Resultado))
 				{	
 					echo $Rut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
@@ -416,7 +416,7 @@ function ValidarModificar()
 	  			else
 				{
 		  			$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 				if ($Fila=mysql_fetch_array($Respuesta))
 					{
 						echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
@@ -635,7 +635,7 @@ function ValidarModificar()
                 <option value='-1' selected>Todos</option>
                 <?
 				$Consulta="select cod_producto,descripcion from productos order by descripcion"; 
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Respuesta))
 				{
 					if ($CmbProductos==$Fila["cod_producto"])
@@ -655,7 +655,7 @@ function ValidarModificar()
                 <?
 			$Consulta="select cod_subproducto,descripcion from subproducto where cod_producto = '".$CmbProductos."'"; 
 			echo $Consulta."<br>";
-			$Respuesta = mysql_query($Consulta);
+			$Respuesta = mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Respuesta))
 			{
 				if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -688,7 +688,7 @@ function ValidarModificar()
 					}
 				 }
 				 $Consulta =  "select * from sub_clase where cod_clase = 1002 and (cod_subclase ='5' or cod_subclase = '6')";
-				 $Resultado = mysql_query($Consulta);
+				 $Resultado = mysqli_query($link, $Consulta);
 				 while ($Fila =mysql_fetch_array ($Resultado))
 				 {
 					if ($CmbEstado == $Fila["cod_subclase"])
@@ -1071,7 +1071,7 @@ function ValidarModificar()
 				$Consulta = $Consulta.$Estado." order by t1.nro_solicitud,recargo_ordenado";
 				$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
 				echo "Consulta ".$Consulta."<br>";
-				$Respuesta= mysql_query($Consulta);
+				$Respuesta= mysqli_query($link, $Consulta);
 				$Cont=1;
 				$EncontroValor= false;
 				$EncontroCandado=false;
@@ -1088,7 +1088,7 @@ function ValidarModificar()
 					$Consulta.= " where t0.nro_solicitud = '".$Fila["nro_solicitud"]."' and t0.recargo = '".$Fila["recargo"]."' ";
 					$Consulta.= " order by t1.cod_leyes";
 					//echo $Consulta."<br>";
-					$Respuesta3 = mysql_query($Consulta);
+					$Respuesta3 = mysqli_query($link, $Consulta);
 					while ($Fila3 = mysql_fetch_array($Respuesta3))
 					{
 						$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
@@ -1099,24 +1099,24 @@ function ValidarModificar()
 					//AGRUPACION
 					$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 					$Consulta =$Consulta." where t2.cod_clase = '1004' and t2.cod_subclase = '".$CodAgrupacion."'  "; 
-					$Resp = mysql_query($Consulta); 
+					$Resp = mysqli_query($link, $Consulta); 
 					$Fila25=mysql_fetch_array($Resp);
 					$Agrupacion = $Fila25["nombre_subclase"];
 					//TIPO
 					$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 					$Consulta =$Consulta." where t2.cod_clase = '1005' and t2.cod_subclase = '".$CodTipo."' ";
-					$Res = mysql_query($Consulta); 
+					$Res = mysqli_query($link, $Consulta); 
 					$Fil26=mysql_fetch_array($Res);
 					$Tipo = $Fil26["nombre_subclase"];
 					//FECHA RECEPCION
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = ".$Fila["nro_solicitud"].") and (cod_estado = '4')";
-					$Respuesta2 = mysql_query($Consulta);
+					$Respuesta2 = mysqli_query($link, $Consulta);
 					if ($Fila2 = mysql_fetch_array($Respuesta2))
 					{
 						$TxtFechaRecepcion = $Fila2["fecha_hora"];
 					}	
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') and (cod_estado = '5') ";
-					$Respuesta3 = mysql_query($Consulta);
+					$Respuesta3 = mysqli_query($link, $Consulta);
 					if ($Fila3 = mysql_fetch_array($Respuesta3))
 					{
 						$TxtFechaAtencion = $Fila3["fecha_hora"];
@@ -1215,7 +1215,7 @@ function ValidarModificar()
 
 
                          
-					$Respuesta4 = mysql_query($Consulta);
+					$Respuesta4 = mysqli_query($link, $Consulta);
 					while ($Fila4 = mysql_fetch_array($Respuesta4))
 					{
 						if ((!is_null($Fila4["valor"])) || ($Fila4["valor"] != "")||($Fila4["signo"] == "N"))
@@ -1228,7 +1228,7 @@ function ValidarModificar()
 							break;
 						}
 					}
-					$Respuesta5 = mysql_query($Consulta);
+					$Respuesta5 = mysqli_query($link, $Consulta);
 					while ($Fila5 = mysql_fetch_array($Respuesta5))
 					{
 						if ($Fila5["candado"]=='1')
@@ -1293,7 +1293,7 @@ function ValidarModificar()
 				$Consulta = $Consulta."inner join proyecto_modernizacion.sub_clase t7 on t1.estado_actual = t7.cod_subclase  and t7.cod_clase = '1002'";
 				$Consulta = $Consulta.$Estado." order by t1.nro_solicitud,recargo_ordenado";
 				$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
-				$Respuesta= mysql_query($Consulta);
+				$Respuesta= mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				$Cont=1;
 				$EncontroValor= false;
@@ -1311,7 +1311,7 @@ function ValidarModificar()
 					$Consulta.= " where t0.nro_solicitud = '".$Fila["nro_solicitud"]."' and t0.recargo = '".$Fila["recargo"]."' ";
 					$Consulta.= " order by t1.cod_leyes";
 					//echo $Consulta."<br>";
-					$Respuesta3 = mysql_query($Consulta);
+					$Respuesta3 = mysqli_query($link, $Consulta);
 					while ($Fila3 = mysql_fetch_array($Respuesta3))
 					{
 						$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
@@ -1322,24 +1322,24 @@ function ValidarModificar()
 					//AGRUPACION
 					$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 					$Consulta =$Consulta." where t2.cod_clase = '1004' and t2.cod_subclase = '".$CodAgrupacion."'  "; 
-					$Resp = mysql_query($Consulta); 
+					$Resp = mysqli_query($link, $Consulta); 
 					$Fila25=mysql_fetch_array($Resp);
 					$Agrupacion = $Fila25["nombre_subclase"];
 					//TIPO
 					$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 					$Consulta =$Consulta." where t2.cod_clase = '1005' and t2.cod_subclase = '".$CodTipo."' ";
-					$Res = mysql_query($Consulta); 
+					$Res = mysqli_query($link, $Consulta); 
 					$Fil26=mysql_fetch_array($Res);
 					$Tipo = $Fil26["nombre_subclase"];
 					//FECHA RECEPCION
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = ".$Fila["nro_solicitud"].") and (cod_estado = '4')";
-					$Respuesta2 = mysql_query($Consulta);
+					$Respuesta2 = mysqli_query($link, $Consulta);
 					if ($Fila2 = mysql_fetch_array($Respuesta2))
 					{
 						$TxtFechaRecepcion = $Fila2["fecha_hora"];
 					}	
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') and (cod_estado = '5') ";
-					$Respuesta3 = mysql_query($Consulta);
+					$Respuesta3 = mysqli_query($link, $Consulta);
 					if ($Fila3 = mysql_fetch_array($Respuesta3))
 					{
 						$TxtFechaAtencion = $Fila3["fecha_hora"];
@@ -1428,7 +1428,7 @@ function ValidarModificar()
 						//$Consulta ="select valor,candado from leyes_por_solicitud  t1 where rut_funcionario = '".$Fila["rut_funcionario"]."' and nro_solicitud =".$Fila["nro_solicitud"]." and recargo ='".$Fila["recargo"]."' and fecha_hora ='".$Fila["fecha_hora"]."' and signo <> 'N'";				
 						$Consulta ="select valor,candado,signo from leyes_por_solicitud  t1 where rut_funcionario = '".$Fila["rut_funcionario"]."' and nro_solicitud =".$Fila["nro_solicitud"]." and recargo ='".$Fila["recargo"]."' and fecha_hora ='".$Fila["fecha_hora"]."'";				
 					}
-					$Respuesta4 = mysql_query($Consulta);
+					$Respuesta4 = mysqli_query($link, $Consulta);
 					while ($Fila4 = mysql_fetch_array($Respuesta4))
 					{
 						if ((!is_null($Fila4["valor"])) || ($Fila4["valor"] != "")||($Fila4["signo"] == "N"))
@@ -1441,7 +1441,7 @@ function ValidarModificar()
 							break;
 						}
 					}
-					$Respuesta5 = mysql_query($Consulta);
+					$Respuesta5 = mysqli_query($link, $Consulta);
 					while ($Fila5 = mysql_fetch_array($Respuesta5))
 					{
 						if ($Fila5["candado"]=='1')
@@ -1507,7 +1507,7 @@ function ValidarModificar()
 				$Consulta = $Consulta."inner join proyecto_modernizacion.sub_clase t7 on t1.estado_actual = t7.cod_subclase  and t7.cod_clase = '1002'";
 				$Consulta = $Consulta.$Estado." order by t1.nro_solicitud,recargo_ordenado";
 				$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
-				$Respuesta= mysql_query($Consulta);
+				$Respuesta= mysqli_query($link, $Consulta);
 				$Cont=1;
 				$EncontroValor= false;
 				$EncontroCandado=false;
@@ -1524,7 +1524,7 @@ function ValidarModificar()
 					$Consulta.= " where t0.nro_solicitud = '".$Fila["nro_solicitud"]."' and t0.recargo = '".$Fila["recargo"]."' ";
 					$Consulta.= " order by t1.cod_leyes";
 					//echo $Consulta."<br>";
-					$Respuesta3 = mysql_query($Consulta);
+					$Respuesta3 = mysqli_query($link, $Consulta);
 					while ($Fila3 = mysql_fetch_array($Respuesta3))
 					{
 						$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
@@ -1535,24 +1535,24 @@ function ValidarModificar()
 					//AGRUPACION
 					$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 					$Consulta =$Consulta." where t2.cod_clase = '1004' and t2.cod_subclase = '".$CodAgrupacion."'  "; 
-					$Resp = mysql_query($Consulta); 
+					$Resp = mysqli_query($link, $Consulta); 
 					$Fila25=mysql_fetch_array($Resp);
 					$Agrupacion = $Fila25["nombre_subclase"];
 					//TIPO
 					$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 					$Consulta =$Consulta." where t2.cod_clase = '1005' and t2.cod_subclase = '".$CodTipo."' ";
-					$Res = mysql_query($Consulta); 
+					$Res = mysqli_query($link, $Consulta); 
 					$Fil26=mysql_fetch_array($Res);
 					$Tipo = $Fil26["nombre_subclase"];
 					//FECHA RECEPCION
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = ".$Fila["nro_solicitud"].") and (cod_estado = '4')";
-					$Respuesta2 = mysql_query($Consulta);
+					$Respuesta2 = mysqli_query($link, $Consulta);
 					if ($Fila2 = mysql_fetch_array($Respuesta2))
 					{
 						$TxtFechaRecepcion = $Fila2["fecha_hora"];
 					}	
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') and (cod_estado = '5') ";
-					$Respuesta3 = mysql_query($Consulta);
+					$Respuesta3 = mysqli_query($link, $Consulta);
 					if ($Fila3 = mysql_fetch_array($Respuesta3))
 					{
 						$TxtFechaAtencion = $Fila3["fecha_hora"];
@@ -1638,7 +1638,7 @@ function ValidarModificar()
 						//$Consulta ="select valor,candado from leyes_por_solicitud  t1 where rut_funcionario = '".$Fila["rut_funcionario"]."' and nro_solicitud =".$Fila["nro_solicitud"]." and recargo ='".$Fila["recargo"]."' and fecha_hora ='".$Fila["fecha_hora"]."' and signo <> 'N'";				
 						$Consulta ="select valor,candado,signo from leyes_por_solicitud  t1 where rut_funcionario = '".$Fila["rut_funcionario"]."' and nro_solicitud =".$Fila["nro_solicitud"]." and recargo ='".$Fila["recargo"]."' and fecha_hora ='".$Fila["fecha_hora"]."'";				
 					}
-					$Respuesta4 = mysql_query($Consulta);
+					$Respuesta4 = mysqli_query($link, $Consulta);
 					while ($Fila4 = mysql_fetch_array($Respuesta4))
 					{
 						if ((!is_null($Fila4["valor"])) || ($Fila4["valor"] != "") ||($Fila4["signo"] == "N"))
@@ -1651,7 +1651,7 @@ function ValidarModificar()
 							break;
 						}
 					}
-					$Respuesta5 = mysql_query($Consulta);
+					$Respuesta5 = mysqli_query($link, $Consulta);
 					while ($Fila5 = mysql_fetch_array($Respuesta5))
 					{
 						if ($Fila5["candado"]=='1')
@@ -1713,7 +1713,7 @@ function ValidarModificar()
 				$Consulta = $Consulta." where (t1.nro_solicitud between '".$SolIni."' and '".$SolFin."') and (t1.estado_actual = '4' or t1.estado_actual = '5' or t1.estado_actual = '6')".$TipoAnalisis;
 				$Consulta = $Consulta." order by t1.nro_solicitud,recargo_ordenado";
 				$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
-				$Respuesta= mysql_query($Consulta);
+				$Respuesta= mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				$Cont=1;
 				$EncontroValor= false;
@@ -1731,7 +1731,7 @@ function ValidarModificar()
 					$Consulta.= " where t0.nro_solicitud = '".$Fila["nro_solicitud"]."' and t0.recargo = '".$Fila["recargo"]."' ";
 					$Consulta.= " order by t1.cod_leyes";
 					//echo $Consulta."<br>";
-					$Respuesta3 = mysql_query($Consulta);
+					$Respuesta3 = mysqli_query($link, $Consulta);
 					while ($Fila3 = mysql_fetch_array($Respuesta3))
 					{
 						$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
@@ -1742,24 +1742,24 @@ function ValidarModificar()
 					//AGRUPACION
 					$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 					$Consulta =$Consulta." where t2.cod_clase = '1004' and t2.cod_subclase = '".$CodAgrupacion."'  "; 
-					$Resp = mysql_query($Consulta); 
+					$Resp = mysqli_query($link, $Consulta); 
 					$Fila25=mysql_fetch_array($Resp);
 					$Agrupacion = $Fila25["nombre_subclase"];
 					//TIPO
 					$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 					$Consulta =$Consulta." where t2.cod_clase = '1005' and t2.cod_subclase = '".$CodTipo."' ";
-					$Res = mysql_query($Consulta); 
+					$Res = mysqli_query($link, $Consulta); 
 					$Fil26=mysql_fetch_array($Res);
 					$Tipo = $Fil26["nombre_subclase"];
 					//FECHA RECEPCION
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = ".$Fila["nro_solicitud"].") and (cod_estado = '4')";
-					$Respuesta2 = mysql_query($Consulta);
+					$Respuesta2 = mysqli_query($link, $Consulta);
 					if ($Fila2 = mysql_fetch_array($Respuesta2))
 					{
 						$TxtFechaRecepcion = $Fila2["fecha_hora"];
 					}	
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') and (cod_estado = '5') ";
-					$Respuesta3 = mysql_query($Consulta);
+					$Respuesta3 = mysqli_query($link, $Consulta);
 					if ($Fila3 = mysql_fetch_array($Respuesta3))
 					{
 						$TxtFechaAtencion = $Fila3["fecha_hora"];
@@ -1840,7 +1840,7 @@ function ValidarModificar()
 						$Consulta ="select valor,candado,signo from leyes_por_solicitud  t1 where rut_funcionario = '".$Fila["rut_funcionario"]."' and nro_solicitud =".$Fila["nro_solicitud"]." and recargo ='".$Fila["recargo"]."' and fecha_hora ='".$Fila["fecha_hora"]."'";				
 					}
 					//echo $Consulta;
-					$Respuesta4 = mysql_query($Consulta);
+					$Respuesta4 = mysqli_query($link, $Consulta);
 					while ($Fila4 = mysql_fetch_array($Respuesta4))
 					{
 						if ((!is_null($Fila4["valor"])) || ($Fila4["valor"] != "") ||($Fila4["signo"] == "N"))
@@ -1853,7 +1853,7 @@ function ValidarModificar()
 							break;
 						}
 					}
-					$Respuesta5 = mysql_query($Consulta);
+					$Respuesta5 = mysqli_query($link, $Consulta);
 					while ($Fila5 = mysql_fetch_array($Respuesta5))
 					{
 						if ($Fila5["candado"]=='1')
@@ -1915,7 +1915,7 @@ function ValidarModificar()
 					}
 					if (($Mostrar=='S')||($Mostrar=='O'))
 					{	
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						$Row = mysql_fetch_array($Respuesta);
 						$Coincidencias = $Row["total_registros"];
 						$NumPaginas = ($Coincidencias / $LimitFin);

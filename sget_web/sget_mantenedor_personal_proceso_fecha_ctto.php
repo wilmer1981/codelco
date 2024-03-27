@@ -105,7 +105,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Str=substr($Str,0,strlen($Str)-1);
 		$Str="in (".$Str.")";
 		$Consulta="SELECT nombres,ape_paterno,ape_materno,fec_ini_ctto,fec_fin_ctto,cod_contrato,estado from sget_personal where rut ".$Str." order by ape_paterno,ape_materno";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		while($FilaDet=mysql_fetch_array($Resp))
 		{

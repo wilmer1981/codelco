@@ -9,19 +9,19 @@
 
 // Obtenemos datos de Tabla Subclase de Correo
 $Consulta = "SELECT valor_subclase1 FROM proyecto_modernizacion.sub_clase where cod_clase='12013' and cod_subclase='1'";
-$Resultado = mysql_query($Consulta);
+$Resultado = mysqli_query($link, $Consulta);
 $Resultado = mysql_fetch_array($Resultado);	
 $DE = $Resultado[0];
 //echo "DEEEEEE: " . $DE;
 
 $Consulta = "SELECT valor_subclase1 FROM proyecto_modernizacion.sub_clase where cod_clase='12013' and cod_subclase='2'";
-$Resultado = mysql_query($Consulta);
+$Resultado = mysqli_query($link, $Consulta);
 $Resultado = mysql_fetch_array($Resultado);	
 $PARA = $Resultado[0];
 //echo "DEEEEEE: " . $DE;
 
 $Consulta = "SELECT valor_subclase1 FROM proyecto_modernizacion.sub_clase where cod_clase='12013' and cod_subclase='3'";
-$Resultado = mysql_query($Consulta);
+$Resultado = mysqli_query($link, $Consulta);
 $Resultado = mysql_fetch_array($Resultado);	
 $COPIA = $Resultado[0];
 //echo "DEEEEEE: " . $DE;

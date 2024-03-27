@@ -70,7 +70,7 @@
 		if($CmbSindicato != "-1")
 			$Consulta.="  and  t1.cod_sindicato='".$CmbSindicato."' ";
 		$Consulta.="  group by t1.rut ";	
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=1;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{
@@ -85,7 +85,7 @@
 			<? 
 			$Consulta="SELECT ifnull(count(*),0) as cant_bec from sget_personal t1 ";
 			$Consulta.=" Inner join sget_becados t9 on t1.rut=t9.rut where t1.rut='".$Run."'";
-			$RespCantBec=mysql_query($Consulta);
+			$RespCantBec=mysqli_query($link, $Consulta);
 			$FilaCantBec=mysql_fetch_array($RespCantBec);
 			$CantBec=$FilaCantBec[cant_bec];
 			?>
@@ -100,7 +100,7 @@
 			$ContIni=1;
 			$Consulta="SELECT t9.rut_becado,t9.nombres as nombres_bec,t9.ape_paterno as ape_paterno_bec,t9.ape_materno as ape_materno_bec,t9.edad from sget_personal t1 ";
 			$Consulta.=" Inner join sget_becados t9 on t1.rut=t9.rut where t1.rut='".$Run."'";
-			$RespBec=mysql_query($Consulta);
+			$RespBec=mysqli_query($link, $Consulta);
 			while($FilaBec=mysql_fetch_array($RespBec))
 			{
 				if($ContIni>1)

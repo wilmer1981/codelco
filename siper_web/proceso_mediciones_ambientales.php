@@ -237,7 +237,7 @@ if($Proceso=='NMA'||$Proceso=='MMA')
 				}
 				$Consulta.="order by t4.NLUGAR";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";
@@ -305,12 +305,12 @@ if($Proceso=='NMA'||$Proceso=='MMA')
 				$TituloProceso="Modificar Mediciones Ambientales";
 				$Consulta="SELECT * from sgrs_medambientes where CMEDAMB='".$DatosMed."'";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$CodMedPers=$DatosMed;
 				$Rut=$Fila[CRUT];
 				$Consulta="SELECT CPARENT from sgrs_areaorg where CAREA='".$Fila[CAREA]."'";
-				$RespArea=mysql_query($Consulta);
+				$RespArea=mysqli_query($link, $Consulta);
 				$FilaArea=mysql_fetch_array($RespArea);
 				if($CambiaOrg=='S')
 					$NOSE='';
@@ -322,7 +322,7 @@ if($Proceso=='NMA'||$Proceso=='MMA')
 					$CmbLugares=$Fila[CLUGAR];
 					$CmbAgentes=$Fila[CAGENTE];
 					$Consulta="SELECT TNARCHIVO from sgrs_informes where CINFORME='".$Fila[CINFORME]."'";
-					$RespInf=mysql_query($Consulta);
+					$RespInf=mysqli_query($link, $Consulta);
 					$FilaInf=mysql_fetch_array($RespInf);
 					$CmbInformes=$Fila[CINFORME]."~#".$FilaInf[TNARCHIVO];
 					$FechaHoraIni=explode(' ',$Fila[FINICIO]);
@@ -413,7 +413,7 @@ if($Proceso=='NMA'||$Proceso=='MMA')
 				<option value='S' SELECTed>Seleccionar</option>
 				  <?
 					$Consulta="SELECT * from sgrs_lugares where CAREA='".$CodNivel."' order by NLUGAR ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						if($CmbLugares==$Fila[CLUGAR])
@@ -433,7 +433,7 @@ if($Proceso=='NMA'||$Proceso=='MMA')
 				  <?
 					$QLPP='';$Unidad='';
 					$Consulta="SELECT t1.CAGENTE,t1.NAGENTE,t1.QLPP,t2.AUNIDAD from sgrs_cagentes t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NAGENTE";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						if($CmbAgentes==$Fila[CAGENTE])
@@ -505,7 +505,7 @@ if($Proceso=='NMA'||$Proceso=='MMA')
 			  <option value="S">Seleccionar</option>
 			  <?
 				$Consulta="SELECT * from sgrs_informes order by CVINFORME";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					if($CmbInformes==$Fila[CINFORME]."~#".$Fila[TNARCHIVO])

@@ -114,7 +114,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  if($TxtEmpresa!='')
 	  	 $Consulta.= "and  upper(razon_social) like '%".strtoupper(trim($TxtEmpresa))."%' ";
 	 	$Consulta.= " order by razon_social ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if (strtoupper($CmbEmpresa)==strtoupper($FilaTC["rut_empresa"]))
@@ -265,7 +265,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		if($TxtFlibD!=''&&$TxtFlibF!='' )
 			$Consulta.="  and  t1.fecha_liber between '".$TxtFlibD."' and '".$TxtFlibF."'";
 		$Consulta.=" order by t3.rut_empresa,t1.cod_contrato,t1.ano,t1.mes";
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		echo "<input type='hidden' name='CheckCtto'>";
 		$Cont=1;		$Encontro='N';
 		while($FilaMod=mysql_fetch_array($RespMod))

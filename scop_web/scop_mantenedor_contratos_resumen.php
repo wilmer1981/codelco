@@ -39,7 +39,7 @@
 					 echo "<td width='20%' align='center' >Signo</td>";
 					echo "</tr>"; 
 				  $Consulta="select distinct t1.cod_contrato,t1.tipo_flujo,t2.nom_flujo,t1.flujo,t1.signo from scop_contratos_flujos t1 inner join scop_datos_enabal t2 on t1.flujo=t2.cod_flujo and t1.tipo_flujo=t2.origen where t1.cod_contrato='".$TxtContrato."' and t1.tipo_inventario='".$Fila1[tipo_inventario]."' and t2.tipo_mov='".$TipoMov."'";
-				  $Resp=mysql_query($Consulta);	
+				  $Resp=mysqli_query($link, $Consulta);	
 				  while ($Fila=mysql_fetch_array($Resp))
 				  {
 						$Contrato=$Fila["cod_contrato"];

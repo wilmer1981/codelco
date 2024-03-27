@@ -160,7 +160,7 @@ function Proceso(opt)
             <option selected value="S">Seleccionar</option>
             <?
 			$Consulta = "select * from proyecto_modernizacion.productos where cod_producto in ('16','18','19','29','42','48') order by descripcion";
-			$result = mysql_query($Consulta);
+			$result = mysqli_query($link, $Consulta);
 			while ($Row = mysql_fetch_array($result))
 			{
 				if ($Productos == $Row["cod_producto"])
@@ -184,7 +184,7 @@ function Proceso(opt)
                 <option selected value="S">Seleccionar</option>
                 <?
 				$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto = '".$Productos."' order by descripcion";
-				$result = mysql_query($Consulta);
+				$result = mysqli_query($link, $Consulta);
 				while ($Row = mysql_fetch_array($result))
 				{
 					if ($SubProductos == $Row[cod_subproducto])
@@ -213,7 +213,7 @@ function Proceso(opt)
             <td height="18"> <select name="cmbleyes">
                 <?
 			$Consulta = "SELECT * FROM proyecto_modernizacion.leyes";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			echo '<option value="-1" selected>Ley</option>';
 			while($fila = mysql_fetch_array($rs))
 			{
@@ -234,7 +234,7 @@ function Proceso(opt)
 			  $Consulta.= " AND cod_subproducto = '$SubProductos'";
 			  $Consulta.= " AND fecha = '".$Fecha."'";
 			  
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  if($Fila = mysql_fetch_array($rs))
 			  {
 			  	$valor = str_replace(',','.',$Fila[cod_valor]);
@@ -247,7 +247,7 @@ function Proceso(opt)
             <td><select name="cmbunidad">
                 <?
 			$Consulta = "SELECT * FROM proyecto_modernizacion.unidades";
-			$rs1 = mysql_query($Consulta);
+			$rs1 = mysqli_query($link, $Consulta);
 			echo '<option value="-1" selected>Unidad</option>';
 			while($fila = mysql_fetch_array($rs1))
 			{

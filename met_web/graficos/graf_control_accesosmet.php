@@ -59,7 +59,7 @@
 			}
 		}
 		//echo $Consulta."<br>";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		if ($USUARIO != "S")
 		{
 			$Row = mysql_fetch_array($Respuesta);
@@ -140,7 +140,7 @@ $graph = new PHPlot(750,420,"","");
 
 $graph->SetDataValues($Array);//ARREGLO QUE TIENE LOS DATOS
 $graph->SetPlotType($TIPO_GRAF);//TIPO DE GRAFICO
-$graph->SetTitleFontSize( "2");//TAMAÑO DE LETRA
+$graph->SetTitleFontSize( "2");//TAMAï¿½O DE LETRA
 $graph->SetTextColor ("black");//COLOR DE TEXTO
 $graph->SetBackgroundColor("white"); //FONDO DEL GRAFICO
 $graph->SetGridColor ("black");// COSTADO DE LA GRILLA
@@ -150,7 +150,7 @@ $graph->SetLegend(array('Cantidad de Usuarios')); //Lets have a legend
 $graph->SetDrawDataLabels('1');
 $graph->SetXDataLabelAngle(90);//POSICION DE LOS DATOS DE X
 $graph->SetLabelScalePosition('1');
-$graph->SetTitle("N° de Usuarios que Accesan entre ".$Fecha1_Aux." y ".$Fecha2."");
+$graph->SetTitle("Nï¿½ de Usuarios que Accesan entre ".$Fecha1_Aux." y ".$Fecha2."");
 //Set Output format
 //$graph->SetFileFormat("png");
 //Draw it

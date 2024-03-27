@@ -7,7 +7,7 @@
 		    $Mensaje=false;	
 			$Consulta= " select cod_unidad from pcip_unidades where cod_unidad='".$TxtCodigo."'";
 			//echo $Consulta."<br>";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{				
 				$Inserta="insert into pcip_unidades (cod_unidad,nom_unidad,vigente)";

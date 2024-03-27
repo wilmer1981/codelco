@@ -120,7 +120,7 @@ function Rech(H,HR)
                 <option value="-1" class="NoSelec">Seleccionar</option>
                 <?
 				$Consulta = "SELECT * from sget_contratistas order by razon_social ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -188,7 +188,7 @@ function Rech(H,HR)
                 <?
 				$FechaActual=date("Y")."-".date("m")."-".date("d");
 				$Consulta="SELECT * from sget_contratos where fecha_termino >= '".$FechaActual."' and rut_empresa='".$CmbEmpresa."' order by descripcion asc,fecha_termino desc";
-				$RespCtto=mysql_query($Consulta);
+				$RespCtto=mysqli_query($link, $Consulta);
 				while($FilaCtto=mysql_fetch_array($RespCtto))
 				{
 					if ($FechaActual > $FilaCtto[fecha_termino])
@@ -254,7 +254,7 @@ function Rech(H,HR)
           <option value="S" SELECTed="SELECTed">Seleccionar</option>
           <?
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase in ('2','4') order by cod_subclase";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if($CmbEstado==$Fila["cod_subclase"])
@@ -298,7 +298,7 @@ function Rech(H,HR)
            <?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-			$RespH = mysql_query($Consulta);
+			$RespH = mysqli_query($link, $Consulta);
 			while ($FilaH=mysql_fetch_array($RespH))
 			{
 				?>
@@ -314,7 +314,7 @@ function Rech(H,HR)
 if($Cons=='S')
 {
 	$Consulta ="SELECT nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =30";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Respuesta);
 	$Nivel=$Fila["nivel"];
 	  	
@@ -343,7 +343,7 @@ if($Cons=='S')
 		}
 	}
 	$Consulta.= " order by t1.cod_estado_aprobado asc   ";		
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckHoja' type='hidden'  value=''>";
 	$cont=1;
 	while ($Fila=mysql_fetch_array($Resp))
@@ -379,14 +379,14 @@ if($Cons=='S')
 			 <?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-			$RespHD = mysql_query($Consulta);
+			$RespHD = mysqli_query($link, $Consulta);
 			while ($FilaHD=mysql_fetch_array($RespHD))
 			{
 				?>
 				<td width="7%" align="center">
 				<?
 				$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
-				$RespExi = mysql_query($Consulta);
+				$RespExi = mysqli_query($link, $Consulta);
 				if($FilaExi=mysql_fetch_array($RespExi))
 				{	
 					$IcoObs=CantObs($Fila["num_hoja_ruta"],$FilaHD[cod_hito]);

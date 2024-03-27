@@ -18,7 +18,7 @@ if(!isset($Recarga))
 		$Consulta.="where t1.version='".$Cod[0]."' and t1.ano='".$Cod[1]."' and t1.cod_asignacion='".$Cod[2]."' and t1.cod_procedencia='".$Cod[3]."' and t1.tipo='".$Cod[5]."' and t1.cod_negocio='".$Cod[4]."' and t1.cod_titulo='".$Cod[6]."'";
 		$Consulta.="group by t1.version,t1.cod_asignacion,t1.cod_procedencia,t1.cod_negocio,t1.ano,t1.tipo,t1.cod_titulo";	
 		//echo $Consulta."<br>";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		$Cod=$CmbVersion."~".$Ano."~".$CmbProd."~".$CmbAsig."~".$CmbOrigen."~".$CmbNegocio."~".$CmbTitulo;
 		$CmbVersion=$Fila[version];
@@ -29,7 +29,7 @@ if(!isset($Recarga))
 		$CmbTitulo=$Fila[cod_titulo];
 		$Ano=$Fila[ano];
 	
-		$NomVersion='Nº: '.$Fila[version]."&nbsp;&nbsp;&nbsp;&nbsp;Año: ".$Fila[ano_version]."&nbsp;&nbsp;&nbsp;&nbsp;Mes: ".$Meses[$Fila[mes_version]-1]."&nbsp;&nbsp;&nbsp;&nbsp;Fecha Creacion: ".$Fila[fecha_version];
+		$NomVersion='Nï¿½: '.$Fila[version]."&nbsp;&nbsp;&nbsp;&nbsp;Aï¿½o: ".$Fila[ano_version]."&nbsp;&nbsp;&nbsp;&nbsp;Mes: ".$Meses[$Fila[mes_version]-1]."&nbsp;&nbsp;&nbsp;&nbsp;Fecha Creacion: ".$Fila[fecha_version];
 		$NomProd=$Fila[prod];
 		$Unidad=$Fila[cod_unidad];
 		//echo $Unidad."<br>";
@@ -40,7 +40,7 @@ if(!isset($Recarga))
 			$NomOrigen='SIN ORIGEN';
 		$NomNegocio=$Fila[nom_negocio];
 		$NomTitulo=$Fila[nom_titulo];
-		$NomAño=$Fila[num_orden];
+		$NomAï¿½o=$Fila[num_orden];
 		$UltVersion=$Fila[ult_version];
 	}
 	else
@@ -141,7 +141,7 @@ function ValidaCampos()
 
 	if(f.CmbProd.value=='-1')
 	{
-		alert("Debe seleccionar Asignación");
+		alert("Debe seleccionar Asignaciï¿½n");
 		f.CmbProd.focus();
 		Res=false;
 		return;
@@ -252,7 +252,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" selected="selected">Seleccionar</option>
              <?
 			$Consulta = "select * from pcip_ppc_version where ano='".$Ano."' order by version ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($Fila["ult_version"]=='S')
@@ -261,9 +261,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Color="";
 	
 				if ($CmbVersion==$Fila["version"])
-					echo "<option style='background:".$Color."' selected value='".$Fila["version"]."'>Version:".$Fila["version"]." Año:".$Fila["ano"]." Mes:".$Meses[$Fila["mes"]-1]."</option>\n";
+					echo "<option style='background:".$Color."' selected value='".$Fila["version"]."'>Version:".$Fila["version"]." Aï¿½o:".$Fila["ano"]." Mes:".$Meses[$Fila["mes"]-1]."</option>\n";
 				else
-					echo "<option style='background:".$Color."' value='".$Fila["version"]."'>Version:".$Fila["version"]." Año:".$Fila["ano"]." Mes:".$Meses[$Fila["mes"]-1]."</option>\n";
+					echo "<option style='background:".$Color."' value='".$Fila["version"]."'>Version:".$Fila["version"]." Aï¿½o:".$Fila["ano"]." Mes:".$Meses[$Fila["mes"]-1]."</option>\n";
 			}
 			?>
            </select>
@@ -272,7 +272,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		   }
 		   else
 		   		echo "<span class='formulario2'>".$NomVersion."</span>";	
-		   ?>		   &nbsp;&nbsp;Ultima Versión
+		   ?>		   &nbsp;&nbsp;Ultima Versiï¿½n
         </span>&nbsp;&nbsp;<? echo $UltVersion; ?></td>
          </tr>
          <tr>
@@ -286,7 +286,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" selected="selected">Seleccionar</option>
              <?
 			$Consulta = "select * from pcip_svp_asignacion where mostrar_ppc='1'order by nom_asignacion ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbProd==$Fila["cod_asignacion"])
@@ -319,7 +319,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 			$Consulta = "select * from pcip_svp_asignaciones_productos where cod_asignacion='".$CmbProd."' and mostrar_ppc='1' order by nom_asignacion";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbAsig==$Fila["cod_producto"])
@@ -340,7 +340,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		   {
 		   		echo "<span class='formulario2'>".$NomAsig."</span>";	
 				$Consulta = "select * from pcip_svp_asignaciones_productos where cod_asignacion='".$CmbProd."' and cod_producto='".$CmbAsig."' order by nom_asignacion ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					$Unidad=$Fila["cod_unidad"];
@@ -361,7 +361,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 			$Consulta = "select * from pcip_svp_negocios ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbNegocio==$Fila["cod_negocio"])
@@ -389,7 +389,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 			$Consulta = "select * from pcip_svp_asignaciones_titulos where cod_asignacion='".$CmbProd."' and cod_negocio='".$CmbNegocio."' and mostrar_ppc='1' order by orden";						
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbTitulo==$Fila["cod_titulo"])
@@ -434,7 +434,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta="select valor from pcip_ppc_detalle t1 "; 
 						$Consulta.="where t1.version='".$Cod[0]."' and t1.ano='".$Cod[1]."' and t1.cod_asignacion='".$Cod[2]."' and t1.cod_procedencia='".$Cod[3]."' and t1.tipo='".$Cod[5]."' and t1.cod_negocio='".$Cod[4]."' and t1.cod_titulo='".$Cod[6]."' and t1.mes='".$i."'";
 						//echo $Consulta."<br>";
-						$RespMes=mysql_query($Consulta);
+						$RespMes=mysqli_query($link, $Consulta);
 						if($FilaMes=mysql_fetch_array($RespMes))
 						{
 						?>

@@ -347,7 +347,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($TxtFechaDVIG!=''&&$TxtFechaHVIG!='')	
 					$Consulta.=" and fecha_vig_licencia between '".$TxtFechaDVIG."' and '".$TxtFechaHVIG."'";
 				$Consulta.=" group by t1.corr_conductor order by apellido_paterno,apellido_materno,nombres";	
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				$Cont=1;
 				while ($Fila=mysql_fetch_array($Resp))

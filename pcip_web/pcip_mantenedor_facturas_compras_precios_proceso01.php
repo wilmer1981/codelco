@@ -5,7 +5,7 @@
 	{
 		case "N":	
 			$Consulta= " select ano,mes,cod_fino from pcip_fac_compra_precios where ano='".$Ano."' and mes='".$Mes."' and cod_fino='".$CmbFino."'";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{
 //			   if($CmbMoneda=='2')

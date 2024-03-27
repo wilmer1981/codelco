@@ -20,7 +20,7 @@
 			$ContVi�etas=2;
 			$Consulta="select * from pcip_eva_negocios where corr='".$Cod."'";
 			//echo $Consulta;
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$TxNombre=$Fila[nom_archivo];
 			$Ano=$Fila[ano];
@@ -722,7 +722,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="Selected">Seleccionar</option>
                <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31033' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbMaterial==$Fila["cod_subclase"])
@@ -741,7 +741,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                     <option value="-1" class="Selected">Seleccionar</option>
                     <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31035' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbOrigen==$Fila["cod_subclase"])
@@ -769,7 +769,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                     <option value="-1" class="Selected">Selecci�n Divisi&oacute;n 1</option>
                     <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31060' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbDiv==$Fila["cod_subclase"])
@@ -783,7 +783,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="-1" class="Selected">Selecci�n Divisi&oacute;n 2</option>
                       <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31060' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbDiv2==$Fila["cod_subclase"])
@@ -1012,7 +1012,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	function DatosSubClase($CodClase,$CodSubClase)
 	{
 		$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='".$CodClase."' and cod_subclase='".$CodSubClase."' ";			
-		$Resp=mysql_query($Consulta);		
+		$Resp=mysqli_query($link, $Consulta);		
 		if($Fila=mysql_fetch_array($Resp))
 			$Datos=$Fila["nombre_subclase"];
 		else

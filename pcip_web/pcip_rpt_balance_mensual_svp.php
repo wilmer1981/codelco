@@ -139,7 +139,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="T" selected="selected">Todos</option>
         <?
 	    $Consulta = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31005' order by cod_subclase ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoNegocio==$FilaTC["cod_subclase"])
@@ -156,7 +156,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="T" selected="selected">Todos</option>
       <?
 	    $Consulta = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31004' order by cod_subclase ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEtapa==$FilaTC["cod_subclase"])
@@ -173,7 +173,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" selected="selected">Seleccionar</option>
       <?
 	    $Consulta = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31002' order by cod_subclase ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoInforme==$FilaTC["cod_subclase"])
@@ -188,7 +188,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="T" selected="selected">Todos</option>
       <?
 	    $Consulta = "select * from pcip_svp_productos_etapas where cod_tipo_balance='".$CmbTipoInforme."' order by cod_producto_etapa ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$FilaTC["cod_producto_etapa"])
@@ -263,7 +263,7 @@ Mes Hasta
 			{	
 				$Consulta = "select nombre_subclase,cod_subclase as cod_negocio from proyecto_modernizacion.sub_clase where cod_clase='31005' and cod_subclase='".$CmbTipoNegocio."' order by cod_subclase ";			
 				//echo $Consulta;
-				$RespNeg=mysql_query($Consulta);
+				$RespNeg=mysqli_query($link, $Consulta);
 				while ($FilaNeg=mysql_fetch_array($RespNeg))
 				{
 				   $CodNegocio=$FilaNeg["cod_subclase"];
@@ -278,7 +278,7 @@ Mes Hasta
 					if($CmbEtapa!='T')
 						$Consulta.="and cod_subclase='".$CmbEtapa."'";
 					$Consulta.= "order by cod_subclase ";			
-					$RespEtapa=mysql_query($Consulta);
+					$RespEtapa=mysqli_query($link, $Consulta);
 					while ($FilaEtapa=mysql_fetch_array($RespEtapa))
 					{
 						$CantCol=3;
@@ -311,7 +311,7 @@ Mes Hasta
 						  </tr>
 						<?
 						$Consulta = "select nombre_subclase,cod_subclase as cod_bal from proyecto_modernizacion.sub_clase where cod_clase='31003' order by valor_subclase1 ";			
-						$RespBal=mysql_query($Consulta);
+						$RespBal=mysqli_query($link, $Consulta);
 						while ($FilaBal=mysql_fetch_array($RespBal))
 						{
 							$CantCol=3;
@@ -328,7 +328,7 @@ Mes Hasta
 								$Consulta.="and t1.cod_producto_etapa='".$CmbProd."'";		
 							$Consulta.= "order by cod_producto_etapa ";
 							//echo $Consulta."<br>";		
-							$RespProd=mysql_query($Consulta);
+							$RespProd=mysqli_query($link, $Consulta);
 							while ($FilaProd=mysql_fetch_array($RespProd))
 							{
 								echo "<tr>";
@@ -338,14 +338,14 @@ Mes Hasta
 									$Consulta.="and t1.cod_tipo_informe='".$CmbTipoInforme."'";	
 								$Consulta.= "order by cod_producto_etapa ";
 								//echo $Consulta."<br>";		
-								$RespParam=mysql_query($Consulta);
+								$RespParam=mysqli_query($link, $Consulta);
 								while ($FilaParam=mysql_fetch_array($RespParam))
 								{
 									$Total=0;
 									for($i=$Mes;$i<=$MesFin;$i++)
 									{
 										$Consulta="SELECT VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPa�o = '".$Ano."' AND VPmes = '".$i."' AND VPtm = ".$FilaParam[tramo]." AND VPorden = '".$FilaParam[num_orden]."' and VPtipinv='".$FilaParam[tipo_inventario]."' and VPmaterial='".$FilaParam[cod_material]."' and VPordes='".$FilaParam[ordes]."'";
-										$Resp2=mysql_query($Consulta);
+										$Resp2=mysqli_query($link, $Consulta);
 										//echo $Consulta."<br>";
 										if($Fila2=mysql_fetch_array($Resp2))
 											echo "<td align='right'>".number_format($Fila2[VPcantidad],3,',','.')."</td>";

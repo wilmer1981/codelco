@@ -13,7 +13,7 @@
 	$Consulta.=" left join  sget_gerencias t7  on t1.cod_gerencia=t7.cod_gerencia ";
 	$Consulta.=" left join  sget_areas t8  on t1.cod_area=t8.cod_area ";
 	$Consulta.=" where t1.cod_contrato='".$Ctto."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtRutPrv=intval(substr(str_pad($Fila["rut_empresa"],10,'0',l_pad),0,8));
@@ -42,7 +42,7 @@
 	 $Consulta.= "where cod_clase='30003'  and cod_subclase='".$TipoCT."'";	
 	if ($CmbTipoCtto=='N')
 	 $Consulta.= "where cod_clase='30004'  and cod_subclase='".$TipoCT."'";	
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($FilaTC=mysql_fetch_array($Resp))
 		{
 		$DetCtto=$FilaTC["nombre_subclase"];

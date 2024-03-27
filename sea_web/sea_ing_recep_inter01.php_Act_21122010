@@ -61,7 +61,7 @@ if (($Proceso == 'M' || $Proceso == 'G') && $codigo == "A")
 
                     //actualiza tabla hornadas
 					$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as pes FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND cod_producto = 17 AND hornada = $hornadas";
-					$Rs = mysql_query($Consulta);
+					$Rs = mysqli_query($link, $Consulta);
 					if($fila = mysql_fetch_array($Rs))
 					{
 						$Actualizo = "Update sea_web.hornadas set unidades = $fila[unid], peso_unidades = $fila[pes] WHERE cod_producto = 17 AND hornada_ventana = $hornadas";
@@ -92,13 +92,13 @@ if (($Proceso == 'M' || $Proceso == 'G') && $codigo == "A")
 						//echo $Insertar."<br>";
 					//consulto en tabla Hornadas
 					$Consulta = "SELECT * FROM sea_web.hornadas WHERE hornada_ventana = $hornadas";
-					$rs = mysql_query($Consulta);
+					$rs = mysqli_query($link, $Consulta);
 					
 					if($row = mysql_fetch_array($rs))
 					{ 
 						//actualiza tabla hornadas
 						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as pes FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND cod_producto = 17 AND hornada = $hornadas";
-						$Rs = mysql_query($Consulta);
+						$Rs = mysqli_query($link, $Consulta);
 						if($fila = mysql_fetch_array($Rs))
 						{
 							$Actualizo = "Update sea_web.hornadas set unidades = $fila[unid], peso_unidades = $fila[pes] WHERE cod_producto = 17 AND hornada_ventana = $hornadas";
@@ -167,7 +167,7 @@ if (($Proceso == 'M' || $Proceso == 'G') && $codigo == "B")
 
 					//actualiza tabla hornadas
 					$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as pes FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND cod_producto = 16 AND hornada = $hornadas";
-					$Rs = mysql_query($Consulta);
+					$Rs = mysqli_query($link, $Consulta);
 					if($fila = mysql_fetch_array($Rs))
 					{
 						$Actualizo = "Update sea_web.hornadas set unidades = $fila[unid], peso_unidades = $fila[pes] WHERE cod_producto = 16 AND hornada_ventana = $hornadas";
@@ -209,7 +209,7 @@ if (($Proceso == 'M' || $Proceso == 'G') && $codigo == "B")
 					
 					//Zuncho
 					$Consulta = "SELECT * FROM sea_web.relacion_zuncho WHERE cod_producto = 16 AND cod_subproducto = ".$subproducto[$clave];
-					$rs = mysql_query($Consulta);
+					$rs = mysqli_query($link, $Consulta);
 					
 					if($row = mysql_fetch_array($rs))
 					{
@@ -233,7 +233,7 @@ if (($Proceso == 'M' || $Proceso == 'G') && $codigo == "B")
 		
 					//Consulto en tabla Hornadas
 					$Consulta = "SELECT * FROM sea_web.hornadas WHERE hornada_ventana = $hornadas";
-					$rs = mysql_query($Consulta);
+					$rs = mysqli_query($link, $Consulta);
 					
 					if($row = mysql_fetch_array($rs))
 					{ 

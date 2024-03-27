@@ -186,7 +186,7 @@ if($Buscar=='S')
 	if($CmbVig!='T')
 		$Consulta.=" and t1.vigente='".$CmbVig."'";	
 	$Consulta.=" order by t1.cod_contrato";	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	//echo $Consulta."<br>";
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{

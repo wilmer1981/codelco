@@ -73,7 +73,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 				if($TxtMat!='')
 					$Consulta.=" and apellido_materno like '%".$TxtMat."%'";	
 				$Consulta.=" order by apellido_paterno,apellido_materno,nombres";	
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				$Cont=1;
 				while ($Fila=mysql_fetch_array($Resp))

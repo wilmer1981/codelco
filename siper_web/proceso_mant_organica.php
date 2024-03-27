@@ -8,13 +8,13 @@ include('conectar_ori.php');
 		if($v!=''&&$v!='0')
 		{
 			$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$CodNivelesAux=$CodNiveles;
 			if($CodNiveles<$Fila[CTAREA])
 				$CodNiveles=$Fila[CTAREA];
 			$Consulta="SELECT min(CTAREA) as tarea_menor from sgrs_areaorg where CPARENT like '".$CodSelTarea."%' and CAREA<>'".$v."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NivelInferior=$Fila[tarea_menor];
 			$NivelSuperior=$CodNivelesAux;			
@@ -37,7 +37,7 @@ include('conectar_ori.php');
 	//$CheckedRut="checked";
 	$Parent=$CodOrganicaAux;
 	$Consulta="SELECT t1.NAREA,t1.CTAREA,t2.NORGANICA,t2.CORGANICA,t3.MRUTINARIA,t1.MVIGENTE from sgrs_areaorg t1 inner join sgrs_organica t2 on t1.ctarea=t2.corganica left join sgrs_siperoperaciones t3 on t1.CAREA=t3.CAREA where t1.CAREA ='".$Parent."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resp);	
 	$TxtDescrip=$Fila[NAREA];$CheckedRut='checked';$LabelRut='hidden';$CheckedVig="checked";
 	if($MostrarCmb=='S')
@@ -240,7 +240,7 @@ function Activa()
 				$Consulta="SELECT * from sgrs_organica where CORGANICA<>0 and CORGANICA IN ('4','5','6','7','8')  order by orden";
 			else
 				$Consulta="SELECT * from sgrs_organica where CORGANICA<>0 and CORGANICA > ".intval($CodNiveles)." order by orden";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($RespTipo))
 			{
 				if($CmbTipo==$Fila[CORGANICA])
@@ -255,7 +255,7 @@ function Activa()
 	   <option value="S">Seleccionar</option>
 	   <? 
 			$Consulta="SELECT * from sgrs_organica where CORGANICA not in (0,'".$CodNiveles."') and (CORGANICA > ".intval($NivelSuperior)." and CORGANICA <  ".intval($NivelInferior).") order by orden";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($RespTipo))
 			{
 				if($CmbTipo2==$Fila[CORGANICA])

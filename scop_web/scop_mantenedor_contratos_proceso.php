@@ -45,7 +45,7 @@ if($Opc=='M')
 {	
     $Datos=explode("~",$Valores);
 	$Consulta = "select * from scop_contratos where cod_contrato='".$Datos[0]."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtContrato=$Fila["cod_contrato"];
@@ -79,7 +79,7 @@ if($Opc=='M')
 else
 {
 	$Consulta="select max(cod_contrato+1) as maximo from scop_contratos ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		if($Fila["maximo"]=='')
@@ -454,7 +454,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			   <option value="-1" class="NoSelec">Seleccionar</option>
 				   <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='33002'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbTipoContrato==$Fila["cod_subclase"])
@@ -703,7 +703,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])

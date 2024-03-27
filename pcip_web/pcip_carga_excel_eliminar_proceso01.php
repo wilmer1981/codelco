@@ -7,7 +7,7 @@ switch($Opcion)
 	case "E":
 		$Mensaje='';
 		$Consulta = "select * from pcip_lista_excel where cod_excel='".$CmbExcel."' order by orden ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
 		while ($Fila=mysql_fetch_array($Resp))
 		{

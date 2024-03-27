@@ -4,7 +4,7 @@ include("funciones/sget_funciones.php");
 set_time_limit(1000);
 //echo "MENSAJE:".$Mensaje;
 $Consulta="Select t2.email,t1.rut_empresa,t1.cod_contrato,t1.fecha_inicio,t1.fecha_termino,t1.rut_adm_contratista from sget_contratos t1 left join sget_administrador_contratistas t2 on t1.rut_adm_contratista=t2.rut_adm_contratista where t1.cod_contrato='".$Ctto."' and t1.rut_empresa='".$Empresa."'";
-$Resp1= mysql_query($Consulta);
+$Resp1= mysqli_query($link, $Consulta);
 if($Fila1 = mysql_fetch_array($Resp1))
 {
 	$RutEmpresa=$Fila1[rut_empresa];
@@ -27,7 +27,7 @@ $Insertar.="value('".$RutEmpresa."','".trim($Contrato)."','".$RazonSocial."','".
 mysql_query($Insertar);
 //echo $Insertar;
 $Consulta="Select * from sget_ruta_archivo where rut='".$CookieRut."'";
-$Resp0= mysql_query($Consulta);
+$Resp0= mysqli_query($link, $Consulta);
 if($Fila0 = mysql_fetch_array($Resp0))
 {
 $RutaOrigen=$Fila0["origen"];//'C:\SGEPVB';

@@ -11,7 +11,7 @@
 				$Consulta="select * from pcip_inp_precios";
 				$Consulta.=" where ano='".$Ano."' and cod_producto='".$CmbProducto."' and cod_deduccion='".$Valor[0]."'";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 				    if($Valor[1]=='')

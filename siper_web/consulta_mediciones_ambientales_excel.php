@@ -42,7 +42,7 @@ header("Content-Type:  application/vnd.ms-excel");
 		$Codigo=ObtenerCodParent($SelTarea);
 		$Consulta="SELECT NAREA from sgrs_areaorg where CAREA = '".$Codigo."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		echo $Fila[NAREA];
 
@@ -55,7 +55,7 @@ header("Content-Type:  application/vnd.ms-excel");
         <td width="18%" align="left">
 		<?
 			$Consulta="SELECT * from sgrs_lugares where CLUGAR='".$CmbLugares."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 				echo $Fila[NLUGAR]."  -> CORD_XYZ (".$Fila[CCORDX].",".$Fila[CCORDY].",".$Fila[CCORDZ];
 		?></td>
@@ -64,7 +64,7 @@ header("Content-Type:  application/vnd.ms-excel");
         <td width="16%" align="right" nowrap="nowrap" class="formulario">Agente: </td>
         <td width="19%" align="left" nowrap="nowrap"><?
 			$Consulta="SELECT t1.CAGENTE,t1.NAGENTE from sgrs_cagentes t1 where t1.CAGENTE='".$CmbAgentes."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 				echo $Fila[NAGENTE];
 		  ?>        </td>
@@ -74,7 +74,7 @@ header("Content-Type:  application/vnd.ms-excel");
         <td align="left">
             <?
 			$Consulta="SELECT t1.CAREA,t1.NAREA from sgrs_areaorg t1 where t1.CTAREA='5' and CAREA='".$CmbUnidOpe."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			echo $Fila[NAREA];
 		  ?>        </td>
@@ -151,7 +151,7 @@ header("Content-Type:  application/vnd.ms-excel");
 			}
 			$Consulta.="order by t4.NLUGAR";
 			//echo $Consulta;
-			$Resp=mysql_query($Consulta);echo "<input type='hidden' name='CheckRut'>";
+			$Resp=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckRut'>";
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				echo "<tr>";

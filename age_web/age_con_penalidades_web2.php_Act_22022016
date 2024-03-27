@@ -177,7 +177,7 @@ body {
 	$Consulta.= " order by t1.cod_recepcion ";
 	//echo $Consulta."<br>";
 	$RutPrv2='';
-	$RespTipoRecep = mysql_query($Consulta);
+	$RespTipoRecep = mysqli_query($link, $Consulta);
 	while ($FilaTipoRecep = mysql_fetch_array($RespTipoRecep))
 	{					
 		//TITULO COD RECEPCION
@@ -233,7 +233,7 @@ body {
 			$Consulta.= " and t1.rut_proveedor = '".$CmbProveedor."' ";
 		$Consulta.= " order by t1.cod_producto, orden ";
 		//echo $Consulta."<br>";
-		$Resp01 = mysql_query($Consulta);
+		$Resp01 = mysqli_query($link, $Consulta);
   
 
 
@@ -267,7 +267,7 @@ body {
 			echo "<tr bgcolor=\"#CCCCCC\">\n";			
 			$Consulta = "select * from proyecto_modernizacion.subproducto ";
 			$Consulta.= "where cod_producto = '".$Fila01["cod_producto"]."' and cod_subproducto='".$Fila01["cod_subproducto"]."'";		
-			$RespAux2 = mysql_query($Consulta);
+			$RespAux2 = mysqli_query($link, $Consulta);
 			if ($FilaAux2 = mysql_fetch_array($RespAux2))
 				$NomSubProd = $FilaAux2["descripcion"];
 			else
@@ -295,7 +295,7 @@ body {
 			$Consulta.= " order by t1.cod_recepcion, t1.rut_proveedor ";
 			//echo $Consulta."<br>";
 			$RutPrv='';
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			while ($FilaAux = mysql_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -304,7 +304,7 @@ body {
 				$Consulta = "select rut_prv as RUTPRV_A, nombre_prv as NOMPRV_A";
 				$Consulta.= " from sipa_web.proveedores ";
 				$Consulta.= " where rut_prv = '".$RutAux."'";
-				$RespProv = mysql_query($Consulta);	
+				$RespProv = mysqli_query($link, $Consulta);	
 				//echo $Consulta."<br>";ptoveedores
 				while ($FilaProv = mysql_fetch_array($RespProv))
 				{
@@ -352,7 +352,7 @@ body {
 				//$Consulta.= " and t1.lote='07040376'";
 				$Consulta.= " group by t1.lote order by t1.lote, orden";
 				
-				$RespLote = mysql_query($Consulta);
+				$RespLote = mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
     //$TotalSeco = 0;
 				while($FilaLote=mysql_fetch_array($RespLote))

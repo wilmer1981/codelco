@@ -44,7 +44,7 @@ function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE
 			$Consulta.= " order by tt.cod_producto,tt.cod_subproducto,t0.corr_enm ";
 			break;
 	}
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	$i=0;
 	while ($FilaAux = mysql_fetch_array($RespAux))
 	{
@@ -53,7 +53,7 @@ function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE
 		//ALMACEN CODELCO
 		$Consulta = "select * from interfaces_codelco.relacion_almacen ";
 		$Consulta.= " where cod_destino='".$FilaAux["cod_puerto"]."'";
-		$RespPto=mysql_query($Consulta);
+		$RespPto=mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		if ($FilaPto=mysql_fetch_array($RespPto))
 		{
@@ -63,7 +63,7 @@ function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE
 		{
 			$Consulta = "select * from interfaces_codelco.relacion_almacen ";
 			$Consulta.= " where cod_almacen_codelco='0005'";
-			$RespPto=mysql_query($Consulta);
+			$RespPto=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			if ($FilaPto=mysql_fetch_array($RespPto))
 			{
@@ -145,7 +145,7 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 	}
 	$Consulta.= " and (t0.cod_bulto='".$ValorId[0]."' and t0.num_bulto='".$ValorId[1]."') ";
 	//echo $Consulta."<br>";
-	$RespPqte=mysql_query($Consulta);
+	$RespPqte=mysqli_query($link, $Consulta);
 	while($FilaPqte=mysql_fetch_array($RespPqte))
 	{
 		$CodCircuitoEti=ObtieneCircuito($FilaPqte["cod_grupo"]);
@@ -212,7 +212,7 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 	while (list($k,$Valor)=each($ArrRespLeyes))
 	{
 		$Consulta="select cod_leyes,valor from cal_web.leyes_por_solicitud where nro_solicitud='".$SA."' and cod_leyes='".$k."'";
-		$RespSA=mysql_query($Consulta);
+		$RespSA=mysqli_query($link, $Consulta);
 		if($FilaSA=mysql_fetch_array($RespSA))
 		{
 			$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA["valor"];
@@ -222,7 +222,7 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 	}
 
 	/*$Consulta="select cod_leyes,valor from cal_web.leyes_por_solicitud where nro_solicitud='".$SA."'";
-	$RespSA=mysql_query($Consulta);
+	$RespSA=mysqli_query($link, $Consulta);
 	while($FilaSA=mysql_fetch_array($RespSA))
 	{
 		$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA["valor"];
@@ -380,7 +380,7 @@ function ObtieneCircuito($Grupo)
 {
 	$CodCircuito='';
 	$Consulta="select cod_circuito from ref_web.grupo_electrolitico2 where cod_grupo='".$Grupo."' order by fecha desc";
-	$RespEti=mysql_query($Consulta);
+	$RespEti=mysqli_query($link, $Consulta);
 	if($FilaEti=mysql_fetch_array($RespEti))
 	{
 		$CodCircuito=$FilaEti[cod_circuito];	
@@ -393,7 +393,7 @@ function ObtieneFechaRenov($Grupo,$mes,$dia,$ano)
 	$FechAuxGrupo='';
 	$FecActualEti=date('Y-m-d',mktime(0,0,0,$mes,$dia,$ano));
 	$Consulta="select * from sec_web.renovacion_prog_prod where cod_grupo ='".$Grupo."' and cod_grupo <>'' and cod_concepto <> 'D' order by fecha_renovacion desc,dia_renovacion desc";
-	$RespEti=mysql_query($Consulta);
+	$RespEti=mysqli_query($link, $Consulta);
 	while($FilaEti=mysql_fetch_array($RespEti))
 	{
 		$FechAuxGrupo=explode('-',$FilaEti[fecha_renovacion]);
@@ -432,7 +432,7 @@ function ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdL
 	}
 	$Consulta.= " and (t0.cod_bulto='".$ValorId[0]."' and t0.num_bulto='".$ValorId[1]."') ";
 	$Consulta.= " order by t1.fecha_creacion_paquete desc";
-	$RespFec=mysql_query($Consulta);
+	$RespFec=mysqli_query($link, $Consulta);
 	if($FilaPqte=mysql_fetch_array($RespFec))
 	{
 		$FechaR=explode('-',$FilaPqte["fecha_creacion_paquete"]);
@@ -448,7 +448,7 @@ function ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdL
 				$Consulta.="where t1.cod_producto='18' and t1.cod_subproducto='1' and (t1.fecha_muestra between '".$FechaHoraIni." 00:00:01' and '".$FechaHoraFin." 23:59:59') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 				$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') and (t1.agrupacion in ('7','99')) order by t1.fecha_hora desc";		
 				//echo $Consulta."<br>";
-				$RespSA=mysql_query($Consulta);
+				$RespSA=mysqli_query($link, $Consulta);
 				if($FilaSA=mysql_fetch_array($RespSA))
 				{
 					$SA=$FilaSA['nro_solicitud'];
@@ -463,7 +463,7 @@ function ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdL
 			$Consulta.="where (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') order by t1.fecha_hora desc";		
 			//echo $Consulta;
-			$RespSA=mysql_query($Consulta);
+			$RespSA=mysqli_query($link, $Consulta);
 			if($FilaSA=mysql_fetch_array($RespSA))
 			{
 				$SA=$FilaSA['nro_solicitud'];
@@ -481,14 +481,14 @@ function InsertarLineaTmp($CorrIE,$Tipo,$Linea)
 function CreaArchivoTxt($Archivo1,$Archivo2)
 {
 	$Consulta="select linea from interfaces_codelco.tmp_archivo_embarque where tipo in ('1','2') order by corr,tipo";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		fwrite($Archivo1,$Fila[linea]."\r\n");
 	
 	}
 	$Consulta="select linea from interfaces_codelco.tmp_archivo_embarque where tipo='3' order by corr,tipo";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		fwrite($Archivo2,$Fila[linea]."\r\n");
@@ -503,7 +503,7 @@ function Homologar($ProdAux, $SubProdAux, $CodSap, $Unidad, $CentroHomo, $CodEmp
 	$Consulta = "select * from interfaces_codelco.homologacion ";
 	$Consulta.= " where cod_producto ='".$ProdAux."' and cod_subproducto = '".$SubProdAux."'";
 	//echo $Consulta."<br>";
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	if ($FilaAux = mysql_fetch_array($RespAux))
 	{
 		$CodSap = $FilaAux["materiales_sap"];
@@ -529,7 +529,7 @@ function OrdenProduccionSap($Asignacion,$Prod,$SubProd,$OrdenProd,$CodMatSAP,$Un
 
 	if ($OrdenProd!="")
 		$Consulta.= " and codigo_op='".$OrdenProd."'";
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
     if ($FilaAux = mysql_fetch_array($RespAux))
 	{
 		$OrdenProd = $FilaAux["codigo_op"];
@@ -542,7 +542,7 @@ function OrdenProduccionSap($Asignacion,$Prod,$SubProd,$OrdenProd,$CodMatSAP,$Un
 	{
 		$Consulta = "select * from  interfaces_codelco.ordenes_produccion ";
 		$Consulta.= " where cod_producto ='".$Prod."' and cod_subproducto = '0'";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		if ($FilaAux = mysql_fetch_array($RespAux))
 		{
 			$OrdenProd = $FilaAux["codigo_op"];
@@ -617,7 +617,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 			break;
 	}
 	//echo "EEE".$Consulta."<br><br>";
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	$i=0;
 	while ($FilaAux = mysql_fetch_array($RespAux))
 	{
@@ -651,7 +651,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 		//ALMACEN CODELCO
 		$Consulta = "select * from interfaces_codelco.relacion_almacen ";
 		$Consulta.= " where cod_destino='".$FilaAux["cod_puerto"]."'";
-		$RespPto=mysql_query($Consulta);
+		$RespPto=mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		if ($FilaPto=mysql_fetch_array($RespPto))
 		{
@@ -662,7 +662,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 		{
 			$Consulta = "select * from interfaces_codelco.relacion_almacen ";
 			$Consulta.= " where cod_almacen_codelco='0005'";
-			$RespPto=mysql_query($Consulta);
+			$RespPto=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			if ($FilaPto=mysql_fetch_array($RespPto))
 			{
@@ -686,7 +686,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 				}
 				$Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
 				//echo $Consulta."<br>";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				$ConLeyes = "N";
 				$NumCertificado = "";
 				$ArregloLeyes["02"]["cod_leyes"] = "02";
@@ -747,7 +747,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
                     }
                     $Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
                     $Consulta.= "order by secuencia   ";
-                   	$Resp22 = mysql_query($Consulta);
+                   	$Resp22 = mysqli_query($link, $Consulta);
       			 	//echo "YYYY".$Consulta."<br>";
                       
                     $ConLeyes = "N";
@@ -815,7 +815,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 			break;
 	}
 	//echo "EEEEEE".$Consulta."<br><br>";
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	$i=0;
 	while ($FilaAux = mysql_fetch_array($RespAux))
 	{
@@ -850,7 +850,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 		//ALMACEN CODELCO
 		$Consulta = "select * from interfaces_codelco.relacion_almacen ";
 		$Consulta.= " where cod_destino='".$FilaAux["cod_puerto"]."'";
-		$RespPto=mysql_query($Consulta);
+		$RespPto=mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		if ($FilaPto=mysql_fetch_array($RespPto))
 		{
@@ -861,7 +861,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 		{
 			$Consulta = "select * from interfaces_codelco.relacion_almacen ";
 			$Consulta.= " where cod_almacen_codelco='0005'";
-			$RespPto=mysql_query($Consulta);
+			$RespPto=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			if ($FilaPto=mysql_fetch_array($RespPto))
 			{
@@ -885,7 +885,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 				}
 				$Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
 				//echo $Consulta."<br>";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				$ConLeyes = "N";
 				$NumCertificado = "";
 				$ArregloLeyes["02"]["cod_leyes"] = "02";
@@ -946,7 +946,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
                     }
                     $Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
                     $Consulta.= "order by secuencia   ";
-                   	$Resp22 = mysql_query($Consulta);
+                   	$Resp22 = mysqli_query($link, $Consulta);
         			//echo "YYYY".$Consulta."<br>";
                       
                     $ConLeyes = "N";
@@ -988,7 +988,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 		if($IdLote!='')
 			$Consulta.= " and t1.lote='".$IdLote."'";
 	$Consulta.= " group by t1.lote";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		//echo "Consulta 1".$Consulta."<br>";
        $i=0;
 		while ($FilaAux = mysql_fetch_array($RespAux))
@@ -1025,7 +1025,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			}
 			$Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
 			$Consulta.= " ORDER BY t3.nro_solicitud ";
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$ConLeyes = "N";
 			$NumCertificado = "";
 			//$ArregloLeyes["05"]["cod_leyes"] = "05";
@@ -1063,7 +1063,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 		if ($IdLote!="")
 			$Consulta.= " and num_barra='".$IdLote."'";
 			
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
       //  echo $Consulta;
 		$i=0;
 		while ($FilaAux = mysql_fetch_array($RespAux))
@@ -1103,7 +1103,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			//if($cuenta==1)
 			//	echo "AU".$Consulta;
 			//$cuenta = 9;
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$ConLeyes = "N";
 			$NumCertificado = "";
 			$ArregloLeyes["05"]["cod_leyes"] = "05";
@@ -1142,7 +1142,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$Consulta.= " and t2.num_electrolisis='".$IdLote."'";
 			$Consulta.= " and t1.num_acta='".$NumActa."'";
 		}
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		while ($FilaAux = mysql_fetch_array($RespAux))
 		{
@@ -1202,7 +1202,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			//if($cuenta==1)
             //	echo "AG".$Consulta."<br>";
 			//$cuenta=9;
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$ConLeyes = "N";
 			$NumCertificado = "";			
 			while ($Fila2 = mysql_fetch_array($Resp2))
@@ -1266,7 +1266,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 		}
 		$Consulta.= " order by lpad(t1.cod_producto,3,'0'), lpad(t1.cod_subproducto,3,'0'), t1.numero";
 		//echo "hola".$Consulta;
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		while ($FilaAux = mysql_fetch_array($RespAux))
 		{
 			$Arreglo[$i]["cod_producto"] = $FilaAux["cod_producto"];
@@ -1307,7 +1307,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
 			$Consulta.= " ORDER BY t2.nro_solicitud";	
 			// echo "dddd".$Consulta."<br>";  
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$ConLeyes = "N";
 			$NumCertificado = "";
 			while ($Fila2 = mysql_fetch_array($Resp2))
@@ -1380,7 +1380,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 		}
 		$Consulta.= " order by lpad(t1.cod_producto,3,'0'), lpad(t1.cod_subproducto,3,'0')";
 		//echo "dos".$Consulta;
-		$RespAux = mysql_query($Consulta);	
+		$RespAux = mysqli_query($link, $Consulta);	
 		while ($FilaAux = mysql_fetch_array($RespAux))
 		{
 			$Arreglo[$i]["cod_producto"] = $FilaAux["cod_producto"];
@@ -1430,7 +1430,7 @@ function RescataAcido($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote
 	$Consulta.= " group by t1.rut_cliente ";	
 	$Consulta.= " order by t1.rut_cliente ";
 	//echo $Consulta;
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	$i=0;
 	while ($FilaAux = mysql_fetch_array($RespAux))
 	{

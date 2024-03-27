@@ -43,7 +43,7 @@ header("Content-Type:  application/vnd.ms-excel");
 		$Codigo=ObtenerCodParent($SelTarea);
 		$Consulta="SELECT NAREA from sgrs_areaorg where CAREA = '".$Codigo."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		echo $Fila[NAREA];
 
@@ -59,7 +59,7 @@ header("Content-Type:  application/vnd.ms-excel");
 	    <td width="19%" align="left" nowrap="nowrap">
 		  <?
 			$Consulta="SELECT t1.CAGENTE,t1.NAGENTE from sgrs_cagentes t1 where t1.CAGENTE='".$CmbAgentes."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NAGENTE];
 		  ?>	  </td>
@@ -96,7 +96,7 @@ header("Content-Type:  application/vnd.ms-excel");
         <td height="25" align="right" class="formulario">Ocupaci&oacute;n:</td>
         <td align="left">		  <?
 			$Consulta="SELECT t1.NOCUPACION from sgrs_ocupaciones t1 where t1.COCUPACION='".$CmbOcupacion."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NOCUPACION];
 		  ?>&nbsp;</td>
@@ -168,7 +168,7 @@ header("Content-Type:  application/vnd.ms-excel");
 				}
 				$Consulta.="group by t2.rut,t1.CMEDPERSONAL order by t2.ape_paterno";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";

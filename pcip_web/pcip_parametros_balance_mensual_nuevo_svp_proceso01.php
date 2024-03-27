@@ -6,7 +6,7 @@ switch($Opcion)
 {
 	case "N":
 	    $Consulta = "select * from pcip_svp_balance_mensual where cod_producto='".$CmbProducto."' and cod_negocio='".$CmbNegocio."' and orden='".$CmbOrdenProd."'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if(!$Fila=mysql_fetch_array($Resp))
 		{			
 			if($CmbProducto!=4)

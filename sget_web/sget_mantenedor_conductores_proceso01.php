@@ -13,7 +13,7 @@ switch($Opcion)
 {
 	case "N":
 			$Consulta="SELECT * from sget_conductores where rut='".trim($TxtRut)."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				$Msj='Exis';
@@ -22,7 +22,7 @@ switch($Opcion)
 			else
 			{
 				$Consulta="SELECT ifnull(max(corr_conductor)+1,1) as maximo from sget_conductores ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					if($Fila["maximo"]=='')

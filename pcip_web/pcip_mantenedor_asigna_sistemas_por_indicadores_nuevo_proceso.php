@@ -5,7 +5,7 @@
 		$Opc='GI';
 
 	$Consulta="select max(cod_indicador+1) as maximo from pcip_eec_indicadores ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["maximo"];
@@ -16,7 +16,7 @@
 	   $TxtCodigo=$Cod;
 	   $Consulta="select cod_indicador,nom_indicador,vigente from pcip_eec_indicadores where cod_indicador='".$Cod."'";
 	   //echo $Consulta;
-	   $Resp=mysql_query($Consulta);
+	   $Resp=mysqli_query($link, $Consulta);
 	   if($Fila=mysql_fetch_array($Resp))
 	    {
 		$Cod=$Fila["cod_indicador"];
@@ -112,7 +112,7 @@ function Salir()
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["nombre_subclase"])
@@ -135,7 +135,7 @@ function Salir()
              <?
 		
 				$Consulta = "select cod_indicador,nom_indicador,vigente from pcip_eec_indicadores order by cod_indicador";			
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {				

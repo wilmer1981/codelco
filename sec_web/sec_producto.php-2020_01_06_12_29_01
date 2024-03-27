@@ -243,7 +243,7 @@ function MostrarPopupProceso(Proceso)
 			$Consulta.=" where  t1.cod_producto_sec='".$cmbproducto."' ";
 		if($cmbsubproducto!='-1')
 			$Consulta.=" and t1.cod_subproducto_sec='".$cmbsubproducto."'";
-		$Resultado=mysql_query($Consulta);
+		$Resultado=mysqli_query($link, $Consulta);
 		echo "<input type='hidden' name='CheckCod'>";
 		while ($Fila=mysql_fetch_array($Resultado))
 		{

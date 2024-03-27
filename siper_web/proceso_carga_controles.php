@@ -44,12 +44,12 @@ if($Clave=='abc321')
 	//$Consulta.=" where CCONTROL='1' and CCONTACTO IN ('31')";
 	$Consulta.=" order by CCONTROL,CCONTACTO";
 	//echo $Consulta;
-	$Resultado=mysql_query($Consulta);$Cont=0;$Cont2=0;
+	$Resultado=mysqli_query($link, $Consulta);$Cont=0;$Cont2=0;
 	while ($Fila=mysql_fetch_array($Resultado))
 	{
 		/*$Consulta="SELECT CPELIGRO from sgrs_sipercontroles_obs ";
 		$Consulta.=" where CCONTROL='".$Fila[CCONTROL]."' and CCONTACTO='".$Fila[CCONTACTO]."' and CAREA='".$Fila[CAREA]."' and CPELIGRO='".$Fila[CPELIGRO]."'";
-		$Resultado2=mysql_query($Consulta);
+		$Resultado2=mysqli_query($link, $Consulta);
 		if($Fila2=mysql_fetch_assoc($Resultado2))
 		{*/
 			$Obs='';

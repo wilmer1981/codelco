@@ -88,7 +88,7 @@ function Proceso(Opc)
 	$Consulta = "SELECT * ";
 	$Consulta.= " from sget_clase  ";
 	$Consulta.= " order by descripcion  ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	while ($Fila=mysql_fetch_array($Resp))
 	{
@@ -101,7 +101,7 @@ function Proceso(Opc)
 		$Consulta = "SELECT * ";
 		$Consulta.= " from sget_subclase  where cod_clase='".$Fila["cod_clase"]."' ";
 		$Consulta.= " order by descripcion_subclase  ";
-		$Resp1 = mysql_query($Consulta);
+		$Resp1 = mysqli_query($link, $Consulta);
 		$DescripSubClase='';
 		while ($Fila1=mysql_fetch_array($Resp1))
 		{

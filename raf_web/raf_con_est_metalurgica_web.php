@@ -108,7 +108,7 @@ body {
 	$Consulta.= " and hornada BETWEEN '".$Ano.str_pad($Mes,2,"00",STR_PAD_LEFT)."4000' and '".$Ano.str_pad($Mes,2,"00",STR_PAD_LEFT)."4999'";
 	$Consulta.= " and tipo_movimiento='1'";
 	$Consulta.= " order by fecha_movimiento, hornada";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{ 		
 		//PRODUCCIONES
@@ -118,7 +118,7 @@ body {
 		$Consulta.= " AND hornada = '".$Fila["hornada"]."'"; 
 		$Consulta.= " AND campo1 <> ''"; 
 		$Consulta.= " AND campo2 = '1'"; 
-		$Resp2 = mysql_query($Consulta);			
+		$Resp2 = mysqli_query($link, $Consulta);			
 		if($Fila2 = mysql_fetch_array($Resp2))
 		{			
 			$ProdCom = $Fila2["campo4"]; 
@@ -133,7 +133,7 @@ body {
 		$Consulta.= " AND hornada = '".$Fila["hornada"]."'"; 
 		$Consulta.= " AND campo1 <> ''"; 
 		$Consulta.= " AND campo2 = '3'"; 
-		$Resp2 = mysql_query($Consulta);			
+		$Resp2 = mysqli_query($link, $Consulta);			
 		if($Fila2 = mysql_fetch_array($Resp2))
 		{						
 			$ProdHM = $Fila2["campo4"]; 
@@ -148,7 +148,7 @@ body {
 		$Consulta.= " AND hornada = '".$Fila["hornada"]."'"; 
 		$Consulta.= " AND campo1 <> ''"; 
 		$Consulta.= " AND campo2 = '1'"; 
-		$Resp2 = mysql_query($Consulta);			
+		$Resp2 = mysqli_query($link, $Consulta);			
 		if($Fila2 = mysql_fetch_array($Resp2))
 		{			
 			$ProdEsc = $Fila2["campo6"];
@@ -172,7 +172,7 @@ body {
 		$Consulta.= " and (ISNULL(campo4) or campo4<>'S' or campo4='')"; 
 		$Consulta.= " and campo1 <> ''";
 		$Consulta.= " group by hornada ";		
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2=mysql_fetch_array($Resp2))
 		{
 			$PesoCuLiq = $Fila2["ollas"] * 30000;//Cu Liquido
@@ -185,7 +185,7 @@ body {
 		$Consulta.= " and tipo_report='1' and seccion_report='6' ";//TRASVASE H.BASC
 		$Consulta.= " and campo1 <> ''";
 		$Consulta.= " group by hornada ";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2=mysql_fetch_array($Resp2))
 		{
 			$PesoCuLiq = $PesoCuLiq - ($Fila2["ollas"] * 30000);//Cu Liquido
@@ -203,7 +203,7 @@ body {
 		$Consulta.= " and t1.tipo_report='1'";
 		$Consulta.= " and t1.seccion_report='10'";
 		$Consulta.= " and (t2.cod_subclase!='3')"; //Moldes Chagres
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_array($Resp2))
 			$ProdMoldesVent = $Fila2["peso_moldes"];
 		$AcumProdMoldesVent = $AcumProdMoldesVent + $ProdMoldesVent; 
@@ -216,7 +216,7 @@ body {
 		$Consulta.= " and t1.tipo_report='1'";
 		$Consulta.= " and t1.seccion_report='10'";
 		$Consulta.= " and t2.cod_subclase='3'"; //Moldes Chagres
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_array($Resp2))
 			$ProdMoldesChag = $Fila2["peso_moldes"];
 		$AcumProdMoldesChag = $AcumProdMoldesChag + $ProdMoldesChag; 
@@ -229,7 +229,7 @@ body {
 		$Consulta.= " and t1.tipo_report='1'";
 		$Consulta.= " and t1.seccion_report='10'";
 		$Consulta.= " and t2.cod_subclase='10'"; //Otros Solidos
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_array($Resp2))
 			$OtrosSolidos = $Fila2["peso_moldes"];
 		$AcumOtrosSolidos = $AcumOtrosSolidos + $OtrosSolidos;*/ 
@@ -242,7 +242,7 @@ body {
 		$Consulta = "select distinct hornada, campo1 from raf_web.datos_operacionales ";
 		$Consulta.= " where hornada = '".$Fila["hornada"]."'";
 		$Consulta.= " order by hornada, campo1";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		while ($FilaAux = mysql_fetch_array($RespAux))
 		{
 			$Consulta = "SELECT * FROM raf_web.datos_operacionales ";
@@ -253,7 +253,7 @@ body {
 			$Consulta.= " and (ISNULL(campo4) or campo4<>'S' or campo4='')"; 
 			$Consulta.= " and campo1 <> ''";
 			$Consulta.= " order by fecha_ini, hora_ini, hora_ter ";
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$Cont = 1;
 			while ($Fila2 = mysql_fetch_array($Resp2))
 			{
@@ -269,7 +269,7 @@ body {
 				$Cont++;
 			}
 			$Consulta = "select TIMEDIFF('".$FH_FinCarga."', '".$FH_IniCarga."') as diferencia ";				
-			$Resp3 = mysql_query($Consulta);
+			$Resp3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Resp3))
 			{				
 				$AcumHora = $AcumHora + intval(substr($Fila3["diferencia"],0,2));
@@ -287,7 +287,7 @@ body {
 		$Consulta.= " AND hornada = '".$Fila["hornada"]."'"; 
 		$Consulta.= " AND campo2 = '2'";
 		$Consulta.= " order by fecha_ini, hora_ini, hora_ter ";
-		$Resp2 = mysql_query($Consulta);		
+		$Resp2 = mysqli_query($link, $Consulta);		
 		while($Fila2 = mysql_fetch_array($Resp2))
 		{	
 			$FechaIniAux = $Fila2["fecha_ini"];
@@ -296,7 +296,7 @@ body {
 			else
 				$FechaFinAux = $Fila2["fecha_ini"];
 			$Consulta = "select TIMEDIFF('".$FechaFinAux." ".$Fila2["hora_ter"]."', '".$FechaIniAux." ".$Fila2["hora_ini"]."') as diferencia ";			
-			$Resp3 = mysql_query($Consulta);
+			$Resp3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Resp3))
 			{				
 				$AcumHora = $AcumHora + intval(substr($Fila3["diferencia"],0,2));
@@ -314,7 +314,7 @@ body {
 		$Consulta.= " AND hornada = '".$Fila["hornada"]."'"; 
 		$Consulta.= " AND campo2 in(3,4)";
 		$Consulta.= " order by fecha_ini, hora_ini, hora_ter ";
-		$Resp2 = mysql_query($Consulta);		
+		$Resp2 = mysqli_query($link, $Consulta);		
 		while($Fila2 = mysql_fetch_array($Resp2))
 		{	
 			$FechaIniAux = $Fila2["fecha_ini"];
@@ -323,7 +323,7 @@ body {
 			else
 				$FechaFinAux = $Fila2["fecha_ini"];
 			$Consulta = "select TIMEDIFF('".$FechaFinAux." ".$Fila2["hora_ter"]."', '".$FechaIniAux." ".$Fila2["hora_ini"]."') as diferencia ";			
-			$Resp3 = mysql_query($Consulta);
+			$Resp3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Resp3))
 			{				
 				$AcumHora = $AcumHora + intval(substr($Fila3["diferencia"],0,2));
@@ -342,7 +342,7 @@ body {
 		$Consulta.= " AND hornada = '".$Fila["hornada"]."'"; 
 		$Consulta.= " AND campo2 = '5'";
 		$Consulta.= " order by fecha_ini, hora_ini, hora_ter ";
-		$Resp2 = mysql_query($Consulta);		
+		$Resp2 = mysqli_query($link, $Consulta);		
 		while($Fila2 = mysql_fetch_array($Resp2))
 		{	
 			$FechaIniAux = $Fila2["fecha_ini"];
@@ -351,7 +351,7 @@ body {
 			else
 				$FechaFinAux = $Fila2["fecha_ini"];
 			$Consulta = "select TIMEDIFF('".$FechaFinAux." ".$Fila2["hora_ter"]."', '".$FechaIniAux." ".$Fila2["hora_ini"]."') as diferencia ";			
-			$Resp3 = mysql_query($Consulta);
+			$Resp3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Resp3))
 			{				
 				$AcumHora = $AcumHora + intval(substr($Fila3["diferencia"],0,2));
@@ -372,14 +372,14 @@ body {
 		$Consulta.= " and (ISNULL(campo4) or campo4<>'S' or campo4='')"; 
 		$Consulta.= " and campo1 <> ''";
 		$Consulta.= " order by fecha_ini, hora_ini, hora_ter ";
-		$Resp2 = mysql_query($Consulta);		
+		$Resp2 = mysqli_query($link, $Consulta);		
 		if ($Fila2 = mysql_fetch_array($Resp2))
 		{
 			$FH_IniSgteCarga = $Fila2["fecha_ini"]." ".$Fila2["hora_ini"];
 			if ($FH_FinMoldeo<>"" && $FH_IniSgteCarga<>"")
 			{
 				$Consulta = "select TIMEDIFF('".$FH_IniSgteCarga."', '".$FH_FinMoldeo."') as diferencia ";							
-				$Resp3 = mysql_query($Consulta);
+				$Resp3 = mysqli_query($link, $Consulta);
 				if ($Fila3 = mysql_fetch_array($Resp3))
 				{				
 					$AcumHora = intval(substr($Fila3["diferencia"],0,2));
@@ -403,7 +403,7 @@ body {
 		$Consulta.= " AND tipo_report = 1 ";
 		$Consulta.= " AND seccion_report = '11'";
 		$Consulta.= " group by campo2";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{
 			switch ($Fila2["campo2"])

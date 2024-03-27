@@ -91,7 +91,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <td width="50%" align='center' class="TituloTablaNaranja" ><?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  and personal='S' ";
-			$RespH = mysql_query($Consulta);
+			$RespH = mysqli_query($link, $Consulta);
 			$LargoArreglo = 0;
 			while ($FilaH=mysql_fetch_array($RespH))
 			{
@@ -102,7 +102,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta="SELECT distinct(fecha) ";
 				$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 				$Consulta.=" where num_hoja_ruta ='".$NumHoja."' and cod_hito='".$FilaH[cod_hito]."' ";
-				$Resp1=mysql_query($Consulta);
+				$Resp1=mysqli_query($link, $Consulta);
 				$Fila1=mysql_fetch_array($Resp1);
 					$TxtFecha=$Fila1["fecha"];
 			}
@@ -119,7 +119,7 @@ $Consulta.=" from sget_hoja_ruta_nomina t1 inner join sget_personal t2 on t1.rut
 $Consulta.=" left join sget_cargos t3 on t3.cod_cargo=t2.cargo";
 $Consulta.=" where t1.num_hoja_ruta ='".$NumHoja."' ";
 echo "<input name='ChkDatos' type='hidden'  value=''>";
-$RespDet=mysql_query($Consulta);
+$RespDet=mysqli_query($link, $Consulta);
 while($FilaDet=mysql_fetch_array($RespDet))
 {
 ?>
@@ -132,7 +132,7 @@ while($FilaDet=mysql_fetch_array($RespDet))
 				$Consulta="SELECT * ";
 				$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 				$Consulta.=" where num_hoja_ruta ='".$FilaDet[num_hoja_ruta]."' and cod_hito='".$ArregloLeyes[$i][0]."' and aprob_rechazo='A' and rut_personal='".$FilaDet["rut"]."' ";
-				$RespDet2=mysql_query($Consulta);
+				$RespDet2=mysqli_query($link, $Consulta);
 				if($FilaDet2=mysql_fetch_array($RespDet2))
 				{
 					if($FilaDet2[aprob_rechazo] =='A')

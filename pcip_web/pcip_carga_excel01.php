@@ -94,7 +94,7 @@ if($ProcesaArchivo=="S")
 			if($TipoCarga=='M')
 				$Consulta.= " and mes='".$Mes."'";
 			$Consulta.= " and cod_suministro='".$CodSumi."' and tipo='".$Tipo."'";	
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 				$Mensaje='Archivo Procesado Exitosamente';	
 			else
@@ -107,7 +107,7 @@ if($ProcesaArchivo=="S")
 			if($TipoCarga=='M')
 				$Consulta.= " and mes='".$Mes."'";
 				//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 				$Mensaje='Archivo Procesado Exitosamente';
 			else
@@ -119,7 +119,7 @@ if($ProcesaArchivo=="S")
 			$Consulta = "select * from pcip_ere_estado_resultado where ano='".$Ano."'";	
 			if($TipoCarga=='M')
 				$Consulta.= " and mes='".$Mes."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 				$Mensaje='Archivo Procesado Exitosamente';
 			else
@@ -131,7 +131,7 @@ if($ProcesaArchivo=="S")
 			$Consulta = "select * from pcip_inp_tratam where ano='".$Ano."'";
 			if($TipoCarga=='M')
 				$Consulta.= " and mes='".$Mes."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 				$Mensaje='Archivo Procesado Exitosamente';
 			else
@@ -212,7 +212,7 @@ function CCValido($CC)
 	$CC=str_replace(' ','',$CC);
 	$Consulta="select * from pcip_eec_centro_costos where cod_cc='".$CC."'";
 	//echo $Consulta."<br>";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 		return (true);
 	else
@@ -221,7 +221,7 @@ function CCValido($CC)
 function InsertarSuministro($Cod,$A�o,$Mes,$CC,$Valor,$Unid,$Tipo)
 {
 	$Consulta="select sum(valor) as valor from pcip_eec_suministros_detalle where cod_suministro='".$Cod."' and ano='".$A�o."' and mes='".$Mes."' and cod_cc='".str_replace(' ','',$CC)."' and tipo='".$Tipo."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	//echo $Consulta."<br>";
 	$Fila=mysql_fetch_array($Resp);
 	if(!is_null($Fila[valor]))
@@ -325,7 +325,7 @@ function ProcesaArchivoCDV($NombreArchivo,$Directorio,$A�o,$Mes)//nom archivo,
 						else
 						    $Ajuste='S';	
 						$Consulta="select * from pcip_cdv_productos_ventas where cod_producto='".$Producto."'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if(!$Fila=mysql_fetch_array($Resp))
 						 {
 						  	$NomProducto=$data->sheets[$Hoja]['cells'][$i][3];
@@ -388,7 +388,7 @@ function ProcesaArchivoCDV($NombreArchivo,$Directorio,$A�o,$Mes)//nom archivo,
 					{
 						$Tipo=$data->sheets[$Hoja]['cells'][$i][2];
 						$Consulta="select * from pcip_cdv_tipo_ventas_cdv where tipo_venta='".$Tipo."'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if(!$Fila=mysql_fetch_array($Resp))
 						 {
 						  	$NomTipo=$data->sheets[$Hoja]['cells'][$i][3];
@@ -459,7 +459,7 @@ function ProcesaArchivosEER($NombreArchivo,$Directorio,$A�o,$Mes) //ESTADO RES
                             $Producto=str_replace('Ventas de','',$Producto);							
 							$Consulta="select * from pcip_ere_productos where nom_producto='".$Producto."'";
                             //echo $Consulta."<br>";
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							if(!$Fila=mysql_fetch_array($Resp))
 							 {
 								$Consulta1="select ifnull(max(cod_producto+1),1) as maximo from pcip_ere_productos ";
@@ -564,7 +564,7 @@ function ProcesaArchivosEER($NombreArchivo,$Directorio,$A�o,$Mes) //ESTADO RES
 				//echo $CodSap."     ".$CC."    ".$NOmbre."    ".$Tipo."    ".$Cant."<br><br>" ; 
 				
 				$Consulta="select ifnull(max(correlativo)+1,1) as maximo from pcip_sobretiempo where cod_sap='".$CodSap."' and ano='".$Ano."' and mes='".$Mes."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					$Correlativo=$Fila["maximo"];
@@ -632,7 +632,7 @@ function ProcesaArchivosIP($NombreArchivo,$Directorio,$Ano,$Mes) // INGRESO PROY
 			{
 				$Area=$data->sheets[$Hoja]['cells'][$i][1];
 				$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='31023' and nombre_subclase='".$Area."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					$NomArea=$data->sheets[$Hoja]['cells'][$i][1];
@@ -1007,7 +1007,7 @@ function CodigoMercado($DescripcionMercado)
 {	
 	$Valor='';
 	$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31008' and nombre_subclase='".$DescripcionMercado."' ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if ($FilaTC=mysql_fetch_array($Resp))
 	{		
 	  $Valor=$FilaTC["cod_subclase"];

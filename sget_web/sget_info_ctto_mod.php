@@ -13,7 +13,7 @@
 <?
  	$Consulta=" SELECT * from sget_modificaciones_contrato t1 left join sget_tipo_modificacion t2 on t1.cod_tipo_modificacion=t2.cod_tipo_modificacion";
 	$Consulta.="  where t1.cod_contrato ='".$Ctto."'";
- 	$RespModificaciones=mysql_query($Consulta);
+ 	$RespModificaciones=mysqli_query($link, $Consulta);
 	while($FilaModificaciones=mysql_fetch_array($RespModificaciones))
 	{
 		?>

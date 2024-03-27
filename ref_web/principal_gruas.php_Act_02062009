@@ -100,7 +100,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <?
 					$Consulta = "SELECT nombre_subclase as gruas FROM proyecto_modernizacion.sub_clase where cod_clase = 10004 ";
 					$Consulta.= "and cod_subclase >= 1 and cod_subclase < 20  ORDER BY cod_subclase";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Row = mysql_fetch_array($Respuesta))
 					{
 						if ($cmbgrua==$Row[gruas])

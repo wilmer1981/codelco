@@ -5,7 +5,7 @@
 	{
 		case "N":
 			$Consulta = "SELECT ifnull(max(cod_cargo),0) as mayor from sget_cargos"; 
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$Mayor=$Fila["mayor"] + 1;			
 			
@@ -56,19 +56,19 @@
 			{
 				
 				$Consulta="SELECT * from sget_personal where cargo='".$Codigo."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Respuesta))
 				{
 					$Mensaje='S';
 				}
 				$Consulta="SELECT * from sget_administrador_contratos where cargo='".$Codigo."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Respuesta))
 				{
 					$Mensaje='S';
 				}
 				$Consulta="SELECT * from sget_administrador_contratistas where cargo='".$Codigo."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Respuesta))
 				{
 					$Mensaje='S';

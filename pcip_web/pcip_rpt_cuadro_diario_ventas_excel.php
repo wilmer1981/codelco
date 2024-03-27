@@ -65,7 +65,7 @@ if(!isset($MesFin))
 				else
 					$Consulta.= " and nombre_subclase in('N')";	
 				$Consulta.= "order by ajuste";			
-				$RespTC=mysql_query($Consulta);
+				$RespTC=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($RespTC))
 				{
 					$FinosTotal=0;$TotalNeto=0;$TotalEstFle=0;$TotalIva=0;$TotalTotal=0;$Precio=0;$Precio2=0;
@@ -133,7 +133,7 @@ if(!isset($MesFin))
 						$Consulta.=" group by t1.cod_producto,t1.tipo_venta";
 						$Consulta.=" order by t1.fecha_emision,cod_contrato ";
 					}	
-					$Resp=mysql_query($Consulta);				
+					$Resp=mysqli_query($link, $Consulta);				
 					//echo $Consulta;
 					while($Fila=mysql_fetch_array($Resp))
 					{
@@ -295,7 +295,7 @@ function ValoresIn($Asig,$Area,$Maqui,$Prod,$Ano,$MesAux)
 	if($MesAux!='T')
 		$Consulta.=" and t1.mes='".$MesAux."'";
 	//echo $Consulta."<br>";
-	$Respaux=mysql_query($Consulta);
+	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux=mysql_fetch_array($Respaux))
 	{
 		$Valor=$Filaaux["total"];
@@ -319,7 +319,7 @@ function ValorPpto($Asig,$Area,$Maqui,$Prod,$Ano,$MesAux1)
 	if($MesAux1!='T')
 		$Consulta.=" and t1.mes='".$MesAux1."'";
 	echo $Consulta."<br>";
-	$Respaux=mysql_query($Consulta);
+	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux1=mysql_fetch_array($Respaux))
 	{
 		$ValorPpto=$Filaaux1["total"];

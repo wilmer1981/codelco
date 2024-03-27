@@ -113,7 +113,7 @@ if(!isset($CmbMostrar))
 						$Consulta.=" AND t1.VPtipinv='".$CmbMaterial."'";
 					$Consulta.=" group by t1.VPorden";
 					//echo $Consulta;
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						$TotCantIni=0;$TotCantFin=0;$TotValorIni=0;$TotValorFin=0;
@@ -128,26 +128,26 @@ if(!isset($CmbMostrar))
 							$Consulta.=" AND t1.VPtipinv='".$CmbMaterial."'";
 						$Consulta.=" group by t1.VPorden,t1.VPtipinv";
 						//echo $Consulta;
-						$RespO=mysql_query($Consulta);
+						$RespO=mysqli_query($link, $Consulta);
 						while($FilaO=mysql_fetch_array($RespO))
 						{
 							echo "<tr>";
 							echo "<td>&nbsp;</td>";
 							$Consulta="SELECT TIdescripcion FROM pcip_svp_tiposinventarios WHERE TIcodigo='".$FilaO[VPtipinv]."'";
-							$RespTipoInv=mysql_query($Consulta);
+							$RespTipoInv=mysqli_query($link, $Consulta);
 							$FilaTipoInv=mysql_fetch_array($RespTipoInv);
 
 							$Consulta="SELECT t1.VPcantidad,t1.VPvalor FROM pcip_svp_valorizacproduccion t1 inner join pcip_svp_tiposinventarios t2 on t1.VPtipinv=t2.TIcodigo WHERE t1.VPtm='25' and (t1.VPa�o = '".$AnoAux."' and t1.VPmes='".$MesAux."')";
 							$Consulta.=" AND VPorden = '".$FilaO[VPorden]."'";
 							$Consulta.=" AND VPtipinv='".$FilaO[VPtipinv]."'";
 							//echo $Consulta."<br>";
-							$RespIni=mysql_query($Consulta);
+							$RespIni=mysqli_query($link, $Consulta);
 							$FilaIni=mysql_fetch_array($RespIni);
 							echo "<td>".str_pad($FilaO[VPtipinv],3,'0',STR_PAD_LEFT)." ".$FilaTipoInv[TIdescripcion]."</td>";
 							$Consulta="SELECT VPcantidad,VPvalor FROM pcip_svp_valorizacproduccion WHERE VPtm='25' and (VPa�o = '".$AnoFin."' and VPmes='".$MesFin."')";
 							$Consulta.=" AND VPorden = '".$FilaO[VPorden]."'";
 							$Consulta.=" AND VPtipinv='".$FilaO[VPtipinv]."'";
-							$RespFin=mysql_query($Consulta);
+							$RespFin=mysqli_query($link, $Consulta);
 							$FilaFin=mysql_fetch_array($RespFin);
 							echo "<td align='right'>".number_format($FilaIni[VPcantidad],3,',','.')."</td>";
 							echo "<td align='right'>".number_format($FilaFin[VPcantidad],3,',','.')."</td>";
@@ -211,7 +211,7 @@ if(!isset($CmbMostrar))
 						$Consulta.=" AND t1.VPtipinv='".$CmbMaterial."'";
 					$Consulta.=" group by t1.VPorden";
 					//echo $Consulta;
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						echo "<tr class='FilaAbeja2'>";
@@ -232,7 +232,7 @@ if(!isset($CmbMostrar))
 							$ArrayTot[$i][1]='';
 						}
 						//reset($ArrayTot);
-						$RespO=mysql_query($Consulta);
+						$RespO=mysqli_query($link, $Consulta);
 						while($FilaO=mysql_fetch_array($RespO))
 						{
 							echo "<tr>";
@@ -242,7 +242,7 @@ if(!isset($CmbMostrar))
 							$Consulta.=" AND VPtipinv='".$FilaO[VPtipinv]."'";
 							$Consulta.=" group by t1.VPa&ntilde;o,t1.VPmes";
 							//echo $Consulta;
-							$RespMat=mysql_query($Consulta);
+							$RespMat=mysqli_query($link, $Consulta);
 							$FilaMat=mysql_fetch_array($RespMat);
 							echo "<td>".str_pad($FilaO[VPtipinv],3,'0',STR_PAD_LEFT)." ".$FilaMat[TIdescripcion]."</td>";
 							echo "<td>TMS</td>";
@@ -253,7 +253,7 @@ if(!isset($CmbMostrar))
 								$Consulta.=" AND VPtipinv='".$FilaO[VPtipinv]."'";
 								$Consulta.=" group by t1.VPa&ntilde;o,t1.VPmes";
 								//echo $Consulta."<BR>";
-								$RespMeses=mysql_query($Consulta);
+								$RespMeses=mysqli_query($link, $Consulta);
 								if($FilaMeses=mysql_fetch_array($RespMeses))
 								{
 									echo "<td align='right'>".number_format($FilaMeses[VPcantidad],3,',','.')."</td>";

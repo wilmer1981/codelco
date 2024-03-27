@@ -2,7 +2,7 @@
     include("../principal/conectar_sget_web.php");
     //include("funciones/sget_funciones.php");
 	$Consulta="SELECT * from sget_contratos where cod_contrato = '".$Ctto."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtContrato=$Fila["cod_contrato"];
@@ -26,7 +26,7 @@
 			$TxtFechaSolp='';
 		$FechaActual=date("Y")."-".date("m")."-".date("d");	
 		$Consulta="SELECT * from sget_contratos where fecha_termino >= '".$FechaActual."' and cod_contrato='".$Ctto."'";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		if($FilaCtto=mysql_fetch_array($RespCtto))
 			$CmbEstado='ACTIVO';
 		else
@@ -58,7 +58,7 @@
             <td class="formulariosimple" >
               <?
 			  $Consulta = "SELECT cod_gerencia,descrip_gerencias from sget_gerencias where cod_gerencia='".$CmbGerencias."' order by descrip_gerencias ";			
-			  $Resp4=mysql_query($Consulta);
+			  $Resp4=mysqli_query($link, $Consulta);
 			  while ($Fila4=mysql_fetch_array($Resp4))
 			  {
 					echo $Fila4["descrip_gerencias"];
@@ -67,7 +67,7 @@
             <td class="formulario2">Areas&nbsp;&nbsp;</td>
             <td class="formulariosimple" ><?
 			  $Consulta = "SELECT cod_area,descrip_area,cod_cc from sget_areas where cod_gerencia='".$CmbGerencias."' and cod_area='".$CmbAreas."' order by descrip_area ";			
-			  $Resp4=mysql_query($Consulta);
+			  $Resp4=mysqli_query($link, $Consulta);
 			  while ($Fila4=mysql_fetch_array($Resp4))
 			  {
 				echo $Fila4["cod_cc"]." - ".$Fila4["descrip_area"];
@@ -80,7 +80,7 @@
 			<? echo  number_format($TxtMontoCtto,0,'','.'); ?>
 			  <?
 			  $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30002' and cod_subclase='".$CmbMoneda."'";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					echo ucfirst($FilaTC["nombre_subclase"]);
@@ -94,7 +94,7 @@
 		  <? 
 		    $Consulta = "SELECT * from sget_contratistas where estado='1' and rut_empresa='".$CmbEmpresa."'";
 			$Consulta.= " order by razon_social ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				echo FormatearRun($FilaTC["rut_empresa"])." - ".FormatearNombre($FilaTC["razon_social"]);
@@ -113,7 +113,7 @@
             <td class="formulariosimple" >
       <?
 		 $Consulta = "SELECT * from sget_tipo_contrato where cod_tipo_contrato='".$CmbTipoCtto."'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			echo ucfirst($FilaTC["descrip_tipo_contrato"]);
@@ -128,7 +128,7 @@
 	      $Consulta.= "where cod_clase='30003' ";	
 	   if ($CmbTipoCtto=='N')
 	      $Consulta.= "where cod_clase='30004' ";	
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoCttoPers==$FilaTC["cod_subclase"])
@@ -147,7 +147,7 @@
              <td class="formulariosimple" >
         <?
 	    $Consulta = "SELECT * from sget_administrador_contratos where rut_adm_contrato='".$CmbAdmCtto."' order by ape_paterno ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			$Nom=$FilaTC["ape_paterno"]." ".$FilaTC["ape_materno"]."  ".$FilaTC["nombres"];
@@ -164,7 +164,7 @@
                <?
 			  $Consulta = "SELECT t1.*,t2.nombre_clase,t3.nombre_subclase from sget_prevencionistas  t1 left join proyecto_modernizacion.clase t2 on t1.cod_clase=t2.cod_clase  left join proyecto_modernizacion.sub_clase t3 on t1.cod_subclase=t3.cod_subclase and t1.cod_clase=t3.cod_clase  ";
 			  $Consulta.= " where t2.cod_clase in ('30000','30001') and rut_prev='".$CmbPrevencionista."' order by apellido_paterno ";			
-			  $Resp4=mysql_query($Consulta);
+			  $Resp4=mysqli_query($link, $Consulta);
 			  while ($Fila4=mysql_fetch_array($Resp4))
 			  {
 			   
@@ -179,7 +179,7 @@
              <td colspan="3" class="formulariosimple" >
              <?
 			$Consulta = "SELECT * from sget_administrador_contratistas where rut_adm_contratista='".$CmbAdmContratista."'order by ape_paterno ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				$Nom=$FilaTC["ape_paterno"]." ".$FilaTC["ape_materno"]."  ".$FilaTC["nombres"];
@@ -229,7 +229,7 @@
              <td colspan="3" class="formulariosimple" >
                <?
 	    /*$Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' and cod_subclase='".$CmbEstado."'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			echo ucfirst($FilaTC["nombre_subclase"]);
@@ -252,7 +252,7 @@
 	$Consulta="Select t1.rut,t1.nombres,t1.ape_paterno,t1.ape_materno,t1.direccion,t1.nro_tarjeta,t1.estado,t2.nom_comuna,t1.sexo,t3.descripcion_afp as nom_afp,t4.descripcion as nom_sindicato ";
 	$Consulta.="from sget_personal t1 LEFT JOIN SGET_COMUNAS t2 on t1.cod_comuna=t2.cod_comuna left join sget_afp t3 on t1.cod_afp=t3.cod_Afp ";
 	$Consulta.="left join sget_sindicato t4 on t1.cod_sindicato=t4.cod_sindicato where t1.estado='A' and t1.cod_contrato='".$Ctto."' and t1.rut_empresa='".$CmbEmpresa."' order by t1.ape_paterno ";
-	$Respd=mysql_query($Consulta);$Cont=0;
+	$Respd=mysqli_query($link, $Consulta);$Cont=0;
 	while($Filad=mysql_fetch_array($Respd))
 	{
 		$Cont++;

@@ -4,7 +4,7 @@ if ($Mostrar=="S")
 {
 	$Consulta="select * from sec_web.prestador ";
 	$Consulta.=" where cod_prestador_servicio='".$CmbReceptor."' ";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Respuesta))
 	{
 		$NombreCliente=$Fila["nombre"];
@@ -140,7 +140,7 @@ function Nuevo(R,T)
 				  echo"<select name='CmbReceptor' onChange=\"BuscarReceptor('$RutCliente','$TipoEmbarque');\">";
 				  echo "<option value='-1'>Seleccionar</option>";
 				  $Consulta="select * from sec_web.prestador  order by nombre ";
-				  $Respuesta=mysql_query($Consulta);
+				  $Respuesta=mysqli_query($link, $Consulta);
 				  while($Fila=mysql_fetch_array($Respuesta))
 				  {
 					if($CmbReceptor==$Fila["cod_prestador_servicio"])
@@ -165,7 +165,7 @@ function Nuevo(R,T)
 			 if($Bloquear=="S")
 			 {
 			 	$Consulta="select max(CEILING(cod_prestador_servicio)) as mayor  from sec_web.prestador  ";
-				$Respuesta3=mysql_query($Consulta);
+				$Respuesta3=mysqli_query($link, $Consulta);
 				$Fila3=mysql_fetch_array($Respuesta3);
 				$Mayor=$Fila3["mayor"]+1;
 			 	$CodReceptor=$Mayor;

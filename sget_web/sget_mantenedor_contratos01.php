@@ -7,7 +7,7 @@
 	{
 		case "N"://NUEVO CONTRATO
 			$Consulta="Select * from sget_contratos where cod_contrato='".$TxtContrato."' ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{
 				if($TxtFechaSolp=='')
@@ -166,7 +166,7 @@
 				$TxtMontoModCtto=0;	
 				
 			$Consulta="Select ifnull(max(num_modificacion)+1,1) as Cont from sget_modificaciones_contrato where cod_contrato='".$TxtContrato."'";
-			$RespCorr=mysql_query($Consulta);
+			$RespCorr=mysqli_query($link, $Consulta);
 			if($FilaCorr=mysql_fetch_array($RespCorr))
 			{
 				$Correlativo=$FilaCorr[Cont];
@@ -202,7 +202,7 @@
 			if($Fecha=='')
 				$Fecha=date("Y-m-d G:i:s");
 			/*$Consulta="SELECT count(rut) as Cantidad from sget_personal where cod_contrato='".$TxtContrato."' and estado='A'";
-			$RespCant=mysql_query($Consulta);
+			$RespCant=mysqli_query($link, $Consulta);
 			if($FilaCant=mysql_fetch_array($RespCant))
 			{	$Dota= $FilaCant[Cantidad];
 			}
@@ -453,7 +453,7 @@
 			foreach($Datos as $c => $v)
 			{
 				$Consulta="SELECT * from sget_contratos_dotacion_tmp where cod_contrato='".$v."' and rut='".$CookieRut."' and ano='".$CmbAno."' and mes='".$CmbMes."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Filas=mysql_fetch_array($Resp))
 				{
 					$ConExis="SELECT * from sget_contratos_dotacion where cod_contrato='".$Filas["cod_contrato"]."' and ano='".$Filas["ano"]."' and mes='".$Filas["mes"]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ."'";
@@ -475,7 +475,7 @@
 			$Msj='DotaNG';
 			$Consulta="SELECT * from sget_contratos_dotacion where cod_contrato='".$TxtContrato."' and ano='".$CmbAno."' and mes='".$CmbMes."'";
 			//echo $Consulta;
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Filas=mysql_fetch_array($Resp))
 				$Msj='DotaG';
 			if($Msj=='DotaG')

@@ -39,7 +39,7 @@ if(!isset($CmbEmpresa))
 		if($TxtFlibD!=''&&$TxtFlibF!='' )
 			$Consulta.="  and  t1.fecha_liber between '".$TxtFlibD."' and '".$TxtFlibF."'";
 		$Consulta.=" order by t3.rut_empresa,t1.cod_contrato,t1.ano,t1.mes";
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		echo "<input type='hidden' name='CheckCtto'>";
 		$Cont=1;		$Encontro='N';
 		while($FilaMod=mysql_fetch_array($RespMod))

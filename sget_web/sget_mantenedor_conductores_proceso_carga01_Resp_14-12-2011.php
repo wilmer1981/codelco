@@ -155,7 +155,7 @@ switch($Opcion)
 							
 							//echo $Rut." ".$Nombre." ".$ApPate." ".$ApMate." ".$TipoLic." ".$VigLic." ".$Restric." ".$VigExam." ".$EmpClien." ".$FecOtor." ".$VigInte." ".$VigInte." ".$NContra." ".$NomContra." ".$CC." ".$FIni." ".$FFin." ".$Obs."<br>";
 							$Consulta="SELECT ifnull(max(corr_conductor)+1,1) as maximo from sget_conductores_tmp ";
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							if($Fila=mysql_fetch_array($Resp))
 							{
 								if($Fila["maximo"]=='')
@@ -222,7 +222,7 @@ switch($Opcion)
 				{
 					$Consulta="SELECT * from sget_conductores where rut='".$FilaTMP["rut"]."'";
 					//echo $Consulta;
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))
 					{
 						$ConsultaTMPL="SELECT tipo_licencia from sget_conductores_licencias_tmp where corr_conductor='".$FilaTMP[corr_conductor]."'";
@@ -242,7 +242,7 @@ switch($Opcion)
 					else
 					{
 						$Consulta="SELECT ifnull(max(corr_conductor)+1,1) as maximo from sget_conductores ";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if($Fila=mysql_fetch_array($Resp))
 						{
 							if($Fila["maximo"]=='')

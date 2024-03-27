@@ -13,7 +13,7 @@
 		case "IS":
 		
 			$Consulta="select max(nro_solicitud) as num_sol from ipif_novedades ";
-			$RespSolp=mysql_query($Consulta);
+			$RespSolp=mysqli_query($link, $Consulta);
 			if($FilaSolp=mysql_fetch_array($RespSolp))
 			{
 				if (substr($FilaSolp["num_sol"],0,4) == date("Y"))
@@ -72,7 +72,7 @@
 			{
 				$NombreApe=NombreFuncCorto($CookieRut);
 				$Consulta="select * from informe_diario.novedades where Fecha='".$Fecha_Sistema."' and Cod_tipo='15'  ";
-				$RespE=mysql_query($Consulta);
+				$RespE=mysqli_query($link, $Consulta);
 				if(!$FilaE=mysql_fetch_array($RespE))
 				{
 					$Insertar="insert into informe_diario.novedades(Fecha,Rut,Cod_Tipo,Nombre,Texto)values ";
@@ -86,7 +86,7 @@
 				}
 			}
 			$Consulta="select * from ipif_novedades_correos  where nro_solicitud='".$NumNov."' ";
-			$RespNov=mysql_query($Consulta);
+			$RespNov=mysqli_query($link, $Consulta);
 			if(!$FilaNov=mysql_fetch_array($RespNov))
 			{
 				$Actualizar = "UPDATE ipif_novedades set mantencion='' where nro_solicitud='".$NumNov."' ";

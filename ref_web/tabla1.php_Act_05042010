@@ -95,7 +95,7 @@
 
 	
 	//$Consulta = $Consulta." where t1.fecha_produccion = '".$fecha."' and t1.cod_producto='18'  and t1.cod_subproducto='1'   and t2.fecha <= '".$fecha."'group by t1.cod_grupo";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$total_prod=0;
 	$total_scrap=0;
 	$total_peso_anodos=0;
@@ -259,7 +259,7 @@
  			echo"<td align='center'>$scrap&nbsp;</td>\n";
 			$Consulta = "select ifnull(cubas_descobrizacion,0) as cant_cuba, ifnull(num_cubas_tot,0) as num_cubas, ifnull(num_catodos_celdas,1) as num_catodos from ref_web.grupo_electrolitico2 ";
 			$Consulta = $Consulta."where cod_grupo = '".$Fila["cod_grupo"]."' and  fecha = '$fecha_aux'";
-			$rs1 = mysql_query($Consulta);
+			$rs1 = mysqli_query($link, $Consulta);
 			$row1 = mysql_fetch_array($rs1);
 			echo "<td align='center'>".$row1[cant_cuba]."&nbsp</td>\n";
 			$Consulta ="select ifnull(sum(unid_recup),0) as recuperado_tot, ifnull(sum(estampa),0) as ne, ifnull(sum(dispersos),0) as nd, ifnull(sum(rayado),0) as ra, ";
@@ -267,7 +267,7 @@
 			$Consulta = $Consulta."where t1.fecha between '".$Fechainiturno."' and '".$Fechafturno."' and t1.grupo = '".$Fila["cod_grupo"]."'";
 
 			//$Consulta = $Consulta."where t1.fecha = '".$fecha."' and t1.grupo = '".$Fila["cod_grupo"]."'";
-			$Respuesta2 = mysql_query($Consulta);
+			$Respuesta2 = mysqli_query($link, $Consulta);
 			$Fila2 = mysql_fetch_array($Respuesta2);
 			$total_prod=$total_prod+$Fila_produccion["produccion"];
 			$total_scrap=$total_scrap+$p;

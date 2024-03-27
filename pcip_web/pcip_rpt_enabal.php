@@ -136,7 +136,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="-1" class="NoSelec">Seleccionar</option>
         <?
 			$Consulta = "select cod_subclase,nombre_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='31028' ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbOrigen==$FilaTC["valor_subclase1"])
@@ -155,7 +155,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="-1" class="NoSelec">Seleccionar</option>
         <?
 			$Consulta = "select cod_subclase,nombre_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='31025' ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbTipoMov==$FilaTC["valor_subclase1"])
@@ -174,7 +174,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="T" selected="selected">Todos</option>
         <?
 	  $Consulta = "select * from pcip_ena_datos_enabal where tipo_mov='".$CmbTipoMov."' and origen='".$CmbOrigen."' group by cod_flujo order by cod_flujo ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbFlujos==$FilaTC["cod_flujo"])
@@ -192,7 +192,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="-1" class="NoSelec">Seleccionar</option>
         <?
 			$Consulta = "select cod_subclase,valor_subclase1,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31026' ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbTipoDatos==$FilaTC["valor_subclase1"])
@@ -288,7 +288,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				{
 					$TotPeso=0;$TotCobre=0;$TotAg=0;$TotAu=0;
 					$Consulta = "select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31026' and valor_subclase1='".$CmbTipoDatos."'";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Resp))
 						$TipoDato=$Fila["nombre_subclase"];
 					$Consulta = "select cod_flujo,nom_flujo from pcip_ena_datos_enabal where origen='".$CmbOrigen."' and tipo_mov='".$CmbTipoMov."'";
@@ -297,7 +297,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.=" and ano='".$Ano."' and mes between  '".$Mes."' and '".$MesFin."' and tipo_dato='".$CmbTipoDatos."'";	
 					$Consulta.=" group by tipo_mov,cod_flujo";
 					//echo $Consulta;
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						$CantFilas=$MesFin-$Mes;$Cont=1;
@@ -313,7 +313,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							$Consulta.=" and cod_flujo='".$Fila[cod_flujo]."'";
 							$Consulta.=" and ano='".$Ano."' and mes =  '".$i."' and tipo_dato='".$CmbTipoDatos."'";	
 							//echo $Consulta;
-							$Resp2=mysql_query($Consulta);
+							$Resp2=mysqli_query($link, $Consulta);
 							if($Fila2=mysql_fetch_array($Resp2))
 							{
 								
@@ -364,7 +364,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.=" and ano='".$Ano."' and mes between  '".$Mes."' and '".$MesFin."'";	
 					$Consulta.=" group by tipo_mov,cod_flujo";
 					//echo $Consulta;
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						$CantFilas=abs($MesFin-$Mes)+1;$Cont=1;
@@ -433,7 +433,7 @@ function DatosEnabal($Origen,$CodFlujo,$AnoAux,$MesAux,$TipoMov,$TipoDato,&$Dife
 		$Consulta.=" and cod_flujo='".$CodFlujo."'";
 		$Consulta.=" and ano='".$AnoAux."' and mes =  '".$MesAux."'";	
 		//echo $Consulta;
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		if($Fila2=mysql_fetch_array($Resp2))
 		{
 			echo "<td align='right'>".number_format($Fila2["peso"],0,'','.')."</td>";

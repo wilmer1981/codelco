@@ -91,7 +91,7 @@ function Proceso(opt)
                 <option selected value="S">Seleccionar</option>
                 <?
 	$Consulta = "select * from proyecto_modernizacion.productos order by descripcion";
-	$result = mysql_query($Consulta);
+	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		if ($Productos == $Row["cod_producto"])
@@ -115,7 +115,7 @@ function Proceso(opt)
                 <option selected value="S">Seleccionar</option>
                 <?
 	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto = '".$Productos."' order by descripcion";
-	$result = mysql_query($Consulta);
+	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		if ($SubProductos == $Row[cod_subproducto])

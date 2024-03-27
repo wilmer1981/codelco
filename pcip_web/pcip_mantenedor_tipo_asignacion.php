@@ -7,7 +7,7 @@ if(isset($BuscarAux)&&$BuscarAux=='S')
 ?>
 <html>
 <head>
-<title> Tipo Asignación</title>
+<title> Tipo Asignaciï¿½n</title>
 <script language="javascript" src="../pcip_web/funciones/pcip_funciones.js"></script>
 <script language="javascript">
 var popup=0;
@@ -45,7 +45,7 @@ function Proceso(Opc)
 		case "E":
 			if(SoloUnElemento(f.name,'CheckTipoDoc','E'))
 			{
-				mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
+				mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
 				if(mensaje==true)
 				{
 					Datos=Recuperar(f.name,'CheckTipoDoc');
@@ -88,12 +88,12 @@ function Proceso(Opc)
 				<a href="JavaScript:Proceso('S')"><img src="../pcip_web/archivos/volver2.png"  border="0"  alt=" Volver " align="absmiddle"></a>		    </td>
 		  </tr>
       <tr>
-    	<td width="16%" height="17" class='formulario2'>Nombre Asignación</td>
+    	<td width="16%" height="17" class='formulario2'>Nombre Asignaciï¿½n</td>
     	<td colspan="3" class="formulario2" ><select name="CmbAsign" onChange="Proceso('R')">
 			  <option value="-1" selected="selected">Todos</option>
 			  <?
 				$Consulta = "select cod_asignacion,nom_asignacion from pcip_svp_asignacion order by cod_asignacion ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbAsign==$FilaTC["cod_asignacion"])
@@ -110,7 +110,7 @@ function Proceso(Opc)
                <option value="-1" class="NoSelec">Todos</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])
@@ -146,8 +146,8 @@ function Proceso(Opc)
 	  <tr align="center">
           <td width="7%" class="TituloTablaVerde"><input class='SinBorde' type="checkbox" name="ChkTodos" value="" onClick="CheckearTodo(this.form,'CheckTipoDoc','ChkTodos');"></td>
           <td width="11%" class="TituloTablaVerde">Codigo</td>
-          <td width="71%" class="TituloTablaVerde">Nombre de Asignación</td>
-		  <td width="11%" class="TituloTablaVerde">Mostrar Asignación</td>
+          <td width="71%" class="TituloTablaVerde">Nombre de Asignaciï¿½n</td>
+		  <td width="11%" class="TituloTablaVerde">Mostrar Asignaciï¿½n</td>
 		  <td width="11%" class="TituloTablaVerde">Mostrar PPC</td>
 		  <td width="11%" class="TituloTablaVerde">Vigente</td>		  
 	  </tr>
@@ -165,7 +165,7 @@ if($Buscar=='S')
 		$Consulta.=" and t1.vigente='".$CmbVig."'";		
 			
 	$Consulta.= " order by cod_asignacion ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	

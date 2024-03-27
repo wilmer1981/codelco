@@ -4,7 +4,7 @@
 ?>
 <html>
 <head>
-<title>Relación Productos por Grupos</title> 
+<title>Relaciï¿½n Productos por Grupos</title> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="javascript" src="../pcip_web/funciones/pcip_funciones.js"></script>
 <script language="JavaScript">
@@ -66,7 +66,7 @@ function Salir()
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31014' order by cod_subclase ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbGrupo==$FilaTC["cod_subclase"])
@@ -84,7 +84,7 @@ function Salir()
 				 <option value="-1" selected="selected">Seleccionar</option>
 				 <?
 					$Consulta = "select cod_producto,nom_producto from pcip_cdv_productos_ventas order by cod_producto ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($FilaTC=mysql_fetch_array($Resp))
 					{
 						if ($CmbProducto==$FilaTC["cod_producto"])
@@ -112,7 +112,7 @@ function Salir()
 				$Consulta.= " left join pcip_cdv_productos_ventas_por_grupo t2 on t1.cod_producto=t2.cod_producto";
 				$Consulta.= " left join proyecto_modernizacion.sub_clase t3 on cod_clase='31014' and t3.cod_subclase=t2.cod_grupo";
 				$Consulta.= " order by t2.cod_grupo";			
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {

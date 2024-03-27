@@ -135,7 +135,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							if($CmbAcuerdo!=='T')
 								$Consulta.=" $TipoCon $Dato";
 						    $Consulta.="and t2.vigente='1' group by t2.cod_contrato";
-							$Resp=mysql_query($Consulta);$Contratos='';
+							$Resp=mysqli_query($link, $Consulta);$Contratos='';
 							while ($Fila=mysql_fetch_array($Resp))
 							{	
 								$Consulta2=" select * from scop_contratos t1 inner join scop_contratos_flujos t2 on t1.cod_contrato=t2.cod_contrato where t2.cod_contrato='".$Fila["cod_contrato"]."' and t2.tipo_inventario='4' and t1.vigente='1'";
@@ -286,7 +286,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					if($CmbAcuerdo!=='T')
 						$Consulta.=" $TipoCon $Dato";
 					$Consulta.=" and t2.vigente='1'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))
 					{	
 							echo "<tr>";
@@ -391,7 +391,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$ArrFinos,$i)
 {
 	$Consulta="select * from scop_contratos_flujos where cod_contrato='".$Contrato."' and  tipo_inventario='".$i."' and flujo='".$CodFlujo."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		if($Fila[tipo_inventario]=='1')
@@ -411,7 +411,7 @@ function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$A
 		$Flujo= $Fila["flujo"];
 		$Consulta="select cobre,plata,oro from scop_datos_enabal where ano='".$AnoFlujo."' and cod_flujo='".$Flujo."' and origen='".$TipoFlujo."' and tipo_mov='".$TipoMovimiento."' and tipo_dato='F'";		
 		$Consulta.=" and mes='".$MesFlujo."'";
-		$RespValor=mysql_query($Consulta);
+		$RespValor=mysqli_query($link, $Consulta);
 		while($FilaValor=mysql_fetch_array($RespValor))
 		{
 			$Cu=$FilaValor[cobre];

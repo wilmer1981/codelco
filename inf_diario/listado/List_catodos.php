@@ -101,7 +101,7 @@ function Proceso(opt)
 		$Consulta.= " group by   t1.cod_producto, t2.cod_subproducto, t1.cod_grupo ";
 		$Consulta.= " order by t1.fecha_produccion, t1.cod_producto, t2.cod_subproducto, t1.cod_grupo  ";
 		//echo "con".$Consulta;
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		$TotalColParc = 0;
 		$TotalColTotal = 0;
 		$TotalColillas = 0;	
@@ -127,7 +127,7 @@ function Proceso(opt)
 			$Consulta.= " and t1.cod_grupo = '".$Fila["cod_grupo"]."' and t1.cod_lado = 'P'";
 			$Consulta.= " group by   t1.cod_producto, t1.cod_subproducto, t1.cod_grupo, t1.cod_lado ";
 			//echo "con".$Consulta;
-			$Respuesta2 = mysql_query($Consulta);
+			$Respuesta2 = mysqli_query($link, $Consulta);
 			if ($Fila2 = mysql_fetch_array($Respuesta2))
 			{			
 				echo "<td align='right'>".number_format($Fila2["peso"],0,",",".")."</td>\n";
@@ -149,7 +149,7 @@ function Proceso(opt)
 			$Consulta.= " and t1.cod_grupo = '".$Fila["cod_grupo"]."' and t1.cod_lado = 'T'";
 			$Consulta.= " group by  t1.cod_producto, t1.cod_subproducto, t1.cod_grupo, t1.cod_lado ";
 			//echo "con".$Consulta;
-			$Respuesta2 = mysql_query($Consulta);
+			$Respuesta2 = mysqli_query($link, $Consulta);
 			if ($Fila2 = mysql_fetch_array($Respuesta2))
 			{			
 				echo "<td align='right'>".number_format($Fila2["peso"],0,",",".")."</td>\n";
@@ -174,7 +174,7 @@ function Proceso(opt)
 	
 			$Consulta.= " group by  t1.cod_producto, t1.cod_subproducto, t1.cod_grupo, t1.cod_lado ";
 			//echo "con".$Consulta;
-			$Respuesta2 = mysql_query($Consulta);
+			$Respuesta2 = mysqli_query($link, $Consulta);
 			if ($Fila2 = mysql_fetch_array($Respuesta2))
 			{			
 				echo "<td align='right'>".number_format(($Fila2["peso"] - $Fila2["peso_tara"]),0,",",".")."</td>\n";
@@ -208,7 +208,7 @@ function Proceso(opt)
 	$Consulta.= " group by t1.cod_producto, t2.cod_subproducto ";
 	$Consulta.= " order by t1.cod_producto, t2.cod_subproducto  ";
 	//echo "a la fecha".$Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		echo "<td width='472'>PRODUCCION DEL DIA, PRODUCTO <strong>".$Fila["cod_producto"]." ".$Fila["descripcion"]."</strong></td>\n";
@@ -231,7 +231,7 @@ function Proceso(opt)
 	$Consulta.= " group by t1.cod_producto, t2.cod_subproducto ";
 	$Consulta.= " order by t1.cod_producto, t2.cod_subproducto  ";
 	//echo "con".$Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	//echo "total mes".$Consulta;
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{

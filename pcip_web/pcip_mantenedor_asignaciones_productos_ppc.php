@@ -45,7 +45,7 @@ function Proceso(Opc)
 		case "E":
 			if(SoloUnElemento(f.name,'CheckTipoDoc','E'))
 			{
-				mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
+				mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
 				if(mensaje==true)
 				{
 					Datos=Recuperar(f.name,'CheckTipoDoc');
@@ -96,7 +96,7 @@ function Proceso(Opc)
 			<option value="-1" selected="selected">Todos</option>
 			<?
 				$Consulta = "select cod_asignacion,nom_asignacion from pcip_svp_asignacion where mostrar_ppc='1' order by cod_asignacion";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbAsig==$FilaTC["cod_asignacion"])
@@ -114,7 +114,7 @@ function Proceso(Opc)
 			<?
 				$Consulta = "select t2.cod_producto,t2.nom_asignacion from pcip_svp_asignacion t1 inner join pcip_svp_asignaciones_productos t2 on t1.cod_asignacion=t2.cod_asignacion ";
 				$Consulta.= "where t1.cod_asignacion='".$CmbAsig."' and t2.mostrar_ppc='1'";		
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbProd==$FilaTC["cod_producto"])
@@ -131,7 +131,7 @@ function Proceso(Opc)
 			<option value="-1" class="NoSelec">Todos</option>
 			<?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["nombre_subclase"])
@@ -188,7 +188,7 @@ if($Buscar=='S')
 		$Consulta.=" and t1.vigente='".$CmbVig."'";		
 			
 	$Consulta.= " order by cod_producto,nom_asig_tipo,t1.orden ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden' value=''>";
 	

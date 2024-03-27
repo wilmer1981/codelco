@@ -160,7 +160,7 @@ function Proceso(opt)
             <option selected value="S">Seleccionar</option>
             <?
 			$Consulta = "select * from proyecto_modernizacion.productos WHERE cod_producto = 42 order by descripcion";
-			$result = mysql_query($Consulta);
+			$result = mysqli_query($link, $Consulta);
 			while ($Row = mysql_fetch_array($result))
 			{
 				if ($Productos == $Row["cod_producto"])
@@ -184,7 +184,7 @@ function Proceso(opt)
                 <option selected value="S">Seleccionar</option>
                 <?
 				$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto = '".$Productos."' order by descripcion";
-				$result = mysql_query($Consulta);
+				$result = mysqli_query($link, $Consulta);
 				while ($Row = mysql_fetch_array($result))
 				{
 					if ($SubProductos == $Row[cod_subproducto])
@@ -214,7 +214,7 @@ function Proceso(opt)
             <td height="18"> <select name="cmbleyes">
                 <?
 			$Consulta = "SELECT * FROM proyecto_modernizacion.leyes";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			echo '<option value="-1" selected>Ley</option>';
 			while($fila = mysql_fetch_array($rs))
 			{
@@ -234,7 +234,7 @@ function Proceso(opt)
 			  $Consulta.= " AND cod_subproducto = '$SubProductos'";
 			  $Consulta.= " AND fecha = '".$Fecha."'";
 			  $Consulta.= " AND peso_humedo != 0";
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  if($Fila = mysql_fetch_array($rs))
 			  {
 				 $peso_humedo = $Fila[peso_humedo];			  
@@ -245,7 +245,7 @@ function Proceso(opt)
             <td><select name="cmbunidad">
                 <?
 			$Consulta = "SELECT * FROM proyecto_modernizacion.unidades";
-			$rs1 = mysql_query($Consulta);
+			$rs1 = mysqli_query($link, $Consulta);
 			echo '<option value="-1" selected>Unidad</option>';
 			while($fila = mysql_fetch_array($rs1))
 			{
@@ -278,11 +278,11 @@ function Proceso(opt)
 		  $Consulta.= " WHERE cod_producto = '$Productos'";
 		  $Consulta.= " AND cod_subproducto = '$SubProductos'";
 		  $Consulta.= " AND fecha = '".$Fecha."'";
-		  $rs = mysql_query($Consulta);
+		  $rs = mysqli_query($link, $Consulta);
 		  while($Fila = mysql_fetch_array($rs))
 		  {
 			  $Consulta = "SELECT abreviatura FROM proyecto_modernizacion.leyes	WHERE cod_leyes = $Fila["cod_leyes"]";
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($resp);
 			  
 	          echo '<tr align="center" valign="middle">'; 
@@ -290,7 +290,7 @@ function Proceso(opt)
         	    echo '<td>'.number_format($Fila[valor],2,',','').'</td>';
 
 			  $Consulta = "SELECT abreviatura FROM proyecto_modernizacion.unidades WHERE cod_unidad = $Fila[cod_unidad]";
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($resp);
 
 	            echo '<td>'.$Fil2["abreviatura"].'</td>';

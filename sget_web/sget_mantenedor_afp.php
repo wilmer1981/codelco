@@ -137,7 +137,7 @@ if($Buscar=='S')
 		$Consulta.=" and  upper(t1.abreviatura_afp) like ('%".strtoupper(trim($TxtAbreviatura))."%')";
 
 	$Consulta.= " order by descripcion_afp ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	
 	while ($Fila=mysql_fetch_array($Resp))

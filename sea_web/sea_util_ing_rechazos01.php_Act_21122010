@@ -44,7 +44,7 @@
 		{
 	 		$Consulta ="Select peso_unidades as peso, unidades as unidades from sea_web.hornadas  where cod_producto = '17'";
 			$Consulta.=" and hornada_ventana = '".$TxtHornada."' and cod_subproducto = '".$subproc."'";
-			$Rsp = mysql_query($Consulta);
+			$Rsp = mysqli_query($link, $Consulta);
 			if ($Fila=mysql_fetch_array($Rsp))
 			{
 				$Promedio_c = ($Fila["peso"] * 1) / ( $Fila["unidades"] * 1);
@@ -80,7 +80,7 @@
 			}
 			$fechaHH = $fecha." 23:50:00";
 			$Consulta ="SELECT * from sea_web.inf_rechazos where fecha = '".$fecha."' ";
-			$resp1=mysql_query($Consulta);
+			$resp1=mysqli_query($link, $Consulta);
 			if ($Linea=mysql_fetch_array($resp1))
 			{
 				$actualiza ="UPDATE sea_web.inf_rechazos set ";
@@ -120,7 +120,7 @@
 			$unidpas = 0;
 			$Consulta ="Select peso_unidades as peso, unidades as unidades from sea_web.hornadas  where cod_producto = '17' and hornada_ventana = '".$TxtHornada."'";
 			$Consulta.=" and cod_subproducto = '".$subprohm."'";
-			$Rsp2 = mysql_query($Consulta);
+			$Rsp2 = mysqli_query($link, $Consulta);
 			if ($Fila2=mysql_fetch_array($Rsp2))
 			{
 				$promedio_h = ($Fila2["peso"] * 1) / ($Fila2["unidades"] * 1); 
@@ -152,7 +152,7 @@
 			 }
 			 $fechaHH = $fecha." 23:50:00";
 			 $Consulta ="SELECT * from sea_web.inf_rechazos where fecha = '".$fecha."' ";
-			 $resp1=mysql_query($Consulta);
+			 $resp1=mysqli_query($link, $Consulta);
 			 if ($Linea=mysql_fetch_array($resp1))
 			 {
 				$actualiza ="UPDATE sea_web.inf_rechazos set Fis_HMadres = Fis_HMadres + '".$rechah."'";

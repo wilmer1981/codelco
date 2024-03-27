@@ -10,7 +10,7 @@ $Consulta.= "where t1.cod_suministro_grupo='".$CmbGrupoSuministro."'";
 if($CmbSuministro!='T')
 	$Consulta.= " and t1.cod_suministro='".$CmbSuministro."' ";	
 $Consulta.= "order by t2.nom_suministro ";			
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 while ($Fila=mysql_fetch_array($Resp))
 {
 	$CmbSuministro=$Fila[cod_suministro];
@@ -269,7 +269,7 @@ function ObtieneCantidad($CmbSuministro,$Ano,$Mes,$ValorConv,$TipoSumi,$TipoCalc
 	{		
 		$Consulta = "select sum(valor) as cant from pcip_eec_suministros_detalle where tipo='".$TipoSumi."' and cod_suministro='".$CmbSuministro."' and ano='".$Ano."' and mes='".$i."' group by cod_suministro,ano,mes,tipo";
 		//echo $Consulta;		
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			$Cant=$Cant+($Fila[cant])*$ValorConv;
@@ -284,7 +284,7 @@ function Conversion($CodSumi)
 $Conversion=1;
 /*$Consulta = "select nom_suministro,valor1,valor2,valor3,formula from pcip_eec_suministros where cod_suministro='".$CodSumi."'";
 //echo $Consulta;		
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 if ($Fila=mysql_fetch_array($Resp))
 {
 	//$NomSuministro=$Fila[nom_suministro];
@@ -315,7 +315,7 @@ function ObtienePrecioReal($CantReal,$CmbSuministro,$Ano,$Mes,$TipoCalc)
 	$PrecioReal=0;
 	$Consulta = "select valor_total,precio from pcip_eec_facturas_suministros where cod_suministro='".$CmbSuministro."' and ano='".$Ano."' and mes='".$Mes."' group by cod_suministro,ano,mes ";
 	//echo $Consulta;		
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 	{
 		if($Fila[valor_total]!=0)
@@ -330,7 +330,7 @@ function ObtienePrecioPpto($CmbSuministro,$Ano,$Mes,$TipoCalc)
 {
 	$Consulta = "select sum(valor) as valor,count(*) as cant from pcip_eec_suministros_detalle where tipo='V' and cod_suministro='".$CmbSuministro."' and ano='".$Ano."' and mes='".$Mes."' group by cod_suministro,ano,mes,tipo";
 	//echo $Consulta;		
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 	{
 		$PrecioPpto=$Fila[valor]/$Fila[cant];
@@ -352,14 +352,14 @@ function ObtieneCatodosGradoATMF($Excluir,$CodProd,$Ano,$Mes,$TipoCalc)
 		$Consulta.=" and cod_producto = ".$CodProd."";
 	else
 		$Consulta.=" and cod_producto <> ".$CodProd."";	
-	$RespProd=mysql_query($Consulta);
+	$RespProd=mysqli_query($link, $Consulta);
 	while($FilaProd=mysql_fetch_array($RespProd))
 	{
 		$Consulta="select t2.origen,t2.num_orden,t2.num_orden_relacionada,t2.cod_material,t2.consumo_interno,t2.vptm from pcip_svp_negocios t1 inner join pcip_svp_productos_procedencias t2 on t1.cod_negocio=t2.cod_negocio and t2.origen in ('SVP')";
 		$Consulta.="where t2.cod_asignacion='1' and t2.ano='".$Ano."' and t2.cod_procedencia ='".$FilaProd["cod_producto"]."' and t1.vigente='1' and t1.cod_negocio<>'4' and t1.mostrar_asig='1' order by t1.orden";
 		//if($Fila[nom_asignacion]=='CATODOS GRADO A')
 		//echo $Consulta."<br>";
-		$Resp2=mysql_query($Consulta);$Encontro='N';
+		$Resp2=mysqli_query($link, $Consulta);$Encontro='N';
 		while($Fila2=mysql_fetch_array($Resp2))
 		{
 			$Consulta="select VPcantidad from pcip_svp_valorizacproduccion where VPorden='".$Fila2[num_orden]."' and VPa�o='".$Ano."' and VPmes>='".$MesIni."' and VPmes<='".$MesFin."'";
@@ -371,7 +371,7 @@ function ObtieneCatodosGradoATMF($Excluir,$CodProd,$Ano,$Mes,$TipoCalc)
 				$Consulta.=" and VPordes='".$Fila2[consumo_interno]."'";
 			if(!is_null($Fila2[vptm])&&$Fila2[vptm]<>0)
 				$Consulta.=" and vptm='".$Fila2[vptm]."'";
-			$Resp3=mysql_query($Consulta);
+			$Resp3=mysqli_query($link, $Consulta);
 			while($Fila3=mysql_fetch_array($Resp3))
 			{
 				//if($TipoCalc=='M')
@@ -392,7 +392,7 @@ function ObtieneCatodosGradoATMFPpto($Excluir,$CodProd,$Ano,$Mes,$TipoCalc)
 	$Valor=0;
 	$Consulta="select max(version) as version from pcip_ppc_version where ano='".$Ano."'";
 	//echo $Consulta."<br>";
-	$Resp2=mysql_query($Consulta);
+	$Resp2=mysqli_query($link, $Consulta);
 	$Fila2=mysql_fetch_array($Resp2);
 	$Version=$Fila2[version];
 	
@@ -402,7 +402,7 @@ function ObtieneCatodosGradoATMFPpto($Excluir,$CodProd,$Ano,$Mes,$TipoCalc)
 		$Consulta.=" and cod_producto = ".$CodProd."";
 	else
 		$Consulta.=" and cod_producto <> ".$CodProd."";	
-	$RespProd=mysql_query($Consulta);
+	$RespProd=mysqli_query($link, $Consulta);
 	//if($Excluir=='S'&&$TipoCalc=='M')
 	//	echo $Consulta."<br>";
 	while($FilaProd=mysql_fetch_array($RespProd))
@@ -411,7 +411,7 @@ function ObtieneCatodosGradoATMFPpto($Excluir,$CodProd,$Ano,$Mes,$TipoCalc)
 		$Consulta.="where version='".$Version."' and cod_asignacion='1' and cod_procedencia='".$FilaProd["cod_producto"]."' and (ano='".$Ano."' and mes between '".$Mes."' and '".$MesFin."')";
 		//if($Excluir=='S'&&$TipoCalc=='M')
 		//	echo $Consulta."<br>";
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		if($Fila2=mysql_fetch_array($Resp2))
 		{
 			$Valor=$Valor+$Fila2[valor];

@@ -164,7 +164,7 @@ a:active {
 				break;
 		}
 	}
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$ColorTabla = "ColorTabla02";
 	while($Fila = mysql_fetch_array($Respuesta))
 	{

@@ -5,7 +5,7 @@ if ($Opc=='MF')
 {
     $Datos=explode("~",$Valores);
 	$Consulta="select ano,mes,tipo_mov,tipo_dato,origen,cod_flujo,nom_flujo,peso,cobre,plata,oro from scop_datos_enabal where origen='OTRO' and ano='".$Datos[0]."'and mes='".$Datos[1]."' and tipo_mov='".$Datos[3]."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodFlujo=$Fila["cod_flujo"];
@@ -187,7 +187,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				   <option value="-1" class="NoSelec">Ingresar</option>
 					   <?
 						$Consulta = "select distinct cod_flujo,nom_flujo from scop_datos_enabal where origen='OTRO'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Resp))
 						{
 							if ($CmbSeleccionar==$Fila["cod_flujo"]."~".$Fila["nom_flujo"])
@@ -392,7 +392,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			    $Consulta="select ano,mes,tipo_mov,tipo_dato,origen,cod_flujo,nom_flujo,peso,cobre,plata,oro from scop_datos_enabal where origen='OTRO' ";
 				if($AnoBus!='T')
 					$Consulta.=" and ano='".$AnoBus."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if($Fila[tipo_mov]==2)

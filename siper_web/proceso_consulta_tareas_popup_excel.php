@@ -81,14 +81,14 @@ header("Content-Type:  application/vnd.ms-excel");
 					$Consulta.=" and t2.MVALIDADO='".$CmbValidado."' ";
 				$Consulta.=" order by t1.FAREA desc";	
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
+				$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";
 					echo "<td width='50%' align='left' class='titulo_azul'>&nbsp;".strtoupper($Fila[NAREA])."</td>";
 					$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' group by CAREA";	
 					//echo $Consulta."<br>";
-					$RespPel=mysql_query($Consulta);
+					$RespPel=mysqli_query($link, $Consulta);
 					$FilaPel=mysql_fetch_array($RespPel);
 					if(is_null($FilaPel[cant_pel]))
 						$CantPel=0;
@@ -97,13 +97,13 @@ header("Content-Type:  application/vnd.ms-excel");
 					$TotPel=$TotPel+$CantPel;	
 					$Consulta="SELECT * from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."'";	
 					//echo $Consulta."<br>";
-					$RespPel=mysql_query($Consulta);$CantPelVeri=0;$CantPelCtrl=0;
+					$RespPel=mysqli_query($link, $Consulta);$CantPelVeri=0;$CantPelCtrl=0;
 					while($FilaPel=mysql_fetch_array($RespPel))					
 					{
 						//$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CPELIGRO='".$FilaPel[CPELIGRO]."' and NOT ISNULL(QPC)  group by CAREA";	
 						$Consulta="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$FilaPel[CPELIGRO]."'";	
 						//echo $Consulta."<br>";
-						$RespPelCtrl=mysql_query($Consulta);
+						$RespPelCtrl=mysqli_query($link, $Consulta);
 						while($FilaPelCtrl=mysql_fetch_array($RespPelCtrl))
 							$CantPelCtrl=$CantPelCtrl+1;
 							
@@ -150,14 +150,14 @@ header("Content-Type:  application/vnd.ms-excel");
 				if($CmbValidado!='T')
 					$Consulta.=" and t2.MVALIDADO='".$CmbValidado."' ";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
+				$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";
 					echo "<td width='55%' align='left' class='titulo_azul'>&nbsp;".strtoupper($Fila[NAREA])."</td>";
 					$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' group by CAREA";	
 					//echo $Consulta."<br>";
-					$RespPel=mysql_query($Consulta);
+					$RespPel=mysqli_query($link, $Consulta);
 					$FilaPel=mysql_fetch_array($RespPel);
 					if(is_null($FilaPel[cant_pel]))
 						$CantPel=0;
@@ -166,7 +166,7 @@ header("Content-Type:  application/vnd.ms-excel");
 					$TotPel=$TotPel+$CantPel;	
 					$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' and NOT ISNULL(QPC)  group by CAREA";	
 					//echo $Consulta."<br>";
-					$RespPelCtrl=mysql_query($Consulta);
+					$RespPelCtrl=mysqli_query($link, $Consulta);
 					$FilaPelCtrl=mysql_fetch_array($RespPelCtrl);
 					if(is_null($FilaPelCtrl[cant_pel]))
 						$CantPelCtrl=0;

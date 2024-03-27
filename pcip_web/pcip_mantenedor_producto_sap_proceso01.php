@@ -24,7 +24,7 @@
 			while (list($clave,$TxtCodigo)=each($Datos))
 			{
 				$Consulta="select * from pcip_svp_relmateriales where RMmaterialequivalente='".$TxtCodigo."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				if(!$Fila=mysql_fetch_array($Respuesta))
 				{

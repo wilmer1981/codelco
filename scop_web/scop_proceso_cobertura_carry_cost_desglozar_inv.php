@@ -8,7 +8,7 @@ if ($Opc=='M')
 {
     $DatosConsulta=explode("~",$Datos);
 	$Consulta="select * from scop_carry_cost_proceso where corr='".$DatosConsulta[0]."' and parcializacion='".$DatosConsulta[1]."' and cod_tipo_titulo='1' and cod_ley='".$CPO."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$CmbInventario=$Fila["cod_ley"];
@@ -255,7 +255,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			 ?>				</td>
 			<?
 				$Consulta="select * from scop_carry_cost where corr='".$Datos1[0]."' and parcializacion='".$Datos1[1]."' and ano='".$Datos1[2]."' and mes='".$Datos1[3]."'";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					$Consulta1="select * from scop_carry_cost_por_contratos where corr='".$Fila["corr"]."'";
@@ -376,7 +376,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			   <?
 				 $Consulta="select distinct(corr) from scop_carry_cost t1";
 				 $Consulta.=" where t1.corr='".$Datos1[0]."' and t1.ano='".$Datos1[2]."' and t1.mes='".$Datos1[3]."' order by corr";
-				 $Resp = mysql_query($Consulta);
+				 $Resp = mysqli_query($link, $Consulta);
 				 while($Fila=mysql_fetch_array($Resp))
 				 {
 				 	$ConsultaProceso="select distinct(corr),cod_ley,parcializacion,valor,cod_tipo_titulo from scop_carry_cost_proceso where corr='".$Fila["corr"]."' and cod_ley='".$CPO."' and cod_tipo_titulo='1'  order by corr,cod_ley";

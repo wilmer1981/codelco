@@ -210,7 +210,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($TxtMat!='')
 					$Consulta.=" and apellido_materno like '%".$TxtMat."%'";	
 				$Consulta.=" order by apellido_paterno,apellido_materno,nombres";	
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				$Cont=1;$EncontroReg='N';
 				while ($Fila=mysql_fetch_array($Resp))

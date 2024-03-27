@@ -31,7 +31,7 @@ switch($Opcion)
 	break;
 	case "A"://Autoriza
 		$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$NumHoja."' and cod_hito='".$H."' ";
-		$RespHD = mysql_query($Consulta);
+		$RespHD = mysqli_query($link, $Consulta);
 		if($FilaHD=mysql_fetch_array($RespHD))
 		{
 			if($FilaHD[autorizado]!='S')
@@ -51,7 +51,7 @@ switch($Opcion)
 		Registra_Estados($NumHoja,$Fecha_Creacion,$Rut,$CodPantalla,$H,'A','H');
 		$Consulta=" SELECT * from sget_hitos where  cod_pantalla='".$CodPantalla."' ";
 		$Consulta.=" and cod_sistema='".$CodSistema."' and cod_hito='".$H."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		/*echo $Consulta;
 		echo "Inicial_____".$Fila[inicial]."<br>";*/
@@ -59,12 +59,12 @@ switch($Opcion)
 		{
 			$Consulta=" SELECT count(*) as cantidad from sget_hitos t1 left join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and  inicial='S'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 				$Cant=$Fila["cantidad"];
 			$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and t2.autorizado='S' and  inicial='S' ";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			$Fila2=mysql_fetch_array($Resp2);
 				$CantAut=$Fila2[cantau];
 			/*echo "cant___".$Cant."<br>";
@@ -85,12 +85,12 @@ switch($Opcion)
 		{
 			$Consulta=" SELECT count(*) as cantidad from sget_hitos t1 left join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and  final='S'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 				$Cant=$Fila["cantidad"];
 			$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and t2.autorizado='S' and  final='S' ";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			$Fila2=mysql_fetch_array($Resp2);
 				$CantAut=$Fila2[cantau];
 			/*echo "cant___".$Cant."<br>";
@@ -121,7 +121,7 @@ switch($Opcion)
 		Registra_Estados($NumHoja,$Fecha_Creacion,$Rut,$CodPantalla,$H,'R','H');
 		$Consulta=" SELECT * from sget_hitos where  cod_pantalla='".$CodPantalla."' ";
 		$Consulta.=" and cod_sistema='".$CodSistema."' and cod_hito='".$H."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		/*echo $Consulta;
 		echo "Inicial_____".$Fila[inicial]."<br>";*/
@@ -129,12 +129,12 @@ switch($Opcion)
 		{
 			$Consulta=" SELECT count(*) as cantidad from sget_hitos t1 left join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and  inicial='S'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 				$Cant=$Fila["cantidad"];
 			$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and t2.autorizado='S' and  inicial='S' ";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			$Fila2=mysql_fetch_array($Resp2);
 				$CantAut=$Fila2[cantau];
 			/*echo "cant___".$Cant."<br>";
@@ -165,12 +165,12 @@ switch($Opcion)
 		{
 			$Consulta=" SELECT count(*) as cantidad from sget_hitos t1 left join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and  final='S'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 				$Cant=$Fila["cantidad"];
 			$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$CodPantalla."' ";
 			$Consulta.="  where t2.num_hoja_ruta='".$NumHoja."' and t2.autorizado='S' and  final='S' ";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			$Fila2=mysql_fetch_array($Resp2);
 				$CantAut=$Fila2[cantau];
 			/*echo "cant___".$Cant."<br>";
@@ -219,13 +219,13 @@ switch($Opcion)
 function EnvioMailCodelco($NumHoja)
 {
 	$Consulta="SELECT nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30017' and cod_subclase='1'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$EMail=$Fila["nombre_subclase"];
 		$Consulta = "SELECT cod_contrato,rut_empresa from sget_hoja_ruta where num_hoja_ruta = '".$NumHoja."'";
 		//echo $Consulta;
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		$Fila2=mysql_fetch_array($Resp2);
 		$Ctto=$Fila2["cod_contrato"];
 		$Emp=$Fila2[rut_empresa];
@@ -307,20 +307,20 @@ function EnvioMailExterno($NumHoja,$Rut)
 {
 	$Consulta = "SELECT cod_contrato,rut_empresa from sget_hoja_ruta where num_hoja_ruta = '".$NumHoja."'";
 	//echo $Consulta;
-	$Resp2=mysql_query($Consulta);
+	$Resp2=mysqli_query($link, $Consulta);
 	$Fila2=mysql_fetch_array($Resp2);
 	$Ctto=$Fila2["cod_contrato"];
 	$Empresa=$Fila2[rut_empresa];
 	$Consulta="Select t2.email from sget_contratos t1 left join sget_administrador_contratistas t2 on t1.rut_adm_contratista=t2.rut_adm_contratista where t1.cod_contrato='".$Ctto."' and t1.rut_empresa='".$Empresa."'";
 	//echo $Consulta;
-	$Resp1= mysql_query($Consulta);
+	$Resp1= mysqli_query($link, $Consulta);
 	if($Fila1 = mysql_fetch_array($Resp1))
 		$EMail=strtolower($Fila1[email]);
 	if ($EMail)
 		$direcciones["direccion1"]=$EMail;
 	$Consulta="Select * from sget_ruta_archivo where rut='".$Rut."'";
 	//echo $Consulta;
-	$Resp0= mysql_query($Consulta);
+	$Resp0= mysqli_query($link, $Consulta);
 	if($Fila0 = mysql_fetch_array($Resp0))
 	{
 		$Cuenta=$Fila0[cuenta];

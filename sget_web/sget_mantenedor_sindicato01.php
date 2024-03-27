@@ -5,7 +5,7 @@
 	{
 		case "N":
 			$Consulta = "SELECT ifnull(max(cod_sindicato),0) as mayor from sget_sindicato"; 
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$Mayor=$Fila["mayor"] + 1;			
 			
@@ -55,7 +55,7 @@
 			foreach($Datos as $clave => $Codigo)
 			{				
 				$Consulta="SELECT * from sget_personal where cod_sindicato='".$Codigo."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Respuesta))
 				{
 					$Eliminar="delete from sget_sindicato where cod_sindicato='".$Codigo."'";

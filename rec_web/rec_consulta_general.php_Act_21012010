@@ -108,7 +108,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				echo "<td><SELECT name='Producto' style='width:300px' onChange=\"Proceso('R');\">\n";
 				echo "<option value='S'>Todos los Productos</option>\n";
 				$Consulta = "SELECT * from proyecto_modernizacion.subproducto where cod_producto='1' order by lpad(cod_subproducto,3,'0')";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($Producto==$Fila["cod_subproducto"])
@@ -129,7 +129,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if ((isset($Producto)) && ($Producto != "S") && ($Producto != ""))
 					  $Consulta.=" where t1.cod_subproducto = '".$Producto."'";
 				$Consulta.= " order by trim(t2.nombre_prv)";
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				while ($Row = mysql_fetch_array($Respuesta))
 				{
 					if ($RutProveedor == str_pad($Row[rutprv_a],10,'0',STR_PAD_LEFT))
@@ -150,13 +150,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					echo "<option value='S'>Todos los Productos</option>\n";
 					$Consulta = "SELECT distinct lpad(cod_producto,2,'0') as c_prod_a, cod_subproducto as cod_subproducto from sipa_web.despachos t1 ";
 					$Consulta.= " where (cod_producto * 1)<>0 order by lpad(cod_producto,2,'0')";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						$Consulta = "SELECT  descripcion as descripcion from proyecto_modernizacion.subproducto ";
 						$Consulta.= " where cod_producto ='".$Fila["c_prod_a"]."'";
 						$Consulta.=" and cod_subproducto = '".$Fila[cod_subproducto]."'";
-						$Resp2 = mysql_query($Consulta);
+						$Resp2 = mysqli_query($link, $Consulta);
 						if ($Fila2=mysql_fetch_array($Resp2))
 						{
 							if ($Producto==$Fila["c_prod_a"]."-".$Fila["cod_subproducto"])
@@ -183,7 +183,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							$Consulta.=" and  cod_subproducto= '".$Prod[1]."'";
 					    }
 					$Consulta.=" group by rut_prv";
-                    $Respuesta = mysql_query($Consulta);
+                    $Respuesta = mysqli_query($link, $Consulta);
 					while ($Row = mysql_fetch_array($Respuesta))
 					{					
 							$Consulta_p ="Select * from sipa_web.proveedores where rut_prv = '".$Row[rut_prv]."'";

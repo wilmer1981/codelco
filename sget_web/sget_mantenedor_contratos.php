@@ -181,7 +181,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="-1" class="NoSelec">Todos</option>
                       <?
 	  $Consulta = "SELECT * from sget_contratistas order by razon_social ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$var1=$Consulta;
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
@@ -266,7 +266,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if($TxtFechaTermino != "")
 		$Consulta.="  and  t1.fecha_termino='".$TxtFechaTermino."' ";*/
 
-	$RespMod=mysql_query($Consulta);
+	$RespMod=mysqli_query($link, $Consulta);
 	
 	echo "<input type='hidden' name='CheckCtto'>";
 	$Cont=1;
@@ -340,7 +340,7 @@ echo "<script languaje='JavaScript'>";
 
 //ACTUALIZAR CAMPO INACTIVO DE CONTRATOS VENCIDOS POR FECHA DE TERMINO
 $Consulta="SELECT cod_contrato FROM sget_contratos WHERE fecha_termino < '".date('Y-m-d')."'";
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 while($Fila=mysql_fetch_array($Resp))
 {
 	$Actualizar="UPDATE sget_contratos set estado='2' where cod_contrato='".$Fila["cod_contrato"]."'";

@@ -92,7 +92,7 @@ if(!isset($CmbEmpresa))
 			$Consulta.="  and t1.clasificacion = '".$CmbClasificacion."'";	
 		$Consulta.= " order by t2.razon_social";
 		//echo "WW".$Consulta;
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		echo "<input type='hidden' name='CheckCtto'>";
 		
 		$Cont=1;
@@ -145,7 +145,7 @@ if(!isset($CmbEmpresa))
 			$Consulta="SELECT nombre_subclase as Nombre from proyecto_modernizacion.sub_clase";
 			$Consulta.= " where cod_clase = '30019' and cod_subclase = '".$FilaMod[periodo_facturacion]."'";
 		//	echo "CC".$Consulta;
-			$RespSub=mysql_query($Consulta);
+			$RespSub=mysqli_query($link, $Consulta);
 			if ($FilaSub=mysql_fetch_array($RespSub))
 				$PeriodoFact = $FilaSub["Nombre"];
 			else
@@ -163,7 +163,7 @@ if(!isset($CmbEmpresa))
 				<td align="right"><? echo  number_format($Monto,0,'','.') ?>&nbsp;</td>
 				<?
 				$Consulta = "SELECT ano,mes from sget_facturas_contrato  where cod_contrato = '".$FilaMod["cod_contrato"]."' ";
-				$RespFac=mysql_query($Consulta);
+				$RespFac=mysqli_query($link, $Consulta);
 			//	echo "SS".$Consulta;
 				if ($FilaFac=mysql_fetch_array($RespFac))
 				{ 
@@ -186,7 +186,7 @@ if(!isset($CmbEmpresa))
 				<td><? echo $FilaMod[telefonoc] ?>&nbsp;</td>
 				<?
 				$Consulta = "SELECT descrip_gerencias from sget_gerencias  where cod_gerencia = '". $FilaMod[cod_gerencia]."' ";
-				$RespGer=mysql_query($Consulta);
+				$RespGer=mysqli_query($link, $Consulta);
 				
 				if ($FilaGer=mysql_fetch_array($RespGer))
 				{ 
@@ -195,7 +195,7 @@ if(!isset($CmbEmpresa))
 				$Consulta = "SELECT descrip_area  from sget_areas where cod_area = '". $FilaMod["cod_area"]."' ";
 				$Consulta.= " and cod_gerencia = '".$FilaMod[cod_gerencia]."'";
 				
-				$RespAre=mysql_query($Consulta);
+				$RespAre=mysqli_query($link, $Consulta);
 				if($FilaAre=mysql_fetch_array($RespAre))
 				{
 					echo "<td>".$FilaAre[descrip_area]." </td>";
@@ -205,7 +205,7 @@ if(!isset($CmbEmpresa))
 				<td align="right">
 				<? 
 				$Consulta="SELECT count(rut) as Cantidad from sget_personal where cod_contrato='".$FilaMod["cod_contrato"]."' and estado='A'";
-				$RespCant=mysql_query($Consulta);
+				$RespCant=mysqli_query($link, $Consulta);
 				if($FilaCant=mysql_fetch_array($RespCant))
 				{
 					echo $FilaCant[Cantidad];

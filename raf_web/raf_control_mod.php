@@ -81,7 +81,7 @@ function Salir(ValoresSA,Tipo)
             <td>Encargado:
 			<?  
 				$Consulta = "select  * from proyecto_modernizacion.funcionarios where rut = '".$CookieRut."'";
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				if ($Fila=mysql_fetch_array($Respuesta))
 				{
 					echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));

@@ -96,7 +96,7 @@ function Proceso(opt)
                 <option selected value="S">Seleccionar</option>
                 <?
 	$Consulta = "select * from proyecto_modernizacion.productos order by descripcion";
-	$result = mysql_query($Consulta);
+	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		if ($Productos == $Row["cod_producto"])
@@ -119,7 +119,7 @@ function Proceso(opt)
                 <option selected value="S">Seleccionar</option>
                 <?
 	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto = '".$Productos."' order by descripcion";
-	$result = mysql_query($Consulta);
+	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		if ($SubProductos == $Row[cod_subproducto])
@@ -146,7 +146,7 @@ function Proceso(opt)
 	$Consulta.= " where cod_producto = '".$Productos."' ";
 	$Consulta.= " and cod_subproducto = '".$SubProductos."'";
 	$Consulta.= " order by num_conjunto";
-	$result = mysql_query($Consulta);
+	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		$Consulta = "select descripcion ";
@@ -155,7 +155,7 @@ function Proceso(opt)
 		$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
 		$Consulta.= " and num_conjunto = '".$Row[num_conjunto]."' ";
 		$Consulta.= " order by num_conjunto";
-		$Resultado = mysql_query($Consulta);
+		$Resultado = mysqli_query($link, $Consulta);
 		if ($Row2 = mysql_fetch_array($Resultado))
 		{
 			$Descripcion = $Row2["descripcion"];
@@ -223,7 +223,7 @@ function Proceso(opt)
 				$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
 				$Consulta.= " and num_conjunto = '".$Conjunto."'";
 				//echo $Consulta;
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				if ($Fila = mysql_fetch_array($Respuesta))
 				{
 					$CodConjunto = $Fila["cod_conjunto"];
@@ -237,7 +237,7 @@ function Proceso(opt)
 				$Consulta.= " and num_conjunto = '".$Conjunto."'";
 				$Consulta.= " and tipo_ley = '".$TipoLey."'";
 				$Consulta.= " and fecha = '".$Ano."-".$Mes."-01'";
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				if ($Fila = mysql_fetch_array($Respuesta))
 				{
@@ -310,7 +310,7 @@ function Proceso(opt)
 					$Consulta.="inner join proyecto_modernizacion.leyes t4 on t3.cod_leyes = t4.cod_leyes where (t1.cod_periodo='3') and (t1.estado_actual <> '7') and t1.cod_producto ='".$Productos."' and t1.cod_subproducto ='".$SubProductos."' ";
 					$Consulta.="and (t1.fecha_muestra between '".$FechaIni."' and '".$FechaFin."') and t1.id_muestra='".trim($Conjunto)."'";
 					//echo $Consulta;
-					$RespLey=mysql_query($Consulta);
+					$RespLey=mysqli_query($link, $Consulta);
 					while($FilaLey=mysql_fetch_array($RespLey))
 					{
 						$H2O = "0,5";

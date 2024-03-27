@@ -8,7 +8,7 @@
 		case "G"://GRABA PERSONA
 		    $Existe=false;$Existe2=false;
 			$Consulta="SELECT * from sget_personal where rut ='".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			if($Fila=mysql_fetch_array($Resp))
 			{
@@ -115,7 +115,7 @@
 			
 				$Consulta="SELECT * from sget_personal_historia where cod_contrato='".$CmbContrato."' and rut_empresa='".$CmbEmpresa."' and rut='".$TxtRut."'";
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Resp))
 				{	
 					$Actualizar="UPDATE sget_personal_historia set activo='N' where rut='".$TxtRut."'";
@@ -139,7 +139,7 @@
 				break;
 		case "T"://TRASPASA A CODELCO A CTTO.9998 Y EMPRESA 61704000-K ---- 
 				$Consulta="SELECT * from uca_web.uca_personas where rut ='".str_pad(trim($TxtRut),10,'0',STR_PAD_LEFT)."' and tipo = 'C'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				if($Fila=mysql_fetch_array($Resp))
 				{
@@ -202,7 +202,7 @@
 				if($TxtTarj!='Provisoria'&&$TxtTarj!='Provisor')
 				{
 					$Consulta="SELECT * from sget_personal where nro_tarjeta='".$TxtTarj."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					//echo $Consulta;
 					if($FilaDet=mysql_fetch_array($Resp))
 						$Encontro='S';

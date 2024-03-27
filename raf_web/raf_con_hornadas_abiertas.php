@@ -61,11 +61,11 @@ function Proceso(opc)
     <?
 		$Consulta = "SELECT distinct hornada FROM raf_web.movimientos where left(fecha_carga,7) = '$Fecha'";
 		$Consulta.= " ORDER BY hornada";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($rs))
 		{
 			$Consulta = "SELECT MIN(fecha_carga) as fecha_carga FROM raf_web.movimientos WHERE hornada = ".$Fila["hornada"];
-			$Rs = mysql_query($Consulta);
+			$Rs = mysqli_query($link, $Consulta);
 			if($row = mysql_fetch_array($Rs))
 			{
 				$Dia = substr($row[fecha_carga],8,2);
@@ -75,12 +75,12 @@ function Proceso(opc)
 
 			$Consulta = "SELECT sum(peso) as peso_prog FROM raf_web.movimientos";
 			$Consulta.= " WHERE hornada = ".$Fila["hornada"];
-			$rs1 = mysql_query($Consulta);
+			$rs1 = mysqli_query($link, $Consulta);
 			$Fil1 = mysql_fetch_array($rs1);
 
 			$Consulta = "SELECT sum(peso) as peso_carga FROM raf_web.det_carga";
 			$Consulta.= " WHERE hornada = ".$Fila["hornada"];
-			$rs2 = mysql_query($Consulta);
+			$rs2 = mysqli_query($link, $Consulta);
 			$Fil2 = mysql_fetch_array($rs2);
 
 				$porcent = ($Fil2[peso_carga] * 100)/$Fil1[peso_prog];

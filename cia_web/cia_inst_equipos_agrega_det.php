@@ -53,7 +53,7 @@ body {
             <option value="S">SELECCIONAR</option>
             <?
 	$Consulta = "select * from proyecto_modernizacion.clase where cod_clase between '18900' and '18999' order by lpad(cod_clase,4,'0')";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CmbClase==$Fila["cod_clase"])
@@ -71,7 +71,7 @@ body {
             <option value="S">SELECCIONAR</option>
             <?
 	$Consulta = "select distinct nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='".$CmbClase."' order by lpad(nombre_subclase,4,'0')";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CmbSubClase==$Fila["nombre_subclase"])
@@ -89,7 +89,7 @@ body {
             <option value="S">SELECCIONAR</option>
             <?
 	$Consulta = "select distinct cod_subclase, valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='".$CmbClase."' and nombre_subclase='".$CmbSubClase."' order by valor_subclase1 ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CmbModelo==$Fila["cod_subclase"])

@@ -154,22 +154,22 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  	case "1":
 			echo "<option value='1' selected>Informe</option>";
 			echo "<option value='2' >Centro Costos</option>";
-			echo "<option value='3' >Total División</option>";
+			echo "<option value='3' >Total Divisiï¿½n</option>";
 		break;
 	  	case "2":
 			echo "<option value='1' >Informe</option>";
 			echo "<option value='2' selected>Centro Costos</option>";
-			echo "<option value='3' >Total División</option>";
+			echo "<option value='3' >Total Divisiï¿½n</option>";
 		break;
 	  	case "3":
 			echo "<option value='1' >Informe</option>";
 			echo "<option value='2' >Centro Costos</option>";
-			echo "<option value='3' selected>Total División</option>";
+			echo "<option value='3' selected>Total Divisiï¿½n</option>";
 		break;
 		default:
 			echo "<option value='1' selected>Informe</option>";
 			echo "<option value='2' >Centro Costos</option>";
-			echo "<option value='3' >Total División</option>";
+			echo "<option value='3' >Total Divisiï¿½n</option>";
 		break;
 	  }
 	  ?>
@@ -191,7 +191,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.= "where cod_suministro_grupo not in ('6')";
 		$Consulta.= " order by nom_agrupacion ";	
 					
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbGrupoSuministro==$FilaTC["cod_suministro_grupo"])
@@ -212,7 +212,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			echo "<option value='-1' class='NoSelec'>Seleccionar</option>";	
 	    $Consulta = "select t1.cod_suministro,t2.nom_suministro from pcip_eec_suministros_por_grupos t1 inner join pcip_eec_suministros t2 on t1.cod_suministro=t2.cod_suministro ";
 	    $Consulta.= "where t1.cod_suministro_grupo='".$CmbGrupoSuministro."' order by t2.nom_suministro ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSuministro==$FilaTC["cod_suministro"])
@@ -265,7 +265,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" selected="selected">Seleccionar</option>
       <?
 			$Consulta="select distinct cod_cc from pcip_eec_suministros_detalle where cod_cc<>'' order by cod_cc";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				echo "<option value=".$Fila[cod_cc]." >".$Fila[cod_cc]."</option>";

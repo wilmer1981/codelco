@@ -687,12 +687,12 @@ body {
 		  $Consulta.="estado ='C' or peso = peso_recep ";
 		$Consulta.="group by guia";
 		//echo "unno".$Consulta;
-		$RespGuia=mysql_query($Consulta);
+		$RespGuia=mysqli_query($link, $Consulta);
 		while($FilaGuia=mysql_fetch_array($RespGuia))
 		{
 			$FechaGuiaTTE=$FilaGuia[fecha_guia];
 			$Consulta="SELECT count(*) as cant_guias from sea_web.recepcion_externa where guia='$FilaGuia["guia"]'";
-			$RespCant=mysql_query($Consulta);
+			$RespCant=mysqli_query($link, $Consulta);
 			$FilaCant=mysql_fetch_array($RespCant);
 			//echo "MM".$Est."<br>";
 			//echo $FilaGuia["cant"]."<br>";
@@ -710,7 +710,7 @@ body {
 			  $Consulta.="estado ='C' or peso = peso_recep ";
 			$Consulta.=" and guia='$FilaGuia["guia"]'";
 			//echo "dos".$Consulta."<br>";
-			$RespGuia2=mysql_query($Consulta);
+			$RespGuia2=mysqli_query($link, $Consulta);
 			while($FilaGuia2=mysql_fetch_array($RespGuia2))
 			{
 				//echo $FilaGuia2[lote_ventana]."<br>";
@@ -827,7 +827,7 @@ body {
 		$Consulta.="from sea_web.recepcion_externa t1 left join sea_web.relaciones t2 on t1.lote_ventana=t2.lote_ventana ";
 		$Consulta.="where (fecha between '$FechaIniCon' and '$FechaFinCon') and (t1.estado in('C','X') or t1.peso = t1.peso_recep) order by t1.guia";
 		//echo $Consulta."<br>";
-		$RespGuia=mysql_query($Consulta);
+		$RespGuia=mysqli_query($link, $Consulta);
 		while($FilaGuia=mysql_fetch_array($RespGuia))
 		{
 			if($FilaGuia["estado"]=='X')

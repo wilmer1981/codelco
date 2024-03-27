@@ -34,7 +34,7 @@
 			mysql_query($Actualizar);
 			ImprimirRecepcion($Datos[2],$TxtNumRomana,$OperSalida);
 			$Consulta="SELECT rut_prv as proveedor,cod_producto,cod_subproducto from sipa_web.recepciones where correlativo='".$Datos[2]."' and lote='".$TxtLote."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			//CrearSA($TxtLote,$TxtRecargo,$Fila[proveedor],$CmbUltRecargo,$Fila["cod_producto"],$Fila["cod_subproducto"],$TxtLeyes,$TxtImpurezas,$RutOperador);			
 			header('location:rec_recepcion.php?TxtNumBascula='.$TxtNumBascula);

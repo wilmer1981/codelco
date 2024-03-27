@@ -68,7 +68,7 @@ include("funciones/scop_funciones.php");
 					if($TipoContr!='T')
 						$Consulta.=" and t1.cod_tipo_contr='".$TipoContr."'";
 					$Consulta.=" group by t1.cod_tipo_contr ";	
-					$Resp1=mysql_query($Consulta);
+					$Resp1=mysqli_query($link, $Consulta);
 					while ($Fila1=mysql_fetch_array($Resp1))
 					{						
 						$NomTipoContrato1=$Fila1[nom_tipo_contr];
@@ -287,7 +287,7 @@ include("funciones/scop_funciones.php");
 function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$ArrFinos,$i)
 {
 	$Consulta="select * from scop_contratos_flujos where cod_contrato='".$Contrato."' and  tipo_inventario='".$i."' and flujo='".$CodFlujo."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		if($Fila[tipo_inventario]=='1')
@@ -308,7 +308,7 @@ function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$A
 		$Consulta="select peso,cobre,plata,oro from scop_datos_enabal where ano='".$AnoFlujo."' and cod_flujo='".$Flujo."' and origen='".$TipoFlujo."' and tipo_mov='".$TipoMovimiento."' and tipo_dato='F'";		
 		if($MesFlujo!='T')
 			$Consulta.=" and mes='".$MesFlujo."'";
-		$RespValor=mysql_query($Consulta);
+		$RespValor=mysqli_query($link, $Consulta);
 		while($FilaValor=mysql_fetch_array($RespValor))
 		{
 			$Peso=$FilaValor["peso"];

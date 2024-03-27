@@ -9,7 +9,7 @@
 	if($Opt == "M")
 	{
 		$Consulta="SELECT * from sget_hoja_ruta where num_hoja_ruta='".$TxtHoja."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		$CmbEmpresa=$Fila[rut_empresa];
 		$CmbContrato=$Fila["cod_contrato"];
@@ -343,7 +343,7 @@ function DelFile(arch)
 		$CantDocs=0;
 		$Consulta="Select count(num_hoja_ruta) as Cantidad from sget_documentos where num_hoja_ruta='".$TxtHoja."' and cod_referencia='H'";
 		//echo $Consulta;
-		$RespDoc=mysql_query($Consulta);
+		$RespDoc=mysqli_query($link, $Consulta);
 		if($FilaDoc=mysql_fetch_array($RespDoc))
 			$CantDocs=$FilaDoc[Cantidad];
 		$ArrArchivos = array();
@@ -386,7 +386,7 @@ Cant. Docts <a href="JavaScript:Documentos('<? echo $TxtHoja;?>');"><? echo $Can
               <option value="-1" class="NoSelec">Seleccionar / Agregar</option>
               <?
 	  	$Consulta = "SELECT * from sget_contratistas order by razon_social ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -469,7 +469,7 @@ Cant. Docts <a href="JavaScript:Documentos('<? echo $TxtHoja;?>');"><? echo $Can
               <?
 		$FechaActual=date("Y")."-".date("m")."-".date("d");
 		$Consulta="SELECT * from sget_contratos where fecha_termino >= '".$FechaActual."' and rut_empresa='".$CmbEmpresa."' order by fecha_termino desc";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			if ($FechaActual > $FilaCtto[fecha_termino])
@@ -495,7 +495,7 @@ Cant. Docts <a href="JavaScript:Documentos('<? echo $TxtHoja;?>');"><? echo $Can
 		}
 		//CONTRATOS SUBCONTRATISTA
 		$Consulta="SELECT t1.cod_contrato,t2.fecha_termino,t2.descripcion from sget_sub_contratistas t1 inner join sget_contratos t2 on t1.cod_contrato=t2.cod_contrato where t1.rut_empresa='".$CmbEmpresa."' and t1.rut_empresa!='' order by t2.fecha_termino desc";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			if ($FechaActual > $FilaCtto[fecha_termino])
@@ -679,7 +679,7 @@ Cant. Docts <a href="JavaScript:Documentos('<? echo $TxtHoja;?>');"><? echo $Can
 		  $Consulta.=" left join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='30018' and t3.cod_subclase=t2.tipo_ctto";
 		  $Consulta.=" where t1.num_hoja_ruta ='".$TxtHoja."'";
 		
-		  $RespDet=mysql_query($Consulta);
+		  $RespDet=mysqli_query($link, $Consulta);
 		  while($FilaDet=mysql_fetch_array($RespDet))
 		  {
 		  	?>
@@ -784,7 +784,7 @@ Cant. Docts <a href="JavaScript:Documentos('<? echo $TxtHoja;?>');"><? echo $Can
 		
 		$Consulta="SELECT * from sget_personal t1 ";
 		$Consulta.=" where rut in $CadenaRut";
-		$RespDet=mysql_query($Consulta);
+		$RespDet=mysqli_query($link, $Consulta);
 		while($FilaDet=mysql_fetch_array($RespDet))
 		{
 		?>

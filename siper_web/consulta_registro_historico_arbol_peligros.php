@@ -10,7 +10,7 @@ while(list($c,$v)=each($Codigos))
 	if($v!=''&&$v!='0')
 	{
 		$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		if($Nivel<$Fila[CTAREA])
 			$Nivel=$Fila[CTAREA];
@@ -24,12 +24,12 @@ while(list($c,$v)=each($Codigos))
 	if($v!=''&&$v!='0')
 	{
 		$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		if($Nivel2<$Fila[CTAREA])
 			$Nivel2=$Fila[CTAREA];
 		$Consulta="SELECT min(CTAREA) as tarea_mayor from sgrs_areaorg where CPARENT like '".$SelTarea2."%' and CAREA<>'".$v."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		$NivelInferior=$Fila[tarea_mayor];
 			

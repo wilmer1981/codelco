@@ -42,7 +42,7 @@ if(!isset($Ano))
 			$Consulta.=" where cod_clase='31014' and valor_subclase1='C'";
 			$Consulta.= " group by cod_grupo";	
 			//echo $Consulta; 	
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$NomGrupo=$Fila[nom_grupo];
@@ -59,7 +59,7 @@ if(!isset($Ano))
 						$Consulta.=" group by t1.cod_grupo ";
 						//if($CodGrupo=='1'&&$i==1)
 						//	echo $Consulta."<br>";
-						$Resp2=mysql_query($Consulta);
+						$Resp2=mysqli_query($link, $Consulta);
 						if($Fila2=mysql_fetch_array($Resp2))
 						{
 							if($Fila2[KiloFino]<>0)
@@ -103,7 +103,7 @@ if(!isset($Ano))
 							$Consulta.=" where cod_clase='31014' and valor_subclase1='S'";
 							$Consulta.= " group by cod_grupo";	
 							//echo $Consulta; 	
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							while($Fila=mysql_fetch_array($Resp))
 							{
 								$NomGrupo=$Fila[nom_grupo];
@@ -119,7 +119,7 @@ if(!isset($Ano))
 									$Consulta =" select sum(kilos_finos) as KiloFino,sum(valor_cif_neto) as ValorNeto from pcip_cdv_productos_ventas_por_grupo t1 inner join pcip_cdv_cuadro_diario_ventas t2 on t1.cod_producto=t2.cod_producto ";
 									$Consulta.=" where t1.cod_grupo='".$CodGrupo."' and t2.ano='".$Ano."' and mes='".$i."' and ajuste='N'";
 									$Consulta.=" group by t1.cod_grupo ";
-									$Resp2=mysql_query($Consulta);
+									$Resp2=mysqli_query($link, $Consulta);
 									if($Fila2=mysql_fetch_array($Resp2))
 									{
 										if($Fila2[KiloFino]>0)

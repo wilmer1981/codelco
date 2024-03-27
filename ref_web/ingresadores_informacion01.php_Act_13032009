@@ -17,7 +17,7 @@
 			$rectificador = $Col;
 			$jefe1 =$jefe;
 			$Consulta = "select * from ref_web.rectificador_modificado where fecha = '".$fecha."' and cod_rectificador = '".$rectificador."'";
-			$rsp = mysql_query($Consulta);
+			$rsp = mysqli_query($link, $Consulta);
 			if ($fila=mysql_fetch_array($rsp))
 			{
 				$Actualiza = "UPDATE ref_web.rectificador_modificado set corriente_aplicada = '".$corriente."', jefe_turno = '".$jefe1."'";

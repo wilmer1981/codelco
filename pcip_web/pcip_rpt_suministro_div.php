@@ -4,7 +4,7 @@
 ?>
 <html>
 <head>
-<title>Reporte Suministro Total División</title>
+<title>Reporte Suministro Total Divisiï¿½n</title>
 <style type="text/css">
 <!--
 body {
@@ -106,7 +106,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			if($CmbGrupoSuministro!='T')
 				$Consulta.="where cod_suministro_grupo='".$CmbGrupoSuministro."'";	
 			$Consulta.="order by nom_agrupacion";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				echo "<tr><td class='pie_tabla_bold' colspan='10'>".$Fila[nom_agrupacion]."</td></tr>";
@@ -115,7 +115,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($CmbSuministro!='T')
 					$Consulta.= "and t2.cod_suministro='".$CmbSuministro."' ";				
 				$Consulta.= " order by t2.nom_suministro ";			
-				$RespS=mysql_query($Consulta);
+				$RespS=mysqli_query($link, $Consulta);
 				while ($FilaS=mysql_fetch_array($RespS))
 				{
 					echo "<tr>";
@@ -168,7 +168,7 @@ function ConsumoMes($TipoSumi,$CmbSuministro,$Ano,$Mes)
 {
 	$Consulta = "select sum(valor) as cantidad from pcip_eec_suministros_detalle where tipo='".$TipoSumi."' and cod_suministro='".$CmbSuministro."' and ano='".$Ano."' and mes='".$Mes."' group by tipo,cod_suministro,ano,mes";
 	//echo $Consulta;		
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 		$Consumo=$Fila[cantidad];
 	return($Consumo);	
@@ -177,7 +177,7 @@ function ConsumoAcumulado($TipoSumi,$CmbSuministro,$Ano,$Mes)
 {
 	$Consulta = "select sum(valor) as cantidad from pcip_eec_suministros_detalle where tipo='".$TipoSumi."' and cod_suministro='".$CmbSuministro."' and ano='".$Ano."' and mes between 1 and ".($Mes)." group by tipo,cod_suministro,ano";
 	//echo $Consulta;		
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 		$Consumo=$Fila[cantidad];
 	return($Consumo);	

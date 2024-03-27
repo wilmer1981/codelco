@@ -4,7 +4,7 @@ include("funciones/sget_funciones.php");
 	$Rut=$CookieRut;
 	$Consulta="SELECT * from proyecto_modernizacion.funcionarios t1 ";
 	$Consulta.=" where t1.rut='".$Rut."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$Nombre=$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"];

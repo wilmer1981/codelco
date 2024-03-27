@@ -32,7 +32,7 @@
 		  	if($Buscar=='S')
 			{	
 				$Totales=array();
-			    //$Consulta = "select distinct t1.OPorden from pcip_svp_ordenesproduccion t1 inner join pcip_svp_valorizacproduccion t2 on t1.OPorden=t2.VPorden where t2.VPaño = '".$Ano."' AND t2.VPmes between '".$Mes."' and '".$MesFin."' and t2.VPtm in ('15','16','21','22' )";
+			    //$Consulta = "select distinct t1.OPorden from pcip_svp_ordenesproduccion t1 inner join pcip_svp_valorizacproduccion t2 on t1.OPorden=t2.VPorden where t2.VPaï¿½o = '".$Ano."' AND t2.VPmes between '".$Mes."' and '".$MesFin."' and t2.VPtm in ('15','16','21','22' )";
 				//if($CmbOrdenProd!='-1')
 				//	$Consulta.= " and t1.OPorden='".$CmbOrdenProd."'";
 				//$Consulta.= " order by t1.OPorden ";
@@ -42,7 +42,7 @@
 					$Consulta.= " and t2.MAorden='".$CmbOrdenProd."' ";
 				$Consulta.= "order by t3.cod_sap,MAorden"; 				
 				//echo $Consulta;			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					$Consulta = "select t1.RMmaterialequivalente as cod_sap,t3.OPorden,t3.OPdescripcion,t5.valor_subclase1 as vtmp from pcip_svp_relmateriales t1 ";
@@ -52,7 +52,7 @@
 					if($CmbProd!='-1')
 						$Consulta.= "and t1.RMmaterialequivalente='".$CmbProd."'";
 					$Consulta.= " and t3.OPorden='".$Fila[OPorden]."' order by t1.RMmaterialequivalente,t3.OPorden";
-					$RespProd=mysql_query($Consulta);
+					$RespProd=mysqli_query($link, $Consulta);
 					//echo $Consulta."<br>";
 					if($FilaProd=mysql_fetch_array($RespProd))
 					{					
@@ -76,9 +76,9 @@
 						echo "<td align='center'><span class='Estilo9'>".$Unidad."</span></td>";
 						for($i=$Mes;$i<=$MesFin;$i++)
 						{
-							$Consulta="SELECT sum(VPcantidad) as VPcantidad,sum(VPValor) as VPValor FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND VPorden = '".$Fila[OPorden]."' "; 
+							$Consulta="SELECT sum(VPcantidad) as VPcantidad,sum(VPValor) as VPValor FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND VPorden = '".$Fila[OPorden]."' "; 
 							$Consulta.=" AND VPtm ".$Vtmp;	
-							$Resp2=mysql_query($Consulta);
+							$Resp2=mysqli_query($link, $Consulta);
 							//echo $Consulta."<br>";
 							if($Fila2=mysql_fetch_array($Resp2))
 							{

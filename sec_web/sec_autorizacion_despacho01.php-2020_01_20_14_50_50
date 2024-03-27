@@ -37,7 +37,7 @@ include("../principal/conectar_sec_web.php");
 				$Consulta="select * from sec_web.embarque_ventana where num_envio='".$Envio."' ";
 				//$Consulta.=" and corr_enm='".$InsEmb."'	and (not isnull(cod_sub_cliente)and cod_sub_cliente <>'')  ";
 				$Consulta.=" and corr_enm='".$InsEmb."'  ";
-				$Respuesta1=mysql_query($Consulta);
+				$Respuesta1=mysqli_query($link, $Consulta);
 				if ($Fila1=mysql_fetch_array($Respuesta1))	
 				{
 					$Encontro=true;
@@ -66,7 +66,7 @@ include("../principal/conectar_sec_web.php");
 					{
 						$Consulta="select * from sec_web.relacion_transporte_inst_embarque ";
 						$Consulta.=" where corr_enm='".$valorIe."'	";
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						if($Fila=mysql_fetch_array($Respuesta))
 						{
 							$Actualizar=" UPDATE sec_web.relacion_transporte_inst_embarque ";
@@ -96,14 +96,14 @@ include("../principal/conectar_sec_web.php");
 		break;
 		case "AgregarSubCliente":
 			$Consulta="select * from nave where cod_nave=CEILING('".$CodCliente."')";
-			$Respuesta0=mysql_query($Consulta);
+			$Respuesta0=mysqli_query($link, $Consulta);
 			if(!$Fila0=mysql_fetch_array($Respuesta0))
 			{
 				$insertar="insert into sec_web.nave  (cod_nave,nombre_nave,ventanas)";
 				$insertar.="values('".intval($CodCliente)."','".$NombreCliente."','S')			";
 				mysql_query($insertar);
 				$Consulta=" select max(Id) as mayor	from sec_web.sub_cliente_vta	";
-				$Respuesta2=mysql_query($Consulta);
+				$Respuesta2=mysqli_query($link, $Consulta);
 				$Fila2=mysql_fetch_array($Respuesta2);
 				$Mayor=$Fila2["mayor"]+1;
 				$insertar="insert into sec_web.sub_cliente_vta (Id,cod_cliente,cod_sub_cliente, ";
@@ -116,7 +116,7 @@ include("../principal/conectar_sec_web.php");
 			{			
 				$Consulta="select * from sub_cliente_vta where cod_cliente=CEILING('".$CodCliente."')";
 				$Consulta.=" and cod_sub_cliente=CEILING('".$CodSubCliente."')		";
-				$Respuesta1=mysql_query($Consulta);
+				$Respuesta1=mysqli_query($link, $Consulta);
 				if($Fila1=mysql_fetch_array($Respuesta1))
 				{
 					$Actualizar="UPDATE sec_web.sub_cliente_vta set ciudad='".$Ciudad."', ";
@@ -127,7 +127,7 @@ include("../principal/conectar_sec_web.php");
 				else
 				{	
 					$Consulta=" select max(Id) as mayor	from sec_web.sub_cliente_vta	";
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Respuesta2);
 					$Mayor=$Fila2["mayor"]+1;
 					$insertar="insert into sec_web.sub_cliente_vta (Id,cod_cliente,cod_sub_cliente, ";
@@ -146,7 +146,7 @@ include("../principal/conectar_sec_web.php");
 		case "AgregarReceptor":
 		$Consulta="select * from sec_web.prestador ";
 		$Consulta.=" where cod_prestador_servicio='".$CodPrestador."' and rut='".$Rut."'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if ($Fila=mysql_fetch_array($Respuesta))
 		{
 			$Actualizar="UPDATE sec_web.prestador set ";
@@ -169,7 +169,7 @@ include("../principal/conectar_sec_web.php");
 		else
 		{
 			$Consulta="select max(CEILING(cod_prestador_servicio)) as mayor from sec_web.prestador  ";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$CodPrestador=$Fila["mayor"]+1;
 			$insertar="insert into sec_web.prestador ";
@@ -193,7 +193,7 @@ include("../principal/conectar_sec_web.php");
 		break;
 		case "ActualizaFecha":
 			$Consulta="select * from sec_web.embarque_ventana";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Actualizar=" UPDATE sec_web.embarque_ventana ";
@@ -206,7 +206,7 @@ include("../principal/conectar_sec_web.php");
 		case "ModificarSubCliente":
 		$Consulta="select * from sec_web.embarque_ventana where ";
 		$Consulta.=" num_envio='".$Envio."' and fecha_envio='".$FechaEnvio."'  and ((rut_cliente ='') or  (isnull(rut_cliente)))	";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 		{
 			echo "<script languaje='JavaScript'>";
@@ -231,7 +231,7 @@ include("../principal/conectar_sec_web.php");
 			$Consulta=" select * from sec_web.paquete_catodo ";
 			$Consulta.=" where cod_paquete='B' and num_paquete ";
 			$Consulta.=" between '2047' and '2058' and fecha_creacion_paquete='2004-02-24'";  
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$cant=0;
 			while($Fila=mysql_fetch_array($Respuesta))
 			{
@@ -269,7 +269,7 @@ include("../principal/conectar_sec_web.php");
 		foreach($datos as $clave => $valor)
 		{
 			$Consulta="select * from sec_web.embarque_ventana where corr_enm='".$valor."' ";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			if($Fila["despacho_paquetes"] > 0)
 			{
@@ -284,7 +284,7 @@ include("../principal/conectar_sec_web.php");
 				$Eliminar="delete from sec_web.transporte_inst_embarque where corr_enm='".$valor."' ";
 				mysql_query($Eliminar);
 				$Consulta="select * from sec_web.programa_enami where corr_enm='".$valor."' ";
-				$Respuesta1=mysql_query($Consulta);
+				$Respuesta1=mysqli_query($link, $Consulta);
 				if($Fila1=mysql_fetch_array($Respuesta1))
 				{
 					$Actualizar="UPDATE  sec_web.programa_enami set estado2='T' where corr_enm='".$valor."' ";	

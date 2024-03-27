@@ -13,7 +13,7 @@ if(!isset($Ano))
 ?>
 <html>
 <head>
-<title>Evaluación de Negocio</title>
+<title>Evaluaciï¿½n de Negocio</title>
 <style type="text/css">
 <!--
 body {
@@ -65,7 +65,7 @@ function Proceso(TipoProceso)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar los datos Seleccionados?"))
+				if (confirm("ï¿½Desea Eliminar los datos Seleccionados?"))
 				{
 					f.action = "pcip_evaluacion_negocio_proceso01.php?Opcion=E&Cod="+Valores;
 					f.submit();
@@ -130,7 +130,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				   <option value="T" class="Selected">Todos</option>
 					<?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31033' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbMaterial==$Fila["cod_subclase"])
@@ -146,7 +146,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                     <option value="T" class="Selected">Todos</option>
                     <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31035' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbOrigen==$Fila["cod_subclase"])
@@ -229,11 +229,11 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		if($CmbOrigen!='T')
 			$Consulta.=" and t1.tipo_origen='".$CmbOrigen."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);echo "<input name='CheckDisp' type='hidden'>";
+		$Resp=mysqli_query($link, $Consulta);echo "<input name='CheckDisp' type='hidden'>";
 		while($Fila=mysql_fetch_array($Resp))
 		{	
 			$Cod=$Fila["corr"]; 
-			$Año=$Fila["ano"];			
+			$Aï¿½o=$Fila["ano"];			
 			$Mes=$Meses[$Fila["mes"]-1];
 			$Nombre=$Fila["nom_archivo"];
 			$Material=$Fila["material"];
@@ -248,13 +248,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$TipoAnalisis=$Datos2[0];
 					$Consulta = "select nombre_subclase as nom_analisis from proyecto_modernizacion.sub_clase where cod_clase='31034' and cod_subclase='".$TipoAnalisis."'";			
 					//echo $Consulta."<br>";
-					$RespTipo=mysql_query($Consulta);		
+					$RespTipo=mysqli_query($link, $Consulta);		
 					$FilaTipo=mysql_fetch_array($RespTipo);
 					if($TipoAnalisis==4)
 					{
 						$Div=$Datos2[1];
 						$Consulta = "select nombre_subclase as nom_division from proyecto_modernizacion.sub_clase where cod_clase='31036' and cod_subclase='".$Div."'";			
-						$RespDiv=mysql_query($Consulta);		
+						$RespDiv=mysqli_query($link, $Consulta);		
 						$FilaDiv=mysql_fetch_array($RespDiv);
 						//echo $Consulta."<br>";
 						$Analisis=$Analisis.$FilaTipo[nom_analisis]."(".$FilaDiv[nom_division]."), ";	
@@ -268,7 +268,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     ?>
 		<tr class="FilaAbeja">
 		<td align="center"><input type="checkbox" name='CheckDisp' class="SinBorde" value="<? echo $Cod; ?>"> </td>
-		<td align="center"><? echo $Año;?></td>
+		<td align="center"><? echo $Aï¿½o;?></td>
 		<td align="left"><? echo $Mes;?></td>
 		<td align="left"><? echo $Nombre;?></td>
 		<td align="left"><? echo $Material;?></td>

@@ -7,7 +7,7 @@
 	if($Opc=='GI')
 	{
 		$Consulta="select max(corr+1) as maximo from pcip_eva_asig_cargo_unidad ";
-		$Resp=mysql_query($Consulta);		
+		$Resp=mysqli_query($link, $Consulta);		
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtCodigo=$Fila["maximo"];
@@ -31,7 +31,7 @@
 	
 ?>
 <html>
-<head><title>Nueva Asignación de Unidad con Cargo</title> 
+<head><title>Nueva Asignaciï¿½n de Unidad con Cargo</title> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="javascript" src="../pcip_web/funciones/pcip_funciones.js"></script>
 <script language="JavaScript">
@@ -132,7 +132,7 @@ function Salir()
 			 <option value="-1" selected="selected" class="Selected">Seleccionar</option>
 			 <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31039' ";			
-				$Resp=mysql_query($Consulta);		
+				$Resp=mysqli_query($link, $Consulta);		
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbCargo==$Fila["cod_subclase"])
@@ -159,7 +159,7 @@ function Salir()
 			 <option value="T" class="Selected">Seleccionar</option>
 			 <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31051' and cod_subclase in('1','2','3','4','5','8','15','16','17','18','22','23') ";			
-				$Resp=mysql_query($Consulta);		
+				$Resp=mysqli_query($link, $Consulta);		
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbUnidad2==$Fila["cod_subclase"])

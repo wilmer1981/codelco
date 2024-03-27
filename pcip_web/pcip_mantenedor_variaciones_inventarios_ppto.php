@@ -134,7 +134,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   <option value="-1" selected="selected">Seleccionar</option>
   <?
 	$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31044'order by cod_subclase ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
 		if ($CmbGrupo==$FilaTC["cod_subclase"])
@@ -151,7 +151,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  <?
 		$Consulta = "select distinct t1.cod_subclase,t1.nombre_subclase from proyecto_modernizacion.sub_clase t1 inner join proyecto_modernizacion.sub_clase t2";
 		$Consulta.= " on t1.cod_clase='31045' and t2.cod_subclase=t1.valor_subclase1 where t1.valor_subclase1='".$CmbGrupo."' order by t1.cod_subclase ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbAsig==$FilaTC["cod_subclase"])
@@ -171,7 +171,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.=" and t1.cod_subclase=t2.cod_area where cod_asignacion<>''";
 		if($CmbAsig!='-1')
 			$Consulta.=" and cod_asignacion='".$CmbAsig."'";											
-		$Resp=mysql_query($Consulta);		
+		$Resp=mysqli_query($link, $Consulta);		
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbArea==$FilaTC["cod_area"])
@@ -193,7 +193,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.=" and t1.cod_subclase=t2.cod_maquila where cod_area<>''";
 		if($CmbArea!='-1')
 			$Consulta.=" and cod_area='".$CmbArea."'";						
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbMaqui==$FilaTC["cod_maquila"])
@@ -214,7 +214,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.=" on t1.cod_producto=t2.cod_producto where cod_maquila<>''";	
 			if($CmbMaqui!='-1')
 				$Consulta.=" and cod_maquila='".$CmbMaqui."'";	
-			$Resp=mysql_query($Consulta);							
+			$Resp=mysqli_query($link, $Consulta);							
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbProd==$FilaTC["cod_producto"])
@@ -304,7 +304,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					
 				$Consulta.= " group by t1.cod_asignacion,t1.cod_area,t1.ano,t1.cod_maquila,t1.cod_producto ";	
 				//echo $Consulta; 	
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				echo "<input type='hidden' name='CheckDisp'>";$Linea=1;
 				while($Fila=mysql_fetch_array($Resp))
 				{
@@ -360,7 +360,7 @@ function DatosVariaInven($Asig,$Area,$Maquila,$Prod,$Ano)
 	    $Consulta="select valor_ppto from pcip_svp_variacion_inventario_ppto where cod_asignacion='".$Asig."' and cod_area='".$Area."' and cod_maquila='".$Maquila."' and cod_producto='".$Prod."' and ano='".$Ano."' ";
 		$Consulta.=" and mes='".$i."'";
 		//echo $Consulta."<br>";
-		$RespMes=mysql_query($Consulta);
+		$RespMes=mysqli_query($link, $Consulta);
 		if($FilaMes=mysql_fetch_array($RespMes))
 		{
 			echo "<td align='right' class='FilaAbeja2'>".number_format($FilaMes[valor_ppto],2,'','.')."</td>";

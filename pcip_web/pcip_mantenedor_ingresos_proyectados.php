@@ -75,7 +75,7 @@ function Proceso(Opc)
 			<option value="-1" class="NoSelec">Seleccionar</option>
 			<?
 			$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31021' and cod_subclase not in ('7')";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbProducto==$FilaTC["cod_subclase"])
@@ -125,7 +125,7 @@ function Proceso(Opc)
      
 	  <tr align="center">
           <td width="25%" class="TituloTablaVerde">Nombre Producto</td>
-          <td width="25%" class="TituloTablaVerde">Deducción</td>
+          <td width="25%" class="TituloTablaVerde">Deducciï¿½n</td>
 <?
 	$Consulta = "select t3.valor_pena,t2.cod_subclase,t3.ano,t1.nombre_subclase as nom_prod,t2.nombre_subclase as nom_deduccion,t2.cod_subclase as codProveedor,t3.valor,t3.unidad ";
 	$Consulta.= " from proyecto_modernizacion.sub_clase t1 ";
@@ -134,7 +134,7 @@ function Proceso(Opc)
 	$Consulta.= " where t1.cod_clase='31021' and t1.cod_subclase<>''";
 		$Consulta.=" and t1.cod_subclase='".$CmbProducto."'";
 	$Consulta.= " order by t1.cod_subclase ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";	
 	while ($Fila=mysql_fetch_array($Resp))
@@ -158,7 +158,7 @@ if($Recarga=='S')
 	$Consulta.= " where t1.cod_clase='31021' and t1.cod_subclase<>''";
 		$Consulta.=" and t1.cod_subclase='".$CmbProducto."'";
 	$Consulta.= " order by t1.cod_subclase ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden' value=''>";
 	
@@ -194,7 +194,7 @@ if($Recarga=='S')
 		   <?
 			$Consulta = "select valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='31022' and cod_subclase='".$CodProveedor."'";			
 			//echo $Consulta."<br>";
-			$RespUnid=mysql_query($Consulta);
+			$RespUnid=mysqli_query($link, $Consulta);
 			while ($FilaUnid=mysql_fetch_array($RespUnid))
 			{
 			    //echo $FilaUnid["valor_subclase1"];

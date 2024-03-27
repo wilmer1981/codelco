@@ -11,7 +11,7 @@ $server->register('Autentifica',array('user' => 'xsd:string','pwd' => 'xsd:strin
 function ObtenerColor($Color)
 {
 	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase='2011' and nombre_subclase like '%".substr($Color,0,3)."%'";
-	$RespColor= mysql_query($Consulta);
+	$RespColor= mysqli_query($link, $Consulta);
 	if($FilaColor = mysql_fetch_assoc($RespColor))
 	{
 		$Color=$FilaColor["valor_subclase1"];
@@ -77,7 +77,7 @@ $NroGuia=$data['GUIA_SGDD_1']['NUM_EMIGUIA'];
 							$KNETO=$PESOTOTALCOLOR[$x];
 					
 							$Consulta = "SELECT * from sea_web.recepcion_externa_detalle_anglo where guia='".$NroGuia."'";
-							$Resp = mysql_query($Consulta);
+							$Resp = mysqli_query($link, $Consulta);
 							if(!$Fila = mysql_fetch_assoc($Resp))
 							{
 									$Insertar = "INSERT INTO sea_web.recepcion_externa_detalle_anglo(guia,corr,fecha,lote_origen,atados,piezas,marca,peso_bruto,peso_tara,peso_neto,patente) ";
@@ -89,7 +89,7 @@ $NroGuia=$data['GUIA_SGDD_1']['NUM_EMIGUIA'];
 							else
 							{
 								$Consulta="Select max(corr) as Maxima from sea_web.recepcion_externa_detalle_anglo where guia='".$NroGuia."'";
-								$Resp2 = mysql_query($Consulta);
+								$Resp2 = mysqli_query($link, $Consulta);
 								$Fila2 = mysql_fetch_assoc($Resp2);
 								$Insertar = "INSERT INTO sea_web.recepcion_externa_detalle_anglo(guia,corr,fecha,lote_origen,atados,piezas,marca,peso_bruto,peso_tara,peso_neto,patente) ";
 								$Insertar.= " values('".$NroGuia."','".(intval($Fila2[Maxima])+1)."','".$fecha."','".$LoteOrigen."',";
@@ -103,7 +103,7 @@ $NroGuia=$data['GUIA_SGDD_1']['NUM_EMIGUIA'];
 			
 					$Consulta = "SELECT lote_origen,marca,ifnull(sum(peso_neto),0) as peso_neto,ifnull(sum(piezas),0) as piezas from sea_web.recepcion_externa_detalle_anglo where guia='".$NroGuia."' group by guia,lote_origen,marca";
 				//return $Consulta."<br>";;
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					while($Fila = mysql_fetch_assoc($Resp))
 					{    
 						$Lote= $Fila["lote_origen"];
@@ -112,7 +112,7 @@ $NroGuia=$data['GUIA_SGDD_1']['NUM_EMIGUIA'];
 						$CantPiezas = $Fila["piezas"];
 						$Consulta = "SELECT * from sea_web.recepcion_externa_anglo where guia='".$NroGuia."' and lote_origen='".$Lote."' and marca='".$Marca."'";
 						$Consulta.="  and cod_producto = '".$PRODUCTOSEA."' and cod_subproducto = '".$SUBPRODUCTOSEA."' ";
-						$Resp2 = mysql_query($Consulta);
+						$Resp2 = mysqli_query($link, $Consulta);
 					//	return $Consulta."<br>";
 						if(!$Fila2 = mysql_fetch_assoc($Resp2))
 						{
@@ -194,7 +194,7 @@ $NroGuia=$data['GUIA_SGDD_1']['NUM_EMIGUIA'];
 								{
 									$LoteVentana = $Fila2["lote_ventana"];
 									$Consulta = "SELECT * from sea_web.recepcion_externa_anglo where guia='".$NroGuia."' and lote_origen='".$LoteOrigen."'";
-									$Resp7= mysql_query($Consulta);
+									$Resp7= mysqli_query($link, $Consulta);
 									if(!$Fila7 = mysql_fetch_assoc($Resp7))
 									{ 
 										/*$Insertar = "INSERT INTO sea_web.recepcion_externa(guia,cod_producto,cod_subproducto,lote_origen,lote_ventana,peso,peso_recep,piezas,piezas_recep,marca,fecha,estado,fecha_guia) ";
@@ -225,25 +225,25 @@ $NroGuia=$data['GUIA_SGDD_1']['NUM_EMIGUIA'];
 						}
 					}
 					$Consulta = "SELECT * from sea_web.recepcion_externa_anglo where estado not in ('C','X') and peso<>peso_recep"; // Cerrado y Anulado
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					while($Fila = mysql_fetch_assoc($Resp))
 					{
 						$Consulta = "SELECT * from sipa_web.recepciones where lote='".$Fila["lote_ventana"]."' and peso_neto<>'0' and fecha <> '".$FechaAMD."'";
-						$Resp2 = mysql_query($Consulta);
+						$Resp2 = mysqli_query($link, $Consulta);
 						if(!$Fila2 = mysql_fetch_assoc($Resp2))
 						{	
 							$Consulta = "SELECT  * from sipa_web.recepciones where lote = '".$Fila["lote_ventana"]."' and peso_neto=0 and guia_despacho='".$Fila2["guia"]."'";
-							$Resp3 = mysql_query($Consulta);
+							$Resp3 = mysqli_query($link, $Consulta);
 							if($Fila3 = mysql_fetch_assoc($Resp3))
 							{
 								$Consulta = "SELECT  max(lpad(recargo,2,'0'))+1 as recargo_nuevo from sipa_web.recepciones where lote = '".$Fila["lote_ventana"]."' group by lote";
-								$Resp4 = mysql_query($Consulta);
+								$Resp4 = mysqli_query($link, $Consulta);
 								if($Fila4 = mysql_fetch_assoc($Resp4))
 								{
 									$Rec = $Fila4["recargo_nuevo"];
 								}
 								$Consulta = "SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
-								$Resp4 = mysql_query($Consulta);
+								$Resp4 = mysqli_query($link, $Consulta);
 								if($Fila4 = mysql_fetch_assoc($Resp4))
 								{
 									$Corr = $Fila4["correlativo"];	

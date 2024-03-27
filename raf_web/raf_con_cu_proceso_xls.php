@@ -59,7 +59,7 @@ function Proceso(opc)
 		$Consulta = "SELECT max(hornada) as horn_max,min(hornada) as horn_min FROM raf_web.det_carga";
 		$Consulta.= " WHERE left(fecha,7) = '$Fecha'"; 
 		$Consulta.= " AND right(hornada,4) BETWEEN '1000' AND '3999'";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$Fila = mysql_fetch_array($rs);
 		$Hornada_Min = substr($Fila[horn_min],6,4);	  
 		$Hornada_Max = substr($Fila[horn_max],6,4);	  
@@ -98,7 +98,7 @@ function Proceso(opc)
 	  $Consulta.= " WHERE cod_producto = 19";
 	  $Consulta.= " AND left(fecha,7) = '$Fecha'";  
 	  $Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-	  $rs = mysql_query($Consulta);
+	  $rs = mysqli_query($link, $Consulta);
 	  $Fila = mysql_fetch_array($rs);
 	  $PesoRestos = $Fila[peso_restos];		  
 	  ?>	
@@ -110,7 +110,7 @@ function Proceso(opc)
 		$Consulta.= " WHERE cod_producto = 19";
 		$Consulta.= " AND left(fecha,7) = '$Fecha'";  
 		$Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$cont = '';
 		$cont1 = '';
 		$cont2 = '';
@@ -121,7 +121,7 @@ function Proceso(opc)
 			$Consulta = "SELECT valor, cod_leyes FROM sea_web.leyes_por_hornada ";
 			$Consulta.= " WHERE hornada = '".$Fila[hornada_sea]."'";
 			$Consulta.= " AND (cod_leyes = '02' or cod_leyes ='04' or cod_leyes = '05') ";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			while($fila1 = mysql_fetch_array($resp))
 			{
 				if($fila1["cod_leyes"] == '02')
@@ -184,7 +184,7 @@ function Proceso(opc)
 	  $Consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 2";
 	  $Consulta.= " AND left(fecha,7) = '$Fecha'";  
 	  $Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-	  $rs = mysql_query($Consulta);
+	  $rs = mysqli_query($link, $Consulta);
 	  $Fila = mysql_fetch_array($rs);
 	  $PesoTTE = $Fila[peso_tte];		  
 	  ?>	
@@ -196,7 +196,7 @@ function Proceso(opc)
  	    $Consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 2";
 		$Consulta.= " AND left(fecha,7) = '$Fecha'";  
 		$Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$cont = '';
 		$cont1 = '';
 		$cont2 = '';
@@ -210,7 +210,7 @@ function Proceso(opc)
 			$Consulta = "SELECT valor, cod_leyes FROM sea_web.leyes_por_hornada ";
 			$Consulta.= " WHERE hornada = '".$Fila[hornada_sea]."'";
 			$Consulta.= " AND (cod_leyes = '02' or cod_leyes ='04' or cod_leyes = '05') ";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			while($fila1 = mysql_fetch_array($resp))
 			{
 				if($fila1["cod_leyes"] == '02')
@@ -275,7 +275,7 @@ function Proceso(opc)
 	  $Consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 1";
 	  $Consulta.= " AND left(fecha,7) = '$Fecha'";  
 	  $Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-	  $rs = mysql_query($Consulta);
+	  $rs = mysqli_query($link, $Consulta);
 	  $Fila = mysql_fetch_array($rs);
 	  $PesoHVL = $Fila[peso_hvl];		  
 	  ?>	
@@ -287,7 +287,7 @@ function Proceso(opc)
  	    $Consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 1";
 		$Consulta.= " AND left(fecha,7) = '$Fecha'";  
 		$Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$cont = '';
 		$cont1 = '';
 		$cont2 = '';
@@ -301,7 +301,7 @@ function Proceso(opc)
 			$Consulta = "SELECT valor, cod_leyes FROM sea_web.leyes_por_hornada ";
 			$Consulta.= " WHERE hornada = '".$Fila[hornada_sea]."'";
 			$Consulta.= " AND (cod_leyes = '02' or cod_leyes ='04' or cod_leyes = '05') ";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			while($fila1 = mysql_fetch_array($resp))
 			{
 				if($fila1["cod_leyes"] == '02')
@@ -365,7 +365,7 @@ function Proceso(opc)
 	  $Consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 4";
 	  $Consulta.= " AND left(fecha,7) = '$Fecha'";  
 	  $Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-	  $rs = mysql_query($Consulta);
+	  $rs = mysqli_query($link, $Consulta);
 	  $Fila = mysql_fetch_array($rs);
 	  $PesoVent = $Fila[peso_vent];		  
 	  ?>	
@@ -377,7 +377,7 @@ function Proceso(opc)
  	    $Consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 4";
 		$Consulta.= " AND left(fecha,7) = '$Fecha'";  
 		$Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$cont = '';
 		$cont1 = '';
 		$cont2 = '';
@@ -391,7 +391,7 @@ function Proceso(opc)
 			$Consulta = "SELECT valor, cod_leyes FROM sea_web.leyes_por_hornada ";
 			$Consulta.= " WHERE hornada = '".$Fila[hornada_sea]."'";
 			$Consulta.= " AND (cod_leyes = '02' or cod_leyes ='04' or cod_leyes = '05') ";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			while($fila1 = mysql_fetch_array($resp))
 			{
 				if($fila1["cod_leyes"] == '02')
@@ -455,7 +455,7 @@ function Proceso(opc)
 	  $Consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 8";
 	  $Consulta.= " AND left(fecha,7) = '$Fecha'";  
 	  $Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-	  $rs = mysql_query($Consulta);
+	  $rs = mysqli_query($link, $Consulta);
 	  $Fila = mysql_fetch_array($rs);
 	  $PesoHm = $Fila[peso_hm];		  
 	  ?>	
@@ -467,7 +467,7 @@ function Proceso(opc)
  	    $Consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 8";
 		$Consulta.= " AND left(fecha,7) = '$Fecha'";  
 		$Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$cont = '';
 		$cont1 = '';
 		$cont2 = '';
@@ -481,7 +481,7 @@ function Proceso(opc)
 			$Consulta = "SELECT valor, cod_leyes FROM sea_web.leyes_por_hornada ";
 			$Consulta.= " WHERE hornada = '".$Fila[hornada_sea]."'";
 			$Consulta.= " AND (cod_leyes = '02' or cod_leyes ='04' or cod_leyes = '05') ";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			while($fila1 = mysql_fetch_array($resp))
 			{
 				if($fila1["cod_leyes"] == '02')
@@ -545,7 +545,7 @@ function Proceso(opc)
 	  $Consulta.= " WHERE cod_producto = 16 AND cod_subproducto IN ('40','41','42')";
 	  $Consulta.= " AND left(fecha,7) = '$Fecha'";  
 	  $Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-	  $rs = mysql_query($Consulta);
+	  $rs = mysqli_query($link, $Consulta);
 	  $Fila = mysql_fetch_array($rs);
 	  $PesoBlister = $Fila[peso_blister];		  
 	  ?>	
@@ -567,7 +567,7 @@ function Proceso(opc)
 		$Consulta.= " and (t2.cod_leyes = '02' or t2.cod_leyes = '04' or t2.cod_leyes = '05')";						
 		$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 		$Consulta.= " order by t1.id_muestra, t2.cod_leyes";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$cont1 = '';
 		$cont2 = '';
 		$cont3 = '';
@@ -639,7 +639,7 @@ function Proceso(opc)
 	  $Consulta = "SELECT SUM(peso_humedo) as peso_circ FROM raf_web.leyes_circulantes";
 	  $Consulta.= " WHERE cod_producto = 42";
 	  $Consulta.= " AND left(fecha,7) = '$Fecha'";  
-	  $rs = mysql_query($Consulta);
+	  $rs = mysqli_query($link, $Consulta);
 	  $Fila = mysql_fetch_array($rs);
 	  $PesoCirc = $Fila[peso_circ];		  
 	  ?>	
@@ -651,7 +651,7 @@ function Proceso(opc)
 		$Consulta.= " FROM raf_web.leyes_circulantes";
 		$Consulta.= " WHERE cod_producto = 42";
 	    $Consulta.= " AND left(fecha,7) = '$Fecha'";  
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$cont1 = '';
 		$cont2 = '';
 		$cont3 = '';
@@ -770,7 +770,7 @@ function Proceso(opc)
 		$Consulta = "SELECT max(hornada) as horn_max,min(hornada) as horn_min FROM raf_web.det_carga";
 		$Consulta.= " WHERE left(fecha,7) = '$Fecha'"; 
 		$Consulta.= " AND right(hornada,4) BETWEEN '4000' AND '4999'";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$Fila = mysql_fetch_array($rs);
 		$Hornada_Min = substr($Fila[horn_min],6,4);	  
 		$Hornada_Max = substr($Fila[horn_max],6,4);	  
@@ -808,7 +808,7 @@ function Proceso(opc)
 	  $Consulta.= " WHERE cod_producto = 16 AND cod_subproducto IN ('40','41','42')";
 	  $Consulta.= " AND left(fecha,7) = '$Fecha'";  
 	  $Consulta.= " AND right(hornada,4) BETWEEN '$Hornada_Min' AND '$Hornada_Max'";  
-	  $rs = mysql_query($Consulta);
+	  $rs = mysqli_query($link, $Consulta);
 	  $Fila = mysql_fetch_array($rs);
 	  $PesoBlister = $Fila[peso_blister];		  
 	  ?>	
@@ -832,7 +832,7 @@ function Proceso(opc)
 			$Consulta.= " and (t2.cod_leyes = '02' or t2.cod_leyes = '04' or t2.cod_leyes = '05')";						
 			$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 			$Consulta.= " order by t1.id_muestra, t2.cod_leyes";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			$cont1 = '';
 			$cont2 = '';
 			$cont3 = '';

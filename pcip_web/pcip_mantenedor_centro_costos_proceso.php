@@ -9,7 +9,7 @@ if(!isset($Recarga))
 		
 		$Consulta="select * from pcip_eec_centro_costos where cod_area = '".$Corr."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$CmbGerencias=$Fila["cod_gerencia"];
@@ -153,7 +153,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   <option value="-1" selected="selected">Seleccionar</option>
   <?
 	  $Consulta = "select cod_gerencia,descrip_gerencias from pcip_eec_gerencias order by descrip_gerencias ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbGerencias==$Fila["cod_gerencia"])

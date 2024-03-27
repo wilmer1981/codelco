@@ -847,7 +847,7 @@ body {
 	  $ap_subproducto = substr($proveedor,2,2);
 	  $Consulta = "SELECT rut_prov FROM proyecto_modernizacion.subproducto WHERE rut_prov != '' AND cod_producto = 16 AND ap_subproducto = $ap_subproducto";
 	  //echo $Consulta;
-	  $rs = mysql_query($Consulta);
+	  $rs = mysqli_query($link, $Consulta);
 
 	  if($row = mysql_fetch_array($rs))
 	  {
@@ -987,7 +987,7 @@ body {
 				echo'<option value="-1" SELECTed>Seleccionar</option>';
 	
 				$Consulta="SELECT * from proyecto_modernizacion.subproducto where cod_producto = 16 and ap_subproducto = $ap_subproducto"; 
-				$rs7 = mysql_query($Consulta);
+				$rs7 = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($rs7))
 				{
 					if ($subproducto == $Fila["cod_subproducto"])

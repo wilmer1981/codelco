@@ -408,7 +408,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta=$Consulta." left join sec_web.cliente_venta t5 on t1.cod_cliente=t5.cod_cliente ";
 					$Consulta=$Consulta." left join sec_web.nave t6 on t1.cod_nave=t6.cod_nave ";
 					$Consulta=$Consulta." where t1.tipo <> 'V' and t1.estado2 <>'C' and ((t1.num_prog_loteo <>'' )||(not isnull(t1.num_prog_loteo)))";
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resultado))
 					{
 						if (($Fila["estado1"]=='')&&($Fila["estado2"]=='A'))
@@ -430,7 +430,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta=$Consulta." left join sec_web.nave t4 on ceiling(t1.cod_cliente)=t4.cod_nave ";
 					$Consulta=$Consulta." where t1.estado2 <>'C' and (t1.num_prog_loteo <>''and not isnull(t1.num_prog_loteo) and t1.num_prog_loteo <>'0')";
 				//	echo "WW".$Consulta;
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resultado))
 					{
 						if (($Fila["estado1"]=='')&&($Fila["estado2"]=='A'))
@@ -458,7 +458,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 					//$Consulta=$Consulta." inner join sec_web.lote_catodo t4 on t1.corr_virtual=t4.corr_enm where t1.estado<>'T'  group by t1.corr_virtual "; //
 				//	echo "CCC".$Consulta;
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cantidad_programada,producto,cod_producto,subproducto,cod_subproducto,fecha_disponible,descripcion,origen) values(";
@@ -484,7 +484,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta=$Consulta." left join sec_web.puertos t4 on t1.cod_puerto_destino=t4.cod_puerto ";
 					$Consulta=$Consulta." left join sec_web.cliente_venta t5 on t1.cod_cliente=t5.cod_cliente ";
 					$Consulta=$Consulta." where t1.tipo <> 'V' and t1.estado2 ='T' and ((t1.num_prog_loteo <>'')||(not isnull(t1.num_prog_loteo)))";
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,pto_destino ,pto_emb,tipo,estado,estado2,fecha_disponible,tipoie) values(";
@@ -500,7 +500,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta=$Consulta." left join sec_web.nave t4 on ceiling(t1.cod_cliente)=t4.cod_nave ";
                     $Consulta=$Consulta." where t1.estado2 ='T' and ((t1.num_prog_loteo <>'')||(not isnull(t1.num_prog_loteo)))";
                      // echo "RR".$Consulta;
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,tipo,estado,estado2,fecha_disponible,tipoie) values(";
@@ -527,7 +527,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta=$Consulta." left join sec_web.puertos t4 on t1.cod_puerto_destino=t4.cod_puerto ";
 					$Consulta=$Consulta." left join sec_web.cliente_venta t5 on t1.cod_cliente=t5.cod_cliente ";
 					$Consulta=$Consulta." where t1.estado2 ='T' and t1.tipo='V'";
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,pto_destino ,pto_emb,tipo,estado,estado2,fecha_disponible,tipoie) values(";
@@ -554,7 +554,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta=$Consulta." left join sec_web.puertos t4 on t1.cod_puerto_destino=t4.cod_puerto ";
 					$Consulta=$Consulta." left join sec_web.cliente_venta t5 on t1.cod_cliente=t5.cod_cliente ";
 					$Consulta=$Consulta." where t1.estado2 <>'T' and t1.estado2 <>'C' and t1.tipo='V'";
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,pto_destino ,pto_emb,tipo,estado,estado2,fecha_disponible,tipoie) values(";
@@ -580,7 +580,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta=$Consulta." left join sec_web.puertos t4 on t1.cod_puerto_destino=t4.cod_puerto ";
 					$Consulta=$Consulta." left join sec_web.cliente_venta t5 on t1.cod_cliente=t5.cod_cliente ";
 					$Consulta=$Consulta." where t1.estado2 ='T' and t1.tipo='V'";
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resultado))
 					{
 						$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,cantidad_programada,num_prog_loteo ,cod_producto,producto,cod_subproducto,subproducto,pto_destino ,pto_emb,tipo,estado,estado2,fecha_disponible,tipoie) values(";
@@ -590,7 +590,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 					$Consulta="select * from sec_web.tmpprograma order by fecha_disponible";
 					break;	
 			}
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$TotalPesoPrep=0;
 			echo "<input type='hidden' name='CheckProgLoteo'><input type='hidden' name ='NumProgLoteo'><input type='hidden' name='CheckFecha'><input type='hidden' name='OptSeleccionar'>";
 			while ($Fila=mysql_fetch_array($Respuesta))
@@ -621,7 +621,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
                             //se agrega a la consulta el subproducto ya que se repinten paquetes en difentes lotes 13-02-2008 poly
                         //  echo "VV".$Consulta;
 						//$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
-						$Respuesta2=mysql_query($Consulta);
+						$Respuesta2=mysqli_query($link, $Consulta);
 						$Fila2=mysql_fetch_array($Respuesta2);
 					}	
 					$MostrarBoton=true; 
@@ -667,7 +667,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 						$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a' and t2.cod_estado='a' group by t1.corr_enm,t1.cod_bulto,t1.num_bulto order by t1.fecha_creacion_lote desc ";
 						//$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
 					//echo "PPP".$Consulta."<br>";
-						$Respuesta2=mysql_query($Consulta);
+						$Respuesta2=mysqli_query($link, $Consulta);
 						$Fila2=mysql_fetch_array($Respuesta2);
 						//if($Fila["corr_ie"]=='904807')
 												

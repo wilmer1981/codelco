@@ -19,7 +19,7 @@
 			$Consulta.=" where cod_asignacion='".$CmbAsig."' and cod_area='".$CmbArea."' and cod_maquila='".$CmbMaqui."'";
 			$Consulta.=" and cod_producto='".$CmbProd."' and num_orden='".$CmbOrden."'";
 			$Consulta.=" and num_orden_relacionada='".$CmbOrdenRel."' and cod_material='".$TxtMaterial."' and consumo_interno='".$TxtConsumo."' and vptm='".$TxtVPtm."' and vptipinv='".$TxtVPti."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				$Actualizar="UPDATE pcip_svp_variacion_inventario set num_orden_relacionada='".$CmbOrdenRel."', cod_material='".$TxtMaterial."',consumo_interno='".$TxtConsumo."', vptm='".$TxtVPtm."', vptipinv='".$TxtVPti."'";

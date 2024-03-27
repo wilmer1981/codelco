@@ -98,7 +98,7 @@
 	$Consulta.= " order by t1.cod_recepcion ";
 	//echo $Consulta."<br>";
 	$RutPrv2='';
-	$RespTipoRecep = mysql_query($Consulta);
+	$RespTipoRecep = mysqli_query($link, $Consulta);
 	while ($FilaTipoRecep = mysql_fetch_array($RespTipoRecep))
 	{					
 		//TITULO COD RECEPCION
@@ -162,13 +162,13 @@
 			$Consulta.= " and t1.rut_proveedor = '".$CmbProveedor."' ";
 		$Consulta.= " order by t1.cod_producto, orden ";
 		//echo $Consulta."<br>";
-		$Resp01 = mysql_query($Consulta);
+		$Resp01 = mysqli_query($link, $Consulta);
 		while ($Fila01 = mysql_fetch_array($Resp01))	
 		{			
 			echo "<tr bgcolor=\"#CCCCCC\">\n";			
 			$Consulta = "select * from proyecto_modernizacion.subproducto ";
 			$Consulta.= "where cod_producto = '".$Fila01["cod_producto"]."' and cod_subproducto='".$Fila01["cod_subproducto"]."'";		
-			$RespAux2 = mysql_query($Consulta);
+			$RespAux2 = mysqli_query($link, $Consulta);
 			if ($FilaAux2 = mysql_fetch_array($RespAux2))
 			{
 				$NomSubProd = $FilaAux2["descripcion"];
@@ -198,7 +198,7 @@
 			$Consulta.= " order by t1.cod_recepcion, t1.rut_proveedor ";
 			//echo $Consulta."<br>";
 			$RutPrv='';
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			while ($FilaAux = mysql_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -207,7 +207,7 @@
 				$Consulta = "select * ";
 				$Consulta.= " from rec_web.proved ";
 				$Consulta.= " where rutprv_a = '".$RutAux."'";
-				$RespProv = mysql_query($Consulta);	
+				$RespProv = mysqli_query($link, $Consulta);	
 				//echo $Consulta."<br>";
 				while ($FilaProv = mysql_fetch_array($RespProv))
 				{
@@ -240,7 +240,7 @@
 				$Consulta.= " and (t1.tipo_remuestreo <>'A'  or (t1.tipo_remuestreo='A' and substring(t1.num_lote_remuestreo,1,3)='".substr($CodLoteIni,0,3)."'))";				
 				$Consulta.= " and t2.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."'";
 				$Consulta.= " group by t1.lote order by t1.lote, orden";
-				$RespLote = mysql_query($Consulta);
+				$RespLote = mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
 				$PorcMerma=0;$SiMerma=0;$VarMerma=0;$PrvMerma=0;$FechaM="";$FechaM1="";
 				$Consulta1 = "select ifnull(porc,0) as merma,rut_proveedor, fecha  from age_web.mermas ";

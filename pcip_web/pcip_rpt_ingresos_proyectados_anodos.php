@@ -62,7 +62,7 @@
 				}
     			$Consulta.= " group by cod_prv";	
 				//echo $Consulta; 	
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					$NomPrv=$Fila[nom_prv];
@@ -338,7 +338,7 @@
 						  {			
 							  ?>						  				  
 							<tr class="Formulario2">
-							<td rowspan="1" colspan="25" align="left">Sur Andes, Ánodos (cátodos rechazados: láminas y despuntes)</td>
+							<td rowspan="1" colspan="25" align="left">Sur Andes, ï¿½nodos (cï¿½todos rechazados: lï¿½minas y despuntes)</td>
 							</tr>
 							  <tr class="FilaAbeja3">
 								<td align="left">TMS</td>
@@ -517,7 +517,7 @@
 										?>
 							  </tr>
 							<tr class="Formulario2">
-							<td rowspan="1" colspan="25" align="left">Sur Andes, Ánodos (cátodos estándar)</td>
+							<td rowspan="1" colspan="25" align="left">Sur Andes, ï¿½nodos (cï¿½todos estï¿½ndar)</td>
 							</tr>
 							  <tr class="FilaAbeja3">
 								<td align="left">TMS</td>

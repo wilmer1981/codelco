@@ -41,7 +41,7 @@ if(!isset($CmbEmpresa))
     <?
 				$Consulta="SELECT *,t1.rut from sget_conductores t1 left join sget_personal t2 on t1.rut=t2.rut where t1.corr_conductor<>''";
 				$Consulta.=" order by t1.apellido_paterno,t1.apellido_materno,t1.nombres";	
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				echo "<input name='CheckConduc' type='hidden'  value=''>";
 				$Cont=1;

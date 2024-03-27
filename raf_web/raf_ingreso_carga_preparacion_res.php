@@ -38,7 +38,7 @@
 			$Consulta.= " AND cod_producto = 16 ";
 			$Consulta.= " AND turno = '".$cmbturno."'";
 			//echo "xx".$Consulta;		
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			while($Fila = mysql_fetch_array($rs))
 			{
 				if($Fila[cod_subproducto] == 40)
@@ -68,7 +68,7 @@
 			$Consulta.= " AND cod_producto = 16 AND cod_subproducto IN ('40','41','42')";
 			$Consulta.= " AND turno = '".$cmbturno."' ";
 			//echo "xxx".$Consulta;
-			$resp = mysql_query($Consulta);		
+			$resp = mysqli_query($link, $Consulta);		
 			$row = mysql_fetch_array($resp);
 			$BlisterUnid = $row["unidades"];
 			$BlisterPeso = $row["peso"];
@@ -84,7 +84,7 @@
 			$Consulta.= " AND cod_subproducto IN(16,31,39,43,69,70,73,74,75,76,77,78)";
 			$Consulta.= " AND turno = '".$cmbturno."' ";
 //echo "xxxx".$Consulta."<br>";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			while($Fila = mysql_fetch_array($rs))
 			{
 				if($Fila[cod_subproducto] == 43)
@@ -171,7 +171,7 @@
 			$Consulta.= " OR cod_producto=49 and cod_subproducto=4)";
 			$Consulta.= " AND turno = '".$cmbturno."'";
 //echo "xxxxx".$Consulta."<br>";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			while($Fila = mysql_fetch_array($rs))
 			{
 				if($Fila["cod_producto"] == 49 && $Fila[cod_subproducto] == 4)
@@ -202,7 +202,7 @@
 			$Consulta.= " OR cod_producto=42 and cod_subproducto=21)";
 			$Consulta.= " AND turno = '".$cmbturno."'";
 //echo "xxxxxx".$Consulta."<br>";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			while($Fila = mysql_fetch_array($rs))
 			{
 				if($Fila["cod_producto"] == 42 AND $Fila[cod_subproducto] == 21)
@@ -233,7 +233,7 @@
 			$Consulta.= " AND cod_subproducto IN(16,31,39,43,69,70,73,74,75,76,77,78)";
 			$Consulta.= " AND turno = '".$cmbturno."' ";
 //echo "xxxxxxx".$Consulta."<br>";
-			$resp = mysql_query($Consulta);		
+			$resp = mysqli_query($link, $Consulta);		
 			$row = mysql_fetch_array($resp);
 			$CircRafUnid = $row["unidades"];
 			$CircRafPeso = $row["peso"];
@@ -249,7 +249,7 @@
 			$Consulta.= " OR cod_producto=49 and cod_subproducto=4)";
 			$Consulta.= " AND turno = '".$cmbturno."'";
 //echo "xxxxxxxx".$Consulta."<br>";
-			$resp = mysql_query($Consulta);		
+			$resp = mysqli_query($link, $Consulta);		
 			$row = mysql_fetch_array($resp);
 			$CircRefUnid = $row["unidades"];
 			$CircRefPeso = $row["peso"];
@@ -265,7 +265,7 @@
 			$Consulta.= " OR cod_producto=42 and cod_subproducto=21)";
 			$Consulta.= " AND turno = '".$cmbturno."' ";
 //echo "xxxxxxxxx".$Consulta."<br>";
-			$resp = mysql_query($Consulta);		
+			$resp = mysqli_query($link, $Consulta);		
 			$row = mysql_fetch_array($resp);
 			$CircPmnUnid = $row["unidades"];
 			$CircPmnPeso = $row["peso"];
@@ -280,7 +280,7 @@
 		if($cmbturno != -1)		
 			$Consulta.= " AND turno = '".$cmbturno."'";
 //echo "xxxxxxxss".$Consulta."<br>";
-		$res = mysql_query($Consulta);		
+		$res = mysqli_query($link, $Consulta);		
 		$Row = mysql_fetch_array($res);
 		$Solera = $Row[solera];
 //		$cmbturno = $Row[turno];
@@ -1123,7 +1123,7 @@ body {
             <td width="66"><b>Encargado:</b></td>
             <td width="248">&nbsp; 
               <? $Consulta = "SELECT * FROM proyecto_modernizacion.funcionarios WHERE rut = '$CookieRut'";
-			   $rs = mysql_query($Consulta);
+			   $rs = mysqli_query($link, $Consulta);
 			   $fil = mysql_fetch_array($rs);
 			   echo ucwords(strtoupper($fil["nombres"])).' '.ucwords(strtoupper($fil["apellido_paterno"])).' '.ucwords(strtoupper($fil["apellido_materno"]));				
 			   echo '<input type="hidden" name="encargado" value="'.$CookieRut.'">';
@@ -1140,7 +1140,7 @@ body {
 				$Consulta = "SELECT MAX(hornada) as ref_1 FROM raf_web.movimientos";
 				$Consulta.= " WHERE  right(hornada,4) like '10%'";
 //echo "xxxxxxxll".$Consulta."<br>";
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				$row = mysql_fetch_array($rs);
 				$Ref_1 = $row[ref_1];
 			?>
@@ -1150,7 +1150,7 @@ body {
 				$Consulta = "SELECT MAX(hornada) as ref_2 FROM raf_web.movimientos";
 				$Consulta.= " WHERE  right(hornada,4) like '2%'";
 //echo "xxxxxxxaa".$Consulta."<br>";
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				$row = mysql_fetch_array($rs);
 				$Ref_2 = $row[ref_2];
 			?>
@@ -1343,7 +1343,7 @@ body {
 				$Consulta = "select distinct fecha_movimiento, cod_producto, cod_subproducto, hornada, (campo2 * 1) as campo2 from raf_web.tmp_table";
 				$Consulta.= " WHERE fecha_movimiento BETWEEN '".$FechaIni."' AND '".$FechaTer."' order by campo2 ASC,fecha_movimiento ASC,cod_producto,cod_subproducto";
 //echo "xxxxxxxdd".$Consulta."<br>";
-				$Resultado=mysql_query($Consulta);
+				$Resultado=mysqli_query($link, $Consulta);
 
 				$pos = 16;
 				$i=0;
@@ -1357,7 +1357,7 @@ body {
 						$Consulta.= " AND cod_producto = ".$Fila["cod_producto"]." AND cod_subproducto = ".$Fila[cod_subproducto];
 						$Consulta.= " AND hornada = '".$Fila["hornada"]."'";
 //echo "xxxxxxxff".$Consulta."<br>";
-						$Res = mysql_query($Consulta);
+						$Res = mysqli_query($link, $Consulta);
 						$Fil = mysql_fetch_array($Res);
 
 						$Consulta2 = "select sum(unidades) as unid, sum(peso) as peso from raf_web.tmp_table";
@@ -1384,7 +1384,7 @@ body {
 						$Consulta.= " AND campo2 = ".$Fila[campo2];
 						$Consulta.= " AND hornada = '".$Fila["hornada"]."'";
 //echo "xxxxxxxww".$Consulta."<br>";
-						$Res = mysql_query($Consulta);
+						$Res = mysqli_query($link, $Consulta);
 						$Fil = mysql_fetch_array($Res);
 
 						$Consulta2 = "select sum(unidades) as unid, sum(peso) as peso from raf_web.tmp_table";
@@ -1435,7 +1435,7 @@ body {
 							$Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto"; 
 							$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
 							$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
-							$rs = mysql_query($Consulta);
+							$rs = mysqli_query($link, $Consulta);
 							$fila = mysql_fetch_array($rs);
 							 
 							echo"<td width='15%' align='left' bgcolor='#cccccc'>".$fila["abreviatura"]."</td>";				
@@ -1452,7 +1452,7 @@ body {
 							$Consulta.= " AND hornada = '".$Fil["hornada"]."'";
 							$Consulta.= " AND (cod_leyes = '08' or cod_leyes ='09' or cod_leyes = '31') ";
 //echo "xxxxxxx99".$Consulta."<br>";	
-							$resp = mysql_query($Consulta);
+							$resp = mysqli_query($link, $Consulta);
 							$As = '';
 							$Sb = '';
 							$Fe = '';
@@ -1521,8 +1521,8 @@ body {
 							
 				$Consulta = "select distinct fecha_movimiento, cod_producto, cod_subproducto, hornada, (campo2 * 1) as campo2 from raf_web.tmp_table";
 				$Consulta.= " WHERE fecha_movimiento BETWEEN '".$FechaIni."' AND '".$FechaTer."' order by campo2 ASC,fecha_movimiento ASC,cod_producto,cod_subproducto";
-				$Resultado=mysql_query($Consulta);
-				$Respuesta = mysql_query($Consulta);
+				$Resultado=mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				$pos = 16;
 				$i=0;
 				while($Fila = mysql_fetch_array($Respuesta))
@@ -1535,7 +1535,7 @@ body {
 						$Consulta.= " AND cod_producto = ".$Fila["cod_producto"]." AND cod_subproducto = ".$Fila[cod_subproducto];
 						$Consulta.= " AND hornada = '".$Fila["hornada"]."'";		
 //echo "xxxxxxxii".$Consulta."<br>";
-						$Res = mysql_query($Consulta);
+						$Res = mysqli_query($link, $Consulta);
 						$Fil = mysql_fetch_array($Res);
 						
 						$Consulta2 = "select sum(unidades) as unid, sum(peso) as peso from raf_web.tmp_table";
@@ -1564,7 +1564,7 @@ body {
 						$Consulta.= " AND campo2 = ".$Fila[campo2];
 						$Consulta.= " AND hornada = '".$Fila["hornada"]."'";
 //echo "xxxxxxxvv".$Consulta."<br>";
-						$Res = mysql_query($Consulta);
+						$Res = mysqli_query($link, $Consulta);
 						$Fil = mysql_fetch_array($Res);
 												
 						$Consulta2 = "select sum(unidades) as unid, sum(peso) as peso from raf_web.tmp_table";
@@ -1601,7 +1601,7 @@ body {
 							$Consulta.= " AND cod_producto = ".$Fila["cod_producto"]." AND cod_subproducto = ".$Fila[cod_subproducto];
 							$Consulta.= " AND hornada = '".$Fila["hornada"]."'";						
 //echo "xxxxxxx33".$Consulta."<br>";
-							$Res = mysql_query($Consulta);
+							$Res = mysqli_query($link, $Consulta);
 							$Fil = mysql_fetch_array($Res);
 	
 							$Consulta2 = "select sum(unidades) as unid, sum(peso) as peso from raf_web.tmp_table";
@@ -1621,7 +1621,7 @@ body {
 							$Consulta.= " AND campo2 = ".$Fila[campo2];
 							$Consulta.= " AND hornada = '".$Fila["hornada"]."'";
 //echo "xxxxxxx55".$Consulta."<br>";
-							$Res = mysql_query($Consulta);
+							$Res = mysqli_query($link, $Consulta);
 							$Fil = mysql_fetch_array($Res);
 	
 							$Consulta2 = "select sum(unidades) as unid, sum(peso) as peso from raf_web.tmp_table";
@@ -1652,7 +1652,7 @@ body {
 						if($Fila[campo2] != '')
 							$Consulta.= " AND grupo = ".$Fila[campo2]."";		
 //echo "xxxxxxx77".$Consulta."<br>";
-						$resp = mysql_query($Consulta);
+						$resp = mysqli_query($link, $Consulta);
 						$row9 = mysql_fetch_array($resp);					
 	
 						$dif_unid = $row[unid] - $row9[unid];						
@@ -1684,7 +1684,7 @@ body {
 						$Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto"; 
 						$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
 						$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
-						$rs = mysql_query($Consulta);
+						$rs = mysqli_query($link, $Consulta);
 						$fila = mysql_fetch_array($rs);
 						 
 						echo"<td width='15%' align='left' bgcolor='#cccccc'>".$fila["abreviatura"]."</td>";				
@@ -1701,7 +1701,7 @@ body {
 						$Consulta.= " AND hornada = '".$Fil["hornada"]."'";
 						$Consulta.= " AND (cod_leyes = '08' or cod_leyes ='09' or cod_leyes = '31') ";
 //echo "xxxxxxx88".$Consulta."<br>";
-						$resp = mysql_query($Consulta);
+						$resp = mysqli_query($link, $Consulta);
 						$As = '';
 						$Sb = '';
 						$Fe = '';

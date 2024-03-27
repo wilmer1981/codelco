@@ -4,7 +4,7 @@
 	set_time_limit(5000);
 	echo "---------------------EMPRESAS-------------------------<br>";
 	$Consulta="SELECT * from uca_web.uca_empresas where rut_empresa <>'61704000-K'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Insertar="INSERT INTO sget_contratistas(rut_empresa,razon_social, ";
@@ -25,7 +25,7 @@
 	echo "<br><br>";
 	echo "---------------------CONTRATOS-------------------------<br>";
 	$Consulta="SELECT * from uca_web.uca_contratos where cod_contrato<>'9999' and cod_contrato<>'9998'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Insertar="Insert Into sget_contratos(cod_contrato,descripcion,cod_gerencia,cod_area,monto_ctto,rut_empresa,fecha_inicio,fecha_termino";
@@ -41,7 +41,7 @@
 	echo "<br><br>";
 	echo "---------------------PERSONAL EXTERNO-------------------------<br>";
 	$Consulta="SELECT t1.rut,t1.nombres,t1.ape_paterno,t1.ape_materno,t2.fecha_inicio,t1.fecha_final_ctto,t1.direccion,t1.telefono1,t1.telefono2,t1.rut_empresa,t1.cod_contrato,t1.estado,t1.observacion,t1.nro_tarjeta from uca_web.uca_personas t1 left join uca_web.uca_contratos t2 on t1.cod_contrato=t2.cod_contrato and t1.rut_empresa=t2.rut_empresa where t1.tipo='E' and t1.rut_empresa<>'61704000-K'";
-	$Resp=mysql_query($Consulta);$Cont=0;
+	$Resp=mysqli_query($link, $Consulta);$Cont=0;
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		if($Fila[fecha_inicio]=="")

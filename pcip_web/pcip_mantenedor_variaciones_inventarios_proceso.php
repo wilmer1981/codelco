@@ -20,7 +20,7 @@ if ($Opc=='M')
 	$Consulta.=" inner join proyecto_modernizacion.sub_clase t5 on t5.cod_clase='31010' and t5.cod_subclase=t1.cod_area";
 	$Consulta.=" where t1.cod_asignacion='".$Valores[0]."' and t1.cod_area='".$Valores[1]."' and t1.cod_maquila='".$Valores[2]."' and t1.cod_producto='".$Valores[3]."'  and num_orden='".$Valores[4]."'";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$Asig=$Fila["nom_asignacion"];
@@ -61,13 +61,13 @@ function Proceso(Opcion)
 		case "N":
 			if(f.CmbAsig.value=='-1')
 			{
-				alert("Debe seleccionar Asignación");
+				alert("Debe seleccionar Asignaciï¿½n");
 				f.CmbAsig.focus();
 				return;
 			}			
 			if(f.CmbArea.value=='-1')
 			{
-				alert("Debe Seleccionar Área");
+				alert("Debe Seleccionar ï¿½rea");
 				f.CmbArea.focus();
 				return;
 			}
@@ -85,7 +85,7 @@ function Proceso(Opcion)
 			}			
 			if(f.CmbOrden.value=='-1')
 			{
-				alert("Debe Seleccionar Nº Orden");
+				alert("Debe Seleccionar Nï¿½ Orden");
 				f.CmbOrden.focus();
 				return;
 			}			
@@ -95,7 +95,7 @@ function Proceso(Opcion)
 		case "M":
 			if(f.CmbOrdenRel.value=='')
 			{
-				alert("Debe Seleccionar Nº Orden Relacionado");
+				alert("Debe Seleccionar Nï¿½ Orden Relacionado");
 				f.CmbOrdenRel.focus();
 				return;
 			}			
@@ -181,13 +181,13 @@ if ($Opc=='N')
 		 {
 	   ?>
 		<tr>
-		<td width="16%" height="17" class='formulario2'>Grupo Asignación</td>
+		<td width="16%" height="17" class='formulario2'>Grupo Asignaciï¿½n</td>
 		<td width="84%" class="formulario2" >
 		  <select name="CmbGrupo" onChange="Recarga()">
 		  <option value="-1" selected="selected">Seleccionar</option>
 		  <?
 			$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31044'order by cod_subclase ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbGrupo==$FilaTC["cod_subclase"])
@@ -216,7 +216,7 @@ if ($Opc=='N')
 				  <?
 					$Consulta = "select distinct t1.cod_subclase,t1.nombre_subclase from proyecto_modernizacion.sub_clase t1 inner join proyecto_modernizacion.sub_clase t2";
 					$Consulta.= " on t1.cod_clase='31045' and t2.cod_subclase=t1.valor_subclase1 where t1.valor_subclase1='".$CmbGrupo."' order by t1.cod_subclase ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($FilaTC=mysql_fetch_array($Resp))
 					{
 						if ($CmbAsig==$FilaTC["cod_subclase"])
@@ -243,7 +243,7 @@ if ($Opc=='N')
 			   <option value="-1" class="NoSelec">Seleccionar</option>
 			   <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31009' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbArea==$FilaTC["cod_subclase"])
@@ -270,7 +270,7 @@ if ($Opc=='N')
 			   <option value="-1" class="NoSelec">Seleccionar</option>
 			   <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31010' order by cod_subclase";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMaqui==$FilaTC["cod_subclase"])
@@ -297,7 +297,7 @@ if ($Opc=='N')
 			   <option value="-1" class="NoSelec">Seleccionar</option>
 			   <?
 				$Consulta ="select cod_producto,nom_producto from pcip_svp_productos_inventarios";	
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbProd==$FilaTC["cod_producto"])
@@ -325,7 +325,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 					$Consulta = "select * from pcip_svp_ordenesproduccion order by OPorden ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbOrden==$Fila["OPorden"])
@@ -350,7 +350,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Ninguna</option>
                <?
 				$Consulta = "select * from pcip_svp_ordenesproduccion order by OPorden ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbOrdenRel==$Fila["OPorden"])

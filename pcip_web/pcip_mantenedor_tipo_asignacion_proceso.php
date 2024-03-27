@@ -15,7 +15,7 @@ if ($Opc=='M')
 {
 	$Consulta="select * from pcip_svp_asignacion t1 ";
 	$Consulta.=" where t1.cod_asignacion='".$Valores."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["cod_asignacion"];
@@ -29,7 +29,7 @@ if ($Opc=='M')
 else
 {
 	$Consulta="select max(cod_asignacion+1) as maximo from pcip_svp_asignacion ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	//echo $Consulta,
 	if($Fila=mysql_fetch_array($Resp))
 	{
@@ -63,7 +63,7 @@ function Proceso(Opcion)
 		case "N":
 			if(f.TxtAsignacion.value=='')
 			{
-				alert("Debe Ingresar Asignación");
+				alert("Debe Ingresar Asignaciï¿½n");
 				f.TxtAsignacion.focus();
 				return;
 			}
@@ -79,7 +79,7 @@ function Proceso(Opcion)
 		case "M":
 			if(f.TxtAsignacion.value=='')
 			{
-				alert("Debe Ingresar Asignación");
+				alert("Debe Ingresar Asignaciï¿½n");
 				f.TxtAsignacion.focus();
 				return;
 			}
@@ -149,11 +149,11 @@ if ($Opc=='N')
             <span class="InputRojo">(*)</span></td>
          </tr>
 		 <tr>
-           <td width="283" class="formulario2">Mostrar Asignación</td>
+           <td width="283" class="formulario2">Mostrar Asignaciï¿½n</td>
            <td width="146" class="formulariosimple" ><select name="CmbMAsig" >
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMAsig==$FilaTC["cod_subclase"])
@@ -168,7 +168,7 @@ if ($Opc=='N')
            <td width="445" class="formulariosimple" ><select name="CmbMPpc" >
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMPpc==$FilaTC["cod_subclase"])
@@ -186,7 +186,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])

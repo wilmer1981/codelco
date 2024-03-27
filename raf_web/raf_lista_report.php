@@ -243,7 +243,7 @@ function AsignaLetra()
 				}
 				$Consulta.= " ORDER BY hornada DESC";
 				//echo $Consulta;
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 			
 				while($Fila = mysql_fetch_array($rs))
 				{
@@ -263,7 +263,7 @@ function AsignaLetra()
 		$Consulta.= " where hornada = '".$Ano."".str_pad($Mes,2,"0",STR_PAD_LEFT)."".$Hornada."' ";
 		$Consulta.= " and campo1 <> '' ";
 		$Consulta.= " order by campo1 ";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		$i=1;
 		$Letra = "";
 		while ($Fila = mysql_fetch_array($Resp))

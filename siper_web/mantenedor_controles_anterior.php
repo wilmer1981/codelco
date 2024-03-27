@@ -164,7 +164,7 @@ function Salir()
 				}
 				$Consulta="SELECT NCONTROL,CCONTROL,MPROBCONSEC from sgrs_codcontroles where ".$Filtro." and NCONTROL <> '' and CCONTROL <> '--' order by MPROBCONSEC desc,CCONTROL asc";
 				//echo $Consulta;
-				$Resultado=mysql_query($Consulta);echo "<input name='CodSel' type='hidden'>";$TOTAL=0;$Entrar='S';$Sel='N';$MostrarSubT='S';$Cont=0;
+				$Resultado=mysqli_query($link, $Consulta);echo "<input name='CodSel' type='hidden'>";$TOTAL=0;$Entrar='S';$Sel='N';$MostrarSubT='S';$Cont=0;
 				while ($Fila=mysql_fetch_array($Resultado))
 				{
 					if($MostrarSubT=='S'&&$Fila[MPROBCONSEC]=='0'&&$Entrar=='S')
@@ -202,7 +202,7 @@ function Salir()
 						echo "<td align='left' width='58%'>".$Fila[CCONTROL]." ".$Fila[NCONTROL]."</td>";
 					$Consulta="SELECT ifnull(sum(QPESOESP),0) as PESO_ESP from sgrs_codcontroles where CCONTROL like '".$Fila[CCONTROL]."%'";
 					//echo $Consulta."<br>";
-					$Result=mysql_query($Consulta);
+					$Result=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Result);
 					$QPESOESP=$Fila2[PESO_ESP];	
 					echo "<td align='right' width='18%'>".$QPESOESP."</td>";
@@ -242,7 +242,7 @@ if($Proceso=='MC')
 {
 	$Consulta="SELECT * from sgrs_codcontroles where CCONTROL='".$CCONTROL."'";
 	//echo $Consulta;
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resultado))
 	{
 		$TxtDescripcion=$Fila[NCONTROL];
@@ -260,7 +260,7 @@ if($Proceso=='AC')
 	$CheckVigVis='checked';
 	$Consulta="SELECT MPROBCONSEC from sgrs_codcontroles where CCONTROL = '".$CCONTROL."'";
 	//echo $Consulta."<br>";
-	$Result=mysql_query($Consulta);
+	$Result=mysqli_query($link, $Consulta);
 	$Fila2=mysql_fetch_array($Result);
 	$CmbProbConsec=$Fila2[MPROBCONSEC];	
 	
@@ -313,7 +313,7 @@ if($Proceso=='AC')
 						$Codigo=$CCONTROL."0".$i;
 						$Consulta="SELECT CCONTROL from sgrs_codcontroles where CCONTROL='".$Codigo."'";
 						//echo $Consulta;
-						$Resultado=mysql_query($Consulta);
+						$Resultado=mysqli_query($link, $Consulta);
 						if(!$Fila=mysql_fetch_array($Resultado))
 						{
 							echo "<option value='0".$i."'>0".$i."</option>";

@@ -26,7 +26,7 @@
 					if ($CmbNave=="S")
 						$CmbNave="";
 					$Consulta = "select * from sec_web.programa_codelco where corr_codelco='".$TxtNumOrden."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if ($Fila = mysql_fetch_array($Resp))
 					{
 						if ($Accion=="M")
@@ -35,7 +35,7 @@
 							if ($TxtNumProgLoteo!="" && $TxtNumProgLoteo!="0")
 							{
 								$Consulta = "select * from sec_web.programa_loteo where num_prog_loteo='".$TxtNumProgLoteo."'";
-								$RespAux=mysql_query($Consulta);
+								$RespAux=mysqli_query($link, $Consulta);
 								if (!$FilaAux=mysql_fetch_array($RespAux)) 
 								{
 									$Insertar = "insert into sec_web.programa_loteo(num_prog_loteo,fecha_hora,fecha_maxima,estado,descripcion) ";
@@ -64,7 +64,7 @@
 							if ($TxtNumProgLoteo!="" && $TxtNumProgLoteo!="0")
 							{
 								$Consulta = "select * from sec_web.programa_loteo where num_prog_loteo='".$TxtNumProgLoteo."'";
-								$RespAux=mysql_query($Consulta);
+								$RespAux=mysqli_query($link, $Consulta);
 								if (!$FilaAux=mysql_fetch_array($RespAux)) 
 								{								
 									$FechaMaxima=date("Y-m-d");

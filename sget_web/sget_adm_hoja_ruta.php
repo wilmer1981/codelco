@@ -120,7 +120,7 @@ function Rech(H,HR)
                 <?
 		$FechaActual=date("Y")."-".date("m")."-".date("d");
 		$Consulta="SELECT * from sget_contratos where estado='1' and fecha_termino >= '".$FechaActual."' order by fecha_termino desc";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			if ($FechaActual > $FilaCtto[fecha_termino])
@@ -170,7 +170,7 @@ function Rech(H,HR)
                 <option value="S"  SELECTed="SELECTed">Seleccionar</option>
                 <?
 	  	$Consulta = "SELECT * from sget_contratistas t1 inner join sget_contratos t2 on t1.rut_empresa=t2.rut_empresa where t2.cod_contrato ='".$CmbContrato."'order by razon_social ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -273,7 +273,7 @@ function Rech(H,HR)
               <option value="S" SELECTed="SELECTed">Seleccionar</option>
               <?
 		$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase in ('1','2','3') order by cod_subclase";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbEstado==$Fila["cod_subclase"])
@@ -327,7 +327,7 @@ function Rech(H,HR)
 
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-			$RespH = mysql_query($Consulta);
+			$RespH = mysqli_query($link, $Consulta);
 			while ($FilaH=mysql_fetch_array($RespH))
 			{
 				?>
@@ -372,7 +372,7 @@ if($Cons=='S')
 		}
 	}
 	$Consulta.= "  order by num_hoja_ruta,fecha_ingreso,rut_empresa asc    ";		
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 //	echo $Consulta."<br>";
 	echo "<input name='CheckHoja' type='hidden'  value=''>";
 	$cont=1;
@@ -383,7 +383,7 @@ if($Cons=='S')
 	    <td>
 		<?
 		$Consulta=" SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito in ('1') and autorizado='S' ";
-		$Resp8 = mysql_query($Consulta);
+		$Resp8 = mysqli_query($link, $Consulta);
 		if ($Fila8=mysql_fetch_array($Resp8))
 		{
 		?>
@@ -399,7 +399,7 @@ if($Cons=='S')
 		if($CmbEstado!='3')
 		{
 			$Consulta=" SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito in ('1') and autorizado='S' ";
-			$Resp8 = mysql_query($Consulta);
+			$Resp8 = mysqli_query($link, $Consulta);
 			if ($Fila8=mysql_fetch_array($Resp8))
 			{
 			?>
@@ -446,7 +446,7 @@ if($Cons=='S')
 			<td>
 			<?
 				$Consulta=" SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito in ('1') and autorizado='S' ";
-				$Resp8 = mysql_query($Consulta);
+				$Resp8 = mysqli_query($link, $Consulta);
 				if ($Fila8=mysql_fetch_array($Resp8))
 				{
 					echo "<img src='archivos/reasigna.png' border='0' alt='No se Puede Reasignar Adm.Codelco, ya fue aprobado' align='absmiddle'>";
@@ -464,12 +464,12 @@ if($Cons=='S')
 			if($CmbEstado!='3')
 			{
 				$Consulta="SELECT * from sget_hoja_ruta_nomina where num_hoja_ruta='".$Fila["num_hoja_ruta"]."'"; 
-				$RespNom=mysql_query($Consulta);
+				$RespNom=mysqli_query($link, $Consulta);
 				if($FilaNom=mysql_fetch_array($RespNom))
 				{
 					$Consulta = "SELECT * from sget_hitos ";
 					$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-					$RespHD = mysql_query($Consulta);
+					$RespHD = mysqli_query($link, $Consulta);
 					while ($FilaHD=mysql_fetch_array($RespHD))
 					{
 						?>
@@ -477,7 +477,7 @@ if($Cons=='S')
 						<?
 						$IcoObs=CantObs($Fila["num_hoja_ruta"],$FilaHD[cod_hito]);
 						$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
-						$RespExi = mysql_query($Consulta);
+						$RespExi = mysqli_query($link, $Consulta);
 						if($FilaExi=mysql_fetch_array($RespExi))
 						{	
 							
@@ -487,7 +487,7 @@ if($Cons=='S')
 								if($HitosAdm =='S')
 								{
 									$Consulta=" SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito in ('1') and autorizado='S' ";
-									$RespGI = mysql_query($Consulta);
+									$RespGI = mysqli_query($link, $Consulta);
 									if ($FilaGI=mysql_fetch_array($RespGI))
 									{
 										?>

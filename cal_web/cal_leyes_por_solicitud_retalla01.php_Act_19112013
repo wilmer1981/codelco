@@ -5,7 +5,7 @@ $Rut=$CookieRut;
 if ($Opcion == 4)
 {
 	$Consulta="select * from cal_web.solicitud_analisis where nro_solicitud = '".$Sol."' and recargo ='".$Rec."'";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	$Fil=mysql_fetch_array($Respuesta);
 	$Actualizar="UPDATE cal_web.solicitud_analisis set leyes='".$ValoresLeyes."',impurezas='".$ValoresImpurezas."' where nro_solicitud ='".$Sol."' and recargo = '".$Rec."'  ";  
 	mysql_query($Actualizar);

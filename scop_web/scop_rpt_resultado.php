@@ -227,7 +227,7 @@ if($Buscar=='S')
 			$Consulta.=" and mes='".$Mes."'";
 		$Consulta.=" and cod_division in ($DatoDiv)";
 		$Consulta.=" group by ano,mes";	
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			$Detalle=$Fila["ano"]."~".$Mes=$Fila["mes"];

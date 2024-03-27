@@ -140,7 +140,7 @@ function FuncionEnvioCorreo($Corr)
 		$Consulta.=" left join proyecto_modernizacion.subproducto t3 on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
 		$Consulta.=" left join proyecto_modernizacion.funcionarios t4 on t1.rut_operador=t4.rut ";
 		$Consulta.=" where t1.correlativo='".$Corr."' and t1.operacion_realizada='A' order by t1.fecha_hora desc";
-		$RespReg=mysql_query($Consulta);
+		$RespReg=mysqli_query($link, $Consulta);
 		if($FilaReg=mysql_fetch_array($RespReg))
 		{
 			$Fecha=$FilaReg["fecha_hora"];

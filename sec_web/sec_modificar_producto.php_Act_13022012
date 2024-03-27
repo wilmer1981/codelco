@@ -73,7 +73,7 @@ function Salir()
                   <option value='-1' selected>Seleccionar</option>
                   <?
 					$Consulta="select cod_producto,descripcion from proyecto_modernizacion.productos order by descripcion"; 
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbProductos==$Fila["cod_producto"])

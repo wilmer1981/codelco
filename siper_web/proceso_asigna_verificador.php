@@ -8,7 +8,7 @@
 	if($Proceso=='AOBC')
 	{
 		$Consulta="SELECT max(CIDVERIFICADOR+1) as maximo from sgrs_siperverificadores_obs ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			if($Fila["maximo"]=='')
@@ -146,7 +146,7 @@ function AC(CodPeli,Area)
  $Cod=ObtenerCodParent($CodSelTarea);
  $Consulta="SELECT * from sgrs_siperpeligros where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."'";
  //echo $Consulta;
- $Resp=mysql_query($Consulta);
+ $Resp=mysqli_query($link, $Consulta);
  if($Fila=mysql_fetch_array($Resp))
 {
 	$QPROBHIST=$Fila[QPROBHIST];
@@ -171,7 +171,7 @@ function AC(CodPeli,Area)
 		$TextVisible='hidden';
 		$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.CCONTACTO as orden from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$Cod."' group by t1.CPELIGRO order by NCONTACTO asc";
 		//echo $Consulta;
-		$Resultado=mysql_query($Consulta);
+		$Resultado=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resultado))
 		{
 			if($CmbPeligros==$Fila[CPELIGRO])
@@ -227,7 +227,7 @@ function AC(CodPeli,Area)
 			<?
 			 $Consulta="SELECT * from sgrs_sipercontroles where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."'";
 			 //echo $Consulta."<br>";
-			 $Resp=mysql_query($Consulta);
+			 $Resp=mysqli_query($link, $Consulta);
 			 if($Fila=mysql_fetch_array($Resp))
 			 {
 			?>
@@ -239,7 +239,7 @@ function AC(CodPeli,Area)
 		 </tr>		 
 		 <?
 		 /*$Consulta="SELECT * from sgrs_siperpeligros where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' and MVALIDADO='1'";
-		 $Resp=mysql_query($Consulta);
+		 $Resp=mysqli_query($link, $Consulta);
 		 if(!$Fila=mysql_fetch_array($Resp))*/
 		 $VALIDADO='S';
 		 if($VALIDADO=='S')
@@ -290,7 +290,7 @@ function AC(CodPeli,Area)
 				$EncontroObs='N';
 				$Consulta="SELECT * from sgrs_siperverificadores_obs where COD_VERIFICADOR ='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by COD_VERIFICADOR asc";
 				//echo $Consulta."<br>";
-				$ResultadoC=mysql_query($Consulta);
+				$ResultadoC=mysqli_query($link, $Consulta);
 				while($FilaC=mysql_fetch_array($ResultadoC))
 				{	
 					$EncontroObs='S';
@@ -318,7 +318,7 @@ function AC(CodPeli,Area)
 			   
 /*			   $Consulta="SELECT * from sgrs_siperverificadores_obs where COD_VERIFICADOR ='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by COD_VERIFICADOR asc";
 			   //echo $Consulta."<br>";
-			   $ResultadoC=mysql_query($Consulta);
+			   $ResultadoC=mysqli_query($link, $Consulta);
 			   if($FilaC=mysql_fetch_array($ResultadoC))
 			   {
 					if($FilaC[TOBSERVACION]!='')

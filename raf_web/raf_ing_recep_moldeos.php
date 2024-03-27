@@ -13,7 +13,7 @@ if($Proceso == "B")
 {
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;	
 	$Consulta = "SELECT * FROM raf_web.proyeccion_moldeo WHERE fecha = '$Fecha' AND turno = '$cmbturno'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	$Fila = mysql_fetch_array($rs);
 	if($Fila[hornada1] == 0)
 	   $hornada1 = '';		
@@ -47,7 +47,7 @@ if($Proceso == "B")
 		$ton_proy3 = $Fila[ton_proy3];
 
 	$Consulta = "SELECT observacion FROM raf_web.proyeccion_moldeo WHERE fecha = '$Fecha' AND observacion != ''";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	$fila = mysql_fetch_array($rs);
 	$observacion = $fila["observacion"];
 

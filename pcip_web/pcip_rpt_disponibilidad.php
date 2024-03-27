@@ -107,7 +107,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="-1" selected="selected">Seleccionar</option>
         <?
 	  $Consulta = "select cod_sistema,nom_sistema from pcip_eec_sistemas where vigente='S' and mostrar='S' order by nom_sistema ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSistema==$FilaTC["cod_sistema"])
@@ -126,7 +126,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="T" selected="selected">Todos</option>
         <?
 	  $Consulta = "select t1.cod_equipo,t2.nom_equipo from pcip_eec_equipos_por_sistema t1 inner join pcip_eec_equipos t2 on t1.cod_equipo=t2.cod_equipo where t1.cod_sistema='".$CmbSistema."' order by t2.nom_equipo ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEquipos==$FilaTC["cod_equipo"])
@@ -214,7 +214,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta="select t1.cod_equipo,t2.nom_equipo from pcip_eec_equipos_por_sistema t1 inner join pcip_eec_equipos t2 on t1.cod_equipo=t2.cod_equipo where t1.cod_sistema='".$CmbSistema."' ";
 				if($CmbEquipos!='T')
 					$Consulta.=" and t1.cod_equipo ='".$CmbEquipos."' ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					//MENSUAL
@@ -299,7 +299,7 @@ function ValoresDisponibilidad($Tipo,$Ano,$Mes,$CmbSistema,$CodEquipo,$Opcion)
 		$Consulta.= " and t1.cod_sistema='".$CmbSistema."' ";
 		$Consulta.= " and t1.cod_equipo='".$CodEquipo."'";
 		//echo $Consulta."<br>";
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		while($Fila2=mysql_fetch_array($Resp2))
 		{
 			$Valor=$Valor+$Fila2[valor];
@@ -323,7 +323,7 @@ function ValoresDisponibilidad($Tipo,$Ano,$Mes,$CmbSistema,$CodEquipo,$Opcion)
 		else
 			$Consulta.= " group by t1.cod_sistema,t1.cod_equipo,t1.tipo_disponibilidad,t1.ano,t1.mes ";	
 		//echo $Consulta;
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		if($Fila2=mysql_fetch_array($Resp2))
 		{
 			$Valor=$Fila2[valor]."~".$Fila2[valor_real]."~".$Fila2[valor_hrs_oper_d]."~".$Fila2[valor_hrs_mant_men]."~".$Fila2[valor_hrs_mant_may];

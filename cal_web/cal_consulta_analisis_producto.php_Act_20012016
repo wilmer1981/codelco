@@ -278,7 +278,7 @@ function Salir()
 					for ($i=0;$i<$Largo;$i++)
 					{
 						$Consulta="select abreviatura from proyecto_modernizacion.leyes where cod_leyes=".$ArregloDescrip[$i];
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						$NomLeyes=$NomLeyes." ".$Fila["abreviatura"];
 					}
@@ -327,7 +327,7 @@ function Salir()
 				for ($i=0;$i<$Largo;$i++)
 				{
 					$Consulta="select abreviatura from proyecto_modernizacion.leyes where cod_leyes=".$ArregloAux[$i];
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);
 					$Arreglo[$ArregloAux[$i]][0]=$Fila["abreviatura"];
 					$Arreglo[$ArregloAux[$i]][1]=$ArregloAux[$i];
@@ -376,7 +376,7 @@ function Salir()
 					$Consulta="create table cal_web.tmp_paso_".$RutTB." as select * from cal_web.solicitud_analisis ";
 					$Consulta.=" where not isnull(nro_solicitud)  and estado_actual !='7' and estado_actual !='16' and  fecha_hora between '".$FechaI."' and '".$FechaT."' ";
                     //echo $Consulta."<br>";
-                    mysql_query($Consulta);
+                    mysqli_query($link, $Consulta);
 					// hasta aca
 
 					echo "</tr>";
@@ -390,7 +390,7 @@ function Salir()
 					$Consulta=$Consulta." inner join proyecto_modernizacion.subproducto t3 on t3.cod_producto=t1.cod_producto and t3.cod_subproducto=t1.cod_subproducto ";
 					$Consulta=$Consulta." where not isnull(t1.nro_solicitud)  and  t1.fecha_hora between '".$FechaI."' and '".$FechaT."' group by producto,subproducto";
 					//echo $Consulta."</br>";
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta2))
 					{
 						echo "<tr align='center'>";
@@ -401,7 +401,7 @@ function Salir()
 						$Consulta=$Consulta." inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes=t3.cod_leyes ";
 						$Consulta=$Consulta." where  t1.cod_producto=".$Fila["cod_producto"]." and t1.cod_subproducto=".$Fila["cod_subproducto"]." and (".$CodLeyes.") and t1.fecha_hora between '".$FechaI."' and '".$FechaT."' group by t2.cod_leyes";
 						//echo $Consulta."</br>";
-						$Respuesta3=mysql_query($Consulta);
+						$Respuesta3=mysqli_query($link, $Consulta);
 						reset($Arreglo);
 						while(list($Clave,$Valor)=each($Arreglo))
 						{

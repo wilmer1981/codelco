@@ -531,7 +531,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td width="224" class="Colum01"><strong>
       <?
 		$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from funcionarios where rut = '".$Rut."'";
-	  	$Resultado= mysql_query($Consulta);
+	  	$Resultado= mysqli_query($link, $Consulta);
 		if ($Fila =mysql_fetch_array($Resultado))
 		{	
 			echo $Rut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
@@ -539,7 +539,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  	else
 			{
 		  		$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				if ($Fila=mysql_fetch_array($Respuesta))
 					{
 						echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
@@ -578,7 +578,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value = "-1" selected >Seleccionar</option>
         <?
 		$Consulta =  "select cod_subclase,nombre_subclase,ceiling(valor_subclase6) as orden from sub_clase where (cod_clase = 1002 and cod_subclase in(1,3)) order by orden ";
-		$Resultado = mysql_query($Consulta);
+		$Resultado = mysqli_query($link, $Consulta);
 		while ($Fila =mysql_fetch_assoc ($Resultado))
 		{
 			if ($CmbEstado == $Fila["cod_subclase"])
@@ -714,7 +714,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta =$Consulta." or (cod_clase = 1002 and cod_subclase = 7 )  ";
 				$Consulta =$Consulta." or (cod_clase = 1002 and cod_subclase = 8 ) ";
 				$Consulta =$Consulta." or (cod_clase = 1002 and cod_subclase = 14 ) or (cod_clase = 1002 and cod_subclase = 6 ) order by valor_subclase3 ";
-				$Resultado = mysql_query($Consulta);
+				$Resultado = mysqli_query($link, $Consulta);
 				while ($Fila =mysql_fetch_array ($Resultado))
 		 		{
 		    		if ($CmbTipo == $Fila["cod_subclase"])
@@ -747,7 +747,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					
 					$Consulta ="select * from sub_clase where cod_clase = 1002 and cod_subclase = '14' ";
 					//$Consulta =$Consulta." or (cod_clase = 1001 and cod_subclase = 3) or (cod_clase = 1002 and valor_subclase2 =1 ) ";
-					$Resultado = mysql_query($Consulta);
+					$Resultado = mysqli_query($link, $Consulta);
 					while ($Fila =mysql_fetch_array ($Resultado))
 					{
 						if ($CmbTipo == $Fila["cod_subclase"])
@@ -997,7 +997,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
 			//echo $Consulta;
 			echo "<input type='hidden' name='checkAtender'><input name ='TxtSA' type='hidden'><input name ='TxtSAO' type='hidden'><input name ='TxtRutO' type='hidden'><input name='TxtFechaO' type='hidden'><input name='TxtHoraO' type='hidden'><input name ='TxtRecargoO' type='hidden'><input name ='TxtIdMuestra' type='hidden'><input name ='TxtLotes' type='hidden'><input name ='TxtProducto' type='hidden'>";
-			$Respuesta= mysql_query($Consulta);
+			$Respuesta= mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Respuesta))
 			{
 				if ((is_null($Fila["recargo"])) || ($Fila["recargo"]==''))
@@ -1112,7 +1112,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta ="select fecha_hora from estados_por_solicitud  ";
 				$Consulta = $Consulta." where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') ";
 				$Consulta = $Consulta." and (cod_estado = '1') and recargo = '".$Fila["recargo"]."' "; 
-				$Respuesta1 = mysql_query($Consulta);
+				$Respuesta1 = mysqli_query($link, $Consulta);
 				if ($Fila1 = mysql_fetch_array($Respuesta1))
 				{
 					//asigna el valor encontrado a fecha de recepcion en caso de que no encuentre nada asigna nulo a FechaRecepcion
@@ -1127,7 +1127,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				/*$Consulta ="select fecha_hora from estados_por_solicitud  ";
 				$Consulta = $Consulta." where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') ";
 				$Consulta = $Consulta." and (cod_estado = '2') and recargo = '".$Fila["recargo"]."' ";
-				$Respuesta2 = mysql_query($Consulta);
+				$Respuesta2 = mysqli_query($link, $Consulta);
 				if ($Fila2 = mysql_fetch_array($Respuesta2))
 				{
 					//asigna el valor encontrado a fecha de recepcion en caso de que no encuentre nada asigna nulo a FechaRecepcion
@@ -1140,13 +1140,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				}
 
 				$Consulta = "select fecha_hora as FechaUltAtencion,ult_atencion from cal_web.estados_por_solicitud where rut_funcionario ='".$Fila["rut_funcionario"]."' and nro_solicitud =".$Fila["nro_solicitud"]." and ult_atencion = 'S' and recargo ='".$Fila["recargo"]."'";
-				$Respuesta2=mysql_query($Consulta);
+				$Respuesta2=mysqli_query($link, $Consulta);
 				if ($Fila2=mysql_fetch_array($Respuesta2))
 					$FechaUltAtencion = $Fila2["FechaUltAtencion"];
 				else	
 					$FechaUltAtencion ="";
 				$Consulta = "select fecha_hora as FechaAtencion from cal_web.estados_por_solicitud where rut_funcionario ='".$Fila["rut_funcionario"]."' and nro_solicitud =".$Fila["nro_solicitud"]." and cod_estado ='13' and recargo ='".$Fila["recargo"]."' order by fecha_hora";
-				$Respuesta2=mysql_query($Consulta);
+				$Respuesta2=mysqli_query($link, $Consulta);
 				if ($Fila2=mysql_fetch_array($Respuesta2))
 						$FechaAtencion = $Fila2["FechaAtencion"];						
 				if($CmbEstado=='13' || $CmbEstado=='3')

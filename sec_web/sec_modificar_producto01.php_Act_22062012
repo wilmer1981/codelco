@@ -5,7 +5,7 @@
 		case "G":
 			$Consulta="select * from proyecto_modernizacion.sub_clase ";
 			$Consulta.=" where cod_clase='3004' and nombre_subclase='".$Codigo."'";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Mes=$Fila["cod_subclase"];
@@ -29,7 +29,7 @@
 				$Consulta.=" inner join sec_web.paquete_catodo t2 on t1.cod_paquete=t2.cod_paquete  ";
 				$Consulta.=" and t1.num_paquete=t2.num_paquete ";
 				$Consulta.=" where (t1.cod_paquete='".$MesPaqueteI."' and t1.num_paquete between '".$NumPaqueteI."' and '".$NumPaqueteF."') and LEFT(t2.fecha_creacion_paquete,4)='".$Ano."'  and  cod_bulto='".$CodigoLote."' and num_bulto='".$NumeroLote."' group by t1.corr_enm";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				if($Fila=mysql_fetch_array($Respuesta))
 				{

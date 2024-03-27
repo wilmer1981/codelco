@@ -18,7 +18,7 @@
 	$Consulta.= " and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and year(t1.fecha_creacion_paquete) = '".$Ano."'";
 	$Consulta.= " order by t2.cod_grupo";
 	//echo "Con".$Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	
 	if ($Fila = mysql_fetch_array($Respuesta))
 	{
@@ -98,7 +98,7 @@
 		}
 	}
 	//echo $Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPaquetes = 0;
 	$TotalPeso = 0;
 	while ($Fila = mysql_fetch_array($Respuesta))
@@ -116,7 +116,7 @@
 		$Consulta.= " where cod_grupo = '".$Fila["cod_grupo"]."'";
 		$Consulta.= " and fecha_produccion <= '".$Fila["fecha_creacion_paquete"]."'";
 	
-		$Respuesta2 = mysql_query($Consulta);
+		$Respuesta2 = mysqli_query($link, $Consulta);
 		
 		if ($Fila["cod_subproducto"]=="44")
 		{

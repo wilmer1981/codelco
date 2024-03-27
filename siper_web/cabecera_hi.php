@@ -48,7 +48,7 @@ function Salir(Opt)
 				$Consulta="SELECT * from sgrs_areaorg where CTAREA='5' ".$AccesoOrg."";
 				$Consulta.=" and upper(NAREA) like '%".strtoupper($TxtBuscaUnidad)."%'";
 				$Consulta.=" order by NAREA";	
-				$RespTarea=mysql_query($Consulta);
+				$RespTarea=mysqli_query($link, $Consulta);
 				while($FilaTarea=mysql_fetch_array($RespTarea))
 				{
 					if(strtoupper($FilaTarea[NAREA])==strtoupper($CmbUnidades))

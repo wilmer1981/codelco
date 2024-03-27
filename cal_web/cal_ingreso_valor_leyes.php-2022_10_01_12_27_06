@@ -244,7 +244,7 @@ function Salir(Valores)
             <td>Quimico: 
               <?  
 				$Consulta = "select  * from proyecto_modernizacion.funcionarios where rut = '".$CookieRut."'";
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				if ($Fila=mysql_fetch_array($Respuesta))
 				{
 					echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
@@ -264,7 +264,7 @@ function Salir(Valores)
               <input name="BtnSalir2" type="button" id="BtnSalir2" value="Salir" style="width:60" onClick="JavaScript:window.close();">
               <?
    				/*$Consulta = "select estado_actual,cod_producto from cal_web.solicitud_analisis where ".$Criterio;
-				$RespEstado=mysql_query($Consulta);
+				$RespEstado=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($RespEstado);
 				if (($Fila["estado_actual"]!="6") && (($Fila["cod_producto"]=="16") or ($Fila["cod_producto"]=="17") or ($Fila["cod_producto"]=="18") or ($Fila["cod_producto"]=="21") or ($Fila["cod_producto"]=="20")))
 				{
@@ -273,7 +273,7 @@ function Salir(Valores)
 				else
 				{*/
 					$Consulta ="select count(t1.candado) as encontro from cal_web.leyes_por_solicitud t1 inner join proyecto_modernizacion.leyes t2 on t1.cod_leyes = t2.cod_leyes  and t2.cod_leyes <> '01' and (tipo_leyes = 0 or tipo_leyes = 1 or tipo_leyes = 3) where (".$Criterio.") and (t1.candado='0')";
-					$RespTodosCandados=mysql_query($Consulta);
+					$RespTodosCandados=mysqli_query($link, $Consulta);
 					$FilaTodosCandados=mysql_fetch_array($RespTodosCandados);
 					if ($FilaTodosCandados[encontro]==0)
 					{
@@ -303,7 +303,7 @@ function Salir(Valores)
 		<? $Popup='N';	
         	$Consulta ="select t1.observacion,t1.fecha_hora,t1.cod_leyes,t1.nro_solicitud,t1.cod_producto,t1.rut_funcionario,t1.recargo,t2.abreviatura,t1.valor,t1.cod_unidad,t1.candado,t1.signo from cal_web.leyes_por_solicitud t1 inner join proyecto_modernizacion.leyes t2 on t1.cod_leyes = t2.cod_leyes  and t2.cod_leyes <> '01' and (tipo_leyes = 0 or tipo_leyes = 1 or tipo_leyes = 3) where ".$Criterio." order by t1.nro_solicitud,t1.cod_leyes";
 			//echo $Consulta;
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Cont=1;$ValoresSA='';
 			echo "<input type='hidden' name ='CheckSA'><input type='hidden' name ='CheckCandado'><input type='hidden' name ='TxtCandadoO'><input type='hidden' name ='TxtSAO'><input type='hidden' name ='TxtRutO'><input type='hidden' name ='TxtCodLeyesO'><input type='hidden' name ='TxtRecargoO'><input type='hidden' name='TxtValor'><input type='hidden' name='CmbUnidad'><input type='hidden' name='CmbSigno'>";
 			while ($Fila=mysql_fetch_array($Respuesta))
@@ -320,7 +320,7 @@ function Salir(Valores)
 				}
 				$ValoresSA.=$Fila["nro_solicitud"]."-".$Fila["recargo"]."-".$Fila["rut_funcionario"]."~";
 				
-				$RespEstado=mysql_query($Consulta);
+				$RespEstado=mysqli_query($link, $Consulta);
 				$FilaEstado=mysql_fetch_array($RespEstado);
 				
 				echo "<tr align='center'>";
@@ -383,7 +383,7 @@ function Salir(Valores)
 					}						
 				}	
 				$Consulta="select abreviatura,cod_unidad from proyecto_modernizacion.unidades order by abreviatura";
-				$Respuesta2=mysql_query($Consulta);
+				$Respuesta2=mysqli_query($link, $Consulta);
 				while($Fila2=mysql_fetch_array($Respuesta2))
 				{
 					if (($Fila2["cod_unidad"])==($Fila["cod_unidad"]))
@@ -405,7 +405,7 @@ function Salir(Valores)
 					$Recargo='N';				
 				}
 				//$Consulta = "select estado_actual from cal_web.solicitud_analisis where ".$Criterio;
-				//$RespEstado=mysql_query($Consulta);
+				//$RespEstado=mysqli_query($link, $Consulta);
 				//$FilaEstado=mysql_fetch_array($RespEstado);
 				/*if (($FilaEstado["estado_actual"]!="6") && (($FilaEstado["cod_producto"]=="16") || ($FilaEstado["cod_producto"]=="17") || ($FilaEstado["cod_producto"]=="18") || ($FilaEstado["cod_producto"]=="21") || ($FilaEstado["cod_producto"]=="20")))
 				{

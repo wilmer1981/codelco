@@ -84,7 +84,7 @@ if ($proceso == 'G')
 			mysql_query($Insertar_rm);
         }
         $Consulta = "SELECT unidades,peso_unidades FROM hornadas WHERE cod_producto = 17 AND cod_subproducto = 8 AND hornada_ventana = '".$num_hornada."'"; 	
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		if($row = mysql_fetch_array($rs))
 		{
    			$unidades_total = $row["unidades"] + ($uni_hojas_madres * 1)  + ($uni_rechazo_hm * 1);
@@ -127,7 +127,7 @@ if ($proceso == 'G')
 
 		}
         $Consulta = "SELECT unidades,peso_unidades FROM hornadas WHERE cod_producto = 17 AND cod_subproducto = 4 AND hornada_ventana = '".$num_hornada."'"; 	
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		if($row = mysql_fetch_array($rs))
 		{
    			$unidades_total = $row["unidades"] + ($uni_corrientes  * 1) + ($uni_rechazo_cte * 1); 
@@ -154,7 +154,7 @@ if ($proceso == 'G')
 		$rechazo_hm = 0;
 		$Consulta ="Select max(fecha) as fechita  from sea_web.inf_rechazos  where fecha <= '".$fecha."'";
 		//echo "--".$Consulta."</br>";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Row=mysql_fetch_array($Resp))
 		{
 			$ConsultaN="SELECT * from sea_web.inf_rechazos where fecha ='".$Row[fechita]."'";

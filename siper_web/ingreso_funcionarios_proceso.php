@@ -11,7 +11,7 @@
 			$Consulta.=" inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema and t2.nivel=t3.nivel";
 			$Consulta.=" where t2.cod_sistema='29' and t1.rut='".$TxtCodigo."' order by apellido_paterno";
 			//echo $Consulta."<br>";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$CmbCCosto2=substr($Fila["cod_centro_costo"],3);
 			$CmbCCosto2=str_replace('.','',$CmbCCosto2);
@@ -77,7 +77,7 @@ function Salir()
 			  else
 			  {
 					$Consulta="SELECT distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 inner join sistemas_por_usuario t2 on t1.rut=t2.rut where t2.cod_sistema='29' order by apellido_paterno";
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resultado))
 						$In=$In."'".$Fila["rut"]."',";
 					 if($In !='')

@@ -97,7 +97,7 @@ if(!isset($CmbMostrar))
 				$Consulta.=" and t1.ano='".$Ano."' and t1.mes between '".$Mes."' and '".$MesFin."'";						
 				$Consulta.= " order by t1.cod_producto ";
 				//echo $Consulta."<br>";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					$Total=0;

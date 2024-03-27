@@ -134,7 +134,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                  <?
 			$FechaActual=date("Y")."-".date("m")."-".date("d");
 			$Consulta="SELECT * from sget_contratos where fecha_termino >= '".$FechaActual."' order by fecha_termino desc";
-			$RespCtto=mysql_query($Consulta);
+			$RespCtto=mysqli_query($link, $Consulta);
 			while($FilaCtto=mysql_fetch_array($RespCtto))
 			{
 				if ($FechaActual > $FilaCtto[fecha_termino])
@@ -213,7 +213,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <?
 			$Consulta="SELECT t1.nombre_subclase as nom_eva,t1.cod_subclase as cod_eva from proyecto_modernizacion.sub_clase t1 where t1.cod_clase='30014' order by cod_subclase";
 			//echo $Consulta."<br>";
-			$RespBono=mysql_query($Consulta);
+			$RespBono=mysqli_query($link, $Consulta);
 			while($FilaBono=mysql_fetch_array($RespBono))
 			{
 				if ($CmbNumBono==$FilaBono["cod_eva"])
@@ -242,7 +242,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			 {
 				$Consulta="SELECT t2.rut,t2.nombres,t2.ape_paterno,t2.ape_materno,t1.monto FROM sget_personal t2  left join sget_bonos_contratistas t1 on t1.rut_persona=t2.rut and t1.num_bono='".$CmbNumBono."'  and t1.ano='".$CmbAno."'";
 				$Consulta.="WHERE t2.cod_contrato ='".$CmbContrato."'  and t2.estado='A' and t2.tipo=1 ";
-				$Resp=mysql_query($Consulta);echo "<input type='hidden' name='TxtMontoPers'><input type='hidden' name='TxtRut'>";
+				$Resp=mysqli_query($link, $Consulta);echo "<input type='hidden' name='TxtMontoPers'><input type='hidden' name='TxtRut'>";
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr bgcolor='#FFFFFF'>";

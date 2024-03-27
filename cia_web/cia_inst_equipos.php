@@ -10,7 +10,7 @@
 		$link = mysql_connect("10.56.11.6","user_conect","perfil7");
 		mysql_select_db("bd_rrhh", $link);
 		$Consulta = "select * from bd_rrhh.antecedentes_personales where rut='".$CmbUser."' order by apellido_paterno, apellido_materno, nombres";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtNomUser=strtoupper(substr($Fila["NOMBRES"],0,1).$Fila["APELLIDO_PATERNO"]);
@@ -25,7 +25,7 @@
 	{
 		include("../principal/conectar_principal.php");
 		$Consulta = "SELECT * FROM ins_equipo.`equipo` where cod_equipo='".$TxtCodEquipo."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		if ($Fila =mysql_fetch_array($Resp))
 		{
@@ -180,7 +180,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$link = mysql_connect("10.56.11.6","user_conect","perfil7");
 	mysql_select_db("bd_rrhh", $link);
 	$Consulta = "select * from bd_rrhh.antecedentes_personales order by apellido_paterno, apellido_materno, nombres";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CmbUser==$Fila["RUT"])	
@@ -233,14 +233,14 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	mysql_select_db("bd_rrhh", $link);
 	//CONSULTA CC DEL USUARIO
 	$Consulta = "select * from bd_rrhh.antecedentes_personales where rut='".$CmbUser."'";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 	{
 		$CmbCC=$Fila["COD_CENTRO_COSTO"];
 	}
 	//-----------------------
 	$Consulta = "select * from bd_rrhh.centros order by cod_centro_costo";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CmbCC==$Fila["COD_CENTRO_COSTO"])	
@@ -352,7 +352,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	include("../principal/conectar_principal.php");
 	$Consulta = "select * from ins_equipo.detalle_equipo t1 inner join proyecto_modernizacion.sub_clase t2 on t1.cod_clase=t2.cod_clase and t1.cod_subclase=t2.cod_subclase ";
 	$Consulta.= "where t1.cod_equipo='".$TxtCodEquipo."' order by t1.cod_clase";
-	$Resp = mysql_query($Consulta);	
+	$Resp = mysqli_query($link, $Consulta);	
 	echo "<input name='ChkDetalle' type='hidden'><input name='TxtSerie' type='hidden'><input name='TxtUno' type='hidden'>";
 	while ($Fila=mysql_fetch_array($Resp))
 	{
@@ -361,7 +361,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.= " from proyecto_modernizacion.clase t1 inner join proyecto_modernizacion.sub_clase t2 ";
 		$Consulta.= " on t1.cod_clase=t2.cod_clase ";
 		$Consulta.= " where t1.cod_clase='".$Fila["cod_clase"]."' and t2.cod_subclase='".$Fila["cod_subclase"]."'";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		if ($FilaAux =mysql_fetch_array($RespAux))
 		{
 			$NomClase=$FilaAux["nombre_clase"];

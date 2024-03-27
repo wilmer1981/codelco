@@ -8,7 +8,7 @@ switch($Proceso)
 {
 	case "GOBS":
 		$Consulta="SELECT max(correlativo_obs) as mayor from sget_hoja_ruta_hitos_observaciones";
-		$RespObs=mysql_query($Consulta);
+		$RespObs=mysqli_query($link, $Consulta);
 		$FilaObs=mysql_fetch_array($RespObs);
 		$NumObs =$FilaObs["mayor"]+1;	
 		$Inserta=" INSERT INTO sget_hoja_ruta_hitos_observaciones (num_hoja_ruta,cod_hito,correlativo_obs,observacion,fecha_hora,rut)";

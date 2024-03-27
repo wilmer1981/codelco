@@ -19,7 +19,7 @@ if(!isset($Recarga))
 		if($Cod[4]=='SVP')
 		 	$Consulta.="and t1.num_orden_relacionada='".$Cod[4]."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		$CmbProd=$Fila[cod_asignacion];
 		$CmbAsig=$Fila[cod_procedencia];
@@ -57,9 +57,9 @@ if(!isset($Recarga))
 <head>
 <?
 	if ($Opcion=='N')
-		echo "<title>Nueva Asignación PPC</title>";
+		echo "<title>Nueva Asignaciï¿½n PPC</title>";
 	else	
-		echo "<title>Modifica Asignación PPC</title>";
+		echo "<title>Modifica Asignaciï¿½n PPC</title>";
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script  language="JavaScript" src="../principal/funciones/funciones_java.js"></script>
@@ -133,7 +133,7 @@ function ValidaCampos()
 
 	if(f.CmbProd.value=='-1')
 	{
-		alert("Debe seleccionar Asignación");
+		alert("Debe seleccionar Asignaciï¿½n");
 		f.CmbProd.focus();
 		Res=false;
 		return;
@@ -225,7 +225,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			<option value="-1" selected="selected">Seleccionar</option>
 			<?
 			$Consulta = "select * from pcip_svp_asignacion where mostrar_ppc='1' order by cod_asignacion";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbProd==$Fila["cod_asignacion"])
@@ -254,7 +254,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 				$Consulta = "select * from pcip_svp_asignaciones_productos where cod_asignacion='".$CmbProd."' and tipo='PPC'";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbAsig==$Fila["cod_producto"])
@@ -285,7 +285,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 			$Consulta = "select * from pcip_svp_negocios ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbNegocio==$Fila["cod_negocio"])
@@ -313,7 +313,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 			$Consulta = "select * from pcip_svp_asignaciones_titulos where cod_asignacion='".$CmbProd."' and cod_negocio='".$CmbNegocio."' order by orden";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbTitulo==$Fila["cod_titulo"])
@@ -341,7 +341,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select * from pcip_svp_ordenesproduccion order by OPorden ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbOrden==$Fila["OPorden"])
@@ -366,7 +366,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Ninguna</option>
                <?
 				$Consulta = "select * from pcip_svp_ordenesproduccion order by OPorden ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbOrdenRel==$Fila["OPorden"])

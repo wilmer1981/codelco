@@ -217,7 +217,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				}
 				$Consulta.= " group by t1.rut_prev order by t1.apellido_paterno,t1.apellido_materno,t1.nombres";
 				//echo $Consulta;
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				echo "<input name='CheckConduc' type='hidden'  value=''>";
 				$Cont=1;
 				while ($Filas=mysql_fetch_array($Resp))
@@ -352,11 +352,11 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 <?
 $Pasa='N';
 $Consulta="SELECT * from sget_transporte_ingreso where patente='".$PatenteIng."' and estado='E'";
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 if($Fila=mysql_fetch_array($Resp))
 {
 	$Consulta="SELECT * from sget_transporte_ingreso where patente='".$Fila["patente"]."' and estado='S' and corr_transporte='".$Fila[corr_transporte]."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if(!$Fila=mysql_fetch_array($Resp))
 	{	
 		$Pasa='S';

@@ -88,7 +88,7 @@ $Consulta.= " AND hornada = '".$Hornada."' ";
 $Consulta.= " AND campo1 = '".$LetraC."' ";
 $Consulta.= " AND tipo_report = 1 ";
 $Consulta.= " AND seccion_report = '".$Seccion."'";
-$Resp = mysql_query($Consulta);
+$Resp = mysqli_query($link, $Consulta);
 while ($Fila = mysql_fetch_array($Resp))
 {
 	switch ($Fila["campo2"])

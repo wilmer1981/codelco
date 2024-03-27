@@ -34,7 +34,7 @@
 		$peso_ok_ct = 0;
 	 	$Consulta ="Select * from sea_web.hornadas  where cod_producto = '17' and cod_subproducto in ('4','8') and  hornada_ventana = '".$TxtHornada."'";
 		$Consulta.=" order by cod_subproducto";
-		$Rsp = mysql_query($Consulta);
+		$Rsp = mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Rsp))
 		{
 			if ($Fila["cod_subproducto"]=='4')

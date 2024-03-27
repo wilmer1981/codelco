@@ -55,7 +55,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 				}
 				$Consulta.= " group by t1.rut_prev order by t1.apellido_paterno,t1.apellido_materno,t1.nombres";
 				//echo $Consulta;
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				echo "<input name='CheckConduc' type='hidden'  value=''>";
 				$Cont=1;
 				while ($Filas=mysql_fetch_array($Resp))

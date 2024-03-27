@@ -11,17 +11,17 @@
 					$MinaPlanta=explode('~',$CmbMinaPlanta);
 					//AGREGA DVS LFARA 11-10-2013
 					$Consulta="SELECT ult_registro,cod_producto,cod_subproducto from sipa_web.recepciones where lote='".$TxtLote."' and recargo='".$TxtRecargo."'";
-					$RespLote=mysql_query($Consulta);
+					$RespLote=mysqli_query($link, $Consulta);
 					$FilaLote=mysql_fetch_array($RespLote);
 					if(trim($FilaLote["ult_registro"])!=trim($ChkFinLote))
 					{
 						$Consulta="SELECT cod_grupo from sipa_web.grupos_prod_subprod where cod_producto='".$FilaLote["cod_producto"]."' and cod_subproducto='".$FilaLote["cod_subproducto"]."'";
-						$RespGrupo=mysql_query($Consulta);
+						$RespGrupo=mysqli_query($link, $Consulta);
 						if($FilaGrupo=mysql_fetch_array($RespGrupo))
 						{			
 							$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase ='24004' and valor_subclase1 ='".$FilaGrupo["cod_grupo"]."' and valor_subclase2='S'";
 							//echo $Consulta;
-							$RespGrupo=mysql_query($Consulta);
+							$RespGrupo=mysqli_query($link, $Consulta);
 							if($FilaGrupo=mysql_fetch_array($RespGrupo))
 							{
 								$Entrar='S';
@@ -48,7 +48,7 @@
 					if($ProdSubProd[0]=='1')//CUANDO PRODUCTO SEA MINERO (1)
 					{
 						$Consulta="SELECT * from sipa_web.recepciones where correlativo='".$TxtCorr."'";
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						if ($Fila=mysql_fetch_array($Respuesta))
 						{
 							$LoteAnt=$Fila["lote"];
@@ -87,7 +87,7 @@
 					if($ProdSubProd[0]=='1')//CUANDO PRODUCTO SEA MINERO (1)
 					{
 						$Consulta="SELECT * from sipa_web.recepciones where correlativo='".$TxtCorr."'";
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						if ($Fila=mysql_fetch_array($Respuesta))
 						{
 							$LoteAct=$Fila["lote"];
@@ -182,7 +182,7 @@
 				{
 					case "R":
 						$Consulta="SELECT * from sipa_web.recepciones where correlativo='".$Corr."'";
-						$RespLote=mysql_query($Consulta);
+						$RespLote=mysqli_query($link, $Consulta);
 						$FilaLote=mysql_fetch_array($RespLote);
 						$SA=$FilaLote[sa_asignada];
 						$Lote=$FilaLote["lote"];
@@ -286,12 +286,12 @@ function ModificacionSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto
 	$Consulta ="SELECT * from cal_web.solicitud_analisis where id_muestra = '".$Lote."' and cod_producto ='".$Producto."' ";
 	$Consulta.="and cod_subproducto='".$SubProducto."' and tipo_solicitud = 'A' and ((nro_solicitud is not null) or (nro_solicitud <> ''))";
 	//echo $Consulta."<br><BR>";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Respuesta))
 	{
 		$SA=$Fila["nro_solicitud"];
 		$Consulta="SELECT * from sipa_web.recepciones where lote='".$Lote."' and recargo='".$Recargo."'";
-		$RespLote=mysql_query($Consulta);
+		$RespLote=mysqli_query($link, $Consulta);
 		$FilaLote=mysql_fetch_array($RespLote);
 		$Leyes=$FilaLote["leyes"];
 		$Impurezas=$FilaLote["impurezas"];
@@ -309,7 +309,7 @@ function ModificacionSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto
 			foreach($Leyes as  $c =>$v)
 			{
 				$Consulta="SELECT cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
-				$RespUnidad=mysql_query($Consulta);
+				$RespUnidad=mysqli_query($link, $Consulta);
 				$FilaUnidad=mysql_fetch_array($RespUnidad);
 				$Insertar2="INSERT INTO cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values (";
 				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["FECHA_HORA"]."','".$Fila["nro_solicitud"]."','0','$v','".$FilaUnidad["cod_unidad"]."','".$Producto."','$SubProducto','".$Lote."')";
@@ -338,7 +338,7 @@ function EliminarSARec($SA,$Lote,$Recargo,$Producto,$SubProducto,$UltRec)
 	$Consulta ="SELECT estado_actual from cal_web.solicitud_analisis where nro_solicitud='".$SA."' and id_muestra = '".$Lote."' and cod_producto ='".$Producto."' ";
 	$Consulta.="and cod_subproducto='".$SubProducto."' and tipo_solicitud = 'A' and ((nro_solicitud is not null) or (nro_solicitud <> ''))";
 	//echo $Consulta."<br><BR>";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Respuesta))
 	{
 		if($Fila["estado_actual"]!='5'&&$Fila["estado_actual"]!='6'&&$Fila["estado_actual"]!='32')
@@ -416,12 +416,12 @@ function FuncionEnvioCorreo($LoteAnt,$LoteAct,$DatosModificados,$RutAnt,$RutAct,
 					$SubProAnt=$DatosMod1[1];
 					$SubProAct=$DatosMod1[2];
 					$Consulta="SELECT * from proyecto_modernizacion.subproducto where cod_producto='".$ProAnt."' and cod_subproducto='".$SubProAnt."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Resp))
 						$Mensaje.='Sub-Producto Anterior: '.$Fila["descripcion"];
 					$Mensaje.='<br>';
 					$Consulta="SELECT * from proyecto_modernizacion.subproducto where cod_producto='".$ProAct."' and cod_subproducto='".$SubProAct."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Resp))
 						$Mensaje.='Sub-Producto Actual: '.$Fila["descripcion"];
 					$Mensaje.='<br><br>';
@@ -430,12 +430,12 @@ function FuncionEnvioCorreo($LoteAnt,$LoteAct,$DatosModificados,$RutAnt,$RutAct,
 					$GrupoAnt=$DatosMod1[1];
 					$GrupoAct=$DatosMod1[2];
 					$Consulta="SELECT * from sipa_web.grupos_productos where cod_grupo='".$GrupoAnt."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Resp))
 						$Mensaje.='Grupo Anterior: '.$Fila["descripcion_grupo"];
 					$Mensaje.='<br>';
 					$Consulta="SELECT * from sipa_web.grupos_productos where cod_grupo='".$GrupoAct."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Resp))
 						$Mensaje.='Grupo Actual: '.$Fila["descripcion_grupo"];
 					$Mensaje.='<br><br>';
@@ -444,12 +444,12 @@ function FuncionEnvioCorreo($LoteAnt,$LoteAct,$DatosModificados,$RutAnt,$RutAct,
 					$RutPrvAnt=$DatosMod1[1];
 					$RutPrvAct=$DatosMod1[2];
 					$Consulta="SELECT * from sipa_web.proveedores where rut_prv='".$RutPrvAnt."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Resp))
 						$Mensaje.='Proveedor Anterior: '.$Fila["nombre_prv"];
 					$Mensaje.='<br>';
 					$Consulta="SELECT * from sipa_web.proveedores where rut_prv='".$RutPrvAct."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Resp))
 						$Mensaje.='Proveedor Actual:  '.$Fila["nombre_prv"];
 					$Mensaje.='<br><br>';
@@ -460,12 +460,12 @@ function FuncionEnvioCorreo($LoteAnt,$LoteAct,$DatosModificados,$RutAnt,$RutAct,
 					$MinaAnt=$DatosMod1[1];
 					$MinaAct=$DatosMod1[2];
 					$Consulta="SELECT * from sipa_web.minaprv where rut_prv='".$RutAnt."' and cod_mina='".$MinaAnt."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Resp))
 						$Mensaje.='Mina Anterior: '.$Fila["nombre_mina"];
 					$Mensaje.='<br>';
 					$Consulta="SELECT * from sipa_web.minaprv where rut_prv='".$RutAct."' and cod_mina='".$MinaAct."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Resp))
 						$Mensaje.='Mina Actual: '.$Fila["nombre_mina"];
 					$Mensaje.='<br><br>';
@@ -482,12 +482,12 @@ function FuncionEnvioCorreo($LoteAnt,$LoteAct,$DatosModificados,$RutAnt,$RutAct,
 					$ClaseAnt=$DatosMod1[1];
 					$ClaseAct=$DatosMod1[2];
 					$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15001' and nombre_subclase='".$ClaseAnt."' ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))				
 						$Mensaje.='Clase Anterior: '.$Fila["valor_subclase1"];
 					$Mensaje.='<br>';
 					$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15001' and nombre_subclase='".$ClaseAct."' ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))				
 						$Mensaje.='Clase Actual: '.$Fila["valor_subclase1"];
 					$Mensaje.='<br><br>';
@@ -504,12 +504,12 @@ function FuncionEnvioCorreo($LoteAnt,$LoteAct,$DatosModificados,$RutAnt,$RutAct,
 					$EstaAnt=$DatosMod1[1];
 					$EstaAct=$DatosMod1[2];
 					$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase='24001' and valor_subclase1='".$EstaAnt."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if($Fila = mysql_fetch_array($Resp))
 						$Mensaje.='Estado Anterior: '.$Fila["nombre_subclase"];
 					$Mensaje.='<br>';
 					$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase='24001' and valor_subclase1='".$EstaAct."'";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					if($Fila = mysql_fetch_array($Resp))
 						$Mensaje.='Estado Actual: '.$Fila["nombre_subclase"];
 					$Mensaje.='<br><br>';

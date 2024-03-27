@@ -26,7 +26,7 @@ include('conectar_ori.php');
   <?
 		 $Consulta="SELECT * from sgrs_siperpeligros where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' and MVALIDADO='1'";
 		 //echo $Consulta."<br>";
-		 $Resp=mysql_query($Consulta);
+		 $Resp=mysqli_query($link, $Consulta);
 		 if(!$Fila=mysql_fetch_array($Resp))
 		 {
 		 ?>
@@ -37,7 +37,7 @@ include('conectar_ori.php');
 			$Consulta.=" left join sgrs_sipercontroles t2 on t1.CCONTROL=t2.CCONTROL and t2.CPELIGRO='".$CmbPeligros."' ";			
 			$Consulta.="where t1.MVIGENTE='1' and t2.MCONTROL='1' and t1.CCONTROL<>'--' order by NCONTROL asc";//and t2.CCONTACTO='".$CodC."' 
 			//echo $Consulta;
-			$Resultado=mysql_query($Consulta);//echo "<input type='hidden' name='CodControl'><input type='hidden' name='CmbControl'><input type='hidden' name='ObsControl'>";
+			$Resultado=mysqli_query($link, $Consulta);//echo "<input type='hidden' name='CodControl'><input type='hidden' name='CmbControl'><input type='hidden' name='ObsControl'>";
 			echo "<input type='hidden' name='Obs'><input type='hidden' name='ObsControl'>";
 			while ($Fila=mysql_fetch_array($Resultado))
 			{				
@@ -56,7 +56,7 @@ include('conectar_ori.php');
 				$EncontroObs='N';
 				$Consulta="SELECT * from sgrs_sipercontroles_obs where CCONTROL ='".$Fila[CCONTROL]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by CIDCONTROL asc";
 				//echo $Consulta."<br>";
-				$ResultadoC=mysql_query($Consulta);
+				$ResultadoC=mysqli_query($link, $Consulta);
 				while($FilaC=mysql_fetch_array($ResultadoC))
 				{	
 					$EncontroObs='S';

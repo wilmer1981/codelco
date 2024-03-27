@@ -22,7 +22,7 @@
 					//	$Consulta.=" where not isnull(t1.nro_solicitud)  and t1.estado_actual !='7' and t1.estado_actual !='16' and  t1.fecha_hora between '".$FechaI."' and '".$FechaT."' and  t2.cod_leyes=".$ArregloDescrip[$i];
 						$Consulta="select abreviatura from proyecto_modernizacion.leyes where cod_leyes=".$ArregloDescrip[$i];
 						//echo $Consulta;
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						if($Fila=mysql_fetch_array($Respuesta))
 						{
 							$NomLeyes=$NomLeyes." ".$Fila["abreviatura"];
@@ -53,7 +53,7 @@
 					//	$Consulta="select abreviatura from proyecto_modernizacion.leyes where cod_leyes=".$ArregloDescrip[$i];
 				//	echo $Consulta."<br>";	
 				//	$Consulta="select abreviatura from proyecto_modernizacion.leyes where cod_leyes=".$ArregloAux[$i];
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Respuesta))
 					{
 						$Arreglo[$ArregloAux[$i]][0]=$Fila["abreviatura"];
@@ -111,7 +111,7 @@
 					$Consulta="create table cal_web.tmp_paso_".$RutTB." as select * from cal_web.solicitud_analisis ";
 					$Consulta.=" where  estado_actual not in('7','16')  and fecha_hora between '".$FechaI."' and '".$FechaT."' ";
                     //echo $Consulta."<br>";
-                    mysql_query($Consulta);
+                    mysqli_query($link, $Consulta);
 					// hasta aca
 					mysql_query("ALTER TABLE cal_web.tmp_paso_".$RutTB." ADD INDEX ind01 (nro_solicitud,cod_producto,cod_subproducto)");
 					mysql_query("ALTER TABLE cal_web.tmp_paso_".$RutTB." ADD INDEX ind02 (cod_producto)");
@@ -133,7 +133,7 @@
 					$Consulta=$Consulta." inner join proyecto_modernizacion.subproducto t3 on t3.cod_producto=t1.cod_producto and t3.cod_subproducto=t1.cod_subproducto ";
 						$Consulta=$Consulta." inner join cal_web.estados_por_solicitud t4 on t1.nro_solicitud=t4.nro_solicitud and t4.cod_estado='12' ";
 					$Consulta=$Consulta." where not isnull(t1.nro_solicitud)  and  t1.cod_producto='".$Producto."' and t1.cod_subproducto='".$Subproducto."'";
-					$RespuestaFunction=mysql_query($Consulta);
+					$RespuestaFunction=mysqli_query($link, $Consulta);
 						if ($FilaFunction=mysql_fetch_array($RespuestaFunction))
 						{
 							$valor=$FilaFunction['Cantidad'];
@@ -151,7 +151,7 @@
 					$Consulta=$Consulta." where not isnull(t1.nro_solicitud)  and  t1.cod_producto='".$Producto."' and t1.cod_subproducto='".$Subproducto."'";
 					if($Estado!='')
 						$Consulta=$Consulta." and t1.estado_actual='6'"; // SOLICITUDES EN ESTADO TERMINADO
-					$RespuestaFunction=mysql_query($Consulta);
+					$RespuestaFunction=mysqli_query($link, $Consulta);
 						if ($FilaFunction=mysql_fetch_array($RespuestaFunction))
 						{
 							$valor=$FilaFunction['Cantidad'];
@@ -162,7 +162,7 @@
 					$Consulta=$Consulta." inner join proyecto_modernizacion.productos t2 on t1.cod_producto=t2.cod_producto ";
 					$Consulta=$Consulta." inner join proyecto_modernizacion.subproducto t3 on t3.cod_producto=t1.cod_producto and t3.cod_subproducto=t1.cod_subproducto ";
 					$Consulta=$Consulta." where not isnull(t1.nro_solicitud)  and  t1.fecha_hora between '".$FechaI."' and '".$FechaT."' group by producto,subproducto";
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta2))
 					{
 						$TotalSolicitud=ObtenerTotal($Fila["cod_producto"],$Fila["cod_subproducto"],'','');
@@ -182,7 +182,7 @@
 						$Consulta=$Consulta." inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes=t3.cod_leyes ";
 						$Consulta=$Consulta." where  t1.cod_producto=".$Fila["cod_producto"]." and t1.cod_subproducto=".$Fila["cod_subproducto"]." and (".$CodLeyes.") and t1.fecha_hora between '".$FechaI."' and '".$FechaT."' group by t2.cod_leyes";
 				//	echo $Consulta."</br>";
-						$Respuesta3=mysql_query($Consulta);
+						$Respuesta3=mysqli_query($link, $Consulta);
 						reset($Arreglo);
 						while(list($Clave,$Valor)=each($Arreglo))
 						{

@@ -7,7 +7,7 @@ include('funciones/siper_funciones.php');
 	{
 		case "N":
 			$Consulta = "SELECT ifnull(max(COD_VERIFICADOR),0) as mayor from sgrs_tipo_verificador"; 
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$Mayor=$Fila["mayor"] + 1;			
 			$Inserta="INSERT INTO sgrs_tipo_verificador (COD_VERIFICADOR,DESCRIP_VERIFICADOR,ACTIVO,OBS)";
@@ -21,7 +21,7 @@ include('funciones/siper_funciones.php');
 		break;
 		case "M":
 			$Consulta="SELECT * from sgrs_tipo_verificador where COD_VERIFICADOR='".$Datos."'";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$NONVERI=$Fila[DESCRIP_VERIFICADOR];
 			$VIG=$Fila["ACTIVO"];
@@ -41,13 +41,13 @@ include('funciones/siper_funciones.php');
 			{
 				$DatosRel='N';
 				$Consulta="SELECT * from sgrs_sipercontroles where VERIFICADOR_OPER='".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')
 				{
 					$Consulta="SELECT * from sgrs_tipo_verificador where COD_VERIFICADOR='".$Codigo."'";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Respuesta))
 					{
 						$NONVERI=$NONVERI.$Fila[DESCRIP_VERIFICADOR].", ";

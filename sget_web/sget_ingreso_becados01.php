@@ -5,7 +5,7 @@
 		case "G":
 			$RutBec=$TxtRutPrv."-".$TxtDv;
 			$Consulta="Select * from sget_becados where rut='".$Rut."' and rut_becado='".$RutBec."'";
-			$RespMod=mysql_query($Consulta);
+			$RespMod=mysqli_query($link, $Consulta);
 			if($FilaMod=mysql_fetch_array($RespMod))
 			{
 				$Update="UPDATE sget_becados set nombres= '".strtoupper($TxtNombres)."',ape_paterno='".strtoupper($TxtApePaterno)."',ape_materno='".strtoupper($TxtApeMaterno)."',edad='".$TxtEdad."'";

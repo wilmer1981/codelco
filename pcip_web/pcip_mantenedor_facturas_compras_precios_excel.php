@@ -45,7 +45,7 @@ if($Buscar=='S')
 		if($Mes!='T')
 			$Consulta.=" and t1.mes='".$Mes."'";
 	$Consulta.= " order by t1.ano,t1.mes ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	

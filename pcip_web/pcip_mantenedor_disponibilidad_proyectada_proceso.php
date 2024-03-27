@@ -12,7 +12,7 @@ if(!isset($Recarga))
 		$Consulta="select t1.cod_sistema,t1.cod_equipo,t1.ano,t2.nom_sistema,t3.nom_equipo from pcip_eec_disponibilidades t1 inner join pcip_eec_sistemas t2 on t1.cod_sistema=t2.cod_sistema ";
 	    $Consulta.="inner join pcip_eec_equipos t3 on t1.cod_equipo=t3.cod_equipo where t1.tipo_disponibilidad='P' and t1.cod_sistema = '".$Cod[0]."' and t1.cod_equipo='".$Cod[1]."' and t1.ano='".$Cod[2]."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$Sistema=$Fila["nom_sistema"];
@@ -183,7 +183,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_sistema,nom_sistema from pcip_eec_sistemas where vigente='S' and mostrar='S' order by nom_sistema ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbSistema==$FilaTC["cod_sistema"])
@@ -212,7 +212,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 			    $Consulta = "select t1.cod_equipo,t2.nom_equipo from pcip_eec_equipos_por_sistema t1 inner join pcip_eec_equipos t2 on t1.cod_equipo=t2.cod_equipo where t1.cod_sistema='".$CmbSistema."' order by t2.nom_equipo ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbEquipos==$FilaTC["cod_equipo"])
@@ -287,7 +287,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 for($i=1;$i<=12;$i++)
 					 {
 						$Consulta="select hrs_oper_d as valor from pcip_eec_disponibilidades where tipo_disponibilidad='P' and cod_sistema = '".$Cod[0]."' and cod_equipo='".$Cod[1]."' and ano='".$Cod[2]."' and mes='".$i."'";
-						$RespMes=mysql_query($Consulta);
+						$RespMes=mysqli_query($link, $Consulta);
 						if($FilaMes=mysql_fetch_array($RespMes))
 						{
 						?>	
@@ -307,7 +307,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 for($i=1;$i<=12;$i++)
 					 {
 						$Consulta="select hrs_mant_men as valor from pcip_eec_disponibilidades where tipo_disponibilidad='P' and cod_sistema = '".$Cod[0]."' and cod_equipo='".$Cod[1]."' and ano='".$Cod[2]."' and mes='".$i."'";
-						$RespMes=mysql_query($Consulta);
+						$RespMes=mysqli_query($link, $Consulta);
 						if($FilaMes=mysql_fetch_array($RespMes))
 						{
 						?>	
@@ -327,7 +327,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 for($i=1;$i<=12;$i++)
 					 {
 						$Consulta="select hrs_mant_may as valor from pcip_eec_disponibilidades where tipo_disponibilidad='P' and cod_sistema = '".$Cod[0]."' and cod_equipo='".$Cod[1]."' and ano='".$Cod[2]."' and mes='".$i."'";
-						$RespMes=mysql_query($Consulta);
+						$RespMes=mysqli_query($link, $Consulta);
 						if($FilaMes=mysql_fetch_array($RespMes))
 						{
 						?>	
@@ -350,7 +350,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					echo "<td align='left'>Hrs.Oper.Diaria</td>";
 					$Consulta="select hrs_oper_d from pcip_eec_equipos where cod_equipo='".$CmbEquipos."'";
 					//echo $Consulta;
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Resp);
 					//if(!isset($TxtValorMes2))
 						$TxtValorMes2=$Fila[hrs_oper_d];

@@ -62,7 +62,7 @@
 				}
     			$Consulta.= " group by cod_prv";	
 				//echo $Consulta; 	
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					$NomPrv=$Fila[nom_prv];

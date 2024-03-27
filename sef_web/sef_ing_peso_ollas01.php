@@ -8,7 +8,7 @@
 		case "G":
 			$Consulta = "SELECT * from sef.producto_por_equipo ";
 			$Consulta.= " where Cod_equipo = '".$Equipo."' and Cod_producto = '".$Producto."'";
-			$Respuesta = mysql_query($Consulta);
+			$Respuesta = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Respuesta))
 			{
 				//ACTUALIZA
@@ -30,7 +30,7 @@
 		case "E":
 			$Consulta = "delete from sef.producto_por_equipo ";
 			$Consulta.= " where Cod_equipo = '".$C_Equipo."' and Cod_producto = '".$C_Producto."'";
-			mysql_query($Consulta);
+			mysqli_query($link, $Consulta);
 			header("location:sef_ing_peso_ollas.php");
 			break;
 	}

@@ -59,7 +59,7 @@ if(!isset($Mes))
 						$Clave = "01".substr($Fila("Puntero"), 0, 5);
 						$Signo = substr($Fila("Puntero"), 5, 1);
 						$Consulta = "Select * from pcip_ena_concom where Clave='".$Clave."' ano ='".$Ano."' and mes='".$Mes."'";
-						$Resp2=mysql_query($Consulta);
+						$Resp2=mysqli_query($link, $Consulta);
 						if($Fila2=mysql_fetch_array($Resp2))
 						{
 							if(trim($Fila2("Nombre")) != "")

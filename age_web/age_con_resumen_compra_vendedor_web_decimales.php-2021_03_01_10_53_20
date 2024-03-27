@@ -88,7 +88,7 @@ body {
 				$Consulta.= " and clase_producto <> 'M' ";
 		$Consulta.= "order by cod_recepcion ";
 		//echo $Consulta;
-		$RespAsig = mysql_query($Consulta);
+		$RespAsig = mysqli_query($link, $Consulta);
 		while ($FilaAsig = mysql_fetch_array($RespAsig))
 		{
 			echo "<tr class='ColorTabla01'>\n";
@@ -104,7 +104,7 @@ body {
 					$Consulta.= " and t1.nombre_subclase <> 'M' ";		
 			$Consulta.="group by t1.valor_subclase2 ";
 			//echo $Consulta."<br>";
-			$RespClaseProd=mysql_query($Consulta);
+			$RespClaseProd=mysqli_query($link, $Consulta);
 			while($FilaClaseProd=mysql_fetch_array($RespClaseProd))
 			{
 				echo "<tr bgcolor='#CCCCCC'>\n";
@@ -124,7 +124,7 @@ body {
 					$Consulta.="and t2.clase_producto<>'M' ";
 				$Consulta.="group by t1.cod_producto,t1.cod_subproducto ";	
 				//echo $Consulta."<br>";	
-				$RespProd=mysql_query($Consulta);
+				$RespProd=mysqli_query($link, $Consulta);
 				while($FilaProd=mysql_fetch_array($RespProd))
 				{
 					echo "<tr class='Detalle01'>\n";
@@ -154,7 +154,7 @@ body {
 					$Consulta.= " order by t1.rut_proveedor ";
 					//echo $Consulta."<br>";
 					$SumHumedad=0;
-					$RespPrv = mysql_query($Consulta);
+					$RespPrv = mysqli_query($link, $Consulta);
 					while ($FilaPrv = mysql_fetch_array($RespPrv))
 					{						
 						echo "<tr>\n";
@@ -181,7 +181,7 @@ body {
 						$Consulta.= " and t1.rut_proveedor = '".$FilaPrv["rut_proveedor"]."' ";
 						$Consulta.= " and t1.cod_recepcion = '".$FilaAsig[cod_recepcion]."' ";					
 						$Consulta.= " and t1.estado_lote <>'6' group by t1.lote order by t1.lote, orden";
-						$RespLote = mysql_query($Consulta);
+						$RespLote = mysqli_query($link, $Consulta);
 						//echo $Consulta."<br>";
 						$EsPlamen=false;
 						$Ajuste='N';
@@ -194,7 +194,7 @@ body {
 							$Consulta.= " and cod_subproducto='".$FilaLote["cod_subproducto"]."' ";
 							$Consulta.=" and ((year(fecha) < '".$CmbAno."') or (year(fecha) = '".$CmbAno."' and month(fecha) <= '".$CmbMes."'))";
 							$Consulta.=" order by cod_producto,cod_subproducto,rut_proveedor";
-							$RespMerma=mysql_query($Consulta);
+							$RespMerma=mysqli_query($link, $Consulta);
 							while($FilaMerma=mysql_fetch_array($RespMerma))
 							{
 								if($FilaMerma["rut_proveedor"]=="")
@@ -225,7 +225,7 @@ body {
 							$LeyCu=0;$LeyAg=0;$LeyAu=0;$LeyCuOri=0;$LeyAgOri=0;$LeyAuOri=0;$LeyCuAj=0;$LeyAgAj=0;$LeyAuAj=0;						
 							$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote[lote]."' order by lote, lpad(recargo,4,'0')";
 							$ContRecargos = 1;
-							$RespDetLote=mysql_query($Consulta);
+							$RespDetLote=mysqli_query($link, $Consulta);
 							while ($FilaDetLote = mysql_fetch_array($RespDetLote))
 							{					
 								$PorcHum=0;
@@ -240,7 +240,7 @@ body {
 									$Consulta.= " and t1.recargo='".$FilaDetLote["recargo"]."'";
 								$Consulta.= " and t1.cod_leyes in('01','02','04','05')";	
 								$Consulta.= " order by t1.cod_leyes";
-								$RespLeyes = mysql_query($Consulta);
+								$RespLeyes = mysqli_query($link, $Consulta);
 								while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 								{								
 									switch ($FilaLeyes["cod_leyes"])
@@ -470,7 +470,7 @@ function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetal
 	$Consulta.= " where t1.lote='".$Lote."' ";
 	$Consulta.= " and t1.recargo='R' and t1.cod_leyes='".$CodLey."'";	
 	//echo $Consulta."<br>";
-	$RespLeyes = mysql_query($Consulta);
+	$RespLeyes = mysqli_query($link, $Consulta);
 	$IncRetalla=0;
 	if($FilaLeyes = mysql_fetch_array($RespLeyes))
 	{

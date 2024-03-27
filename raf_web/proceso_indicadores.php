@@ -87,7 +87,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			</tr>
 			<?
 				$Consulta="Select * from raf_web.ti_indicadores where fecha_reporte between '".$TxtFechaIni." 00:00:00' and '".$TxtFechaIni." 23:59:59' order by cod_proceso";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					echo "<tr>";

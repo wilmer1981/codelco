@@ -155,7 +155,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	<option value="-1" selected="selected">Seleccionar</option>
 	<?
 	$Consulta = "select rut_proveedor,nom_proveedor from pcip_fac_proveedores order by rut_proveedor ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
 		if ($CmbProveedor==$FilaTC["rut_proveedor"])
@@ -173,7 +173,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		   <?
 			$Consulta = "select t1.cod_producto,t2.nom_producto from pcip_fac_productos_por_proveedores t1";
 			$Consulta.= " inner join pcip_fac_productos_facturas t2 on t1.cod_producto=t2.cod_producto where t1.rut_proveedor='".$CmbProveedor."'";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				$Posicion=strpos($CodSeleccion,$FilaTC["cod_producto"]);
@@ -193,7 +193,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	   <option value="T" class="NoSelec">Todos</option>
 		   <?
 			$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31012' and cod_subclase in ('1','2','3')";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbMostrar==$FilaTC["cod_subclase"])
@@ -210,7 +210,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	   <option value="T" class="NoSelec">Todos</option>
 		   <?
 			$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31017' and cod_subclase in ('2','3')";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbContrato==$FilaTC["cod_subclase"])
@@ -330,7 +330,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.=" and t1.estado_actual='1'";
 			$Consulta.=" and t1.fecha_emision BETWEEN '".$FechaDesde."' and '".$FechaHasta."'";
 			$Consulta.=" group by t3.cod_subclase";			
-			$Resp=mysql_query($Consulta);$ArrayTot=array();				
+			$Resp=mysqli_query($link, $Consulta);$ArrayTot=array();				
 			//echo $Consulta."<br>";
 			while($Fila=mysql_fetch_array($Resp))
 			{

@@ -95,7 +95,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Todas</option>
                <?
 			  $Consulta = "SELECT * from sget_mutuales_seg where estado='1' order by descripcion ";			
-			  $Resp3=mysql_query($Consulta);
+			  $Resp3=mysqli_query($link, $Consulta);
 			  while ($Fila3=mysql_fetch_array($Resp3))
 			  {
 				if ($CmbMutuales==$Fila3["cod_mutual"])
@@ -111,7 +111,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Todos</option>
                <?
 	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEstado==$FilaTC["cod_subclase"])
@@ -194,7 +194,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			
 		$Consulta.=" group by t1.rut_empresa order by razon_social";
 		
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		
 		$Cont=1;
 		while($FilaMod=mysql_fetch_array($RespMod))
@@ -239,7 +239,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($CmbEstado!='-1')	
 					$Consulta.="  and  estado='".$CmbEstado."' ";
 				//echo $Consulta."<br>";
-				$RespCtto=mysql_query($Consulta);
+				$RespCtto=mysqli_query($link, $Consulta);
 				while($FilaCtto=mysql_fetch_array($RespCtto))
 				{
 				

@@ -221,7 +221,7 @@ function Certificado(Numero,IE)
 					$Consulta.="	order by  t1.corr_enm desc ";
 				}
 				//echo $Consulta."<br>";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Cont=0;
 				while ($Fila=mysql_fetch_array($Respuesta))
 				{
@@ -240,7 +240,7 @@ function Certificado(Numero,IE)
 					$Cont2++;
 					$Consulta="SELECT * from sec_web.guia_despacho_emb where num_envio='".$Fila["num_envio"]."' ";
 					$Consulta.=" and corr_enm='".$Fila["corr_enm"]."' ";
-					$Respuesta1=mysql_query($Consulta);
+					$Respuesta1=mysqli_query($link, $Consulta);
 					while($Fila1=mysql_fetch_array($Respuesta1))
 					{
 						$Guias=$Guias.$Fila1["num_guia"]."-";
@@ -260,11 +260,11 @@ function Certificado(Numero,IE)
 					$Consulta="SELECT distinct t1.cod_marca,t2.descripcion from sec_web.lote_catodo t1 ";
 					$Consulta.="inner join sec_web.marca_catodos t2 on t1.cod_marca=t2.cod_marca ";
 					$Consulta.=" where corr_enm='".$Fila["corr_enm"]."' and cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."'	";
-					$Respuesta4=mysql_query($Consulta);
+					$Respuesta4=mysqli_query($link, $Consulta);
 					$Fila4=mysql_fetch_array($Respuesta4);
 					echo "<td width='74' align='center'>".$Fila4["descripcion"]."&nbsp;</td>";
 					$Consulta="SELECT * from sec_web.nave where cod_nave ='".$Fila["cod_cliente"]."'";
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					if($Fila2=mysql_fetch_array($Respuesta2))
 					{
 						$Cliente=$Fila2["nombre_nave"];
@@ -272,7 +272,7 @@ function Certificado(Numero,IE)
 					else
 					{
 						$Consulta="SELECT * from sec_web.cliente_venta where cod_cliente ='".$Fila[cod_cliente]."'";
-						$Respuesta2=mysql_query($Consulta);
+						$Respuesta2=mysqli_query($link, $Consulta);
 						if($Fila2=mysql_fetch_array($Respuesta2))
 						{
 							$Cliente=$Fila2["sigla_cliente"];
@@ -281,11 +281,11 @@ function Certificado(Numero,IE)
 					echo "<td width='99' align='center'>".$Cliente."&nbsp;</td>";
 					$Consulta="SELECT abreviatura from proyecto_modernizacion.subproducto where cod_producto='".$Fila["cod_producto"]."' ";
 					$Consulta.=" and cod_subproducto='".$Fila["cod_subproducto"]."'	";
-					$Respuesta6=mysql_query($Consulta);
+					$Respuesta6=mysqli_query($link, $Consulta);
 					$Fila6=mysql_fetch_array($Respuesta6);
 					echo "<td width='90' align='left'>".$Fila6["abreviatura"]."&nbsp;</td>";
 					$Consulta="SELECT cod_contrato,mes_cuota from sec_web.programa_enami where corr_enm='".$Fila["corr_enm"]."'";
-					$Respuesta7=mysql_query($Consulta);
+					$Respuesta7=mysqli_query($link, $Consulta);
 					if($Fila7=mysql_fetch_array($Respuesta7))
 					{
 						echo "<td width='48' align='center'>".$Fila7["cod_contrato"]."&nbsp;</td>";
@@ -295,7 +295,7 @@ function Certificado(Numero,IE)
 					else
 					{
 						$Consulta="SELECT cod_contrato,mes_cuota from sec_web.programa_codelco where corr_codelco='".$Fila["corr_enm"]."'";
-						$Respuesta7=mysql_query($Consulta);
+						$Respuesta7=mysqli_query($link, $Consulta);
 						if($Fila7=mysql_fetch_array($Respuesta7))
 						{
 							echo "<td width='48' align='center'>".$Fila7["cod_contrato"]."&nbsp;</td>";
@@ -307,12 +307,12 @@ function Certificado(Numero,IE)
 							echo "<td width='41' align='center'>&nbsp;</td>";
 						}
 						$Consulta="SELECT cod_contrato_maquila from sec_web.programa_codelco where corr_codelco='".$Fila["corr_enm"]."' ";
-						$Respuesta9=mysql_query($Consulta);
+						$Respuesta9=mysqli_query($link, $Consulta);
 						$Fila9=mysql_fetch_array($Respuesta9);
 						echo "<td width='60' align='center'>".$Fila9["cod_contrato_maquila"]."&nbsp;</td>";
 					}
 					$Consulta="SELECT nombre_nave from sec_web.nave where cod_nave='".$Fila["cod_nave"]."'";
-					$Respuesta8=mysql_query($Consulta);
+					$Respuesta8=mysqli_query($link, $Consulta);
 					if($Fila8=mysql_fetch_array($Respuesta8))
 					{
 						echo "<td width='60' align='center'>".$Fila8["nombre_nave"]."</td>";
@@ -325,7 +325,7 @@ function Certificado(Numero,IE)
 					echo "<td width='59' align='center'>".$Fila[despacho_peso]."&nbsp;</td>";
 					$Consulta="SELECT distinct num_certificado from sec_web.certificacion_catodos ";
 					$Consulta.=" where corr_enm='".$Fila["corr_enm"]."' and year(fecha)= '".$CmbAno."' ";
-					$Respuesta4=mysql_query($Consulta);
+					$Respuesta4=mysqli_query($link, $Consulta);
 					//echo $Consulta."<br>";
 					if($Fila4=mysql_fetch_array($Respuesta4))
 					{
@@ -339,7 +339,7 @@ function Certificado(Numero,IE)
 					$Consulta="SELECT t1.usuario,t1.fecha_confirmacion,t2.nombres,t2.apellido_paterno from sec_web.programa_codelco t1 ";
 					$Consulta.=" inner join proyecto_modernizacion.funcionarios t2 on t1.usuario =t2.rut 	";
 					$Consulta.=" where t1.corr_codelco='".$Fila["corr_enm"]."'  and not isnull(t1.usuario) ";
-					$Respuesta5=mysql_query($Consulta);
+					$Respuesta5=mysqli_query($link, $Consulta);
 					//echo $Consulta."<br>";
 					if($Fila5=mysql_fetch_array($Respuesta5))
 					{
@@ -352,7 +352,7 @@ function Certificado(Numero,IE)
 						$Consulta.=" inner join proyecto_modernizacion.funcionarios t2 on t1.usuario =t2.rut 	";
 						$Consulta.=" where corr_enm='".$Fila["corr_enm"]."'  and not isnull(usuario) ";
 						//echo $Consulta."<br>";
-						$Respuesta6=mysql_query($Consulta);
+						$Respuesta6=mysqli_query($link, $Consulta);
 						$Fila6=mysql_fetch_array($Respuesta6);
 						//$FechaConf=substr($Fila6["fecha_confirmacion"],0,10);
 						$FechaConf=$Fila6["fecha_confirmacion"];

@@ -34,7 +34,7 @@ switch($Opcion)
 				$v=0;
 			$Consulta="select * from pcip_ppc_detalle where version='".$Cod[0]."' and ano='".$Cod[1]."' and mes='".$Mes."' and cod_asignacion='".$Cod[2]."'";
 			$Consulta.=" and cod_procedencia='".$Cod[3]."' and tipo='".$Cod[5]."' and cod_negocio='".$Cod[4]."' and cod_titulo='".$Cod[6]."'";	
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				$Actualizar="UPDATE pcip_ppc_detalle t1 set valor='".str_replace(',','.',$v)."' where t1.version='".$Cod[0]."' and t1.ano='".$Cod[1]."' and t1.cod_asignacion='".$Cod[2]."' and t1.cod_procedencia='".$Cod[3]."' and t1.tipo='".$Cod[5]."' and t1.cod_negocio='".$Cod[4]."' and t1.cod_titulo='".$Cod[6]."' and mes='".$Mes."'";

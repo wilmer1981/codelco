@@ -55,7 +55,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 			
 		$Consulta.=" group by t1.rut_empresa order by razon_social";
 		
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		
 		$Cont=1;
 		while($FilaMod=mysql_fetch_array($RespMod))
@@ -98,7 +98,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		if($CmbEstado!='-1')	
 			$Consulta.="  and  estado='".$CmbEstado."' ";
 		//echo $Consulta."<br>";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			$DatosContrato= AdmCodelco($FilaCtto[rut_adm_contrato]);

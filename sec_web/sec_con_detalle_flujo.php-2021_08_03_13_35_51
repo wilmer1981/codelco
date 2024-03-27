@@ -3,7 +3,7 @@
 	set_time_limit(1000);
 	include("sec_anexo_sec_funciones.php");
 	$Consulta = "SELECT * from proyecto_modernizacion.flujos where cod_flujo = '".$Flujo."'";
-	$Resp2 = mysql_query($Consulta);
+	$Resp2 = mysqli_query($link, $Consulta);
 	$Descripcion = "&nbsp;";
 	if ($Fila2 = mysql_fetch_array($Resp2))
 	{
@@ -43,7 +43,7 @@
 	$MesConsulta = $Mes;
 	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase=3004 and cod_subclase =".$MesConsulta;
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	if ($FilaAux = mysql_fetch_array($RespAux))
 	{
 		$Letra = $FilaAux["nombre_subclase"];
@@ -59,7 +59,7 @@
 	$Consulta.= " where t1.flujo = '".$Flujo."'";
 	$Consulta.= " and t1.tipo_mov = '".$TipoMov."'";
 	//echo $Consulta;
-	$Resp2 = mysql_query($Consulta);
+	$Resp2 = mysqli_query($link, $Consulta);
 	while ($Fila2 = mysql_fetch_array($Resp2))
 	{
 		$Producto = $Fila2["cod_producto"];
@@ -155,7 +155,7 @@
 				break;
 		}
 		//echo $Consulta."<br>";		
-		$RespAux = mysql_query($Consulta);	
+		$RespAux = mysqli_query($link, $Consulta);	
 		$Entro=false;	
 		while ($FilaAux = mysql_fetch_array($RespAux))
 		{
@@ -175,7 +175,7 @@
 				$Consulta.= " and cod_subproducto = '".$SubProducto."'";
 				$Consulta.= " group by cod_producto, cod_subproducto";
 				//echo $Consulta;
-				$RespAux2 = mysql_query($Consulta);
+				$RespAux2 = mysqli_query($link, $Consulta);
 				while ($FilaAux2 = mysql_fetch_array($RespAux2))
 				{
 					//$Peso = $Peso - $FilaAux2["peso_piso"];
@@ -183,7 +183,7 @@
 			}
 			$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
 			$Consulta.= " where cod_clase=3004 and nombre_subclase = '".$FilaAux["serie"]."'";
-			$RespAux2 = mysql_query($Consulta);
+			$RespAux2 = mysqli_query($link, $Consulta);
 			if ($FilaAux2 = mysql_fetch_array($RespAux2))
 			{
 				$MesAux = $FilaAux2["cod_subclase"];

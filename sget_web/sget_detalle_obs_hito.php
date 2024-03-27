@@ -117,7 +117,7 @@ function Modificar(fecha,numero)
                  <?
 	
 	$Consulta="SELECT descrip_hito from sget_hitos  where cod_hito='".$H."'";
-	$Resp0=mysql_query($Consulta);
+	$Resp0=mysqli_query($link, $Consulta);
 	$FilaResp=mysql_fetch_array($Resp0);
 	echo 'Hito:'.'&nbsp;'.$FilaResp[descrip_hito];
 
@@ -138,7 +138,7 @@ function Modificar(fecha,numero)
 	
 		$Consulta="SELECT * from sget_hoja_ruta_hitos_observaciones ";
 		$Consulta.="  where num_hoja_ruta='".$NumHoja."' and cod_hito='".$H."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			?>

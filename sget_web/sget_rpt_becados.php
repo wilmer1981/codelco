@@ -121,7 +121,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT * from sget_tipo_persona order by descrip_tipo";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{ 
 			if($CmbTipoPersona==$Fila[cod_tipo])
@@ -137,7 +137,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT * from sget_afp where estado='1' order by descripcion_afp";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbAfp==$Fila[cod_afp])
@@ -153,7 +153,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="-1" class="NoSelec">Todos</option>
             <?
 	  $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30011' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSalud==$FilaTC["cod_subclase"])
@@ -170,7 +170,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT * from sget_ciudades order by nom_ciudad";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCiudad==$Fila["cod_ciudad"])
@@ -187,7 +187,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT t2.cod_comuna,t2.nom_comuna from sget_comunas_por_ciudad t1 inner join sget_comunas t2 on t1.cod_comuna=t2.cod_comuna where cod_ciudad='".$CmbCiudad."' order by nom_comuna";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbComunas==$Fila[cod_comuna])
@@ -203,7 +203,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT * from sget_cargos order by descrip_cargo";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCargo==$Fila[cod_cargo])
@@ -222,7 +222,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT * from sget_sindicato where estado='1' order by descripcion";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbSindicato==$Fila[cod_sindicato])
@@ -245,7 +245,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  if($TxtEmpresa!='')
 	  	 $Consulta.= "and  upper(razon_social) like '%".strtoupper(trim($TxtEmpresa))."%' ";
 	 	$Consulta.= " order by razon_social ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if (strtoupper($CmbEmpresa)==strtoupper($FilaTC["rut_empresa"]))
@@ -336,7 +336,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		if($CmbSindicato != "-1")
 			$Consulta.="  and  t1.cod_sindicato='".$CmbSindicato."' ";
 		$Consulta.="  group by t1.rut ";	
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=1;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{
@@ -361,7 +361,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			}
 			$Consulta="SELECT ifnull(count(*),0) as cant_bec from sget_personal t1 ";
 			$Consulta.=" Inner join sget_becados t9 on t1.rut=t9.rut where t1.rut='".$Run."'";
-			$RespCantBec=mysql_query($Consulta);
+			$RespCantBec=mysqli_query($link, $Consulta);
 			$FilaCantBec=mysql_fetch_array($RespCantBec);
 			$CantBec=$FilaCantBec[cant_bec];
 			?>
@@ -376,7 +376,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$ContIni=1;
 			$Consulta="SELECT t9.rut_becado,t9.nombres as nombres_bec,t9.ape_paterno as ape_paterno_bec,t9.ape_materno as ape_materno_bec,t9.edad from sget_personal t1 ";
 			$Consulta.=" Inner join sget_becados t9 on t1.rut=t9.rut where t1.rut='".$Run."'";
-			$RespBec=mysql_query($Consulta);
+			$RespBec=mysqli_query($link, $Consulta);
 			while($FilaBec=mysql_fetch_array($RespBec))
 			{
 				if($ContIni>1)

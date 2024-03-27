@@ -9,7 +9,7 @@
 			$Consulta.= " WHERE right(hornada,4) = $Hornada";
 		else
 			$Consulta.= " WHERE right(hornada,5) = $Hornada";
-		$res = mysql_query($Consulta);		
+		$res = mysqli_query($link, $Consulta);		
 		$Row = mysql_fetch_array($res);
 		$Solera = $Row[solera];
 		$cmbturno = $Row[turno];
@@ -32,7 +32,7 @@
 				$Consulta.= " WHERE right(hornada,4) = $Hornada";
 			else
 				$Consulta.= " WHERE right(hornada,5) = $Hornada";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$fila = mysql_fetch_array($resp);
 			if($fila["fecha"] != '')
 			{
@@ -419,7 +419,7 @@ function Salir()
             <td width="50"><b>Encargado:</b></td>
             <td colspan="4">&nbsp; 
               <? $Consulta = "SELECT * FROM proyecto_modernizacion.funcionarios WHERE rut = '$CookieRut'";
-			   $rs = mysql_query($Consulta);
+			   $rs = mysqli_query($link, $Consulta);
 			   $fil = mysql_fetch_array($rs);
 			   echo $fil["nombres"].' '.$fil["apellido_paterno"].' '.$fil["apellido_materno"];				
 			   echo '<input type="hidden" name="encargado" value="'.$CookieRut.'">';
@@ -537,7 +537,7 @@ function Salir()
 		else
 			$Consulta.= " WHERE right(hornada,5) = $Hornada";
 		$Consulta.= " ORDER BY grupo";
-		$Resp = mysql_query($Consulta);	
+		$Resp = mysqli_query($link, $Consulta);	
 
 		$pos = 9;
 		$i=0;
@@ -595,7 +595,7 @@ function Salir()
 					$Consulta.= " AND turno = '$Row[turno]'";
 					$Consulta.= " ORDER BY cod_producto,cod_subproducto";
 
-				$Resultado=mysql_query($Consulta);
+				$Resultado=mysqli_query($link, $Consulta);
 				
 				while ($Fila=mysql_fetch_array($Resultado))
 				{
@@ -617,7 +617,7 @@ function Salir()
 						$Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto"; 
 						$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
 						$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
-						$rs = mysql_query($Consulta);
+						$rs = mysqli_query($link, $Consulta);
 						$Fil = mysql_fetch_array($rs);
 						 
 						echo "<td width='15%' align='left'>".$Fil["abreviatura"]."</td>";				
@@ -641,7 +641,7 @@ function Salir()
 						$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
 						$Consulta.= " AND grupo = '$Fila["grupo"]'";
 						$Consulta.= " AND hornada_sea = '$Fila[hornada_sea]'";
-						$Rs = mysql_query($Consulta);						
+						$Rs = mysqli_query($link, $Consulta);						
 						$fila = mysql_fetch_array($Rs);						
 
 						if($Proceso == 'B' || $Proceso == 'H')
@@ -659,7 +659,7 @@ function Salir()
 						$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
 						$Consulta.= " AND grupo = '$Fila["grupo"]'";
 						$Consulta.= " AND hornada_sea = '$Fila[hornada_sea]'";
-						$Res = mysql_query($Consulta);						
+						$Res = mysqli_query($link, $Consulta);						
 						$Fil2 = mysql_fetch_array($Res);
 						
 						//Maneja Saldo
@@ -702,7 +702,7 @@ function Salir()
 							$Consulta.= " AND grupo = '$Fila["grupo"]'";
 							$Consulta.= " AND nro_carga = 1";
 							$Consulta.= " AND hornada_sea = '$Fila[hornada_sea]'";
-							$Rs = mysql_query($Consulta);						
+							$Rs = mysqli_query($link, $Consulta);						
 							$fila = mysql_fetch_array($Rs);						
 							$unid1 = $fila["unidades"];
 							$peso1 = $fila["peso"];
@@ -722,7 +722,7 @@ function Salir()
 							$Consulta.= " AND grupo = '$Fila["grupo"]'";
 							$Consulta.= " AND nro_carga = 2";
 							$Consulta.= " AND hornada_sea = '$Fila[hornada_sea]'";
-							$Rs = mysql_query($Consulta);						
+							$Rs = mysqli_query($link, $Consulta);						
 							$fila = mysql_fetch_array($Rs);						
 							$unid2 = $fila["unidades"];
 							$peso2 = $fila["peso"];
@@ -742,7 +742,7 @@ function Salir()
 							$Consulta.= " AND grupo = '$Fila["grupo"]'";
 							$Consulta.= " AND nro_carga = 3";
 							$Consulta.= " AND hornada_sea = '$Fila[hornada_sea]'";
-							$Rs = mysql_query($Consulta);						
+							$Rs = mysqli_query($link, $Consulta);						
 							$fila = mysql_fetch_array($Rs);						
 							$unid3 = $fila["unidades"];
 							$peso3 = $fila["peso"];
@@ -763,7 +763,7 @@ function Salir()
 							$Consulta.= " AND grupo = '$Fila["grupo"]'";
 							$Consulta.= " AND nro_carga = 4";
 							$Consulta.= " AND hornada_sea = '$Fila[hornada_sea]'";
-							$Rs = mysql_query($Consulta);						
+							$Rs = mysqli_query($link, $Consulta);						
 							$fila = mysql_fetch_array($Rs);						
 							$unid4 = $fila["unidades"];
 							$peso4 = $fila["peso"];

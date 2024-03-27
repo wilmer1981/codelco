@@ -118,12 +118,12 @@ function Proceso(opc)
 		$TotalBasc       = 0;	
 		$Consulta = "SELECT distinct hornada FROM raf_web.det_carga WHERE left(fecha,7) = '$Fecha'";
 		$Consulta.= " AND hornada BETWEEN $HornadaIni AND $HornadaTer";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($rs))
 		{			
 		    $Consulta = "SELECT MIN(fecha) as fecha FROM raf_web.det_carga";
 		    $Consulta.= " WHERE hornada = $Fila["hornada"]";	
-		    $respuesta = mysql_query($Consulta);
+		    $respuesta = mysqli_query($link, $Consulta);
 			$fila = mysql_fetch_array($respuesta);
 			$Fecha = substr($fila["fecha"],0,10);
 			$Dia = substr($fila["fecha"],8,2);
@@ -146,7 +146,7 @@ function Proceso(opc)
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 16 and cod_subproducto NOT IN (40,41,42,43,44,45)";
                //echo $Consulta;
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila1 = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila1["peso"].'&nbsp;</td>';
 			  $TotalBlis = $TotalBlis + $fila1["peso"];
@@ -162,7 +162,7 @@ function Proceso(opc)
 			  //blister potrerillos yo 2005-04-27 	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 16 and cod_subproducto = 24";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila1 = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila1["peso"].'&nbsp;</td>';
 			  $TotalBlis = $TotalBlis + $fila1["peso"];
@@ -170,7 +170,7 @@ function Proceso(opc)
 			  //Anodos	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 17 and cod_subproducto IN ('1','2','3','4')";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila1 = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila1["peso"].'&nbsp;</td>';
 			  $TotalAnod = $TotalAnod + $fila1["peso"];
@@ -179,7 +179,7 @@ function Proceso(opc)
 			  //H Madres	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 17 and cod_subproducto = 8";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila2 = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila2["peso"].'&nbsp;</td>';
 			  $TotalHM = $TotalHM + $fila2["peso"];
@@ -192,7 +192,7 @@ function Proceso(opc)
 			  //Restos	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 19";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila["peso"].'&nbsp;</td>';
 			  $TotalRest = $TotalRest + $fila["peso"];
@@ -201,7 +201,7 @@ function Proceso(opc)
 			  //Gran/des1p.	yo 2005-04-27
 			 /* $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 29 and cod_subproducto = '1'";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila["peso"].'&nbsp;</td>';
 			  $TotalDesp = $TotalDesp + $fila["peso"];*/
@@ -209,7 +209,7 @@ function Proceso(opc)
 		 	  //Despunte y laminas	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 48 AND cod_subproducto IN ('1','3','10')";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila["peso"].'&nbsp;</td>';
 			  $TotalCatElec = $TotalCatElec + $fila["peso"];
@@ -218,7 +218,7 @@ function Proceso(opc)
 		 	  //Cat Desc Parcial	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 18 AND cod_subproducto IN ('2','4','5','8')";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila["peso"].'&nbsp;</td>';
 			  $TotalCatDesc = $TotalCatDesc + $fila["peso"];
@@ -227,7 +227,7 @@ function Proceso(opc)
 			  //Moldes	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 42 AND cod_subproducto IN ('31','43','73','75','76','77')";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila["peso"].'&nbsp;</td>';
 			  $TotalMoldes = $TotalMoldes + $fila["peso"];
@@ -236,7 +236,7 @@ function Proceso(opc)
 			  //Rebalses	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 42 AND cod_subproducto = 69";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila["peso"].'&nbsp;</td>';
 			  $TotalRebal = $TotalRebal + $fila["peso"];
@@ -245,7 +245,7 @@ function Proceso(opc)
 			  //Anodos Circulantes	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 42 AND cod_subproducto = 74";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila["peso"].'&nbsp;</td>';
 			  $TotalAnodCirc = $TotalAnodCirc + $fila["peso"];
@@ -254,7 +254,7 @@ function Proceso(opc)
 			  //Blister Reten	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 16 AND cod_subproducto = 42";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila["peso"].'&nbsp;</td>';
 			  $TotalReten = $TotalReten + $fila["peso"];
@@ -263,7 +263,7 @@ function Proceso(opc)
 			  //Blister Basc	
 			  $Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga";
 			  $Consulta.= " WHERE hornada = $Fila["hornada"] AND cod_producto = 16 AND cod_subproducto IN ('40','41')";	
-			  $resp = mysql_query($Consulta);
+			  $resp = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($resp);
 			  echo'<td align="right">'.$fila["peso"].'&nbsp;</td>';
 			  $TotalBasc = $TotalBasc + $fila["peso"];

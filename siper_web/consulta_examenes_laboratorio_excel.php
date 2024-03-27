@@ -44,7 +44,7 @@ header("Content-Type:  application/vnd.ms-excel");
     <td width="19%" align="left" nowrap="nowrap">
 				  <?
 					$Consulta="SELECT t1.NEXAMEN from sgrs_codexlaboratorio t1 where t1.CTEXAMEN='".$CmbTipoExamen."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))
 						echo $Fila[NEXAMEN];
 				  ?>    </td>
@@ -132,7 +132,7 @@ header("Content-Type:  application/vnd.ms-excel");
 				}
 				$Consulta.="group by t2.rut,t1.CEXAMEN order by t2.ape_paterno";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);echo "<input type='hidden' name='CheckRut'>";
+				$Resp=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckRut'>";
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";

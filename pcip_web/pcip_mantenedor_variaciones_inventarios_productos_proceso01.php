@@ -6,7 +6,7 @@
 		case "N":
 			$Consulta= " select cod_producto from pcip_svp_productos_inventarios  where cod_producto='".$TxtCodigo."'";
 			//echo $Consulta;
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{		
 				$Mensaje2=false;

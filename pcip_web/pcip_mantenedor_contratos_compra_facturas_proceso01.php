@@ -20,7 +20,7 @@
 				$CmbOtro='';  
 		    $Mensaje=false;	
 			$Consulta= " select cod_contrato from pcip_fac_contratos_compra where cod_contrato='".$TxtContrato."'";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{	
 			    $Mensaje1=false;							    		

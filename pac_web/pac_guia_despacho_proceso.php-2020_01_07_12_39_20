@@ -20,7 +20,7 @@
 			$Consulta.=" left join pac_web.choferes t2 on t1.rut_transportista = t2.rut_transportista and t1.rut_chofer=t2.rut_chofer "; 
 			$Consulta.=" where correlativo ='".$Guia."' ";
 			//echo $Consulta."<br>";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila1=mysql_fetch_array($Respuesta);
 			$NumGuia=$Fila1["num_guia"];
 			$FechaGuia=$Fila1["fecha_hora"];
@@ -53,7 +53,7 @@
 			if($Ver=='B')//BUQUE
 			{
 				$Consulta="select * from pac_web.movimientos where fecha_hora='".$FechaGuia."'";
-				$RespMov=mysql_query($Consulta);
+				$RespMov=mysqli_query($link, $Consulta);
 				while($FilaMov=mysql_fetch_array($RespMov))
 				{
 					switch($FilaMov["cod_estanque_origen"])
@@ -299,13 +299,13 @@ function TeclaPulsada (tecla)
             <td colspan="4" align="left"><strong>Responsable:  
               <?
 				$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from proyecto_modernizacion.funcionarios where rut = '".$Rut."'";
-			 	$Resultado= mysql_query($Consulta);
+			 	$Resultado= mysqli_query($link, $Consulta);
 				if ($Fila =mysql_fetch_array($Resultado))
 					echo $Rut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
 				else
 				{
 					$Consulta = "select * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					if ($Fila=mysql_fetch_array($Respuesta))
 						echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
 				}
@@ -433,7 +433,7 @@ function TeclaPulsada (tecla)
 				echo "<option value ='-1' selected>Seleccionar</option> ";
 				$Consulta="select * from pac_web.pac_originador";
 				$Consulta.= " where activo = '1' order by cod_originador";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Respuesta))
 				{
 					if ($CmbOri==$Fila[cod_originador])
@@ -470,7 +470,7 @@ function TeclaPulsada (tecla)
 				echo "<select name='CmbTransp' onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox');>";
 				echo "<option value ='-1' selected>Seleccionar</option> ";
 				$Consulta="select * from pac_web.transportista order by nombre";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Respuesta))
 				{
 					if ($CmbTransp==$Fila[rut_transportista])
@@ -511,7 +511,7 @@ function TeclaPulsada (tecla)
 				$Consulta="select distinct(t1.rut_cliente),t1.corr_interno_cliente,t1.nombre,t1.contrato,t1.precio_us,t1.direccion,t1.div_sap,t1.almacen_sap,t1.glosa,t1.ciudad,t1.indicador_traslado,t1.giro_cliente from pac_web.clientes t1 ";
 				$Consulta.=" inner join pac_web.relacion_cliente_transp t2 on t1.rut_cliente = t2.rut_cliente and t1.corr_interno_cliente=t2.corr_interno_cliente";
 				$Consulta.=" where t2.rut_transportista = '".$CmbTransp."' order by t1.nombre";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Respuesta))
 				{
 					if ($CmbCliente == $Fila[rut_cliente].'~'.$Fila[corr_interno_cliente])
@@ -598,7 +598,7 @@ function TeclaPulsada (tecla)
 					$Consulta="select t1.rut_chofer,t1.nombre from pac_web.choferes t1 ";
 					$Consulta.=" inner join pac_web.transportista t2 on t1.rut_transportista = t2.rut_transportista ";
 					$Consulta.= " where t2.rut_transportista = '".$CmbTransp."' order by t1.nombre ";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbChofer == $Fila[rut_chofer]){
@@ -641,7 +641,7 @@ function TeclaPulsada (tecla)
 					echo "<select name='CmbPatente' onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox');>";
 					echo "<option value ='-1' selected>Seleccionar</option>";
 					$Consulta="select nro_patente,fecha_rev_tecnica,tipo2 from pac_web.camiones_por_transportista where rut_transportista='".$CmbTransp."' and tipo ='C' ";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbPatente==$Fila["nro_patente"])
@@ -663,7 +663,7 @@ function TeclaPulsada (tecla)
 					echo "<select name='CmbPatenteRampla' onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox')>";
 					echo "<option value ='-1' selected>Seleccionar</option>";
 					$Consulta="select nro_patente,fecha_rev_tecnica,fecha_cert_estanque from pac_web.camiones_por_transportista where rut_transportista='".$CmbTransp."' and tipo ='R' ";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbPatenteRampla==$Fila["nro_patente"])
@@ -703,7 +703,7 @@ function TeclaPulsada (tecla)
 					echo "<td><select name='CmbEstanque' onChange=Recarga('$Proceso','$Valores','$Ver')>";
 					echo "<option value='-1' selected>Seleccionar</option>";
 					$Consulta="select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase =9001 and valor_subclase1 ='0' ";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbEstanque == $Fila["cod_subclase"]){
@@ -721,7 +721,7 @@ function TeclaPulsada (tecla)
 				    echo "<td><select name='CmbBrazo' onChange=Recarga('$Proceso','$Valores','$Ver')>";
 				    echo "<option value='-1' selected>Seleccionar</option>";
 				   $Consulta="select nombre,codigo from pac_web.parametros where (codigo between 10 and 14)";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbBrazo==$Fila[codigo])
@@ -778,14 +778,14 @@ function TeclaPulsada (tecla)
 				if (isset($CmbEstanque)&&($CmbEstanque!='-1')&&($CmbEstanque!=''))
 				{
 					$Consulta="select valor1 from pac_web.parametros where codigo=".$CmbEstanque;
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);
 					$Densidad=str_replace('.',',',$Fila[valor1]);						
 				}
 				else
 				{
 					$Consulta="select valor1 from pac_web.parametros where codigo='1'";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);
 					$Densidad=str_replace('.',',',$Fila[valor1]);						
 				}
@@ -819,7 +819,7 @@ function TeclaPulsada (tecla)
 								$FechaActual=date("Y-m-d");
 							$FechaDesde=date( "Y-m-d", mktime(0,0,0,substr($FechaActual,5,2),substr($FechaActual,8,2)-3,substr($FechaActual,0,4)));
 							$Consulta="select fecha,hora_entrada,peso_neto from sipa_web.despachos where patente='".$PatenteC."' and fecha between'".$FechaDesde."' and '".$FechaActual."'";
-							$RespPesaje=mysql_query($Consulta);
+							$RespPesaje=mysqli_query($link, $Consulta);
 							while ($Fila=mysql_fetch_array($RespPesaje))
 							{
 								if ($Toneladas==($Fila[peso_neto]/1000))
@@ -881,7 +881,7 @@ function TeclaPulsada (tecla)
 		  if($Proceso=='N')
 		  {
 			  $Consulta="select * from sipa_web.despachos where patente='".$CmbPatente."' and peso_bruto = '0' and peso_tara <> '0' and peso_neto = '0' and fecha = '".date('Y-m-d')."'";
-			  $RespSipa=mysql_query($Consulta);
+			  $RespSipa=mysqli_query($link, $Consulta);
 			 //echo $Consulta;
 			  if($FilaSipa=mysql_fetch_array($RespSipa))
 				$TxtCorrRomana=$FilaSipa[correlativo];
@@ -900,7 +900,7 @@ function TeclaPulsada (tecla)
 					echo "<option value ='-1' selected>Seleccionar</option>";
 					$Consulta="select * from pac_web.pac_productos";
 					$Consulta.= " where activo = '1' order by nombre";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbProd == $Fila["cod_producto"]){
@@ -932,7 +932,7 @@ function TeclaPulsada (tecla)
 					echo "<option value ='-1' selected>Seleccionar</option>";
 					$Consulta="select * from pac_web.pac_unidades_medida";
 					$Consulta.= " where activo = '1' order by nombre";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbUnidad == $Fila[cod_unidad]){
@@ -957,7 +957,7 @@ function TeclaPulsada (tecla)
 /*				if (!isset($Observacion))
 				{
 					$Consulta="select nombre from pac_web.parametros where codigo=15";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);
 					$Observacion=$Fila["nombre"];
 				}

@@ -113,7 +113,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="-1" class="NoSelec">Seleccionar Empresa</option>
             <?
 				$Consulta = "SELECT * from sget_contratistas order by razon_social ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -169,7 +169,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		if($CmbEmpresa!='-1')
 			$Consulta.=" and rut_empresa='".$CmbEmpresa."'";
 		$Consulta.=" order by fecha_termino desc";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			if ($FechaActual > $FilaCtto[fecha_termino])
@@ -268,7 +268,7 @@ if($Buscar=='S')
 	$Consulta.=" order by ape_paterno asc ";		
 	echo "<input name='CheckConduc' type='hidden'  value=''>";
 	$cont=1;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		$Cont++;

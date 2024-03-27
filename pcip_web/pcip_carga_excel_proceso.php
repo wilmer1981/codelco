@@ -85,7 +85,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="-1" class="NoSelec">Seleccionar</option>
                       <?
 	  	$Consulta = "select * from pcip_lista_excel where tipo_excel in('S','P') order by orden ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbExcel==$FilaTC["cod_excel"])
@@ -112,7 +112,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       </tr>
                       <?
 				$Consulta = "select * from pcip_lista_excel where cod_excel='".$CmbExcel."'order by orden ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr class='FilaAbeja'>";

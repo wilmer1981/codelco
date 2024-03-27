@@ -68,7 +68,7 @@ if(!isset($CmbContr))
     <?	
 					  $Consulta="select distinct t1.cod_subclase,t1.nombre_subclase from proyecto_modernizacion.sub_clase t1 inner join proyecto_modernizacion.sub_clase t2";
 					  $Consulta.=" on t1.cod_clase='31020' and t2.cod_subclase=t1.valor_subclase1 where  t2.cod_subclase='".$Fila1["cod_subclase"]."' order by t1.cod_subclase";
-					  $Resp=mysql_query($Consulta);
+					  $Resp=mysqli_query($link, $Consulta);
 					  //echo $Consulta."<br>";
 					  while($Fila=mysql_fetch_array($Resp))
 					  {
@@ -254,7 +254,7 @@ function DatosProyectadosTratam($Ano,$Mes,$Area,$Division,$Producto,$Tipo)
    $Consulta="select valor_real as ValorReal,valor_presupuestado as ValorPresupuestado from pcip_inp_tratam";
    $Consulta.=" where ano='".$Ano."' and mes='".$Mes."' and nom_area='".$Area."' and nom_division='".$Division."' and cod_producto='".$Producto."'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
     $Datos1=$Fila[ValorReal];

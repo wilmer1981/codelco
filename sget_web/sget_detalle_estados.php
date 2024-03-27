@@ -9,7 +9,7 @@
 	$Consulta.=" inner join sget_administrador_contratistas t4 on t2.rut_adm_contratista=t4.rut_adm_contratista ";
 	$Consulta.=" where num_hoja_ruta='".$TxtHoja."' ";
 	/*echo $Consulta;*/
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resp);
 	$Empresa=$Fila[razon_social];
 	$Contrato=$Fila["cod_contrato"].' '.$Fila["descripcion"];
@@ -132,13 +132,13 @@ function DetalleActividad(NumHr,Fecha,Run)
                    <td width="21%" align="center" class="TituloCabecera"><?
 			 $Consulta = "SELECT * from sget_hitos ";
 			 $Consulta.=" where cod_hito='2' ";
-			 $RespH = mysql_query($Consulta);
+			 $RespH = mysqli_query($link, $Consulta);
 			 $FilaH=mysql_fetch_array($RespH);
 			 echo $FilaH[descrip_hito];
 			 $Consulta="SELECT distinct(fecha) ";
 			 $Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 			 $Consulta.=" where num_hoja_ruta ='".$TxtHoja."' and cod_hito='2' ";
-			 $Resp1=mysql_query($Consulta);
+			 $Resp1=mysqli_query($link, $Consulta);
 			 $Fila1=mysql_fetch_array($Resp1);
 				$TxtFecha1=$Fila1["fecha"]; 
 			
@@ -148,13 +148,13 @@ function DetalleActividad(NumHr,Fecha,Run)
                    <td width="12%" align="center" class="TituloCabecera"><?
 			 $Consulta = "SELECT * from sget_hitos ";
 			 $Consulta.=" where cod_hito='5' ";
-			 $RespH = mysql_query($Consulta);
+			 $RespH = mysqli_query($link, $Consulta);
 			 $FilaH=mysql_fetch_array($RespH);
 			 echo $FilaH[descrip_hito]; 
 			 $Consulta="SELECT distinct(fecha) ";
 			 $Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 			 $Consulta.=" where num_hoja_ruta ='".$TxtHoja."' and cod_hito='5' ";
-			 $Resp3=mysql_query($Consulta);
+			 $Resp3=mysqli_query($link, $Consulta);
 			 $Fila3=mysql_fetch_array($Resp3);
 				$TxtFecha3=$Fila3["fecha"]; 
 			 	
@@ -169,7 +169,7 @@ function DetalleActividad(NumHr,Fecha,Run)
 		   $Consulta.=" left join sget_cargos t3 on t3.cod_cargo=t2.cargo";
 		  $Consulta.=" where t1.num_hoja_ruta ='".$TxtHoja."'";
 		  // echo $Consulta;
-		  $RespDet=mysql_query($Consulta);
+		  $RespDet=mysqli_query($link, $Consulta);
 		  while($FilaDet=mysql_fetch_array($RespDet))
 		  {
 			?>
@@ -181,7 +181,7 @@ function DetalleActividad(NumHr,Fecha,Run)
 				   <?
 					$Consulta=" SELECT * from sget_hoja_ruta_nomina_hitos_personas  ";
 					$Consulta.=" where num_hoja_ruta ='".$TxtHoja."' and cod_hito='2' and rut_personal ='".$FilaDet[rut_personal]."'";
-					$Resp3=mysql_query($Consulta);
+					$Resp3=mysqli_query($link, $Consulta);
 					if($Fila3=mysql_fetch_array($Resp3))
 					{
 						if($Fila3[aprob_rechazo] =='A')
@@ -197,7 +197,7 @@ function DetalleActividad(NumHr,Fecha,Run)
 				   <?
 						$Consulta=" SELECT * from sget_hoja_ruta_nomina_hitos_personas  ";
 						$Consulta.=" where num_hoja_ruta ='".$TxtHoja."' and cod_hito='4' and rut_personal ='".$FilaDet[rut_personal]."'";
-						$Resp3=mysql_query($Consulta);
+						$Resp3=mysqli_query($link, $Consulta);
 						if($Fila3=mysql_fetch_array($Resp3))
 						{
 							if($Fila3[aprob_rechazo] =='A')
@@ -212,7 +212,7 @@ function DetalleActividad(NumHr,Fecha,Run)
                    <td width="12%" class="formulario" align="center"><?
 			$Consulta=" SELECT * from sget_hoja_ruta_nomina_hitos_personas  ";
 			$Consulta.=" where num_hoja_ruta ='".$TxtHoja."' and cod_hito='5' and rut_personal ='".$FilaDet[rut_personal]."'";
-			$Resp3=mysql_query($Consulta);
+			$Resp3=mysqli_query($link, $Consulta);
 		  	if($Fila3=mysql_fetch_array($Resp3))
 		  	{
 				if($Fila3[aprob_rechazo] =='A')
@@ -246,7 +246,7 @@ function DetalleActividad(NumHr,Fecha,Run)
 		$Consulta.= " where num_hoja_ruta='".$TxtHoja."'";
 		$Consulta.= " group by fecha_hora ";
 		$Consulta.= " order by fecha_hora ";
-		$RespCrea=mysql_query($Consulta);
+		$RespCrea=mysqli_query($link, $Consulta);
 		while($FilaCrea=mysql_fetch_array($RespCrea))
 		{
 			?>
@@ -256,7 +256,7 @@ function DetalleActividad(NumHr,Fecha,Run)
 			if($FilaCrea["tipo"] =='E'||$FilaCrea["tipo"] =='A' ||$FilaCrea["tipo"] =='R')
 			{
 				$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30008' and cod_subclase ='".$FilaCrea["cod_estado"]."' ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				{
 					echo $Fila["nombre_subclase"];
@@ -265,7 +265,7 @@ function DetalleActividad(NumHr,Fecha,Run)
 			else
 			{
 				$Consulta="SELECT * from sget_hitos where cod_hito='".$FilaCrea["cod_estado"]."' ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				{
 					echo $Fila[descrip_hito];
@@ -275,7 +275,7 @@ function DetalleActividad(NumHr,Fecha,Run)
                  &nbsp;</td>
                <td width="213" align="left" ><?
 			$Consulta="SELECT * from proyecto_modernizacion.funcionarios where rut='".$FilaCrea["rut"]."' ";
-			$Resp1=mysql_query($Consulta);
+			$Resp1=mysqli_query($link, $Consulta);
 			$Fila1=mysql_fetch_array($Resp1);
 			{
 				echo substr($Fila1["nombres"],0,1).'.'.$Fila1["apellido_paterno"].' '.$Fila1["apellido_materno"];

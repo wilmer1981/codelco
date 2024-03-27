@@ -88,7 +88,7 @@
 			$Consulta.="  and  t1.fecha_liber between '".$TxtFlibD."' and '".$TxtFlibF."'";
 		$Consulta.=" group by t1.cod_contrato,t1.ano order by t3.rut_empresa,t1.cod_contrato,t1.ano,t1.mes";
 		//echo $Consulta;
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=1;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{
@@ -103,7 +103,7 @@
 				$Consulta.="  and  t1.fecha_liber between '".$TxtFlibD."' and '".$TxtFlibF."'";
 			$Consulta.=" group by t1.cod_contrato,t1.ano,t1.mes order by mayor desc limit 1";
 			//echo $Consulta;
-			$RespCant=mysql_query($Consulta);
+			$RespCant=mysqli_query($link, $Consulta);
 			$FilaCant=mysql_fetch_array($RespCant);
 			$CantFactMes=$FilaCant["mayor"];
 			echo "<tr>";
@@ -124,7 +124,7 @@
 					$Consulta.="  and  t1.fecha_ing_cont between '".$TxtFcontD."' and '".$TxtFcontF."'";		
 				if($TxtFlibD!=''&&$TxtFlibF!='' )
 					$Consulta.="  and  t1.fecha_liber between '".$TxtFlibD."' and '".$TxtFlibF."'";
-				$RespFact=mysql_query($Consulta);$Entro='N';$Cont=0;
+				$RespFact=mysqli_query($link, $Consulta);$Entro='N';$Cont=0;
 				echo "<table border='1' align='center' cellpadding='0'  cellspacing='0' >";
 				while($FilaFact=mysql_fetch_array($RespFact))
 				{

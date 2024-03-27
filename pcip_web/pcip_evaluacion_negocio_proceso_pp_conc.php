@@ -66,7 +66,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                  <option value="-1" selected="selected" class="Selected">Seleccionar</option>
                  <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31038' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbRecup==$Fila["cod_subclase"])
@@ -82,7 +82,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                  <option value="T" class="Selected">Seleccionar</option>
                  <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31037' and cod_subclase not in ('0')  order by cod_subclase";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbLey==$Fila["cod_subclase"])
@@ -103,7 +103,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 						$Consulta.=" and cod_subclase in('9','10')";
 					if($CmbRecup!=3)
 						$Consulta.=" and cod_subclase in('9')";
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbUnidad==$Fila["cod_subclase"])
@@ -134,7 +134,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 				   $ArraLeyes=array();
 				   $Consulta="select nombre_subclase as nom_ley,t1.cod_ley from pcip_eva_negocios_deduc_recup t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31037' and t1.cod_ley=t2.cod_subclase ";
 				   $Consulta.=" where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."' group by t1.cod_ley order by cod_ley";
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		echo "<td width='10%' align='center' class='TituloCabecera' colspan='2'>".$Fila[nom_ley]."</td>";	
@@ -148,7 +148,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 				   $Consulta="select nombre_subclase as nom_rec,cod_subclase as cod_rec from pcip_eva_negocios_deduc_recup t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31038' and t1.cod_tipo=t2.cod_subclase ";
 				   $Consulta.=" where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."' group by t1.cod_tipo order by cod_tipo";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		echo "<tr>";
@@ -160,7 +160,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 						   $Consulta="select t1.cod_ley,t1.orden,t1.descuento,t1.valor,t2.nombre_subclase as nom_unidad from pcip_eva_negocios_deduc_recup t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31051' and t1.cod_unidad=t2.cod_subclase ";
 						   $Consulta.=" where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."' and t1.cod_tipo='".$Fila[cod_rec]."' and t1.cod_ley='".$v."' order by t1.cod_ley";
 						   //echo $Consulta."<br>";
-						   $Resp2=mysql_query($Consulta);
+						   $Resp2=mysqli_query($link, $Consulta);
 						   if($Fila2=mysql_fetch_array($Resp2))
 						   {
 								echo "<td  align='center'>".number_format($Fila2[valor],2,',','.')."&nbsp;".$Fila2[nom_unidad]."</td>";
@@ -212,7 +212,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                  <option value="-1" selected="selected" class="Selected">Seleccionar</option>
                  <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31039' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbCargo==$Fila["cod_subclase"])
@@ -228,7 +228,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                  <?
 					$Consulta = "select * from pcip_eva_asig_cargo_unidad t1 inner join proyecto_modernizacion.sub_clase t2";
 					$Consulta.= "  on t2.cod_clase='31051' and t1.cod_unidad=t2.cod_subclase where cod_cargo='".$CmbCargo."'";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbUnidad2==$Fila["cod_unidad"])
@@ -255,7 +255,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                     <option value="T" class="Selected">Seleccionar</option>
                     <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31037' and cod_subclase not in ('0')  order by cod_subclase";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbLeyCar==$Fila["cod_subclase"])
@@ -300,7 +300,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 				   $Consulta.="inner join proyecto_modernizacion.sub_clase t4 on t4.cod_clase='31037' and t1.cod_ley=t4.cod_subclase ";
 				   $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."' and t1.cod_tipo_costo='1' order by cod_tipo";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		echo "<tr>";
@@ -339,7 +339,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                  <option value="T" class="Selected">Seleccionar</option>
                  <?
 					/*$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31051' and cod_subclase in('1','2','3','4','5','8','15','16','17','18')";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbUnidad3==$Fila["cod_subclase"])
@@ -354,7 +354,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                  <option value="-1" selected="selected" class="Selected">Seleccionar</option>
                  <?
 					/*$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31037' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbContable==$Fila["cod_subclase"])
@@ -380,7 +380,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 				   $Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 				   $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."' and t1.cod_tipo_costo='2' order by cod_tipo";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		echo "<tr>";
@@ -410,7 +410,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                <option value="T" class="Selected">Seleccionar</option>-->
 	     <?
 					/*$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31051' and cod_subclase in('1','2','8','15','16','17','18')  ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbUnidad4==$Fila["cod_subclase"])
@@ -425,7 +425,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                <option value="-1" selected="selected" class="Selected">Seleccionar</option>-->
 	     <?
 					/*$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31040' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbCastigo==$Fila["cod_subclase"])
@@ -451,7 +451,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 				   $Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 				   $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."' order by cod_tipo";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		echo "<tr>";
@@ -484,7 +484,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                  <option value="-1" selected="selected" class="Selected">Seleccionar</option>
                  <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31052' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbPremios==$Fila["cod_subclase"])
@@ -501,7 +501,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 	             <option value="T" class="Selected">Seleccionar</option>
 	             <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31051' and cod_subclase in('6','17')    ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbUnidad8==$Fila["cod_subclase"])
@@ -531,7 +531,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 				   $Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 				   $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."' order by cod_tipo";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		if($Fila[euro]==0)
@@ -575,7 +575,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                  <option value="-1" selected="selected" class="Selected">Seleccionar</option>
                  <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31036' ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbOrigenDestinoTrans==$Fila["cod_subclase"])
@@ -590,7 +590,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
                  <option value="T" class="Selected">Seleccionar</option>
                  <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31037' and cod_subclase not in ('0')  order by cod_subclase";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbLey==$Fila["cod_subclase"])
@@ -607,7 +607,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 	             <option value="T" class="Selected">Seleccionar</option>
 	             <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31051' and cod_subclase in('1','6','8','15','16','17','18') ";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbUnidad5==$Fila["cod_subclase"])
@@ -634,7 +634,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 				   $Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 				   $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."' order by cod_origen_destino";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		echo "<tr>";
@@ -696,7 +696,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 				   $Consulta="select t1.QP from pcip_eva_negocios_precios t1 ";
 				   $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."'";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   if(!$Fila=mysql_fetch_array($Resp))
 				   {
 				    ?>
@@ -731,7 +731,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 					  <option value="T" class="Selected" >Seleccionar</option>
 					  <?
 						$Consulta = "select distinct(cod_subclase),nombre_subclase from proyecto_modernizacion.sub_clase t1 inner join pcip_fac_compra_precios t2  where cod_clase='31012' and t1.cod_subclase=t2.cod_fino";			
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($FilaTC=mysql_fetch_array($Resp))
 						{
 							if ($CmbFino==$FilaTC["cod_subclase"])
@@ -744,7 +744,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 						<?	  	
 						$Consulta = "select t1.valor,t1.cod_moneda,t2.nombre_subclase as nom_uni from pcip_fac_compra_precios t1 inner join";
 						$Consulta.= " proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31001' and t1.cod_moneda=t2.cod_subclase where t1.ano='".$Ano."' and t1.mes='".$Mes."' and t1.cod_fino='".$CmbFino."'";			
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if($FilaTC=mysql_fetch_array($Resp))
 						{
 							$ValorFino=$FilaTC[valor];
@@ -757,7 +757,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 							$Consulta = "select t1.valor,t1.cod_moneda,t2.nombre_subclase as nom_uni from pcip_fac_compra_precios t1 inner join";
 							$Consulta.= " proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31001' and t1.cod_moneda=t2.cod_subclase where t1.ano='".$Ano."' and t1.cod_fino='".$CmbFino."' order by mes desc";			
 							//echo $Consulta."<br>";
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							if($FilaTC=mysql_fetch_array($Resp))
 							{
 								$ValorFino=$FilaTC[valor];
@@ -786,7 +786,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 					  <option value="T" class="Selected">Seleccionar</option>
 				  <?
 						$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31051' and cod_subclase in('4','6','7''18','19','24')";			
-						$Resp=mysql_query($Consulta);		
+						$Resp=mysqli_query($link, $Consulta);		
 						while ($Fila=mysql_fetch_array($Resp))
 						{
 							if ($CmbUnidad6==$Fila["cod_subclase"])
@@ -805,7 +805,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 					  <option value="-1" selected="selected" class="Selected">Seleccionar</option>
 				  <?
 						$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31037' and cod_subclase not in ('0')  order by cod_subclase";			
-						$Resp=mysql_query($Consulta);		
+						$Resp=mysqli_query($link, $Consulta);		
 						while ($Fila=mysql_fetch_array($Resp))
 						{
 							if ($CmbPrecios==$Fila["cod_subclase"])
@@ -833,7 +833,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 				   $Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 				   $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$CodTipoAnalisis."' order by cod_tipo";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		if($Fila[QP]=='0')

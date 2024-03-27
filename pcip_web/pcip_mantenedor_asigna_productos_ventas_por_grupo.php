@@ -78,7 +78,7 @@ function Salir()
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31014' order by cod_subclase ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbGrupo==$FilaTC["cod_subclase"])
@@ -95,7 +95,7 @@ function Salir()
 				 $Consulta = "select t1.cod_producto from pcip_cdv_productos_ventas_por_grupo t1  ";			
 				 $Consulta.= " where t1.cod_grupo='".$CmbGrupo."'";
 				 //echo $Consulta;
-				 $Resp=mysql_query($Consulta);
+				 $Resp=mysqli_query($link, $Consulta);
 				 while ($FilaTC=mysql_fetch_array($Resp))
 				 {
 					$In=$In."'".$FilaTC["cod_producto"]."',";
@@ -120,7 +120,7 @@ function Salir()
 							$Consulta.= " where t2.cod_producto not in $In ";
 						$Consulta.= "order by t2.cod_producto ";
 					}
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($FilaTC=mysql_fetch_array($Resp))
 					{
 						if ($CmbProducto==$FilaTC["cod_producto"])
@@ -151,7 +151,7 @@ function Salir()
 				if($CmbGrupo!='-1')
 				       $Consulta.=" and t3.cod_subclase='".$CmbGrupo."'";				
 				$Consulta.= " order by t2.cod_grupo and t1.cod_producto";			
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {

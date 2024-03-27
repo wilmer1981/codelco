@@ -26,7 +26,7 @@
 		case "E":
 			$Mensaje='';
 			$Consulta="select * from pcip_ppc_detalle where version='".$Cod."' and ano='".$Ano."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{
 				$Eliminar="delete from pcip_ppc_version where version='".$Cod."'  and ano='".$Ano."'";
@@ -40,7 +40,7 @@
 		case "D":
 			$Mensaje='';
 			$Consulta = "select ifnull(max(version)+1,1) as nueva_version from pcip_ppc_version where ano='".$Ano."'";			
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 				$TxtVersion=$Fila[nueva_version];
 				
@@ -53,7 +53,7 @@
 			//echo $Inserta."<br>";
 
 			$Consulta="select * from pcip_ppc_detalle where version='".$Cod."' and ano='".$Ano."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_ppc_detalle (version,ano,mes,cod_asignacion,cod_procedencia,tipo,cod_negocio,cod_titulo,valor) values ";

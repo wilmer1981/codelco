@@ -189,7 +189,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($Val!='T')	
 					$Consulta.=" and t1.validado='".$Val."'";
 				$Consulta.=" order by t1.apellido_paterno,t1.apellido_materno,t1.nombres";	
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				echo "<input name='CheckConduc' type='hidden'  value=''>";
 				$Cont=1;
 				while ($Fila=mysql_fetch_array($Resp))

@@ -196,7 +196,7 @@ function Recarga(Opc,Parent)
 				if($OptVal=='S')
 					$Consulta.=" and t2.MVALIDADO='1' ";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);$TotTarea=0;$TotPel=0;
+				$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					if($CmbPeligros==$Fila[CPELIGRO])
@@ -323,7 +323,7 @@ function Recarga(Opc,Parent)
 				$Consulta.=" group by t1.CCONTROL";*/	
 
 				//$Consulta.=" where t1.CAREA='".$CODAREA."' and t1.CPELIGRO ='".$CmbPeligros."'";
-				$RespCtrl=mysql_query($Consulta);
+				$RespCtrl=mysqli_query($link, $Consulta);
 				while($FilaCtrl=mysql_fetch_array($RespCtrl))
 				{
 					if($CmbControles==$FilaCtrl[CCONTROL])
@@ -357,7 +357,7 @@ function Recarga(Opc,Parent)
 				if($CmbPeligros!='T')
 					$Consulta.=" and t2.CPELIGRO ='".$CmbPeligros."'";	
 				$Consulta.=" group by t1.COD_VERIFICADOR order by t1.COD_VERIFICADOR";*/
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					if($CmbVerificador==$Fila[COD_VERIFICADOR])

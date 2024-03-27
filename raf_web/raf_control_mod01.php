@@ -5,7 +5,7 @@ switch ($Proceso)
 {
 	case "A"://Comprueba Contrasea
 		$Consulta = "select count(*) as existe from proyecto_modernizacion.funcionarios where rut ='".$CookieRut."' and password2 =md5('".strtoupper(trim($PW))."')";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila= mysql_fetch_array($Respuesta);
 		if ($Fila[existe] == 0)
 		{

@@ -54,7 +54,7 @@ body {
 				$Consulta.= "where OPorden='".$CmbOrdenProd."'";
 				$Consulta.= "order by OPorden ";
 				//echo $Consulta;			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";
@@ -81,8 +81,8 @@ function Toneladas($Orden,$Ano,$Mes,$MesFin)
 		$Total=0;
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
-			$Consulta="SELECT sum(VPcantidad) as VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '4') AND VPorden = '".$Orden."' ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT sum(VPcantidad) as VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '4') AND VPorden = '".$Orden."' ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			if($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -102,8 +102,8 @@ function Toneladas($Orden,$Ano,$Mes,$MesFin)
 		$Total=0;
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
-			$Consulta="SELECT sum(VPcantidad) as VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '5') AND VPorden = '".$Orden."' ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT sum(VPcantidad) as VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '5') AND VPorden = '".$Orden."' ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			if($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -123,8 +123,8 @@ function Toneladas($Orden,$Ano,$Mes,$MesFin)
 		$Total=0;
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
-			$Consulta="SELECT sum(VPcantidad) as VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '4','5') AND VPorden = '".$Orden."' ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT sum(VPcantidad) as VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '4','5') AND VPorden = '".$Orden."' ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			if($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -147,8 +147,8 @@ function Toneladas($Orden,$Ano,$Mes,$MesFin)
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
 			$Cant=0;
-			$Consulta="SELECT VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('11') AND VPordenrel = '".$Orden."' or VPtm in ('4') AND VPorden = '".$Orden."') ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('11') AND VPordenrel = '".$Orden."' or VPtm in ('4') AND VPorden = '".$Orden."') ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			while($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -165,8 +165,8 @@ function Toneladas($Orden,$Ano,$Mes,$MesFin)
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
 			$Cant=0;
-			$Consulta="SELECT VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('12') AND VPordenrel = '".$Orden."' or VPtm in ('5') AND VPorden = '".$Orden."') ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('12') AND VPordenrel = '".$Orden."' or VPtm in ('5') AND VPorden = '".$Orden."') ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			while($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -183,8 +183,8 @@ function Toneladas($Orden,$Ano,$Mes,$MesFin)
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
 			$Cant=0;
-			$Consulta="SELECT VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('11','12') AND VPordenrel = '".$Orden."' or VPtm in ('4','5') AND VPorden = '".$Orden."') ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT VPcantidad FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('11','12') AND VPordenrel = '".$Orden."' or VPtm in ('4','5') AND VPorden = '".$Orden."') ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			while($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -207,8 +207,8 @@ function Dolares($Orden,$Ano,$Mes,$MesFin)
 		$Total=0;
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
-			$Consulta="SELECT sum(VPvalor) as VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '4') AND VPorden = '".$Orden."' ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT sum(VPvalor) as VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '4') AND VPorden = '".$Orden."' ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			if($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -228,8 +228,8 @@ function Dolares($Orden,$Ano,$Mes,$MesFin)
 		$Total=0;
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
-			$Consulta="SELECT sum(VPvalor) as VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '5') AND VPorden = '".$Orden."' ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT sum(VPvalor) as VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '5') AND VPorden = '".$Orden."' ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			if($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -249,8 +249,8 @@ function Dolares($Orden,$Ano,$Mes,$MesFin)
 		$Total=0;
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
-			$Consulta="SELECT sum(VPvalor) as VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '4','5') AND VPorden = '".$Orden."' ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT sum(VPvalor) as VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND VPtm in ( '4','5') AND VPorden = '".$Orden."' ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			if($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -273,8 +273,8 @@ function Dolares($Orden,$Ano,$Mes,$MesFin)
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
 			$Cant=0;
-			$Consulta="SELECT VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('11') AND VPordenrel = '".$Orden."' or VPtm in ('4') AND VPorden = '".$Orden."') ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('11') AND VPordenrel = '".$Orden."' or VPtm in ('4') AND VPorden = '".$Orden."') ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			while($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -291,8 +291,8 @@ function Dolares($Orden,$Ano,$Mes,$MesFin)
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
 			$Cant=0;
-			$Consulta="SELECT VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('12') AND VPordenrel = '".$Orden."' or VPtm in ('5') AND VPorden = '".$Orden."') ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('12') AND VPordenrel = '".$Orden."' or VPtm in ('5') AND VPorden = '".$Orden."') ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			while($Fila2=mysql_fetch_array($Resp2))
 			{
@@ -309,8 +309,8 @@ function Dolares($Orden,$Ano,$Mes,$MesFin)
 		for($i=$Mes;$i<=$MesFin;$i++)
 		{
 			$Cant=0;
-			$Consulta="SELECT VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaño = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('11','12') AND VPordenrel = '".$Orden."' or VPtm in ('4','5') AND VPorden = '".$Orden."') ";
-			$Resp2=mysql_query($Consulta);
+			$Consulta="SELECT VPvalor FROM pcip_svp_valorizacproduccion WHERE VPaï¿½o = '".$Ano."' AND VPmes = '".$i."' AND (VPtm in ('11','12') AND VPordenrel = '".$Orden."' or VPtm in ('4','5') AND VPorden = '".$Orden."') ";
+			$Resp2=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			while($Fila2=mysql_fetch_array($Resp2))
 			{

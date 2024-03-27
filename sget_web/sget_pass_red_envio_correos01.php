@@ -3,7 +3,7 @@
  
  
  $Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_subclase='1' and cod_clase='30027'";
- $Resp=mysql_query($Consulta);
+ $Resp=mysqli_query($link, $Consulta);
  if($Fila=mysql_fetch_assoc($Resp))
  {
  	 $Actualiza="UPDATE proyecto_modernizacion.sub_clase set nombre_subclase='".$TxtCuenta."', valor_subclase1='".$TxtPass."' where cod_subclase='1' and cod_clase='30027'";

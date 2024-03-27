@@ -253,7 +253,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				 	$Consulta.=" and (LEFT(t1.fecha_creacion_lote,4)='".$CmbAno."')";
 				$Consulta.=" and (t1.disponibilidad='P' or t1.disponibilidad='T' or t1.sw='2') group by cod_bulto,num_bulto";
 				$var1 =$Consulta;
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				
 				while($Fila=mysql_fetch_array($Respuesta))
 				{

@@ -70,7 +70,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				while(list($c,$v)=each($Datos))
 				{
 				   $Consulta = "select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31000' and cod_subclase='".$v."'";			
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while ($Fila=mysql_fetch_array($Resp))
 				   {
 						if($v=='5'||$v=='6'||$v=='7'||$v=='8'||$v=='9'||$v=='10'||$v=='11'||$v=='12'||$v=='13')
@@ -92,7 +92,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 if($v=='5'||$v=='6'||$v=='7'||$v=='8'||$v=='9'||$v=='10'||$v=='11'||$v=='12'||$v=='13')
 					 {
 					   $Consulta = "select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31000' and cod_subclase='".$v."'";			
-					   $Resp=mysql_query($Consulta);
+					   $Resp=mysqli_query($link, $Consulta);
 					   while ($Fila=mysql_fetch_array($Resp))
 					   {
 						  echo"<td width='5%' align='center'>".ucfirst($Fila["nombre_subclase"])."</td>";	
@@ -150,7 +150,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.=" and t1.fecha_emision BETWEEN '".$FechaInicio."' AND '".$FechaTermino."'";
 				$Consulta.=" group by t1.codigo,t3.correlativo";
 				$Consulta.=" order by t1.fecha_emision,t1.num_factura";
-				$Resp=mysql_query($Consulta);				
+				$Resp=mysqli_query($link, $Consulta);				
 				//echo $Consulta."<br><br>";
 				while($Fila=mysql_fetch_array($Resp))
 				{
@@ -392,7 +392,7 @@ function ValoresIn($Codigo,$Correlativo,$Contenido,$Fino,$Unidad)
 	$Consulta.=" and t1.cod_fino='".$Fino."'";
 	$Consulta.=" and t1.cod_unidad='".$Unidad."'";
 	//echo $Consulta."<br>";
-	$Respaux=mysql_query($Consulta);
+	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux=mysql_fetch_array($Respaux))
 	{
 		$Valor=$Filaaux["total"];		

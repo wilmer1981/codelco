@@ -3,7 +3,7 @@
 	$Entro=false;
 	$Procesa = 0;
 	$Consulta="select num_guia,fecha_guia,patente_guia from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia1."' ";
-	$Resp1=mysql_query($Consulta);
+	$Resp1=mysqli_query($link, $Consulta);
 	if ($Fila1=mysql_fetch_array($Resp1))
 	{
 		$NumGuia1=$Fila1["num_guia"];
@@ -11,7 +11,7 @@
 		$Procesa  = $Procesa  + 1;
 	}
 	$Consulta="select num_guia,fecha_guia,patente_guia from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia2."' ";
-	$Resp2=mysql_query($Consulta);
+	$Resp2=mysqli_query($link, $Consulta);
 	if ($Fila2=mysql_fetch_array($Resp2))
 	{
 		$NumGuia2=$Fila2["num_guia"];

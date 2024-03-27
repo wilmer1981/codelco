@@ -9,7 +9,7 @@
 		case "Asignar":
 			$Consulta="select * from sec_web.lote_catodo ";
 			$Consulta.=" where cod_bulto='".$CodBulto."' and num_bulto = '".$NumBulto."'";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			//echo $Valores."<br>";
 			$datos = explode("@@",$Valores);//Separa los parametros en un array.	
@@ -33,12 +33,12 @@
 		break;
 		case "CambiarMarca":
 			$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='3004' and nombre_subclase='".$Codigo."' ";
-			$Respuesta0=mysql_query($Consulta);
+			$Respuesta0=mysqli_query($link, $Consulta);
 			$Fila0=mysql_fetch_array($Respuesta0);
 			$Mes=$Fila0["cod_subclase"];
 			$Consulta="select count(*) as cantidad from sec_web.lote_catodo where  ";
 			$Consulta.=" cod_bulto='".$Codigo."' and num_bulto='".$Numero."' and left(fecha_creacion_lote,4)='".$Ano."' and cod_estado='c'		";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			if($Fila[cantidad]>0)
 			{
@@ -61,7 +61,7 @@
 		break;
 		case "QuitarRelacion":
 			$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'  ";
-			$Respuesta =mysql_query($Consulta);
+			$Respuesta =mysqli_query($link, $Consulta);
 			if($Fila =mysql_fetch_array($Respuesta))
 			{
 				$Nivel = $Fila["nivel"];
@@ -74,7 +74,7 @@
 					{
 						$AnoActual=date("Y");
 						$Consulta="select max(corr_virtual) as numero from sec_web.instruccion_virtual ";
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						if($Fila["numero"]=='')
 						{
@@ -91,13 +91,13 @@
 						$Consulta.=" where cod_bulto='".$Codigo."' and num_bulto='".$Numero."' and left(fecha_creacion_lote,4)='".$AnoLote."'	";
 						$Consulta.=" and t2.cod_paquete='".$arreglo[0]."' and t2.num_paquete between '".$arreglo[1]."'	and '".$arreglo[3]."'";
 						$Consulta.=" group by t2.cod_producto,t2.cod_subproducto";
-						$Respuesta1=mysql_query($Consulta);
+						$Respuesta1=mysqli_query($link, $Consulta);
 						$Fila1=mysql_fetch_array($Respuesta1);
 						$Suma=($Fila1[suma_paquetes]);
 						$IE=$Fila1["corr_enm"];
 						$Disponibilidad=$Fila1["disponibilidad"];
 						$Consulta="select * from sec_web.programa_enami where corr_enm='".$IE."'";
-						$Respuesta2=mysql_query($Consulta);
+						$Respuesta2=mysqli_query($link, $Consulta);
 						//echo $Consulta."<br>";
 						if($Fila2=mysql_fetch_array($Respuesta2))
 						{
@@ -117,7 +117,7 @@
 						else
 						{
 							$Consulta="select * from sec_web.programa_codelco where corr_codelco='".$IE."'";
-							$Respuesta2=mysql_query($Consulta);
+							$Respuesta2=mysqli_query($link, $Consulta);
 							$Fila2=mysql_fetch_array($Respuesta2);
 							//echo $Consulta;
 							$Cantidad=($Fila2["cantidad_programada"]*1000);
@@ -151,7 +151,7 @@
 			{
 				$Consulta="select count(*) as cantidad from sec_web.lote_catodo where  ";
 				$Consulta.=" cod_bulto='".$Codigo."' and num_bulto='".$Numero."' and left(fecha_creacion_lote,4)='".$AnoLote."'	and cod_estado='c'";
-				$Respuesta0=mysql_query($Consulta);
+				$Respuesta0=mysqli_query($link, $Consulta);
 				$Fila0=mysql_fetch_array($Respuesta0);
 				if($Fila0[cantidad] > 0)
 				{
@@ -165,7 +165,7 @@
 					{
 						$AnoActual=date("Y");
 						$Consulta="select max(corr_virtual) as numero from sec_web.instruccion_virtual ";
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						if($Fila["numero"]=='')
 						{
@@ -182,13 +182,13 @@
 						$Consulta.=" where cod_bulto='".$Codigo."' and num_bulto='".$Numero."' and left(fecha_creacion_lote,4)='".$AnoLote."'	";
 						$Consulta.=" and t2.cod_paquete='".$arreglo[0]."' and t2.num_paquete between '".$arreglo[1]."'	and '".$arreglo[3]."'";
 						$Consulta.=" group by t2.cod_producto,t2.cod_subproducto";
-						$Respuesta1=mysql_query($Consulta);
+						$Respuesta1=mysqli_query($link, $Consulta);
 						$Fila1=mysql_fetch_array($Respuesta1);
 						$Suma=($Fila1[suma_paquetes]);
 						$IE=$Fila1["corr_enm"];
 						$Disponibilidad=$Fila1["disponibilidad"];
 						$Consulta="select * from sec_web.programa_enami where corr_enm='".$IE."'";
-						$Respuesta2=mysql_query($Consulta);
+						$Respuesta2=mysqli_query($link, $Consulta);
 						//echo $Consulta."<br>";
 						if($Fila2=mysql_fetch_array($Respuesta2))
 						{
@@ -208,7 +208,7 @@
 						else
 						{
 							$Consulta="select * from sec_web.programa_codelco where corr_codelco='".$IE."'";
-							$Respuesta2=mysql_query($Consulta);
+							$Respuesta2=mysqli_query($link, $Consulta);
 							$Fila2=mysql_fetch_array($Respuesta2);
 							//echo $Consulta;
 							$Cantidad=($Fila2["cantidad_programada"]*1000);

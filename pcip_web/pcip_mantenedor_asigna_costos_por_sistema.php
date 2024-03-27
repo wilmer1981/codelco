@@ -3,7 +3,7 @@
 
 ?>
 <html>
-<head><title>Asignación de Centro Costos por Sistema</title> 
+<head><title>Asignaciï¿½n de Centro Costos por Sistema</title> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="javascript" src="../pcip_web/funciones/pcip_funciones.js"></script>
 <script language="JavaScript">
@@ -66,7 +66,7 @@ function Salir()
 			  <option value="-1" selected="selected">Seleccionar</option>
 			  <?
 			  $Consulta = "select cod_sistema,nom_sistema from pcip_eec_sistemas order by nom_sistema ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbSistema==$FilaTC["cod_sistema"])
@@ -80,7 +80,7 @@ function Salir()
 		 <? 	 
 				 $Consulta = "select t1.cod_cc from pcip_eec_centros_costos_por_sistema t1  ";			
 				 $Consulta.= " where t1.cod_sistema='".$CmbSistema."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 						while ($FilaTC=mysql_fetch_array($Resp))
 						{
 							$In=$In."'".$FilaTC[cod_cc]."',";
@@ -106,7 +106,7 @@ function Salir()
 					$Consulta.= " where  t2.cod_cc not in $In ";
 					$Consulta.= "order by t2.cod_cc ";
 				}
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbCostos==$FilaTC["cod_cc"])
@@ -122,13 +122,13 @@ function Salir()
 				 <tr align="center">
 				   <td width="8%" class="TituloTablaVerde">Elim.</td>
 				   <td width="8%" class="TituloTablaVerde">Codigo</td>
-				   <td width="78%" class="TituloTablaVerde">Descripción del Area</td>
+				   <td width="78%" class="TituloTablaVerde">Descripciï¿½n del Area</td>
 				 </tr>
              <?
 		
 				$Consulta = "select t1.cod_cc,t1.descrip_area from pcip_eec_centros_costos_por_sistema t2 inner join pcip_eec_centro_costos t1 on";			
 				$Consulta.=" t1.cod_cc=t2.cod_cc where t2.cod_sistema='".$CmbSistema."' order by t1.cod_cc";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {

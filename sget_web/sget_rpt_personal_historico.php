@@ -166,7 +166,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.= " and t1.fecha_ingreso >= '".$TxtFInicio."' and  t1.fecha_termino <= '".$TxtFTermino."'";	
 		$Consulta.=" group by t1.rut order by t2.ape_paterno";
 		//echo $Consulta;
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=0;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{

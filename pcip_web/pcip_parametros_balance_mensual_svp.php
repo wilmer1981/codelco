@@ -80,7 +80,7 @@ function Procesos(TipoProceso)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar los Parametros Seleccionados?"))
+				if (confirm("ï¿½Desea Eliminar los Parametros Seleccionados?"))
 				{
 					f.action = "pcip_parametros_balance_mensual_svp_proceso01.php?Opcion=E&Valores="+Valores;
 					f.submit();
@@ -172,7 +172,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="-1" selected="selected">Seleccionar</option>
         <?
 	    $Consulta = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31005' order by cod_subclase ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoNegocio==$FilaTC["cod_subclase"])
@@ -189,7 +189,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="T" selected="selected">Todos</option>
       <?
 	    $Consulta = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31004' order by cod_subclase ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEtapa==$FilaTC["cod_subclase"])
@@ -206,7 +206,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="T" selected="selected">Todos</option>
       <?
 	    $Consulta = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31002' order by cod_subclase ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoInforme==$FilaTC["cod_subclase"])
@@ -224,7 +224,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		if($CmbTipoInforme!='T')
 			$Consulta.= "where cod_tipo_balance='".$CmbTipoInforme."' ";
 		$Consulta.= "order by cod_producto_etapa ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$FilaTC["cod_producto_etapa"])
@@ -292,7 +292,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.="and t1.cod_tipo_informe='".$CmbTipoInforme."'";
 				//echo $Consulta."<br>";
 				echo "<input type='hidden' name='Check'>";
-				$RespBal=mysql_query($Consulta);
+				$RespBal=mysqli_query($link, $Consulta);
 				while($FilaBal=mysql_fetch_array($RespBal))
 				{
 					$Cod=$FilaBal[cod_etapa]."~".$FilaBal[cod_tipo_negocio]."~".$FilaBal[cod_producto_etapa]."~".$FilaBal[cod_tipo_informe]."~".$FilaBal[cod_tipo_balance]."~".$FilaBal[num_orden]."~".$FilaBal[tipo_inventario];

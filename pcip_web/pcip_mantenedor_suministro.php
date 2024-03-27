@@ -59,7 +59,7 @@ function Procesos(TipoProceso)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar los Suministros Seleccionados?"))
+				if (confirm("ï¿½Desea Eliminar los Suministros Seleccionados?"))
 				{
 					f.action = "pcip_mantenedor_suministro_proceso01.php?Opcion=E&Valores="+Valores;
 					f.submit();
@@ -118,7 +118,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="-1" class="NoSelec">Seleccionar</option>
             <?
 	  $Consulta = "select * from pcip_eec_suministros_grupos order by nom_agrupacion ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbGrupoSuministro==$FilaTC["cod_suministro_grupo"])
@@ -136,7 +136,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <?
 	    $Consulta = "select t1.cod_suministro,t2.nom_suministro from pcip_eec_suministros_por_grupos t1 inner join pcip_eec_suministros t2 on t1.cod_suministro=t2.cod_suministro ";
 	    $Consulta.= "where t1.cod_suministro_grupo='".$CmbGrupoSuministro."' order by t2.nom_suministro ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSuministro==$FilaTC["cod_suministro"])
@@ -205,7 +205,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   {
 	$Consulta="select cod_cc,cod_unidad from pcip_eec_suministros_detalle where cod_suministro='".$CmbSuministro."' and  ano='".$Ano."' group by cod_cc order by cod_cc";
 	//echo $Consulta; 	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Cont=0;	
 	while($Fila=mysql_fetch_array($Resp))
 	{
@@ -242,7 +242,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			 for($i=1;$i<=12;$i++)
 			 {
 				$Consulta="select * from pcip_eec_suministros_detalle where cod_suministro='".$CmbSuministro."' and  ano='".$Ano."' and mes='".$i."' and cod_cc='".$Fila[cod_cc]."' and tipo='".$Tipo."'";
-				$RespMes=mysql_query($Consulta);
+				$RespMes=mysqli_query($link, $Consulta);
 				if($FilaMes=mysql_fetch_array($RespMes))
 				{
 					$Cont++;
@@ -293,7 +293,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if ($Mensaje=='1')
 		echo "alert('Suministros (s) Eliminado(s) Correctamente');";
 	if($Cont==0&&$Buscar=='S')
-		echo "alert('Información de Suministros No Encontrada');";	
+		echo "alert('Informaciï¿½n de Suministros No Encontrada');";	
 	echo "</script>";
 ?>	
 </body>

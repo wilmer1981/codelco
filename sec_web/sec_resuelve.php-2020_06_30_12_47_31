@@ -16,7 +16,7 @@
 	mysql_query($CreateTable);
 	
 	$Consulta = "select * from sec_web._aux_guias_con_problema";// where num_guia=630435 ";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	
 
 	
@@ -40,7 +40,7 @@
 			}
 			/*$Consulta = "select * from sec_web.paquete_catodo WHERE cod_paquete ='".$Fila["cod_paquete"]."' AND num_paquete = '".$Fila["num_paquete"]."' ";
 			$Consulta.= " and  YEAR(fecha_creacion_paquete)='".$anio_creacion."'";
-			$Respuesta2 = mysql_query($Consulta);
+			$Respuesta2 = mysqli_query($link, $Consulta);
 			if ($Fila2 = mysql_fetch_array($Respuesta2))
 			{*/
 				$Actualizar="UPDATE  sec_web.paquete_catodo set cod_estado='c', num_guia='".$Fila["num_guia"]."',fecha_embarque='".$fecha_embarque."' WHERE cod_paquete ='".$Fila["cod_paquete"]."' AND num_paquete = '".$Fila["num_paquete"]."' ";

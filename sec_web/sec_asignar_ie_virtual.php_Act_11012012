@@ -18,7 +18,7 @@
 			$TxtPesoPrep=0;
 		}
 		$Consulta="select descripcion from sec_web.marca_catodos where cod_marca='".$CodMarca."'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if ($Fila=mysql_fetch_array($Respuesta))
 		{
 			$Marca=$Fila["descripcion"];
@@ -214,7 +214,7 @@ function Salir()
 			$Consulta=$Consulta." where t1.estado in ('P','T') ";// and t1.cod_producto='".$CodProducto."' and  t1.cod_subproducto='".$CodSubProducto."' ";
 			$Consulta=$Consulta." order by t1.cod_producto, t1.cod_subproducto";
 			//and t1.cod_producto='".$CodProducto."' and t1.cod_subproducto='".$CodSubProducto."' order by t1.peso_programado desc";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			//BLOQUEO LAS CONDICIONES ANTERIORES PARA FILTRAR POR PRODUCTO Y SUBPRODUCTO
 			/*if ($CodProducto=='48')//SI ES DESPUNTE DE LAMINAS
 			{
@@ -223,7 +223,7 @@ function Salir()
 				$Consulta=$Consulta." left join proyecto_modernizacion.productos t6 on t1.cod_producto=t6.cod_producto ";
 				$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 				$Consulta=$Consulta." where t1.estado in ('P','T') and t1.cod_producto='".$CodProducto."' order by t1.peso_programado desc";
-				$Resultado=mysql_query($Consulta);
+				$Resultado=mysqli_query($link, $Consulta);
 			}
 			else
 			{
@@ -235,7 +235,7 @@ function Salir()
 					$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 					$Consulta=$Consulta." where t1.estado in ('P','T') and t1.cod_producto='".$CodProducto."' and ((t1.cod_subproducto='5') or (t1.cod_subproducto='6') or ";
 					$Consulta=$Consulta."(t1.cod_subproducto='8') or (t1.cod_subproducto='9') or (t1.cod_subproducto='10'))  order by t1.peso_programado desc";
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 				}
 				else
 				{
@@ -244,7 +244,7 @@ function Salir()
 					$Consulta=$Consulta." left join proyecto_modernizacion.productos t6 on t1.cod_producto=t6.cod_producto ";
 					$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 					$Consulta=$Consulta." where t1.estado in ('P','T') and t1.cod_producto='".$CodProducto."' and t1.cod_subproducto='".$CodSubProducto."' order by t1.peso_programado desc";
-					$Resultado=mysql_query($Consulta);
+					$Resultado=mysqli_query($link, $Consulta);
 				}	
 			}*/
 			while ($Fila=mysql_fetch_array($Resultado))
@@ -254,7 +254,7 @@ function Salir()
 				mysql_query($Insertar);   
 			}
 			$Consulta="select * from sec_web.tmpprograma order by fecha_disponible";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='OptSeleccionar'><input type='hidden' name='TxtPeso'>";
 			$TotalPeso=0;
 			$TotalPaquetes=0;
@@ -266,16 +266,16 @@ function Salir()
 				$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a' and t2.cod_estado='a' group by t1.corr_enm,t1.cod_bulto,t1.num_bulto order by t1.fecha_creacion_lote desc";
 				//$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
 				//echo $Consulta;
-				$Respuesta2=mysql_query($Consulta);
+				$Respuesta2=mysqli_query($link, $Consulta);
 				if ($Fila2=mysql_fetch_array($Respuesta2))
 				{
 					$Consulta="select max(num_paquete) as num_bulto from sec_web.lote_catodo t1";
 					$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a'";
-					$Respuesta3=mysql_query($Consulta);
+					$Respuesta3=mysqli_query($link, $Consulta);
 					$Fila3=mysql_fetch_array($Respuesta3);
 					$Consulta="select count(*) as cantpaquetes from sec_web.lote_catodo t1";
 					$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a'";
-					$Respuesta4=mysql_query($Consulta);
+					$Respuesta4=mysqli_query($link, $Consulta);
    //  echo $Consulta;
 					$Fila4=mysql_fetch_array($Respuesta4);
 					$Cont2++;

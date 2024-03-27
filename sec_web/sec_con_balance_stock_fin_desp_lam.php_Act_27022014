@@ -117,7 +117,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 	
 	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase = '3004' and cod_subclase = '".intval(substr($FechaAux,5,2))."'"	;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	if ($Fila = mysql_fetch_array($Respuesta))
 	{
@@ -147,7 +147,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 	$Consulta.= " group by t2.cod_bulto, t2.num_bulto ";
 	$Consulta.= " order by ano_creacion, t2.cod_bulto, t2.num_bulto";
 	//echo $Consulta."<br>";
-	mysql_query($Consulta);	
+	mysqli_query($link, $Consulta);	
 			
 	$Consulta = " SELECT sum(t1.peso_paquetes) as peso,t2.cod_bulto,t2.num_bulto ";
 	$Consulta.= " from sec_web.paquete_catodo t1  ";
@@ -161,7 +161,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 	$Consulta.= " or (year(t1.fecha_creacion_paquete) < ".$AnoFin.")) ";
 	$Consulta.= " group by t2.cod_bulto,t2.num_bulto ";
 	//echo $Consulta."<br>";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		//$Consulta = " SELECT sum(t1.peso) as peso,t1.cod_bulto,t1.num_bulto ";
@@ -170,7 +170,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 		//$Consulta.= " and t1.cod_producto = '48'";
 		//$Consulta.= " and t1.cod_bulto <= '".$Fila["cod_bulto"]."' and year(t1.fecha_creacion_lote) <= '".$AnoFin."'";
 		//$Consulta.= " group by t1.cod_bulto,t1.num_bulto ";
-		//$Resp2 = mysql_query($Consulta);
+		//$Resp2 = mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		//if ($Fila2 = mysql_fetch_array($Resp2))
 		//{
@@ -216,7 +216,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 	// hasta aca
 	
 	$Consulta = "SELECT * from sec_web.tmp_stock_ini2 order by cod_bulto, num_bulto";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{
@@ -235,7 +235,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 		$Consulta.= " and t3.num_bulto = '".$Fila["num_bulto"]."'";
 		$Consulta.= " and t1.cod_estado = 'a'";
 		//echo "PP".$Consulta;
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$ContProd = 0;
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{
@@ -265,7 +265,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 		else
 			echo "<td align='center'><a href=\"JavaScript:Detalle('".$Producto."','".$SubProducto."','".$AnoCreacionLote."','".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."');\">".strtoupper($Fila["cod_bulto"])."-".str_pad($Fila["num_bulto"],6,0,STR_PAD_LEFT)."</a></td>\n";						
 		$Consulta = "SELECT num_envio from sec_web.embarque_ventana where cod_bulto = '".$Fila["cod_bulto"]."' and num_bulto = '".$Fila["num_bulto"]."' and year(fecha_embarque) = '".$AnoFin."'";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_array($Resp2))
 			echo "<td align='center'>".str_pad($Fila2["num_envio"],5, "0", STR_PAD_LEFT)."</td>\n";
 		else
@@ -276,7 +276,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 		$Consulta.= " and cod_bulto='".$Fila["cod_bulto"]."' ";
 		$Consulta.= " and num_bulto='".$Fila["num_bulto"]."' ";
 		$Consulta.= " and year(fecha_embarque) ='".$AnoFin."' ";
-		$RespAux=mysql_query($Consulta);
+		$RespAux=mysqli_query($link, $Consulta);
 		if ($FilaAux=mysql_fetch_array($RespAux))
 			echo "<td align=\"center\">".$FilaAux["corr_enm"]."</td>\n";
 		else
@@ -286,7 +286,7 @@ function Detalle(prod,subprod,ano,cod_lote,num_lote)
 		//-------------------------------------------------------------------------------------------
 		// ASIGNACION
 		$Consulta = "SELECT * from sec_web.programa_codelco where corr_codelco='".$FilaAux["corr_enm"]."'";
-		$RespAux=mysql_query($Consulta);
+		$RespAux=mysqli_query($link, $Consulta);
 		if ($FilaAux=mysql_fetch_array($RespAux))
 			echo "<td align=\"center\">".$FilaAux["cod_contrato_maquila"]."</td>\n";
 		else

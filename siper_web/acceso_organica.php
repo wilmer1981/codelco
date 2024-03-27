@@ -272,7 +272,7 @@ function ConfirmaEliminar()
 				$Consulta.= " and t2.apellido_paterno like ('%".strtoupper($TxtApePat)."%') ";
 			$Consulta.= " order by t2.apellido_paterno,t2.apellido_materno";	
 			//echo 	$Consulta;
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			echo "<input name='CheckRut' type='hidden'  value=''>";
 			$cont=1;
 			while ($Fila=mysql_fetch_array($Resp))
@@ -349,7 +349,7 @@ if (!isset($VisibleDivProceso))
 					echo "<SELECT name='CmbUsuarios'>";
 					echo "<option value='S'>Seleccionar</option>";
 					$Consulta="SELECT * FROM proyecto_modernizacion.sistemas_por_usuario t1 inner join proyecto_modernizacion.funcionarios t3 on t1.rut=t3.rut left join sgrv.sgrs_acceso_organica t2 on t1.rut=t2.rut WHERE `cod_sistema` = '29' and t2.rut is null group by t1.rut order by t3.apellido_paterno ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						//ObtieneUsuario($Fila["rut"],&$NombreUser);
@@ -385,7 +385,7 @@ if (!isset($VisibleDivProceso))
 			$Checked='';
 			//echo strpos($CodGer,'49');
 			$Consulta="SELECT * from sgrs_areaorg where CTAREA <> '0' and CPARENT=',0,1,' order by NAREA";
-			$Resp=mysql_query($Consulta);echo "<input name='CheckGer' type='hidden'>";
+			$Resp=mysqli_query($link, $Consulta);echo "<input name='CheckGer' type='hidden'>";
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				echo "<tr>";
@@ -422,7 +422,7 @@ if (!isset($VisibleDivProceso))
 				inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut
 				inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema
 				where t2.cod_sistema='29' and (t3.nivel='1' or t3.nivel='4' or t3.nivel='8') group by t1.rut order by t1.apellido_paterno";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					ObtieneUsuario($Fila["rut"],&$NombreUser);
@@ -433,7 +433,7 @@ if (!isset($VisibleDivProceso))
 			break;
 			case "M":			
 				$Consulta="SELECT * FROM sgrs_acceso_organica  WHERE  rut='".$Rut."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$CmbJefe=$Fila[RUT_JEFE];
 				//echo "RUT JEFE:".$CmbJefe."<br>";
@@ -443,7 +443,7 @@ if (!isset($VisibleDivProceso))
 				inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut
 				inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema
 				where t2.cod_sistema='29' and (t3.nivel='1' or t3.nivel='4' or t3.nivel='8') group by t1.rut order by t1.apellido_paterno";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					ObtieneUsuario($Fila["rut"],&$NombreUser);
@@ -454,7 +454,7 @@ if (!isset($VisibleDivProceso))
 				}
 				echo "</SELECT>";echo "<br>";
 				$Consulta="SELECT AVISO_CORREO from sgrs_acceso_organica where RUT='".$Rut."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<input type='text' name='correos' value='".$Fila[AVISO_CORREO]."' size='47'><br>";
@@ -477,7 +477,7 @@ if (!isset($VisibleDivProceso))
 				inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut
 				inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema
 				where t2.cod_sistema='29' and (t3.nivel='1' or t3.nivel='4' or t3.nivel='8') group by t1.rut order by t1.apellido_paterno";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					ObtieneUsuario($Fila["rut"],&$NombreUser);
@@ -491,7 +491,7 @@ if (!isset($VisibleDivProceso))
 			break;
 			case "M":			
 				$Consulta="SELECT * FROM sgrs_acceso_organica  WHERE  rut='".$Rut."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$CmbExperto=$Fila[RUT_EXPERTO];
 
@@ -501,7 +501,7 @@ if (!isset($VisibleDivProceso))
 				inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut
 				inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema
 				where t2.cod_sistema='29' and (t3.nivel='1' or t3.nivel='4' or t3.nivel='8') group by t1.rut order by t1.apellido_paterno";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					ObtieneUsuario($Fila["rut"],&$NombreUser);
@@ -512,7 +512,7 @@ if (!isset($VisibleDivProceso))
 				}
 				echo "</SELECT>";echo "<br>";
 				$Consulta="SELECT AVISO_CORREO2 from sgrs_acceso_organica where RUT='".$Rut."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<input type='text' name='correos2' value='".$Fila[AVISO_CORREO2]."' size='47'><br>";

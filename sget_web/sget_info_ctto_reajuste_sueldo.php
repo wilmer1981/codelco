@@ -14,7 +14,7 @@
  	$Consulta="SELECT t1.corr,t1.fecha_reajuste,t2.nombre_subclase as periodo,t1.fecha_reajustada,t1.monto,t1.monto_reajustado,t3.nombre_subclase as cambio,t1.estado from sget_reajustes_contratos t1 left join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='30006' and t1.tipo_reajuste=t2.valor_subclase1 ";
 	$Consulta.="left join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='30002' and t1.tipo_cambio=t3.cod_subclase where t1.tipo='S' and t1.cod_contrato ='".$Ctto."' order by t1.fecha_reajuste";
 	//echo $Consulta;
-	$RespReaj=mysql_query($Consulta);
+	$RespReaj=mysqli_query($link, $Consulta);
 	while($FilaReaj=mysql_fetch_array($RespReaj))
 	{
 		?>

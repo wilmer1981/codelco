@@ -3,7 +3,7 @@ include("../principal/conectar_sget_web.php");
 include("funciones/sget_funciones.php");
 $Consulta="SELECT rut_adm_ctto from sget_hoja_ruta_adm_ctto ";
 $Consulta.="  where num_hoja_ruta='".$NumHoja."'";
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 $RutExi="(";
 while($Fila=mysql_fetch_array($Resp))
 {
@@ -139,7 +139,7 @@ function Proceso(Opt,Var1,Var2)
                    <option value="-1">Seleccionar</option>
                    <?
 	  $Consulta = "SELECT * from sget_administrador_contratos where rut_adm_contrato not in ".$RutExi." order by ape_paterno ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbAdmCtto==$FilaTC["rut_adm_contrato"])
@@ -167,7 +167,7 @@ function Proceso(Opt,Var1,Var2)
              <?
 		$Consulta="SELECT * from sget_hoja_ruta_adm_ctto ";
 		$Consulta.="  where num_hoja_ruta='".$NumHoja."' order by tipo";
-		$Resp=mysql_query($Consulta);echo "<input name='TxtObs' type='hidden'><input name='TxtMail' type='hidden'>";$Cont=1;
+		$Resp=mysqli_query($link, $Consulta);echo "<input name='TxtObs' type='hidden'><input name='TxtMail' type='hidden'>";$Cont=1;
 		while($Fila=mysql_fetch_array($Resp))
 		{
 		   	$VarCodelco=AdmCodelco($Fila["rut_adm_ctto"]);

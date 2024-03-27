@@ -24,7 +24,7 @@ switch($Proceso)
 			$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 			$Consulta.=" where num_hoja_ruta ='".$NHoja."' ";
 			$Consulta.=" and cod_hito='".$CHito."'  and rut_personal='".$RutPer."' ";
-			$RespDet2=mysql_query($Consulta);
+			$RespDet2=mysqli_query($link, $Consulta);
 		//	echo $NHoja."  ".$RutPer."  ".$Estado."<br>";
 			if($CHito=='2')
 			{
@@ -101,7 +101,7 @@ switch($Proceso)
 			$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 			$Consulta.=" where num_hoja_ruta ='".$NHoja."' ";
 			$Consulta.=" and cod_hito='".$CHito."'  and rut_personal='".$RutPer."' ";
-			$RespDet2=mysql_query($Consulta);
+			$RespDet2=mysqli_query($link, $Consulta);
 			if($FilaDet2=mysql_fetch_array($RespDet2))
 			{
 				$Actualizar=" UPDATE  sget_hoja_ruta_nomina_hitos_personas set ";

@@ -6,7 +6,7 @@ switch($Opcion)
 {
 	case "N":
 			$Consulta="SELECT ifnull(max(corr_visita)+1,1) as maximo from sget_visitas ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				if($Fila["maximo"]=='')

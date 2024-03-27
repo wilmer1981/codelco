@@ -201,7 +201,7 @@ function CloseDiv()
 			$Consulta.=" where not isnull(CAGENTE)  ";
 			if($TxtDescripcion!='')
 				$Consulta.= " and upper(NAGENTE) like('%".strtoupper($TxtDescripcion)."%') ";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			echo "<input name='CheckRut' type='hidden'  value=''>";
 			$cont=1;
 			while ($Fila=mysql_fetch_array($Resp))
@@ -267,7 +267,7 @@ if (!isset($VisibleDivProceso))
 	  	if($Proc=='M')
 		{
 			$Consulta="Select * from sgrs_cagentes where CAGENTE='".$Datos."' ";
-			$Resp1 = mysql_query($Consulta);
+			$Resp1 = mysqli_query($link, $Consulta);
 			if ($Fila1=mysql_fetch_array($Resp1))
 			{
 			 $TxtNombre=$Fila1[NAGENTE];
@@ -303,7 +303,7 @@ if (!isset($VisibleDivProceso))
 					<option value='S'>Seleccionar</option>
 					<?
 					$Consulta="SELECT * FROM sgrs_unidades ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 					

@@ -13,7 +13,7 @@
 	$Consulta.=" left join  sget_gerencias t7  on t1.cod_gerencia=t7.cod_gerencia ";
 	$Consulta.=" left join  sget_areas t8  on t1.cod_area=t8.cod_area ";
 	$Consulta.=" where t1.cod_contrato='".$Ctto."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtRutPrv=intval(substr(str_pad($Fila["rut_empresa"],10,'0',l_pad),0,8));
@@ -41,7 +41,7 @@
 	 $Consulta.= "where cod_clase='30003'  and cod_subclase='".$TipoCT."'";	
 	if ($CmbTipoCtto=='N')
 	 $Consulta.= "where cod_clase='30004'  and cod_subclase='".$TipoCT."'";	
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($FilaTC=mysql_fetch_array($Resp))
 		{
 		$DetCtto=$FilaTC["nombre_subclase"];
@@ -141,7 +141,7 @@
 	$Consulta="Select t1.rut,t1.nombres,t1.ape_paterno,t1.ape_materno,t1.direccion,t1.nro_tarjeta,t1.estado,t2.nom_comuna,t1.sexo,t3.descripcion_afp as nom_afp,t4.descripcion as nom_sindicato ";
 	$Consulta.="from sget_personal t1 LEFT JOIN SGET_COMUNAS t2 on t1.cod_comuna=t2.cod_comuna left join sget_afp t3 on t1.cod_afp=t3.cod_Afp ";
 	$Consulta.="left join sget_sindicato t4 on t1.cod_sindicato=t4.cod_sindicato where t1.cod_contrato='".$Ctto."'";
-	$Respd=mysql_query($Consulta);
+	$Respd=mysqli_query($link, $Consulta);
 	while($Filad=mysql_fetch_array($Respd))
 	{
 	?>

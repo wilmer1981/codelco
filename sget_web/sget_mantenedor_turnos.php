@@ -125,7 +125,7 @@ if($Buscar=='S')
 	if($TxtDescripcion!='')
 		$Consulta.=" and  upper(t1.descrip_turno) like ('%".strtoupper(trim($TxtDescripcion))."%')";
 	$Consulta.= " order by descrip_turno ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	while ($Fila=mysql_fetch_array($Resp))
 	{

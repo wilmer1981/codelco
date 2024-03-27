@@ -6,7 +6,7 @@
 	{
 		case "N":
 			$Consulta="SELECT * from sget_contratistas where rut_empresa='".$RutDV."' ";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			if ($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Encontro=true;
@@ -154,7 +154,7 @@
 			{
 				$Consulta=" Select count(rut_empresa) as Total from sget_contratos where rut_empresa='".$Rut."'";
 				//echo $Consulta."<br>";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				if ($Fila["total"]<=0)
 				{

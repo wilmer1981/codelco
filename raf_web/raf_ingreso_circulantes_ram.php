@@ -23,7 +23,7 @@ if($Proceso == "B")
 {
 	$Consulta = " SELECT * FROM raf_web.circulantes WHERE fecha = '$fecha'";
 	$Consulta.= " AND cod_producto = 50 AND cod_subproducto = 5";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($Fila = mysql_fetch_array($rs))
 	{
 		$PrecipitadoCu = $Fila["peso"];					

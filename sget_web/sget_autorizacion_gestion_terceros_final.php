@@ -97,7 +97,7 @@ function Rech(H,HR)
                 <?
 		$FechaActual=date("Y")."-".date("m")."-".date("d");
 		$Consulta="SELECT * from sget_contratos order by fecha_termino desc";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		while($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			if ($FechaActual > $FilaCtto[fecha_termino])
@@ -146,7 +146,7 @@ function Rech(H,HR)
                 <option value="-1" class="NoSelec">Seleccionar</option>
                 <?
 	  	$Consulta = "SELECT * from sget_contratistas t1 inner join sget_contratos t2 on t1.rut_empresa=t2.rut_empresa where t2.cod_contrato ='".$CmbContrato."'order by razon_social ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -227,7 +227,7 @@ function Rech(H,HR)
               <option value="S" SELECTed="SELECTed">Seleccionar</option>
               <?
 		$Consulta="SELECT * from sget_estados_generales order by codigo";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbEstado==$Fila["codigo"])
@@ -270,7 +270,7 @@ function Rech(H,HR)
 		   <?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='14'  ";
-			$RespH = mysql_query($Consulta);
+			$RespH = mysqli_query($link, $Consulta);
 			while ($FilaH=mysql_fetch_array($RespH))
 			{
 				?>
@@ -281,7 +281,7 @@ function Rech(H,HR)
            <?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-			$RespH = mysql_query($Consulta);
+			$RespH = mysqli_query($link, $Consulta);
 			while ($FilaH=mysql_fetch_array($RespH))
 			{
 				?>
@@ -317,7 +317,7 @@ if($Cons=='S')
 			break;
 		}
 	}
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckHoja' type='hidden'  value=''>";
 	$cont=1;
 	while ($Fila=mysql_fetch_array($Resp))
@@ -348,11 +348,11 @@ if($Cons=='S')
 		    
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='16'  ";
-			$RespHD = mysql_query($Consulta);
+			$RespHD = mysqli_query($link, $Consulta);
 			while ($FilaHD=mysql_fetch_array($RespHD))
 			{
 				$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
-				$RespExi = mysql_query($Consulta);
+				$RespExi = mysqli_query($link, $Consulta);
 				if($FilaExi=mysql_fetch_array($RespExi))
 				{	
 					if($FilaExi[autorizado]=='S')
@@ -370,14 +370,14 @@ if($Cons=='S')
 		  	//echo "agos______".$Entro."<br>";
 			$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-			$RespHD = mysql_query($Consulta);
+			$RespHD = mysqli_query($link, $Consulta);
 			while ($FilaHD=mysql_fetch_array($RespHD))
 			{
 				?>
 				<td  align="center">
 				<?
 				$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$Fila["num_hoja_ruta"]."' and cod_hito='".$FilaHD[cod_hito]."' ";
-				$RespExi = mysql_query($Consulta);
+				$RespExi = mysqli_query($link, $Consulta);
 				if($FilaExi=mysql_fetch_array($RespExi))
 				{	
 					if($FilaExi[autorizado]=='S')

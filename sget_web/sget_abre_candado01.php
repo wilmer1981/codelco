@@ -13,14 +13,14 @@ switch($Proceso)
 	$Consulta = "SELECT * ";
 		$Consulta.= " FROM proyecto_modernizacion.funcionarios ";
 		$Consulta.= " WHERE rut = '".$Rut."'";
-		$Resp0=mysql_query($Consulta);
+		$Resp0=mysqli_query($link, $Consulta);
 		if($Fila0=mysql_fetch_array($Resp0))
 		{
 			$Consulta = "SELECT * ";
 			$Consulta.= " FROM proyecto_modernizacion.funcionarios ";
 			$Consulta.= " WHERE rut = '".$Rut."'";
 			$Consulta.= " and password2 = md5('".strtoupper($TxtPassActual)."')"; 		
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				$Actualizar="UPDATE sget_hoja_ruta set cod_estado_aprobado='".$Est."' where num_hoja_ruta='".$NumHoja."'";

@@ -38,7 +38,7 @@
 	{
 		$Consulta="select * from pcip_eec_centro_costos where cod_cc='".$Cod."' ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Datos=$Fila[cod_gerencia].'~'.$Fila[cod_area].'~'.$Fila[descrip_area].'~'.$Fila[cod_cc].'~'.$Fila["abreviatura"];
 		return($Datos);	
@@ -47,7 +47,7 @@
 	{
 		$Consulta="select * from pcip_eec_suministros where cod_suministro='".$Cod."' ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Datos=$Fila[cod_suministro].'~'.$Fila[nom_suministro].'~'.$Fila[cod_unidad];
 		return($Datos);	
@@ -56,7 +56,7 @@
 	{
 		$Consulta="select * from pcip_lista_excel where cod_excel='".$Cod."' ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Datos=$Fila[cod_excel].'~'.$Fila[nom_excel].'~'.$Fila[perfiles_accesos].'~'.$Fila[valor].'~'.$Fila[ini_fil_cc].'~'.$Fila[ini_col_cc].'~'.$Fila[hoja].'~'.$Fila[tipo_excel].'~'.$Fila[corta_mes].'~'.$Fila[tipo_carga];
 		return($Datos);	
@@ -171,7 +171,7 @@
 	function ObtenerMaxCorr($Tabla,$Campo)
 	{
 		$Consulta="select max(".$Campo.") as mayor from ".$Tabla;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		$Corr=$Fila["mayor"]+1;
 		return($Corr);

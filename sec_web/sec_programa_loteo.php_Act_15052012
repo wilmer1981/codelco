@@ -471,7 +471,7 @@ else
 			{
 				$Consulta=$Consulta." where t1.tipo <> 'V' and t1.estado2 <>'C' and t1.estado2 <>'L'";
 			}
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
 				$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,fecha_programacion,cantidad_programada,num_prog_loteo ,producto,subproducto,pto_destino ,pto_emb,tipo,cod_contrato,estado,fecha_disponible,descripcion,enm_code,contrato,cuota,cod_puerto,cod_puerto_destino) values(";
@@ -496,7 +496,7 @@ else
 			{
 				$Consulta=$Consulta." where t1.estado2 <>'C' and t1.estado2 <>'L'";
 			}			
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
@@ -537,7 +537,7 @@ else
 					$Consulta.= "order by corr_ie, fecha_programacion ";
 					break;
 			}			
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='CheckProgLoteo'><input type='hidden' name ='NumProgLoteo'><input type='hidden' name='CheckFecha'>";
 			while ($Valor=mysql_fetch_array($Respuesta))
 			{
@@ -592,7 +592,7 @@ else
 					$DescPtoEmb="";
 					$DescPtoDes="";
 					$Consulta = "select * from sec_web.puertos where cod_puerto='".$Valor["pto_emb"]."' or cod_puerto='".$Valor["pto_destino"]."'";
-					$RespPto=mysql_query($Consulta);
+					$RespPto=mysqli_query($link, $Consulta);
 					while ($FilaPto=mysql_fetch_array($RespPto))
 					{
 						switch ($FilaPto["cod_puerto"])
@@ -612,7 +612,7 @@ else
 					$DescPtoEmb="";
 					$DescPtoDes="";
 					$Consulta = "select * from sec_web.puertos where cod_puerto='".$Valor["cod_puerto"]."' or cod_puerto='".$Valor[cod_puerto_destino]."'";
-					$RespPto=mysql_query($Consulta);
+					$RespPto=mysqli_query($link, $Consulta);
 					while ($FilaPto=mysql_fetch_array($RespPto))
 					{
 						switch ($FilaPto["cod_puerto"])

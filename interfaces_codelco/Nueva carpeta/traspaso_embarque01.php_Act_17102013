@@ -64,7 +64,7 @@
 						$Consulta.= " where tipo_registro='".$SAP_Tipo."' and ano='".$Ano."' and mes='".$Mes."' ";
 						$Consulta.= " and referencia='".$L_SAP_Lote."' ";
 						//echo $Consulta."<br>";
-						$Resp2 = mysql_query($Consulta);		
+						$Resp2 = mysqli_query($link, $Consulta);		
 						$Fecha1=substr($SAP_FechaDoc,6,4)."-".substr($SAP_FechaDoc,3,2)."-".substr($SAP_FechaDoc,0,2);
 						$Fecha2=substr($SAP_FechaCon,6,4)."-".substr($SAP_FechaCon,3,2)."-".substr($SAP_FechaCon,0,2);
 						if ($Fila2 = mysql_fetch_array($Resp2))
@@ -438,7 +438,7 @@ $ProdAux = explode("~",$Valores);
 						$Consulta.= " where tipo_registro='".$SAP_Tipo."' and ano='".$Ano."' and mes='".$Mes."' ";
 						$Consulta.= " and referencia='".$L_SAP_Lote."' ";
 						//echo $Consulta."<br>";
-						$Resp2 = mysql_query($Consulta);		
+						$Resp2 = mysqli_query($link, $Consulta);		
 						$Fecha1=substr($SAP_FechaDoc,6,4)."-".substr($SAP_FechaDoc,3,2)."-".substr($SAP_FechaDoc,0,2);
 						$Fecha2=substr($SAP_FechaCon,6,4)."-".substr($SAP_FechaCon,3,2)."-".substr($SAP_FechaCon,0,2);
 						if ($Fila2 = mysql_fetch_array($Resp2))
@@ -854,7 +854,7 @@ $ProdAux = explode("~",$Valores);
 						$Consulta.= " where tipo_registro='".$SAP_Tipo."' and ano='".$Ano."' and mes='".$Mes."' ";
 						$Consulta.= " and referencia='".$L_SAP_Lote."' ";
 						//echo $Consulta."<br>";
-						$Resp2 = mysql_query($Consulta);		
+						$Resp2 = mysqli_query($link, $Consulta);		
 						$Fecha1=substr($SAP_FechaDoc,6,4)."-".substr($SAP_FechaDoc,3,2)."-".substr($SAP_FechaDoc,0,2);
 						$Fecha2=substr($SAP_FechaCon,6,4)."-".substr($SAP_FechaCon,3,2)."-".substr($SAP_FechaCon,0,2);
 						if ($Fila2 = mysql_fetch_array($Resp2))

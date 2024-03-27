@@ -52,7 +52,7 @@ function Proceso(Opc)
 		case "E":
 			if(SoloUnElemento(f.name,'CheckTipoDoc','E'))
 			{
-				mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
+				mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
 				if(mensaje==true)
 				{
 					Datos=Recuperar(f.name,'CheckTipoDoc');
@@ -105,7 +105,7 @@ function Proceso(Opc)
             <option value="T" class="NoSelec" >Todos</option>
             <?
 				$Consulta = "select distinct(cod_subclase),nombre_subclase from proyecto_modernizacion.sub_clase t1 inner join pcip_fac_compra_precios t2  where cod_clase='31012' and t1.cod_subclase=t2.cod_fino";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbFino==$FilaTC["cod_subclase"])
@@ -178,7 +178,7 @@ function Proceso(Opc)
      
 	  <tr align="center">
           <td width="7%" class="TituloTablaVerde"><input class='SinBorde' type="checkbox" name="ChkTodos" value="" onClick="CheckearTodo(this.form,'CheckTipoDoc','ChkTodos');"></td>
-          <td width="11%" class="TituloTablaVerde">Año</td>
+          <td width="11%" class="TituloTablaVerde">Aï¿½o</td>
           <td width="11%" class="TituloTablaVerde">Mes</td>
 		  <td width="34%" class="TituloTablaVerde">Fino</td>
 		  <td width="25%" class="TituloTablaVerde">Valor</td>
@@ -209,7 +209,7 @@ if($Buscar=='S')
 		if($Mes!='T')
 			$Consulta.=" and t1.mes='".$Mes."'";
 	$Consulta.= " order by t1.ano,t1.mes ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	

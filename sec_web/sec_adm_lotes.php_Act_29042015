@@ -10,7 +10,7 @@
 	//echo "hhhhhhhhhhhhhhhhhhhhhh".$Fecha."xx".$anito;
 	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'  ";
 
-	$Respuesta =mysql_query($Consulta);
+	$Respuesta =mysqli_query($link, $Consulta);
 	if($Fila =mysql_fetch_array($Respuesta))
 	{
 		$Nivel = $Fila["nivel"];
@@ -20,7 +20,7 @@
 		/*$Consulta="select cod_marca,corr_enm from lote_catodo ";
 		$Consulta
 		$Consulta.=" where cod_bulto='".$CmbCodBulto."' and num_bulto='".$NumBulto."'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Respuesta);
 		$Marca=$Fila["cod_marca"];
 		$ENM=$Fila["corr_enm"];*/
@@ -265,7 +265,7 @@ body {
 				}
 				$Consulta="select * from proyecto_modernizacion.sub_clase ";
 				$Consulta.=" where cod_clase='3004' and cod_subclase between 1 and 12   ";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Respuesta))
 				{
 					if ($CmbCodBulto==$Fila["cod_subclase"])
@@ -289,13 +289,13 @@ body {
 				$CmbAno=date("Y");
 			}
 			$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='3004' and cod_subclase='".$CmbCodBulto."' ";
-			$Respuesta0=mysql_query($Consulta);
+			$Respuesta0=mysqli_query($link, $Consulta);
 			$Fila0=mysql_fetch_array($Respuesta0);
 			$CodBulto=$Fila0["nombre_subclase"];
 			$Consulta="select distinct cod_bulto,num_bulto from sec_web.lote_catodo where   ";
 			$Consulta.=" substring(fecha_creacion_lote,1,4)='".$CmbAno."' and cod_bulto='".$CodBulto."' ";
 			$Consulta.="  order by cod_bulto,num_bulto	";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Respuesta))
 			{
 				if (($CodBulto==$Fila["cod_bulto"])&&($NumBulto==$Fila["num_bulto"]))
@@ -318,7 +318,7 @@ body {
 					$Consulta.=" left join sec_web.marca_catodos t2 on t1.cod_marca = t2.cod_marca	";
 					$Consulta.=" where t1.cod_bulto ='".$CodBulto."' and t1.num_bulto='".$NumBulto."' and substring(fecha_creacion_lote,1,4)='".$CmbAno."'";
 					//echo $Consulta."<br>";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);
 					$Descripcion=$Fila["descripcion"];
 					$CodMarca=$Fila["cod_marca"];
@@ -341,7 +341,7 @@ body {
 				$Consulta="select count(num_paquete) as numero from sec_web.lote_catodo ";
 				$Consulta.=" where cod_bulto='".$CodBulto."' and num_bulto='".$NumBulto."' and "; //substring(fecha_creacion_lote,1,4)='".$CmbAno."'	";
 				$Consulta.=" LEFT(fecha_creacion_lote,4) between '".$CmbAno."' and '".$anito."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);	
 				echo $Fila["numero"];
 			//}
@@ -360,7 +360,7 @@ body {
                 //$Consulta.=" group by t2.cod_subproducto";
                 $Consulta.=" group by t2.cod_producto";
 			//	echo $Consulta;
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$SumaUnidades=$Fila[suma_unidades];
 				$SumaPeso=$Fila[suma_paquetes];
@@ -369,7 +369,7 @@ body {
 				$Consulta.=" and t1.num_paquete=t2.num_paquete ";
 				$Consulta.=" where cod_bulto='".$CodBulto."' and num_bulto='".$NumBulto."' and LEFT(fecha_creacion_lote,4)='".$CmbAno."'	";
 				//echo $Consulta;
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Respuesta))
 				{
 					$SumaUnidades=$SumaUnidades+$Fila["num_unidades"];
@@ -409,7 +409,7 @@ body {
 		$Consulta.=" where t1.cod_bulto='".$CodBulto."' and t1.num_bulto='".$NumBulto."' and substring(t1.fecha_creacion_lote,1,4) between '".$CmbAno."' and '".$anito."' ";
 		$Consulta.=" order by fecha_creacion_lote desc,cod_paquete,num_paquete ";
 		//echo "con-----".$Consulta;
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		$cont=1;
 		$arreglo=array();
 		$i=0;
@@ -541,7 +541,7 @@ body {
            // poly 28-02-2008 lote A-2829 $Consulta.=" and t1.cod_subproducto = '".$subproducto_consulta."'";
 			$Consulta.="and t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
 			//echo "con".$Consulta;
-			$Respuesta3=mysql_query($Consulta);
+			$Respuesta3=mysqli_query($link, $Consulta);
 			$Fila3=mysql_fetch_array($Respuesta3);
 			echo "<td width='221'>".$Fila3["descripcion"]."/".$Fila3["abreviatura"]."&nbsp;</td>";
 			$Consulta="select sum(num_unidades) as unidades, sum(peso_paquetes) as paquetes from sec_web.paquete_catodo t1";
@@ -551,7 +551,7 @@ body {
 			$Consulta.=" t2.cod_bulto='".$CodBulto."' and t2.num_bulto='".$NumBulto."' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and LEFT(t2.fecha_creacion_lote,4) between '".$CmbAno."' and '".$anito."'  and t1.cod_producto='".$Fila3["cod_producto"]."' and t1.cod_subproducto='".$Fila3["cod_subproducto"]."'";
 			//and t2.corr_enm='".$IE."'
 //echo $Consulta;
-			$Respuesta4=mysql_query($Consulta);
+			$Respuesta4=mysqli_query($link, $Consulta);
 			$Fila4=mysql_fetch_array($Respuesta4);
 			$subprod = $Fila3["cod_subproducto"];
 			echo "<input type='hidden' name='subprod' value='".$subprod."'>";
@@ -569,11 +569,11 @@ body {
             <td  align="center" width="201"><div align="left">Cliente:
 			<?	
 			$Consulta="select * from sec_web.programa_enami where corr_enm='".$IE."' ";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Consulta="select * from sec_web.cliente_venta where cod_cliente='".$Fila["cod_cliente"]."' ";
-				$Respuesta1=mysql_query($Consulta);
+				$Respuesta1=mysqli_query($link, $Consulta);
 				if ($Fila1=mysql_fetch_array($Respuesta1))
 				{
 					$Cliente=$Fila1["sigla_cliente"];
@@ -581,7 +581,7 @@ body {
 				else
 				{
 					$Consulta="select * from sec_web.nave where cod_nave='".$Fila["cod_cliente"]."' ";
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					if ($Fila2=mysql_fetch_array($Respuesta2))
 					{
 						$Cliente=$Fila1["nombre_nave"];
@@ -591,11 +591,11 @@ body {
 			else
 			{
 				$Consulta="select * from sec_web.programa_codelco where corr_codelco='".$IE."' ";
-				$Respuesta3=mysql_query($Consulta);
+				$Respuesta3=mysqli_query($link, $Consulta);
 				if($Fila3=mysql_fetch_array($Respuesta3))
 				{
 					$Consulta="select * from sec_web.cliente_venta where cod_cliente='".$Fila3["cod_cliente"]."' ";
-					$Respuesta4=mysql_query($Consulta);
+					$Respuesta4=mysqli_query($link, $Consulta);
 					if ($Fila4=mysql_fetch_array($Respuesta4))
 					{
 						$Cliente=$Fila4["sigla_cliente"];
@@ -603,7 +603,7 @@ body {
 					else
 					{
 						$Consulta="select * from sec_web.nave where cod_nave='".$Fila3["cod_cliente"]."' ";
-						$Respuesta4=mysql_query($Consulta);
+						$Respuesta4=mysqli_query($link, $Consulta);
 						if ($Fila4=mysql_fetch_array($Respuesta4))
 						{
 							$Cliente=$Fila4["nombre_nave"];

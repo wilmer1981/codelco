@@ -99,7 +99,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" class="NoSelec">Todos</option>
       <?
 	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEstado==$FilaTC["cod_subclase"])
@@ -169,7 +169,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <td width="88" class="TituloTablaVerde" align="center">Fecha&nbsp;Reuni�n Arranque </td>
 		</tr><?
 		$Consulta="SELECT day(fechaHora) as diaMenor from uca_web.uca_accesos_personas where month(fechaHora)='".$MesAnterior."' order by fechaHora asc";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_assoc($Resp))
 			$DiaMenor=$Fila[diaMenor];
 		$FechaMenorUca=date('Y')."-".$MesAnterior."-1 00:00:00";
@@ -190,7 +190,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.="  and  t2.estado='".$CmbEstado."' ";
 		$Consulta.=" group by t1.rut_empresa order by t3.razon_social";	
 		//echo $Consulta."<br>";
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=1;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{
@@ -216,7 +216,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$CantidadTraba=$FCant[cantTra];
 			$Consulta="SELECT count(t1.cod_contrato) as CantContra from sget_sub_contratistas t1 left join sget_contratos t2 on t1.cod_contrato=t2.cod_contrato where t1.rut_empresa='".$FilaMod[rut_empresa]."'";
 			//echo $Consulta."<br>";
-			$RespCtto2=mysql_query($Consulta);
+			$RespCtto2=mysqli_query($link, $Consulta);
 			$FilaCtto2=mysql_fetch_array($RespCtto2);
 			$RowsCtto=$FilaCtto2[CantContra];
 			$Mutual='';
@@ -253,7 +253,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			<!--<td rowspan="<? echo $RowsCtto;	?>" align="right"><? //echo $CantidadTraba; ?>&nbsp;</td>-->
 			<?
 			$Consulta="SELECT count(t1.rut) as Cantidad from uca_web.uca_accesos_personas t1 inner join des_sget.sget_personal t2 on t1.rut=t2.rut where fechaHora between '".$FechaMenorUca."' and '".$FechaMayorUca."' and t1.tipo='E' and rut_empresa='".$FilaMod[rut_empresa]."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_assoc($Resp))
 				$CantIngresosMesAnt=$Fila[Cantidad];
 			?>
@@ -261,14 +261,14 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			<? 
 			$Consulta="SELECT * from sget_sub_contratistas t1 left join sget_contratos t2 on t1.cod_contrato=t2.cod_contrato where t1.rut_empresa='".$FilaMod[rut_empresa]."'";
 			//echo $Consulta."<br>";
-			$RespCtto=mysql_query($Consulta);$VigenteCtto='N';
+			$RespCtto=mysqli_query($link, $Consulta);$VigenteCtto='N';
 			while($FilaCtto=mysql_fetch_array($RespCtto))
 			{
 				$VigenteCtto='S';
 			?>
 				<? 		
 				$Consulta="SELECT * from sget_contratistas where rut_empresa='".$FilaCtto[rut_empresa]."'";
-				$RespCuentaEmp=mysql_query($Consulta);
+				$RespCuentaEmp=mysqli_query($link, $Consulta);
 				$FilaCuentaEmp=mysql_fetch_array($RespCuentaEmp);
 				$RazonSocial2=$FilaCuentaEmp[razon_social];
 				

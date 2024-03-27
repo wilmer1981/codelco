@@ -124,7 +124,7 @@ function ConsumoMes($TipoSumi,$CmbSuministro,$Ano,$Mes,$CC)
 {
 	$Consulta = "select valor from pcip_eec_suministros_detalle where tipo='".$TipoSumi."' and cod_suministro='".$CmbSuministro."' and ano='".$Ano."' and mes='".$Mes."' and cod_cc='".$CC."'";
 	//echo $Consulta;		
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 		$Consumo=$Fila[valor];
 	return($Consumo);	

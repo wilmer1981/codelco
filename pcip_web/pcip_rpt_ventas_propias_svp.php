@@ -112,7 +112,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" selected="selected">Seleccionar</option>
       <?
 	    $Consulta = "select nombre_subclase,cod_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='31006' order by cod_subclase ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoInforme==$FilaTC["cod_subclase"])
@@ -133,7 +133,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" selected="selected">Todas</option>
       <?
 	    $Consulta = "select distinct OPorden,OPdescripcion from pcip_svp_materiales t1 inner join pcip_svp_ordenesproduccion t2 on t1.MAorden=t2.OPorden order by t1.MAorden ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbOrdenProd==$FilaTC["OPorden"])
@@ -155,7 +155,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$Consulta.= "where t2.MAorden<>''";
 	if($CmbOrdenProd!='-1')
 		$Consulta.= " and t2.MAorden='".$CmbOrdenProd."' order by cod_sap ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
 		if ($CmbProd==$FilaTC["cod_sap"])
@@ -256,7 +256,7 @@ Hasta
 					$Consulta.= " and t2.MAorden='".$CmbOrdenProd."' ";
 				$Consulta.= " group by OPorden order by t3.cod_sap,MAorden "; 				
 				//echo $Consulta."<br><br>";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					$Consulta = "select t1.RMmaterialequivalente as cod_sap,t3.OPorden,t3.OPdescripcion,t4.nom_sap,t5.valor_subclase1 as vtmp from pcip_svp_relmateriales t1 ";
@@ -266,7 +266,7 @@ Hasta
 					if($CmbProd!='-1')
 						$Consulta.= "and t1.RMmaterialequivalente='".$CmbProd."'";
 					$Consulta.= " and t3.OPorden='".$Fila[OPorden]."' order by t1.RMmaterialequivalente,t3.OPorden";
-					$RespProd=mysql_query($Consulta);
+					$RespProd=mysqli_query($link, $Consulta);
 					//echo $Consulta."<br>";
 					if($FilaProd=mysql_fetch_array($RespProd))
 					{					
@@ -293,7 +293,7 @@ Hasta
 						{
 							$Consulta="SELECT sum(VPcantidad) as VPcantidad,sum(VPValor) as VPValor FROM pcip_svp_valorizacproduccion WHERE VPa�o = '".$Ano."' AND VPmes = '".$i."' AND VPorden = '".$Fila[OPorden]."' "; 
 							$Consulta.=" AND VPtm ".$Vtmp;	
-							$Resp2=mysql_query($Consulta);
+							$Resp2=mysqli_query($link, $Consulta);
 							//echo $Consulta."<br>";
 							if($Fila2=mysql_fetch_array($Resp2))
 							{

@@ -8,7 +8,7 @@
 	{
 		case "N":
 			$Consulta="SELECT * from sget_prevencionistas where rut_prev='".$RutDV."' ";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			if ($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Encontro=true;				
@@ -120,7 +120,7 @@
 			while (list($clave,$Rut)=each($Datos))
 			{
 				$Consulta=" Select count(rut_prev) as Total from sget_contratos where rut_prev='".$Rut."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				if ($Fila["total"]<=0)
 				{

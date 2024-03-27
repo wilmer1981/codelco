@@ -17,7 +17,7 @@ if(!isset($Recarga))
 			$Consulta.=" inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31030' and t1.cod_proveedor=t3.cod_subclase";
 			$Consulta.=" where dato='".$Cod[0]."' and cod_producto='".$Cod[1]."' and cod_proveedor='".$Cod[2]."' and  VPorden='".$Cod[3]."'";	
 			//echo $Consulta;
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			
 				$CmbDatos=$Fila[dato];
@@ -38,7 +38,7 @@ if(!isset($Recarga))
 			$Consulta.=" inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31030' and t1.cod_proveedor=t3.cod_subclase";
 			$Consulta.=" where dato='".$Cod[0]."' and cod_producto='".$Cod[1]."' and cod_proveedor='".$Cod[2]."' and  VPorden='".$Cod[3]."' and VPtm='".$Cod[4]."' and VPmaterial='".$Cod[5]."' and VPtipinv='".$Cod[6]."'";	
 			//echo $Consulta;
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 
 				$CmbDatos=$Fila[dato];
@@ -75,7 +75,7 @@ if(isset($Recarga))
 		$Consulta.=" inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31030' and t1.cod_proveedor=t3.cod_subclase";
 		$Consulta.=" where dato='".$Cod[0]."' and cod_producto='".$Cod[1]."' and cod_proveedor='".$Cod[2]."' and  VPorden='".$Cod[3]."' and VPtm='".$Cod[4]."' and VPmaterial='".$Cod[5]."' and VPtipinv='".$Cod[6]."'";	
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 
 			$CmbDatos=$Fila[dato];
@@ -328,7 +328,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 <option value="-1" selected="selected">Seleccionar</option>
 					<?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31029' order by cod_subclase ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbProducto==$Fila["cod_subclase"])
@@ -357,7 +357,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						 <option value="-1" class="NoSelec">Seleccionar</option>
 						<?
 						$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31030' and valor_subclase1='".$CmbProducto."'";					
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Resp))
 						{
 							if ($CmbProveedores==$Fila["cod_subclase"])
@@ -386,7 +386,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						   <option value="-1" class="NoSelec">Seleccionar</option>
 							<?
 							$Consulta = "select * from pcip_svp_ordenesproduccion order by OPorden ";			
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							while ($Fila=mysql_fetch_array($Resp))
 							{
 								if ($CmbOrden==$Fila["OPorden"])
@@ -413,7 +413,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					   <option value="-1" class="NoSelec">Ninguna</option>
 					   <?
 						$Consulta = "select * from pcip_svp_ordenesproduccion order by OPorden ";			
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Resp))
 						{
 							if ($CmbOrdenRel==$Fila["OPorden"])
@@ -457,7 +457,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 <option value="-1" selected="selected">Seleccionar</option>
 					<?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31029' order by cod_subclase ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbProducto==$Fila["cod_subclase"])
@@ -489,7 +489,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						 <option value="-1" class="NoSelec">Seleccionar</option>
 						<?
 						$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31030' and valor_subclase1='".$CmbProducto."'";					
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Resp))
 						{
 							if ($CmbProveedores==$Fila["cod_subclase"])
@@ -515,7 +515,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 <option value="-1" selected="selected">Seleccionar</option>
 					 <?
 					$Consulta = "select * from pcip_svp_asignacion where mostrar_ppc='1'order by nom_asignacion ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbProd==$Fila["cod_asignacion"])
@@ -539,7 +539,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 <option value="-1" class="NoSelec">Seleccionar</option>
 					 <?
 					$Consulta = "select * from pcip_svp_asignaciones_productos where cod_asignacion='".$CmbProd."' and mostrar_ppc='1' order by nom_asignacion";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbAsig==$Fila["cod_producto"])
@@ -564,7 +564,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 <option value="-1" class="NoSelec">Seleccionar</option>
 					 <?
 					$Consulta = "select * from pcip_svp_negocios ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbNegocio==$Fila["cod_negocio"])
@@ -585,7 +585,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 <option value="-1" class="NoSelec">Seleccionar</option>
 					 <?
 					$Consulta = "select * from pcip_svp_asignaciones_titulos where cod_asignacion='".$CmbProd."' and cod_negocio='".$CmbNegocio."' order by orden";						
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbTitulo==$Fila["cod_titulo"])

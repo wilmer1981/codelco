@@ -4,7 +4,7 @@
 	$Consulta.= " where t1.rut_empresa='".$IdEmpresa."' ";
 	$Consulta.= " and t1.cod_contrato='".$IdContrato."' ";
 	$Consulta.= " order by t1.cod_contrato";
-	$Resp=mysql_query($Consulta); 
+	$Resp=mysqli_query($link, $Consulta); 
 	if ($Fila=mysql_fetch_array($Resp))
 	{
 		$Contrato=$Fila["cod_contrato"];
@@ -131,7 +131,7 @@ body {
 	$Consulta.= " and t1.cod_contrato='".$IdContrato."' ";
 	$Consulta.= " order by t1.ape_paterno, t1.ape_materno, t1.nombres";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta); 
+	$Resp=mysqli_query($link, $Consulta); 
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		$Rut=substr($Fila["rut"],0,2).".".substr($Fila["rut"],2,3).".".substr($Fila["rut"],5,3)."-".substr($Fila["rut"],9,1);	

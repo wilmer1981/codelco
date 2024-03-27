@@ -8,7 +8,7 @@
 		    $Consulta.= " WHERE cod_producto = '$Productos'";
 		    $Consulta.= " AND cod_subproducto = '$SubProductos'";
 		    $Consulta.= " and cod_leyes = '".$cmbleyes."' AND fecha = '".$Fecha."'";
-		  	$rs = mysql_query($Consulta);
+		  	$rs = mysqli_query($link, $Consulta);
 		    if($Fila = mysql_fetch_array($rs))
 		    {
 			   $peso_humedo = 0;			  

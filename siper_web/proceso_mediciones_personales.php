@@ -247,7 +247,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 				}
 				$Consulta.="group by t2.rut,t1.CMEDPERSONAL order by t2.ape_paterno";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";
@@ -313,12 +313,12 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 				$TituloProceso="Modificar Mediciones Personales";
 				$Consulta="SELECT * from sgrs_medpersonales where CMEDPERSONAL='".$DatosMed."'";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$CodMedPers=$DatosMed;
 				$Rut=$Fila[CRUT];
 				$Consulta="SELECT CPARENT from sgrs_areaorg where CAREA='".$Fila[CAREA]."'";
-				$RespArea=mysql_query($Consulta);
+				$RespArea=mysqli_query($link, $Consulta);
 				$FilaArea=mysql_fetch_array($RespArea);
 				if($CambiaOrg=='S')
 					$NOSE='';
@@ -330,7 +330,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 					$CmbOcupacion=$Fila[COCUPACION];
 					$CmbAgentes=$Fila[CAGENTE];
 					$Consulta="SELECT TNARCHIVO from sgrs_informes where CINFORME='".$Fila[CINFORME]."'";
-					$RespInf=mysql_query($Consulta);
+					$RespInf=mysqli_query($link, $Consulta);
 					$FilaInf=mysql_fetch_array($RespInf);
 					$CmbInformes=$Fila[CINFORME]."~#".$FilaInf[TNARCHIVO];
 					$FechaHoraIni=explode(' ',$Fila[FINICIO]);
@@ -437,7 +437,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 					$Consulta.=" and rut like '".$TxtBuscApePaterno."%'";	
 				$Consulta.="group by rut order by ape_paterno";
 				
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					if($Fila["rut"]==$CmbFun)
@@ -454,7 +454,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 			  else
 			  {
 				$Consulta="SELECT * from uca_web.uca_personas where rut='".$Rut."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo "<span class='Estilo7'>".ucwords(strtolower($Fila[ape_paterno]))." ".ucwords(strtolower($Fila[ape_materno]))." ".ucwords(strtolower($Fila["nombres"]))."</span>";
 				
@@ -491,7 +491,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 				
 				  <?
 					$Consulta="SELECT * from sgrs_ocupaciones where COCUPACION <>'1' order by NOCUPACION ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						if($CmbOcupacion==$Fila[COCUPACION])
@@ -512,7 +512,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 				  <?
 					$QLPP='';$Unidad='';
 					$Consulta="SELECT t1.CAGENTE,t1.NAGENTE,t1.QLPP,t2.AUNIDAD from sgrs_cagentes t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NAGENTE";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 						if($CmbAgentes==$Fila[CAGENTE])
@@ -584,7 +584,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 			  <option value="S">Seleccionar</option>
 			  <?
 				$Consulta="SELECT * from sgrs_informes order by CVINFORME";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					if($CmbInformes==$Fila[CINFORME]."~#".$Fila[TNARCHIVO])

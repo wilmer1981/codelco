@@ -160,7 +160,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			for ($i=2003;$i<=date("Y");$i++)
 			{
 				$Consulta="select * from pcip_ena_datos_enabal where ano='".$i."' and tipo='P'";	
-				$RespMes=mysql_query($Consulta);
+				$RespMes=mysqli_query($link, $Consulta);
 				if(!$FilaMes=mysql_fetch_array($RespMes))
 				{
 					if ($i==$Ano)
@@ -218,7 +218,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 {
 						$Consulta="select * from pcip_ena_datos_enabal where ano='".$Cod[0]."' and mes='".$i."' and cod_flujo='".$Cod[1]."' and tipo='".$Cod[2]."'";	
 						//echo $Consulta."<br>";
-						$RespMes=mysql_query($Consulta);
+						$RespMes=mysqli_query($link, $Consulta);
 						if($FilaMes=mysql_fetch_array($RespMes))
 						{
 						?>	

@@ -64,7 +64,7 @@ function DetalleIE(n)
 	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
 	$Consulta.= " order by t5.nombre_nave ";
 	//echo $Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$PesoIE = 0;
 	$TotalExpEnami = 0;
 	$TotalPqtesExpEnami = 0;
@@ -89,7 +89,7 @@ function DetalleIE(n)
 		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
 		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
 		$Consulta.= " order by t1.corr_enm";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$StrIE = "";
 		$TipoEmb = "";		
 		while ($Fila2 = mysql_fetch_array($Resp2))
@@ -119,7 +119,7 @@ function DetalleIE(n)
 	$Consulta.= " and t2.cod_producto = '18' and t2.cod_subproducto = '40'";
 	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
 	$Consulta.= " order by t5.nombre_nave ";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$PesoIE = 0;
 	$TotalNacEnami = 0;
 	$TotalPqtesNacEnami = 0;
@@ -143,13 +143,13 @@ function DetalleIE(n)
 		$Consulta.= " and t2.cod_nave = '".$Fila["cod_nave"]."'";
 		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
 		$Consulta.= " order by t1.corr_enm";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$StrIE = "";
 		$TipoEmb = "";
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{
 			$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila2["corr_enm"]."'";
-			$Resp3 = mysql_query($Consulta);			
+			$Resp3 = mysqli_query($link, $Consulta);			
 			if ($Fila3 = mysql_fetch_array($Resp3))
 			{
 				$TipoEmb = $Fila3["tipo_embarque"];
@@ -193,7 +193,7 @@ $Consulta = "SELECT distinct cod_contrato_maquila ";
 $Consulta.= " from sec_web.programa_codelco ";
 $Consulta.= " where fecha_devolucion_maquila between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31'";
 $Consulta.= " order by cod_contrato_maquila";
-$RespA = mysql_query($Consulta);
+$RespA = mysqli_query($link, $Consulta);
 $Cont = 2;
 $TotalDespCodelco = 0;
 while ($FilaA = mysql_fetch_array($RespA))
@@ -203,7 +203,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 	$Consulta.= " where cod_clase = '3016'";
 	$Consulta.= " and nombre_subclase = '".$FilaA["cod_contrato_maquila"]."'";
 	$Consulta.= " order by cod_subclase";
-	$Resp1 = mysql_query($Consulta);
+	$Resp1 = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Resp1))
 		$TipoContrato = $Fila["valor_subclase1"];
 	$ArrCodelco[$Cont-2][0] = $TipoContrato;
@@ -227,7 +227,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 	$Consulta.= " group by t2.corr_codelco ";
 	$Consulta.= " order by t2.corr_codelco";				
 	//echo $Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalExpCodelco = "";
 	$TotalPqtesExpCode = 0;
 	$TotalPqtesNacCode = 0;
@@ -258,7 +258,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 		else	echo "<td>&nbsp;</td>\n";
 		$TotalExpCodelco = $TotalExpCodelco + $Fila["peso"];							
 		$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila["corr_codelco"]."'";
-		$Resp3 = mysql_query($Consulta);
+		$Resp3 = mysqli_query($link, $Consulta);
 		$StrIE = "";
 		$TipoEmb = "";		
 		while ($Fila3 = mysql_fetch_array($Resp3))
@@ -296,7 +296,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 	$Consulta.= " group by t3.cod_pais, t2.cod_cliente";
 	$Consulta.= " order by t2.cod_cliente";				
 	//echo $Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$PesoIE = 0;
 	$TotalNacCodelco = 0;
 	$Color = "";
@@ -310,7 +310,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";
 		$TotalNacCodelco = $TotalNacCodelco + $Fila["peso"];		
 		$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila["corr_codelco"]."'";
-		$Resp4 = mysql_query($Consulta);
+		$Resp4 = mysqli_query($link, $Consulta);
 		$StrIE = "";			
 		if ($Fila4 = mysql_fetch_array($Resp4))
 		{
@@ -388,7 +388,7 @@ $Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t7.cod_product
 $Consulta.= " where t1.fecha_guia between '".$Ano."-".$Mes."-01' and '".$Ano."-".$Mes."-31' ";
 $Consulta.= " and t7.cod_producto = '18' and (t7.cod_subproducto not in(6,8,9,10,12,40))";
 $Consulta.= " order by t7.cod_producto, t7.cod_subproducto ";
-$RespA = mysql_query($Consulta);
+$RespA = mysqli_query($link, $Consulta);
 while ($FilaA = mysql_fetch_array($RespA))
 {
 	echo "<tr> \n";
@@ -408,7 +408,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 	$Consulta.= " and t7.cod_producto = '".$FilaA["cod_producto"]."' and t7.cod_subproducto = '".$FilaA["cod_subproducto"]."'";
 	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
 	$Consulta.= " order by t5.nombre_nave ";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$PesoIE = 0;
 	$TotalExpEnami = 0;
 	$TotalPqtesExpEnami = 0;
@@ -434,7 +434,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 		$Consulta.= " and t2.cod_subproducto = '".$Fila["subprod_prog"]."'";
 		$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
 		$Consulta.= " order by t5.nombre_nave ";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$Peso = 0;
 		if ($Fila2 = mysql_fetch_array($Resp2))
 		{
@@ -466,13 +466,13 @@ while ($FilaA = mysql_fetch_array($RespA))
 		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
 		$Consulta.= " and t5.cod_producto = '".$FilaA["cod_producto"]."' and t5.cod_subproducto = '".$FilaA["cod_subproducto"]."'";
 		$Consulta.= " order by t1.corr_enm";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$StrIE = "";
 		$TipoEmb = "";
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{
 			$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila2["corr_enm"]."'";
-			$Resp3 = mysql_query($Consulta);			
+			$Resp3 = mysqli_query($link, $Consulta);			
 			if ($Fila3 = mysql_fetch_array($Resp3))
 			{
 				$TipoEmb = $Fila3["tipo_embarque"];
@@ -522,7 +522,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 	$Consulta.= " and t7.cod_producto = '48'";
 	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
 	$Consulta.= " order by t5.nombre_nave ";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$PesoIE = 0;
 	$TotalExpEnami = 0;
 	$TotalPqtesExpEnami = 0;
@@ -544,7 +544,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 		$Consulta.= " and t2.cod_subproducto = '".$Fila["subprod_prog"]."'";
 		$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
 		$Consulta.= " order by t5.nombre_nave ";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$Peso = 0;
 		if ($Fila2 = mysql_fetch_array($Resp2))
 		{
@@ -575,13 +575,13 @@ while ($FilaA = mysql_fetch_array($RespA))
 		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
 		$Consulta.= " and t5.cod_producto = '48' ";
 		$Consulta.= " order by t1.corr_enm";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$StrIE = "";
 		$TipoEmb = "";
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{
 			$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila2["corr_enm"]."'";
-			$Resp3 = mysql_query($Consulta);			
+			$Resp3 = mysqli_query($link, $Consulta);			
 			if ($Fila3 = mysql_fetch_array($Resp3))
 			{
 				$TipoEmb = $Fila3["tipo_embarque"];
@@ -630,7 +630,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 	$Consulta.= " and t7.cod_producto = '18' and t7.cod_subproducto in(6,8,9,10,12)";
 	$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
 	$Consulta.= " order by t5.nombre_nave ";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$PesoIE = 0;
 	$TotalExpEnami = 0;
 	$TotalPqtesExpEnami = 0;
@@ -653,7 +653,7 @@ while ($FilaA = mysql_fetch_array($RespA))
 		$Consulta.= " and t2.cod_subproducto = '".$Fila["subprod_prog"]."'";
 		$Consulta.= " group by t3.cod_pais, t2.cod_nave ";
 		$Consulta.= " order by t5.nombre_nave ";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$Peso = 0;
 		if ($Fila2 = mysql_fetch_array($Resp2))
 		{
@@ -684,13 +684,13 @@ while ($FilaA = mysql_fetch_array($RespA))
 		$Consulta.= " and t3.cod_pais = '".$Fila["cod_pais"]."'";
 		$Consulta.= " and t5.cod_producto = '18' and t5.cod_subproducto in(6,8,9,10,12)";
 		$Consulta.= " order by t1.corr_enm";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$StrIE = "";
 		$TipoEmb = "";
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{
 			$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$Fila2["corr_enm"]."'";
-			$Resp3 = mysql_query($Consulta);			
+			$Resp3 = mysqli_query($link, $Consulta);			
 			if ($Fila3 = mysql_fetch_array($Resp3))
 			{
 				$TipoEmb = $Fila3["tipo_embarque"];

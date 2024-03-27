@@ -11,7 +11,7 @@ if(!isset($CmbEmpresa))
 	$CmbEmpresa='-1';
 
 $Consulta ="SELECT nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =30";
-$Respuesta = mysql_query($Consulta);
+$Respuesta = mysqli_query($link, $Consulta);
 $Fila=mysql_fetch_array($Respuesta);
 $Nivel=$Fila["nivel"];  		
 	
@@ -92,7 +92,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  if($TxtEmpresa!='')
 	  	 $Consulta.= "and  upper(razon_social) like '%".strtoupper(trim($TxtEmpresa))."%' ";
 	 	$Consulta.= " order by razon_social ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if (strtoupper($CmbEmpresa)==strtoupper($FilaTC["rut_empresa"]))
@@ -108,7 +108,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="S">Todos</option>
       <?
 	  	$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30010'   ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($Fila["cod_subclase"]==$CmbTipoDoc)
@@ -187,13 +187,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		  		$Consulta.= " and t2.rut_adm_contrato='".$CookieRut."'";	
 		  $Consulta.=" order by fecha_hora";
 		  //echo $Consulta;
-		  $Resp=mysql_query($Consulta);
+		  $Resp=mysqli_query($link, $Consulta);
 		  while($Fila=mysql_fetch_array($Resp))
 		  {
 				echo "<tr>\n";
 				echo "<td><a href='sget_info_ctto_ac.php?Ctto=".$Fila[num_hoja_ruta]."'  target='_blank'><img src='archivos/info2.png'   alt='Detalle Contrato'  border='0' align='absmiddle' /></a>&nbsp;".$Fila[num_hoja_ruta]."</td>";
 				$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30010' and cod_subclase='".$Fila[cod_tipo_doc]."'";
-				$Resp2=mysql_query($Consulta);
+				$Resp2=mysqli_query($link, $Consulta);
 				$Fila2=mysql_fetch_array($Resp2);
 				echo "<td>".$Fila2["nombre_subclase"]."</td>";
 				echo "<td ><a href=\"".$Dir."/".$Fila[nombre_archivo]."\" target='_blank'><img src='archivos/atachar.png'   alt='Click Para Abrir Documento'  border='0' align='absmiddle' />".substr($Fila[nombre_archivo],12)."</a></td>\n";

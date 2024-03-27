@@ -10,11 +10,11 @@ if(!isset($Recarga))
 	{
 		$Cod=explode('~',$Codigos);
 	    $Consulta = "select nom_agrupacion from pcip_eec_suministros_grupos where cod_suministro_grupo='".$Cod[0]."'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$GrupoSuministro=$Fila[nom_agrupacion];
 	    $Consulta = "select nom_suministro from pcip_eec_suministros where cod_suministro='".$Cod[1]."'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Suministro=$Fila[nom_suministro];
 		$Ano=$Cod[2];
@@ -209,7 +209,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 	  $Consulta = "select * from pcip_eec_suministros_grupos order by nom_agrupacion ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbGrupoSuministro==$FilaTC["cod_suministro_grupo"])
@@ -239,7 +239,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <?
 	    $Consulta = "select t1.cod_suministro,t2.nom_suministro from pcip_eec_suministros_por_grupos t1 inner join pcip_eec_suministros t2 on t1.cod_suministro=t2.cod_suministro ";
 	    $Consulta.= "where t1.cod_suministro_grupo='".$CmbGrupoSuministro."' order by t2.nom_suministro ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSuministro==$FilaTC["cod_suministro"])
@@ -295,7 +295,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			 <option value="-1" selected="selected">Seleccionar</option>
             <?
 			$Consulta="select cod_cc from pcip_eec_centro_costos order by cod_cc";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				echo "<option value=".$Fila[cod_cc]." >".$Fila[cod_cc]."</option>";
@@ -361,7 +361,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 for($i=1;$i<=12;$i++)
 					 {
 						$Consulta="select * from pcip_eec_suministros_detalle where cod_suministro='".$Cod[1]."' and  ano='".$Cod[2]."' and mes='".$i."' and cod_cc='".$Cod[3]."' and tipo='".$Cod[4]."'";	
-						$RespMes=mysql_query($Consulta);
+						$RespMes=mysqli_query($link, $Consulta);
 						if($FilaMes=mysql_fetch_array($RespMes))
 						{
 						?>	

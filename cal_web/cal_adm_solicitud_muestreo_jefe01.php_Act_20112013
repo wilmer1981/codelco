@@ -41,7 +41,7 @@ for ($j = 0;$j <= strlen($ValoresSA); $j++)
 								//{
 									$Consulta ="select * from cal_web.solicitud_analisis where (nro_solicitud = '".$SA."' ";
 									$Consulta=$Consulta." and rut_funcionario = '".$Rut."' and recargo = '".$Recargo."') ";
-									$Respuesta=mysql_query($Consulta);
+									$Respuesta=mysqli_query($link, $Consulta);
 									$Fila=mysql_fetch_array($Respuesta);   
 									//Elimina en solictud de analisis
 									$Eliminar="delete from cal_web.solicitud_analisis where  ";

@@ -140,7 +140,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  if($TxtEmpresa!='')
 	  	 $Consulta.= "and  upper(razon_social) like '%".strtoupper(trim($TxtEmpresa))."%' ";
 	 	$Consulta.= " order by razon_social ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if (strtoupper($CmbEmpresa)==strtoupper($FilaTC["rut_empresa"]))
@@ -166,7 +166,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" class="NoSelec">Todos</option>
       <?
 		 $Consulta = "SELECT * from sget_tipo_contrato ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoCtto==$FilaTC["cod_tipo_contrato"])
@@ -182,7 +182,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Todos</option>
                <?
 	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEstado==$FilaTC["cod_subclase"])
@@ -199,7 +199,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <option value="-1">Todas</option>
               <?
 			  $Consulta = "SELECT cod_gerencia,descrip_gerencias from sget_gerencias order by descrip_gerencias ";			
-			  $Resp4=mysql_query($Consulta);
+			  $Resp4=mysqli_query($link, $Consulta);
 			  while ($Fila4=mysql_fetch_array($Resp4))
 			  {
 				if ($CmbGerencias==$Fila4["cod_gerencia"])
@@ -215,7 +215,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                 <option value="-1" >Todas</option>
                 <?
 			  $Consulta = "SELECT cod_area,descrip_area,cod_cc from sget_areas where cod_gerencia=".$CmbGerencias." order by descrip_area ";			
-			  $Resp4=mysql_query($Consulta);
+			  $Resp4=mysqli_query($link, $Consulta);
 			  while ($Fila4=mysql_fetch_array($Resp4))
 			  {
 				if ($CmbAreas==$Fila4["cod_area"])
@@ -233,7 +233,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" class="NoSelec">Todos</option>
       <?
 	  $Consulta = "SELECT * from sget_administrador_contratos order by ape_paterno ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbAdmCtto==$FilaTC["rut_adm_contrato"])
@@ -249,7 +249,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                 <option value="-1" class="NoSelec">Sin Aviso</option>
                 <?
 	    $Consulta = "SELECT cod_subclase,ceiling(nombre_subclase) as nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30016' order by nombre_subclase asc";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbAvisoVenc==$FilaTC["nombre_subclase"])
@@ -442,7 +442,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.=" and t1.clasificacion = '".$CmbClasificacion."' ";	
 		$Consulta.= " order by t2.razon_social";
 		//	echo "PP".$Consulta;
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		echo "<input type='hidden' name='CheckCtto'>";
 		$Cont=1;
 		$Contador = 0;
@@ -528,7 +528,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta.= " left join sget_contratos t2";
 				$Consulta.= " on t2.rut_empresa=t3.rut_empresa left join sget_contratistas t3";
 				$Consulta.= " on t1.rut_prev = t2.rut_prev where t2.rut_empresa = '".$FilaMod["rut_empresa"]."'";
-				$RespPrev=mysql_query($Consulta);
+				$RespPrev=mysqli_query($link, $Consulta);
 				if($FilaPrev=mysql_fetch_array($RespPrev))
 				{
 					$previsionista =FormatearNombre($FilaPrev["nombres"])."&nbsp;".FormatearNombre($FilaPrev["apellido_paterno"])."&nbsp;".FormatearNombre($FilaPrev["apellido_materno"]);
@@ -544,7 +544,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				<td align="right">
 				<? 
 				$Consulta="SELECT count(rut) as Cantidad from sget_personal where cod_contrato='".$FilaMod["cod_contrato"]."' and estado='A'";
-				$RespCant=mysql_query($Consulta);
+				$RespCant=mysqli_query($link, $Consulta);
 				if($FilaCant=mysql_fetch_array($RespCant))
 				{
 					echo $FilaCant[Cantidad];

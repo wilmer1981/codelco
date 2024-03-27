@@ -150,7 +150,7 @@ if($Buscar=='S')
 	$Consulta.=" order by apellido_paterno,apellido_materno,nombres asc ";		
 	echo "<input name='Check' type='hidden'  value=''>";
 	$Cont=1;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		?>

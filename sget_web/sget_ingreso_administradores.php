@@ -8,7 +8,7 @@ if($Opc=='A')
 	{	
 		$OpcionAux='M';
 		$Consulta="SELECT * from sget_administrador_contratos where rut_adm_contrato='".$CmbAdmCtto."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtRutPrv=substr($Fila[rut_adm_contrato],0,strlen($Fila[rut_adm_contrato])-2);
@@ -32,7 +32,7 @@ else
 	{	
 		$OpcionAux='M';
 		$Consulta="SELECT * from sget_administrador_contratistas where rut_adm_contratista='".$CmbAdmContratista."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtRutPrv=substr($Fila[rut_adm_contratista],0,strlen($Fila[rut_adm_contratista])-2);
@@ -214,7 +214,7 @@ function ValidaCampos()
                <option value="S" SELECTed="SELECTed">Seleccionar / Agregar</option>
                <?
 		$Consulta="SELECT * from sget_cargos where estado='1' order by descrip_cargo";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCargo==$Fila[cod_cargo])

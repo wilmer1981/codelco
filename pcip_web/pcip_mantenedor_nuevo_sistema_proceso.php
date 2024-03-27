@@ -15,7 +15,7 @@ if ($Opc=='M')
 {
 	$Consulta="select * from pcip_eec_sistemas t1 ";
 	$Consulta.=" where t1.cod_sistema='".$Valores."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["cod_sistema"];
@@ -28,7 +28,7 @@ if ($Opc=='M')
 else
 {
 	$Consulta="select max(cod_sistema+1) as maximo from pcip_eec_sistemas ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["maximo"];
@@ -65,7 +65,7 @@ function Proceso(Opcion)
 			}			
 			if(f.TxtDescrip.value=='')
 			{
-				alert("Debe Ingresar Descripción");
+				alert("Debe Ingresar Descripciï¿½n");
 				return;
 			}
 			if(f.CmbVig.value=='-1')
@@ -89,7 +89,7 @@ function Proceso(Opcion)
 			}			
 			if(f.TxtDescrip.value=='')
 			{
-				alert("Debe Ingresar Descripción");
+				alert("Debe Ingresar Descripciï¿½n");
 				return;
 			}
 			if(f.CmbVig.value=='-1')
@@ -162,7 +162,7 @@ if ($Opc=='N')
              <span class="InputRojo">(*)</span> </td>
          </tr>
 		 <tr>
-           <td width="111" class="formulario2">Descripción</td>
+           <td width="111" class="formulario2">Descripciï¿½n</td>
            <td width="382" class="formulariosimple" ><input name="TxtDescrip" maxlength= "200" type="text" style="width:350" value="<? echo $TxtDescrip; ?>" >
              <span class="InputRojo">(*)</span> </td>
          </tr>
@@ -172,7 +172,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["nombre_subclase"])
@@ -190,7 +190,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMostrar==$FilaTC["nombre_subclase"])

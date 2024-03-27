@@ -20,7 +20,7 @@ if ($Opc=='M')
 	else
 		$RutReq=$Valores;
 	$Consulta="SELECT * from sget_contratistas where rut_empresa = '".$RutReq."'";
-	 $Resp=mysql_query($Consulta);
+	 $Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		//$TxtRutPrv=str_pad($Fila["rut_empresa"],10,'0',l_pad);
@@ -315,7 +315,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="S" SELECTed="SELECTed">Seleccionar</option>
                       <?
 		$Consulta="SELECT * from sget_regiones ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbRegion==$Fila[cod_region])
@@ -332,7 +332,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="S" SELECTed="SELECTed">Seleccionar</option>
                       <?
 		$Consulta="SELECT t2.cod_ciudad,t2.nom_ciudad from sget_ciudades_por_region t1 inner join sget_ciudades t2 on t1.cod_ciudad=t2.cod_ciudad where cod_region='".$CmbRegion."' order by nom_ciudad ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCiudad==$Fila["cod_ciudad"])
@@ -351,7 +351,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			  $Consulta = "SELECT t2.cod_comuna,t2.nom_comuna from sget_comunas_por_ciudad  t1 inner join sget_comunas t2 on t1.cod_comuna=t2.cod_comuna ";
 			  $Consulta.= " where t1.cod_ciudad='".$CmbCiudad."' ";			
 			  $Consulta.= " order by nom_comuna ";			
-			  $Resp2=mysql_query($Consulta);
+			  $Resp2=mysqli_query($link, $Consulta);
 			  while ($Fila2=mysql_fetch_array($Resp2))
 			  {
 				if ($CmbComuna==$Fila2["cod_comuna"])
@@ -373,7 +373,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="-1" class="NoSelec">Seleccionar / Agregar</option>
                       <?
 			  $Consulta = "SELECT * from sget_mutuales_seg where estado='1' order by descripcion ";			
-			  $Resp3=mysql_query($Consulta);
+			  $Resp3=mysqli_query($link, $Consulta);
 			  while ($Fila3=mysql_fetch_array($Resp3))
 			  {
 				if ($CmbMutuales==$Fila3["cod_mutual"])
@@ -403,7 +403,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                   <option value="-1" class="NoSelec">Seleccionar</option>
                       
 	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEstado==$FilaTC["cod_subclase"])
@@ -460,7 +460,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta= "SELECT * from sget_contratos t1 left join  proyecto_modernizacion.sub_clase t2"; 
 						$Consulta.= " on t1.estado=t2.cod_subclase and t2.cod_clase='30007'";
 					 	$Consulta.= " where t1.rut_empresa='".$TxtRutPrv."' and t1.estado = 1";
-				  		$RespC=mysql_query($Consulta);
+				  		$RespC=mysqli_query($link, $Consulta);
 			  			while  ($FilaC=mysql_fetch_array($RespC))
 			  			{
 							echo "<tr align='center'>";

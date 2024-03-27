@@ -178,7 +178,7 @@ function Salir()
 		echo "</tr>";
 		$Consulta="select rut, nombre, lugar, div_sap, almacen_sap, activo, cod_originador from sec_web.sec_originador";
 		/*echo $Consulta;*/
-		$Resultado=mysql_query($Consulta);
+		$Resultado=mysqli_query($link, $Consulta);
 		echo "<input type='hidden' name='CheckCod'><input type='hidden' name ='TxtCheckCod'>";
 		while ($Fila=mysql_fetch_array($Resultado))
 		{

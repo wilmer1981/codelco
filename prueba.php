@@ -9,7 +9,7 @@ echo mysql_errno($link).":".mysql_error($link) . "\n";
 echo "conecto";*/
 
 /*$Consulta="select * from productos";
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 while($Fila=mysql_fetch_array($Resp))
 {
 	echo $Fila["cod_producto"]."<br>";

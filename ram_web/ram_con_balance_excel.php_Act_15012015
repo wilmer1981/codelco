@@ -25,7 +25,7 @@
 			$Consulta.= " where cod_clase = '7002'";
 			$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 			$Consulta.= " order by cod_subclase";
-			$Respuesta = mysql_query($Consulta);
+			$Respuesta = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Respuesta))					
 				echo strtoupper($Fila["nombre_subclase"]);
 			else
@@ -172,7 +172,7 @@ $Consulta.= " where cod_clase = '7002'";
 if ($TipoMovimiento != "T")
 	$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 $Consulta.= " order by cod_subclase";
-$Resp1 = mysql_query($Consulta);
+$Resp1 = mysqli_query($link, $Consulta);
 while ($Fila1 = mysql_fetch_array($Resp1))
 {		
 	$CodConjuntoAnt="";
@@ -359,7 +359,7 @@ while ($Fila1 = mysql_fetch_array($Resp1))
 			break;
 	}
 	//echo $Consulta;	
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	//SUBTOTALES
 	$SubTotalHum = 0;
 	$SubTotalSeco = 0;

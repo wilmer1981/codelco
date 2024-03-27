@@ -38,7 +38,7 @@ if(!isset($CmbContr))
 				$ArrSubTotalReal=array();$ArrSubTotalPpto=array();$ArrSubTotalReal2=array();$ArrSubTotalPpto2=array();
 				$ArrSubTotalRechaReal=array();$ArrSubTotalRechaPpto=array();$ArrTotalRechaReal=array();$ArrTotalRechaPpto=array();
 				$Consulta="select valor_subclase1,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31023' and valor_subclase1<>''";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{	
 				    $CodigoArea=$Fila["cod_subclase"];				    
@@ -245,7 +245,7 @@ if(!isset($CmbContr))
     </tr>
     <?
 						$Consulta="select valor_subclase1,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31023' and valor_subclase1<>'' and cod_subclase='1'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Resp))
 						{	
 							$CodigoArea=$Fila["cod_subclase"];				    
@@ -360,7 +360,7 @@ if(!isset($CmbContr))
 						   echo "</tr>";
 				 		//CONSULTA PARA OBTENER LOS CATODOS SEGUNDA ETAPA
 						$Consulta="select valor_subclase1,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31023' and valor_subclase1<>'' and cod_subclase='3'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Resp))
 						{	
 							$CodigoArea=$Fila["cod_subclase"];				    
@@ -932,7 +932,7 @@ function DatosProyectadosTratam($Ano,$Mes,$Area,$Division,$Producto,$Tipo)
    $Consulta="select valor_real as ValorReal,valor_presupuestado as ValorPresupuestado from pcip_inp_tratam";
    $Consulta.=" where ano='".$Ano."' and mes='".$Mes."' and nom_area='".$Area."' and nom_division='".$Division."' and cod_producto='".$Producto."'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
     $Datos1=$Fila[ValorReal];
@@ -983,7 +983,7 @@ function DatosProyectados($Producto,$Proveedor,$Ano,$Mes)
    $Consulta="select Vporden,Vptm,VPmaterial,Vptipinv,VPordenrel,Vpordes from pcip_inp_asignacion";
    $Consulta.=" where cod_producto='".$Producto."' and cod_proveedor='".$Proveedor."'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
      $Orden=$Fila[Vporden];

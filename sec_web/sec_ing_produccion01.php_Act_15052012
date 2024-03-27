@@ -2359,7 +2359,7 @@ function EnvioCorreo($CodPaquete,$Lote,$Instruccion,$Peso,$Paquete,$Producto,$Su
 	$NomSubProducto=$row["descripcion"];
 	
 	$Consulta="SELECT nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='3108'";
-	$Resul=mysql_query($Consulta);
+	$Resul=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resul))
 	{
 		$Mensaje='<table width="90%" align="center"  border="0" cellpadding="0"  cellspacing="0">';

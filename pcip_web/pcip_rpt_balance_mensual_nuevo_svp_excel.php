@@ -39,7 +39,7 @@ if(!isset($CmbMostrar))
 				if($CmbTitulo!='T')
 					$Consulta.= " and t1.cod_titulo='".$CmbTitulo."'";
 				$Consulta.= "  order by orden ";		
-				$RespBal=mysql_query($Consulta);
+				$RespBal=mysqli_query($link, $Consulta);
 				while ($FilaBal=mysql_fetch_array($RespBal))
 				{
 					echo "<tr>";

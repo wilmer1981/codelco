@@ -19,7 +19,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	if ($EntreFechas=="S" && $FechaIni!="" && $FechaFin!="")
 		$Consulta.= " and t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
 	$Consulta.= " order by t1.lote, t2.recargo";
-	$RespPeso=mysql_query($Consulta);
+	$RespPeso=mysqli_query($link, $Consulta);
 	if ($FilaPeso = mysql_fetch_array($RespPeso))
 	{
 		$PesoHumedo = $FilaPeso["peso_humedo"];
@@ -61,7 +61,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 		$Consulta.= ")";
 	}
 	$Consulta.= " order by t1.cod_leyes";
-	$RespLeyes = mysql_query($Consulta);
+	$RespLeyes = mysqli_query($link, $Consulta);
 	while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 	{
 		$Leyes[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"]; //CODIGO LEY
@@ -96,7 +96,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 			$Consulta.= ")";
 		}
 		$Consulta.= " order by t1.cod_leyes";
-		$RespLeyes = mysql_query($Consulta);
+		$RespLeyes = mysqli_query($link, $Consulta);
 		while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 		{
 			$Leyes[$FilaLeyes["cod_leyes"]][8] = $FilaLeyes["ley_canje"];//LEY FINAL DEL CANJE
@@ -120,7 +120,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 		$Consulta.= " from ram_web.conjunto_ram t1 inner join ram_web.tipo_lugar t2 on t1.cod_lugar=t2.cod_tipo_lugar ";
 		$Consulta.= " where t1.cod_conjunto='01' ";
 		$Consulta.= " and t1.num_conjunto='".$Lote["num_conjunto"]."' ";
-		$RespM01 = mysql_query($Consulta);
+		$RespM01 = mysqli_query($link, $Consulta);
 		if ($FilaM01 = mysql_fetch_array($RespM01))
 		{
 			$TieneConj=true;
@@ -132,7 +132,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	$Consulta = "select * from age_web.programa_recepcion ";
 	$Consulta.= " where tipo_programa='00' and cod_producto='".$Lote["cod_producto"]."' ";
 	$Consulta.= " and cod_subproducto='".$Lote["cod_subproducto"]."' and  rut_proveedor='".$Lote["rut_proveedor"]."'";
-	$RespM01 = mysql_query($Consulta);
+	$RespM01 = mysqli_query($link, $Consulta);
 	if ($FilaM01 = mysql_fetch_array($RespM01))
 	{		
 		$Cont=$FilaM01["cod_contrato"];
@@ -161,7 +161,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	$Consulta = "select * from age_web.leyes_por_lote ";
 	$Consulta.= " where lote = '".$Lote["lote"]."' ";
 	$Consulta.= " and provisional = 'S' ";
-	$RespProvi=mysql_query($Consulta);
+	$RespProvi=mysqli_query($link, $Consulta);
 	if (!$FilaProvi=mysql_fetch_array($RespProvi))
 		ValoresRetalla(&$Lote,&$Leyes,$IncRetalla);
 	//CALCULA FINOS
@@ -213,7 +213,7 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 	$Consulta.= " order by t1.lote ";
 	//SUMA LAS HUMEDADES PARA LUEGO COMPARAR SI TIENE ALGO O NO
 	$SumHumedad=0;
-	$RespProd = mysql_query($Consulta);
+	$RespProd = mysqli_query($link, $Consulta);
 	$TotalPesoHumProd=0;$TotalPesoSecoProd=0;$TotalPesoTaraProd=0;$TotalPesoBrutoProd=0;$TotalPesoNetoProd=0;$TotalPesoSecoProd_R2=0;
 	while ($FilaProd=mysql_fetch_array($RespProd))
 	{
@@ -353,7 +353,7 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 function LeyesFlujo($Flujo,$ArrDatosFlujo,$ArrLeyesFlujo,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin)
 {
 	$Consulta = "select cod_producto, cod_subproducto, rut_proveedor from age_web.relaciones where flujo='".$Flujo."'";
-	$RespFlujo=mysql_query($Consulta);
+	$RespFlujo=mysqli_query($link, $Consulta);
 	while ($FilaFlujo=mysql_fetch_array($RespFlujo))
 	{
 		$TipoRecep="";
@@ -431,7 +431,7 @@ function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeye
 	$Consulta.= " where num_conjunto='".$Conjunto."' and rut_proveedor='".$Rut."' ";
 	$Consulta.= " and cod_producto='".$Prod."' and cod_subproducto='".$SubProd."' ";
 	$Consulta.= " and estado_lote<>'6'";
-	$RespConj=mysql_query($Consulta);
+	$RespConj=mysqli_query($link, $Consulta);
 	while ($FilaConj=mysql_fetch_array($RespConj))
 	{
 		$ArrDatosLote=array();		
@@ -532,7 +532,7 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 	if($TipoRecep!='')
 		$Consulta.= " and t1.cod_recepcion = '".$TipoRecep."'";
 	$Consulta.= " order by t1.lote ";
-	$RespProv = mysql_query($Consulta);
+	$RespProv = mysqli_query($link, $Consulta);
 	//echo $Consulta."<br>";
 	$SumHumedad=0;
 	$TotalPesoHumProv=0;$TotalPesoSecoProv=0;$TotalPesoTaraProv=0;$TotalPesoBrutoProv=0;$TotalPesoNetoProv=0;$TotalPesoSecoProv_R2=0;
@@ -710,7 +710,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	if ($EntreFechas=="S" && $FechaIni!="" && $FechaFin!="")
 		$Consulta.= " and t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
 	$Consulta.= " group by lote";
-	$RespPeso=mysql_query($Consulta);
+	$RespPeso=mysqli_query($link, $Consulta);
 	if ($FilaPeso = mysql_fetch_array($RespPeso))
 	{
 		$TotalPesoHum = $FilaPeso["peso_humedo"];
@@ -742,7 +742,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	$Consulta.= " where lote='".$Lote["lote"]."'";
 	$Consulta.= " order by lote, lpad(recargo,4,'0')";
 	$ContRecargos = 1;$CambioHum='N';$PorcHumAnt='NO';
-	$RespLote=mysql_query($Consulta);
+	$RespLote=mysqli_query($link, $Consulta);
 	while ($FilaLote = mysql_fetch_array($RespLote))
 	{					
 		$PorcHum=0;	
@@ -769,7 +769,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 			}
 		}
 		$Consulta.= " order by t1.cod_leyes";
-		$RespLeyes = mysql_query($Consulta);
+		$RespLeyes = mysqli_query($link, $Consulta);
 		while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 		{			
 			if ($FilaLeyes["cod_leyes"]=="01")
@@ -817,7 +817,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 				$Consulta.= ")";
 			}
 			$Consulta.= " order by t2.cod_leyes";
-			$RespLoteC = mysql_query($Consulta);
+			$RespLoteC = mysqli_query($link, $Consulta);
 			while ($FilaLoteC = mysql_fetch_array($RespLoteC))
 			{
 				//if ($FilaLoteC["pendiente"]!="S")//NO VA ARBITRAL
@@ -920,7 +920,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	$Consulta.= " where lote = '".$Lote["lote"]."' ";
 	$Consulta.= " and provisional = 'S' ";
  // echo "HH".$Consulta;
-	$RespProvi=mysql_query($Consulta);
+	$RespProvi=mysqli_query($link, $Consulta);
 
 	if (!$FilaProvi=mysql_fetch_array($RespProvi))
 		ValoresRetalla(&$Lote,&$LeyesPond,$IncRetalla);	
@@ -930,11 +930,11 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		$LoteAju=array();
 		$LeyesAju=array();
 		$Consulta = "select * from age_web.lotes where lote='".$Lote["num_lote_remuestreo"]."'";
-		$RespR1=mysql_query($Consulta);
+		$RespR1=mysqli_query($link, $Consulta);
 		if ($FilaR1=mysql_fetch_array($RespR1))
 		{
 			$Consulta = "select * from age_web.lotes where num_lote_remuestreo='".$FilaR1["lote"]."'";			
-			$RespR=mysql_query($Consulta);
+			$RespR=mysqli_query($link, $Consulta);
 			if ($FilaR=mysql_fetch_array($RespR))
 			{
 				if ($FilaR["tipo_remuestreo"]=="A")
@@ -942,7 +942,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 					$LoteAju["lote"]=$FilaR1["lote"];
 					//PESO MUESTRA Y PESO RETALLA
 					$Consulta = "select * from age_web.lotes where lote='".$FilaR1["lote"]."'";
-					$RespR2=mysql_query($Consulta);
+					$RespR2=mysqli_query($link, $Consulta);
 					if ($FilaR2=mysql_fetch_array($RespR2))
 					{
 						$LoteAju["peso_muestra"]=$FilaR2["peso_muestra"];
@@ -954,7 +954,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 					$LoteAju["lote"]=$FilaR["lote"];
 					//PESO MUESTRA Y PESO RETALLA
 					$Consulta = "select * from age_web.lotes where lote='".$FilaR["lote"]."'";
-					$RespR2=mysql_query($Consulta);
+					$RespR2=mysqli_query($link, $Consulta);
 					if ($FilaR2=mysql_fetch_array($RespR2))
 					{
 						$LoteAju["peso_muestra"]=$FilaR2["peso_muestra"];
@@ -971,7 +971,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 				$Consulta.= " and (t1.recargo='' or t1.recargo='0')";
 				$Consulta.= " and (t1.cod_leyes in('02','04','05'))";
 				$Consulta.= " order by t1.cod_leyes";
-				$RespLeyes = mysql_query($Consulta);
+				$RespLeyes = mysqli_query($link, $Consulta);
 				while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 				{		
 					//TOTAL DEL LOTE
@@ -994,7 +994,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 					$Consulta.= " where lote='".$FilaR["lote"]."' ";
 				$Consulta.= " and provisional = 'S' ";
 
-				$RespProvi=mysql_query($Consulta);
+				$RespProvi=mysqli_query($link, $Consulta);
 				if (!$FilaProvi=mysql_fetch_array($RespProvi))
 				{
 					//echo $LoteAju["lote"]." PM=".$LoteAju["peso_muestra"]." PR=".$LoteAju["peso_retalla"]."<br>";
@@ -1098,7 +1098,7 @@ function ValoresRetalla($Lote,$Leyes,$CalculaInc)
 	$Consulta.= " where t1.lote='".$Lote["lote"]."' ";
 	$Consulta.= " and t1.recargo='R'";	
 	$Consulta.= " order by t1.cod_leyes";
-	$RespLeyes = mysql_query($Consulta);
+	$RespLeyes = mysqli_query($link, $Consulta);
 	while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 	{							
 		$LeyesRetalla[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];//CODIGO
@@ -1138,7 +1138,7 @@ function ValorMerma($Lote,$Leyes,$CalculaMerma)
 		$Consulta.= " where t1.cod_conjunto='01' ";
 		$Consulta.= " and t1.num_conjunto='".$Lote["num_conjunto"]."' ";
 		//echo "valor".$Consulta."</br>";
-		$RespM01 = mysql_query($Consulta);
+		$RespM01 = mysqli_query($link, $Consulta);
 		if ($FilaM01 = mysql_fetch_array($RespM01))
 		{
 			$TieneConj=true;
@@ -1150,7 +1150,7 @@ function ValorMerma($Lote,$Leyes,$CalculaMerma)
 	$Consulta = "select * from age_web.programa_recepcion ";
 	$Consulta.= " where tipo_programa='00' and cod_producto='".$Lote["cod_producto"]."' ";
 	$Consulta.= " and cod_subproducto='".$Lote["cod_subproducto"]."' and  rut_proveedor='".$Lote["rut_proveedor"]."'";
-	$RespM01 = mysql_query($Consulta);
+	$RespM01 = mysqli_query($link, $Consulta);
 	if ($FilaM01 = mysql_fetch_array($RespM01))
 	{		
 		$Cont=$FilaM01["cod_contrato"];
@@ -1210,7 +1210,7 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
 		//echo "=3=".$Consulta."</br>";
 	}
-	$RespM01 = mysql_query($Consulta);
+	$RespM01 = mysqli_query($link, $Consulta);
 	$Encontro=false;
 	while ($FilaM01 = mysql_fetch_array($RespM01))
 	{								
@@ -1219,7 +1219,7 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 		if ($FilaM01["tipo_aplicacion"]=="C" && $LoteAux["clase_producto"]==$FilaM01["referencia"])//CLASE DE PRODUCTO
 		{
 			$Consulta = "select * from rec_web.clases where codigo_a='".$LoteAux["clase_producto"]."'";
-			$RespM02=mysql_query($Consulta);
+			$RespM02=mysqli_query($link, $Consulta);
 			$NomClase="";
 			if ($FilaM02=mysql_fetch_array($RespM02))
 				$NomClase=$FilaM02["DESCRP_A"];
@@ -1252,7 +1252,7 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
 		//echo $Consulta;
 		
-		$RespM01 = mysql_query($Consulta);				
+		$RespM01 = mysqli_query($link, $Consulta);				
 		if ($FilaM01 = mysql_fetch_array($RespM01))
 		{					
 			$Encontro=true;								
@@ -1295,7 +1295,7 @@ function ParamLeyes($Datos,$Leyes)
 		$Consulta.= ")";
 	}
 	$Consulta.= " order by t1.cod_leyes ";
-	$RespParam=mysql_query($Consulta);
+	$RespParam=mysqli_query($link, $Consulta);
 	while ($FilaParam=mysql_fetch_array($RespParam))
 	{
 		$Leyes[$FilaParam["cod_leyes"]][32] = $FilaParam["cod_unidad"];//COD UNIDAD
@@ -1323,7 +1323,7 @@ function ParamLeyes($Datos,$Leyes)
 		$Consulta.= ")";
 	}
 	$Consulta.= " order by t1.cod_leyes ";
-	$RespParam=mysql_query($Consulta);
+	$RespParam=mysqli_query($link, $Consulta);
 	while ($FilaParam=mysql_fetch_array($RespParam))
 	{
 		$Leyes[$FilaParam["cod_leyes"]][32] = $FilaParam["cod_unidad"];//COD UNIDAD
@@ -1351,7 +1351,7 @@ function ParamLeyes($Datos,$Leyes)
 		$Consulta.= ")";
 	}
 	$Consulta.= " order by t1.cod_leyes ";
-	$RespParam=mysql_query($Consulta);
+	$RespParam=mysqli_query($link, $Consulta);
 	while ($FilaParam=mysql_fetch_array($RespParam))
 	{
 		$Leyes[$FilaParam["cod_leyes"]][32] = $FilaParam["cod_unidad"];//COD UNIDAD
@@ -1388,7 +1388,7 @@ function LeyesAjusteProveedor($Ano,$Mes,$RutProv,$Prod,$SubProd,$ArrLeyesProv,$F
 	$Consulta.= " or t1.fecha_fin_canje between '".$FechaIni."' and '".$FechaFin."' and substring(t1.lote,1,3)='".substr($CodLoteIni,0,3)."')";	
 	$Consulta.= " order by t1.lote ";
 	//if($RutProv=='76399040-0')
-	$RespProv = mysql_query($Consulta);
+	$RespProv = mysqli_query($link, $Consulta);
 	while ($FilaProv=mysql_fetch_array($RespProv))
 	{
 		$Lote=array();
@@ -1400,7 +1400,7 @@ function LeyesAjusteProveedor($Ano,$Mes,$RutProv,$Prod,$SubProd,$ArrLeyesProv,$F
 		$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
 		$Consulta.= " where t1.lote='".$FilaProv["lote"]."'";
 
-		$RespLote = mysql_query($Consulta);		
+		$RespLote = mysqli_query($link, $Consulta);		
 		$PesoConsiderado=0;
 		while ($FilaLote=mysql_fetch_array($RespLote))
 		{			
@@ -1461,14 +1461,14 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 	$Datos=explode('~',$ProdSubProd);
 	$Consulta="select * from sipa_web.proveedores where rut_prv='$Proveedor' and hum_ult_rec<>'S'";
 	//echo "sIPA PROVEEDORES:    ".$Consulta."<br>";
-	$RespPrv=mysql_query($Consulta);
+	$RespPrv=mysqli_query($link, $Consulta);
 	if($FilaPrv=mysql_fetch_array($RespPrv))
 	{	
 		//VERIFICA SI EXISTE OTRO RECARGO CON NRO DE SOLICITUD PARA TOMAR SUS VALORES E INSERTARLO EN FORMA AUTOMATICA
 		$Consulta ="select * from cal_web.solicitud_analisis where id_muestra = '".$Lote."' and cod_producto ='".$Producto."' ";
 		$Consulta.="and cod_subproducto='".$SubProducto."' and tipo_solicitud = 'A' and ((nro_solicitud is not null) or (nro_solicitud <> ''))";
 		//echo "SOLICITUD ANALISIS EXISTE RECARGO DEL MISMO LOTE:   :    ".$Consulta."<br><BR>";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Fila=mysql_fetch_array($Respuesta))
 		{
 			//echo "cUANDO EXISTE EL VALOR DE UN RECARGO, INGRESA LOS MISMOS VALORES<BR>";
@@ -1554,7 +1554,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 					if($v!='01')//cuando sea distinto a H2O
 					{
 						$Consulta="select cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
-						$RespUnidad=mysql_query($Consulta);
+						$RespUnidad=mysqli_query($link, $Consulta);
 						$FilaUnidad=mysql_fetch_array($RespUnidad);
 						$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,rut_quimico) values (";
 						$Insertar2.="'$Fila["rut_funcionario"]','$Fila["fecha_hora"]','$Fila["nro_solicitud"]','0','$v','$FilaUnidad["cod_unidad"]','$Producto','$SubProducto','$Lote','$Fila["rut_funcionario"]')";
@@ -1582,7 +1582,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 			//echo "PRIMERA SOLICITUD RECARGO 1<br><br>";
 			//SE OBTIENE EL NUMERO MAYOR DE LAS SOLICITUDES
 			$Consulta = "select max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
-			$RespSA = mysql_query($Consulta);
+			$RespSA = mysqli_query($link, $Consulta);
 			if ($FilaSA = mysql_fetch_array($RespSA))
 			{
 				if ((substr($FilaSA["NroMayor"],0,4)) == (date("Y")))
@@ -1672,7 +1672,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 					if($v!='01')//cuando sea distinto a H2O
 					{
 						$Consulta="select cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
-						$RespUnidad=mysql_query($Consulta);
+						$RespUnidad=mysqli_query($link, $Consulta);
 						$FilaUnidad=mysql_fetch_array($RespUnidad);
 						$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,rut_quimico) values (";
 						$Insertar2.="'$RutOperador','$FechaHora','$NroSA','0','$v','$FilaUnidad["cod_unidad"]','$Producto','$SubProducto','$Lote','$Fila["rut_funcionario"]')";
@@ -1702,7 +1702,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 		if($UltRec=='S')
 		{
 			$Consulta = "select max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
-			$RespSA = mysql_query($Consulta);
+			$RespSA = mysqli_query($link, $Consulta);
 			if ($FilaSA = mysql_fetch_array($RespSA))
 			{
 				if ((substr($FilaSA["NroMayor"],0,4)) == (date("Y")))
@@ -1790,7 +1790,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 				if($v!='01')//cuando sea distinto a H2O
 				{
 					$Consulta="select cod_unidad from proyecto_modernizacion.leyes where cod_leyes='$v'";
-					$RespUnidad=mysql_query($Consulta);
+					$RespUnidad=mysqli_query($link, $Consulta);
 					$FilaUnidad=mysql_fetch_array($RespUnidad);
 					
 					$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,rut_quimico) values (";
@@ -1879,7 +1879,7 @@ function EnvioCorreo($NroSolicitud)
 	
 			$Consulta.= "select * from sipa_web.proveedores where rut_prv='".$Proveedor."'";
 			//echo "nombre proveedor.     ".$Consulta."<br>";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))
 				$NomProveedor=$Fila["nombre_prv"];
 											
@@ -1887,7 +1887,7 @@ function EnvioCorreo($NroSolicitud)
 			$Consulta.= " from proyecto_modernizacion.subproducto ";
 			$Consulta.= " where cod_producto='1' and cod_subproducto='".$SubProducto."' order by orden";
 			//echo "subproductos.     ".$Consulta."<br>";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))
 				$SubProductoNom=$Fila["descripcion"];		
 	

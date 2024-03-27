@@ -32,7 +32,7 @@ if($Proceso == "G")
 //	$Consulta = "SELECT * FROM raf_web.movimientos WHERE substring(hornada,7) = '".$Hornada."'";
 //	$Consulta.=" and left(hornada,4) = '".$Ano."'";
 	$Consulta = "SELECT * FROM raf_web.movimientos WHERE hornada = '".$Hornada_new."'";
-	$resp = mysql_query($Consulta);
+	$resp = mysqli_query($link, $Consulta);
 	$Row = mysql_fetch_array($resp);
 	$hornada = $Row["hornada"];
 
@@ -156,7 +156,7 @@ if($Proceso == "M")
 	//$Consulta = "SELECT * FROM raf_web.movimientos WHERE substring(hornada,7) = $Hornada";
 	//$Consulta.=" and left(hornada,4) = '".$Ano."'";
 	$Consulta = "SELECT * FROM raf_web.movimientos WHERE hornada = '".$Hornada_new."'";
-	$resp = mysql_query($Consulta);
+	$resp = mysqli_query($link, $Consulta);
 	$Row = mysql_fetch_array($resp);
 	$hornada = $Row["hornada"];
 
@@ -280,7 +280,7 @@ if($Proceso == "C")
 	//$Consulta.=" and left(hornada,4) = '".$Ano."'";
 	$Consulta = "SELECT * FROM raf_web.movimientos WHERE hornada = '".$Hornada_new."'";
 	$Consulta.= " ORDER BY turno, cod_producto,cod_subproducto";
-	$resp = mysql_query($Consulta);
+	$resp = mysqli_query($link, $Consulta);
 	while($fila = mysql_fetch_array($resp))
 	{
 		$Consulta = "SELECT * FROM raf_web.det_carga";
@@ -291,7 +291,7 @@ if($Proceso == "C")
 		$Consulta.= " AND hornada_sea = ".$fila[hornada_sea]."";
 		$Consulta.= " AND turno = '".$fila[turno]."' and left(hornada,4) = '".$Ano."'";
 		$Consulta.= " ORDER BY turno ";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$AcumUnid = 0;
 		$AcumPeso = 0;
 		$Encontro = false;
@@ -328,7 +328,7 @@ if($Proceso == "C")
 	//$Consulta = "SELECT cod_producto, cod_subproducto, hornada, estado FROM raf_web.movimientos WHERE substring(hornada,7) = ".$Hornada.""; 
 	//$Consulta.=" and left(hornada,4) = '".$Ano."'";
 	$Consulta = "SELECT cod_producto, cod_subproducto, hornada, estado FROM raf_web.movimientos WHERE hornada = '".$Hornada_new."'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	$Fil = mysql_fetch_array($rs);
 	$ProductoAux = $Fil["cod_producto"];
 	$SubProductoAux = $Fil[cod_subproducto];

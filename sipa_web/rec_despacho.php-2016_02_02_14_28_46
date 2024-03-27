@@ -61,7 +61,7 @@
 	{
 		$Consulta="SELECT * from sipa_web.despachos where patente = '$TxtPatente' and peso_bruto='0' and ";
 		$Consulta.="peso_tara<>'0' and peso_neto='0' and estado<>'A'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 		{
 			$TipoProceso='S';
@@ -75,7 +75,7 @@
 	function PatenteValida($Patente,$PatenteOk,$EstPatente,$Mensaje)
 	{
 			/*$Consulta="SELECT * from sipa_web.camion where patente='".$Patente."'";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Respuesta))
 			{	
 				$PatenteOk=true;
@@ -103,7 +103,7 @@
 			{
 				PesoHistorico('D',$TxtPatente,&$TxtPesoHistorico,&$TxtPorcRango,'E','','');
 				$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.despachos where correlativo < 1000000";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$TxtCorrelativo=$Fila["correlativo"];
 				$TxtFecha=date('Y-m-d');
@@ -137,7 +137,7 @@
 						$Consulta ="SELECT distinct t1.lote,t1.recargo,t1.patente,t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.conjunto,";
 						$Consulta.="t1.cod_despacho,t1.cod_mop,t1.peso_bruto,t1.peso_tara,t1.observacion from sipa_web.despachos t1 ";
 						$Consulta.="where correlativo='".$Datos[0]."'";
-						$Resp2 = mysql_query($Consulta);
+						$Resp2 = mysqli_query($link, $Consulta);
 						while($Fila = mysql_fetch_array($Resp2))
 						{
 							$TxtCorrelativo=$Fila["correlativo"];
@@ -155,7 +155,7 @@
 							$TxtObs=$Fila["observacion"];
 							$CmbCodMop=$Fila["cod_mop"];
 							$Consulta ="SELECT numtarjeta,pestotejes from sipa_web.datos_ejes where folio='".$Datos[0]."'";
-							$RespEjes = mysql_query($Consulta);
+							$RespEjes = mysqli_query($link, $Consulta);
 							$FilaEjes = mysql_fetch_array($RespEjes);
 							$TxtTarjeta=$FilaEjes["numtarjeta"];
 							$TotPesEjes = $FilaEjes["pestotejes"];
@@ -173,12 +173,12 @@
 									$Consulta.="where t1.num_secuencia='$TxtCorrelativo' and t1.num_guia='$Datos[1]."' and t1.cod_estado <> 'A' ";
 									//$Consulta.="and substring(t1.fecha_guia,1,4)=substring('".$FechaTermino."',1,4) ";
 									$Consulta.="group by t3.cod_producto,t3.cod_subproducto	";
-									$RespSec=mysql_query($Consulta);
+									$RespSec=mysqli_query($link, $Consulta);
 									$FilaSec=mysql_fetch_array($RespSec);
 									$CmbSubProducto=$FilaSec["cod_producto"]."~".$FilaSec["cod_subproducto"];
 									//SE RECUPERA EL GRUPO A PARTIR DEL PRODUCTO Y SUBPRODUCTO OBTENIDOS DEL ORIGEN
 									$Consulta="SELECT distinct cod_grupo from sipa_web.grupos_prod_subprod where cod_producto='$FilaSec["cod_producto"]."' and cod_subproducto='$FilaSec["cod_subproducto"]."'";
-									$RespGrupo=mysql_query($Consulta);
+									$RespGrupo=mysqli_query($link, $Consulta);
 									$FilaGrupo=mysql_fetch_array($RespGrupo);
 									$CmbGrupoProd=$FilaGrupo["cod_grupo"];
 									switch($FilaSec["tipo_embarque"])
@@ -189,7 +189,7 @@
 											else
 												$CodPrestador=$FilaSec["cod_acopio"];
 											$Consulta="SELECT rut from sec_web.prestador where cod_prestador_servicio='$CodPrestador'";
-											$RespE=mysql_query($Consulta);
+											$RespE=mysqli_query($link, $Consulta);
 											if($FilaE=mysql_fetch_array($RespE))
 												$CmbProveedor=$FilaE["rut"];
 											break;
@@ -199,7 +199,7 @@
 											else
 												$CodPrestador=$FilaSec["cod_estiba"];
 											$Consulta="SELECT rut from sec_web.prestador where cod_prestador_servicio='$CodPrestador'";
-											$RespA=mysql_query($Consulta);
+											$RespA=mysqli_query($link, $Consulta);
 											if($FilaA=mysql_fetch_array($RespA))
 												$CmbProveedor=$FilaA["rut"];
 											break;
@@ -207,7 +207,7 @@
 											if($FilaSec["cod_sub_cliente"]=='*')
 											{
 												$Consulta="SELECT rut from sec_web.cliente_venta where cod_cliente='$FilaSec["cod_cliente"]."'";
-												$RespC=mysql_query($Consulta);
+												$RespC=mysqli_query($link, $Consulta);
 												if($FilaC=mysql_fetch_array($RespC))
 													$CmbProveedor=$FilaC["rut"];
 											}
@@ -229,7 +229,7 @@
 									$Consulta.= " on t2.fecha_creacion_paquete = t3.fecha_creacion_paquete and t2.cod_paquete = t3.cod_paquete and t2.num_paquete = t3.num_paquete ";
 									$Consulta.= " where  t2.num_guia = '".$Datos[1]."' ";
 									$Consulta.= " group by t2.num_guia";
-									$RespPaq=mysql_query($Consulta);
+									$RespPaq=mysqli_query($link, $Consulta);
 									if($FilaPaq=mysql_fetch_array($RespPaq))
 									{
 										$TxtPesoNetoSec=abs($FilaSec["peso_bruto"]+$FilaPaq["tot_paquetes"]+$TxtPesoTara);
@@ -242,12 +242,12 @@
 									$Consulta ="SELECT t1.num_guia,t1.nro_patente,t1.rut_chofer,t2.nombre,t1.rut_cliente from pac_web.guia_despacho t1 ";
 									$Consulta.="left join pac_web.choferes t2 on t1.rut_chofer=t2.rut_chofer ";									
 									$Consulta.="where t1.num_guia='".$Datos[1]."' and t1.nro_patente ='".$TxtPatente."'";
-									$RespPac=mysql_query($Consulta);
+									$RespPac=mysqli_query($link, $Consulta);
 									$FilaPac=mysql_fetch_array($RespPac);
 									$CmbSubProducto='46~1';
 									//SE RECUPERA EL GRUPO A PARTIR DEL PRODUCTO Y SUBPRODUCTO OBTENIDOS DEL ORIGEN
 									$Consulta="SELECT distinct cod_grupo from sipa_web.grupos_prod_subprod  where cod_producto='46' and cod_subproducto='1'";
-									$RespGrupo=mysql_query($Consulta);
+									$RespGrupo=mysqli_query($link, $Consulta);
 									$FilaGrupo=mysql_fetch_array($RespGrupo);
 									$CmbGrupoProd=$FilaGrupo["cod_grupo"];
 									$CmbProveedor=$FilaPac["rut_cliente"];
@@ -256,7 +256,7 @@
 									$TxtNomChofer=$FilaPac["nombre"];
 									$TxtCorrelativo=$TxtCorrelativo."~".$FilaPac["num_guia"]."~A";
 									$Consulta ="SELECT numtarjeta from sipa_web.datos_ejes where folio='".$Datos[0]."'";
-									$RespEjes = mysql_query($Consulta);
+									$RespEjes = mysqli_query($link, $Consulta);
 									$FilaEjes = mysql_fetch_array($RespEjes);
 									$TxtTarjeta=$FilaEjes["numtarjeta"];
 									$ObjFoco='TxtObs';
@@ -274,7 +274,7 @@
 						//CREAR RECARGO 1
 						//$Consulta="SELECT ifnull(max(lote)+1,'".$AnoMes."5001') as lote_nuevo from sipa_web.despachos where lote like '$AnoMes%'";
 						$Consulta="SELECT ifnull(max(lote)+1,'".$AnoMes."6001') as lote_nuevo from sipa_web.correlativo_lote where cod_proceso='D' and lote like '$AnoMes%'";
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						$TxtLote=str_pad($Fila["lote_nuevo"],8,'0',STR_PAD_LEFT);
 						$TxtRecargo=1;
@@ -298,14 +298,14 @@
 						//BUSCAR RECARGO NUEVO
 						$Consulta="SELECT  max(lpad(recargo,2,'0'))+1 as recargo_nuevo,cod_producto,cod_subproducto,cod_despacho,rut_prv,correlativo,fecha,hora_entrada,hora_salida,conjunto ";
 						$Consulta.="from sipa_web.despachos where lote = '$CmbLotes' group by lote";
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						$TxtLote=$CmbLotes;
 						$TxtRecargo=$Fila["recargo_nuevo"];
 						//BUSCAR DATOS DE RECARGO 1 QUE DEBEN SER LOS MISMOS PARA LOS DEMAS
 						$Consulta="SELECT cod_producto,cod_subproducto,cod_despacho,rut_prv,correlativo,fecha,hora_entrada,hora_salida,conjunto ";
 						$Consulta.="from sipa_web.despachos where lote = '$CmbLotes' and recargo='1'";
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						$CmbSubProducto=$Fila["cod_producto"]."~".$Fila["cod_subproducto"];
 						$CmbProveedor=$Fila["rut_prv"];
@@ -333,7 +333,7 @@
 	{
 		$Consulta = "SELECT leyes,impurezas from age_web.relaciones ";
 		$Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."' and rut_proveedor='".$CmbProveedor."'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 		{
 			$TxtLeyes=$Fila["leyes"];
@@ -343,7 +343,7 @@
 	if(isset($BuscarPrv)&&$BuscarPrv=='S')
 	{
 		$Consulta = "SELECT * from sipa_web.proveedores where rut_prv='$CmbProveedor'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 		{
 			$TxtNombrePrv=$Fila["nombre_prv"];
@@ -356,7 +356,7 @@
 	if(isset($BuscarChofer)&&$BuscarChofer=='S')
 	{
 		$Consulta = "SELECT * from sipa_web.choferes where rut_chofer='$TxtRutChofer'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 		{
 			$TxtNomChofer=$Fila["nombre_chofer"];
@@ -1025,7 +1025,7 @@ switch($TxtNumRomana)
 		$Consulta.="where t1.patente='".strtoupper(trim($TxtPatente))."' and t1.peso_neto=0 and t1.estado<>'A' and t2.cod_estado<>'A' ";
 		$Consulta.="group by correlativo order by t1.correlativo desc ";
 		//$Consulta.="group by patente order by t1.correlativo desc ";
-		$RespCorr=mysql_query($Consulta);
+		$RespCorr=mysqli_query($link, $Consulta);
 		while($FilaCorr=mysql_fetch_array($RespCorr))
 		{
 			$OrigenGuia='C';
@@ -1093,7 +1093,7 @@ switch($TxtNumRomana)
       <option value="S" SELECTed class="NoSelec">Seleccionar</option>
       <?
 				$Consulta = "SELECT * from sipa_web.grupos_productos order by descripcion_grupo ";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($CmbGrupoProd == $Fila["cod_grupo"])
@@ -1116,7 +1116,7 @@ switch($TxtNumRomana)
 				$Consulta.= " case when length(t1.cod_subproducto)<2 then concat('0',t1.cod_subproducto) else t1.cod_subproducto end as orden ";
 				$Consulta.="from sipa_web.grupos_prod_subprod t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto =t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 				$Consulta.="where t1.cod_grupo='$CmbGrupoProd' order by nom_subprod";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($CmbSubProducto == $Fila["cod_producto"]."~".$Fila["cod_subproducto"])
@@ -1139,13 +1139,13 @@ switch($TxtNumRomana)
 				echo "&nbsp;Peso Bruto Sec:<input name='TxtPesoNetoSec' type='text' class='InputCen' value='".$TxtPesoNetoSec."' size='10' style='background:yellow' >";
 			
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='3105' and cod_subclase='1'";
-			$RespSec=mysql_query($Consulta);
+			$RespSec=mysqli_query($link, $Consulta);
 			$FilaSec=mysql_fetch_array($RespSec);
 			echo "&nbsp;&nbsp;Limite Peso:<input name='TxtLimitePeso' type='text' class='InputDer' value='".$FilaSec["valor_subclase1"]."' style='background:yellow'  size='4' readonly>&nbsp;Kg.";
 			echo "<input type='checkbox' name='PesoOk' $EstPesoOk disabled>";
 		}*/
 		$Consulta="SELECT valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='3105' and valor_subclase2='".$ProdSubProd[0]."' and valor_subclase3='".$ProdSubProd[1]."'";
-		$RespSec=mysql_query($Consulta);
+		$RespSec=mysqli_query($link, $Consulta);
 		if($FilaSec=mysql_fetch_array($RespSec))
 		{
 			//if($OrigenDatosGuia=='')
@@ -1176,7 +1176,7 @@ switch($TxtNumRomana)
 					echo "<option class='NoSelec' value='S'>Seleccionar</option>";
 					$Consulta = "SELECT distinct rut as rut_cliente,sigla_cliente from sec_web.cliente_venta ";
 					$Consulta.= "where rut not in ('.') and length(rut) <=10 and not isnull(sigla_cliente) and sigla_cliente not in ('','0') order by sigla_cliente";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					while ($Fila = mysql_fetch_array($Resp))
 					{
 						$pos = strpos($Fila["rut_cliente"],'-');
@@ -1192,7 +1192,7 @@ switch($TxtNumRomana)
 						echo "<option value='S'>&nbsp;</option>";
 						echo "<option value='S'>------NACIONALES-------</option>";
 						$Consulta = "SELECT distinct t2.rut_cliente,nombre_nave as sigla_cliente from sec_web.nave t1 inner join sec_web.sub_cliente_vta t2 on t1.cod_nave=t2.cod_cliente where rut_cliente <>'' group by rut_cliente";
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						while ($Fila = mysql_fetch_array($Resp))
 						{
 							$pos = strpos($Fila["rut_cliente"],'-');
@@ -1211,7 +1211,7 @@ switch($TxtNumRomana)
 							$Consulta = "SELECT rut as rut_cliente,sigla as sigla_cliente from sec_web.prestador where cod_prestador_servicio='$CodPrestador' and rut='$CmbProveedor' ";
 						else
 							$Consulta = "SELECT rut as rut_cliente,sigla as sigla_cliente from sec_web.prestador order by sigla";
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						while ($Fila = mysql_fetch_array($Resp))
 						{
 							if (strtoupper($CmbProveedor) == strtoupper($Fila["rut_cliente"]))
@@ -1226,7 +1226,7 @@ switch($TxtNumRomana)
 				echo "<SELECT name='CmbProveedor' style='width:300' onkeypress=buscar_op(this,CmbTipoDespacho,11,'S') onBlur='borrar_buffer()' onclick='borrar_buffer()' $HabilitarCmb>";
 				echo "<option class='NoSelec' value='S'>Seleccionar</option>";
 				$Consulta = "SELECT distinct rut_cliente,nombre from pac_web.clientes order by nombre";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					$pos = strpos($Fila["rut_cliente"],'-');
@@ -1263,7 +1263,7 @@ switch($TxtNumRomana)
 					echo "<SELECT name='CmbProveedor' style='width:300' onkeypress=buscar_op(this,CmbTipoDespacho,11,'S') onBlur='borrar_buffer()' onclick='borrar_buffer()' $HabilitarCmb>";
 					echo "<option class='NoSelec' value='S'>Seleccionar</option>";
 					$Consulta = "SELECT distinct rut_prv,nombre_prv from sipa_web.proveedores order by nombre_prv";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					while ($Fila = mysql_fetch_array($Resp))
 					{
 						if (strtoupper($CmbProveedor) == strtoupper($Fila["rut_prv"]))
@@ -1286,7 +1286,7 @@ switch($TxtNumRomana)
         <option SELECTed value="S">Seleccionar</option>
       <?
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='24000' order by nombre_subclase";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			while($FilaTipo=mysql_fetch_array($RespTipo))
 			{
 				if($FilaTipo["valor_subclase1"]==$CmbTipoDespacho)
@@ -1318,7 +1318,7 @@ switch($TxtNumRomana)
 				$Consulta.=" lote like '$AnoMes%' and ult_registro <> 'S' and ";
 				$Consulta.="t1.recargo=(SELECT max((t2.recargo)*1) from sipa_web.despachos t2 where t2.lote=t1.lote) group by lote";
 				//echo $Consulta;
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($FilaLote = mysql_fetch_array($Resp))
 				{
 					if($FilaLote["lote"]==$CmbLotes)
@@ -1383,7 +1383,7 @@ switch($TxtNumRomana)
 	if($TipoProceso=='E')
 	{
 		$Consulta="SELECT * from sipa_web.tarjetas_permanentes where patente='".$TxtPatente."'";
-		$RespTarj=mysql_query($Consulta);
+		$RespTarj=mysqli_query($link, $Consulta);
 		if($FilaTarj=mysql_fetch_array($RespTarj))
 		{
 			$CmbCodMop=$FilaTarj["cod_mop"];
@@ -1394,7 +1394,7 @@ switch($TxtNumRomana)
       <option value='S' SELECTed>Seleccionar</option>
       <?
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='8004' order by nombre_subclase";
-			$RespMOP=mysql_query($Consulta);
+			$RespMOP=mysqli_query($link, $Consulta);
 			while($FilaMop=mysql_fetch_array($RespMOP))
 			{
 				if(intval($FilaMop["valor_subclase1"])==intval($CmbCodMop))
@@ -1412,7 +1412,7 @@ switch($TxtNumRomana)
 	if($TipoProceso=='E')
 	{
 		$Consulta="SELECT * from sipa_web.tarjetas_permanentes where patente='".$TxtPatente."'";
-		$RespTarj=mysql_query($Consulta);
+		$RespTarj=mysqli_query($link, $Consulta);
 		if($FilaTarj=mysql_fetch_array($RespTarj))
 		{
 			$TxtTarjeta=$FilaTarj["tarjeta"];
@@ -1452,7 +1452,7 @@ switch($TxtNumRomana)
 		$TotalLote=0;
 		$Consulta="SELECT sum(peso_neto) as total_neto from sipa_web.despachos where lote <>'' and lote ='$TxtLote' group by lote";
 		//echo $Consulta;
-		$Respuesta=mysql_query($Consulta);$TxtPesoTotalNeto=0;
+		$Respuesta=mysqli_query($link, $Consulta);$TxtPesoTotalNeto=0;
 		if($Fila=mysql_fetch_array($Respuesta))
 			$TxtPesoTotalNeto=$Fila[total_neto];
 	?>

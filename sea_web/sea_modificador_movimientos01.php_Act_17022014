@@ -360,7 +360,7 @@
 			if($valor[7]=='17'&&$cmbsubprod=='2')//MODIFICA EN RECEPCION_EXTERNA TTE
 			{
 				$Consulta="SELECT * from sea_web.relaciones where hornada_ventana = '".$cmbhornada."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$Consulta2="SELECT guia_despacho from sipa_web.recepciones where lote = '".$Fila[lote_ventana]."' and recargo='".$valor[6]."'";
 				$Respuesta2=mysql_query($Consulta2);
@@ -368,7 +368,7 @@
 				$GuiaOrigen=$Fila2["guia_despacho"];
 				$Consulta="SELECT piezas_recep,peso_recep from sea_web.recepcion_externa ";
 				$Consulta = $Consulta." WHERE cod_producto = '".$valor[7]."' AND cod_subproducto = '".$cmbsubprod."' AND lote_ventana = '".$Fila[lote_ventana]."' and guia='".$GuiaOrigen."'"; 
-				$RespRecep=mysql_query($Consulta);
+				$RespRecep=mysqli_query($link, $Consulta);
 				$FilaRecep=mysql_fetch_array($RespRecep);
 				$Piezas=$FilaRecep[piezas_recep]-intval($valor[2]);
 				$Peso=$FilaRecep[peso_recep]-intval($valor[9]);
@@ -403,7 +403,7 @@
 			if($valor[7]=='17'&&$cmbsubprod=='3')//MODIFICA EN RECEPCION_EXTERNA ANGLO
 			{
 				$Consulta="SELECT * from sea_web.relaciones where hornada_ventana = '".$cmbhornada."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$Consulta2="SELECT guia_despacho from sipa_web.recepciones where lote = '".$Fila[lote_ventana]."' and recargo='".$valor[6]."'";
 				$Respuesta2=mysql_query($Consulta2);
@@ -411,7 +411,7 @@
 				$GuiaOrigen=$Fila2["guia_despacho"];
 				$Consulta="SELECT piezas_recep,peso_recep from sea_web.recepcion_externa_anglo ";
 				$Consulta = $Consulta." WHERE cod_producto = '".$valor[7]."' AND cod_subproducto = '".$cmbsubprod."' AND lote_ventana = '".$Fila[lote_ventana]."' and guia='".$GuiaOrigen."'"; 
-				$RespRecep=mysql_query($Consulta);
+				$RespRecep=mysqli_query($link, $Consulta);
 				$FilaRecep=mysql_fetch_array($RespRecep);
 				$Piezas=$FilaRecep[piezas_recep]-intval($valor[2]);
 				$Peso=$FilaRecep[peso_recep]-intval($valor[9]);
@@ -423,7 +423,7 @@
 				Inicio
 				*/
 				$Consulta="Select * from sipa_web.recepciones where tipo='A' and lote='".$Fila[lote_ventana]."' and peso_neto='0'";
-				$RespuestaRec=mysql_query($Consulta);
+				$RespuestaRec=mysqli_query($link, $Consulta);
 				
 				if($FilaRec=mysql_fetch_array($RespuestaRec))
 				{
@@ -456,7 +456,7 @@ Inner Join  sea_web.recepcion_externa  t2 on t1.guia = t2.guia and t1.lote_orige
 Inner Join  sea_web.relaciones  t3 on t2.lote_ventana=t3.lote_ventana
 Inner Join  sea_web.hornadas  t4 on t4.hornada_ventana=t3.hornada_ventana
 WHERE t4.hornada_ventana = '".$cmbhornada."'  and t4.cod_producto ='".$valor[7]."' AND t4.cod_subproducto='".$cmbsubprod."'  group by guia,lote_origen";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Actualizar="Update sea_web.hornadas set unidades=0 , peso_unidades=0 WHERE hornada_ventana = '".$cmbhornada."'  and cod_producto ='".$valor[7]."' AND cod_subproducto='".$cmbsubprod."' ";
@@ -485,7 +485,7 @@ Inner Join  sea_web.relaciones  t3 on t2.lote_ventana=t3.lote_ventana
 Inner Join  sea_web.hornadas  t4 on t4.hornada_ventana=t3.hornada_ventana
 WHERE t4.hornada_ventana = '".$cmbhornada."'  and t4.cod_producto ='".$valor[7]."' AND t4.cod_subproducto='".$cmbsubprod."'  group by guia,lote_origen";
 		
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Actualizar="Update sea_web.hornadas set unidades=0 , peso_unidades=0 WHERE hornada_ventana = '".$cmbhornada."'  and cod_producto ='".$valor[7]."' AND cod_subproducto='".$cmbsubprod."' ";

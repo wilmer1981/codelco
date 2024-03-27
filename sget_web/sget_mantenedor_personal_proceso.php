@@ -56,7 +56,7 @@
 		case "M":
 			$Datos=explode('~',$Valores);
 			$Consulta="SELECT * from sget_personal where rut='".$Valores."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				//$TxtRuta = $TxtRuta;
@@ -219,7 +219,7 @@
 					//$Consulta ="SELECT * from proyecto_modernizacion.sub_clase  where cod_clase = '33008' and ";
 					//$Consulta.=" cod_subclase  = '".$Fila[tipo_educ]."'";
 					//echo "hhhhhhhhhhhhhhhhhh".$Consulta."</br>";
-					//$resp=mysql_query($Consulta);
+					//$resp=mysqli_query($link, $Consulta);
 					//if ($Row=mysql_fetch_array($resp))
 					$CmbEscolaridad = $Fila[tipo_educ];
 					//echo "jjjjjjjjjjjjjjjjjjjj".$CmbEscolaridad;
@@ -284,7 +284,7 @@
 		$DD = '';
 		$RUT_E = '';
 		$Consulta="SELECT * from sget_contratos where cod_contrato ='".$CC."'";
-			$RespC=mysql_query($Consulta);
+			$RespC=mysqli_query($link, $Consulta);
 //	echo "Poly".$Consulta;
 			if($FilaC=mysql_fetch_array($RespC))
 			{
@@ -293,7 +293,7 @@
 									
 	
 		$Consulta = "SELECT * from sget_contratistas t2 where  t2.rut_empresa = '".$FilaC[rut_empresa]."'";
-		$RespE=mysql_query($Consulta);
+		$RespE=mysqli_query($link, $Consulta);
 	//	echo "NN".$Consulta;
 			if($FilaE=mysql_fetch_array($RespE))
 			{
@@ -946,7 +946,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <?
 	  	$Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase = '33008' ";
 		$Consulta.=" order by cod_subclase ";
-		$RespE=mysql_query($Consulta);
+		$RespE=mysqli_query($link, $Consulta);
 		while ($FilaEs=mysql_fetch_array($RespE))
 		{
 			if($CmbEscolaridad==$FilaEs["cod_subclase"])
@@ -979,7 +979,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="S" SELECTed="SELECTed">Seleccionar</option>
                       <?
 		$Consulta="SELECT * from sget_regiones ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbRegion==$Fila[cod_region])
@@ -994,7 +994,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="S" SELECTed="SELECTed">Seleccionar</option>
                       <?
 		$Consulta="SELECT t2.cod_ciudad,t2.nom_ciudad from sget_ciudades_por_region t1 inner join sget_ciudades t2 on t1.cod_ciudad=t2.cod_ciudad where cod_region='".$CmbRegion."' order by nom_ciudad ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCiudad==$Fila["cod_ciudad"])
@@ -1009,7 +1009,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="S" SELECTed="SELECTed">Seleccionar</option>
                       <?
 		$Consulta="SELECT t2.cod_comuna,t2.nom_comuna from sget_comunas_por_ciudad t1 inner join sget_comunas t2 on t1.cod_comuna=t2.cod_comuna where cod_ciudad='".$CmbCiudad."' order by nom_comuna";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbComunas==$Fila[cod_comuna])
@@ -1028,7 +1028,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="S" SELECTed="SELECTed">Seleccionar / Agregar</option>
                       <?
 		$Consulta="SELECT * from sget_afp where estado='1' order by descripcion_afp";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbAfp==$Fila[cod_afp])
@@ -1044,7 +1044,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="-1" class="NoSelec">Seleccionar</option>
                       <?
 	  $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30011' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSalud==$FilaTC["cod_subclase"])
@@ -1098,7 +1098,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta.=" order by razon_social";
 				
 				$var2=$Consulta;	
-				$RespEmp=mysql_query($Consulta);
+				$RespEmp=mysqli_query($link, $Consulta);
 				while($FilaEmp=mysql_fetch_array($RespEmp))
 				{
 					if(strtoupper($FilaEmp[rut_empresa])==strtoupper($CmbEmpresa))
@@ -1123,7 +1123,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				//include("../principal/conectar_ssgc.php");
 				$FechaActual=date("Y")."-".date("m")."-".date("d");
 				$Consulta="SELECT * from sget_contratos where rut_empresa='".$CmbEmpresa."' and rut_empresa!='' order by fecha_termino desc";
-				$RespCtto=mysql_query($Consulta);
+				$RespCtto=mysqli_query($link, $Consulta);
 				while($FilaCtto=mysql_fetch_array($RespCtto))
 				{
 					if ($FechaActual > $FilaCtto[fecha_termino])
@@ -1143,7 +1143,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				}
 				//CONTRATOS SUBCONTRATISTA
 				$Consulta="SELECT t1.cod_contrato,t2.fecha_termino,t2.descripcion from sget_sub_contratistas t1 inner join sget_contratos t2 on t1.cod_contrato=t2.cod_contrato where t1.rut_empresa='".$CmbEmpresa."' and t1.rut_empresa!='' order by t2.fecha_termino desc";
-				$RespCtto=mysql_query($Consulta);
+				$RespCtto=mysqli_query($link, $Consulta);
 				while($FilaCtto=mysql_fetch_array($RespCtto))
 				{
 					if ($FechaActual > $FilaCtto[fecha_termino])
@@ -1181,7 +1181,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <?
 					 
 		$Consulta="SELECT * from sget_cargos where estado='1' order by descrip_cargo";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCargo==$Fila[cod_cargo])
@@ -1196,7 +1196,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="S" SELECTed="SELECTed">Seleccionar</option>
                       <?
 		$Consulta="SELECT * from sget_tipo_persona order by descrip_tipo";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbTipoPersona==$Fila[cod_tipo])
@@ -1211,7 +1211,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="S" SELECTed="SELECTed">Seleccionar</option>
                       <?
 		$Consulta="SELECT * from sget_turnos where estado='1' order by descrip_turno";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbTurnos==$Fila[cod_turno])
@@ -1280,7 +1280,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                       <option value="S" SELECTed="SELECTed">Seleccionar/Agregar</option>
                       <?
 				$Consulta="SELECT * from sget_sindicato where estado='1' order by descripcion";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					if($CmbSindicato==$Fila[cod_sindicato])
@@ -1300,7 +1300,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
  				  <option value="S" SELECTed="SELECTed">Seleccionar / Agregar</option>
                       <?
 				$Consulta="SELECT * from sget_aseguradoras where estado='1' order by descripcion_aseguradora";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					if($CmbAseguradora==$Fila[cod_aseguradora])
@@ -1325,7 +1325,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta="SELECT  distinct num_hoja_ruta,estado  from des_sget.sget_hoja_ruta_nomina";
 				$Consulta.= " where rut_personal = '".$TxtRut."'";
 				$var1 = $Consulta;
-				$ResH=mysql_query($Consulta);
+				$ResH=mysqli_query($link, $Consulta);
 				while($FilaH=mysql_fetch_array($ResH))
 				{
 					if ($FilaH["estado"] == 'A')
@@ -1380,7 +1380,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$Contador=0;	$encontro="N";
  	$Consulta=" SELECT t1.*,t2.razon_social from sget_personal_historia t1 left join sget_contratistas t2 on t1.rut_empresa=t2.rut_empresa";
 	$Consulta.="  where t1.rut ='".$TxtRut."'";
-	$RespModificaciones=mysql_query($Consulta);
+	$RespModificaciones=mysqli_query($link, $Consulta);
 	while($FilaModificaciones=mysql_fetch_array($RespModificaciones))
 	{
 		$Contador=$Contador+1;

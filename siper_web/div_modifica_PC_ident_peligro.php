@@ -63,7 +63,7 @@ function Cerrar()
 		$CODAREA=ObtenerCodParent(&$Parent);
 		$Consulta="SELECT t1.QPROBHIST,t1.QCONSECHIST,t2.NCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.CAREA='".$CODAREA."' and t1.CPELIGRO='".$CodPeligro."'";
 		//echo $Consulta."<br>";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$P=$Fila[QPROBHIST];

@@ -4,7 +4,7 @@
 $CodigoDeSistema = 1;
 include("../principal/conectar_principal.php");
 $Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
-$Respuesta = mysql_query($Consulta);
+$Respuesta = mysqli_query($link, $Consulta);
 $Fila=mysql_fetch_array($Respuesta);
 $Nivel=$Fila["nivel"];
 ?>
@@ -105,7 +105,7 @@ function Recarga(URL,LimiteIni)
 	}
 	$Consulta.= " order by t2.cod_leyes ";
 	//echo "uno".$Consulta."<br>";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$LargoArreglo = 0;
 	while ($Row = mysql_fetch_array($Respuesta))
 	{
@@ -157,7 +157,7 @@ function Recarga(URL,LimiteIni)
 	$Consulta.= " order by nro_solicitud,recargo_ordenado";
 	//echo "dos".$Consulta."<br>";
 	$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($Respuesta))
 	{
 		echo "<tr align='left' valign='middle'>\n";
@@ -194,7 +194,7 @@ function Recarga(URL,LimiteIni)
 			//echo $Row["nro_solicitud"]."-".$Row["recargo"]."</td>\n";
 		}
 		$Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase = 1004 and cod_subclase = '".$Row["agrupacion"]."'";
-		$Resp1=mysql_query($Consulta);
+		$Resp1=mysqli_query($link, $Consulta);
 		$Fil1=mysql_fetch_array($Resp1);
 		echo "<td>".$Fil1["nombre_subclase"]."</td>\n";
 		echo "<td>".$Row["id_muestra"]."</td>\n";
@@ -220,7 +220,7 @@ function Recarga(URL,LimiteIni)
 			$Consulta.= " and recargo = '".$Row["recargo"]."'";
 		}
 		//echo "tre".$Consulta."<br>";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);  
 		echo "<td align ='center'>".$Fila[AbrevProducto]."</td>";
 		echo "<td align = 'center'>".$Fila[AbrevSubProducto]."</td>";
@@ -235,7 +235,7 @@ function Recarga(URL,LimiteIni)
 		if (is_null($Row["recargo"]) || ($Row["recargo"] == ""))
 			$Consulta = $Consulta;
 		else	$Consulta.= " and recargo = '".$Row["recargo"]."'";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Row2 = mysql_fetch_array($Resp))
 			echo "<td>".$Row2["nombre_subclase"]."</td>\n";
 		else	echo "<td>&nbsp;</td>\n";

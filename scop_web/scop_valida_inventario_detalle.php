@@ -47,7 +47,7 @@ function Excel(Opc,TipoEst)
          <?
 			$Datos=explode("~",$Valores);
 			$Consulta="select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='33002' and cod_subclase='".$Datos[3]."'";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			if($FilaTipo=mysql_fetch_array($RespTipo))
 			{				
 				 ?>
@@ -69,7 +69,7 @@ function Excel(Opc,TipoEst)
 					$Consulta.=" and t1.cod_contrato='".$Datos[0]."'";
 				$Consulta.=" group by t1.cod_contrato ";
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					$NomTipoContrato=$Fila[nom_tipo_contr];
@@ -83,7 +83,7 @@ function Excel(Opc,TipoEst)
 				 </tr>
 				 <?
 							$Consulta="select tipo_flujo,tipo_inventario from scop_contratos_flujos where cod_contrato='".$CodContrato."' group by tipo_inventario";
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							while($Fila=mysql_fetch_array($Resp))
 							{
 								$TipoFlujo2=$Fila[tipo_flujo];
@@ -365,7 +365,7 @@ function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$CodContrato,$TipoFlujo,$CodFlujo
 {
 	$Consulta="select * from scop_contratos_flujos where cod_contrato='".$CodContrato."' and tipo_inventario='".$i."' and flujo='".$CodFlujo."'";
 	//echo $Consulta."<br>";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		if($Fila[tipo_inventario]=='1')
@@ -387,7 +387,7 @@ function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$CodContrato,$TipoFlujo,$CodFlujo
 		if($MesFlujo!='T')
 			$Consulta.=" and mes='".$MesFlujo."'";
 		//echo $Consulta."<br>";
-		$RespValor=mysql_query($Consulta);$Peso=0;$Cu=0;$Ag=0;$Au=0;
+		$RespValor=mysqli_query($link, $Consulta);$Peso=0;$Cu=0;$Ag=0;$Au=0;
 		if($FilaValor=mysql_fetch_array($RespValor))
 		{
 			$Peso=$FilaValor["peso"];

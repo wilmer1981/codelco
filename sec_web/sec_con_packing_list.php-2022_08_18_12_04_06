@@ -18,7 +18,7 @@
 	$Consulta = "SELECT * from sec_web.lote_catodo where corr_enm = '".$NumInstruccion."'";
     $Consulta.= " and (year(fecha_creacion_lote) ='".$FechaAux."'";
     $Consulta.= " or year(fecha_creacion_lote) ='".$FechaAux1."')";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Respuesta))
 	{
 		$CodLote = $Fila["cod_bulto"];
@@ -39,7 +39,7 @@
 		$Consulta.= " and t2.fecha_creacion_paquete  = t1.fecha_creacion_paquete";  
 		$Consulta.= " where  t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$CodLote."' and t1.num_bulto = '".$NumLote."'  and t1.corr_enm = '".$Corr_enm."'";
 		$Consulta.= " group by t1.cod_bulto, t1.num_bulto ";     
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		while ($Fila = mysql_fetch_array($Respuesta))
 		{
@@ -53,11 +53,11 @@
 			{
 				$Consulta = "SELECT * from sec_web.programa_enami ";
 				$Consulta.= " where corr_enm = '".$Fila["corr_enm"]."'";
-				$Respuesta2 = mysql_query($Consulta);
+				$Respuesta2 = mysqli_query($link, $Consulta);
 				if ($Fila2 = mysql_fetch_array($Respuesta2))
 				{
 					$Consulta = "SELECT * from sec_web.cliente_venta where cod_cliente = '".$Fila2["cod_cliente"]."'";
-					$Respuesta3 = mysql_query($Consulta);
+					$Respuesta3 = mysqli_query($link, $Consulta);
 					if ($Fila3 = mysql_fetch_array($Respuesta3))
 					{
 						$Cliente = strtoupper($Fila3["nombre_cliente"]);
@@ -65,7 +65,7 @@
 					else
 					{
 						$Consulta = "SELECT * from sec_web.nave where cod_nave = '".$Fila2["cod_cliente"]."'";
-						$Respuesta3 = mysql_query($Consulta);
+						$Respuesta3 = mysqli_query($link, $Consulta);
 						if ($Fila3 = mysql_fetch_array($Respuesta3))
 						{
 							$Cliente = strtoupper($Fila3["nombre_nave"]);
@@ -90,7 +90,7 @@
 	$Consulta.= " AND t1.cod_producto = t2.cod_producto AND t1.cod_subproducto = t2.cod_subproducto";	
 	$Consulta.= " where t3.cod_bulto = '".$CodLote."' and t3.num_bulto = '".$NumLote."'  and t3.corr_enm = '".$Corr_enm."' ";
 		echo "Consulta ".$Consulta."<br>";
-		$Respuestasipa = mysql_query($Consulta);
+		$Respuestasipa = mysqli_query($link, $Consulta);
 	if ($Filasipa = mysql_fetch_array($Respuestasipa))
 	{
 		$LoteSipa = $Filasipa["lote_origen"];
@@ -192,7 +192,7 @@ function Proceso(opt)
 				$Consulta.= " where t1.cod_producto = '".$Producto."' and t1.cod_subproducto = '12'";
 				$Consulta.= " and t1.cod_bulto = '".$CodLote."' and t1.num_bulto = '".$NumLote."' and t1.corr_ie = '".$Corr_enm."'";
 				$Consulta.= " and t1.num_pesada = '2'";
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				if ($row = mysql_fetch_array($rs))
 				{
 					$DescProducto = $row["descripcion"];
@@ -243,7 +243,7 @@ function Proceso(opt)
 	   $Consulta.= " where t1.cod_bulto = '".$CodLote."' and t1.num_bulto = '".$NumLote."' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.corr_enm = '".$Corr_enm."'";
 	   $Consulta.= " order by t1.cod_paquete,t1. num_paquete ";
 	
-	   $Respuesta = mysql_query($Consulta);
+	   $Respuesta = mysqli_query($link, $Consulta);
 	   $TotalPaquetes = 0;
 	   $TotalPesoBruto = 0;
 	   $TotalPesoNeto = 0;
@@ -351,7 +351,7 @@ function Proceso(opt)
 		  echo "<td align='center'>".number_format($Fila["num_unidades"],0,",",".")."</td>\n";
 		  $Consulta = "SELECT * from ram_web.atributo_existencia ";
 		  $Consulta.= " where cod_existencia = '".$Fila["cod_lugar"]."'";
-		  $Respuesta2 = mysql_query($Consulta);
+		  $Respuesta2 = mysqli_query($link, $Consulta);
 		  if ($Fila2 = mysql_fetch_array($Respuesta2))
 			 echo "<td align='left'>".strtoupper($Fila2["abrev_existencia"])."</td>\n";
           else

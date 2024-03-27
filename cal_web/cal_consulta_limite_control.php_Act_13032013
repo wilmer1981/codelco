@@ -18,7 +18,7 @@
 
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
-$Respuesta = mysql_query($Consulta);
+$Respuesta = mysqli_query($link, $Consulta);
 $Fila=mysql_fetch_array($Respuesta);
 $Nivel=$Fila["nivel"];
 ?>
@@ -263,7 +263,7 @@ function Salir()
 					{
 						$Consulta="select cod_producto,descripcion from productos  order by descripcion"; 
 					}
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbProductos==$Fila["cod_producto"])
@@ -310,7 +310,7 @@ function Salir()
 						}
 					}	
 					$Consulta.=" order by descripcion ";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -347,7 +347,7 @@ function Salir()
 						if($Busq=='S'&&$TxtFiltroPrv!='')
 						  	 $Consulta.= " where  nombre_prv like '%".$TxtFiltroPrv."%' "; 	
 						$Consulta.= " order by nombre_prv";
-						$Respuesta = mysql_query($Consulta);
+						$Respuesta = mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($Respuesta))
 						{
 							if ($CmbProveedores == $Fila["rut_prv"])
@@ -386,7 +386,7 @@ function Salir()
 					}	
                 	echo "<option value ='T' selected>Todos</option>";
 					$Consulta = "select * from sub_clase where cod_clase = 2 order by cod_subclase";
-					$Respuesta= mysql_query($Consulta);
+					$Respuesta= mysqli_query($link, $Consulta);
 					while ($Fila = mysql_fetch_array($Respuesta))
 					{
 						$Descripcion = str_replace(".","",$Fila["nombre_subclase"]);
@@ -414,7 +414,7 @@ function Salir()
 					echo "<select name='CmbTipo' style='width:110'>";
 					echo "<option value='-1' selected>Todos</option>";
 					$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase=1005 order by cod_subclase";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($Fila["cod_subclase"]== $CmbTipo)
@@ -432,7 +432,7 @@ function Salir()
 					echo "<select name='CmbTipoAnalisis' style='width:120'>";
 					echo "<option value = '-1' selected>Todos</option>\n";
 					$Consulta= "select * from sub_clase where cod_clase = 1000";
-					$Respuesta= mysql_query($Consulta);
+					$Respuesta= mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($CmbTipoAnalisis == $Fila["cod_subclase"])

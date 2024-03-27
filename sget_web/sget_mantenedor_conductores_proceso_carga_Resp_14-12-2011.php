@@ -96,7 +96,7 @@ function Salir()
 				  <?
 					$Consulta="SELECT * from sget_conductores_tmp where corr_conductor<>'' and rut_operador='".$CookieRut."'";
 					$Consulta.=" order by apellido_paterno,apellido_materno,nombres";	
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					//echo $Consulta;
 					$Cont=1;
 					if($Fila=mysql_fetch_array($Resp))
@@ -122,7 +122,7 @@ function Salir()
 					  <?
 						$Consulta="SELECT * from sget_conductores_tmp where corr_conductor<>'' and rut_operador='".$CookieRut."'";
 						$Consulta.=" order by apellido_paterno,apellido_materno,nombres";	
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						//echo $Consulta;
 						$Cont=1;
 						while ($Fila=mysql_fetch_array($Resp))

@@ -17,7 +17,7 @@
 			if ($Ver=='C')//Graba Para los Camiones  
 			{	
 				$Consulta="select * from pac_web.guia_despacho where num_guia='".$NumGuia."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				if ($Fila=mysql_fetch_array($Respuesta))
 				{
 					header("location:pac_guia_despacho_proceso.php?Mostrar=S");
@@ -50,7 +50,7 @@
 			else//Graba en caso de buque    
 			{
 				$Consulta="select * from pac_web.guia_despacho where num_guia='".$NumGuia."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				if ($Fila=mysql_fetch_array($Respuesta))
 				{
 					header("location:pac_guia_despacho_proceso.php?Mostrar=S");
@@ -63,7 +63,7 @@
 					$Insertar.=" '".str_replace(",",".",$Toneladas)."','".str_replace(",",".",$TxtMts)."','".$Observacion."','S','','".$Rut."','B','".str_replace(",",".",$VUnitario)."')";
 					mysql_query($Insertar);
 					$Consulta="select valor1 from pac_web.parametros where codigo='1'";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);
 					$Densidad=str_replace('.',',',$Fila[valor1]);						
 					if($TxtEK1!='')
@@ -124,7 +124,7 @@
 				mysql_query($Modificar);
 				//echo $Modificar."<br>";
 				$Consulta=" select fecha_hora from pac_web.guia_despacho where correlativo = '".$Correlativo."'  ";
-				$Respuesta1=mysql_query($Consulta);
+				$Respuesta1=mysqli_query($link, $Consulta);
 				$Fila1=mysql_fetch_array($Respuesta1);   
 				$Modificar="UPDATE pac_web.movimientos set toneladas = '".str_replace(",",".",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."',cod_estanque_origen = '".str_replace(",",".",$CmbEstanque)."' where fecha_hora = '".$Fila1["fecha_hora"]."' ";
 				mysql_query($Modificar);
@@ -138,17 +138,17 @@
 				mysql_query($Modificar);
 			//	echo $Modificar."<br>";
 				$Consulta=" select fecha_hora from pac_web.guia_despacho where correlativo = '".$Correlativo."'  ";
-				$Respuesta1=mysql_query($Consulta);
+				$Respuesta1=mysqli_query($link, $Consulta);
 				$Fila1=mysql_fetch_array($Respuesta1);
 				$Consulta="consulta * from pac_web.movimientos where fecha_hora = '".$Fila1["fecha_hora"]."' ";
-				$Respuesta2=mysql_query($Consulta);
+				$Respuesta2=mysqli_query($link, $Consulta);
 				$Fila2=mysql_fetch_array($Respuesta2);
 				$HoraI = $Fila2[hora_inicio];
 				$HoraT = $Fila2[hora_final];
 				$Eliminar="delete from pac_web.movimientos where fecha_hora = '".$Fila1["fecha_hora"]."' ";
 				mysql_query($Eliminar);
 				$Consulta="select valor1 from pac_web.parametros where codigo='1'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$Densidad=str_replace('.',',',$Fila[valor1]);						
 				if($TxtEK1!='')
@@ -204,7 +204,7 @@
 					$Actualizar ="UPDATE  pac_web.guia_despacho set estado ='N'  where num_guia ='".$Guia."'";
 					mysql_query($Actualizar);
 					$Consulta=" select fecha_hora from pac_web.guia_despacho where num_guia = '".$Guia."'  ";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);   
 					$Eliminar ="delete from pac_web.movimientos where fecha_hora = '".$Fila["fecha_hora"]."' and tipo_movimiento = '5' ";
 					mysql_query($Eliminar);

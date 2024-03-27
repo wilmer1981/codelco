@@ -16,7 +16,7 @@
 		    $Consulta.= " AND cod_subproducto = '$SubProductos'";
 		    $Consulta.= " AND fecha = '".$Fecha."'";
 		    $Consulta.= " AND peso_humedo != 0";
-		    $rs = mysql_query($Consulta);
+		    $rs = mysqli_query($link, $Consulta);
 		    if($Fila = mysql_fetch_array($rs))
 		    {
 			   $peso_humedo = 0;			  

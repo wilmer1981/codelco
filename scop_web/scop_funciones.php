@@ -49,7 +49,7 @@
 	{
 		$Consulta="select * from pcip_eec_centro_costos where cod_cc='".$Cod."' ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Datos=$Fila[cod_gerencia].'~'.$Fila[cod_area].'~'.$Fila[descrip_area].'~'.$Fila[cod_cc].'~'.$Fila["abreviatura"];
 		return($Datos);	
@@ -58,7 +58,7 @@
 	{
 		$Consulta="select * from pcip_eec_suministros where cod_suministro='".$Cod."' ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Datos=$Fila[cod_suministro].'~'.$Fila[nom_suministro].'~'.$Fila["cod_unidad"];
 		return($Datos);	
@@ -67,7 +67,7 @@
 	{
 		$Consulta="select * from pcip_lista_excel where cod_excel='".$Cod."' ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Datos=$Fila[cod_excel].'~'.$Fila[nom_excel].'~'.$Fila[perfiles_accesos].'~'.$Fila["valor"].'~'.$Fila[ini_fil_cc].'~'.$Fila[ini_col_cc].'~'.$Fila[hoja].'~'.$Fila[tipo_excel].'~'.$Fila[corta_mes].'~'.$Fila[tipo_carga];
 		return($Datos);	
@@ -173,7 +173,7 @@
 	function ObtenerMaxCorr($Tabla,$Campo)
 	{
 		$Consulta="select max(".$Campo.") as mayor from ".$Tabla;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		$Corr=$Fila["mayor"]+1;
 		return($Corr);
@@ -246,7 +246,7 @@ function CambioDeEstado($Rut,$Contrato,$Fecha,$Ano,$Mes,$Tipo)
 	if($Tipo=='2')//SI ES 2 ES PARA ACTUALIZAR LOS DATOS A VALIDADO
 	{
 		$Consulta="select cod_estado,cod_contrato,rut,mes,ano from scop_inventario where cod_contrato='".$Contrato."' and cod_estado='1' and ano='".$Ano."' and mes='".$Mes."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$Actualizar="UPDATE scop_inventario set rut='".$Rut."', fecha_hora='".$Fecha."', cod_estado='2',observacion='validado' where cod_estado='".$Fila["cod_estado"]."'";
@@ -348,7 +348,7 @@ function EnvioCorreo($Correo,$NumEstado,$TipoEst,$Ano,$Mes,$Meses,$TipoEstado,$T
 		while(list($c,$v)=each($Dato1))
 		{
 			$Consulta="select * from scop_contratos where cod_contrato='".$v."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			    $Contratos=$Contratos."N�&nbsp;".$Fila["num_contrato"].",";
 		}
@@ -529,7 +529,7 @@ function EnvioCorreo($Correo,$NumEstado,$TipoEst,$Ano,$Mes,$Meses,$TipoEstado,$T
 					$Mensaje.="</tr>";						
 							$ArrFinos=array();
 							$Consulta="select * from scop_inventario t1 inner join scop_contratos t2 on t1.cod_contrato=t2.cod_contrato where t1.mes='".$Mes."' and t1.cod_estado='2' $TipoCon $Dato";
-							$Resp=mysql_query($Consulta);$Contratos='';
+							$Resp=mysqli_query($link, $Consulta);$Contratos='';
 							while ($Fila=mysql_fetch_array($Resp))
 							{	
 								$Consulta2=" select * from scop_contratos t1 inner join scop_contratos_flujos t2 on t1.cod_contrato=t2.cod_contrato where t2.cod_contrato='".$Fila["cod_contrato"]."' and t2.tipo_inventario='4'";
@@ -783,7 +783,7 @@ function ColorGrilla($Cont)
 function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$ArrFinos,$i)
 {
 	$Consulta="select * from scop_contratos_flujos where cod_contrato='".$Contrato."' and  tipo_inventario='".$i."' and flujo='".$CodFlujo."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		if($Fila[tipo_inventario]=='1')
@@ -803,7 +803,7 @@ function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$A
 		$Flujo= $Fila["flujo"];
 		$Consulta="select cobre,plata,oro from scop_datos_enabal where ano='".$AnoFlujo."' and cod_flujo='".$Flujo."' and origen='".$TipoFlujo."' and tipo_mov='".$TipoMovimiento."' and tipo_dato='F'";		
 		$Consulta.=" and mes='".$MesFlujo."'";
-		$RespValor=mysql_query($Consulta);
+		$RespValor=mysqli_query($link, $Consulta);
 		while($FilaValor=mysql_fetch_array($RespValor))
 		{
 			$Cu=$FilaValor[cobre];

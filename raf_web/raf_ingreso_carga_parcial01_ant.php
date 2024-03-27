@@ -29,7 +29,7 @@ if ($row  = mysql_fetch_array($rs))
 if($Proceso == "G")
 {
 	$Consulta = "SELECT * FROM raf_web.movimientos WHERE right(hornada,4) = $Hornada";
-	$resp = mysql_query($Consulta);
+	$resp = mysqli_query($link, $Consulta);
 	$Row = mysql_fetch_array($resp);
 	$hornada = $Row["hornada"];
 
@@ -140,7 +140,7 @@ if($Proceso == "G")
 if($Proceso == "M")
 {	
 	$Consulta = "SELECT * FROM raf_web.movimientos WHERE right(hornada,4) = $Hornada";
-	$resp = mysql_query($Consulta);
+	$resp = mysqli_query($link, $Consulta);
 	$Row = mysql_fetch_array($resp);
 	$hornada = $Row["hornada"];
 
@@ -254,7 +254,7 @@ if($Proceso == "C")
 {
 	$Consulta = "SELECT * FROM raf_web.movimientos WHERE right(hornada,4) = $Hornada"; 
 	$Consulta.= " ORDER BY cod_producto,cod_subproducto";
-	$resp = mysql_query($Consulta);
+	$resp = mysqli_query($link, $Consulta);
 	while($fila = mysql_fetch_array($resp))
 	{
 
@@ -263,7 +263,7 @@ if($Proceso == "C")
 		$Consulta.= " AND cod_producto = $fila["cod_producto"]";
 		$Consulta.= " AND cod_subproducto = $fila[cod_subproducto]";
 		$Consulta.= " AND hornada_sea = $fila[hornada_sea]";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		if($Fila = mysql_fetch_array($rs)) 
 		{
 			$Actualiza = "UPDATE raf_web.movimientos SET unidades = $Fila["unidades"], peso = $Fila["peso"]";
@@ -287,7 +287,7 @@ if($Proceso == "C")
 	}
 
 	$Consulta = "SELECT estado FROM raf_web.movimientos WHERE right(hornada,4) = $Hornada"; 
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	$Fil = mysql_fetch_array($rs);
 	
 	if($Fil[estado] == "A")

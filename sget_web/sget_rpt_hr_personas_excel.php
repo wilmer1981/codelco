@@ -37,7 +37,7 @@ if($Buscar=='S')
 		$Consulta.=" and  t1.cod_contrato='".$CmbContrato."' ";
 	$Consulta.="group by t1.num_hoja_ruta ORDER BY t1.num_hoja_ruta DESC";	
 	//echo $Consulta;
-	$Resp = mysql_query($Consulta);$TotPers=0;
+	$Resp = mysqli_query($link, $Consulta);$TotPers=0;
 	$cont=1;
 	while ($Fila_HR=mysql_fetch_array($Resp))
 	{

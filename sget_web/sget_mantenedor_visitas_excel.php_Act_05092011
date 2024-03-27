@@ -134,7 +134,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				  <?
 					$Consulta="SELECT * from sget_visitas_tmp where corr_visita<>'' and rut_registro_solicita='".$CookieRut."'";
 					$Consulta.=" order by apellido_paterno,apellido_materno,nombres";	
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					//echo $Consulta;
 					$Cont=1;
 					if($Fila=mysql_fetch_array($Resp))
@@ -159,7 +159,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					  <?
 						$Consulta="SELECT * from sget_visitas_tmp where corr_visita<>'' and rut_registro_solicita='".$CookieRut."'";
 						$Consulta.=" order by apellido_paterno,apellido_materno,nombres";	
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						//echo $Consulta;
 						$Cont=1;
 						while ($Fila=mysql_fetch_array($Resp))

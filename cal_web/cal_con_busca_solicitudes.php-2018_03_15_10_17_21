@@ -5,7 +5,7 @@ set_time_limit(1000);
 
 $Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
 //echo "Consulta".$Consulta;
-$Respuesta = mysql_query($Consulta);
+$Respuesta = mysqli_query($link, $Consulta);
 $Fila=mysql_fetch_array($Respuesta);
 $Nivel=$Fila["nivel"];
 ?>
@@ -132,7 +132,7 @@ function Imprimir()
               
     <?  
 				$Consulta = "select * from sub_clase where cod_clase = 2 order by valor_subclase1";
-				$Respuesta= mysql_query($Consulta);
+				$Respuesta= mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Respuesta))
 				{
 					if ($CmbPeriodo == $Fila["cod_subclase"])
@@ -224,7 +224,7 @@ function Imprimir()
 	}
 	$Consulta.= " order by t2.cod_leyes ";
 	//echo "uno".$Consulta."<br>";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$LargoArreglo = 0;
 	while ($Row = mysql_fetch_array($Respuesta))
 	{
@@ -274,7 +274,7 @@ function Imprimir()
 	$Consulta.= " order by nro_solicitud,recargo_ordenado";
 	//echo "dos".$Consulta."<br>";
 	$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Row = mysql_fetch_array($Respuesta))
 	{
 		echo "<tr align='left' valign='middle'>\n";
@@ -307,7 +307,7 @@ function Imprimir()
 			//echo $Row["nro_solicitud"]."-".$Row["recargo"]."</td>\n";
 		}
 		$Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase = 1004 and cod_subclase = '".$Row["agrupacion"]."'";
-		$Resp1=mysql_query($Consulta);
+		$Resp1=mysqli_query($link, $Consulta);
 		$Fil1=mysql_fetch_array($Resp1);
 		echo "<td>".$Fil1["nombre_subclase"]."</td>\n";
 		echo "<td>".$Row["id_muestra"]."</td>\n";
@@ -333,7 +333,7 @@ function Imprimir()
 			$Consulta.= " and recargo = '".$Row["recargo"]."'";
 		}
 		//echo "tre".$Consulta."<br>";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);  
 		echo "<td align ='center'>".$Fila[AbrevProducto]."</td>";
 		echo "<td align = 'center'>".$Fila[AbrevSubProducto]."</td>";
@@ -348,7 +348,7 @@ function Imprimir()
 		if (is_null($Row["recargo"]) || ($Row["recargo"] == ""))
 			$Consulta = $Consulta;
 		else	$Consulta.= " and recargo = '".$Row["recargo"]."'";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Row2 = mysql_fetch_array($Resp))
 			echo "<td>".$Row2["nombre_subclase"]."</td>\n";
 		else	echo "<td>&nbsp;</td>\n";
@@ -367,7 +367,7 @@ function Imprimir()
 			}
 			$Consulta.= " and t1.cod_leyes = '".$ArregloLeyes[$i][0]."'";
 			//echo "mmm".$Consulta."</br>";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Row2 = mysql_fetch_array($Resp))
 			{
 				if ((is_null($Row2[valor])) || ($Row2[valor] == ""))
@@ -437,7 +437,7 @@ function Imprimir()
 			$Consulta.=" and (t1.cod_periodo = '".$CmbPeriodo."') ";
 		}
 		//echo "vvv".$Consulta;
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		$Row = mysql_fetch_array($Respuesta);
 		$Coincidencias = $Row["total_registros"];
 		$NumPaginas = ($Coincidencias / $LimitFin);

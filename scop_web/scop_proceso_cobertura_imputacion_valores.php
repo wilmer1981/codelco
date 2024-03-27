@@ -403,7 +403,7 @@ function Valores($Ano,$Mes,$CoPlOr)
    }						   					 
 	$Consulta="select distinct t1.corr,t1.parcializacion,t1.ano,t1.mes,t1.estado,t2.cod_contratos,t3.cod_tipo_contr from scop_carry_cost t1 inner join scop_carry_cost_por_contratos t2 on t1.corr=t2.corr";
 	$Consulta.=" inner join scop_contratos t3 on t2.cod_contratos=t3.cod_contrato where t1.ano='".$Ano."' and t1.mes='".$Mes."' and t1.estado in ('5') and t3.vigente='1' group by corr,parcializacion,ano,mes";					
-	$Resp = mysql_query($Consulta);$ED=0;
+	$Resp = mysqli_query($link, $Consulta);$ED=0;
 	while($Fila=mysql_fetch_assoc($Resp))
 	{	
 		ValoresInventarioValidado($Fila["corr"],$Fila["ano"],$Fila["mes"],$Fila[parcializacion],$CmbAcuerdo,$TipoEst,&$ArrInventario);
@@ -464,7 +464,7 @@ function ValoresInventarioValidado($Corr,$Ano,$Mes,$Parci,$Acuerdo,$TipoEst,$Arr
 {
 	$Parcializar=$Corr."~".$Parci."~".$Ano."~".$Mes;
 	$Consulta="select * from scop_carry_cost where corr='".$Corr."' and parcializacion='".$Parci."' and ano='".$Ano."' and mes='".$Mes."'";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		if($Fila["estado"]=='2')
@@ -472,7 +472,7 @@ function ValoresInventarioValidado($Corr,$Ano,$Mes,$Parci,$Acuerdo,$TipoEst,$Arr
 		else	
 			$Datos='N';
 		$Consulta="select * from scop_carry_cost_proceso where corr='".$Fila["corr"]."' and parcializacion='".$Fila[parcializacion]."' and cod_tipo_titulo='1'";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($Fila["cod_ley"]==1)
@@ -491,7 +491,7 @@ function ValoresCarryCost($Corr,$Parci,$Ano,$Mes,$Acuerdo,$TipoEst,$ArrCarry)
 {
 	$ArrCarry[1][Cu]=0;$ArrCarry[2][Ag]=0;$ArrCarry[3][Au]=0;
 	$Consulta="select * from scop_carry_cost where corr='".$Corr."' and parcializacion='".$Parci."' and ano='".$Ano."' and mes='".$Mes."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{				
 		if($Fila["estado"]=='5')
@@ -518,7 +518,7 @@ function ValoresCarryCost($Corr,$Parci,$Ano,$Mes,$Acuerdo,$TipoEst,$ArrCarry)
 function ValorPreciosOperacionesAcuerdo($Corr,$Parci,$CmbAcuerdo,$Ano,$Mes,$TipoEst,$ArrPrecios2)
 {
 	$Consulta="select corr,acuerdo_contractual,tipo_cobertura,precio_fijo_cu,precio_fijo_ag,precio_fijo_au,estado from scop_carry_cost where corr='".$Corr."' and parcializacion='".$Parci."' and ano='".$Ano."' and mes='".$Mes."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		$Corr=$Fila["corr"];
@@ -527,19 +527,19 @@ function ValorPreciosOperacionesAcuerdo($Corr,$Parci,$CmbAcuerdo,$Ano,$Mes,$Tipo
 			if($Fila[tipo_cobertura]==1||$Fila[tipo_cobertura]==2)//PRECIO FIJO
 			{
 				$Consulta="select t2.acuerdo_cu from scop_carry_cost_por_contratos t1 inner join scop_contratos t2 on t1.cod_contratos=t2.cod_contrato where corr='".$Corr."' and tipo_cu='2' and t2.vigente='1'";
-				$Resp=mysql_query($Consulta);$CantidadCu=0;
+				$Resp=mysqli_query($link, $Consulta);$CantidadCu=0;
 				while($Fila=mysql_fetch_array($Resp))
 						$CantidadCu=$CantidadCu+$Fila[acuerdo_cu];
 				$ValorCobre=$CantidadCu;
 				
 				$Consulta="select t2.acuerdo_ag from scop_carry_cost_por_contratos t1 inner join scop_contratos t2 on t1.cod_contratos=t2.cod_contrato where corr='".$Corr."' and tipo_ag='2' and t2.vigente='1'";
-				$Resp=mysql_query($Consulta);$CantidadAg=0;
+				$Resp=mysqli_query($link, $Consulta);$CantidadAg=0;
 				while($Fila=mysql_fetch_array($Resp))
 						$CantidadAg=$CantidadAg+$Fila[acuerdo_ag];
 				$ValorPLata=$CantidadAg;
 				
 				$Consulta="select t2.acuerdo_au from scop_carry_cost_por_contratos t1 inner join scop_contratos t2 on t1.cod_contratos=t2.cod_contrato where corr='".$Corr."' and tipo_au='2' and t2.vigente='1'";
-				$Resp=mysql_query($Consulta);$CantidadAu=0;
+				$Resp=mysqli_query($link, $Consulta);$CantidadAu=0;
 				while($Fila=mysql_fetch_array($Resp))
 						$CantidadAu=$CantidadAu+$Fila[acuerdo_au];
 				$ValorOro=$CantidadAu;
@@ -571,7 +571,7 @@ function ValorPreciosOperacionesAcuerdo($Corr,$Parci,$CmbAcuerdo,$Ano,$Mes,$Tipo
 				}
 				//CONSULTO EL VALOR CON EL QP INGRESADO
 				$Consulta="select * from scop_precios_metales where ano='".$AnoAux."' and mes='".$MesDeEntregaValor."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					if($Fila["cod_ley"]==1)
@@ -592,7 +592,7 @@ function ValorPreciosOperacionesAcuerdo($Corr,$Parci,$CmbAcuerdo,$Ano,$Mes,$Tipo
 function ValorPreciosOperacionesAcuerdoQp($Corr,$Parci,$Ano,$Mes,$TipoEst,$ArrPrecios)
 {
 	$Consulta="select corr,acuerdo_contractual,tipo_cobertura,acuerdo_contractual_qp_cu,acuerdo_contractual_qp_ag,acuerdo_contractual_qp_au,precio_fijo_cu,precio_fijo_ag,precio_fijo_au,estado from scop_carry_cost where corr='".$Corr."' and parcializacion='".$Parci."' and ano='".$Ano."' and mes='".$Mes."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		$MesSumaCu=$Fila[acuerdo_contractual_qp_cu]+$Mes;
@@ -651,20 +651,20 @@ function ValorPreciosOperacionesAcuerdoQp($Corr,$Parci,$Ano,$Mes,$TipoEst,$ArrPr
 			{		
 				//CONSULTO EL VALOR CON EL QP INGRESADO
 				$Consulta="select * from scop_precios_metales where ano='".$AnoAux."' and mes='".$MesDeEntregaValorCu."' and cod_ley='1'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$ValorCobre=$ValorCobre+$Fila["valor"];
 				else
 					$ValorCobre=$ValorCobre+0;
 				$Consulta="select * from scop_precios_metales where ano='".$AnoAux."' and mes='".$MesDeEntregaValorAg."' and cod_ley='2'";
 				//echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$ValorPLata=$ValorPLata+$Fila["valor"];
 				else
 					$ValorPLata=$ValorPLata+0;	
 				$Consulta="select * from scop_precios_metales where ano='".$AnoAux."' and mes='".$MesDeEntregaValorAu."' and cod_ley='3'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$ValorOro=$ValorOro+$Fila["valor"];
 				else
@@ -685,14 +685,14 @@ function ValorPreciosOperacionesAcuerdoQp($Corr,$Parci,$Ano,$Mes,$TipoEst,$ArrPr
 function ValorEstados($Corr,$Parci,$Ano,$Mes,$TipoEst)
 {
 	$Consulta="select ano,mes,acuerdo_contractual_qp from scop_carry_cost where corr='".$Corr."' and parcializacion='".$Parci."' and ano='".$Ano."' and mes='".$Mes."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{	
 			$Acuerdo_contractual_qp=$Fila[acuerdo_contractual_qp];	
 			$MesDeEntregaValor=$Mes+$Acuerdo_contractual_qp;
 			$Consulta="select * from scop_precios_metales where ano='".$Fila["ano"]."' and mes='".$MesDeEntregaValor."'";
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);$Existe='';
+			$Resp=mysqli_query($link, $Consulta);$Existe='';
 			if($Fila=mysql_fetch_array($Resp))
 					$Existe=1;
 	}

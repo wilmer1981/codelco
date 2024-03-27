@@ -10,7 +10,7 @@ switch($Proceso)
 	case "AG"://AGREGA CABECERA
 	
 		$Consulta="SELECT max(num_hoja_ruta) as num_hoja from sget_hoja_ruta ";
-		$RespSolp=mysql_query($Consulta);
+		$RespSolp=mysqli_query($link, $Consulta);
 		if($FilaHoja=mysql_fetch_array($RespSolp))
 		{
 			if (substr($FilaHoja["num_hoja"],0,4) == date("Y"))
@@ -28,7 +28,7 @@ switch($Proceso)
 		Registra_Estados($TxtHoja,$Fecha_Creacion,$Rut,'11','1','','E');
 		$Consulta = "SELECT * from sget_hitos ";
 		$Consulta.=" where cod_sistema='30' and cod_pantalla IN ('14','15','16','18')  ";
-		$RespH = mysql_query($Consulta);
+		$RespH = mysqli_query($link, $Consulta);
 		while ($FilaH=mysql_fetch_array($RespH))
 		{
 			$Inserta="INSERT INTO sget_hoja_ruta_hitos (num_hoja_ruta,cod_hito)";
@@ -47,7 +47,7 @@ switch($Proceso)
 	case "AN"://AGREGA NOMINA
 
 		$Consulta="SELECT * from sget_hoja_ruta_nomina where num_hoja_ruta ='".$TxtHoja."' and rut_personal='".$TxtRut."'";
-		$RespExi=mysql_query($Consulta);
+		$RespExi=mysqli_query($link, $Consulta);
 	//	echo "RR".$Consulta;
 		if(!$Fila=mysql_fetch_array($RespExi))
 		{	
@@ -56,7 +56,7 @@ switch($Proceso)
 			mysql_query($Inserta);	
 		}
 		$Consulta="SELECT * from sget_personal where rut ='".$TxtRut."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 				if($TxtFechaCert=='')
@@ -84,7 +84,7 @@ switch($Proceso)
 					}
 				}
 				$Consulta="SELECT * from sget_personal_historia where cod_contrato='".$CmbContrato."' and rut_empresa='".$CmbEmpresa."' and rut='".$TxtRut."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Resp))
 				{	
 					$Actualizar="UPDATE sget_personal_historia set activo='N' where rut='".$TxtRut."'";  
@@ -139,7 +139,7 @@ switch($Proceso)
 		$Consulta="SELECT * from sget_personal where rut ='".str_pad(trim($TxtRutPer),10,'0',STR_PAD_LEFT)."' ";
 		//echo "NN".$Consulta;
 		$FechaSistema=date('Y-m-d');
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Existe=false;
 		if($Fila=mysql_fetch_array($Resp))
 		{
@@ -159,7 +159,7 @@ switch($Proceso)
 			if($Existe==true)
 			{
 				$Consulta="SELECT * from sget_hoja_ruta_nomina where num_hoja_ruta ='".$TxtHoja."' and rut_personal='".str_pad(trim($TxtRutPer),10,'0',STR_PAD_LEFT)."'";
-				$RespExi=mysql_query($Consulta);
+				$RespExi=mysqli_query($link, $Consulta);
 					//echo "ggggg".$Consulta;
 				if(!$Fila2=mysql_fetch_array($RespExi))
 				{	
@@ -202,7 +202,7 @@ switch($Proceso)
 	break;
 	case "MH":
 		$Consulta="SELECT * from sget_hoja_ruta where num_hoja_ruta='".$TxtHoja."'  ";
-		$RespSolp=mysql_query($Consulta);
+		$RespSolp=mysqli_query($link, $Consulta);
 		if($FilaHoja=mysql_fetch_array($RespSolp))
 		{
 			$Contrato=$FilaHoja[num_hoja_ruta];

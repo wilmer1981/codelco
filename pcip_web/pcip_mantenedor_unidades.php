@@ -44,7 +44,7 @@ function Proceso(Opc)
 		case "E":
 			if(SoloUnElemento(f.name,'CheckTipoDoc','E'))
 			{
-				mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
+				mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
 				if(mensaje==true)
 				{
 					Datos=Recuperar(f.name,'CheckTipoDoc');
@@ -96,7 +96,7 @@ function Proceso(Opc)
 				  <option value="T" selected="selected">Todas</option>
 				  <?
 				  $Consulta = "select * from pcip_unidades";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($FilaTC=mysql_fetch_array($Resp))
 					{
 						if ($CmbUnidad==$FilaTC["cod_unidad"])
@@ -113,7 +113,7 @@ function Proceso(Opc)
 		   <option value="T" selected="selected">Todas</option>
 		    <?
 		    $Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='31007' order by nombre_subclase ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbVig==$FilaTC["cod_subclase"])
@@ -167,7 +167,7 @@ if($Buscar=='S')
 	    $Consulta.=" and  t1.vigente ='".$CmbVig."'";
 	
 	$Consulta.= " order by cod_unidad,nom_unidad ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	

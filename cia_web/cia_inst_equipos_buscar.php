@@ -91,20 +91,20 @@ switch ($Valida)
 	if ($Valida!="T")
 		$Consulta.= " where validado='".$Valida."' ";
 	$Consulta.= " order by nom_pc";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))	  
 	{
 		echo "<tr>\n";
 		echo "<td><input name=\"ChkEquipo\" type=\"radio\" value=\"".$Fila["cod_equipo"]."\" onClick=\"Recarga('".$Fila["cod_equipo"]."')\"></td>\n";
 		$Consulta = "select * from proyecto_modernizacion.funcionarios where rut='".$Fila["usuario"]."'";
-		$RespAux=mysql_query($Consulta);
+		$RespAux=mysqli_query($link, $Consulta);
 		if ($FilaAux=mysql_fetch_array($RespAux))
 			$NomUser=strtoupper($FilaAux["apellido_paterno"])." ".strtoupper(substr($FilaAux["apellido_materno"],0,1)).". ".strtoupper($FilaAux["nombres"]);
 		else
 			$NomUser=$Fila["usuario"];
 		$Consulta = "select * from ins_equipo.detalle_equipo where cod_equipo='".$Fila["cod_equipo"]."' ";
 		$Consulta.= " and (cod_clase='18902' or cod_clase='18903')";
-		$RespAux=mysql_query($Consulta);
+		$RespAux=mysqli_query($link, $Consulta);
 		$SerieCpu="";
 		$SerieMoni="";
 		while ($FilaAux=mysql_fetch_array($RespAux))

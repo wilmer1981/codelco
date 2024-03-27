@@ -21,7 +21,7 @@ if ($Opc=='M')
 {
 	$Consulta="select * from pcip_svp_productos_etapas t1 ";
 	$Consulta.=" where t1.cod_producto_etapa='".$Valores."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["cod_producto_etapa"];
@@ -33,7 +33,7 @@ if ($Opc=='M')
 else
 {
 	$Consulta="select max(cod_producto_etapa+1) as maximo from pcip_svp_productos_etapas ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	if($Fila=mysql_fetch_array($Resp))
 	{
@@ -173,7 +173,7 @@ if ($Opc=='N')
 			  <option value="-1" selected="selected">Seleccionar</option>
 			  <?
 			  $Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='31002' order by nombre_subclase ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbTipo==$FilaTC["cod_subclase"])
@@ -191,7 +191,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])

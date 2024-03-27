@@ -117,7 +117,7 @@ function Proceso(opc)
 	    $Consulta.= " AND ((left(fecha_carga,10) = '$Fecha'  AND turno IN ('A','B'))";
 	    $Consulta.= " OR (left(fecha_carga,10) = '$Fecha_Post'  AND turno = 'C'))";		
 		$Consulta.= " ORDER BY cod_producto,cod_subproducto";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		echo'<tr class="ColorTabla02">';
 			echo'<td><b>BLISTER</b>';			
 			echo'</td>';
@@ -132,7 +132,7 @@ function Proceso(opc)
 			  // --------------TURNO A	
 		    echo'<tr>';
 	          $Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
-			  $res = mysql_query($Consulta);
+			  $res = mysqli_query($link, $Consulta);
 			  $Fila = mysql_fetch_array($res); 			
 		      echo'<td>'.$Fila["abreviatura"].'&nbsp;</td>';
 
@@ -140,14 +140,14 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND ((left(fecha_carga,10) < '$Fecha'  AND turno IN ('A','B'))";
 			  $Consulta.= " OR (left(fecha_carga,10) <= '$Fecha'  AND turno = 'C'))";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($result); 
 
 	          $Consulta = "SELECT sum(unidades) as unid,sum(peso) as pes FROM raf_web.det_carga";
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND ((left(fecha,10) < '$Fecha'  AND turno IN ('A','B'))";
 			  $Consulta.= " OR (left(fecha,10) <= '$Fecha'  AND turno = 'C'))";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $fila2 = mysql_fetch_array($result); 
 			  
 			  $StockUnid = $fila[unid] - $fila2[unid];			
@@ -160,7 +160,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND left(fecha_carga,10) = '$Fecha'";
 			  $Consulta.= " AND turno = 'A'";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($result); 			
 
 		      echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
@@ -172,7 +172,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 1 AND right(hornada,4) LIKE '1%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result1 = mysql_query($Consulta);
+			  $result1 = mysqli_query($link, $Consulta);
 			  $Fil1 = mysql_fetch_array($result1); 
 		      echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -183,7 +183,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 1 AND right(hornada,4) LIKE '2%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result2 = mysql_query($Consulta);
+			  $result2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($result2); 
 		      echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';
@@ -202,7 +202,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND turno = 'B'";
 			  $Consulta.= " AND left(fecha_carga,10) = '$Fecha'";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($result); 			
 
 		      echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
@@ -214,7 +214,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 2 AND right(hornada,4) LIKE '1%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result1 = mysql_query($Consulta);
+			  $result1 = mysqli_query($link, $Consulta);
 			  $Fil1 = mysql_fetch_array($result1); 
 		      echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -225,7 +225,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 2 AND right(hornada,4) LIKE '2%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result2 = mysql_query($Consulta);
+			  $result2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($result2); 
 		      echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';
@@ -244,7 +244,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND turno = 'C'";
 			  $Consulta.= " AND left(fecha_carga,10) = '$Fecha_Post'";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($result); 			
 		      echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil[pes].'&nbsp;</td>';
@@ -255,7 +255,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 3 AND right(hornada,4) LIKE '1%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha_Post'";
-			  $result1 = mysql_query($Consulta);
+			  $result1 = mysqli_query($link, $Consulta);
 			  $Fil1 = mysql_fetch_array($result1); 
 		      echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -266,7 +266,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 3 AND right(hornada,4) LIKE '2%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha_Post'";
-			  $result2 = mysql_query($Consulta);
+			  $result2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($result2); 
 		      echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';
@@ -291,7 +291,7 @@ function Proceso(opc)
 	    $Consulta.= " AND ((left(fecha_carga,10) = '$Fecha'  AND turno IN ('A','B'))";
 	    $Consulta.= " OR (left(fecha_carga,10) = '$Fecha_Post'  AND turno = 'C'))";		
 		$Consulta.= " ORDER BY grupo";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 
 		echo'<tr class="ColorTabla02">';
 			echo'<td><b>RESTOS</b>';			
@@ -312,14 +312,14 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND ((left(fecha_carga,10) < '$Fecha'  AND turno IN ('A','B'))";
 			  $Consulta.= " OR (left(fecha_carga,10) <= '$Fecha'  AND turno = 'C'))";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($result); 
 
 	          $Consulta = "SELECT sum(unidades) as unid,sum(peso) as pes FROM raf_web.det_carga";
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND ((left(fecha,10) < '$Fecha'  AND turno IN ('A','B'))";
 			  $Consulta.= " OR (left(fecha,10) <= '$Fecha'  AND turno = 'C'))";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $fila2 = mysql_fetch_array($result); 
 			  
 			  $StockUnid = $fila[unid] - $fila2[unid];			
@@ -332,7 +332,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND left(fecha_carga,10) = '$Fecha'";
 			  $Consulta.= " AND turno = 'A'";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($result); 			
 
 		      echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
@@ -344,7 +344,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND nro_carga = 1 AND right(hornada,4) LIKE '1%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result1 = mysql_query($Consulta);
+			  $result1 = mysqli_query($link, $Consulta);
 			  $Fil1 = mysql_fetch_array($result1); 
 		      echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -355,7 +355,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND nro_carga = 1 AND right(hornada,4) LIKE '2%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result2 = mysql_query($Consulta);
+			  $result2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($result2); 
 		      echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';
@@ -374,7 +374,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND turno = 'B'";
 			  $Consulta.= " AND left(fecha_carga,10) = '$Fecha'";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($result); 			
 
 		      echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
@@ -386,7 +386,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND nro_carga = 2 AND right(hornada,4) LIKE '1%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result1 = mysql_query($Consulta);
+			  $result1 = mysqli_query($link, $Consulta);
 			  $Fil1 = mysql_fetch_array($result1); 
 		      echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -397,7 +397,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND nro_carga = 2 AND right(hornada,4) LIKE '2%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result2 = mysql_query($Consulta);
+			  $result2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($result2); 
 		      echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';
@@ -416,7 +416,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND turno = 'C'";
 			  $Consulta.= " AND left(fecha_carga,10) = '$Fecha_Post'";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($result); 			
 		      echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil[pes].'&nbsp;</td>';
@@ -427,7 +427,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND nro_carga = 3 AND right(hornada,4) LIKE '1%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha_Post'";
-			  $result1 = mysql_query($Consulta);
+			  $result1 = mysqli_query($link, $Consulta);
 			  $Fil1 = mysql_fetch_array($result1); 
 		      echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -438,7 +438,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE grupo = $row["grupo"]";
 			  $Consulta.= " AND nro_carga = 3 AND right(hornada,4) LIKE '2%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha_Post'";			  
-			  $result2 = mysql_query($Consulta);
+			  $result2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($result2); 
 		      echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';
@@ -463,7 +463,7 @@ function Proceso(opc)
 	    $Consulta.= " AND ((left(fecha_carga,10) = '$Fecha'  AND turno IN ('A','B'))";
 	    $Consulta.= " OR (left(fecha_carga,10) = '$Fecha_Post'  AND turno = 'C'))";		
 		$Consulta.= " ORDER BY cod_producto,cod_subproducto";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		echo'<tr class="ColorTabla02">';
 			echo'<td><b>CIRCULANTES</b>';			
 			echo'</td>';
@@ -478,7 +478,7 @@ function Proceso(opc)
 			  // ------------ TURNO A	
 		    echo'<tr>';
 	          $Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
-			  $res = mysql_query($Consulta);
+			  $res = mysqli_query($link, $Consulta);
 			  $Fila = mysql_fetch_array($res); 			
 		      echo'<td>'.$Fila["abreviatura"].'&nbsp;</td>';
 
@@ -486,14 +486,14 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND ((left(fecha_carga,10) < '$Fecha'  AND turno IN ('A','B'))";
 			  $Consulta.= " OR (left(fecha_carga,10) <= '$Fecha'  AND turno = 'C'))";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $fila = mysql_fetch_array($result); 
 
 	          $Consulta = "SELECT sum(unidades) as unid,sum(peso) as pes FROM raf_web.det_carga";
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND ((left(fecha,10) < '$Fecha'  AND turno IN ('A','B'))";
 			  $Consulta.= " OR (left(fecha,10) <= '$Fecha'  AND turno = 'C'))";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $fila2 = mysql_fetch_array($result); 
 			  
 			  $StockUnid = $fila[unid] - $fila2[unid];			
@@ -506,7 +506,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND left(fecha_carga,10) = '$Fecha'";
 			  $Consulta.= " AND turno = 'A'";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($result); 			
 
 		      echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
@@ -518,7 +518,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 1 AND right(hornada,4) LIKE '1%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result1 = mysql_query($Consulta);
+			  $result1 = mysqli_query($link, $Consulta);
 			  $Fil1 = mysql_fetch_array($result1); 
 		      echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -529,7 +529,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 1 AND right(hornada,4) LIKE '2%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result2 = mysql_query($Consulta);
+			  $result2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($result2); 
 		      echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';
@@ -548,7 +548,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND turno = 'B'";
 			  $Consulta.= " AND left(fecha_carga,10) = '$Fecha'";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($result); 			
 
 		      echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
@@ -560,7 +560,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 2 AND right(hornada,4) LIKE '1%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result1 = mysql_query($Consulta);
+			  $result1 = mysqli_query($link, $Consulta);
 			  $Fil1 = mysql_fetch_array($result1); 
 		      echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -571,7 +571,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 2 AND right(hornada,4) LIKE '2%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha'";
-			  $result2 = mysql_query($Consulta);
+			  $result2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($result2); 
 		      echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';
@@ -590,7 +590,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND turno = 'C'";
 			  $Consulta.= " AND left(fecha_carga,10) = '$Fecha_Post'";
-			  $result = mysql_query($Consulta);
+			  $result = mysqli_query($link, $Consulta);
 			  $Fil = mysql_fetch_array($result); 			
 		      echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil[pes].'&nbsp;</td>';
@@ -601,7 +601,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 3 AND right(hornada,4) LIKE '1%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha_Post'";
-			  $result1 = mysql_query($Consulta);
+			  $result1 = mysqli_query($link, $Consulta);
 			  $Fil1 = mysql_fetch_array($result1); 
 		      echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -612,7 +612,7 @@ function Proceso(opc)
 			  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 			  $Consulta.= " AND nro_carga = 3 AND right(hornada,4) LIKE '2%'";	
 			  $Consulta.= " AND left(fecha,10) = '$Fecha_Post'";
-			  $result2 = mysql_query($Consulta);
+			  $result2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysql_fetch_array($result2); 
 		      echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 		      echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';

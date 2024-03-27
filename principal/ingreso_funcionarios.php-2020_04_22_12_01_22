@@ -194,7 +194,7 @@ function Salir()
 		echo "<select name='CmbCCosto' style='width:320' onchange=Recarga('')>";
 		echo "<option value='-1'>SELECCIONAR</option>";
 		$Consulta="select * from proyecto_modernizacion.centro_costo order by CENTRO_COSTO";
-		$Resultado=mysql_query($Consulta);
+		$Resultado=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resultado))
 		{
 			if ($CmbCCosto==$Fila[CENTRO_COSTO])
@@ -248,7 +248,7 @@ function Salir()
 				$Consulta="select * from proyecto_modernizacion.funcionarios where apellido_paterno like '".$TxtApePaterno."%' order by apellido_paterno";
 				break;
 		}
-		$Resultado=mysql_query($Consulta);
+		$Resultado=mysqli_query($link, $Consulta);
 		echo "<input type='hidden' name='CheckCod'>";
 		while ($Fila=mysql_fetch_array($Resultado))
 		{

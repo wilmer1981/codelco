@@ -1,6 +1,12 @@
 <?php
-	include_once('config.inc.php');
+	//include_once('config.inc.php');
 	//include_once('config.php');
+	$Server= $_SERVER['SERVER_NAME'];
+	if($Server=="localhost"){
+		include_once('config.inc.php');
+	}else{
+		include_once('config.php');
+	}
 
 	//////// agregado por WSO //////////
 	

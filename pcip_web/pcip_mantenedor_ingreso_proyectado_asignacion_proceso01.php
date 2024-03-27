@@ -10,7 +10,7 @@ switch($Opcion)
 				$MensajeExiste=false;
 				$Consulta= " select cod_producto,cod_proveedor,VPorden from pcip_inp_asignacion  where dato='".$CmbDatos."' and cod_producto='".$CmbProducto."' and cod_proveedor='".$CmbProveedores."' and VPorden='".$CmbOrden."'";
 				//echo $Consulta;
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Resp))
 				{		
 					if($CmbOrdenRel=='-1')
@@ -42,7 +42,7 @@ switch($Opcion)
 				$MensajeExiste=false;
 				$Consulta= " select * from pcip_inp_asignacion  where dato='".$CmbDatos."' and cod_producto='".$CmbProducto."' and cod_proveedor='".$CmbProveedores."' and VPorden='".$CmbProd."' and VPtm='".$CmbAsig."' and VPmaterial='".$CmbNegocio."' and VPtipinv='".$CmbTitulo."'";
 				//echo $Consulta;
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Resp))
 				{		
 					$Mensaje1=false;

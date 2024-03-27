@@ -33,7 +33,7 @@ switch($Opcion)
 			if($v=='')
 				$v=0;
 			$Consulta="select * from pcip_eec_suministros_detalle where cod_suministro='".$Cod[1]."' and  ano='".$Cod[2]."' and mes='".$Mes."' and tipo='V'";	
-			$RespMes=mysql_query($Consulta);
+			$RespMes=mysqli_query($link, $Consulta);
 			if($FilaMes=mysql_fetch_array($RespMes))
 			{
 				$Actualizar="UPDATE pcip_eec_suministros_detalle set valor='".str_replace(',','.',$v)."' where cod_suministro='".$Cod[1]."' and  ano='".$Cod[2]."' and mes='".$Mes."' and tipo='V'";	

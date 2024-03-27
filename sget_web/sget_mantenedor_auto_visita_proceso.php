@@ -2,7 +2,7 @@
 
 
 	$Consulta="SELECT * from sget_visitas where corr_visita = '".$RechazaVis."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtObsAutoriza=$Fila["observacion_autoriza"];

@@ -96,7 +96,7 @@ function Proceso(Opc)
 				  <option value="T" selected="selected">Todas</option>
 				  <?
 				  $Consulta = "select * from pcip_svp_productos_etapas order by cod_producto_etapa ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($FilaTC=mysql_fetch_array($Resp))
 					{
 						if ($CmbProd==$FilaTC["cod_producto_etapa"])
@@ -118,7 +118,7 @@ function Proceso(Opc)
 		  <option value="T" selected="selected">Todas</option>
 		  <?
 		  $Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='31002' order by nombre_subclase ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbTipo==$FilaTC["cod_subclase"])
@@ -135,7 +135,7 @@ function Proceso(Opc)
 		  <option value="T" selected="selected">Todas</option>
 		  <?
 		  $Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='31007' order by nombre_subclase ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbVig==$FilaTC["cod_subclase"])
@@ -195,7 +195,7 @@ if($Buscar=='S')
 	    $Consulta.=" and  t1.vigente ='".$CmbVig."'";
 	
 	$Consulta.= " order by t1.cod_producto_etapa,t1.nom_producto_etapa ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";	
 	while ($Fila=mysql_fetch_array($Resp))

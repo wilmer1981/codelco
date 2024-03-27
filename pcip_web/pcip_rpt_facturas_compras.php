@@ -134,7 +134,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
    <option value="T" class="NoSelec">Todos</option>
    <?
    $Consulta ="select distinct t1.cod_contrato,t2.nom_cliente from pcip_fac_compra t1 inner join pcip_fac_contratos_compra t2 on t1.cod_contrato=t2.cod_contrato and t1.rut_proveedor=t2.rut_proveedor";	 	
-   $Resp=mysql_query($Consulta);
+   $Resp=mysqli_query($link, $Consulta);
    while ($Fila=mysql_fetch_array($Resp))
    {
 		if ($CmbContrato==$Fila["cod_contrato"])
@@ -152,7 +152,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
    <option value="T" selected="selected">Todos</option>
    <?
    $Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31018'";			
-   $Resp=mysql_query($Consulta);
+   $Resp=mysqli_query($link, $Consulta);
    while ($Fila=mysql_fetch_array($Resp))
 	   {
 		if ($CmbTipo==$Fila["cod_subclase"])
@@ -170,7 +170,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
        <option value="T" selected="selected">Todos</option>
        <?
 	   $Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31031'";			
-	   $Resp=mysql_query($Consulta);
+	   $Resp=mysqli_query($link, $Consulta);
 	   while ($Fila=mysql_fetch_array($Resp))
 		   {
 			if ($CmbFactura==$Fila["cod_subclase"])
@@ -217,7 +217,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	<option value="T" class="NoSelec">Todos</option>
 	<?
 	$Consulta = "select t1.num_factura from pcip_fac_compra t1  ";
-	$Resp=mysql_query($Consulta);		
+	$Resp=mysqli_query($link, $Consulta);		
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CmbNumFact==$Fila["num_factura"])
@@ -233,7 +233,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
      <option value="T" class="NoSelec">Todos</option>
        <?
 	   $Consulta = "select cod_producto,nom_producto from pcip_fac_productos_facturas";
-	   $Resp=mysql_query($Consulta);
+	   $Resp=mysqli_query($link, $Consulta);
 	   while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$Fila["cod_producto"])
@@ -250,7 +250,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	   <?
 		$Consulta = "select distinct(cod_subclase),nombre_subclase from pcip_fac_compra t2 inner join";
 		$Consulta.= " proyecto_modernizacion.sub_clase t1 where t1.cod_clase='31017' and t2.tipo=t1.cod_subclase";							
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoContrato==$FilaTC["cod_subclase"])
@@ -403,7 +403,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				while(list($c,$v)=each($Datos))
 				{
 				   $Consulta = "select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31000' and cod_subclase='".$v."'";			
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while ($Fila=mysql_fetch_array($Resp))
 				   {
 						if($v=='5'||$v=='6'||$v=='7'||$v=='8'||$v=='9'||$v=='10'||$v=='11'||$v=='12'||$v=='13')
@@ -425,7 +425,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					 if($v=='5'||$v=='6'||$v=='7'||$v=='8'||$v=='9'||$v=='10'||$v=='11'||$v=='12'||$v=='13')
 					 {
 					   $Consulta = "select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31000' and cod_subclase='".$v."'";			
-					   $Resp=mysql_query($Consulta);
+					   $Resp=mysqli_query($link, $Consulta);
 					   while ($Fila=mysql_fetch_array($Resp))
 					   {
 						  echo"<td width='5%' align='center' class='TituloTablaVerde'>".ucfirst($Fila["nombre_subclase"])."</td>";	
@@ -482,7 +482,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.=" and t1.fecha_emision BETWEEN '".$FechaInicio."' AND '".$FechaTermino."'";
 				$Consulta.=" group by t1.codigo,t3.correlativo";
 				$Consulta.=" order by t1.fecha_emision,t1.num_factura";
-				$Resp=mysql_query($Consulta);				
+				$Resp=mysqli_query($link, $Consulta);				
 				//echo $Consulta."<br><br>";
 				while($Fila=mysql_fetch_array($Resp))
 				{						
@@ -736,7 +736,7 @@ function ValoresIn($Codigo,$Correlativo,$Contenido,$Fino,$Unidad)
 	$Consulta.=" and t1.cod_fino='".$Fino."'";
 	$Consulta.=" and t1.cod_unidad='".$Unidad."'";
 	//echo $Consulta."<br>";
-	$Respaux=mysql_query($Consulta);
+	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux=mysql_fetch_array($Respaux))
 	{
 		$Valor=$Filaaux["total"];		

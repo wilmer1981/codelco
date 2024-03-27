@@ -5,7 +5,7 @@
 	{
 		case "N"://INGRESO DE ASIGNACION 
 		    $Consulta=" consulta nom_asignacion from pcip_svp_negocios where nom_negocio='".strtoupper($TxtAsignacion)."'";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{	
 				$Inserta="insert into pcip_svp_negocios (cod_negocio,nom_negocio,orden,vigente,mostrar_asig,mostrar_ppc)";

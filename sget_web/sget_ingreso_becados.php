@@ -2,7 +2,7 @@
 $readonly="";
 $Titulo='Ingreso Becados';
 $Consulta="SELECT * from sget_personal where rut='".$Rut."'";
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 //echo $Consulta;
 if($Fila=mysql_fetch_array($Resp))
 {
@@ -11,7 +11,7 @@ if($Fila=mysql_fetch_array($Resp))
 if($Proceso=='M')
 {
 	$Consulta="SELECT * from sget_becados where rut_becado='".$RutBec."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtRutPrv=substr($Fila[rut_becado],0,strlen($Fila[rut_becado])-2);
@@ -166,7 +166,7 @@ function EliBecado(RutBec)
         </tr>
 		<?
 		$Consulta="SELECT * from sget_becados where rut='".$Rut."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			echo "<tr>";

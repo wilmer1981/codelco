@@ -88,7 +88,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta="select t2.cod_subclase as cod_tipo_contr,t1.cod_contrato,t2.nombre_subclase as nom_tipo_contr,t1.descrip_contrato from scop_contratos t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='33002' and t1.cod_tipo_contr=t2.cod_subclase ";
 						$Consulta.=" inner join scop_contratos_flujos t3 on t1.cod_contrato=t3.cod_contrato where t1.cod_contrato='".$FilaInven["cod_contrato"]."' and t1.vigente='1'";
 						$Consulta.=" group by t1.cod_tipo_contr ";	
-						$Resp1=mysql_query($Consulta);
+						$Resp1=mysqli_query($link, $Consulta);
 						while ($Fila1=mysql_fetch_array($Resp1))
 						{						
 							$NomTipoContrato1=$Fila1[nom_tipo_contr];
@@ -173,7 +173,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta="select t2.cod_subclase as cod_tipo_contr,t1.cod_contrato,t2.nombre_subclase as nom_tipo_contr,t1.descrip_contrato from scop_contratos t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='33002' and t1.cod_tipo_contr=t2.cod_subclase ";
 						$Consulta.=" inner join scop_contratos_flujos t3 on t1.cod_contrato=t3.cod_contrato where t1.cod_contrato='".$FilaInven["cod_contrato"]."' and t1.vigente='1'";
 						$Consulta.=" group by t1.cod_tipo_contr ";	
-						$Resp1=mysql_query($Consulta);
+						$Resp1=mysqli_query($link, $Consulta);
 						while ($Fila1=mysql_fetch_array($Resp1))
 						{						
 							$NomTipoContrato1=$Fila1[nom_tipo_contr];
@@ -343,7 +343,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$ArrFinos,$i)
 {
 	$Consulta="select * from scop_contratos_flujos where cod_contrato='".$Contrato."' and  tipo_inventario='".$i."' and flujo='".$CodFlujo."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		if($Fila[tipo_inventario]=='1')
@@ -364,7 +364,7 @@ function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$A
 		$Consulta="select peso,cobre,plata,oro from scop_datos_enabal where ano='".$AnoFlujo."' and cod_flujo='".$Flujo."' and origen='".$TipoFlujo."' and tipo_mov='".$TipoMovimiento."' and tipo_dato='F'";		
 		if($MesFlujo!='T')
 			$Consulta.=" and mes='".$MesFlujo."'";
-		$RespValor=mysql_query($Consulta);
+		$RespValor=mysqli_query($link, $Consulta);
 		while($FilaValor=mysql_fetch_array($RespValor))
 		{
 			$Peso=$FilaValor["peso"];

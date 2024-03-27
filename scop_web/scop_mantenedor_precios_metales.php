@@ -16,7 +16,7 @@ if ($Opc=='MP')
 {
     $Datos=explode("~",$Valores);
 	$Consulta="select cod_ley,ano,mes,valor,cod_unidad from scop_precios_metales where ano='".$Datos[0]."' and mes='".$Datos[1]."'";	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Ano=$Fila["ano"];
@@ -183,7 +183,7 @@ function Salir()
 					 $Consulta = "select distinct t1.mes from scop_precios_metales t1  ";			
 					 $Consulta.= " where t1.mes='".$i."' and ano='".$Ano."'";
 					 //echo $Consulta;
-					 $Resp=mysql_query($Consulta);
+					 $Resp=mysqli_query($link, $Consulta);
 					 if(!$FilaTC=mysql_fetch_array($Resp))
 					 {
 						if ($i==$Mes)
@@ -210,7 +210,7 @@ function Salir()
 			   <select name="UniCu" >
 				   <?
 						$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='33004' and valor_subclase1='1'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while($Fila=mysql_fetch_array($Resp))
 						{	
 							if ($UniCu==$Fila["cod_subclase"])
@@ -227,7 +227,7 @@ function Salir()
 			   <select name="UniAg" >
 				   <?
 						$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='33004' and valor_subclase1='2'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while($Fila=mysql_fetch_array($Resp))
 						{	
 							if ($UniAg==$Fila["cod_subclase"])
@@ -244,7 +244,7 @@ function Salir()
 			   <select name="UniAu" >
 				   <?
 						$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='33004' and valor_subclase1='3' and nombre_subclase='USD/OZ'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while($Fila=mysql_fetch_array($Resp))
 						{	
 							if ($UniAu==$Fila["cod_subclase"])
@@ -312,7 +312,7 @@ function Salir()
 				$Consulta.=" inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='33004' and t1.cod_unidad=t3.cod_subclase";
 				$Consulta.=" where ano='".$AnoAux."'";						
 				$Consulta.=" group by ano,mes";						
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{						
 						$Cod=$Fila["ano"]."~".$Fila["mes"];
@@ -361,7 +361,7 @@ function BuscarValor($CodLey,$Ano,$Mes,$Tipo)
 {
 	$Consulta="select t1.valor,t2.nombre_subclase from scop_precios_metales t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='33004' and t1.cod_unidad=t2.cod_subclase and t2.valor_subclase1=t1.cod_ley";
 	$Consulta.=" where t1.ano='".$Ano."' and t1.mes='".$Mes."' and t1.cod_ley='".$CodLey."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Nom_uni=$Fila["nombre_subclase"];

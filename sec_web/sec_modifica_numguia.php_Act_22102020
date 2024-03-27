@@ -10,7 +10,7 @@
 	if($TxtGuia1 <> "")
 	{
 		$Consulta = "select * from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia1."' ";
-		$Respuesta =mysql_query($Consulta);
+		$Respuesta =mysqli_query($link, $Consulta);
 		if($Fila =mysql_fetch_array($Respuesta))
 		{
 			$Lote=$Fila["cod_bulto"]." ".$Fila["num_bulto"];
@@ -21,7 +21,7 @@
 	if($TxtGuia2 <> "")
 	{
 		$Consulta = "select * from sec_web.guia_despacho_emb where num_guia= '".$TxtGuia2."' ";
-		$Respuesta2 =mysql_query($Consulta);
+		$Respuesta2 =mysqli_query($link, $Consulta);
 		if($Fila2 =mysql_fetch_array($Respuesta2))
 		{
 			$Lote2=$Fila2["cod_bulto"]." ".$Fila2["num_bulto"];
@@ -167,7 +167,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.=" inner join sec_web.guia_despacho_emb t2 on t1.num_guia=t2.num_guia ";
 			$Consulta.=" where t2.num_guia='".$TxtGuia1."' ";
 			$Consulta.=" order by cod_paquete,num_paquete ";
-			$Respuesta = mysql_query($Consulta);
+			$Respuesta = mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			//echo "<input name ='checkbox' type='hidden' ><input name ='MesPaqueteI' type='hidden' ><input name ='NumPaqueteI' type='hidden' ><input name ='MesPaqueteF' type='hidden' ><input name ='NumPaqueteF' type='hidden' >";
 			while ($Fila=mysql_fetch_array($Respuesta))
@@ -183,7 +183,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta.=" where cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."' and corr_enm='".$Fila["corr_enm"]."' 	";
 				$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  	";
 				$Consulta.=" and t1.cod_paquete='".$Fila["cod_paquete"]."' and t2.num_paquete='".$Fila["num_paquete"]."'";
-				$Resp1=mysql_query($Consulta);
+				$Resp1=mysqli_query($link, $Consulta);
 				if($Fila4=mysql_fetch_array($Resp1))
 				{
 					$Unidades=$Fila4["num_unidades"];
@@ -196,7 +196,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				}
 				$Consulta=" select * from proyecto_modernizacion.subproducto where ";
 				$Consulta.=" cod_producto='".$Fila4["cod_producto"]."' and cod_subproducto='".$Fila4["cod_subproducto"]."'";
-				$RespPro=mysql_query($Consulta);
+				$RespPro=mysqli_query($link, $Consulta);
 				if($FilaPro = mysql_fetch_array($RespPro))
 					$SubPro=$FilaPro["descripcion"];
 				else	
@@ -247,7 +247,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.=" inner join sec_web.guia_despacho_emb t2 on t1.num_guia=t2.num_guia ";
 			$Consulta.=" where t2.num_guia='".$TxtGuia2."' ";
 			$Consulta.=" order by cod_paquete,num_paquete ";
-			$Respuesta2 = mysql_query($Consulta);
+			$Respuesta2 = mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			//echo "<input name ='checkbox' type='hidden' ><input name ='MesPaqueteI' type='hidden' ><input name ='NumPaqueteI' type='hidden' ><input name ='MesPaqueteF' type='hidden' ><input name ='NumPaqueteF' type='hidden' >";
 			while ($Fila2=mysql_fetch_array($Respuesta2))
@@ -263,7 +263,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta.=" where cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."' and corr_enm='".$Fila["corr_enm"]."' 	";
 				$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  	";
 				$Consulta.=" and t1.cod_paquete='".$Fila["cod_paquete"]."' and t2.num_paquete='".$Fila["num_paquete"]."'";
-				$Resp1=mysql_query($Consulta);
+				$Resp1=mysqli_query($link, $Consulta);
 				if($Fila4=mysql_fetch_array($Resp1))
 				{
 					$Unidades=$Fila4["num_unidades"];
@@ -276,7 +276,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				}
 				$Consulta=" select * from proyecto_modernizacion.subproducto where ";
 				$Consulta.=" cod_producto='".$Fila4["cod_producto"]."' and cod_subproducto='".$Fila4["cod_subproducto"]."'";
-				$RespPro=mysql_query($Consulta);
+				$RespPro=mysqli_query($link, $Consulta);
 				if($FilaPro = mysql_fetch_array($RespPro))
 					$SubPro=$FilaPro["descripcion"];
 				else	

@@ -51,7 +51,7 @@ function Proceso(Opc)
 		case "E":
 			if(SoloUnElemento(f.name,'CheckTipoDoc','E'))
 			{
-				mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
+				mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
 				if(mensaje==true)
 				{
 					Datos=Recuperar(f.name,'CheckTipoDoc');
@@ -94,7 +94,7 @@ function Proceso(Opc)
 				<a href="JavaScript:Proceso('C')"><img src="../pcip_web/archivos/Find2.png"   alt="Buscar"  border="0" align="absmiddle" /></a>    
 			    <a href="JavaScript:Proceso('N')"><img src="../pcip_web/archivos/nuevo2.png"  border="0"  alt="Nuevo" align="absmiddle" /></a> 
 				<a href="JavaScript:Proceso('M')"><img src="../pcip_web/archivos/btn_modificar3.png" border="0" alt="Modificar" align="absmiddle"></a> 
-				<a href="JavaScript:Proceso('O')"><img src="../pcip_web/archivos/btn_ingreso_obs2.png" border="0" alt="Relación Productos por proveedores" align="absmiddle"></a> 								
+				<a href="JavaScript:Proceso('O')"><img src="../pcip_web/archivos/btn_ingreso_obs2.png" border="0" alt="Relaciï¿½n Productos por proveedores" align="absmiddle"></a> 								
 				<a href="JavaScript:Proceso('E')"><img src="../pcip_web/archivos/elim_hito2.png"  alt="Eliminar" align="absmiddle" border="0"></a>
 				<a href="JavaScript:Proceso('S')"><img src="../pcip_web/archivos/volver2.png"  border="0"  alt=" Volver " align="absmiddle"></a>		    </td>
 		  </tr>
@@ -104,7 +104,7 @@ function Proceso(Opc)
 			  <option value="T" selected="selected">Todos</option>
 			  <?
 				$Consulta = "select rut_proveedor,nom_proveedor from pcip_fac_proveedores order by rut_proveedor ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbProveedor==$FilaTC["rut_proveedor"])
@@ -121,7 +121,7 @@ function Proceso(Opc)
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])
@@ -172,7 +172,7 @@ if($Buscar=='S')
 		$Consulta.=" and t1.vigente='".$CmbVig."'";		
 			
 	$Consulta.= " order by rut_proveedor ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	

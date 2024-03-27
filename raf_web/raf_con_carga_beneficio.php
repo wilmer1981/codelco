@@ -107,7 +107,7 @@ function Proceso(opc)
 				$Consulta.= " WHERE right(hornada,5) = $Hornada";
 			$Consulta.= " and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 			$Consulta.= " order by cod_producto,cod_subproducto,grupo";
-			$res = mysql_query($Consulta);
+			$res = mysqli_query($link, $Consulta);
 		    while($row = mysql_fetch_array($res))
 			{
 			    $Dia = substr($row["fecha"],8,2);
@@ -119,7 +119,7 @@ function Proceso(opc)
 
 				echo'<tr>';
 				  $Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
-				  $rs = mysql_query($Consulta);
+				  $rs = mysqli_query($link, $Consulta);
 				  $Fila = mysql_fetch_array($rs); 			
 				  echo'<td>'.$Fila["abreviatura"].'&nbsp;</td>';
 
@@ -129,7 +129,7 @@ function Proceso(opc)
 				  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 				  $Consulta.= " AND hornada = $row["hornada"]";
 				  $Consulta.= " AND grupo = '$row["grupo"]'";
-				  $result = mysql_query($Consulta);
+				  $result = mysqli_query($link, $Consulta);
 				  $Fil = mysql_fetch_array($result); 
 				  echo'<td align="right">'.$Fil[unid].'&nbsp;</td>';
 				  echo'<td align="right">'.$Fil[pes].'&nbsp;</td>';
@@ -140,7 +140,7 @@ function Proceso(opc)
 				  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto] and nro_carga = 1";
 				  $Consulta.= " AND hornada = $row["hornada"]";
 				  $Consulta.= " AND grupo = '$row["grupo"]'";
-				  $result1 = mysql_query($Consulta);
+				  $result1 = mysqli_query($link, $Consulta);
 				  $Fil1 = mysql_fetch_array($result1); 
 				  echo'<td align="right">'.$Fil1[unid].'&nbsp;</td>';
 				  echo'<td align="right">'.$Fil1[pes].'&nbsp;</td>';
@@ -151,7 +151,7 @@ function Proceso(opc)
 				  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto] and nro_carga = 2";
 				  $Consulta.= " AND hornada = $row["hornada"]";
 				  $Consulta.= " AND grupo = '$row["grupo"]'";
-				  $result2 = mysql_query($Consulta);
+				  $result2 = mysqli_query($link, $Consulta);
 				  $Fil2 = mysql_fetch_array($result2); 
 				  echo'<td align="right">'.$Fil2[unid].'&nbsp;</td>';
 				  echo'<td align="right">'.$Fil2[pes].'&nbsp;</td>';
@@ -162,7 +162,7 @@ function Proceso(opc)
 				  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto] and nro_carga = 3";
 				  $Consulta.= " AND hornada = $row["hornada"]";
 				  $Consulta.= " AND grupo = '$row["grupo"]'";
-				  $result3 = mysql_query($Consulta);
+				  $result3 = mysqli_query($link, $Consulta);
 				  $Fil3 = mysql_fetch_array($result3); 
 				  echo'<td align="right">'.$Fil3[unid].'&nbsp;</td>';
 				  echo'<td align="right">'.$Fil3[pes].'&nbsp;</td>';
@@ -173,7 +173,7 @@ function Proceso(opc)
 				  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto] and nro_carga = 4";
 				  $Consulta.= " AND hornada = $row["hornada"]";
 				  $Consulta.= " AND grupo = '$row["grupo"]'";
-				  $result4 = mysql_query($Consulta);
+				  $result4 = mysqli_query($link, $Consulta);
 				  $Fil4 = mysql_fetch_array($result4); 
 				  echo'<td align="right">'.$Fil4[unid].'&nbsp;</td>';				  
 				  echo'<td align="right">'.$Fil4[pes].'&nbsp;</td>';
@@ -184,7 +184,7 @@ function Proceso(opc)
 				  $Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 				  $Consulta.= " AND hornada = $row["hornada"]";
 				  $Consulta.= " AND grupo = '$row["grupo"]'";
-				  $result5 = mysql_query($Consulta);
+				  $result5 = mysqli_query($link, $Consulta);
 				  $Fil5 = mysql_fetch_array($result5); 
 	
 				  $TotalUnid = $Fil5[unid];	

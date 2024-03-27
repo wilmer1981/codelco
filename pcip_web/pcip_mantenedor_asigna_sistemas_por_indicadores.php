@@ -3,7 +3,7 @@
 
 ?>
 <html>
-<head><title>Asignación de Sistemas por Indicadores</title> 
+<head><title>Asignaciï¿½n de Sistemas por Indicadores</title> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="javascript" src="../pcip_web/funciones/pcip_funciones.js"></script>
 <script language="JavaScript">
@@ -95,7 +95,7 @@ function Salir()
 			  <option value="-1" selected="selected">Seleccionar</option>
 			  <?
 			  $Consulta = "select cod_sistema,nom_sistema from pcip_eec_sistemas order by nom_sistema ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbSistema==$FilaTC["cod_sistema"])
@@ -109,7 +109,7 @@ function Salir()
 		 <? 	 
 				 $Consulta = "select t1.cod_indicador from pcip_eec_sistemas_por_indicadores t1  ";			
 				 $Consulta.= " where t1.cod_sistema='".$CmbSistema."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 						while ($FilaTC=mysql_fetch_array($Resp))
 						{
 							$In=$In."'".$FilaTC[cod_indicador]."',";
@@ -135,7 +135,7 @@ function Salir()
 					$Consulta.= " where  t2.cod_indicador not in $In ";
 					$Consulta.= "order by t2.cod_indicador ";
 				}
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbIndica==$FilaTC["cod_indicador"])
@@ -152,7 +152,7 @@ function Salir()
 			<option value="-1" selected="selected">Seleccionar</option>
 			    <?
 				$Consulta = "select cod_subclase,nombre_subclase as nom_divisor from  proyecto_modernizacion.sub_clase where cod_clase='31011' order by cod_subclase";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbDivisor==$FilaTC["cod_subclase"])
@@ -176,7 +176,7 @@ function Salir()
 		
 				$Consulta = "select t1.cod_indicador,t1.nom_indicador,t1.vigente,t3.nombre_subclase as nom_divisor  from pcip_eec_sistemas_por_indicadores t2 inner join pcip_eec_indicadores t1 on";			
 				$Consulta.=" t1.cod_indicador=t2.cod_indicador left join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31011' and t2.cod_divisor=t3.cod_subclase where t2.cod_sistema='".$CmbSistema."' order by t1.cod_indicador";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {				

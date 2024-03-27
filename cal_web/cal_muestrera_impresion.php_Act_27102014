@@ -11,13 +11,13 @@ $Fecha_Hora = date("d-m-Y");
 
 //reviso impresion existente
 $Consulta ="select corr_impresion from cal_web.solicitud_analisis where nro_solicitud='".$txtnro_solicitud."'";
-$Resultado= mysql_query($Consulta);
+$Resultado= mysqli_query($link, $Consulta);
 $Fila =mysql_fetch_array($Resultado);
 if ($Fila["corr_impresion"] == "")
 {
 	//obtengo correlativo
 	$Consulta ="select max(corr_impresion) as corr_impresion from solicitud_analisis";
-	$Resultado= mysql_query($Consulta);
+	$Resultado= mysqli_query($link, $Consulta);
 	if ($Resultado == ""){
 		$corr_impresion = 0;
 	}else{
@@ -61,7 +61,7 @@ if ($Fila["corr_impresion"] == "")
 
 //obtengo datos de la solicitud
 $Consulta ="select * from solicitud_analisis where nro_solicitud=".$txtnro_solicitud;
-$Resultado = mysql_query($Consulta);
+$Resultado = mysqli_query($link, $Consulta);
 $Fila=mysql_fetch_array($Resultado);
 $txtid_muestra = $Fila["id_muestra"];
 $txtnro_solicitud = $Fila["nro_solicitud"];
@@ -71,7 +71,7 @@ $Consulta = "select proyecto_modernizacion.subproducto.*";
 $Consulta =$Consulta." from proyecto_modernizacion.subproducto";
 $Consulta =$Consulta." inner join cal_web.solicitud_analisis on proyecto_modernizacion.subproducto.cod_producto = cal_web.solicitud_analisis.cod_producto";
 $Consulta =$Consulta." and proyecto_modernizacion.subproducto.cod_subproducto = cal_web.solicitud_analisis.cod_subproducto";
-$Consulta =$Consulta." where cal_web.solicitud_analisis.nro_solicitud=" .$txtnro_solicitud." and recargo ='".$recargo."'"; $Resultado2 = mysql_query($Consulta);
+$Consulta =$Consulta." where cal_web.solicitud_analisis.nro_solicitud=" .$txtnro_solicitud." and recargo ='".$recargo."'"; $Resultado2 = mysqli_query($link, $Consulta);
 $Fila2=mysql_fetch_array($Resultado2);
 $txtsubproducto = $Fila2["descripcion"];
 
@@ -82,7 +82,7 @@ $Consulta =$Consulta." FROM cal_web.solicitud_analisis";
 $Consulta =$Consulta." INNER JOIN cal_web.leyes_por_solicitud ON cal_web.solicitud_analisis.nro_solicitud = cal_web.leyes_por_solicitud.nro_solicitud AND cal_web.solicitud_analisis.recargo = cal_web.leyes_por_solicitud.recargo";
 $Consulta =$Consulta." INNER JOIN proyecto_modernizacion.leyes ON proyecto_modernizacion.leyes.cod_leyes = cal_web.leyes_por_solicitud.cod_leyes";
 $Consulta =$Consulta." WHERE cal_web.solicitud_analisis.nro_solicitud = '".$txtnro_solicitud."' AND cal_web.solicitud_analisis.recargo ='".$recargo."'";
-$Respuesta3 = mysql_query($Consulta); 
+$Respuesta3 = mysqli_query($link, $Consulta); 
 //echo $Consulta."<br>";
 $cont = 1;
 while ($Fila3 =mysql_fetch_array ($Respuesta3))

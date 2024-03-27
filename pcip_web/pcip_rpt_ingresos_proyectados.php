@@ -106,7 +106,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
    <option value="-1" class="NoSelec">Seleccionar</option>
    <?
    $Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase='31021' and cod_subclase in ('1','2','3') order by cod_subclase ";	 	
-   $Resp=mysql_query($Consulta);
+   $Resp=mysqli_query($link, $Consulta);
    while ($Fila=mysql_fetch_array($Resp))
    {
 		if ($CmbProductos==$Fila["cod_subclase"])
@@ -124,7 +124,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
    <option value="-1" class="NoSelec">Seleccionar</option>
    <?
 //   $Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase='31023' order by nombre_subclase ";	 	
-//   $Resp=mysql_query($Consulta);
+//   $Resp=mysqli_query($link, $Consulta);
 //   while ($Fila=mysql_fetch_array($Resp))
 //   {
 //		if ($CmbArea==$Fila["cod_subclase"])
@@ -148,7 +148,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
    		$Consulta.= " and cod_subclase in('1','2','3','7','8')";
    if($CmbProductos=='3')
    		$Consulta.= " and cod_subclase in('3')";		
-   $Resp=mysql_query($Consulta);
+   $Resp=mysqli_query($link, $Consulta);
    while ($Fila=mysql_fetch_array($Resp))
 	   {
 		 /*if($CmbProductos=='2')
@@ -187,7 +187,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	<option value="-1" class="NoSelec">Seleccionar</option>
 	<?
 	$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31027' ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
 		if ($CmbResumen==$FilaTC["cod_subclase"])

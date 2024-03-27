@@ -15,7 +15,7 @@
 		$LimitFin=999;	
 	$ArrLeyes = array();
 	$Consulta = "SELECT * from proyecto_modernizacion.leyes ";
-	$RespLeyes = mysql_query($Consulta);	
+	$RespLeyes = mysqli_query($link, $Consulta);	
 	while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 	{
 		$ArrLeyes[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];
@@ -408,7 +408,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                 <option value="S" SELECTed class="NoSelec">Todos</option>
                 <?
 				$Consulta = "SELECT * from sipa_web.grupos_productos order by descripcion_grupo ";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($CmbGrupoProd == $Fila["cod_grupo"])
@@ -435,7 +435,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta.= " case when length(t1.cod_subproducto)<2 then concat('0',t1.cod_subproducto) else t1.cod_subproducto end as orden ";
 				$Consulta.="from sipa_web.grupos_prod_subprod t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto =t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 				$Consulta.="where t1.cod_grupo='$CmbGrupoProd' order by nom_subprod";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($CmbSubProducto == $Fila["cod_producto"]."~".$Fila["cod_subproducto"])
@@ -772,7 +772,7 @@ if (isset($TipoCon) && $TipoCon!="")
 	$ConsultaAux = $Consulta;	
 	$Consulta.= " limit ".$LimitIni.", ".$LimitFin."";	
 	//echo $Consulta;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//PARA SABER EL TOTAL DE REGISTROS
 	//echo $ConsultaAux;
 	$Respuesta = mysql_query($ConsultaAux);
@@ -816,14 +816,14 @@ if (isset($TipoCon) && $TipoCon!="")
 				break;
 			case "C":
 				$Consulta="SELECT descripcion from proyecto_modernizacion.productos where cod_producto='".trim($Fila["nombre"])."'";
-				$RespProdRam=mysql_query($Consulta);
+				$RespProdRam=mysqli_query($link, $Consulta);
 				if($FilaProdRam=mysql_fetch_array($RespProdRam))
 					$Nombre = $FilaProdRam["descripcion"];
 				else
 					$Nombre='';
 				
 				$Consulta="SELECT descripcion from proyecto_modernizacion.subproducto where cod_producto='".trim($Fila["nombre"])."' and cod_subproducto='".trim($Fila["descripcion"])."'";
-				$RespProdRam=mysql_query($Consulta);
+				$RespProdRam=mysqli_query($link, $Consulta);
 				if($FilaProdRam=mysql_fetch_array($RespProdRam))
 					$NomProv = $FilaProdRam["descripcion"];
 				else
@@ -974,7 +974,7 @@ if (isset($TipoCon) && $TipoCon!="")
 			break;
 	}	
 	$Consulta.= " and $Est ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Resp))
 	{
 		$TotConPesoBr = $Fila["peso_bruto"];

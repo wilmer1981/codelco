@@ -40,7 +40,7 @@ if ($Mostrar=="S")
 			$Consulta.= " where t1.rut_empresa='".$CmbEmpresa."' and t1.razon_social<>''";
 	}
 	$Consulta.= " order by t1.razon_social asc";
-	$Resp=mysql_query($Consulta); 
+	$Resp=mysqli_query($link, $Consulta); 
 	$Color="#FFFFFF";
 	//echo $Consulta;
 	while ($Fila=mysql_fetch_array($Resp)) 
@@ -57,7 +57,7 @@ if ($Mostrar=="S")
 		$Consulta = "SELECT count(*) as cant from des_sget.sget_contratos t1  ";
 		$Consulta.= " where t1.rut_empresa='".$Fila["rut_empresa"]."' ";
 		$Consulta.= " order by cod_contrato";
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		$Fila2=mysql_fetch_array($Resp2);
 		echo "<td>".$Fila2["cant"]."</td>\n";
 		echo "<td>".$Fila["calle"]."</td>\n";

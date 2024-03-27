@@ -67,7 +67,7 @@ function Proceso(Opc)
 		case "E":
 			if(SoloUnElemento(f.name,'CheckTipoDoc','E'))
 			{
-				mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
+				mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
 				if(mensaje==true)
 				{
 					Datos=Recuperar(f.name,'CheckTipoDoc');
@@ -115,9 +115,9 @@ function DetalleSistema(Cod)
 				<a href="JavaScript:Proceso('C')"><img src="../pcip_web/archivos/Find2.png"   alt="Buscar"  border="0" align="absmiddle" /></a>    
 				<a href="JavaScript:Proceso('N')"><img src="../pcip_web/archivos/nuevo2.png"  border="0"  alt="Nuevo" align="absmiddle" /></a> 
 				<a href="JavaScript:Proceso('M')"><img src="../pcip_web/archivos/btn_modificar3.png" border="0" alt="Modificar" align="absmiddle"></a> 
-				<a href="JavaScript:Proceso('I')"><img src="../pcip_web/archivos/btn_ingreso_obs2.png" border="0" alt="Relación Sistema Indicador" align="absmiddle"></a> 				
-				<a href="JavaScript:Proceso('O')"><img src="../pcip_web/archivos/btn_ingreso_obs2.png" border="0" alt="Relación Sistema Centro Costo" align="absmiddle"></a> 				
-				<!--<a href="JavaScript:Proceso('A')"><img src="../pcip_web/archivos/btn_ingreso_obs2.png" border="0" alt="Relación Sistema Equipo" align="absmiddle"></a> -->				
+				<a href="JavaScript:Proceso('I')"><img src="../pcip_web/archivos/btn_ingreso_obs2.png" border="0" alt="Relaciï¿½n Sistema Indicador" align="absmiddle"></a> 				
+				<a href="JavaScript:Proceso('O')"><img src="../pcip_web/archivos/btn_ingreso_obs2.png" border="0" alt="Relaciï¿½n Sistema Centro Costo" align="absmiddle"></a> 				
+				<!--<a href="JavaScript:Proceso('A')"><img src="../pcip_web/archivos/btn_ingreso_obs2.png" border="0" alt="Relaciï¿½n Sistema Equipo" align="absmiddle"></a> -->				
 				<a href="JavaScript:Proceso('E')"><img src="../pcip_web/archivos/elim_hito2.png"  alt="Eliminar" align="absmiddle" border="0"></a>
 				<a href="JavaScript:Proceso('S')"><img src="../pcip_web/archivos/volver2.png"  border="0"  alt=" Volver " align="absmiddle"></a>		    
 			 </td>
@@ -128,7 +128,7 @@ function DetalleSistema(Cod)
       <option value="-1" selected="selected">Todos</option>
       <?
 	    $Consulta = "select cod_sistema,nom_sistema from pcip_eec_sistemas order by cod_sistema ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSistema==$FilaTC["cod_sistema"])
@@ -164,9 +164,9 @@ function DetalleSistema(Cod)
 	  <tr align="center">
         <td width="3%" class="TituloTablaVerde"><input class='SinBorde' type="checkbox" name="CheckTipoDoc" value="" onClick="CheckearTodo(this.form,'CheckTipoDoc','ChkTodos');"></td>
 		
-          <td width="13%" class="TituloTablaVerde">Código</td>
+          <td width="13%" class="TituloTablaVerde">Cï¿½digo</td>
           <td width="25%" class="TituloTablaVerde">Sistema</td>
-		  <td width="35%" class="TituloTablaVerde">Descripción del Sistema</td>
+		  <td width="35%" class="TituloTablaVerde">Descripciï¿½n del Sistema</td>
 		  <td width="8%" class="TituloTablaVerde">Vigente</td>
 		  <td width="10%" class="TituloTablaVerde">Ver en Disp.</td>
 		 </tr>
@@ -180,7 +180,7 @@ if($Buscar=='S')
 		$Consulta.=" and t1.cod_sistema='".$CmbSistema."'";
 	
 	$Consulta.= " order by cod_sistema ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	

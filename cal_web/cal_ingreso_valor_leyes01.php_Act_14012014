@@ -8,7 +8,7 @@ function LimiteControl($SA,$CodLey,$Unidad,$Valor)
 	if($Recargo!='N')
 		$Consulta.="and recargo='".$Recargo."'";
 	//echo $Consulta."<br>";
-	$RespSa = mysql_query($Consulta);
+	$RespSa = mysqli_query($link, $Consulta);
 	if($FilaSa=mysql_fetch_array($RespSa))
 	{
 		
@@ -17,7 +17,7 @@ function LimiteControl($SA,$CodLey,$Unidad,$Valor)
 		$Consulta.=" and cod_ley='".$CodLey."' and unidad='".$Unidad."' ";
 		if($FilaSa["cod_producto"]=='1')
 			$Consulta.=" and rut_proveedor='".$FilaSa["rut_proveedor"]."'";
-		$RespColor = mysql_query($Consulta);
+		$RespColor = mysqli_query($link, $Consulta);
 		if($FilaColor=mysql_fetch_array($RespColor))
 		{
 			if(($FilaColor[limite_inicial]<=$Valor) && ( $FilaColor[limite_final] >=$Valor))
@@ -36,7 +36,7 @@ function LimiteControl($SA,$CodLey,$Unidad,$Valor)
 			if($FilaSa["cod_producto"]=='1')
 				$Consulta.=" and rut_proveedor='T' ";
 		
-			$RespColor = mysql_query($Consulta);
+			$RespColor = mysqli_query($link, $Consulta);
 			if($FilaColor=mysql_fetch_array($RespColor))
 			{
 				if(($FilaColor[limite_inicial]<=$Valor) && ( $FilaColor[limite_final] >=$Valor))
@@ -64,13 +64,13 @@ function AvisoModLeyesConCandado($SA,$CodLey,$Unidad,$Valor)
 	$Consulta=" Select cod_producto,rut_proveedor,cod_subproducto,recargo,id_muestra from cal_web.solicitud_analisis where nro_solicitud='".$SA."' and agrupacion=1 ";
 	if($Recargo!='N')
 		$Consulta.="and recargo='".$Recargo."'";
-	$RespSa = mysql_query($Consulta);
+	$RespSa = mysqli_query($link, $Consulta);
 	if($FilaSa=mysql_fetch_array($RespSa))
 	{
 		if($FilaSa["recargo"]!='R')//Envio Correo para distintos de Retalla
 		{
 			$Consulta="Select * from cal_web.registro_leyes where nro_solicitud='".$SA."' and recargo='".$FilaSa["recargo"]."'  and cod_leyes='".$CodLey."' and cod_unidad='".$Unidad."' and candado='1' order by fecha_hora desc ";
-			$RespCANDADO = mysql_query($Consulta);
+			$RespCANDADO = mysqli_query($link, $Consulta);
 			if($FilaCANDADO=mysql_fetch_array($RespCANDADO))
 			{
 				if($Valor<>$FilaCANDADO[valor])
@@ -99,7 +99,7 @@ function EnvioCorreoLeyes($SA,$Lote,$CodLey,$Unidad,$Valor,$Producto,$ValorAnter
 	}
 	 
 		$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from funcionarios where rut = '".$CookieRut."'";
-		$Resultado= mysql_query($Consulta);
+		$Resultado= mysqli_query($link, $Consulta);
 		if ($Fila =mysql_fetch_array($Resultado))
 		{	
 			 $user=ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
@@ -107,7 +107,7 @@ function EnvioCorreoLeyes($SA,$Lote,$CodLey,$Unidad,$Valor,$Producto,$ValorAnter
 		else
 		{
 			$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$CookieRut."'";
-			$Respuesta = mysql_query($Consulta);
+			$Respuesta = mysqli_query($link, $Consulta);
 			if ($Fila=mysql_fetch_array($Respuesta))
 			{
 				$user=ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
@@ -164,7 +164,7 @@ function EnvioCorreoLeyes($SA,$Lote,$CodLey,$Unidad,$Valor,$Producto,$ValorAnter
 		$mail->AltBody =str_replace('<br>','\n',$mensaje);
 		$mail->Timeout=120;		
 		$Consulta="select * from cal_web.tmp_correo where rut='".$SA."' ";
-		$RespCorreo= mysql_query($Consulta);
+		$RespCorreo= mysqli_query($link, $Consulta);
 		while ($FilaCorreo= mysql_fetch_array($RespCorreo))
 		{
 			$mail->AddAddress($FilaCorreo[correo]);
@@ -189,7 +189,7 @@ function ObtenerCorreos($Producto,$SA)
 	$Contiene=false;			
 	$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='1009' ";
 	//echo $Consulta."<br>";
-	$RespC= mysql_query($Consulta);
+	$RespC= mysqli_query($link, $Consulta);
 	while ($FilaC= mysql_fetch_array($RespC))
 	{
 		$CadenaValor=explode(',',$FilaC["valor_subclase1"]);
@@ -220,7 +220,7 @@ function IngresaCobre($Prod,$SubPro,$NumSA,$FechaR,$RutFun,$RutQuim)
 	$Consulta.= " where nro_solicitud=".$NumSA;
 	$Consulta.= " and candado <> '1'";
 	$Consulta.= " and cod_leyes <> '02'";
-	$RespProd = mysql_query($Consulta);
+	$RespProd = mysqli_query($link, $Consulta);
 	$Fila = mysql_fetch_array($RespProd);
 	if ($Fila["candados_imp_abiertos"] == 0)
 	{
@@ -231,7 +231,7 @@ function IngresaCobre($Prod,$SubPro,$NumSA,$FechaR,$RutFun,$RutQuim)
 			$Consulta.= " and (cod_leyes <> '02')";
 		else
 			$Consulta.= " and (cod_leyes <> '02' and cod_leyes <> '48')";
-		$RespProd = mysql_query($Consulta);
+		$RespProd = mysqli_query($link, $Consulta);
 		$SumaImpurezas = 0;
 		$LeyCu = 0;
 		while ($FilaProd = mysql_fetch_array($RespProd))
@@ -285,7 +285,7 @@ function IngresaCobre($Prod,$SubPro,$NumSA,$FechaR,$RutFun,$RutQuim)
 		
 		
 		$Consulta = "select valor,cod_unidad,(case when peso_humedo is null then 'NULL' else peso_humedo end) as peso_humedo,(case when peso_seco is null then 'NULL' else peso_seco end) as peso_seco from cal_web.leyes_por_solicitud where nro_solicitud=".$NumSA." and rut_funcionario ='".$RutFun."' and cod_leyes ='02'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Respuesta);
 		$Insertar="insert into cal_web.registro_leyes(nro_solicitud,fecha_hora,rut_funcionario,cod_leyes,peso_humedo,peso_seco,valor,cod_unidad,candado,rut_proceso,signo) values(";
 		$Insertar=$Insertar.$NumSA.",'";
@@ -378,7 +378,7 @@ switch ($Opcion)
 														if ($Recargo =='N')//SIN RECARGO
 														{
 															$Consulta = "select * from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and candado='0'";
-															$Respuesta=mysql_query($Consulta);
+															$Respuesta=mysqli_query($link, $Consulta);
 															if(!$Fila=mysql_fetch_array($Respuesta))
 															{
 																$Insertar="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso) values ('";
@@ -391,7 +391,7 @@ switch ($Opcion)
 																mysql_query($Actualizar);
 															}
 															$Consulta = "select * from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";
-															$Respuesta=mysql_query($Consulta);
+															$Respuesta=mysqli_query($link, $Consulta);
 															if($Fila=mysql_fetch_array($Respuesta))
 															{
 																if(($Valor)!=($Fila["valor"]) or (($Unidad)!=($Fila["cod_unidad"])))
@@ -477,7 +477,7 @@ switch ($Opcion)
 																	$Actualizar.= "	where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' ";
 																	mysql_query($Actualizar);//ACTUALIZA EL CANDADO
 																	$Consulta = "select valor,cod_unidad,(case when peso_humedo is null then 'NULL' else peso_humedo end) as peso_humedo,(case when peso_seco is null then 'NULL' else peso_seco end) as peso_seco from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";
-																	$Respuesta=mysql_query($Consulta);
+																	$Respuesta=mysqli_query($link, $Consulta);
 																	$Fila=mysql_fetch_array($Respuesta);
 																	//AvisoModLeyesConCandado($SA,$Leyes,$Fila["cod_unidad"],$Fila["valor"]);
 																	$Insertar="insert into cal_web.registro_leyes(nro_solicitud,fecha_hora,rut_funcionario,cod_leyes,peso_humedo,peso_seco,valor,cod_unidad,candado,rut_proceso,signo) values(";
@@ -514,12 +514,12 @@ switch ($Opcion)
 																	//--------------------------------------------------------------------
 																	//SE PREGUNTA PARA SABER SI HAY QUE FINALIZAR LA SOLICITUD 
 																	$Consulta = "select count(*) as existe from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and candado <> '1'";
-																	$Respuesta=mysql_query($Consulta);
+																	$Respuesta=mysqli_query($link, $Consulta);
 																	$Fila= mysql_fetch_array($Respuesta);
 																	if ($Fila["existe"] == 0)
 																	{
 																		$Consulta = "select count(*) as existe_at_quimico from cal_web.estados_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_estado = 5";
-																		$Respuesta2=mysql_query($Consulta);
+																		$Respuesta2=mysqli_query($link, $Consulta);
 																		$Fila2= mysql_fetch_array($Respuesta2);
 																		if ($Fila2["existe_at_quimico"]==0)
 																		{
@@ -543,7 +543,7 @@ switch ($Opcion)
 														{
 															//$Consulta = "select  * from cal_web.estados_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and recargo='".$Recargo."' and cod_estado='5'";
 															$Consulta = "select  * from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and recargo='".$Recargo."' and candado='0'";															
-															$Respuesta=mysql_query($Consulta);
+															$Respuesta=mysqli_query($link, $Consulta);
 															if(!$Fila=mysql_fetch_array($Respuesta))
 															{
 																$Insertar="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,rut_proceso) values ('";
@@ -557,7 +557,7 @@ switch ($Opcion)
 																mysql_query($Actualizar);
 															}
 															$Consulta = "select * from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";											
-															$Respuesta=mysql_query($Consulta);	
+															$Respuesta=mysqli_query($link, $Consulta);	
 															if($Fila=mysql_fetch_array($Respuesta))
 															{
 																if(($Valor)!=($Fila["valor"]) or (($Unidad)!=($Fila["cod_unidad"])))
@@ -639,7 +639,7 @@ switch ($Opcion)
 																	$Actualizar="UPDATE cal_web.leyes_por_solicitud set candado='1',rut_quimico='".$RutQ."' where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
 																	mysql_query($Actualizar);//ACTUALIZA EL CANDADO
 																	$Consulta = "select valor,cod_unidad,(case when peso_humedo is null then 'NULL' else peso_humedo end) as peso_humedo,(case when peso_seco is null then 'NULL' else peso_seco end) as peso_seco from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
-																	$Respuesta=mysql_query($Consulta);
+																	$Respuesta=mysqli_query($link, $Consulta);
 																	$Fila=mysql_fetch_array($Respuesta);
 																	AvisoModLeyesConCandado($SA,$Leyes,$Fila["cod_unidad"],$Fila["valor"]);
 																	$Insertar="insert into cal_web.registro_leyes(nro_solicitud,recargo,fecha_hora,rut_funcionario,cod_leyes,peso_humedo,peso_seco,valor,cod_unidad,candado,rut_proceso,signo) values(";
@@ -656,12 +656,12 @@ switch ($Opcion)
 																	mysql_query($Insertar);//INSERTA EL REGISTRO DE LEYES
 																	//SE PREGUNTA PARA SABER SI HAY QUE FINALIZAR LA SOLICITUD 
 																	$Consulta = "select count(*) as existe from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and recargo='".$Recargo."' and candado <> '1'";
-																	$Respuesta=mysql_query($Consulta);
+																	$Respuesta=mysqli_query($link, $Consulta);
 																	$Fila= mysql_fetch_array($Respuesta);
 																	if ($Fila["existe"]== 0)
 																	{
 																		$Consulta = "select count(*) as existe_at_quimico from cal_web.estados_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and recargo='".$Recargo."' and cod_estado = '5'";
-																		$Respuesta2=mysql_query($Consulta);
+																		$Respuesta2=mysqli_query($link, $Consulta);
 																		$Fila2= mysql_fetch_array($Respuesta2);
 																		if ($Fila2["existe_at_quimico"]==0)
 																		{
@@ -718,7 +718,7 @@ function TraspasarDatoPI($Producto,$SubProducto,$SA)
 	$Consulta.=" inner join proyecto_modernizacion.subproducto t3 on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto ";
 	$Consulta.=" where t1.cod_producto='".$Producto."' and t1.cod_subproducto='".$SubProducto."'";
 	//echo $Consulta."<br>";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$Cod_Prod=$Fila["cod_producto"];
@@ -735,7 +735,7 @@ function TraspasarDatoPI($Producto,$SubProducto,$SA)
 		else
 			$Consulta.= " and t1.estado_actual in ('5','6') ";
 		//echo 	$Consulta."<br>";	
-		$RespLey=mysql_query($Consulta);$EncontroFecCos='N';$FechaCosecha=NULL;
+		$RespLey=mysqli_query($link, $Consulta);$EncontroFecCos='N';$FechaCosecha=NULL;
 		while($FilaLey=mysql_fetch_array($RespLey))
 		{
 			$Fecha_hora=$FilaLey["fecha_hora"];
@@ -764,7 +764,7 @@ function TraspasarDatoPI($Producto,$SubProducto,$SA)
 				$Consulta="select fecha_renovacion,dia_renovacion from sec_web.renovacion_prog_prod where ceiling(cod_grupo) ='".intval($Id_Muestra)."' and cod_grupo <>'' and cod_concepto <> 'D' ";
 				$Consulta.=" order by fecha_renovacion desc,dia_renovacion desc";
 				//echo $Consulta."<br>";
-				$RespCosecha=mysql_query($Consulta);
+				$RespCosecha=mysqli_query($link, $Consulta);
 				while($FilaCosecha=mysql_fetch_array($RespCosecha))
 				{
 					$FechAuxGrupo=explode('-',$FilaCosecha[fecha_renovacion]);
@@ -778,7 +778,7 @@ function TraspasarDatoPI($Producto,$SubProducto,$SA)
 				$FechaCosecha=$FechAuxGrupo;
 			}
 			$Consulta="select * from raf_web.ti_interfaces_cal where NUM_SOLICITUD='".$SA."' and FECHA_CREACION='".$Fecha_hora."' and COD_PRODUCTO='".$Cod_Prod."' and COD_SUBPRODUCTO ='".$Cod_SubProd."' and C_ELEMENTO='".$Ley."'";
-			$Resp3=mysql_query($Consulta);
+			$Resp3=mysqli_query($link, $Consulta);
 			if($FilaResp=mysql_fetch_array($Resp3))
 			{
 				$Actualizar="UPDATE raf_web.ti_interfaces_cal set C_LEY='".str_replace(",", ".",$Valor_Ley)."',C_UNIDAD_ELEMENTO='".$Unidad."',FECHA_COSECHA='".$FechaCosecha."' where NUM_SOLICITUD='".$SA."' and FECHA_CREACION='".$Fecha_hora."' and COD_PRODUCTO='".$Cod_Prod."' and COD_SUBPRODUCTO ='".$Cod_SubProd."' and C_ELEMENTO='".$Ley ."'";

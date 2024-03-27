@@ -16,7 +16,7 @@ if($Proceso == 'B')
 	//$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha' and hora = '$fecha2' ";
 	$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha'";
 	//echo $Consulta;
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	$Fila = mysql_fetch_array($rs);
 	$hora = substr($Fila[hora],11,2);
 	$minuto = substr($Fila[hora],14,2);

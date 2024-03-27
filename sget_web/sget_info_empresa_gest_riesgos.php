@@ -2,7 +2,7 @@
     include("../principal/conectar_sget_web.php");
 	include("funciones/sget_funciones.php");
 	$Consulta="SELECT * from sget_contratistas where rut_empresa = '".$Emp."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtRutPrv=intval(substr(str_pad($Fila["rut_empresa"],10,'0',l_pad),0,8));
@@ -165,7 +165,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <td height="25" class="formulario2">Ciudad</td>
              <td colspan="3" class="formulariosimple" ><?
 			$Consulta = "SELECT * from sget_ciudades where cod_ciudad='".$CmbCiudad."' order by nom_ciudad ";			
-			$Resp1=mysql_query($Consulta);
+			$Resp1=mysqli_query($link, $Consulta);
 			while ($Fila1=mysql_fetch_array($Resp1))
 			{
 				echo ucfirst($Fila1["nom_ciudad"]);
@@ -178,7 +178,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			  $Consulta = "SELECT t2.cod_comuna,t2.nom_comuna from sget_comunas_por_ciudad  t1 inner join sget_comunas t2 on t1.cod_comuna=t2.cod_comuna ";
 			  $Consulta.= " where t1.cod_ciudad='".$CmbCiudad."' and t1.cod_comuna='".$CmbComuna."'";			
 			  $Consulta.= " order by nom_comuna ";			
-			  $Resp2=mysql_query($Consulta);
+			  $Resp2=mysqli_query($link, $Consulta);
 			  while ($Fila2=mysql_fetch_array($Resp2))
 			  {
 				echo ucfirst($Fila2["nom_comuna"]);
@@ -195,7 +195,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <td height="28" class="formulario2">Mutual Seguridad </td>
              <td class="formulariosimple" ><?
 			  $Consulta = "SELECT * from sget_mutuales_seg where estado='1' and cod_mutual='".$CmbMutuales."' order by descripcion ";			
-			  $Resp3=mysql_query($Consulta);
+			  $Resp3=mysqli_query($link, $Consulta);
 			  while ($Fila3=mysql_fetch_array($Resp3))
 			  {
 				echo ucfirst($Fila3["abreviatura"]);

@@ -35,7 +35,7 @@
 	function DescripCtto($Ctto)
 	{
 		$Consulta="SELECT * from sget_contratos where cod_contrato='".$Ctto."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila["cod_contrato"].'~'.$Fila["descripcion"].'~'.$Fila[fecha_inicio].'~'.$Fila[fecha_termino].'~'.$Fila[cod_gerencia].'~'.$Fila[cod_area].'~'.$Fila[cod_tipo_contrato].'~'.$Fila[rut_prev];
 		return($Descripcion);	
@@ -44,7 +44,7 @@
 	function DescripEmpresa($RutEmp)
 	{
 		$Consulta="SELECT * from sget_contratistas where rut_empresa='".$RutEmp."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[rut_empresa].'~'.$Fila[razon_social].'~'.$Fila[calle].'~'.$Fila[telefono_comercial].'~'.$Fila[mail_empresa].'~'.$Fila[cod_mutual_seguridad].'~'.$Fila[fecha_ven_cert];
 		return($Descripcion);	
@@ -53,7 +53,7 @@
 	{
 		$Consulta="SELECT t1.rut_adm_contrato,t1.nombres,t1.ape_paterno,t1.ape_materno,t1.telefono from sget_administrador_contratos t1 inner join sget_hoja_ruta_adm_ctto t2 on t1.rut_adm_contrato =t2.rut_adm_ctto where t2.num_hoja_ruta='".$HR."' ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$AdmCodelco=$Fila[rut_adm_contrato].'~'.$Fila["nombres"].'~'.$Fila[ape_paterno].'~'.$Fila[ape_materno].'~'.$Fila[telefono];
 		return($AdmCodelco);	
@@ -62,7 +62,7 @@
 	function AdmCttoCodelco($Ctto)
 	{
 		$Consulta="SELECT t1.rut_adm_contrato,t1.nombres,t1.ape_paterno,t1.ape_materno,t1.telefono from sget_administrador_contratos t1 inner join sget_contratos t2 on t1.rut_adm_contrato =t2.rut_adm_contrato where t2.cod_contrato='".$Ctto."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$AdmCodelco=$Fila[rut_adm_contrato].'~'.$Fila["nombres"].'~'.$Fila[ape_paterno].'~'.$Fila[ape_materno].'~'.$Fila[telefono];
 		return($AdmCodelco);	
@@ -73,7 +73,7 @@
 		$Consulta=" SELECT t1.rut_adm_contratista,t1.nombres,t1.ape_paterno,t1.ape_materno,t1.telefono,t1.email ";
 		$Consulta.=" from sget_administrador_contratistas t1 inner join sget_contratos t2 ";
 		$Consulta.=" on t1.rut_adm_contratista =t2.rut_adm_contratista where t2.cod_contrato='".$Ctto."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$AdmCodelco=$Fila[rut_adm_contratista].'~'.$Fila["nombres"].'~'.$Fila[ape_paterno].'~'.$Fila[ape_materno].'~'.$Fila[telefono].'~'.$Fila[email];
 		return($AdmCodelco);	
@@ -82,7 +82,7 @@
 	{
 		$Consulta=" SELECT * from sget_tipo_contrato  ";
 		$Consulta.="  where cod_tipo_contrato='".$Cod."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[descrip_tipo_contrato];
 		return($Descripcion);	
@@ -91,7 +91,7 @@
 	{
 		$Consulta=" SELECT * from sget_mutuales_seg  ";
 		$Consulta.="  where cod_mutual='".$Cod."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila["abreviatura"];
 		return($Descripcion);	
@@ -101,7 +101,7 @@
 		$Descripcion='';
 		$Consulta=" SELECT nom_ciudad from sget_ciudades  ";
 		$Consulta.="  where cod_ciudad='".$Cod."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[nom_ciudad];
 		return($Descripcion);	
@@ -111,7 +111,7 @@
 		$Descripcion='';
 		$Consulta=" SELECT nom_comuna from sget_comunas  ";
 		$Consulta.="  where cod_comuna='".$Cod."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[nom_comuna];
 		return($Descripcion);	
@@ -121,7 +121,7 @@
 		$Consulta=" SELECT descrip_gerencias from sget_gerencias  ";
 		$Consulta.="  where cod_gerencia='".$Cod."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[descrip_gerencias];
 		return($Descripcion);	
@@ -132,7 +132,7 @@
 		$Consulta=" SELECT descrip_area,cod_cc from sget_areas ";
 		$Consulta.="  where cod_area='".$Cod."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[cod_cc]." - ".$Fila[descrip_area];
 		return($Descripcion);	
@@ -141,14 +141,14 @@
 	{
 		$Consulta=" SELECT * from sget_prevencionistas  ";
 		$Consulta.="  where rut_prev='".$RutPrev."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$Consulta = "SELECT * from proyecto_modernizacion.clase where cod_clase = '".$Fila[cod_clase]."'   ";
-			$Resp1=mysql_query($Consulta);
+			$Resp1=mysqli_query($link, $Consulta);
 			$Fila1=mysql_fetch_array($Resp1);
 			$Consulta = "SELECT * from proyecto_modernizacion.sub_clase  where cod_clase='".$Fila[cod_clase]."' and cod_subclase='".$Fila["cod_subclase"]."'  ";
-			$Resp3=mysql_query($Consulta);
+			$Resp3=mysqli_query($link, $Consulta);
 			$Fila3=mysql_fetch_array($Resp3);
 			if($Fila3["nombre_subclase"] != "" )
 				$SubClase='('.$Fila3["nombre_subclase"].')';
@@ -162,7 +162,7 @@
 	{
 		$Consulta=" SELECT * from sget_sub_contratistas  ";
 		$Consulta.="  where rut_contratista='".$CmbEmpresa."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Var='S';
 		else	
@@ -173,7 +173,7 @@
 	{
 		$Consulta=" SELECT * from sget_contratistas  ";
 		$Consulta.="  where rut_empresa='".$RutE."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[razon_social];
 		return($Descripcion);	
@@ -183,7 +183,7 @@
 	{
 		$Consulta=" SELECT link from proyecto_modernizacion.pantallas  ";
 		$Consulta.="  where cod_pantalla='".$CodPantalla."' and cod_sistema='".$CodSistema."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=substr($Fila[link],12,strlen($Fila[link]));
 		return($Descripcion);	
@@ -193,13 +193,13 @@
 		$Consulta=" SELECT count(*) as cantidad from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."'  ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 			$Cant=$Fila["cantidad"];
 		$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."' and t2.autorizado='S' ";
 		//echo $Consulta;
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		$Fila2=mysql_fetch_array($Resp2);
 			$CantAut=$Fila2[cantau];
 		/*echo "cantidad".$Cant."<br>";
@@ -228,12 +228,12 @@
 	{
 		$Consulta=" SELECT count(*) as cantidad from sget_hitos t1 left join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."'  ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 			$Cant=$Fila["cantidad"];
 		$Consulta=" SELECT count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."' and t2.autorizado='S' ";
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		$Fila2=mysql_fetch_array($Resp2);
 			$CantAut=$Fila2[cantau];
 		if($Cant > 0 )
@@ -329,13 +329,13 @@
 		//REAJUSTE CONTRATO
 		$Consulta="SELECT cod_contrato,corr from sget_reajustes_contratos where tipo='C' and estado='P' and fecha_reajustada <='".date('Y-m-d')."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			$PromIpcAcum=0;
 			$Consulta="SELECT fecha_inicio,monto_ctto from sget_contratos where cod_contrato='".$Fila["cod_contrato"]."'";
 			//echo $Consulta."<br>";
-			$RespCtto=mysql_query($Consulta);
+			$RespCtto=mysqli_query($link, $Consulta);
 			$FilaCtto=mysql_fetch_array($RespCtto);
 			$PromIpcAcum=EntregaValorIpc($FilaCtto[fecha_inicio]);
 			//echo $PromIpcAcum."<br>";
@@ -350,19 +350,19 @@
 		//REAJUSTE SUELDO TRABAJADORES DEL CONTRATO
 		$Consulta="SELECT cod_contrato,corr from sget_reajustes_contratos where tipo='S' and estado='P' and fecha_reajustada <='".date('Y-m-d')."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			$PromIpcAcum=0;
 			$Consulta="SELECT fecha_inicio from sget_contratos where cod_contrato='".$Fila["cod_contrato"]."'";
-			$RespCtto=mysql_query($Consulta);
+			$RespCtto=mysqli_query($link, $Consulta);
 			$FilaCtto=mysql_fetch_array($RespCtto);
 			$PromIpcAcum=EntregaValorIpc($FilaCtto[fecha_inicio]);
 			if($PromIpcAcum!=0)
 			{
 				$Consulta="SELECT rut,sueldo,cod_contrato,rut_empresa,fec_ini_ctto,fec_fin_ctto from sget_personal where cod_contrato='".$Fila["cod_contrato"]."' and estado='A' ";
 				//echo $Consulta;
-				$RespPers=mysql_query($Consulta);
+				$RespPers=mysqli_query($link, $Consulta);
 				while($FilaPers=mysql_fetch_array($RespPers))
 				{
 					$NewMonto=round($FilaPers[sueldo]+(($FilaPers[sueldo]*$PromIpcAcum)/100));
@@ -389,7 +389,7 @@
 		$ValorIpc1=0;
 		$Consulta="SELECT valor from sget_ipc where ano='".$A�o."' and mes='".intval($FechaAux[1])."'";
 		//echo $Consulta;
-		$RespIpc=mysql_query($Consulta);
+		$RespIpc=mysqli_query($link, $Consulta);
 		if($FilaIpc=mysql_fetch_array($RespIpc))
 		{
 			$ValorIpc1=$FilaIpc["valor"];
@@ -402,7 +402,7 @@
 		$ValorIpc2=0;
 		$Consulta="SELECT valor from sget_ipc where ano='".$A�o."' and mes='".intval($FechaAux[1])."'";
 		//echo $Consulta;
-		$RespIpc=mysql_query($Consulta);
+		$RespIpc=mysqli_query($link, $Consulta);
 		if($FilaIpc=mysql_fetch_array($RespIpc))
 		{
 			$ValorIpc2=$FilaIpc["valor"];
@@ -451,7 +451,7 @@
 		$Consulta="SELECT fecha_hora from sget_reg_estados where num_hoja_ruta='".$HR."' and cod_estado='".$Est."' and rut='".$Rut."'";
 		$Consulta.=" and acept_rech='".$AcepRech."' and tipo='".$Tipo."' and ult='S'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$Fecha=$Fila["fecha_hora"];

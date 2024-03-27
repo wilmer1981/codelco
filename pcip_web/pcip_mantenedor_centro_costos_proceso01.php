@@ -8,7 +8,7 @@ switch($Opcion)
 		$Mensaje='';$TxtCC=strtoupper(trim($TxtCC));
 		$Consulta="select * from pcip_eec_centro_costos where cod_cc = '".$TxtCC."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if(!$Fila=mysql_fetch_array($Resp))
 		{
 			$Corr=ObtenerMaxCorr('pcip_eec_centro_costos','cod_area');

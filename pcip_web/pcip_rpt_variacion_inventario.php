@@ -103,7 +103,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   <option value="-1" selected="selected">Seleccionar</option>
   <?
 	$Consulta = "select cod_subclase,nombre_subclase,valor_subclase1 as mostrar_otros_inv from proyecto_modernizacion.sub_clase where cod_clase='31044'order by cod_subclase ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
 		if ($CmbGrupo==$FilaTC["cod_subclase"])
@@ -124,7 +124,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   <?
 	$Consulta = "select distinct t1.cod_subclase,t1.nombre_subclase from proyecto_modernizacion.sub_clase t1 inner join proyecto_modernizacion.sub_clase t2";
 	$Consulta.= " on t1.cod_clase='31045' and t2.cod_subclase=t1.valor_subclase1 where t1.valor_subclase1='".$CmbGrupo."' order by t1.cod_subclase ";			
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaTC=mysql_fetch_array($Resp))
 	{
 		if ($CmbAsig==$FilaTC["cod_subclase"])
@@ -148,7 +148,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.=" and t1.cod_subclase=t2.cod_area where cod_asignacion<>''";
 		if($CmbAsig!='-1')
 			$Consulta.=" and cod_asignacion='".$CmbAsig."'";											
-		$Resp=mysql_query($Consulta);		
+		$Resp=mysqli_query($link, $Consulta);		
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbArea==$FilaTC["cod_area"])
@@ -169,7 +169,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.=" and t1.cod_subclase=t2.cod_maquila where cod_area<>''";
 		if($CmbArea!='-1')
 			$Consulta.=" and cod_area='".$CmbArea."'";						
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbMaqui==$FilaTC["cod_maquila"])
@@ -189,7 +189,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.=" on t1.cod_producto=t2.cod_producto where cod_maquila<>''";	
 		if($CmbMaqui!='-1')
 			$Consulta.=" and cod_maquila='".$CmbMaqui."'";	
-		$Resp=mysql_query($Consulta);							
+		$Resp=mysqli_query($link, $Consulta);							
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$FilaTC["cod_producto"])
@@ -248,7 +248,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <td  align="center" class="TituloTablaVerde">
 			<? 
 			$Consulta = "select nom_asignacion from pcip_svp_asignacion where cod_asignacion='".$CmbAsig."' ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if ($Fila=mysql_fetch_array($Resp))
 				echo $Fila[nom_asignacion]."<br> [".$Unidad."]";?>
 			</td>
@@ -280,7 +280,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($CmbProd!='-1')
 					$Consulta.=" and t1.cod_producto='".$CmbProd."'";
 				 $Consulta.=" group by cod_asignacion,cod_area ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				while($Fila=mysql_fetch_array($Resp))
 				{
@@ -455,7 +455,7 @@ function ValoresIn($Asig,$Area,$Maqui,$Prod,$Ano,$MesAux1)
 		$Consulta.=" and t1.cod_producto='".$Prod."'";
 	$Consulta.="where t2.VPa�o='".$Ano."' and VPmes='".$MesAux1."'";
 	//echo $Consulta."<br>";
-	$Respaux=mysql_query($Consulta);
+	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux=mysql_fetch_array($Respaux))
 	{
 		$Valor=$Filaaux["total"];
@@ -481,7 +481,7 @@ function ValorPpto($Asig,$Area,$Maqui,$Prod,$Ano,$MesAux1)
 		$Consulta.=" and t1.mes='".$MesAux1."'";
 		
 	//echo $Consulta."<br>";
-	$Respaux=mysql_query($Consulta);
+	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux1=mysql_fetch_array($Respaux))
 	{
 		$ValorPpto=$Filaaux1["total"];
@@ -497,7 +497,7 @@ function ValoresInDiferencia($Ano,$MesAux1)
 	$Consulta.="from pcip_svp_valorizacproduccion t2";
 	$Consulta.=" where  VPtm in ('25','21') and t2.VPa�o='".$Ano."' and VPmes='".$MesAux1."' and VPorden < 5500 ";
 	//echo $Consulta."<br>";
-	$Respaux=mysql_query($Consulta);
+	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux=mysql_fetch_array($Respaux))
 	{
 		$Valor=$Filaaux["total"];

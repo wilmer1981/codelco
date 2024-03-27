@@ -85,7 +85,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  if($Proceso=='L'||$Proceso=='C'){//SI ES LICITACION
 	  	$Consulta="SELECT * from sgc_estados where tipo_proceso='L' ";
 		$Consulta.=" and cod_estado='".$CodEstO."' ";
-		$RespEst=mysql_query($Consulta);
+		$RespEst=mysqli_query($link, $Consulta);
 		$FilaEst=mysql_fetch_array($RespEst);
 		$DescripEst=$FilaEst[descrip_estado];
 	  }
@@ -101,7 +101,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		{
 			$Consulta="SELECT * from sgc_hitos where  ";
 			$Consulta.="  cod_hito='".$RegHito."' ";
-			$RespHito=mysql_query($Consulta);
+			$RespHito=mysqli_query($link, $Consulta);
 			$FilaHito=mysql_fetch_array($RespHito);
 			$DescripHito=$FilaHito[descrip_hito];
 		  }

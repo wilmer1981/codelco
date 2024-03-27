@@ -87,7 +87,7 @@ function Proceso(opc)
 		$Consulta = "SELECT * FROM raf_web.stock ";
 		$Consulta.= " WHERE ano = '".$AnoAnt."' AND mes = '".$MesAnt."' ";
 		$Consulta.= " AND cod_producto = '19'";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($rs))
 		{
 			$Valores = $Valores."Gr. ".str_pad($Fila["hornada"],2,"0",STR_PAD_LEFT)." Peso ".number_format($Fila["peso"],0,",",".")."<br>";	  			  
@@ -109,7 +109,7 @@ function Proceso(opc)
 		$Consulta.= " AND (fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$FechaT."') and ";
 		$Consulta.=" (hora between '".$FechaHI."' and '".$FechaHT."')";
 		//echo "uno".$Consulta."</br>";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($rs))
 		{
 			$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades FROM sea_web.movimientos";
@@ -118,7 +118,7 @@ function Proceso(opc)
 			$Consulta.= " AND (fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$FechaT."') and ";
 			$Consulta.=" (hora between '".$FechaHI."' and '".$FechaHT."')";
 			//echo "dos".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$Valores = $Valores."Gr. ".str_pad($Fila[campo2],2,"0",STR_PAD_LEFT)." Peso ".number_format($row["peso"],0,",",".")."<br>";	  	
 			$AcumPeso = $AcumPeso + $row["peso"]; 	
@@ -132,7 +132,7 @@ function Proceso(opc)
 		$Consulta.= " WHERE cod_producto = 19";
 		//$Consulta.= " AND left(fecha,10) BETWEEN '$Fecha_Ini' AND '$Fecha_Ter'";
 		$Consulta.=" and fecha between '".$FechaHI."' and '".$FechaHT."'";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$Valores = "";
 		$AcumPeso = "";
 		$AcumUnid = "";
@@ -141,7 +141,7 @@ function Proceso(opc)
 			$Consulta = "SELECT SUM(peso) as peso, sum(unidades) as unidades FROM raf_web.det_carga";
 			$Consulta.= " WHERE cod_producto = 19";
 			$Consulta.= " AND hornada = '".$Fila["hornada"]."'";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$Valores = $Valores."Hor. ".substr($Fila["hornada"],6,4)." Peso ".number_format($row["peso"],0,",",".")."<br>";	  	
 			$AcumPeso = $AcumPeso + $row["peso"]; 	
@@ -160,13 +160,13 @@ function Proceso(opc)
     ?>
 	<? //BLISTER
 		$Consulta = "SELECT distinct cod_producto, cod_subproducto FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto = 16";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($rs))
 		{			 
 			$Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto"; 
 			$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
 			$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$Fil = mysql_fetch_array($resp);
 			echo "<tr>";
 			echo "<td align='left' class='Detalle01'>".$Fil["abreviatura"]."</td>";
@@ -174,7 +174,7 @@ function Proceso(opc)
 			$Consulta = "SELECT ifnull(peso,0) as peso, ifnull(unidades,0) as unidades FROM raf_web.stock ";
 			$Consulta.= " WHERE ano = '".$AnoAnt."' AND mes = '".$MesAnt."' ";
 			$Consulta.= " AND cod_producto = '".$Fila["cod_producto"]."' AND cod_subproducto = '".$Fila[cod_subproducto]."'";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$StIniBlister = $row["peso"];	
 			$StIniBlister2 = $StIniBlister2 + $row["peso"];
@@ -187,7 +187,7 @@ function Proceso(opc)
 			$Consulta.= " AND (fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$FechaT."') and ";
 			$Consulta.=" (hora between '".$FechaHI."' and '".$FechaHT."')";
 			//echo "tres".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$TraspBlister = $row["peso"];	
 			$TraspBlister2 = $TraspBlister2 + $row["peso"];	
@@ -201,7 +201,7 @@ function Proceso(opc)
 			//$Consulta.= " AND left(fecha,10) BETWEEN '$Fecha_Ini' AND '$Fecha_Ter'";
 			$Consulta.=" and fecha between '".$FechaHI."' and '".$FechaHT."'";
 			//echo "cuatro".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$BenefBlister = $row["peso"];	
 			$BenefBlister2 = $BenefBlister2 + $row["peso"];	
@@ -221,13 +221,13 @@ function Proceso(opc)
 
 	<? //ANODOS
 		$Consulta = "SELECT distinct cod_producto, cod_subproducto FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto = 17";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($rs))
 		{
 			$Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto"; 
 			$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
 			$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$Fil = mysql_fetch_array($resp);
 			echo "<tr>";
 			echo "<td align='left' class='Detalle01'>".$Fil["abreviatura"]."</td>";
@@ -236,7 +236,7 @@ function Proceso(opc)
 			$Consulta = "SELECT ifnull(peso,0) as peso, ifnull(unidades,0) as unidades FROM raf_web.stock ";
 			$Consulta.= " WHERE ano = '".$AnoAnt."' AND mes = '".$MesAnt."' ";
 			$Consulta.= " AND cod_producto = '".$Fila["cod_producto"]."' AND cod_subproducto = '".$Fila[cod_subproducto]."'";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$StIniAnod = $row["peso"];	
 			$StIniAnod2 = $StIniAnod2 + $row["peso"];	
@@ -249,7 +249,7 @@ function Proceso(opc)
 			$Consulta.= " AND (fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$FechaT."') and ";
 			$Consulta.=" (hora between '".$FechaHI."' and '".$FechaHT."')";
 			//echo "cinco".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$TraspAnod = $row["peso"];	
 			$TraspAnod2 = $TraspAnod2 + $row["peso"];	
@@ -263,7 +263,7 @@ function Proceso(opc)
 			//$Consulta.= " AND left(fecha,10) BETWEEN '$Fecha_Ini' AND '$Fecha_Ter'";
 			$Consulta.=" and fecha between '".$FechaHI."' and '".$FechaHT."'";
 			//echo "seis".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$BenefAnod = $row["peso"];	
 			$BenefAnod2 = $BenefAnod2 + $row["peso"];	
@@ -283,13 +283,13 @@ function Proceso(opc)
 	
 	<? //CIRCULANTES
 		$Consulta = "SELECT distinct cod_producto, cod_subproducto FROM raf_web.det_carga WHERE cod_producto = 42";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($rs))
 		{
 			$Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto"; 
 			$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
 			$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$Fil = mysql_fetch_array($resp);
 			echo "<tr>";
 			echo "<td align='left' class='Detalle02'>".$Fil["abreviatura"]."</td>";
@@ -298,7 +298,7 @@ function Proceso(opc)
 			$Consulta = "SELECT ifnull(peso,0) as peso, ifnull(unidades,0) as unidades FROM raf_web.stock ";
 			$Consulta.= " WHERE ano = '".$AnoAnt."' AND mes = '".$MesAnt."' ";
 			$Consulta.= " AND cod_producto = '".$Fila["cod_producto"]."' AND cod_subproducto = '".$Fila[cod_subproducto]."'";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$StIniCirc = $row["peso"];	
 			$StIniCirc2 = $StIniCirc2 + $row["peso"];
@@ -312,7 +312,7 @@ function Proceso(opc)
 			//$Consulta.= " AND left(fecha,10) BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."'";
 			$Consulta.=" and fecha between '".$FechaHI."' and '".$FechaHT."'";
 			//echo "siete".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$TraspCirc = $row["peso"];		
 			$TraspCirc2 = $TraspCirc2 + $row["peso"];	
@@ -326,7 +326,7 @@ function Proceso(opc)
 			//$Consulta.= " AND left(fecha,10) BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."'";
 			$Consulta.=" and fecha between '".$FechaHI."' and '".$FechaHT."'";
 			//echo "ocho".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$BenefCirc = $row["peso"];		
 			$BenefCirc2 = $BenefCirc2 + $row["peso"];		
@@ -346,13 +346,13 @@ function Proceso(opc)
 	<? //BLISTER LIQUIDO
 		$Consulta = "SELECT distinct cod_producto, cod_subproducto FROM raf_web.det_carga";
 		$Consulta.= " WHERE cod_producto = 16 AND cod_subproducto IN('40','41','42')";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($rs))
 		{
 			$Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto"; 
 			$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
 			$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$Fil = mysql_fetch_array($resp);
 			echo "<tr>";
 			echo "<td align='left' class='Detalle02'>".$Fil["abreviatura"]."</td>";
@@ -361,7 +361,7 @@ function Proceso(opc)
 			$Consulta = "SELECT ifnull(peso,0) as peso, ifnull(unidades,0) as unidades FROM raf_web.stock ";
 			$Consulta.= " WHERE ano = '".$AnoAnt."' AND mes = '".$MesAnt."' ";
 			$Consulta.= " AND cod_producto = '".$Fila["cod_producto"]."' AND cod_subproducto = '".$Fila[cod_subproducto]."'";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$StIniLiquid = $row["peso"];	
 			$StIniLiquid2 = $StIniLiquid2 + $row["peso"];	
@@ -374,7 +374,7 @@ function Proceso(opc)
 			$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"]." AND cod_subproducto = ".$Fila[cod_subproducto]." ";
 			$Consulta.= " AND fecha BETWEEN '".$FechaHI."' AND '".$FechaHT."'";
 			//echo "nueve".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$TraspLiquid = $row["peso"];	
 			$TraspLiquid2 = $TraspLiquid2 + $row["peso"];	
@@ -387,7 +387,7 @@ function Proceso(opc)
 			$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"]." AND cod_subproducto = ".$Fila[cod_subproducto]." ";
 			$Consulta.= " AND fecha BETWEEN '".$FechaHI."' AND '".$FechaHT."'";
 			//echo "diez".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$BenefLiquid = $row["peso"];	
 			$BenefLiquid2 = $BenefLiquid2 + $row["peso"];	
@@ -407,13 +407,13 @@ function Proceso(opc)
 	<? //CATODOS
 		$Consulta = "SELECT distinct cod_producto, cod_subproducto FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND (cod_producto = 18 or cod_producto = 48)";
 		//echo "once".$Consulta."</br>";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($rs))
 		{
 			$Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto"; 
 			$Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
 			$Consulta.= " AND cod_subproducto = ".$Fila[cod_subproducto];
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$Fil = mysql_fetch_array($resp);
 			echo "<tr>";
 			echo "<td align='left'>".$Fil["abreviatura"]."</td>";
@@ -422,7 +422,7 @@ function Proceso(opc)
 			$Consulta = "SELECT ifnull(peso,0) as peso, ifnull(unidades,0) as unidades FROM raf_web.stock ";
 			$Consulta.= " WHERE ano = '".$AnoAnt."' AND mes = '".$MesAnt."' ";
 			$Consulta.= " AND cod_producto = '".$Fila["cod_producto"]."' AND cod_subproducto = '".$Fila[cod_subproducto]."'";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$StIniCat = $row["peso"];	
 			$StIniCat2 = $StIniCat2 + $row["peso"];	
@@ -436,7 +436,7 @@ function Proceso(opc)
 			$Consulta.= " AND (fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$FechaT."') and ";
 			$Consulta.=" (hora between '".$FechaHI."' and '".$FechaHT."')";
 			//echo "doce".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$TraspCat = $row["peso"];	
 			$TraspCat2 = $TraspCat2 + $row["peso"];	
@@ -449,7 +449,7 @@ function Proceso(opc)
 			$Consulta.= " WHERE cod_producto = $Fila["cod_producto"] AND cod_subproducto = $Fila[cod_subproducto]";
 			$Consulta.= " AND fecha BETWEEN '".$FechaHI."' AND '".$FechaHT."'";
 			//echo "trece".$Consulta."</br>";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$row = mysql_fetch_array($resp);
 			$BenefCat = $row["peso"];	
 			$BenefCat2 = $BenefCat2 + $row["peso"];	

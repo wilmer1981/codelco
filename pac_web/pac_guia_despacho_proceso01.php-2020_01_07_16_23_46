@@ -253,7 +253,7 @@ switch ($Proceso)
 
 
 					$Consulta="select * from pac_web.guia_despacho where num_guia='".$NumGuia."' and num_guia!=''";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					/*echo $Consulta;exit();*/
 					if ($Fila=mysql_fetch_array($Respuesta))
 					{
@@ -300,7 +300,7 @@ switch ($Proceso)
 				else//Graba en caso de buque    
 				{
 							$Consulta="select * from pac_web.guia_despacho where num_guia='".$NumGuia."'";
-							$Respuesta=mysql_query($Consulta);
+							$Respuesta=mysqli_query($link, $Consulta);
 							if ($Fila=mysql_fetch_array($Respuesta))
 							{
 								header("location:pac_guia_despacho_proceso.php?Mostrar=S");
@@ -313,7 +313,7 @@ switch ($Proceso)
 								$Insertar.=" '".str_replace(",",".",$Toneladas)."','".str_replace(",",".",$TxtMts)."','".$descripcion."','S','','".$rut."','B','".str_replace(",",".",$VUnitario)."')";
 								mysql_query($Insertar);
 								$Consulta="select valor1 from pac_web.parametros where codigo='1'";
-								$Respuesta=mysql_query($Consulta);
+								$Respuesta=mysqli_query($link, $Consulta);
 								$Fila=mysql_fetch_array($Respuesta);
 								$Densidad=str_replace('.',',',$Fila[valor1]);						
 								if($TxtEK1!='')
@@ -455,7 +455,7 @@ $xmlHeaderAnular="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/so
     				die('No se pudo anular la guia en el sistema: ' . mysql_error());
 					}
 					$Consulta=" select fecha_hora from pac_web.guia_despacho where num_guia = '".$Guia."'  ";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysql_fetch_array($Respuesta);   
 					$Eliminar ="delete from pac_web.movimientos where fecha_hora = '".$Fila["fecha_hora"]."' and tipo_movimiento = '5' ";
 					$delete = mysql_query($Eliminar);
@@ -551,7 +551,7 @@ function ModificarPAC()
 				$Modificar.=" where correlativo = '".$Correlativo."' ";
 				mysql_query($Modificar);
 				$Consulta=" select fecha_hora from pac_web.guia_despacho where correlativo = '".$Correlativo."'  ";
-				$Respuesta1=mysql_query($Consulta);
+				$Respuesta1=mysqli_query($link, $Consulta);
 				$Fila1=mysql_fetch_array($Respuesta1);   
 				$Modificar="UPDATE pac_web.movimientos set toneladas = '".str_replace(",",".",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."',cod_estanque_origen = '".str_replace(",",".",$CmbEstanque)."' where fecha_hora = '".$Fila1["fecha_hora"]."' ";
 				mysql_query($Modificar);
@@ -565,17 +565,17 @@ function ModificarPAC()
 				mysql_query($Modificar);
 			//	echo $Modificar."<br>";
 				$Consulta=" select fecha_hora from pac_web.guia_despacho where correlativo = '".$Correlativo."'  ";
-				$Respuesta1=mysql_query($Consulta);
+				$Respuesta1=mysqli_query($link, $Consulta);
 				$Fila1=mysql_fetch_array($Respuesta1);
 				$Consulta="consulta * from pac_web.movimientos where fecha_hora = '".$Fila1["fecha_hora"]."' ";
-				$Respuesta2=mysql_query($Consulta);
+				$Respuesta2=mysqli_query($link, $Consulta);
 				$Fila2=mysql_fetch_array($Respuesta2);
 				$HoraI = $Fila2[hora_inicio];
 				$HoraT = $Fila2[hora_final];
 				$Eliminar="delete from pac_web.movimientos where fecha_hora = '".$Fila1["fecha_hora"]."' ";
 				mysql_query($Eliminar);
 				$Consulta="select valor1 from pac_web.parametros where codigo='1'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$Densidad=str_replace('.',',',$Fila[valor1]);						
 				if($TxtEK1!='')

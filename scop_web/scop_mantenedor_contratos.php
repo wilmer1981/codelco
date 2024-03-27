@@ -188,7 +188,7 @@ function Resumen(Dato)
 			  <option value="T" selected="selected">Todos</option>
 			  <?
 				$Consulta = "select distinct num_contrato from scop_contratos order by cod_contrato ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbContrato==$Fila["num_contrato"])
@@ -206,7 +206,7 @@ function Resumen(Dato)
 				$Consulta = "select distinct t2.nombre_subclase,t1.cod_tipo_contr from scop_contratos t1 inner join proyecto_modernizacion.sub_clase t2";
 				$Consulta.= " on t2.cod_clase='33002' and t1.cod_tipo_contr=t2.cod_subclase";			
 				$Consulta.= " order by t1.cod_tipo_contr ";						
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbTipoContrato==$Fila["cod_tipo_contr"])
@@ -223,7 +223,7 @@ function Resumen(Dato)
             <option value="-1" class="NoSelec">Todos</option>
             <?
 			//$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31017' ";			
-//			$Resp=mysql_query($Consulta);
+//			$Resp=mysqli_query($link, $Consulta);
 //			while ($FilaTC=mysql_fetch_array($Resp))
 //			{
 //				if ($CmbAcuerdo==$FilaTC["cod_subclase"])
@@ -241,7 +241,7 @@ function Resumen(Dato)
 		   <option value="T" class="NoSelec">Todos</option>
 		   <?
 			$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbVig==$FilaTC["cod_subclase"])
@@ -297,7 +297,7 @@ if($Buscar=='S')
 	if($CmbVig!='T')
 		$Consulta.=" and t1.vigente='".$CmbVig."'";	
 	$Consulta.=" order by t1.cod_contrato";	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	//echo $Consulta."<br>";
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	while ($FilaTC=mysql_fetch_array($Resp))

@@ -66,7 +66,7 @@ function Salir()
 			  <option value="-1" selected="selected">Seleccionar</option>
 			  <?
 			  $Consulta = "select rut_proveedor,nom_proveedor from pcip_fac_proveedores order by rut_proveedor ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbProveedor==$FilaTC["rut_proveedor"])
@@ -80,7 +80,7 @@ function Salir()
 		 <? 	 
 				 $Consulta = "select t1.cod_producto from pcip_fac_productos_por_proveedores t1  ";			
 				 $Consulta.= " where t1.rut_proveedor='".$CmbProveedor."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 						while ($FilaTC=mysql_fetch_array($Resp))
 						{
 							$In=$In."'".$FilaTC["cod_producto"]."',";
@@ -106,7 +106,7 @@ function Salir()
 					$Consulta.= " where  t2.cod_producto not in $In ";
 					$Consulta.= "order by t2.nom_producto ";
 				}
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbProducto==$FilaTC["cod_producto"])
@@ -131,7 +131,7 @@ function Salir()
 				$Consulta = "select t1.cod_producto,t2.nom_producto,t1.rut_proveedor,t3.nom_proveedor from pcip_fac_productos_por_proveedores ";
 				$Consulta.= " t1 inner join pcip_fac_productos_facturas t2 on t1.cod_producto=t2.cod_producto inner join pcip_fac_proveedores t3";
 				$Consulta.= " on t1.rut_proveedor=t3.rut_proveedor where t1.rut_proveedor='".$CmbProveedor."' order by t1.rut_proveedor";			
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {				

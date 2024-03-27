@@ -943,7 +943,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 	$Consulta.= " where t1.fecha_produccion BETWEEN '".$FechaConsulta."' and '".$FechaConsulta."' ";
 	$Consulta.= " group by  t1.fecha_produccion, t1.cod_producto, t2.cod_subproducto, t1.cod_grupo ";
 	$Consulta.= " order by  t1.fecha_produccion, t1.cod_producto, t2.cod_subproducto, t1.cod_grupo  ";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$TotPesoGrupo = 0;
 	while ($Fila = mysql_fetch_array($Respuesta))
   	{
@@ -963,7 +963,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 		$Consulta.= " and t1.cod_producto = '".$Fila["cod_producto"]."' and t1.cod_subproducto = '".$Fila["cod_subproducto"]."' ";
 		$Consulta.= " and t1.cod_grupo = '".$Fila["cod_grupo"]."'";
         $Consulta.= " group by  t1.fecha_produccion, t1.cod_producto, t1.cod_subproducto, t1.cod_grupo ";
-		$Respuesta2 = mysql_query($Consulta);
+		$Respuesta2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_array($Respuesta2))
 		{
 

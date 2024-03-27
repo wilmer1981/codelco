@@ -5,7 +5,7 @@
 	if($OPC=='GO')
 	{
 		$Consulta="SELECT max(CIDVERIFICADOR+1) as maximo from sgrs_siperverificadores_obs ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			if($Fila["maximo"]=='')

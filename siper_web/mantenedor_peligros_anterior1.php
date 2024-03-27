@@ -155,7 +155,7 @@ function Salir()
 			  <?
 				$Consulta="SELECT CCONTACTO,NCONTACTO from sgrs_codcontactos where MOPCIONAL<>'0' order by CCONTACTO";
 				//echo $Consulta;
-				$Resultado=mysql_query($Consulta);
+				$Resultado=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resultado))
 				{
 					if($CmbCONTACTO==$Fila[CCONTACTO])
@@ -196,7 +196,7 @@ function Salir()
 						$Consulta.=" and CCONTACTO='".$CmbCONTACTO."'";
 					$Consulta.=" order by CCONTACTO";
 					//echo $Consulta."<br>";
-					$Resultado=mysql_query($Consulta);echo "<input name='CheckCon' type='hidden'  value=''>";
+					$Resultado=mysqli_query($link, $Consulta);echo "<input name='CheckCon' type='hidden'  value=''>";
 					while ($Fila=mysql_fetch_array($Resultado))
 					{					
 						echo "<td align='center'><input name='CheckCon' class='SinBorde' type='checkbox'  value='".$Fila["CCONTACTO"]."'></td>";
@@ -232,7 +232,7 @@ if($Proceso=='MP')
 {
 	$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$Codigo."'";
 	//echo $Consulta;
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resultado))
 	{
 		$CCONTACTO1=$Fila[CCONTACTO];
@@ -287,7 +287,7 @@ if($Proceso=='AP')
 			  if($Proceso=='AP')
 			  {
 				$Consulta = "SELECT max(ceiling(CCONTACTO) +1) as mayor from sgrs_codcontactos"; 
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Respuesta);
 				$Mayor=$Fila["mayor"];			
 			  ?>

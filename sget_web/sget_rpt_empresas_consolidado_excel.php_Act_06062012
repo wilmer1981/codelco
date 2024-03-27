@@ -29,7 +29,7 @@ $HHMens=ObtieneHHMens();
       <td width="97" class='formulario2' >
           <?
 	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' and cod_subclase='".$CmbEstado."' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			echo ucfirst($FilaTC["nombre_subclase"]);
@@ -38,7 +38,7 @@ $HHMens=ObtieneHHMens();
       <td width="686" class='formulario2' >Estado Trabajador
             <?
 	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' and cod_subclase='".$CmbEstado2."' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			echo ucfirst($FilaTC["nombre_subclase"]);
@@ -99,7 +99,7 @@ $HHMens=ObtieneHHMens();
 		//$Consulta.=" group by t1.rut_empresa";
 		$Consulta.=" order by t1.razon_social,NomCtto,t3.ape_paterno,t3.ape_materno,t3.nombres";
 		//echo $Consulta."<br>";
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=0;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{
@@ -202,7 +202,7 @@ function CalculaES_HH($Tipo,$Rut,$Tarjeta,$Turno,$FDesde,$FHasta)
 			$Consulta="SELECT ifnull(count(*),0) as cant from uca_web.uca_accesos_personas where rut='".$Rut."' and tipo='".$Tipo."' ";
 			//$Consulta.="and nro_tarjeta='".$Tarjeta."' ";
 			$Consulta.="and fechahora between '".$FDesde." 00:00:00' and '".$FHasta." 23:59:59'";
-			$RespCalc=mysql_query($Consulta);
+			$RespCalc=mysqli_query($link, $Consulta);
 			$FilaCalc=mysql_fetch_array($RespCalc);
 			//if($Rut=='13850949-4')
 			//	echo $Consulta."<br>";
@@ -264,7 +264,7 @@ function BuscaMarcas($RutEmp,$CodCtto,$Rut,$Estado,$FDesde,$FHasta)
 	$Consulta.= "and (t3.fechahora >= concat(t2.fecha_ingreso,' 00:00:00') and t3.fechahora <= concat(t2.fecha_termino,' 23:59:59'))"; 
 	$Consulta.= "where t1.rut='".$Rut."' and (t3.fechahora between '".$FDesde." 00:00:00' and '".$FHasta." 23:59:59') ";
 	$Consulta.= "group by t1.rut,t2.cod_contrato,t2.rut_empresa ";
-	$RespMarcas=mysql_query($Consulta);
+	$RespMarcas=mysqli_query($link, $Consulta);
 	//if($Rut=='13850949-4')
 	//	echo $Consulta."<br>";
 	if($FilaMarcas=mysql_fetch_array($RespMarcas))
@@ -418,7 +418,7 @@ function ObtieneHHMens()
 {
 	    $HHMens=180;//DEFAULT
 		$Consulta = "SELECT valor_subclase1 as cant_hh from proyecto_modernizacion.sub_clase where cod_clase='30026' and cod_subclase='1'";			
-		$RespSC=mysql_query($Consulta);
+		$RespSC=mysqli_query($link, $Consulta);
 		if ($FilaSC=mysql_fetch_array($RespSC))
 		{
 			$HHMens=$FilaSC[cant_hh];

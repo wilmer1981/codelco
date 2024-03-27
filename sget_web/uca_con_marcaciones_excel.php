@@ -32,7 +32,7 @@
 				{	
 					$Consulta = "SELECT * from sget_contratistas  ";
 					$Consulta.= " where rut_empresa='".$CmbEmpresa."'";
-					$Resp=mysql_query($Consulta); 
+					$Resp=mysqli_query($link, $Consulta); 
 					if ($Fila=mysql_fetch_array($Resp)) 
 					{ 
 						echo $Fila["rut_empresa"]." - ".strtoupper($Fila["razon_social"]);
@@ -57,7 +57,7 @@
 					//$Consulta.= " and cod_contrato='".$CmbContrato."' ";
 					$Consulta.= " where cod_contrato='".$CmbContrato."' ";
 					$Consulta.= " order by cod_contrato asc";
-					$Resp=mysql_query($Consulta); 
+					$Resp=mysqli_query($link, $Consulta); 
 					if ($Fila=mysql_fetch_array($Resp)) 
 					{ 
 						if ($FechaActual > $Fila["fecha_termino"]){
@@ -84,7 +84,7 @@
 					$Consulta = "SELECT * from sget_personal t1  ";
 					$Consulta.= " where t1.rut='".$CmbRut."' ";
 					$Consulta.= " order by t1.ape_paterno, t1.ape_materno, t1.nombres";
-					$Resp=mysql_query($Consulta); 
+					$Resp=mysqli_query($link, $Consulta); 
 					if ($Fila=mysql_fetch_array($Resp)) 
 					{
 						$Rut=substr($Fila["rut"],0,2).".".substr($Fila["rut"],2,3).".".substr($Fila["rut"],5,3)."-".substr($Fila["rut"],9,1);				
@@ -114,7 +114,7 @@
 	$Consulta.= " group by t3.razon_social";		
 	$Consulta.= " order by t3.razon_social";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$TotalMarcas=0;
 	$TotalEntradas=0;
 	$TotalSalidas=0;
@@ -149,7 +149,7 @@
 		$Consulta.= " and t2.nro_tarjeta<>'00000000' and t2.estado<>'I' ";
 		$Consulta.= " order by t2.ape_paterno, t2.ape_materno, t2.nombres, t1.fechahora ";
 		//echo $Consulta;
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		while ($Fila2=mysql_fetch_array($Resp2))
 		{			
 			$RutFun=substr($Fila2["rut"],0,2).".".substr($Fila2["rut"],2,3).".".substr($Fila2["rut"],5,3)."-".substr($Fila2["rut"],9,1);				

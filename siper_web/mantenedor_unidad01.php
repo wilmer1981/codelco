@@ -4,7 +4,7 @@
 	{
 		case "N":
 			$Consulta = "SELECT ifnull(max(CUNIDAD),0) as mayor from sgrs_unidades"; 
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$Mayor=$Fila["mayor"] + 1;			
 			$Inserta="INSERT INTO sgrs_unidades (CUNIDAD,NUNIDAD,AUNIDAD)";
@@ -25,7 +25,7 @@
 			{
 				$DatosRel='N';
 				$Consulta="SELECT * from sgrs_cagentes where CUNIDAD='".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')

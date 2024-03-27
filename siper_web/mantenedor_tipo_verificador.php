@@ -226,7 +226,7 @@ function CloseDiv()
 			$Consulta = "SELECT * from sgrs_tipo_verificador ";
 			if($TxtDescripcion!='')
 				$Consulta.= " where upper(DESCRIP_VERIFICADOR) like('%".strtoupper($TxtDescripcion)."%') ";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			echo "<input name='CheckRut' type='hidden'  value=''>";
 			$cont=1;
 			while ($Fila=mysql_fetch_array($Resp))
@@ -310,7 +310,7 @@ if (!isset($VisibleDivProceso))
 	  	if($Proc=='M')
 		{
 			$Consulta="Select * from sgrs_tipo_verificador where COD_VERIFICADOR='".$Datos."' ";
-			$Resp1 = mysql_query($Consulta);
+			$Resp1 = mysqli_query($link, $Consulta);
 			if ($Fila1=mysql_fetch_array($Resp1))
 			{
 			 $TxtCod=$Fila1[COD_VERIFICADOR];

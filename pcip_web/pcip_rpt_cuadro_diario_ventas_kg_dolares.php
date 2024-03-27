@@ -112,7 +112,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <?
 		$Consulta ="select distinct(t1.cod_producto),t1.nom_producto from ";
 		$Consulta.=" pcip_cdv_productos_ventas t1 inner join pcip_cdv_cuadro_diario_ventas t2 on t1.cod_producto=t2.cod_producto ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$Fila["cod_producto"])
@@ -153,7 +153,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		   <option value="-1" class="NoSelec">Seleccionar</option>
 		   <?
 			$Consulta = "select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbConAjuste==$FilaTC["nombre_subclase"])
@@ -297,7 +297,7 @@ Hasta
 				$Consulta.=" and t1.ano='".$Ano."' and t1.mes between '".$Mes."' and '".$MesFin."'";						
 				$Consulta.= " order by t1.cod_producto ";
 				//echo $Consulta."<br>";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					$Total=0;

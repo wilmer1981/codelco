@@ -22,7 +22,7 @@
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
 	$Consulta="select count(*) as cant from age_web.lotes where lote between '$LoteIni' and '$LoteFin' and estado_lote not in ('2','4','6') and cod_subproducto<'90' ";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Respuesta))
 	{
 		$CantLotesAbiertos=$Fila[cant];
@@ -353,7 +353,7 @@ body {
 				$Consulta.= " from proyecto_modernizacion.subproducto ";
 				$Consulta.= " where cod_producto='1' ";
 				$Consulta.= " order by orden ";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -374,7 +374,7 @@ body {
 				if($Busq=='S'&&$TxtFiltroPrv!='')
 				   $Consulta.= " and t2.nombre_prv like '%".$TxtFiltroPrv."%' ";  				
 				$Consulta.= "order by t2.nombre_prv ";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($CmbProveedor == $Fila["rut_proveedor"])
@@ -512,7 +512,7 @@ No
 		}	
 			
 		//echo $Consulta;
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($Resp))
 		{
 			$DatosLote= array();
@@ -551,7 +551,7 @@ No
 			$Consulta.= " inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='1002' and t3.cod_subclase=t2.estado_actual  ";
 			$Consulta.= " where t1.lote = '".$TxtLote."' and t2.estado_actual not in ('7','16')";			
 			$Consulta.= " and (t2.recargo='0' or t2.recargo='') ";	
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 			{
 				$SA=$FilaAux["nro_solicitud"];
@@ -570,7 +570,7 @@ No
 			$Consulta.= " inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='1002' and t3.cod_subclase=t2.estado_actual  ";
 			$Consulta.= " where t1.lote = '".$TxtLote."' ";			
 			$Consulta.= " and t2.recargo='R' ";	
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 			{
 				$SA_Retalla=$FilaAux["nro_solicitud"];
@@ -588,7 +588,7 @@ No
 			$Consulta.= " inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='1002' and t3.cod_subclase=t2.estado_actual  ";
 			$Consulta.= " where t1.lote = '".$TxtLote."' ";			
 			$Consulta.= " and (t2.recargo='0' or t2.recargo='' or isnull(t2.recargo)) and estado_actual not in ('7','16')";	
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 			{
 				$SA_Paralela=$FilaAux["nro_solicitud"];

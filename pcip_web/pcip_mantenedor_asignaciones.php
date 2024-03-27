@@ -143,7 +143,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="-1" selected="selected">Todos</option>
             <?
 	    $Consulta = "select * from pcip_svp_asignacion order by nom_asignacion ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$Fila["cod_asignacion"])
@@ -160,7 +160,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="-1" class="NoSelec">Todos</option>
             <?
 	    $Consulta = "select * from pcip_svp_asignaciones_productos where cod_asignacion='".$CmbProd."'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbAsig==$Fila["cod_producto"])
@@ -237,7 +237,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if($Ano!='-1')
 		$Consulta.="and t1.ano='".$Ano."'";	
 	$Consulta.=" order by t1.correlativo,t1.cod_asignacion";
-	$Resp=mysql_query($Consulta);$Cont=0;
+	$Resp=mysqli_query($link, $Consulta);$Cont=0;
 	//echo $Consulta."<br>";
 	echo "<input name='CheckAsig' type='hidden'>";
 	while($Fila=mysql_fetch_array($Resp))

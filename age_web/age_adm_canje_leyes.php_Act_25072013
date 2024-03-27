@@ -18,7 +18,7 @@
 		$Consulta.="proyecto_modernizacion.sub_clase t8 on t8.cod_clase='3104' and t1.cod_recepcion=t8.nombre_subclase ";
 		$Consulta.= "where t1.lote = '".$TxtLote."' and t1.estado_lote <>'6'";
 		//echo $Consulta;
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))
 		{
 			//DATOS DEL LOTE
@@ -47,7 +47,7 @@
 				/*if($TxtOrdenEnsaye==''||$TxtOrdenEnsaye=='ninguno')
 				{*/
 					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15010' and cod_subclase='1'";
-					$Resp2=mysql_query($Consulta);
+					$Resp2=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Resp2);
 					//echo $Consulta;
 					$TxtOrdenEnsaye=$Fila2["valor_subclase1"];				
@@ -55,7 +55,7 @@
 				if($CmbLaboratorios==''||$CmbLaboratorios=='S')
 				{
 					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15010' and cod_subclase='2'";
-					$Resp2=mysql_query($Consulta);
+					$Resp2=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Resp2);
 					//echo $Consulta;
 					$CmbLaboratorios=$Fila2["valor_subclase1"];				
@@ -63,7 +63,7 @@
 				if($TxtFechaCanje==''||$TxtFechaCanje=='0000-00-00')
 				{
 					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15010' and cod_subclase='3'";
-					$Resp2=mysql_query($Consulta);
+					$Resp2=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Resp2);
 					//echo $Consulta;
 					$TxtFechaCanje=$Fila2["valor_subclase1"];				
@@ -71,7 +71,7 @@
 				if($TxtFechaSolPqts==''||$TxtFechaSolPqts=='0000-00-00')
 				{
 					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15010' and cod_subclase='4'";
-					$Resp2=mysql_query($Consulta);
+					$Resp2=mysqli_query($link, $Consulta);
 					$Fila2=mysql_fetch_array($Resp2);
 					//echo $Consulta;
 					$TxtFechaSolPqts=$Fila2["valor_subclase1"];				
@@ -101,7 +101,7 @@
 					$Consulta.="left join proyecto_modernizacion.unidades t2 on t1.cod_unidad=t2.cod_unidad left join proyecto_modernizacion.leyes t3 on t1.cod_leyes=t3.cod_leyes ";
 					$Consulta.="where lote='$TxtLote' and recargo in ('0','R') and t1.cod_leyes ".$Leyes;
 					//echo $Consulta;
-					$RespLeyes=mysql_query($Consulta);
+					$RespLeyes=mysqli_query($link, $Consulta);
 					while($FilaLeyes=mysql_fetch_array($RespLeyes))
 					{
 						switch($FilaLeyes["recargo"])
@@ -138,7 +138,7 @@
 	
 					//PARA SABER SI ESTE LOTE YA TIENE CANJE GUARDADO
 					$Consulta="select * from age_web.leyes_por_lote_canje where lote='$TxtLote'";
-					$Respuesta=mysql_query($Consulta);
+					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Respuesta))
 					{
 						if ($Fila["cod_leyes"]=='02' && ($Fila[valor1] != $valorcu) && $valorcu > 0)
@@ -188,7 +188,7 @@
 		$Consulta.=" where t1.lote between '".$LoteIni."' and '".$LoteFin."' ";
 		$Consulta.=" and t1.cod_producto = '1' and t1.cod_subproducto ='17' and t1.rut_proveedor='1100-2'";
 		//echo $Consulta;
-		$RespHvl=mysql_query($Consulta);$LotesSinLeyesEnami='';
+		$RespHvl=mysqli_query($link, $Consulta);$LotesSinLeyesEnami='';
 		$CantLotesHVL=mysql_num_rows($RespHvl);
 		//echo "CANT.".$CantLotesHVL."<BR>";
 		$ContCu=0;$ContAg=0;$ContAu=0;$AcumCu1=0;$AcumCu2=0;$AcumPesoLote=0;
@@ -197,14 +197,14 @@
 			$Consulta ="select ifnull(sum(peso_neto),0) as peso from age_web.detalle_lotes ";
 			$Consulta.=" where lote = '".$FilaHVL[lote]."' group by lote";
 			//echo $Consulta."<br>";
-			$RespPesoLoteHvl=mysql_query($Consulta);
+			$RespPesoLoteHvl=mysqli_query($link, $Consulta);
 			$FilaPesoLoteHvl=mysql_fetch_assoc($RespPesoLoteHvl);
 			$PesoLote=$FilaPesoLoteHvl["peso"];
 			$AcumPesoLote=$AcumPesoLote+$PesoLote;
 			$Consulta ="select cod_leyes, valor1, valor2 from age_web.leyes_por_lote_canje ";
 			$Consulta.=" where lote = '".$FilaHVL[lote]."' and valor2<>0";
 			//echo $Consulta;
-			$RespLeyesHvl=mysql_query($Consulta);
+			$RespLeyesHvl=mysqli_query($link, $Consulta);
 			while($FilaLeyesHVL=mysql_fetch_array($RespLeyesHvl))
 			{
 				switch($FilaLeyesHVL["cod_leyes"])
@@ -235,7 +235,7 @@
 			$Consulta ="select cod_leyes, valor1, valor2 from age_web.leyes_por_lote_canje ";
 			$Consulta.=" where lote = '".$FilaHVL[lote]."' and valor2=0";
 			//echo $Consulta;
-			$RespLeyesHvl=mysql_query($Consulta);
+			$RespLeyesHvl=mysqli_query($link, $Consulta);
 			while($FilaLeyesHVL=mysql_fetch_array($RespLeyesHvl))
 			{
 				$LotesSinLeyesEnami=$LotesSinLeyesEnami.$FilaHVL[lote];
@@ -292,17 +292,17 @@
 			//echo "Dif Codelco - Enami Au: ".number_format($DifAu,3,',','')."<br>";
 			$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='02' and limite_particion >=".$DifCu;
 			//echo $Consulta."<br>";
-			$Respuesta=mysql_query($Consulta);$PartibleCu='N';
+			$Respuesta=mysqli_query($link, $Consulta);$PartibleCu='N';
 			if($Fila=mysql_fetch_array($Respuesta))
 				$PartibleCu='S';
 			$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='04' and limite_particion >=".$DifAg;
 			//echo $Consulta."<br>";
-			$Respuesta=mysql_query($Consulta);$PartibleAg='N';
+			$Respuesta=mysqli_query($link, $Consulta);$PartibleAg='N';
 			if($Fila=mysql_fetch_array($Respuesta))
 				$PartibleAg='S';
 			$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='05' and limite_particion >=".$DifAu;
 			//echo $Consulta."<br>";
-			$Respuesta=mysql_query($Consulta);$PartibleAu='N';
+			$Respuesta=mysqli_query($link, $Consulta);$PartibleAu='N';
 			if($Fila=mysql_fetch_array($Respuesta))
 				$PartibleAu='S';
 		}
@@ -381,7 +381,7 @@
 										$Dif=abs($ValorLey1-$ValorLey2);
 										$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='".$CodLey."' and limite_particion >=".$Dif;
 										//echo $Consulta."<br>";
-										$Respuesta=mysql_query($Consulta);
+										$Respuesta=mysqli_query($link, $Consulta);
 										if($Fila=mysql_fetch_array($Respuesta))
 										{
 											$Seguimiento='LEY CU PARTIBLE ENTRE PQTE1 Y PQTE2 PORQUE DIF. ES MENOR O IGUAL A LIM.PART<br>';
@@ -405,7 +405,7 @@
 										$Dif=abs($ValorLey1-$ValorLey2);
 										$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='".$CodLey."' and limite_particion >=".$Dif;
 										//echo $Consulta."<br>";
-										$Respuesta=mysql_query($Consulta);
+										$Respuesta=mysqli_query($link, $Consulta);
 										if($Fila=mysql_fetch_array($Respuesta))
 										{
 											$Seguimiento='LEY AG PARTIBLE ENTRE PQTE1 Y PQTE2 PORQUE DIF. ES MENOR O IGUAL A LIM.PART<br>';
@@ -430,7 +430,7 @@
 										$Dif=abs($ValorLey1-$ValorLey2);
 										$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='".$CodLey."' and limite_particion >=".$Dif;
 										//echo $Consulta."<br>";
-										$Respuesta=mysql_query($Consulta);
+										$Respuesta=mysqli_query($link, $Consulta);
 										if($Fila=mysql_fetch_array($Respuesta))
 										{
 											$Seguimiento='LEY AU PARTIBLE ENTRE PQTE1 Y PQTE2 PORQUE DIF. ES MENOR O IGUAL A LIM.PART<br>';
@@ -450,12 +450,12 @@
 						{
 							$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and ".$ValorLey1." between rango1 and rango2";
 							//echo $Consulta."<br>";
-							$Respuesta=mysql_query($Consulta);
+							$Respuesta=mysqli_query($link, $Consulta);
 							if(!$Fila=mysql_fetch_array($Respuesta))
 							{
 								$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
 								//echo $Consulta."<br>";
-								$Respuesta2=mysql_query($Consulta);
+								$Respuesta2=mysqli_query($link, $Consulta);
 								$Fila2=mysql_fetch_array($Respuesta2);
 								$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
 							}
@@ -553,11 +553,11 @@
 						if(($ValorLey3>$ValorLey2)||($ValorLey3<$ValorLey1))
 						{
 							$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and ".$ValorLey1." between rango1 and rango2";
-							$Respuesta=mysql_query($Consulta);
+							$Respuesta=mysqli_query($link, $Consulta);
 							if(!$Fila=mysql_fetch_array($Respuesta))
 							{
 								$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
-								$Respuesta2=mysql_query($Consulta);
+								$Respuesta2=mysqli_query($link, $Consulta);
 								$Fila2=mysql_fetch_array($Respuesta2);
 								$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
 							}
@@ -599,11 +599,11 @@
 					if(($ValorLey4>$ValorLey2)||($ValorLey4<$ValorLey1))
 					{
 						$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and ".$ValorLey1." between rango1 and rango2";
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						if(!$Fila=mysql_fetch_array($Respuesta))
 						{
 							$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
-							$Respuesta2=mysql_query($Consulta);
+							$Respuesta2=mysqli_query($link, $Consulta);
 							$Fila2=mysql_fetch_array($Respuesta2);
 							$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
 						}
@@ -946,7 +946,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1">SELECCIONAR</option>
       <?
 			$Consulta="select distinct cod_plantilla,nombre_plantilla from age_web.limites_particion where proceso='CANJE' order by cod_plantilla";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Respuesta))
 			{
 				if($CmbPlantLimPart==$Fila["cod_plantilla"])
@@ -1071,7 +1071,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		else
 			echo "<option value='S'>Ninguno</option>";
 		$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase=15009";
-		$RespLab=mysql_query($Consulta);
+		$RespLab=mysqli_query($link, $Consulta);
 		while($FilaLab=mysql_fetch_array($RespLab))
 		{
 			if($FilaLab["cod_subclase"]==$CmbLaboratorios)

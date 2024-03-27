@@ -42,7 +42,7 @@ if($Archivo_name!='none')
 	}
 }
 $Consulta="Select * from sget_hoja_ruta where num_hoja_ruta='".$ID."'";
-$Resp1= mysql_query($Consulta);
+$Resp1= mysqli_query($link, $Consulta);
 if($Fila1 = mysql_fetch_array($Resp1))
 {
 	$RutEmpresa=$Fila1[rut_empresa];
@@ -222,7 +222,7 @@ function Historico($Run,$Empresa,$Ctto,$FechaIni,$FechaFin,$Sueldo)
 function HRutaNomina($Nomina,$Rut)
 {
 	$Consulta="SELECT * from sget_hoja_ruta_nomina where rut_personal='".str_pad(trim($Rut),10,'0',STR_PAD_LEFT)."' and num_hoja_ruta='".$Nomina."'";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if(!$Fila = mysql_fetch_array($Resp))
 	{
 		$Insertar="INSERT INTO sget_hoja_ruta_nomina(num_hoja_ruta,rut_personal,estado,observacion,origen) values (";
@@ -234,7 +234,7 @@ function ExisteRut($Run)
 {
 	$Existe=false;
 	$Consulta="SELECT * from sget_personal where rut='".str_pad(trim($Run),10,'0',STR_PAD_LEFT)."'";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if($Fila = mysql_fetch_array($Resp))
 	{
 		$Existe=true;
@@ -247,7 +247,7 @@ function ValidaRut($Run,$Contra)
 	$FechaSistema=date('Y-m-d');
 	$Existe=false;
 	$Consulta="SELECT * from sget_personal where rut='".str_pad(trim($Run),10,'0',STR_PAD_LEFT)."' and estado='A'";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if($Fila = mysql_fetch_array($Resp))
 	{
 		if($Fila["cod_contrato"]!=$Contra)

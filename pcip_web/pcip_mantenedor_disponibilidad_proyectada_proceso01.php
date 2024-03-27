@@ -8,7 +8,7 @@ switch($Opcion)
 		$Consulta="select * from pcip_eec_disponibilidades where tipo_disponibilidad='P' and cod_sistema = '".$CmbSistema."' and cod_equipo='".$CmbEquipos."' and ano='".$Ano."'";
 		//echo $Consulta;
 		//echo "alert('hola');";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if(!$Fila=mysql_fetch_array($Resp))
 		{
 			$Datos=explode('||',$Valores);
@@ -55,7 +55,7 @@ switch($Opcion)
 					$Datos2[2]=0;
 				$Consulta="select * from pcip_eec_disponibilidades ";
 				$Consulta.=" where tipo_disponibilidad='P' and cod_sistema = '".$Cod[0]."' and cod_equipo='".$Cod[1]."' and ano='".$Cod[2]."' and mes='".$Mes."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					$Actualizar="UPDATE pcip_eec_disponibilidades set hrs_oper_d='".str_replace(',','.',$Datos2[0])."',hrs_mant_men='".str_replace(',','.',$Datos2[1])."',hrs_mant_may='".str_replace(',','.',$Datos2[2])."' ";

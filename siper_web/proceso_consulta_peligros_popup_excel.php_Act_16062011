@@ -37,7 +37,7 @@
 			if($CodPel!='T')
 			{
 				$Consulta="SELECT t1.CCONTACTO,NCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where CPELIGRO='".$CodPel."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NCONTACTO];
 				$CodPel1=$Fila[CCONTACTO];
@@ -92,7 +92,7 @@
 			if($Control!='T')
 			{
 				$Consulta="SELECT NCONTROL from sgrs_codcontroles where CCONTROL='".$Control."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NCONTROL];
 			}
@@ -106,7 +106,7 @@
 			if($TipoVerif!='T')
 			{
 				$Consulta="SELECT DESCRIP_VERIFICADOR from sgrs_tipo_verificador where COD_VERIFICADOR='".$TipoVerif."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[DESCRIP_VERIFICADOR];
 			}
@@ -120,7 +120,7 @@
 	 <? 
 			$CODAREA=ObtenerCodParent($CodSelTarea);
 			$Consulta="SELECT t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."'";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resultado);
 			$CodTarea=$Fila[CTAREA];
 			if($CodTarea==8)
@@ -207,7 +207,7 @@
 			$Consulta=$Consulta.$Consulta2." group by t1.CAREA ";
 			//echo $Consulta;
 			$MRAux=$MR;	
-			$Resp=mysql_query($Consulta);$TotTarea=0;$TotPel=0;
+			$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				echo "<tr>";
@@ -252,7 +252,7 @@
 
 					
 				//echo $Consulta;
-				$Resp2=mysql_query($Consulta);
+				$Resp2=mysqli_query($link, $Consulta);
 				while($Fila2=mysql_fetch_array($Resp2))
 				{
 					$PH='';$CH='';$PC='';$CC='';$Validado='';
@@ -324,7 +324,7 @@
 						if($Control!='T')
 							$Consulta.=" and t1.CCONTROL='".$Control."' and t1.MCONTROL<>0 ";					
 						//echo $Consulta."<br>";
-						$RespCtrl=mysql_query($Consulta);
+						$RespCtrl=mysqli_query($link, $Consulta);
 						if($FilaCtrl=mysql_fetch_array($RespCtrl))
 						{
 							echo "<table width='96%' border='1' cellspacing='0' cellpadding='0' style='top:auto;'>";
@@ -334,7 +334,7 @@
 							if($Control!='T')
 								$Consulta.=" and t1.CCONTROL='".$Control."' and t1.MCONTROL<>0 ";					
 							//echo $Consulta."<br>";
-							$RespCtrl=mysql_query($Consulta);
+							$RespCtrl=mysqli_query($link, $Consulta);
 							while($FilaCtrl=mysql_fetch_array($RespCtrl))
 							{
 								$ConsuOBS="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";

@@ -203,7 +203,7 @@ function ObtengoMaximo($Tabla,$Campo,$CampoWhere)
 function NomUsuario($Rut)
 {
 	$Consulta = "select * from proyecto_modernizacion.funcionarios where rut='".$Rut."'"; 
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$Nom=ucfirst(strtolower($Fila["nombres"]))." ".ucfirst(strtolower($Fila["apellido_paterno"]))." ".ucfirst(strtolower($Fila["apellido_materno"]));
@@ -213,7 +213,7 @@ function NomUsuario($Rut)
 function NomProducto($Cod)
 {
 	$Consulta = "select * from proyecto_modernizacion.productos where cod_producto='".$Cod."'"; 
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$Nom=ucfirst(strtolower($Fila["descripcion"]));
@@ -223,7 +223,7 @@ function NomProducto($Cod)
 function NomSubProducto($Cod,$CodSub)
 {
 	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='".$Cod."' and cod_subproducto='".$CodSub."'"; 
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$Nom=ucfirst(strtolower($Fila["descripcion"]));
@@ -233,7 +233,7 @@ function NomSubProducto($Cod,$CodSub)
 function NomPerfil($Rut)
 {
 	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut='".$Rut."' and cod_sistema='6'"; 
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$Nivel=$Fila[nivel];
@@ -248,7 +248,7 @@ function NomPerfil($Rut)
 function Nivel($Rut)
 {
 	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut='".$Rut."' and cod_sistema='6'"; 
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$Nivel=$Fila[nivel];

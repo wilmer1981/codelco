@@ -21,7 +21,7 @@ if(!isset($Recarga))
 		if($Cod[6]=='SVP')
 		 	$Consulta.="and t1.num_orden_relacionada='".$Cod[5]."' and t1.vptm='".$Cod[7]."' ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		$CmbProd=$Fila[cod_asignacion];
 		$Ano=$Fila[ano];
@@ -51,7 +51,7 @@ if(!isset($Recarga))
 	else
 	{
 		$Consulta="select max(correlativo+1) as maximo from pcip_svp_productos_procedencias ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtCodigo=$Fila["maximo"];
@@ -275,7 +275,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" selected="selected">Seleccionar</option>
              <?
 			$Consulta = "select * from pcip_svp_asignacion order by nom_asignacion ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbProd==$Fila["cod_asignacion"])
@@ -304,7 +304,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 	    $Consulta = "select * from pcip_svp_asignaciones_productos where cod_asignacion='".$CmbProd."'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbAsig==$Fila["cod_producto"])
@@ -334,7 +334,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 	    $Consulta = "select * from pcip_svp_negocios ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbNegocio==$Fila["cod_negocio"])
@@ -362,7 +362,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
              <option value="-1" class="NoSelec">Seleccionar</option>
              <?
 	    $Consulta = "select * from pcip_svp_asignaciones_titulos where cod_asignacion='".$CmbProd."' and cod_negocio='".$CmbNegocio."' order by orden";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbTitulo==$Fila["cod_titulo"])
@@ -444,7 +444,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select * from pcip_svp_ordenesproduccion order by OPorden ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbOrden==$Fila["OPorden"])
@@ -470,7 +470,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Ninguna</option>
                <?
 				$Consulta = "select * from pcip_svp_ordenesproduccion order by OPorden ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbOrdenRel==$Fila["OPorden"])
@@ -517,7 +517,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select valor_subclase1,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31025' order by valor_subclase1";						
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbNodo==$Fila["valor_subclase1"])
@@ -533,7 +533,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <?
 				$Consulta = "select distinct cod_flujo,nom_flujo,tipo_dato from pcip_ena_datos_enabal where origen='".$CmbOrigenDatos."' and tipo_dato='F' and tipo_mov='".$CmbNodo."'";
 				$Consulta.= " group by origen,cod_flujo, tipo_dato order by cod_flujo ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($CmbOrden==$Fila["cod_flujo"])

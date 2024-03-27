@@ -177,7 +177,7 @@ if($Proceso == 'B')
 	$TotalPeso = 0;
 	$Consulta="SELECT distinct t1.cod_subproducto,t2.descripcion from sea_web.restos_a_sec t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 	$Consulta.="where t1.fecha_movimiento = '".$fecha."' and tipo_movimiento = '4'";
-	$RespProd=mysql_query($Consulta);
+	$RespProd=mysqli_query($link, $Consulta);
 	while($FilaProd=mysql_fetch_array($RespProd))
 	{
 		$Datos=$fecha."~".$SubProd;

@@ -16,35 +16,35 @@ if($Archivo_name!='none')
 		{
 			switch(substr($Archivo_name,$j,1))
 			{
-				case "á":
-					$Archivo_name=str_replace( "á","a",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","a",$Archivo_name);
 				break;
-				case "Á":
-					$Archivo_name=str_replace( "Á","A",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","A",$Archivo_name);
 				break;
-				case "é":
-					$Archivo_name=str_replace( "é","e",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","e",$Archivo_name);
 				break;
-				case "É":
-					$Archivo_name=str_replace( "É","E",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","E",$Archivo_name);
 				break;
-				case "í":
-					$Archivo_name=str_replace( "í","i",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","i",$Archivo_name);
 				break;
-				case "Í":
-					$Archivo_name=str_replace( "Í","I",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","I",$Archivo_name);
 				break;
-				case "ó":
-					$Archivo_name=str_replace( "ó","o",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","o",$Archivo_name);
 				break;
-				case "Ó":
-					$Archivo_name=str_replace( "Ó","O",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","O",$Archivo_name);
 				break;
-				case "ú":
-					$Archivo_name=str_replace( "ú","u",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","u",$Archivo_name);
 				break;
-				case "Ú":
-					$Archivo_name=str_replace( "Ú","U",$Archivo_name);
+				case "ï¿½":
+					$Archivo_name=str_replace( "ï¿½","U",$Archivo_name);
 				break;
 				case "&":
 					$Archivo_name=str_replace( "&","",$Archivo_name);
@@ -150,7 +150,7 @@ function CargarDatos($Ano,$Mes)
 	while ($Fila = odbc_fetch_row($Respuesta))
 	{  
 		$Consulta="select * from pcip_svp_relmateriales where RMmaterial='".odbc_result($Respuesta,"RMmaterial")."' and RMmaterialequivalente='".odbc_result($Respuesta,"RMmaterialequivalente")."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if(!$Fila=mysql_fetch_array($Resp))
 		{
 			$Insertar="INSERT INTO `pcip_svp_relmateriales` (`RMmaterial`,`RMmaterialequivalente`)  values ('".odbc_result($Respuesta,"RMmaterial")."','".odbc_result($Respuesta,"RMmaterialequivalente")."')";
@@ -182,14 +182,14 @@ function CargarDatos($Ano,$Mes)
 		//echo $Insertar."<br>";
 		mysql_query($Insertar);
 	}	
-	$Consulta = "select * from ValorizacProduccion where VPaño=".$Ano." and VPmes=".$Mes;
+	$Consulta = "select * from ValorizacProduccion where VPaï¿½o=".$Ano." and VPmes=".$Mes;
 	//$Consulta = "select * from ValorizacProduccion ";
 	//echo $Consulta;
 	$Respuesta= odbc_exec($conexion,$Consulta);
 	while ($Fila = odbc_fetch_row($Respuesta))
 	{  
-		$Insertar="INSERT INTO `pcip_svp_valorizacproduccion` (`VPaño`,`VPmes`,`VPorden`,`VPtm`,`VPsubtm`,`VPordenrel`,`VPmaterial`,`VPtipinv`,`VPtv`,`VPordes`,`VPcantidad`,`VPcostun`,`VPvalor`,`VPdiaref`) VALUES ";
-		$Insertar.="('".odbc_result($Respuesta,"VPaño")."','".odbc_result($Respuesta,"VPmes")."','".odbc_result($Respuesta,"VPorden")."','".odbc_result($Respuesta,"VPtm")."','".odbc_result($Respuesta,"VPsubtm")."','".odbc_result($Respuesta,"VPordenrel")."','".odbc_result($Respuesta,"VPmaterial")."','".odbc_result($Respuesta,"VPtipinv")."',";
+		$Insertar="INSERT INTO `pcip_svp_valorizacproduccion` (`VPaï¿½o`,`VPmes`,`VPorden`,`VPtm`,`VPsubtm`,`VPordenrel`,`VPmaterial`,`VPtipinv`,`VPtv`,`VPordes`,`VPcantidad`,`VPcostun`,`VPvalor`,`VPdiaref`) VALUES ";
+		$Insertar.="('".odbc_result($Respuesta,"VPaï¿½o")."','".odbc_result($Respuesta,"VPmes")."','".odbc_result($Respuesta,"VPorden")."','".odbc_result($Respuesta,"VPtm")."','".odbc_result($Respuesta,"VPsubtm")."','".odbc_result($Respuesta,"VPordenrel")."','".odbc_result($Respuesta,"VPmaterial")."','".odbc_result($Respuesta,"VPtipinv")."',";
 		$Insertar.="'".odbc_result($Respuesta,"VPtv")."','".odbc_result($Respuesta,"VPordes")."','".odbc_result($Respuesta,"VPcantidad")."','".odbc_result($Respuesta,"VPcostun")."','".odbc_result($Respuesta,"VPvalor")."','".odbc_result($Respuesta,"VPdiaref")."')";
 		//echo $Insertar."<br>";
 		mysql_query($Insertar);
@@ -222,7 +222,7 @@ function EliminarMesProceso($Ano,$Mes)
 	$Eliminar='delete from pcip_svp_tiposinventarios ';
 	mysql_query($Eliminar);
 	//$Eliminar='delete from pcip_svp_valorizacproduccion ';
-	$Eliminar='delete from pcip_svp_valorizacproduccion where VPaño="'.$Ano.'" and VPmes="'.$Mes.'" ';
+	$Eliminar='delete from pcip_svp_valorizacproduccion where VPaï¿½o="'.$Ano.'" and VPmes="'.$Mes.'" ';
 	mysql_query($Eliminar);
 
 }

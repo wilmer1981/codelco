@@ -228,7 +228,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta.=" where cod_clase='31019' and valor_subclase1='C' and cod_subclase not in ('21','23','24','25')";
 				$Consulta.= " group by cod_grupo";	
 				//echo $Consulta; 	
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 						$NomGrupo=$Fila[nom_grupo];
@@ -248,7 +248,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							//if($CodGrupo=='19'&&$i==1)
 							//echo $Consulta."<br>";
 							$Valor=0;$Valor1=0;$Valor2=0;
-							$Resp2=mysql_query($Consulta); 
+							$Resp2=mysqli_query($link, $Consulta); 
 							if($Fila2=mysql_fetch_array($Resp2))
 							{
 								$Valor=$Fila2[ValorIngreso];
@@ -277,7 +277,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							//if($CodGrupo=='19'&&$i==1)
 							//echo $Consulta."<br>";
 							$ValorAcumulado1=0;$ValorAcumulado2=0;$ValorAcumuladoMargen=0;
-							$Resp2=mysql_query($Consulta); 
+							$Resp2=mysqli_query($link, $Consulta); 
 							if($Fila2=mysql_fetch_array($Resp2))
 							{
 							   $ValorAcumulado1=$Fila2[ValorIngreso];
@@ -323,7 +323,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.=" where cod_clase='31019' and valor_subclase1='C' and cod_subclase in ('23','24','25')";
 					$Consulta.= " group by cod_grupo";	
 					//echo $Consulta; 	
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 							$NomGrupo=$Fila[nom_grupo];
@@ -343,7 +343,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 								//if($CodGrupo=='19'&&$i==1)
 								//echo $Consulta."<br>";
 								$Valor=0;$Valor1=0;$Valor2=0;
-								$Resp2=mysql_query($Consulta); 
+								$Resp2=mysqli_query($link, $Consulta); 
 								if($Fila2=mysql_fetch_array($Resp2))
 								{
 									$Valor=$Fila2[ValorIngreso];
@@ -375,7 +375,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 								//if($CodGrupo=='19'&&$i==1)
 								//echo $Consulta."<br>";
 								$ValorAcumulado1=0;$ValorAcumulado2=0;$ValorAcumuladoMargen=0;
-								$Resp2=mysql_query($Consulta); 
+								$Resp2=mysqli_query($link, $Consulta); 
 								if($Fila2=mysql_fetch_array($Resp2))
 								{
 								   $ValorAcumulado1=$Fila2[ValorIngreso];
@@ -413,7 +413,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.=" where cod_clase='31019' and valor_subclase1='C' and cod_subclase in ('21')";
 					$Consulta.= " group by cod_grupo";	
 					//echo $Consulta; 	
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Resp))
 					{
 							$NomGrupo=$Fila[nom_grupo];
@@ -459,7 +459,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							$Consulta.=" where cod_clase='31019' and valor_subclase1='S'";
 							$Consulta.= " group by cod_grupo";	
 							//echo $Consulta; 	
-							$Resp=mysql_query($Consulta);
+							$Resp=mysqli_query($link, $Consulta);
 							while($Fila=mysql_fetch_array($Resp))
 							{
 								$NomGrupo=$Fila[nom_grupo];
@@ -479,7 +479,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 									//if($i==1&&$CodGrupo=='7')
 									//	echo $Consulta;
 								    $ValorS=0;$ValorS1=0;$ValorS2=0;						
-									$Resp2=mysql_query($Consulta);
+									$Resp2=mysqli_query($link, $Consulta);
 									if($Fila2=mysql_fetch_array($Resp2))
 									{
 										$ValorS=$Fila2[ValorIngreso];
@@ -512,7 +512,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 									//if($CodGrupo=='19'&&$i==1)
 									//echo $Consulta."<br>";
 									$ValorAcumulado1=0;$ValorAcumulado2=0;$ValorAcumuladoMargen=0;
-									$Resp2=mysql_query($Consulta); 
+									$Resp2=mysqli_query($link, $Consulta); 
 									if($Fila2=mysql_fetch_array($Resp2))
 									{
 									   $ValorAcumulado1=$Fila2[ValorIngreso];
@@ -588,7 +588,7 @@ if($Buscar=='S')
 	$Cuenta1='';$Cuenta2='';
 	$Consulta ="select distinct cod_cuenta from pcip_ere_estado_resultado where ano='".$Ano."' and mes between '".$Mes."' and '".$MesFin."'";
 	//echo $Consulta; 	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Cuenta=$Fila[cod_cuenta];

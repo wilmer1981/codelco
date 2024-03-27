@@ -54,7 +54,7 @@ function Proceso(opt,C,A,N)
     <?  
 	$Consulta="SELECT cod_marca,descripcion from sec_web.marca_catodos";
 	echo "<tr>\n";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$cont=1;	
 	echo "<input type='hidden' name='IdMarca'> ";
 	while ($Row = mysql_fetch_array($Respuesta))
@@ -67,7 +67,7 @@ function Proceso(opt,C,A,N)
 		}
 		$Consulta="SELECT *  from sec_web.lote_catodo ";
 		$Consulta.=" where cod_bulto='".$Codigo."' and num_bulto='".$Numero."' and substring(fecha_creacion_lote,1,4)='".$Ano."' and cod_marca='".$Row["cod_marca"]."'	";
-		$Respuesta1=mysql_query($Consulta);
+		$Respuesta1=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta1))
 		{
 			echo "<td><input type='radio' name='IdMarca' value='".$Row["cod_marca"]."' onClick=\"Proceso('E','$Codigo','$Ano','$Numero');\" checked>\n";

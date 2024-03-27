@@ -335,7 +335,7 @@ function TarjetaProvisoria(Rut)
 					$Consulta.=" and upper(razon_social) like '%".strtoupper($TxtBuscaEmp)."%'";
 				$Consulta.=" order by razon_social";
 					
-				$RespEmp=mysql_query($Consulta);
+				$RespEmp=mysqli_query($link, $Consulta);
 				while($FilaEmp=mysql_fetch_array($RespEmp))
 				{
 					if(strtoupper($FilaEmp[rut_empresa])==strtoupper($CmbEmpresa))
@@ -422,7 +422,7 @@ function TarjetaProvisoria(Rut)
 				$Consulta.="order by t1.ape_paterno";
 				//echo "EE".$Consulta."<br>";
 				echo "<input type='hidden' name='CheckPers'>";
-				$RespPersona=mysql_query($Consulta);
+				$RespPersona=mysqli_query($link, $Consulta);
 				$Cont=1;
 				while($FilaPersona=mysql_fetch_array($RespPersona))
 				{
@@ -464,7 +464,7 @@ function TarjetaProvisoria(Rut)
 					<?
 					echo strtoupper($FilaPersona["cod_contrato"])."&nbsp;</td>";
 					$Consulta="SELECT * from sget_contratistas where rut_empresa='".$FilaPersona[rut_empresa]."'";
-					$RespEmp=mysql_query($Consulta);
+					$RespEmp=mysqli_query($link, $Consulta);
 					if($FilaEmp=mysql_fetch_array($RespEmp))
 					{
 						echo "<td>";
@@ -504,7 +504,7 @@ function TarjetaProvisoria(Rut)
 //ACTUALIZAR CAMPO INACTIVO DE PERSONAS CON FECHA FIN CTTO VENCIDOS POR FECHA DE TERMINO
 $Consulta="SELECT rut,cod_contrato FROM sget_personal WHERE fec_fin_ctto < '".date('Y-m-d')."' and estado='A'";
 //echo $Consulta;
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 while($Fila=mysql_fetch_array($Resp))
 {
 	//$Contratos="SELECT cod_contrato from sget_contratos where cod_contrato='".$Fila["cod_contrato"]."' and (posterga='S' and fecha_posterga<='".date('Y-m-d')."')";
@@ -537,7 +537,7 @@ $DASAno=$FAno["valor_subclase1"];
 
 $Consulta="SELECT t1.estado,t1.rut,t1.fecha_das,t1.fecha_vig_exa_ocup,t1.fecha_vigencia_exa_preo,t2.fecha_exa_pst,t2.fecha_vig_licencia FROM sget_personal t1 left join sget_conductores t2 on t1.rut=t2.rut";
 //echo $Consulta."<br>";
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 while($Fila=mysql_fetch_array($Resp))
 {
 	$FPreo='N';

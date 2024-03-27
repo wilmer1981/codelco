@@ -40,7 +40,7 @@ set_time_limit(2000);
 			if($CodPel!='T')
 			{
 				$Consulta="SELECT t1.CCONTACTO,NCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where CPELIGRO='".$CodPel."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NCONTACTO];
 				$CodPel1=$Fila[CCONTACTO];
@@ -96,7 +96,7 @@ set_time_limit(2000);
 			if($Control!='T')
 			{
 				$Consulta="SELECT NCONTROL from sgrs_codcontroles where CCONTROL='".$Control."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NCONTROL];
 			}
@@ -108,7 +108,7 @@ set_time_limit(2000);
 			if($TipoControl!='T')
 			{
 				$Consulta="SELECT NTCONTROLES from sgrs_tipo_controles where CTCONTROLES='".$TipoControl."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[NTCONTROLES];
 			}
@@ -120,7 +120,7 @@ set_time_limit(2000);
 			if($TipoVerif!='T')
 			{
 				$Consulta="SELECT DESCRIP_VERIFICADOR from sgrs_tipo_verificador where COD_VERIFICADOR='".$TipoVerif."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				echo $Fila[DESCRIP_VERIFICADOR];
 			}
@@ -137,7 +137,7 @@ set_time_limit(2000);
 	 <? 
 			$CODAREA=ObtenerCodParent($CodSelTarea);
 			$Consulta="SELECT t1.CTAREA,t1.CPARENT from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."'";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resultado);
 			$CodTarea=$Fila[CTAREA];
 			$RutaCompleta=$Fila[CPARENT];
@@ -177,7 +177,7 @@ set_time_limit(2000);
 			//echo $Consulta;
 		
 			$MRAux=$MR;	
-			$Resp=mysql_query($Consulta);$TotTarea=0;$TotPel=0;
+			$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				echo "<tr>";
@@ -207,7 +207,7 @@ set_time_limit(2000);
 					$Consulta=$Consulta.$Consulta2." group by t2.CPELIGRO ";
 				
 				//echo $Consulta."<br>";
-				$Resp2=mysql_query($Consulta);
+				$Resp2=mysqli_query($link, $Consulta);
 				while($Fila2=mysql_fetch_array($Resp2))
 				{
 					$PH='';$CH='';$PC='';$CC='';$Validado='';$Most_PelMRi='';$Most_PelMRr='';
@@ -273,7 +273,7 @@ set_time_limit(2000);
 							$Consulta.=" where t1.CPELIGRO ='".$Fila2[CPELIGRO]."'";
 							if($Control!='T')
 								$Consulta.=" and t1.CCONTROL='".$Control."' and t1.MCONTROL<>0 ";					
-							$RespCtrl=mysql_query($Consulta);
+							$RespCtrl=mysqli_query($link, $Consulta);
 							if($FilaCtrl=mysql_fetch_array($RespCtrl))
 							{
 								echo "<table width='96%' border='1' cellspacing='0' cellpadding='0'>";
@@ -283,7 +283,7 @@ set_time_limit(2000);
 								if($Control!='T')
 									$Consulta.=" and t1.CCONTROL='".$Control."' and t1.MCONTROL<>0 ";
 								//echo $Consulta."<br>";
-								$RespCtrl=mysql_query($Consulta);
+								$RespCtrl=mysqli_query($link, $Consulta);
 								while($FilaCtrl=mysql_fetch_array($RespCtrl))
 								{
 									echo "<tr>";
@@ -396,7 +396,7 @@ $CODAREA=ObtenerCodParent(&$CodSelTarea);
 //echo $CODAREA."<br>";
 //$Datos=explode('//',$DatosPel);
 $Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-$Resp=mysql_query($Consulta);
+$Resp=mysqli_query($link, $Consulta);
 $Fila=mysql_fetch_array($Resp);
 $NOMAREA=$Fila[NAREA];
 $RutaCompleta=$RutaCompleta.$CODAREA.',';

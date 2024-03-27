@@ -51,7 +51,7 @@
 			if($Codigo!='')
 			{
 				$Consulta = "select * from ipif_novedades_correos where  cod_cc='".$TxtCeco."' and cuenta='".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
 				if (!$FilaD=mysql_fetch_array($Resp))
 				{
@@ -66,7 +66,7 @@
 	if($Op=='EC')
 	{
 				$Consulta = "select * from ipif_novedades_correos where  cod_cc='".$Cc."' and tipo='A'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if (!$FilaD=mysql_fetch_array($Resp))
 				{
 					$Eliminar="delete from ipif_ceco_asociacion where cod_cc='".$Cc."' and cod_tipo='".$Ti."' ";
@@ -244,7 +244,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option selected value="S"  class="NoSelec">Seleccionar</option>
         <?	
 			$Consulta = "select * from proyecto_modernizacion.centro_costo order by CENTRO_COSTO ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaD=mysql_fetch_array($Resp))
 			{
 				if ($CmbCC==$FilaD["CENTRO_COSTO"])
@@ -261,7 +261,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
           <option selected value="S"  class="NoSelec">Seleccionar</option>
       <?	
 			$Consulta = "select * from ipif_tipo_ceco ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaD=mysql_fetch_array($Resp))
 			{
 				if ($CmbTipoCeco==$FilaD["cod_tipo"])
@@ -287,7 +287,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$Consulta = "select t1.*,t2.DESCRIPCION,t4.imagen,t4.descripcion as des from ipif_ceco_asociacion t1 inner join ";
 	$Consulta.= " proyecto_modernizacion.centro_costo  t2 on t1.cod_cc=t2.CENTRO_COSTO ";
 	$Consulta.=" inner join ipif_tipo_ceco t4 on t1.cod_tipo=t4.cod_tipo ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 
 	while ($FilaD=mysql_fetch_array($Resp))
 	{?>
@@ -316,7 +316,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			<? 
 				$Consulta = "select t1.*,t2.DESCRIPCION,t3.descripcion as DESP from ipif_ceco_asociacion t1 inner join  proyecto_modernizacion.centro_costo t2 on t1.cod_cc=t2.centro_costo   ";
 				$Consulta.= " left join ipif_tipo_ceco t3 on t1.cod_tipo=t3.cod_tipo where t1.cod_cc='".$TxtCeco."' and t1.cod_tipo='".$TxtTipo."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if ($FilaD=mysql_fetch_array($Resp))
 			{	
 				echo $FilaD[cod_cc]."&nbsp;&nbsp;-&nbsp;&nbsp;".$FilaD["descripcion"]."&nbsp;&nbsp;-&nbsp;&nbsp;".$FilaD[DESP];
@@ -344,7 +344,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 
 <? 
 	$Consulta = "select t1.* from ipif_ceco_solicitante t1 where t1.cod_ceco='".$TxtCeco."' and cod_tipo='".$TxtTipo."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($FilaD=mysql_fetch_array($Resp))
 	{
 		
@@ -364,7 +364,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   <?
 				$Consulta = "select t1.descripcion as DESCRIP,t2.* from ipif_tipo_ceco t1 inner join proyecto_modernizacion.sub_clase t2 on t1.cod_tipo=t2.valor_subclase1 where t2.cod_clase='".$CODIGOCLASE."' and t1.cod_tipo='".$TxtTipo."'  ";			
 				
-				$Respp=mysql_query($Consulta);
+				$Respp=mysqli_query($link, $Consulta);
 				while ($FilaCrit=mysql_fetch_array($Respp))
 				{
 					if ($CmbPerfil==$FilaCrit["cod_subclase"])

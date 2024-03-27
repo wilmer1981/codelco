@@ -9,7 +9,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
    <?
 	$Consulta="select tipo_origen,analisis,tms from pcip_eva_negocios where corr='".$Cod."'";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resp);
 	$Tms=$Fila[tms];
 	$Origen=$Fila[tipo_origen];
@@ -61,7 +61,7 @@ $CantPrecio=1;
 $Consulta="select ifnull(sum(valor2),0) as valor2 from pcip_eva_negocios_precios ";
 $Consulta.="where corr='".$Cod."' and cod_tipo_analisis='".$TipoAnalisis."' group by corr,cod_tipo_analisis";
 //echo $Consulta;
-$RespValor=mysql_query($Consulta);
+$RespValor=mysqli_query($link, $Consulta);
 $FilaValor=mysql_fetch_array($RespValor);
 if($FilaValor[valor2]>0)
 	$CantPrecio=2;
@@ -114,7 +114,7 @@ for($i=1;$i<=$CantPrecio;$i++)
 				$Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 				$Consulta.="where t1.corr='".$Cod."' order by t1.corr,t1.cod_ley";
 				//echo "consulta principal:  ".$Consulta."<br>";
-				$RespValor=mysql_query($Consulta);
+				$RespValor=mysqli_query($link, $Consulta);
 				while($FilaValor=mysql_fetch_array($RespValor))
 				{
 					$Valor=0;$Valor2=0;
@@ -170,7 +170,7 @@ for($i=1;$i<=$CantPrecio;$i++)
 				$Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 				$Consulta.="where t1.corr='".$Cod."' order by t1.corr,t1.cod_ley";
 				//echo "consulta principal:  ".$Consulta."<br>";
-				$RespValor=mysql_query($Consulta);
+				$RespValor=mysqli_query($link, $Consulta);
 				while($FilaValor=mysql_fetch_array($RespValor))
 				{
 					$Valor=0;$Valor2=0;
@@ -193,7 +193,7 @@ for($i=1;$i<=$CantPrecio;$i++)
 			   $Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 			   $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_costo='1' order by cod_tipo";
 			   //echo $Consulta;
-			   $Resp=mysql_query($Consulta);
+			   $Resp=mysqli_query($link, $Consulta);
 			   while($Fila=mysql_fetch_array($Resp))
 			   {
 					$Valor1=ValorCostos($Cod,$TipoAnalisisAux,$Fila[cod_cargo],$Tms);
@@ -252,7 +252,7 @@ for($i=1;$i<=$CantPrecio;$i++)
 			   $Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 			   $Consulta.="where t1.corr='".$Cod."' order by cod_tipo";
 			   //echo $Consulta;
-			   $Resp=mysql_query($Consulta);
+			   $Resp=mysqli_query($link, $Consulta);
 			   while($Fila=mysql_fetch_array($Resp))
 			   {
 					$Valor1=ValorPrecios($Cod,1,$Fila[cod_precio],$i);
@@ -281,7 +281,7 @@ for($i=1;$i<=$CantPrecio;$i++)
 			   $Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31051' and t1.cod_unidad=t3.cod_subclase ";
 			   $Consulta.="where t1.corr='".$Cod."' order by cod_tipo";
 			   //echo $Consulta;
-			   $Resp=mysql_query($Consulta);
+			   $Resp=mysqli_query($link, $Consulta);
 			   while($Fila=mysql_fetch_array($Resp))
 			   {
 					$Valor1=ValorPrecios($Cod,$TipoAnalisis,$Fila[cod_precio],$i);
@@ -309,7 +309,7 @@ function ValorCostos($Cod,$TipoAnalisis,$CodTipo,$Tms)
    $Consulta="select t1.valor,t1.cod_unidad from pcip_eva_negocios_costos t1 ";
    $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$TipoAnalisis."' and t1.cod_tipo='".$CodTipo."' and t1.cod_tipo_costo='1' order by cod_tipo";
    //echo $Consulta;
-   $RespValor=mysql_query($Consulta);
+   $RespValor=mysqli_query($link, $Consulta);
    if($FilaValor=mysql_fetch_array($RespValor))
    {
 		$Valor=$FilaValor[valor];
@@ -325,7 +325,7 @@ function ValorTransp($Cod,$TipoAnalisis)
    $Consulta="select sum(t1.valor) as valor from pcip_eva_negocios_transporte t1 ";
    $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$TipoAnalisis."' ";
    //echo $Consulta;
-   $RespValor=mysql_query($Consulta);
+   $RespValor=mysqli_query($link, $Consulta);
    if($FilaValor=mysql_fetch_array($RespValor))
    	$Valor=$FilaValor[valor];
    else
@@ -341,7 +341,7 @@ function ValorPrecios($Cod,$TipoAnalisis,$CodTipo,$CantPrecio)
    $Consulta="select ".$PrecioBusq." as valor from pcip_eva_negocios_precios t1 ";
    $Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$TipoAnalisis."' and t1.cod_tipo='".$CodTipo."' order by cod_tipo";
    //echo $Consulta;
-   $RespValor=mysql_query($Consulta);
+   $RespValor=mysqli_query($link, $Consulta);
    if($FilaValor=mysql_fetch_array($RespValor))
    	$Valor=$FilaValor[valor];
    else
@@ -403,7 +403,7 @@ function ObtienePerdidadDeduc2($Cod,$Ley,$TipoAnalisis,$Tms,$Merma,$Merma2)
 		$Consulta="select * from pcip_eva_negocios_deduc_recup t1 ";
 		$Consulta.="where t1.corr='".$FilaValor["corr"]."' and cod_tipo_analisis='".$TipoAnalisis."' and cod_ley='".$FilaValor[cod_ley]."'";
 		//echo $Consulta."<br>";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($TipoAnalisis!='1')
@@ -475,7 +475,7 @@ function ObtienePerdidadDeduc($Cod,$Ley,$Tms,$ValorMerma)
 	$Consulta="select corr,cod_ley,cod_division,cod_unidad,valor from pcip_eva_negocios_material t1 ";
 	$Consulta.="where t1.corr='".$Cod."' and cod_ley='".$Ley."'";
 	//echo $Consulta."<br>";
-	$RespValor=mysql_query($Consulta);
+	$RespValor=mysqli_query($link, $Consulta);
 	while($FilaValor=mysql_fetch_array($RespValor))
 	{			
 		if($FilaValor[cod_unidad]!='13')

@@ -9,7 +9,7 @@
 		case "N"://GUARDA EL PRIMER PROCESO ANTES DE GRABAR EL CARRY COST
 					$Datos1=substr($Datos1,0,strlen($Datos1)-1);
 					$Consulta="select max(corr+1) as maximo from scop_carry_cost ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))
 					{
 						if($Fila["maximo"]=='')
@@ -143,7 +143,7 @@
 				//ENVIO DE CORREO FUNCION ESTADO 3
 				$Consulta="select * from proyecto_modernizacion.sub_clase";
 				$Consulta.=" where cod_clase='33007' and nombre_subclase<>''  and not isnull(nombre_subclase) and valor_subclase1='6'";
-				$RespCorreo=mysql_query($Consulta);
+				$RespCorreo=mysqli_query($link, $Consulta);
 				while($FilaCorreo=mysql_fetch_array($RespCorreo))
 					$PARA=$PARA.$FilaCorreo["nombre_subclase"].",";
 					
@@ -155,7 +155,7 @@
 		break;
 		case "M"://Modifica proceso de contratos e ingreso del primer proceso de carry cost				
 				$Consulta="select corr from scop_carry_cost where ano='".$Ano."' and mes='".$CmbMes."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 						$Correlativo=$Fila["corr"];
 
@@ -257,7 +257,7 @@
 					while(list($c,$v)=each($Dato1))
 					{
 						$Consulta="select * from scop_carry_cost_por_contratos where corr='".$Correlativo."' and cod_contratos='".$v."'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if(!$Fila=mysql_fetch_array($Resp))
 						{
 							$InsertaCorrContrato="INSERT INTO scop_carry_cost_por_contratos (corr,cod_contratos)";
@@ -279,7 +279,7 @@
 					while(list($c,$v)=each($Dato1))
 					{
 						$Consulta="select * from scop_carry_cost_por_contratos where corr='".$Correlativo."' and cod_contratos='".$v."'";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if(!$Fila=mysql_fetch_array($Resp))
 						{
 							$InsertaCorrContrato="INSERT INTO scop_carry_cost_por_contratos (corr,cod_contratos)";
@@ -358,7 +358,7 @@
 						$Valor=$DatosValores[3];
 					}
 					$Consulta="select * from scop_carry_cost_proceso where corr='".$Datos[0]."' and parcializacion='".$Datos[1]."' and cod_tipo_titulo='2' and cod_ley='".$Cod_ley."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if(!$Fila=mysql_fetch_array($Resp))
 					{
 						$InsertaProceso="INSERT INTO scop_carry_cost_proceso (corr,parcializacion,cod_tipo_titulo,cod_ley,cod_unidad,valor)";
@@ -379,7 +379,7 @@
 			while(list($c,$v)=each($DatosContratos))
 			{
 				$Consulta="select * from scop_inventario where cod_estado='3' and ano='".$Ano."' and mes='".$Mes."' and cod_contrato='".$v."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Resp))
 				{
 					$InsertaEstado="INSERT INTO scop_inventario (cod_estado,ano,mes,cod_contrato,rut,fecha_hora,observacion)";
@@ -395,7 +395,7 @@
 			//ENVIO DE CORREO FUNCION ESTADO 3
 			$Consulta="select * from proyecto_modernizacion.sub_clase";
 			$Consulta.=" where cod_clase='33007' and nombre_subclase<>''  and not isnull(nombre_subclase) and valor_subclase1='2'";
-			$RespCorreo=mysql_query($Consulta);
+			$RespCorreo=mysqli_query($link, $Consulta);
 			while($FilaCorreo=mysql_fetch_array($RespCorreo))
 				$PARA=$PARA.$FilaCorreo["nombre_subclase"].",";
 					
@@ -407,7 +407,7 @@
 			$Consulta="select * from proyecto_modernizacion.sub_clase";
 			$Consulta.=" where cod_clase='33007' and nombre_subclase<>''  and not isnull(nombre_subclase) and valor_subclase1='2'";
 			//echo $Consulta."<br>";
-			$RespCorreo=mysql_query($Consulta);
+			$RespCorreo=mysqli_query($link, $Consulta);
 			if($FilaCorreo=mysql_fetch_array($RespCorreo))
 				$Enviocc='S';
 
@@ -439,7 +439,7 @@
 				{
 					$Consulta="select * from scop_inventario where cod_estado='3' and ano='".$Ano."' and mes='".$Mes."' and cod_contrato='".$v."'";
 					//echo $Consulta."<br>";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))
 					{		
 						$EliminarEstado="delete from scop_inventario where cod_estado='3' and ano='".$Ano."' and mes='".$Mes."' and cod_contrato='".$v."'";
@@ -475,7 +475,7 @@
 			$Consulta="select * from proyecto_modernizacion.sub_clase";
 			$Consulta.=" where cod_clase='33007' and nombre_subclase<>''  and not isnull(nombre_subclase) and valor_subclase1='4'";
 			//echo $Consulta."<br>";
-			$RespCorreo=mysql_query($Consulta);
+			$RespCorreo=mysqli_query($link, $Consulta);
 			while($FilaCorreo=mysql_fetch_array($RespCorreo))
 				$PARA=$PARA.$FilaCorreo["nombre_subclase"].",";
 					
@@ -487,7 +487,7 @@
 			$Consulta="select * from proyecto_modernizacion.sub_clase";
 			$Consulta.=" where cod_clase='33007' and nombre_subclase<>''  and not isnull(nombre_subclase) and valor_subclase1='4'";
 			//echo $Consulta."<br>";
-			$RespCorreo=mysql_query($Consulta);
+			$RespCorreo=mysqli_query($link, $Consulta);
 			if($FilaCorreo=mysql_fetch_array($RespCorreo))
 				$EnvioPv='S';
 

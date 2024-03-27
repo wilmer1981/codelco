@@ -106,7 +106,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  <option value="-1" selected="selected">Seleccionar</option>
         <?
 	    $Consulta = "select cod_indicador,nom_indicador from pcip_eec_indicadores order by nom_indicador ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbIndicador==$FilaTC["cod_indicador"])
@@ -123,7 +123,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" class="NoSelec">Seleccionar</option>
       <?
 	    $Consulta = "select * from pcip_eec_suministros_grupos where cod_suministro_grupo not in ('4','5') order by nom_agrupacion ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbGrupoSuministro==$FilaTC["cod_suministro_grupo"])
@@ -142,7 +142,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			echo "<option value='-1' class='NoSelec'>Seleccionar</option>";	
 	    $Consulta = "select t1.cod_suministro,t2.nom_suministro from pcip_eec_suministros_por_grupos t1 inner join pcip_eec_suministros t2 on t1.cod_suministro=t2.cod_suministro ";
 	    $Consulta.= "where t1.cod_suministro_grupo='".$CmbGrupoSuministro."' order by t2.nom_suministro ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSuministro==$FilaTC["cod_suministro"])
@@ -317,7 +317,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
           </tr>
 		  <?
 		  $Consulta="select t1.cod_sistema,t1.cod_divisor,t2.descripcion from pcip_eec_sistemas_por_indicadores t1 inner join pcip_eec_sistemas t2 on t1.cod_sistema=t2.cod_sistema where t1.cod_indicador='".$CmbIndicador."'";
-		  $Resp=mysql_query($Consulta);
+		  $Resp=mysqli_query($link, $Consulta);
 		  //echo $Consulta;
 		  while($Fila=mysql_fetch_array($Resp))
 		  {
@@ -374,7 +374,7 @@ function Consumo($Ano,$Mes,$Mostrar,$GrupoSuministro,$Sumistro,$TipoSumi)
 	$Consulta.= "where t1.cod_suministro_grupo='".$GrupoSuministro."' ";
 	if($Sumistro!='T')
 		$Consulta.= " and t1.cod_suministro='".$Sumistro."'";			
-	$RespSumi=mysql_query($Consulta);
+	$RespSumi=mysqli_query($link, $Consulta);
 	//echo $Consulta."<br>"; 
 	while ($FilaSumi=mysql_fetch_array($RespSumi))
 	{
@@ -385,7 +385,7 @@ function Consumo($Ano,$Mes,$Mostrar,$GrupoSuministro,$Sumistro,$TipoSumi)
 		else
 			$Consulta.= " and mes between 1 and ".($Mes)." group by tipo,cod_suministro,ano";
 		//echo $Consulta."<br>";		
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if ($Fila=mysql_fetch_array($Resp))
 		{
 			//if($Sumistro!='10'&&$Sumistro!='8'&&$Sumistro!='9')
@@ -417,14 +417,14 @@ function ConsumoIndicadores($Ano,$Mes,$Mostrar,$GrupoSuministro,$Sumistro,$TipoS
 	$Consulta.= "where t1.cod_suministro_grupo='".$GrupoSuministro."' ";
 	if($Sumistro!='T')
 		$Consulta.= " and t1.cod_suministro='".$Sumistro."'";			
-	$RespSumi=mysql_query($Consulta);
+	$RespSumi=mysqli_query($link, $Consulta);
 	//echo $Consulta."<br>"; 
 	while ($FilaSumi=mysql_fetch_array($RespSumi))
 	{
 		$Sumistro=$FilaSumi[cod_suministro];
 		$Consulta="select cod_cc from pcip_eec_centros_costos_por_sistema where cod_sistema='".$Sistema."'";
 		//echo $Consulta."<br>";
-		$RespRel=mysql_query($Consulta);$Consumo=0;
+		$RespRel=mysqli_query($link, $Consulta);$Consumo=0;
 		while($FilaRel=mysql_fetch_array($RespRel))
 		{
 			$Consulta = "select valor as cantidad from pcip_eec_suministros_detalle where tipo='".$TipoSumi."' and cod_suministro='".$Sumistro."' and ano='".$Ano."' and cod_cc='".$FilaRel[cod_cc]."'";
@@ -433,7 +433,7 @@ function ConsumoIndicadores($Ano,$Mes,$Mostrar,$GrupoSuministro,$Sumistro,$TipoS
 			else
 				$Consulta.= " and mes between 1 and ".($Mes)." group by tipo,cod_suministro,ano";
 			//echo $Consulta."<br>";		
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if ($Fila=mysql_fetch_array($Resp))
 			{
 				$Consumo=$Consumo+$Fila[cantidad];
@@ -457,7 +457,7 @@ function ConsumoIndicadores($Ano,$Mes,$Mostrar,$GrupoSuministro,$Sumistro,$TipoS
 			case "4":
 			case "6":
 				$Consulta="select valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='31011' and cod_subclase='".$CodDivisor."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				$Fila=mysql_fetch_array($Resp);
 				$SumiDiv=$Fila["valor_subclase1"];
 				$ConsumoAux=$ConsumoAux+Consumo($Ano,$Mes,$Mostrar,$GrupoSuministro,$SumiDiv,$TipoSumi);
@@ -499,7 +499,7 @@ function ProdCobreElect($Ano,$Mes,$Mostrar)
 	$Consulta="select cod_producto from pcip_svp_asignaciones_productos ";
 	$Consulta.=" where cod_asignacion='1' and mostrar_cu_elect='1' ";
 	
-	$RespProd=mysql_query($Consulta);
+	$RespProd=mysqli_query($link, $Consulta);
 	while($FilaProd=mysql_fetch_array($RespProd))
 	{
 		$Consulta="select t2.origen,t2.num_orden,t2.num_orden_relacionada,t2.cod_material,t2.consumo_interno,t2.vptm from pcip_svp_negocios t1 ";
@@ -508,7 +508,7 @@ function ProdCobreElect($Ano,$Mes,$Mostrar)
 		$Consulta.=" and t2.cod_procedencia='".$FilaProd["cod_producto"]."' and ano='".$Ano."' ";
 		$Consulta.="order by t1.orden,t2.orden";
 		//echo $Consulta."<br>";
-		$Resp2=mysql_query($Consulta);$Cantidad=0;
+		$Resp2=mysqli_query($link, $Consulta);$Cantidad=0;
 		while($Fila2=mysql_fetch_array($Resp2))
 		{
 			$Consulta="select VPcantidad from pcip_svp_valorizacproduccion where VPorden='".$Fila2[num_orden]."' and VPa�o='".$Ano."' and VPmes between '".$MesIni."' and '".$MesFin."' ";
@@ -520,7 +520,7 @@ function ProdCobreElect($Ano,$Mes,$Mostrar)
 				$Consulta.=" and VPordes='".$Fila2[consumo_interno]."'";
 			if(!is_null($Fila2[vptm])&&$Fila2[vptm]!=0)
 				$Consulta.=" and vptm='".$Fila2[vptm]."'";
-			$Resp3=mysql_query($Consulta);
+			$Resp3=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			while($Fila3=mysql_fetch_array($Resp3))
 			{
@@ -537,16 +537,16 @@ function ProdCobreElect($Ano,$Mes,$Mostrar)
 		
 	/*$Consulta="select * from pcip_svp_asignaciones_productos where cod_asignacion='1' and cod_producto in('1','2','3','4','5','12','13')";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);$ProdCu=0;
+	$Resp=mysqli_query($link, $Consulta);$ProdCu=0;
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Consulta="select cod_titulo as cod_tit,orden from pcip_svp_asignaciones_titulos where vigente='1' and cod_asignacion='1' order by orden";
-		$RespTit=mysql_query($Consulta);
+		$RespTit=mysqli_query($link, $Consulta);
 		while($FilaTit=mysql_fetch_array($RespTit))
 		{
 			$Consulta="select t2.origen,t2.num_orden,t2.num_orden_relacionada,t2.cod_material,t2.consumo_interno,t2.vptm from pcip_svp_negocios t1 inner join pcip_svp_productos_procedencias t2 on t1.cod_negocio=t2.cod_negocio ";
 			$Consulta.="where t2.cod_asignacion='1' and t2.cod_procedencia ='".$Fila["cod_producto"]."' and t2.cod_titulo='".$FilaTit[cod_tit]."' and t1.vigente='1' order by t1.orden,t2.orden";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			while($Fila2=mysql_fetch_array($Resp2))
 			{
 				if($Fila2[origen]=='SVP')
@@ -560,7 +560,7 @@ function ProdCobreElect($Ano,$Mes,$Mostrar)
 						$Consulta.=" and VPordes='".$Fila2[consumo_interno]."'";
 					if(!is_null($Fila2[vptm]))
 						$Consulta.=" and vptm='".$Fila2[vptm]."'";
-					$Resp3=mysql_query($Consulta);
+					$Resp3=mysqli_query($link, $Consulta);
 					while($Fila3=mysql_fetch_array($Resp3))
 					{
 						$ProdCu=$ProdCu+$Fila3[VPcantidad];
@@ -586,18 +586,18 @@ function ProdCobreElectPpto($Ano,$Mes,$Mostrar)
 	$ProdCu=0;
 	$Consulta="select max(version) as version from pcip_ppc_version where ano='".$Ano."'";
 	//echo $Consulta."<br>";
-	$Resp2=mysql_query($Consulta);$Cantidad=0;
+	$Resp2=mysqli_query($link, $Consulta);$Cantidad=0;
 	$Fila2=mysql_fetch_array($Resp2);
 	$Version=$Fila2[version];
 	$Consulta="select cod_producto from pcip_svp_asignaciones_productos ";
 	$Consulta.=" where cod_asignacion='1' and mostrar_cu_elect='1' ";
-	$RespProd=mysql_query($Consulta);
+	$RespProd=mysqli_query($link, $Consulta);
 	while($FilaProd=mysql_fetch_array($RespProd))
 	{
 		$Consulta="select sum(valor) as valor from pcip_ppc_detalle ";
 		$Consulta.="where version='".$Version."' and cod_asignacion='1' and cod_procedencia='".$FilaProd["cod_producto"]."' and (ano='".$Ano."' and mes between '".$MesIni."' and '".$MesFin."') ";
 		//echo $Consulta."<br>";
-		$Resp2=mysql_query($Consulta);$Cantidad=0;
+		$Resp2=mysqli_query($link, $Consulta);$Cantidad=0;
 		if($Fila2=mysql_fetch_array($Resp2))
 		{
 			$ProdCu=$ProdCu+$Fila2[valor];
@@ -631,7 +631,7 @@ function ObtieneAcidoSvp($Ano,$Mes,$Mostrar)
 		$Consulta.= " and VPmes between '".$MesIni."' and ".($MesFin)." group by VPa�o,VPorden";
 	$Consulta.=" AND `VPorden` = '5810' AND ((`VPtm` = '11' AND `VPordenrel` = '6810') OR (`VPtm` = '11' AND `VPordenrel` = '6811') OR (`VPtm` = '21'))";
 	//echo $Consulta."<br>";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Acido=$Acido+$Fila[VPcantidad];
@@ -652,13 +652,13 @@ function ObtieneAcidoPpto($Ano,$Mes,$Mostrar)
 	}
 	$Consulta="select max(version) as version from pcip_ppc_version where ano='".$Ano."'";
 	//echo $Consulta."<br>";
-	$Resp2=mysql_query($Consulta);$Cantidad=0;
+	$Resp2=mysqli_query($link, $Consulta);$Cantidad=0;
 	$Fila2=mysql_fetch_array($Resp2);
 	$Version=$Fila2[version];
 	$Consulta="select sum(valor) as valor from pcip_ppc_detalle ";
 	$Consulta.="where version='".$Version."' and cod_asignacion='4' and cod_procedencia='18' and (ano='".$Ano."' and mes between '".$MesIni."' and '".$MesFin."') ";
 	//echo $Consulta."<br>";
-	$Resp2=mysql_query($Consulta);$Cantidad=0;
+	$Resp2=mysqli_query($link, $Consulta);$Cantidad=0;
 	if($Fila2=mysql_fetch_array($Resp2))
 	{
 		return($Fila2[valor]);							
@@ -688,7 +688,7 @@ function CargaNuevaUtil($Ano,$Mes,$Mostrar,$Tipo)
 	else
 		$Consulta.= " and mes between '".$MesIni."' and '".$MesFin."' group by ano,cod_flujo";
 	//echo $Consulta."<br>"; 
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$CargaUtil=$CargaUtil+$Fila["peso"];
@@ -716,7 +716,7 @@ function CargaNuevaUtilPpto($Ano,$Mes,$Mostrar,$Tipo)
 	else
 		$Consulta.= " and mes between '".$MesFin."' and '".$MesFin."'";
 	//echo $Consulta."<br>"; 
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$CargaUtil=$CargaUtil+$Fila[valor_presupuestado];

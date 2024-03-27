@@ -325,10 +325,10 @@ if($Buscar=='S')
 				?>
 				</tr>
 				<tr>
-				<td colspan="25" rowspan="1" align="left" class="formulario2">Destino producción de Scrap</td>
+				<td colspan="25" rowspan="1" align="left" class="formulario2">Destino producciï¿½n de Scrap</td>
 				</tr>
 				<tr class="FilaAbeja">
-				<td rowspan="1" align="left">&nbsp;Ex ánodos Teniente</td>
+				<td rowspan="1" align="left">&nbsp;Ex ï¿½nodos Teniente</td>
 				<?
 				for($i=$Mes;$i<=$MesFin;$i++)
 				{
@@ -343,7 +343,7 @@ if($Buscar=='S')
 				?>
 				</tr>
 				<tr class="TituloTablaVerde">
-				<td rowspan="1" align="left" >Margen metalúrgico</td>
+				<td rowspan="1" align="left" >Margen metalï¿½rgico</td>
 				<?
 				for($i=$Mes;$i<=$MesFin;$i++)
 				{
@@ -407,8 +407,8 @@ if($Buscar=='S')
 						
 						$ValorReal1=DatosProyectadosTratam($Ano,$i,'2','8','COBRE (Fino)','R');
 						$ValorReal2=DatosProyectadosTratam($Ano,$i,'2','9','COBRE (Fino)','R');
-						$ValorRealContenidoBlíster=$ValorReal1+$ValorReal2;
-						$DatoRealPagableBlister=$ValorRealContenidoBlíster*(1-$Numero3);
+						$ValorRealContenidoBlï¿½ster=$ValorReal1+$ValorReal2;
+						$DatoRealPagableBlister=$ValorRealContenidoBlï¿½ster*(1-$Numero3);
 						$ArrTotalRealPagable1[$i][0]=$ArrTotalRealPagable1[$i][0]+$DatoRealPagableBlister;						
 						
 						$TotalPagableReal1=$ArrTotalRealPagable1[$i][0];// Total Anodos y Blister Pagable
@@ -738,7 +738,7 @@ if($Buscar=='S')
 					?>
 					</tr>
 						<tr>
-						<td colspan="25" rowspan="1" align="left" class="formulario2">Ánodos y blíster  (finos) [t]</td>
+						<td colspan="25" rowspan="1" align="left" class="formulario2">ï¿½nodos y blï¿½ster  (finos) [t]</td>
 						</tr>
 						<tr>
 						<td colspan="25" rowspan="1" align="left" class="formulario2">Contenido</td>
@@ -795,22 +795,22 @@ if($Buscar=='S')
 						?>
 						</tr>
 						<tr class="FilaAbeja">
-						<td rowspan="1" align="left">&nbsp;Blíster (Incluye Ánodos Rechazados Externos)</td>
+						<td rowspan="1" align="left">&nbsp;Blï¿½ster (Incluye ï¿½nodos Rechazados Externos)</td>
 						<?
 						for($i=$Mes;$i<=$MesFin;$i++)
 						{
 						$ValorReal1=DatosProyectadosTratam($Ano,$i,'2','8','COBRE (Fino)','R');
 						$ValorReal2=DatosProyectadosTratam($Ano,$i,'2','9','COBRE (Fino)','R');
-						$ValorRealContenidoBlíster=$ValorReal1+$ValorReal2;
-						$ArrTotal2Real[$i][0]=$ArrTotal2Real[$i][0]+$ValorRealContenidoBlíster;
+						$ValorRealContenidoBlï¿½ster=$ValorReal1+$ValorReal2;
+						$ArrTotal2Real[$i][0]=$ArrTotal2Real[$i][0]+$ValorRealContenidoBlï¿½ster;
 
 						$ValorPpto1=DatosProyectadosTratam($Ano,$i,'2','8','COBRE (Fino)','P');
 						$ValorPpto2=DatosProyectadosTratam($Ano,$i,'2','9','COBRE (Fino)','P');
-						$ValorPptoContenidoBlíster=$ValorPpto1+$ValorPpto2;
-						$ArrTotal2Ppto[$i][0]=$ArrTotal2Ppto[$i][0]+$ValorPptoContenidoBlíster;
+						$ValorPptoContenidoBlï¿½ster=$ValorPpto1+$ValorPpto2;
+						$ArrTotal2Ppto[$i][0]=$ArrTotal2Ppto[$i][0]+$ValorPptoContenidoBlï¿½ster;
 						?>
-						<td rowspan="1" align="right"><?  echo number_format($ValorRealContenidoBlíster,0,',','.');?>&nbsp;</td>
-						<td rowspan="1" align="right"><?  echo number_format($ValorPptoContenidoBlíster,0,',','.');?>&nbsp;</td>
+						<td rowspan="1" align="right"><?  echo number_format($ValorRealContenidoBlï¿½ster,0,',','.');?>&nbsp;</td>
+						<td rowspan="1" align="right"><?  echo number_format($ValorPptoContenidoBlï¿½ster,0,',','.');?>&nbsp;</td>
 						<?
 						}
 						?>
@@ -911,14 +911,14 @@ if($Buscar=='S')
 						{
 						$ValorReal1=DatosProyectadosTratam($Ano,$i,'2','8','COBRE (Fino)','R');
 						$ValorReal2=DatosProyectadosTratam($Ano,$i,'2','9','COBRE (Fino)','R');
-						$ValorRealContenidoBlíster=$ValorReal1+$ValorReal2;
-						$DatoRealPagableBlister=$ValorRealContenidoBlíster*(1-$Numero3);
+						$ValorRealContenidoBlï¿½ster=$ValorReal1+$ValorReal2;
+						$DatoRealPagableBlister=$ValorRealContenidoBlï¿½ster*(1-$Numero3);
 						$ArrTotalRealPagable1[$i][0]=$ArrTotalRealPagable1[$i][0]+$DatoRealPagableBlister;
 
 						$ValorPpto1=DatosProyectadosTratam($Ano,$i,'2','8','COBRE (Fino)','P');
 						$ValorPpto2=DatosProyectadosTratam($Ano,$i,'2','9','COBRE (Fino)','P');
-						$ValorPptoContenidoBlíster=$ValorPpto1+$ValorPpto2;
-						$DatoPPtoPagableBlister=$ValorPptoContenidoBlíster*(1-$Numero3);
+						$ValorPptoContenidoBlï¿½ster=$ValorPpto1+$ValorPpto2;
+						$DatoPPtoPagableBlister=$ValorPptoContenidoBlï¿½ster*(1-$Numero3);
 						$ArrTotalPptoPagable1[$i][0]=$ArrTotalPptoPagable1[$i][0]+$DatoPPtoPagableBlister;			
 						?>
 						<td rowspan="1" align="right"><?  echo number_format($DatoRealPagableBlister,0,',','.');?>&nbsp;</td>
@@ -975,7 +975,7 @@ function DatosProyectados($Producto,$Proveedor,$Ano,$Mes)
    $Consulta="select Vporden,Vptm,VPmaterial,Vptipinv,VPordenrel,Vpordes from pcip_inp_asignacion";
    $Consulta.=" where cod_producto='".$Producto."' and cod_proveedor='".$Proveedor."'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
      $Orden=$Fila[Vporden];
@@ -986,7 +986,7 @@ function DatosProyectados($Producto,$Proveedor,$Ano,$Mes)
      $Ordes=$Fila[Vpordes]; 	 	 	 	 
    }       
 	$Consulta1 =" select VPcantidad from pcip_svp_valorizacproduccion ";
-	$Consulta1.=" where VPorden='".$Orden."' and VPtm='".$Tm."' and VPmaterial='".$Material."' and VPtipinv='".$Tipinv."' and VPordenrel='".$OrdenRel."' and VPordes='".$Ordes."' and VPaño='".$Ano."' and VPmes='".$Mes."'";
+	$Consulta1.=" where VPorden='".$Orden."' and VPtm='".$Tm."' and VPmaterial='".$Material."' and VPtipinv='".$Tipinv."' and VPordenrel='".$OrdenRel."' and VPordes='".$Ordes."' and VPaï¿½o='".$Ano."' and VPmes='".$Mes."'";
 	//echo $Consulta1."<br>";
 	$RespAux=mysql_query($Consulta1);
 	if($FilaAux=mysql_fetch_array($RespAux))
@@ -1004,7 +1004,7 @@ function DatosProyectadosTratam($Ano,$Mes,$Area,$Division,$Producto,$Tipo)
    $Consulta="select valor_real as ValorReal,valor_presupuestado as ValorPresupuestado from pcip_inp_tratam";
    $Consulta.=" where ano='".$Ano."' and mes='".$Mes."' and nom_area='".$Area."' and nom_division='".$Division."' and cod_producto='".$Producto."'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
     $Datos1=$Fila[ValorReal];

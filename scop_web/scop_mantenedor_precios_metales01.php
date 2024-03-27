@@ -10,7 +10,7 @@
 			$TxtValorAg=str_replace(",",".",$TxtValorAg);	
 			$TxtValorAu=str_replace(",",".",$TxtValorAu);
 			$Consulta="select cod_ley from scop_precios_metales where ano='".$Ano."' and mes='".$Mes."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{
 				for($i=1;$i<=3;$i++)
@@ -38,7 +38,7 @@
 				$Consulta="select * from proyecto_modernizacion.sub_clase";
 				$Consulta.=" where cod_clase='33007' and nombre_subclase<>''  and not isnull(nombre_subclase) and valor_subclase1='3'";
 				//echo $Consulta."<br>";
-				$RespCorreo=mysql_query($Consulta);
+				$RespCorreo=mysqli_query($link, $Consulta);
 				while($FilaCorreo=mysql_fetch_array($RespCorreo))
 						EnvioCorreo($FilaCorreo["nombre_subclase"],'4','',$Ano,$Mes,$Meses,'CA','','','','','','');	//ENVIO CORREO GRABA CARRY COST ESTADO 4
 				
@@ -46,7 +46,7 @@
 				$Consulta="select * from proyecto_modernizacion.sub_clase";
 				$Consulta.=" where cod_clase='33007' and nombre_subclase<>''  and not isnull(nombre_subclase) and valor_subclase1='3'";
 				//echo $Consulta."<br>";
-				$RespCorreo=mysql_query($Consulta);
+				$RespCorreo=mysqli_query($link, $Consulta);
 				if($FilaCorreo=mysql_fetch_array($RespCorreo))
 					$Envio='S';
 				

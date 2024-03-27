@@ -256,7 +256,7 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 			$Cod=$CodOrganicaAux;$CodPelAgre="('-','";		
 			$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.QPROBHIST,t1.QCONSECHIST,t1.MVALIDADO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$Cod."' order by NCONTACTO";
 			//echo $Consulta."<br>";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='CodPel'><input type='hidden' name='ObsPel'>";
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
@@ -293,7 +293,7 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 			$Cod=$CodOrganicaAux;
 			$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE='0' and t1.CAREA ='".$Cod."' group by t1.CCONTACTO order by NCONTACTO";
 			//echo $Consulta;
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='CodPel'><input type='hidden' name='ObservacionPel'>";
 
 			if($Fila=mysql_fetch_array($Resultado))
@@ -307,7 +307,7 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 		  		echo "</tr>";
 				$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE='0' and t1.CAREA ='".$Cod."' group by t1.CCONTACTO order by NCONTACTO";
 				//echo $Consulta;
-				$Resultado=mysql_query($Consulta);
+				$Resultado=mysqli_query($link, $Consulta);
 				echo "<input type='hidden' name='CodPel'><input type='hidden' name='ObsPel'>";
 				while ($Fila=mysql_fetch_array($Resultado))
 				{
@@ -362,7 +362,7 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 		 <? //and CCONTACTO NOT IN ".$CodPelAgre."
 			$Consulta="SELECT *,ceiling(CCONTACTO) as order_codigo from sgrs_codcontactos where MVIGENTE ='1' and MOPCIONAL='1' and NCONTACTO <> '' order by NCONTACTO";
 			//echo $Consulta;
-			$Resultado=mysql_query($Consulta);echo "<input type='hidden' name='CheckPel'>";
+			$Resultado=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckPel'>";
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
 				$CmbProbH=$Fila[QPROBHIST];

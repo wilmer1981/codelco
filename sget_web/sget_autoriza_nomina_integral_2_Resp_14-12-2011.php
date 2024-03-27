@@ -186,7 +186,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$IcoObs2=CantObs($NumHoja,$H);
 	$Consulta = "SELECT descrip_hito from sget_hitos ";
 	$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
-	$RespHD = mysql_query($Consulta);$Descrip_hito='';
+	$RespHD = mysqli_query($link, $Consulta);$Descrip_hito='';
 	if($FilaHD=mysql_fetch_array($RespHD))
 	{
 		$Descrip_hito=$FilaHD[descrip_hito];
@@ -196,7 +196,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$Consulta="SELECT * ";
 	$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 	$Consulta.=" where num_hoja_ruta ='".$NumHoja."' and cod_hito='".$H."' and aprob_rechazo='A' ";
-	$RespDet2=mysql_query($Consulta);
+	$RespDet2=mysqli_query($link, $Consulta);
 	if($FilaDet2=mysql_fetch_array($RespDet2))
 		$Entro='S';
 	if($Entro=='S')
@@ -204,7 +204,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta = "SELECT * from sget_hitos ";
 		$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  ";
 		//echo $Consulta;
-		$RespHD = mysql_query($Consulta);
+		$RespHD = mysqli_query($link, $Consulta);
 		while ($FilaHD=mysql_fetch_array($RespHD))
 		{
 			?>
@@ -267,7 +267,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <?
 		  	$Consulta = "SELECT * from sget_hitos ";
 			$Consulta.=" where cod_sistema='".$CodSistema."' and cod_pantalla='".$CodPantalla."'  and personal='S' ";
-			$RespH = mysql_query($Consulta);
+			$RespH = mysqli_query($link, $Consulta);
 			$LargoArreglo = 0;
 			while ($FilaH=mysql_fetch_array($RespH))
 			{
@@ -278,7 +278,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta="SELECT distinct(fecha) ";
 				$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 				$Consulta.=" where num_hoja_ruta ='".$NumHoja."' and cod_hito='".$FilaH[cod_hito]."' ";
-				$Resp1=mysql_query($Consulta);
+				$Resp1=mysqli_query($link, $Consulta);
 				$Fila1=mysql_fetch_array($Resp1);
 					$TxtFecha=$Fila1["fecha"];
 			}
@@ -297,7 +297,7 @@ $Consulta.=" left join sget_cargos t3 on t3.cod_cargo=t2.cargo";
 $Consulta.=" where t1.num_hoja_ruta ='".$NumHoja."' and cod_hito='2' and aprob_rechazo='A' order by t2.ape_paterno";
 echo "<input name='ChkDatos' type='hidden'  value=''>";
 echo "<input name='Elim' type='hidden'  value=''>";
-$RespDet=mysql_query($Consulta);
+$RespDet=mysqli_query($link, $Consulta);
 $Cont=0;
 //echo $Consulta;
 while($FilaDet=mysql_fetch_array($RespDet))
@@ -352,7 +352,7 @@ while($FilaDet=mysql_fetch_array($RespDet))
 			$Consulta="SELECT * ";
 			$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 			$Consulta.=" where num_hoja_ruta ='".$FilaDet[num_hoja_ruta]."' and cod_hito='".$ArregloLeyes[$i][0]."' and aprob_rechazo='A' and rut_personal='".$FilaDet["rut"]."' ";
-			$RespDet2=mysql_query($Consulta);
+			$RespDet2=mysqli_query($link, $Consulta);
 			if($FilaDet2=mysql_fetch_array($RespDet2))
 			{
 				if($FilaDet2[aprob_rechazo] =='A')
@@ -380,7 +380,7 @@ while($FilaDet=mysql_fetch_array($RespDet))
 		$Consulta.=" from sget_hoja_ruta_nomina_hitos_personas  ";
 		$Consulta.=" where num_hoja_ruta ='".$FilaDet[num_hoja_ruta]."' and cod_hito='4' and rut_personal='".$FilaDet["rut"]."' ";
 		//echo $Consulta;
-		$RespDet2=mysql_query($Consulta);
+		$RespDet2=mysqli_query($link, $Consulta);
 		if($FilaDet2=mysql_fetch_array($RespDet2))
 		{
 			if($FilaDet2[aprob_rechazo] !='A')

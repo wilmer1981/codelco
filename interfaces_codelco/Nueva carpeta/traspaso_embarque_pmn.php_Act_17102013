@@ -48,7 +48,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if(confirm('¿Esta Seguro de Traspasar Los Datos?'))
+				if(confirm('ï¿½Esta Seguro de Traspasar Los Datos?'))
 				{
 					var Largo = Valor.length;
 					f.Valores.value = Valor.substring(0,Largo-2);
@@ -249,7 +249,7 @@ body {
 <?
 	$Consulta = "select * from proyecto_modernizacion.productos ";
 	$Consulta.= " where cod_producto in('24','34','29','33','31','47','28') order by lpad(cod_producto,2,'0')";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CodProducto==$Fila["cod_producto"])
@@ -273,7 +273,7 @@ body {
 				$Consulta = "select * from proyecto_modernizacion.subproducto ";
 				$Consulta.= " where cod_producto='".$CodProducto."' order by lpad(cod_subproducto,2,'0')";
 				
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($SubProducto==$Fila["cod_subproducto"])
@@ -324,7 +324,7 @@ body {
             <option value="" class="NoSelec">Orden - Valorizacion.</option>
             <?
 	$Consulta = "select distinct codigo_op, clase_valorizacion from interfaces_codelco.ordenes_produccion where codigo_op<>'' order by codigo_op ";
-	$Resp = mysql_query($Consulta);	 
+	$Resp = mysqli_query($link, $Consulta);	 
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CmbOrden==$Fila["codigo_op"])
@@ -338,7 +338,7 @@ body {
             <option value="" class="NoSelec">Almacen</option>
             <?
 	$Consulta = "select distinct cod_almacen_codelco, abreviatura from interfaces_codelco.relacion_almacen order by cod_almacen_codelco ";
-	$Resp = mysql_query($Consulta);	 
+	$Resp = mysqli_query($link, $Consulta);	 
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($CmbAlmacen==$Fila["cod_almacen_codelco"])
@@ -453,14 +453,14 @@ if ($Mostrar == "S")
 		{
 			$Consulta = "select * from pmn_web.detalle_embarque_plata where ano='".$Ano."' and mes='".$Mes."' and num_electrolisis='".$Referencia."'";
 			//echo $Consulta;
-			$Resp3=mysql_query($Consulta);
+			$Resp3=mysqli_query($link, $Consulta);
 			while ($Fila3=mysql_fetch_array($Resp3))
 			{
 				$Consulta = "select * from interfaces_codelco.registro_traspaso ";
 				$Consulta.= " where tipo_registro='".$Tipo."' and ano='".$Ano."' and mes='".$Mes."' ";
 				$Consulta.= " and referencia like '".$Fila3["caja_ini"]."%'";// and fecha_guia='".$Fila["fecha_embarque"]."'";		
 				//echo "con2".$Consulta;
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				$Traspaso="No";
 				$Estado="&nbsp;";
 				$ColorEstado = "";		
@@ -492,7 +492,7 @@ if ($Mostrar == "S")
 			$Consulta = "select * from interfaces_codelco.registro_traspaso ";
 			$Consulta.= " where tipo_registro='".$Tipo."' and ano='".$Ano."' and mes='".$Mes."' ";
 			$Consulta.= " and referencia='".$Referencia."' ";		
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$Traspaso="No";
 			$Estado="&nbsp;";
 			$ColorEstado = "";		

@@ -37,7 +37,7 @@ body {
 	$Consulta.= " and (ISNULL(campo4) or campo4<>'S' or campo4='')"; 
 	$Consulta.= " and campo1 <> ''";
 	$Consulta.= " order by campo1, fecha_ini, hora_ini ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		echo "<tr>\n";
@@ -81,7 +81,7 @@ body {
 	$Consulta.= " and (ISNULL(campo4) or campo4<>'S' or campo4='')"; 
 	$Consulta.= " and campo1 <> ''";
 	$Consulta.= " order by campo1, fecha_ini, hora_ini ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		echo "<tr>\n";

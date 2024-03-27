@@ -6,7 +6,7 @@
 	{
 		case "NS":
 			$Consulta = "select ifnull(max(ceiling(cod_subproducto))+1,1) as mayor from proyecto_modernizacion.subproducto where cod_producto='$TxtCodigo'";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$TxtCodSubProdu=$Fila["mayor"];
 			$TxtDescripcion='';$Txtmostrar='';$TxtAbrevia='';$TxtLotes='';$TxtFlujos='';$TxtAnodo='';$TxtMostrarSea='';$TxtAplicacion='';$TxtRutProv='';
@@ -15,7 +15,7 @@
 			break;
 		case "MS":
 			$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='$TxtCodigo' and cod_subproducto='$cod_subproducto'";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$TxtCodSubProdu=$cod_subproducto;
 			$TxtDescripcion=$Fila["descripcion"];$Txtmostrar=$Fila["mostrar"];

@@ -35,7 +35,7 @@ function Contactos($Gerencias)//OBTIENE NOMBRES GERENCIAS
 	while(list($c,$v)=each($Gere))
 	{
 		$Consulta="SELECT * from sgrs_areaorg where CAREA='".$v."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$NomGere=$NomGere.$Fila[NAREA].", ";			
 	}
@@ -45,7 +45,7 @@ function InsertaHistorico($Rut,$TipoProceso,$Obs,$Obs2,$Parent,$ObsEli)
 {
 	$Fecha=date('Y-m-d G:i:s');
 	$Consulta="SELECT max(correlativo+1) as maximo from sgrs_registro_historico ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		if($Fila["maximo"]=='')
@@ -61,7 +61,7 @@ function InsertaHistoricoIdent($Rut,$TipoProceso,$Obs,$Obs2,$Parent,$ObsEli,$Tip
 {
 	$Fecha=date('Y-m-d G:i:s');
 	$Consulta="SELECT max(correlativo+1) as maximo from sgrs_registro_historico ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		if($Fila["maximo"]=='')
@@ -84,7 +84,7 @@ function OrigenOrg($Cod,$Ruta)
 		if($v!=''&&$v!='0')
 		{
 			$Consulta="SELECT * from sgrs_areaorg where CAREA='".$v."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$Ruta=$Ruta.$Fila[NAREA].", ";
 		}	
@@ -110,7 +110,7 @@ function ObtenerNivel($CodNivel)
 {
 	$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$CodNivel."'";	
 	//echo $Consulta."<br>";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resp);	
 	$CodNivel=$Fila[CTAREA];
 	return $CodNivel;
@@ -121,7 +121,7 @@ function CalculoMR($CodContacto,$CodPel,$PH,$CH,$MRi,$PC,$CC,$MR,$Descrip,$Semaf
 	$PH='';$CH='';$MRi='';$PC='';$CC='';$MR='';$Descrip='';$Semaforo='';
 	$Consulta="SELECT QPROBHIST,QCONSECHIST from sgrs_codcontactos where CCONTACTO ='".$CodContacto."'";
 	//echo $Consulta;
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resultado))
 	{
 		$PH=$Fila[QPROBHIST];	
@@ -132,7 +132,7 @@ function CalculoMR($CodContacto,$CodPel,$PH,$CH,$MRi,$PC,$CC,$MR,$Descrip,$Semaf
 	//echo "MAG.INI:".$MRi."<br>";
 	$Consulta="SELECT QMR,QPC,QCC,QMRH from sgrs_siperpeligros where CPELIGRO ='".$CodPel."'";
 	//echo $Consulta;
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resultado);
 	if(!is_null($Fila[QPC])&&!is_null($Fila[QCC]))
 	{
@@ -371,7 +371,7 @@ $Consulta="SELECT t1.CAREA,t1.CPARENT,t1.CTAREA,t1.NAREA,t2.QPROBHIST,t2.QCONSEC
 $Consulta.=" where ".$Filtro." and t1.CPARENT <>'' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and t1.MVIGENTE='1' and ".$Filtro;
 /*$Consulta="SELECT * from sgrs_areaorg t1 left join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 $Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t2.MVALIDADO='1' and t1.CTAREA ='8' and ".$Filtro;
-*/$RespPel=mysql_query($Consulta);
+*/$RespPel=mysqli_query($link, $Consulta);
 //echo $Consulta."<br>";
 while($FilaPel=mysql_fetch_array($RespPel))
 {
@@ -448,7 +448,7 @@ function PC_Controles($Tipo,$PC,$CodPel)
 	$Consulta="SELECT sum(t1.QPESOESP) as SumNA  from sgrs_codcontroles t1 left join sgrs_sipercontroles t2 on t1.CCONTROL=t2.CCONTROL and t2.CPELIGRO='".$CodPel."' ";
 	$Consulta.="where t1.QPESOESP IS NOT NULL and t2.MCONTROL IS NULL and  MPROBCONSEC=".$Tipo." and t1.MVIGENTE='1' and t1.CCONTROL<>'--'  order by t1.CCONTROL"; 
 	//echo $Consulta."<BR>";
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resultado);
 	$SumNA=$Fila[SumNA];
 	if($SumNA!=1)
@@ -459,7 +459,7 @@ function PC_Controles($Tipo,$PC,$CodPel)
 	$Consulta="SELECT ifnull(sum(t1.QPESOESP),0) as SumSI  from sgrs_codcontroles t1 inner join sgrs_sipercontroles t2 on t1.CCONTROL=t2.CCONTROL and t2.CPELIGRO='".$CodPel."' ";
 	$Consulta.="where t1.QPESOESP IS NOT NULL and t2.MCONTROL = 1 and  MPROBCONSEC=".$Tipo." and t1.MVIGENTE='1' and t1.CCONTROL<>'--'  order by t1.CCONTROL"; 
 	//echo $Consulta."<BR>";
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resultado);
 	$SumSI=$Fila[SumSI];
 	$SISumSI=($SumSI+$SumSI*$ModNa);
@@ -467,7 +467,7 @@ function PC_Controles($Tipo,$PC,$CodPel)
 	$Consulta="SELECT ifnull(sum(t1.QPESOESP),0) as SumSIsisr  from sgrs_codcontroles t1 inner join sgrs_sipercontroles t2 on t1.CCONTROL=t2.CCONTROL and t2.CPELIGRO='".$CodPel."' ";
 	$Consulta.="where t1.QPESOESP IS NOT NULL and t2.MCONTROL in (2,3) and  MPROBCONSEC=".$Tipo." and t1.MVIGENTE='1' and t1.CCONTROL<>'--'  order by t1.CCONTROL"; 
 	//echo $Consulta."<BR>";
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Resultado);
 	$SumSIsisr=$Fila[SumSIsisr];
 	$SISumSIsisr=($SumSIsisr+$SumSIsisr*$ModNa);
@@ -534,7 +534,7 @@ function ObtieneUsuario($Rut,$NombreUser)
 {
 	$Consulta = "SELECT * from proyecto_modernizacion.funcionarios ";
 	$Consulta.= " where rut='".$Rut."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 	{
 		$PrimerNombre=$Fila["nombres"];
@@ -553,7 +553,7 @@ function ObtieneAccesoOrg($Rut,$AccesoOrg)
 {
 	$Consulta = "SELECT * from sgrs_acceso_organica where rut='".$Rut."' ";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 	{
 		$AccesoOrg=$Fila[COD_GERENCIAS];
@@ -571,7 +571,7 @@ function ObtieneAccesoOrg2($Rut,$AccesoOrg)
 {
 	$Consulta = "SELECT * from sgrs_acceso_organica where rut='".$Rut."' ";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 	{
 		$AccesoOrg=" and (CPARENT LIKE '%";
@@ -602,7 +602,7 @@ function CrearArbol($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 	else
 		$Consulta="SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT=',".$Organica[1].",' and MVIGENTE='1'  ORDER BY CTAREA";	
 	//echo $Consulta."<br>";
-	$RespD=mysql_query($Consulta);
+	$RespD=mysqli_query($link, $Consulta);
 	while($FilaD=mysql_fetch_array($RespD))
 	{
 			$Cod=$FilaD[CPARENT].$FilaD[CAREA].",";
@@ -611,7 +611,7 @@ function CrearArbol($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 			else
 				$Consulta="SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
 			//echo $Consulta;
-			$RespG=mysql_query($Consulta);
+			$RespG=mysqli_query($link, $Consulta);
 			$CantHijosG=mysql_num_rows($RespG);$ContG=1;
 			MuestraHijo(0,$Cod,$FilaD[CTAREA],$FilaD[NAREA],$CodAux,$Estado,$CantHijosG,$SelTarea,$Rut);
 			while($FilaG=mysql_fetch_array($RespG))
@@ -627,7 +627,7 @@ function CrearArbol($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 					$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 				else
 					$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-				$RespS=mysql_query($Consulta);
+				$RespS=mysqli_query($link, $Consulta);
 				$CantHijosS=mysql_num_rows($RespS);$ContS=1;
 				if($FilaG[CPARENT]==",".$Organica[1].",".$Organica[2].",")
 					MuestraHijo(1,$Cod,$FilaG[CTAREA],$FilaG[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -646,7 +646,7 @@ function CrearArbol($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 						$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 					else
 						$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";
-					$RespA=mysql_query($Consulta);
+					$RespA=mysqli_query($link, $Consulta);
 					$CantHijosA=mysql_num_rows($RespA);$ContA=1;
 					if($FilaS[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",")
 						MuestraHijo(2,$Cod,$FilaS[CTAREA],$FilaS[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -665,7 +665,7 @@ function CrearArbol($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 							$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 						else
 							$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-						$RespP=mysql_query($Consulta);
+						$RespP=mysqli_query($link, $Consulta);
 						$CantHijosP=mysql_num_rows($RespP);$ContP=1;
 						if($FilaA[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",")
 							MuestraHijo(3,$Cod,$FilaA[CTAREA],$FilaA[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -684,7 +684,7 @@ function CrearArbol($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 								$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 							else
 								$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-							$RespU=mysql_query($Consulta);
+							$RespU=mysqli_query($link, $Consulta);
 							$CantHijosU=mysql_num_rows($RespU);$ContU=1;
 							if($FilaP[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",")
 								MuestraHijo(4,$Cod,$FilaP[CTAREA],$FilaP[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -703,7 +703,7 @@ function CrearArbol($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 									$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 								else
 									$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-								$RespAC=mysql_query($Consulta);
+								$RespAC=mysqli_query($link, $Consulta);
 								$CantHijosAC=mysql_num_rows($RespAC);$ContAC=1;
 								if($FilaU[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",".$Organica[6].",")
 									MuestraHijo(5,$Cod,$FilaU[CTAREA],$FilaU[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -722,7 +722,7 @@ function CrearArbol($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 										$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 									else
 										$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";
-									$RespO=mysql_query($Consulta);
+									$RespO=mysqli_query($link, $Consulta);
 									$CantHijosO=mysql_num_rows($RespO);$ContO=1;
 									if($FilaAC[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",".$Organica[6].",".$Organica[7].",")
 										MuestraHijo(6,$Cod,$FilaAC[CTAREA],$FilaAC[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -741,7 +741,7 @@ function CrearArbol($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 											$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 										else
 											$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";
-										$RespT=mysql_query($Consulta);
+										$RespT=mysqli_query($link, $Consulta);
 										if($FilaO[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",".$Organica[6].",".$Organica[7].",".$Organica[8].",")
 											MuestraHijo(7,$Cod,$FilaO[CTAREA],$FilaO[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
 										if($LargoArreglo>7)
@@ -789,7 +789,7 @@ function CrearArbolNivelArea($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 	else
 		$Consulta="SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT=',".$Organica[1].",' and MVIGENTE='1'  ORDER BY CTAREA";	
 	//echo $Consulta."<br>";
-	$RespD=mysql_query($Consulta);
+	$RespD=mysqli_query($link, $Consulta);
 	while($FilaD=mysql_fetch_array($RespD))
 	{
 			$Cod=$FilaD[CPARENT].$FilaD[CAREA].",";
@@ -798,7 +798,7 @@ function CrearArbolNivelArea($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 			else
 				$Consulta="SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
 			//echo $Consulta;
-			$RespG=mysql_query($Consulta);
+			$RespG=mysqli_query($link, $Consulta);
 			$CantHijosG=mysql_num_rows($RespG);$ContG=1;
 			MuestraHijoNivelarea(0,$Cod,$FilaD[CTAREA],$FilaD[NAREA],$CodAux,$Estado,$CantHijosG,$SelTarea,$Rut);
 			while($FilaG=mysql_fetch_array($RespG))
@@ -814,7 +814,7 @@ function CrearArbolNivelArea($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 					$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 				else
 					$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-				$RespS=mysql_query($Consulta);
+				$RespS=mysqli_query($link, $Consulta);
 				$CantHijosS=mysql_num_rows($RespS);$ContS=1;
 				if($FilaG[CPARENT]==",".$Organica[1].",".$Organica[2].",")
 					MuestraHijoNivelarea(1,$Cod,$FilaG[CTAREA],$FilaG[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -833,7 +833,7 @@ function CrearArbolNivelArea($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 						$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 					else
 						$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";
-					$RespA=mysql_query($Consulta);
+					$RespA=mysqli_query($link, $Consulta);
 					$CantHijosA=mysql_num_rows($RespA);$ContA=1;
 					if($FilaS[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",")
 						MuestraHijoNivelarea(2,$Cod,$FilaS[CTAREA],$FilaS[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -852,7 +852,7 @@ function CrearArbolNivelArea($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 							$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 						else
 							$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-						$RespP=mysql_query($Consulta);
+						$RespP=mysqli_query($link, $Consulta);
 						$CantHijosP=mysql_num_rows($RespP);$ContP=1;
 						if($FilaA[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",")
 							MuestraHijoNivelarea(3,$Cod,$FilaA[CTAREA],$FilaA[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1119,7 +1119,7 @@ function CrearArbol2($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 	else
 		$Consulta="SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT=',".$Organica[1].",' and MVIGENTE='1'  ORDER BY CTAREA";	
 	//echo $Consulta."<br>";
-	$RespD=mysql_query($Consulta);
+	$RespD=mysqli_query($link, $Consulta);
 	while($FilaD=mysql_fetch_array($RespD))
 	{
 			$Cod=$FilaD[CPARENT].$FilaD[CAREA].",";
@@ -1128,7 +1128,7 @@ function CrearArbol2($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 			else
 				$Consulta="SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
 			//echo $Consulta;
-			$RespG=mysql_query($Consulta);
+			$RespG=mysqli_query($link, $Consulta);
 			$CantHijosG=mysql_num_rows($RespG);$ContG=1;
 			MuestraHijo2(0,$Cod,$FilaD[CTAREA],$FilaD[NAREA],$CodAux,$Estado,$CantHijosG,$SelTarea,$Rut);
 			while($FilaG=mysql_fetch_array($RespG))
@@ -1144,7 +1144,7 @@ function CrearArbol2($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 					$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 				else
 					$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-				$RespS=mysql_query($Consulta);
+				$RespS=mysqli_query($link, $Consulta);
 				$CantHijosS=mysql_num_rows($RespS);$ContS=1;
 				if($FilaG[CPARENT]==",".$Organica[1].",".$Organica[2].",")
 					MuestraHijo2(1,$Cod,$FilaG[CTAREA],$FilaG[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1163,7 +1163,7 @@ function CrearArbol2($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 						$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 					else
 						$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";
-					$RespA=mysql_query($Consulta);
+					$RespA=mysqli_query($link, $Consulta);
 					$CantHijosA=mysql_num_rows($RespA);$ContA=1;
 					if($FilaS[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",")
 						MuestraHijo2(2,$Cod,$FilaS[CTAREA],$FilaS[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1182,7 +1182,7 @@ function CrearArbol2($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 							$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 						else
 							$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-						$RespP=mysql_query($Consulta);
+						$RespP=mysqli_query($link, $Consulta);
 						$CantHijosP=mysql_num_rows($RespP);$ContP=1;
 						if($FilaA[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",")
 							MuestraHijo2(3,$Cod,$FilaA[CTAREA],$FilaA[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1201,7 +1201,7 @@ function CrearArbol2($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 								$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 							else
 								$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-							$RespU=mysql_query($Consulta);
+							$RespU=mysqli_query($link, $Consulta);
 							$CantHijosU=mysql_num_rows($RespU);$ContU=1;
 							if($FilaP[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",")
 								MuestraHijo2(4,$Cod,$FilaP[CTAREA],$FilaP[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1220,7 +1220,7 @@ function CrearArbol2($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 									$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 								else
 									$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";	
-								$RespAC=mysql_query($Consulta);
+								$RespAC=mysqli_query($link, $Consulta);
 								$CantHijosAC=mysql_num_rows($RespAC);$ContAC=1;
 								if($FilaU[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",".$Organica[6].",")
 									MuestraHijo2(5,$Cod,$FilaU[CTAREA],$FilaU[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1239,7 +1239,7 @@ function CrearArbol2($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 										$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 									else
 										$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";
-									$RespO=mysql_query($Consulta);
+									$RespO=mysqli_query($link, $Consulta);
 									$CantHijosO=mysql_num_rows($RespO);$ContO=1;
 									if($FilaAC[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",".$Organica[6].",".$Organica[7].",")
 										MuestraHijo2(6,$Cod,$FilaAC[CTAREA],$FilaAC[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1258,7 +1258,7 @@ function CrearArbol2($Cod,$Estado,$SelTarea,$Rut,$TareaVigente)
 											$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' ORDER BY CTAREA";
 										else
 											$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' and MVIGENTE='1' ORDER BY CTAREA";
-										$RespT=mysql_query($Consulta);
+										$RespT=mysqli_query($link, $Consulta);
 										if($FilaO[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",".$Organica[6].",".$Organica[7].",".$Organica[8].",")
 											MuestraHijo2(7,$Cod,$FilaO[CTAREA],$FilaO[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
 										if($LargoArreglo>7)
@@ -1419,7 +1419,7 @@ function DescripOrganica($Cod,$Tipo)
 		}
 		$Consulta="SELECT NAREA from sgrs_areaorg where CAREA IN(".$Codigo.")";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			$Gerencias=$Gerencias.$Fila[NAREA].', ';
@@ -1437,7 +1437,7 @@ function DescripOrganica2($Cod)
 		$Codigo=ObtenerCodParent($Cod);
 		$Consulta="SELECT NAREA,CTAREA from sgrs_areaorg where CAREA = '".$Codigo."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			switch($Fila[CTAREA])
@@ -1485,7 +1485,7 @@ function DescripOrganica4($Cod)//SIN FLECHA DE IMAGEN EN ENVIO DE CORREO
 		$Codigo=ObtenerCodParent($Cod);
 		$Consulta="SELECT NAREA,CTAREA from sgrs_areaorg where CAREA = '".$Codigo."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			switch($Fila[CTAREA])
@@ -1533,7 +1533,7 @@ function DescripOrganicaHi($Cod)
 		$Codigo=$Cod;
 		$Consulta="SELECT NAREA,CTAREA from sgrs_areaorg where CAREA = '".$Codigo."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			switch($Fila[CTAREA])
@@ -1581,7 +1581,7 @@ function DescripOrganica3($Codigo)
 	{
 		$Consulta="SELECT NAREA from sgrs_areaorg where CAREA = '".$Codigo."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		$Descrip=$Fila[NAREA];
 	}
@@ -1601,14 +1601,14 @@ function CrearArbolHI($Cod,$Estado,$SelTarea,$Rut)
 	//$AccesoOrg=ObtieneAccesoOrg($Rut,$AccesoOrg);
 	$Consulta="SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT=',".$Organica[1].",' AND CTAREA NOT IN ('7','8') ORDER BY CTAREA";
 	//echo $Consulta."<br>";
-	$RespD=mysql_query($Consulta);
+	$RespD=mysqli_query($link, $Consulta);
 	while($FilaD=mysql_fetch_array($RespD))
 	{
 			$Cod=$FilaD[CPARENT].$FilaD[CAREA].",";
 					
 			$Consulta="SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' AND CTAREA NOT IN ('7','8') ORDER BY CTAREA";
 			//echo $Consulta;
-			$RespG=mysql_query($Consulta);
+			$RespG=mysqli_query($link, $Consulta);
 			$CantHijosG=mysql_num_rows($RespG);$ContG=1;
 			MuestraHijoHI(0,$Cod,$FilaD[CTAREA],$FilaD[NAREA],$CodAux,$Estado,$CantHijosG,$SelTarea,$Rut);
 			while($FilaG=mysql_fetch_array($RespG))
@@ -1621,7 +1621,7 @@ function CrearArbolHI($Cod,$Estado,$SelTarea,$Rut)
 				$ContG++;	
 				$Cod=$FilaG[CPARENT].$FilaG[CAREA].",";
 				$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' AND CTAREA NOT IN ('7','8') ORDER BY CTAREA";
-				$RespS=mysql_query($Consulta);
+				$RespS=mysqli_query($link, $Consulta);
 				$CantHijosS=mysql_num_rows($RespS);$ContS=1;
 				if($FilaG[CPARENT]==",".$Organica[1].",".$Organica[2].",")
 					MuestraHijoHI(1,$Cod,$FilaG[CTAREA],$FilaG[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1637,7 +1637,7 @@ function CrearArbolHI($Cod,$Estado,$SelTarea,$Rut)
 					$ContS++;						
 					$Cod=$FilaS[CPARENT].$FilaS[CAREA].",";
 					$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' AND CTAREA NOT IN ('7','8') ORDER BY CTAREA";
-					$RespA=mysql_query($Consulta);
+					$RespA=mysqli_query($link, $Consulta);
 					$CantHijosA=mysql_num_rows($RespA);$ContA=1;
 					if($FilaS[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",")
 						MuestraHijoHI(2,$Cod,$FilaS[CTAREA],$FilaS[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1653,7 +1653,7 @@ function CrearArbolHI($Cod,$Estado,$SelTarea,$Rut)
 						$ContA++;	
 						$Cod=$FilaA[CPARENT].$FilaA[CAREA].",";
 						$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' AND CTAREA NOT IN ('7','8') ORDER BY CTAREA";
-						$RespP=mysql_query($Consulta);
+						$RespP=mysqli_query($link, $Consulta);
 						$CantHijosP=mysql_num_rows($RespP);$ContP=1;
 						if($FilaA[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",")
 							MuestraHijoHI(3,$Cod,$FilaA[CTAREA],$FilaA[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1669,7 +1669,7 @@ function CrearArbolHI($Cod,$Estado,$SelTarea,$Rut)
 							$ContP++;								
 							$Cod=$FilaP[CPARENT].$FilaP[CAREA].",";
 							$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' AND CTAREA NOT IN ('7','8') ORDER BY CTAREA";
-							$RespU=mysql_query($Consulta);
+							$RespU=mysqli_query($link, $Consulta);
 							$CantHijosU=mysql_num_rows($RespU);$ContU=1;
 							if($FilaP[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",")
 								MuestraHijoHI(4,$Cod,$FilaP[CTAREA],$FilaP[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1685,7 +1685,7 @@ function CrearArbolHI($Cod,$Estado,$SelTarea,$Rut)
 									$ContU++;	
 									$Cod=$FilaU[CPARENT].$FilaU[CAREA].",";
 									$Consulta = "SELECT CAREA,CTAREA,CPARENT,NAREA from sgrs_areaorg where CPARENT='".$Cod."' AND CTAREA NOT IN ('7','8') ORDER BY CTAREA";
-									$RespAC=mysql_query($Consulta);
+									$RespAC=mysqli_query($link, $Consulta);
 									$CantHijosAC=mysql_num_rows($RespAC);$ContAC=1;
 									if($FilaU[CPARENT]==",".$Organica[1].",".$Organica[2].",".$Organica[3].",".$Organica[4].",".$Organica[5].",".$Organica[6].",")
 										MuestraHijoHI(5,$Cod,$FilaU[CTAREA],$FilaU[NAREA],$CodAux,$Estado,$Item,$SelTarea,$Rut);
@@ -1859,25 +1859,25 @@ function RegistroHi($Codigo,$Rut,$Accion,$Cod)
 	{
 		case "EMP"://ELIMINAR MEDICION PERSONAL
 			$Consulta="SELECT * from sgrs_medpersonales where CMEDPERSONAL='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$Obs=$Fila[CMEDPERSONAL].", ".$Fila[QMEDICION].", ".$Fila[QMR].", ".$Fila[QDOSIS].", ".$Fila[CRUT].", ".$Fila[CAGENTE];
 		break;
 		case "EMA"://ELIMINAR MEDICION AMBIENTALES
 			$Consulta="SELECT * from sgrs_medambientes where CMEDAMB='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$Obs=$Fila[CMEDAMB].", ".$Fila[QMEDICION].", ".$Fila[QMR].", ".$Fila[CAREA].", ".$Fila[CLUGAR].", ".$Fila[CAGENTE];
 		break;
 		case "EEL"://ELIMINAR EXAMENES DE LABORATORIO
 			$Consulta="SELECT * from sgrs_exlaboratorio where CEXAMEN='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$Obs=$Fila[CEXAMEN].", ".$Fila[QVALOR].", ".$Fila[QPERIODICIDAD].", ".$Fila[CEVALUACION].", ".$Fila[FEXAMEN].", ".$Fila[CRUT];
 		break;
 		case "ELUG"://ELIMINAR LUGAR MEDICION
 			$Consulta="SELECT * from sgrs_lugares where CLUGAR='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$Obs=$Fila[CLUGAR].", ".$Fila[NLUGAR].", ".$Fila[CCORDX].", ".$Fila[CCORDY].", ".$Fila[CCORDZ].", ".$Fila[CAREA];
 		break;
@@ -1914,7 +1914,7 @@ function RegistroSiper($Codigo,$Rut,$Accion,$Cod)
 		break;
 		case "ECT"://ELIMINAR CONTROLES TODOS
 			$Consulta="SELECT * from sgrs_sipercontroles where CPELIGRO='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Obs=$Fila[CPELIGRO].",".$Fila[CCONTACTO].",".$Fila[CCONTROL].",".$Fila[MCONTROL].",".$Fila[MCONTROLH].",".$Fila[CAREA];
@@ -1929,7 +1929,7 @@ function RegistroSiper($Codigo,$Rut,$Accion,$Cod)
 function ObtieneNivelUsuario($RutUsuario)
 {
 	$Consulta ="SELECT nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$RutUsuario."' and cod_sistema =29";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Respuesta);
 	$Nivel=$Fila["nivel"];  		
 	return ($Nivel);

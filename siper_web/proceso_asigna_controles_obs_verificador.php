@@ -23,7 +23,7 @@
 	</tr>
 	<?
 	$Consulta="SELECT * from sgrs_tipo_verificador order by DESCRIP_VERIFICADOR";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$OBSVERIF=$Fila[OBS];

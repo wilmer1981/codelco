@@ -47,7 +47,7 @@
 					break;
 			}
 			  
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))
 			{
 			//	echo "WW".$Fila["mayor"];
@@ -69,7 +69,7 @@
 			$Tipo = $Datos[1];
 			$Titulo = "MODIFICA&nbsp;";
 			$Consulta = "select * from sec_web.programa_codelco where corr_codelco='".$IE."'";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))
 			{
 				$Desactiva="readonly";
@@ -196,13 +196,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	//ORDEN ENAMI
 	$Consulta = "select MAX(corr_codelco) as mayor ";
 	$Consulta.= " from sec_web.programa_codelco where corr_codelco > '10000'";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Resp))
 		$NumOrdenENM=$Fila["mayor"]+1;
 	//ORDEN CODELCO
 	$Consulta = "select MAX(corr_codelco) as mayor ";
 	$Consulta.= " from sec_web.programa_codelco where corr_codelco < '6400'"; //jcf
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Resp))
 		$NumOrdenCODE=$Fila["mayor"]+1;
 	switch ($TipoOrden)
@@ -238,7 +238,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$Consulta.= " where cod_clase='3104' ";
 	$Consulta.= " order by valor_subclase1 ";
 	$var1=$Consulta;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($CmbAsignacion==$Fila["nombre_subclase"])
@@ -257,7 +257,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			
 	$Consulta = "select * from proyecto_modernizacion.productos ";
 	$Consulta.= " where cod_producto in('18','48','19','64') order by descripcion";
-	$Resp = mysql_query($Consulta);  	
+	$Resp = mysqli_query($link, $Consulta);  	
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		if ($Fila["cod_producto"]==$CmbProducto)
@@ -282,7 +282,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta.= " WHERE cod_producto = '".$CmbProducto."' and";
 						$Consulta.= " cod_subproducto in('21','22','23','25') order by descripcion";
 					
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 					}
 					
 					else
@@ -293,7 +293,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.= " WHERE cod_producto = '".$CmbProducto."' and";
 					$Consulta.= " cod_subproducto in('6') order by descripcion";
 					
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 
 			 	 	}
 			  }	
@@ -302,7 +302,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta = "SELECT * FROM proyecto_modernizacion.subproducto ";
 				$Consulta.= " WHERE cod_producto = '".$CmbProducto."'";
 				$Consulta.= " order by descripcion";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 			}
 			while ($Fila = mysql_fetch_array($Resp))
 			{				
@@ -354,7 +354,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <option value="S" class="NoSelec">SELECCIONAR</option>
               <?
 					$Consulta = "select * from sec_web.cliente_venta where cod_cliente<>'' order by trim(sigla_cliente) ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($Fila["cod_cliente"]==$CmbCliente)
@@ -372,7 +372,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <option value="S" class="NoSelec">SELECCIONAR</option>
               <?
 					$Consulta = "select * from sec_web.nave where cod_nave<>'' order by trim(nombre_nave) ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($Fila["cod_nave"]==$CmbNave)
@@ -392,7 +392,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			<option value="S" class="NoSelec">SELECCIONAR</option>
 			<?
 				$Consulta = "select * from sec_web.puertos order by trim(nom_aero_puerto) ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($Fila["cod_puerto"]==$CmbPtoEmbarque)
@@ -409,7 +409,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <option value="S" class="NoSelec">SELECCIONAR</option>
               <?
 				$Consulta = "select * from sec_web.puertos order by trim(nom_aero_puerto) ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					if ($Fila["cod_puerto"]==$CmbPtoDestino)

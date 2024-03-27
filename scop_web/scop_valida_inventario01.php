@@ -10,7 +10,7 @@
 		case "E":	
 			$Datos=explode("~",$Valores);
 			$Consulta="select * from scop_carry_cost where ano='".$Datos[1]."' and mes='".$Datos[2]."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				//ELIMINO PARCIALIZACIONES CREADAS
@@ -44,7 +44,7 @@
 				$Consulta="select * from scop_inventario where ano='".$Ano."' and cod_contrato='".$v."' and cod_estado='2'";
 				if($CmbMes!='T')
 					$Consulta.=" and mes='".$CmbMes."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					$Consulta2="select * from scop_inventario where ano='".$Ano."' and cod_contrato='".$Fila["cod_contrato"]."' and cod_estado='3'";

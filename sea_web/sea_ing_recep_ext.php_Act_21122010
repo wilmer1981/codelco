@@ -58,7 +58,7 @@ if ($Proceso == 'G')
 						
 			//consulto
 			$Consulta = "SELECT * FROM hornadas WHERE hornada_ventana = $valor_h";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			
 			if($row = mysql_fetch_array($rs))
 			{ 
@@ -251,7 +251,7 @@ if ($mostrar=="S" || $mostrar2 == "S")
 			$dia = substr($fecha,8,2);*/
 		 
 		 $Consulta = "SELECT * from movimientos WHERE tipo_movimiento = 6 AND hornada = $row_g[hornada]";
-		 $rs5 = mysql_query($Consulta);
+		 $rs5 = mysqli_query($link, $Consulta);
 		 if($row5 = mysql_fetch_array($rs5))
 		 {
 			 $Consultar = "S";		

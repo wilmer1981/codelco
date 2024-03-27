@@ -13,7 +13,7 @@
 		    
 		case "M"://MODIFICACION ASIGNACIONES PRODUCTOS
 			$Consulta=" select tipo from pcip_svp_asignaciones_productos where cod_producto='".$TxtCodigo."'";	
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				//echo $Fila[tipo]."<br>"; 

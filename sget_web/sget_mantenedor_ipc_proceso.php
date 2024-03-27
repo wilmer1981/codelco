@@ -6,7 +6,7 @@ if ($Opc=='M')
 	$Consulta="SELECT * from sget_ipc t1 ";
 	$Consulta.=" where t1.ano='".$Valores."' ";
 	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtA�o=$Fila["ano"];
@@ -18,7 +18,7 @@ else
 	$Consulta = "SELECT distinct ano ";
 	$Consulta.= " from sget_ipc ";
 	$Consulta.= " order by ano desc";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$A�osOk=$A�osOk.$Fila["ano"].",";	
@@ -179,12 +179,12 @@ if ($Opc=='N')
 					$Consulta = "SELECT distinct ano ";
 					$Consulta.= " from sget_ipc where ano='$TxtA�o'";
 					$Consulta.= " order by ano desc";
-					$Resp = mysql_query($Consulta);
+					$Resp = mysqli_query($link, $Consulta);
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						echo "<tr>";
 						$Consulta="SELECT * from sget_ipc where ano = '".$Fila["ano"]."' order by mes";
-						$RespMes=mysql_query($Consulta);
+						$RespMes=mysqli_query($link, $Consulta);
 						while($FilaMes=mysql_fetch_array($RespMes))
 						{	
 							echo "<td align='center'><input type='text' name='TxtValorMes' value='".$FilaMes["valor"]."' size='6' onkeydown='TeclaPulsada(true)'></td>";

@@ -120,7 +120,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <?
 			$Consulta = "select distinct(t2.cod_subclase),t2.nombre_subclase from pcip_inp_asignacion t1";
 			$Consulta.= " inner join proyecto_modernizacion.sub_clase t2 where t2.cod_clase='31029' and t1.cod_producto=t2.cod_subclase order by t2.cod_subclase";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbProducto==$Fila["cod_subclase"])
@@ -140,7 +140,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.= " inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31030' and t1.cod_proveedor=t2.cod_subclase where cod_producto<>''";
 			if($CmbProducto!='T')
 				$Consulta.= " and cod_producto='".$CmbProducto."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				if ($CmbProveedores==$Fila["cod_subclase"])
@@ -199,7 +199,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if($CmbProveedores!='T')
 		$Consulta.=" and t1.cod_proveedor='".$CmbProveedores."'";	
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);$Cont=0;
+	$Resp=mysqli_query($link, $Consulta);$Cont=0;
 	echo "<input name='CheckAsig' type='hidden'>";
 	while($Fila=mysql_fetch_array($Resp))
 	{
@@ -254,7 +254,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if($CmbProveedores!='T')
 		$Consulta.=" and t1.cod_proveedor='".$CmbProveedores."'";	
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);$Cont=0;
+	$Resp=mysqli_query($link, $Consulta);$Cont=0;
 	echo "<input name='CheckAsig' type='hidden'>";
 	while($Fila=mysql_fetch_array($Resp))
 	{

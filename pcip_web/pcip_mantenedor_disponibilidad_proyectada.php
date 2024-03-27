@@ -61,7 +61,7 @@ function Procesos(TipoProceso)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar las Disponibilidades Seleccionados?"))
+				if (confirm("ï¿½Desea Eliminar las Disponibilidades Seleccionados?"))
 				{
 					f.action = "pcip_mantenedor_disponibilidad_proyectada_proceso01.php?Opcion=E&Valores="+Valores;
 					f.submit();
@@ -119,7 +119,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" selected="selected">Todos</option>
       <?
 	  $Consulta = "select cod_sistema,nom_sistema from pcip_eec_sistemas where vigente='S' and mostrar='S' order by nom_sistema ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSistema==$FilaTC["cod_sistema"])
@@ -135,7 +135,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="-1" selected="selected">Todos</option>
         <?
 	  $Consulta = "select t1.cod_equipo,t2.nom_equipo from pcip_eec_equipos_por_sistema t1 inner join pcip_eec_equipos t2 on t1.cod_equipo=t2.cod_equipo where t1.cod_sistema='".$CmbSistema."' order by t2.nom_equipo ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEquipos==$FilaTC["cod_equipo"])
@@ -214,13 +214,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.= " and t1.cod_equipo='".$CmbEquipos."' ";
 	$Consulta.= " group by t1.cod_sistema,t1.cod_equipo,t1.tipo_disponibilidad,t1.ano ";	
 	//echo $Consulta; 	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Linea=1;
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Sistema=$Fila[nom_sistema];
 		$Equipo=$Fila[nom_equipo];
-		$Año=$Fila[ano];
+		$Aï¿½o=$Fila[ano];
 		$Cod=$Fila[cod_sistema]."~".$Fila[cod_equipo]."~".$Fila[ano];
 		if($Linea=='1')
 		{
@@ -229,7 +229,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<td rowspan="4"><input type="checkbox" name='CheckDisp' class="SinBorde" value="<? echo $Cod; ?>"> </td>
 		<td rowspan="4"><? echo $Sistema;?></td>
 		<td rowspan="4" ><? echo $Equipo;?></td>
-		<td rowspan="4" align="center"><? echo $Año;?></td>
+		<td rowspan="4" align="center"><? echo $Aï¿½o;?></td>
 		<?
 		}
 		//DatosDispProyectada(1,$Fila[cod_sistema],$Fila[cod_equipo],$Fila[ano],&$Acum,&$Cont);
@@ -262,7 +262,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if ($Mensaje=='1')
 		echo "alert('Disponibilidad (s) Eliminado(s) Correctamente');";
 	echo "</script>";
-function DatosDispProyectada($Linea,$CodSistema,$CodEquipo,$Año,$Acum,$Cont)
+function DatosDispProyectada($Linea,$CodSistema,$CodEquipo,$Aï¿½o,$Acum,$Cont)
 {
 	$Acum=0;$Cont=0;
 	switch($Linea)
@@ -284,7 +284,7 @@ function DatosDispProyectada($Linea,$CodSistema,$CodEquipo,$Año,$Acum,$Cont)
 			echo "<tr class='FilaAbeja2'><td align='left'>Hrs.Mant.May</td>";
 		break;
 	}
-	 $Consulta.=" from pcip_eec_disponibilidades where tipo_disponibilidad='P' and cod_sistema='".$CodSistema."' and cod_equipo='".$CodEquipo."' and ano='".$Año."' ";
+	 $Consulta.=" from pcip_eec_disponibilidades where tipo_disponibilidad='P' and cod_sistema='".$CodSistema."' and cod_equipo='".$CodEquipo."' and ano='".$Aï¿½o."' ";
 	 for($i=1;$i<=12;$i++)
 	 {
 		$Consulta2=" and mes='".$i."'";

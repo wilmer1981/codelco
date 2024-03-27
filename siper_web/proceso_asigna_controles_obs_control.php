@@ -24,7 +24,7 @@
 	<?
 	$Consulta="SELECT *,ceiling(CCONTROL) as codigo from sgrs_codcontroles where CCONTROL<>'' order by NCONTROL asc";
 	//echo $Consulta."<br>";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$OBSCONTROL=$Fila[OBS];

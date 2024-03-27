@@ -185,12 +185,12 @@
 					$ProAnt=$DatosMod1[1];
 					$ProDes=$DatosMod1[2];
 					$Consulta = "SELECT * from proyecto_modernizacion.productos where cod_producto ='".$ProAnt."' order by descripcion";
-					$result = mysql_query($Consulta);
+					$result = mysqli_query($link, $Consulta);
 					while ($Row = mysql_fetch_array($result))
 						$Mensaje.='Producto Anterior '.$Row["descripcion"];
 					$Mensaje.='<br>';
 					$Consulta = "SELECT * from proyecto_modernizacion.productos where cod_producto ='".$ProDes."' order by descripcion";
-					$result = mysql_query($Consulta);
+					$result = mysqli_query($link, $Consulta);
 					while ($Row = mysql_fetch_array($result))
 						$Mensaje.='Producto Actual '.$Row["descripcion"];
 					$Mensaje.='<br><br>';
@@ -200,13 +200,13 @@
 					$SubProDes=$DatosMod1[2];
 					$Consulta = "SELECT distinct t1.cod_subproducto,t1.cod_subproducto,t1.descripcion from proyecto_modernizacion.subproducto t1 inner join ram_web.conjunto_ram t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 					$Consulta.= "where t1.cod_producto = '".$ProAnte."' and t1.cod_subproducto='".$SubProAnt."' and t2.estado='a' order by t1.descripcion";
-					$result = mysql_query($Consulta);
+					$result = mysqli_query($link, $Consulta);
 					if($Row = mysql_fetch_array($result))
 						$Mensaje.='Sub-Producto Anterior: '.$Row["descripcion"];
 					$Mensaje.='<br>';
 					$Consulta = "SELECT distinct t1.cod_subproducto,t1.cod_subproducto,t1.descripcion from proyecto_modernizacion.subproducto t1 inner join ram_web.conjunto_ram t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 					$Consulta.= "where t1.cod_producto = '".$ProDesp."' and t1.cod_subproducto='".$SubProDes."' and t2.estado='a' order by t1.descripcion";
-					$result = mysql_query($Consulta);
+					$result = mysqli_query($link, $Consulta);
 					if($Row = mysql_fetch_array($result))
 						$Mensaje.='Sub-Producto Actual: '.$Row["descripcion"];
 					$Mensaje.='<br><br>';
@@ -220,7 +220,7 @@
 					$Consulta.= " and cod_subproducto = '".$SubProAnte."' ";
 					$Consulta.= " and num_conjunto = '".$ConjAnt."' and estado='a'";
 					$Consulta.= " order by num_conjunto";
-					$Resultado = mysql_query($Consulta);
+					$Resultado = mysqli_query($link, $Consulta);
 					if ($Row2 = mysql_fetch_array($Resultado))
 						$Mensaje.='Conjunto Anterior: '.$Row2["descripcion"];
 					$Mensaje.='<br>';
@@ -230,7 +230,7 @@
 					$Consulta.= " and cod_subproducto = '".$SubProDes."' ";
 					$Consulta.= " and num_conjunto = '".$ConjDes."' and estado='a'";
 					$Consulta.= " order by num_conjunto";
-					$Resultado = mysql_query($Consulta);
+					$Resultado = mysqli_query($link, $Consulta);
 					if ($Row2 = mysql_fetch_array($Resultado))
 						$Mensaje.='Conjunto Actual: '.$Row2["descripcion"];
 					$Mensaje.='<br><br>';

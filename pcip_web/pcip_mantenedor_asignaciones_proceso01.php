@@ -50,7 +50,7 @@ switch($Opcion)
 	break;
 	case "G":
 		$Consulta="select * from pcip_svp_productos_procedencias where ano='".$Ano."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
 		while($Fila=mysql_fetch_array($Resp))
 		{

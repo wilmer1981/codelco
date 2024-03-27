@@ -146,7 +146,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT * from sget_tipo_persona order by descrip_tipo";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{ 
 			if($CmbTipoPersona==$Fila[cod_tipo])
@@ -162,7 +162,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT * from sget_afp where estado='1' order by descripcion_afp";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbAfp==$Fila[cod_afp])
@@ -178,7 +178,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="-1" class="NoSelec">Todos</option>
             <?
 	  $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30011' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSalud==$FilaTC["cod_subclase"])
@@ -195,7 +195,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT * from sget_ciudades order by nom_ciudad";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCiudad==$Fila["cod_ciudad"])
@@ -211,7 +211,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT t2.cod_comuna,t2.nom_comuna from sget_comunas_por_ciudad t1 inner join sget_comunas t2 on t1.cod_comuna=t2.cod_comuna where cod_ciudad='".$CmbCiudad."' order by nom_comuna";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbComunas==$Fila[cod_comuna])
@@ -227,7 +227,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<option value="-1" SELECTed="SELECTed">Todos</option>
 		<?
 		$Consulta="SELECT * from sget_cargos order by descrip_cargo";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbCargo==$Fila[cod_cargo])
@@ -242,7 +242,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" SELECTed="SELECTed">Todos</option>
       <?
 		$Consulta="SELECT * from sget_sindicato where estado='1' order by descripcion";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbSindicato==$Fila[cod_sindicato])
@@ -273,7 +273,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  if($TxtEmpresa!='')
 	  	 $Consulta.= "and  upper(razon_social) like '%".strtoupper(trim($TxtEmpresa))."%' ";
 	 	$Consulta.= " order by razon_social ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if (strtoupper($CmbEmpresa)==strtoupper($FilaTC["rut_empresa"]))
@@ -328,7 +328,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="S" SELECTed="SELECTed">Seleccionar</option>
         <?
 		$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30018' order by cod_subclase";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($CmbTipoCtto==$Fila["cod_subclase"])
@@ -445,7 +445,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.="  and  t1.tipo_ctto ='".$CmbTipoCtto."' ";
 		$Consulta.=" order by t1.ape_paterno";
 		//echo $Consulta;
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=0;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{

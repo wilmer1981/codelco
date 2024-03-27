@@ -2,7 +2,7 @@
 	//echo "PROCESO:".$Proceso;
 	include("../principal/conectar_sget_web.php");
 	$Consulta="SELECT * from sget_personal where rut='$Rut'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	if($Fila=mysql_fetch_array($Resp))
 	{
@@ -11,11 +11,11 @@
 		$TxtPat=$Fila[ape_paterno];
 		$TxtMat=$Fila[ape_materno];
 		$Consulta="SELECT * from sget_contratistas where rut_empresa='".$Fila[rut_empresa]."'";
-		$RespEmp=mysql_query($Consulta);
+		$RespEmp=mysqli_query($link, $Consulta);
 		if($FilaEmp=mysql_fetch_array($RespEmp))
 			$Empresa=$FilaEmp[razon_social];
 		$Consulta="SELECT * from sget_contratos where cod_contrato='".$Fila["cod_contrato"]."' and rut_empresa!=''";
-		$RespCtto=mysql_query($Consulta);
+		$RespCtto=mysqli_query($link, $Consulta);
 		if($FilaCtto=mysql_fetch_array($RespCtto))
 		{
 			$Contrato=$FilaCtto["cod_contrato"]."   ".strtoupper($FilaCtto[descrip_contrato]);

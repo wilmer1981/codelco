@@ -8,7 +8,7 @@
 		$Consulta.= " on t1.lote = t2.lote";
 		$Consulta.= " where t1.lote = '".$TxtLote."'";
 		$Consulta.= " and t2.recargo = '".$TxtRecargo."'";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))
 		{
 			//DATOS DEL LOTE
@@ -44,7 +44,7 @@
 			{
 				$Consulta = "select ifnull(max(recargo*1),0) as ult_recargo from age_web.detalle_lotes ";
 				$Consulta.= " where lote='".$TxtLote."'";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				if ($Fila2 = mysql_fetch_array($Resp2))
 					$TxtRecargo = $Fila2["ult_recargo"] + 1;
 				else
@@ -269,7 +269,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$Consulta = "select cod_subproducto, descripcion, abreviatura, LPAD(cod_subproducto,2,'0') as orden ";
 	$Consulta.= " from proyecto_modernizacion.subproducto ";
 	$Consulta.= " where cod_producto='1' order by orden";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -284,7 +284,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="S" class="NoSelec">SELECCIONAR</option>
       <?
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15003' order by cod_subclase";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Fila["cod_subclase"]==$CmbEstadoLote)
@@ -305,7 +305,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if($TipoBusq=='3'&&$TxtFiltroPrv!='')
 	   $Consulta.= " where nombre_prv like '%".$TxtFiltroPrv."%'";    	
 	$Consulta.= " order by TRIM(nombre_prv) ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		$Datos = explode("-",$Fila["rut_prv"]);
@@ -327,7 +327,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	<option value="S" class="NoSelec">SELECCIONAR</option>
 <?
 	$Consulta = "select distinct cod_mina,nombre_mina from sipa_web.minaprv order by nombre_mina ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($CmbCodFaena == $Fila["cod_mina"])
@@ -344,7 +344,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	<option value="S" class="NoSelec">SELECCIONAR</option>
       <?
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15001' order by nombre_subclase";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Fila["nombre_subclase"]==$CmbClaseProducto)
@@ -365,7 +365,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='3104' ";
 	$Consulta.= " order by cod_subclase ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($CmbCodRecepcion==$Fila["nombre_subclase"])
@@ -384,7 +384,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="S" class="NoSelec">SELECCIONAR</option>
       <?
 	$Consulta = "select COD_C, DESC_A from rec_web.tipos  where indica='R' order by DESC_A ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Fila["COD_C"]==$CmbCodRecepcionENM)
@@ -417,7 +417,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <?
 	$Consulta = "select recargo, LPAD(recargo,2,'0') as orden from age_web.detalle_lotes ";
 	$Consulta.= " where lote='".$TxtLote."' order by orden";
-	$Resp= mysql_query($Consulta);
+	$Resp= mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Fila["recargo"]==$TxtRecargo)
@@ -509,7 +509,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="S" class="NoSelec">SELECCIONAR</option>
       <?
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15003' order by cod_subclase";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Fila["cod_subclase"]==$CmbEstadoRecargo)

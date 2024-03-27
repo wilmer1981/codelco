@@ -4,7 +4,7 @@
 ?>
 <html>
 <head>
-<title>Relación Productos por Orden</title> 
+<title>Relaciï¿½n Productos por Orden</title> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="javascript" src="../pcip_web/funciones/pcip_funciones.js"></script>
 <script language="JavaScript">
@@ -78,7 +78,7 @@ function Salir()
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_producto,nom_producto from pcip_cdv_productos_ventas order by cod_producto ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbProducto==$FilaTC["cod_producto"])
@@ -95,7 +95,7 @@ function Salir()
 			 $Consulta = "select t1.cod_orden from pcip_cdv_productos_ventas_por_ordenes t1  ";			
 			 $Consulta.= " where t1.cod_orden='".$CmbProductos."'";
 			 //echo $Consulta;
-			 $Resp=mysql_query($Consulta);
+			 $Resp=mysqli_query($link, $Consulta);
 			 while ($FilaTC=mysql_fetch_array($Resp))
 			 {
 				$In=$In."'".$FilaTC[cod_orden]."',";
@@ -120,7 +120,7 @@ function Salir()
 							$Consulta.= " where t2.OPorden not in $In ";
 						$Consulta.= "order by t2.OPorden ";
 					}
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($FilaTC=mysql_fetch_array($Resp))
 					{
 						if ($CmbOrden==$FilaTC["OPorden"])
@@ -150,7 +150,7 @@ function Salir()
 				$Consulta.= " inner join proyecto_modernizacion.sub_clase t4 on t4.cod_clase='31007' and t4.cod_subclase=t1.vigente";				
 				$Consulta.= " where t1.cod_producto='".$CmbProducto."'";
 				$Consulta.= " order by t1.cod_producto";			
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {

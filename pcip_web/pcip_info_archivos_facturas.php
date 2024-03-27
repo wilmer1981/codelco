@@ -84,7 +84,7 @@ function Salir()
 		  $Consulta="select t1.numero,t1.adjunto,t2.nombre_subclase as nom_tipo from pcip_fac_compra_finos_relacion t1 ";
 		  $Consulta.=" left join proyecto_modernizacion.sub_clase t2 on cod_clase='31018' and t1.tipo_factura=t2.cod_subclase";
 		  $Consulta.=" where codigo='".$Cod."' and tipo_factura='1'";
-		  $Resp=mysql_query($Consulta);
+		  $Resp=mysqli_query($link, $Consulta);
 		  //echo $Consulta;
 		  while($Fila=mysql_fetch_array($Resp))
 		  {

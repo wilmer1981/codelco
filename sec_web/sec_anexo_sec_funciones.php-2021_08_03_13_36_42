@@ -5,7 +5,7 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 	$MesConsulta = intval(substr($FechaTermino,5,2));
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase=3004 and cod_subclase =".$MesConsulta;
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	if ($FilaAux = mysql_fetch_array($RespAux))
 	{
 		$Letra = $FilaAux["nombre_subclase"];
@@ -26,7 +26,7 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 				$Consulta.= " and cod_paquete='".$Letra."' ";
 				$Consulta.= " and year(fecha_creacion_paquete)=".$AnoConsulta;
 				$Consulta.= " group by cod_producto "; 
-				$RespAux = mysql_query($Consulta);
+				$RespAux = mysqli_query($link, $Consulta);
 				if ($FilaAux = mysql_fetch_array($RespAux))
 				{
 					$PesoFlujo = $FilaAux["peso_produccion"];
@@ -46,7 +46,7 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 						$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
 						$Consulta.= " and t1.fecha_produccion ='".$FechaAux."'";
 						$Consulta.= " group by fecha_produccion";	
-						$Rs = mysql_query($Consulta);
+						$Rs = mysqli_query($link, $Consulta);
 						$Entro=false;
 						while($Fila = mysql_fetch_array($Rs))
 						{								
@@ -62,7 +62,7 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 							$Consulta.= " and t3.cod_leyes='01' ";
 							$Consulta.= " and t2.estado_actual <> '16' and t2.estado_actual <> '7'";
 							$Consulta.= " and t2.frx <> 'S' and t2.cod_analisis = '1' and t2.tipo = '1'";	
-							$Rs2 = mysql_query($Consulta);
+							$Rs2 = mysqli_query($link, $Consulta);
 							if($Fila2 = mysql_fetch_array($Rs2))														
 								$PorcHum = $Fila2["valor"];							
 							else											
@@ -125,7 +125,7 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 					$MesSig=$MesAct+1;	
 				$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 				$Consulta.= " where cod_clase = '3004' and cod_subclase = '".$MesSig."'"	;
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				if ($Fila = mysql_fetch_array($Respuesta))
 				{
 					$MesSig = $Fila["nombre_subclase"];
@@ -160,7 +160,7 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 			
 			//if($Flujo=='162')
 			//	echo $Consulta."<br><br><br>";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux = mysql_fetch_array($RespAux))
 			{
 				$PesoFlujo = $FilaAux["peso_paquetes"];
@@ -178,13 +178,13 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 			$Consulta.= " and (t2.cod_producto='".$Producto."' ";
 			$Consulta.= " and t2.cod_subproducto ='".$SubProducto."')";
 			$Consulta.= " group by  t2.cod_producto, t2.cod_subproducto, ano, serie";
-			$RespAux = mysql_query($Consulta);			
+			$RespAux = mysqli_query($link, $Consulta);			
 			//echo $Consulta."<br>";
 			while ($FilaAux = mysql_fetch_array($RespAux))
 			{
 				$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 				$Consulta.= " where cod_clase=3004 and nombre_subclase = '".$FilaAux["serie"]."'";
-				$RespAux2 = mysql_query($Consulta);
+				$RespAux2 = mysqli_query($link, $Consulta);
 				if ($FilaAux2 = mysql_fetch_array($RespAux2))
 				{
 					$MesAux = $FilaAux2["cod_subclase"];
@@ -208,7 +208,7 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 				$Consulta=$Consulta." and sw='1' ";//sw=1 indica que es trapaso RAF	
 			$Consulta=$Consulta." group by cod_producto,cod_subproducto,serie"; $PesoFlujo=0;
 			//echo $Consulta."<BR>";
-			$Respuesta2=mysql_query($Consulta);
+			$Respuesta2=mysqli_query($link, $Consulta);
 			while ($FilaAux=mysql_fetch_array($Respuesta2))
 			{
 				$PesoFlujo =$PesoFlujo+$FilaAux["peso_traspaso"];
@@ -216,7 +216,7 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 				{
 					$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 					$Consulta.= " where cod_clase=3004 and nombre_subclase = '".$FilaAux["serie"]."'";
-					$RespAux2 = mysql_query($Consulta);
+					$RespAux2 = mysqli_query($link, $Consulta);
 					if ($FilaAux2 = mysql_fetch_array($RespAux2))
 					{
 						$MesAux = $FilaAux2["cod_subclase"];
@@ -243,7 +243,7 @@ function RescataLeyes($Ano, $Mes)
 {
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase=3004 and cod_subclase =".$Mes;
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	if ($FilaAux = mysql_fetch_array($RespAux))
 	{
 		$Letra = $FilaAux["nombre_subclase"];
@@ -302,7 +302,7 @@ function CalculaLeyesComerciales($Letra, $AnoConsulta, $MesConsulta)
 		$Consulta.= " and cod_subproducto = '1'";
 		$Consulta.= " and fecha_produccion between '".$Fecha1."' and '".$Fecha2."'";	
 		$Consulta.= " group by cod_producto, cod_subproducto ";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		if ($FilaAux = mysql_fetch_array($RespAux))
 		{			
 			$PesoSemana = $FilaAux["peso_produccion"];
@@ -322,7 +322,7 @@ function CalculaLeyesComerciales($Letra, $AnoConsulta, $MesConsulta)
 			$Consulta.= " and t1.cod_producto = '18' and t1.cod_subproducto = '1'";
 			$Consulta.= " and (t2.cod_leyes = '02' or t2.cod_leyes = '04' or t2.cod_leyes = '05')";
 			$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
-			$RespAux2 = mysql_query($Consulta);
+			$RespAux2 = mysqli_query($link, $Consulta);
 			//echo "LEYES COMERCIALES ".$Consulta."<BR>";
 			$Encontro = "N";								
 			while ($FilaAux2 = mysql_fetch_array($RespAux2))
@@ -385,7 +385,7 @@ function CalculaLeyesDescParcial($Letra, $AnoConsulta, $MesConsulta)
 		//$Consulta.= " and year(fecha_creacion_paquete)=".$AnoConsulta;
 		$Consulta.= " and fecha_produccion between '".$Fecha1."' and '".$Fecha2."'";
 		$Consulta.= " group by cod_producto,cod_subproducto"; 
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		while ($FilaAux = mysql_fetch_array($RespAux))
 		{					
 			$PesoQuincena = $FilaAux["peso_paquetes"];
@@ -404,7 +404,7 @@ function CalculaLeyesDescParcial($Letra, $AnoConsulta, $MesConsulta)
 			$Consulta.= " and t1.cod_producto = '18' and t1.cod_subproducto = '4'";
 			$Consulta.= " and (t2.cod_leyes = '02' or t2.cod_leyes = '04' or t2.cod_leyes = '05')";
 			$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
-			$RespAux2 = mysql_query($Consulta);
+			$RespAux2 = mysqli_query($link, $Consulta);
 			$Encontro = "N";								
 			while ($FilaAux2 = mysql_fetch_array($RespAux2))
 			{
@@ -466,7 +466,7 @@ function CalculaLeyesEW($Letra, $AnoConsulta, $MesConsulta)
 	$Consulta.= " and t1.cod_producto = '18' and t1.cod_subproducto in ('5','17')";
 	$Consulta.= " and (t2.cod_leyes = '04' or t2.cod_leyes = '05')";
 	$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
-	$RespAux2 = mysql_query($Consulta);
+	$RespAux2 = mysqli_query($link, $Consulta);
 	$Encontro = "N";								
 	while ($FilaAux2 = mysql_fetch_array($RespAux2))
 	{
@@ -495,7 +495,7 @@ function CalculaLeyesEW($Letra, $AnoConsulta, $MesConsulta)
 	$Consulta.= " and fecha_produccion between '".$FechaInicio."' and '".$FechaTermino."'";
 	$Consulta.= " group by fecha_produccion"; 		
 	$Consulta.= " order by fecha_produccion"; 	
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	//echo $Consulta."<br>";
 	$FinoCu = 0;
 	while ($FilaAux = mysql_fetch_array($RespAux))
@@ -519,7 +519,7 @@ function CalculaLeyesEW($Letra, $AnoConsulta, $MesConsulta)
 		$Consulta.= " and t1.cod_producto = '18' and t1.cod_subproducto in ('5','17')";
 		$Consulta.= " and t2.cod_leyes = '02'";
 		$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
-		$RespAux2 = mysql_query($Consulta);
+		$RespAux2 = mysqli_query($link, $Consulta);
 		$Encontro = "N";								
 		//echo $Consulta."<br>";
 		while ($FilaAux2 = mysql_fetch_array($RespAux2))
@@ -594,7 +594,7 @@ function CalculaLeyesExternos($Letra, $AnoConsulta, $MesConsulta)
 		$Consulta.= " group by t1.lote_origen";
 		$Consulta.= " order by t1.lote_origen";
 		//echo $Consulta."<br>";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		$FinoCu = 0;
 		$FinoAg = 0;
 		$FinoAu = 0;
@@ -616,7 +616,7 @@ function CalculaLeyesExternos($Letra, $AnoConsulta, $MesConsulta)
 			$Consulta.= " and ((t1.cod_producto = '18' and t1.cod_subproducto = '".$SubProducto."') or (t1.cod_producto = '16')) ";
 			$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
 			//echo $Consulta."<br>";
-			$RespAux2 = mysql_query($Consulta);
+			$RespAux2 = mysqli_query($link, $Consulta);
 			$Encontro = "N";								
 			while ($FilaAux2 = mysql_fetch_array($RespAux2))
 			{
@@ -681,7 +681,7 @@ function RescataFinos($AnoActual,$MesActual,$Ano,$Mes,$TipoMov,$Producto,$SubPro
 	$Consulta.= " and mes = '".$Mes."'";
 	$Consulta.= " and cod_producto = '".$ProductoCons."'";
 	$Consulta.= " and cod_subproducto = '".$SubProductoCons."'";
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	$Encontro = false;
 	//echo "FLUJO:".$Flujo."<BR>";
 	//echo $Consulta."<br><br>";
@@ -703,7 +703,7 @@ function RescataFinos($AnoActual,$MesActual,$Ano,$Mes,$TipoMov,$Producto,$SubPro
 			$Consulta.= " and mes = '".$Mes."'";
 			$Consulta.= " and cod_producto = '".$ProductoCons."'";
 			$Consulta.= " and cod_subproducto = '".$SubProductoCons."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			//echo $Flujo." / ".$Consulta."<br>";
 			while ($FilaAux = mysql_fetch_array($RespAux))
 			{
@@ -722,7 +722,7 @@ function RescataFinos($AnoActual,$MesActual,$Ano,$Mes,$TipoMov,$Producto,$SubPro
 			$Consulta.= " and mes = '".$Mes."'";
 			$Consulta.= " and cod_producto = '".$Producto."'";
 			$Consulta.= " and cod_subproducto = '".$SubProducto."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			//echo $Flujo." / ".$Consulta."<br>";
 			while ($FilaAux = mysql_fetch_array($RespAux))
 			{
@@ -797,7 +797,7 @@ function RescataLeyesPorSerie($Letra, $AnoConsulta, $MesConsulta)
 					$Consulta.= " group by t2.cod_bulto, t2.num_bulto ";
 					$Consulta.= " order by ano_creacion, t2.cod_bulto, t2.num_bulto";
 					//echo $Consulta."<br>";
-					mysql_query($Consulta);	
+					mysqli_query($link, $Consulta);	
 					$Consulta = " select sum(t1.peso_paquetes) as peso,t2.cod_bulto,t2.num_bulto, year(t3.fecha_creacion_lote) as ano_creacion ";
 					$Consulta.= " from sec_web.paquete_catodo t1  ";
 					$Consulta.= " inner join sec_web.guia_despacho_emb t2 on t1.num_guia=t2.num_guia ";
@@ -806,7 +806,7 @@ function RescataLeyesPorSerie($Letra, $AnoConsulta, $MesConsulta)
 					$Consulta.= " and (year(t1.fecha_creacion_paquete) = ".$AnoFin."  ";
 					$Consulta.= " and t1.cod_paquete < '".$Letra."' or year(t1.fecha_creacion_paquete) < ".$AnoFin.")  ";
 					$Consulta.= " group by t2.cod_bulto,t2.num_bulto ";
-					$RespAux4 = mysql_query($Consulta);
+					$RespAux4 = mysqli_query($link, $Consulta);
 					while ($FilaAux4 = mysql_fetch_array($RespAux4))
 					{
 						$Insertar = "insert into sec_web.tmp_stock_ini (cod_bulto, num_bulto, ano_creacion, peso) ";
@@ -840,7 +840,7 @@ function RescataLeyesPorSerie($Letra, $AnoConsulta, $MesConsulta)
 			} 
 		}
 		//echo $Consulta."<br><BR>";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		while ($FilaAux = mysql_fetch_array($RespAux))
 		{
 			if ($FilaAux["serie"] == $Letra && $FilaAux["ano"] == $AnoConsulta)
@@ -854,7 +854,7 @@ function RescataLeyesPorSerie($Letra, $AnoConsulta, $MesConsulta)
 				$FinoAu = 0;
 				$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 				$Consulta.= " where cod_clase=3004 and nombre_subclase = '".$FilaAux["serie"]."'";
-				$RespAux2 = mysql_query($Consulta);
+				$RespAux2 = mysqli_query($link, $Consulta);
 				if ($FilaAux2 = mysql_fetch_array($RespAux2))
 				{
 					$MesAux = $FilaAux2["cod_subclase"];
@@ -864,7 +864,7 @@ function RescataLeyesPorSerie($Letra, $AnoConsulta, $MesConsulta)
 				$Consulta.= " where tipo_mov = '1' ";
 				$Consulta.= " and cod_producto = '".$FilaAux["cod_producto"]."'";
 				$Consulta.= " and cod_subproducto = '".$FilaAux["cod_subproducto"]."'";
-				$RespAux2 = mysql_query($Consulta);
+				$RespAux2 = mysqli_query($link, $Consulta);
 				while ($FilaAux2 = mysql_fetch_array($RespAux2))
 				{					
 					$FlujoProd = $FilaAux2["flujo"];
@@ -872,7 +872,7 @@ function RescataLeyesPorSerie($Letra, $AnoConsulta, $MesConsulta)
 					$Consulta.= " where ano = '".$AnoConsulta."'";
 					$Consulta.= " and mes = '".$MesAux."'";
 					$Consulta.= " and flujo = '".$FlujoProd."'";
-					$RespAux3 = mysql_query($Consulta);
+					$RespAux3 = mysqli_query($link, $Consulta);
 					$Encontro = false;
 					$PesoMes = 0;
 					while ($FilaAux3 = mysql_fetch_array($RespAux3))
@@ -900,7 +900,7 @@ function RescataLeyesPorSerie($Letra, $AnoConsulta, $MesConsulta)
 						$Consulta.= " where ano = '".$AnoConsulta."'";
 						$Consulta.= " and mes = '".$MesConsAux."'";
 						$Consulta.= " and flujo = '".$FlujoProd."'";
-						$RespAux3 = mysql_query($Consulta);
+						$RespAux3 = mysqli_query($link, $Consulta);
 						while ($FilaAux3 = mysql_fetch_array($RespAux3))
 						{	
 							$PesoMes = $FilaAux3["peso"];
@@ -926,7 +926,7 @@ function RescataLeyesPorSerie($Letra, $AnoConsulta, $MesConsulta)
 				$Consulta.= " and cod_producto = '".$FilaAux["cod_producto"]."'";
 				$Consulta.= " and cod_subproducto = '".$FilaAux["cod_subproducto"]."'";
 				$Consulta.= " and serie = '".$FilaAux["serie"]."'";
-				$RespAux3 = mysql_query($Consulta);
+				$RespAux3 = mysqli_query($link, $Consulta);
 				$Encontro = false;
 				if ($FilaAux3 = mysql_fetch_array($RespAux3))
 				{
@@ -988,7 +988,7 @@ function RescataLeyesSulfatoPte($ProdAux, $SubProdAux, $NumSemana, $AnoAux, $Mes
 	$Consulta.= " AND (t1.estado_actual <> '7' and t1.estado_actual <> '16')"; // <> ELIMINADA,ANULADA					
 	$Consulta.= " order by t1.fecha_muestra desc limit 6";
 	
-	$Respuesta4=mysql_query($Consulta);
+	$Respuesta4=mysqli_query($link, $Consulta);
 	
 	$Entro=true;
 	$Cant=0;
@@ -1023,7 +1023,7 @@ function RescataLeyesLodos($ProdAux, $SubProdAux, $DiaAux, $AnoAux, $MesAux, $Pe
 	$Consulta.= " and t2.frx <> 'S' and t2.cod_analisis = '1' and t2.tipo = '1'";
 	$Consulta.= " AND t3.cod_leyes IN(02,04,05) ";
 	$Consulta.= " ORDER BY t3.cod_leyes";
-	$RespLodos = mysql_query($Consulta);
+	$RespLodos = mysqli_query($link, $Consulta);
 	while ($FilaLodos = mysql_fetch_array($RespLodos))
 	{		
 		if ($FilaLodos["cod_leyes"]=="02")

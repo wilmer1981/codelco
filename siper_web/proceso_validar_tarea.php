@@ -11,12 +11,12 @@
 			$SIVAL='1';
 			$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.MVALIDADO,t1.MR1,t1.MR2,t1.QPROBHIST,t1.QCONSECHIST from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$CODAREA."' group by t1.CPELIGRO order by CCONTACTO";
 			//echo $Consulta."<br>";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			if ($Fila=mysql_fetch_array($Resultado))
 			{
 				$Consulta="SELECT * from sgrs_siperpeligros where CAREA='".$CODAREA."' and MVALIDADO='0'";
 				//echo $Consulta."<br>";
-				$Resultado=mysql_query($Consulta);
+				$Resultado=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resultado))
 					$EXISTEUNO='SI';//TODOS VALIDADOS
 				else
@@ -69,7 +69,7 @@
 
 			<? 			
 			$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.MVALIDADO,t1.MR1,t1.MR2,t1.QPROBHIST,t1.QCONSECHIST from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$CODAREA."' group by t1.CPELIGRO order by t2.NCONTACTO";
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
 				$PH='';$CH='';$PC='';$CC='';$Validado='';
@@ -107,7 +107,7 @@
 					$Consulta.=" inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES";
 					$Consulta.=" where t1.CPELIGRO ='".$Fila[CPELIGRO]."'";
 					//echo $Consulta."<br>";
-					$RespCtrl=mysql_query($Consulta);
+					$RespCtrl=mysqli_query($link, $Consulta);
 					while($FilaCtrl=mysql_fetch_array($RespCtrl))
 					{
 						echo "<tr>";

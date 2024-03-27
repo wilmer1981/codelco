@@ -180,7 +180,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				//$Consulta.= " FROM proyecto_modernizacion.CONTROL_ACCESO T1 INNER JOIN proyecto_modernizacion.FUNCIONARIOS T2 ON T1.RUT = T2.RUT AND sistema='29' INNER JOIN sgrv.sgrs_control_acceso t3 on t1.RUT=t3.RUT where t1.RUT<>'' ORDER BY NOMBRE";
 				$Consulta = "SELECT distinct(T2.RUT), CONCAT(T2.APELLIDO_PATERNO, ' ', T2.APELLIDO_MATERNO, ' ', T2.NOMBRES) AS NOMBRE ";
 				$Consulta.= " FROM proyecto_modernizacion.FUNCIONARIOS T2 INNER JOIN sgrv.sgrs_control_acceso t3 on t2.RUT=t3.RUT where t2.RUT<>'' ORDER BY NOMBRE";
-				$Respuesta = mysql_query($Consulta);
+				$Respuesta = mysqli_query($link, $Consulta);
 				while ($Row = mysql_fetch_array($Respuesta))
 				{
 					if($USUARIO==$Row[RUT])
@@ -203,7 +203,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			if($USUARIO!='T')			
 				$Consulta.=" and rut='".$USUARIO."' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
 			$Consulta.=" group by cod_pantalla";	
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			while ($Fila = mysql_fetch_array($Resp))
 			{
 				if($CmbTipoProceso==$Fila[cod_pantalla])
@@ -252,7 +252,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			if($CmbTipoProceso!='T')
 				$Consulta.= " and t1.pantalla='".$CmbTipoProceso."'";
 			$Consulta.= " order by t2.descripcion";
-			$Resp = mysql_query($Consulta);$Cont=0;
+			$Resp = mysqli_query($link, $Consulta);$Cont=0;
 			while ($Fila=mysql_fetch_array($Resp))
 			{	
 				$Cont=$Cont+1;

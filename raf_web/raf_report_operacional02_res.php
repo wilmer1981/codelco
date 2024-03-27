@@ -3,7 +3,7 @@ include("../principal/conectar_raf_web.php");
 	
 	
 	$Consulta = "SELECT * FROM raf_web.movimientos WHERE SUBSTRING(hornada,7) = '".$Hornada."'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	$row = mysql_fetch_array($rs);	
 	$Dia = substr($row[fecha_carga],8,2);
 	$Mes = substr($row[fecha_carga],5,2);					  			
@@ -140,8 +140,8 @@ function Proceso(opc)
       <td>Carga 1</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'A1' AND campo1 = '1' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta); 
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -159,14 +159,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -205,7 +205,7 @@ function Proceso(opc)
 		//Restos	
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 1";
 		$Consulta.= " AND cod_producto = 19";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumRestos = $AcumRestos + $row["peso"];
 	  ?>	  	
@@ -214,7 +214,7 @@ function Proceso(opc)
 	  	//Circulante
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 1";
 		$Consulta.= " AND cod_producto = 42";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumCirc = $AcumCirc + $row["peso"];
 	  ?>	  	
@@ -224,7 +224,7 @@ function Proceso(opc)
 	  	//Blister Solido
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 1";
 		$Consulta.= " AND (cod_producto = 16 OR cod_producto = 17) AND cod_subproducto != 41 AND cod_subproducto != 42";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumBlisSol = $AcumBlisSol + $row["peso"];
 	  ?>	  	
@@ -233,7 +233,7 @@ function Proceso(opc)
 	  	//Blister Liquido
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 1";
 		$Consulta.= " AND cod_producto = 16 AND cod_subproducto IN('41','42')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumBlisLiq = $AcumBlisLiq + $row["peso"];
 	  ?>	  	
@@ -242,7 +242,7 @@ function Proceso(opc)
 	  	//Otros
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 1";
 		$Consulta.= " AND (cod_producto=18 OR cod_producto='48')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumOtros = $AcumOtros + $row["peso"];
 	  ?>	
@@ -251,7 +251,7 @@ function Proceso(opc)
 	  	//Total Acum
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 1";
 		$Consulta.= " AND cod_producto IN('16','17','18','19','42','48')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumCargaTot = $AcumCargaTot + $row["peso"];
 	  ?>	  	
@@ -262,8 +262,8 @@ function Proceso(opc)
       <td>Fusion 1</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'A1' AND campo1 = '2' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -281,14 +281,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -335,8 +335,8 @@ function Proceso(opc)
       <td>Carga 2</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'A1' AND campo1 = '3' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta); 
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -354,14 +354,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -400,7 +400,7 @@ function Proceso(opc)
 		//Restos	
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 2";
 		$Consulta.= " AND cod_producto = 19";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumRestos = $AcumRestos + $row["peso"];
 	  ?>	  	
@@ -409,7 +409,7 @@ function Proceso(opc)
 	  	//Blister Solido
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 2";
 		$Consulta.= " AND (cod_producto = 16 OR cod_producto = 17) AND cod_subproducto != 41 AND cod_subproducto != 42";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumCirc = $AcumCirc + $row["peso"];
 	  ?>	  	
@@ -419,7 +419,7 @@ function Proceso(opc)
 	  	//Circulante
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 2";
 		$Consulta.= " AND cod_producto = 42";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumBlisSol = $AcumBlisSol + $row["peso"];
 	  ?>	  	
@@ -428,7 +428,7 @@ function Proceso(opc)
 	  	//Blister Liquido
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 2";
 		$Consulta.= " AND cod_producto = 16 AND cod_subproducto IN('41','42')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumBlisLiq = $AcumBlisLiq + $row["peso"];
 	  ?>	  	
@@ -437,7 +437,7 @@ function Proceso(opc)
 	  	//Otros
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 2";
 		$Consulta.= " AND (cod_producto=18 OR cod_producto='48')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumOtros = $AcumOtros + $row["peso"];
 	  ?>	
@@ -446,7 +446,7 @@ function Proceso(opc)
 	  	//Total Acum
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 2";
 		$Consulta.= " AND cod_producto IN('16','17','18','19','42','48')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumCargaTot = $AcumCargaTot + $row["peso"];
 	  ?>	  	
@@ -457,8 +457,8 @@ function Proceso(opc)
       <td>Fusion 2</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'A1' AND campo1 = '4' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta); 
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -476,14 +476,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -530,8 +530,8 @@ function Proceso(opc)
       <td>Carga 3</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'A1' AND campo1 = '5' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta); 
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -549,14 +549,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -595,7 +595,7 @@ function Proceso(opc)
 		//Restos	
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 3";
 		$Consulta.= " AND cod_producto = 19";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumRestos = $AcumRestos + $row["peso"];
 	  ?>	  	
@@ -604,7 +604,7 @@ function Proceso(opc)
 	  	//Blister Solido
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 3";
 		$Consulta.= " AND (cod_producto = 16 OR cod_producto = 17) AND cod_subproducto != 41 AND cod_subproducto != 42";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumCirc = $AcumCirc + $row["peso"];
 	  ?>	  	
@@ -614,7 +614,7 @@ function Proceso(opc)
 	  	//Circulante
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 3";
 		$Consulta.= " AND cod_producto = 42";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumBlisSol = $AcumBlisSol + $row["peso"];		
 	  ?>	  	
@@ -623,7 +623,7 @@ function Proceso(opc)
 	  	//Blister Liquido
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 3";
 		$Consulta.= " AND cod_producto = 16 AND cod_subproducto IN('41','42')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumBlisLiq = $AcumBlisLiq + $row["peso"];
 	  ?>	  	
@@ -632,7 +632,7 @@ function Proceso(opc)
 	  	//Otros
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 3";
 		$Consulta.= " AND (cod_producto=18 OR cod_producto='48')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumOtros = $AcumOtros + $row["peso"];
 	  ?>	
@@ -641,7 +641,7 @@ function Proceso(opc)
 	  	//Total Acum
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 3";
 		$Consulta.= " AND cod_producto IN('16','17','18','19','42','48')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumCargaTot = $AcumCargaTot + $row["peso"];
 	  ?>	  	
@@ -652,8 +652,8 @@ function Proceso(opc)
       <td>Fusion 3</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'A1' AND campo1 = '6' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta); 
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -671,7 +671,7 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))
 		{
 			$real = substr($Fila["dif"],0,5);	  					
@@ -680,7 +680,7 @@ function Proceso(opc)
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -727,8 +727,8 @@ function Proceso(opc)
       <td>Carga 4 </td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'A1' AND campo1 = '7' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta); 
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -746,14 +746,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -792,7 +792,7 @@ function Proceso(opc)
 		//Restos	
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 4";
 		$Consulta.= " AND cod_producto = 19";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumRestos = $AcumRestos + $row["peso"];
 	  ?>	  
@@ -801,7 +801,7 @@ function Proceso(opc)
 	  	//Blister Solido
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 4";
 		$Consulta.= " AND (cod_producto = 16 OR cod_producto = 17) AND cod_subproducto != 41 AND cod_subproducto != 42";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumCirc = $AcumCirc + $row["peso"];
 	  ?>
@@ -811,7 +811,7 @@ function Proceso(opc)
 	  	//Circulante
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 4";
 		$Consulta.= " AND cod_producto = 42";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumBlisSol = $AcumBlisSol + $row["peso"];
 	  ?>	
@@ -820,7 +820,7 @@ function Proceso(opc)
 	  	//Blister Liquido
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 4";
 		$Consulta.= " AND cod_producto = 16 AND cod_subproducto IN('41','42')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumBlisLiq = $AcumBlisLiq + $row["peso"];
 	  ?>	  
@@ -829,7 +829,7 @@ function Proceso(opc)
 	  	//Otros
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 4";
 		$Consulta.= " AND (cod_producto=18 OR cod_producto='48')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumOtros = $AcumOtros + $row["peso"];
 	  ?>	
@@ -838,7 +838,7 @@ function Proceso(opc)
 	  	//Total Acum
 	 	$Consulta = "SELECT sum(peso) as peso FROM raf_web.det_carga WHERE hornada = $hornada AND nro_carga = 4";
 		$Consulta.= " AND cod_producto IN('16','17','18','19','42','48')";
-		$rs = mysql_query($Consulta); 
+		$rs = mysqli_query($link, $Consulta); 
 		$row = mysql_fetch_array($rs);
 		$AcumCargaTot = $AcumCargaTot + $row["peso"];
 	  ?>	  
@@ -849,8 +849,8 @@ function Proceso(opc)
       <td>Fusion 4 </td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'A1' AND campo1 = '8' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta); 
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta); 
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -868,14 +868,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -977,8 +977,8 @@ function Proceso(opc)
       <td>Calenta 1</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '1' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha"]!="" && !is_null($row["fecha"])){echo substr($row["fecha"],8,2)."-".substr($row["fecha"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -996,14 +996,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -1040,7 +1040,7 @@ function Proceso(opc)
       <td align="center"><? echo $AcumHora_Dif2?>&nbsp;</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B3' AND campo1 = '1' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 
 	  ?>	
@@ -1055,8 +1055,8 @@ function Proceso(opc)
       <td>Escoreo</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '2' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha"]!="" && !is_null($row["fecha"])){echo substr($row["fecha"],8,2)."-".substr($row["fecha"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -1074,14 +1074,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -1118,7 +1118,7 @@ function Proceso(opc)
       <td align="center"><? echo $AcumHora_Dif2?>&nbsp;</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B3' AND campo1 = '2' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 
 	  ?>	
@@ -1133,8 +1133,8 @@ function Proceso(opc)
       <td>Calenta 2</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '3' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha"],8,2)."-".substr($row["fecha"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -1152,14 +1152,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -1196,7 +1196,7 @@ function Proceso(opc)
       <td align="center"><? echo $AcumHora_Dif2?>&nbsp;</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B3' AND campo1 = '3' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 
 	  ?>	
@@ -1211,8 +1211,8 @@ function Proceso(opc)
       <td>Reduc.</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '4' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -1230,14 +1230,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -1274,7 +1274,7 @@ function Proceso(opc)
       <td align="center"><? echo $AcumHora_Dif2?>&nbsp;</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B3' AND campo1 = '4' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 
 	  ?>	
@@ -1289,8 +1289,8 @@ function Proceso(opc)
       <td>Calenta 3</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '5' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -1308,14 +1308,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -1352,7 +1352,7 @@ function Proceso(opc)
       <td align="center"><? echo $AcumHora_Dif2?>&nbsp;</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B3' AND campo1 = '5' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 
 	  ?>	
@@ -1367,8 +1367,8 @@ function Proceso(opc)
       <td>Moldeo</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '6' AND Hornada = $hornada";	
-		 $Rs = mysql_query($Consulta);
-		 $rs = mysql_query($Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
+		 $rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -1386,14 +1386,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -1430,7 +1430,7 @@ function Proceso(opc)
       <td align="center"><? echo $AcumHora_Dif2?>&nbsp;</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B3' AND campo1 = '6' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 
 	  ?>	
@@ -1445,8 +1445,8 @@ function Proceso(opc)
       <td>Vac. Sell.</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '7' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? if ($row["fecha_ini"]!="" && !is_null($row["fecha_ini"])){echo substr($row["fecha_ini"],8,2)."-".substr($row["fecha_ini"],5,2);}else{echo "&nbsp;";} ?></td>
@@ -1464,14 +1464,14 @@ function Proceso(opc)
 			$Hora2 = (substr($Hora2,0,2)+24).":".substr($Hora2,3,2);
 		}
 		$Consulta = "SELECT SUBTIME('".$Hora2."', '".$Hora1."') as dif";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))	
 			$real = substr($Fila["dif"],0,5);	  		
 		//ACUMULA HORA
 		if ($AcumHora!="")
 		{
 			$Consulta = "SELECT ADDTIME('".$AcumHora."', '".$real."') as sum_hora";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))	
 			{
 				$AcumHora = substr($Fila["sum_hora"],0,5);	
@@ -1508,7 +1508,7 @@ function Proceso(opc)
       <td align="center"><? echo $AcumHora_Dif2?>&nbsp;</td>
 	  <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'B3' AND campo1 = '7' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 
 	  ?>	
@@ -1564,8 +1564,8 @@ function Proceso(opc)
       <td>Carga 1</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '1' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -1600,7 +1600,7 @@ function Proceso(opc)
       <td>Comerciales</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C2' AND campo1 = '1' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
          if($row = mysql_fetch_array($rs))
 		 {
 		 	$unidades = $row[campo2];
@@ -1625,8 +1625,8 @@ function Proceso(opc)
       <td>Fusion 1</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '2' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -1661,7 +1661,7 @@ function Proceso(opc)
       <td>Especiales</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C2' AND campo1 = '2' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
          if($row = mysql_fetch_array($rs))
 		 {
 		 	$unidades = $row[campo2];
@@ -1686,8 +1686,8 @@ function Proceso(opc)
       <td>Carga 2</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '3' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -1722,7 +1722,7 @@ function Proceso(opc)
       <td>H. Madres</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C2' AND campo1 = '3' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
          if($row = mysql_fetch_array($rs))
 		 {
 		 	$unidades = $row[campo2];
@@ -1747,8 +1747,8 @@ function Proceso(opc)
       <td>Fusion 2</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '4' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -1790,8 +1790,8 @@ function Proceso(opc)
       <td>Carga 3</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '5' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -1829,8 +1829,8 @@ function Proceso(opc)
       <td>Fusion 3</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '6' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -1872,8 +1872,8 @@ function Proceso(opc)
       <td>Calenta 1</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '7' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -1908,7 +1908,7 @@ function Proceso(opc)
       <td>Placas</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C3' AND campo1 = '1' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);		 
+		 $rs = mysqli_query($link, $Consulta);		 
          if($row = mysql_fetch_array($rs))
 		 {
 		 	$unidades = $row[campo2];
@@ -1933,8 +1933,8 @@ function Proceso(opc)
       <td>Escoreo</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '8' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -1969,7 +1969,7 @@ function Proceso(opc)
       <td>H.Madres</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C3' AND campo1 = '2' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);		 
+		 $rs = mysqli_query($link, $Consulta);		 
          if($row = mysql_fetch_array($rs))
 		 {
 		 	$unidades = $row[campo2];
@@ -1994,8 +1994,8 @@ function Proceso(opc)
       <td>Calenta 2</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '9' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -2037,8 +2037,8 @@ function Proceso(opc)
       <td>Reduc.</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '10' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -2076,8 +2076,8 @@ function Proceso(opc)
       <td>Calenta 3</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '11' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -2114,8 +2114,8 @@ function Proceso(opc)
       <td>Moldeo</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '12' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -2152,8 +2152,8 @@ function Proceso(opc)
       <td>Vacio Sellado</td>
       <?
 		 $Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = '13' AND Hornada = $hornada";	
-		 $rs = mysql_query($Consulta);
-		 $Rs = mysql_query($Consulta);
+		 $rs = mysqli_query($link, $Consulta);
+		 $Rs = mysqli_query($link, $Consulta);
 		 $row = mysql_fetch_array($rs);
 	  ?>
       <td align="center"><? echo $row[campo2] ?>&nbsp;</td>
@@ -2217,7 +2217,7 @@ function Proceso(opc)
 	<?
 		$Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'D1' AND Hornada = $hornada";
 		$Consulta.= " ORDER BY fecha_ini, hora_ini";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		while ($row = mysql_fetch_array($rs))
 		{
 			$arreglo[] = array($row["campo1"], $row[hora_ini], $row[hora_ter], $row["fecha_ini"]);
@@ -2231,7 +2231,7 @@ function Proceso(opc)
       <td align="center"><? echo substr($arreglo[0][2],0,5); ?>&nbsp;</td>
 	<?
 		$Consulta = "SELECT * FROM raf_web.datos_operacionales WHERE tipo_report = 2 AND seccion_report = 'D2' AND Hornada = $hornada";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$row = mysql_fetch_array($rs);
 	?>
       <td colspan="3" rowspan="9" valign="top"><? echo nl2br($row[campo8]);?>&nbsp;</td>

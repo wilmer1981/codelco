@@ -8,7 +8,7 @@
 	{
 		case "N":	// NUEVO CONTRATOS	
 			$Consulta="select * from scop_contratos where cod_contrato = '".$TxtContrato."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{	
 				if($CmbAcuerdoCu=='P')
@@ -109,7 +109,7 @@
 			foreach($Datos as $clave => $Codigo)
 			{	
 				$Consulta="select * from scop_contratos_flujos where cod_contrato = '".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Resp))
 				{					    							
 					$Cadena=explode("~",$Codigo);			
@@ -132,7 +132,7 @@
 				$Datos='E';	
 			$Consulta="select * from scop_datos_enabal where cod_flujo = '".$TxtCodFlujo."' and ano='".$Ano."' and mes='".$Mes."' and tipo_mov='".$TipoDato."' and tipo_dato='".$Datos."' and origen='OTRO'";
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{					    		
 				$Inserta="INSERT INTO scop_datos_enabal (ano,mes,origen,tipo_mov,tipo_dato,cod_flujo,nom_flujo,peso,cobre,plata,oro,tipo)";
@@ -167,7 +167,7 @@
 		break;
 		case "NRECEP":	// NUEVO RECEPCION
 			$Consulta="select * from scop_contratos_flujos where cod_contrato = '".strtoupper($TxtContrato)."' and flujo='".$CmbFlujoRecep."' and tipo_flujo='".$Valor."' and tipo_inventario=2";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{					    		
 				$Inserta="INSERT INTO scop_contratos_flujos (cod_contrato,flujo,tipo_flujo,tipo_inventario,signo)";
@@ -194,7 +194,7 @@
 		break;
 		case "NBENE":	// NUEVO BENEFICIO/EMBARQUE
 			$Consulta="select * from scop_contratos_flujos where cod_contrato = '".strtoupper($TxtContrato)."' and flujo='".$CmbFlujoBene."' and tipo_flujo='".$Valor."' and tipo_inventario=3";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{					    		
 				$Inserta="INSERT INTO scop_contratos_flujos (cod_contrato,flujo,tipo_flujo,tipo_inventario,signo)";
@@ -221,7 +221,7 @@
 		break;
 		case "NSKFIN":	// NUEVO STOCK FINAL
 			$Consulta="select * from scop_contratos_flujos where cod_contrato = '".strtoupper($TxtContrato)."' and flujo='".$CmbFlujoFin."' and tipo_flujo='".$Valor."' and tipo_inventario in('1','4')";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{					    		
 				$Inserta="INSERT INTO scop_contratos_flujos (cod_contrato,flujo,tipo_flujo,tipo_inventario,signo)";

@@ -46,7 +46,7 @@ if($Buscar=='S')
 	if($CmbTipoContrato!='-1')
 		$Consulta.=" and t1.tipo_contrato='".$CmbTipoContrato."'";				
 	$Consulta.= " order by t1.cod_producto ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	
 	while ($Fila=mysql_fetch_array($Resp))

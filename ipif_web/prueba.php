@@ -7,7 +7,7 @@ mysql_query($ALTER);	*/
 
 $Cont=0;
 $Consulta="select * from datos_funcionarios ";
-$Respuesta=mysql_query($Consulta);
+$Respuesta=mysqli_query($link, $Consulta);
 while ($Fila=mysql_fetch_array($Respuesta))
 {
 	$Cont=$Cont+1;

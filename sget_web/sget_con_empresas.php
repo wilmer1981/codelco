@@ -98,7 +98,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($TxtBuscaEmp!=''&&$BuscarEmp=='S')
 					$Consulta.= "and  t1.razon_social like '%".$TxtBuscaEmp."%' ";
 				$Consulta.= "order by t1.razon_social asc";
-				$Resp=mysql_query($Consulta); 
+				$Resp=mysqli_query($link, $Consulta); 
 				//echo $Consulta;
 				while ($Fila=mysql_fetch_array($Resp)) 
 				{ 
@@ -151,7 +151,7 @@ if ($Mostrar=="S")
 			$Consulta.= " where t1.rut_empresa='".$CmbEmpresa."' and t1.razon_social<>''";
 	}
 	$Consulta.= " order by t1.razon_social asc";
-	$Resp=mysql_query($Consulta); 
+	$Resp=mysqli_query($link, $Consulta); 
 	$Color="#FFFFFF";
 	//echo $Consulta;
 	while ($Fila=mysql_fetch_array($Resp)) 
@@ -173,7 +173,7 @@ if ($Mostrar=="S")
 		$Consulta.= " where t1.rut_empresa='".$Fila["rut_empresa"]."' and fecha_termino > '".$FechaHoy."'";
 		$Consulta.= " order by cod_contrato";
 		//echo $Consulta;
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		$Rut=substr($Fila["rut_empresa"],0,strlen($Fila["rut_empresa"])-2);
 		echo "<div id=\"Div".$Rut."\" style=\"position:absolute;visibility:hidden;width:530;background:#FFCC33;border:solid 1px\">";
 		echo "<br><table width=\"500\" bgcolor=\"#000000\" border=\"0\" cellpadding=\"2\" cellspacing=\"1\">";

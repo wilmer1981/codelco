@@ -60,7 +60,7 @@ function Salir(Opt)
 				$Consulta="SELECT * from sgrs_areaorg where CTAREA='8' ".$AccesoOrg."";
 				$Consulta.=" and upper(NAREA) like '%".strtoupper($TxtBuscaTarea)."%'";
 				$Consulta.=" order by NAREA";	
-				$RespTarea=mysql_query($Consulta);
+				$RespTarea=mysqli_query($link, $Consulta);
 				while($FilaTarea=mysql_fetch_array($RespTarea))
 				{
 					if(strtoupper($FilaTarea[NAREA])==strtoupper($CmbTareas))

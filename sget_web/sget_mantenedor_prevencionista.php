@@ -111,7 +111,7 @@ function NuevoUser(Opc)
             <option value="-1" class="NoSelec">Todos</option>
             <?
 				$Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbEstado==$FilaTC["cod_subclase"])
@@ -184,7 +184,7 @@ if($Cons=='S')
 		$Consulta.= " and t1.estado='".$CmbEstado."' ";
 	$Consulta.=" order by t1.apellido_paterno,t1.apellido_materno,t1.nombres";
 	//echo 	$Consulta;
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckRut' type='hidden'  value=''>";
 	$cont=1;
 	while($Fila=mysql_fetch_array($Resp))

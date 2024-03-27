@@ -145,7 +145,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" class="NoSelec">Todos</option>
       <?
 	  $Consulta = "select * from pcip_eec_suministros_grupos where cod_suministro_grupo in ('1','2','3') order by nom_agrupacion ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbGrupoSuministro==$FilaTC["cod_suministro_grupo"])
@@ -161,7 +161,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <?
 	    $Consulta = "select t1.cod_suministro,t2.nom_suministro from pcip_eec_suministros_por_grupos t1 inner join pcip_eec_suministros t2 on t1.cod_suministro=t2.cod_suministro ";
 	    $Consulta.= "where t1.cod_suministro_grupo='".$CmbGrupoSuministro."' order by t2.nom_suministro ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSuministro==$FilaTC["cod_suministro"])
@@ -214,7 +214,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.= " and mes='".$Mes."' ";	
 	if($CmbSuministro!='-1')
 		$Consulta.= " and t1.cod_suministro='".$CmbSuministro."'  ";
-	$Resp=mysql_query($Consulta);	
+	$Resp=mysqli_query($link, $Consulta);	
 	//echo $Consulta;
 	$Cont=1;$ValorTotal=0;$ValorPrecio=0;
 	while($Fila=mysql_fetch_array($Resp))
@@ -284,7 +284,7 @@ function CalculaPrecio($Ano,$Mes,$Suministro,$Valor)//EL VALOR INGRESADO EN VALO
 	$Consulta=" select cod_suministro,sum(valor) as Valor from pcip_eec_suministros_detalle where cod_suministro<>''";
 	$Consulta.=" and cod_suministro='".$Suministro."'";
 	$Consulta.=" and ano='".$Ano."' and mes='".$Mes."' and tipo='S' group by cod_suministro";
-	$Resp=mysql_query($Consulta);	
+	$Resp=mysqli_query($link, $Consulta);	
 	//echo $Consulta."<br>";
 	if($Fila=mysql_fetch_array($Resp))
 	{
@@ -301,7 +301,7 @@ function CalculaTotal($Ano,$Mes,$Suministro,$Valor)//EL VALOR INGRESADO EN PRECI
 	$Consulta=" select cod_suministro,sum(valor) as Valor from pcip_eec_suministros_detalle where cod_suministro<>''";
 	$Consulta.=" and cod_suministro='".$Suministro."'";
 	$Consulta.=" and ano='".$Ano."' and mes='".$Mes."' and tipo='S' group by cod_suministro";
-	$Resp=mysql_query($Consulta);	
+	$Resp=mysqli_query($link, $Consulta);	
 	//echo $Consulta."<br>";
 	if($Fila=mysql_fetch_array($Resp))
 	{

@@ -17,7 +17,7 @@ if ($Opc=='M')
 {
 	$Consulta="select * from pcip_svp_asignaciones_titulos t1 ";
 	$Consulta.=" where t1.cod_titulo='".$Valores."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["cod_titulo"];
@@ -37,7 +37,7 @@ if(!isset($CmbVig))
       $CmbVig='1';
 	  
 	$Consulta="select max(cod_titulo+1) as maximo from pcip_svp_asignaciones_titulos ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	//echo $Consulta,
 	if($Fila=mysql_fetch_array($Resp))
 	{
@@ -74,7 +74,7 @@ function Proceso(Opcion)
 		case "N":
 			if(f.CmbAsig.value=='-1')
 			{
-				alert("Debe Seleccionar Asignación");
+				alert("Debe Seleccionar Asignaciï¿½n");
 				f.CmbAsig.focus();
 				return;
 			}
@@ -92,7 +92,7 @@ function Proceso(Opcion)
 			}						
 			if(f.TxtOrden.value=='')
 			{
-				alert("Debe Ingresar Nº Orden");
+				alert("Debe Ingresar Nï¿½ Orden");
 				f.TxtOrden.focus();
 				return;
 			}			
@@ -114,7 +114,7 @@ function Proceso(Opcion)
 		case "M":		
 			if(f.CmbAsig.value=='-1')
 			{
-				alert("Debe Seleccionar Asignación");
+				alert("Debe Seleccionar Asignaciï¿½n");
 				f.CmbAsig.focus();
 				return;
 			}
@@ -132,7 +132,7 @@ function Proceso(Opcion)
 			}						
 			if(f.TxtOrden.value=='')
 			{
-				alert("Debe Ingresar Nº Orden");
+				alert("Debe Ingresar Nï¿½ Orden");
 				f.TxtOrden.focus();
 				return;
 			}			
@@ -209,7 +209,7 @@ if ($Opc=='N')
 			  <option value="-1" selected="selected">Seleccionar</option>
 			  <?
 				$Consulta = "select cod_asignacion,nom_asignacion from pcip_svp_asignacion order by cod_asignacion ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbAsig==$FilaTC["cod_asignacion"])
@@ -227,7 +227,7 @@ if ($Opc=='N')
 			  <option value="-1" selected="selected">Seleccionar</option>
 			  <?
 				$Consulta = "select cod_negocio,nom_negocio from pcip_svp_negocios order by cod_negocio";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbNeg==$FilaTC["cod_negocio"])
@@ -257,7 +257,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31042' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbGrupo==$FilaTC["cod_subclase"])
@@ -275,7 +275,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])
@@ -293,7 +293,7 @@ if ($Opc=='N')
 		   <select name="CmbMostrarAsig" >
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMostrarAsig==$FilaTC["cod_subclase"])
@@ -309,7 +309,7 @@ if ($Opc=='N')
 		   <select name="CmbMostrarPpc" >
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMostrarPpc==$FilaTC["cod_subclase"])
@@ -346,8 +346,8 @@ if ($Opc=='N')
 <? 
 	echo "<script languaje='JavaScript'>";
 	if ($Mensaje=='1')
-		echo "alert('Título (s) Ingresado (s) Exitosamente');";
+		echo "alert('Tï¿½tulo (s) Ingresado (s) Exitosamente');";
 	if ($Mensaje=='2')
-		echo "alert('Título (s) Modificado (s) Exitosamente');";
+		echo "alert('Tï¿½tulo (s) Modificado (s) Exitosamente');";
 	echo "</script>";
 ?>

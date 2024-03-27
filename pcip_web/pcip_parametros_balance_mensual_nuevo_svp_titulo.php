@@ -6,7 +6,7 @@
 	if(!isset($CmbNegocio))
 		$CmbNegocio='-1';
 	$Consulta="select max(cod_subclase+1) as maximo from proyecto_modernizacion.sub_clase where cod_clase='31057'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["maximo"];
@@ -17,7 +17,7 @@
 	   $TxtCodigo=$Cod;
 	   $Consulta="select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31057' and cod_subclase='".$TxtCodigo."'";
 	   //echo $Consulta;
-	   $Resp=mysql_query($Consulta);
+	   $Resp=mysqli_query($link, $Consulta);
 	   if($Fila=mysql_fetch_array($Resp))
 	    {
 			$TxtCodigo=$Fila["cod_subclase"];
@@ -114,7 +114,7 @@ function Salir()
              <option value="-1" selected="selected">Seleccionar</option>
              <?
 				$Consulta = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase='31056' order by cod_subclase ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbNegocio==$FilaTC["cod_subclase"])
@@ -147,7 +147,7 @@ function Salir()
 				$Consulta.= " on t1.cod_clase='31057' and  t1.valor_subclase1=t2.cod_subclase where t2.cod_clase='31056'";	
 				if($CmbNegocio!='-1')
 					$Consulta.= " and t1.valor_subclase1='".$CmbNegocio."'";		
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{				
 					$Cod=$Fila["cod_subclase"];

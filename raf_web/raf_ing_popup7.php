@@ -10,7 +10,7 @@ if($Proceso == "B")
 	$Consulta.= " AND hora_ter='".$hhTer.":".$mmTer.":00'";
 	$Consulta.= " AND hornada = '".$Hornada."' AND campo1='".$Letra."' ";
 	$Consulta.= " AND tipo_report = 1 AND seccion_report = '".$Seccion."'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($row = mysql_fetch_array($rs))
 	{		
 		$ollas = $row["campo2"];
@@ -326,7 +326,7 @@ function Proceso(opc)
 <?
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='12001' order by cod_subclase ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($desde == $Fila["nombre_subclase"])

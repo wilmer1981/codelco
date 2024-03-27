@@ -18,7 +18,7 @@
 		case "M":
 			$Datos=explode('~',$Valores);
 			$Consulta="SELECT * from sget_personal where rut='".$Valores."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			if($Fila=mysql_fetch_array($Resp))
 			{
@@ -31,7 +31,7 @@
 				
 			}
 			$Consulta="SELECT * from sget_comparacion_sueldo where rut_funcionario ='".$TxtRut."' and cod_contrato='".$Contrato."' and rut_empresa='".$Empresa."'";
-			$RespMontos=mysql_query($Consulta);
+			$RespMontos=mysqli_query($link, $Consulta);
 			if($FilaMontos=mysql_fetch_array($RespMontos))
 			{
 				$EcoSI=number_format($FilaMontos[eco_si],0,'','');
@@ -184,7 +184,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <td align="left"><input type="hidden" name="Empresa" value="<? echo $Empresa;?>">
                   <?
 				$Consulta="SELECT * from sget_contratistas where rut_empresa='".$Empresa."' ";
-				$RespEmp=mysql_query($Consulta);
+				$RespEmp=mysqli_query($link, $Consulta);
 				if($FilaEmp=mysql_fetch_array($RespEmp))
 				{
 					echo $FilaEmp[razon_social];

@@ -162,7 +162,7 @@ if($Buscar=='S')
 	if($CmbAno!='T')
 	$Consulta.= " where ano='".$CmbAno."'";
 	$Consulta.= " order by ano desc";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	while ($Fila=mysql_fetch_array($Resp))
 	{
@@ -170,7 +170,7 @@ if($Buscar=='S')
 		echo "<td align='center'><input name='CheckTipoDoc' class='SinBorde' type='checkbox'  value='".$Fila["ano"]."'></td>";
 		echo "<td align='center' class='formulario'>".$Fila["ano"]."</td>";
 		$Consulta="SELECT * from sget_ipc where ano = '".$Fila["ano"]."' order by mes";
-		$RespMes=mysql_query($Consulta);
+		$RespMes=mysqli_query($link, $Consulta);
 		while($FilaMes=mysql_fetch_array($RespMes))
 		{	
 			echo "<td align='right'>".$FilaMes["valor"]."</td>";

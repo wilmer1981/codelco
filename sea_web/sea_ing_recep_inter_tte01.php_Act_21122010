@@ -43,7 +43,7 @@ if (($Proceso == 'M' || $Proceso == 'G') && $codigo == "A")
 					mysql_query($Actualizar1);  
 					//actualiza tabla hornadas
 					$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as pes FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND cod_producto = 17 AND hornada = $hornadas";
-					$Rs = mysql_query($Consulta);
+					$Rs = mysqli_query($link, $Consulta);
 					if($fila = mysql_fetch_array($Rs))
 					{
 						$Actualizo = "Update sea_web.hornadas set unidades = $fila[unid], peso_unidades = $fila[pes] WHERE cod_producto = 17 AND hornada_ventana = $hornadas";
@@ -52,7 +52,7 @@ if (($Proceso == 'M' || $Proceso == 'G') && $codigo == "A")
 					if($GrabarTTE=='S')
 					{
 						$Consulta="SELECT peso_neto,observacion from sipa_web.recepciones where lote='".$lote_ventana[$clave]."' and recargo='".$recargo[$clave]."'";
-						$RespLote=mysql_query($Consulta);
+						$RespLote=mysqli_query($link, $Consulta);
 						$FilaLote=mysql_fetch_array($RespLote);
 						$Actualizar="UPDATE sea_web.recepcion_externa set peso_recep=peso_recep-".$FilaLote["peso_neto"].",piezas_recep=piezas_recep-".intval($FilaLote["observacion"]);
 						$Actualizar.=" where cod_producto='17' and cod_subproducto='".$producto[$clave]."' and lote_ventana='".$lote_ventana[$clave]."' and guia='".$guia[$clave]."'";
@@ -94,12 +94,12 @@ if (($Proceso == 'M' || $Proceso == 'G') && $codigo == "A")
 				}	
 				//consulto en tabla Hornadas
 				$Consulta = "SELECT * FROM sea_web.hornadas WHERE hornada_ventana = $hornadas";
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				if($row = mysql_fetch_array($rs))
 				{ 
 					//actualiza tabla hornadas
 					$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as pes FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND cod_producto = 17 AND hornada = $hornadas";
-					$Rs = mysql_query($Consulta);
+					$Rs = mysqli_query($link, $Consulta);
 					if($fila = mysql_fetch_array($Rs))
 					{
 						$Actualizo = "Update sea_web.hornadas set unidades = $fila[unid], peso_unidades = $fila[pes] WHERE cod_producto = 17 AND hornada_ventana = $hornadas";
@@ -136,7 +136,7 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 	$NuevaUnid=intval($UnidO)-intval($UnidR);
 	$Consulta = "SELECT * from sea_web.recepcion_externa where lote_origen='".str_replace('-','',$LoteOrigen)."' and substring(fecha,1,7)='".date('Y')."-".str_pad(date('m'),2,'0',STR_PAD_LEFT)."'";
 	//echo $Consulta."<br>";
-	$RespAux = mysql_query($Consulta);
+	$RespAux = mysqli_query($link, $Consulta);
 	if(!$FilaAux=mysql_fetch_array($RespAux))
 	{
 		//echo "PROCESO I<br>";
@@ -144,7 +144,7 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 		$AnoMes = substr(date('Y'),2,2).str_pad(date('m'),2,'0',STR_PAD_LEFT);
 		$Consulta = "SELECT ifnull(max(lote)+1,'".$AnoMes."0001') as lote_nuevo from sipa_web.correlativo_lote where cod_proceso='R' and lote like '".$AnoMes."%'";
 		//echo $Consulta."<br>";
-		$RespLote=mysql_query($Consulta);
+		$RespLote=mysqli_query($link, $Consulta);
 		$FilaLote=mysql_fetch_array($RespLote);
 		$LoteVentana = str_pad($FilaLote["lote_nuevo"],8,"0",STR_PAD_LEFT);
 		$Actualizar = "UPDATE sipa_web.correlativo_lote set lote='".$LoteVentana."' where cod_proceso='R'";
@@ -152,18 +152,18 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 		mysql_query($Actualizar);	
 		
 		$Consulta = "SELECT IFNULL(MAX(ciclo),0) AS ciclo FROM sea_web.relaciones WHERE cod_origen = 2";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		$FilaAux=mysql_fetch_array($RespAux);
 		$CicloAux = $FilaAux[ciclo];
 		$Consulta = "SELECT MAX(hornada_ventana) AS hornada_max FROM sea_web.relaciones";
 		$Consulta.=" WHERE cod_origen = 2 AND ciclo = ".$CicloAux;
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		$FilaAux=mysql_fetch_array($RespAux);
 		if(is_null($FilaAux[hornada_max])||(substr($FilaAux[hornada_max],6,3) == "999"))
 		//if(substr($FilaAux[hornada_max],6,3) = "999")
 		{
 			$Consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2005 AND cod_subclase = 2";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			$FilaAux=mysql_fetch_array($RespAux);
 			$Hornada = $FilaAux[valor_subclase];
 		}	
@@ -171,7 +171,7 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 			$Hornada = substr(($FilaAux[hornada_max] + 1), 6, 6);
 		$Hornada = date('Y').str_pad(date('m'),2,"0",STR_PAD_LEFT).$Hornada;
 		$Consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2005 AND cod_subclase = 2";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		$FilaAux=mysql_fetch_array($RespAux);
 		if (substr($Hornada, 6, 4) == $FilaAux["valor_subclase1"])
 			$Ciclo = $CicloAux + 1;
@@ -189,7 +189,7 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 		mysql_query($Insertar);
 
 		$Consulta = "SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
-		$RespCorr = mysql_query($Consulta);
+		$RespCorr = mysqli_query($link, $Consulta);
 		$FilaCorr=mysql_fetch_array($RespCorr);
 		$Corr = $FilaCorr[correlativo];
 		
@@ -207,7 +207,7 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 		$LoteVentana = $FilaAux[lote_ventana];
 		$Consulta = "SELECT * from sea_web.recepcion_externa where guia='".$Guia."' and lote_origen='".str_replace('-','',$LoteOrigen)."'";
 		//echo $Consulta."<br>";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($RespAux))
 		{
 			$Insertar = "insert into sea_web.recepcion_externa(guia,cod_producto,cod_subproducto,lote_origen,lote_ventana,peso,peso_recep,piezas,piezas_recep,marca,fecha,estado,fecha_guia) values('".$Guia."','17','2','".str_replace('-','',$LoteOrigen)."','".$LoteVentana."',";
@@ -216,12 +216,12 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 			mysql_query($Insertar);
 
 			$Consulta = "SELECT  max(lpad(recargo,2,'0'))+1 as recargo_nuevo from sipa_web.recepciones where lote = '".$LoteVentana."' group by lote";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			$FilaAux=mysql_fetch_array($RespAux);
 			$Rec=$FilaAux["recargo_nuevo"];
 			
 			$Consulta = "SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
-			$RespCorr = mysql_query($Consulta);
+			$RespCorr = mysqli_query($link, $Consulta);
 			$FilaCorr=mysql_fetch_array($RespCorr);
 			$Corr = $FilaCorr[correlativo];
 
@@ -245,7 +245,7 @@ if ($Proceso == 'EL')//ELIMINAR LOTE
 	
 	$Consulta="SELECT * from sea_web.recepcion_externa where cod_producto='17' and cod_subproducto='$SubProducto' ";
 	$Consulta.="and guia='$Guia'";
-	$RespDetalle=mysql_query($Consulta);
+	$RespDetalle=mysqli_query($link, $Consulta);
 	if(!$FilaDetalle=mysql_fetch_array($RespDetalle))
 	{
 		$Eliminar="delete from sea_web.recepcion_externa_detalle ";

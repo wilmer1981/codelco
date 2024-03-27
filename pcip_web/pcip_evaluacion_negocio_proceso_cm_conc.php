@@ -2,7 +2,7 @@
    $Consulta="select ifnull(sum(t1.valor),0) as peso_seco from pcip_eva_negocios_material t1  ";
    $Consulta.=" where t1.corr='".$Cod."' and cod_ley='0'";
    //echo $Consulta;
-   $Resp=mysql_query($Consulta);
+   $Resp=mysqli_query($link, $Consulta);
    $Fila=mysql_fetch_array($Resp);
    $TxtTMS=$Fila[peso_seco];
    $TxtTMH=$TxtTMS/(1-$TxtHum/100);//CARACTERISTICA MATERIAL CONCENTRADO
@@ -35,7 +35,7 @@
                  <option value="T" class="Selected">Seleccionar</option>
                  <?
 					$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31037' order by cod_subclase";			
-					$Resp=mysql_query($Consulta);		
+					$Resp=mysqli_query($link, $Consulta);		
 					while ($Fila=mysql_fetch_array($Resp))
 					{
 						if ($CmbLey==$Fila["cod_subclase"])
@@ -54,7 +54,7 @@
 							$Consulta = "select t1.cod_unidad,t2.nombre_subclase as nom_uni from pcip_eva_negocios_material t1 inner join proyecto_modernizacion.sub_clase t2 ";			
 							$Consulta.= " on t2.cod_clase='31051' and t1.cod_unidad=t2.cod_subclase where corr='".$Cod."' and cod_ley='".$CmbLey."'";
 								//echo $Consulta."<br>";
-							$Resp=mysql_query($Consulta);		
+							$Resp=mysqli_query($link, $Consulta);		
 							if($Fila=mysql_fetch_array($Resp))
 							{
 								echo "Unidad&nbsp;";
@@ -74,7 +74,7 @@
 									$Consulta.= " and cod_subclase in ('12','14')";
 								if($CmbLey!='0')
 									$Consulta.= " and cod_subclase in ('13','14','11','20','21','9','10','22') order by cod_subclase";									
-								$Resp=mysql_query($Consulta);		
+								$Resp=mysqli_query($link, $Consulta);		
 								while ($Fila=mysql_fetch_array($Resp))
 								{
 									if ($CmbUnidad==$Fila["cod_subclase"])
@@ -100,7 +100,7 @@
 									$Consulta.= " and cod_subclase in ('11','12','14')";
 								if($CmbLey!='0')
 									$Consulta.= " and cod_subclase in ('13','14','11','20','21','9','10','22') order by cod_subclase";									
-								$Resp=mysql_query($Consulta);		
+								$Resp=mysqli_query($link, $Consulta);		
 								while ($Fila=mysql_fetch_array($Resp))
 								{
 									if ($CmbUnidad==$Fila["cod_subclase"])
@@ -146,7 +146,7 @@
 				   $ArraTotal=array();
 				   $Consulta="select nombre_subclase as nom_ley,t1.cod_ley from pcip_eva_negocios_material t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31037' and t1.cod_ley=t2.cod_subclase ";
 				   $Consulta.=" where t1.corr='".$Cod."' group by t1.cod_ley order by cod_ley";
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   //echo $Consulta;
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
@@ -160,7 +160,7 @@
 				   $Consulta="select t1.cod_division from pcip_eva_negocios_material t1  ";
 				   $Consulta.=" where t1.corr='".$Cod."' group by cod_division order by cod_division";
 				   //echo $Consulta;
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   while($Fila=mysql_fetch_array($Resp))
 				   {
 				   		$AnoAux=substr($Fila[cod_division],0,4);
@@ -172,7 +172,7 @@
 						{
 						   $Consulta="select t1.valor,t2.nombre_subclase as nom_unidad from pcip_eva_negocios_material t1 left join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31051' and t1.cod_unidad=t2.cod_subclase ";
 						   $Consulta.=" where t1.corr='".$Cod."' and t1.cod_division='".$Fila[cod_division]."' and t1.cod_ley='".$v."' order by t1.cod_ley";
-						   $Resp2=mysql_query($Consulta);
+						   $Resp2=mysqli_query($link, $Consulta);
 						   if($Fila2=mysql_fetch_array($Resp2))
 						   {
 								echo "<td width='15%' align='center'>".number_format($Fila2[valor],3,',','.')."&nbsp;".$Fila2[nom_unidad]."</td>";

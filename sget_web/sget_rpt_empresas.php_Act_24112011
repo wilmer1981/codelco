@@ -93,7 +93,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <option value="-1" class="NoSelec">Todas</option>
                <?
 			  $Consulta = "SELECT * from sget_mutuales_seg where estado='1' order by descripcion ";			
-			  $Resp3=mysql_query($Consulta);
+			  $Resp3=mysqli_query($link, $Consulta);
 			  while ($Fila3=mysql_fetch_array($Resp3))
 			  {
 				if ($CmbMutuales==$Fila3["cod_mutual"])
@@ -161,7 +161,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		
 		if($CmbMutuales != "-1")
 			$Consulta.="  and  t1.cod_mutual_seguridad='".$CmbMutuales."' ";
-		$RespMod=mysql_query($Consulta);
+		$RespMod=mysqli_query($link, $Consulta);
 		$Cont=1;
 		while($FilaMod=mysql_fetch_array($RespMod))
 		{
@@ -210,7 +210,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			<td ><? echo $Celular; ?>&nbsp;</td>
 				<td align="right"><? 
 				$Consulta="SELECT count(rut_empresa) as Cantidad from sget_contratos where rut_empresa='".$FilaMod[rut_empresa]."' and estado='1'";
-				$RespCant=mysql_query($Consulta);
+				$RespCant=mysqli_query($link, $Consulta);
 				if($FilaCant=mysql_fetch_array($RespCant))
 				{
 				echo $FilaCant[Cantidad];

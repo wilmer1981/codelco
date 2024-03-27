@@ -6,7 +6,7 @@
 	{
 		case "N":
 			$Consulta = "SELECT ifnull(max(CTEXAMEN),0) as mayor from sgrs_codexlaboratorio"; 
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$Mayor=$Fila["mayor"] + 1;			
 			$Inserta="INSERT INTO sgrs_codexlaboratorio (CTEXAMEN,NEXAMEN,CUNIDAD,QPARAMETRO,MVIGENTE)";
@@ -26,7 +26,7 @@
 			{
 				$DatosRel='N';
 				$Consulta="SELECT * from sgrs_exlaboratorio where CTEXAMEN='".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')

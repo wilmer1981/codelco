@@ -71,7 +71,7 @@ function Proceso(opt)
 		$Consulta = "SELECT ifnull(count(*),0) as total_reg from sec_web.produccion_catodo t1";
 		$Consulta.= " where CONCAT(t1.fecha_produccion,' ',t1.hora) BETWEEN '".$Fechainiturno." 08:00:00' and '".$Fechafturno." 07:59:59'";
 //$Consulta.= " and cod_muestra <> 'S'";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Respuesta))
 		{
 			if ($Fila["total_reg"] <> 0)
@@ -87,7 +87,7 @@ function Proceso(opt)
 		$Consulta.= " from sec_web.produccion_catodo t1 inner join proyecto_modernizacion.subproducto t2 ";
 		$Consulta.= " on t1.cod_producto = t2.cod_producto and t1.cod_subproducto = t2.cod_subproducto ";
 		$Consulta.= " order by t2.cod_producto, t2.cod_subproducto";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		$TotalDia = 0;
 		while ($Fila = mysql_fetch_array($Respuesta))
 		{						
@@ -96,7 +96,7 @@ function Proceso(opt)
 			$Consulta.= " and cod_subproducto = '".$Fila["cod_subproducto"]."'";
 			$Consulta.= " and CONCAT(fecha_produccion,' ',hora) BETWEEN '".$Fechainiturno." 08:00:00' and '".$Fechafturno." 07:59:59'";
 			$Consulta.= " order by cod_grupo";			
-			$Respuesta2 = mysql_query($Consulta);
+			$Respuesta2 = mysqli_query($link, $Consulta);
 			$SubTotalPeso = 0;
 			$CodProductoAnt = 0;
   			$CodSubProductoAnt = 0;

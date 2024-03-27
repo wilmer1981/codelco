@@ -69,7 +69,7 @@ function Proceso(opt)
 	$Consulta.= " inner join sec_web.embarque_ventana t3 on t3.num_envio=t1.num_envio ";
 	$Consulta.= " where t1.cod_estado <> 'A' and t1.fecha_guia between '".$FechaInicio."' and '".$FechaTermino."' ";
 	$Consulta.= " group by t3.cod_producto,t3.cod_subproducto";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Respuesta))
 	{
 		$Clave=$Fila["cod_producto"];
@@ -84,12 +84,12 @@ function Proceso(opt)
 	$Consulta.= " inner join sec_web.marca_catodos t3 ";
 	$Consulta.= " on t2.cod_marca = t3.cod_marca";	
 	$Consulta.= " where t1.cod_estado <>'A' and t1.fecha_guia between '".$FechaInicio."' and '".$FechaTermino."' order by t2.num_envio";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{	
 		$Consulta = "SELECT  * from sec_web.cliente_venta where cod_cliente = '".$Fila["cod_cliente"]."'";
-		$Respuesta2 = mysql_query($Consulta);
+		$Respuesta2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_array($Respuesta2))
 		{
 			$NombreCliente = $Fila2["sigla_cliente"];
@@ -97,7 +97,7 @@ function Proceso(opt)
 		else
 		{
 			$Consulta = "SELECT  * from sec_web.nave where cod_nave = '".intval($Fila["cod_cliente"])."'";
-			$Respuesta2 = mysql_query($Consulta);
+			$Respuesta2 = mysqli_query($link, $Consulta);
 			if ($Fila2 = mysql_fetch_array($Respuesta2))
 			{
 				$NombreCliente = $Fila2["nombre_nave"];
@@ -146,7 +146,7 @@ function Proceso(opt)
 		$Consulta.= " where cod_estado <>'A' and num_envio = '".$Fila["num_envio"]."' and corr_enm = '".$Fila["corr_enm"]."'";
 		$Consulta.= " and fecha_guia between '".$FechaInicio."' and '".$FechaTermino."'";
 		$Consulta.= " order by fecha_guia, num_guia";
-		$Respuesta2 = mysql_query($Consulta);
+		$Respuesta2 = mysqli_query($link, $Consulta);
 		$TotalPaquetes = 0;
 		$TotalUnidades = 0;
 		$TotalPeso = 0;
@@ -162,7 +162,7 @@ function Proceso(opt)
 			$Consulta.= " where t2.num_guia = '".$Fila2["num_guia"]."' ";
 			$Consulta.= " group by t2.num_guia";
 			//echo $Consulta."<br>";
-			$Respuesta3 = mysql_query($Consulta);
+			$Respuesta3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Respuesta3))
 			{
 				echo "<td align='right'>".number_format($Fila3["tot_paquetes"],0,",",".")."</td>\n";
@@ -182,7 +182,7 @@ function Proceso(opt)
 			echo "<td>".$Fila2["patente_guia"]."</td>\n";
 			echo "<td align='right'>".$Fila2["rut_chofer"]."</td>\n";
 			$Consulta = "SELECT * from sec_web.persona where rut_persona like '%".trim($Fila2["rut_chofer"])."%'";			
-			$Respuesta3 = mysql_query($Consulta);
+			$Respuesta3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Respuesta3))
 				echo "<td>".$Fila3["nombre_persona"]."</td>\n";
 			else	echo "<td>&nbsp;</td>\n";
@@ -190,7 +190,7 @@ function Proceso(opt)
 			$Consulta = "SELECT hora_entrada, hora_salida from sipa_web.despachos ";
 			$Consulta.= " where guia_despacho='".$Fila2["num_guia"]."' and fecha = '".trim($Fila2["fecha_guia"])."' ";
 			$Consulta.= " and replace(patente,'-','') = replace(substring('".trim($Fila2["patente_guia"])."',1,7),'-','')";
-			$Respuesta3 = mysql_query($Consulta);
+			$Respuesta3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Respuesta3))
 			{
 				echo "<td>".$Fila2["hora_guia"]."</td>\n";
@@ -207,7 +207,7 @@ function Proceso(opt)
 			$Consulta = "SELECT t2.nombre_transportista as nombre from sec_web.transporte_persona t1 ";
 			$Consulta.= " left join sec_web.transporte t2 on t1.rut_transportista=t2.rut_transportista and t1.patente_camion=t2.patente_transporte";
 			$Consulta.= " where t1.patente_camion='".$Fila2["patente_guia"]."' and t1.rut_chofer='".$Fila2["rut_chofer"]."'";
-			$Respuesta3 = mysql_query($Consulta);
+			$Respuesta3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Respuesta3))
 			{
 				echo "<td>".$Fila3["nombre"]."&nbsp;</td>\n";
@@ -230,7 +230,7 @@ function Proceso(opt)
 		echo "</table>\n";
 		echo "<br>";
 		$Consulta="SELECT cod_producto,cod_subproducto from sec_web.embarque_ventana where num_envio=".$Fila["num_envio"];
-		$Respuesta3=mysql_query($Consulta);
+		$Respuesta3=mysqli_query($link, $Consulta);
 		$Fila3=mysql_fetch_array($Respuesta3);
 		$Clave=$Fila3["cod_producto"];
 		$TotalResumen[$Clave][0]=$TotalResumen[$Clave][0]+$TotalPaquetes;
@@ -262,7 +262,7 @@ function Proceso(opt)
 	$Consulta.= "where t1.cod_estado <>'A' and t1.fecha_guia between '".$FechaInicio."' and '".$FechaTermino."'  ";
 	$Consulta.= "group by t2.cod_producto, t2.cod_subproducto ";
 	$Consulta.= " and t2.cod_estado = 'c'";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;
 	$TotalPaquetes = 0;
 	$TotalUnidades = 0;

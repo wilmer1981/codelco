@@ -6,7 +6,7 @@
 	$Consulta = "SELECT * FROM raf_web.movimientos ";
 	$Consulta.= " WHERE hornada = '".$Ano.str_pad($Mes,2,"0",STR_PAD_LEFT).$Hornada."'";
 	//$Consulta.= " and campo1 = '".$Letra."'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	$row = mysql_fetch_array($rs);
 	$DiaC = substr($row[fecha_carga],8,2);
 	$MesC = substr($row[fecha_carga],5,2);  			
@@ -65,7 +65,7 @@
 	$Consulta.= " AND Hornada = '".$hornada."'"; 
 	$Consulta.= " and campo1 = '".$Letra."'";
 	$Consulta.= " order by fecha_ini, hora_ini";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	$Acum_Ollas = "";
 	while($Fila = mysql_fetch_array($rs))
 	{
@@ -107,7 +107,7 @@
 	$Consulta.= " AND Hornada = '".$hornada."'"; 
 	$Consulta.= " and campo1 = '".$Letra."'"; 
 	$Consulta.= " order by fecha_ini, hora_ini";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	$Acum_Ollas = "";
 	while($Fila = mysql_fetch_array($rs))
 	{
@@ -147,7 +147,7 @@
 		$Consulta.= " AND hornada = '".$HornadaSEA."'"; 
 		$Consulta.= " AND campo1 = '".$Letra."'"; 
 		$Consulta.= " AND campo2 = '1'"; 
-		$Resp2 = mysql_query($Consulta);			
+		$Resp2 = mysqli_query($link, $Consulta);			
 		if($Fila2 = mysql_fetch_array($Resp2))
 		{			
 			$UnidComer = $Fila2["campo3"];
@@ -160,7 +160,7 @@
 			$Consulta.= " and cod_producto = '17'";
 			$Consulta.= " and cod_subproducto = '4' ";
 			$Consulta.= " and hornada = '".$HornadaSEA."' ";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))
 			{
 				$Elimina = "DELETE FROM raf_web.datos_operacionales ";
@@ -184,7 +184,7 @@
 		$Consulta.= " AND hornada = '".$HornadaSEA."'"; 
 		$Consulta.= " AND campo1 = '".$Letra."'"; 
 		$Consulta.= " AND campo2 = '2'"; 
-		$Resp2 = mysql_query($Consulta);			
+		$Resp2 = mysqli_query($link, $Consulta);			
 		if($Fila2 = mysql_fetch_array($Resp2))
 		{			
 			$UnidEsp = $Fila2["campo3"];
@@ -197,7 +197,7 @@
 			$Consulta.= " and cod_producto = '17'";
 			$Consulta.= " and cod_subproducto = '11' ";
 			$Consulta.= " and hornada = '".$HornadaSEA."' ";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))
 			{
 				$Elimina = "DELETE FROM raf_web.datos_operacionales ";
@@ -221,7 +221,7 @@
 		$Consulta.= " AND hornada = '".$HornadaSEA."'"; 
 		$Consulta.= " AND campo1 = '".$Letra."'"; 
 		$Consulta.= " AND campo2 = '3'"; 
-		$Resp2 = mysql_query($Consulta);			
+		$Resp2 = mysqli_query($link, $Consulta);			
 		if($Fila2 = mysql_fetch_array($Resp2))
 		{			
 			$UnidHM = $Fila2["campo3"];
@@ -234,7 +234,7 @@
 			$Consulta.= " and cod_producto = '17'";
 			$Consulta.= " and cod_subproducto = '8' ";
 			$Consulta.= " and hornada = '".$HornadaSEA."' ";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))
 			{
 				$Elimina = "DELETE FROM raf_web.datos_operacionales ";
@@ -258,7 +258,7 @@
 		$Consulta.= " AND hornada = '".$HornadaSEA."'"; 
 		$Consulta.= " AND campo1 = '".$Letra."'"; 
 		$Consulta.= " AND campo2 = '1'"; 
-		$Resp2 = mysql_query($Consulta);			
+		$Resp2 = mysqli_query($link, $Consulta);			
 		if($Fila2 = mysql_fetch_array($Resp2))
 		{			
 			$UnidEsc = $Fila2["campo5"];
@@ -282,14 +282,14 @@
 	  	$Consulta = "select * from raf_web.datos_operacionales ";
 		$Consulta.= " where seccion_report='4' and hornada='".$HornadaSEA."'";
 		$Consulta.= " and tipo_report='1'";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Resp))
 		{
 			$Consulta = "SELECT * FROM raf_web.datos_operacionales ";
 			$Consulta.= " WHERE tipo_report = 1 AND seccion_report = 4";
 			$Consulta.= " AND Hornada = '".$HornadaSEA."'";
 			$Consulta.= " AND campo1 = '".$Letra."'";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			if($Fila = mysql_fetch_array($rs))
 			{
 				$SB = $Fila["campo2"];
@@ -302,7 +302,7 @@
 			$Consulta.= " where hornada = '".$HornadaSEA."'";
 			$Consulta.= " and cod_producto='17' and cod_subproducto='4'";
 			$Consulta.= " and cod_leyes in(08,09)";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			while ($Fila = mysql_fetch_array($Resp))
 			{
 				if ($Fila["cod_leyes"]=="08")
@@ -363,7 +363,7 @@
 		$Consulta.= " AND Hornada = '".$hornada."'"; 		
 		$Consulta.= " and campo1 = '".$Letra."'";
 		$Consulta.= " order by fecha_ini, hora_ini ";
-		$rs = mysql_query($Consulta);
+		$rs = mysqli_query($link, $Consulta);
 		$Real = "";
 		$TotalGas = "";
 		while($Fila = mysql_fetch_array($rs))
@@ -410,7 +410,7 @@
 	$Consulta.= " WHERE tipo_report = 1 AND seccion_report = 6";
 	$Consulta.= " AND Hornada = '".$hornada."'"; 	
 	$Consulta.= " and campo1 = '".$Letra."'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
    
 	while($Fila = mysql_fetch_array($rs))
 	{
@@ -448,7 +448,7 @@
 	$Consulta.= " WHERE tipo_report = 1 AND seccion_report = 7";
 	$Consulta.= " AND hornada = '".$hornada."'"; 
 	$Consulta.= " and campo1 = '".$Letra."'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	while($Fila = mysql_fetch_array($rs))
 	{
 		echo "<tr>\n";
@@ -485,7 +485,7 @@
 	$Consulta.= " WHERE tipo_report = 1 AND seccion_report = 8";
 	$Consulta.= " AND Hornada = '".$hornada."'"; 
 	$Consulta.= " and campo1 = '".$Letra."'";
-	$rs = mysql_query($Consulta);   
+	$rs = mysqli_query($link, $Consulta);   
 	while($Fila = mysql_fetch_array($rs))
 	{
 		echo "<tr>";
@@ -514,7 +514,7 @@
 	$Consulta.= " AND Hornada = '".$hornada."'";
 	$Consulta.= " and campo1 = '".$Letra."'"; 
 	$Consulta.= " ORDER BY campo2"; 
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
     while($Fila = mysql_fetch_array($rs))
 	{
 		echo "<tr>\n";

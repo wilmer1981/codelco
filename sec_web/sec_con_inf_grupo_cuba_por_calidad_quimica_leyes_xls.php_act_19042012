@@ -59,7 +59,7 @@
 		$Consulta = " SELECT distinct t1.nro_solicitud,t1.recargo,t1.id_muestra,t1.fecha_muestra from cal_web.solicitud_analisis t1 ";
 		$Consulta.= " where (t1.cod_periodo='1') and (t1.estado_actual = '6') and cod_analisis='1' and t1.cod_producto ='18' and t1.cod_subproducto not in ('3','4','5','6','7','8','9','10') and (left(t1.fecha_muestra,10) between '$FechaInicio' and '$FechaTermino') order by t1.fecha_muestra,t1.nro_solicitud ";		
 		//echo "uno".$Consulta."<br>";;
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		while ($Fila = mysql_fetch_array($Respuesta))
 		{
 			$cont = 0;$Valor = 0;$Grado_A = 0;$Astm = 0;$Class = '';
@@ -69,13 +69,13 @@
 			$estado = $Fila["estado_actual"];
 			$Consulta = " SELECT * from cal_web.leyes_por_solicitud where nro_solicitud = '".$Fila["nro_solicitud"]."'";// and recargo = '".$Fila["recargo"]."'";
 			//echo "dos".$Consulta."<br>";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			$conta_a_co = 0;$conta_a_enm = 0;$conta_r = 0;$conta_s = 0;$Recargo = "";$estado = 0;
 			$Malo = 0;					
 			while($row = mysql_fetch_array($rs))
 			{				
 				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = $row["cod_leyes"]";
-				$Rs = mysql_query($Consulta);
+				$Rs = mysqli_query($link, $Consulta);
 				if($fila = mysql_fetch_array($Rs))
 				{
 					if ($row["valor"] <= $fila["grado_a_codelco"])
@@ -146,7 +146,7 @@
 	$Consulta = $Consulta." inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes = t3.cod_leyes ";
 	$Consulta.= " where (t1.cod_periodo='1') and (t1.estado_actual = '6') and t1.cod_producto ='18' and t1.cod_subproducto in ('3','4') and (left(t1.fecha_muestra,10) between '$FechaInicio' and '$FechaTermino') order by t1.fecha_muestra,t1.nro_solicitud ";		
 	//echo $Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$LargoArreglo = 0;
 	while ($Row = mysql_fetch_array($Respuesta))
 	{
@@ -184,7 +184,7 @@
 		$Consulta = " SELECT distinct t1.nro_solicitud,t1.recargo,t1.id_muestra,t1.fecha_muestra from cal_web.solicitud_analisis t1 ";
 		$Consulta.= " where (t1.cod_periodo='1') and (t1.estado_actual = '6') and t1.cod_producto ='18' and t1.cod_subproducto in ('3','4') and (left(t1.fecha_muestra,10) between '$FechaInicio' and '$FechaTermino') order by t1.fecha_muestra,t1.nro_solicitud ";		
 		//echo $Consulta."<br>";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		while ($Fila = mysql_fetch_array($Respuesta))
 		{
 			$cont = 0;$Valor = 0;$Grado_A = 0;$Astm = 0;$Class = '';
@@ -194,13 +194,13 @@
 			$estado = $Fila["estado_actual"];
 			$Consulta = " SELECT * from cal_web.leyes_por_solicitud where nro_solicitud = '".$Fila["nro_solicitud"]."' and recargo = '".$Fila["recargo"]."'";
 			//echo $Consulta."<br>";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			$conta_a_co = 0;$conta_a_enm = 0;$conta_r = 0;$conta_s = 0;$Recargo = ""; $estado = 0; $conta_off = 0; $conta_fuera_rango=0;					
 			while($row = mysql_fetch_array($rs))
 			{				
 				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = $row["cod_leyes"]";
 				//echo $Consulta;
-				$Rs = mysql_query($Consulta);
+				$Rs = mysqli_query($link, $Consulta);
 				if($fila = mysql_fetch_array($Rs))
 				{
 					if ($row["valor"] <= $fila["grado_a_codelco"])
@@ -277,7 +277,7 @@
 			$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete ";
 			$Consulta.=" where t2.nro_solicitud = '".$nro_solicitud."'  ";
 			//$Consulta.= " and t2.cod_grupo = '".trim($Grup)."'  and ceiling(t2.cod_cuba) ='".(str_replace('-','',$Cuba))."' ";
-			$RespEti=mysql_query($Consulta);
+			$RespEti=mysqli_query($link, $Consulta);
 			if($FilaEti=mysql_fetch_array($RespEti))
 			{
 				echo number_format($FilaEti[suma_paquetes],0,",",".");
@@ -328,7 +328,7 @@
 			$Consulta.= " and t1.cod_grupo = '".$Grup."' and (t1.cod_lado is null or t1.cod_lado = '') and t1.cod_muestra='S' ";
 			$Consulta.= " group by  t1.cod_producto, t1.cod_subproducto, t1.cod_grupo, t1.cod_lado ";
 			//echo "con".$Consulta."<br>";
-			$Respuesta3 = mysql_query($Consulta);
+			$Respuesta3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysql_fetch_array($Respuesta3))
 			{
 				if($CantCubas <> 0)
@@ -376,7 +376,7 @@
 				$Consulta.= " and t1.recargo = '".$Recargo."' ";
 			}
 			$Consulta.= " and t1.cod_leyes = '".$ArregloLeyes[$i][0]."'";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Row2 = mysql_fetch_array($Resp))
 			{
 				if ((is_null($Row2["valor"])) || ($Row2["valor"] == ""))

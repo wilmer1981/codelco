@@ -60,7 +60,7 @@ switch($Proceso)
 	case "ACHR"://ACTIVAR HOJA DE RUTA DEJANDOLA EN ESTADO CREADA O ENVIADA CORREO A ADM CTTO
 		$Consulta="SELECT cod_estado from sget_reg_estados where num_hoja_ruta='".$NumHoja."' and cod_estado <> 3 order by fecha_hora desc ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		if($Fila["cod_estado"]=='6')
 		{

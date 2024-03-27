@@ -74,7 +74,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <select name="Ano" id="Ano">
             <?
 			$Consulta="select distinct(ano) from pcip_svp_productos_procedencias";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if ($Ano==$Fila[ano])
@@ -95,7 +95,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			for ($i=date("Y")-6;$i<=date("Y");$i++)
 			{
 				$Consulta="select distinct(ano) from pcip_svp_productos_procedencias where ano='".$i."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Resp))
 				{
 					if ($i==$AnoFin)

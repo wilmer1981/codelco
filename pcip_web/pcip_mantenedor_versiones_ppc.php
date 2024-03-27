@@ -7,7 +7,7 @@ if(!isset($Opc))
 	$Opc='G';
 
 $Consulta = "select ifnull(max(version)+1,1) as nueva_version from pcip_ppc_version where ano='".$Ano."'";			
-$Resp = mysql_query($Consulta);
+$Resp = mysqli_query($link, $Consulta);
 //echo $Consulta;
 if($Fila=mysql_fetch_array($Resp))
 	$TxtVersion=$Fila[nueva_version];
@@ -18,7 +18,7 @@ if($Opc=='M')
  {
    $Consulta="select version,ano,fecha_creacion,mes,descripcion,ult_version from pcip_ppc_version where version='".$Cod."' and ano='".$Ano."'";
    //echo $Consulta;
-   $Resp=mysql_query($Consulta);
+   $Resp=mysqli_query($link, $Consulta);
    if($Fila=mysql_fetch_array($Resp))
 	{
 	$TxtVersion=$Fila["version"];
@@ -57,7 +57,7 @@ function Eliminar(Cod,Ano)
 function Duplicar(Cod,Ano,Mes)
 {
 	var f= document.FrmPopupProceso;
-	if(confirm('Esta Seguro de Duplicar esta Versión'))
+	if(confirm('Esta Seguro de Duplicar esta Versiï¿½n'))
 	{
 		f.action = "pcip_mantenedor_versiones_ppc_proceso01.php?Opc=D&Cod="+Cod+'&Ano='+Ano+'&Mes='+Mes;
 		f.submit();
@@ -162,7 +162,7 @@ if($Opc=='M')
            </select></td>
 		 </tr>
 		 <tr>
-           <td width="14%" class="formulario2" align="justify">Descripción</td>
+           <td width="14%" class="formulario2" align="justify">Descripciï¿½n</td>
            <td width="86%" class="formulario2" ><textarea name="TxtDescripcion" cols="90" rows="4"><? echo $TxtDescripcion?></textarea></td>
 		 </tr>
 		 <tr>
@@ -172,7 +172,7 @@ if($Opc=='M')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbUltVersion==$FilaTC["nombre_subclase"])
@@ -191,17 +191,17 @@ if($Opc=='M')
                <td width="8%" class="TituloTablaVerde">Elim.</td>
 			   <td width="8%" class="TituloTablaVerde">Dupli.</td>
 			   <td width="8%" class="TituloTablaVerde">Modif.</td>
-               <td width="12%" class="TituloTablaVerde">N&ordm; Versión </td>
-               <td width="10%" class="TituloTablaVerde">Año</td>
+               <td width="12%" class="TituloTablaVerde">N&ordm; Versiï¿½n </td>
+               <td width="10%" class="TituloTablaVerde">Aï¿½o</td>
 			   <td width="10%" class="TituloTablaVerde">Mes</td>
-			   <td width="15%" class="TituloTablaVerde">Fecha Creación</td>
-			   <td width="35%" class="TituloTablaVerde">Descripción</td>
-			   <td width="15%" class="TituloTablaVerde">Ult.Versión</td>
+			   <td width="15%" class="TituloTablaVerde">Fecha Creaciï¿½n</td>
+			   <td width="35%" class="TituloTablaVerde">Descripciï¿½n</td>
+			   <td width="15%" class="TituloTablaVerde">Ult.Versiï¿½n</td>
              </tr>
              <?
 		
 				$Consulta = "select * from pcip_ppc_version where ano='".$Ano."'order by version";			
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {
@@ -216,7 +216,7 @@ if($Opc=='M')
 			 ?>
              <tr class="FilaAbeja">
                <td align="center"><a href="JavaScript:Eliminar('<? echo $Cod;?>','<? echo $Ano;?>')"><img src="../pcip_web/archivos/elim_hito.png"  border="0"  alt=" Eliminar " align="absmiddle"></a></td>
-               <td align="center"><a href="JavaScript:Duplicar('<? echo $Cod;?>','<? echo $Ano;?>','<? echo $Mes;?>')"><img src="../pcip_web/archivos/duplicar2.png"  border="0"  alt=" Duplicar Versión " align="absmiddle"></a></td>
+               <td align="center"><a href="JavaScript:Duplicar('<? echo $Cod;?>','<? echo $Ano;?>','<? echo $Mes;?>')"><img src="../pcip_web/archivos/duplicar2.png"  border="0"  alt=" Duplicar Versiï¿½n " align="absmiddle"></a></td>
                <td align="center"><a href="JavaScript:Modificar('<? echo $Cod;?>','<? echo $Ano;?>')"><img src="../pcip_web/archivos/btn_modificar.png"  border="0"  alt=" Modificar " align="absmiddle"></a></td>
 			   <td align="center"><? echo $Cod; ?></td>
                <td align="center"><? echo $Ano; ?></td>

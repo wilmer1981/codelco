@@ -65,7 +65,7 @@
 					{
 						
 						$Consulta = "SELECT ifnull(max(CINFORME),0) as mayor from sgrs_informes"; 
-						$Respuesta=mysql_query($Consulta);
+						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysql_fetch_array($Respuesta);
 						$Mayor=$Fila["mayor"] + 1;			
 						$Inserta="INSERT INTO sgrs_informes (CINFORME,TNARCHIVO,FINFORME,CUSUARIO,CVINFORME)";
@@ -99,11 +99,11 @@
 			{
 				$DatosRel='N';
 				$Consulta="SELECT * from sgrs_medpersonales where CINFORME='".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$DatosRel='S';
 				$Consulta="SELECT * from sgrs_medambientes where CINFORME='".$Codigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')

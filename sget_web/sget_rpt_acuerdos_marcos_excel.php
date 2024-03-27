@@ -29,7 +29,7 @@
 <?
 $Consulta="SELECT t1.nombre_subclase as nom_eva,t1.cod_subclase as cod_eva from proyecto_modernizacion.sub_clase t1 where t1.cod_clase='30014' order by cod_subclase";
 //echo $Consulta."<br>";
-$RespBonos=mysql_query($Consulta);
+$RespBonos=mysqli_query($link, $Consulta);
 while($FilaBonos=mysql_fetch_array($RespBonos))
 {
 	echo "<td class='TituloTablaVerde' width='1%' colspan='2' align='center'>".$FilaBonos[nom_eva]."&nbsp;</td>";
@@ -39,7 +39,7 @@ while($FilaBonos=mysql_fetch_array($RespBonos))
 </tr>	
 <tr>
 <?
-$RespBonos=mysql_query($Consulta);
+$RespBonos=mysqli_query($link, $Consulta);
 while($FilaBonos=mysql_fetch_array($RespBonos))
 {
 	echo "<td class='TituloTablaVerde' width='1%' align='center'>Dot.</td>";
@@ -59,7 +59,7 @@ while($FilaBonos=mysql_fetch_array($RespBonos))
 	if($CmbAno!= "T")
 		$Consulta.="  and  t1.ano='".$CmbAno."' ";
 	$Consulta.=" group by t1.cod_contrato,t1.ano";	
-	$RespCtto=mysql_query($Consulta);
+	$RespCtto=mysqli_query($link, $Consulta);
 	while($FilaCtto=mysql_fetch_array($RespCtto))
 	{
 		$A�o=$FilaCtto["ano"];
@@ -81,12 +81,12 @@ while($FilaBonos=mysql_fetch_array($RespBonos))
 		<?
 		$Consulta="SELECT t1.nombre_subclase as nom_eva,t1.cod_subclase as cod_eva from proyecto_modernizacion.sub_clase t1 where t1.cod_clase='30014' order by cod_subclase";
 		//echo $Consulta."<br>";
-		$RespBonos=mysql_query($Consulta);
+		$RespBonos=mysqli_query($link, $Consulta);
 		while($FilaBonos=mysql_fetch_array($RespBonos))
 		{
 			$Consulta="SELECT ifnull(count(*),0) as cant,ifnull(sum(monto),0) as monto from sget_bonos_contratistas where cod_contrato='".$FilaCtto["cod_contrato"]."' and num_bono='".$FilaBonos[cod_eva]."' and ano='".$FilaCtto["ano"]."' group by cod_contrato";
 			//echo $Consulta."<br>";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			if($Fila2=mysql_fetch_array($Resp2))
 			{
 				echo "<td align='center'>".$Fila2["cant"]."&nbsp;</td>";

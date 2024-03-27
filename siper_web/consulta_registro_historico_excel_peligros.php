@@ -61,7 +61,7 @@ if(!isset($FHasta))
 				$Consulta.=" and parent like '%".$SelTarea."%'";					
 			$Consulta.=" order by fecha_registro";	
 			//echo $Consulta."<br>";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				$Consulta1="SELECT * from proyecto_modernizacion.funcionarios where rut='".$Fila["rut_funcionario"]."'";
@@ -73,7 +73,7 @@ if(!isset($FHasta))
 					?>
 			  <tr>
 				<td ><? echo $Fila["rut_funcionario"]." ".$Nombre; ?></td>
-				<td align="center" ><? echo $Fila[fecha_registro]; ?>&nbsp;</td>
+				<td align="center" ><? echo $Fila["fecha_registro"]; ?>&nbsp;</td>
 				<td align="center" ><? echo $Fila["nombre_subclase"]; ?>&nbsp;</td>
 				<td align="center" ><? echo $Fila["observacion"];?> &nbsp;</td>
 			  </tr>
@@ -102,7 +102,7 @@ if(!isset($FHasta))
 				$Consulta.=" and parent like '%".$SelTarea."%'";	
 			$Consulta.=" group by parent order by fecha_registro";
 			//echo 	$Consulta."<br>";
-			$Resp = mysql_query($Consulta);$CantReg=0;
+			$Resp = mysqli_query($link, $Consulta);$CantReg=0;
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				$CantReg=$CantReg+$Fila["cant_reg"];

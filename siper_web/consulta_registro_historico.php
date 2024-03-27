@@ -289,7 +289,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='29000' and t3.valor_subclase2='S' and t1.tipo_proceso=t3.cod_subclase ";
 			$Consulta.=" where t1.fecha_registro between '".$FDesde."' and '".$FHasta."' group by t1.rut_funcionario order by t2.apellido_paterno,t2.apellido_materno,t2.nombres";
 			//echo $Consulta;
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
 				$Nombre=$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"];
@@ -312,7 +312,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta.=" and t2.rut_funcionario='".$CmbFuncionario."'";
 			$Consulta.="group by t2.tipo_proceso";	
 			//echo $Consulta;
-			$Resultado=mysql_query($Consulta);
+			$Resultado=mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
 				if($CmbTipoProceso==$Fila["cod_subclase"])
@@ -370,7 +370,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta.=" and parent like '%".$SelTarea."%'";	
 			$Consulta.=" order by fecha_registro";
 			//echo 	$Consulta."<br>";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				$Consulta1="SELECT * from proyecto_modernizacion.funcionarios where rut='".$Fila["rut_funcionario"]."'";
@@ -407,7 +407,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		?>
 			 	<tr>
 				<td ><? echo $Fila["rut_funcionario"]." ".$Nombre; ?></td>
-				<td align="center" ><? echo $Fila[fecha_registro]; ?>&nbsp;</td>
+				<td align="center" ><? echo $Fila["fecha_registro"]; ?>&nbsp;</td>
 				<td align="center" ><? echo $Fila["nombre_subclase"]; ?>&nbsp;</td>
 				<td align="center" ><textarea cols='50' rows='4' readonly="readonly"><? echo $Fila["observacion"];?></textarea>&nbsp;</td>
 				<td align="center" ><? echo $Obs2;?>&nbsp;</td>

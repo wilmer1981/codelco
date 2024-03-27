@@ -5,7 +5,7 @@
 		case "G":
 			$Consulta = "SELECT * FROM ins_equipo.`equipo` where cod_equipo='".$TxtCodEquipo."'";
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if ($Fila =mysql_fetch_array($Resp))
 			{
 				$Codigo=$TxtCodEquipo;
@@ -39,7 +39,7 @@
 					$CC=$CmbCC;
 				//SELECCIONA NUEVO CODIGO
 				$Consulta = "SELECT max(lpad(cod_equipo,3,'0')) as mayor FROM ins_equipo.equipo" ;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if ($Fila =mysql_fetch_array($Resp))
 					$Codigo=1 + $Fila["mayor"];
 				else

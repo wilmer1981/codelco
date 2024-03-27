@@ -25,7 +25,7 @@
 			if($CheckSel==true)
 				$Sel='1';
 			$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$CodConta."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NOMANT=$Fila[NCONTACTO];
 			$PH=$Fila[QPROBHIST];
@@ -46,7 +46,7 @@
 				$Obs=$CodConta.",".$CmbProbH.",".$CmbConsH.",".$Vig.",MOD";
 				RegistroSiper(16,$CookieRut,'MP',$Obs);	
 				$Consulta="SELECT * from sgrs_siperpeligros where CCONTACTO='".$CodConta."' AND MVIGENTE = '1' AND (QPC<>0 AND QCC<>0 AND QMR<>0 AND QMRH<>0) AND (QPC IS NOT NULL AND QCC IS NOT NULL)";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					//echo "ORIG: ".$Fila[CPELIGRO]." - ".$Fila[QMR]." - ".$Fila[QPC]." - ".$Fila[QCC]." - ".$Fila[QMRH]."<br>";

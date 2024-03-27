@@ -10,7 +10,7 @@
 	if($Buscar=='S')
 	{
        $Consulta="SELECT * FROM sec_web.GUIA_DESPACHO_EMB WHERE NUM_GUIA = '".$TxtGuia."' and (cod_estado = 'I' or cod_estado = 'A')";
-	   $R=mysql_query($Consulta);
+	   $R=mysqli_query($link, $Consulta);
 	   if(mysql_num_rows($R)==0)
 	   {
             $Msj=utf8_decode("Nº Guía No Existe, Reingrese...");
@@ -42,7 +42,7 @@
                 $Consulta= "select * from sec_web.embarque_ventana where num_envio = ".$F["num_envio"]." and ";
                 $Consulta.= " corr_enm = ".$F["corr_enm"]." and cod_bulto = '".$CodLote."'  and num_bulto = '".$NumLote."'";
 				//echo $Consulta;
-                $R2=mysql_query($Consulta);
+                $R2=mysqli_query($link, $Consulta);
                 if($F2=mysql_fetch_assoc($R2))
 				{
                     $despacho_paquetes_aux = $F2["despacho_paquetes"];
@@ -204,7 +204,7 @@ function Mensaje(Msj)
 			$Consulta.=" from  sec_web.paquete_catodo p, sec_web.det_guia_despacho_emb d where p.cod_paquete = d.cod_paquete ";
 			$Consulta.=" and p.num_paquete = d.num_paquete and p.num_guia = d.num_guia and p.num_guia = '".$TxtGuia."' ";
 			$Consulta.=" and d.num_guia = '".$TxtGuia."'";
-			$R=mysql_query($Consulta);
+			$R=mysqli_query($link, $Consulta);
 			$Contador=mysql_num_rows($R);
 			while($Listar=mysql_fetch_assoc($R))
 			{
@@ -314,7 +314,7 @@ function sacar_cliente($aux_cliente)
 	if($aux == "0")
 	{
 		$Consulta = "select  cod_nave, nombre_nave from sec_web.nave where cod_nave = '".$aux_cliente."'";
-		$R=mysql_query($Consulta);
+		$R=mysqli_query($link, $Consulta);
 		$F=mysql_fetch_assoc($R);
 		$strcodnave = $F["cod_nave"];
 		$strnombrenave = $F["nombre_nave"];
@@ -323,7 +323,7 @@ function sacar_cliente($aux_cliente)
 	else
 	{
 		$Consulta = "select  cod_cliente, nombre_cliente from sec_web.cliente_venta where cod_cliente = '".$aux_cliente."'";
-		$R=mysql_query($Consulta);
+		$R=mysqli_query($link, $Consulta);
 		if($R=mysql_fetch_assoc($R))
 		{
 			$strcodcliente = $F["cod_cliente"];
@@ -338,7 +338,7 @@ function sacar_marca($num_lote,$cod_lote,$aux_puerto)
 	global $descripcion_puerto,$aux_nombre_marca;
     $Consulta = "select  l.cod_marca, m.descripcion from sec_web.marca_catodos m, lote_catodo l where l.cod_bulto = '".$cod_lote."' ";
     $Consulta.= " and l.num_bulto = '".$num_lote." ' and l.cod_marca = m.cod_marca";
-    $R=mysql_query($Consulta);
+    $R=mysqli_query($link, $Consulta);
 	$F=mysql_fetch_assoc($R);
     $strcodmarca = $F["cod_marca"];
     $strnombre_marca = $F["descripcion"];
@@ -347,7 +347,7 @@ function sacar_marca($num_lote,$cod_lote,$aux_puerto)
 	{
         $Consulta = "select  e.cod_puerto, p.nom_aero_puerto from embarque_ventana e, puertos p where e.cod_bulto = '".$cod_lote."' ";
         $Consulta.=" and e.num_bulto = '".$num_lote." ' and e.cod_puerto = '".$aux_puerto." ' and e.cod_puerto = p.cod_puerto";
-        $R=mysql_query($Consulta);
+        $R=mysqli_query($link, $Consulta);
 		$F2=mysql_fetch_assoc($R);
         $strcodpuerto = $F2["cod_puerto"];
         $strpuerto = $F2["nom_aero_puerto"];

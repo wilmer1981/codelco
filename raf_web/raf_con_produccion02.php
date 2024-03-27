@@ -96,12 +96,12 @@ function Proceso(opc)
     <?
 		$Consulta = "SELECT distinct hornada FROM raf_web.datos_operacionales WHERE left(fecha,7) = '$Fecha'";
 		$Consulta.= " AND hornada BETWEEN $HornadaIni AND $HornadaTer";
-		$resp = mysql_query($Consulta);
+		$resp = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($resp))
 		{			
 		    $Consulta = "SELECT MIN(fecha) as fecha FROM raf_web.datos_operacionales";
 		    $Consulta.= " WHERE hornada = $Fila["hornada"]";	
-		    $respuesta = mysql_query($Consulta);
+		    $respuesta = mysqli_query($link, $Consulta);
 			$fila = mysql_fetch_array($respuesta);
 			$Fecha = substr($fila["fecha"],0,10);
 			$Dia = substr($fila["fecha"],8,2);
@@ -120,14 +120,14 @@ function Proceso(opc)
 
 			  $Consulta = "SELECT * FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'C2' AND campo1 = '1' AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $fil = mysql_fetch_array($rs);
 			  echo "<td align='right'>".number_format($fil[campo3],0,",",".")."</td>\n";
 			  $AcumCom = $AcumCom + $fil[campo3];
 			  
 			  $Consulta = "SELECT * FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'C2' AND campo1 = '3' AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $fil = mysql_fetch_array($rs);
 			  echo "<td align='right'>".number_format($fil[campo3],0,",",".")."</td>\n";
 			  $AcumHm = $Acumhm + $fil[campo3];
@@ -135,7 +135,7 @@ function Proceso(opc)
 			  //Total Prod. Anodos	
 			  $Consulta = "SELECT sum(campo3) as total FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'C2' AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $fil = mysql_fetch_array($rs);
 			  $total = $fil["total"];			  
 			  echo "<td align='right'>".number_format($total,0,",",".")."</td>\n";
@@ -143,7 +143,7 @@ function Proceso(opc)
 
 			  $Consulta = "SELECT SUM(peso) as peso FROM raf_web.det_carga WHERE hornada = ".$Fila["hornada"];
 			  $Consulta.= " AND cod_producto = 42 AND cod_subproducto = 74";	
-			  $res = mysql_query($Consulta);
+			  $res = mysqli_query($link, $Consulta);
 			  $fil = mysql_fetch_array($res);
 			  $AnodCirc = $fil["peso"];			 	
 
@@ -152,7 +152,7 @@ function Proceso(opc)
 
 			  $Consulta = "SELECT SUM(peso) as peso FROM raf_web.det_carga WHERE hornada = ".$Fila["hornada"];
 			  $Consulta.= " AND cod_producto = 42 AND cod_subproducto = 73";
-			  $res = mysql_query($Consulta);
+			  $res = mysqli_query($link, $Consulta);
 			  $fil = mysql_fetch_array($res);
               if($fil["peso"] != '') 			
 				  $Moldes = $fil["peso"];// * 1850;			 	
@@ -161,7 +161,7 @@ function Proceso(opc)
 
 			  $Consulta = "SELECT SUM(peso) as peso FROM raf_web.det_carga WHERE hornada = ".$Fila["hornada"];
 			  $Consulta.= " AND cod_producto = 42 AND cod_subproducto = 31";	
-			  $res = mysql_query($Consulta);
+			  $res = mysqli_query($link, $Consulta);
 			  $fil = mysql_fetch_array($res);
 			  $Esc = $fil["peso"];			 	
 			  echo "<td align='right'>".number_format($EscRev,0,",",".")."</td>\n";
@@ -176,7 +176,7 @@ function Proceso(opc)
 			  //T C.Fusion	
 			  $Consulta = "SELECT hora_ini, hora_ter FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'A1' AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  while($fil = mysql_fetch_array($rs))
 			  {
 				 $hh =  substr($fil[hora_ter],0,2) - substr($fil[hora_ini],0,2);	
@@ -196,7 +196,7 @@ function Proceso(opc)
 			  //T Reducc
 			  $Consulta = "SELECT hora_ini, hora_ter FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '4' AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $AcumMM = 0;
 			  while($fil = mysql_fetch_array($rs))
 			  {
@@ -218,7 +218,7 @@ function Proceso(opc)
 			  //T Escoreo
 			  $Consulta = "SELECT hora_ini, hora_ter FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '2' AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $AcumMM = 0;
 			  while($fil = mysql_fetch_array($rs))
 			  {
@@ -240,7 +240,7 @@ function Proceso(opc)
 			  //T Moldeo
 			  $Consulta = "SELECT hora_ini, hora_ter FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '6' AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $AcumMM = 0;
 			  while($fil = mysql_fetch_array($rs))
 			  {
@@ -262,7 +262,7 @@ function Proceso(opc)
 			  //T Vacio
 			  $Consulta = "SELECT hora_ini, hora_ter FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'B1' AND campo1 = '7' AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $AcumMM = 0;
 			  while($fil = mysql_fetch_array($rs))
 			  {
@@ -288,7 +288,7 @@ function Proceso(opc)
 			  //Combus. C.Fusion
 			  $Consulta = "SELECT sum(campo2) comb1, sum(campo3) comb2 FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 BETWEEN 1 AND 6 AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $AcumComb = 0;
 			  if($fil = mysql_fetch_array($rs))
 			  {
@@ -301,7 +301,7 @@ function Proceso(opc)
 			  //Combus. Reducc
 			  $Consulta = "SELECT sum(campo2) comb1, sum(campo3) comb2 FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = 10 AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $AcumComb = 0;
 			  if($fil = mysql_fetch_array($rs))
 			  {
@@ -316,7 +316,7 @@ function Proceso(opc)
 			  //Combus. Escoreo
 			  $Consulta = "SELECT sum(campo2) comb1, sum(campo3) comb2 FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = 8 AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $AcumComb = 0;
 			  if($fil = mysql_fetch_array($rs))
 			  {
@@ -331,7 +331,7 @@ function Proceso(opc)
 			  //Combus. Moldeo
 			  $Consulta = "SELECT sum(campo2) comb1, sum(campo3) comb2 FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = 12 AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $AcumComb = 0;
 			  if($fil = mysql_fetch_array($rs))
 			  {
@@ -346,7 +346,7 @@ function Proceso(opc)
 			  //Combus. Vacio
 			  $Consulta = "SELECT sum(campo2) comb1, sum(campo3) comb2 FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'C1' AND campo1 = 13 AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  $AcumComb = 0;
 			  if($fil = mysql_fetch_array($rs))
 			  {
@@ -364,7 +364,7 @@ function Proceso(opc)
 
 			  $Consulta = "SELECT sum(campo2) as troncos FROM raf_web.datos_operacionales";	
 		      $Consulta.= " WHERE tipo_report = 2 AND seccion_report = 'B3' AND hornada = ".$Fila["hornada"];
-			  $rs = mysql_query($Consulta);
+			  $rs = mysqli_query($link, $Consulta);
 			  if($fil = mysql_fetch_array($rs))
 			  {
 				  $Troncos = $fil[troncos];	  	

@@ -4,7 +4,7 @@
 	{
 		case "N"://INGRESO EVALUACION DE NEGOCIOS		
 			$Consulta="select ifnull(max(corr)+1,1) as Corr from pcip_eva_negocios ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$CorrNew=$Fila[Corr];
 			$Venta='';
@@ -34,7 +34,7 @@
 			$Actualizar="UPDATE pcip_eva_negocios set ano='".$Ano."',mes='".$Mes."',nom_archivo='".$TxtNombre."',cod_material='".$CmbMaterial."',tipo_origen='".$CmbOrigen."',analisis='".$Analisis."' where corr='".$Cod."'";	
 			mysql_query($Actualizar);
 			$Consulta = "select cod_subclase as cod_analisis from proyecto_modernizacion.sub_clase where cod_clase='31034'";			
-			$Resp=mysql_query($Consulta);		
+			$Resp=mysqli_query($link, $Consulta);		
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				$Encontro='N';
@@ -86,18 +86,18 @@
 		case "GN"://GUARDAR UNA COPIA YA EXISTEMTE DE ANALISIS
 			$Mensaje='Copia Realizada Exitosamente';
 			$Consulta="select ifnull(max(corr)+1,1) as Corr from pcip_eva_negocios ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$CorrNew=$Fila[Corr];
 			$Consulta="select * from pcip_eva_negocios where corr='".$Cod."'";	
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$Insertar="insert into pcip_eva_negocios(corr,ano,mes,nom_archivo,cod_material,tipo_origen,analisis,tms,tmh)values(";
 			$Insertar.="'".$CorrNew."','".$Ano."','".$Mes."','".$TxtNombre."','".$Fila[cod_material]."','".$Fila[tipo_origen]."','".$Fila[analisis]."','".$Fila[tms]."','".$Fila[tmh]."')";
 			//echo $Insertar;
 			mysql_query($Insertar);
 			$Consulta="select * from pcip_eva_negocios_material where corr='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_material(corr,cod_ley,cod_unidad,cod_division,valor)values(";
@@ -106,7 +106,7 @@
 				mysql_query($Insertar);
 			}
 			$Consulta="select * from pcip_eva_negocios_deduc_recup where corr='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_deduc_recup(corr,cod_tipo_analisis,cod_ley,cod_unidad,cod_tipo,valor)values(";
@@ -116,7 +116,7 @@
 				
 			}
 			$Consulta="select * from pcip_eva_negocios_costos where corr='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_costos(corr,cod_tipo_analisis,cod_tipo_costo,cod_unidad,cod_tipo,valor)values(";
@@ -125,7 +125,7 @@
 				mysql_query($Insertar);
 			}
 			$Consulta="select * from pcip_eva_negocios_castigos where corr='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_castigos(corr,cod_tipo_analisis,cod_unidad,cod_tipo,valor)values(";
@@ -134,7 +134,7 @@
 				mysql_query($Insertar);
 			}
 			$Consulta="select * from pcip_eva_negocios_transporte where corr='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_transporte(corr,cod_tipo_analisis,cod_unidad,cod_origen,cod_destino,cod_proceso_previo,valor)values(";
@@ -143,7 +143,7 @@
 				mysql_query($Insertar);
 			}
 			$Consulta="select * from pcip_eva_negocios_precios where corr='".$Cod."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_precios(corr,cod_tipo_analisis,cod_unidad,cod_tipo,valor,valor2)values(";
@@ -237,7 +237,7 @@
 			if($CmbMaterial=='2')	
 			{
 				$Consulta="select max(orden+1) as maximo from pcip_eva_negocios_deduc_recup";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
 				if($Fila=mysql_fetch_array($Resp))
 				{

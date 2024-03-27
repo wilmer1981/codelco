@@ -18,7 +18,7 @@
 		case "PA"://Guardar Numero Parcializado m
 			   $Dato=explode("~",$Datos);
 			   $Consulta="select * from scop_carry_cost where corr='".$Dato[0]."' and ano='".$Dato[2]."' and mes='".$Dato[3]."' order by parcializacion desc";					   
-			   $Resp=mysql_query($Consulta);
+			   $Resp=mysqli_query($link, $Consulta);
 			   if($Fila=mysql_fetch_array($Resp))
 			   {
 			   		$Parcializacion=$Fila[parcializacion]+1;
@@ -56,7 +56,7 @@
 				{
 				   $Dato=explode("~",$Datos);
 				   $Consulta="select * from scop_carry_cost where corr='".$Dato[0]."' and ano='".$Dato[2]."' and mes='".$Dato[3]."' order by parcializacion desc";					   
-				   $Resp=mysql_query($Consulta);
+				   $Resp=mysqli_query($link, $Consulta);
 				   if($Fila=mysql_fetch_array($Resp))
 				   {
 						$Parcializacion=$Fila[parcializacion]+1;
@@ -86,7 +86,7 @@
 				$Dato=explode("~",$Datos);
 				$Consulta="select * from scop_carry_cost where corr='".$Dato[0]."' and ano='".$Dato[2]."' and mes='".$Dato[3]."' and parcializacion>'".$Dato[1]."'";
 			    //echo $Consulta."<br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 			    if($Fila=mysql_fetch_array($Resp))
 			    {
 					$Mensaje='NE';
@@ -94,7 +94,7 @@
 				else
 				{
 					$Consulta="select * from scop_carry_cost_proceso where corr='".$Dato[0]."' and parcializacion='".$Dato[1]."' and cod_tipo_titulo='1' and cod_ley='".$CmbInventario."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))
 							$ValorReal=$Fila["valor"];
 					$ValorSumado=$ValorProcesado+$ValorReal;			

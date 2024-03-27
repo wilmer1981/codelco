@@ -111,7 +111,7 @@ function DetalleSistema(Cod)
       <option value="T" selected="selected">Todas</option>
       <?
 	  $Consulta = "select * from pcip_svp_productos_sap order by cod_sap ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$FilaTC["cod_sap"])
@@ -132,7 +132,7 @@ function DetalleSistema(Cod)
 		   <option value="T" selected="selected">Todas</option>
 		    <?
 		    $Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='31007' order by nombre_subclase ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbVig==$FilaTC["cod_subclase"])
@@ -188,7 +188,7 @@ if($Buscar=='S')
 	    $Consulta.=" and  t1.vigente ='".$CmbVig."'";
 	
 	$Consulta.= " order by cod_sap,nom_sap ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	

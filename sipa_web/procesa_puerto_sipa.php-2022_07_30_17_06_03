@@ -7,7 +7,7 @@
 	
 	$OBSERVACION_REG="CARGA_MANUAL ".date('Y-m-d');
 	$Consulta = "Select * from sipa_web.sipa_carga_puerto_ventana order by LOTE_VENTANA";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{ $Cont= $Cont+1;
 		$CodProducto=0;

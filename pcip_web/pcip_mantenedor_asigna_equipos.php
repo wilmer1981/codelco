@@ -78,7 +78,7 @@ function Salir()
 			  <option value="-1" selected="selected">Seleccionar</option>
 			  <?
 			  $Consulta = "select cod_sistema,nom_sistema from pcip_eec_sistemas order by nom_sistema ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbSistema==$FilaTC["cod_sistema"])
@@ -92,7 +92,7 @@ function Salir()
 		 <? 	 
 				 $Consulta = "select t1.cod_equipo from pcip_eec_equipos_por_sistema t1  ";			
 				 $Consulta.= " where t1.cod_sistema='".$CmbSistema."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 						while ($FilaTC=mysql_fetch_array($Resp))
 						{
 							$In=$In."'".$FilaTC[cod_equipo]."',";
@@ -118,7 +118,7 @@ function Salir()
 					$Consulta.= " where  t2.cod_equipo not in $In ";
 					$Consulta.= "order by t2.nom_equipo ";
 				}
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbEquipo==$FilaTC["cod_equipo"])
@@ -140,7 +140,7 @@ function Salir()
 		
 				$Consulta = "select t1.cod_equipo,t1.nom_equipo from pcip_eec_equipos_por_sistema t2 inner join pcip_eec_equipos t1 on t1.cod_equipo=t2.cod_equipo";
 				$Consulta.= " where t2.cod_sistema='".$CmbSistema."' order by t1.cod_equipo";			
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {

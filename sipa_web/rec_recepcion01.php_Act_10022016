@@ -35,19 +35,19 @@
 			mysql_query($Actualizar);
 			ImprimirRecepcion($Datos[2],$TxtNumRomana,$OperSalida);
 			$Consulta="SELECT rut_prv as proveedor,cod_producto,cod_subproducto from sipa_web.recepciones where correlativo='".$Datos[2]."' and lote='".$TxtLote."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			/*echo "PRUEBAS L.FARA <br>";
 			echo "PRUEBAS L.FARA <br>";
 			echo "PRUEBAS L.FARA <br>";*/
 
 			$Consulta="SELECT cod_grupo from sipa_web.grupos_prod_subprod where cod_producto='".$Fila["cod_producto"]."' and cod_subproducto='".$Fila["cod_subproducto"]."'";
-			$RespGrupo=mysql_query($Consulta);
+			$RespGrupo=mysqli_query($link, $Consulta);
 			if($FilaGrupo=mysql_fetch_array($RespGrupo))
 			{			
 				$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase ='24004' and valor_subclase1 ='".$FilaGrupo["cod_grupo"]."' and valor_subclase2='S'";
 				//echo $Consulta;
-				$RespGrupo=mysql_query($Consulta);
+				$RespGrupo=mysqli_query($link, $Consulta);
 				if($FilaGrupo=mysql_fetch_array($RespGrupo))
 				{
 					$Entrar='S';

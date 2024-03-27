@@ -7,7 +7,7 @@ if(!isset($Ano))
 ?>
 <html>
 <head>
-<title>Mantenedor Programa Producción</title>
+<title>Mantenedor Programa Producciï¿½n</title>
 <style type="text/css">
 <!--
 body {
@@ -52,7 +52,7 @@ function Procesos(TipoProceso)
 		case "C":
 			if(f.CmbVersion.value=='-1')
 			{
-				alert('Debe Seleccionar Versión');
+				alert('Debe Seleccionar Versiï¿½n');
 				f.CmbVersion.focus();
 				return;
 			}
@@ -69,7 +69,7 @@ function Procesos(TipoProceso)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar las Asignaciones Seleccionadas?"))
+				if (confirm("ï¿½Desea Eliminar las Asignaciones Seleccionadas?"))
 				{
 					f.action = "pcip_mantenedor_ppc_proceso01.php?Opcion=E&Valores="+Valores;
 					f.submit();
@@ -115,7 +115,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<td width="81%" align="left" class='formulario2'><img src="archivos/images/interior/t_buscadorGlobal4.png"></td>
 	    <td width="19%" align="right" class='formulario2'>
 		<a href="JavaScript:Procesos('C')"><span class="formulario2"></span><img src="archivos/Find2.png"   alt="Buscar"  border="0" align="absmiddle" /></a>    
-		<a href="JavaScript:Procesos('NV')"><img src="archivos/btn_ingreso_obs2.png"  border="0"  alt="Nueva Versión" align="absmiddle" /></a>&nbsp;
+		<a href="JavaScript:Procesos('NV')"><img src="archivos/btn_ingreso_obs2.png"  border="0"  alt="Nueva Versiï¿½n" align="absmiddle" /></a>&nbsp;
 		<a href="JavaScript:Procesos('N')"><img src="archivos/nuevo2.png"  border="0"  alt="Nuevo" align="absmiddle" /></a>&nbsp;
 		<a href="JavaScript:Procesos('M')"><img src="archivos/btn_modificar3.png"  alt="Modificar " align="absmiddle" border="0"></a><a href="JavaScript:Procesos('E')"><img src="archivos/elim_hito2.png"  alt="Eliminar " align="absmiddle" border="0"></a>&nbsp;
 		<a href="JavaScript:Procesos('S')"><img src="archivos/volver2.png" align="absmiddle" alt="Volver" border="0"></a>		</td>
@@ -143,7 +143,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <option value="-1" selected="selected">Seleccionar</option>
             <?
 	    $Consulta = "select * from pcip_ppc_version where ano='".$Ano."'order by version ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($Fila["ult_version"]=='S')
@@ -160,7 +160,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		}
 			?>
           </select>
-          <input type="text" name="textfield" style='background:"#339900"' size="2">&nbsp;&nbsp;Ultima Versión
+          <input type="text" name="textfield" style='background:"#339900"' size="2">&nbsp;&nbsp;Ultima Versiï¿½n
           <label></label>
         </span></tr>
       <tr>
@@ -174,7 +174,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
           <option value="-1" selected="selected">Todos</option>
           <?
 	    $Consulta = "select * from pcip_svp_asignacion where mostrar_ppc='1' order by nom_asignacion ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbProd==$Fila["cod_asignacion"])
@@ -190,7 +190,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
           <option value="-1" class="NoSelec">Todos</option>
           <?
 	    $Consulta = "select * from pcip_svp_asignaciones_productos where cod_asignacion='".$CmbProd."' and mostrar_ppc='1'";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbAsig==$Fila["cod_producto"])
@@ -223,7 +223,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 <table width="100%" border="1" align="center" cellpadding="2" cellspacing="0" >
 <tr>
 <td width="4%" class="TituloTablaVerde" align="center" >&nbsp;</td>
-<td width="10%" class="TituloTablaVerde"align="center" >Año</td>
+<td width="10%" class="TituloTablaVerde"align="center" >Aï¿½o</td>
 <td width="10%" class="TituloTablaVerde" align="center" >Asignaci&oacute;n</td>
 <td width="20%" class="TituloTablaVerde" align="center" >Producto</td>
 <td width="20%" class="TituloTablaVerde" align="center" >Negocio</td>
@@ -250,7 +250,7 @@ for($i=0;$i<12;$i++)
 		$Consulta.="and t1.cod_procedencia='".$CmbAsig."'";	
 		
 	$Consulta.="group by t1.version,t1.cod_asignacion,t1.cod_procedencia,t1.cod_negocio,t1.ano,t1.tipo,t1.cod_titulo";	
-	$Resp=mysql_query($Consulta);$Cont=0;
+	$Resp=mysqli_query($link, $Consulta);$Cont=0;
 	//echo $Consulta;
 	echo "<input name='CheckAsig' type='hidden'>";
 	while($Fila=mysql_fetch_array($Resp))
@@ -268,7 +268,7 @@ for($i=0;$i<12;$i++)
 		{
 			$Consulta="select valor from pcip_ppc_detalle where version='".$Fila[version]."' and ano='".$Fila[ano]."' and cod_asignacion='".$Fila[cod_asignacion]."' and cod_procedencia='".$Fila[cod_procedencia]."' and cod_negocio='".$Fila[cod_negocio]."' and tipo='".$Fila[tipo]."' and cod_titulo='".$Fila[cod_titulo]."' and mes='".$i."'";
 			//echo $Consulta."<br>";
-			$RespValor=mysql_query($Consulta);
+			$RespValor=mysqli_query($link, $Consulta);
 			if($FilaValor=mysql_fetch_array($RespValor))
 				echo "<td align='right'>".number_format($FilaValor[valor],0,',','.')."</td>";
 			else
@@ -305,7 +305,7 @@ for($i=0;$i<12;$i++)
 	if ($Mensaje=='1')
 		echo "alert('Asignaciones (s) Eliminado(s) Correctamente');";
 	if($Mensaje!='1'&&$Cont==0&&$Buscar=='S')
-		echo "alert('Información de Asignacion No Encontrada');";	
+		echo "alert('Informaciï¿½n de Asignacion No Encontrada');";	
 	echo "</script>";
 ?>	
 </body>

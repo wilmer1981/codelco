@@ -59,7 +59,7 @@ function Proceso(opc)
 		$Consulta = "SELECT distinct   hornada  FROM raf_web.det_carga"; 
 	    $Consulta.= " WHERE left(fecha,10) = '$Fecha'"; 		
 		$Consulta.= " ORDER BY hornada";
-		$resp = mysql_query($Consulta);
+		$resp = mysqli_query($link, $Consulta);
 		while($fila = mysql_fetch_array($resp))
 		{		  	
 		   echo'<table width="100" border="1" cellspacing="0" cellpadding="0" class="TablaPrincipal" align="center">';
@@ -105,12 +105,12 @@ function Proceso(opc)
 			
 			$Consulta = "SELECT distinct cod_producto,cod_subproducto FROM raf_web.det_carga WHERE hornada = $fila["hornada"]";
 			$Consulta.= " ORDER BY cod_producto, cod_subproducto";
-			$res = mysql_query($Consulta);
+			$res = mysqli_query($link, $Consulta);
 		    while($row = mysql_fetch_array($res))
 			{
 				echo'<tr>';
 				$Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				$Fila = mysql_fetch_array($rs); 			
 				echo'<td>'.$Fila["abreviatura"].'&nbsp;</td>';
 				$AcumUnid = '';			
@@ -121,7 +121,7 @@ function Proceso(opc)
 				$Consulta = "SELECT unidades as unid, peso as pes, hornada_sea as hor FROM raf_web.movimientos";
 				$Consulta.= " WHERE cod_producto = $row["cod_producto"] AND cod_subproducto = $row[cod_subproducto]";
 				$Consulta.= " AND hornada = $fila["hornada"]  order by hornada_sea";
-				$result = mysql_query($Consulta);
+				$result = mysqli_query($link, $Consulta);
 				while($Fil = mysql_fetch_array($result))
 				{
 					$FinoSb 	= 0;
@@ -143,7 +143,7 @@ function Proceso(opc)
 					{
 						$Consulta = "select max(fecha),valor,cod_leyes from raf_web.leyes_fijas where cod_producto = '".$Fila["cod_producto"]."'";
 						$Consulta.= " and cod_subproducto = '".$Fila[cod_subproducto]."' group by cod_producto,cod_subproducto"; 
-						$resp2 = mysql_query($Consulta);
+						$resp2 = mysqli_query($link, $Consulta);
 					}
 					else
 					{	
@@ -152,7 +152,7 @@ function Proceso(opc)
 				  		$Consulta.= " AND cod_subproducto = '".$Fila[cod_subproducto]."'";
 				  		$Consulta.= " AND hornada = '".$Fil[hor]."'";
 				  		$Consulta.= " AND (cod_leyes = '08' or cod_leyes ='09' or cod_leyes = '31') ";
-				  		$resp2 = mysql_query($Consulta);
+				  		$resp2 = mysqli_query($link, $Consulta);
 					}	
 					while($fila1 = mysql_fetch_array($resp2))
 				  	{

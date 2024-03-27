@@ -13,7 +13,7 @@ if(!isset($Recarga))
 		$Consulta.= " proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31032' and t1.cod_producto=t2.cod_subclase";
 		$Consulta.= " inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='31013' and t2.valor_subclase1=t3.cod_subclase where dato='".$Cod[0]."' and t1.cod_producto='".$Cod[1]."' and t1.ano='".$Cod[2]."'";			
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 		    $CmbDatos=$Fila["dato"];
@@ -28,9 +28,9 @@ if(!isset($Recarga))
 <head>
 <?
 	if ($Opcion=='N')
-		echo "<title>Nuevo Precio Doré Ingreso Proyectado</title>";
+		echo "<title>Nuevo Precio Dorï¿½ Ingreso Proyectado</title>";
 	else	
-		echo "<title>Modifica Precio Precio Doré Ingreso Proyectado</title>";
+		echo "<title>Modifica Precio Precio Dorï¿½ Ingreso Proyectado</title>";
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script  language="JavaScript" src="../principal/funciones/funciones_java.js"></script>
@@ -213,7 +213,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta = "select distinct(t1.cod_subclase),t1.nombre_subclase,t2.nombre_subclase as nom_unidad from proyecto_modernizacion.sub_clase t1";
 			$Consulta.= " inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31013' and t1.valor_subclase1=t2.cod_subclase";	
 			$Consulta.= " where t1.cod_clase='31032' order by cod_subclase"; 	
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbProducto==$FilaTC["cod_subclase"])
@@ -314,7 +314,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					    $TxtValorMesR=0;$TxtValorMesP=0;
 			    		$Cod=explode('~',$Codigos);
 						$Consulta="select valor_real,valor_ppto from pcip_inp_precios_dore where dato='".$Cod[0]."' and  cod_producto='".$Cod[1]."' and  ano='".$Cod[2]."' and mes='".$i."'";	
-						$RespMes=mysql_query($Consulta);
+						$RespMes=mysqli_query($link, $Consulta);
 						//echo $Consulta."<br>";
 						if($FilaMes=mysql_fetch_array($RespMes))
 						{

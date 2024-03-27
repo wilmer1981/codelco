@@ -1,7 +1,7 @@
 <? 
 	include("../principal/conectar_principal.php"); 	  				
 	$Consulta = "SELECT * from sec_web.embarque_ventana where corr_enm = '".$IE."'";
-	$Resp = mysql_query($Consulta);			
+	$Resp = mysqli_query($link, $Consulta);			
 	if ($Fila = mysql_fetch_array($Resp))
 	{
 		$IE = $Fila["corr_enm"];
@@ -14,14 +14,14 @@
 	//A�O DEL LOTE
 	$Consulta = "SELECT distinct fecha_creacion_lote from sec_web.lote_catodo ";
 	$Consulta.= " where corr_enm = '".$IE."' and cod_bulto = '".$CodLote."' and num_bulto = '".$NumLote."'";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Resp))
 	{
 		$Ano = substr($Fila["fecha_creacion_lote"],0,4);
 	}
 	//CUOTA
 	$Consulta = "SELECT * from sec_web.programa_enami where corr_enm = '".$IE."'";
-	$Resp = mysql_query($Consulta);			
+	$Resp = mysqli_query($link, $Consulta);			
 	if ($Fila = mysql_fetch_array($Resp))
 	{
 		$Cuota = $Fila["mes_cuota"];		
@@ -29,7 +29,7 @@
 	else
 	{
 		$Consulta = "SELECT * from sec_web.programa_codelco where corr_codelco = '".$IE."'";
-		$Resp = mysql_query($Consulta);			
+		$Resp = mysqli_query($link, $Consulta);			
 		if ($Fila = mysql_fetch_array($Resp))
 		{
 			$Cuota = $Fila["mes_cuota"];		
@@ -38,7 +38,7 @@
 	//TOTAL PQTES
 	$Consulta="SELECT count(num_paquete) as numero from sec_web.lote_catodo ";
 	$Consulta.=" where cod_bulto='".$CodLote."' and num_bulto='".$NumLote."' and substring(fecha_creacion_lote,1,4)='".$Ano."'	";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Respuesta);	
 	$TotalPqtes = $Fila["numero"];
 	//TOTAL PESO
@@ -47,7 +47,7 @@
 	$Consulta.=" and t1.num_paquete=t2.num_paquete ";
 	$Consulta.=" where cod_bulto='".$CodLote."' and num_bulto='".$NumLote."' and LEFT(fecha_creacion_lote,4)='".$Ano."'	";
 	$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and t1.cod_estado=t2.cod_estado 	";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Respuesta);
 	$SumaUnidades=$Fila[suma_unidades];
 	$SumaPeso=$Fila[suma_paquetes];				
@@ -58,7 +58,7 @@
 	$Consulta.= " where t1.cod_bulto = '".$CodLote."' ";
 	$Consulta.= " and t1.num_bulto = '".$NumLote."' ";
 	$Consulta.= " order by t1.cod_bulto, t1.num_bulto, t1.cod_paquete, t1.num_paquete ";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$CodPaquete = "";
 	$NumPaquete = "";
 	$CodPaqueteAnt = "";
@@ -147,7 +147,7 @@ function Proceso(o)
     </tr>
 <?	
 	$Consulta = "SELECT * from sec_web.guia_despacho_emb where corr_enm = '".$IE."' and cod_estado = 'I' order by fecha_guia, num_guia, patente_guia";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		echo "<tr>\n";

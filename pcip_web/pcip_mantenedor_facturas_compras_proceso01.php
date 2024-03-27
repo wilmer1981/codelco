@@ -9,7 +9,7 @@
 			if(!$Fila1=mysql_fetch_array($Resp1))
 			{ 	
 				$Consulta="select ifnull(max(codigo+1),1) as maximo from pcip_fac_compra ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					$TxtCodigo=$Fila["maximo"];
@@ -21,7 +21,7 @@
 				
 				
 				$Consulta="select ifnull(max(correlativo+1),1) as maximo from pcip_fac_compra_finos_relacion where codigo='".$TxtCodigo."'";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 				{
 					$Correlativo=$Fila["maximo"];
@@ -273,7 +273,7 @@
 				if($CmbTipo=='2' && $CmbFactNot=='N')//NUEVA FACTURA DEFINITIVA
 				{
 					$Consulta="select ifnull(max(correlativo+1),1) as maximo from pcip_fac_compra_finos_relacion where codigo='".$TxtCodigo."'";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))
 					{
 						$Correlativo=$Fila["maximo"];
@@ -394,7 +394,7 @@
 			{
 								
 				$Consulta="select * from pcip_fac_compra_finos_relacion where codigo='".$TxtCodigo."' and tipo_factura!='1'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				if(!$Fila=mysql_fetch_array($Respuesta))
 				{							
@@ -427,7 +427,7 @@
 			mysql_query($Eliminar1);		   
 			//echo $Eliminar1;
 			$Consulta="select * from pcip_fac_compra_finos_relacion where codigo='".$Datos[0]."' and tipo_factura='2'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{
 				$Actualizar="UPDATE pcip_fac_compra set estado_actual='1' where codigo='".$Datos[0]."'";

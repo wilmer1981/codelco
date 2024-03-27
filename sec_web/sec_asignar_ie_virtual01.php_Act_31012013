@@ -63,7 +63,7 @@
 		$Consulta=$Consulta." from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 on ";
 		$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete ";
 		$Consulta=$Consulta." where t1.corr_enm=".$IEVirtual." and t1.cod_estado='a' and t2.cod_estado='a' order by t1.num_paquete";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Respuesta))
 		{
 			$PesoVirtual=$PesoVirtual+$Fila["peso_paquetes"];
@@ -114,13 +114,13 @@
 		}
 	}
 	/*$Consulta="Select cantidad_programada from  sec_web.programa_codelco where corr_codelco = '".$IE."' ";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if ($row = mysql_fetch_array($rs))
 	{
 		$TxtCantidad=$row["cantidad_programada"];
 	}
 	$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if ($row = mysql_fetch_array($rs))
 	{
 		$TxtPesoRango=$row["peso_rango"];
@@ -179,7 +179,7 @@
 	{
 		$Consulta="SELECT min(num_paquete) as lote_inicio";
 		$Consulta=$Consulta." from sec_web.lote_catodo where corr_enm=".$IEVirtual." and cod_estado='a'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Respuesta))
 		{
 			$Actualizar="UPDATE sec_web.lote_catodo set num_bulto=".$Fila[lote_inicio]." where corr_enm=".$IEVirtual;
@@ -191,7 +191,7 @@
 			$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete ";
 			$Consulta=$Consulta." where t1.corr_enm=".$IEVirtual." and t1.cod_estado='a' and t2.cod_estado='a'"; 
 			$Consulta=$Consulta."group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
-			$Respuesta2=mysql_query($Consulta);
+			$Respuesta2=mysqli_query($link, $Consulta);
 			$Fila2=mysql_fetch_array($Respuesta2);
 			$Peso=$Fila2["peso_preparado"];
 			$Actualizar="UPDATE sec_web.instruccion_virtual set peso_programado=".$Peso.",estado='T' where corr_virtual=".$IEVirtual;

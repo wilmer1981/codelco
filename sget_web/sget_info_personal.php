@@ -16,7 +16,7 @@
 			$Consulta.=" left join proyecto_modernizacion.sub_clase t11 on t1.cod_salud=t11.cod_subclase and  t11.cod_clase='30011'";
 			$Consulta.=" left join sget_aseguradoras t12  on t1.cod_aseguradora=t12.cod_aseguradora";
 			$Consulta.="  where t1.rut='".$run."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				$TxtRut=$Fila["rut"];					
@@ -258,7 +258,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
  	$Consulta=" SELECT t1.*,t2.razon_social from sget_personal_historia t1 left join sget_contratistas t2 on t1.rut_empresa=t2.rut_empresa";
 	$Consulta.="  where t1.rut ='".$TxtRut."'";
  	
-	$RespModificaciones=mysql_query($Consulta);
+	$RespModificaciones=mysqli_query($link, $Consulta);
 	while($FilaModificaciones=mysql_fetch_array($RespModificaciones))
 	{
 		$Contador=$Contador+1;

@@ -125,14 +125,14 @@ body {
 				$Consulta.=" and t1.rut_empresa = t2.rut_empresa";
 				$Consulta.=" order by ape_paterno";
 				//echo $Consulta."</br>";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 
 					$Consulta="Select fecha_termino from des_sget.sget_contratos where cod_contrato = '".$Fila["cod_contrato"]."' and ";
 					$Consulta.=" rut_empresa = '".$Fila[rut_empresa]."'";
 					//echo $Consulta."</br>";
-					$Rsp=mysql_query($Consulta);
+					$Rsp=mysqli_query($link, $Consulta);
 					$Row=mysql_fetch_array($Rsp);
 					$fechac = $Row[fecha_termino];
 					$fechaf = $Fila[fec_fin_ctto];

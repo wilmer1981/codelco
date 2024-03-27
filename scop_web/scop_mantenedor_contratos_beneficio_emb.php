@@ -30,7 +30,7 @@ function RecargaBEN(Opc,check)
 		 $Consulta = "select t1.flujo from scop_contratos_flujos t1  ";			
 		 $Consulta.= " where t1.cod_contrato='".$TxtContrato."' and tipo_inventario=3 and tipo_flujo='".$TipoFlujo."'";
 		 //echo $Consulta;
-		 $Resp=mysql_query($Consulta);
+		 $Resp=mysqli_query($link, $Consulta);
 		 while ($Fila=mysql_fetch_array($Resp))
 		 {
 			$In=$In."'".$Fila["flujo"]."',";
@@ -48,7 +48,7 @@ function RecargaBEN(Opc,check)
 				if($In!='')
 					$Consulta.=" and cod_flujo not in $In";
 				
-				$result = mysql_query($Consulta);
+				$result = mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_assoc($result))
 				{
 					if ($CmbFlujoBene==$Fila["cod_flujo"])
@@ -108,7 +108,7 @@ function RecargaBEN(Opc,check)
 				  $Consulta.=" inner join scop_datos_enabal t2 on t1.flujo=t2.cod_flujo and t1.tipo_flujo=t2.origen";
 				  $Consulta.=" inner join scop_contratos t3 on t1.cod_contrato=t3.cod_contrato and t1.tipo_flujo=t2.origen";
 				  $Consulta.=" where t1.cod_contrato='".$TxtContrato."' and t1.tipo_inventario=3 and t2.tipo_mov=2 order by cod_flujo";
-				  $Resp=mysql_query($Consulta);	
+				  $Resp=mysqli_query($link, $Consulta);	
 				  while ($Fila=mysql_fetch_array($Resp))
 				  {
 						$Contrato=$Fila["cod_contrato"];

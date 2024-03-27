@@ -162,7 +162,7 @@ function oculta(numero)
             <option value='T' SELECTed>Todos</option>
             <?
 			$Consulta="SELECT * from sgrs_lugares order by NLUGAR ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if($CmbLugares==$Fila[CLUGAR])
@@ -177,7 +177,7 @@ function oculta(numero)
             <option value='T' SELECTed>Todos</option>
             <?
 			$Consulta="SELECT t1.CAGENTE,t1.NAGENTE,t1.QLPP,t2.NUNIDAD from sgrs_cagentes t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NAGENTE";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if($CmbAgentes==$Fila[CAGENTE])
@@ -194,7 +194,7 @@ function oculta(numero)
             <option value='T' SELECTed>Todos</option>
             <?
 			$Consulta="SELECT t1.CAREA,t1.NAREA from sgrs_areaorg t1 where t1.CTAREA='5' order by t1.NAREA";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				if($CmbUnidOpe==$Fila[CAREA])
@@ -323,7 +323,7 @@ function oculta(numero)
 				}
 				$Consulta.="order by t4.NLUGAR";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta);$Cont=0;
+				$Resp=mysqli_query($link, $Consulta);$Cont=0;
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";

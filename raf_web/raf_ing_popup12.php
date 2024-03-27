@@ -15,7 +15,7 @@ if($Proceso == "B")
 	$Consulta.= " AND hornada = '".$Hornada."' ";
 	$Consulta.= " AND tipo_report = 1 ";
 	$Consulta.= " AND seccion_report = '".$Seccion."'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($row = mysql_fetch_array($rs))
 	{		
 		$SB = $row["campo2"];

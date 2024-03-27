@@ -6,7 +6,7 @@ function DescripcionCeco($Ceco)
 	$Des='';
 	$Consulta = "select t2.DESCRIPCION  from  proyecto_modernizacion.centro_costo t2  where t2.CENTRO_COSTO='".$Ceco."' ";
 	//echo $Consulta;
-	$RespP=mysql_query($Consulta);
+	$RespP=mysqli_query($link, $Consulta);
 	if ($FilaP=mysql_fetch_array($RespP))
 	{
 		$Des=$FilaP["descripcion"];
@@ -39,7 +39,7 @@ function EnvioCorreo($NumNov,$OPCI)
 		$Hora= date("G:i:s");
 		$InfGer='';
 		$Consulta="select * from ipif_novedades where nro_solicitud='".$NumNov."'";
-		$RespSolp=mysql_query($Consulta);
+		$RespSolp=mysqli_query($link, $Consulta);
 		if($FilaSolp=mysql_fetch_array($RespSolp))
 		{
 			//$TxtFecha=$FilaSolp[fecha_ingreso];
@@ -66,7 +66,7 @@ function EnvioCorreo($NumNov,$OPCI)
 		$CO='No';
 		$Consulta="select * from ipif_condicion t1 inner join ipif_novedades_condicion t2 on ";
 		$Consulta.="t1.cod_condicion=t2.cod_condicion where t2.nro_solicitud='".$NumNov."'  ";
-		$RespCO=mysql_query($Consulta);
+		$RespCO=mysqli_query($link, $Consulta);
 		While($FilaCO=mysql_fetch_array($RespCO))
 		{
 			$CO='Si';
@@ -76,7 +76,7 @@ function EnvioCorreo($NumNov,$OPCI)
 		if($OPCI=='A')
 		{
 		$Consulta="select * from ipif_novedades_correos where nro_solicitud='".$NumNov."' and tipo='A'";
-		$RespCORREO=mysql_query($Consulta);
+		$RespCORREO=mysqli_query($link, $Consulta);
 		while($FilaCORREO=mysql_fetch_array($RespCORREO))
 		{
 			$Cuenta=$FilaCORREO[cuenta];
@@ -139,7 +139,7 @@ function EnvioCorreo($NumNov,$OPCI)
 		if($OPCI=='B')
 		{
 		$Consulta="select * from ipif_novedades_correos where nro_solicitud='".$NumNov."' and tipo!='A'";
-		$RespCORREO=mysql_query($Consulta);
+		$RespCORREO=mysqli_query($link, $Consulta);
 		while($FilaCORREO=mysql_fetch_array($RespCORREO))
 		{
 			$Cuenta=$FilaCORREO[cuenta];
@@ -200,7 +200,7 @@ function EnvioCorreo($NumNov,$OPCI)
 		{
 			$Ceco='';
 			$Consulta = "select t2.ceco_origen  from  ipif_novedades t2  where t2.nro_solicitud='".$NumNov."' ";
-			$RespP=mysql_query($Consulta);
+			$RespP=mysqli_query($link, $Consulta);
 			if ($FilaP=mysql_fetch_array($RespP))
 			{
 				$Ceco=$FilaP[ceco_origen];
@@ -211,8 +211,8 @@ function EnvioCorreo($NumNov,$OPCI)
 				$Consulta = "Select t1.cuenta_solicitante as cuenta from ipif_ceco_solicitante t1 inner join proyecto_modernizacion.sub_clase t2 ";
 				$Consulta.= " on t1.cod_perfil=t2.cod_subclase and t1.cod_tipo=t2.valor_subclase1 ";
 				$Consulta.= " where t2.cod_clase='".$CODIGOCLASE."'  and t2.valor_subclase2='S' and t1.cod_ceco='".$Ceco."' ";
-				$RespP=mysql_query($Consulta);
-				$RespCORREO=mysql_query($Consulta);
+				$RespP=mysqli_query($link, $Consulta);
+				$RespCORREO=mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				while($FilaCORREO=mysql_fetch_array($RespCORREO))
 				{
@@ -309,7 +309,7 @@ function CambiaAcento($Texto)
 	function InsertarFuncionario($Cuenta,$Correo)
 	{
 		$Consulta="Select * from ipif_funcionario where cuenta='".$Cuenta."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			if($Correo!='')
@@ -321,7 +321,7 @@ function CambiaAcento($Texto)
 		else
 		{
 			$Consulta="Select * from proyecto_modernizacion.funcionarios where cuenta_red='".$Cuenta."'";
-			$Resp1=mysql_query($Consulta);
+			$Resp1=mysqli_query($link, $Consulta);
 			if($Fila1=mysql_fetch_array($Resp1))
 			{
 				$Insertar="insert into ipif_funcionario(cuenta,nombre,correo)values('".$Cuenta."','".$Fila1[ape_paterno]." ".$Fila1[ape_materno]." ".$Fila1[nombres]."','".$Cuenta."@CODELCO.CL')";
@@ -333,7 +333,7 @@ function CambiaAcento($Texto)
 		function CECOFuncionario($Cuenta)
 	{	$Datos='';
 		$Consulta="Select cod_ceco from proyecto_modernizacion.funcionarios t1 where t1.cuenta_red='".$Cuenta."'";
-		$RespF=mysql_query($Consulta);
+		$RespF=mysqli_query($link, $Consulta);
 		if($FilaF=mysql_fetch_array($RespF))
 		{
 			$Datos=$FilaF[cod_ceco];
@@ -343,7 +343,7 @@ function CambiaAcento($Texto)
 	function Funcionario($Cuenta)
 	{	$Datos='';
 		$Consulta="Select t1.apellido_paterno,t1.apellido_materno,t1.nombres,t2.correo from proyecto_modernizacion.funcionarios t1 left join ipif_funcionario t2 on  t1.cuenta_red=t2.cuenta where t1.cuenta_red='".$Cuenta."'";
-		$RespF=mysql_query($Consulta);
+		$RespF=mysqli_query($link, $Consulta);
 		if($FilaF=mysql_fetch_array($RespF))
 		{
 			$Datos=$FilaF["apellido_paterno"]." ".$FilaF["apellido_materno"]." ".$FilaF[nombres];
@@ -354,7 +354,7 @@ function CambiaAcento($Texto)
 	function CODIGOCLASE()
 	{	$Datos='';
 		$Consulta="Select * from ipif_parametros_sistema where cod_parametro='1'";
-		$RespF=mysql_query($Consulta);
+		$RespF=mysqli_query($link, $Consulta);
 		if($FilaF=mysql_fetch_array($RespF))
 		{
 			$Datos=$FilaF[valor];
@@ -368,7 +368,7 @@ function CambiaAcento($Texto)
 	
 	$Datos='';
 		$Consulta = "select t1.descripcion as DESCRIP,t2.cod_subclase from ipif_tipo_ceco t1 inner join proyecto_modernizacion.sub_clase t2 on t1.cod_tipo=t2.valor_subclase1 where t2.cod_clase='".$CODIGOCLASE."' and t2.valor_subclase4='S'";			
-		$RespF=mysql_query($Consulta);
+		$RespF=mysqli_query($link, $Consulta);
 		/*echo "***************************"."<br>";
 		echo $Consulta."<br>";*/
 		if($FilaF=mysql_fetch_array($RespF))
@@ -381,7 +381,7 @@ function CambiaAcento($Texto)
 	function CODIGOSISTEMA()
 	{	$Datos='';
 		$Consulta="Select * from ipif_parametros_sistema where cod_parametro='2'";
-		$RespF=mysql_query($Consulta);
+		$RespF=mysqli_query($link, $Consulta);
 		if($FilaF=mysql_fetch_array($RespF))
 		{
 			$Datos=$FilaF[valor];
@@ -431,7 +431,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select rut,nombres,apellido_paterno,apellido_materno";
 		$Consulta.=" from proyecto_modernizacion.funcionarios where rut='".$R."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Func=$Fila[nombres].' '.$Fila["apellido_paterno"].' '.$Fila["apellido_materno"];
 		return($Func);
@@ -440,7 +440,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select rut,nombres,apellido_paterno,apellido_materno";
 		$Consulta.=" from proyecto_modernizacion.funcionarios where rut='".$R."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Func=strtoupper($Fila[nombres]).' '.strtoupper($Fila["apellido_paterno"]).' '.strtoupper(substr($Fila["apellido_materno"],0,1));
 		return($Func);
@@ -449,7 +449,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select *  ";
 		$Consulta.=" from sgpt_solicitante where cuenta='".$C."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Func=ucwords(strtolower($Fila[nombre_completo]));
 		return($Func);	 	
@@ -457,7 +457,7 @@ function CambiaAcento($Texto)
 	function NombreOrig($R)
 	{
 		$Consulta="Select t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 where rut='".str_pad($R,10,'0',STR_PAD_LEFT)."'";
-		$RespF=mysql_query($Consulta);
+		$RespF=mysqli_query($link, $Consulta);
 		if($FilaF=mysql_fetch_array($RespF))
 		{
 			$Datos=$FilaF["apellido_paterno"]." ".$FilaF["apellido_materno"]." ".$FilaF[nombres];
@@ -468,7 +468,7 @@ function CambiaAcento($Texto)
 	function CuentaRut($R)
 	{
 		$Consulta=" select *  from proyecto_modernizacion.funcionarios where rut='".str_pad($R,10,'0',STR_PAD_LEFT)."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		/*echo $Consulta;*/
 		if($Fila=mysql_fetch_array($Resp))
 			$Cuenta=$Fila[cuenta_red];
@@ -477,7 +477,7 @@ function CambiaAcento($Texto)
 	function Turno($Cod)
 	{
 		$Consulta = "select * from  proyecto_modernizacion.sub_clase where cod_clase=1 and cod_subclase='".$Cod."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($FilaT=mysql_fetch_array($Resp))
 			$T=$FilaT["nombre_subclase"];
 		return($T);
@@ -489,7 +489,7 @@ function CambiaAcento($Texto)
 		$Consulta=" select t1.*,t2.nombre_subclase ,t2.cod_clase from  proyecto_modernizacion.sub_clase  t2 ";
 		$Consulta.="inner join ipif_ceco_solicitante t1 on t1.cod_perfil=t2.cod_subclase ";
 		$Consulta.=" where  t1.cuenta_solicitante='".$P."' and t1.cod_ceco='".$C."' and  t2.cod_clase='".$CODIGOCLASE."'"; 
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila["nombre_subclase"];
 		return($Descripcion);	 	
@@ -548,7 +548,7 @@ function CambiaAcento($Texto)
 		$Consulta="select count(*) as cantidad from sget_hoja_ruta_hitos_observaciones ";
 		$Consulta.="  where num_hoja_ruta='".$NH."' and cod_hito='".$H."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 		$Cantidad=$Fila[cantidad];
 		if($Cantidad > 0)
@@ -651,7 +651,7 @@ function CambiaAcento($Texto)
 	function DescripCtto($Ctto)
 	{
 		$Consulta="select * from sget_contratos where cod_contrato='".$Ctto."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[cod_contrato].'~'.$Fila["descripcion"].'~'.$Fila[fecha_inicio].'~'.$Fila[fecha_termino].'~'.$Fila[cod_gerencia].'~'.$Fila[cod_area].'~'.$Fila[cod_tipo_contrato].'~'.$Fila[rut_prev];
 		return($Descripcion);	
@@ -660,7 +660,7 @@ function CambiaAcento($Texto)
 	function DescripEmpresa($RutEmp)
 	{
 		$Consulta="select * from sget_contratistas where rut_empresa='".$RutEmp."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[rut_empresa].'~'.$Fila[razon_social].'~'.$Fila[calle].'~'.$Fila[telefono_comercial].'~'.$Fila[mail_empresa].'~'.$Fila[cod_mutual_seguridad].'~'.$Fila[fecha_ven_cert].'~'.$Fila[nro_regic].'~'.$Fila[nro_registro];
 		return($Descripcion);	
@@ -669,7 +669,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta="select t1.rut_adm_contrato,t1.nombres,t1.ape_paterno,t1.ape_materno,t1.telefono,t1.email from sget_administrador_contratos t1 where t1.rut_adm_contrato='".$Rut."' ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$AdmCodelco=$Fila[rut_adm_contrato].'~'.$Fila[nombres].'~'.$Fila[ape_paterno].'~'.$Fila[ape_materno].'~'.$Fila[telefono].'~'.$Fila[email];
 		return($AdmCodelco);	
@@ -679,7 +679,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta="select t1.rut_adm_contrato,t1.nombres,t1.ape_paterno,t1.ape_materno,t1.telefono,t1.email from sget_administrador_contratos t1 inner join sget_hoja_ruta_adm_ctto t2 on t1.rut_adm_contrato =t2.rut_adm_ctto where t2.num_hoja_ruta='".$HR."' and activo='S'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$AdmCodelco=$Fila[rut_adm_contrato].'~'.$Fila[nombres].'~'.$Fila[ape_paterno].'~'.$Fila[ape_materno].'~'.$Fila[telefono].'~'.$Fila[email];
 		return($AdmCodelco);	
@@ -688,7 +688,7 @@ function CambiaAcento($Texto)
 	function AdmCttoCodelco($Ctto)
 	{
 		$Consulta="select t1.rut_adm_contrato,t1.nombres,t1.ape_paterno,t1.ape_materno,t1.telefono from sget_administrador_contratos t1 inner join sget_contratos t2 on t1.rut_adm_contrato =t2.rut_adm_contrato where t2.cod_contrato='".$Ctto."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$AdmCodelco=$Fila[rut_adm_contrato].'~'.$Fila[nombres].'~'.$Fila[ape_paterno].'~'.$Fila[ape_materno].'~'.$Fila[telefono];
 		return($AdmCodelco);	
@@ -699,7 +699,7 @@ function CambiaAcento($Texto)
 		$Consulta=" select t1.rut_adm_contratista,t1.nombres,t1.ape_paterno,t1.ape_materno,t1.telefono,t1.email ";
 		$Consulta.=" from sget_administrador_contratistas t1 inner join sget_contratos t2 ";
 		$Consulta.=" on t1.rut_adm_contratista =t2.rut_adm_contratista where t2.cod_contrato='".$Ctto."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$AdmCodelco=$Fila[rut_adm_contratista].'~'.$Fila[nombres].'~'.$Fila[ape_paterno].'~'.$Fila[ape_materno].'~'.$Fila[telefono].'~'.$Fila[email];
 		return($AdmCodelco);	
@@ -708,7 +708,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select * from sget_tipo_contrato  ";
 		$Consulta.="  where cod_tipo_contrato='".$Cod."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[descrip_tipo_contrato];
 		return($Descripcion);	
@@ -718,7 +718,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select * from sget_mutuales_seg  ";
 		$Consulta.="  where cod_mutual='".$Cod."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila["abreviatura"];
 		return($Descripcion);	
@@ -728,7 +728,7 @@ function CambiaAcento($Texto)
 		$Descripcion='';
 		$Consulta=" select nom_ciudad from sget_ciudades  ";
 		$Consulta.="  where cod_ciudad='".$Cod."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[nom_ciudad];
 		return($Descripcion);	
@@ -738,7 +738,7 @@ function CambiaAcento($Texto)
 		$Descripcion='';
 		$Consulta=" select nom_comuna from sget_comunas  ";
 		$Consulta.="  where cod_comuna='".$Cod."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[nom_comuna];
 		return($Descripcion);	
@@ -748,7 +748,7 @@ function CambiaAcento($Texto)
 		$Consulta=" select descrip_gerencias from sget_gerencias  ";
 		$Consulta.="  where cod_gerencia='".$Cod."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[descrip_gerencias];
 		return($Descripcion);	
@@ -759,7 +759,7 @@ function CambiaAcento($Texto)
 		$Consulta=" select descrip_area,cod_cc from sget_areas ";
 		$Consulta.="  where cod_area='".$Cod."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[cod_cc]." - ".$Fila[descrip_area];
 		return($Descripcion);	
@@ -768,14 +768,14 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select * from sget_prevencionistas  ";
 		$Consulta.="  where rut_prev='".$RutPrev."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$Consulta = "select * from proyecto_modernizacion.clase where cod_clase = '".$Fila[cod_clase]."'   ";
-			$Resp1=mysql_query($Consulta);
+			$Resp1=mysqli_query($link, $Consulta);
 			$Fila1=mysql_fetch_array($Resp1);
 			$Consulta = "select * from proyecto_modernizacion.sub_clase  where cod_clase='".$Fila[cod_clase]."' and cod_subclase='".$Fila["cod_subclase"]."'  ";
-			$Resp3=mysql_query($Consulta);
+			$Resp3=mysqli_query($link, $Consulta);
 			$Fila3=mysql_fetch_array($Resp3);
 			if($Fila3["nombre_subclase"] != "" )
 				$SubClase='('.$Fila3["nombre_subclase"].')';
@@ -789,7 +789,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select * from sget_sub_contratistas  ";
 		$Consulta.="  where rut_contratista='".$CmbEmpresa."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Var='S';
 		else	
@@ -800,7 +800,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select * from sget_contratistas  ";
 		$Consulta.="  where rut_empresa='".$RutE."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=$Fila[razon_social];
 		return($Descripcion);	
@@ -810,7 +810,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select link from proyecto_modernizacion.pantallas  ";
 		$Consulta.="  where cod_pantalla='".$CodPantalla."' and cod_sistema='".$CodSistema."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Descripcion=substr($Fila[link],12,strlen($Fila[link]));
 		return($Descripcion);	
@@ -820,13 +820,13 @@ function CambiaAcento($Texto)
 		$Consulta=" select count(*) as cantidad from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."'  ";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 			$Cant=$Fila[cantidad];
 		$Consulta=" select count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."' and t2.autorizado='S'  ";
 		//echo $Consulta;
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		$Fila2=mysql_fetch_array($Resp2);
 			$CantAut=$Fila2[cantau];
 		/*echo "cantidad".$Cant."<br>";
@@ -874,12 +874,12 @@ function CambiaAcento($Texto)
 	{
 		$Consulta=" select count(*) as cantidad from sget_hitos t1 left join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."'  ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Resp);
 			$Cant=$Fila[cantidad];
 		$Consulta=" select count(*) as cantau from sget_hitos t1 inner join sget_hoja_ruta_hitos t2 on t1.cod_hito=t2.cod_hito and cod_pantalla='".$P."' ";
 		$Consulta.="  where t2.num_hoja_ruta='".$NH."' and t2.autorizado='S' ";
-		$Resp2=mysql_query($Consulta);
+		$Resp2=mysqli_query($link, $Consulta);
 		$Fila2=mysql_fetch_array($Resp2);
 			$CantAut=$Fila2[cantau];
 		if($Cant > 0 )
@@ -948,13 +948,13 @@ function CambiaAcento($Texto)
 		//REAJUSTE CONTRATO
 		$Consulta="select cod_contrato,corr from sget_reajustes_contratos where tipo='C' and estado='P' and fecha_reajustada <='".date('Y-m-d')."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			$PromIpcAcum=0;
 			$Consulta="select fecha_inicio,monto_ctto from sget_contratos where cod_contrato='".$Fila[cod_contrato]."'";
 			//echo $Consulta."<br>";
-			$RespCtto=mysql_query($Consulta);
+			$RespCtto=mysqli_query($link, $Consulta);
 			$FilaCtto=mysql_fetch_array($RespCtto);
 			$PromIpcAcum=EntregaValorIpc($FilaCtto[fecha_inicio]);
 			//echo $PromIpcAcum."<br>";
@@ -969,19 +969,19 @@ function CambiaAcento($Texto)
 		//REAJUSTE SUELDO TRABAJADORES DEL CONTRATO
 		$Consulta="select cod_contrato,corr from sget_reajustes_contratos where tipo='S' and estado='P' and fecha_reajustada <='".date('Y-m-d')."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			$PromIpcAcum=0;
 			$Consulta="select fecha_inicio from sget_contratos where cod_contrato='".$Fila[cod_contrato]."'";
-			$RespCtto=mysql_query($Consulta);
+			$RespCtto=mysqli_query($link, $Consulta);
 			$FilaCtto=mysql_fetch_array($RespCtto);
 			$PromIpcAcum=EntregaValorIpc($FilaCtto[fecha_inicio]);
 			if($PromIpcAcum!=0)
 			{
 				$Consulta="select rut,sueldo,cod_contrato,rut_empresa,fec_ini_ctto,fec_fin_ctto from sget_personal where cod_contrato='".$Fila[cod_contrato]."' and estado='A' ";
 				//echo $Consulta;
-				$RespPers=mysql_query($Consulta);
+				$RespPers=mysqli_query($link, $Consulta);
 				while($FilaPers=mysql_fetch_array($RespPers))
 				{
 					$NewMonto=round($FilaPers[sueldo]+(($FilaPers[sueldo]*$PromIpcAcum)/100));
@@ -1008,7 +1008,7 @@ function CambiaAcento($Texto)
 		$ValorIpc1=0;
 		$Consulta="select valor from sget_ipc where ano='".$A�o."' and mes='".intval($FechaAux[1])."'";
 		//echo $Consulta;
-		$RespIpc=mysql_query($Consulta);
+		$RespIpc=mysqli_query($link, $Consulta);
 		if($FilaIpc=mysql_fetch_array($RespIpc))
 		{
 			$ValorIpc1=$FilaIpc[valor];
@@ -1021,7 +1021,7 @@ function CambiaAcento($Texto)
 		$ValorIpc2=0;
 		$Consulta="select valor from sget_ipc where ano='".$A�o."' and mes='".intval($FechaAux[1])."'";
 		//echo $Consulta;
-		$RespIpc=mysql_query($Consulta);
+		$RespIpc=mysqli_query($link, $Consulta);
 		if($FilaIpc=mysql_fetch_array($RespIpc))
 		{
 			$ValorIpc2=$FilaIpc[valor];
@@ -1070,7 +1070,7 @@ function CambiaAcento($Texto)
 		$Consulta="select fecha_hora from sget_reg_estados where num_hoja_ruta='".$HR."' and cod_estado='".$Est."' and rut='".$Rut."'";
 		$Consulta.=" and acept_rech='".$AcepRech."' and tipo='".$Tipo."' and ult='S'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$Fecha=$Fila["fecha_hora"];
@@ -1080,7 +1080,7 @@ function CambiaAcento($Texto)
 	function PersonasActivasCtto($Ctto)
 	{
 		$Consulta="select count(rut) as Cantidad from sget_personal where cod_contrato='".$Ctto."' and estado='A'";
-		$RespCant=mysql_query($Consulta);
+		$RespCant=mysqli_query($link, $Consulta);
 		if($FilaCant=mysql_fetch_array($RespCant))
 			return($FilaCant[Cantidad]);
 		else
@@ -1089,7 +1089,7 @@ function CambiaAcento($Texto)
 	function PersonasSindicalizCtto($Ctto)
 	{
 		$Consulta="select count(rut) as Cantidad from sget_personal where cod_contrato='".$Ctto."' and cod_sindicato<>'0' and estado='A'";
-		$RespCant=mysql_query($Consulta);
+		$RespCant=mysqli_query($link, $Consulta);
 		if($FilaCant=mysql_fetch_array($RespCant))
 			return($FilaCant[Cantidad]);
 		else
@@ -1100,7 +1100,7 @@ function CambiaAcento($Texto)
 		$Sind='';
 		$Consulta="select t2.descripcion from sget_personal t1 inner join sget_sindicato t2 on t1.cod_sindicato=t2.cod_sindicato where t1.cod_contrato='".$Ctto."' and t1.cod_sindicato<>'0' and t1.estado='A' group by t1.cod_sindicato ";
 		//echo $Consulta;
-		$RespCant=mysql_query($Consulta);
+		$RespCant=mysqli_query($link, $Consulta);
 		while($FilaCant=mysql_fetch_array($RespCant))
 		{
 			$Sind=$Sind.$FilaCant["descripcion"].", ";
@@ -1112,7 +1112,7 @@ function CambiaAcento($Texto)
 	function DotacionSegAcc($Ctto)
 	{
 		$Consulta="select count(rut) as Cantidad from sget_personal where cod_contrato='".$Ctto."' and cod_aseguradora not in(0,1) and estado='A'";
-		$RespCant=mysql_query($Consulta);
+		$RespCant=mysqli_query($link, $Consulta);
 		if($FilaCant=mysql_fetch_array($RespCant))
 			return($FilaCant[Cantidad]);
 		else
@@ -1122,7 +1122,7 @@ function CambiaAcento($Texto)
 	{
 		$Consulta="select * from sget_bonos_contratistas where cod_contrato='".$Ctto."' and ano='".$A�o."' group by cod_contrato,ano,rut_persona";
 		//echo $Consulta;
-		$RespCant=mysql_query($Consulta);
+		$RespCant=mysqli_query($link, $Consulta);
 		if($FilaCant=mysql_num_rows($RespCant))
 			return($FilaCant=mysql_num_rows($RespCant));
 		else
@@ -1131,7 +1131,7 @@ function CambiaAcento($Texto)
 	function NumPolizaCtto($Ctto)
 	{
 		$Consulta="select poliza from sget_contratos where cod_contrato='".$Ctto."'";
-		$RespPol=mysql_query($Consulta);
+		$RespPol=mysqli_query($link, $Consulta);
 		if($FilaPol=mysql_fetch_array($RespPol))
 			return($FilaPol[poliza]);
 		else

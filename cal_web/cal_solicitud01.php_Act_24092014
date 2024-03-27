@@ -135,7 +135,7 @@ o;
 							$Muestra = substr($MuestraFecha,0,$x);			
 							$Fecha = substr($MuestraFecha,$x+2,19);
 							$Consulta = "select nro_solicitud from cal_web.solicitud_analisis where rut_funcionario ='".$Rut."' and fecha_hora ='".$Fecha."' and id_muestra='".$Muestra."'";
-							$Respuesta=mysql_query($Consulta);
+							$Respuesta=mysqli_query($link, $Consulta);
 							$Fila = mysql_fetch_array($Respuesta);
 							$NroSA = $Fila["nro_solicitud"];
 							if (!is_null($NroSA) or ($NroSA!=''))
@@ -158,7 +158,7 @@ o;
 			//SE PREGUNTA SI EXISTE ALGUNA SOLICITUD CON ESTE FUNCIONARIO Y ESTA FECHA
 			//SI NO HAY REGISTRO SE PROCEDE A ELIMINAR LA OBS ASOCIADAS A LAS SOLICITUDES ELIMINADAS
 			$Consulta = "select * from cal_web.solicitud_analisis where rut_funcionario ='".$Rut."' and fecha_hora ='".$FechaHora."'";
-			$Resultado = mysql_query($Consulta);
+			$Resultado = mysqli_query($link, $Consulta);
 			if (!$Fila=mysql_fetch_array($Resultado))
 			{
 				$Eliminar = "delete from cal_web.solicitud_analisis_obs where rut_funcionario ='".$Rut."' and fecha_hora ='".$FechaHora."'";
@@ -183,13 +183,13 @@ o;
 							$Fecha = substr($MuestraFecha,$x+2,19);
 							$NroSA = "";
 							$Consulta = "select nro_solicitud,leyes,impurezas,cod_tipo_muestra from cal_web.solicitud_analisis  where rut_funcionario ='".$Rut."' and fecha_hora ='".$Fecha."' and id_muestra='".$Muestra."'";
-							$Resultado=mysql_query($Consulta);
+							$Resultado=mysqli_query($link, $Consulta);
 							$Fila = mysql_fetch_array($Resultado);
 							if ((is_null($Fila["nro_solicitud"])) or ($Fila["nro_solicitud"]==''))
 							{
 								//SE OBTIENE EL NUMERO MAYOR DE LAS SOLICITUDES
 								$Consulta = "select max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
-								$Respuesta = mysql_query($Consulta);
+								$Respuesta = mysqli_query($link, $Consulta);
 								if ($Fila2 = mysql_fetch_array($Respuesta))
 								{
 									if ((substr($Fila2["NroMayor"],0,4)) == (date("Y")))
@@ -287,7 +287,7 @@ o;
 				}
 			}
 			/*$Consulta="select  * from solicitud_analisis_obs where rut_funcionario ='".$Rut."' and fecha_hora ='".$FechaHora."'";
-			$Respuesta = mysql_query($Consulta);
+			$Respuesta = mysqli_query($link, $Consulta);
 			if ($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Actualizar = "UPDATE solicitud_analisis_obs set observacion = '$TxtObs' where rut_funcionario ='".$Rut."' and fecha_hora ='".$FechaHora."'";
@@ -318,7 +318,7 @@ o;
 							$Actualizar ="UPDATE cal_web.leyes_por_solicitud set recargo ='0' where rut_funcionario ='".$Rut."' and fecha_hora ='".$Fecha."' and id_muestra='".$Muestra."'";
 							mysql_query($Actualizar);
 							$Consulta = "select * from cal_web.solicitud_analisis where rut_funcionario ='".$Rut."' and fecha_hora ='".$Fecha."' and id_muestra='".$Muestra."' and recargo = '0'";
-							$Respuesta=mysql_query($Consulta);
+							$Respuesta=mysqli_query($link, $Consulta);
 							$Fila = mysql_fetch_array($Respuesta);
 							$CmbProductos = $Fila["cod_producto"];
 							$CmbSubProducto= $Fila["cod_subproducto"];

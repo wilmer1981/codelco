@@ -6,7 +6,7 @@
 	//echo "m".$MesAnt."<br>";
 	$AñoActual=date("Y");
 	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
 	{
 		switch ($Fila["cod_subclase"])
@@ -24,7 +24,7 @@
 	if ($Plantilla!="S")
 	{		
 		$Consulta = "SELECT * from age_web.limites where cod_plantilla='".$Plantilla."'";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		while ($Fila = mysql_fetch_array($Resp))
 		{
 			$ArrLimites[$Fila["cod_leyes"]]["min"]=$Fila["limite_minimo"];
@@ -55,7 +55,7 @@
 		if ($CmbProveedor!="S")
 			$Consulta.= " and rut_proveedor='".$CmbProveedor."'";
 		$Consulta.= " group by cod_producto ";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		while ($Fila = mysql_fetch_array($Resp))
 		{
 			for ($i=1;$i<=60;$i++)
@@ -76,7 +76,7 @@
 	$Consulta.= " and cod_producto='1' and cod_subproducto='0'";
 	$Consulta.= " and rut_proveedor='99999999-9'";
 	$Consulta.= " order by cod_leyes";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		$ArrLeyes[$Fila["cod_leyes"]]["cod_leyes"]=$Fila["cod_leyes"];
@@ -95,7 +95,7 @@
 	$Consulta.= " and cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";
 	$Consulta.= " and rut_proveedor='99999999-9'";
 	$Consulta.= " order by cod_leyes";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		$ArrLeyes[$Fila["cod_leyes"]]["cod_leyes"]=$Fila["cod_leyes"];
@@ -116,7 +116,7 @@
 		$Consulta.= " and cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";
 		$Consulta.= " and rut_proveedor='".$CmbProveedor."'";
 		$Consulta.= " order by cod_leyes";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		while ($Fila = mysql_fetch_array($Resp))
 		{
 			$ArrLeyes[$Fila["cod_leyes"]]["cod_leyes"]=$Fila["cod_leyes"];
@@ -226,7 +226,7 @@ body {
         <?
 	$Consulta = "SELECT * from proyecto_modernizacion.subproducto ";
 	$Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";	
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Resp))
 		echo $Fila["cod_subproducto"]." - ".strtoupper($Fila["descripcion"]);
 	else
@@ -245,7 +245,7 @@ if ($CmbProveedor=="S")
 else
 {		
 	$Consulta = "SELECT rutprv_a, nomprv_a from rec_web.proved where rutprv_a='".$CmbProveedor."'";	
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Resp))
 		echo str_pad($Fila["rutprv_a"],10,'0')." - ".strtoupper($Fila["nomprv_a"]);
 	else
@@ -269,7 +269,7 @@ if ($Plantilla!="S")
 	$Consulta.= " from age_web.limites ";
 	$Consulta.= " where cod_plantilla='".$Plantilla."'";
 	$Consulta.= " order by descripcion ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	$Encontro=false;
 	if ($Fila = mysql_fetch_array($Resp))
 	{
@@ -378,7 +378,7 @@ if ($Plantilla!="S")
 	$Consulta.= " group by ano, mes, rut_proveedor ";
 	$Consulta.= " order by rut_proveedor, ano, lpad(mes,2,'0') ";		
 	//echo "Cons ".$Consulta."<br><br><br>";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	$Clase = "ColorTabla02";
 	$ProvAnt="";
 	$AnoAnt="";

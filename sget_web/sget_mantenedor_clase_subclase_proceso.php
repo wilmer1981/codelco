@@ -7,7 +7,7 @@ if ($Opc=='M')
 	$Consulta="SELECT * from sget_subclase t1 ";
 	$Consulta.=" where t1.cod_clase='".$Valores."' ";
 	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigoClase=$Fila["cod_clase"];

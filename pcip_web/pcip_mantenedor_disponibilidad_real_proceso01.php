@@ -6,7 +6,7 @@ switch($Opcion)
 {
 	case "N":
 		$Consulta="select * from pcip_eec_disponibilidades where cod_sistema='".$CmbSistema."' and tipo_disponibilidad='R' and cod_equipo='".$CmbEquipos."' and ano='".$Ano."' and mes='".$Mes."'";		
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
 		if(!$Fila=mysql_fetch_array($Resp))
 		{

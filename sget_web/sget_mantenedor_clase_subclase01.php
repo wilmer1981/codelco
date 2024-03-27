@@ -7,7 +7,7 @@
 		case "N":
 			
 			$Consulta = "SELECT ifnull(max(cod_clase),0) as mayor from sget_clase"; 
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$Mayor=$Fila["mayor"] + 1;			
 			
@@ -48,7 +48,7 @@
 					mysql_query($Eliminar);
 				
 				/*$Consulta="SELECT * from sgpt_documentos where cod_tipo_doc='".$Codigo."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Respuesta))
 				{
 					$Eliminar="delete from sgpt_tipo_documento where cod_tipo_doc='".$Codigo."'";

@@ -60,17 +60,17 @@
 		
 			//INSERTA EN REC_WEB.RECEPCIONES
 			$Consulta = "select * from sipa_web.proveedores where rut_prv ='".$CmbProveedor."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 				$NomProveedor=$FilaAux["nombre_perv"];
  
 			$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 				$NomSubProducto=$FilaAux["descripcion"];
  
 			$Consulta = "select * from sipa_web.minaprv where cod_mina='".$CmbCodFaena."' ";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 			{
 				$NomFaena=$FilaAux["nombre_mina"]; 
@@ -80,17 +80,17 @@
 			}
 
 			$Consulta = "select * from rec_web.clases where codigo_a='".$CmbClaseProducto."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 				$NomClaseProducto=$FilaAux["DESCRP_A"];
  
 			$Consulta = "select * from rec_web.tipos where INDICA='R' and COD_C='".$CmbCodRecepcionENM."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 				$NomTipoRecep=$FilaAux["DESC_A"]; 
 				
 			$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
-                  $Resp = mysql_query($Consulta);
+                  $Resp = mysqli_query($link, $Consulta);
                   if ($Row = mysql_fetch_array($Resp))
 				$correl = $Row[correl];
 			$correl = $correl + 1;
@@ -130,14 +130,14 @@
 			$EstOpe = "";
 			$Mensaje = "";
 			$Consulta = "select * from age_web.detalle_lotes where lote='".$TxtLote."' and recargo='".$TxtRecargo."'";
-			$Resp = mysql_query($Consulta);
+			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysql_fetch_array($Resp))
 			{
 				//CONSULTA ESTADO ANTERIOR DEL LOTE
 				$EstadoLoteAnt = "";
 				$Consulta = "select estado_lote from age_web.lotes ";
 				$Consulta.= " where lote='".$TxtLote."'";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				if ($Fila2 = mysql_fetch_array($Resp2))
 				{
 					$EstadoLoteAnt = $Fila2["estado_lote"];
@@ -166,17 +166,17 @@
 				//ACTUALIZA BASE DATOS DEL LOTE/RECARGO sipa_web.recepciones
 				
 				$Consulta = "select * from sipa_web.proveedores where rut_prv='".$CmbProveedor."'";
-				$RespAux = mysql_query($Consulta);
+				$RespAux = mysqli_query($link, $Consulta);
 				if ($FilaAux=mysql_fetch_array($RespAux))
 					$NomProveedor=$FilaAux["nombre_prv"];
  
 				$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";
-				$RespAux = mysql_query($Consulta);
+				$RespAux = mysqli_query($link, $Consulta);
 				if ($FilaAux=mysql_fetch_array($RespAux))
 					$NomSubProducto=$FilaAux["descripcion"]; 
 
 				$Consulta = "select * from sipa_web.minaprv where cod_mina='".$CmbCodFaena."' ";
-				$RespAux = mysql_query($Consulta);
+				$RespAux = mysqli_query($link, $Consulta);
 				if ($FilaAux=mysql_fetch_array($RespAux))
 				{
 					$NomFaena=$FilaAux["nombre_mina"]; 
@@ -185,12 +185,12 @@
 					$IdFaena=$FilaAux["ind_faena"]; 
 				}
 				$Consulta = "select * from rec_web.clases where codigo_a='".$CmbClaseProducto."'";
-				$RespAux = mysql_query($Consulta);
+				$RespAux = mysqli_query($link, $Consulta);
 				if ($FilaAux=mysql_fetch_array($RespAux))
 					$NomClaseProducto=$FilaAux["DESCRP_A"];
  
 				$Consulta = "select * from rec_web.tipos where INDICA='R' and COD_C='".$CmbCodRecepcionENM."'";
-				$RespAux = mysql_query($Consulta);
+				$RespAux = mysqli_query($link, $Consulta);
 				if ($FilaAux=mysql_fetch_array($RespAux))
 					$NomTipoRecep=$FilaAux["DESC_A"]; 
 
@@ -253,7 +253,7 @@
 				$ContEstados=0;				
 				$Consulta = "select distinct estado_recargo from age_web.detalle_lotes ";
 				$Consulta.= " where lote='".$TxtLote."'";
-				$Resp2 = mysql_query($Consulta);
+				$Resp2 = mysqli_query($link, $Consulta);
 				while ($Fila2 = mysql_fetch_array($Resp2))
 				{					
 					$EstadoActualizar = $Fila2["estado_recargo"];
@@ -320,7 +320,7 @@
 				mysql_query($Eliminar);
 				//CONSULTA SI QUEDA ALGUN RECARGO DEL LOTE, SI NO QUEDAN ELIMINA EL LOTE DE LA TABLA LOTE
 				$Consulta = "select ifnull(count(recargo),0) as cantidad from age_web.detalle_lotes where lote='".$Lote."'";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				if ($Fila = mysql_fetch_array($Resp))
 				{
 					if ($Fila["cantidad"]<1)
@@ -370,15 +370,15 @@
 			}	
 			//INSERTA EN sipa_web.RECEPCIONES
 			$Consulta = "select * from sipa_web.proveedores where rut_prv ='".$CmbProveedor."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 				$NomProveedor=$FilaAux["nombre_prv"]; 
 			$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 				$NomSubProducto=$FilaAux["descripcion"]; 
 			$Consulta = "select * from sipa_web.minaprv where cod_mina ='".$CmbCodFaena."' ";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 			{
 				$NomFaena=$FilaAux["nombre_mina"]; 
@@ -387,17 +387,17 @@
 				$IdFaena=$FilaAux["ind_faena"]; 
 			}
 			$Consulta = "select * from rec_web.clases where codigo_a='".$CmbClaseProducto."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 				$NomClaseProducto=$FilaAux["DESCRP_A"]; 
 			$Consulta = "select * from rec_web.tipos where INDICA='R' and COD_C='".$CmbCodRecepcionENM."'";
-			$RespAux = mysql_query($Consulta);
+			$RespAux = mysqli_query($link, $Consulta);
 			if ($FilaAux=mysql_fetch_array($RespAux))
 				$NomTipoRecep=$FilaAux["DESC_A"]; 
 
 
 			$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
-                  $Resp = mysql_query($Consulta);
+                  $Resp = mysqli_query($link, $Consulta);
                   if ($Row = mysql_fetch_array($Resp))
 				$correl = $Row[correl];
 			$correl = $correl + 1;
@@ -437,7 +437,7 @@
 					$ContEstados=0;				
 					$Consulta = "select distinct estado_recargo from age_web.detalle_lotes ";
 					$Consulta.= " where lote='".$Datos2[0]."'";
-					$Resp2 = mysql_query($Consulta);
+					$Resp2 = mysqli_query($link, $Consulta);
 					while ($Fila2 = mysql_fetch_array($Resp2))
 					{					
 						$EstadoActualizar = $Fila2["estado_recargo"];
@@ -484,7 +484,7 @@
 					mysql_query($Actualizar);
 					//ACTUALIZA BASE DATOS DEL LOTE/RECARGO REC_WEB.RECEPCIONES
 					$Consulta = "select * from rec_web.clases where codigo_a='".$CmbClaseProducto."'";
-					$RespAux = mysql_query($Consulta);
+					$RespAux = mysqli_query($link, $Consulta);
 					if ($FilaAux=mysql_fetch_array($RespAux))
 						$NomClaseProducto=$FilaAux["DESCRP_A"]; 								
 					$Actualizar = "UPDATE rec_web.recepciones SET ";
@@ -513,7 +513,7 @@
 					mysql_query($Actualizar);
 					//ACTUALIZA REC_WEB.RECEPCIONES
 					$Consulta = "select * from rec_web.tipos where INDICA='R' and COD_C='".$CmbCodRecepcionENM."'";
-					$RespAux = mysql_query($Consulta);
+					$RespAux = mysqli_query($link, $Consulta);
 					if ($FilaAux=mysql_fetch_array($RespAux))
 						$NomTipoRecep=$FilaAux["DESC_A"]; 
 					$Actualizar = "UPDATE rec_web.recepciones SET ";
@@ -713,11 +713,11 @@
 						//echo "3".$PesoTara."<br>";
 						//echo "3".$PesoNeto."<br><br><br><br><br>";
 						/*$Consulta="select guia_despacho,recargo,lote,patente,peso_bruto,peso_tara,peso_neto from age_web.detalle_lotes where recargo='".$Recargo."' and guia_despacho='".$GuiaDes."' and observacion='".$EntradaLote."'";
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						if(!$Fila = mysql_fetch_array($Resp))
 						{
 							$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
-							$Resp = mysql_query($Consulta);
+							$Resp = mysqli_query($link, $Consulta);
 							if ($Row = mysql_fetch_array($Resp))
 								$correl = $Row[correl];
 							$correl = $correl + 1;
@@ -753,14 +753,14 @@
 						if($EntradaLote!='')
 						{
 							$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
-							$Resp = mysql_query($Consulta);
+							$Resp = mysqli_query($link, $Consulta);
 							if ($Row = mysql_fetch_array($Resp))
 								$correl = $Row[correl];
 							$correl = $correl + 1;
 							
 							   $Consulta = "select leyes,impurezas from age_web.relaciones ";
 							   $Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."' and rut_proveedor='".$CmbProveedor."'";
-							   $Respuesta=mysql_query($Consulta);
+							   $Respuesta=mysqli_query($link, $Consulta);
 							   if($Fila=mysql_fetch_array($Respuesta))
                                {
                                         $TxtLeyes=$Fila[leyes];
@@ -774,7 +774,7 @@
 							//PREGUNTAMOS SI LA GUIA QUE VIENE, YA SE ENCUENTRA INGRESADA EN LA TABLA DETALLE LOTE	
 							$Consulta="select lote from age_web.detalle_lotes where guia_despacho='".$GuiaDes."'";	
 							//Consulta."<br />";
-							$RESP=mysql_query($Consulta);$LotesNo='';
+							$RESP=mysqli_query($link, $Consulta);$LotesNo='';
 							if($FILALote=mysql_fetch_assoc($RESP))
 								$LotesNo=$LotesNo."G~".$GuiaDes."~L~".$EntradaLote."~R~".$Recargo."//".$FILALote[lote];
 							
@@ -792,7 +792,7 @@
 					if(trim($data->sheets[$Hoja]['cells'][$i][3])=='TOTAL LOTE')
 					{	
 						/*$Consulta="select lote,recargo from age_web.detalle_lotes where lote='".$TxtLoteMod."' order by recargo desc";
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';
@@ -800,7 +800,7 @@
 							mysql_query($Actualizar);
 						}
 						$Consulta="select lote,recargo from sipa_web.recepciones where lote='".$TxtLoteMod."' order by recargo desc";
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';
@@ -808,7 +808,7 @@
 							mysql_query($Actualizar);
 						}*/
 						$Consulta="select lote,recargo from age_web.lotes_temp_detalle where lote='".$EntradaLote."' order by recargo desc";
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';
@@ -996,7 +996,7 @@
 						//Actualizar."<br>";
 						mysql_query($Actualizar);
 						$Consulta="select lote,recargo,ceiling(recargo) as RecOrden from age_web.detalle_lotes where lote='".$TxtLoteMod."' order by RecOrden desc";
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';
@@ -1008,7 +1008,7 @@
 						//Actualizar."<br>";
 						mysql_query($Actualizar);
 						$Consulta="select lote,recargo,ceiling(recargo) as RecOrden from sipa_web.recepciones where lote='".$TxtLoteMod."' order by RecOrden desc";
-						$Resp = mysql_query($Consulta);
+						$Resp = mysqli_query($link, $Consulta);
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';

@@ -115,7 +115,7 @@ include("../principal/encabezado.php");
 				$Consulta="SELECT rut,nombres,ape_paterno,ape_materno,nro_tarjeta,observacion from uca_web.uca_personas ";
 				$Consulta.="where estado='A' and rut_empresa='61704000-k' order by nro_tarjeta asc";
 				//echo $Consulta."<br>";
-				$RespPersona=mysql_query($Consulta);
+				$RespPersona=mysqli_query($link, $Consulta);
 				while($FilaPersona=mysql_fetch_array($RespPersona))
 				{
 					$Nombre=strtoupper(substr($FilaPersona["nombres"],0,1)).".".strtoupper($FilaPersona[ape_paterno])." ".strtoupper(substr($FilaPersona[ape_materno],0,1));			
@@ -128,7 +128,7 @@ include("../principal/encabezado.php");
 				$Consulta.="sget_contratos t2 on t1.cod_contrato=t2.cod_contrato and t1.rut_empresa=t2.rut_empresa left join sget_contratistas t3 on t1.rut_empresa=t3.rut_empresa ";
 				$Consulta.="where t1.estado='A' and t1.nro_tarjeta <> '' and t1.nro_tarjeta <> '0' and t1.nro_tarjeta <>'Provisoria' and t1.nro_tarjeta <>'Provisor' order by t1.nro_tarjeta asc";
 				//echo $Consulta."<br>";
-				$RespPersona=mysql_query($Consulta);
+				$RespPersona=mysqli_query($link, $Consulta);
 				while($FilaPersona=mysql_fetch_array($RespPersona))
 				{
 					//$Nombre=strtoupper($FilaPersona[ape_paterno])." ".strtoupper(substr($FilaPersona[ape_materno],0,1))."."." ".strtoupper(substr($FilaPersona["nombres"],0,8));			
@@ -138,7 +138,7 @@ include("../principal/encabezado.php");
 					//echo "<input name='TxtTarj' type='hidden' value='".$FilaPersona[nro_tarjeta]."'><input name='TxtNombre' type='hidden' value='".$Nombre."'>";
 				}
 				$Consulta="SELECT * from sget_carga_ucas order by tarjeta asc";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<input name='TxtTarj' type='hidden' value='".$Fila[tarjeta]."'><input name='TxtNombre' type='hidden' value='".$Fila["nombre"]."'>";

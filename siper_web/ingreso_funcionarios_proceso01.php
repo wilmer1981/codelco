@@ -34,7 +34,7 @@
 				$Eliminar="delete from proyecto_modernizacion.sistemas_por_usuario where rut='".$v."'";
 				mysql_query($Eliminar);
 				$Consulta = "SELECT * from proyecto_modernizacion.sistemas_por_usuario where rut='".$CmbRut."'";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					$Insertar = "INSERT INTO proyecto_modernizacion.sistemas_por_usuario (rut, cod_sistema, nivel) ";

@@ -6,7 +6,7 @@ include("funciones/sget_funciones.php");
 	{
 		case "N"://NUEVO CONTRATO
 			$Consulta="Select * from sget_contratos where cod_contrato='".$TxtContrato."' ";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{
 				if($TxtFechaSolp=='')
@@ -161,7 +161,7 @@ include("funciones/sget_funciones.php");
 				$TxtMontoModCtto=0;	
 				
 			$Consulta="Select ifnull(max(num_modificacion)+1,1) as Cont from sget_modificaciones_contrato where cod_contrato='".$TxtContrato."'";
-			$RespCorr=mysql_query($Consulta);
+			$RespCorr=mysqli_query($link, $Consulta);
 			if($FilaCorr=mysql_fetch_array($RespCorr))
 			{
 				$Correlativo=$FilaCorr[Cont];
@@ -197,7 +197,7 @@ include("funciones/sget_funciones.php");
 			if($Fecha=='')
 				$Fecha=date("Y-m-d G:i:s");
 			/*$Consulta="SELECT count(rut) as Cantidad from sget_personal where cod_contrato='".$TxtContrato."' and estado='A'";
-			$RespCant=mysql_query($Consulta);
+			$RespCant=mysqli_query($link, $Consulta);
 			if($FilaCant=mysql_fetch_array($RespCant))
 			{	$Dota= $FilaCant[Cantidad];
 			}

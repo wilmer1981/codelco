@@ -3,7 +3,7 @@
 	if ($Tipo == "E")
 	{
 		$Consulta = "select * from sec_web.cliente_venta where cod_cliente = '".$Cliente."'";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_assoc($Resp2))
 			$NomCliente = $Fila2["sigla_cliente"];
 		else
@@ -12,7 +12,7 @@
 	else
 	{
 		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3016' and nombre_subclase = '".$Cliente."'";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysql_fetch_assoc($Resp2))
 			$NomCliente = $Fila2["valor_subclase1"];
 		else
@@ -45,7 +45,7 @@
 			$Consulta.= " group by t3.cod_contrato_maquila";
 		}
 	}
-	$Resp2 = mysql_query($Consulta);
+	$Resp2 = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;
 	if ($Fila2 = mysql_fetch_array($Resp2))
 	{
@@ -109,7 +109,7 @@ function Proceso(o)
 	$Consulta.= " and t3.mes_cuota = '".$Mes."'";
 	$Consulta.= " group by t2.num_guia";
 	$Consulta.= " order by t2.corr_enm,t2.fecha_guia, t2.num_guia, peso, t2.patente_guia";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		echo "<tr>\n";

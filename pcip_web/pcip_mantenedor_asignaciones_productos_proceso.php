@@ -19,7 +19,7 @@ if(!isset($Recarga))
 	{
 		$Consulta="select * from pcip_svp_asignaciones_productos t1 ";
 		$Consulta.=" where t1.cod_producto='".$Valores."' ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtCodigo=$Fila["cod_producto"];
@@ -35,7 +35,7 @@ if(!isset($Recarga))
 	else
 	{
 		$Consulta="select max(cod_producto+1) as maximo from pcip_svp_asignaciones_productos ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		//echo $Consulta,
 		if($Fila=mysql_fetch_array($Resp))
 		{
@@ -73,7 +73,7 @@ function Proceso(Opcion)
 		case "N":
 			if(f.CmbAsig.value=='-1')
 			{
-				alert("Debe Seleccionar Asiganción");
+				alert("Debe Seleccionar Asiganciï¿½n");
 				f.CmbAsig.focus();
 				return;
 			}			
@@ -91,7 +91,7 @@ function Proceso(Opcion)
 			}			
 			if(f.TxtOrden.value=='')
 			{
-				alert("Debe Ingresar Nº Orden");
+				alert("Debe Ingresar Nï¿½ Orden");
 				f.TxtOrden.focus();
 				return;
 			}	
@@ -119,7 +119,7 @@ function Proceso(Opcion)
 		case "M":
 			if(f.CmbAsig.value=='-1')
 			{
-				alert("Debe Seleccionar Asiganción");
+				alert("Debe Seleccionar Asiganciï¿½n");
 				f.CmbAsig.focus();
 				return;
 			}			
@@ -137,7 +137,7 @@ function Proceso(Opcion)
 			}			
 			if(f.TxtOrden.value=='')
 			{
-				alert("Debe Ingresar Nº Orden");
+				alert("Debe Ingresar Nï¿½ Orden");
 				f.TxtOrden.focus();
 				return;
 			}	
@@ -223,7 +223,7 @@ if ($Opc=='N')
             <?
 			$CmbMPpc='-1';
 			$Consulta = "select cod_asignacion,nom_asignacion,mostrar_ppc,mostrar_asig from pcip_svp_asignacion order by nom_asignacion ";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbAsig==$FilaTC["cod_asignacion"])
@@ -255,7 +255,7 @@ if ($Opc=='N')
                <option value="-1">Seleccionar</option>
                <?
 				$Consulta="select * from pcip_unidades ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					if($Fila[cod_unidad]==$CmbUnidad)
@@ -277,7 +277,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007'";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMPpc==$FilaTC["cod_subclase"])
@@ -296,7 +296,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbMCuElect==$FilaTC["cod_subclase"])
@@ -314,7 +314,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])

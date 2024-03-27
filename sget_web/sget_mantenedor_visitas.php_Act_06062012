@@ -287,7 +287,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Consulta.=" and hora_entrada<>'0:00:00' and hora_salida<>'0:00:00'";	
 				}
 				$Consulta.=" order by fecha_ingreso desc, apellido_paterno,apellido_materno,nombres";	
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				echo "<input name='CheckVisita' type='hidden'  value=''>";
 				$Cont=1;

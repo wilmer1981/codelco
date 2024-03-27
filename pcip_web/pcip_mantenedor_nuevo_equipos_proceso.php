@@ -15,7 +15,7 @@ if ($Opc=='M')
 {
 	$Consulta="select * from pcip_eec_equipos t1 ";
 	$Consulta.=" where t1.cod_equipo='".$Valores."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["cod_equipo"];
@@ -25,7 +25,7 @@ if ($Opc=='M')
 else
 {
 	$Consulta="select max(cod_equipo+1) as maximo from pcip_eec_equipos ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["maximo"];

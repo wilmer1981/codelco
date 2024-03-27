@@ -141,7 +141,7 @@ function ProcesoDetalle(Datos)
             <option value="T" selected="selected">Todos</option>
             <?
 				$Consulta = "select distinct t2.nombre_subclase,t1.cod_tipo_contr from scop_contratos t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='33002' and t1.cod_tipo_contr=t2.cod_subclase order by t1.cod_tipo_contr ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($Resp))
 				{
 					$NomTipoContrato=$Fila["nom_tipo_contr"];
@@ -159,7 +159,7 @@ function ProcesoDetalle(Datos)
           <option value="T" selected="selected">Todos</option>
           <?
 				$Consulta = "select cod_contrato,descrip_contrato,num_contrato from scop_contratos where cod_tipo_contr='".$CmbTipoContr."' and  vigente='1' order by cod_contrato ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbContrato==$FilaTC["cod_contrato"])
@@ -266,7 +266,7 @@ function ProcesoDetalle(Datos)
 					if($CmbTipoContr!='T')
 						$Consulta.=" and t1.cod_tipo_contr='".$CmbTipoContr."'";
 					$Consulta.=" group by t1.cod_tipo_contr ";	
-					$Resp1=mysql_query($Consulta);
+					$Resp1=mysqli_query($link, $Consulta);
 					while ($Fila1=mysql_fetch_array($Resp1))
 					{						
 						$NomTipoContrato1=$Fila1[nom_tipo_contr];
@@ -563,7 +563,7 @@ CierreEncabezado()
 function DatosEnabalFlujos2($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$ArrFinos,$i)
 {
 	$Consulta="select * from scop_contratos_flujos where cod_contrato='".$Contrato."' and  tipo_inventario='".$i."' and flujo='".$CodFlujo."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		if($Fila[tipo_inventario]=='1')
@@ -584,7 +584,7 @@ function DatosEnabalFlujos2($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$
 		$Consulta="select peso,cobre,plata,oro from scop_datos_enabal where ano='".$AnoFlujo."' and cod_flujo='".$Flujo."' and origen='".$TipoFlujo."' and tipo_mov='".$TipoMovimiento."'";		
 		if($MesFlujo!='T')
 			$Consulta.=" and mes='".$MesFlujo."'";
-		$RespValor=mysql_query($Consulta);
+		$RespValor=mysqli_query($link, $Consulta);
 		while($FilaValor=mysql_fetch_array($RespValor))
 		{
 			$Peso=$FilaValor["peso"];

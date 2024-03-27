@@ -105,7 +105,7 @@
 			$Consulta="select * from proyecto_modernizacion.sub_clase";
 			$Consulta.=" where cod_clase='33007' and nombre_subclase<>''  and not isnull(nombre_subclase) and valor_subclase1='5'";
 			//echo $Consulta."<br>";
-			$RespCorreo=mysql_query($Consulta);
+			$RespCorreo=mysqli_query($link, $Consulta);
 			while($FilaCorreo=mysql_fetch_array($RespCorreo))
 					EnvioCorreo($FilaCorreo["nombre_subclase"],'6',$TipEst,$Dato[2],$Dato[3],$Meses,'VI','','','','','','');	//ENVIO CORREO Imputacion
 
@@ -113,7 +113,7 @@
 			$Consulta="select * from proyecto_modernizacion.sub_clase";
 			$Consulta.=" where cod_clase='33007' and nombre_subclase<>''  and not isnull(nombre_subclase) and valor_subclase1='5'";
 			//echo $Consulta."<br>";
-			$RespCorreo=mysql_query($Consulta);
+			$RespCorreo=mysqli_query($link, $Consulta);
 			if($FilaCorreo=mysql_fetch_array($RespCorreo))
 				$Envio='S';
 

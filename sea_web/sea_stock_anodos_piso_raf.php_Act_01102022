@@ -486,7 +486,7 @@ body {
 						
 						$apellido = substr($cmbproductos,2,2);
 						$Consulta="SELECT * from proyecto_modernizacion.subproducto where cod_producto = 16 and ap_subproducto = $apellido"; 
-						$rs = mysql_query($Consulta);
+						$rs = mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($rs))
 						{
 							if ($cmbsubproducto == '16'.$Fila["cod_subproducto"])
@@ -502,7 +502,7 @@ body {
 					if($codigo == 18)
 					{
 						$Consulta="SELECT * from proyecto_modernizacion.subproducto where cod_producto = 18 and cod_subproducto in(2,4,5,6,8,9,10,16,17,18,46,49)"; 
-						$rs = mysql_query($Consulta);
+						$rs = mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($rs))
 						{
 							if ($cmbsubproducto == '18'.$Fila["cod_subproducto"])
@@ -519,7 +519,7 @@ body {
 					if($codigo == 48)
 					{
 						$Consulta="SELECT * from proyecto_modernizacion.subproducto where cod_producto = 48 and cod_subproducto in(1,2,3,7,10)"; 
-						$rs = mysql_query($Consulta);
+						$rs = mysqli_query($link, $Consulta);
 						while ($Fila=mysql_fetch_array($rs))
 						{
 							if ($cmbsubproducto == '48'.$Fila["cod_subproducto"])

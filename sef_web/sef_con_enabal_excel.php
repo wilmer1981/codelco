@@ -119,7 +119,7 @@
 			$Consulta.= " where cod_equipo ".$EquipoSef." ";
 	}
 	$Consulta.= "and cod_producto ".$ProductoSef;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$PesoBase = 0;
 	if ($Fila = mysql_fetch_array($Respuesta))
 		$PesoBase = $Fila["Peso_base"];	
@@ -147,7 +147,7 @@
 				$Consulta.= " and (t2.cod_leyes = '02')";	
 			$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 			$Consulta.= " order by t1.id_muestra, t2.cod_leyes";
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			while ($Fila2 = mysql_fetch_array($Resp2))
 			{				
 				switch ($Fila2["cod_leyes"])
@@ -209,7 +209,7 @@
 		}	
 		//NUMERO SEMANA
 		$Consulta = "SELECT week('".$FechaAux."') as num_semana";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		$Fila2 = mysql_fetch_array($Resp2);
 		$NumSemana = $Fila2["num_semana"];			
 		//LEYES SEMANALES				
@@ -231,7 +231,7 @@
 			$Consulta.= " and (t2.cod_leyes = '02' or t2.cod_leyes = '04' or t2.cod_leyes = '05')";						
 		$Consulta.= " and (t2.valor <> '' and NOT isnull(t2.valor))";
 		$Consulta.= " order by t1.id_muestra, t2.cod_leyes";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{	
 			for ($j=$PriDia;$j<=$UltDia;$j++)	
@@ -376,7 +376,7 @@
 		$Consulta.= " and origen ".$Origen;
 		$Consulta.= " and destino ".$Destino;
 		$Consulta.= " group by Fecha";
-		$Respuesta = mysql_query($Consulta);		
+		$Respuesta = mysqli_query($link, $Consulta);		
 		$i=0;		
 		while ($Fila = mysql_fetch_array($Respuesta))
 		{			
@@ -392,7 +392,7 @@
 					$Consulta.= " and origen IN(1,3)";
 					$Consulta.= " and destino in(7,8,9)";
 					$Consulta.= " and fecha = '".$Fila["Fecha"]."'";
-					$Resp2 = mysql_query($Consulta);
+					$Resp2 = mysqli_query($link, $Consulta);
 					if ($Fila2 = mysql_fetch_array($Resp2))
 					{
 						$Descuento = $Fila2["Cantidad_mov"];
@@ -408,7 +408,7 @@
 					$Consulta.= " and origen = '3'";
 					$Consulta.= " and destino = '11'";
 					$Consulta.= " group by Fecha";
-					$Resp2 = mysql_query($Consulta);
+					$Resp2 = mysqli_query($link, $Consulta);
 					if ($Fila2 = mysql_fetch_array($Resp2))
 					{
 						$Descuento = $Descuento + $Fila2["Cantidad_mov"];
@@ -424,7 +424,7 @@
 					$Consulta.= " and origen = '1'";
 					$Consulta.= " and destino = '11'";
 					$Consulta.= " group by Fecha";
-					$Resp2 = mysql_query($Consulta);
+					$Resp2 = mysqli_query($link, $Consulta);
 					if ($Fila2 = mysql_fetch_array($Resp2))
 					{
 						$Descuento = $Descuento + $Fila2["Cantidad_mov"];
@@ -442,7 +442,7 @@
 					$Consulta.= " and destino = '5'";
 					//$Consulta.= " and turno = '".$Fila["Turno"]."'";
 					$Consulta.= " group by Fecha";
-					$Resp2 = mysql_query($Consulta);
+					$Resp2 = mysqli_query($link, $Consulta);
 					if ($Fila2 = mysql_fetch_array($Resp2))
 					{
 						$Descuento = $Fila2["Cantidad_mov"];

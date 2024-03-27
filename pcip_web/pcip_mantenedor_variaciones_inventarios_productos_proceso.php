@@ -16,7 +16,7 @@ if ($Opc=='M')
 	$Consulta="select * from pcip_svp_productos_inventarios t1 ";
 	$Consulta.=" where t1.cod_producto='".$Valores."' ";
 	//echo $Consulta;
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["cod_producto"];
@@ -27,7 +27,7 @@ if ($Opc=='M')
 else
 {
 	$Consulta="select max(cod_producto+1) as maximo from pcip_svp_productos_inventarios ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtCodigo=$Fila["maximo"];
@@ -166,7 +166,7 @@ if ($Opc=='N')
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])

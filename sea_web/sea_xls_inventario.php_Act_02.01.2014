@@ -6,7 +6,7 @@
 //----------AGREGADO POR RENE 26-09-2013-----
 	//consultamos el horario que se encuentra seleccionado en a subclase
 	$Consulta="SELECT valor_subclase2,valor_subclase3 from proyecto_modernizacion.sub_clase where cod_clase='2018' and valor_subclase1='S'";
-	$R=mysql_query($Consulta);$Hora1='08:00:00';$Hora2='07:59:59';
+	$R=mysqli_query($link, $Consulta);$Hora1='08:00:00';$Hora2='07:59:59';
 	if($F=mysql_fetch_assoc($R))
 	{	$Hora1=$F[valor_subclase2];
 		$Hora2=$F["valor_subclase3"];}	

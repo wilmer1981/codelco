@@ -343,7 +343,7 @@ body {
 		  	{
 				$apellido = substr($cmbtipo,2,2);
 				$Consulta="SELECT * from subproducto where cod_producto = 16 and ap_subproducto = $apellido"; 
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($rs))
 				{
 					if ($cmbproducto == '16'.$Fila["cod_subproducto"])
@@ -363,7 +363,7 @@ body {
 		  	if($codigo == 18)
 		  	{
 				$Consulta="SELECT * from subproducto where cod_producto = 18 and cod_subproducto in(2,4,5,6,8,9,10,16,17,46,49,50,51,52,53,54,55,18)"; 
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($rs))
 				{
 					if ($cmbproducto == '18'.$Fila["cod_subproducto"])
@@ -382,7 +382,7 @@ body {
 		  	if($codigo == 48)
 		  	{
 				$Consulta="SELECT * from subproducto where cod_producto = 48 and cod_subproducto in(1,2,3,6,7,10,11)";
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($rs))
 				{
 					if ($cmbproducto == '48'.$Fila["cod_subproducto"])
@@ -402,7 +402,7 @@ body {
 		  	if($codigo == 66)
 		  	{
 				$Consulta="SELECT * from subproducto where cod_producto = 66 ";
-				$rs = mysql_query($Consulta);
+				$rs = mysqli_query($link, $Consulta);
 				while ($Fila=mysql_fetch_array($rs))
 				{
 					if ($cmbproducto == '66'.$Fila["cod_subproducto"])
@@ -513,7 +513,7 @@ body {
 				   $Consulta = "SELECT distinct hornada FROM sea_web.movimientos WHERE cod_producto = 16 AND cod_subproducto = '".$subproducto."' AND fecha_movimiento <= '".$FechaC."'";
 				   $Consulta.=" order by hornada ";
 				   $A1 = $Consulta;
-				   $rs = mysql_query($Consulta);
+				   $rs = mysqli_query($link, $Consulta);
 				   while($fila = mysql_fetch_array($rs))
 				   {			   
 						$hornada = substr($fila[hornada],2,8);
@@ -524,7 +524,7 @@ body {
 						$unid_recep = 0;
 						$unid_trasp = 0;
 						$saldo_unidad = 0;
-						$rs9 = mysql_query($Consulta);
+						$rs9 = mysqli_query($link, $Consulta);
 						if($row9 = mysql_fetch_array($rs9))
 						{
 							$unid_recep = $row9[unid];
@@ -533,7 +533,7 @@ body {
 						$Consulta = "SELECT ifnull(SUM(unidades),0) as unid, ifnull(SUM(peso),0) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 16 AND hornada = '".$fila[hornada]."'";
 						$Consulta.=" and cod_subproducto = '".$subproducto."' and fecha_movimiento <= '".$FechaC."'";
 						 $A3 = $Consulta;
-						$rs8 = mysql_query($Consulta);
+						$rs8 = mysqli_query($link, $Consulta);
 						if($row8 = mysql_fetch_array($rs8))
 						{
 							$unid_trasp = $row8[unid];
@@ -559,13 +559,13 @@ body {
 				   echo'<option value="0" SELECTed>Seleccionar</option>';
 				   $Consulta = "SELECT distinct hornada FROM sec_web.traspaso WHERE cod_producto = 18 AND cod_subproducto = '$subproducto' AND fecha_traspaso <= '$fecha' and sw = 1";
        				//echo $Consulta;
-				   $rs = mysql_query($Consulta);
+				   $rs = mysqli_query($link, $Consulta);
 				   while($fila = mysql_fetch_array($rs))
 				   {			   
 						//Catodos
 						$unid_cat = 0;
 						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sec_web.traspaso WHERE cod_producto  = 18 AND hornada = $fila[hornada]";
-						$rs9 = mysql_query($Consulta);
+						$rs9 = mysqli_query($link, $Consulta);
 						if($row9 = mysql_fetch_array($rs9))
 						{
 							$unid_cat = $row9[unid];
@@ -574,7 +574,7 @@ body {
 						//Trasp-Benef
 						$unid_trasp = 0;
 						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 18 AND hornada = $fila[hornada]";
-						$rs8 = mysql_query($Consulta);
+						$rs8 = mysqli_query($link, $Consulta);
 						if($row8 = mysql_fetch_array($rs8))
 						{
 							$unid_trasp = $row8[unid];
@@ -609,13 +609,13 @@ body {
 				   echo'<SELECT name="txthornada" onChange="Buscar(this.form,2)">';
 				   echo'<option value="0" SELECTed>Seleccionar</option>';
 				   $Consulta = "SELECT distinct hornada FROM sec_web.traspaso WHERE cod_producto = 48 AND cod_subproducto = $subproducto AND fecha_traspaso <= '$fecha' and sw = 1";
-				   $rs = mysql_query($Consulta);
+				   $rs = mysqli_query($link, $Consulta);
 				   while($fila = mysql_fetch_array($rs))
 				   {			   
 						//Laminas
 						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sec_web.traspaso WHERE cod_producto  = 48 AND hornada = $fila[hornada]";
 					
-						$rs9 = mysql_query($Consulta);
+						$rs9 = mysqli_query($link, $Consulta);
 						if($row9 = mysql_fetch_array($rs9))
 						{
 							$unid_cat = $row9[unid];
@@ -623,7 +623,7 @@ body {
 						//Trasp-Benef
 						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 48 AND hornada = $fila[hornada]";
 						
-						$rs8 = mysql_query($Consulta);
+						$rs8 = mysqli_query($link, $Consulta);
 						if($row8 = mysql_fetch_array($rs8))
 						{
 							$unid_trasp = $row8[unid];
@@ -651,20 +651,20 @@ body {
 				   echo'<SELECT name="txthornada" onChange="Buscar(this.form,2)">';
 				   echo'<option value="0" SELECTed>Seleccionar</option>';
 				   $Consulta = "SELECT distinct hornada FROM sec_web.traspaso WHERE cod_producto = 66 AND cod_subproducto = $subproducto AND fecha_traspaso <= '$fecha' and sw = 1";
-				   $rs = mysql_query($Consulta);
+				   $rs = mysqli_query($link, $Consulta);
 				   while($fila = mysql_fetch_array($rs))
 				   {			   
 						//Laminas
 						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sec_web.traspaso WHERE cod_producto  = 66 AND hornada = $fila[hornada]";
 
-						$rs9 = mysql_query($Consulta);
+						$rs9 = mysqli_query($link, $Consulta);
 						if($row9 = mysql_fetch_array($rs9))
 						{
 							$unid_cat = $row9[unid];
 						}												
 						//Trasp-Benef
 						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 66 AND hornada = $fila[hornada]";
-						$rs8 = mysql_query($Consulta);
+						$rs8 = mysqli_query($link, $Consulta);
 						if($row8 = mysql_fetch_array($rs8))
 						{
 							$unid_trasp = $row8[unid];

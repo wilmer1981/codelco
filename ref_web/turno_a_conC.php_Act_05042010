@@ -406,7 +406,7 @@ function detalle_anodos(fecha,grupo)
 	$Consulta.= " where CONCAT(t1.fecha_produccion,' ',t1.hora) BETWEEN '".$Fechainiturno." 08:00:00' and '".$Fechafturno." 07:59:59'";
 	$Consulta = $Consulta." and t1.cod_producto='18'  and t1.cod_subproducto='1' group by t1.cod_grupo order by t1.fecha_produccion,t1.hora";
 
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$total_prod=0;
 	$total_scrap=0;
 	$total_peso_anodos=0;
@@ -574,7 +574,7 @@ function detalle_anodos(fecha,grupo)
 			$Consulta = "select ifnull(cubas_descobrizacion,0) as cant_cuba, ifnull(num_cubas_tot,0) as num_cubas, ifnull(num_catodos_celdas,1) as num_catodos from ref_web.grupo_electrolitico2 ";
 			$Consulta = $Consulta."where cod_grupo = '".$Fila["cod_grupo"]."' and  fecha = '$fecha_aux'";
 			//echo "con".$Consulta;
-			$rs1 = mysql_query($Consulta);
+			$rs1 = mysqli_query($link, $Consulta);
 			$row1 = mysql_fetch_array($rs1);
 			//echo "con".$Fila["cod_grupo"];
 			echo "<td align='center'>".$row1[cant_cuba]."&nbsp</td>\n";
@@ -586,7 +586,7 @@ function detalle_anodos(fecha,grupo)
 			$Consulta =$Consulta."ifnull(sum(cordon_superior),0) as cs, ifnull(sum(cordon_lateral),0) as cl, ifnull(sum(otros),0) as ot from cal_web.rechazo_catodos as t1 " ;
 			$Consulta = $Consulta."where t1.fecha = '".$fecha11."' and t1.grupo = '".$Fila["cod_grupo"]."'";
 			//echo "otro".$Consulta;
-			$Respuesta2 = mysql_query($Consulta);
+			$Respuesta2 = mysqli_query($link, $Consulta);
 			$Fila2 = mysql_fetch_array($Respuesta2);
 			$total_prod=$total_prod+$Fila_produccion["produccion"];
 			$total_scrap=$total_scrap+$p;

@@ -107,7 +107,7 @@ function Proceso(opc)
 			<option value="S">SELECCIONAR</option>
 <?
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '12006' order by cod_subclase ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($TipoMolde == $Fila["cod_subclase"])
@@ -132,7 +132,7 @@ Peso	Est.
 <?			
 $Consulta = "select * from proyecto_modernizacion.sub_clase ";
 $Consulta.= " where cod_clase='12006' and cod_subclase = '".$TipoMolde."'";
-$Resp = mysql_query($Consulta);
+$Resp = mysqli_query($link, $Consulta);
 if ($Fila = mysql_fetch_array($Resp))
 {
 	$Peso = $Fila["valor_subclase1"];
@@ -167,7 +167,7 @@ $Consulta.= " and t1.campo1='".$LetraC."'";
 $Consulta.= " and t1.tipo_report='1'";
 $Consulta.= " and t1.seccion_report='10'";
 $Consulta.= " order by t1.campo2";
-$Resp = mysql_query($Consulta);
+$Resp = mysqli_query($link, $Consulta);
 $TotalCant=0;
 $TotalPeso=0;
 while ($Fila = mysql_fetch_array($Resp))

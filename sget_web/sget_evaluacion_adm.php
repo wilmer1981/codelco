@@ -111,7 +111,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" class="NoSelec">Todos</option>
       <?
 	  $Consulta = "SELECT * from sget_contratistas order by razon_social ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEmpresa==$FilaTC["rut_empresa"])
@@ -166,7 +166,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.= " and upper(t1.descripcion) like ('%".strtoupper(trim($TxtDescripcion))."%') ";
 	if($CmbEmpresa != "-1")
 		$Consulta.="  and  t1.rut_empresa='".$CmbEmpresa."' ";
-	$RespMod=mysql_query($Consulta);
+	$RespMod=mysqli_query($link, $Consulta);
 	echo "<input type='hidden' name='CheckCtto'>";
 	while($FilaMod=mysql_fetch_array($RespMod))
 	{
@@ -197,7 +197,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	    <?
 		$Consulta="SELECT nro_evaluacion,fecha from sget_evaluacion_adm where cod_contrato='".$FilaMod["cod_contrato"]."' group by nro_evaluacion";
 		//echo $Consulta."<br>";
-		$RespEva=mysql_query($Consulta);
+		$RespEva=mysqli_query($link, $Consulta);
 		$ContTot=0;$SumNotaTot=0;
 		while($FilaEva=mysql_fetch_array($RespEva))
 		{
@@ -207,7 +207,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta="SELECT t1.fecha,t2.nombre_subclase as nom_eva,t3.nombre_subclase as nom_nota,t1.cod_nota from sget_evaluacion_adm t1 inner join proyecto_modernizacion.sub_clase t2 on t1.cod_evaluacion=t2.cod_subclase and t2.cod_clase='30012' ";
 			$Consulta.="inner join proyecto_modernizacion.sub_clase t3 on t1.cod_nota=t3.cod_subclase and t3.cod_clase='30013' where cod_contrato='".$FilaMod["cod_contrato"]."' and nro_evaluacion='".$FilaEva[nro_evaluacion]."'";
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($Resp))
 			{
 				$Codigos=$FilaMod["cod_contrato"]."~~".$FilaEva[nro_evaluacion];
@@ -220,7 +220,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				</tr>
 				<?
 				$SumNota=0;$Cont=0;$Item=1;
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					

@@ -178,7 +178,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			 {
 				  //ACA EMPIEZA LA PARTE DE LOS PRODUCTOS				 	
 				  $Consulta="select cod_subclase,nombre_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='31049' order by cod_subclase";				  
-				  $Resp=mysql_query($Consulta);
+				  $Resp=mysqli_query($link, $Consulta);
 				  //echo $Consulta."<br>";
 				  while($Fila=mysql_fetch_array($Resp))
 				  {	
@@ -254,7 +254,7 @@ function DatosProyectadosSVP($Producto,$Proveedor,$Ano,$Mes)
    $Consulta="select Vporden,Vptm,VPmaterial,Vptipinv,VPordenrel,Vpordes from pcip_inp_asignacion";
    $Consulta.=" where cod_producto='".$Producto."' and cod_proveedor='".$Proveedor."' and dato='1'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
      $Orden=$Fila[Vporden];
@@ -283,7 +283,7 @@ function DatosProyectadosPPC($Producto,$Proveedor,$Ano,$Mes)
    $Consulta="select Vporden,Vptm,VPmaterial,Vptipinv from pcip_inp_asignacion";
    $Consulta.=" where cod_producto='".$Producto."' and cod_proveedor='".$Proveedor."' and dato='2'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    while($Fila=mysql_fetch_array($Resp))
    {
 		$Asignacion=$Fila[Vporden];
@@ -312,7 +312,7 @@ function DatosProyectadosTratam($Ano,$Mes,$Area,$Division,$Producto,$Tipo)
    $Consulta="select valor_real as ValorReal,valor_presupuestado as ValorPresupuestado from pcip_inp_tratam";
    $Consulta.=" where ano='".$Ano."' and mes='".$Mes."' and nom_area='".$Area."' and nom_division='".$Division."' and cod_producto='".$Producto."'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
     $Datos1=$Fila[ValorReal];

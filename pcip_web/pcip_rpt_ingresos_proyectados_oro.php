@@ -655,7 +655,7 @@ if($Buscar=='S')
 					}
 					?>
 					<tr>
-					<td colspan="25" rowspan="1" align="left" class="formulario2">Ánodos y Blíster</td>					
+					<td colspan="25" rowspan="1" align="left" class="formulario2">ï¿½nodos y Blï¿½ster</td>					
 					</tr>
 					<tr>
 					<td colspan="25" rowspan="1" align="left" class="formulario2">Pagable</td>					
@@ -980,7 +980,7 @@ function DatosProyectados($Producto,$Proveedor,$Ano,$Mes)
    $Consulta="select Vporden,Vptm,VPmaterial,Vptipinv,VPordenrel,Vpordes from pcip_inp_asignacion";
    $Consulta.=" where cod_producto='".$Producto."' and cod_proveedor='".$Proveedor."'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
      $Orden=$Fila[Vporden];
@@ -991,7 +991,7 @@ function DatosProyectados($Producto,$Proveedor,$Ano,$Mes)
      $Ordes=$Fila[Vpordes]; 	 	 	 	 
    }       
 	$Consulta1 =" select VPcantidad from pcip_svp_valorizacproduccion ";
-	$Consulta1.=" where VPorden='".$Orden."' and VPtm='".$Tm."' and VPmaterial='".$Material."' and VPtipinv='".$Tipinv."' and VPordenrel='".$OrdenRel."' and VPordes='".$Ordes."' and VPaño='".$Ano."' and VPmes='".$Mes."'";
+	$Consulta1.=" where VPorden='".$Orden."' and VPtm='".$Tm."' and VPmaterial='".$Material."' and VPtipinv='".$Tipinv."' and VPordenrel='".$OrdenRel."' and VPordes='".$Ordes."' and VPaï¿½o='".$Ano."' and VPmes='".$Mes."'";
 	//echo $Consulta1."<br>";
 	$RespAux=mysql_query($Consulta1);
 	if($FilaAux=mysql_fetch_array($RespAux))
@@ -1009,7 +1009,7 @@ function DatosProyectadosTratam($Ano,$Mes,$Area,$Division,$Producto,$Tipo)
    $Consulta="select valor_real as ValorReal,valor_presupuestado as ValorPresupuestado from pcip_inp_tratam";
    $Consulta.=" where ano='".$Ano."' and mes='".$Mes."' and nom_area='".$Area."' and nom_division='".$Division."' and cod_producto='".$Producto."'";
    //echo $Consulta."<br>";
-   $Resp=mysql_query($Consulta);  
+   $Resp=mysqli_query($link, $Consulta);  
    if($Fila=mysql_fetch_array($Resp))
    {
     $Datos1=$Fila[ValorReal];

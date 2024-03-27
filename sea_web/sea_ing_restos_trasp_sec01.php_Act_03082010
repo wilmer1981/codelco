@@ -366,7 +366,7 @@ if($Proceso == "EM")
 	{
 		$Consulta="SELECT * from sea_web.movimientos where tipo_movimiento='10' and cod_producto='19' and cod_subproducto='".$ProdSubProd."'";
 		$Consulta.=" and hornada = '".$Hornada."' and fecha_movimiento = '".$FechaMov."' and campo2 = '".$Grupo."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$Eliminar1="delete from sea_web.movimientos where tipo_movimiento='10' and cod_producto='19' and cod_subproducto='".$ProdSubProd."'";

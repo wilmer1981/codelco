@@ -13,7 +13,7 @@
 		$Consulta.= " WHERE t2.cod_producto = '34' AND t2.cod_subproducto = '2'";
 		$Consulta.= " and t1.num_barra='".$NumLote."'";
 		$Consulta.= " ORDER BY t3.cod_leyes ";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{
@@ -43,7 +43,7 @@
 		$Consulta.= " AND t2.num_electrolisis = '".$NumLote."'";
 		$Consulta.= " AND t1.num_acta = '".$NumActa."'";
 		$Consulta.= " ORDER BY t2.num_electrolisis ";
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{			
@@ -80,7 +80,7 @@
 		$Consulta.= " ORDER BY t3.cod_leyes";	
 		//echo "cc".$Consulta;
 		$Encontro=false;
-		$Resp2 = mysql_query($Consulta);			
+		$Resp2 = mysqli_query($link, $Consulta);			
 		while ($Fila2 = mysql_fetch_array($Resp2))
 		{
 			$Encontro=true;
@@ -101,13 +101,13 @@
 			$Consulta.= " (cod_producto='28' and cod_subproducto='1') or ";
 			$Consulta.= " (cod_producto='28' and cod_subproducto='6'))";
 			$Consulta.= " order by lpad(cod_producto,3,'0'), lpad(cod_subproducto,3,'0')";
-			$RespAux = mysql_query($Consulta);	
+			$RespAux = mysqli_query($link, $Consulta);	
 			while ($FilaAux = mysql_fetch_array($RespAux))
 			{
 				$Consulta = " select t1.cod_leyes, t1.abreviatura ";
 				$Consulta.= " FROM proyecto_modernizacion.leyes t1 where t1.cod_leyes in('02','04','05') ";
 				$Consulta.= " ORDER BY t1.cod_leyes";					
-				$Resp2 = mysql_query($Consulta);			
+				$Resp2 = mysqli_query($link, $Consulta);			
 				while ($Fila2 = mysql_fetch_array($Resp2))
 				{
 					$ArrLeyes[$Fila2["cod_leyes"]]["cod_leyes"] = $Fila2["cod_leyes"];
@@ -183,7 +183,7 @@ body {
 		$Consulta = "select * from pmn_web.embarque_oro ";
 		$Consulta.= " where fecha between '".$AnoAux."-".$MesAux."-01' and '".$AnoAux."-".$MesAux."-31'";
 		$Consulta.= " and num_barra='".$NumLote."'";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		$i=0;
 		while ($FilaAux = mysql_fetch_array($RespAux))
 		{
@@ -202,7 +202,7 @@ body {
 			$Consulta.= " WHERE t2.cod_producto = '34' AND t2.cod_subproducto = '2'";
 			$Consulta.= " and t1.num_barra='".$NumLote."'";
 			$Consulta.= " ORDER BY t3.cod_leyes ";
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			$i=1;
 			//echo $Consulta;
 			while ($Fila2 = mysql_fetch_array($Resp2))
@@ -250,7 +250,7 @@ body {
 		$Consulta.= " AND t2.num_electrolisis = '".$NumLote."'";
 		$Consulta.= " AND t1.num_acta = '".$NumActa."'";
 		$Consulta.= " ORDER BY t2.num_electrolisis ";
-		$RespAux = mysql_query($Consulta);
+		$RespAux = mysqli_query($link, $Consulta);
 		//echo $Consulta;
 		$ContCajas=0;
 		while ($FilaAux = mysql_fetch_array($RespAux))
@@ -274,7 +274,7 @@ body {
 			$Consulta.= " AND t2.num_electrolisis = '".$FilaAux["num_electrolisis"]."'";
 			$Consulta.= " AND t1.num_acta = '".$NumActa."'";
 			$Consulta.= " ORDER BY t2.num_electrolisis ";
-			$Resp2 = mysql_query($Consulta);
+			$Resp2 = mysqli_query($link, $Consulta);
 			//echo $Consulta;
 			while ($Fila2 = mysql_fetch_array($Resp2))
 			{
@@ -354,7 +354,7 @@ body {
 		$Consulta.= " ORDER BY t3.cod_leyes";			
 		$Encontro=false;
 
-		$Resp2 = mysql_query($Consulta);
+		$Resp2 = mysqli_query($link, $Consulta);
 			
 
 		while ($Fila2 = mysql_fetch_array($Resp2))
@@ -414,7 +414,7 @@ body {
 			$Consulta.= " (cod_producto='28' and cod_subproducto='1'))";
 			$Consulta.= " order by lpad(cod_producto,3,'0'), lpad(cod_subproducto,3,'0')";
 			//echo $Consulta;
-			$RespAux = mysql_query($Consulta);	
+			$RespAux = mysqli_query($link, $Consulta);	
 			while ($FilaAux = mysql_fetch_array($RespAux))
 			{
 				$FechaVenta = $FilaAux["fecha"];

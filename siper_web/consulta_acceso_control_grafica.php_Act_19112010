@@ -21,7 +21,7 @@ if($CmbM!='T')
 	$Consulta.=" and t1.cod_pantalla='".$CmbM."'";
 $Consulta.=" group by t1.cod_pantalla order by t1.descripcion ";
 //echo $Consulta."<br>";
-$Respuesta=mysql_query($Consulta);
+$Respuesta=mysqli_query($link, $Consulta);
 while($Fila=mysql_fetch_array($Respuesta))
 {	
 	$ArregloNom[$Cont]=$Fila["descripcion"];

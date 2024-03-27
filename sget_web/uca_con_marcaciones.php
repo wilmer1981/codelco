@@ -114,7 +114,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($TxtBuscaEmp!=''&&$BuscarEmp=='S')
 					$Consulta.= "and  t1.razon_social like '%".$TxtBuscaEmp."%' ";
 				$Consulta.= "order by t1.razon_social asc";
-				$Resp=mysql_query($Consulta); 
+				$Resp=mysqli_query($link, $Consulta); 
 				while ($Fila=mysql_fetch_array($Resp)) 
 				{ 
 					if ($CmbEmpresa == $Fila["rut_empresa"])
@@ -135,7 +135,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta = "SELECT * from sget_contratos  ";
 				$Consulta.= " where rut_empresa='".$CmbEmpresa."' ";
 				$Consulta.= " order by cod_contrato asc";
-				$Resp=mysql_query($Consulta); 
+				$Resp=mysqli_query($link, $Consulta); 
 				while ($Fila=mysql_fetch_array($Resp)) 
 				{ 
 					if ($FechaActual > $Fila["fecha_termino"]){
@@ -149,7 +149,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				}
 				//CONTRATOS SUBCONTRATISTA
 				$Consulta="SELECT t1.cod_contrato,t2.fecha_termino,t2.descripcion from sget_sub_contratistas t1 inner join sget_contratos t2 on t1.cod_contrato=t2.cod_contrato where t1.rut_empresa='".$CmbEmpresa."' and t1.rut_empresa!='' order by t2.fecha_termino desc";
-				$RespCtto=mysql_query($Consulta);
+				$RespCtto=mysqli_query($link, $Consulta);
 				while($FilaCtto=mysql_fetch_array($RespCtto))
 				{
 					if ($FechaActual > $FilaCtto["fecha_termino"]){
@@ -176,7 +176,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$Consulta.= " and t1.cod_contrato='".$CmbContrato."' ";
 				$Consulta.= " and t1.nro_tarjeta<>'00000000' and estado<>'I' ";
 				$Consulta.= " order by t1.ape_paterno, t1.ape_materno, t1.nombres";
-				$Resp=mysql_query($Consulta); 
+				$Resp=mysqli_query($link, $Consulta); 
 				$var1 = $Consulta;
 				while ($Fila=mysql_fetch_array($Resp)) 
 				{

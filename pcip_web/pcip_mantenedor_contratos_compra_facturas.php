@@ -104,7 +104,7 @@ function Proceso(Opc)
 			  <option value="-1" selected="selected">Todos</option>
 			  <?
 				$Consulta = "select cod_contrato from pcip_fac_contratos_compra order by cod_contrato ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbContrato==$FilaTC["cod_contrato"])
@@ -121,7 +121,7 @@ function Proceso(Opc)
 			  <?
 				$Consulta = "select distinct(t1.rut_proveedor),t2.nom_proveedor from pcip_fac_contratos_compra t1 inner join";
 				$Consulta.= " pcip_fac_proveedores t2 where t1.rut_proveedor=t2.rut_proveedor order by rut_proveedor ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbProveedor==$FilaTC["rut_proveedor"])
@@ -136,7 +136,7 @@ function Proceso(Opc)
             <option value="-1" class="NoSelec">Todos</option>
             <?
 						$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31017' ";			
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						while ($FilaTC=mysql_fetch_array($Resp))
 						{
 							if ($CmbTipoContrato==$FilaTC["cod_subclase"])
@@ -153,7 +153,7 @@ function Proceso(Opc)
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 				$Consulta = "select cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='31007' ";			
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbVig==$FilaTC["cod_subclase"])
@@ -220,7 +220,7 @@ if($Buscar=='S')
 	if($CmbTipoContrato!='-1')
 		$Consulta.=" and t1.tipo_contrato='".$CmbTipoContrato."'";				
 	$Consulta.= " order by t1.cod_producto ";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	echo "<input name='CheckTipoDoc' type='hidden'  value=''>";
 	

@@ -2,7 +2,7 @@
 
 	$Valores2=explode("~",$Valores);
 	$Consulta="select * from scop_carry_cost_proceso where  corr='".$Valores2[0]."' and parcializacion='".$Valores2[1]."' and cod_ley='".$Valores2[2]."' and cod_tipo_titulo='2'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$Cod=$Fila["corr"]."~".$Fila[parcializacion]."~".$Fila["cod_ley"];

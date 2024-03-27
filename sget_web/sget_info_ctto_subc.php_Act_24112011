@@ -12,7 +12,7 @@
 <?
  	$Consulta=" SELECT t1.*,t2.razon_social from sget_sub_contratistas t1 left join sget_contratistas t2 on t1.rut_empresa=t2.rut_empresa";
 	$Consulta.="  where t1.cod_contrato ='".$Ctto."'";
-	$RespModificaciones=mysql_query($Consulta);
+	$RespModificaciones=mysqli_query($link, $Consulta);
 	while($FilaModificaciones=mysql_fetch_array($RespModificaciones))
 	{
 

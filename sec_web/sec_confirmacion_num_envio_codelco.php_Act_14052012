@@ -15,11 +15,11 @@
 		$FechaSantiago=$Datos2[5];
 		$FechaEmbarqueVen=$Datos2[6];
 		$Consulta="select nombre from sec_web.prestador where cod_prestador_servicio='".$CodAgAduanero."'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Respuesta);
 		$NombreAgAduanero=$Fila["nombre"];
 		$Consulta="select nombre from sec_web.prestador where cod_prestador_servicio='".$CodAgEstiva."'";
-		$Respuesta=mysql_query($Consulta);
+		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysql_fetch_array($Respuesta);
 		$NombreAgEstiva=$Fila["nombre"];
 	}		
@@ -404,7 +404,7 @@ Sin Envio </td>
 				$Consulta.=" and t3.disponibilidad='T' and  isnull(t4.corr_enm) order by t1.corr_codelco,t4.num_envio";			
 		//		echo "POLY".$Consulta;
 				}
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			//echo "CCC".$Consulta;
 			echo "<input type='hidden' name='OptSeleccionar'><input type='hidden' name='NumEnvioO'><input type='hidden' name='CodelcoO'><input type='hidden' name='FaxO'>";
 			while ($Fila=mysql_fetch_array($Respuesta))
@@ -423,7 +423,7 @@ Sin Envio </td>
 					$Consulta=$Consulta." where t1.corr_enm='".$Fila["corr_codelco"]."' and t1.cod_estado='a' and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_estado = t2.cod_estado  group by t1.corr_enm";
 				}	
 			//	echo "DDDD".$Consulta;
-				$Respuesta2=mysql_query($Consulta);
+				$Respuesta2=mysqli_query($link, $Consulta);
 				$Fila2=mysql_fetch_array($Respuesta2);
 				$Consulta="select count(*) as cantpaquetes from sec_web.lote_catodo";
 				if($Tipo=="ConEnvio")
@@ -434,7 +434,7 @@ Sin Envio </td>
 				{
 					$Consulta=$Consulta." where corr_enm=".$Fila["corr_codelco"]."  and cod_estado='a'";
 				}	
-				$Respuesta3=mysql_query($Consulta);
+				$Respuesta3=mysqli_query($link, $Consulta);
 			//	echo "CCppppp".$Consulta;
 				$Fila3=mysql_fetch_array($Respuesta3);
 				$MostrarBoton=true;

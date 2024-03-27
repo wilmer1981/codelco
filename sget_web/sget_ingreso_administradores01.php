@@ -27,7 +27,7 @@
 				$CmbAdmContratista01=$Rut;
 			}
 			$Consulta="Select * from $tb where $pk='".$Rut."'";
-			$RespMod=mysql_query($Consulta);
+			$RespMod=mysqli_query($link, $Consulta);
 			if($FilaMod=mysql_fetch_array($RespMod))
 			{
 				$Update="UPDATE $tb set nombres= '".strtoupper($TxtNombres)."',ape_paterno='".strtoupper($TxtApePaterno)."',ape_materno='".strtoupper($TxtApeMaterno)."',telefono= '".$TxtTelefono."', email='".strtoupper($TxtEmail)."',cargo='".$CmbCargo."' ";

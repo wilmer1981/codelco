@@ -5,7 +5,7 @@ include("funciones/sget_funciones.php");
 	{
 		$Consulta="SELECT * from sget_hoja_ruta_hitos_observaciones ";
 		$Consulta.="  where num_hoja_ruta='".$NumHoja."' and fecha_hora='".$FechaHrs."'";
-		$RespMO=mysql_query($Consulta);
+		$RespMO=mysqli_query($link, $Consulta);
 		if($FilaMO=mysql_fetch_array($RespMO))
 		{
 			$Obs=$FilaMO["observacion"];

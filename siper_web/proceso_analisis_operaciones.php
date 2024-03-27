@@ -23,7 +23,7 @@
 			//$Consulta="SELECT * from sgrs_areaorg where CTAREA ='1' and MVIGENTE='1' order by NAREA";
 			$Consulta="SELECT * from sgrs_areaorg where CPARENT = ',0,1,'  and MVIGENTE='1' order by NAREA";
 			//echo $Consulta;
-			$Resultado=mysql_query($Consulta);$TotGenIden=0;$TotGenNoIden=0;$TotGenVal=0;$TotGenNoVal=0;
+			$Resultado=mysqli_query($link, $Consulta);$TotGenIden=0;$TotGenNoIden=0;$TotGenVal=0;$TotGenNoVal=0;
 			while ($Fila=mysql_fetch_array($Resultado))
 			{
 				$Codigo=$Fila[CPARENT].$Fila[CAREA].",";
@@ -81,7 +81,7 @@
 		}
 		$Consulta="SELECT count(".$Campo.") as cant from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
 		$Consulta.="where CTAREA ='8' and CPARENT like '%".$Cod."%' ".$Filtro;
-		$RespIdent=mysql_query($Consulta);
+		$RespIdent=mysqli_query($link, $Consulta);
 		//echo $Consulta."<br><br>";
 		$FilaIdent=mysql_fetch_array($RespIdent);
 		return($FilaIdent["Cant"]);

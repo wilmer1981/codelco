@@ -9,7 +9,7 @@
 	$Consulta="SELECT * from";
 	$Consulta.=" sgrs_siperpeligros ";
 	$Consulta.=" where CPELIGRO<>''";
-	$Resp1=mysql_query($Consulta);
+	$Resp1=mysqli_query($link, $Consulta);
 	while($Fila1=mysql_fetch_array($Resp1))
 	{
 		//echo $Fila1[CPELIGRO]." ".$Fila1[CAREA]." ".$Fila1[MR1]." - ".$Fila1[MR2]."<br>";

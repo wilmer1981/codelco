@@ -71,7 +71,7 @@ body {
 				$Consulta.=" and t1.cod_producto='".$CmbAsig."'";
 			$Consulta.=" group by t1.cod_producto order by t1.orden";
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$TotalProd=0;
@@ -94,7 +94,7 @@ body {
 					$Consulta.="where t1.cod_asignacion='".$Fila[cod_asignacion]."' and t1.ano='".$Ano."' and (t1.mes between '".$Mes."' and '".$MesFin."') and t1.version='".$Fila[version]."' and t2.mostrar_ppc='1'";
 					$Consulta.="and t1.cod_procedencia='".$Fila["cod_producto"]."' and t2.vigente='1' and t2.grupo='".$FilaGrupo["cod_subclase"]."' order by t2.grupo";
 					//echo $Consulta;
-					$RespTit=mysql_query($Consulta);$Cont=0;
+					$RespTit=mysqli_query($link, $Consulta);$Cont=0;
 					while($FilaTit=mysql_fetch_array($RespTit))
 					{
 					    if($Fila[cod_asignacion]!='5')
@@ -425,7 +425,7 @@ body {
 				$Consulta.=" and t1.cod_producto='".$CmbAsig."'";
 			$Consulta.=" group by t1.cod_producto order by t1.orden";
 			//echo $Consulta;
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$TotalProd=0;
@@ -449,7 +449,7 @@ body {
 					$Consulta.=" where t1.cod_asignacion='".$Fila[cod_asignacion]."' and t1.ano='".$Ano."' and (t1.mes between '".$Mes."' and '".$MesFin."') and t1.version='".$Fila[version]."' and t2.mostrar_ppc='1'";
 					$Consulta.="and t1.cod_procedencia='".$Fila["cod_producto"]."'  order by t2.grupo";
 					//echo $Consulta;
-					$RespTit=mysql_query($Consulta);$Cont=0;
+					$RespTit=mysqli_query($link, $Consulta);$Cont=0;
 					while($FilaTit=mysql_fetch_array($RespTit))
 					{
 						$ValorReal=ObtieneDatosSVP($Fila[cod_asignacion],$Fila["cod_producto"],$FilaTit[cod_negocio],$FilaTit[cod_titulo],$Ano,$Mes,$MesFin,$Fila[version],&$ArrayTotReal,0);
@@ -648,7 +648,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg,$Ano,$Mes,$MesFin,$Prod,$CmbVersi
 		$Consulta.="and t2.cod_procedencia='".$Prod."'";
 	$Consulta.=" group by t1.cod_asignacion, t1.cod_negocio,t1.cod_titulo";
 	//echo $Consulta."<br>";
-	$Resp=mysql_query($Consulta);$Cantidad=0;
+	$Resp=mysqli_query($link, $Consulta);$Cantidad=0;
 	while($Fila=mysql_fetch_array($Resp))
 	{	
 		$Cantidad++;
@@ -660,7 +660,7 @@ function ObtieneDatosPPC($CodAsig,$CodProd,$CodTit,$Ano,$Mes,$MesFin,$Version,$A
 	$Consulta="select sum(valor) as valor from pcip_ppc_detalle ";
 	$Consulta.="where cod_asignacion='".$CodAsig."' and cod_procedencia='".$CodProd."' and cod_titulo='".$CodTit."' and (ano='".$Ano."' and mes between '".$Mes."' and '".$MesFin."') and version='".$Version."' ";
 	//echo $Consulta."<br>";
-	$Resp2=mysql_query($Consulta);$Cantidad=0;
+	$Resp2=mysqli_query($link, $Consulta);$Cantidad=0;
 	if($Fila2=mysql_fetch_array($Resp2))
 	{
 		$ArrayTotProg[$CodProd][$Mes]=$ArrayTotProg[$CodProd][$Mes]+$Fila2[valor];
@@ -685,7 +685,7 @@ function ObtieneDatosSVP($CodAsig,$CodProd,$CodNeg,$CodTit,$Ano,$Mes,$MesFin,$Ve
 		$Consulta.=" and t2.cod_procedencia='".$CodProd."' and ano='".$Ano."' ";
 		$Consulta.="order by t1.orden,t2.orden";
 		//echo $Consulta."<br>";
-		$Resp2=mysql_query($Consulta);$Cantidad=0;
+		$Resp2=mysqli_query($link, $Consulta);$Cantidad=0;
 		while($Fila2=mysql_fetch_array($Resp2))
 		{
 			if($Fila2[origen]=='SVP')
@@ -700,7 +700,7 @@ function ObtieneDatosSVP($CodAsig,$CodProd,$CodNeg,$CodTit,$Ano,$Mes,$MesFin,$Ve
 					$Consulta.=" and VPordes='".$Fila2[consumo_interno]."'";
 				if(!is_null($Fila2[vptm])&&$Fila2[vptm]!=0)
 					$Consulta.=" and vptm='".$Fila2[vptm]."'";
-				$Resp3=mysql_query($Consulta);
+				$Resp3=mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
 				while($Fila3=mysql_fetch_array($Resp3))
 				{
@@ -711,7 +711,7 @@ function ObtieneDatosSVP($CodAsig,$CodProd,$CodNeg,$CodTit,$Ano,$Mes,$MesFin,$Ve
 			{
 				//echo"entroo CDV";
 				$Consulta="select sum(kilos_finos) as kilos_finos from pcip_cdv_cuadro_diario_ventas where cod_producto='".$Fila2[num_orden]."' and ano='".$Ano."' and mes='".$Mes."' group by mes";
-				$Resp3=mysql_query($Consulta);
+				$Resp3=mysqli_query($link, $Consulta);
 				//echo "CDV:   ".$Consulta."<br>";
 				while($Fila3=mysql_fetch_array($Resp3))
 				{
@@ -740,7 +740,7 @@ function ObtieneCantFilasTitulos($CodAsig,$CodProd,$Ano,$Mes,$MesFin,$Version)
 	$Consulta.=" and t1.cod_procedencia='".$CodProd."'";
 	$Consulta.=" and t2.grupo<>'' and t2.mostrar_ppc='1' group by  t1.cod_asignacion,t1.cod_procedencia,t1.ano,t1.cod_titulo";
 	//echo $Consulta."<br>";
-	$RespCant=mysql_query($Consulta);$Cant=0;
+	$RespCant=mysqli_query($link, $Consulta);$Cant=0;
 	while($FilaCant=mysql_fetch_array($RespCant))
 		$Cant++;
 		

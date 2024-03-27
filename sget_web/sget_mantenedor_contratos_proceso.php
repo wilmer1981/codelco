@@ -55,7 +55,7 @@ if(!isset($Recarga))
 		
 		$Consulta="SELECT * from sget_contratos where cod_contrato = '".$TxtContrato."'";
 		//echo "WW".$Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtContrato=$Fila["cod_contrato"];
@@ -104,7 +104,7 @@ if(!isset($Recarga))
 		include("sgc_conectar.php");
 		$Consulta="SELECT descrip_contrato,monto,fecha_inicio,fecha_termino,rut_empresa from sgc_contratos where cod_contrato='".$Ctto."'";
 		//echo $Consulta;
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtContrato=$Ctto;
@@ -807,7 +807,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                <option value="-1">Seleccionar</option>
                <?
 			  $Consulta = "SELECT cod_gerencia,descrip_gerencias from sget_gerencias order by descrip_gerencias ";			
-			  $Resp4=mysql_query($Consulta);
+			  $Resp4=mysqli_query($link, $Consulta);
 			  while ($Fila4=mysql_fetch_array($Resp4))
 			  {
 				if ($CmbGerencias==$Fila4["cod_gerencia"])
@@ -822,7 +822,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                  <option value="-1" >Seleccionar</option>
                  <?
 			  $Consulta = "SELECT cod_area,descrip_area,cod_cc from sget_areas where cod_gerencia=".$CmbGerencias." order by descrip_area,cod_cc ";			
-			  $Resp4=mysql_query($Consulta);
+			  $Resp4=mysqli_query($link, $Consulta);
 			  while ($Fila4=mysql_fetch_array($Resp4))
 			  {
 				if ($CmbAreas==$Fila4["cod_area"])
@@ -841,7 +841,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                       <option value="-1" class="NoSelec">Seleccionar</option>
                       <?
 	  	$Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30002' ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbMoneda==$FilaTC["cod_subclase"])
@@ -860,7 +860,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                       <?
 	 		$Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase ";
 	 		$Consulta.= "where cod_clase = '30019' ";	
-			$RespF=mysql_query($Consulta);
+			$RespF=mysqli_query($link, $Consulta);
 			while ($FilaF=mysql_fetch_array($RespF))
 			{
 				if ($CmbFacturacion==$FilaF["cod_subclase"])
@@ -882,7 +882,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
 	  if($TxtEmpresa!='')
 	  	 $Consulta.= "and  upper(razon_social) like '%".strtoupper($TxtEmpresa)."%' ";
 	 	$Consulta.= " order by razon_social ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if (strtoupper($CmbEmpresa)==strtoupper($FilaTC["rut_empresa"]))
@@ -906,7 +906,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 		 $Consulta = "SELECT * from sget_tipo_contrato ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoCtto==$FilaTC["cod_tipo_contrato"])
@@ -928,7 +928,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
 	 $Consulta.= "where cod_clase='30003' ";	
 	if ($CmbTipoCtto=='N')
 	 $Consulta.= "where cod_clase='30004' ";	
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoCttoPers==$FilaTC["cod_subclase"])
@@ -957,7 +957,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                <option value="-1" class="NoSelec">Seleccionar / Agregar</option>
                <?
 	  $Consulta = "SELECT * from sget_administrador_contratos order by ape_paterno ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbAdmCtto==$FilaTC["rut_adm_contrato"])
@@ -981,7 +981,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
 			  
 			  $Consulta = "SELECT * from sget_prevencionistas where rut_prev<>'' ";//t1 left join proyecto_modernizacion.clase t2 on t1.cod_clase=t2.cod_clase  left join proyecto_modernizacion.sub_clase t3 on t1.cod_subclase=t3.cod_subclase and t1.cod_clase=t3.cod_clase 
 			  $Consulta.= " order by apellido_paterno ";	//where t2.cod_clase in ('30000','30001')		
-			  $Resp4=mysql_query($Consulta);
+			  $Resp4=mysqli_query($link, $Consulta);
 			  while ($Fila4=mysql_fetch_array($Resp4))
 			  {
 				  $ConsultaPrv="SELECT count(cod_contrato) as cantContra from sget_contratos where rut_prev='".$Fila4["rut_prev"]."' and fecha_termino > '".date('Y-m-d')."'";				  	
@@ -1013,7 +1013,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                <option value="-1" class="NoSelec">Seleccionar / Agregar</option>
                <?
 	   $Consulta = "SELECT * from sget_administrador_contratistas order by ape_paterno ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbAdmContratista==$FilaTC["rut_adm_contratista"])
@@ -1039,7 +1039,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                <option value="-1" class="NoSelec">Seleccionar</option>
                <?
 	    $Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30016' order by cod_subclase";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbAvisoVenc==$FilaTC["nombre_subclase"])
@@ -1099,7 +1099,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                             <?
 					 		$Consulta = "SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase ";
 	 						$Consulta.= "where cod_clase = '30020'  order by cod_subclase";	
-							$RespC=mysql_query($Consulta);
+							$RespC=mysqli_query($link, $Consulta);
 							while ($FilaC=mysql_fetch_array($RespC))
 							{
 								if ($CmbClasificacion==$FilaC["cod_subclase"])
@@ -1326,7 +1326,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
 	{
 		$Consulta="Select * from sget_modificaciones_contrato ";
 		$Consulta.=" where cod_contrato='".$TxtContrato."' and num_modificacion='".$Clave."' ";
-		$RespModDet=mysql_query($Consulta);
+		$RespModDet=mysqli_query($link, $Consulta);
 			if($FilaModDet=mysql_fetch_array($RespModDet))
 			{
 			$CmbTipoModificacion=$FilaModDet[cod_tipo_modificacion];
@@ -1353,7 +1353,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
         <td width="20" class="formulario2"  ><SELECT name="CmbTipoModificacion" id="CmbTipoModificacion" onChange="Recarga('<? echo $CmbTipoModificacion;?>')" >
             <?
 	  $Consulta = "SELECT * from sget_tipo_modificacion  ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbTipoModificacion==$FilaTC["cod_tipo_modificacion"])
@@ -1397,7 +1397,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
       <? 	$Contador=0;	$encontro="N";
  	$Consulta=" SELECT * from sget_modificaciones_contrato t1 left join sget_tipo_modificacion t2 on t1.cod_tipo_modificacion=t2.cod_tipo_modificacion";
 	$Consulta.="  where t1.cod_contrato ='".$TxtContrato."'";
- 	$RespModificaciones=mysql_query($Consulta);
+ 	$RespModificaciones=mysqli_query($link, $Consulta);
 	while($FilaModificaciones=mysql_fetch_array($RespModificaciones))
 	{
 		$Contador=$Contador+1;
@@ -1480,7 +1480,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
 		  if($TxtEmpresa2!='')
 			 $Consulta.= " and upper(razon_social) like '%".strtoupper($TxtEmpresa2)."%'";
 		  $Consulta.= " order by razon_social";	
-		  $Resp=mysql_query($Consulta);
+		  $Resp=mysqli_query($link, $Consulta);
 		  while ($FilaTC=mysql_fetch_array($Resp))
 		  {
 				if ($CmbSubEmpresa==$FilaTC["rut_empresa"])
@@ -1501,7 +1501,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
  	$Consulta=" SELECT t1.*,t2.razon_social from sget_sub_contratistas t1 left join sget_contratistas t2 on t1.rut_empresa=t2.rut_empresa";
 	$Consulta.="  where t1.cod_contrato ='".$TxtContrato."'";
  	
-	$RespModificaciones=mysql_query($Consulta);
+	$RespModificaciones=mysqli_query($link, $Consulta);
 	while($FilaModificaciones=mysql_fetch_array($RespModificaciones))
 	{
 	$Contador=$Contador+1;
@@ -1569,7 +1569,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
 				  <option value="-1" class="NoSelec">Seleccionar</option>
 				  <?
 				  $Consulta = "SELECT cod_subclase,nombre_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='30006' ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($FilaTC=mysql_fetch_array($Resp))
 					{
 						if ($CmbReajuste==$FilaTC["cod_subclase"])
@@ -1588,7 +1588,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
  	$Consulta="SELECT t1.corr,t1.fecha_reajuste,t2.nombre_subclase as periodo,t1.fecha_reajustada,t1.monto,t1.monto_reajustado,t3.nombre_subclase as cambio,t1.estado from sget_reajustes_contratos t1 left join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='30006' and t1.tipo_reajuste=t2.valor_subclase1 ";
 	$Consulta.="left join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='30002' and t1.tipo_cambio=t3.cod_subclase where t1.tipo='C' and t1.cod_contrato ='".$TxtContrato."' order by t1.fecha_reajuste";
 	//echo $Consulta;
-	$RespReaj=mysql_query($Consulta);
+	$RespReaj=mysqli_query($link, $Consulta);
 	while($FilaReaj=mysql_fetch_array($RespReaj))
 	{
 	    $Contador=$Contador+1;
@@ -1676,7 +1676,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
                     <option value="-1" class="NoSelec">Seleccionar</option>
                     <?
 				  $Consulta = "SELECT cod_subclase,nombre_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='30006' ";			
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					while ($FilaTC=mysql_fetch_array($Resp))
 					{
 						if ($CmbReajuste2==$FilaTC["cod_subclase"])
@@ -1695,7 +1695,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
  	$Consulta="SELECT t1.corr,t1.fecha_reajuste,t2.nombre_subclase as periodo,t1.fecha_reajustada,t1.monto,t1.monto_reajustado,t3.nombre_subclase as cambio,t1.estado from sget_reajustes_contratos t1 left join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='30006' and t1.tipo_reajuste=t2.valor_subclase1 ";
 	$Consulta.="left join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='30002' and t1.tipo_cambio=t3.cod_subclase where t1.tipo='S' and t1.cod_contrato ='".$TxtContrato."' order by t1.fecha_reajuste";
 	//echo $Consulta;
-	$RespReaj=mysql_query($Consulta);
+	$RespReaj=mysqli_query($link, $Consulta);
 	while($FilaReaj=mysql_fetch_array($RespReaj))
 	{
 	    $Contador=$Contador+1;
@@ -1867,7 +1867,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
 			 <td class="formulario2">Dotaci&oacute;n&nbsp;&nbsp;&nbsp;
 			 <?
 			$Consulta="SELECT count(rut) as Cantidad from sget_personal where cod_contrato='".$TxtContrato."' and estado='A' and tipo='1'";
-			$RespCant=mysql_query($Consulta);
+			$RespCant=mysqli_query($link, $Consulta);
 			if($FilaCant=mysql_fetch_array($RespCant))
 			{
 				$TxtDot= $FilaCant[Cantidad];
@@ -1888,7 +1888,7 @@ write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelYear'
     $Contador=0;$encontro="N";$Entro='N';
  	$Consulta="SELECT * from sget_facturas_contrato where cod_contrato='".$TxtContrato."' order by ano, mes,fecha_hora";
 
-	$RespDF=mysql_query($Consulta);
+	$RespDF=mysqli_query($link, $Consulta);
 	while($FilaDF=mysql_fetch_array($RespDF))
 	{
 	    $Contador=$Contador+1;

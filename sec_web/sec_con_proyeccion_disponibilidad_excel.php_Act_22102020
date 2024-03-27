@@ -74,7 +74,7 @@ if($Buscar=='S')
 		$Consulta = "SELECT d_catodo_comercial as peso from sec_web.det_programa_produccion";
 		$Consulta.= " where fecha_programa = '".$FechaIni."'";
 		$Consulta.= " and cod_revision = '1'";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		$ProdRef =0;
 		if ($Fila = mysql_fetch_array($Respuesta))
 			$ProdRef = $Fila["peso"];
@@ -82,7 +82,7 @@ if($Buscar=='S')
 	}
 	$ProgPesaje=$TotProdRef/$Dias;	
 	$Consulta="SELECT factor_rechazo,factor_rechazo_prog,dia from sec_web.parametros_mensual_proyeccion where ano='".$ano."' and mes='".$mes."'";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	//$FactorRechazo=0.98;
 	if ($Fila = mysql_fetch_array($Respuesta))
 	{
@@ -91,7 +91,7 @@ if($Buscar=='S')
 		$DiaCierre=intval($Fila["dia"]);
 	}	
 	$Consulta="SELECT tonelaje from sec_web.parametros_mensual_proyeccion where ano='".$ano."' and mes='".$mes."'";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Respuesta))
 		$AcumProgPesaje2 = $Fila["tonelaje"];
 	$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = '3004' and cod_subclase='".intval($mes)."'";		
@@ -111,7 +111,7 @@ if($Buscar=='S')
 		$Consulta.= " where fecha_programa = '".$FechaIni."'";
 		$Consulta.= " and cod_revision = '1'";
 		//echo $Consulta."<br>";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		$ProdRef =0;
 		if ($Fila = mysql_fetch_array($Respuesta))
 			$ProdRef = $Fila["peso"];
@@ -124,7 +124,7 @@ if($Buscar=='S')
 		$AcumCat=$AcumCat+$ProdRef*$FactorRechazo;	
 		$Consulta="SELECT sum(peso_produccion) as peso from sec_web.produccion_catodo where ((fecha_produccion = '".$FechaIni."' and hora>='08:00:00') or (fecha_produccion = '".$FechaFin."' and hora<='07:59:59')) and cod_producto='18' and cod_subproducto='1'";
 		//echo $Consulta."<br>";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		$ProdReal=0;
 		if ($Fila = mysql_fetch_array($Respuesta))
 			$ProdReal = $Fila["peso"]/1000;
@@ -232,7 +232,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 	$Consulta.="left join sec_web.nave t6 on t4.cod_nave=t6.cod_nave ";
 	$Consulta.="where t2.cod_paquete='".$LetraMes."' and ((t2.fecha_creacion_paquete = '".$FechaIni."' and t2.hora>='08:00:00') or (t2.fecha_creacion_paquete = '".$FechaFin."' and t2.hora<='07:59:59')) and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t2.cod_producto='18' and t2.cod_subproducto='40' group by t1.corr_enm";
 	//echo $Consulta."<br>";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Respuesta))
 	{
 		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
@@ -249,7 +249,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 	$Consulta.="left join sec_web.nave t6 on ceiling(t4.cod_cliente)=t6.cod_nave ";
 	$Consulta.="where t2.cod_paquete='".$LetraMes."' and ((t2.fecha_creacion_paquete = '".$FechaIni."' and t2.hora>='08:00:00') or (t2.fecha_creacion_paquete = '".$FechaFin."' and t2.hora<='07:59:59')) and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t2.cod_producto='18' and t2.cod_subproducto='40' group by t1.corr_enm,t1.cod_paquete";
 	//echo "con".$Consulta."<br>";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Respuesta))
 	{
 		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
@@ -263,7 +263,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 	$Consulta.="inner join sec_web.instruccion_virtual t4 on t1.corr_enm=t4.corr_virtual ";
 	$Consulta.="where t2.cod_paquete='".$LetraMes."' and ((t2.fecha_creacion_paquete = '".$FechaIni."' and t2.hora>='08:00:00') or (t2.fecha_creacion_paquete = '".$FechaFin."' and t2.hora<='07:59:59')) and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t2.cod_producto='18' and t2.cod_subproducto='40' group by t1.corr_enm";
 	//echo "con".$Consulta."<br>";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Respuesta))
 	{
 		$Insertar="insert into sec_web.tmpConsultaEmb2(subproducto,corr_ie,cliente_nave,toneladas,marca,cod_lote,num_lote_inicio,num_lote_final,paquetes,catodos,peso_neto) values (";
@@ -271,7 +271,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso)
 		mysql_query($Insertar);
 	}
 	$Consulta="SELECT * from sec_web.tmpConsultaEmb2";
-	$Respuesta=mysql_query($Consulta);
+	$Respuesta=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Respuesta))
 	{
 		$Peso=$Peso+$Fila["peso_neto"];				
@@ -286,14 +286,14 @@ function ObtieneCompPreembarque($FechaInicio,$Peso)
 	$Consulta="SELECT cantidad_embarque as peso_neto from sec_web.programa_enami ";
 	$Consulta=$Consulta." where cod_producto='18' and cod_subproducto='40' and fecha_disponible = '".$FechaInicio."'";
 	//echo $Consulta."<br>";
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resultado))
 	{
 		$Peso=$Peso+$Fila["peso_neto"];		
 	}
 	$Consulta="SELECT cantidad_programada as peso_neto from sec_web.programa_codelco ";
 	$Consulta=$Consulta." where cod_producto='18' and cod_subproducto='40' and fecha_disponible = '".$FechaInicio."'";
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	//echo $Consulta."<br><br>";
 	while ($Fila=mysql_fetch_array($Resultado))
 	{
@@ -307,14 +307,14 @@ function ObtieneEta($FechaInicio,$Peso)
 	/*$Consulta="SELECT cantidad_embarque as peso_neto from sec_web.programa_enami ";
 	$Consulta=$Consulta." where cod_producto='18' and cod_subproducto='40' and eta_programada = '".$FechaInicio."'";
 	//echo $Consulta."<br>";
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	while ($Fila=mysql_fetch_array($Resultado))
 	{
 		$Peso=$Peso+$Fila["peso_neto"];		
 	}*/
 	$Consulta="SELECT cantidad_programada as peso_neto from sec_web.programa_codelco ";
 	$Consulta=$Consulta." where cod_producto='18' and cod_subproducto='40' and fecha_devolucion_maquila = '".$FechaInicio."'";
-	$Resultado=mysql_query($Consulta);
+	$Resultado=mysqli_query($link, $Consulta);
 	//echo $Consulta."<br><br>";
 	while ($Fila=mysql_fetch_array($Resultado))
 	{
@@ -325,7 +325,7 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 {
 	$Consulta = "SELECT * from sec_web.informe_diario ";
 	$Consulta.= " where fecha = '".$FechaInicio."'";
-	$Resp = mysql_query($Consulta);
+	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Resp))
 	{
 		$PaqStandard = $Fila["peso_paquete_standard"];
@@ -337,7 +337,7 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 	$Consulta.= " and cod_producto = '18'";
 	$Consulta.= " and cod_subproducto = '1'";
 	//echo $Consulta."<br>";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Respuesta))
 	{
 		$ComercialAcumulado = $Fila["peso"];
@@ -348,7 +348,7 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 	$Consulta.= " and cod_subproducto = '1'";
 	//echo $Consulta."<br>";
 	$ComercialAcumulado=0;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while($Fila = mysql_fetch_array($Respuesta))
 	{
 		if($Fila[fecha_produccion]!=$FechaIniMes&&$Fila[fecha_produccion]!=$FechaTermino)
@@ -369,7 +369,7 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 	$Consulta.= " and cod_paquete = '".$LetraMes."'";
 	$Consulta.= " and cod_subproducto = '46'";
 	//echo $Consulta."<br>";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysql_fetch_array($Respuesta))
 	{
 		$PesadoEmbarque = $Fila["peso"];
@@ -396,7 +396,7 @@ function ObtienePesoGuiasDespacho($FechaInicio,$Peso)
 	$Consulta.= "where t1.cod_estado <>'A'  and t1.fecha_guia = '".$FechaInicio."'";
 	$Consulta.= " and t2.cod_estado = 'c' and t2.cod_producto='18' and t2.cod_subproducto='40'";
 	$Consulta.= "group by t2.cod_producto, t2.cod_subproducto ";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		$Peso=$Fila["peso"];

@@ -5,7 +5,7 @@
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Rut =$CookieRut;
 	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'";
-	$Respuesta =mysql_query($Consulta);
+	$Respuesta =mysqli_query($link, $Consulta);
 	if($Fila =mysql_fetch_array($Respuesta))
 	{
 		$Nivel = $Fila["nivel"];
@@ -21,7 +21,7 @@
 	else
 	{
 		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase =".$CmbMes;
-		$Respuesta =mysql_query($Consulta);
+		$Respuesta =mysqli_query($link, $Consulta);
 		
 		if($Fila =mysql_fetch_array($Respuesta))
 		{
@@ -236,7 +236,7 @@ function Salir()
 			$FechaTermino=$CmbAno."-".$CmbMes."-31";
 			
 			$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='3103' order by cod_subclase";
-			$Respuesta3=mysql_query($Consulta);
+			$Respuesta3=mysqli_query($link, $Consulta);
 			$TotalInicial=0;
 			$TotalPaquetes=0;
 			$TotalTraspaso=0;
@@ -258,7 +258,7 @@ function Salir()
 				echo "<td class='detalle01'>&nbsp;</td>";*/
 				echo "</tr>";	
 				$Consulta="select cod_producto,cod_subproducto,abreviatura as nombre from proyecto_modernizacion.subproducto where stock_sec='".$Fila3["cod_subclase"]."' order by orden_stock_sec";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				
 				echo "<input type='hidden' name='TxtCodProducto'><input type='hidden' name='TxtCodSubProducto'><input type='hidden' name='TxtStockFinal'>";
 				$SubTotalInicial=0;
@@ -281,7 +281,7 @@ function Salir()
 					$Consulta=$Consulta." and cod_subproducto ='".$Fila["cod_subproducto"]."' and fecha ";
 					//$Consulta=$Consulta." between subdate('$FechaInicio',interval 1 month) and subdate('$FechaTermino',interval 1 month)"; 
 					$Consulta=$Consulta." between '$FechaInicioNew' and '$FechaTerminoNew'"; 
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					//echo $Consulta.";<br>";
 
 					if ($Fila2=mysql_fetch_array($Respuesta2))
@@ -322,7 +322,7 @@ function Salir()
 					}
 					$Consulta.=" group by t1.cod_producto,t1.cod_subproducto"; 
 					//echo "Con".$Consulta;
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					if ($Fila2=mysql_fetch_array($Respuesta2))
 					{
 						echo "<td width='60' align='right'>".number_format($Fila2["peso_paquetes"],0,',','.')."</td>";
@@ -340,7 +340,7 @@ function Salir()
 					$Consulta=$Consulta." and cod_subproducto ='".$Fila["cod_subproducto"]."' and fecha_traspaso ";
 					$Consulta=$Consulta." between '$FechaInicio' and '$FechaTermino'";
 					$Consulta=$Consulta." group by cod_producto,cod_subproducto"; 
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					if ($Fila2=mysql_fetch_array($Respuesta2))
 					{
 						echo "<td width='60' align='right'>".number_format($Fila2["peso_traspaso"],0,',','.')."</td>";
@@ -360,7 +360,7 @@ function Salir()
 					$Consulta.= " and (t2.cod_estado = 'c') and (t2.cod_producto='".$Fila["cod_producto"]."' and t2.cod_subproducto ='".$Fila["cod_subproducto"]."')";
 					$Consulta.= "group by t2.cod_producto, t2.cod_subproducto ";
 					//echo "Embarque".$Consulta;
-					$Respuesta2=mysql_query($Consulta);
+					$Respuesta2=mysqli_query($link, $Consulta);
 					if ($Fila2=mysql_fetch_array($Respuesta2))
 					{
 						echo "<td width='60' align='right'>".number_format($Fila2[peso_embarque],0,',','.')."</td>";
@@ -383,7 +383,7 @@ function Salir()
 						/*$Consulta = "select * from sec_web.catodo_por_pesar t1 ";
 						$Consulta.= " where t1.cod_producto='".$Fila["cod_producto"]."'";
 						$Consulta.=" and t1.cod_subproducto ='".$Fila["cod_subproducto"]."'";
-  						$Respuesta4=mysql_query($Consulta);
+  						$Respuesta4=mysqli_query($link, $Consulta);
 						if ($Fila4=mysql_fetch_array($Respuesta4))
 						{
 							$Enpreparacion=	$Fila4[catodo_por_pesar] * 1000;

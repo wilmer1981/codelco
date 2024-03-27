@@ -36,7 +36,7 @@ switch($Opc)
 				$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='".$CodClase."' and nombre_subclase='".$TxtNuevo."'";		
 			}
 			//echo $Consulta."<br>";
-			$Resp=mysql_query($Consulta);		
+			$Resp=mysqli_query($link, $Consulta);		
 			if(!$Fila=mysql_fetch_array($Resp))
 			{
 			    if($Valor1=='')
@@ -77,7 +77,7 @@ switch($Opc)
 	break;
 	case "MI":
 			$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='".$CodClase."' and nombre_subclase='".$TxtNuevo."'";		
-			$Resp=mysql_query($Consulta);		
+			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysql_fetch_array($Resp))
 				$Valor1=$Fila["valor_subclase1"];$Valor2=$Fila[valor_subclase2];$Valor3=$Fila[valor_subclase3];	
 				$Valor4=$Fila[valor_subclase4];$Valor5=$Fila[valor_subclase5];$Valor6=$Fila[valor_subclase6];				

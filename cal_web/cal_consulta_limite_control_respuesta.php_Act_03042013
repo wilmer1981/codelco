@@ -451,7 +451,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 							$Consulta=$Consulta." inner join proyecto_modernizacion.productos t2 on t1.cod_producto=t2.cod_producto";
 							$Consulta=$Consulta." inner join proyecto_modernizacion.subproducto t3 on t1.cod_producto=t3.cod_producto and t1.cod_subproducto = t3.cod_subproducto "; 
 							$Consulta=$Consulta." left join proyecto_modernizacion.sub_clase t4 on t1.agrupacion = t4.cod_subclase and t4.cod_clase='1004' where t1.nro_solicitud=".$Fila["nro_solicitud"];
-							$Resultado=mysql_query($Consulta);
+							$Resultado=mysqli_query($link, $Consulta);
 							$FilaDatos=mysql_fetch_array($Resultado);
 							echo "<td align=\"left\">".$FilaDatos["id_muestra"]."</td>";	
 							/*$DesPros=SubProducto($FilaDatos["cod_producto"],$FilaDatos["cod_subproducto"]);
@@ -469,7 +469,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 							$Consulta=$Consulta." inner join proyecto_modernizacion.productos t2 on t1.cod_producto=t2.cod_producto";
 							$Consulta=$Consulta." inner join proyecto_modernizacion.subproducto t3 on t1.cod_producto=t3.cod_producto and t1.cod_subproducto = t3.cod_subproducto ";
 							$Consulta=$Consulta." left join proyecto_modernizacion.sub_clase t4 on t1.agrupacion = t4.cod_subclase and t4.cod_clase='1004' where t1.nro_solicitud=".$Fila["nro_solicitud"]." and t1.recargo='".$Fila["recargo"]."'";
-							$Resultado=mysql_query($Consulta);
+							$Resultado=mysqli_query($link, $Consulta);
 							$FilaDatos=mysql_fetch_array($Resultado);
 							echo "<td  width='100' align=\"left\">".$FilaDatos["id_muestra"].    "    </td>";	
 							$CodProdSol=$FilaDatos["cod_producto"];
@@ -487,7 +487,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 						}
 						$OBSLEY='';//SE ASIGNAN LOS VALORES AL ARREGLO
 						$Consulta ="select t1.cod_producto,t1.cod_subproducto,t3.abreviatura as ley,t1.cod_unidad,t1.cod_leyes,t1.valor,t1.signo,t2.abreviatura from cal_web.leyes_por_solicitud t1 inner join proyecto_modernizacion.unidades t2 on t1.cod_unidad = t2.cod_unidad inner join proyecto_modernizacion.leyes t3 on t1.cod_leyes=t3.cod_leyes where t1.nro_solicitud = ".$Fila["nro_solicitud"]." and t1.recargo='".$Fila["recargo"]."'";
-						$Respuesta3=mysql_query($Consulta);
+						$Respuesta3=mysqli_query($link, $Consulta);
 						
 						while($Fila3=mysql_fetch_array($Respuesta3))
 						{
@@ -550,7 +550,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 							else
 							{
 					            $Consulta="select pesont_a from rec_web.despachos where lote_a='".substr($FilaDatos["id_muestra"],0,6)."' and recarg_a='".trim(substr($FilaDatos["id_muestra"],$pos+2))."'";
-								$Resp=mysql_query($Consulta);
+								$Resp=mysqli_query($link, $Consulta);
 								if ($FilaPeso=mysql_fetch_array($Resp))
 								{								     
 									if ($ChkPesoMuestra=="S")
@@ -662,7 +662,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 		
 		$Consulta="Select * from cal_web.limite where cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
 		$Consulta.=" and cod_ley='".$CodLey."' and unidad='".$Unidad."' and rut_proveedor='".$RutProveedor."'";
-		$RespColor = mysql_query($Consulta);
+		$RespColor = mysqli_query($link, $Consulta);
 		if($FilaColor=mysql_fetch_array($RespColor))
 		{
 			if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
@@ -681,7 +681,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 		{
 			$Consulta="Select * from cal_web.limite where cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
 			$Consulta.=" and cod_ley='".$CodLey."' and unidad='".$Unidad."' and rut_proveedor='T'";
-			$RespColor = mysql_query($Consulta);
+			$RespColor = mysqli_query($link, $Consulta);
 			if($FilaColor=mysql_fetch_array($RespColor))
 			{
 			
@@ -711,7 +711,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 		$Obs='';
 		$Consulta="Select * from cal_web.limite where cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
 		$Consulta.=" and cod_ley='".$CodLey."' and unidad='".$Unidad."' and rut_proveedor='".$RutProveedor."'";
-		$RespColor = mysql_query($Consulta);
+		$RespColor = mysqli_query($link, $Consulta);
 		if($FilaColor=mysql_fetch_array($RespColor))
 		{
 		//	echo $FilaColor[limite_inicial]." ".$Valor." ".$FilaColor[limite_final];
@@ -723,7 +723,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 			{
 				$Consulta="Select valor,observacion from cal_web.leyes_por_solicitud where nro_solicitud='".$SA."' and cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
 				$Consulta.=" and cod_leyes='".$CodLey."' and cod_unidad='".$Unidad."'  and recargo='".$Recargo."'";
-				$Resp12= mysql_query($Consulta);
+				$Resp12= mysqli_query($link, $Consulta);
 				if($Fila12=mysql_fetch_array($Resp12))
 				{
 					$Obs=$Fila12["observacion"];
@@ -735,7 +735,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 		{
 			$Consulta="Select * from cal_web.limite where cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
 			$Consulta.=" and cod_ley='".$CodLey."' and unidad='".$Unidad."' and rut_proveedor='T'";
-			$RespColor = mysql_query($Consulta);
+			$RespColor = mysqli_query($link, $Consulta);
 			if($FilaColor=mysql_fetch_array($RespColor))
 			{
 				if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
@@ -746,7 +746,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 				{
 					$Consulta="Select valor,observacion from cal_web.leyes_por_solicitud where nro_solicitud='".$SA."' and cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
 					$Consulta.=" and cod_leyes='".$CodLey."' and cod_unidad='".$Unidad."'  and recargo='".$Recargo."'";
-					$Resp12= mysql_query($Consulta);
+					$Resp12= mysqli_query($link, $Consulta);
 					if($Fila12=mysql_fetch_array($Resp12))
 					{
 						$Obs=$Fila12["observacion"];

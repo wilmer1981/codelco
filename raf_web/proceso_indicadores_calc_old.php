@@ -206,7 +206,7 @@
 		$Consulta.= " and t1.fecha_movimiento BETWEEN '".$FechaHoraIni."' and '".$FechaHoraFin."' and t2.cod_subproducto not in (92)";
 		$Consulta.= " GROUP BY t1.cod_conjunto";						
 		//$Consulta.= " GROUP BY t2.cod_producto, t2.cod_subproducto,t1.cod_conjunto,t1.num_conjunto";
-		$Resp=mysql_query($Consulta);$Valor=0;
+		$Resp=mysqli_query($link, $Consulta);$Valor=0;
 		if($Fila = mysql_fetch_array($Resp))
 		{
 			if($ValorRetorno=="PS")
@@ -232,7 +232,7 @@
 		$Consulta.= " where CONCAT(t1.fecha_produccion,' ',hora) BETWEEN '".$FechaHoraIni."' and '".$FechaHoraFin."'";
 		$Consulta.= " and (t1.cod_producto in (18) or (t1.cod_producto='48' and t1.cod_subproducto <> '10'))  order by t1.cod_producto";
 		//echo "a la fecha".$Consulta;
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		while ($Fila = mysql_fetch_array($Respuesta))
 		{
 			$Valor=$Valor+$Fila["peso"];	
@@ -250,7 +250,7 @@
 		$Consulta.= " where CONCAT(t1.fecha_produccion,' ',hora) BETWEEN '".$FechaHoraIni."' and '".$FechaHoraFin."'";
 		$Consulta.= " and t1.cod_producto = 18 and t1.cod_subproducto='1'";
 		//echo "a la fecha".$Consulta;
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		while ($Fila = mysql_fetch_array($Respuesta))
 		{
 			$Valor=$Valor+$Fila["peso"];	
@@ -268,7 +268,7 @@
 		$Consulta.= " where CONCAT(t1.fecha_produccion,' ',hora) BETWEEN '".substr($FechaHoraIni,0,4)."-" .substr($FechaHoraIni,5,2)."-01 08:00:00' and '".$FechaHoraFin."'";
 		$Consulta.= " and t1.cod_producto = 18 and t1.cod_subproducto='1'";
 		//echo "a la fecha".$Consulta;
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		while ($Fila = mysql_fetch_array($Respuesta))
 		{
 			$Valor=$Valor+$Fila["peso"];	
@@ -287,7 +287,7 @@
 		$Consulta.= " where CONCAT(t1.fecha_produccion,' ',hora) BETWEEN '".substr($FechaHoraIni,0,4)."-" .substr($FechaHoraIni,5,2)."-01 08:00:00' and '".$FechaHoraFin."'";
 		$Consulta.= " and t1.cod_producto in (18) and t2.cod_subproducto in (1) group by t1.cod_producto, t2.cod_subproducto ";
 		//echo $Consulta;
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		while ($Fila = mysql_fetch_array($Respuesta))
 		{
 			$Valor=$Valor+$Fila["peso"];	
@@ -315,7 +315,7 @@
 		$Consulta.= " and cod_producto = '18' and cod_subproducto in (1,4,5) ";
 		$Consulta.= " group by cod_subproducto,fecha_produccion, hour(hora)";
 		//echo $Consulta."</br>";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		while($Fila = mysql_fetch_array($Respuesta))
 		{
 			if($Fila["subprod"]==1)
@@ -327,7 +327,7 @@
 		$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 		$Consulta.= " where cod_clase = '3004' and cod_subclase = '".intval(substr($FechaInf,5,2))."'";
 		//echo $Consulta."<br>";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Respuesta))
 		{	
 			$MesConsulta = $Fila["nombre_subclase"];
@@ -335,7 +335,7 @@
 		}			
 		$Consulta = "select * from sec_web.informe_diario ";
 		$Consulta.= " where fecha = '".$FechaInf."'";
-		$Resp = mysql_query($Consulta);
+		$Resp = mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
 		if ($Fila = mysql_fetch_array($Resp))
 		{
@@ -349,7 +349,7 @@
 		$Consulta.= " and cod_paquete = '".$Letra."'";
 		$Consulta.= " and cod_subproducto in  ('46','2','18')";
 		//echo $Consulta."<br>";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Respuesta))
 		{
 			$PesadoEmbarque = $Fila["peso"];

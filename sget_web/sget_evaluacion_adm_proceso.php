@@ -143,7 +143,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                  <?
 			$FechaActual=date("Y")."-".date("m")."-".date("d");
 			$Consulta="SELECT * from sget_contratos where fecha_termino >= '".$FechaActual."' order by fecha_termino desc";
-			$RespCtto=mysql_query($Consulta);
+			$RespCtto=mysqli_query($link, $Consulta);
 			while($FilaCtto=mysql_fetch_array($RespCtto))
 			{
 				if ($FechaActual > $FilaCtto[fecha_termino])
@@ -173,7 +173,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
          <tr>
            <td align="left" class="formulario2">Adm. Ctto : 
 		   <? $Consulta="Select  t2.* from sget_contratos t1 left join sget_administrador_contratos t2 on t1.rut_adm_contrato=t2.rut_adm_contrato where t1.cod_contrato='".$CmbContrato."'";
-		   		$RespCTTO=mysql_query($Consulta);
+		   		$RespCTTO=mysqli_query($link, $Consulta);
 				if($FilaCTTO=mysql_fetch_array($RespCTTO))
 				 echo  FormatearNombre($FilaCTTO["nombres"])." ".FormatearNombre($FilaCTTO[ape_paterno])." ".FormatearNombre($FilaCTTO[ape_materno]);
 		   ?></td>
@@ -186,7 +186,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			{
 				$Consulta="SELECT ifnull(max(nro_evaluacion)+1,1) as num_eva from sget_evaluacion_adm where cod_contrato='".$CmbContrato."' group by cod_contrato";
 				//echo $Consulta."<br>";
-				$RespEva=mysql_query($Consulta);
+				$RespEva=mysqli_query($link, $Consulta);
 				if($FilaEva=mysql_fetch_array($RespEva))
 					$CmbNumEval=$FilaEva[num_eva];
 				else
@@ -204,7 +204,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                <?
 			$Consulta="SELECT nro_evaluacion,fecha from sget_evaluacion_adm where cod_contrato='".$CmbContrato."' group by nro_evaluacion";
 			//echo $Consulta."<br>";
-			$RespEva=mysql_query($Consulta);
+			$RespEva=mysqli_query($link, $Consulta);
 			while($FilaEva=mysql_fetch_array($RespEva))
 			{
 				if ($CmbNumEval==$FilaEva["nro_evaluacion"])
@@ -236,7 +236,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Consulta.="where t1.cod_clase='30012' ";
 			//echo $Consulta."<br>";
 			$Cont=1;
-			$RespEva=mysql_query($Consulta);
+			$RespEva=mysqli_query($link, $Consulta);
 			while($FilaEva=mysql_fetch_array($RespEva))
 			{
 				echo "<tr>";
@@ -245,7 +245,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				echo "<td><SELECT name='CmbTipoEva'>";
 				echo "<option value='S' SELECTed>Seleccionar</option>";
 				$Consulta="SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30013'";
-				$RespTipoEva=mysql_query($Consulta);
+				$RespTipoEva=mysqli_query($link, $Consulta);
 				while($FilaTipoEva=mysql_fetch_array($RespTipoEva))
 				{
 					if($FilaEva[cod_nota]==$FilaTipoEva["cod_subclase"])
@@ -265,7 +265,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta="SELECT t1.nombre_subclase as nom_eva,t1.cod_subclase as cod_eva from proyecto_modernizacion.sub_clase t1 where t1.cod_clase='30012' ";
 				//echo $Consulta."<br>";
 				$Cont=1;
-				$RespEva=mysql_query($Consulta);
+				$RespEva=mysqli_query($link, $Consulta);
 				while($FilaEva=mysql_fetch_array($RespEva))
 				{
 					echo "<tr>";
@@ -274,7 +274,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					echo "<td><SELECT name='CmbTipoEva'>";
 					echo "<option value='S' SELECTed>Seleccionar</option>";
 					$Consulta="SELECT cod_subclase,nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='30013'";
-					$RespTipoEva=mysql_query($Consulta);
+					$RespTipoEva=mysqli_query($link, $Consulta);
 					while($FilaTipoEva=mysql_fetch_array($RespTipoEva))
 					{
 						echo "<option value='".$FilaEva[cod_eva]."~~".$FilaTipoEva["cod_subclase"]."'>".$FilaTipoEva["nombre_subclase"]."</option>";	

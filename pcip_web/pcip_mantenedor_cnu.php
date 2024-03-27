@@ -169,7 +169,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	$Consulta="select * from pcip_ena_datos_enabal ";
 	$Consulta.="where ano='".$Ano."' group by ano,tipo";
 	//echo $Consulta; 	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$Cont=0;
 	echo "<input type='hidden' name='CheckSumi'>";
 	while($Fila=mysql_fetch_array($Resp))
@@ -195,7 +195,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			 for($i=1;$i<=12;$i++)
 			 {
 				$Consulta="select * from pcip_ena_datos_enabal where ano='".$Ano."' and mes='".$i."' and tipo='".$Tipo."'";
-				$RespMes=mysql_query($Consulta);
+				$RespMes=mysqli_query($link, $Consulta);
 				if($FilaMes=mysql_fetch_array($RespMes))
 				{
 					$Cont++;

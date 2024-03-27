@@ -10,7 +10,7 @@ switch($Proceso)
 {
 	case "A"://Autoriza
 		$Consulta="SELECT * from sget_hoja_ruta_hitos where num_hoja_ruta='".$NumHoja."' and cod_hito='".$H."' ";
-		$RespHD = mysql_query($Consulta);
+		$RespHD = mysqli_query($link, $Consulta);
 		if($FilaHD=mysql_fetch_array($RespHD))
 		{
 			if($FilaHD[autorizado]!='S')

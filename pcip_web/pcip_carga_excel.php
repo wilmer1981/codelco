@@ -5,11 +5,11 @@
 	$matriz=split("/",$FechaSist);
 	$dia=$matriz[0];
 	$mes=$matriz[1];
-	$año=$matriz[2];
+	$aï¿½o=$matriz[2];
 	if($Recarga=='S')
 	{
 	  	$Consulta = "select tipo_carga from pcip_lista_excel where cod_excel='".$CmbExcel."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 			$Tipo=$Fila[tipo_carga];
 	}
@@ -127,7 +127,7 @@ function CargarXls()
         <td width="75%" align="center" class="formulario2">&nbsp;</td>
         <td width="25%" align="right" class="formulario2">
 		<a href="JavaScript:Proceso('GE','','')"><img src="archivos/btn_guardar.png" alt="Procesar Excel"  border="0" align="absmiddle" /></a>&nbsp;
-		<a href="JavaScript:Proceso('CE','','')"><img src="archivos/ico_excel5.jpg" alt="Configuración Excel"  border="0" align="absmiddle" /></a>&nbsp;
+		<a href="JavaScript:Proceso('CE','','')"><img src="archivos/ico_excel5.jpg" alt="Configuraciï¿½n Excel"  border="0" align="absmiddle" /></a>&nbsp;
 		<a href="JavaScript:Proceso('E')"><img src="archivos/elim_hito2.png"  alt="Eliminar Excel " align="absmiddle" border="0"></a>
 	    <a href="JavaScript:Proceso('S','','')"><img src="archivos/volver2.png"  border="0"  alt=" Volver " align="absmiddle"></a>
       </td>
@@ -148,7 +148,7 @@ function CargarXls()
               <option value="-1" class="NoSelec">Seleccionar</option>
               <?
 				$Consulta = "select * from pcip_lista_excel where vigente='S' order by orden ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbExcel==$FilaTC["cod_excel"])
@@ -235,7 +235,7 @@ function CargarXls()
 		?>
 		</table><br>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
-            <tr><td colspan="13" class="TituloTablaVerde" align="center">INDICADOR DE DATOS PROCESADOS AÑO 
+            <tr><td colspan="13" class="TituloTablaVerde" align="center">INDICADOR DE DATOS PROCESADOS Aï¿½O 
               <select name="Ano2" id="select" onchange="Recarga();">
                 <?
 					for ($i=date("Y")-3;$i<=date("Y")+1;$i++)
@@ -266,7 +266,7 @@ function CargarXls()
             </tr>
 			<?
 				$Consulta = "select valor,nom_excel,tipo_excel from pcip_lista_excel where vigente='S' order by orden ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";
@@ -313,7 +313,7 @@ function ExisteDatoIng($CodSumi,$TipoExcel,$Ano,$Mes)
 		case "S"://SUMINISTRO
 			$Consulta="select * from pcip_eec_suministros_detalle where cod_suministro='".$CodSumi."' and tipo='".$TipoExcel."' and ano='".$Ano."' and mes='".$Mes."' and cod_cc<>''";
 			//echo $Consulta."<br>";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			if($Fila2=mysql_fetch_array($Resp2))
 				return(true);
 			else
@@ -322,7 +322,7 @@ function ExisteDatoIng($CodSumi,$TipoExcel,$Ano,$Mes)
 		case "CDV"://CUADRO DIARIO VENTAS
 			$Consulta="select * from pcip_cdv_cuadro_diario_ventas where ano='".$Ano."' and mes='".$Mes."'";
 			//echo $Consulta."<br>";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			if($Fila2=mysql_fetch_array($Resp2))
 				return(true);
 			else
@@ -331,7 +331,7 @@ function ExisteDatoIng($CodSumi,$TipoExcel,$Ano,$Mes)
 		case "EER"://ESTADO RESULTADO
 			$Consulta="select * from pcip_ere_estado_resultado where ano='".$Ano."' and mes='".$Mes."'";
 			//echo $Consulta."<br>";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			if($Fila2=mysql_fetch_array($Resp2))
 				return(true);
 			else
@@ -340,7 +340,7 @@ function ExisteDatoIng($CodSumi,$TipoExcel,$Ano,$Mes)
 		case "RHO"://ESTADO RESULTADO ORGANICA
 			$Consulta="select * from pcip_organica";
 			//echo $Consulta."<br>";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			if($Fila2=mysql_fetch_array($Resp2))
 				return(true);
 			else
@@ -349,7 +349,7 @@ function ExisteDatoIng($CodSumi,$TipoExcel,$Ano,$Mes)
 		case "RHS"://ESTADO RESULTADO SOBRETIEMPO
 			$Consulta="select * from pcip_sobretiempo where ano='".$Ano."' and mes='".$Mes."'";
 			//echo $Consulta."<br>";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			if($Fila2=mysql_fetch_array($Resp2))
 				return(true);
 			else
@@ -358,7 +358,7 @@ function ExisteDatoIng($CodSumi,$TipoExcel,$Ano,$Mes)
 		case "RHA"://ESTADO RESULTADO SOBRETIEMPO
 			$Consulta="select * from pcip_ausentismo where ano='".$Ano."' and mes='".$Mes."'";
 			//echo $Consulta."<br>";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			if($Fila2=mysql_fetch_array($Resp2))
 				return(true);
 			else
@@ -367,7 +367,7 @@ function ExisteDatoIng($CodSumi,$TipoExcel,$Ano,$Mes)
 		case "IP"://INGRESOS PROYECTADOS
 			$Consulta="select * from pcip_inp_tratam where ano='".$Ano."' and mes='".$Mes."'";
 			//echo $Consulta."<br>";
-			$Resp2=mysql_query($Consulta);
+			$Resp2=mysqli_query($link, $Consulta);
 			if($Fila2=mysql_fetch_array($Resp2))
 				return(true);
 			else

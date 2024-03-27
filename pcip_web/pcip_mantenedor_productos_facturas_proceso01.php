@@ -6,7 +6,7 @@
 		case "N":
 		    $Mensaje1=false;$Mensaje3=false;
 			$Consulta="select * from pcip_fac_productos_facturas where nom_producto='".strtoupper($TxtProducto)."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			if(!$Fila=mysql_fetch_array($Resp))
 			{
 				$Inserta="insert into pcip_fac_productos_facturas (cod_producto,nom_producto,vigente)";

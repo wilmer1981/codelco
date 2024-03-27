@@ -16,7 +16,7 @@ if ($Opc=='M')
 	$Ano2Ocu=$FC["valor_subclase3"];
 
 	$Consulta="SELECT * from sget_visitas where corr_visita = '".$CorrV."'";
-	 $Resp=mysql_query($Consulta);
+	 $Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		//$TxtRutPrv=str_pad($Fila["rut_empresa"],10,'0',l_pad);
@@ -61,7 +61,7 @@ if ($Opc=='M')
 		//CONSULTO ULTIMO INGRESO DEL RUT BUSCADO	
 		$UltimoIngreso='';$Dia=0;$FechaTope='';
 		$Consulta="SELECT fecha_ingreso from sget_visitas where rut='".$TxtRut."' and corr_visita <> '".$CorrV."' order by fecha_ingreso desc";	
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$FecUltIng=explode('-',$Fila[fecha_ingreso]);
@@ -105,7 +105,7 @@ if($BusDatos=='S')
 	$TxtEmpresa='';
 	$Consulta="SELECT * from sget_visitas where rut='".$TxtRut."' order by fecha_ingreso desc";
 	//echo $Consulta."<br>";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtNombre=$Fila["nombres"];
@@ -142,7 +142,7 @@ if($BusDatos=='S')
 	else//CONSULTO EN PERSONAL
 	{
 		$Consulta="SELECT * from sget_personal where rut='".$TxtRut."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$TxtNombre=$Fila["nombres"];
@@ -184,7 +184,7 @@ if($BusDatos=='S')
 	//CONSULTO ULTIMO INGRESO DEL RUT BUSCADO	
 	$UltimoIngreso='';$Dia=0;
 	$Consulta="SELECT fecha_ingreso from sget_visitas where rut='".$TxtRut."' order by fecha_ingreso desc";	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$FecUltIng=explode('-',$Fila[fecha_ingreso]);
@@ -193,7 +193,7 @@ if($BusDatos=='S')
 }
 //PREGUINTO SI TIENE INGRESO PARA EL D�A
 $Consulta="SELECT fecha_ingreso from sget_visitas where rut='".$TxtRut."' and fecha_ingreso='".$TxtFechaIng."' order by fecha_ingreso desc";	
-$Resp=mysql_query($Consulta);$ExisteMismoDia='N';
+$Resp=mysqli_query($link, $Consulta);$ExisteMismoDia='N';
 if($Fila=mysql_fetch_array($Resp))
 	$ExisteMismoDia='S';
 ?>

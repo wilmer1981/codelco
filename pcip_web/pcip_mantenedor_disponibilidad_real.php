@@ -61,7 +61,7 @@ function Procesos(TipoProceso)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar las Disponibilidades Seleccionados?"))
+				if (confirm("ï¿½Desea Eliminar las Disponibilidades Seleccionados?"))
 				{
 					f.action = "pcip_mantenedor_disponibilidad_real_proceso01.php?Opcion=E&Valores="+Valores;
 					f.submit();
@@ -119,7 +119,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="-1" selected="selected">Todos</option>
       <?
 	  $Consulta = "select cod_sistema,nom_sistema from pcip_eec_sistemas where vigente='S' and mostrar='S' order by nom_sistema ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbSistema==$FilaTC["cod_sistema"])
@@ -135,7 +135,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <option value="-1" selected="selected">Todos</option>
         <?
 	  	$Consulta = "select t1.cod_equipo,t2.nom_equipo from pcip_eec_equipos_por_sistema t1 inner join pcip_eec_equipos t2 on t1.cod_equipo=t2.cod_equipo where t1.cod_sistema='".$CmbSistema."' order by t2.nom_equipo ";			
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($FilaTC=mysql_fetch_array($Resp))
 		{
 			if ($CmbEquipos==$FilaTC["cod_equipo"])
@@ -218,12 +218,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.= " and t1.cod_equipo='".$CmbEquipos."' ";
 	//$Consulta.= " group by t1.cod_sistema,t1.cod_equipo,t1.tipo_disponibilidad,t1.ano ";	
 	//echo $Consulta; 	
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Sistema=$Fila[nom_sistema];
 		$Equipo=$Fila[nom_equipo];
-		$Año=$Fila[ano];
+		$Aï¿½o=$Fila[ano];
 		$Mes=$Meses[$Fila[mes]-1];
 		$Cod=$Fila[cod_sistema]."~".$Fila[cod_equipo]."~".$Fila[ano]."~".$Fila[mes];
 		$Valor=$Fila[valor];
@@ -233,7 +233,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<td><input type="checkbox" name='CheckDisp' class="SinBorde" value="<? echo $Cod; ?>"> </td>
 		<td><? echo $Sistema;?></td>
 		<td><? echo $Equipo;?></td>
-		<td align="center"><? echo $Año;?></td>
+		<td align="center"><? echo $Aï¿½o;?></td>
 		<td align="center"><? echo $Mes;?></td>
 		<td align="center"><? echo number_format($Valor,2,',','.');?></td>
 		<td align="right"><? echo number_format($ValorReal,2,',','.');?></td>

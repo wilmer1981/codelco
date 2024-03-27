@@ -27,7 +27,7 @@
 	else
 		$Consulta.= " WHERE right(hornada,5) = $Hornada";
 	$Consulta.=" and left(hornada,6) Between  '".$AnoI."' and '".$AnoF."'";
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($row = mysql_fetch_array($rs))
 	{
 		$Dia = substr($row[fecha_carga],8,2);
@@ -46,7 +46,7 @@
 		$Consulta.= " WHERE right(hornada,5) = $Hornada";
 	$Consulta.=" and left(hornada,6) between '".$AnoI."' and '".$AnoF."'";
 
-	$rs = mysql_query($Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if($row = mysql_fetch_array($rs))
 	{
 		$Solera = $row[solera];
@@ -105,7 +105,7 @@ function Proceso(opc)
 		else
 			$Consulta.= " WHERE right(hornada,5) = $Hornada";
 		$Consulta.=" and left(hornada,6) between '".$AnoI."' and '".$AnoF."'  ORDER BY turno";
-		$RS = mysql_query($Consulta);
+		$RS = mysqli_query($link, $Consulta);
 		while($row = mysql_fetch_array($RS))
 		{		
             $AcumAs = 0;
@@ -122,11 +122,11 @@ function Proceso(opc)
 				$Consulta.= " WHERE right(hornada,5) = $Hornada";
 			$Consulta.= " and left(hornada,6) between '".$AnoI."' and '".$AnoF."' AND turno = '$row[turno]'";
 			$Consulta.= " ORDER BY hornada,turno,cod_producto,cod_subproducto";
-			$rs2 = mysql_query($Consulta);
+			$rs2 = mysqli_query($link, $Consulta);
 			$Row = mysql_fetch_array($rs2);
 			
 			$Consulta =" SELECT * FROM proyecto_modernizacion.funcionarios WHERE rut = '".$Row[encargado]."'";
-			$resp = mysql_query($Consulta);
+			$resp = mysqli_query($link, $Consulta);
 			$Fil = mysql_fetch_array($resp);
 			echo'<table width="500" border="1" cellspacing="0" cellpadding="0" align="center">
 			       <tr> 
@@ -151,12 +151,12 @@ function Proceso(opc)
 				$Consulta.= " WHERE right(hornada,5) = $Hornada";
 			$Consulta.= " and left(hornada,6) between '".$AnoI."' and '".$AnoF."' AND turno = '$row[turno]'";
 			$Consulta.= " ORDER BY cod_producto,cod_subproducto,grupo";
-			$rs = mysql_query($Consulta);
+			$rs = mysqli_query($link, $Consulta);
 			while($Fila = mysql_fetch_array($rs))
 			{
 				echo'<tr>';
 				  $Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = $Fila["cod_producto"] AND cod_subproducto = $Fila[cod_subproducto]";
-				  $rs1 = mysql_query($Consulta);
+				  $rs1 = mysqli_query($link, $Consulta);
 				  $fila = mysql_fetch_array($rs1); 			
 				  echo'<td>'.$fila["abreviatura"].'&nbsp;</td>';
 	
@@ -172,7 +172,7 @@ function Proceso(opc)
 				  $Consulta.= " AND cod_subproducto = '".$Fila[cod_subproducto]."'";
 				  $Consulta.= " AND hornada = '".$Fila[hornada_sea]."'";
 				  $Consulta.= " AND (cod_leyes = '08' or cod_leyes ='09' or cod_leyes = '31') ";
-				  $resp2 = mysql_query($Consulta);
+				  $resp2 = mysqli_query($link, $Consulta);
 				  $As = 0;
 				  $Sb = 0;
 				  $Fe = 0;

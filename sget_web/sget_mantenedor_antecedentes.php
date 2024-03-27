@@ -169,7 +169,7 @@ function Proceso(Opc)
 
 		$Consulta.= " order by t1.rut,t1.ape_paterno";
 	//	echo "WW".$Consulta;
-		 $Resp = mysql_query($Consulta);
+		 $Resp = mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 		$Rut=$Fila["rut"];

@@ -11,7 +11,7 @@
 		case "G":	
 			set_time_limit(5000);
 			$Consulta="select * from scop_inventario where cod_estado='1'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Contrato=$Fila["cod_contrato"];
@@ -26,7 +26,7 @@
 				{
 					$Consulta="select * from proyecto_modernizacion.sub_clase";
 					$Consulta.=" where cod_clase='33007' and cod_subclase='".$v."' and nombre_subclase<>'' and not isnull(nombre_subclase) and valor_subclase1='1'";
-					$RespCorreo=mysql_query($Consulta);
+					$RespCorreo=mysqli_query($link, $Consulta);
 					if($FilaCorreo=mysql_fetch_array($RespCorreo))
 					{
 						$PARA=$PARA.$FilaCorreo["nombre_subclase"].",";

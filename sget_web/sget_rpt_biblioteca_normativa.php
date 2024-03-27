@@ -75,7 +75,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       <option value="S">Todos</option>
       <?
 	  	$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30009'   ";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
 			if($Fila["cod_subclase"]==$CmbTipoDoc)
@@ -142,12 +142,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   		  if($CmbTipoDoc != "S")
 			$Consulta.="  and  t1.cod_tipo_doc='".$CmbTipoDoc."' ";
 		  $Consulta.=" order by fecha_hora";
-		  $Resp=mysql_query($Consulta);
+		  $Resp=mysqli_query($link, $Consulta);
 		  while($Fila=mysql_fetch_array($Resp))
 		  {
 				echo "<tr>\n";
 				$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='30010' and cod_subclase='".$Fila[cod_tipo_doc]."'";
-				$Resp2=mysql_query($Consulta);
+				$Resp2=mysqli_query($link, $Consulta);
 				$Fila2=mysql_fetch_array($Resp2);
 				echo "<td>".$Fila2["nombre_subclase"]."</td>";
 				echo "<td ><a href=\"".$Dir."/".$Fila[nombre_archivo]."\" target='_blank'><img src='archivos/atachar.png'   alt='Click Para Abrir Documento'  border='0' align='absmiddle' />".substr($Fila[nombre_archivo],12)."</a></td>\n";

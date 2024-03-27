@@ -23,7 +23,7 @@
 	if($Opt=='M')
 	{
 		$Consulta="select * from ipif_novedades where nro_solicitud='".$NumNov."'";
-		$RespSolp=mysql_query($Consulta);
+		$RespSolp=mysqli_query($link, $Consulta);
 		if($FilaSolp=mysql_fetch_array($RespSolp))
 		{
 			//echo "fecha".$FilaSolp[fecha_ingreso]."<br>";
@@ -230,7 +230,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
          <option value="-1" class="NoSelec">Seleccionar</option>
          <?
 			$Consulta = "select * from  proyecto_modernizacion.sub_clase where cod_clase=1 order by valor_subclase1";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaT=mysql_fetch_array($Resp))
 			{
 				if ($CmbTurno==$FilaT["cod_subclase"])
@@ -275,7 +275,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		    <td colspan="2" valign="top" class="formulario" ><textarea name="textnovedad" rows="15" cols="80"><? echo $textnovedad; ?></textarea></td>
 		    <td class="formulario" valign="top" ><? 
 			$Consulta = "select count(*) as Cantidad from  ipif_condicion ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				echo '<input class="SinBorde" name="checkCondicion" type="hidden" value="">';
 				if($FilaC=mysql_fetch_array($Resp))
 				{
@@ -290,7 +290,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				}?><table width="180" height="40" border="1" align="center" cellpadding="1" cellspacing="0" bgcolor="#FFFBFB">
               <?
 				$Consulta = "select * from  ipif_condicion ";
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				echo '<input class="SinBorde" name="checkCondicion" type="hidden" value="">';
 				while ($Fila=mysql_fetch_array($Resp))
 				{
@@ -300,7 +300,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					
 					<?
 						$Consulta="select * from ipif_novedades_condicion where nro_solicitud='".$NumNov."' and cod_condicion='".$Fila[cod_condicion]."'";
-						$RespCon=mysql_query($Consulta);
+						$RespCon=mysqli_query($link, $Consulta);
 						//echo $Consulta;
 						if($FilaCon=mysql_fetch_array($RespCon))
 						{
@@ -334,7 +334,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			/*
 			$Consulta="select count(*) as CANT from ipif_ceco_solicitante t1 inner join ipif_novedades_correos t2 on t1.cod_ceco=t2.cod_cc and t1.cuenta_solicitante=t2.cuenta";
 			$Consulta.=" where  cod_tipo='2' and nro_solicitud='".$NumNov."' and t2.tipo='A' ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp))
 					{
 						$CANTR=$Fila[CANT];
@@ -358,7 +358,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                 <?
 				$Consulta = "select * from  ipif_ceco_asociacion t1 inner join proyecto_modernizacion.centro_costo t2 ";
 				$Consulta.= " on t1.cod_cc=t2.CENTRO_COSTO where t1.cod_tipo='2' ";
-				$RespP=mysql_query($Consulta);
+				$RespP=mysqli_query($link, $Consulta);
 				while ($FilaP=mysql_fetch_array($RespP))
 				{
 					if ($CmbPerfil==$FilaP["cod_cc"])
@@ -374,11 +374,11 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 <?					if($_Grabar=='S')
 					{
 						$Consulta="select * from ipif_ceco_solicitante where cod_ceco='".$_perfil."' ";
-						$RespP=mysql_query($Consulta);
+						$RespP=mysqli_query($link, $Consulta);
 						while ($FilaP=mysql_fetch_array($RespP))
 						{
 							$Consulta="select * from ipif_novedades_correos where nro_solicitud='".$NumNov."' and cuenta='".$FilaP[cuenta_solicitante]."' ";
-							$RespE=mysql_query($Consulta);
+							$RespE=mysqli_query($link, $Consulta);
 							if(!$FilaE=mysql_fetch_array($RespE))
 							{
 								$Insertar="insert into ipif_novedades_correos(nro_solicitud,cuenta,tipo,cod_cc) values";
@@ -396,7 +396,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Eliminar="delete from ipif_novedades_correos where nro_solicitud='".$NumNov."' and cuenta='".$_cuenta."' ";
 						mysql_query($Eliminar);
 						$Consulta="select * from ipif_novedades_correos  where nro_solicitud='".$NumNov."' ";
-						$RespNov=mysql_query($Consulta);
+						$RespNov=mysqli_query($link, $Consulta);
 						if(!$FilaNov=mysql_fetch_array($RespNov))
 						{
 							$Actualizar = "UPDATE ipif_novedades set mantencion='' where nro_solicitud='".$NumNov."' ";
@@ -406,7 +406,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					}
 					
 					$Consulta="select * from ipif_novedades_correos where nro_solicitud='".$NumNov."' and tipo='A' ";
-					$Resp=mysql_query($Consulta);
+					$Resp=mysqli_query($link, $Consulta);
 					//echo $Consulta;
 					while($Fila=mysql_fetch_array($Resp))
 					{		

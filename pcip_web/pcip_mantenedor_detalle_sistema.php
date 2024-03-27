@@ -5,7 +5,7 @@ if ($Cod!='')
 {
 	$Consulta="select * from pcip_eec_sistemas t1 ";
 	$Consulta.=" where t1.cod_sistema='".$Cod."' ";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysql_fetch_array($Resp))
 	{
 		$TxtSistema=$Fila["nom_sistema"];
@@ -67,7 +67,7 @@ function Salir()
 				$Consulta.= " from pcip_eec_equipos_por_sistema t1 inner join pcip_eec_equipos t2 on t1.cod_equipo=t2.cod_equipo";
 				$Consulta.=" where t1.cod_sistema='".$Cod."'";
 				$Consulta.= " order by cod_equipo ";
-				$Resp = mysql_query($Consulta);
+				$Resp = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				    while ($Fila=mysql_fetch_array($Resp))
 				    {

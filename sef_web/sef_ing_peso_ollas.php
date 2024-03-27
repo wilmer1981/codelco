@@ -19,7 +19,7 @@
 		$Consulta = "SELECT * from sef.producto_por_equipo ";
 		$Consulta.= " where Cod_equipo = '".intval($Equipo)."'";
 		$Consulta.= " and Cod_Producto = '".intval($Producto)."'";
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Fila = mysql_fetch_array($Respuesta))
 		{
 			$PesoOlla = $Fila["Peso_base"];
@@ -142,7 +142,7 @@ function Recarga()
 			<option value="S">SELECCIONAR</option>
                 <?
 					$Consulta = "SELECT * from sef.equipos order by Cod_equipo";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila = mysql_fetch_array($Respuesta))
 					{
 						if ($Equipo == $Fila["Cod_equipo"])						
@@ -159,7 +159,7 @@ function Recarga()
 			<option value="S">SELECCIONAR</option>
   				<?
 					$Consulta = "SELECT * from sef.productos order by Cod_Producto";
-					$Respuesta = mysql_query($Consulta);
+					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila = mysql_fetch_array($Respuesta))
 					{
 						if ($Producto == $Fila["Cod_Producto"])						
@@ -196,7 +196,7 @@ function Recarga()
 	$Consulta.= " from sef.producto_por_equipo t1 inner join sef.equipos t2 on t1.Cod_equipo = t2.Cod_equipo ";
 	$Consulta.= " inner join sef.productos t3 on t1.Cod_producto = t3.Cod_producto ";
 	$Consulta.= " order by t1.Cod_equipo, t1.Cod_producto ";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		echo "<tr align='center'>\n";

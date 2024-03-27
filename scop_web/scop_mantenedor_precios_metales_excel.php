@@ -41,7 +41,7 @@ echo $koolajax->Render();
 				$Consulta.=" inner join proyecto_modernizacion.sub_clase t3 on t3.cod_clase='33004' and t1.cod_unidad=t3.cod_subclase";
 				$Consulta.=" where ano='".$AnoAux."'";						
 				$Consulta.=" group by ano,mes";						
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{						
 						$Cod=$Fila["ano"]."~".$Fila["mes"];
@@ -78,7 +78,7 @@ function BuscarValor($CodLey,$Ano,$Mes,$Tipo)
 {
 	$Consulta="select t1.valor,t2.nombre_subclase from scop_precios_metales t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='33004' and t1.cod_unidad=t2.cod_subclase and t2.valor_subclase1=t1.cod_ley";
 	$Consulta.=" where t1.ano='".$Ano."' and t1.mes='".$Mes."' and t1.cod_ley='".$CodLey."'";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$Nom_uni=$Fila["nombre_subclase"];

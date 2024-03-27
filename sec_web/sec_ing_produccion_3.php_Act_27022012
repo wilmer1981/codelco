@@ -592,7 +592,7 @@
 			echo '<input name="txtmarca" type="text" value="'.$txtmarca.'" readonly>';
 			$Consulta="select descripcion from sec_web.marca_catodos where cod_marca='".$txtmarca."'";
 		}
-		$RespMarca=mysql_query($Consulta);
+		$RespMarca=mysqli_query($link, $Consulta);
 		if($FilaMarca=mysql_fetch_array($RespMarca))
 			$txtnommarca=$FilaMarca["descripcion"];
 	?>
@@ -977,7 +977,7 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') and (t1.agrupacion in ('7','99')) order by t1.fecha_hora desc";		
 			//echo "Conuslta_1    ".$Consulta."<br>";
 		}
-		$RespSA=mysql_query($Consulta);
+		$RespSA=mysqli_query($link, $Consulta);
 		if($FilaSA=mysql_fetch_array($RespSA))
 		{
 			//echo "entre al iffffff";
@@ -995,7 +995,7 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 			}
 			$Consulta.=" and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.=" and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '')";		
-			$RespLeyes=mysql_query($Consulta);
+			$RespLeyes=mysqli_query($link, $Consulta);
 			//echo $Consulta."<br>";
 			while($FilaLeyes=mysql_fetch_array($RespLeyes))
 			{
@@ -1018,7 +1018,7 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 		$Consulta.="where t1.cod_producto='18' and t1.cod_subproducto='1' and (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 		$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') and (t1.agrupacion = '7')";		
 		//echo $Consulta;
-		$RespLeyes=mysql_query($Consulta);
+		$RespLeyes=mysqli_query($link, $Consulta);
 		while($FilaLeyes=mysql_fetch_array($RespLeyes))
 		{
 			$NroSA=$FilaLeyes['nro_solicitud'];
@@ -1051,7 +1051,7 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') order by t1.fecha_hora desc";		
 		//echo $Consulta."<br>";
 		}
-		$RespSA=mysql_query($Consulta);
+		$RespSA=mysqli_query($link, $Consulta);
 		if($FilaSA=mysql_fetch_array($RespSA))
 		{
 			$NRSA=$FilaSA['nro_solicitud'];
@@ -1062,7 +1062,7 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 			$Consulta.="inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes=t3.cod_leyes inner join proyecto_modernizacion.unidades t4 on t2.cod_unidad=t4.cod_unidad ";
 			$Consulta.="where t1.nro_solicitud='".$FilaSA['nro_solicitud']."' and (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '')";		
-			$RespLeyes=mysql_query($Consulta);
+			$RespLeyes=mysqli_query($link, $Consulta);
 			while($FilaLeyes=mysql_fetch_array($RespLeyes))
 			{
 				$NomLey=$FilaLeyes['nombre_leyes'];
@@ -1081,7 +1081,7 @@ function ObtieneLetraMes($Codigo)
 	$CodLetra='';
 	$Consulta = "SELECT nombre_subclase FROM proyecto_modernizacion.sub_clase";
 	$Consulta.= " WHERE cod_clase = '3004' and cod_subclase='".$Codigo."'";
-	$RespEti=mysql_query($Consulta);		
+	$RespEti=mysqli_query($link, $Consulta);		
 	if($FilaEti=mysql_fetch_array($RespEti))
 	{
 		$CodLetra=$FilaEti["nombre_subclase"];
@@ -1093,7 +1093,7 @@ function ObtieneCircuito($Grupo)
 {
 	$CodCircuito='';
 	$Consulta="select cod_circuito from ref_web.grupo_electrolitico2 where cod_grupo='".$Grupo."' order by fecha desc";
-	$RespEti=mysql_query($Consulta);
+	$RespEti=mysqli_query($link, $Consulta);
 	if($FilaEti=mysql_fetch_array($RespEti))
 	{
 		$CodCircuito=$FilaEti[cod_circuito];	
@@ -1106,7 +1106,7 @@ function ObtieneFechaRenov($Grupo,$mes,$dia,$ano)
 	$FechAuxGrupo='';
 	$FecActualEti=date('Y-m-d',mktime(0,0,0,$mes,$dia,$ano));
 	$Consulta="select * from sec_web.renovacion_prog_prod where cod_grupo ='".$Grupo."' and cod_grupo <>'' and cod_concepto <> 'D' order by fecha_renovacion desc,dia_renovacion desc";
-	$RespEti=mysql_query($Consulta);
+	$RespEti=mysqli_query($link, $Consulta);
 	//echo $Consulta;
 	while($FilaEti=mysql_fetch_array($RespEti))
 	{
@@ -1130,7 +1130,7 @@ function ObtieneIdLote($CodLote,$NumLote)
 	$id_lote='';
 	$Consulta="select fecha_creacion_lote as fecha_lote from sec_web.lote_catodo where cod_bulto='".$CodLote."' and num_bulto='".$NumLote."' and cod_estado='a' order by fecha_creacion_lote desc";
 	//echo $Consulta;
-	$RespEti=mysql_query($Consulta);
+	$RespEti=mysqli_query($link, $Consulta);
 	if($FilaEti=mysql_fetch_array($RespEti))
 	{
 		$FecCreaLote=explode('-',$FilaEti[fecha_lote]);
@@ -1150,7 +1150,7 @@ if($Procesar=='S')
 	
 	$Consulta="select cod_paquete,num_paquete,fecha_creacion_paquete,cod_grupo,id_paquete from sec_web.paquete_catodo_etiqueta where cod_producto='18' and cod_subproducto='40' and fecha_creacion_paquete >= '2010-08-19' and nro_solicitud = '0' ";
 	//echo $Consulta."<br>";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysql_fetch_array($Resp))
 	{
 		$SA='';
@@ -1165,7 +1165,7 @@ if($Procesar=='S')
 			$Consulta.="where t1.cod_producto='18' and t1.cod_subproducto='1' and (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') and (t1.agrupacion in ('7','99')) order by t1.fecha_hora desc";		
 			//echo $Consulta;
-			$RespSA=mysql_query($Consulta);
+			$RespSA=mysqli_query($link, $Consulta);
 			if($FilaSA=mysql_fetch_array($RespSA))
 			{
 				$SA=$FilaSA['nro_solicitud'];
@@ -1180,7 +1180,7 @@ if($Procesar=='S')
 			$Consulta.="where (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') order by t1.fecha_hora desc";		
 			//echo $Consulta;
-			$RespSA=mysql_query($Consulta);
+			$RespSA=mysqli_query($link, $Consulta);
 			if($FilaSA=mysql_fetch_array($RespSA))
 			{
 				$SA=$FilaSA['nro_solicitud'];

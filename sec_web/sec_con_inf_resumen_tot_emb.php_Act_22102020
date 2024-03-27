@@ -208,7 +208,7 @@ function Proceso(opt)
 	$Consulta.= " and t2.cod_estado = 'c'";
 	$Consulta.= "group by t2.cod_producto, t2.cod_subproducto ";
 	//echo "CC".$Consulta;
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;
 	$TotalPaquetes = 0;
 	$TotalUnidades = 0;
@@ -238,7 +238,7 @@ function Proceso(opt)
 	$Consulta ="SELECT min(hora_guia) as hora1, max(hora_guia) as hora2 ";
 	$Consulta.=" from sec_web.guia_despacho_emb where cod_estado <>'A' and fecha_guia between '".$FechaInicio."' and '".$FechaTermino."'";
 	$Consulta.=" order by fecha_guia, num_guia";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 		if ($Fila1 = mysql_fetch_array($Respuesta))
 		{
 			$var3 = $FechaInicio;

@@ -45,7 +45,7 @@ function Proceso(opt)
 					$Consulta = "SELECT * from sget_contratistas  ";
 					$Consulta.= " where rut_empresa='".$RutEmp."'";
 					//echo $Consulta;
-					$Resp=mysql_query($Consulta); 
+					$Resp=mysqli_query($link, $Consulta); 
 					if ($Fila=mysql_fetch_array($Resp)) 
 					{ 
 						echo $Fila["rut_empresa"]." - ".strtoupper($Fila["razon_social"]);
@@ -60,7 +60,7 @@ function Proceso(opt)
 				$Consulta.= " where cod_contrato='".$Ctto."' ";
 				$Consulta.= " order by cod_contrato asc";
 				//echo $Consulta;
-				$Resp=mysql_query($Consulta); 
+				$Resp=mysqli_query($link, $Consulta); 
 				if ($Fila=mysql_fetch_array($Resp)) 
 				{ 
 					if ($FechaActual > $Fila["fecha_termino"]){
@@ -81,7 +81,7 @@ function Proceso(opt)
 				$Consulta = "SELECT * from sget_personal t1  ";
 				$Consulta.= " where t1.rut='".$Run."' ";
 				$Consulta.= " order by t1.ape_paterno, t1.ape_materno, t1.nombres";
-				$Resp=mysql_query($Consulta); 
+				$Resp=mysqli_query($link, $Consulta); 
 				//echo $Consulta;
 				if ($Fila=mysql_fetch_array($Resp)) 
 				{
@@ -132,7 +132,7 @@ function Proceso(opt)
 	$Consulta.= "where t1.rut='".$Run."' and (t3.fechahora between '".$TxtFecha." 00:00:00' and '".$TxtFechaH." 23:59:59') and t3.tipo='".$Tipo."'";
 	//$Consulta.= "group by t1.rut,t2.cod_contrato,t2.rut_empresa ";
 	$Consulta.= "order by t3.fechahora";
-	$RespMarcas=mysql_query($Consulta);
+	$RespMarcas=mysqli_query($link, $Consulta);
 	//echo $Consulta."<br>";
 	while($FilaMarcas=mysql_fetch_array($RespMarcas))
 	{

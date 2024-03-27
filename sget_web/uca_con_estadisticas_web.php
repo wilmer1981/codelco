@@ -58,7 +58,7 @@ body {
 				{	
 					$Consulta = "SELECT * from sget_contratistas  ";
 					$Consulta.= " where rut_empresa='".$CmbEmpresa."'";
-					$Resp=mysql_query($Consulta); 
+					$Resp=mysqli_query($link, $Consulta); 
 					if ($Fila=mysql_fetch_array($Resp)) 
 					{ 
 						echo $Fila["rut_empresa"]." - ".strtoupper($Fila["razon_social"]);
@@ -82,7 +82,7 @@ body {
 					//$Consulta.= " and cod_contrato='".$CmbContrato."' ";
 					$Consulta.= " where cod_contrato='".$CmbContrato."' ";
 					$Consulta.= " order by cod_contrato asc";
-					$Resp=mysql_query($Consulta); 
+					$Resp=mysqli_query($link, $Consulta); 
 					if ($Fila=mysql_fetch_array($Resp)) 
 					{ 
 						if ($FechaActual > $Fila["fecha_termino"]){
@@ -108,7 +108,7 @@ body {
 					$Consulta = "SELECT * from sget_personal t1  ";
 					$Consulta.= " where t1.rut='".$CmbRut."' ";
 					$Consulta.= " order by t1.ape_paterno, t1.ape_materno, t1.nombres";
-					$Resp=mysql_query($Consulta); 
+					$Resp=mysqli_query($link, $Consulta); 
 					if ($Fila=mysql_fetch_array($Resp)) 
 					{
 						$Rut=substr($Fila["rut"],1,2).".".substr($Fila["rut"],2,3).".".substr($Fila["rut"],5,3)."-".substr($Fila["rut"],9,1);				
@@ -205,7 +205,7 @@ body {
 		$Consulta.= " and t2.rut = '".$CmbRut."'";
 	$Consulta.= " order by t3.razon_social, t2.cod_contrato ";
 	//echo $Consulta."<br>";
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	$TotalMarcas=0;
 	$TotalEntradas=0;
 	$TotalSalidas=0;
@@ -253,7 +253,7 @@ body {
 			$Consulta.= " and t2.rut = '".$CmbRut."'";			
 		$Consulta.= "group by t1.fechahora";
 		//echo $Consulta;
-		$Resp2=mysql_query($Consulta);						
+		$Resp2=mysqli_query($link, $Consulta);						
 		while ($Fila2=mysql_fetch_array($Resp2))
 		{
 			$Dia=intval(substr($Fila2["fechahora"],8,2));
@@ -274,7 +274,7 @@ body {
 			$Consulta.= " and t2.rut = '".$CmbRut."'";			
 		$Consulta.= "group by t1.fechahora";
 		//echo $Consulta."<br>";
-		$Resp2=mysql_query($Consulta);						
+		$Resp2=mysqli_query($link, $Consulta);						
 		while ($Fila2=mysql_fetch_array($Resp2))
 		{
 			$Dia=intval(substr($Fila2["fechahora"],8,2));

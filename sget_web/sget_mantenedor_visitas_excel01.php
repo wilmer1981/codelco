@@ -98,7 +98,7 @@ switch($Opcion)
 			//$IniCol=1;
 			//$IniCol=2;
 			$Consulta="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut='".$CookieRut."'";
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Resp);
 			$NombreAutoriza=$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"];
 			
@@ -119,7 +119,7 @@ switch($Opcion)
 					if(trim($TxtRut)!='')
 					{
 						$Consulta="SELECT ifnull(max(corr_visita)+1,1) as maximo from sget_visitas_tmp ";
-						$Resp=mysql_query($Consulta);
+						$Resp=mysqli_query($link, $Consulta);
 						if($Fila=mysql_fetch_array($Resp))
 						{
 							if($Fila["maximo"]=='')
@@ -150,7 +150,7 @@ switch($Opcion)
 						else
 						{
 							$Consulta="SELECT fecha_ingreso from sget_visitas where rut='".$TxtRut."' order by fecha_ingreso desc";	
-							$Resp=mysql_query($Consulta);$FechaTope='';
+							$Resp=mysqli_query($link, $Consulta);$FechaTope='';
 							if($Fila=mysql_fetch_array($Resp))
 							{
 								$FecUltIng=explode('-',$Fila[fecha_ingreso]);
@@ -183,7 +183,7 @@ switch($Opcion)
 	break;
 	case "carga":
 		$Consulta="SELECT * from sget_visitas_tmp where rut_registro_solicita='".$CookieRut."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while($Filas=mysql_fetch_array($Resp))
 		{
 			if($Filas[pasaporte]=='N')
@@ -192,7 +192,7 @@ switch($Opcion)
 				if($RutTMP==true)
 				{
 					$Consulta="SELECT ifnull(max(corr_visita)+1,1) as maximo from sget_visitas ";
-					$Resp2=mysql_query($Consulta);
+					$Resp2=mysqli_query($link, $Consulta);
 					if($Fila=mysql_fetch_array($Resp2))
 					{
 						if($Fila["maximo"]=='')
@@ -210,7 +210,7 @@ switch($Opcion)
 			else
 			{
 				$Consulta="SELECT ifnull(max(corr_visita)+1,1) as maximo from sget_visitas ";
-				$Resp2=mysql_query($Consulta);
+				$Resp2=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp2))
 				{
 					if($Fila["maximo"]=='')

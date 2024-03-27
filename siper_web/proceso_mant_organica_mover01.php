@@ -14,17 +14,17 @@ include('funciones/siper_funciones.php');
 			
 			//ARBOL ORIGEN
 			$Consulta="SELECT * from sgrs_areaorg where CPARENT='".$Navega."'";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($RespTipo))
 				$NAREA=$Fila[NAREA];//NOMBRE DE EL AREA QUE SE KIERE MOVER				
 			$Consulta="SELECT * from sgrs_organica where CORGANICA='".$Nivel."'";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($RespTipo))
 				$ORGAAREA=$Fila[NORGANICA];//NOMBRE DE LA DESCIPCION
 
 			$Consulta="SELECT CAREA,CPARENT,NAREA,CTAREA from sgrs_areaorg where MVIGENTE='1' and (CPARENT like '".$SelTarea."%' or  CAREA='".$BuscarCPARENT."') order by CTAREA,CAREA";
 			//echo $Consulta."<BR><br>";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Respuesta))
 			{
 				$NuevoCPARENT=str_replace($CPARENTAUX,$SelTarea2,$Fila[CPARENT]);
@@ -36,11 +36,11 @@ include('funciones/siper_funciones.php');
 				
 			//ARBOL DESTINO
 			$Consulta="SELECT * from sgrs_areaorg where CPARENT='".$Navega2."'";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($RespTipo))
 				$NAREA2=$Fila[NAREA];//NOMBRE DE EL AREA DONDE SE MUEVE		
 			$Consulta="SELECT * from sgrs_organica where CORGANICA='".$Nivel2."'";
-			$RespTipo=mysql_query($Consulta);
+			$RespTipo=mysqli_query($link, $Consulta);
 			if($Fila=mysql_fetch_array($RespTipo))
 				$ORGAAREA2=$Fila[NORGANICA];//NOMBRE DE LA DESCIPCION
 

@@ -22,7 +22,7 @@ include('funciones/siper_funciones.php');
 				$Rut=explode('~',$Datos);
 				$correos=rtrim($correos,',');
 				$Consulta="SELECT * from sgrs_acceso_organica where RUT='".$Rut[0]."'"; 
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Resp))
 					$Geren=$Fila[COD_GERENCIAS];
 					

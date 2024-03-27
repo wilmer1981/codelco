@@ -78,7 +78,7 @@ body {
 			$Consulta.=" and t1.estado_actual='1'";
 			$Consulta.=" and t1.fecha_emision BETWEEN '".$FechaDesde."' and '".$FechaHasta."'";
 			$Consulta.=" group by t3.cod_subclase";			
-			$Resp=mysql_query($Consulta);$ArrayTot=array();				
+			$Resp=mysqli_query($link, $Consulta);$ArrayTot=array();				
 			//echo $Consulta."<br>";
 			while($Fila=mysql_fetch_array($Resp))
 			{

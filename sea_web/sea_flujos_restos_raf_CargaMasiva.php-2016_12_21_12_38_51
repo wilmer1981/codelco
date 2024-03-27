@@ -98,7 +98,7 @@
 		    //Consulta si el flujo representa el movimiento de beneficio
 	        $Consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo";
 	        $Consulta.= " WHERE flujo = '".$Flujo."'";
-	        $Resp3 = mysql_query($Consulta);
+	        $Resp3 = mysqli_query($link, $Consulta);
 	        if ($Fila3 = mysql_fetch_array($Resp3))
 	        {
 		      if ($Fila3["cod_proceso"] == 2)			
@@ -138,7 +138,7 @@
 	//	echo $Consulta."<br>";
 	//echo $Consulta."<br>";
 	$Registros = array();
-	$Resp7 = mysql_query($Consulta);
+	$Resp7 = mysqli_query($link, $Consulta);
 	while ($Fila7 = mysql_fetch_array($Resp7))		
 	{
 	    //echo "Fecha Ini : ".$Fecha_Ini.'<br>';
@@ -149,7 +149,7 @@
 		$Consulta.= " and hornada='".$Fila7["hornada"]."'";
 		$Consulta.= " AND fecha BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ini."'";
 		$Consulta.= " AND flujo='".$FilaFlujo["cod_flujo"]."'";
-		$RespPiso = mysql_query($Consulta);
+		$RespPiso = mysqli_query($link, $Consulta);
 
 		if ($FilaPiso = mysql_fetch_array($RespPiso))
 		{
@@ -175,7 +175,7 @@
 		$Consulta.= " and cod_subproducto='".$Fila7["cod_subproducto"]."' ";
 		$Consulta.= " and hornada='".$Fila7["hornada"]."'";
 		$Consulta.= " and cod_leyes in('08','26')";
-		$RespLeyes = mysql_query($Consulta);
+		$RespLeyes = mysqli_query($link, $Consulta);
 		$Entro = false;
 		while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 		{							
@@ -223,7 +223,7 @@
 	    $Consulta = "SELECT * FROM sea_web.stock_piso_raf";
 	    $Consulta.= " WHERE flujo = '".$Flujo."'";	
    	    $Consulta.= " AND fecha BETWEEN '".$fecha_i."' AND '".$fecha_t."'";
-		$RespStock = mysql_query($Consulta);
+		$RespStock = mysqli_query($link, $Consulta);
 		while ($FilaStock = mysql_fetch_array($RespStock))
 	    {
 	       $Consulta = "SELECT cod_leyes, valor FROM sea_web.leyes_por_hornada";
@@ -231,7 +231,7 @@
 		   $Consulta.= " AND cod_subproducto = '".$FilaStock["cod_subproducto"]."'";
 		   $Consulta.= " AND hornada = '".$FilaStock["hornada"]."'";
 		   $Consulta.= " AND cod_leyes IN ('08','26')";
-		   $RespLeyes = mysql_query($Consulta);
+		   $RespLeyes = mysqli_query($link, $Consulta);
 		   while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 		   {				
 			   $RegAct[$FilaStock["hornada"]][11] = $FilaStock["peso"];
@@ -262,7 +262,7 @@
          $Consulta.= " WHERE flujo = '".$Flujo."'";	
  	     $Consulta.= " AND fecha BETWEEN SUBDATE('".$fecha_i."', INTERVAL 1 MONTH)";
  	     $Consulta.= " AND SUBDATE('".$fecha_t."', INTERVAL 1 MONTH)";
-	     $RespPisoAnt = mysql_query($Consulta);
+	     $RespPisoAnt = mysqli_query($link, $Consulta);
 		 while ($FilaPisoAnt = mysql_fetch_array($RespPisoAnt))
 	    {
 	       $Consulta = "SELECT cod_leyes, valor FROM sea_web.leyes_por_hornada";
@@ -270,7 +270,7 @@
 		   $Consulta.= " AND cod_subproducto = '".$FilaPisoAnt["cod_subproducto"]."'";
 		   $Consulta.= " AND hornada = '".$FilaPisoAnt["hornada"]."'";
 		   $Consulta.= " AND cod_leyes IN ('08','26')";
-		   $RespLeyes = mysql_query($Consulta);
+		   $RespLeyes = mysqli_query($link, $Consulta);
 		   while ($FilaLeyes = mysql_fetch_array($RespLeyes))
 		   {				
 			   $RegAnt[$FilaPisoAnt["hornada"]][11] = $FilaPisoAnt["peso"];

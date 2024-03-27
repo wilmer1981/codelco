@@ -10,7 +10,7 @@ if(!isset($Recarga))
 	if ($Opcion=='M')
 	{
 		$Consulta="select * from pcip_eec_facturas_suministros where corr = '".$Corr."'";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
 		{
 			$CmbSuministro=$Fila["cod_suministro"];
@@ -174,7 +174,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			  <option value="-1" class="NoSelec">Seleccionar</option>
 			  <?
 				$Consulta = "select t1.cod_suministro,t1.nom_suministro,t1.cod_unidad from pcip_eec_suministros t1 where t1.cod_suministro not in ('8','9','10') order by t1.nom_suministro";		
-				$Resp=mysql_query($Consulta);
+				$Resp=mysqli_query($link, $Consulta);
 				while ($FilaTC=mysql_fetch_array($Resp))
 				{
 					if ($CmbSuministro==$FilaTC["cod_suministro"])
@@ -254,9 +254,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if ($Mensaje=='2')
 		echo "alert('La Factura Se Encuentra Ingresado ');";
 	if ($Mensaje=='3')
-		echo "alert('La Factura Se Modificó Correctamente');";
+		echo "alert('La Factura Se Modificï¿½ Correctamente');";
 	if ($Mensaje=='4')
-		echo "alert('Modificación Ingresada Correctamente');";
+		echo "alert('Modificaciï¿½n Ingresada Correctamente');";
 	if ($Mensaje=='5')
 		echo "alert(' Modificacion de Factura Eliminada');";
 	echo "</script>";

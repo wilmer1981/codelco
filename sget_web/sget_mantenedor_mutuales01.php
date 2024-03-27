@@ -5,7 +5,7 @@
 		case "N":
 			
 			$Consulta = "SELECT ifnull(max(cod_mutual),0) as mayor from sget_mutuales_seg"; 
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysql_fetch_array($Respuesta);
 			$Mayor=$Fila["mayor"] + 1;			
 			
@@ -69,7 +69,7 @@
 			{
 
 				$Consulta="SELECT * from sget_contratistas where cod_mutual_seguridad='".$Codigo."'";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				if(!$Fila=mysql_fetch_array($Respuesta))
 				{
 					$Eliminar="delete from sget_mutuales_seg where cod_mutual='".$Codigo."'";

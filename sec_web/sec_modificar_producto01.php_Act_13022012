@@ -5,7 +5,7 @@
 		case "G":
 			$Consulta="select * from proyecto_modernizacion.sub_clase ";
 			$Consulta.=" where cod_clase='3004' and nombre_subclase='".$Codigo."'";
-			$Respuesta=mysql_query($Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysql_fetch_array($Respuesta))
 			{
 				$Mes=$Fila["cod_subclase"];
@@ -26,7 +26,7 @@
 				mysql_query($Actualizar);
 
 				$Consulta="select corr_enm,cod_producto,cod_subproducto from sec_web.lote_catodo  where (cod_paquete='".$MesPaqueteI."' and num_paquete between '".$NumPaqueteI."' and '".$NumPaqueteF."') and LEFT(fecha_creacion_paquete,4)='".$Ano."' group by corr_enm";
-				$Respuesta=mysql_query($Consulta);
+				$Respuesta=mysqli_query($link, $Consulta);
 				if($Fila=mysql_fetch_array($Respuesta))
 				{
 					$Correlativo=$Fila["corr_enm"];

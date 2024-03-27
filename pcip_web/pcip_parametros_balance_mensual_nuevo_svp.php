@@ -139,7 +139,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         <?
 	    $Consulta = "select distinct t2.nombre_subclase,t2.cod_subclase from pcip_svp_balance_mensual t1 inner join proyecto_modernizacion.sub_clase t2 where t2.cod_clase='31054'";			
 		$Consulta.= " and t1.cod_producto=t2.cod_subclase";
-		$Resp=mysql_query($Consulta);
+		$Resp=mysqli_query($link, $Consulta);
 		while ($Fila=mysql_fetch_array($Resp))
 		{
 			if ($CmbProducto==$Fila["cod_subclase"])
@@ -215,7 +215,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta.=" order by cod_producto";	
 				//echo $Consulta."<br>";
 				echo "<input type='hidden' name='Check'>";
-				$RespBal=mysql_query($Consulta);
+				$RespBal=mysqli_query($link, $Consulta);
 				while($FilaBal=mysql_fetch_array($RespBal))
 				{
 					$Cod=$FilaBal["cod_producto"]."~".$FilaBal[cod_negocio]."~".$FilaBal[orden];

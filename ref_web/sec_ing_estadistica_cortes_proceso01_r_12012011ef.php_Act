@@ -3,7 +3,7 @@
 		//saco rut
 
 	$Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$Fila=mysql_fetch_array($Respuesta);
 	$Nivel=$Fila["nivel"];
 	$Fecha_Hora = date("d-m-Y h:i");
@@ -136,7 +136,7 @@
 		//selecciono datos para guardar datos que seran modificados e insertar en tabla modificaciones
 		$Consulta = " select tipo_desconexion,substring(fecha_conexion,1,16) as fecha_c,kahdird,kahdirc  from sec_web.cortes_refineria";
 		$Consulta = $Consulta."  WHERE cod_grupo = '".$cmbgrupo."' AND fecha_desconexion = '".$fecha_des."'";
- 		$fila = mysql_query($Consulta);
+ 		$fila = mysqli_query($link, $Consulta);
 		if ($row = mysql_fetch_array($fila))
 		{
 			$Tipo 		= $row[tipo_desconexion];

@@ -143,7 +143,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <?
 			$Consulta = "select distinct t1.cod_producto,t2.nombre_subclase from pcip_inp_precios_dore t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31032'";
 			$Consulta.= " and t1.cod_producto=t2.cod_subclase where t1.dato='".$CmbDatos."'";			
-			$Resp=mysql_query($Consulta);
+			$Resp=mysqli_query($link, $Consulta);
 			while ($FilaTC=mysql_fetch_array($Resp))
 			{
 				if ($CmbProducto==$FilaTC["cod_producto"])
@@ -247,7 +247,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Consulta.=" and ano='".$Ano."'"; 	
 	$Consulta.=" group by cod_producto"; 
 	//echo 	$Consulta."<br>";		
-	$Resp=mysql_query($Consulta);
+	$Resp=mysqli_query($link, $Consulta);
 	echo "<input type='hidden' name='CheckSumi'>";	
 	while($Fila=mysql_fetch_array($Resp))
 	{
