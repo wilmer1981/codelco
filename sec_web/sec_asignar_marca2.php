@@ -1,4 +1,7 @@
-<?php include("../principal/conectar_pmn_web.php");?>
+<?php 
+include("../principal/conectar_pmn_web.php");
+
+?>
 <html>
 <head>
 <title>Lista de Marca Catodos</title>
@@ -47,8 +50,8 @@ function Salir()
 		}
 		//echo "<input type='radio'  name='IdFecha' value='".$Row["fecha"]."' onClick=\"Proceso('E');\">\n";
 		//echo "<td><input type='radio' name='IdMarca' value='".$Row["cod_marca"]."' onClick=\"Proceso('E','$Codigo','$Ano','$Numero');\">\n";
-		echo "<td><input type='radio' name='IdMarca' onClick=\"Proceso('$Row["cod_marca"]','$Row["descripcion"]');\">\n";
-		echo "$Row["descripcion"]</td>";
+		echo "<td><input type='radio' name='IdMarca' onClick=\"Proceso('".$Row["cod_marca"]."','".$Row["descripcion"]."');\">\n";
+		echo " '".$Row["descripcion"]."' </td>";
 		$cont =$cont+ 1;
 	}
 ?>

@@ -7,25 +7,70 @@
 	
 	$movimientos = array(1=>"RECEPCION", 2=> "PRODUCCION", 3=> "PAQUETE");
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
-	
 	//echo "SA__uno__".$SA_C_STD2."<br>";	
 	//echo $tipo_ie;
+	
+	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$ano2    = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
+	$mes2    = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
+	$dia2    = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
+	$codlote    = isset($_REQUEST["codlote"])?$_REQUEST["codlote"]:"";
+	$numlote    = isset($_REQUEST["numlote"])?$_REQUEST["numlote"]:"";
+	$codpaq    = isset($_REQUEST["codpaq"])?$_REQUEST["codpaq"]:"";
+	$numpaq    = isset($_REQUEST["numpaq"])?$_REQUEST["numpaq"]:"";
+	$instruccion = isset($_REQUEST["instruccion"])?$_REQUEST["instruccion"]:"";
+	$pesoprog = isset($_REQUEST["pesoprog"])?$_REQUEST["pesoprog"]:"";
+	$marca = isset($_REQUEST["marca"])?$_REQUEST["marca"]:"";
+	$paq_inicial = isset($_REQUEST["paq_inicial"])?$_REQUEST["paq_inicial"]:"";
+	$grupo = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+	$unidades = isset($_REQUEST["unidades"])?$_REQUEST["unidades"]:"";
+	$peso = isset($_REQUEST["peso"])?$_REQUEST["peso"]:"";
+	$cuba = isset($_REQUEST["cuba"])?$_REQUEST["cuba"]:"";
+	$SA_C_STD2 = isset($_REQUEST["SA_C_STD2"])?$_REQUEST["SA_C_STD2"]:"";
+	
 	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
 	$activa_sipa    = isset($_REQUEST["activa_sipa"])?$_REQUEST["activa_sipa"]:"";
 	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
-	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
-	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
-	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	
+	$tipo_ie        = isset($_REQUEST["tipo_ie"])?$_REQUEST["tipo_ie"]:"";
 	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
 	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
 	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
 	$recargapag4 = isset($_REQUEST["recargapag4"])?$_REQUEST["recargapag4"]:"";
 	$recargapag5 = isset($_REQUEST["recargapag5"])?$_REQUEST["recargapag5"]:"";
+	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
+	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
 	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
-	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-	
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";	
 	$peso_auto   = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";
-
+	$mostrar     = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
+	$hh     = isset($_REQUEST["hh"])?$_REQUEST["hh"]:"";
+	$mm     = isset($_REQUEST["mm"])?$_REQUEST["mm"]:"";
+	$cmbinstruccion = isset($_REQUEST["cmbinstruccion"])?$_REQUEST["cmbinstruccion"]:"";
+	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
+	$paq_inicial    = isset($_REQUEST["paq_inicial"])?$_REQUEST["paq_inicial"]:"";
+	$agrega_paq     = isset($_REQUEST["agrega_paq"])?$_REQUEST["agrega_paq"]:"";
+	$txtpesoprog   = isset($_REQUEST["txtpesoprog"])?$_REQUEST["txtpesoprog"]:"";
+	$txtnumlote    = isset($_REQUEST["txtnumlote"])?$_REQUEST["txtnumlote"]:"";
+	$txtnumpaq     = isset($_REQUEST["txtnumpaq"])?$_REQUEST["txtnumpaq"]:"";
+	$cmbcodpaq     = isset($_REQUEST["cmbcodpaq"])?$_REQUEST["cmbcodpaq"]:"";
+	$tipo_ie        = isset($_REQUEST["tipo_ie"])?$_REQUEST["tipo_ie"]:"";
+	$genera_lote    = isset($_REQUEST["genera_lote"])?$_REQUEST["genera_lote"]:"";
+	$peso_prog_ok   = isset($_REQUEST["peso_prog_ok"])?$_REQUEST["peso_prog_ok"]:"";
+	$cmbcodlote = isset($_REQUEST["cmbcodlote"])?$_REQUEST["cmbcodlote"]:"";
+	$listar_ie  = isset($_REQUEST["listar_ie"])?$_REQUEST["listar_ie"]:"";
+	$tipo_reg   = isset($_REQUEST["tipo_reg"])?$_REQUEST["tipo_reg"]:"";
+	$txtlote    = isset($_REQUEST["txtlote"])?$_REQUEST["txtlote"]:"";
+	$txtrecargo = isset($_REQUEST["txtrecargo"])?$_REQUEST["txtrecargo"]:"";
+	$existe_sec = isset($_REQUEST["existe_sec"])?$_REQUEST["existe_sec"]:"";
+	$existe_rec = isset($_REQUEST["existe_rec"])?$_REQUEST["existe_rec"]:"";
+	$etapa      = isset($_REQUEST["etapa"])?$_REQUEST["etapa"]:"";
+	$SA_C_STD = isset($_REQUEST["SA_C_STD"])?$_REQUEST["SA_C_STD"]:"";
 
 
 ?>
@@ -109,7 +154,7 @@ function CapturaPeso()
 	
 	if (f.checkpeso.checked == true)
 		//f.txtpeso.value = LeerArchivo(f.txtpeso.value);
-		f.txtpeso.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>'; 
+		f.txtpeso.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
 		
 	setTimeout("CapturaPeso()",200);	
 }

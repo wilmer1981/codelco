@@ -898,10 +898,16 @@ function DefinirArregloLeyes($L_Prod, $L_SubProd, $ArregloLeyes)
 }
 
 /***************Lee archivos TXT********************** */
-function LeerArchivo($archivo)
+function LeerArchivo($ruta,$archivo)
 {
 	$nombre=$archivo;
-	$arc = fopen('C:/PesaMatic/'.$nombre,"r");
+	if($ruta!=""){
+		$ubicacion = $ruta."/".$nombre;
+	}else{
+		$ubicacion = $nombre;
+	}
+	//$arc = fopen('C:/PesaMatic/'.$nombre,"r");
+	$arc = fopen('C:/'.$ubicacion,"r");
 	while(! feof($arc))  {
 		$linea = fgets($arc);
 	}

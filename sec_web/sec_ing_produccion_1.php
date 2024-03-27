@@ -23,10 +23,22 @@
 	$fecha_aux      = isset($_REQUEST["fecha_aux"])?$_REQUEST["fecha_aux"]:"";
 
 	$txtlote      = isset($_REQUEST["txtlote"])?$_REQUEST["txtlote"]:"";
-	$txtrecarg    = isset($_REQUEST["txtrecargo"])?$_REQUEST["txtrecargo"]:"";
+	$txtrecargo   = isset($_REQUEST["txtrecargo"])?$_REQUEST["txtrecargo"]:"";
+	$txtnumlote   = isset($_REQUEST["txtnumlote"])?$_REQUEST["txtnumlote"]:"";
+	$txtmarca     = isset($_REQUEST["txtmarca"])?$_REQUEST["txtmarca"]:"";
+	$txtunidades     = isset($_REQUEST["txtunidades"])?$_REQUEST["txtunidades"]:"";	
+		
 	$txtpeso      = isset($_REQUEST["txtpeso"])?$_REQUEST["txtpeso"]:"";
+	$listar_ie    = isset($_REQUEST["listar_ie"])?$_REQUEST["listar_ie"]:"";
+	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
+	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
+	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
+	$recargapag4 = isset($_REQUEST["recargapag4"])?$_REQUEST["recargapag4"]:"";
+	$recargapag5 = isset($_REQUEST["recargapag5"])?$_REQUEST["recargapag5"]:"";
 
 	$cmbinstruccion = isset($_REQUEST["cmbinstruccion"])?$_REQUEST["cmbinstruccion"]:"";
+	$cmbcodpaq = isset($_REQUEST["cmbcodpaq"])?$_REQUEST["cmbcodpaq"]:"";
+	
 
 	//Asigna a un arreglo los codigos de paqutes.
 	$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 3004";
@@ -322,7 +334,7 @@
 				$consulta = "SELECT IFNULL(SUM(t2.peso_paquetes),0) AS peso, COUNT(*) AS cantidad FROM sec_web.lote_catodo AS t1";
 				$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
 				$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete AND t2.cod_estado = 'a'";				
-				$consulta.= " WHERE t1.corr_enm = '".$row[corr_virtual]."' AND t1.disponibilidad = 'P'";
+				$consulta.= " WHERE t1.corr_enm = '".$row["corr_virtual"]."' AND t1.disponibilidad = 'P'";
 				//echo $consulta."<br>";
 				$rs1 = mysqli_query($link, $consulta);
 				$row1 = mysqli_fetch_array($rs1);
@@ -333,7 +345,7 @@
 				*/
 			
 				$insertar = "INSERT INTO sec_web.instrucciones (corr_ie,cod_producto,cod_subproducto,peso_programado,fecha)";
-				$insertar.= " VALUES ('".$row[corr_virtual]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."', '".$row["peso_programado"]."',";
+				$insertar.= " VALUES ('".$row["corr_virtual"]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."', '".$row["peso_programado"]."',";
 				$insertar.= " '".$row["fecha_embarque"]."')";
 				//echo $insertar."<br>";
 				mysqli_query($link, $insertar);
@@ -526,7 +538,7 @@
 					$consulta.= " AND YEAR(fecha_creacion_paquete) = YEAR(NOW())";
 					$rs1 = mysqli_query($link, $consulta);
 					$row1 = mysqli_fetch_array($rs1);
-					$txtnumpaq = $row1[serie];
+					$txtnumpaq = $row1["serie"];
 					
 				}
 				else 			

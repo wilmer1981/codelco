@@ -2,8 +2,17 @@
 	include("../principal/conectar_sec_web.php");
 
 	$proceso    = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$SA_C_STD   = isset($_REQUEST["SA_C_STD"])?$_REQUEST["SA_C_STD"]:"";
+	$NroSolAnalisis   = isset($_REQUEST["NroSolAnalisis"])?$_REQUEST["NroSolAnalisis"]:"";
+	
+	
 	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	$peso_auto  = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";	
+	$peso_auto  = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";
+	$listar_ie    = isset($_REQUEST["listar_ie"])?$_REQUEST["listar_ie"]:"";
+	
+	$parametros = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$txtlote    = isset($_REQUEST["txtlote"])?$_REQUEST["txtlote"]:"";
+	$txtrecargo = isset($_REQUEST["txtrecargo"])?$_REQUEST["txtrecargo"]:"";
 
 	$existe_sec     = isset($_REQUEST["existe_sec"])?$_REQUEST["existe_sec"]:"";
 	$existe_rec     = isset($_REQUEST["existe_rec"])?$_REQUEST["existe_rec"]:"";
@@ -11,7 +20,6 @@
 	$activa_sipa    = isset($_REQUEST["activa_sipa"])?$_REQUEST["activa_sipa"]:"";
 	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	$mostrar        = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
-	$peso_auto        = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";
 	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
 	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
 	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
@@ -19,7 +27,6 @@
 	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
 	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
 	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
-
 	$recargapag4 = isset($_REQUEST["recargapag4"])?$_REQUEST["recargapag4"]:"";
 	$recargapag5 = isset($_REQUEST["recargapag5"])?$_REQUEST["recargapag5"]:"";
 	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
@@ -32,7 +39,7 @@
 	$mm     = isset($_REQUEST["mm"])?$_REQUEST["mm"]:"";
 
 	$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
-		$rs = mysqli_query($link, $Consulta);
+	$rs = mysqli_query($link, $Consulta);
 	if ($row = mysqli_fetch_array($rs))
 	{
 		$TxtPesoRango=$row["peso_rango"];
@@ -120,9 +127,9 @@ switch($proceso)
 						//'".str_pad($txtlote,8,'0',STR_PAD_LEFT)."'
 		$consulta = "SELECT * FROM sec_web.recepcion_catodo_externo";
 		$consulta.= " WHERE lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."'";
-		//echo "CCCC".$consulta;
+		echo "CCCC:".$consulta;
 		$rs = mysqli_query($link, $consulta);
-		//echo $consulta."<br>";
+		var_dump($rs);
 		
 		if ($row = mysqli_fetch_array($rs))
 		{
@@ -191,7 +198,7 @@ switch($proceso)
 		$rs = mysqli_query($link, $consulta);
 		$row = mysqli_fetch_array($rs);
 		
-		$hh_mm = explode(':', $row[hora]); //0: hora, 1: minuto.
+		$hh_mm = explode(':', $row["hora"]); //0: hora, 1: minuto.
 		
 		$linea = "";
 		
@@ -265,7 +272,7 @@ switch($proceso)
 		$rs = mysqli_query($link, $consulta);
 		$row = mysqli_fetch_array($rs);
 		
-		$hh_mm = explode(':', $row[hora]); //0: hora, 1:minuto.
+		$hh_mm = explode(':', $row["hora"]); //0: hora, 1:minuto.
 		
 		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row["peso_produccion"];
 		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
@@ -300,7 +307,7 @@ switch($proceso)
 		
 		$rs = mysqli_query($link, $consulta);
 		$row = mysqli_fetch_array($rs);
-		$hh_mm = explode(':', $row[hora]); //0: hora, 1:minuto.				
+		$hh_mm = explode(':', $row["hora"]); //0: hora, 1:minuto.				
 		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row["peso_produccion"]."&txtcuba=".$row[cod_cuba];
 		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;		
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
@@ -325,7 +332,7 @@ switch($proceso)
 		$rs = mysqli_query($link, $consulta);
 		$row = mysqli_fetch_array($rs);
 		
-		$hh_mm = explode(':', $row[hora]); //0: hora, 1:minuto.
+		$hh_mm = explode(':', $row["hora"]); //0: hora, 1:minuto.
 				
 		$linea.= "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;		
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
@@ -567,12 +574,12 @@ switch($proceso)
 			$linea = "txtnumpaq=".$txtnumlote."&cmbcodpaq=".$cod_paq[$cmbcodlote];
 		$linea.= "&tipo_ie=".$listar_ie; //Del Programa  Virtual.		
 		//echo $tipo_ie."<br>";
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&recargapag4=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$cmbinstruccion."&encontro_ie=".$encontro_ie;
 		$linea.= "&txtpesoprog=".$txtpesoprog."&txtnumlote=".$txtnumlote."&genera_lote=S";
 		$linea.= "&paq_inicial=S&peso_prog_ok=".$peso_prog_ok."&cmbcodlote=".$cod_paq[$cmbcodlote];
-		$linea.= "&listar_ie=".$listar_ie."&recargapag4=S";
+		$linea.= "&listar_ie=".$listar_ie."&recargapag5=S";
 		
 		if ($cmbmovimiento == 1)
 		
@@ -2422,7 +2429,7 @@ if ($proceso == "E")
 			
 			$insertar = "INSERT INTO sec_web.paquete_catodo (cod_existencia,cod_paquete,num_paquete,fecha_creacion_paquete,cod_producto,cod_subproducto,cod_lugar,cod_estado,num_unidades,peso_paquetes,cod_grupo,cod_cuba,hora)";
 			$insertar.= " VALUES ('05', '".$cod_paquete[$c]."', '".$num_paquete[$c]."', '".$fecha_creacion[$c]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."',";
-			$insertar.= " '".$row[cod_lugar]."','a', '".$row["num_unidades"]."', '".$row[peso_paquete]."', '".$row["cod_grupo"]."', '".$row[cod_cuba]."','".$row[hora]."')";
+			$insertar.= " '".$row[cod_lugar]."','a', '".$row["num_unidades"]."', '".$row[peso_paquete]."', '".$row["cod_grupo"]."', '".$row[cod_cuba]."','".$row["hora"]."')";
 			//echo $insertar."<br>";
 			mysqli_query($link, $insertar);
 			
