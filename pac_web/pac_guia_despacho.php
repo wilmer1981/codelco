@@ -9,15 +9,11 @@
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
 	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
-	$CmbTipoGuia = isset($_REQUEST["CmbTipoGuia"])?$_REQUEST["CmbTipoGuia"]:"";
+	$CmbTipoGuia = isset($_REQUEST["CmbTipoGuia"])?$_REQUEST["CmbTipoGuia"]:""; 
 	$CheckGuia = isset($_REQUEST["CheckGuia"])?$_REQUEST["CheckGuia"]:"";
 	$TxtNumGuiaO = isset($_REQUEST["TxtNumGuiaO"])?$_REQUEST["TxtNumGuiaO"]:"";
 	$TxtNumGuiANULA = isset($_REQUEST["TxtNumGuiANULA"])?$_REQUEST["TxtNumGuiANULA"]:"";
 	
-	
-
-
-
 ?>
 <html>
 <head>

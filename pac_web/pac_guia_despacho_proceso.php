@@ -33,6 +33,7 @@
 	$TxtObservacionAUX = isset($_REQUEST["TxtObservacionAUX"])?$_REQUEST["TxtObservacionAUX"]:"";
 	$TxtObservacionFun = isset($_REQUEST["TxtObservacionFun"])?$_REQUEST["TxtObservacionFun"]:"";
 	
+	$CmbFPago = isset($_REQUEST["CmbFPago"])?$_REQUEST["CmbFPago"]:"";
 	$CmbEstanque = isset($_REQUEST["CmbEstanque"])?$_REQUEST["CmbEstanque"]:"";
 	$TxtSellos = isset($_REQUEST["TxtSellos"])?$_REQUEST["TxtSellos"]:"";
 
