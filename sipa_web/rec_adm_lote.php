@@ -307,7 +307,7 @@ function Proceso(opt,valor)
 			if(confirm('Esta Seguro de Imprimir Boleta'))
 			{
 				//TxtNumRomana=LeerRomana('');	
-				TxtNumRomana='<?php echo LeerArchivo('ROMANA.txt'); ?>';
+				TxtNumRomana='<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
 				var TxtLotes = "";
 				for (i=1;i<f.elements.length;i++)
 				{
@@ -1148,10 +1148,9 @@ if (isset($TipoCon))
 <?php
 echo "<script language='JavaScript'>";
 echo "var f = document.frmPrincipal;";
-$Romana = LeerArchivo('ROMANA.txt');
+$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
 echo "f.TxtNumRomana.value=".$Romana.";";
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
-
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";
 ?>
