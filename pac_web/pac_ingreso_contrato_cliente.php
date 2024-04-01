@@ -6,6 +6,8 @@
 
 	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	
 ?>
 <html>
 <head>
