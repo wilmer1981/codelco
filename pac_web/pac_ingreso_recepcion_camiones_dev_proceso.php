@@ -6,6 +6,7 @@
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut       = $CookieRut;
 
+	//Proceso=N&Valores=&FechaHora=&TipoRecep=&Ok=S&Guia=96949
 
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
@@ -45,7 +46,7 @@
 					break;
 				}
 			}
-			$Consulta="select * from pac_web.recepcion_camiones where fecha_hora='".$FechaHora."' and tipo_movimiento=6";
+			$Consulta="SELECT * from pac_web.recepcion_camiones where fecha_hora='".$FechaHora."' and tipo_movimiento=6";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
 			$Guia = $Fila["num_guia"];
@@ -178,7 +179,8 @@ function Grabar(Proceso,Valores,FechaHora,TipoRecep,Ok)
 	Frm.submit();						
 	
 }
-function Recarga(Tipo,Proceso,Valores,FechaHora,TipoRecep,Guia)
+//function Recarga(Tipo,Proceso,Valores,FechaHora,TipoRecep,Guia)
+function Recarga(Tipo,Proceso,Valores,FechaHora,Guia)
 {
 	var Frm=document.FrmProceso;
 	
@@ -191,7 +193,7 @@ function Recarga(Tipo,Proceso,Valores,FechaHora,TipoRecep,Guia)
 				Frm.TxtNumGuia.focus();
 				return;
 			}
-			Frm.action="pac_ingreso_recepcion_camiones_dev_proceso.php?Proceso="+Proceso+"&Valores="+Valores+"&FechaHora="+FechaHora+"&TipoRecep="+TipoRecep+"&Ok=S&Guia="+Frm.TxtNumGuia.value;
+			Frm.action="pac_ingreso_recepcion_camiones_dev_proceso.php?Proceso="+Proceso+"&Valores="+Valores+"&FechaHora="+FechaHora+"&TipoRecep="+Tipo+"&Ok=S&Guia="+Frm.TxtNumGuia.value;
 			break;
 	}
 	Frm.submit();						
@@ -386,7 +388,6 @@ function Salir()
             <td>Nro. Guia</td>
             <td>
               <?php
-					
 					if ($Proceso=='N')
 					{
 						echo "<input type='text' name ='TxtNumGuia' maxlength='10' style='width:100' value='$Guia' onkeydown='SoloNumeros();'>";
@@ -420,10 +421,12 @@ function Salir()
             <td>Transportista</td>
             <td> 
               <?php
-				//if (($Ok) && ($Ok=='S'))
-				if ($Ok=='S')
+				if (isset($Ok) && ($Ok=='S'))
+				//if ($Ok=='S')
 				{
-					$Consulta="select t2.rut_transportista,t2.nombre from pac_web.guia_despacho t1 left join pac_web.transportista t2 on t1.rut_transportista=t2.rut_transportista  where num_guia='".$TxtNumGuia."'and estado='I'";
+					$Consulta="SELECT t2.rut_transportista,t2.nombre from pac_web.guia_despacho t1 ";
+					$Consulta.=" LEFT JOIN pac_web.transportista t2 on t1.rut_transportista=t2.rut_transportista";
+					$Consulta.=" WHERE num_guia='".$TxtNumGuia."'and estado='I'";
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
 					$rut_transportista= isset($Fila["rut_transportista"])?$Fila["rut_transportista"]:"";
@@ -438,10 +441,10 @@ function Salir()
             <td>Patente</td>
             <td> 
               <?php
-				//if (($Ok) && ($Ok=='S'))
-				if ($Ok=='S')
+				if (isset($Ok) && ($Ok=='S'))
+				//if ($Ok=='S')
 				{	
-					$Consulta="select nro_patente,toneladas,cod_estanque,rut_funcionario from pac_web.guia_despacho where num_guia='".$TxtNumGuia."' and estado='I'";
+					$Consulta="SELECT nro_patente,toneladas,cod_estanque,rut_funcionario from pac_web.guia_despacho where num_guia='".$TxtNumGuia."' and estado='I'";
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
 					$nro_patente= isset($Fila["nro_patente"])?$Fila["nro_patente"]:"";
@@ -461,8 +464,8 @@ function Salir()
             <td>Toneladas Recep.</td>
             <td>
 			<?php 
-				//if (($Ok) && ($Ok=='S'))
-				if ($Ok=='S')
+				if (isset($Ok) && ($Ok=='S'))
+				//if ($Ok=='S')
 				{	
 					echo "<input type='text' name='TxtVolumen' style='width:80' onKeyDown='TeclaPulsada();' maxlength='10' value='$Volumen'>"; 
 				}
@@ -479,7 +482,7 @@ function Salir()
               <?php	
 				echo "<select name='CmbEstanqueDestino' style='width:100'>";
 				echo "<option value='-1' selected>Seleccionar</option>";
-				$Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase=9001 and cod_subclase <> 5";
+				$Consulta ="SELECT * from proyecto_modernizacion.sub_clase where cod_clase=9001 and cod_subclase <> 5";
 				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{

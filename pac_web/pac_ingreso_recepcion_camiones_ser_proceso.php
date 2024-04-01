@@ -27,6 +27,9 @@
 	$HoraActual = date("H");
 	$MinutoActual = date("i");
 	$FechaHora = date("Y-m-d H:i:s");
+
+	//echo "CmbTransportista:".$CmbTransportista;
+	//echo "<br>CmbPatentes:".$CmbPatentes;
 	switch($Proceso)
 	{
 		case "N":
@@ -41,9 +44,13 @@
 					break;
 				}
 			}
-			$Consulta  = "select * from pac_web.recepcion_camiones where fecha_hora='".$FechaHora."' and tipo_movimiento=6";
+			$Consulta  = "SELECT * from pac_web.recepcion_camiones where fecha_hora='".$FechaHora."' and tipo_movimiento=6";
+			echo $Consulta;
+
 			$Respuesta = mysqli_query($link, $Consulta);
 			$Fila      = mysqli_fetch_array($Respuesta);
+			var_dump($Fila);
+
 			$TipoRecep = $Fila["tipo_recepcion"];
 			if ($CmbTransportista=="")
 			{
@@ -58,8 +65,10 @@
 			$TxtNumGuia  = $Fila["num_guia"];
 			$RutF        = $Fila["rut_funcionario"];
 			break;	
-	}	
+	}
 
+    //echo "<br>CmbTransportista:".$CmbTransportista;
+	//echo "<br>CmbPatentes:".$CmbPatentes;
 ?>
 <html>
 <head>
@@ -389,7 +398,7 @@ function Salir()
               <?php
 					echo "<select name='CmbTransportista' style='width:180' onchange=\"Recarga('1','$Proceso','$Valores','$FechaHora');\">";
 					echo "<option value='-1' selected>Seleccionar</option>";
-					$Consulta="select * from pac_web.transportista order by rut_transportista";
+					$Consulta="SELECT * FROM pac_web.transportista order by rut_transportista";
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
@@ -412,7 +421,7 @@ function Salir()
               <?php
 					echo "<select name='CmbPatentes' style='width:120' onchange=\"Recarga('4','$Proceso','$Valores','$FechaHora','$TipoRecep');\">";
 					echo "<option value='-1' selected>Seleccionar</option>";
-					$Consulta="select distinct nro_patente from pac_web.camiones_por_transportista where rut_transportista='".$CmbTransportista."'";
+					$Consulta="SELECT distinct nro_patente FROM pac_web.camiones_por_transportista where rut_transportista='".$CmbTransportista."'";
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
@@ -440,7 +449,7 @@ function Salir()
               <?php	
 				echo "<select name='CmbEstanqueDestino' style='width:100'>";
 				echo "<option value='-1' selected>Seleccionar</option>";
-				$Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase=9001 and cod_subclase <> 5";
+				$Consulta ="SELECT * from proyecto_modernizacion.sub_clase where cod_clase=9001 and cod_subclase <> 5";
 				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
@@ -463,7 +472,7 @@ function Salir()
               <?php	
 				echo "<select name='CmbOperario' style='width:150'>";
 				echo "<option value='-1' selected>Seleccionar</option>";
-				$Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase=9002";
+				$Consulta ="SELECT * from proyecto_modernizacion.sub_clase where cod_clase=9002";
 				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
