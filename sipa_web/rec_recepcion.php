@@ -388,8 +388,8 @@ function RestaurarBascula()
 	var f = document.FrmRecepcion;
 	//var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
 	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
-	var Bas1 = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
-	var Bas2 = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
+	var Bas1 = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+	var Bas2 = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
 
 	if(Bas1 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
@@ -463,7 +463,7 @@ function RestaurarBascula()
 */
 //var ROMA=LeerRomana('');
 //var ROMA=LeerArchivo('ROMANA.txt');
-var ROMA= '<?php echo LeerArchivo('ROMANA.txt'); ?>';
+var ROMA= '<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
 /*
  function LeerArchivo(valor)
 {
@@ -563,7 +563,7 @@ function CapturaPeso(tipo)
 				else
 				{
 					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);					
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
 					f.Bloq1.value='S';
 					Deshabilita('BasculaA');
 					f.BtnPBruto.disabled=true;
@@ -578,7 +578,7 @@ function CapturaPeso(tipo)
 				else
 				{
 					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
 						f.Bloq2.value='S';
 						Deshabilita('BasculaB');
 					
@@ -619,7 +619,7 @@ function CapturaPeso(tipo)
 				else
 				{
 					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
-					f.TxtPesoTara.value ='<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
 					f.Bloq1.value='S';
 					Deshabilita('BasculaA');					
 					f.BtnPTara.disabled=true;		
@@ -633,7 +633,7 @@ function CapturaPeso(tipo)
 				else
 				{
 					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
-					f.TxtPesoTara.value ='<?php echo LeerArchivo('PesoMatic.txt'); ?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
 					f.Bloq2.value='S';
 					Deshabilita('BasculaB');					
 					f.BtnPTara.disabled=true;
@@ -1561,8 +1561,7 @@ if($Mensaje!='')
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmRecepcion;";
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
-
-$Romana = LeerArchivo('ROMANA.txt');
+$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
 echo "f.TxtNumRomana.value=".$Romana.";";
 echo "CalculaPNetoTotal();";
 //echo "alert(f.TxtNumRomana.value);";

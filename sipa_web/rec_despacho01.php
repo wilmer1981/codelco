@@ -2,7 +2,39 @@
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
 	require "includes/class.phpmailer.php";
+	$CookieRut = $_COOKIE["CookieRut"];	
 	$RutOperador=$CookieRut;
+	$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
+	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
+	$TxtHoraE = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
+	$TxtFecha = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:"";
+	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtPatente  = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtObs      = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+	$CmbCodMop = isset($_REQUEST["CmbCodMop"])?$_REQUEST["CmbCodMop"]:"";
+	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+	$TxtRutChofer = isset($_REQUEST["TxtRutChofer"])?$_REQUEST["TxtRutChofer"]:"";
+	$TxtNomChofer = isset($_REQUEST["TxtNomChofer"])?$_REQUEST["TxtNomChofer"]:"";
+	$TxtGuia     = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$TxtTarjeta  = isset($_REQUEST["TxtTarjeta"])?$_REQUEST["TxtTarjeta"]:"";
+	$CmbUltRecargo = isset($_REQUEST["CmbUltRecargo"])?$_REQUEST["CmbUltRecargo"]:"";
+	$TxtPesoBruto  = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoNeto  = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+	$TxtMarca     = isset($_REQUEST["TxtMarca"])?$_REQUEST["TxtMarca"]:"";
+	$TxtSello     = isset($_REQUEST["TxtSello"])?$_REQUEST["TxtSello"]:"";
+	$TxtTransp    = isset($_REQUEST["TxtTransp"])?$_REQUEST["TxtTransp"]:"";
+	$TxtLote        = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$TxtRecargo  = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";	
+	$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtNombrePrv = isset($_REQUEST["TxtNombrePrv"])?$_REQUEST["TxtNombrePrv"]:"";	
+	$DifLimitePeso = isset($_REQUEST["DifLimitePeso"])?$_REQUEST["DifLimitePeso"]:"";	
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$TxtPesoNetoSec = isset($_REQUEST["TxtPesoNetoSec"])?$_REQUEST["TxtPesoNetoSec"]:"";
+	$TxtLimitePeso = isset($_REQUEST["TxtLimitePeso"])?$_REQUEST["TxtLimitePeso"]:"";
+
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
 	$Resp=mysqli_query($link, $Consultar);
 	if ($Fila=mysqli_fetch_array($Resp))
@@ -50,7 +82,7 @@
 			$Actualiza.="BRUTO = '".$TxtPesoBruto."' where FOLIO = '".$Datos[0]."'";
 			mysqli_query($link, $Actualiza);
 			RespConsDespSal($Datos[0],$Actualizar);
-			ImprimirDespachos($Datos[0],$TxtNumRomana,$OperSalida); 
+			ImprimirDespachos($Datos[0],$TxtNumRomana,$OperSalida,$link); 
 			//INSERTA DESTINATARIO Y CHOFERES DE CAMION PARA PRODUCTOS QUE NO TENGAN SISTEMAS COMO PAC Y SEC
 			if($CmbProveedor!=''&&$TxtNombrePrv!='')
 			{
@@ -71,7 +103,7 @@
 				$Insertar="INSERT INTO sipa_web.registro_puntos_control(correlativo,fecha_hora,rut_operador,peso_bruto,peso_tara,peso_neto,peso_sec,cod_producto,cod_subproducto,guia_despacho,patente,peso_control,diferencia,operacion_realizada) values ";
 				$Insertar.="('".$Datos[0]."','".date('Y-m-d G:i:s')."','".$CookieRut."','".$TxtPesoBruto."','".$TxtPesoNeto."','".$TxtPesoTara."','".$TxtPesoNetoSec."','".$ProdSubProd[0]."','".$ProdSubProd[1]."','".$TxtGuia."','".trim($TxtPatente)."','".$TxtLimitePeso."','".$DatosDif[1]."','".$DatosDif[0]."')";
 				mysqli_query($link, $Insertar);
-				FuncionEnvioCorreo($Datos[0]);
+				FuncionEnvioCorreo($Datos[0],$link);
 				
 			}
 			$ProdSubProd=explode('~',$CmbSubProducto);
@@ -120,7 +152,7 @@
 			header('location:rec_despacho.php?TxtNumBascula='.$TxtNumBascula);
 			break;		
 	}
-function FuncionEnvioCorreo($Corr)
+function FuncionEnvioCorreo($Corr,$link)
 {
 	$ConsultaCorreo="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='24003'";
 	$RespCorreo=mysqli_query($link, $ConsultaCorreo);
@@ -144,9 +176,9 @@ function FuncionEnvioCorreo($Corr)
 			$Prod=$FilaReg["Prod"];
 			$SubProd=$FilaReg["SubProd"];
 			$PesoBrutoSipa=$FilaReg["peso_bruto"];
-			$PesoBrutoSec=$FilaReg[peso_sec];
-			$PesoControl=$FilaReg[peso_control];
-			$PesoDif=$FilaReg[diferencia];
+			$PesoBrutoSec=$FilaReg["peso_sec"];
+			$PesoControl=$FilaReg["peso_control"];
+			$PesoDif=$FilaReg["diferencia"];
 		
 		}
 		
