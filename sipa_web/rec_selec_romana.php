@@ -36,9 +36,9 @@ print_r($ficheros2);
 	
 $Tolerancia=ToleranciaPesaje($link);
 
-$ROMA = LeerArchivo('ROMANA.txt');
-$Bas1 = LeerArchivo('PesoMatic.txt');
-$Bas2 = LeerArchivo('PesoMatic2.txt');
+$ROMA = LeerArchivo('PesaMatic','ROMANA.txt');
+$Bas1 = LeerArchivo('','PesoMatic.txt');
+$Bas2 = LeerArchivo('','PesoMatic2.txt');
 /*
 echo "Tolerancia:".$Tolerancia;
 echo "<br>ROMA:".$ROMA;

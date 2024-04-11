@@ -940,12 +940,13 @@ function LeerArchivo($ruta, $archivo)
 {
 	$nombre=$archivo;
 	if($ruta!=""){
-		$ubicacion = $ruta."/".$nombre;
+		$ubicacion = $ruta."\\".$nombre;
 	}else{
 		$ubicacion = $nombre;
 	}
 	//$arc = fopen('C:/PesaMatic/'.$nombre,"r");
-	$arc = fopen('C:/'.$ubicacion,"r");
+	$arc = fopen("C:\\".$ubicacion,"r");
+	//$arc = fopen($ubicacion,"r");
 	while(! feof($arc))  {
 		$linea = fgets($arc);
 	}

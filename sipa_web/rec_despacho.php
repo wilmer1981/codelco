@@ -547,7 +547,7 @@ function LeerRomana(Rom)
 }
 */
 //var ROMA=LeerRomana('');
-var ROMA= '<?php echo LeerArchivo('ROMANA.txt'); ?>';
+var ROMA= '<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
 /*
  function LeerArchivo(valor)
 {
@@ -639,14 +639,14 @@ function CapturaPeso(tipo)
 			 	{
 					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
 					//f.TxtPesoBruto.value = f.TxtPesoBruto.value;
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
 				}
 				
 			   else
 				{
 					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
 					//.TxtPesoBruto.value = f.TxtPesoBruto.value;
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
 				}
 		//if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
 			//	f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;
@@ -666,10 +666,10 @@ function CapturaPeso(tipo)
 			//f.TipoProceso.value="E";
 			 if(f.TxtNumBascula.value=='1'){
 				//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-				f.TxtPesoTara.value = '<?php echo LeerArchivo('PesoMatic2.txt'); ?>';
+				f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
 			 }else{
 				//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
-				f.TxtPesoTara.value = '<?php echo LeerArchivo('PesoMatic.txt'); ?>';
+				f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
 			 }
 			//f.TxtPesoTara.value = 13400;
 			if(parseInt(f.TxtPesoHistorico.value)!=0)
@@ -1909,7 +1909,7 @@ if($ProdSubProd[0]=='18')
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmDespacho;";
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
-$Romana = LeerArchivo('ROMANA.txt');
+$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
 echo "f.TxtNumRomana.value=".$Romana.";";
 echo "CalculaPNetoTotal();";
 echo "</script>";

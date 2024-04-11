@@ -139,19 +139,19 @@
 			$Mensaje='';
 	}
 	/*DEFINE SI ES ENTRADA O SALIDA*/
-	echo "TipoProceso:".$TipoProceso;
+	//echo "TipoProceso:".$TipoProceso;
 	switch($TipoProceso)
 	{
 		case "E":
-			 echo "Entroooo";
-			 echo "<br>Proceso:".$Proceso;
+			 //echo "Entroooo";
+			// echo "<br>Proceso:".$Proceso;
 			$EstBtnGrabar='';
 			$PatenteOk='';
 			$PatenteOk=PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
-			echo "PatenteOk:".$PatenteOk;
+			//echo "PatenteOk:".$PatenteOk;
 			if($PatenteOk==true)
-			{ echo "PatenteOk:".$PatenteOk;
-				echo "Proceso:".$Proceso;
+			{ //echo "PatenteOk:".$PatenteOk;
+				//echo "Proceso:".$Proceso;
 				switch($Proceso)
 				{
 					case "B1"://LOTE NUEVO
