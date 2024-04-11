@@ -260,7 +260,7 @@ function Proceso(opt)
 				{
 					if ($OptAcumulado == "N")
 					{							
-						$Consulta = "SELECT t1.lote,t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.guia_despacho,t1.rut_prv, t3.nombre_prv,t1.recargo,peso_bruto,peso_tara,peso_neto, ";
+						$Consulta = "SELECT t1.lote,t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.guia_despacho,t1.rut_prv, t3.nombre_prv,t1.recargo,peso_bruto,peso_tara,peso_neto,t1.activo,";
 						$Consulta.= "t1.cod_subproducto,t2.descripcion as nom_subpro,t1.cod_mina,t4.nombre_mina,t1.leyes,t1.impurezas,t1.conjunto,t1.humedad,t1.patente,t1.sa_asignada,bascula_entrada,bascula_salida,romana_entrada,romana_salida ";
 						$Consulta.= " from sipa_web.recepciones t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 						$Consulta.= " left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv left join sipa_web.minaprv t4 on t1.rut_prv=t4.rut_prv and t1.cod_mina=t4.cod_mina ";
@@ -303,7 +303,7 @@ function Proceso(opt)
 					}
 					else
 					{				
-						$Consulta = "SELECT t1.rut_prv, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto ";
+						$Consulta = "SELECT t1.rut_prv, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto, t1.activo, ";
 						$Consulta.= " from sipa_web.recepciones t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 						$Consulta.= " left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv left join sipa_web.minaprv t4 on t1.rut_prv=t4.rut_prv and t1.cod_mina=t4.cod_mina ";
 						$Consulta.= " where t1.estado <> 'A' and t1.fecha between '".$FechaIni."' and '".$FechaFin."' ";
@@ -444,7 +444,7 @@ function Proceso(opt)
 			case "R": //DETALLE RECEPCIONES
 				if ($Lote == "S")
 				{
-					if ($Row["ACTIVO"] == "M")
+					if ($Row["activo"] == "M")
 							echo "<tr bgcolor='#FFFFFF'> \n";
 						else
 							echo "<tr> \n";
@@ -487,7 +487,7 @@ function Proceso(opt)
 				{
 					if ($OptAcumulado == "N")
 					{
-						if ($Row["ACTIVO"] == "M")
+						if ($Row["activo"] == "M")
 							echo "<tr bgcolor='#FFFFFF'> \n";
 						else
 							echo "<tr> \n";
@@ -511,7 +511,9 @@ function Proceso(opt)
 						//foreach($Leyes as  $c =>$v)
 						foreach($Leyes as $c => $v)
 						{
-							$StrLeyes=$StrLeyes.$DatosLeyes[$v].",";
+							$datosley= isset($DatosLeyes[$v])?$DatosLeyes[$v]:"";
+							//$StrLeyes=$StrLeyes.$DatosLeyes[$v].",";
+							$StrLeyes=$StrLeyes.$datosley.",";
 						}
 						$StrLeyes=substr($StrLeyes,0,strlen($StrLeyes)-1);
 						$Impurezas=explode('~',$Row["impurezas"]);
@@ -519,7 +521,10 @@ function Proceso(opt)
 						//foreach($Impurezas as $c => $v)
 						foreach($Impurezas as $c => $v)
 						{
-							$StrImp=$StrImp.$DatosLeyes[$v].",";
+							
+							$datosley= isset($DatosLeyes[$v])?$DatosLeyes[$v]:"";
+							//$StrImp=$StrImp.$DatosLeyes[$v].",";
+							$StrImp=$StrImp.$datosley.",";
 						}
 						$StrImp=substr($StrImp,0,strlen($StrImp)-1);
 						echo "<td align='left'>".$StrLeyes."</td>";
