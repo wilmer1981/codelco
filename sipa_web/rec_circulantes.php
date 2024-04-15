@@ -27,14 +27,14 @@
 		
 		
 		
-		$RNA = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
+	$RNA = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
 
-		if(isset($RNA) && $RNA!=''){
-			setcookie("ROMANA",$RNA);
-			$TxtNumRomana=$RNA;
-		}else{
-			$RNA = "";
-		}
+	if(isset($RNA) && $RNA!=''){
+		setcookie("ROMANA",$RNA);
+		$TxtNumRomana=$RNA;
+	}else{
+		$RNA = "";
+	}
     /*
 	if($RNA!='')	
 	{	
@@ -51,6 +51,7 @@
 	if($TxtNumRomana=='')
 		$TxtNumRomana=$_COOKIE["ROMANA"];
 	*/
+
 	$TxtNumRomana	= isset($_REQUEST["TxtNumRomana"])?$RNA:"";
 	$TipoProceso 	= isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
 	$TxtPatente 	= isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";

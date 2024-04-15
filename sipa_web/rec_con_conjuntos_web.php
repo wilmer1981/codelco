@@ -132,7 +132,7 @@ if($Buscar=='S')
 	{
 		$TotNeto=0;
 		echo "<tr class='Detalle01' align='left'>";
-		echo "<td colspan='6'>CONJUNTO:&nbsp;".$FilaConj["conjunto"]." ---> ".$FilaConj[nombre_subprod]."</td>";
+		echo "<td colspan='6'>CONJUNTO:&nbsp;".$FilaConj["conjunto"]." ---> ".$FilaConj["nombre_subprod"]."</td>";
 		echo "</tr>";
 		$Consulta="SELECT t1.lote,t2.nombre_prv,t1.conjunto,sum(t1.peso_neto) as peso_neto ";
 		$Consulta.="from sipa_web.recepciones t1 left join sipa_web.proveedores t2 on t1.rut_prv=t2.rut_prv ";
@@ -148,11 +148,14 @@ if($Buscar=='S')
 			$RespRec=mysqli_query($link, $Consulta);
 			$FilaRec=mysqli_fetch_array($RespRec);
 			//echo $Consulta."<br>";
-			echo "<td align='right'>".$FilaRec[cant_rec]."</td>";
-			$Consulta="SELECT ult_registro from sipa_web.recepciones where lote='".$FilaR["lote"]."' and recargo='".$FilaRec[cant_rec]."'";
+			$cant_rec = isset($FilaRec["cant_rec"])?$FilaRec["cant_rec"]:"";
+			$lote     = isset($FilaR["lote"])?$FilaR["lote"]:"";
+			echo "<td align='right'>".$cant_rec."</td>";
+			$Consulta="SELECT ult_registro from sipa_web.recepciones where lote='".$lote."' and recargo='".$cant_rec."'";
 			$RespUR=mysqli_query($link, $Consulta);
 			$FilaUR=mysqli_fetch_array($RespUR);
-			echo "<td align='center'>".$FilaUR["ult_registro"]."</td>";
+			$ult_registro     = isset($FilaUR["ult_registro"])?$FilaUR["ult_registro"]:"";
+			echo "<td align='center'>".$ult_registro."</td>";
 			echo "<td>".$FilaR["nombre_prv"]."</td>";
 			echo "<td align='center'>".$FilaR["conjunto"]."</td>";
 			echo "<td align='right'>".number_format($FilaR["peso_neto"],0,'','.')."</td>";

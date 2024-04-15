@@ -107,6 +107,7 @@
 		$TxtFechaFin = date("Y-m-d", mktime(0,0,0,$CmbMes+1,1,$CmbAno));
 		$TxtFechaFin = date("Y-m-d", mktime(0,0,0,substr($TxtFechaFin,5,2),1-1,substr($TxtFechaFin,0,4)));
 	}
+	$Decimales=2;
 ?>
 <html>
 <head>
@@ -490,7 +491,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 					$HoraE = $Fila[12];
 					$HoraS = $Fila[13];
 					//if ($OpcConsulta == "C")
-						$N_Conjto = $Fila[14];	
+						//$N_Conjto = $Fila[14];	
+						$N_Conjto = isset($Fila[14])?$Fila[14]:"";	
 					if ($OpcTR=="R")
 					{
 						echo "<tr>\n";
