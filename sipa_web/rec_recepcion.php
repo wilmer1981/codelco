@@ -9,20 +9,20 @@
 	$Bloq1   = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
 	$Bloq2   = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
 
-	$Mensaje   = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
-	$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";	
-	$TipoProceso = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
-	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mensaje       = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$BuscarPrv     = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";	
+	$TipoProceso   = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
+	$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
 	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
-	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
-	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
-	$TxtPorcRango = isset($_REQUEST["TxtPorcRango"])?$_REQUEST["TxtPorcRango"]:"";
-	$CmbClase = isset($_REQUEST["CmbClase"])?$_REQUEST["CmbClase"]:"";
-	$TxtRutPrv = isset($_REQUEST["TxtRutPrv"])?$_REQUEST["TxtRutPrv"]:"";
+	$OptBascula    = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
+	$TxtNumRomana  = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+	$TxtPorcRango  = isset($_REQUEST["TxtPorcRango"])?$_REQUEST["TxtPorcRango"]:"";
+	$CmbClase      = isset($_REQUEST["CmbClase"])?$_REQUEST["CmbClase"]:"";
+	$TxtRutPrv     = isset($_REQUEST["TxtRutPrv"])?$_REQUEST["TxtRutPrv"]:"";
 	
 	$AbastMinero = isset($_REQUEST["AbastMinero"])?$_REQUEST["AbastMinero"]:"";
-	$TxtPatente = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtPatente  = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
 	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
 
 	$EstPatente = isset($_REQUEST["EstPatente"])?$_REQUEST["EstPatente"]:"";
@@ -65,7 +65,7 @@
 	CerrarLotesMensuales('R',$link);
 	$Tolerancia=ToleranciaPesaje($link);
 
-	if($RNA)
+	if(isset($RNA))
 	{
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
@@ -75,8 +75,11 @@
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
 	}
+	//if($TxtNumRomana=='')
+	//	$TxtNumRomana=$_COOKIE["ROMANA"];
+
 	if($TxtNumRomana=='')
-		$TxtNumRomana=isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
+		$TxtNumRomana = isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
 
 	$EstadoInput='';
 	switch($TxtNumBascula)
@@ -114,18 +117,26 @@
 	{
 		$Consulta="SELECT * from sipa_web.recepciones where patente = '".trim($TxtPatente)."' and peso_bruto<>'0' and ";
 		$Consulta.="peso_tara='0' and peso_neto='0' and estado <> 'A' and tipo<>'A'";
-		//echo $Consulta;
+		//echo "<br>".$Consulta;
 		$Respuesta=mysqli_query($link, $Consulta);
+		//$Fila=mysqli_fetch_array($Respuesta);
+		//var_dump($Fila);
 		if($Fila=mysqli_fetch_array($Respuesta))
 			$TipoProceso='S';
 		else
 			$TipoProceso='E';
+
 	}	
+
 	function PatenteValida($Patente,$PatenteOk,$EstPatente)
 	{
 			$EstPatente='readonly';
 			/*$Consulta="SELECT * from sipa_web.camion where patente='".$Patente."'";
-			$Respuesta=mysqli_query($link, $Consulta);
+			$Resp
+			
+			
+			
+			uesta=mysqli_query($link, $Consulta);
 			if($Fila=mysqli_fetch_array($Respuesta))
 			{	
 				$PatenteOk=true;
@@ -137,21 +148,25 @@
 			}*/
 			$PatenteOk=true;
 			$Mensaje='';
+			return $PatenteOk;
 	}
 	/*DEFINE SI ES ENTRADA O SALIDA*/
 	//echo "TipoProceso:".$TipoProceso;
+	//echo "<br>Proceso:".$Proceso;
+	//echo "<br>PatenteOk:".$PatenteOk;
 	switch($TipoProceso)
 	{
 		case "E":
-			 //echo "Entroooo";
+			// echo "<br>Entroooo";
 			// echo "<br>Proceso:".$Proceso;
 			$EstBtnGrabar='';
 			$PatenteOk='';
 			$PatenteOk=PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
-			//echo "PatenteOk:".$PatenteOk;
+			//echo "<br>PatenteOk:".$PatenteOk;
 			if($PatenteOk==true)
-			{ //echo "PatenteOk:".$PatenteOk;
-				//echo "Proceso:".$Proceso;
+			{ 
+				//echo "<br>PPPPatenteOk:".$PatenteOk;
+				//echo "<br>Proceso:".$Proceso;
 				switch($Proceso)
 				{
 					case "B1"://LOTE NUEVO
@@ -327,7 +342,7 @@
 			}					
 		}
 	}
-	//$Proceso='';
+	$Proceso='';
 	if(isset($CmbGrupoProd))
 	{
 		$Consulta="SELECT abast_minero from sipa_web.grupos_productos where cod_grupo='".$CmbGrupoProd."'";
@@ -1093,11 +1108,11 @@ body {
 		$Color='000000';
 	if($TxtNumRomana==1 && $TxtNumBascula==1)	
 		{$Valor=1;$Color='FF0000';}
-		if($TxtNumRomana==1 && $TxtNumBascula==2)	
+	if($TxtNumRomana==1 && $TxtNumBascula==2)	
 		{$Valor=2;$Color='009933';}
-			if($TxtNumRomana==2 && $TxtNumBascula==1)	
+	if($TxtNumRomana==2 && $TxtNumBascula==1)	
 		{$Valor=3;$Color='FF0000';}
-			if($TxtNumRomana==2 && $TxtNumBascula==2)	
+	if($TxtNumRomana==2 && $TxtNumBascula==2)	
 		{$Valor=4;$Color='009933';}
 			
 		
@@ -1139,7 +1154,7 @@ body {
 	if($TipoProceso=="" || $TipoProceso=='E')	
 	{
 		//echo "prueba info";
-		echo "TipoProcesooooo:".$TipoProceso;
+		//echo "TipoProcesooooo:".$TipoProceso;
 	?>
     <input <?php echo $EstadoInput; ?> name="TxtCorrelativo" type="text" class="InputCen" id="TxtCorrelativo" value="<?php echo $TxtCorrelativo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');" readonly>      
     <?php

@@ -750,7 +750,8 @@ function PesoHistorico2($TipoProceso,$Patente,$TxtPesoHistorico,$TxtPorcRango,$P
 			$Resp=mysqli_query($link, $Consulta);
 			while($Fila=mysqli_fetch_array($Resp))
 			{
-				$PesoBrutoAcum=$PesoBrutoAcum+$FilaPeso["peso_bruto"];
+				//$PesoBrutoAcum = $PesoBrutoAcum + $FilaPeso["peso_bruto"];
+				$PesoBrutoAcum = $PesoBrutoAcum + $Fila["peso_bruto"];
 				$ContPesos++;
 				/*$Consulta="SELECT peso_bruto from sipa_web.recepciones where correlativo='".$Fila["corr"]."' ";
 				$RespPeso=mysqli_query($link, $Consulta);
