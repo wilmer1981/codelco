@@ -35,7 +35,7 @@
 	$CorrInternoCliente = isset($_REQUEST["CorrInternoCliente"])?$_REQUEST["CorrInternoCliente"]:"";
 	$TxtNombreCli = isset($_REQUEST["TxtNombreCli"])?$_REQUEST["TxtNombreCli"]:"";
 	$TxtCiudadCli = isset($_REQUEST["TxtCiudadCli"])?$_REQUEST["TxtCiudadCli"]:"";
-	$TxtVUnitario = isset($_REQUEST["TxtVUnitario"])?$_REQUEST["TxtVUnitario"]:"";
+	$TxtVUnitario = isset($_REQUEST["TxtVUnitario"])?$_REQUEST["TxtVUnitario"]:0;
 	$TxtDireccionCli = isset($_REQUEST["TxtDireccionCli"])?$_REQUEST["TxtDireccionCli"]:"";
 	$TxtObserCliente = isset($_REQUEST["TxtObserCliente"])?$_REQUEST["TxtObserCliente"]:"";
 	$TxtDivSAp       = isset($_REQUEST["TxtDivSAp"])?$_REQUEST["TxtDivSAp"]:"";
@@ -44,6 +44,27 @@
 	$TxtGiroCliente  = isset($_REQUEST["TxtGiroCliente"])?$_REQUEST["TxtGiroCliente"]:"";
 	$TxtContrato     = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
 	
+	$TxtRutChofer    = isset($_REQUEST["TxtRutChofer"])?$_REQUEST["TxtRutChofer"]:"";
+	$CmbFPago    = isset($_REQUEST["CmbFPago"])?$_REQUEST["CmbFPago"]:"";
+	$TxtTranspGiro = isset($_REQUEST["TxtTranspGiro"])?$_REQUEST["TxtTranspGiro"]:"";
+	$CmbUnidad = isset($_REQUEST["CmbUnidad"])?$_REQUEST["CmbUnidad"]:"";
+	$TxtObservacionAUX = isset($_REQUEST["TxtObservacionAUX"])?$_REQUEST["TxtObservacionAUX"]:"";
+	$TxtObservacionFun = isset($_REQUEST["TxtObservacionFun"])?$_REQUEST["TxtObservacionFun"]:"";
+	$txtorinombre = isset($_REQUEST["txtorinombre"])?$_REQUEST["txtorinombre"]:"";
+	$txtorilugar = isset($_REQUEST["txtorilugar"])?$_REQUEST["txtorilugar"]:"";
+	$txtoridivsap = isset($_REQUEST["txtoridivsap"])?$_REQUEST["txtoridivsap"]:"";
+	$txtorialmacensap = isset($_REQUEST["txtorialmacensap"])?$_REQUEST["txtorialmacensap"]:"";
+	$TxtTranspRut = isset($_REQUEST["TxtTranspRut"])?$_REQUEST["TxtTranspRut"]:"";
+	$TxtTranspNombre = isset($_REQUEST["TxtTranspNombre"])?$_REQUEST["TxtTranspNombre"]:"";
+	$TxtNombreChofer = isset($_REQUEST["TxtNombreChofer"])?$_REQUEST["TxtNombreChofer"]:"";
+	$TxtPatenteC = isset($_REQUEST["TxtPatenteC"])?$_REQUEST["TxtPatenteC"]:"";
+	$TxtPatenteR = isset($_REQUEST["TxtPatenteR"])?$_REQUEST["TxtPatenteR"]:"";
+	$TxtCodSapProducto = isset($_REQUEST["TxtCodSapProducto"])?$_REQUEST["TxtCodSapProducto"]:"";
+	$TxtProductoNombre = isset($_REQUEST["TxtProductoNombre"])?$_REQUEST["TxtProductoNombre"]:"";
+	$VarConcentracion = isset($_REQUEST["VarConcentracion"])?$_REQUEST["VarConcentracion"]:"";
+	$VarNU = isset($_REQUEST["VarNU"])?$_REQUEST["VarNU"]:"";
+	$TxtSellos = isset($_REQUEST["TxtSellos"])?$_REQUEST["TxtSellos"]:"";
+
 
 	$rut =$CookieRut;
 
@@ -95,15 +116,15 @@
 		//print_r(mysql_fetch_assoc($respParams));exit();
 		$params = array();
 		
-		while ($FilaParam=mysql_fetch_assoc($respParams)){
+		while ($FilaParam=mysqli_fetch_assoc($respParams)){
 			$params[$FilaParam["nombre"]] = $FilaParam["valor1"];
 
 		}
 
-		$DIRECCION_WS_GDE= $params[DIRECCION_WS_GDE];
-		$DIRECCION_WS_GDE_ANULA= $params[DIRECCION_WS_GDE_ANULA];
-		$usuario=$params[USUARIO];
-		$password=$params[PASSWORD];
+		$DIRECCION_WS_GDE= $params["DIRECCION_WS_GDE"];
+		$DIRECCION_WS_GDE_ANULA= $params["DIRECCION_WS_GDE_ANULA"];
+		$usuario=$params["USUARIO"];
+		$password=$params["PASSWORD"];
 
 		if ($TxtCliIndicador==5) {
 				$TIPO_DESPACHO="3";				
@@ -118,16 +139,16 @@
 	$RespFecha=mysqli_query($link, $ConsulFechaPesos);
 	$FilaPesosFecha=mysqli_fetch_array($RespFecha);
 	$PesosFecha = $FilaPesosFecha["fecha"];
-	$PesoBruto = "0";
-	$PesoTara = "0";
-	$PesoNeto = "";
+	//$PesoBruto = "0";
+	//$PesoTara = "0";
+	//$PesoNeto = "";
 	$ConsulPesos = "select peso_bruto,peso_tara,peso_neto from sipa_web.despachos where correlativo='".$TxtCorrRomana."'";
 	$RespPesos=mysqli_query($link, $ConsulPesos);
 	$FilaPesos=mysqli_fetch_array($RespPesos);
 	
-	$PesoBruto = $FilaPesos[peso_bruto];
-	$PesoTara = $FilaPesos["peso_tara"];
-	$PesoNeto = $FilaPesos[peso_neto];
+	$PesoBruto = isset($FilaPesos["peso_bruto"])?$FilaPesos["peso_bruto"]:0;
+	$PesoTara = isset($FilaPesos["peso_tara"])?$FilaPesos["peso_tara"]:0;
+	$PesoNeto = isset($FilaPesos["peso_neto"])?$FilaPesos["peso_neto"]:0;
 
 	if (!$TxtDivSAp) {
 		$TxtDivSAp="";
@@ -147,7 +168,7 @@
 	}
 //	echo "Toneladas ".$Toneladas."<br>";
 	$Toneladas=$Toneladas;
-	if($PesoNeto=="0")
+	if($PesoNeto==0)
 		$PesoNeto=$Toneladas*1000;
 	$descripcion = $TxtObservacionAUX.'\n'.$TxtObservacionFun;
 	$TotalItem=intval($PesoNeto*$TxtVUnitario);
@@ -160,7 +181,7 @@
 	$xmlBodyGDE="<soapenv:Body>
       <urn:MT_Legado_Request_CrearGuiaDespacho>
          <ORIGINADOR>
-            <SISTEMA_ORIGEN>".$params[SISTEMA_ORIGEN]."</SISTEMA_ORIGEN>
+            <SISTEMA_ORIGEN>".$params["SISTEMA_ORIGEN"]."</SISTEMA_ORIGEN>
             <ORIGINADOR>".$txtorinombre."</ORIGINADOR>
             <LUGAR_EMISION>".$txtorilugar."</LUGAR_EMISION>
             <USUARIO_EMISOR>".$NombreUser."</USUARIO_EMISOR>
@@ -168,7 +189,7 @@
             <ALMACEN_ORIGEN_SAP>".$txtorialmacensap."</ALMACEN_ORIGEN_SAP>
          </ORIGINADOR>
          <EMISOR>
-            <RUT_EMISOR>".$params[RUT_EMISOR]."</RUT_EMISOR>
+            <RUT_EMISOR>".$params["RUT_EMISOR"]."</RUT_EMISOR>
          </EMISOR>
          <RECEPTOR>
             <RUT_RECEPTOR>".$TxtRutCliente."</RUT_RECEPTOR>
@@ -180,7 +201,7 @@
          </RECEPTOR>
          <DATOS_CABECERA_GUIA>
             <FECHA_EMISION>".$fechaEmision."</FECHA_EMISION>
-            <TIPO_DTE>".$params[TIPO_DTE]."</TIPO_DTE>
+            <TIPO_DTE>".$params["TIPO_DTE"]."</TIPO_DTE>
             <INDICADOR_TRASLADO>".$TxtCliIndicador."</INDICADOR_TRASLADO>
             <TIPO_DESPACHO>".$TIPO_DESPACHO."</TIPO_DESPACHO>
             <FORMA_PAGO>".$FORMA_PAGO."</FORMA_PAGO>
@@ -231,11 +252,11 @@ switch ($Proceso)
 			ModificarPAC($link);
 			GenerarGDE($xmlEnvioGDE);	
 		
-			$codRespuesta = $result[DATOS_RESPUESTA][CODIGO_RESPUESTA];
-			$menRespuesta = $result[DATOS_RESPUESTA][MENSAJE_RESPUESTA];
-			$NumGuia = $result[DATOS_RESPUESTA][FOLIO_GENERADO];
-			$urlGde = $result[DATOS_RESPUESTA][URL_GDE];
-			$urlGdeLocal = $result[DATOS_RESPUESTA][URL_GDE_LOCAL];
+			$codRespuesta = $result["DATOS_RESPUESTA"]["CODIGO_RESPUESTA"];
+			$menRespuesta = $result["DATOS_RESPUESTA"]["MENSAJE_RESPUESTA"];
+			$NumGuia = $result["DATOS_RESPUESTA"]["FOLIO_GENERADO"];
+			$urlGde = $result["DATOS_RESPUESTA"]["URL_GDE"];
+			$urlGdeLocal = $result["DATOS_RESPUESTA"]["URL_GDE_LOCAL"];
 			if ($msj!='') {
 				echo "<script languaje='JavaScript'>";
 				echo "alert('".$msj."');";
@@ -267,7 +288,7 @@ switch ($Proceso)
 					$RespPac=mysqli_query($link, $Consulta);
 					$FilaPac=mysqli_fetch_array($RespPac);
 				
-					$SubProd=explode('~',$FilaPac[cod_sipa]);
+					$SubProd=explode('~',$FilaPac["cod_sipa"]);
 					$CodProd=$SubProd[0];
 					$CodSub=$SubProd[1];
 					
@@ -276,11 +297,11 @@ switch ($Proceso)
 					$RespGrupo=mysqli_query($link, $Consulta);
 					$FilaGrupo=mysqli_fetch_array($RespGrupo);
 					$CmbGrupoProd=$FilaGrupo["cod_grupo"];
-					$CmbProveedor=$FilaPac["rut_cliente"].'~'.$FilaPac[corr_interno_cliente];
+					$CmbProveedor=$FilaPac["rut_cliente"].'~'.$FilaPac["corr_interno_cliente"];
 					$CmbTipoDespacho='V';
 					$TxtRutChofer=$FilaPac["rut_chofer"];
 					$TxtNomChofer=$FilaPac["nombre"];
-					$Consulta ="select nombre from pac_web.transportista where rut_transportista='".$FilaPac[rut_transportista]."'";
+					$Consulta ="select nombre from pac_web.transportista where rut_transportista='".$FilaPac["rut_transportista"]."'";
 					$RespTransP = mysqli_query($link, $Consulta);
 					$FilaTransP = mysqli_fetch_array($RespTransP);
 					$TxtTransp=$FilaTransP["nombre"];
@@ -453,7 +474,7 @@ echo "<script languaje='JavaScript'>";
 		$respuesta=mysqli_query($link, $consultaGDE);
 		$fila1=mysqli_fetch_array($respuesta);
 		$rutCliente=$fila1["rut_cliente"];
-		$codOri=$fila1[cod_originador];
+		$codOri=$fila1["cod_originador"];
 		$fechaEmision=$fila1["fecha_hora"];
 		
 		$consultaGDE ="select peso_neto from sipa_web.despachos where guia_despacho ='".$NG."'";
@@ -466,11 +487,11 @@ echo "<script languaje='JavaScript'>";
 		$consulOri ="select rut from pac_web.pac_originador where cod_originador ='".$codOri."'";
 		$respOri=mysqli_query($link, $consulOri);
 		$fila2=mysqli_fetch_array($respOri);
-		$rutEmisor=$fila2[rut];
+		$rutEmisor=$fila2["rut"];
 
 		
 		$vUni=$fila1["valor_unitario"];
-		$ton=$fila3[peso_neto];
+		$ton=$fila3["peso_neto"];
 
 		$montoTotal=$ton*$vUni;
 		$fechaActual=date("d-m-Y H:i:s");
@@ -483,17 +504,17 @@ $xmlHeaderAnular="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/so
          <ANULACION_GDE>
             <RUT_EMISOR>".$rutEmisor."</RUT_EMISOR>
             <FECHA_SOLICITUD>".$fechaActual."</FECHA_SOLICITUD>
-            <TIPO_DTE>".$params[TIPO_DTE]."</TIPO_DTE>
+            <TIPO_DTE>".$params["TIPO_DTE"]."</TIPO_DTE>
             <FOLIO>".$NG."</FOLIO>
             <MOTIVO_ANULACION>DVEN-PAC: ".$TxtObs."</MOTIVO_ANULACION>
             <RAZON_SOCIAL_RECEPTOR>".$rutCliente."</RAZON_SOCIAL_RECEPTOR>
             <RUT_RECEPTOR>".str_replace(".", "", $rutCliente)."</RUT_RECEPTOR>
             <MONTO_TOTAL>".$montoTotal."</MONTO_TOTAL>
-            <TEXTO_CODIGO_ANULACION>".$params[ANULACION_ASUNTO]."</TEXTO_CODIGO_ANULACION>
-            <CODIGO_ANULACION>".$params[CODIGO_ANULACION]."</CODIGO_ANULACION>
-            <MAIL_RECEPTOR>".$params[ANULACION_CORREO_RECEPTOR]."</MAIL_RECEPTOR>
-            <MAIL_EMISOR>".$params[ANULACION_CORREO_EMISOR]."</MAIL_EMISOR>
-            <ASUNTO_MAIL>".$params[TEXTO_CODIGO_ANULACION]."</ASUNTO_MAIL> 
+            <TEXTO_CODIGO_ANULACION>".$params["ANULACION_ASUNTO"]."</TEXTO_CODIGO_ANULACION>
+            <CODIGO_ANULACION>".$params["CODIGO_ANULACION"]."</CODIGO_ANULACION>
+            <MAIL_RECEPTOR>".$params["ANULACION_CORREO_RECEPTOR"]."</MAIL_RECEPTOR>
+            <MAIL_EMISOR>".$params["ANULACION_CORREO_EMISOR"]."</MAIL_EMISOR>
+            <ASUNTO_MAIL>".$params["TEXTO_CODIGO_ANULACION"]."</ASUNTO_MAIL> 
          </ANULACION_GDE>
       </urn:MT_Legado_Request_AnularGuiaDespacho>
    </soapenv:Body>
@@ -506,8 +527,8 @@ $xmlHeaderAnular="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/so
 		
 		/*echo "<br><br>";
 		echo $xmlEnvioAnular;exit();*/
-		$codRespuesta = $resultAnular[DATOS_RESPUESTA][CODIGO_RESPUESTA];
-		$menRespuesta = $resultAnular[DATOS_RESPUESTA][MENSAJE_RESPUESTA];
+		$codRespuesta = $resultAnular["DATOS_RESPUESTA"]["CODIGO_RESPUESTA"];
+		$menRespuesta = $resultAnular["DATOS_RESPUESTA"]["MENSAJE_RESPUESTA"];
 
 		$respuestaWS = "<DATOS_RESPUESTA><CODIGO_RESPUESTA>".$codRespuesta."</CODIGO_RESPUESTA><MENSAJE_RESPUESTA>".$menRespuesta."</MENSAJE_RESPUESTA></DATOS_RESPUESTA>";
 
@@ -661,8 +682,8 @@ function ModificarPAC($link)
 				$Consulta="consulta * from pac_web.movimientos where fecha_hora = '".$Fila1["fecha_hora"]."' ";
 				$Respuesta2=mysqli_query($link, $Consulta);
 				$Fila2=mysqli_fetch_array($Respuesta2);
-				$HoraI = $Fila2[hora_inicio];
-				$HoraT = $Fila2[hora_final];
+				$HoraI = $Fila2["hora_inicio"];
+				$HoraT = $Fila2["hora_final"];
 				$Eliminar="delete from pac_web.movimientos where fecha_hora = '".$Fila1["fecha_hora"]."' ";
 				mysqli_query($link, $Eliminar);
 				$Consulta="select valor1 from pac_web.parametros where codigo='1'";

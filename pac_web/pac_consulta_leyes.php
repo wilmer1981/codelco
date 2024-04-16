@@ -261,8 +261,8 @@ function Salir()
 		while ($Fila=mysqli_fetch_array($Resultado))
 		{
 			echo "<tr>"; 
-			echo "<td width='30' align='center'>$Fila["estanque"]</td>";
-			echo "<td width='70' align='center'>$Fila[fecha]</td>";
+			echo "<td width='30' align='center'>".$Fila["estanque"]."</td>";
+			echo "<td width='70' align='center'>".$Fila["fecha"]."</td>";
 			echo "<td width='150'>&nbsp;".$Fila["nombre_leyes"]."&nbsp;(".$Fila["cod_ley"].")</td>";
 			echo "<td width='35' align='right'>".$Fila["valor"]."</td>";
 			echo "<td width='40'>".$Fila["abreviatura"]."</td>";
