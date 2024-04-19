@@ -29,7 +29,7 @@
 	$TxtCorrel  = isset($_REQUEST["TxtCorrel"])?$_REQUEST["TxtCorrel"]:"";
 	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
 	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
-	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:0;
 	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
 	$TxtHoraS     = isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";	
 	$TxtHoraE     = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
@@ -54,9 +54,14 @@
 	$TxtPorcRango = isset($_REQUEST["TxtPorcRango"])?$_REQUEST["TxtPorcRango"]:"";
 	$DifLimitePeso = isset($_REQUEST["DifLimitePeso"])?$_REQUEST["DifLimitePeso"]:"";
 	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
-	
 
+	$bascula_entrada = isset($_REQUEST["bascula_entrada"])?$_REQUEST["bascula_entrada"]:"";
+	$bascula_salida = isset($_REQUEST["bascula_salida"])?$_REQUEST["bascula_salida"]:"";
+	$TxtNombrePrv = isset($_REQUEST["TxtNombrePrv"])?$_REQUEST["TxtNombrePrv"]:"";
 	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+	$TxtDirec = isset($_REQUEST["TxtDirec"])?$_REQUEST["TxtDirec"]:"";
+	$TxtSello = isset($_REQUEST["TxtSello"])?$_REQUEST["TxtSello"]:"";
+	$TxtTransp = isset($_REQUEST["TxtTransp"])?$_REQUEST["TxtTransp"]:"";
 
 	if(isset($RNA))
 	{
@@ -156,6 +161,7 @@
 			}*/
 			$PatenteOk=true;
 			$Mensaje='';
+			return $PatenteOk;
 	}
 	//echo "TipoProceso ".$TipoProceso."<br>";
 	//DEFINE SI ES ENTRADA O SALIDA
@@ -168,8 +174,9 @@
 				$TxtPesoNeto=0;
 			if($TxtPesoTara=='')
 				$TxtPesoTara=0;			
-			PatenteValida($TxtPatente,$PatenteOk,$EstPatente,$Mensaje);
-			if($PatenteOk==true&&$TxtCorrelativo=='')
+			
+			$PatenteOk= PatenteValida($TxtPatente,$PatenteOk,$EstPatente,$Mensaje);
+			if($PatenteOk==true && $TxtCorrelativo=='')
 			{
 				PesoHistorico('D',$TxtPatente,$TxtPesoHistorico,$TxtPorcRango,'E','','',$link);
 
@@ -212,13 +219,15 @@
 								
 			}
 			else
-				//$ObjFoco='TxtPatente';
+				//$ObjFoco='TxtPatente'; 
+				$ObjFoco='TxtGuia';// por WSO
 			break;
 		case "S"://SALIDA DEL CAMION
 			$EstBtnGrabar='';
 			$EstBtnAnular='';
 			$EstBtnImprimir='';
-			PatenteValida($TxtPatente,$PatenteOk,$EstPatente,$Mensaje);
+			$PatenteOk = '';
+			$PatenteOk = PatenteValida($TxtPatente,$PatenteOk,$EstPatente,$Mensaje);
 			if($PatenteOk==true)
 			{
 				$TitCmbCorr="Seleccionar";
@@ -227,24 +236,24 @@
 					case "BC"://BUSCAR CORRELATIVO
 						$Datos=explode('~',$TxtCorrelativo);
 						//echo '*** Datos = ' . $Datos[0] . ' - ' . $Datos[1] . ' - ' . $Datos[2] . ' - ' . $Datos[3];
-						$OrigenDatosGuia=$Datos[2];
+						$OrigenDatosGuia=isset($Datos[2])?$Datos[2]:"";
 						$Consulta ="SELECT distinct t1.lote,t1.recargo,t1.patente,t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.conjunto,";
 						$Consulta.="t1.cod_despacho,t1.cod_mop,t1.peso_bruto,t1.peso_tara,t1.observacion, t1.rut_chofer, t1.nombre_chofer from sipa_web.despachos t1 ";
 						$Consulta.="where correlativo='".$Datos[0]."'";
 						$Resp2 = mysqli_query($link, $Consulta);
-					    echo "Consulta 1 ".$Consulta."<br>";
+					   // echo "Consulta 1 ".$Consulta."<br>";
 						while($Fila = mysqli_fetch_array($Resp2))
 						{
 							$TxtCorrelativo=$Fila["correlativo"];
 							$TxtPatente=$Fila["patente"];
-							$TxtGuia=$Datos[1];
+							$TxtGuia=isset($Datos[1])?$Datos[1]:"";
 							$TxtLote=$Fila["lote"];
 							$TxtRecargo=$Fila["recargo"];
 							$TxtFecha=$Fila["fecha"];
 							$TxtHoraE=$Fila["hora_entrada"];
 							$TxtHoraS=date('G:i:s');
-							$TxtPesoTara=$Fila["peso_tara"];
-							$TxtPesoNeto=abs($TxtPesoBruto-$TxtPesoTara);
+							$TxtPesoTara=isset($Fila["peso_tara"])?$Fila["peso_tara"]:0;
+							$TxtPesoNeto=abs($TxtPesoBruto - $TxtPesoTara);
 							$CmbTipoDespacho=$Fila["cod_despacho"];
 							$CmbConjunto=$Fila["conjunto"];
 							$TxtObs=$Fila["observacion"];
@@ -252,8 +261,8 @@
 							$Consulta ="SELECT numtarjeta,pestotejes from sipa_web.datos_ejes where folio='".$Datos[0]."'";
 							$RespEjes = mysqli_query($link, $Consulta);
 							$FilaEjes = mysqli_fetch_array($RespEjes);
-							$TxtTarjeta=$FilaEjes["numtarjeta"];
-							$TotPesEjes = $FilaEjes["pestotejes"];
+							$TxtTarjeta=isset($FilaEjes["numtarjeta"])?$FilaEjes["numtarjeta"]:"";
+							$TotPesEjes = isset($FilaEjes["pestotejes"])?$FilaEjes["pestotejes"]:"";
 							$TxtRutChofer = $Fila["rut_chofer"];
 							$TxtNomChofer = $Fila["nombre_chofer"];
 						//	echo "OrigenDatosGuia ".$OrigenDatosGuia."<br>"; 
@@ -371,7 +380,7 @@
 									$TxtRutChofer=$FilaPac["rut_chofer"];
 									$TxtNomChofer=$FilaPac["nombre"];
 									$TxtCorrelativo=$TxtCorrelativo."~".$FilaPac["num_guia"]."~A";
-									$TxtSello=$FilaPac["sellos"];
+									$TxtSello=isset($FilaPac["sellos"])?$FilaPac["sellos"]:"";
 									$TxtObs=$FilaPac["descripcion"];
 									$Class=" style='background-color:#F9F8F3'";
 									$Bloqueo="disabled ";
@@ -384,7 +393,7 @@
 									$Consulta ="SELECT nombre from pac_web.transportista where rut_transportista='".$FilaPac["rut_transportista"]."'";
 									$RespTransP = mysqli_query($link, $Consulta);
 									$FilaTransP = mysqli_fetch_array($RespTransP);
-									$TxtTransp=$FilaTransP["nombre"];
+									$TxtTransp= isset($FilaTransP["nombre"])?$FilaTransP["nombre"]:"";
 									$ObjFoco='TxtObs';
 									break;	
 								default:
@@ -474,7 +483,7 @@
 		if($Fila=mysqli_fetch_array($Respuesta))
 		{
 			$TxtNombrePrv=$Fila["nombre_prv"];
-			$TxtDirec=$Fila["direccion"];
+			$TxtDirec=isset($Fila["direccion"])?$Fila["direccion"]:"";
 			$ObjFoco='TxtObs';
 		}	
 		else
@@ -1824,8 +1833,8 @@ switch($TxtNumRomana)
 					break;
 			}
 		?>
-              <input name="BtnPBruto" type="button" id="BtnPBruto" style="width:70px " onClick="CapturaPeso('PB')" value="P.Bruto" <?php echo $EstBtnPBruto;?>>
-              <input name="BtnPTara" type="button" id="BtnPTara" style="width:70px " onClick="CapturaPeso('PT')" value="P.Tara" <?php echo $EstBtnPTara;?>>
+        <input name="BtnPBruto" type="button" id="BtnPBruto" style="width:70px " onClick="CapturaPeso('PB')" value="P.Bruto" <?php echo $EstBtnPBruto;?>>
+        <input name="BtnPTara" type="button" id="BtnPTara" style="width:70px " onClick="CapturaPeso('PT')" value="P.Tara" <?php echo $EstBtnPTara;?>>
 		<input name="BtnGrabar" type="button" value="Grabar" style="width:70px " onClick="Proceso('G','','<?php echo $TipoProceso;?>')" <?php echo $EstBtnGrabar;?>>
 		<input name="BtnModificar" type="button" id="BtnModificar" style="width:70px " onClick="Proceso('M')" value="Modificar" <?php echo $EstBtnModificar;?>>
 		<input name="BtnCancelar" type="button" id="BtnCancelar" style="width:70px " onClick="Proceso('C')" value="Cancelar">

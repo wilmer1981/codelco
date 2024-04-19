@@ -35,6 +35,7 @@
 	$TxtPesoNetoSec = isset($_REQUEST["TxtPesoNetoSec"])?$_REQUEST["TxtPesoNetoSec"]:"";
 	$TxtLimitePeso = isset($_REQUEST["TxtLimitePeso"])?$_REQUEST["TxtLimitePeso"]:"";
 
+	
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
 	$Resp=mysqli_query($link, $Consultar);
 	if ($Fila=mysqli_fetch_array($Resp))
@@ -45,9 +46,9 @@
 	{
 		case "E"://ACTUALIZAR ENTRADA
 			CrearArchivoResp('D','E',$TxtCorrelativo,'','','',$RutOperador,$TxtBasculaAux,'',$TxtFecha,$TxtHoraE,'','',$TxtPesoTara,'','','','','','','',$TxtPatente,'','',$TxtObs,'','','','',$CmbCodMop);
-			$Actualizar="UPDATE sipa_web.despachos set peso_tara='".$TxtPesoTara."',cod_mop='".$CmbCodMop."',observacion='".$TxtObs."',bascula_entrada='$TxtBasculaAux',romana_entrada='$TxtNumRomana',rut_chofer='".$TxtRutChofer."',nombre_chofer='".$TxtNomChofer."' ";
-			$Actualizar.="where correlativo='".$TxtCorrelativo."'";
-			//echo $Actualizar;
+			$Actualizar="UPDATE sipa_web.despachos SET peso_tara='".$TxtPesoTara."',cod_mop='".$CmbCodMop."',observacion='".$TxtObs."',bascula_entrada='$TxtBasculaAux',romana_entrada='$TxtNumRomana',rut_chofer='".$TxtRutChofer."',nombre_chofer='".$TxtNomChofer."' ";
+			$Actualizar.=" WHERE correlativo='".$TxtCorrelativo."'";
+			echo $Actualizar;
 			mysqli_query($link, $Actualizar);
 			//echo $Actualizar."<br>";
 			$Insertar="INSERT INTO sipa_web.datos_ejes (tipo_camion,patente,folio,cod_tipo_carga,tipo_carga,guia,tara,numtarjeta,tolerancia,validar_tolerancia) values(";

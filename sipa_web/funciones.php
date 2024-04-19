@@ -113,13 +113,15 @@ function ToleranciaPesaje($link)
 	function ImprimirDespachos($Correlativo,$Romana,$OpeSalida,$link)
 	{
 		$Consulta = "SELECT t1.correlativo,t1.bascula_entrada , t1.bascula_salida, t1.rut_operador, t1.lote, t1.correlativo, t1.peso_bruto, ";
-		$Consulta.= "t1.hora_entrada , t1.fecha, t1.recargo, t1.ult_registro, t1.peso_tara, t1.hora_salida, t1.peso_neto, t1.rut_prv, ";
+		$Consulta.= "t1.hora_entrada , t1.fecha, t1.recargo, t1.ult_registro, t1.peso_tara, t1.hora_salida, t1.peso_neto, t1.rut_prv, t3.nombre_prv, ";
 		$Consulta.= "t1.cod_producto, t1.cod_subproducto, t5.descripcion as nom_subproducto, t1.conjunto,";
 		$Consulta.= "t1.observacion, t1.patente, t1.guia_despacho,t6.nombre_subclase as tipo_despacho,t9.apellido_paterno,t9.apellido_materno,t9.nombres, t1.romana_entrada, t1.romana_salida ";
 		$Consulta.= "from sipa_web.despachos t1 ";
 		$Consulta.= "left join proyecto_modernizacion.subproducto t5 on t1.cod_producto=t5.cod_producto and t1.cod_subproducto=t5.cod_subproducto ";
 		$Consulta.= "left join proyecto_modernizacion.sub_clase t6 on t6.valor_subclase1= t1.cod_despacho ";
 		$Consulta.= "left join proyecto_modernizacion.funcionarios t9 on t1.rut_operador=t9.rut ";
+		$Consulta.= "left join sipa_web.proveedores t3 on t1.rut_prv = t3.rut_prv  ";
+		
 		$Consulta.= "where correlativo='".$Correlativo."'";
 		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($Resp))
@@ -140,7 +142,7 @@ function ToleranciaPesaje($link)
 			fwrite($Archivo,$Fila["fecha"]."\r\n");
 			fwrite($Archivo,$Fila["recargo"]."\r\n");
 			fwrite($Archivo,$Fila["ult_registro"]."\r\n");
-			fwrite($Archivo,$Fila["fecha_padron"]."\r\n");
+			//fwrite($Archivo,$Fila["fecha_padron"]."\r\n");
 			fwrite($Archivo,$Fila["peso_tara"]."\r\n");
 			fwrite($Archivo,$Fila["hora_salida"]."\r\n");
 			fwrite($Archivo,$Fila["peso_neto"]."\r\n");
@@ -154,6 +156,9 @@ function ToleranciaPesaje($link)
 			}
 			else
 				fwrite($Archivo,""."\r\n");
+			
+			$RutPrv=$Fila["rut_prv"];
+			$NomPrv=$Fila["nombre_prv"];
 			ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutPrv,$NomPrv,$link);
 			fwrite($Archivo,$NomPrv."\r\n");
 			fwrite($Archivo,$RutPrv."\r\n");
@@ -319,7 +324,10 @@ function ToleranciaPesaje($link)
 						//echo "tres".$Consulta."<br>";
 						$RespSec=mysqli_query($link, $Consulta);
 						$FilaSec=mysqli_fetch_array($RespSec);
-						switch($FilaSec["tipo_embarque"])
+						$CodPrestador="";
+						$tipo_embarque = isset($FilaSec["tipo_embarque"])?$FilaSec["tipo_embarque"]:"";
+						//switch($FilaSec["tipo_embarque"])
+						switch($tipo_embarque)
 						{
 							case "A":
 								if($FilaSec["cod_acopio"]!='')
@@ -717,7 +725,7 @@ function PesoHistorico($TipoProceso,$Patente,$TxtPesoHistorico,$TxtPorcRango,$Pr
 				$Consulta="SELECT peso_tara from sipa_web.recepciones where correlativo='".$Fila["corr"]."' ";
 				$RespPeso=mysqli_query($link, $Consulta);
 				$FilaPeso=mysqli_fetch_array($RespPeso);
-				$TxtPesoHistorico=$FilaPeso["peso_tara"];
+				$TxtPesoHistorico= isset($FilaPeso["peso_tara"])?$FilaPeso["peso_tara"]:"";
 			}
 			break;
 		case "D":
@@ -728,7 +736,7 @@ function PesoHistorico($TipoProceso,$Patente,$TxtPesoHistorico,$TxtPorcRango,$Pr
 				$Consulta="SELECT peso_tara from sipa_web.despachos where correlativo='".$Fila["corr"]."' ";
 				$RespPeso=mysqli_query($link, $Consulta);
 				$FilaPeso=mysqli_fetch_array($RespPeso);
-				$TxtPesoHistorico=$FilaPeso["peso_tara"];
+				$TxtPesoHistorico=isset($FilaPeso["peso_tara"])?$FilaPeso["peso_tara"]:"";
 			}
 			break;	
 	}

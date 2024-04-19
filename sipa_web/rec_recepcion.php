@@ -60,6 +60,11 @@
 	$ValidaPadronMin = isset($_REQUEST["ValidaPadronMin"])?$_REQUEST["ValidaPadronMin"]:"";
 	$TxtVencPadron = isset($_REQUEST["TxtVencPadron"])?$_REQUEST["TxtVencPadron"]:"";
 	$CmbMinaPlanta = isset($_REQUEST["CmbMinaPlanta"])?$_REQUEST["CmbMinaPlanta"]:"";
+
+	$TxtConjunto     = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$TxtAsignacion   = isset($_REQUEST["TxtAsignacion"])?$_REQUEST["TxtAsignacion"]:"";
+	$bascula_entrada = isset($_REQUEST["bascula_entrada"])?$_REQUEST["bascula_entrada"]:"";
+	$bascula_salida  = isset($_REQUEST["bascula_salida"])?$_REQUEST["bascula_salida"]:"";
 	
 
 	CerrarLotesMensuales('R',$link);
@@ -223,7 +228,7 @@
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
 						$TxtLote=$CmbLotes;
-						$TxtRecargo=$Fila["recargo_nuevo"];
+						$TxtRecargo=isset($Fila["recargo_nuevo"])?$Fila["recargo_nuevo"]:"";
 						$Consulta="SELECT  cod_producto,cod_subproducto,rut_prv,cod_mina,correlativo,fecha,hora_entrada,hora_salida,conjunto,cod_clase ";
 						$Consulta.="from sipa_web.recepciones where lote = '$CmbLotes' and recargo='1'";
 						//echo $Consulta;
@@ -269,7 +274,8 @@
 			$EstBtnGrabar='';
 			$EstBtnAnular='';
 			$EstBtnImprimir='';
-			PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
+			$PatenteOk='';
+			$PatenteOk = PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
 			if($PatenteOk==true)
 			{
 				$ObjFoco="TxtCorrelativo";
@@ -277,6 +283,9 @@
 				switch($Proceso)
 				{
 					case "BC"://BUSCAR CORRELATIVO
+						if($TxtPesoTara=='')
+							$TxtPesoTara=0;
+
 						$Datos=explode('~',$TxtCorrelativo);	
 						$Consulta ="SELECT distinct t1.lote,t1.recargo,t1.correlativo,t1.cod_grupo,t1.cod_producto,t1.cod_subproducto,t1.rut_prv,t1.cod_mina,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.conjunto,t1.cod_clase,";
 						$Consulta.="t1.peso_bruto,t1.guia_despacho,t1.observacion,t1.ult_registro,t1.leyes,t1.impurezas from sipa_web.recepciones t1 ";
@@ -303,8 +312,12 @@
 							//echo $Consulta."<br>";
 							$RespPadron=mysqli_query($link, $Consulta);
 							$FilaPadron=mysqli_fetch_array($RespPadron);
-							$TxtVencPadron=$FilaPadron["fecha_padron"];
-							$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron["fecha_padron"]."~".$Fila["conjunto"];
+							$TxtVencPadron=isset($FilaPadron["fecha_padron"])?$FilaPadron["fecha_padron"]:"";
+							$rut_prv =isset($Fila["rut_prv"])?$Fila["rut_prv"]:"";
+							$cod_mina=isset($Fila["cod_mina"])?$Fila["cod_mina"]:"";
+							$conjunto=isset($Fila["conjunto"])?$Fila["conjunto"]:"";
+							$CmbMinaPlanta=$rut_prv."~".$cod_mina."~".$TxtVencPadron."~".$conjunto;
+							//$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron["fecha_padron"]."~".$Fila["conjunto"];
 							//echo $CmbMinaPlanta;
 							$CmbUltRecargo=$Fila["ult_registro"];
 							$CmbConjunto=$Fila["conjunto"];
@@ -352,7 +365,7 @@
 		if($AbastMinero=='N')
 			$BuscarPrv='S';
 	}
-	if(isset($BuscarPrv)&&$BuscarPrv=='S')
+	if(isset($BuscarPrv) && $BuscarPrv=='S')
 	{
 		$Consulta = "SELECT * from sipa_web.proveedores where rut_prv='".$CmbProveedor."'";
 		$Respuesta=mysqli_query($link, $Consulta);
@@ -364,7 +377,7 @@
 				$ObjFoco='TxtObs';
 		}	
 		else
-			if($CmbSubProducto!='S'&&$CmbProveedor!='')
+			if($CmbSubProducto!='S' && $CmbProveedor!='')
 				$ObjFoco='TxtNombrePrv';	
 	}
 ?>	

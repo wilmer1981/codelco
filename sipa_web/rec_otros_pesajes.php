@@ -11,7 +11,6 @@
 	$Bloq1   = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
 	$Bloq2   = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-	$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
 
 	$TxtNumBascula  = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
 	$TxtBasculaAux  = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
@@ -28,10 +27,10 @@
 	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
 	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
 	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
-	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:0;
 	$TxtHoraS     = isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";	
 	$TxtHoraE     = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
-	$TxtPesoNeto  = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+	$TxtPesoNeto  = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:0;
 	$TxtGuia      = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
 	$TxtConjunto  = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
 
@@ -41,10 +40,11 @@
 
 	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
 
-
+	$bascula_entrada = isset($_REQUEST["bascula_entrada"])?$_REQUEST["bascula_entrada"]:"";
+	$bascula_salida = isset($_REQUEST["bascula_salida"])?$_REQUEST["bascula_salida"]:"";
+	$RecargaConj = isset($_REQUEST["RecargaConj"])?$_REQUEST["RecargaConj"]:"";
+	$ObjFoco     = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
 	
-
-
 
 	$EstadoInput='';
 	if(isset($RNA))
@@ -117,6 +117,7 @@
 			}*/
 			$PatenteOk=true;
 			$Mensaje='';
+			return $PatenteOk;
 	}
 	switch($TipoProceso)//DEFINE SI ES ENTRADA O SALIDA
 	{
@@ -127,7 +128,7 @@
 				$TxtPesoNeto=0;
 			if($TxtPesoTara=='')
 				$TxtPesoTara=0;				
-			PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
+				$PatenteOk = PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
 			if($PatenteOk==true&&$RecargaConj!='S')
 			{
 				$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.otros_pesaje";
@@ -151,7 +152,8 @@
 			$EstBtnGrabar='';
 			$EstBtnAnular='';
 			$EstBtnImprimir='';
-			PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
+			$PatenteOk='';
+			$PatenteOk = PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
 			if($PatenteOk==true&&$RecargaConj!='S')
 			{
 				$ObjFoco="TxtCorrelativo";
@@ -172,8 +174,9 @@
 							$TxtFecha=$Fila["fecha"];
 							$TxtHoraE=$Fila["hora_entrada"];
 							$TxtHoraS=date('G:i:s');
-							$TxtPesoBruto=$Fila["peso_bruto"];
-							$TxtPesoNeto=abs($Fila["peso_bruto"]-$TxtPesoTara);
+						    $TxtPesoBruto=isset($Fila["peso_bruto"])?$Fila["peso_bruto"]:0;
+							//$TxtPesoNeto=abs($Fila["peso_bruto"]-$TxtPesoTara);
+							$TxtPesoNeto=abs($TxtPesoBruto - $TxtPesoTara);
 							$TxtNombre=$Fila["nombre"];
 							$TxtDescripcion=$Fila["descripcion"];
 							$TxtConjunto=$Fila["conjunto"];

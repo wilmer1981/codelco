@@ -2,11 +2,18 @@
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
+	include("../principal/funciones/class.ezpdf.php");
+
 	$FechaHora = date("Y-m-d h:i");
 	$FechaHora1 = date("d-m-Y h:i");
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
-	include("../principal/funciones/class.ezpdf.php");
-	$pdf =& new Cezpdf('a4');
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$RutProved = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$NombreProved = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+
+	$pdf = new Cezpdf('a4');
     $pdf->SELECTFont('../principal/funciones/fonts/Helvetica.afm');
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $c => $v)
@@ -15,17 +22,22 @@
 		if (isset($Corr))
 		{
 			$Consulta = "SELECT t1.transportista,t1.lote,t1.recargo,t1.correlativo,t1.bascula_entrada , t1.bascula_salida, t1.rut_operador, t1.lote, t1.correlativo, t1.peso_bruto, ";
-			$Consulta.= "t1.hora_entrada , t1.fecha, t1.recargo, t1.ult_registro, t1.peso_tara, t1.hora_salida, t1.peso_neto, t1.rut_prv, ";
+			$Consulta.= "t1.hora_entrada , t1.fecha, t1.recargo, t1.ult_registro, t1.peso_tara, t1.hora_salida, t1.peso_neto, t1.rut_prv, t3.nombre_prv, ";
 			$Consulta.= "t1.cod_producto, t1.cod_subproducto, t5.descripcion as nom_subproducto,t1.nombre_chofer,t1.rut_chofer,num_sello,t1.observacion, ";
 			$Consulta.= "t1.observacion, t1.patente, t1.guia_despacho,t6.nombre_subclase as tipo_despacho ";
 			$Consulta.= "from sipa_web.despachos t1 ";
 			$Consulta.= "left join proyecto_modernizacion.subproducto t5 on t1.cod_producto=t5.cod_producto and t1.cod_subproducto=t5.cod_subproducto ";
 			$Consulta.= "left join proyecto_modernizacion.sub_clase t6 on t6.valor_subclase1= t1.cod_despacho ";
+			$Consulta.= "left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv ";
+			 
 			$Consulta.= "where correlativo='".$Corr."'";
 			//echo $Consulta;
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],&$RutProved,&$NombreProved);
+			$RutProved = $Fila["rut_prv"];
+	        $NombreProved = $Fila["nombre_prv"];
+
+			$NombreProved = ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutProved,$NombreProved,$link);
 			$NomProv = $NombreProved;
 			
 			
@@ -51,13 +63,13 @@
 			$pdf->addTextWrap(230,585,350,13,$Fila["nom_subproducto"],$justification='left',0,0);
 			$pdf->addTextWrap(230,553,150,13,"LOTE: ".$Fila["lote"],$justification='left',0,0);
 			$pdf->addTextWrap(230,523,150,13,"RECARGO: ".$Fila["recargo"],$justification='left',0,0);
-			$pdf->addTextWrap(230,492,150,13,"N� SELLO: ".$Fila[num_sello],$justification='left',0,0);
+			$pdf->addTextWrap(230,492,150,13,"N� SELLO: ".$Fila["num_sello"],$justification='left',0,0);
 			$pdf->addTextWrap(230,461,150,13,$Fila["observacion"],$justification='left',0,0);
 			$pdf->addTextWrap(55,170,150,13,$Fila["nombre_chofer"],$justification='left',0,0);
 			$pdf->addTextWrap(60,160,150,13,$Fila["rut_chofer"],$justification='left',0,0);
 			$pdf->addTextWrap(120,156,150,13,$Fila["registro"],$justification='left',0,0);
 			$pdf->addTextWrap(55,144,150,13,$Fila["direccion"],$justification='left',0,0);
-			$pdf->addTextWrap(380,170,150,13,$Fila[transportista],$justification='left',0,0);
+			$pdf->addTextWrap(380,170,150,13,$Fila["transportista"],$justification='left',0,0);
 			$pdf->addTextWrap(380,168,150,13,$Fila["marca"],$justification='left',0,0);
 			$pdf->addTextWrap(378,156,150,11,$Fila["patente"],$justification='left',0,0);
 			$pdf->addTextWrap(410,144,150,12,$Fila["peso_bruto"],$justification='left',0,0);

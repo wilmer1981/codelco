@@ -1,6 +1,15 @@
 ﻿<?php
 	//PRODUCICION.
+	$hora_aux = isset($_REQUEST["hora_aux"])?$_REQUEST["hora_aux"]:"";
+	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
+
+	$txtpesotara = isset($_REQUEST["txtpesotara"])?$_REQUEST["txtpesotara"]:"";
+	$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
 	
+		
 	//Campo Oculto.
 	echo '<input name="fecha_aux" type="hidden" value="'.$ano.'-'.$mes.'-'.$dia.'">';
 	echo '<input name="hora_aux" type="hidden" value="'.$hora_aux.'">';
@@ -9,26 +18,24 @@
 ?>
 
 <table width="600" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
-	 <tr> 
-		
-    <td width="261">Fecha de Pesaje</td>
-		
+	<tr>		
+    <td width="261">Fecha de Pesaje</td>		
     <td width="327"> 
-<SELECT name="dia" size="1">
+		<SELECT name="dia" size="1">
 			<?php
-		$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-		for ($i=1;$i<=31;$i++)
-		{	
-			if (($mostrar == "S") && ($i == $dia))			
-				echo "<option SELECTed value= '".$i."'>".$i."</option>";				
-			else if (($i == date("j")) and ($mostrar != "S")) 
-					echo "<option SELECTed value= '".$i."'>".$i."</option>";											
-			else					
-				echo "<option value='".$i."'>".$i."</option>";												
-		}		
-	?>
-		  </SELECT>
-		  <SELECT name="mes" size="1" id="SELECT">
+			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+			for ($i=1;$i<=31;$i++)
+			{	
+				if (($mostrar == "S") && ($i == $dia))			
+					echo "<option SELECTed value= '".$i."'>".$i."</option>";				
+				else if (($i == date("j")) and ($mostrar != "S")) 
+						echo "<option SELECTed value= '".$i."'>".$i."</option>";											
+				else					
+					echo "<option value='".$i."'>".$i."</option>";												
+			}		
+			?>
+		</SELECT>
+		<SELECT name="mes" size="1" id="SELECT">
 			<?php
 		for($i=1;$i<13;$i++)
 		{
@@ -39,9 +46,9 @@
 			else
 				echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
 		}		  
-	?>
-		  </SELECT>
-		  <SELECT name="ano" size="1">
+	    ?>
+		</SELECT>
+		<SELECT name="ano" size="1">
 			<?php
 		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 		{
@@ -252,7 +259,8 @@
 		echo '<input name="valores" type="hidden" value="">'; //Por Defecto.
 		//Genero Las Cubas Posibles Para Cada Grupo.
 		reset($grupos);
-		while (list($c,$v) = each($grupos))
+		//while (list($c,$v) = each($grupos))
+		foreach($grupos as $c => $v )
 		{
 			echo '<input name="valores" type="hidden" value="'.$v[0].'-'.$v[6].'-'.$v[1].'">'; //Grupo-CubaPosible-Lado.
 		}
@@ -265,7 +273,8 @@
 			echo '<td width="50">Grupo</td>';
 			
 			reset($grupos);
-			while (list($c,$v) = each($grupos))
+			//while (list($c,$v) = each($grupos))
+			foreach($grupos as $c => $v )
 			{
 				echo '<td width="51">'.$v[0].'</td>';
 			}
@@ -274,7 +283,8 @@
 			echo '<td>Cuba</td>';
 			
 			reset($grupos);
-			while (list($c,$v) = each($grupos))
+			//while (list($c,$v) = each($grupos))
+			foreach($grupos as $c => $v )
 			{
 				echo '<td>'.$v[2].'</td>';
 			}

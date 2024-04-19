@@ -56,7 +56,7 @@
 			mysqli_query($link, $Actualizar);
 			if(trim($TxtConjunto)=='')
 			{
-				ImprimirOtrosPesajes($TxtCorrelativo,$TxtNumRomana,$OperSalida);
+				ImprimirOtrosPesajes($TxtCorrelativo,$TxtNumRomana,$OperSalida,$link);
 			}
 			else
 			{

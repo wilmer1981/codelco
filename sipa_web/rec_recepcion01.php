@@ -62,7 +62,7 @@
 			$Actualizar.="cod_clase='".$CmbClase."',conjunto='".$CmbConjunto."',observacion='".$TxtObs."',humedad='".$TxtHumedad."', ";
 			$Actualizar.="leyes='$TxtLeyes',impurezas='$TxtImpurezas',romana_salida='$TxtNumRomana' where correlativo='".$Datos[2]."' and lote='".$TxtLote."'";
 			mysqli_query($link, $Actualizar);
-			ImprimirRecepcion($Datos[2],$TxtNumRomana,$OperSalida);
+			ImprimirRecepcion($Datos[2],$TxtNumRomana,$OperSalida,$link);
 			$Consulta="SELECT rut_prv as proveedor,cod_producto,cod_subproducto from sipa_web.recepciones where correlativo='".$Datos[2]."' and lote='".$TxtLote."'";
 			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Resp);
