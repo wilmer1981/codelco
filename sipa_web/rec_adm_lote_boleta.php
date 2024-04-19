@@ -3,14 +3,11 @@
 	include("funciones.php");
 	include("../principal/funciones/class.ezpdf.php");
 
-	window.open("rec_adm_lote_boleta.php?Valores="+TxtLotes+"&TipoReg="+f.CmbTipoRegistro.value+"
-	&TxtNumRomana="+f.TxtNumRomana.value,"","top=0,left=0,width=770,height=520,scrollbars=yes,resizable = yes");
-
 	$Valores = $_REQUEST["Valores"];
 	$TipoReg = $_REQUEST["TipoReg"];
 	$TxtNumRomana = $_REQUEST["TxtNumRomana"];
 	
-	$pdf =& new Cezpdf('a4');
+	$pdf = new Cezpdf('a4');
     $pdf->SELECTFont('../principal/funciones/fonts/Helvetica.afm');
 
 	$Datos=explode('//',$Valores);
@@ -80,15 +77,15 @@
 			$Impurezas = explode('~',$Fila["impurezas"]);
 			$ArrPastas=array();
 			$ArrImpurezas=array();
-			if (strlen($Pastas)>1)
+			if (count($Pastas)>1)
 			{
-				while(list($c,$v)=each($Pastas))
+				foreach($Pastas as $c => $v)
 				{
 					$ArrPastas[$v][0]=$v;
 					$ArrPastas[$v][1]="S";
 				}
 			}
-			if (strlen($Impurezas)>1)
+			if (count($Impurezas)>1)
 			{
 				foreach($Impurezas as $c => $v)
 				{
@@ -333,7 +330,7 @@
 					$RutPrv=$Fila["rut_prv"];
 					break;
 				case "D"://DESPACHOS
-					ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],&$RutProved,&$NombreProved);
+					ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutProved,$NombreProved,$link);
 					$Proveedor=$NombreProved;
 					$RutPrv=$Fila["rut_prv"];
 					break;
