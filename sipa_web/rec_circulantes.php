@@ -13,19 +13,17 @@
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
 	}*/
-		$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
-		$CmbRecarga = isset($_REQUEST["CmbRecarga"])?$_REQUEST["CmbRecarga"]:"";
-		$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
-		$SubProductos = isset($_REQUEST["SubProductos"])?$_REQUEST["SubProductos"]:"";
-		$Conjunto = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
-		$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
-		$TxtBasculaTara = isset($_REQUEST["TxtBasculaTara"])?$_REQUEST["TxtBasculaTara"]:"";
-		$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
-		$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
-		$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
-		$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
-		
-		
+	$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
+	$CmbRecarga = isset($_REQUEST["CmbRecarga"])?$_REQUEST["CmbRecarga"]:"";
+	$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+	$SubProductos = isset($_REQUEST["SubProductos"])?$_REQUEST["SubProductos"]:"";
+	$Conjunto = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
+	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
+	$TxtBasculaTara = isset($_REQUEST["TxtBasculaTara"])?$_REQUEST["TxtBasculaTara"]:"";
+	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
+	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
+	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
 		
 	$RNA = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
 
@@ -59,11 +57,16 @@
 	$TitCmbCorr     = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
 	$TxtObs 		= isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
 	$TxtFecha 		= isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date('Y-m-d');
-	$TxtHoraE 		= isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
+	$TxtHoraE 		= isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:date('G:i:s');
 	$TxtHoraS 		= isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";
 	$TxtPesoBruto 	= isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
 	$TxtPesoTara 	= isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
 	$TxtPesoNeto 	= isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+	$TxtConjunto 	= isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$TxtGuia 	= isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+
+	if($TxtNumRomana=='')
+		$TxtNumRomana=isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
 		
 	switch($TxtNumBascula)
 	{
@@ -118,7 +121,7 @@
 				$PatenteOk=true;
 				$TxtPesoTara=$Fila["peso_tara"];
 				$TxtBasculaTara=$Fila["bascula_entrada"];
-				$RUTOPeradorTara=$Fila[rut_operador];
+				$RUTOPeradorTara=$Fila["rut_operador"];
 				$DiasDif=abs(resta_fechas($Fila["fecha"],date('Y-m-d')));
 				//echo "DIAS DIF:".$DiasDif."<br>";
 				if($DiasDif>=7) 
@@ -134,6 +137,7 @@
 			}
 			$PatenteOk=true;
 			//$Mensaje='';
+			return $PatenteOk;
 	}
 	//DEFINE SI ES ENTRADA O SALIDA
 	switch($TipoProceso)
@@ -141,7 +145,7 @@
 		case "E":
 			$EstBtnGrabar='';
 			$PatenteOk='';
-			PatenteValida($TxtPatente,$PatenteOk,$EstPatente,$Mensaje,$TxtPesoTara,$link);
+			$PatenteOk = PatenteValida($TxtPatente,$PatenteOk,$EstPatente,$Mensaje,$TxtPesoTara,$link);
 			
 			$Consulta="SELECT bascula_entrada from sipa_web.otros_pesaje where patente='".$TxtPatente."' and observacion='TARA' order by fecha desc, hora_entrada desc";
 				$Respuesta=mysqli_query($link, $Consulta);
@@ -228,7 +232,6 @@
 <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 <script language="javascript">
-<!--
 var OK;
 var OTS = "";
 ns4 = (document.layers)? true:false
@@ -852,19 +855,21 @@ body {
       <?php
 	$VarFecha=explode('-',date('Y-m-d'));
 	$FechaDesde=date('Y-m-d',mktime(0,0,0,$VarFecha[1]-12,$VarFecha[2],$VarFecha[0]));
+	$FechaDesde="2023-01-01";
 	$FechaHasta=date('Y-m-d');
 	$Consulta = "SELECT distinct num_conjunto ";
 	$Consulta.= " from ram_web.conjunto_ram ";
 	$Consulta.= " where cod_producto = '".$Productos."' ";
 	$Consulta.= " and cod_subproducto = '".$SubProductos."' and estado='a' and fecha_creacion between '".$FechaDesde."' and '".$FechaHasta."'";
 	$Consulta.= " order by num_conjunto";
+	echo "Consulta: ".$Consulta;
 	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysqli_fetch_array($result))
 	{
 		$Consulta = "SELECT descripcion ";
 		$Consulta.= " from ram_web.conjunto_ram ";
 		$Consulta.= " where cod_producto = '".$Productos."' ";
-		$Consulta.= " and cod_subproducto = '".$SubdProductos."' ";
+		$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
 		$Consulta.= " and num_conjunto = '".$Row["num_conjunto"]."' and estado='a'";
 		$Consulta.= " order by num_conjunto";
 		$Resultado = mysqli_query($link, $Consulta);

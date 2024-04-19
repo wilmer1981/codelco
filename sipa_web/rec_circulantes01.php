@@ -4,9 +4,30 @@
 	include("funciones.php");
 	$CookieRut   = $_COOKIE["CookieRut"];
 	$RutOperador = $CookieRut;
-	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-	$TipoProceso 	= isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
 
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TipoProceso = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoTara = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+
+	$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+	$SubProductos = isset($_REQUEST["SubProductos"])?$_REQUEST["SubProductos"]:"";
+	$Conjunto = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
+	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
+	$TxtBasculaTara = isset($_REQUEST["TxtBasculaTara"])?$_REQUEST["TxtBasculaTara"]:"";
+	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
+	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
+	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
+	$SoloTara = isset($_REQUEST["SoloTara"])?$_REQUEST["SoloTara"]:"";
+	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+	$TxtGuia = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
+
+
+	
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
 	$Resp=mysqli_query($link, $Consultar);
 	if ($Row=mysqli_fetch_array($Resp))
@@ -26,7 +47,7 @@
 				$TxtPesoNeto=0;
 			if($SoloTara=='TARA')
 			{
-				$TxtObs=$SoloTara;
+				$TxtObs =$SoloTara;
 				$TxtBasculaTara=$TxtBasculaAux;
 				$Conjunto='';$SubProductos='';$Productos='';
 			}
