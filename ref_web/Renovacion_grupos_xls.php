@@ -1,10 +1,30 @@
 <?php 
 	include("../principal/conectar_sec_web.php");
 	// $link = mysql_connect('10.56.11.7','adm_bd','672312');
- mysql_select_db("sec_web",$link);
-	header("Content-Type:  application/vnd.ms-excel");
-	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    //mysql_select_db("sec_web",$link);
+    ob_end_clean();
+    $file_name=basename($_SERVER['PHP_SELF']).".xls";
+    $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+    $filename = "";
+    if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+    $filename = urlencode($filename);
+    }
+    $filename = iconv('UTF-8', 'gb2312', $filename);
+    $file_name = str_replace(".php", "", $file_name);
+    header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+    header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
+    header("content-disposition: attachment;filename={$file_name}");
+    header( "Cache-Control: public" );
+    header( "Pragma: public" );
+    header( "Content-type: text/csv" ) ;
+    header( "Content-Dis; filename={$file_name}" ) ;
+    header("Content-Type:  application/vnd.ms-excel");
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+
+    $opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+    $mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 ?>
 
 <html>
@@ -29,11 +49,7 @@
               <td width="66" align="center">Desc. Parcial</td>
               <td width="77" align="center">Exper.</td>
           </tr>
-          </table>
- 
- 
- 
-		
+          </table>		
           <table width="730" border="1" cellspacing="0" cellpadding="0" class="TablaInterior">
 <?php	
 	if ($opcion=="H")
@@ -55,33 +71,37 @@
             $datos = 'F';
 			while ($rows = mysqli_fetch_array($rss))		  
 				{
-                  if ($rows[fecha_renovacion]<>"")
-					if (strlen($rows[dia_renovacion])==1)
-						$rows[dia_renovacion]='0'.$rows[dia_renovacion];
-					$fecha=	substr($rows[fecha_renovacion],0,8).$rows[dia_renovacion];
+                  if ($rows["fecha_renovacion"]<>"")
+					if (strlen($rows["dia_renovacion"])==1)
+						$rows["dia_renovacion"]='0'.$rows["dia_renovacion"];
+					$fecha=	substr($rows["fecha_renovacion"],0,8).$rows["dia_renovacion"];
 
 					echo '<tr>';
-					echo '<td width="70" align="center">'.substr($fecha,0,7)."-".$rows[dia_renovacion].'</td>';
+					echo '<td width="70" align="center">'.substr($fecha,0,7)."-".$rows["dia_renovacion"].'</td>';
 
                     $consulta="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta=$consulta."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='A' order by dia_renovacion,cod_grupo";
+                    $consulta=$consulta."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='A' order by dia_renovacion,cod_grupo";
                     $respuesta = mysqli_query($link, $consulta);
                     $i=0;
                     while($row = mysqli_fetch_array($respuesta))
-                       {$arreglo[$i]=$row["cod_grupo"];
-                        $i++;}
+                    {
+                        $arreglo[$i]=$row["cod_grupo"];
+                        $i++;
+                    }
                     echo '<td width="70" align="center">'.$arreglo[0].' '.$arreglo[1].' '.$arreglo[2].'</td>';
                     $consulta2="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta2=$consulta2."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='B' order by dia_renovacion,cod_grupo";
+                    $consulta2=$consulta2."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='B' order by dia_renovacion,cod_grupo";
                     $respuesta2 = mysqli_query($link, $consulta2);
                     $i=0;
                     while($row2 = mysqli_fetch_array($respuesta2))
-                       {$arreglo2[$i]=$row2["cod_grupo"];
-                        $i++;}
+                    {
+                        $arreglo2[$i]=$row2["cod_grupo"];
+                        $i++;
+                    }
                     echo '<td width="70" align="center">'.$arreglo2[0].' '.$arreglo2[1].' '.$arreglo2[2].'</td>';
 					//concepto =c
 					$consulta22="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta22=$consulta22."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='C' order by dia_renovacion,cod_grupo";
+                    $consulta22=$consulta22."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='C' order by dia_renovacion,cod_grupo";
                     $respuesta22 = mysqli_query($link, $consulta22);
                     $i=0;
                     while($row22 = mysqli_fetch_array($respuesta22))
@@ -92,7 +112,7 @@
 					
 					
                     $consulta3="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta3=$consulta3."where dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,fila_renovacion,cod_grupo";
+                    $consulta3=$consulta3."where dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,fila_renovacion,cod_grupo";
                     $respuesta3 = mysqli_query($link, $consulta3);
 					//echo "con".$consulta3;
                     $i=0;
@@ -104,19 +124,19 @@
                         $i++;}
                     echo '<td width="70" align="center">'.$arreglo3[0].' '.$arreglo3[1].' '.$arreglo3[2].'</td>';
                     $consulta4="select distinct dia_renovacion,desc_parcial from sec_web.renovacion_prog_prod ";
-                    $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%'";
+                    $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta = mysqli_query($link, $consulta4);
                     $rowe = mysqli_fetch_array($respuesta);
-                    if ($rowe[desc_parcial]=="")
-                       {$rowe[desc_parcial]='-';}
-				    echo '<td width="70" align="center">'.$rowe[desc_parcial].'</td>';
+                    if ($rowe["desc_parcial"]=="")
+                       {$rowe["desc_parcial"]='-';}
+				    echo '<td width="70" align="center">'.$rowe["desc_parcial"].'</td>';
                     $consulta5="select distinct dia_renovacion,electro_win from sec_web.renovacion_prog_prod ";
-                    $consulta5=$consulta5."where fila_renovacion='1' and dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%'";
+                    $consulta5=$consulta5."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta5 = mysqli_query($link, $consulta5);
                     $rowe = mysqli_fetch_array($respuesta5);
-                    if ($rowe[electro_win]=="")
-                       {$rowe[electro_win]='-';}
-                    echo '<td width="70" align="center">'.$rowe[electro_win].'</td>';
+                    if ($rowe["electro_win"]=="")
+                       {$rowe["electro_win"]='-';}
+                    echo '<td width="70" align="center">'.$rowe["electro_win"].'</td>';
                    	echo '</tr>';
                     $datos='V';
 				}

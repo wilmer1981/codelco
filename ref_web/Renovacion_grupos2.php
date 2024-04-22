@@ -2,11 +2,24 @@
 	include("../principal/conectar_sec_web.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 10;
+
+	$CookieRut = $_COOKIE["CookieRut"];
+	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+	$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$DiaIniDParcial    = isset($_REQUEST["DiaIniDParcial"])?$_REQUEST["DiaIniDParcial"]:"";
+	$DiaIniElectro    = isset($_REQUEST["DiaIniElectro"])?$_REQUEST["DiaIniElectro"]:"";
+	$DesParcial    = isset($_REQUEST["DesParcial"])?$_REQUEST["DesParcial"]:"";
+	$ElecWin    = isset($_REQUEST["ElecWin"])?$_REQUEST["ElecWin"]:"";
+
 	$consulta="select * from ref_web.usuarios_autorizados where rut='".$CookieRut."'";
 	//echo $consulta;
 	$rss = mysqli_query($link, $consulta);
     $rows = mysqli_fetch_array($rss);
-	$permiso=$rows[ren_comercial];
+	$permiso= isset($rows["ren_comercial"])?$rows["ren_comercial"]:"";
+	
+
 ?>
 
 <html>
@@ -250,17 +263,17 @@ function Salir()
             $datos = 'F';
 			while ($rows = mysqli_fetch_array($rss))		  
 				{
-                  if ($rows[fecha_renovacion]<>"")
-					if (strlen($rows[dia_renovacion])==1)
-						$rows[dia_renovacion]='0'.$rows[dia_renovacion];
-					$fecha=	substr($rows[fecha_renovacion],0,8).$rows[dia_renovacion];
+                  if ($rows["fecha_renovacion"]<>"")
+					if (strlen($rows["dia_renovacion"])==1)
+						$rows["dia_renovacion"]='0'.$rows["dia_renovacion"];
+					$fecha=	substr($rows["fecha_renovacion"],0,8).$rows["dia_renovacion"];
 
 					echo '<tr>';
-					echo '<td width="55" height="25"><input type="hidden" name="checkbox" value="'.$rows[dia_renovacion].'"></td>';
-					echo '<td width="70" align="center">'.substr($fecha,0,7)."-".$rows[dia_renovacion].'</td>';
+					echo '<td width="55" height="25"><input type="hidden" name="checkbox" value="'.$rows["dia_renovacion"].'"></td>';
+					echo '<td width="70" align="center">'.substr($fecha,0,7)."-".$rows["dia_renovacion"].'</td>';
 
                     $consulta="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta=$consulta."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='A' order by dia_renovacion,fila_renovacion";
+                    $consulta=$consulta."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='A' order by dia_renovacion,fila_renovacion";
 					//echo "con".$consulta;
                     $respuesta = mysqli_query($link, $consulta);
                     $i=0;
@@ -269,7 +282,7 @@ function Salir()
                         $i++;}
                     echo '<td width="70" align="center"><input name="TxtTurnoAG1" type="text" value="'.$arreglo[0].'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"><input name="TxtTurnoAG2" type="text" value="'.$arreglo[1].'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"></td>';
                     $consulta2="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta2=$consulta2."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='B' order by dia_renovacion,fila_renovacion";
+                    $consulta2=$consulta2."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='B' order by dia_renovacion,fila_renovacion";
                     $respuesta2 = mysqli_query($link, $consulta2);
                     $i=0;
                     while($row2 = mysqli_fetch_array($respuesta2))
@@ -279,7 +292,7 @@ function Salir()
 				    //echo '<td width="70" align="center">'.$arreglo2[0].'-'.$arreglo2[1].'-'.$arreglo2[2].'&nbsp;</td>';
 					//poly consulta turno C
 					$consulta22="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta22=$consulta22."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='C' order by dia_renovacion,fila_renovacion";
+                    $consulta22=$consulta22."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='C' order by dia_renovacion,fila_renovacion";
                     $respuesta22 = mysqli_query($link, $consulta22);
                     $i=0;
                     while($row22 = mysqli_fetch_array($respuesta22))
@@ -291,7 +304,7 @@ function Salir()
 					
 					//poly
                     $consulta3="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta3=$consulta3."where dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,fila_renovacion";
+                    $consulta3=$consulta3."where dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,fila_renovacion";
                     $respuesta3 = mysqli_query($link, $consulta3);
 			//echo "hola".$consulta3;
                     $i=0;
@@ -308,21 +321,21 @@ function Salir()
                     //echo '<td width="110" align="center">'.$arreglo3[0].' '.$arreglo3[1].' '.$arreglo3[2].' '.$arreglo3[3].' '.$arreglo3[4].' '.$arreglo3[5].'&nbsp;</td>';
                     echo '<td width="105" align="center"><input name="TxtDesc1" type="text" value="'.$arreglo3[0].'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"><input name="TxtDesc2" type="text" value="'.$arreglo3[1].'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"><input name="TxtDesc3" type="text" value="'.$arreglo3[2].'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"></td>';
 					$consulta4="select distinct dia_renovacion,desc_parcial from sec_web.renovacion_prog_prod ";
-                    $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%'";
+                    $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta = mysqli_query($link, $consulta4);
                     $rowe = mysqli_fetch_array($respuesta);
 					$DescParcial='';
-                    if ($rowe[desc_parcial]!="")
-						$DescParcial=intval(substr($rowe[desc_parcial],7));
+                    if ($rowe["desc_parcial"]!="")
+						$DescParcial=intval(substr($rowe["desc_parcial"],7));
 						
 				    echo '<td width="70" align="center"><input name="TxtParcial" type="text" value="'.$DescParcial.'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"></td>';
                     $consulta5="select distinct dia_renovacion,electro_win from sec_web.renovacion_prog_prod ";
-                    $consulta5=$consulta5."where fila_renovacion='1' and dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%'";
+                    $consulta5=$consulta5."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta5 = mysqli_query($link, $consulta5);
                     $rowe = mysqli_fetch_array($respuesta5);
 					$EW='';
-                    if ($rowe[electro_win]!="")
-						$EW=intval(substr($rowe[electro_win],4));
+                    if ($rowe["electro_win"]!="")
+						$EW=intval(substr($rowe["electro_win"],4));
                     echo '<td width="70" align="center"><input name="TxtEW" type="text" value="'.$EW.'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2">';
                    	echo '</tr>';
                     $datos='V';
@@ -342,12 +355,12 @@ function Salir()
 				$RespDParcial=mysqli_query($link, $Consulta);
 				if($FilaParcial=mysqli_fetch_array($RespDParcial))
 				{
-					$DiaParcial=intval(substr($FilaParcial[DescParcial],7));
+					$DiaParcial=intval(substr($FilaParcial["DescParcial"],7));
 					if($DiaParcial==6)
 						$DiaParcial=1;
 					else
 						$DiaParcial=$DiaParcial+1;
-					$DifMesAnt=$DiasAnt-$FilaParcial[dia_renovacion];
+					$DifMesAnt=$DiasAnt-$FilaParcial["dia_renovacion"];
 					$DiaIniDParcial=7-$DifMesAnt;	
 				}
 				//PARA OBTENER ELECTROWIN
@@ -357,12 +370,12 @@ function Salir()
 				$RespElect=mysqli_query($link, $Consulta);
 				if($FilaElect=mysqli_fetch_array($RespElect))
 				{
-					$DiaElectro=intval($FilaElect[ElectroWin]);
+					$DiaElectro=intval($FilaElect["ElectroWin"]);
 					if($DiaElectro==14)
 						$DiaElectro=1;
 					else
 						$DiaElectro=$DiaElectro+1;
-					$DifMesAnt=$DiasAnt-$FilaElect[dia_renovacion];
+					$DifMesAnt=$DiasAnt-$FilaElect["dia_renovacion"];
 					$DiaIniElectro=7-$DifMesAnt;	
 				}
 				//echo "Dia Parcial:".$DiaElectro;
@@ -389,7 +402,7 @@ function Salir()
 						$Grupo1='';$Grupo2='';$Grupo3='';$Grupo4='';$Grupo5='';$Grupo6='';$Grupo7='';$Grupo8='';$Grupo9='';$Grupo10='';$Grupo11='';$Grupo12='';
 						while($FilaGrupo=mysqli_fetch_array($RespGrupo))
 						{
-							switch($FilaGrupo[fila_renovacion])
+							switch($FilaGrupo["fila_renovacion"])
 							{
 								case "1":
 									$Grupo=$FilaGrupo["cod_grupo"];
@@ -412,58 +425,58 @@ function Salir()
 									break;
 								case "2":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "3":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "4":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "5":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "6":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "7":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "8":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "9":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "10":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "11":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 								case "12":
 									$Grupo=$FilaGrupo["cod_grupo"];
-									$DesParcial=$FilaGrupo[desc_parcial];
-									$ElecWin=$FilaGrupo[electro_win];
+									$DesParcial=$FilaGrupo["desc_parcial"];
+									$ElecWin=$FilaGrupo["electro_win"];
 									break;
 
 							}
