@@ -1,5 +1,21 @@
 ﻿<?php 
 	include("../principal/conectar_sec_web.php");
+
+
+	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	//$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$grupo   = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+
+	$dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
+	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+	$dia2    = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
+	$mes2    = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
+	$ano2    = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
+
+	$fecha_desconexion  = isset($_REQUEST["fecha_desconexion"])?$_REQUEST["fecha_desconexion"]:"";
+	//$activar  = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	//$mensaje  = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	
 	if ($opcion == "M")
 	{
@@ -8,17 +24,17 @@
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$mostrar = "S";
-			$ano1 = substr($row[fecha_desconexion],0,4);
-			$mes1 = substr($row[fecha_desconexion],5,2);
-			$dia1 = substr($row[fecha_desconexion],8,2);
-			$hr1 = substr($row[fecha_desconexion],11,2);
-			$mm1 = substr($row[fecha_desconexion],14,2);
+			$ano1 = substr($row["fecha_desconexion"],0,4);
+			$mes1 = substr($row["fecha_desconexion"],5,2);
+			$dia1 = substr($row["fecha_desconexion"],8,2);
+			$hr1 = substr($row["fecha_desconexion"],11,2);
+			$mm1 = substr($row["fecha_desconexion"],14,2);
 
-			$ano2 = substr($row[fecha_conexion],0,4);
-			$mes2 = substr($row[fecha_conexion],5,2);
-			$dia2 = substr($row[fecha_conexion],8,2);
-			$hr2 = substr($row[fecha_conexion],11,2);
-			$mm2 = substr($row[fecha_conexion],14,2);			
+			$ano2 = substr($row["fecha_conexion"],0,4);
+			$mes2 = substr($row["fecha_conexion"],5,2);
+			$dia2 = substr($row["fecha_conexion"],8,2);
+			$hr2 = substr($row["fecha_conexion"],11,2);
+			$mm2 = substr($row["fecha_conexion"],14,2);			
 		}
 	}
 	
@@ -159,7 +175,7 @@ function Salir()
 					$rs1 = mysqli_query($link, $consulta);
 					while ($row1 = mysqli_fetch_array($rs1))
 					{	
-						if ($row1["valor_subclase1"] == $row[tipo_desconexion])
+						if ($row1["valor_subclase1"] == $row["tipo_desconexion"])
 							echo '<option value="'.$row1["valor_subclase1"].'" selected>'.$row1["nombre_subclase"].'</option>';
 						else 
 							echo '<option value="'.$row1["valor_subclase1"].'">'.$row1["nombre_subclase"].'</option>';
@@ -280,7 +296,7 @@ function Salir()
         </tr>
         <tr> 
           <td height="30">Kahdird</td>
-          <td><input name="txtkah1" type="text" size="10" value="<?php echo $row[kahdird]?>"></td>
+          <td><input name="txtkah1" type="text" size="10" value="<?php echo $row["kahdird"]?>"></td>
         </tr>
         <tr> 
             <td height="30">Fecha y Hora Conexion</td>
@@ -352,7 +368,7 @@ function Salir()
         </tr>
         <tr>
           <td height="30">Kahdirc</td>
-          <td><input name="txtkah2" type="text" size="10" value="<?php echo $row[kahdirc]?>"></td>
+          <td><input name="txtkah2" type="text" size="10" value="<?php echo $row["kahdirc"]?>"></td>
         </tr>
       </table>
 	
@@ -376,8 +392,8 @@ function Salir()
 	if (isset($activar))
 	{
 		echo '<script language="JavaScript">';		
-		if (isset($mensaje))
-			echo 'alert("'.$mensaje.'");';		
+		//if (isset($mensaje))
+			//echo 'alert("'.$mensaje.'");';		
 			
 		echo 'window.opener.document.frmPrincipal.action = "sec_ing_estadistica_cortes.php";';
 		echo 'window.opener.document.frmPrincipal.submit();';

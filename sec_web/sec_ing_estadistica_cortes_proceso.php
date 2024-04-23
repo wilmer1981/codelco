@@ -8,10 +8,10 @@
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$mostrar = "S";
-			$ano1 = substr($row[fecha_desconexion],0,4);
-			$mes1 = substr($row[fecha_desconexion],5,2);
-			$dia1 = substr($row[fecha_desconexion],8,2);
-			$hr1 = substr($row[fecha_desconexion],11,2);
+			$ano1 = substr($row["fecha_desconexion"],0,4);
+			$mes1 = substr($row["fecha_desconexion"],5,2);
+			$dia1 = substr($row["fecha_desconexion"],8,2);
+			$hr1 = substr($row["fecha_desconexion"],11,2);
 			$mm1 = substr($row[fecha_desconexion],14,2);
 
 			$ano2 = substr($row[fecha_conexion],0,4);

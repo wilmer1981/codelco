@@ -2,6 +2,19 @@
 	include("../principal/conectar_sec_web.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 5;
+
+
+	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$dia2    = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
+	$mes2    = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
+	$ano2    = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
+
+	$mensaje  = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+
 	
 	function FormatoFecha($f)
 	{
@@ -134,25 +147,23 @@ function Salir()
   
   <table width="770" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
     <tr>
-      <td width="762" align="center" valign="middle">
-
-
+        <td width="762" align="center" valign="middle">
           <table width="730" border="0" cellpadding="3" class="TablaInterior">
             <tr> 
               <td width="67">Desde</td>
               <td width="227"><select name="dia1" size="1" id="select2">
-     	<?php
-			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-			for ($i=1;$i<=31;$i++)
-			{	
-				if (($mostrar == "S") && ($i == $dia1))			
-					echo '<option selected value="'.$i.'">'.$i.'</option>';				
-				else if (($i == date("j")) and ($mostrar != "S")) 
-						echo '<option selected value="'.$i.'">'.$i.'</option>';
-				else					
-					echo '<option value="'.$i.'">'.$i.'</option>';												
-			}		
-		?>
+				<?php
+					$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+					for ($i=1;$i<=31;$i++)
+					{	
+						if (($mostrar == "S") && ($i == $dia1))			
+							echo '<option selected value="'.$i.'">'.$i.'</option>';				
+						else if (($i == date("j")) and ($mostrar != "S")) 
+								echo '<option selected value="'.$i.'">'.$i.'</option>';
+						else					
+							echo '<option value="'.$i.'">'.$i.'</option>';												
+					}		
+				?>
                 </select> <select name="mes1" size="1" id="mes1">
        	<?php
 		 	for($i=1;$i<13;$i++)
@@ -180,63 +191,60 @@ function Salir()
                 </select></td>
               <td width="47">Hasta</td>
               <td width="215"><select name="dia2" size="1" id="dia2">
-                  <?php
-			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-			for ($i=1;$i<=31;$i++)
-			{	
-				if (($mostrar == "S") && ($i == $dia2))			
-					echo '<option selected value="'.$i.'">'.$i.'</option>';				
-				else if (($i == date("j")) and ($mostrar != "S")) 
-						echo '<option selected value="'.$i.'">'.$i.'</option>';
-				else					
-					echo '<option value="'.$i.'">'.$i.'</option>';												
-			}		
-		?>
+                <?php
+					$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+					for ($i=1;$i<=31;$i++)
+					{	
+						if (($mostrar == "S") && ($i == $dia2))			
+							echo '<option selected value="'.$i.'">'.$i.'</option>';				
+						else if (($i == date("j")) and ($mostrar != "S")) 
+								echo '<option selected value="'.$i.'">'.$i.'</option>';
+						else					
+							echo '<option value="'.$i.'">'.$i.'</option>';												
+					}		
+				?>
                 </select> <select name="mes2" size="1" id="select3">
-                  <?php
-		 	for($i=1;$i<13;$i++)
-		  	{
-				if (($mostrar == "S") && ($i == $mes2))
-					echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
-				else if (($i == date("n")) && ($mostrar != "S"))
-						echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
-				else
-					echo '<option value="'.$i.'">'.$meses[$i-1].'</option>\n';			
-			}		  
-		?>
+                <?php
+					for($i=1;$i<13;$i++)
+					{
+						if (($mostrar == "S") && ($i == $mes2))
+							echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
+						else if (($i == date("n")) && ($mostrar != "S"))
+								echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
+						else
+							echo '<option value="'.$i.'">'.$meses[$i-1].'</option>';			
+					}		  
+				?>
                 </select> <select name="ano2" size="1" id="select5">
-                  <?php
-			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
-			{
-				if (($mostrar == "S") && ($i == $ano2))
-					echo '<option selected value="'.$i.'">'.$i.'</option>';
-				else if (($i == date("Y")) && ($mostrar != "S"))
-					echo '<option selected value="'.$i.'">'.$i.'</option>';
-				else	
-					echo '<option value="'.$i.'">'.$i.'</option>';
-			}
-		?>
+                <?php
+					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+					{
+						if (($mostrar == "S") && ($i == $ano2))
+							echo '<option selected value="'.$i.'">'.$i.'</option>';
+						else if (($i == date("Y")) && ($mostrar != "S"))
+							echo '<option selected value="'.$i.'">'.$i.'</option>';
+						else	
+							echo '<option value="'.$i.'">'.$i.'</option>';
+					}
+				?>
                 </select></td>
               <td width="140"><input name="btnbuscar" type="button" value="Buscar" onClick="Buscar(this.form)"></td>
             </tr>
-          </table>
-	  
-
-	  
+          </table>  
 
         <br>
         <table width="730" border="0" cellspacing="0" cellpadding="0" bordercolor="#b26c4a" class="TablaDetalle">
-  <tr class="ColorTabla01"> 
-    <td width="63"><input type="checkbox" name="checkbox" onClick="SeleccionarTodos(this.form)">
-      Todo</td>
-    <td width="54" align="center">Grupo</td>	  
-    <td width="82" align="center">Tipo Desconexion</td>
-    <td width="166" align="center">Fecha y Hora Desconexion</td>
-    <td width="95" align="center">Kah dir d.</td>
-    <td width="165" align="center">Fecha y Hora Conexion</td>
-    <td width="89" align="center">Kah dir c.</td>
-  </tr>
-</table>
+		<tr class="ColorTabla01"> 
+			<td width="63"><input type="checkbox" name="checkbox" onClick="SeleccionarTodos(this.form)">
+			Todo</td>
+			<td width="54" align="center">Grupo</td>	  
+			<td width="82" align="center">Tipo Desconexion</td>
+			<td width="166" align="center">Fecha y Hora Desconexion</td>
+			<td width="95" align="center">Kah dir d.</td>
+			<td width="165" align="center">Fecha y Hora Conexion</td>
+			<td width="89" align="center">Kah dir c.</td>
+		</tr>
+		</table>
 
 
 
@@ -273,13 +281,13 @@ function Salir()
 		{		
 			echo '<tr>';
 			echo '<td width="63" height="25">';
-			echo '<input type="checkbox" name="checkbox" value="'.$row["cod_grupo"].'/'.$row[fecha_desconexion].'"></td>';
+			echo '<input type="checkbox" name="checkbox" value="'.$row["cod_grupo"].'/'.$row["fecha_desconexion"].'"></td>';
 			echo '<td width="54" align="center">'.$row["cod_grupo"].'</td>';
 			echo '<td width="82" align="center">'.$row["nombre_subclase"].'</td>';			
-			echo '<td width="166" align="center">'.FormatoFecha($row[fecha_desconexion]).'</td>';
-			echo '<td width="95" align="center">'.$row[kahdird].'</td>';
-			echo '<td width="165" align="center">'.FormatoFecha($row[fecha_conexion]).'</td>';
-			echo '<td width="89" align="center">'.$row[kahdirc].'</td>';
+			echo '<td width="166" align="center">'.FormatoFecha($row["fecha_desconexion"]).'</td>';
+			echo '<td width="95" align="center">'.$row["kahdird"].'</td>';
+			echo '<td width="165" align="center">'.FormatoFecha($row["fecha_conexion"]).'</td>';
+			echo '<td width="89" align="center">'.$row["kahdirc"].'</td>';
 			echo '</tr>';
 		}
 	}
