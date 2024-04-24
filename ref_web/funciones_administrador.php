@@ -1,4 +1,4 @@
-<?phpphp
+<?php
 
 function LLenaComboDia($Dia,$DiaActual)
 {
@@ -57,24 +57,22 @@ function LLenaComboAno($Ano,$AnoActual)
 	}
 }
 
-
-function aumentar_dias($fecha,$i)
+function aumentar_dias($fecha,$i,$link)
 {
  $sql="SELECT  ADDDATE('$fecha',INTERVAL '$i' DAY) as fecha";
  $result=mysqli_query($link, $sql);
  $row = mysqli_fetch_array($result);
  $variable =$row["fecha"];
-return $variable;
+	return $variable;
 }
 
-
-function restar_dias($fecha,$i)
+function restar_dias($fecha,$i,$link)
 {
  $sql="SELECT  SUBDATE('$fecha',INTERVAL '$i' DAY) as fecha";
  $result=mysqli_query($link, $sql);
  $row = mysqli_fetch_array($result);
  $variable =$row["fecha"];
- return $variable;
+	return $variable;
 }
 
 ?>

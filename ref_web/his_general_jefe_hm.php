@@ -1,4 +1,13 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
+<?php 
+include("../principal/conectar_ref_web.php"); 
+//$page     = isset($_REQUEST["page"])?$_REQUEST["page"]:0;
+$buscar     = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:"";
+$campo      = isset($_REQUEST["campo"])?$_REQUEST["campo"]:"";
+$fecha      = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$mes1      = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+$ano1      = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+
+?>
 
 
 <html>
@@ -10,7 +19,6 @@
 <LINK  href="archivos/petalos.css" rel=stylesheet type=text/css>
 <LINK href="estilos/HOME-IE6.CSS" type=text/css rel=stylesheet>
 <script language="JavaScript">
-<!--
 function Buscar()
 {
 	var f = document.FrmPrincipal;
@@ -22,9 +30,6 @@ function Imprimir()
 {
 	window.print();
 }
-
-
-//-->
 </script>
 <body>
 <FORM action="" method=post name=FrmPrincipal>
@@ -62,33 +67,33 @@ function Imprimir()
             <TD width="0%">&nbsp; </TD>
             <TD width="3%"><div align="center"><IMG height=1 src="archivos/spaceit.gif" width=10 border=0></div></TD>
             <TD width="78%"><p><FONT style="FONT-WEIGHT: bold; COLOR: #000000">Buscar 
-                                        por ::</FONT> 
-                                        <input type="text" name="campo">
-                                        <b><font face="Arial, Helvetica, sans-serif">
-                                        <select name="mes1" size="1" id="select2">
-                                          <?php
-				$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-					for($i=1;$i<13;$i++)
-					{
-						if (isset($mes1))
-						{
-							if ($i == $mes1)
-								echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
-							else
-								echo '<option value="'.$i.'">'.$meses[$i-1].'</option>';
-						}
-						else
-						{
-							if ($i == date("n"))
-								echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
-							else
-								echo '<option value="'.$i.'">'.$meses[$i-1].'</option>';
-						}						
-					}
-				?>
-                                        </select>
-                                        <select name="ano1" size="1" id="select3">
-                                          <?php
+                  por ::</FONT> 
+                  <input type="text" name="campo">
+                  <b><font face="Arial, Helvetica, sans-serif">
+                  <select name="mes1" size="1" id="select2">
+              <?php
+              $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                for($i=1;$i<13;$i++)
+                {
+                  if (isset($mes1))
+                  {
+                    if ($i == $mes1)
+                      echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
+                    else
+                      echo '<option value="'.$i.'">'.$meses[$i-1].'</option>';
+                  }
+                  else
+                  {
+                    if ($i == date("n"))
+                      echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
+                    else
+                      echo '<option value="'.$i.'">'.$meses[$i-1].'</option>';
+                  }						
+                }
+              ?>
+              </select>
+              <select name="ano1" size="1" id="select3">
+              <?php
 					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 					{
 						if (isset($ano1))
@@ -142,38 +147,39 @@ function Imprimir()
           </TR>
           <TR class=lcol> 
 		  <?php 
-		     if ($buscar=='S')
-			    {
-				 if(!isset($page))
-				    {
+        $contador=0;
+		    if ($buscar=='S')
+			  {
+				  if($page==0)
+				  {
 					 $page =1;
 					}
-				 $encontrados=1;
-                 $cantidad =1;
-                 $contador=0;	
-		         $consulta="select * from ref_web.novedades_jefe_hm where novedad like '%".$campo."%' and fecha between '".$fecha."-01' and '".$fecha."-31'";
-				 $resultado=mysqli_query($link, $consulta);
+				  $encontrados=1;
+          $cantidad =1;
+         // $contador=0;	
+		      $consulta="select * from ref_web.novedades_jefe_hm where novedad like '%".$campo."%' and fecha between '".$fecha."-01' and '".$fecha."-31'";
+				  $resultado=mysqli_query($link, $consulta);
 				  while($row1 = mysqli_fetch_array($resultado))
-				    {
+				  {
 					  $contador=$contador+1;
 					  if($contador >= 10*($page-1))
-					    {
-						  if($contador <= 10*$page)
-						    {
-						     $cantidad=$cantidad+1;
-						     $indice=$contador;
-						  if ( $j==1)
-					         {$color= "lcol";
-						     $j=0;}
-					      else{$color= "lcolver";
-							   $j=1;} //color fila
-					      echo '<TR class='.$color.'>';
-					      echo '<TD><div align="center"><strong>'.$row1[FECHA].'</strong></div></TD>';
-                          echo '<TD ><div align="center">'.$row1[TURNO].'</div></TD>';
-                          echo '<TD><div align="left">'.$row1[NOVEDAD].'</div></TD>';
-                          echo '</TR>';
-						 } 
-					   }
+					  {
+                if($contador <= 10*$page)
+                {
+                  $cantidad=$cantidad+1;
+                  $indice=$contador;
+                  if ( $j==1)
+                      {$color= "lcol";
+                    $j=0;}
+                  else{$color= "lcolver";
+                    $j=1;} //color fila
+                    echo '<TR class='.$color.'>';
+                    echo '<TD><div align="center"><strong>'.$row1["FECHA"].'</strong></div></TD>';
+                              echo '<TD ><div align="center">'.$row1["TURNO"].'</div></TD>';
+                              echo '<TD><div align="left">'.$row1["NOVEDAD"].'</div></TD>';
+                              echo '</TR>';
+                } 
+					  }
 					}
 				} 
 		          
@@ -186,8 +192,9 @@ function Imprimir()
      				  {
     				    $cuenta=$cuenta+1;
    					  }
-                    }
-                    $paginas=ceil(($contador/10)) ;
+            }
+                  $paginas=ceil(($contador/10)) ;
+                   // $paginas=ceil(($cuenta/10)) ;
                     echo '<TR>';
                     echo '<TD align=middle colSpan=3 >';
                     echo '<HR>'; 
@@ -200,14 +207,14 @@ function Imprimir()
                     echo '<TD align=middle colSpan=3  bgcolor="#ffffff">'; 
                     if($page != 1) { echo'<A href="his_general_jefe_hm.php?page='.($page - 1).'&buscar=S&fecha='.$fecha.'&campo='.$campo.'"><strong>&lt;&lt;&lt;</strong></A>&nbsp; &nbsp; &nbsp;'; }
                       $in = 1;
-                    while($in <= $paginas)
-                       {
-                         if($in==$page)
-                         {
+                        while($in <= $paginas)
+                        {
+                          if($in==$page)
+                          {
                            echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT color=#0000FF><b>'.$in.'</b></FONT>&nbsp;&nbsp;&nbsp;';
-                         }
-                         else
-                         {
+                          }
+                          else
+                          {
 
                            echo '&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;<A href="his_general_jefe_hm.php?ingreso='.$ingreso.'&amp;page='.$in.'&buscar=S&fecha='.$fecha.'&campo='.$campo.'"><FONT class=tiny>'.$in.'</FONT></A>&nbsp;&nbsp;&nbsp;';
 
@@ -216,13 +223,11 @@ function Imprimir()
                              echo '&nbsp; &nbsp; &nbsp; <A href="his_general_jefe_hm.php?page='.($page + 1).'&buscar=S&fecha='.$fecha.'&campo='.$campo.'">&gt;&gt;&gt;</A>';
                            }
 
-                         }
+                          }
                          $in = $in + 1;
-                       }
+                        }
                     echo '</TD>';
                     echo '</TR>';
-
-
 ?>
 
           <TR bgcolor="#FFFFFF" > 

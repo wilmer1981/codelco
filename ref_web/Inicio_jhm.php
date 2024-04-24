@@ -3,13 +3,36 @@ include("../principal/conectar_ref_web.php");
 include("funciones_administrador.php");
 $CodigoDeSistema = 10;
 $CodigoDePantalla = 27;
-if (!isset($fecha))
+
+$CookieRut   = $_COOKIE["CookieRut"];
+
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$pagina  = isset($_REQUEST["pagina"])?$_REQUEST["pagina"]:"";
+$siguiente  = isset($_REQUEST["siguiente"])?$_REQUEST["siguiente"]:"";
+$anterior   = isset($_REQUEST["anterior"])?$_REQUEST["anterior"]:"";
+$fecha_adelante = isset($_REQUEST["fecha_adelante"])?$_REQUEST["fecha_adelante"]:"";
+$fecha_atras = isset($_REQUEST["fecha_atras"])?$_REQUEST["fecha_atras"]:"";
+
+$DiaIni   = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"";
+$MesIni   = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
+$AnoIni   = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+
+$ingresador = isset($_REQUEST["ingresador"])?$_REQUEST["ingresador"]:"";
+$estadisticas = isset($_REQUEST["estadisticas"])?$_REQUEST["estadisticas"]:"";
+$informe = isset($_REQUEST["informe"])?$_REQUEST["informe"]:"";
+$historia = isset($_REQUEST["historia"])?$_REQUEST["historia"]:"";
+$ayuda = isset($_REQUEST["ayuda"])?$_REQUEST["ayuda"]:"";
+$temperatura = isset($_REQUEST["temperatura"])?$_REQUEST["temperatura"]:"";
+$vapor = isset($_REQUEST["vapor"])?$_REQUEST["vapor"]:"";
+
+
+if ($fecha=="")
 {
-	if (!isset($DiaIni))
+	if ($DiaIni=="")
 	   {$DiaIni = date("d");}
-	if (!isset($MesIni))
+	if ($MesIni=="")
 	   {$MesIni = date("n");}
-	if (!isset($AnoIni))
+	if ($AnoIni=="")
 	   {$AnoIni = date("Y");}
 	if (strlen($DiaIni)==1)
 	   {$DiaIni ="0".$DiaIni;}
@@ -39,8 +62,8 @@ else
   $DiaIni=substr($fecha,8,2);
 }
   
-if(!isset($pagina)) 
-	   {$pagina=1;}
+if($pagina=="") 
+	{$pagina=1;}
 ?>
 
 <HTML><HEAD><TITLE>Sistema Informacion Refineria Electrolitica Electrolitica</TITLE>
@@ -321,7 +344,7 @@ function Salir(f)
    <TR> 
      <TD width="10%"><strong>Usuario Actual </strong></TD>
 	     <?php 
-			$consulta="select * from proyecto_modernizacion.funcionarios where rut='".$CookieRut."'  ";
+			$consulta="SELECT * from proyecto_modernizacion.funcionarios where rut='".$CookieRut."'  ";
 			$rss = mysqli_query($link, $consulta);
 			$rows = mysqli_fetch_array($rss);
 			echo "<TD width='20%'><strong>Sr. ".strtoupper($rows["nombres"])."&nbsp;".strtoupper($rows["apellido_paterno"])."&nbsp;".strtoupper($rows["apellido_materno"])."</strong></TD>";
@@ -333,21 +356,21 @@ function Salir(f)
 <TABLE border=0  class=hdrtbl  cellPadding=0 cellSpacing=0 width="100%">
   <TR> 
      <TD width="7"   align=middle class=fondo > <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInicio; ?>" width=7></TD>
-     <TD width="64"  align=middle class=<?php echo $seleccionado1; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=1&amp;  fecha=<?phpphp echo $fecha; ?>"><B >Novedades</B></A></font></TD>
+     <TD width="64"  align=middle class=<?php echo $seleccionado1; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=1&fecha=<?php echo $fecha; ?>"><B >Novedades</B></A></font></TD>
      <TD width="7"   align=middle  class=tabsoff> <font color="#3366FF"><IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt1; ?>" width=7></font></TD>
-     <TD width="46"  align=middle class=<?php echo $seleccionado2; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=2&amp;  fecha=<?phpphp echo $fecha; ?>"><B >Maquinas</B></A></font></TD>
+     <TD width="46"  align=middle class=<?php echo $seleccionado2; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=2&fecha=<?php echo $fecha; ?>"><B >Maquinas</B></A></font></TD>
      <TD width="7"   align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt2; ?>" width=7></TD>
-     <TD width="40"  align=middle class=<?php echo $seleccionado3; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=3&amp;  fecha=<?phpphp echo $fecha; ?>"><B >Laminas Iniciales </B></A></font></TD>
+     <TD width="40"  align=middle class=<?php echo $seleccionado3; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=3&fecha=<?php echo $fecha; ?>"><B >Laminas Iniciales </B></A></font></TD>
      <TD width="7"   align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt3; ?>" width=7></TD>
-     <TD width="44"   align=middle  class=<?php echo $seleccionado4; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=4&amp;  fecha=<?phpphp echo $fecha; ?>"><B >Inspeccion</B></A></font></TD>
+     <TD width="44"   align=middle  class=<?php echo $seleccionado4; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=4&fecha=<?php echo $fecha; ?>"><B >Inspeccion</B></A></font></TD>
      <TD width="7"    align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt4; ?>" width=7></TD>
-     <TD width="84"   align=middle  class=<?php echo $seleccionado5; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=5&amp;  fecha=<?phpphp echo $fecha; ?>"><B >Comunicados</B></A></font></TD>
+     <TD width="84"   align=middle  class=<?php echo $seleccionado5; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=5&fecha=<?php echo $fecha; ?>"><B >Comunicados</B></A></font></TD>
      <TD width="7"    align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt5; ?>" width=7></TD>
-     <TD width="74"   align=middle  class=<?php echo $seleccionado6; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=6&amp;  fecha=<?phpphp echo $fecha; ?>"><B >Pulido Placas</B></A></font></TD>
+     <TD width="74"   align=middle  class=<?php echo $seleccionado6; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=6&fecha=<?php echo $fecha; ?>"><B >Pulido Placas</B></A></font></TD>
      <TD width="7"    align=middle  class=tabsline> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt6; ?>" width=7></TD>
-     <TD width="74"   align=middle  class=<?php echo $seleccionado7; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=7&amp;  fecha=<?phpphp echo $fecha; ?>"><B >Rectificador 1</B></A></font></TD>
+     <TD width="74"   align=middle  class=<?php echo $seleccionado7; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=7&fecha=<?php echo $fecha; ?>"><B >Rectificador 1</B></A></font></TD>
      <TD width="7"    align=middle  class=tabsline> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt7; ?>" width=7></TD>
-     <TD width="66"   align=middle  class=<?php echo $seleccionado8; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=8&amp;  fecha=<?phpphp echo $fecha; ?>"><B >Ciclos HM</B></A></font></TD>
+     <TD width="66"   align=middle  class=<?php echo $seleccionado8; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jhm.php?pagina=8&fecha=<?php echo $fecha; ?>"><B >Ciclos HM</B></A></font></TD>
      <TD width="255"  align="left"  class=tabsline> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgFinal; ?>" width=5></TD>
   </TR>
 </TABLE>
@@ -358,15 +381,15 @@ function Salir(f)
 		 <SELECT name="DiaIni" onFocus="foco='MesIni';"><?php LLenaComboDia($DiaIni,date("j"));?></SELECT> 
 		 <SELECT name="MesIni" onFocus="foco='AnoIni';"><?php LLenaComboMes($MesIni,date("n"));?></SELECT>
          <SELECT name="AnoIni" onFocus="foco='DiaFin';"><?php LLenaComboAno($AnoIni,date("Y"));?></SELECT>&nbsp;&nbsp; 
-		 <INPUT name=buscar3 onclick=JavaScript:Recarga(document.FrmPrincipal,'Inicio_jhm.php?pagina=<?php echo $pagina; ?>') type=button value=Buscar>
+		 <INPUT name="buscar3" onclick="Recarga(document.FrmPrincipal,'Inicio_jhm.php?pagina=<?php echo $pagina; ?>');" type="button" value="Buscar">
      </TD>
 	 <td width=300 align="left"><strong><b>Ir a </b></strong>
-		<input name=hm onClick=JavaScript:Llama_jefe_turno(document.FrmPrincipal,'inicio_jt.php?fecha=<?php echo $fecha; ?>') type=button value="Sist.Jefe Turno">
-		<input name=pte onClick=JavaScript:Llama_jefe_pte(document.FrmPrincipal,'Inicio_pte.php?fecha=<?php echo $fecha; ?>') type=button value="Sist. Jefe Pte.">
+		<input name="hm" onclick="Llama_jefe_turno(document.FrmPrincipal,'inicio_jt.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Turno">
+		<input name="pte" onclick="Llama_jefe_pte(document.FrmPrincipal,'Inicio_pte.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist. Jefe Pte.">
  	</td>
 	<TD width=300 align="left"><strong>Consulta :</strong>
-		<INPUT name=buscar23 onclick=JavaScript:Recarga_fecha_anterior(document.FrmPrincipal,'Inicio_jhm.php?pagina=<?phpphp echo $pagina; ?>','<?phpphp echo $fecha_atras; ?>') type=button value="<< Anterior">
-		<INPUT name=buscar222 onclick=JavaScript:Recarga_fecha_siguiente(document.FrmPrincipal,'Inicio_jhm.php?pagina=<?php echo $pagina; ?>','<?php echo $fecha_adelante; ?>') type=button value="Siguiente>>" >
+		<INPUT name="buscar23" onclick="Recarga_fecha_anterior(document.FrmPrincipal,'Inicio_jhm.php?pagina=<?php echo $pagina; ?>','<?php echo $fecha_atras; ?>');" type="button" value="<< Anterior">
+		<INPUT name="buscar222" onclick="Recarga_fecha_siguiente(document.FrmPrincipal,'Inicio_jhm.php?pagina=<?php echo $pagina; ?>','<?php echo $fecha_adelante; ?>');" type="button" value="Siguiente>>" >
 	</TD>
    </TR>
 </TABLE>
@@ -383,7 +406,9 @@ function Salir(f)
 				     {
 					   $pagina="ing_general_jefe_hm.php?fecha=$fecha";           
 					 }
-				  if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
+				  if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
+				  //if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
+		
 				     {
 					  $pagina="general_jefe_hm.php?fecha=$fecha"; 
 					 }      
@@ -507,7 +532,7 @@ function Salir(f)
 				  {
 				   $pagina="his_procedimientos.php";  
 				  }   
-				if(isset($ayuda))
+				if($ayuda)
 				  {
 				   $pagina="ayu_procedimientos.php";     
 				  }  

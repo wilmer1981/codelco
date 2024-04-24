@@ -1,6 +1,6 @@
 <html>
 <script language=JavaScript type=text/javascript>
-<!--
+
 function poptysiteWindow()
 {
 	
@@ -14,18 +14,19 @@ function sistema()
  f.submit();
 
 }
-//-->
+
 </script>
-<?php if (!isset($opcion)) 
-   { 
-		echo '<body bgcolor="#FFFFFF" text="#0000002"  onLoad="poptysiteWindow()">';
-   } 
- else { 
+<?php
+$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+
+if ($opcion=="") 
+{ 
+	echo '<body bgcolor="#FFFFFF" text="#0000002"  onLoad="poptysiteWindow()">';
+}else{ 
  	    
-		echo '<body bgcolor="#FFFFFF" text="#000000"  onLoad="sistema()">';
-		 
- 
- 	}?>
+	echo '<body bgcolor="#FFFFFF" text="#000000"  onLoad="sistema()">';
+}
+?>
 <form name="frmPrincipal" method="post" action="">
 
 

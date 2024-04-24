@@ -1,7 +1,11 @@
-<?php include("../principal/conectar_ref_web.php"); 
-$ano1=substr($fecha,0,4);
-$mes1=substr($fecha,5,2);
-$dia1=substr($fecha,8,2)
+<?php
+	include("../principal/conectar_ref_web.php"); 
+
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+
+	$ano1 = substr($fecha,0,4);
+	$mes1 = substr($fecha,5,2);
+	$dia1 = substr($fecha,8,2);
 ?>
 <html>
 <head>
@@ -11,7 +15,6 @@ $dia1=substr($fecha,8,2)
 <LINK  href="archivos/petalos.css" rel=stylesheet type=text/css>
 <LINK href="estilos/HOME-IE6.CSS" type=text/css rel=stylesheet>
 <script language="JavaScript">
-<!--
 function Eliminar(cod_novedad)
 {
 	var f = document.FrmPrincipal;
@@ -31,14 +34,10 @@ function Modificar(fecha,cod_novedad,turno)
    f.action = "ing_general_jefe_hm.php?cod_novedad=" + cod_novedad+"&fecha="+fecha+"&turno="+turno+"&opcion=M";
    f.submit();
 }
-
-
-//-->
 </script>
 
 
 <body>
-
 <form name="FrmPrincipal" method="post" action="">
 <input type="hidden" name="Proceso" value="E">
 <input type="hidden" name="fecha" value="<?php echo ''.$fecha.''; ?>">
@@ -85,10 +84,10 @@ function Modificar(fecha,cod_novedad,turno)
                       while($row = mysqli_fetch_array($respuesta))
                       {
                          $i++;
-						 $cod_novedad= $row['COD_NOVEDAD'];
-						 $observacion= $row['NOVEDAD'];
-						 $turno= $row['TURNO'];
-						 $usuario=$row[usuario];
+						 $cod_novedad= $row["COD_NOVEDAD"];
+						 $observacion= $row["NOVEDAD"];
+						 $turno= $row["TURNO"];
+						 $usuario=$row["usuario"];
 						 echo'<TR class=lcol> ';
 						 echo'<TD ><div align="center"><B>'.$i.'</B></div></TD>';
 						 echo'<TD ><div align="center"><B>'.strtoupper($usuario).'</B></div></TD>';
@@ -150,13 +149,13 @@ function Modificar(fecha,cod_novedad,turno)
                       while($row = mysqli_fetch_array($respuesta))
                       {
                          $i++;
-						 $cod_novedad= $row['COD_NOVEDAD'];
-						 $observacion= $row['NOVEDAD'];
-						 $turno= $row['TURNO'];
-						 $condicion=$row['Condicion_insegura'];
-						 $usuario=$row[usuario];
-						 $compromiso=$row[compromiso];
-						 $Area=$row[area];
+						 $cod_novedad= $row["COD_NOVEDAD"];
+						 $observacion= $row["NOVEDAD"];
+						 $turno= $row["TURNO"];
+						 $condicion=$row["Condicion_insegura"];
+						 $usuario=$row["usuario"];
+						 $compromiso=$row["compromiso"];
+						 $Area=$row["area"];
 						 if ($Area==1)
 						    {$Area="M. Mecanica";
 							 $icono="Indicator1.gif";}

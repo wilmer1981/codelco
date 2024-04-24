@@ -1,19 +1,27 @@
 <?php 
   include("../principal/conectar_ref_web.php");
+ 
+  $cod_novedad  = isset($_REQUEST["cod_novedad"])?$_REQUEST["cod_novedad"]:"";
+  $fecha        = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+  $turno        = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+  $opcion       = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+
+  $cmbturno = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
+
   if ($opcion=='M')
       {
        $consulta_codigo="select * from ref_web.novedades_jefe_hm where TURNO='".$turno."' and COD_NOVEDAD='".$cod_novedad."' "; 
 	   $respuesta_codigo = mysqli_query($link, $consulta_codigo);
 	   $fila_codigo=mysqli_fetch_array($respuesta_codigo);
-	   $cod_novedad=$fila_codigo[COD_NOVEDAD];
-	   $observaciones=$fila_codigo[NOVEDAD];
-	   $Area=$fila_codigo[area];
+	   $cod_novedad=$fila_codigo["COD_NOVEDAD"];
+	   $observaciones=$fila_codigo["NOVEDAD"];
+	   $Area=$fila_codigo["area"];
 	   $Estado=$fila_codigo["estado"];
-	   if (isset($fila_codigo[compromiso]))
+	   if (isset($fila_codigo["compromiso"]))
 	      {
-		   $ano1=substr($fila_codigo[compromiso],0,4);
-		   $mes1=substr($fila_codigo[compromiso],5,2);
-		   $dia1=substr($fila_codigo[compromiso],8,2);
+		   $ano1=substr($fila_codigo["compromiso"],0,4);
+		   $mes1=substr($fila_codigo["compromiso"],5,2);
+		   $dia1=substr($fila_codigo["compromiso"],8,2);
 		  }
 		else {
 		       $ano1=intval(date("Y"));
@@ -96,7 +104,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                     </font></b></TD>
                   <TD width="121"> 
                     <?php
-	if (!isset($cmbturno))
+	if ($cmbturno=="")
 	{
 		$Consulta = "select case when CURTIME() between '00:00:00' and '07:59:59' then 'C' else ";
 		$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
@@ -113,10 +121,10 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 				while ($fila1=mysqli_fetch_array($respuesta))
 					  {
 					     
-						if ($cmbturno==$fila1[turno])
-							echo "<option value='".$fila1[turno]."' selected>".$fila1[turno]."</option>";
+						if ($cmbturno==$fila1["turno"])
+							echo "<option value='".$fila1["turno"]."' selected>".$fila1["turno"]."</option>";
 						else
-							echo "<option value='".$fila1[turno]."'>".$fila1[turno]."</option>";
+							echo "<option value='".$fila1["turno"]."'>".$fila1["turno"]."</option>";
 		    		  }
 				echo '</select></td>';
 			 ?>
