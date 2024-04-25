@@ -1,4 +1,5 @@
 <?php include("../principal/conectar_ref_web.php");
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
 $dia1=substr($fecha,8,2);

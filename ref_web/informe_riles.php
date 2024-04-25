@@ -1,4 +1,7 @@
 <?php include("../principal/conectar_ref_web.php"); 
+
+$fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+
 $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
 $dia1=substr($fecha,8,2);
@@ -19,15 +22,11 @@ function FormatoFecha($f)
 <LINK  href="archivos/petalos.css" rel=stylesheet type=text/css>
 <LINK href="estilos/HOME-IE6.CSS" type=text/css rel=stylesheet>
 <script language="JavaScript">
-<!--
 function Imprimir()
 {
 	window.print();
 }
-//-->
 </script>
-
-
 <body>
 
 <form name="FrmPrincipal" method="post" action="">
@@ -81,13 +80,13 @@ function Imprimir()
 					    {
 						 $num_ant = $row["nro_solicitud"];
 					     echo '<tr class=lcol>';
-						 $Consulta = "select case when right('".$row[fecha_muestra]."',8) between '00:00:00' and '07:59:59' then 'C' else ";
-		                 $Consulta.= " case when right('".$row[fecha_muestra]."',8) between '08:00:00' and '15:59:59' then 'A' else ";
-		                 $Consulta.= " case when right('".$row[fecha_muestra]."',8) between '16:00:00' and '23:59:59' then 'B' end end end as turno ";
+						 $Consulta = "select case when right('".$row["fecha_muestra"]."',8) between '00:00:00' and '07:59:59' then 'C' else ";
+		                 $Consulta.= " case when right('".$row["fecha_muestra"]."',8) between '08:00:00' and '15:59:59' then 'A' else ";
+		                 $Consulta.= " case when right('".$row["fecha_muestra"]."',8) between '16:00:00' and '23:59:59' then 'B' end end end as turno ";
 		                 $Respuesta = mysqli_query($link, $Consulta);
 		                 $Fila = mysqli_fetch_array($Respuesta);
-					     echo '<td width="54" align="center">'.$Fila[turno].'</td>';
-					     echo '<td width="54" align="center">'.$row[fecha_muestra].'</td>';
+					     echo '<td width="54" align="center">'.$Fila["turno"].'</td>';
+					     echo '<td width="54" align="center">'.$row["fecha_muestra"].'</td>';
 						}
 						 echo '<td width="90" align="center">'.number_format($row["valor"],"2",".",",").'</td>';			
 						 $cont++;

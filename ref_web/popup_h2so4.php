@@ -1,5 +1,12 @@
 <?php
 	include("../principal/conectar_ref_web.php");
+	$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Turno       = isset($_REQUEST["Turno"])?$_REQUEST["Turno"]:"";
+	$Circuito       = isset($_REQUEST["Circuito"])?$_REQUEST["Circuito"]:"";
+	$Volumen       = isset($_REQUEST["Volumen"])?$_REQUEST["Volumen"]:"";
+	$txt_fecha       = isset($_REQUEST["txt_fecha"])?$_REQUEST["txt_fecha"]:"";
+
+	$activar       = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
      	 
 	if ($Proceso == "M")
 	{   

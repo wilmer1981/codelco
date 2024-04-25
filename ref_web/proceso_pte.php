@@ -1,5 +1,34 @@
 <?php
 	 include("../principal/conectar_ref_web.php");
+
+	 $proceso       = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	 $dia1      = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	 $mes1      = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	 $ano1      = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+
+	 $txt_turno1     = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
+	 $txt_reactores1     = isset($_REQUEST["txt_reactores1"])?$_REQUEST["txt_reactores1"]:"";
+	 $txt_sulfato_cobre1     = isset($_REQUEST["txt_sulfato_cobre1"])?$_REQUEST["txt_sulfato_cobre1"]:"";
+	 $txt_arseniato_ferico1  = isset($_REQUEST["txt_arseniato_ferico1"])?$_REQUEST["txt_arseniato_ferico1"]:"";
+	 $txt_sales_niquel1    = isset($_REQUEST["txt_sales_niquel1"])?$_REQUEST["txt_sales_niquel1"]:"";
+	 $txt_observacion1     = isset($_REQUEST["txt_observacion1"])?$_REQUEST["txt_observacion1"]:"";
+
+	 $txt_turno2     = isset($_REQUEST["txt_turno2"])?$_REQUEST["txt_turno2"]:"";
+	 $txt_reactores2     = isset($_REQUEST["txt_reactores2"])?$_REQUEST["txt_reactores2"]:"";
+	 $txt_sulfato_cobre2     = isset($_REQUEST["txt_sulfato_cobre2"])?$_REQUEST["txt_sulfato_cobre2"]:"";
+	 $txt_arseniato_ferico2  = isset($_REQUEST["txt_arseniato_ferico2"])?$_REQUEST["txt_arseniato_ferico2"]:"";
+	 $txt_sales_niquel2    = isset($_REQUEST["txt_sales_niquel2"])?$_REQUEST["txt_sales_niquel2"]:"";
+	 $txt_observacion2     = isset($_REQUEST["txt_observacion2"])?$_REQUEST["txt_observacion2"]:"";
+
+	
+	 $txt_turno3     = isset($_REQUEST["txt_turno3"])?$_REQUEST["txt_turno3"]:"";
+	 $txt_reactores3     = isset($_REQUEST["txt_reactores3"])?$_REQUEST["txt_reactores3"]:"";
+	 $txt_sulfato_cobre3     = isset($_REQUEST["txt_sulfato_cobre3"])?$_REQUEST["txt_sulfato_cobre3"]:"";
+	 $txt_arseniato_ferico3  = isset($_REQUEST["txt_arseniato_ferico3"])?$_REQUEST["txt_arseniato_ferico3"]:"";
+	 $txt_sales_niquel3    = isset($_REQUEST["txt_sales_niquel3"])?$_REQUEST["txt_sales_niquel3"]:"";
+	 $txt_observacion3     = isset($_REQUEST["txt_observacion3"])?$_REQUEST["txt_observacion3"]:"";
+
+
 		
 	 if ($proceso == "G")
      {
@@ -62,7 +91,7 @@
         if(($txt_reactores3 <> '') or ($txt_sulfato_cobre3 <> '') or ($txt_arseniato_ferico3 <> '') or ($txt_sales_niquel3 <> ''))
 	   	{
 		  $insertar3="insert into ref_web.pte(fecha,turno,reactores,sulfato_cobre,arseniato_ferico,sales_niquel,observacion)";
-		  $insertar3 = $insertar3."values ('".$fecha."','".$txt_turno3."','".$txt_reactores3."','".$txt_sulfato_cobre3."','".$txt_arseniato_ferico3."','".$txt_sales_niquel1."','".$txt_observacion1."')";
+		  $insertar3 = $insertar3."values ('".$fecha."','".$txt_turno3."','".$txt_reactores3."','".$txt_sulfato_cobre3."','".$txt_arseniato_ferico3."','".$txt_sales_niquel3."','".$txt_observacion3."')";
 		  mysqli_query($link, $insertar3);
 		}
 		}
@@ -75,19 +104,18 @@
 			header("location:ingreso_pte.php");
 		}
 
-	 }
+	}
 
 
-
-     if ($proceso == "M")
-	 {
+    if ($proceso == "M")
+	{
 	    /* $fecha=$ano1."-".$mes1."-".$dia1;*/
 		 $busqueda = "SELECT * FROM ref_web.pte WHERE fecha ='".$fecha."' ";
 		 $resultado = mysqli_query($link, $busqueda);
 		 while ($row1=mysqli_fetch_array($resultado))
 		 {
 		 	$fecha = explode("-",$row1["fecha"]);
-		    $muestra = "&reactores=".$row1[txt_reactores1]."&sulfato_cobre=".$row1[txt_sulfato_cobre1]."&arseniato_ferico=".$row1[txt_arseniato_ferico1]."&sales_niquel=".$row1[txt_sales_niquel1]."&observacion=".$row1[txt_observacion1]."";
+		    $muestra = "&reactores=".$row1["txt_reactores1"]."&sulfato_cobre=".$row1["txt_sulfato_cobre1"]."&arseniato_ferico=".$row1["txt_arseniato_ferico1"]."&sales_niquel=".$row1["txt_sales_niquel1"]."&observacion=".$row1["txt_observacion1"]."";
 		 }
 
         if(($txt_reactores1 <> '') or ($txt_sulfato_cobre1 <> '') or ($txt_arseniato_ferico1 <> '') or ($txt_sales_niquel1 <> ''))
@@ -103,7 +131,7 @@
         if ($row2=mysqli_fetch_array($resultado))
 		 {
 		 	$fecha = explode("-",$row2["fecha"]);
-		    $muestra = "&reactores=".$row2[txt_reactores2]."&sulfato_cobre=".$row2[txt_sulfato_cobre2]."&arseniato_ferico=".$row2[txt_arseniato_ferico2]."&sales_niquel=".$row2[txt_sales_niquel2]."&observacion=".$row1[txt_observacion2]."";
+		    $muestra = "&reactores=".$row2["txt_reactores2"]."&sulfato_cobre=".$row2["txt_sulfato_cobre2"]."&arseniato_ferico=".$row2["txt_arseniato_ferico2"]."&sales_niquel=".$row2["txt_sales_niquel2"]."&observacion=".$row1["txt_observacion2"]."";
 		 }
 
         if(($txt_reactores2 <> '') or ($txt_sulfato_cobre2 <> '') or ($txt_arseniato_ferico2 <> '') or ($txt_sales_niquel2 <> ''))
@@ -123,7 +151,7 @@
         if ($row3=mysqli_fetch_array($resultado))
 		 {
 		 	$fecha = explode("-",$row3["fecha"]);
-		    $muestra = "&reactores=".$row3[txt_reactores3]."&sulfato_cobre=".$row3[txt_sulfato_cobre3]."&arseniato_ferico=".$row3[txt_arseniato_ferico3]."&sales_niquel=".$row3[txt_sales_niquel3]."&observacion=".$row3[txt_observacion3]."";
+		    $muestra = "&reactores=".$row3["txt_reactores3"]."&sulfato_cobre=".$row3["txt_sulfato_cobre3"]."&arseniato_ferico=".$row3["txt_arseniato_ferico3"]."&sales_niquel=".$row3["txt_sales_niquel3"]."&observacion=".$row3["txt_observacion3"]."";
 		 }
 
         if(($txt_reactores3 <> '') or ($txt_sulfato_cobre3 <> '') or ($txt_arseniato_ferico3 <> '') or ($txt_sales_niquel3 <> ''))
@@ -152,16 +180,16 @@
 				$rs = mysqli_query($link, $consulta);
 				while ($row1 =mysqli_fetch_array($rs))
 				{
-					switch ($row1[turno])
+					switch ($row1["turno"])
 					{
 						case "A":
-							$linea = "&dia1=".$dia1."&mes1=".$mes1."&ano1=".$ano1."&fecha=".$row1["fecha"]."&txt_turno1=".$row1[turno]."&txt_reactores1=".$row1[reactores]."&txt_sulfato_cobre1=".$row1[sulfato_cobre]."&txt_arseniato_ferico1=".$row1[arseniato_ferico]."&txt_sales_niquel1=".$row1[sales_niquel]."&txt_observacion1=".$row1["observacion"]."";
+							$linea = "&dia1=".$dia1."&mes1=".$mes1."&ano1=".$ano1."&fecha=".$row1["fecha"]."&txt_turno1=".$row1["turno"]."&txt_reactores1=".$row1["reactores"]."&txt_sulfato_cobre1=".$row1["sulfato_cobre"]."&txt_arseniato_ferico1=".$row1["arseniato_ferico"]."&txt_sales_niquel1=".$row1["sales_niquel"]."&txt_observacion1=".$row1["observacion"]."";
 							break;
 						case "B":
-							$linea.= "&dia1=".$dia1."&mes1=".$mes1."&ano1=".$ano1."&fecha=".$row1["fecha"]."&txt_turno2=".$row1[turno]."&txt_reactores2=".$row1[reactores]."&txt_sulfato_cobre2=".$row1[sulfato_cobre]."&txt_arseniato_ferico2=".$row1[arseniato_ferico]."&txt_sales_niquel2=".$row1[sales_niquel]."&txt_observacion2=".$row1["observacion"]."";
+							$linea.= "&dia1=".$dia1."&mes1=".$mes1."&ano1=".$ano1."&fecha=".$row1["fecha"]."&txt_turno2=".$row1["turno"]."&txt_reactores2=".$row1["reactores"]."&txt_sulfato_cobre2=".$row1["sulfato_cobre"]."&txt_arseniato_ferico2=".$row1["arseniato_ferico"]."&txt_sales_niquel2=".$row1["sales_niquel"]."&txt_observacion2=".$row1["observacion"]."";
 							break;
 						case "C":
-							$linea.= "&dia1=".$dia1."&mes1=".$mes1."&ano1=".$ano1."&fecha=".$row1["fecha"]."&txt_turno3=".$row1[turno]."&txt_reactores3=".$row1[reactores]."&txt_sulfato_cobre3=".$row1[sulfato_cobre]."&txt_arseniato_ferico3=".$row1[arseniato_ferico]."&txt_sales_niquel3=".$row1[sales_niquel]."&txt_observacion3=".$row1["observacion"]."";
+							$linea.= "&dia1=".$dia1."&mes1=".$mes1."&ano1=".$ano1."&fecha=".$row1["fecha"]."&txt_turno3=".$row1["turno"]."&txt_reactores3=".$row1["reactores"]."&txt_sulfato_cobre3=".$row1["sulfato_cobre"]."&txt_arseniato_ferico3=".$row1["arseniato_ferico"]."&txt_sales_niquel3=".$row1["sales_niquel"]."&txt_observacion3=".$row1["observacion"]."";
 							break;
 						
 					}

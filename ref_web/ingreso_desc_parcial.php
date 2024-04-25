@@ -1,6 +1,22 @@
 <?php
 	$CodigoDeSistema = 1;
 	$CodigoDePantalla = 16;
+
+	$fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$opcion       = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+
+	$recargapag       = isset($_REQUEST["recargapag"])?$_REQUEST["recargapag"]:"";
+	$verificatabla       = isset($_REQUEST["verificatabla"])?$_REQUEST["verificatabla"]:"";
+	$agregafila       = isset($_REQUEST["agregafila"])?$_REQUEST["agregafila"]:"";
+	$numero       = isset($_REQUEST["numero"])?$_REQUEST["numero"]:"";
+	$parametros   = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$buscar   = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:"";
+	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$dia1      = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	$mes1      = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+    $ano1      = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+
+
 	$fecha=ltrim($fecha);
 	$ano1=substr($fecha,0,4);
 	$mes1=substr($fecha,5,2);
@@ -123,7 +139,7 @@ function Grabar()
 				   {
 		             parametros = parametros.substring(0,parametros.length - 1);
 					 linea = "proceso=G&parametros=" + parametros;
-					 linea = linea + "&ano1=" + f.ano1.value + "&mes=" + f.mes1.value + "&dia=" + f.dia1.value;
+					 linea = linea + "&ano1=" + f.ano1.value + "&mes1=" + f.mes1.value + "&dia1=" + f.dia1.value;
 					 f.action = "proceso_dp.php?" + linea;
 					 f.submit();		
 				   }	 
@@ -231,10 +247,10 @@ function Buscar(f)
 					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($txt_turno==$Fila[turno])
-							echo "<option value='".$Fila[turno]."' selected>'.$Fila[turno].'</option>";
+						if ($txt_turno==$Fila["turno"])
+							echo "<option value='".$Fila["turno"]."' selected>'.$Fila["turno"].'</option>";
 						else
-							echo "<option value='".$Fila[turno]."'>'.$Fila[turno].'</option>";
+							echo "<option value='".$Fila["turno"]."'>'.$Fila["turno"].'</option>";
 		     		}*/
 
 				?>
@@ -295,10 +311,10 @@ function Buscar(f)
 						$respuesta = mysqli_query($link, $consulta);
 						while ($fila=mysqli_fetch_array($respuesta))
 						{
-						if ($fila[turno] == $valor[1])
-							  echo '<option value="'.$fila[turno].'" selected>'.$fila[turno].'</option>';
+						if ($fila["turno"] == $valor[1])
+							  echo '<option value="'.$fila["turno"].'" selected>'.$fila["turno"].'</option>';
 						else
-							  echo '<option value="'.$fila[turno].'">'.$fila[turno].'</option>';
+							  echo '<option value="'.$fila["turno"].'">'.$fila["turno"].'</option>';
 		     			}
 						echo '</select></td>';
 						
@@ -339,10 +355,10 @@ function Buscar(f)
 			$respuesta = mysqli_query($link, $consulta);
 			while ($fila1=mysqli_fetch_array($respuesta))
 			{
-				if ($turno==$fila1[turno])
-				echo "<option value='".$fila1[turno]."' selected>".$fila1[turno]."</option>";
+				if ($turno==$fila1["turno"])
+				echo "<option value='".$fila1["turno"]."' selected>".$fila1["turno"]."</option>";
 			else
-				echo "<option value='".$fila1[turno]."'>".$fila1[turno]."</option>";
+				echo "<option value='".$fila1["turno"]."'>".$fila1["turno"]."</option>";
 		    }
 			echo '</select></td>';
 			

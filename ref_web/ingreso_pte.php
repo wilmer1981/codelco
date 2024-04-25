@@ -1,16 +1,27 @@
 <?php
-    $CodigoDeSistema = 10;
+  $CodigoDeSistema = 10;
 	$CodigoDePantalla = 15;
    include("../principal/conectar_ref_web.php");
-   if ((isset($ano1)) and (isset($dia1)) and (isset($mes1)))
-	 {
+
+  $dia1      = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+  $mes1      = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+  $ano1      = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+
+  $fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+  $recargapag1       = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
+  $mostrar       = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+  $entarar       = isset($_REQUEST["entarar"])?$_REQUEST["entarar"]:"";
+  $proceso       = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+
+  if ((isset($ano1)) and (isset($dia1)) and (isset($mes1)))
+	{
 	  $fecha=$ano1.'-'.$mes1.'-'.$dia1;
-	 }
+	}
   else{
-       $ano1=substr($fecha,0,4);
-	   $mes1=substr($fecha,5,2);
-	   $dia1=substr($fecha,8,2);
-      }	 
+      $ano1=substr($fecha,0,4);
+	    $mes1=substr($fecha,5,2);
+	    $dia1=substr($fecha,8,2);
+  }	 
    
 ?>
 <HTML>

@@ -1,5 +1,13 @@
 <?php
 	include("../principal/conectar_ref_web.php");
+
+	$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Turno       = isset($_REQUEST["Turno"])?$_REQUEST["Turno"]:"";
+	$Circuito       = isset($_REQUEST["Circuito"])?$_REQUEST["Circuito"]:"";
+	$Destino       = isset($_REQUEST["Destino"])?$_REQUEST["Destino"]:"";
+	$Volumen       = isset($_REQUEST["Volumen"])?$_REQUEST["Volumen"]:"";
+	$txt_fecha       = isset($_REQUEST["txt_fecha"])?$_REQUEST["txt_fecha"]:"";
+
 	if ($Proceso == "M")
 	{
 		$txt_turno = $Turno;	
@@ -76,10 +84,10 @@ function Salir()
 				
 				while ($row = mysqli_fetch_array($rs))
 				{
-		  			if ($cmbdestino == $row[destino_pte])
-						echo '<option value="'.$row[destino_pte].'" selected>'.$row[destino_pte].'</option>';
+		  			if ($cmbdestino == $row["destino_pte"])
+						echo '<option value="'.$row["destino_pte"].'" selected>'.$row["destino_pte"].'</option>';
 					else 
-						echo '<option value="'.$row[destino_pte].'">'.$row[destino_pte].'</option>';
+						echo '<option value="'.$row["destino_pte"].'">'.$row["destino_pte"].'</option>';
 				}			
 			?>
               </select> <input name="txt_destino" type="hidden" size="10" readonly value="<?php echo $cmbdestino; ?>"></td>

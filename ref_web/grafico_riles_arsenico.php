@@ -1,5 +1,6 @@
 <?phpphp
    include("../principal/conectar_ref_web.php");
+   $fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 	
 	$sql="SELECT  ADDDATE('$fecha',INTERVAL '-15' DAY) as fecha";
     $result=mysqli_query($link, $sql);
@@ -23,19 +24,19 @@
 	while ($row = mysqli_fetch_array($respuesta))
 	   {
 	     $arreglo_leyes[$i]=$row["valor"];
-		 $ano1=substr($row[fecha_muestra],0,4);
-		 $mes1=substr($row[fecha_muestra],5,2);
-		 $dia1=substr($row[fecha_muestra],8,2);
-		 $hora=substr($row[fecha_muestra],11,2);
-		 $minuto=substr($row[fecha_muestra],14,2);
-		 $segundo=substr($row[fecha_muestra],17,2);
+		 $ano1=substr($row["fecha_muestra"],0,4);
+		 $mes1=substr($row["fecha_muestra"],5,2);
+		 $dia1=substr($row["fecha_muestra"],8,2);
+		 $hora=substr($row["fecha_muestra"],11,2);
+		 $minuto=substr($row["fecha_muestra"],14,2);
+		 $segundo=substr($row["fecha_muestra"],17,2);
 		 $fecha_m=$dia1.'-'.$mes1.'-'.$ano1.' '.$hora.':'.$minuto.':'.$segundo;
 		 $arreglo_fecha[$i]=$fecha_m;
 		 $w=0;
 		 $y=100;
 		 $arreglo2[$i]=$w;
 		 $arreglo3[$i]=$y;		 
-		 //$arreglo_fecha[$i]=$row[fecha_muestra];
+		 //$arreglo_fecha[$i]=$row["fecha_muestra"];
 		 $i++;
 	   }
 	

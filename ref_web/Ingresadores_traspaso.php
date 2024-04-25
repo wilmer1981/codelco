@@ -1,5 +1,8 @@
 <?php
 	include("../principal/conectar_ref_web.php");
+  $fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+  $txt_fecha       = isset($_REQUEST["txt_fecha"])?$_REQUEST["txt_fecha"]:"";
+
 	$fecha=ltrim($fecha);
 	
 ?>

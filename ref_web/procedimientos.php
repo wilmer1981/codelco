@@ -1,10 +1,13 @@
-﻿<?php include("../principal/conectar_ref_web.php"); ?>
+﻿<?php include("../principal/conectar_ref_web.php");
 
-<?php 
-   if (!isset($cmbtema))
-       {
+$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+$cmbtema = isset($_REQUEST["cmbtema"])?$_REQUEST["cmbtema"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+
+   if ($cmbtema=="")
+    {
 	    $cmbtema='Todo';
-	   }
+	}
     $ano1=substr($fecha,0,4);
     $mes1=substr($fecha,5,2);
     $dia1=substr($fecha,8,2)	   
@@ -63,10 +66,10 @@ function Modificar(FECHA,COD_TIPO_PROCEDIMIENTO,FECHA,DESDE,HASTA,PROCEDIMIENTO,
 			 $Respuesta = mysqli_query($link, $Consulta);
 			 while ($fila1=mysqli_fetch_array($Respuesta))
  			   {
-				 if ($cmbtema==$fila1[COD_TIPO_PROCEDIMIENTO])
-				    echo "<option value='".$fila1[COD_TIPO_PROCEDIMIENTO]."' selected>".$fila1[TIPO_PROCEDIMIENTO]."</option>";
+				 if ($cmbtema==$fila1["COD_TIPO_PROCEDIMIENTO"])
+				    echo "<option value='".$fila1["COD_TIPO_PROCEDIMIENTO"]."' selected>".$fila1["TIPO_PROCEDIMIENTO"]."</option>";
 				 else
-					echo "<option value='".$fila1[COD_TIPO_PROCEDIMIENTO]."'>".$fila1[TIPO_PROCEDIMIENTO]."</option>";
+					echo "<option value='".$fila1["COD_TIPO_PROCEDIMIENTO"]."'>".$fila1["TIPO_PROCEDIMIENTO"]."</option>";
 				}
 			 echo '</select></td>';
                  
@@ -118,13 +121,13 @@ function Modificar(FECHA,COD_TIPO_PROCEDIMIENTO,FECHA,DESDE,HASTA,PROCEDIMIENTO,
 					   while($row = mysqli_fetch_array($result))
 					      {
 						   $i++;
-						   $tipo_procedimiento=$row[COD_TIPO_PROCEDIMIENTO];
-						   $cod_procedimiento= $row[COD_PROCEDIMIENTO];
-						   $procedimiento= $row[PROCEDIMIENTO];
-						   $desde= trim($row[DESDE]);
-						   $hasta= trim($row[HASTA]);
-						   $vigencia= $row[VIGENCIA];
-						   $usuario= $row[usuario];
+						   $tipo_procedimiento=$row["COD_TIPO_PROCEDIMIENTO"];
+						   $cod_procedimiento= $row["COD_PROCEDIMIENTO"];
+						   $procedimiento= $row["PROCEDIMIENTO"];
+						   $desde= trim($row["DESDE"]);
+						   $hasta= trim($row["HASTA"]);
+						   $vigencia= $row["VIGENCIA"];
+						   $usuario= $row["usuario"];
 						   echo'<TR class=lcol> ';
 						   echo'<TD width="5%" ><div align="center"><B>'.$cod_procedimiento.'</B></div></TD>';
 						   echo'<TD width="10%" ><div align="center"><B>'.strtoupper($usuario).'</B></div></TD>';
@@ -158,7 +161,7 @@ function Modificar(FECHA,COD_TIPO_PROCEDIMIENTO,FECHA,DESDE,HASTA,PROCEDIMIENTO,
 		       echo'<TABLE width="95%" align="center" cellPadding=0 cellSpacing=0 >';
 			   echo'<TBODY>';
 			   echo'<TR  vAlign=top class=dt>'; 
-			   echo'<TD width="90%" vAlign=bottom colspan=4> <H4><B>'.$row[TIPO_PROCEDIMIENTO].'</B></H4></TD>';
+			   echo'<TD width="90%" vAlign=bottom colspan=4> <H4><B>'.$row["TIPO_PROCEDIMIENTO"].'</B></H4></TD>';
 			   echo'<TD  width="10%" vAlign=bottom><div align="right"></div></TD>';
 			   echo'</TR>';
 			   echo' <TR vAlign=top>'; 
@@ -188,16 +191,16 @@ function Modificar(FECHA,COD_TIPO_PROCEDIMIENTO,FECHA,DESDE,HASTA,PROCEDIMIENTO,
 		              while($row2 = mysqli_fetch_array($resultado))
 					        {
 							  echo'<TR class=lcol> ';
-						      echo'<TD width="5%" ><div align="center"><B>'.$row2[COD_PROCEDIMIENTO].'</B></div></TD>';
-						      echo'<TD width="10%" ><div align="center"><B>'.strtoupper($row2[usuario]).'</B></div></TD>';
-						      echo'<TD width="20%" ><div align="center"><B>'.$row2[DESDE].'</B></div></TD>';
-						      echo'<TD width="20%" ><div align="center"><B>'.$row2[HASTA].'</B></div></TD>';
-						      echo'<TD width="40%" ><div align="center"><B>'.strtoupper($row2[PROCEDIMIENTO]).'</B></div></TD>';
+						      echo'<TD width="5%" ><div align="center"><B>'.$row2["COD_PROCEDIMIENTO"].'</B></div></TD>';
+						      echo'<TD width="10%" ><div align="center"><B>'.strtoupper($row2["usuario"]).'</B></div></TD>';
+						      echo'<TD width="20%" ><div align="center"><B>'.$row2["DESDE"].'</B></div></TD>';
+						      echo'<TD width="20%" ><div align="center"><B>'.$row2["HASTA"].'</B></div></TD>';
+						      echo'<TD width="40%" ><div align="center"><B>'.strtoupper($row2["PROCEDIMIENTO"]).'</B></div></TD>';
 						      echo'<TD width="10%" ><div align="center">';
-						      echo "<a href=\"JavaScript:Eliminar('$row2[COD_PROCEDIMIENTO]','$row2[FECHA]','$cmbtema')\">";
+						      echo "<a href=\"JavaScript:Eliminar('".$row2["COD_PROCEDIMIENTO"]."','".$row2["FECHA"]."','$cmbtema')\">";
 						      echo '<img src="archivos/papelera.gif" width="15" height="15" border="0"></A></div></TD>';
 							  echo'<TD width="10%" ><div align="center">';
-					          echo "<a href=\"JavaScript:Modificar('$fecha','$row2[COD_TIPO_PROCEDIMIENTO]','$row2[FECHA]','$row2[DESDE]','$row2[HASTA]','$row2[PROCEDIMIENTO]','$row2[COD_PROCEDIMIENTO]')\">";
+					          echo "<a href=\"JavaScript:Modificar('$fecha','".$row2["COD_TIPO_PROCEDIMIENTO"]."','".$row2["FECHA"]."','".$row2["DESDE"]."','".$row2["HASTA"]."','".$row2["PROCEDIMIENTO"]."','".$row2["COD_PROCEDIMIENTO"]."')\">";
 					          echo '<img src="archivos/modificar.gif" width="15" height="15"></A></div></TD>';
 					  	      echo'</TR>';
 							

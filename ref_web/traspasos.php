@@ -1,4 +1,5 @@
 <?php include("../principal/conectar_ref_web.php");
+$fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
 $dia1=substr($fecha,8,2);
@@ -49,13 +50,13 @@ function Eliminar3(fecha,turno,circuito)
 function Modificar(fecha,turno,circuito,volumen)
 {
  var f = document.FrmPrincipal;
- f.action = "popup_h2so4.php?Proceso=M"+"&txt_fecha="+fecha+"&Turno="+turno+"&Circuito="+circuito+"&Volumen="+volumen ;
+ f.action = "popup_h2so4.php?proceso=M"+"&txt_fecha="+fecha+"&Turno="+turno+"&Circuito="+circuito+"&Volumen="+volumen ;
  f.submit();	
 }
 function Modificar2(fecha,turno,circuito,volumen)
 {
  var f = document.FrmPrincipal;
- f.action = "popup_desc_parcial.php?Proceso=M"+"&txt_fecha="+fecha+"&Turno="+turno+"&Circuito="+circuito+"&Volumen="+volumen ;
+ f.action = "popup_desc_parcial.php?proceso=M"+"&txt_fecha="+fecha+"&Turno="+turno+"&Circuito="+circuito+"&Volumen="+volumen ;
  f.submit();	
 }
 function Modificar3(fecha,turno,circuito,destino,volumen)
@@ -118,14 +119,14 @@ function Imprimir()
                     $i++;
                     echo'<TR class=lcol> ';
                     echo'<TD width="5%" ><div align="center"><B>'.$i.'</B></div></TD>';
-                    echo'<TD width="10%" ><div align="center"><B>'.$row[turno].'</B></div></TD>';
-                    echo'<TD width="20%" ><div align="center"><B>'.$row[circuito_h2so4].'</B></div></TD>';
-                    echo'<TD width="20%" ><div align="center"><B>'.$row[volumen_h2so4].'</B></div></TD>';
+                    echo'<TD width="10%" ><div align="center"><B>'.$row["turno"].'</B></div></TD>';
+                    echo'<TD width="20%" ><div align="center"><B>'.$row["circuito_h2so4"].'</B></div></TD>';
+                    echo'<TD width="20%" ><div align="center"><B>'.$row["volumen_h2so4"].'</B></div></TD>';
 					echo'<TD width="10%" ><div align="center">';
-					echo "<a href=\"JavaScript:Eliminar('$fecha','$row[turno]','$row[circuito_h2so4]')\">";
+					echo "<a href=\"JavaScript:Eliminar('$fecha','".$row["turno"]."','".$row["circuito_h2so4"]."')\">";
 					echo '<img src="archivos/papelera.gif" width="15" height="15"></A></div></TD>';
 					echo'<TD width="10%" ><div align="center">';
-					echo "<a href=\"JavaScript:Modificar('$fecha','$row[turno]','$row[circuito_h2so4]','$row[volumen_h2so4]')\">";
+					echo "<a href=\"JavaScript:Modificar('$fecha','".$row["turno"]."','".$row["circuito_h2so4"]."','".$row["volumen_h2so4"]."')\">";
 					echo '<img src="archivos/modificar.gif" width="15" height="15"></A></div></TD>';
                     echo'</TR>';
                    }
@@ -172,14 +173,14 @@ function Imprimir()
                     $i++;
                     echo'<TR class=lcol> ';
                     echo'<TD width="5%" ><div align="center"><B>'.$i.'</B></div></TD>';
-                    echo'<TD width="10%" ><div align="center"><B>'.$row[turno].'</B></div></TD>';
-                    echo'<TD width="20%" ><div align="center"><B>'.$row[circuito_dp].'</B></div></TD>';
-                    echo'<TD width="20%" ><div align="center"><B>'.$row[volumen_dp].'</B></div></TD>';
+                    echo'<TD width="10%" ><div align="center"><B>'.$row["turno"].'</B></div></TD>';
+                    echo'<TD width="20%" ><div align="center"><B>'.$row["circuito_dp"].'</B></div></TD>';
+                    echo'<TD width="20%" ><div align="center"><B>'.$row["volumen_dp"].'</B></div></TD>';
 					echo'<TD width="10%" ><div align="center">';
-					echo "<a href=\"JavaScript:Eliminar2('$fecha','$row[turno]','$row[circuito_dp]')\">";
+					echo "<a href=\"JavaScript:Eliminar2('$fecha','".$row["turno"]."','".$row["circuito_dp"]."')\">";
 					echo '<img src="archivos/papelera.gif" width="15" height="15"></A></div></TD>';
 					echo'<TD width="10%" ><div align="center">';
-					echo "<a href=\"JavaScript:Modificar2('$fecha','$row[turno]','$row[circuito_dp]','$row[volumen_dp]')\">";
+					echo "<a href=\"JavaScript:Modificar2('$fecha','".$row["turno"]."','".$row["circuito_dp"]."','".$row["volumen_dp"]."')\">";
 					echo '<img src="archivos/modificar.gif" width="15" height="15"></A></div></TD>';
                     echo'</TR>';
                    }
@@ -226,15 +227,15 @@ function Imprimir()
                     $i++;
                     echo'<TR class=lcol> ';
                     echo'<TD width="5%" ><div align="center"><B>'.$i.'</B></div></TD>';
-                    echo'<TD width="10%" ><div align="center"><B>'.$row[turno].'</B></div></TD>';
-                    echo'<TD width="20%" ><div align="center"><B>'.$row[circuito_pte].'</B></div></TD>';
-                    echo'<TD width="20%" ><div align="center"><B>'.$row[destino_pte].'</B></div></TD>';
-					echo'<TD width="20%" ><div align="center"><B>'.$row[volumen_pte].'</B></div></TD>';
+                    echo'<TD width="10%" ><div align="center"><B>'.$row["turno"].'</B></div></TD>';
+                    echo'<TD width="20%" ><div align="center"><B>'.$row["circuito_pte"].'</B></div></TD>';
+                    echo'<TD width="20%" ><div align="center"><B>'.$row["destino_pte"].'</B></div></TD>';
+					echo'<TD width="20%" ><div align="center"><B>'.$row["volumen_pte"].'</B></div></TD>';
 					echo'<TD width="10%" ><div align="center">';
-					echo "<a href=\"JavaScript:Eliminar3('$fecha','$row[turno]','$row[circuito_pte]')\">";
+					echo "<a href=\"JavaScript:Eliminar3('$fecha','".$row["turno"]."','".$row["circuito_pte"]."')\">";
 					echo '<img src="archivos/papelera.gif" width="15" height="15"></A></div></TD>';
 					echo'<TD width="10%" ><div align="center">';
-					echo "<a href=\"JavaScript:Modificar3('$fecha','$row[turno]','$row[circuito_pte]','$row[destino_pte]','$row[volumen_pte]')\">";
+					echo "<a href=\"JavaScript:Modificar3('$fecha','".$row["turno"]."','".$row["circuito_pte"]."','".$row["destino_pte"]."','".$row["volumen_pte"]."')\">";
 					echo '<img src="archivos/modificar.gif" width="15" height="15"></A></div></TD>';
                     echo'</TR>';
                    }

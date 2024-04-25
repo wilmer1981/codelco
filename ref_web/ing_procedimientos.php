@@ -1,4 +1,14 @@
 ﻿<?php  include("../principal/conectar_sec_web.php");
+
+$modificar  = isset($_REQUEST["modificar"])?$_REQUEST["modificar"]:"";
+$tema       = isset($_REQUEST["tema"])?$_REQUEST["tema"]:"";
+$fecha      = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$DESDE      = isset($_REQUEST["DESDE"])?$_REQUEST["DESDE"]:"";
+$HASTA      = isset($_REQUEST["HASTA"])?$_REQUEST["HASTA"]:"";
+$PROCEDIMIENTO  = isset($_REQUEST["PROCEDIMIENTO"])?$_REQUEST["PROCEDIMIENTO"]:"";
+$COD_TIPO_PROCEDIMIENTO  = isset($_REQUEST["COD_TIPO_PROCEDIMIENTO"])?$_REQUEST["COD_TIPO_PROCEDIMIENTO"]:"";
+$COD_PROCEDIMIENTO  = isset($_REQUEST["COD_PROCEDIMIENTO"])?$_REQUEST["COD_PROCEDIMIENTO"]:"";
+
 if ($modificar=='S')
 	{
 	  $ano1=substr($HASTA,0,4);
@@ -6,8 +16,6 @@ if ($modificar=='S')
 	  $dia1=substr($HASTA,8,2);
 	  	
 	}
-
-
 
 ?>
 <html>
@@ -59,7 +67,7 @@ function Modificar(opcion,cod_tipo_procedimiento,cod_procedimiento)
   hasta=frm.ano1.value+'-'+frm.mes1.value+'-'+frm.dia1.value;
  //procedimiento=frm.procedimiento.value;
  fecha=frm.fecha.value;
- frm.action = "ing_procedimientos01.php?Proceso=M&desde="+desde+"&hasta="+hasta+"&tema="+tema+"&fecha="+fecha+"&COD_TIPO_PROCEDIMIENTO="+cod_tipo_procedimiento+"&COD_PROCEDIMIENTO="+cod_procedimiento;
+ frm.action = "ing_procedimientos01.php?Proceso=M&desde="+desde+"&hasta="+hasta+"&tema="+tema+"&fecha="+fecha+"&cod_tipo_procedimiento="+cod_tipo_procedimiento+"&cod_procedimiento="+cod_procedimiento;
  frm.submit();
 }
 //-->
@@ -103,8 +111,8 @@ function Modificar(opcion,cod_tipo_procedimiento,cod_procedimiento)
 						$Respuesta = mysqli_query($link, $Consulta);
 						while ($Row = mysqli_fetch_array($Respuesta))
 						{
-						   if ($tema==$Row[COD_TIPO_PROCEDIMIENTO])
-						         echo "<option value='".$Row[COD_TIPO_PROCEDIMIENTO]."' selected>".$Row[TIPO_PROCEDIMIENTO]."</option>";
+						   if ($tema==$Row["COD_TIPO_PROCEDIMIENTO"])
+						         echo "<option value='".$Row["COD_TIPO_PROCEDIMIENTO"]."' selected>".$Row["TIPO_PROCEDIMIENTO"]."</option>";
 						   else	 
 						         echo "<option value='".$Row['COD_TIPO_PROCEDIMIENTO']."'>".$Row['TIPO_PROCEDIMIENTO']."</option>\n";
 						}

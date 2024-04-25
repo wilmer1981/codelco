@@ -3,6 +3,12 @@
 	$CodigoDePantalla = 16;
 	
 	include("../principal/conectar_ref_web.php");
+
+	$fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$dia1      = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	$mes1      = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$ano1      = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+
 	if (isset($fecha))
 	{
 		$dia1 = intval(substr($fecha,8,2));
@@ -612,19 +618,19 @@ function Salir()
 			$fecha=$ano1."-".$mes1."-".$dia1;
     		if ($mostrar == "S")
 			{
-        				$consulta="select turno,circuito_h2so4,volumen_h2so4 from ref_web.electrolito where fecha='".$fecha."'";	
-						$rs = mysqli_query($link, $consulta);
-						while ($row = mysqli_fetch_array($rs))
+        			$consulta="select turno,circuito_h2so4,volumen_h2so4 from ref_web.electrolito where fecha='".$fecha."'";	
+					$rs = mysqli_query($link, $consulta);
+					while ($row = mysqli_fetch_array($rs))
 					{
-		    			//$consulta2="select turno,circuito_dp,volumen_dp from ref_web.desc_parcial where fecha='".$fecha."' and turno='".$row[turno]."' ";	
+		    			//$consulta2="select turno,circuito_dp,volumen_dp from ref_web.desc_parcial where fecha='".$fecha."' and turno='".$row["turno"]."' ";	
 						//$rs2=mysqli_query($link, $consulta2);
 						//$row2 = mysqli_fetch_array($rs2);
 						echo '<tr>';
 						echo '<td width="63" height="25">';
-						echo '<input type="checkbox" name="Chk01" value="Proceso=M&Turno='.$row[turno].'&Circuito='.$row[circuito_h2so4].'&Volumen='.$row[volumen_h2so4].'"></td>';
-		    			echo '<td width="200" align="center">'.$row[turno].'</td>';
-						echo '<td width="370" align="center">'.$row[circuito_h2so4].'</td>';
-						echo '<td width="400" align="center">'.$row[volumen_h2so4].'</td>';
+						echo '<input type="checkbox" name="Chk01" value="Proceso=M&Turno='.$row["turno"].'&Circuito='.$row["circuito_h2so4"].'&Volumen='.$row["volumen_h2so4"].'"></td>';
+		    			echo '<td width="200" align="center">'.$row["turno"].'</td>';
+						echo '<td width="370" align="center">'.$row["circuito_h2so4"].'</td>';
+						echo '<td width="400" align="center">'.$row["volumen_h2so4"].'</td>';
 					}
 		 				//header("Location:ingreso_cir_ele.php?m");
 			}
@@ -678,15 +684,15 @@ function Salir()
 						$rs = mysqli_query($link, $consulta);
 						while ($row = mysqli_fetch_array($rs))
 					{
-		    			//$consulta2="select turno,circuito_dp,volumen_dp from ref_web.desc_parcial where fecha='".$fecha."' and turno='".$row[turno]."' ";	
+		    			//$consulta2="select turno,circuito_dp,volumen_dp from ref_web.desc_parcial where fecha='".$fecha."' and turno='".$row["turno"]."' ";	
 						//$rs2=mysqli_query($link, $consulta2);
 						//$row2 = mysqli_fetch_array($rs2);
 						echo '<tr>';
 						echo '<td width="63" height="25">';
-						echo '<input type="checkbox" name="Chk02" value="Proceso=M&Turno='.$row[turno].'&Circuito='.$row[circuito_dp].'&Volumen='.$row[volumen_dp].'"></td>';
-		    			echo '<td width="200" align="center">'.$row[turno].'</td>';
-						echo '<td width="370" align="center">'.$row[circuito_dp].'</td>';
-						echo '<td width="400" align="center">'.$row[volumen_dp].'</td>';
+						echo '<input type="checkbox" name="Chk02" value="Proceso=M&Turno='.$row["turno"].'&Circuito='.$row["circuito_dp"].'&Volumen='.$row["volumen_dp"].'"></td>';
+		    			echo '<td width="200" align="center">'.$row["turno"].'</td>';
+						echo '<td width="370" align="center">'.$row["circuito_dp"].'</td>';
+						echo '<td width="400" align="center">'.$row["volumen_dp"].'</td>';
 					}
 		 				//header("Location:ingreso_cir_ele.php?m");
 			}
@@ -728,32 +734,31 @@ function Salir()
         </table>
         <table width="730" border="0" cellspacing="0" cellpadding="0" class="TablaInterior">
 <?php
-				if (strlen($dia1==1))
-	   				$dia1='0'.$dia1;
-				if (strlen($mes1==1))
-	    			$mes1='0'.$mes1; 
+	if (strlen($dia1==1))
+		$dia1='0'.$dia1;
+	if (strlen($mes1==1))
+		$mes1='0'.$mes1; 
 
-
-			$fecha=$ano1."-".$mes1."-".$dia1;
-    		if ($mostrar == "S")
-			{
-        				$consulta="select turno,circuito_pte,destino_pte,volumen_pte from ref_web.tratamiento_electrolito where fecha='".$fecha."'";	
-						$rs = mysqli_query($link, $consulta);
-						while ($row = mysqli_fetch_array($rs))
-					{
-		    			//$consulta2="select turno,circuito_dp,volumen_dp from ref_web.desc_parcial where fecha='".$fecha."' and turno='".$row[turno]."' ";	
-						//$rs2=mysqli_query($link, $consulta2);
-						//$row2 = mysqli_fetch_array($rs2);
-						echo '<tr>';
-						echo '<td width="63" height="25">';
-						echo '<input type="checkbox" name="Chk03" value="Proceso=M&Turno='.$row[turno].'&Circuito='.$row[circuito_pte]. '&Destino='.$row[destino_pte].'&Volumen='.$row[volumen_pte].'"></td>';
-		    			echo '<td width="1000" align="center">'.$row[turno].'</td>';
-						echo '<td width="1200" align="center">'.$row[circuito_pte].'</td>';
-						echo '<td width="1400" align="center">'.$row[destino_pte].'</td>';
-						echo '<td width="1600" align="center">'.$row[volumen_pte].'</td>';
-					}
-		 				//header("Location:ingreso_cir_ele.php?m");
-			}
+	$fecha=$ano1."-".$mes1."-".$dia1;
+	if ($mostrar == "S")
+	{
+		$consulta="SELECT turno,circuito_pte,destino_pte,volumen_pte FROM ref_web.tratamiento_electrolito WHERE fecha='".$fecha."'";	
+		$rs = mysqli_query($link, $consulta);
+		while ($row = mysqli_fetch_array($rs))
+		{
+			//$consulta2="select turno,circuito_dp,volumen_dp from ref_web.desc_parcial where fecha='".$fecha."' and turno='".$row["turno"]."' ";	
+			//$rs2=mysqli_query($link, $consulta2);
+			//$row2 = mysqli_fetch_array($rs2);
+			echo '<tr>';
+			echo '<td width="63" height="25">';
+			echo '<input type="checkbox" name="Chk03" value="Proceso=M&Turno='.$row["turno"].'&Circuito='.$row["circuito_pte"]. '&Destino='.$row["destino_pte"].'&Volumen='.$row["volumen_pte"].'"></td>';
+			echo '<td width="1000" align="center">'.$row["turno"].'</td>';
+			echo '<td width="1200" align="center">'.$row["circuito_pte"].'</td>';
+			echo '<td width="1400" align="center">'.$row["destino_pte"].'</td>';
+			echo '<td width="1600" align="center">'.$row["volumen_pte"].'</td>';
+		}
+				//header("Location:ingreso_cir_ele.php?m");
+	}
 ?>
 </table>				<p>&nbsp; </p>
 
