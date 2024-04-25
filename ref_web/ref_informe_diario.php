@@ -2,15 +2,21 @@
 //include('../principal/conectar_principal.php');
 include('../principal/conectar_ref_web.php');
 //include('funciones/ref_funciones.php');
+
+$VisibleDivProceso = isset($_REQUEST["VisibleDivProceso"])?$_REQUEST["VisibleDivProceso"]:"";
+$FDesde = isset($_REQUEST["FDesde"])?$_REQUEST["FDesde"]:"";
+$FHasta = isset($_REQUEST["FHasta"])?$_REQUEST["FHasta"]:"";
+$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+
 set_time_limit(15000);
 if($VisibleDivProceso=='S')
-$VisibleDiv='hidden';
+	$VisibleDiv='hidden';
 
-if(!isset($FDesde))
+if($FDesde=="")
 	$FDesde=date('Y-m-d');
-if(!isset($FHasta))
+if($FHasta=="")
 	$FHasta=date('Y-m-d');
-	
+
 //$SelTarea=$NivelOrg;
 ?>
 <html>
@@ -157,16 +163,24 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  <tr>
 	  <?php
 	  	//$Buscar='N';
+		$CC_ProdRealD = 0;
+		$CC_ProdRealA = 0;
+		$CC_ProdRev_0 = 0;
+		$Dif_0 = 0;
+		$Cumpli_0=0;
+		$CC_ProdRev_1=0;
+		$Dif_1=0;
+		$Cumpli_1=0;
 		if($Buscar=='S')
 		{	
-			$CC_ProdRealD=ProdAcumReal(18,1,'D',$FDesde);
-			$CC_ProdRealA=ProdAcumReal(18,1,'A',$FDesde);
-			$CC_ProdRev_0=ProdRev('d_catodo_comercial',$FDesde,'D',0);
+			$CC_ProdRealD=ProdAcumReal(18,1,'D',$FDesde,$link);
+			$CC_ProdRealA=ProdAcumReal(18,1,'A',$FDesde,$link);
+			$CC_ProdRev_0=ProdRev('d_catodo_comercial',$FDesde,'D',0,$link);
 			$Dif_0=$CC_ProdRealD-$CC_ProdRev_0;
 			$Cumpli_0=0;
 			if($CC_ProdRev_0!=0)
 	  			$Cumpli_0=($CC_ProdRealD*100)/$CC_ProdRev_0;
-			$CC_ProdRev_1=ProdRev('d_catodo_comercial',$FDesde,'A',1);
+			$CC_ProdRev_1=ProdRev('d_catodo_comercial',$FDesde,'A',1,$link);
 			$Dif_1=$CC_ProdRealA-$CC_ProdRev_1;
 			$Cumpli_1=0;
 			if($CC_ProdRev_1!=0)
@@ -190,17 +204,25 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	    </tr>
 	  <tr>
 	  <?php
+	  $DN_ProdRealD=0;
+	  $DN_ProdRealA=0;
+	  $DN_ProdRev_0=0;
+	  $DN_Dif_0=0;
+	  $DN_Cumpli_0=0;
+	  $DN_ProdRev_1=0;
+	  $DN_Dif_1=0;
+	  $DN_Cumpli_1=0;
 	  	if($Buscar=='S')
 		{	
-	  		$DN_ProdRealD=round(ProdAcumReal(18,5,'D',$FDesde),1);
-			$DN_ProdRealA=round(ProdAcumReal(18,5,'A',$FDesde),1);
-			$DN_ProdRev_0=round(ProdRev('a_catodo_comercial',$FDesde,'D',0),1);
+	  		$DN_ProdRealD=round(ProdAcumReal(18,5,'D',$FDesde,$link),1);
+			$DN_ProdRealA=round(ProdAcumReal(18,5,'A',$FDesde,$link),1);
+			$DN_ProdRev_0=round(ProdRev('a_catodo_comercial',$FDesde,'D',0,$link),1);
 			//echo $DN_ProdRealD."-".$DN_ProdRev_0."<br>";
 			$DN_Dif_0=$DN_ProdRealD-$DN_ProdRev_0;
 			$DN_Cumpli_0=0;
 			if($DN_ProdRev_0!=0)
 	  			$DN_Cumpli_0=($DN_ProdRealD*100)/$DN_ProdRev_0;
-			$DN_ProdRev_1=round(ProdRev('a_catodo_comercial',$FDesde,'A',1),1);
+			$DN_ProdRev_1=round(ProdRev('a_catodo_comercial',$FDesde,'A',1,$link),1);
 			//echo $DN_ProdRealD."-".$DN_ProdRev_1."<br>";
 			$DN_Dif_1=$DN_ProdRealA-$DN_ProdRev_1;
 			$DN_Cumpli_1=0;
@@ -225,17 +247,25 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	    </tr>
 	  <tr>
 	  <?php
+	  $LD_ProdRealD=0;
+	  $LD_ProdRealA=0;
+	  $LD_ProdRev_0=0;
+	  $LD_Dif_0=0;
+	  $LD_Cumpli_0=0;
+	  $LD_ProdRev_1=0;
+	  $LD_Dif_1=0;
+	  $LD_Cumpli_1=0;
 	  	if($Buscar=='S')
 		{	
-	  		$LD_ProdRealD=round(ProdAcumReal(48,'','D',$FDesde),1);
-			$LD_ProdRealA=round(ProdAcumReal(48,'','A',$FDesde),1);
-			$LD_ProdRev_0=round(ProdRev('desp_lamina',$FDesde,'D',0),1);
+	  		$LD_ProdRealD=round(ProdAcumReal(48,'','D',$FDesde,$link),1);
+			$LD_ProdRealA=round(ProdAcumReal(48,'','A',$FDesde,$link),1);
+			$LD_ProdRev_0=round(ProdRev('desp_lamina',$FDesde,'D',0,$link),1);
 			//echo $DN_ProdRealD."-".$DN_ProdRev_0."<br>";
 			$LD_Dif_0=$LD_ProdRealD-$LD_ProdRev_0;
 			$LD_Cumpli_0=0;
 			if($LD_ProdRev_0!=0)
 	  			$LD_Cumpli_0=($LD_ProdRealD*100)/$LD_ProdRev_0;
-			$LD_ProdRev_1=round(ProdRev('desp_lamina',$FDesde,'A',1),1);
+			$LD_ProdRev_1=round(ProdRev('desp_lamina',$FDesde,'A',1,$link),1);
 			//echo $DN_ProdRealD."-".$DN_ProdRev_1."<br>";
 			$LD_Dif_1=$LD_ProdRealA-$LD_ProdRev_1;
 			$LD_Cumpli_1=0;
@@ -260,6 +290,14 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	    </tr>
 	  <tr class="TituloCabecera">
 	  <?php
+	    $TOT_ProdRealD=0;
+		$TOT_ProdRealA=0;
+		$TOT_ProdRev_0=0;
+		$TOT_Dif_0=0;
+	    $TOT_Cumpli_0=0;
+		$TOT_ProdRev_1=0;
+		$TOT_Dif_1=0;
+		$TOT_Cumpli_1=0;
 	  	if($Buscar=='S')
 		{	
 	  		$TOT_Dif_0=$TOT_ProdRealD-$TOT_ProdRev_0;
@@ -324,6 +362,14 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       </tr>
 	  <?php
 	  //$Buscar='N';
+	  $AcumTpoRealConex=0; //WSO
+	  $AcumKAHEfect=0; //WSO
+	  $TOTPesoGrupoCom=0;//WSO
+	  $TOTPesoGrupoDes=0;//WSO
+	  $AcumCubasCom=0;
+	  $AcumCorrKAH=0;
+	  $AcumEfiCte=0;
+	  $AcumEfiTpo=0;
 	  if($Buscar=='S')
 	  {	
   		 $Consulta="select cod_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase = '10005'";
@@ -360,36 +406,36 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Resp=mysqli_query($link, $Consulta);
 		 while($Fila=mysqli_fetch_assoc($Resp))
 		 {
-		 	$Circuito=ObtieneCircuito($Fila["cod_grupo"]);
+		 	$Circuito=ObtieneCircuito($Fila["cod_grupo"],$link);
 			$ArrCircGrup[$Fila["cod_grupo"]]=$Circuito;
 		 }
 		 reset($ArrCircGrup);
 		 ksort($ArrCircGrup);
-		 while(list($Grupo,$Circuito)=each($ArrCircGrup))
+		 foreach($ArrCircGrup as $Grupo=>$Circuito)
 		 {
 			$Circuito=$Circuito;
 			//echo "Circuito: ".$Circuito."<br>";
 			$Grupo=$Grupo;
-			$PesoGrupoCom=ObtienePesoProdGrupoCom(18,1,$Grupo,$FDesde);
+			$PesoGrupoCom=ObtienePesoProdGrupoCom(18,1,$Grupo,$FDesde,$link);
 		 	$TOTPesoGrupoCom=$TOTPesoGrupoCom+$PesoGrupoCom;
-			$PesoGrupoDes=ObtienePesoProdGrupoCom(18,5,$Grupo,$FDesde);
+			$PesoGrupoDes=ObtienePesoProdGrupoCom(18,5,$Grupo,$FDesde,$link);
 		 	$TOTPesoGrupoDes=$TOTPesoGrupoDes+$PesoGrupoDes;
 			if($PesoGrupoCom!=0)
 			{
-				$CubasCom=ObtieneNumCubas2(18,1,$Grupo,$FDesde);
-				$CubasDes=ObtieneNumCubas2(18,5,$Grupo,$FDesde);
+				$CubasCom=ObtieneNumCubas2(18,1,$Grupo,$FDesde,$link);
+				$CubasDes=ObtieneNumCubas2(18,5,$Grupo,$FDesde,$link);
 				$AcumCubasCom=$AcumCubasCom+$CubasCom;
 			}
 			else
 			{
 				$CubasCom=0;
-				$CubasDes=ObtieneNumCubas2(18,5,$Grupo,$FDesde);
+				$CubasDes=ObtieneNumCubas2(18,5,$Grupo,$FDesde,$link);
 			}
 			if(intval($PesoGrupoCom)!=0)
 			{
-				$PorcRestos=ObtenerPorcRestos($FDesde,$Grupo);
+				$PorcRestos=ObtenerPorcRestos($FDesde,$Grupo,$link);
 				if($Grupo!='08'&&$Grupo!='49')
-					$KAHEfect=ObtenerKAHEfect($Grupo,$FDesde);
+					$KAHEfect=ObtenerKAHEfect($Grupo,$FDesde,$link);
 				if(intval($Circuito)==4&&$KAHEfect>0)
 					$KAHEfect=$KAHEfect/10;
 				if($Grupo!='08'&&$Grupo!='49')
@@ -404,12 +450,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					if($EfiCte>98.5)
 						$EfiCte=98.5;
 				}
-				$TpoDescXRenovAnt=ObtenerTpoDescXRenov($Grupo,$FDesde,'B');
-				$TpoDescXRenov=ObtenerTpoDescXRenov($Grupo,$FDesde,'A');
-				$TpoDescXParcial=ObtenerTpoDescXParcial($Grupo,$FDesde);
-				$TpoDescXRectif=ObtenerTpoDescXRectif($Grupo,$FDesde);
+				$TpoDescXRenovAnt=ObtenerTpoDescXRenov($Grupo,$FDesde,'B',$link);
+				$TpoDescXRenov=ObtenerTpoDescXRenov($Grupo,$FDesde,'A',$link);
+				$TpoDescXParcial=ObtenerTpoDescXParcial($Grupo,$FDesde,$link);
+				$TpoDescXRectif=ObtenerTpoDescXRectif($Grupo,$FDesde,$link);
 				if($Grupo!='08'&&$Grupo!='49')
-					$TpoRealConex=ObtenerTpoRealConex($Grupo,$FDesde);
+					$TpoRealConex=ObtenerTpoRealConex($Grupo,$FDesde,$link);
 				else
 					$TpoRealConex=0;	
 				if($Grupo!='08'&&$Grupo!='49')
@@ -422,12 +468,15 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$EficTpo=0;	
 				if($TpoDescXRenovAnt+$TpoDescXRectif+$TpoRealConex+$TpoDescXParcial>0)	
 					$EficTpo=($TpoRealConex/($TpoDescXRenovAnt+$TpoDescXParcial+$TpoDescXRectif+$TpoRealConex))*100;
+				
+				$Pond_KAH_EFIC=0;
 				if($Valor2!=''&&$Grupo!='08'&&$Grupo!='49')	
 					//$Pond_KAH_EFIC=$Pond_KAH_EFIC+($KAHEfect*(($Valor1/$Valor2)*100));
 					$Pond_KAH_EFIC=$Pond_KAH_EFIC+($KAHEfect*($EfiCte));
 					
 				//echo "Pond_KAH_EFIC: ".$Pond_KAH_EFIC."<br><BR>";
 				//if($Grupo!='07'&&$Grupo!='08'&&$Grupo!='49')
+				$Pond_KAH_EFIC_TPO=0;
 				if($Grupo!='08'&&$Grupo!='49')	
 					$Pond_KAH_EFIC_TPO=$Pond_KAH_EFIC_TPO+($KAHEfect*$EficTpo);
 			  }
@@ -522,12 +571,24 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
       </tr>
       <?php
 	  //$Buscar='N';
-	  if($Buscar=='S')//INFORME ACUMULADO
-	  {	
+	  //INFORME ACUMULADO
+	  $AcumTOTKAHEfect=0;
+	  $AcumTOTPesoGrupoCom=0;
+	  $AcumTOTPesoGrupoDes=0;
+	  $AcumTOTCubasCom=0;
+	  $AcumTOTCubasDes=0;
+	  $AcumTOTEfiCte=0;
+	  $AcumTOTEfiTpo=0;
+	  $AcumTOTTpoDescXRenov=0;
+	  $AcumTOTTpoDescXParcial=0;
+	  $AcumTOTDescXRectif=0;
+	  $AcumTOTRealConex=0;
+	    if($Buscar=='S')
+		{	
 			 $Consulta="select cod_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase = '10005'";
 			 $Resp=mysqli_query($link, $Consulta);
-			 while($Fila=mysqli_fetch_array($Resp))
-			 {
+			while($Fila=mysqli_fetch_array($Resp))
+			{
 				switch ($Fila["cod_subclase"])
 				{
 					case "1":
@@ -540,7 +601,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						$Param3=$Fila["valor_subclase1"];
 						break;
 				}
-			 }
+			}
 			 $FechaSep=explode('-',$FDesde);
 			 $FechaAM=$FechaSep[0]."-".$FechaSep[1]."-01";
 			 $Dia=intval($FechaSep[2]);
@@ -552,19 +613,19 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			 $AcumTOTEfiTpo=0;$AcumTOTTpoDescXRenov=0;$AcumTOTTpoDescXParcial=0;$AcumTOTDescXRectif=0;$AcumTOTRealConex=0;
 			 $PondTOT_KAH_EFIC=0;$PondTOT_KAH_EFIC_TPO=0;
 			 $RespCircuito=mysqli_query($link, $Consulta);$TOTPesoGrupoCom=0;
-			 while($FilaCircuito=mysqli_fetch_array($RespCircuito))
-			 {
+			while($FilaCircuito=mysqli_fetch_array($RespCircuito))
+			{
 				$AcumPesoGrupoCom=0;$AcumPesoGrupoDes=0;$AcumCubasCom=0;$AcumCubasDes=0;$AcumKAHEfect=0;$AcumCorrKAH=0;$AcumEfiCte=0;$AcumEfiTpo=0;
 				$AcumTpoDescXRenov=0;$AcumTpoDescXParcial=0;$AcumTpoDescXRectif=0;$AcumTpoRealConex=0;$Pond_KAH_EFIC=0;$Pond_KAH_EFIC_TPO=0;
-				$Circuito=$FilaCircuito[cod_circuito];
+				$Circuito=$FilaCircuito["cod_circuito"];
 				?>
-				  <tr>
+				<tr>
 					<td align="right" class="titulo_azul"><?php echo $Circuito;?>&nbsp;</td>
 				<?php
 					 //echo "Circuito: ".$Circuito."<BR>";
 					 //echo "Inicio: ".date('Y-m-d G:i:s')."<br>";
-					 for($i=1;$i<=$Dia;$i++)
-					 {
+					for($i=1;$i<=$Dia;$i++)
+					{
 						 //echo "----------------------DIA: ".$i."<BR>";
 						 $FechaIniTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$i,$FechaSep[0]));	
 	     				 $FechaFinTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$i+1,$FechaSep[0]));
@@ -575,32 +636,32 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						 $Consulta.= " order by t1.cod_grupo  ";
 						 //echo $Consulta."<br>";
 						 $Resp=mysqli_query($link, $Consulta);
-						 while($Fila=mysqli_fetch_assoc($Resp))
-						 {
-							$CircuitoObt=ObtieneCircuito($Fila["cod_grupo"]);
+						while($Fila=mysqli_fetch_assoc($Resp))
+						{
+							$CircuitoObt=ObtieneCircuito($Fila["cod_grupo"],$link);
 							if($Circuito==$CircuitoObt)
 							{
 								$ArrCircGrup[$Fila["cod_grupo"]]=$Circuito;
 							}
-						 }
+						}
 						 reset($ArrCircGrup);
 						 ksort($ArrCircGrup);
-						 while(list($Grupo,$CircuitoAux)=each($ArrCircGrup))
-						 {	
+						foreach ($ArrCircGrup as $Grupo => $CircuitoAux)
+						{	
 							$FDesdeAux=substr($FDesde,0,7)."-".$i;
-							$PesoGrupoCom=ObtienePesoProdGrupoCom(18,1,$Grupo,$FDesdeAux);
+							$PesoGrupoCom=ObtienePesoProdGrupoCom(18,1,$Grupo,$FDesdeAux,$link);
 							$AcumPesoGrupoCom=$AcumPesoGrupoCom+$PesoGrupoCom;
 							$AcumTOTPesoGrupoCom=$AcumTOTPesoGrupoCom+$PesoGrupoCom;
 							//echo "Grupo: ".$Grupo."<br>";
 							//echo "Inicio Obtiene Peso Prod. Grupo Comercial: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
-							$PesoGrupoDes=ObtienePesoProdGrupoCom(18,5,$Grupo,$FDesdeAux);
+							$PesoGrupoDes=ObtienePesoProdGrupoCom(18,5,$Grupo,$FDesdeAux,$link);
 							//echo "Fin Obtiene Peso Prod. Grupo Comercial: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR><br>";
 							$AcumPesoGrupoDes=$AcumPesoGrupoDes+$PesoGrupoDes;
 							$AcumTOTPesoGrupoDes=$AcumTOTPesoGrupoDes+$PesoGrupoDes;
 							if($PesoGrupoCom!=0)
 							{
-								$CubasCom=ObtieneNumCubas2(18,1,$Grupo,$FDesdeAux);
-								$CubasDes=ObtieneNumCubas2(18,5,$Grupo,$FDesdeAux);
+								$CubasCom=ObtieneNumCubas2(18,1,$Grupo,$FDesdeAux,$link);
+								$CubasDes=ObtieneNumCubas2(18,5,$Grupo,$FDesdeAux,$link);
 								$AcumCubasCom=$AcumCubasCom+$CubasCom;
 								$AcumCubasDes=$AcumCubasDes+$CubasDes;
 								$AcumTOTCubasCom=$AcumTOTCubasCom+$CubasCom;
@@ -609,14 +670,14 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							else
 							{
 								$CubasCom=0;
-								$CubasDes=ObtieneNumCubas2(18,5,$Grupo,$FDesdeAux);
+								$CubasDes=ObtieneNumCubas2(18,5,$Grupo,$FDesdeAux,$link);
 								$AcumCubasDes=$AcumCubasDes+$CubasDes;
 								$AcumTOTCubasDes=$AcumTOTCubasDes+$CubasDes;
 							}
 							if(intval($PesoGrupoCom)!=0)
 							{
 								//echo "Inicio ObtenerKAHEfect: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
-								$KAHEfect=ObtenerKAHEfect($Grupo,$FDesdeAux);
+								$KAHEfect=ObtenerKAHEfect($Grupo,$FDesdeAux,$link);
 								//echo "Fin ObtenerKAHEfect: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
 								if(intval($Circuito)==4&&$KAHEfect>0)
 									$KAHEfect=$KAHEfect/10;
@@ -637,29 +698,29 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 
 								//echo $AcumKAHEfect."<br>";	
 								//echo "Inicio ObtenerTpoDescXRenovAnt: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
-								$TpoDescXRenovAnt=ObtenerTpoDescXRenov($Grupo,$FDesdeAux,'B');
+								$TpoDescXRenovAnt=ObtenerTpoDescXRenov($Grupo,$FDesdeAux,'B',$link);
 								//echo "Fin ObtenerTpoDescXRenovAnt: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
 								//echo "Inicio ObtenerTpoDescXRenov: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
-								$TpoDescXRenov=ObtenerTpoDescXRenov($Grupo,$FDesdeAux,'A');
+								$TpoDescXRenov=ObtenerTpoDescXRenov($Grupo,$FDesdeAux,'A',$link);
 								//echo "Fin ObtenerTpoDescXRenov: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
 								
 								$AcumTpoDescXRenov=$AcumTpoDescXRenov+$TpoDescXRenov;
 								if($Grupo!='08'&&$Grupo!='49')
 									$AcumTOTTpoDescXRenov=$AcumTOTTpoDescXRenov+$TpoDescXRenov;
 								//echo "Inicio ObtenerTpoDescXParcial: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
-								$TpoDescXParcial=ObtenerTpoDescXParcial($Grupo,$FDesdeAux);
+								$TpoDescXParcial=ObtenerTpoDescXParcial($Grupo,$FDesdeAux,$link);
 								//echo "Fin ObtenerTpoDescXParcial: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
 								$AcumTpoDescXParcial=$AcumTpoDescXParcial+$TpoDescXParcial;
 								if($Grupo!='08'&&$Grupo!='49')
 									$AcumTOTTpoDescXParcial=$AcumTOTTpoDescXParcial+$TpoDescXParcial;
 								//echo "Inicio ObtenerTpoDescXRectif: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
-								$TpoDescXRectif=ObtenerTpoDescXRectif($Grupo,$FDesdeAux);
+								$TpoDescXRectif=ObtenerTpoDescXRectif($Grupo,$FDesdeAux,$link);
 								//echo "Fin ObtenerTpoDescXRectif: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
 								$AcumTpoDescXRectif=$AcumTpoDescXRectif+$TpoDescXRectif;
 								if($Grupo!='08'&&$Grupo!='49')
 									$AcumTOTDescXRectif=$AcumTOTDescXRectif+$TpoDescXRectif;
 								//echo "Inicio ObtenerTpoRealConex: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR>";
-								$TpoRealConex=ObtenerTpoRealConex($Grupo,$FDesdeAux);
+								$TpoRealConex=ObtenerTpoRealConex($Grupo,$FDesdeAux,$link);
 								//echo "Fin ObtenerTpoRealConex: ".$Grupo."   Fecha Hora: ".date('Y-m-d G:i:s')."<BR><br><br>";
 								if($Grupo!='08'&&$Grupo!='49')
 								{
@@ -687,7 +748,6 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							{
 								
 							}
-						//}	
 						}//FIN ARREGLO
 					}//FIN FOR								
 					if($AcumTpoRealConex>0)
@@ -713,7 +773,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			  <?php
 			}//FIN WHILE
 
-	  }//FIN IF BUSCAR	  
+	    }//FIN IF BUSCAR	  
 	if($AcumTOTKAHEfect!=0)	
 		$AcumTOTEfiCte=1/$AcumTOTKAHEfect*($PondTOT_KAH_EFIC);
 	if($AcumTOTKAHEfect!=0)
@@ -748,7 +808,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 </body>
 </html>
 <?php
-function ProdAcumReal($CodProd,$CodSubProd,$Tipo,$FechaCons)
+function ProdAcumReal($CodProd,$CodSubProd,$Tipo,$FechaCons,$link)
 {
 	$FechaSep=explode('-',$FechaCons);
 	
@@ -772,9 +832,10 @@ function ProdAcumReal($CodProd,$CodSubProd,$Tipo,$FechaCons)
 	//echo $Consulta;
 	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Resp);
-	return($Fila[peso_prod]/1000);
+	$peso_prod =isset($Fila["peso_prod"])?$Fila["peso_prod"]:0;
+	return($peso_prod/1000);
 }
-function ProdRev($NomSubProd,$FechaCons,$Tipo,$Rev)
+function ProdRev($NomSubProd,$FechaCons,$Tipo,$Rev,$link)
 {
 	$Consulta = "select ".$NomSubProd." as peso_rev from sec_web.det_programa_produccion where fecha_programa='".$FechaCons."' and cod_revision='".$Rev."' ";
 
@@ -793,9 +854,10 @@ function ProdRev($NomSubProd,$FechaCons,$Tipo,$Rev)
 
 	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Resp);
-	return($Fila[peso_rev]);
+	$peso_rev =isset($Fila["peso_rev"])?$Fila["peso_rev"]:0;
+	return($peso_rev);
 }
-function ObtieneCircuito($Grupo)
+function ObtieneCircuito($Grupo,$link)
 {
 	if($Grupo=='03'||$Grupo=='04'||$Grupo=='05'||$Grupo=='06')//CASO ESPECIAL CIRCUITO 1 PROVEE LA ENERGIA
 	{
@@ -807,12 +869,12 @@ function ObtieneCircuito($Grupo)
 		//echo $Consulta."<br>";
 		$RespCir = mysqli_query($link, $Consulta);
 		if($FilaCir=mysqli_fetch_array($RespCir))
-			return($FilaCir[cod_circuito]);
+			return($FilaCir["cod_circuito"]);
 		else
 			return(0);
 	}
 }
-function ObtienePesoProdGrupoCom($CodProd,$CodSubProd,$Grupo,$FechaCons)
+function ObtienePesoProdGrupoCom($CodProd,$CodSubProd,$Grupo,$FechaCons,$link)
 {
 
 	$FechaSep=explode('-',$FechaCons);
@@ -826,12 +888,13 @@ function ObtienePesoProdGrupoCom($CodProd,$CodSubProd,$Grupo,$FechaCons)
 	$RespPeso=mysqli_query($link, $Consulta);
 	$FilaPeso=mysqli_fetch_array($RespPeso);
 	//echo "PesoProd:".$FilaPeso[peso_prod]."<br>"; 
-	if($FilaPeso[peso_prod]!='')
-		return($FilaPeso[peso_prod]/1000);
+	$peso_prod = isset($FilaPeso["peso_prod"])?$FilaPeso["peso_prod"]:'';
+	if($peso_prod!='')
+		return($FilaPeso["peso_prod"]/1000);
 	else
 		return(0);
 }
-function ObtieneNumCubas2($CodProd,$CodSubProd,$Grupo,$FechaCons)
+function ObtieneNumCubas2($CodProd,$CodSubProd,$Grupo,$FechaCons,$link)
 {
 
 	$FechaSep=explode('-',$FechaCons);
@@ -844,8 +907,9 @@ function ObtieneNumCubas2($CodProd,$CodSubProd,$Grupo,$FechaCons)
 	//	echo $Consulta."<br>";
 	$RespCuba=mysqli_query($link, $Consulta);
 	$FilaCuba=mysqli_fetch_assoc($RespCuba);
-	if($FilaCuba[cubas_parcial]!='')
-		$CubasParcial=$FilaCuba[cubas_parcial];
+	$cubas_parcial = isset($FilaCuba["cubas_parcial"])?$FilaCuba["cubas_parcial"]:'';
+	if($cubas_parcial!='')
+		$CubasParcial=$FilaCuba["cubas_parcial"];
 	else
 		$CubasParcial=0;
 	$Consulta = "select count(*) as cubas_total from sec_web.produccion_catodo ";
@@ -855,13 +919,14 @@ function ObtieneNumCubas2($CodProd,$CodSubProd,$Grupo,$FechaCons)
 	//	echo $Consulta."<br>";
 	$RespCuba=mysqli_query($link, $Consulta);
 	$FilaCuba=mysqli_fetch_assoc($RespCuba);
-	if($FilaCuba[cubas_total]!='')
-		$CubasTotal=$FilaCuba[cubas_total];
+	$cubas_total = isset($FilaCuba["cubas_total"])?$FilaCuba["cubas_total"]:'';
+	if($cubas_total!='')
+		$CubasTotal=$FilaCuba["cubas_total"];
 	else
 		$CubasTotal=0;
 	return($CubasParcial+$CubasTotal);
 }
-function ObtieneNumCubas($FechaCons,$Grupo,$Tipo)
+function ObtieneNumCubas($FechaCons,$Grupo,$Tipo,$link)
 {
 	$Cubas=0;
 	$FechaSep=explode('-',$FechaCons);
@@ -876,13 +941,13 @@ function ObtieneNumCubas($FechaCons,$Grupo,$Tipo)
 		switch($Tipo)
 		{
 			case 1:
-				$Cubas=$FilaCubas[num_catodos_celdas];
+				$Cubas=$FilaCubas["num_catodos_celdas"];
 			break;
 			case 2:
-				$Cubas=$FilaCubas[num_cubas_tot]-$FilaCubas[cubas_descobrizacion];
+				$Cubas=$FilaCubas["num_cubas_tot"]-$FilaCubas["fecha_desconexion"];
 			break;
 			case 3:
-				$Cubas=$FilaCubas[cubas_descobrizacion];
+				$Cubas=$FilaCubas["fecha_desconexion"];
 			break;
 		}
 	}
@@ -898,13 +963,13 @@ function ObtieneNumCubas($FechaCons,$Grupo,$Tipo)
 			switch($Tipo)
 			{
 				case 1:
-					$Cubas=$FilaCubas[num_catodos_celdas];
+					$Cubas=$FilaCubas["num_catodos_celdas"];
 				break;
 				case 2:
-					$Cubas=$FilaCubas[num_cubas_tot]-$FilaCubas[cubas_descobrizacion];
+					$Cubas=$FilaCubas["num_cubas_tot"]-$FilaCubas["fecha_desconexion"];
 				break;
 				case 3:
-					$Cubas=$FilaCubas[cubas_descobrizacion];
+					$Cubas=$FilaCubas["fecha_desconexion"];
 				break;
 			}
 			//echo "CUBAS: ".$Cubas."<br>";
@@ -913,7 +978,7 @@ function ObtieneNumCubas($FechaCons,$Grupo,$Tipo)
 	//echo $Grupo."  Cubas: ".$Cubas."<br>";
 	return($Cubas);
 }
-function ObtenerPorcRestos($FechaCons,$Grupo)
+function ObtenerPorcRestos($FechaCons,$Grupo,$link)
 {
 	$FechaSep=explode('-',$FechaCons);
 	$FechaIniTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-1,$FechaSep[0]));	
@@ -951,7 +1016,7 @@ function ObtenerPorcRestos($FechaCons,$Grupo)
 
 	return($PorcRestos);
 }
-function ObtenerKAHEfect($Grupo,$FechaCons)
+function ObtenerKAHEfect($Grupo,$FechaCons,$link)
 {
 	//echo $FechaCons."<br>";
 	$FechaSep=explode('-',$FechaCons);
@@ -961,14 +1026,15 @@ function ObtenerKAHEfect($Grupo,$FechaCons)
 	//$FechaIniTurno='2010-07-25';
 	//$FechaFinTurno='2010-07-26';
     $ObtenerKAHEfect=0;$Conect1=0;$Conect2=0;$Parciales=0;
+	$Conect5=0;
     $Consulta = "select kahdirc,fecha_conexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurno." 00:00:00' and '".$FechaFinTurno." 07:59:59'";
  	//if($Grupo=='48')   
 	//	echo $Consulta."<br>";
 	$RespKAH=mysqli_query($link, $Consulta);
     if($FilaKAH=mysqli_fetch_array($RespKAH))
 	{
-        $Conect1 = $FilaKAH[kahdirc]/10;
-		$FechaIniTurno2=$FilaKAH[fecha_conexion];
+        $Conect1 = $FilaKAH["kahdirc"]/10;
+		$FechaIniTurno2=$FilaKAH["fecha_conexion"];
 	}
 	$FechaIniTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-1,$FechaSep[0]));	
 	$FechaFinTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]+1,$FechaSep[0]));
@@ -979,7 +1045,7 @@ function ObtenerKAHEfect($Grupo,$FechaCons)
     //	echo $Consulta."<br>";
 	$RespKAH=mysqli_query($link, $Consulta);
     if($FilaKAH=mysqli_fetch_array($RespKAH))
-        $Conect2 = $FilaKAH[kahdird]/10;
+        $Conect2 = $FilaKAH["kahdird"]/10;
     $Consulta = "select kahdird,kahdirc from sec_web.cortes_refineria where tipo_desconexion in ('P','R') and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurno2."'  and '".$FechaFinTurno." 23:59:59'";
     //if($Grupo=='48')
 	//	echo $Consulta."<br>";
@@ -988,29 +1054,30 @@ function ObtenerKAHEfect($Grupo,$FechaCons)
     {
 		//if($Grupo=='07')
 		//	echo $Conect3." - ".$Conect4."==".abs($Conect3 - $Conect4)."<br>";
-		$Conect3 = $FilaKAH[kahdird]/10;
-		$Conect4 = $FilaKAH[kahdirc]/10;
+		$Conect3 = $FilaKAH["kahdird"]/10;
+		$Conect4 = $FilaKAH["kahdirc"]/10;
 		$Parciales = $Parciales + abs($Conect3 - $Conect4);
-     }
-	 /*if($Grupo=='07')
+    }
+	 if($Grupo=='07')
 	 {
 		$FechaIni =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-7,$FechaSep[0]));
 		$FechaFin =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-1,$FechaSep[0]));
 		
 		$Consulta = "select kahdird,kahdirc from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIni." 00:00:00' and '".$FechaFin." 07:59:59'";
-		echo $Consulta."<br>";
-		$RespKAH=mysqli_query($link, $Consulta);$Conect5=0;
+		//echo $Consulta."<br>";
+		$RespKAH=mysqli_query($link, $Consulta);
+		$Conect5=0;
 		if($FilaKAH=mysqli_fetch_array($RespKAH))
 		{
-			$Conect3 = $FilaKAH[kahdird]/10;
-	 		$Conect4 = $FilaKAH[kahdirc]/10;
+			$Conect3 = $FilaKAH["kahdird"]/10;
+	 		$Conect4 = $FilaKAH["kahdirc"]/10;
 			$Conect5=$Conect4-$Conect3;
 	 	}
-	 }*/
+	 }
 	 //if($Grupo=='48')
 	 //	echo $Conect2." < ".$Conect1." Parciales ".$Parciales."<br>";
-	 if($Conect2<$Conect1)
-	 {
+	if($Conect2<$Conect1)
+	{
 	  	if($Conect1>100000)
 		{
 			$ObtenerKAHEfect=abs((1000000-abs($Conect1))- abs($Parciales) - abs($Conect5) + $Conect2);		
@@ -1024,8 +1091,8 @@ function ObtenerKAHEfect($Grupo,$FechaCons)
 		//if($Grupo=='48')
 		 //echo "KAHEfect: abs(abs(".$Conect2.")- abs(".$Conect1.")- abs(".$Parciales.") - abs(".$Conect5.")<br>";
 	 
-	 }
-     else
+	}
+    else
 	 	$ObtenerKAHEfect = abs(abs($Conect2) - abs($Conect1) - abs($Parciales) - abs($Conect5));
 
 	 //echo $ObtenerKAHEfect."<br>";
@@ -1036,8 +1103,8 @@ function ObtenerKAHEfect($Grupo,$FechaCons)
 	 $RespGE=mysqli_query($link, $Consulta);
 	 while($FilaGE=mysqli_fetch_array($RespGE))
 	 {
-	 	$Valores=explode(',',$FilaGE[grupos]);
-		while(list($c,$GE)=each($Valores))
+	 	$Valores=explode(',',$FilaGE["grupos"]);
+		foreach($Valores as $c => $GE)
 	 	{
 			//echo "if(intval(".$GE.")==intval(".$Grupo."))<br>";
 			if(intval($GE)==intval($Grupo))
@@ -1052,7 +1119,7 @@ function ObtenerKAHEfect($Grupo,$FechaCons)
 	 //echo "KAHEfect: ".$ObtenerKAHEfect."<br>";
 	 return($ObtenerKAHEfect);
 }
-function ObtenerTpoDescXRenov($Grupo,$FechaCons,$Tipo)//TIPO:A FECHA ACTUAL , B 8 DIAS ANTES
+function ObtenerTpoDescXRenov($Grupo,$FechaCons,$Tipo,$link)//TIPO:A FECHA ACTUAL , B 8 DIAS ANTES
 {
 	$Valor=0;
 	$FechaSep=explode('-',$FechaCons);
@@ -1073,8 +1140,8 @@ function ObtenerTpoDescXRenov($Grupo,$FechaCons,$Tipo)//TIPO:A FECHA ACTUAL , B 
 	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysqli_fetch_array($Resp))
 	{
-		//echo "TIEMPO:".$Fila[hora]."<br>";
-		$HoraMin=explode(':',$Fila[hora]);
+		//echo "TIEMPO:".$Fila["hora"]."<br>";
+		$HoraMin=explode(':',$Fila["hora"]);
 		$Hora=$HoraMin[0];
 		$Min=$HoraMin[1];
 		//$Valor=$Hora.".".round((($Min*100)/60)/10);
@@ -1093,7 +1160,7 @@ function ObtenerTpoDescXRenov($Grupo,$FechaCons,$Tipo)//TIPO:A FECHA ACTUAL , B 
 	//	echo $Valor."<br>"; 
 	return($Valor);
 }
-function ObtenerTpoRealConex($Grupo,$FechaCons)
+function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 {
 	$Valor=0;
 	$timestamp1 = mktime(8, 15, 0, 8, 1, 2010);
@@ -1113,7 +1180,7 @@ function ObtenerTpoRealConex($Grupo,$FechaCons)
 	$RespFecha=mysqli_query($link, $Consulta);
     if($FilaFecha=mysqli_fetch_array($RespFecha))
 	{	
-        $FechaIniProc = $FilaFecha[fecha_conexion];
+        $FechaIniProc = $FilaFecha["fecha_conexion"];
 		$FechaHora=explode(' ',$FechaIniProc);
 		$Fecha1=explode('-',$FechaHora[0]);
 		$Hora1=explode(':',$FechaHora[1]);
@@ -1125,7 +1192,7 @@ function ObtenerTpoRealConex($Grupo,$FechaCons)
 		$RespFecha=mysqli_query($link, $Consulta);$timestamp2=0;
 		if($FilaFecha=mysqli_fetch_array($RespFecha))
 		{
-			$FechaFinProc = $FilaFecha[fecha_desconexion];
+			$FechaFinProc = $FilaFecha["fecha_desconexion"];
 			$FechaHora=explode(' ',$FechaFinProc);
 			$Fecha2=explode('-',$FechaHora[0]);
 			$Hora2=explode(':',$FechaHora[1]);
@@ -1156,13 +1223,15 @@ function ObtenerTpoRealConex($Grupo,$FechaCons)
 		$Resp=mysqli_query($link, $Consulta);$SumHora=0;$SumMin=0;
 		while($Fila=mysqli_fetch_array($Resp))
 		{
-			$HoraMin=explode(':',$Fila[hora]);
+			$HoraMin=explode(':',$Fila["hora"]);
 			$Hora=$HoraMin[0];
 			$Min=$HoraMin[1];
 			$SumHora=$SumHora+$Hora;
 			$SumMin=$SumMin+$Min;
 		}
 		$CantMin2=intval($SumHora)*60 + intval($SumMin);
+		$SumHora2=0;//WSO
+		$SumMin2=0;//WSO
 		if($Grupo=='07')
 		{
 			$FechaHora=explode(' ',$FechaIniTurnoH);
@@ -1175,10 +1244,11 @@ function ObtenerTpoRealConex($Grupo,$FechaCons)
 			$Consulta="select fecha_conexion,fecha_desconexion,timediff(fecha_conexion,fecha_desconexion) as hora from sec_web.cortes_refineria ";
 			$Consulta.="where fecha_desconexion between '".$FechaIni." 00:00:00' and '".$FechaFin." 07:59:59' and cod_grupo='".$Grupo."' and tipo_desconexion in ('C')";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);$SumHora2=0;$SumMin2=0;
+			$Resp=mysqli_query($link, $Consulta);
+			$SumHora2=0;$SumMin2=0;
 			while($Fila=mysqli_fetch_array($Resp))
 			{
-				$HoraMin=explode(':',$Fila[hora]);
+				$HoraMin=explode(':',$Fila["hora"]);
 				$Hora=$HoraMin[0];
 				$Min=$HoraMin[1];
 				$SumHora2=$SumHora2+$Hora;
@@ -1232,7 +1302,7 @@ function RestarHoras($horaini,$horafin)
     //return date("H-i-s",mktime($difh,$difm,$difs));
 }
 
-function ObtenerTpoDescXParcial($Grupo,$FechaCons)
+function ObtenerTpoDescXParcial($Grupo,$FechaCons,$link)
 {
 	$Valor=0;
 	$FechaSep=explode('-',$FechaCons);
@@ -1246,13 +1316,13 @@ function ObtenerTpoDescXParcial($Grupo,$FechaCons)
     //	echo $Consulta."<br>";
     $RespFecha=mysqli_query($link, $Consulta);
     if($FilaFecha=mysqli_fetch_array($RespFecha))
-        $FechaIniProc = $FilaFecha[fecha_conexion];
+        $FechaIniProc = $FilaFecha["fecha_conexion"];
     $Consulta = "select fecha_desconexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoH." 00:00:00' and '".$FechaFinTurnoH." 23:59:59' order by fecha_conexion asc";
     //if($Grupo=='40')
     //		echo $Consulta."<br>";
 	$RespFecha=mysqli_query($link, $Consulta);
     if($FilaFecha=mysqli_fetch_array($RespFecha))
-        $FechaFinProc = $FilaFecha[fecha_desconexion];
+        $FechaFinProc = $FilaFecha["fecha_desconexion"];
 	if($FechaIniProc!=''&&$FechaFinProc!='')
 	{	
 		$Consulta="select fecha_conexion,fecha_desconexion,timediff(fecha_conexion,fecha_desconexion) as hora from sec_web.cortes_refineria ";
@@ -1266,7 +1336,7 @@ function ObtenerTpoDescXParcial($Grupo,$FechaCons)
 		$Resp=mysqli_query($link, $Consulta);$SumMin=0;
 		while($Fila=mysqli_fetch_array($Resp))
 		{
-			$HoraMin=explode(':',$Fila[hora]);
+			$HoraMin=explode(':',$Fila["hora"]);
 			$Hora=$HoraMin[0]*60;
 			$Min=$HoraMin[1];
 			$SumMin=$SumMin+$Hora+$Min;
@@ -1277,7 +1347,7 @@ function ObtenerTpoDescXParcial($Grupo,$FechaCons)
 	return($Valor);
 }
 
-function ObtenerTpoDescXRectif($Grupo,$FechaCons)
+function ObtenerTpoDescXRectif($Grupo,$FechaCons,$link)
 {
 	$Valor=0;
 	$FechaSep=explode('-',$FechaCons);
@@ -1290,12 +1360,12 @@ function ObtenerTpoDescXRectif($Grupo,$FechaCons)
     //echo $Consulta."<br>";
 	$RespFecha=mysqli_query($link, $Consulta);
     if($FilaFecha=mysqli_fetch_array($RespFecha))
-        $FechaIniProc = $FilaFecha[fecha_conexion];
+        $FechaIniProc = $FilaFecha["fecha_conexion"];
     $Consulta = "select fecha_desconexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoH." 00:00:00' and '".$FechaFinTurnoH." 23:59:59' order by fecha_conexion asc";
     //echo $Consulta."<br>";
 	$RespFecha=mysqli_query($link, $Consulta);
     if($FilaFecha=mysqli_fetch_array($RespFecha))
-        $FechaFinProc = $FilaFecha[fecha_desconexion];
+        $FechaFinProc = $FilaFecha["fecha_desconexion"];
 	if($FechaIniProc!=''&&$FechaFinProc!='')
 	{	
 		$Consulta="select fecha_conexion,fecha_desconexion,timediff(fecha_conexion,fecha_desconexion) as hora from sec_web.cortes_refineria ";
@@ -1305,7 +1375,7 @@ function ObtenerTpoDescXRectif($Grupo,$FechaCons)
 		$Resp=mysqli_query($link, $Consulta);$SumMin=0;
 		while($Fila=mysqli_fetch_array($Resp))
 		{
-			$HoraMin=explode(':',$Fila[hora]);
+			$HoraMin=explode(':',$Fila["hora"]);
 			$Hora=$HoraMin[0]*60;
 			$Min=$HoraMin[1];
 			$SumMin=$SumMin+$Hora+$Min;

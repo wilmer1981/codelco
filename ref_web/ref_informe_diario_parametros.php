@@ -2,14 +2,30 @@
 //include('../principal/conectar_principal.php');
 include('../principal/conectar_ref_web.php');
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-echo "Conecion ".CONEXION_HOST_BD."<br>";
-if(!isset($FDesde))
+//echo "Conecion ".CONEXION_HOST_BD."<br>";
+$FDesde = isset($_REQUEST["FDesde"])?$_REQUEST["FDesde"]:"";
+$Graba = isset($_REQUEST["Graba"])?$_REQUEST["Graba"]:""; 
+$GrabaProg = isset($_REQUEST["GrabaProg"])?$_REQUEST["GrabaProg"]:""; 
+$Datos = isset($_REQUEST["Datos"])?$_REQUEST["Datos"]:"";
+$ValorCuElec = isset($_REQUEST["ValorCuElec"])?$_REQUEST["ValorCuElec"]:"";
+$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+
+$Com0 = isset($_REQUEST["Com0"])?$_REQUEST["Com0"]:"";
+$Des0 = isset($_REQUEST["Des0"])?$_REQUEST["Des0"]:"";
+$Lam0 = isset($_REQUEST["Lam0"])?$_REQUEST["Lam0"]:"";
+$Com1 = isset($_REQUEST["Com1"])?$_REQUEST["Com1"]:"";
+$Des1 = isset($_REQUEST["Des1"])?$_REQUEST["Des1"]:"";
+$Lam1 = isset($_REQUEST["Lam1"])?$_REQUEST["Lam1"]:"";
+
+if($FDesde=="")
 	$FDesde=date('Y-m-d');
 //echo $Graba."<br>";
+$Mod="";
 if($Graba=='S')
 {
 	$Dato=explode('//',$Datos);
-	while(list($c,$v)=each($Dato))
+	foreach($Dato as $c => $v)
 	{
 		//echo $v."<br>";
 		$Clave=explode('~',$v);
@@ -70,7 +86,7 @@ if($Graba=="GCu")
 		//echo $Consulta."<br>";
 		$Resp2=mysqli_query($link, $Consulta);
 		$Fila2=mysqli_fetch_array($Resp2);
-		$Insertar="INSERT INTO proyecto_modernizacion.sub_clase (cod_clase,cod_subclase,nombre_subclase,valor_subclase1,valor_subclase2,valor_subclase3) VALUES ('10007', '".$Fila2[codigo_subclase]."', 'Cu Elec', '".$CmbAno."', '".$CmbMes."', '".$ValorCuElec."')";
+		$Insertar="INSERT INTO proyecto_modernizacion.sub_clase (cod_clase,cod_subclase,nombre_subclase,valor_subclase1,valor_subclase2,valor_subclase3) VALUES ('10007', '".$Fila2["codigo_subclase"]."', 'Cu Elec', '".$CmbAno."', '".$CmbMes."', '".$ValorCuElec."')";
 		//echo $Insertar."<br>";
 		mysqli_query($link, $Insertar);
 	 }
@@ -177,11 +193,11 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         </tr>
       <?php
   		 $Consulta="select nombre_subclase,cod_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase = '10005'";
-echo $Consulta."<br>";		 
+//echo $Consulta."<br>";		 
 $Resp=mysqli_query($link, $Consulta);
 		 while($Fila=mysqli_fetch_array($Resp))
 		 {
-echo "aaaaa";		 	
+//echo "aaaaa";		 	
 switch ($Fila["cod_subclase"])
 			{
 				case "1":
@@ -216,17 +232,17 @@ switch ($Fila["cod_subclase"])
 		 $Resp=mysqli_query($link, $Consulta);
 		 if($Fila=mysqli_fetch_array($Resp))
 		 {
-		 	$Com0=$Fila[d_catodo_comercial];
-			$Des0=$Fila[a_catodo_comercial];
-			$Lam0=$Fila[desp_lamina];
+		 	$Com0=$Fila["d_catodo_comercial"];
+			$Des0=$Fila["a_catodo_comercial"];
+			$Lam0=$Fila["desp_lamina"];
 		 }
   		 $Consulta="select * from sec_web.det_programa_produccion where fecha_programa = '".$FDesde."' and cod_revision=1";
 		 $Resp=mysqli_query($link, $Consulta);
 		 if($Fila=mysqli_fetch_array($Resp))
 		 {
-		 	$Com1=$Fila[d_catodo_comercial];
-			$Des1=$Fila[a_catodo_comercial];
-			$Lam1=$Fila[desp_lamina];
+		 	$Com1=$Fila["d_catodo_comercial"];
+			$Des1=$Fila["a_catodo_comercial"];
+			$Lam1=$Fila["desp_lamina"];
 		 }		 
 ?>
 <table width="50%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
@@ -299,7 +315,7 @@ switch ($Fila["cod_subclase"])
       <tr>
         <td colspan="9" align="right" class="TituloCabecera">
           <?php
-        	if(!isset($CmbMes)&&!isset($CmbAno))
+        	if($CmbMes=="" && $CmbAno=="")
 			{
 				$CmbMes=intval(date("m"));
 				$CmbAno=date("Y");
@@ -374,7 +390,7 @@ switch ($Fila["cod_subclase"])
 		 $Resp=mysqli_query($link, $Consulta);
 		 if($Fila=mysqli_fetch_array($Resp))
 		 {
-			$Param3=$Fila[valor_subclase3];
+			$Param3=$Fila["valor_subclase3"];
 		 }
 			?>
       <tr>
