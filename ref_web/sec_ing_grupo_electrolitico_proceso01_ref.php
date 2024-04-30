@@ -1,5 +1,25 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+
+	$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$proceso  = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$txtgrupo = isset($_REQUEST["txtgrupo"])?$_REQUEST["txtgrupo"]:"";
+	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:"";
+	$txttotal    = isset($_REQUEST["txttotal"])?$_REQUEST["txttotal"]:"";
+	$cmbestado   = isset($_REQUEST["cmbestado"])?$_REQUEST["cmbestado"]:"";
+	$txtdescobrizacion = isset($_REQUEST["txtdescobrizacion"])?$_REQUEST["txtdescobrizacion"]:"";
+	$txthm          = isset($_REQUEST["txthm"])?$_REQUEST["txthm"]:"";
+	$txtcatodos     = isset($_REQUEST["txtcatodos"])?$_REQUEST["txtcatodos"]:"";
+	$txtanodos      = isset($_REQUEST["txtanodos"])?$_REQUEST["txtanodos"]:"";
+	$cmbcalle       = isset($_REQUEST["cmbcalle"])?$_REQUEST["cmbcalle"]:"";
+	$txtcubaslavado = isset($_REQUEST["txtcubaslavado"])?$_REQUEST["txtcubaslavado"]:"";
+	$parametros     = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+
+	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+
+
 	$consulta_fecha_systema="SELECT left(sysdate(),10) as fecha2";
 	$rss = mysqli_query($link, $consulta_fecha_systema);
 	$rows = mysqli_fetch_array($rss);
@@ -64,7 +84,7 @@
 	if ($proceso == "E")
 	{
 		$valores = explode("-",$parametros);
-		while(list($c,$v) = each($valores))
+		foreach($valores as $c => $v)
 		{
 			$eliminar = "DELETE FROM ref_web.grupo_electrolitico2 ";
 			$eliminar.= " WHERE cod_grupo = '".$v."'";

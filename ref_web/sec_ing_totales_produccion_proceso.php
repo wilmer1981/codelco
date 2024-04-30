@@ -1,5 +1,8 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+	$opcion         = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$parametros     = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
 	
 	if ($opcion == "M")
 	{
@@ -132,30 +135,36 @@ function Salir()
             <td>Revisi�n</td>
             <td width="65"> 
               <?php
+			  $cod_revision = isset($row["cod_revision"])?$row["cod_revision"]:"";
+			  $total_catodo_comercial = isset($row["total_catodo_comercial"])?$row["total_catodo_comercial"]:"";
+			  $total_desc_normal = isset($row["total_desc_normal"])?$row["total_desc_normal"]:"";
+			  $total_desp_lamina = isset($row["total_desp_lamina"])?$row["total_desp_lamina"]:"";
+
 				if ($mostrar == "S")
-					echo '<input name="txtrevision" type="text" size="10" value="'.$row[cod_revision].'" disabled></td>';
+					echo '<input name="txtrevision" type="text" size="10" value="'.$cod_revision.'" disabled></td>';
 				else 
-					echo '<input name="txtrevision" type="text" size="10" value="'.$row[cod_revision].'"></td>';
+					echo '<input name="txtrevision" type="text" size="10" value="'.$cod_revision.'"></td>';
 			?>
             <td width="150">
-			<?php/*
+			<?php
+			   /*
 				if ($row["estado"] == 1)
 					echo '<input name="activar" type="checkbox" id="activar" checked>';
 				else 
-					echo '<input name="activar" type="checkbox" id="activar">';*/s
+					echo '<input name="activar" type="checkbox" id="activar">';*/
 			?>
              <!-- Activar</tr>-->
           <tr> 
             <td>Catodos Comerciales</td>
-            <td colspan="2"><input name="txtcatodos" type="text" size="10" value="<?php echo $row[total_catodo_comercial] ?>"></td>
+            <td colspan="2"><input name="txtcatodos" type="text" size="10" value="<?php echo $total_catodo_comercial; ?>"></td>
           </tr>
           <tr> 
             <td>Descobrizacion Normal</td>
-            <td colspan="2"><input name="txtdescobrizacion" type="text" size="10" value="<?php echo $row[total_desc_normal] ?>"></td>
+            <td colspan="2"><input name="txtdescobrizacion" type="text" size="10" value="<?php echo $total_desc_normal; ?>"></td>
           </tr>
           <tr> 
             <td>Despuntes y L�minas</td>
-            <td colspan="2"><input name="txtdespuntes" type="text" size="10" value="<?php echo $row[total_desp_lamina]?>"></td>
+            <td colspan="2"><input name="txtdespuntes" type="text" size="10" value="<?php echo $total_desp_lamina; ?>"></td>
           </tr>
         </table> 
         <br>

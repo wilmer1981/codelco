@@ -1,17 +1,24 @@
 <?php
 	include("../principal/conectar_sec_web.php");
 	
-	
+
+	$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$opcion2  = isset($_REQUEST["opcion2"])?$_REQUEST["opcion2"]:"";
+	$txtgrupo = isset($_REQUEST["txtgrupo"])?$_REQUEST["txtgrupo"]:"";	
+	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+
 	if ($opcion2 == "B")
 	{    
 	     $consulta_grupo="select distinct max(fecha) as fecha1,cod_grupo from ref_web.grupo_electrolitico2 where fecha <='".$Ano."-".$Mes."-".$Dia."' and cod_grupo='".$txtgrupo."'  group by cod_grupo order by cod_grupo ";
 		 $rs_grupos=mysqli_query($link, $consulta_grupo);	
 	     $row_grupos = mysqli_fetch_array($rs_grupos);
-	
-	
+		 $fecha1=isset($row_grupos["fecha1"])?$row_grupos["fecha1"]:"";	
 	     $consulta_datos="SELECT max(fecha),cod_grupo,cod_circuito,num_cubas_tot,cod_estado,cubas_descobrizacion,hojas_madres,num_catodos_celdas,num_anodos_celdas,calle_puente_grua,cubas_lavado  ";
          $consulta_datos.="FROM ref_web.grupo_electrolitico2 "; 
-         $consulta_datos.="where cod_grupo='".$txtgrupo."' and fecha='".$row_grupos[fecha1]."' group by cod_grupo";
+         $consulta_datos.="where cod_grupo='".$txtgrupo."' and fecha='".$fecha1."' group by cod_grupo";
 		 $respuesta_datos=mysqli_query($link, $consulta_datos);
 	     $row1 = mysqli_fetch_array($respuesta_datos);
 		 $mostrar = "S";
@@ -21,8 +28,8 @@
 		$consulta2 = "SELECT IFNULL(MAX(cod_grupo)+1,1) AS cod_grupo2 FROM ref_web.grupo_electrolitico2";
 		$rs12 = mysqli_query($link, $consulta2);
 		$row1 = mysqli_fetch_array($rs12);
-		$txtgrupo = $row1[cod_grupo2];
-		echo $grupo;
+		$txtgrupo = $row1["cod_grupo2"];
+		//echo $grupo;
 	}	
 ?>
 
@@ -184,45 +191,55 @@ function Salir()
 				
 				while ($row = mysqli_fetch_array($rs))
 				{
-		  			if (($mostrar == "S") and ($row[cod_circuito] == $row1[cod_circuito]))
-						echo '<option value="'.$row[cod_circuito].'" selected>Circuito '.$row[cod_circuito].'</option>';
+		  			if (($mostrar == "S") and ($row["cod_circuito"] == $row1["cod_circuito"]))
+						echo '<option value="'.$row["cod_circuito"].'" selected>Circuito '.$row["cod_circuito"].'</option>';
 					else 
-						echo '<option value="'.$row[cod_circuito].'">Circuito '.$row[cod_circuito].'</option>';
+						echo '<option value="'.$row["cod_circuito"].'">Circuito '.$row["cod_circuito"].'</option>';
 				}			
 			?>
               </select></td>
           </tr>
+		  <?php
+		  $num_cubas_tot        = isset($row1["num_cubas_tot"])?$row1["num_cubas_tot"]:"";
+		  $cubas_descobrizacion = isset($row1["cubas_descobrizacion"])?$row1["cubas_descobrizacion"]:"";
+		  $hojas_madres         = isset($row1["hojas_madres"])?$row1["hojas_madres"]:"";
+		  $num_catodos_celdas   = isset($row1["num_catodos_celdas"])?$row1["num_catodos_celdas"]:"";
+		  $num_anodos_celdas    = isset($row1["num_anodos_celdas"])?$row1["num_anodos_celdas"]:"";
+		  $calle_puente_grua    = isset($row1["calle_puente_grua"])?$row1["calle_puente_grua"]:"";
+		  $cubas_lavado         = isset($row1["cubas_lavado"])?$row1["cubas_lavado"]:"";
+		  $cod_estado           = isset($row1["cod_estado"])?$row1["cod_estado"]:"";
+		  ?>
           <tr> 
             <td>N&deg; Total de Cubas</td>
-            <td><input name="txttotal" type="text" size="10" value="<?php echo $row1[num_cubas_tot] ?>"></td>
+            <td><input name="txttotal" type="text" size="10" value="<?php echo $num_cubas_tot; ?>"></td>
           </tr>
           <tr> 
             <td>N&deg; Cubas Descobrizacion</td>
-            <td><input name="txtdescobrizacion" type="text" size="10" value="<?php echo $row1[cubas_descobrizacion] ?>"></td>
+            <td><input name="txtdescobrizacion" type="text" size="10" value="<?php echo $cubas_descobrizacion; ?>"></td>
           </tr>
           <tr> 
             <td>N&deg; Cubas Hojas Madres</td>
-            <td><input name="txthm" type="text" size="10" value="<?php echo $row1[hojas_madres] ?>"></td>
+            <td><input name="txthm" type="text" size="10" value="<?php echo $hojas_madres; ?>"></td>
           </tr>
           <tr> 
             <td>N&deg; Catodos Por Celda</td>
-            <td><input name="txtcatodos" type="text" size="10" value="<?php echo $row1[num_catodos_celdas] ?>"></td>
+            <td><input name="txtcatodos" type="text" size="10" value="<?php echo $num_catodos_celdas; ?>"></td>
           </tr>
           <tr> 
             <td>N&deg; Anodos Por Celda</td>
-            <td><input name="txtanodos" type="text" size="10" value="<?php echo $row1[num_anodos_celdas] ?>"></td>
+            <td><input name="txtanodos" type="text" size="10" value="<?php echo $num_anodos_celdas; ?>"></td>
           </tr>
           <tr> 
             <td>Calle Puente Grua</td>
             <td><select name="cmbcalle">
 				<option value="-1">SELECCIONAR</option>';
 			<?php
-            echo $row1[calle_puente_grua];
+            echo $row1["calle_puente_grua"];
 				$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = '3005' order by cod_subclase asc";
 				$rs = mysqli_query($link, $consulta);
 				while ($row = mysqli_fetch_array($rs))
 				{	
-					if (($mostrar == "S") and ($row["nombre_subclase"] == $row1[calle_puente_grua]))
+					if (($mostrar == "S") and ($row["nombre_subclase"] == $calle_puente_grua))
                 		echo '<option value="'.$row["nombre_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 					else 
 						echo '<option value="'.$row["nombre_subclase"].'">'.$row["nombre_subclase"].'</option>';
@@ -232,23 +249,23 @@ function Salir()
           </tr>
           <tr> 
             <td>Cubas de Lavado</td>
-            <td><input name="txtcubaslavado" type="text" size="10" value="<?php echo $row1[cubas_lavado] ?>"></td>
+            <td><input name="txtcubaslavado" type="text" size="10" value="<?php echo $cubas_lavado; ?>"></td>
           </tr>
           <tr> 
             <td>Codigo Estado</td>
             <td><select name="cmbestado" size="1">
                 <option value="-1">SELECCIONAR</option>
 				  <?php
-					if (($mostrar == "S") and ($row1["cod_estado"] == "A"))
+					if (($mostrar == "S") and ($cod_estado == "A"))
                 	{		
-						echo '<option value="'.$row1["cod_estado"].'" selected>Activo</option>';
+						echo '<option value="'.$cod_estado.'" selected>Activo</option>';
 					}
-					if (($mostrar == "S") and ($row1["cod_estado"] == "I"))
+					if (($mostrar == "S") and ($cod_estado == "I"))
 					{
 						echo '<option value="A">Activo</option>';
 						echo '<option value="'.$row1["cod_estado"].'" selected>Inactivo</option>';
 					}
-				    if($row1["cod_estado"] == '')
+				    if($cod_estado == '')
 					{
 						echo '<option value="A">Activo</option>';
 						echo '<option value="I">Inactivo</option>';

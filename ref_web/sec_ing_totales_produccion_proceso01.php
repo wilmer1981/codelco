@@ -1,6 +1,16 @@
 <?php
 	include("../principal/conectar_sec_web.php");
 
+	$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$proceso  = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$mes   = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+	$ano   = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+	$txtrevision   = isset($_REQUEST["txtrevision"])?$_REQUEST["txtrevision"]:"";
+	$txtdescobrizacion = isset($_REQUEST["txtdescobrizacion"])?$_REQUEST["txtdescobrizacion"]:"";
+	$txtdespuntes      = isset($_REQUEST["txtdespuntes"])?$_REQUEST["txtdespuntes"]:"";
+	$txtcatodos     = isset($_REQUEST["txtcatodos"])?$_REQUEST["txtcatodos"]:"";
+	$parametros     = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+
 	if (($proceso == "G") and ($opcion == "N"))	
 	{
 		$fecha = $ano."-";
@@ -61,7 +71,7 @@
 	if ($proceso == "E")
 	{
 		$valores = explode("~",$parametros);
-		while(list($c,$v) = each($valores))
+		foreach($valores as $c => $v)
 		{	
 			$arreglo = explode("/", $v); //Fecha - revision.
 			$fecha = substr($arreglo[0],0,7);

@@ -2,6 +2,10 @@
 	include("../principal/conectar_sec_web.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 3;
+	
+$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
+$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 ?>
 
 <html>
@@ -227,7 +231,7 @@ function Recarga()
 	     {  
 		   $consulta_datos="SELECT max(fecha),cod_grupo,cod_circuito,num_cubas_tot,cod_estado,cubas_descobrizacion,hojas_madres,num_catodos_celdas,num_anodos_celdas,calle_puente_grua,cubas_lavado  ";
 	       $consulta_datos.=" FROM ref_web.grupo_electrolitico2 "; 
-	       $consulta_datos.=" where fecha ='".$row_grupos[fecha1]."' and cod_grupo = '".$row_grupos["cod_grupo"]."' group by cod_grupo order by cod_grupo";
+	       $consulta_datos.=" where fecha ='".$row_grupos["fecha1"]."' and cod_grupo = '".$row_grupos["cod_grupo"]."' group by cod_grupo order by cod_grupo";
 		   $rs = mysqli_query($link, $consulta_datos);
 	       $row = mysqli_fetch_array($rs);
 		   
@@ -238,10 +242,10 @@ function Recarga()
 		   $rs_sec = mysqli_query($link, $consulta_datos_sec);
 	       if ($row_sec = mysqli_fetch_array($rs_sec))
 		      {		   
-				$actualizar_ge2 = "UPDATE sec_web.grupo_electrolitico2 SET cod_circuito = '".$row[cod_circuito]."', num_cubas_tot = '".$row[num_cubas_tot]."'";
-				$actualizar_ge2.= ", cubas_descobrizacion = '".$row[cubas_descobrizacion]."', hojas_madres = '".$row[hojas_madres]."', cod_estado = '".$row["cod_estado"]."'";
-				$actualizar_ge2.= ", num_catodos_celdas = '".$row[num_catodos_celdas]."', num_anodos_celdas = '".$row[num_anodos_celdas]."'";
-				$actualizar_ge2.= ", calle_puente_grua = '".$row[calle_puente_grua]."', cubas_lavado = '".$row[cubas_lavado]."'";
+				$actualizar_ge2 = "UPDATE sec_web.grupo_electrolitico2 SET cod_circuito = '".$row["cod_circuito"]."', num_cubas_tot = '".$row["num_cubas_tot"]."'";
+				$actualizar_ge2.= ", cubas_descobrizacion = '".$row["cubas_descobrizacion"]."', hojas_madres = '".$row["hojas_madres"]."', cod_estado = '".$row["cod_estado"]."'";
+				$actualizar_ge2.= ", num_catodos_celdas = '".$row["num_catodos_celdas"]."', num_anodos_celdas = '".$row["num_anodos_celdas"]."'";
+				$actualizar_ge2.= ", calle_puente_grua = '".$row["calle_puente_grua"]."', cubas_lavado = '".$row["cubas_lavado"]."'";
 				$actualizar_ge2.= " WHERE cod_grupo = '".$row_grupos["cod_grupo"]."'";
 				$actualizar_ge2.= " and fecha= '".$Ano."-".$Mes."-01'";
 				//echo $actualizar_ge2;
@@ -249,8 +253,8 @@ function Recarga()
 			 }
 			else {
 			        $insertar = "INSERT INTO sec_web.grupo_electrolitico2 (fecha,cod_grupo,cod_circuito,num_cubas_tot,cod_estado,cubas_descobrizacion,hojas_madres,num_catodos_celdas,num_anodos_celdas,calle_puente_grua,cubas_lavado)";
-					$insertar = $insertar." VALUES ('".$Ano."-".$Mes."-01','".$row_grupos["cod_grupo"]."','".$row[cod_circuito]."','".$row[num_cubas_tot]."','".$row["cod_estado"]."','".$row[cubas_descobrizacion];
-					$insertar = $insertar."','".$row[hojas_madres]."','".$row[num_catodos_celdas]."','".$row[num_anodos_celdas]."','".$row[calle_puente_grua]."','".$row[cubas_lavado]."')";
+					$insertar = $insertar." VALUES ('".$Ano."-".$Mes."-01','".$row_grupos["cod_grupo"]."','".$row["cod_circuito"]."','".$row["num_cubas_tot"]."','".$row["cod_estado"]."','".$row["cubas_descobrizacion"];
+					$insertar = $insertar."','".$row["hojas_madres"]."','".$row["num_catodos_celdas"]."','".$row["num_anodos_celdas"]."','".$row["calle_puente_grua"]."','".$row["cubas_lavado"]."')";
 					//echo $insertar;
 					mysqli_query($link, $insertar);
 			
@@ -263,15 +267,15 @@ function Recarga()
 		   echo '<tr>';
 		   echo '<td width="55" height="25"><input type="checkbox" name="checkbox" value="'.$row["cod_grupo"].'"></td>';
 		   echo '<td width="50" align="center">'.$row["cod_grupo"].'</td>';
-		   echo '<td width="55" align="center">'.$row[cod_circuito].'</td>';
-		   echo '<td width="43" align="center">'.$row[num_cubas_tot].'&nbsp;</td>';
+		   echo '<td width="55" align="center">'.$row["cod_circuito"].'</td>';
+		   echo '<td width="43" align="center">'.$row["num_cubas_tot"].'&nbsp;</td>';
 		   echo '<td width="50" align="center">'.$row["cod_estado"].'&nbsp;</td>';
-		   echo '<td width="70" align="center">'.$row[cubas_descobrizacion].'&nbsp;</td>';
-		   echo '<td width="64" align="center">'.$row[hojas_madres].'&nbsp;</td>';
-		   echo '<td width="75" align="center">'.$row[num_catodos_celdas].'&nbsp;</td>';
-		   echo '<td width="75" align="center">'.$row[num_anodos_celdas].'&nbsp;</td>';
-		   echo '<td width="77" align="center">'.$row[cubas_lavado].'&nbsp;</td>';
-		   echo '<td width="89" align="center">'.$row[calle_puente_grua].'&nbsp;</td>';		
+		   echo '<td width="70" align="center">'.$row["cubas_descobrizacion"].'&nbsp;</td>';
+		   echo '<td width="64" align="center">'.$row["hojas_madres"].'&nbsp;</td>';
+		   echo '<td width="75" align="center">'.$row["num_catodos_celdas"].'&nbsp;</td>';
+		   echo '<td width="75" align="center">'.$row["num_anodos_celdas"].'&nbsp;</td>';
+		   echo '<td width="77" align="center">'.$row["cubas_lavado"].'&nbsp;</td>';
+		   echo '<td width="89" align="center">'.$row["calle_puente_grua"].'&nbsp;</td>';		
 		   echo '</tr>';
 		 
 		 

@@ -138,17 +138,17 @@ function Salir()
 			while ($row = mysqli_fetch_array($rs))
 			{
 				echo '<tr>';
-				echo '<td width="61" height="25"><input type="checkbox" name="checkbox" value="'.$row[fecha_total]."/".$row[cod_revision].'"></td>';
-				/*if ($row[cod_revision] == 0)
+				echo '<td width="61" height="25"><input type="checkbox" name="checkbox" value="'.$row["fecha_total"]."/".$row["cod_revision"].'"></td>';
+				/*if ($row["cod_revision"] == 0)
 					echo '<td width="43" align="center">&nbsp;</td>';
 				else
 					echo '<td width="43" align="center"><img src="../principal/imagenes/ico_ok.gif"></td>';*/
 					
-				echo '<td width="96" align="center">'.substr($row[fecha_total],5,2).'/'.substr($row[fecha_total],0,4).'</td>';
-				echo '<td width="62" align="center">'.$row[cod_revision].'</td>';
-				echo '<td width="151" align="center">'.$row[total_catodo_comercial].'</td>';
-				echo '<td width="135" align="center">'.$row[total_desc_normal].'</td>';
-				echo '<td width="166" align="center">'.$row[total_desp_lamina].'</td>';
+				echo '<td width="96" align="center">'.substr($row["fecha_total"],5,2).'/'.substr($row["fecha_total"],0,4).'</td>';
+				echo '<td width="62" align="center">'.$row["cod_revision"].'</td>';
+				echo '<td width="151" align="center">'.$row["total_catodo_comercial"].'</td>';
+				echo '<td width="135" align="center">'.$row["total_desc_normal"].'</td>';
+				echo '<td width="166" align="center">'.$row["total_desp_lamina"].'</td>';
 				echo '</tr>';
 			}		
 		?>

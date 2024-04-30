@@ -596,11 +596,11 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>";
 						$row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
 						if ($row_datos[cod_concepto]=='A')
 						{
-							$total_A=$total_A+((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo["hojas_madres"])-$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo["num_catodos_celdas"]);
+							$total_A=$total_A+((($row_datos_grupo["num_cubas_tot"]-$row_datos_grupo["hojas_madres"])-$row_datos_grupo["cubas_descobrizacion"])*$row_datos_grupo["num_catodos_celdas"]);
 						}
 						else if ($row_datos[cod_concepto]=='B')
 						{
-							$total_B=$total_B + ((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo["hojas_madres"]) -$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo["num_catodos_celdas"]);         
+							$total_B=$total_B + ((($row_datos_grupo["num_cubas_tot"]-$row_datos_grupo["hojas_madres"]) -$row_datos_grupo["cubas_descobrizacion"])*$row_datos_grupo["num_catodos_celdas"]);         
 						}
 							
 					}
@@ -710,7 +710,7 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>";
 						$consulta_datos_grupo.=" where fecha ='".$row_fecha["fecha"]."' and cod_grupo='".$row_desc["cod_grupo"]."'";
 						$respuesta_datos_grupo=mysqli_query($link, $consulta_datos_grupo);
 						$row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-						$total_normal_grupo=$total_normal_grupo+($row_datos_grupo[cubas_descobrizacion] * $row_datos_grupo["num_catodos_celdas"]);
+						$total_normal_grupo=$total_normal_grupo+($row_datos_grupo["cubas_descobrizacion"] * $row_datos_grupo["num_catodos_celdas"]);
 					}
 					$total_consumo_total=$total_A + $total_B + $total_normal_grupo + $total_ew + $total_dp;
 							  
