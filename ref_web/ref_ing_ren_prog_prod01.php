@@ -1,5 +1,12 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Dia    = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+	$Mes    = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$Ano    = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+	$Valores= isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
 	switch ($Proceso)
 	{
 		case "G":
@@ -454,7 +461,7 @@
 		case "MT":
 			$FechaRenovacion = $ano1."-".$mes1."-01";
 			$Datos=explode('//',$Valores);
-			while(list($c,$v)=each($Datos))
+			foreach($Dat as $c => $v)
 			{
 				$Datos2=explode('~',$v);
 				$Dia=$Datos2[0];

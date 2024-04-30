@@ -1,4 +1,23 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
+<?php 
+include("../principal/conectar_ref_web.php"); 
+
+$proceso     = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+
+
+$fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$turno       = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+$circuito_dp = isset($_REQUEST["circuito_dp"])?$_REQUEST["circuito_dp"]:"";
+$volumen_dp  = isset($_REQUEST["volumen_dp"])?$_REQUEST["volumen_dp"]:"";
+
+$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:""; 
+$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";  
+$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";  
+$txt_turno       = isset($_REQUEST["txt_turno"])?$_REQUEST["txt_turno"]:"";
+$txt_circuito_dp = isset($_REQUEST["txt_circuito_dp"])?$_REQUEST["txt_circuito_dp"]:"";
+$txt_volumen_dp  = isset($_REQUEST["txt_volumen_dp"])?$_REQUEST["txt_volumen_dp"]:"";
+
+?>
 <HTML>
 <HEAD>
       <TITLE> Ingresos a Descobrizacion Parcial </TITLE>
@@ -111,10 +130,10 @@ function Modificar()
 					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($txt_turno==$Fila[turno])
-							echo "<option value='".$Fila[turno]."' selected>".$Fila[turno]."</option>";
+						if ($txt_turno==$Fila["turno"])
+							echo "<option value='".$Fila["turno"]."' selected>".$Fila["turno"]."</option>";
 						else
-							echo "<option value='".$Fila[turno]."'>".$Fila[turno]."</option>";
+							echo "<option value='".$Fila["turno"]."'>".$Fila["turno"]."</option>";
 		     		}
 				?>
           </select>
@@ -143,7 +162,7 @@ function Modificar()
       <td align="center"><div align="left"><font face="Arial, Helvetica, sans-serif">Volumen</font> 
           <font face="Arial, Helvetica, sans-serif">&nbsp;</font></div></td>
       <td align="center"><div align="left"> 
-          <input name="txt_volumen_dp" type="text" size="10" value="<?php echo $row[volumen_dp]?>">
+          <input name="txt_volumen_dp" type="text" size="10" value="<?php echo $row["volumen_dp"]?>">
         </div></td>
     </tr>
     <tr> 

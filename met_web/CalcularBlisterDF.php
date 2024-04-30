@@ -296,7 +296,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				while($FilaFecha=mysql_fetch_array($RespFecha))
 					{
 						$TotMesPSeco=0;$TotMesFCobre=0;$TotMesFPlata=0;$TotMesFOro=0;
-						$consultas= "SELECT FECHA, T_MOV, N_FLUJO, NOM_PRODUCTO, P_SECO, F_COBRE, F_PLATA, F_ORO FROM ENABAL where ((FECHA='$FilaFecha[FECHA]') AND
+						$consultas= "SELECT FECHA, T_MOV, N_FLUJO, NOM_PRODUCTO, P_SECO, F_COBRE, F_PLATA, F_ORO FROM ENABAL where ((FECHA='$FilaFecha["FECHA"]') AND
 									(ENABAL.T_MOV='2') AND (ENABAL.N_FLUJO='40' Or ENABAL.N_FLUJO='77' Or ENABAL.N_FLUJO='144' Or ENABAL.N_FLUJO='139' Or ENABAL.N_FLUJO='249' Or ENABAL.N_FLUJO='376' 
 									Or ENABAL.N_FLUJO='257' Or ENABAL.N_FLUJO='88' Or ENABAL.N_FLUJO='150' ))";
 			
@@ -306,7 +306,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							{
 								echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFCC'>";
 								
-								echo "<td>".$codigo[FECHA]."</td>";
+								echo "<td>".$codigo["FECHA"]."</td>";
 								echo "<td>".$codigo[N_FLUJO]."</td>";
 								echo "<td>".$codigo[NOM_PRODUCTO]."</td>";			
 								echo "<td>".$formato=number_format($codigo[P_SECO],'0',',','.')."</td>";
@@ -317,13 +317,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 							}
 						//SUMA DE OTROS FLUJOS (SE RESTA AL BLISTER TOTAL)
 						
-						$sql= "SELECT Sum(P_SECO) AS PESOSECO, Sum(F_COBRE) AS FINOCOBRE, Sum(F_PLATA) AS FINOPLATA, Sum(F_ORO) AS FINOORO from ENABAL WHERE ((FECHA='$FilaFecha[FECHA]') AND 
+						$sql= "SELECT Sum(P_SECO) AS PESOSECO, Sum(F_COBRE) AS FINOCOBRE, Sum(F_PLATA) AS FINOPLATA, Sum(F_ORO) AS FINOORO from ENABAL WHERE ((FECHA='$FilaFecha["FECHA"]') AND 
 						(ENABAL.N_FLUJO=77 Or ENABAL.N_FLUJO=144 Or ENABAL.N_FLUJO=139 Or ENABAL.N_FLUJO=249 Or ENABAL.N_FLUJO=376 Or ENABAL.N_FLUJO=257 Or 
 						ENABAL.N_FLUJO=88 Or ENABAL.N_FLUJO=150) AND (ENABAL.T_MOV=2))";
 				
 				
 						//BLISTER TOTAL 
-						$sqldos="SELECT Sum(P_SECO) AS Sseco, Sum(F_COBRE) AS Scobre, Sum(F_PLATA) AS Splata, Sum(F_ORO) AS Soro FROM ENABAL WHERE ((FECHA='$FilaFecha[FECHA]') AND 
+						$sqldos="SELECT Sum(P_SECO) AS Sseco, Sum(F_COBRE) AS Scobre, Sum(F_PLATA) AS Splata, Sum(F_ORO) AS Soro FROM ENABAL WHERE ((FECHA='$FilaFecha["FECHA"]') AND 
 						ENABAL.N_FLUJO=40 AND ENABAL.T_MOV=2)";
 									
 						$resultados = mysql_query($sql);

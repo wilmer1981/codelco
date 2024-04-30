@@ -294,12 +294,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$consultas= "SELECT FECHA, SUM(P_SECO) AS PESOSECO, SUM(F_COBRE) AS FINOCOBRE,SUM(F_PLATA) AS FINOPLATA, SUM(F_ORO) AS FINORO  FROM enabal WHERE ((T_MOV='2') AND (N_FLUJO='92' OR N_FLUJO='93' OR N_FLUJO='95' OR N_FLUJO='99' OR N_FLUJO='129' OR N_FLUJO='131') AND (FECHA BETWEEN '$FechaIni' AND '$FechaFin' )) GROUP BY FECHA";
 				
 					
-					//$consultas= "SELECT * FROM enabal WHERE ((T_MOV='2') AND (N_FLUJO='92' OR N_FLUJO='93' OR N_FLUJO='95' OR N_FLUJO='99' OR N_FLUJO='129' OR N_FLUJO='131') AND FECHA ='$FilaFecha[FECHA]')";
+					//$consultas= "SELECT * FROM enabal WHERE ((T_MOV='2') AND (N_FLUJO='92' OR N_FLUJO='93' OR N_FLUJO='95' OR N_FLUJO='99' OR N_FLUJO='129' OR N_FLUJO='131') AND FECHA ='$FilaFecha["FECHA"]')";
 					$resultados = mysql_query($consultas);
 					while($codigo=mysql_fetch_array($resultados))
 					{
 							echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFEA' align='center'>" ;
-							echo "<td>".$codigo[FECHA]."</td>";
+							echo "<td>".$codigo["FECHA"]."</td>";
 							echo "<td>".$formato=number_format($codigo[PESOSECO],'0',',','.')."</td>";
 							echo "<td>".$formato=number_format($codigo[FINOCOBRE],'0',',','.')."</td>";
 							echo "<td>".$formato=number_format($codigo[FINOPLATA],'0',',','.')."</td>";

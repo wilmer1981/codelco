@@ -50,7 +50,7 @@
 	$DescripCtto=$Fila["descripcion"];
 	$Gerencia=DescripcionGerencia($Fila[cod_gerencia]);
 	$Area=DescripcionArea($Fila["cod_area"]);
-	$FecIni=$Fila[fecha_inicio];
+	$FecIni=$Fila["fecha_inicio"];
 	$FecTer=$Fila[fecha_termino];
 	$VarContratista=AdmCttoContratista($Ctto);
     $array=explode('~',$VarContratista);

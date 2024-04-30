@@ -131,7 +131,7 @@ session_start();
 											if(mysql_select_db($dbname))
 											{
 												include("example.php");	
-												mysql_close($db_con);
+												mysqli_close($db_con);
 											}
 											else
 											{

@@ -1,4 +1,4 @@
 <?
      //CERRAR BASE DE DATOS
-     mysql_close($link);
+     mysqli_close($link);
 ?>

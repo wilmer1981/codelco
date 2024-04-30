@@ -79,7 +79,7 @@ In above example, upon selection of customer, the customerNumber will be sent to
 		echo "</tr>";				
 	}
 	echo "</table>";
-	mysql_close($db_con);
+	mysqli_close($db_con);
 ?>
 			]]>			
 		</code>					

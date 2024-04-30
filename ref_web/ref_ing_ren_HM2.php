@@ -1,6 +1,12 @@
 <?php 
 	include("../principal/conectar_ref_web.php");
 	$CodigoDeSistema = 10;
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Dia    = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+	$Mes    = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$Ano    = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+
 	$Dia = str_pad($Dia,2,0,STR_PAD_LEFT);
 	$Mes = str_pad($Mes,2,0,STR_PAD_LEFT);
 	$Fecha = $Ano."-".$Mes."-".$Dia;
@@ -17,7 +23,7 @@
 			while ($Fila = mysqli_fetch_array($Respuesta))
 				{
 				   $grupos[$i]=$Fila["cod_grupo"];
-				   $cubas[$i]=$Fila[cubas_renovacion];
+				   $cubas[$i]=$Fila["cubas_renovacion"];
 				   $i=$i+1;
 				}
 			$Cubas1=$cubas[0];
@@ -56,7 +62,7 @@
 				while ($Fila=mysqli_fetch_array($respuesta))
 					{
 					  $grupos[$i]=$Fila["cod_grupo"];
-				      $cubas[$i]=$Fila[cubas_renovacion];
+				      $cubas[$i]=$Fila["cubas_renovacion"];
 				      $i=$i+1;
 					}
 				$Cubas1=$cubas[0];

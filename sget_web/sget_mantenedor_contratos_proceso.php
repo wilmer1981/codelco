@@ -118,7 +118,7 @@ if(!isset($Recarga))
 		{
 			//$TxtContrato='';$TxtDescripcion='';$TxtMontoCtto='';$TxtFechaInicio='';$TxtFechaTermino='';$CmbEmpresa='';
 		}
-		mysql_close();
+		mysqli_close();
 		include("../principal/conectar_sget_web.php");
 	}	
 }	

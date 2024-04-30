@@ -1,6 +1,30 @@
-<?php header("Content-Type:  application/vnd.ms-excel");
-	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");include("../principal/conectar_ref_web.php");
+<?php
+ob_end_clean();
+$file_name=basename($_SERVER['PHP_SELF']).".xls";
+$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+$filename = "";
+if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+$filename = urlencode($filename);
+}
+$filename = iconv('UTF-8', 'gb2312', $filename);
+$file_name = str_replace(".php", "", $file_name);
+header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
+header("content-disposition: attachment;filename={$file_name}");
+header( "Cache-Control: public" );
+header( "Pragma: public" );
+header( "Content-type: text/csv" ) ;
+header( "Content-Dis; filename={$file_name}" ) ;
+header("Content-Type:  application/vnd.ms-excel");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	include("../principal/conectar_ref_web.php");
+
+$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
+$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+
 ?>
 
 <link href="../principal/estilos/css_ref_web.css" rel="stylesheet" type="text/css">
@@ -50,34 +74,35 @@
 	$cont=0;
 	$i=0;
 	$p=0;
-	
+	$grupos=array();//WSO
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 	        $cont=$cont+1;
 			$Consulta_turno="select turno as turno1 from cal_web.rechazo_catodos as t1 where t1.fecha = '".$fecha."' and t1.grupo = '".$Fila["cod_grupo"]."'";
 			$respuesta_turno= mysqli_query($link, $Consulta_turno);
 			$row_turno = mysqli_fetch_array($respuesta_turno);
-				//aqui sacar dias de renovacion  del grupo  poly 2005-01-31
+			$turno1 = isset($row_turno["turno1"])?$row_turno["turno1"]:"";
+			//aqui sacar dias de renovacion  del grupo  poly 2005-01-31
 			$j=0;
 			$anomes=substr($fecha,0,8);
 			$fechita=$anomes.'01';
 		
 			$con="select dia_renovacion as dia_renovacion from  sec_web.renovacion_prog_prod";
-			$con.=" where cod_grupo = '".$Fila["cod_grupo"]."' and cod_concepto = '".$row_turno[turno1]."'";
+			$con.=" where cod_grupo = '".$Fila["cod_grupo"]."' and cod_concepto = '".$turno1."'";
 			$con.=" and fecha_renovacion ='".$fechita."'"; 	
 			$Respuestap = mysqli_query($link, $con);
-				
+			$dia2=0;	
 			while ($Filap = mysqli_fetch_array($Respuestap))
 			{
 				if ($j ==0)
 				{
-					$dia1 = $Filap[dia_renovacion];
+					$dia1 = $Filap["dia_renovacion"];
 				
 					$j=$j+1;
 				}
 				elseif($j==1)
 				{
-					$dia2=$Filap[dia_renovacion];
+					$dia2=$Filap["dia_renovacion"];
 					$j=$j+1;
 				}
 				if ($j>1)
@@ -92,18 +117,18 @@
 			$consulta_produccion=$consulta_produccion."where fecha_produccion = '".$fecha."' and cod_producto='18'  and cod_subproducto='1'   and cod_grupo = '".$Fila["cod_grupo"]."' group by cod_grupo";
 			$Respuesta_produccion = mysqli_query($link, $consulta_produccion);
 			$Fila_produccion = mysqli_fetch_array($Respuesta_produccion);
-			$produccion=number_format($Fila_produccion["produccion"],"",",",".");
+			$produccion=number_format($Fila_produccion["produccion"],2,",",".");
 
 			//aqui saca los grupos en un arreglo igual lo tengo que hacer yo
 		
 			$grupos[$i]=$Fila["cod_grupo"];
-			if ($row_turno[turno1]=="")
+			if ($turno1=="")
 			{ 
 			 	$turno[$i]='N';
 			}
 			else
 			{
-				$turno[$i]=$row_turno[turno1];
+				$turno[$i]=$row_turno["turno1"];
 			}
 			$i=$i+1;
 	}		
@@ -121,9 +146,16 @@
 			 	reset ($grupos);
 			 }
 			$i=0;
+			$total_dp=0;//WSO
+			$total_ew=0;
+			$fecha_renovacion="";
+			$Dia_r="";
+			$total_A=0;
+			$total_B=0;
+			$total_normal_grupo=0;
 			if ($mostrar=='S')
 			{
-				while (list($a,$b)=each($grupos))
+				foreach($grupos as $a => $b)
 				{ 
 					
 						
@@ -145,13 +177,13 @@
 						$consulta_datos_grupo.=" where fecha ='".$row_fecha["fecha"]."' and cod_grupo='$b'";
 						$respuesta_datos_grupo=mysqli_query($link, $consulta_datos_grupo);
 						$row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-						if ($row_datos[cod_concepto]=='A')
+						if ($row_datos["cod_concepto"]=='A')
 						{
-							$total_A=$total_A+((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo[hojas_madres])-$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo[num_catodos_celdas]);
+							$total_A=$total_A+((($row_datos_grupo["num_cubas_tot"]-$row_datos_grupo["hojas_madres"])-$row_datos_grupo["cubas_descobrizacion"])*$row_datos_grupo["num_catodos_celdas"]);
 						}
-						else if ($row_datos[cod_concepto]=='B')
+						else if ($row_datos["cod_concepto"]=='B')
 						{
-							$total_B=$total_B + ((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo[hojas_madres]) -$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo[num_catodos_celdas]);         
+							$total_B=$total_B + ((($row_datos_grupo["num_cubas_tot"]-$row_datos_grupo["hojas_madres"]) -$row_datos_grupo["cubas_descobrizacion"])*$row_datos_grupo["num_catodos_celdas"]);         
 						}
 							
 					}
@@ -164,7 +196,7 @@
 						$consulta_dp="select num_celdas_grupos,num_catodos_celda from ref_web.circuitos_especiales where cod_circuito='DP'";
 						$respuesta_dp=mysqli_query($link, $consulta_dp);
 						$row_dp = mysqli_fetch_array($respuesta_dp);
-						$total_dp=$total_dp+($row_dp[num_celdas_grupos]*$row_dp[num_catodos_celda]);
+						$total_dp=$total_dp+($row_dp["num_celdas_grupos"]*$row_dp["num_catodos_celda"]);
 					}
 					
 					$consulta_ew="select cod_grupo, cod_concepto from sec_web.renovacion_prog_prod ";
@@ -176,7 +208,7 @@
 						$consulta_ew_d="select num_celdas_grupos,num_catodos_celda from ref_web.circuitos_especiales where cod_circuito='EW'";
 						$respuesta_ew_d=mysqli_query($link, $consulta_ew_d);
 						$row_ew_d = mysqli_fetch_array($respuesta_ew_d);
-						$total_ew=$total_ew+($row_ew_d[num_celdas_grupos]*$row_ew_d[num_catodos_celda]);
+						$total_ew=$total_ew+($row_ew_d["num_celdas_grupos"]*$row_ew_d["num_catodos_celda"]);
 					}
 				}//fin del while
 				$consulta_cat_ini="select turno as turno_cat_ini,ifnull(produccion_mfci,0) as prod_mfci,ifnull(produccion_mdb,0) as prod_mdb,ifnull(produccion_mco,0) as prod_mco,observacion as observacion,consumo as consumo_cat_inil from ref_web.iniciales as t1 ";
@@ -185,13 +217,13 @@
 				while ($row_cat_ini = mysqli_fetch_array($Resp_cat_ini))
 				{
 					echo "<tr>";
-						echo "<td align='center'>".$row_cat_ini[turno_cat_ini]."</td>";
-						echo "<td align='center'>".$row_cat_ini[prod_mfci]."</td>";
-						$total_mfci=$total_mfci+$row_cat_ini[prod_mfci];
-						echo "<td align='center'>".$row_cat_ini[prod_mdb]."</td>";
-						$total_mdb=$total_mdb+$row_cat_ini[prod_mdb];
-						echo "<td align='center'>".$row_cat_ini[prod_mco]."</td>";
-						$total_mco=$total_mco+$row_cat_ini[prod_mco];
+						echo "<td align='center'>".$row_cat_ini["turno_cat_ini"]."</td>";
+						echo "<td align='center'>".$row_cat_ini["prod_mfci"]."</td>";
+						$total_mfci=$total_mfci+$row_cat_ini["prod_mfci"];
+						echo "<td align='center'>".$row_cat_ini["prod_mdb"]."</td>";
+						$total_mdb=$total_mdb+$row_cat_ini["prod_mdb"];
+						echo "<td align='center'>".$row_cat_ini["prod_mco"]."</td>";
+						$total_mco=$total_mco+$row_cat_ini["prod_mco"];
 						if ($mostrar2=='X')
 						{
 							echo "<td align='center'>&nbsp;</td>";
@@ -221,7 +253,7 @@
 					echo "<td align='center'>$total_mco</td>";
 					echo "<td align='center'>$total_consumo_comercial</td>";
 					echo "<td align='center'>--</td>";
-		}		
+		    }		
 	?>
     </table>
    	
@@ -271,7 +303,7 @@
 			$consulta_datos_grupo.=" where fecha ='".$row_fecha["fecha"]."' and cod_grupo='".$row_desc["cod_grupo"]."'";
 			$respuesta_datos_grupo=mysqli_query($link, $consulta_datos_grupo);
 			$row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-			$total_normal_grupo=$total_normal_grupo+($row_datos_grupo[cubas_descobrizacion] * $row_datos_grupo[num_catodos_celdas]);
+			$total_normal_grupo=$total_normal_grupo+($row_datos_grupo["cubas_descobrizacion"] * $row_datos_grupo["num_catodos_celdas"]);
 		}
 			$total_consumo_total=$total_A + $total_B + $total_normal_grupo + $total_ew + $total_dp;
 			
@@ -307,9 +339,10 @@
 			$consulta_cat_ini_stock=$consulta_cat_ini_stock."where  t1.fecha = '".$fecha."' group by t1.fecha";
 			$Resp_cat_stock = mysqli_query($link, $consulta_cat_ini_stock);
 			$row_cat_stock = mysqli_fetch_array($Resp_cat_stock);
-			if ($row_cat_stock[stock1] >0)
+			$stock1 = isset($row_cat_stock["stock1"])?$row_cat_stock["stock1"]:0;
+			if ($stock1 >0)
 			{
-				echo "<td width='30%' align='center'>".$row_cat_stock[stock1]."</td>";
+				echo "<td width='30%' align='center'>".$stock1."</td>";
 			}
 			else
 			{
@@ -324,9 +357,10 @@
 					$consulta_lam_ini_stock=$consulta_lam_ini_stock."where  t1.fecha = '".$fecha."' ";
 					$Resp_lam_stock = mysqli_query($link, $consulta_lam_ini_stock);
 					$row_lam_stock = mysqli_fetch_array($Resp_lam_stock);
-					if ($row_lam_stock[stock_dia] >0)
+					$stock_dia = isset($row_lam_stock["stock_dia"])?$row_lam_stock["stock_dia"]:0;
+					if ($stock_dia >0)
 					{
-						echo "<td width='30%' align='center'>".$row_lam_stock[stock_dia]."</td>";
+						echo "<td width='30%' align='center'>".$stock_dia."</td>";
 					}
 					else
 					{
@@ -338,7 +372,11 @@
                 <tr> 
                   <td width="30%"><strong>RECHAZO CATODOS INICIALES</strong></td>
                 
-                  <?php $rechazo_catodos= $row_cat_stock[rechazo_ini_cat]+$row_cat_stock[catodos_en_renovacion];
+                  <?php
+				   $rechazo_ini_cat       = isset($row_cat_stock["rechazo_ini_cat"])?$row_cat_stock["rechazo_ini_cat"]:0;
+				   $catodos_en_renovacion = isset($row_cat_stock["catodos_en_renovacion"])?$row_cat_stock["catodos_en_renovacion"]:0; 
+				  	
+					$rechazo_catodos= $rechazo_ini_cat + $catodos_en_renovacion;
 					 	echo "<td width='30%' align='center'>".$rechazo_catodos."</td>";
 					?> 	
                 </tr>

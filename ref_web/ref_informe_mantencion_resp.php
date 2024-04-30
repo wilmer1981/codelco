@@ -1,5 +1,16 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
-	<?php if (!isset($DiaIni))
+<?php 
+	include("../principal/conectar_ref_web.php");
+
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$fecha      = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";  
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:""; 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";  
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:""; 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";  
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";  
+
+	if ($DiaIni=="")
 	{
 		$DiaIni = date("d");
 		$MesIni = date("m");
@@ -16,6 +27,7 @@
 		$DiaFin = "0".$DiaFin;
 	if (strlen($MesFin) == 1)
 		$MesFin = "0".$MesFin;
+
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 	$si_auto = 0;
@@ -24,7 +36,7 @@
 	$res_u=mysqli_query($link, $revisa_u);
 	if ($fila_u=mysqli_fetch_array($res_u))
 	{
-			$si_auto = $fila_u[autori];
+			$si_auto = $fila_u["autori"];
 	}
 
 ?>
@@ -141,7 +153,7 @@ function Modificar()
 ?>
  
           
-  <p align="center"><font color="#0000FF"><strong><H3 align="center">Informe de Mantención</H3></strong></font></p>
+  <p align="center"><font color="#0000FF"><strong><H3 align="center">Informe de Mantenciï¿½n</H3></strong></font></p>
           </div>
         <div align="left"> 
           
@@ -312,15 +324,15 @@ function Modificar()
 					while ($row= mysqli_fetch_array($respuesta))
 					   {
 					    $l++;
-					    $codigo = $row[COD_NOVEDAD];
+					    $codigo = $row["COD_NOVEDAD"];
 						echo'<input name="codigo" type="hidden" id="codigo" value="'.$codigo.'">';
 					    echo "<tr>";
-						echo "<td width='10%' align='center' class=detalle01><font color='blue'>".$row[FECHA]."&nbsp;</font></td>\n";
-						echo "<td width='6%' align='center' class=detalle01><font color='blue'>".$row[TURNO]."&nbsp;</font></td>\n";						
-						echo "<td width='42%' align='left'>".strtoupper($row[NOVEDAD])."&nbsp;</td>\n";
+						echo "<td width='10%' align='center' class=detalle01><font color='blue'>".$row["FECHA"]."&nbsp;</font></td>\n";
+						echo "<td width='6%' align='center' class=detalle01><font color='blue'>".$row["TURNO"]."&nbsp;</font></td>\n";						
+						echo "<td width='42%' align='left'>".strtoupper($row["NOVEDAD"])."&nbsp;</td>\n";
 						
-						echo "<td width='22%' align='left'>".strtoupper($row[usuario])."&nbsp;</td>\n";
-						if ($row[Condicion_insegura]=='S')
+						echo "<td width='22%' align='left'>".strtoupper($row["usuario"])."&nbsp;</td>\n";
+						if ($row["Condicion_insegura"]=='S')
 							$condicion_insegura="SI";
 						else
 							$condicion_insegura ="NO";	
@@ -330,7 +342,7 @@ function Modificar()
 						$resp=mysqli_query($link, $consulta);
 						 if ($filab=mysqli_fetch_array($resp))
 						 {
-						 	$atencion = $filab[atencion];
+						 	$atencion = $filab["atencion"];
 						 }
 						 else
 						 {
@@ -374,14 +386,14 @@ function Modificar()
 					while ($row= mysqli_fetch_array($respuesta))
 					{
 					    $m++;
-					    $codigoHM = $row[COD_NOVEDAD];
+					    $codigoHM = $row["COD_NOVEDAD"];
 						echo'<input name="codigoHM" type="hidden" id="codigoHM" value="'.$codigoHM.'">';
 					    echo "<tr>";
-						echo "<td width='110%' align='center' class=detalle01><font color='blue'>".$row[FECHA]."&nbsp;</font></td>\n";
-						echo "<td width='6%' align='center' class=detalle01><font color='blue'>".$row[TURNO]."&nbsp;</font></td>\n";						
-						echo "<td width='42%' align='left'>".strtoupper($row[NOVEDAD])."&nbsp;</td>\n";
-						echo "<td width='22%' align='left'>".strtoupper($row[usuario])."&nbsp;</td>\n";
-						if ($row[Condicion_insegura]=='S')
+						echo "<td width='110%' align='center' class=detalle01><font color='blue'>".$row["FECHA"]."&nbsp;</font></td>\n";
+						echo "<td width='6%' align='center' class=detalle01><font color='blue'>".$row["TURNO"]."&nbsp;</font></td>\n";						
+						echo "<td width='42%' align='left'>".strtoupper($row["NOVEDAD"])."&nbsp;</td>\n";
+						echo "<td width='22%' align='left'>".strtoupper($row["usuario"])."&nbsp;</td>\n";
+						if ($row["Condicion_insegura"]=='S')
 							$condicion_insegura="SI";
 						else
 							$condicion_insegura ="NO";	
@@ -390,7 +402,7 @@ function Modificar()
 						$resp2=mysqli_query($link, $consulta2);
 						 if ($filab=mysqli_fetch_array($resp))
 						 {
-						 	$atencionHM = $filab[atencion];
+						 	$atencionHM = $filab["atencion"];
 						 }
 						 else
 						 {
@@ -436,14 +448,14 @@ function Modificar()
 					while ($row= mysqli_fetch_array($respuesta))
 					   {
 					    $k++;
-					    $codigoPT = $row[COD_NOVEDAD];
+					    $codigoPT = $row["COD_NOVEDAD"];
 						echo'<input name="codigoPT" type="hidden" id="codigoPT" value="'.$codigoPT.'">';
 					    echo "<tr>";
-						echo "<td width='15%' align='center' class=detalle01><font color='blue'>".$row[FECHA]."&nbsp;</font></td>\n";
-						echo "<td width='10%' align='center' class=detalle01><font color='blue'>".$row[TURNO]."&nbsp;</font></td>\n";						
-						echo "<td width='40%' align='left'>".strtoupper($row[NOVEDAD])."&nbsp;</td>\n";
-						echo "<td width='40%' align='left'>".strtoupper($row[usuario])."&nbsp;</td>\n";
-						if ($row[Condicion_insegura]=='S')
+						echo "<td width='15%' align='center' class=detalle01><font color='blue'>".$row["FECHA"]."&nbsp;</font></td>\n";
+						echo "<td width='10%' align='center' class=detalle01><font color='blue'>".$row["TURNO"]."&nbsp;</font></td>\n";						
+						echo "<td width='40%' align='left'>".strtoupper($row["NOVEDAD"])."&nbsp;</td>\n";
+						echo "<td width='40%' align='left'>".strtoupper($row["usuario"])."&nbsp;</td>\n";
+						if ($row["Condicion_insegura"]=='S')
 							$condicion_insegura="SI";
 						else
 							$condicion_insegura ="NO";	
@@ -452,7 +464,7 @@ function Modificar()
 						$resp3=mysqli_query($link, $busca);
 						 if ($fil3=mysqli_fetch_array($resp3))
 						 {
-						 	$atencionPT = $fil3[atencion];
+						 	$atencionPT = $fil3["atencion"];
 						 }
 						 else
 						 {

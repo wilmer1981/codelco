@@ -134,9 +134,9 @@ if(!isset($CmbMostrar))
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
 											$CantidadAux=($Fila3[VPcantidad])*$Fila2[factor];	
-											if($Fila2[signo]=='')
-												$Fila2[signo]='+';
-											if($Fila2[signo]=='+')
+											if($Fila2["signo"]=='')
+												$Fila2["signo"]='+';
+											if($Fila2["signo"]=='+')
 												$Cantidad=$Cantidad+$CantidadAux;
 											else
 											   	$Cantidad=$Cantidad-$CantidadAux;
@@ -148,9 +148,9 @@ if(!isset($CmbMostrar))
 								//echo "CDV:   ".$Consulta."<br>";
 								while($Fila3=mysql_fetch_array($Resp3))
 								{
-									if($Fila2[signo]=='')
-										$Fila2[signo]='+';
-								    if($Fila2[signo]=='+')
+									if($Fila2["signo"]=='')
+										$Fila2["signo"]='+';
+								    if($Fila2["signo"]=='+')
 										$Cantidad=($Cantidad+$Fila3[kilos_finos])*$Fila2[factor];
 									else	
 										$Cantidad=($Cantidad-$Fila3[kilos_finos])*$Fila2[factor];
@@ -181,9 +181,9 @@ if(!isset($CmbMostrar))
 								//echo "ENA PMN:   ".$Consulta."<br>";
 								while($Fila3=mysql_fetch_array($Resp3))
 								{
-									if($Fila2[signo]=='')
-										$Fila2[signo]='+';
-								    if($Fila2[signo]=='+')
+									if($Fila2["signo"]=='')
+										$Fila2["signo"]='+';
+								    if($Fila2["signo"]=='+')
 										$Cantidad=($Cantidad+$Fila3[kilos_finos])*$Fila2[factor];
 									else	
 										$Cantidad=($Cantidad-$Fila3[kilos_finos])*$Fila2[factor];
@@ -256,9 +256,9 @@ if(!isset($CmbMostrar))
 										$Resp3=mysqli_query($link, $Consulta);
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
-											if($Fila2[signo]=='')
-												$Fila2[signo]='+';
-											if($Fila2[signo]=='+')
+											if($Fila2["signo"]=='')
+												$Fila2["signo"]='+';
+											if($Fila2["signo"]=='+')
 												$Cantidad=$Cantidad+$Fila3[VPcantidad];
 											else	
 												$Cantidad=$Cantidad-$Fila3[VPcantidad];
@@ -270,9 +270,9 @@ if(!isset($CmbMostrar))
 										$Resp3=mysqli_query($link, $Consulta);
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
-											if($Fila2[signo]=='')
-												$Fila2[signo]='+';
-											if($Fila2[signo]=='+')
+											if($Fila2["signo"]=='')
+												$Fila2["signo"]='+';
+											if($Fila2["signo"]=='+')
 												$Cantidad=$Cantidad+$Fila3[kilos_finos];
 											else
 												$Cantidad=$Cantidad-$Fila3[kilos_finos];
@@ -303,9 +303,9 @@ if(!isset($CmbMostrar))
 										//echo $Consulta."<br>";
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
-											if($Fila2[signo]=='')
-												$Fila2[signo]='+';
-											if($Fila2[signo]=='+')
+											if($Fila2["signo"]=='')
+												$Fila2["signo"]='+';
+											if($Fila2["signo"]=='+')
 												$Cantidad=($Cantidad+$Fila3[kilos_finos])*$Fila2[factor];
 											else	
 												$Cantidad=($Cantidad-$Fila3[kilos_finos])*$Fila2[factor];

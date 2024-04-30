@@ -143,7 +143,7 @@ if($Opcion=='Guarda')
 		$Ley=$Filas[ley];
 		$SA=$Filas[SA];
 		$Unidad=$Filas[cod_unidad];
-		$Signo=$Filas[signo];
+		$Signo=$Filas["signo"];
 		$Valor=str_replace(',','.',$Filas[valor_ley]);
 		$Consulta2 = "select t1.recargo";
 		$Consulta2.=" from cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2";
@@ -162,7 +162,7 @@ if($Opcion=='Guarda')
 			$Resp3=mysqli_query($link, $Consulta3);
 			if($Fila3=mysqli_fetch_assoc($Resp3))
 			{
-				switch($Fila3[signo])
+				switch($Fila3["signo"])
 				{
 					case "<":
 						if(floatval($Filas[valor_ley]) < floatval($Fila3[valor]))

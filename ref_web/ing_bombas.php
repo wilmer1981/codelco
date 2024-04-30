@@ -1,5 +1,15 @@
-﻿<?php include("../principal/conectar_ref_web.php"); ?>
+﻿<?php 
+include("../principal/conectar_ref_web.php"); 
 
+$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$iso   = isset($_REQUEST["iso"])?$_REQUEST["iso"]:"";
+$circuito   = isset($_REQUEST["circuito"])?$_REQUEST["circuito"]:"";
+$bomba   = isset($_REQUEST["bomba"])?$_REQUEST["bomba"]:"";
+$hora   = isset($_REQUEST["hora"])?$_REQUEST["hora"]:"";
+$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:"";
+
+?>
 
 <HTML>
 <HEAD>
@@ -9,7 +19,6 @@
 <LINK  href="../archivos/petalos.css" rel=stylesheet type=text/css>
 
 <script language="JavaScript">
-<!--
 function Validar()
 {
 	var frm = document.FrmPrincipal;
@@ -34,10 +43,10 @@ function Validar()
         else {  
 			  if (confirm("Esta Seguro de la Operación"))
 			    {
-			     frm.action = "ing_bombas01.php?Proceso=G&amp"+"&iso="+iso;
+			     frm.action = "ing_bombas01.php?Proceso=G&iso="+iso;
 			     frm.submit();
 			    }
-	          }		
+	      }		
 	
 }
 function Recarga(frm,Pagina) // RECARGA PAGINA DE FROMULARIO
@@ -53,17 +62,16 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 	frm.submit();
 }
 
-//-->
 </script>
 
 <BODY>
 <form name="FrmPrincipal" method="post" action="">
-<input type="hidden" name="fecha" value="<?phpphp echo''.$fecha.''; ?>">
+<input type="hidden" name="fecha" value="<?php echo''.$fecha.''; ?>">
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
  <TR> 
   <TD width=9><IMG height=16 src="archivos/hbw_bar_l.gif" width=9 border=0></TD>
   <TD align=middle bgColor=#6b8ec6><FONT style="FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #ffffff; FONT-FAMILY: Arial; LETTER-SPACING: 3px; TEXT-ALIGN: center; TEXT-DECORATION: none" size=3><B>INGRESADOR 
-      DE BOMBAS</B></FONT><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">FECHA :&nbsp;&nbsp;&nbsp;<?phpphp  echo $fecha; ?></FONT></b></b></TD>
+      DE BOMBAS</B></FONT><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">FECHA :&nbsp;&nbsp;&nbsp;<?php  echo $fecha; ?></FONT></b></b></TD>
   <TD align=right width=9><IMG height=16 src="archivos/hbw_bar_r.gif" width=9 border=0></TD>
  </TR>
 </TABLE>
@@ -122,7 +130,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 	   $Respuesta = mysqli_query($link, $Consulta);
 	   while ($Row = mysqli_fetch_array($Respuesta))
 		   {
-		     $cod_bomba=$Row[cod_bomba];
+		     $cod_bomba=$Row["cod_bomba"];
 			 if ($bomba==$cod_bomba)
 			    {
 			   echo "<option value='".$cod_bomba."' selected>".$Row['bomba']."</option>\n";
@@ -152,7 +160,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
      </font></b></TD>
      <TD>&nbsp;</TD>
      <TD><b><font face="Arial, Helvetica, sans-serif"> 
-     <select name=minuto size=1 >
+     <select name="minuto" size=1 >
              <?php
 		 	   for($i=0; $i<=59; $i++)
 			     {
@@ -212,7 +220,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                       </tbody>
                     </table>
                     <p><b><font face="Arial, Helvetica, sans-serif">
-                      <input name="button" type="button"  onClick="JavaScript:Validar();"   value="Guardar"  >
+                      <input name="button" type="button"  onclick="Validar();"   value="Guardar"  >
                       </font></b></p>
                     </td>
       <td rowspan="2" align="center"><textarea name="observacion" cols="30" rows="10" ></textarea></td>
@@ -261,8 +269,8 @@ function salir() // RECARGA PAGINA DE FROMULARIO
             <TD> <FONT class=small><B>Sistema Jefe Turno de Refineria</B><BR><font color="#0000FF">Formulario de Ingreso</font></FONT></TD>
             <TD align=right> <TABLE cellSpacing=0 cellPadding=0 border=0>
             <TR> 
-              <TD width=20><A href="JavaScript:salir();"><IMG height=20 hspace=3 src="archivos/btn_sec.gif" width=20 border=0></A></TD>
-              <TD id=st vAlign=center><A href="JavaScript:salir();"><B><FONT color=#000000>Volver</FONT></B></A></TD>
+              <TD width=20><a href="JavaScript:salir();"><IMG height=20 hspace=3 src="archivos/btn_sec.gif" width=20 border=0></A></TD>
+              <TD id=st vAlign=center><a href="JavaScript:salir();"><B><FONT color=#000000>Volver</FONT></B></A></TD>
             </TR>
       </TABLE></TD>
       </TR>

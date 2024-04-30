@@ -5,6 +5,7 @@
 
 	$CookieRut = $_COOKIE["CookieRut"];
 	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
 	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 

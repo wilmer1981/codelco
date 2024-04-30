@@ -132,7 +132,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		while($fila=mysql_fetch_array($resultadosdos))
 		{
 			echo "<tr>";
-			echo "<td align='center'>".$fila[FECHA]."</td>";
+			echo "<td align='center'>".$fila["FECHA"]."</td>";
 			echo "<td align='center'>".$fila[N_FLUJO]."</td>";
 			echo "<td align='center'>".$fila[NOM_PRODUCTO]."</td>";			
 			echo "<td align='center'>".$formato=number_format($fila[P_SECO],'0',',','.')."</td>";						

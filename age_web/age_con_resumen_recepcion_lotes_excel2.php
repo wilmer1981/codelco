@@ -527,7 +527,7 @@ function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetal
 			$IncRetalla=($FilaLeyes[valor] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
 	}	
 }
-mysql_close($link);
+mysqli_close($link);
 ?>  
 
 </form>

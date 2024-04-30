@@ -166,7 +166,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		while($fila=mysql_fetch_array($resultados))
 		{
 			echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFCC'>";
-			echo "<td>".$fila[FECHA]."</td>";
+			echo "<td>".$fila["FECHA"]."</td>";
 			echo "<td>".$fila[N_FLUJO]."</td>";
 			echo "<td>".$fila[NOM_PRODUCTO]."</td>";			
 			echo "<td>".$formato=number_format($fila[P_SECO],0,',','.')."</td>";

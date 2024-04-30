@@ -1,4 +1,9 @@
-﻿<?php include("../principal/conectar_ref_web.php"); ?>
+﻿<?php 
+include("../principal/conectar_ref_web.php"); 
+$recargapag1   = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
+
+
+?>
 <HTML>
 <HEAD>
       <TITLE>===========Sistema Refineria===========Ingreso de Catodos Iniciales===========</TITLE>
@@ -193,10 +198,10 @@ function Modificar()
 					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($txt_turno==$Fila[turno])
-							echo "<option value='".$Fila[turno]."' selected>'".$Fila[turno]."'</option>";
+						if ($txt_turno==$Fila["turno"])
+							echo "<option value='".$Fila["turno"]."' selected>'".$Fila["turno"]."'</option>";
 						else
-							echo "<option value='".$Fila[turno]."'>'".$Fila[turno]."'</option>";
+							echo "<option value='".$Fila["turno"]."'>'".$Fila["turno"]."'</option>";
 		     		}
 				?>
           </select>

@@ -2,6 +2,14 @@
 
 <?php 
   include("../principal/conectar_ref_web.php");
+
+  $opcion       = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+  $turno        = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+  $cod_novedad  = isset($_REQUEST["cod_novedad"])?$_REQUEST["cod_novedad"]:"";
+  $fecha        = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+  $observaciones= isset($_REQUEST["observaciones"])?$_REQUEST["observaciones"]:"";
+  $cmbturno     = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
+
   
   if ($opcion=='M')
       {
@@ -11,15 +19,15 @@
 	  
 	   $respuesta_codigo = mysqli_query($link, $consulta_codigo);
 	   $fila_codigo=mysqli_fetch_array($respuesta_codigo);
-	   $cod_novedad=$fila_codigo[COD_NOVEDAD];
-	   $observaciones=$fila_codigo[NOVEDAD];
-	   $Area=$fila_codigo[area];
+	   $cod_novedad=$fila_codigo["COD_NOVEDAD"];
+	   $observaciones=$fila_codigo["NOVEDAD"];
+	   $Area=$fila_codigo["area"];
 	   $Estado=$fila_codigo["estado"];
-	   if (isset($fila_codigo[compromiso]))
+	   if (isset($fila_codigo["compromiso"]))
 	      {
-		   $ano1=substr($fila_codigo[compromiso],0,4);
-		   $mes1=substr($fila_codigo[compromiso],5,2);
-		   $dia1=substr($fila_codigo[compromiso],8,2);
+		   $ano1=substr($fila_codigo["compromiso"],0,4);
+		   $mes1=substr($fila_codigo["compromiso"],5,2);
+		   $dia1=substr($fila_codigo["compromiso"],8,2);
 		  }
 		else {
 		       $ano1=intval(date("Y"));
@@ -37,7 +45,6 @@
 <LINK href="estilos/css_ref_web.css" rel=stylesheet type=text/css>
 <LINK  href="archivos/petalos.css" rel=stylesheet type=text/css>
 <script language="JavaScript">
-<!--
 function Guardar(f,cod_novedad)
 {
 var frm = document.FrmPrincipal;
@@ -92,12 +99,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 <body>
 <form name="FrmPrincipal" method="post" action="">
 <input type="hidden" name="fecha" value="<?php echo''.$fecha.''; ?>">
-
-
-	   <input type="hidden" name="opcion" value="<?php echo''.$opcion.''; ?>">
-	
-
-
+<input type="hidden" name="opcion" value="<?php echo''.$opcion.''; ?>">
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
   <TR> 
    <TD width=9><IMG height=16 src="archivos/hbw_bar_l.gif" width=9 border=0></TD>
@@ -122,7 +124,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                     <?php
 					    
 		
-	            if (!isset($cmbturno))
+	            if ($cmbturno=="")
 				{ 
 					$Consulta = "select case when CURTIME() between '00:00:00' and '07:59:59' then 'C' else ";
 					$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
@@ -148,10 +150,10 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 				$respuesta = mysqli_query($link, $consulta);
 				while ($fila1=mysqli_fetch_array($respuesta))
 				{
-					if ($cmbturno==$fila1[turno])
-						echo "<option value='".$fila1[turno]."' selected>".$fila1[turno]."</option>";
+					if ($cmbturno==$fila1["turno"])
+						echo "<option value='".$fila1["turno"]."' selected>".$fila1["turno"]."</option>";
 					else
-						echo "<option value='".$fila1[turno]."'>".$fila1[turno]."</option>";
+						echo "<option value='".$fila1["turno"]."'>".$fila1["turno"]."</option>";
 		    	}
 				echo '</select></td>';
 			 ?>
@@ -164,10 +166,11 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                     a:</FONT></b></b></TD>
 					
 				  <?php 
-				  //	echo "codmantencion".$fila_codigo[mantencion];
-				if ($fila_codigo[mantencion]<>'')
+				  //	echo "codmantencion".$fila_codigo["mantencion"];
+				  $mantencion=isset($fila_codigo["mantencion"])?$fila_codigo["mantencion"]:"";
+				if ($mantencion<>'')
 				{ ?>
-					<td width="348" height="12"><input name="checkbox1" type="checkbox" id="checkbox1" value="<?php echo $fila_codigo[mantencion]; ?>" checked>					  <?php }
+					<td width="348" height="12"><input name="checkbox1" type="checkbox" id="checkbox1" value="<?php echo $fila_codigo["mantencion"]; ?>" checked>					  <?php }
 				else { ?>
 					<td width="348" height="12"><input name="checkbox1" type="checkbox" id="checkbox2" value="Mantencion" >				
 				      
@@ -175,9 +178,11 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                     Informe Mantencion</td>
                 </TR>
                 <TR>
-				  <?php if ($fila_codigo[gerencia]<>'')
+				  <?php 
+				  $gerencia=isset($fila_codigo["gerencia"])?$fila_codigo["gerencia"]:"";
+				  if ($gerencia<>'')
 				        { ?>
-                  <td height="13"><input name="checkbox3" type="checkbox" id="checkbox3" value="<?php echo $fila_codigo[gerencia]; ?>" checked>                    <?php }
+                  <td height="13"><input name="checkbox3" type="checkbox" id="checkbox3" value="<?php echo $fila_codigo["gerencia"]; ?>" checked>                    <?php }
 					 else { ?>
 					
 					  	 <td height="13"><input name="checkbox3" type="checkbox" id="checkbox4" value="Gerencia">
@@ -209,8 +214,8 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                                               <textarea name="observacion" cols="80" rows="10" ><?php echo $observaciones; ?></textarea>
                                             </p>
                                             <p align="center">&nbsp;</p></TD>
-                       					<?php 	
-			if ($fila_codigo[mantencion]<>'') 
+            <?php 	
+			if ($mantencion<>'') 
 			{
 				?>
 					<TD width="34%"><p><IMG height=1 src="archivos/spaceit.gif" width=10 border=0></p><p><strong>Fecha Ejecuci�n</strong></p>
@@ -456,10 +461,12 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 			?> 
                    	</p>
                    	<p>
-					<?php if ($fila_codigo[Condicion_insegura]<>'')
+					<?php 
+					 $Condicion_insegura=isset($fila_codigo["Condicion_insegura"])?$fila_codigo["Condicion_insegura"]:"";
+					if ($Condicion_insegura<>'')
 				        { 
 					?>
-						<input name="checkbox5" type="checkbox" id="checkbox5" value="<?php echo $fila_codigo[Condicion_insegura]; ?>" checked>
+						<input name="checkbox5" type="checkbox" id="checkbox5" value="<?php echo $fila_codigo["Condicion_insegura"]; ?>" checked>
 					<?php
 					}
 					 else

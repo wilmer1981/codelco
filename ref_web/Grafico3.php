@@ -1,10 +1,15 @@
-<?phpphp
+<?php
 	
-
 	include("../principal/conectar_ref_web.php");
+	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
+	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+
 	$dia_aux=intval($dia);
 	$dif_dia=($dia_aux-15);
 	$dif_dia_rest=abs($dif_dia);
+
 	if ($dif_dia<0)
 		{$mes_aux=intval($mes);
 		 $dif_mes=($mes_aux-1);
@@ -16,16 +21,14 @@
      $fecha2=$ano."-".$dif_mes."-".$dif_dia;
 	 $cont=0;
 	 $i=0;
-	 while ($cont<=15)
-      {
+
+	while ($cont<=15)
+    {
 	   $arreglo_fecha[$i]=$fecha2;
        $Consulta ="select fecha,ifnull(sum(rechazo_delgadas),0) as delgadas,ifnull(sum(rechazo_granuladas),0) as granuladas,ifnull(sum(rechazo_gruesas),0) as gruesas ";
 	   $Consulta =$Consulta." from ref_web.produccion as t1 " ;
 	   $Consulta = $Consulta."where t1.fecha = '".$fecha2."' group by t1.fecha asc";
 	   //echo $Consulta."<br>";
-       
-	    
-	  
 	  
 	   if (intval($dif_dia==31))
 	   		{$dif_dia='1';
@@ -47,7 +50,7 @@
 			 $i=$i+1;
 	         $cont=$cont+1;
 			
-		}
+	}
 
 include("phpchartdir.php");		
 		#The data for the bar chart

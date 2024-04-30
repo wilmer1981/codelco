@@ -407,13 +407,13 @@ function detalle_anodos(fecha,grupo)
 			{
 				if ($j ==0)
 				{
-					$dia11 = $Filap[dia_renovacion];
+					$dia11 = $Filap["dia_renovacion"];
 				
 					$j=$j+1;
 				}
 				elseif($j==1)
 				{
-					$dia2=$Filap[dia_renovacion];
+					$dia2=$Filap["dia_renovacion"];
 					$j=$j+1;
 				}
 				if ($j>1)
@@ -1085,10 +1085,10 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 					if ($Fila_electrolitos["valor"] < 0)
 					{
 						$total=number_format($Fila_electrolitos["valor"],"2","","");
-						if ($Fila_electrolitos[signo] !='=')
+						if ($Fila_electrolitos["signo"] !='=')
                         {
-							echo "<td align='center'>".$Fila_electrolitos[signo]."$total&nbsp</td>\n";
-							$poly =($Fila_electrolitos[signo].$total);
+							echo "<td align='center'>".$Fila_electrolitos["signo"]."$total&nbsp</td>\n";
+							$poly =($Fila_electrolitos["signo"].$total);
 
 						
 						}
@@ -1099,7 +1099,7 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 					    
 							
 							echo "<td align='center'>$total&nbsp</td>\n";
-							$poly =($Fila_electrolitos[signo].$total);
+							$poly =($Fila_electrolitos["signo"].$total);
 
 						} 
 					}
@@ -1111,8 +1111,8 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 						
 					  
 						
-						echo "<td align='center'>&nbsp;".$Fila_electrolitos[signo]."$total</td>";
-						$poly =($Fila_electrolitos[signo].$total);
+						echo "<td align='center'>&nbsp;".$Fila_electrolitos["signo"]."$total</td>";
+						$poly =($Fila_electrolitos["signo"].$total);
 						
 
 					}

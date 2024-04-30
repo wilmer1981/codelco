@@ -4,7 +4,7 @@
 	
 	include("../principal/conectar_ref_web.php");
 
-	$fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 	$dia1      = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
 	$mes1      = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
 	$ano1      = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");

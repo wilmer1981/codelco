@@ -71,7 +71,7 @@ include("conectar_principal.php");
 			$Insertar.=" cod_leyes, valor, peso_humedo, peso_seco, cod_unidad, candado, signo, rut_proceso) ";
 			$Insertar.=" VALUES ";
 			$Insertar.="  ('".$Fila[rut_funcionario]."', '".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."', '".$Fila["recargo"]."', ";
-			$Insertar.="  '".$Fila["cod_leyes"]."', '".str_replace($Fila["valor"],",",".")."', 0, 0, '".$Fila["cod_unidad"]."', '".$Fila[candado]."', '".$Fila[signo]."', '".$Fila[rut_proceso]."') ";
+			$Insertar.="  '".$Fila["cod_leyes"]."', '".str_replace($Fila["valor"],",",".")."', 0, 0, '".$Fila["cod_unidad"]."', '".$Fila[candado]."', '".$Fila["signo"]."', '".$Fila[rut_proceso]."') ";
 			mysqli_query($link, $Insertar);
 			echo $Insertar."<br>";
 		}

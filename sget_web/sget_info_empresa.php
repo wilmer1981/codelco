@@ -295,7 +295,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	<tr>
     <td ><a href="sget_info_ctto.php?Ctto=<? echo $Filad["cod_contrato"];?>" target="_blank"><img src="archivos/info2.png"  alt="Informaci�n Contrato" border="0" width='23' height='23' align="absmiddle" /></a><? echo $Filad["cod_contrato"];?>&nbsp;</td>
    	<td ><? echo FormatearNombre($Filad["descripcion"]);?>&nbsp;</td>  
-	<td ><? echo $Filad[fecha_inicio];?>&nbsp;</td> 
+	<td ><? echo $Filad["fecha_inicio"];?>&nbsp;</td> 
 	<td ><? echo $Filad[fecha_termino];?>&nbsp;</td>
 	<td ><? echo $Filad["nombre_subclase"];?>&nbsp;</td>   
 	</tr>
@@ -314,7 +314,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	<tr>
     <td ><a href="sget_info_ctto.php?Ctto=<? echo $Filad["cod_contrato"];?>" target="_blank"><img src="archivos/info2.png"  alt="Informaci�n Contrato" border="0" width='23' height='23' align="absmiddle" /></a><? echo $Filad["cod_contrato"];?>&nbsp;</td>
    	<td ><? echo FormatearNombre($Filad["descripcion"]);?>&nbsp;</td>  
-	<td ><? echo $Filad[fecha_inicio];?>&nbsp;</td> 
+	<td ><? echo $Filad["fecha_inicio"];?>&nbsp;</td> 
 	<td ><? echo $Filad[fecha_termino];?>&nbsp;</td>
 	<td ><? echo $Filad["nombre_subclase"];?>&nbsp;</td>   
 	</tr>

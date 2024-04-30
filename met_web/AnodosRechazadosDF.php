@@ -306,12 +306,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				while($FilaFecha=mysql_fetch_array($RespFecha))
 				{
 					$TotMesPSeco=0;$TotMesFCobre=0;$TotMesFPlata=0;$TotMesFOro=0;
-					$consultas= "SELECT * FROM enabal WHERE ((T_MOV='2') AND (N_FLUJO='404' OR N_FLUJO='402' OR N_FLUJO='145') AND FECHA ='$FilaFecha[FECHA]')";
+					$consultas= "SELECT * FROM enabal WHERE ((T_MOV='2') AND (N_FLUJO='404' OR N_FLUJO='402' OR N_FLUJO='145') AND FECHA ='$FilaFecha["FECHA"]')";
 					$resultados = mysql_query($consultas);
 					while($codigo=mysql_fetch_array($resultados))
 					{
 							echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFEA' align='center'>" ;
-							echo "<td>".$codigo[FECHA]."</td>";
+							echo "<td>".$codigo["FECHA"]."</td>";
 							echo "<td>".$codigo[N_FLUJO]."</td>";
 							echo "<td>".$codigo[NOM_PRODUCTO]."</td>";
 							echo "<td>".$formato=number_format($codigo[P_SECO],'0',',','.')."</td>";

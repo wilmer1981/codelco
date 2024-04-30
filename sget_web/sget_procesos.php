@@ -30,7 +30,7 @@
 	{
 		$Insertar="Insert Into sget_contratos(cod_contrato,descripcion,cod_gerencia,cod_area,monto_ctto,rut_empresa,fecha_inicio,fecha_termino";
 		$Insertar.=",cod_tipo_contrato,rut_adm_contrato,rut_adm_contratista,fecha_venc_bol_garantia,rut_prev,tipo_cambio,tipo_ctto,aviso_vencimiento,poliza,bono,reajuste,seguro,eco4,sobreTiempo,gratificacion,indemnizacion,estado)";
-		$Insertar.="values('".$Fila["cod_contrato"]."','".strtoupper($Fila[descrip_contrato])."','0','0','0','".$Fila[rut_empresa]."','".$Fila[fecha_inicio]."','".$Fila[fecha_termino]."'";
+		$Insertar.="values('".$Fila["cod_contrato"]."','".strtoupper($Fila[descrip_contrato])."','0','0','0','".$Fila[rut_empresa]."','".$Fila["fecha_inicio"]."','".$Fila[fecha_termino]."'";
 		$Insertar.=",'','','','0000-00-00','','','1','0','','','','','','','','','1')";
 		//echo $Insertar."<br>";
 		mysql_query($Insertar) or die ($Insertar);
@@ -44,10 +44,10 @@
 	$Resp=mysqli_query($link, $Consulta);$Cont=0;
 	while($Fila=mysql_fetch_array($Resp))
 	{
-		if($Fila[fecha_inicio]=="")
+		if($Fila["fecha_inicio"]=="")
 			$FecIniCtto="0000-00-00";
 		else
-			$FecIniCtto=$Fila[fecha_inicio];
+			$FecIniCtto=$Fila["fecha_inicio"];
 		if($Fila[fecha_final_ctto]=="")
 			$FecTerCtto="0000-00-00";
 		else

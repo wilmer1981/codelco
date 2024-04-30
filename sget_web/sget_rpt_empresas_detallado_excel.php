@@ -123,7 +123,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 					$Area=DescripcionArea($FilaCtto["cod_area"]);
 					echo $Area; ?>
 			&nbsp;</td>
-		  <td><? echo $FilaCtto[fecha_inicio]; ?>&nbsp;</td>
+		  <td><? echo $FilaCtto["fecha_inicio"]; ?>&nbsp;</td>
 		  <td ><? echo $FilaCtto[fecha_termino]; ?>&nbsp;</td>
 		  <td align="center"><? echo $ReunArranque; ?>&nbsp;</td>
 		  <td ><? echo $ADMCTTO ?>&nbsp;</td>

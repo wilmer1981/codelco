@@ -30,7 +30,7 @@
 		$ArrCargos[$Fila["rut"]][0] = $Fila["cod_cargo"];
 		$ArrCargos[$Fila["rut"]][1] = $Fila["cargo"];
 	}
-	//mysql_close($link);
+	//mysqli_close($link);
 	
 	
 ?>

@@ -551,7 +551,7 @@ if($mensajeInterno["Desc1"]!= '')
 								$Respuesta = mysqli_query($link, $Consulta);
 								$Row = mysqli_fetch_array($Respuesta);
 								$Host = $Row[HOSTNAME];
-								mysql_close($link);
+								mysqli_close($link);
 								//----------------------------------------------------
 								
 								//-----------------GRABA EL ACCESO--------------------

@@ -1,5 +1,16 @@
 <?php
 	include("../principal/conectar_ref_web.php");
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Dia    = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+	$Mes    = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$Ano    = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+	$fechas_comercial= isset($_REQUEST["fechas_comercial"])?$_REQUEST["fechas_comercial"]:"";
+	$fechas_s_ren    = isset($_REQUEST["fechas_s_ren"])?$_REQUEST["fechas_s_ren"]:"";
+	$cubas    = isset($_REQUEST["cubas"])?$_REQUEST["cubas"]:"";
+	$grupos   = isset($_REQUEST["grupos"])?$_REQUEST["grupos"]:"";
+	
+
+
 	switch ($Proceso)
 	{
 		case "C":
@@ -7,7 +18,7 @@
 				mysqli_query($link, $borrar);
 				$arreglo = explode("~~",$fechas_comercial); //Separa los parametros en un array.
 				reset($arreglo);					
-				while (list($clave, $valor) = each($arreglo))
+				foreach($arreglo as $clave => $valor)
 				{		
 					$detalle = explode("//",$valor); //check - turno - circuito - volumen. 
 					$Fechacomercial=$detalle[2].'-'.$detalle[1].'-'.$detalle[0];
@@ -36,8 +47,8 @@
 									$Insertar = "INSERT INTO ref_web.renovacion_HM_temp ";
 									$Insertar.= " (fecha,cod_grupo,cubas_renovacion, ";
 									$Insertar.= " anodos_a_renovar,inicio_renovacion) ";
-									$Insertar.= " VALUES ('".$Fila["fecha"]."','".$Fila["cod_grupo"]."','".$Fila[cubas_renovacion]."', ";
-									$Insertar.= " '".$Fila[anodos_a_renovar]."', '".$Fila[inicio_renovacion]."')";
+									$Insertar.= " VALUES ('".$Fila["fecha"]."','".$Fila["cod_grupo"]."','".$Fila["cubas_renovacion"]."', ";
+									$Insertar.= " '".$Fila["anodos_a_renovar"]."', '".$Fila["inicio_renovacion"]."')";
 									mysqli_query($link, $Insertar);	   
 									$borrar="delete from ref_web.renovacion_hm where fecha='".$Fechacomercial."' ";
 									mysqli_query($link, $borrar);
@@ -52,7 +63,7 @@
 					} 
 					$arreglo = explode("~~",$fechas_s_ren); //Separa los parametros en un array.
 					reset($arreglo);					
-					while (list($clave, $valor) = each($arreglo))
+					foreach($arreglo as $clave => $valor)
 						{		
 							$detalle = explode("//",$valor); //check - turno - circuito - volumen. 
 							$Fechasn=$detalle[2].'-'.$detalle[1].'-'.$detalle[0];
@@ -80,8 +91,8 @@
 											$Insertar = "INSERT INTO ref_web.renovacion_HM_temp ";
 											$Insertar.= " (fecha,cod_grupo,cubas_renovacion, ";
 											$Insertar.= " anodos_a_renovar,inicio_renovacion) ";
-											$Insertar.= " VALUES ('".$Fila["fecha"]."','".$Fila["cod_grupo"]."','".$Fila[cubas_renovacion]."', ";
-											$Insertar.= " '".$Fila[anodos_a_renovar]."', '".$Fila[inicio_renovacion]."')";
+											$Insertar.= " VALUES ('".$Fila["fecha"]."','".$Fila["cod_grupo"]."','".$Fila["cubas_renovacion"]."', ";
+											$Insertar.= " '".$Fila["anodos_a_renovar"]."', '".$Fila["inicio_renovacion"]."')";
 											mysqli_query($link, $Insertar);
 											$borrar="delete from ref_web.renovacion_hm where fecha='".$Fechasn."' ";
 											mysqli_query($link, $borrar);

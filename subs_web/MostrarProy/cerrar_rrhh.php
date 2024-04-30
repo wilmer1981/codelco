@@ -1,4 +1,4 @@
 <?
      //CERRAR BASE DE DATOS
-     mysql_close($link_rrhh);
+     mysqli_close($link_rrhh);
 ?>

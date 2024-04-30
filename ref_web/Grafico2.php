@@ -1,5 +1,11 @@
 <?php
     include("../principal/conectar_ref_web.php");
+
+	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
+	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+	
 	$dia_aux=intval($dia);
 	$dif_dia=($dia_aux-15);
 	$dif_dia_rest=abs($dif_dia);

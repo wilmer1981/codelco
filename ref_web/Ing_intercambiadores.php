@@ -1,4 +1,13 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
+<?php 
+include("../principal/conectar_ref_web.php"); 
+
+$intercambiador  = isset($_REQUEST["intercambiador"])?$_REQUEST["intercambiador"]:"";
+$fecha           = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$hora     = isset($_REQUEST["hora"])?$_REQUEST["hora"]:"";
+$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:"";
+$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+
+?>
 
 
 <HTML>
@@ -9,7 +18,6 @@
 <LINK  href="../archivos/petalos.css" rel=stylesheet type=text/css>
 
 <script language="JavaScript">
-<!--
 function Validar()
 {
 	var frm = document.FrmPrincipal;
@@ -27,9 +35,9 @@ function Validar()
 	         alert('Debe seleccionar situacion del intercambiador');
 	        }
          else {  
-			   if (confirm("Esta Seguro de la Operación"))
+			   if (confirm("Esta Seguro de la Operaciï¿½n"))
 			     {
-				  frm.action = "ing_intercambiadores01.php?Proceso=G&amp";
+				  frm.action = "ing_intercambiadores01.php?Proceso=G";
 			      frm.submit();
 			     }
 	          }				
@@ -47,8 +55,6 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 	frm.submit();
 }
 
-
-//-->
 </script>
 
 <BODY>
@@ -90,16 +96,16 @@ function salir() // RECARGA PAGINA DE FROMULARIO
         		<?php
 					$Consulta = "SELECT * FROM ref_web.intercambiadores ORDER BY INTERCAMBIADOR";
 					$Respuesta = mysqli_query($link, $Consulta);
-					while ($Row = mysqli_fetch_array($Respuesta))
+					  while ($Row = mysqli_fetch_array($Respuesta))
 						{
-						  $cod_intercambiador=$Row[cod_intercambiador];
-			              if ($intercambiador==$cod_intercambiador)
-			               {
-			                echo "<option value='".$cod_intercambiador."' selected>".$Row['intercambiador']."</option>\n";
-                           }
-                          else {
-			                    echo "<option value='".$Row['cod_intercambiador']."'>".$Row['intercambiador']."</option>\n";
-				               }
+						  $cod_intercambiador=$Row["cod_intercambiador"];
+              if ($intercambiador==$cod_intercambiador)
+              {
+                echo "<option value='".$cod_intercambiador."' selected>".$Row['intercambiador']."</option>\n";
+              }
+              else {
+                    echo "<option value='".$Row['cod_intercambiador']."'>".$Row['intercambiador']."</option>\n";
+              }
 						}
         		?>
         	</select>
@@ -143,7 +149,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
         </TABLE></TD>
 		</TR>
         <TR> 
-          <TD align=middle> <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+          <TD align="middle"> <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
           <TR> 
             <TD width=274> <table cellspacing=0 cellpadding=0 width="100%" border=0>
             <tr> 
@@ -156,7 +162,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
                <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator3.gif"  width=12 border=0>
                <input type="radio" value="En Observacion" name="situ">
-               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Observación</font></font></td>
+               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Observaciï¿½n</font></font></td>
             </tr>
             <tr> 
               <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
@@ -168,7 +174,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
                <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator4.gif" width=12 border=0>
                <input type="radio" value="En Mantencion" name="situ">
-               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Mantención</font></font></td>
+               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenciï¿½n</font></font></td>
              </tr>
              </table></TD>
              <TD width=42>&nbsp;</TD>
@@ -217,7 +223,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                </TR>
                <TR> 
                   <TD><div align="center"><b><font face="Arial, Helvetica, sans-serif"> 
-                  <input type=button  onClick="JavaScript:Validar();"   value="Guardar"  >
+                  <input type=button  onclick="Validar();"   value="Guardar"  >
                   </font></b> </div></TD>
                </TR>
                <TR> 
@@ -246,12 +252,12 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                          <TD align=right> <TABLE cellSpacing=0 cellPadding=0 border=0>
                          <TR> 
                             <TD width=20><A href="javascript:salir();"><IMG height=20 hspace=3 src="archivos/btn_sec.gif" width=20 border=0></A></TD>
-                            <TD id=st vAlign=center><A href="javascript:salir();"><B><FONT color=#000000>Volver</FONT></B></A></TD>
+                            <TD id="st" vAlign=center><A href="javascript:salir();"><B><FONT color=#000000>Volver</FONT></B></A></TD>
                           </TR>
                           </TABLE></TD>
                       </TR>
                       <TR> 
-                        <TD align=middle colSpan=2> <DIV id=tele style="DISPLAY: none; PADDING-TOP: 5px"></DIV></TD>
+                        <TD align="middle" colSpan=2> <DIV id=tele style="DISPLAY: none; PADDING-TOP: 5px"></DIV></TD>
                       </TR>
                     </TABLE></TD>
                     <TD width=8><IMG height=1 src="archivos/spaceit.gif" width=5></TD>
@@ -263,9 +269,9 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                <TR> 
                   <TD> <TABLE width="100%" border=0 cellPadding=0 cellSpacing=0 bgcolor="#FFFFFF">
                   <TR> 
-                    <TD vAlign=bottom width=8><IMG height=8 src="archivos/hbw_line_l.gif" width=8 border=0></TD>
-                    <TD vAlign=bottom width="100%"><IMG height=2 src="archivos/6b8ec6dot.gif" width="100%"></TD>
-                    <TD vAlign=bottom align=right width=8><IMG height=8 src="archivos/hbw_line_r.gif" width=8 border=0></TD>
+                    <TD vAlign="bottom" width=8><IMG height=8 src="archivos/hbw_line_l.gif" width=8 border=0></TD>
+                    <TD vAlign="bottom" width="100%"><IMG height=2 src="archivos/6b8ec6dot.gif" width="100%"></TD>
+                    <TD vAlign="bottom" align="right" width=8><IMG height=8 src="archivos/hbw_line_r.gif" width=8 border=0></TD>
                   </TR>
                   </TABLE></TD>
                </TR>

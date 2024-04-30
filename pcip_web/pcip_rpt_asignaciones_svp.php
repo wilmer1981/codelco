@@ -327,9 +327,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
 											$CantidadAux=($Fila3[VPcantidad])*$Fila2[factor];	
-											if($Fila2[signo]=='')
-												$Fila2[signo]='+';
-											if($Fila2[signo]=='+')
+											if($Fila2["signo"]=='')
+												$Fila2["signo"]='+';
+											if($Fila2["signo"]=='+')
 												$Cantidad=$Cantidad+$CantidadAux;
 											else
 											   	$Cantidad=$Cantidad-$CantidadAux;
@@ -341,9 +341,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 								//echo "CDV:   ".$Consulta."<br>";
 								while($Fila3=mysql_fetch_array($Resp3))
 								{
-									if($Fila2[signo]=='')
-										$Fila2[signo]='+';
-								    if($Fila2[signo]=='+')
+									if($Fila2["signo"]=='')
+										$Fila2["signo"]='+';
+								    if($Fila2["signo"]=='+')
 										$Cantidad=($Cantidad+$Fila3[kilos_finos])*$Fila2[factor];
 									else	
 										$Cantidad=($Cantidad-$Fila3[kilos_finos])*$Fila2[factor];
@@ -373,9 +373,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 								$Resp3=mysqli_query($link, $Consulta);
 								while($Fila3=mysql_fetch_array($Resp3))
 								{
-									if($Fila2[signo]=='')
-										$Fila2[signo]='+';
-								    if($Fila2[signo]=='+')
+									if($Fila2["signo"]=='')
+										$Fila2["signo"]='+';
+								    if($Fila2["signo"]=='+')
 										$Cantidad=($Cantidad+$Fila3[kilos_finos])*$Fila2[factor];
 									else	
 										$Cantidad=($Cantidad-$Fila3[kilos_finos])*$Fila2[factor];
@@ -449,9 +449,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 										$Resp3=mysqli_query($link, $Consulta);$Cantidad=0;
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
-											if($Fila2[signo]=='')
-												$Fila2[signo]='+';
-											if($Fila2[signo]=='+')
+											if($Fila2["signo"]=='')
+												$Fila2["signo"]='+';
+											if($Fila2["signo"]=='+')
 												$Cantidad=$Cantidad+$Fila3[VPcantidad];
 											else	
 												$Cantidad=$Cantidad-$Fila3[VPcantidad];
@@ -463,9 +463,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 										$Resp3=mysqli_query($link, $Consulta);
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
-											if($Fila2[signo]=='')
-												$Fila2[signo]='+';
-											if($Fila2[signo]=='+')
+											if($Fila2["signo"]=='')
+												$Fila2["signo"]='+';
+											if($Fila2["signo"]=='+')
 												$Cantidad=$Cantidad+$Fila3[kilos_finos];
 											else
 												$Cantidad=$Cantidad-$Fila3[kilos_finos];
@@ -496,9 +496,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 										//echo $Consulta."<br>";
 										while($Fila3=mysql_fetch_array($Resp3))
 										{
-											if($Fila2[signo]=='')
-												$Fila2[signo]='+';
-											if($Fila2[signo]=='+')
+											if($Fila2["signo"]=='')
+												$Fila2["signo"]='+';
+											if($Fila2["signo"]=='+')
 												$Cantidad=($Cantidad+$Fila3[kilos_finos])*$Fila2[factor];
 											else	
 												$Cantidad=($Cantidad-$Fila3[kilos_finos])*$Fila2[factor];
@@ -588,7 +588,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 //							$Resp3=mysqli_query($link, $Consulta);
 //							while($Fila3=mysql_fetch_array($Resp3))
 //							{
-//								if($Fila2[signo]=='+')
+//								if($Fila2["signo"]=='+')
 //									$Cantidad=$Cantidad+$Fila3[VPcantidad];
 //								else	
 //									$Cantidad=$Cantidad-$Fila3[VPcantidad];	
@@ -605,7 +605,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 //							$Resp3=mysqli_query($link, $Consulta);
 //							while($Fila3=mysql_fetch_array($Resp3))
 //							{
-//								if($Fila2[signo]=='+')
+//								if($Fila2["signo"]=='+')
 //									$Cantidad=$Cantidad+$Fila3[kilos_finos];
 //								else
 //									$Cantidad=$Cantidad-$Fila3[kilos_finos];
@@ -639,7 +639,7 @@ function NumOrdenesPorNegocio($CodAsig,$CodNeg)
 //							//echo $Consulta."<br>";
 //							while($Fila3=mysql_fetch_array($Resp3))
 //							{
-//								if($Fila2[signo]=='+')
+//								if($Fila2["signo"]=='+')
 //									$Cantidad=($Cantidad+$Fila3[kilos_finos])*$Fila2[factor];
 //								else	
 //									$Cantidad=($Cantidad-$Fila3[kilos_finos])*$Fila2[factor];

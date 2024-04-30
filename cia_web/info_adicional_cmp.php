@@ -253,7 +253,7 @@ function no_incluido(opcion)
 <body onLoad="javascript: frmDatosAdicionales.procesador.focus();">
 <form name="frmDatosAdicionales" method="post" action="ingreso_datos.php?op=2">
 <?php
-//se crean variables con la información del equipo
+//se crean variables con la informaciï¿½n del equipo
 echo '<input type="hidden" name="tipo" value="'.$tipo.'">';
 echo '<input type="hidden" name="cmbMarca" value="'.$cmbMarca.'">';
 echo '<input type="hidden" name="cmbModelo" value="'.$cmbModelo.'">';
@@ -368,7 +368,7 @@ include("../principal/encabezado.php");
 				<td><input type="text" name="mon_modelo" maxlength="30" size="25"></td>
 			</tr>
 			<tr>
-				<td style="border:solid 1px #666666;">N° Serie:</td>
+				<td style="border:solid 1px #666666;">Nï¿½ Serie:</td>
 				<td><input type="text" name="mon_serie" maxlength="20" size="25"></td>
 			</tr>
 			<tr>
@@ -398,7 +398,7 @@ include("../principal/encabezado.php");
 				<td><input type="text" name="kbd_modelo" maxlength="30" size="25"></td>
 			</tr>
 			<tr>
-				<td style="border:solid 1px #666666;">N° Serie:</td>
+				<td style="border:solid 1px #666666;">Nï¿½ Serie:</td>
 				<td><input type="text" name="kbd_serie" maxlength="20" size="25"></td>
 			</tr>
 			<tr>
@@ -428,7 +428,7 @@ include("../principal/encabezado.php");
 				<td><input type="text" name="mou_modelo" maxlength="30" size="25"></td>
 			</tr>
 			<tr>
-				<td style="border:solid 1px #666666;">N° Serie:</td>
+				<td style="border:solid 1px #666666;">Nï¿½ Serie:</td>
 				<td><input type="text" name="mou_serie" maxlength="20" size="25"></td>
 			</tr>
 			<tr>
@@ -475,7 +475,7 @@ include("../principal/encabezado.php");
 <!--------------------------------------- pie de pagina ------------------------------------>
 <?php
 include("../principal/pie_pagina.php");
-mysql_close();
+mysqli_close();
 ?>
 </form>
 </body>

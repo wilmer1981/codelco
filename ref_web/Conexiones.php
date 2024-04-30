@@ -1,9 +1,12 @@
 <?php include("../principal/conectar_ref_web.php"); 
 function FormatoFecha($f)
-	{
-		$fecha = substr($f,8,2)."/".substr($f,5,2)."/".substr($f,0,4)."  ".substr($f,11,2).":".substr($f,14,2);
-		return $fecha;
-	}
+{
+	$fecha = substr($f,8,2)."/".substr($f,5,2)."/".substr($f,0,4)."  ".substr($f,11,2).":".substr($f,14,2);
+	return $fecha;
+}
+
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+
 $fecha=ltrim($fecha);	
 $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
@@ -100,15 +103,15 @@ function Imprimir()
 						  echo '<td width="63" height="25">';
 						  echo '<td width="54" align="center">'.$row["cod_grupo"].'</td>';
 						  echo '<td width="82" align="center">'.$row["nombre_subclase"].'</td>';			
-						  echo '<td width="166" align="center">'.FormatoFecha($row[fecha_desconexion]).'</td>';
-						  echo '<td width="95" align="center">'.$row[kahdird].'</td>';
-						  echo '<td width="165" align="center">'.FormatoFecha($row[fecha_conexion]).'</td>';
-						  echo '<td width="89" align="center">'.$row[kahdirc].'</td>';
+						  echo '<td width="166" align="center">'.FormatoFecha($row["fecha_desconexion"]).'</td>';
+						  echo '<td width="95" align="center">'.$row["kahdird"].'</td>';
+						  echo '<td width="165" align="center">'.FormatoFecha($row["fecha_conexion"]).'</td>';
+						  echo '<td width="89" align="center">'.$row["kahdirc"].'</td>';
 						  echo'<TD width="10%" ><div align="center">';
-						  echo "<a href=\"JavaScript:Eliminar('$fecha','$row["cod_grupo"]','$row[tipo_desconexion]','$row[fecha_desconexion]')\">";
+						  echo "<a href=\"JavaScript:Eliminar('$fecha','".$row["cod_grupo"]."','".$row["tipo_desconexion"]."','".$row["fecha_desconexion"]."')\">";
 						  echo '<img src="archivos/papelera.gif" width="15" height="15"></A></div></TD>';
 						  echo'<TD width="10%" ><div align="center">';
-						  echo "<a href=\"JavaScript:Modificar('$fecha','$row["cod_grupo"]','$row[tipo_desconexion]','$row[fecha_desconexion]')\">";
+						  echo "<a href=\"JavaScript:Modificar('$fecha','".$row["cod_grupo"]."','".$row["tipo_desconexion"]."','".$row["fecha_desconexion"]."')\">";
 						  echo '<img src="archivos/modificar.gif" width="15" height="15"></A></div></TD>';
 						  echo '</tr>';
 					   }

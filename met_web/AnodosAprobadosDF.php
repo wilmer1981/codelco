@@ -334,8 +334,8 @@ function Volver(){
 				$RespFecha = mysql_query($consultas);
 				while($FilaFecha=mysql_fetch_array($RespFecha))
 				{		$apps=0;$apco=0;$appl=0;$apor=0;
-						$consultt= "SELECT  SUM(P_SECO) AS PESOSECO, SUM(F_COBRE) AS FINOCOBRE,SUM(F_PLATA) AS FINOPLATA, SUM(F_ORO) AS FINORO FROM enabal WHERE ((T_MOV='2') AND (N_FLUJO='92' OR N_FLUJO='93' OR N_FLUJO='95' OR N_FLUJO='99' OR N_FLUJO='129' OR N_FLUJO='131') AND (FECHA = '$FilaFecha[FECHA]'))";
-						$consultar= "SELECT  SUM(P_SECO) AS PESOSECO, SUM(F_COBRE) AS FINOCOBRE,SUM(F_PLATA) AS FINOPLATA, SUM(F_ORO) AS FINORO FROM enabal WHERE ((T_MOV='2') AND (N_FLUJO='404' OR N_FLUJO='402' OR N_FLUJO='145') AND (FECHA ='$FilaFecha[FECHA]'))";
+						$consultt= "SELECT  SUM(P_SECO) AS PESOSECO, SUM(F_COBRE) AS FINOCOBRE,SUM(F_PLATA) AS FINOPLATA, SUM(F_ORO) AS FINORO FROM enabal WHERE ((T_MOV='2') AND (N_FLUJO='92' OR N_FLUJO='93' OR N_FLUJO='95' OR N_FLUJO='99' OR N_FLUJO='129' OR N_FLUJO='131') AND (FECHA = '$FilaFecha["FECHA"]'))";
+						$consultar= "SELECT  SUM(P_SECO) AS PESOSECO, SUM(F_COBRE) AS FINOCOBRE,SUM(F_PLATA) AS FINOPLATA, SUM(F_ORO) AS FINORO FROM enabal WHERE ((T_MOV='2') AND (N_FLUJO='404' OR N_FLUJO='402' OR N_FLUJO='145') AND (FECHA ='$FilaFecha["FECHA"]'))";
 						
 						$resultados = mysql_query($consultt);
 						$resultados1= mysql_query($consultar);
@@ -362,7 +362,7 @@ function Volver(){
 						$cuatro=$apor-$aror;
 						
 						echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFEA' align='center'>" ;
-						echo "<td>".$FilaFecha[FECHA]."</td>";
+						echo "<td>".$FilaFecha["FECHA"]."</td>";
 						echo "<td>".$formato=number_format($uno,'0',',','.')."</td>";
 						echo "<td>".$formato=number_format($dos,'0',',','.')."</td>";
 						echo "<td>".$formato=number_format($tres,'0',',','.')."</td>";

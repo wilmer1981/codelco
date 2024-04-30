@@ -14,11 +14,11 @@
 			$hr1 = substr($row["fecha_desconexion"],11,2);
 			$mm1 = substr($row[fecha_desconexion],14,2);
 
-			$ano2 = substr($row[fecha_conexion],0,4);
-			$mes2 = substr($row[fecha_conexion],5,2);
-			$dia2 = substr($row[fecha_conexion],8,2);
-			$hr2 = substr($row[fecha_conexion],11,2);
-			$mm2 = substr($row[fecha_conexion],14,2);			
+			$ano2 = substr($row["fecha_conexion"],0,4);
+			$mes2 = substr($row["fecha_conexion"],5,2);
+			$dia2 = substr($row["fecha_conexion"],8,2);
+			$hr2 = substr($row["fecha_conexion"],11,2);
+			$mm2 = substr($row["fecha_conexion"],14,2);			
 		}
 	}
 	

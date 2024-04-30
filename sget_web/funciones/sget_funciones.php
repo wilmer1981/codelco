@@ -195,7 +195,7 @@
 		$Consulta="SELECT * from sget_contratos where cod_contrato='".$Ctto."' ";
 		$Resp=mysqli_query($link, $Consulta);
 		if($Fila=mysql_fetch_array($Resp))
-			$Descripcion=$Fila["cod_contrato"].'~'.$Fila["descripcion"].'~'.$Fila[fecha_inicio].'~'.$Fila[fecha_termino].'~'.$Fila[cod_gerencia].'~'.$Fila["cod_area"].'~'.$Fila[cod_tipo_contrato].'~'.$Fila[rut_prev];
+			$Descripcion=$Fila["cod_contrato"].'~'.$Fila["descripcion"].'~'.$Fila["fecha_inicio"].'~'.$Fila[fecha_termino].'~'.$Fila[cod_gerencia].'~'.$Fila["cod_area"].'~'.$Fila[cod_tipo_contrato].'~'.$Fila[rut_prev];
 		return($Descripcion);	
 	}
 
@@ -498,7 +498,7 @@
 			//echo $Consulta."<br>";
 			$RespCtto=mysqli_query($link, $Consulta);
 			$FilaCtto=mysql_fetch_array($RespCtto);
-			$PromIpcAcum=EntregaValorIpc($FilaCtto[fecha_inicio]);
+			$PromIpcAcum=EntregaValorIpc($FilaCtto["fecha_inicio"]);
 			//echo $PromIpcAcum."<br>";
 			if($PromIpcAcum!=0)
 			{
@@ -518,7 +518,7 @@
 			$Consulta="SELECT fecha_inicio from sget_contratos where cod_contrato='".$Fila["cod_contrato"]."'";
 			$RespCtto=mysqli_query($link, $Consulta);
 			$FilaCtto=mysql_fetch_array($RespCtto);
-			$PromIpcAcum=EntregaValorIpc($FilaCtto[fecha_inicio]);
+			$PromIpcAcum=EntregaValorIpc($FilaCtto["fecha_inicio"]);
 			if($PromIpcAcum!=0)
 			{
 				$Consulta="SELECT rut,sueldo,cod_contrato,rut_empresa,fec_ini_ctto,fec_fin_ctto from sget_personal where cod_contrato='".$Fila["cod_contrato"]."' and estado='A' ";

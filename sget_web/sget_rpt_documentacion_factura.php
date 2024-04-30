@@ -284,7 +284,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			{
 				?>
 				<tr class="BordeFecha">
-				<td colspan="7" class="LinkPestana"><a  href="sget_info_ctto_ac.php?Ctto=<? echo $FilaMod["cod_contrato"];?>"  target="_blank"><img src="archivos/info2.png"   alt="Detalle Contrato"  border="0" align="absmiddle" /></a>&nbsp;Contrato&nbsp;&nbsp;<? echo $Contrato;?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha Inicio&nbsp;<? echo $FilaMod[fecha_inicio];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha Termino&nbsp;<? echo $FilaMod[fecha_termino] ?>&nbsp;</td>
+				<td colspan="7" class="LinkPestana"><a  href="sget_info_ctto_ac.php?Ctto=<? echo $FilaMod["cod_contrato"];?>"  target="_blank"><img src="archivos/info2.png"   alt="Detalle Contrato"  border="0" align="absmiddle" /></a>&nbsp;Contrato&nbsp;&nbsp;<? echo $Contrato;?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha Inicio&nbsp;<? echo $FilaMod["fecha_inicio"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha Termino&nbsp;<? echo $FilaMod[fecha_termino] ?>&nbsp;</td>
 				</tr>
 			
 			  <tr>

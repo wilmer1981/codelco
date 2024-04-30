@@ -2,6 +2,11 @@
 	include("../principal/conectar_sec_web.php");
 	$programa =" ";
 
+	$opcion             = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$fecha_desconexion  = isset($_REQUEST["fecha_desconexion"])?$_REQUEST["fecha_desconexion"]:"";
+	$grupo              = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+	$fecha              = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+
 	if ($opcion == "M")
 	{
 		$consulta = "SELECT * FROM sec_web.cortes_refineria WHERE cod_grupo = '".$grupo."' AND fecha_desconexion = '".$fecha_desconexion."'";
@@ -9,18 +14,18 @@
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$mostrar = "S";
-			$ano1 = substr($row[fecha_desconexion],0,4);
-			$mes1 = substr($row[fecha_desconexion],5,2);
-			$dia1 = substr($row[fecha_desconexion],8,2);
-			$hr1 = substr($row[fecha_desconexion],11,2);
-			$mm1 = substr($row[fecha_desconexion],14,2);
+			$ano1 = substr($row["fecha_desconexion"],0,4);
+			$mes1 = substr($row["fecha_desconexion"],5,2);
+			$dia1 = substr($row["fecha_desconexion"],8,2);
+			$hr1 = substr($row["fecha_desconexion"],11,2);
+			$mm1 = substr($row["fecha_desconexion"],14,2);
 
-			$ano2 = substr($row[fecha_conexion],0,4);
-			$mes2 = substr($row[fecha_conexion],5,2);
-			$dia2 = substr($row[fecha_conexion],8,2);
-			$hr2 = substr($row[fecha_conexion],11,2);
-			$mm2 = substr($row[fecha_conexion],14,2);	
-			$cmbtipo=$row[tipo_desconexion];
+			$ano2 = substr($row["fecha_conexion"],0,4);
+			$mes2 = substr($row["fecha_conexion"],5,2);
+			$dia2 = substr($row["fecha_conexion"],8,2);
+			$hr2 = substr($row["fecha_conexion"],11,2);
+			$mm2 = substr($row["fecha_conexion"],14,2);	
+			$cmbtipo=$row["tipo_desconexion"];
 					
 		}
 	}
@@ -29,7 +34,7 @@
 	      $f1=date("Y-m-d", mktime(0,0,0,intval(substr($fecha,5,2))+1,1,intval(substr($fecha,0,4)) ));
 		  $dias_mes=date("d", mktime(0,0,0,intval(substr($f1,5,2)),1-1,intval(substr($f1,0,4)) ));
 		
-	     }
+	}
 	$programa="PP";
 
 

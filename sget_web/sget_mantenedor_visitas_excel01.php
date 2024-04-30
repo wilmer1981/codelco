@@ -202,7 +202,7 @@ switch($Opcion)
 					}
 					$TxtFecha=$Filas[fecha_ingreso];
 					$Insertar="INSERT INTO sget_visitas (corr_visita,fecha_ingreso,rut,pasaporte,nombres,apellido_paterno,apellido_materno,empresa,contrato_orden,fecha_das,area,solicitada_por,observacion,rut_registro_solicita,telefono_solicita,motivo,cargo_visita,cargo_solicita,estado,autorizado_por)";
-					$Insertar.="values('".$CorrVI."','".$Filas[fecha_ingreso]."','".$Filas["rut"]."','".$Filas[pasaporte]."','".$Filas["nombres"]."','".$Filas["apellido_paterno"]."','".$Filas["apellido_materno"]."','".$Filas[empresa]."','".$Filas[contrato_orden]."','".$Filas[fecha_das]."','".$Filas[area]."','".$Filas[solicitada_por]."','".$Filas["observacion"]."','".$Filas[rut_registro_solicita]."','".$Filas[telefono_solicita]."','".$Filas[motivo]."','".$Filas[cargo_visita]."','".$Filas[cargo_solicita]."','V','".$CookieRut."')";
+					$Insertar.="values('".$CorrVI."','".$Filas[fecha_ingreso]."','".$Filas["rut"]."','".$Filas[pasaporte]."','".$Filas["nombres"]."','".$Filas["apellido_paterno"]."','".$Filas["apellido_materno"]."','".$Filas[empresa]."','".$Filas[contrato_orden]."','".$Filas[fecha_das]."','".$Filas["area"]."','".$Filas[solicitada_por]."','".$Filas["observacion"]."','".$Filas[rut_registro_solicita]."','".$Filas[telefono_solicita]."','".$Filas[motivo]."','".$Filas[cargo_visita]."','".$Filas[cargo_solicita]."','V','".$CookieRut."')";
 					//echo $Insertar;
 					mysql_query($Insertar);
 				}
@@ -220,7 +220,7 @@ switch($Opcion)
 				}
 				$TxtFecha=$Filas[fecha_ingreso];
 				$Insertar="INSERT INTO sget_visitas (corr_visita,fecha_ingreso,rut,pasaporte,nombres,apellido_paterno,apellido_materno,empresa,contrato_orden,fecha_das,area,solicitada_por,observacion,rut_registro_solicita,telefono_solicita,motivo,cargo_visita,cargo_solicita,estado,autorizado_por)";
-				$Insertar.="values('".$CorrVI."','".$Filas[fecha_ingreso]."','".$Filas["rut"]."','".$Filas[pasaporte]."','".$Filas["nombres"]."','".$Filas["apellido_paterno"]."','".$Filas["apellido_materno"]."','".$Filas[empresa]."','".$Filas[contrato_orden]."','".$Filas[fecha_das]."','".$Filas[area]."','".$Filas[solicitada_por]."','".$Filas["observacion"]."','".$Filas[rut_registro_solicita]."','".$Filas[telefono_solicita]."','".$Filas[motivo]."','".$Filas[cargo_visita]."','".$Filas[cargo_solicita]."','V','".$CookieRut."')";
+				$Insertar.="values('".$CorrVI."','".$Filas[fecha_ingreso]."','".$Filas["rut"]."','".$Filas[pasaporte]."','".$Filas["nombres"]."','".$Filas["apellido_paterno"]."','".$Filas["apellido_materno"]."','".$Filas[empresa]."','".$Filas[contrato_orden]."','".$Filas[fecha_das]."','".$Filas["area"]."','".$Filas[solicitada_por]."','".$Filas["observacion"]."','".$Filas[rut_registro_solicita]."','".$Filas[telefono_solicita]."','".$Filas[motivo]."','".$Filas[cargo_visita]."','".$Filas[cargo_solicita]."','V','".$CookieRut."')";
 				//echo $Insertar;
 				mysql_query($Insertar);
 			}

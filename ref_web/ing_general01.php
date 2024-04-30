@@ -1,6 +1,32 @@
 <?php include("../principal/conectar_ref_web.php");
 	$fecha_hoy = date("Y-m-d");
 
+	$CookieRut  = $_COOKIE["CookieRut"];
+
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$opcion       = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";  
+	$cod_novedad  = isset($_REQUEST["cod_novedad"])?$_REQUEST["cod_novedad"]:"";
+	$mantencion   = isset($_REQUEST["mantencion"])?$_REQUEST["mantencion"]:"";
+	$observacion  = isset($_REQUEST["observacion"])?$_REQUEST["observacion"]:"";
+	$cmbturno     = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
+	$gerencia     = isset($_REQUEST["gerencia"])?$_REQUEST["gerencia"]:"";
+	$Condicion_insegura  = isset($_REQUEST["Condicion_insegura"])?$_REQUEST["Condicion_insegura"]:"";
+	$Area    = isset($_REQUEST["Area"])?$_REQUEST["Area"]:"";
+	$Estado  = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
+
+	$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:""; 
+	$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";  
+	$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:""; 
+
+	$Proceso2     = isset($_REQUEST["Proceso2"])?$_REQUEST["Proceso2"]:"";
+	$Marca        = isset($_REQUEST["Marca"])?$_REQUEST["Marca"]:"";  
+	$ValoresElim  = isset($_REQUEST["ValoresElim"])?$_REQUEST["ValoresElim"]:""; 	
+	$ValoresElim2 = isset($_REQUEST["ValoresElim2"])?$_REQUEST["ValoresElim2"]:"";  
+
+	$Proceso3     = isset($_REQUEST["Proceso3"])?$_REQUEST["Proceso3"]:"";
+	$Marca2        = isset($_REQUEST["Marca2"])?$_REQUEST["Marca2"]:"";  
+
     $consulta="select * from proyecto_modernizacion.funcionarios where rut='".$CookieRut."'  ";
 	$rss = mysqli_query($link, $consulta);
 	$rows = mysqli_fetch_array($rss);
@@ -34,7 +60,7 @@
 					  $consulta1="SELECT LEFT(SYSDATE(),10) as fecha_sistema";
 					  $respuesta_sistema = mysqli_query($link, $consulta1);
 		              $fila_sistema=mysqli_fetch_array($respuesta_sistema); 
-					  $fecha_real=$fila_sistema[fecha_sistema];
+					  $fecha_real=$fila_sistema["fecha_sistema"];
 				}
 				else 
 				{
@@ -69,7 +95,7 @@
 					$fecha_real='0000-00-00';
 					// echo "area".$Area;
 			        $Insertar = "INSERT INTO ref_web.novedades (FECHA,NOVEDAD, TURNO, usuario,mantencion,gerencia,Condicion_insegura,compromiso,area,estado,fecha_real)";
-					$Insertar.= " VALUES ('".$fecha."','".$observacion."', '".$cmbturno."','".$nombre."','".$mantencion."','".$gerencia."','".$Condicion_insegura."','".$fila_sistema[fecha_sistema]."','".$Area."','".$Estado."','".$fecha_real."')";
+					$Insertar.= " VALUES ('".$fecha."','".$observacion."', '".$cmbturno."','".$nombre."','".$mantencion."','".$gerencia."','".$Condicion_insegura."','".$fila_sistema["fecha_sistema"]."','".$Area."','".$Estado."','".$fecha_real."')";
 		    }	  	  
 		      //echo $Insertar;
               mysqli_query($link, $Insertar);
@@ -86,11 +112,12 @@
 		  $consulta_datos.="order by t1.turno ";
 		 // echo "AAA".$consulta_datos;
 		  $respuesta_datos = mysqli_query($link, $consulta_datos);
+		  $obs_turno="";
 		  while ($fila_datos=mysqli_fetch_array($respuesta_datos))
 		      {
-			    $obs_turno=$obs_turno.chr(10).'TURNO '.$fila_datos[TURNO].chr(10).$fila_datos[NOVEDAD].chr(10);
-				$fecha_obs=$fila_datos[FECHA];
-				$usuario=$fila_datos[usuario];
+			    $obs_turno=$obs_turno.chr(10).'TURNO '.$fila_datos["TURNO"].chr(10).$fila_datos["NOVEDAD"].chr(10);
+				$fecha_obs=$fila_datos["FECHA"];
+				$usuario=$fila_datos["usuario"];
 			  }
 		$consulta_gerencia="select * from informe_diario.novedades where ";
 		if ($cmbturno=='C' && $fecha_hoy == $fecha)
@@ -124,7 +151,7 @@
 
 			//echo "IIII---".$Insertar;
 			mysqli_query($link, $Insertar);
-		mysql_close($link);	
+		mysqli_close($link);	
 		include("../principal/conectar_ref_web.php");	
 		header ("location:ing_general.php?fecha=$fecha");
 	}
@@ -148,7 +175,7 @@
 	if ($Proceso2 == "E")//ELIMINA LOS DATOS SELECIONADOS PENDIENTES
 	{
 		$Datos=explode("~~",$ValoresElim);
-		while(list($c,$v)=each($Datos))
+		foreach($Datos as $c => $v)
 		{
 			
 			$Eliminar = "DELETE FROM ref_web.novedades WHERE COD_NOVEDAD = '".$v."'";
@@ -159,7 +186,7 @@
 	 if ($Proceso2 == "GE")//GRABA COMO REALIZADAS DATOS SELECIONADOS PENDIENTES
 	{
 		$Datos=explode("~~",$ValoresElim);
-		while(list($c,$v)=each($Datos))
+		foreach($Datos as $c => $v)
 		{
 			
 			$Actualizar = "Update ref_web.novedades set estado = '3', fecha_real = '".$fecha."'";
@@ -172,7 +199,7 @@
 	if ($Proceso3 == "E")//ELIMINA LOS DATOS SELECIONADOS REALIZADAS
 	{
 		$Datos=explode("~~",$ValoresElim2);
-		while(list($c,$v)=each($Datos))
+		foreach($Datos as $c => $v)
 		{
 			
 			$Eliminar = "DELETE FROM ref_web.novedades WHERE COD_NOVEDAD = '".$v."'";

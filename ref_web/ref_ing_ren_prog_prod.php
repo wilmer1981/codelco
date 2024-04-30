@@ -1,9 +1,16 @@
 <?php 
 	include("../principal/conectar_sec_web.php");
 	$CodigoDeSistema = 10;
+
+	$Dia    = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+	$Mes    = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$Ano    = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+
 	$Dia = str_pad($Dia,2,0,STR_PAD_LEFT);
 	$Mes = str_pad($Mes,2,0,STR_PAD_LEFT);
+
 	$Fecha = $Ano."-".$Mes."-".$Dia;
+
 	$FechaConsulta = $Ano."-".$Mes."-01";
 	$Consulta = "select * from sec_web.renovacion_prog_prod ";
 	$Consulta.= " where fecha_renovacion = '".$FechaConsulta."' ";

@@ -42,7 +42,7 @@ if(!isset($Recarga))
 		$NomOrigen=$Fila[origen];
 		$CmbOrigenDatos=$Fila[origen];
 		$EstOrden='readonly';
-		$CmbSigno=$Fila[signo];
+		$CmbSigno=$Fila["signo"];
 		$TxtFactor=$Fila[factor];
 		$CmbProducto=$Fila[num_orden_relacionada];
 		if(!isset($Recarga2))

@@ -18,5 +18,5 @@
 		echo "</tr>";				
 	}
 	echo "</table>";
-	mysql_close($db_con);
+	mysqli_close($db_con);
 ?>

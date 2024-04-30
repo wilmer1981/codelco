@@ -1033,8 +1033,8 @@ function ObtenerTpoDescXRenov($Grupo,$FechaCons,$Tipo,$link)//TIPO:A FECHA ACTUA
 	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysqli_fetch_array($Resp))
 	{
-		//echo "TIEMPO:".$Fila[hora]."<br>";
-		$HoraMin=explode(':',$Fila[hora]);
+		//echo "TIEMPO:".$Fila["hora"]."<br>";
+		$HoraMin=explode(':',$Fila["hora"]);
 		$Hora=$HoraMin[0];
 		$Min=$HoraMin[1];
 		//$Valor=$Hora.".".round((($Min*100)/60)/10);
@@ -1116,7 +1116,7 @@ function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 		$Resp=mysqli_query($link, $Consulta);$SumHora=0;$SumMin=0;
 		while($Fila=mysqli_fetch_array($Resp))
 		{
-			$HoraMin=explode(':',$Fila[hora]);
+			$HoraMin=explode(':',$Fila["hora"]);
 			$Hora=$HoraMin[0];
 			$Min=$HoraMin[1];
 			$SumHora=$SumHora+$Hora;
@@ -1138,7 +1138,7 @@ function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 			$Resp=mysqli_query($link, $Consulta);$SumHora2=0;$SumMin2=0;
 			while($Fila=mysqli_fetch_array($Resp))
 			{
-				$HoraMin=explode(':',$Fila[hora]);
+				$HoraMin=explode(':',$Fila["hora"]);
 				$Hora=$HoraMin[0];
 				$Min=$HoraMin[1];
 				$SumHora2=$SumHora2+$Hora;

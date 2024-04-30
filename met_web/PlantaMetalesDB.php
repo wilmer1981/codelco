@@ -30,7 +30,7 @@ function Buscar(opt)
 	}
 	if(isNaN(parseInt(f.txtflujo.value)))
 	{
-		alert ("Número de Flujo sólo acepta el ingreso de números");
+		alert ("Nï¿½mero de Flujo sï¿½lo acepta el ingreso de nï¿½meros");
 		return false;
 	}		
 	if(f.txtfecha3.value=='')
@@ -255,7 +255,7 @@ function buscarpro()
 		while($fila=mysql_fetch_array($resultados))
 		{		
 			echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFEA' align='center'>" ;
-			echo "<td>".$fila[FECHA]."</td>";
+			echo "<td>".$fila["FECHA"]."</td>";
 			echo "<td>".$formato=number_format($fila[P_SECO],0,',','.')."</td>";
 			echo "<td>".$formato=number_format($fila[F_COBRE],0,',','.')."</td>";
 			echo "<td>".$formato=number_format($fila[F_PLATA],0,',','.')."</td>";

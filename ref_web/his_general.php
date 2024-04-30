@@ -1,4 +1,16 @@
-﻿<?php include("../principal/conectar_sec_web.php"); ?>
+﻿<?php include("../principal/conectar_sec_web.php"); 
+
+
+$buscar  = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:"";
+$page    = isset($_REQUEST["page"])?$_REQUEST["page"]:1;
+
+$campo   = isset($_REQUEST["campo"])?$_REQUEST["campo"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";  
+$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:""; 
+
+
+?>
 
 
 <html>
@@ -10,7 +22,6 @@
 <LINK  href="archivos/petalos.css" rel=stylesheet type=text/css>
 <LINK href="estilos/HOME-IE6.CSS" type=text/css rel=stylesheet>
 <script language="JavaScript">
-<!--
 function Buscar()
 {
 	var f = document.FrmPrincipal;
@@ -22,9 +33,6 @@ function Imprimir()
 {
 	window.print();
 }
-
-
-//-->
 </script>
 <body>
 <FORM action="" method=post name=FrmPrincipal>
@@ -142,52 +150,56 @@ function Imprimir()
           </TR>
           <TR class=lcol> 
 		  <?php 
-		     if ($buscar=='S')
-			    {
-				 if(!isset($page))
-				    {
+		    if ($buscar=='S')
+			  {
+				  if($page=="")
+				  {
 					 $page =1;
 					}
-				 $encontrados=1;
-                 $cantidad =1;
-                 $contador=0;	
-		         $consulta="select * from ref_web.novedades where novedad like '%".$campo."%' and fecha between '".$fecha."-01' and '".$fecha."-31'";
-				 $resultado=mysqli_query($link, $consulta);
+				  $encontrados=1;
+          $cantidad =1;
+          $contador=0;	
+		      $consulta="select * from ref_web.novedades where novedad like '%".$campo."%' and fecha between '".$fecha."-01' and '".$fecha."-31'";
+				  $resultado=mysqli_query($link, $consulta);
 				  while($row1 = mysqli_fetch_array($resultado))
-				    {
+				  {
 					  $contador=$contador+1;
 					  if($contador >= 10*($page-1))
-					    {
+					  {
 						  if($contador <= 10*$page)
-						    {
+						  {
 						     $cantidad=$cantidad+1;
 						     $indice=$contador;
-						  if ( $j==1)
-					         {$color= "lcol";
-						     $j=0;}
-					      else{$color= "lcolver";
-							   $j=1;} //color fila
+						    if ( $j==1)
+					      {$color= "lcol";
+						     $j=0;
+                }else{
+                  $color= "lcolver";
+							   $j=1;
+                } //color fila
 					      echo '<TR class='.$color.'>';
-					      echo '<TD><div align="center"><strong>'.$row1[FECHA].'</strong></div></TD>';
-                          echo '<TD ><div align="center">'.$row1[TURNO].'</div></TD>';
-                          echo '<TD><div align="left">'.$row1[NOVEDAD].'</div></TD>';
+					      echo '<TD><div align="center"><strong>'.$row1["FECHA"].'</strong></div></TD>';
+                          echo '<TD ><div align="center">'.$row1["TURNO"].'</div></TD>';
+                          echo '<TD><div align="left">'.$row1["NOVEDAD"].'</div></TD>';
                           echo '</TR>';
-						 } 
-					   }
+						  } 
+					  }
 					}
 				} 
 		          
   					$sql="select * from ref_web.novedades where fecha between '".$fecha."-01' and '".$fecha."-31'";
   					$result=mysqli_query($link, $sql);
+            $cuenta=0  ;
   					if($row = mysqli_fetch_array($result))
   					{
-   					  $cuenta=0  ;
+   					 // $cuenta=0  ;
    					  while($row = mysqli_fetch_array($result))
      				  {
     				    $cuenta=$cuenta+1;
    					  }
-                    }
-                    $paginas=ceil(($contador/10)) ;
+            }
+                    //$paginas=ceil(($contador/10)) ;
+                    $paginas=ceil(($cuenta/10)) ;
                     echo '<TR>';
                     echo '<TD align=middle colSpan=3 >';
                     echo '<HR>'; 

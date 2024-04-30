@@ -169,7 +169,7 @@ $language_data = array (
 			'mysql_fetch_row','mysql_fetch_object','mysql_fetch_lengths','mysql_fetch_field','mysql_fetch_assoc','mysql_fetch_array',
 			'mysql_escape_string','mysql_error','mysql_errno','mysql_dropdb','mysql_drop_db','mysql_dbname',
 			'mysql_db_query','mysql_db_name','mysql_data_seek','mysql_createdb','mysql_create_db','mysql_connect',
-			'mysql_close','mysql_client_encoding','mysql_affected_rows','mysql','mt_srand','mt_rand',
+			'mysqli_close','mysql_client_encoding','mysql_affected_rows','mysql','mt_srand','mt_rand',
 			'mt_getrandmax','move_uploaded_file','money_format','mktime','mkdir','min',
 			'microtime','method_exists','metaphone','memory_get_usage','md5_file','md5',
 			'mbsubstr','mbstrrpos','mbstrpos','mbstrlen','mbstrcut','mbsplit',

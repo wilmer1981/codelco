@@ -3,19 +3,35 @@ include("../principal/conectar_ref_web.php");
 include("funciones_administrador.php");
 $CodigoDeSistema = 10;
 $CodigoDePantalla = 23;
-if (!isset($fecha))
+
+$CookieRut   = $_COOKIE["CookieRut"];
+$pagina  = isset($_REQUEST["pagina"])?$_REQUEST["pagina"]:1;
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$DiaIni   = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+$MesIni   = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("n");
+$AnoIni   = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+
+$siguiente  = isset($_REQUEST["siguiente"])?$_REQUEST["siguiente"]:"";
+$anterior   = isset($_REQUEST["anterior"])?$_REQUEST["anterior"]:"";
+$fecha_adelante = isset($_REQUEST["fecha_adelante"])?$_REQUEST["fecha_adelante"]:"";
+$fecha_atras = isset($_REQUEST["fecha_atras"])?$_REQUEST["fecha_atras"]:"";
+
+if ($fecha="")
 {
-	if (!isset($DiaIni))
+	/*
+	if ($DiaIni=="")
 	   {$DiaIni = date("d");}
-	if (!isset($MesIni))
+	if ($MesIni=="")
 	   {$MesIni = date("n");}
-	if (!isset($AnoIni))
+	if ($AnoIni=="")
 	   {$AnoIni = date("Y");}
+	   */
 	if (strlen($DiaIni)==1)
 	   {$DiaIni ="0".$DiaIni;}
 	if (strlen($MesIni)==1)
 	   {$MesIni ="0".$MesIni;}     
 	$fecha=$AnoIni.'-'.$MesIni.'-'.$DiaIni;
+
     if ($siguiente=='S')
       {
        $fecha=aumentar_dias($fecha,1);
@@ -38,9 +54,10 @@ else
   $MesIni=substr($fecha,5,2);
   $DiaIni=substr($fecha,8,2);
 }
-  
+  /*
 if(!isset($pagina)) 
 	   {$pagina=1;}
+	   */
 ?>
 <HTML>
 <HEAD>
@@ -59,13 +76,13 @@ function Recarga(frm,Pagina) // RECARGA PAGINA DE FROMULARIO
 
 function Recarga_fecha_siguiente(frm,Pagina,fecha) // RECARGA PAGINA DE FROMULARIO
 {
-   frm.action=Pagina+"&amp;fecha="+fecha+"&siguiente=S";
+   frm.action=Pagina+"&fecha="+fecha+"&siguiente=S";
    frm.submit();
 }
 function Recarga_fecha_anterior(frm,Pagina,fecha) // RECARGA PAGINA DE FROMULARIO
 {
 	
-   frm.action=Pagina+"&amp;fecha="+fecha+"&anterior=S";
+   frm.action=Pagina+"&fecha="+fecha+"&anterior=S";
    frm.submit();
 }
 
@@ -74,20 +91,20 @@ function Llama_jefe_turno(frm,Pagina,fecha)
 	
 	alert (Pagina);
 	alert (fecha);
-	frm.action=Pagina+"&amp;fecha="+fecha;
+	frm.action=Pagina+"&fecha="+fecha;
 	frm.submit();	
 }
 function Llama_jefe_hm(frm,Pagina,fecha)
 {
 
-	frm.action=Pagina+"&amp;fecha="+fecha;
+	frm.action=Pagina+"&fecha="+fecha;
 	frm.submit();	
 }
 
 function Llama_jefe_pte(frm,Pagina,fecha)
 {
 	
-	frm.action=Pagina+"&amp;fecha="+fecha;;
+	frm.action=Pagina+"&fecha="+fecha;;
 	frm.submit();	
 }
 
@@ -167,23 +184,23 @@ function Salir(f)
           <TABLE border=0  class=hdrtbl  cellPadding=0 cellSpacing=0 width=100%>
               <TR> 
                 <TD width="7"  align=middle class=tabson >  <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInicio; ?>" width=7></TD>
-                <TD width="64" align=middle class=<?php echo $seleccionado1; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=1&amp;  fecha=<?php echo $fecha; ?>"><B >Novedades</B></A></font></TD>
+                <TD width="64" align=middle class=<?php echo $seleccionado1; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=1&fecha=<?php echo $fecha; ?>"><B >Novedades</B></A></font></TD>
                 <TD width="7"  align=middle  class=tabsoff> <font color="#3366FF"><IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt1; ?>" width=7></font></TD>
-                <TD width="46"  align=middle class=<?php echo $seleccionado2; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=2&amp;  fecha=<?php echo $fecha; ?>"><B >Bombas</B></A></font></TD>
+                <TD width="46"  align=middle class=<?php echo $seleccionado2; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=2&fecha=<?php echo $fecha; ?>"><B >Bombas</B></A></font></TD>
                 <TD width="7"  align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt2; ?>" width=7></TD>
-                <TD width="40" align=middle class=<?php echo $seleccionado3; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=3&amp;  fecha=<?php echo $fecha; ?>"><B >I. Calor </B></A></font></TD>
+                <TD width="40" align=middle class=<?php echo $seleccionado3; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=3&fecha=<?php echo $fecha; ?>"><B >I. Calor </B></A></font></TD>
                 <TD width="7"  align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt3; ?>" width=7></TD>
-                <TD width="44"  align=middle  class=<?php echo $seleccionado4; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=4&amp;  fecha=<?php echo $fecha; ?>"><B >Filtros</B></A></font></TD>
+                <TD width="44"  align=middle  class=<?php echo $seleccionado4; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=4&fecha=<?php echo $fecha; ?>"><B >Filtros</B></A></font></TD>
                 <TD width="7"  align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt4; ?>" width=7></TD>
-                <TD width="84"  align=middle  class=<?php echo $seleccionado5; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=5&amp;  fecha=<?php echo $fecha; ?>"><B >Comunicados</B></A></font></TD>
+                <TD width="84"  align=middle  class=<?php echo $seleccionado5; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=5&fecha=<?php echo $fecha; ?>"><B >Comunicados</B></A></font></TD>
                 <TD width="7"  align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt5; ?>" width=7></TD>
-                <TD width="74"  align=middle  class=<?php echo $seleccionado6; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=6&amp;  fecha=<?php echo $fecha; ?>"><B >Conexiones</B></A></font></TD>
+                <TD width="74"  align=middle  class=<?php echo $seleccionado6; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=6&fecha=<?php echo $fecha; ?>"><B >Conexiones</B></A></font></TD>
                 <TD width="7"  align=middle  class=tabsline> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt6; ?>" width=7></TD>
-                <TD width="66"  align=middle  class=<?php echo $seleccionado7; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=7&amp;  fecha=<?php echo $fecha; ?>"><B >Traspasos</B></A></font></TD>
+                <TD width="66"  align=middle  class=<?php echo $seleccionado7; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=7&fecha=<?php echo $fecha; ?>"><B >Traspasos</B></A></font></TD>
                 <TD width="7"  align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt7; ?>" width=7></TD>
-                <TD width="89"  align=middle  class=<?php echo $seleccionado8; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=8&amp;  fecha=<?php echo $fecha; ?>"><B >Temperaturas</B></A></font></TD>
+                <TD width="89"  align=middle  class=<?php echo $seleccionado8; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=8&fecha=<?php echo $fecha; ?>"><B >Temperaturas</B></A></font></TD>
                 <TD width="7"  align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt8; ?>" width=7></TD>
-                <TD width="42"  align=middle  class=<?php echo $seleccionado9; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=9&amp;  fecha=<?php echo $fecha; ?>"><B >Vapor</B></A></font></TD>
+                <TD width="42"  align=middle  class=<?php echo $seleccionado9; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt.php?pagina=9&fecha=<?php echo $fecha; ?>"><B >Vapor</B></A></font></TD>
                 <TD width="135"  align="left"  class=tabsline> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgFinal; ?>" width=5></TD>
               </TR>
           </TABLE>
@@ -195,16 +212,16 @@ function Salir(f)
 				    <SELECT name="DiaIni" onFocus="foco='MesIni';"><?php LLenaComboDia($DiaIni,date("j"));?></SELECT> 
 					<SELECT name="MesIni" onFocus="foco='AnoIni';"><?php LLenaComboMes($MesIni,date("n"));?></SELECT>
         			<SELECT name="AnoIni" onFocus="foco='DiaFin';"><?php LLenaComboAno($AnoIni,date("Y"));?></SELECT>&nbsp;&nbsp; 
-				    <INPUT name=buscar3 onclick=JavaScript:Recarga(document.FrmPrincipal,'Inicio_jt.php?pagina=<?php echo $pagina; ?>') type=button value=Buscar>
+				    <INPUT name="buscar3" onclick="Recarga(document.FrmPrincipal,'Inicio_jt.php?pagina=<?php echo $pagina; ?>');" type="button" value="Buscar">
 				
 				<td width=300 align="left"><strong><b>Ir a </b></strong>
-					<input name=hm onClick=JavaScript:Llama_jefe_hm(document.FrmPrincipal,'inicio_jhm.php?fecha=<?php echo $fecha; ?>') type=button value="Sist.Jefe H.M.">
-					<input name=pte onClick=JavaScript:Llama_jefe_pte(document.FrmPrincipal,'Inicio_pte.php?fecha=<?php echo $fecha; ?>') type=button value="Sist.Jefe Pte.">
+					<input name="hm" onclick="Llama_jefe_hm(document.FrmPrincipal,'inicio_jhm.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe H.M.">
+					<input name="pte" onclick="Llama_jefe_pte(document.FrmPrincipal,'Inicio_pte.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Pte.">
  
 				</td>
 				<TD width=300 align="left"><strong>Consulta :</strong>
-					<INPUT name=buscar23 onclick=JavaScript:Recarga_fecha_anterior(document.FrmPrincipal,'Inicio_jt.php?pagina=<?phpphp echo $pagina; ?>','<?phpphp echo $fecha_atras; ?>') type=button value="<< Anterior">
-                	<INPUT name=buscar222 onclick=JavaScript:Recarga_fecha_siguiente(document.FrmPrincipal,'Inicio_jt.php?pagina=<?phpphp echo $pagina; ?>','<?phpphp echo $fecha_adelante; ?>') type=button value="Siguiente>>" >
+					<INPUT name="buscar23" onclick="Recarga_fecha_anterior(document.FrmPrincipal,'Inicio_jt.php?pagina=<?php echo $pagina; ?>','<?php echo $fecha_atras; ?>');" type="button" value="<< Anterior">
+                	<INPUT name="buscar222" onclick="Recarga_fecha_siguiente(document.FrmPrincipal,'Inicio_jt.php?pagina=<?php echo $pagina; ?>','<?php echo $fecha_adelante; ?>');" type="button" value="Siguiente>>" >
 				</TD>
               </TR>
           </TABLE>
@@ -506,7 +523,7 @@ function Salir(f)
                  </TABLE>       
 		<table width="100%" border="4"  cellspacing="0"  cellpadding="0" class="fondo">
         	<tr > 
-            	<td class=tabstext><div align="center"><A  href="Inicio_jt.php?pagina=<?php echo $cod_pagina; ?>&amp;ingresador=1&amp;fecha=<?php echo $fecha; ?>"><img alt="FORMULARIO INGRESO" border="0" src="archivos/ingresador.gif"  width="82" height="20"></A></div></td>
+            	<td class=tabstext><div align="center"><A  href="Inicio_jt.php?pagina=<?php echo $cod_pagina; ?>&ingresador=1&fecha=<?php echo $fecha; ?>"><img alt="FORMULARIO INGRESO" border="0" src="archivos/ingresador.gif"  width="82" height="20"></A></div></td>
                 <td class=tabstext><div align="center">
 				<!--<A href="Inicio_jt.php?pagina=<?php //echo $cod_pagina; ?>&amp;informe=1&amp;fecha=<?php echo $fecha; ?>"><img alt="INFORME" border=0 src="archivos/informe.gif"  width="82" height="20"></A></div>-->
 				</td>
@@ -518,7 +535,7 @@ function Salir(f)
 						else
 						{ 
 					?>	
-                        	<td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=<?php echo $cod_pagina; ?>&amp;historia=1&amp;fecha=<?php echo $fecha; ?>"><img alt="HISTORIA" border=0 src="archivos/historia.gif"  width="82" height="20"></A></div></td>
+                        	<td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=<?php echo $cod_pagina; ?>&historia=1&fecha=<?php echo $fecha; ?>"><img alt="HISTORIA" border=0 src="archivos/historia.gif"  width="82" height="20"></A></div></td>
 					<?php 	} 
 					?>
                             <td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=10"><img alt="PROGRAMA DESC. TOTAL" border=0 src="archivos/desc_total.gif" width="82" height="20"></A></div></td>
@@ -527,7 +544,7 @@ function Salir(f)
                             <td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=12"><img alt="LEYES" border=0 src="archivos/leyes.gif" width="82" height="20"></A></div></td>
                             <!--<td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=13"><img alt="PRODUCCION CATODOS COMERCIALES" border=0 src="archivos/comerciales.gif" width="82" height="20"></A></div></td>-->
                             <td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=13"><img alt="INFORME DIARIO" border=0 src="archivos/informe.gif" width="82" height="20"></A></div></td>
-							<td class=tabstext><div align="center"><a href="Inicio_jt.php?pagina=<?php echo $cod_pagina; ?>&amp;ayuda=1"><img alt="AYUDA" border=1 src="archivos/ayuda.gif" width="20" height="20"></a>&nbsp;&nbsp;&nbsp;&nbsp; 
+							<td class=tabstext><div align="center"><a href="Inicio_jt.php?pagina=<?php echo $cod_pagina; ?>&ayuda=1"><img alt="AYUDA" border=1 src="archivos/ayuda.gif" width="20" height="20"></a>&nbsp;&nbsp;&nbsp;&nbsp; 
                     </div></td>
 							<td class=tabstext><div align="center">
 							

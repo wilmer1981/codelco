@@ -140,7 +140,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		while($fila=mysql_fetch_array($resultadosdos))
 		{
 			echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFEA' align='center'>" ;
-			echo "<td>".$fila[FECHA]."</td>";		
+			echo "<td>".$fila["FECHA"]."</td>";		
 			echo "<td>".$formato=number_format($fila[P_SECO],'0',',','.')."</td>";
 			echo "<td>".$formato=number_format($fila[F_COBRE],'0',',','.')."</td>";
 			echo "<td>".$formato=number_format($fila[F_PLATA],'0',',','.')."</td>";

@@ -76,7 +76,7 @@
 			$Insertar = "INSERT INTO informe_diario.novedades (Fecha,Rut, Cod_tipo, Nombre,Texto)";
 		    $Insertar.= " VALUES ('".$fecha."','".$CookieRut."','5','".$nombre."','".$obs_turno."')";
 			mysqli_query($link, $Insertar);
-		mysql_close($link);	
+		mysqli_close($link);	
 		include("../principal/conectar_ref_web.php");	
 		header ("location:ing_general.php?fecha=$fecha");
 	}

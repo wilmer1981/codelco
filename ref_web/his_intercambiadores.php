@@ -222,7 +222,7 @@ function Imprimir()
       {
         if($contador <= 10*$page)
         {
-          $situacion= $row[situacion];
+          $situacion= $row["situacion"];
           $cod_equipo=$row[cod_intercambiador];
 		  if($situacion=="En Servicio")
 		    {

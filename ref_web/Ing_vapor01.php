@@ -1,4 +1,7 @@
-<?php include("../principal/conectar_ref_web.php");    
+<?php include("../principal/conectar_ref_web.php");  
+ $Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+ $fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";  
+ $turno     = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
 
 	if ($Proceso == "G")
 	{   

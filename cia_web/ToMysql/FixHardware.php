@@ -48,7 +48,7 @@ while($resp=mysql_fetch_array($result))
 }
 
 mysql_free_result($result);
-mysql_close($conexion);
+mysqli_close($conexion);
 ?>
 </body>
 </html>

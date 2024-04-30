@@ -173,7 +173,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					while($line=mysql_fetch_array($resultados))
 					{
 						echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFEA' align='center'>" ;
-						echo "<td>".$line[FECHA]."</td>";
+						echo "<td>".$line["FECHA"]."</td>";
 						echo "<td>".$line[N_FLUJO]."</td>";
 						echo "<td>".$line[NOM_PRODUCTO]."</td>";
 						echo "<td>".$formato=number_format($line[P_SECO],'0',',','.')."</td>";

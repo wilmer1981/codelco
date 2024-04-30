@@ -62,7 +62,7 @@ switch($Opcion)
 			$OrdenRel=$Fila[num_orden_relacionada];
 			$VPtm=$Fila[vptm];
 			$Origen=$Fila[origen];
-			$Signo=$Fila[signo];
+			$Signo=$Fila["signo"];
 			$Factor=$Fila[factor];
 			if($Fila["nodo"]!='')
 				$CmbNodo=$Fila["nodo"];

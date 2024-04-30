@@ -196,14 +196,14 @@ if($Msj=='R')
 						if($Fila2=mysqli_fetch_assoc($Resp2))
 						{
 							$Unidad=$Fila2["abreviatura"];$CodUnidad=$Fila2[cod_unidad];$Recargo=$Fila2["recargo"];
-							//echo $Filas[valor_ley].$Fila2[signo].$Fila2[valor]."<br>";
-							switch($Fila2[signo])
+							//echo $Filas[valor_ley].$Fila2["signo"].$Fila2[valor]."<br>";
+							switch($Fila2["signo"])
 							{
 								case "<":
 									if(floatval($Filas[valor_ley]) < floatval($Fila2[valor]))
 									{
 										$Valor=$Fila2[valor];
-										$Signo=$Fila2[signo];
+										$Signo=$Fila2["signo"];
 										$Encontro='S';
 									}
 								break;
@@ -211,7 +211,7 @@ if($Msj=='R')
 									if(floatval($Fila2[valor]) > floatval($Filas[valor_ley]))	
 									{
 										$Valor=$Fila2[valor];
-										$Signo=$Fila2[signo];
+										$Signo=$Fila2["signo"];
 										$Encontro='S';
 									}	
 								break;

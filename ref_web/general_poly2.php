@@ -1,5 +1,11 @@
 <?php include("../principal/conectar_ref_web.php");
 //include("funcion_ventana_alerta.php"); 
+
+$CookieRut  = $_COOKIE["CookieRut"];
+$fecha      = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$Marca      = isset($_REQUEST["Marca"])?$_REQUEST["Marca"]:"";  
+$Marca2     = isset($_REQUEST["Marca2"])?$_REQUEST["Marca2"]:""; 
+
 $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
 $dia1=substr($fecha,8,2);
@@ -9,7 +15,7 @@ $revisa_u="select usuario_auto as autori from ref_web.usuarios_autorizados where
 $res_u=mysqli_query($link, $revisa_u);
 if ($fila_u=mysqli_fetch_array($res_u))
 {
-	$si_auto = $fila_u[autori];
+	$si_auto = $fila_u["autori"];
 }
 ?>
 <html>
@@ -20,7 +26,6 @@ if ($fila_u=mysqli_fetch_array($res_u))
 <LINK  href="archivos/petalos.css" rel=stylesheet type=text/css>
 <LINK href="estilos/HOME-IE6.CSS" type=text/css rel=stylesheet>
 <style>
-<!--
 #postit{
 position:absolute;
 width:330;
@@ -31,10 +36,8 @@ visibility:hidden;
 z-index:500;
 cursor:hand;
 }
--->
 </style>
 <script language="JavaScript">
-<!--
 function Eliminar(cod_novedad)
 {
 	var f = document.FrmPrincipal;
@@ -149,12 +152,9 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 		
 }
 
-//-->
 </script>
 
-
 <body>
-
 <form name="FrmPrincipal" method="post" action="">
 <input type="hidden" name="Proceso" value="E">
 <input type="hidden" name="fecha" value="<?php echo ''.$fecha.''; ?>">  
@@ -196,13 +196,14 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 				   }
 				else {
 				      $respuesta=mysqli_query($link, $consulta);
+					  $i=0;
                       while($row = mysqli_fetch_array($respuesta))
                         {
                          $i++;
 						 $cod_novedad= $row['COD_NOVEDAD'];
 						 $observacion= $row['NOVEDAD'];
 						 $turno= $row['TURNO'];
-						 $usuario=$row[usuario];
+						 $usuario=$row["usuario"];
 						 echo'<TR class=lcol> ';
 						 echo'<TD ><div align="center"><B>'.$i.'</B></div></TD>';
 						 echo'<TD ><div align="center"><B>'.strtoupper($usuario).'</B></div></TD>';
@@ -280,7 +281,7 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 						 $observacion= $row['NOVEDAD'];
 						 $turno= $row['TURNO'];
 						 $condicion=$row['Condicion_insegura'];
-						 $usuario=$row[usuario];
+						 $usuario=$row["usuario"];
 						 //$compromiso=$row[compromiso];
 						  $compromiso=$row["fecha"];
 						 $Area=$row[area];
@@ -288,7 +289,7 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 						 $resb=mysqli_query($link, $busqueda);
 						 if ($filab=mysqli_fetch_array($resb))
 						 {
-						 	$atencion = $filab[atencion];
+						 	$atencion = $filab["atencion"];
 							$control = "A";
 						 }
 						 else
@@ -426,7 +427,7 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 						 $cod_novedad= $row['COD_NOVEDAD'];
 						 $observacion= $row['NOVEDAD'];
 						 $turno= $row['TURNO'];
-						 $usuario=$row[usuario];
+						 $usuario=$row["usuario"];
 						 $compromiso=$row[compromiso];
 						 $Area=$row[area];
 						 $fecha_real=$row[fecha_real];

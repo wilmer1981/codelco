@@ -1,4 +1,8 @@
- <?php include("../principal/conectar_sec_web.php"); 
+ <?php 
+ 	include("../principal/conectar_sec_web.php"); 
+
+	$fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+
     $ano1=substr($fecha,0,4);
     $mes1=substr($fecha,5,2);
     $dia1=substr($fecha,8,2)
@@ -13,7 +17,6 @@
 <LINK href="estilos/css_sea_web.css" rel=stylesheet type=text/css>
 <LINK href="estilos/HOME-IE6.CSS" type=text/css rel=stylesheet>
 <script language="JavaScript">
-<!--
 function Eliminar(fecha,hora,intercambiador)
 {
 	var f = document.FrmPrincipal;
@@ -33,7 +36,6 @@ function Modificar(fecha,intercambiador)
 	f.action = "Ing_intercambiadores.php?intercambiador="+intercambiador+"&fecha="+fecha;
 	f.submit();
 }
-//-->
 </script>
 <BODY>
 <FORM action="" method=post name="FrmPrincipal">
@@ -70,24 +72,24 @@ function Modificar(fecha,intercambiador)
 				        $resultado=mysqli_query($link, $consulta);				
 						while($row1 = mysqli_fetch_array($resultado))
 							{    	  
-							  if($row1[situacion]=="En Servicio")
+							  if($row1["situacion"]=="En Servicio")
 								  {$icono="Indicator1.gif";}
-							  if($row1[situacion]=="Fuera de Servicio")
+							  if($row1["situacion"]=="Fuera de Servicio")
 								  {$icono="Indicator2.gif";}
-							  if($row1[situacion]=="En Observacion")
+							  if($row1["situacion"]=="En Observacion")
 								   {$icono="Indicator3.gif";}
-							  if($row1[situacion]=="En Mantencion")
+							  if($row1["situacion"]=="En Mantencion")
 								   {$icono="Indicator4.gif";}  
 							  echo'<TR class=lcolam> ';
-							  echo'<TD width="118" ><div align="center"><B>'.$row1[intercambiador].'</B></div></TD>';
+							  echo'<TD width="118" ><div align="center"><B>'.$row1["intercambiador"].'</B></div></TD>';
 							  echo'<TD width="72" ><div align="center"><img src="archivos/'.$icono.'" width="12" height="12"></div></TD>';
 							  echo'<TD width="128" ><div align="center"><B>'.$row1["fecha"].'</B></div></TD>';
 							  echo'<TD width="273" ><div align"center"><B>&nbsp;'.$row1["observacion"].'</B></div></TD>';
 							  echo'<TD width="5%" ><div align="center">';
-							  echo "<a href=\"JavaScript:Eliminar('$row1["fecha"]','$row1[hora]','$row1[cod_intercambiador]')\">";
+							  echo "<a href=\"JavaScript:Eliminar('".$row1["fecha"]."','".$row1["hora"]."','".$row1["cod_intercambiador"]."')\">";
 							  echo '<img src="archivos/papelera.gif" width="15" height="15" border="0"></A></div></TD>';
  						      echo'<TD width="5%" ><div align="center">';
-							  echo "<a href=\"JavaScript:Modificar('$fecha','$row1[cod_intercambiador]')\">";
+							  echo "<a href=\"JavaScript:Modificar('$fecha','".$row1["cod_intercambiador"]."')\">";
 							  echo '<img src="archivos/modificar.gif" width="15" height="15" border="0"></A></div></TD>';
 							  echo'</TR>';
 							}

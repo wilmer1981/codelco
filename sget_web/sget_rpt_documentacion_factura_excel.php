@@ -58,7 +58,7 @@ if(!isset($CmbEmpresa))
 			{
 				?>
 				<tr >
-				<td colspan="7" >Contrato&nbsp;&nbsp;<? echo $Contrato;?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha Inicio&nbsp;<? echo $FilaMod[fecha_inicio];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha Termino&nbsp;<? echo $FilaMod[fecha_termino] ?>&nbsp;</td>
+				<td colspan="7" >Contrato&nbsp;&nbsp;<? echo $Contrato;?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha Inicio&nbsp;<? echo $FilaMod["fecha_inicio"];?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha Termino&nbsp;<? echo $FilaMod[fecha_termino] ?>&nbsp;</td>
 				</tr>
 			
 			  <tr>

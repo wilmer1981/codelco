@@ -388,7 +388,7 @@
   mysql_query($linea);
 
   odbc_close_all();
-  mysql_close($link);
+  mysqli_close($link);
   
   echo "Actualizacion de la BD lista";
 ?>

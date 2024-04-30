@@ -121,10 +121,10 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			while($FilaFecha=mysql_fetch_array($RespFecha))
 				{
 					$consulta = "SELECT ENABAL.FECHA, ENABAL.T_MOV, ENABAL.N_FLUJO, ENABAL.NOM_PRODUCTO, ENABAL.P_SECO, ENABAL.F_COBRE, ENABAL.F_PLATA, ENABAL.F_ORO FROM ENABAL 
-							WHERE ((FECHA = '$FilaFecha[FECHA]') AND ENABAL.T_MOV=2 AND ((ENABAL.N_FLUJO=6) or (ENABAL.N_FLUJO=499) or (ENABAL.N_FLUJO=500)))";									
+							WHERE ((FECHA = '$FilaFecha["FECHA"]') AND ENABAL.T_MOV=2 AND ((ENABAL.N_FLUJO=6) or (ENABAL.N_FLUJO=499) or (ENABAL.N_FLUJO=500)))";									
 				
-					$SA="SELECT Sum(P_SECO) AS SUMA FROM ENABAL WHERE (ENABAL.T_MOV=2 AND ((ENABAL.N_FLUJO=6) or (ENABAL.N_FLUJO=499)) AND (ENABAL.FECHA = '$FilaFecha[FECHA]'))";
-					$RA="SELECT Sum(P_SECO) AS RESTA FROM ENABAL WHERE (ENABAL.T_MOV=2 AND (ENABAL.N_FLUJO=500) AND (ENABAL.FECHA = '$FilaFecha[FECHA]'))";
+					$SA="SELECT Sum(P_SECO) AS SUMA FROM ENABAL WHERE (ENABAL.T_MOV=2 AND ((ENABAL.N_FLUJO=6) or (ENABAL.N_FLUJO=499)) AND (ENABAL.FECHA = '$FilaFecha["FECHA"]'))";
+					$RA="SELECT Sum(P_SECO) AS RESTA FROM ENABAL WHERE (ENABAL.T_MOV=2 AND (ENABAL.N_FLUJO=500) AND (ENABAL.FECHA = '$FilaFecha["FECHA"]'))";
 			
 					$resultadosdos = mysql_query($consulta);
 					$resultadosSA = mysql_query($SA);			
@@ -132,7 +132,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					while($fila=mysql_fetch_array($resultadosdos))
 					{
 						echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFaa' align='center'>";
-						echo "<td>".$fila[FECHA]."</td>";
+						echo "<td>".$fila["FECHA"]."</td>";
 						echo "<td>".$fila[N_FLUJO]."</td>";
 						echo "<td>".$fila[NOM_PRODUCTO]."</td>";			
 						echo "<td>".$formato=number_format($fila[P_SECO],'0',',','.')."</td>";									
@@ -152,7 +152,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$PAMES=$SumaPesoSeco-$RestaPesoSeco;
 					
 					echo "<tr bordercolor='#FFffff' bgcolor='#ffffea' align='center'>";
-					echo "<td>".$fila[FECHA]."</td>";
+					echo "<td>".$fila["FECHA"]."</td>";
 					echo "<td>----</td>";
 					echo "<td> PRODUCCION MENSUAL </td>";			
 					echo "<td>".$formato=number_format($PAMES,'0',',','.')."</td>";									

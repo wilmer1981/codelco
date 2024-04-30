@@ -99,7 +99,7 @@ if($step==1){
     </div>
 
 	<?php 
-	mysql_close();
+	mysqli_close();
 	}
 	
 	
@@ -111,7 +111,7 @@ if($step==1){
 	$conn = @mysql_connect($dbhost,$dbuser,$dbpass);
 	@mysql_select_db($dbname, $conn);
 	parse_mysql_dump("data.sql");
-	mysql_close();
+	mysqli_close();
 ?>
 	<div class="install-err">
 		Successful Install.

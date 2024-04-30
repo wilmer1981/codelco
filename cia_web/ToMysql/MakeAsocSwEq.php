@@ -29,7 +29,7 @@ while($resp=mysql_fetch_array($result))
 	if(!mysql_db_query("cia_web_access",$query,$conexion))
 		echo '<strong>ingreso fallido: '.$cod_sw.'/'.$resp["cod_equipo"].'<br></strong>';
 }
-mysql_close($conexion);
+mysqli_close($conexion);
 ?>
 </body>
 </html>

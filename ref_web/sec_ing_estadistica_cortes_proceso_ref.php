@@ -1,7 +1,19 @@
 ﻿<?php 
 	include("../principal/conectar_sec_web.php");
+	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$grupo   = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+	$fecha_desconexion  = isset($_REQUEST["fecha_desconexion"])?$_REQUEST["fecha_desconexion"]:"";
+	$fecha = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$tipo_desconexion = isset($_REQUEST["tipo_desconexion"])?$_REQUEST["tipo_desconexion"]:"";
 	
-	
+	$cmbtipo   = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
+	$cmbgrupo   = isset($_REQUEST["cmbgrupo"])?$_REQUEST["cmbgrupo"]:"";
+	$txtkah1      = isset($_REQUEST["txtkah1"])?$_REQUEST["txtkah1"]:"";
+	$txtkah2      = isset($_REQUEST["txtkah2"])?$_REQUEST["txtkah2"]:"";
+
+	$activar     = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	//$mensaje     = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+		
 	if ($opcion == "M")
 	{
 		$consulta = "SELECT * FROM sec_web.cortes_refineria WHERE cod_grupo = '".$grupo."' AND fecha_desconexion = '".$fecha_desconexion."'";
@@ -9,17 +21,17 @@
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$mostrar = "S";
-			$ano1 = substr($row[fecha_desconexion],0,4);
-			$mes1 = substr($row[fecha_desconexion],5,2);
-			$dia1 = substr($row[fecha_desconexion],8,2);
-			$hr1 = substr($row[fecha_desconexion],11,2);
-			$mm1 = substr($row[fecha_desconexion],14,2);
+			$ano1 = substr($row["fecha_desconexion"],0,4);
+			$mes1 = substr($row["fecha_desconexion"],5,2);
+			$dia1 = substr($row["fecha_desconexion"],8,2);
+			$hr1 = substr($row["fecha_desconexion"],11,2);
+			$mm1 = substr($row["fecha_desconexion"],14,2);
 
-			$ano2 = substr($row[fecha_conexion],0,4);
-			$mes2 = substr($row[fecha_conexion],5,2);
-			$dia2 = substr($row[fecha_conexion],8,2);
-			$hr2 = substr($row[fecha_conexion],11,2);
-			$mm2 = substr($row[fecha_conexion],14,2);			
+			$ano2 = substr($row["fecha_conexion"],0,4);
+			$mes2 = substr($row["fecha_conexion"],5,2);
+			$dia2 = substr($row["fecha_conexion"],8,2);
+			$hr2 = substr($row["fecha_conexion"],11,2);
+			$mm2 = substr($row["fecha_conexion"],14,2);			
 		}
 	}
 	
@@ -215,7 +227,7 @@ function Salir(f,fecha)
 					$rs1 = mysqli_query($link, $consulta);
 					while ($row1 = mysqli_fetch_array($rs1))
 					{	
-						if ($row1["valor_subclase1"] == $row[tipo_desconexion])
+						if ($row1["valor_subclase1"] == $row["tipo_desconexion"])
 							echo '<option value="'.$row1["valor_subclase1"].'" selected>'.$row1["nombre_subclase"].'</option>';
 						else 
 							echo '<option value="'.$row1["valor_subclase1"].'">'.$row1["nombre_subclase"].'</option>';
@@ -336,9 +348,9 @@ function Salir(f,fecha)
               <?php $consulta_f_actual="select left(sysdate(),10) as fecha_actual";
 		   $rs_f_actual = mysqli_query($link, $consulta_f_actual);
 		   $row_f_actual = mysqli_fetch_array($rs_f_actual);
-		   $ano1_actual=substr($row_f_actual[fecha_actual],0,4);
-		   $mes1_actual=substr($row_f_actual[fecha_actual],5,2);
-		   $dia1_actual=substr($row_f_actual[fecha_actual],8,2);
+		   $ano1_actual=substr($row_f_actual["fecha_actual"],0,4);
+		   $mes1_actual=substr($row_f_actual["fecha_actual"],5,2);
+		   $dia1_actual=substr($row_f_actual["fecha_actual"],8,2);
 		   
 		?>
               <input name="dia1_actual" type="hidden" value="<?php echo $dia1_actual;?>" size="2" style="text-align: center;background:ColorTabla01;color:white;" readonly >
@@ -348,7 +360,7 @@ function Salir(f,fecha)
           </tr>
           <tr> 
             <td height="30">Kahdird</td>
-            <td colspan="2"><input name="txtkah1" type="text" size="10" value="<?php echo $row[kahdird]?>"></td>
+            <td colspan="2"><input name="txtkah1" type="text" size="10" value="<?php echo $row["kahdird"]?>"></td>
           </tr>
           <tr> 
             <td height="30">Fecha y Hora Conexion</td>
@@ -419,7 +431,7 @@ function Salir(f,fecha)
           </tr>
           <tr> 
             <td height="30">Kahdirc</td>
-            <td colspan="2"><input name="txtkah2" type="text" size="10" value="<?php echo $row[kahdirc]?>"></td>
+            <td colspan="2"><input name="txtkah2" type="text" size="10" value="<?php echo $row["kahdirc"]?>"></td>
           </tr>
         </table>
 		<?php

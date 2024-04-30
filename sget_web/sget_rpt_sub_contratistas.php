@@ -280,7 +280,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				<td ><? echo FormatearRun($FilaCuentaEmp[rut_empresa]); ?>&nbsp;</td>
 				<td><? echo $FilaCtto["cod_contrato"]; ?>&nbsp;</td>
 				<td><? echo $FilaCtto["descripcion"]; ?>&nbsp;</td>
-				<td align="center"><? echo $FilaCtto[fecha_inicio]; ?>&nbsp;</td>
+				<td align="center"><? echo $FilaCtto["fecha_inicio"]; ?>&nbsp;</td>
 				<td align="center"><? echo $FilaCtto[fecha_termino]; ?>&nbsp;</td>
 				<td align="center"><? echo $ReunionArranque; ?>&nbsp;</td>
 				</tr>

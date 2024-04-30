@@ -128,7 +128,7 @@ if(!isset($CmbEmpresa))
 			$TipoCtto=$FilaMod[descrip_tipo_contrato];
 			$Descripcion=$FilaMod["descripcion"];
 			$Empresa=$FilaMod[razon_social];	
-			$FechaInicio=$FilaMod[fecha_inicio];
+			$FechaInicio=$FilaMod["fecha_inicio"];
 			$FechaTermino=$FilaMod[fecha_termino];
 			$AdmCtto=$FilaMod["nombres"]."&nbsp;".$FilaMod[ape_paterno]."&nbsp;".$FilaMod[ape_materno];
 			$AdmContratista=$FilaMod[nom_contratista]."&nbsp;".$FilaMod[ape_p_contratista]."&nbsp;".$FilaMod[ape_m_contratista];

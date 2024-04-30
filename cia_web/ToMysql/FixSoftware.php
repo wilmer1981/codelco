@@ -32,7 +32,7 @@ while($resp=mysql_fetch_array($result))
 		echo '<strong>NO FIX: '.$resp["cod_sw"].'</strong><br>';
 }
 
-mysql_close($conexion);
+mysqli_close($conexion);
 ?>
 </body>
 </html>

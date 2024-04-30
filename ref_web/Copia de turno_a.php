@@ -418,13 +418,13 @@ function detalle_anodos(fecha,grupo)
 			{
 				if ($j ==0)
 				{
-					$dia11 = $Filap[dia_renovacion];
+					$dia11 = $Filap["dia_renovacion"];
 				
 					$j=$j+1;
 				}
 				elseif($j==1)
 				{
-					$dia2=$Filap[dia_renovacion];
+					$dia2=$Filap["dia_renovacion"];
 					$j=$j+1;
 				}
 				if ($j>1)

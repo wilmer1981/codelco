@@ -19,7 +19,7 @@
 			if ($TxtCorreo=="")
 				$TxtCorreo=$TxtNomUser;
 		}
-		mysql_close($link);
+		mysqli_close($link);
 	}
 	if ($TxtCodEquipo!="" && isset($TxtCodEquipo))
 	{
@@ -101,7 +101,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		{
 			echo $Fila["APELLIDO_PATERNO"]." ".$Fila["APELLIDO_MATERNO"]." ".$Fila["NOMBRES"];
 		}
-		mysql_close($link);
+		mysqli_close($link);
 		?>
 		<input type="hidden" name="TxtCodEquipo" value="<? echo $TxtCodEquipo; ?>"></td>
         </tr>

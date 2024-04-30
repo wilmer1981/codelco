@@ -520,7 +520,7 @@ function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetal
 	}	
 }
 
-mysql_close($link);
+mysqli_close($link);
 	
 ?>  
 

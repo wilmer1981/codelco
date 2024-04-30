@@ -1,6 +1,14 @@
 <?php 
 	include("../principal/conectar_ref_web.php");
 	$CodigoDeSistema = 10;
+
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$parametros  = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$Grupo1  = isset($_REQUEST["Grupo1"])?$_REQUEST["Grupo1"]:"";
+	$Cubas1  = isset($_REQUEST["Cubas1"])?$_REQUEST["Cubas1"]:"";
+	$Grupo2  = isset($_REQUEST["Grupo2"])?$_REQUEST["Grupo2"]:"";
+	$Cubas2  = isset($_REQUEST["Cubas2"])?$_REQUEST["Cubas2"]:"";
+
 	if ($Proceso=="G")
     {    
 	     
@@ -21,19 +29,19 @@
 			  $Insertar.= " '0', ' ')";
 			  //echo $Insertar;
 			  mysqli_query($link, $Insertar);
-	}		  
-
+	}	
 
 	$Dia = substr($parametros,8,2);
 	$Mes = substr($parametros,5,2);
 	$Ano = substr($parametros,0,4);
 	$Fecha = $Ano."-".$Mes."-".$Dia;
+
 	$consulta_grupo="select * from ref_web.renovacion_HM where fecha= '".$parametros."' ";
 	$Respuesta_grupo = mysqli_query($link, $consulta_grupo);
 	$i=0;
 	while ($Fila_grupo = mysqli_fetch_array($Respuesta_grupo))
 	      {
-		    $cubas[$i]=$Fila_grupo[cubas_renovacion];
+		    $cubas[$i]=$Fila_grupo["cubas_renovacion"];
 		    $grupos[$i]=$Fila_grupo["cod_grupo"];
 			$i=$i+1;
 		  }

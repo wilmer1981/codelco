@@ -1,5 +1,9 @@
 <?php include("../principal/conectar_ref_web.php");
 //include("funcion_ventana_alerta.php"); 
+
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$Marca   = isset($_REQUEST["Marca"])?$_REQUEST["Marca"]:"";
+
 $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
 $dia1=substr($fecha,8,2);
@@ -9,7 +13,7 @@ $revisa_u="select usuario_auto as autori from ref_web.usuarios_autorizados where
 $res_u=mysqli_query($link, $revisa_u);
 if ($fila_u=mysqli_fetch_array($res_u))
 {
-	$si_auto = $fila_u[autori];
+	$si_auto = $fila_u["autori"];
 }
 */
 ?>
@@ -21,7 +25,6 @@ if ($fila_u=mysqli_fetch_array($res_u))
 <LINK  href="archivos/petalos.css" rel=stylesheet type=text/css>
 <LINK href="estilos/HOME-IE6.CSS" type=text/css rel=stylesheet>
 <style>
-<!--
 #postit{
 position:absolute;
 width:330;
@@ -32,10 +35,8 @@ visibility:hidden;
 z-index:500;
 cursor:hand;
 }
--->
 </style>
 <script language="JavaScript">
-<!--
 function Eliminar(cod_novedad)
 {
 	var f = document.FrmPrincipal;
@@ -150,8 +151,6 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 	}
 		
 }
-
-//-->
 </script>
 
 
@@ -199,13 +198,14 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 				   }
 				else {
 				      $respuesta=mysqli_query($link, $consulta);
+					  $i=0; //WSO
                       while($row = mysqli_fetch_array($respuesta))
                         {
                          $i++;
 						 $cod_novedad= $row['COD_NOVEDAD'];
 						 $observacion= $row['NOVEDAD'];
 						 $turno= $row['TURNO'];
-						 $usuario=$row[usuario];
+						 $usuario=$row["usuario"];
 						 echo'<TR class=lcol> ';
 						 echo'<TD ><div align="center"><B>'.$i.'</B></div></TD>';
 						 echo'<TD ><div align="center"><B>'.strtoupper($usuario).'</B></div></TD>';
@@ -228,8 +228,11 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 	  </tr>
 	 <TR  vAlign=top  class=dt>  
 	  <TD width="90%" vAlign=bottom colspan=4> <H4><B>Mantenciones Pendientes al &nbsp;&nbsp;<?php echo $dia1.'-'.$mes1.'-'.$ano1; ?></B></H4></TD>
- 	 <?php $var_ini = $i+1; ?>
-	  <input name="var_ini" type="hidden" id="var_ini" value="<?php  echo ''.$var_ini.'';?>">
+ 	 <?php 
+	 $i=0;//WSO
+	 $var_ini = $i+1; 
+	 ?>
+	  <input name="var_ini" type="hidden" id="var_ini" value="<?php  //echo ''.$var_ini.'';?>">
       
       </TR>
       <TR class=lcol vAlign=top> 
@@ -276,6 +279,7 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 				   }
 				else {
 				      $respuesta=mysqli_query($link, $consulta);
+					  $i=0;//WSO
                       while($row = mysqli_fetch_array($respuesta))
                         {
                          $i++;
@@ -283,15 +287,15 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 						 $observacion= $row['NOVEDAD'];
 						 $turno= $row['TURNO'];
 						 $condicion=$row['Condicion_insegura'];
-						 $usuario=$row[usuario];
-						 //$compromiso=$row[compromiso];
+						 $usuario=$row["usuario"];
+						 //$compromiso=$row["compromiso"];
 						  $compromiso=$row["fecha"];
-						 $Area=$row[area];
+						 $Area=$row["area"];
 						 $busqueda="select * from ref_web.requrimiento where cod_novedad = '".$cod_novedad."'";
 						 $resb=mysqli_query($link, $busqueda);
 						 if ($filab=mysqli_fetch_array($resb))
 						 {
-						 	$atencion = $filab[atencion];
+						 	$atencion = $filab["atencion"];
 							$control = "A";
 						 }
 						 else
@@ -423,16 +427,17 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 				   }
 				else {
 				      $respuesta=mysqli_query($link, $consulta);
+					  $i=0;//WSO
                       while($row = mysqli_fetch_array($respuesta))
                         {
                          $i++;
 						 $cod_novedad= $row['COD_NOVEDAD'];
 						 $observacion= $row['NOVEDAD'];
 						 $turno= $row['TURNO'];
-						 $usuario=$row[usuario];
-						 $compromiso=$row[compromiso];
-						 $Area=$row[area];
-						 $fecha_real=$row[fecha_real];
+						 $usuario=$row["usuario"];
+						 $compromiso=$row["compromiso"];
+						 $Area=$row["area"];
+						 $fecha_real=$row["fecha_real"];
 						 if ($Area==1)
 						    {$Area="M. Mecanica";}
 						 else if ($Area==2)

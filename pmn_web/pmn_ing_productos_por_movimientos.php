@@ -25,7 +25,7 @@
 
 		$txtid = $row[id];
 		$txtpeso = number_format($row[peso_seco],3,",","");
-		$radiotipo = $row[signo];
+		$radiotipo = $row["signo"];
 
 		$txtleycu = number_format($row[fino_cu],3,",","");
 		$txtleyag = number_format($row[fino_ag],3,",","");
@@ -59,7 +59,7 @@
 			$cmbproducto = $row["cod_producto"];
 			$cmbsubproducto = $row["cod_subproducto"];
 			$cmbmovimiento = $row[tipo_mov];
-			$radiotipo = $row[signo];
+			$radiotipo = $row["signo"];
 		}
 		else	
 			$cmbmovimiento = '';

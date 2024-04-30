@@ -220,7 +220,7 @@ function Imprimir()
      {
       if($contador <= 50*$page)
        {
-        $situacion= $row[situacion];
+        $situacion= $row["situacion"];
         $cod_equipo=$row[cod_bomba];
 		if($situacion=="En Servicio")
 		  {

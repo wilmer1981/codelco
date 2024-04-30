@@ -1,4 +1,10 @@
-﻿ <?php include("../principal/conectar_ref_web.php"); ?>
+﻿ <?php 
+ include("../principal/conectar_ref_web.php"); 
+ 
+ $fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+ $turno     = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+ 
+ ?>
 
 
 <HTML>
@@ -43,10 +49,10 @@ function Imprimir()
 					$respuesta = mysqli_query($link, $consulta);
 					while ($fila1=mysqli_fetch_array($respuesta))
  					   {
-						if ($turno==$fila1[turno])
-						   echo "<option value='".$fila1[turno]."' selected>".$fila1[turno]."</option>";
+						if ($turno==$fila1["turno"])
+						   echo "<option value='".$fila1["turno"]."' selected>".$fila1["turno"]."</option>";
 						else
-							echo "<option value='".$fila1[turno]."'>".$fila1[turno]."</option>";
+							echo "<option value='".$fila1["turno"]."'>".$fila1["turno"]."</option>";
 						}
 					echo '</select></td>';
                    ?>
@@ -86,16 +92,16 @@ function Imprimir()
 				        //echo $sql;
 					    $result=mysqli_query($link, $sql);
 					    $row = mysqli_fetch_array($result);
-  					    $pre1A= $row[PRE1];                   
-						$temp1A= $row[TEMP1];
-						$pre2A= $row[PRE2];
-						$temp2A= $row[TEMP2];
-						$pre3A= $row[PRE3];
-						$temp3A= $row[TEMP3];
-						$pre4A= $row[PRE4];
-						$temp4A= $row[TEMP4];
-						$pre5A= $row[PRE5];
-						$temp5A= $row[TEMP5];
+  					    $pre1A= isset($row["PRE1"])?$row["PRE1"]:0;                   
+						$temp1A= isset($row["TEMP1"])?$row["TEMP1"]:0;
+						$pre2A= isset($row["PRE2"])?$row["PRE2"]:0; 
+						$temp2A= isset($row["TEMP2"])?$row["TEMP2"]:0;
+						$pre3A= isset($row["PRE3"])?$row["PRE3"]:0; 
+						$temp3A= isset($row["TEMP3"])?$row["TEMP3"]:0;
+						$pre4A= isset($row["PRE4"])?$row["PRE4"]:0; 
+						$temp4A= isset($row["TEMP4"])?$row["TEMP4"]:0;
+						$pre5A= isset($row["PRE5"])?$row["PRE5"]:0; 
+						$temp5A= isset($row["TEMP5"])?$row["TEMP5"]:0;
 						echo'<TR class=lcol> ';
 						echo'<TD width="10%" rowspan="3"><div align="center"><b>TURNO '.$turno.'</b></div></TD>';
 						echo'<TD width="5%"><div align="center"><b>In. Turno</b></div></TD>';
@@ -113,16 +119,16 @@ function Imprimir()
 				        $sql1  = "select * from vapor WHERE FECHA = '".$fecha."' and TURNO = '".$turno."' AND INSTANTE = '2' ORDER BY FECHA ASC";
 					    $result1=mysqli_query($link, $sql1);
 					    $row1 = mysqli_fetch_array($result1);
-						$pre1B= $row1['PRE1'];
-						$temp1B= $row1['TEMP1'];
-						$pre2B= $row1['PRE2'];
-						$temp2B= $row1['TEMP2'];
-						$pre3B= $row1['PRE3'];
-						$temp3B= $row1['TEMP3'];
-						$pre4B= $row1['PRE4'];
-						$temp4B= $row1['TEMP4'];
-						$pre5B= $row1['PRE5'];
-						$temp5B= $row1['TEMP5'];
+						$pre1B= isset($row1["PRE1"])?$row1["PRE1"]:0; 
+						$temp1B= isset($row1["TEMP1"])?$row1["TEMP1"]:0;
+						$pre2B= isset($row1["PRE2"])?$row1["PRE2"]:0; 
+						$temp2B= isset($row1["TEMP2"])?$row1["TEMP2"]:0;
+						$pre3B= isset($row1["PRE3"])?$row1["PRE3"]:0; 
+						$temp3B= isset($row1["TEMP3"])?$row1["TEMP3"]:0;
+						$pre4B= isset($row1["PRE4"])?$row1["PRE4"]:0; 
+						$temp4B= isset($row1["TEMP4"])?$row1["TEMP4"]:0;
+						$pre5B= isset($row1["PRE5"])?$row1["PRE5"]:0; 
+						$temp5B= isset($row1["TEMP5"])?$row1["TEMP5"]:0;
 						echo'<TR class=lcol> ';
   					    echo'<TD width="10%" height=25 ><div align="center"><b>1/2 Turno</b></div></TD>';
 						echo'<TD width="5%"  ><div align="center"><B>'.$pre1B.'</B></div></TD>';
@@ -139,16 +145,16 @@ function Imprimir()
 					    $sql2  = "select * from vapor WHERE FECHA = '".$fecha."' and TURNO = '".$turno."' AND INSTANTE = '3' ORDER BY FECHA ASC";
 					    $result2=mysqli_query($link, $sql2);
 					    $row2 = mysqli_fetch_array($result2);
-						$pre1C= $row2['PRE1'];
-						$temp1C= $row2['TEMP1'];
-						$pre2C= $row2['PRE2'];
-						$temp2C= $row2['TEMP2'];
-						$pre3C= $row2['PRE3'];
-						$temp3C= $row2['TEMP3'];
-						$pre4C= $row2['PRE4'];
-						$temp4C= $row2['TEMP4'];
-						$pre5C= $row2['PRE5'];
-						$temp5C= $row2['TEMP5'];
+						$pre1C= isset($row2["PRE1"])?$row2["PRE1"]:0; 
+						$temp1C=isset($row2["TEMP1"])?$row2["TEMP1"]:0;
+						$pre2C= isset($row2["PRE2"])?$row2["PRE2"]:0; 
+						$temp2C= isset($row2["TEMP2"])?$row2["TEMP2"]:0;
+						$pre3C= isset($row2["PRE3"])?$row2["PRE3"]:0; 
+						$temp3C= isset($row2["TEMP3"])?$row2["TEMP3"]:0;
+						$pre4C= isset($row2["PRE4"])?$row2["PRE4"]:0; 
+						$temp4C= isset($row2["TEMP4"])?$row2["TEMP4"]:0;
+						$pre5C= isset($row2["PRE5"])?$row2["PRE5"]:0; 
+						$temp5C= isset($row2["TEMP5"])?$row2["TEMP5"]:0;
 					    echo'<TR class=lcol> ';
 						echo'<TD width="10%" height=25 ><div align="center"><b>Final Turno</b></div></TD>';
 						echo'<TD width="5%"  ><div align="center"><B>'.$pre1C.'</B></div></TD>';
@@ -165,8 +171,8 @@ function Imprimir()
 				        $promedio_temp1 = $temp1A  + $temp1B  + $temp1C;  
 				        $promedio_temp2 = $temp2A  + $temp2B  + $temp2C;
 				        $promedio_temp3 = $temp3A  + $temp3B  + $temp3C;
-				        $promedio4_temp4 = $temp4A  + $temp4B  + $temp4C;
-						$promedio5_temp5 = $temp5A  + $temp5B  + $temp5C;
+				        $promedio_temp4 = $temp4A  + $temp4B  + $temp4C;
+						$promedio_temp5 = $temp5A  + $temp5B  + $temp5C;
 				        $promedio_pres1 = $pre1A  + $pre1B  + $pre1C;
 				        $promedio_pres2 = $pre2A  + $pre2B  + $pre2C;
 				        $promedio_pres3 = $pre3A  + $pre3B  + $pre3C;
@@ -208,7 +214,7 @@ function Imprimir()
 					     $consulta_instante="select distinct INSTANTE from ref_web.vapor order by INSTANTE asc";      
 					     $respuesta_instante = mysqli_query($link, $consulta_instante);
 						 echo'<TR class=lcol> ';
-							  echo'<TD width="10%" rowspan="3"><div align="center"><b>TURNO '.$fila1[turno].'</b></div></TD>';
+							  echo'<TD width="10%" rowspan="3"><div align="center"><b>TURNO '.$fila1["turno"].'</b></div></TD>';
 						 $total_presion1=0;
 						 $total_presion2=0;
 						 $total_presion3=0;
@@ -221,24 +227,24 @@ function Imprimir()
 						 $total_temp5=0;		   
 				         while ($fila_instante=mysqli_fetch_array($respuesta_instante))
 						      {
-							    $consulta_datos="select * from ref_web.vapor where FECHA='".$fecha."' and TURNO='".$fila1[turno]."' and INSTANTE='".$fila_instante[INSTANTE]."'";
+							    $consulta_datos="select * from ref_web.vapor where FECHA='".$fecha."' and TURNO='".$fila1["turno"]."' and INSTANTE='".$fila_instante["INSTANTE"]."'";
 								$respuesta_datos= mysqli_query($link, $consulta_datos);
 								$fila_datos=mysqli_fetch_array($respuesta_datos);
-								$pre1C= $fila_datos['PRE1'];
-						        $temp1C= $fila_datos['TEMP1'];
-						        $pre2C= $fila_datos['PRE2'];
-						        $temp2C= $fila_datos['TEMP2'];
-						        $pre3C= $fila_datos['PRE3'];
-						        $temp3C= $fila_datos['TEMP3'];
-						        $pre4C= $fila_datos['PRE4'];
-						        $temp4C= $fila_datos['TEMP4'];
-						        $pre5C= $fila_datos['PRE5'];
-						        $temp5C= $fila_datos['TEMP5'];
-								if ($fila_instante[INSTANTE]=='1')
+								$pre1C= isset($fila_datos['PRE1'])?$fila_datos['PRE1']:0;
+						        $temp1C= isset($fila_datos['TEMP1'])?$fila_datos['TEMP1']:0;
+						        $pre2C= isset($fila_datos['PRE2'])?$fila_datos['PRE2']:0;
+						        $temp2C= isset($fila_datos['TEMP2'])?$fila_datos['TEMP2']:0;
+						        $pre3C= isset($fila_datos['PRE3'])?$fila_datos['PRE3']:0;
+						        $temp3C= isset($fila_datos['TEMP3'])?$fila_datos['TEMP3']:0;
+						        $pre4C= isset($fila_datos['PRE4'])?$fila_datos['PRE4']:0;
+						        $temp4C= isset($fila_datos['TEMP4'])?$fila_datos['TEMP4']:0;
+						        $pre5C= isset($fila_datos['PRE5'])?$fila_datos['PRE5']:0;
+						        $temp5C= isset($fila_datos['TEMP5'])?$fila_datos['TEMP5']:0;
+								if ($fila_instante["INSTANTE"]=='1')
 								   {$instante='Inicio Turno';}
-								if ($fila_instante[INSTANTE]=='2')
+								if ($fila_instante["INSTANTE"]=='2')
 									{$instante='1/2 Turno';}
-								if ($fila_instante[INSTANTE]=='3')
+								if ($fila_instante["INSTANTE"]=='3')
 									{$instante='Final Turno';}	 	 
 						        echo'<TD width="10%" height=25  class=lcol><div align="center"><b>'.$instante.'</b></div></TD>';
 						        echo'<TD width="5%"   class=lcol><div align="center"><B>'.$pre1C.'</B></div></TD>';

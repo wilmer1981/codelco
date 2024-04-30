@@ -1,4 +1,12 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
+<?php include("../principal/conectar_ref_web.php"); 
+
+$fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$filtro    = isset($_REQUEST["filtro"])?$_REQUEST["filtro"]:"";
+$hora     = isset($_REQUEST["hora"])?$_REQUEST["hora"]:"";
+$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:"";
+$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+
+?>
 
 
 <HTML>
@@ -9,7 +17,6 @@
 <LINK  href="../archivos/petalos.css" rel=stylesheet type=text/css>
 
 <script language="JavaScript">
-<!--
 function Validar()
 {
 	var f = document.FrmPrincipal;
@@ -28,9 +35,9 @@ function Validar()
 	         alert('Debe seleccionar situacion del filtro');
 	        }
          else {  
-			   if (confirm("Esta Seguro de la Operación"))
+			   if (confirm("Esta Seguro de la Operaciï¿½n"))
 			     {
-				  f.action = "ing_filtros01.php?Proceso=G&amp";
+				  f.action = "ing_filtros01.php?Proceso=G";
 			      f.submit();
 			     }
 	          }		
@@ -42,15 +49,11 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 	f.submit();
 }
 
-
-
-
-//-->
 </script>
 
 <BODY>
 <form name="FrmPrincipal" method="post" action="">
-<input type="hidden" name="fecha" value="<?phpphp echo''.$fecha.''; ?>">
+<input type="hidden" name="fecha" value="<?php echo''.$fecha.''; ?>">
 
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
  <TR> 
@@ -86,19 +89,16 @@ function salir() // RECARGA PAGINA DE FROMULARIO
        		<?php
 			 $Consulta = "SELECT * FROM ref_web.filtros ORDER BY FILTRO";
 			 $Respuesta = mysqli_query($link, $Consulta);
-			 while ($Row = mysqli_fetch_array($Respuesta))
+			  while ($Row = mysqli_fetch_array($Respuesta))
 				{
-				  $cod_filtro=$Row[cod_filtro];
-			      if ($filtro==$cod_filtro)
-			         {
-			           echo "<option value='".$cod_filtro."' selected>".$Row['filtro']."</option>\n";
-                     }
-                  else {
-			             echo "<option value='".$Row[cod_filtro]."'>".$Row[filtro]."</option>\n";
-				       }
-							
-				
-			  	 
+				  $cod_filtro=$Row["cod_filtro"];
+          if ($filtro==$cod_filtro)
+          {
+                echo "<option value='".$cod_filtro."' selected>".$Row['filtro']."</option>\n";
+                    }
+                else {
+                  echo "<option value='".$Row["cod_filtro"]."'>".$Row["filtro"]."</option>\n";
+          }			  	 
 				}
             ?>
          </select>
@@ -154,7 +154,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
      <tr> 
        <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
        <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator3.gif"  width=12 border=0>
-	   <input type="radio" value="En Observacion" name="situ"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Observación</font></font></td>
+	   <input type="radio" value="En Observacion" name="situ"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Observaciï¿½n</font></font></td>
      </tr>
      <tr> 
        <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
@@ -164,7 +164,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
      <tr> 
        <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
        <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator4.gif" width=12 border=0>
-	   <input type="radio" value="En Mantencion" name="situ"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Mantención</font></font></td>
+	   <input type="radio" value="En Mantencion" name="situ"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenciï¿½n</font></font></td>
      </tr>
   </table>
   <TD>

@@ -620,7 +620,7 @@ function HrCreaArchivoEmolAdic($NomArchivo)
 function HrCreaArchivoHistCapacitacion($NomArchivo)
 {
 	//BD RRHH
-	//mysql_close($link);
+	//mysqli_close($link);
 	$link_48 = mysql_connect("192.168.52.48","adm_bd","672312");
 	mysql_select_db("interfaces_sap", $link_48);
 	$link = mysql_connect("192.168.52.50","user_conect","perfil7");
@@ -683,8 +683,8 @@ function HrCreaArchivoHistCapacitacion($NomArchivo)
 		$ArrValores[$Indice][10]=$CodMoneda;  //Moneda
 		$Indice++;
 	}
-	mysql_close($link);
-	mysql_close($link_48);
+	mysqli_close($link);
+	mysqli_close($link_48);
 	include("inter_conectar.php");
 	CreaArchivo("HrHistCapacitacion", $NomArchivo, "generados/hr", $ArrValores);
 	

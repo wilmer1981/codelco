@@ -176,7 +176,7 @@ function Salir()
 				echo '<tr>';
 				echo '<td align="left"><input type="radio" name="radiobutton" value="'.$row[tipo_mov].'~'.$row["cod_producto"].'~'.$row["cod_subproducto"].'~'.$row[id].'~'.$row["fecha"].'~'.$row[cod_signo].'" onClick="Chequear(this)">'.$row["fecha"].'</td>';												
 				echo '<td align="left">'.$row[id].'</td>';
-				echo '<td align="center">'.$row[signo].number_format($row[peso_seco],3,",","").'</td>';				
+				echo '<td align="center">'.$row["signo"].number_format($row[peso_seco],3,",","").'</td>';				
 				echo '<td align="center">'.$row[signo_cu].number_format($row[fino_cu],3,",","").' '.$row[unid_cu].'</td>';
 				echo '<td align="center">'.$row[signo_ag].number_format($row[fino_ag],3,",","").' '.$row[unid_ag].'</td>';
 				echo '<td align="center">'.$row[signo_au].number_format($row[fino_au],3,",","").' '.$row[unid_au].'</td>';												

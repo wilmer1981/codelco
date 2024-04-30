@@ -21,6 +21,6 @@
 	$sql_insert = "INSERT INTO tbl_demoErr ('name','email,'control','errors') 
 					VALUES ('$name','$email,'$control','$_errors')";
 	@mysql_query($sql_insert);
-	@mysql_close($conn);
+	@mysqli_close($conn);
 	header("Location: $demourl");
 ?>

@@ -146,7 +146,7 @@ function Recarga(Opt)
 				echo "<option style='background:".$Color."' value='".$FilaCtto["cod_contrato"]."' SELECTed>".$FilaCtto["cod_contrato"]."--->".strtoupper($FilaCtto["descripcion"])."</option>";
 				if($TxtFechaCtto==''||$TxtFechaCtto=='0000-00-00')
 					$TxtFechaCtto=$FilaCtto[fecha_termino];
-				$FechaIniCtto=$FilaCtto[fecha_inicio];
+				$FechaIniCtto=$FilaCtto["fecha_inicio"];
 				$FechaFinCtto=$FilaCtto[fecha_termino];
 				$AdmCodelco=$FilaCtto["cod_contrato"];
 				$AdmContratista=$FilaCtto["cod_contrato"];

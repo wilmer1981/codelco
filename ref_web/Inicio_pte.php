@@ -5,28 +5,27 @@ $CodigoDeSistema = 10;
 $CodigoDePantalla = 29;
 
 $CookieRut   = $_COOKIE["CookieRut"];
-$pagina  = isset($_REQUEST["pagina"])?$_REQUEST["pagina"]:"";
+$pagina  = isset($_REQUEST["pagina"])?$_REQUEST["pagina"]:1;
 $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-$DiaIni   = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"";
-$MesIni   = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
-$AnoIni   = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+$DiaIni   = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+$MesIni   = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("n");
+$AnoIni   = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
 
 $siguiente  = isset($_REQUEST["siguiente"])?$_REQUEST["siguiente"]:"";
 $anterior   = isset($_REQUEST["anterior"])?$_REQUEST["anterior"]:"";
 $fecha_adelante = isset($_REQUEST["fecha_adelante"])?$_REQUEST["fecha_adelante"]:"";
 $fecha_atras = isset($_REQUEST["fecha_atras"])?$_REQUEST["fecha_atras"]:"";
 
-
-
 //if (!isset($fecha))
 if ($fecha=="")
-{
+{/*
 	if (!isset($DiaIni))
 	   {$DiaIni = date("d");}
 	if (!isset($MesIni))
 	   {$MesIni = date("n");}
 	if (!isset($AnoIni))
 	   {$AnoIni = date("Y");}
+	   */
 	if (strlen($DiaIni)==1)
 	   {$DiaIni ="0".$DiaIni;}
 	if (strlen($MesIni)==1)
@@ -56,8 +55,10 @@ else
 }
   
 //if(!isset($pagina)) 
+/*
 if($pagina=="") 
 	   {$pagina=1;}
+*/
 ?>
 
 <HTML><HEAD><TITLE>Sistema Informacion Refineria Electrolitica Electrolitica</TITLE>
@@ -75,24 +76,24 @@ function Recarga(frm,Pagina) // RECARGA PAGINA DE FROMULARIO
 
 function Recarga_fecha_siguiente(frm,Pagina,fecha) // RECARGA PAGINA DE FROMULARIO
 {
-   frm.action=Pagina+"&amp;fecha="+fecha+"&siguiente=S";
+   frm.action=Pagina+"&fecha="+fecha+"&siguiente=S";
    frm.submit();
 }
 function Recarga_fecha_anterior(frm,Pagina,fecha) // RECARGA PAGINA DE FROMULARIO
 {
-   frm.action=Pagina+"&amp;fecha="+fecha+"&anterior=S";
+   frm.action=Pagina+"&fecha="+fecha+"&anterior=S";
    frm.submit();
 }
 function Llama_jefe_jhm(frm,Pagina,fecha)
 {
 
-	frm.action=Pagina+"&amp;fecha="+fecha;
+	frm.action=Pagina+"&fecha="+fecha;
 	frm.submit();	
 }
 function Llama_jefe_turno(frm,Pagina,fecha)
 {
 
-	frm.action=Pagina+"&amp;fecha="+fecha;
+	frm.action=Pagina+"&fecha="+fecha;
 	frm.submit();	
 }
 
@@ -248,14 +249,14 @@ function Salir()
         	 <SELECT name="AnoIni" onFocus="foco='DiaFin';"><?php LLenaComboAno($AnoIni,date("Y"));?></SELECT>&nbsp;&nbsp; 
 			 <INPUT name="buscar3" onclick="Recarga(document.FrmPrincipal,'Inicio_pte.php?pagina=<?php echo $pagina; ?>');" type="button" value="Buscar">
 		<td width=300 align="left"><strong><b>Ir a </b></strong>
-			<input name="hm" onclick="Llama_jefe_turno(document.FrmPrincipal,'inicio_jt.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Turno">
+			<input name="hm" onclick="Llama_jefe_turno(document.FrmPrincipal,'Inicio_jt.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Turno">
 			<input name="pte" onclick="Llama_jefe_jhm(document.FrmPrincipal,'Inicio_jhm.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe H.M.">
  		</td>
 
 		 
     	<td width="300" align="left"><strong>Consulta</strong>
-			<INPUT name=buscar23 onclick="Recarga_fecha_anterior(document.FrmPrincipal,'Inicio_pte.php?pagina=<?phpphp echo $pagina; ?>','<?php echo $fecha_atras; ?>');" type="button" value="<< Anterior">
-			<INPUT name=buscar222 onclick="Recarga_fecha_siguiente(document.FrmPrincipal,'Inicio_pte.php?pagina=<?php echo $pagina; ?>','<?php echo $fecha_adelante; ?>');" type="button" value="Siguiente>>" >
+			<INPUT name="buscar23" onclick="Recarga_fecha_anterior(document.FrmPrincipal,'Inicio_pte.php?pagina=<?phpphp echo $pagina; ?>','<?php echo $fecha_atras; ?>');" type="button" value="<< Anterior">
+			<INPUT name="buscar222" onclick="Recarga_fecha_siguiente(document.FrmPrincipal,'Inicio_pte.php?pagina=<?php echo $pagina; ?>','<?php echo $fecha_adelante; ?>');" type="button" value="Siguiente>>" >
 		</TD>
    </TR>
 </TABLE>
@@ -524,7 +525,7 @@ function Salir()
 		         <td class=tabstext><div align="center"><img alt="HISTORIA" border=0 src="archivos/vacio.gif"  width="90" height="20"></A></div></td>
 			  <?php } 
 			else {?>
-                   <td class=tabstext><div align="center"><A  href="Inicio_pte.php?pagina=<?php echo $cod_pagina; ?>&amp;ingresador=1&amp;fecha=<?php echo $fecha; ?>"><img alt="FORMULARIO INGRESO" border="0" src="archivos/ingresador.gif"  width="82" height="20"></A></div></td>
+                   <td class=tabstext><div align="center"><A  href="Inicio_pte.php?pagina=<?php echo $cod_pagina; ?>&ingresador=1&fecha=<?php echo $fecha; ?>"><img alt="FORMULARIO INGRESO" border="0" src="archivos/ingresador.gif"  width="82" height="20"></A></div></td>
 			 <?php  } ?> 
  
         <!-- <td class=tabstext><div align="center"><A href="Inicio_pte.php?pagina=<?php //echo $cod_pagina; ?>&amp;informe=1&amp;fecha=<?php echo $fecha; ?>"><img alt="INFORME" border=0 src="archivos/informe.gif"  width="82" height="20"></A></div></td>-->
@@ -533,7 +534,7 @@ function Salir()
 			?> <td class=tabstext><div align="center"><img alt="HISTORIA" border=0 src="archivos/vacio.gif"  width="90" height="20"></A></div></td>
 		   <?php }
 		    else { ?>	
-                  <td class=tabstext><div align="center"><A href="Inicio_pte.php?pagina=<?php echo $cod_pagina; ?>&amp;historia=1&amp;fecha=<?php echo $fecha; ?>"><img alt="HISTORIA" border=0 src="archivos/historia.gif"  width="82" height="20"></A></div></td>
+                  <td class=tabstext><div align="center"><A href="Inicio_pte.php?pagina=<?php echo $cod_pagina; ?>&historia=1&amp;fecha=<?php echo $fecha; ?>"><img alt="HISTORIA" border=0 src="archivos/historia.gif"  width="82" height="20"></A></div></td>
 			  <?php } ?>
             <td class=tabstext><div align="center"><A href="Inicio_pte.php?pagina=99"><img alt="PROGRAMA DESC. TOTAL" border=0 src="archivos/desc_total.gif" width="82" height="20"></A></div></td>
             <td class=tabstext><div align="center"><A href="Inicio_pte.php?pagina=10"><img alt="PROGRAMA RENOVACI�N"border=0 src="archivos/renovacion.gif"    width="82" height="20"></A></div></td>
@@ -542,7 +543,7 @@ function Salir()
 			<td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=13"><img alt="INFORME DIARIO" border=0 src="archivos/informe.gif" width="82" height="20"></A></div></td>
 
         <!-- <td class=tabstext><div align="center"><A href="Inicio_pte.php?pagina=13"><img alt="PRODUCCION CATODOS COMERCIALES" border=0 src="archivos/comerciales.gif" width="82" height="20"></A></div></td>-->
-            <td class=tabstext><div align="center"><a href="Inicio_pte.php?pagina=<?php echo $cod_pagina; ?>&amp;ayuda=1"><img alt="AYUDA" border=1 src="archivos/ayuda.gif" width="20" height="20"></a>&nbsp;&nbsp;&nbsp;&nbsp; 
+            <td class=tabstext><div align="center"><a href="Inicio_pte.php?pagina=<?php echo $cod_pagina; ?>&ayuda=1"><img alt="AYUDA" border=1 src="archivos/ayuda.gif" width="20" height="20"></a>&nbsp;&nbsp;&nbsp;&nbsp; 
             </div></td>
 			<td class=tabstext><div align="center">
 			

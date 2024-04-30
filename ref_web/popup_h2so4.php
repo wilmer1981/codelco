@@ -1,19 +1,24 @@
 <?php
 	include("../principal/conectar_ref_web.php");
-	$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+
+	$proceso       = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 	$Turno       = isset($_REQUEST["Turno"])?$_REQUEST["Turno"]:"";
 	$Circuito       = isset($_REQUEST["Circuito"])?$_REQUEST["Circuito"]:"";
 	$Volumen       = isset($_REQUEST["Volumen"])?$_REQUEST["Volumen"]:"";
 	$txt_fecha       = isset($_REQUEST["txt_fecha"])?$_REQUEST["txt_fecha"]:"";
 
 	$activar       = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	//$mensaje       = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
      	 
-	if ($Proceso == "M")
+	if ($proceso == "M")
 	{   
 	  	$txt_turno = $Turno;	
 		$cmbcircuito = $Circuito;
 		$txt_volumen_h2so4 = $Volumen;		
 	}
+
+	$fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 ?>
 
 <html>
@@ -29,9 +34,14 @@ function Grabar(f)
 	f.submit();
 	
 }
-function Salir()
+function Salir222()
 {
 	window.close();
+}
+function Salir(f,fecha)
+{
+	f.action = "traspasos.php?fecha="+fecha;
+	f.submit();
 }
 </script>
 </head>
@@ -86,8 +96,11 @@ function Salir()
 	  <br>
       <table width="400" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td align="center"><input name="btngrabar" type="button" style="width:70" value="Grabar" onClick="JavaScript:Grabar(this.form)">
-            <input name="btnsalir" type="button" style="width:70" value="Salir" onClick="JavaScript:Salir()"></td>
+          <td align="center">
+			<input name="btngrabar" type="button" style="width:70" value="Grabar" onClick="JavaScript:Grabar(this.form)">
+			<input name="btnsalir" type="button" style="width:70" value="Salir" onClick="Salir(this.form,' <?php echo $txt_fecha;?>')">
+		</td>
+		
         </tr>
       </table></td>
 	  
@@ -100,10 +113,12 @@ function Salir()
 		if (isset($mensaje))
 			echo 'alert("'.$mensaje.'");';		
 			
-		echo 'window.opener.document.frmPrincipal.action = "ingreso_cir_eleaux.php?fecha='.$txt_fecha.'&mostrar=S";';
-		echo 'window.opener.document.frmPrincipal.submit();';
+		//echo 'window.opener.document.frmPrincipal.action = "ingreso_cir_eleaux.php?fecha='.$txt_fecha.'&mostrar=S";';
+		echo 'window.opener.document.FrmPrincipal.action = "traspasos.php?fecha='.$txt_fecha.'&mostrar=S";';
+		echo 'window.opener.document.FrmPrincipal.submit();';
 		echo 'window.close();';		
 		echo '</script>';
+		
 	}
 ?>	  
 </form>

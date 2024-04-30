@@ -125,7 +125,7 @@ $HHMens=ObtieneHHMens();
 				<td><? echo FormatearRun($FilaMod[rut_empresa]); ?>&nbsp;</td>
 				<td><? echo ucwords(strtolower($FilaMod[NomCtto])); ?>&nbsp;</td>
 				<td><? echo $FilaMod["cod_contrato"]; ?>&nbsp;</td>
-				<td><? echo $FilaMod[fecha_inicio]; ?>&nbsp;</td>
+				<td><? echo $FilaMod["fecha_inicio"]; ?>&nbsp;</td>
 				<td><? echo $FilaMod[fecha_termino]; ?>&nbsp;</td>
 				<td>
 				<? 

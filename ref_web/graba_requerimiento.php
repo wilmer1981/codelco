@@ -1,9 +1,16 @@
 <?php include("../principal/conectar_ref_web.php");
+
+
 	$Diah = date("d");
 	$Mesh = date("n");
 	$Anoh = date("Y");
 	$fechah=$Anoh.'-'.$Mesh.'-'.$Diah;
 	//echo $fechah;
+
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$Proceso2     = isset($_REQUEST["Proceso2"])?$_REQUEST["Proceso2"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Valores2     = isset($_REQUEST["Valores2"])?$_REQUEST["Valores2"]:"";
 
     $consulta="select * from proyecto_modernizacion.funcionarios where rut='".$CookieRut."'  ";
 	$rss = mysqli_query($link, $consulta);

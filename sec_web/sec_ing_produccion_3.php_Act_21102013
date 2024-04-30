@@ -1108,7 +1108,7 @@ function ObtieneFechaRenov($Grupo,$mes,$dia,$ano)
 	{
 		//echo "fecha uno".$FechAuxGrupo."<br>";
 		$FechAuxGrupo=explode('-',$FilaEti[fecha_renovacion]);
-		$FechAuxGrupo=$FechAuxGrupo[0]."-".intval($FechAuxGrupo[1])."-".$FilaEti[dia_renovacion];
+		$FechAuxGrupo=$FechAuxGrupo[0]."-".intval($FechAuxGrupo[1])."-".$FilaEti["dia_renovacion"];
 		$fecha_actual=$FecActualEti;
 		$fecha_operar=$FechAuxGrupo;
 		list($anoX,$mesX,$diaX)=explode('-',$fecha_actual); 

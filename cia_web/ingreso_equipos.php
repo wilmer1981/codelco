@@ -55,7 +55,7 @@ function validar()
 	}
 	if(f.nro_serie.value=="")
 	{
-		alert("Debe ingresar el Número de Serie del equipo");
+		alert("Debe ingresar el Nï¿½mero de Serie del equipo");
 		f.nro_serie.focus();
 		return false;
 	}
@@ -94,7 +94,7 @@ function validar()
 		}
 		if(isNaN(ano) || ano < 1 || ano.toString().length < 4)
 		{
-			alert("El año ingresado no es valido");
+			alert("El aï¿½o ingresado no es valido");
 			f.fecha_compra.focus();
 			return false;
 		}
@@ -293,7 +293,7 @@ include("../principal/encabezado.php");
 <!--------------------------------------- pie de pagina ------------------------------------>
 <?php
 include("../principal/pie_pagina.php");
-mysql_close();
+mysqli_close();
 ?>
 
 </form>

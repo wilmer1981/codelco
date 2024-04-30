@@ -191,7 +191,7 @@ include ("conectar.php");
 				while($secuencia=mysql_fetch_array($resultados))
 					{
 						echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFEA' align='center'>" ;
-						echo "<td>".$secuencia[FECHA]."</td>";
+						echo "<td>".$secuencia["FECHA"]."</td>";
 						echo "<td>".$secuencia[N_FLUJO]."</td>";
 						echo "<td>".$secuencia[NOM_PRODUCTO]."</td>";
 						echo "<td>".$formato=number_format($secuencia[P_SECO],'0',',','.')."</td>";

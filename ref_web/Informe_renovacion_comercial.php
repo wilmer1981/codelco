@@ -2,6 +2,11 @@
 	include("../principal/conectar_sec_web.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 10;
+
+
+	$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";  
+	$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+
 	$fecha=ltrim($fecha);
     $ano1=substr($fecha,0,4);
 	$mes1=substr($fecha,5,2);
@@ -173,16 +178,16 @@ function Salir()
             $datos = 'F';
 			while ($rows = mysqli_fetch_array($rss))		  
 				{
-                  if ($rows[fecha_renovacion]<>"")
-					if (strlen($rows[dia_renovacion])==1)
-						$rows[dia_renovacion]='0'.$rows[dia_renovacion];
-						$fecha=	substr($rows[fecha_renovacion],0,8).$rows[dia_renovacion];
+                  if ($rows["fecha_renovacion"]<>"")
+					if (strlen($rows["dia_renovacion"])==1)
+						$rows["dia_renovacion"]='0'.$rows["dia_renovacion"];
+						$fecha=	substr($rows["fecha_renovacion"],0,8).$rows["dia_renovacion"];
 
 					echo '<tr>';
-					echo '<td width="121" align="center" class=detalle01>'.substr($fecha,0,7)."-".$rows[dia_renovacion].'</td>';
+					echo '<td width="121" align="center" class=detalle01>'.substr($fecha,0,7)."-".$rows["dia_renovacion"].'</td>';
 					$DescParcial='';
                     $consulta="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta=$consulta."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='A' order by dia_renovacion,cod_grupo";
+                    $consulta=$consulta."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='A' order by dia_renovacion,cod_grupo";
                     $respuesta = mysqli_query($link, $consulta);
                     $i=0;
                     while($row = mysqli_fetch_array($respuesta))
@@ -190,7 +195,7 @@ function Salir()
                         $i++;}
                     echo '<td width="121" align="center">'.$arreglo[0].'-'.$arreglo[1].'-'.$arreglo[2].'&nbsp;</td>';
                     $consulta2="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta2=$consulta2."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='B' order by dia_renovacion,cod_grupo";
+                    $consulta2=$consulta2."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='B' order by dia_renovacion,cod_grupo";
                     $respuesta2 = mysqli_query($link, $consulta2);
 					
                     $i=0;
@@ -200,7 +205,7 @@ function Salir()
                     echo '<td width="121" align="center">'.$arreglo2[0].'-'.$arreglo2[1].'-'.$arreglo2[2].'&nbsp;</td>';
 					//concepto = c
 					$consulta22="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta22=$consulta22."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='C' order by dia_renovacion,cod_grupo";
+                    $consulta22=$consulta22."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='C' order by dia_renovacion,cod_grupo";
 					//echo "C".$consulta22;
                     $respuesta22 = mysqli_query($link, $consulta22);
                     $i=0;
@@ -211,7 +216,7 @@ function Salir()
 
 					
                     $consulta3="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta3=$consulta3."where dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,cod_grupo";
+                    $consulta3=$consulta3."where dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,cod_grupo";
                     $respuesta3 = mysqli_query($link, $consulta3);
                     $i=0;
 					for ($a=0;$a< 6;$a++)
@@ -233,29 +238,29 @@ function Salir()
 					}
                     echo '<td width="121" align="center">'.$arreglo3[0].' '.$arreglo3[1].' '.$arreglo3[2].' '.$arreglo3[3].' '.$arreglo3[4].' '.$arreglo3[5].'&nbsp;</td>';
                     $consulta4="select distinct dia_renovacion,desc_parcial from sec_web.renovacion_prog_prod ";
-                    $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%'";
+                    $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta = mysqli_query($link, $consulta4);
                     $rowe = mysqli_fetch_array($respuesta);
 					
-					 if ($rowe[desc_parcial]!="")
-                   // if ($rowe[desc_parcial]==" ")
+					 if ($rowe["desc_parcial"]!="")
+                   // if ($rowe["desc_parcial"]==" ")
                     {
-					   //$rowe[desc_parcial]='-';
-					   $DescParcial=intval(substr($rowe[desc_parcial],7));
+					   //$rowe["desc_parcial"]='-';
+					   $DescParcial=intval(substr($rowe["desc_parcial"],7));
 					}
-				   // echo '<td width="121" align="center">'.$rowe[desc_parcial].'&nbsp;</td>';
+				   // echo '<td width="121" align="center">'.$rowe["desc_parcial"].'&nbsp;</td>';
 					  echo '<td width="121" align="center">'.$DescParcial.'&nbsp;</td>';
                     $consulta5="select distinct dia_renovacion,electro_win from sec_web.renovacion_prog_prod ";
-                    $consulta5=$consulta5."where fila_renovacion='1' and dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%'";
+                    $consulta5=$consulta5."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta5 = mysqli_query($link, $consulta5);
                     $rowe = mysqli_fetch_array($respuesta5);
 					$EW='';
-                    if ($rowe[electro_win]!="")
-						$EW=intval(substr($rowe[electro_win],4));
+                    if ($rowe["electro_win"]!="")
+						$EW=intval(substr($rowe["electro_win"],4));
 
 					
-             /*       if ($rowe[electro_win]=="")
-                       {$rowe[electro_win]='-';}*/
+             /*       if ($rowe["electro_win"]=="")
+                       {$rowe["electro_win"]='-';}*/
                     echo '<td width="121" align="center">'.$EW.'&nbsp;</td>';
                    	echo '</tr>';
                     $datos='V';

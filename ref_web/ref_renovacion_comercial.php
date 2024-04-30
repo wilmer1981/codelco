@@ -227,15 +227,15 @@ history.back();
 			while ($rows = mysqli_fetch_array($rss))		  
 				{
                   if ($rows[fecha_renovacion]<>"")
-					if (strlen($rows[dia_renovacion])==1)
-						$rows[dia_renovacion]='0'.$rows[dia_renovacion];
-					$fecha=	substr($rows[fecha_renovacion],0,8).$rows[dia_renovacion];
+					if (strlen($rows["dia_renovacion"])==1)
+						$rows["dia_renovacion"]='0'.$rows["dia_renovacion"];
+					$fecha=	substr($rows[fecha_renovacion],0,8).$rows["dia_renovacion"];
 
 					echo '<tr>';
-					echo '<td width="70" align="center" class="detalle01">'.substr($fecha,0,7)."-".$rows[dia_renovacion].'</td>';
+					echo '<td width="70" align="center" class="detalle01">'.substr($fecha,0,7)."-".$rows["dia_renovacion"].'</td>';
 
                     $consulta="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta=$consulta."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='A' order by dia_renovacion,cod_grupo";
+                    $consulta=$consulta."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='A' order by dia_renovacion,cod_grupo";
                     $respuesta = mysqli_query($link, $consulta);
                     $i=0;
                     while($row = mysqli_fetch_array($respuesta))
@@ -243,7 +243,7 @@ history.back();
                         $i++;}
                     echo '<td width="70" align="center">'.$arreglo[0].'-'.$arreglo[1].'-'.$arreglo[2].'&nbsp;</td>';
                     $consulta2="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta2=$consulta2."where dia_renovacion=".$rows[dia_renovacion]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='B' order by dia_renovacion,cod_grupo";
+                    $consulta2=$consulta2."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='B' order by dia_renovacion,cod_grupo";
                     $respuesta2 = mysqli_query($link, $consulta2);
                     $i=0;
                     while($row2 = mysqli_fetch_array($respuesta2))
@@ -251,7 +251,7 @@ history.back();
                         $i++;}
                     echo '<td width="70" align="center">'.$arreglo2[0].'-'.$arreglo2[1].'-'.$arreglo2[2].'&nbsp;</td>';
                     $consulta3="select cod_grupo from sec_web.renovacion_prog_prod ";
-                    $consulta3=$consulta3."where dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,cod_grupo";
+                    $consulta3=$consulta3."where dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,cod_grupo";
   			//echo "hola".$consulta3;
                   $respuesta3 = mysqli_query($link, $consulta3);
 			
@@ -265,14 +265,14 @@ history.back();
                         $i++;}
                     echo '<td width="70" align="center">'.$arreglo3[0].' '.$arreglo3[1].' '.$arreglo3[2].' '.$arreglo3[3].' '.$arreglo3[4].' '.$arreglo3[5].'&nbsp;</td>';
                     $consulta4="select distinct dia_renovacion,desc_parcial from sec_web.renovacion_prog_prod ";
-                    $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%'";
+                    $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta = mysqli_query($link, $consulta4);
                     $rowe = mysqli_fetch_array($respuesta);
                     if ($rowe[desc_parcial]=="")
                        {$rowe[desc_parcial]='-';}
 				    echo '<td width="70" align="center">'.$rowe[desc_parcial].'&nbsp;</td>';
                     $consulta5="select distinct dia_renovacion,electro_win from sec_web.renovacion_prog_prod ";
-                    $consulta5=$consulta5."where fila_renovacion='1' and dia_renovacion='".$rows[dia_renovacion]."' and fecha_renovacion like '".$fecha2."%'";
+                    $consulta5=$consulta5."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta5 = mysqli_query($link, $consulta5);
                     $rowe = mysqli_fetch_array($respuesta5);
                     if ($rowe[electro_win]=="")

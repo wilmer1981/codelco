@@ -101,7 +101,7 @@
 	$rs1 = mysqli_query($link, $consulta);
 	while ($row1 = mysqli_fetch_array($rs1))
 	{	
-		if ($row1[signo] == $SignoAux)
+		if ($row1["signo"] == $SignoAux)
 		{
 			$SignoAux = '';
 			echo '<tr class="Detalle01">';
@@ -127,7 +127,7 @@
 		}	
 	
 		echo '<tr>';
-		echo '<td align="center">'.$row1[signo].'</td>';
+		echo '<td align="center">'.$row1["signo"].'</td>';
 		echo '<td align="center">'.$row1[cod_flujo].'</td>';
 		echo '<td align="left">'.$row1["descripcion"].'</td>';
 		echo '<td align="right">'.number_format($row1["peso"],3,",",".").'</td>';

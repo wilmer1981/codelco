@@ -211,13 +211,13 @@ function Historial(f)
 			      while($row1 = mysqli_fetch_array($resultado))
 				    {    
 				    
-							    if($row1[situacion]=="En Servicio")
+							    if($row1["situacion"]=="En Servicio")
 								  {$icono="Indicator1.gif";}
-							    if($row1[situacion]=="Fuera de Servicio")
+							    if($row1["situacion"]=="Fuera de Servicio")
 								  {$icono="Indicator2.gif";}
-							    if($row1[situacion]=="En Observaci�n")
+							    if($row1["situacion"]=="En Observaci�n")
 								   {$icono="Indicator3.gif";}
-							    if($row1[situacion]=="En Mantenci�n")
+							    if($row1["situacion"]=="En Mantenci�n")
 								   {$icono="Indicator4.gif";}
 							    echo'<TR class=lcolor> ';
 								$consulta_equipo=" select * from ref_web.filtros where cod_filtro='".$row1[cod_filtro]."'";

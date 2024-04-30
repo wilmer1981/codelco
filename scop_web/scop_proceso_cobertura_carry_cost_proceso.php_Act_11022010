@@ -1334,7 +1334,7 @@ function DatosEnabalFlujos($AnoFlujo,$MesFlujo,$Contrato,$TipoFlujo,$CodFlujo,$A
 			$Cu=$FilaValor[cobre];
 			$Ag=$FilaValor[plata];
 			$Au=$FilaValor[oro];
-			if($Fila[signo]==1)
+			if($Fila["signo"]==1)
 			{
 				$ArrFinos[1][Cu]=$ArrFinos[1][Cu]+$Cu;
 				$ArrFinos[2][Ag]=$ArrFinos[2][Ag]+$Ag;

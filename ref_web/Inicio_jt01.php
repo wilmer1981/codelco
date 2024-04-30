@@ -1,6 +1,5 @@
 <html>
 <script language=JavaScript type=text/javascript>
-<!--
 function poptysiteWindow()
 {
 	
@@ -17,9 +16,10 @@ function sistema()
  f.submit();
 
 }
-//-->
 </script>
-<?php if (!isset($opcion)) 
+<?php 
+	$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+if ($opcion=="") 
    { 
 		echo '<body bgcolor="#FFFFFF" text="#0000002"  onLoad="poptysiteWindow()">';
    } 

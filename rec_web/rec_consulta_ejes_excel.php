@@ -124,7 +124,7 @@
 			echo "<td>".$Fila[EMPRESA]."&nbsp;</td>\n";
 			echo "<td align='right'>".$Fila[GUIA]."&nbsp;</td>\n";
 			echo "<td align='right'>".$Fila[HORA]."&nbsp;</td>\n";
-			echo "<td>".$Fila[FECHA]."&nbsp;</td>\n";
+			echo "<td>".$Fila["FECHA"]."&nbsp;</td>\n";
 			echo "<td align='right'>".intval($Fila[BRUTO])."&nbsp;</td>\n";
 			echo "<td align='right'>".intval($Fila[TARA])."&nbsp;</td>\n";
 			echo "<td align='right'>".intval($Fila[NETO])."&nbsp;</td>\n";

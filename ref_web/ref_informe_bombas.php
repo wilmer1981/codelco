@@ -303,11 +303,11 @@ function Historial(f)
 			      while($row1 = mysqli_fetch_array($resultado))
 				    {    
 				    
-							    if($row1[situacion]=="En Servicio")
+							    if($row1["situacion"]=="En Servicio")
 								  {$icono="Indicator1.gif";}
-							    if($row1[situacion]=="Fuera de Servicio")
+							    if($row1["situacion"]=="Fuera de Servicio")
 								  {$icono="Indicator2.gif";}
-							    if($row1[situacion]=="En Observación")
+							    if($row1["situacion"]=="En Observación")
 								   {$icono="Indicator3.gif";}
 							    if($row1[situacion]=="En Mantención")
 								   {$icono="Indicator4.gif";}

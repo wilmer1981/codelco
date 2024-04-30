@@ -269,7 +269,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		echo "<td align='center'>".$Fila[cod_material]."&nbsp;</td>";
 		echo "<td align='center'>".$Fila[consumo_interno]."&nbsp;</td>";
 		echo "<td align='center'>".$Fila[vptm]."&nbsp;</td>";
-		echo "<td align='center'>".$Fila[signo]."&nbsp;</td>";
+		echo "<td align='center'>".$Fila["signo"]."&nbsp;</td>";
 		echo "<td align='center'>".number_format($Fila[factor],4,',','.')."&nbsp;</td>";
 		echo "<td align='center'>".$Fila["nodo"]."&nbsp;</td>";
 		echo "</tr>";

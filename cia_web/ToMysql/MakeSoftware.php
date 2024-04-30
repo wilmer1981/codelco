@@ -50,7 +50,7 @@ while($resp=mysql_fetch_array($result))
 		echo '<strong>Fallo Ingreso:</strong> '.$codigo;
 	echo '<br>';
 }
-mysql_close($conexion);
+mysqli_close($conexion);
 echo '<br><br><strong>Total:</strong>'.$total;
 ?>
 </body>

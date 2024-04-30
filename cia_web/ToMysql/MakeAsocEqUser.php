@@ -47,7 +47,7 @@ while($resp=mysql_fetch_array($result))
 echo "<br><br><strong>TOTAL:\t\t</strong>".$total;
 echo "<br>Cant Ingresados:\t\t".$cant_ing;
 echo "<br>Cant Omitidos:\t\t".$cant_omi;
-mysql_close($conexion);
+mysqli_close($conexion);
 ?>
 </body>
 </html>

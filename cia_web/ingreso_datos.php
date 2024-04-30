@@ -243,7 +243,7 @@ else
 	echo 'window.location.href="../principal/sistemas_usuario.php?CodSistema=18";';
 
 echo '</script>';
-mysql_close();
+mysqli_close();
 ?>
 </div>
 </body>

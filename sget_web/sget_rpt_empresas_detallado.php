@@ -265,7 +265,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				<td><? 
 				$Area=DescripcionArea($FilaCtto["cod_area"]);
 				echo $Area; ?>&nbsp;</td>
-				<td><? echo $FilaCtto[fecha_inicio]; ?>&nbsp;</td>
+				<td><? echo $FilaCtto["fecha_inicio"]; ?>&nbsp;</td>
 				<td ><? echo $FilaCtto[fecha_termino]; ?>&nbsp;</td>
 				<td align="center"><? echo $ReunArranque; ?>&nbsp;</td>
 				<td ><? echo $ADMCTTO ?>&nbsp;</td>

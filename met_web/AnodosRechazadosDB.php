@@ -304,7 +304,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				while($codigo=mysql_fetch_array($resultados))
 					{
 						echo "<tr bordercolor='#FFCC00' bgcolor='#FFFFEA' align='center'>" ;
-						echo "<td>".$codigo[FECHA]."</td>";
+						echo "<td>".$codigo["FECHA"]."</td>";
 						echo "<td>".$codigo[N_FLUJO]."</td>";
 						echo "<td>".$codigo[NOM_PRODUCTO]."</td>";
 						echo "<td>".$formato=number_format($codigo[P_SECO],'0',',','.')."</td>";

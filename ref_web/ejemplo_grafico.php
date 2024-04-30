@@ -1,9 +1,16 @@
-<?phpphp
+<?php
 	include("../principal/conectar_ref_web.php");
-	$dif_ano=$ano;
-	$dia_aux=intval($dia);
-	$dif_dia=($dia_aux-15);
-	$dif_dia_rest=abs($dif_dia);
+
+	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
+	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+
+	$dif_ano = $ano;
+	$dia_aux = intval($dia);
+	$dif_dia = ($dia_aux-15);
+	$dif_dia_rest = abs($dif_dia);
+
 	if ($dif_dia<0)
 		{$mes_aux=intval($mes);
 		 $dif_mes=($mes_aux-1);
@@ -15,18 +22,17 @@
 	 	 $dif_dia=strval($dif_dia);
 		 $dif_mes=strval($dif_mes);}
 	 else {$dif_mes=$mes;}
+
      $fecha2=$dif_ano."-".$dif_mes."-".$dif_dia;
 	 $cont=0;
 	 $i=0;
-	 while ($cont<=15)
-      {
+	while ($cont<=15)
+    {
 	    $arreglo_fecha[$i]=$fecha2;
 	   $Consulta ="select fecha,ifnull(sum(unid_recup),0) as recuperado_tot, ifnull(sum(estampa),0) as ne, ifnull(sum(dispersos),0) as nd, ifnull(sum(rayado),0) as ra, ";
 	   $Consulta =$Consulta."ifnull(sum(cordon_superior),0) as cs, ifnull(sum(cordon_lateral),0) as cl, ifnull(sum(otros),0) as ot from cal_web.rechazo_catodos as t1 " ;
 	   $Consulta = $Consulta."where t1.fecha = '".$fecha2."' group by fecha";
-	   
-	  
-	  
+	     
 	   if (intval($dif_dia==31))
 	   		{$dif_dia='1';
 			 $dif_mes=strval(intval($dif_mes+1));

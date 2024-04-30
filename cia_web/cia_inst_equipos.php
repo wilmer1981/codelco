@@ -19,7 +19,7 @@
 			if ($TxtCorreo=="")
 				$TxtCorreo=$TxtNomUser;
 		}
-		mysql_close($link);
+		mysqli_close($link);
 	}
 	if ($TxtCodEquipo!="" && isset($TxtCodEquipo))
 	{
@@ -188,7 +188,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		else
 			echo "<option value='".$Fila["RUT"]."'>".$Fila["APELLIDO_PATERNO"]." ".$Fila["APELLIDO_MATERNO"]." ".$Fila["NOMBRES"]."</option>\n";
 	}
-	mysql_close($link);
+	mysqli_close($link);
 ?>
         </select><input type="hidden" name="TxtCodEquipo" value="<? echo $TxtCodEquipo; ?>"></td>
         <td rowspan="3">Datos Validados: </td>
@@ -248,7 +248,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		else
 			echo "<option value='".$Fila["COD_CENTRO_COSTO"]."'>".$Fila["COD_CENTRO_COSTO"]." - ".$Fila["NOMBRE_CENTRO_COSTO"]."</option>\n";
 	}
-	mysql_close($link);
+	mysqli_close($link);
 ?>		
         </select></td>
         </tr>

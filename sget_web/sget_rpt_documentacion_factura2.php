@@ -308,7 +308,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			echo "<td>".$FilaMod[rut_empresa]."</td>";
 			echo "<td>".$FilaMod[razon_social]."</td>";
 			echo "<td>".$FilaMod["cod_contrato"]."</td>";
-			echo "<td>".$FilaMod[fecha_inicio]."</td>";
+			echo "<td>".$FilaMod["fecha_inicio"]."</td>";
 			echo "<td>".$FilaMod[fecha_termino]."</td>";
 			for($i=1;$i<=12;$i++)
 			{

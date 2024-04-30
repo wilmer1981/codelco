@@ -144,7 +144,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
       <td align="left"<? echo $Class;?>><? echo $FilaCont[tipo_jornada];?>&nbsp;</td>
       <td align="left"<? echo $Class;?>><? echo $FilaCont["cod_contrato"];?>&nbsp;</td>
       <td align="left"<? echo $Class;?>><? echo $FilaCont["descripcion"];?>&nbsp;</td>
-      <td align="center"><? echo $FilaCont[fecha_inicio];?>&nbsp;</td>
+      <td align="center"><? echo $FilaCont["fecha_inicio"];?>&nbsp;</td>
       <td align="center"<? echo $Class;?>><? echo $FilaCont[fecha_termino];?>&nbsp;</td>
     </tr>
     <?		

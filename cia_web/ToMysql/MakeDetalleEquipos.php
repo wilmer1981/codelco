@@ -27,7 +27,7 @@ while($resp=mysql_fetch_array($result))
 	$query.=",".$resp_tmp["disco_duro"].",".$resp_tmp["cant_seriales"].",".$resp_tmp["cant_paralelos"].");";
 	@mysql_db_query("cia_web_access",$query,$conexion);
 }
-mysql_close($conexion);
+mysqli_close($conexion);
 echo '<br><strong>TOTAL:</strong>'.$total;
 ?>
 </body>

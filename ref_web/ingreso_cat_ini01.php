@@ -1,7 +1,23 @@
 <?php
 	 include("../principal/conectar_ref_web.php");
-	 if ($proceso == "G")
-	 {
+
+    $proceso     = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:""; 
+	$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";  
+	$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:""; 
+
+	//$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";   
+	$txt_turno       = isset($_REQUEST["txt_turno"])?$_REQUEST["txt_turno"]:"";
+	$txt_produccion_mfci = isset($_REQUEST["txt_produccion_mfci"])?$_REQUEST["txt_produccion_mfci"]:"";
+	$txt_produccion_mdb = isset($_REQUEST["txt_produccion_mdb"])?$_REQUEST["txt_produccion_mdb"]:"";
+	$txt_produccion_mco = isset($_REQUEST["txt_produccion_mco"])?$_REQUEST["txt_produccion_mco"]:"";
+	$txt_consumo  = isset($_REQUEST["txt_consumo"])?$_REQUEST["txt_consumo"]:"";
+	$txt_observacion  = isset($_REQUEST["txt_observacion"])?$_REQUEST["txt_observacion"]:"";
+	$txt_stock  = isset($_REQUEST["txt_stock"])?$_REQUEST["txt_stock"]:"";
+	$txt_rechazo_cat_ini  = isset($_REQUEST["txt_rechazo_cat_ini"])?$_REQUEST["txt_rechazo_cat_ini"]:"";
+
+	if ($proceso == "G")
+	{
 	 $fecha=$ano1."-".$mes1."-".$dia1;
 	 $consulta = "SELECT * FROM ref_web.iniciales WHERE  fecha='".$fecha."'"; 
 	 $respuesta =mysqli_query($link, $consulta);
@@ -27,8 +43,8 @@
 		 $resultado = mysqli_query($link, $busqueda);
 		 if($row=mysqli_fetch_array($resultado))
 		 {
-		 $fecha = explode("-",$row["fecha"]);
-		 $muestra = "fecha=".$row["fecha"]."&turno=".$row[txt_turno]."&produccion_mfci=".$row[txt_produccion_mfci]."&produccion_mdb=".$row[txt_produccion_mdb]."&produccion_mco=".$row[txt_produccion_mco]."&consumo=".$row[txt_consumo]."&observacion=".$row[txt_observacion]."&stock=".$row[txt_stock]."&rechazo_cat_ini=".$row[txt_rechazo_cat_ini]."";
+		 	$fecha = explode("-",$row["fecha"]);
+		 	$muestra = "fecha=".$row["fecha"]."&turno=".$row["txt_turno"]."&produccion_mfci=".$row["txt_produccion_mfci"]."&produccion_mdb=".$row["txt_produccion_mdb"]."&produccion_mco=".$row["txt_produccion_mco"]."&consumo=".$row["txt_consumo"]."&observacion=".$row["txt_observacion"]."&stock=".$row["txt_stock"]."&rechazo_cat_ini=".$row["txt_rechazo_cat_ini"]."";
 		 }
 		 
 		 $fecha=$ano1."-".$mes1."-".$dia1; 
@@ -59,7 +75,7 @@
 		$rs = mysqli_query($link, $consulta);
 		if ($row = mysqli_fetch_array($rs))
 		{
-	    	$linea = "mostrar=S&dia1=".$dia1."&mes1=".$mes1."&ano1=".$ano1."&fecha=".$row["fecha"]."&txt_turno=".$row[turno]."&txt_produccion_mfci=".$row[produccion_mfci]."&txt_produccion_mdb=".$row[produccion_mdb]."&txt_produccion_mco=".$row[produccion_mco]."&txt_consumo=".$row[consumo]."&txt_observacion=".$row["observacion"]."&txt_stock=".$row[stock]."&txt_rechazo_cat_ini=".$row[rechazo_cat_ini]."";
+	    	$linea = "mostrar=S&dia1=".$dia1."&mes1=".$mes1."&ano1=".$ano1."&fecha=".$row["fecha"]."&txt_turno=".$row["turno"]."&txt_produccion_mfci=".$row["produccion_mfci"]."&txt_produccion_mdb=".$row["produccion_mdb"]."&txt_produccion_mco=".$row["produccion_mco"]."&txt_consumo=".$row["consumo"]."&txt_observacion=".$row["observacion"]."&txt_stock=".$row["stock"]."&txt_rechazo_cat_ini=".$row["rechazo_cat_ini"]."";
 		}
 		 header("Location:popup_catodos_iniciales.php?".$linea);
 	}

@@ -437,7 +437,7 @@ Desde&nbsp;
 				<td><a href="sget_info_empresa.php?Emp=<? echo $FilaMod[rut_empresa];?>" target="_blank"><? echo FormatearRun($FilaMod[rut_empresa]); ?></a></td>
 				<td><? echo ucwords(strtolower($FilaMod[NomCtto])); ?>&nbsp;</td>
 				<td><a href="sget_info_ctto_ac.php?Ctto=<? echo $FilaMod["cod_contrato"];?>" target="_blank"><? echo $FilaMod["cod_contrato"]; ?></a></td>
-				<td><? echo $FilaMod[fecha_inicio]; ?>&nbsp;</td>
+				<td><? echo $FilaMod["fecha_inicio"]; ?>&nbsp;</td>
 				<td><? echo $FilaMod[fecha_termino]; ?>&nbsp;</td>
 				<td>
 				<? 
