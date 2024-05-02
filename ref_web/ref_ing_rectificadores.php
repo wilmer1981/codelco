@@ -219,8 +219,9 @@ function Recarga()
 		$Mes = "0".$Mes;
 	if ($Dia < 10)
 	    $Dia= "0".$Dia;	
-	$consulta_rectificador="select distinct max(fecha) as fecha1,cod_rectificador from ref_web.rectificadores where fecha <='".$Ano."-".$Mes."-".$Dia."'  group by cod_rectificador order by cod_rectificador ";
+	$consulta_rectificador="SELECT distinct max(fecha) as fecha1,cod_rectificador from ref_web.rectificadores where fecha <='".$Ano."-".$Mes."-".$Dia."'  group by cod_rectificador order by cod_rectificador ";
 	$rs_rectificador=mysqli_query($link, $consulta_rectificador);	
+	//echo $consulta_rectificador;
 	while ($row_rectificador = mysqli_fetch_array($rs_rectificador))
 	     {  
 		   $consulta_datos="SELECT max(fecha),cod_rectificador,descripcion_rectificador,Corriente_aplicada ";
