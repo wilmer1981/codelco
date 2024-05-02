@@ -77,7 +77,7 @@ function Salir()
 			
 						$Consulta_fecha="select distinct left(t2.fecha_hora,10) as fecha from cal_web.solicitud_analisis as t1 ";
     					$Consulta_fecha.="inner join cal_web.leyes_por_solicitud as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.rut_funcionario=t2.rut_funcionario and t1.id_muestra=t2.id_muestra ";
-    					$Consulta_fecha.="where ceiling(t2.id_muestra)='".$row_c[cod_circuito]."'  and t2.id_muestra not in ('1-HM') and t2.cod_producto='41' and t2.cod_subproducto='22' and t2.cod_leyes='".$Fila_ley["cod_leyes"]."' and left(t1.fecha_muestra,10) between '".$FechaInicio."' and '".$FechaTermino."'";
+    					$Consulta_fecha.="where ceiling(t2.id_muestra)='".$row_c["cod_circuito"]."'  and t2.id_muestra not in ('1-HM') and t2.cod_producto='41' and t2.cod_subproducto='22' and t2.cod_leyes='".$Fila_ley["cod_leyes"]."' and left(t1.fecha_muestra,10) between '".$FechaInicio."' and '".$FechaTermino."'";
 						//echo $Consulta_fecha;
 						$Respuesta_fecha = mysqli_query($link, $Consulta_fecha);
 	    				while ($Fila_fecha = mysqli_fetch_array($Respuesta_fecha))
@@ -96,11 +96,11 @@ function Salir()
 				   							{								
 												$Consulta="select  left(t2.fecha_hora,10) as fecha ,t2.valor as valor,t2.candado,t2.cod_unidad,t2.cod_leyes from cal_web.solicitud_analisis as t1 ";
 												$Consulta.="inner join cal_web.leyes_por_solicitud as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.rut_funcionario=t2.rut_funcionario and t1.id_muestra=t2.id_muestra ";
-												$Consulta.="where ceiling(t2.id_muestra)='".$row_c[cod_circuito]."' and t2.id_muestra not in ('1-HM') and t2.cod_producto='41' and t2.cod_subproducto='22' and t2.cod_leyes='".$Fila_ley["cod_leyes"]."' and left(t1.fecha_muestra,10)='".$Fila_fecha["fecha"]."' order by left(t1.fecha_muestra,10) asc";
+												$Consulta.="where ceiling(t2.id_muestra)='".$row_c["cod_circuito"]."' and t2.id_muestra not in ('1-HM') and t2.cod_producto='41' and t2.cod_subproducto='22' and t2.cod_leyes='".$Fila_ley["cod_leyes"]."' and left(t1.fecha_muestra,10)='".$Fila_fecha["fecha"]."' order by left(t1.fecha_muestra,10) asc";
 												//echo $Consulta."<br>";
 												$Respuesta_res = mysqli_query($link, $Consulta);
 												$Fila_res = mysqli_fetch_array($Respuesta_res);
-												if ($row_c[cod_circuito]=='01')
+												if ($row_c["cod_circuito"]=='01')
 												    {$ponderado=$ponderado+$Fila_res["valor"]*0.5;}
 												else {$ponderado=$ponderado+$Fila_res["valor"];}
 					                        }

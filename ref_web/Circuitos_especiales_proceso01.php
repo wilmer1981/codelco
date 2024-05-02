@@ -1,6 +1,18 @@
 <?php
 	include("../principal/conectar_sec_web.php");
 	
+	$proceso       = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$opcion        = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$txtcodigo     = isset($_REQUEST["txtcodigo"])?$_REQUEST["txtcodigo"]:"";
+	$txtdescripcion     = isset($_REQUEST["txtdescripcion"])?$_REQUEST["txtdescripcion"]:"";
+	$txtgrupos          = isset($_REQUEST["txtgrupos"])?$_REQUEST["txtgrupos"]:"";
+	$txtceldas          = isset($_REQUEST["txtceldas"])?$_REQUEST["txtceldas"]:"";
+	$txtcatodos         = isset($_REQUEST["txtcatodos"])?$_REQUEST["txtcatodos"]:"";
+	$txtrectificador    = isset($_REQUEST["txtrectificador"])?$_REQUEST["txtrectificador"]:"";
+	$txtnave            = isset($_REQUEST["txtnave"])?$_REQUEST["txtnave"]:"";
+	$parametros         = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+
+	
 	if (($proceso == "G") and ($opcion == "N"))
 	{	
 		$consulta = "SELECT * FROM ref_web.circuitos_especiales WHERE cod_circuito = '".$txtcodigo."'";
@@ -37,7 +49,7 @@
 	if ($proceso == "E")
 	{
 		$valores = explode("-",$parametros);
-		while(list($c,$v) = each($valores))
+		foreach($valores as $c => $v)
 		{	
 			//Borra de Sec_Web.
 			$eliminar = "DELETE FROM ref_web.circuitos_especiales WHERE cod_circuito = '".$v."'";

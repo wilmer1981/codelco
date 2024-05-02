@@ -510,7 +510,7 @@ function Salir()
                                                     $Consulta_grupo=$Consulta_grupo."where fecha<='".$fecha.'-'.'01'."' and cod_grupo='".$arreglo_sab_tb[$i]."' group by cod_grupo";
                                                     $respuesta_grupo= mysqli_query($link, $Consulta_grupo);
         			                                $row_grupo = mysqli_fetch_array($respuesta_grupo);
-													if ($row_grupo_anterior[cod_circuito]==$row_grupo[cod_circuito])
+													if ($row_grupo_anterior["cod_circuito"]==$row_grupo["cod_circuito"])
 													    {  $arr_aux_tb[$i]=$row_grupo["cod_grupo"];
                                                             $arr_aux_ta[$i]=$arreglo_dom_ta[$i];}
 													 else if($row_grupo_anterior[cubas_lavado]==$row_grupo[cubas_lavado])

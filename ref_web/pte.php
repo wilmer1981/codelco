@@ -140,10 +140,10 @@ function Modificar()
 					$Respuesta = mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($txt_circuitos==$Fila[cod_circuito])
-							echo "<option value='".$Fila[cod_circuito]."' selected>".$Fila[cod_circuito]."</option>";
+						if ($txt_circuitos==$Fila["cod_circuito"])
+							echo "<option value='".$Fila["cod_circuito"]."' selected>".$Fila["cod_circuito"]."</option>";
 						else
-							echo "<option value='".$Fila[cod_circuito]."'>".$Fila[cod_circuito]."</option>";
+							echo "<option value='".$Fila["cod_circuito"]."'>".$Fila["cod_circuito"]."</option>";
 		     		}
 				?>
           </select>

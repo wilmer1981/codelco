@@ -97,11 +97,11 @@ function detalle_anodos(fecha,grupo)
 				{
 					if ($fila_dentro=='S')
 					   {
-						echo '<td colspan="7" align="center"><strong>Circuito '.$row_circuito[cod_circuito].'</strong></td>';
+						echo '<td colspan="7" align="center"><strong>Circuito '.$row_circuito["cod_circuito"].'</strong></td>';
 						$fila_dentro='N';   
 					   }
 					else {
-							echo '<td colspan="6" align="center"><strong>Circuito '.$row_circuito[cod_circuito].'</strong></td>';
+							echo '<td colspan="6" align="center"><strong>Circuito '.$row_circuito["cod_circuito"].'</strong></td>';
 							$fila_dentro='N';
 						 }   
 				}
@@ -136,7 +136,7 @@ function detalle_anodos(fecha,grupo)
 				$color1="";
 				while ($row_circuito=mysqli_fetch_array($respuesta_circuito))
 					{
-					  $consulta_grupo="select distinct cod_grupo from ref_web.grupo_electrolitico2 where cod_circuito='".$row_circuito[cod_circuito]."'";
+					  $consulta_grupo="select distinct cod_grupo from ref_web.grupo_electrolitico2 where cod_circuito='".$row_circuito["cod_circuito"]."'";
 					  $respuesta_grupo=mysqli_query($link, $consulta_grupo);
 					  $total_dia_ne=0;
 					  $total_dia_nd=0;

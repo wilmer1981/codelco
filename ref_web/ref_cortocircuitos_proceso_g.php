@@ -22,7 +22,7 @@
 		   $row2 = mysqli_fetch_array($rs2);
 		   
 			$insertar = "INSERT INTO ref_web.cortocircuitos (cod_grupo,cod_circuito,cont_dia,fecha,cortos,tipo_anodo,estado)";
-			$insertar = $insertar." VALUES ('".$cmbgrupo."','".$row2[cod_circuito]."','".$correlativo."','".$fecha."',".$cortos.",'".$cmbtipo."','A')";		
+			$insertar = $insertar." VALUES ('".$cmbgrupo."','".$row2["cod_circuito"]."','".$correlativo."','".$fecha."',".$cortos.",'".$cmbtipo."','A')";		
 			mysqli_query($link, $insertar);
 			echo '<script language="JavaScript">';		
 		    echo 'window.opener.document.frmPrincipal.action = "ref_cortocircuitos.php";';

@@ -426,7 +426,7 @@
 ?>	
 				<br><table border="1">
 				<?php
-					if ($row_circuito[cod_circuito]=='01')
+					if ($row_circuito["cod_circuito"]=='01')
 					{
 					//si es todos los circuitos que coloque titulo cuando sea circuito=01
 				?>	   	<tr>
@@ -444,9 +444,9 @@
 			<?php		echo '<tr>';
 					if ($opcion=='P')
 						{
-							echo '<td colspan="7" align="center"><strong>'.$row_circuito[descripcion_circuito].'</strong></td>';
+							echo '<td colspan="7" align="center"><strong>'.$row_circuito["descripcion_circuito"].'</strong></td>';
 						}
-					else {echo '<td colspan="8" align="center"><strong>'.$row_circuito[descripcion_circuito].'</strong></td>';}		
+					else {echo '<td colspan="8" align="center"><strong>'.$row_circuito["descripcion_circuito"].'</strong></td>';}		
 					echo '</tr>';
 					echo '<tr>';
 					echo '<td rowspan="2" align="center"><strong>Fecha</strong><strong></strong></td>';
@@ -473,7 +473,7 @@
 					   $consulta="SELECT t1.fecha_produccion as fecha,t2.cod_circuito as circuito,t1.cod_grupo as grupo ";
 					   $consulta.="from sec_web.produccion_catodo as t1 ";
 					   $consulta.="INNER JOIN ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo ";
-					   $consulta.="where t1.fecha_produccion BETWEEN '".$FechaInicio."' and '".$FechaTermino."' and t2.cod_circuito='".$row_circuito[cod_circuito]."' ";
+					   $consulta.="where t1.fecha_produccion BETWEEN '".$FechaInicio."' and '".$FechaTermino."' and t2.cod_circuito='".$row_circuito["cod_circuito"]."' ";
 					   $consulta.="and t1.cod_producto='18' and t1.cod_subproducto='1' ";
 					   $consulta.="GROUP by t1.fecha_produccion,t2.cod_circuito,t1.cod_grupo ";
 					   $consulta.="ORDER by t1.fecha_produccion,t2.cod_grupo ";

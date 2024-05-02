@@ -284,10 +284,10 @@ function Grafico()
 				
 				while ($row = mysqli_fetch_array($rs))
 				{
-		  			if  ($row[cod_circuito] == $cmbcircuito)
-						echo '<option value="'.$row[cod_circuito].'" selected>Circuito '.$row[cod_circuito].'</option>';
+		  			if  ($row["cod_circuito"] == $cmbcircuito)
+						echo '<option value="'.$row["cod_circuito"].'" selected>Circuito '.$row["cod_circuito"].'</option>';
 					else 
-						echo '<option value="'.$row[cod_circuito].'">Circuito '.$row[cod_circuito].'</option>';
+						echo '<option value="'.$row["cod_circuito"].'">Circuito '.$row["cod_circuito"].'</option>';
 				}
 				//poly 09-03-2005
 			  	if ($cmbcircuito=='GLOBALES')

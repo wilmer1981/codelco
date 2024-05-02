@@ -202,9 +202,9 @@ function Modificar()
 						while ($row = mysqli_fetch_array($rs))
 						{
 							if ($row["cod_subclase"] == $valor[1])
-							    echo '<option value="'.$row[cod_circuito].'" selected>'.$row[cod_circuito].'</option>';
+							    echo '<option value="'.$row["cod_circuito"].'" selected>'.$row["cod_circuito"].'</option>';
 							else
-						    	echo '<option value="'.$row[cod_circuito].'">'.$row[cod_circuito].'</option>';
+						    	echo '<option value="'.$row["cod_circuito"].'">'.$row["cod_circuito"].'</option>';
 	
 						}
 						echo '</select></td>';
@@ -230,7 +230,7 @@ function Modificar()
 			$rs1 = mysqli_query($link, $consulta);
 			while ($row1 = mysqli_fetch_array($rs1))
 			{
-			    echo '<option value="'.$row1[cod_circuito].'">'.$row1[cod_circuito].'</option>';
+			    echo '<option value="'.$row1["cod_circuito"].'">'.$row1["cod_circuito"].'</option>';
 			}		
 			echo '</select></td>';
 

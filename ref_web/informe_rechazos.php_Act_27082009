@@ -404,7 +404,7 @@ function Excel()
 											  
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'><a href=\"JavaScript:detalle('".$Fila_fecha["fecha"]."','".$Fila2["grupo"]."','".$Fila2[turno]."')\">\n";
 												echo $Fila_fecha["fecha"]."</td>\n";
-												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila3[cod_circuito]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila3["cod_circuito"]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["grupo"]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[turno]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[ne]."&nbsp</font></td>\n";
@@ -429,7 +429,7 @@ function Excel()
 											}
 										else{ echo "<td width='120' align='center' class='detalle01'><font color='blue'><a href=\"JavaScript:detalle('".$Fila_fecha["fecha"]."','".$Fila2["grupo"]."','".$Fila2[turno]."')\">\n";
 												echo $Fila_fecha["fecha"]."</td>\n";
-												echo "<td width='120' align='center'><font color='black'>".$Fila3[cod_circuito]."&nbsp</font></td>\n";
+												echo "<td width='120' align='center'><font color='black'>".$Fila3["cod_circuito"]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center'><font color='black'>".$Fila2["grupo"]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center'><font color='black'>".$Fila2[turno]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center'><font color='black'>".$Fila2[ne]."&nbsp</font></td>\n";

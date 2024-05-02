@@ -71,10 +71,10 @@ function Listado()
 		$rs = mysqli_query($link, $consulta);
 		while ($row = mysqli_fetch_array($rs))
 		{	
-			if ($row[cod_circuito] == $cmbcircuito)
-				echo '<option value="'.$row[cod_circuito].'" selected>'.$row[descripcion_circuito].'</option>';
+			if ($row["cod_circuito"] == $cmbcircuito)
+				echo '<option value="'.$row["cod_circuito"].'" selected>'.$row["descripcion_circuito"].'</option>';
 			else 
-				echo '<option value="'.$row[cod_circuito].'">'.$row[descripcion_circuito].'</option>';
+				echo '<option value="'.$row["cod_circuito"].'">'.$row[descripcion_circuito].'</option>';
 		}
 	?>
     </select></td>

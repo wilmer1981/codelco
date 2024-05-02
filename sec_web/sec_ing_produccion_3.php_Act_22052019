@@ -1102,7 +1102,7 @@ function ObtieneCircuito($Grupo)
 	$RespEti=mysqli_query($link, $Consulta);
 	if($FilaEti=mysql_fetch_array($RespEti))
 	{
-		$CodCircuito=$FilaEti[cod_circuito];	
+		$CodCircuito=$FilaEti["cod_circuito"];	
 	}
 	return($CodCircuito);
 

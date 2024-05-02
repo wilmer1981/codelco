@@ -206,10 +206,10 @@ function Salir()
 				
 				while ($row = mysqli_fetch_array($rs))
 				{
-		  			if (($mostrar == "S") and ($row[cod_circuito] == $row1[cod_circuito]))
-						echo '<option value="'.$row[cod_circuito].'" selected>Circuito '.$row[cod_circuito].'</option>';
+		  			if (($mostrar == "S") and ($row["cod_circuito"] == $row1["cod_circuito"]))
+						echo '<option value="'.$row["cod_circuito"].'" selected>Circuito '.$row["cod_circuito"].'</option>';
 					else 
-						echo '<option value="'.$row[cod_circuito].'">Circuito '.$row[cod_circuito].'</option>';
+						echo '<option value="'.$row["cod_circuito"].'">Circuito '.$row["cod_circuito"].'</option>';
 				}			
 			?>
               </select></td>

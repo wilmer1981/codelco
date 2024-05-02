@@ -64,9 +64,9 @@ function Salir()
 		while ($row = mysqli_fetch_array($rs))
 		{	
 			if ($row["cod_circuito"] == $cmbcircuito)
-				echo '<option value="'.$row["cod_circuito"].'" SELECTed>'.$row[descripcion_circuito].'</option>';
+				echo '<option value="'.$row["cod_circuito"].'" SELECTed>'.$row["descripcion_circuito"].'</option>';
 			else 
-				echo '<option value="'.$row["cod_circuito"].'">'.$row[descripcion_circuito].'</option>';
+				echo '<option value="'.$row["cod_circuito"].'">'.$row["descripcion_circuito"].'</option>';
 		}
 	?>
     </SELECT></td>

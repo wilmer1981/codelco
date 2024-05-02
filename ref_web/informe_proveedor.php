@@ -32,7 +32,7 @@ function Salir()
 						{
 							echo "<td align='center'>".$row1[cod_proveedor]."&nbsp</td>\n";
 							echo "<td align='center'>&nbsp</td>\n";
-							echo "<td align='center'>".$row1[cod_circuito]."&nbsp</td>\n";
+							echo "<td align='center'>".$row1["cod_circuito"]."&nbsp</td>\n";
 							echo "<td align='center'>".$row1["cod_grupo"]."&nbsp</td>\n";
 							echo "<td align='center'>".$row1[cod_cuba]."&nbsp</td>\n";
 							echo "</tr>\n";								

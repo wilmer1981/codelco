@@ -110,23 +110,23 @@ var  f=document.frmPrincipal;
 	 while($rowll=mysqli_fetch_array($rsll))
 	 {  
 	 	$varindice = $rowll["cod_grupo"];
-		if($rowll[cod_circuito]=='01' && $rowll["cod_grupo"]=='07')
+		if($rowll["cod_circuito"]=='01' && $rowll["cod_grupo"]=='07')
 		{
 			$insertar="insert into ref_web.tmp_cir_electrolitico (cod_grupo,cod_circuito,cod_indice)";
-			$insertar.=" values('7A','".$rowll[cod_circuito]."','07')";
+			$insertar.=" values('7A','".$rowll["cod_circuito"]."','07')";
 			mysqli_query($link, $insertar);
 			$insertar="insert into ref_web.tmp_cir_electrolitico (cod_grupo,cod_circuito,cod_indice)";
-			$insertar.=" values('7B','".$rowll[cod_circuito]."','08')";
+			$insertar.=" values('7B','".$rowll["cod_circuito"]."','08')";
 			mysqli_query($link, $insertar);
 		}
 		else
 		{	
-			if($rowll[cod_circuito]=='01' && $rowll["cod_grupo"]=='08')
+			if($rowll["cod_circuito"]=='01' && $rowll["cod_grupo"]=='08')
 				$varindice = '09';
-			if($rowll[cod_circuito]=='01' && $rowll["cod_grupo"]=='49')
+			if($rowll["cod_circuito"]=='01' && $rowll["cod_grupo"]=='49')
 				$varindice = '10';
 			$insertar="insert into ref_web.tmp_cir_electrolitico (cod_grupo,cod_circuito,cod_indice)";
-			$insertar.=" values('".$rowll["cod_grupo"]."','".$rowll[cod_circuito]."','".$varindice."')";
+			$insertar.=" values('".$rowll["cod_grupo"]."','".$rowll["cod_circuito"]."','".$varindice."')";
 			mysqli_query($link, $insertar);
 		}
 		$varindice = '';
@@ -137,7 +137,7 @@ var  f=document.frmPrincipal;
 	$rs = mysqli_query($link, $consulta_fecha);
 	while ($row = mysqli_fetch_array($rs))
 	{ 
-		if (($row[cod_circuito]=='01') || ($row[cod_circuito]=='03') || ($row[cod_circuito]=='05') || ($row[cod_circuito]=='07'))
+		if (($row["cod_circuito"]=='01') || ($row["cod_circuito"]=='03') || ($row["cod_circuito"]=='05') || ($row["cod_circuito"]=='07'))
         {
 			 $color1=1;
 		}
@@ -180,27 +180,27 @@ var  f=document.frmPrincipal;
 
 			$nuevo[$row5[cont_dia]-1]=$row5[cortos_nuevo];
 			$semi[$row5[cont_dia]-1]= $row5[cortos_semi];
-			if ($row5[cod_circuito]=='01')
+			if ($row5["cod_circuito"]=='01')
 			{
 				$circuito1=$circuito1+$row5[cortos_nuevo]+$row5[cortos_semi];
 			}
-			if ($row5[cod_circuito]=='02')
+			if ($row5["cod_circuito"]=='02')
 			{
 				$circuito2=$circuito2+$row5[cortos_nuevo]+$row5[cortos_semi];
 			}
-			if ($row5[cod_circuito]=='03')
+			if ($row5["cod_circuito"]=='03')
 			{
 				$circuito3=$circuito3+$row5[cortos_nuevo]+$row5[cortos_semi];
 			}
-			if ($row5[cod_circuito]=='04')
+			if ($row5["cod_circuito"]=='04')
 			{
 				$circuito4=$circuito4+$row5[cortos_nuevo]+$row5[cortos_semi];
 			}
-			if ($row5[cod_circuito]=='05')
+			if ($row5["cod_circuito"]=='05')
 			{
 				$circuito5=$circuito5+$row5[cortos_nuevo]+$row5[cortos_semi];
 			} 
-			if ($row5[cod_circuito]=='06')
+			if ($row5["cod_circuito"]=='06')
 			{
 				$circuito6=$circuito6+$row5[cortos_nuevo]+$row5[cortos_semi];
 			}
@@ -307,35 +307,35 @@ var  f=document.frmPrincipal;
 			   while ($row_cir = mysqli_fetch_array($rs_cir))
 			        {   
 					 echo '<tr>';
-					 $consulta_fecha="select max(fecha) as fecha from ref_web.referenciales where cod_circuito='".$row_cir[cod_circuito]."' and fecha<='".$ano1.'-'.$mes1.'-'.$dia1."' ";
-					// if($row_cir[cod_circuito]=='01')
+					 $consulta_fecha="select max(fecha) as fecha from ref_web.referenciales where cod_circuito='".$row_cir["cod_circuito"]."' and fecha<='".$ano1.'-'.$mes1.'-'.$dia1."' ";
+					// if($row_cir["cod_circuito"]=='01')
 					 //	echo "circ-1".$consulta_fecha."<br>" ;
 					 $rs_fecha = mysqli_query($link, $consulta_fecha);
 			         $row_fecha = mysqli_fetch_array($rs_fecha);
-			         $consulta_ref="select * from ref_web.referenciales where cod_circuito='".$row_cir[cod_circuito]."' and fecha='".$row_fecha["fecha"]."'";
-					 //if($row_cir[cod_circuito]=='01')
+			         $consulta_ref="select * from ref_web.referenciales where cod_circuito='".$row_cir["cod_circuito"]."' and fecha='".$row_fecha["fecha"]."'";
+					 //if($row_cir["cod_circuito"]=='01')
 					//	 echo "refe".$consulta_ref."<br>";
 			         $rs_ref = mysqli_query($link, $consulta_ref);
 			         $row_ref = mysqli_fetch_array($rs_ref);
-					 $consulta_acumulados="select * from ref_web.cortos_acumulado where fecha='".$ano1.'-'.$mes1.'-'.$dia1."' and cod_circuito='".$row_cir[cod_circuito]."' order by cod_circuito,fecha";
-					 //if($row_cir[cod_circuito]=='01')
+					 $consulta_acumulados="select * from ref_web.cortos_acumulado where fecha='".$ano1.'-'.$mes1.'-'.$dia1."' and cod_circuito='".$row_cir["cod_circuito"]."' order by cod_circuito,fecha";
+					 //if($row_cir["cod_circuito"]=='01')
 					 //	echo "acum".$consulta_acumulado."</br>";
 					 $rs_acumulados = mysqli_query($link, $consulta_acumulados);
 			         if (!$row_acumulados = mysqli_fetch_array($rs_acumulados))
 					    {
 						 $insertar_acumulados = "INSERT INTO ref_web.cortos_acumulado (cod_circuito,fecha,acumulado) "; 
-						 $insertar_acumulados = $insertar_acumulados."VALUES ('".$row_cir[cod_circuito]."','".$ano1.'-'.$mes1.'-'.$dia1."','".$arreglo[$i]."')";
+						 $insertar_acumulados = $insertar_acumulados."VALUES ('".$row_cir["cod_circuito"]."','".$ano1.'-'.$mes1.'-'.$dia1."','".$arreglo[$i]."')";
 						 mysqli_query($link, $insertar_acumulados);
 						} 
 					 else {
 					       $actualiza = "UPDATE ref_web.cortos_acumulado set acumulado ='".$arreglo[$i]."'";
-						   $actualiza.= " where cod_circuito= '".$row_cir[cod_circuito]."' and fecha='".$ano1.'-'.$mes1.'-'.$dia1."'";
+						   $actualiza.= " where cod_circuito= '".$row_cir["cod_circuito"]."' and fecha='".$ano1.'-'.$mes1.'-'.$dia1."'";
 						   //echo $actualiza;
 						   mysqli_query($link, $actualiza);
 					 
 					      }
 					 
-			         echo '<td width="300" align="center"  class="detalle01" ><strong>&nbsp;&nbsp;'.$row_cir[cod_circuito].'&nbsp;&nbsp;</strong></td>';
+			         echo '<td width="300" align="center"  class="detalle01" ><strong>&nbsp;&nbsp;'.$row_cir["cod_circuito"].'&nbsp;&nbsp;</strong></td>';
 					 echo '<td width="300" align="center"  class="detalle02" ><strong>'.$row_ref[ref_cir].'</strong></td>';
 					 if ($row_ref[ref_cir]<$arreglo[$i])
 					    {  

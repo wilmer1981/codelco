@@ -2,6 +2,8 @@
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 20;
 	include("../principal/conectar_ref_web.php");
+
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 ?>
 <html>
 <head>
@@ -128,14 +130,14 @@ function Salir()
 			while ($row = mysqli_fetch_array($rs))
 			{
 				echo '<tr>';
-				echo '<td width="72" height="25"><input type="checkbox" name="checkbox" value="'.$row[cod_circuito].'"></td>';
-				echo '<td width="86" align="center">'.$row[cod_circuito].'</td>';
-				echo '<td width="206" align="left">'.$row[descripcion_circuito].'</td>';
-				echo '<td width="59" align="center">'.$row[cantidad_grupos].'&nbsp;</td>';
-				echo '<td width="81" align="center">'.$row[num_celdas_grupos].'&nbsp;</td>';
-				echo '<td width="81" align="center">'.$row[num_catodos_celda].'&nbsp;</td>';
-				echo '<td width="72" align="center">'.$row[rectificador].'&nbsp;</td>';
-				echo '<td width="66" align="center">'.$row[nave].'&nbsp;</td>';				
+				echo '<td width="72" height="25"><input type="checkbox" name="checkbox" value="'.$row["cod_circuito"].'"></td>';
+				echo '<td width="86" align="center">'.$row["cod_circuito"].'</td>';
+				echo '<td width="206" align="left">'.$row["descripcion_circuito"].'</td>';
+				echo '<td width="59" align="center">'.$row["cantidad_grupos"].'&nbsp;</td>';
+				echo '<td width="81" align="center">'.$row["num_celdas_grupos"].'&nbsp;</td>';
+				echo '<td width="81" align="center">'.$row["num_catodos_celda"].'&nbsp;</td>';
+				echo '<td width="72" align="center">'.$row["rectificador"].'&nbsp;</td>';
+				echo '<td width="66" align="center">'.$row["nave"].'&nbsp;</td>';				
 				echo "</tr>";
 			}
 			echo "</table>";
@@ -157,7 +159,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
 		{

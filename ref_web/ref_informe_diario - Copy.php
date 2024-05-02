@@ -556,7 +556,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			 {
 				$AcumPesoGrupoCom=0;$AcumPesoGrupoDes=0;$AcumCubasCom=0;$AcumCubasDes=0;$AcumKAHEfect=0;$AcumCorrKAH=0;$AcumEfiCte=0;$AcumEfiTpo=0;
 				$AcumTpoDescXRenov=0;$AcumTpoDescXParcial=0;$AcumTpoDescXRectif=0;$AcumTpoRealConex=0;$Pond_KAH_EFIC=0;$Pond_KAH_EFIC_TPO=0;
-				$Circuito=$FilaCircuito[cod_circuito];
+				$Circuito=$FilaCircuito["cod_circuito"];
 				?>
 				  <tr>
 					<td align="right" class="titulo_azul"><?php echo $Circuito;?>&nbsp;</td>
@@ -807,7 +807,7 @@ function ObtieneCircuito($Grupo)
 		//echo $Consulta."<br>";
 		$RespCir = mysqli_query($link, $Consulta);
 		if($FilaCir=mysqli_fetch_array($RespCir))
-			return($FilaCir[cod_circuito]);
+			return($FilaCir["cod_circuito"]);
 		else
 			return(0);
 	}

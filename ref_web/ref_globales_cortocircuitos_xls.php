@@ -70,7 +70,7 @@
 			         {
 						$consulta_datos="select fecha,ifnull((sum(cortos_nuevo)+sum(cortos_semi)),0) as suma ";
 						$consulta_datos.="from ref_web.cortocircuitos  ";
-						$consulta_datos.="where fecha ='".$row_fecha["fecha"]."' and cod_circuito='".$row_circuito[cod_circuito]."' ";
+						$consulta_datos.="where fecha ='".$row_fecha["fecha"]."' and cod_circuito='".$row_circuito["cod_circuito"]."' ";
 						$consulta_datos.="group by fecha, cod_circuito ";
 						$consulta_datos.="order by fecha,cod_circuito,cod_grupo";
 						$respuesta_datos=mysqli_query($link, $consulta_datos);
