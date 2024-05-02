@@ -613,7 +613,7 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>";
 						$consulta_dp="select num_celdas_grupos,num_catodos_celda from ref_web.circuitos_especiales where cod_circuito='DP'";
 						$respuesta_dp=mysqli_query($link, $consulta_dp);
 						$row_dp = mysqli_fetch_array($respuesta_dp);
-						$total_dp=$total_dp+($row_dp[num_celdas_grupos]*$row_dp[num_catodos_celda]);
+						$total_dp=$total_dp+($row_dp["num_celdas_grupos"]*$row_dp[num_catodos_celda]);
 					}
 					$consulta_ew="select cod_grupo, cod_concepto from sec_web.renovacion_prog_prod ";
 					$consulta_ew.="where fecha_renovacion='".$fecha_renovacion."' ";
@@ -624,7 +624,7 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>";
 						$consulta_ew_d="select num_celdas_grupos,num_catodos_celda from ref_web.circuitos_especiales where cod_circuito='EW'";
 						$respuesta_ew_d=mysqli_query($link, $consulta_ew_d);
 						$row_ew_d = mysqli_fetch_array($respuesta_ew_d);
-						$total_ew=$total_ew+($row_ew_d[num_celdas_grupos]*$row_ew_d[num_catodos_celda]);
+						$total_ew=$total_ew+($row_ew_d["num_celdas_grupos"]*$row_ew_d[num_catodos_celda]);
 					}
 				}//fin del while
 				$consulta_cat_ini="select turno as turno_cat_ini,ifnull(produccion_mfci,0) as prod_mfci,ifnull(produccion_mdb,0) as prod_mdb,ifnull(produccion_mco,0) as prod_mco,observacion as observacion,consumo as consumo_cat_inil from ref_web.iniciales as t1 ";

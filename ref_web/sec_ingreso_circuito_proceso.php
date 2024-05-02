@@ -1,5 +1,9 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+	$opcion         = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$parametros     = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$circuito   = isset($_REQUEST["circuito"])?$_REQUEST["circuito"]:"";
+	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
 	
 	if ($opcion == "M")
 	{
@@ -39,7 +43,7 @@ function ValidaCampos(f)
 	
 	if (f.txtgrupos.value == "")
 	{
-		alert("Debe Ingresar El N° de Grupos");
+		alert("Debe Ingresar El Nï¿½ de Grupos");
 		return false;
 	}
 	
@@ -89,38 +93,47 @@ function Salir()
             <td width="138">&nbsp;</td>
             <td width="247">&nbsp;</td>
           </tr>
+		  <?php
+		  $cod_circuito         = isset($row1["cod_circuito"])?$row1["cod_circuito"]:"";
+		  $descripcion_circuito = isset($row1["descripcion_circuito"])?$row1["descripcion_circuito"]:"";
+		  $cantidad_grupos   = isset($row1["cantidad_grupos"])?$row1["cantidad_grupos"]:"";
+		  $num_celdas_grupos = isset($row1["num_celdas_grupos"])?$row1["num_celdas_grupos"]:"";
+		  $rectificador      = isset($row1["rectificador"])?$row1["rectificador"]:"";
+		  $nave              = isset($row1["nave"])?$row1["nave"]:"";
+
+		  ?>
           <tr> 
             <td>Codigo</td>
             <td> 
               <?php
 					if ($mostrar == "S")						
-						echo '<input type="text" name="txtcodigo" size="10" value="'.$row1[cod_circuito].'" readonly>';
+						echo '<input type="text" name="txtcodigo" size="10" value="'.$cod_circuito.'" readonly>';
 					else 
-						echo '<input type="text" name="txtcodigo" size="10" value="'.$row1[cod_circuito].'">';
+						echo '<input type="text" name="txtcodigo" size="10" value="'.$cod_circuito.'">';
 				?>
             </td>
           </tr>
           <tr> 
             <td>Descripcion</td>
-            <td><input name="txtdescripcion" type="text" value="<?php echo $row1[descripcion_circuito] ?>" size="50">
+            <td><input name="txtdescripcion" type="text" value="<?php echo $descripcion_circuito; ?>" size="50">
             </td>
           </tr>
           <tr> 
             <td>Nros de Grupo</td>
-            <td><input name="txtgrupos" type="text" size="10" value="<?php echo $row1[cantidad_grupos] ?>">
+            <td><input name="txtgrupos" type="text" size="10" value="<?php echo $cantidad_grupos; ?>">
 			</td>
           </tr>
           <tr> 
             <td>N&deg; de Celdas por Grupo</td>
-            <td><input name="txtceldas" type="text" size="10" value="<?php echo $row1[num_celdas_grupos] ?>"></td>
+            <td><input name="txtceldas" type="text" size="10" value="<?php echo $num_celdas_grupos; ?>"></td>
           </tr>
           <tr> 
             <td>Rectificador</td>
-            <td><input name="txtrectificador" type="text" size="10" value="<?php echo $row1[rectificador]?>"></td>
+            <td><input name="txtrectificador" type="text" size="10" value="<?php echo $rectificador; ?>"></td>
           </tr>
           <tr>
             <td>Nave</td>
-            <td><input name="txtnave" type="text" size="10" value="<?php echo $row1[nave]?>"></td>
+            <td><input name="txtnave" type="text" size="10" value="<?php echo $nave; ?>"></td>
           </tr>
         </table>
         <br>
