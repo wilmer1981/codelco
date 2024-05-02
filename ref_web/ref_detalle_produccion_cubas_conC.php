@@ -1,5 +1,9 @@
 <?php
 	include("../principal/conectar_principal.php"); 
+
+	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$grupo  = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+
 	$AnoIni=substr($fecha,0,4);
 	$MesIni=substr($fecha,5,2);
 	$DiaIni=substr($fecha,8,2);
@@ -76,6 +80,7 @@ function Proceso(opt)
 			$SubTotalPeso = 0;
 			$CodProductoAnt = 0;
 			$CodSubProductoAnt = 0;
+			$TotalDia=0;
 			while ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{
 				if (($Fila2["cod_producto"] != $CodProductoAnt) || ($Fila2["cod_subproducto"] != $CodSubProductoAnt))				

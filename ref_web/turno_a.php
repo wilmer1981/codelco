@@ -35,14 +35,14 @@
 	
 	if ($siguiente=='S')
       {
-       $fecha=aumentar_dias($fecha,1);
+       $fecha=aumentar_dias($fecha,1,$link);
 	   $mes1=substr($fecha,5,2);
 	   $ano1=substr($fecha,0,4);
 	   $dia1=substr($fecha,8,2);
 	  }
     if ($anterior=='S')
      {
-      $fecha=restar_dias($fecha,1);
+      $fecha=restar_dias($fecha,1,$link);
 	  $mes1=substr($fecha,5,2);
 	  $ano1=substr($fecha,0,4);
 	  $dia1=substr($fecha,8,2);

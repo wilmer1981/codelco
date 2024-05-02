@@ -1,4 +1,15 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
+<?php 
+include("../principal/conectar_ref_web.php");
+
+
+$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$grupo  = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+
+
+?>
 <html>
 <head>
 <title>Rechazo Catodos</title>
@@ -146,9 +157,11 @@ function Excel()
 	$limites=array(1500,500,15,50,2000,300,30,150);
 	$Consulta = "SELECT * FROM sea_web.movimientos WHERE fecha_movimiento = '$fecha' AND campo2='".$grupo."' and cod_producto='17' ";
 	$rs = mysqli_query($link, $Consulta);
+	$unidades_t=0;
+	$peso_t=0;
 	while($row = mysqli_fetch_array($rs))
 	{
-		 echo'<tr>'; 
+		echo'<tr>'; 
 		 	echo '<td align="center">'.$row["hornada"].'</td>';
 			$consulta_tipo="select descripcion from proyecto_modernizacion.subproducto descripcion where cod_producto='17' and cod_subproducto='".$row["cod_subproducto"]."'";     
 			$rs_tipo = mysqli_query($link, $consulta_tipo);
@@ -165,23 +178,23 @@ function Excel()
 			$Fila = mysqli_fetch_array($Respuesta);
 			reset($leyes);
 			$l=0;
-			while (list($c,$v)=each($leyes))
-				{
+			foreach($leyes as $c => $v)
+			{
 					$consulta2="select t1.peso as peso_cargado,t2.valor as ley,t1.cod_subproducto as subproducto from sea_web.movimientos as t1 ";
 		   			$consulta2=$consulta2."inner join sea_web.leyes_por_hornada as t2 on t1.hornada=t2.hornada and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
-					$consulta2=$consulta2."where t1.hornada= '".$row[hornada]."' and t1.tipo_movimiento='2' and t1.campo2=$grupo and t1.fecha_movimiento='".$fecha."' and t1.cod_producto='17' and t1.cod_subproducto not in ('08') and t2.cod_leyes=$v group by t1.hornada ";
+					$consulta2=$consulta2."where t1.hornada= '".$row["hornada"]."' and t1.tipo_movimiento='2' and t1.campo2=$grupo and t1.fecha_movimiento='".$fecha."' and t1.cod_producto='17' and t1.cod_subproducto not in ('08') and t2.cod_leyes=$v group by t1.hornada ";
 					$Respuesta2 = mysqli_query($link, $consulta2);
 					$Fila2 = mysqli_fetch_array($Respuesta2);
-					$Fila2[ley]=number_format($Fila2[ley],"",",","");
+					$Fila2[ley]=number_format($Fila2["ley"],2,",","");
 					if ($Fila2[ley] > $limites[$l])
 					     {echo "<td align='center'><font color='red'><strong> ".$Fila2[ley]."&nbsp</strong></fornt></td>\n";}
-					else echo "<td align='center'> ".$Fila2[ley]."&nbsp</td>\n";
+					else echo "<td align='center'> ".$Fila2["ley"]."&nbsp</td>\n";
 					$l=$l+1;
-				}
+			}
 			$unidades_t = $unidades_t + $row["unidades"];	
 			$peso_t = $peso_t + $row["peso"];	
 	}		
-    		echo'</tr>';			
+    	echo'</tr>';			
 				
 				
 			

@@ -1,6 +1,36 @@
-<?php header("Content-Type:  application/vnd.ms-excel");
-	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");include("../principal/conectar_ref_web.php");
+<?php 
+
+ob_end_clean();
+$file_name=basename($_SERVER['PHP_SELF']).".xls";
+$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+$filename = "";
+if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+}
+$filename = iconv('UTF-8', 'gb2312', $filename);
+$file_name = str_replace(".php", "", $file_name);
+header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
+header("content-disposition: attachment;filename={$file_name}");
+header( "Cache-Control: public" );
+header( "Pragma: public" );
+header( "Content-type: text/csv" ) ;
+header( "Content-Dis; filename={$file_name}" ) ;
+header("Content-Type:  application/vnd.ms-excel");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	
+include("../principal/conectar_ref_web.php");
+
+$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+
+$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$turno  = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+$grupo  = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+
+
 		
  ?>
 <html>
@@ -118,7 +148,7 @@ function Modificar_Datos(f)
 
 		if($row = mysqli_fetch_array($rs))
 		{
-			echo $row[inspector];
+			echo $row["inspector"];
 		}
 	  ?>
 	  </td>
@@ -160,50 +190,50 @@ function Modificar_Datos(f)
 	while($row = mysqli_fetch_array($rs))
 	{
 		 echo'<tr>'; 
-		 	echo '<td align="center">'.$row[lado].'</td>';		
-			/*echo '<td><input type="radio" name="radio" value="'.$row[cuba].'">&nbsp;&nbsp;'.$row[lado].'</td>';
-			echo '<input type="hidden" name="lado" value="'.$row[lado].'">';*/
+		 	echo '<td align="center">'.$row["lado"].'</td>';		
+			/*echo '<td><input type="radio" name="radio" value="'.$row["cuba"].'">&nbsp;&nbsp;'.$row["lado"].'</td>';
+			echo '<input type="hidden" name="lado" value="'.$row["lado"].'">';*/
 
-			echo '<td align="center">'.$row[cuba].'</td>';
-			echo '<input type="hidden" name="cuba" value="'.$row[cuba].'">';
+			echo '<td align="center">'.$row["cuba"].'</td>';
+			echo '<input type="hidden" name="cuba" value="'.$row["cuba"].'">';
 
-			echo '<td align="center">'.$row[unid_recup].'</td>';
-			echo '<input type="hidden" name="unid_recup" value="'.$row[unid_recup].'">';
+			echo '<td align="center">'.$row["unid_recup"].'</td>';
+			echo '<input type="hidden" name="unid_recup" value="'.$row["unid_recup"].'">';
 
 			echo '<td align="center">'.$row["recup_menor"].'</td>';
 			echo '<input type="hidden" name="recup_menor" value="'.$row["recup_menor"].'">';
 
-			echo '<td align="center">'.$row[muestra].'</td>';
-			echo '<input type="hidden" name="muestra" value="'.$row[muestra].'">';
+			echo '<td align="center">'.$row["muestra"].'</td>';
+			echo '<input type="hidden" name="muestra" value="'.$row["muestra"].'">';
 
-			echo '<td align="center">'.$row[estampa].'</td>';
-			echo '<input type="hidden" name="estampa" value="'.$row[estampa].'">';
+			echo '<td align="center">'.$row["estampa"].'</td>';
+			echo '<input type="hidden" name="estampa" value="'.$row["estampa"].'">';
 
-			echo '<td align="center">'.$row[dispersos].'</td>';
-			echo '<input type="hidden" name="dispersos" value="'.$row[dispersos].'">';
+			echo '<td align="center">'.$row["dispersos"].'</td>';
+			echo '<input type="hidden" name="dispersos" value="'.$row["dispersos"].'">';
 
-			echo '<td align="center">'.$row[rayado].'</td>';
-			echo '<input type="hidden" name="rayado" value="'.$row[rayado].'">';
+			echo '<td align="center">'.$row["rayado"].'</td>';
+			echo '<input type="hidden" name="rayado" value="'.$row["rayado"].'">';
 
-			echo '<td align="center">'.$row[cordon_superior].'</td>';
-			echo '<input type="hidden" name="cordon_superior" value="'.$row[cordon_superior].'">';
+			echo '<td align="center">'.$row["cordon_superior"].'</td>';
+			echo '<input type="hidden" name="cordon_superior" value="'.$row["cordon_superior"].'">';
 
-			echo '<td align="center">'.$row[cordon_lateral].'</td>';
-			echo '<input type="hidden" name="cordon_lateral" value="'.$row[cordon_lateral].'">';
+			echo '<td align="center">'.$row["cordon_lateral"].'</td>';
+			echo '<input type="hidden" name="cordon_lateral" value="'.$row["cordon_lateral"].'">';
 
-			echo '<td align="center">'.$row[otros].'</td>';
-			echo '<input type="hidden" name="otros" value="'.$row[otros].'">';
+			echo '<td align="center">'.$row["otros"].'</td>';
+			echo '<input type="hidden" name="otros" value="'.$row["otros"].'">';
 		echo'</tr>';			
 				
-			$recup = $recup + $row[unid_recup];	
-			$recup_menor = $recup_menor + $row[recup_menor];	
-			$muestra = $muestra + $row[muestra];	
-			$estampa = $estampa + $row[estampa];	
-			$dispersos = $dispersos + $row[dispersos];	
-			$rayado = $rayado + $row[rayado];	
-			$c_superior = $c_superior + $row[cordon_superior];	
-			$c_lateral = $c_lateral + $row[cordon_lateral];	
-			$otros = $otros + $row[otros];	
+			$recup = $recup + $row["unid_recup"];	
+			$recup_menor = $recup_menor + $row["recup_menor"];	
+			$muestra = $muestra + $row["muestra"];	
+			$estampa = $estampa + $row["estampa"];	
+			$dispersos = $dispersos + $row["dispersos"];	
+			$rayado = $rayado + $row["rayado"];	
+			$c_superior = $c_superior + $row["cordon_superior"];	
+			$c_lateral = $c_lateral + $row["cordon_lateral"];	
+			$otros = $otros + $row["otros"];	
 	}
 		echo'<tr class="Detalle02">';
 			echo'<td colspan="2">Totales</td>'; 
