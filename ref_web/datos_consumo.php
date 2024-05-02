@@ -1,10 +1,23 @@
+
 <?php include("../principal/conectar_ref_web.php"); 
 
+$DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+$MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+$AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");	
+
+$DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+$MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+
+$proceso    = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+$opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+/*
     if (!isset($DiaIni) and ($fecha_ini==''))
-	     {
+	{
 	 	   $MesIni = date("m");
 		   $AnoIni = date("Y");
-	     }
+	}
+	*/
 	if ($MesIni < 10)
 		$MesIni = "0".$MesIni;
 	if ($DiaFin < 10)
@@ -216,7 +229,7 @@ function CantidadChecheado(f)
 	                                  $fecha2=$dia."-".$mes1;
 									 //poly 09-03-05 echo '<td width="3.5%" height="25"><input type="checkbox" name="checkbox" value="'.$row["fecha"].'"></td>';
 									  echo "<td width='7%' align='center' class=detalle01><font color='blue'>".$fecha2."&nbsp;</font></td>\n";
-									  echo "<td width='7%' align='center' class=detalle02><font color='blue-red-white'>".$row[lectura_rectificador]."&nbsp;</font></td>\n";
+									  echo "<td width='7%' align='center' class=detalle02><font color='blue-red-white'>".$row["lectura_rectificador"]."&nbsp;</font></td>\n";
 									  if ($dia=='01')
 									     {
 										   $mes_aux=intval($mes);
@@ -250,7 +263,7 @@ function CantidadChecheado(f)
 									  $consulta3="select lectura_rectificador from ref_web.detalle_produccion where fecha ='".$row2["fecha"]."'";
 									  $respuesta3 = mysqli_query($link, $consulta3);
 					                  $row3= mysqli_fetch_array($respuesta3);
-									  $promedio=number_format((($row[lectura_rectificador]-$row_rect_ant[lectura_rectificador])/24),"2",".","");
+									  $promedio=number_format((($row["lectura_rectificador"]-$row_rect_ant["lectura_rectificador"])/24),"2",".","");
 									  if ($promedio < 0)
 									     {$promedio = 0;
 										  }
@@ -284,8 +297,8 @@ function CantidadChecheado(f)
 									  //echo $consulta_lam_ven."<br>";
 									  $respuesta_lam_ven= mysqli_query($link, $consulta_lam_ven);
 									  $row_lam_ven= mysqli_fetch_array($respuesta_lam_ven);
-									  $peso_hoja_buena=($row_lam_apro[aprobadas]-$row_lam_apro[tara_aprobadas])+($row_lam_co[co]-$row_lam_co[tara_co])+($row_lam_ven[venta]-$row_lam_ven[tara_venta]);
-									  //echo $peso_hoja_buena.'='.$row_lam_apro[aprobadas].'+'.$row_lam_co[co].'-'.$row_tara_co[tara_co].'-'.$row_lam_ven[venta].'-'.$row_tara_ven[tara_venta].'-'.$row_tara_apro[tara_aprobadas];
+									  $peso_hoja_buena=($row_lam_apro["aprobadas"]-$row_lam_apro["tara_aprobadas"])+($row_lam_co["co"]-$row_lam_co["tara_co"])+($row_lam_ven["venta"]-$row_lam_ven["tara_venta"]);
+									  //echo $peso_hoja_buena.'='.$row_lam_apro["aprobadas"].'+'.$row_lam_co["co"].'-'.$row_tara_co["tara_co"].'-'.$row_lam_ven["venta"].'-'.$row_tara_ven["tara_venta"].'-'.$row_tara_apro["tara_aprobadas"];
 									  /*****************************************************************************************/
 									  echo "<td width='7%' align='center' class=detalle02>".$peso_hoja_buena."&nbsp;</td>\n";
 									  /*****************************************************************************************/
@@ -296,7 +309,7 @@ function CantidadChecheado(f)
 									  //echo $consulta_sin_orejas."<br>";
 									  $respuesta_sin_orejas = mysqli_query($link, $consulta_sin_orejas);
 									  $row_sin_orejas= mysqli_fetch_array($respuesta_sin_orejas);
-									  $peso_hoja_rech=$row_sin_orejas[peso_rechazo_sin_orejas]-$row_sin_orejas[tara_rechazo_s_orejas];
+									  $peso_hoja_rech=$row_sin_orejas["peso_rechazo_sin_orejas"]-$row_sin_orejas["tara_rechazo_s_orejas"];
 									  //echo $peso_hoja_rech.'='.$row_sin_orejas[sin_orejas].'+'.$row_sin_orejas_retorno_hoy[sin_orejas_retorno].'-'.$row_sin_orejas_retorno_ayer[sin_orejas_retorno_ayer]."<br>";
 									  /***********************************************************************************************/
 									  echo "<td width='7%' align='center' class=detalle01>".$peso_hoja_rech."&nbsp;</td>\n";
