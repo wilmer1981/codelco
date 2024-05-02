@@ -1,5 +1,17 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+
+	$proceso   = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$opcion    = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$txtrectificador   = isset($_REQUEST["txtrectificador"])?$_REQUEST["txtrectificador"]:"";
+	$txtdescripcion    = isset($_REQUEST["txtdescripcion"])?$_REQUEST["txtdescripcion"]:"";
+	$txtaplicada       = isset($_REQUEST["txtaplicada"])?$_REQUEST["txtaplicada"]:"";
+	$parametros        = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";	
+	
+
 	$consulta_fecha_systema="SELECT left(sysdate(),10) as fecha2";
 	$rss = mysqli_query($link, $consulta_fecha_systema);
 	$rows = mysqli_fetch_array($rss);
@@ -49,7 +61,7 @@
 	if ($proceso == "E")
 	{
 		$valores = explode("-",$parametros);
-		while(list($c,$v) = each($valores))
+		foreach($valores as $c => $v)
 		{
 			$eliminar = "DELETE FROM ref_web.rectificadores ";
 			$eliminar.= " WHERE cod_rectificador = '".$v."'";

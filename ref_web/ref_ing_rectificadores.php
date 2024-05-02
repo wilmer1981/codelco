@@ -2,6 +2,11 @@
 	include("../principal/conectar_sec_web.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 38;
+	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+
+	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 ?>
 
 <html>
@@ -137,13 +142,13 @@ function Recarga()
 								if ($Dia == $i)
 									echo "<option selected value='".$i."'>".$i."</option>\n";
 								else	echo "<option value='".$i."'>".$i."</option>\n";
-							}
+							}/*
 							else
 							{
 								if ($i == date("j"))
 									echo "<option selected value='".$i."'>".$i."</option>\n";
 								else	echo "<option value='".$i."'>".$i."</option>\n";
-							}
+							}*/
 						}
 					  ?>
               </select>
@@ -158,14 +163,14 @@ function Recarga()
 							echo "<option value='".$i."' selected>".$Meses[$i-1]."</option>\n";
 						else
 							echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("n"))
 							echo "<option value='".$i."' selected>".$Meses[$i-1]."</option>\n";
 						else
 							echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
-					}
+					}*/
 				}
 			?>
         </select>
@@ -179,14 +184,14 @@ function Recarga()
 							echo "<option value='".$i."' selected>".$i."</option>\n";
 						else
 							echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == date("Y"))
 							echo "<option value='".$i."' selected>".$i."</option>\n";
 						else
 							echo "<option value='".$i."'>".$i."</option>\n";
-					}
+					}*/
 				}
 			?>
               </select>
@@ -220,14 +225,14 @@ function Recarga()
 	     {  
 		   $consulta_datos="SELECT max(fecha),cod_rectificador,descripcion_rectificador,Corriente_aplicada ";
 	       $consulta_datos.=" FROM ref_web.rectificadores "; 
-	       $consulta_datos.=" where fecha ='".$row_rectificador[fecha1]."' and cod_rectificador = '".$row_rectificador[cod_rectificador]."' group by cod_rectificador order by cod_rectificador";
+	       $consulta_datos.=" where fecha ='".$row_rectificador["fecha1"]."' and cod_rectificador = '".$row_rectificador["cod_rectificador"]."' group by cod_rectificador order by cod_rectificador";
 		   $rs = mysqli_query($link, $consulta_datos);
 	       $row = mysqli_fetch_array($rs);
 		   echo '<tr>';
-		   echo '<td width="35" height="25"><input type="checkbox" name="checkbox" value="'.$row[cod_rectificador].'"></td>';
-		   echo '<td width="85" align="center">'.$row[cod_rectificador].'</td>';
-		   echo '<td width="100" align="center">'.$row[descripcion_rectificador].'</td>';
-		   echo '<td width="55" align="center">'.$row[Corriente_aplicada].'</td>';
+		   echo '<td width="35" height="25"><input type="checkbox" name="checkbox" value="'.$row["cod_rectificador"].'"></td>';
+		   echo '<td width="85" align="center">'.$row["cod_rectificador"].'</td>';
+		   echo '<td width="100" align="center">'.$row["descripcion_rectificador"].'</td>';
+		   echo '<td width="55" align="center">'.$row["Corriente_aplicada"].'</td>';
 		   echo '</tr>';
 		 }
 ?>
@@ -253,7 +258,7 @@ function Recarga()
 <?php include("../principal/pie_pagina.php")?>
 </form>
 <?php
-	if (isset($mensaje))
+	if ($mensaje!="")
 	{
 		echo '<script language="JavaScript">';		
 		echo 'alert("'.$mensaje.'");';			

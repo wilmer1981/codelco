@@ -1,16 +1,27 @@
 <?php
 	include("../principal/conectar_sec_web.php");
-	
+
+	$opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$opcion2    = isset($_REQUEST["opcion2"])?$_REQUEST["opcion2"]:"";
+	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$txtrectificador   = isset($_REQUEST["txtrectificador"])?$_REQUEST["txtrectificador"]:"";
+
+	$activar   = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
 	
 	if ($opcion2 == "B")
 	{    
 	     $consulta_rectificador="select distinct max(fecha) as fecha1,cod_rectificador from ref_web.rectificadores where fecha <='".$Ano."-".$Mes."-".$Dia."' and cod_rectificador='".$txtrectificador."'  group by cod_rectificador order by cod_rectificador ";
 		 $rs_rectificador=mysqli_query($link, $consulta_rectificador);	
 	     $row_rectificador = mysqli_fetch_array($rs_rectificador);
-	
+		 $fecha1 = isset($row_rectificador["fecha1"])?$row_rectificador["fecha1"]:"";
+
 	     $consulta_datos="SELECT max(fecha),cod_rectificador,descripcion_rectificador,Corriente_aplicada ";
          $consulta_datos.="FROM ref_web.rectificadores "; 
-         $consulta_datos.="where cod_rectificador='".$txtrectificador."' and fecha='".$row_rectificador[fecha1]."' group by cod_rectificador";
+         $consulta_datos.="where cod_rectificador='".$txtrectificador."' and fecha='".$fecha1."' group by cod_rectificador";
 		 $respuesta_datos=mysqli_query($link, $consulta_datos);
 	     $row1 = mysqli_fetch_array($respuesta_datos);
 		 $mostrar = "S";
@@ -20,7 +31,7 @@
 		$consulta2 = "SELECT IFNULL(MAX(cod_rectificador)+1,1) AS cod_rectificador2 FROM ref_web.rectificadores";
 		$rs12 = mysqli_query($link, $consulta2);
 		$row1 = mysqli_fetch_array($rs12);
-		$txtrectificador = $row1[cod_rectificador2];
+		$txtrectificador          = isset($row1["cod_rectificador2"])?$row1["cod_rectificador2"]:"";
 		if (strlen($txtrectificador)==1)
 			{
 			 $txtrectificador='0'.$txtrectificador;
@@ -168,13 +179,17 @@ function Salir()
 			?>
             </td>
           </tr>
+			<?php
+				$Corriente_aplicada       = isset($row1["Corriente_aplicada"])?$row1["Corriente_aplicada"]:"";
+				$descripcion_rectificador = isset($row1["descripcion_rectificador"])?$row1["descripcion_rectificador"]:"";
+			?>
           <tr> 
             <td>Corriente Aplicada</td>
-            <td><input name="txtaplicada" type="text" size="10" value="<?php echo $row1[Corriente_aplicada] ?>"></td>
+            <td><input name="txtaplicada" type="text" size="10" value="<?php echo $Corriente_aplicada; ?>"></td>
           </tr>
           <tr> 
             <td>Descripcion Rectificador</td>
-            <td><input name="txtdescripcion" type="text" size="20" value="<?php echo $row1[descripcion_rectificador] ?>"></td>
+            <td><input name="txtdescripcion" type="text" size="20" value="<?php echo $descripcion_rectificador; ?>"></td>
           </tr>
         </table> 
 	  	<?php
@@ -194,10 +209,10 @@ function Salir()
 </table>	  
 </form>
 <?php
-	if (isset($activar))
+	if ($activar!="")
 	{
 		echo '<script language="JavaScript">';		
-		if (isset($mensaje))
+		if ($mensaje!="")
 			echo 'alert("'.$mensaje.'");';		
 			
 		echo 'window.opener.document.frmPrincipal.action = "ref_ing_rectificadores.php";';
