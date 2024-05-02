@@ -1,8 +1,32 @@
 <?php
-	header("Content-Type:  application/vnd.ms-excel");
-	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-	include("../principal/conectar_ref_web.php");
+ob_end_clean();
+$file_name=basename($_SERVER['PHP_SELF']).".xls";
+$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+$filename = "";
+if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+$filename = urlencode($filename);
+}
+$filename = iconv('UTF-8', 'gb2312', $filename);
+$file_name = str_replace(".php", "", $file_name);
+header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
+header("content-disposition: attachment;filename={$file_name}");
+header( "Cache-Control: public" );
+header( "Pragma: public" );
+header( "Content-type: text/csv" ) ;
+header( "Content-Dis; filename={$file_name}" ) ;
+header("Content-Type:  application/vnd.ms-excel");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+include("../principal/conectar_ref_web.php");
+
+    $DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");	
+
+	$DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 	
 ?>
 
@@ -92,14 +116,12 @@
 						$ArrLeyes[$row["cod_leyes"]][2]=$row["valor"];					  					
 					}
 					reset($ArrLeyes);
-					while (list($k,$v)=each($ArrLeyes))
+					foreach($ArrLeyes as $k => $v)
 					{
 						if ($v[2]!='')
 						{
 							echo "<td align='center' width='85' class=detalle01>".number_format($v[2],"2",".",".")."&nbsp;</td>\n";
-						}
-					  	else 
-						{
+						}else{
 							echo "<td align='center' width='85' class=detalle01>&nbsp;</td>\n";
 						}
 					}

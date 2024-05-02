@@ -1,24 +1,30 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$limpiar    = isset($_REQUEST["limpiar"])?$_REQUEST["limpiar"]:"";
+	$mostrar    = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+
+	$DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");	
+
+	$DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+
+	$cmbcircuito  = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:"";
+	$cmbleyes     = isset($_REQUEST["cmbleyes"])?$_REQUEST["cmbleyes"]:"";
+	$cmbleyes2    = isset($_REQUEST["cmbleyes2"])?$_REQUEST["cmbleyes2"]:"";
+
+	//$TextoSelec    = isset($_REQUEST["TextoSelec"])?$_REQUEST["TextoSelec"]:"";
+	$Contador      = isset($_REQUEST["Contador"])?$_REQUEST["Contador"]:"";
 
 	if ($limpiar!='N') 
-	   {
-	    	$limpiar="delete from ref_web.leyes";
-	    	mysqli_query($link, $limpiar);
-			$Contador = 0; 
-			
-		}
- 	
-	
-	if (!isset($DiaIni))
 	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
+	    $limpiar="delete from ref_web.leyes";
+	    mysqli_query($link, $limpiar);
+		$Contador = 0; 		
 	}
+ 	
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -72,7 +78,9 @@ function traspasa(proceso)
 	
   if (TextoSelec=='')
      {alert('Debe seleccionar  Leyes');}
-  else{f.action = "ref_proceso_informe_impurezas.php?cmbleyes=&TextoSelec="+TextoSelec+"&proceso="+proceso+"&AnoIni="+AnoIni+"&MesIni="+MesIni+"&DiaIni="+DiaIni+"&AnoFin="+AnoFin+"&MesFin="+MesFin+"&DiaFin="+DiaFin+"&cmbcircuito="+cmbcircuito+"&Contador="+Contador;} 
+  else{
+	//f.action = "ref_proceso_informe_impurezas.php?TextoSelec="+TextoSelec+"&proceso="+proceso+"&AnoIni="+AnoIni+"&MesIni="+MesIni+"&DiaIni="+DiaIni+"&AnoFin="+AnoFin+"&MesFin="+MesFin+"&DiaFin="+DiaFin+"&cmbcircuito="+cmbcircuito+"&Contador="+Contador;} 
+	f.action = "ref_proceso_informe_impurezas.php?cmbleyes="+TextoSelec+"&proceso="+proceso+"&AnoIni="+AnoIni+"&MesIni="+MesIni+"&DiaIni="+DiaIni+"&AnoFin="+AnoFin+"&MesFin="+MesFin+"&DiaFin="+DiaFin+"&cmbcircuito="+cmbcircuito+"&Contador="+Contador;} 
   f.submit();
  
 }
@@ -497,7 +505,7 @@ function Grafico()
         			    			$Consulta.="where ceiling(t1.id_muestra)='".$cmbcircuito."' and t1.cod_producto='41' and t1.cod_subproducto='22' and t2.cod_leyes='".$Fila_ley["cod_leyes"]."' and left(t1.fecha_muestra,10)='".$Fila_fecha["fecha"]."'";
 					    			$Respuesta_res = mysqli_query($link, $Consulta);
  	            	    			$Fila_res = mysqli_fetch_array($Respuesta_res);
-									$consulta_unidad="select abreviatura from proyecto_modernizacion.unidades where cod_unidad='".$Fila_res[cod_unidad]."'";
+									$consulta_unidad="select abreviatura from proyecto_modernizacion.unidades where cod_unidad='".$Fila_res["cod_unidad"]."'";
 									$Respuesta_unidad = mysqli_query($link, $consulta_unidad);
  	            	    			$Fila_unidad = mysqli_fetch_array($Respuesta_unidad);
 					    			if ($Fila_res=='')

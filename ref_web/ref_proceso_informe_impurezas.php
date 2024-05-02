@@ -1,5 +1,17 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$proceso     = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$cmbleyes    = isset($_REQUEST["cmbleyes"])?$_REQUEST["cmbleyes"]:"";
+
+	$DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$cmbcircuito  = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:"";
+	$Contador     = isset($_REQUEST["Contador"])?$_REQUEST["Contador"]:"";
+
 	if ($proceso=='T')
 	    { 
 		  if ($cmbleyes<>'')
@@ -11,7 +23,7 @@
 			   $insertar="insert into ref_web.leyes(cod_leyes,abreviatura) ";
 			   $insertar = $insertar."values ('".$cmbleyes."','".$row_nom["abreviatura"]."')";
 			   mysqli_query($link, $insertar);
-			   header("Location:ref_informe_impuresas.php?&TextoSelec=$TextoSelec&DiaIni=$DiaIni&MesIni=$MesIni&AnoIni=$AnoIni&AnoFin=$AnoFin&MesFin=$MesFin&DiaFin=$DiaFin&cmbcircuito=$cmbcircuito&Contador=$Contador&limpiar=N");
+			   header("Location:ref_informe_impuresas.php?cmbleyes=$cmbleyes&DiaIni=$DiaIni&MesIni=$MesIni&AnoIni=$AnoIni&AnoFin=$AnoFin&MesFin=$MesFin&DiaFin=$DiaFin&cmbcircuito=$cmbcircuito&Contador=$Contador&limpiar=N");
 			}
 		}
 	if ($proceso=='Q')

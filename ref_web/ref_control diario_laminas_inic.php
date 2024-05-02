@@ -2,24 +2,33 @@
 	include("../principal/conectar_sec_web.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 3;
+
+	$DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+
+	$mensaje    = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	
 function FormatoFecha($f)
-	{
+{
 		$fecha = substr($f,8,2)."/".substr($f,5,2)."/".substr($f,0,4);
 		return $fecha;
-	}	
+}	
 	
-function BuscaDia($valor,$fecha)
-   {
+function BuscaDia($valor,$fecha,$link)
+{
      /**********************************Selecciona dia de la consulta******************************************************/
 	  $Dia="select subdate('".$fecha."',interval '".$valor."' day) as fecha_ant";
 	  $rs_dia = mysqli_query($link, $Dia);
 	  $row_f = mysqli_fetch_array($rs_dia);
 	/**********************************************************************************************************************/
-      return $row_f[fecha_ant];   
-   }
+      return $row_f["fecha_ant"];   
+}
    
-function OcupadosEnRenovacion($fecha)
+function OcupadosEnRenovacion($fecha,$link)
    {
      $Consulta =  "select max(t2.fecha) as fecha,t2.cod_grupo,t2.cod_circuito from sec_web.produccion_catodo as t1 ";
 	 $Consulta = $Consulta." inner join ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo";
@@ -44,7 +53,7 @@ function OcupadosEnRenovacion($fecha)
 	 $total_dp=0;
 	 $total_ew=0;
 	 $total_normal_grupo=0;	
-	 while (list($a,$b)=each($grupos))
+	 foreach($grupos as $a => $b)
 	   { $Dia_r=substr($fecha,8,2);
 	 	 $Mes_r=substr($fecha,5,2);
 		 $Ano_r=substr($fecha,0,4);
@@ -62,13 +71,13 @@ function OcupadosEnRenovacion($fecha)
 			 $consulta_datos_grupo.=" where fecha ='".$row_fecha["fecha"]."' and cod_grupo='$b'";
 			 $respuesta_datos_grupo=mysqli_query($link, $consulta_datos_grupo);
 			 $row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-			 if ($row_datos[cod_concepto]=='A')
+			 if ($row_datos["cod_concepto"]=='A')
 				{
-				  $total_A=$total_A+((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo[hojas_madres])-$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo[num_catodos_celdas]);
+				  $total_A=$total_A+((($row_datos_grupo["num_cubas_tot"]-$row_datos_grupo["hojas_madres"])-$row_datos_grupo["cubas_descobrizacion"])*$row_datos_grupo["num_catodos_celdas"]);
 			    }
-			 else if ($row_datos[cod_concepto]=='B')
+			 else if ($row_datos["cod_concepto"]=='B')
 				    {
-						$total_B=$total_B + ((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo[hojas_madres]) -$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo[num_catodos_celdas]);         
+						$total_B=$total_B + ((($row_datos_grupo["num_cubas_tot"]-$row_datos_grupo["hojas_madres"]) -$row_datos_grupo["cubas_descobrizacion"])*$row_datos_grupo["num_catodos_celdas"]);         
 				    }
 		  }
 		$consulta_desc="select cod_grupo, cod_concepto from sec_web.renovacion_prog_prod ";
@@ -80,7 +89,7 @@ function OcupadosEnRenovacion($fecha)
 			  $consulta_dp="select num_celdas_grupos,num_catodos_celda from ref_web.circuitos_especiales where cod_circuito='DP'";
 			  $respuesta_dp=mysqli_query($link, $consulta_dp);
 			  $row_dp = mysqli_fetch_array($respuesta_dp);
-			  $total_dp=$total_dp+($row_dp[num_celdas_grupos]*$row_dp[num_catodos_celda]);
+			  $total_dp=$total_dp+($row_dp["num_celdas_grupos"]*$row_dp["num_catodos_celda"]);
 			}
 		$consulta_ew="select cod_grupo, cod_concepto from sec_web.renovacion_prog_prod ";
 		$consulta_ew.="where fecha_renovacion='".$fecha_renovacion."' ";
@@ -91,7 +100,7 @@ function OcupadosEnRenovacion($fecha)
 			  $consulta_ew_d="select num_celdas_grupos,num_catodos_celda from ref_web.circuitos_especiales where cod_circuito='EW'";
 			  $respuesta_ew_d=mysqli_query($link, $consulta_ew_d);
 			  $row_ew_d = mysqli_fetch_array($respuesta_ew_d);
-			  $total_ew=$total_ew+($row_ew_d[num_celdas_grupos]*$row_ew_d[num_catodos_celda]);
+			  $total_ew=$total_ew+($row_ew_d["num_celdas_grupos"]*$row_ew_d["num_catodos_celda"]);
 		   }
 	}
 	$consulta_desc="select cod_grupo, cod_concepto from sec_web.renovacion_prog_prod ";
@@ -107,7 +116,7 @@ function OcupadosEnRenovacion($fecha)
 			$consulta_datos_grupo.=" where fecha<='".$row_fecha["fecha"]."' and cod_grupo='".$row_desc["cod_grupo"]."'";
 			$respuesta_datos_grupo=mysqli_query($link, $consulta_datos_grupo);
 			$row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-			$total_normal_grupo=$total_normal_grupo+($row_datos_grupo[cubas_descobrizacion] * $row_datos_grupo[num_catodos_celdas]);
+			$total_normal_grupo=$total_normal_grupo+($row_datos_grupo["cubas_descobrizacion"] * $row_datos_grupo["num_catodos_celdas"]);
 		}
 	$total_consumo_total=0;
 	$total_consumo_total=$total_A + $total_B + $total_normal_grupo + $total_ew + $total_dp;
@@ -332,8 +341,8 @@ function Recarga()
     </table>
         <table width="988" border="1" cellspacing="0" cellpadding="0" class="TablaInterior">
         <?php
-
-    if (!isset($MesIni))
+/*
+    if ($MesIni=="")
 	{
 		$DiaIni = date("d");
 		$MesIni = date("m");
@@ -341,7 +350,7 @@ function Recarga()
 		$DiaFin = date("d");
 		$MesFin = date("m");
 		$AnoFin = date("Y");
-	}
+	}*/
 	$DiaIni = "01";
 	/*if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
@@ -368,7 +377,7 @@ function Recarga()
 	 		echo '<tr>';
 			echo '<td width="82" align="center" class="detalle01">'.FormatoFecha($row["fecha"]).'</td>';
 			/**********************************Selecciona dia anterior al dia de inicio de la consulta*****************************/
-			$fecha_anterior=BuscaDia(1,$row["fecha"]);
+			$fecha_anterior=BuscaDia(1,$row["fecha"],$link);
 			/**********************************************************************************************************************/
 			$consulta_grupo_hm="select valor_subclase1 as subclase1 from proyecto_modernizacion.sub_clase where cod_clase='10001'";
 		    $rs_grupo_hm = mysqli_query($link, $consulta_grupo_hm);
@@ -381,37 +390,37 @@ function Recarga()
 			while ($row_grupo_hm = mysqli_fetch_array($rs_grupo_hm))
 			      {
    		   /**********************************consulta datos dia anterior****************************************************************************/
-				    $consulta_fecha="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$fecha_anterior."' and t1.cod_grupo ='0".$row_grupo_hm[subclase1]."' group by t1.cod_grupo";
+				    $consulta_fecha="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$fecha_anterior."' and t1.cod_grupo ='0".$row_grupo_hm["subclase1"]."' group by t1.cod_grupo";
 					$rs_fecha = mysqli_query($link, $consulta_fecha);
 					$row_fecha = mysqli_fetch_array($rs_fecha);
 		   /************************************consulta datos dia actual************************************************************************/	
-					$consulta_fecha_actual="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$row["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm[subclase1]."' group by t1.cod_grupo";
+					$consulta_fecha_actual="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$row["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm["subclase1"]."' group by t1.cod_grupo";
 					$rs_fecha_actual = mysqli_query($link, $consulta_fecha_actual);
 					$row_fecha_actual = mysqli_fetch_array($rs_fecha_actual);
 		   /************************************consulta datos dia anterior y calculo produccion dia anterior***************************************/	
 				    $Consulta6 =  "select max(t1.fecha) as fecha,t1.cod_grupo,t1.cod_circuito,hojas_madres,num_catodos_celdas from ref_web.grupo_electrolitico2 as t1 ";
-					$Consulta6 = $Consulta6." where  t1.fecha = '".$row_fecha["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm[subclase1]."' group by t1.cod_grupo";
+					$Consulta6 = $Consulta6." where  t1.fecha = '".$row_fecha["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm["subclase1"]."' group by t1.cod_grupo";
 					$rs3 = mysqli_query($link, $Consulta6);
 					$row3 = mysqli_fetch_array($rs3);
-				    $produccion=$produccion+(($row3[hojas_madres]*$row3[num_catodos_celdas])*2); 
-				    $n_placas=$n_placas+$row3[hojas_madres];
+				    $produccion=$produccion+(($row3["hojas_madres"]*$row3["num_catodos_celdas"])*2); 
+				    $n_placas=$n_placas+$row3["hojas_madres"];
 			/*************************************consulta datos dia actual y calculo produccion dia actual*************************************************************************/	
 				    $Consulta6_actual =  "select max(t1.fecha) as fecha,t1.cod_grupo,t1.cod_circuito,hojas_madres,num_catodos_celdas from ref_web.grupo_electrolitico2 as t1 ";
-					$Consulta6_actual = $Consulta6_actual." where  t1.fecha = '".$row_fecha_actual["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm[subclase1]."' group by t1.cod_grupo";
+					$Consulta6_actual = $Consulta6_actual." where  t1.fecha = '".$row_fecha_actual["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm["subclase1"]."' group by t1.cod_grupo";
 					$rs3_actual = mysqli_query($link, $Consulta6_actual);
 					$row3_actual = mysqli_fetch_array($rs3_actual);
-				    $produccion_actual=$produccion_actual+(($row3_actual[hojas_madres]*$row3_actual[num_catodos_celdas])*2); 
-				    $n_placas_actual=$n_placas_actual+$row3_actual[hojas_madres];
+				    $produccion_actual=$produccion_actual+(($row3_actual["hojas_madres"]*$row3_actual["num_catodos_celdas"])*2); 
+				    $n_placas_actual=$n_placas_actual+$row3_actual["hojas_madres"];
 			/***************************************consulta y calcula el rechazo de hojas madres para el dia anterior**************************************************************/
-					$consulta_rechazo_hm="select * from ref_web.produccion where fecha='".$fecha_anterior."' and cod_grupo='".$row_grupo_hm[subclase1]."'";
+					$consulta_rechazo_hm="select * from ref_web.produccion where fecha='".$fecha_anterior."' and cod_grupo='".$row_grupo_hm["subclase1"]."'";
 					$rs_rechazo_hm = mysqli_query($link, $consulta_rechazo_hm);
 					$row_rechazo_hm = mysqli_fetch_array($rs_rechazo_hm);
-					$rechazo_hm=$rechazo_hm+$row_rechazo_hm[rechazo_delgadas]+$row_rechazo_hm[rechazo_granuladas]+$row_rechazo_hm[rechazo_gruesas];
+					$rechazo_hm=$rechazo_hm+$row_rechazo_hm["rechazo_delgadas"]+$row_rechazo_hm["rechazo_granuladas"]+$row_rechazo_hm["rechazo_gruesas"];
 			/***************************************consulta y calcula el rechazo de hojas madres para el dia actual**************************************************************/					
-				    $consulta_rechazo_hm_actual="select * from ref_web.produccion where fecha='".$row["fecha"]."' and cod_grupo='".$row_grupo_hm[subclase1]."'";
+				    $consulta_rechazo_hm_actual="select * from ref_web.produccion where fecha='".$row["fecha"]."' and cod_grupo='".$row_grupo_hm["subclase1"]."'";
 					$rs_rechazo_hm_actual = mysqli_query($link, $consulta_rechazo_hm_actual);
 					$row_rechazo_hm_actual = mysqli_fetch_array($rs_rechazo_hm_actual);
-					$rechazo_hm_actual=$rechazo_hm_actual+$row_rechazo_hm_actual[rechazo_delgadas]+$row_rechazo_hm_actual[rechazo_granuladas]+$row_rechazo_hm_actual[rechazo_gruesas];
+					$rechazo_hm_actual=$rechazo_hm_actual+$row_rechazo_hm_actual["rechazo_delgadas"]+$row_rechazo_hm_actual["rechazo_granuladas"]+$row_rechazo_hm_actual["rechazo_gruesas"];
 				  }
 			/************************************************calcula la produccion de maquinas mfci y mco para el dia anterior********************************************************/	  
 			$consulta_mfci="select sum(produccion_mfci) as suma_mfci, sum(produccion_mco) as suma_mco from ref_web.iniciales where fecha='".$fecha_anterior."'";	  
@@ -427,27 +436,27 @@ function Recarga()
 			$consulta_lam_ant="select * from ref_web.detalle_iniciales where fecha='".$fecha_anterior."' ";
 			$rs_lam_ant = mysqli_query($link, $consulta_lam_ant);
 			$row_lam_ant = mysqli_fetch_array($rs_lam_ant);
-			if ($row_lam_ant[rechazo_lam_ini]=='')
-			   { $row_lam_ant[rechazo_lam_ini]=0; }
+			if ($row_lam_ant["rechazo_lam_ini"]=='')
+			   { $row_lam_ant["rechazo_lam_ini"]=0; }
 			/**********************************Consulta stock de catodos iniciales del actual********************************/			
 			$consulta_lam_actual="select * from ref_web.detalle_iniciales where fecha='".$row["fecha"]."' ";
 			$rs_lam_actual = mysqli_query($link, $consulta_lam_actual);
 			$row_lam_actual = mysqli_fetch_array($rs_lam_actual);
-			if ($row_lam_actual[rechazo_lam_ini]=='')
-			   { $row_lam_actual[rechazo_lam_ini]=0; }  
+			if ($row_lam_actual["rechazo_lam_ini"]=='')
+			   { $row_lam_actual["rechazo_lam_ini"]=0; }  
 			/***********************************************************************************************************************/
 			$consulta_stock_ant="select * from ref_web.stock_diario where fecha='".$fecha_anterior."' ";
 			//echo $consulta_stock_ant;
 			$rs_stock_ant = mysqli_query($link, $consulta_stock_ant);
 			$row_stock_ant = mysqli_fetch_array($rs_stock_ant);
-			//echo $stock_dia_ant.'='.$row_stock_ant[stock_dia].'+'.$produccion.'-'.$row_lam_ant[rechazo_lam_ini].'-'.$row_mfci_ant[suma_mfci].'-'.$row_mfci_ant[suma_mco].'-'.$rechazo_hm;
-			$stock_dia_ant=$row_stock_ant[stock_dia]+$produccion-$row_lam_ant[rechazo_lam_ini]-$row_mfci_ant[suma_mfci]-$row_mfci_ant[suma_mco]-$rechazo_hm;
+			//echo $stock_dia_ant.'='.$row_stock_ant["stock_dia"].'+'.$produccion.'-'.$row_lam_ant["rechazo_lam_ini"].'-'.$row_mfci_ant["suma_mfci"].'-'.$row_mfci_ant["suma_mco"].'-'.$rechazo_hm;
+			$stock_dia_ant=$row_stock_ant["stock_dia"]+$produccion-$row_lam_ant["rechazo_lam_ini"]-$row_mfci_ant["suma_mfci"]-$row_mfci_ant["suma_mco"]-$rechazo_hm;
 			$consulta_ajuste="select * from ref_web.ajustes where fecha='".$row["fecha"]."'";
 			$rs_ajuste = mysqli_query($link, $consulta_ajuste);
 			$row_ajuste = mysqli_fetch_array($rs_ajuste);
-			if ($row_ajuste[ajuste] <>'')
+			if ($row_ajuste["ajuste"] <>'')
 			  {
-                $stock_dia_ant=$stock_dia_ant-$row_ajuste[ajuste];
+                $stock_dia_ant=$stock_dia_ant-$row_ajuste["ajuste"];
 				$color='s';
 			  }
 			else {$color='n';} 
@@ -463,9 +472,9 @@ function Recarga()
 				   //echo $actualizar1;
 		           mysqli_query($link, $actualizar1);
 			     }	 
-			if (($color=='s') and ($row_ajuste[ajuste] <>0))
+			if (($color=='s') and ($row_ajuste["ajuste"] <>0))
 			   {	 
-		        echo '<td width="82"align="center" title="Ajuste de '.$row_ajuste[ajuste].' laminas a '.$row_ajuste["tipo"].'" class="detalle01"><font color="red">'.$stock_dia_ant.'&nbsp;</font></td>';
+		        echo '<td width="82"align="center" title="Ajuste de '.$row_ajuste["ajuste"].' laminas a '.$row_ajuste["tipo"].'" class="detalle01"><font color="red">'.$stock_dia_ant.'&nbsp;</font></td>';
 			   }
 			else {echo '<td width="82"align="center"  >'.$stock_dia_ant.'&nbsp;</td>';}		
 			//echo '<td width="82" align="center" >'.$n_placas_actual.'&nbsp;</td>';
@@ -474,9 +483,9 @@ function Recarga()
 			echo '<td width="82" align="center" >'.$rechazo_hm_actual.'&nbsp;</td>';
 			$rechazado_dia=number_format(($rechazo_hm_actual/$produccion_actual)*100,"2","","");
 			echo '<td width="82" align="center" >'.$rechazado_dia.'&nbsp;</td>';
-			echo '<td width="82" align="center" >'.$row_lam_actual[rechazo_lam_ini].'&nbsp;</td>';
-			echo '<td width="82" align="center" >'.$row_mfci_actual[suma_mfci].'&nbsp;</td>';
-			echo '<td width="82" align="center" >'.$row_mfci_actual[suma_mco].'&nbsp;</td>';
+			echo '<td width="82" align="center" >'.$row_lam_actual["rechazo_lam_ini"].'&nbsp;</td>';
+			echo '<td width="82" align="center" >'.$row_mfci_actual["suma_mfci"].'&nbsp;</td>';
+			echo '<td width="82" align="center" >'.$row_mfci_actual["suma_mco"].'&nbsp;</td>';
 		    /**********laminas aprovadas NE hoy ********************************************************************************/
 
 		    $consulta_lam_apro="select sum(peso_produccion) as aprobadas,sum(peso_tara) as tara_aprobadas ";
@@ -504,7 +513,7 @@ function Recarga()
 		    $consulta_lam_ven.="and cod_subproducto='4'";
 		    $respuesta_lam_ven= mysqli_query($link, $consulta_lam_ven);
 		    $row_lam_ven= mysqli_fetch_array($respuesta_lam_ven);
-		    $peso_hoja_buena=($row_lam_apro[aprobadas]-$row_lam_apro[tara_aprobadas])+($row_lam_co[co]-$row_lam_co[tara_co])+($row_lam_ven[venta]-$row_lam_ven[tara_venta]);
+		    $peso_hoja_buena=($row_lam_apro["aprobadas"]-$row_lam_apro["tara_aprobadas"])+($row_lam_co["co"]-$row_lam_co["tara_co"])+($row_lam_ven["venta"]-$row_lam_ven["tara_venta"]);
 		    
 
 		    /******************************peso hoja rechazada***********************************************************/
@@ -516,14 +525,14 @@ function Recarga()
 		    $row_sin_orejas= mysqli_fetch_array($respuesta_sin_orejas);
 		  
 		    		
-		    $peso_hoja_rech=$row_sin_orejas[peso_rechazo_sin_orejas]-$row_sin_orejas[tara_rechazo_s_orejas];
+		    $peso_hoja_rech=$row_sin_orejas["peso_rechazo_sin_orejas"]-$row_sin_orejas["tara_rechazo_s_orejas"];
             $peso_produccion=$peso_hoja_buena;
 			$resta_unidades = 0;
 			//echo $peso_produccion.'='.$peso_hoja_buena.'-'.$peso_hoja_rech;
 		    echo '<td width="82" align="center" >'.$peso_produccion.'&nbsp;</td>';
 			/*poly 11-03-05 verificar esto
 			
-			$promedio_peso_lamina=$row_fci_actual[suma_mco]/produccion_actual-rechazo_hm_actual;*/
+			$promedio_peso_lamina=$row_fci_actual["suma_mco"]/produccion_actual-rechazo_hm_actual;*/
 			
 			
 			$resta_unidades = ($produccion_actual - $rechazo_hm_actual);
@@ -578,35 +587,35 @@ function Recarga()
 			 $consulta_stock_c_i="select * from ref_web.detalle_iniciales where fecha='".$row["fecha"]."'";
 			 $rs_stock_c_i = mysqli_query($link, $consulta_stock_c_i);
 			 $row_stock_c_i = mysqli_fetch_array($rs_stock_c_i);
-			 echo '<td width="118" align="center" >'.$row_stock_c_i[stock].'&nbsp;</td>';
+			 echo '<td width="118" align="center" >'.$row_stock_c_i["stock"].'&nbsp;</td>';
 			 $consulta_mfci_actual="select sum(produccion_mfci) as suma_mfci, sum(produccion_mco) as suma_mco from ref_web.iniciales where fecha='".$row["fecha"]."'";	  
 			 $rs_mfci_actual = mysqli_query($link, $consulta_mfci_actual);
 			 $row_mfci_actual = mysqli_fetch_array($rs_mfci_actual);
-			 echo '<td width="118" align="center" >'.$row_mfci_actual[suma_mfci].'&nbsp;</td>';
+			 echo '<td width="118" align="center" >'.$row_mfci_actual["suma_mfci"].'&nbsp;</td>';
 			 //$total_consumo= OcupadosEnRenovacion($row["fecha"]);
-             echo '<td width="118" align="center" >'.OcupadosEnRenovacion($row["fecha"]).'&nbsp;</td>';
+             echo '<td width="118" align="center" >'.OcupadosEnRenovacion($row["fecha"],$link).'&nbsp;</td>';
 			 $consulta_lam_actual="select * from ref_web.detalle_iniciales where fecha='".$row["fecha"]."' ";
 			 $rs_lam_actual = mysqli_query($link, $consulta_lam_actual);
 			 $row_lam_actual = mysqli_fetch_array($rs_lam_actual);
-			 if ($row_lam_actual[catodos_en_renovacion]=='')
-			    { $row_lam_actual[catodos_en_renovacion]=0; }  
-			 echo '<td width="118" align="center" >'.$row_lam_actual[catodos_en_renovacion].'&nbsp;</td>';
-			 echo '<td width="118" align="center" >'.$row_lam_actual[rechazo_cat_ini].'&nbsp;</td>';
+			 if ($row_lam_actual["catodos_en_renovacion"]=='')
+			    { $row_lam_actual["catodos_en_renovacion"]=0; }  
+			 echo '<td width="118" align="center" >'.$row_lam_actual["catodos_en_renovacion"].'&nbsp;</td>';
+			 echo '<td width="118" align="center" >'.$row_lam_actual["rechazo_cat_ini"].'&nbsp;</td>';
 			 $fecha_siguiente=buscadia(1,$row["fecha"]);//llama a funcion busca dia para buscar dia siguiente
 			 $consulta_stock_c_anterior="select * from ref_web.detalle_iniciales where fecha='".$fecha_siguiente."'";
 			 $rs_stock_c_anterior = mysqli_query($link, $consulta_stock_c_anterior);
 			 $row_stock_c_anterior = mysqli_fetch_array($rs_stock_c_anterior);
-			 $total_consumo_renovacion_anterior=OcupadosEnRenovacion($fecha_siguiente);
+			 $total_consumo_renovacion_anterior=OcupadosEnRenovacion($fecha_siguiente,$link);
 			 $consulta_mfci_anterior="select sum(produccion_mfci) as suma_mfci, sum(produccion_mco) as suma_mco from ref_web.iniciales where fecha='".$fecha_siguiente."'";	  
 			 $rs_mfci_anterior = mysqli_query($link, $consulta_mfci_anterior);
 			 $row_mfci_anterior = mysqli_fetch_array($rs_mfci_anterior);
 			 $consulta_lam_actual="select * from ref_web.detalle_iniciales where fecha='".$fecha_siguiente."' ";
 			 $rs_lam_actual = mysqli_query($link, $consulta_lam_actual);
 			 $row_lam_actual = mysqli_fetch_array($rs_lam_actual);
-			 if ($row_lam_actual[catodos_en_renovacion]=='')
-			    { $row_lam_actual[catodos_en_renovacion]=0; }  	 
-			 //echo $row_stock_c_i[stock].'-'.$row_stock_c_anterior[stock].'-'.$row_mfci_anterior[suma_mfci].'+'.$total_consumo_renovacion_anterior.'+'.$row_lam_actual[catodos_en_renovacion].'+'.$row_lam_actual[rechazo_cat_ini] ;	
-		     $dif_cont_real=$row_stock_c_i[stock]-$row_stock_c_anterior[stock]-$row_mfci_anterior[suma_mfci]+$total_consumo_renovacion_anterior+$row_lam_actual[catodos_en_renovacion]+$row_lam_actual[rechazo_cat_ini] ;
+			 if ($row_lam_actual["catodos_en_renovacion"]=='')
+			    { $row_lam_actual["catodos_en_renovacion"]=0; }  	 
+			 //echo $row_stock_c_i["stock"].'-'.$row_stock_c_anterior["stock"].'-'.$row_mfci_anterior["suma_mfci"].'+'.$total_consumo_renovacion_anterior.'+'.$row_lam_actual["catodos_en_renovacion"].'+'.$row_lam_actual["rechazo_cat_ini"] ;	
+		     $dif_cont_real=$row_stock_c_i["stock"]-$row_stock_c_anterior["stock"]-$row_mfci_anterior["suma_mfci"]+$total_consumo_renovacion_anterior+$row_lam_actual["catodos_en_renovacion"]+$row_lam_actual["rechazo_cat_ini"] ;
 			 echo '<td width="118" align="center" >'.$dif_cont_real.'&nbsp;</td>';
 			$consulta_grupo_hm="select valor_subclase1 as subclase1 from proyecto_modernizacion.sub_clase where cod_clase='10001'";
 		    $rs_grupo_hm = mysqli_query($link, $consulta_grupo_hm);
@@ -618,30 +627,30 @@ function Recarga()
 			$rechazo_hm_actual=0;
 			while ($row_grupo_hm = mysqli_fetch_array($rs_grupo_hm))
 			      { 
-				     $consulta_fecha_actual="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$row["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm[subclase1]."' group by t1.cod_grupo";
+				     $consulta_fecha_actual="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$row["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm["subclase1"]."' group by t1.cod_grupo";
 					 $rs_fecha_actual = mysqli_query($link, $consulta_fecha_actual);
 					 $row_fecha_actual = mysqli_fetch_array($rs_fecha_actual);
 			         $Consulta6_actual =  "select max(t1.fecha) as fecha,t1.cod_grupo,t1.cod_circuito,hojas_madres,num_catodos_celdas from ref_web.grupo_electrolitico2 as t1 ";
-					 $Consulta6_actual = $Consulta6_actual." where  t1.fecha = '".$row_fecha_actual["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm[subclase1]."' group by t1.cod_grupo";
+					 $Consulta6_actual = $Consulta6_actual." where  t1.fecha = '".$row_fecha_actual["fecha"]."' and t1.cod_grupo ='0".$row_grupo_hm["subclase1"]."' group by t1.cod_grupo";
 					 $rs3_actual = mysqli_query($link, $Consulta6_actual);
 					 $row3_actual = mysqli_fetch_array($rs3_actual);
 					/***************************************consulta y calcula el rechazo de hojas madres para el dia actual**************************************************************/					
-					 $consulta_rechazo_hm_actual="select * from ref_web.produccion where fecha='".$row["fecha"]."' and cod_grupo='".$row_grupo_hm[subclase1]."'";
+					 $consulta_rechazo_hm_actual="select * from ref_web.produccion where fecha='".$row["fecha"]."' and cod_grupo='".$row_grupo_hm["subclase1"]."'";
 					 $rs_rechazo_hm_actual = mysqli_query($link, $consulta_rechazo_hm_actual);
 					 $row_rechazo_hm_actual = mysqli_fetch_array($rs_rechazo_hm_actual);
-					 $rechazo_hm_actual=$rechazo_hm_actual+$row_rechazo_hm_actual[rechazo_delgadas]+$row_rechazo_hm_actual[rechazo_granuladas]+$row_rechazo_hm_actual[rechazo_gruesas];
-					 $produccion_actual=$produccion_actual+(($row3_actual[hojas_madres]*$row3_actual[num_catodos_celdas])*2); 
+					 $rechazo_hm_actual=$rechazo_hm_actual+$row_rechazo_hm_actual["rechazo_delgadas"]+$row_rechazo_hm_actual["rechazo_granuladas"]+$row_rechazo_hm_actual["rechazo_gruesas"];
+					 $produccion_actual=$produccion_actual+(($row3_actual["hojas_madres"]*$row3_actual["num_catodos_celdas"])*2); 
 					
 				  }
 			 $consulta_lam_actual="select * from ref_web.detalle_iniciales where fecha='".$row["fecha"]."' ";
 			 $rs_lam_actual = mysqli_query($link, $consulta_lam_actual);
 			 $row_lam_actual = mysqli_fetch_array($rs_lam_actual);
-			 if ($row_lam_actual[rechazo_lam_ini]=='')
-			   { $row_lam_actual[rechazo_lam_ini]=0; } 
+			 if ($row_lam_actual["rechazo_lam_ini"]=='')
+			   { $row_lam_actual["rechazo_lam_ini"]=0; } 
 			 $consulta_mfci_actual="select sum(produccion_mfci) as suma_mfci, sum(produccion_mco) as suma_mco from ref_web.iniciales where fecha='".$row["fecha"]."'";	  
 			 $rs_mfci_actual = mysqli_query($link, $consulta_mfci_actual);
 			 $row_mfci_actual = mysqli_fetch_array($rs_mfci_actual);  
-			 $rechazo_total_en_porc=(($rechazo_hm_actual+$row_lam_actual[rechazo_lam_ini]+$row_lam_actual[catodos_en_renovacion]+$row_lam_actual[rechazo_cat_ini])/$produccion_actual)*100;
+			 $rechazo_total_en_porc=(($rechazo_hm_actual+$row_lam_actual["rechazo_lam_ini"]+$row_lam_actual["catodos_en_renovacion"]+$row_lam_actual["rechazo_cat_ini"])/$produccion_actual)*100;
 			 echo '<td width="118" align="center" >'.number_format($rechazo_total_en_porc,"2","","").'&nbsp;</td>';
 			 echo '<tr>';
           }
@@ -661,7 +670,7 @@ function Recarga()
 </table>
 </form>
 <?php
-	if (isset($mensaje))
+	if ($mensaje!="")
 	{
 		echo '<script language="JavaScript">';		
 		echo 'alert("'.$mensaje.'");';			
