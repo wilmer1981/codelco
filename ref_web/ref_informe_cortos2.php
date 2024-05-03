@@ -1,6 +1,21 @@
 <?php
 	include("../principal/conectar_principal.php");
-	function concatena_observacion($fecha,$cod_grupo)
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$limpiar     = isset($_REQUEST["limpiar"])?$_REQUEST["limpiar"]:""; 
+	$cmbcircuito     = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
+	$mostrar     = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:""; 
+	$recarga     = isset($_REQUEST["recarga"])?$_REQUEST["recarga"]:""; 
+	$Buscar      = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d"); 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y"); 
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y"); 
+
+
+	function concatena_observacion($fecha,$cod_grupo,$link)
 	  {
 	    $observacion='';
 	    $consulta="select * from ref_web.observaciones where fecha='".$fecha."' and cod_grupo='".$cod_grupo."'";
@@ -8,57 +23,57 @@
 	    $respuesta=mysqli_query($link, $consulta);
 		$row_obs = mysqli_fetch_array($respuesta);
 		$observacion='Deposito:';
-		if ($row_obs[normal]<>'0')
-		   {$observacion=$observacion.$row_obs[normal].',';}
-	    if ($row_obs[rayado]<>'0')
-		   {$observacion=$observacion.$row_obs[rayado].',';}		
-	    if ($row_obs[cristalizado]<>'0')
-		   {$observacion=$observacion.$row_obs[cristalizado].',';}
-	    if ($row_obs[granulado]<>'0')
-		   {$observacion=$observacion.$row_obs[granulado].',';}
-	    if ($row_obs[c_barro]<>'0')
-		   {$observacion=$observacion.$row_obs[c_barro].',';}
-	    if ($row_obs[cordon]<>'0')
-		   {$observacion=$observacion.$row_obs[cordon].',';}
-	    if ($row_obs[rigido]<>'0')
-		   {$observacion=$observacion.$row_obs[rigido];}
+		if ($row_obs["normal"]<>'0')
+		   {$observacion=$observacion.$row_obs["normal"].',';}
+	    if ($row_obs["rayado"]<>'0')
+		   {$observacion=$observacion.$row_obs["rayado"].',';}		
+	    if ($row_obs["cristalizado"]<>'0')
+		   {$observacion=$observacion.$row_obs["cristalizado"].',';}
+	    if ($row_obs["granulado"]<>'0')
+		   {$observacion=$observacion.$row_obs["granulado"].',';}
+	    if ($row_obs["c_barro"]<>'0')
+		   {$observacion=$observacion.$row_obs["c_barro"].',';}
+	    if ($row_obs["cordon"]<>'0')
+		   {$observacion=$observacion.$row_obs["cordon"].',';}
+	    if ($row_obs["rigido"]<>'0')
+		   {$observacion=$observacion.$row_obs["rigido"];}
 											
 											
 		$observacion=$observacion.chr(13);
 		$observacion=$observacion.'Tipo Corte:';									
 		
-	    if ($row_obs[abierto]<>'0')
-		   {$observacion=$observacion.$row_obs[abierto].',';}
-        if ($row_obs[abierto_c_barro]<>'0')
-		   {$observacion=$observacion.$row_obs[abierto_c_barro].',';}
-		if ($row_obs[cerrado]<>'0')
-		   {$observacion=$observacion.$row_obs[cerrado].',';}											  											  
-		if ($row_obs[cristalizado2]<>'0')
-		   {$observacion=$observacion.$row_obs[cristalizado2].',';}
-		if ($row_obs[puntual]<>'0')
-		   {$observacion=$observacion.$row_obs[puntual].',';}
-		if ($row_obs[extendido]<>'0')
-		   {$observacion=$observacion.$row_obs[extendido].',';}
-		if ($row_obs[fino]<>'0')
-		   {$observacion=$observacion.$row_obs[fino];}
+	    if ($row_obs["abierto"]<>'0')
+		   {$observacion=$observacion.$row_obs["abierto"].',';}
+        if ($row_obs["abierto_c_barro"]<>'0')
+		   {$observacion=$observacion.$row_obs["abierto_c_barro"].',';}
+		if ($row_obs["cerrado"]<>'0')
+		   {$observacion=$observacion.$row_obs["cerrado"].',';}											  											  
+		if ($row_obs["cristalizado2"]<>'0')
+		   {$observacion=$observacion.$row_obs["cristalizado2"].',';}
+		if ($row_obs["puntual"]<>'0')
+		   {$observacion=$observacion.$row_obs["puntual"].',';}
+		if ($row_obs["extendido"]<>'0')
+		   {$observacion=$observacion.$row_obs["extendido"].',';}
+		if ($row_obs["fino"]<>'0')
+		   {$observacion=$observacion.$row_obs["fino"];}
        	
 		$observacion=$observacion.chr(13);
 		$observacion=$observacion.'Ubicacion:';
 		
-		if ($row_obs[estampa]<>'0')
-		   {$observacion=$observacion.$row_obs[estampa].',';}
-        if ($row_obs[dispersa]<>'0')
-		   {$observacion=$observacion.$row_obs[dispersa].',';}
-		if ($row_obs[remache]<>'0')
-		   {$observacion=$observacion.$row_obs[remache].',';}											  											  
-		if ($row_obs[oreja]<>'0')
-		   {$observacion=$observacion.$row_obs[oreja].',';}
-		if ($row_obs[superior]<>'0')
-		   {$observacion=$observacion.$row_obs[superior].',';}
-		if ($row_obs[inferior]<>'0')
-		   {$observacion=$observacion.$row_obs[inferior].',';}
-		if ($row_obs[lateral]<>'0')
-		   {$observacion=$observacion.$row_obs[lateral];}									
+		if ($row_obs["estampa"]<>'0')
+		   {$observacion=$observacion.$row_obs["estampa"].',';}
+        if ($row_obs["dispersa"]<>'0')
+		   {$observacion=$observacion.$row_obs["dispersa"].',';}
+		if ($row_obs["remache"]<>'0')
+		   {$observacion=$observacion.$row_obs["remache"].',';}											  											  
+		if ($row_obs["oreja"]<>'0')
+		   {$observacion=$observacion.$row_obs["oreja"].',';}
+		if ($row_obs["superior"]<>'0')
+		   {$observacion=$observacion.$row_obs["superior"].',';}
+		if ($row_obs["inferior"]<>'0')
+		   {$observacion=$observacion.$row_obs["inferior"].',';}
+		if ($row_obs["lateral"]<>'0')
+		   {$observacion=$observacion.$row_obs["lateral"];}									
 									  	 											
 		return $observacion;																			  
 	  }
@@ -66,20 +81,11 @@
 	
 	
 	if ($limpiar!='N') 
-	   {
+	{
 	    $limpiar="delete from ref_web.leyes";
 	    mysqli_query($link, $limpiar);
-	   }	
-	
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
+	}	
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -101,7 +107,8 @@ function Recarga1(opcion)
 	var f = document.frmPrincipal;
 	if (opcion=='S')
 	  // {f.action = "cortes2_aux.php?recarga=S"+"&dia1="+f.dia1.value+"&mes1="+f.mes1.value+"&ano1="+f.ano1.value+"&circuito="+f.cmbcircuito.value+"&mostrar=S&Buscar=N";}
-	   {f.action = "ref_informe_cortos2.php?mostrar=S"+"&cmbcircuito="+f.cmbcircuito.value+"&recarga=S"+"&Buscar=S"+"&DiaIni="+f.DiaIni.value+"&MesIni="+f.MesIni.value+"&AnoIni="+f.AnoIni.value;}
+	   {
+		f.action = "ref_informe_cortos2.php?mostrar=S"+"&cmbcircuito="+f.cmbcircuito.value+"&recarga=S"+"&Buscar=S"+"&DiaIni="+f.DiaIni.value+"&MesIni="+f.MesIni.value+"&AnoIni="+f.AnoIni.value;}
 	f.submit();
 }
 function Imprimir(f)
@@ -331,17 +338,17 @@ function Globales()
 		        { 
 				  //$obs=concatena_observacion($row_cortos["fecha"],row["cod_grupo"]);
 				?>
-				  <tr onMouseOver="if(!this.contains(event.fromElement)){this.bgColor='class=ColorTabla02';} if(!document.all){style.cursor='pointer'};style.cursor='hand';" onMouseOut="if(!this.contains(event.toElement)){this.bgColor=''; }" title="<?php echo concatena_observacion($row_cortos["fecha"],$row["cod_grupo"]); ?>">
+				  <tr onMouseOver="if(!this.contains(event.fromElement)){this.bgColor='class=ColorTabla02';} if(!document.all){style.cursor='pointer'};style.cursor='hand';" onMouseOut="if(!this.contains(event.toElement)){this.bgColor=''; }" title="<?php echo concatena_observacion($row_cortos["fecha"],$row["cod_grupo"],$link); ?>">
 				 <?php echo '<td width="257" align="center">'.$row_cortos["fecha"].'</td>';
-				  if ($row_cortos[cont_dia]==0)
+				  if ($row_cortos["cont_dia"]==0)
 				      {
 					   echo '<td width="20" align="center" class=detalle02>R</td>';
 					  }
 				  else {
-				        echo '<td width="20" align="center" class=detalle01>'.$row_cortos[cont_dia].'</td>';
+				        echo '<td width="20" align="center" class=detalle01>'.$row_cortos["cont_dia"].'</td>';
 					   }	
-				  echo '<td width="20" align="center">'.$row_cortos[cortos_nuevo].'</td>';
-				  echo '<td width="20" align="center">'.$row_cortos[cortos_semi].'</td>';
+				  echo '<td width="20" align="center">'.$row_cortos["cortos_nuevo"].'</td>';
+				  echo '<td width="20" align="center">'.$row_cortos["cortos_semi"].'</td>';
 				  echo '</tr>';
 				}  
 		  $cont++;

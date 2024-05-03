@@ -153,7 +153,7 @@ function detalle_anodos(fecha,grupo)
 		        { 
 				  //$obs=concatena_observacion($row_cortos["fecha"],row["cod_grupo"]);
 				?>
-				  <tr onMouseOver="if(!this.contains(event.fromElement)){this.bgColor='class=ColorTabla02';} if(!document.all){style.cursor='pointer'};style.cursor='hand';" onMouseOut="if(!this.contains(event.toElement)){this.bgColor=''; }" title="Total Rechazo <?php echo substr($row_cortos["fecha"],8,2).'/'.substr($row_cortos["fecha"],5,2).'/'.substr($row_cortos["fecha"],0,4);?> grupo <?php echo $row["cod_grupo"];?>&nbsp;es de&nbsp;<?php echo $row_cortos[ne]+$row_cortos[nd]+$row_cortos[ra]+$row_cortos[cs]+$row_cortos[cl]+$row_cortos[ot]?> Laminas">
+				  <tr onMouseOver="if(!this.contains(event.fromElement)){this.bgColor='class=ColorTabla02';} if(!document.all){style.cursor='pointer'};style.cursor='hand';" onMouseOut="if(!this.contains(event.toElement)){this.bgColor=''; }" title="Total Rechazo <?php echo substr($row_cortos["fecha"],8,2).'/'.substr($row_cortos["fecha"],5,2).'/'.substr($row_cortos["fecha"],0,4);?> grupo <?php echo $row["cod_grupo"];?>&nbsp;es de&nbsp;<?php echo $row_cortos[ne]+$row_cortos[nd]+$row_cortos[ra]+$row_cortos[cs]+$row_cortos[cl]+$row_cortos["ot"]?> Laminas">
 				 <?php 
 				   echo '<td  align="center" class=detalle01>'.$row_cortos["fecha"].'</td>';
 				   echo '<td align="center">'.$row_cortos[ne].'</td>';
@@ -164,7 +164,7 @@ function detalle_anodos(fecha,grupo)
 				   echo '<td  align="center">'.$row_cortos[qu].'</td>';
 				   echo '<td  align="center">'.$row_cortos[re].'</td>';
 				   echo '<td  align="center">'.$row_cortos[ai].'</td>';
-				   echo '<td  align="center">'.$row_cortos[ot].'</td>';
+				   echo '<td  align="center">'.$row_cortos["ot"].'</td>';
 				   $total_dia=$row_cortos[ne]+$row_cortos[nd]+$row_cortos[ra]+$row_cortos[cs]+$row_cortos[cl];
 				   $total_dia=$total_dia+$row_cortos[qu]+$row_cortos[re]+$row_cortos[ai]+$row_cortos[ot];
 				   echo '<td  align="center">'.$total_dia.'</td>';

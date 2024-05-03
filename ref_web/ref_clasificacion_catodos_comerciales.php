@@ -424,7 +424,7 @@ function Detalle()
 				$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
 				$respuesta2= mysqli_query($link, $consulta2);
 				$fila2 = mysqli_fetch_array($respuesta2);
-				$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2[qu]+$fila[re]+$fila[ai]+$fila2[ot];
+				$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2[qu]+$fila[re]+$fila[ai]+$fila2["ot"];
 				/***********************************************************************************************************************/
 				/******************obtiene datos del grupo electrolitico 2 **********************************************************/
 				$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."' ";
@@ -654,8 +654,8 @@ function Detalle()
 					echo "<td align='center'>".$row_rechazo[qu]."&nbsp</td>\n";
 					echo "<td align='center'>".$row_rechazo[re]."&nbsp</td>\n";
 					echo "<td align='center'>".$row_rechazo[ai]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[ot]."&nbsp</td>\n";
-					$rechazo_dia=$row_rechazo[ne]+$row_rechazo[nd]+$row_rechazo[ra]+$row_rechazo[cs]+$row_rechazo[cl]+$row_rechazo[ot];
+					echo "<td align='center'>".$row_rechazo["ot"]."&nbsp</td>\n";
+					$rechazo_dia=$row_rechazo[ne]+$row_rechazo[nd]+$row_rechazo[ra]+$row_rechazo[cs]+$row_rechazo[cl]+$row_rechazo["ot"];
 					$rechazo_dia = $rechazo_dia + $row_rechazo[qu]+ $row_rechazo[re]+ $row_rechazo[ai];
 					$total_ne=$total_ne+$row_rechazo[ne];
 					$total_nd=$total_ne+$row_rechazo[nd];
@@ -665,7 +665,7 @@ function Detalle()
 					$total_qu=$total_ne+$row_rechazo[qu];
 					$total_re=$total_ne+$row_rechazo[re];
 					$total_ai=$total_ne+$row_rechazo[ai];
-					$total_ot=$total_ne+$row_rechazo[ot];
+					$total_ot=$total_ne+$row_rechazo["ot"];
 				   }
 			   else if ($opcion=='L')
 			           {
@@ -690,8 +690,8 @@ function Detalle()
 						echo "<td align='center'>".$row_rechazo[qu]."&nbsp</td>\n";
 						echo "<td align='center'>".$row_rechazo[re]."&nbsp</td>\n";
 						echo "<td align='center'>".$row_rechazo[ai]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[ot]."&nbsp</td>\n";
-						$rechazo_dia=$row_rechazo[ne]+$row_rechazo[nd]+$row_rechazo[ra]+$row_rechazo[cs]+$row_rechazo[cl]+$row_rechazo[ot];
+						echo "<td align='center'>".$row_rechazo["ot"]."&nbsp</td>\n";
+						$rechazo_dia=$row_rechazo[ne]+$row_rechazo[nd]+$row_rechazo[ra]+$row_rechazo[cs]+$row_rechazo[cl]+$row_rechazo["ot"];
 						$rechazo_dia=$rechazo_dia+$row_rechazo[qu]+$row_rechazo[re]+$row_rechazo[ai];
 						$total_ne=$total_ne+$row_rechazo[ne];
 						$total_nd=$total_nd+$row_rechazo[nd];
@@ -701,7 +701,7 @@ function Detalle()
 						$total_qu=$total_qu+$row_rechazo[qu];
 						$total_re=$total_re+$row_rechazo[re];
 						$total_ai=$total_ai+$row_rechazo[ai];
-						$total_ot=$total_ot+$row_rechazo[ot];
+						$total_ot=$total_ot+$row_rechazo["ot"];
 						$total_rechazo=$total_rechazo+$rechazo_dia;
 					   }
 			  echo '</tr>';		     	
@@ -791,7 +791,7 @@ function Detalle()
 								$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
 								$respuesta2= mysqli_query($link, $consulta2);
 								$fila2 = mysqli_fetch_array($respuesta2);
-								$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2[ot]+$fila2[qu]+$fila2[re]+$fila2[ai];
+								$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2["ot"]+$fila2[qu]+$fila2[re]+$fila2[ai];
 								/***********************************************************************************************************************/
 								/******************obtiene datos del grupo electrolitico 2 **********************************************************/
 								$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."' ";

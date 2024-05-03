@@ -1,4 +1,4 @@
-<?phpphp
+<?php
    include("../principal/conectar_ref_web.php");
 
    $fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
@@ -7,6 +7,7 @@
     $result=mysqli_query($link, $sql);
     $row = mysqli_fetch_array($result);
     $variable =$row["fecha"];
+
 	$consulta="select t1.fecha_muestra, t1.id_muestra,t1.cod_producto,t1.cod_subproducto, ";
 	$consulta.="t2.nro_solicitud,t2.cod_leyes,t2.valor,t2.cod_unidad ";
 	$consulta.="from cal_web.solicitud_analisis as t1 ";

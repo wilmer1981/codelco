@@ -156,7 +156,7 @@ function detalle_anodos(fecha,grupo)
 									$total_dia_ra=$total_dia_ra+$row_rechazo[ra];
 									$total_dia_cs=$total_dia_cs+$row_rechazo[cs];
 									$total_dia_cl=$total_dia_cl+$row_rechazo[cl];
-									$total_dia_ot=$total_dia_ot+$row_rechazo[ot];
+									$total_dia_ot=$total_dia_ot+$row_rechazo["ot"];
 								}
 						}
 						if ($color1=='detalle02')

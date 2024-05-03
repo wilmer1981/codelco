@@ -650,7 +650,7 @@ function ModificarReferencial()
 												      {echo '<input type="checkbox" name="checkbox4" value="Granulado" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox4" value="Granulado">';}
 												   echo 'Granulado&nbsp;' ;
-												   if ($row2[c_barro]=='Con Barro')
+												   if ($row2["c_barro"]=='Con Barro')
 												       {echo '<input type="checkbox" name="checkbox5" value="Con barro" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox5" value="Con barro">';}
 												   echo 'Con barro&nbsp;' ;
@@ -710,7 +710,7 @@ function ModificarReferencial()
 												      {echo '<input type="checkbox" name="checkbox18" value="Oreja" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox18" value="Oreja">';}
 												   echo 'Oreja&nbsp;' ;
-												   if ($row2[superior]=='Superior')
+												   if ($row2["superior"]=='Superior')
 												      {echo '<input type="checkbox" name="checkbox19" value="Superior" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox19" value="Superior">';}
 												   echo 'Superior&nbsp;' ;

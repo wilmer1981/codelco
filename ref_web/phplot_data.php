@@ -1,4 +1,4 @@
-<?phpphp
+<?php
 /*
 Copyright (C) 2000 Afan Ottenheimer.  Released under
 the GPL and PHP licenses as stated in the the README file which

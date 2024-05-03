@@ -93,8 +93,8 @@
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[ra]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[cl]."&nbsp</font></td>\n";	  
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[cs]."&nbsp</font></td>\n";	  
-												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[ot]."&nbsp</font></td>\n";	
-												$total_rechazos=$Fila2[nd]+$Fila2[ne]+$Fila2[ra]+$Fila2[cl]+$Fila2[cs]+$Fila2[ot];  
+												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["ot"]."&nbsp</font></td>\n";	
+												$total_rechazos=$Fila2[nd]+$Fila2[ne]+$Fila2[ra]+$Fila2[cl]+$Fila2[cs]+$Fila2["ot"];  
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>$total_rechazos&nbsp</font></td>\n";
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2[recuperado_menor]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["recuperado_tot"]."&nbsp</font></td>\n";
@@ -103,7 +103,7 @@
 												$total_ra=$total_ra+$Fila2[ra];
 												$total_cl=$total_cl+$Fila2[cl];
 												$total_cs=$total_cs+$Fila2[cs];
-												$total_ot=$total_ot+$Fila2[ot];
+												$total_ot=$total_ot+$Fila2["ot"];
 												$total_total_rechazos=$total_total_rechazos+$total_rechazos;
 												$total_menor       = $total_menor      +$Fila2[recuperado_menor];
 												$total_recuperados=$total_recuperados+$Fila2["recuperado_tot"];
@@ -120,8 +120,8 @@
 												echo "<td width='120' align='center'><font color='black'>".$Fila2[ra]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center'><font color='black'>".$Fila2[cl]."&nbsp</font></td>\n";	  
 												echo "<td width='120' align='center'><font color='black'>".$Fila2[cs]."&nbsp</font></td>\n";	  
-												echo "<td width='120' align='center'><font color='black'>".$Fila2[ot]."&nbsp</font></td>\n";	
-												$total_rechazos=$Fila2[nd]+$Fila2[ne]+$Fila2[ra]+$Fila2[cl]+$Fila2[cs]+$Fila2[ot];  
+												echo "<td width='120' align='center'><font color='black'>".$Fila2["ot"]."&nbsp</font></td>\n";	
+												$total_rechazos=$Fila2[nd]+$Fila2[ne]+$Fila2[ra]+$Fila2[cl]+$Fila2[cs]+$Fila2["ot"];  
 												echo "<td width='120' align='center'><font color='black'>$total_rechazos&nbsp</font></td>\n";
 												echo "<td width='120' align='center'<font color='black'>".$Fila2[recuperado_menor]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center'><font color='black'>".$Fila2["recuperado_tot"]."&nbsp</font></td>\n";
@@ -130,7 +130,7 @@
 												$total_ra=$total_ra+$Fila2[ra];
 												$total_cl=$total_cl+$Fila2[cl];
 												$total_cs=$total_cs+$Fila2[cs];
-												$total_ot=$total_ot+$Fila2[ot];
+												$total_ot=$total_ot+$Fila2["ot"];
 												$total_total_rechazos=$total_total_rechazos+$total_rechazos;
 												$total_menor       = $total_menor      +$Fila2[recuperado_menor];
 												$total_recuperados=$total_recuperados+$Fila2["recuperado_tot"];

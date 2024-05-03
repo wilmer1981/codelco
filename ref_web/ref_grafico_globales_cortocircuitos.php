@@ -1,5 +1,9 @@
 <?php
    include("../principal/conectar_ref_web.php");
+
+   $FechaInicio     = isset($_REQUEST["FechaInicio"])?$_REQUEST["FechaInicio"]:""; 
+   $FechaTermino    = isset($_REQUEST["FechaTermino"])?$_REQUEST["FechaTermino"]:""; 
+   $cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
    
    $i=0;
    $consulta_fecha="select distinct(fecha) as fecha from ref_web.cortocircuitos where fecha between '".$FechaInicio."' and '".$FechaTermino."'";
@@ -15,24 +19,25 @@
 		$respuesta_datos=mysqli_query($link, $consulta_datos);
 		$row_datos=mysqli_fetch_array($respuesta_datos);
 		$arreglo_fecha[$i]=$row_fecha["fecha"];
-		$arreglo_cortos[$i]=$row_datos[suma];
-		if ($valor_max_y<$row_datos[suma])
+		$arreglo_cortos[$i]=$row_datos["suma"];
+		if ($valor_max_y<$row_datos["suma"])
 		    {
-			  $valor_max_y=$row_datos[suma];
+			  $valor_max_y=$row_datos["suma"];
 			}
 		$consulta_referencial="select ref_cir from ref_web.referenciales where cod_circuito='".$cmbcircuito."' and ";
 		$consulta_referencial.="fecha=(select max(fecha) from ref_web.referenciales where cod_circuito='".$cmbcircuito."' and fecha <= '".$row_fecha["fecha"]."') ";
 	    $respuesta_referencial = mysqli_query($link, $consulta_referencial);
 		$row_referencial = mysqli_fetch_array($respuesta_referencial);
-		if ($valor_max_y<$row_referencial[ref_cir])
+		if ($valor_max_y<$row_referencial["ref_cir"])
 		    {
-			  $valor_max_y=$row_referencial[ref_cir]+10;
+			  $valor_max_y=$row_referencial["ref_cir"]+10;
 			}
-		$arreglo_referencial[$i]=$row_referencial[ref_cir];
+		$arreglo_referencial[$i]=$row_referencial["ref_cir"];
 		$i++;
 	 }	
 			  
-include("phpchartdir.php");
+//include("phpchartdir.php");
+require_once("phpchartdir.php");
 
 $data0 = $arreglo_cortos;
 $data1 = $arreglo_referencial;

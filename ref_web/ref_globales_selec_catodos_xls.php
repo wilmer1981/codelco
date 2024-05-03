@@ -1,18 +1,33 @@
 <?php
 	include("../principal/conectar_principal.php");
-    header("Content-Type:  application/vnd.ms-excel");
-	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-	
-	if (!isset($DiaIni))
-	{ 
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename = "";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
 	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d"); 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y"); 
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y"); 
+	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -158,29 +173,29 @@ function detalle_anodos(fecha,grupo)
 		        		{ 
 					?>
 				  	<tr
-				    	<?php echo substr($row_cortos["fecha"],8,2).'/'.substr($row_cortos["fecha"],5,2).'/'.substr($row_cortos["fecha"],0,4);?> grupo <?php echo $row["cod_grupo"];?>&nbsp;es de&nbsp;<?php echo $row_cortos[ne]+$row_cortos[nd]+$row_cortos[ra]+$row_cortos[cs]+$row_cortos[cl]+$row_cortos[qu]+$row_cortos[re]+$row_cortos[ai]+$row_cortos[ot]?> Laminas">
+				    	<?php echo substr($row_cortos["fecha"],8,2).'/'.substr($row_cortos["fecha"],5,2).'/'.substr($row_cortos["fecha"],0,4);?> grupo <?php echo $row["cod_grupo"];?>&nbsp;es de&nbsp;<?php echo $row_cortos["ne"]+$row_cortos["nd"]+$row_cortos["ra"]+$row_cortos["cs"]+$row_cortos["cl"]+$row_cortos["qu"]+$row_cortos["re"]+$row_cortos["ai"]+$row_cortos["ot"]?> Laminas">
 				 		<?php 
 						echo '<td  align="center" class=detalle01>'.$row_cortos["fecha"].'</td>';
-				   		echo '<td align="center">'.$row_cortos[ne].'</td>';
-				   		echo '<td align="center">'.$row_cortos[nd].'</td>';
-				   		echo '<td align="center">'.$row_cortos[ra].'</td>';
-				   		echo '<td  align="center">'.$row_cortos[cs].'</td>';
-				   		echo '<td  align="center">'.$row_cortos[cl].'</td>';
-				   		echo '<td  align="center">'.$row_cortos[qu].'</td>';
-				   		echo '<td  align="center">'.$row_cortos[re].'</td>';
-				   		echo '<td  align="center">'.$row_cortos[ai].'</td>';
-				   		echo '<td  align="center">'.$row_cortos[ot].'</td>';
-				   		$total_dia=$row_cortos[ne]+$row_cortos[nd]+$row_cortos[ra]+$row_cortos[cs]+$row_cortos[cl]+$row_cortos[qu]+$row_cortos[re]+$row_cortos[ai]+$row_cortos[ot];
+				   		echo '<td align="center">'.$row_cortos["ne"].'</td>';
+				   		echo '<td align="center">'.$row_cortos["nd"].'</td>';
+				   		echo '<td align="center">'.$row_cortos["ra"].'</td>';
+				   		echo '<td  align="center">'.$row_cortos["cs"].'</td>';
+				   		echo '<td  align="center">'.$row_cortos["cl"].'</td>';
+				   		echo '<td  align="center">'.$row_cortos["qu"].'</td>';
+				   		echo '<td  align="center">'.$row_cortos["re"].'</td>';
+				   		echo '<td  align="center">'.$row_cortos["ai"].'</td>';
+				   		echo '<td  align="center">'.$row_cortos["ot"].'</td>';
+				   		$total_dia=$row_cortos["ne"]+$row_cortos["nd"]+$row_cortos["ra"]+$row_cortos["cs"]+$row_cortos["cl"]+$row_cortos["qu"]+$row_cortos["re"]+$row_cortos["ai"]+$row_cortos["ot"];
 				   		echo '<td  align="center">'.$total_dia.'</td>';
-				   		$total_ne=$total_ne+$row_cortos[ne];
-				   		$total_nd=$total_nd+$row_cortos[nd];
-				   		$total_ra=$total_ra+$row_cortos[ra];
-				   		$total_cs=$total_cs+$row_cortos[cs];
-				   		$total_cl=$total_cl+$row_cortos[cl];
-				   		$total_qu=$total_qu+$row_cortos[qu];
-				   		$total_re=$total_re+$row_cortos[re];
-				   		$total_ai=$total_ai+$row_cortos[ai];
-				   		$total_ot=$total_ot+$row_cortos[ot];
+				   		$total_ne=$total_ne+$row_cortos["ne"];
+				   		$total_nd=$total_nd+$row_cortos["nd"];
+				   		$total_ra=$total_ra+$row_cortos["ra"];
+				   		$total_cs=$total_cs+$row_cortos["cs"];
+				   		$total_cl=$total_cl+$row_cortos["cl"];
+				   		$total_qu=$total_qu+$row_cortos["qu"];
+				   		$total_re=$total_re+$row_cortos["re"];
+				   		$total_ai=$total_ai+$row_cortos["ai"];
+				   		$total_ot=$total_ot+$row_cortos["ot"];
 				   		$total_dias_total=$total_dias_total+$total_dia;
 				   		echo '</tr>';
 					}  

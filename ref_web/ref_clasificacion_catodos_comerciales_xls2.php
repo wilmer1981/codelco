@@ -61,7 +61,7 @@ $consulta_circuito="select * from sec_web.circuitos";
 								$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
 								$respuesta2= mysqli_query($link, $consulta2);
 								$fila2 = mysqli_fetch_array($respuesta2);
-								$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2[qu]+$fila2[re]+$fila2[ai]+$fila2[ot];
+								$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2[qu]+$fila2[re]+$fila2[ai]+$fila2["ot"];
 								/***********************************************************************************************************************/
 								/******************obtiene datos del grupo electrolitico 2 **********************************************************/
 								$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."'??????????? ";
