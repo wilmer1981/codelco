@@ -2,23 +2,15 @@
 	include("../principal/conectar_ref_web.php"); 
 
 	$CookieRut  = $_COOKIE["CookieRut"];
-	$proceso     = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";  
-	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:""; 
-	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";  
-	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";  
-	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:""; 
-	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";  
-	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";  
+	$proceso     = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:""; 
+	$opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:""; 
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d"); 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y"); 
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y"); 
 
-	if ($DiaIni=="")
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
 	if (strlen($DiaIni) ==1)
 		$DiaIni = "0".$DiaIni;
 	if (strlen($MesIni)==1)
@@ -479,7 +471,7 @@ function Modificar()
 				echo'<input type="hidden" name="num" id="num" value="'.$num.'">';
 				$num2 = $m;
 				echo'<input type="hidden" name="num2" id="num2" value="'.$num2.'">';
-				$num = $k;
+				$num3 = $k;
 				echo'<input type="hidden" name="num3" id="num3" value="'.$num3.'">';
 
 			?>  
