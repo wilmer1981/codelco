@@ -1,8 +1,32 @@
 <?php 
-	header("Content-Type:  application/vnd.ms-excel");
-	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-	include("../principal/conectar_ref_web.php");
+ob_end_clean();
+$file_name=basename($_SERVER['PHP_SELF']).".xls";
+$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+$filename = "";
+if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+$filename = urlencode($filename);
+}
+$filename = iconv('UTF-8', 'gb2312', $filename);
+$file_name = str_replace(".php", "", $file_name);
+header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
+header("content-disposition: attachment;filename={$file_name}");
+header( "Cache-Control: public" );
+header( "Pragma: public" );
+header( "Content-type: text/csv" ) ;
+header( "Content-Dis; filename={$file_name}" ) ;
+header("Content-Type:  application/vnd.ms-excel");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+include("../principal/conectar_ref_web.php");
+
+$FechaInicio     = isset($_REQUEST["FechaInicio"])?$_REQUEST["FechaInicio"]:"";
+$FechaTermino    = isset($_REQUEST["FechaTermino"])?$_REQUEST["FechaTermino"]:"";
+	
+$txt_turno    = isset($_REQUEST["txt_turno"])?$_REQUEST["txt_turno"]:"";
+$txt_turno1   = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
+$proceso    = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+$opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 
  ?>
 		
@@ -142,6 +166,10 @@ function Excel()
 				 $cont_af=0;
 				 $cont_sn=0;
 				 $cont_tur = 0;
+				 $total_r=0; //WSO
+				 $total_sc=0;
+				 $total_af=0;
+				 $total_sn=0;
 			   	 if ($proceso == "C")
               	 {
 				  	
@@ -173,33 +201,33 @@ function Excel()
 						  $respuesta4 = mysqli_query($link, $consulta4);
 						  $row4= mysqli_fetch_array($respuesta4);
 						  if (($txt_turno=='A') and ($pasada=='1'))
-						  	 {$total_reactores=$row3[reactores2]+$row4[reactores2];
+						  	 {$total_reactores=$row3["reactores2"]+$row4["reactores2"];
 							  $total_r=$total_r+$total_reactores;
 							  $cont_reactor=$cont_reactor+1;
 							  echo "<td width='7%' align='center'></td>\n";
-							  echo "<td width='5%' align='center'>".$row3[reactores2]."</td>\n";
-							  echo "<td width='5%' align='center'>".$row4[reactores2]."</td>\n";
+							  echo "<td width='5%' align='center'>".$row3["reactores2"]."</td>\n";
+							  echo "<td width='5%' align='center'>".$row4["reactores2"]."</td>\n";
 							  echo "<td width='10%' align='center' class='detalle01'>$total_reactores</td>\n";
 							  echo "<td width='7%' align='center'></td>\n";
-							  echo "<td width='5%' align='center'>".$row3[sulfato_cobre]."</td>\n";
-							  echo "<td width='5%' align='center'>".$row4[sulfato_cobre]."</td>\n";
+							  echo "<td width='5%' align='center'>".$row3["sulfato_cobre"]."</td>\n";
+							  echo "<td width='5%' align='center'>".$row4["sulfato_cobre"]."</td>\n";
 							  $cont_sc=$cont_sc+1;
-							  $row2[sulfato_cobre]=0;
-							  $total_sacos1=$row2[sulfato_cobre]+$row3[sulfato_cobre]+$row4[sulfato_cobre];
+							  $row2["sulfato_cobre"]=0;
+							  $total_sacos1=$row2["sulfato_cobre"]+$row3["sulfato_cobre"]+$row4["sulfato_cobre"];
 							  echo "<td width='8%' align='center' class='detalle01'><font color='green'><strong>$total_sacos1</strong></font></td>\n";
 							  echo "<td width='5%' align='center'></td>\n"; 
-							  echo "<td width='5%' align='center'>".$row3[arseniato_ferico]."</td>\n";
-							  echo "<td width='5%' align='center'>".$row4[arseniato_ferico]."</td>\n";
+							  echo "<td width='5%' align='center'>".$row3["arseniato_ferico"]."</td>\n";
+							  echo "<td width='5%' align='center'>".$row4["arseniato_ferico"]."</td>\n";
 							  $cont_af=$cont_af+1;
-							  $row2[arseniato_ferico]=0;
-							  $total_sacos2=$row2[arseniato_ferico]+$row3[arseniato_ferico]+$row4[arseniato_ferico];
+							  $row2["arseniato_ferico"]=0;
+							  $total_sacos2=$row2["arseniato_ferico"]+$row3["arseniato_ferico"]+$row4["arseniato_ferico"];
 							  echo "<td width='6%' align='center' class='detalle01'><font color='green' ><strong>$total_sacos2</strong></font></td>\n";
 							  echo "<td width='5%' align='center'></td>\n";
-							  echo "<td width='4%' align='center'>".$row3[sales_niquel]."</td>\n";
-							  echo "<td width='4%' align='center'>".$row4[sales_niquel]."</td>\n"; 
+							  echo "<td width='4%' align='center'>".$row3["sales_niquel"]."</td>\n";
+							  echo "<td width='4%' align='center'>".$row4["sales_niquel"]."</td>\n"; 
 							  $cont_sn=$cont_sn+1;
-							  $row2[sales_niquel]=0;
-							  $total_sacos3=$row2[sales_niquel]+$row3[sales_niquel]+$row4[sales_niquel];
+							  $row2["sales_niquel"]=0;
+							  $total_sacos3=$row2["sales_niquel"]+$row3["sales_niquel"]+$row4["sales_niquel"];
 						      echo "<td width='10%' align='center'  class='detalle01'><font color='green'><strong>$total_sacos3</strong></font></td>\n";
 						      $pasada='2';
 							  $total_sc=$total_sc+$total_sacos1;
@@ -207,35 +235,35 @@ function Excel()
 							  $total_sn=$total_sn+$total_sacos3;
 							  $cont_tur=$cont_tur+2;}
 						  else if (($txt_turno=='B') and ($pasada2=='1'))
-						          {$total_reactores=$row4[reactores2];
+						          {$total_reactores=$row4["reactores2"];
 								  $cont_reactor=$cont_reactor+1;
 								  echo "<td width='7%' align='center'></td>\n";
 								   echo "<td width='5%' align='center'></td>\n";
-								   echo "<td width='5%' align='center'>".$row4[reactores2]."</td>\n"; 
+								   echo "<td width='5%' align='center'>".$row4["reactores2"]."</td>\n"; 
 						           echo "<td width='10%' align='center' class='detalle01'>$total_reactores</td>\n";
 								   echo "<td width='7%' align='center'></td>\n";
 								   echo "<td width='5%' align='center'></td>\n";
-								   echo "<td width='5%' align='center'>".$row4[sulfato_cobre]."</td>\n"; 
+								   echo "<td width='5%' align='center'>".$row4["sulfato_cobre"]."</td>\n"; 
 								   $cont_sc=$cont_sc+1;
-								   $row2[sulfato_cobre]=0;
-								   $row3[sulfato_cobre]=0;
-								   $total_sacos1=$row2[sulfato_cobre]+$row3[sulfato_cobre]+$row4[sulfato_cobre];
+								   $row2["sulfato_cobre"]=0;
+								   $row3["sulfato_cobre"]=0;
+								   $total_sacos1=$row2["sulfato_cobre"]+$row3["sulfato_cobre"]+$row4["sulfato_cobre"];
             					   echo "<td width='8%' align='center' class='detalle01'><font color='green'><strong>$total_sacos1</strong></font></td>\n";
 								   echo "<td width='5%' align='center'></td>\n";
 								   echo "<td width='5%' align='center'></td>\n";
-	   							   echo "<td width='5%' align='center'>".$row4[arseniato_ferico]."</td>\n";
+	   							   echo "<td width='5%' align='center'>".$row4["arseniato_ferico"]."</td>\n";
 								   $cont_af=$cont_af+1;
-								   $row2[arseniato_ferico]=0;
-								   $row3[arseniato_ferico]=0;
-								   $total_sacos2=$row2[arseniato_ferico]+$row3[arseniato_ferico]+$row4[arseniato_ferico];
+								   $row2["arseniato_ferico"]=0;
+								   $row3["arseniato_ferico"]=0;
+								   $total_sacos2=$row2["arseniato_ferico"]+$row3["arseniato_ferico"]+$row4["arseniato_ferico"];
 							       echo "<td width='6%' align='center' class='detalle01'><font color='green' ><strong>$total_sacos2</strong></font></td>\n";								   
 								   echo "<td width='5%' align='center'></td>\n";
 								   echo "<td width='5%' align='center'></td>\n";
-								   echo "<td width='4%' align='center'>".$row4[sales_niquel]."</td>\n"; 
+								   echo "<td width='4%' align='center'>".$row4["sales_niquel"]."</td>\n"; 
 								   $cont_sn=$cont_sn+1;
-	   							   $row2[sales_niquel]=0;
-								   $row3[sales_niquel]=0;
-								   $total_sacos3=$row2[sales_niquel]+$row3[sales_niquel]+$row4[sales_niquel];
+	   							   $row2["sales_niquel"]=0;
+								   $row3["sales_niquel"]=0;
+								   $total_sacos3=$row2["sales_niquel"]+$row3["sales_niquel"]+$row4["sales_niquel"];
 						           echo "<td width='10%' align='center'  class='detalle01'><font color='green'><strong>$total_sacos3</strong></font></td>\n";
 								   $pasada2='2';
 								   $total_r=$total_r+$total_reactores;
@@ -244,29 +272,29 @@ function Excel()
 							       $total_sn=$total_sn+$total_sacos3;
 								   $cont_tur=$cont_tur+1;}
 						  else if (($txt_turno=='C') and ($pasada3=='1'))
-						  			{$total_reactores=$row2[reactores2]+$row3[reactores2]+$row4[reactores2];
+						  			{$total_reactores=$row2["reactores2"]+$row3["reactores2"]+$row4["reactores2"];
 									 $cont_reactor=$cont_reactor+1;
-									 echo "<td width='7%' align='center'>".$row2[reactores2]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row3[reactores2]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[reactores2]."</td>\n";
+									 echo "<td width='7%' align='center'>".$row2["reactores2"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row3["reactores2"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["reactores2"]."</td>\n";
 						             echo "<td width='10%' align='center' class='detalle01'>$total_reactores</td>\n";
-									 echo "<td width='7%' align='center'>".$row2[sulfato_cobre]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row3[sulfato_cobre]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[sulfato_cobre]."</td>\n";
+									 echo "<td width='7%' align='center'>".$row2["sulfato_cobre"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row3["sulfato_cobre"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["sulfato_cobre"]."</td>\n";
 									 $cont_sc=$cont_sc+1;
-									 $total_sacos1=$row2[sulfato_cobre]+$row3[sulfato_cobre]+$row4[sulfato_cobre];
+									 $total_sacos1=$row2["sulfato_cobre"]+$row3["sulfato_cobre"]+$row4["sulfato_cobre"];
 						             echo "<td width='8%' align='center' class='detalle01'><font color='green'><strong>$total_sacos1</strong></font></td>\n"; 
-									 echo "<td width='5%' align='center'>".$row2[arseniato_ferico]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row3[arseniato_ferico]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[arseniato_ferico]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row2["arseniato_ferico"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row3["arseniato_ferico"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["arseniato_ferico"]."</td>\n"; 
 									 $cont_af=$cont_af+1;
-									 $total_sacos2=$row2[arseniato_ferico]+$row3[arseniato_ferico]+$row4[arseniato_ferico];
+									 $total_sacos2=$row2["arseniato_ferico"]+$row3["arseniato_ferico"]+$row4["arseniato_ferico"];
 							         echo "<td width='6%' align='center' class='detalle01'><font color='green' ><strong>$total_sacos2</strong></font></td>\n";								   
-									 echo "<td width='5%' align='center'>".$row2[sales_niquel]."</td>\n";
-									 echo "<td width='5%' align='center'>".$row3[sales_niquel]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[sales_niquel]."</td>\n";  
+									 echo "<td width='5%' align='center'>".$row2["sales_niquel"]."</td>\n";
+									 echo "<td width='5%' align='center'>".$row3["sales_niquel"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["sales_niquel"]."</td>\n";  
 									 $cont_sn=$cont_sn+1;
-									 $total_sacos3=$row2[sales_niquel]+$row3[sales_niquel]+$row4[sales_niquel];
+									 $total_sacos3=$row2["sales_niquel"]+$row3["sales_niquel"]+$row4["sales_niquel"];
 						             echo "<td width='10%' align='center'  class='detalle01'><font color='green'><strong>$total_sacos3</strong></font></td>\n";
 									  $pasada3='2';
 									  $total_r=$total_r+$total_reactores;
@@ -275,29 +303,29 @@ function Excel()
 							          $total_sn=$total_sn+$total_sacos3;
 									  $cont_tur=$cont_tur+3;}		     
 						       else {
-							         $total_reactores=$row2[reactores2]+$row3[reactores2]+$row4[reactores2];
+							         $total_reactores=$row2["reactores2"]+$row3["reactores2"]+$row4["reactores2"];
 									  $cont_reactor=$cont_reactor+1;
-									 echo "<td width='5%' align='center'>".$row2[reactores2]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row3[reactores2]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[reactores2]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row2["reactores2"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row3["reactores2"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["reactores2"]."</td>\n"; 
 						             echo "<td width='10%' align='center' class='detalle01'>$total_reactores</td>\n";
-							         echo "<td width='5%' align='center'>".$row2[sulfato_cobre]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row3[sulfato_cobre]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[sulfato_cobre]."</td>\n";
+							         echo "<td width='5%' align='center'>".$row2["sulfato_cobre"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row3["sulfato_cobre"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["sulfato_cobre"]."</td>\n";
 									 $cont_sc=$cont_sc+1;
-									 $total_sacos1=$row2[sulfato_cobre]+$row3[sulfato_cobre]+$row4[sulfato_cobre];
+									 $total_sacos1=$row2["sulfato_cobre"]+$row3["sulfato_cobre"]+$row4["sulfato_cobre"];
 						             echo "<td width='8%' align='center' class='detalle01'><font color='green'><strong>$total_sacos1</strong></font></td>\n"; 
-									 echo "<td width='5%' align='center'>".$row2[arseniato_ferico]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row3[arseniato_ferico]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[arseniato_ferico]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row2["arseniato_ferico"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row3["arseniato_ferico"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["arseniato_ferico"]."</td>\n"; 
 									 $cont_af=$cont_af+1;
-									 $total_sacos2=$row2[arseniato_ferico]+$row3[arseniato_ferico]+$row4[arseniato_ferico];
+									 $total_sacos2=$row2["arseniato_ferico"]+$row3["arseniato_ferico"]+$row4["arseniato_ferico"];
 							         echo "<td width='6%' align='center' class='detalle01'><font color='green' ><strong>$total_sacos2</strong></font></td>\n";								   
-									 echo "<td width='5%' align='center'>".$row2[sales_niquel]."</td>\n";
-									 echo "<td width='5%' align='center'>".$row3[sales_niquel]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[sales_niquel]."</td>\n";  
+									 echo "<td width='5%' align='center'>".$row2["sales_niquel"]."</td>\n";
+									 echo "<td width='5%' align='center'>".$row3["sales_niquel"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["sales_niquel"]."</td>\n";  
 									 $cont_sn=$cont_sn+1;
-									 $total_sacos3=$row2[sales_niquel]+$row3[sales_niquel]+$row4[sales_niquel];
+									 $total_sacos3=$row2["sales_niquel"]+$row3["sales_niquel"]+$row4["sales_niquel"];
 						             echo "<td width='10%' align='center'  class='detalle01'><font color='green'><strong>$total_sacos3</strong></font></td>\n";
 									  $total_r=$total_r+$total_reactores;
 									 $total_sc=$total_sc+$total_sacos1;
@@ -309,20 +337,20 @@ function Excel()
 						 $consulta_max_fecha="select max(fecha) as fecha_m from ref_web.pte where fecha='".$FechaTermino."'";
 					     $respuesta_m = mysqli_query($link, $consulta_max_fecha);
 					     $row_m= mysqli_fetch_array($respuesta_m);
-						 $mesm=substr($row_m[fecha_m],5,2);
-						 $diam=substr($row_m[fecha_m],8,2);
-						 $anom=substr($row_m[fecha_m],0,4);
+						 $mesm=substr($row_m["fecha_m"],5,2);
+						 $diam=substr($row_m["fecha_m"],8,2);
+						 $anom=substr($row_m["fecha_m"],0,4);
                          $fecham=$anom.'/'.$mesm.'/'.$diam; 
 						 $consulta2="select distinct fecha,sum(reactores)as reactores2,sulfato_cobre,arseniato_ferico,sales_niquel from ref_web.pte ";
-						 $consulta2.="where fecha= '".$row_m[fecha_m]."'  and turno='C' group by fecha";
+						 $consulta2.="where fecha= '".$row_m["fecha_m"]."'  and turno='C' group by fecha";
 						 $respuesta2 = mysqli_query($link, $consulta2);
 						 $row2= mysqli_fetch_array($respuesta2);
 						 $consulta3="select distinct fecha,sum(reactores)as reactores2,sulfato_cobre,arseniato_ferico,sales_niquel from ref_web.pte ";
-						 $consulta3.="where fecha= '".$row_m[fecha_m]."'  and turno='A' group by fecha";
+						 $consulta3.="where fecha= '".$row_m["fecha_m"]."'  and turno='A' group by fecha";
 						 $respuesta3 = mysqli_query($link, $consulta3);
 						 $row3= mysqli_fetch_array($respuesta3);
 						 $consulta4="select distinct fecha,sum(reactores)as reactores2,sulfato_cobre,arseniato_ferico,sales_niquel from ref_web.pte ";
-						 $consulta4.="where fecha= '".$row_m[fecha_m]."'  and turno='B' group by fecha";
+						 $consulta4.="where fecha= '".$row_m["fecha_m"]."'  and turno='B' group by fecha";
 						 $respuesta4 = mysqli_query($link, $consulta4);
 						 $row4= mysqli_fetch_array($respuesta4);
 						 $pasada='1';
@@ -330,31 +358,31 @@ function Excel()
 						 $pasada3='1';
 						 if ($txt_turno1=='A')
 						     {  echo "<td width='5%' align='center'><font color='blue'>$fecham</font></td>\n";
-							   $total_reactores=$row2[reactores2]+$row3[reactores2];
+							   $total_reactores=$row2["reactores2"]+$row3["reactores2"];
 							   $cont_reactor=$cont_reactor+1;
 							   $total_r=$total_r+$total_reactores;
-							   echo "<td width='5%' align='center'>".$row2[reactores2]."</td>\n"; 
-							   echo "<td width='5%' align='center'>".$row3[reactores2]."</td>\n";
+							   echo "<td width='5%' align='center'>".$row2["reactores2"]."</td>\n"; 
+							   echo "<td width='5%' align='center'>".$row3["reactores2"]."</td>\n";
 							   echo "<td width='5%' align='center'></td>\n";
 							   
 						       echo "<td width='10%' align='center' class='detalle01'>$total_reactores</td>\n";
-							   echo "<td width='5%' align='center'>".$row2[sulfato_cobre]."</td>\n"; 
-							   echo "<td width='5%' align='center'>".$row3[sulfato_cobre]."</td>\n";
+							   echo "<td width='5%' align='center'>".$row2["sulfato_cobre"]."</td>\n"; 
+							   echo "<td width='5%' align='center'>".$row3["sulfato_cobre"]."</td>\n";
 							   $cont_sc=$cont_sc+1; 
 							   echo "<td width='5%' align='center'></td>\n";
-							   $total_sacos1=$row2[sulfato_cobre]+$row3[sulfato_cobre];
+							   $total_sacos1=$row2["sulfato_cobre"]+$row3["sulfato_cobre"];
 						       echo "<td width='8%' align='center' class='detalle01'><font color='green'><strong>$total_sacos1</strong></font></td>\n"; 
-							   echo "<td width='5%' align='center'>".$row2[arseniato_ferico]."</td>\n"; 
-							   echo "<td width='5%' align='center'>".$row3[arseniato_ferico]."</td>\n"; 
+							   echo "<td width='5%' align='center'>".$row2["arseniato_ferico"]."</td>\n"; 
+							   echo "<td width='5%' align='center'>".$row3["arseniato_ferico"]."</td>\n"; 
 							   $cont_af=$cont_af+1;
 							   echo "<td width='5%' align='center'></td>\n"; 
-							   $total_sacos2=$row2[arseniato_ferico]+$row3[arseniato_ferico];
+							   $total_sacos2=$row2["arseniato_ferico"]+$row3["arseniato_ferico"];
 							   echo "<td width='6%' align='center' class='detalle01'><font color='green' ><strong>$total_sacos2</strong></font></td>\n";								   
-							   echo "<td width='5%' align='center'>".$row2[sales_niquel]."</td>\n";
-							   echo "<td width='5%' align='center'>".$row3[sales_niquel]."</td>\n"; 
+							   echo "<td width='5%' align='center'>".$row2["sales_niquel"]."</td>\n";
+							   echo "<td width='5%' align='center'>".$row3["sales_niquel"]."</td>\n"; 
 							   $cont_sn=$cont_sn+1;
 							   echo "<td width='5%' align='center'></td>\n";  
-							   $total_sacos3=$row2[sales_niquel]+$row3[sales_niquel];
+							   $total_sacos3=$row2["sales_niquel"]+$row3["sales_niquel"];
 						       echo "<td width='10%' align='center'  class='detalle01'><font color='green'><strong>$total_sacos3</strong></font></td>\n";
 							   $total_sc=$total_sc+$total_sacos1;
 							   $total_af=$total_af+$total_sacos2;
@@ -362,31 +390,31 @@ function Excel()
 							   $cont_tur=$cont_tur+2;}
 						 else if ($txt_turno1=='B')
 						         {    echo "<td width='5%' align='center'><font color='blue'>$fecham</font></td>\n";
-								     $total_reactores=$row2[reactores2]+$row3[reactores2]+$row4[reactores2];
+								     $total_reactores=$row2["reactores2"]+$row3["reactores2"]+$row4["reactores2"];
 									 $cont_reactor=$cont_reactor+1;
 									 $total_r=$total_r+$total_reactores;
-									 echo "<td width='5%' align='center'>".$row2[reactores2]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row3[reactores2]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[reactores2]."</td>\n";
+									 echo "<td width='5%' align='center'>".$row2["reactores2"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row3["reactores2"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["reactores2"]."</td>\n";
 									 
 						             echo "<td width='10%' align='center' class='detalle01'>$total_reactores</td>\n";
-							         echo "<td width='5%' align='center'>".$row2[sulfato_cobre]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row3[sulfato_cobre]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[sulfato_cobre]."</td>\n";
+							         echo "<td width='5%' align='center'>".$row2["sulfato_cobre"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row3["sulfato_cobre"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["sulfato_cobre"]."</td>\n";
 									 $cont_sc=$cont_sc+1; 
-									 $total_sacos1=$row2[sulfato_cobre]+$row3[sulfato_cobre]+$row4[sulfato_cobre];
+									 $total_sacos1=$row2["sulfato_cobre"]+$row3["sulfato_cobre"]+$row4["sulfato_cobre"];
 						             echo "<td width='8%' align='center' class='detalle01'><font color='green'><strong>$total_sacos1</strong></font></td>\n"; 
-									 echo "<td width='5%' align='center'>".$row2[arseniato_ferico]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row3[arseniato_ferico]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[arseniato_ferico]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row2["arseniato_ferico"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row3["arseniato_ferico"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["arseniato_ferico"]."</td>\n"; 
 									 $cont_af=$cont_af+1;
-									 $total_sacos2=$row2[arseniato_ferico]+$row3[arseniato_ferico]+$row4[arseniato_ferico];
+									 $total_sacos2=$row2["arseniato_ferico"]+$row3["arseniato_ferico"]+$row4["arseniato_ferico"];
 							         echo "<td width='6%' align='center' class='detalle01'><font color='green' ><strong>$total_sacos2</strong></font></td>\n";								   
-									 echo "<td width='5%' align='center'>".$row2[sales_niquel]."</td>\n";
-									 echo "<td width='5%' align='center'>".$row3[sales_niquel]."</td>\n"; 
-									 echo "<td width='5%' align='center'>".$row4[sales_niquel]."</td>\n";  
+									 echo "<td width='5%' align='center'>".$row2["sales_niquel"]."</td>\n";
+									 echo "<td width='5%' align='center'>".$row3["sales_niquel"]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row4["sales_niquel"]."</td>\n";  
 									 $cont_sn=$cont_sn+1;
-									 $total_sacos3=$row2[sales_niquel]+$row3[sales_niquel]+$row4[sales_niquel];
+									 $total_sacos3=$row2["sales_niquel"]+$row3["sales_niquel"]+$row4["sales_niquel"];
 						             echo "<td width='10%' align='center'  class='detalle01'><font color='green'><strong>$total_sacos3</strong></font></td>\n";
 									  $total_sc=$total_sc+$total_sacos1;
 							         $total_af=$total_af+$total_sacos2;
@@ -395,30 +423,30 @@ function Excel()
 						 else if ($txt_turno1=='C')
 						          {   echo "<td width='5%' align='center'><font color='blue'>$fecham</font></td>\n";
 								      $cont_reactor=$cont_reactor+1;
-								     $total_reactores=$row2[reactores2]+$row3[reactores2]+$row4[reactores2];
+								     $total_reactores=$row2["reactores2"]+$row3["reactores2"]+$row4["reactores2"];
 									 $total_r=$total_r+$total_reactores;
-									 echo "<td width='5%' align='center'>".$row2[reactores2]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row2["reactores2"]."</td>\n"; 
 									 echo "<td width='5%' align='center'></td>\n"; 
 									 echo "<td width='5%' align='center'></td>\n";
 									 
 						             echo "<td width='10%' align='center' class='detalle01'>$total_reactores</td>\n";
-							         echo "<td width='5%' align='center'>".$row2[sulfato_cobre]."</td>\n"; 
+							         echo "<td width='5%' align='center'>".$row2["sulfato_cobre"]."</td>\n"; 
 									 echo "<td width='5%' align='center'></td>\n"; 
 									 echo "<td width='5%' align='center'></td>\n";
 									 $cont_sc=$cont_sc+1; 
-									 $total_sacos1=$row2[sulfato_cobre];
+									 $total_sacos1=$row2["sulfato_cobre"];
 						             echo "<td width='8%' align='center' class='detalle01'><font color='green'><strong>$total_sacos1</strong></font></td>\n"; 
-									 echo "<td width='5%' align='center'>".$row2[arseniato_ferico]."</td>\n"; 
+									 echo "<td width='5%' align='center'>".$row2["arseniato_ferico"]."</td>\n"; 
 									 echo "<td width='5%' align='center'></td>\n"; 
 									 echo "<td width='5%' align='center'></td>\n";
 									 $cont_af=$cont_af+1;  
-									 $total_sacos2=$row2[arseniato_ferico];
+									 $total_sacos2=$row2["arseniato_ferico"];
 							         echo "<td width='6%' align='center' class='detalle01'><font color='green' ><strong>$total_sacos2</strong></font></td>\n";								   
-									 echo "<td width='5%' align='center'>".$row2[sales_niquel]."</td>\n";
+									 echo "<td width='5%' align='center'>".$row2["sales_niquel"]."</td>\n";
 									 echo "<td width='5%' align='center'></td>\n"; 
 									 echo "<td width='5%' align='center'></td>\n";
 									 $cont_sn=$cont_sn+1;   
-									 $total_sacos3=$row2[sales_niquel];
+									 $total_sacos3=$row2["sales_niquel"];
 						             echo "<td width='10%' align='center'  class='detalle01'><font color='green'><strong>$total_sacos3</strong></font></td>\n";
 									 $total_sc=$total_sc+$total_sacos1;
 							         $total_af=$total_af+$total_sacos2;
@@ -546,6 +574,36 @@ function Excel()
 					$respuesta_circuito= mysqli_query($link, $consulta_circuito);
 					$total_electrolito=0;
 					$total_dp=0;
+					/*************** WSO **************************/
+					$row_elect_descuento_ter_proceso=array();
+					$row_elect_descuento_ter_venta=array();
+					//$row_elect_inicio_ter_proceso=array();
+					$row_dp_total_fin=array();   
+					$total_d_parcial_venta_c1 = 0;
+					$total_d_parcial_venta_c2 = 0;
+					$total_d_parcial_venta_c3 = 0;
+					$total_d_parcial_venta_c4 = 0;
+					$total_d_parcial_venta_c5 = 0;
+					$total_d_parcial_venta_c6 = 0;
+					$total_d_parcial_proceso_c1 = 0;
+					$total_d_parcial_proceso_c2 = 0;
+					$total_d_parcial_proceso_c3 = 0;
+					$total_d_parcial_proceso_c4 = 0;
+					$total_d_parcial_proceso_c5 = 0;
+					$total_d_parcial_proceso_c6 = 0;		
+					$total_dp_c1 = 0;
+					$total_dp_c2 = 0;
+					$total_dp_c3 = 0;
+					$total_dp_c4 = 0;
+					$total_dp_c5 = 0;
+					$total_dp_c6 = 0;
+					$total_c1 = 0;
+					$total_c2 = 0;
+					$total_c3 = 0;
+					$total_c4 = 0;
+					$total_c5 = 0;
+					$total_c6 = 0;
+					/**********************************************/
 					while ($row_c= mysqli_fetch_array($respuesta_circuito))
 					       {
 	                    	    $consulta_elect_total_proceso="select sum(volumen_pte) as volumen_pte_total from ref_web.tratamiento_electrolito";
@@ -608,8 +666,16 @@ function Excel()
 									 $respuesta_elect_descuento_ter_venta = mysqli_query($link, $consulta_elect_descuento_ter_venta);
 									 $row_elect_descuento_ter_venta= mysqli_fetch_array($respuesta_elect_descuento_ter_venta);
 									} 
-								$total_electrolito=0;			   
-							    $total_electrolito=($row_elect_total_proceso[volumen_pte_total]+$row_elect_total_venta[volumen_pte_total])-($row_elect_descuento_inicio_proceso[volumen_pte_inicio]+$row_elect_descuento_inicio_venta[volumen_pte_inicio])-($row_elect_descuento_ter_proceso[volumen_pte_ter]+$row_elect_descuento_ter_venta[volumen_pte_ter]);
+								$total_electrolito=0;	
+
+								$volumen_pte_ter_proceso    = isset($row_elect_descuento_ter_proceso["volumen_pte_ter"])?$row_elect_descuento_ter_proceso["volumen_pte_ter"]:0;   
+							    $volumen_pte_ter_venta      = isset($row_elect_descuento_ter_venta["volumen_pte_ter"])?$row_elect_descuento_ter_venta["volumen_pte_ter"]:0;
+								$volumen_pte_total_proceso  = isset($row_elect_total_proceso["volumen_pte_total"])?$row_elect_total_proceso["volumen_pte_total"]:0;
+								$volumen_pte_total          = isset($row_elect_total_venta["volumen_pte_total"])?$row_elect_total_venta["volumen_pte_total"]:0;
+
+								$total_electrolito = ($volumen_pte_total_proceso + $volumen_pte_total) -($row_elect_descuento_inicio_proceso["volumen_pte_inicio"]+$row_elect_descuento_inicio_venta["volumen_pte_inicio"])-($volumen_pte_ter_proceso + $volumen_pte_ter_venta);
+
+								//$total_electrolito=($row_elect_total_proceso["volumen_pte_total"]+$row_elect_total_venta["volumen_pte_total"])-($row_elect_descuento_inicio_proceso["volumen_pte_inicio"]+$row_elect_descuento_inicio_venta["volumen_pte_inicio"])-($row_elect_descuento_ter_proceso["volumen_pte_ter"]+$row_elect_descuento_ter_venta["volumen_pte_ter"]);
 							/***************************************************************************************************************/
 
 							    $consulta_dp_total="select sum(volumen_dp) as total_desc_parcial from ref_web.desc_parcial";
@@ -661,54 +727,66 @@ function Excel()
          						      $row_dp_total_fin= mysqli_fetch_array($respuesta_dp_total_fin);
 								      //echo $consulta_dp_total_fin."<br>";
 								    }
-								
-								
+						
+							$total_desc_parcial_ini = isset($row_dp_total_ini["total_desc_parcial_ini"])?$row_dp_total_ini["total_desc_parcial_ini"]:0;
+							$total_desc_parcial_fin = isset($row_dp_total_fin["total_desc_parcial_fin"])?$row_dp_total_fin["total_desc_parcial_fin"]:0;
+							//$volumen_pte_total  = isset($row_elect_total_venta["volumen_pte_total"])?$row_elect_total_venta["volumen_pte_total"]:0;
+							$volumen_pte_inicio = isset($row_elect_descuento_ter_venta["volumen_pte_inicio"])?$row_elect_descuento_ter_venta["volumen_pte_inicio"]:0;
+							$volumen_pte_ter    = isset($row_elect_descuento_inicio_venta["volumen_pte_ter"])?$row_elect_descuento_inicio_venta["volumen_pte_ter"]:0;
+							//$volumen_pte_total_proceso  = isset($row_elect_total_proceso["volumen_pte_total"])?$row_elect_total_proceso["volumen_pte_total"]:0;
+							$volumen_pte_inicio_proceso = isset($row_elect_descuento_ter_proceso["volumen_pte_inicio"])?$row_elect_descuento_ter_proceso["volumen_pte_inicio"]:0;
+							$volumen_pte_ter_proceso    = isset($row_elect_descuento_inicio_proceso["volumen_pte_ter"])?$row_elect_descuento_inicio_proceso["volumen_pte_ter"]:0;
+							
+							$total_desc_parcial  = isset($row_dp_total["total_desc_parcial"])?$row_dp_total["total_desc_parcial"]:0;
 								
 								
 							$total_dp=0;	
-							$total_dp=$row_dp_total[total_desc_parcial]-$row_dp_total_ini[total_desc_parcial_ini]-$row_dp_total_fin[total_desc_parcial_fin];
+							$total_dp = $total_desc_parcial - $total_desc_parcial_ini - $total_desc_parcial_fin;
+							//$total_dp=$row_dp_total["total_desc_parcial"]-$row_dp_total_ini["total_desc_parcial_ini"]-$row_dp_total_fin["total_desc_parcial_fin"];
 							/***************************************************************************************************************/
 						 	 if ($row_c["nombre_subclase"]=='Circuito1')
 							     {
-								  $total_c1=$total_c1+($total_electrolito + $total_dp);
-								  $total_d_parcial_venta_c1=$total_d_parcial_venta_c1+$row_elect_total_venta[volumen_pte_total]-$row_elect_descuento_ter_venta[volumen_pte_inicio]-$row_elect_descuento_inicio_venta[volumen_pte_ter];
-                                  $total_d_parcial_proceso_c1=$total_d_parcial_proceso_c1+$row_elect_total_proceso[volumen_pte_total]-$row_elect_descuento_ter_proceso[volumen_pte_inicio]-$row_elect_descuento_inicio_proceso[volumen_pte_ter];								 
-								  $total_dp_c1=$total_dp_c1+$row_dp_total[total_desc_parcial]-$row_dp_total_ini[total_desc_parcial_ini]-$row_dp_total_fin[total_desc_parcial_fin];
-								 }
+									$total_c1 = $total_c1+($total_electrolito + $total_dp);
+									$total_d_parcial_venta_c1   = $total_d_parcial_venta_c1 + $volumen_pte_total - $volumen_pte_inicio - $volumen_pte_ter;
+									$total_d_parcial_proceso_c1 = $total_d_parcial_proceso_c1 + $volumen_pte_total_proceso - $volumen_pte_inicio_proceso - $volumen_pte_ter_proceso;								 
+									$total_dp_c1 = $total_dp_c1 + $total_desc_parcial - $total_desc_parcial_ini - $total_desc_parcial_fin;
+
+								}
 							 else if ($row_c["nombre_subclase"]=='Circuito2')
 									{
-									 $total_c2=$total_c2+($total_electrolito + $total_dp);
-									 $total_d_parcial_venta_c2=$total_d_parcial_venta_c2+$row_elect_total_venta[volumen_pte_total]-$row_elect_descuento_ter_venta[volumen_pte_inicio]-$row_elect_descuento_inicio_venta[volumen_pte_ter];
-                                     $total_d_parcial_proceso_c2=$total_d_parcial_proceso_c2+$row_elect_total_proceso[volumen_pte_total]-$row_elect_descuento_ter_proceso[volumen_pte_inicio]-$row_elect_descuento_inicio_proceso[volumen_pte_ter];
-									 $total_dp_c2=$total_dp_c2+$row_dp_total[total_desc_parcial]-$row_dp_total_ini[total_desc_parcial_ini]-$row_dp_total_fin[total_desc_parcial_fin];
-								    }
+										$total_c2 = $total_c2+($total_electrolito + $total_dp);
+										$total_d_parcial_venta_c2 = $total_d_parcial_venta_c2 + $volumen_pte_total - $volumen_pte_inicio - $volumen_pte_ter;
+										$total_d_parcial_proceso_c2 = $total_d_parcial_proceso_c2 + $volumen_pte_total_proceso - $volumen_pte_inicio_proceso - $volumen_pte_ter_proceso;
+										$total_dp_c2 = $total_dp_c2 + $total_desc_parcial - $total_desc_parcial_ini - $total_desc_parcial_fin;
+									}
 							      else if ($row_c["nombre_subclase"]=='Circuito3')
 									      {
-										   $total_c3=$total_c3+($total_electrolito + $total_dp);
-										   $total_d_parcial_venta_c3=$total_d_parcial_venta_c3+$row_elect_total_venta[volumen_pte_total]-$row_elect_descuento_ter_venta[volumen_pte_inicio]-$row_elect_descuento_inicio_venta[volumen_pte_ter];
-                                           $total_d_parcial_proceso_c3=$total_d_parcial_proceso_c3+$row_elect_total_proceso[volumen_pte_total]-$row_elect_descuento_ter_proceso[volumen_pte_inicio]-$row_elect_descuento_inicio_proceso[volumen_pte_ter];
-										   $total_dp_c3=$total_dp_c3+$row_dp_total[total_desc_parcial]-$row_dp_total_ini[total_desc_parcial_ini]-$row_dp_total_fin[total_desc_parcial_fin];								 
+											$total_c3 = $total_c3+($total_electrolito + $total_dp);
+											$total_d_parcial_venta_c3   = $total_d_parcial_venta_c3 + $volumen_pte_total - $volumen_pte_inicio - $volumen_pte_ter;
+											$total_d_parcial_proceso_c3 = $total_d_parcial_proceso_c3 + $volumen_pte_total_proceso - $volumen_pte_inicio_proceso - $volumen_pte_ter_proceso;
+											$total_dp_c3 = $total_dp_c3 + $total_desc_parcial - $total_desc_parcial_ini - $total_desc_parcial_fin;								 
 										  }
 								       else if ($row_c["nombre_subclase"]=='Circuito4')
 									           {
-											    $total_c4=$total_c4+($total_electrolito + $total_dp);
-												$total_d_parcial_venta_c4=$total_d_parcial_venta_c4+$row_elect_total_venta[volumen_pte_total]-$row_elect_descuento_ter_venta[volumen_pte_inicio]-$row_elect_descuento_inicio_venta[volumen_pte_ter];
-                                                $total_d_parcial_proceso_c4=$total_d_parcial_proceso_c4+$row_elect_total_proceso[volumen_pte_total]-$row_elect_descuento_ter_proceso[volumen_pte_inicio]-$row_elect_descuento_inicio_proceso[volumen_pte_ter];								 
-												$total_dp_c4=$total_dp_c4+$row_dp_total[total_desc_parcial]-$row_dp_total_ini[total_desc_parcial_ini]-$row_dp_total_fin[total_desc_parcial_fin];
+											    $total_c4    = $total_c4 + ($total_electrolito + $total_dp);
+												$total_d_parcial_venta_c4   = $total_d_parcial_venta_c4 + $volumen_pte_total - $volumen_pte_inicio - $volumen_pte_ter;
+                                                $total_d_parcial_proceso_c4 = $total_d_parcial_proceso_c4 + $volumen_pte_total_proceso - $volumen_pte_inicio_proceso - $volumen_pte_ter_proceso;					 
+												$total_dp_c4 = $total_dp_c4 + $total_desc_parcial - $total_desc_parcial_ini - $total_desc_parcial_fin;
 											   }
 										    else if ($row_c["nombre_subclase"]=='Circuito5')
 									               {
-												     $total_c5=$total_c5+($total_electrolito + $total_dp);
-													 $total_d_parcial_venta_c5=$total_d_parcial_venta_c5+$row_elect_total_venta[volumen_pte_total]-$row_elect_descuento_ter_venta[volumen_pte_inicio]-$row_elect_descuento_inicio_venta[volumen_pte_ter];
-                                                     $total_d_parcial_proceso_c5=$total_d_parcial_proceso_c5+$row_elect_total_proceso[volumen_pte_total]-$row_elect_descuento_ter_proceso[volumen_pte_inicio]-$row_elect_inicio_ter_proceso[volumen_pte_ter];								 
-													 $total_dp_c5=$total_dp_c5+$row_dp_total[total_desc_parcial]-$row_dp_total_ini[total_desc_parcial_ini]-$row_dp_total_fin[total_desc_parcial_fin];
+													$total_c5 = $total_c5 + ($total_electrolito + $total_dp);
+													$total_d_parcial_venta_c5   = $total_d_parcial_venta_c5 + $volumen_pte_total - $volumen_pte_inicio - $volumen_pte_ter;
+												   // $total_d_parcial_proceso_c5 = $total_d_parcial_proceso_c5 + $volumen_pte_total_proceso - $volumen_pte_inicio_proceso - $row_elect_inicio_ter_proceso["volumen_pte_ter"];	
+													$total_d_parcial_proceso_c5 = $total_d_parcial_proceso_c5 + $volumen_pte_total_proceso - $volumen_pte_inicio_proceso - $volumen_pte_ter_proceso;								 
+													$total_dp_c5 = $total_dp_c5 + $total_desc_parcial - $total_desc_parcial_ini - $total_desc_parcial_fin;
 												   }	
 												  else if ($row_c["nombre_subclase"]=='Circuito6')
 									                      {
-														   $total_c6=$total_c6+($total_electrolito + $total_dp);
-														   $total_d_parcial_venta_c6=$total_d_parcial_venta_c6+$row_elect_total_venta[volumen_pte_total]-$row_elect_descuento_ter_venta[volumen_pte_inicio]-$row_elect_descuento_inicio_venta[volumen_pte_ter];
-                                                           $total_d_parcial_proceso_c6=$total_d_parcial_proceso_c6+$row_elect_total_proceso[volumen_pte_total]-$row_elect_descuento_ter_proceso[volumen_pte_inicio]-$row_elect_descuento_inicio_proceso[volumen_pte_ter];								 
-														   $total_dp_c6=$total_dp_c6+$row_dp_total[total_desc_parcial]-$row_dp_total_ini[total_desc_parcial_ini]-$row_dp_total_fin[total_desc_parcial_fin];
+															$total_c6=$total_c6+($total_electrolito + $total_dp);
+															$total_d_parcial_venta_c6   = $total_d_parcial_venta_c6 + $volumen_pte_total - $volumen_pte_inicio - $volumen_pte_ter;
+															$total_d_parcial_proceso_c6 = $total_d_parcial_proceso_c6 + $volumen_pte_total_proceso - $volumen_pte_inicio_proceso - $volumen_pte_ter_proceso;								 
+															$total_dp_c6 = $total_dp_c6 + $total_desc_parcial - $total_desc_parcial_ini - $total_desc_parcial_fin;
 														  }    
 						   }
 		  ?>
@@ -770,9 +848,9 @@ function Excel()
  		       while ($row= mysqli_fetch_array($respuesta))
 			        {
 					   echo '<tr>';
-					   echo '<td width="106" align="center" class="detalle01">'.$row[FECHA].'</td>';
-                       echo '<td width="88" align="center" >'.$row[TURNO].'</td>';
-                       echo '<td width="519" align="left" >'.$row[NOVEDAD].'</td>';
+					   echo '<td width="106" align="center" class="detalle01">'.$row["FECHA"].'</td>';
+                       echo '<td width="88" align="center" >'.$row["TURNO"].'</td>';
+                       echo '<td width="519" align="left" >'.$row["NOVEDAD"].'</td>';
 					   echo '</tr>';
 					
 					
