@@ -1,15 +1,18 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d"); 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y"); 
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y"); 
+
+	$cmbcircuito     = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
+	$buscar     = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:""; 
+	$opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 	
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -324,8 +327,8 @@ function Grafico(opcion,FechaInicio,FechaTermino)
 						 $total_cambian=0;	
 						 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 						       {
-							     echo '<td align="center">'.$row_placas[placas_negras].'</td>';
-								 $total_arman=$total_arman+$row_placas[placas_negras];
+							     echo '<td align="center">'.$row_placas["placas_negras"].'</td>';
+								 $total_arman=$total_arman+$row_placas["placas_negras"];
 							   }
 						 echo '<td align="center" class="detalle01">'.$total_arman.'</td>';
 						 $consulta_placas="select fecha,placas_negras,cod_operacion from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='2' order by fecha,cod_operacion,turno";
@@ -333,15 +336,15 @@ function Grafico(opcion,FechaInicio,FechaTermino)
 						 $total_arman=0;	
 						 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 						       {
-						         echo '<td align="center">'.$row_placas[placas_negras].'</td>';
-								 $total_cambian=$total_cambian+$row_placas[placas_negras];
+						         echo '<td align="center">'.$row_placas["placas_negras"].'</td>';
+								 $total_cambian=$total_cambian+$row_placas["placas_negras"];
 						       }
 						 echo '<td align="center" class="detalle01">'.$total_cambian.'</td>';	   
 						  $consulta_placas="select fecha,placas_negras,cod_operacion from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='3' order by fecha,cod_operacion,turno";
 						 $respuesta_placas=mysqli_query($link, $consulta_placas);
 						 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 						       {
-						         echo '<td align="center">'.$row_placas[placas_negras].'</td>';
+						         echo '<td align="center">'.$row_placas["placas_negras"].'</td>';
 						       }
 						
 						}
@@ -362,8 +365,8 @@ function Grafico(opcion,FechaInicio,FechaTermino)
 							 $total_cambian=0;	
 							 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 								   {
-									 echo '<td align="center">'.$row_placas[placas_pernos].'</td>';
-									 $total_arman=$total_arman+$row_placas[placas_pernos];
+									 echo '<td align="center">'.$row_placas["placas_pernos"].'</td>';
+									 $total_arman=$total_arman+$row_placas["placas_pernos"];
 								   }
 							 echo '<td align="center" class="detalle01">'.$total_arman.'</td>';
 							 $consulta_placas="select fecha,placas_pernos,cod_operacion from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='2' order by fecha,cod_operacion,turno";
@@ -371,15 +374,15 @@ function Grafico(opcion,FechaInicio,FechaTermino)
 							 $total_arman=0;	
 							 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 								   {
-									 echo '<td align="center">'.$row_placas[placas_pernos].'</td>';
-									 $total_cambian=$total_cambian+$row_placas[placas_pernos];
+									 echo '<td align="center">'.$row_placas["placas_pernos"].'</td>';
+									 $total_cambian=$total_cambian+$row_placas["placas_pernos"];
 								   }
 							 echo '<td align="center" class="detalle01">'.$total_cambian.'</td>';	   
 							  $consulta_placas="select fecha,placas_pernos,cod_operacion from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='3' order by fecha,cod_operacion,turno";
 							 $respuesta_placas=mysqli_query($link, $consulta_placas);
 							 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 								   {
-									 echo '<td align="center">'.$row_placas[placas_pernos].'</td>';
+									 echo '<td align="center">'.$row_placas["placas_pernos"].'</td>';
 								   }
 							
 						}
@@ -421,8 +424,8 @@ function Grafico(opcion,FechaInicio,FechaTermino)
 						 $total_cambian=0;	
 						 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 						       {
-							     echo '<td align="center">'.$row_placas[placas_negras].'</td>';
-								 $total_arman=$total_arman+$row_placas[placas_negras];
+							     echo '<td align="center">'.$row_placas["placas_negras"].'</td>';
+								 $total_arman=$total_arman+$row_placas["placas_negras"];
 							   }
 						 echo '<td align="center" class="detalle01">'.$total_arman.'</td>';
 						 $consulta_placas="select fecha,placas_negras,cod_operacion from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='2' order by fecha,cod_operacion,turno";
@@ -430,15 +433,15 @@ function Grafico(opcion,FechaInicio,FechaTermino)
 						 $total_arman=0;	
 						 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 						       {
-						         echo '<td align="center">'.$row_placas[placas_negras].'</td>';
-								 $total_cambian=$total_cambian+$row_placas[placas_negras];
+						         echo '<td align="center">'.$row_placas["placas_negras"].'</td>';
+								 $total_cambian=$total_cambian+$row_placas["placas_negras"];
 						       }
 						 echo '<td align="center" class="detalle01">'.$total_cambian.'</td>';	   
 						  $consulta_placas="select fecha,placas_negras,cod_operacion from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='3' order by fecha,cod_operacion,turno";
 						 $respuesta_placas=mysqli_query($link, $consulta_placas);
 						 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 						       {
-						         echo '<td align="center">'.$row_placas[placas_negras].'</td>';
+						         echo '<td align="center">'.$row_placas["placas_negras"].'</td>';
 						       }
 						
 						}
@@ -479,8 +482,8 @@ function Grafico(opcion,FechaInicio,FechaTermino)
 							 $total_cambian=0;	
 							 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 								   {
-									 echo '<td align="center">'.$row_placas[placas_pernos].'</td>';
-									 $total_arman=$total_arman+$row_placas[placas_pernos];
+									 echo '<td align="center">'.$row_placas["placas_pernos"].'</td>';
+									 $total_arman=$total_arman+$row_placas["placas_pernos"];
 								   }
 							 echo '<td align="center" class="detalle01">'.$total_arman.'</td>';
 							 $consulta_placas="select fecha,placas_pernos,cod_operacion from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='2' order by fecha,cod_operacion,turno";
@@ -488,15 +491,15 @@ function Grafico(opcion,FechaInicio,FechaTermino)
 							 $total_arman=0;	
 							 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 								   {
-									 echo '<td align="center">'.$row_placas[placas_pernos].'</td>';
-									 $total_cambian=$total_cambian+$row_placas[placas_pernos];
+									 echo '<td align="center">'.$row_placas["placas_pernos"].'</td>';
+									 $total_cambian=$total_cambian+$row_placas["placas_pernos"];
 								   }
 							 echo '<td align="center" class="detalle01">'.$total_cambian.'</td>';	   
 							  $consulta_placas="select fecha,placas_pernos,cod_operacion from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='3' order by fecha,cod_operacion,turno";
 							 $respuesta_placas=mysqli_query($link, $consulta_placas);
 							 while ($row_placas=mysqli_fetch_array($respuesta_placas))
 								   {
-									 echo '<td align="center">'.$row_placas[placas_pernos].'</td>';
+									 echo '<td align="center">'.$row_placas["placas_pernos"].'</td>';
 								   }
 							}	   
 				  echo '</table>';

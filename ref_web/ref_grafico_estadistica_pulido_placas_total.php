@@ -3,6 +3,10 @@
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_ref_web.php");
 	$mostrar='S';
+
+	$FechaInicio  = isset($_REQUEST["FechaInicio"])?$_REQUEST["FechaInicio"]:""; 
+	$FechaTermino = isset($_REQUEST["FechaTermino"])?$_REQUEST["FechaTermino"]:""; 
+	$opcion       = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 ?>
 <html>
 <head>

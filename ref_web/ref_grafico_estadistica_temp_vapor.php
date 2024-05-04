@@ -1,6 +1,11 @@
 <?php
   	include("../principal/conectar_ref_web.php");
   	include("phpchartdir.php");
+
+	  $opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:""; 
+	  $cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
+	  $FechaInicio = isset($_REQUEST["FechaInicio"])?$_REQUEST["FechaInicio"]:""; 
+	  $FechaTermino = isset($_REQUEST["FechaTermino"])?$_REQUEST["FechaTermino"]:""; 
 	
 	         if ($opcion=='T')
 		     {
@@ -37,7 +42,7 @@
 				                                       $parametros='FECHA,sum(TEMP15) as valor1,sum(TEMP16) as valor2';
 				                                      }  	  	  	  	 	   	  	 
 			    $consulta_aux="select ".$parametros." from ref_web.temperaturas where ";
-			   $consulta_fecha="select distinct FECHA from ref_web.temperaturas where fecha between '".$FechaInicio."' and '".$FechaTermino."' order by FECHA";
+			    $consulta_fecha="select distinct FECHA from ref_web.temperaturas where fecha between '".$FechaInicio."' and '".$FechaTermino."' order by FECHA";
 			 }
 		 else if ($opcion=='V')
 		         {
@@ -69,35 +74,35 @@
 			  $i2=0;
 			  while ($row_fecha = mysqli_fetch_array($respuesta_fecha))
 			       {
-				     $consulta=$consulta_aux." FECHA='".$row_fecha[FECHA]."' and TURNO='C' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
+				     $consulta=$consulta_aux." FECHA='".$row_fecha["FECHA"]."' and TURNO='C' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
 				     $respuesta=mysqli_query($link, $consulta);
 					 $row = mysqli_fetch_array($respuesta);
-					 $total1=$row[valor1]/3;
-					 $total2=$row[valor2]/3;
+					 $total1=$row["valor1"]/3;
+					 $total2=$row["valor2"]/3;
 					 $arreglo_1_ta[$i]=$total1;
 					 $arreglo_2_ta[$i]=$total2;
-					 $arreglo_fecha[$i]=$row_fecha[FECHA]." Turno C";
+					 $arreglo_fecha[$i]=$row_fecha["FECHA"]." Turno C";
 					 $i++;
 					 /*****************************************************************************************/
-					 $consulta=$consulta_aux." FECHA='".$row_fecha[FECHA]."' and TURNO='A' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
+					 $consulta=$consulta_aux." FECHA='".$row_fecha["FECHA"]."' and TURNO='A' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
 				     $respuesta=mysqli_query($link, $consulta);
 					 $row = mysqli_fetch_array($respuesta);
-				     $total3=$row[valor1]/3;
-				     $total4=$row[valor2]/3;
+				     $total3=$row["valor1"]/3;
+				     $total4=$row["valor2"]/3;
 					 $arreglo_1_ta[$i]=$total3;
 					 $arreglo_2_ta[$i]=$total4;
-					 $arreglo_fecha[$i]=$row_fecha[FECHA]." Turno A";
+					 $arreglo_fecha[$i]=$row_fecha["FECHA"]." Turno A";
 					 $i++;
 					 /******************************************************************************************/
-					 $consulta=$consulta_aux." FECHA='".$row_fecha[FECHA]."' and TURNO='B' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
+					 $consulta=$consulta_aux." FECHA='".$row_fecha["FECHA"]."' and TURNO='B' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
 				     $respuesta=mysqli_query($link, $consulta);
 					 $row = mysqli_fetch_array($respuesta);
-				     $total5=$row[valor1]/3;
-				     $total6=$row[valor2]/3;
+				     $total5=$row["valor1"]/3;
+				     $total6=$row["valor2"]/3;
 					 
 					 $arreglo_1_ta[$i]=$total5;
 					 $arreglo_2_ta[$i]=$total6;
-					 $arreglo_fecha[$i]=$row_fecha[FECHA]." Turno B";
+					 $arreglo_fecha[$i]=$row_fecha["FECHA"]." Turno B";
 					 $i++;
 					 $i2++;
 				   }
@@ -145,11 +150,11 @@
 	#Set the y axis label format to nn%
 	if ($opcion=='T')
 	   {
-	    $c->yAxis->setTitle("Temperatura Entrada (°C)");
+	    $c->yAxis->setTitle("Temperatura Entrada (ï¿½C)");
         $c->yAxis->setColors(0xc00000, 0xc00000, 0xc00000);
 	    $c->yAxis->setLinearScale(55, 80, 1);
 		$yAxis2Obj = $c->yAxis2();
-        $yAxis2Obj->setTitle("Temperatura Salida (°C)");
+        $yAxis2Obj->setTitle("Temperatura Salida (ï¿½C)");
 		$yAxis2Obj = $c->yAxis2();
         $yAxis2Obj->setColors(0x8000, 0x8000, 0x8000);
 		$c->yAxis2->setLinearScale(55, 80, 1);
@@ -157,7 +162,7 @@
 		
 	   }
 	else {
-	      $c->yAxis->setTitle("Temperatura (°C)");
+	      $c->yAxis->setTitle("Temperatura (ï¿½C)");
 		  $c->yAxis->setColors(0xc00000, 0xc00000, 0xc00000);
 	      $c->yAxis->setLinearScale(0, 190, 10);
 		  $yAxis2Obj = $c->yAxis2();
@@ -182,15 +187,15 @@
 	#Add the first line. Plot the points with a 7 pixel square symbol
 	if ($opcion=='T')
 	   {
-		$dataSetObj = $layer->addDataSet($data0, 0xcf4040, "Temperatura Entrada (°C)");
+		$dataSetObj = $layer->addDataSet($data0, 0xcf4040, "Temperatura Entrada (ï¿½C)");
 		$dataSetObj->setDataSymbol(SquareSymbol, 7);
 	  
-	    $dataSetObj = $layer->addDataSet($data1, 0x40cf40, "Temperatura Salida (°C)");
+	    $dataSetObj = $layer->addDataSet($data1, 0x40cf40, "Temperatura Salida (ï¿½C)");
 		$dataSetObj->setDataSymbol(DiamondSymbol, 9);
 		$dataSetObj->setUseYAxis2();
 	   }
 	 else {
-	        $dataSetObj = $layer->addDataSet($data0, 0xcf4040, "Temperatura (°C)");
+	        $dataSetObj = $layer->addDataSet($data0, 0xcf4040, "Temperatura (ï¿½C)");
 		    $dataSetObj->setDataSymbol(SquareSymbol, 7);
 	   
 	        $dataSetObj = $layer->addDataSet($data1, 0x40cf40, "Presion (Bar)");

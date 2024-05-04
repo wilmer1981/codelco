@@ -1,18 +1,37 @@
 <?php
-    header("Content-Type:  application/vnd.ms-excel");
-	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-	include("../principal/conectar_principal.php");
-	
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename = "";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
 	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	include("../principal/conectar_principal.php");
+
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d"); 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y"); 
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y"); 
+
+	$cmbcircuito     = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
+	$buscar     = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:""; 
+	$opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:""; 
+	
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -136,18 +155,18 @@
               echo '<tr class="ColorTabla01">';
 			  if ($opcion=='T')
 			     {
-				  echo '<td width="86" align="center"><strong>Temperatura Entrada(°C)</strong></td>';
-				  echo '<td width="80" align="center"><strong>Termperatura Salida(°C)</strong></td>';
-				  echo '<td width="113" align="center"><strong>Temperatura Entrada(°C)</strong></td>';
-				  echo '<td width="99" align="center"><strong>Termperatura Salida(°C)</strong></td>';
-				  echo '<td width="99" align="center"><strong>Temperatura Entrada(°C)</strong></td>';
-				  echo '<td width="99" align="center"><strong>Termperatura Salida(°C)</strong></td>';
+				  echo '<td width="86" align="center"><strong>Temperatura Entrada(ï¿½C)</strong></td>';
+				  echo '<td width="80" align="center"><strong>Termperatura Salida(ï¿½C)</strong></td>';
+				  echo '<td width="113" align="center"><strong>Temperatura Entrada(ï¿½C)</strong></td>';
+				  echo '<td width="99" align="center"><strong>Termperatura Salida(ï¿½C)</strong></td>';
+				  echo '<td width="99" align="center"><strong>Temperatura Entrada(ï¿½C)</strong></td>';
+				  echo '<td width="99" align="center"><strong>Termperatura Salida(ï¿½C)</strong></td>';
 				 } 
-				else { echo '<td width="113" align="center"><strong>Temperatura(°C)</strong></td>';
+				else { echo '<td width="113" align="center"><strong>Temperatura(ï¿½C)</strong></td>';
 					   echo '<td width="99" align="center"><strong>Presion(Bar)</strong></td>';
-					   echo '<td width="113" align="center"><strong>Temperatura(°C)</td>';
+					   echo '<td width="113" align="center"><strong>Temperatura(ï¿½C)</td>';
 					   echo '<td width="99" align="center"><strong>Presion(Bar)</strong></td>';
-					   echo '<td width="113" align="center"><strong>Temperatura(°C)</strong></td>';
+					   echo '<td width="113" align="center"><strong>Temperatura(ï¿½C)</strong></td>';
 					   echo '<td width="99" align="center"><strong>Presion(Bar)</strong></td>';} 
               echo '</tr>';
         
@@ -155,26 +174,26 @@
 			  $respuesta_fecha=mysqli_query($link, $consulta_fecha);
 			  while ($row_fecha = mysqli_fetch_array($respuesta_fecha))
 			       {
-				     $consulta=$consulta_aux." FECHA='".$row_fecha[FECHA]."' and TURNO='C' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
+				     $consulta=$consulta_aux." FECHA='".$row_fecha["FECHA"]."' and TURNO='C' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
 					 //echo $consulta."<br>";
 				     $respuesta=mysqli_query($link, $consulta);
 					 $row = mysqli_fetch_array($respuesta);
-					 $total1=$row[valor1]/3;
-					 $total2=$row[valor2]/3;
-					 $consulta=$consulta_aux." FECHA='".$row_fecha[FECHA]."' and TURNO='A' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
+					 $total1=$row["valor1"]/3;
+					 $total2=$row["valor2"]/3;
+					 $consulta=$consulta_aux." FECHA='".$row_fecha["FECHA"]."' and TURNO='A' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
 					 //echo $consulta."<br>";
 				     $respuesta=mysqli_query($link, $consulta);
 					 $row = mysqli_fetch_array($respuesta);
-				     $total3=$row[valor1]/3;
-				     $total4=$row[valor2]/3;
-					 $consulta=$consulta_aux." FECHA='".$row_fecha[FECHA]."' and TURNO='B' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
+				     $total3=$row["valor1"]/3;
+				     $total4=$row["valor2"]/3;
+					 $consulta=$consulta_aux." FECHA='".$row_fecha["FECHA"]."' and TURNO='B' group by FECHA,turno order by FECHA,TURNO,INSTANTE ";
 					 //echo $consulta."<br>";
 				     $respuesta=mysqli_query($link, $consulta);
 					 $row = mysqli_fetch_array($respuesta);
-				     $total5=$row[valor1]/3;
-				     $total6=$row[valor2]/3;
+				     $total5=$row["valor1"]/3;
+				     $total6=$row["valor2"]/3;
 					echo '<tr>';
-					echo '<td width="120" align="center" class=detalle01><strong>'.$row_fecha[FECHA].'</strong><strong></strong></td>';
+					echo '<td width="120" align="center" class=detalle01><strong>'.$row_fecha["FECHA"].'</strong><strong></strong></td>';
 				    echo '<td align="center">'.number_format($total1,"1",".",".").'</td>';
 					echo '<td align="center">'.number_format($total2,"1",".",".").'</td>';
 					echo '<td align="center">'.number_format($total3,"1",".",".").'</td>';

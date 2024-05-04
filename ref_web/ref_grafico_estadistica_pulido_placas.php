@@ -1,13 +1,17 @@
 <?php
   include("../principal/conectar_ref_web.php");
   include("phpchartdir.php");
-  if ($opcion=='PN')
-	 {
+  $FechaInicio  = isset($_REQUEST["FechaInicio"])?$_REQUEST["FechaInicio"]:""; 
+  $FechaTermino = isset($_REQUEST["FechaTermino"])?$_REQUEST["FechaTermino"]:""; 
+  $opcion       = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+
+    if ($opcion=='PN')
+	{
 	   $consulta="select distinct fecha from ref_web.pulido_placas where fecha between '".$FechaInicio."' and '".$FechaTermino."'";
 	   $respuesta=mysqli_query($link, $consulta);
 	   $i=0;
-	   while ($row=mysqli_fetch_array($respuesta))
-			{
+	    while ($row=mysqli_fetch_array($respuesta))
+		{
 			 $consulta_placas1="select sum(placas_negras) as placas_negras from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='1' order by fecha,cod_operacion,turno";
 			 echo $consulta_placas;
 			 $respuesta_placas1=mysqli_query($link, $consulta_placas1);
@@ -18,20 +22,20 @@
 			 $consulta_placas3="select placas_negras as stock from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='3' and turno='B' order by fecha,cod_operacion,turno";
 			 $respuesta_placas3=mysqli_query($link, $consulta_placas3);
 			 $row_placas3=mysqli_fetch_array($respuesta_placas3);
-			 $arreglo_placas1[$i]=$row_placas1[placas_negras];
-			 $arreglo_placas2[$i]=$row_placas2[placas_negras];
-			 $arreglo_stock[$i]=$row_placas3[stock];
+			 $arreglo_placas1[$i]=$row_placas1["placas_negras"];
+			 $arreglo_placas2[$i]=$row_placas2["placas_negras"];
+			 $arreglo_stock[$i]=$row_placas3["stock"];
 			 $arreglo_fecha[$i]=$row["fecha"];
 			 $i++;
-		  }
-	 }
- else if ($opcion=='PP')
-         {
+		}
+	}
+    else if ($opcion=='PP')
+        {
            $consulta="select distinct fecha from ref_web.pulido_placas where fecha between '".$FechaInicio."' and '".$FechaTermino."'";
 	       $respuesta=mysqli_query($link, $consulta);
 	       $i=0;
-	       while ($row=mysqli_fetch_array($respuesta))
-			   {
+	        while ($row=mysqli_fetch_array($respuesta))
+			{
 				 $consulta_placas1="select sum(placas_pernos) as placas_pernos from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='1' order by fecha,cod_operacion,turno";
 				 echo $consulta_placas;
 				 $respuesta_placas1=mysqli_query($link, $consulta_placas1);
@@ -42,14 +46,14 @@
 				 $consulta_placas3="select placas_pernos as stock from ref_web.pulido_placas where fecha='".$row["fecha"]."' and cod_operacion='3' and turno='B' order by fecha,cod_operacion,turno";
 				 $respuesta_placas3=mysqli_query($link, $consulta_placas3);
 				 $row_placas3=mysqli_fetch_array($respuesta_placas3);
-				 $arreglo_placas1[$i]=$row_placas1[placas_pernos];
-				 $arreglo_placas2[$i]=$row_placas2[placas_pernos];
-				 $arreglo_stock[$i]=$row_placas3[stock];
+				 $arreglo_placas1[$i]=$row_placas1["placas_pernos"];
+				 $arreglo_placas2[$i]=$row_placas2["placas_pernos"];
+				 $arreglo_stock[$i]=$row_placas3["stock"];
 				 $arreglo_fecha[$i]=$row["fecha"];
 				 $i++;
-		      }
+		    }
  
-         }	 
+        }	 
 	 
 	 
 $data0 =  $arreglo_placas1;
