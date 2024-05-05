@@ -130,7 +130,7 @@ function Recuperado()
 		   $consulta_datos_grupo.= " where fecha = '".$row_fecha["fecha"]."' and cod_grupo ='0".$cmbgrupo."' group by cod_grupo ";
 		   $respuesta_datos_grupo = mysqli_query($link, $consulta_datos_grupo);
 	   	   $row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-		   $produccion=(($row_datos_grupo[hojas_madres]*$row_datos_grupo[num_catodos_celdas])*2);
+		   $produccion=(($row_datos_grupo["hojas_madres"]*$row_datos_grupo[num_catodos_celdas])*2);
 		   $porcentaje_rechazado=number_format(($total_rechazo/$produccion)*100,"2",".",".");
 		   echo "<td align='center'>".$porcentaje_rechazado."&nbsp</td>\n";
 		  
@@ -180,7 +180,7 @@ function Recuperado()
 						   $consulta_datos_grupo.= " where fecha = '".$row_fecha["fecha"]."' and cod_grupo ='0".$row_grupo["cod_grupo"]."' group by cod_grupo ";
 						   $respuesta_datos_grupo = mysqli_query($link, $consulta_datos_grupo);
 						   $row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-						   $produccion=(($row_datos_grupo[hojas_madres]*$row_datos_grupo[num_catodos_celdas])*2);
+						   $produccion=(($row_datos_grupo["hojas_madres"]*$row_datos_grupo[num_catodos_celdas])*2);
 						   $porcentaje_rechazado=number_format(($total_rechazo/$produccion)*100,"2",".",".");
 						   echo "<td align='center'>".$porcentaje_rechazado."&nbsp</td>\n";
 						   

@@ -149,13 +149,13 @@ function detalle_anodos(fecha,grupo)
 						  $consulta_t_rechazo_catodos.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$row_grupos_dia["cod_grupo"]."'";
 						  $respuesta_t_rechazo_catodos= mysql_query($consulta_t_rechazo_catodos);
 				          $fila_t_rechazo_catodos = mysql_fetch_array($respuesta_t_rechazo_catodos);
-				          $suma_rechazo=$fila_t_rechazo_catodos[ne]+$fila_t_rechazo_catodos[nd]+$fila_t_rechazo_catodos[ra]+$fila_t_rechazo_catodos[cs]+$fila_t_rechazo_catodos[cl]+$fila_t_rechazo_catodos[ot];	
-						  $total_ne=$total_ne+$fila_t_rechazo_catodos[ne];
-						  $total_nd=$total_nd+$fila_t_rechazo_catodos[nd];
-						  $total_ra=$total_ra+$fila_t_rechazo_catodos[ra];
-						  $total_cs=$total_cs+$fila_t_rechazo_catodos[cs];
-						  $total_cl=$total_cl+$fila_t_rechazo_catodos[cl];
-						  $total_ot=$total_ot+$fila_t_rechazo_catodos[ot];
+				          $suma_rechazo=$fila_t_rechazo_catodos["ne"]+$fila_t_rechazo_catodos["nd"]+$fila_t_rechazo_catodos["ra"]+$fila_t_rechazo_catodos["cs"]+$fila_t_rechazo_catodos["cl"]+$fila_t_rechazo_catodos["ot"];	
+						  $total_ne=$total_ne+$fila_t_rechazo_catodos["ne"];
+						  $total_nd=$total_nd+$fila_t_rechazo_catodos["nd"];
+						  $total_ra=$total_ra+$fila_t_rechazo_catodos["ra"];
+						  $total_cs=$total_cs+$fila_t_rechazo_catodos["cs"];
+						  $total_cl=$total_cl+$fila_t_rechazo_catodos["cl"];
+						  $total_ot=$total_ot+$fila_t_rechazo_catodos["ot"];
 						  $consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$row_grupos_dia["cod_grupo"]."' and fecha<='".$fila["fecha"]."' ";
 						  $respuesta_max_fecha_ge= mysql_query($consulta_max_fecha_ge);
 						  $row_max_fecha_ge = mysql_fetch_array($respuesta_max_fecha_ge);
@@ -164,7 +164,7 @@ function detalle_anodos(fecha,grupo)
 						  $respuesta_det_grupo = mysql_query($consulta_det_grupo);
 						  $row_det_grupo = mysql_fetch_array($respuesta_det_grupo);
 						  
-						  $total_grupo=$total_grupo+($row_det_grupo[num_catodos]*($row_det_grupo[num_cubas]-$row_det_grupo[hojas_madres]));
+						  $total_grupo=$total_grupo+($row_det_grupo["num_catodos"]*($row_det_grupo[num_cubas]-$row_det_grupo["hojas_madres"]));
 						  $rechazo_total_dias=$rechazo_total_dias+$suma_rechazo;
 						  $recuperado_total_dias=$recuperado_total_dias+$fila_t_rechazo_catodos["recuperado_tot"];
 						  //echo 'fecha:'.$fila["fecha"].'--->grupo='.$row_grupos_dia["cod_grupo"].'--->total grupos='.$total_grupo.'--->total_rechazos='.$rechazo_total_dias.'--->recuperado dias='.$recuperado_total_dias."<br>";

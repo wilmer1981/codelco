@@ -8,7 +8,6 @@ $dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 $mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 $ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
 
-
 ?>
 <html>
 <head>

@@ -1,14 +1,17 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
+
+	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:""; 
+	$Buscar      = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:""; 
+
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d"); 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y"); 
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y"); 
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -17,6 +20,7 @@
 		$DiaFin = "0".$DiaFin;
 	if ($MesFin < 10)
 		$MesFin = "0".$MesFin;
+
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 ?>
@@ -412,8 +416,21 @@ function Detalle()
        $consulta.="GROUP by t1.fecha_produccion,t2.cod_circuito,t1.cod_grupo ";
        $consulta.="ORDER by t1.fecha_produccion,t2.cod_grupo ";
 	   $respuesta = mysqli_query($link, $consulta);
- 	   while ($fila = mysqli_fetch_array($respuesta))
-	         { ?>
+	   $produccion_total=0;
+	   $seleccion_inicial_total=0;
+	   $recuperado_total=0;
+	   $rechazado_total=0;
+	   $total_ne=0;
+	   $total_nd=0;
+	   $total_ra=0;
+	   $total_cs=0;
+	   $total_cl=0;
+	   $total_qu=0;
+	   $total_re=0;
+	   $total_ai=0;
+	   $total_ot=0;
+ 	    while ($fila = mysqli_fetch_array($respuesta))
+	    { ?>
 			    <tr onMouseOver="if(!this.contains(event.fromElement)){this.bgColor='class=ColorTabla02';} if(!document.all){style.cursor='pointer'};style.cursor='hand';" onMouseOut="if(!this.contains(event.toElement)){this.bgColor=''; }" >
 				<?php
 				echo "<td align='center' class=detalle01>".$fila["fecha"]."&nbsp</td>\n";
@@ -424,7 +441,7 @@ function Detalle()
 				$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
 				$respuesta2= mysqli_query($link, $consulta2);
 				$fila2 = mysqli_fetch_array($respuesta2);
-				$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2[qu]+$fila[re]+$fila[ai]+$fila2["ot"];
+				$suma_rechazo=$fila2["ne"]+$fila2["nd"]+$fila2["ra"]+$fila2["cs"]+$fila2["cl"]+$fila2["qu"]+$fila["re"]+$fila["ai"]+$fila2["ot"];
 				/***********************************************************************************************************************/
 				/******************obtiene datos del grupo electrolitico 2 **********************************************************/
 				$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."' ";
@@ -435,9 +452,9 @@ function Detalle()
 			    $respuesta_det_grupo = mysqli_query($link, $consulta_det_grupo);
 				$row_det_grupo = mysqli_fetch_array($respuesta_det_grupo);
 				/**********************************************************************************************************************/
-				$divisor=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba];
-				$divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo[hojas_madres];
-				$divisor2=$divisor2*$row_det_grupo[num_catodos];
+				$divisor=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"];
+				$divisor2=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"]-$row_det_grupo["hojas_madres"];
+				$divisor2=$divisor2*$row_det_grupo["num_catodos"];
 				if ($opcion=='P')
 				   {
 					$seleccion_inicial=(($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
@@ -492,12 +509,12 @@ function Detalle()
 				
 				$fecha_ant=$ano_aux."-".$mes_aux."-".$dia_aux;
 				$cons_subp2="select distinct t1.cod_subproducto as producto, campo1 from sea_web.movimientos as t1 ";
-				$cons_subp2=$cons_subp2."where t1.tipo_movimiento='2' and t1.campo2=$fila["grupo"] and t1.fecha_movimiento='".$fecha_ant."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
+				$cons_subp2=$cons_subp2."where t1.tipo_movimiento='2' and t1.campo2='".$fila["grupo"]."' and t1.fecha_movimiento='".$fecha_ant."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
 				//echo $cons_subp2;
 				$Resp_subp2 = mysqli_query($link, $cons_subp2);
 				$Fila_subp2 = mysqli_fetch_array($Resp_subp2);
 				$cons_subp="select distinct t1.cod_subproducto as producto, campo1 from sea_web.movimientos as t1 ";
-				$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2=$fila["grupo"] and t1.fecha_movimiento='".$fila["fecha"]."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
+				$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2='".$fila["grupo"]."' and t1.fecha_movimiento='".$fila["fecha"]."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
 				$Resp_subp = mysqli_query($link, $cons_subp);
 				$Fila_subp = mysqli_fetch_array($Resp_subp);
 				if ($Fila_subp["producto"]==1)
@@ -637,7 +654,7 @@ function Detalle()
 				/*******************************************************************************/
 				/*******************************************************************************/
 				if ($opcion=='P')
-				   {
+				{
 					echo "<td align='center'>".number_format($seleccion_inicial,"2",".",",")."&nbsp</td>\n";
 					echo "<td align='center'>".number_format($porc_recuperado,"2",".",",")."&nbsp</td>\n";
 					echo "<td align='center'>".number_format($total_por_rechazado,"2",".",",")."&nbsp</td>\n";
@@ -646,27 +663,27 @@ function Detalle()
 					$consulta_rechazo.=" where fecha ='".$fila["fecha"]."'  and grupo='".intval($fila["grupo"])."' group by fecha";
 					$respuesta_rechazo = mysqli_query($link, $consulta_rechazo);
 					$row_rechazo=mysqli_fetch_array($respuesta_rechazo);
-					echo "<td align='center'>".$row_rechazo[ne]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[nd]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[ra]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[cs]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[cl]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[qu]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[re]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[ai]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["ne"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["nd"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["ra"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["cs"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["cl"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["qu"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["re"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["ai"]."&nbsp</td>\n";
 					echo "<td align='center'>".$row_rechazo["ot"]."&nbsp</td>\n";
-					$rechazo_dia=$row_rechazo[ne]+$row_rechazo[nd]+$row_rechazo[ra]+$row_rechazo[cs]+$row_rechazo[cl]+$row_rechazo["ot"];
-					$rechazo_dia = $rechazo_dia + $row_rechazo[qu]+ $row_rechazo[re]+ $row_rechazo[ai];
-					$total_ne=$total_ne+$row_rechazo[ne];
-					$total_nd=$total_ne+$row_rechazo[nd];
-					$total_ra=$total_ne+$row_rechazo[ra];
-					$total_cs=$total_ne+$row_rechazo[cs];
-					$total_cl=$total_ne+$row_rechazo[cl];
-					$total_qu=$total_ne+$row_rechazo[qu];
-					$total_re=$total_ne+$row_rechazo[re];
-					$total_ai=$total_ne+$row_rechazo[ai];
+					$rechazo_dia=$row_rechazo["ne"]+$row_rechazo["nd"]+$row_rechazo["ra"]+$row_rechazo["cs"]+$row_rechazo["cl"]+$row_rechazo["ot"];
+					$rechazo_dia = $rechazo_dia + $row_rechazo["qu"]+ $row_rechazo["re"]+ $row_rechazo["ai"];
+					$total_ne=$total_ne+$row_rechazo["ne"];
+					$total_nd=$total_ne+$row_rechazo["nd"];
+					$total_ra=$total_ne+$row_rechazo["ra"];
+					$total_cs=$total_ne+$row_rechazo["cs"];
+					$total_cl=$total_ne+$row_rechazo["cl"];
+					$total_qu=$total_ne+$row_rechazo["qu"];
+					$total_re=$total_ne+$row_rechazo["re"];
+					$total_ai=$total_ne+$row_rechazo["ai"];
 					$total_ot=$total_ne+$row_rechazo["ot"];
-				   }
+				}
 			   else if ($opcion=='L')
 			           {
 					    echo "<td align='center'>".$divisor2."&nbsp</td>\n";
@@ -682,53 +699,55 @@ function Detalle()
 		  				$consulta_rechazo.=" where fecha ='".$fila["fecha"]."'  and grupo='".intval($fila["grupo"])."' group by fecha";
 		  				$respuesta_rechazo = mysqli_query($link, $consulta_rechazo);
 						$row_rechazo=mysqli_fetch_array($respuesta_rechazo);
-						echo "<td align='center'>".$row_rechazo[ne]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[nd]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[ra]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[cs]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[cl]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[qu]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[re]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[ai]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["ne"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["nd"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["ra"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["cs"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["cl"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["qu"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["re"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["ai"]."&nbsp</td>\n";
 						echo "<td align='center'>".$row_rechazo["ot"]."&nbsp</td>\n";
-						$rechazo_dia=$row_rechazo[ne]+$row_rechazo[nd]+$row_rechazo[ra]+$row_rechazo[cs]+$row_rechazo[cl]+$row_rechazo["ot"];
-						$rechazo_dia=$rechazo_dia+$row_rechazo[qu]+$row_rechazo[re]+$row_rechazo[ai];
-						$total_ne=$total_ne+$row_rechazo[ne];
-						$total_nd=$total_nd+$row_rechazo[nd];
-						$total_ra=$total_ra+$row_rechazo[ra];
-						$total_cs=$total_cs+$row_rechazo[cs];
-						$total_cl=$total_cl+$row_rechazo[cl];
-						$total_qu=$total_qu+$row_rechazo[qu];
-						$total_re=$total_re+$row_rechazo[re];
-						$total_ai=$total_ai+$row_rechazo[ai];
+						$rechazo_dia=$row_rechazo["ne"]+$row_rechazo["nd"]+$row_rechazo["ra"]+$row_rechazo["cs"]+$row_rechazo["cl"]+$row_rechazo["ot"];
+						$rechazo_dia=$rechazo_dia+$row_rechazo["qu"]+$row_rechazo["re"]+$row_rechazo["ai"];
+						$total_ne=$total_ne+$row_rechazo["ne"];
+						$total_nd=$total_nd+$row_rechazo["nd"];
+						$total_ra=$total_ra+$row_rechazo["ra"];
+						$total_cs=$total_cs+$row_rechazo["cs"];
+						$total_cl=$total_cl+$row_rechazo["cl"];
+						$total_qu=$total_qu+$row_rechazo["qu"];
+						$total_re=$total_re+$row_rechazo["re"];
+						$total_ai=$total_ai+$row_rechazo["ai"];
 						$total_ot=$total_ot+$row_rechazo["ot"];
 						$total_rechazo=$total_rechazo+$rechazo_dia;
 					   }
 			  echo '</tr>';		     	
-			 }
-			if ($opcion=='L')
-				{ 
-					echo '<tr class="ColorTabla01">';
-					echo "<td align='center' colspan='4'><strong>Totales&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$produccion_total."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$seleccion_inicial_total."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$recuperado_total."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$rechazado_total."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$total_ne."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$total_nd."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$total_ra."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$total_cs."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$total_cl."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$total_qu."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$total_re."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$total_ai."&nbsp</strong></td>\n";
-					echo "<td align='center'><strong>".$total_ot."&nbsp</strong></td>\n";
-					echo '</tr>'; 
-			 	}
+	    }
+		if ($opcion=='L')
+		{ 
+			echo '<tr class="ColorTabla01">';
+			echo "<td align='center' colspan='4'><strong>Totales&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$produccion_total."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$seleccion_inicial_total."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$recuperado_total."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$rechazado_total."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$total_ne."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$total_nd."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$total_ra."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$total_cs."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$total_cl."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$total_qu."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$total_re."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$total_ai."&nbsp</strong></td>\n";
+			echo "<td align='center'><strong>".$total_ot."&nbsp</strong></td>\n";
+			echo '</tr>'; 
+		}
 	?>
   </table>
-  <?php } 
-  else { ?>     
+  <?php 
+} 
+else 
+{ ?>     
  <?php           
 		  $consulta_circuito="select * from sec_web.circuitos";  
 		  $respuesta_circuito=mysqli_query($link, $consulta_circuito);
@@ -791,7 +810,7 @@ function Detalle()
 								$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
 								$respuesta2= mysqli_query($link, $consulta2);
 								$fila2 = mysqli_fetch_array($respuesta2);
-								$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2["ot"]+$fila2[qu]+$fila2[re]+$fila2[ai];
+								$suma_rechazo=$fila2["ne"]+$fila2["nd"]+$fila2["ra"]+$fila2["cs"]+$fila2["cl"]+$fila2["ot"]+$fila2["qu"]+$fila2["re"]+$fila2["ai"];
 								/***********************************************************************************************************************/
 								/******************obtiene datos del grupo electrolitico 2 **********************************************************/
 								$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."' ";
@@ -802,14 +821,14 @@ function Detalle()
 								$respuesta_det_grupo = mysqli_query($link, $consulta_det_grupo);
 								$row_det_grupo = mysqli_fetch_array($respuesta_det_grupo);
 								/**********************************************************************************************************************/
-								$divisor=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba];
-								$divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo[hojas_madres];
-								$divisor2=$divisor2*$row_det_grupo[num_catodos];
+								$divisor=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"];
+								$divisor2=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"]-$row_det_grupo["hojas_madres"];
+								$divisor2=$divisor2*$row_det_grupo["num_catodos"];
 								if ($opcion=='P')
 								   {
 									$seleccion_inicial=(($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
-									$porc_recuperado=(($fila2["recuperado_tot"]/($divisor*$row_det_grupo[num_catodos]))*100);
-									$total_por_rechazado=(($suma_rechazo/($divisor*$row_det_grupo[num_catodos]))*100);
+									$porc_recuperado=(($fila2["recuperado_tot"]/($divisor*$row_det_grupo["num_catodos"]))*100);
+									$total_por_rechazado=(($suma_rechazo/($divisor*$row_det_grupo["num_catodos"]))*100);
 								   }
 								 else if ($opcion=='L')
 								         {
@@ -859,12 +878,12 @@ function Detalle()
 								
 								$fecha_ant=$ano_aux."-".$mes_aux."-".$dia_aux;
 								$cons_subp2="select distinct t1.cod_subproducto as producto, campo1 from sea_web.movimientos as t1 ";
-								$cons_subp2=$cons_subp2."where t1.tipo_movimiento='2' and t1.campo2=$fila["grupo"] and t1.fecha_movimiento='".$fecha_ant."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
+								$cons_subp2=$cons_subp2."where t1.tipo_movimiento='2' and t1.campo2='".$fila["grupo"]."' and t1.fecha_movimiento='".$fecha_ant."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
 								//echo $cons_subp2;
 								$Resp_subp2 = mysqli_query($link, $cons_subp2);
 								$Fila_subp2 = mysqli_fetch_array($Resp_subp2);
 								$cons_subp="select distinct t1.cod_subproducto as producto, campo1 from sea_web.movimientos as t1 ";
-								$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2=$fila["grupo"] and t1.fecha_movimiento='".$fila["fecha"]."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
+								$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2='".$fila["grupo"]."' and t1.fecha_movimiento='".$fila["fecha"]."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
 								$Resp_subp = mysqli_query($link, $cons_subp);
 								$Fila_subp = mysqli_fetch_array($Resp_subp);
 								if ($Fila_subp["producto"]==1)

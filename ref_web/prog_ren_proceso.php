@@ -194,7 +194,7 @@ function Salir()
           </tr>
           <tr> 
             <td>N&deg; Cubas Hojas Madres</td>
-            <td><input name="txthm" type="text" size="10" value="<?php echo $row1[hojas_madres] ?>"></td>
+            <td><input name="txthm" type="text" size="10" value="<?php echo $row1["hojas_madres"] ?>"></td>
           </tr>
           <tr> 
             <td>N&deg; Catodos Por Celda</td>

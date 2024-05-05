@@ -1,14 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
+
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d"); 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y"); 
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y"); 
+	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:""; 
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -17,8 +18,10 @@
 		$DiaFin = "0".$DiaFin;
 	if ($MesFin < 10)
 		$MesFin = "0".$MesFin;
+
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
+
 	$NumCir=$cmbcircuito;
 ?>
 <html>
@@ -117,6 +120,21 @@ function detalle_anodos(fecha,grupo)
       <td width="33" align="center"><div align="center"><strong>OT</strong></div></td>
     </tr>
     <?php
+
+			$total_a_la_fecha=0;
+			$seleccion_inicial_total=0;
+			$recuperado_total_total=0;
+			$rechazo_total_total=0;
+			$total_rango_ne=0;
+			$total_rango_nd=0;
+			$total_rango_ra=0;
+			$total_rango_cs=0;
+			$total_rango_cl=0;
+			$total_rango_qu=0;
+			$total_rango_re=0;
+			$total_rango_ai=0;
+			$total_rango_ot=0;
+
 	  	   $consulta="SELECT distinct (t1.fecha_produccion) as fecha ";
 		   $consulta.="from sec_web.produccion_catodo as t1 ";
 		   $consulta.="INNER JOIN ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo ";
@@ -125,10 +143,11 @@ function detalle_anodos(fecha,grupo)
 		   $consulta.="GROUP by t1.fecha_produccion ";
 		   $consulta.="ORDER by t1.fecha_produccion";
 		   $respuesta = mysqli_query($link, $consulta);
-		   while ($fila = mysqli_fetch_array($respuesta))
-				 { ?>
+		        while ($fila = mysqli_fetch_array($respuesta))
+			    { 
+?>
                    <tr onMouseOver="if(!this.contains(event.fromElement)){this.bgColor='class=ColorTabla02';} if(!document.all){style.cursor='pointer'};style.cursor='hand';" onMouseOut="if(!this.contains(event.toElement)){this.bgColor=''; }" > 
-      <?php
+      				<?php
 				   echo "<td align='center' class=detalle01>".$fila["fecha"]."&nbsp</td>\n";
 				   $consulta_grupos_dia="SELECT t1.cod_grupo as cod_grupo ";
 				   $consulta_grupos_dia.="from sec_web.produccion_catodo as t1 ";
@@ -150,25 +169,25 @@ function detalle_anodos(fecha,grupo)
 				   $total_re=0;
 				   $total_ai=0;
 				   $total_ot=0;
-				   while ($row_grupos_dia=mysqli_fetch_array($respuesta_grupos_dia))
-				        {
+				    while ($row_grupos_dia=mysqli_fetch_array($respuesta_grupos_dia))
+				    {
 					      $consulta_t_rechazo_catodos="select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,";
 						  $consulta_t_rechazo_catodos.="sum(cordon_superior) as cs,sum(cordon_lateral) as cl,sum(quemados) as qu,sum(redondos) as re,";
 						  $consulta_t_rechazo_catodos.="sum(aire) as ai,sum(otros) as ot ";
 						  $consulta_t_rechazo_catodos.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$row_grupos_dia["cod_grupo"]."'";
 						  $respuesta_t_rechazo_catodos= mysqli_query($link, $consulta_t_rechazo_catodos);
 				          $fila_t_rechazo_catodos = mysqli_fetch_array($respuesta_t_rechazo_catodos);
-				          $suma_rechazo=$fila_t_rechazo_catodos[ne]+$fila_t_rechazo_catodos[nd]+$fila_t_rechazo_catodos[ra]+$fila_t_rechazo_catodos[cs];
-						  $suma_rechazo=$suma_rechazo+$fila_t_rechazo_catodos[cl]+$fila_t_rechazo_catodos[qu]+$fila_t_rechazo_catodos[re]+$fila_t_rechazo_catodos[ai]+$fila_t_rechazo_catodos[ot];	
-						  $total_ne=$total_ne+$fila_t_rechazo_catodos[ne];
-						  $total_nd=$total_nd+$fila_t_rechazo_catodos[nd];
-						  $total_ra=$total_ra+$fila_t_rechazo_catodos[ra];
-						  $total_cs=$total_cs+$fila_t_rechazo_catodos[cs];
-						  $total_cl=$total_cl+$fila_t_rechazo_catodos[cl];
-						  $total_qu=$total_qu+$fila_t_rechazo_catodos[qu];
-						  $total_re=$total_re+$fila_t_rechazo_catodos[re];
-						  $total_ai=$total_ai+$fila_t_rechazo_catodos[ai];
-						  $total_ot=$total_ot+$fila_t_rechazo_catodos[ot];
+				          $suma_rechazo=$fila_t_rechazo_catodos["ne"]+$fila_t_rechazo_catodos["nd"]+$fila_t_rechazo_catodos["ra"]+$fila_t_rechazo_catodos["cs"];
+						  $suma_rechazo=$suma_rechazo+$fila_t_rechazo_catodos["cl"]+$fila_t_rechazo_catodos["qu"]+$fila_t_rechazo_catodos["re"]+$fila_t_rechazo_catodos["ai"]+$fila_t_rechazo_catodos["ot"];	
+						  $total_ne=$total_ne+$fila_t_rechazo_catodos["ne"];
+						  $total_nd=$total_nd+$fila_t_rechazo_catodos["nd"];
+						  $total_ra=$total_ra+$fila_t_rechazo_catodos["ra"];
+						  $total_cs=$total_cs+$fila_t_rechazo_catodos["cs"];
+						  $total_cl=$total_cl+$fila_t_rechazo_catodos["cl"];
+						  $total_qu=$total_qu+$fila_t_rechazo_catodos["qu"];
+						  $total_re=$total_re+$fila_t_rechazo_catodos["re"];
+						  $total_ai=$total_ai+$fila_t_rechazo_catodos["ai"];
+						  $total_ot=$total_ot+$fila_t_rechazo_catodos["ot"];
 						  $consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$row_grupos_dia["cod_grupo"]."' and fecha<='".$fila["fecha"]."' ";
 						  $respuesta_max_fecha_ge= mysqli_query($link, $consulta_max_fecha_ge);
 						  $row_max_fecha_ge = mysqli_fetch_array($respuesta_max_fecha_ge);
@@ -177,13 +196,12 @@ function detalle_anodos(fecha,grupo)
 						  $respuesta_det_grupo = mysqli_query($link, $consulta_det_grupo);
 						  $row_det_grupo = mysqli_fetch_array($respuesta_det_grupo);
 						  
-						  $total_grupo=$total_grupo+($row_det_grupo[num_catodos]*($row_det_grupo[num_cubas]-$row_det_grupo[hojas_madres]));
+						  $total_grupo=$total_grupo+($row_det_grupo["num_catodos"]*($row_det_grupo["num_cubas"]-$row_det_grupo["hojas_madres"]));
 						  $rechazo_total_dias=$rechazo_total_dias+$suma_rechazo;
 						  $recuperado_total_dias=$recuperado_total_dias+$fila_t_rechazo_catodos["recuperado_tot"];
 						  //echo 'fecha:'.$fila["fecha"].'--->grupo='.$row_grupos_dia["cod_grupo"].'--->total grupos='.$total_grupo.'--->total_rechazos='.$rechazo_total_dias.'--->recuperado dias='.$recuperado_total_dias."<br>";
-						}
-					if ($opcion=='P')
-						{
+					}
+					if ($opcion=='P'){
 							
 						   $seleccion_inicial=((($rechazo_total_dias+$recuperado_total_dias))/$total_grupo)*100;	
 						   echo "<td align='center' >".number_format($seleccion_inicial,"2",",",".")."&nbsp</td>\n";
@@ -191,8 +209,7 @@ function detalle_anodos(fecha,grupo)
 						   echo "<td align='center' >".number_format($recuperado_total,"2",",",".")."&nbsp</td>\n";
 						   $rechazo_total=($rechazo_total_dias/$total_grupo)*100; 
 						   echo "<td align='center' >".number_format($rechazo_total,"2",",",".")."&nbsp</td>\n";
-						}
-				   else	{
+					}else{
 				    	   echo "<td align='center' >".$total_grupo."&nbsp</td>\n";
 						   $total_a_la_fecha=$total_a_la_fecha+$total_grupo;
 			   			   $seleccion_inicial=$rechazo_total_dias+$recuperado_total_dias;
@@ -204,7 +221,7 @@ function detalle_anodos(fecha,grupo)
 						   $rechazo_total=$rechazo_total_dias;
 						   $rechazo_total_total=$rechazo_total_total+$rechazo_total;
 						   echo "<td align='center' >".$rechazo_total."&nbsp</td>\n";
-				   		}   
+				   	}   
 				   echo "<td align='center' >".$total_ne."&nbsp</td>\n";
 				   echo "<td align='center' >".$total_nd."&nbsp</td>\n";
 				   echo "<td align='center' >".$total_ra."&nbsp</td>\n";
@@ -225,9 +242,9 @@ function detalle_anodos(fecha,grupo)
 				   $total_rango_ai=$total_rango_ai+$total_ai;
 				   $total_rango_ot=$total_rango_ot+$total_ot;
 
-			     }
-				 if ($opcion=='L')
-				 	{
+			    }
+				if ($opcion=='L')
+				{
 					 echo '<tr class="ColorTabla01">';
 					 echo "<td align='center' ><strong>Totales&nbsp</strong></td>\n";
 					 echo "<td align='center' >".$total_a_la_fecha."&nbsp</td>\n";
@@ -244,7 +261,7 @@ function detalle_anodos(fecha,grupo)
 					 echo "<td align='center' >".$total_rango_ai."&nbsp</td>\n";
 					 echo "<td align='center' >".$total_rango_ot."&nbsp</td>\n";
 					 echo '</tr>';
-					} 
+				} 
 				 	   				 
 		
            echo '</table>';

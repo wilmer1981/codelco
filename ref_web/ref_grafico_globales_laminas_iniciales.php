@@ -55,7 +55,7 @@
 		       $consulta_datos_grupo.= " where fecha = '".$row_fecha_grupo["fecha"]."' and cod_grupo ='".$row_grupo["cod_grupo"]."' group by cod_grupo ";
 		       $respuesta_datos_grupo = mysqli_query($link, $consulta_datos_grupo);
 	   	       $row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-		       $produccion=$produccion+(($row_datos_grupo[hojas_madres]*$row_datos_grupo[num_catodos_celdas])*2);
+		       $produccion=$produccion+(($row_datos_grupo["hojas_madres"]*$row_datos_grupo[num_catodos_celdas])*2);
 			  }
 			$arreglo_porc_produccion[$i]=$produccion*0.04;   
 		   $i++;

@@ -520,7 +520,7 @@ function detalle_anodos(fecha,grupo)
 			echo "<td align='center'>".$Fila2["recuperado_tot"]."&nbsp</td>\n";
 			
 			$divisor=$row1[num_cubas]-$row1[cant_cuba];
-			$porc_rec=(($Fila2["recuperado_tot"]/($divisor*$row1[num_catodos]))*100);
+			$porc_rec=(($Fila2["recuperado_tot"]/($divisor*$row1["num_catodos"]))*100);
      		$porc_rec2=number_format($porc_rec,"2",".","");
 
 			$total_rechaza=$total_rechaza+$porc_rec2;
@@ -532,7 +532,7 @@ function detalle_anodos(fecha,grupo)
 			$total_rech=$total_rech+$rechazado_tot_fila;
 			echo "<td align='center'>$rechazado_tot_fila&nbsp</td>\n";
 			$divisor2=$row1[num_cubas]-$row1[cant_cuba];
-			$total_por_rechazado=(($rechazado_tot_fila/($divisor2*$row1[num_catodos]))*100);
+			$total_por_rechazado=(($rechazado_tot_fila/($divisor2*$row1["num_catodos"]))*100);
 			$total_por_rechazado2=number_format($total_por_rechazado,"2",".","");
 			$sum_porc_rech=$sum_porc_rech+$total_por_rechazado;
 			if ($total_por_rechazado > 3.2)
@@ -647,7 +647,7 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 				$Consulta6 = $Consulta6." where  t1.fecha = '".$row_fecha["fecha"]."' and t1.cod_grupo ='0".$row2[sub_clase1]."' group by t1.cod_grupo";
 				$rs3 = mysqli_query($link, $Consulta6);
 				$row3 = mysqli_fetch_array($rs3);
-				$produccion=(($row3[hojas_madres]*$row3[num_catodos_celdas])*2);         
+				$produccion=(($row3["hojas_madres"]*$row3[num_catodos_celdas])*2);         
 				echo "<td align='center'>$produccion&nbsp</td>\n";
 				$Consulta5 = "select cod_grupo,ifnull(rechazo_delgadas,0) as rec_del,ifnull(rechazo_granuladas,0) as rec_gran,ifnull(rechazo_gruesas,0) as rec_grue from ref_web.produccion as t1 ";
 				$Consulta5 = $Consulta5."inner join proyecto_modernizacion.sub_clase as t2  on t1.cod_grupo=t2.valor_subclase1 ";
@@ -786,14 +786,14 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 							  if ($row_datos[cod_concepto]=='A')
 								{
 								  //echo grupo.$b."<br>"   ;
-								  $total_A=$total_A+((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo[hojas_madres])-$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo[num_catodos_celdas]);
-								  //echo "total turno a ".$total_A.'+((('.$row_datos_grupo[num_cubas_tot].'-'.$row_datos_grupo[hojas_madres].')-'.$row_datos_grupo[cubas_descobrizacion].')*'.$row_datos_grupo[num_catodos_celdas].')'."<br>";
+								  $total_A=$total_A+((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo["hojas_madres"])-$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo[num_catodos_celdas]);
+								  //echo "total turno a ".$total_A.'+((('.$row_datos_grupo[num_cubas_tot].'-'.$row_datos_grupo["hojas_madres"].')-'.$row_datos_grupo[cubas_descobrizacion].')*'.$row_datos_grupo[num_catodos_celdas].')'."<br>";
 								 }
 							  else if ($row_datos[cod_concepto]=='B')
 									  {
 								        //echo grupo.$b."<br>"   ;
-										$total_B=$total_B + ((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo[hojas_madres]) -$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo[num_catodos_celdas]);         
-										//echo "total turno b".$total_B.'+((('.$row_datos_grupo[num_cubas_tot].'-'.$row_datos_grupo[hojas_madres].')-'.$row_datos_grupo[cubas_descobrizacion].')*'.$row_datos_grupo[num_catodos_celdas].')'."<br>";
+										$total_B=$total_B + ((($row_datos_grupo[num_cubas_tot]-$row_datos_grupo["hojas_madres"]) -$row_datos_grupo[cubas_descobrizacion])*$row_datos_grupo[num_catodos_celdas]);         
+										//echo "total turno b".$total_B.'+((('.$row_datos_grupo[num_cubas_tot].'-'.$row_datos_grupo["hojas_madres"].')-'.$row_datos_grupo[cubas_descobrizacion].')*'.$row_datos_grupo[num_catodos_celdas].')'."<br>";
 									  }
 							
 						   }

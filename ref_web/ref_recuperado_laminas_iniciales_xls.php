@@ -110,7 +110,7 @@ function detalle_anodos(fecha,grupo)
 		             $consulta_datos_grupo.= " where fecha = '".$row_fecha["fecha"]."' and cod_grupo='".$row_fecha["cod_grupo"]."'  group by cod_grupo ";
 		             $respuesta_datos_grupo = mysqli_query($link, $consulta_datos_grupo);
 	   	             $row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-		             $produccion=$produccion+(($row_datos_grupo[hojas_madres]*$row_datos_grupo[num_catodos_celdas])*2);
+		             $produccion=$produccion+(($row_datos_grupo["hojas_madres"]*$row_datos_grupo[num_catodos_celdas])*2);
                     }
 			$porcentaje_recuperado=number_format(($row[recuperado]/$produccion)*100,"2",".",".");		
 			echo "<td align='center' class=detalle01>".$porcentaje_recuperado."</td>\n";

@@ -105,7 +105,7 @@ function Imprimir()
 					$Consulta6 = $Consulta6." where  t1.fecha = '".$row_fecha["fecha"]."' and t1.cod_grupo ='0".$row2[sub_clase1]."' group by t1.cod_grupo";
 					$rs3 = mysqli_query($link, $Consulta6);
 					$row3 = mysqli_fetch_array($rs3);
-					$produccion=(($row3[hojas_madres]*$row3[num_catodos_celdas])*2);         
+					$produccion=(($row3["hojas_madres"]*$row3[num_catodos_celdas])*2);         
 					echo "<td align='center'>$produccion&nbsp</td>\n";
 					$Consulta5 = "select cod_grupo,ifnull(rechazo_delgadas,0) as rec_del,ifnull(rechazo_granuladas,0) as rec_gran,ifnull(rechazo_gruesas,0) as rec_grue from ref_web.produccion as t1 ";
 					$Consulta5 = $Consulta5."inner join proyecto_modernizacion.sub_clase as t2  on t1.cod_grupo=t2.valor_subclase1 ";

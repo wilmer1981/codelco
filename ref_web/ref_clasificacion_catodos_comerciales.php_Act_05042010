@@ -422,7 +422,7 @@ function Detalle()
 				$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
 				$respuesta2= mysql_query($consulta2);
 				$fila2 = mysql_fetch_array($respuesta2);
-				$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2[ot];
+				$suma_rechazo=$fila2["ne"]+$fila2["nd"]+$fila2["ra"]+$fila2["cs"]+$fila2["cl"]+$fila2["ot"];
 				/***********************************************************************************************************************/
 				/******************obtiene datos del grupo electrolitico 2 **********************************************************/
 				$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."' ";
@@ -434,8 +434,8 @@ function Detalle()
 				$row_det_grupo = mysql_fetch_array($respuesta_det_grupo);
 				/**********************************************************************************************************************/
 				$divisor=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba];
-				$divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo[hojas_madres];
-				$divisor2=$divisor2*$row_det_grupo[num_catodos];
+				$divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo["hojas_madres"];
+				$divisor2=$divisor2*$row_det_grupo["num_catodos"];
 				if ($opcion=='P')
 				   {
 					$seleccion_inicial=(($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
@@ -643,19 +643,19 @@ function Detalle()
 					$consulta_rechazo.=" where fecha ='".$fila["fecha"]."'  and grupo='".intval($fila["grupo"])."' group by fecha";
 					$respuesta_rechazo = mysql_query($consulta_rechazo);
 					$row_rechazo=mysql_fetch_array($respuesta_rechazo);
-					echo "<td align='center'>".$row_rechazo[ne]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[nd]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[ra]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[cs]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[cl]."&nbsp</td>\n";
-					echo "<td align='center'>".$row_rechazo[ot]."&nbsp</td>\n";
-					$rechazo_dia=$row_rechazo[ne]+$row_rechazo[nd]+$row_rechazo[ra]+$row_rechazo[cs]+$row_rechazo[cl]+$row_rechazo[ot];
-					$total_ne=$total_ne+$row_rechazo[ne];
-					$total_nd=$total_ne+$row_rechazo[nd];
-					$total_ra=$total_ne+$row_rechazo[ra];
-					$total_cs=$total_ne+$row_rechazo[cs];
-					$total_cl=$total_ne+$row_rechazo[cl];
-					$total_ot=$total_ne+$row_rechazo[ot];
+					echo "<td align='center'>".$row_rechazo["ne"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["nd"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["ra"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["cs"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["cl"]."&nbsp</td>\n";
+					echo "<td align='center'>".$row_rechazo["ot"]."&nbsp</td>\n";
+					$rechazo_dia=$row_rechazo["ne"]+$row_rechazo["nd"]+$row_rechazo["ra"]+$row_rechazo["cs"]+$row_rechazo["cl"]+$row_rechazo["ot"];
+					$total_ne=$total_ne+$row_rechazo["ne"];
+					$total_nd=$total_ne+$row_rechazo["nd"];
+					$total_ra=$total_ne+$row_rechazo["ra"];
+					$total_cs=$total_ne+$row_rechazo["cs"];
+					$total_cl=$total_ne+$row_rechazo["cl"];
+					$total_ot=$total_ne+$row_rechazo["ot"];
 				   }
 			   else if ($opcion=='L')
 			           {
@@ -671,19 +671,19 @@ function Detalle()
 		  				$consulta_rechazo.=" where fecha ='".$fila["fecha"]."'  and grupo='".intval($fila["grupo"])."' group by fecha";
 		  				$respuesta_rechazo = mysql_query($consulta_rechazo);
 						$row_rechazo=mysql_fetch_array($respuesta_rechazo);
-						echo "<td align='center'>".$row_rechazo[ne]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[nd]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[ra]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[cs]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[cl]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_rechazo[ot]."&nbsp</td>\n";
-						$rechazo_dia=$row_rechazo[ne]+$row_rechazo[nd]+$row_rechazo[ra]+$row_rechazo[cs]+$row_rechazo[cl]+$row_rechazo[ot];
-						$total_ne=$total_ne+$row_rechazo[ne];
-						$total_nd=$total_nd+$row_rechazo[nd];
-						$total_ra=$total_ra+$row_rechazo[ra];
-						$total_cs=$total_cs+$row_rechazo[cs];
-						$total_cl=$total_cl+$row_rechazo[cl];
-						$total_ot=$total_ot+$row_rechazo[ot];
+						echo "<td align='center'>".$row_rechazo["ne"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["nd"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["ra"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["cs"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["cl"]."&nbsp</td>\n";
+						echo "<td align='center'>".$row_rechazo["ot"]."&nbsp</td>\n";
+						$rechazo_dia=$row_rechazo["ne"]+$row_rechazo["nd"]+$row_rechazo["ra"]+$row_rechazo["cs"]+$row_rechazo["cl"]+$row_rechazo["ot"];
+						$total_ne=$total_ne+$row_rechazo["ne"];
+						$total_nd=$total_nd+$row_rechazo["nd"];
+						$total_ra=$total_ra+$row_rechazo["ra"];
+						$total_cs=$total_cs+$row_rechazo["cs"];
+						$total_cl=$total_cl+$row_rechazo["cl"];
+						$total_ot=$total_ot+$row_rechazo["ot"];
 						$total_rechazo=$total_rechazo+$rechazo_dia;
 					   }
 			  echo '</tr>';		     	
@@ -769,7 +769,7 @@ function Detalle()
 								$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
 								$respuesta2= mysql_query($consulta2);
 								$fila2 = mysql_fetch_array($respuesta2);
-								$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2[ot];
+								$suma_rechazo=$fila2["ne"]+$fila2["nd"]+$fila2["ra"]+$fila2["cs"]+$fila2["cl"]+$fila2["ot"];
 								/***********************************************************************************************************************/
 								/******************obtiene datos del grupo electrolitico 2 **********************************************************/
 								$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."' ";
@@ -781,13 +781,13 @@ function Detalle()
 								$row_det_grupo = mysql_fetch_array($respuesta_det_grupo);
 								/**********************************************************************************************************************/
 								$divisor=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba];
-								$divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo[hojas_madres];
-								$divisor2=$divisor2*$row_det_grupo[num_catodos];
+								$divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo["hojas_madres"];
+								$divisor2=$divisor2*$row_det_grupo["num_catodos"];
 								if ($opcion=='P')
 								   {
 									$seleccion_inicial=(($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
-									$porc_recuperado=(($fila2["recuperado_tot"]/($divisor*$row_det_grupo[num_catodos]))*100);
-									$total_por_rechazado=(($suma_rechazo/($divisor*$row_det_grupo[num_catodos]))*100);
+									$porc_recuperado=(($fila2["recuperado_tot"]/($divisor*$row_det_grupo["num_catodos"]))*100);
+									$total_por_rechazado=(($suma_rechazo/($divisor*$row_det_grupo["num_catodos"]))*100);
 								   }
 								 else if ($opcion=='L')
 								         {

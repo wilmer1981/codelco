@@ -1,14 +1,16 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
+
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d"); 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y"); 
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y"); 
+
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:""; 
+	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -128,14 +130,14 @@ function detalle_anodos(fecha,grupo)
 	 	$consulta_fechas="select distinct fecha from cal_web.rechazo_catodos where fecha BETWEEN '".$FechaInicio."' and '".$FechaTermino."' ";
 		$respuesta_fechas=mysqli_query($link, $consulta_fechas);
 		while ($row_fechas=mysqli_fetch_array($respuesta_fechas))
-			{
+		{
 				echo '<tr>';
 				echo '<td align="center" class=detalle01>'.substr($row_fechas["fecha"],8,2).'</td>';
 				$consulta_circuito="select cod_circuito from sec_web.circuitos order by cod_circuito ";
 				$respuesta_circuito=mysqli_query($link, $consulta_circuito);
 				$color1="";
 				while ($row_circuito=mysqli_fetch_array($respuesta_circuito))
-					{
+				{
 					  $consulta_grupo="select distinct cod_grupo from ref_web.grupo_electrolitico2 where cod_circuito='".$row_circuito["cod_circuito"]."'";
 					  $respuesta_grupo=mysqli_query($link, $consulta_grupo);
 					  $total_dia_ne=0;
@@ -144,20 +146,20 @@ function detalle_anodos(fecha,grupo)
 					  $total_dia_cs=0;
 					  $total_dia_cl=0;
 					  $total_dia_ot=0;
-					  while ($row_grupo=mysqli_fetch_array($respuesta_grupo))
+					    while ($row_grupo=mysqli_fetch_array($respuesta_grupo))
 					  	{
-							 $consulta_rechazo="select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,sum(cordon_superior) as cs,sum(cordon_lateral) as cl,sum(otros) as ot , fecha from cal_web.rechazo_catodos ";
-		  					 $consulta_rechazo.=" where fecha = '".$row_fechas["fecha"]."' and grupo='".intval($row_grupo["cod_grupo"])."' group by fecha";
-		  					 $respuesta_rechazo = mysqli_query($link, $consulta_rechazo);
-							 while ($row_rechazo = mysqli_fetch_array($respuesta_rechazo))
-							 	{
-							 		$total_dia_ne=$total_dia_ne+$row_rechazo[ne];
-									$total_dia_nd=$total_dia_nd+$row_rechazo[nd];
-									$total_dia_ra=$total_dia_ra+$row_rechazo[ra];
-									$total_dia_cs=$total_dia_cs+$row_rechazo[cs];
-									$total_dia_cl=$total_dia_cl+$row_rechazo[cl];
+							$consulta_rechazo="select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,sum(cordon_superior) as cs,sum(cordon_lateral) as cl,sum(otros) as ot , fecha from cal_web.rechazo_catodos ";
+		  					$consulta_rechazo.=" where fecha = '".$row_fechas["fecha"]."' and grupo='".intval($row_grupo["cod_grupo"])."' group by fecha";
+		  					$respuesta_rechazo = mysqli_query($link, $consulta_rechazo);
+							while ($row_rechazo = mysqli_fetch_array($respuesta_rechazo))
+							{
+							 		$total_dia_ne=$total_dia_ne+$row_rechazo["ne"];
+									$total_dia_nd=$total_dia_nd+$row_rechazo["nd"];
+									$total_dia_ra=$total_dia_ra+$row_rechazo["ra"];
+									$total_dia_cs=$total_dia_cs+$row_rechazo["cs"];
+									$total_dia_cl=$total_dia_cl+$row_rechazo["cl"];
 									$total_dia_ot=$total_dia_ot+$row_rechazo["ot"];
-								}
+							}
 						}
 						if ($color1=='detalle02')
 							{
@@ -172,13 +174,12 @@ function detalle_anodos(fecha,grupo)
 						echo '<td align="center" class='.$color1.'>'.$total_dia_cl.'</td>';
 						echo '<td align="center" class='.$color1.'>'.$total_dia_ot.'</td>';
 					
-					}
+				}
 				echo '</tr>';
 			
-			}
+		}
 	 
-	 
-	 ?>
+	?>
     </table>
 
   <p>&nbsp;</p>

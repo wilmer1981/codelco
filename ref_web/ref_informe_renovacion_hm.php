@@ -165,8 +165,8 @@ function Excel(f)
 						       $arreglo = explode("-",$rows[cubas_renovacion]);
 						       $anodos_a_renovar= count($arreglo)*$row[num_anodos_celdas];
 							  } 
-						   else { //echo '('.$row[num_cubas_tot].'-'.$row[hojas_madres].')*'.$row[num_anodos_celdas].')';
-						          $anodos_a_renovar=(($row[num_cubas_tot]-$row[hojas_madres])*$row[num_anodos_celdas]);} 
+						   else { //echo '('.$row[num_cubas_tot].'-'.$row["hojas_madres"].')*'.$row[num_anodos_celdas].')';
+						          $anodos_a_renovar=(($row[num_cubas_tot]-$row["hojas_madres"])*$row[num_anodos_celdas]);} 
 						   echo '<td width="146" align="center">'.$anodos_a_renovar.'&nbsp;</td>';
                            echo '<td width="146" align="center">'.$rows[inicio_renovacion].'&nbsp;</td>';
 			              // $i=$i+1;

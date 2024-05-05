@@ -61,7 +61,7 @@ $consulta_circuito="select * from sec_web.circuitos";
 								$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
 								$respuesta2= mysqli_query($link, $consulta2);
 								$fila2 = mysqli_fetch_array($respuesta2);
-								$suma_rechazo=$fila2[ne]+$fila2[nd]+$fila2[ra]+$fila2[cs]+$fila2[cl]+$fila2[qu]+$fila2[re]+$fila2[ai]+$fila2["ot"];
+								$suma_rechazo=$fila2["ne"]+$fila2["nd"]+$fila2["ra"]+$fila2["cs"]+$fila2["cl"]+$fila2["qu"]+$fila2["re"]+$fila2["ai"]+$fila2["ot"];
 								/***********************************************************************************************************************/
 								/******************obtiene datos del grupo electrolitico 2 **********************************************************/
 								$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."'??????????? ";
@@ -73,13 +73,13 @@ $consulta_circuito="select * from sec_web.circuitos";
 								$row_det_grupo = mysqli_fetch_array($respuesta_det_grupo);
 								/**********************************************************************************************************************/
 								$divisor=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba];
-								$divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo[hojas_madres];
-								$divisor2=$divisor2*$row_det_grupo[num_catodos];
+								$divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo["hojas_madres"];
+								$divisor2=$divisor2*$row_det_grupo["num_catodos"];
 								if ($opcion=='P')
 								   {
 									$seleccion_inicial=(($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
-									$porc_recuperado=(($fila2["recuperado_tot"]/($divisor*$row_det_grupo[num_catodos]))*100);
-									$total_por_rechazado=(($suma_rechazo/($divisor*$row_det_grupo[num_catodos]))*100);
+									$porc_recuperado=(($fila2["recuperado_tot"]/($divisor*$row_det_grupo["num_catodos"]))*100);
+									$total_por_rechazado=(($suma_rechazo/($divisor*$row_det_grupo["num_catodos"]))*100);
 								   }
 								 else if ($opcion=='L')
 								         {

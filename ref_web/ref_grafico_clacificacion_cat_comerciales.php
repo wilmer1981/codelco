@@ -44,8 +44,8 @@
 						  $consulta_t_rechazo_catodos.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$row_grupos_dia["cod_grupo"]."'";
 						  $respuesta_t_rechazo_catodos= mysqli_query($link, $consulta_t_rechazo_catodos);
 				          $fila_t_rechazo_catodos = mysqli_fetch_array($respuesta_t_rechazo_catodos);
-				          $suma_rechazo=$fila_t_rechazo_catodos[ne]+$fila_t_rechazo_catodos[nd]+$fila_t_rechazo_catodos[ra]+$fila_t_rechazo_catodos[cs]+$fila_t_rechazo_catodos[cl]+$fila_t_rechazo_catodos[ot];	
-						  $suma_rechazo=$suma_rechazo+$fila_t_rechazo_catodos[qu]+$fila_t_rechazo_catodos[re]+$fila_t_rechazo_catodos[ai];
+				          $suma_rechazo=$fila_t_rechazo_catodos["ne"]+$fila_t_rechazo_catodos["nd"]+$fila_t_rechazo_catodos["ra"]+$fila_t_rechazo_catodos["cs"]+$fila_t_rechazo_catodos["cl"]+$fila_t_rechazo_catodos["ot"];	
+						  $suma_rechazo=$suma_rechazo+$fila_t_rechazo_catodos["qu"]+$fila_t_rechazo_catodos["re"]+$fila_t_rechazo_catodos["ai"];
 						  $consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$row_grupos_dia["cod_grupo"]."' and fecha<='".$fila["fecha"]."' ";
 						  $respuesta_max_fecha_ge= mysqli_query($link, $consulta_max_fecha_ge);
 						  $row_max_fecha_ge = mysqli_fetch_array($respuesta_max_fecha_ge);
@@ -54,7 +54,7 @@
 						  $respuesta_det_grupo = mysqli_query($link, $consulta_det_grupo);
 						  $row_det_grupo = mysqli_fetch_array($respuesta_det_grupo);
 						  
-						  $total_grupo=$total_grupo+($row_det_grupo[num_catodos]*($row_det_grupo[num_cubas]-$row_det_grupo[hojas_madres]));
+						  $total_grupo=$total_grupo+($row_det_grupo["num_catodos"]*($row_det_grupo[num_cubas]-$row_det_grupo["hojas_madres"]));
 						  $rechazo_total_dias=$rechazo_total_dias+$suma_rechazo;
 						  $recuperado_total_dias=$recuperado_total_dias+$fila_t_rechazo_catodos["recuperado_tot"];
 						}
@@ -66,8 +66,8 @@
 				   $arreglo_acumulado_rechazo[$i]=number_format($rechazo_total,"2",".",".");
 				   
 				   $divisor=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba];
-				   $divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo[hojas_madres];
-				   $divisor2=$divisor2*$row_det_grupo[num_catodos];
+				   $divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo["hojas_madres"];
+				   $divisor2=$divisor2*$row_det_grupo["num_catodos"];
 				   //$seleccion_inicial=(($suma_rechazo+$fila_t_rechazo_catodos["recuperado_tot"])/$divisor2)*100;
 				   $porc_recuperado=(($fila_t_rechazo_catodos["recuperado_tot"]/$divisor2)*100);
 				   $total_por_rechazado=(($suma_rechazo/$divisor2)*100);
