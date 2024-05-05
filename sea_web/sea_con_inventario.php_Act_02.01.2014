@@ -157,12 +157,12 @@ body {
 				{	
 					if ($i == 1)
 					{
-						$grupos2[$row1[campo2]][0] = $row1[fecha_movimiento];
+						$grupos2[$row1[campo2]][0] = $row1["fecha_movimiento"];
 						$grupos2[$row1[campo2]][1] = $row1[campo1];					
 					}
 					else
 					{
-						$grupos1[$row1[campo2]][0] = $row1[fecha_movimiento];
+						$grupos1[$row1[campo2]][0] = $row1["fecha_movimiento"];
 						$grupos1[$row1[campo2]][1] = $row1[campo1];
 					}
 					$i++;					

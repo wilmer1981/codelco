@@ -571,11 +571,11 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 					if ($row = mysqli_fetch_array($rs))
 					{
 						//Fecha de Produccion.
-						echo '<td>'.$row[fecha_movimiento].'</td>';
+						echo '<td>'.$row["fecha_movimiento"].'</td>';
 						
 						$consulta = "SELECT * FROM sea_web.movimientos";
 						$consulta.= " WHERE tipo_movimiento = 3 AND campo1 = '".$row[campo1]."' AND campo2 = '".$row[campo2]."'";
-						$consulta.= " AND fecha_movimiento = '".$row[fecha_movimiento]."' AND cod_subproducto = 30";
+						$consulta.= " AND fecha_movimiento = '".$row["fecha_movimiento"]."' AND cod_subproducto = 30";
 						//echo "1-nueve".$consulta."<br>";
 						$rs1 = mysqli_query($link, $consulta);
 						if ($row1 = mysqli_fetch_array($rs1))

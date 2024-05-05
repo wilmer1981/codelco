@@ -1,5 +1,6 @@
 <?php include("../principal/conectar_ref_web.php"); 
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
 	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'";
 	$Respuesta =mysqli_query($link, $Consulta);
@@ -7,6 +8,11 @@
 	{
 		$Nivel = $Fila["nivel"];
 	}
+
+	$CmbAno    = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbMes    = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$opcion    = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+/*
 	if (!isset($CmbAno))
 	{
 		$CmbAno=date('Y');
@@ -16,14 +22,14 @@
 		$CmbMes=date('n');
 	}
 	else
-	{
+	{*/
 		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase =".$CmbMes;
 		$Respuesta =mysqli_query($link, $Consulta);
 		if($Fila =mysqli_fetch_array($Respuesta))
 		{
 			$Letra=$Fila["nombre_subclase"];
 		}		
-	}
+	//}
 	?>
 <HTML>
 <HEAD>
@@ -182,7 +188,7 @@ function Proceso(opt)
 					$respuesta = mysqli_query($link, $consulta);
 					while ($fila = mysqli_fetch_array($respuesta))
 					{
-						$consulta1="select nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut ='".$fila[rut_modificacion]."'";
+						$consulta1="select nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut ='".$fila["rut_modificacion"]."'";
 						$respuesta1 = mysqli_query($link, $consulta1);
 						if ($fila1 = mysqli_fetch_array($respuesta1))													 
 						{
@@ -190,7 +196,7 @@ function Proceso(opt)
 							echo "<td width='250' align='center'>".$fila1["nombres"]. " " .$fila1["apellido_paterno"]. " " .$fila1["apellido_materno"]."</td>\n";
 						}	
 							$fecha1 = $fila["fecha_movimiento"];
-							$fecha2 = $fila[fecha_modificacion];
+							$fecha2 = $fila["fecha_modificacion"];
 							echo "<td width='175' align='center'>".$fecha1."</td>\n";
           					echo "<td width='175'  align='center'>".$fecha2."</td>\n";
 							echo "<td width='200' align='center'><strong>Modificado</strong></td>\n";
@@ -239,8 +245,8 @@ function Proceso(opt)
 					$respuesta4 = mysqli_query($link, $consulta4);
 					while ($fila4 = mysqli_fetch_array($respuesta4))
 					{
-						$contador = $fila4[contador];
-						$fecha_des = $fila4[fecha_des]; 
+						$contador = $fila4["contador"];
+						$fecha_des = $fila4["fecha_des"]; 
 						if ($contador > 6)
 						{
 							echo "<tr>";
@@ -254,8 +260,8 @@ function Proceso(opt)
 					$respuesta5 = mysqli_query($link, $consulta5);	 
 					while ($fila5 = mysqli_fetch_array($respuesta5))
 					{	
-						$contador = $fila5[contador];
-						$fecha_des1 = $fila5[fecha_des1];
+						$contador = $fila5["contador"];
+						$fecha_des1 = $fila5["fecha_des1"];
 					
 						if ($contador >= 2)
 						{

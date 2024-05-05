@@ -1,12 +1,28 @@
-<?php header("Content-Type:  application/vnd.ms-excel");
-	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");include("../principal/conectar_ref_web.php");
-?>
-
 <?php 
-//include("../principal/conectar_ref_web.php"); 
-?>
-<?php	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+ob_end_clean();
+$file_name=basename($_SERVER['PHP_SELF']).".xls";
+$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+$filename = "";
+if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+$filename = urlencode($filename);
+}
+$filename = iconv('UTF-8', 'gb2312', $filename);
+$file_name = str_replace(".php", "", $file_name);
+header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
+header("content-disposition: attachment;filename={$file_name}");
+header( "Cache-Control: public" );
+header( "Pragma: public" );
+header( "Content-type: text/csv" ) ;
+header( "Content-Dis; filename={$file_name}" ) ;
+header("Content-Type:  application/vnd.ms-excel");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	include("../principal/conectar_ref_web.php");
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Rut =$CookieRut;
+
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Rut =$CookieRut;
 	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'";
 	$Respuesta =mysqli_query($link, $Consulta);
@@ -14,6 +30,10 @@
 	{
 		$Nivel = $Fila["nivel"];
 	}
+	$CmbAno    = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbMes    = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$opcion    = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	/*
 	if (!isset($CmbAno))
 	{
 		$CmbAno=date('Y');
@@ -23,14 +43,14 @@
 		$CmbMes=date('n');
 	}
 	else
-	{
+	{*/
 		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase =".$CmbMes;
 		$Respuesta =mysqli_query($link, $Consulta);
 		if($Fila =mysqli_fetch_array($Respuesta))
 		{
 			$Letra=$Fila["nombre_subclase"];
 		}		
-	}
+	//}
 	?>
 <HTML>
 <HEAD>
@@ -133,15 +153,15 @@ function Proceso1(f)
 					$respuesta = mysqli_query($link, $consulta);
 					while ($fila = mysqli_fetch_array($respuesta))
 					{
-						$consulta1="select nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut ='".$fila[rut_modificacion]."'";
+						$consulta1="select nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut ='".$fila["rut_modificacion"]."'";
 						$respuesta1 = mysqli_query($link, $consulta1);
 						if ($fila1 = mysqli_fetch_array($respuesta1))													 
 						{
 							echo "<tr>";
 							echo "<td width='250' align='center'>".$fila1["nombres"]. " " .$fila1["apellido_paterno"]. " " .$fila1["apellido_materno"]."</td>\n";
 						}	
-							$fecha1 = $fila[fecha_movimiento];
-							$fecha2 = $fila[fecha_modificacion];
+							$fecha1 = $fila["fecha_movimiento"];
+							$fecha2 = $fila["fecha_modificacion"];
 							echo "<td width='175' align='center'>".$fecha1."</td>\n";
           					echo "<td width='175'  align='center'>".$fecha2."</td>\n";
 							echo "<td width='200' align='center'><strong>Modificado</strong></td>\n";
@@ -190,8 +210,8 @@ function Proceso1(f)
 					$respuesta4 = mysqli_query($link, $consulta4);
 					while ($fila4 = mysqli_fetch_array($respuesta4))
 					{
-						$contador = $fila4[contador];
-						$fecha_des = $fila4[fecha_des]; 
+						$contador = $fila4["contador"];
+						$fecha_des = $fila4["fecha_des"]; 
 						if ($contador > 6)
 						{
 							echo "<tr>";
@@ -205,8 +225,8 @@ function Proceso1(f)
 					$respuesta5 = mysqli_query($link, $consulta5);	 
 					while ($fila5 = mysqli_fetch_array($respuesta5))
 					{	
-						$grupos = $fila5[grupos];
-						$fecha_des1 = $fila5[fecha_des1];
+						$grupos = $fila5["grupos"];
+						$fecha_des1 = $fila5["fecha_des1"];
 					
 						if ($grupos > 2)
 						{

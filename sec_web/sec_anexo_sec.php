@@ -10,7 +10,7 @@
 	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysqli_fetch_array($Resp))
 	{
-		$FecMov=explode('-',$Fila[fecha_movimiento]);
+		$FecMov=explode('-',$Fila["fecha_movimiento"]);
 		$FecMov=$FecMov[2]."-".$FecMov[1]."-".$FecMov[0];
 		$FecBen=explode('-',$Fila[fecha_benef]);
 		$FecBen=$FecBen[2]."-".$FecBen[1]."-".$FecBen[0];

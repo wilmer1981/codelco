@@ -26,25 +26,25 @@
 		$cant_cubas = 0;
 		while ($row1 = mysql_fetch_array($rs1))
 		{		
-			$Ano=substr($row1[fecha_movimiento],0,4);
-			$Mes=substr($row1[fecha_movimiento],5,2);
-			$Dia=substr($row1[fecha_movimiento],8,2);
+			$Ano=substr($row1["fecha_movimiento"],0,4);
+			$Mes=substr($row1["fecha_movimiento"],5,2);
+			$Dia=substr($row1["fecha_movimiento"],8,2);
 			$FechaInicioa=date("Y-m-d", mktime(1,0,0,$Mes,($Dia -1),$Ano))." 08:00:00";
-			$FechaTerminoa=$row1[fecha_movimiento]." 07:59:59";
-			$FechaInicio  =$row1[fecha_movimiento]." 08:00:00";			
+			$FechaTerminoa=$row1["fecha_movimiento"]." 07:59:59";
+			$FechaInicio  =$row1["fecha_movimiento"]." 08:00:00";			
 			$FechaTermino =date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano))." 07:59:59";
 			$FechaTermino2 =date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano));
 			
 			$consulta = "SELECT SUM(unidades) AS unidadesmov, SUM(peso) AS peso FROM sea_web.movimientos WHERE tipo_movimiento = 2 AND cod_producto = 17";
 			$consulta = $consulta." AND cod_subproducto = ".$row1["cod_subproducto"]." AND numero_recarga = 0 AND campo2 = '".$cmbgrupo."'";
-			$consulta = $consulta." AND campo1 = '".$row1[campo1]."' AND fecha_movimiento between '".$row1[fecha_movimiento]."' and '".$FechaTermino2."'";
+			$consulta = $consulta." AND campo1 = '".$row1[campo1]."' AND fecha_movimiento between '".$row1["fecha_movimiento"]."' and '".$FechaTermino2."'";
 			$consulta = $consulta." and ((hora between '".$FechaInicio."' and '".$FechaTermino."') or ";
 			$consulta = $consulta." (hora between '".$FechaInicioa."' and '".$FechaTerminoa."'))";
 			//echo "dos".$consulta."<br>";
 			$rs2 = mysql_query($consulta);
 			$row2 = mysql_fetch_array($rs2);
 			
-			$parametros = $parametros.$row1[campo1].'~'.$row2[unidadesmov].'~'.$row2["peso"].'~'.$row1[fecha_movimiento].'/';
+			$parametros = $parametros.$row1[campo1].'~'.$row2[unidadesmov].'~'.$row2["peso"].'~'.$row1["fecha_movimiento"].'/';
 			$cant_cubas ++;				
 		}
 		
@@ -258,14 +258,14 @@
 			
 				$insertar = "INSERT INTO sea_web.movimientos (tipo_movimiento,cod_producto,cod_subproducto,hornada,numero_recarga,fecha_movimiento,campo1,campo2,unidades,flujo,fecha_benef,peso,hora)";
 				$insertar = $insertar." VALUES (3,19,".$row["cod_subproducto"].",".$hornadas[$row["cod_subproducto"]].",".$row[hornada].",'".$fecha."'";
-				$insertar = $insertar.",'".$row[campo1]."','".$row[campo2]."',".$row["unidades"].",".$flujo.",'".$row[fecha_movimiento]."',".($row["unidades"] * $peso_promedio).",'$fecha_hora')";
+				$insertar = $insertar.",'".$row[campo1]."','".$row[campo2]."',".$row["unidades"].",".$flujo.",'".$row["fecha_movimiento"]."',".($row["unidades"] * $peso_promedio).",'$fecha_hora')";
 				//echo $insertar."<br>";
 				mysql_query($insertar);
 				
 				//Actualiza Movimiento.
 				$actualizar = "UPDATE sea_web.movimientos SET numero_recarga = 1";
 				$actualizar = $actualizar." WHERE tipo_movimiento = 2 AND cod_producto = 17 AND cod_subproducto = ".$row["cod_subproducto"];
-				$actualizar = $actualizar." AND hornada = ".$row[hornada]." AND numero_recarga = 0 AND fecha_movimiento = '".$row[fecha_movimiento]."'";
+				$actualizar = $actualizar." AND hornada = ".$row[hornada]." AND numero_recarga = 0 AND fecha_movimiento = '".$row["fecha_movimiento"]."'";
 				$actualizar = $actualizar." AND campo1 = '".$row[campo1]."' AND campo2 = '".$row[campo2]."' AND unidades = ".$row["unidades"];
 				$actualizar = $actualizar." AND peso = ".$row["peso"]." AND flujo = ".$row["flujo"];
 				mysql_query($actualizar); 
@@ -310,7 +310,7 @@
 					$actualizar = "UPDATE sea_web.movimientos SET peso = (peso + ".$diferencia.")";
 					$actualizar = $actualizar." WHERE tipo_movimiento = 3 AND cod_producto = 19 AND cod_subproducto = ".$row3["cod_subproducto"];
 					$actualizar = $actualizar." AND hornada = ".$row3[hornada]." AND numero_recarga = ".$row3[numero_recarga];
-					$actualizar = $actualizar." AND fecha_movimiento = '".$row3[fecha_movimiento]."'";
+					$actualizar = $actualizar." AND fecha_movimiento = '".$row3["fecha_movimiento"]."'";
 					$actualizar = $actualizar." AND campo1 = '".$row3[campo1]."' AND campo2 = '".$row3[campo2]."' AND unidades = ".$row3["unidades"];
 					$actualizar = $actualizar." AND fecha_benef = '".$row3[fecha_benef]."' AND peso = '".$row3["peso"]."'";
 					//echo $actualizar."<br>";
@@ -389,7 +389,7 @@
 			$actualizar = "UPDATE sea_web.movimientos SET peso = (peso + ".$diferencia.")";
 			$actualizar = $actualizar." WHERE tipo_movimiento = 3 AND cod_producto = 19 AND cod_subproducto = ".$row3["cod_subproducto"];
 			$actualizar = $actualizar." AND hornada = ".$row3[hornada]." AND numero_recarga = ".$row3[numero_recarga];
-			$actualizar = $actualizar." AND fecha_movimiento = '".$row3[fecha_movimiento]."'";
+			$actualizar = $actualizar." AND fecha_movimiento = '".$row3["fecha_movimiento"]."'";
 			$actualizar = $actualizar." AND campo1 = '".$row3[campo1]."' AND campo2 = '".$row3[campo2]."' AND unidades = ".$row3["unidades"];
 			$actualizar = $actualizar." AND fecha_benef = '".$row3[fecha_benef]."' AND peso = '".$row3["peso"]."'";
 			//echo $actualizar."<br>";

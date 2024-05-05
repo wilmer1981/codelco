@@ -106,9 +106,9 @@ function Consultar(f)
 					if ($row1 = mysqli_fetch_array($rs1))					
 					{
 						if ($row1[numero_recarga] == 0)
-							$grupos1[$row1[campo2]] = $row1[fecha_movimiento];						
+							$grupos1[$row1[campo2]] = $row1["fecha_movimiento"];						
 						else						
-							$grupos2[$row1[campo2]] = $row1[fecha_movimiento];
+							$grupos2[$row1[campo2]] = $row1["fecha_movimiento"];
 						
 						
 						$sw = true; //Encntro el primer registo, ya sea, si fue producido ó no.
