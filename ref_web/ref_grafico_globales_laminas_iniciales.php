@@ -2,6 +2,13 @@
   	include("../principal/conectar_ref_web.php");
   	include("phpchartdir.php");
 	
+	  $DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	  $MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	  $AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	  $DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	  $MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	  $AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	
 	if (strlen($DiaIni)==1)
 	   $DiaIni = "0".$DiaIni;
 	if (strlen($MesIni)==1)
@@ -13,6 +20,7 @@
 
    $FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
    $FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
+
    $consulta_fecha="select distinct fecha from ref_web.produccion where fecha between '".$FechaInicio."' and '".$FechaTermino."'";
    $respuesta_fecha=mysqli_query($link, $consulta_fecha);
    $i=0;
@@ -24,24 +32,24 @@
            $consulta_grupo1.="from ref_web.produccion where fecha ='".$row_fecha["fecha"]."' and  cod_grupo='1' ";
 		   $respuesta_grupo1=mysqli_query($link, $consulta_grupo1);
 		   $row_grupo1=mysqli_fetch_array($respuesta_grupo1);
-		   //echo $row_grupo1[total_rechazo];
-		   $arreglo_grupo1[$i]=$row_grupo1[total_rechazo];
+		   //echo $row_grupo1["total_rechazo"];
+		   $arreglo_grupo1[$i]=$row_grupo1["total_rechazo"];
 		   $consulta_grupo2="select sum(rechazo_delgadas+rechazo_gruesas+rechazo_granuladas) as total_rechazo ";
            $consulta_grupo2.="from ref_web.produccion where fecha ='".$row_fecha["fecha"]."' and  cod_grupo='2' ";
 		   $respuesta_grupo2=mysqli_query($link, $consulta_grupo2);
 		   $row_grupo2=mysqli_fetch_array($respuesta_grupo2);
-		   $arreglo_grupo2[$i]=$row_grupo2[total_rechazo];
+		   $arreglo_grupo2[$i]=$row_grupo2["total_rechazo"];
 		   $consulta_grupo7="select sum(rechazo_delgadas+rechazo_gruesas+rechazo_granuladas) as total_rechazo ";
            $consulta_grupo7.="from ref_web.produccion where fecha ='".$row_fecha["fecha"]."' and  cod_grupo='7' ";
 		   $respuesta_grupo7=mysqli_query($link, $consulta_grupo7);
 		   $row_grupo7=mysqli_fetch_array($respuesta_grupo7);
-		   $arreglo_grupo7[$i]=$row_grupo7[total_rechazo];
+		   $arreglo_grupo7[$i]=$row_grupo7["total_rechazo"];
 		   $consulta_grupo8="select sum(rechazo_delgadas+rechazo_gruesas+rechazo_granuladas) as total_rechazo ";
            $consulta_grupo8.="from ref_web.produccion where fecha ='".$row_fecha["fecha"]."' and  cod_grupo='8' ";
 		   $respuesta_grupo8=mysqli_query($link, $consulta_grupo8);
 		   $row_grupo8=mysqli_fetch_array($respuesta_grupo8);
-		   $arreglo_grupo8[$i]=$row_grupo8[total_rechazo];
-		   $total_dia[$i]=$row_grupo2[total_rechazo]+$row_grupo2[total_rechazo]+$row_grupo7[total_rechazo]+$row_grupo8[total_rechazo];
+		   $arreglo_grupo8[$i]=$row_grupo8["total_rechazo"];
+		   $total_dia[$i]=$row_grupo2["total_rechazo"]+$row_grupo2["total_rechazo"]+$row_grupo7["total_rechazo"]+$row_grupo8["total_rechazo"];
 		   
 		   $consulta_grupo="select distinct cod_grupo from ref_web.grupo_electrolitico2 where hojas_madres<>'0' order by cod_grupo";
 		   $respuesta_grupo=mysqli_query($link, $consulta_grupo);
@@ -55,7 +63,7 @@
 		       $consulta_datos_grupo.= " where fecha = '".$row_fecha_grupo["fecha"]."' and cod_grupo ='".$row_grupo["cod_grupo"]."' group by cod_grupo ";
 		       $respuesta_datos_grupo = mysqli_query($link, $consulta_datos_grupo);
 	   	       $row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-		       $produccion=$produccion+(($row_datos_grupo["hojas_madres"]*$row_datos_grupo[num_catodos_celdas])*2);
+		       $produccion=$produccion+(($row_datos_grupo["hojas_madres"]*$row_datos_grupo["num_catodos_celdas"])*2);
 			  }
 			$arreglo_porc_produccion[$i]=$produccion*0.04;   
 		   $i++;

@@ -1,15 +1,15 @@
 <?php
    include("../principal/conectar_ref_web.php");
    include("phpchartdir.php");
-   	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
+
+	$DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$cmbgrupo  = isset($_REQUEST["cmbgrupo"])?$_REQUEST["cmbgrupo"]:"";
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -18,10 +18,12 @@
 		$DiaFin = "0".$DiaFin;
 	if ($MesFin < 10)
 		$MesFin = "0".$MesFin;
+
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 	$FechaInicio2=$DiaIni."-".$MesIni."-".$AnoIni;
     $FechaTermino2=$DiaFin."-".$MesFin."-".$AnoFin;
+
    $cmbgrupo=intval($cmbgrupo);
    $consulta="select * from ref_web.produccion where cod_grupo='".$cmbgrupo."' and fecha between '".$FechaInicio."' and '".$FechaTermino."'";
    $respuesta=mysqli_query($link, $consulta);
@@ -30,9 +32,9 @@
 	  {
 	   $row["fecha"]=substr($row["fecha"],8,2).'-'.substr($row["fecha"],5,2).'-'.substr($row["fecha"],0,4);
 	   $arreglo_fecha[$i]=$row["fecha"];
-	   $arreglo_delgadas[$i]=$row[rechazo_delgadas];
-	   $arreglo_granuladas[$i]=$row[rechazo_granuladas];
-	   $arreglo_gruesas[$i]=$row[rechazo_gruesas];
+	   $arreglo_delgadas[$i]=$row["rechazo_delgadas"];
+	   $arreglo_granuladas[$i]=$row["rechazo_granuladas"];
+	   $arreglo_gruesas[$i]=$row["rechazo_gruesas"];
 	   $i++;
 	  
 	  }

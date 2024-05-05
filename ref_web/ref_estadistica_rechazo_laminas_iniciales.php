@@ -1,14 +1,16 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
+
+	$DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	
+	$cmbgrupo    = isset($_REQUEST["cmbgrupo"])?$_REQUEST["cmbgrupo"]:"";
+	$Buscar    = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -17,6 +19,7 @@
 		$DiaFin = "0".$DiaFin;
 	if ($MesFin < 10)
 		$MesFin = "0".$MesFin;
+
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 ?>
@@ -272,10 +275,10 @@ function Recuperado()
 	      {
 		   echo "<tr>\n";
 		   echo "<td align='center' class=detalle01>".$row["fecha"]."&nbsp</td>\n";
-		   echo "<td align='center'>".$row[rechazo_delgadas]."&nbsp</td>\n";
-		   echo "<td align='center'>".$row[rechazo_granuladas]."&nbsp</td>\n";
-		   echo "<td align='center'>".$row[rechazo_gruesas]."&nbsp</td>\n";
-		   $total_rechazo=$row[rechazo_delgadas]+$row[rechazo_granuladas]+$row[rechazo_gruesas];
+		   echo "<td align='center'>".$row["rechazo_delgadas"]."&nbsp</td>\n";
+		   echo "<td align='center'>".$row["rechazo_granuladas"]."&nbsp</td>\n";
+		   echo "<td align='center'>".$row["rechazo_gruesas"]."&nbsp</td>\n";
+		   $total_rechazo=$row["rechazo_delgadas"]+$row["rechazo_granuladas"]+$row["rechazo_gruesas"];
 		   echo "<td align='center'>".$total_rechazo."&nbsp</td>\n";
 		   $consulta_fecha="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where fecha <=  '".$row["fecha"]."' and cod_grupo ='0".$cmbgrupo."' group by cod_grupo";
 		   $respuesta_fecha = mysqli_query($link, $consulta_fecha);
@@ -284,7 +287,7 @@ function Recuperado()
 		   $consulta_datos_grupo.= " where fecha = '".$row_fecha["fecha"]."' and cod_grupo ='0".$cmbgrupo."' group by cod_grupo ";
 		   $respuesta_datos_grupo = mysqli_query($link, $consulta_datos_grupo);
 	   	   $row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-		   $produccion=(($row_datos_grupo["hojas_madres"]*$row_datos_grupo[num_catodos_celdas])*2);
+		   $produccion=(($row_datos_grupo["hojas_madres"]*$row_datos_grupo["num_catodos_celdas"])*2);
 		   $porcentaje_rechazado=number_format(($total_rechazo/$produccion)*100,"2",".",".");
 		   echo "<td align='center'>".$porcentaje_rechazado."&nbsp</td>\n";
 		  
@@ -322,10 +325,10 @@ function Recuperado()
 						  {
 						   echo "<tr>\n";
 						   echo "<td align='center' class=detalle01>".$row["fecha"]."&nbsp</td>\n";
-						   echo "<td align='center'>".$row[rechazo_delgadas]."&nbsp</td>\n";
-						   echo "<td align='center'>".$row[rechazo_granuladas]."&nbsp</td>\n";
-						   echo "<td align='center'>".$row[rechazo_gruesas]."&nbsp</td>\n";
-						   $total_rechazo=$row[rechazo_delgadas]+$row[rechazo_granuladas]+$row[rechazo_gruesas];
+						   echo "<td align='center'>".$row["rechazo_delgadas"]."&nbsp</td>\n";
+						   echo "<td align='center'>".$row["rechazo_granuladas"]."&nbsp</td>\n";
+						   echo "<td align='center'>".$row["rechazo_gruesas"]."&nbsp</td>\n";
+						   $total_rechazo=$row["rechazo_delgadas"]+$row["rechazo_granuladas"]+$row["rechazo_gruesas"];
 						   echo "<td align='center'>".$total_rechazo."&nbsp</td>\n";
 						   $consulta_fecha="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where fecha <=  '".$row["fecha"]."' and cod_grupo ='0".$row_grupo["cod_grupo"]."' group by cod_grupo";
 						   $respuesta_fecha = mysqli_query($link, $consulta_fecha);
@@ -334,7 +337,7 @@ function Recuperado()
 						   $consulta_datos_grupo.= " where fecha = '".$row_fecha["fecha"]."' and cod_grupo ='0".$row_grupo["cod_grupo"]."' group by cod_grupo ";
 						   $respuesta_datos_grupo = mysqli_query($link, $consulta_datos_grupo);
 						   $row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-						   $produccion=(($row_datos_grupo["hojas_madres"]*$row_datos_grupo[num_catodos_celdas])*2);
+						   $produccion=(($row_datos_grupo["hojas_madres"]*$row_datos_grupo["num_catodos_celdas"])*2);
 						   $porcentaje_rechazado=number_format(($total_rechazo/$produccion)*100,"2",".",".");
 						   echo "<td align='center'>".$porcentaje_rechazado."&nbsp</td>\n";
 						   

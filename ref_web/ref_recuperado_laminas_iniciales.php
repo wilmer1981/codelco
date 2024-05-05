@@ -1,14 +1,13 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
+
+	$DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -100,7 +99,7 @@ function detalle_anodos(fecha,grupo)
 	      {
 		    echo "<tr>\n";
 		    echo "<td align='center' class=detalle01>".$row["fecha"]."&nbsp</td>\n";
-			echo "<td align='center' class=detalle01>".$row[recuperado]."&nbsp</td>\n";
+			echo "<td align='center' class=detalle01>".$row["recuperado"]."&nbsp</td>\n";
 			$consulta_fecha="select cod_grupo,max(fecha) as fecha from ref_web.grupo_electrolitico2 where fecha <=  '".$row["fecha"]."' and cod_grupo in ('01','02','07','08') group by cod_grupo";
 		    $respuesta_fecha = mysqli_query($link, $consulta_fecha);
 			$produccion=0;
@@ -110,9 +109,9 @@ function detalle_anodos(fecha,grupo)
 		             $consulta_datos_grupo.= " where fecha = '".$row_fecha["fecha"]."' and cod_grupo='".$row_fecha["cod_grupo"]."'  group by cod_grupo ";
 		             $respuesta_datos_grupo = mysqli_query($link, $consulta_datos_grupo);
 	   	             $row_datos_grupo = mysqli_fetch_array($respuesta_datos_grupo);
-		             $produccion=$produccion+(($row_datos_grupo["hojas_madres"]*$row_datos_grupo[num_catodos_celdas])*2);
+		             $produccion=$produccion+(($row_datos_grupo["hojas_madres"]*$row_datos_grupo["num_catodos_celdas"])*2);
                     }
-			$porcentaje_recuperado=number_format(($row[recuperado]/$produccion)*100,"2",".",".");		
+			$porcentaje_recuperado=number_format(($row["recuperado"]/$produccion)*100,"2",".",".");		
 			echo "<td align='center' class=detalle01>".$porcentaje_recuperado."&nbsp</td>\n";
 
 
