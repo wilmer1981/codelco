@@ -1,8 +1,10 @@
 <?php 
    include("conectar_principal.php");
 
-    if(isset($_GET["Error"])){
-		$Error = $_GET["Error"];
+   $Orden = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+
+    if(isset($_REQUEST["Error"])){
+		$Error = $_REQUEST["Error"];
 	}else{
 		$Error = "";
 	}
@@ -146,7 +148,7 @@ a:active {
         <table width="550" border="1" align="center" cellpadding="1" cellspacing="0" class="TablaDetalle">
           <tr align="center" class="ColorTabla01"> 
             <td width="1%" height="20"><strong>Mod/Eli</strong></td>
-            <td width="10%"><strong><a href="JavaScript:Proceso('O','C');">C�digo</a></strong></td>
+            <td width="10%"><strong><a href="JavaScript:Proceso('O','C');">C&oacute;digo</a></strong></td>
             <td width="30%"><strong><a href="JavaScript:Proceso('O','N');">Nombre del Sistema</a></strong></td>
             <td width="35%"><strong><a href="JavaScript:Proceso('O','D');">Descripci&oacute;n del Sistema</a></strong></td>
             <td width="10%"><strong>Anexo</strong></td>
