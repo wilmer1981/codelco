@@ -1,37 +1,13 @@
 <?php
 	include("conectar_principal.php");
-	if(isset($_GET["Error"])){
-		$Error = $_GET["Error"];
-	}else{
-		$Error = "";
-	}
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-	if(isset($_GET["Sistema"])){
-		$Sistema = $_GET["Sistema"];
-	}else{
-		$Sistema = "";
-	}
 
-	if(isset($_GET["Modificar"])){
-		$Modificar = $_GET["Modificar"];
-	}else{
-		$Modificar = "";
-	}
-	if(isset($_GET["Orden"])){
-		$Orden = $_GET["Orden"];
-	}else{
-		$Orden = "";
-	}
-
-	if(isset($_GET["RutModif"])){
-		$RutModif = $_GET["RutModif"];
-	}else{
-		$RutModif = "";
-	}
+	$Error    = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"";
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Sistema  = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
+	$Modificar= isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:"";
+	$Orden    = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$RutModif = isset($_REQUEST["RutModif"])?$_REQUEST["RutModif"]:"";
+	$Usuario  = isset($_REQUEST["Usuario"])?$_REQUEST["Usuario"]:"";
 
 
 	$Consulta = "select * from proyecto_modernizacion.sistemas ";
@@ -114,7 +90,7 @@ function Proceso(opt,valor)
 			}
 			else
 			{
-				var msg=confirm("�Seguro que desea Eliminar Estos Usuarios?");
+				var msg=confirm("¿Seguro que desea Eliminar Estos Usuarios?");
 				if (msg==true)
 				{
 					var Largo = Valores.length;

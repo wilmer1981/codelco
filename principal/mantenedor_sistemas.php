@@ -2,12 +2,8 @@
    include("conectar_principal.php");
 
    $Orden = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
-
-    if(isset($_REQUEST["Error"])){
-		$Error = $_REQUEST["Error"];
-	}else{
-		$Error = "";
-	}
+   $Error = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"";
+   $Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
 	$CodigoDeSistema = 99;
 	$CodigoDePantalla = 1;
@@ -81,7 +77,7 @@ function Proceso(opt,valor)
 			}
 			else
 			{
-				var msg=confirm("�Seguro que desea Eliminar Estos Sistemas\nPara Eliminar un sistema debe primero\nEliminar todo lo relacionado a el\n(Usuarios, Pantallas, Niveles)?");
+				var msg=confirm("¿Seguro que desea Eliminar Estos Sistemas\nPara Eliminar un sistema debe primero\nEliminar todo lo relacionado a el\n(Usuarios, Pantallas, Niveles)?");
 				if (msg==true)
 				{
 					var Largo = Valores.length;
@@ -157,7 +153,7 @@ a:active {
           </tr>
 <?php 
 	$Consulta = "select  * from proyecto_modernizacion.sistemas ";
-	if (!isset($Orden))
+	if ($Orden=="")
 	{
 		$Consulta.= " order by cod_sistema";
 	}

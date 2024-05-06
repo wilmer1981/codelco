@@ -1,26 +1,16 @@
 <?php
 	include("conectar_principal.php");
 
-	if(isset($_GET["Error"])){
-		$Error = $_GET["Error"];
-	}else{
-		$Error = "";
-	}
-	if(isset($_GET["Mensaje"])){
-		$Mensaje = $_GET["Mensaje"];
-	}else{
-		$Mensaje = "";
-	}
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-	if(isset($_GET["Sistema"])){
-		$Sistema = $_GET["Sistema"];
-	}else{
-		$Sistema = "";
-	}
+	$Error  = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"";
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Sistema  = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	
+	$Modificar= isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:"";
+	$Orden    = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$NivelSistema  = isset($_REQUEST["NivelSistema"])?$_REQUEST["NivelSistema"]:"";
+	$NomSistema  = isset($_REQUEST["NomSistema"])?$_REQUEST["NomSistema"]:"";
+	$Descripcion =isset($_REQUEST["Descripcion"])?$_REQUEST["Descripcion"]:"";
 	
 	
 	$EstadoInput ="";

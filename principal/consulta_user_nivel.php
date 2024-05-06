@@ -1,9 +1,13 @@
 <?php
 	include("conectar_principal.php");
+
+	$Sistema     = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
+	$NivelCons   = isset($_REQUEST["NivelCons"])?$_REQUEST["NivelCons"]:"";
+
 	$Consulta = "select t1.descripcion, t2.nombre ";
 	$Consulta.= " from proyecto_modernizacion.niveles_por_sistema t1 inner join proyecto_modernizacion.sistemas t2 ";
 	$Consulta.= " on t1.cod_sistema = t2.cod_sistema";
-	$Consulta.= " where t1.cod_sistema = '".$Sistem."' ";
+	$Consulta.= " where t1.cod_sistema = '".$Sistema."' ";
 	$Consulta.= " and t1.nivel = '".$NivelCons."' ";
 	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
@@ -39,7 +43,6 @@ body {
 }
 -->
 </style><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	background-image: url(imagenes/fondo3.gif);
 }
@@ -55,7 +58,6 @@ a:hover {
 a:active {
 	color: #FFFF00;
 }
--->
 </style>
 </head>
 
@@ -88,7 +90,7 @@ a:active {
 	$Consulta = "select t2.rut, t2.apellido_paterno, t2.apellido_materno, t2.nombres, t2.cod_centro_costo ";
 	$Consulta.= " from proyecto_modernizacion.sistemas_por_usuario t1 inner join proyecto_modernizacion.funcionarios t2 ";
 	$Consulta.= " on t1.rut=t2.rut ";
-	$Consulta.= " where t1.cod_sistema = '".$Sistem."' and t1.nivel='".$NivelCons."' ";
+	$Consulta.= " where t1.cod_sistema = '".$Sistema."' and t1.nivel='".$NivelCons."' ";
 	$Consulta.= " order by apellido_paterno, apellido_materno, nombres";
 	$Resp = mysqli_query($link, $Consulta);
 	$Cont =1;

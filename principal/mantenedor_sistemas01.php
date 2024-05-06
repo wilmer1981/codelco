@@ -1,18 +1,15 @@
 <?php  
 include("conectar_principal.php");
 
-if(isset($_GET["Proceso"])){
-	$Proceso = $_GET["Proceso"];
-}else{
-	$Proceso = "";
-}
+$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
-$Sistema     = $_POST["Sistema"];
-$NomSistema  = $_POST["NomSistema"];
-$Descripcion = $_POST["Descripcion"];
-$Anexo       = $_POST["Anexo"];
-$Nivel       = $_POST["Nivel"];
-$Usuario     = $_POST["Usuario"];
+$Sistema     = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
+$NomSistema  = isset($_REQUEST["NomSistema"])?$_REQUEST["NomSistema"]:"";
+$Descripcion = isset($_REQUEST["Descripcion"])?$_REQUEST["Descripcion"]:"";
+$Anexo       = isset($_REQUEST["Anexo"])?$_REQUEST["Anexo"]:"";
+$Nivel       = isset($_REQUEST["Nivel"])?$_REQUEST["Nivel"]:"";
+$Usuario     = isset($_REQUEST["Usuario"])?$_REQUEST["Usuario"]:"";
 
 switch ($Proceso)
 {
