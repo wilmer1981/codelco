@@ -4,22 +4,14 @@ include("conectar_principal.php");
 $CodigoDeSistema = 99;
 $CodigoDePantalla = 3;
 
-if(isset($_GET["Proceso"])){
-	$Proceso = $_GET["Proceso"];
-}else{
-	$Proceso = "";
-}
-if(isset($_GET["Sistema"])){
-	$Sistema = $_GET["Sistema"];
-}else{
-	$Sistema = "";
-}
-if(isset($_GET["Orden"])){
-	$Orden = $_GET["Orden"];
-}else{
-	$Orden = "";
-}
-			
+//$Error    = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"";
+//$Modificar= isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:"";
+
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Sistema  = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
+$Orden    = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+
+		
 ?>
 <html>
 <head>

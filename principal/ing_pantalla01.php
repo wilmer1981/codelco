@@ -1,32 +1,24 @@
 <?php
 	include ("conectar_principal.php");
 
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-
-	if(isset($_REQUEST["Valores"])){
-		$Valores = $_REQUEST["Valores"];
-	}else{
-		$Valores = "";
-	}
+$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
     //VARIABLES POST 
 	//if($Proceso=="G" || $Proceso=="M"){
-		$Sistema     = $_REQUEST["Sistema"];
-		$Descripcion = $_REQUEST["Descripcion"];
-		$CodPantalla = $_REQUEST["CodPantalla"];
-		$Link        = $_REQUEST["Link"];
-		$TipoPag     = $_REQUEST["TipoPag"];
-		$Orden       = $_REQUEST["Orden"];
-		$EstPag      = $_REQUEST["EstPag"];
-		$NivelSistema  = $_REQUEST["NivelSistema"];
-		$NivelMenu     = $_REQUEST["NivelMenu"];
-		$PantAgrup     = $_REQUEST["PantAgrup"];
-		$CodSistema    = $_REQUEST["CodSistema"];
-		$NivelElim     = $_REQUEST["NivelElim"];
+		$Sistema      = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
+		$Descripcion  = isset($_REQUEST["Descripcion"])?$_REQUEST["Descripcion"]:"";
+		$CodPantalla  = isset($_REQUEST["CodPantalla"])?$_REQUEST["CodPantalla"]:"";
+		$PantAgrup    = isset($_REQUEST["PantAgrup"])?$_REQUEST["PantAgrup"]:"";
+		$NivelMenu    = isset($_REQUEST["NivelMenu"])?$_REQUEST["NivelMenu"]:"";
+		$CodSistema   = isset($_REQUEST["CodSistema"])?$_REQUEST["CodSistema"]:"";
+		$NivelSistema = isset($_REQUEST["NivelSistema"])?$_REQUEST["NivelSistema"]:"";
+		$Link         = isset($_REQUEST["Link"])?$_REQUEST["Link"]:"";
+		$Orden        = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+		$TipoPag      = isset($_REQUEST["TipoPag"])?$_REQUEST["TipoPag"]:"";
+		$EstPag       = isset($_REQUEST["EstPag"])?$_REQUEST["EstPag"]:"";
+		$NivelElim    = isset($_REQUEST["NivelElim"])?$_REQUEST["NivelElim"]:"";
 	//}
 
 	switch ($Proceso)

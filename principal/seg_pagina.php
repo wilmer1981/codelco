@@ -1,38 +1,15 @@
 <?php 
 	include("conectar_principal.php");
 
-	if(isset($_REQUEST["CodSistema"])){
-		$CodSistema = $_REQUEST["CodSistema"];
-	}else{
-		$CodSistema = "";
-	}
-	if(isset($_REQUEST["CodPantalla"])){
-		$CodPantalla = $_REQUEST["CodPantalla"];
-	}else{
-		$CodPantalla = "";
-	}
-	if(isset($_REQUEST["NivelSistema"])){
-		$NivelSistema = $_REQUEST["NivelSistema"];
-	}else{
-		$NivelSistema = "";
-	}
-	if(isset($_REQUEST["NivelMenu"])){
-		$NivelMenu = $_REQUEST["NivelMenu"];
-	}else{
-		$NivelMenu = "";
-	}
-
-	if(isset($_GET["Mensaje"])){
-		$Mensaje = $_GET["Mensaje"];
-	}else{
-		$Mensaje = "";
-	}
+$CodSistema   = isset($_REQUEST["CodSistema"])?$_REQUEST["CodSistema"]:"";
+$CodPantalla  = isset($_REQUEST["CodPantalla"])?$_REQUEST["CodPantalla"]:"";
+$NivelSistema = isset($_REQUEST["NivelSistema"])?$_REQUEST["NivelSistema"]:"";
+$NivelMenu    = isset($_REQUEST["NivelMenu"])?$_REQUEST["NivelMenu"]:"";
+$Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+$PantAgrup      = isset($_REQUEST["PantAgrup"])?$_REQUEST["PantAgrup"]:"";
 
 
-	//PantAgrup: 0
-	
-	
-	
+	//PantAgrup: 0	
 
 ?>
 <html>
@@ -84,7 +61,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				var msg = confirm("�Seguro que desea Eliminar esta Pantalla de este Nivel?");
+				var msg = confirm("¿Seguro que desea Eliminar esta Pantalla de este Nivel?");
 				if (msg == true)
 				{
 					f.action = "ing_pantalla01.php?Proceso=ELI_SEG&NivelElim=" + Valor;
@@ -144,7 +121,7 @@ body {
 			echo "Error, Sistema no Encontrado...Favor Cierre la ventana";
 		}
 		?>
-          <input type="text" name="CodSistema" value="<?php echo $CodSistema;?>"></td>
+          <input type="hidden" name="CodSistema" value="<?php echo $CodSistema;?>"></td>
       </tr>
       <tr> 
         <td align="center" valign="middle"><img src="imagenes/left-flecha.gif" width="11" height="11"></td>
@@ -163,7 +140,7 @@ body {
 			echo "Error, Sistema no Encontrado...Favor Cierre la ventana";
 		}
 		?>
-          <input type="text" name="CodPantalla" value="<?php echo $CodPantalla;?>"></td>
+          <input type="hidden" name="CodPantalla" value="<?php echo $CodPantalla;?>"></td>
       </tr>
       <tr> 
         <td colspan="2" valign="middle"><strong>Nuevo Acceso</strong></td>
@@ -202,7 +179,7 @@ body {
 				{
 					if ($i == 0)
 					{
-						echo "<option selected value='".$i."'>Men� Principal del Sistema</option>\n";
+						echo "<option selected value='".$i."'>Men&uacute; Principal del Sistema</option>\n";
 					}
 					else
 					{
@@ -213,7 +190,7 @@ body {
 				{
 					if ($i == 0)
 					{
-						echo "<option value='".$i."'>Men� Principal del Sistema</option>\n";
+						echo "<option value='".$i."'>Men&uacute; Principal del Sistema</option>\n";
 					}
 					else
 					{
@@ -230,7 +207,7 @@ body {
         <td><select name="PantAgrup" style="width:300px">
            <!-- <option value="S">Seleccionar Dependencia</option>-->
             <?php 
-				if ((isset($NivelMenu)) && ($NivelMenu != "S"))
+				if ($NivelMenu!="" && $NivelMenu != "S")
 				{
 					if ($NivelMenu == 0)
 					{
@@ -270,12 +247,13 @@ body {
 <div style="position:absolute; left: 7px; top: 180px; width: 357px; height: 26px;">
 <table border="0" align="center" cellpadding="3" cellspacing="0" class="TablaDetalle">
           <tr class="ColorTabla01"> 
-            <td colspan="6">Diagrama de Men� Seg�n Sistema y 
+            <td colspan="6">Diagrama de Men&uacute; Seg&uacute;n Sistema y 
               Nivel de Acceso
 			</td>
           </tr>
           <?php
-if (((isset($NivelSistema)) && ($NivelSistema != "S")) && ((isset($CodSistema)) && ($CodSistema != "S")))
+//if (((isset($NivelSistema)) && ($NivelSistema != "S")) && ((isset($CodSistema)) && ($CodSistema != "S")))
+if (($NivelSistema!="" && $NivelSistema != "S") && ($CodSistema!="" && $CodSistema != "S"))
 {
   	$sql = "select t1.cod_pantalla, t2.descripcion from acceso_menu t1, pantallas t2 ";
 	$sql.= " where t1.cod_sistema = '".$CodSistema."' ";
@@ -321,10 +299,12 @@ if (((isset($NivelSistema)) && ($NivelSistema != "S")) && ((isset($CodSistema)) 
 				echo "<td colspan=3>&nbsp;</td>";
 				echo "</tr>";
 				$sql = "select t1.cod_pantalla, t2.descripcion from acceso_menu t1, pantallas t2 ";
-				$sql.= " where t1.cod_sistema = '".$Sistema."' ";
+				//$sql.= " where t1.cod_sistema = '".$Sistema."' ";
+				$sql.= " where t1.cod_sistema = '".$CodSistema."' ";
 				$sql.= " and t1.cod_pantalla = t2.cod_pantalla ";
 				$sql.= " and t1.cod_sistema = t2.cod_sistema ";
-				$sql.= " and t1.nivel = '".$Nivel."' ";
+				//$sql.= " and t1.nivel = '".$Nivel."' ";
+				$sql.= " and t1.nivel = '".$NivelSistema."' ";
 				$sql.= " and t1.nivel_agrup = 3 ";
 				$sql.= " and t1.cod_pant_agrup = '".$row2["cod_pantalla"]."' ";
 				$result3 = mysqli_query($link, $sql);
@@ -336,10 +316,12 @@ if (((isset($NivelSistema)) && ($NivelSistema != "S")) && ((isset($CodSistema)) 
 					echo "<td colspan=2>&nbsp;</td>";
 					echo "</tr>";
 					$sql = "select t1.cod_pantalla, t2.descripcion from acceso_menu t1, pantallas t2 ";
-					$sql.= " where t1.cod_sistema = '".$Sistema."' ";
+					//$sql.= " where t1.cod_sistema = '".$Sistema."' ";
+					$sql.= " where t1.cod_sistema = '".$CodSistema."' ";
 					$sql.= " and t1.cod_pantalla = t2.cod_pantalla ";
 					$sql.= " and t1.cod_sistema = t2.cod_sistema ";
-					$sql.= " and t1.nivel = '".$Nivel."' ";
+					//$sql.= " and t1.nivel = '".$Nivel."' ";
+					$sql.= " and t1.nivel = '".$NivelSistema."' ";
 					$sql.= " and t1.nivel_agrup = 4 ";
 					$sql.= " and t1.cod_pant_agrup = '".$row3["cod_pantalla"]."' ";
 					$result4 = mysqli_query($link, $sql);
@@ -351,10 +333,12 @@ if (((isset($NivelSistema)) && ($NivelSistema != "S")) && ((isset($CodSistema)) 
 						echo "<td>&nbsp;</td>";
 						echo "</tr>";
 						$sql = "select t1.cod_pantalla, t2.descripcion from acceso_menu t1, pantallas t2 ";
-						$sql.= " where t1.cod_sistema = ".$Sistema."' ";
+						//$sql.= " where t1.cod_sistema = ".$Sistema."' ";
+						$sql.= " where t1.cod_sistema = '".$CodSistema."' ";
 						$sql.= " and t1.cod_pantalla = t2.cod_pantalla ";
 						$sql.= " and t1.cod_sistema = t2.cod_sistema ";
-						$sql.= " and t1.nivel = '".$Nivel."' ";
+						//$sql.= " and t1.nivel = '".$Nivel."' ";
+						$sql.= " and t1.nivel = '".$NivelSistema."' ";
 						$sql.= " and t1.nivel_agrup = 5 ";
 						$sql.= " and t1.cod_pant_agrup = '".$row4["cod_pantalla"]."' ";
 						$result5 = mysqli_query($link, $sql);

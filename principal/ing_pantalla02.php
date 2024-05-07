@@ -1,58 +1,16 @@
 <?php
 	include("conectar_principal.php");
-	
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-	if(isset($_GET["Sistema"])){
-		$Sistema = $_GET["Sistema"];
-	}else{
-		$Sistema = "";
-	}
-	if(isset($_GET["Rec"])){
-		$Rec = $_GET["Rec"];
-	}else{
-		$Rec = "";
-	}
-	if(isset($_GET["Error"])){
-		$Error = $_GET["Error"];
-	}else{
-		$Error = "";
-	}
-	if(isset($_GET["CodPantalla"])){
-		$CodPantalla = $_GET["CodPantalla"];
-	}else{
-		$CodPantalla = "";
-	}
-	if(isset($_GET["Error"])){
-		$Error = $_GET["Error"];
-	}else{
-		$Error = "";
-	}
-	if(isset($_GET["Mensaje"])){
-		$Mensaje = $_GET["Mensaje"];
-	}else{
-		$Mensaje = "";
-	}
 
-
-	if(isset($_POST["TipoPag"])){
-		$TipoPag = $_POST["TipoPag"];
-	}else{
-		$TipoPag = "";
-	}
-	if(isset($_POST["Descripcion"])){
-		$Descripcion = $_POST["Descripcion"];
-	}else{
-		$Descripcion = "";
-	}
-	if(isset($_POST["Link"])){
-		$Link = $_POST["Link"];
-	}else{
-		$Link = "";
-	}
+$Error    = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"";
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Sistema  = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
+$Orden    = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+$Rec      = isset($_REQUEST["Rec"])?$_REQUEST["Rec"]:"";
+$CodPantalla  = isset($_REQUEST["CodPantalla"])?$_REQUEST["CodPantalla"]:"";
+$TipoPag      = isset($_REQUEST["TipoPag"])?$_REQUEST["TipoPag"]:"";
+$Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+$Descripcion  = isset($_REQUEST["Descripcion"])?$_REQUEST["Descripcion"]:"";
+$Link         = isset($_REQUEST["Link"])?$_REQUEST["Link"]:"";
 
 
 	$Consulta = "select * from proyecto_modernizacion.sistemas ";
@@ -64,7 +22,8 @@
 		$NomSistema = $Fila["nombre"];
 		//echo "<br>NomSistema:".$NomSistema;
 
-	if ((isset($Sistema)) && ($Sistema != "S") && ($Proceso == "N"))
+	//if ((isset($Sistema)) && ($Sistema != "S") && ($Proceso == "N"))
+	if (($Sistema!="") && ($Sistema != "S") && ($Proceso == "N"))
 	{
 
 		//$Sistema   = $_POST["Sistema"];
