@@ -1,11 +1,9 @@
 <?php
 	include("../principal/conectar_principal.php");	
+	$nodo     = isset($_REQUEST["nodo"])?$_REQUEST["nodo"]:"";
+	$sistema  = isset($_REQUEST["sistema"])?$_REQUEST["sistema"]:"";
 
-	if(isset($_GET["Valores"])){
-		$Valores = $_GET["Valores"];
-	}else{
-		$Valores = "";
-	}
+	$Valores     = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
 ?>
 <html>

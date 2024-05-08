@@ -1,14 +1,9 @@
 <?php 	
 	include("../principal/conectar_comet_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	if (!isset($CmbMes))
-	{
-		$CmbMes=date('n');
-	}
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-	}
+
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	
 ?>
 <html>
@@ -59,10 +54,10 @@ function Salir()
 		echo "<tr>"; 
 		echo "<td width='30' align='right'>".trim($Fila["tipo_calculo"])."</td>";
 		echo "<td width='200' align='left'>".trim($Fila["nombre_subclase"])."</td>";
-		echo "<td width='100' align='right'>".number_format($Fila[valor_plata],4,',','.')."</td>";
-		echo "<td width='100' align='right'>".number_format($Fila[valor_oro],4,',','.')."</td>";
-		echo "<td width='70' align='right'>".number_format($Fila[gastos_fabric_plata],2,',','.')."</td>";
-		echo "<td width='70' align='right'>".number_format($Fila[gastos_fabric_oro],2,',','.')."</td>";
+		echo "<td width='100' align='right'>".number_format($Fila["valor_plata"],4,',','.')."</td>";
+		echo "<td width='100' align='right'>".number_format($Fila["valor_oro"],4,',','.')."</td>";
+		echo "<td width='70' align='right'>".number_format($Fila["gastos_fabric_plata"],2,',','.')."</td>";
+		echo "<td width='70' align='right'>".number_format($Fila["gastos_fabric_oro"],2,',','.')."</td>";
 		echo "<td width='70' align='right'>0</td>";
 		echo "<td width='70' align='right'>0</td>";
 		echo "<td width='70' align='right'>0</td>";

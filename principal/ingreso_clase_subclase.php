@@ -3,27 +3,23 @@
 	$CodigoDePantalla = 9;
 	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	if (!isset($CmbMes))
-	{
-		$CmbMes=date('n');
-	}
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-	}
-
-
 	
-	if(isset($_POST["CmbSistema"])){
-		$CmbSistema = $_POST["CmbSistema"];
-	}else{
-		$CmbSistema = "";
-		
-	}
+	
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+
+	$CmbSistema = isset($_REQUEST["CmbSistema"])?$_REQUEST["CmbSistema"]:"";
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+
+
+/*
 	if(isset($_GET["EncontroRelacion"])){
 		$CmbSistema = $_GET["CmbSistema"];
 	}
-
+*/
+if($EncontroRelacion!=""){
+	$CmbSistema = $CmbSistema;
+}
 	
 ?>
 <html>
@@ -263,11 +259,12 @@ function Salir()
 </body>
 </html>
 <?php
-	$EncontroRelacion=false;
-	if ($EncontroRelacion==true)
-	{
-		echo "<script languaje='javascript'>";
-		echo "alert('Algunos Elementos No Fueron Eliminados por Tener SubClases Asociadas');";
-		echo "</script>";
+	if($EncontroRelacion!=""){
+		if ($EncontroRelacion==true)
+		{
+			echo "<script languaje='javascript'>";
+			echo "alert('Algunos Elementos No Fueron Eliminados por Tener SubClases Asociadas');";
+			echo "</script>";
+		}
 	}
 ?>

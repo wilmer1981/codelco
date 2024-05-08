@@ -2,25 +2,15 @@
 	//include("../principal/conectar_comet_web.php");
 	include("conectar_principal.php");
 
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbSistema2 = isset($_REQUEST["CmbSistema2"])?$_REQUEST["CmbSistema2"]:"";
+	$Valores     = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
-	if(isset($_GET["Valores"])){
-		$Valores = $_GET["Valores"];
-	}else{
-		$Valores = "";
-	}
+	$TxtDescripcion     = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$TxtValor1     = isset($_REQUEST["TxtValor1"])?$_REQUEST["TxtValor1"]:"";
+	$TxtValor2     = isset($_REQUEST["TxtValor2"])?$_REQUEST["TxtValor2"]:"";
 
-	if(isset($_GET["CmbSistema2"])){
-		$CmbSistema2 = $_GET["CmbSistema2"];
-	}else{
-		$CmbSistema2 = "";
-	} 
-	
-	
+	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";
 
 /*
 	if(isset($_GET["Proceso"])=="NC"){
@@ -28,28 +18,6 @@
 	}else{
 		$CmbSistema2 = "";
 	}*/
-
-	//ingreso_clase_subclase_proceso.php?Proceso=MC&Valores=34001&CmbSistema2=34
-
-
-
-
-	if(isset($_POST["TxtDescripcion"])){
-		$TxtDescripcion = $_POST["TxtDescripcion"];
-	}else{
-		$TxtDescripcion = "";
-	}
-	if(isset($_POST["TxtValor1"])){
-		$TxtValor1 = $_POST["TxtValor1"];
-	}else{
-		$TxtValor1 = "";
-	}
-	if(isset($_POST["TxtValor2"])){
-		$TxtValor2 = $_POST["TxtValor2"];
-	}else{
-		$TxtValor2 = "";
-	}
-
 	
 	switch($Proceso)
 	{
@@ -201,7 +169,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroCoincidencia))
+	if ($EncontroCoincidencia!="")
 	{
 		if ($EncontroCoincidencia==true)
 		{

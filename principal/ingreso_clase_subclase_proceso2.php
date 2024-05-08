@@ -2,22 +2,11 @@
 	//include("../principal/conectar_comet_web.php");
 	include("../principal/conectar_principal.php");
 
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-	if(isset($_GET["Valores"])){
-		$Valores    = $_GET["Valores"];
-	}else{
-		$Valores = "";
-	}
-	if(isset($_GET["cod_subclase"])){
-		$cod_subclase    = $_GET["cod_subclase"];
-	}else{
-		$cod_subclase  = "";
-	}
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores     = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$cod_subclase = isset($_REQUEST["cod_subclase"])?$_REQUEST["cod_subclase"]:"";
 
+	$Recarga     = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
 
 	$Datos=explode('//',$Valores);
 	$TxtCodigo=$Datos[0];

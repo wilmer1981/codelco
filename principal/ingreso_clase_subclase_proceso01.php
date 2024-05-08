@@ -1,86 +1,25 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-	if(isset($_GET["Valores"])){
-		$Valores = $_GET["Valores"];
-	}else{
-		$Valores = "";
-	}
-	if(isset($_GET["CmbSistema2"])){
-		$CmbSistema2 = $_GET["CmbSistema2"];
-	}else{
-		$CmbSistema2 = "";
-	}
 
-	if(isset($_REQUEST["TxtCodigo"])){
-		$TxtCodigo      = $_REQUEST["TxtCodigo"];
-	}else{
-		$TxtCodigo = "";
-	}
-	if(isset($_REQUEST["CmbSistema"])){
-		$CmbSistema     = $_REQUEST["CmbSistema"];
-	}else{
-		$CmbSistema = "";
-	}
 
-	if(isset($_REQUEST["TxtCodSubClase"])){
-		$TxtCodSubClase = $_REQUEST["TxtCodSubClase"];
-	}else{
-		$TxtCodSubClase = "";
-	}
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbSistema2 = isset($_REQUEST["CmbSistema2"])?$_REQUEST["CmbSistema2"]:"";
+	$Valores     = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$TxtCodigo   = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
+	$TxtDescripcion     = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$TxtValor1     = isset($_REQUEST["TxtValor1"])?$_REQUEST["TxtValor1"]:"";
+	$TxtValor2     = isset($_REQUEST["TxtValor2"])?$_REQUEST["TxtValor2"]:"";
 
-	if(isset($_REQUEST["TxtNombre"])){
-		$TxtNombre = $_REQUEST["TxtNombre"];
-	}else{
-		$TxtNombre = "";
-	}
-	if(isset($_REQUEST["TxtDescripcion"])){
-		$TxtDescripcion = $_REQUEST["TxtDescripcion"];
-	}else{
-		$TxtDescripcion = "";
-	}
-	if(isset($_REQUEST["TxtValor1"])){
-		$TxtValor1 = $_REQUEST["TxtValor1"];
-	}else{
-		$TxtValor1 = "";
-	}
-	if(isset($_REQUEST["TxtValor2"])){
-		$TxtValor2 = $_REQUEST["TxtValor2"];
-	}else{
-		$TxtValor2 = "";
-	}
-	if(isset($_REQUEST["TxtValor3"])){
-		$TxtValor3 = $_REQUEST["TxtValor3"];
-	}else{
-		$TxtValor3 = "";
-	}
-	if(isset($_REQUEST["TxtValor4"])){
-		$TxtValor4 = $_REQUEST["TxtValor4"];
-	}else{
-		$TxtValor4 = "";
-	}
-	if(isset($_REQUEST["TxtValor5"])){
-		$TxtValor5 = $_REQUEST["TxtValor5"];
-	}else{
-		$TxtValor5 = "";
-	}
-	if(isset($_REQUEST["TxtValor6"])){
-		$TxtValor6 = $_REQUEST["TxtValor6"];
-	}else{
-		$TxtValor6 = "";
-	}
-	if(isset($_REQUEST["TxtValor7"])){
-		$TxtValor7 = $_REQUEST["TxtValor7"];
-	}else{
-		$TxtValor7 = "";
-	}
+	$CmbSistema = isset($_REQUEST["CmbSistema"])?$_REQUEST["CmbSistema"]:"";
+	$TxtCodSubClase = isset($_REQUEST["TxtCodSubClase"])?$_REQUEST["TxtCodSubClase"]:"";
+	$TxtNombre  = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$CmbSistema = isset($_REQUEST["CmbSistema"])?$_REQUEST["CmbSistema"]:"";
+	$TxtValor3  = isset($_REQUEST["TxtValor3"])?$_REQUEST["TxtValor3"]:"";
+	$TxtValor4  = isset($_REQUEST["TxtValor4"])?$_REQUEST["TxtValor4"]:"";
+	$TxtValor5  = isset($_REQUEST["TxtValor5"])?$_REQUEST["TxtValor5"]:"";
+	$TxtValor6  = isset($_REQUEST["TxtValor6"])?$_REQUEST["TxtValor6"]:"";
+	$TxtValor7  = isset($_REQUEST["TxtValor7"])?$_REQUEST["TxtValor7"]:"";
 
-	//http://localhost/proyecto/principal/ingreso_clase_subclase_proceso01.php?Proceso=MC&TxtCodigo=34001&Valores=34001
-	//                                   ingreso_clase_subclase_proceso.php?Proceso=MC&Valores=34001&CmbSistema2=34
 	$EncontroRelacion=false;
 	switch ($Proceso)
 	{
@@ -155,7 +94,8 @@
 		}
 		else
 		{
-			header("location:ingreso_clase_subclase_proceso2.php?Proceso=NS&Valores=".$Valores);
+			//header("location:ingreso_clase_subclase_proceso2.php?Proceso=NS&Valores=".$Valores);
+			header("location:ingreso_clase_subclase_proceso2.php?Proceso=NS&Valores=".$TxtCodigo);
 		}	
 	}	
 ?>
