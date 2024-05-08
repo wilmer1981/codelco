@@ -89,9 +89,9 @@
 				{
 					$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila[valor1];//VALOR LEY PQTE 1 
 					$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila[valor2];//VALOR LEY PQTE 2 
-					$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila[valor3];//VALOR LEY PQTE 3 		
-					$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila[valor3];//VALOR LEY PQTE 3 
-					$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila[valor4];//VALOR LEY PQTE 4 
+					$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"];//VALOR LEY PQTE 3 		
+					$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"];//VALOR LEY PQTE 3 
+					$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila["valor4"];//VALOR LEY PQTE 4 
 					$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila[valor_retalla];//LEY RETALLA
 					$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila[inc_retalla];//INCIDENCIA RETALLA
 					$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila[ley_canje];//LEY CANJE

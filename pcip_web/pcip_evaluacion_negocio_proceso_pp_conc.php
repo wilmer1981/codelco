@@ -846,7 +846,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 						echo "<td width='15%' align='center'>".$Fila[nom_precio]."</td>";
 						echo "<td width='15%' align='center'>".$Fila[nom_unidad]."</td>";
 						echo "<td width='15%' align='center'>".$Fila[valor]."</td>";
-						echo "<td width='15%' align='center'>".$Fila[valor2]."</td>";
+						echo "<td width='15%' align='center'>".$Fila["valor2"]."</td>";
 						echo "<td width='15%' align='center'>".$QP."</td>";
 						echo "<tr>";	
 				   }

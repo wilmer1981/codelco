@@ -1,11 +1,42 @@
 <?php 	
 	include("../principal/conectar_principal.php");
 
+	
+	$TProceso  = isset($_REQUEST["TProceso"])?$_REQUEST["TProceso"]:"";
+	$Busq      = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$Datos     = isset($_REQUEST["Datos"])?$_REQUEST["Datos"]:"";
+	$RecPag    = isset($_REQUEST["RecPag"])?$_REQUEST["RecPag"]:"";
+	$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbCantP       = isset($_REQUEST["CmbCantP"])?$_REQUEST["CmbCantP"]:"";
+	$CmbTipoF       = isset($_REQUEST["CmbTipoF"])?$_REQUEST["CmbTipoF"]:"";
+	$CmbLey         = isset($_REQUEST["CmbLey"])?$_REQUEST["CmbLey"]:"";	
+
+	$TxtValor1 = isset($_REQUEST["TxtValor1"])?$_REQUEST["TxtValor1"]:"";
+	$TxtValor2 = isset($_REQUEST["TxtValor2"])?$_REQUEST["TxtValor2"]:"";
+	$TxtValor3 = isset($_REQUEST["TxtValor3"])?$_REQUEST["TxtValor3"]:"";
+	$TxtValor4 = isset($_REQUEST["TxtValor4"])?$_REQUEST["TxtValor4"]:"";
+
+	if(!isset($Valores)){
+		$Valores = explode('~', $Datos);
+	}
+	if($Valores[0]<>''){
+		$CodAsig=str_replace('*',' ',$Valores[0]);
+		$CodSubProd=$Valores[1];
+		$RutPrv=$Valores[2];
+		$CodLey=$Valores[3];
+	}
+	
+	/*
 	$Valores=explode('~',$Datos);
 	$CodAsig=str_replace('*',' ',$Valores[0]);
-	$CodSubProd=$Valores[1];
-	$RutPrv=$Valores[2];
-	$CodLey=$Valores[3];
+	$CodSubProd=isset($Valores[1])?$Valores[1]:"";
+	$RutPrv    =isset($Valores[2])?$Valores[2]:"";
+	$CodLey    =isset($Valores[3])?$Valores[3]:"";
+	*/
+
 	$Consulta="select t1.cod_recepcion,t1.cod_subproducto,t1.rut_proveedor,t1.cod_leyes,t2.descripcion, nombre_prv,valor1,valor2,valor3,valor4 from age_web.deduc_metalurgicas t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 	$Consulta.="left join sipa_web.proveedores t3 on t1.rut_proveedor=t3.rut_prv where t1.cod_recepcion<>'' ";
 	$Consulta.="and t1.cod_recepcion='$CodAsig'";
@@ -33,10 +64,10 @@
 				$Ley='Au';
 				break;
 		}	
-		$TxtValor1=$FilaDeduc[valor1];
-		$TxtValor2=$FilaDeduc[valor2];
-		$TxtValor3=$FilaDeduc[valor3];
-		$TxtValor4=$FilaDeduc[valor4];
+		$TxtValor1=$FilaDeduc["valor1"];
+		$TxtValor2=$FilaDeduc["valor2"];
+		$TxtValor3=$FilaDeduc["valor3"];
+		$TxtValor4=$FilaDeduc["valor4"];
 	
 	}
 	

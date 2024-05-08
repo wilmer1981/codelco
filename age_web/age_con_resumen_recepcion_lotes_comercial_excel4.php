@@ -852,11 +852,11 @@ function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv
 		$ValorLey=abs(doubleval($ValorLey));
 		$Valor1=abs(doubleval($FilaDeduc[valor1]));
 		$Valor2=abs(doubleval($FilaDeduc[valor2]));
-		$Valor3=abs(doubleval($FilaDeduc[valor3]));
-		$Valor4=abs(doubleval($FilaDeduc[valor4]));
+		$Valor3=abs(doubleval($FilaDeduc["valor3"]));
+		$Valor4=abs(doubleval($FilaDeduc["valor4"]));
 		$TipoForm=abs(doubleval($FilaDeduc[tipo_formula]));
 		//echo $TipoForm."<br>";
-		switch($FilaDeduc[cant_param])
+		switch($FilaDeduc["cant_param"])
 		{
 			case "1":
 				switch($TipoForm)
@@ -913,7 +913,7 @@ function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv
 				echo $PSeco."<br>";
 				echo $Valor1."<br>";
 				echo $FilaDeduc[valor2]."<br>";
-				echo $FilaDeduc[valor3]."<br><br>";*/
+				echo $FilaDeduc["valor3"]."<br><br>";*/
 				if($ValorLey<=$Valor1)
 					$ValorDed=$ValorFino;
 				else

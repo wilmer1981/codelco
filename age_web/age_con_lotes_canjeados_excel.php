@@ -151,7 +151,7 @@
 					echo "<td>$Fila[lote]</td>";
 					echo "<td>$Fila["nom_subproducto"]</td>";
 					echo "<td>".$Fila["rut_proveedor"]." ".$Fila[nom_prv]."</td>";
-					echo "<td>$Fila[cod_recepcion]</td>";
+					echo "<td>$Fila["cod_recepcion"]</td>";
 					echo "<td align='right'>".number_format($DatosLote[peso_humedo],0,'','.')."</td>";
 					echo "<td align='right'>".number_format($DatosLote[peso_seco],0,'','.')."</td>";
 					echo "</tr>";

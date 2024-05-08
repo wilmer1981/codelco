@@ -280,7 +280,7 @@ function ModificacionSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto
 	if ($Fila2=mysql_fetch_array($Respuesta2))
 	{
 		$CC=$Fila2[valor1];
-		$Area=$Fila2[valor2];	
+		$Area=$Fila2["valor2"];	
 	}
 	
 	$Consulta ="SELECT * from cal_web.solicitud_analisis where id_muestra = '".$Lote."' and cod_producto ='".$Producto."' ";

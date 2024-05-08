@@ -1,5 +1,24 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Formula      = isset($_REQUEST["Formula"])?$_REQUEST["Formula"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$CmbRecepcion    = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"S";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"S";
+	$CmbProveedor    = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"S";
+	$CmbCantP       = isset($_REQUEST["CmbCantP"])?$_REQUEST["CmbCantP"]:"";
+	$CmbTipoF       = isset($_REQUEST["CmbTipoF"])?$_REQUEST["CmbTipoF"]:"";
+	$CmbLey         = isset($_REQUEST["CmbLey"])?$_REQUEST["CmbLey"]:"";	
+
+	$TxtValor1    = isset($_REQUEST["TxtValor1"])?$_REQUEST["TxtValor1"]:"";
+	$TxtValor2    = isset($_REQUEST["TxtValor2"])?$_REQUEST["TxtValor2"]:"";
+	$TxtValor3    = isset($_REQUEST["TxtValor3"])?$_REQUEST["TxtValor3"]:"";
+	$TxtValor4    = isset($_REQUEST["TxtValor4"])?$_REQUEST["TxtValor4"]:"";
+
+	
+	
 	switch ($Proceso)
 	{
 		case "G":
@@ -29,8 +48,8 @@
 			//echo $Consultar;
 			if ($Fila = mysqli_fetch_array($Resp))
 			{
-				$Actualiza = "Update age_web.deduc_metalurgicas set cant_param = '".$CmbCantP."',valor1 = '".$TxtValor1."', '".$TxtValor2."',valor3 = '".$TxtValor3."',";
-				$Actualiza.="valor4 = '".$TxtValor4."',tipo_formula = �".$CmbTipoF."',formula ='".$Formula."' where cod_recepcion = '".$CmbRecepcion."' and cod_producto = 1 and ";
+				$Actualiza = "UPDATE age_web.deduc_metalurgicas set cant_param = '".$CmbCantP."',valor1 = '".$TxtValor1."',valor2 = '".$TxtValor2."',valor3 = '".$TxtValor3."',";
+				$Actualiza.="valor4 = '".$TxtValor4."',tipo_formula ='".$CmbTipoF."',formula ='".$Formula."' WHERE cod_recepcion = '".$CmbRecepcion."' and cod_producto = 1 and ";
 				$Actualiza.=" cod_subproducto = '".$CmbSubProducto."' and rut_proveedor = '".$CmbProveedor."' and cod_leyes = '".$CmbLey."'";
 				//echo $Actualiza;
 				mysqli_query($link, $Actualiza);

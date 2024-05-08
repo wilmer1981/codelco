@@ -53,7 +53,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	{
 		$Consulta.= " and (";
 		reset($Leyes);
-		while (list($k,$v)=each($Leyes))
+		foreach($Leyes as $k => $v)
 		{			
 			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
 		}
@@ -88,7 +88,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 		{
 			$Consulta.= " and (";
 			reset($Leyes);
-			while (list($k,$v)=each($Leyes))
+			foreach($Leyes as $k => $v)
 			{			
 				$Consulta.= " t1.cod_leyes='".$v[0]."' or";
 			}
@@ -140,11 +140,12 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	$DescMerma="";
 	$PorcMerma=0;
 	$Fin=false;
-	BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma);
+	BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma, $link);
 	if (!$Fin)
-		BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma);
+		BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma, $link);
 	if (!$Fin)
-		BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma);
+		BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma, $link);
+
 	//VALOR MERMA
 	$Leyes["01"][30] = $PorcMerma;
 	$Leyes["01"][31] = $DescMerma;
@@ -163,7 +164,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	$Consulta.= " and provisional = 'S' ";
 	$RespProvi=mysqli_query($link, $Consulta);
 	if (!$FilaProvi=mysqli_fetch_array($RespProvi))
-		ValoresRetalla($Lote,$Leyes,$IncRetalla);
+		ValoresRetalla($Lote,$Leyes,$IncRetalla,$link);
 	//CALCULA FINOS
 	reset($Leyes);
 	do {			 
@@ -179,7 +180,7 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 {
 	$ArrLeyesLote=array();
 	reset($ArrLeyesProd);
-	while(list($k,$v)=each($ArrLeyesProd))
+	foreach($ArrLeyesProd as $k => $v)
 	{
 		$ArrLeyesLote[$k][0]=$k;
 	}
@@ -227,7 +228,7 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 			$ArrLeyesLote[$k][10] = "";
 		} while (next($ArrLeyesLote));	
 		$ArrDatosLote["lote"]=$FilaProd["lote"];
-		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre);
+		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre,$link);
 		if ($ArrDatosLote["tipo_remuestreo"]=="A")
 		{
 			$ArrDatosLote["peso_humedo"]=$ArrDatosLote["peso_humedo_ori"];
@@ -257,7 +258,7 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 		$TotalPesoBrutoProd=$TotalPesoBrutoProd + $ArrDatosLote["peso_bruto"];
 		$TotalPesoNetoProd=$TotalPesoNetoProd + $ArrDatosLote["peso_neto"];
 		reset($ArrLeyesLote);
-		while (list($k,$v)=each($ArrLeyesLote))
+		foreach($ArrLeyesLote as $k => $v)
 		{
 			if ($ArrDatosLote["peso_seco2"]!=0 && $v[2]!=0 && $v[5]!=0) 
 			{
@@ -370,7 +371,7 @@ function LeyesFlujo($Flujo,$ArrDatosFlujo,$ArrLeyesFlujo,$EntreFechas,$IncMerma,
 		$TotalPesoHumFlujo=$TotalPesoHumFlujo  + $ArrDatosProv["peso_humedo"];
 		$TotalPesoSecoFlujo=$TotalPesoSecoFlujo + $ArrDatosProv["peso_seco3"];
 		reset($ArrLeyesProv);
-		while (list($k,$v)=each($ArrLeyesProv))
+		foreach($ArrLeyesProv as $k => $v)
 		{
 			if ($ArrDatosProv["peso_seco"]!=0 && $v[2]!=0 && $v[5]!=0) 
 				$ArrLeyesFlujo[$k][2] = $ArrLeyesFlujo[$k][2] + $v[23];//(($ArrDatosProv["peso_seco"] * $v[2])/$v[5]);//VALOR
@@ -424,7 +425,7 @@ function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeye
 {
 	$ArrLeyesLote=array();
 	reset($ArrLeyesProv);
-	while (list($k,$v)=each($ArrLeyesProv))
+	foreach($ArrLeyesProv as $k => $v)
 		$ArrLeyesLote[$k][0] = $v[0];
 	$Consulta = "select lote ";	
 	$Consulta.= " from age_web.lotes ";
@@ -436,12 +437,12 @@ function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeye
 	{
 		$ArrDatosLote=array();		
 		$ArrDatosLote["lote"]=$FilaConj["lote"];
-		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre);
+		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link);
 		$PesoHumProv=$PesoHumProv  + $ArrDatosLote["peso_humedo"];
 		$PesoSecoProv=$PesoSecoProv + $ArrDatosLote["peso_seco2"];
 		//echo "LOTE........ ".$ArrDatosLote["lote"]." = ".$ArrDatosLote["peso_humedo"]." - ".$ArrDatosLote["peso_seco"]."<br>";
 		reset($ArrLeyesLote);
-		while (list($k,$v)=each($ArrLeyesLote))
+		foreach($ArrLeyesLote as $k => $v)
 		{
 			if ($ArrDatosLote["peso_seco2"]=!0 && $v[2]=!0 && $v[5]=!0) 
 				$ArrLeyesProv[$k][2] = $ArrLeyesProv[$k][2] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR
@@ -496,7 +497,6 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 {	
 	$ArrLeyesLote=array();
 	reset($ArrLeyesProv);
-	//while(list($k,$v)=each($ArrLeyesProv))
 	foreach ($ArrLeyesProv as $k => $v)
 	{
 		$ArrLeyesLote[$k][0]=$k;
@@ -551,7 +551,7 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 		
 		$ArrDatosLote["lote"]=$FilaProv["lote"];
 		//echo $FilaProv["lote"]."<br>";
-		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre);
+		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre,$link);
 		if ($ArrDatosLote["tipo_remuestreo"]=="A")
 		{
 			/*$TotalPesoHumProv=$TotalPesoHumProv  + $ArrDatosLote["peso_humedo_ori"];
@@ -585,7 +585,7 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 		$TotalPesoBrutoProv=$TotalPesoBrutoProv + $ArrDatosLote["peso_bruto"];
 		$TotalPesoNetoProv=$TotalPesoNetoProv + $ArrDatosLote["peso_neto"];
 		reset($ArrLeyesLote);
-		while (list($k,$v)=each($ArrLeyesLote))
+		foreach($ArrLeyesLote as $k => $v)
 		{
 			if ($v[2]!=0 && $v[5]!=0)// $ArrDatosLote["peso_seco2"]!=0 && 
 			{
@@ -761,7 +761,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 			{
 				$Consulta.= " and (";
 				reset($LeyesPond);
-				while (list($k,$v)=each($LeyesPond))
+				foreach($LeyesPond as $k => $v)
 				{			
 					$Consulta.= " t1.cod_leyes='".$v[0]."' or";
 				}
@@ -810,7 +810,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 			{
 				$Consulta.= " and (";
 				reset($Leyes);
-				while (list($k,$v)=each($Leyes))
+				foreach($Leyes as $k => $v)
 				{			
 					$Consulta.= " t2.cod_leyes='".$v[0]."' or";
 				}
@@ -912,10 +912,10 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	$LeyesPond["01"][4] = "%";//NOM UNIDAD
 	$LeyesPond["01"][5] = "100";//CONVERSION	
 	//CONSULTA PARAMETROS DE LEYES (UNIDAD, CANT DECIMALES, ETC)
-	ParamLeyes($Lote,$LeyesPond);
+	ParamLeyes($Lote,$LeyesPond,$link);
 	//CALCULO DE MERMA
 	$FechaMer = substr($FechaIni,7);
-	ValorMerma($Lote,$LeyesPond,$IncMerma);
+	ValorMerma($Lote,$LeyesPond,$IncMerma,$link);
 	//VALORES DE LA RETALLA
 	$Consulta = "select * from age_web.leyes_por_lote ";
 	$Consulta.= " where lote = '".$Lote["lote"]."' ";
@@ -924,7 +924,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	$RespProvi=mysqli_query($link, $Consulta);
 
 	if (!$FilaProvi=mysqli_fetch_array($RespProvi))
-		ValoresRetalla($Lote,$LeyesPond,$IncRetalla);	
+		ValoresRetalla($Lote,$LeyesPond,$IncRetalla,$link);	
 	//SI ES REMUESTREO DE UN MES ANTERIOR
 	if ($Lote["tipo_remuestreo"]=="A") 
 	{
@@ -999,7 +999,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 				if (!$FilaProvi=mysqli_fetch_array($RespProvi))
 				{
 					//echo $LoteAju["lote"]." PM=".$LoteAju["peso_muestra"]." PR=".$LoteAju["peso_retalla"]."<br>";
-					ValoresRetalla($LoteAju,$LeyesAju,$IncRetalla);
+					ValoresRetalla($LoteAju,$LeyesAju,$IncRetalla,$link);
 					//echo $LeyesAju["02"][2]." / ".$LeyesAju["04"][2]." / ".$LeyesAju["05"][2]."<br>";
 				}
 			}
@@ -1288,7 +1288,6 @@ function ParamLeyes($Datos,$Leyes,$link)
 	{
 		$Consulta.= " and (";
 		reset($Leyes);
-		//while (list($k,$v)=each($Leyes))
 		foreach($Leyes as $k => $v)
 		{			
 			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
@@ -1317,7 +1316,7 @@ function ParamLeyes($Datos,$Leyes,$link)
 	{
 		$Consulta.= " and (";
 		reset($Leyes);
-		while (list($k,$v)=each($Leyes))
+		foreach($Leyes as $k => $v)
 		{			
 			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
 		}
@@ -1345,7 +1344,7 @@ function ParamLeyes($Datos,$Leyes,$link)
 	{
 		$Consulta.= " and (";
 		reset($Leyes);
-		while (list($k,$v)=each($Leyes))
+		foreach($Leyes as $k => $v)
 		{			
 			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
 		}
@@ -1397,7 +1396,7 @@ function LeyesAjusteProveedor($Ano,$Mes,$RutProv,$Prod,$SubProd,$ArrLeyesProv,$F
 		$LeyesLote=array();
 		$Lote["lote"]=$FilaProv["lote"];
 		$LeyesLote["01"][0]="01";$LeyesLote["02"][0]="02";$LeyesLote["04"][0]="04";$LeyesLote["05"][0]="05";
-		LeyesLote($Lote,$LeyesLote,"N","S","S",$FechaIni,$FechaFin,$FechaCierreAnexo);		
+		LeyesLote($Lote,$LeyesLote,"N","S","S",$FechaIni,$FechaFin,$FechaCierreAnexo,$link);		
 		$Consulta = "select * ";
 		$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
 		$Consulta.= " where t1.lote='".$FilaProv["lote"]."'";
@@ -1560,7 +1559,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 				$CodLeyes=$Leyes."~".$Impurezas;
 				$Leyes=explode('~',$CodLeyes);
 				//echo "leyes impurezas:    ".$CodLeyes."<br>";
-				while(list($c,$v)=each($Leyes))
+				foreach($Leyes as $c => $v)
 				{
 					if($v!='01')//cuando sea distinto a H2O
 					{
@@ -1687,7 +1686,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 				$LeyesSA='';$LeyesImp='';
 				$CodLeyes=$Leyes."~".$Impurezas;
 				$Leyes=explode('~',$CodLeyes);
-				while(list($c,$v)=each($Leyes))
+				foreach($Leyes as $c => $v)
 				{
 					if($v!='01')//cuando sea distinto a H2O
 					{
@@ -1809,7 +1808,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 			$LeyesSA='';$LeyesImp='';
 			$CodLeyes=$Leyes."~".$Impurezas;
 			$Leyes=explode('~',$CodLeyes);
-			while(list($c,$v)=each($Leyes))
+			foreach($Leyes as $c => $v)
 			{
 				if($v!='01')//cuando sea distinto a H2O
 				{

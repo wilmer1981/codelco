@@ -3,12 +3,36 @@
 	$CodigoDePantalla = 97;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	if(!isset($CmbRecepcion))
-		$CmbRecepcion='S';
-	if(!isset($SubProducto))
-		$SubProducto='S';
-	if(!isset($Proveedor))
-		$Proveedor='S';
+	
+
+	//$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbRecepcion = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"S";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"S";
+	$Proveedor    = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"S";
+	$Busq         = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$Mostrar      = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"S";
+	$TxtFiltroPrv = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+/*
+if(!isset($CmbRecepcion))
+	$CmbRecepcion='S';
+if(!isset($Proveedor))
+	$Proveedor = isset($_REQUEST['Proveedor']) ? $_REQUEST['Proveedor'] : 'S';
+if(!isset($Mostrar))
+	$Mostrar="S";	
+if(!isset($Valores))
+	$Valores="";	
+if(!isset($SubProducto))
+	$SubProducto = isset($_REQUEST['SubProducto']) ? $_REQUEST['SubProducto'] : 'S';	
+if(!isset($TxtFiltroPrv))
+	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : '';		
+if(!isset($Busq))
+	$Busq = isset($_REQUEST['Busq']) ? $_REQUEST['Busq'] : '';	
+*/
+
+	
+
 	/*$Consulta="select t1.cod_subproducto,t1.rut_proveedor,t2.nombre_prv from age_web.relaciones t1 inner join sipa_web.proveedores t2 on t1.rut_proveedor=t2.rut_prv ";
 	//$Consulta.=" where t1.rut_proveedor='11944959-6'";
 	$Resp=mysqli_query($link, $Consulta);
@@ -181,7 +205,7 @@ function Habilita(obj,lote,rec)
           <td><select name="CmbRecepcion" style="width:200" onKeyDown="TeclaPulsada2('N',false,this.form,'CmbFlujos');" >
             <option class="NoSelec" value="S">TODOS</option>
             <?php
-				$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
+				//$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 				$TxtFechaIni = date("Y-m-d", mktime(0,0,0,date('m')-1,1,date('Y')));
 				$TxtFechaFin = date("Y-m-d", mktime(0,0,0,date('m')+1,1,date('Y')));
 				$Consulta = "select distinct cod_recepcion from age_web.lotes where fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
@@ -266,7 +290,9 @@ function Habilita(obj,lote,rec)
 <td align="center">Valor4</td>
 </tr>	
 <?php
-$Mostrar="S";		
+//if(!isset($Mostrar))
+	//$Mostrar="S";	
+
 if ($Mostrar=="S")
 {
 	$Consulta="select t1.cod_recepcion,t1.cod_subproducto,t1.rut_proveedor,t1.cod_leyes,t2.descripcion, nombre_prv,valor1,valor2,valor3,valor4 from age_web.deduc_metalurgicas t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
@@ -283,12 +309,12 @@ if ($Mostrar=="S")
 	while($FilaDeduc=mysqli_fetch_array($RespDeduc))
 	{
 		echo "<tr>";
-		$Valores=str_replace(' ','*',$FilaDeduc[cod_recepcion])."~".$FilaDeduc["cod_subproducto"]."~".$FilaDeduc["rut_proveedor"]."~".$FilaDeduc["cod_leyes"];
+		$Valores=str_replace(' ','*',$FilaDeduc["cod_recepcion"])."~".$FilaDeduc["cod_subproducto"]."~".$FilaDeduc["rut_proveedor"]."~".$FilaDeduc["cod_leyes"];
 		echo "<td><input type='radio' name='OptDeduc' onClick=Deduccion('".$Valores."')></td>";
-		echo "<td>".$FilaDeduc[cod_recepcion]."</td>";
+		echo "<td>".$FilaDeduc["cod_recepcion"]."</td>";
 		echo "<td>".$FilaDeduc["descripcion"]."</td>";
 		if($FilaDeduc["rut_proveedor"]!="T")
-		//if($FilaDeduc[cod_recepcion]!='MAQ ENM')  16-02-2010
+		//if($FilaDeduc["cod_recepcion"]!='MAQ ENM')  16-02-2010
 			echo "<td>".$FilaDeduc["nombre_prv"]."</td>";
 		else	
 			echo "<td>TODOS</td>";
@@ -305,10 +331,10 @@ if ($Mostrar=="S")
 				break;
 		}	
 		echo "<td>".$Ley."</td>";
-		echo "<td>".$FilaDeduc[valor1]."</td>";
-		echo "<td>".$FilaDeduc[valor2]."</td>";
-		echo "<td>".$FilaDeduc[valor3]."</td>";
-		echo "<td>".$FilaDeduc[valor4]."</td>";	
+		echo "<td>".$FilaDeduc["valor1"]."</td>";
+		echo "<td>".$FilaDeduc["valor2"]."</td>";
+		echo "<td>".$FilaDeduc["valor3"]."</td>";
+		echo "<td>".$FilaDeduc["valor4"]."</td>";	
 		echo "<tr>";
 	}
 }

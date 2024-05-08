@@ -62,7 +62,7 @@ $Consulta.="where corr='".$Cod."' and cod_tipo_analisis='".$TipoAnalisis."' grou
 //echo $Consulta;
 $RespValor=mysqli_query($link, $Consulta);
 $FilaValor=mysql_fetch_array($RespValor);
-if($FilaValor[valor2]>0)
+if($FilaValor["valor2"]>0)
 	$CantPrecio=2;
 for($i=1;$i<=$CantPrecio;$i++)
 {

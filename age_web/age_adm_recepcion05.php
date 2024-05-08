@@ -19,7 +19,7 @@
 				$CmbProveedor=$Fila["rut_proveedor"];
 				$CmbCodFaena=$Fila[cod_faena];
 				$CmbClaseProducto=$Fila[clase_producto];
-				$CmbCodRecepcion=$Fila[cod_recepcion];
+				$CmbCodRecepcion=$Fila["cod_recepcion"];
 				$CmbCodRecepcionENM=$Fila[cod_recepcion_enm];
 				$TxtCancha=$Fila[cancha];
 			}		

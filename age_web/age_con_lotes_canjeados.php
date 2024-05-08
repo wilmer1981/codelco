@@ -254,10 +254,10 @@ function DetalleLeyes(Lote)
 					echo "<td>".$Fila["rut_proveedor"]." ".$Fila[nom_prv]."</td>";
 					echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila[lote]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 					echo "<td>";
-					if ($Fila[cod_recepcion]=="")
+					if ($Fila["cod_recepcion"]=="")
 						echo "&nbsp;";
 					else
-						echo $Fila[cod_recepcion];
+						echo $Fila["cod_recepcion"];
 					echo "</td>";
 					echo "<td align='right'>".number_format($DatosLote[peso_humedo],0,'','.')."</td>";
 					echo "<td align='right'>".number_format($DatosLote[peso_seco],0,'','.')."</td>";

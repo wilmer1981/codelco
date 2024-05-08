@@ -312,7 +312,7 @@ if ($OptFinos=="S")
 			$ArrDatos=array();
 			$ArrLeyesProd=array();
 			$ArrLeyesProd["01"][0]="01";$ArrLeyesProd["02"][0]="02";$ArrLeyesProd["04"][0]="04";$ArrLeyesProd["05"][0]="05";
-			LeyesProducto('',$RutPrv,$FilaTipoRecep[cod_recepcion],'1',$Fila01["cod_subproducto"],&$ArrDatos,&$ArrLeyesProd,'N','S','S',$TxtFechaIni,$TxtFechaFin,"");
+			LeyesProducto('',$RutPrv,$FilaTipoRecep["cod_recepcion"],'1',$Fila01["cod_subproducto"],&$ArrDatos,&$ArrLeyesProd,'N','S','S',$TxtFechaIni,$TxtFechaFin,"");
 			$CantDecPeso=0;$CantDecLF=0;
 			$PesoS=$ArrDatos[peso_seco3];
 			if($Fila01[recepcion]=='PMN')

@@ -1,5 +1,6 @@
 <?php 	
 	include("../principal/conectar_principal.php");
+	$Datos  = isset($_REQUEST["Datos"])?$_REQUEST["Datos"]:"";
 
 	$Valores=explode('~',$Datos);
 	$CodAsig=str_replace('*',' ',$Valores[0]);
@@ -24,8 +25,8 @@
 			$Prv='TODOS';
 		else
 			$Prv=$FilaDeduc["nombre_prv"];
-		$CantP=$FilaDeduc[cant_param];
-		$Formula=$FilaDeduc[formula];
+		$CantP=$FilaDeduc["cant_param"];
+		$Formula=$FilaDeduc["formula"];
 		switch($CodLey)
 		{
 			case "02":
@@ -38,10 +39,10 @@
 				$Ley='Au';
 				break;
 		}	
-		$TxtValor1=$FilaDeduc[valor1];
-		$TxtValor2=$FilaDeduc[valor2];
-		$TxtValor3=$FilaDeduc[valor3];
-		$TxtValor4=$FilaDeduc[valor4];
+		$TxtValor1=$FilaDeduc["valor1"];
+		$TxtValor2=$FilaDeduc["valor2"];
+		$TxtValor3=$FilaDeduc["valor3"];
+		$TxtValor4=$FilaDeduc["valor4"];
 	
 	}
 	

@@ -118,7 +118,7 @@
 								if($FilaLeyes[provisional]!='N')//CUANDO NO ES VIRTUAL
 									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor];//VALOR LEY PQTE 1 
 								else
-									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor2];//VALOR LEY PROVISIONAL
+									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor2"];//VALOR LEY PROVISIONAL
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][3]='';//VALOR LEY PQTE 2 
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][4]='';//VALOR LEY PQTE 3 
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][5]='';//VALOR LEY PQTE 4 
@@ -141,23 +141,23 @@
 					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($Fila["cod_leyes"]=='02' && ($Fila[valor1] != $valorcu) && $valorcu > 0)
+						if ($Fila["cod_leyes"]=='02' && ($Fila["valor1"] != $valorcu) && $valorcu > 0)
 						{
-							$Fila[valor1] = $valorcu;
+							$Fila["valor1"] = $valorcu;
 						}
-						if ($Fila["cod_leyes"]=='04' && ($Fila[valor1] != $valorag) && $valorag > 0)
+						if ($Fila["cod_leyes"]=='04' && ($Fila["valor1"] != $valorag) && $valorag > 0)
 						{
-							$Fila[valor1] = $valorag;
+							$Fila["valor1"] = $valorag;
 						}
-						if ($Fila["cod_leyes"]=='05' && ($Fila[valor1] != $valorau) && $valorau > 0)
+						if ($Fila["cod_leyes"]=='05' && ($Fila["valor1"] != $valorau) && $valorau > 0)
 						{
-							$Fila[valor1] = $valorau;
+							$Fila["valor1"] = $valorau;
 						}
-						$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila[valor1]*1;//VALOR LEY PQTE 1 
-						$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila[valor2]*1;//VALOR LEY PQTE 2 
-						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila[valor3]*1;//VALOR LEY PQTE 3 		
-						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila[valor3]*1;//VALOR LEY PQTE 3 
-						$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila[valor4]*1;//VALOR LEY PQTE 4 
+						$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila["valor1"]*1;//VALOR LEY PQTE 1 
+						$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila["valor2"]*1;//VALOR LEY PQTE 2 
+						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"]*1;//VALOR LEY PQTE 3 		
+						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"]*1;//VALOR LEY PQTE 3 
+						$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila["valor4"]*1;//VALOR LEY PQTE 4 
 						$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila[valor_retalla]*1;//LEY RETALLA
 						$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila[inc_retalla]*1;//INCIDENCIA RETALLA
 						$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila[ley_canje]*1;//LEY CANJE
@@ -211,21 +211,21 @@
 				{
 					case "02":
 						$ContCu++;
-						$LeyCu1=str_replace(',','.',$FilaLeyesHVL[valor1]);
-						$LeyCu2=str_replace(',','.',$FilaLeyesHVL[valor2]);
+						$LeyCu1=str_replace(',','.',$FilaLeyesHVL["valor1"]);
+						$LeyCu2=str_replace(',','.',$FilaLeyesHVL["valor2"]);
 						$AcumCu1=$AcumCu1+round((($PesoLote*$LeyCu1)/100),3);
 						$AcumCu2=$AcumCu2+round((($PesoLote*$LeyCu2)/100),3);
 					break;	
 					case "04":
 						$ContAg++;
-						$LeyAg1=str_replace(',','.',$FilaLeyesHVL[valor1]);
-						$LeyAg2=str_replace(',','.',$FilaLeyesHVL[valor2]);
+						$LeyAg1=str_replace(',','.',$FilaLeyesHVL["valor1"]);
+						$LeyAg2=str_replace(',','.',$FilaLeyesHVL["valor2"]);
 						$AcumAg1=$AcumAg1+round((($PesoLote*$LeyAg1)/1000),3);
 						$AcumAg2=$AcumAg2+round((($PesoLote*$LeyAg2)/1000),3);
 					break;	
 					case "05":
-						$LeyAu1=str_replace(',','.',$FilaLeyesHVL[valor1]);
-						$LeyAu2=str_replace(',','.',$FilaLeyesHVL[valor2]);
+						$LeyAu1=str_replace(',','.',$FilaLeyesHVL["valor1"]);
+						$LeyAu2=str_replace(',','.',$FilaLeyesHVL["valor2"]);
 						$AcumAu1=$AcumAu1+round((($PesoLote*$LeyAu1)/1000),3);
 						$AcumAu2=$AcumAu2+round((($PesoLote*$LeyAu2)/1000),3);
 						$ContAu++;

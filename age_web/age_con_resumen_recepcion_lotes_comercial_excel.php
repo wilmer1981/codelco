@@ -455,7 +455,7 @@
 				$ArrLeyesProd[$c][0]=$c;
 			}
 			reset($ArrLeyesProd);
-			LeyesProducto('',$RutPrv,$FilaTipoRecep[cod_recepcion],'1',$Fila01["cod_subproducto"],&$ArrDatos,&$ArrLeyesProd,'N','S','S',$TxtFechaIni,$TxtFechaFin,$TxtFechaCon);
+			LeyesProducto('',$RutPrv,$FilaTipoRecep["cod_recepcion"],'1',$Fila01["cod_subproducto"],&$ArrDatos,&$ArrLeyesProd,'N','S','S',$TxtFechaIni,$TxtFechaFin,$TxtFechaCon);
 			$CantDecPeso=0;$CantDecLF=0;
 			/*if ($CmbProveedor != "S")
 			{	

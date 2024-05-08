@@ -844,7 +844,7 @@
 						$FechaRecepcion=$FilaTemp[fecha_recepcion];
 						$Cancha=$FilaTemp[cancha];
 						$Cod_Faena=$FilaTemp[cod_faena];
-						$CodRecepcion=$FilaTemp[cod_recepcion];
+						$CodRecepcion=$FilaTemp["cod_recepcion"];
 						$ClaseProducto=$FilaTemp[clase_producto];
 						$NumConjunto=$FilaTemp["num_conjunto"];
 						$EstadoLote=$FilaTemp[estado_lote];

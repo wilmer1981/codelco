@@ -231,12 +231,12 @@
 					$pdf->addTextWrap(165,$PosAux,60,10,number_format($FilaLeyes[valor2],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(165,$PosAux,60,10,'---',$justification='right',0,0);
-				if($FilaLeyes[valor3]!=0)		
-					$pdf->addTextWrap(230,$PosAux,60,10,number_format($FilaLeyes[valor3],4,',','.'),$justification='right',0,0);
+				if($FilaLeyes["valor3"]!=0)		
+					$pdf->addTextWrap(230,$PosAux,60,10,number_format($FilaLeyes["valor3"],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(230,$PosAux,60,10,'---',$justification='right',0,0);
-				if($FilaLeyes[valor4]!=0)
-					$pdf->addTextWrap(280,$PosAux,60,10,number_format($FilaLeyes[valor3],4,',','.'),$justification='right',0,0);
+				if($FilaLeyes["valor4"]!=0)
+					$pdf->addTextWrap(280,$PosAux,60,10,number_format($FilaLeyes["valor3"],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(280,$PosAux,60,10,'---',$justification='right',0,0);
 				if($FilaLeyes[valor_retalla]!=0)	

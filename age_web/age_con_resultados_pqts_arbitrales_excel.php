@@ -152,7 +152,7 @@
 			{
 				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor1];
 				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][3]=$FilaLeyes[valor2];
-				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][4]=$FilaLeyes[valor3];
+				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][4]=$FilaLeyes["valor3"];
 			}
 			reset($ArrLeyesCanje);
 			while(list($c,$v)=each($ArrLeyesCanje))

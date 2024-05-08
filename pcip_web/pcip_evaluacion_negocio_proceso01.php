@@ -147,7 +147,7 @@
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_precios(corr,cod_tipo_analisis,cod_unidad,cod_tipo,valor,valor2)values(";
-				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila[cod_unidad]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."','".str_replace(',','.',$Fila[valor2])."')";
+				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila[cod_unidad]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."','".str_replace(',','.',$Fila["valor2"])."')";
 				//echo $Insertar;
 				mysql_query($Insertar);
 			}

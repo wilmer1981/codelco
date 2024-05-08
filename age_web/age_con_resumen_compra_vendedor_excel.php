@@ -76,11 +76,11 @@
 		echo "<td colspan=\"11\">&nbsp;</td>";
 		echo "</tr>\n";
 		echo "<tr class=\"ColorTabla01\">\n";
-		echo "<td align=\"left\" colspan=\"11\">".$FilaAsig[cod_recepcion]."</td>";
+		echo "<td align=\"left\" colspan=\"11\">".$FilaAsig["cod_recepcion"]."</td>";
 		echo "</tr>\n";
 		$Consulta = "select distinct case when (t1.valor_subclase1)='METALICO' then 'METALICO' else 'MINERO' end  as valor_subclase1,t1.valor_subclase2 ";
 		$Consulta.= "from proyecto_modernizacion.sub_clase t1 inner join age_web.lotes t2 on t1.cod_clase='15001'  and t1.nombre_subclase=t2.clase_producto ";
-		$Consulta.= "where t2.lote between '".$LoteIni."' and '".$LoteFin."' and t2.cod_recepcion = '".$FilaAsig[cod_recepcion]."' ";
+		$Consulta.= "where t2.lote between '".$LoteIni."' and '".$LoteFin."' and t2.cod_recepcion = '".$FilaAsig["cod_recepcion"]."' ";
 		if($CmbClaseProd!='S')
 			if($CmbClaseProd=='M')
 				$Consulta.= " and t1.nombre_subclase = 'M' ";
@@ -101,7 +101,7 @@
 			echo "<td align=\"center\" colspan=\"3\">FINOS</td>";										
 			echo "</tr>\n";
 			$Consulta="select * from proyecto_modernizacion.subproducto t1 inner join age_web.lotes t2 on t1.mostrar_age='S' and t1.cod_producto=t2.cod_producto and ";
-			$Consulta.="t1.cod_subproducto=t2.cod_subproducto where  t2.lote between '".$LoteIni."' and '".$LoteFin."' and t2.cod_recepcion = '".$FilaAsig[cod_recepcion]."' ";
+			$Consulta.="t1.cod_subproducto=t2.cod_subproducto where  t2.lote between '".$LoteIni."' and '".$LoteFin."' and t2.cod_recepcion = '".$FilaAsig["cod_recepcion"]."' ";
 			if($FilaClaseProd["valor_subclase2"]=='METALICO')
 				$Consulta.="and t2.clase_producto='M' ";
 			else
@@ -128,7 +128,7 @@
 				$Consulta.= " from age_web.lotes t1 inner join sipa_web.proveedores t2 on t1.rut_proveedor=t2.rut_prv ";
 				$Consulta.= " where t1.lote<>'' and t1.estado_lote <> '6' ";
 				$Consulta.= " and t1.lote between '".$LoteIni."' and '".$LoteFin."'";
-				$Consulta.= " and t1.cod_recepcion = '".$FilaAsig[cod_recepcion]."' ";
+				$Consulta.= " and t1.cod_recepcion = '".$FilaAsig["cod_recepcion"]."' ";
 				if($FilaClaseProd["valor_subclase2"]=='METALICO')
 					$Consulta.= " and t1.clase_producto = 'M' ";
 				else
@@ -147,7 +147,7 @@
 					$ArrDatos=array();
 					$ArrLeyesProv=array();
 					$ArrLeyesProv["01"][0]="01";$ArrLeyesProv["02"][0]="02";$ArrLeyesProv["04"][0]="04";$ArrLeyesProv["05"][0]="05";
-					LeyesProveedor($FilaAsig[cod_recepcion],$FilaPrv["rut_proveedor"],$FilaProd["cod_producto"],$FilaProd["cod_subproducto"],&$ArrDatos,&$ArrLeyesProv,'N','S','S',$TxtFechaIni,$TxtFechaFin,"");
+					LeyesProveedor($FilaAsig["cod_recepcion"],$FilaPrv["rut_proveedor"],$FilaProd["cod_producto"],$FilaProd["cod_subproducto"],&$ArrDatos,&$ArrLeyesProv,'N','S','S',$TxtFechaIni,$TxtFechaFin,"");
 					$CantDecPeso=0;$CantDecLF=0;
 					$PesoS=$ArrDatos[peso_seco3];
 					if($FilaProd[recepcion]=='PMN')
@@ -266,7 +266,7 @@
 		echo "<td colspan=\"11\">&nbsp;</td>";
 		echo "</tr>\n";
 		echo "<tr class=\"ColorTabla01\">\n";
-		echo "<td align=\"left\" colspan=\"2\">TOTAL ".$FilaAsig[cod_recepcion]."</td>";
+		echo "<td align=\"left\" colspan=\"2\">TOTAL ".$FilaAsig["cod_recepcion"]."</td>";
 		if ($PesoSecoAsig>0 && $PesoHumAsig>0 && $SumHumedad!=0)
 			$PorcHumAsig = 100 - (($PesoSecoAsig * 100)/$PesoHumAsig);
 		else

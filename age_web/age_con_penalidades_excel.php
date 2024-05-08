@@ -168,7 +168,7 @@
 		$Consulta.= " and t1.cod_subproducto=t3.cod_subproducto ";
 		$Consulta.= " where t1.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 		if ($CmbRecepcion!='S')
-			$Consulta.= " and t1.cod_recepcion= '".$FilaTipoRecep[cod_recepcion]."' ";
+			$Consulta.= " and t1.cod_recepcion= '".$FilaTipoRecep["cod_recepcion"]."' ";
 		if ($CmbSubProducto != "S")
 		{
 			$Consulta.= " and t1.cod_producto = '1' ";
