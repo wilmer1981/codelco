@@ -1,5 +1,18 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$ChkDefin   = isset($_REQUEST["ChkDefin"])?$_REQUEST["ChkDefin"]:"S";
+	$ChkAplic   = isset($_REQUEST["ChkAplic"])?$_REQUEST["ChkAplic"]:"C";
+	$TxtFechaIni= isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date("Y-m-d");
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor    = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbContrato     = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
+	$CmbReferencia   = isset($_REQUEST["CmbReferencia"])?$_REQUEST["CmbReferencia"]:"";
+	$TxtPorc         = isset($_REQUEST["TxtPorc"])?$_REQUEST["TxtPorc"]:"";
+	$ChkSelec        = isset($_REQUEST["ChkSelec"])?$_REQUEST["ChkSelec"]:"";
+
 	$CmbContrato = str_replace("~~"," ",$CmbContrato);
 	switch ($Proceso)
 	{

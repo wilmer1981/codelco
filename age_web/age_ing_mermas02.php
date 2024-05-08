@@ -2,12 +2,18 @@
 	include("../principal/conectar_principal.php");
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=90;
-	if (!isset($TxtFechaIni))
-		$TxtFechaIni = date("Y-m-d");
-	if (!isset($ChkDefin))
-		$ChkDefin = "S";
-	if (!isset($ChkAplic))
-		$ChkAplic = "C";
+
+	$Proc       = isset($_REQUEST["Proc"])?$_REQUEST["Proc"]:"";
+	$ChkDefin   = isset($_REQUEST["ChkDefin"])?$_REQUEST["ChkDefin"]:"S";
+	$ChkAplic   = isset($_REQUEST["ChkAplic"])?$_REQUEST["ChkAplic"]:"C";
+	$TxtFechaIni= isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date("Y-m-d");
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor    = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbContrato     = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
+	$CmbReferencia   = isset($_REQUEST["CmbReferencia"])?$_REQUEST["CmbReferencia"]:"";
+	$TxtPorc         = isset($_REQUEST["TxtPorc"])?$_REQUEST["TxtPorc"]:"";
+	
 	switch ($ChkDefin)
 	{
 		case "S":
@@ -122,11 +128,9 @@ if ($ChkDefin=="C")
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body leftmargin="3" topmargin="5">
@@ -278,8 +282,6 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                </select>&nbsp;&nbsp;&nbsp;
 			  <input name="TxtFechaIni" type="text" class="InputCen" value="<?php echo $TxtFechaIni; ?>" size="15" maxlength="10" readOnly>
               <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onclick="popFrame.fPopCalendar(TxtFechaIni,TxtFechaIni,popCal);return false">
-		 
-		 
 		  </td>						
           </tr>
           <tr>

@@ -2,10 +2,11 @@
 	include("../principal/conectar_principal.php");
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=90;
-	if (!isset($ChkDefin))
-		$ChkDefin = "S";
-	if (!isset($ChkAplic))
-		$ChkAplic = "C";
+
+	$ChkDefin   = isset($_REQUEST["ChkDefin"])?$_REQUEST["ChkDefin"]:"S";
+	$ChkAplic   = isset($_REQUEST["ChkAplic"])?$_REQUEST["ChkAplic"]:"C";
+
+
 	switch ($ChkDefin)
 	{
 		case "S":
@@ -54,7 +55,7 @@ function Proceso(opt)
 				alert("No hay nada Seleccionado para ELIMINAR");
 				return;
 			}
-			var msg=confirm("¿Sefuro que desea Eliminar esta Regla?");
+			var msg=confirm("Â¿Sefuro que desea Eliminar esta Regla?");
 			if (msg==true)
 			{
 				f.action = "age_ing_mermas01.php?Proceso=E";
