@@ -1,0 +1,250 @@
+<html>
+<head>
+<title>web-ventanas</title>
+<link href="js/style.css" rel=stylesheet>
+
+</head>
+<body  >
+<form name="Showme1">
+  <div align="center"><center>    
+  <table width="223" border="0" cellpadding="2" cellspacing="1" class="TablaPrincipal">
+        <tr>
+          <td class="titulo_codelco_informa">Tendencia de Producci&oacute;n </td>
+        </tr>
+        <tr align="center">
+          <td class="BordeInf"><p>
+            <select name="dia">
+              <option selected value="Dia">DIA</option>
+              <script language="JavaScript">
+<!--
+	var Fecha = new Date();
+	var DiaActual = 01;
+	var MesActual = Fecha.getMonth() +1;
+	var AnoActual = Fecha.getYear();
+	var j;
+	var Meses = Array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
+	for (i=1;i<=31;i++)
+	{
+		if (i < 10)
+		{
+			if (i == DiaActual)
+			{
+				document.write("<option value='0" + i + "' selected>" + 01 + "</option>");
+			}
+			else
+			{
+				document.write("<option value='0" + i + "'>" + i + "</option>");
+			}
+		}
+		else
+		{
+			if (i == DiaActual)
+			{
+				document.write("<option value='" + i + "' selected>" + i + "</option>");
+			}
+			else
+			{
+				document.write("<option value='" + i + "'>" + i + "</option>");
+			}
+		}
+	}
+//-->
+            </script>
+            </select>
+            <select name="mes">
+              <option selected value="Mes">MES</option>
+              <script language="JavaScript">
+<!--
+	
+	for (i=1;i<=12;i++)
+	{
+		if (i < 10)
+		{
+			if (i == MesActual)
+			{
+				document.write("<option value='0" + i + "' selected>" + Meses[i-1] + "</option>");
+			}
+			else
+			{
+				document.write("<option value='0" + i + "'>" + Meses[i-1] + "</option>");
+			}
+		}
+		else
+		{
+			if (i == MesActual)
+			{
+				document.write("<option value='" + i + "' selected>" + Meses[i-1] + "</option>");
+			}
+			else
+			{
+				document.write("<option value='" + i + "'>" + Meses[i-1] + "</option>");
+			}
+		}
+	}
+//-->
+            </script>
+            </select>
+            <select name="ano">
+              <script language="JavaScript">
+<!--
+	
+	for (i=2000;i<=<? echo date("Y")?>;i++)
+	{
+		j = i;
+		if (i == AnoActual)
+		{
+			document.write("<option value='0" + (j - 2000) + "' selected>" + i + "</option>");
+		}
+		else
+		{
+			document.write("<option value='0" + (j - 2000) + "'>" + i + "</option>");
+		}
+	}
+//-->
+            </script>
+            </select>
+          </p>          </td>
+        </tr>
+        <tr align="center">
+          <td class="BordeInf"><select name="dia1">
+            <option selected value="Dia">DIA</option>
+            <script language="JavaScript">
+<!--
+	var Fecha = new Date();
+	var DiaActual = Fecha.getDate();
+	var MesActual = Fecha.getMonth()+ 1;
+	var AnoActual = Fecha.getYear();
+	var j;
+	var Meses = Array("ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE")
+	for (i=1;i<=31;i++)
+	{
+		if (i < 10)
+		{
+			if (i == DiaActual)
+			{
+				document.write("<option value='0" + i + "' selected>" + i + "</option>");
+			}
+			else
+			{
+				document.write("<option value='0" + i + "'>" + i + "</option>");
+			}
+		}
+		else
+		{
+			if (i == DiaActual)
+			{
+				document.write("<option value='" + i + "' selected>" + i + "</option>");
+			}
+			else
+			{
+				document.write("<option value='" + i + "'>" + i + "</option>");
+			}
+		}
+	}
+//-->
+            </script>
+          </select>
+            <select name="mes1">
+              <option selected value="Mes">MES</option>
+              <script language="JavaScript">
+<!--
+
+	for (i=1;i<=12;i++)
+	{
+		if (i < 10)
+		{
+			if (i == MesActual)
+			{
+				document.write("<option value='0" + i + "' selected>" + Meses[i-1] + "</option>");
+			}
+			else
+			{
+				document.write("<option value='0" + i + "'>" + Meses[i-1] + "</option>");
+			}
+		}
+		else
+		{
+			if (i == MesActual)
+			{
+				document.write("<option value='" + i + "' selected>" + Meses[i-1] + "</option>");
+			}
+			else
+			{
+				document.write("<option value='" + i + "'>" + Meses[i-1] + "</option>");
+			}
+		}
+	}
+//-->
+            </script>
+            </select>
+            <select name="ano1">
+              <script language="JavaScript">
+<!--
+
+	for (i=2000;i<=<? echo date("Y")?>;i++)
+	{
+		j = i;
+		if (i == AnoActual)
+		{
+			document.write("<option value='0" + (j - 2000) + "' selected>" + i + "</option>");
+		}
+		else
+		{
+			document.write("<option value='0" + (j - 2000) + "'>" + i + "</option>");
+		}
+	}
+//-->
+            </script>
+            </select> </td>
+        </tr>
+        <tr align="center">
+          <td class="BordeInf">            <input type="button" name="B2" value="Buscar" onClick="showme(this.form)"></td>
+        </tr>
+        <tr bgcolor="#efefef">
+          <td align="center" class="BordeInf"><a href="JavaScript:window.history.back();"><span>volver</span></a></td>
+        </tr>
+      </table>
+  </center></div>
+</form>
+
+<script language="JavaScript"><!--
+
+function showme(form)
+
+   {
+
+   var indexdia = form.dia.selectedIndex;
+   var indexmes = form.mes.selectedIndex;
+   var indexano = form.ano.selectedIndex;
+
+   var indexdia1 = form.dia1.selectedIndex;
+   var indexmes1 = form.mes1.selectedIndex;
+   var indexano1 = form.ano1.selectedIndex;
+
+   if (indexdia == 0 ) 
+
+		alert("Debe seleccionar un día.");
+
+	else
+
+   if (indexmes == 0 )
+
+		alert("Debe seleccionar un mes.");
+
+	else
+
+ 		{
+	
+      var archivo="http://tevmraphpp01/intranet/proceso/calcula.php?fecha_ini="+"20"+form.ano.options[indexano].value +"/"+form.mes.options[indexmes].value+"/"+form.dia.options[indexdia].value+"&fecha_ter=20"+form.ano1.options[indexano1].value+"/"+form.mes1.options[indexmes1].value+"/"+form.dia1.options[indexdia1].value;
+
+		//alert(archivo);
+
+		window.location = archivo;
+		}
+
+   }
+
+// --></script>
+
+</body>
+</html>

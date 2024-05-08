@@ -1,0 +1,31 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 //EN"> 
+<html>
+<head><!-- Autor:Alejandro Arellano
+         julio 2002.
+         EMAIL:Ajarella@latinmail.com.-->
+</head>
+       <title>ejemplo coneccion</title>
+
+<body>
+<?php
+
+//FUNCION QUE CONECTA CON LA BASE DATO
+function conectarse()
+{
+    if(!($link=mysql_connect("200.1.6.120","root")))
+    {
+    echo"error conectando a base de datos.";
+    exit();
+    }
+    if (!mysql_select_db("Control Gastos",$link))
+    {
+    echo"Error seleccionando base de datos.";
+    exit();
+    }
+    return$link;
+}
+
+?>
+
+</body>
+</html>

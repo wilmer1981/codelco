@@ -1,0 +1,33 @@
+<html>
+<body background="imagenes\amarillo1.jpg">
+<CENTER><H3>INGRESO DE USUARIOS</H3></CENTER>
+
+<form method="POST" name="formulario" action="usuarios.php4">
+
+<UL>
+<li> Rut     :<br><input type="text" name="Rut" size="8" maxlength="8">-<input  type="text" name="Dv" size="1" maxlength="1">
+<li> Nombre  :<br><input type="text" name="Nombre_enami" size="50" maxlength="50">
+<li> Tipo Usuario :<br>
+<?php
+
+
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select tipo_usuario_enami,descripcion_tipo_usuario from tipo_usuarios";
+$result=mysql_query($sql);
+echo '<select name ="Tipo">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['tipo_usuario_enami'].'">'.$row['descripcion_tipo_usuario'].'</option>\n';
+}
+echo '</select>';
+
+?>
+<li> Centro Costo :<br><input type="text" name="Centro_costo" size="4" maxlength="4">
+<br><br><input type="submit" name="enviar" value="ACEPTAR">
+</ul>
+</form>
+<H2><A href="http://200.1.6.254/contrato%20y%20maestranza/Ingresar/op_ingresos.html">ATRAS</A></H2>
+</BODY>
+</HTML>
+

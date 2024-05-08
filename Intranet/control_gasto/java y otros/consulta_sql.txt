@@ -1,0 +1,3 @@
+select t1.rut, t2.nombre, t2.centro_costo, t5.descripcion, t4.codigo_ley, t3.num_documento, t3.tipo_documento, t1.fecha_accidente, t3.valor_neto, t3.valor_iva, t3.total 
+from gastos t1, usuario t2, documento t3, ley t4, proveedor t5 
+where t1.rut=t2.rut_funcionario and t1.rut_proveedor=t5.rut_proveedor and t1.codigo_ley=t4.codigo_ley and t1.num_documento=t3.num_documento and t1.tipo_documento=t3.tipo_documento and t1.rut_proveedor=t3.rut_proveedor;

@@ -1,0 +1,4 @@
+AuthName "Control de Ingreso"
+AuthType Basic
+AuthUserFile "c:\login"
+require valid-user

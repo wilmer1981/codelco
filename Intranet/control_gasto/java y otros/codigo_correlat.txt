@@ -1,0 +1,9 @@
+$consulta="Select max(CODIGO) as mayor from tabla where .... ";
+$result=mysql_query($consulta);
+while ($row=mysql_fetch_array($result))
+{
+    $variable_correlativa=$row[mayor] + 1;
+}
+
+@setcokie ("nombre",$valor,tiempo);
+caca=$valor

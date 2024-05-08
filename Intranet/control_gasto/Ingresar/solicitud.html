@@ -1,0 +1,68 @@
+<HTML>
+<BODY  background="imagenes\amarillo1.jpg">
+
+<H3><CENTER>SOLICITUD</CENTER></H3>
+<form method="POST" name="Formulario" action="solicitud.php4">
+<ul>
+<li>Numero Solicitud        :<br><input  type="text" name="Numero_solicitud" size="8" maxlength="8">
+<li>Descripcion solicitud   :<br><TEXTAREA name="Descripcion" rows="3" cols="85" wrap=virtual></textarea>
+<li>Tipo Solcitud           :<br>
+<?php
+
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select tipo_solicitud,descripcion_solicitud from tipo_solicitud";
+$result=mysql_query($sql);
+echo '<select name ="Tipo_solicitud">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['tipo_solicitud'].'">'.$row['descripcion_solicitud'].'</option>\n';
+}
+echo '</select>';
+
+?>
+<li>Fecha Entrega           :<br><input  name="Fecha_entrega" size="10" maxlength="10">(AAAA-MM-DD)
+<li>Centro Costo entrega    :<br><input  name="CC_entrega" size="4" maxlength="4">
+<li>Equipo                  :<br><input  type="text" name="Equipo" size="10" maxlength="10">
+<li>Tipo Trabajo            :<br>
+<?php
+
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select tipo_trabajo,descripcion_tipo from tipo_trabajo";
+$result=mysql_query($sql);
+echo '<select name ="Tipo_trabajo">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['tipo_trabajo'].'">'.$row['descripcion_tipo'].'</option>\n';
+}
+echo '</select>';
+
+?>
+<li>Fecha Solicitud         :<br><input  name="Fecha_solicitud" size="10" maxlength="10">(AAAA-MM-DD)
+<li>Rut Solicitante         :<br><input  type="text" name="Rut_solicitante" size="8" maxlength="8">-<input  type="text" name="Dv" size="1" maxlength="1">
+<li>Numero Plano            :<br><input  type="text" name="Numero_plano" size="10" maxlength="10">
+<li>Observacion Plano       :<br><TEXTAREA name="Observacion_plano" rows="3" cols="85" wrap=virtual></textarea>
+<li>Muestra                 :<br><input  name="Muestra" size="1" maxlength="1">
+<li>Numero Base Tecnica     :<br><input  type="text" name="Numero_base_tecnica" size="10" maxlength="10">
+<li>Moneda                  :<br>
+<?php
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select codigo_moneda,descripcion_moneda from moneda";
+$result=mysql_query($sql);
+echo '<select name ="Codigo_moneda">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['codigo_moneda'].'">'.$row['descripcion_moneda'].'</option>\n';
+}
+echo '</select>';
+?>
+<li>Item gasto              :<br><input name="Item_gasto" size="10" maxlength="10">
+<li>Observaciones           :<br><TEXTAREA name="Observaciones" rows="3" cols="85" wrap=virtual></textarea>
+<BR><BR><input type="submit" name="enviar" value="Ingresar">
+<H2><A href="http://200.1.6.254/contrato%20y%20maestranza/Ingresar/op_ingresos.html">ATRAS</A></H2>
+</ul>
+</form>
+</BODY>
+</HTML>

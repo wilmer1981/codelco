@@ -1,0 +1,64 @@
+
+<input type=button value=' Ingresar a Tabla ' onClick='JavaScript:recarga(this.form,1)'>
+
+
+
+<Script language=JavaScript>
+function recarga(forma,boton)
+{
+    if (boton==1)
+    {
+        if (forma.cmb_materiales.value=='-1')
+        {
+            alert ("Debe Seleccionar Material");
+            forma.cmb_materiales.focus ();
+            return;
+        }
+        if (forma.txt_cantidad.value=='')
+        {
+            alert ("Debe Ingresar Cantidad");
+            forma.txt_cantidad.focus ();
+            return;
+        }
+        forma.action='ingreso_pauta_materiales01.php?seleccion=1&num_pauta=' + forma.num_pauta_mat.value;
+        forma.submit ();
+    }
+    if (boton==2)
+    {
+        var checkeado=0;
+        for (i=0;i<forma.length;i++)
+        {
+            if ((forma.elements[i].name=="id_mat") && (forma.elements[i].checked))
+            {
+                checkeado=1;
+                var cont=i;
+            }
+        }
+        if (checkeado==0)
+        {
+            alert("Debe seleccionar un Registro para Eliminar");
+            return ;
+        }
+        forma.action='ingreso_pauta_materiales01.php?seleccion=2';
+        forma.submit ();
+    }
+}
+</Script>
+**************************************
+botones de confirma
+
+      function confirma()
+                 {
+                   respuesta=confirm  ("DEBE IMPRIMIR");
+
+                   if(respuesta==true)
+                   {
+                   forma.action="agregar";
+                   forma.submit();
+               }
+                   if(respuesta==false)
+                   {
+                   alert("debe imprimir");
+
+                   }
+             }-->

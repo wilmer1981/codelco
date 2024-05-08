@@ -3,6 +3,12 @@
 	$CodigoDePantalla = 10;
 	include("../principal/conectar_principal.php");
 
+	$TipoBusq      = isset($_REQUEST["TipoBusq"])?$_REQUEST["TipoBusq"]:0;
+	$CmbCCosto     = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:"";
+	$TxtRut        = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtApePaterno = isset($_REQUEST["TxtApePaterno"])?$_REQUEST["TxtApePaterno"]:"";
+
+	/*
 	if(isset($_GET["TipoBusq"])){
 		$TipoBusq       = $_GET["TipoBusq"];
 		$CmbCCosto      = $_POST["CmbCCosto"];
@@ -14,6 +20,7 @@
 		$TxtRut    = '';
 		$TxtApePaterno ='';
 	}
+	*/
 
 	//if(!isset($TipoBusq))
 	//	$TipoBusq='0';
@@ -153,7 +160,7 @@ function MostrarPopupProceso(Proceso)
 				{
 					Valores=RecuperarValoresCheckeado();
 					alert("Valores:"+Valores);
-					Frm.action="ingreso_funcionarios_proceso01.php?Proceso="+Proceso+"&Valores="+Valores;
+					Frm.action="ingreso_funcionarios_proceso01.php?Proceso="+Proceso+"&Valores="+Valores+"&CmbCCosto2="+Frm.CmbCCosto.value;
 					Frm.submit();
 				}			
 			}	

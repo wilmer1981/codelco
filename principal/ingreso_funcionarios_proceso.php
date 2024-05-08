@@ -1,78 +1,34 @@
 <?php 	
 	//include("../principal/conectar_comet_web.php");
 	include("../principal/conectar_principal.php");
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
+
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbCCosto2   = isset($_REQUEST["CmbCCosto2"])?$_REQUEST["CmbCCosto2"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	
+	/*
 	if($Proceso=='M'){
-		$Valores    = $_GET["Valores"];
+		$Valores    = $_REQUEST["Valores"];
 		//$CmbCCosto2 = $_GET["CmbCCosto2"];
 	}else{
 		$CmbCCosto2 = "";
 	}
-	
+	*/
 
 	// $CmbCCosto2 = -1
-	/*
-	if(isset($_GET["CmbCCosto2"])){
-		$CmbCCosto2 = $_GET["CmbCCosto2"];
-	}else{
-		$CmbCCosto2 = "";
-	}*/
 
+	$TxtNombres    = isset($_REQUEST["TxtNombres"])?$_REQUEST["TxtNombres"]:"";
+	$TxtApePaterno = isset($_REQUEST["TxtApePaterno"])?$_REQUEST["TxtApePaterno"]:"";
+	$TxtApeMaterno = isset($_REQUEST["TxtApeMaterno"])?$_REQUEST["TxtApeMaterno"]:"";
+	$TxtBloqueo    = isset($_REQUEST["TxtBloqueo"])?$_REQUEST["TxtBloqueo"]:"";
+	$TxtCuentaCodelcoGDE    = isset($_REQUEST["TxtCuentaCodelcoGDE"])?$_REQUEST["TxtCuentaCodelcoGDE"]:"";
+	$TxtCuentaEnamiGDE      = isset($_REQUEST["TxtCuentaEnamiGDE"])?$_REQUEST["TxtCuentaEnamiGDE"]:"";
+	$TxtCodigo              = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
 
-
-	//VARIABLES POST
-	/*
-	if(isset($_POST["TxtCodigo"])){
-		$TxtCodigo = $_POST["TxtCodigo"];
-	}else{
-		$TxtCodigo = "";
-	}*/
-	
-	if(isset($_POST["TxtNombres"])){
-		$TxtNombres = $_POST["TxtNombres"];
-	}else{
-		$TxtNombres = "";
-	}
-	if(isset($_POST["TxtApePaterno"])){
-		$TxtApePaterno = $_POST["TxtApePaterno"];
-	}else{
-		$TxtApePaterno = "";
-	}
-	if(isset($_POST["TxtApeMaterno"])){
-		$TxtApeMaterno = $_POST["TxtApeMaterno"];
-	}else{
-		$TxtApeMaterno = "";
-	}
-	if(isset($_POST["TxtBloqueo"])){
-		$TxtBloqueo = $_POST["TxtBloqueo"];
-	}else{
-		$TxtBloqueo= "";
-	}
-	if(isset($_POST["TxtCuentaCodelcoGDE"])){
-		$TxtCuentaCodelcoGDE = $_POST["TxtCuentaCodelcoGDE"];
-	}else{
-		$TxtCuentaCodelcoGDE= "";
-	}
-	if(isset($_POST["TxtCuentaEnamiGDE"])){
-		$TxtCuentaEnamiGDE = $_POST["TxtCuentaEnamiGDE"];
-	}else{
-		$TxtCuentaEnamiGDE= "";
-	}
-
-	if(isset($_POST["TxtCodigo"])){
-		$TxtCodigo = $_POST["TxtCodigo"];
-	}else{
-		$TxtCodigo= "";
-	}
+	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";
 
 	/////////////////////////////////////////////////////////////////
 	
-
 	switch($Proceso)
 	{
 		case "N":
@@ -86,8 +42,7 @@
 			//echo "Respuesta:<br>";
 			//var_dump($Fila);
 			//$CmbCCosto2    =$Fila["cod_ceco"]; // no tiene valor		
-			$CmbCCosto2    =$Fila["cod_centro_costo"];	//agregado por WSO	
-		    //$CmbCCosto2    =str_replace('.','',$CmbCCosto2); // trae valor -1
+		    $CmbCCosto2    =str_replace('.','',$CmbCCosto2); // trae valor -1
 			$TxtCodigo     =$Fila["rut"];
 			$TxtNombres    =$Fila["nombres"];
 			$TxtApePaterno =$Fila["apellido_paterno"];
@@ -235,7 +190,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroCoincidencia))
+	if ($EncontroCoincidencia!="")
 	{
 		if ($EncontroCoincidencia==true)
 		{

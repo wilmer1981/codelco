@@ -1,0 +1,57 @@
+UNKNOWN {
+	FONT-SIZE: 8pt; COLOR: #666666; FONT-FAMILY: Verdana,Arial,Helvetica
+}
+P {
+	FONT-SIZE: 8pt; COLOR: #64666f; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-SIZE: 8pt; COLOR: #64666f; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+B {
+	FONT-SIZE: 8pt; COLOR: #64666f; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+A:link {
+	COLOR: #64666f; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #64666f; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #b47555; TEXT-DECORATION: none
+}
+UNKNOWN {
+	LIST-STYLE: square url(images/vineta.gif) outside; FONT-FAMILY: Verdana, Arial, Helvetica
+}
+.pie {
+	FONT-SIZE: 9px; COLOR: #8c909b; FONT-STYLE: normal; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.pie_bold {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #666666; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.subportada {
+	FONT-SIZE: 11px; COLOR: #64666f; LINE-HEIGHT: 18px; FONT-STYLE: normal; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.blanco {
+	FONT-SIZE: 11px; COLOR: #ffffff; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.blancotabla1 {
+	FONT-SIZE: 9px; COLOR: #ffffff; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.texto_zonacobre {
+	FONT-SIZE: 11px; COLOR: #dfdfdf; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_agenda {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #9f5b3a; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_cafe {
+	FONT-WEIGHT: normal; FONT-SIZE: 11px; COLOR: #9f5b3a; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_cafe_bold {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #b26c4a; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_codelco_informa {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #b26c4a; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_azul_codelco_informa {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #022f56; FONT-FAMILY: Arial, Helvetica, sans-serif
+}

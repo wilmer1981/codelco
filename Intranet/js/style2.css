@@ -1,0 +1,662 @@
+/*--------------ESTILOS CODELCO--------------------------------*/
+/* CSS Document */
+.InputPrograma{
+	text-align:right;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	font-family:Times New Roman, Times, serif;
+	font-size:9px;
+	width:40px
+}
+.InputIni {
+	text-align:right;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;	
+	border-color:#9E5B3B;
+}
+.InputIzq {
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	border-color:#666666;
+}
+.InputDer {
+	text-align:right;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	border-color:#666666;
+}
+.InputCen {
+	text-align:center;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	border-color:#666666;
+}
+.InputColor {
+	text-align:center;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	background-color:#CCCCCC;
+	border-color:#666666;
+}
+.Select01 {
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:9px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+}
+TR.CL01 {
+	BACKGROUND-COLOR: #0066CC;
+	color:#FFFFFF;
+	font-weight: bold;
+	font-style:italic;
+}
+TR.CL02 {
+	BACKGROUND-COLOR: "";
+}
+TR.CL03 {
+	BACKGROUND-COLOR: #0066CC;	
+	color:#FFFFFF;
+	/*font-weight: bold;*/
+}
+TR.CL04 {
+	BACKGROUND-COLOR: #FFFFFF;	
+	/*color:#FFFFFF;	*/
+	font-weight:normal;
+}
+.Links01{ 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 10px; 
+	text-decoration: none;
+	color: #ffffff;
+	/*font-weight: bold;
+	font-weight: bolder;
+    font-weight:bold*/
+}
+.Links02{ 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 10px; 
+	text-decoration: none;
+	color:#333333;
+	/*font-weight: bold;
+	font-weight: bolder;*/
+}
+.LinkBlanco{ 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 10px;
+	color: #FFFFFF;
+}
+BODY {
+	/*BACKGROUND-COLOR: #efe7d6; */
+	COLOR: #000000; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 10px; 
+}
+.Cabecera{
+	COLOR: #333333; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 10px;
+}
+.ColorTabla01{
+	BACKGROUND-COLOR: #b26c4a;
+	COLOR: #FFFFF2;
+	background-image: url(../imagenes/fondo_detalle.gif);
+}
+.ColorTabla02{
+	BACKGROUND-COLOR: #eeeeee;
+}
+.Borde{
+	border:solid 1px #000000
+}	
+table{
+	font-style:normal;
+	COLOR: #333333; 
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 9px; 
+}
+.TablaPrincipal{
+	border:solid 1px #666666;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	background-image: url(../imagenes/fondo3.gif);
+	BACKGROUND-COLOR: #eeeee2;
+}
+.TablaPrincipal2{
+	border:solid 1px #666666;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+}
+.TablaPrincipal3{
+	border:solid 1px #666666;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	background-image: url(../imagenes/fondo4.gif);
+}
+.TablaInterior{
+	BORDER-TOP:solid 1px #666666;
+	BORDER-BOTTOM:solid 2px #666666;
+	BORDER-LEFT:solid 1px #666666;
+	BORDER-RIGHT:solid 2px #666666;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.TablaDetalle{
+	BORDER-TOP:solid 1px #666666;
+	BORDER-BOTTOM:solid 2px #666666;
+	BORDER-LEFT:solid 1px #666666;
+	BORDER-RIGHT:solid 2px #666666;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+}
+.TablaDetalle02{
+	BORDER-TOP:solid 1px #666666;
+	BORDER-BOTTOM:solid 2px #666666;
+	BORDER-LEFT:solid 1px #666666;
+	BORDER-RIGHT:solid 2px #666666;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+	font-style:normal;
+	font-size: 9px;
+}
+font{
+	font-style:normal;
+	font-family :Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+input{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+.SinBorde{
+	BORDER-TOP:solid 0px;
+	BORDER-BOTTOM:solid 0px;
+	BORDER-LEFT:solid 0px;
+	BORDER-RIGHT:solid 0px;
+	BACKGROUND-COLOR: #eeeee2;
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+.ConBorde{
+	border: solid 11px #000000;
+}
+.TituloTabla{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #0000ff;
+	background: #ffff00;
+}
+.Detalle01{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #0000ff;
+	background: #ffffff;
+}
+.Detalle02{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #0000ff;
+	background: #cccccc;
+}
+.Detalle03{
+	font-style: normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #333333;
+	background: #FFFFCC;
+}
+select{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+.Titulo1{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+.boton{
+	font-style:normal;
+	font-size: 10px;
+	color: #0000ff;
+	background: #ffff00;
+}
+.Colum01{		
+	border-bottom:solid 1px #FFFFFF;
+	border-left:inset 1px #FFFFFF;
+	border-right:inset 1px #FFFFFF;
+	border-top:inset 1px #FFFFFF;
+}
+.NoSelec{
+	background-color:#CCCCCC;
+	color:#333333;
+}
+.ErrorNo{
+	color:#FF0000;
+	font-weight:bold;
+	font:Verdana, Arial, Helvetica, sans-serif;
+	font-style:italic
+}
+.ErrorSI{
+	color:#003399;
+	font-weight:bold;
+	font:Verdana, Arial, Helvetica, sans-serif;
+	font-style:italic
+}
+select{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+input{
+	font-style:normal;
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+.InputPrograma{
+	text-align:right;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	font-family:Times New Roman, Times, serif;
+	font-size:9px;
+	width:40px
+}
+.InputIni {
+	text-align:right;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;	
+	border-color:#9E5B3B;
+}
+.InputIzq {
+	text-align:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	border-color:#666666;
+}
+.InputDer {
+	text-align:right;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	border-color:#666666;
+}
+.InputCen {
+	text-align:center;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	border-color:#666666;
+}
+.InputColor {
+	text-align:center;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	border-bottom:solid 2px;
+	border-left:solid 1px;
+	border-right: solid 2px;
+	border-top:solid 1px;
+	background-color:#CCCCCC;
+	border-color:#666666;
+}
+.main-menu_2 {  font-family: Arial, Garamond, sans-serif; font-size: 10px; ; color: #ffffff}
+.BordeInf{
+	border-bottom:solid 1px #cccccc;
+}
+.BordeIzq{
+	border-left::solid 1px #cccccc;
+}
+.BordeDer{
+	border-right:solid 1px #cccccc;
+}
+.BordeSup{
+	border-top:solid 1px #cccccc;
+}
+.TablaPrincipal{
+	border:solid 1px #cccccc;
+}
+UNKNOWN {
+	FONT-SIZE: 8pt; COLOR: #666666; FONT-FAMILY: Verdana,Arial,Helvetica
+}
+P {
+	FONT-SIZE: 8pt; COLOR: #64666f; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-SIZE: 8pt; COLOR: #64666f; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+B {
+	FONT-SIZE: 8pt; COLOR: #64666f; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+A:link {
+	COLOR: #64666f; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #64666f; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #b47555; TEXT-DECORATION: none
+}
+UNKNOWN {
+	LIST-STYLE: square url(images/vineta.gif) outside; FONT-FAMILY: Verdana, Arial, Helvetica
+}
+.pie {
+	FONT-SIZE: 9px; COLOR: #8c909b; FONT-STYLE: normal; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.pie_bold {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #666666; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.subportada {
+	FONT-SIZE: 11px; COLOR: #64666f; LINE-HEIGHT: 18px; FONT-STYLE: normal; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.blanco {
+	FONT-SIZE: 11px; COLOR: #ffffff; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.blancotabla1 {
+	FONT-SIZE: 9px; COLOR: #ffffff; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.texto_zonacobre {
+	FONT-SIZE: 11px; COLOR: #dfdfdf; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_agenda {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #9f5b3a; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_cafe {
+	FONT-WEIGHT: normal; FONT-SIZE: 11px; COLOR: #9f5b3a; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_cafe_bold {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #b26c4a; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_codelco_informa {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #b26c4a; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.titulo_azul_codelco_informa {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #022f56; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+
+/*-------------------------------------------------------------*/
+.function-menu {  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: normal; color: #ffffff}
+a.function-menu {  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: normal; color: #ffffff;text-decoration:none; }
+a.function-menu:visited{  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: normal;color:#ffffff; text-decoration:none; }
+a.function-menu:hover{  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: normal; color:#ffffff; text-decoration:underline; }
+a.function-menu:active{  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: normal; color:#ffffff; text-decoration:none; }
+
+.main-menu {  font-family: Arial, Garamond, sans-serif; font-size: 10px; ; color: #575757}
+a.main-menu {  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: bold; color: #b26c4a;text-decoration:none; }
+a.main-menu:visited{  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: bold; color:#b26c4a; text-decoration:none; }
+a.main-menu:hover{  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: bold; color:#b26c4a; text-decoration:underline; }
+a.main-menu:active{  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: bold; color:#b26c4a; text-decoration:none; }
+
+.main-menu-black {  font-family: "Arial", "Garamond", "sans-serif"; font-size: 12px; font-weight: bold; text-decoration: none; color: #000000}
+a.main-menu-black {  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: bold; color: #000000;text-decoration:none; }
+a.main-menu-black:visited{  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: bold; color:#000000; text-decoration:none; }
+a.main-menu-black:hover{  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: bold; color:#000000; text-decoration:underline; }
+a.main-menu-black:active{  font-family: Arial, Garamond, sans-serif; font-size: 12px; font-weight: bold; color:#000000; text-decoration:none; }
+.menuCat {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.menuwhite {
+	BACKGROUND-COLOR: #ffffff
+}
+.menugreen {
+	BACKGROUND-COLOR: #009069
+}
+.menuwhite {
+	BACKGROUND-COLOR: #ffffff
+}
+.menuHeader {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.menuSub {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.menuSubHL {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.menuCat {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+OL {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px; LIST-STYLE: decimal outside; TEXT-DECORATION: none
+}
+UL {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px; LIST-STYLE: disc outside; TEXT-DECORATION: none
+}
+.menuyellow {
+	BACKGROUND-COLOR: #e8a900
+}
+.menublue {
+	BACKGROUND-COLOR: #1f60a9
+}
+.menupurple {
+	BACKGROUND-COLOR: #7f1183
+}
+.menucorpgreen {
+	BACKGROUND-COLOR: #004f45
+}
+.nolinklook {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+.menultgreen {
+	BACKGROUND-COLOR: #b6ca39
+}
+.menupink {
+	BACKGROUND-COLOR: #ca8383
+}
+.contParaRedHL {
+	COLOR: #ff0000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; TEXT-DECORATION: none
+}
+.menugreenTint {
+	BACKGROUND-COLOR: #98d3c4
+}
+.contHeader13p {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 13px; FONT-WEIGHT: normal; LINE-HEIGHT: 15px; TEXT-DECORATION: none
+}
+.contPara9p {
+	COLOR: #000000; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 9px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.contHeaderWhite13p {
+	COLOR: #ffffff; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 13px; FONT-WEIGHT: normal; LINE-HEIGHT: 15px; TEXT-DECORATION: none
+}
+.linkSmall {
+	COLOR: #c1131e; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 11px; TEXT-DECORATION: underline
+}
+.contHeader16p {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 16pt; FONT-WEIGHT: normal; LINE-HEIGHT: 20px; TEXT-DECORATION: none
+}
+.contPara11p {
+	COLOR: #000000; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 12px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.menugrey {
+	BACKGROUND-COLOR: #999999
+}
+.contSubBold13p {
+	FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 13px; FONT-WEIGHT: bold; LINE-HEIGHT: 15px
+}
+.contParaWhite11p {
+	COLOR: #ffffff; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; TEXT-DECORATION: none
+}
+.contParaWhite13p {
+	COLOR: #ffffff; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 13px; TEXT-DECORATION: none
+}
+.contParaItal11p {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-STYLE: italic; TEXT-DECORATION: none
+}
+.contParaBold11p {
+	COLOR: #000000; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.mainMenu {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.menuCatBold {
+	COLOR: #000000; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12pt; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.linkPara11p {
+	COLOR: #c1131e; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 11px; TEXT-DECORATION: underline
+}
+.mainMenu1 {
+	COLOR: #009069; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.mainMenu2 {
+	COLOR: #e8a900; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.mainMenu3 {
+	COLOR: #abbf08; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.mainMenu4 {
+	COLOR: #ff7d00; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.menudropbg {
+	BACKGROUND-COLOR: #005046
+}
+.menuSubHLWhite {
+	COLOR: #ffffff; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.menuCatWhite {
+	COLOR: #ffffff; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.menuSubHL009069 {
+	COLOR: #009069; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.menuSubHLE8A900 {
+	COLOR: #e8a900; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.menuSubHLABBF08 {
+	COLOR: #abbf08; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.menuSubHLFF7D00 {
+	COLOR: #ff7d00; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 11px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.menuCat009069 {
+	COLOR: #009069; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.menuCatE8A900 {
+	COLOR: #e8a900; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.menuCatABBF08 {
+	COLOR: #abbf08; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.menuCatFF7D00 {
+	COLOR: #ff7d00; FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.sub1bold {
+	FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 12px; FONT-WEIGHT: bold; LINE-HEIGHT: 15px
+}
+.sub2bold {
+	FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 14px; FONT-WEIGHT: bold; LINE-HEIGHT: 15px
+}
+.sub2plain {
+	FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 14px; LINE-HEIGHT: 15px
+}
+.bodyheading1bold {
+	FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 12px; FONT-WEIGHT: bold; LINE-HEIGHT: 15px
+}
+.bodyheading2plain {
+	FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 14px; LINE-HEIGHT: 15px
+}
+.bodyheading2bold {
+	FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 14px; FONT-WEIGHT: bold; LINE-HEIGHT: 15px
+}
+.bodywhite1plain {
+	COLOR: #ffffff; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 12px
+}
+.bodywhite2plain {
+	COLOR: #ffffff; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 14px
+}
+.body1plainitalic {
+	FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 12px; FONT-STYLE: italic
+}
+.headline {
+	FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 18px; LINE-HEIGHT: 40px; FONT-STYLE: bold
+}
+.body2plain {
+	FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px
+; font-weight: bold; text-decoration: none
+}
+.body1plain {
+	FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px
+; font-weight: normal
+; text-decoration: none
+; color: #000000
+}
+.contentdivider {
+	FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 16px; FONT-WEIGHT: bold; LINE-HEIGHT: 15px
+}
+
+.MenuContent {
+	COLOR: #555555; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 10px; FONT-WEIGHT: normal
+}
+A.MenuContent {
+	COLOR: #555555; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+A.MenuContent:visited {
+	COLOR: #555555; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+A.MenuContent:hover {
+	COLOR: #000000; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+A.MenuContent:active {
+	COLOR: #000000; FONT-FAMILY: Arial, Garamond, sans-serif; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}.copyright {  font: 10px "Arial", "細明體"; color: #666666}
+a.body { font-family: "Arial", "Helvetica", "sans-serif"; font-size: 12px; font-weight: normal;text-decoration:none; }
+a.body:active { font-family: "Arial", "Helvetica", "sans-serif"; font-size: 12px; font-weight: normal;text-decoration:none; }
+a.body:hover { font-family: "Arial", "Helvetica", "sans-serif"; font-size: 12px; font-weight: normal;text-decoration:underline; }
+.main-menu-green { font-family: "Arial", "Garamond", "sans-serif"; font-size: 12px; font-weight: bold; color: #005045; text-decoration: none}
+a:hover {  text-decoration: underline}
+.sidesub {  font-family: "Arial", "Furniture"; font-size: 11px; font-weight: normal; color: #333333; text-decoration: none}
+a.body2plain { font-family: "Arial", "Garamond", "sans-serif"; font-size: 12px; font-weight: bold;text-decoration:none; }
+a.body2plain:hover { font-family: "Arial", "Garamond", "sans-serif"; font-size: 12px; font-weight: bold;text-decoration:underline; }
+a.body2plain:active { font-family: "Arial", "Garamond", "sans-serif"; font-size: 12px; font-weight: bold;text-decoration:none; ; color: #BAD305 }
+a.body2plain:link { font-family: "Arial", "Garamond", "sans-serif"; font-size: 12px; font-weight: bold;text-decoration:none; ; color: #859704}
+.title_top {  font: 36px "Geneva", "Arial", "Helvetica", "san-serif"; color: #FFFFFF}
+.title {  font: italic bold 48px "Arial", "Helvetica", "sans-serif"; color: #004D42}
+.title_s {  font: italic 18px "Arial", "Helvetica", "sans-serif"; color: #004D42}
+.banner {  font: italic bold 24px "Arial", "Helvetica", "sans-serif"}
+.productsub { FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px ; font-weight: bold; text-decoration: none ; color: #004D42}
+.body1plain_white { FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px ; font-weight: normal ; text-decoration: none ; color: #FFFFFF}
+.body1plainorg { FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px ; font-weight: normal ; text-decoration: none ; color: #FF7D00}
+.body3plain { FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 10px; font-weight: normal ; text-decoration: none ; color: #000000 }
+.sitemapblack {  font-family: "Arial", "Helvetica", "sans-serif"; font-size: 8pt; color: #000000; text-decoration: none}
+.sitemaporg { color: #ff7d00; text-decoration: none }
+.body1plainorgbold { FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px ; font-weight: bold; text-decoration: none ; color: #FF7D00}
+.headline2 { FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 18px; LINE-HEIGHT: 30px; FONT-STYLE: bold }
+.body1plainsmall { FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 8pt; font-weight: normal ; text-decoration: none ; color: #000000 ; line-height: 17px }
+.body1plainbold { FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px ; font-weight: bold; text-decoration: none ; color: #000000 }
+.bodyheading { FONT-FAMILY: "Arial", "Garamond", "sans-serif"; FONT-SIZE: 12px; FONT-WEIGHT: bold; LINE-HEIGHT: 15px ; color: #004D42}
+.producttitle {  font-family: "Arial", "Helvetica", "sans-serif"; font-size: 18px; line-height: 17px; font-weight: bold; color: #666666}
+.mlist {  position: absolute; visibility: visible; z-index: 1; height: 23px; width: 132px; left: 554px; top: 26px; clip:  rect(   )}
+.copyrightorg { color: #FF9900; font-family: "Arial", "細明體"; text-decoration: none}

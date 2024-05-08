@@ -1,0 +1,54 @@
+<html>
+<body background="imagenes\amarillo1.jpg">
+<CENTER><H3>INGRESO DE CONTRATISTAS</H3></CENTER>
+
+<form method="POST" action="add_contratistas.php4">
+<ul>
+<li>Rut       :<br><input  type="text" name="Rut" size="8" maxlength="8">-<input  type="text" name="Dv" size="1" maxlength="1">
+<li>Sigla     :<br><input  name="Sigla" size="20"  maxlength="20">
+<li>Nombre    :<br><input  name="Nombre" size="50"  maxlength="50">
+<li>Apellidos :<br><input  name="Apellidos" size="50" maxlength="50">
+<li>Direccion :<br><textarea  name="Direccion" size="20" rows=3 cols=85></textarea>
+<li>Telefono  :<br><input  name="Telefono" size="20" maxlength="20">Ejemplo = 32-933308
+<li>Fax       :<br><input  name="Fax" size="20"  maxlength="20"> Ejemplo = 32-933303
+<li>Email    :<br><input  name="Email" size="50"  maxlength="50"> Ejemplo = pedro@hotmail.com
+<li>Especialidad:<br>
+<?php
+
+
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select codigo_especialidad,nombre_especialidad from especialidades";
+$result=mysql_query($sql);
+echo '<select name ="cod_especialidad">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['codigo_especialidad'].'">'.$row['nombre_especialidad'].'</option>\n';
+}
+echo '</select>';
+
+?>
+<br><li>Estado Contratista:<br>
+<?php
+
+
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select codigo_estado,descripcion_estado from estado";
+$result=mysql_query($sql);
+echo '<select name ="estado_contratista">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['codigo_estado'].'">'.$row['descripcion_estado'].'</option>\n';
+}
+echo '</select>';
+
+?>
+
+<br><br><input type="Submit" name="enviar" value="Ingresar">
+<H2><A href="http://200.1.6.254/contrato%20y%20maestranza/Ingresar/op_ingresos.html">ATRAS</A></H2>
+</UL>
+</form>
+
+</body>
+</html>

@@ -2,16 +2,8 @@
 	include("../principal/conectar_principal.php");
 
 
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-	if(isset($_REQUEST["Valores"])){
-		$Valores = $_REQUEST["Valores"];
-	}else{
-		$Valores = "";
-	}
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
 
 	//Proceso=M&TxtCodigo=40957290-7&CmbCCosto2=FA140
@@ -25,50 +17,18 @@
 		$CmbRut="";
 	}
 
-	if(isset($_POST["TxtCodigo"])){
-		$TxtCodigo = $_POST["TxtCodigo"];
-	}else{
-		$TxtCodigo = "";
-	}
-	if(isset($_POST["TxtNombres"])){
-		$TxtNombres = $_POST["TxtNombres"];
-	}else{
-		$TxtNombres = "";
-	}
-	if(isset($_POST["TxtApePaterno"])){
-		$TxtApePaterno = $_POST["TxtApePaterno"];
-	}else{
-		$TxtApePaterno = "";
-	}
-	if(isset($_POST["TxtApeMaterno"])){
-		$TxtApeMaterno = $_POST["TxtApeMaterno"];
-	}else{
-		$TxtApeMaterno = "";
-	}
-	if(isset($_POST["CmbCCosto2"])){
-		$CmbCCosto2    = $_POST["CmbCCosto2"];
-	}else{
-		$CmbCCosto2 = "";
-	}
-	if(isset($_POST["TxtBloqueo"])){
-		$TxtBloqueo    = $_POST["TxtBloqueo"];
-	}else{
-		$TxtBloqueo = "";
-	}
-	if(isset($_POST["TxtCuentaCodelcoGDE"])){
-		$TxtCuentaCodelcoGDE    = $_POST["TxtCuentaCodelcoGDE"];
-	}else{
-		$TxtCuentaCodelcoGDE = "";
-	}
-	if(isset($_POST["TxtCuentaEnamiGDE"])){
-		$TxtCuentaEnamiGDE    = $_POST["TxtCuentaEnamiGDE"];
-	}else{
-		$TxtCuentaEnamiGDE = "";
-	}
+	$TxtNombres    = isset($_REQUEST["TxtNombres"])?$_REQUEST["TxtNombres"]:"";
+	$TxtApePaterno = isset($_REQUEST["TxtApePaterno"])?$_REQUEST["TxtApePaterno"]:"";
+	$TxtApeMaterno = isset($_REQUEST["TxtApeMaterno"])?$_REQUEST["TxtApeMaterno"]:"";
+	$TxtBloqueo    = isset($_REQUEST["TxtBloqueo"])?$_REQUEST["TxtBloqueo"]:"";
+	$TxtCuentaCodelcoGDE    = isset($_REQUEST["TxtCuentaCodelcoGDE"])?$_REQUEST["TxtCuentaCodelcoGDE"]:"";
+	$TxtCuentaEnamiGDE      = isset($_REQUEST["TxtCuentaEnamiGDE"])?$_REQUEST["TxtCuentaEnamiGDE"]:"";
+	$TxtCodigo              = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
+	$CmbCCosto2             = isset($_REQUEST["CmbCCosto2"])?$_REQUEST["CmbCCosto2"]:"";
 
 	if($Proceso=="M"){
-		$passw   = $_POST["passw"];
-		$passw2  = $_POST["passw2"];
+		$passw   = isset($_REQUEST["passw"])?$_REQUEST["passw"]:"";
+		$passw2  = isset($_REQUEST["passw2"])?$_REQUEST["passw2"]:"";
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -108,7 +68,7 @@
 			mysqli_query($link, $Eliminar);
 			break;
 		case "CP":
-			echo "entrooooo";
+			//echo "entrooooo";
 			$Datos = explode("~~",$Valores);
 			//foreach($Datos as $k => $v)
 			foreach ($Datos as $k => $v)
@@ -133,7 +93,7 @@
 
 	if ($Proceso=="E")
 	{
-		header("location:ingreso_funcionarios.php?CmbCCosto=".$CmbCCosto);
+		header("location:ingreso_funcionarios.php?CmbCCosto=".$CmbCCosto2);
 	}
 	else
 	{

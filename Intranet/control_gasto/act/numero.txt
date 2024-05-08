@@ -1,0 +1,10 @@
+$caca=count($row);
+          echo "HAY ".$caca." REGISTROS<br>";
+
+        if($caca > 3)
+        {
+         echo'hola amigo';
+           }
+      else
+      {
+      echo'hola';

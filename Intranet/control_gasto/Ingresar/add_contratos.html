@@ -1,0 +1,85 @@
+<html>
+<body background="imagenes\amarillo1.jpg">
+<CENTER><H3>INGRESO DE CONTRATOS</H3></CENTER>
+
+<form method="POST" action="add_contratos.php4">
+<ul>
+<li>Numero Contrato       :<br><input  type="text" name="Numero_contrato" size="8" maxlength="8">
+<li>Nombre Contrato     :<br><textarea name="Nombre_contrato" rows="1" cols="50" wrap=virtual></textarea>
+<li>Tipo Contrato   :<br>
+<?php
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select tipo_contrato,descripcion_tipo from tipo_contrato";
+$result=mysql_query($sql);
+echo '<select name ="Tipo_contrato">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['tipo_contrato'].'">'.$row['descripcion_tipo'].'</option>\n';
+}
+echo '</select>';
+
+?>
+<li>Numero Solicitud :<br><input  name="Numero_solicitud" size="8" maxlength="8">
+<li>Fecha Inicio :<br><input  name="Fecha_ini_contrato" size="10" maxlength="10">(AAAA-MM-DD)
+<li>Fecha Termino:<br><input  name="Fecha_ter_contrato" size="10" maxlength="10">(AAAA-MM-DD)
+<li>Rut Adjudicado  :<br><input  name="Rut_adjudicado" size="8" maxlength="8">-<input  type="text" name="Dv" size="1" maxlength="1">
+<li>Valor Trabajo       :<br><input  name="Valor_trabajo" size="8"  maxlength="8">
+<li>Codigo Moneda   :<br>
+<?php
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select codigo_moneda,descripcion_moneda from moneda";
+$result=mysql_query($sql);
+echo '<select name ="Codigo_moneda">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['codigo_moneda'].'">'.$row['descripcion_moneda'].'</option>\n';
+}
+echo '</select>';
+
+?>
+
+<li>Fecha entrega contrato   :<br><input  name="Fecha_entrega_contrato" size="10"  maxlength="10">(AAAA-MM-DD)
+<li>Rut encargado   :<br><input  name="Rut_encargado" size="8"  maxlength="8">-<input  type="text" name="D" size="1" maxlength="1">
+<li>Codigo estado   :<br>
+<?php
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select codigo_estado,descripcion_estado from estado";
+$result=mysql_query($sql);
+echo '<select name ="Codigo_estado">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['codigo_estado'].'">'.$row['descripcion_estado'].'</option>\n';
+}
+echo '</select>';
+
+?>
+
+<li>Numero Factura   :<br><input  name="Numero_factura" size="8"  maxlength="10">
+<li>Multa   :<br><input  name="Multa" size="8"  maxlength="7">
+<li>Item Gasto :<br>
+
+<?php
+$link=mysql_connect("200.1.6.254","root");
+mysql_select_db("bd_contrato_maestranza",$link);
+$sql="select item_gastos,descripcion_item from item_gasto";
+$result=mysql_query($sql);
+echo '<select name ="Item_gastos">';
+while($row = mysql_fetch_array($result))
+{
+echo '<option value="'.$row['item_gastos'].'">'.$row['descripcion_item'].'</option>\n';
+}
+echo '</select>';
+
+?>
+
+<li>Evaluacion Anexo   :<br><input  name="Evaluacion_anexo" size="8"  maxlength="10">
+<li>Observaciones   :<br><textarea name="Observaciones" rows="5" cols="51" wrap=virtual></textarea>
+<br><br><input type="Submit" name="enviar" value="Ingresar">
+<H2><A href="http://200.1.6.254/contrato%20y%20maestranza/Ingresar/op_ingresos.html">ATRAS</A></H2>
+</UL>
+</form>
+</body>
+</html>

@@ -1,0 +1,7 @@
+
+
+  $fecha=?       (ingresar la variable a esta)
+  $dia=substr($fecha,0,2);
+  $mes=substr($fecha,3,2);
+  $ano=substr($fecha,6,4);
+  $fecha_b="$dia-$mes-$ano";   (buscar por esta)
