@@ -30,14 +30,12 @@ function Salir()
 <title>AGE-Ingreso de Parametros</title>
 <link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 3px;
 	margin-bottom: 3px;
 }
--->
 </style><body onload="document.FrmProceso.TxtIVA.focus()">
 <form name="FrmProceso" method="post" action="">
 <?php include("../principal/encabezado.php") ?>
