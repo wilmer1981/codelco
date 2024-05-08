@@ -4,11 +4,8 @@
 	
 	include("conectar_principal.php");
 
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
+    $CookieRut   = $_COOKIE["CookieRut"];
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 
 	$consulta="SELECT * from funcionarios where rut='".$CookieRut."'";
 	$result=mysqli_query($link, $consulta);

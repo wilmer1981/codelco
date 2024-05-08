@@ -119,12 +119,11 @@ include("conectar_principal.php");
 		mysqli_query($link, $Actualizar);
 	}
 }*/
-
-if(isset($_GET["Proceso"])){
-	$Proceso = $_GET["Proceso"];
-}else{
-	$Proceso = "";
-}
+$CookieRut   = $_COOKIE["CookieRut"];
+$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$mensaje     = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+$NumMensaje  = isset($_REQUEST["NumMensaje"])?$_REQUEST["NumMensaje"]:"";
+$PrintMensaje = isset($_REQUEST["PrintMensaje"])?$_REQUEST["PrintMensaje"]:"";
 
 
 if ($Proceso == "S")
@@ -165,7 +164,7 @@ if ($Proceso == "S")
   	{
       	if (mysqli_errno($link)==1062)
       	{
-          	$PrintMensaje="No se ha Ingresado por que el C�digo <br>Ya existe";
+          	$PrintMensaje="No se ha Ingresado por que el Código <br>Ya existe";
       	}
       	else
       	{
