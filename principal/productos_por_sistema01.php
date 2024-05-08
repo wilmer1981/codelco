@@ -1,29 +1,11 @@
 <?php
 	include("conectar_principal.php");
 
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-
-	
-	if(isset($_POST["Sistema"])){
-		$Sistema = $_POST["Sistema"];
-	}else{
-		$Sistema = "";
-	}
-	if(isset($_POST["Producto"])){
-		$Producto = $_POST["Producto"];
-	}else{
-		$Producto = "";
-	}
-	if(isset($_POST["SubProducto"])){
-		$SubProducto = $_POST["SubProducto"];
-	}else{
-		$SubProducto = "";
-	}
-
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Sistema     = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
+	$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Valor       = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
 
 	switch ($Proceso)
 	{

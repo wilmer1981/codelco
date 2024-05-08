@@ -3,16 +3,10 @@
 	$CodigoDePantalla = 8;
 	include("conectar_principal.php");
 
-	if(isset($_POST["Sistema"])){
-		$Sistema = $_POST["Sistema"];
-	}else{
-		$Sistema = "";
-	}
-	if(isset($_POST["Producto"])){
-		$Producto = $_POST["Producto"];
-	}else{
-		$Producto = "";
-	}
+	$Sistema     = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
+	$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
 ?>
 <html>
 <head>
@@ -41,7 +35,7 @@ function Proceso(opt)
 		case "ET":
 			if (f.Sistema.value!="T")
 			{
-				var msg=confirm("�Desea Eliminar Toda la Relacion del Sistema?");
+				var msg=confirm("¿Desea Eliminar Toda la Relacion del Sistema?");
 				if (msg==true)
 				{
 					f.action = "productos_por_sistema01.php?Proceso=ET";
@@ -69,7 +63,7 @@ function Proceso(opt)
 			}
 			if (Valor!="")
 			{
-				var msg=confirm("�Desea Eliminar esta Relacion?");
+				var msg=confirm("4¿Desea Eliminar esta Relacion?");
 				if (msg==true)
 				{
 					f.action = "productos_por_sistema01.php?Proceso=E&Valor="+Valor;
@@ -157,7 +151,7 @@ body {
       <td>SubProducto</td>
       <td><select name="SubProducto">	  
 <?php
-	if (isset($Producto) && $Producto!="T")
+	if ($Producto!="" && $Producto!="T")
 		echo "<option value='T'>TODOS</option>\n";
 	else
 		echo "<option value='T'>SELECCIONAR</option>\n";
