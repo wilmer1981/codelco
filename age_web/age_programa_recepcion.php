@@ -2,10 +2,15 @@
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=3;
 	include("../principal/conectar_principal.php");
-	if (!isset($Ano))
-		$Ano = date("Y");
-	if (!isset($ChkTipoProg))
-		$ChkTipoProg = "00";
+
+	$TipoProg = isset($_REQUEST['TipoProg']) ? $_REQUEST['TipoProg'] : '';
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbContrato = isset($_REQUEST['CmbContrato']) ? $_REQUEST['CmbContrato'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';	
+
+	$Ano = isset($_REQUEST['Ano']) ? $_REQUEST['Ano'] : date("Y");
+	$ChkTipoProg = isset($_REQUEST['ChkTipoProg']) ? $_REQUEST['ChkTipoProg'] : "00";
+
 ?>	
 <html>
 <head>
@@ -109,7 +114,7 @@ function Proceso(opt,opt1)
 		case "E":
 			if (f.ChkSelec.value!="")
 			{
-				var msg=confirm("�Seguro que desea Eliminar este Proveedor?");
+				var msg=confirm("¿Seguro que desea Eliminar este Proveedor?");
 				if (msg==true)
 				{
 					f.action = "age_programa_recepcion01.php?Proceso=E";
@@ -122,7 +127,7 @@ function Proceso(opt,opt1)
 			}
 			else
 			{
-				alert("No hay ning�n registro seleccionado");
+				alert("No hay ningún registro seleccionado");
 				return;
 			}
 			break;
@@ -146,7 +151,7 @@ function Calcula(obj,valor)
 		}
 		else
 		{
-			if (confirm("�Desea Dividir el Total (" + obj.value + ") en los 12 Meses?"))
+			if (confirm("¿Desea Dividir el Total (" + obj.value + ") en los 12 Meses?"))
 			{
 				var TotPeso=0;
 				for (i=1;i<=12;i++)
@@ -197,14 +202,12 @@ function RescataValores(obj,valor)
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style></head>
 
 <body>
@@ -465,42 +468,57 @@ if ($Fila = mysqli_fetch_array($Resp))
 			$Resp = mysqli_query($link, $Consulta);
 			$i=1;
 			$Fila = mysqli_fetch_array($Resp);
-			$ValorTot= $Fila["ene"]+$Fila["feb"]+$Fila["mar"]+$Fila["abr"]+$Fila["may"]+$Fila["jun"]+$Fila["jul"]+$Fila["ago"]+$Fila["sep"]+$Fila["oct"]+$Fila["nov"]+$Fila["dic"];
+			$ene = isset($Fila["ene"])?$Fila["ene"]:0;
+			$feb = isset($Fila["feb"])?$Fila["feb"]:0;
+			$mar = isset($Fila["mar"])?$Fila["mar"]:0;
+			$abr = isset($Fila["abr"])?$Fila["abr"]:0;
+			$may = isset($Fila["may"])?$Fila["may"]:0;
+			$jun = isset($Fila["jun"])?$Fila["jun"]:0;
+			$jul = isset($Fila["jul"])?$Fila["jul"]:0;
+			$ago = isset($Fila["ago"])?$Fila["ago"]:0;
+			$sep = isset($Fila["sep"])?$Fila["sep"]:0;
+			$oct = isset($Fila["oct"])?$Fila["oct"]:0;
+			$nov = isset($Fila["nov"])?$Fila["nov"]:0;
+			$dic = isset($Fila["dic"])?$Fila["dic"]:0;
+	
+			$ValorTot= $ene + $feb + $mar + $abr + $may + $jun + $jul + $ago + $sep + $oct + $nov + $dic;
+
+			$rut_proveedor = isset($FilaAux["rut_proveedor"])?$FilaAux["rut_proveedor"]:"";
 			echo "<tr align='center'>\n";
-			echo "<td><input name='ChkProv' type='radio' value='".$FilaAux["rut_proveedor"]."' onClick=\"Proceso('RS',this)\"></td>\n";
+			echo "<td><input name='ChkProv' type='radio' value='".$rut_proveedor."' onClick=\"Proceso('RS',this)\"></td>\n";
 			echo "<td align='left' ><font style='font-family:Verdana;font-size:9px'>";
 			if ($Grupo=="" && $FilaAux["NOMPRV_A"]=="")
 				echo "DIFERENCIA";
 			else
 				echo substr($FilaAux["NOMPRV_A"],0,20);
 			echo "</font></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoTot_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$ValorTot."'    onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" style='width50px;background:yellow' onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";		
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoEne_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["ene"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoFeb_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["feb"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoMar_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["mar"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoAbr_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["abr"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoMay_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["may"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoJun_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["jun"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoJul_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["jul"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoAgo_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["ago"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoSep_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["sep"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoOct_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["oct"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoNov_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["nov"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
-			echo "<td><input type='text' class='InputPrograma' name='ChkPesoDic_".str_replace("-","",$FilaAux["rut_proveedor"])."' value='".$Fila["dic"]."' onBlur=\"Calcula(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$FilaAux["rut_proveedor"])."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoTot_".str_replace("-","",$rut_proveedor)."' value='".$ValorTot."'    onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" style='width50px;background:yellow' onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";		
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoEne_".str_replace("-","",$rut_proveedor)."' value='".$ene."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoFeb_".str_replace("-","",$rut_proveedor)."' value='".$feb."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoMar_".str_replace("-","",$rut_proveedor)."' value='".$mar."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoAbr_".str_replace("-","",$rut_proveedor)."' value='".$abr."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoMay_".str_replace("-","",$rut_proveedor)."' value='".$may."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoJun_".str_replace("-","",$rut_proveedor)."' value='".$jun."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoJul_".str_replace("-","",$rut_proveedor)."' value='".$jul."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoAgo_".str_replace("-","",$rut_proveedor)."' value='".$ago."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoSep_".str_replace("-","",$rut_proveedor)."' value='".$sep."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoOct_".str_replace("-","",$rut_proveedor)."' value='".$oct."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoNov_".str_replace("-","",$rut_proveedor)."' value='".$nov."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
+			echo "<td><input type='text' class='InputPrograma' name='ChkPesoDic_".str_replace("-","",$rut_proveedor)."' value='".$dic."' onBlur=\"Calcula(this,'".str_replace("-","",$rut_proveedor)."')\" onKeyDown=\"TeclaPulsada('S',false);\" onFocus=\"RescataValores(this,'".str_replace("-","",$rut_proveedor)."')\"></td>\n";
 			echo "</tr>\n";
 			$ChkPesoTotalTot = $ChkPesoTotalTot + $ValorTot;
-			$ChkPesoTotalEne = $ChkPesoTotalEne + $Fila["ene"];
-			$ChkPesoTotalFeb = $ChkPesoTotalFeb + $Fila["feb"];
-			$ChkPesoTotalMar = $ChkPesoTotalMar + $Fila["mar"];
-			$ChkPesoTotalAbr = $ChkPesoTotalAbr + $Fila["abr"];
-			$ChkPesoTotalMay = $ChkPesoTotalMay + $Fila["may"];
-			$ChkPesoTotalJun = $ChkPesoTotalJun + $Fila["jun"];
-			$ChkPesoTotalJul = $ChkPesoTotalJul + $Fila["jul"];
-			$ChkPesoTotalAgo = $ChkPesoTotalAgo + $Fila["ago"];
-			$ChkPesoTotalSep = $ChkPesoTotalSep + $Fila["sep"];
-			$ChkPesoTotalOct = $ChkPesoTotalOct + $Fila["oct"];
-			$ChkPesoTotalNov = $ChkPesoTotalNov + $Fila["nov"];
-			$ChkPesoTotalDic = $ChkPesoTotalDic + $Fila["dic"];
+			$ChkPesoTotalEne = $ChkPesoTotalEne + $ene;
+			$ChkPesoTotalFeb = $ChkPesoTotalFeb + $feb;
+			$ChkPesoTotalMar = $ChkPesoTotalMar + $mar;
+			$ChkPesoTotalAbr = $ChkPesoTotalAbr + $abr;
+			$ChkPesoTotalMay = $ChkPesoTotalMay + $may;
+			$ChkPesoTotalJun = $ChkPesoTotalJun + $jun;
+			$ChkPesoTotalJul = $ChkPesoTotalJul + $jul;
+			$ChkPesoTotalAgo = $ChkPesoTotalAgo + $ago;
+			$ChkPesoTotalSep = $ChkPesoTotalSep + $sep;
+			$ChkPesoTotalOct = $ChkPesoTotalOct + $oct;
+			$ChkPesoTotalNov = $ChkPesoTotalNov + $nov;
+			$ChkPesoTotalDic = $ChkPesoTotalDic + $dic;
 			$i++;
 			$j++;
 		}

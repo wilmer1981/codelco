@@ -10,6 +10,7 @@
     <tr> 
       <td align="center" valign="middle"><strong><span style="color:#0000FF ">&nbsp;
 <?php
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	switch ($Proceso)
 	{
 		case "NoAuto":

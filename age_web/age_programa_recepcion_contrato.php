@@ -1,7 +1,14 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if (!isset($EstadoContrato))
-		$EstadoContrato=1;
+
+	$Modif = isset($_REQUEST['Modif'])?$_REQUEST['Modif'] : '';
+	$EstadoContrato = isset($_REQUEST['EstadoContrato'])?$_REQUEST['EstadoContrato'] : 1;
+	$SubProducto    = isset($_REQUEST['SubProducto'])?$_REQUEST['SubProducto'] : '';
+	$TxtNumContrato = isset($_REQUEST['TxtNumContrato'])?$_REQUEST['TxtNumContrato'] : '';
+	$TxtDescripContrato = isset($_REQUEST['TxtDescripContrato'])?$_REQUEST['TxtDescripContrato'] : '';
+	$TxtFechaIni = isset($_REQUEST['TxtFechaIni'])?$_REQUEST['TxtFechaIni'] : '';
+	$TxtFechaFin = isset($_REQUEST['TxtFechaFin'])?$_REQUEST['TxtFechaFin'] : '';
+
 	if ($Modif=="S")
 	{
 		$Consulta = "select * from age_web.contratos where cod_producto='1' and cod_subproducto='".$SubProducto."' ";
@@ -85,7 +92,7 @@ function Proceso(opt)
 			f.submit();
 			break;
 		case "E":
-			var msg=confirm("�Seguro que  desea Eliminar Este Contrato Se Eliminaran Todos los Proveedores Ya Ingresados?");
+			var msg=confirm("¿eguro que  desea Eliminar Este Contrato Se Eliminaran Todos los Proveedores Ya Ingresados?");
 			if (msg==true)
 			{
 				f.action = "age_programa_recepcion01.php?Proceso=EC";
@@ -109,11 +116,9 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
