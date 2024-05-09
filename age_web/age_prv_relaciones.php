@@ -73,7 +73,7 @@ body {
 		{
 			echo "<tr>";
 			echo "<td align='right'>".$Fila[RUTPRV_A]."</td>";
-			echo "<td>".$Fila[NOMPRV_A]."</td>";
+			echo "<td>".$Fila["NOMPRV_A"]."</td>";
 			echo "<td>".$Fila[estado_prv]."</td>";
 			echo "<tr>";
 		}

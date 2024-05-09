@@ -100,7 +100,7 @@
 			echo "<td align='right'>".number_format($Fila[tonelaje_total],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[ene],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[feb],0,",",".")."</td>";
-			echo "<td align='right'>".number_format($Fila[mar],0,",",".")."</td>";
+			echo "<td align='right'>".number_format($Fila["mar"],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[abr],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila["may"],0,",",".")."</td>";
 			echo "<td align='right'>".number_format($Fila[jun],0,",",".")."</td>";
@@ -115,7 +115,7 @@
 			$Total = $Total + $Fila[tonelaje_total];
 			$TotalEne = $TotalEne + $Fila[ene];
 			$TotalFeb = $TotalFeb + $Fila[feb];
-			$TotalMar = $TotalMar + $Fila[mar];
+			$TotalMar = $TotalMar + $Fila["mar"];
 			$TotalAbr = $TotalAbr + $Fila[abr];
 			$TotalMay = $TotalMay + $Fila["may"];
 			$TotalJun = $TotalJun + $Fila[jun];
@@ -129,7 +129,7 @@
 			$Total2 = $Total2 + $Fila[tonelaje_total];
 			$TotalEne2 = $TotalEne2 + $Fila[ene];
 			$TotalFeb2 = $TotalFeb2 + $Fila[feb];
-			$TotalMar2 = $TotalMar2 + $Fila[mar];
+			$TotalMar2 = $TotalMar2 + $Fila["mar"];
 			$TotalAbr2 = $TotalAbr2 + $Fila[abr];
 			$TotalMay2 = $TotalMay2 + $Fila[may];
 			$TotalJun2 = $TotalJun2 + $Fila[jun];

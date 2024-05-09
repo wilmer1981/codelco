@@ -3,10 +3,14 @@ $CodigoDeSistema=15;
 $CodigoDePantalla=5;
 include("../principal/conectar_principal.php");
 include("../age_web/age_funciones.php");
-if (!isset($Ano))
-	$Ano = date("Y");
-if (!isset($ChkTipoProg))
-	$ChkTipoProg = "00";
+
+$Buscar         = isset($_REQUEST['Buscar']) ? $_REQUEST['Buscar'] : '';
+$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+$CmbContrato    = isset($_REQUEST['CmbContrato']) ? $_REQUEST['CmbContrato'] : '';
+$CmbProveedor   = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+$Ano            = isset($_REQUEST['Ano']) ? $_REQUEST['Ano'] : date("Y");
+$ChkTipoProg    = isset($_REQUEST['ChkTipoProg']) ? $_REQUEST['ChkTipoProg'] : '00';
+
 if($Buscar=='S')
 {
 	$ArregloRecep=array();
@@ -51,14 +55,16 @@ if($Buscar=='S')
 		//echo $Consulta."<br>";
 		$ContVueltas=1;
 		$Resp = mysqli_query($link, $Consulta);
+		$TotPSecoProg=0;
 		while($Fila=mysqli_fetch_array($Resp))
 		{
+			$rut_proveedor = isset($Fila['rut_proveedor'])?$Fila['rut_proveedor']:"";
 			switch ($Fila["grupo"])
 			{
 				case "P":
-					$Clave1=$Fila["rut_proveedor"]."P";//PROGRAMADO
-					$Clave2=$Fila["rut_proveedor"]."R";//REAL
-					$Clave3=$Fila["rut_proveedor"]."D";//DIFERENCIA
+					$Clave1=$rut_proveedor."P";//PROGRAMADO
+					$Clave2=$rut_proveedor."R";//REAL
+					$Clave3=$rut_proveedor."D";//DIFERENCIA
 					break;
 				case "V":
 					$Clave1="99999999-9"."P";//PROGRAMADO
@@ -75,17 +81,17 @@ if($Buscar=='S')
 			if ($Grupo=="P" || $Grupo=="V")
 			{
 				$ArregloRecep[$Clave1][1] = $ArregloRecep[$Clave1][1] + $Fila["ene"];
-				$ArregloRecep[$Clave1][2] = $ArregloRecep[$Clave1][2] + $Fila[feb];
-				$ArregloRecep[$Clave1][3] = $ArregloRecep[$Clave1][3] + $Fila[mar];
-				$ArregloRecep[$Clave1][4] = $ArregloRecep[$Clave1][4] + $Fila[abr];
-				$ArregloRecep[$Clave1][5] = $ArregloRecep[$Clave1][5] + $Fila[may];
-				$ArregloRecep[$Clave1][6] = $ArregloRecep[$Clave1][6] + $Fila[jun];
-				$ArregloRecep[$Clave1][7] = $ArregloRecep[$Clave1][7] + $Fila[jul];
-				$ArregloRecep[$Clave1][8] = $ArregloRecep[$Clave1][8] + $Fila[ago];
+				$ArregloRecep[$Clave1][2] = $ArregloRecep[$Clave1][2] + $Fila["feb"];
+				$ArregloRecep[$Clave1][3] = $ArregloRecep[$Clave1][3] + $Fila["mar"];
+				$ArregloRecep[$Clave1][4] = $ArregloRecep[$Clave1][4] + $Fila["abr"];
+				$ArregloRecep[$Clave1][5] = $ArregloRecep[$Clave1][5] + $Fila["may"];
+				$ArregloRecep[$Clave1][6] = $ArregloRecep[$Clave1][6] + $Fila["jun"];
+				$ArregloRecep[$Clave1][7] = $ArregloRecep[$Clave1][7] + $Fila["jul"];
+				$ArregloRecep[$Clave1][8] = $ArregloRecep[$Clave1][8] + $Fila["ago"];
 				$ArregloRecep[$Clave1][9] = $ArregloRecep[$Clave1][9] + $Fila["sep"];
-				$ArregloRecep[$Clave1][10] = $ArregloRecep[$Clave1][10] + $Fila[oct];
-				$ArregloRecep[$Clave1][11] = $ArregloRecep[$Clave1][11] + $Fila[nov];
-				$ArregloRecep[$Clave1][12] = $ArregloRecep[$Clave1][12] + $Fila[dic];
+				$ArregloRecep[$Clave1][10] = $ArregloRecep[$Clave1][10] + $Fila["oct"];
+				$ArregloRecep[$Clave1][11] = $ArregloRecep[$Clave1][11] + $Fila["nov"];
+				$ArregloRecep[$Clave1][12] = $ArregloRecep[$Clave1][12] + $Fila["dic"];
 				$TotPSecoProg= $Fila["ene"]+$Fila["feb"]+$Fila["mar"]+$Fila["abr"]+$Fila["may"]+$Fila["jun"]+$Fila["jul"]+$Fila["ago"]+$Fila["sep"]+$Fila["oct"]+$Fila["nov"]+$Fila["dic"];
 				$ArregloRecep[$Clave1][14]=$ArregloRecep[$Clave1][14] + $TotPSecoProg;
 			}
@@ -103,17 +109,17 @@ if($Buscar=='S')
 					if ($FilaAux = mysqli_fetch_array($RespAux))
 					{
 						$ArregloRecep[$Clave1][1] = $ArregloRecep[$Clave1][1] + $FilaAux["ene"];
-						$ArregloRecep[$Clave1][2] = $ArregloRecep[$Clave1][2] + $FilaAux[feb];
-						$ArregloRecep[$Clave1][3] = $ArregloRecep[$Clave1][3] + $FilaAux[mar];
-						$ArregloRecep[$Clave1][4] = $ArregloRecep[$Clave1][4] + $FilaAux[abr];
-						$ArregloRecep[$Clave1][5] = $ArregloRecep[$Clave1][5] + $FilaAux[may];
-						$ArregloRecep[$Clave1][6] = $ArregloRecep[$Clave1][6] + $FilaAux[jun];
-						$ArregloRecep[$Clave1][7] = $ArregloRecep[$Clave1][7] + $FilaAux[jul];
-						$ArregloRecep[$Clave1][8] = $ArregloRecep[$Clave1][8] + $FilaAux[ago];
+						$ArregloRecep[$Clave1][2] = $ArregloRecep[$Clave1][2] + $FilaAux["feb"];
+						$ArregloRecep[$Clave1][3] = $ArregloRecep[$Clave1][3] + $FilaAux["mar"];
+						$ArregloRecep[$Clave1][4] = $ArregloRecep[$Clave1][4] + $FilaAux["abr"];
+						$ArregloRecep[$Clave1][5] = $ArregloRecep[$Clave1][5] + $FilaAux["may"];
+						$ArregloRecep[$Clave1][6] = $ArregloRecep[$Clave1][6] + $FilaAux["jun"];
+						$ArregloRecep[$Clave1][7] = $ArregloRecep[$Clave1][7] + $FilaAux["jul"];
+						$ArregloRecep[$Clave1][8] = $ArregloRecep[$Clave1][8] + $FilaAux["ago"];
 						$ArregloRecep[$Clave1][9] = $ArregloRecep[$Clave1][9] + $FilaAux["sep"];
-						$ArregloRecep[$Clave1][10] = $ArregloRecep[$Clave1][10] + $FilaAux[oct];
-						$ArregloRecep[$Clave1][11] = $ArregloRecep[$Clave1][11] + $FilaAux[nov];
-						$ArregloRecep[$Clave1][12] = $ArregloRecep[$Clave1][12] + $FilaAux[dic];
+						$ArregloRecep[$Clave1][10] = $ArregloRecep[$Clave1][10] + $FilaAux["oct"];
+						$ArregloRecep[$Clave1][11] = $ArregloRecep[$Clave1][11] + $FilaAux["nov"];
+						$ArregloRecep[$Clave1][12] = $ArregloRecep[$Clave1][12] + $FilaAux["dic"];
 						$TotPSecoProg= $FilaAux["ene"]+$FilaAux["feb"]+$FilaAux["mar"]+$FilaAux["abr"]+$FilaAux["may"]+$FilaAux["jun"]+$FilaAux["jul"]+$FilaAux["ago"]+$FilaAux["sep"]+$FilaAux["oct"]+$FilaAux["nov"]+$FilaAux["dic"];
 						$ArregloRecep[$Clave1][14]=$ArregloRecep[$Clave1][14] + $TotPSecoProg;
 					}
@@ -131,7 +137,7 @@ if($Buscar=='S')
 				$Consulta = "select lote ";
 				$Consulta.= " from age_web.lotes where estado_lote <>'6' and cod_producto='1' ";
 				$Consulta.= " and cod_subproducto='".$CmbSubProducto."' ";
-				$Consulta.= " and rut_proveedor='".$Fila["rut_proveedor"]."' ";
+				$Consulta.= " and rut_proveedor='".$rut_proveedor."' ";
 				$Consulta.= " and fecha_recepcion between '".$FechaIni."' and '".$FechaFin."'";
 				$RespLote=mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
@@ -139,8 +145,8 @@ if($Buscar=='S')
 				{
 					$DatosLote= array();
 					$ArrLeyes=array();
-					$DatosLote["lote"]=$FilaLote[lote];
-					LeyesLote(&$DatosLote,&$ArrLeyes,"N","N","S","","","");
+					$DatosLote["lote"]=$FilaLote["lote"];
+					LeyesLote($DatosLote,$ArrLeyes,"N","N","S","","","",$link);
 					//echo "GRUPO=".$Grupo." / TIPO PROG=".$ChkTipoProg."<br>";
 					switch($ChkTipoProg)
 					{
@@ -158,22 +164,29 @@ if($Buscar=='S')
 							break;
 					}
 				}
-				$ArregloRecep[$Clave2][$i]=$ArregloRecep[$Clave2][$i]+$PesoSecoRecep;
+				$ArregloRecepClave2=isset($ArregloRecep[$Clave2][$i])?$ArregloRecep[$Clave2][$i]:0;
+				$ArregloRecep[$Clave2][$i]=$ArregloRecepClave2+$PesoSecoRecep;
+				//$ArregloRecep[$Clave2][$i]=$ArregloRecep[$Clave2][$i]+$PesoSecoRecep;
 				$TotPSecoRecep=$TotPSecoRecep+$PesoSecoRecep;
 			}
 			if($TotPSecoProg!=0)
 				$PorcPSecoRecep=($TotPSecoRecep*100)/$TotPSecoProg;
 			else
 				$PorcPSecoRecep=0;	
+
+			$ArregloRecepClave214=isset($ArregloRecep[$Clave2][14])?$ArregloRecep[$Clave2][14]:0;
 			$ArregloRecep[$Clave2][13]='===RECEPCIONADO (%) '.number_format($PorcPSecoRecep,2,',','.');
-			$ArregloRecep[$Clave2][14]=$ArregloRecep[$Clave2][14] + $TotPSecoRecep;
+			$ArregloRecep[$Clave2][14]=$ArregloRecepClave214 + $TotPSecoRecep;
 			$ArregloRecep[$Clave2][15]='';
 			$ArregloRecep[$Clave2][16]='';
 			$TotPSecoDif=0;
 			for($i=1;$i<=12;$i++)
 			{
-				$ArregloRecep[$Clave3][$i]=$ArregloRecep[$Clave1][$i]-$ArregloRecep[$Clave2][$i];
-				$TotPSecoDif=$TotPSecoDif+$ArregloRecep[$Clave1][$i]-$ArregloRecep[$Clave2][$i];
+				$ArregloRecepClave1  = isset($ArregloRecep[$Clave1][$i])?$ArregloRecep[$Clave1][$i]:0;
+				$ArregloRecepClave2  = isset($ArregloRecep[$Clave2][$i])?$ArregloRecep[$Clave2][$i]:0;
+
+				$ArregloRecep[$Clave3][$i]=$ArregloRecepClave1 - $ArregloRecepClave2;
+				$TotPSecoDif  = $TotPSecoDif + $ArregloRecepClave1 - $ArregloRecepClave2;
 			}
 			for($i=1;$i<12;$i++)
 			{
@@ -182,7 +195,7 @@ if($Buscar=='S')
 			switch ($Fila["grupo"])
 			{
 				case "P":
-					$ArregloRecep[$Clave3][13]=$Fila[NOMPRV_A];
+					$ArregloRecep[$Clave3][13]=$Fila["NOMPRV_A"];
 					break;
 				case "V":
 					$ArregloRecep[$Clave3][13]="PROV. VARIOS";
@@ -207,19 +220,34 @@ if($Buscar=='S')
 		$Consulta.= " and t1.tipo_programa='$ChkTipoProg' GROUP BY t1.cod_contrato";
 		$Resp = mysqli_query($link, $Consulta);
 		$Fila=mysqli_fetch_array($Resp);
-		$ArregloTotales["TOTP"][1]=$Fila[ene];
-		$ArregloTotales["TOTP"][2]=$Fila[feb];
-		$ArregloTotales["TOTP"][3]=$Fila[mar];
-		$ArregloTotales["TOTP"][4]=$Fila[abr];
-		$ArregloTotales["TOTP"][5]=$Fila[may];
-		$ArregloTotales["TOTP"][6]=$Fila[jun];
-		$ArregloTotales["TOTP"][7]=$Fila[jul];
-		$ArregloTotales["TOTP"][8]=$Fila[ago];
-		$ArregloTotales["TOTP"][9]=$Fila[sep];
-		$ArregloTotales["TOTP"][10]=$Fila[octu];
-		$ArregloTotales["TOTP"][11]=$Fila[nov];
-		$ArregloTotales["TOTP"][12]=$Fila[dic];
-		$Total_PSecoProg=$Fila["ene"]+$Fila["feb"]+$Fila["mar"]+$Fila["abr"]+$Fila["may"]+$Fila["jun"]+$Fila["jul"]+$Fila["ago"]+$Fila["sep"]+$Fila["octu"]+$Fila["nov"]+$Fila["dic"];
+		$ene = isset($Fila["ene"])?$Fila["ene"]:0;
+		$feb = isset($Fila["feb"])?$Fila["feb"]:0;
+		$mar = isset($Fila["mar"])?$Fila["mar"]:0;
+		$abr = isset($Fila["abr"])?$Fila["abr"]:0;
+		$may = isset($Fila["may"])?$Fila["may"]:0;
+		$jun = isset($Fila["jun"])?$Fila["jun"]:0;
+		$jul = isset($Fila["jul"])?$Fila["jul"]:0;
+		$ago = isset($Fila["ago"])?$Fila["ago"]:0;
+		$sep = isset($Fila["sep"])?$Fila["sep"]:0;
+		$octu = isset($Fila["oct"])?$Fila["octu"]:0;
+		$nov = isset($Fila["nov"])?$Fila["nov"]:0;
+		$dic = isset($Fila["dic"])?$Fila["dic"]:0;
+
+		$ArregloTotales["TOTP"][1]=$ene;
+		$ArregloTotales["TOTP"][2]=$feb;
+		$ArregloTotales["TOTP"][3]=$mar;
+		$ArregloTotales["TOTP"][4]=$abr;
+		$ArregloTotales["TOTP"][5]=$may;
+		$ArregloTotales["TOTP"][6]=$jun;
+		$ArregloTotales["TOTP"][7]=$jul;
+		$ArregloTotales["TOTP"][8]=$ago;
+		$ArregloTotales["TOTP"][9]=$sep;
+		$ArregloTotales["TOTP"][10]=$octu;
+		$ArregloTotales["TOTP"][11]=$nov;
+		$ArregloTotales["TOTP"][12]=$dic;
+		//$Total_PSecoProg=$Fila["ene"]+$Fila["feb"]+$Fila["mar"]+$Fila["abr"]+$Fila["may"]+$Fila["jun"]+$Fila["jul"]+$Fila["ago"]+$Fila["sep"]+$Fila["octu"]+$Fila["nov"]+$Fila["dic"];
+
+		$Total_PSecoProg = $ene + $feb + $mar + $abr + $may + $jun + $jul + $ago + $sep + $octu + $nov + $dic;
 		for($i=1;$i<=12;$i++)
 		{
 			$PesoSecoRecep=0;
@@ -234,8 +262,8 @@ if($Buscar=='S')
 			{
 				$DatosLote= array();
 				$ArrLeyes=array();
-				$DatosLote["lote"]=$FilaLote[lote];
-				LeyesLote(&$DatosLote,&$ArrLeyes,"N","N","S","","","");
+				$DatosLote["lote"]=$FilaLote["lote"];
+				LeyesLote($DatosLote,$ArrLeyes,"N","N","S","","","",$link);
 				switch($ChkTipoProg)
 				{
 					case "00"://PESO SECO
@@ -524,28 +552,40 @@ if ($Fila = mysqli_fetch_array($Resp))
 				$ClaseColum12="class=\"Detalle03\"";
 				break;
 		}
-		while(list($c,$v)=each($ArregloRecep))  	
+		//reset($ArregloRecep); //ASgregado WSO
+		if(count($ArregloRecep)==0){
+			echo "<td>SIN DATOS</td>"	;
+		};
+		foreach($ArregloRecep as $c => $v )	
 		{	
-			echo "<tr align=\"center\" $v[15]>\n";
-			echo "<td align=\"left\">&nbsp;".$v[13]."</td>";
-			echo "<td align=\"right\">".$v[14]."</td>";
-			echo "<td align=\"right\" $ClaseColum1>".$v[1]."</td>";
-			echo "<td align=\"right\" $ClaseColum2>".$v[2]."</td>";
-			echo "<td align=\"right\" $ClaseColum3>".$v[3]."</td>";
-			echo "<td align=\"right\" $ClaseColum4>".$v[4]."</td>";
-			echo "<td align=\"right\" $ClaseColum5>".$v[5]."</td>";
-			echo "<td align=\"right\" $ClaseColum6>".$v[6]."</td>";
-			echo "<td align=\"right\" $ClaseColum7>".$v[7]."</td>";
-			echo "<td align=\"right\" $ClaseColum8>".$v[8]."</td>";
-			echo "<td align=\"right\" $ClaseColum9>".$v[9]."</td>";
-			echo "<td align=\"right\" $ClaseColum10>".$v[10]."</td>";
-			echo "<td align=\"right\" $ClaseColum11>".$v[11]."</td>";
-			echo "<td align=\"right\" $ClaseColum12>".$v[12]."</td>";
+			$v1=isset($v[1])?$v[1]:0; 			$v2=isset($v[2])?$v[2]:0;
+			$v3=isset($v[3])?$v[3]:0; 			$v4=isset($v[4])?$v[4]:0;
+			$v5=isset($v[5])?$v[5]:0; 			$v6=isset($v[6])?$v[6]:0;
+			$v7=isset($v[7])?$v[7]:0; 			$v8=isset($v[8])?$v[8]:0;
+			$v9=isset($v[9])?$v[9]:0; 			$v10=isset($v[10])?$v[10]:0;
+			$v11=isset($v[11])?$v[11]:0; 		$v12=isset($v[12])?$v[12]:0;
+			$v13=isset($v[13])?$v[13]:0; 		$v14=isset($v[14])?$v[14]:0;
+			$v15=isset($v[15])?$v[15]:0; 
+			echo "<tr align=\"center\" $v15>\n";
+			echo "<td align=\"left\">&nbsp;".$v13."</td>";
+			echo "<td align=\"right\">".$v14."</td>";
+			echo "<td align=\"right\" $ClaseColum1>".$v1."</td>";
+			echo "<td align=\"right\" $ClaseColum2>".$v2."</td>";
+			echo "<td align=\"right\" $ClaseColum3>".$v3."</td>";
+			echo "<td align=\"right\" $ClaseColum4>".$v4."</td>";
+			echo "<td align=\"right\" $ClaseColum5>".$v5."</td>";
+			echo "<td align=\"right\" $ClaseColum6>".$v6."</td>";
+			echo "<td align=\"right\" $ClaseColum7>".$v7."</td>";
+			echo "<td align=\"right\" $ClaseColum8>".$v8."</td>";
+			echo "<td align=\"right\" $ClaseColum9>".$v9."</td>";
+			echo "<td align=\"right\" $ClaseColum10>".$v10."</td>";
+			echo "<td align=\"right\" $ClaseColum11>".$v11."</td>";
+			echo "<td align=\"right\" $ClaseColum12>".$v12."</td>";
 			echo "</tr>\n";
 		}
 		//MUESTRA LOS TOTALES DEL CONTRATO
 		reset($ArregloTotales);
-		while(list($c,$v)=each($ArregloTotales))  	
+		foreach($ArregloTotales as $c => $v )	
 		{	
 			echo "<tr align=\"center\" class=\"Detalle01\">\n";
 			echo "<td align=\"left\">".$v[13]."</td>";
