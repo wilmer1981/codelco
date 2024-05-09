@@ -1,7 +1,8 @@
 <?php
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -19,8 +20,14 @@
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
-	if (!isset($Ano))
-		$Ano = date("Y");
+
+
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbProveedor   = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$Cons           = isset($_REQUEST['Cons']) ? $_REQUEST['Cons'] : '';
+	$CmbContrato    = isset($_REQUEST['CmbContrato']) ? $_REQUEST['CmbContrato'] : '';
+	$ChkTipoProg    = isset($_REQUEST['ChkTipoProg']) ? $_REQUEST['ChkTipoProg'] : '00';
+	$Ano            = isset($_REQUEST['Ano']) ? $_REQUEST['Ano'] : date("Y");
 ?>	
 <html>
 <head>
@@ -72,11 +79,11 @@ $Consulta = "select distinct t1.cod_producto, t1.cod_subproducto, t2.descripcion
 $Consulta.= " from age_web.programa_recepcion t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto ";
 $Consulta.= " and t1.cod_subproducto=t2.cod_subproducto ";
 $Consulta.= " where t1.ano='".$Ano."' and t1.tipo_programa='".$ChkTipoProg."'";
-if (isset($CmbSubProducto) && $CmbSubProducto!="S")
+if ($CmbSubProducto!="" && $CmbSubProducto!="S")
 	$Consulta.= " and t1.cod_producto='1' and t1.cod_subproducto='".$CmbSubProducto."' ";
-if (isset($CmbContrato) && $CmbContrato!="S")
+if ($CmbContrato!="" && $CmbContrato!="S")
 	$Consulta.= " and t1.cod_contrato='".$CmbContrato."' ";
-if (isset($CmbProveedor) && $CmbProveedor!="S")
+if ($CmbProveedor!="" && $CmbProveedor!="S")
 	$Consulta.= " and t1.rut_proveedor='".$CmbProveedor."' ";
 $Consulta.= " order by t1.cod_producto, lpad(t1.cod_subproducto,3,'0')";
 $RespIni = mysqli_query($link, $Consulta);
@@ -119,9 +126,9 @@ while ($FilaIni = mysqli_fetch_array($RespIni))
 	$Consulta.= " from age_web.programa_recepcion t1 inner join age_web.contratos t2 on t1.cod_contrato=t2.cod_contrato ";
 	$Consulta.= " where t1.cod_producto='".$FilaIni["cod_producto"]."' and t1.cod_subproducto='".$FilaIni["cod_subproducto"]."' ";
 	$Consulta.= " and t1.ano='".$Ano."' and t1.tipo_programa='".$ChkTipoProg."'";
-	if (isset($CmbContrato) && $CmbContrato!="S")
+	if ($CmbContrato!="" && $CmbContrato!="S")
 		$Consulta.= " and t1.cod_contrato='".$CmbContrato."' ";
-	if (isset($CmbProveedor) && $CmbProveedor!="S")
+	if ($CmbProveedor!="" && $CmbProveedor!="S")
 		$Consulta.= " and t1.rut_proveedor='".$CmbProveedor."' ";
 	$Consulta.= " order by t1.cod_contrato";
 	$RespAux = mysqli_query($link, $Consulta);
@@ -173,7 +180,7 @@ while ($FilaIni = mysqli_fetch_array($RespIni))
 					$Consulta.= " and (t3.grupo='".$Grupo."' or isnull(t3.grupo)) ";
 				else
 					$Consulta.= " and t3.grupo='".$Grupo."'";
-				if (isset($CmbProveedor) && $CmbProveedor!="S")
+				if ($CmbProveedor!="" && $CmbProveedor!="S")
 					$Consulta.= " and t1.rut_proveedor='".$CmbProveedor."' ";
 				$Consulta.= " order by t2.nomprv_a";
 				$Resp = mysqli_query($link, $Consulta);
@@ -252,7 +259,7 @@ while ($FilaIni = mysqli_fetch_array($RespIni))
 		$ProdPesoTotalNov = $ProdPesoTotalNov + $ChkPesoTotalNov;
 		$ProdPesoTotalDic = $ProdPesoTotalDic + $ChkPesoTotalDic;
 	}
-	if (isset($CmbContrato) && $CmbContrato=="S")
+	if ($CmbContrato!="" && $CmbContrato=="S")
 	{
 		echo "<tr class='Detalle02' align='right'>\n";
 		echo "<td align='right'>Total Producto:</td>\n";
@@ -285,7 +292,7 @@ while ($FilaIni = mysqli_fetch_array($RespIni))
 		$TotalPesoDic = $TotalPesoDic + $ProdPesoTotalDic;
 	}
 }
-if (isset($CmbSubProducto) && $CmbSubProducto=="S")
+if ($CmbSubProducto!="" && $CmbSubProducto=="S")
 {
 	echo "<tr class='Detalle01' align='right'>\n";
 	echo "<td align='right'>Total Consulta:</td>\n";
@@ -306,7 +313,7 @@ if (isset($CmbSubProducto) && $CmbSubProducto=="S")
 }
 ?>		  
           
-        </table>
+</table>
 </form>
 </body>
 </html>

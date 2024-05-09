@@ -2,10 +2,14 @@
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=4;
 	include("../principal/conectar_principal.php");
-	if (!isset($Ano))
-		$Ano = date("Y");
-	if (!isset($ChkTipoProg))
-		$ChkTipoProg = "00";
+
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto'])?$_REQUEST['CmbSubProducto']: "";
+	$CmbProveedor   = isset($_REQUEST['CmbProveedor'])?$_REQUEST['CmbProveedor']: "";
+	$CmbContrato    = isset($_REQUEST['CmbContrato'])?$_REQUEST['CmbContrato']: "";
+	$Cons           = isset($_REQUEST['Cons'])?$_REQUEST['Cons'] : "";	
+	$ChkTipoProg    = isset($_REQUEST['ChkTipoProg'])?$_REQUEST['ChkTipoProg']:'00';
+	$Ano            = isset($_REQUEST['Ano'])?$_REQUEST['Ano'] : date("Y");
+
 ?>	
 <html>
 <head>
@@ -44,16 +48,14 @@ function Proceso(opt,opt1)
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
-</style></head>
 
+</style></head>
 <body>
 <DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
 BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
@@ -102,9 +104,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
 					if ($CmbSubProducto == $Fila["cod_subproducto"])
-						echo "<option selected value='".$Fila["cod_subproducto"]."'>".str_pad($Fila["cod_subproducto"],2,"0",STR_PAD_LEFT)." - ".strtoupper($Fila["descripcion"])."</option>";
+						echo "<option selected value='".$Fila["cod_subproducto"]."'>".STR_PAD($Fila["cod_subproducto"],2,"0",STR_PAD_LEFT)." - ".strtoupper($Fila["descripcion"])."</option>";
 					else
-						echo "<option value='".$Fila["cod_subproducto"]."'>".str_pad($Fila["cod_subproducto"],2,"0",STR_PAD_LEFT)." - ".strtoupper($Fila["descripcion"])."</option>";
+						echo "<option value='".$Fila["cod_subproducto"]."'>".STR_PAD($Fila["cod_subproducto"],2,"0",STR_PAD_LEFT)." - ".strtoupper($Fila["descripcion"])."</option>";
 				}
 			  ?>
             </select></td>
@@ -201,7 +203,7 @@ if ($Fila = mysqli_fetch_array($Resp))
         <br>
         <table width="765" border="1" cellpadding="2" cellspacing="0" class="TablaDetalle">          
 <?php			
-if (isset($CmbSubProducto) && $Cons=="S")
+if ($CmbSubProducto!="" && $Cons=="S")
 {
 	$TotalPesoTot = 0;
 	$TotalPesoEne = 0;
@@ -220,11 +222,11 @@ if (isset($CmbSubProducto) && $Cons=="S")
 	$Consulta.= " from age_web.programa_recepcion t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto ";
 	$Consulta.= " and t1.cod_subproducto=t2.cod_subproducto ";
 	$Consulta.= " where t1.ano='".$Ano."' and t1.tipo_programa='".$ChkTipoProg."'";
-	if (isset($CmbSubProducto) && $CmbSubProducto!="S")
+	if ($CmbSubProducto!="" && $CmbSubProducto!="S")
 		$Consulta.= " and t1.cod_producto='1' and t1.cod_subproducto='".$CmbSubProducto."' ";
-	if (isset($CmbContrato) && $CmbContrato!="S")
+	if ($CmbContrato!="" && $CmbContrato!="S")
 		$Consulta.= " and t1.cod_contrato='".$CmbContrato."' ";
-	if (isset($CmbProveedor) && $CmbProveedor!="S")
+	if ($CmbProveedor!="" && $CmbProveedor!="S")
 		$Consulta.= " and t1.rut_proveedor='".$CmbProveedor."' ";
 	$Consulta.= " order by t1.cod_producto, lpad(t1.cod_subproducto,3,'0')";
 	$RespIni = mysqli_query($link, $Consulta);
@@ -267,9 +269,9 @@ if (isset($CmbSubProducto) && $Cons=="S")
 		$Consulta.= " from age_web.programa_recepcion t1 inner join age_web.contratos t2 on t1.cod_contrato=t2.cod_contrato ";
 		$Consulta.= " where t1.cod_producto='".$FilaIni["cod_producto"]."' and t1.cod_subproducto='".$FilaIni["cod_subproducto"]."' ";
 		$Consulta.= " and t1.ano='".$Ano."'  and t1.tipo_programa='".$ChkTipoProg."'";
-		if (isset($CmbContrato) && $CmbContrato!="S")
+		if ($CmbContrato!="" && $CmbContrato!="S")
 			$Consulta.= " and t1.cod_contrato='".$CmbContrato."' ";
-		if (isset($CmbProveedor) && $CmbProveedor!="S")
+		if ($CmbProveedor!="" && $CmbProveedor!="S")
 			$Consulta.= " and t1.rut_proveedor='".$CmbProveedor."' ";
 		$Consulta.= " order by t1.cod_contrato";
 		$RespAux = mysqli_query($link, $Consulta);
@@ -321,7 +323,7 @@ if (isset($CmbSubProducto) && $Cons=="S")
 					$Consulta.= " and (t3.grupo='".$Grupo."' or isnull(t3.grupo)) ";
 				else
 					$Consulta.= " and t3.grupo='".$Grupo."'";
-				if (isset($CmbProveedor) && $CmbProveedor!="S")
+				if ($CmbProveedor!="" && $CmbProveedor!="S")
 					$Consulta.= " and t1.rut_proveedor='".$CmbProveedor."' ";
 				$Consulta.= " order by t2.nomprv_a";
 				$Resp = mysqli_query($link, $Consulta);
@@ -400,7 +402,7 @@ if (isset($CmbSubProducto) && $Cons=="S")
 			$ProdPesoTotalNov = $ProdPesoTotalNov + $ChkPesoTotalNov;
 			$ProdPesoTotalDic = $ProdPesoTotalDic + $ChkPesoTotalDic;
 		}
-		if (isset($CmbContrato) && $CmbContrato=="S")
+		if ($CmbContrato!="" && $CmbContrato=="S")
 		{
 			echo "<tr class='Detalle02' align='right'>\n";
 			echo "<td align='right'>Total Producto:</td>\n";
@@ -433,7 +435,7 @@ if (isset($CmbSubProducto) && $Cons=="S")
 			$TotalPesoDic = $TotalPesoDic + $ProdPesoTotalDic;
 		}
 	}
-	if (isset($CmbSubProducto) && $CmbSubProducto=="S")
+	if ($CmbSubProducto!="" && $CmbSubProducto=="S")
 	{
 		echo "<tr class='Detalle01' align='right'>\n";
 		echo "<td align='right'>Total Consulta:</td>\n";
