@@ -2,13 +2,29 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 22;
 	include("../principal/conectar_principal.php");	
+
+	$Mostrar = isset($_REQUEST['Mostrar']) ? $_REQUEST['Mostrar'] : '';
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
+	$TipoBusqueda = isset($_REQUEST['TipoBusqueda']) ? $_REQUEST['TipoBusqueda'] : '';
+	$SubProducto = isset($_REQUEST['SubProducto']) ? $_REQUEST['SubProducto'] : '';
+	$Busq = isset($_REQUEST['Busq']) ? $_REQUEST['Busq'] : '';
+	$Proveedor = isset($_REQUEST['Proveedor']) ? $_REQUEST['Proveedor'] : '';
+	$Flujos = isset($_REQUEST['Flujos']) ? $_REQUEST['Flujos'] : '';
+	$Orden = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
+	$Cont = isset($_REQUEST['Cont']) ? $_REQUEST['Cont'] : '';
+	$ChkOrden = isset($_REQUEST['ChkOrden']) ? $_REQUEST['ChkOrden'] : 'R';
+	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : '';
+
+	$ChkTipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
+	$TipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
+/*
 	if (!isset($ChkTipoFlujo))
 	{
 		$ChkTipoFlujo="RAM";
 		$TipoFlujo="RAM";
 	}
 	if (!isset($ChkOrden))
-		$ChkOrden="R";
+		$ChkOrden="R";*/
 ?>
 <html>
 <head>
@@ -174,14 +190,12 @@ function PrvRelacion()
 //-->
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style></head>
 
 <body>
@@ -291,14 +305,14 @@ switch ($ChkOrden)
               <select name="Proveedor" onChange="Consultar(this.form,'2')" style="width:300">
                 <option class="NoSelec" value="S">SELECCIONAR</option>
                 <?php
-				if (isset($SubProducto) && $SubProducto != "S")
+				if ($SubProducto!="" && $SubProducto != "S")
 				{
 					$Consulta = "select DISTINCT t1.rut_prv as RUTPRV_A, t1.nombre_prv as NOMPRV_A ";
 					$Consulta.= " from sipa_web.proveedores t1 inner join age_web.relaciones t2 ";
 					$Consulta.= " on t1.rut_prv = t2.rut_proveedor inner join proyecto_modernizacion.subproducto t3 ";
 					$Consulta.= " on t2.cod_producto=t3.cod_producto and t2.cod_subproducto=t3.cod_subproducto ";
 					$Consulta.= " where t2.cod_producto='1' and t2.cod_subproducto='".$SubProducto."'";			
-					if($Busq=='S'&&$TxtFiltroPrv!='')
+					if($Busq=='S'&& $TxtFiltroPrv!='')
 					   $Consulta.= " and t1.nombre_prv like '%".$TxtFiltroPrv."%'";  					
 					switch ($ChkTipoFlujo)
 					{
@@ -327,7 +341,7 @@ switch ($ChkOrden)
 					$Consulta.= " on t1.rut_prv = t2.rut_proveedor inner join proyecto_modernizacion.subproducto t3 ";
 					$Consulta.= " on t2.cod_producto=t3.cod_producto and t2.cod_subproducto=t3.cod_subproducto ";
 					$Consulta.= " where t2.cod_producto='1' ";			
-					if($Busq=='S'&&$TxtFiltroPrv!='')
+					if($Busq=='S' && $TxtFiltroPrv!='')
 					   $Consulta.= " and t1.nombre_prv like '%".$TxtFiltroPrv."%'"; 					
 					switch ($ChkTipoFlujo)
 					{
@@ -353,9 +367,9 @@ switch ($ChkOrden)
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
 					if ($Proveedor == $Fila["RUTPRV_A"])
-						echo "<option selected value='".$Fila["RUTPRV_A"]."'>".str_pad($Fila["RUTPRV_A"],10,"0",STR_PAD_LEFT)."-".$Fila["NOMPRV_A"]."</option>";
+						echo "<option selected value='".$Fila["RUTPRV_A"]."'>".STR_PAD($Fila["RUTPRV_A"],10,"0",STR_PAD_LEFT)."-".$Fila["NOMPRV_A"]."</option>";
 					else
-						echo "<option value='".$Fila["RUTPRV_A"]."'>".str_pad($Fila["RUTPRV_A"],10,"0",STR_PAD_LEFT)."-".$Fila["NOMPRV_A"]."</option>";
+						echo "<option value='".$Fila["RUTPRV_A"]."'>".STR_PAD($Fila["RUTPRV_A"],10,"0",STR_PAD_LEFT)."-".$Fila["NOMPRV_A"]."</option>";
 				}
 			?>
               </select>
@@ -443,6 +457,7 @@ switch ($ChkOrden)
 			while ($Fila = mysqli_fetch_array($Resp))
 			{
 				$Cont++;
+				//var_dump($Fila);
 				echo "<tr>\n";
 				echo "<td align='center'><input type='radio' name='ChkRut' value='".$Fila["cod_subproducto"]."~~".$Fila["rut_proveedor"]."~~".$Fila["flujo"]."~~".$Fila["grupo"]."~~".$Fila["leyes"]."~~".$Fila["impurezas"]."'></td>";
 				//echo "<td align='center'>".str_pad($Fila["cod_subproducto"],2,'0',STR_PAD_LEFT)."</td>";

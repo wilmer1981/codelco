@@ -1,5 +1,6 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Orden = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
 ?>
 <html>
 <head>
@@ -26,11 +27,10 @@ function Proceso(opt,opt2)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
+
 </style></head>
 <body>
 <form name="frmPopUp" action="" method="post">
@@ -72,9 +72,9 @@ body {
 		while($Fila=mysqli_fetch_array($RespPrv))
 		{
 			echo "<tr>";
-			echo "<td align='right'>".$Fila[RUTPRV_A]."</td>";
+			echo "<td align='right'>".$Fila["RUTPRV_A"]."</td>";
 			echo "<td>".$Fila["NOMPRV_A"]."</td>";
-			echo "<td>".$Fila[estado_prv]."</td>";
+			echo "<td>".$Fila["estado_prv"]."</td>";
 			echo "<tr>";
 		}
 	?>

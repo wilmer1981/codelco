@@ -1,18 +1,42 @@
 <?php
 	include("../principal/conectar_principal.php");
+	
+	$Proceso = isset($_REQUEST['Proceso']) ? $_REQUEST['Proceso'] : '';
+	$Valores = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
+	$ChkTipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : '';
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
+    $Rut = isset($_REQUEST['Rut']) ? $_REQUEST['Rut'] : '';
+	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : '';
+	$Busq = isset($_REQUEST['Busq']) ? $_REQUEST['Busq'] : '';
+	$ChkGrupo = isset($_REQUEST['ChkGrupo']) ? $_REQUEST['ChkGrupo'] : '';
+	$Flujos = isset($_REQUEST['Flujos']) ? $_REQUEST['Flujos'] : '';
+	$SubProducto = isset($_REQUEST['SubProducto']) ? $_REQUEST['SubProducto'] : '';
+	$Valores = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
+	$ChkTipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
+	$ChkOrden = isset($_REQUEST['ChkOrden']) ? $_REQUEST['ChkOrden'] : 'R';
+	$TipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
+	
+	$TxtLeyesMuestra = isset($_REQUEST['TxtLeyesMuestra']) ? $_REQUEST['TxtLeyesMuestra'] : '';
+	$TxtCodLeyes = isset($_REQUEST['TxtCodLeyes']) ? $_REQUEST['TxtCodLeyes'] : '';
+	$TxtCodImpurezas = isset($_REQUEST['TxtCodImpurezas']) ? $_REQUEST['TxtCodImpurezas'] : '';
+
+	$Orden = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
+
 	if($Proceso=='M')
 	{
 		$Datos=explode('~~',$Valores);
-		$SubProducto=$Datos[0];
-		$Rut=$Datos[1];
-		$Flujos=$Datos[2];
-		$ChkGrupo=$Datos[3];
+		$SubProducto=isset($Datos[0])?$Datos[0]:"";
+		$Rut=isset($Datos[1])?$Datos[1]:"";
+		$Flujos=isset($Datos[2])?$Datos[2]:"";
+		$ChkGrupo=isset($Datos[3])?$Datos[3]:"";
 		//$TxtLeyesMuestra=$Datos[4];
-		$TxtCodLeyes=$Datos[4];
-		$TxtCodImpurezas=$Datos[5];
-		$LeyesMuestra=$Datos[4]."~".$Datos[5];
+		$TxtCodLeyes=isset($Datos[4])?$Datos[4]:"";
+		$TxtCodImpurezas=isset($Datos[5])?$Datos[5]:"";
+		//$LeyesMuestra=$Datos[4]."~".$Datos[5];
+		$LeyesMuestra=$TxtCodLeyes."~".$TxtCodImpurezas;
+
 		$Datos2=explode('~',$LeyesMuestra);
-		while(list($c,$v)=each($Datos2))
+		foreach($Datos2 as $c => $v)
 		{
 			$Consulta = "select distinct t1.cod_leyes, LPAD(t1.cod_leyes,4,'0') as orden, t3.abreviatura as ley";
 			$Consulta.=" from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
@@ -22,24 +46,21 @@
 			//echo $Consulta."<br>";
 			$RespLey=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($RespLey);
-			$TxtLeyesMuestra=$TxtLeyesMuestra.$Fila[ley]."~";
+			//$TxtLeyesMuestra=$TxtLeyesMuestra.$Fila["ley"]."~";
+			$ley = isset($Fila['ley'])?$Fila['ley']:"";
+			$TxtLeyesMuestra=$LeyesMuestra.$ley."~";
 		}
 	}
-	if (!isset($ChkTipoFlujo))
-		$ChkTipoFlujo="RAM";
-	if (!isset($ChkOrden))
-		$ChkOrden="R";
+
 ?>
 <html>
 <head>
 <title>Sistema de Agencia</title>
 <link href="../principal/estilos/css_principal.css" rel="stylesheet" type="text/css">
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style>
 <script language="javascript">
 function Proceso(opt)

@@ -1,5 +1,17 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso     = isset($_REQUEST['Proceso']) ? $_REQUEST['Proceso'] : '';
+	$SubProducto = isset($_REQUEST['SubProducto']) ? $_REQUEST['SubProducto'] : '';
+	$Rut         = isset($_REQUEST['Rut']) ? $_REQUEST['Rut'] : '';
+	$Flujos      = isset($_REQUEST['Flujos']) ? $_REQUEST['Flujos'] : '';
+	$ChkGrupo    = isset($_REQUEST['ChkGrupo']) ? $_REQUEST['ChkGrupo'] : '';
+	$TxtCodLeyes = isset($_REQUEST['TxtCodLeyes']) ? $_REQUEST['TxtCodLeyes'] : '';
+	$TxtCodImpurezas = isset($_REQUEST['TxtCodImpurezas']) ? $_REQUEST['TxtCodImpurezas'] : '';
+	$TipoBusq        = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
+	$Proveedor       = isset($_REQUEST['Proveedor']) ? $_REQUEST['Proveedor'] : '';
+	$ChkTipoFlujo    = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : '';
+	$Valores         = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
+
 	switch ($Proceso)
 	{
 		case "G";
@@ -12,31 +24,33 @@
 			if (!$Fila = mysqli_fetch_array($Resp))
 			{				
 				//INSERTA
-				$Insertar = "insert into age_web.relaciones (cod_producto, cod_subproducto, rut_proveedor, flujo, grupo,leyes,impurezas)";
+				$Insertar = "INSERT INTO age_web.relaciones (cod_producto, cod_subproducto, rut_proveedor, flujo, grupo,leyes,impurezas)";
 				$Insertar.= " values('1','".$SubProducto."','".$Rut."','".$Flujos."','".$ChkGrupo."','$TxtCodLeyes','$TxtCodImpurezas')";
-				mysqli_query($link, $Insertar);
+				echo $Insertar;
+				//mysqli_query($link, $Insertar);
 				//INSERTAR EN IMPUREZAS
 				$Consulta="select nombre_prv from sipa_web.proveedores where rut_prv='".$Rut."' ";
 				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Resp))	
 				{
 					$CodProd=str_pad($SubProducto,3,'0',STR_PAD_LEFT);
-					$RutPrv=str_pad(str_replace('-','',$Rut),9,'0',STR_PAD_LEFT);
-					$NomPrv=$Fila["nombre_prv"];
+					$RutPrv = str_pad(str_replace('-','',$Rut),9,'0',STR_PAD_LEFT);
+					$NomPrv = $Fila["nombre_prv"];
 					$Consulta="select * from imp_web.proveedores where tipo_producto='".$CodProd."' and rut_proveedor='".$RutPrv."'";
 					//echo $Consulta."<br>";
 					$Resp2=mysqli_query($link, $Consulta);
 					if(!$Fila2=mysqli_fetch_array($Resp2))
 					{
-						$Insertar="insert into imp_web.proveedores(tipo_producto,rut_proveedor,nombre) values(";
+						$Insertar="INSERT INTO imp_web.proveedores(tipo_producto,rut_proveedor,nombre) values(";
 						$Insertar.="'".$CodProd."','".$RutPrv."','".$NomPrv."')";
-						//echo $Insertar."<br>";
-						mysqli_query($link, $Insertar);
+						echo $Insertar."<br>";
+						//mysqli_query($link, $Insertar);
 					}
 				}
 				
 				
 			}
+			exit();
 			echo "<script language='JavaScript'>";
 			echo " window.opener.document.frmPrincipal.action = 'age_relaciones.php?TipoBusq=".$TipoBusq."&Mostrar=S&SubProducto=".$SubProducto."&Proveedor=".$Proveedor."&Flujos=".$Flujos."&ChkTipoFlujo=".$ChkTipoFlujo."&TipoFlujo=".$ChkTipoFlujo."';";
 			echo " window.opener.document.frmPrincipal.submit();";
