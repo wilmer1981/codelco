@@ -26,8 +26,8 @@
 				//INSERTA
 				$Insertar = "INSERT INTO age_web.relaciones (cod_producto, cod_subproducto, rut_proveedor, flujo, grupo,leyes,impurezas)";
 				$Insertar.= " values('1','".$SubProducto."','".$Rut."','".$Flujos."','".$ChkGrupo."','$TxtCodLeyes','$TxtCodImpurezas')";
-				echo $Insertar;
-				//mysqli_query($link, $Insertar);
+				//echo $Insertar;
+				mysqli_query($link, $Insertar);
 				//INSERTAR EN IMPUREZAS
 				$Consulta="select nombre_prv from sipa_web.proveedores where rut_prv='".$Rut."' ";
 				$Resp=mysqli_query($link, $Consulta);
@@ -43,8 +43,8 @@
 					{
 						$Insertar="INSERT INTO imp_web.proveedores(tipo_producto,rut_proveedor,nombre) values(";
 						$Insertar.="'".$CodProd."','".$RutPrv."','".$NomPrv."')";
-						echo $Insertar."<br>";
-						//mysqli_query($link, $Insertar);
+						//echo $Insertar."<br>";
+						mysqli_query($link, $Insertar);
 					}
 				}
 				
