@@ -16,7 +16,7 @@
 		$Fila=mysql_fetch_array($Respuesta);
 		$Datos = explode("-",$Fila["RUTPRV_A"]);
 		$TxtRutPrv=$Datos[0];
-		if($Fila[hum_ult_rec]=='S')
+		if($Fila["hum_ult_rec"]=='S')
 		{
 			$ChkHumedadS="checked";
 			$ChkHumedadN="";

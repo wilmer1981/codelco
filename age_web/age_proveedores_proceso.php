@@ -1,10 +1,22 @@
 <?php 	
 	include("../principal/conectar_principal.php");
-	if (!isset($ChkOrden))
-		$ChkOrden="R";
-	if (!isset($ChkHumedadN))
-		$ChkHumedadN="checked";
+
+	$Proceso = isset($_REQUEST['Proceso']) ? $_REQUEST['Proceso'] : '';
+	$Recarga = isset($_REQUEST['Recarga']) ? $_REQUEST['Recarga'] : '';
+	$ChkOrden = isset($_REQUEST['ChkOrden']) ? $_REQUEST['ChkOrden'] : 'R';
+	$ChkHumedadN = isset($_REQUEST['ChkHumedadN']) ? $_REQUEST['ChkHumedadN'] : 'checked';
+	$CheckHumedadS = isset($_REQUEST['CheckHumedadS']) ? $_REQUEST['CheckHumedadS'] : '';
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : '';
+	
+	$TxtRutPrv = isset($_REQUEST['TxtRutPrv']) ? $_REQUEST['TxtRutPrv'] : '';
+	$TxtDv = isset($_REQUEST['TxtDv']) ? $_REQUEST['TxtDv'] : '';
+	$TxtNomPrv = isset($_REQUEST['TxtNomPrv']) ? $_REQUEST['TxtNomPrv'] : '';
+	$Valores = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
+	
 	$NomBtnGrabar='Grabar';
+
 	if ($Recarga=='S')
 	{
 		$Proceso='M';
@@ -16,7 +28,7 @@
 		$Fila=mysqli_fetch_array($Respuesta);
 		$Datos = explode("-",$Fila["RUTPRV_A"]);
 		$TxtRutPrv=$Datos[0];
-		if($Fila[hum_ult_rec]=='S')
+		if($Fila["hum_ult_rec"]=='S')
 		{
 			$ChkHumedadS="checked";
 			$ChkHumedadN="";
@@ -26,7 +38,8 @@
 			$ChkHumedadS="";
 			$ChkHumedadN="checked";
 		}
-		$TxtDv=$Datos[1];
+		$Datos1 =isset($Datos[1])?$Datos[1]:"";
+		$TxtDv=$Datos1;
 		$TxtNomPrv=$Fila["NOMPRV_A"];
 	}
 	else
@@ -211,8 +224,8 @@ switch ($ChkOrden)
           </tr>
           <tr> 
             <td height="22" class="Colum01">Recargo Automatico Humedad </td>
-            <td>SI<input type="radio" id="CheckHumedadS" name="CheckHumedad" <?phpphp echo $ChkHumedadS; ?> value="S" >
-          NO <input type="radio" id="CheckHumedadN" name="CheckHumedad"  <?phpphp echo $ChkHumedadN; ?> value="N" >
+            <td>SI<input type="radio" id="CheckHumedadS" name="CheckHumedad" <?php echo $ChkHumedadS; ?> value="S" >
+          NO <input type="radio" id="CheckHumedadN" name="CheckHumedad"  <?php echo $ChkHumedadN; ?> value="N" >
             
             </td>
           </tr>

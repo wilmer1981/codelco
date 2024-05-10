@@ -2,8 +2,17 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 72;
 	include("../principal/conectar_principal.php");
-	if(!isset($TipoBusq))
-		$TipoBusq='0';
+
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '0';
+	$Recarga  = isset($_REQUEST['Recarga']) ? $_REQUEST['Recarga'] : '';
+	$Mostrar  = isset($_REQUEST['Mostrar']) ? $_REQUEST['Mostrar'] : '';
+	$Opcion   = isset($_REQUEST['Opcion']) ? $_REQUEST['Opcion'] : '';
+	$CmbOpcion = isset($_REQUEST['CmbOpcion']) ? $_REQUEST['CmbOpcion'] : ''; 
+	$OpcionCodigo = isset($_REQUEST['OpcionCodigo']) ? $_REQUEST['OpcionCodigo'] : ''; 
+	$OpcionDescripcion = isset($_REQUEST['OpcionDescripcion']) ? $_REQUEST['OpcionDescripcion'] : ''; 
+	$TxtCodigo = isset($_REQUEST['TxtCodigo']) ? $_REQUEST['TxtCodigo'] : ''; 
+	$TxtDescripcion = isset($_REQUEST['TxtDescripcion']) ? $_REQUEST['TxtDescripcion'] : ''; 
+	
 ?>
 <html>
 <head>
@@ -55,11 +64,9 @@ function Excel(Opcion)
 <title>Consulta Empadronamiento Minero</title>
 <link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style><body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
 
 <form name="FrmConsultaMultMant" method="post" action="">

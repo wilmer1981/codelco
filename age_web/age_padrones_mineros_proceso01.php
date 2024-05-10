@@ -2,12 +2,24 @@
 	include("../principal/conectar_principal.php");
 	
 	$Fecha=date('Y-m-d');
+	$Proceso = isset($_REQUEST['Proceso']) ? $_REQUEST['Proceso'] : '';
+
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$TxtCodMina   = isset($_REQUEST['TxtCodMina']) ? $_REQUEST['TxtCodMina'] : '';
+	$TxtDescripcion = isset($_REQUEST['TxtDescripcion']) ? $_REQUEST['TxtDescripcion'] : '';
+	$CmbTipoFaena   = isset($_REQUEST['CmbTipoFaena']) ? $_REQUEST['CmbTipoFaena'] : '';
+	$TxtSierra      = isset($_REQUEST['TxtSierra']) ? $_REQUEST['TxtSierra'] : '';
+	$TxtComuna      = isset($_REQUEST['TxtComuna']) ? $_REQUEST['TxtComuna'] : '';
+	$TxtFecha       = isset($_REQUEST['TxtFecha']) ? $_REQUEST['TxtFecha'] : '';
+	$TxtFechaPadron = isset($_REQUEST['TxtFechaPadron']) ? $_REQUEST['TxtFechaPadron'] : '';
+	$Valores = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
+
 	switch ($Proceso)
 	{
 		case "N"://INGRESAR MINA/PLANTA
 			$Insertar="insert into sipa_web.minaprv (rut_prv,cod_mina,nombre_mina,ind_faena,sierra,comuna,fecha_padron) values (";
 			$Insertar.="'$CmbProveedor','$TxtCodMina','$TxtDescripcion','$CmbTipoFaena','$TxtSierra','$TxtComuna','".substr($TxtFechaPadron,0,8)."')";
-			//echo $Insertar;
+			echo $Insertar;
 			mysqli_query($link, $Insertar);
 			break;
 		case "M"://MODIFICAR MINA/PLANTA

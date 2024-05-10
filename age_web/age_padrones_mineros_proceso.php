@@ -1,5 +1,8 @@
 <?php 	
 	include("../principal/conectar_comet_web.php");
+	$Proceso = isset($_REQUEST['Proceso']) ? $_REQUEST['Proceso'] : '';
+	$Recarga = isset($_REQUEST['Recarga']) ? $_REQUEST['Recarga'] : '';
+	$Valores = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
 	switch($Proceso)
 	{
 		case "N":

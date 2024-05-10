@@ -2,11 +2,19 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 21;
 	include("../principal/conectar_principal.php");
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");		
-	if(!isset($TipoBusq))
-		$TipoBusq='0';
-	if (!isset($ChkOrden))
-		$ChkOrden="R";
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+	$ChkOrden = isset($_REQUEST['ChkOrden']) ? $_REQUEST['ChkOrden'] : 'R';
+	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : ''; 
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$BtnMina = isset($_REQUEST['BtnMina']) ? $_REQUEST['BtnMina'] : '';
+	$BtnPropiet = isset($_REQUEST['BtnPropiet']) ? $_REQUEST['BtnPropiet'] : '';
+	$CmbMina = isset($_REQUEST['CmbMina']) ? $_REQUEST['CmbMina'] : '';
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '0';
+	$Recarga = isset($_REQUEST['Recarga']) ? $_REQUEST['Recarga'] : '';
+	$Mostrar = isset($_REQUEST['Mostrar']) ? $_REQUEST['Mostrar'] : '';
+	$EncontroRelacion = isset($_REQUEST['EncontroRelacion']) ? $_REQUEST['EncontroRelacion'] : '';
+
 ?>
 <html>
 <head>

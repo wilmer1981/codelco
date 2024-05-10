@@ -2,14 +2,14 @@
         ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
         $filename = iconv('UTF-8', 'gb2312', $filename);
         $file_name = str_replace(".php", "", $file_name);
         header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
+        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");        
         header("content-disposition: attachment;filename={$file_name}");
         header( "Cache-Control: public" );
         header( "Pragma: public" );
@@ -19,6 +19,18 @@
 header("Expires: 0");
 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 include("../principal/conectar_principal.php");
+
+
+$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '0';
+$Recarga  = isset($_REQUEST['Recarga']) ? $_REQUEST['Recarga'] : '';
+$Mostrar  = isset($_REQUEST['Mostrar']) ? $_REQUEST['Mostrar'] : '';
+$Opcion   = isset($_REQUEST['Opcion']) ? $_REQUEST['Opcion'] : '';
+$CmbOpcion = isset($_REQUEST['CmbOpcion']) ? $_REQUEST['CmbOpcion'] : ''; 
+$OpcionCodigo = isset($_REQUEST['OpcionCodigo']) ? $_REQUEST['OpcionCodigo'] : ''; 
+$OpcionDescripcion = isset($_REQUEST['OpcionDescripcion']) ? $_REQUEST['OpcionDescripcion'] : ''; 
+$TxtCodigo = isset($_REQUEST['TxtCodigo']) ? $_REQUEST['TxtCodigo'] : ''; 
+$TxtDescripcion = isset($_REQUEST['TxtDescripcion']) ? $_REQUEST['TxtDescripcion'] : ''; 
+
 ?>
 <html>
 <head>

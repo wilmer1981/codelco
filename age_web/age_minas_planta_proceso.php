@@ -1,9 +1,31 @@
 <?php 	
-	include("../principal/conectar_comet_web.php");
-	if (!isset($ChkOrden))
-		$ChkOrden="R";
-	/*if (!isset($OptProceso))
-		$OptProceso=$Proceso;*/
+	//include("../principal/conectar_comet_web.php");
+	include("../principal/conectar_principal.php");
+	$Recarga = isset($_REQUEST['Recarga']) ? $_REQUEST['Recarga'] : '';
+	$BuscarRut = isset($_REQUEST['BuscarRut']) ? $_REQUEST['BuscarRut'] : '';
+
+	$Proceso = isset($_REQUEST['Proceso']) ? $_REQUEST['Proceso'] : '';
+	$ChkOrden = isset($_REQUEST['ChkOrden']) ? $_REQUEST['ChkOrden'] : 'R';
+	$EstadoCodMina = isset($_REQUEST['EstadoCodMina']) ? $_REQUEST['EstadoCodMina'] : '';
+	$EstadoCmbPrv  = isset($_REQUEST['EstadoCmbPrv']) ? $_REQUEST['EstadoCmbPrv'] : '';
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
+	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : ''; 
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$TxtCodMina   = isset($_REQUEST['TxtCodMina']) ? $_REQUEST['TxtCodMina'] : '';
+	$TxtDescripcion = isset($_REQUEST['TxtDescripcion']) ? $_REQUEST['TxtDescripcion'] : '';
+	$CmbTipoFaena   = isset($_REQUEST['CmbTipoFaena']) ? $_REQUEST['CmbTipoFaena'] : '';
+	$TxtSierra      = isset($_REQUEST['TxtSierra']) ? $_REQUEST['TxtSierra'] : '';
+	$TxtComuna      = isset($_REQUEST['TxtComuna']) ? $_REQUEST['TxtComuna'] : '';
+	$TxtFecha       = isset($_REQUEST['TxtFecha']) ? $_REQUEST['TxtFecha'] : '';
+	$TxtFechaPadron       = isset($_REQUEST['TxtFechaPadron']) ? $_REQUEST['TxtFechaPadron'] : '';
+	$TxtCodFaena    = isset($_REQUEST['TxtCodFaena']) ? $_REQUEST['TxtCodFaena'] : '';
+
+	$TxtProvincia       = isset($_REQUEST['TxtProvincia']) ? $_REQUEST['TxtProvincia'] : '';
+	$TxtRutPropiet      = isset($_REQUEST['TxtRutPropiet']) ? $_REQUEST['TxtRutPropiet'] : '';
+	$Valores = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
+
+	$EncontroCoincidencia = isset($_REQUEST['EncontroCoincidencia']) ? $_REQUEST['EncontroCoincidencia'] : '';
+	
 	$NomBtnGrabar='Grabar';
 	switch($Proceso)
 	{
@@ -12,17 +34,17 @@
 			$EstadoCodMina='readonly';
 			$EstadoCmbPrv='disabled';
 			$Datos=explode('~',$Valores);
-			$CmbProveedor=$Datos[0];
-			$TxtCodMina=$Datos[1];
+			$CmbProveedor=isset($Datos[0])?$Datos[0]:"";
+			$TxtCodMina= isset($Datos[1])?$Datos[1]:"";
 			$Consulta ="select * from sipa_web.minaprv where cod_mina='".$TxtCodMina."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$TxtCodMina=$Fila["cod_mina"];
-			$TxtDescripcion=$Fila["nombre_mina"];
-			$TxtSierra=$Fila["sierra"];
-			$TxtComuna=$Fila["comuna"];
-			$CmbTipoFaena=$Fila["ind_faena"];
-			$TxtFechaPadron=$Fila["fecha_padron"];
+			$TxtCodMina=isset($Fila["cod_mina"])?$Fila["cod_mina"]:"";
+			$TxtDescripcion=isset($Fila["nombre_mina"])?$Fila["nombre_mina"]:"";
+			$TxtSierra=isset($Fila["sierra"])?$Fila["sierra"]:"";
+			$TxtComuna=isset($Fila["comuna"])?$Fila["comuna"]:"";
+			$CmbTipoFaena=isset($Fila["ind_faena"])?$Fila["ind_faena"]:"";
+			$TxtFechaPadron=isset($Fila["fecha_padron"])?$Fila["fecha_padron"]:"";
 			break;		
 		case "N":
 			$EstadoCodFaena='';
@@ -114,7 +136,6 @@ function Recarga3()
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -133,7 +154,7 @@ a:hover {
 a:active {
 	color: #FFFF00;
 }
--->
+
 </style>
 <title>Ingreso de Minas</title>
 <link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
@@ -266,7 +287,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 </body>
 </html>
 <?php
-	if (isset($EncontroCoincidencia))
+	if ($EncontroCoincidencia!="")
 	{
 		if ($EncontroCoincidencia==true)
 		{
