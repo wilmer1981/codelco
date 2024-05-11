@@ -2,8 +2,10 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 13;
 	include("../principal/conectar_principal.php");
-	$TxtFechaIni=date('Y-m')."-01";
-	$TxtFechaFin=date('Y-m')."-".date('t');
+
+
+	$TxtFechaIni = date('Y-m')."-01";
+	$TxtFechaFin = date('Y-m')."-".date('t');
 ?>
 <html>
 <head>
@@ -100,9 +102,7 @@ function Salir()
 <title>AGE-Consulta Multiple Recepciones</title>
 <link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
 <style type="text/css">
-<!--
 .Estilo1 {color: #0000ff}
--->
 </style>
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
 <DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;

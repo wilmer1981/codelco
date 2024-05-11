@@ -2,16 +2,38 @@
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=11;
 	include("../principal/conectar_principal.php");
-	if (!isset($TxtFechaIni))
-		$TxtFechaIni = date("Y-m-d");
-	if (!isset($TxtFechaFin))
-		$TxtFechaFin = date("Y-m-d");
-	if (!isset($LimitIni))
-		$LimitIni=0;
-	if (!isset($LimitFin))
-		$LimitFin=999;	
-	if (!isset($CmbAutorizado))
-		$CmbAutorizado="T";
+
+	$TipoCon = isset($_REQUEST['TipoCon']) ? $_REQUEST['TipoCon'] : '';
+	$Orden = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$TxtFechaIni = isset($_REQUEST['TxtFechaIni']) ? $_REQUEST['TxtFechaIni'] : date("Y-m-d");
+	$TxtFechaFin = isset($_REQUEST['TxtFechaFin']) ? $_REQUEST['TxtFechaFin'] : date("Y-m-d");
+
+	$LimitIni = isset($_REQUEST['LimitIni']) ? $_REQUEST['LimitIni'] : 0;
+	$LimitFin = isset($_REQUEST['LimitFin']) ? $_REQUEST['LimitFin'] : 999;
+	$CmbAutorizado = isset($_REQUEST['CmbAutorizado']) ? $_REQUEST['CmbAutorizado'] : 'T';
+	$TxtLoteIni = isset($_REQUEST['TxtLoteIni']) ? $_REQUEST['TxtLoteIni'] : '';
+	$TxtLoteFin = isset($_REQUEST['TxtLoteFin']) ? $_REQUEST['TxtLoteFin'] : '';
+
+
+	$ContReg = isset($_REQUEST['ContReg']) ? $_REQUEST['ContReg'] : 0;
+	$TotPesoBr = isset($_REQUEST['TotPesoBr']) ? $_REQUEST['TotPesoBr'] : 0;
+	$TotPesoBrAnt = isset($_REQUEST['TotPesoBrAnt']) ? $_REQUEST['TotPesoBrAnt'] : 0;
+	$TotPesoTr = isset($_REQUEST['TotPesoTr']) ? $_REQUEST['TotPesoTr'] : 0;
+	$TotPesoTrAnt = isset($_REQUEST['TotPesoTrAnt']) ? $_REQUEST['TotPesoTrAnt'] : 0;
+	$TotPesoNt = isset($_REQUEST['TotPesoNt']) ? $_REQUEST['TotPesoNt'] : 0;
+	$TotPesoNtAnt = isset($_REQUEST['TotPesoNtAnt']) ? $_REQUEST['TotPesoNtAnt'] : 0;
+	$LimitFinAnt = isset($_REQUEST['LimitFinAnt']) ? $_REQUEST['LimitFinAnt'] : 0;
+	$TotPesoBrAntSubProd = isset($_REQUEST['TotPesoBrAntSubProd']) ? $_REQUEST['TotPesoBrAntSubProd'] : 0;
+	$TotPesoTrAntSubProd = isset($_REQUEST['TotPesoTrAntSubProd']) ? $_REQUEST['TotPesoTrAntSubProd'] : 0;
+	$TotPesoNtAntSubProd = isset($_REQUEST['TotPesoNtAntSubProd']) ? $_REQUEST['TotPesoNtAntSubProd'] : 0;
+	$RegSubProd = isset($_REQUEST['RegSubProd']) ? $_REQUEST['RegSubProd'] : 0;
+
+	$Coincidencias = isset($_REQUEST['Coincidencias']) ? $_REQUEST['Coincidencias'] : '';
+
+	$Fila2 = isset($_REQUEST['Fila2']) ? $_REQUEST['Fila2'] : '';
+	
+
 	$ArrLeyes = array();
 	$Consulta = "select * from proyecto_modernizacion.leyes ";
 	$RespLeyes = mysqli_query($link, $Consulta);	
@@ -202,7 +224,6 @@ function Proceso(opt,valor)
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -221,7 +242,6 @@ a:hover {
 a:active {
 	color: #FFFF00;
 }
--->
 </style></head>
 
 <body><DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
@@ -330,7 +350,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <td width="4%">Aut</td>
             </tr>
 <?php	
-if (isset($TipoCon) && $TipoCon!="")	
+if ($TipoCon!="")	
 {
 	$Consulta = "select t2.fecha_recepcion, t2.corr, t2.lote, t2.recargo, t2.fin_lote, t5.nombre_prv as nom_proveedor, ";
 	$Consulta.= " t1.cod_producto, t1.cod_subproducto, t2.peso_bruto, t2.peso_tara, t2.peso_neto, t2.guia_despacho, ";
@@ -414,15 +434,15 @@ if (isset($TipoCon) && $TipoCon!="")
 			if (($ProdAnt!="" && $SubProdAnt!="") && ($ProdAnt!=$Fila["cod_producto"] || $SubProdAnt!=$Fila["cod_subproducto"]))
 			{
 				if ($RutAnt!=$Fila["rut_proveedor"])
-					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, &$TotPesoBrAnt, &$TotPesoTrAnt, &$TotPesoNtAnt, &$Reg, $Decimales);
-				EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, &$TotPesoBrAntSubProd, &$TotPesoTrAntSubProd, &$TotPesoNtAntSubProd, &$RegSubProd, $Decimales);
+					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, $TotPesoBrAnt, $TotPesoTrAnt, $TotPesoNtAnt, $Reg, $Decimales);
+				EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, $TotPesoBrAntSubProd, $TotPesoTrAntSubProd, $TotPesoNtAntSubProd, $RegSubProd, $Decimales);
 			}
 			else
 			{
 				if (($ProdAnt!="" && $SubProdAnt!="" && $RutAnt!="") && 
 				($ProdAnt==$Fila["cod_producto"] && $SubProdAnt==$Fila["cod_subproducto"] && $RutAnt!=$Fila["rut_proveedor"]))
 				{
-					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, &$TotPesoBrAnt, &$TotPesoTrAnt, &$TotPesoNtAnt, &$Reg, $Decimales);
+					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, $TotPesoBrAnt, $TotPesoTrAnt, $TotPesoNtAnt, $Reg, $Decimales);
 				}
 			}
 		}
@@ -471,7 +491,7 @@ if (isset($TipoCon) && $TipoCon!="")
 		echo "<tr><td>PASTAS:</td><td>";
 		reset($ArrPastas);
 		$StrLeyes = "";
-		while (list($k,$v)=each($ArrPastas))
+		foreach($ArrPastas as $k => $v)
 		{
 			$StrLeyes = $StrLeyes.$ArrLeyes[$v[0]][1].", ";
 		}
@@ -488,7 +508,7 @@ if (isset($TipoCon) && $TipoCon!="")
 		echo "<tr><td>IMPUREZAS:</td><td>";
 		reset($ArrImpurezas);
 		$StrLeyes = "";
-		while (list($k,$v)=each($ArrImpurezas))
+		foreach($ArrImpurezas as $k => $v)
 		{
 			$StrLeyes = $StrLeyes.$ArrLeyes[$v[0]][1].", ";
 		}
@@ -549,8 +569,8 @@ if (isset($TipoCon) && $TipoCon!="")
 	}
 	if ($Orden=="T")
 	{
-		EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, &$TotPesoBrAnt, &$TotPesoTrAnt, &$TotPesoNtAnt, &$Reg, $Decimales);
-		EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, &$TotPesoBrAntSubProd, &$TotPesoTrAntSubProd, &$TotPesoNtAntSubProd, &$RegSubProd, $Decimales);
+		EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, $TotPesoBrAnt, $TotPesoTrAnt, $TotPesoNtAnt, $Reg, $Decimales);
+		EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, $TotPesoBrAntSubProd, $TotPesoTrAntSubProd, $TotPesoNtAntSubProd, $RegSubProd, $Decimales);
 	}
 	//TOTAL POR CONSULTA
 	$Consulta = "select sum(t2.peso_bruto) as peso_bruto, sum(t2.peso_tara) as peso_tara, sum(t2.peso_neto) as peso_neto ";
@@ -649,7 +669,7 @@ function EscribeSubTotal($Opt, $NomProd, $NomRut, $PesoBr, $PesoTr, $PesoNt, $Re
 ?>			
         	              
 <?php
-if (isset($TipoCon))
+if ($TipoCon!="")
 {
 	if ($Coincidencias > $LimitFin)
 	{

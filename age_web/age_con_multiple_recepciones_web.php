@@ -1,6 +1,9 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");	
+
+
+	
 	$ArrLeyes = array();
 	$ArrLoteLeyes = array();
 	$ArrSubTotalLeyes = array();
@@ -143,12 +146,10 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style></head>
 
 <body>
