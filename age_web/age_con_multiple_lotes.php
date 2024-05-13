@@ -2,8 +2,31 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 31;
 	include("../principal/conectar_principal.php");
-	$TxtFechaIni=date('Y-m')."-01";
-	$TxtFechaFin=date('Y-m')."-".date('t');
+
+	$Busq = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$TxtFechaIni = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	$TxtFechaFin = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m')."-".date('t');
+	$TxtLoteIni = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+	$TxtConjIni = isset($_REQUEST["TxtConjIni"])?$_REQUEST["TxtConjIni"]:"";
+	$TxtConjFin = isset($_REQUEST["TxtConjFin"])?$_REQUEST["TxtConjFin"]:"";
+	$OpcConsulta = isset($_REQUEST["OpcConsulta"])?$_REQUEST["OpcConsulta"]:"";
+
+	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbFlujos      = isset($_REQUEST["CmbFlujos"])?$_REQUEST["CmbFlujos"]:"";	
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+
+	$TxtFiltroPrv    = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$OpcTR           = isset($_REQUEST["OpcTR"])?$_REQUEST["OpcTR"]:"";
+	$OpcSF           = isset($_REQUEST["OpcSF"])?$_REQUEST["OpcSF"]:"";
+	$OpcHLF          = isset($_REQUEST["OpcHLF"])?$_REQUEST["OpcHLF"]:"";
+	$TxtLeyesMuestra = isset($_REQUEST["TxtLeyesMuestra"])?$_REQUEST["TxtLeyesMuestra"]:"";
+	$TxtCodLeyes     = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:"";
+	$TxtLimitesMuestra = isset($_REQUEST["TxtLimitesMuestra"])?$_REQUEST["TxtLimitesMuestra"]:"";
+	$TxtCodLimites     = isset($_REQUEST["TxtCodLimites"])?$_REQUEST["TxtCodLimites"]:"";
+	
 ?>
 <html>
 <head>
@@ -107,9 +130,7 @@ function Salir()
 <title>AGE-Consulta Multiple Lotes</title>
 <link href="../principal/estilos/css_principal.css" type="text/css" rel="stylesheet">
 <style type="text/css">
-<!--
 .Estilo1 {color: #0000ff}
--->
 </style>
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
 <DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;

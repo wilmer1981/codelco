@@ -1,7 +1,8 @@
 <?php
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -20,6 +21,31 @@
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");	
 	include("age_funciones.php");	
+
+	$Busq = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$TxtFechaIni = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	$TxtFechaFin = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m')."-".date('t');
+	$TxtLoteIni = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+	$TxtConjIni = isset($_REQUEST["TxtConjIni"])?$_REQUEST["TxtConjIni"]:"";
+	$TxtConjFin = isset($_REQUEST["TxtConjFin"])?$_REQUEST["TxtConjFin"]:"";
+	$OpcConsulta = isset($_REQUEST["OpcConsulta"])?$_REQUEST["OpcConsulta"]:"";
+
+	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbFlujos      = isset($_REQUEST["CmbFlujos"])?$_REQUEST["CmbFlujos"]:"";	
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+
+	$TxtFiltroPrv    = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$OpcTR           = isset($_REQUEST["OpcTR"])?$_REQUEST["OpcTR"]:"";
+	$OpcSF           = isset($_REQUEST["OpcSF"])?$_REQUEST["OpcSF"]:"";
+	$OpcHLF          = isset($_REQUEST["OpcHLF"])?$_REQUEST["OpcHLF"]:"";
+	$TxtLeyesMuestra = isset($_REQUEST["TxtLeyesMuestra"])?$_REQUEST["TxtLeyesMuestra"]:"";
+	$TxtCodLeyes     = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:"";
+	$TxtLimitesMuestra = isset($_REQUEST["TxtLimitesMuestra"])?$_REQUEST["TxtLimitesMuestra"]:"";
+	$TxtCodLimites     = isset($_REQUEST["TxtCodLimites"])?$_REQUEST["TxtCodLimites"]:"";
+
 	$ArrLimites = array();
 	$ArrLeyes = array();
 	$ArrCodLeyes = array();
@@ -77,7 +103,7 @@
 		{
 			$Consulta.= " and (";
 			reset($ArrCodLeyes);
-			while (list($k,$v)=each($ArrCodLeyes))
+			foreach($ArrCodLeyes as $k => $v)
 			{			
 				$Consulta.= " t3.cod_leyes='".$v."' or";
 			}
@@ -626,7 +652,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$DatosLoteRec = array();
 						$DatosLoteRec["lote"]=$Lote;
 						$DatosLoteRec["recargo"]=$Recargo;
-						LeyesLoteRecargo(&$DatosLoteRec,&$ArrLeyes,"N","S","S","","");
+						LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","S","S","","",$link);
 						$PesoSeco=$DatosLoteRec["peso_seco2"];
 						//----------------------------------------------------
 						echo "<tr>\n";
@@ -722,7 +748,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$DatosLote = array();
 						$DatosLote["lote"]=$Lote;
 						$DatosLote["recargo"]="";
-						LeyesLote(&$DatosLote,&$ArrLoteLeyes,"N","S","S","","","");
+						LeyesLote($DatosLote,$ArrLoteLeyes,"N","S","S","","","",$link);
 						$TotalLotePesoHum = $DatosLote["peso_humedo"];
 						$TotalLotePesoSeco = $DatosLote["peso_seco2"];
 						//----------------------------------------------------
@@ -752,7 +778,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						if ($Humedad == true)
 							echo "<td align='center'>".$Negrita01."".number_format($ArrLoteLeyes["01"][2],$ArrParamLeyes["01"][2],",",".")."".$Negrita02."</td>\n";
 						reset($ArrLoteLeyes);
-						while (list($k,$v)=each($ArrLoteLeyes))
+						foreach($ArrLoteLeyes as $k => $v)
 						{
 							$Color = "";
 							if ($k!="01"&&$k!=""&&$v[1]!='')
@@ -904,7 +930,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		if ($Humedad==true)
 			echo "<td align='center'><font color='blue'><strong>".number_format($SubTotalHumedad,$ArrParamLeyes["01"][2],",",".")."</strong></font></td>\n";
 		reset($ArrSubTotalLeyes);
-		while (list($k,$v)=each($ArrSubTotalLeyes))
+		foreach($ArrSubTotalLeyes as $k => $v)
 		{
 			$Color = "";
 			if ($k!="" && $k!="01" && ($OpcHLF!="P"))
@@ -1017,7 +1043,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	if ($Humedad==true)
 		echo "<td align='center'><strong>".number_format($TotalHumedad,$ArrParamLeyes["01"][2],",",".")."</strong></td>\n";
 	reset($ArrTotalLeyes);
-	while (list($k,$v)=each($ArrTotalLeyes))
+	foreach($ArrTotalLeyes as $k => $v)
 	{
 		$Color = "";
 		if ($k!="01" && $OpcHLF!="P")

@@ -1,33 +1,46 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor   = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+
 	if ($SubProducto == "S")
 	{
 		$Producto = "99";
 		$SubProducto = "99";
-	}
-	else
-	{
+	}else{
 		$Producto = '1';
 	}
+	
 	if ($Proveedor == "S")
 	{
 		$RutAux = "99999999-9";
-	}
-	else
-	{
+	}else{
 		$Datos3 = explode("-",$Proveedor);
 		$RutAux = ($Datos3[0]*1)."-".$Datos3[1];
 	}
+
 	switch ($Proceso)
 	{
 		case "G":			
 			//PRIMERO ELIMINA LO QUE HAYs
-			$Eliminar = "delete from asge_web.limites ";
-			$ELiminar.= " where cod_producto='".$Producto."' ";
+			$Eliminar = "delete from age_web.limites ";
+			$Eliminar.= " where cod_producto='".$Producto."' ";
 			$Eliminar.= " and cod_subproducto='".$SubProducto."' ";
-			$Elimianr.= " and rut_proveedor='".$RutAux."'";
+			$Eliminar.= " and rut_proveedor='".$RutAux."'";
 			mysqli_query($link, $Eliminar);
 			//INSERTA NUEVOS VALORES
+			/*
+			age_con_multiple_lotes_limites01.php?Proceso=G&Valores=
+			Valores=02//>//11~~
+			        04//>//12~~
+					05//>//13~~
+
+					07//>//111~~
+					08//>//121~~
+					09//>//131
+					*/
 			$Datos = explode("~~",$Valores);
 			foreach($Datos as $k => $v)			
 			{

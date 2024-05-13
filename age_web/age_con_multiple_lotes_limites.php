@@ -1,5 +1,10 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$TipoConsulta  = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor  = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Signo  = isset($_REQUEST["Signo"])?$_REQUEST["Signo"]:"";
+	
 ?>
 <html>
 <head>
@@ -32,7 +37,7 @@ function Proceso(opt)
 			}			
 			break;
 		case "E":			
-			var msg=confirm("�Seguro que desea Eliminar esta Plantilla?");
+			var msg=confirm("¿Seguro que desea Eliminar esta Plantilla?");
 			if (msg==true)
 			{
 				f.action = "age_con_multiple_lotes_limites01.php?Proceso=E";
@@ -96,11 +101,9 @@ function Marca(J)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
@@ -197,7 +200,7 @@ body {
 	{
 		$Limite = "";  					
 		$Consulta = "select  * from age_web.limites ";
-		if (isset($SubProducto) && $SubProducto!="S")
+		if ($SubProducto!="" && $SubProducto!="S")
 		{	
 			$Consulta.= " where cod_producto = '1'";
 			$Consulta.= " and cod_subproducto = '".$SubProducto."'";
@@ -207,7 +210,7 @@ body {
 			$Consulta.= " where cod_producto = '99'";
 			$Consulta.= " and cod_subproducto = '99'";
 		}
-		if (isset($Proveedor) && $Proveedor!="S")
+		if ($Proveedor!="" && $Proveedor!="S")
 			$Consulta.= " and rut_proveedor = '".$Proveedor."'";
 		else
 			$Consulta.= " and rut_proveedor = '99999999-9'";

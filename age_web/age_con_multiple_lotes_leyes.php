@@ -1,5 +1,9 @@
 <?php
 	include("../principal/conectar_principal.php");
+	
+	$TipoConsulta  = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$Pag  = isset($_REQUEST["Pag"])?$_REQUEST["Pag"]:"";
+
 ?>
 <html>
 <head>
@@ -58,11 +62,9 @@ function Proceso(opt,pag)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
