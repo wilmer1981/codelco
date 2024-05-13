@@ -1,13 +1,22 @@
 <?php 	
 	include("../principal/conectar_principal.php");
-	$NomBtnGrabar='Grabar';
-	$TxtNumPlantilla='';
-	$TxtNombrePlantilla='';
-	$TxtDescripcion='';
-	$TxtRango1='';
-	$TxtRango2='';
-	$TxtLimPart='';
-	$CmbUnidad='-1';
+	$NomBtnGrabar = 'Grabar';
+	$TxtNumPlantilla    = isset($_REQUEST["TxtNumPlantilla"])?$_REQUEST["TxtNumPlantilla"]:"";
+	$TxtNombrePlantilla = isset($_REQUEST["TxtNombrePlantilla"])?$_REQUEST["TxtNombrePlantilla"]:"";
+	$TxtDescripcion     = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$TxtRango1          = isset($_REQUEST["TxtRango1"])?$_REQUEST["TxtRango1"]:"";
+	$TxtRango2          = isset($_REQUEST["TxtRango2"])?$_REQUEST["TxtRango2"]:"";
+	$TxtLimPart         = isset($_REQUEST["TxtLimPart"])?$_REQUEST["TxtLimPart"]:"";
+	$CmbUnidad          = isset($_REQUEST["CmbUnidad"])?$_REQUEST["CmbUnidad"]:'-1';
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Recarga   = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+	$CmbLeyes  = isset($_REQUEST["CmbLeyes"])?$_REQUEST["CmbLeyes"]:"";
+	$CodLey    = isset($_REQUEST["CodLey"])?$_REQUEST["CodLey"]:"";
+	$Corr      = isset($_REQUEST["Corr"])?$_REQUEST["Corr"]:"";	
+	$CmbPlantilla = isset($_REQUEST["CmbPlantilla"])?$_REQUEST["CmbPlantilla"]:"";
+	$TipoProceso  = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
+	$TxtCorr      = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:"";		
 
 	$Consulta ="select ifnull(max(cod_plantilla)+1,1) as corr from age_web.limites_particion";
 	$Respuesta=mysqli_query($link, $Consulta);
@@ -22,9 +31,9 @@
 		$Respuesta=mysqli_query($link, $Consulta);
 		while($Fila=mysqli_fetch_array($Respuesta))
 		{
-			$CmbPlantilla=$Fila[cod_plantilla];
-			$TxtNumPlantilla=$Fila[cod_plantilla];
-			$TxtNombrePlantilla=$Fila[nombre_plantilla];
+			$CmbPlantilla=$Fila["cod_plantilla"];
+			$TxtNumPlantilla=$Fila["cod_plantilla"];
+			$TxtNombrePlantilla=$Fila["nombre_plantilla"];
 		}
 		$Consulta ="select ifnull(max(correlativo)+1,1) as corr from age_web.limites_particion where cod_plantilla='$CmbPlantilla' and cod_ley='$CmbLeyes'";
 		$Respuesta=mysqli_query($link, $Consulta);
@@ -40,14 +49,14 @@
 		while($Fila=mysqli_fetch_array($Respuesta))
 		{
 			$NomBtnGrabar='Modificar';
-			$TxtNumPlantilla=$Fila[cod_plantilla];
-			$TxtNombrePlantilla=$Fila[nombre_plantilla];
+			$TxtNumPlantilla=$Fila["cod_plantilla"];
+			$TxtNombrePlantilla=$Fila["nombre_plantilla"];
 			$CmbLeyes=$Fila["cod_ley"];
-			$TxtCorr=$Fila[correlativo];
+			$TxtCorr=$Fila["correlativo"];
 			$TxtDescripcion=$Fila["descripcion"];
-			$TxtRango1=$Fila[rango1];
-			$TxtRango2=$Fila[rango2];
-			$TxtLimPart=$Fila[limite_particion];
+			$TxtRango1=$Fila["rango1"];
+			$TxtRango2=$Fila["rango2"];
+			$TxtLimPart=$Fila["limite_particion"];
 			$CmbUnidad=$Fila["cod_unidad"];
 		}
 	}
@@ -252,12 +261,12 @@ function Salir()
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
 					echo "<tr>";
-					echo "<td align='center' class='Detalle02'><input type='radio' name='OptSelecionar' onclick=Modificar('$Fila[cod_ley]','$Fila[correlativo]')>$Fila[nom_ley]</td>";
-					echo "<td align='left'>$Fila["descripcion"]</td>";
-					echo "<td align='center'>".number_format($Fila[rango1],3,',','.')."</td>";
-					echo "<td align='center'>".number_format($Fila[rango2],3,',','.')."</td>";
-					echo "<td align='center'>".number_format($Fila[limite_particion],3,',','.')."</td>";
-					echo "<td align='center'>$Fila[nom_unidad]</td>";
+					echo "<td align='center' class='Detalle02'><input type='radio' name='OptSelecionar' onclick=Modificar('".$Fila["cod_ley"]."','".$Fila["correlativo"]."')>".$Fila["nom_ley"]."</td>";
+					echo "<td align='left'>".$Fila["descripcion"]."</td>";
+					echo "<td align='center'>".number_format($Fila["rango1"],3,',','.')."</td>";
+					echo "<td align='center'>".number_format($Fila["rango2"],3,',','.')."</td>";
+					echo "<td align='center'>".number_format($Fila["limite_particion"],3,',','.')."</td>";
+					echo "<td align='center'>".$Fila["nom_unidad"]."</td>";
 					echo "</tr>";
 				}
 			}

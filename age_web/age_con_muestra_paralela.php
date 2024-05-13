@@ -386,7 +386,7 @@ function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimie
 		$RespPar=mysqli_query($link, $Consulta);
 		if($FilaPar=mysqli_fetch_array($RespPar))
 		{
-			$LimControl=$FilaPar[limite_particion]*1;
+			$LimControl=$FilaPar["limite_particion"]*1;
 			$Seguimiento="M.PARALELA: ".$FilaPar["descripcion"]."<BR>";
 			$Seguimiento.="LIMITE CONTROL: ".$LimControl."&nbsp;(".$FilaPar["abreviatura"].")<br>";
 			//echo "LIMITE CONTROL:".$LimControl."<br>";

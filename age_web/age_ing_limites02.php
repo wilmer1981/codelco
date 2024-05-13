@@ -1,5 +1,14 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Accion = isset($_REQUEST["Accion"])?$_REQUEST["Accion"]:"";
+	$Tipo   = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor    = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtCodigo       = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
+	$TxtDescripcion  = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	
+
 	if ($Accion=="N")
 	{
 		$Consulta = "select ifnull(max(lpad(cod_plantilla,4,'0')),0) as codigo from age_web.limites ";
@@ -59,7 +68,7 @@ function Proceso(opt)
 				alert("No hay Codigo Asignado");
 				return;
 			}		
-			if (confirm("�Seguro que desea eliminar esta Plantilla y todos sus Datos?"))	
+			if (confirm("¿Seguro que desea eliminar esta Plantilla y todos sus Datos?"))	
 			{
 				f.action="age_ing_limites01.php?Proceso=E";
 				f.submit();
@@ -69,11 +78,9 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>

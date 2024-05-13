@@ -182,7 +182,7 @@
 				$Respuesta=mysqli_query($link, $Consulta);
 				if($Fila=mysqli_fetch_array($Respuesta))
 				{
-					$LimControl=$Fila[limite_particion]*1;
+					$LimControl=$Fila["limite_particion"]*1;
 					$Seguimiento="M.PARALELA: ".$Fila["descripcion"]."<BR>";
 					$Seguimiento.="LIMITE CONTROL: ".$LimControl."&nbsp;(".$Fila["abreviatura"].")<br>";
 					//echo "LIMITE CONTROL:".$LimControl."<br>";

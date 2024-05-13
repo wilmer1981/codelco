@@ -889,8 +889,8 @@ function SoloUnElementoCheck()
 					$TxtValTipo=$FilaVal[tipo];
 					echo "<input type='hidden' name='TxtValEntero' value='".$FilaVal[entero]."'>";
 					$TxtValEntero=$FilaVal[entero];
-					echo "<input type='hidden' name='TxtValRango1' value='".$FilaVal[rango1]."'>";
-					$TxtValRango1=$FilaVal[rango1];
+					echo "<input type='hidden' name='TxtValRango1' value='".$FilaVal["rango1"]."'>";
+					$TxtValRango1=$FilaVal["rango1"];
 					echo "<input type='hidden' name='TxtValRango2' value='".$FilaVal[rango2]."'>";
 					$TxtValRango2=$FilaVal[rango2];
 					echo "<input type='hidden' name='TxtValDes' value='".$FilaVal["descripcion"]."'>";

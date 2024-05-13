@@ -1,4 +1,9 @@
-<?php include("../principal/conectar_principal.php"); ?>
+<?php 
+include("../principal/conectar_principal.php"); 
+$Tipo         = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+$CodPlantilla = isset($_REQUEST["CodPlantilla"])?$_REQUEST["CodPlantilla"]:"";
+$SoloVer      = isset($_REQUEST["SoloVer"])?$_REQUEST["SoloVer"]:"";
+?>
 <html>
 <head>
 <title>Sistema de Agencia</title>
@@ -36,11 +41,9 @@ function Recarga(tip, subprod, rutprov, plantilla)
 
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
@@ -75,7 +78,7 @@ body {
 	$Consulta = "select distinct t1.cod_leyes, t2.abreviatura ";
 	$Consulta.= " from age_web.limites t1 inner join proyecto_modernizacion.leyes t2 ";	
 	$Consulta.= " on t1.cod_leyes=t2.cod_leyes ";
-	if (isset($CodPlantilla) && $CodPlantilla!="S")
+	if ($CodPlantilla!="" && $CodPlantilla!="S")
 		$Consulta.= " where t1.cod_plantilla='".$CodPlantilla."'";
 	$Consulta.= " order by t1.cod_leyes";
 	$Resp = mysqli_query($link, $Consulta);
@@ -120,7 +123,7 @@ body {
 	$Consulta.= " from age_web.limites t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto ";
 	$Consulta.= " and t1.cod_subproducto=t2.cod_subproducto left join rec_web.proved t3 on t1.rut_proveedor=t3.rutprv_a ";
 	$Consulta.= " where t1.tipo='".$Tipo."' ";
-	if (isset($CodPlantilla) && $CodPlantilla!="S")
+	if ($CodPlantilla!="" && $CodPlantilla!="S")
 		$Consulta.= " and t1.cod_plantilla='".$CodPlantilla."'";
 	$Consulta.= " order by t1.cod_producto, lpad(t1.cod_subproducto,3,'0'), t1.descripcion";
 	$Resp = mysqli_query($link, $Consulta);

@@ -1,5 +1,18 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Tipo     = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor    = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtCodigo       = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
+	$TxtDescripcion  = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor   = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$ChkTipo     = isset($_REQUEST["ChkTipo"])?$_REQUEST["ChkTipo"]:"";
+	$Plantilla   = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$ValoresAux      = isset($_REQUEST["ValoresAux"])?$_REQUEST["ValoresAux"]:"";
+
 	switch($Proceso)
 	{		
 		case "G":// NUEVA PLANTILLA
@@ -7,7 +20,7 @@
 				$CmbSubProducto=0;
 			if ($CmbProveedor=="S")
 				$CmbProveedor="99999999-9";
-			$Consulta = "select * from age_web.limites where cod_plantilla='".$TxtCodigo."'";
+			$Consulta = "SELECT * from age_web.limites where cod_plantilla='".$TxtCodigo."'";
 			$Resp = mysqli_query($link, $Consulta);			
 			if ($Fila=mysqli_fetch_array($Resp))
 			{
@@ -17,7 +30,7 @@
 			}
 			else
 			{
-				$Insertar = "insert into age_web.limites (tipo, cod_plantilla, descripcion, cod_producto, cod_subproducto, rut_proveedor, cod_leyes) ";
+				$Insertar = "INSERT INTO age_web.limites (tipo, cod_plantilla, descripcion, cod_producto, cod_subproducto, rut_proveedor, cod_leyes) ";
 				$Insertar.= " values('".$Tipo."', '".$TxtCodigo."', '".strtoupper($TxtDescripcion)."', '1','".$CmbSubProducto."','".$CmbProveedor."','00')";
 				mysqli_query($link, $Insertar);
 			}			
@@ -29,7 +42,7 @@
 			echo "window.close();</script>";
 			break;
 		case "E":// ELIMINA PLANTILLA
-			$Eliminar = "delete from age_web.limites where cod_plantilla='".$TxtCodigo."'";
+			$Eliminar = "DELETE FROM age_web.limites where cod_plantilla='".$TxtCodigo."'";
 			mysqli_query($link, $Eliminar);	
 			echo "<script laguage='JavaScript'>window.opener.document.location='age_ing_limites.php';";
 			echo "window.close();</script>";
@@ -41,7 +54,7 @@
 				$Proveedor="99999999-9";
 			//SACO LA DESCRIPCION DE LA PLANTILLA
 			//PRIMERO ELIMINA LO QUE HAY
-			$Consulta = "select distinct descripcion from age_web.limites ";
+			$Consulta = "SELECT distinct descripcion from age_web.limites ";
 			$Consulta.= " where cod_plantilla='".$Plantilla."'";
 			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysqli_fetch_array($Resp))

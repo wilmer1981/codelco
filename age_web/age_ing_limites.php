@@ -2,12 +2,25 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 35;
 	include("../principal/conectar_principal.php");
+
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"S";
+	$Proveedor   = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"S";
+	$ChkTipo     = isset($_REQUEST["ChkTipo"])?$_REQUEST["ChkTipo"]:"L";
+	$Plantilla   = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+
+	$TxtFiltroPrv     = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$ChkTipo     = isset($_REQUEST["ChkTipo"])?$_REQUEST["ChkTipo"]:"L";
+	$ChkTipo     = isset($_REQUEST["ChkTipo"])?$_REQUEST["ChkTipo"]:"L";
+
+
+	/*
 	if (!isset($SubProducto))
 		$SubProducto="S";
 	if (!isset($Proveedor))
 		$Proveedor="S";
 	if (!isset($ChkTipo))
 		$ChkTipo="L";
+	*/
 ?>
 <html>
 <head>
@@ -136,14 +149,12 @@ function Recarga3()
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style></head>
 
 <body>
@@ -385,7 +396,7 @@ body {
 			$LimiteMin = $FilaAux["limite_minimo"];
 			$LimiteMed = $FilaAux["limite_medio"];
 			$LimiteMax = $FilaAux["limite_maximo"];
-			$FechaA = substr($FilaAux[anomes],0,4)."/".substr($FilaAux[anomes],4,2);
+			$FechaA = substr($FilaAux["anomes"],0,4)."/".substr($FilaAux["anomes"],4,2);
 		}
 		echo "<td class='Detalle03' align='left'><em>";
 		if ($LimiteMin!="" || $LimiteMed!="" || $LimiteMax!="")

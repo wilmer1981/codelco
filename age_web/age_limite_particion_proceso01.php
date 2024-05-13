@@ -1,11 +1,23 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtNumPlantilla    = isset($_REQUEST["TxtNumPlantilla"])?$_REQUEST["TxtNumPlantilla"]:"";
+	$TxtNombrePlantilla = isset($_REQUEST["TxtNombrePlantilla"])?$_REQUEST["TxtNombrePlantilla"]:"";
+	$CmbLeyes           = isset($_REQUEST["CmbLeyes"])?$_REQUEST["CmbLeyes"]:"";
+	$TxtCorr            = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:"";	
+	$TxtDescripcion     = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$TxtRango1          = isset($_REQUEST["TxtRango1"])?$_REQUEST["TxtRango1"]:"";
+	$TxtRango2          = isset($_REQUEST["TxtRango2"])?$_REQUEST["TxtRango2"]:"";
+	$TxtLimPart         = isset($_REQUEST["TxtLimPart"])?$_REQUEST["TxtLimPart"]:"";
+	$CmbUnidad          = isset($_REQUEST["CmbUnidad"])?$_REQUEST["CmbUnidad"]:"";
+	$TipoProceso        = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
+	$CmbPlantilla       = isset($_REQUEST["CmbPlantilla"])?$_REQUEST["CmbPlantilla"]:"";
 	
 	$Param='';
 	switch ($Proceso)
 	{
 		case "N"://NUEVO
-			$Insertar="insert into age_web.limites_particion (cod_plantilla,nombre_plantilla,cod_ley,correlativo,descripcion,rango1,rango2,limite_particion,cod_unidad,proceso) values (";
+			$Insertar="INSERT INTO age_web.limites_particion (cod_plantilla,nombre_plantilla,cod_ley,correlativo,descripcion,rango1,rango2,limite_particion,cod_unidad,proceso) values (";
 			$Insertar.="'$TxtNumPlantilla','$TxtNombrePlantilla','$CmbLeyes','$TxtCorr','$TxtDescripcion','$TxtRango1','$TxtRango2','".str_replace(',','.',$TxtLimPart)."','$CmbUnidad','$TipoProceso')";
 			mysqli_query($link, $Insertar);
 			$Param="?CmbPlantilla=".$CmbPlantilla."&CmbLeyes=".$CmbLeyes."&Recarga=S&TipoProceso=".$TipoProceso;
@@ -20,7 +32,7 @@
 			$Param="?CmbPlantilla=".$CmbPlantilla."&CodLey=".$CmbLeyes."&Proceso=M&Corr=".$TxtCorr."&TipoProceso=".$TipoProceso;
 			break;
 		case "E"://ELIMINAR
-			$Eliminar ="delete from age_web.limites_particion  where cod_plantilla='$CmbPlantilla' and cod_ley='$CmbLeyes' and correlativo='$TxtCorr'";
+			$Eliminar ="DELETE FROM age_web.limites_particion  where cod_plantilla='$CmbPlantilla' and cod_ley='$CmbLeyes' and correlativo='$TxtCorr'";
 			mysqli_query($link, $Eliminar);
 			$Param="?CmbPlantilla=".$CmbPlantilla."&CmbLeyes=".$CmbLeyes."&Recarga=S&TipoProceso=".$TipoProceso;
 			break;
