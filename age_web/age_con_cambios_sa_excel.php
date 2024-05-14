@@ -1,29 +1,37 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	if (!isset($Mes))
-		$Mes = date("n");
-	if (!isset($ChkSolicitud))
-		$ChkSolicitud="S";
+
+	$Mostrar      = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Orden        = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$Mes          = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
+	$Ano          = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Busq         = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+    $ChkSolicitud = isset($_REQUEST["ChkSolicitud"])?$_REQUEST["ChkSolicitud"]:"S";
+	$TxtFiltroPrv     = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+
 	//CONSULTO FECHA CIERRE ANEXO
 	$Consulta = "select estado, fecha_cierre from proyecto_modernizacion.cierre_mes";
 	$Consulta.= " where cod_sistema='15' ";
@@ -33,6 +41,7 @@
 	$Consulta.= " and ano='".$Ano."' and mes='".$Mes."' and cod_bloqueo='1')";
 	$RespCierre = mysqli_query($link, $Consulta);
 	$CierreBalance = false;	
+	$FechaCierreAnexo="";
 	if ($FilaCierre = mysqli_fetch_array($RespCierre))
 	{
 		if ($FilaCierre["estado"]=="C")
@@ -77,40 +86,43 @@
               <td width="70" bgcolor="#EFEFEF">Au (g/t) </td>
             </tr>
             <?php		
-		
-if ($Mostrar=="S" && $FechaCierreAnexo!="")
-{
-	$Consulta = "select t1.ano, t1.mes, t1.cod_producto, t1.cod_subproducto, t2.abreviatura, t1.peso_seco, ";
-	$Consulta.= " t1.fino_cu, t1.fino_ag, t1.fino_au, t1.rut_proveedor, t3.nomprv_a";
-	$Consulta.= " from age_web.ajustes t1 inner join proyecto_modernizacion.subproducto t2 ";
-	$Consulta.= " on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
-	$Consulta.= " inner join rec_web.proved t3 on t1.rut_proveedor=t3.rutprv_a ";
-	$Consulta.= " where t1.ano='".$AnoAjuste."' and t1.mes='".$MesAjuste."'";
-	$Consulta.= " order by t1.cod_subproducto, t1.rut_proveedor ";
-	//echo $Consulta;
-	$Resp=mysqli_query($link, $Consulta);
-	$TotalPesoSeco=0;
-	$TotalFinoCu=0;
-	$TotalFinoAg=0;
-	$TotalFinoAu=0;
-	while ($Fila=mysqli_fetch_array($Resp))
-	{
-		echo "<tr>\n";
-		echo "<td align=\"center\">".$Fila["ano"]."</td>\n";
-		echo "<td align=\"center\">".$Meses[$Fila["mes"]-1]."</td>\n";
-		echo "<td>".$Fila["abreviatura"]."</td>\n";
-		echo "<td>".$Fila["nomprv_a"]."</td>\n";
-		echo "<td align=\"right\">".number_format($Fila["peso_seco"],2,",",".")."</td>\n";
-		echo "<td align=\"right\">".number_format($Fila["fino_cu"],2,",",".")."</td>\n";
-		echo "<td align=\"right\">".number_format($Fila["fino_ag"],2,",",".")."</td>\n";
-		echo "<td align=\"right\">".number_format($Fila["fino_au"],2,",",".")."</td>\n";
-		echo "</tr>\n";
-		$TotalPesoSeco=$TotalPesoSeco+$Fila["peso_seco"];
-		$TotalFinoCu=$TotalFinoCu+$Fila["fino_cu"];
-		$TotalFinoAg=$TotalFinoAg+$Fila["fino_ag"];
-		$TotalFinoAu=$TotalFinoAu+$Fila["fino_au"];
-	}
-}//FIN MOSTRAR = S	
+			$TotalPesoSeco=0;
+			$TotalFinoCu=0;
+			$TotalFinoAg=0;
+			$TotalFinoAu=0;
+			if ($Mostrar=="S" && $FechaCierreAnexo!="")
+			{
+				$Consulta = "select t1.ano, t1.mes, t1.cod_producto, t1.cod_subproducto, t2.abreviatura, t1.peso_seco, ";
+				$Consulta.= " t1.fino_cu, t1.fino_ag, t1.fino_au, t1.rut_proveedor, t3.nomprv_a";
+				$Consulta.= " from age_web.ajustes t1 inner join proyecto_modernizacion.subproducto t2 ";
+				$Consulta.= " on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+				$Consulta.= " inner join rec_web.proved t3 on t1.rut_proveedor=t3.rutprv_a ";
+				$Consulta.= " where t1.ano='".$AnoAjuste."' and t1.mes='".$MesAjuste."'";
+				$Consulta.= " order by t1.cod_subproducto, t1.rut_proveedor ";
+				//echo $Consulta;
+				$Resp=mysqli_query($link, $Consulta);
+				$TotalPesoSeco=0;
+				$TotalFinoCu=0;
+				$TotalFinoAg=0;
+				$TotalFinoAu=0;
+				while ($Fila=mysqli_fetch_array($Resp))
+				{
+					echo "<tr>\n";
+					echo "<td align=\"center\">".$Fila["ano"]."</td>\n";
+					echo "<td align=\"center\">".$Meses[$Fila["mes"]-1]."</td>\n";
+					echo "<td>".$Fila["abreviatura"]."</td>\n";
+					echo "<td>".$Fila["nomprv_a"]."</td>\n";
+					echo "<td align=\"right\">".number_format($Fila["peso_seco"],2,",",".")."</td>\n";
+					echo "<td align=\"right\">".number_format($Fila["fino_cu"],2,",",".")."</td>\n";
+					echo "<td align=\"right\">".number_format($Fila["fino_ag"],2,",",".")."</td>\n";
+					echo "<td align=\"right\">".number_format($Fila["fino_au"],2,",",".")."</td>\n";
+					echo "</tr>\n";
+					$TotalPesoSeco=$TotalPesoSeco+$Fila["peso_seco"];
+					$TotalFinoCu=$TotalFinoCu+$Fila["fino_cu"];
+					$TotalFinoAg=$TotalFinoAg+$Fila["fino_ag"];
+					$TotalFinoAu=$TotalFinoAu+$Fila["fino_au"];
+				}
+			}//FIN MOSTRAR = S	
 ?>
             <tr align="center" >
               <td colspan="4" bgcolor="#efefef" >TOTAL AJUSTES </td>

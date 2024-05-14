@@ -3,10 +3,17 @@
 	$CodigoDePantalla = 91;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	if (!isset($Mes))
-		$Mes = date("n");
-	if (!isset($ChkSolicitud))
-		$ChkSolicitud="S";
+	
+	$Mostrar      = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Orden        = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$Mes          = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
+	$Ano          = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Busq         = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+    $ChkSolicitud = isset($_REQUEST["ChkSolicitud"])?$_REQUEST["ChkSolicitud"]:"S";
+	$TxtFiltroPrv     = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+
 	//CONSULTO FECHA CIERRE ANEXO
 	$Consulta = "select estado, fecha_cierre from proyecto_modernizacion.cierre_mes";
 	$Consulta.= " where cod_sistema='15' ";
@@ -16,6 +23,7 @@
 	$Consulta.= " and ano='".$Ano."' and mes='".$Mes."' and cod_bloqueo='1')";
 	$RespCierre = mysqli_query($link, $Consulta);
 	$CierreBalance = false;	
+	$FechaCierreAnexo="";
 	if ($FilaCierre = mysqli_fetch_array($RespCierre))
 	{
 		if ($FilaCierre["estado"]=="C")
@@ -140,7 +148,7 @@ function UsarAjuste(opt)
 			}
 			else
 			{
-				if (confirm("�Seguro que desea Eliminar estos Ajustes?"))
+				if (confirm("¿Seguro que desea Eliminar estos Ajustes?"))
 				{
 					var Largo=Valores.length;
 					Valores = Valores.substring(0,Largo-3);
@@ -452,7 +460,7 @@ if ($Mostrar=="S" && $FechaCierreAnexo!="")
 		$ArrLoteLeyes=array();
 		$DatosLote["lote"]=$Fila["lote"];
 		$DatosLote["recargo"]="";
-		LeyesLote(&$DatosLote,&$ArrLoteLeyes,"N","S","S","","","");				
+		LeyesLote($DatosLote,$ArrLoteLeyes,"N","S","S","","","",$link);				
 		if($Fila["recargo"]=='R')//CUANDO HAY DIFERENCIA EN LA RETALLA
 		{
 			$ValorLeyIncActual = $ArrLoteLeyes[$Fila["cod_leyes"]][2];
@@ -648,42 +656,45 @@ if ($Mostrar=="S" && $FechaCierreAnexo!="")
               <td width="51">Au (g/t) </td>
             </tr>
             <?php		
-		
-if ($Mostrar=="S" && $FechaCierreAnexo!="")
-{
-	$Consulta = "select t1.ano, t1.mes, t1.cod_producto, t1.cod_subproducto, t2.abreviatura, t1.peso_seco, ";
-	$Consulta.= " t1.fino_cu, t1.fino_ag, t1.fino_au, t1.rut_proveedor, t3.nomprv_a";
-	$Consulta.= " from age_web.ajustes t1 inner join proyecto_modernizacion.subproducto t2 ";
-	$Consulta.= " on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
-	$Consulta.= " inner join rec_web.proved t3 on t1.rut_proveedor=t3.rutprv_a ";
-	$Consulta.= " where t1.ano='".$AnoAjuste."' and t1.mes='".$MesAjuste."'";
-	$Consulta.= " order by t1.cod_subproducto, t1.rut_proveedor ";
-	//echo $Consulta;
-	$Resp=mysqli_query($link, $Consulta);
-	$TotalPesoSeco=0;
-	$TotalFinoCu=0;
-	$TotalFinoAg=0;
-	$TotalFinoAu=0;
-	while ($Fila=mysqli_fetch_array($Resp))
-	{
-		echo "<tr>\n";
-		echo "<td align=\"center\">".$Fila["ano"]."</td>\n";
-		echo "<td align=\"center\">".$Meses[$Fila["mes"]-1]."</td>\n";
-		echo "<td>".$Fila["abreviatura"]."</td>\n";
-		echo "<td>".$Fila["nomprv_a"]."</td>\n";
-		echo "<td align=\"right\">".number_format($Fila["peso_seco"],2,",",".")."</td>\n";
-		echo "<td align=\"right\">".number_format($Fila["fino_cu"],2,",",".")."</td>\n";
-		echo "<td align=\"right\">".number_format($Fila["fino_ag"],2,",",".")."</td>\n";
-		echo "<td align=\"right\">".number_format($Fila["fino_au"],2,",",".")."</td>\n";
-		$ClaveAjuste=$Fila["ano"]."~~".$Fila["mes"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."~~".$Fila["rut_proveedor"];
-		echo "<td align=\"center\"><input type=\"checkbox\" name=\"ChkAjuste\" value=\"".$ClaveAjuste."\"></td>\n";
-		echo "</tr>\n";
-		$TotalPesoSeco=$TotalPesoSeco+$Fila["peso_seco"];
-		$TotalFinoCu=$TotalFinoCu+$Fila["fino_cu"];
-		$TotalFinoAg=$TotalFinoAg+$Fila["fino_ag"];
-		$TotalFinoAu=$TotalFinoAu+$Fila["fino_au"];
-	}
-}//FIN MOSTRAR = S	
+				$TotalPesoSeco=0;
+				$TotalFinoCu=0;
+				$TotalFinoAg=0;
+				$TotalFinoAu=0;
+			if ($Mostrar=="S" && $FechaCierreAnexo!="")
+			{
+				$Consulta = "select t1.ano, t1.mes, t1.cod_producto, t1.cod_subproducto, t2.abreviatura, t1.peso_seco, ";
+				$Consulta.= " t1.fino_cu, t1.fino_ag, t1.fino_au, t1.rut_proveedor, t3.nomprv_a";
+				$Consulta.= " from age_web.ajustes t1 inner join proyecto_modernizacion.subproducto t2 ";
+				$Consulta.= " on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+				$Consulta.= " inner join rec_web.proved t3 on t1.rut_proveedor=t3.rutprv_a ";
+				$Consulta.= " where t1.ano='".$AnoAjuste."' and t1.mes='".$MesAjuste."'";
+				$Consulta.= " order by t1.cod_subproducto, t1.rut_proveedor ";
+				//echo $Consulta;
+				$Resp=mysqli_query($link, $Consulta);
+				$TotalPesoSeco=0;
+				$TotalFinoCu=0;
+				$TotalFinoAg=0;
+				$TotalFinoAu=0;
+				while ($Fila=mysqli_fetch_array($Resp))
+				{
+					echo "<tr>\n";
+					echo "<td align=\"center\">".$Fila["ano"]."</td>\n";
+					echo "<td align=\"center\">".$Meses[$Fila["mes"]-1]."</td>\n";
+					echo "<td>".$Fila["abreviatura"]."</td>\n";
+					echo "<td>".$Fila["nomprv_a"]."</td>\n";
+					echo "<td align=\"right\">".number_format($Fila["peso_seco"],2,",",".")."</td>\n";
+					echo "<td align=\"right\">".number_format($Fila["fino_cu"],2,",",".")."</td>\n";
+					echo "<td align=\"right\">".number_format($Fila["fino_ag"],2,",",".")."</td>\n";
+					echo "<td align=\"right\">".number_format($Fila["fino_au"],2,",",".")."</td>\n";
+					$ClaveAjuste=$Fila["ano"]."~~".$Fila["mes"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."~~".$Fila["rut_proveedor"];
+					echo "<td align=\"center\"><input type=\"checkbox\" name=\"ChkAjuste\" value=\"".$ClaveAjuste."\"></td>\n";
+					echo "</tr>\n";
+					$TotalPesoSeco=$TotalPesoSeco+$Fila["peso_seco"];
+					$TotalFinoCu=$TotalFinoCu+$Fila["fino_cu"];
+					$TotalFinoAg=$TotalFinoAg+$Fila["fino_ag"];
+					$TotalFinoAu=$TotalFinoAu+$Fila["fino_au"];
+				}
+			}//FIN MOSTRAR = S	
 ?>
             <tr align="center">
               <td colspan="4" class="Detalle01">TOTAL AJUSTES </td>

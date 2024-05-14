@@ -1,5 +1,21 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mes        = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
+	$Ano        = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$TxtValores = isset($_REQUEST["TxtValores"])?$_REQUEST["TxtValores"]:"";
+	$SubProducto= isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor  = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("n");
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbSubProducto= isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor  = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtAjuPeso   = isset($_REQUEST["TxtAjuPeso"])?$_REQUEST["TxtAjuPeso"]:"";
+	$TxtAjuCu     = isset($_REQUEST["TxtAjuCu"])?$_REQUEST["TxtAjuCu"]:"";
+	$TxtAjuAg     = isset($_REQUEST["TxtAjuAg"])?$_REQUEST["TxtAjuAg"]:"";
+	$TxtAjuAu     = isset($_REQUEST["TxtAjuAu"])?$_REQUEST["TxtAjuAu"]:"";
+
 	switch ($Proceso)
 	{
 		case "U":

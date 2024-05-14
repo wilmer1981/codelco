@@ -1,8 +1,18 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	if (!isset($CmbMes))
-		$CmbMes = date("n");
+	$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("n");
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbSubProducto= isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor  = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtValores = isset($_REQUEST["TxtValores"])?$_REQUEST["TxtValores"]:"";
+	$TxtAjuPeso   = isset($_REQUEST["TxtAjuPeso"])?$_REQUEST["TxtAjuPeso"]:"";
+	$TxtAjuCu     = isset($_REQUEST["TxtAjuCu"])?$_REQUEST["TxtAjuCu"]:"";
+	$TxtAjuAg     = isset($_REQUEST["TxtAjuAg"])?$_REQUEST["TxtAjuAg"]:"";
+	$TxtAjuAu     = isset($_REQUEST["TxtAjuAu"])?$_REQUEST["TxtAjuAu"]:"";
+
+
 	if ($Proceso=="M")
 	{
 		$Datos01=explode("~~",$TxtValores);
@@ -69,11 +79,9 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
