@@ -1,7 +1,8 @@
 <?php
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -22,6 +23,15 @@
 	$CodigoDePantalla = 37;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
+
+	$Mostrar    = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mes        = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano        = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor    = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$CmbPlantilla     = isset($_REQUEST["CmbPlantilla"])?$_REQUEST["CmbPlantilla"]:"";
+	$Busq             = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$TxtFiltroPrv     = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
 	
 ?>
 <html>
@@ -96,7 +106,7 @@ if ($Mostrar=="S")
 			$Au_Par=0;
 			$SA_Pri="";
 			$SA_Par="";
-			Leyes($Fila2["lote"],$Fila2["muestra_paralela"],&$Cu_Pri,&$Ag_Pri,&$Au_Pri,&$Cu_Par,&$Ag_Par,&$Au_Par,&$SA_Pri,&$SA_Par);
+			Leyes($Fila2["lote"],$Fila2["muestra_paralela"],$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par,$link);
 			
 			$Cu_Dif=$Cu_Pri-$Cu_Par;
 			$Ag_Dif=$Ag_Pri-$Ag_Par;
@@ -117,7 +127,7 @@ if ($Mostrar=="S")
 			$Seg_Au="";
 			if ($Cu_Par!=0)
 			{
-				ControlMuestra("02", $Cu_Pri, $Cu_Par, &$Cu_Dif, $CmbPlantilla, &$Seg_Cu, &$ColorCu);						
+				ControlMuestra("02", $Cu_Pri, $Cu_Par, $Cu_Dif, $CmbPlantilla, $Seg_Cu, $ColorCu,$link);						
 				echo "<td bgcolor='".$ColorCu."'>".number_format(abs($Cu_Dif),3,",",".")."</td>";
 				$Cont++;
 			}
@@ -125,7 +135,7 @@ if ($Mostrar=="S")
 				echo "<td align=\"right\">&nbsp;</td>\n";
 			if ($Ag_Par!=0)
 			{				
-				ControlMuestra("04", $Ag_Pri, $Ag_Par, &$Ag_Dif, $CmbPlantilla, &$Seg_Ag, &$ColorAg);
+				ControlMuestra("04", $Ag_Pri, $Ag_Par, $Ag_Dif, $CmbPlantilla, $Seg_Ag, $ColorAg,$link);
 				echo "<td bgcolor='".$ColorAg."'>".number_format(abs($Ag_Dif),3,",",".")."</td>";
 				$Cont++;
 			}
@@ -133,7 +143,7 @@ if ($Mostrar=="S")
 				echo "<td align=\"right\">&nbsp;</td>\n";
 			if ($Au_Par!=0)
 			{
-				ControlMuestra("05", $Au_Pri, $Au_Par, &$Au_Dif, $CmbPlantilla, &$Seg_Au, &$ColorAu);
+				ControlMuestra("05", $Au_Pri, $Au_Par, $Au_Dif, $CmbPlantilla, $Seg_Au, $ColorAu,$link);
 				echo "<td bgcolor='".$ColorAu."'>".number_format(abs($Au_Dif),3,",",".")."</td>";
 				$Cont++;
 			}
@@ -150,7 +160,7 @@ if ($Mostrar=="S")
 	}
 }//FIN MOSTRAR = S	
 
-function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimiento, $ResultControl)
+function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimiento, $ResultControl, $link)
 {
 	$Consulta = "select t1.limite_particion,t2.abreviatura,t1.descripcion ";
 	$Consulta.= " from age_web.limites_particion t1 inner join proyecto_modernizacion.unidades t2 ";
@@ -210,13 +220,13 @@ function Titulo($Prod, $NomProd, $Proved, $NomProved)
 	echo "</tr>\n";
 }//FIN FUNCION TITULO
 
-function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par)
+function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par,$link)
 {
 	//LEYES DEL PAQUETE PRIMERO
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$Lote;
-	LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+	LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 	$PesoLote=$DatosLote["peso_seco"];
 	$Cu_Pri=$ArrLeyes["02"][2];
 	$Ag_Pri=$ArrLeyes["04"][2];

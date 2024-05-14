@@ -1,10 +1,17 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mes        = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano        = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor    = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Valores          = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
 	switch ($Proceso)
 	{
 		case "G":
 			$Datos1=explode("//",$Valores);
-			while (list($k,$v)=each($Datos1))
+			foreach($Datos1 as $k=>$v)
 			{
 				$Datos2=explode("~~",$v);
 				$Lote = $Datos2[0];

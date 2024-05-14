@@ -3,7 +3,16 @@
 	$CodigoDePantalla = 37;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	
+
+	$Mostrar    = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mes        = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano        = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor    = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$CmbPlantilla     = isset($_REQUEST["CmbPlantilla"])?$_REQUEST["CmbPlantilla"]:"";
+	$Busq             = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$TxtFiltroPrv     = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+		
 ?>
 <html>
 <head>
@@ -304,7 +313,7 @@ if ($Mostrar=="S")
 			$Au_Par=0;
 			$SA_Pri="";
 			$SA_Par="";
-			Leyes($Lote,$Fila2["muestra_paralela"],&$Cu_Pri,&$Ag_Pri,&$Au_Pri,&$Cu_Par,&$Ag_Par,&$Au_Par,&$SA_Pri,&$SA_Par, $Ano);						
+			Leyes($Lote,$Fila2["muestra_paralela"],$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);						
 			$Cu_Dif=0;
 			$Ag_Dif=0;
 			$Au_Dif=0;
@@ -327,7 +336,7 @@ if ($Mostrar=="S")
 			$Seg_Au="";
 			if ($Cu_Par!=0)
 			{
-				ControlMuestra("02", $Cu_Pri, $Cu_Par, &$Cu_Dif, $CmbPlantilla, &$Seg_Cu, &$ColorCu, $Ano);						
+				ControlMuestra("02", $Cu_Pri, $Cu_Par, $Cu_Dif, $CmbPlantilla, $Seg_Cu, $ColorCu, $Ano,$link);						
 				echo "<td align='center' onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' bgcolor='".$ColorCu."'>";
 				echo "<div align='left' id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:250px'>\n";
 				echo "<font face='courier' color='#000000' size=1><b>".$Seg_Cu."<br></b></div>".number_format(abs($Cu_Dif),3,",",".")."</td>";
@@ -337,7 +346,7 @@ if ($Mostrar=="S")
 				echo "<td align=\"right\">&nbsp;</td>\n";
 			if ($Ag_Par!=0)
 			{				
-				ControlMuestra("04", $Ag_Pri, $Ag_Par, &$Ag_Dif, $CmbPlantilla, &$Seg_Ag, &$ColorAg, $Ano);
+				ControlMuestra("04", $Ag_Pri, $Ag_Par, $Ag_Dif, $CmbPlantilla, $Seg_Ag, $ColorAg, $Ano,$link);
 				echo "<td align='center' onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' bgcolor='".$ColorAg."'>";
 				echo "<div align='left' id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:250px'>\n";
 				echo "<font face='courier' color='#000000' size=1><b>".$Seg_Ag."<br></b></div>".number_format(abs($Ag_Dif),3,",",".")."</td>";
@@ -348,7 +357,7 @@ if ($Mostrar=="S")
 			//echo
 			if ($Au_Par!=0)
 			{
-				ControlMuestra("05", $Au_Pri, $Au_Par, &$Au_Dif, $CmbPlantilla, &$Seg_Au, &$ColorAu, $Ano);
+				ControlMuestra("05", $Au_Pri, $Au_Par, $Au_Dif, $CmbPlantilla, $Seg_Au, $ColorAu, $Ano,$link);
 				echo "<td align='center' onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' bgcolor='".$ColorAu."'>";
 				echo "<div align='left' id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:250px'>\n";
 				echo "<font face='courier' color='#000000' size=1><b>".$Seg_Au."<br></b></div>".number_format(abs($Au_Dif),3,",",".")."</td>";
@@ -373,7 +382,7 @@ if ($Mostrar=="S")
 	}
 }//FIN MOSTRAR = S	
 
-function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimiento, $ResultControl, $Ano)
+function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimiento, $ResultControl, $Ano,$link)
 {
 	if($Ley_Pri!='')
 	{
@@ -436,13 +445,13 @@ function Titulo($Prod, $NomProd, $Proved, $NomProved)
 	echo "</tr>\n";
 }//FIN FUNCION TITULO
 
-function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par,$Ano)
+function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par,$Ano,$link)
 {
 	//LEYES DEL PAQUETE PRIMERO
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$Lote;
-	LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+	LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 	$PesoLote=$DatosLote["peso_seco"];
 	$Cu_Pri=$ArrLeyes["02"][2];
 	$Ag_Pri=$ArrLeyes["04"][2];
