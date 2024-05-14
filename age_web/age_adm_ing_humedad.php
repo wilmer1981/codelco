@@ -4,6 +4,15 @@
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
 	//COLORES DE LIMITES
+	$TxtLote  = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Plantilla  = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$Petalo     = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+	$EsPopup    = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";
+	$TxtEsPopup = isset($_REQUEST["TxtEsPopup"])?$_REQUEST["TxtEsPopup"]:"";
+	$EstadoInput= isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$MuestraLote= isset($_REQUEST["MuestraLote"])?$_REQUEST["MuestraLote"]:"";
+	$ExLote     = isset($_REQUEST["ExLote"])?$_REQUEST["ExLote"]:"";
+	
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);
 	while ($Fila=mysqli_fetch_array($Resp))
@@ -34,7 +43,7 @@
 	}	
 	
 	$Mostrar='N';
-	if (isset($TxtLote))
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta ="select t3.recepcion,t1.num_lote_remuestreo,t1.fecha_recepcion,t1.muestra_paralela,t1.canjeable,t1.lote,t1.peso_muestra,t1.peso_retalla,t1.cod_subproducto,t3.descripcion as nom_subproducto,t1.rut_proveedor,t4.nombre_prv as nom_prv,t1.num_conjunto,";
@@ -94,7 +103,7 @@
 				$DatosLote= array();
 				$ArrLeyes=array();
 				$DatosLote["lote"]=$TxtLote;
-				LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+				LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 				if($DatosLote["tipo_remuestreo"]=='A')
 				{
 					$PesoSecoLote=$DatosLote["peso_seco2_ori"];
@@ -261,9 +270,8 @@ function IngHum(SA,ID,Recargo)
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body,td,th {
-	font-size: 10p�xele;
+	font-size: 10px;
 }
 body {
 	margin-left: 3px;
@@ -271,7 +279,6 @@ body {
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style></head>
 <?php
 if($EsPopup=='S')
@@ -282,7 +289,7 @@ else
 <body onLoad='window.document.frmPrincipal.TxtLote.focus();' <?php echo $Fondo;?>>
 <form name="frmPrincipal" action="" method="post">
 <?php
-if(!isset($TxtEsPopup))
+if($TxtEsPopup=="")
 	echo "<input type='hidden' name='TxtEsPopup' value='$EsPopup'>";
 else
 	echo "<input type='hidden' name='TxtEsPopup' value='$TxtEsPopup'>";
