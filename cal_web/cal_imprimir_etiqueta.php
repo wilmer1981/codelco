@@ -2,16 +2,15 @@
 	include("../principal/conectar_cal_web.php");
 	include("../principal/funciones/class.ezpdf.php");
 
-	$SA = $_REQUEST["SA"];
-
+	$SA     = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
 	$ArrayA = explode("//",$SA);
 	$LargoA = count($ArrayA);
+
 	//VERIFICA SOLICITUDES QUE TIENEN + DE 1 RECARGO
-	$SA = "";
 	for ($i = 0; $i < $LargoA-1; $i++)
 	{		
 		$ArrayB = explode("~~",$ArrayA[$i]);
-		$NumSolicitud = $ArrayB[0];
+		$NumSolicitud = isset($ArrayB[0])?$ArrayB[0]:"";
 		$ArrayC = explode("||",$ArrayB[1]);
 		$RutFun = $ArrayC[0];
 		$NumRecargo = $ArrayC[1];
@@ -105,13 +104,24 @@
 			$Consulta.= " and recargo = '".$NumRecargoAux."'";
 		$Respuesta = mysqli_query($link, $Consulta);
 		$Row = mysqli_fetch_array($Respuesta);
-		$Consulta = "select * from cal_web.estados_por_solicitud where nro_solicitud = '".$Row["nro_solicitud"]."' ";
-		$Consulta.= "and recargo = '".$Row["recargo"]."' and cod_estado = '13'";
+		$nro_solicitud   = isset($Row["nro_solicitud"])?$Row["nro_solicitud"]:"";
+		$recargo         = isset($Row["recargo"])?$Row["recargo"]:"";
+		$id_muestra      = isset($Row["id_muestra"])?$Row["id_muestra"]:"";
+		$cod_producto    = isset($Row["cod_producto"])?$Row["cod_producto"]:"";
+		$nom_producto    = isset($Row["nom_producto"])?$Row["nom_producto"]:"";
+		$cod_subproducto = isset($Row["cod_subproducto"])?$Row["cod_subproducto"]:"";
+		$nom_subproducto = isset($Row["nom_subproducto"])?$Row["nom_subproducto"]:"";
+		$cod_ccosto      = isset($Row["cod_ccosto"])?$Row["cod_ccosto"]:"";
+		$nom_cc          = isset($Row["nom_cc"])?$Row["nom_cc"]:"";
+	
+		$Consulta = "select * from cal_web.estados_por_solicitud where nro_solicitud = '".$nro_solicitud."' ";
+		$Consulta.= "and recargo = '".$recargo."' and cod_estado = '13'";
 		$Respuesta2 = mysqli_query($link, $Consulta);		
 		if ($Row2 = mysqli_fetch_array($Respuesta2))
 			$FechaMuestrera = substr($Row2["fecha_hora"],0,10);
 		else 	$FechaMuestrera = "";
-		$Var=$Row["nro_solicitud"].'~'.$Row["recargo"].'~'.$Row["id_muestra"].'~'.$Row["cod_producto"].'~'.$Row["nom_producto"].'~'.$Row["cod_subproducto"].'~'.$Row["nom_subproducto"].'~'.$Row["cod_ccosto"].'~'.$Row["nom_cc"].'~'.$FechaMuestrera;
+
+		$Var=$nro_solicitud.'~'.$recargo.'~'.$id_muestra.'~'.$cod_producto.'~'.$nom_producto.'~'.$cod_subproducto.'~'.$nom_subproducto.'~'.$cod_ccosto.'~'.$nom_cc.'~'.$FechaMuestrera;
 		return($Var);
 	}
 	function DatosLeyes($NumSolicitudAux,$NumRecargoAux,$link) 
@@ -147,8 +157,15 @@
 		$NroSol=$arreglo[0];
 		$Recargo=$arreglo[1];
 		$Muestra=$arreglo[2];
-		$DesProd=str_pad('0','2',$arreglo[3],STR_PAD_RIGHT).' '.$arreglo[4]; //cambie 3 x 2 
-		$DesSubProd=str_pad('0','2',$arreglo[5],STR_PAD_RIGHT).' '.$arreglo[6]; //cambie 3 x 2
+		$arreglo3 = isset($arreglo[3])?$arreglo[3]:"";
+		$arreglo4 = isset($arreglo[4])?$arreglo[4]:"";
+		$arreglo5 = isset($arreglo[5])?$arreglo[5]:"";
+		$arreglo6 = isset($arreglo[6])?$arreglo[6]:"";
+		//echo str_pad($input, 10, "-=", STR_PAD_LEFT); 
+		//$DesProd=STR_PAD('0','2',$arreglo3,STR_PAD_RIGHT).' '.$arreglo4; //cambie 3 x 2 
+		//$DesSubProd=str_pad('0','2',$arreglo[5],STR_PAD_RIGHT).' '.$arreglo[6]; //cambie 3 x 2
+		$DesProd=STR_PAD($arreglo3,'2','0',STR_PAD_RIGHT).' '.$arreglo4; //cambie 3 x 2 
+		$DesSubProd=str_pad($arreglo5,'2','0',STR_PAD_RIGHT).' '.$arreglo6; //cambie 3 x 2
 		$NomCeco=$arreglo[7].' '.$arreglo[8];
 		$FechaMuestra=$arreglo[9].'  '.'Laborat. :';
 		$pdf->addText($diez,$siete80,10,'S.A',0,0);

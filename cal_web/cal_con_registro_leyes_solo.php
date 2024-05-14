@@ -392,6 +392,7 @@ function Imprimir()
 				$Consulta = $Consulta."where t1.nro_solicitud ='".$SA."' and t1.recargo ='".$Recargo."' and cod_estado = '4'"; 
 			}
 			$Respuesta =mysqli_query($link, $Consulta);
+			$TxtFechaRe="";
 			if ($Fila1=mysqli_fetch_array($Respuesta))
 			{
 				$TxtFechaRe = $Fila1["fecha_hora"];

@@ -3,6 +3,15 @@
 	$CodigoDePantalla = 36;
 	include("../principal/conectar_principal.php");	
 	set_time_limit(400);
+
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mostrar      = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Mes        = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano        = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$TxtIni    = isset($_REQUEST["TxtIni"])?$_REQUEST["TxtIni"]:"";
+	$TxtFin    = isset($_REQUEST["TxtFin"])?$_REQUEST["TxtFin"]:"";
+
 ?>
 <html>
 <head>
@@ -146,18 +155,16 @@ function Historial(SA,Rec)
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
-	margin-right: 3p�xele;
-	margin-bottom: 3p�xele;
+	margin-right: 3px;
+	margin-bottom: 3px;
 	background-image: url();
 }
 body,td,th {
-	font-size: 10p�xele;
+	font-size: 10px;
 }
--->
 </style></head>
 
 <body>
@@ -197,7 +204,7 @@ body,td,th {
 		<?php
 		for ($i=1;$i<=12;$i++)
 		{
-			if (!isset($Mes))
+			if ($Mes=="")
 			{
 				if ($i==date("n"))
 					echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
@@ -218,7 +225,7 @@ body,td,th {
 		<?php
 		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 		{
-			if (!isset($Ano))
+			if ($Ano=="")
 			{
 				if ($i==date("Y"))
 					echo "<option selected value='".$i."'>".$i."</option>\n";
@@ -293,7 +300,7 @@ body,td,th {
 			{
 				$Consulta = "select t2.lote,t1.nro_solicitud,t1.recargo,t1.id_muestra from cal_web.solicitud_analisis t1 left join age_web.lotes t2 on trim(t1.id_muestra)=trim(t2.muestra_paralela) and t2.fecha_recepcion between '$FechaIniNew' and  '$FechaFinNew' ";
 				$Consulta.= "where t1.cod_producto='1' and t1.tipo='4' and t1.recargo='0' and isnull(t2.muestra_paralela) ";
-				$Consulta.= "and t1.cod_subproducto='$FilaProd["cod_subproducto"]'";
+				$Consulta.= "and t1.cod_subproducto='".$FilaProd["cod_subproducto"]."'";
 				if($TxtIni!='')
 					$Consulta.=" and t1.id_muestra between '$TxtIni' and '$TxtFin'";
 					else	
@@ -305,7 +312,7 @@ body,td,th {
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
 					echo "<tr>";
-					echo "<td align='center'><input type='checkbox' name='CheckCod' value='$Fila["id_muestra"]'></td>";
+					echo "<td align='center'><input type='checkbox' name='CheckCod' value='".$Fila["id_muestra"]."'></td>";
 					echo "<td align='center'>".$Fila["id_muestra"]."</td>";
 					if(!is_null($Fila["recargo"])&&$Fila["recargo"]!='')
 						echo "<td align='center'><a href=\"JavaScript:Historial('".$Fila["nro_solicitud"]."','".$Fila["recargo"]."')\">".$Fila["nro_solicitud"]."-".$Fila["recargo"]."</a></td>";
@@ -316,7 +323,7 @@ body,td,th {
 					echo "</tr>";
 				}
 				echo "<tr>";
-				echo "<td colspan='4' align='left' class='Detalle01'>$FilaProd["nom_subproducto"]</td>";
+				echo "<td colspan='4' align='left' class='Detalle01'>".$FilaProd["nom_subproducto"]."</td>";
 				echo "</tr>";
 			}
 		}

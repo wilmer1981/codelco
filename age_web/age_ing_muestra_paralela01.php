@@ -1,5 +1,9 @@
 <?php
+
 	include("../principal/conectar_principal.php");
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
 	switch ($Proceso)
 	{	
 		case "G":
