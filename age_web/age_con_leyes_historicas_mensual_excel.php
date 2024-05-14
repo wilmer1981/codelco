@@ -1,7 +1,8 @@
 <?php
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -21,6 +22,18 @@
 	include("../principal/conectar_principal.php");
 	//---------------LLENA ARREGLO DE LEYES----------------	
 	//SELECCIONA LAS LEYES QUE TIENEN VALOR	
+	$CookieRut = $_COOKIE["CookieRut"];
+	$TxtFiltroPrv     = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbAnoFin        = isset($_REQUEST["CmbAnoFin"])?$_REQUEST["CmbAnoFin"]:date("Y");
+	$CmbAnoIni        = isset($_REQUEST["CmbAnoIni"])?$_REQUEST["CmbAnoIni"]:2000;
+	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$Busq          = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$MesAnt        = isset($_REQUEST["MesAnt"])?$_REQUEST["MesAnt"]:"";
+	$PopUp         = isset($_REQUEST["PopUp"])?$_REQUEST["PopUp"]:"";
+	$LeyUnica      = isset($_REQUEST["LeyUnica"])?$_REQUEST["LeyUnica"]:"";
+
 	$ArrLeyes = array();
 	$Consulta = "select cod_producto";
 	for ($i=1;$i<=60;$i++)
@@ -128,7 +141,7 @@
     <tr> 
       <td width="94" colspan="3">SubProducto:</td>
       <td width="391" colspan="7"> 
-        <?php
+    <?php
 	$Consulta = "select * from proyecto_modernizacion.subproducto ";
 	$Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."'";	
 	$Resp = mysqli_query($link, $Consulta);
@@ -189,8 +202,8 @@ else
 	reset($ArrLeyes);
 	$ColSpan=0;
 	foreach($ArrLeyes as $k => $v)   
-	{
-		if ($v["usada"]=="S")
+	{   $usada = isset($v["usada"])?$v["usada"]:"";
+		if ($usada=="S")
 		{
 			echo "<td width=60 align='center'>".$v["abreviatura"]."<br>(".$v["nom_unidad"].")</td>\n";
 			$ColSpan++;
@@ -203,7 +216,7 @@ else
 		$Consulta.= " , (sum(peso_seco * c_".str_pad($i,2,'0',STR_PAD_LEFT).") / sum(peso_seco)) as c_".str_pad($i,2,'0',STR_PAD_LEFT)." ";
 	}
 	$Consulta.= " from age_web.historico t1 inner join rec_web.proved t2 on t1.rut_proveedor=t2.rutprv_a ";
-	if(isset($MesAnt)&&$MesAnt=='S')
+	if($MesAnt!="" && $MesAnt=='S')
 	{
 		$FechaAnoMes=$CmbAnoFin.str_pad($Mes,2,"0",STR_PAD_LEFT);
 		$Consulta.= " where concat(ano,lpad(mes,2,'0'))<='".$FechaAnoMes."' ";
@@ -222,11 +235,12 @@ else
 	$Clase = "ColorTabla02";
 	$ProvAnt="";
 	$AnoAnt="";
+	$TotalPesoHum=0;
 	$ArrTotal=array();
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($Fila["ano"]!=$AnoAnt && $AnoAnt!="")
-			TotalAnual($AnoAnt, &$TotalPesoHum, &$ArrTotal);
+			TotalAnual($AnoAnt, $TotalPesoHum, $ArrTotal);
 		if ($ProvAnt!=$Fila["rut_proveedor"])
 		{
 			$ColSpan=$ColSpan+3; 
@@ -267,7 +281,7 @@ else
 		$AnoAnt = $Fila["ano"];
 		$TotalPesoHum=$TotalPesoHum+$Fila["peso_humedo"];
 	}
-	TotalAnual($AnoAnt, &$TotalPesoHum, &$ArrTotal);
+	TotalAnual($AnoAnt, $TotalPesoHum, $ArrTotal);
 	echo "</table>\n";
 		
 function TotalAnual($Ano, $TotalPesoH, $ArrTotalLeyes)
@@ -277,7 +291,7 @@ function TotalAnual($Ano, $TotalPesoH, $ArrTotalLeyes)
 	echo "<td align='center' colspan=\"2\"><strong>".$Ano."</strong></td>\n";
 	echo "<td align='right'>".number_format($TotalPesoH,0,',','.')."</td>\n";
 	reset($ArrTotalLeyes);
-	while (list($k,$v)=each($ArrTotalLeyes))	
+	foreach($ArrTotalLeyes as $k=>$v)
 	{
 		if ($v["usada"]=="S")
 		{

@@ -3,6 +3,15 @@
 	$CodigoDePantalla = 34;
 	include("../principal/conectar_principal.php");
 	//NIVEL DEL USUARIO
+	$CookieRut = $_COOKIE["CookieRut"];
+	$TxtFiltroPrv     = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbAnoFin        = isset($_REQUEST["CmbAnoFin"])?$_REQUEST["CmbAnoFin"]:date("Y");
+	$CmbAnoIni        = isset($_REQUEST["CmbAnoIni"])?$_REQUEST["CmbAnoIni"]:2000;
+	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$Busq          = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+
 	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema='15'";
 	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysqli_fetch_array($Resp))
@@ -10,11 +19,12 @@
 	else
 		$Nivel=0;
 	//-----------------
+	/*
 	if (!isset($CmbAnoIni))
 	{
 		$CmbAnoIni=2000;
 		$CmbAnoFin=date("Y");
-	}
+	}*/
 ?>
 <html>
 <head>
@@ -114,7 +124,7 @@ function Proceso(opt)
               <td><select name="CmbProveedor" style="width:300" onChange="Proceso('R')">
                 <option class="NoSelec" value="S">TODOS</option>
                 <?php
-				if (isset($CmbSubProducto) && $CmbSubProducto != "S")
+				if ($CmbSubProducto!="" && $CmbSubProducto != "S")
 				{
 					$Consulta = "select t1.rut_prv as RUTPRV_A, t1.nombre_prv as NOMPRV_A ";
 					$Consulta.= " from sipa_web.proveedores t1 inner join age_web.relaciones t2 ";

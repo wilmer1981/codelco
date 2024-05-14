@@ -1,7 +1,18 @@
 ﻿<?php 
 	include("../principal/conectar_principal.php");
 	//COLORES DE LIMITES
-	
+	$CookieRut = $_COOKIE["CookieRut"];
+	$TxtFiltroPrv     = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbAnoFin        = isset($_REQUEST["CmbAnoFin"])?$_REQUEST["CmbAnoFin"]:date("Y");
+	$CmbAnoIni        = isset($_REQUEST["CmbAnoIni"])?$_REQUEST["CmbAnoIni"]:2000;
+	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$Busq          = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$MesAnt        = isset($_REQUEST["MesAnt"])?$_REQUEST["MesAnt"]:"";
+	$PopUp         = isset($_REQUEST["PopUp"])?$_REQUEST["PopUp"]:"";
+	$LeyUnica      = isset($_REQUEST["LeyUnica"])?$_REQUEST["LeyUnica"]:"";
+
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);
 	while ($Fila=mysqli_fetch_array($Resp))
@@ -33,7 +44,7 @@
 	//SELECCIONA LAS LEYES QUE TIENEN VALOR	
 	//echo "LEY UNICA:".$LeyUnica;
 	$ArrLeyes = array();
-	if(isset($LeyUnica))//VALOR VIENE DE VALIDACION LOTE SOLO NECESITA MOSTRAR UNA LEY
+	if($LeyUnica!="")//VALOR VIENE DE VALIDACION LOTE SOLO NECESITA MOSTRAR UNA LEY
 	{	
 		$ArrLeyes[$LeyUnica]["usada"]="S";
 		$AnchoTabla=350;
@@ -195,11 +206,10 @@ function DetalleMes(ano,mes,prod,subprod,prov,popup)
 //-->
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
+
 </style></head>
 
 <body>
@@ -331,9 +341,9 @@ if ($Plantilla!="S")
 	reset($ArrLeyes);
 	$ColSpan=0;
 	foreach($ArrLeyes as $k => $v)   
-	{
-		if ($v["usada"]=="S")
-		{
+	{ $usada = isset($v["usada"])?$v["usada"]:"";
+		if ($usada=="S")
+		{ 
 			if ($ArrLimites[$k]["usada"]=="S")
 			{
 				echo "<td width=60 align='center' onMouseOver=\"JavaScript:muestra('".$v["abreviatura"]."');\" onMouseOut=\"JavaScript:oculta('".$v["abreviatura"]."');\">";
@@ -359,7 +369,7 @@ if ($Plantilla!="S")
 		$Consulta.= " , round(sum(peso_seco * round(c_".str_pad($i,2,'0',STR_PAD_LEFT).",3)) / sum(peso_seco),3) as c_".str_pad($i,2,'0',STR_PAD_LEFT)." ";
 	}
 	$Consulta.= " from age_web.historico t1 inner join sipa_web.proveedores t2 on t1.rut_proveedor=t2.rut_prv ";	
-	if(isset($MesAnt)&&$MesAnt=='S')
+	if($MesAnt!="" && $MesAnt=='S')
 	{
 		$FechaAnoMes=$CmbAnoFin.str_pad($Mes,2,"0",STR_PAD_LEFT);
 		$Consulta.= " where concat(ano,lpad(mes,2,'0'))<='".$FechaAnoMes."' ";
@@ -380,10 +390,11 @@ if ($Plantilla!="S")
 	$ProvAnt="";
 	$AnoAnt="";
 	$ArrTotal=array();
+	$TotalPesoHum = 0;
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($Fila["ano"]!=$AnoAnt && $AnoAnt!="")
-			TotalAnual($AnoAnt, &$TotalPesoHum, &$ArrTotal, $ArrLimites, $BajoMin, $SobreMax);
+			TotalAnual($AnoAnt, $TotalPesoHum, $ArrTotal, $ArrLimites, $BajoMin, $SobreMax);
 		if ($ProvAnt!=$Fila["rut_proveedor"])
 		{
 			$ColSpan=$ColSpan+3; 
@@ -414,7 +425,7 @@ if ($Plantilla!="S")
 			if ($v["usada"]=="S")
 			{
 				$Color="";
-				AsignaColor("PROM", $v["cod_leyes"], $v["valor"], $ArrLimites, &$Color, $BajoMin, $SobreMax);
+				AsignaColor("PROM", $v["cod_leyes"], $v["valor"], $ArrLimites, $Color, $BajoMin, $SobreMax);
 				echo "<td align='right' bgcolor='".$Color."'>".number_format($v["valor"],$v["decimales"],",",".")."</td>\n";
 				$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotal[$v["cod_leyes"]]["valor"] + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
 				$ArrTotal[$v["cod_leyes"]]["usada"] = "S";
@@ -427,7 +438,7 @@ if ($Plantilla!="S")
 		$AnoAnt = $Fila["ano"];
 		$TotalPesoHum=$TotalPesoHum+$Fila["peso_humedo"];
 	}
-	TotalAnual($AnoAnt, &$TotalPesoHum, &$ArrTotal, $ArrLimites, $BajoMin, $SobreMax);
+	TotalAnual($AnoAnt, $TotalPesoHum, $ArrTotal, $ArrLimites, $BajoMin, $SobreMax);
 	echo "</table>\n";
 		
 function TotalAnual($Ano, $TotalPesoH, $ArrTotalLeyes, $ArrLimites, $BajoMin, $SobreMax)
@@ -437,13 +448,13 @@ function TotalAnual($Ano, $TotalPesoH, $ArrTotalLeyes, $ArrLimites, $BajoMin, $S
 	echo "<td align='center' colspan=\"2\"><strong>".$Ano."</strong></td>\n";
 	echo "<td align='right'>".number_format($TotalPesoH,0,',','.')."</td>\n";
 	reset($ArrTotalLeyes);
-	while (list($k,$v)=each($ArrTotalLeyes))	
+	foreach($ArrTotalLeyes as $k=>$v)
 	{
 		if ($v["usada"]=="S")
 		{
 			$Ley = ($v["valor"]/$TotalPesoH)*$v["conversion"];
 			$Color="";
-			AsignaColor("PROM", $k, $Ley, $ArrLimites, &$Color, $BajoMin, $SobreMax);
+			AsignaColor("PROM", $k, $Ley, $ArrLimites, $Color, $BajoMin, $SobreMax);
 			echo "<td align='right' bgcolor='".$Color."'>".number_format($Ley,$v["decimales"],",",".")."</td>\n";				
 		}
 	}
@@ -494,7 +505,7 @@ function AsignaColor($Tipo, $CodLey, $Valor, $Limites, $BgColor, $BajoMin, $Sobr
               
              
 <br>
-  <input type="hidden" name="TipoProd" value="<?php echo $TipoProd;?>">
+<input type="hidden" name="TipoProd" value="<?php echo $TipoProd;?>">
 <input type="hidden" name="RutProv" value="<?php echo $RutProv;?>">
 </form>
 </body>
