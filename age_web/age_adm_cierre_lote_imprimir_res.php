@@ -50,17 +50,17 @@
 			
 		}
 	}
-	if (strlen($Fila[muestra_paralela]>1))
+	if (strlen($Fila["muestra_paralela"]>1))
 	{
 			$ConsultaR = "select distinct t1.id_muestra, t1.nro_solicitud, t1.peso_muestra, t1.peso_retalla";
-			$ConsultaR.=" from cal_web.solicitud_analisis t1 where t1.id_muestra = '".$Fila[muestra_paralela]."'";
+			$ConsultaR.=" from cal_web.solicitud_analisis t1 where t1.id_muestra = '".$Fila["muestra_paralela"]."'";
 			$ConsultaR.=" and t1.recargo = 'R'";
 			$RespR=mysqli_query($link, $ConsultaR);
 			if ($FilaR=mysqli_fetch_array($RespR))
 			{
 				$SolicitudR 	= $FilaR["nro_solicitud"];
 				$MuestraR   	= $FilaR["id_muestra"];
-				$PesoMuestraR 	= $FilaR[peso_muestra];
+				$PesoMuestraR 	= $FilaR["peso_muestra"];
 				$PesoRetallaR 	= $FilaR["peso_retalla"];
 			}
 	} 

@@ -1,8 +1,13 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	$Mostrar='N';
-	if (isset($TxtLote))
+
+	$TxtLote       = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Petalo        = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+	$CmbPlantilla  = isset($_REQUEST["CmbPlantilla"])?$_REQUEST["CmbPlantilla"]:"";
+	$Mostrar       = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"N";
+	//$Mostrar='N';
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta ="select t1.estado_lote,t1.fin_canje,t1.fecha_recepcion,t1.muestra_paralela,t1.num_lote_remuestreo,t1.canjeable,t1.lote,t1.peso_muestra,t1.peso_retalla,t1.cod_subproducto,t3.descripcion as nom_subproducto,t1.rut_proveedor,t4.NOMPRV_A as nom_prv,t1.num_conjunto,";
@@ -39,28 +44,28 @@
 			$ExLote=$Fila["num_lote_remuestreo"];
 			$ProdRecepcion=$Fila["recepcion"];
 			$CierreComercial='N';
-			if($Fila["fin_canje"]=='S'||($Fila["estado_lote"]=='4'&&$Fila["canjeable"]=='N'))
+			if($Fila["fin_canje"]=='S' || ($Fila["estado_lote"]=='4' && $Fila["canjeable"]=='N'))
 				$CierreComercial='S';
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$TxtLote;
-			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
-			$PesoSecoLote=$DatosLote["peso_seco"];
-			$PesoHumLote=$DatosLote["peso_humedo"];
+			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			$PesoSecoLote=isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+			$PesoHumLote=isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
 			
 		}
 	}
-	if (strlen($Fila[muestra_paralela]>1))
+	if (strlen($Fila["muestra_paralela"]>1))
 	{
 			$ConsultaR = "select distinct t1.id_muestra, t1.nro_solicitud, t1.peso_muestra, t1.peso_retalla";
-			$ConsultaR.=" from cal_web.solicitud_analisis t1 where t1.id_muestra = '".$Fila[muestra_paralela]."'";
+			$ConsultaR.=" from cal_web.solicitud_analisis t1 where t1.id_muestra = '".$Fila["muestra_paralela"]."'";
 			$ConsultaR.=" and t1.recargo = 'R'";
 			$RespR=mysqli_query($link, $ConsultaR);
 			if ($FilaR=mysqli_fetch_array($RespR))
 			{
 				$SolicitudR 	= $FilaR["nro_solicitud"];
 				$MuestraR   	= $FilaR["id_muestra"];
-				$PesoMuestraR 	= $FilaR[peso_muestra];
+				$PesoMuestraR 	= $FilaR["peso_muestra"];
 				$PesoRetallaR 	= $FilaR["peso_retalla"];
 			}
 	} 

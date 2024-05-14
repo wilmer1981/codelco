@@ -22,10 +22,10 @@
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$TxtLote;
-	LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
-	$PesoLote=$DatosLote["peso_seco"];
+	LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
+	$PesoLote=isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
 	reset($ArrLeyes);
-	while(list($c,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $c=>$v)
 	{		
 		if($c!='01'&&$v[1]!='')
 		{
@@ -52,7 +52,7 @@
 				$Fino = ($DatosLote["peso_humedo"]*($ValorLey+$v[22]))/$v[5];
 				$Ley = ($Fino/$DatosLote["peso_humedo"])*$v[34];
 			}			
-			AsignaColor("", $v[0], $Ley, $ArrLimites, &$Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+			AsignaColor("", $v[0], $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
 			echo "<td align='right' bgcolor='".$Color."' onMouseOver=\"JavaScript:muestra('".$Cont."');\" onMouseOut=\"JavaScript:oculta('".$Cont."');\">";
 			echo "<div id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:140px'>\n";
 			echo "<table width='140' border='1' cellpadding='2' cellspacing='0' class='TablaInterior'>";

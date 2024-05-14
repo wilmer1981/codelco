@@ -165,7 +165,7 @@
 			echo "<td>$Fila["nom_subproducto"]</td>";
 			echo "<td>".$Fila["rut_proveedor"]." ".$Fila[nom_prv]."</td>";
 			echo "<td>$Fila[nom_recepcion]&nbsp;</td>";
-			echo "<td>$Fila[canjeable]&nbsp;</td>";
+			echo "<td>$Fila["canjeable"]&nbsp;</td>";
 			$TxtLote=$Fila[lote];
 			//SOLICITUD DEL LOTE
 			$Consulta = "select distinct t2.nro_solicitud ,t2.recargo , t2.estado_actual, t3.nombre_subclase";

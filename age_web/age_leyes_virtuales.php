@@ -589,7 +589,7 @@ body,td,th {
 						{
 							$Paq2='S';
 						}
-						if(($MostrarLote=='S')||($Fila[canjeable]=='S'&&$Paq2=='N'))
+						if(($MostrarLote=='S')||($Fila["canjeable"]=='S'&&$Paq2=='N'))
 						{
 							$MostrarProveedor='S';$MostrarProducto='S';
 							$Color="bgcolor='#FFFFFF'";

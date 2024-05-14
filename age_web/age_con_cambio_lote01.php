@@ -31,8 +31,8 @@ if ($Proceso=="G")
 			$Insertar.=" Values('".$LoteB."','".$Fila["cod_producto"]."','".$SubPB."','".$Fila["rut_proveedor"]."','".$FechaB."',";
 			$Insertar.="'".$Fila[clase_producto]."','".$Fila["num_conjunto"]."','".$Fila[remuestreo]."','".$Fila[tipo_remuestreo]."',";
 			$Insertar.="'".$Fila[num_lote_remuestreo]."','".$Fila[estado_lote]."','".$Fila[mostrar_lote]."','".$Fila[modificado]."',";
-			$Insertar.="'".$Fila[peso_muestra]."','".$Fila["peso_retalla"]."','".$Fila[cancha]."','".$Fila[fecha_vence_padron]."',";
-			$Insertar.="'".$Fila[canjeable]."','".$Fila[contrato]."','".$Fila[muestra_paralela]."','".$Fila[cod_recepcion_enm]."',";
+			$Insertar.="'".$Fila["peso_muestra"]."','".$Fila["peso_retalla"]."','".$Fila[cancha]."','".$Fila[fecha_vence_padron]."',";
+			$Insertar.="'".$Fila["canjeable"]."','".$Fila[contrato]."','".$Fila["muestra_paralela"]."','".$Fila[cod_recepcion_enm]."',";
 			$Insertar.=" '".$Fila[laboratorio_externo]."','".$Fila[orden_ensaye]."','".$Fila[fecha_sol_pqts]."')";
 			//echo "inserto 1".$Insertar."</br>";
 		     mysqli_query($link, $Insertar);

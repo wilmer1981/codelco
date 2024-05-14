@@ -1,3 +1,4 @@
+
 <table width="740"  border="1" cellpadding="2" cellspacing="0" class="TablaDetalle">
   <tr align="center" class="ColorTabla01">
     <td width="4%">Rec.</td>

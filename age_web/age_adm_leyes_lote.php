@@ -3,6 +3,17 @@
 	$CodigoDePantalla=32;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
+
+	$Petalo    = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+	$EsPopup   = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";
+	$Plantilla = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$TxtLote   = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";	
+	$TxtEsPopup  = isset($_REQUEST["TxtEsPopup"])?$_REQUEST["TxtEsPopup"]:"";
+	$EstadoInput = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$ExLote      = isset($_REQUEST["ExLote"])?$_REQUEST["ExLote"]:"";	
+	$FechaRecepcion = isset($_REQUEST["FechaRecepcion"])?$_REQUEST["FechaRecepcion"]:"";
+
+
 	//COLORES DE LIMITES
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);
@@ -34,7 +45,7 @@
 	}	
 	
 	$Mostrar='N';
-	if (isset($TxtLote))
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta ="select t3.recepcion,t1.num_lote_remuestreo,t1.fecha_recepcion,t1.muestra_paralela,t1.canjeable,t1.lote,t1.peso_muestra,t1.peso_retalla,t1.cod_subproducto,t3.descripcion as nom_subproducto,t1.rut_proveedor,t4.nombre_prv as nom_prv,t1.num_conjunto,";
@@ -53,7 +64,7 @@
 		{
 			//DATOS DEL LOTE
 			$Mostrar='S';
-			if($Fila[canjeable]=='S')
+			if($Fila["canjeable"]=='S')
 			{
 				$CheckCanjeSi='checked';
 				$CheckCanjeNo='';
@@ -83,23 +94,33 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$TxtLote;
-			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
-			if($DatosLote["tipo_remuestreo"]=='A')
+			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+
+			$tipo_remuestreo = isset($DatosLote["tipo_remuestreo"])?$DatosLote["tipo_remuestreo"]:"";
+			$recepcion       = isset($DatosLote["recepcion"])?$DatosLote["recepcion"]:"";
+			$peso_seco       = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+			$peso_seco2      = isset($DatosLote["peso_seco2"])?$DatosLote["peso_seco2"]:0;
+			$peso_humedo     = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
+			$peso_seco2_ori  = isset($DatosLote["peso_seco2_ori"])?$DatosLote["peso_seco2_ori"]:0;
+			$peso_humedo_ori = isset($DatosLote["peso_humedo_ori"])?$DatosLote["peso_humedo_ori"]:0;
+
+
+			if($tipo_remuestreo=='A')
 			{
-				$PesoSecoLote=$DatosLote["peso_seco2_ori"];
-				$PesoHumLote=$DatosLote["peso_humedo_ori"];
+				$PesoSecoLote=$peso_seco2_ori;
+				$PesoHumLote =$peso_humedo_ori;
 			}
 			else
 			{
-				if ($DatosLote["recepcion"]=="PMN")
+				if ($recepcion=="PMN")
 				{
-					$PesoSecoLote=$DatosLote["peso_seco"];
-					$PesoHumLote=$DatosLote["peso_humedo"];
+					$PesoSecoLote=$peso_seco;
+					$PesoHumLote=$peso_humedo;
 				}
 				else
 				{
-					$PesoSecoLote=$DatosLote["peso_seco2"];
-					$PesoHumLote=$DatosLote["peso_humedo"];
+					$PesoSecoLote=$peso_seco2;
+					$PesoHumLote=$peso_humedo;
 				}
 			}	
 			$AnoMes=substr($TxtLote,0,3);
@@ -111,10 +132,10 @@
 				$FilaAux = mysqli_fetch_array($RespAux);
 				$LoteCons = $FilaAux["lote_origen"];					
 			}			*/	
-			if (strlen($Fila[muestra_paralela]>1))
+			if (strlen($Fila["muestra_paralela"]>1))
 			{
 				$ConsultaR = "select distinct t1.id_muestra, t1.nro_solicitud, t1.peso_muestra, t1.peso_retalla";
-				$ConsultaR.=" from cal_web.solicitud_analisis t1 where t1.id_muestra = '".$Fila[muestra_paralela]."'";
+				$ConsultaR.=" from cal_web.solicitud_analisis t1 where t1.id_muestra = '".$Fila["muestra_paralela"]."'";
 				$ConsultaR.=" and t1.recargo = 'R'";
     			//echo "hola".$ConsultaR;
 				$RespR=mysqli_query($link, $ConsultaR);
@@ -122,7 +143,7 @@
 				{
 					$SolicitudR 	= $FilaR["nro_solicitud"];
 					$MuestraR   	= $FilaR["id_muestra"];
-					$PesoMuestraR 	= $FilaR[peso_muestra];
+					$PesoMuestraR 	= $FilaR["peso_muestra"];
 					$PesoRetallaR 	= $FilaR["peso_retalla"];
 				}
 			} 
@@ -244,9 +265,8 @@ function DetalleHistorica(CmbSubProducto,CmbProveedor,CmbAnoIni,CmbAnoFin,LeyUni
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body,td,th {
-	font-size: 10p�xele;
+	font-size: 10px;
 }
 body {
 	margin-left: 3px;
@@ -254,7 +274,6 @@ body {
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style></head>
 <?php
 if($EsPopup=='S')
@@ -265,7 +284,7 @@ else
 <body onLoad='window.document.frmPrincipal.TxtLote.focus();' <?php echo $Fondo;?>>
 <form name="frmPrincipal" action="" method="post">
 <?php
-if(!isset($TxtEsPopup))
+if($TxtEsPopup=="")
 	echo "<input type='hidden' name='TxtEsPopup' value='$EsPopup'>";
 else
 	echo "<input type='hidden' name='TxtEsPopup' value='$TxtEsPopup'>";

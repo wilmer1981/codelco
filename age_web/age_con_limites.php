@@ -2,13 +2,17 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 33;	
 	include("../principal/conectar_principal.php");
-	if (!isset($SubProducto))
-		$SubProducto="S";
-	if (!isset($Proveedor))
-		$Proveedor="S";
+
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"S";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"S";
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	
 	//COLORES DE LIMITES
-	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
-	$Resp=mysqli_query($link, $Consulta);
+	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
+	$Resp     = mysqli_query($link, $Consulta);
 	while ($Fila=mysqli_fetch_array($Resp))
 	{
 		switch ($Fila["cod_subclase"])
@@ -97,7 +101,7 @@ function Proceso(opt)
             <?php
 	for ($i=1;$i<=12;$i++)
 	{
-		if (!isset($CmbMes))
+		if ($CmbMes!="")
 		{
 			if ($i == date("n"))
 				echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
@@ -118,7 +122,7 @@ function Proceso(opt)
               <?php
 	for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 	{
-		if (!isset($CmbAno))
+		if ($CmbAno!="")
 		{
 			if ($i == date("Y"))
 				echo "<option selected value='".$i."'>".$i."</option>\n";

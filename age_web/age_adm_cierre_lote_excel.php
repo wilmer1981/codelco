@@ -1,9 +1,10 @@
 <?php
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
+        	$filename = urlencode($filename);
         }
         $filename = iconv('UTF-8', 'gb2312', $filename);
         $file_name = str_replace(".php", "", $file_name);
@@ -16,12 +17,17 @@
         header( "Content-type: text/csv" ) ;
         header( "Content-Dis; filename={$file_name}" ) ;
         header("Content-Type:  application/vnd.ms-excel");
- 	header("Expires: 0");
-  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
-	include("../principal/conectar_principal.php");
-	include("age_funciones.php");
-	$Mostrar='N';
-	if (isset($TxtLote))
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
+		include("../principal/conectar_principal.php");
+		include("age_funciones.php");
+
+	$TxtLote       = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Petalo        = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+	$CmbPlantilla  = isset($_REQUEST["CmbPlantilla"])?$_REQUEST["CmbPlantilla"]:"";
+	$Mostrar       = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"N";
+
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta ="select t1.lote,t1.peso_muestra,t1.peso_retalla,t1.cod_subproducto,t3.descripcion as nom_subproducto,t1.rut_proveedor,t4.NOMPRV_A as nom_prv,t1.num_conjunto,";
@@ -55,9 +61,9 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$TxtLote;
-			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
-			$PesoSecoLote=$DatosLote["peso_seco"];
-			$PesoHumLote=$DatosLote["peso_humedo"];
+			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			$PesoSecoLote = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+			$PesoHumLote  = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
 		}
 	}
 ?>

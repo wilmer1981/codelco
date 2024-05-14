@@ -167,20 +167,20 @@
 										break;
 									case "02":
 										$IncRetalla=0;
-										if($FilaLote["peso_retalla"]>0&&$FilaLote[peso_muestra]>0)
-											CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote[peso_muestra],&$IncRetalla);
+										if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
+											CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
 										$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 										break;
 									case "04":
 										$IncRetalla=0;
-										if($FilaLote["peso_retalla"]>0&&$FilaLote[peso_muestra]>0)
-											CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote[peso_muestra],&$IncRetalla);
+										if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
+											CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
 										$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 										break;
 									case "05":
 										$IncRetalla=0;
-										if($FilaLote["peso_retalla"]>0&&$FilaLote[peso_muestra]>0)
-											CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote[peso_muestra],&$IncRetalla);
+										if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
+											CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
 										$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 										break;
 								}
@@ -359,22 +359,22 @@
 									break;
 								case "02":
 									$IncRetalla=0;
-									if($FilaLote["peso_retalla"]>0&&$FilaLote[peso_muestra]>0)
-										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote[peso_muestra],&$IncRetalla);
+									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
+										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
 									$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 									$LeyCuOri = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "04":
 									$IncRetalla=0;
-									if($FilaLote["peso_retalla"]>0&&$FilaLote[peso_muestra]>0)
-										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote[peso_muestra],&$IncRetalla);
+									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
+										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
 									$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 									$LeyAgOri = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "05":
 									$IncRetalla=0;
-									if($FilaLote["peso_retalla"]>0&&$FilaLote[peso_muestra]>0)
-										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote[peso_muestra],&$IncRetalla);
+									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
+										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
 									$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 									$LeyAuOri = $FilaLeyes["valor"]+$IncRetalla;
 									break;

@@ -1,6 +1,14 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
+	
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"S";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"S";
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+
 	//COLORES DE LIMITES
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);
@@ -86,11 +94,9 @@ function Proceso(opt)
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
@@ -152,6 +158,7 @@ body {
     <td>Plantilla: </td>
     <td>
         <?php
+		        $FechaAux = $CmbAno.str_pad($CmbMes,2,'0',STR_PAD_LEFT);
 			  	//BUSCO PLANTILLA PARA SUBPRODUCTO PROVEEDOR
 				$Consulta = "select DISTINCT cod_plantilla, descripcion ";
 				$Consulta.= " from age_web.limites ";
@@ -200,7 +207,7 @@ body {
 		$LoteIni = substr($CmbAno,2,2).str_pad($CmbMes,2,'0',STR_PAD_LEFT)."0000";
 		$LoteFin = substr($CmbAno,2,2).str_pad($CmbMes,2,'0',STR_PAD_LEFT)."9999";
 	}
-	$FechaAux = $CmbAno.str_pad($CmbMes,2,'0',STR_PAD_LEFT);
+	//$FechaAux = $CmbAno.str_pad($CmbMes,2,'0',STR_PAD_LEFT);
 	$ArrLeyes = array();
 	$ArrTotalLeyes = array();
 	$ArrLote = array();
@@ -241,16 +248,20 @@ body {
 	//echo "dos".$Consulta;
 	$Resp=mysqli_query($link, $Consulta);
 	$ProvAnt="";
+	$TotalPesoHum=0;
+	$TotalPesoSeco=0;
+	$EntreMin=0;
+	$EntreMax=0;
 	while ($Fila=mysqli_fetch_array($Resp))
 	{
 		if ($ProvAnt!=$Fila["rut_proveedor"])
 		{			
 			if ($ProvAnt!="")
-				TotalProv(&$TotalPesoHum, &$TotalPesoSeco, &$ArrTotalLeyes, $ArrLimites, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+				TotalProv($TotalPesoHum, $TotalPesoSeco, $ArrTotalLeyes, $ArrLimites, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
 			Titulo($Fila["rut_proveedor"], $Fila["nom_proveedor"], $ArrLeyes, $ArrLimites);
 		}
 		$ArrLote["lote"]=$Fila["lote"];
-		LeyesLote(&$ArrLote,&$ArrLeyes,"N","S","S","","","");
+		LeyesLote($ArrLote,$ArrLeyes,"N","S","S","","","",$link);
 		echo "<tr align='right'>\n";
 		echo "<td align=\"center\">".$ArrLote["lote"]."</td>\n";
 		echo "<td>".number_format($ArrLote["peso_humedo"],0,",",".")."</td>\n";
@@ -260,13 +271,13 @@ body {
 			$Fino=0;	
 			$Ley=0;	 
 			$key = key ($ArrLeyes);
-			if ($ArrLote["peso_humedo"]>0 && $ArrLeyes[$key][2]>0 && $ArrLeyes[$key][5]>0)
+			if ($ArrLote["peso_humedo"] > 0 && $ArrLeyes[$key][2]>0 && $ArrLeyes[$key][5]>0)
 			{
 				$Fino = ($ArrLote["peso_humedo"]*$ArrLeyes[$key][2])/$ArrLeyes[$key][5];
 				$Ley = ($Fino/$ArrLote["peso_humedo"])*$ArrLeyes[$key][34];
 			}			
 			$Color="";
-			AsignaColor("", $key, $Ley, $ArrLimites, &$Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+			AsignaColor("", $key, $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
 			echo "<td width='50' bgcolor='".$Color."'>".number_format($Ley,$ArrLeyes[$key][35],",",".")."</td>\n";
 			$ArrLeyes[$key][2] = "";
 			$ArrTotalLeyes[$key][2] = $ArrTotalLeyes[$key][2]+$Fino;
@@ -278,11 +289,12 @@ body {
 		$TotalPesoHum = $TotalPesoHum + $ArrLote["peso_humedo"];
 		$TotalPesoSeco = $TotalPesoSeco + $ArrLote["peso_seco"];
 	}
-	TotalProv(&$TotalPesoHum, &$TotalPesoSeco, &$ArrTotalLeyes, $ArrLimites, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+	TotalProv($TotalPesoHum, $TotalPesoSeco, $ArrTotalLeyes, $ArrLimites, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
 
 function AsignaColor($Tipo, $CodLey, $Valor, $Limites, $BgColor, $BajoMin, $EntreMin, $EntreMax, $SobreMax)
 {
-	if ($Limites[$CodLey]["usada"]=="S")
+	$Lim_CodLey_usa = isset($Limites[$CodLey]["usada"])?$Limites[$CodLey]["usada"]:0;
+	if ($Lim_CodLey_usa == "S")
 	{
 		switch ($Tipo)
 		{
@@ -333,8 +345,9 @@ function TotalProv($PesoHum, $PesoSeco, $ArrTotal, $ArrLimites, $BajoMin, $Entre
 		if ($PesoHum>0 && $ArrTotal[$key][2]>0 && $ArrTotal[$key][34]>0)
 			$Ley=($ArrTotal[$key][2]/$PesoHum)*$ArrTotal[$key][34];
 		$Color="";
-		AsignaColor("PROM", $key, $Ley, $ArrLimites, &$Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
-		echo "<td width='50' bgcolor='".$Color."'>".number_format($Ley,$ArrTotal[$key][35],",",".")."</td>\n";
+		AsignaColor("PROM", $key, $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+		$ArrTotal35 = isset($ArrTotal[$key][35])?$ArrTotal[$key][35]:0;
+		echo "<td width='50' bgcolor='".$Color."'>".number_format($Ley,$ArrTotal35,",",".")."</td>\n";
 		$ArrTotal[$key][2] = "";
 	} while (next($ArrTotal));	
 	echo "</tr>\n";
@@ -352,7 +365,7 @@ function Titulo($RutProv, $Prov, $Leyes, $Limites)
 	echo "<td width=\"75\">P.HUMEDO</td>\n";
 	echo "<td width=\"75\">P.SECO</td>\n";
 	reset($Leyes);
-	while (list($k,$v)=each($Leyes))
+	foreach($Leyes as $k=>$v)
 	{
 		if ($Limites[$v[0]]["usada"]=="S")
 		{

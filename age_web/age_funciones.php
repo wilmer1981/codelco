@@ -744,6 +744,9 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	$Consulta.= " order by lote, lpad(recargo,4,'0')";
 	$ContRecargos = 1;$CambioHum='N';$PorcHumAnt='NO';
 	$RespLote=mysqli_query($link, $Consulta);
+	$TotalPesoSec = 0; //WSO
+	$TotalPesoHum = 0;
+	$TotalPesoSecAux = 0;
 	while ($FilaLote = mysqli_fetch_array($RespLote))
 	{					
 		$PorcHum=0;	
@@ -926,7 +929,8 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	if (!$FilaProvi=mysqli_fetch_array($RespProvi))
 		ValoresRetalla($Lote,$LeyesPond,$IncRetalla,$link);	
 	//SI ES REMUESTREO DE UN MES ANTERIOR
-	if ($Lote["tipo_remuestreo"]=="A") 
+	$tipo_remuestreo = isset($Lote["tipo_remuestreo"])?$Lote["tipo_remuestreo"]:"";
+	if ($tipo_remuestreo=="A") 
 	{
 		$LoteAju=array();
 		$LeyesAju=array();
@@ -1074,7 +1078,10 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	} while (next($LeyesPond));
 	
 	//REMUESTREO DE UN MES ANTERIOR
-	if ($Lote["tipo_remuestreo"]=="A" && $Lote["penalidades"]!="S")
+	$tipo_remuestreo = isset($Lote["tipo_remuestreo"])?$Lote["tipo_remuestreo"]:"";
+	$penalidades = isset($Lote["penalidades"])?$Lote["penalidades"]:"";
+
+	if ($tipo_remuestreo=="A" && $penalidades!="S")
 	{
 		$Lote["peso_humedo_ori"]= $Lote["peso_humedo"];
 		$Lote["peso_seco_ori"] = $Lote["peso_seco"];
@@ -1132,7 +1139,10 @@ function ValorMerma($Lote,$Leyes,$CalculaMerma,$link)
 {
 	//CONSULTO LUGAR DE DESTINO
 	$TieneConj=false;
-	if ($Lote["num_conjunto"]>0)
+	$num_conjunto = isset($Lote["num_conjunto"])?$Lote["num_conjunto"]:0;
+	$NomLugar="";//WSO
+	$LugarDestino="";
+	if ($num_conjunto>0)
 	{
 		$Consulta = "select t1.cod_lugar, t2.descripcion_lugar ";
 		$Consulta.= " from ram_web.conjunto_ram t1 inner join ram_web.tipo_lugar t2 on t1.cod_lugar=t2.cod_tipo_lugar ";
@@ -1148,10 +1158,15 @@ function ValorMerma($Lote,$Leyes,$CalculaMerma,$link)
 		}
 	}
 	//CONSULTO EL CONTRATO
+	$cod_producto    = isset($Lote["cod_producto"])?$Lote["cod_producto"]:"";
+	$cod_subproducto = isset($Lote["cod_subproducto"])?$Lote["cod_subproducto"]:"";
+	$rut_proveedor   = isset($Lote["rut_proveedor"])?$Lote["rut_proveedor"]:"";
+
 	$Consulta = "select * from age_web.programa_recepcion ";
-	$Consulta.= " where tipo_programa='00' and cod_producto='".$Lote["cod_producto"]."' ";
-	$Consulta.= " and cod_subproducto='".$Lote["cod_subproducto"]."' and  rut_proveedor='".$Lote["rut_proveedor"]."'";
+	$Consulta.= " where tipo_programa='00' and cod_producto='".$cod_producto."' ";
+	$Consulta.= " and cod_subproducto='".$cod_subproducto."' and  rut_proveedor='".$rut_proveedor."'";
 	$RespM01 = mysqli_query($link, $Consulta);
+	$Cont="";
 	if ($FilaM01 = mysqli_fetch_array($RespM01))
 	{		
 		$Cont=$FilaM01["cod_contrato"];
@@ -1188,18 +1203,22 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 	$Fechita= $Anito.substr($LoteCon,2,2);
 	$Porcentaje = 0;
 	//CONSULTA TIENE MERMA COMO CLASE DE PRODUCTO (COLPA, GRANZA, ETC)
+	$cod_producto    = isset($LoteAux["cod_producto"])?$LoteAux["cod_producto"]:"";
+	$cod_subproducto = isset($LoteAux["cod_subproducto"])?$LoteAux["cod_subproducto"]:"";
+	$rut_proveedor   = isset($LoteAux["rut_proveedor"])?$LoteAux["rut_proveedor"]:"";
+
 	$Consulta = "select * from age_web.mermas ";
-	$Consulta.= " where cod_producto='".$LoteAux["cod_producto"]."' ";
+	$Consulta.= " where cod_producto='".$cod_producto."' ";
 	if ($Busq=="P")
 	{
-		$Consulta.= " and cod_subproducto='".$LoteAux["cod_subproducto"]."' ";
-		$Consulta.= " and rut_proveedor <> '' and cod_contrato = '' and rut_proveedor='".$LoteAux["rut_proveedor"]."' ";
+		$Consulta.= " and cod_subproducto='".$cod_subproducto."' ";
+		$Consulta.= " and rut_proveedor <> '' and cod_contrato = '' and rut_proveedor='".$rut_proveedor."' ";
 		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
 		//echo "=1=".$Consulta."</br>";
 	}
 	else if ($Busq=="C")
 	{
-		$Consulta.= " and cod_subproducto ='".$LoteAux["cod_subproducto"]."' ";
+		$Consulta.= " and cod_subproducto ='".$cod_subproducto."' ";
 		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
 		$Consulta.= " and cod_contrato<>'' and rut_proveedor = '' and cod_contrato='".$Contrato."'";
 		//echo "=2=".$Consulta."</br>";
@@ -1207,7 +1226,7 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 	else 
 	{
 		$Consulta.=" and rut_proveedor = '' and cod_contrato = '' ";
-		$Consulta.= " and cod_subproducto ='".$LoteAux["cod_subproducto"]."' ";
+		$Consulta.= " and cod_subproducto ='".$cod_subproducto."' ";
 		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
 		//echo "=3=".$Consulta."</br>";
 	}
@@ -1289,8 +1308,8 @@ function ParamLeyes($Datos,$Leyes,$link)
 		$Consulta.= " and (";
 		reset($Leyes);
 		foreach($Leyes as $k => $v)
-		{			
-			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+		{	$v0 = isset($v[0])?$v[0]:"";		
+			$Consulta.= " t1.cod_leyes='".$v0."' or";
 		}
 		$Consulta = substr($Consulta,0,strlen($Consulta)-3);
 		$Consulta.= ")";
@@ -1305,20 +1324,21 @@ function ParamLeyes($Datos,$Leyes,$link)
 		$Leyes[$FilaParam["cod_leyes"]][35] = $FilaParam["decimales"];//CANT DECIMALES
 	}
 	//PARAMETROS ESPECIFICOS POR SUBPRODUCTO
+	$cod_subproducto = isset($Datos["cod_subproducto"])?$Datos["cod_subproducto"]:"";
 	$Consulta = "select t1.cod_leyes, t1.cod_unidad, t1.decimales, t2.abreviatura as nom_unidad, t2.conversion ";
 	$Consulta.= " from age_web.param_leyes t1 inner join proyecto_modernizacion.unidades t2 ";
 	$Consulta.= " on t1.cod_unidad=t2.cod_unidad ";
 	$Consulta.= " where t1.tipo='L' ";
 	$Consulta.= " and t1.cod_producto='1' ";
-	$Consulta.= " and t1.cod_subproducto='".$Datos["cod_subproducto"]."' ";
+	$Consulta.= " and t1.cod_subproducto='".$cod_subproducto."' ";
 	$Consulta.= " and t1.rut_proveedor='99999999-9' ";
 	if (count($Leyes)>0)
 	{
 		$Consulta.= " and (";
 		reset($Leyes);
 		foreach($Leyes as $k => $v)
-		{			
-			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+		{	$v0 = isset($v[0])?$v[0]:"";		
+			$Consulta.= " t1.cod_leyes='".$v0."' or";
 		}
 		$Consulta = substr($Consulta,0,strlen($Consulta)-3);
 		$Consulta.= ")";
@@ -1333,20 +1353,21 @@ function ParamLeyes($Datos,$Leyes,$link)
 		$Leyes[$FilaParam["cod_leyes"]][35] = $FilaParam["decimales"];//CANT DECIMALES
 	}
 	//PARAMETROS ESPECIFICOS POR PROVEEDOR
+	$rut_proveedor = isset($Datos["rut_proveedor"])?$Datos["rut_proveedor"]:"";
 	$Consulta = "select t1.cod_leyes, t1.cod_unidad, t1.decimales, t2.abreviatura as nom_unidad, t2.conversion ";
 	$Consulta.= " from age_web.param_leyes t1 inner join proyecto_modernizacion.unidades t2 ";
 	$Consulta.= " on t1.cod_unidad=t2.cod_unidad ";
 	$Consulta.= " where t1.tipo='L' ";
 	$Consulta.= " and t1.cod_producto='1' ";
-	$Consulta.= " and t1.cod_subproducto='".$Datos["cod_subproducto"]."' ";
-	$Consulta.= " and t1.rut_proveedor='".$Datos["rut_proveedor"]."' ";
+	$Consulta.= " and t1.cod_subproducto='".$cod_subproducto."' ";
+	$Consulta.= " and t1.rut_proveedor='".$rut_proveedor."' ";
 	if (count($Leyes)>0)
 	{
 		$Consulta.= " and (";
 		reset($Leyes);
 		foreach($Leyes as $k => $v)
-		{			
-			$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+		{	$v0 = isset($v[0])?$v[0]:"";	
+			$Consulta.= " t1.cod_leyes='".$v0."' or";
 		}
 		$Consulta = substr($Consulta,0,strlen($Consulta)-3);
 		$Consulta.= ")";

@@ -23,7 +23,7 @@
 		{
 			//DATOS DEL LOTE
 			$Mensaje='';
-			if($Fila[canjeable]!='N')
+			if($Fila["canjeable"]!='N')
 			{	
 				$Mostrar='S';
 				$TxtLote = $Fila["lote"];
