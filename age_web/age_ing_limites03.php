@@ -3,6 +3,7 @@ include("../principal/conectar_principal.php");
 $Tipo         = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
 $CodPlantilla = isset($_REQUEST["CodPlantilla"])?$_REQUEST["CodPlantilla"]:"";
 $SoloVer      = isset($_REQUEST["SoloVer"])?$_REQUEST["SoloVer"]:"";
+
 ?>
 <html>
 <head>

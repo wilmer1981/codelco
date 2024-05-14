@@ -1,28 +1,38 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
 	//COLORES DE LIMITES
+		
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);
+	$SobreMax="";//WSO
 	while ($Fila=mysqli_fetch_array($Resp))
 	{
 		switch ($Fila["cod_subclase"])
@@ -193,16 +203,20 @@
 	$Consulta.= " order by lpad(t1.cod_subproducto,3,'0'), t1.rut_proveedor, t1.lote ";
 	$Resp=mysqli_query($link, $Consulta);
 	$ProvAnt="";
+	$TotalPesoHum=0;
+	$TotalPesoSeco=0;
+	$EntreMin=0;
+	$EntreMax=0;
 	while ($Fila=mysqli_fetch_array($Resp))
 	{
 		if ($ProvAnt!=$Fila["rut_proveedor"])
 		{			
 			if ($ProvAnt!="")
-				TotalProv(&$TotalPesoHum, &$TotalPesoSeco, &$ArrTotalLeyes, $ArrLimites, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+				TotalProv($TotalPesoHum, $TotalPesoSeco, $ArrTotalLeyes, $ArrLimites, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
 			Titulo($Fila["rut_proveedor"], $Fila["nom_proveedor"], $ArrLeyes, $ArrLimites);
 		}
 		$ArrLote["lote"]=$Fila["lote"];
-		LeyesLote(&$ArrLote,&$ArrLeyes,"N","S","S","","","");
+		LeyesLote($ArrLote,$ArrLeyes,"N","S","S","","","",$link);
 		echo "<tr align='right'>\n";
 		echo "<td align=\"center\">".$ArrLote["lote"]."</td>\n";
 		echo "<td>".number_format($ArrLote["peso_humedo"],0,",",".")."</td>\n";
@@ -218,7 +232,7 @@
 				$Ley = ($Fino/$ArrLote["peso_humedo"])*$ArrLeyes[$key][34];
 			}			
 			$Color="";
-			AsignaColor($key, $Ley, $ArrLimites, &$Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+			AsignaColor($key, $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
 			echo "<td width='50' bgcolor='".$Color."'>".number_format($Ley,$ArrLeyes[$key][35],",",".")."</td>\n";
 			$ArrLeyes[$key][2] = "";
 			$ArrTotalLeyes[$key][2] = $ArrTotalLeyes[$key][2]+$Fino;
@@ -230,14 +244,15 @@
 		$TotalPesoHum = $TotalPesoHum + $ArrLote["peso_humedo"];
 		$TotalPesoSeco = $TotalPesoSeco + $ArrLote["peso_seco"];
 	}
-	TotalProv(&$TotalPesoHum, &$TotalPesoSeco, &$ArrTotalLeyes, $ArrLimites, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+	TotalProv($TotalPesoHum, $TotalPesoSeco, $ArrTotalLeyes, $ArrLimites, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
 
 function AsignaColor($CodLey, $Valor, $Limites, $BgColor, $BajoMin, $EntreMin, $EntreMax, $SobreMax)
 {
 	/*echo $CodLey."-".$Valor."-".$Limites[$CodLey]["min"]."<br>";
 	echo $CodLey."-".$Valor."-".$Limites[$CodLey]["med"]."<br>";
 	echo $CodLey."-".$Valor."-".$Limites[$CodLey]["max"]."<br>";*/
-	if ($Limites[$CodLey]["usada"]=="S")
+	$Lim_CodLey_usa = isset($Limites[$CodLey]["usada"])?$Limites[$CodLey]["usada"]:"";
+	if ($Lim_CodLey_usa=="S")
 	{
 		if ($Valor<$Limites[$CodLey]["min"])
 		{
@@ -281,8 +296,9 @@ function TotalProv($PesoHum, $PesoSeco, $ArrTotal, $ArrLimites, $BajoMin, $Entre
 		if ($PesoHum>0 && $ArrTotal[$key][2]>0 && $ArrTotal[$key][34]>0)
 			$Ley=($ArrTotal[$key][2]/$PesoHum)*$ArrTotal[$key][34];
 		$Color="";
-		AsignaColor($key, $Ley, $ArrLimites, &$Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
-		echo "<td width='50' bgcolor='".$Color."'>".number_format($Ley,$ArrTotal[$key][35],",",".")."</td>\n";
+		AsignaColor($key, $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+		$ArrTotal35 = isset($ArrTotal[$key][35])?$ArrTotal[$key][35]:0;
+		echo "<td width='50' bgcolor='".$Color."'>".number_format($Ley,$ArrTotal35,",",".")."</td>\n";
 		$ArrTotal[$key][2] = "";
 	} while (next($ArrTotal));	
 	echo "</tr>\n";
@@ -300,7 +316,7 @@ function Titulo($RutProv, $Prov, $Leyes, $Limites)
 	echo "<td width=\"75\">P.HUMEDO</td>\n";
 	echo "<td width=\"75\">P.SECO</td>\n";
 	reset($Leyes);
-	while (list($k,$v)=each($Leyes))
+	foreach($Leyes as $k=>$v)
 	{
 		echo "<td align=\"center\">".$v[1]."</td>";
 	}	

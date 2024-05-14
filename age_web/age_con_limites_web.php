@@ -12,6 +12,7 @@
 	//COLORES DE LIMITES
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);
+	$SobreMax="";
 	while ($Fila=mysqli_fetch_array($Resp))
 	{
 		switch ($Fila["cod_subclase"])
@@ -293,7 +294,7 @@ body {
 
 function AsignaColor($Tipo, $CodLey, $Valor, $Limites, $BgColor, $BajoMin, $EntreMin, $EntreMax, $SobreMax)
 {
-	$Lim_CodLey_usa = isset($Limites[$CodLey]["usada"])?$Limites[$CodLey]["usada"]:0;
+	$Lim_CodLey_usa = isset($Limites[$CodLey]["usada"])?$Limites[$CodLey]["usada"]:"";
 	if ($Lim_CodLey_usa == "S")
 	{
 		switch ($Tipo)
