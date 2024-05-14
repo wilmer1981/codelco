@@ -1,5 +1,9 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$SA      = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$Recargo = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+
 	$Consulta = "select t1.nro_solicitud, t1.recargo, t1.id_muestra, t1.cod_producto, t1.cod_subproducto, ";
 	$Consulta.= " t2.descripcion as nom_prod, t3.descripcion as nom_subprod ";
 	$Consulta.= " from cal_web.solicitud_analisis t1 inner join proyecto_modernizacion.productos t2 ";
@@ -20,11 +24,9 @@
 <title>Detalle Leyes</title>
 <link href="../principal/estilos/css_principal.css" rel="stylesheet" type="text/css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
