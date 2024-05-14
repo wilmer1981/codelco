@@ -735,7 +735,7 @@ function ValorCostos($Cod,$TipoAnalisis,$CodTipo,$Tms,$ValorLey)
 		if($FilaValor=mysql_fetch_array($RespValor))
 		{
 			$Valor=$FilaValor[valor];
-			$Lote=$FilaValor[lote];
+			$Lote=$FilaValor["lote"];
 			$Valor=ConvertirAUS($FilaValor[cod_unidad],$FilaValor[cod_tipo],$FilaValor[valor],$Tms,$Valor,$Lote);
 		}
 		else
@@ -914,7 +914,7 @@ function ValorConversionCosto($Cod,$Tms,$Cod_tipo,$Cod_tipo_costo,$Cod_unidad,$T
 		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
-			$ValorCosto=ConversionCostos($UnidadInicial,$Fila[cod_tipo],$Tms,$Cod_unidad,$Fila[valor],$Fila[lote],$Fila[dolar],$ValorFinosPagables);		
+			$ValorCosto=ConversionCostos($UnidadInicial,$Fila[cod_tipo],$Tms,$Cod_unidad,$Fila[valor],$Fila["lote"],$Fila[dolar],$ValorFinosPagables);		
 		}			
 	}
 	return($ValorCosto);

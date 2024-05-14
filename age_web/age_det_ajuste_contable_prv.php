@@ -86,10 +86,10 @@ function Proceso(Proceso)
 		while ($FilaLote = mysqli_fetch_array($RespLote))
 		{
 			echo "<tr align='center'>\n";
-			echo "<td>$FilaLote[lote]</td>\n";
+			echo "<td>$FilaLote["lote"]</td>\n";
 			$DatosLote= array();
 			$ArrLeyes=array();
-			$DatosLote["lote"]=$FilaLote[lote];
+			$DatosLote["lote"]=$FilaLote["lote"];
 			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
 			echo "<td>".number_format($ArrLeyes["02"][2],2,',','')."</td>\n";
 			echo "<td>".number_format($ArrLeyes["04"][2],2,',','')."</td>\n";

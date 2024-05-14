@@ -292,10 +292,10 @@ function Proceso(opt)
 					{
 						echo "<tr>\n";
 						if($Row2["recargo"]==1)
-							echo "<td align='center'><input type='checkbox' style='background:#ccc;' class='SinBorde' name='selec' value='".$Row2[lote]."' /></td>\n";
+							echo "<td align='center'><input type='checkbox' style='background:#ccc;' class='SinBorde' name='selec' value='".$Row2["lote"]."' /></td>\n";
 						else
 							echo "<td align='center'>&nbsp;</td>\n";	
-						echo "<td align='center'>".$Row2[lote]."</td>\n";
+						echo "<td align='center'>".$Row2["lote"]."</td>\n";
 						echo "<td align='center'>".$Row2["recargo"]."</td>\n";
 						echo "<td align='right'>".number_format($Row2[pbruto],2,',','.')."</td>\n";
 						echo "<td align='right'>".number_format($Row2[ptara],2,',','.')."</td>\n";

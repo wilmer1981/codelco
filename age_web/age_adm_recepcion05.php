@@ -332,7 +332,7 @@ while($FilaDet = mysqli_fetch_array($RespDet))
 				echo "<td width='97' colspan='3' align='center'>FECHA EMISION</td>";
 				echo "<td width='97' colspan='7' align='left'>".$Fila[fecha_recepcion]."</td>";
 			  echo  "</tr>";
-				$ConsultaLote="select * from age_web.lotes_temp_detalle where lote='".$Fila[lote]."'";
+				$ConsultaLote="select * from age_web.lotes_temp_detalle where lote='".$Fila["lote"]."'";
 				$RespLote = mysqli_query($link, $ConsultaLote);
 				if($FilaLote = mysqli_fetch_array($RespLote))
 				{
@@ -352,7 +352,7 @@ while($FilaDet = mysqli_fetch_array($RespDet))
 					echo "<td width='90' align='center'><strong>LEYES</strong></td>";	
 					echo "<td width='310' align='center'><strong>IMPUREZAS</strong></td>";	
 				   echo  "</tr>";$SubTotBruto=0;$SubTotTara=0;$SubTotNeto=0;			
-				$Consulta="select *,ceiling(recargo) as RecOrden from age_web.lotes_temp_detalle where lote='".$Fila[lote]."'  order by RecOrden asc";
+				$Consulta="select *,ceiling(recargo) as RecOrden from age_web.lotes_temp_detalle where lote='".$Fila["lote"]."'  order by RecOrden asc";
 				//echo $Consulta."<br>";
 				$Resp2 = mysqli_query($link, $Consulta);$Leyes='';$Impureza='';$SubTotHum='0';
 				while($Fila2 = mysqli_fetch_array($Resp2))

@@ -357,10 +357,10 @@ function Msj(Msj)
 			$Respuesta = mysqli_query($link, $Consulta);
 			while ($Row = mysqli_fetch_array($Respuesta))
 			{
-				if ($Lote==$Row[lote])
-					echo "<option selected value = '".$Row[lote]."'>".$Row[lote]."</option>\n";
+				if ($Lote==$Row["lote"])
+					echo "<option selected value = '".$Row["lote"]."'>".$Row["lote"]."</option>\n";
 				else	
-					echo "<option  value = '".$Row[lote]."'>".$Row[lote]."</option>\n";
+					echo "<option  value = '".$Row["lote"]."'>".$Row["lote"]."</option>\n";
 			}
 			?>
 			</select><?php //echo $Consulta;?>
@@ -534,7 +534,7 @@ function Msj(Msj)
 				while ($Row = mysqli_fetch_array($Respuesta))
 				{
 					//$Row[pneto]=0;
-					/*$Valores=CantidadLixPorTambor($Row[lote],$Row["recargo"]);	
+					/*$Valores=CantidadLixPorTambor($Row["lote"],$Row["recargo"]);	
 					$LixyValor=explode('-:-',$Valores);
 					$Row[num_lixiviacion]=$LixyValor[0];
 					$Row[pneto]=$LixyValor[1];*/
@@ -559,7 +559,7 @@ function Msj(Msj)
 					if($UltimoCant==$i)
 					{
 						if($BlokeaChk=='N')
-						{?><td align="center"><input name="BtnEliminar" type="button" title="Eliminar" value="X" style="width:15px;" onClick="Eliminar('<?php echo $Row[lote]."~".$Row["recargo"]."~".$Row["fecha_hora"];?>');"></td><?php 
+						{?><td align="center"><input name="BtnEliminar" type="button" title="Eliminar" value="X" style="width:15px;" onClick="Eliminar('<?php echo $Row["lote"]."~".$Row["recargo"]."~".$Row["fecha_hora"];?>');"></td><?php 
 						}else{
 						?><td align="center">&nbsp;</td><?php 
 						}
@@ -569,11 +569,11 @@ function Msj(Msj)
 					?><td align="right">&nbsp;</td><?php
 					}
 					if($BlokeaChk=='N')
-						echo "<td align='center'><input type='checkbox' style='border:none;' name='Selected' value='".$Row[lote]."~".$Row["recargo"]."~".$Row["fecha_hora"]."'>\n";
+						echo "<td align='center'><input type='checkbox' style='border:none;' name='Selected' value='".$Row["lote"]."~".$Row["recargo"]."~".$Row["fecha_hora"]."'>\n";
 					else
 						echo "<td align='center'>&nbsp;\n";	
 					echo "</td>\n";
-					echo "<td align='center'>".$Row[lote]."</td>\n";
+					echo "<td align='center'>".$Row["lote"]."</td>\n";
 					echo "<td align='right'>".$Row[num_lixiviacion]."</td>\n";
 					echo "<td align='center'>".$Row["recargo"]."</td>\n";
 					echo "<td align='right'>".number_format($Row[pbruto],2,',','.')."</td>\n";					
@@ -590,7 +590,7 @@ function Msj(Msj)
 						if($Row2[peso_total] > $Row2[PNeto])
 						{
 							if($BlokeaChk=='N')
-							{ ?><td align="right"><input type="button" value="Completar Peso" style="width:80px;" onClick="completP('<?php echo $Row[lote]."~".$Row["recargo"];?>')"></td><?php 
+							{ ?><td align="right"><input type="button" value="Completar Peso" style="width:80px;" onClick="completP('<?php echo $Row["lote"]."~".$Row["recargo"];?>')"></td><?php 
 							}else{
 							?><td align="right">Embarcado</td><?php 	
 							}

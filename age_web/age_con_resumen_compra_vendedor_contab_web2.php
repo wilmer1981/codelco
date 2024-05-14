@@ -226,7 +226,7 @@ body {
 							}	
 
 							$LeyCu=0;$LeyAg=0;$LeyAu=0;$LeyCuOri=0;$LeyAgOri=0;$LeyAuOri=0;$LeyCuAj=0;$LeyAgAj=0;$LeyAuAj=0;						
-							$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote[lote]."' order by lote, lpad(recargo,4,'0')";
+							$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote["lote"]."' order by lote, lpad(recargo,4,'0')";
 							$ContRecargos = 1;
 							$RespDetLote=mysqli_query($link, $Consulta);
 							while ($FilaDetLote = mysqli_fetch_array($RespDetLote))
@@ -303,9 +303,9 @@ body {
 								$Consulta = "select STRAIGHT_JOIN distinct t1.lote, t2.cod_leyes, (t2.inc_retalla+t2.ley_canje) as valor, t2.pendiente, ";
 								$Consulta.= " (t2.inc_retalla+t2.valor1) as valor1";
 								$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
-								$Consulta.= " where (t1.lote='".$FilaLote[lote]."' and t1.estado_lote <>'6' ";
+								$Consulta.= " where (t1.lote='".$FilaLote["lote"]."' and t1.estado_lote <>'6' ";
 								$Consulta.= " and t1.fecha_canje<='".$TxtFechaConsulta."') ";
-								$Consulta.= " or (t1.lote='".$FilaLote[lote]."' and t1.fecha_fin_canje between '".$TxtFechaIni."' and '".$TxFechaFin."') ";	
+								$Consulta.= " or (t1.lote='".$FilaLote["lote"]."' and t1.fecha_fin_canje between '".$TxtFechaIni."' and '".$TxFechaFin."') ";	
 								$Consulta.= " and t2.cod_leyes in('02','04','05')";	
 								$Consulta.= " order by t2.cod_leyes";
 								$RespLeyesC = mysqli_query($link, $Consulta);

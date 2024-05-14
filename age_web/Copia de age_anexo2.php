@@ -47,7 +47,7 @@
 			while($Row=mysqli_fetch_array($respue))
 			{
 				$InserTmp="insert into age_web.tmp_lotes (lote,cod_producto,cod_subproducto,fecha_recepcion,rut_proveedor)";
-				$InserTmp.=" values ('".$Row[lote]."','".$Row["cod_producto"]."','".$Row["cod_subproducto"]."','".$Row[fecha_recepcion]."',";
+				$InserTmp.=" values ('".$Row["lote"]."','".$Row["cod_producto"]."','".$Row["cod_subproducto"]."','".$Row[fecha_recepcion]."',";
 				$InserTmp.="'".$Row["rut_proveedor"]."')";
 				mysqli_query($link, $InserTmp);
 			}
@@ -330,7 +330,7 @@
 						
 					//echo "hoy".$RutProv."--".$PrvMerma."==".$VarMerma;
 					$LeyCu=0;$LeyAg=0;$LeyAu=0;$LeyCuOri=0;$LeyAgOri=0;$LeyAuOri=0;$LeyCuAj=0;$LeyAgAj=0;$LeyAuAj=0;						
-					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote[lote]."' order by lote, lpad(recargo,4,'0')";
+					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote["lote"]."' order by lote, lpad(recargo,4,'0')";
 					//echo $Consulta."<br>";
 					$ContRecargos = 1;
 					$RespDetLote=mysqli_query($link, $Consulta);

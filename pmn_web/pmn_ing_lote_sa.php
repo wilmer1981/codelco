@@ -236,20 +236,20 @@ function Msj(Msj)
 					$OK='';
 					if($Row[CabeceraSA]!='')
 						$OK='OK';
-					$TotNeto=TotalNetoLote($Row[lote]);	
+					$TotNeto=TotalNetoLote($Row["lote"]);	
 					echo "<tr valign='top'>\n";
 					if($OK=='')
-						echo "<td align='center'><input type='checkbox' style='border:none;' name='Selected' value='".$Row[lote]."'>\n";
+						echo "<td align='center'><input type='checkbox' style='border:none;' name='Selected' value='".$Row["lote"]."'>\n";
 					else
 						echo "<td align='center'>&nbsp;\n";	
 					echo "</td>\n";
-					echo "<td align='center'>".$Row[lote]."</td>\n";
-					echo "<td align='right'>".$Row["nro_solicitud"]."<input type='hidden' name='SA[".$Row[lote]."]' value='".$Row["nro_solicitud"]."'></td>\n";
+					echo "<td align='center'>".$Row["lote"]."</td>\n";
+					echo "<td align='right'>".$Row["nro_solicitud"]."<input type='hidden' name='SA[".$Row["lote"]."]' value='".$Row["nro_solicitud"]."'></td>\n";
 					echo "<td align='left'>".$NomProductoSA."</td>\n";
 					echo "<td align='left'>".$NomSubProductoSA."</td>\n";
 					echo "<td align='left'>".$Leyes."</td>\n";
 					echo "<td align='center'>".$TotNeto."</td>\n";
-					echo "<td align='center'><input type='text' name='PesoPale[".$Row[lote]."]' value='".number_format($Row[peso_palet],3,',','')."' onKeyDown='SoloNumeros(true,this)' size='5' maxlength='7' id='PesoPale'></td>\n";
+					echo "<td align='center'><input type='text' name='PesoPale[".$Row["lote"]."]' value='".number_format($Row[peso_palet],3,',','')."' onKeyDown='SoloNumeros(true,this)' size='5' maxlength='7' id='PesoPale'></td>\n";
 					echo "<td align='center' class='TituloCabecera'>".$OK."</td>\n";
 					echo "</tr>\n";
 					echo "<tr>\n";
@@ -262,7 +262,7 @@ function Msj(Msj)
 								echo "<td align='right'>Peso Neto</td>\n";
 								echo "</tr>\n";
 							$Consulta = "select * from pmn_web.pmn_pesa_bad_detalle ";
-							$Consulta.= " where lote='".$Row[lote]."'";
+							$Consulta.= " where lote='".$Row["lote"]."'";
 							$Consulta.= " order by recargo";
 							$RespuestaDet = mysqli_query($link, $Consulta);$TotNeto=0;$TotTara=0;$TotBruto=0;
 							while ($RowDet = mysqli_fetch_array($RespuestaDet))

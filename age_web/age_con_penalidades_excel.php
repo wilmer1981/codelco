@@ -300,7 +300,7 @@
 					if ($ChkDetalle=="L")
 					{
 						echo "<tr>";
-						echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 						echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
 					}
 					$DatosLote= array();
@@ -323,7 +323,7 @@
 						$TxtFechaFinAux=$TxtFechaFin;
 					}
 					//echo $TxtFechaIniAux." / ".$TxtFechaFinAux."<br>";
-					$DatosLote["lote"]=$FilaLote[lote];					
+					$DatosLote["lote"]=$FilaLote["lote"];					
 					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"");
 					$PesoLoteS=$DatosLote["peso_seco"];
 					$PesoLoteS2=$DatosLote["peso_seco2"];
@@ -392,7 +392,7 @@
 											/*EXCEPCION DEBIDO QUE EL ARSENICO SE DISPARA Y GENERA PENALIDAD, 19-02-2016
 										  Luis Adan Castillo - Intellego
 											*/
-										if($FilaLote[lote]=='15120527' && $v[0]=='08') 
+										if($FilaLote["lote"]=='15120527' && $v[0]=='08') 
 										{
 											echo "<td align=\"right\">0</td>\n";
 											$ValorDolar=0;

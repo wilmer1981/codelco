@@ -185,11 +185,11 @@ if ($OptFinos=="S")
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					echo "<tr>";
-					echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
 					$DatosLote= array();
 					$ArrLeyes=array();
-					$DatosLote["lote"]=$FilaLote[lote];
+					$DatosLote["lote"]=$FilaLote["lote"];
 					$ArrLeyes["01"][0]="01";$ArrLeyes["02"][0]="02";$ArrLeyes["04"][0]="04";$ArrLeyes["05"][0]="05";
 					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
 					$PesoLoteS=$DatosLote["peso_seco2"];

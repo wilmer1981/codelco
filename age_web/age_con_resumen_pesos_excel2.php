@@ -209,7 +209,7 @@
 					}
 					
 					$LeyCu=0;$LeyAg=0;$LeyAu=0;$LeyCuOri=0;$LeyAgOri=0;$LeyAuOri=0;$LeyCuAj=0;$LeyAgAj=0;$LeyAuAj=0;						
-					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote[lote]."' order by lote, lpad(recargo,4,'0')";
+					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote["lote"]."' order by lote, lpad(recargo,4,'0')";
 					$ContRecargos = 1;
 					$RespDetLote=mysqli_query($link, $Consulta);
 					while ($FilaDetLote = mysqli_fetch_array($RespDetLote))
@@ -268,7 +268,7 @@
 					if ($OptVer=="L")
 					{	
 						echo "<tr>";
-						echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 						echo "<td align=\"right\">".number_format($TotalPesoHumLote,$DecPHum,',','.')."</td>";
 						echo "<td align=\"right\">".number_format($PorcHumLote,2,',','.')."</td>";
 						echo "<td align=\"right\">".number_format($TotalPesoSecLote,$DecPSeco,',','.')."</td>";															

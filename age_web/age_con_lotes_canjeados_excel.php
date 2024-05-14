@@ -145,10 +145,10 @@
 				{
 					$DatosLote= array();
 					$ArrLeyes=array();
-					$DatosLote["lote"]=$Fila[lote];
+					$DatosLote["lote"]=$Fila["lote"];
 					LeyesLote(&$DatosLote,&$ArrLeyes,"N","N","S","","","");
 					echo "<tr>";
-					echo "<td>$Fila[lote]</td>";
+					echo "<td>$Fila["lote"]</td>";
 					echo "<td>$Fila["nom_subproducto"]</td>";
 					echo "<td>".$Fila["rut_proveedor"]." ".$Fila[nom_prv]."</td>";
 					echo "<td>$Fila["cod_recepcion"]</td>";

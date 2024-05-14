@@ -247,7 +247,7 @@ function Salir()
 						}
 					}
 					echo "<tr>\n";
-					echo "<td align='center'><a href=JavaScript:Detalle('".$Fila[lote]."')>".$Fila["lote"]."</a></td>\n";
+					echo "<td align='center'><a href=JavaScript:Detalle('".$Fila["lote"]."')>".$Fila["lote"]."</a></td>\n";
 					echo "<td align='center'>".substr($Fila["fecha_recepcion"],8,2)."/".substr($Meses[intval(substr($Fila["fecha_recepcion"],5,2))-1],0,3)."</td>\n";
 					echo "<td align='right'>".$Fila["rut_proveedor"]."</td>\n";
 					echo "<td align='left'>".strtoupper(substr($Fila["nombre"],0,18))."</td>\n";

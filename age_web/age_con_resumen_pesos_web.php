@@ -181,7 +181,7 @@ body {
 				{
 					$DatosLote= array();
 					$ArrLeyes=array();
-					$DatosLote["lote"]=$FilaLote[lote];
+					$DatosLote["lote"]=$FilaLote["lote"];
 					$ArrLeyes["01"][0]="01";$ArrLeyes["02"][0]="02";$ArrLeyes["04"][0]="04";$ArrLeyes["05"][0]="05";
 					LeyesLote(&$DatosLote,&$ArrLeyes,"S","S","S",$TxtFechaIni,$TxtFechaFin,"");
 					$PesoLoteS=$DatosLote["peso_seco2"];
@@ -194,7 +194,7 @@ body {
 					if ($OptVer=="L")
 					{	
 						echo "<tr>";
-						echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 						//echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
 						echo "<td align=\"right\">".number_format($PesoLoteH,$CantDecPeso,',','.')."</td>";
 						echo "<td align=\"right\">".number_format($ArrLeyes["01"][2],2,',','.')."</td>";

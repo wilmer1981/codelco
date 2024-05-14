@@ -1,5 +1,11 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Proceso        = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Num            = isset($_REQUEST["Num"])?$_REQUEST["Num"]:"";
+	$LoteRemuestreo = isset($_REQUEST["LoteRemuestreo"])?$_REQUEST["LoteRemuestreo"]:"";
+	$ExLote  = isset($_REQUEST["ExLote"])?$_REQUEST["ExLote"]:"";
+
 	switch ($Proceso)
 	{
 		case "A":

@@ -517,33 +517,33 @@ No
 		{
 			$DatosLote= array();
 			$ArrLeyes=array();
-			$DatosLote["lote"]=$Fila[lote];
+			$DatosLote["lote"]=$Fila["lote"];
 			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
 			echo "<tr>";
-			echo "<td><input type='checkbox' name='CheckCod' value='$Fila[lote]'></td>";
-			echo "<td><a href=\"JavaScript:DetalleLote('".$Fila[lote]."')\">$Fila[lote]</a></td>";
+			echo "<td><input type='checkbox' name='CheckCod' value='$Fila["lote"]'></td>";
+			echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">$Fila["lote"]</a></td>";
 			echo "<td>$Fila["nom_subproducto"]</td>";
 			echo "<td>".$Fila["rut_proveedor"]." ".substr($Fila[nom_prv],0,20)."</td>";
 			if($Fila[certificado]!='')
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila[lote]."','".$Fila[estado_lote]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";
 			}
 			else
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila[lote]."','".$Fila[estado_lote]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 			}
 			if($Fila[certificado_enm]!='')
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila[lote]."','".$Fila[estado_lote]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";				
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";				
 			}	
 			else
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila[lote]."','".$Fila[estado_lote]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 			}
-			echo "<td align='center'><a href=\"JavaScript:DescargaArchivos('".$Fila[lote]."')\"><img src='../Principal/imagenes/ico_arriba.gif' border='0'><a></td>";	
+			echo "<td align='center'><a href=\"JavaScript:DescargaArchivos('".$Fila["lote"]."')\"><img src='../Principal/imagenes/ico_arriba.gif' border='0'><a></td>";	
 			echo "<td>$Fila[nom_recepcion]&nbsp;</td>";
 			echo "<td align='center'>$Fila["canjeable"]&nbsp;</td>";
-			$TxtLote=$Fila[lote];
+			$TxtLote=$Fila["lote"];
 			//SOLICITUD DEL LOTE
 			$Consulta = "select distinct t2.nro_solicitud ,t2.recargo , t2.estado_actual, t3.nombre_subclase";
 			$Consulta.= " from age_web.lotes t1 ";

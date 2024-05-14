@@ -3,7 +3,7 @@
 	$CodigoDePantalla = 91;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	
+
 	$Mostrar      = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	$Orden        = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
 	$Mes          = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
@@ -409,7 +409,7 @@ if ($Mostrar=="S" && $FechaCierreAnexo!="")
 		echo "<tr align=\"center\">\n";
 		echo "<td align=\"left\">".substr($Fila["nom_prod"],0,20)."&nbsp;</td>\n";
 		echo "<td align=\"left\">".substr($Fila["nomprv_a"],0,20)."&nbsp;</td>\n";
-		echo "<td><a href=\"JavaScript:DetalleLote('".$Fila[lote]."')\">$Fila[lote]</a></td>";
+		echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">$Fila["lote"]</a></td>";
 		//echo "<td>".$Fila["lote"]."</td>\n";		
 		if 	($Fila["nro_solicitud"]=="")
 			echo "<td>&nbsp;</td>\n";		

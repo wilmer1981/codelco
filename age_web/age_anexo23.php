@@ -239,7 +239,7 @@
 					$FilaMerma=mysqli_fetch_array($RespMerma);
 					$PorcMerma=str_replace(',','.',$FilaMerma[merma]);
 					$LeyCu=0;$LeyAg=0;$LeyAu=0;$LeyCuOri=0;$LeyAgOri=0;$LeyAuOri=0;$LeyCuAj=0;$LeyAgAj=0;$LeyAuAj=0;						
-					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote[lote]."' order by lote, lpad(recargo,4,'0')";
+					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote["lote"]."' order by lote, lpad(recargo,4,'0')";
 					//echo "con-8".$Consulta."<br>";
 					$ContRecargos = 1;
 					$RespDetLote=mysqli_query($link, $Consulta);

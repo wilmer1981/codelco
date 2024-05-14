@@ -103,9 +103,9 @@
 					{
 						$DatosLote= array();
 						$ArrLeyes=array();
-						$DatosLote["lote"]=$FilaLote[lote];
+						$DatosLote["lote"]=$FilaLote["lote"];
 						LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
-						echo "<td>".$FilaLote[lote]."</td>\n";	
+						echo "<td>".$FilaLote["lote"]."</td>\n";	
 						echo "<td align='center'>".number_format($ArrLeyes["02"][2],2,'','.')."</td>\n";
 						echo "<td align='center'>".number_format($ArrLeyes["04"][2],2,'','.')."</td>\n";
 						echo "<td align='center'>".number_format($ArrLeyes["05"][2],2,'','.')."</td>\n";

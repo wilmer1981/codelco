@@ -360,7 +360,7 @@ body {
 					if ($ChkDetalle=="L")
 					{
 						echo "<tr>";
-						echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 						
 
 						echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
@@ -387,7 +387,7 @@ body {
 						$TxtFechaFinAux=$TxtFechaFin;
 					}
 					//echo $TxtFechaIniAux." / ".$TxtFechaFinAux."<br>";
-					 $DatosLote["lote"]=$FilaLote[lote];
+					 $DatosLote["lote"]=$FilaLote["lote"];
 					
                // echo "lote original ".$DatosLote["lote"]."  ";	
          		    // print_r($ArrLeyes);
@@ -444,7 +444,7 @@ body {
 								else
 								{
 									//echo "entreeeee"."<br>";
-									//echo $FilaLote[lote]."<br>";
+									//echo $FilaLote["lote"]."<br>";
 									//echo $v[23]."<br>";
 									//echo $ArrLeyesAux[$v[0]][6]."<br>";
 									//echo "Pesolote".$PesoLoteS."<br>";

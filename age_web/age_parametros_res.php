@@ -8,22 +8,22 @@
 	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila=mysqli_fetch_array($Resp))
 	{
-		echo $Fila[lote]."--".$Fila[ano]."</br>";
+		echo $Fila["lote"]."--".$Fila[ano]."</br>";
 		$Busca = "select year(fecha_muestra) as ano_muestra from cal_web.solicitud_analisis where ";
-		$Busca.=" id_muestra = '".$Fila[lote]."' and recargo = '".$Fila["recargo"]."'";
+		$Busca.=" id_muestra = '".$Fila["lote"]."' and recargo = '".$Fila["recargo"]."'";
 		$Resb=mysqli_query($link, $Busca);
 		if ($Filab = mysqli_fetch_array($Resb))
 		{
-			$Reviso = "select * from age_web.leyes_por_lote where lote = '".$Fila[lote]."' and recargo = '".$Fila["recargo"]."'";
+			$Reviso = "select * from age_web.leyes_por_lote where lote = '".$Fila["lote"]."' and recargo = '".$Fila["recargo"]."'";
 			$Reviso.=" and cod_leyes = '".$Fila["cod_leyes"]."' and ano = '".$Filab[ano_muestra]."'";
 			$Resr=mysqli_query($link, $Reviso);
 			if ($Filar=mysqli_fetch_array($Resr))
 			{
-				echo "existe".$Filar[lote]."</br>";
+				echo "existe".$Filar["lote"]."</br>";
 			}
 			else
 			{
-				$actualizo ="UPDATE leyes_por_lote set ano = '".$Filab[ano_muestra]."'  where lote = '".$Fila[lote]."' and ";
+				$actualizo ="UPDATE leyes_por_lote set ano = '".$Filab[ano_muestra]."'  where lote = '".$Fila["lote"]."' and ";
 				$actualizo.=" recargo = '".$Fila["recargo"]."' and cod_leyes = '".$Fila["cod_leyes"]."'";
 				mysqli_query($link, $actualizo);
 				$contador = $contador + 1;

@@ -310,7 +310,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 						echo "<td  align='left'>".$Fila[nom_fino]."</td>";
 						echo "<td align='center'>".$Fila[nom_unidad]."</td>";
 						echo "<td align='center'>".$Fila[valor]."</td>";
-						echo "<td  align='center'>".$Fila[lote]."</td>";
+						echo "<td  align='center'>".$Fila["lote"]."</td>";
 						echo "<td align='center'>".$Fila[dolar]."</td>";
 						echo "<td align='center'><textarea name='Muestra' readonly='readonly' cols='60'>".$Fila["observacion"]."</textarea></td>";						
 						echo "<tr>";	

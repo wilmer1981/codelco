@@ -195,14 +195,14 @@
 		while($FilaHVL=mysqli_fetch_assoc($RespHvl))
 		{
 			$Consulta ="select ifnull(sum(peso_neto),0) as peso from age_web.detalle_lotes ";
-			$Consulta.=" where lote = '".$FilaHVL[lote]."' group by lote";
+			$Consulta.=" where lote = '".$FilaHVL["lote"]."' group by lote";
 			//echo $Consulta."<br>";
 			$RespPesoLoteHvl=mysqli_query($link, $Consulta);
 			$FilaPesoLoteHvl=mysqli_fetch_assoc($RespPesoLoteHvl);
 			$PesoLote=$FilaPesoLoteHvl["peso"];
 			$AcumPesoLote=$AcumPesoLote+$PesoLote;
 			$Consulta ="select cod_leyes, valor1, valor2 from age_web.leyes_por_lote_canje ";
-			$Consulta.=" where lote = '".$FilaHVL[lote]."' and valor2<>0";
+			$Consulta.=" where lote = '".$FilaHVL["lote"]."' and valor2<>0";
 			//echo $Consulta;
 			$RespLeyesHvl=mysqli_query($link, $Consulta);
 			while($FilaLeyesHVL=mysqli_fetch_array($RespLeyesHvl))
@@ -233,12 +233,12 @@
 				}	
 			}
 			$Consulta ="select cod_leyes, valor1, valor2 from age_web.leyes_por_lote_canje ";
-			$Consulta.=" where lote = '".$FilaHVL[lote]."' and valor2=0";
+			$Consulta.=" where lote = '".$FilaHVL["lote"]."' and valor2=0";
 			//echo $Consulta;
 			$RespLeyesHvl=mysqli_query($link, $Consulta);
 			while($FilaLeyesHVL=mysqli_fetch_array($RespLeyesHvl))
 			{
-				$LotesSinLeyesEnami=$LotesSinLeyesEnami.$FilaHVL[lote];
+				$LotesSinLeyesEnami=$LotesSinLeyesEnami.$FilaHVL["lote"];
 				switch($FilaLeyesHVL["cod_leyes"])
 				{
 					case "02":

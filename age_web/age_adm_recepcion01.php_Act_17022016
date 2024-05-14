@@ -742,12 +742,12 @@
 						{
 							//ACTUALIZO LOS DATOS SOLAMENTE CUANDO EL LOTE DE ENTRADA EXISTE EN LA BASE DE DATOS
 							$Actualizar="UPDATE age_web.detalle_lotes set patente='".$PatCamion."',peso_bruto='".$PesoBruto."',peso_tara='".$PesoTara."',peso_neto='".$PesoNeto."',fin_lote='N'";
-							$Actualizar.=" where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."' and guia_despacho='".$Fila["guia_despacho"]."'";	
+							$Actualizar.=" where lote='".$Fila["lote"]."' and recargo='".$Fila["recargo"]."' and guia_despacho='".$Fila["guia_despacho"]."'";	
 							//Actualizar."<br>";
 							mysql_query($Actualizar);
 							
 							$Actualizar="UPDATE sipa_web.recepciones set patente='".$PatCamion."',peso_bruto='".$PesoBruto."',peso_tara='".$PesoTara."',peso_neto='".$PesoNeto."',ult_registro='N'";
-							$Actualizar.=" where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."' and guia_despacho='".$Fila["guia_despacho"]."'";	
+							$Actualizar.=" where lote='".$Fila["lote"]."' and recargo='".$Fila["recargo"]."' and guia_despacho='".$Fila["guia_despacho"]."'";	
 							mysql_query($Actualizar);
 						}		*/
 						if($EntradaLote!='')
@@ -776,7 +776,7 @@
 							//Consulta."<br />";
 							$RESP=mysqli_query($link, $Consulta);$LotesNo='';
 							if($FILALote=mysql_fetch_assoc($RESP))
-								$LotesNo=$LotesNo."G~".$GuiaDes."~L~".$EntradaLote."~R~".$Recargo."//".$FILALote[lote];
+								$LotesNo=$LotesNo."G~".$GuiaDes."~L~".$EntradaLote."~R~".$Recargo."//".$FILALote["lote"];
 							
 							$Insertar = "INSERT INTO age_web.lotes_temp_detalle (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
 							$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo, modificado,observacion,pastas,impurezas,humedad,peso_seco,obsloten) ";
@@ -796,7 +796,7 @@
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';
-							$Actualizar="UPDATE age_web.detalle_lotes set fin_lote='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";	
+							$Actualizar="UPDATE age_web.detalle_lotes set fin_lote='".$FinLote."' where lote='".$Fila["lote"]."' and recargo='".$Fila["recargo"]."'";	
 							mysql_query($Actualizar);
 						}
 						$Consulta="select lote,recargo from sipa_web.recepciones where lote='".$TxtLoteMod."' order by recargo desc";
@@ -804,7 +804,7 @@
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';
-							$Actualizar="UPDATE sipa_web.recepciones set ult_registro='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";	
+							$Actualizar="UPDATE sipa_web.recepciones set ult_registro='".$FinLote."' where lote='".$Fila["lote"]."' and recargo='".$Fila["recargo"]."'";	
 							mysql_query($Actualizar);
 						}*/
 						$Consulta="select lote,recargo from age_web.lotes_temp_detalle where lote='".$EntradaLote."' order by recargo desc";
@@ -812,7 +812,7 @@
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';
-							$Actualizar="UPDATE age_web.lotes_temp_detalle set fin_lote='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";	
+							$Actualizar="UPDATE age_web.lotes_temp_detalle set fin_lote='".$FinLote."' where lote='".$Fila["lote"]."' and recargo='".$Fila["recargo"]."'";	
 							mysql_query($Actualizar);
 						}
 					}									
@@ -838,7 +838,7 @@
 					$RespTemp = mysql_query($ConsultaTemp);
 					while($FilaTemp = mysql_fetch_array($RespTemp))
 					{						
-						$LoteTemporal=$FilaTemp[lote];
+						$LoteTemporal=$FilaTemp["lote"];
 						$CodSubProducto=$FilaTemp["cod_subproducto"];
 						$RutProveedor=$FilaTemp["rut_proveedor"];
 						$FechaRecepcion=$FilaTemp[fecha_recepcion];
@@ -849,14 +849,14 @@
 						$NumConjunto=$FilaTemp["num_conjunto"];
 						$EstadoLote=$FilaTemp[estado_lote];
 						$CodRecepEnm=$FilaTemp[cod_recepcion_enm];
-						$LoteOrigen=$FilaTemp[lote].'-'.$FilaTemp["guia_despacho"];
+						$LoteOrigen=$FilaTemp["lote"].'-'.$FilaTemp["guia_despacho"];
 							
 						//-----------------CONSULTO POR EL LOTE, SI NO EXISTE LO INSERTA-------------------
 						$Consulta1="select lote from age_web.detalle_lotes where observacion='".$LoteOrigen."'";
 						$Resp1 = mysql_query($Consulta1);
 						if(!$Fila1 = mysql_fetch_array($Resp1))
 						{
-							$Consulta1="select lote,observacion from age_web.detalle_lotes where observacion like '%".$FilaTemp[lote]."%'";
+							$Consulta1="select lote,observacion from age_web.detalle_lotes where observacion like '%".$FilaTemp["lote"]."%'";
 							$Resp1 = mysql_query($Consulta1);
 							if(!$Fila1 = mysql_fetch_array($Resp1))
 							{
@@ -864,9 +864,9 @@
 									$ConsultaCorr="select lote from sipa_web.correlativo_lote where cod_proceso='R'";
 									$RespCorr=mysql_query($ConsultaCorr);
 									$FilaCorr=mysql_fetch_array($RespCorr);
-									$TxtAno=substr($FilaCorr[lote],0,2);
-									$TxtMes=substr($FilaCorr[lote],2,2);						   						   
-									$TxtCorrRecep=intval(substr($FilaCorr[lote],4,4))+1;
+									$TxtAno=substr($FilaCorr["lote"],0,2);
+									$TxtMes=substr($FilaCorr["lote"],2,2);						   						   
+									$TxtCorrRecep=intval(substr($FilaCorr["lote"],4,4))+1;
 																						   
 									//--------------------------ACTUALIZAR CORRELATIVO EN SIPA_WEB-------------------------	 		
 									$TxtLoteMod=str_pad($TxtAno,2,'0',STR_PAD_LEFT).str_pad($TxtMes,2,'0',STR_PAD_LEFT).str_pad($TxtCorrRecep,4,'0',STR_PAD_LEFT);
@@ -885,14 +885,14 @@
 							}
 							else
 							{
-								$Lotes=$Lotes.$Fila1[lote]."~";
-								$TxtLoteMod=$Fila1[lote];							
+								$Lotes=$Lotes.$Fila1["lote"]."~";
+								$TxtLoteMod=$Fila1["lote"];							
 							}
 						}
 						else
 						{
-							$Lotes=$Lotes.$Fila1[lote]."~";
-							$TxtLoteMod=$Fila1[lote];							
+							$Lotes=$Lotes.$Fila1["lote"]."~";
+							$TxtLoteMod=$Fila1["lote"];							
 						}
 						//-------consulto los lotes detalle de cada uno de ellos-------------			
 						$ConsultaDetalle="select * from age_web.lotes_temp_detalle where lote='".$LoteTemporal."'";
@@ -973,19 +973,19 @@
 							{
 								//ACTUALIZO LOS DATOS SOLAMENTE CUANDO EL LOTE DE ENTRADA EXISTE EN LA BASE DE DATOS
 								$Actualizar="UPDATE age_web.detalle_lotes set patente='".$FilaRecargo["patente"]."',peso_bruto='".$PesoBruto."',peso_tara='".$PesoTara."',peso_neto='".$PesoNeto."',fin_lote='".$FinLote."'";
-								$Actualizar.=" where lote='".$FilaRecargo[lote]."' and recargo='".$FilaRecargo["recargo"]."' and guia_despacho='".$FilaRecargo["guia_despacho"]."'";	
+								$Actualizar.=" where lote='".$FilaRecargo["lote"]."' and recargo='".$FilaRecargo["recargo"]."' and guia_despacho='".$FilaRecargo["guia_despacho"]."'";	
 								//Actualizar."<br>";
 								mysql_query($Actualizar);
 								
 								$Actualizar="UPDATE sipa_web.recepciones set patente='".$FilaRecargo["patente"]."',peso_bruto='".$PesoBruto."',peso_tara='".$PesoTara."',peso_neto='".$PesoNeto."',ult_registro='".$FinLote."'";
-								$Actualizar.=" where lote='".$FilaRecargo[lote]."' and recargo='".$FilaRecargo["recargo"]."' and guia_despacho='".$FilaRecargo["guia_despacho"]."'";	
+								$Actualizar.=" where lote='".$FilaRecargo["lote"]."' and recargo='".$FilaRecargo["recargo"]."' and guia_despacho='".$FilaRecargo["guia_despacho"]."'";	
 								//Actualizar."<br>";
 								mysql_query($Actualizar);
 								
 								if($Hum!=0)
 								{
 									//modifico solicitudes creadas
-									ModificaSA($FilaRecargo[lote],$FilaRecargo["recargo"],$CookieRut,$PesoNeto,$Hum,$PesSeco);
+									ModificaSA($FilaRecargo["lote"],$FilaRecargo["recargo"],$CookieRut,$PesoNeto,$Hum,$PesSeco);
 								}
 							}
 						}				
@@ -1000,7 +1000,7 @@
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';
-							$Actualizar="UPDATE age_web.detalle_lotes set fin_lote='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";	
+							$Actualizar="UPDATE age_web.detalle_lotes set fin_lote='".$FinLote."' where lote='".$Fila["lote"]."' and recargo='".$Fila["recargo"]."'";	
 							//Actualizar."<br>";
 							mysql_query($Actualizar);
 						}
@@ -1012,7 +1012,7 @@
 						if($Fila = mysql_fetch_array($Resp))
 						{
 							$FinLote='S';
-							$Actualizar="UPDATE sipa_web.recepciones set ult_registro='".$FinLote."' where lote='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";
+							$Actualizar="UPDATE sipa_web.recepciones set ult_registro='".$FinLote."' where lote='".$Fila["lote"]."' and recargo='".$Fila["recargo"]."'";
 							//Actualizar."<br>";
 							mysql_query($Actualizar);
 						}						

@@ -267,7 +267,7 @@
 					if ($ChkDetalle=="L")
 					{
 						echo "<tr>";
-						echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 						
 
 						echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
@@ -292,7 +292,7 @@
 						$TxtFechaFinAux=$TxtFechaFin;
 					}
 					//echo $TxtFechaIniAux." / ".$TxtFechaFinAux."<br>";
-					$DatosLote["lote"]=$FilaLote[lote];					
+					$DatosLote["lote"]=$FilaLote["lote"];					
 					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"");
 					echo $ArrLeyes[08][2]." / ".$ArrLeyes[09][2];
 					$PesoLoteS=$DatosLote["peso_seco"];
@@ -326,7 +326,7 @@
 								}
 								else
 								{
-									//echo $FilaLote[lote]."<br>";
+									//echo $FilaLote["lote"]."<br>";
 									//echo $v[23]."<br>";
 									//echo $ArrLeyesAux[$v[0]][6]."<br>";
 									//echo $PesoLoteS."<br>";

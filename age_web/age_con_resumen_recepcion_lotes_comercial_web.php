@@ -268,11 +268,11 @@ body {
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					echo "<tr>";
-					echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
 					$DatosLote= array();
 					reset($ArrLeyes);
-					$DatosLote["lote"]=$FilaLote[lote];
+					$DatosLote["lote"]=$FilaLote["lote"];
 					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S",$TxtFechaIni,$TxtFechaFin,$TxtFechaCon);
 					$PesoLoteS_R=$DatosLote["peso_seco"];
 					if($FilaLote[tipo_remuestreo]=='A')
@@ -285,7 +285,7 @@ body {
 						$PesoLoteS=$DatosLote["peso_seco2"];
 						$PesoLoteH=$DatosLote["peso_humedo"];
 					}	
-					//echo $FilaLote[lote]."-".$PesoLoteS_R."-".$PesoLoteS."-".$PesoLoteH;
+					//echo $FilaLote["lote"]."-".$PesoLoteS_R."-".$PesoLoteS."-".$PesoLoteH;
 					$CantDecPeso=0;$CantDecLF=0;					
 					if($Fila01[recepcion]=='PMN')
 					{
@@ -318,7 +318,7 @@ body {
 										}
 										else
 										{
-											/*if ($FilaLote[lote]=='507327')
+											/*if ($FilaLote["lote"]=='507327')
 											 	echo $v[23]."<br>";*/
 											if ($v[23]>0 && $ArrLeyesAux[$c][3]>0 && $PesoLoteS>0)
 												echo "<td align=\"right\">".number_format((($v[23]*$ArrLeyesAux[$c][3])/$PesoLoteS),$ArrLeyesAux[$c][5],',','.')."</td>\n";

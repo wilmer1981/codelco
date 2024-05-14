@@ -174,9 +174,9 @@
 			$ArrLeyesCanje["05"][4]=0;
 			echo "<tr>";
 			echo "<td>".$Cont."</td>";
-			echo "<td>".$Fila[lote]."</td>";
+			echo "<td>".$Fila["lote"]."</td>";
 			echo "<td>".$Fila[nom_prv]."</td>";
-			$Consulta="select * from age_web.leyes_por_lote_canje where lote='".$Fila[lote]."' and paquete_canje='3'";
+			$Consulta="select * from age_web.leyes_por_lote_canje where lote='".$Fila["lote"]."' and paquete_canje='3'";
 			$RespLeyes=mysqli_query($link, $Consulta);
 			while($FilaLeyes=mysqli_fetch_array($RespLeyes))
 			{

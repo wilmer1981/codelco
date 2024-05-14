@@ -567,11 +567,11 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			{
 			  echo "<tr class='ColorTabla02'>";
   				echo "<td width='97' colspan='2' align='center'>LOTE VENTANAS:</td>";
-			  	echo "<td align='right'>".$Fila[lote]."</td>";
+			  	echo "<td align='right'>".$Fila["lote"]."</td>";
 				echo "<td width='97' colspan='2' align='center'>FECHA EMISION</td>";
 				echo "<td width='97' align='center'>".$Fila[fecha_recepcion]."</td>";
 			  echo  "</tr>";
-				$ConsultaLote="select * from age_web.detalle_lotes where lote='".$Fila[lote]."' and observacion<>''";
+				$ConsultaLote="select * from age_web.detalle_lotes where lote='".$Fila["lote"]."' and observacion<>''";
 				//echo $ConsultaLote."<br>";
 				$RespLote = mysqli_query($link, $ConsultaLote);
 				if($FilaLote = mysqli_fetch_array($RespLote))
@@ -591,7 +591,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					echo "<td width='113' align='center'><strong>PESO TARA </strong></td>";
 					echo "<td width='113' align='center'><strong>PESO NETO</strong></td>";	
 				   echo  "</tr>";$SubTotBruto=0;$SubTotTara=0;$SubTotNeto=0;			
-				$Consulta="select *,ceiling(recargo) as RecOrden from age_web.detalle_lotes where lote='".$Fila[lote]."' order by RecOrden asc";
+				$Consulta="select *,ceiling(recargo) as RecOrden from age_web.detalle_lotes where lote='".$Fila["lote"]."' order by RecOrden asc";
 				//echo $Consulta."<br>";
 				$Resp2 = mysqli_query($link, $Consulta);
 				while($Fila2 = mysqli_fetch_array($Resp2))

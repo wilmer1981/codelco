@@ -1,16 +1,21 @@
 <?php 	
 	include("../principal/conectar_principal.php");
 
-	BuscarRemuestreos($LoteOri,&$LoteEnc);
+
+	$LoteOri  = isset($_REQUEST["LoteOri"])?$_REQUEST["LoteOri"]:"";
+	$LoteEnc  = isset($_REQUEST["LoteEnc"])?$_REQUEST["LoteEnc"]:"";
+	$LoteBusc = isset($_REQUEST["LoteBusc"])?$_REQUEST["LoteBusc"]:"";
+
+	BuscarRemuestreos($LoteOri,$LoteEnc,$link);
 	$TxtRemuestreo1=$LoteEnc;
-	BuscarRemuestreos($LoteEnc,&$LoteEnc);
+	BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
 	$TxtRemuestreo2=$LoteEnc;
-	BuscarRemuestreos($LoteEnc,&$LoteEnc);
+	BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
 	$TxtRemuestreo3=$LoteEnc;
-	BuscarRemuestreos($LoteEnc,&$LoteEnc);
+	BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
 	$TxtRemuestreo4=$LoteEnc;
 	
-function BuscarRemuestreos($LoteBusc,$LoteEnc)
+function BuscarRemuestreos($LoteBusc,$LoteEnc,$link)
 {
 	$LoteEnc='';
 	if($LoteBusc!='')
@@ -21,7 +26,7 @@ function BuscarRemuestreos($LoteBusc,$LoteEnc)
 		$RespLoteB = mysqli_query($link, $Consulta);
 		if($FilaLoteB=mysqli_fetch_array($RespLoteB))
 		{
-			$LoteEnc=$FilaLoteB[lote];
+			$LoteEnc=$FilaLoteB["lote"];
 		}
 	}	
 }
@@ -43,12 +48,12 @@ function Remuestreo(Opc,Num)
 			}			
 			if(Opc=='A'&&Frm.TxtRemuestreo1.value=='')
 			{
-				alert('Debe Agregar Antes El Remuestreo Nº 1');
+				alert('Debe Agregar Antes El Remuestreo Nï¿½ 1');
 				return;
 			}	
 			if(Opc=='Q'&&Frm.TxtRemuestreo3.value!='')
 			{
-				alert('Debe Quitar Antes El Remuestreo Nº 3');
+				alert('Debe Quitar Antes El Remuestreo NÂ° 3');
 				return;
 			}
 			Frm.action='age_varios_remuestreos01.php?Proceso='+Opc+'&Num=2&LoteRemuestreo='+Frm.TxtRemuestreo2.value+"&ExLote="+Frm.TxtRemuestreo1.value;
@@ -62,12 +67,12 @@ function Remuestreo(Opc,Num)
 			}
 			if(Opc=='A'&&Frm.TxtRemuestreo2.value=='')
 			{
-				alert('Debe Agregar Antes El Remuestreo Nº 2');
+				alert('Debe Agregar Antes El Remuestreo NÂ° 2');
 				return;
 			}	
 			if(Opc=='Q'&&Frm.TxtRemuestreo4.value!='')
 			{
-				alert('Debe Quitar Antes El Remuestreo Nº 4');
+				alert('Debe Quitar Antes El Remuestreo NÂ° 4');
 				return;
 			}
 			Frm.action='age_varios_remuestreos01.php?Proceso='+Opc+'&Num=3&LoteRemuestreo='+Frm.TxtRemuestreo3.value+"&ExLote="+Frm.TxtRemuestreo2.value;
@@ -81,7 +86,7 @@ function Remuestreo(Opc,Num)
 			}			
 			if(Opc=='A'&&Frm.TxtRemuestreo3.value=='')
 			{
-				alert('Debe Agregar Antes El Remuestreo Nº 3');
+				alert('Debe Agregar Antes El Remuestreo Nï¿½ 3');
 				return;
 			}	
 			Frm.action='age_varios_remuestreos01.php?Proceso='+Opc+'&Num=4&LoteRemuestreo='+Frm.TxtRemuestreo4.value+"&ExLote="+Frm.TxtRemuestreo3.value;

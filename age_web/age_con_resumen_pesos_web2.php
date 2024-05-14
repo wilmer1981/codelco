@@ -219,7 +219,7 @@ body {
 										
 
 					$LeyCu=0;$LeyAg=0;$LeyAu=0;$LeyCuOri=0;$LeyAgOri=0;$LeyAuOri=0;$LeyCuAj=0;$LeyAgAj=0;$LeyAuAj=0;						
-					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote[lote]."' ";
+					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote["lote"]."' ";
 					$Consulta.= " and fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' order by lote, lpad(recargo,4,'0')";
 					$ContRecargos = 1;
 					//echo "nnnn".$Consulta."<br>";;
@@ -283,7 +283,7 @@ body {
 					if ($OptVer=="L")
 					{	
 						echo "<tr>";
-						echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 						echo "<td align=\"right\">".number_format($TotalPesoHumLote,$DecPHum,',','.')."</td>";
 						echo "<td align=\"right\">".number_format($PorcHumLote,2,',','.')."</td>";
 						echo "<td align=\"right\">".number_format($TotalPesoSecLote,$DecPSeco,',','.')."</td>";															

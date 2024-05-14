@@ -141,15 +141,15 @@
 		{
 			$DatosLote= array();
 			$ArrLeyes=array();
-			$DatosLote["lote"]=$Fila[lote];
+			$DatosLote["lote"]=$Fila["lote"];
 			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
 			echo "<tr>";
-			echo "<td>$Fila[lote]</td>";
+			echo "<td>$Fila["lote"]</td>";
 			echo "<td>$Fila["nom_subproducto"]</td>";
 			echo "<td>".$Fila["rut_proveedor"]." ".$Fila[nom_prv]."</td>";
 			echo "<td>$Fila[nom_recepcion]&nbsp;</td>";
 			echo "<td>$Fila["canjeable"]&nbsp;</td>";
-			$TxtLote=$Fila[lote];
+			$TxtLote=$Fila["lote"];
 			//SOLICITUD DEL LOTE
 			$Consulta = "select distinct t2.nro_solicitud ,t2.recargo , t2.estado_actual, t3.nombre_subclase";
 			$Consulta.= " from age_web.lotes t1 ";

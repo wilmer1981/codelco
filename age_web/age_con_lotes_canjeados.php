@@ -246,13 +246,13 @@ function DetalleLeyes(Lote)
 				{
 					$DatosLote= array();
 					$ArrLeyes=array();
-					$DatosLote["lote"]=$Fila[lote];
+					$DatosLote["lote"]=$Fila["lote"];
 					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
 					echo "<tr>";
-					echo "<td><a href=\"JavaScript:DetalleLote('".$Fila[lote]."')\">$Fila[lote]</a></td>";
+					echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">$Fila["lote"]</a></td>";
 					echo "<td>$Fila["nom_subproducto"]</td>";
 					echo "<td>".$Fila["rut_proveedor"]." ".$Fila[nom_prv]."</td>";
-					echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila[lote]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
+					echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 					echo "<td>";
 					if ($Fila["cod_recepcion"]=="")
 						echo "&nbsp;";

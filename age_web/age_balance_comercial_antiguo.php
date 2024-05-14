@@ -232,7 +232,7 @@ function Proceso(Proceso)
 					{
 						$DatosLote= array();
 						$ArrLeyes=array();
-						$DatosLote["lote"]=$FilaLote[lote];
+						$DatosLote["lote"]=$FilaLote["lote"];
 						LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
 						$Cu_Fino_Ajuste=$Cu_Fino_Ajuste+(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote["peso_seco"])/100;
 						$Cu_Ley_Pqt1=$Cu_Ley_Pqt1+($ArrLeyes["02"][2]*$DatosLote["peso_seco"])/100;
@@ -296,7 +296,7 @@ function Proceso(Proceso)
 					{
 						$DatosLote= array();
 						$ArrLeyes=array();
-						$DatosLote["lote"]=$FilaLote[lote];
+						$DatosLote["lote"]=$FilaLote["lote"];
 						LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
 						$Cu_Fino_Ajuste='-';
 						$Cu_Ley_Pqte1=$Cu_Fino_Pqte1+($ArrLeyes["02"][2]*$DatosLote["peso_seco"])/100;
@@ -357,7 +357,7 @@ function Proceso(Proceso)
 					{
 						$DatosLote= array();
 						$ArrLeyes=array();
-						$DatosLote["lote"]=$FilaLote[lote];
+						$DatosLote["lote"]=$FilaLote["lote"];
 						LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
 						$Cu_Fino_Ajuste=$Cu_Fino_Ajuste+(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote["peso_seco"])/100;
 						$Cu_Ley_Pqt1=$Cu_Ley_Pqt1+($ArrLeyes["02"][2]*$DatosLote["peso_seco"])/100;
@@ -421,7 +421,7 @@ function Proceso(Proceso)
 					{
 						$DatosLote= array();
 						$ArrLeyes=array();
-						$DatosLote["lote"]=$FilaLote[lote];
+						$DatosLote["lote"]=$FilaLote["lote"];
 						LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
 						$Cu_Fino_Ajuste=$Cu_Fino_Ajuste+(($ArrLeyes["02"][8]-$ArrLeyes["02"][2])*$DatosLote["peso_seco"])/100;
 						$Cu_Fino_Pqte1=$Cu_Fino_Pqte1+($ArrLeyes["02"][2]*$DatosLote["peso_seco"])/100;

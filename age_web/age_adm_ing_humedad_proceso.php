@@ -64,7 +64,7 @@
 		$Icono='';
 		if($ArrLeyes["01"][2]=='')
 		{
-			$ExisCalidad="select recargo from cal_web.solicitud_analisis where nro_solicitud='".$SA."' and id_muestra='".$Fila[lote]."' and recargo='".$Fila["recargo"]."'";
+			$ExisCalidad="select recargo from cal_web.solicitud_analisis where nro_solicitud='".$SA."' and id_muestra='".$Fila["lote"]."' and recargo='".$Fila["recargo"]."'";
 			//echo $ExisCalidad;
 			$RExisCal=mysqli_query($link, $ExisCalidad);
 			if(!$FExisCal=mysqli_fetch_array($RExisCal))

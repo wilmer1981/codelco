@@ -269,7 +269,7 @@ body {
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					echo "<tr>";
-					echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
 					$TotalPesoSecLote=0;$TotalPesoHumLote=0;
 					$Consulta = "select ifnull(porc,0) as merma from age_web.mermas ";
@@ -279,7 +279,7 @@ body {
 					$FilaMerma=mysqli_fetch_array($RespMerma);
 					$PorcMerma=str_replace(',','.',$FilaMerma[merma]);
 					$LeyCu=0;$LeyAg=0;$LeyAu=0;					
-					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote[lote]."' order by lote, lpad(recargo,4,'0')";
+					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote["lote"]."' order by lote, lpad(recargo,4,'0')";
 					$ContRecargos = 1;
 					$RespDetLote=mysqli_query($link, $Consulta);
 					while ($FilaDetLote = mysqli_fetch_array($RespDetLote))
@@ -352,7 +352,7 @@ body {
 						$Consulta = "select distinct t1.lote, t2.cod_leyes, (t2.inc_retalla+t2.ley_canje) as valor, t2.pendiente, ";
 						$Consulta.= " (t2.inc_retalla+t2.valor1) as valor1";
 						$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
-						$Consulta.= " where (t1.lote='".$FilaLote[lote]."' and t1.estado_lote <>'6' ";
+						$Consulta.= " where (t1.lote='".$FilaLote["lote"]."' and t1.estado_lote <>'6' ";
 						$Consulta.= " and t1.fecha_canje<='".$TxtFechaCon."') ";
 						$Consulta.= " or (t1.lote='".$Lote["lote"]."' and t1.fecha_fin_canje between '".$TxtFechaIni."' and '".$TxFechaFin."') ";	
 						$Consulta.= " and t2.cod_leyes in('02','04','05')";	

@@ -200,7 +200,7 @@ function Proceso(opt)
 				while($FilaLote=mysql_fetch_array($RespLote))
 				{
 					echo "<tr>";
-					echo "<td align=\"center\">".$FilaLote[lote]."</td>";
+					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
 					$TotalPesoSecLote=0;$TotalPesoHumLote=0;
 					$Anito = substr($TxtFechaIni,0,4);
@@ -242,7 +242,7 @@ function Proceso(opt)
 					$FilaMerma=mysql_fetch_array($RespMerma);
 					$PorcMerma=str_replace(',','.',$FilaMerma[merma]);*/
 					$LeyCu=0;$LeyAg=0;$LeyAu=0;					
-					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote[lote]."' order by lote, lpad(recargo,4,'0')";
+					$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote["lote"]."' order by lote, lpad(recargo,4,'0')";
 					$ContRecargos = 1;
 					$RespDetLote=mysqli_query($link, $Consulta);
 					while ($FilaDetLote = mysql_fetch_array($RespDetLote))

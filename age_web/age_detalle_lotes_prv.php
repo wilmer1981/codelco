@@ -130,14 +130,14 @@ function Detalle(Lote)
 				while ($FilaLote = mysqli_fetch_array($RespLote))
 				{
 					echo "<tr align='center'>\n";
-					echo "<td><a href=JavaScript:Detalle('$FilaLote[lote]')>$FilaLote[lote]</a></td>\n";
+					echo "<td><a href=JavaScript:Detalle('$FilaLote["lote"]')>$FilaLote["lote"]</a></td>\n";
 					if($FilaLote[estado_lote]=='4')
 						echo "<td><STRONG><font color='#000000'>C</font></STRONG></td>\n";
 					else
 						echo "<td><STRONG><font color='#FF0000'>A</font></STRONG></td>\n";	
 					$DatosLote= array();
 					$ArrLeyes=array();
-					$DatosLote["lote"]=$FilaLote[lote];
+					$DatosLote["lote"]=$FilaLote["lote"];
 					DefinirArregloLeyes($Producto,$SubProducto,&$ArrLeyes);
 					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
 					echo "<td>".number_format($DatosLote[peso_humedo],0,'','.')."</td>\n";

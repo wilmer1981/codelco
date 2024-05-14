@@ -306,7 +306,7 @@ if ($Mostrar=="S")
 					 $Resp3=mysqli_query($link, $Consulta);
 					 while($Row=mysqli_fetch_array($Resp3))
 					 {				
-						$LoteR=$LoteR."@".$Row[lote];
+						$LoteR=$LoteR."@".$Row["lote"];
 						$cuenta = $cuenta + 1;
 					 }
 					 $Inserto ="INSERT INTO  age_web.tmp_control(lote_t) values ('".$Lote."')";
