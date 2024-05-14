@@ -1,7 +1,8 @@
 <?php
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -20,6 +21,13 @@
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
+
+	$Mostrar       = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Mes        = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano        = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+
 ?>
 <html>
 <head>
@@ -88,7 +96,7 @@
 			$SA_Par="";
 			$Rec_Par="";
 			//echo $Lote." - ".$M_Paralela."<br>";
-			Leyes($Lote,$M_Paralela,&$Cu_Pri,&$Ag_Pri,&$Au_Pri,&$Cu_Par,&$Ag_Par,&$Au_Par,&$SA_Pri,&$Rec_Pri,&$SA_Par,&$Rec_Par,$Ano);						
+			Leyes($Lote,$M_Paralela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano,$link);						
 			$Cu_Dif=0;
 			$Ag_Dif=0;
 			$Au_Dif=0;
@@ -132,7 +140,7 @@
 			$SA_Rem="";
 			$Rec_Rem="";
 			//echo $Lote." - ".$M_Paralela."<br>";
-			Leyes($LoteNuevo,"",&$Cu_Rem,&$Ag_Rem,&$Au_Rem,&$Cu_Par,&$Ag_Par,&$Au_Par,&$SA_Rem,&$Rec_Rem,&$SA_Par,&$Rec_Par,$Ano);						
+			Leyes($LoteNuevo,"",$Cu_Rem,$Ag_Rem,$Au_Rem,$Cu_Par,$Ag_Par,$Au_Par,$SA_Rem,$Rec_Rem,$SA_Par,$Rec_Par,$Ano,$link);						
 			$Cu_Dif_Rem=0;
 			$Ag_Dif_Rem=0;
 			$Au_Dif_Rem=0;
@@ -204,13 +212,13 @@ function Titulo($Prod, $NomProd, $Proved, $NomProved)
 	echo "<td width=\"57\">Au</td>\n";
 	echo "</tr>\n";
 }//FIN FUNCION TITULO
-function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano)
+function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano,$link)
 {
 	//LEYES DEL PAQUETE PRIMERO
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$Lote;
-	LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+	LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 	$PesoLote=$DatosLote["peso_seco"];
 	$Cu_Pri=$ArrLeyes["02"][2];
 	$Ag_Pri=$ArrLeyes["04"][2];

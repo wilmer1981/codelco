@@ -2,6 +2,12 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 37;
 	include("../principal/conectar_principal.php");
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Mes        = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano        = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Busq       = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
 	
 ?>
 <html>
