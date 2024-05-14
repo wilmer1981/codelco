@@ -1,26 +1,36 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
-	if (!isset($ChkSolicitud))
-		$ChkSolicitud="S";
+
+	$ChkSolicitud  = isset($_REQUEST["ChkSolicitud"])?$_REQUEST["ChkSolicitud"]:"S";
+	$Busq          = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$Mostrar       = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Orden         = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$Mes           = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
+	$Ano           = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Sistema       = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
 	
 ?>
 <html>
@@ -278,7 +288,7 @@ if ($Mostrar=="S")
 		if ($FechaRecepLab!="")
 		{
 			$FechaRecepLote=$Fila["fecha_recepcion"]." ".$Fila["hora_entrada"];
-			DifFecha($FechaRecepLote,$FechaRecepLab,'D',&$DifFecha);
+			DifFecha($FechaRecepLote,$FechaRecepLab,'D',$DifFecha);
 			$ContDias=$ContDias+intval($DifFecha);				
 			echo "<td bgcolor=\"#FFFFFF\">".number_format($DifFecha,0,",",".")."</td>\n";
 		}
@@ -291,7 +301,7 @@ if ($Mostrar=="S")
 		if ($FechaRecepLab!="")
 		{
 			$FechaRecepLote=$Fila["fecha_recepcion"]." ".$Fila["hora_entrada"];
-			DifFecha($FechaRecepLote,$FechaRecepLab,'H', &$DifFecha);
+			DifFecha($FechaRecepLote,$FechaRecepLab,'H', $DifFecha);
 			$ContHrs=$ContHrs+$DifFecha;				
 			echo "<td bgcolor=\"#FFFFFF\">".number_format($DifFecha,2,",",".")."</td>\n";
 		}
@@ -307,7 +317,7 @@ if ($Mostrar=="S")
 		//DIFERENCIA DE RECEP.LAB Y FINALIZADA Dias.
 		if ($FechaRecepLab!="" && $FechaFinaliz!="")
 		{
-			DifFecha($FechaRecepLab,$FechaFinaliz,'D', &$DifFecha);
+			DifFecha($FechaRecepLab,$FechaFinaliz,'D', $DifFecha);
 			$ContDias=$ContDias+intval($DifFecha);	
 			echo "<td bgcolor=\"#FFFFFF\">".number_format($DifFecha,0,",",".")."</td>\n";
 		}
@@ -319,7 +329,7 @@ if ($Mostrar=="S")
 		//DIFERENCIA DE RECEP.LAB Y FINALIZADA HORAS Y MIN.
 		if ($FechaRecepLab!="" && $FechaFinaliz!="")
 		{
-			DifFecha($FechaRecepLab,$FechaFinaliz,'H', &$DifFecha);
+			DifFecha($FechaRecepLab,$FechaFinaliz,'H', $DifFecha);
 			$ContHrs=$ContHrs+$DifFecha;	
 			echo "<td bgcolor=\"#FFFFFF\">".number_format($DifFecha,2,",",".")."</td>\n";
 		}
@@ -334,7 +344,7 @@ if ($Mostrar=="S")
 			//DIFERENCIA DE RECEP.LAB Y FINALIZADA DIAS.
 			if ($Fila["fecha_cierre_op"]!="0000-00-00")
 			{
-				DifFecha($FechaFinaliz,$Fila["fecha_cierre_op"],'D', &$DifFecha);
+				DifFecha($FechaFinaliz,$Fila["fecha_cierre_op"],'D', $DifFecha);
 				$ContDias=$ContDias+intval($DifFecha);	
 				echo "<td bgcolor=\"#FFFFFF\">".number_format($DifFecha,0,",",".")."</td>\n";
 			}
@@ -345,7 +355,7 @@ if ($Mostrar=="S")
 			//DIFERENCIA DE RECEP.LAB Y FINALIZADA HORAS Y MIN.
 			if ($Fila["fecha_cierre_op"]!="0000-00-00")
 			{
-				DifFecha($FechaFinaliz,$Fila["fecha_cierre_op"],'H', &$DifFecha);
+				DifFecha($FechaFinaliz,$Fila["fecha_cierre_op"],'H', $DifFecha);
 				$ContHrs=$ContHrs+$DifFecha;	
 				echo "<td bgcolor=\"#FFFFFF\">".number_format($DifFecha,2,",",".")."</td>\n";
 			}
