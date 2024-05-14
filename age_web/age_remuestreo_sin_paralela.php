@@ -3,6 +3,13 @@
 	$CodigoDePantalla = 103;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
+
+	$Mostrar       = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$TxtRemuestreo = isset($_REQUEST["TxtRemuestreo"])?$_REQUEST["TxtRemuestreo"]:"";
+	$TxtLote       = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Ano           = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+	$Recargo       = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+	
 	
 ?>
 <html>
@@ -163,7 +170,8 @@ if ($Mostrar=="S")
 		//echo $Consulta."<br>";
 		while ($Fila2 = mysqli_fetch_array($Resp2))
 		{
-			$Lote=$Fila2["lote"];
+			$Lote    = isset($Fila2["lote"])?$Fila2["lote"]:"";
+			$recargo = isset($Fila2["recargo"])?$Fila2["recargo"]:"";
 			if ($Fila2["estado_lote"]=="6")//ANULADA POR REMUESTREO			
 			{					
 				$Consulta = "select * from age_web.lotes where estado_lote <>'6' and num_lote_remuestreo='".$Lote."'";
@@ -183,8 +191,8 @@ if ($Mostrar=="S")
 			$Au_Par=0;
 			$SA_Pri="";
 			$SA_Par="";
-			Leyes($Lote,'',&$Cu_Pri,&$Ag_Pri,&$Au_Pri,&$Cu_Par,&$Ag_Par,&$Au_Par,&$SA_Pri,&$SA_Par, $Ano);						
-			$Valores = $Lote."~~".$Fila2["recargo"];
+			Leyes($Lote,'',$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);						
+			$Valores = $Lote."~~".$recargo;
 			echo "<tr align=\"center\">\n";
 			echo "<td><a href=\"JavaScript:Historial('".$SA_Pri."','0')\">".$Lote."</a></td>\n";			
 			echo "<td align=\"right\">".number_format($Cu_Pri,3,",",".")."</td>\n";
@@ -247,21 +255,22 @@ function Titulo($Prod, $NomProd, $Proved, $NomProved)
 	echo "</tr>\n";
 }//FIN FUNCION TITULO
 
-function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par,$Ano)
+function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par,$Ano,$link)
 {
 	//LEYES DEL PAQUETE PRIMERO
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$Lote;
-	LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
-	$PesoLote=$DatosLote["peso_seco"];
-	$Cu_Pri=$ArrLeyes["02"][2];
-	$Ag_Pri=$ArrLeyes["04"][2];
-	$Au_Pri=$ArrLeyes["05"][2];
+	LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+	$PesoLote        = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+	$fecha_recepcion = isset($DatosLote["fecha_recepcion"])?$DatosLote["fecha_recepcion"]:"";
+	$Cu_Pri=isset($ArrLeyes["02"][2])?$ArrLeyes["02"][2]:"";
+	$Ag_Pri=isset($ArrLeyes["04"][2])?$ArrLeyes["04"][2]:"";
+	$Au_Pri=isset($ArrLeyes["05"][2])?$ArrLeyes["05"][2]:"";
 	//BUSCA DATOS MUESTRA PARALELA
 	$Consulta="select * from cal_web.solicitud_analisis ";
 	$Consulta.= " where id_muestra='".$MuestraParalela."' and tipo=4 and recargo='R' ";
-	$Consulta.= " and year(fecha_muestra)='".substr($DatosLote["fecha_recepcion"],0,4)."'";
+	$Consulta.= " and year(fecha_muestra)='".substr($fecha_recepcion,0,4)."'";
 	$Respuesta=mysqli_query($link, $Consulta);
 	if($FilaLeyes=mysqli_fetch_array($Respuesta))
 	{
@@ -271,7 +280,7 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	$Consulta="select * from age_web.leyes_por_lote ";
 	$Consulta.= " where lote='".$MuestraParalela."' ";
 	$Consulta.= " and recargo='0' and cod_leyes in('02','04','05') ";
-	$Consulta.= " and ano='".substr($DatosLote["fecha_recepcion"],0,4)."' ";
+	$Consulta.= " and ano='".substr($fecha_recepcion,0,4)."' ";
 	$Cu_Par=0;
 	$Ag_Par=0;
 	$Au_Par=0;
@@ -296,7 +305,7 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	$Consulta.= " t1.cod_unidad=t2.cod_unidad ";
 	$Consulta.= " where t1.lote='".$MuestraParalela."' ";
 	$Consulta.= " and t1.recargo='R'";	
-	$Consulta.= " and ano='".substr($DatosLote["fecha_recepcion"],0,4)."' ";
+	$Consulta.= " and ano='".substr($fecha_recepcion,0,4)."' ";
 	$Consulta.= " order by t1.cod_leyes";
 	//echo $Consulta."<br>";
 	$RespLeyes = mysqli_query($link, $Consulta);
@@ -330,6 +339,7 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	}
 	
 	//CONSULTA LA S.A. PAQUETE PRIMERO
+	$Recargo=""; //WSO
 	$Consulta = "select distinct t1.id_muestra,t1.nro_solicitud, t1.recargo ";
 	$Consulta.= " from cal_web.solicitud_analisis t1 ";
 	$Consulta.= " where t1.id_muestra='".$Lote."' and t1.agrupacion in(1,3,6)";// and t1.cod_producto='1' and t1.cod_subproducto='$CodSubProducto'";

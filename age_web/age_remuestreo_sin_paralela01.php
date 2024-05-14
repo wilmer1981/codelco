@@ -1,14 +1,18 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtLote  = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
 	switch ($Proceso)
 	{
 		case "G":
 			$Datos1=explode("//",$Valores);
-			while (list($k,$v)=each($Datos1))
+			foreach($Datos1 as $k=>$v)
 			{
 				$Datos2=explode("~~",$v);
-				$Lote = $Datos2[0];
-				$Recargo = $Datos2[1];
+				$Lote       = $Datos2[0];
+				$Recargo    = $Datos2[1];
 				$Remuestreo = $Datos2[2];
 				//echo "REMUESTREO= ".$Remuestreo."<br>";
 				$Ajuste="";
@@ -123,11 +127,11 @@
 			break;
 			case "ER":
 			$Datos1=explode("//",$Valores);
-			while (list($k,$v)=each($Datos1))
+			foreach($Datos1 as $k=>$v)
 			{
 				$Datos2=explode("~~",$v);
-				$Lote = $Datos2[0];
-				$Recargo = $Datos2[1];
+				$Lote       = $Datos2[0];
+				$Recargo    = $Datos2[1];
 				$Remuestreo = $Datos2[2];
 				//CAMBIA EL ESTADO DEL EX_LOTE
 				$Actualizar = "UPDATE age_web.lotes set ";

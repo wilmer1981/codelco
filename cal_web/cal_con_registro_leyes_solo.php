@@ -2,8 +2,26 @@
 $CodigoDeSistema = 1;
 include("../principal/conectar_principal.php");
 
-$SA = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+$SA      = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
 $Recargo = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+$NombreF = isset($_REQUEST["NombreF"])?$_REQUEST["NombreF"]:"";
+$TxtMuestra = isset($_REQUEST["TxtMuestra"])?$_REQUEST["TxtMuestra"]:"";
+$TxtFechaMuestra = isset($_REQUEST["TxtFechaMuestra"])?$_REQUEST["TxtFechaMuestra"]:"";
+$TxtProductos    = isset($_REQUEST["TxtProductos"])?$_REQUEST["TxtProductos"]:"";
+$TxtLeyes  = isset($_REQUEST["TxtLeyes"])?$_REQUEST["TxtLeyes"]:"";
+$TxtSALIMS = isset($_REQUEST["TxtSALIMS"])?$_REQUEST["TxtSALIMS"]:"";
+$TxtSA     = isset($_REQUEST["TxtSA"])?$_REQUEST["TxtSA"]:"";
+$TxtCCosto     = isset($_REQUEST["TxtCCosto"])?$_REQUEST["TxtCCosto"]:"";
+$TxtAgrupacion     = isset($_REQUEST["TxtAgrupacion"])?$_REQUEST["TxtAgrupacion"]:"";
+$TxtArea     = isset($_REQUEST["TxtArea"])?$_REQUEST["TxtArea"]:"";
+$TxtAnalisis     = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
+$TxtTipo     = isset($_REQUEST["TxtTipo"])?$_REQUEST["TxtTipo"]:"";
+$TxtFechaC     = isset($_REQUEST["TxtFechaC"])?$_REQUEST["TxtFechaC"]:"";
+$TxtAnalisis     = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
+$TxtAnalisis     = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
+
+
+
 
 //CONSULTA DATOS BASE
 $Consulta ="SELECT * ";
@@ -33,7 +51,7 @@ if ($Row = mysqli_fetch_array($Respuesta))
 	//echo $TxtSALIMS;
 	$TxtProductos = $Row["descripcion"];
 	$RutOriginador=$Row["rut_funcionario"];
-	$TxtMuestra = $Row["id_muestra"];
+	$TxtMuestra   = $Row["id_muestra"];
 	if(isset($Row["nro_lote"])){
 		$TxtLotes = $Row["nro_lote"];
 	}else{
@@ -51,10 +69,10 @@ if ($Row = mysqli_fetch_array($Respuesta))
 	$TxtFechaC = substr($Row["fecha_hora"],8,2)."-".substr($Row["fecha_hora"],5,2)."-".substr($Row["fecha_hora"],0,4)." ".substr($Row["fecha_hora"],12);
 	$Consulta = "SELECT * from proyecto_modernizacion.funcionarios where rut = '".$Row["rut_funcionario"]."'";
 	$Respuesta2 = mysqli_query($link, $Consulta);
-	$NombreF = "";
+	//$NombreF = "";
 	if ($Row2 = mysqli_fetch_array($Respuesta2))
 	{
-		$NombreF.= ucwords(strtolower($Row2["apellido_paterno"]))." ".ucwords(strtolower($Row2["apellido_materno"]))." ".ucwords(strtolower($Row2["nombres"]));
+		$NombreF = ucwords(strtolower($Row2["apellido_paterno"]))." ".ucwords(strtolower($Row2["apellido_materno"]))." ".ucwords(strtolower($Row2["nombres"]));
 	}
 }
 //Consulta leyes
@@ -241,7 +259,7 @@ function Imprimir()
 				}
 				$Resp = mysqli_query($link, $Consulta); 
 				$Fila25=mysqli_fetch_array($Resp);
-				$TxtAgrupacion = $Fila25["nombre_subclase"];
+				$TxtAgrupacion = isset($Fila25["nombre_subclase"])?$Fila25["nombre_subclase"]:"";
 
 			
 			?>
@@ -272,7 +290,7 @@ function Imprimir()
 			$Consulta= $Consulta."  where nro_solicitud ='".$SA."'  ";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila50=mysqli_fetch_array($Respuesta);
-			$TxtArea=$Fila50["nombre_subclase"];
+			$TxtArea=isset($Fila50["nombre_subclase"])?$Fila50["nombre_subclase"]:"";
 			?>
               <input name="TxtArea" type="text" style='width:250'  readonly id="TxtArea3" value="<?php echo $TxtArea;?>">
               </strong></td>
@@ -291,9 +309,7 @@ function Imprimir()
 				$Consulta = $Consulta." where nro_solicitud ='".$SA."' "; 
 				$Respuesta3 = mysqli_query($link, $Consulta); 
 				$Fila3=mysqli_fetch_array($Respuesta3);
-				$TxtAnalisis = $Fila3["nombre_subclase"];
-
-			
+				$TxtAnalisis = isset($Fila3["nombre_subclase"])?$Fila3["nombre_subclase"]:"";			
 			?>
               <input name="TxtAnalisis" type="text" readonly style="width:250" value="<?php  echo $TxtAnalisis  ?>">
               </strong></td>
@@ -347,9 +363,7 @@ function Imprimir()
 				$Consulta = $Consulta." where nro_solicitud ='".$SA."' "; 
 				$Res = mysqli_query($link, $Consulta); 
 				$Fil26=mysqli_fetch_array($Res);
-				$TxtTipo = $Fil26["nombre_subclase"];
-
-			
+				$TxtTipo = isset($Fil26["nombre_subclase"])?$Fil26["nombre_subclase"]:"";			
 			?>
               <input name="TxtTipo" type="text" id="TxtTipo" style="width:250" value="<?php  echo $TxtTipo; ?>" readonly>
               </strong></td>
@@ -973,13 +987,13 @@ function Imprimir()
 	$Consulta = "SELECT * from cal_web.registro_leyes ";
 	if($Recargo == 'N')
 	{
-		$Consulta.=" where nro_solicitud = ".$SA." order by fecha_hora, recargo, cod_leyes";
+		$Consulta.=" where nro_solicitud = ".$SA." ORDER BY fecha_hora, recargo, cod_leyes";
 	}
 	else
 	{
-		$Consulta.=" where nro_solicitud = ".$SA." and recargo ='".$Recargo."'   order by fecha_hora, recargo, cod_leyes";
+		$Consulta.=" where nro_solicitud = ".$SA." and recargo =".$Recargo." ORDER BY fecha_hora, recargo, cod_leyes";
 	}
-	//echo $Consulta;
+	echo $Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Row = mysqli_fetch_array($Respuesta))
 	{
