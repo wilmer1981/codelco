@@ -1,5 +1,14 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proc  = isset($_REQUEST["Proc"])?$_REQUEST["Proc"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$TxtLab  = isset($_REQUEST["TxtLab"])?$_REQUEST["TxtLab"]:"";
+	$TxtCod  = isset($_REQUEST["TxtCod"])?$_REQUEST["TxtCod"]:"";
+	$CmbTipoCambio  = isset($_REQUEST["CmbTipoCambio"])?$_REQUEST["CmbTipoCambio"]:"";
+	$TxtValorCu  = isset($_REQUEST["TxtValorCu"])?$_REQUEST["TxtValorCu"]:"";
+	$TxtValorAg  = isset($_REQUEST["TxtValorAg"])?$_REQUEST["TxtValorAg"]:"";
+	$TxtValorAu  = isset($_REQUEST["TxtValorAu"])?$_REQUEST["TxtValorAu"]:"";
+
 	switch($Proc)
 	{
 		case "M":
@@ -11,9 +20,9 @@
 				$TxtLab=$Fila["nombre_subclase"];
 				$TxtCod=$Fila["cod_subclase"];
 				$CmbTipoCambio=$Fila["valor_subclase1"];
-				$TxtValorCu=$Fila[valor_subclase2];
-				$TxtValorAg=$Fila[valor_subclase3];
-				$TxtValorAu=$Fila[valor_subclase4];
+				$TxtValorCu=$Fila["valor_subclase2"];
+				$TxtValorAg=$Fila["valor_subclase3"];
+				$TxtValorAu=$Fila["valor_subclase4"];
 			}	
 			break;
 		case "N":
@@ -21,7 +30,7 @@
 			$Resp = mysqli_query($link, $Consulta);
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				$TxtCod=$Fila[cod];
+				$TxtCod=$Fila["cod"];
 			}	
 			break;
 	}
@@ -60,11 +69,9 @@ function Proceso(opt)
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 <body leftmargin="3" topmargin="5">
 <form name="frmPopUp" action="" method="post">

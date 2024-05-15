@@ -1,5 +1,16 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$TxtLab  = isset($_REQUEST["TxtLab"])?$_REQUEST["TxtLab"]:"";
+	$TxtCod  = isset($_REQUEST["TxtCod"])?$_REQUEST["TxtCod"]:"";
+	$CmbTipoCambio  = isset($_REQUEST["CmbTipoCambio"])?$_REQUEST["CmbTipoCambio"]:"";
+	$TxtValorCu  = isset($_REQUEST["TxtValorCu"])?$_REQUEST["TxtValorCu"]:"";
+	$TxtValorAg  = isset($_REQUEST["TxtValorAg"])?$_REQUEST["TxtValorAg"]:"";
+	$TxtValorAu  = isset($_REQUEST["TxtValorAu"])?$_REQUEST["TxtValorAu"]:"";
+	$ChkSelec    = isset($_REQUEST["ChkSelec"])?$_REQUEST["ChkSelec"]:"";
+
 	switch ($Proceso)
 	{
 		case "N":

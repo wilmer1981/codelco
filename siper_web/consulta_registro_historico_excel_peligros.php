@@ -106,7 +106,7 @@ if(!isset($FHasta))
 			while ($Fila=mysql_fetch_array($Resp))
 			{
 				$CantReg=$CantReg+$Fila["cant_reg"];
-				$Organica=explode(',',$Fila[cod]);
+				$Organica=explode(',',$Fila["cod"]);
 				echo "<tr>";$NomOrganica1='&nbsp;';$NomOrganica2='&nbsp;';$NomOrganica3='&nbsp;';$NomOrganica4='&nbsp;';$NomOrganica8='&nbsp;';
 				while(list($c,$v)=each($Organica))
 				{

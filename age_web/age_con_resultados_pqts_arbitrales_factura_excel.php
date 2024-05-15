@@ -29,7 +29,7 @@
 	$CmbTipoMoneda=$Fila["valor_subclase1"];
 	$PrecioCu=$Fila["valor_subclase2"];
 	$PrecioAg=$Fila["valor_subclase3"];
-	$PrecioAu=$Fila[valor_subclase4];
+	$PrecioAu=$Fila["valor_subclase4"];
 	
 	if(!isset($TxtOrdenEnsaye))
 		$TxtOrdenEnsaye=$TxtOrdenEns;
