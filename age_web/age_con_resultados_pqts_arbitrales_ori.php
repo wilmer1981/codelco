@@ -269,7 +269,7 @@ body {
 				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][4]=$FilaLeyes["valor3"];
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 				{
@@ -304,7 +304,7 @@ body {
 					echo "<td align='center'>-</td>";
 			}
 			reset($ArrLeyesCanje);			
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 				{
@@ -340,7 +340,7 @@ body {
 					
 			}		
 			echo "<td>".$Fila["nom_lab"]."&nbsp;</td>";
-			echo "<td>".$Fila[orden_ensaye]."&nbsp;</td>";
+			echo "<td>".$Fila["orden_ensaye"]."&nbsp;</td>";
 			echo "<td>".substr($Fila[fecha_recepcion],2)."</td>";
 			echo "<td>".substr($Fila["fecha_canje"],2)."</td>";
 			if($Fila[fecha_sol_pqts]!='0000-00-00')
@@ -349,7 +349,7 @@ body {
 				echo "<td>&nbsp;</td>";
 			echo "<td>".substr($Fila[fecha_recepcion],2)."</td>";
 			/*reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td align='right'>".number_format($v[2],1,'.',',')."</td>";
@@ -357,7 +357,7 @@ body {
 					echo "<td align='center'>-</td>";
 			}					
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td align='right'>".number_format($v[3],1,'.',',')."</td>";
@@ -365,7 +365,7 @@ body {
 					echo "<td align='center'>-</td>";
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td bgcolor='#CCFFFF' align='right'>".number_format($v[4],1,'.',',')."</td>";
@@ -373,7 +373,7 @@ body {
 					echo "<td bgcolor='#CCFFFF' align='center'>-</td>";
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td bgcolor='#99FFCC' align='right'>".number_format($v[2]-$v[4],1,'.',',')."</td>";
@@ -381,7 +381,7 @@ body {
 					echo "<td bgcolor='#99FFCC' align='center'>-</td>";
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td bgcolor='#66CCFF' align='right'>".number_format($v[3]-$v[4],1,'.',',')."</td>";

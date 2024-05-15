@@ -230,7 +230,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][4]=$FilaLeyes["valor3"];
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 				{
@@ -255,7 +255,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				}	
 			}
 			reset($ArrLeyesCanje);			
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 				{

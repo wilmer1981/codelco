@@ -145,7 +145,7 @@
 				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][4]=$FilaLeyes["valor3"];
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td>".$v[1]."</td>";

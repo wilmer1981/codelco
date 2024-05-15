@@ -430,7 +430,7 @@
 							echo "<tr bgcolor='#FFFFFF'> \n";
 							echo "<td>".$Row["lote"]."</td>\n";
 						echo "<td>".$Row["recargo"]."</td>\n";
-						echo "<td>".$Row[fecha_recepcion]."</td>\n";
+						echo "<td>".$Row["fecha_recepcion"]."</td>\n";
 						echo "<td>".$Row["hora_entrada"]."</td>\n";
 						echo "<td>".$Row["hora_salida"]."</td>\n";
 						echo "<td>".$Row[folio]."</td>\n";
@@ -462,7 +462,7 @@
 							echo "<tr bgcolor='#FFFFFF'> \n";
 						echo "<td>".$Row[folio]."</td>\n";
 						echo "<td>".$Row["corr"]."</td>\n";
-						echo "<td>".$Row[fecha_recepcion]."</td>\n";
+						echo "<td>".$Row["fecha_recepcion"]."</td>\n";
 						echo "<td>".$Row["hora_entrada"]."</td>\n";
 						echo "<td>".$Row["hora_salida"]."</td>\n";
 						echo "<td>".$Row["lote"]."</td>\n";

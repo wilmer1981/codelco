@@ -192,7 +192,7 @@
 			while($FilaLeyes=mysqli_fetch_array($RespLeyes))
 			{
 				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor1"];
-				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][3]=$FilaLeyes[valor2];
+				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][3]=$FilaLeyes["valor2"];
 				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][4]=$FilaLeyes["valor3"];
 			}
 			reset($ArrLeyesCanje);
@@ -204,10 +204,10 @@
 					echo "<td>-</td>";
 			}			
 			echo "<td>".$Fila["nom_lab"]."&nbsp;</td>";
-			echo "<td>".substr($Fila[fecha_recepcion],2)."</td>";
+			echo "<td>".substr($Fila["fecha_recepcion"],2)."</td>";
 			echo "<td>".substr($Fila["fecha_canje"],2)."</td>";
-			if($Fila[fecha_sol_pqts]!='0000-00-00')
-				echo "<td>".substr($Fila[fecha_sol_pqts],2)."&nbsp;</td>";
+			if($Fila["fecha_sol_pqts"]!='0000-00-00')
+				echo "<td>".substr($Fila["fecha_sol_pqts"],2)."&nbsp;</td>";
 			else
 				echo "<td>&nbsp;</td>";
 			echo "<td>&nbsp;</td>";

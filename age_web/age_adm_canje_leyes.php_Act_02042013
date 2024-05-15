@@ -118,7 +118,7 @@
 								if($FilaLeyes[provisional]!='N')//CUANDO NO ES VIRTUAL
 									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor"];//VALOR LEY PQTE 1 
 								else
-									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor2];//VALOR LEY PROVISIONAL
+									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor2"];//VALOR LEY PROVISIONAL
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][3]='';//VALOR LEY PQTE 2 
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][4]='';//VALOR LEY PQTE 3 
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][5]='';//VALOR LEY PQTE 4 
@@ -154,7 +154,7 @@
 							$Fila["valor1"] = $valorau;
 						}
 						$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila["valor1"]*1;//VALOR LEY PQTE 1 
-						$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila[valor2]*1;//VALOR LEY PQTE 2 
+						$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila["valor2"]*1;//VALOR LEY PQTE 2 
 						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"]*1;//VALOR LEY PQTE 3 		
 						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"]*1;//VALOR LEY PQTE 3 
 						$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila["valor4"]*1;//VALOR LEY PQTE 4 
