@@ -1,7 +1,17 @@
 <?php
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=100;
-	if(!isset($CmbMes))
+	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$Recarga    = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TipoBusqueda = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	$EstadoInput = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$TxtLoteIni  = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin  = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+	$Petalo      = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+
+	if($CmbMes=="")
 	{
 		$LoteIni=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."0001";
 		$LoteFin=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."9999";
@@ -89,12 +99,10 @@ function DetalleLeyes(Lote)
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style>
 </head>
 <body onLoad="window.document.frmPrincipal.TxtLoteIni.focus();">
@@ -223,7 +231,7 @@ body {
 			$ArrLeyesCanje["05"][4]=0;
 			echo "<tr>";
 			echo "<td>".$Cont."</td>";
-			echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">$Fila["lote"]</a></td>";
+			echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">".$Fila["lote"]."</a></td>";
 			echo "<td>".$Fila["nom_prv"]."</td>";
 			$Consulta="select * from age_web.leyes_por_lote_canje where lote='".$Fila["lote"]."' and paquete_canje='2' and pendiente='S'";
 			$RespLeyes=mysqli_query($link, $Consulta);
@@ -243,8 +251,8 @@ body {
 			}			
 			echo "<td>".$Fila["nom_lab"]."&nbsp;</td>";
 			echo "<td>".substr($Fila["fecha_canje"],2)."</td>";
-			if($Fila[fecha_sol_pqts]!='0000-00-00')
-				echo "<td>".substr($Fila[fecha_sol_pqts],2)."&nbsp;</td>";
+			if($Fila["fecha_sol_pqts"]!='0000-00-00')
+				echo "<td>".substr($Fila["fecha_sol_pqts"],2)."&nbsp;</td>";
 			else
 				echo "<td>&nbsp;</td>";
 			echo "</tr>";
