@@ -343,8 +343,8 @@ function ObtieneCantidad($CmbSuministro,$Ano,$Mes,$ValorConv,$TipoSumi,$TipoCalc
 		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysql_fetch_array($Resp))
 		{
-			$Cant=$Cant+($Fila[cant])*$ValorConv;
-			//echo "cant:".$Fila[cant]."<br>";
+			$Cant=$Cant+($Fila["cant"])*$ValorConv;
+			//echo "cant:".$Fila["cant"]."<br>";
 			//echo "conv:".$ValorConv."<br><br>";
 		}
 	}
@@ -404,7 +404,7 @@ function ObtienePrecioPpto($CmbSuministro,$Ano,$Mes,$TipoCalc)
 	$Resp=mysqli_query($link, $Consulta);
 	if ($Fila=mysql_fetch_array($Resp))
 	{
-		$PrecioPpto=$Fila[valor]/$Fila[cant];
+		$PrecioPpto=$Fila[valor]/$Fila["cant"];
 	}
 	return($PrecioPpto);
 

@@ -1,26 +1,36 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");			
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=95;
-	if(!isset($CmbMes))
+
+	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$Buscar      = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TipoBusqueda = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	$TxtLoteIni  = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin  = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+	$Petalo      = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+
+	if($CmbMes=="")
 	{
 		$LoteIni=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."0001";
 		$LoteFin=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."9999";
@@ -44,7 +54,7 @@
 	$Respuesta=mysqli_query($link, $Consulta);
 	if($Fila=mysqli_fetch_array($Respuesta))
 	{
-		$CantLotesCanjeados=$Fila[cant];
+		$CantLotesCanjeados=$Fila["cant"];
 	}
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");		
 ?>
@@ -154,6 +164,7 @@
 		$Consulta.=" and t1.canjeable='S' group by t1.lote";
 		//echo $Consulta."<br>";
 		$Resp = mysqli_query($link, $Consulta);
+		$Cont=1;
 		while($Fila = mysqli_fetch_array($Resp))
 		{
 			$ArrLeyesCanje=array();
@@ -175,7 +186,7 @@
 			echo "<tr>";
 			echo "<td>".$Cont."</td>";
 			echo "<td>".$Fila["lote"]."</td>";
-			echo "<td>".$Fila[nom_prv]."</td>";
+			echo "<td>".$Fila["nom_prv"]."</td>";
 			$Consulta="select * from age_web.leyes_por_lote_canje where lote='".$Fila["lote"]."' and paquete_canje='3'";
 			$RespLeyes=mysqli_query($link, $Consulta);
 			while($FilaLeyes=mysqli_fetch_array($RespLeyes))
@@ -185,23 +196,23 @@
 				$ArrLeyesCanje[$FilaLeyes["cod_leyes"]][4]=$FilaLeyes["valor3"];
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td>".$v[1]."</td>";
 				else
 					echo "<td>-</td>";
 			}			
-			echo "<td>".$Fila[nom_lab]."&nbsp;</td>";
+			echo "<td>".$Fila["nom_lab"]."&nbsp;</td>";
 			echo "<td>".substr($Fila[fecha_recepcion],2)."</td>";
-			echo "<td>".substr($Fila[fecha_canje],2)."</td>";
+			echo "<td>".substr($Fila["fecha_canje"],2)."</td>";
 			if($Fila[fecha_sol_pqts]!='0000-00-00')
 				echo "<td>".substr($Fila[fecha_sol_pqts],2)."&nbsp;</td>";
 			else
 				echo "<td>&nbsp;</td>";
 			echo "<td>&nbsp;</td>";
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td align='right'>".number_format($v[2],1,'.',',')."</td>";
@@ -209,7 +220,7 @@
 					echo "<td align='center'>-</td>";
 			}					
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td align='right'>".number_format($v[3],1,'.',',')."</td>";
@@ -217,7 +228,7 @@
 					echo "<td align='center'>-</td>";
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td bgcolor='#CCFFFF' align='right'>".number_format($v[4],1,'.',',')."</td>";
@@ -225,7 +236,7 @@
 					echo "<td bgcolor='#CCFFFF' align='center'>-</td>";
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td bgcolor='#99FFCC' align='right'>".number_format($v[2]-$v[4],1,'.',',')."</td>";
@@ -233,7 +244,7 @@
 					echo "<td bgcolor='#99FFCC' align='center'>-</td>";
 			}
 			reset($ArrLeyesCanje);
-			while(list($c,$v)=each($ArrLeyesCanje))
+			foreach($ArrLeyesCanje as $c=>$v)
 			{
 				if($v[2]!=0)
 					echo "<td bgcolor='#66CCFF' align='right'>".number_format($v[3]-$v[4],1,'.',',')."</td>";

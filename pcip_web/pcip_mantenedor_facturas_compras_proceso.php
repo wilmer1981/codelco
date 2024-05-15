@@ -94,7 +94,7 @@ if ($Opc=='M')
 		$Resp=mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
 		$Fila=mysql_fetch_array($Resp);
-		$CantDef=$Fila[cant];	
+		$CantDef=$Fila["cant"];	
 		if($CantDef>1&&$Correlativo!='')
 		{
 			$Consulta=" select valor_neto,valor_neto2,tipo_factura from pcip_fac_compra_finos_relacion";

@@ -150,7 +150,7 @@
 					echo "<tr>";
 					echo "<td>$Fila["lote"]</td>";
 					echo "<td>$Fila["nom_subproducto"]</td>";
-					echo "<td>".$Fila["rut_proveedor"]." ".$Fila[nom_prv]."</td>";
+					echo "<td>".$Fila["rut_proveedor"]." ".$Fila["nom_prv"]."</td>";
 					echo "<td>$Fila["cod_recepcion"]</td>";
 					echo "<td align='right'>".number_format($DatosLote[peso_humedo],0,'','.')."</td>";
 					echo "<td align='right'>".number_format($DatosLote[peso_seco],0,'','.')."</td>";
@@ -162,7 +162,7 @@
 				$TotPSecoProd=$TotPSecoProd+$TotPSecoProv;
 				echo "<tr>";
 				echo "<td>&nbsp;</td>";
-				echo '<td colspan="3">PROVEEDOR:&nbsp;'.$FilaProv["rut_proveedor"].' - '.$FilaProv[nom_prv].'</td>';
+				echo '<td colspan="3">PROVEEDOR:&nbsp;'.$FilaProv["rut_proveedor"].' - '.$FilaProv["nom_prv"].'</td>';
 				echo "<td align='right'>".number_format($TotPHumProv,0,'','.')."</td>";
 				echo "<td align='right'>".number_format($TotPSecoProv,0,'','.')."</td>";
 				echo "</tr>";

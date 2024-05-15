@@ -130,7 +130,7 @@
 				{						
 					echo "<tr>\n";
 					echo "<td align=\"right\">".$FilaPrv["rut_proveedor"]."</td>";
-					echo "<td align=\"left\">".substr(strtoupper($FilaPrv[nom_prv]),0,30)."</td>\n";
+					echo "<td align=\"left\">".substr(strtoupper($FilaPrv["nom_prv"]),0,30)."</td>\n";
 					$ArrDatos=array();
 					$ArrLeyesProv=array();
 					$ArrLeyesProv["01"][0]="01";$ArrLeyesProv["02"][0]="02";$ArrLeyesProv["04"][0]="04";$ArrLeyesProv["05"][0]="05";

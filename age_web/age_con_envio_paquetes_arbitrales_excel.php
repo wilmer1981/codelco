@@ -44,7 +44,7 @@
 	$Respuesta=mysqli_query($link, $Consulta);
 	if($Fila=mysqli_fetch_array($Respuesta))
 	{
-		$CantLotesCanjeados=$Fila[cant];
+		$CantLotesCanjeados=$Fila["cant"];
 	}
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");		
 ?>
@@ -135,7 +135,7 @@
 			echo "<tr>";
 			echo "<td>".$Cont."</td>";
 			echo "<td>".$Fila["lote"]."</td>";
-			echo "<td>".$Fila[nom_prv]."</td>";
+			echo "<td>".$Fila["nom_prv"]."</td>";
 			$Consulta="select * from age_web.leyes_por_lote_canje where lote='".$Fila["lote"]."' and paquete_canje='2' and pendiente='S'";
 			$RespLeyes=mysqli_query($link, $Consulta);
 			while($FilaLeyes=mysqli_fetch_array($RespLeyes))
@@ -152,8 +152,8 @@
 				else
 					echo "<td>-</td>";
 			}			
-			echo "<td>".$Fila[nom_lab]."&nbsp;</td>";
-			echo "<td>".$Fila[fecha_canje]."</td>";
+			echo "<td>".$Fila["nom_lab"]."&nbsp;</td>";
+			echo "<td>".$Fila["fecha_canje"]."</td>";
 			if($Fila[fecha_sol_pqts]!='0000-00-00')
 				echo "<td>".$Fila[fecha_sol_pqts]."&nbsp;</td>";
 			else

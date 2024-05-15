@@ -25,7 +25,7 @@
 	$Respuesta=mysqli_query($link, $Consulta);
 	if($Fila=mysqli_fetch_array($Respuesta))
 	{
-		$CantLotesCanjeados=$Fila[cant];
+		$CantLotesCanjeados=$Fila["cant"];
 	}
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");		
 ?>
@@ -251,7 +251,7 @@ function DetalleLeyes(Lote)
 					echo "<tr>";
 					echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">$Fila["lote"]</a></td>";
 					echo "<td>$Fila["nom_subproducto"]</td>";
-					echo "<td>".$Fila["rut_proveedor"]." ".$Fila[nom_prv]."</td>";
+					echo "<td>".$Fila["rut_proveedor"]." ".$Fila["nom_prv"]."</td>";
 					echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 					echo "<td>";
 					if ($Fila["cod_recepcion"]=="")
@@ -269,7 +269,7 @@ function DetalleLeyes(Lote)
 				$TotPSecoProd=$TotPSecoProd+$TotPSecoProv;
 				echo "<tr class='Detalle02'>";
 				echo "<td>&nbsp;</td>";
-				echo "<td colspan='4'>PROVEEDOR:&nbsp;".$FilaProv["rut_proveedor"]." - ".$FilaProv[nom_prv]."</td>";
+				echo "<td colspan='4'>PROVEEDOR:&nbsp;".$FilaProv["rut_proveedor"]." - ".$FilaProv["nom_prv"]."</td>";
 				echo "<td align='right'>".number_format($TotPHumProv,0,'','.')."</td>";
 				echo "<td align='right'>".number_format($TotPSecoProv,0,'','.')."</td>";
 				echo "</tr>";

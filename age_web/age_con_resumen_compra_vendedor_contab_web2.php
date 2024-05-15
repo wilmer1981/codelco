@@ -160,7 +160,7 @@ body {
 					{						
 						echo "<tr>\n";
 						echo "<td align='right'>".$FilaPrv["rut_proveedor"]."</td>";
-						echo "<td align='left'>".substr(strtoupper($FilaPrv[nom_prv]),0,30)."</td>\n";
+						echo "<td align='left'>".substr(strtoupper($FilaPrv["nom_prv"]),0,30)."</td>\n";
 						$Consulta = "select STRAIGHT_JOIN distinct t1.lote, t2.recargo, t1.rut_proveedor, t2.peso_neto as peso_hum,  ";
 						$Consulta.= " lpad(t2.recargo,2,'0') as orden, t2.fecha_recepcion, tipo_remuestreo,canjeable,cod_producto,cod_subproducto,peso_retalla,peso_muestra ";		
 						$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes  t2 ";

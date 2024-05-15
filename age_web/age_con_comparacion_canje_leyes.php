@@ -3,6 +3,13 @@
 	$CodigoDePantalla = 42;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date('n');
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date('Y');
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Busq          = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
 	
 ?>
 <html>
@@ -254,7 +261,7 @@ if ($Mostrar=="S")
 		{
 			$Lote=$Fila2["lote"];
 			$Cu_Pri=0;$Ag_Pri=0;$Au_Pri=0;$Cu_Seg=0;$Ag_Seg=0;$Au_Seg=0;$Cu_Ter=0;$Ag_Ter=0;$Au_Ter=0;$SA_Pri="";
-			Leyes($Lote,&$Cu_Pri,&$Ag_Pri,&$Au_Pri,&$Cu_Seg,&$Ag_Seg,&$Au_Seg,&$Cu_Ter,&$Ag_Ter,&$Au_Ter,&$Ley_CanjeCu,&$Ley_CanjeAg,&$Ley_CanjeAu,&$SA_Pri);						
+			Leyes($Lote,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Seg,$Ag_Seg,$Au_Seg,$Cu_Ter,$Ag_Ter,$Au_Ter,$Ley_CanjeCu,$Ley_CanjeAg,$Ley_CanjeAu,$SA_Pri,$link);						
 			$Cu_Dif=0;$Ag_Dif=0;$Au_Dif=0;$Cu_Dif2=0;$Ag_Dif2=0;$Au_Dif2=0;
 			if($Cu_Seg>0)
 				$Cu_Dif=abs($Cu_Pri-$Cu_Seg);
@@ -393,7 +400,7 @@ function Titulo($Prod, $NomProd, $Proved, $NomProved)
 	echo "</tr>\n";
 }//FIN FUNCION TITULO
 
-function Leyes($Lote,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Seg,$Ag_Seg,$Au_Seg,$Cu_Ter,$Ag_Ter,$Au_Ter,$Ley_CanjeCu,$Ley_CanjeAg,$Ley_CanjeAu,$SA_Pri)
+function Leyes($Lote,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Seg,$Ag_Seg,$Au_Seg,$Cu_Ter,$Ag_Ter,$Au_Ter,$Ley_CanjeCu,$Ley_CanjeAg,$Ley_CanjeAu,$SA_Pri,$link)
 {
 	$Consulta="select * from age_web.leyes_por_lote_canje where lote='".$Lote."' and cod_leyes in('02','04','05') order by lote,cod_leyes";
 	$Cu_Par=0;$Ag_Par=0;$Au_Par=0;

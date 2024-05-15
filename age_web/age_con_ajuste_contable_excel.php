@@ -140,7 +140,7 @@
 					$SubTotalAjusteAgProd=$SubTotalAjusteAgProd+$SubTotalAjusteAgProv;
 					$SubTotalAjusteAuProd=$SubTotalAjusteAuProd+$SubTotalAjusteAuProv;
 					echo "<tr>\n";
-					echo '<td colspan="7">PROVEEDOR&nbsp;&nbsp;'.strtoupper($FilaProv[nom_prv]).'</td>';	
+					echo '<td colspan="7">PROVEEDOR&nbsp;&nbsp;'.strtoupper($FilaProv["nom_prv"]).'</td>';	
 					echo "<td align='center'>".number_format($SubTotalPesoHumProv,0,'','.')."</td>\n";
 					echo "<td align='center'>".number_format($SubTotalPesoSecoProv,0,'','.')."</td>\n";
 					echo "<td align='center'>".number_format($SubTotalAjusteCuProv,0,'','.')."</td>\n";

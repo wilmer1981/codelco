@@ -151,7 +151,8 @@
 										$valorau = $FilaLeyes["valor"];
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes["nomley"];
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][1]=$FilaLeyes["abreviatura"];
-								if($FilaLeyes["provisional"]!='N')//CUANDO NO ES VIRTUAL
+								$provisional = isset($FilaLeyes["provisional"])?$FilaLeyes["provisional"]:"";
+								if($provisional!='N')//CUANDO NO ES VIRTUAL
 									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor"];//VALOR LEY PQTE 1 
 								else
 									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor2"];//VALOR LEY PROVISIONAL
@@ -1047,6 +1048,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		  echo "<input type='hidden' name='OptLey'>";
 		  echo "<input type='hidden' name='CheckArbitral'>";
 		  echo "<input type='hidden' name='CheckForzarLey'>";
+		  $Cont=0;//WSO
 		  foreach($ArrayLeyes as $c=>$v)
 		  { $v0 = isset($v[0])?$v[0]:"";
 			if ($v0!='')

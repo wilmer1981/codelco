@@ -25,7 +25,7 @@
 	//echo $Consulta;
 	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Resp);
-	$NomLab=strtoupper($Fila[nom_lab]);
+	$NomLab=strtoupper($Fila["nom_lab"]);
 	$CmbTipoMoneda=$Fila["valor_subclase1"];
 	$PrecioCu=$Fila["valor_subclase2"];
 	$PrecioAg=$Fila["valor_subclase3"];

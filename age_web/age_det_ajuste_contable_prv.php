@@ -39,7 +39,7 @@ function Proceso(Proceso)
 			$Consulta="select NOMPRV_A as nom_prv from rec_web.proved where RUTPRV_A ='".$RutPrv."'";
 			$RespProv = mysqli_query($link, $Consulta);
 			$FilaProv = mysqli_fetch_array($RespProv);
-			echo $RutPrv." - ".$FilaProv[nom_prv];
+			echo $RutPrv." - ".$FilaProv["nom_prv"];
 		
 		?>
 		</td>

@@ -51,7 +51,7 @@ function Detalle(Lote)
 			if($RutPrv=='99999999-9')
 				echo "<strong>PROVEEDOR: </strong>".$RutPrv." - VARIOS ENAMI";
 			else
-				echo "<strong>PROVEEDOR: </strong>".$RutPrv." - ".$FilaProv[nom_prv];
+				echo "<strong>PROVEEDOR: </strong>".$RutPrv." - ".$FilaProv["nom_prv"];
 		?>
 		</td>
       </tr>
@@ -119,7 +119,7 @@ function Detalle(Lote)
 			while ($FilaPrv = mysqli_fetch_array($RespPrv))
 			{
 				echo "<tr class='Detalle01'>\n";
-				echo "<td colspan='".($CantLeyes+4)."' align='center'>PROVEEDOR:&nbsp;$FilaPrv["rut_proveedor"]&nbsp;&nbsp;&nbsp;$FilaPrv[nom_prv]</td>\n";	
+				echo "<td colspan='".($CantLeyes+4)."' align='center'>PROVEEDOR:&nbsp;$FilaPrv["rut_proveedor"]&nbsp;&nbsp;&nbsp;$FilaPrv["nom_prv"]</td>\n";	
 				echo "</tr>\n";
 				$Consulta ="select distinct t1.lote,estado_lote from age_web.lotes t1 left join age_web.leyes_por_lote t3 on t1.lote=t3.lote ";
 				$Consulta.="where t1.estado_lote <> '6' and t1.rut_proveedor='".$FilaPrv["rut_proveedor"]."' and t1.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";

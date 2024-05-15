@@ -25,7 +25,7 @@
 	$Respuesta=mysqli_query($link, $Consulta);
 	if($Fila=mysqli_fetch_array($Respuesta))
 	{
-		$CantLotesAbiertos=$Fila[cant];
+		$CantLotesAbiertos=$Fila["cant"];
 	}
 	if(!isset($Chequeado1))
 		$Chequeado1='checked';
@@ -558,7 +558,7 @@ No
 			else
 				echo "<td><a href=\"JavaScript:DetalleLote('".$TxtLote."')\">".$TxtLote."</a></td>";
 			echo "<td>$Fila["nom_subproducto"]</td>";
-			echo "<td>".$Fila["rut_proveedor"]." ".substr($Fila[nom_prv],0,20)."</td>";
+			echo "<td>".$Fila["rut_proveedor"]." ".substr($Fila["nom_prv"],0,20)."</td>";
 			if($Fila[certificado]!='')
 			{
 				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";
