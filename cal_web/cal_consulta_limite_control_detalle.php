@@ -133,7 +133,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Resp= mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($Resp))
 		{
-				$Valor=$Fila[valor];
+				$Valor=$Fila["valor"];
 				$Obs=$Fila["observacion"];
 			
 		}

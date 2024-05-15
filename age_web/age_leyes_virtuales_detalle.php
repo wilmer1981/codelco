@@ -75,7 +75,7 @@ function Salir()
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
 				echo "<tr>";
-				if($Fila[valor]==''||$Fila[virt]=='S')
+				if($Fila["valor"]==''||$Fila[virt]=='S')
 					$Datos=$SA."~".$Recargo."~".$Fila["cod_leyes"];
 				else
 					$Datos='';	
@@ -85,10 +85,10 @@ function Salir()
 					echo "<td class='Detalle01' align='center'>".$SA."-".$Recargo."</td>";	
 				echo "<td class='Detalle02'align='center'>".$Fila["id_muestra"]."</td>";
 				echo "<td align='center'>".$Fila[nomley]."</td>";
-				if($Fila[valor]==''||$Fila[virt]=='S')
-					echo "<td align='center' class='Detalle01'>".number_format($Fila[valor],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."</td>";
+				if($Fila["valor"]==''||$Fila[virt]=='S')
+					echo "<td align='center' class='Detalle01'>".number_format($Fila["valor"],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."</td>";
 				else
-					echo "<td align='center' class='Detalle01'>".number_format($Fila[valor],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."</td>";
+					echo "<td align='center' class='Detalle01'>".number_format($Fila["valor"],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."</td>";
 				echo "<td align='center'>".$Fila["abreviatura"]."</td>";
 				echo "<td align='center'>".$Fila[virt]."</td>";
 				echo "</tr>";

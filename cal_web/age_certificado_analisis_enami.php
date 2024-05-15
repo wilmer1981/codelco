@@ -464,7 +464,7 @@ function Recarga(URL,LimiteIni)
 			$Resp = mysqli_query($link, $Consulta);
 			if ($Row2 = mysqli_fetch_array($Resp))
 			{
-				if ((is_null($Row2[valor])) || ($Row2[valor] == ""))
+				if ((is_null($Row2["valor"])) || ($Row2["valor"] == ""))
 				{	
 					if ($Row2["signo"]=="N")
 					{
@@ -475,27 +475,27 @@ function Recarga(URL,LimiteIni)
 						echo "<td width='70'>&nbsp;</td>\n";
 					}
 				}
-				else	//echo "<td width='70'>".$Row2[valor]."&nbsp;</td>\n";
+				else	//echo "<td width='70'>".$Row2["valor"]."&nbsp;</td>\n";
 					if ($Row2[candado]== 1)
 					{
 						if($Row2["signo"]=="=")
 						{
-							echo "<td align='center' width='70'><font color='green'>".number_format($Row2[valor],3)."&nbsp;".$Row2["abreviatura"]."</font></td>\n";
+							echo "<td align='center' width='70'><font color='green'>".number_format($Row2["valor"],3)."&nbsp;".$Row2["abreviatura"]."</font></td>\n";
 						}
 						else
 						{
-							echo "<td align='center' width='70'><font color='green'>".$Row2["signo"].number_format($Row2[valor],3)."&nbsp;".$Row2["abreviatura"]."</font></td>\n";
+							echo "<td align='center' width='70'><font color='green'>".$Row2["signo"].number_format($Row2["valor"],3)."&nbsp;".$Row2["abreviatura"]."</font></td>\n";
 						}
 					}
 					else
 					{
 						if($Row2["signo"]=="=")
 						{
-							echo "<td align='center' width='70'>".number_format($Row2[valor],3)."&nbsp;".$Row2["abreviatura"]."</td>\n";
+							echo "<td align='center' width='70'>".number_format($Row2["valor"],3)."&nbsp;".$Row2["abreviatura"]."</td>\n";
 						}
 						else
 						{
-							echo "<td align='center' width='70'>".$Row2["signo"].number_format($Row2[valor],3)."&nbsp;".$Row2["abreviatura"]."</td>\n";
+							echo "<td align='center' width='70'>".$Row2["signo"].number_format($Row2["valor"],3)."&nbsp;".$Row2["abreviatura"]."</td>\n";
 						}
 					}
 			}

@@ -1,26 +1,32 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	include("../principal/conectar_principal.php");
-	$Mostrar='N';
-	if (isset($TxtLote))
+
+	$Mostrar          = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"N";
+	$TxtLote          = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Calcular         = isset($_REQUEST["Calcular"])?$_REQUEST["Calcular"]:"";
+	$Valores          = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta ="select t1.lote,t1.peso_muestra,t1.peso_retalla,t1.cod_subproducto,t3.descripcion as nom_subproducto,t1.rut_proveedor,t4.NOMPRV_A as nom_prv,t1.num_conjunto,";
@@ -89,13 +95,13 @@
 					switch($FilaLeyes["recargo"])
 					{
 						case "0":
-							$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes[nomley];
+							$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes["nomley"];
 							$ArrayLeyes[$FilaLeyes["cod_leyes"]][1]=$FilaLeyes["abreviatura"];
-							$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor];
+							$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor"];
 							$ArrayLeyes[$FilaLeyes["cod_leyes"]][10]='1';
 							break;
 						case "R":
-							$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]=$FilaLeyes[valor];
+							$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]=$FilaLeyes["valor"];
 							break;		
 					}
 				}
@@ -104,16 +110,16 @@
 				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
-					$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila[valor1];//VALOR LEY PQTE 1 
-					$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila[valor2];//VALOR LEY PQTE 2 
+					$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila["valor1"];//VALOR LEY PQTE 1 
+					$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila["valor2"];//VALOR LEY PQTE 2 
 					$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"];//VALOR LEY PQTE 3 		
 					$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"];//VALOR LEY PQTE 3 
 					$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila["valor4"];//VALOR LEY PQTE 4 
-					$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila[valor_retalla];//LEY RETALLA
-					$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila[inc_retalla];//INCIDENCIA RETALLA
-					$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila[ley_canje];//LEY CANJE
-					$ArrayLeyes[$Fila["cod_leyes"]][9]=$Fila[inc_retalla]+$Fila[ley_canje];//LEY PAGO
-					$ArrayLeyes[$Fila["cod_leyes"]][10]=$Fila[paquete_canje];//NUM PAQUETE
+					$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila["valor_retalla"];//LEY RETALLA
+					$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila["inc_retalla"];//INCIDENCIA RETALLA
+					$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila["ley_canje"];//LEY CANJE
+					$ArrayLeyes[$Fila["cod_leyes"]][9]=$Fila["inc_retalla"]+$Fila["ley_canje"];//LEY PAGO
+					$ArrayLeyes[$Fila["cod_leyes"]][10]=$Fila["paquete_canje"];//NUM PAQUETE
 				}
 			}	
 		}
@@ -121,7 +127,7 @@
 	if($Calcular=='S')
 	{
 		$Datos=explode('//',$Valores);
-		while(list($c,$v)=each($Datos))
+		foreach($Datos as $c=>$v)
 		{
 			$Datos2=explode('~~',$v);
 			$CodLey=$Datos2[0];
@@ -226,31 +232,31 @@
     <td width="88" ><strong>Lote:</strong></td>
     <td><?php echo $TxtLote; ?>
     <td align="right"><strong>Num.Conjunto:</strong></td>
-    <td width="145"><?php if(isset($TxtConjunto)) echo $TxtConjunto; else echo "&nbsp;";?></td>
+    <td width="145"><?php if($TxtConjunto!="") echo $TxtConjunto; else echo "&nbsp;";?></td>
   </tr>
   <tr>
     <td><strong>SubProducto:</strong></td>
-    <td><?php if(isset($CodSubProducto)) echo $CodSubProducto." - ".$NombreSubProducto; else echo "&nbsp;";?></td>
+    <td><?php if($CodSubProducto!="") echo $CodSubProducto." - ".$NombreSubProducto; else echo "&nbsp;";?></td>
     <td align="right" ><strong>Clase Producto:</strong></td>
-    <td><?php if(isset($ClaseProducto)) echo $ClaseProducto; else echo "&nbsp;";?></td>
+    <td><?php if($ClaseProducto!="") echo $ClaseProducto; else echo "&nbsp;";?></td>
   </tr>
   <tr>
     <td><strong>Proveedor:</strong></td>
-    <td><?php if(isset($RutProveedor)) echo $RutProveedor." - ".$NombrePrv; else echo "&nbsp;";?></td>
+    <td><?php if($RutProveedor!="") echo $RutProveedor." - ".$NombrePrv; else echo "&nbsp;";?></td>
     <td align="right" ><strong>Cod.Recepcion:</strong></td>
-    <td><?php if(isset($Recepcion)) echo $Recepcion; else echo "&nbsp;";?></td>
+    <td><?php if($Recepcion!="") echo $Recepcion; else echo "&nbsp;";?></td>
   </tr>
   <tr>
     <td ><strong>Cod Faena:</strong></td>
-    <td ><?php if(isset($CodFaena)) echo $CodFaena." - ".$NombreFaena; else echo "&nbsp;";?></td>
+    <td ><?php if($CodFaena!="") echo $CodFaena." - ".$NombreFaena; else echo "&nbsp;";?></td>
     <td align="right" ><strong>Peso Retalla:</strong></td>
-    <td ><?php if(isset($PesoRetalla)) echo $PesoRetalla; else echo "&nbsp;";?></td>
+    <td ><?php if($PesoRetalla!="") echo $PesoRetalla; else echo "&nbsp;";?></td>
   </tr>
   <tr >
     <td ><strong>Estado Lote:</strong></td>
-    <td ><?php if(isset($EstadoLote)) echo strtoupper($EstadoLote); else echo "&nbsp;";?></td>
+    <td ><?php if($EstadoLote!="") echo strtoupper($EstadoLote); else echo "&nbsp;";?></td>
     <td align="right" ><strong>Peso Muestra:</strong></td>
-    <td ><?php if(isset($PesoMuestra)) echo $PesoMuestra; else echo "&nbsp;";?></td>
+    <td ><?php if($PesoMuestra!="") echo $PesoMuestra; else echo "&nbsp;";?></td>
   </tr>
   </table>
   <br>
@@ -270,14 +276,15 @@
 	  <?php
 	  if ($Mostrar=='S')
 	  {
-		  while(list($c,$v)=each($ArrayLeyes))
+		  foreach($ArrayLeyes as $c=>$v)
 		  {
 			if ($v[0]!='')
 			{
 				echo "<tr align='left'>";
 				echo "<td>&nbsp;&nbsp;$v[0]</td>";
 				echo  "<td align='center'>$v[1]</td>";
-				switch($v[10])//INDICA EL NUMERO DE PAQUETE
+				//INDICA EL NUMERO DE PAQUETE
+				switch($v[10])
 				{
 					case "1"://PAQUETE PRIMERO
 						$Color1='bgcolor=#CCCCCC';$Color2='';$Color3='';$Color4='';

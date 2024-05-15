@@ -564,23 +564,23 @@ body,td,th {
 							$SubProductoSA = $FilaLeyes["cod_subproducto"];
 							$IdMuestraSA = $FilaLeyes["id_muestra"];
 							if($FilaLeyes[virt]=='S')
-								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes[valor];
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes["valor"];
 							else
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=0;
 							$ArrayLeyes[$FilaLeyes["cod_leyes"]][1]=$FilaLeyes[unidad];
-							if($FilaLeyes[virt]=='N'&&$FilaLeyes[valor]!=''&&$FilaLeyes[valor]!='0')
+							if($FilaLeyes[virt]=='N'&&$FilaLeyes["valor"]!=''&&$FilaLeyes["valor"]!='0')
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]='N';
 							else
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]='S';
 							if($FilaLeyes[virt]=='S')
 								$MostrarLote='S';
-							if(($FilaLeyes[virt]=='N')&&($FilaLeyes[valor]==''||$FilaLeyes[valor]=='0'))
+							if(($FilaLeyes[virt]=='N')&&($FilaLeyes["valor"]==''||$FilaLeyes["valor"]=='0'))
 								$MostrarLote='S';
 								
 							/*echo "LOTE:".$IdMuestraSA."<BR>";	
 							echo "LEY:".$FilaLeyes["cod_leyes"]."<br>";	
 							echo "ES VIRTUAL:".$FilaLeyes[virt]."<br>";
-							echo "VALOR:".$FilaLeyes[valor]."<br>";*/
+							echo "VALOR:".$FilaLeyes["valor"]."<br>";*/
 						}
 						$Consulta="select * from age_web.leyes_por_lote_canje where lote='".$Fila["lote"]."' and paquete_canje='2'";
 						$RespCanje=mysqli_query($link, $Consulta);
@@ -668,7 +668,7 @@ body,td,th {
 										{
 											if($ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=='S')
 											{
-												$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes[valor];
+												$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes["valor"];
 											}	
 										}
 									}

@@ -767,8 +767,8 @@ function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetal
 	$IncRetalla=0;
 	if($FilaLeyes = mysqli_fetch_array($RespLeyes))
 	{
-		if($FilaLeyes[valor]>0)
-			$IncRetalla=($FilaLeyes[valor] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
+		if($FilaLeyes["valor"]>0)
+			$IncRetalla=($FilaLeyes["valor"] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
 	}	
 }
 function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv,$PSeco,$ValorLey,$ValorFino,$ValorDed,$ValorFP,$Dec)
@@ -811,8 +811,8 @@ function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv
 	if($FilaDeduc=mysqli_fetch_array($RespDeduc))
 	{
 		$ValorLey=abs(doubleval($ValorLey));
-		$Valor1=abs(doubleval($FilaDeduc[valor1]));
-		$Valor2=abs(doubleval($FilaDeduc[valor2]));
+		$Valor1=abs(doubleval($FilaDeduc["valor1"]));
+		$Valor2=abs(doubleval($FilaDeduc["valor2"]));
 		$Valor3=abs(doubleval($FilaDeduc["valor3"]));
 		$Valor4=abs(doubleval($FilaDeduc["valor4"]));
 		$TipoForm=abs(doubleval($FilaDeduc[tipo_formula]));
@@ -874,7 +874,7 @@ function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv
 				echo $ValorFino."<br>";
 				echo $PSeco."<br>";
 				echo $Valor1."<br>";
-				echo $FilaDeduc[valor2]."<br>";
+				echo $FilaDeduc["valor2"]."<br>";
 				echo $FilaDeduc["valor3"]."<br><br>";*/
 				if($ValorLey<=$Valor1)
 					$ValorDed=$ValorFino;

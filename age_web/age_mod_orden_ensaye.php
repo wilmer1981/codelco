@@ -1,5 +1,11 @@
 <?php 	
 	include("../principal/conectar_principal.php");
+	$Proceso         = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtValor1       = isset($_REQUEST["TxtValor1"])?$_REQUEST["TxtValor1"]:"";
+	$CmbLaboratorios = isset($_REQUEST["CmbLaboratorios"])?$_REQUEST["CmbLaboratorios"]:"";
+	$TxtFechaCanje   = isset($_REQUEST["TxtFechaCanje"])?$_REQUEST["TxtFechaCanje"]:"";
+	$TxtFechaSolPqts = isset($_REQUEST["TxtFechaSolPqts"])?$_REQUEST["TxtFechaSolPqts"]:"";
+
 	switch($Proceso)
 	{
 		case "M":
@@ -48,7 +54,7 @@ function Grabar(Proceso,Valores)
 	
 	if (Frm.TxtValor1.value == "")
 	{
-		alert("Debe Ingresar N� Orden de Ensaye")
+		alert("Debe Ingresar N° Orden de Ensaye")
 		Frm.TxtValor1.focus();
 		return;
 	}

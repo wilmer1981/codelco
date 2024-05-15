@@ -3,8 +3,44 @@
 	$CodigoDePantalla=41;
 	$TxtFechaCanje=date('Y-m-d');
 	include("../principal/conectar_principal.php");
-	$Mostrar='N';
-	if (isset($TxtLote))
+	//$Mostrar='N';
+	$Mostrar          = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"N";
+	$TxtLote          = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$CodSubProducto   = isset($_REQUEST["CodSubProducto"])?$_REQUEST["CodSubProducto"]:"";
+	$RutProveedor     = isset($_REQUEST["RutProveedor"])?$_REQUEST["RutProveedor"]:"";
+	$Calcular         = isset($_REQUEST["Calcular"])?$_REQUEST["Calcular"]:"";
+	$Valores          = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$SeguimientoHVL   = isset($_REQUEST["SeguimientoHVL"])?$_REQUEST["SeguimientoHVL"]:"";
+
+
+	$CodFaena        = isset($_REQUEST["CodFaena"])?$_REQUEST["CodFaena"]:"";
+	$NombreFaena     = isset($_REQUEST["NombreFaena"])?$_REQUEST["NombreFaena"]:"";
+	$EstOpe          = isset($_REQUEST["EstOpe"])?$_REQUEST["EstOpe"]:"";
+	$Proc            = isset($_REQUEST["Proc"])?$_REQUEST["Proc"]:"";
+	$NewRec          = isset($_REQUEST["NewRec"])?$_REQUEST["NewRec"]:"";
+	$TipoConsulta    = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$EstadoInput     = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$NombreSubProducto  = isset($_REQUEST["NombreSubProducto"])?$_REQUEST["NombreSubProducto"]:"";
+	$NombrePrv          = isset($_REQUEST["NombrePrv"])?$_REQUEST["NombrePrv"]:"";
+	$CmbPlantLimPart    = isset($_REQUEST["CmbPlantLimPart"])?$_REQUEST["CmbPlantLimPart"]:"";
+	$CmbLaboratorios    = isset($_REQUEST["CmbLaboratorios"])?$_REQUEST["CmbLaboratorios"]:"";
+	$TieneArb           = isset($_REQUEST["TieneArb"])?$_REQUEST["TieneArb"]:"";	
+	$TxtConjunto        = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$TxtFechaCanje      = isset($_REQUEST["TxtFechaCanje"])?$_REQUEST["TxtFechaCanje"]:"";
+	$TxtOrdenEnsaye     = isset($_REQUEST["TxtOrdenEnsaye"])?$_REQUEST["TxtOrdenEnsaye"]:"";
+	$TxtFechaSolPqts    = isset($_REQUEST["TxtFechaSolPqts"])?$_REQUEST["TxtFechaSolPqts"]:"";
+	$ClaseProducto      = isset($_REQUEST["ClaseProducto"])?$_REQUEST["ClaseProducto"]:"";
+	$Recepcion          = isset($_REQUEST["Recepcion"])?$_REQUEST["Recepcion"]:"";
+	$PesoRetalla        = isset($_REQUEST["PesoRetalla"])?$_REQUEST["PesoRetalla"]:"";
+	$PesoMuestra        = isset($_REQUEST["PesoMuestra"])?$_REQUEST["PesoMuestra"]:"";
+
+	$EstadoCierre  = isset($_REQUEST["EstadoCierre"])?$_REQUEST["EstadoCierre"]:"";
+	$EsPopup       = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";
+	
+	$Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Habilitado   = isset($_REQUEST["Habilitado"])?$_REQUEST["Habilitado"]:"";
+
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta ="select t1.fecha_sol_pqts,t1.fecha_canje,t1.canjeable,t1.fin_canje,t1.lote,t1.peso_muestra,t1.peso_retalla,t1.cod_subproducto,t3.descripcion as nom_subproducto,t1.rut_proveedor,t4.NOMPRV_A as nom_prv,t1.num_conjunto,";
@@ -77,9 +113,9 @@
 					$TxtFechaSolPqts=$Fila2["valor_subclase1"];				
 				}	
 				
-				$Habilitado='';
+				//$Habilitado='';
 				
-				if($Fila[fin_canje]=='S')
+				if($Fila["fin_canje"]=='S')
 				{
 					$EstadoCierre='Lote Cerrado Comercial';
 					
@@ -108,15 +144,15 @@
 						{
 							case "0":
 								if ($FilaLeyes["cod_leyes"]=='02') 
-										$valorcu = $FilaLeyes[valor];
+										$valorcu = $FilaLeyes["valor"];
 								if ($FilaLeyes["cod_leyes"]=='04') 
-										$valorag = $FilaLeyes[valor];
+										$valorag = $FilaLeyes["valor"];
 								if ($FilaLeyes["cod_leyes"]=='05') 
-										$valorau = $FilaLeyes[valor];
-								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes[nomley];
+										$valorau = $FilaLeyes["valor"];
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes["nomley"];
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][1]=$FilaLeyes["abreviatura"];
-								if($FilaLeyes[provisional]!='N')//CUANDO NO ES VIRTUAL
-									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor];//VALOR LEY PQTE 1 
+								if($FilaLeyes["provisional"]!='N')//CUANDO NO ES VIRTUAL
+									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor"];//VALOR LEY PQTE 1 
 								else
 									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor2"];//VALOR LEY PROVISIONAL
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][3]='';//VALOR LEY PQTE 2 
@@ -131,7 +167,7 @@
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][15]=$FilaLeyes["cod_unidad"];//COD_UNIDAD
 								break;
 							case "R":
-								$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]=$FilaLeyes[valor];
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]=$FilaLeyes["valor"];
 								break;		
 						}
 					}
@@ -158,16 +194,16 @@
 						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"]*1;//VALOR LEY PQTE 3 		
 						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"]*1;//VALOR LEY PQTE 3 
 						$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila["valor4"]*1;//VALOR LEY PQTE 4 
-						$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila[valor_retalla]*1;//LEY RETALLA
-						$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila[inc_retalla]*1;//INCIDENCIA RETALLA
-						$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila[ley_canje]*1;//LEY CANJE
-						$ArrayLeyes[$Fila["cod_leyes"]][9]=($Fila[inc_retalla]+$Fila[ley_canje])*1;//LEY PAGO
-						$ArrayLeyes[$Fila["cod_leyes"]][10]=$Fila[paquete_canje]*1;//NUM PAQUETE
+						$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila["valor_retalla"]*1;//LEY RETALLA
+						$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila["inc_retalla"]*1;//INCIDENCIA RETALLA
+						$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila["ley_canje"]*1;//LEY CANJE
+						$ArrayLeyes[$Fila["cod_leyes"]][9]=($Fila["inc_retalla"]+$Fila["ley_canje"])*1;//LEY PAGO
+						$ArrayLeyes[$Fila["cod_leyes"]][10]=$Fila["paquete_canje"]*1;//NUM PAQUETE
 						$ArrayLeyes[$Fila["cod_leyes"]][11]=$Fila["observacion"];//SEGUIMIENTO DE LA LEY
 						$ArrayLeyes[$Fila["cod_leyes"]][15]=$Fila["cod_unidad"];//COD_UNIDAD
-						$ArrayLeyes[$Fila["cod_leyes"]][20]=$Fila[pendiente];//SI ES ARBITRAL
-						$ArrayLeyes[$Fila["cod_leyes"]][30]=$Fila[ley_forzada];//SI LA LEY 2 ES FORZADA
-						$CmbPlantLimPart=$Fila[plantilla_limite];
+						$ArrayLeyes[$Fila["cod_leyes"]][20]=$Fila["pendiente"];//SI ES ARBITRAL
+						$ArrayLeyes[$Fila["cod_leyes"]][30]=$Fila["ley_forzada"];//SI LA LEY 2 ES FORZADA
+						$CmbPlantLimPart=$Fila["plantilla_limite"];
 					}
 					if($CmbPlantLimPart=='')//PLANTILLA POR DEFECTO)
 						$CmbPlantLimPart=1;	
@@ -315,22 +351,33 @@
 	if($Calcular=='S')//CALCULA EL CANJE
 	{
 		$Datos=explode('//',$Valores);
-		while(list($c,$v)=each($Datos))
+		foreach($Datos as $c=>$v)
 		{
 			$Datos2=explode('~~',$v);
-			$CodLey=$Datos2[0];
-			$NomLey=$Datos2[1];
-			$NomUnidad=$Datos2[2];
-			$ValorLey1=$Datos2[3]*1;
-			$ValorLey2=$Datos2[4]*1;
-			$ValorLey3=$Datos2[5]*1;
-			$ValorLey4=$Datos2[6]*1;
-			$ValorLeyR=$Datos2[7]*1;
-			$ValorIncR=$Datos2[8]*1;
-			$ValorLeyC=$Datos2[9]*1;
-			$ValorLeyF=$Datos2[10]*1;
-			$NumPqte=$Datos2[11];
-			$ForzarLey2=$Datos2[15];
+			$CodLey   =isset($Datos2[0])?$Datos2[0]:"";
+			$NomLey   =isset($Datos2[1])?$Datos2[1]:"";
+			$NomUnidad=isset($Datos2[2])?$Datos2[2]:"";
+			$Datos23=isset($Datos2[3])?$Datos2[3]:0;
+			$Datos24=isset($Datos2[4])?$Datos2[4]:0;
+			$Datos25=isset($Datos2[5])?$Datos2[5]:0;
+			$Datos26=isset($Datos2[6])?$Datos2[6]:0;
+			$Datos27=isset($Datos2[7])?$Datos2[7]:0;
+			$Datos28=isset($Datos2[8])?$Datos2[8]:0;
+			$Datos29=isset($Datos2[9])?$Datos2[9]:0;
+			$Datos210=isset($Datos2[10])?$Datos2[10]:0;
+			$Datos211=isset($Datos2[11])?$Datos2[11]:0;
+			$Datos215=isset($Datos2[15])?$Datos2[15]:0;
+
+			$ValorLey1=$Datos23*1;
+			$ValorLey2=$Datos24*1;
+			$ValorLey3=$Datos25*1;
+			$ValorLey4=$Datos26*1;
+			$ValorLeyR=$Datos27*1;
+			$ValorIncR=$Datos28*1;
+			$ValorLeyC=$Datos29*1;
+			$ValorLeyF=$Datos210*1;
+			$NumPqte=$Datos211;
+			$ForzarLey2=$Datos215;
 			$Seguimiento='';
 			switch($NumPqte)
 			{
@@ -457,10 +504,10 @@
 								//echo $Consulta."<br>";
 								$Respuesta2=mysqli_query($link, $Consulta);
 								$Fila2=mysqli_fetch_array($Respuesta2);
-								$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
+								$LimParticion=($ValorLey1*$Fila2["limite_particion"]*1)/100;
 							}
 							else
-								$LimParticion=$Fila[limite_particion]*1;
+								$LimParticion=$Fila["limite_particion"]*1;
 							$Dif=abs($ValorLey1-$ValorLey2)*1;
 							$Seguimiento='TOMA LEY DEL PQTE 2<br>';
 							$Seguimiento.='LIMITE PARTICION:'.number_format($LimParticion,4,',','.')."<br>DIFERENCIA(PQTE1-PQTE2):".number_format($Dif,4,',','.')."<br>";
@@ -559,10 +606,10 @@
 								$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
 								$Respuesta2=mysqli_query($link, $Consulta);
 								$Fila2=mysqli_fetch_array($Respuesta2);
-								$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
+								$LimParticion=($ValorLey1*$Fila2["limite_particion"]*1)/100;
 							}
 							else
-								$LimParticion=$Fila[limite_particion]*1;
+								$LimParticion=$Fila["limite_particion"]*1;
 							$Seguimiento.='LIMITE PARTICION:'.number_format($LimParticion,4,',','.')."<br>";
 							$Dif1=abs($ValorLey3-$ValorLey2)*1;
 							$Dif2=abs($ValorLey3-$ValorLey1)*1;
@@ -605,10 +652,10 @@
 							$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
 							$Respuesta2=mysqli_query($link, $Consulta);
 							$Fila2=mysqli_fetch_array($Respuesta2);
-							$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
+							$LimParticion=($ValorLey1*$Fila2["limite_particion"]*1)/100;
 						}
 						else
-							$LimParticion=$Fila[limite_particion]*1;
+							$LimParticion=$Fila["limite_particion"]*1;
 						$Seguimiento.='LIMITE PARTICION:'.number_format($LimParticion,4,',','')."<br>";
 						$Dif1=abs($ValorLey4-$ValorLey2)*1;
 						$Dif2=abs($ValorLey4-$ValorLey1)*1;
@@ -867,14 +914,12 @@ function Proceso(opt,opt2)
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style></head>
 <body onLoad="window.document.frmPrincipal.TxtLote.focus();">
 <DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
@@ -915,31 +960,31 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td width="282" class="Colum01"><input <?php echo $EstadoInput; ?> name="TxtLote" type="text" class="InputCen" id="TxtLote" value="<?php echo $TxtLote; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');">
     <input name="BtnOK" type="button" id="BtnOK" value="OK" onClick="Proceso('R')"  onFocus="Proceso('R')">&nbsp;&nbsp;&nbsp;<font color="#FF3300"><strong><?php echo $EstadoCierre;?></strong></font>
     <td width="135" align="right" class="Colum01">Num.Conjunto:</td>
-    <td width="178" class="Colum01"><?php if(isset($TxtConjunto)) echo $TxtConjunto."&nbsp;"; else echo "&nbsp;";?></td>
+    <td width="178" class="Colum01"><?php if($TxtConjunto!="") echo $TxtConjunto."&nbsp;"; else echo "&nbsp;";?></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">SubProducto:</td>
-    <td class="Colum01"><?php if(isset($CodSubProducto)) echo $CodSubProducto." - ".$NombreSubProducto; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($CodSubProducto!="") echo $CodSubProducto." - ".$NombreSubProducto; else echo "&nbsp;";?></td>
     <td align="right" class="Colum01">Clase Producto:</td>
-    <td class="Colum01"><?php if(isset($ClaseProducto)) echo $ClaseProducto; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($ClaseProducto!="") echo $ClaseProducto; else echo "&nbsp;";?></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Proveedor:</td>
-    <td class="Colum01"><?php if(isset($RutProveedor)) echo $RutProveedor." - ".$NombrePrv; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($RutProveedor!="") echo $RutProveedor." - ".$NombrePrv; else echo "&nbsp;";?></td>
     <td align="right" class="Colum01">Cod.Recepcion:</td>
-    <td class="Colum01"><?php if(isset($Recepcion)) echo $Recepcion; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($Recepcion!="") echo $Recepcion; else echo "&nbsp;";?></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Cod Faena: </td>
-    <td class="Colum01"><?php if(isset($CodFaena)) echo $CodFaena." - ".$NombreFaena; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($CodFaena!="") echo $CodFaena." - ".$NombreFaena; else echo "&nbsp;";?></td>
     <td align="right" class="Colum01">Peso Retalla: </td>
-    <td class="Colum01"><?php if(isset($PesoRetalla)) echo number_format($PesoRetalla,4,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($PesoRetalla!="") echo number_format($PesoRetalla,4,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Estado Lote:</td>
     <td class="Colum01"><strong><font color="#FF3300"><?php if(isset($EstadoLote)) echo strtoupper($EstadoLote); else echo "&nbsp;";?></font></strong></td>
     <td align="right" class="Colum01">Peso Muestra: </td>
-    <td class="Colum01"><?php if(isset($PesoMuestra)) echo number_format($PesoMuestra,0,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($PesoMuestra!="") echo number_format($PesoMuestra,0,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Plantilla Lim. Particion</td>
@@ -950,10 +995,10 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
-				if($CmbPlantLimPart==$Fila[cod_plantilla])
-					echo "<option value='$Fila[cod_plantilla]' selected>$Fila[nombre_plantilla]</option>";
+				if($CmbPlantLimPart==$Fila["cod_plantilla"])
+					echo "<option value='".$Fila["cod_plantilla"]."' selected>".$Fila["nombre_plantilla"]."</option>";
 				else
-					echo "<option value='$Fila[cod_plantilla]'>$Fila[nombre_plantilla]</option>";
+					echo "<option value='".$Fila["cod_plantilla"]."'>".$Fila["nombre_plantilla"]."</option>";
 			}
 	  ?>
     </select><?php //echo "&nbsp;".$SeguimientoHVL;?></td>
@@ -1002,9 +1047,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		  echo "<input type='hidden' name='OptLey'>";
 		  echo "<input type='hidden' name='CheckArbitral'>";
 		  echo "<input type='hidden' name='CheckForzarLey'>";
-		  while(list($c,$v)=each($ArrayLeyes))
-		  {
-			if ($v[0]!='')
+		  foreach($ArrayLeyes as $c=>$v)
+		  { $v0 = isset($v[0])?$v[0]:"";
+			if ($v0!='')
 			{
 				$Cont++;
 				echo "<tr align='left'>";
@@ -1017,7 +1062,8 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				echo "</div>&nbsp;&nbsp;$v[0]<input type='hidden' name='CodLey' value='$c'><input type='hidden' name='NomLey' value='$v[0]'><input type='hidden' name='NomUnidad' value='$v[1]'><input type='hidden' name='CodUnidad' value='$v[15]'><input type='hidden' name='Seguimiento' value='$v[11]'></td>";
 				echo  "<td align='center'>$v[1]</td>";
 				$NombreOpt='Opt'.$c;$NombreTxt='Txt'.$c;//$NombreCheck='Check'.$c;
-				switch($v[10])//INDICA EL NUMERO DE PAQUETE
+				//INDICA EL NUMERO DE PAQUETE
+				switch($v[10]) 
 				{
 					case "1"://PAQUETE PRIMERO
 						$ClaseInput1="style ='background:#66CCFF'";$ClaseInput2="";$ClaseInput3="";$ClaseInput4="";

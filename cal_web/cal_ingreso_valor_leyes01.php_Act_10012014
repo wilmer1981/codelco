@@ -73,9 +73,9 @@ function AvisoModLeyesConCandado($SA,$CodLey,$Unidad,$Valor)
 			$RespCANDADO = mysqli_query($link, $Consulta);
 			if($FilaCANDADO=mysql_fetch_array($RespCANDADO))
 			{
-				if($Valor<>$FilaCANDADO[valor])
+				if($Valor<>$FilaCANDADO["valor"])
 				{	
-					EnvioCorreoLeyes($SA,$FilaSa["id_muestra"],$CodLey,$Unidad,$Valor,$FilaSa["cod_producto"],$FilaCANDADO[valor]);
+					EnvioCorreoLeyes($SA,$FilaSa["id_muestra"],$CodLey,$Unidad,$Valor,$FilaSa["cod_producto"],$FilaCANDADO["valor"]);
 				}
 			}
 		}

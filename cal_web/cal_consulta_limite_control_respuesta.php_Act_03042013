@@ -180,7 +180,7 @@
 					
 					
 					
-					$Valor=$Fila3[valor];
+					$Valor=$Fila3["valor"];
 					/*echo "CmbProductos".$CmbProductos."<br>";
 					echo "CmbSubProducto".$CmbSubProducto."<br>";*/
 					//ValorLimiteControl($CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],&$Valor,&$Tiene);

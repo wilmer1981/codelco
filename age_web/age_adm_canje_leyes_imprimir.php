@@ -1,7 +1,12 @@
 <?php
 	include("../principal/conectar_principal.php");
-	$Mostrar='N';
-	if (isset($TxtLote))
+	//$Mostrar='N';
+	$Mostrar          = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"N";
+	$TxtLote          = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Calcular         = isset($_REQUEST["Calcular"])?$_REQUEST["Calcular"]:"";
+	$Valores          = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta ="select t1.lote,t1.peso_muestra,t1.peso_retalla,t1.cod_subproducto,t3.descripcion as nom_subproducto,t1.rut_proveedor,t4.NOMPRV_A as nom_prv,t1.num_conjunto,";
@@ -71,13 +76,13 @@
 					switch($FilaLeyes["recargo"])
 					{
 						case "0":
-							$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes[nomley];
+							$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes["nomley"];
 							$ArrayLeyes[$FilaLeyes["cod_leyes"]][1]=$FilaLeyes["abreviatura"];
-							$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor];
+							$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor"];
 							$ArrayLeyes[$FilaLeyes["cod_leyes"]][10]='1';
 							break;
 						case "R":
-							$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]=$FilaLeyes[valor];
+							$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]=$FilaLeyes["valor"];
 							break;		
 					}
 				}
@@ -87,16 +92,16 @@
 				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
-					$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila[valor1];//VALOR LEY PQTE 1 
-					$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila[valor2];//VALOR LEY PQTE 2 
+					$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila["valor1"];//VALOR LEY PQTE 1 
+					$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila["valor2"];//VALOR LEY PQTE 2 
 					$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"];//VALOR LEY PQTE 3 		
 					$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"];//VALOR LEY PQTE 3 
 					$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila["valor4"];//VALOR LEY PQTE 4 
-					$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila[valor_retalla];//LEY RETALLA
-					$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila[inc_retalla];//INCIDENCIA RETALLA
-					$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila[ley_canje];//LEY CANJE
-					$ArrayLeyes[$Fila["cod_leyes"]][9]=$Fila[inc_retalla]+$Fila[ley_canje];//LEY PAGO
-					$ArrayLeyes[$Fila["cod_leyes"]][10]=$Fila[paquete_canje];//NUM PAQUETE
+					$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila["valor_retalla"];//LEY RETALLA
+					$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila["inc_retalla"];//INCIDENCIA RETALLA
+					$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila["ley_canje"];//LEY CANJE
+					$ArrayLeyes[$Fila["cod_leyes"]][9]=$Fila["inc_retalla"]+$Fila["ley_canje"];//LEY PAGO
+					$ArrayLeyes[$Fila["cod_leyes"]][10]=$Fila["paquete_canje"];//NUM PAQUETE
 				}
 			}	
 		}
@@ -104,21 +109,21 @@
 	if($Calcular=='S')
 	{
 		$Datos=explode('//',$Valores);
-		while(list($c,$v)=each($Datos))
+		foreach($Datos as $c=>$v)
 		{
 			$Datos2=explode('~~',$v);
-			$CodLey=$Datos2[0];
-			$NomLey=$Datos2[1];
-			$NomUnidad=$Datos2[2];
-			$ValorLey1=$Datos2[3];
-			$ValorLey2=$Datos2[4];
-			$ValorLey3=$Datos2[5];
-			$ValorLey4=$Datos2[6];
-			$ValorLeyR=$Datos2[7];
-			$ValorIncR=$Datos2[8];
-			$ValorLeyC=$Datos2[9];
-			$ValorLeyF=$Datos2[10];
-			$NumPqte=$Datos2[11];
+			$CodLey    =isset($Datos2[0])?$Datos2[0]:"";
+			$NomLey    =isset($Datos2[1])?$Datos2[1]:"";
+			$NomUnidad =isset($Datos2[2])?$Datos2[2]:"";
+			$ValorLey1 =isset($Datos2[3])?$Datos2[3]:"";
+			$ValorLey2 =isset($Datos2[4])?$Datos2[4]:"";
+			$ValorLey3 =isset($Datos2[5])?$Datos2[5]:"";
+			$ValorLey4 =isset($Datos2[6])?$Datos2[6]:"";
+			$ValorLeyR =isset($Datos2[7])?$Datos2[7]:"";
+			$ValorIncR =isset($Datos2[8])?$Datos2[8]:"";
+			$ValorLeyC =isset($Datos2[9])?$Datos2[9]:"";
+			$ValorLeyF =isset($Datos2[10])?$Datos2[10]:"";
+			$NumPqte   =isset($Datos2[11])?$Datos2[11]:"";
 			switch($NumPqte)
 			{
 				case "1":
@@ -140,7 +145,7 @@
 					$Consulta="select * from age_web.limites_particion where cod_plantilla=1 and cod_ley='$CodLey' and ".$ValorLey1." between rango1 and rango2";
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
-					$LimParticion=$Fila[limite_particion]*1;
+					$LimParticion=$Fila["limite_particion"]*1;
 					$Dif=abs($ValorLey1-$ValorLey2)*1;
 					if($LimParticion<=$Dif)
 						$LeyCanje=($ValorLey1+$ValorLey2)/2;//LEY CANJE
@@ -279,14 +284,15 @@ function Proceso(Opcion,Lote,Valores)
 	  <?php
 	  if ($Mostrar=='S')
 	  {
-		  while(list($c,$v)=each($ArrayLeyes))
+		  foreach($ArrayLeyes as $c=>$v)
 		  {
 			if ($v[0]!='')
 			{
 				echo "<tr align='left'>";
 				echo "<td class='Detalle02'>&nbsp;&nbsp;$v[0]</td>";
 				echo  "<td align='center'>$v[1]</td>";
-				switch($v[10])//INDICA EL NUMERO DE PAQUETE
+				//INDICA EL NUMERO DE PAQUETE
+				switch($v[10])
 				{
 					case "1"://PAQUETE PRIMERO
 						$Color1='bgcolor=#CCCCCC';$Color2='';$Color3='';$Color4='';

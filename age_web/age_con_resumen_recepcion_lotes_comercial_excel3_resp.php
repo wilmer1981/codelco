@@ -497,8 +497,8 @@ function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetal
 	$RespLeyes = mysqli_query($link, $Consulta);
 	if($FilaLeyes = mysqli_fetch_array($RespLeyes))
 	{
-		if($FilaLeyes[valor]>0)
-			$IncRetalla=($FilaLeyes[valor] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
+		if($FilaLeyes["valor"]>0)
+			$IncRetalla=($FilaLeyes["valor"] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
 	}		
 }
 

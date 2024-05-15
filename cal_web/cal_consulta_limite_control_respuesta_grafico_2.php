@@ -158,7 +158,7 @@
 				if($Fila3=mysqli_fetch_array($Respuesta3))
 				{		
 					$Tiene="N";
-					$Valor=$Fila3[valor];
+					$Valor=$Fila3["valor"];
 					ValorLimiteControl($CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],&$Valor,&$Tiene);
 					if($Tiene=='S')
 					{

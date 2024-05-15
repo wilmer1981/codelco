@@ -17,7 +17,7 @@ if($G=='s')
 $Consulta="select valor1,valor2 from proyecto_modernizacion.clase where cod_clase='1012'";
 $R=mysqli_query($link, $Consulta);
 $F=mysqli_fetch_assoc($R);
-$CmbCCosto=$F[valor1];
+$CmbCCosto=$F["valor1"];
 $CmbAreasProceso=$F["valor2"];
 ?>
 <html>

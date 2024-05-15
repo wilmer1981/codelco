@@ -330,7 +330,7 @@ if(msj=='s')
 								$RespuestaUni = mysqli_query($link, $ConsultaUni);
 								if($RowUni = mysqli_fetch_array($RespuestaUni))
 									$Abreviatura=$RowUni["abreviatura"];
-								$ValorLey=trim($Row2[valor]);$Dec=4;
+								$ValorLey=trim($Row2["valor"]);$Dec=4;
 								if($Row2["cant_reg"]>1)
 								{
 									$ValorLey=round($ValorLey);$Dec=0;

@@ -1033,7 +1033,7 @@ function Salir()
 						/*if($ChkLimite=='S')
 						{
 							$Tiene="N";
-							$Valor=$Fila3[valor];
+							$Valor=$Fila3["valor"];
 							ValorLimiteControl($CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],&$Valor,&$Tiene);
 							if($Tiene=='S')
 							{

@@ -1,8 +1,18 @@
 <?php
 	include("../principal/conectar_principal.php");
-	
-	$Fecha=$TxtFechaCanje;
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CodLeyEli = isset($_REQUEST["CodLeyEli"])?$_REQUEST["CodLeyEli"]:"";
+
+	$TxtLote          = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$TxtFechaCanje    = isset($_REQUEST["TxtFechaCanje"])?$_REQUEST["TxtFechaCanje"]:"";
+	$TxtOrdenEnsaye   = isset($_REQUEST["TxtOrdenEnsaye"])?$_REQUEST["TxtOrdenEnsaye"]:"";
+	$TxtFechaSolPqts  = isset($_REQUEST["TxtFechaSolPqts"])?$_REQUEST["TxtFechaSolPqts"]:"";
+	$Valores          = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$Fecha       =$TxtFechaCanje;
 	$FechaSolPqts=$TxtFechaSolPqts;
+
 	$Param='';
 	switch ($Proceso)
 	{
@@ -13,9 +23,9 @@
 			$Datos=explode('//',$Valores);
 			foreach($Datos as $c => $v)
 			{
-				$Datos2=explode('~~',$v);
-				$CodLey=$Datos2[0];
-				$NomLey=$Datos2[1];
+				$Datos2   =explode('~~',$v);
+				$CodLey   =$Datos2[0];
+				$NomLey   =$Datos2[1];
 				$NomUnidad=$Datos2[2];
 				$ValorLey1=$Datos2[3];
 				$ValorLey2=$Datos2[4];

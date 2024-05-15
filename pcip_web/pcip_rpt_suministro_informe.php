@@ -360,7 +360,7 @@ $Resp=mysqli_query($link, $Consulta);
 if ($Fila=mysql_fetch_array($Resp))
 {
 	//$NomSuministro=$Fila[nom_suministro];
-	$valor1=$Fila[valor1];
+	$valor1=$Fila["valor1"];
 	$valor2=$Fila["valor2"];
 	$valor3=$Fila["valor3"];
 	$Conversion=1;

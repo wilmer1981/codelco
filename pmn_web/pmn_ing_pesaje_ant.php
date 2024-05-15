@@ -33,7 +33,7 @@ if(!isset($Mesr))
 			$Consulta="select * from proyecto_modernizacion.clase where cod_clase='6001'";
 			$RESP=mysqli_query($link, $Consulta);$TotDeTambores=0;
 			$Fila=mysqli_fetch_assoc($RESP);
-			$TotDeTambores=$Fila[valor1];
+			$TotDeTambores=$Fila["valor1"];
 				
 		break;
 		default;
@@ -59,7 +59,7 @@ if(!isset($Mesr))
 			$Consulta="select * from proyecto_modernizacion.clase where cod_clase='6001'";
 			$RESP=mysqli_query($link, $Consulta);$TotDeTambores=0;
 			$Fila=mysqli_fetch_assoc($RESP);
-			$TotDeTambores=$Fila[valor1];
+			$TotDeTambores=$Fila["valor1"];
 		break;
 	}
 $Ano=$Anor;

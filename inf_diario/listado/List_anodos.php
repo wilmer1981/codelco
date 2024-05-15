@@ -236,7 +236,7 @@ function Proceso(opc)
 				{
 					if ($Fila[cod_subproducto] < 5)
 						{
-							if  ($fila_p[valor] >= 500)
+							if  ($fila_p["valor"] >= 500)
 							{
 								 $peso_quimico = $peso_quimico + $fila_p["peso"];
 							}
@@ -248,7 +248,7 @@ function Proceso(opc)
 							
 				  		if ($Fila[cod_subproducto] > 4)
 						{
-						   	if ($fila_p[valor] >= 400)
+						   	if ($fila_p["valor"] >= 400)
 							{
 								$peso_quimico = $peso_quimico + $fila_p["peso"];
 							}	
@@ -746,7 +746,7 @@ function Proceso(opc)
 					 $Consulta.= " AND cod_unidad = 2 AND cod_leyes = '09'";					  
 					 $result = mysqli_query($link, $Consulta);
 					 $fila = mysql_fetch_array($result);	
-					 if($fila[valor] > 400)
+					 if($fila["valor"] > 400)
 					 {
 						$peso_quimico = $peso_quiminco + $row["peso"];	
 					 }

@@ -484,7 +484,7 @@ if ($Mostrar=="S" && $FechaCierreAnexo!="")
 			if($FilaRet=mysqli_fetch_array($RespRetalla))
 			{
 				//echo $Consulta."<br>";
-				$ValorRet=$FilaRet[valor];
+				$ValorRet=$FilaRet["valor"];
 				$Consulta="select * from cal_web.solicitud_analisis where fecha_hora='".$Fila[fecha_sa]."' and rut_funcionario='".$Fila[rut_sa]."' and id_muestra='".$Fila["lote"]."' and nro_solicitud='".$Fila["nro_solicitud"]."' and recargo='R'";
 				//echo $Consulta."<br>";
 				$RespSA=mysqli_query($link, $Consulta);
@@ -507,7 +507,7 @@ if ($Mostrar=="S" && $FechaCierreAnexo!="")
 			//echo $Consulta."<br>";
 			$RespLeyAct=mysqli_query($link, $Consulta);
 			$FilaLeyAct=mysqli_fetch_array($RespLeyAct);
-			//echo $FilaLeyAnt[valor];
+			//echo $FilaLeyAnt["valor"];
 			$ValorActual=$FilaLeyAct["valor"]+abs($IncRetallaAct);
 			
 			$ValorAnt=$Fila["valor_ant"]+abs($IncRetallaAnt);

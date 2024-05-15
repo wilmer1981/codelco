@@ -97,7 +97,7 @@ function Salir()
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
 				echo "<tr>";
-				if($Fila[valor]==''||$Fila[virt]=='S')
+				if($Fila["valor"]==''||$Fila[virt]=='S')
 					$Datos=$SA."~".$Recargo."~".$Fila["cod_leyes"];
 				else
 					$Datos='';	
@@ -107,11 +107,11 @@ function Salir()
 				else
 					echo "<td class='Detalle01' align='center'>".$SA."-".$Recargo."</td>";	
 				echo "<td class='Detalle02'align='center'>".$Fila["id_muestra"]."</td>";
-				echo "<td align='center'>".$Fila[nomley]."</td>";
-				if($Fila[valor]==''||$Fila[virt]=='S')
-					echo "<td align='center'><input type='textbox' name='TxtValor' size='15' class='InputCen' value='".number_format($Fila[valor],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."'><input type='hidden' name='TxtValores' value='".$Datos."'></td>";
+				echo "<td align='center'>".$Fila["nomley"]."</td>";
+				if($Fila["valor"]==''||$Fila[virt]=='S')
+					echo "<td align='center'><input type='textbox' name='TxtValor' size='15' class='InputCen' value='".number_format($Fila["valor"],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."'><input type='hidden' name='TxtValores' value='".$Datos."'></td>";
 				else
-					echo "<td align='center'><input type='textbox' name='TxtValor' size='15' class='InputCen' value='".number_format($Fila[valor],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."' readonly><input type='hidden' name='TxtValores' value='".$Datos."'></td>";
+					echo "<td align='center'><input type='textbox' name='TxtValor' size='15' class='InputCen' value='".number_format($Fila["valor"],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."' readonly><input type='hidden' name='TxtValores' value='".$Datos."'></td>";
 				echo "<td align='center'>".$Fila["abreviatura"]."</td>";
 				echo "<td align='center'>".$Fila[virt]."</td>";
 				echo "</tr>";

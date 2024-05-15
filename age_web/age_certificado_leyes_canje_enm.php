@@ -3,12 +3,12 @@
 	include("age_funciones.php");
 	include("../principal/funciones/class.ezpdf.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	if(!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-		$CmbMes=date('n');
-	}
-	$pdf =& new Cezpdf('a4');
+
+	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('n');
+	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	$pdf = new Cezpdf('a4');
     $pdf->selectFont('../principal/funciones/fonts/Helvetica.afm');
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $c => $v)
@@ -43,27 +43,39 @@
 			$EstadoLote = $Fila["nom_estado_lote"];
 			$PesoRetalla=$Fila["peso_retalla"];
 			$PesoMuestra=$Fila["peso_muestra"];
-			if($Fila[remuestreo]=='S')
-				$LoteRemuestreo=$Fila[num_lote_remuestreo];
+			if($Fila["remuestreo"]=='S')
+				$LoteRemuestreo=$Fila["num_lote_remuestreo"];
 			else
 				$LoteRemuestreo='';
 			$Consulta="select fecha_recepcion from age_web.detalle_lotes where lote='$Lote' and fin_lote='S'";
 			$RespLote=mysqli_query($link, $Consulta);
 			$FilaLote=mysqli_fetch_array($RespLote);
-			$FechaCierre=$FilaLote["fecha_recepcion"];
+			$FechaCierre = isset($FilaLote["fecha_recepcion"])?$FilaLote["fecha_recepcion"]:"";
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$Lote;
-			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 			$CantDec=0;
-			if ($DatosLote["recepcion"]=="PMN")
+			$recepcion  = isset($DatosLote["recepcion"])?$DatosLote["recepcion"]:"";
+			$peso_seco  = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+			$peso_seco2 = isset($DatosLote["peso_seco2"])?$DatosLote["peso_seco2"]:0;
+			$peso_humedo= isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
+			if ($recepcion=="PMN")
 			{
 				$CantDec=4;
-				$PesoSecoLote=$DatosLote["peso_seco"];
+				$PesoSecoLote=$peso_seco;
 			}
 			else
-				$PesoSecoLote=$DatosLote["peso_seco2"];
-			$PesoHumLote=$DatosLote["peso_humedo"];
+				$PesoSecoLote=$peso_seco2;
+
+			$PesoHumLote = $peso_humedo;
+			$LeyCu     = 0;
+			$UnidadCu  = "";
+			$LeyAg     = 0;
+			$UnidadAg  = "";
+			$LeyAu     = 0;
+			$UnidadAu  = "";
+
 			$Consulta="select t1.recargo,t1.cod_leyes,t1.valor,t1.cod_unidad,t2.abreviatura,t3.abreviatura as nomley from age_web.leyes_por_lote t1 ";
 			$Consulta.="left join proyecto_modernizacion.unidades t2 on t1.cod_unidad=t2.cod_unidad left join proyecto_modernizacion.leyes t3 on t1.cod_leyes=t3.cod_leyes ";
 			$Consulta.="where lote='$Lote' and recargo='R' and t1.cod_leyes in('02','04','05')";
@@ -73,15 +85,15 @@
 				switch($FilaLeyes["cod_leyes"])
 				{
 					case "02":
-						$LeyCu=$FilaLeyes[valor];
+						$LeyCu=$FilaLeyes["valor"];
 						$UnidadCu=$FilaLeyes["abreviatura"];
 						break;
 					case "04":
-						$LeyAg=$FilaLeyes[valor];
+						$LeyAg=$FilaLeyes["valor"];
 						$UnidadAg=$FilaLeyes["abreviatura"];
 						break;
 					case "05":
-						$LeyAu=$FilaLeyes[valor];
+						$LeyAu=$FilaLeyes["valor"];
 						$UnidadAu=$FilaLeyes["abreviatura"];
 						break;
 				}
@@ -212,14 +224,14 @@
 			$RespLeyes=mysqli_query($link, $Consulta);
 			while($FilaLeyes=mysqli_fetch_array($RespLeyes))
 			{
-				$pdf->addText(5,$PosAux,10,$FilaLeyes[nomley],0,0);
+				$pdf->addText(5,$PosAux,10,$FilaLeyes["nomley"],0,0);
 				$pdf->addText(90,$PosAux,10,$FilaLeyes["abreviatura"],0,0);
-				if($FilaLeyes[valor]!=0)
-					$pdf->addTextWrap(110,$PosAux,60,10,number_format($FilaLeyes[valor],4,',','.'),$justification='right',0,0);
+				if($FilaLeyes["valor"]!=0)
+					$pdf->addTextWrap(110,$PosAux,60,10,number_format($FilaLeyes["valor"],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(110,$PosAux,60,10,'---',$justification='right',0,0);
-				if($FilaLeyes[valor2]!=0)	
-					$pdf->addTextWrap(165,$PosAux,60,10,number_format($FilaLeyes[valor2],4,',','.'),$justification='right',0,0);
+				if($FilaLeyes["valor2"]!=0)	
+					$pdf->addTextWrap(165,$PosAux,60,10,number_format($FilaLeyes["valor2"],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(165,$PosAux,60,10,'---',$justification='right',0,0);
 				if($FilaLeyes["valor3"]!=0)		
@@ -230,31 +242,31 @@
 					$pdf->addTextWrap(280,$PosAux,60,10,number_format($FilaLeyes["valor3"],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(280,$PosAux,60,10,'---',$justification='right',0,0);
-				if($FilaLeyes[valor_retalla]!=0)	
-					$pdf->addTextWrap(360,$PosAux,60,10,number_format($FilaLeyes[valor_retalla],4,',','.'),$justification='right',0,0);
+				if($FilaLeyes["valor_retalla"]!=0)	
+					$pdf->addTextWrap(360,$PosAux,60,10,number_format($FilaLeyes["valor_retalla"],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(360,$PosAux,60,10,'---',$justification='right',0,0);
-				if($FilaLeyes[inc_retalla]!=0)	
-					$pdf->addTextWrap(415,$PosAux,60,10,number_format($FilaLeyes[inc_retalla],4,',','.'),$justification='right',0,0);
+				if($FilaLeyes["inc_retalla"]!=0)	
+					$pdf->addTextWrap(415,$PosAux,60,10,number_format($FilaLeyes["inc_retalla"],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(415,$PosAux,60,10,'---',$justification='right',0,0);
-				if($FilaLeyes[ley_canje]!=0)	
-					$pdf->addTextWrap(475,$PosAux,60,10,number_format($FilaLeyes[ley_canje],4,',','.'),$justification='right',0,0);
+				if($FilaLeyes["ley_canje"]!=0)	
+					$pdf->addTextWrap(475,$PosAux,60,10,number_format($FilaLeyes["ley_canje"],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(475,$PosAux,60,10,'---',$justification='right',0,0);
-				if($FilaLeyes[ley_canje]!=0)	
-					$pdf->addTextWrap(530,$PosAux,60,10,number_format($FilaLeyes[ley_canje]+$FilaLeyes[inc_retalla],4,',','.'),$justification='right',0,0);
+				if($FilaLeyes["ley_canje"]!=0)	
+					$pdf->addTextWrap(530,$PosAux,60,10,number_format($FilaLeyes["ley_canje"]+$FilaLeyes["inc_retalla"],4,',','.'),$justification='right',0,0);
 				else
 					$pdf->addTextWrap(530,$PosAux,60,10,'---',$justification='right',0,0);
 				$Pos=$Pos-15;
 				$PosAux=$Pos;
-				switch($FilaLeyes[paquete_canje])
+				switch($FilaLeyes["paquete_canje"])
 				{
 					case "3":
-						$Pqte3Canje=$Pqte3Canje.$FilaLeyes[abrev_ley].", ";
+						$Pqte3Canje=$Pqte3Canje.$FilaLeyes["abrev_ley"].", ";
 						break;
 					case "4":
-						$Pqte4Canje=$Pqte4Canje.$FilaLeyes[abrev_ley].", ";
+						$Pqte4Canje=$Pqte4Canje.$FilaLeyes["abrev_ley"].", ";
 						break;
 				}
 			}
@@ -262,13 +274,13 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$Lote;
-			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
+			LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
 			//$Pos=430;
 			$Pos=$Pos-15;
 			$PosAux=$Pos;
 			//$PosAux="-".$Pos;
 			reset($ArrLeyes);
-			while(list($c,$v)=each($ArrLeyes))
+			foreach($ArrLeyes as $c=>$v)
 			{
 				if($c!='01'&&$c!='')
 				{
@@ -299,8 +311,8 @@
 				$DatosLote["lote"]=$Lote;
 				$DatosLote["recargo"]=$FilaRec["recargo"];
 				$ArrLeyes["01"][0]="01";
-				LeyesLoteRecargo(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
-				$pdf->addTextWrap($PosCol,$PosAux,60,10,"R ".$FilaRec[rec],$justification='left',0,0);
+				LeyesLoteRecargo($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
+				$pdf->addTextWrap($PosCol,$PosAux,60,10,"R ".$FilaRec["rec"],$justification='left',0,0);
 				reset($ArrLeyes);
 				$pdf->addTextWrap($PosCol+105,$PosAux,60,10,number_format($ArrLeyes["01"][2],4,',','.'),$justification='right',0,0);
 				$pdf->addTextWrap($PosCol+85,$PosAux,60,10,$ArrLeyes["01"][4],$justification='left',0,0);

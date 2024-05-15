@@ -108,15 +108,15 @@
 						{
 							case "0":
 								if ($FilaLeyes["cod_leyes"]=='02') 
-										$valorcu = $FilaLeyes[valor];
+										$valorcu = $FilaLeyes["valor"];
 								if ($FilaLeyes["cod_leyes"]=='04') 
-										$valorag = $FilaLeyes[valor];
+										$valorag = $FilaLeyes["valor"];
 								if ($FilaLeyes["cod_leyes"]=='05') 
-										$valorau = $FilaLeyes[valor];
+										$valorau = $FilaLeyes["valor"];
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes[nomley];
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][1]=$FilaLeyes["abreviatura"];
 								if($FilaLeyes[provisional]!='N')//CUANDO NO ES VIRTUAL
-									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor];//VALOR LEY PQTE 1 
+									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["valor"];//VALOR LEY PQTE 1 
 								else
 									$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes[valor2];//VALOR LEY PROVISIONAL
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][3]='';//VALOR LEY PQTE 2 
@@ -131,7 +131,7 @@
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][15]=$FilaLeyes["cod_unidad"];//COD_UNIDAD
 								break;
 							case "R":
-								$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]=$FilaLeyes[valor];
+								$ArrayLeyes[$FilaLeyes["cod_leyes"]][6]=$FilaLeyes["valor"];
 								break;		
 						}
 					}
@@ -141,27 +141,27 @@
 					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysql_fetch_array($Respuesta))
 					{
-						if ($Fila["cod_leyes"]=='02' && ($Fila[valor1] != $valorcu) && $valorcu > 0)
+						if ($Fila["cod_leyes"]=='02' && ($Fila["valor1"] != $valorcu) && $valorcu > 0)
 						{
-							$Fila[valor1] = $valorcu;
+							$Fila["valor1"] = $valorcu;
 						}
-						if ($Fila["cod_leyes"]=='04' && ($Fila[valor1] != $valorag) && $valorag > 0)
+						if ($Fila["cod_leyes"]=='04' && ($Fila["valor1"] != $valorag) && $valorag > 0)
 						{
-							$Fila[valor1] = $valorag;
+							$Fila["valor1"] = $valorag;
 						}
-						if ($Fila["cod_leyes"]=='05' && ($Fila[valor1] != $valorau) && $valorau > 0)
+						if ($Fila["cod_leyes"]=='05' && ($Fila["valor1"] != $valorau) && $valorau > 0)
 						{
-							$Fila[valor1] = $valorau;
+							$Fila["valor1"] = $valorau;
 						}
-						$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila[valor1]*1;//VALOR LEY PQTE 1 
+						$ArrayLeyes[$Fila["cod_leyes"]][2]=$Fila["valor1"]*1;//VALOR LEY PQTE 1 
 						$ArrayLeyes[$Fila["cod_leyes"]][3]=$Fila[valor2]*1;//VALOR LEY PQTE 2 
 						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"]*1;//VALOR LEY PQTE 3 		
 						$ArrayLeyes[$Fila["cod_leyes"]][4]=$Fila["valor3"]*1;//VALOR LEY PQTE 3 
 						$ArrayLeyes[$Fila["cod_leyes"]][5]=$Fila["valor4"]*1;//VALOR LEY PQTE 4 
-						$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila[valor_retalla]*1;//LEY RETALLA
+						$ArrayLeyes[$Fila["cod_leyes"]][6]=$Fila["valor_retalla"]*1;//LEY RETALLA
 						$ArrayLeyes[$Fila["cod_leyes"]][7]=$Fila[inc_retalla]*1;//INCIDENCIA RETALLA
-						$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila[ley_canje]*1;//LEY CANJE
-						$ArrayLeyes[$Fila["cod_leyes"]][9]=($Fila[inc_retalla]+$Fila[ley_canje])*1;//LEY PAGO
+						$ArrayLeyes[$Fila["cod_leyes"]][8]=$Fila["ley_canje"]*1;//LEY CANJE
+						$ArrayLeyes[$Fila["cod_leyes"]][9]=($Fila[inc_retalla]+$Fila["ley_canje"])*1;//LEY PAGO
 						$ArrayLeyes[$Fila["cod_leyes"]][10]=$Fila[paquete_canje]*1;//NUM PAQUETE
 						$ArrayLeyes[$Fila["cod_leyes"]][11]=$Fila["observacion"];//SEGUIMIENTO DE LA LEY
 						$ArrayLeyes[$Fila["cod_leyes"]][15]=$Fila["cod_unidad"];//COD_UNIDAD
@@ -211,20 +211,20 @@
 				{
 					case "02":
 						$ContCu++;
-						$LeyCu1=str_replace(',','.',$FilaLeyesHVL[valor1]);
+						$LeyCu1=str_replace(',','.',$FilaLeyesHVL["valor1"]);
 						$LeyCu2=str_replace(',','.',$FilaLeyesHVL[valor2]);
 						$AcumCu1=$AcumCu1+round((($PesoLote*$LeyCu1)/100),3);
 						$AcumCu2=$AcumCu2+round((($PesoLote*$LeyCu2)/100),3);
 					break;	
 					case "04":
 						$ContAg++;
-						$LeyAg1=str_replace(',','.',$FilaLeyesHVL[valor1]);
+						$LeyAg1=str_replace(',','.',$FilaLeyesHVL["valor1"]);
 						$LeyAg2=str_replace(',','.',$FilaLeyesHVL[valor2]);
 						$AcumAg1=$AcumAg1+round((($PesoLote*$LeyAg1)/1000),3);
 						$AcumAg2=$AcumAg2+round((($PesoLote*$LeyAg2)/1000),3);
 					break;	
 					case "05":
-						$LeyAu1=str_replace(',','.',$FilaLeyesHVL[valor1]);
+						$LeyAu1=str_replace(',','.',$FilaLeyesHVL["valor1"]);
 						$LeyAu2=str_replace(',','.',$FilaLeyesHVL[valor2]);
 						$AcumAu1=$AcumAu1+round((($PesoLote*$LeyAu1)/1000),3);
 						$AcumAu2=$AcumAu2+round((($PesoLote*$LeyAu2)/1000),3);
@@ -457,10 +457,10 @@
 								//echo $Consulta."<br>";
 								$Respuesta2=mysqli_query($link, $Consulta);
 								$Fila2=mysql_fetch_array($Respuesta2);
-								$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
+								$LimParticion=($ValorLey1*$Fila2["limite_particion"]*1)/100;
 							}
 							else
-								$LimParticion=$Fila[limite_particion]*1;
+								$LimParticion=$Fila["limite_particion"]*1;
 							$Dif=abs($ValorLey1-$ValorLey2)*1;
 							$Seguimiento='TOMA LEY DEL PQTE 2<br>';
 							$Seguimiento.='LIMITE PARTICION:'.number_format($LimParticion,4,',','.')."<br>DIFERENCIA(PQTE1-PQTE2):".number_format($Dif,4,',','.')."<br>";
@@ -559,10 +559,10 @@
 								$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
 								$Respuesta2=mysqli_query($link, $Consulta);
 								$Fila2=mysql_fetch_array($Respuesta2);
-								$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
+								$LimParticion=($ValorLey1*$Fila2["limite_particion"]*1)/100;
 							}
 							else
-								$LimParticion=$Fila[limite_particion]*1;
+								$LimParticion=$Fila["limite_particion"]*1;
 							$Seguimiento.='LIMITE PARTICION:'.number_format($LimParticion,4,',','.')."<br>";
 							$Dif1=abs($ValorLey3-$ValorLey2)*1;
 							$Dif2=abs($ValorLey3-$ValorLey1)*1;
@@ -605,10 +605,10 @@
 							$Consulta="select * from age_web.limites_particion where cod_plantilla='$CmbPlantLimPart' and cod_ley='$CodLey' and rango1='0' and rango2='0'";
 							$Respuesta2=mysqli_query($link, $Consulta);
 							$Fila2=mysql_fetch_array($Respuesta2);
-							$LimParticion=($ValorLey1*$Fila2[limite_particion]*1)/100;
+							$LimParticion=($ValorLey1*$Fila2["limite_particion"]*1)/100;
 						}
 						else
-							$LimParticion=$Fila[limite_particion]*1;
+							$LimParticion=$Fila["limite_particion"]*1;
 						$Seguimiento.='LIMITE PARTICION:'.number_format($LimParticion,4,',','')."<br>";
 						$Dif1=abs($ValorLey4-$ValorLey2)*1;
 						$Dif2=abs($ValorLey4-$ValorLey1)*1;
