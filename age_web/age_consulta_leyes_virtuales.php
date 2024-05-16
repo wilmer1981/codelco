@@ -3,6 +3,14 @@
 	$CodigoDePantalla = 54;
 	include("../principal/conectar_principal.php");	
 	include("age_funciones.php");	
+
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$Mostrar       = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 ?>
 <html>
 <head>
@@ -82,7 +90,7 @@ function Recarga3()
         <td height="23" colspan="3"><select name="Proveedor" style="width:300">
           <option class='NoSelec' value='S'>TODOS</option>
           <?php
-				if (isset($SubProducto) && $SubProducto != "S")
+				if ($SubProducto!="" && $SubProducto != "S")
 				{
 					$Consulta = "select t1.rut_prv as RUTPRV_A, t1.nombre_prv as NOMPRV_A ";
 					$Consulta.= " from sipa_web.proveedores t1 inner join age_web.relaciones t2 ";
@@ -234,7 +242,7 @@ function Recarga3()
 						$DatosLote= array();
 						$ArrLeyes=array();
 						$DatosLote["lote"]=$FilaLote["lote"];
-						LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+						LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 						echo "<td>".$FilaLote["lote"]."</td>\n";	
 						echo "<td align='center'>".number_format($ArrLeyes["02"][2],2,'','.')."</td>\n";
 						echo "<td align='center'>".number_format($ArrLeyes["04"][2],2,'','.')."</td>\n";

@@ -1,25 +1,34 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");	
-	include("age_funciones.php");	
+	include("age_funciones.php");
+	
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$Mostrar       = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 ?>
 <html>
 <head>
@@ -86,7 +95,7 @@
 				$Consulta="select distinct t1.rut_proveedor,t2.NOMPRV_A as nom_prv from age_web.lotes t1 inner join rec_web.proved t2 on t1.rut_proveedor=t2.RUTPRV_A ";				
 				$Consulta.="inner join age_web.leyes_por_lote t3 on t1.lote=t3.lote and t3.provisional = 'S' where t1.fecha_recepcion between '$FechaIni' and '$FechaFin' ";
 				$Consulta.="and t1.cod_producto='1' and t1.cod_subproducto='".$FilaProd["cod_subproducto"]."' ";	
-				if (isset($Proveedor) && $Proveedor != "S")
+				if ($Proveedor!="" && $Proveedor != "S")
 					$Consulta.= " and t1.rut_proveedor='".$Proveedor."' ";	
 				$Consulta.= "order by t2.NOMPRV_a";
 				//echo $Consulta."<br>";
@@ -104,7 +113,7 @@
 						$DatosLote= array();
 						$ArrLeyes=array();
 						$DatosLote["lote"]=$FilaLote["lote"];
-						LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+						LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 						echo "<td>".$FilaLote["lote"]."</td>\n";	
 						echo "<td align='center'>".number_format($ArrLeyes["02"][2],2,'','.')."</td>\n";
 						echo "<td align='center'>".number_format($ArrLeyes["04"][2],2,'','.')."</td>\n";
