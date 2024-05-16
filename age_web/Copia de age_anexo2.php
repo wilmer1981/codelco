@@ -188,7 +188,7 @@
 							if($PorcHum !=0)
 							{
 								$PesoSecoRec = $PesoHumedoRec - (($PesoHumedoRec*$PorcHum)/100);
-								if($Fila01[recepcion]=='PMN')
+								if($Fila01["recepcion"]=='PMN')
 									$TotalPesoSecLote=$TotalPesoSecLote+$PesoSecoRec;
 								else
 									$TotalPesoSecLote=$TotalPesoSecLote+round($PesoSecoRec);
@@ -203,7 +203,7 @@
 						}
 						$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
 						$EsPlamen=false;
-						/*if($Fila01[recepcion]=='PMN')
+						/*if($Fila01["recepcion"]=='PMN')
 						{
 							$EsPlamen=true;
 							$DecPHum=2;$DecPSeco=2;$DecLeyes=2;$DecFinos=2;
@@ -306,7 +306,7 @@
 					$RespMerma=mysqli_query($link, $Consulta);
 					if($FilaMerma=mysqli_fetch_array($RespMerma))
 					{
-						$Porce1=str_replace(',','.',$FilaMerma[porc]);
+						$Porce1=str_replace(',','.',$FilaMerma["porc"]);
 						$Consulta2 = "select * from age_web.mermas ";
 						$Consulta2.= " where cod_producto='".$FilaMerma["cod_producto"]."' ";
 						$Consulta2.= " and cod_subproducto='".$FilaMerma["cod_subproducto"]."' ";

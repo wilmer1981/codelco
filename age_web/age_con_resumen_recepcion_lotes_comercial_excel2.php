@@ -290,7 +290,7 @@
 					}	
 					//$PesoLoteH=$DatosLote["peso_humedo"];
 					$CantDecPeso=0;$CantDecLF=0;
-					if($Fila01[recepcion]=='PMN')
+					if($Fila01["recepcion"]=='PMN')
 					{
 						$EsPlamen=true;
 						$CantDecPeso=4;$CantDecLF=4;

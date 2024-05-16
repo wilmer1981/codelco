@@ -289,7 +289,7 @@ body {
 					}	
 					//echo $FilaLote["lote"]."-".$PesoLoteS_R."-".$PesoLoteS."-".$PesoLoteH;
 					$CantDecPeso=0;$CantDecLF=0;					
-					if($Fila01[recepcion]=='PMN')
+					if($Fila01["recepcion"]=='PMN')
 					{
 						$EsPlamen=true;
 						$CantDecPeso=4;$CantDecLF=4;

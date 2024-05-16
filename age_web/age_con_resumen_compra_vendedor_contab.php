@@ -2,13 +2,13 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 58;
 	include("../principal/conectar_principal.php");
-	if(!isset($CmbMes))
-	{
-		$CmbMes=date('m');
-		$CmbAno=date('Y');
-	}		
-	if(!isset($TxtFechaConsulta))
-		$TxtFechaConsulta=date('Y-m-d');
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$TxtFechaConsulta  = isset($_REQUEST["TxtFechaConsulta"])?$_REQUEST["TxtFechaConsulta"]:date('Y-m-d');
+	$CmbRecepcion      = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+		
+
 ?>
 <html>
 <head>
@@ -63,7 +63,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <?php
 	for ($i=1;$i<=12;$i++)
 	{
-		if (isset($CmbMes))
+		if ($CmbMes!="")
 		{
 			if ($i==$CmbMes)
 				echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>";
@@ -84,7 +84,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
                 <?php
 	for ($i=date("Y")-1;$i<=date("Y");$i++)
 	{
-		if (isset($CmbAno))
+		if ($CmbAno!="")
 		{
 			if ($i==$CmbAno)
 				echo "<option selected value='".$i."'>".$i."</option>";

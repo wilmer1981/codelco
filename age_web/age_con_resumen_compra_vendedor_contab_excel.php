@@ -168,7 +168,7 @@ if ($Fila = mysqli_fetch_array($Resp))
 						LeyesProveedor($FilaAsig["cod_recepcion"],$FilaPrv["rut_proveedor"],$FilaProd["cod_producto"],$FilaProd["cod_subproducto"],&$ArrDatos,&$ArrLeyesProv,'N','S','S',$TxtFechaIni,$TxtFechaFin,$FechaCierreAnexo);
 						$CantDecPeso=0;$CantDecLF=0;
 						$PesoS=$ArrDatos[peso_seco3];
-						if($FilaProd[recepcion]=='PMN')
+						if($FilaProd["recepcion"]=='PMN')
 						{
 							$CantDecPeso=4;$CantDecLF=0;
 							$PesoS=$ArrDatos[peso_seco];
@@ -234,7 +234,7 @@ if ($Fila = mysqli_fetch_array($Resp))
 					else
 						$PorcHumProd = 0;
 					$CantDecPeso=0;$CantDecLF=0;
-					if($FilaProd[recepcion]=='PMN')
+					if($FilaProd["recepcion"]=='PMN')
 					{
 						$CantDecPeso=4;$CantDecLF=0;
 					}

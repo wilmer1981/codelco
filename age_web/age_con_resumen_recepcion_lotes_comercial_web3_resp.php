@@ -344,7 +344,7 @@ body {
 					}
 					$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
 					$EsPlamen=false;
-					if($Fila01[recepcion]=='PMN')
+					if($Fila01["recepcion"]=='PMN')
 					{
 						$EsPlamen=true;
 						$DecPHum=4;$DecPSeco=4;$DecLeyes=4;$DecFinos=4;

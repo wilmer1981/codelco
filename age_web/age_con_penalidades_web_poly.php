@@ -342,7 +342,7 @@ body {
 					$PesoLoteS2=$DatosLote["peso_seco2"];
 					$PesoLoteH=$DatosLote["peso_humedo"];
 					$CantDecPeso=0;$CantDecLF=0;
-					if($Fila01[recepcion]=='PMN')
+					if($Fila01["recepcion"]=='PMN')
 					{
 						$CantDecPeso=4;$CantDecLF=0;
 					}	

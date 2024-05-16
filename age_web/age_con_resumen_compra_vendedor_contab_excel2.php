@@ -1,26 +1,34 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	
 	include("../principal/conectar_principal.php");	
 	include("../age_web/age_funciones.php");	
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbRecepcion  = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$TxtFechaConsulta  = isset($_REQUEST["TxtFechaConsulta"])?$_REQUEST["TxtFechaConsulta"]:"";
+	$CmbClaseProd  = isset($_REQUEST["CmbClaseProd"])?$_REQUEST["CmbClaseProd"]:"";
+	$CmbRecepcion  = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
 	$FechaC=$CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
@@ -64,12 +72,10 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url();
 }
 .Estilo1 {color: #0000FF}
--->
 </style><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
 
 <body>
@@ -108,6 +114,9 @@ body {
 		$Consulta.= "order by cod_recepcion ";
 		//echo $Consulta;
 		$RespAsig = mysqli_query($link, $Consulta);
+		$EsPlamen=false;//WSO
+		$TotalPesoSecTot=0;
+		$TotalPesoHumTot=0;
 		while ($FilaAsig = mysqli_fetch_array($RespAsig))
 		{
 			echo "<tr class='ColorTabla01'>\n";
@@ -218,7 +227,7 @@ body {
 							{
 								if ($FilaMerma["rut_proveedor"]=="")
 								{
-									$VarMerma = ($FilaMerma[porc] * 1);
+									$VarMerma = ($FilaMerma["porc"] * 1);
 								}
 								$Consulta2 = "select * from age_web.mermas ";
 								$Consulta2.= " where cod_producto='".$FilaLote["cod_producto"]."' ";
@@ -229,7 +238,7 @@ body {
 								if($RowM=mysqli_fetch_array($RespMer))
 								{
 									$SiMerma = 1;
-									$PrvMerma= ($RowM[porc] * 1);
+									$PrvMerma= ($RowM["porc"] * 1);
 								}
 							}
 							if ($SiMerma==1)
@@ -270,21 +279,21 @@ body {
 										case "02":
 											$IncRetalla=0;
 											if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-												CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+												CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 											$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 											$LeyCuOri = $FilaLeyes["valor"]+$IncRetalla;
 											break;
 										case "04":
 											$IncRetalla=0;
 											if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-												CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+												CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 											$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 											$LeyAgOri = $FilaLeyes["valor"]+$IncRetalla;
 											break;
 										case "05":
 											$IncRetalla=0;
 											if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-												CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+												CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 											$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 											$LeyAuOri = $FilaLeyes["valor"]+$IncRetalla;
 											break;
@@ -293,7 +302,7 @@ body {
 								if($PorcHum!=0)
 								{
 									$PesoSecoRec = $PesoHumedoRec - ($PesoHumedoRec*$PorcHum)/100;
-									if($FilaProd[recepcion]=='PMN')
+									if($FilaProd["recepcion"]=='PMN')
 										$TotalPesoSecLote=$TotalPesoSecLote+$PesoSecoRec;
 									else
 										$TotalPesoSecLote=$TotalPesoSecLote+round($PesoSecoRec);
@@ -308,7 +317,7 @@ body {
 							}
 							$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
 							$EsPlamen=false;
-							if($FilaProd[recepcion]=='PMN')
+							if($FilaProd["recepcion"]=='PMN')
 							{
 								$EsPlamen=true;
 								$DecPHum=2;$DecPSeco=3;$DecLeyes=2;$DecFinos=2;
@@ -607,7 +616,7 @@ body {
 		echo "</table>\n";
 		
 //FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla)
+function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
 {	
 	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
 	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";

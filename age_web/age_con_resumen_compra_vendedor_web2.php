@@ -199,7 +199,7 @@ body {
 							{
 								if($FilaMerma["rut_proveedor"]=="")
 								{
-									$VarMerma = ($FilaMerma[porc] * 1);
+									$VarMerma = ($FilaMerma["porc"] * 1);
 								}
 								$Consulta2 = "select * from age_web.mermas ";
 								$Consulta2.= " where cod_producto='".$FilaLote["cod_producto"]."' ";
@@ -210,7 +210,7 @@ body {
 								if ($Row=mysqli_fetch_array($RespM))
 								{
 									$SiMerma = 1;
-									$PrvMerma = ($Row[porc] * 1);
+									$PrvMerma = ($Row["porc"] * 1);
 								}
 							}
 							if ($SiMerma==1)
@@ -286,7 +286,7 @@ body {
 							}
 							$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
 							$EsPlamen=false;
-							if($Fila01[recepcion]=='PMN')
+							if($Fila01["recepcion"]=='PMN')
 							{
 								$EsPlamen=true;
 								$DecPHum=4;$DecPSeco=4;$DecLeyes=4;$DecFinos=4;

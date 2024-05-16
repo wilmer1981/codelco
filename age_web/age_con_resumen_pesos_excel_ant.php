@@ -136,7 +136,7 @@
 					$ArrLeyesProv["01"][0]="01";$ArrLeyesProv["02"][0]="02";$ArrLeyesProv["04"][0]="04";$ArrLeyesProv["05"][0]="05";
 					LeyesProveedor('',$FilaPrv["rut_proveedor"],$FilaProd["cod_producto"],$FilaProd["cod_subproducto"],&$ArrDatos,&$ArrLeyesProv,'N','S','S',$TxtFechaIni,$TxtFechaFin,"");
 					$CantDecPeso=0;$CantDecLF=0;
-					if($FilaProd[recepcion]=='PMN')
+					if($FilaProd["recepcion"]=='PMN')
 					{
 						$CantDecPeso=4;$CantDecLF=0;
 					}
@@ -158,7 +158,7 @@
 				else
 					$PorcHumProd = 0;
 				$CantDecPeso=0;$CantDecLF=0;
-				if($FilaProd[recepcion]=='PMN')
+				if($FilaProd["recepcion"]=='PMN')
 				{
 					$CantDecPeso=4;$CantDecLF=0;
 				}

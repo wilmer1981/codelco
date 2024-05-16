@@ -263,7 +263,7 @@ body {
 					$PesoLoteS=$DatosLote["peso_seco"];
 					$PesoLoteH=$DatosLote["peso_humedo"];
 					$CantDecPeso=0;$CantDecLF=0;
-					if($Fila01[recepcion]=='PMN')
+					if($Fila01["recepcion"]=='PMN')
 					{
 						$CantDecPeso=4;$CantDecLF=0;
 					}
@@ -328,7 +328,7 @@ body {
 				reset($ArrLeyesProv);
 				LeyesProveedor($FilaAux["cod_recepcion"],$FilaAux["rut_proveedor"],'1',$Fila01["cod_subproducto"],&$ArrDatos,&$ArrLeyesProv,'N','S','S',$TxtFechaIni,$TxtFechaFin,"");
 				$CantDecPeso=0;$CantDecLF=0;
-				if($Fila01[recepcion]=='PMN')
+				if($Fila01["recepcion"]=='PMN')
 				{
 					$CantDecPeso=4;$CantDecLF=0;
 				}
@@ -398,7 +398,7 @@ body {
 			reset($ArrLeyesProd);
 			LeyesProducto('',$RutPrv,$FilaTipoRecep["cod_recepcion"],'1',$Fila01["cod_subproducto"],&$ArrDatos,&$ArrLeyesProd,'N','S','S',$TxtFechaIni,$TxtFechaFin,"");
 			$CantDecPeso=0;$CantDecLF=0;
-			if($Fila01[recepcion]=='PMN')
+			if($Fila01["recepcion"]=='PMN')
 			{
 				$CantDecPeso=4;$CantDecLF=0;
 			}
@@ -467,7 +467,7 @@ body {
 		reset($ArrLeyesProd2);
 		LeyesProducto('',$RutPrv2,'','1',$Fila01["cod_subproducto"],&$ArrDatos,&$ArrLeyesProd2,'N','S','S',$TxtFechaIni,$TxtFechaFin,"");
 		$CantDecPeso=0;$CantDecLF=0;
-		if($Fila01[recepcion]=='PMN')
+		if($Fila01["recepcion"]=='PMN')
 		{
 			$CantDecPeso=4;$CantDecLF=0;
 		}

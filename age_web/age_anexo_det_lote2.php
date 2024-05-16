@@ -125,7 +125,7 @@ body {
 		$RespMerma=mysqli_query($link, $Consulta);
 		if($FilaMerma=mysqli_fetch_array($RespMerma))
 		{
-			$Porce1=str_replace(',','.',$FilaMerma[porc]);
+			$Porce1=str_replace(',','.',$FilaMerma["porc"]);
 			$Consulta2 = "select * from age_web.mermas ";
 			$Consulta2.= " where cod_producto='".$FilaMerma["cod_producto"]."' ";
 			$Consulta2.= " and cod_subproducto='".$FilaMerma["cod_subproducto"]."' ";
@@ -136,7 +136,7 @@ body {
 				if ($FilaM["rut_proveedor"]==$Rut)
 				{
 					$Siesta=1;
-					$Porce2=str_replace(',','.',$FilaM[porc]);
+					$Porce2=str_replace(',','.',$FilaM["porc"]);
 				}
 			}
 		}

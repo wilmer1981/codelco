@@ -124,7 +124,7 @@
 							if($PorcHum > 0)
 							{
 								$PesoSecoRec = $PesoHumedoRec - (($PesoHumedoRec*$PorcHum)/100);
-								if($Fila01[recepcion]=='PMN')
+								if($Fila01["recepcion"]=='PMN')
 								{
 									$TotalPesoSecLote=$TotalPesoSecLote+$PesoSecoRec;
 								}
