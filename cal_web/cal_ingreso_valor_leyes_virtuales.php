@@ -162,13 +162,13 @@ function Salir(Valores)
 					$Recargo='N';				
 				$Datos=$Fila["nro_solicitud"]."~~".$Recargo."~~".$Fila[rut_funcionario]."~~".$Fila["cod_leyes"];
 				echo "<tr align='center'>";
-				if($Fila[virt]=='S')
+				if($Fila["virt"]=='S')
 					echo "<td height='15'><input type='checkbox' name='CheckSA' value='$Datos'></td>";
 				else
 					echo "<td height='15'><input type='checkbox' name='CheckSA' value='$Datos' disabled></td>";	
 				echo "<td height='28'>$Fila["nro_solicitud"]</td>";
 				echo "<td height='28'>$Fila["abreviatura"]</td>";
-				if($Fila[virt]=='S')
+				if($Fila["virt"]=='S')
 				{
 					echo "<td><input type='text' name='TxtValor' style='width:90' value = \"".$Fila["valor2"]."\" class='InputCen'></td>";
 					echo "<td><select name='CmbUnidad' style='width:75'>";

@@ -2,7 +2,23 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 53;
 	include("../principal/conectar_principal.php");	
+	$Proceso          = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mostrar          = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$LotesOcultos     = isset($_REQUEST["LotesOcultos"])?$_REQUEST["LotesOcultos"]:"";
+
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtLey     = isset($_REQUEST["TxtLey"])?$_REQUEST["TxtLey"]:"";
+	$TxtLoteInicio = isset($_REQUEST["TxtLoteInicio"])?$_REQUEST["TxtLoteInicio"]:"";
+	$TxtLoteFinal  = isset($_REQUEST["TxtLoteFinal"])?$_REQUEST["TxtLoteFinal"]:"";
+	$CmbLeyes      = isset($_REQUEST["CmbLeyes"])?$_REQUEST["CmbLeyes"]:"";
+	
+
 	$ValoresSel=$LotesOcultos;//LotesOcultos ES UN HIDDEN QUE TOMA TODOS LO VALORES SELECCIONADOS
+
 	if($Proceso=='LMA'||$Proceso=='UL')	
 	{
 		
@@ -16,6 +32,7 @@
 	}
 	//echo $Solicitudes;
 	$Datos=explode("//",$ValoresSel);
+	$Lotes="";
 	foreach($Datos as $k => $v)
 	{
 		$Datos2=explode("~~",$v);
@@ -260,18 +277,16 @@ function SeleccionoCheck()
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
-	margin-right: 3p�xele;
-	margin-bottom: 3p�xele;
+	margin-right: 3px;
+	margin-bottom: 3px;
 	background-image: url();
 }
 body,td,th {
-	font-size: 10p�xele;
+	font-size: 10px;
 }
--->
 </style></head>
 
 <body>
@@ -314,7 +329,7 @@ body,td,th {
         <td height="23" colspan="2"><select name="Proveedor" style="width:300">   
 		<option class='NoSelec' value='S'>TODOS</option>      
           <?php
-				if (isset($SubProducto) && $SubProducto != "S")
+				if ($SubProducto!="" && $SubProducto != "S")
 				{
 					$Consulta = "select t1.rut_prv as RUTPRV_A, t1.nombre_prv as NOMPRV_A ";
 					$Consulta.= " from sipa_web.proveedores t1 inner join age_web.relaciones t2 ";
@@ -345,7 +360,7 @@ body,td,th {
 		<?php
 		for ($i=1;$i<=12;$i++)
 		{
-			if (!isset($Mes))
+			if ($Mes=="")
 			{
 				if ($i==date("n"))
 					echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
@@ -366,7 +381,7 @@ body,td,th {
 		<?php
 		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 		{
-			if (!isset($Ano))
+			if ($Ano=="")
 			{
 				if ($i==date("Y"))
 					echo "<option selected value='".$i."'>".$i."</option>\n";
@@ -392,9 +407,9 @@ body,td,th {
 		while($Fila=mysqli_fetch_array($Respuesta))
 		{
 			if($Fila["cod_leyes"]==$CmbLeyes)
-				echo "<option value='$Fila["cod_leyes"]' selected>$Fila["abreviatura"]</option>";
+				echo "<option value='".$Fila["cod_leyes"]."' selected>".$Fila["abreviatura"]."</option>";
 			else
-				echo "<option value='$Fila["cod_leyes"]'>$Fila["abreviatura"]</option>";
+				echo "<option value='".$Fila["cod_leyes"]."'>".$Fila["abreviatura"]."</option>";
 		}
 		?>
 		</select>&nbsp;<input type="text" name="TxtLey" value="<?php echo $TxtLey;?>" class="InputCen" size="12" onKeyDown="TeclaPulsada(true)">
@@ -465,15 +480,15 @@ body,td,th {
 			$ArrayLeyes['05'][2]='';
 			$Consulta = "select t1.cod_producto,t1.cod_subproducto,t2.abreviatura from age_web.lotes t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto ";
 			$Consulta.= "and t1.cod_subproducto=t2.cod_subproducto where t1.lote <> '' and t1.estado_lote <>'6' "; 
-			if(isset($TxtLoteInicio)&&$TxtLoteInicio!='')
+			if($TxtLoteInicio!="" && $TxtLoteInicio!='')
 				$Consulta.= " and t1.lote between '".$TxtLoteInicio."' and '".$TxtLoteFinal."' ";
 			else
 			{
-				if (isset($SubProducto) && $Subroducto != "S")
+				if ($SubProducto!="" && $SubProducto != "S")
 				{
 					$Consulta.= " and t1.cod_producto='1'";
 					$Consulta.= " and t1.cod_subproducto='".$SubProducto."'";
-					if (isset($Proveedor) && $Proveedor != "S")
+					if ($Proveedor!="" && $Proveedor != "S")
 						$Consulta.= " and t1.rut_proveedor='".$Proveedor."' ";	
 				}
 				$Consulta.= " and t1.lote between '".$AnoMes."000' and '".$AnoMes."999' ";
@@ -486,15 +501,15 @@ body,td,th {
 				$Consulta = "select t1.rut_proveedor,t2.nomprv_a ";
 				$Consulta.= " from age_web.lotes t1 left join rec_web.proved t2 on t1.rut_proveedor = t2.rutprv_a ";
 				$Consulta.= " where t1.lote <> '' "; 
-				if(isset($TxtLoteInicio)&&$TxtLoteInicio!='')
+				if($TxtLoteInicio!="" && $TxtLoteInicio!='')
 					$Consulta.= " and t1.lote between '".$TxtLoteInicio."' and '".$TxtLoteFinal."' ";
 				else
 				{
-					if (isset($SubProducto) && $Subroducto != "S")
+					if ($SubProducto!="" && $Subroducto!= "S")
 					{
 						$Consulta.= " and t1.cod_producto='1'";
 						$Consulta.= " and t1.cod_subproducto='".$FilaProd["cod_subproducto"]."'";
-						if (isset($Proveedor) && $Proveedor != "S")
+						if ($Proveedor!="" && $Proveedor != "S")
 							$Consulta.= " and t1.rut_proveedor='".$Proveedor."' ";	
 					}
 					$Consulta.= " and t1.lote between '".$AnoMes."000' and '".$AnoMes."999' ";
@@ -510,7 +525,7 @@ body,td,th {
 					$Consulta.= " and t1.cod_subproducto=t2.cod_subproducto ";
 					$Consulta.= " left join rec_web.proved t3 on t1.rut_proveedor = t3.rutprv_a ";
 					$Consulta.= " where t1.estado_lote <> '6' and t1.lote <> '' "; 
-					if(isset($TxtLoteInicio)&&$TxtLoteInicio!='')
+					if($TxtLoteInicio!="" && $TxtLoteInicio!='')
 						$Consulta.= " and t1.lote between '".$TxtLoteInicio."' and '".$TxtLoteFinal."' ";
 					else
 						$Consulta.= " and t1.lote between '".$AnoMes."000' and '".$AnoMes."999' ";
@@ -526,7 +541,7 @@ body,td,th {
 					while ($Fila = mysqli_fetch_array($Resp))
 					{
 						$MostrarLote='N';
-						while(list($c,$v)=each($ArrayLeyes))
+						foreach($ArrayLeyes as $c=>$v)
 						{
 							$ArrayLeyes[$c][0]='';$ArrayLeyes[$c][1]='';$ArrayLeyes[$c][2]='';
 						}
@@ -563,23 +578,23 @@ body,td,th {
 							$ProductoSA = $FilaLeyes["cod_producto"];
 							$SubProductoSA = $FilaLeyes["cod_subproducto"];
 							$IdMuestraSA = $FilaLeyes["id_muestra"];
-							if($FilaLeyes[virt]=='S')
+							if($FilaLeyes["virt"]=='S')
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=$FilaLeyes["valor"];
 							else
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][0]=0;
-							$ArrayLeyes[$FilaLeyes["cod_leyes"]][1]=$FilaLeyes[unidad];
-							if($FilaLeyes[virt]=='N'&&$FilaLeyes["valor"]!=''&&$FilaLeyes["valor"]!='0')
+							$ArrayLeyes[$FilaLeyes["cod_leyes"]][1]=$FilaLeyes["unidad"];
+							if($FilaLeyes["virt"]=='N' && $FilaLeyes["valor"]!='' && $FilaLeyes["valor"]!='0')
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]='N';
 							else
 								$ArrayLeyes[$FilaLeyes["cod_leyes"]][2]='S';
-							if($FilaLeyes[virt]=='S')
+							if($FilaLeyes["virt"]=='S')
 								$MostrarLote='S';
-							if(($FilaLeyes[virt]=='N')&&($FilaLeyes["valor"]==''||$FilaLeyes["valor"]=='0'))
+							if(($FilaLeyes["virt"]=='N') && ($FilaLeyes["valor"]=='' || $FilaLeyes["valor"]=='0'))
 								$MostrarLote='S';
 								
 							/*echo "LOTE:".$IdMuestraSA."<BR>";	
 							echo "LEY:".$FilaLeyes["cod_leyes"]."<br>";	
-							echo "ES VIRTUAL:".$FilaLeyes[virt]."<br>";
+							echo "ES VIRTUAL:".$FilaLeyes["virt"]."<br>";
 							echo "VALOR:".$FilaLeyes["valor"]."<br>";*/
 						}
 						$Consulta="select * from age_web.leyes_por_lote_canje where lote='".$Fila["lote"]."' and paquete_canje='2'";
@@ -593,7 +608,7 @@ body,td,th {
 						{
 							$MostrarProveedor='S';$MostrarProducto='S';
 							$Color="bgcolor='#FFFFFF'";
-							if($Fila[canjeable]=='S')
+							if($Fila["canjeable"]=='S')
 							{
 								$Consulta="select * from age_web.leyes_por_lote_canje where lote='".$Fila["lote"]."' and paquete_canje='2'";
 								$RespCanje=mysqli_query($link, $Consulta);
@@ -628,7 +643,7 @@ body,td,th {
 										$AnoAnt=$Ano;
 									}
 									$Consulta="select ano, mes, cod_producto, cod_subproducto, rut_proveedor,round(sum(peso_seco * round(c_02,3)) / sum(peso_seco),3) as fino_cu ,  round(sum(peso_seco * round(c_04,3)) / sum(peso_seco),3) as fino_ag , round(sum(peso_seco * round(c_05,3)) / sum(peso_seco),3) as fino_au ";
-									$Consulta.="from age_web.historico t1 inner join rec_web.proved t2 on t1.rut_proveedor=t2.rutprv_a where ano = '$AnoAnt' and mes ='$MesAnt' and cod_producto='$FilaProd["cod_producto"]' and cod_subproducto='$FilaProd["cod_subproducto"]' and  rut_proveedor='$FilaProv["rut_proveedor"]' ";
+									$Consulta.="from age_web.historico t1 inner join rec_web.proved t2 on t1.rut_proveedor=t2.rutprv_a where ano = '$AnoAnt' and mes ='$MesAnt' and cod_producto='".$FilaProd["cod_producto"]."' and cod_subproducto='".$FilaProd["cod_subproducto"]."' and  rut_proveedor='".$FilaProv["rut_proveedor"]."' ";
 									$Consulta.="group by ano, mes, rut_proveedor order by rut_proveedor, ano, lpad(mes,2,'0')"; 
 									$Respuesta=mysqli_query($link, $Consulta);
 									//echo $Consulta."<br>";
@@ -641,12 +656,12 @@ body,td,th {
 										//}	
 										//if($ArrayLeyes['04'][2]=='S')
 										//{
-											$ArrayLeyes['04'][0]=$FilaLeyes[fino_ag];
+											$ArrayLeyes['04'][0]=$FilaLeyes["fino_ag"];
 											$ArrayLeyes['04'][1]='g/t';
 										//}	
 										//if($ArrayLeyes['05'][2]=='S')
 										//{
-											$ArrayLeyes['05'][0]=$FilaLeyes[fino_au];
+											$ArrayLeyes['05'][0]=$FilaLeyes["fino_au"];
 											$ArrayLeyes['05'][1]='g/t';
 										//}	
 									}
@@ -656,13 +671,13 @@ body,td,th {
 									$RespLote=mysqli_query($link, $Consulta);
 									if($FilaLote=mysqli_fetch_array($RespLote))
 									{
-										$FechaDesde=substr($FilaLote[fecha_recepcion],0,7)."-01";
-										$FechaHasta=substr($FilaLote[fecha_recepcion],0,7)."-31";
+										$FechaDesde=substr($FilaLote["fecha_recepcion"],0,7)."-01";
+										$FechaHasta=substr($FilaLote["fecha_recepcion"],0,7)."-31";
 										$Consulta="select max(t1.lote) as lote_mayor  from age_web.lotes t1 inner join age_web.leyes_por_lote t2 on t1.lote=t2.lote and t2.recargo='0' where t1.cod_producto='".$FilaLote["cod_producto"]."' and t1.cod_subproducto='".$FilaLote["cod_subproducto"]."' ";
 										$Consulta.="and t1.rut_proveedor='".$FilaLote["rut_proveedor"]."' and fecha_recepcion between '".$FechaDesde."' and '".$FechaHasta."'";
 										$RespLoteMayor=mysqli_query($link, $Consulta);
 										$FilaLoteMayor=mysqli_fetch_array($RespLoteMayor);
-										$Consulta="select * from age_web.leyes_por_lote where lote='".$FilaLoteMayor[lote_mayor]."' and cod_leyes in('02','04','05')";
+										$Consulta="select * from age_web.leyes_por_lote where lote='".$FilaLoteMayor["lote_mayor"]."' and cod_leyes in('02','04','05')";
 										//$RespLeyes=mysqli_query($link, $Consulta);
 										while($FilaLeyes=mysqli_fetch_array($RespLeyes))
 										{
@@ -675,7 +690,7 @@ body,td,th {
 									break;		
 							}	
 							reset($ArrayLeyes);
-							while(list($c,$v)=each($ArrayLeyes))
+							foreach($ArrayLeyes as $c=>$v)
 							{
 								if($v[2]=='S')
 									echo "<td><input type='text' name='TxtLeyes' value='".number_format($v[0],2,',','')."' maxlength='8' class='InputColor' size='14' onkeydown=TeclaPulsada(true)>&nbsp;$v[1]<input name='TxtVirtual' type='hidden' value='S~~$c'></td>\n";

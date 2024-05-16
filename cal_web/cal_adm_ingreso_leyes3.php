@@ -1089,7 +1089,7 @@ function ValidarModificar()
 						$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
 						$CodAgrupacion = $Fila3[agrupacion];
 						$CodTipo = $Fila3[tipo];
-						if($Fila3[virt]=='S')
+						if($Fila3["virt"]=='S')
 						{
 							$LeyVirtual='S';
 							$HayVirtuales='S';

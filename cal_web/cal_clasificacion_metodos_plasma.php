@@ -232,13 +232,13 @@ function Mensaje(Msj,Can)
 				while($Filas3=mysqli_fetch_assoc($Resp3))
 				{
 					?>
-					<td><?php echo $Filas3[unidad];?></td>
+					<td><?php echo $Filas3["unidad"];?></td>
 					<?php
 					$ConsultaB="select ley from cal_web.tmp_espectroplasma t1 inner join proyecto_modernizacion.leyes t2 on t1.ley=t2.cod_leyes where t1.rut='".$CookieRut."' group by ley order by abreviatura";
 					$RespB=mysqli_query($link, $ConsultaB);
 					while($FilasB=mysqli_fetch_assoc($RespB))
 					{
-						$Consulta4="select valor from cal_web.tmp_espectroplasma t1 inner join proyecto_modernizacion.leyes t2 on t1.ley=t2.cod_leyes where t1.rut='".$CookieRut."' and SA='".$Filas[SA]."' and unidad='".$Filas3[unidad]."' and ley='".$FilasB[ley]."' group by ley order by abreviatura";
+						$Consulta4="select valor from cal_web.tmp_espectroplasma t1 inner join proyecto_modernizacion.leyes t2 on t1.ley=t2.cod_leyes where t1.rut='".$CookieRut."' and SA='".$Filas[SA]."' and unidad='".$Filas3["unidad"]."' and ley='".$FilasB[ley]."' group by ley order by abreviatura";
 						$Resp4=mysqli_query($link, $Consulta4);
 						if($Filas4=mysqli_fetch_assoc($Resp4))
 						{

@@ -1,5 +1,8 @@
 <?php 	
 	include("../principal/conectar_principal.php");
+
+	$Valores  =  isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
 ?>
 <html>
 <head>
@@ -50,15 +53,15 @@ function Salir()
           </tr>
 		<?php
 		$Datos1=explode('//',$Valores);
-		while(list($Clave,$Valor)=each($Datos1))
+		foreach($Datos1 as $Clave=>$Valor)
 		{
 			$Datos2=explode('~~',$Valor);
-			$SA=$Datos2[0];
-			$Recargo=$Datos2[1];
-			$FechaIni=$Datos2[2];
-			$FechaFin=$Datos2[3];
-			$Producto=$Datos2[4];
-			$SubProducto=$Datos2[5];
+			$SA         =isset($Datos2[0])?$Datos2[0]:"";
+			$Recargo    =isset($Datos2[1])?$Datos2[1]:"";
+			$FechaIni   =isset($Datos2[2])?$Datos2[2]:"";
+			$FechaFin   =isset($Datos2[3])?$Datos2[3]:"";
+			$Producto   =isset($Datos2[4])?$Datos2[4]:"";
+			$SubProducto=isset($Datos2[5])?$Datos2[5]:"";
 			//CONSULTA LEYES DE LA SOLICITUD
 			$Consulta = "select DISTINCT t2.cod_leyes,t4.abreviatura as nomley,t2.valor, t2.cod_unidad, t3.abreviatura, t2.virtual as virt,t2.id_muestra ";
 			$Consulta.= " from cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2 ";
@@ -75,7 +78,7 @@ function Salir()
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
 				echo "<tr>";
-				if($Fila["valor"]==''||$Fila[virt]=='S')
+				if($Fila["valor"]==''||$Fila["virt"]=='S')
 					$Datos=$SA."~".$Recargo."~".$Fila["cod_leyes"];
 				else
 					$Datos='';	
@@ -84,13 +87,13 @@ function Salir()
 				else
 					echo "<td class='Detalle01' align='center'>".$SA."-".$Recargo."</td>";	
 				echo "<td class='Detalle02'align='center'>".$Fila["id_muestra"]."</td>";
-				echo "<td align='center'>".$Fila[nomley]."</td>";
-				if($Fila["valor"]==''||$Fila[virt]=='S')
+				echo "<td align='center'>".$Fila["nomley"]."</td>";
+				if($Fila["valor"]==''||$Fila["virt"]=='S')
 					echo "<td align='center' class='Detalle01'>".number_format($Fila["valor"],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."</td>";
 				else
 					echo "<td align='center' class='Detalle01'>".number_format($Fila["valor"],$ArrParamLeyes[$Fila["cod_leyes"]][2],',','')."</td>";
 				echo "<td align='center'>".$Fila["abreviatura"]."</td>";
-				echo "<td align='center'>".$Fila[virt]."</td>";
+				echo "<td align='center'>".$Fila["virt"]."</td>";
 				echo "</tr>";
 			}
 		}  
