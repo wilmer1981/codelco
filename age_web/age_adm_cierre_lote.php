@@ -3,6 +3,37 @@
 	$CodigoDePantalla=55;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
+
+	$TxtLote   = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Plantilla = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+
+	$TxtEsPopup    = isset($_REQUEST["TxtEsPopup"])?$_REQUEST["TxtEsPopup"]:"";
+	$EsPopup       = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";
+	$EstadoInput   = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$CierreComercial  = isset($_REQUEST["CierreComercial"])?$_REQUEST["CierreComercial"]:"";
+	$CodSubProducto   = isset($_REQUEST["CodSubProducto"])?$_REQUEST["CodSubProducto"]:"";
+	$RutProveedor     = isset($_REQUEST["RutProveedor"])?$_REQUEST["RutProveedor"]:"";
+	$CodFaena    = isset($_REQUEST["CodFaena"])?$_REQUEST["CodFaena"]:"";
+	$EstadoLote  = isset($_REQUEST["EstadoLote"])?$_REQUEST["EstadoLote"]:"";
+	$ExLote      = isset($_REQUEST["ExLote"])?$_REQUEST["ExLote"]:"";
+	
+	$CheckCanjeSi = isset($_REQUEST["CheckCanjeSi"])?$_REQUEST["CheckCanjeSi"]:""; 
+	$CheckCanjeNo = isset($_REQUEST["CheckCanjeNo"])?$_REQUEST["CheckCanjeNo"]:""; 
+	$CodEstadoLote= isset($_REQUEST["CodEstadoLote"])?$_REQUEST["CodEstadoLote"]:""; 
+
+	$PesoHumLote = isset($_REQUEST["PesoHumLote"])?$_REQUEST["PesoHumLote"]:""; 
+	$TxtConjunto = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:""; 
+	$ClaseProducto = isset($_REQUEST["ClaseProducto"])?$_REQUEST["ClaseProducto"]:""; 
+	$Recepcion     = isset($_REQUEST["Recepcion"])?$_REQUEST["Recepcion"]:""; 
+	$PesoRetalla   = isset($_REQUEST["PesoRetalla"])?$_REQUEST["PesoRetalla"]:""; 
+	$PesoRetallaR  = isset($_REQUEST["PesoRetallaR"])?$_REQUEST["PesoRetallaR"]:""; 
+	$PesoMuestra   = isset($_REQUEST["PesoMuestra"])?$_REQUEST["PesoMuestra"]:""; 
+	$PesoMuestraR  = isset($_REQUEST["PesoMuestraR"])?$_REQUEST["PesoMuestraR"]:""; 
+	$MuestraParalela  = isset($_REQUEST["MuestraParalela"])?$_REQUEST["MuestraParalela"]:""; 
+	$PesoSecoLote  = isset($_REQUEST["PesoSecoLote"])?$_REQUEST["PesoSecoLote"]:""; 
+	$FechaRecepcion= isset($_REQUEST["FechaRecepcion"])?$_REQUEST["FechaRecepcion"]:""; 
+	$Petalo        = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:""; 
+
 	//COLORES DE LIMITES
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);
@@ -34,7 +65,7 @@
 		}
 	}	
 	$Mostrar='N';
-	if (isset($TxtLote))
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta ="select t1.num_lote_remuestreo,t1.estado_lote,t1.fin_canje,t1.fecha_recepcion,t1.muestra_paralela,t1.canjeable,t1.lote,t1.peso_muestra,t1.peso_retalla,t1.cod_subproducto,t3.descripcion as nom_subproducto,t1.rut_proveedor,t4.nombre_prv as nom_prv,t1.num_conjunto,";
@@ -87,16 +118,17 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$TxtLote;
-			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
-			if($DatosLote["tipo_remuestreo"]=='A')
+			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			$tipo_remuestreo = isset($DatosLote["tipo_remuestreo"])?$DatosLote["tipo_remuestreo"]:"";
+			if($tipo_remuestreo=='A')
 			{
 				$PesoSecoLote=$DatosLote["peso_seco2_ori"];
 				$PesoHumLote=$DatosLote["peso_humedo_ori"];
 			}
 			else
 			{
-				$PesoSecoLote=$DatosLote["peso_seco2"];
-				$PesoHumLote=$DatosLote["peso_humedo"];
+				$PesoSecoLote= isset($DatosLote["peso_seco2"])?$DatosLote["peso_seco2"]:0;
+				$PesoHumLote =isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
 			}	
 			$AnoMes=substr($TxtLote,0,3);
 			$LoteCons = $TxtLote;
@@ -110,7 +142,7 @@
 			if (strlen($Fila["muestra_paralela"]>1))
 			{
 				$ConsultaR = "select distinct t1.id_muestra, t1.nro_solicitud, t1.peso_muestra, t1.peso_retalla";
-				$ConsultaR.=" from cal_web.solicitud_analisis t1 where t1.id_muestra = '".$Fila[muestra_paralela]."'";
+				$ConsultaR.=" from cal_web.solicitud_analisis t1 where t1.id_muestra = '".$Fila["muestra_paralela"]."'";
 				$ConsultaR.=" and t1.recargo = 'R'";
 				$RespR=mysqli_query($link, $ConsultaR);
 				if ($FilaR=mysqli_fetch_array($RespR))
@@ -118,7 +150,7 @@
 					$SolicitudR 	= $FilaR["nro_solicitud"];
 					$MuestraR   	= $FilaR["id_muestra"];
 					$PesoMuestraR 	= $FilaR["peso_muestra"];
-					$PesoRetallaR 	= $FilaR[peso_retalla];
+					$PesoRetallaR 	= $FilaR["peso_retalla"];
 				}
 			} 
 			$Consulta = "select distinct t1.id_muestra,t1.nro_solicitud, t1.recargo ";
@@ -285,24 +317,22 @@ function DetalleLeyes(Estado,Tipo,Canjeable)
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body,td,th {
-	font-size: 10p�xele;
+	font-size: 10px;
 }
 body {
-	margin-left: 3p�xele;
-	margin-top: 3p�xele;
+	margin-left: 3px;
+	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style></head>
 <body onLoad="window.document.frmPrincipal.TxtLote.focus();">
 <form name="frmPrincipal" action="" method="post">
 <input type="hidden" name="Orden" value="<?php echo $Orden; ?>">
 <?php include("../principal/encabezado.php") ?>
 <table class="TablaPrincipal" width="770" cellpadding="0" cellspacing="0"><?php
-if(!isset($TxtEsPopup))
+if($TxtEsPopup=="")
 	echo "<input type='hidden' name='TxtEsPopup' value='$EsPopup'>";
 else
 	echo "<input type='hidden' name='TxtEsPopup' value='$TxtEsPopup'>";
@@ -322,36 +352,36 @@ else
 			echo "Cerrado Comercialmente";
 	 ?>
    </font></strong><td align="right" class="Colum01">Num.Conjunto:</td>
-    <td width="145" class="Colum01"><?php if(isset($TxtConjunto)) echo $TxtConjunto."&nbsp;"; else echo "&nbsp;";?></td>
+    <td width="145" class="Colum01"><?php if($TxtConjunto!="") echo $TxtConjunto."&nbsp;"; else echo "&nbsp;";?></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">SubProducto:</td>
-    <td class="Colum01"><?php if(isset($CodSubProducto)) echo $CodSubProducto." - ".$NombreSubProducto; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($CodSubProducto!="") echo $CodSubProducto." - ".$NombreSubProducto; else echo "&nbsp;";?></td>
     <td align="right" class="Colum01">Clase Producto:</td>
-    <td class="Colum01"><?php if(isset($ClaseProducto)) echo $ClaseProducto; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($ClaseProducto!="") echo $ClaseProducto; else echo "&nbsp;";?></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Proveedor:</td>
-    <td class="Colum01"><?php if(isset($RutProveedor)) echo $RutProveedor." - ".$NombrePrv; else echo "&nbsp;";?>
+    <td class="Colum01"><?php if($RutProveedor!="") echo $RutProveedor." - ".$NombrePrv; else echo "&nbsp;";?>
     <td align="right" class="Colum01">Cod.Recepcion:</td>
-    <td class="Colum01"><?php if(isset($Recepcion)) echo $Recepcion; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($Recepcion!="") echo $Recepcion; else echo "&nbsp;";?></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Cod Faena: </td>
-    <td class="Colum01"><?php if(isset($CodFaena)) echo $CodFaena." - ".$NombreFaena; else echo "&nbsp;";?></td>
+    <td class="Colum01"><?php if($CodFaena!="") echo $CodFaena." - ".$NombreFaena; else echo "&nbsp;";?></td>
     <td align="right" class="Colum01">Peso Retalla: </td>
 		<td colspan="2">
-			<?php if(isset($PesoRetalla)) echo number_format($PesoRetalla,4,',','.')."&nbsp;&nbsp;Grs.&nbsp;&nbsp;"; else echo "&nbsp;";?>
-			<?php if(isset($PesoRetallaR)) echo number_format($PesoRetallaR,4,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?>
+			<?php if($PesoRetalla!="") echo number_format($PesoRetalla,4,',','.')."&nbsp;&nbsp;Grs.&nbsp;&nbsp;"; else echo "&nbsp;";?>
+			<?php if($PesoRetallaR!="") echo number_format($PesoRetallaR,4,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?>
 		</td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Estado Lote:</td>
-    <td class="Colum01"><strong><font color="#FF3300"><?php if(isset($EstadoLote)) echo strtoupper($EstadoLote); else echo "&nbsp;";?></font></strong></td>
+    <td class="Colum01"><strong><font color="#FF3300"><?php if($EstadoLote!="") echo strtoupper($EstadoLote); else echo "&nbsp;";?></font></strong></td>
     <td align="right" class="Colum01">Peso Muestra: </td>
     <td  colspan="2">
-	<?php if(isset($PesoMuestra)) echo number_format($PesoMuestra,0,',','.')."&nbsp;&nbsp;Grs.&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp"; else echo "&nbsp;";?>
-    <?php if(isset($PesoMuestraR)) echo number_format($PesoMuestraR,0,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?></td>
+	<?php if($PesoMuestra!="") echo number_format($PesoMuestra,0,',','.')."&nbsp;&nbsp;Grs.&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp"; else echo "&nbsp;";?>
+    <?php if($PesoMuestraR!="") echo number_format($PesoMuestraR,0,',','.')."&nbsp;&nbsp;Grs."; else echo "&nbsp;";?></td>
  </tr>
   <tr class="Colum01">
     <td class="Colum01">Ex.Lote:</td>
@@ -362,13 +392,13 @@ else
     </strong>
 	</font></strong></td>
     <td align="right" class="Colum01">Muestra Paralela: </td>
-    <td class="Colum01"><strong><?php if(isset($MuestraParalela)) echo $MuestraParalela."&nbsp;&nbsp;"; else echo "&nbsp;";?></strong></td>
+    <td class="Colum01"><strong><?php if($MuestraParalela!="") echo $MuestraParalela."&nbsp;&nbsp;"; else echo "&nbsp;";?></strong></td>
   </tr>
   <tr class="ColorTabla02">
     <td class="Colum01">Peso Humedo:</td>
     <td class="Colum01">
 	<?php 
-	if(isset($PesoHumLote)) 
+	if($PesoHumLote!="") 
 		if($ProdRecepcion=='PMN')
 			echo number_format($PesoHumLote,4,'','.')."&nbsp;&nbsp;Kgrs."; 
 		else
@@ -379,7 +409,7 @@ else
     <td align="right" class="Colum01">Peso Seco:</td>
     <td class="Colum01">
 	<?php 
-	if(isset($PesoSecoLote)) 
+	if($PesoSecoLote!="") 
 		if($ProdRecepcion=='PMN')
 			echo number_format($PesoSecoLote,4,'','.')."&nbsp;&nbsp;Kgrs."; 
 		else

@@ -1,6 +1,21 @@
 <?php
 	include("../principal/conectar_principal.php");
 	$Fecha=date('Y-m-d h:i:s');
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+
+	$OptCanje      = isset($_REQUEST["OptCanje"])?$_REQUEST["OptCanje"]:"";
+	$Opt           = isset($_REQUEST["Opt"])?$_REQUEST["Opt"]:"";
+	$TxtLote       = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$TxtEsPopup    = isset($_REQUEST["TxtEsPopup"])?$_REQUEST["TxtEsPopup"]:"";
+	$Valores       = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$Chequeado1     = isset($_REQUEST["Chequeado1"])?$_REQUEST["Chequeado1"]:"";
+	$Chequeado2     = isset($_REQUEST["Chequeado2"])?$_REQUEST["Chequeado2"]:"";
+	$TipoBusqueda   = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	$TxtLoteIni     = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin     = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+
 	switch ($Proceso)
 	{
 		case "G"://CERRAR MES INDIVIDUAL
@@ -17,7 +32,7 @@
 			break;
 		case "M"://CERRAR MES MASIVO
 			$Datos=explode('//',$Valores);
-			while(list($c,$v)=each($Datos))
+			foreach($Datos as $c=>$v)
 			{
 				$Actualizar="UPDATE age_web.lotes set  fecha_cierre_op='$Fecha',estado_lote='4' ";//4 CIERRE OPERACIONAL
 				$Actualizar.="where lote='".$v."'";

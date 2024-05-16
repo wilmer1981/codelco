@@ -20,9 +20,6 @@ $TxtFechaC     = isset($_REQUEST["TxtFechaC"])?$_REQUEST["TxtFechaC"]:"";
 $TxtAnalisis     = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
 $TxtAnalisis     = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
 
-
-
-
 //CONSULTA DATOS BASE
 $Consulta ="SELECT * ";
 $Consulta = $Consulta." from cal_web.solicitud_analisis t1 left join proyecto_modernizacion.centro_costo t2  ";
@@ -428,7 +425,7 @@ function Imprimir()
 					echo "<tr>";
            			 	echo "<td height='24'><strong>Peso Retalla</strong></td>";
             			echo "<td><strong>";
-          				echo "<input name='TxtRetalla' type='text' readonly  style='width:250' value=' $TxtRetalla'>";
+          				echo "<input name='TxtRetalla' type='text' readonly  style='width:250' value='$TxtRetalla'>";
               			echo "</strong></td>";
             			echo "<td><strong>Peso Tamiz</strong></td>";
             			echo "<td><strong>";
@@ -474,17 +471,17 @@ function Imprimir()
 				$Consulta ="SELECT  observacion  from cal_web.solicitud_analisis ";
 				if ($Recargo=='N')
 				{
-					$Consulta = $Consulta." where nro_solicitud = '".$SA."'   ";
+					$Consulta = $Consulta." where nro_solicitud = '".$SA."' ";
 				}
 				else
 				{
-					$Consulta = $Consulta." where nro_solicitud = '".$SA."' and recargo = '".$Fila["recargo"]."'  ";
+					$Consulta = $Consulta." where nro_solicitud = '".$SA."' and recargo = '".$Fila["recargo"]."' ";
 				}
 				
 				$Respuesta9 = mysqli_query($link, $Consulta); 	
 				$Fila9 = mysqli_fetch_array($Respuesta9);
-					echo "<td width = '277'><center>".$Fila9["observacion"]."</center></td>";
-					echo "</tr>";
+				echo "<td width = '277'><center>".$Fila9["observacion"]."</center></td>";
+				echo "</tr>";
 			}
 			//Consulta para los estados directos a calidad
 			$Consulta =" SELECT distinct t1.recargo,t1.fecha_hora, t1.cod_estado,t2.apellido_paterno,t2.nombres,t3.nombre_subclase from cal_web.estados_por_solicitud t1 ";

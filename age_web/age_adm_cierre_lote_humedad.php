@@ -103,7 +103,7 @@
 		if($tipo_remuestreo=='A')
 		{
 			$ValorLey=$ArrLeyes["01"][60];
-			$TotPesoSeco=$DatosLote["peso_seco2_ori"];
+			$TotPesoSeco=isset($DatosLote["peso_seco2_ori"])?$DatosLote["peso_seco2_ori"]:0;
 		}	
 		else
 		{   
@@ -117,6 +117,7 @@
 		reset($ArrLeyes);
 		//echo $ValorLey;
 		//$TotPorc=abs($ValorLey-$ArrLeyes["01"][30]);
+		//echo "TotPesoHum:".$TotPesoHum;
 		$TotPorc=100-($TotPesoSeco*100)/$TotPesoHum;
 		//$TotNuevoPorc=$ValorLey;
 		$TotNuevoPorc=abs($TotPorc-$ArrLeyes["01"][30]);
