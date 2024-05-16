@@ -525,21 +525,21 @@ No
 			echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">$Fila["lote"]</a></td>";
 			echo "<td>$Fila["nom_subproducto"]</td>";
 			echo "<td>".$Fila["rut_proveedor"]." ".substr($Fila["nom_prv"],0,20)."</td>";
-			if($Fila[certificado]!='')
+			if($Fila["certificado"]!='')
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila["estado_lote"]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";
 			}
 			else
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila["estado_lote"]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 			}
 			if($Fila[certificado_enm]!='')
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";				
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila["estado_lote"]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";				
 			}	
 			else
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila["estado_lote"]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 			}
 			echo "<td align='center'><a href=\"JavaScript:DescargaArchivos('".$Fila["lote"]."')\"><img src='../Principal/imagenes/ico_arriba.gif' border='0'><a></td>";	
 			echo "<td>$Fila[nom_recepcion]&nbsp;</td>";

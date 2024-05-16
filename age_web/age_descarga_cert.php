@@ -1,5 +1,14 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$CookieRut   = $_COOKIE["CookieRut"];
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Tipo        = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$Elim        = isset($_REQUEST["Elim"])?$_REQUEST["Elim"]:"";
+	$ArchivoElim = isset($_REQUEST["ArchivoElim"])?$_REQUEST["ArchivoElim"]:"";
+	$Lote        = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$ArrArchivo  = isset($_REQUEST["ArrArchivo"])?$_REQUEST["ArrArchivo"]:"";
+	
+
 	$Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =16";
 	$Respuesta = mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Respuesta);
@@ -37,7 +46,7 @@ function Salir()
 function DelFile(arch,Lote)
 {
 	var f=document.frmDescarga;
-	var msg=confirm("�Desea Eliminar este Archivo?");
+	var msg=confirm("¿Desea Eliminar este Archivo?");
 	if (msg==true)
 	{
 		f.action="age_descarga_cert.php?Elim=S&ArchivoElim="+arch+"&Lote="+Lote;
@@ -90,11 +99,12 @@ while ($Archivo = readdir($Directorio))
 	$i++;
 }
 closedir($Directorio);
-if (count($ArrArchivo)>0)
+//if (count($ArrArchivo)>0)
+if(is_countable($ArrArchivo) && count($ArrArchivo)>0)
 {
 	reset($ArrArchivo);
 	krsort($ArrArchivo);
-	while (list($k,$v)=each($ArrArchivo))
+	foreach($ArrArchivo as $k=>$v)
 	{
 		echo "<tr>\n";
 		if($Nivel=='1'||$Nivel=='5')

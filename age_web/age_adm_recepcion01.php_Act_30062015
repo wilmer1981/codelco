@@ -849,7 +849,7 @@
 						$CodRecepcion=$FilaTemp["cod_recepcion"];
 						$ClaseProducto=$FilaTemp[clase_producto];
 						$NumConjunto=$FilaTemp["num_conjunto"];
-						$EstadoLote=$FilaTemp[estado_lote];
+						$EstadoLote=$FilaTemp["estado_lote"];
 						$CodRecepEnm=$FilaTemp[cod_recepcion_enm];
 						$LoteOrigen=$FilaTemp["lote"].'-'.$FilaTemp["guia_despacho"];
 							

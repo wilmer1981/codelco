@@ -57,7 +57,7 @@
 			break;	
 		case "MC"://GRABAR CANJE(CON O SIN CANJE)
 			$Datos=explode('//',$Valores);
-			while(list($c,$v)=each($Datos))
+			foreach($Datos as $c=>$v)
 			{
 				$Actualizar="UPDATE age_web.lotes set canjeable='$OptCanje' ";
 				$Actualizar.="where lote='".$v."'";

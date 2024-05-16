@@ -1,26 +1,53 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=56;
-	if(!isset($CmbMes))
+	$Proceso          = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtNomProveedor  = isset($_REQUEST["TxtNomProveedor"])?$_REQUEST["TxtNomProveedor"]:"";
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$Chequeado1    = isset($_REQUEST["Chequeado1"])?$_REQUEST["Chequeado1"]:"";
+	$Chequeado2    = isset($_REQUEST["Chequeado2"])?$_REQUEST["Chequeado2"]:"";
+	$BuscarCanje   = isset($_REQUEST["BuscarCanje"])?$_REQUEST["BuscarCanje"]:"";
+	$TipoBusqueda  = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	$Buscar        = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtLoteIni    = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin    = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+	$EstadoInput   = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$CheckCanjeSi  = isset($_REQUEST["CheckCanjeSi"])?$_REQUEST["CheckCanjeSi"]:""; 
+	$CheckCanjeNo  = isset($_REQUEST["CheckCanjeNo"])?$_REQUEST["CheckCanjeNo"]:""; 
+	$ChequeadoCanje1  = isset($_REQUEST["ChequeadoCanje1"])?$_REQUEST["ChequeadoCanje1"]:"";
+	$ChequeadoCanje2  = isset($_REQUEST["ChequeadoCanje2"])?$_REQUEST["ChequeadoCanje2"]:""; 
+	$GrabarHabilitado = isset($_REQUEST["GrabarHabilitado"])?$_REQUEST["GrabarHabilitado"]:""; 
+	$Petalo        = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:""; 
+	$Busq          = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:""; 
+	$Recarga       = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:""; 
+	$Orden         = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$Opt           = isset($_REQUEST["Opt"])?$_REQUEST["Opt"]:"";
+
+	if($CmbMes=="")
 	{
 		$LoteIni=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."0001";
 		$LoteFin=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."9999";
@@ -46,10 +73,10 @@
 	{
 		$CantLotesAbiertos=$Fila["cant"];
 	}
-	if(!isset($Chequeado1))
+	if($Chequeado1=="")
 		$Chequeado1='checked';
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");		
-	if(isset($BuscarCanje))
+	if($BuscarCanje!="")
 		switch($BuscarCanje)
 		{
 			case "S":
@@ -159,13 +186,13 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$Fila["lote"];
-			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 			echo "<tr>";
-			echo "<td>$Fila["lote"]</td>";
-			echo "<td>$Fila["nom_subproducto"]</td>";
+			echo "<td>".$Fila["lote"]."</td>";
+			echo "<td>".$Fila["nom_subproducto"]."</td>";
 			echo "<td>".$Fila["rut_proveedor"]." ".$Fila["nom_prv"]."</td>";
-			echo "<td>$Fila[nom_recepcion]&nbsp;</td>";
-			echo "<td>$Fila["canjeable"]&nbsp;</td>";
+			echo "<td>".$Fila["nom_recepcion"]."&nbsp;</td>";
+			echo "<td>".$Fila["canjeable"]."&nbsp;</td>";
 			$TxtLote=$Fila["lote"];
 			//SOLICITUD DEL LOTE
 			$Consulta = "select distinct t2.nro_solicitud ,t2.recargo , t2.estado_actual, t3.nombre_subclase";

@@ -1,7 +1,34 @@
 <?php
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=56;
-	if(!isset($CmbMes))
+
+	$Proceso          = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtNomProveedor  = isset($_REQUEST["TxtNomProveedor"])?$_REQUEST["TxtNomProveedor"]:"";
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$Chequeado1    = isset($_REQUEST["Chequeado1"])?$_REQUEST["Chequeado1"]:"";
+	$Chequeado2    = isset($_REQUEST["Chequeado2"])?$_REQUEST["Chequeado2"]:"";
+	$BuscarCanje   = isset($_REQUEST["BuscarCanje"])?$_REQUEST["BuscarCanje"]:"";
+	$TipoBusqueda  = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	$Buscar        = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtLoteIni    = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin    = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+	$EstadoInput   = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$CheckCanjeSi  = isset($_REQUEST["CheckCanjeSi"])?$_REQUEST["CheckCanjeSi"]:""; 
+	$CheckCanjeNo  = isset($_REQUEST["CheckCanjeNo"])?$_REQUEST["CheckCanjeNo"]:""; 
+	$ChequeadoCanje1  = isset($_REQUEST["ChequeadoCanje1"])?$_REQUEST["ChequeadoCanje1"]:"";
+	$ChequeadoCanje2  = isset($_REQUEST["ChequeadoCanje2"])?$_REQUEST["ChequeadoCanje2"]:""; 
+	$GrabarHabilitado = isset($_REQUEST["GrabarHabilitado"])?$_REQUEST["GrabarHabilitado"]:""; 
+	$Petalo        = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:""; 
+	$Busq          = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:""; 
+	$Recarga       = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:""; 
+	$Orden         = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$Opt           = isset($_REQUEST["Opt"])?$_REQUEST["Opt"]:"";
+
+	if($CmbMes=="")
 	{
 		$LoteIni=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."0001";
 		$LoteFin=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."9999";
@@ -21,16 +48,16 @@
 	}	
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	$Consulta="select count(*) as cant from age_web.lotes where lote between '$LoteIni' and '$LoteFin' and estado_lote not in ('2','4','6') and cod_subproducto<'90' ";
+	$Consulta="SELECT count(*) as cant from age_web.lotes where lote between '".$LoteIni."' and '".$LoteFin."' and estado_lote not in ('2','4','6') and cod_subproducto<'90' ";
 	$Respuesta=mysqli_query($link, $Consulta);
 	if($Fila=mysqli_fetch_array($Respuesta))
 	{
 		$CantLotesAbiertos=$Fila["cant"];
 	}
-	if(!isset($Chequeado1))
+	if($Chequeado1=="")
 		$Chequeado1='checked';
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");		
-	if(isset($BuscarCanje))
+	if($BuscarCanje!="")
 		switch($BuscarCanje)
 		{
 			case "S":
@@ -93,14 +120,14 @@ function Proceso(opt,opt2)
 			if(f.TxtLoteIni.value=='')
 			{
 				//BUSQUEDA POR MES(BM)
-				f.action = "age_adm_cierre_lote_masivo.php?Orden=<?php echo $Orden; ?>&Recarga=S&TipoBusqueda=BM&Buscar=S&$Chequeado1="+$Chequeado1+"&Chequeado2="+$Chequeado2+"&BuscarCanje="+BuscarCanje;
+				f.action = "age_adm_cierre_lote_masivo.php?Orden=<?php echo $Orden; ?>&Recarga=S&TipoBusqueda=BM&Buscar=S&Chequeado1="+$Chequeado1+"&Chequeado2="+$Chequeado2+"&BuscarCanje="+BuscarCanje;
 			}
 			else
 			{
 				//BUSQUEDA POR LOTE(BL)
 				if(f.TxtLoteFin.value=='')
 					f.TxtLoteFin.value=f.TxtLoteIni.value;
-				f.action = "age_adm_cierre_lote_masivo.php?Orden=<?php echo $Orden; ?>&Recarga=S&TipoBusqueda=BL&Buscar=S&$Chequeado1="+$Chequeado1+"&Chequeado2="+$Chequeado2+"&BuscarCanje="+BuscarCanje;
+				f.action = "age_adm_cierre_lote_masivo.php?Orden=<?php echo $Orden; ?>&Recarga=S&TipoBusqueda=BL&Buscar=S&Chequeado1="+$Chequeado1+"&Chequeado2="+$Chequeado2+"&BuscarCanje="+BuscarCanje;
 			}
 			f.submit();		
 			break;		
@@ -303,14 +330,12 @@ function Recarga3()
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
 </style></head>
 <body onLoad="window.document.frmPrincipal.TxtLoteIni.focus();">
 <form name="frmPrincipal" action="JavaScript:Proceso('B')" method="post">
@@ -352,8 +377,9 @@ body {
   </tr>
   <tr class="Colum01">
     <td class="Colum01">SubProducto:</td>
-    <td class="Colum01"><select name="CmbSubProducto" style="width:300" onChange="Proceso('R')">
-      <option class="NoSelec" value="S">TODOS</option>
+    <td class="Colum01">
+		<select name="CmbSubProducto" style="width:300" onChange="Proceso('R');">
+        <option class="NoSelec" value="S">TODOS</option>
       <?php
 				$Consulta = "select cod_subproducto, descripcion, ";
 				$Consulta.= " case when length(cod_subproducto)<2 then concat('0',cod_subproducto) else cod_subproducto end as orden ";
@@ -526,9 +552,9 @@ No
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$Fila["lote"];
-			LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 			echo "<tr>";
-			echo "<td><input type='checkbox' name='CheckCod' value='$Fila["lote"]'></td>";
+			echo "<td><input type='checkbox' name='CheckCod' value='".$Fila["lote"]."'></td>";
 			$TxtLote=$Fila["lote"];
 			//SOLICITUD DEL LOTE
 			$Consulta = "select distinct t2.nro_solicitud ,t2.recargo , t2.estado_actual, t3.nombre_subclase";
@@ -557,27 +583,27 @@ No
 				echo "<td><a href=\"JavaScript:DetalleLote('".$TxtLote."')\">".$TxtLote."</a>&nbsp;<input type='button' name='BtnEliminar' value='X' onClick=Proceso('ELI','".$TxtLote."') width='3'></td>";
 			else
 				echo "<td><a href=\"JavaScript:DetalleLote('".$TxtLote."')\">".$TxtLote."</a></td>";
-			echo "<td>$Fila["nom_subproducto"]</td>";
+			echo "<td>".$Fila["nom_subproducto"]."</td>";
 			echo "<td>".$Fila["rut_proveedor"]." ".substr($Fila["nom_prv"],0,20)."</td>";
-			if($Fila[certificado]!='')
+			if($Fila["certificado"]!='')
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila["estado_lote"]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";
 			}
 			else
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila["estado_lote"]."','CDV','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 			}
-			if($Fila[certificado_enm]!='')
+			if($Fila["certificado_enm"]!='')
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";				
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila["estado_lote"]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag2.gif' width='18' height='9' border='0'></a></td>";				
 			}	
 			else
 			{
-				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila[estado_lote]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
+				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila["estado_lote"]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 			}
 			echo "<td align='center'><a href=\"JavaScript:DescargaArchivos('".$Fila["lote"]."')\"><img src='../Principal/imagenes/ico_arriba.gif' border='0'><a></td>";	
 			echo "<td>$Fila[nom_recepcion]&nbsp;</td>";
-			echo "<td align='center'>$Fila["canjeable"]&nbsp;</td>";
+			echo "<td align='center'>".$Fila["canjeable"]."&nbsp;</td>";
 			//RETALLA
 			$Consulta = "select distinct t2.nro_solicitud, t2.estado_actual, t3.nombre_subclase";
 			$Consulta.= " from age_web.lotes t1 ";

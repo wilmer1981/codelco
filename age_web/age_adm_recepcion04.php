@@ -28,7 +28,7 @@
 			{
 				$TxtSubProducto=$Fila["cod_subproducto"];	
 				$TxtConjunto=$Fila["num_conjunto"];
-				$CmbEstadoLote=$Fila[estado_lote];
+				$CmbEstadoLote=$Fila["estado_lote"];
 				$CmbProveedor=$Fila["rut_proveedor"];
 				$CmbCodFaena=$Fila[cod_faena];
 				$CmbClaseProducto=$Fila[clase_producto];
