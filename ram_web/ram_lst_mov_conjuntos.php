@@ -466,7 +466,7 @@ if($Proceso == 'B'|| $Proceso == 'B2')
 		  while ($row = mysqli_fetch_array($rs))
 		  {		 		
 				$Insertar = "INSERT INTO ram_web.tmp_table (cod_existencia,fecha_movimiento,num_conjunto,conjunto_destino,peso_humedo,validacion)";
-				$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row[peso_humedo],0)";
+				$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row["peso_humedo"],0)";
 				mysqli_query($link, $Insertar);
 		  }
 		  
@@ -527,7 +527,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			$rs1 = mysqli_query($link, $Consulta);
 			if($row1 = mysqli_fetch_array($rs1))
 			{
-				$stock_ini = $row1[peso_humedo];
+				$stock_ini = $row1["peso_humedo"];
 				if($stock_ini == 0)
 					$stock_ini = $stock_final; 
 				echo'<td align="right">'.number_format($stock_ini,0,",",".").'</td>';
@@ -545,8 +545,8 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			$rs2 = mysqli_query($link, $Consulta);			
 			if($row2 = mysqli_fetch_array($rs2))
 			{
-				$stock_recep = $row2[peso_humedo]; 
-				$stock_final = $stock_ini * 1 + $row2[peso_humedo] * 1;	
+				$stock_recep = $row2["peso_humedo"]; 
+				$stock_final = $stock_ini * 1 + $row2["peso_humedo"] * 1;	
 				echo'<td align="right">'.number_format($stock_recep,0,",",".").'</td>';
 			}
 		}
@@ -559,16 +559,16 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			$rs3 = mysqli_query($link, $Consulta);	
 			if($row3 = mysqli_fetch_array($rs3))
 			{
-				$stock_benef = $row3[peso_humedo]; 
+				$stock_benef = $row3["peso_humedo"]; 
 				
 				if (($stock_ini=='') || ($row["cod_existencia"] == 15 && $row[conjunto_destino] == $num_conjunto))
 				{
-					$stock_final = $stock_ini * 1 + $row3[peso_humedo] * 1;
+					$stock_final = $stock_ini * 1 + $row3["peso_humedo"] * 1;
 				}
 				else
 				{
 					if(($row["cod_existencia"] == 15 || $row["cod_existencia"] == 06 || $row["cod_existencia"] == 05))
-						$stock_final = ($stock_ini * 1) - ($row3[peso_humedo] * 1);			
+						$stock_final = ($stock_ini * 1) - ($row3["peso_humedo"] * 1);			
 				}
 				if ($stock_final < 0)
 				{

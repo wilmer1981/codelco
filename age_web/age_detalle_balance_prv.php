@@ -136,25 +136,25 @@ function Proceso(Proceso)
 					echo "<td>".number_format($ArrLeyes["02"][7],2,',','')."</td>\n";
 					echo "<td>".number_format($ArrLeyes["04"][7],2,',','')."</td>\n";
 					echo "<td>".number_format($ArrLeyes["05"][7],2,',','')."</td>\n";
-					echo "<td>".number_format($DatosLote[peso_humedo],0,'','.')."</td>\n";
-					echo "<td>".number_format($DatosLote[peso_seco],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_humedo"],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_seco"],0,'','.')."</td>\n";
 					if($ArrLeyes["02"][5]==0)
-						$Dif_Cu=(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote[peso_seco])/1;
+						$Dif_Cu=(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote["peso_seco"])/1;
 					else
-						$Dif_Cu=(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote[peso_seco])/$ArrLeyes["02"][5];
+						$Dif_Cu=(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote["peso_seco"])/$ArrLeyes["02"][5];
 					if($ArrLeyes["04"][5]==0)		
-						$Dif_Ag=(($ArrLeyes["04"][2]-$ArrLeyes["04"][7])*$DatosLote[peso_seco])/1;
+						$Dif_Ag=(($ArrLeyes["04"][2]-$ArrLeyes["04"][7])*$DatosLote["peso_seco"])/1;
 					else
-						$Dif_Ag=(($ArrLeyes["04"][2]-$ArrLeyes["04"][7])*$DatosLote[peso_seco])/$ArrLeyes["04"][5];
+						$Dif_Ag=(($ArrLeyes["04"][2]-$ArrLeyes["04"][7])*$DatosLote["peso_seco"])/$ArrLeyes["04"][5];
 					if($ArrLeyes["05"][5]==0)		
-						$Dif_Au=(($ArrLeyes["05"][2]-$ArrLeyes["05"][7])*$DatosLote[peso_seco])/1;
+						$Dif_Au=(($ArrLeyes["05"][2]-$ArrLeyes["05"][7])*$DatosLote["peso_seco"])/1;
 					else
-						$Dif_Au=(($ArrLeyes["05"][2]-$ArrLeyes["05"][7])*$DatosLote[peso_seco])/$ArrLeyes["05"][5];	
+						$Dif_Au=(($ArrLeyes["05"][2]-$ArrLeyes["05"][7])*$DatosLote["peso_seco"])/$ArrLeyes["05"][5];	
 					echo "<td>".number_format($Dif_Cu,0,',','.')."</td>\n";
 					echo "<td>".number_format($Dif_Ag,0,',','.')."</td>\n";
 					echo "<td>".number_format($Dif_Au,0,',','.')."</td>\n";
-					$TotalPesoHumProv=$TotalPesoHumProv+$DatosLote[peso_humedo];
-					$TotalPesoSecoProv=$TotalPesoSecoProv+$DatosLote[peso_seco];
+					$TotalPesoHumProv=$TotalPesoHumProv+$DatosLote["peso_humedo"];
+					$TotalPesoSecoProv=$TotalPesoSecoProv+$DatosLote["peso_seco"];
 					$TotalAjusteCuProv=$TotalAjusteCuProv+$Dif_Cu;
 					$TotalAjusteAgProv=$TotalAjusteAgProv+$Dif_Ag;
 					$TotalAjusteAuProv=$TotalAjusteAuProv+$Dif_Au;
@@ -190,25 +190,25 @@ function Proceso(Proceso)
 					echo "<td>-</td>\n";
 					echo "<td>-</td>\n";
 					echo "<td>-</td>\n";
-					echo "<td>".number_format($DatosLote[peso_humedo],0,'','.')."</td>\n";
-					echo "<td>".number_format($DatosLote[peso_seco],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_humedo"],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_seco"],0,'','.')."</td>\n";
 					if($ArrLeyes["02"][5]==0)
 						$Dif_Cu=0;
 					else
-						$Dif_Cu=($ArrLeyes["02"][2]*$DatosLote[peso_seco])/100;
+						$Dif_Cu=($ArrLeyes["02"][2]*$DatosLote["peso_seco"])/100;
 					if($ArrLeyes["04"][5]==0)
 						$Dif_Ag=0;
 					else
-						$Dif_Ag=($ArrLeyes["04"][2]*$DatosLote[peso_seco])/1000;	
+						$Dif_Ag=($ArrLeyes["04"][2]*$DatosLote["peso_seco"])/1000;	
 					if($ArrLeyes["05"][5]==0)	
 						$Dif_Au=0;
 					else
-						$Dif_Au=($ArrLeyes["05"][2]*$DatosLote[peso_seco])/1000;
+						$Dif_Au=($ArrLeyes["05"][2]*$DatosLote["peso_seco"])/1000;
 					echo "<td>".number_format($Dif_Cu,0,',','.')."</td>\n";
 					echo "<td>".number_format($Dif_Ag,0,',','.')."</td>\n";
 					echo "<td>".number_format($Dif_Au,0,',','.')."</td>\n";
-					$TotalPesoHumProv=$TotalPesoHumProv+$DatosLote[peso_humedo];
-					$TotalPesoSecoProv=$TotalPesoSecoProv+$DatosLote[peso_seco];
+					$TotalPesoHumProv=$TotalPesoHumProv+$DatosLote["peso_humedo"];
+					$TotalPesoSecoProv=$TotalPesoSecoProv+$DatosLote["peso_seco"];
 					$TotalAjusteCuProv=$TotalAjusteCuProv+$Dif_Cu;
 					$TotalAjusteAgProv=$TotalAjusteAgProv+$Dif_Ag;
 					$TotalAjusteAuProv=$TotalAjusteAuProv+$Dif_Au;
@@ -244,25 +244,25 @@ function Proceso(Proceso)
 					echo "<td>".number_format($ArrLeyes["02"][7],2,',','')."</td>\n";
 					echo "<td>".number_format($ArrLeyes["04"][7],2,',','')."</td>\n";
 					echo "<td>".number_format($ArrLeyes["05"][7],2,',','')."</td>\n";
-					echo "<td>".number_format($DatosLote[peso_humedo],0,'','.')."</td>\n";
-					echo "<td>".number_format($DatosLote[peso_seco],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_humedo"],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_seco"],0,'','.')."</td>\n";
 					if($ArrLeyes["02"][5]==0)
-						$Dif_Cu=(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote[peso_seco])/1;
+						$Dif_Cu=(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote["peso_seco"])/1;
 					else
-						$Dif_Cu=(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote[peso_seco])/$ArrLeyes["02"][5];
+						$Dif_Cu=(($ArrLeyes["02"][2]-$ArrLeyes["02"][7])*$DatosLote["peso_seco"])/$ArrLeyes["02"][5];
 					if($ArrLeyes["04"][5]==0)	
-						$Dif_Ag=(($ArrLeyes["04"][2]-$ArrLeyes["04"][7])*$DatosLote[peso_seco])/1;
+						$Dif_Ag=(($ArrLeyes["04"][2]-$ArrLeyes["04"][7])*$DatosLote["peso_seco"])/1;
 					else
-						$Dif_Ag=(($ArrLeyes["04"][2]-$ArrLeyes["04"][7])*$DatosLote[peso_seco])/$ArrLeyes["04"][5];
+						$Dif_Ag=(($ArrLeyes["04"][2]-$ArrLeyes["04"][7])*$DatosLote["peso_seco"])/$ArrLeyes["04"][5];
 					if($ArrLeyes["05"][5]==0)	
-						$Dif_Au=(($ArrLeyes["05"][2]-$ArrLeyes["05"][7])*$DatosLote[peso_seco])/1;
+						$Dif_Au=(($ArrLeyes["05"][2]-$ArrLeyes["05"][7])*$DatosLote["peso_seco"])/1;
 					else
-						$Dif_Au=(($ArrLeyes["05"][2]-$ArrLeyes["05"][7])*$DatosLote[peso_seco])/$ArrLeyes["05"][5];
+						$Dif_Au=(($ArrLeyes["05"][2]-$ArrLeyes["05"][7])*$DatosLote["peso_seco"])/$ArrLeyes["05"][5];
 					echo "<td>".number_format($Dif_Cu,0,',','.')."</td>\n";
 					echo "<td>".number_format($Dif_Ag,0,',','.')."</td>\n";
 					echo "<td>".number_format($Dif_Au,0,',','.')."</td>\n";
-					$TotalPesoHumProv=$TotalPesoHumProv+$DatosLote[peso_humedo];
-					$TotalPesoSecoProv=$TotalPesoSecoProv+$DatosLote[peso_seco];
+					$TotalPesoHumProv=$TotalPesoHumProv+$DatosLote["peso_humedo"];
+					$TotalPesoSecoProv=$TotalPesoSecoProv+$DatosLote["peso_seco"];
 					$TotalAjusteCuProv=$TotalAjusteCuProv+$Dif_Cu;
 					$TotalAjusteAgProv=$TotalAjusteAgProv+$Dif_Ag;
 					$TotalAjusteAuProv=$TotalAjusteAuProv+$Dif_Au;
@@ -297,25 +297,25 @@ function Proceso(Proceso)
 					echo "<td>".number_format($ArrLeyes["02"][8],2,',','')."</td>\n";
 					echo "<td>".number_format($ArrLeyes["04"][8],2,',','')."</td>\n";
 					echo "<td>".number_format($ArrLeyes["05"][8],2,',','')."</td>\n";
-					echo "<td>".number_format($DatosLote[peso_humedo],0,'','.')."</td>\n";
-					echo "<td>".number_format($DatosLote[peso_seco],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_humedo"],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_seco"],0,'','.')."</td>\n";
 					if($ArrLeyes["02"][5]==0)
-						$Dif_Cu=(($ArrLeyes["02"][8]-$ArrLeyes["02"][2])*$DatosLote[peso_seco])/1;
+						$Dif_Cu=(($ArrLeyes["02"][8]-$ArrLeyes["02"][2])*$DatosLote["peso_seco"])/1;
 					else
-						$Dif_Cu=(($ArrLeyes["02"][8]-$ArrLeyes["02"][2])*$DatosLote[peso_seco])/$ArrLeyes["02"][5];
+						$Dif_Cu=(($ArrLeyes["02"][8]-$ArrLeyes["02"][2])*$DatosLote["peso_seco"])/$ArrLeyes["02"][5];
 					if($ArrLeyes["04"][5]==0)	
-						$Dif_Ag=(($ArrLeyes["04"][8]-$ArrLeyes["04"][2])*$DatosLote[peso_seco])/1;
+						$Dif_Ag=(($ArrLeyes["04"][8]-$ArrLeyes["04"][2])*$DatosLote["peso_seco"])/1;
 					else
-						$Dif_Ag=(($ArrLeyes["04"][8]-$ArrLeyes["04"][2])*$DatosLote[peso_seco])/$ArrLeyes["04"][5];
+						$Dif_Ag=(($ArrLeyes["04"][8]-$ArrLeyes["04"][2])*$DatosLote["peso_seco"])/$ArrLeyes["04"][5];
 					if($ArrLeyes["05"][5]==0)		
-						$Dif_Au=(($ArrLeyes["05"][8]-$ArrLeyes["05"][2])*$DatosLote[peso_seco])/1;
+						$Dif_Au=(($ArrLeyes["05"][8]-$ArrLeyes["05"][2])*$DatosLote["peso_seco"])/1;
 					else
-						$Dif_Au=(($ArrLeyes["05"][8]-$ArrLeyes["05"][2])*$DatosLote[peso_seco])/$ArrLeyes["05"][5];
+						$Dif_Au=(($ArrLeyes["05"][8]-$ArrLeyes["05"][2])*$DatosLote["peso_seco"])/$ArrLeyes["05"][5];
 					echo "<td>".number_format($Dif_Cu,0,',','.')."</td>\n";
 					echo "<td>".number_format($Dif_Ag,0,',','.')."</td>\n";
 					echo "<td>".number_format($Dif_Au,0,',','.')."</td>\n";
-					$TotalPesoHumProv=$TotalPesoHumProv+$DatosLote[peso_humedo];
-					$TotalPesoSecoProv=$TotalPesoSecoProv+$DatosLote[peso_seco];
+					$TotalPesoHumProv=$TotalPesoHumProv+$DatosLote["peso_humedo"];
+					$TotalPesoSecoProv=$TotalPesoSecoProv+$DatosLote["peso_seco"];
 					$TotalAjusteCuProv=$TotalAjusteCuProv+$Dif_Cu;
 					$TotalAjusteAgProv=$TotalAjusteAgProv+$Dif_Ag;
 					$TotalAjusteAuProv=$TotalAjusteAuProv+$Dif_Au;

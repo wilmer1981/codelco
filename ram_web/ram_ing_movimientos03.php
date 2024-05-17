@@ -147,7 +147,7 @@ if($Proceso == 'B')
 
 					    if($row3 = mysqli_fetch_array($rs3))
 						{
-								$stock = $row3[peso_humedo];
+								$stock = $row3["peso_humedo"];
 
 								echo '<td width="20%"><div align="center">'.$stock.'</div></td></tr>';
 						}

@@ -276,9 +276,9 @@ if ($OptFinos=="S")
 				if($EsPlamen==true)
 				{
 					$CantDecPeso=4;$CantDecLF=4;
-					$PesoS=$ArrDatos[peso_seco];
+					$PesoS=$ArrDatos["peso_seco"];
 				}
-				echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,',','.')."</td>";
+				echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";
 				//LEYES
 				reset($ArrLeyesProv);
 				while(list($c,$v)=each($ArrLeyesProv))
@@ -334,9 +334,9 @@ if ($OptFinos=="S")
 			if($EsPlamen==true)
 			{
 				$CantDecPeso=4;$CantDecLF=4;
-				$PesoS=$ArrDatos[peso_seco];
+				$PesoS=$ArrDatos["peso_seco"];
 			}
-			echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,',','.')."</td>";
+			echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";
 			//LEYES
 			reset($ArrLeyesProd);
 			while(list($c,$v)=each($ArrLeyesProd))
@@ -394,9 +394,9 @@ if ($OptFinos=="S")
 		if($EsPlamen==true)
 		{
 			$CantDecPeso=4;$CantDecLF=4;
-			$PesoS=$ArrDatos[peso_seco];
+			$PesoS=$ArrDatos["peso_seco"];
 		}
-		echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,',','.')."</td>";
+		echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";
 		//LEYES
 		reset($ArrLeyesProd);
 		while(list($c,$v)=each($ArrLeyesProd))
@@ -439,7 +439,7 @@ if ($OptFinos=="S")
 				}							
 			}
 		}
-		$TotInfPesoHum=$TotInfPesoHum + $ArrDatos[peso_humedo];
+		$TotInfPesoHum=$TotInfPesoHum + $ArrDatos["peso_humedo"];
 		$TotInfPesoSeco=$TotInfPesoSeco + $PesoS;
 		echo "</tr>\n";				
 	}//FIN PRODUCTOS

@@ -1,7 +1,17 @@
 <?php
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=81;
-	if(!isset($CmbMes))
+	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$Recarga    = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+	$EstadoInput = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$Buscar      = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TipoBusqueda = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	$TxtLoteIni  = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
+	$TxtLoteFin  = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
+	$Petalo      = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+
+	if($CmbMes=="")
 	{
 		$LoteIni=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."0001";
 		$LoteFin=substr(date('Y'),2,2).str_pad(date('n'),2,'0',STR_PAD_LEFT)."9999";
@@ -204,7 +214,7 @@ function DetalleLeyes(Lote)
 					$Consulta.= "where t1.cod_producto='1' and t1.lote between '".$LoteIni."' and '".$LoteFin."'";
 					break;
 			}	
-			$Consulta.=" and t1.canjeable='S' and t1.cod_producto=1 and t1.cod_subproducto='$FilaProd["cod_subproducto"]'";
+			$Consulta.=" and t1.canjeable='S' and t1.cod_producto=1 and t1.cod_subproducto='".$FilaProd["cod_subproducto"]."'";
 			//echo $Consulta."<br>";
 			$RespProv = mysqli_query($link, $Consulta);
 			while($FilaProv = mysqli_fetch_array($RespProv))
@@ -239,7 +249,7 @@ function DetalleLeyes(Lote)
 						$Consulta.= "where t1.lote between '".$LoteIni."' and '".$LoteFin."'";
 						break;
 				}	
-				$Consulta.=" and t1.canjeable='S' and t1.rut_proveedor='$FilaProv["rut_proveedor"]'";
+				$Consulta.=" and t1.canjeable='S' and t1.rut_proveedor='".$FilaProv["rut_proveedor"]."'";
 				//echo $Consulta."<br>";
 				$Resp = mysqli_query($link, $Consulta);
 				while($Fila = mysqli_fetch_array($Resp))
@@ -247,10 +257,10 @@ function DetalleLeyes(Lote)
 					$DatosLote= array();
 					$ArrLeyes=array();
 					$DatosLote["lote"]=$Fila["lote"];
-					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
+					LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
 					echo "<tr>";
-					echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">$Fila["lote"]</a></td>";
-					echo "<td>$Fila["nom_subproducto"]</td>";
+					echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">".$Fila["lote"]."</a></td>";
+					echo "<td>".$Fila["nom_subproducto"]."</td>";
 					echo "<td>".$Fila["rut_proveedor"]." ".$Fila["nom_prv"]."</td>";
 					echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 					echo "<td>";
@@ -259,11 +269,14 @@ function DetalleLeyes(Lote)
 					else
 						echo $Fila["cod_recepcion"];
 					echo "</td>";
-					echo "<td align='right'>".number_format($DatosLote[peso_humedo],0,'','.')."</td>";
-					echo "<td align='right'>".number_format($DatosLote[peso_seco],0,'','.')."</td>";
+					$peso_humedo = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
+					$peso_seco   = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+
+					echo "<td align='right'>".number_format($peso_humedo,0,'','.')."</td>";
+					echo "<td align='right'>".number_format($peso_seco,0,'','.')."</td>";
 					echo "</tr>";
-					$TotPHumProv=$TotPHumProv+$DatosLote[peso_humedo];
-					$TotPSecoProv=$TotPSecoProv+$DatosLote[peso_seco];
+					$TotPHumProv=$TotPHumProv + $peso_humedo;
+					$TotPSecoProv=$TotPSecoProv + $peso_seco;
 				}
 				$TotPHumProd=$TotPHumProd+$TotPHumProv;
 				$TotPSecoProd=$TotPSecoProd+$TotPSecoProv;

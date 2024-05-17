@@ -129,9 +129,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot2=$Tot2+($Fila[peso_humedo]/1000);
-				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);	
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot2=$Tot2+($Fila["peso_humedo"]/1000);
+				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);	
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -144,9 +144,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot3=$Tot3+($Fila[peso_humedo]/1000);
-				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);	
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot3=$Tot3+($Fila["peso_humedo"]/1000);
+				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);	
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -159,9 +159,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot4=$Tot4+($Fila[peso_humedo]/1000);	
-				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot4=$Tot4+($Fila["peso_humedo"]/1000);	
+				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -174,9 +174,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot5=$Tot5+($Fila[peso_humedo]/1000);	
-				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot5=$Tot5+($Fila["peso_humedo"]/1000);	
+				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -189,9 +189,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot6=$Tot6+($Fila[peso_humedo]/1000);	
-				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot6=$Tot6+($Fila["peso_humedo"]/1000);	
+				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -204,9 +204,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot7=$Tot7+($Fila[peso_humedo]/1000);
-				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);	
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot7=$Tot7+($Fila["peso_humedo"]/1000);
+				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);	
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -219,9 +219,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot8=$Tot8+($Fila[peso_humedo]/1000);
-				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);	
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot8=$Tot8+($Fila["peso_humedo"]/1000);
+				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);	
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -234,9 +234,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot9=$Tot9+($Fila[peso_humedo]/1000);	
-				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot9=$Tot9+($Fila["peso_humedo"]/1000);	
+				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -252,9 +252,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot10=$Tot10+($Fila[peso_humedo]/1000);	
-				$SubTotDia2=$SubTotDia2+($Fila[peso_humedo]/1000);
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot10=$Tot10+($Fila["peso_humedo"]/1000);	
+				$SubTotDia2=$SubTotDia2+($Fila["peso_humedo"]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -268,9 +268,9 @@ Convert.</td>
 			$Resp=mysqli_query($link, $Consulta);		
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
-				$Tot12=$Tot12+($Fila[peso_humedo]/1000);
-				$SubTotDia2=$SubTotDia2+($Fila[peso_humedo]/1000);
+				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
+				$Tot12=$Tot12+($Fila["peso_humedo"]/1000);
+				$SubTotDia2=$SubTotDia2+($Fila["peso_humedo"]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";$CuSucio=0;
@@ -285,7 +285,7 @@ Convert.</td>
 			//echo $Consulta."<br>";
 			if($Fila=mysqli_fetch_array($Resp))
 			{
-				$CuSucio=$Fila[peso_humedo]/1000;
+				$CuSucio=$Fila["peso_humedo"]/1000;
 			}
 			$SubTot2=$Tot10+$Tot11+$Tot12;
 			echo "<td align='right'>".number_format($SubTotDia2+$CuSucio,1,',','.')."</td>";

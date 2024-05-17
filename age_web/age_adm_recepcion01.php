@@ -910,7 +910,7 @@
 							$LoteOrigen=$FilaDet["observacion"].'-'.$FilaDet["guia_despacho"];
 							$FinLote=$FilaDet[fin_lote];
 							$Hum=$FilaDet[humedad];
-							$PesSeco=$FilaDet[peso_seco];
+							$PesSeco=$FilaDet["peso_seco"];
 							$Ley=str_replace('~','',$FilaDet[pastas]);	
 							$Impu=str_replace('~','',$FilaDet[impurezas]);	
 							

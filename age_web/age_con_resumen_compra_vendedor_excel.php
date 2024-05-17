@@ -155,7 +155,7 @@
 						$CantDecPeso=4;$CantDecLF=0;
 						$PesoS=$ArrDatos[peso_seco];
 					}
-					echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,",",".")."</td>\n";
+					echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,",",".")."</td>\n";
 					reset($ArrLeyesProv);
 					//SUMA LAS HUMEDADES PARA LUEGO COMPARAR SI TIENE ALGO O NO
 					$SumHumedad=$SumHumedad + $ArrLeyesProv["01"][2];

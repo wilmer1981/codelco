@@ -140,8 +140,8 @@ function Detalle(Lote)
 					$DatosLote["lote"]=$FilaLote["lote"];
 					DefinirArregloLeyes($Producto,$SubProducto,&$ArrLeyes);
 					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
-					echo "<td>".number_format($DatosLote[peso_humedo],0,'','.')."</td>\n";
-					echo "<td>".number_format($DatosLote[peso_seco],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_humedo"],0,'','.')."</td>\n";
+					echo "<td>".number_format($DatosLote["peso_seco"],0,'','.')."</td>\n";
 					reset($ArrLeyes);
 					while(list($c,$v)=each($ArrLeyes))
 					{
@@ -156,8 +156,8 @@ function Detalle(Lote)
 				$ArrLeyesPrv=array();
 				DefinirArregloLeyes($Producto,$SubProducto,&$ArrLeyesPrv);
 				LeyesProveedor('',$FilaPrv["rut_proveedor"],$Producto,$SubProducto,&$DatosLotePrv,&$ArrLeyesPrv,'N','S','S',$FechaIni,$FechaFin,"");
-				echo "<td align='center'>".number_format($DatosLotePrv[peso_humedo],0,'','.')."</td>\n";
-				echo "<td align='center'>".number_format($DatosLotePrv[peso_seco],0,'','.')."</td>\n";
+				echo "<td align='center'>".number_format($DatosLotePrv["peso_humedo"],0,'','.')."</td>\n";
+				echo "<td align='center'>".number_format($DatosLotePrv["peso_seco"],0,'','.')."</td>\n";
 				reset($ArrLeyesPrv);
 				while(list($c,$v)=each($ArrLeyesPrv))
 				{
@@ -183,8 +183,8 @@ function Detalle(Lote)
 				$ArrLeyesProd=array();
 				DefinirArregloLeyes($Producto,$SubProducto,&$ArrLeyesProd);
 				LeyesProducto($RutCompra,'','',$Producto,$SubProducto,&$DatosLoteProd,&$ArrLeyesProd,'N','S','S',$FechaIni,$FechaFin,"");
-				echo "<td align='center'>".number_format($DatosLoteProd[peso_humedo],0,'','.')."</td>\n";
-				echo "<td align='center'>".number_format($DatosLoteProd[peso_seco],0,'','.')."</td>\n";
+				echo "<td align='center'>".number_format($DatosLoteProd["peso_humedo"],0,'','.')."</td>\n";
+				echo "<td align='center'>".number_format($DatosLoteProd["peso_seco"],0,'','.')."</td>\n";
 				reset($ArrLeyesProd);
 				while(list($c,$v)=each($ArrLeyesProd))
 				{

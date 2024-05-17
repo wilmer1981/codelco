@@ -332,7 +332,7 @@ body {
 				{
 					$CantDecPeso=4;$CantDecLF=0;
 				}
-				echo "<td align=\"right\">".number_format($ArrDatos[peso_seco],0,',','.')."</td>";
+				echo "<td align=\"right\">".number_format($ArrDatos["peso_seco"],0,',','.')."</td>";
 				echo "<td align=\"right\">".number_format($NumAnodos,0,',','.')."</td>";
 				echo "<td align=\"right\">".number_format($Objetados,0,',','.')."</td>";
 				echo "<td align=\"right\">".number_format($Rechazados,0,',','.')."</td>";
@@ -351,9 +351,9 @@ body {
 							else							
 							{
 								if ($c=="02" || $c=="04" || $c=="05")
-									echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+									echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 								else
-									echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+									echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 							}
 						}														
 					}
@@ -402,7 +402,7 @@ body {
 			{
 				$CantDecPeso=4;$CantDecLF=0;
 			}
-			echo "<td align=\"right\">".number_format($ArrDatos[peso_seco],0,',','.')."</td>";	
+			echo "<td align=\"right\">".number_format($ArrDatos["peso_seco"],0,',','.')."</td>";	
 			echo "<td align=\"right\">".number_format($NumAnodos,0,',','.')."</td>";	
 			echo "<td align=\"right\">".number_format($Objetados,0,',','.')."</td>";	
 			echo "<td align=\"right\">".number_format($Rechazados,0,',','.')."</td>";	
@@ -421,9 +421,9 @@ body {
 						else							
 						{
 							if ($c=="02" || $c=="04" || $c=="05")
-								echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+								echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 							else
-								echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+								echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 						}
 					}
 				}
@@ -471,7 +471,7 @@ body {
 		{
 			$CantDecPeso=4;$CantDecLF=0;
 		}
-		echo "<td align=\"right\">".number_format($ArrDatos[peso_seco],0,',','.')."</td>";
+		echo "<td align=\"right\">".number_format($ArrDatos["peso_seco"],0,',','.')."</td>";
 		echo "<td align=\"right\">".number_format($NumAnodos,0,',','.')."</td>";
 		echo "<td align=\"right\">".number_format($Objetados,0,',','.')."</td>";
 		echo "<td align=\"right\">".number_format($Rechazados,0,',','.')."</td>";
@@ -490,9 +490,9 @@ body {
 					else							
 					{
 						if ($c=="02" || $c=="04" || $c=="05")
-							echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+							echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 						else
-							echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+							echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 					}
 				}
 			}

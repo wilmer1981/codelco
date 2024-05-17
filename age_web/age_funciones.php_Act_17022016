@@ -107,7 +107,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	$Lote["peso_humedo"] = $PesoHumedo;
 	$Lote["peso_seco"] = $PesoSeco;	
 	$Lote["peso_seco2"] = $PesoSeco2;	
-	//echo ".................".$Lote[peso_seco]."---".$Lote[peso_seco2]."--".$Lote[peso_humedo]."--".$PorcHum."<br>";
+	//echo ".................".$Lote["peso_seco"]."---".$Lote[peso_seco2]."--".$Lote["peso_humedo"]."--".$PorcHum."<br>";
 	
 	//-----------------CALCULO DE MERMA--------------------------
 	//ValorMerma(&$Lote,&$Leyes,$IncMerma);

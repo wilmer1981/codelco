@@ -151,7 +151,7 @@ if($Buscar=='S')
 					switch($ChkTipoProg)
 					{
 						case "00"://PESO SECO
-							$PesoSecoRecep=$PesoSecoRecep+round(($DatosLote[peso_seco]/1000),0);
+							$PesoSecoRecep=$PesoSecoRecep+round(($DatosLote["peso_seco"]/1000),0);
 							break;
 						case "02"://FINO COBRE
 							$PesoSecoRecep=$PesoSecoRecep+round($ArrLeyes["02"][23]/1000,0);				
@@ -267,7 +267,7 @@ if($Buscar=='S')
 				switch($ChkTipoProg)
 				{
 					case "00"://PESO SECO
-						$PesoSecoRecep=$PesoSecoRecep+round(($DatosLote[peso_seco]/1000),0);
+						$PesoSecoRecep=$PesoSecoRecep+round(($DatosLote["peso_seco"]/1000),0);
 						break;
 					case "02"://FINO COBRE
 						$PesoSecoRecep=$PesoSecoRecep+round($ArrLeyes["02"][23]/1000,0);				

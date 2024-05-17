@@ -140,10 +140,10 @@
 					{
 						$CantDecPeso=4;$CantDecLF=0;
 					}
-					echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,",",".")."</td>\n";
+					echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,",",".")."</td>\n";
 					reset($ArrLeyesProv);
 					echo "<td align=\"right\">".number_format($ArrLeyesProv["01"][2],2,",",".")."</td>\n";
-					echo "<td align=\"right\">".number_format($ArrDatos[peso_seco],$CantDecPeso,",",".")."</td>\n";
+					echo "<td align=\"right\">".number_format($ArrDatos["peso_seco"],$CantDecPeso,",",".")."</td>\n";
 					reset($ArrLeyesProv);
 					echo "</tr>\n";
 					$PesoHumProd=$PesoHumProd + $ArrDatos["peso_humedo"];

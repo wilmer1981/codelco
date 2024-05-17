@@ -205,7 +205,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 
 				if($row6 = mysqli_fetch_array($rs6))
 				{
-					$peso_humedo = $row6[peso_humedo];
+					$peso_humedo = $row6["peso_humedo"];
 					$validacion = $row6[validacion];						
 					echo '<td width="10%" align="right">'.number_format($peso_humedo/1000,3,",","").'</td>';
 					echo '<td width="10%" align="right">'.number_format($validacion/1000,3,",","").'</td>';
@@ -278,7 +278,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 
 				if($row6 = mysqli_fetch_array($rs6))
 				{
-					$peso_humedo = $row6[peso_humedo];
+					$peso_humedo = $row6["peso_humedo"];
 					$validacion = $row6[validacion];						
 					echo '<td width="10%" align="right">'.number_format($peso_humedo/1000,3,",","").'</td>';
 					echo '<td width="10%" align="right">'.number_format($validacion2/1000,3,",","").'</td>';

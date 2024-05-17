@@ -207,9 +207,9 @@
 				{
 					$CantDecPeso=4;$CantDecLF=4;
 				}
-				echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,',','.')."</td>";						
+				echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";						
 				echo "<td align=\"right\">".number_format($ArrLeyesProv["01"][2],4,',','.')."</td>\n";				
-				echo "<td align=\"right\">".number_format($ArrDatos[peso_seco],$CantDecPeso,',','.')."</td>";								
+				echo "<td align=\"right\">".number_format($ArrDatos["peso_seco"],$CantDecPeso,',','.')."</td>";								
 				echo "</tr>\n";
 				$RutPrv=$RutPrv."'".$FilaAux["rut_proveedor"]."',";			
 				//------ESPACIO---------------
@@ -230,9 +230,9 @@
 			{
 				$CantDecPeso=4;$CantDecLF=4;
 			}
-			echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,',','.')."</td>";
+			echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";
 			echo "<td align=\"right\">".number_format($ArrLeyesProd["01"][2],4,',','.')."</td>\n";
-			echo "<td align=\"right\">".number_format($ArrDatos[peso_seco],$CantDecPeso,',','.')."</td>";						
+			echo "<td align=\"right\">".number_format($ArrDatos["peso_seco"],$CantDecPeso,',','.')."</td>";						
 			echo "</tr>\n";			
 		}//FIN TIPO RECEPCION
 		//------ESPACIO---------------

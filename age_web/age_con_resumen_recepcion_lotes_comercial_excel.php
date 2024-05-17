@@ -385,9 +385,9 @@
 				if($EsPlamen==true)
 				{
 					$CantDecPeso=4;$CantDecLF=4;
-					$PesoS=$ArrDatos[peso_seco];
+					$PesoS=$ArrDatos["peso_seco"];
 				}
-				echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,',','.')."</td>";
+				echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";
 				if ($OptFinos != "S")
 					echo "<td align=\"right\">".number_format($PesoS,$CantDecLF,',','.')."</td>";
 				//LEYES
@@ -404,11 +404,11 @@
 							}
 							else							
 							{
-								if($ArrDatos[peso_seco]!=0)
+								if($ArrDatos["peso_seco"]!=0)
 									if ($c=="02" || $c=="04" || $c=="05")
-										echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 									else
-										echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 								else
 									echo "<td align=\"right\">0</td>\n";
 							}
@@ -459,21 +459,21 @@
 			$CantDecPeso=0;$CantDecLF=0;
 			/*if ($CmbProveedor != "S")
 			{	
-				$PesoS=$ArrDatos[peso_seco];
+				$PesoS=$ArrDatos["peso_seco"];
 				$PesoT=$ArrDatos[peso_seco3];
 			}	
 			else
 			{
-				$PesoS=$ArrDatos[peso_seco];
+				$PesoS=$ArrDatos["peso_seco"];
 				$PesoT=$ArrDatos[peso_seco3];
 			}*/
 			$PesoS=$ArrDatos[peso_seco3];
 			if($EsPlamen==true)
 			{
 				$CantDecPeso=4;$CantDecLF=4;
-				$PesoS=$ArrDatos[peso_seco];
+				$PesoS=$ArrDatos["peso_seco"];
 			}
-			echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,',','.')."</td>";
+			echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";
 			if ($OptFinos!="S")
 				echo "<td align=\"right\">".number_format($PesoS,$CantDecPeso,',','.')."</td>";	
 			//LEYES
@@ -491,9 +491,9 @@
 						else							
 						{
 							if ($c=="02" || $c=="04" || $c=="05")
-								echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+								echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 							else
-								echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+								echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 						}
 					}
 				}
@@ -543,21 +543,21 @@
 		$CantDecPeso=0;$CantDecLF=0;
 		/*if ($CmbProveedor != "S")
 		{	
-			$PesoS=$ArrDatos[peso_seco];
+			$PesoS=$ArrDatos["peso_seco"];
 			$PesoT=$ArrDatos[peso_seco3];
 		}	
 		else
 		{
-			$PesoS=$ArrDatos[peso_seco];
+			$PesoS=$ArrDatos["peso_seco"];
 			$PesoT=$ArrDatos[peso_seco3];
 		}*/
 		$PesoS=$ArrDatos[peso_seco3];
 		if($EsPlamen==true)
 		{
 			$CantDecPeso=4;$CantDecLF=4;
-			$PesoS=$ArrDatos[peso_seco];
+			$PesoS=$ArrDatos["peso_seco"];
 		}
-		echo "<td align=\"right\">".number_format($ArrDatos[peso_humedo],$CantDecPeso,',','.')."</td>";
+		echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";
 		if ($OptFinos != "S")
 			echo "<td align=\"right\">".number_format($PesoS,$CantDecPeso,',','.')."</td>";
 		//LEYES
@@ -575,9 +575,9 @@
 					else							
 					{
 						if ($c=="02" || $c=="04" || $c=="05")
-							echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+							echo "<td align=\"right\">".number_format((($v[8]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 						else
-							echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos[peso_seco])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
+							echo "<td align=\"right\">".number_format((($v[23]/$ArrDatos["peso_seco"])*$ArrLeyesAux[$c][3]),$ArrLeyesAux[$c][5],',','.')."</td>\n";
 					}
 				}
 			}
@@ -601,7 +601,7 @@
 				}
 			}		
 		}
-		$TotInfPesoHum=$TotInfPesoHum + $ArrDatos[peso_humedo];
+		$TotInfPesoHum=$TotInfPesoHum + $ArrDatos["peso_humedo"];
 		$TotInfPesoSeco=$TotInfPesoSeco + $PesoS;
 		$TotInfPesoSecoAux=$TotInfPesoSecoAux + $PesoT;
 		echo "</tr>\n";	
