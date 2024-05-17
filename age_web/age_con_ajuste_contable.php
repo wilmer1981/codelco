@@ -1,5 +1,17 @@
 <?php
-	if(!isset($Opcion))
+
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mostrar    = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+    $Opcion     = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$Busq    = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+
+	if($Opcion=="")
 	{
 		$CheckedLey='checked';
 		$CheckedFino='';
@@ -110,14 +122,14 @@ function Proceso(Proceso)
         <td width="637" height="23" colspan="3"><select name="Proveedor" style="width:300">
           <option class='NoSelec' value='S'>TODOS</option>
           <?php
-				if (isset($SubProducto) && $SubProducto != "S")
+				if ($SubProducto!="" && $SubProducto != "S")
 				{
 					$Consulta = "select STRAIGHT_JOIN t1.rut_prv as RUTPRV_A, t1.nombre_prv as NOMPRV_A ";
 					$Consulta.= " from sipa_web.proveedores t1 inner join age_web.relaciones t2 ";
 					$Consulta.= " on t1.rut_prv = t2.rut_proveedor inner join proyecto_modernizacion.subproducto t3 ";
 					$Consulta.= " on t2.cod_producto=t3.cod_producto and t2.cod_subproducto=t3.cod_subproducto ";
 					$Consulta.= " where t2.cod_producto='1' and t2.cod_subproducto='".$SubProducto."'";
-					if($Busq=='S'&&$TxtFiltroPrv!='')
+					if($Busq=='S' && $TxtFiltroPrv!='')
 					   $Consulta.= " and t1.nombre_prv like '%".$TxtFiltroPrv."%' ";  														
 					$Consulta.= " order by trim(t1.nombre_prv)";		
 					$Resp = mysqli_query($link, $Consulta);
@@ -142,7 +154,7 @@ function Proceso(Proceso)
 		<?php
 		for ($i=1;$i<=12;$i++)
 		{
-			if (!isset($Mes))
+			if ($Mes=="")
 			{
 				if ($i==date("n"))
 					echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
@@ -163,7 +175,7 @@ function Proceso(Proceso)
 		<?php
 		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 		{
-			if (!isset($Ano))
+			if ($Ano=="")
 			{
 				if ($i==date("Y"))
 					echo "<option selected value='".$i."'>".$i."</option>\n";
@@ -239,7 +251,7 @@ function Proceso(Proceso)
 			if (isset($SubProducto) && $SubProducto != "S")
 			{
 				$Consulta.= " and t1.cod_subproducto='".$SubProducto."' ";	
-				if (isset($Proveedor) && $Proveedor != "S")
+				if ($Proveedor!="" && $Proveedor != "S")
 					$Consulta.= " and t1.rut_proveedor='".$Proveedor."' ";	
 			}
 			$Consulta.=" group by t1.cod_producto,t1.cod_subproducto order by t1.cod_producto, t1.cod_subproducto";
@@ -259,18 +271,18 @@ function Proceso(Proceso)
 				while ($FilaProv = mysqli_fetch_array($RespProv))
 				{
 					$Consulta ="select * from age_web.lotes t1 ";
-					$Consulta.="where t1.rut_proveedor='$FilaProv["rut_proveedor"]' and t1.canjeable='S' and t1.fecha_recepcion between '$FechaIni' and '$FechaFin' ";
+					$Consulta.="where t1.rut_proveedor='".$FilaProv["rut_proveedor"]."' and t1.canjeable='S' and t1.fecha_recepcion between '$FechaIni' and '$FechaFin' ";
 					$Consulta.="and t1.cod_producto='1' and t1.cod_subproducto='".$FilaProd["cod_subproducto"]."' order by t1.lote";
 					$SubTotalPesoHumProv=0;$SubTotalPesoSecoProv=0;$SubTotalAjusteCuProv=0;$SubTotalAjusteAgProv=0;$SubTotalAjusteAuProv=0;
 					$RespLote = mysqli_query($link, $Consulta);
 					while ($FilaLote = mysqli_fetch_array($RespLote))
 					{
 						echo "<tr align='center'>\n";
-						echo "<td>$FilaLote["lote"]</td>\n";
+						echo "<td>".$FilaLote["lote"]."</td>\n";
 						$DatosLote= array();
 						$ArrLeyes=array();
 						$DatosLote["lote"]=$FilaLote["lote"];
-						LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
+						LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
 						echo "<td>".number_format($ArrLeyes["02"][2],2,',','')."</td>\n";
 						echo "<td>".number_format($ArrLeyes["04"][2],2,',','')."</td>\n";
 						echo "<td>".number_format($ArrLeyes["05"][2],2,',','')."</td>\n";

@@ -1,25 +1,38 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
-	include("age_funciones.php");	
+	include("age_funciones.php");
+
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mostrar    = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+    $Opcion     = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+
 ?>
 <html>
 <head>
@@ -94,18 +107,18 @@
 				while ($FilaProv = mysqli_fetch_array($RespProv))
 				{
 					$Consulta ="select * from age_web.lotes t1 ";
-					$Consulta.="where t1.rut_proveedor='$FilaProv["rut_proveedor"]' and t1.canjeable='S' and t1.fecha_recepcion between '$FechaIni' and '$FechaFin' ";
+					$Consulta.="where t1.rut_proveedor='".$FilaProv["rut_proveedor"]."' and t1.canjeable='S' and t1.fecha_recepcion between '$FechaIni' and '$FechaFin' ";
 					$Consulta.="and t1.cod_producto='".$FilaProd["cod_producto"]."' and t1.cod_subproducto='".$FilaProd["cod_subproducto"]."' order by t1.lote";
 					$SubTotalPesoHumProv=0;$SubTotalPesoSecoProv=0;$SubTotalAjusteCuProv=0;$SubTotalAjusteAgProv=0;$SubTotalAjusteAuProv=0;
 					$RespLote = mysqli_query($link, $Consulta);
 					while ($FilaLote = mysqli_fetch_array($RespLote))
 					{
 						echo "<tr align='center'>\n";
-						echo "<td>$FilaLote["lote"]</td>\n";
+						echo "<td>".$FilaLote["lote"]."</td>\n";
 						$DatosLote= array();
 						$ArrLeyes=array();
 						$DatosLote["lote"]=$FilaLote["lote"];
-						LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
+						LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
 						echo "<td>".number_format($ArrLeyes["02"][2],2,',','')."</td>\n";
 						echo "<td>".number_format($ArrLeyes["04"][2],2,',','')."</td>\n";
 						echo "<td>".number_format($ArrLeyes["05"][2],2,',','')."</td>\n";
@@ -154,7 +167,7 @@
 				$TotalAjusteAg=$TotalAjusteAg+$SubTotalAjusteAgProd;
 				$TotalAjusteAu=$TotalAjusteAu+$SubTotalAjusteAuProd;
 				echo "<tr>\n";
-				echo '<td colspan="7">PRODUCTO&nbsp;&nbsp;'.strtoupper($FilaProd[nom_subprod]).'</td>';	
+				echo '<td colspan="7">PRODUCTO&nbsp;&nbsp;'.strtoupper($FilaProd["nom_subprod"]).'</td>';	
 				echo "<td align='center'>".number_format($SubTotalPesoHumProd,0,'','.')."</td>\n";
 				echo "<td align='center'>".number_format($SubTotalPesoSecoProd,0,'','.')."</td>\n";
 				echo "<td align='center'>".number_format($SubTotalAjusteCuProd,0,'','.')."</td>\n";
