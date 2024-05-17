@@ -31,7 +31,7 @@ if(!isset($Recarga))
 	
 		$NomVersion='N�: '.$Fila[version]."&nbsp;&nbsp;&nbsp;&nbsp;A�o: ".$Fila[ano_version]."&nbsp;&nbsp;&nbsp;&nbsp;Mes: ".$Meses[$Fila[mes_version]-1]."&nbsp;&nbsp;&nbsp;&nbsp;Fecha Creacion: ".$Fila[fecha_version];
 		$NomProd=$Fila[prod];
-		$Unidad=$Fila[cod_unidad];
+		$Unidad=$Fila["cod_unidad"];
 		//echo $Unidad."<br>";
 		$NomAsig=$Fila[nom_asignacion];
 		if($Fila[origen]=='S')

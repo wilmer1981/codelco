@@ -141,13 +141,13 @@ function Validar(valores,Personalizar,Producto,SubProducto,NombrePlantilla,CodPl
 					$Resultado2 = mysqli_query($link, $Consulta);
 					while ($Fila2 =mysqli_fetch_array($Resultado2))
 						{
-							if ($Fila[cod_unidad] == $Fila2[cod_unidad])
+							if ($Fila["cod_unidad"] == $Fila2["cod_unidad"])
 							{
-								echo"<option value='".$Fila2[cod_unidad]."' selected>".$Fila2["abreviatura"]."</option>";
+								echo"<option value='".$Fila2["cod_unidad"]."' selected>".$Fila2["abreviatura"]."</option>";
 							}
 							else
 							{
-								echo"<option value='".$Fila2[cod_unidad]."'>".$Fila2["abreviatura"]."</option>";
+								echo"<option value='".$Fila2["cod_unidad"]."'>".$Fila2["abreviatura"]."</option>";
 							}							
 						}
 					echo "</select></td>";
@@ -186,13 +186,13 @@ function Validar(valores,Personalizar,Producto,SubProducto,NombrePlantilla,CodPl
 					$Resultado2 = mysqli_query($link, $Consulta);
 					while ($Fila2 =mysqli_fetch_array($Resultado2))
 						{
-							if ($Fila[cod_unidad] == $Fila2[cod_unidad])
+							if ($Fila["cod_unidad"] == $Fila2["cod_unidad"])
 							{
-								echo"<option value='".$Fila2[cod_unidad]."' selected>".$Fila2["abreviatura"]."</option>";
+								echo"<option value='".$Fila2["cod_unidad"]."' selected>".$Fila2["abreviatura"]."</option>";
 							}
 							else
 							{
-								echo"<option value='".$Fila2[cod_unidad]."'>".$Fila2["abreviatura"]."</option>";
+								echo"<option value='".$Fila2["cod_unidad"]."'>".$Fila2["abreviatura"]."</option>";
 							}							
 						}
 					echo "</select></td>";

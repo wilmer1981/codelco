@@ -92,21 +92,21 @@ for($i=1;$i<=$CantPrecio;$i++)
 				//echo "Consulta Inicial:   ".$ConsultaInicial."<br>";
 				while($FilaInicial=mysql_fetch_array($RespInicial))
 				{
-					if($FilaInicial[cod_unidad]=='9'||$FilaInicial[cod_unidad]=='10'||$FilaInicial[cod_unidad]=='22')//Leyes Ingresadas en % y en GRS/TON			
+					if($FilaInicial["cod_unidad"]=='9'||$FilaInicial["cod_unidad"]=='10'||$FilaInicial["cod_unidad"]=='22')//Leyes Ingresadas en % y en GRS/TON			
 					{
 						if($FilaInicial[cod_ley]=='1')
 						{
-							if($FilaInicial[cod_unidad]=='9')
+							if($FilaInicial["cod_unidad"]=='9')
 								$NomUni='TMS';
 						}
 						else
 						{
-							if($FilaInicial[cod_unidad]=='9'||$FilaInicial[cod_unidad]=='10'||$FilaInicial[cod_unidad]=='22')
+							if($FilaInicial["cod_unidad"]=='9'||$FilaInicial["cod_unidad"]=='10'||$FilaInicial["cod_unidad"]=='22')
 								$NomUni='KG';
 						}
-						$ValorLeyes=CaracteristicasMaterialLeyes($Cod,$FilaInicial[cod_ley],$TipoAnalisis,$Tms,$FilaInicial[cod_unidad]);//Solo Suma de leyes
+						$ValorLeyes=CaracteristicasMaterialLeyes($Cod,$FilaInicial[cod_ley],$TipoAnalisis,$Tms,$FilaInicial["cod_unidad"]);//Solo Suma de leyes
 						$ValoresLeyes=$ValorLeyes;//Mostrar suma de leyes en pantalla
-						$Valor_Iniciales=CaracteristicasMaterialLeyesIniciales($Cod,$FilaInicial[cod_ley],$TipoAnalisis,$Tms,$FilaInicial[cod_unidad]);//Calculo para Fnos Iniciales						
+						$Valor_Iniciales=CaracteristicasMaterialLeyesIniciales($Cod,$FilaInicial[cod_ley],$TipoAnalisis,$Tms,$FilaInicial["cod_unidad"]);//Calculo para Fnos Iniciales						
 						$Valor_Inicial=$Valor_Iniciales;//Mostrar calculo de finos iniciales en pantalla
 					}
 					else
@@ -114,21 +114,21 @@ for($i=1;$i<=$CantPrecio;$i++)
 						if($FilaInicial[cod_ley]=='1')
 						{
 							$NomUni=$FilaInicial[nom_unidad];
-							if($FilaInicial[cod_unidad]=='11'||$FilaInicial[cod_unidad]=='14'||$FilaInicial[cod_unidad]=='13')
+							if($FilaInicial["cod_unidad"]=='11'||$FilaInicial["cod_unidad"]=='14'||$FilaInicial["cod_unidad"]=='13')
 								$FilaInicial[nom_unidad]='%';
 						}				
 						else
 						{	
 							$NomUni=$FilaInicial[nom_unidad];						
-							if($FilaInicial[cod_unidad]=='11')
+							if($FilaInicial["cod_unidad"]=='11')
 								$FilaInicial[nom_unidad]='GRS/TON';
-							if($FilaInicial[cod_unidad]=='14')	
+							if($FilaInicial["cod_unidad"]=='14')	
 								$FilaInicial[nom_unidad]='KG/TON';
 						}	
-						$ValoresIniciales=CaracteristicasMaterialInicial($Cod,$FilaInicial[cod_ley],$TipoAnalisis,$Tms,$FilaInicial[cod_unidad]);//Finos Suma		
+						$ValoresIniciales=CaracteristicasMaterialInicial($Cod,$FilaInicial[cod_ley],$TipoAnalisis,$Tms,$FilaInicial["cod_unidad"]);//Finos Suma		
 						$Valor_Inicial=$ValoresIniciales;//Mostrar suma de finos iniciales en pantalla
-						//$ValoresLeyes=CaracteristicasMaterialInicialLeyes($Cod,$FilaInicial[cod_ley],$TipoAnalisis,$Tms,$FilaInicial[cod_unidad],$ValoresIniciales);//Calculo Leyes						
-						if($FilaInicial[cod_unidad]=='13')//TMF
+						//$ValoresLeyes=CaracteristicasMaterialInicialLeyes($Cod,$FilaInicial[cod_ley],$TipoAnalisis,$Tms,$FilaInicial["cod_unidad"],$ValoresIniciales);//Calculo Leyes						
+						if($FilaInicial["cod_unidad"]=='13')//TMF
 							$ValoresLeyes=($Valor_Inicial/$Tms)*100;
 						else
 							$ValoresLeyes=($Valor_Inicial/$Tms);
@@ -176,17 +176,17 @@ for($i=1;$i<=$CantPrecio;$i++)
 				while($FilaMa=mysql_fetch_array($RespMaterial))
 				{				
 					//POR CADA ANALISIS UN PROCESO 
-					$Valor=CaracteristicasMaterial($Cod,$FilaMa[cod_ley],$TipoAnalisis,$Tms,$ValorMerma,$FilaMa[cod_unidad]);
+					$Valor=CaracteristicasMaterial($Cod,$FilaMa[cod_ley],$TipoAnalisis,$Tms,$ValorMerma,$FilaMa["cod_unidad"]);
 					// ANALISIS DE COMPRA
-					$ValorUno=CaracteristicasMaterial($Cod,$FilaMa[cod_ley],$TipoAnalisisAux,$Tms,$ValorMermaCompra,$FilaMa[cod_unidad]);
+					$ValorUno=CaracteristicasMaterial($Cod,$FilaMa[cod_ley],$TipoAnalisisAux,$Tms,$ValorMermaCompra,$FilaMa["cod_unidad"]);
 					if($FilaMa[cod_ley]==1)
 					{
-						if($FilaMa[cod_unidad]==13||$FilaMa[cod_unidad]==9)
+						if($FilaMa["cod_unidad"]==13||$FilaMa["cod_unidad"]==9)
 							$NomUni='TMS';	
 					}
 					else
 					{
-						if($FilaMa[cod_unidad]==9||$FilaMa[cod_unidad]==10||$FilaMa[cod_unidad]==22)
+						if($FilaMa["cod_unidad"]==9||$FilaMa["cod_unidad"]==10||$FilaMa["cod_unidad"]==22)
 							$NomUni='KG';	
 					}
 					echo "<tr>";
@@ -349,9 +349,9 @@ for($i=1;$i<=$CantPrecio;$i++)
 							while($FilaMa=mysql_fetch_array($RespMaterial))
 							{				
 								//POR CADA ANALISIS UN PROCESO 
-								$ValorPagable=CaracteristicasMaterial($Cod,'1',$TipoAnalisis,$Merma,$Tms,$ValorMerma,$FilaMa[cod_unidad]);
+								$ValorPagable=CaracteristicasMaterial($Cod,'1',$TipoAnalisis,$Merma,$Tms,$ValorMerma,$FilaMa["cod_unidad"]);
 								// ANALISIS DE COMPRA
-								$ValorPagableUno=CaracteristicasMaterial($Cod,'1',$TipoAnalisisAux,$Merma,$Tms,$ValorMermaCompra,$FilaMa[cod_unidad]);
+								$ValorPagableUno=CaracteristicasMaterial($Cod,'1',$TipoAnalisisAux,$Merma,$Tms,$ValorMermaCompra,$FilaMa["cod_unidad"]);
 							}	
 							$Valor1=ValorTransp($Cod,$Fila2[cod_origen],$Fila2[cod_destino],$TipoAnalisisAux,$Tms,$TMH,$ValorPagableUno);
 							$Valor2=ValorTransp($Cod,$Fila2[cod_origen],$Fila2[cod_destino],$TipoAnalisis,$Tms,$TMH,$ValorPagable);
@@ -405,9 +405,9 @@ for($i=1;$i<=$CantPrecio;$i++)
 							while($FilaMa=mysql_fetch_array($RespMaterial))
 							{				
 								//POR CADA ANALISIS UN PROCESO 
-								$ValorPagable=CaracteristicasMaterial($Cod,'1',$TipoAnalisis,$Merma,$Tms,$ValorMerma,$FilaMa[cod_unidad]);								
+								$ValorPagable=CaracteristicasMaterial($Cod,'1',$TipoAnalisis,$Merma,$Tms,$ValorMerma,$FilaMa["cod_unidad"]);								
 								// ANALISIS DE COMPRA
-								$ValorPagableUno=CaracteristicasMaterial($Cod,'1',$TipoAnalisisAux,$Merma,$Tms,$ValorMermaCompra,$FilaMa[cod_unidad]);
+								$ValorPagableUno=CaracteristicasMaterial($Cod,'1',$TipoAnalisisAux,$Merma,$Tms,$ValorMermaCompra,$FilaMa["cod_unidad"]);
 							}	
 							$ValorFac1=ValorFactor($Cod,$Fila2[cod_tipo],$TipoAnalisisAux,$Tms,$TMH,$ValorPagableUno);
 							$ValorFac2=ValorFactor($Cod,$Fila2[cod_tipo],$TipoAnalisis,$Tms,$TMH,$ValorPagable);
@@ -457,9 +457,9 @@ for($i=1;$i<=$CantPrecio;$i++)
 						while($FilaMa=mysql_fetch_array($RespMaterial))
 						{				
 							//POR CADA ANALISIS UN PROCESO 
-							$ValorPagable=CaracteristicasMaterial($Cod,'1',$TipoAnalisis,$Merma,$Tms,$ValorMerma,$FilaMa[cod_unidad]);
+							$ValorPagable=CaracteristicasMaterial($Cod,'1',$TipoAnalisis,$Merma,$Tms,$ValorMerma,$FilaMa["cod_unidad"]);
 							// ANALISIS DE COMPRA
-							//$ValorPagableUno=CaracteristicasMaterial($Cod,'1',$TipoAnalisisAux,$Merma,$Tms,$ValorMermaCompra,$FilaMa[cod_unidad]);
+							//$ValorPagableUno=CaracteristicasMaterial($Cod,'1',$TipoAnalisisAux,$Merma,$Tms,$ValorMermaCompra,$FilaMa["cod_unidad"]);
 						}	
 						//$ValorPre1=ValorPremio($Cod,$Fila2[cod_tipo],$TipoAnalisisAux,$ValorPagableUno);
 						$ValorPre2=ValorPremio($Cod,$Fila2[cod_tipo],$TipoAnalisis,$ValorPagable);
@@ -568,7 +568,7 @@ function ValorPremio($Cod,$Cod_Premio,$TipoAnalisis,$ValorPagable)
    while($Fila=mysql_fetch_array($Resp))
    {	
 		$ValorPrem=$Fila[valor];			
-		$UniPrem=$Fila[cod_unidad]; 
+		$UniPrem=$Fila["cod_unidad"]; 
 		$ValorSalida=ConversionPremio($ValorPrem,$UniPrem,$ValorPagable,$Fila[euro]);
    }	
    return($ValorSalida);
@@ -595,7 +595,7 @@ function ValorFactor($Cod,$Cod_Factor,$TipoAnalisis,$Tms,$TMH,$ValorPagable)
    while($Fila=mysql_fetch_array($Resp))
    {	
 		$ValorFact=$Fila[valor];			
-		$UniFact=$Fila[cod_unidad]; 
+		$UniFact=$Fila["cod_unidad"]; 
 		$ValorSalida=ConversionFactor($ValorFact,$UniFact,$TMH,$Tms,$ValorPagable,$Fila[euro]);
    }	
    return($ValorSalida);
@@ -640,13 +640,13 @@ function CastigosOtrosValores($Cod,$TipoCastigo,$TipoAnalisis,$Tms,$CodLey)
    $Resp=mysqli_query($link, $Consulta);
    if($Fila=mysql_fetch_array($Resp))
    {
-		if($Fila[cod_unidad]=='8')
+		if($Fila["cod_unidad"]=='8')
 			$ValorSalida=$Fila[valor];
-		if($Fila[cod_unidad]=='23')
+		if($Fila["cod_unidad"]=='23')
 			$ValorSalida=$Fila[valor]*(1/$Fila[euro]);
    		if($Fila[sobre]!='0'&&$Fila[cada]!='0')
 		{
-			if($Fila[cod_unidad]=='2'||$Fila[cod_unidad]=='16')	
+			if($Fila["cod_unidad"]=='2'||$Fila["cod_unidad"]=='16')	
 			{
 				if($ValorLey>$Fila[sobre])
 					$ValorSalida=($ValorLey-$Fila[sobre])/($Fila[cada]*$Fila[valor]*$Tms);
@@ -685,9 +685,9 @@ function CastigosValores($Cod,$TipoCastigo,$TipoAnalisis,$Tms)
 				$ValorSobre=$Fila[sobre]/100;
 				$ValorCada=$Fila[cada]/100;
 				$ValorCastigo=$Fila[valor];
-				if($Fila[cod_unidad]=='2')//US$/TMS UNIDAD DE CASTIGO
+				if($Fila["cod_unidad"]=='2')//US$/TMS UNIDAD DE CASTIGO
 					$ValorCastigoFinal=(($ValorLey-$ValorSobre)/$ValorCada)*$ValorCastigo*$Tms;								
-				if($Fila[cod_unidad]=='16')//EURO/TMS UNIDAD DE CASTIGO	
+				if($Fila["cod_unidad"]=='16')//EURO/TMS UNIDAD DE CASTIGO	
 					$ValorCastigoFinal=(($ValorLey-$ValorSobre)/$ValorCada)*$ValorCastigo*(5/1)*$Tms;				
 		   }			    
 	   }
@@ -703,9 +703,9 @@ function CastigosValores($Cod,$TipoCastigo,$TipoAnalisis,$Tms)
 		   if($Fila=mysql_fetch_array($Resp))
 		   {
 				$ValorCastigo=$Fila[valor];
-				if($Fila[cod_unidad]=='2')//US$/TMS UNIDAD DE CASTIGO
+				if($Fila["cod_unidad"]=='2')//US$/TMS UNIDAD DE CASTIGO
 					$ValorCastigoFinal=$ValorCastigo*$Tms;								
-				if($Fila[cod_unidad]=='16')//EURO/TMS UNIDAD DE CASTIGO	
+				if($Fila["cod_unidad"]=='16')//EURO/TMS UNIDAD DE CASTIGO	
 					$ValorCastigoFinal=$ValorCastigo*(5/1)*$Tms;
 		   }			    
 	   }	
@@ -724,8 +724,8 @@ function ValorCostos($Cod,$TipoAnalisis,$CodTipo,$Tms,$ValorLey)
 	//echo "Consulta Material:   ".$ConsultaMaterial."<br>";
 	if($FilaMa=mysql_fetch_array($RespMaterial))
 	{				
-		$Valor=CaracteristicasMaterial($Cod,$FilaMa[cod_ley],$TipoAnalisis,$Merma,$Tms,$ValorMerma,$FilaMa[cod_unidad]);		
-		$Valor=CaracteristicasMaterial($Cod,$FilaMa[cod_ley],$TipoAnalisisAux,$Merma,$Tms,$ValorMermaCompra,$FilaMa[cod_unidad]);
+		$Valor=CaracteristicasMaterial($Cod,$FilaMa[cod_ley],$TipoAnalisis,$Merma,$Tms,$ValorMerma,$FilaMa["cod_unidad"]);		
+		$Valor=CaracteristicasMaterial($Cod,$FilaMa[cod_ley],$TipoAnalisisAux,$Merma,$Tms,$ValorMermaCompra,$FilaMa["cod_unidad"]);
 
 		$Consulta="select t1.valor,t1.cod_unidad,t1.cod_tipo,t1.lote from pcip_eva_negocios_costos t1 ";
 		$Consulta.="where t1.corr='".$Cod."' and t1.cod_tipo_analisis='".$TipoAnalisis."' and t1.cod_tipo='".$CodTipo."' and t1.cod_tipo_costo='1'";
@@ -736,7 +736,7 @@ function ValorCostos($Cod,$TipoAnalisis,$CodTipo,$Tms,$ValorLey)
 		{
 			$Valor=$FilaValor[valor];
 			$Lote=$FilaValor["lote"];
-			$Valor=ConvertirAUS($FilaValor[cod_unidad],$FilaValor[cod_tipo],$FilaValor[valor],$Tms,$Valor,$Lote);
+			$Valor=ConvertirAUS($FilaValor["cod_unidad"],$FilaValor[cod_tipo],$FilaValor[valor],$Tms,$Valor,$Lote);
 		}
 		else
 			$Valor=0;
@@ -849,7 +849,7 @@ function ValorTransp($Cod,$Cod_Origen_Dest,$TipoAnalisis,$Tms,$TMH,$ValorPagable
    while($Fila=mysql_fetch_array($Resp))
    {	
 		$ValorTransp=$Fila[valor];			
-		$UniTransp=$Fila[cod_unidad]; 
+		$UniTransp=$Fila["cod_unidad"]; 
 		$ValorSalida=ConversionTransp($ValorTransp,$UniTransp,$TMH,$Tms,$ValorPagable);
    }	
    return($ValorSalida);
@@ -894,7 +894,7 @@ function ValorConversionCosto($Cod,$Tms,$Cod_tipo,$Cod_tipo_costo,$Cod_unidad,$T
 	$ConsultaMaterial="select * from pcip_eva_negocios_material where corr='".$Cod."' and cod_ley='0' ";
 	$RespMaterial=mysql_query($ConsultaMaterial);
 	if($FilaMaterial=mysql_fetch_array($RespMaterial))
-		$UnidadInicial=$FilaMaterial[cod_unidad];
+		$UnidadInicial=$FilaMaterial["cod_unidad"];
 		
 	$ConsultaMaterial="select t1.corr,t1.cod_ley,t1.cod_unidad,t2.nombre_subclase as nom_ley,t3.nombre_subclase as nom_unidad from pcip_eva_negocios_material t1";
 	$ConsultaMaterial.=" inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='31037' and t1.cod_ley=t2.cod_subclase";
@@ -969,7 +969,7 @@ function CaracteristicasMaterialLeyesIniciales($Codigo,$Ley,$TipoAnalisis,$Tms,$
 		$RespMaterial=mysql_query($ConsultaMaterial);
 		while($FilaMaterial=mysql_fetch_array($RespMaterial))
 		{
-			$ValorAcumulado=ConvertirAFino($FilaMatIniSeco[cod_unidad],$Unidad,$FilaMaterial[valor],$FilaMatIniSeco[valor]);
+			$ValorAcumulado=ConvertirAFino($FilaMatIniSeco["cod_unidad"],$Unidad,$FilaMaterial[valor],$FilaMatIniSeco[valor]);
 		}
 	}	
 	$ValorSalida=$ValorSalida+$ValorAcumulado;
@@ -1063,7 +1063,7 @@ function CaracteristicasMaterial($Codigo,$Ley,$TipoAnalisis,$Tms,$MermaAnalisis,
 	while($FilaMaterial=mysql_fetch_array($RespMaterial))
 	{				
 		//APLICAMOS LA MERMA AL VALOR DEL TMS 
-		$UnidadLey=$FilaMaterial[cod_unidad];
+		$UnidadLey=$FilaMaterial["cod_unidad"];
 		$ValorLey=$FilaMaterial[valor];
 
 		$ValorTmsDesMerma=$Tms-$MermaAnalisis;
@@ -1078,7 +1078,7 @@ function CaracteristicasMaterial($Codigo,$Ley,$TipoAnalisis,$Tms,$MermaAnalisis,
 			$CodDeduccion=$Fila[cod_tipo];
 			$ValorDedu=$Fila[valor];
 			//echo "UNidad ley: ".$UnidadLey."   valor ley:  ".$FilaMaterial[valor]."    valor dedu:  ".$ValorDedu."&nbsp;  deduccion:  ".$CodDeduccion."<br>";			
-			$UniDedu=$Fila[cod_unidad];
+			$UniDedu=$Fila["cod_unidad"];
 			if($CodDeduccion==3)//ES DEDUCCION METALURGICA
 			{	if($Fila[descuento]!=0)
 				{
@@ -1171,9 +1171,9 @@ function ObtienePerdidadDeduc2($Cod,$Ley,$TipoAnalisis,$Tms,$Merma,$Merma2)
 	$RespMaterial=mysql_query($ConsultaMaterial);
 	if($FilaMaterial=mysql_fetch_array($RespMaterial));
 	{
-		if($FilaMaterial[cod_unidad]==12)
+		if($FilaMaterial["cod_unidad"]==12)
 			$ValorMaterialTMS=$FilaMaterial[valor];//VALOR DE TMS SEGUN LOS MESES.		
-		if($FilaMaterial[cod_unidad]==14)
+		if($FilaMaterial["cod_unidad"]==14)
 			$ValorMaterialTMS=$FilaMaterial[valor]/1000;//VALOR DE TMS SEGUN LOS MESES.		
 	}
 	$Suma=0;
@@ -1183,10 +1183,10 @@ function ObtienePerdidadDeduc2($Cod,$Ley,$TipoAnalisis,$Tms,$Merma,$Merma2)
 	$RespValor=mysql_query($ConsultaValor);
 	while($FilaValor=mysql_fetch_array($RespValor))
 	{		
-		if($FilaValor[cod_unidad]=='11')//DE GRAMOS A KG
+		if($FilaValor["cod_unidad"]=='11')//DE GRAMOS A KG
 			$ValorMaterial2=$FilaValor[valor]/1000;
 		//echo $ValorMaterial2."<br>";
-		if($FilaValor[cod_unidad]=='10')	
+		if($FilaValor["cod_unidad"]=='10')	
 			$ValorMaterial2=$FilaValor[valor]/1000/1000;
 
 		$Consulta="select * from pcip_eva_negocios_deduc_recup t1 ";
@@ -1197,22 +1197,22 @@ function ObtienePerdidadDeduc2($Cod,$Ley,$TipoAnalisis,$Tms,$Merma,$Merma2)
 		{
 			if($TipoAnalisis!='1')
 			{
-				if($Fila[cod_unidad]=='9')//% CAMBIOS DE UNIDADES EN DEDUCCIONES
+				if($Fila["cod_unidad"]=='9')//% CAMBIOS DE UNIDADES EN DEDUCCIONES
 				{				
 					$Valor=$FilaValor[valor]*$Fila[valor]/100;
 					$ValorCalculo=$FilaValor[valor]-$Valor;
 				}
-				if($Fila[cod_unidad]=='10')//GRS/TON CAMBIOS DE UNIDADES EN DEDUCCIONES
+				if($Fila["cod_unidad"]=='10')//GRS/TON CAMBIOS DE UNIDADES EN DEDUCCIONES
 					$ValorCalculo=$ValorMaterial2*$Merma-$Fila[valor]*$ValorMaterialTMS*$Merma/1000;
 			}
 			if($TipoAnalisis=='1')
 			{
-				if($Fila[cod_unidad]=='9')//% CAMBIOS DE UNIDADES EN DEDUCCIONES
+				if($Fila["cod_unidad"]=='9')//% CAMBIOS DE UNIDADES EN DEDUCCIONES
 				{				
 					$Valor=$FilaValor[valor]*$Fila[valor]/100;
 					$ValorCalculo=$FilaValor[valor]-$Valor;
 				}
-				if($Fila[cod_unidad]=='10')//GRS/TON CAMBIOS DE UNIDADES EN DEDUCCIONES
+				if($Fila["cod_unidad"]=='10')//GRS/TON CAMBIOS DE UNIDADES EN DEDUCCIONES
 				{
 					echo "=".$ValorMaterial2."*".$Merma2."-".$Fila[valor]."*".$ValorMaterialTMS."*".$Merma2."/1000<br>";
 					$ValorCalculo=($ValorMaterial2*$Merma2-$Fila[valor]*$ValorMaterialTMS*$Merma2)/1000;
@@ -1226,7 +1226,7 @@ function ObtienePerdidadDeduc2($Cod,$Ley,$TipoAnalisis,$Tms,$Merma,$Merma2)
 				while($FilaPrecio=mysql_fetch_array($RespPrecio))
 				{
 					$ValorPrecio=$FilaPrecio[valor];
-					$Precios=ConversionPrecios($ValorPrecio,$ValorCalculo,$FilaPrecio[cod_unidad],$Merma,$Tms);
+					$Precios=ConversionPrecios($ValorPrecio,$ValorCalculo,$FilaPrecio["cod_unidad"],$Merma,$Tms);
 					$Calculo=$Precios;
 				}	
 				$Suma=$Suma+$Calculo;
@@ -1267,8 +1267,8 @@ function ObtienePerdidadDeduc($Cod,$Ley,$Tms,$ValorMerma)
 	$RespValor=mysqli_query($link, $Consulta);
 	while($FilaValor=mysql_fetch_array($RespValor))
 	{			
-		if($FilaValor[cod_unidad]!='13')
-			$Valor=$Valor+ConvertirAFino($FilaValor[cod_ley],$FilaValor[cod_unidad],$FilaValor[valor],$Tms);
+		if($FilaValor["cod_unidad"]!='13')
+			$Valor=$Valor+ConvertirAFino($FilaValor[cod_ley],$FilaValor["cod_unidad"],$FilaValor[valor],$Tms);
 		else
 			$Valor=$Valor+$FilaValor[valor]-$ValorMerma;
 	}

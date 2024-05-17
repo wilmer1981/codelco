@@ -58,7 +58,7 @@
 							if($Fila=mysql_fetch_array($Resp))
 							{
 								echo "Unidad&nbsp;";
-								echo"<input type='hidden' name='CmbUnidad' size='10' value='".$Fila[cod_unidad]."'>";
+								echo"<input type='hidden' name='CmbUnidad' size='10' value='".$Fila["cod_unidad"]."'>";
 								echo"<input type='text' name='Unidad' size='6' value='".$Fila[nom_uni]."'>&nbsp;";
 							}
 							else

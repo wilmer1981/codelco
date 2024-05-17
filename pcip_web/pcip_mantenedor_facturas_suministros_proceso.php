@@ -180,7 +180,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					if ($CmbSuministro==$FilaTC["cod_suministro"])
 					{
 						echo "<option selected value='".$FilaTC["cod_suministro"]."'>".ucfirst($FilaTC["nom_suministro"])."</option>\n";
-						$Unidad=$FilaTC[cod_unidad];
+						$Unidad=$FilaTC["cod_unidad"];
 					}
 					else
 						echo "<option value='".$FilaTC["cod_suministro"]."'>".ucfirst($FilaTC["nom_suministro"])."</option>\n";

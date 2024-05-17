@@ -1,26 +1,45 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");	
-	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
+	$CmbMes         = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
+	$CmbAno         = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$ChkDetalle     = isset($_REQUEST["ChkDetalle"])?$_REQUEST["ChkDetalle"]:"";
+
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtFiltroPrv2  = isset($_REQUEST["TxtFiltroPrv2"])?$_REQUEST["TxtFiltroPrv2"]:"";
+	$TxtLeyesMuestra  = isset($_REQUEST["TxtLeyesMuestra"])?$_REQUEST["TxtLeyesMuestra"]:""; 
+	$TxtCodLeyes      = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:""; 
+	$ChkDetalle       = isset($_REQUEST["ChkDetalle"])?$_REQUEST["ChkDetalle"]:"L";
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+
+	$CmbMes      = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
 	$TxtFechaFin = date("Y-m-d", mktime(0,0,0,$CmbMes+1,1,$CmbAno));
 	$TxtFechaFin = date("Y-m-d", mktime(0,0,0,substr($TxtFechaFin,5,2),1-1,substr($TxtFechaFin,0,4)));
@@ -90,7 +109,7 @@
 	<?php
 	$ColSpan=3;
 	reset($ArrLeyesAux);
-	while(list($c,$v)=each($ArrLeyesAux))
+	foreach($ArrLeyesAux as $c=>$v)
 	{
 		if($c!='')
 			$ColSpan=$ColSpan+2;
@@ -153,7 +172,7 @@
 		$Anito = substr($TxtFechaIni,0,4);
 		$Mesi = substr($TxtFechaIni,5,2);
 		reset($ArrLeyesAux);
-		while(list($c,$v)=each($ArrLeyesAux))
+		foreach($ArrLeyesAux as $c=>$v)
 		{
 			if($c!='')
 			{
@@ -324,7 +343,7 @@
 					}
 					//echo $TxtFechaIniAux." / ".$TxtFechaFinAux."<br>";
 					$DatosLote["lote"]=$FilaLote["lote"];					
-					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"");
+					LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"",$link);
 					$PesoLoteS=$DatosLote["peso_seco"];
 					$PesoLoteS2=$DatosLote["peso_seco2"];
 					$PesoLoteH=$DatosLote["peso_humedo"];
@@ -347,7 +366,7 @@
 						
 					}
 					reset($ArrLeyes);
-					while(list($c,$v)=each($ArrLeyes))
+					foreach($ArrLeyes as $c=>$v)
 					{				
 						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
 						{							
@@ -435,7 +454,7 @@
 					echo "<td align=\"left\" colspan=\"5\">".$NomProveedor."</td>";
 				}
 				reset($ArrTotalesPrv);
-				while(list($c,$v)=each($ArrTotalesPrv))
+				foreach($ArrTotalesPrv as $c=>$v)
 				{
 					if($c!='') //&&$v[0]!='')
 					{
@@ -447,7 +466,7 @@
 			}
 			echo "<tr bgcolor=\"#CCCCCC\"><td align=\"left\" colspan=\"5\">TOTAL US$ :".str_pad($Fila01["cod_subproducto"],2,'0',STR_PAD_LEFT)." ".strtoupper($NomSubProd)."</td>\n";
 			reset($ArrTotalesProd);
-			while(list($c,$v)=each($ArrTotalesProd))
+			foreach($ArrTotalesProd as $c=>$v)
 			{
 				if($c!='')  //&&$v[0]!='')
 				{
@@ -459,7 +478,7 @@
 		}//FIN PRODUCTOS
 		echo "<tr class=\"ColorTabla01\"><td align=\"left\" colspan=\"5\">TOTAL US$ :".strtoupper($FilaTipoRecep["desc_a"])."</td>\n";
 		reset($ArrTotalesAsig);
-		while(list($c,$v)=each($ArrTotalesAsig))
+		foreach($ArrTotalesAsig as $c=>$v)
 		{
 			if($c!='') //&&$v[0]!='')
 			{

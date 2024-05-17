@@ -216,13 +216,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				case "1":
 					$NomTipo="Sumistro";
 					$Tipo='S';
-					$Unidad=$Fila[cod_unidad];
+					$Unidad=$Fila["cod_unidad"];
 					$Estilo='FilaAbeja';
 				break;	
 				case "2":
 					$NomTipo="Cantidad Ppto";
 					$Tipo='P';
-					$Unidad=$Fila[cod_unidad];
+					$Unidad=$Fila["cod_unidad"];
 					$Estilo='FilaAbeja2';
 				break;
 			}

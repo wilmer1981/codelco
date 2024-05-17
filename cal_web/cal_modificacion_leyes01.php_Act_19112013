@@ -50,12 +50,12 @@ if ($Plantilla<>'')
 		mysql_query($Insertar);
 		if ($Fila["tipo_leyes"] == '0')
 		{	
-			$Leyes = $Leyes.$Fila["cod_leyes"].'~~'.$Fila[cod_unidad].'//';
+			$Leyes = $Leyes.$Fila["cod_leyes"].'~~'.$Fila["cod_unidad"].'//';
 		}	
 		
 		if ($Fila["tipo_leyes"] == '1')
 		{	
-			$Impurezas = $Impurezas.$Fila["cod_leyes"].'~~'.$Fila[cod_unidad].'//';
+			$Impurezas = $Impurezas.$Fila["cod_leyes"].'~~'.$Fila["cod_unidad"].'//';
 	
 		}
 	}

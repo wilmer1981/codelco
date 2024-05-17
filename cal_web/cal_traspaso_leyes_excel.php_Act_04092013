@@ -410,7 +410,7 @@ function ValidaLeyes($Solicitud,$Recargo,$Leyes,$UnidadExcel,$Msje)
 	$Resp = mysqli_query($link, $Consulta);
 	if($Fila = mysql_fetch_array($Resp))
 	{
-		if($Fila[cod_unidad]==$UnidadExcel)
+		if($Fila["cod_unidad"]==$UnidadExcel)
 			$Retorno=true;	
 		
 	}

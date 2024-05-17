@@ -142,7 +142,7 @@ if($Opcion=='Guarda')
 	{
 		$Ley=$Filas[ley];
 		$SA=$Filas[SA];
-		$Unidad=$Filas[cod_unidad];
+		$Unidad=$Filas["cod_unidad"];
 		$Signo=$Filas["signo"];
 		$Valor=str_replace(',','.',$Filas[valor_ley]);
 		$Consulta2 = "select t1.recargo";

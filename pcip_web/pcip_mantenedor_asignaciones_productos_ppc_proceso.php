@@ -201,10 +201,10 @@ if ($Opc=='N')
 				$Resp=mysqli_query($link, $Consulta);
 				while($Fila=mysql_fetch_array($Resp))
 				{
-					if($Fila[cod_unidad]==$CmbUnidad)
-						echo "<option value='".$Fila[cod_unidad]."' selected>".$Fila[cod_unidad]."</option>";
+					if($Fila["cod_unidad"]==$CmbUnidad)
+						echo "<option value='".$Fila["cod_unidad"]."' selected>".$Fila["cod_unidad"]."</option>";
 					else
-						echo "<option value='".$Fila[cod_unidad]."'>".$Fila[cod_unidad]."</option>";					
+						echo "<option value='".$Fila["cod_unidad"]."'>".$Fila["cod_unidad"]."</option>";					
 				}
 			?>
              </select>                 

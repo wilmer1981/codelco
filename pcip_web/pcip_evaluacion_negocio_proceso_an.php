@@ -303,10 +303,10 @@ function ObtienePerdidadDeduc($Cod,$ArrayCalculos,$TipoAnalisisAux,$Div,$Tms,$Ca
 	$RespValor=mysqli_query($link, $Consulta);
 	while($FilaValor=mysql_fetch_array($RespValor))
 	{		
-		$Fino=ConvertirAFino($FilaValor[cod_ley],$FilaValor[cod_unidad],$FilaValor[valor],$Tms);
+		$Fino=ConvertirAFino($FilaValor[cod_ley],$FilaValor["cod_unidad"],$FilaValor[valor],$Tms);
 		$Clave=$FilaValor[cod_division].$FilaValor[cod_ley];
 		$ArrayCalculos[$Clave][0]=$FilaValor[cod_ley];
-		$ArrayCalculos[$Clave][1]=$FilaValor[cod_unidad];
+		$ArrayCalculos[$Clave][1]=$FilaValor["cod_unidad"];
 		$ArrayCalculos[$Clave][2]=$Fino;//FINO CALCULADO
 		$ArrayCalculos[$Clave][3]=$Fino;//FINO INICIAL
 		$ArrayCalculos[$Clave][4]='N';//VERIFICA SI EXISTEN DATOS DE DECUCCIONES Y PRECIOS
@@ -326,7 +326,7 @@ function ObtienePerdidadDeduc($Cod,$ArrayCalculos,$TipoAnalisisAux,$Div,$Tms,$Ca
 	   {
 			//if($v[0]==1)
 			//	echo $FinoAnt."<br>";
-			$Fino=ConvertirAFino($FilaValor[cod_ley],$FilaValor[cod_unidad],$FilaValor[valor],$FinoAnt);
+			$Fino=ConvertirAFino($FilaValor[cod_ley],$FilaValor["cod_unidad"],$FilaValor[valor],$FinoAnt);
 	   		$ArrayCalculos[$c][2]=$Fino;
 			$ArrayCalculos[$c][4]='S';
 			$FinoAnt=$Fino;
@@ -344,7 +344,7 @@ function ObtienePerdidadDeduc($Cod,$ArrayCalculos,$TipoAnalisisAux,$Div,$Tms,$Ca
 	   $RespValor=mysqli_query($link, $Consulta);
 	   if($FilaValor=mysql_fetch_array($RespValor))
 	   {
-	   		$Fino=ConvertirAFino($FilaValor[cod_ley],$FilaValor[cod_unidad],$FilaValor[valor],$v[2]);
+	   		$Fino=ConvertirAFino($FilaValor[cod_ley],$FilaValor["cod_unidad"],$FilaValor[valor],$v[2]);
 	   		//echo "FINO:".$Fino."<br>";
 			$ArrayCalculos[$c][2]=$Fino;
 			$ArrayCalculos[$c][4]='S';
@@ -364,7 +364,7 @@ function ObtienePerdidadDeduc($Cod,$ArrayCalculos,$TipoAnalisisAux,$Div,$Tms,$Ca
 		$RespValor=mysqli_query($link, $Consulta);
 		if($FilaValor=mysql_fetch_array($RespValor))
 		{
-			$Fino=ConvertirAUS($FilaValor[cod_unidad],$FilaValor[valor],($v[3]-$v[2]));
+			$Fino=ConvertirAUS($FilaValor["cod_unidad"],$FilaValor[valor],($v[3]-$v[2]));
 			if($Tms<0)
 			{
 				$ArrayCalculos[$c][2]=$Fino/$Tms;

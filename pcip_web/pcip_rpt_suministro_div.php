@@ -120,7 +120,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				{
 					echo "<tr>";
 					echo "<td>".$FilaS[nom_suministro]."</td>";
-					echo "<td>".$FilaS[cod_unidad]."</td>";
+					echo "<td>".$FilaS["cod_unidad"]."</td>";
 					$ValorReal=ConsumoMes('S',$FilaS[cod_suministro],$Ano,$Mes);
 					echo "<td align='right'>".number_format($ValorReal,0,',','.')."</td>";
 					$ValorPpto=ConsumoMes('P',$FilaS[cod_suministro],$Ano,$Mes);

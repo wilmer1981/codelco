@@ -259,16 +259,16 @@ if(msj=='s')
 								$LeyExiste="N";
 								//echo $Row2["cod_leyes"]."   l    ";
 							}
-							if($Row2[cod_unidad]!='')
+							if($Row2["cod_unidad"]!='')
 							{
 								$Consulta23 = "select abreviatura from  
-								 proyecto_modernizacion.unidades where cod_unidad='".$Row2[cod_unidad]."'";
+								 proyecto_modernizacion.unidades where cod_unidad='".$Row2["cod_unidad"]."'";
 								// echo $Consulta23."<br>";
 								$Respuesta23 = mysql_query($Consulta23);
 								if(!$Row23 = mysql_fetch_array($Respuesta23))
 								{
 									$LeyExiste="N";
-								//	echo $Row2[cod_unidad]."   u    ";
+								//	echo $Row2["cod_unidad"]."   u    ";
 								}
 							}
 						}
@@ -305,7 +305,7 @@ if(msj=='s')
 							if($Row2 = mysql_fetch_array($Respuesta2))
 							{
 								$ConsultaUni = "select abreviatura from  
-								 proyecto_modernizacion.unidades where cod_unidad='".$Row2[cod_unidad]."'";
+								 proyecto_modernizacion.unidades where cod_unidad='".$Row2["cod_unidad"]."'";
 								$RespuestaUni = mysql_query($ConsultaUni);
 								if($RowUni = mysql_fetch_array($RespuestaUni))
 									$Abreviatura=$RowUni["abreviatura"];
@@ -340,10 +340,10 @@ if(msj=='s')
 							$Respuesta23 = mysql_query($Consulta23);
 							if(!$Row23 = mysql_fetch_array($Respuesta23))
 								$LeyExiste="N";
-							if($Row2[cod_unidad]!='')
+							if($Row2["cod_unidad"]!='')
 							{
 								$Consulta23 = "select abreviatura from  
-								 proyecto_modernizacion.unidades where abreviatura='".$Row2[cod_unidad]."'";
+								 proyecto_modernizacion.unidades where abreviatura='".$Row2["cod_unidad"]."'";
 								$Respuesta23 = mysql_query($Consulta23);
 								if(!$Row23 = mysql_fetch_array($Respuesta23))
 									$LeyExiste="N";
@@ -376,7 +376,7 @@ if(msj=='s')
 								$Color2="#FF0000";							
 							?>
 							<td bgcolor="<? echo $Color2;?>"><? if($Row2[valor]==0){ echo 0;}else{echo number_format($Row2[valor],4,',','.');}?></td>
-							<td bgcolor="<? echo $Color2;?>"><? echo $Row2[cod_unidad]?></td>
+							<td bgcolor="<? echo $Color2;?>"><? echo $Row2["cod_unidad"]?></td>
 							<?
 						}
 						?>
@@ -411,7 +411,7 @@ function ValidaLeyes($Solicitud,$Recargo,$Leyes,$UnidadExcel,$Msje)
 	$Resp = mysqli_query($link, $Consulta);
 	if($Fila = mysql_fetch_array($Resp))
 	{
-		if($Fila[cod_unidad]==$UnidadExcel)
+		if($Fila["cod_unidad"]==$UnidadExcel)
 			$Retorno=true;	
 		
 	}

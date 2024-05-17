@@ -165,7 +165,7 @@
 					
 					
 					$Valor=$Fila3[valor];
-					ValorLimiteControl($CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3[cod_unidad],$Fila["rut_proveedor"],&$Valor,&$Tiene);
+					ValorLimiteControl($CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],&$Valor,&$Tiene);
 					if($Tiene=='S')
 					{
 					
@@ -464,7 +464,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 								if ($Fila3["signo"]=="=")
 								{
 									
-									$Valor=ValorColor($Fila["nro_solicitud"],$CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3[cod_unidad],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"]);
+									$Valor=ValorColor($Fila["nro_solicitud"],$CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"]);
 									$M=explode('~',$Valor);
 									if($M[1]!='')
 										$OBSLEY=$OBSLEY.$Fila3["ley"].":".$M[1]."/";
@@ -473,7 +473,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 								}
 								else
 								{
-										$Valor=ValorColor($Fila["nro_solicitud"],$CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3[cod_unidad],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"]);
+										$Valor=ValorColor($Fila["nro_solicitud"],$CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"]);
 									$M=explode('~',$Valor);
 									if($M[1]!='')
 										$OBSLEY=$OBSLEY.$Fila3["ley"].":".$M[1]."/";

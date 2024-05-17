@@ -18,7 +18,7 @@ $Fecha_Hora=date("Y-m-d h:i:s");
 				{
 					$Valor=$Fila[Valor];
 				}
-				$Unidad=$Fila[cod_unidad];
+				$Unidad=$Fila["cod_unidad"];
 				$Candado=$Fila[candado];
 				$Signo=$Fila["signo"];
 				$Rut_Proceso=$Fila[rut_proceso];
@@ -45,7 +45,7 @@ $Fecha_Hora=date("Y-m-d h:i:s");
 				{
 					$Valor=$Fila[Valor];
 				}
-				$Unidad=$Fila[cod_unidad];
+				$Unidad=$Fila["cod_unidad"];
 				$Candado=$Fila[candado];
 				$Signo=$Fila["signo"];
 				$Rut_Proceso=$Fila[rut_proceso];
@@ -77,7 +77,7 @@ $Fecha_Hora=date("Y-m-d h:i:s");
 				$Prod=$Fila["cod_producto"];
 				$SubPro=$Fila["cod_subproducto"];
 				$Muestra=$Fila["id_muestra"];
-				$Unidad=$Fila[cod_unidad];
+				$Unidad=$Fila["cod_unidad"];
 				$Candado=$Fila[candado];
 				$Signo=$Fila["signo"];
 				$Rut_Proceso=$Fila[rut_proceso];
@@ -106,7 +106,7 @@ $Fecha_Hora=date("Y-m-d h:i:s");
 				$Prod=$Fila["cod_producto"];
 				$SubPro=$Fila["cod_subproducto"];
 				$Muestra=$Fila["id_muestra"];
-				$Unidad=$Fila[cod_unidad];
+				$Unidad=$Fila["cod_unidad"];
 				$Candado=$Fila[candado];
 				$Signo=$Fila["signo"];
 				$Rut_Proceso=$Fila[rut_proceso];
@@ -134,7 +134,7 @@ $Fecha_Hora=date("Y-m-d h:i:s");
 				{
 					$Valor=$Fila[Valor];
 				}
-				$Unidad=$Fila[cod_unidad];
+				$Unidad=$Fila["cod_unidad"];
 				$Candado=$Fila[candado];
 				$Insertar="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,valor,cod_unidad,candado,signo,rut_proceso) values (";
 				$Insertar=$Insertar."'$Rut_F','$Fecha_Hora',$SA,'$Recargo','$Ley',$Valor,'$Unidad','$Candado','E','$CookieRut')";
@@ -156,7 +156,7 @@ $Fecha_Hora=date("Y-m-d h:i:s");
 				{
 					$Valor=$Fila[Valor];
 				}
-				$Unidad=$Fila[cod_unidad];
+				$Unidad=$Fila["cod_unidad"];
 				$Candado=$Fila[candado];
 				$Insertar="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,valor,cod_unidad,candado,signo,rut_proceso) values (";
 				$Insertar=$Insertar."'$Rut_F','$Fecha_Hora',$SA,'$Ley',$Valor,'$Unidad','$Candado','E','$CookieRut')";

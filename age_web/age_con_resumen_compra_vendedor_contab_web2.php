@@ -6,8 +6,6 @@
 	$CmbRecepcion  = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
 	$TxtFechaConsulta  = isset($_REQUEST["TxtFechaConsulta"])?$_REQUEST["TxtFechaConsulta"]:"";
 	$CmbClaseProd  = isset($_REQUEST["CmbClaseProd"])?$_REQUEST["CmbClaseProd"]:"";
-	$CmbRecepcion  = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
-	
 
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$FechaC = $CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);

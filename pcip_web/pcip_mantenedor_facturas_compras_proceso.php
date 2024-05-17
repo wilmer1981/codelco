@@ -1663,7 +1663,7 @@ function ObtenerValorFino($Codigo,$CodConte,$CodFino,$Correlativo)
 	$Respaux=mysqli_query($link, $Consulta);
 	if($Filaaux=mysql_fetch_array($Respaux))
 	{
-		$Valor=$Filaaux[valor]."~".$Filaaux[cod_unidad];
+		$Valor=$Filaaux[valor]."~".$Filaaux["cod_unidad"];
 		
 	}
 	return($Valor);

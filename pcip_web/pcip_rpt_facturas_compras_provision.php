@@ -585,7 +585,7 @@ function MuestraPrecio($Ano,$Mes,$ContMeses,$NomFino,$Fino,$Prv,$Contrato,$CodPr
 			if($FilaPrecio=mysql_fetch_array($RespPrecio))
 			{			    
 				$ValorPrecio=$FilaPrecio[valor];
-				$Precio=ConversionPagablePrecio($NomFino,$ValorPrecio,$FilaPrecio[cod_unidad],$FilaPrecio[euro]);
+				$Precio=ConversionPagablePrecio($NomFino,$ValorPrecio,$FilaPrecio["cod_unidad"],$FilaPrecio[euro]);
 			}
 			else
 				$Precio=0;
@@ -677,9 +677,9 @@ function MuestraPagable($Ano,$Mes,$ContMeses,$Fino,$Prv,$Contrato,$CodProd,$Paga
 			//echo $ConsultaPagable."<br>";
 			if($FilaPagable=mysql_fetch_array($RespPagable))
 			{	
-			    //echo $NomFino."     ".$FilaPagable[valor]."      ".$FilaPagable[cod_unidad];
+			    //echo $NomFino."     ".$FilaPagable[valor]."      ".$FilaPagable["cod_unidad"];
 				$ValorPaga=$FilaPagable[valor];	    
-				$ValorPagable=ConversionPagablePrecio($NomFino,$ValorPaga,$FilaPagable[cod_unidad],'');					
+				$ValorPagable=ConversionPagablePrecio($NomFino,$ValorPaga,$FilaPagable["cod_unidad"],'');					
 			}			
 			$ArrayTot[$Fila1[num_factura]][1]=$ValorPagable;	
 			echo "<td class=".$Clase." align='right'>".number_format($ValorPagable,2,',','.')."</td>";

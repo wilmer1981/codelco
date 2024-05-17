@@ -1,9 +1,18 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");	
-	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
+	
+	$CmbMes         = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
+	$CmbAno         = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$ChkDetalle     = isset($_REQUEST["ChkDetalle"])?$_REQUEST["ChkDetalle"]:"";
+	$TxtCodLeyes    = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:""; 
+
+	$CmbMes      = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
-	$FechaCon=$CmbAno.str_pad($CmbMes,2,'0',STR_PAD_LEFT);
+	$FechaCon    = $CmbAno.str_pad($CmbMes,2,'0',STR_PAD_LEFT);
 
 	$TxtFechaFin = date("Y-m-d", mktime(0,0,0,$CmbMes+1,1,$CmbAno));
 	$TxtFechaFin = date("Y-m-d", mktime(0,0,0,substr($TxtFechaFin,5,2),1-1,substr($TxtFechaFin,0,4)));
@@ -105,12 +114,10 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style></head>
 
 <body>
@@ -136,7 +143,7 @@ body {
 	<?php
 	$ColSpan=3;
 	reset($ArrLeyesAux);
-	while(list($c,$v)=each($ArrLeyesAux))
+	foreach($ArrLeyesAux as $c=>$v)
 	{
 		if($c!='')
 			$ColSpan=$ColSpan+2;
@@ -202,7 +209,7 @@ body {
 		$Anito = substr($TxtFechaIni,0,4);
 		$Mesi = substr($TxtFechaIni,5,2);
 		reset($ArrLeyesAux);
-		while(list($c,$v)=each($ArrLeyesAux))
+		foreach($ArrLeyesAux as $c=>$v)
 		{
 			if($c!='')
 			{
@@ -396,7 +403,7 @@ body {
 					}
 					//echo $TxtFechaIniAux." / ".$TxtFechaFinAux."<br>";
 					$DatosLote["lote"]=$FilaLote["lote"];					
-					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"");
+					LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"",$link);
 					//echo $ArrLeyes[08][2]." / ".$ArrLeyes[09][2];
 					$PesoLoteS=$DatosLote["peso_seco"];
 					//echo $PesoLoteS."<br>";
@@ -423,7 +430,7 @@ body {
 
 					}
 					reset($ArrLeyes);
-					while(list($c,$v)=each($ArrLeyes))
+					foreach($ArrLeyes as $c=>$v)
 					{				
 						//echo "if(".$c."!=''&&".$v[1]."!=''&&".$PesoLoteS.">0)<br>";
 						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
@@ -537,7 +544,7 @@ body {
 					echo "<td align=\"left\" colspan=\"5\">".$NomProveedor."</td>";
 				}
 				reset($ArrTotalesPrv);
-				while(list($c,$v)=each($ArrTotalesPrv))
+				foreach($ArrTotalesPrv as $c=>$v)
 				{
 					if($c!=''&&$v[0]!='')
 					{
@@ -549,7 +556,7 @@ body {
 			}
 			echo "<tr bgcolor=\"#CCCCCC\"><td align=\"left\" colspan=\"5\">TOTAL US$ :".str_pad($Fila01["cod_subproducto"],2,'0',STR_PAD_LEFT)." ".strtoupper($NomSubProd)."</td>\n";
 			reset($ArrTotalesProd);
-			while(list($c,$v)=each($ArrTotalesProd))
+			foreach($ArrTotalesProd as $c=>$v)
 			{
 				if($c!='') //&&$v[0]!='')
 				{
@@ -561,7 +568,7 @@ body {
 		}//FIN PRODUCTOS
 		echo "<tr class=\"ColorTabla01\"><td align=\"left\" colspan=\"5\">TOTAL US$ :".strtoupper($FilaTipoRecep["desc_a"])."</td>\n";
 		reset($ArrTotalesAsig);
-		while(list($c,$v)=each($ArrTotalesAsig))
+		foreach($ArrTotalesAsig as $c=>$v)
 		{
 			if($c!='') //&&$v[0]!='')
 			{

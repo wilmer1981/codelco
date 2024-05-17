@@ -192,7 +192,7 @@ switch($Opcion)
 						while($Row = mysql_fetch_array($Respuesta))
 						{	
 							if(trim($Row[valor])!='')
-								ActualizarLeyesSolicitud($v,'',$Row["cod_leyes"],$Row[valor],$CookieRut,$RUT_FUNC,$Row[cod_unidad]);			
+								ActualizarLeyesSolicitud($v,'',$Row["cod_leyes"],$Row[valor],$CookieRut,$RUT_FUNC,$Row["cod_unidad"]);			
 						}
 						
 						$Consulta="select cod_producto,cod_subproducto from cal_web.solicitud_analisis where nro_solicitud ='".$v."'";
@@ -350,7 +350,7 @@ function ObtengoUnidad($Columna)
 	$Resp = mysqli_query($link, $Consulta);$CodUni='';
 	if($Fila = mysql_fetch_array($Resp))
 	{
-		$CodUni=$Fila[cod_unidad];
+		$CodUni=$Fila["cod_unidad"];
 	}
 	return($CodUni);	
 }

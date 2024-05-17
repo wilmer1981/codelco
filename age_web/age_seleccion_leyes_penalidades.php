@@ -2,9 +2,17 @@
 	include("../principal/conectar_principal.php");
 	//$TxtLeyesMuestra='Cu,Ag,Au,';
 	//$TxtCodLeyes="02~Cu~1~100~%~2//04~Ag~4~1000~g/T~0//05~Au~4~1000~g/T~1//";
+	$Plantilla   = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$AnoApl      = isset($_REQUEST["AnoApl"])?$_REQUEST["AnoApl"]:"";
+	$MesApl      = isset($_REQUEST["MesApl"])?$_REQUEST["MesApl"]:"";
+	$Pag         = isset($_REQUEST["Pag"])?$_REQUEST["Pag"]:"";
+
+	$TxtLeyesMuestra  = isset($_REQUEST["TxtLeyesMuestra"])?$_REQUEST["TxtLeyesMuestra"]:""; 
+	$TxtCodLeyes      = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:""; 
+
 	if (strlen($MesApl)==1)
 		$FechaApl = $AnoApl."0".$MesApl;
-		else
+	else
 		$FechaApl = $AnoApl.$MesApl;
 ?>
 <html>
@@ -64,11 +72,9 @@ function Proceso(opt,pag)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
@@ -122,9 +128,10 @@ body {
 			echo "<td class='ColorTabla03' align='left'><select name='CmbUnidad' style='width:50'>";
 			$Consulta="select cod_unidad,abreviatura as unidad,conversion from proyecto_modernizacion.unidades where cod_unidad in ('1','2','4')";
 			$RespUnid=mysqli_query($link, $Consulta);
+			$Decimales=2;//WSO
 			while($FilaUnid=mysqli_fetch_array($RespUnid))
 			{
-				if($Fila[cod_unidad]==$FilaUnid[cod_unidad])
+				if($Fila["cod_unidad"]==$FilaUnid["cod_unidad"])
 					echo "<option value='".$FilaUnid["cod_unidad"]."~".$FilaUnid["conversion"]."~".$FilaUnid["unidad"]."~".$Decimales."' selected>".$FilaUnid["unidad"]."</option>";
 				else
 					echo "<option value='".$FilaUnid["cod_unidad"]."~".$FilaUnid["conversion"]."~".$FilaUnid["unidad"]."~".$Decimales."'>".$FilaUnid["unidad"]."</option>";

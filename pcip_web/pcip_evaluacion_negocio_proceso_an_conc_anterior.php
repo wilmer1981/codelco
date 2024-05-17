@@ -13,7 +13,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 	$Fila=mysql_fetch_array($Resp);
 	$Tms=$Fila[tms];
 	$Origen=$Fila[tipo_origen];
-	$Unidad=$Fila[cod_unidad];
+	$Unidad=$Fila["cod_unidad"];
 	$Datos=explode('||',$Fila[analisis]);
 	while(list($c,$v)=each($Datos))
 	{
@@ -119,13 +119,13 @@ for($i=1;$i<=$CantPrecio;$i++)
 				{
 					$Valor=0;$Valor2=0;
 					$Valor=ObtienePerdidadDeduc($Cod,$FilaValor[cod_ley],$Tms,$ValorMerma);
-					if($FilaValor[cod_unidad]=='11')
+					if($FilaValor["cod_unidad"]=='11')
 						$FilaValor[nom_unidad]='KG';
 					echo "<tr>";
 					echo "<td class='TituloCabecera'>".$FilaValor[nom_ley]."</td>";
 					echo "<td class='TituloCabecera' align='center'>".$FilaValor[nom_unidad]."</td>";					
 					echo "<td align='right'>".number_format($Valor,0,',','.')."</td>";
-					if($FilaValor[cod_unidad]=='13')
+					if($FilaValor["cod_unidad"]=='13')
 					{
 						$ValorLey=$Valor/$Tms*100;
 						$Unidad="%";
@@ -313,7 +313,7 @@ function ValorCostos($Cod,$TipoAnalisis,$CodTipo,$Tms)
    if($FilaValor=mysql_fetch_array($RespValor))
    {
 		$Valor=$FilaValor[valor];
-		$Valor=ConvertirAUS($FilaValor[cod_unidad],$FilaValor[valor],$Tms);
+		$Valor=ConvertirAUS($FilaValor["cod_unidad"],$FilaValor[valor],$Tms);
    }
    else
 	$Valor=0;
@@ -382,9 +382,9 @@ function ObtienePerdidadDeduc2($Cod,$Ley,$TipoAnalisis,$Tms,$Merma,$Merma2)
 	$RespMaterial=mysql_query($ConsultaMaterial);
 	if($FilaMaterial=mysql_fetch_array($RespMaterial));
 	{
-		if($FilaMaterial[cod_unidad]==12)
+		if($FilaMaterial["cod_unidad"]==12)
 			$ValorMaterialTMS=$FilaMaterial[valor];//VALOR DE TMS SEGUN LOS MESES.		
-		if($FilaMaterial[cod_unidad]==14)
+		if($FilaMaterial["cod_unidad"]==14)
 			$ValorMaterialTMS=$FilaMaterial[valor]/1000;//VALOR DE TMS SEGUN LOS MESES.		
 	}
 	$Suma=0;
@@ -394,10 +394,10 @@ function ObtienePerdidadDeduc2($Cod,$Ley,$TipoAnalisis,$Tms,$Merma,$Merma2)
 	$RespValor=mysql_query($ConsultaValor);
 	while($FilaValor=mysql_fetch_array($RespValor))
 	{		
-		if($FilaValor[cod_unidad]=='11')//DE GRAMOS A KG
+		if($FilaValor["cod_unidad"]=='11')//DE GRAMOS A KG
 			$ValorMaterial2=$FilaValor[valor]/1000;
 		//echo $ValorMaterial2."<br>";
-		if($FilaValor[cod_unidad]=='10')	
+		if($FilaValor["cod_unidad"]=='10')	
 			$ValorMaterial2=$FilaValor[valor]/1000/1000;
 
 		$Consulta="select * from pcip_eva_negocios_deduc_recup t1 ";
@@ -408,22 +408,22 @@ function ObtienePerdidadDeduc2($Cod,$Ley,$TipoAnalisis,$Tms,$Merma,$Merma2)
 		{
 			if($TipoAnalisis!='1')
 			{
-				if($Fila[cod_unidad]=='9')//% CAMBIOS DE UNIDADES EN DEDUCCIONES
+				if($Fila["cod_unidad"]=='9')//% CAMBIOS DE UNIDADES EN DEDUCCIONES
 				{				
 					$Valor=$FilaValor[valor]*$Fila[valor]/100;
 					$ValorCalculo=$FilaValor[valor]-$Valor;
 				}
-				if($Fila[cod_unidad]=='10')//GRS/TON CAMBIOS DE UNIDADES EN DEDUCCIONES
+				if($Fila["cod_unidad"]=='10')//GRS/TON CAMBIOS DE UNIDADES EN DEDUCCIONES
 					$ValorCalculo=$ValorMaterial2*$Merma-$Fila[valor]*$ValorMaterialTMS*$Merma/1000;
 			}
 			if($TipoAnalisis=='1')
 			{
-				if($Fila[cod_unidad]=='9')//% CAMBIOS DE UNIDADES EN DEDUCCIONES
+				if($Fila["cod_unidad"]=='9')//% CAMBIOS DE UNIDADES EN DEDUCCIONES
 				{				
 					$Valor=$FilaValor[valor]*$Fila[valor]/100;
 					$ValorCalculo=$FilaValor[valor]-$Valor;
 				}
-				if($Fila[cod_unidad]=='10')//GRS/TON CAMBIOS DE UNIDADES EN DEDUCCIONES
+				if($Fila["cod_unidad"]=='10')//GRS/TON CAMBIOS DE UNIDADES EN DEDUCCIONES
 				{
 					echo "=".$ValorMaterial2."*".$Merma2."-".$Fila[valor]."*".$ValorMaterialTMS."*".$Merma2."/1000<br>";
 					$ValorCalculo=($ValorMaterial2*$Merma2-$Fila[valor]*$ValorMaterialTMS*$Merma2)/1000;
@@ -437,7 +437,7 @@ function ObtienePerdidadDeduc2($Cod,$Ley,$TipoAnalisis,$Tms,$Merma,$Merma2)
 				while($FilaPrecio=mysql_fetch_array($RespPrecio))
 				{
 					$ValorPrecio=$FilaPrecio[valor];
-					$Precios=ConversionPrecios($ValorPrecio,$ValorCalculo,$FilaPrecio[cod_unidad],$Merma,$Tms);
+					$Precios=ConversionPrecios($ValorPrecio,$ValorCalculo,$FilaPrecio["cod_unidad"],$Merma,$Tms);
 					$Calculo=$Precios;
 				}	
 				$Suma=$Suma+$Calculo;
@@ -478,8 +478,8 @@ function ObtienePerdidadDeduc($Cod,$Ley,$Tms,$ValorMerma)
 	$RespValor=mysqli_query($link, $Consulta);
 	while($FilaValor=mysql_fetch_array($RespValor))
 	{			
-		if($FilaValor[cod_unidad]!='13')
-			$Valor=$Valor+ConvertirAFino($FilaValor[cod_ley],$FilaValor[cod_unidad],$FilaValor[valor],$Tms);
+		if($FilaValor["cod_unidad"]!='13')
+			$Valor=$Valor+ConvertirAFino($FilaValor[cod_ley],$FilaValor["cod_unidad"],$FilaValor[valor],$Tms);
 		else
 			$Valor=$Valor+$FilaValor[valor]-$ValorMerma;
 	}

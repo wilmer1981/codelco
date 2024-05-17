@@ -209,7 +209,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	while($Fila=mysql_fetch_array($Resp))
 	{
 			$Tipo='V';
-			$Unidad=$Fila[cod_unidad];
+			$Unidad=$Fila["cod_unidad"];
 			$Estilo='FilaAbeja';
 			$Cod=$CmbGrupoSuministro."~".$CmbSuministro."~".$Ano."~".$Tipo;
 			?>

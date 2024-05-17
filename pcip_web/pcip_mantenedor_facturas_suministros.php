@@ -247,7 +247,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		<td align="center"><? echo $Fila[fecha]; ?></td>
 		<td align="right"><? echo $ValorTotal; ?></td>
 		<td align="right"><? echo $ValorPrecio; ?></td>
-		<td align="center">US$/<? echo $Fila[cod_unidad]; ?></td>
+		<td align="center">US$/<? echo $Fila["cod_unidad"]; ?></td>
 		</tr>
 	    <?
 	}

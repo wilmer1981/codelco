@@ -235,7 +235,7 @@ function Salir(Valores)
 			{
 				
 					$Consulta="Select * from cal_web.limite where cod_producto='".$Fila["cod_producto"]."' and cod_subproducto='".$Fila["cod_subproducto"]."'";
-					$Consulta.=" and cod_ley='".$Fila["cod_leyes"]."' and unidad='".$Fila[cod_unidad]."' and rut_proveedor='".$Fila["rut_proveedor"]."'";
+					$Consulta.=" and cod_ley='".$Fila["cod_leyes"]."' and unidad='".$Fila["cod_unidad"]."' and rut_proveedor='".$Fila["rut_proveedor"]."'";
 				//	echo $Consulta."<br>";
 					$Resp1= mysqli_query($link, $Consulta);
 					if($Fila1=mysqli_fetch_array($Resp1))
@@ -248,7 +248,7 @@ function Salir(Valores)
 					{
 					
 						$Consulta="Select * from cal_web.limite where cod_producto='".$Fila["cod_producto"]."' and cod_subproducto='".$Fila["cod_subproducto"]."'";
-						$Consulta.=" and cod_ley='".$Fila["cod_leyes"]."' and unidad='".$Fila[cod_unidad]."' and rut_proveedor='T'";
+						$Consulta.=" and cod_ley='".$Fila["cod_leyes"]."' and unidad='".$Fila["cod_unidad"]."' and rut_proveedor='T'";
 						$Resp1= mysqli_query($link, $Consulta);
 						if($Fila1=mysqli_fetch_array($Resp1))
 						{
@@ -262,7 +262,7 @@ function Salir(Valores)
 				<td height='28'><?php echo $Fila["abreviatura"];?></td>
 				<td><span class="InputRojo"><?php echo $Fila["valor"]; ?></span></td>
 				<td><?php 
-				$Consulta="select abreviatura,cod_unidad from proyecto_modernizacion.unidades where cod_unidad='".$Fila[cod_unidad]."' ";
+				$Consulta="select abreviatura,cod_unidad from proyecto_modernizacion.unidades where cod_unidad='".$Fila["cod_unidad"]."' ";
 				$Respuesta2=mysqli_query($link, $Consulta);
 				if($Fila2=mysqli_fetch_array($Respuesta2))
 					echo $Fila2["abreviatura"];
@@ -270,7 +270,7 @@ function Salir(Valores)
 				?></td>
 				<td><?php echo $LimitIni;?></td>
 				<td><?php echo $LimitFin;?></td> 
-				<td>  <textarea name="Txt~<?php echo $Fila["nro_solicitud"]."~".$Fila["cod_producto"]."~".$Fila["cod_subproducto"]."~".$Fila["cod_leyes"]."~".$Fila[cod_unidad]."~".$Fila["recargo"];?>" cols="30" rows="2" wrap="VIRTUAL" ></textarea></td>				                
+				<td>  <textarea name="Txt~<?php echo $Fila["nro_solicitud"]."~".$Fila["cod_producto"]."~".$Fila["cod_subproducto"]."~".$Fila["cod_leyes"]."~".$Fila["cod_unidad"]."~".$Fila["recargo"];?>" cols="30" rows="2" wrap="VIRTUAL" ></textarea></td>				                
 				              
 				</tr><?php
 				$Cont=$Cont + 1;

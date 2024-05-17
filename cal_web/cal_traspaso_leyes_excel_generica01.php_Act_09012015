@@ -194,7 +194,7 @@ switch($Opcion)
 						{	
 							if(trim($Row[valor])!='')
 							{
-								ActualizarLeyesSolicitud($v,$RecargoSolicitud,$Row["cod_leyes"],$Row[valor],$CookieRut,$RUT_FUNC,$Row[cod_unidad]);			
+								ActualizarLeyesSolicitud($v,$RecargoSolicitud,$Row["cod_leyes"],$Row[valor],$CookieRut,$RUT_FUNC,$Row["cod_unidad"]);			
 							}
 						}
 						
@@ -355,7 +355,7 @@ function ObtengoUnidad($Columna)
 	$Resp = mysqli_query($link, $Consulta);$CodUni='';
 	if($Fila = mysql_fetch_array($Resp))
 	{
-		$CodUni=$Fila[cod_unidad];
+		$CodUni=$Fila["cod_unidad"];
 	}
 	return($CodUni);	
 }

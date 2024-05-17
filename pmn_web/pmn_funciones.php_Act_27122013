@@ -89,7 +89,7 @@ function ObtenerLeyes2($SA,$Ley)
 	$LEyes="select * from cal_web.leyes_por_solicitud where nro_solicitud='".$SA."' and cod_leyes='".$Ley."'";	
 	$RESP=mysql_query($LEyes);$Valores=0;
 	if($Filas=mysql_fetch_assoc($RESP))
-		$Valores=$Valores.$Filas["valor"]."~".$Filas["signo"]."~".NombreUnidad($Filas[cod_unidad]);
+		$Valores=$Valores.$Filas["valor"]."~".$Filas["signo"]."~".NombreUnidad($Filas["cod_unidad"]);
 	return($Valores);
 }
 function ObtenerLeyes($SA)

@@ -45,7 +45,7 @@ echo "<input type='hidden' name='CodTipoAnalisis' value='".$CodTipoAnalisis."'>"
 					$Codigo=$Cod."~".$Fila[cod_tipo_analisis];
 					echo "<td align='center' width='1%'><a href=JavaScript:ProcesoVenta('EVEMERM','".$Codigo."')><img src='archivos/elim_hito.png'  alt='Eliminar' align='absmiddle' border='0' width='15' height='15'></a></td>";
 					echo "<td width='15%' align='center'>".number_format($Fila[valor],2,',','.')."</td>";
-					echo "<td width='15%' align='center'>".$Fila[cod_unidad]."</td>";					
+					echo "<td width='15%' align='center'>".$Fila["cod_unidad"]."</td>";					
 		   }
 		   ?>
 		 </tr>		 

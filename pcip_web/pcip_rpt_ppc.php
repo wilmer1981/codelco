@@ -286,9 +286,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$CantFilas=ObtieneCantFilasTitulos($Fila[cod_asignacion],$Fila["cod_producto"],$Ano,$Mes,$MesFin,$Fila[version]);
 				echo "<tr>";
 				if($CmbProd=='5')
-					echo "<td rowspan='".($CantFilas*3)."' >".$Fila[nom_asignacion]." [".$Fila[cod_unidad]."]</td>";
+					echo "<td rowspan='".($CantFilas*3)."' >".$Fila[nom_asignacion]." [".$Fila["cod_unidad"]."]</td>";
 				else
-				   	echo "<td rowspan='".($CantFilas*2)."' >".$Fila[nom_asignacion]." [".$Fila[cod_unidad]."]</td>";
+				   	echo "<td rowspan='".($CantFilas*2)."' >".$Fila[nom_asignacion]." [".$Fila["cod_unidad"]."]</td>";
 				$ConsultaGrupo="select distinct t3.cod_subclase,t3.nombre_subclase from pcip_ppc_detalle t1 inner join pcip_svp_asignaciones_titulos t2";
 				$ConsultaGrupo.=" on t1.cod_asignacion=t2.cod_asignacion inner join proyecto_modernizacion.sub_clase t3 on t3.cod_subclase=t2.grupo where cod_clase='31042' and t2.grupo<>'' and t2.mostrar_ppc='1'"; 
 				if($CmbProd!='-1')
@@ -641,9 +641,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				//echo $CantFilas."<br>";
 				echo "<tr>";
 				if($Fila[cod_asignacion]=='5')
-					echo "<td rowspan='".($CantFilas*3)."' >".$Fila[nom_asignacion]." [".$Fila[cod_unidad]."]</td>";
+					echo "<td rowspan='".($CantFilas*3)."' >".$Fila[nom_asignacion]." [".$Fila["cod_unidad"]."]</td>";
 				else
-				   	echo "<td rowspan='".($CantFilas*2)."' >".$Fila[nom_asignacion]." [".$Fila[cod_unidad]."]</td>";
+				   	echo "<td rowspan='".($CantFilas*2)."' >".$Fila[nom_asignacion]." [".$Fila["cod_unidad"]."]</td>";
 				$ConsultaGrupo="select distinct t3.cod_subclase,t3.nombre_subclase from pcip_ppc_detalle t1 inner join pcip_svp_asignaciones_titulos t2";
 				$ConsultaGrupo.=" on t1.cod_asignacion=t2.cod_asignacion inner join proyecto_modernizacion.sub_clase t3 on t3.cod_subclase=t2.grupo where cod_clase='31042' and t2.grupo<>'' and t2.mostrar_ppc='1'"; 
 				if($CmbProd!='-1')

@@ -195,7 +195,7 @@ if($Msj=='R')
 						$Resp2=mysqli_query($link, $Consulta2);$Encontro='N';
 						if($Fila2=mysqli_fetch_assoc($Resp2))
 						{
-							$Unidad=$Fila2["abreviatura"];$CodUnidad=$Fila2[cod_unidad];$Recargo=$Fila2["recargo"];
+							$Unidad=$Fila2["abreviatura"];$CodUnidad=$Fila2["cod_unidad"];$Recargo=$Fila2["recargo"];
 							//echo $Filas[valor_ley].$Fila2["signo"].$Fila2[valor]."<br>";
 							switch($Fila2["signo"])
 							{
@@ -323,7 +323,7 @@ function RecuperarUnidadLey($SA,$Ley)
 	$Consulta2="select cod_unidad from cal_web.leyes_por_solicitud where nro_solicitud='".$SA."' and cod_leyes='".$Ley."'";
 	$RespSA=mysqli_query($link, $Consulta2);
 	if($FilaSA=mysqli_fetch_assoc($RespSA))
-		$CodUnidad=$FilaSA[cod_unidad];
+		$CodUnidad=$FilaSA["cod_unidad"];
 	return($CodUnidad);
 }
 function RecuperarAbrevUnidad($CodUnidad)

@@ -101,7 +101,7 @@
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_material(corr,cod_ley,cod_unidad,cod_division,valor)values(";
-				$Insertar.="'".$CorrNew."','".$Fila[cod_ley]."','".$Fila[cod_unidad]."','".$Fila[cod_division]."','".str_replace(',','.',$Fila[valor])."')";
+				$Insertar.="'".$CorrNew."','".$Fila[cod_ley]."','".$Fila["cod_unidad"]."','".$Fila[cod_division]."','".str_replace(',','.',$Fila[valor])."')";
 				//echo $Insertar;
 				mysql_query($Insertar);
 			}
@@ -110,7 +110,7 @@
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_deduc_recup(corr,cod_tipo_analisis,cod_ley,cod_unidad,cod_tipo,valor)values(";
-				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila[cod_ley]."','".$Fila[cod_unidad]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."')";
+				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila[cod_ley]."','".$Fila["cod_unidad"]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."')";
 				//echo $Insertar;
 				mysql_query($Insertar);
 				
@@ -120,7 +120,7 @@
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_costos(corr,cod_tipo_analisis,cod_tipo_costo,cod_unidad,cod_tipo,valor)values(";
-				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila[cod_tipo_costo]."','".$Fila[cod_unidad]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."')";
+				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila[cod_tipo_costo]."','".$Fila["cod_unidad"]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."')";
 				//echo $Insertar;
 				mysql_query($Insertar);
 			}
@@ -129,7 +129,7 @@
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_castigos(corr,cod_tipo_analisis,cod_unidad,cod_tipo,valor)values(";
-				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila[cod_unidad]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."')";
+				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila["cod_unidad"]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."')";
 				//echo $Insertar;
 				mysql_query($Insertar);
 			}
@@ -138,7 +138,7 @@
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_transporte(corr,cod_tipo_analisis,cod_unidad,cod_origen,cod_destino,cod_proceso_previo,valor)values(";
-				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila[cod_unidad]."','".$Fila[cod_origen]."','".$Fila[cod_destino]."','".$Fila[cod_proceso_previo]."','".str_replace(',','.',$Fila[valor])."')";
+				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila["cod_unidad"]."','".$Fila[cod_origen]."','".$Fila[cod_destino]."','".$Fila[cod_proceso_previo]."','".str_replace(',','.',$Fila[valor])."')";
 				//echo $Insertar;
 				mysql_query($Insertar);
 			}
@@ -147,7 +147,7 @@
 			while($Fila=mysql_fetch_array($Resp))
 			{
 				$Insertar="insert into pcip_eva_negocios_precios(corr,cod_tipo_analisis,cod_unidad,cod_tipo,valor,valor2)values(";
-				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila[cod_unidad]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."','".str_replace(',','.',$Fila["valor2"])."')";
+				$Insertar.="'".$CorrNew."','".$Fila[cod_tipo_analisis]."','".$Fila["cod_unidad"]."','".$Fila[cod_tipo]."','".str_replace(',','.',$Fila[valor])."','".str_replace(',','.',$Fila["valor2"])."')";
 				//echo $Insertar;
 				mysql_query($Insertar);
 			}

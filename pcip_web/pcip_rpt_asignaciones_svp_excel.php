@@ -90,7 +90,7 @@ if(!isset($CmbMostrar))
 					}
 					 
 					echo "<td>".$Fila[nom_asignacion]."</td>";
-					echo"<td align='center'>".$Fila[cod_unidad]."&nbsp;</td>";					
+					echo"<td align='center'>".$Fila["cod_unidad"]."&nbsp;</td>";					
 					//$Consulta="select cod_titulo as cod_tit,orden from pcip_svp_asignaciones_titulos where vigente='1' and cod_asignacion='".$CmbProd."' and cod_negocio<>'4' order by orden";
 					$Consulta="select t1.cod_titulo as cod_tit,t1.orden,t2.cod_negocio from pcip_svp_asignaciones_titulos t1 inner join pcip_svp_negocios t2 on t1.cod_negocio=t2.cod_negocio ";
 					$Consulta.="where t1.cod_asignacion='".$CmbProd."' and t1.vigente='1' and t1.mostrar_asig='1' and t2.cod_negocio<>'4' and t2.mostrar_asig='1' group by t1.cod_titulo order by t2.orden,t1.orden";
@@ -219,7 +219,7 @@ if(!isset($CmbMostrar))
 					//echo $EncontroValor."<br>";
 					$TotalProd=0;
 					echo "<td>".$Fila[nom_asignacion]."</td>";
-					echo"<td align='center'>".$Fila[cod_unidad]."&nbsp;</td>";					
+					echo"<td align='center'>".$Fila["cod_unidad"]."&nbsp;</td>";					
 					//$Consulta="select cod_titulo as cod_tit,orden from pcip_svp_asignaciones_titulos where vigente='1' and cod_asignacion='".$CmbProd."' and cod_negocio<>'4' order by orden";
 					$Consulta="select t2.cod_negocio,t1.cod_titulo as cod_tit,t1.orden from pcip_svp_asignaciones_titulos t1 inner join pcip_svp_negocios t2 on t1.cod_negocio=t2.cod_negocio ";
 					$Consulta.="where t1.cod_asignacion='".$CmbProd."' and t1.vigente='1' and t1.mostrar_asig='1' and t2.cod_negocio<>'4' and t2.mostrar_asig='1' group by t1.cod_titulo order by t2.orden,t1.orden";

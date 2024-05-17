@@ -984,14 +984,14 @@ function TeclaPulsada (tecla)
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbUnidad == $Fila[cod_unidad]){
-							echo "<option value ='$Fila[cod_unidad]' selected>$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+						if ($CmbUnidad == $Fila["cod_unidad"]){
+							echo "<option value ='$Fila["cod_unidad"]' selected>$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
 
 								$txtCodSapUni=$Fila["cod_sap"];
 								$txtUnidadNm=$Fila["nombre"];
 						}
 						else
-							echo "<option value ='$Fila[cod_unidad]' >$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='$Fila["cod_unidad"]' >$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
 
 					}
 					echo "</select>";*/
