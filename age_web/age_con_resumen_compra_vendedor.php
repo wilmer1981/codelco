@@ -2,11 +2,16 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 73;
 	include("../principal/conectar_principal.php");
-	if(!isset($CmbMes))
-	{
-		$CmbMes=date('m');
-		$CmbAno=date('Y');
-	}┐	
+
+	$CmbMes      = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
+	$CmbAno      = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
+	$TxtCodLeyes = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:"";
+	$CmbRecepcion     = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbClaseProd     = isset($_REQUEST["CmbClaseProd"])?$_REQUEST["CmbClaseProd"]:"";
+	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:false;
+
 ?>
 <html>
 <head>

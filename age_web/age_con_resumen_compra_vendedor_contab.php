@@ -6,8 +6,7 @@
 	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$TxtFechaConsulta  = isset($_REQUEST["TxtFechaConsulta"])?$_REQUEST["TxtFechaConsulta"]:date('Y-m-d');
 	$CmbRecepcion      = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
-	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
-		
+	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";		
 
 ?>
 <html>

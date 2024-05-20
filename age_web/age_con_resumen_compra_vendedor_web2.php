@@ -1,6 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php");	
 	include("../age_web/age_funciones.php");	
+
+	$CmbMes      = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
+	$CmbAno      = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
+	$TxtCodLeyes = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:"";
+	$CmbRecepcion  = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbClaseProd  = isset($_REQUEST["CmbClaseProd"])?$_REQUEST["CmbClaseProd"]:"";
+	$CmbProveedor  = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtFechaConsulta = isset($_REQUEST["TxtFechaConsulta"])?$_REQUEST["TxtFechaConsulta"]:"";
+
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
 	$FechaMer=$CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
@@ -37,19 +46,18 @@ function Proceso(opt)
 			f.BtnSalir.style.visibility = "visible";
 			break;	
 		case "S":
-			f.action = "age_con_resumen_compra_vendedor_contab.php";
+			//f.action = "age_con_resumen_compra_vendedor_contab.php";
+			f.action = "age_con_resumen_compra_vendedor.php";
 			f.submit();
 			break;
 	}
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style></head>
 
 <body>
@@ -89,6 +97,13 @@ body {
 		$Consulta.= "order by cod_recepcion ";
 		//echo $Consulta;
 		$RespAsig = mysqli_query($link, $Consulta);
+		$EsPlamen=false;
+		$TotalPesoHumTot=0;
+		$TotalPesoSecTot=0;
+		$TotalFinoCuTot=0;
+		$TotalFinoAgTot=0;
+		$TotalFinoAuTo=0;
+
 		while ($FilaAsig = mysqli_fetch_array($RespAsig))
 		{
 			echo "<tr class='ColorTabla01'>\n";
@@ -185,6 +200,17 @@ body {
 						//echo $Consulta."<br>";
 						$EsPlamen=false;
 						$Ajuste='N';
+						$TotalPesoHumPrv=0; //WSO
+						$TotalPesoSecPrv=0;
+						$TotalPesoSecPrv=0;
+						$TotalFinoCuPrv=0;
+						$TotalFinoAgPrv=0;
+						$TotalFinoAuPrv=0;
+						$TotalPesoHumProd=0;
+						$TotalPesoSecProd=0;
+						$TotalFinoCuProd=0;
+						$TotalFinoAgProd=0;
+						$TotalFinoAuProd=0;
 						while($FilaLote=mysqli_fetch_array($RespLote))
 						{
 							$TotalPesoSecLote=0;$TotalPesoHumLote=0;
@@ -251,21 +277,21 @@ body {
 										case "02":
 											$IncRetalla=0;
 											if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-												CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+												CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 											$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 											$LeyCuOri = $FilaLeyes["valor"]+$IncRetalla;
 											break;
 										case "04":
 											$IncRetalla=0;
 											if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-												CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+												CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 											$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 											$LeyAgOri = $FilaLeyes["valor"]+$IncRetalla;
 											break;
 										case "05":
 											$IncRetalla=0;
 											if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-												CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+												CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 											$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 											$LeyAuOri = $FilaLeyes["valor"]+$IncRetalla;
 											break;
@@ -454,7 +480,7 @@ body {
 		echo "</table>\n";
 		
 //FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla)
+function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
 {	
 	$Consulta = "select STRAIGHT_JOIN  distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
 	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";

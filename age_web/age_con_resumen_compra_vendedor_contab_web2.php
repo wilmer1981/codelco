@@ -1,6 +1,7 @@
 <?php
 	include("../principal/conectar_principal.php");	
 	include("../age_web/age_funciones.php");	
+	
 	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
 	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$CmbRecepcion  = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
