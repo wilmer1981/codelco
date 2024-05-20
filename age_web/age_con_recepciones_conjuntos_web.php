@@ -1,6 +1,16 @@
 <?php
 	include("../principal/conectar_principal.php");	
 	include("age_funciones.php");	
+
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$OptLeyes       = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+	$OptFinos       = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtConjIni    = isset($_REQUEST["TxtConjIni"])?$_REQUEST["TxtConjIni"]:"";
+	$TxtConjFin    = isset($_REQUEST["TxtConjFin"])?$_REQUEST["TxtConjFin"]:"";
+	$TxtFechaIni   = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	$TxtFechaFin   = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m')."-".date('t');
 ?>
 <html>
 <head>
@@ -28,12 +38,10 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style></head>
 
 <body>
@@ -72,10 +80,13 @@ if ($OptFinos == "S")
 //$LoteIni = substr($TxtFechaIni,2,2)."".substr($TxtFechaIni,5,2)."000";
 //$LoteFin = substr($TxtFechaFin,2,2)."".substr($TxtFechaFin,5,2)."000";
 echo "<table width=\"650\"  border=\"1\" align=\"center\" cellpadding=\"1\" cellspacing=\"0\">\n";
-$Consulta = "select distinct t1.cod_producto, t1.cod_subproducto, t3.descripcion  ";
-$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 inner join proyecto_modernizacion.subproducto t3 ";
-$Consulta.= " on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
-$Consulta.= " on t1.lote = t2.lote ";
+$Consulta = "SELECT distinct t1.cod_producto, t1.cod_subproducto, t3.descripcion  ";
+//$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 inner join proyecto_modernizacion.subproducto t3 ";
+//$Consulta.= " on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
+//$Consulta.= " on t1.lote = t2.lote ";
+$Consulta.= " from age_web.lotes t1 ";
+$Consulta.= " inner join age_web.detalle_lotes t2 on t1.lote = t2.lote ";
+$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
 $Consulta.= " where t1.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 if ($CmbSubProducto != "S")
 {
@@ -176,7 +187,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			$ArrDatosProv=array();
 			$ArrLeyesProv=array();
 			$ArrLeyesProv["01"][0]="01";$ArrLeyesProv["02"][0]="02";$ArrLeyesProv["04"][0]="04";$ArrLeyesProv["05"][0]="05";
-			LeyesConjunto($Fila01["cod_producto"], $Fila01["cod_subproducto"], $FilaAux["rut_proveedor"], $FilaTipoRecep["num_conjunto"],&$ArrDatosProv,&$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"");
+			LeyesConjunto($Fila01["cod_producto"], $Fila01["cod_subproducto"], $FilaAux["rut_proveedor"], $FilaTipoRecep["num_conjunto"],$ArrDatosProv,$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"",$link);
 			if ($ArrDatosProv["peso_humedo"]!=0 || $ArrDatosProv["peso_seco"]!=0)
 			{
 				echo "<tr>\n";

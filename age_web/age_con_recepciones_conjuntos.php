@@ -2,10 +2,19 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 74;
 	include("../principal/conectar_principal.php");
-	if (!isset($TxtFechaIni))
-		$TxtFechaIni=date('Y-m')."-01";
-	if (!isset($TxtFechaFin))
-		$TxtFechaFin=date('Y-m')."-".date('t');
+
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$OptLeyes = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+	$OptFinos = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtConjIni = isset($_REQUEST["TxtConjIni"])?$_REQUEST["TxtConjIni"]:"";
+	$TxtConjFin = isset($_REQUEST["TxtConjFin"])?$_REQUEST["TxtConjFin"]:"";
+	$TxtFechaIni = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	$TxtFechaFin = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m')."-".date('t');
+
+
 ?>
 <html>
 <head>
