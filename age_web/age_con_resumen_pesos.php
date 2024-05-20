@@ -1,6 +1,6 @@
 ﻿<?php 	
 	$CodigoDeSistema = 15;
-	$CodigoDePantalla = 77;
+	$CodigoDePantalla = 92;
 	include("../principal/conectar_principal.php");
 
 	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
@@ -11,7 +11,7 @@
 	$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');
 	$OptVer         = isset($_REQUEST["OptVer"])?$_REQUEST["OptVer"]:"P";
 	$Busq           = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
-	
+
 	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 
 ?>
