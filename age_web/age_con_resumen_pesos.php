@@ -2,13 +2,18 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 77;
 	include("../principal/conectar_principal.php");
-	if(!isset($TxtFechaIni))
-	{
-		$TxtFechaIni=date("Y-m")."-01";
-		$TxtFechaFin=date("Y-m-d");
-	}	
-	if (!isset($OptVer))
-		$OptVer="P";
+
+	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');
+	$OptVer         = isset($_REQUEST["OptVer"])?$_REQUEST["OptVer"]:"P";
+	$Busq           = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+
 ?>
 <html>
 <head>

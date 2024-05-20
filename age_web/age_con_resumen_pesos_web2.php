@@ -1,6 +1,16 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");	
+
+	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');
+	$OptVer         = isset($_REQUEST["OptVer"])?$_REQUEST["OptVer"]:"P";
+	$Busq           = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+
 ?>
 <html>
 <head>
@@ -28,12 +38,10 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style></head>
 
 <body>
