@@ -1,24 +1,38 @@
-<?php	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+<?php	
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");        
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");
+
+	$CmbMes         = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno         = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$OptLeyes       = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+	$OptFinos       = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+	$Busq           = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	//$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	//$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m')."-".date('t');
+
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$FechaMer=$CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
@@ -68,6 +82,12 @@
 	$Consulta.= " order by t1.cod_producto, orden ";
 	//echo $Consulta."<br>";
 	$Resp01 = mysqli_query($link, $Consulta);
+
+	$TotalPesoSecTot=0;//WSO
+	$TotalPesoHumTot=0;
+	$TotalFinoCuTot=0;
+	$TotalFinoAgTot=0;
+	$TotalFinoAuTot=0;
 	while ($Fila01 = mysqli_fetch_array($Resp01))	
 	{			
 		echo "<tr class=\"ColorTabla01\">\n";			
@@ -261,19 +281,19 @@
 								case "02":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "04":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "05":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								default:
@@ -455,7 +475,7 @@
 		$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
 		$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
 		$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
-	*/	echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\">";
+	  */echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\">";
 		echo "<td align=\"left\" colspan=\"2\">TOTAL: ".str_pad($Fila01["cod_subproducto"],2,'0',STR_PAD_LEFT)." ".strtoupper($NomSubProd)."</td>\n";
 		echo "<td align='right'>".number_format($TotalPesoHumProd,$DecPHum,',','.')."</td>";
 		echo "<td align='right'>".number_format($PorcHumProd,2,',','.')."</td>";
@@ -482,10 +502,10 @@
 			$TotalFinoAuTot=$TotalFinoAuTot+round($TotalFinoAuProd);
 		}	
 		$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
-}	
+    }	
 	//TOTAL
 	$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
-$PorcHumTot=0;
+    $PorcHumTot=0;
 		if ($TotalPesoHumTot!=0)
 				$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
 		
@@ -511,7 +531,7 @@ $PorcHumTot=0;
 	echo "</tr>\n";
 echo "</table>\n";
 //FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla)
+function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
 {	
 	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
 	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";

@@ -2,11 +2,19 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 77;
 	include("../principal/conectar_principal.php");
-	if(!isset($CmbMes))
-	{
-		$CmbMes=date('m');
-		$CmbAno=date('Y');
-	}┐	
+
+	$CmbMes         = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno         = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$OptLeyes       = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+	$OptFinos       = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+	$Busq           = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+
 	//echo $CmbMes."<br>";
 	//*echo $CmbAno; 		
 ?>

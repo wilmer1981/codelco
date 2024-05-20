@@ -1,8 +1,21 @@
 <?php	//$link = mysql_connect('vevmmysqlp01','adm_web','codweb2015');
 	//mysql_select_db("proyecto_modernizacion", $link);
 
- 	include("../principal/conectar_principal.php");
+include("../principal/conectar_principal.php");
 include("../age_web/age_funciones.php");
+
+
+$CmbMes         = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbAno         = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+$OptLeyes       = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+$OptFinos       = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+$Busq           = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+
+
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$FechaMer=$CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
@@ -76,6 +89,8 @@ function Proceso(opt)
 	$Consulta.= " order by t1.cod_producto, orden ";
 	//echo $Consulta."<br>";
 	$Resp01 = mysqli_query($link, $Consulta);
+	$TotalPesoSecTot=0;//WSO
+	$TotalPesoHumTot=0;
 	while ($Fila01 = mysqli_fetch_array($Resp01))	
 	{			
 		echo "<tr class=\"ColorTabla01\">\n";			
@@ -269,19 +284,19 @@ function Proceso(opt)
 								case "02":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "04":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "05":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								default:
@@ -482,7 +497,7 @@ function Proceso(opt)
 			$TotalFinoAuTot=$TotalFinoAuTot+round($TotalFinoAuProd);
 		}	
 		$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
-}	
+    }	
 	//TOTAL
 	$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
 	$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
@@ -503,7 +518,7 @@ function Proceso(opt)
 	echo "</tr>\n";
 echo "</table>\n";
 //FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla)
+function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
 {	
 	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
 	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
