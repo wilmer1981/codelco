@@ -1,24 +1,36 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");	
+
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$Busq           = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$OptLeyes       = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+	$OptFinos       = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+	$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtConjIni     = isset($_REQUEST["TxtConjIni"])?$_REQUEST["TxtConjIni"]:"";
+	$TxtConjFin     = isset($_REQUEST["TxtConjFin"])?$_REQUEST["TxtConjFin"]:"";
+	$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m')."-".date('t');
+
 	$Humedad = true;
 	$Consulta = "select distinct cod_leyes, abreviatura ";
 	$Consulta.= " from  proyecto_modernizacion.leyes  ";
@@ -294,7 +306,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 							$LineaLeyes = "";
 							$LineaFinos = "";
 							reset($ArrLoteLeyes);
-							while (list($k,$v)=each($ArrLoteLeyes))
+							foreach($ArrLoteLeyes as $k=>$v)
 							{
 								if ($k!="01")
 								{
@@ -380,7 +392,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			$LineaLeyes = "";
 			$LineaFinos = "";
 			reset($ArrSubTotalLeyes);
-			while (list($k,$v)=each($ArrSubTotalLeyes))
+			foreach($ArrSubTotalLeyes as $k=>$v)
 			{
 				if ($k!="01" && $k!="")
 				{
@@ -444,7 +456,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		$LineaLeyes="";
 		$LineaFinos="";
 		reset($ArrTotalTipo);
-		while (list($k,$v)=each($ArrTotalTipo))
+		foreach($ArrTotalTipo as $k=>$v)
 		{
 			if ($k!="01" && $k!="")
 			{
@@ -508,7 +520,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	$LineaLeyes="";
 	$LineaFinos="";
 	reset($ArrTotalLeyes);
-	while (list($k,$v)=each($ArrTotalLeyes))
+	foreach($ArrTotalLeyes as $k=>$v)
 	{
 		if ($k!="01" && $k!="")
 		{
