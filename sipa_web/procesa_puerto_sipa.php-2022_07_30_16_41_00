@@ -58,7 +58,7 @@
 		if ($FilaAge = mysql_fetch_array($RespAge))
 		{
 			$RECARGO=$FilaAge["recargo"];
-			$ULTIMO_REG=$FilaAge[fin_lote];
+			$ULTIMO_REG=$FilaAge["fin_lote"];
 		}
 		
 		$ConsultaSipa = "Select MAX(correlativo)+1 as Correlativo_Sipa from sipa_web.recepciones ";

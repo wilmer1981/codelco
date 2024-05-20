@@ -2,16 +2,30 @@
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=15;
 	include("../principal/conectar_principal.php");
-	if (!isset($TxtFechaIni))
-		$TxtFechaIni = date("Y-m-d");
-	if (!isset($TxtFechaFin))
-		$TxtFechaFin = date("Y-m-d");
-	if (!isset($LimitIni))
-		$LimitIni=0;
-	if (!isset($LimitFin))
-		$LimitFin=999;	
-	if (!isset($Orden))
-		$Orden = "T";	
+
+	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m-d');
+	$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');
+	$OptVer         = isset($_REQUEST["OptVer"])?$_REQUEST["OptVer"]:"P";
+	$Busq           = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$LimitIni       = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+	$LimitFin       = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:999;
+	$Orden          = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"T";
+	$TxtLote        = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$RadioTipo      = isset($_REQUEST["RadioTipo"])?$_REQUEST["RadioTipo"]:"";
+	$Muestra        = isset($_REQUEST["Muestra"])?$_REQUEST["Muestra"]:"";
+	$SubProd        = isset($_REQUEST["SubProd"])?$_REQUEST["SubProd"]:"";
+	$TxtLoteB       = isset($_REQUEST["TxtLoteB"])?$_REQUEST["TxtLoteB"]:"";
+	$TxtFechaB      = isset($_REQUEST["TxtFechaB"])?$_REQUEST["TxtFechaB"]:"";
+	$TipoCon        = isset($_REQUEST["TipoCon"])?$_REQUEST["TipoCon"]:"";
+	$LCatodo        = isset($_REQUEST["LCatodo"])?$_REQUEST["LCatodo"]:"";
+	$TipoBusqueda   = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	
+	
+
 ?>
 <html>
 <head>
@@ -20,7 +34,6 @@
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 <SCRIPT event=onclick() for=document>popCal.style.visibility = "hidden";</SCRIPT>
 <script language="javascript">
-
 
 function Buscar(opt)
 {
@@ -60,13 +73,12 @@ function Grabar()
 function Salir()
 {
 		var f=document.frmPrincipal;
-		f.action = "../principal/sistemas_usuario.php?CodSistema=15&Nivel=1&CodPantalla=10";
+		f.action = "../principal/sistemas_usuario.php?CodSistema=15&Nivel=1&CodPantalla=70";
 		f.submit();
 }
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -85,7 +97,6 @@ a:hover {
 a:active {
 	color: #FFFF00;
 }
--->
 </style></head>
 <body onLoad="window.document.frmPrincipal.TxtLote.focus();">
 <DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
@@ -114,7 +125,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				<td width="30">CATODOS</td>
 				<td width="30"> 
                 <?php 
-					if (($RadioTipo == "C") || (!isset($RadioTipo)))
+					if (($RadioTipo == "C") || ($RadioTipo==""))
 					{
 						echo '<input name="RadioTipo" type="radio" value="C" checked>';
 					}
@@ -174,7 +185,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     		<td width="9%">Guia</td>
     		<td width="10%">Patente</td>
     		<td width="4%">Est.</td>
-			<td width="10%">Recepción</td>
+			<td width="10%">Recepciï¿½n</td>
     		<td width="4%">Aut.</td>
   		</tr>
 		
@@ -244,7 +255,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     				<td width="8%">Guia</td>
     				<td width="10%">Patente</td>
     				<td width="4%">Est.</td>
-					<td width="10%">Recepción</td>
+					<td width="10%">Recepciï¿½n</td>
     				<td width="4%">Aut.</td>
 				</tr>
 			
@@ -254,17 +265,30 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
            		<img name='Calendario1' src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="17" border="0" align="absmiddle" onclick="popFrame.fPopCalendar(TxtFechaB,TxtFechaB,popCal);return false"></td>
 		<?php
 	        	//echo '<td width="10%"><input name="TxtFechaB" type="text" value="'.$TxtFechaB.'" size="10" maxlength="10" onChange="Buscar2()"></td>';
-				echo "<td aling='center'>".$Fila["recargo"]."</td>";
-				echo "<td aling='center'>".$Fila["fin_lote"]."</td>";
-				echo "<td aling='center'>".$Fila["folio"]."</td>";
-				echo "<td aling='center'>".$Fila["corr"]."</td>";
-				echo "<td align='right'>".number_format($Fila["peso_bruto"],0,",",".")."</td>\n";
-				echo "<td align='right'>".number_format($Fila["peso_tara"],0,",",".")."</td>\n";
-				echo "<td align='right'>".number_format($Fila["peso_neto"],0,",",".")."</td>\n";
-				echo "<td align='center'>".$Fila["guia_despacho"]."</td>\n";
-				echo "<td aling='center'>".$Fila["patente"]."</td>";
-				echo "<td aling='center'>".$Fila["estado_lote"]."</td>";
-				echo "<td aling='center'>".$Fila["cod_recepcion"]."</td>";
+				
+				$recargo = isset($Fila["recargo"])?$Fila["recargo"]:"";
+				$fin_lote = isset($Fila["fin_lote"])?$Fila["fin_lote"]:"";
+				$folio = isset($Fila["folio"])?$Fila["folio"]:"";
+				$corr = isset($Fila["corr"])?$Fila["corr"]:"";
+				$peso_bruto = isset($Fila["peso_bruto"])?$Fila["peso_bruto"]:0;
+				$peso_tara = isset($Fila["peso_tara"])?$Fila["peso_tara"]:0;
+				$peso_neto = isset($Fila["peso_neto"])?$Fila["peso_neto"]:0;
+				$guia_despacho = isset($Fila["guia_despacho"])?$Fila["guia_despacho"]:"";
+				$patente       = isset($Fila["patente"])?$Fila["patente"]:"";
+				$estado_lote   = isset($Fila["estado_lote"])?$Fila["estado_lote"]:"";
+				$cod_recepcion = isset($Fila["cod_recepcion"])?$Fila["cod_recepcion"]:"";
+				
+				echo "<td aling='center'>".$recargo."</td>";
+				echo "<td aling='center'>".$fin_lote."</td>";
+				echo "<td aling='center'>".$folio."</td>";
+				echo "<td aling='center'>".$corr."</td>";
+				echo "<td align='right'>".number_format($peso_bruto,0,",",".")."</td>\n";
+				echo "<td align='right'>".number_format($peso_tara,0,",",".")."</td>\n";
+				echo "<td align='right'>".number_format($peso_neto,0,",",".")."</td>\n";
+				echo "<td align='center'>".$guia_despacho."</td>\n";
+				echo "<td aling='center'>".$patente."</td>";
+				echo "<td aling='center'>".$estado_lote."</td>";
+				echo "<td aling='center'>".$cod_recepcion."</td>";
 				echo "<td align='center'>N</td>\n";
 			    echo "</tr>\n";
 			echo "</table>";

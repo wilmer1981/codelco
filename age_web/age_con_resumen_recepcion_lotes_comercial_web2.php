@@ -277,7 +277,7 @@ body {
 					$DatosLote["lote"]=$FilaLote["lote"];
 					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S",$TxtFechaIni,$TxtFechaFin,$TxtFechaCon);
 					$PesoLoteS_R=$DatosLote["peso_seco"];
-					if($FilaLote[tipo_remuestreo]=='A')
+					if($FilaLote["tipo_remuestreo"]=='A')
 					{
 						$PesoLoteS=$DatosLote["peso_seco2_ori"];
 						$PesoLoteH=$DatosLote["peso_humedo_ori"];

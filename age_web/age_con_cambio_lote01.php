@@ -1,5 +1,12 @@
 <?php 
 include("../principal/conectar_principal.php");
+
+$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
   		
 $Datos = explode("//",$Valores);
 $SubPC = $Datos[0];
@@ -29,11 +36,11 @@ if ($Proceso=="G")
 			$Insertar.="modificado,peso_muestra,peso_retalla,cancha,fecha_vence_padron, canjeable,contrato, muestra_paralela,";
 			$Insertar.="cod_recepcion_enm, laboratorio_externo, orden_ensaye, fecha_sol_pqts)";
 			$Insertar.=" Values('".$LoteB."','".$Fila["cod_producto"]."','".$SubPB."','".$Fila["rut_proveedor"]."','".$FechaB."',";
-			$Insertar.="'".$Fila[clase_producto]."','".$Fila["num_conjunto"]."','".$Fila[remuestreo]."','".$Fila[tipo_remuestreo]."',";
-			$Insertar.="'".$Fila[num_lote_remuestreo]."','".$Fila["estado_lote"]."','".$Fila[mostrar_lote]."','".$Fila[modificado]."',";
-			$Insertar.="'".$Fila["peso_muestra"]."','".$Fila["peso_retalla"]."','".$Fila[cancha]."','".$Fila[fecha_vence_padron]."',";
-			$Insertar.="'".$Fila["canjeable"]."','".$Fila[contrato]."','".$Fila["muestra_paralela"]."','".$Fila[cod_recepcion_enm]."',";
-			$Insertar.=" '".$Fila[laboratorio_externo]."','".$Fila["orden_ensaye"]."','".$Fila[fecha_sol_pqts]."')";
+			$Insertar.="'".$Fila["clase_producto"]."','".$Fila["num_conjunto"]."','".$Fila["remuestreo"]."','".$Fila["tipo_remuestreo"]."',";
+			$Insertar.="'".$Fila["num_lote_remuestreo"]."','".$Fila["estado_lote"]."','".$Fila["mostrar_lote"]."','".$Fila["modificado"]."',";
+			$Insertar.="'".$Fila["peso_muestra"]."','".$Fila["peso_retalla"]."','".$Fila["cancha"]."','".$Fila["fecha_vence_padron"]."',";
+			$Insertar.="'".$Fila["canjeable"]."','".$Fila["contrato"]."','".$Fila["muestra_paralela"]."','".$Fila["cod_recepcion_enm"]."',";
+			$Insertar.=" '".$Fila["laboratorio_externo"]."','".$Fila["orden_ensaye"]."','".$Fila["fecha_sol_pqts"]."')";
 			//echo "inserto 1".$Insertar."</br>";
 		     mysqli_query($link, $Insertar);
 		}
@@ -55,12 +62,12 @@ if ($Proceso=="G")
 			$InsertarD.="hora_salida,fin_lote,peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado,";
 			$InsertarD.="estado_recargo, mostrar_recargo,modificado,rut_romanero, bascula1, bascula, cod_descarga,observacion,";
 			$InsertarD.="pastas, impurezas)";
-			$InsertarD.=" values('".$LoteB."','".$Fila2["recargo"]."','".$Fila2[folio]."','".$Fila2["corr"]."','".$FechaB."',";
-			$InsertarD.="'".$Fila2[hora_entrada]."','".$Fila2[hora_salida]."','".$Fila2[fin_lote]."','".$Fila2[peso_bruto]."',";
-			$InsertarD.="'".$Fila2[peso_tara]."','".$Fila2[peso_neto]."','".$Fila2["guia_despacho"]."','".$Fila2["patente"]."',";
-			$InsertarD.="'N','".$Fila2[estado_recargo]."','".$Fila2[mostrar_recargo]."','".$Fila2[modificado]."',";
-			$InsertarD.=" '".$Fila2[rut_romanero]."','".$Fila2[bascula1]."','".$Fila2[bascula]."','".$Fila2[cod_descarga]."',";
-			$InsertarD.="'".$Fila2["observacion"]."','".$Fila2[pastas]."','".$Fila2[impurezas]."')";
+			$InsertarD.=" values('".$LoteB."','".$Fila2["recargo"]."','".$Fila2["folio"]."','".$Fila2["corr"]."','".$FechaB."',";
+			$InsertarD.="'".$Fila2["hora_entrada"]."','".$Fila2["hora_salida"]."','".$Fila2["fin_lote"]."','".$Fila2["peso_bruto"]."',";
+			$InsertarD.="'".$Fila2["peso_tara"]."','".$Fila2["peso_neto"]."','".$Fila2["guia_despacho"]."','".$Fila2["patente"]."',";
+			$InsertarD.="'N','".$Fila2["estado_recargo"]."','".$Fila2["mostrar_recargo"]."','".$Fila2["modificado"]."',";
+			$InsertarD.=" '".$Fila2["rut_romanero"]."','".$Fila2["bascula1"]."','".$Fila2["bascula"]."','".$Fila2["cod_descarga"]."',";
+			$InsertarD.="'".$Fila2["observacion"]."','".$Fila2["pastas"]."','".$Fila2["impurezas"]."')";
 				//echo "inserto 2".$InsertarD."</br>";
 			 mysqli_query($link, $InsertarD);
 		}

@@ -59,7 +59,7 @@
 		if ($FilaAge = mysql_fetch_array($RespAge))
 		{
 			$RECARGO=$FilaAge["recargo"];
-			$ULTIMO_REG=$FilaAge[fin_lote];
+			$ULTIMO_REG=$FilaAge["fin_lote"];
 		}
 		
 		
