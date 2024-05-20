@@ -1,25 +1,33 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");        
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");
+
+	$CmbMes      = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno      = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$TxtCodLeyes = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:"";
+	$CmbRecepcion     = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
 	$FechaMer=$CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
@@ -72,8 +80,8 @@
 	
 	$LeyesImp=substr($LeyesImp,0,strlen($LeyesImp)-1);
 	$LeyesImp=$LeyesImp.')';
-	$LImp = split('[,)(]', $LeyesImp);
-	$LargoImp = strlen($LImp);
+	$LImp = explode('[,)(]', $LeyesImp);
+	$LargoImp = count($LImp);
 
 	//echo strlen($jcf)."==".$jcf[1]."--".$jcf[2]."--".$jcf[3]."--".$jcf[4]."--".$jcf[5];
 	echo $LeyesImp;
@@ -127,7 +135,7 @@ function Proceso(opt)
 	<?php
 	$ColSpan=3+($ContLeyes*2);
 	reset($ArrLeyes);
-	while(list($c,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $c=>$v)
 	{
 		if($c!='01')
 			$ColSpan=$ColSpan+1;
@@ -152,6 +160,17 @@ function Proceso(opt)
 	$Consulta.= " order by t1.cod_producto, orden ";
 	//echo $Consulta."<br>";
 	$Resp01 = mysqli_query($link, $Consulta);
+	$TotalPesoHumTot=0;//WSO
+	$TotalPesoSecTot=0;
+	$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
+
+	//$LeyCuTot=0; //WSO
+	//$LeyAgTot=0;
+	//$LeyAuTot=0;
+	$TotalFinoCuTot=0;
+	//$TotalFinoAgTot=0;
+	//$TotalFinoAuTot=0;
+
 	while ($Fila01 = mysqli_fetch_array($Resp01))	
 	{			
 		echo "<tr class=\"ColorTabla01\">\n";			
@@ -189,7 +208,7 @@ function Proceso(opt)
 		{
 			echo "<td align=\"center\">Hum<br>(%)</td>\n";
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				if($c!='01')
 					echo "<td align=\"center\">".$v[1]."<br>(".$v[4].")</td>\n";
@@ -198,9 +217,8 @@ function Proceso(opt)
 		//echo "<td align=\"center\">P.Seco<br>(Kg)</td>\n";
 		if ($OptFinos=="S")
 		{
-			
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				switch ($c)
 				{
@@ -308,7 +326,7 @@ function Proceso(opt)
 				{
 					echo "<tr>";
 					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+					echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					$TotalPesoSecLote=0;$TotalPesoHumLote=0;
 					$PorcMerma=0;$SiMerma=0;$VarMerma=0;$PrvMerma=0;
 					$Consulta = "select * from age_web.mermas ";
@@ -371,19 +389,19 @@ function Proceso(opt)
 								case "02":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "04":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "05":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								default:
@@ -437,7 +455,7 @@ function Proceso(opt)
 							else
 							{
 									reset($ArrLeyesAux);
-									while(list($c,$v)=each($ArrLeyesAux))
+									foreach($ArrLeyesAux as $c=>$v)
 									{
 											if ($c!='01'&& $c!='02'&& $c!='04'&& $c!='05')
 												$ArrLeyesAux[$c][6]=0;
@@ -495,7 +513,7 @@ function Proceso(opt)
 					if($LeyAu!=0)	
 						$FinoAu=($TotalPesoSecLote * $LeyAu)/1000;
 					reset($ArrLeyesAux);
-					while(list($c,$v)=each($ArrLeyesAux))
+					foreach($ArrLeyesAux as $c=>$v)
 					{
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 							$ArrLeyesAux[$c][7]=($TotalPesoSecLote * $ArrLeyesAux[$c][6])/$ArrLeyesAux[$c][3];
@@ -506,7 +524,7 @@ function Proceso(opt)
 					echo "<td align='right'>".number_format($LeyAg,$DecLeyes,',','.')."</td>";
 					echo "<td align='right'>".number_format($LeyAu,$DecLeyes,',','.')."</td>";
 					reset($ArrLeyesAux);
-					while(list($c,$v)=each($ArrLeyesAux))
+					foreach($ArrLeyesAux as $c=>$v)
 					{
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 						{
@@ -519,7 +537,7 @@ function Proceso(opt)
 					echo "<td align='right'>".number_format($FinoAg,$DecFinos,',','.')."</td>";
 					echo "<td align='right'>".number_format($FinoAu,$DecFinos,',','.')."</td>";
 					reset($ArrLeyesAux);
-					while(list($c,$v)=each($ArrLeyesAux))
+					foreach($ArrLeyesAux as $c=>$v)
 					{
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 						{
@@ -561,7 +579,7 @@ function Proceso(opt)
 					$LeyAuPrv=($TotalFinoAuPrv*1000)/$TotalPesoSecPrv;
 				}
 				reset($ArrLeyesPrv);
-				while(list($c,$v)=each($ArrLeyesPrv))
+				foreach($ArrLeyesPrv as $c=>$v)
 				{
 					if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 						$ArrLeyesPrv[$c][2]=($ArrLeyesPrv[$c][3]*$ArrLeyesPrv[$c][1])/$TotalPesoSecPrv;
@@ -574,7 +592,7 @@ function Proceso(opt)
 				echo "<td align='right'>".number_format($LeyAgPrv,$DecLeyes,',','.')."</td>";
 				echo "<td align='right'>".number_format($LeyAuPrv,$DecLeyes,',','.')."</td>";
 				reset($ArrLeyesPrv);
-				while(list($c,$v)=each($ArrLeyesPrv))
+				foreach($ArrLeyesPrv as $c=>$v)
 				{
 					if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 					{
@@ -586,7 +604,7 @@ function Proceso(opt)
 				echo "<td align='right'>".number_format($TotalFinoAgPrv,$DecFinos,',','.')."</td>";
 				echo "<td align='right'>".number_format($TotalFinoAuPrv,$DecFinos,',','.')."</td>";
 				reset($ArrLeyesPrv);
-				while(list($c,$v)=each($ArrLeyesPrv))
+				foreach($ArrLeyesPrv as $c=>$v)
 				{
 					if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 					{
@@ -625,7 +643,7 @@ function Proceso(opt)
 			$LeyAgAsig=($TotalFinoAgAsig*1000)/$TotalPesoSecAsig;
 			$LeyAuAsig=($TotalFinoAuAsig*1000)/$TotalPesoSecAsig;
 			reset($ArrLeyesAsig);
-			while(list($c,$v)=each($ArrLeyesAsig))
+			foreach($ArrLeyesAsig as $c=>$v)
 			{
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				{
@@ -640,7 +658,7 @@ function Proceso(opt)
 			echo "<td align='right'>".number_format($LeyAgAsig,$DecLeyes,',','.')."</td>";
 			echo "<td align='right'>".number_format($LeyAuAsig,$DecLeyes,',','.')."</td>";
 			reset($ArrLeyesAsig);
-			while(list($c,$v)=each($ArrLeyesAsig))
+			foreach($ArrLeyesAsig as $c=>$v)
 			{
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				{
@@ -653,7 +671,7 @@ function Proceso(opt)
 			echo "<td align='right'>".number_format($TotalFinoAgAsig,$DecFinos,',','.')."</td>";
 			echo "<td align='right'>".number_format($TotalFinoAuAsig,$DecFinos,',','.')."</td>";
 			reset($ArrLeyesAsig);
-			while(list($c,$v)=each($ArrLeyesAsig))
+			foreach($ArrLeyesAsig as $c=>$v)
 			{
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				{
@@ -691,7 +709,7 @@ function Proceso(opt)
 		$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
 		$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			{
@@ -706,7 +724,7 @@ function Proceso(opt)
 		echo "<td align='right'>".number_format($LeyAgProd,$DecLeyes,',','.')."</td>";
 		echo "<td align='right'>".number_format($LeyAuProd,$DecLeyes,',','.')."</td>";
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			{
@@ -719,7 +737,7 @@ function Proceso(opt)
 		echo "<td align='right'>".number_format($TotalFinoAgProd,$DecFinos,',','.')."</td>";
 		echo "<td align='right'>".number_format($TotalFinoAuProd,$DecFinos,',','.')."</td>";
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			{
@@ -744,16 +762,17 @@ function Proceso(opt)
 		}
 			
 		$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
-}	
+    }	
 	//TOTAL
 	$DecPHum=0;$DecPSeco=0;$DecLeyes=3;$DecFinos=0;
 	if ($TotalPesoHumTot <> 0)
 		$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
+
 	$LeyCuTot=($TotalFinoCuTot*100)/$TotalPesoSecTot;
 	$LeyAgTot=($TotalFinoAgTot*1000)/$TotalPesoSecTot;
 	$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
 	reset($ArrLeyesTot);
-	while(list($c,$v)=each($ArrLeyesTot))
+	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			$ArrLeyesTot[$c][2]=($ArrLeyesTot[$c][3]*$ArrLeyesTot[$c][1])/$TotalPesoSecTot;
@@ -766,7 +785,7 @@ function Proceso(opt)
 	echo "<td align='right'>".number_format($LeyAgTot,$DecLeyes,',','.')."</td>";
 	echo "<td align='right'>".number_format($LeyAuTot,$DecLeyes,',','.')."</td>";
 	reset($ArrLeyesTot);
-	while(list($c,$v)=each($ArrLeyesTot))
+	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			echo "<td align='right'>".number_format($ArrLeyesTot[$c][2],$DecLeyes,',','.')."</td>";
@@ -776,7 +795,7 @@ function Proceso(opt)
 	echo "<td align='right'>".number_format($TotalFinoAgTot,$DecFinos,',','.')."</td>";
 	echo "<td align='right'>".number_format($TotalFinoAuTot,$DecFinos,',','.')."</td>";
 	reset($ArrLeyesTot);
-	while(list($c,$v)=each($ArrLeyesTot))
+	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			echo "<td align='right'>".number_format($ArrLeyesTot[$c][3],$DecFinos,',','.')."</td>";
@@ -784,7 +803,7 @@ function Proceso(opt)
 	echo "</tr>\n";
 echo "</table>\n";
 //FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla)
+function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
 {	
 	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
 	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";

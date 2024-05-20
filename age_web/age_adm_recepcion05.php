@@ -330,7 +330,7 @@ while($FilaDet = mysqli_fetch_array($RespDet))
 			{
 			  echo "<tr class='ColorTabla02'>";
 				echo "<td width='97' colspan='3' align='center'>FECHA EMISION</td>";
-				echo "<td width='97' colspan='7' align='left'>".$Fila[fecha_recepcion]."</td>";
+				echo "<td width='97' colspan='7' align='left'>".$Fila["fecha_recepcion"]."</td>";
 			  echo  "</tr>";
 				$ConsultaLote="select * from age_web.lotes_temp_detalle where lote='".$Fila["lote"]."'";
 				$RespLote = mysqli_query($link, $ConsultaLote);

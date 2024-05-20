@@ -25,7 +25,7 @@
 	LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","N","","","");
 	$PesoLote=$DatosLote["peso_seco"];
 	reset($ArrLeyes);
-	while(list($c,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $c=>$v)
 	{		
 		if($c!='01'&&$v[1]!='')
 		{

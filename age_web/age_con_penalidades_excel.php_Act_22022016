@@ -74,7 +74,7 @@
 	<?
 	$ColSpan=3;
 	reset($ArrLeyesAux);
-	while(list($c,$v)=each($ArrLeyesAux))
+	foreach($ArrLeyesAux as $c=>$v)
 	{
 		if($c!='')
 			$ColSpan=$ColSpan+2;
@@ -137,7 +137,7 @@
 		$Anito = substr($TxtFechaIni,0,4);
 		$Mesi = substr($TxtFechaIni,5,2);
 		reset($ArrLeyesAux);
-		while(list($c,$v)=each($ArrLeyesAux))
+		foreach($ArrLeyesAux as $c=>$v)
 		{
 			if($c!='')
 			{
@@ -285,7 +285,7 @@
 					{
 						echo "<tr>";
 						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-						echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+						echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					}
 					$DatosLote= array();
 					reset($ArrLeyes);
@@ -297,8 +297,8 @@
 					reset($ArrLeyes);
 					if ($FilaLote["tipo_remuestreo"]=="A")
 					{
-						$TxtFechaIniAux=substr($FilaLote[fecha_recepcion],0,4)."-".substr($FilaLote[fecha_recepcion],5,2)."-01";
-						$TxtFechaFinAux=substr($FilaLote[fecha_recepcion],0,4)."-".substr($FilaLote[fecha_recepcion],5,2)."-31";;
+						$TxtFechaIniAux=substr($FilaLote["fecha_recepcion"],0,4)."-".substr($FilaLote["fecha_recepcion"],5,2)."-01";
+						$TxtFechaFinAux=substr($FilaLote["fecha_recepcion"],0,4)."-".substr($FilaLote["fecha_recepcion"],5,2)."-31";;
 						$DatosLote["penalidades"]="S";
 					}
 					else
@@ -331,7 +331,7 @@
 						
 					}
 					reset($ArrLeyes);
-					while(list($c,$v)=each($ArrLeyes))
+					foreach($ArrLeyes as $c=>$v)
 					{				
 						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
 						{							

@@ -102,7 +102,7 @@ function Proceso(opt)
 	<?
 	$ColSpan=3+($ContLeyes*2);
 	reset($ArrLeyes);
-	while(list($c,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $c=>$v)
 	{
 		if($c!='01')
 			$ColSpan=$ColSpan+1;
@@ -162,7 +162,7 @@ function Proceso(opt)
 		{
 			echo "<td align=\"center\">Hum<br>(%)</td>\n";
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				if($c!='01')
 					echo "<td align=\"center\">".$v[1]."<br>(".$v[4].")</td>\n";
@@ -173,7 +173,7 @@ function Proceso(opt)
 		{
 			
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				switch ($c)
 				{
@@ -281,7 +281,7 @@ function Proceso(opt)
 				{
 					echo "<tr>";
 					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+					echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					$TotalPesoSecLote=0;$TotalPesoHumLote=0;
 					$Anito = substr($TxtFechaIni,0,4);
 					$Mesi = substr($TxtFechaIni,5,2);
@@ -400,7 +400,7 @@ function Proceso(opt)
 					if($LeyAu!=0)	
 						$FinoAu=($TotalPesoSecLote * $LeyAu)/1000;
 					reset($ArrLeyesAux);
-					while(list($c,$v)=each($ArrLeyesAux))
+					foreach($ArrLeyesAux as $c=>$v)
 					{
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05'&&intval($ArrLeyesAux[$c][3])!=0)
 							$ArrLeyesAux[$c][7]=($TotalPesoSecLote * $ArrLeyesAux[$c][6])/$ArrLeyesAux[$c][3];
@@ -411,7 +411,7 @@ function Proceso(opt)
 					echo "<td align='right'>".number_format($LeyAg,$DecLeyes,',','.')."</td>";
 					echo "<td align='right'>".number_format($LeyAu,$DecLeyes,',','.')."</td>";
 					reset($ArrLeyesAux);
-					while(list($c,$v)=each($ArrLeyesAux))
+					foreach($ArrLeyesAux as $c=>$v)
 					{
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 							echo "<td align='right'>".number_format($ArrLeyesAux[$c][6],$DecLeyes,',','.')."</td>";
@@ -507,7 +507,7 @@ function Proceso(opt)
 			$LeyAgAsig=($TotalFinoAgAsig*1000)/$TotalPesoSecAsig;
 			$LeyAuAsig=($TotalFinoAuAsig*1000)/$TotalPesoSecAsig;
 			reset($ArrLeyesAsig);
-			while(list($c,$v)=each($ArrLeyesAsig))
+			foreach($ArrLeyesAsig as $c=>$v)
 			{
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 					$ArrLeyesAsig[$c][2]=($ArrLeyesAsig[$c][3]*$ArrLeyesAsig[$c][1])/$TotalPesoSecAsig;
@@ -520,7 +520,7 @@ function Proceso(opt)
 			echo "<td align='right'>".number_format($LeyAgAsig,$DecLeyes,',','.')."</td>";
 			echo "<td align='right'>".number_format($LeyAuAsig,$DecLeyes,',','.')."</td>";
 			reset($ArrLeyesAsig);
-			while(list($c,$v)=each($ArrLeyesAsig))
+			foreach($ArrLeyesAsig as $c=>$v)
 			{
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 					echo "<td align='right'>".number_format($ArrLeyesAsig[$c][2],$DecLeyes,',','.')."</td>";
@@ -530,7 +530,7 @@ function Proceso(opt)
 			echo "<td align='right'>".number_format($TotalFinoAgAsig,$DecFinos,',','.')."</td>";
 			echo "<td align='right'>".number_format($TotalFinoAuAsig,$DecFinos,',','.')."</td>";
 			reset($ArrLeyesAsig);
-			while(list($c,$v)=each($ArrLeyesAsig))
+			foreach($ArrLeyesAsig as $c=>$v)
 			{
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				{
@@ -559,7 +559,7 @@ function Proceso(opt)
 		$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
 		$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				$ArrLeyesProd[$c][2]=($ArrLeyesProd[$c][3]*$ArrLeyesProd[$c][1])/$TotalPesoSecProd;
@@ -572,7 +572,7 @@ function Proceso(opt)
 		echo "<td align='right'>".number_format($LeyAgProd,$DecLeyes,',','.')."</td>";
 		echo "<td align='right'>".number_format($LeyAuProd,$DecLeyes,',','.')."</td>";
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				echo "<td align='right'>".number_format($ArrLeyesProd[$c][2],$DecLeyes,',','.')."</td>";
@@ -582,7 +582,7 @@ function Proceso(opt)
 		echo "<td align='right'>".number_format($TotalFinoAgProd,$DecFinos,',','.')."</td>";
 		echo "<td align='right'>".number_format($TotalFinoAuProd,$DecFinos,',','.')."</td>";
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			{
@@ -607,7 +607,7 @@ function Proceso(opt)
 	$LeyAgTot=($TotalFinoAgTot*1000)/$TotalPesoSecTot;
 	$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
 	reset($ArrLeyesTot);
-	while(list($c,$v)=each($ArrLeyesTot))
+	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			$ArrLeyesTot[$c][2]=($ArrLeyesTot[$c][3]*$ArrLeyesTot[$c][1])/$TotalPesoSecTot;
@@ -620,7 +620,7 @@ function Proceso(opt)
 	echo "<td align='right'>".number_format($LeyAgTot,$DecLeyes,',','.')."</td>";
 	echo "<td align='right'>".number_format($LeyAuTot,$DecLeyes,',','.')."</td>";
 	reset($ArrLeyesTot);
-	while(list($c,$v)=each($ArrLeyesTot))
+	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			echo "<td align='right'>".number_format($ArrLeyesTot[$c][2],$DecLeyes,',','.')."</td>";
@@ -630,7 +630,7 @@ function Proceso(opt)
 	echo "<td align='right'>".number_format($TotalFinoAgTot,$DecFinos,',','.')."</td>";
 	echo "<td align='right'>".number_format($TotalFinoAuTot,$DecFinos,',','.')."</td>";
 	reset($ArrLeyesTot);
-	while(list($c,$v)=each($ArrLeyesTot))
+	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			echo "<td align='right'>".number_format($ArrLeyesTot[$c][3],$DecFinos,',','.')."</td>";

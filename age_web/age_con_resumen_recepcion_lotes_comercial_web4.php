@@ -1,9 +1,17 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");
-	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
+
+	$CmbMes      = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno      = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$TxtCodLeyes = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:"";
+	$CmbRecepcion     = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+
+	$CmbMes      = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
-	$FechaMer=$CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
+	$FechaMer    = $CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaFin = date("Y-m-d", mktime(0,0,0,$CmbMes+1,1,$CmbAno));
 	//echo "dddd".$TxtFechaFin;
 	$TxtFechaFin = date("Y-m-d", mktime(0,0,0,substr($TxtFechaFin,5,2),1-1,substr($TxtFechaFin,0,4)));
@@ -83,12 +91,10 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
 .Estilo1 {color: #0000FF}
--->
 </style></head>
 
 <body>
@@ -114,7 +120,7 @@ body {
 	<?php
 	$ColSpan=3+($ContLeyes*2);
 	reset($ArrLeyes);
-	while(list($c,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $c=>$v)
 	{
 		if($c!='01')
 			$ColSpan=$ColSpan+1;
@@ -138,6 +144,14 @@ body {
 	$Consulta.= " order by t1.cod_producto, orden ";
 	//echo "entro".$Consulta."<br>";
 	$Resp01 = mysqli_query($link, $Consulta);
+	$TotalPesoHumTot=0;
+	$TotalPesoSecTot=0;
+	$TotalFinoCuTot=0;
+	$TotalFinoAgTot=0;
+	$TotalFinoAuTot=0;
+	$LeyCuTot=0;
+	$LeyAgTot=0;
+	$LeyAuTot=0;
 	while ($Fila01 = mysqli_fetch_array($Resp01))	
 	{			
 		echo "<tr class=\"ColorTabla01\">\n";			
@@ -177,7 +191,7 @@ body {
 		{
 			echo "<td align=\"center\">Hum<br>(%)</td>\n";
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				if($c!='01')
 					echo "<td align=\"center\">".$v[1]."<br>(".$v[4].")</td>\n";
@@ -188,7 +202,7 @@ body {
 		{
 			
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				switch ($c)
 				{
@@ -303,7 +317,7 @@ body {
 				{
 					echo "<tr>";
 					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+					echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					$TotalPesoSecLote=0;$TotalPesoHumLote=0;
 					$PorcMerma=0;$SiMerma=0;$VarMerma=0;$PrvMerma=0;
 					$Consulta = "select * from age_web.mermas ";
@@ -365,19 +379,19 @@ body {
 								case "02":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "04":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "05":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],&$IncRetalla);
+										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								default:
@@ -447,7 +461,7 @@ body {
 					if($LeyAu!=0)	
 						$FinoAu=($TotalPesoSecLote * $LeyAu)/1000;
 					reset($ArrLeyesAux);
-					while(list($c,$v)=each($ArrLeyesAux))
+					foreach($ArrLeyesAux as $c=>$v)
 					{
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 							$ArrLeyesAux[$c][7]=($TotalPesoSecLote * $ArrLeyesAux[$c][6])/$ArrLeyesAux[$c][3];
@@ -458,7 +472,7 @@ body {
 					echo "<td align='right'>".number_format($LeyAg,$DecLeyes,',','.')."</td>";
 					echo "<td align='right'>".number_format($LeyAu,$DecLeyes,',','.')."</td>";
 					reset($ArrLeyesAux);
-					while(list($c,$v)=each($ArrLeyesAux))
+					foreach($ArrLeyesAux as $c=>$v)
 					{
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 						{
@@ -471,7 +485,7 @@ body {
 					echo "<td align='right'>".number_format($FinoAg,$DecFinos,',','.')."</td>";
 					echo "<td align='right'>".number_format($FinoAu,$DecFinos,',','.')."</td>";
 					reset($ArrLeyesAux);
-					while(list($c,$v)=each($ArrLeyesAux))
+					foreach($ArrLeyesAux as $c=>$v)
 					{
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 						{
@@ -480,22 +494,22 @@ body {
 							$ArrLeyesPrv[$c][7]=0;
 						}	
 					}
-					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"02",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyCu,$FinoCu,&$ValorDed,&$ValorFP,&$Dec);					
+					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"02",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyCu,$FinoCu,$ValorDed,$ValorFP,$Dec,$link);					
 					echo "<td align='right'>".number_format($ValorDed,$Dec,',','.')."</td>";
 					$TotalDeducCuPrv=$TotalDeducCuPrv+round($ValorDed);
-					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"04",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyAg,$FinoAg,&$ValorDed,&$ValorFP,&$Dec);					
+					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"04",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyAg,$FinoAg,$ValorDed,$ValorFP,$Dec,$link);					
 					echo "<td align='right'>".number_format($ValorDed,$Dec,',','.')."</td>";
 					$TotalDeducAgPrv=$TotalDeducAgPrv+round($ValorDed);
-					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"05",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyAu,$FinoAu,&$ValorDed,&$ValorFP,&$Dec);					
+					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"05",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyAu,$FinoAu,$ValorDed,$ValorFP,$Dec,$link);					
 					echo "<td align='right'>".number_format($ValorDed,$Dec,',','.')."</td>";
 					$TotalDeducAuPrv=$TotalDeducAuPrv+round($ValorDed);
-					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"02",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyCu,$FinoCu,&$ValorDed,&$ValorFP,&$Dec);					
+					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"02",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyCu,$FinoCu,$ValorDed,$ValorFP,$Dec,$link);					
 					echo "<td align='right'>".number_format($ValorFP,$Dec,',','.')."</td>";
 					$TotalFPCuPrv=$TotalFPCuPrv+round($ValorFP);
-					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"04",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyAg,$FinoAg,&$ValorDed,&$ValorFP,&$Dec);					
+					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"04",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyAg,$FinoAg,$ValorDed,$ValorFP,$Dec,$link);					
 					echo "<td align='right'>".number_format($ValorFP,$Dec,',','.')."</td>";
 					$TotalFPAgPrv=$TotalFPAgPrv+round($ValorFP);
-					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"05",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyAu,$FinoAu,&$ValorDed,&$ValorFP,&$Dec);					
+					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"05",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyAu,$FinoAu,$ValorDed,$ValorFP,$Dec,$link);					
 					echo "<td align='right'>".number_format($ValorFP,$Dec,',','.')."</td>";
 					$TotalFPAuPrv=$TotalFPAuPrv+round($ValorFP);
 					echo "</tr>";
@@ -523,7 +537,7 @@ body {
 					$LeyAuPrv=($TotalFinoAuPrv*1000)/$TotalPesoSecPrv;
 				}
 				reset($ArrLeyesPrv);
-				while(list($c,$v)=each($ArrLeyesPrv))
+				foreach($ArrLeyesPrv as $c=>$v)
 				{
 					if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 						$ArrLeyesPrv[$c][2]=($ArrLeyesPrv[$c][3]*$ArrLeyesPrv[$c][1])/$TotalPesoSecPrv;
@@ -536,7 +550,7 @@ body {
 				echo "<td align='right'>".number_format($LeyAgPrv,$DecLeyes,',','.')."</td>";
 				echo "<td align='right'>".number_format($LeyAuPrv,$DecLeyes,',','.')."</td>";
 				reset($ArrLeyesPrv);
-				while(list($c,$v)=each($ArrLeyesPrv))
+				foreach($ArrLeyesPrv as $c=>$v)
 				{
 					if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 					{
@@ -549,7 +563,7 @@ body {
 				echo "<td align='right'>".number_format($TotalFinoAgPrv,$DecFinos,',','.')."</td>";
 				echo "<td align='right'>".number_format($TotalFinoAuPrv,$DecFinos,',','.')."</td>";
 				reset($ArrLeyesPrv);
-				while(list($c,$v)=each($ArrLeyesPrv))
+				foreach($ArrLeyesPrv as $c=>$v)
 				{
 					if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 					{
@@ -591,7 +605,7 @@ body {
 			$LeyAgAsig=($TotalFinoAgAsig*1000)/$TotalPesoSecAsig;
 			$LeyAuAsig=($TotalFinoAuAsig*1000)/$TotalPesoSecAsig;
 			reset($ArrLeyesAsig);
-			while(list($c,$v)=each($ArrLeyesAsig))
+			foreach($ArrLeyesAsig as $c=>$v)
 			{
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 					$ArrLeyesAsig[$c][2]=($ArrLeyesAsig[$c][3]*$ArrLeyesAsig[$c][1])/$TotalPesoSecAsig;
@@ -604,7 +618,7 @@ body {
 			echo "<td align='right'>".number_format($LeyAgAsig,$DecLeyes,',','.')."</td>";
 			echo "<td align='right'>".number_format($LeyAuAsig,$DecLeyes,',','.')."</td>";
 			reset($ArrLeyesAsig);
-			while(list($c,$v)=each($ArrLeyesAsig))
+			foreach($ArrLeyesAsig as $c=>$v)
 			{
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 					echo "<td align='right'>".number_format($ArrLeyesAsig[$c][2],$DecLeyes,',','.')."</td>";
@@ -614,7 +628,7 @@ body {
 			echo "<td align='right'>".number_format($TotalFinoAgAsig,$DecFinos,',','.')."</td>";
 			echo "<td align='right'>".number_format($TotalFinoAuAsig,$DecFinos,',','.')."</td>";
 			reset($ArrLeyesAsig);
-			while(list($c,$v)=each($ArrLeyesAsig))
+			foreach($ArrLeyesAsig as $c=>$v)
 			{
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				{
@@ -657,7 +671,7 @@ body {
 		$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
 		$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				$ArrLeyesProd[$c][2]=($ArrLeyesProd[$c][3]*$ArrLeyesProd[$c][1])/$TotalPesoSecProd;
@@ -670,7 +684,7 @@ body {
 		echo "<td align='right'>".number_format($LeyAgProd,$DecLeyes,',','.')."</td>";
 		echo "<td align='right'>".number_format($LeyAuProd,$DecLeyes,',','.')."</td>";
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				echo "<td align='right'>".number_format($ArrLeyesProd[$c][2],$DecLeyes,',','.')."</td>";
@@ -680,7 +694,7 @@ body {
 		echo "<td align='right'>".number_format($TotalFinoAgProd,$DecFinos,',','.')."</td>";
 		echo "<td align='right'>".number_format($TotalFinoAuProd,$DecFinos,',','.')."</td>";
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			{
@@ -704,7 +718,7 @@ body {
 		$TotalFinoAuTot=$TotalFinoAuTot+round($TotalFinoAuProd);
 		$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
 		$TotalDeducCuProd=0;$TotalDeducAgProd=0;$TotalDeducAuProd=0;$TotalFPCuProd=0;$TotalFPAgProd=0;$TotalFPAuProd=0;
-}	
+	}	
 	//TOTAL
 	$DecPHum=0;$DecPSeco=0;$DecLeyes=3;$DecFinos=0;
 	if($TotalPesoHumTot!=0)
@@ -718,7 +732,7 @@ body {
 		$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
 	}
 	reset($ArrLeyesTot);
-	while(list($c,$v)=each($ArrLeyesTot))
+	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			$ArrLeyesTot[$c][2]=($ArrLeyesTot[$c][3]*$ArrLeyesTot[$c][1])/$TotalPesoSecTot;
@@ -731,7 +745,7 @@ body {
 	echo "<td align='right'>".number_format($LeyAgTot,$DecLeyes,',','.')."</td>";
 	echo "<td align='right'>".number_format($LeyAuTot,$DecLeyes,',','.')."</td>";
 	reset($ArrLeyesTot);
-	while(list($c,$v)=each($ArrLeyesTot))
+	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			echo "<td align='right'>".number_format($ArrLeyesTot[$c][2],$DecLeyes,',','.')."</td>";
@@ -741,7 +755,7 @@ body {
 	echo "<td align='right'>".number_format($TotalFinoAgTot,$DecFinos,',','.')."</td>";
 	echo "<td align='right'>".number_format($TotalFinoAuTot,$DecFinos,',','.')."</td>";
 	reset($ArrLeyesTot);
-	while(list($c,$v)=each($ArrLeyesTot))
+	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 			echo "<td align='right'>".number_format($ArrLeyesTot[$c][3],$DecFinos,',','.')."</td>";
@@ -754,8 +768,9 @@ body {
 	echo "<td>&nbsp;</td>";
 	echo "</tr>\n";
 echo "</table>\n";
+
 //FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla)
+function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
 {	
 	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
 	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
@@ -771,7 +786,7 @@ function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetal
 			$IncRetalla=($FilaLeyes["valor"] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
 	}	
 }
-function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv,$PSeco,$ValorLey,$ValorFino,$ValorDed,$ValorFP,$Dec)
+function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv,$PSeco,$ValorLey,$ValorFino,$ValorDed,$ValorFP,$Dec,$link)
 {
 	switch($CodLey)
 	{
@@ -815,7 +830,7 @@ function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv
 		$Valor2=abs(doubleval($FilaDeduc["valor2"]));
 		$Valor3=abs(doubleval($FilaDeduc["valor3"]));
 		$Valor4=abs(doubleval($FilaDeduc["valor4"]));
-		$TipoForm=abs(doubleval($FilaDeduc[tipo_formula]));
+		$TipoForm=abs(doubleval($FilaDeduc["tipo_formula"]));
 		//echo $TipoForm."--".$FilaDeduc["cant_param"]."<br>";
 		switch($FilaDeduc["cant_param"])
 		{
@@ -841,7 +856,7 @@ function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv
 							$ValorFP=round($ValorFino)-round($ValorDed);
 						//}
 						if($CodLey=='02'||$CodLey=='05')	
-							$Dec=$FilaDeduc[decimales];
+							$Dec=$FilaDeduc["decimales"];
 						break;
 					case '3':
 						if($CodLey=='02')
@@ -850,12 +865,12 @@ function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv
 							$ValorDed=$ValorFino*$Valor1;
 						$ValorFP=round($ValorFino)-round($ValorDed);
 						if($CodLey=='02'||$CodLey=='05')	
-							$Dec=$FilaDeduc[decimales];
+							$Dec=$FilaDeduc["decimales"];
 						break;	
 					default:
 						$ValorDed=$ValorFino*$Valor1/$Divisor;
 						$ValorFP=$ValorDed;
-						$Dec=$FilaDeduc[decimales];
+						$Dec=$FilaDeduc["decimales"];
 						break;	
 				}	
 				//$ValorDed=round($ValorDed);	

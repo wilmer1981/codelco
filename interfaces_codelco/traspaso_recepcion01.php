@@ -51,8 +51,8 @@
 				$Resp = mysqli_query($link, $Consulta);	
 				$Fila = mysqli_fetch_array($Resp);
 				//PARA ARCHIVO DE RECEPCIONES
-				$FechaDoc=substr($Fila[fecha_recepcion],8,2).".".substr($Fila[fecha_recepcion],5,2).".".substr($Fila[fecha_recepcion],0,4);
-				$FechaCont=substr($Fila[fecha_recepcion],8,2).".".substr($Fila[fecha_recepcion],5,2).".".substr($Fila[fecha_recepcion],0,4);
+				$FechaDoc=substr($Fila["fecha_recepcion"],8,2).".".substr($Fila["fecha_recepcion"],5,2).".".substr($Fila["fecha_recepcion"],0,4);
+				$FechaCont=substr($Fila["fecha_recepcion"],8,2).".".substr($Fila["fecha_recepcion"],5,2).".".substr($Fila["fecha_recepcion"],0,4);
 				//$Pedido=str_pad($Fila[pedido],10,' ',STR_PAD_LEFT);
 				//$Posicion=str_pad($Fila[posicion],5,' ',STR_PAD_LEFT);
 				$Centro="FV01";
@@ -61,7 +61,7 @@
 				$CodMaterial=str_pad($Fila[cod_material_sap],18,' ',STR_PAD_LEFT);
 				$Cantidad=str_pad(number_format($Fila["peso"],3,',',''),13,' ',STR_PAD_LEFT);
 				$UnidadMedida=str_pad($Fila[unidad_medida],3,' ',STR_PAD_LEFT);
-				$LoteT=substr($Fila[fecha_recepcion],0,4).$Fila["lote"];
+				$LoteT=substr($Fila["fecha_recepcion"],0,4).$Fila["lote"];
 				$Status=str_pad('',81,' ');
 				$ClaseVal101=str_pad($Fila[clase_valor_101],10,' ',STR_PAD_LEFT);
 				$ClaseVal921=str_pad($Fila[clase_valor_921],10,' ',STR_PAD_LEFT);
@@ -76,10 +76,10 @@
 				//PARA ARCHIVO LEYES DE RECEPCIONES
 				$CodMaterial=str_pad($Fila[mat_sap],18,'0',STR_PAD_LEFT);
 				$Centro="FV01";
-				$LoteR=substr($Fila[fecha_recepcion],0,4).$Fila["lote"];
+				$LoteR=substr($Fila["fecha_recepcion"],0,4).$Fila["lote"];
 				$Almacen='0005';
 				$LoteLibre='X';
-				$FechaDisp=substr($Fila[fecha_recepcion],8,2).".".substr($Fila[fecha_recepcion],5,2).".".substr($Fila[fecha_recepcion],0,4);
+				$FechaDisp=substr($Fila["fecha_recepcion"],8,2).".".substr($Fila["fecha_recepcion"],5,2).".".substr($Fila["fecha_recepcion"],0,4);
 				$LoteClasif='X';
 				$ArrDatos=array();
 				$ArregloLeyes=array();
@@ -89,7 +89,7 @@
 					DefinirArregloLeyes('1',$SubProducto,&$ArrLeyesProd);
 					LeyesProducto($RutCompra,'','','1',$SubProducto,&$ArrDatos,&$ArrLeyesProd,'N','S','S',$FechaDesde,$FechaHasta,"");
 					reset($ArrLeyesProd);
-					while(list($c,$v)=each($ArrLeyesProd))
+					foreach($ArrLeyesProd as $c=>$v)
 					{
 						if($c!='')
 							$ArregloLeyes[$c]["valor"]=number_format($v[2],3,',','');
@@ -130,7 +130,7 @@
 				$FormEmpaque1=str_pad('',15,' ',STR_PAD_RIGHT);
 				$CantDesp2=str_pad('0',15,' ',STR_PAD_LEFT);
 				$FormEmpaque2=str_pad('',15,' ',STR_PAD_RIGHT);
-				$LoteProd=substr($Fila[fecha_recepcion],0,4).$Lote;
+				$LoteProd=substr($Fila["fecha_recepcion"],0,4).$Lote;
 				$LineaL='3'.$CodMaterial.$Centro.$LoteR.$Almacen.$LoteLibre.$FechaDisp.$LoteClasif.$ValorLeyes;
 				$LineaL=$LineaL.$PesoBruto.$PesoNeto.$PesoTara.$UnidPeso.$CantDesp1.$FormEmpaque1.$CantDesp2.$FormEmpaque2.$LoteProd;
 				fwrite($ArchivoL,$LineaL."\r\n");

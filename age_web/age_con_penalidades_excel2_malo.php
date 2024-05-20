@@ -147,7 +147,7 @@ body {
 	<?php
 	$ColSpan=3;
 	reset($ArrLeyesAux);
-	while(list($c,$v)=each($ArrLeyesAux))
+	foreach($ArrLeyesAux as $c=>$v)
 	{
 		if($c!='')
 			$ColSpan=$ColSpan+2;
@@ -202,7 +202,7 @@ body {
 		echo "</tr>";
 		echo "<tr class=\"ColorTabla02\">\n";
 		reset($ArrLeyesAux);
-		while(list($c,$v)=each($ArrLeyesAux))
+		foreach($ArrLeyesAux as $c=>$v)
 		{
 			if($c!='')
 			{
@@ -328,7 +328,7 @@ body {
 						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 						
 
-						echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+						echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					}
 					$DatosLote= array();
 					reset($ArrLeyes);
@@ -340,8 +340,8 @@ body {
 					reset($ArrLeyes);
 					if ($FilaLote["tipo_remuestreo"]=="A")
 					{						
-						$TxtFechaIniAux=substr($FilaLote[fecha_recepcion],0,4)."-".substr($FilaLote[fecha_recepcion],5,2)."-01";
-						$TxtFechaFinAux=substr($FilaLote[fecha_recepcion],0,4)."-".substr($FilaLote[fecha_recepcion],5,2)."-31";;
+						$TxtFechaIniAux=substr($FilaLote["fecha_recepcion"],0,4)."-".substr($FilaLote["fecha_recepcion"],5,2)."-01";
+						$TxtFechaFinAux=substr($FilaLote["fecha_recepcion"],0,4)."-".substr($FilaLote["fecha_recepcion"],5,2)."-31";;
 						$DatosLote["penalidades"]="S"; 
 					}
 					else
@@ -367,7 +367,7 @@ body {
 						echo "<td align=\"right\">".number_format($PesoLoteS,0,',','.')."</td>";
 					}
 					reset($ArrLeyes);
-					while(list($c,$v)=each($ArrLeyes))
+					foreach($ArrLeyes as $c=>$v)
 					{				
 						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
 						{							

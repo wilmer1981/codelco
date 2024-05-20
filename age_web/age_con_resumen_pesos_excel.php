@@ -180,7 +180,7 @@
 					{	
 						echo "<tr>";
 						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-						//echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+						//echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 						echo "<td align=\"right\">".number_format($PesoLoteH,$CantDecPeso,',','.')."</td>";
 						echo "<td align=\"right\">".number_format($ArrLeyes["01"][2],4,',','.')."</td>";
 						echo "<td align=\"right\">".number_format($PesoLoteS,$CantDecPeso,',','.')."</td>";															

@@ -13,7 +13,7 @@
 	$RutPrv=$Fila["rut_proveedor"];
 	$NomPrv=$Fila["nombre"];
 	$NomSubProducto=$Fila["subproducto"];
-	$FechaRecepcion=$Fila[fecha_recepcion];
+	$FechaRecepcion=$Fila["fecha_recepcion"];
 	$RutMina=$Fila[cod_faena];
 	$NomMina=$Fila[NOMMIN_A];
 	$TotalPesoNeto=$Fila[tot_peso_neto];

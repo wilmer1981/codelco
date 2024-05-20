@@ -569,7 +569,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   				echo "<td width='97' colspan='2' align='center'>LOTE VENTANAS:</td>";
 			  	echo "<td align='right'>".$Fila["lote"]."</td>";
 				echo "<td width='97' colspan='2' align='center'>FECHA EMISION</td>";
-				echo "<td width='97' align='center'>".$Fila[fecha_recepcion]."</td>";
+				echo "<td width='97' align='center'>".$Fila["fecha_recepcion"]."</td>";
 			  echo  "</tr>";
 				$ConsultaLote="select * from age_web.detalle_lotes where lote='".$Fila["lote"]."' and observacion<>''";
 				//echo $ConsultaLote."<br>";

@@ -201,7 +201,7 @@ function Proceso(opt)
 				{
 					echo "<tr>";
 					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+					echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					$TotalPesoSecLote=0;$TotalPesoHumLote=0;
 					$Anito = substr($TxtFechaIni,0,4);
 					$Mesi = substr($TxtFechaIni,5,2);

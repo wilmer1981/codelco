@@ -47,7 +47,7 @@
 			while($Row=mysqli_fetch_array($respue))
 			{
 				$InserTmp="insert into age_web.tmp_lotes (lote,cod_producto,cod_subproducto,fecha_recepcion,rut_proveedor)";
-				$InserTmp.=" values ('".$Row["lote"]."','".$Row["cod_producto"]."','".$Row["cod_subproducto"]."','".$Row[fecha_recepcion]."',";
+				$InserTmp.=" values ('".$Row["lote"]."','".$Row["cod_producto"]."','".$Row["cod_subproducto"]."','".$Row["fecha_recepcion"]."',";
 				$InserTmp.="'".$Row["rut_proveedor"]."')";
 				mysqli_query($link, $InserTmp);
 			}

@@ -367,7 +367,7 @@ body {
 						echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
 						
 
-						echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+						echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					}
 					$DatosLote= array();
 					
@@ -381,8 +381,8 @@ body {
 					reset($ArrLeyes);
 					if ($FilaLote["tipo_remuestreo"]=="A")
 					{						
-						$TxtFechaIniAux=substr($FilaLote[fecha_recepcion],0,4)."-".substr($FilaLote[fecha_recepcion],5,2)."-01";
-						$TxtFechaFinAux=substr($FilaLote[fecha_recepcion],0,4)."-".substr($FilaLote[fecha_recepcion],5,2)."-31";;
+						$TxtFechaIniAux=substr($FilaLote["fecha_recepcion"],0,4)."-".substr($FilaLote["fecha_recepcion"],5,2)."-01";
+						$TxtFechaFinAux=substr($FilaLote["fecha_recepcion"],0,4)."-".substr($FilaLote["fecha_recepcion"],5,2)."-31";;
 						$DatosLote["penalidades"]="S"; 
 					}
 					else

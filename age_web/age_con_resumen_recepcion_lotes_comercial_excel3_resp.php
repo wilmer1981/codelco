@@ -63,7 +63,7 @@
 	<?php
 	$ColSpan=3+($ContLeyes*2);
 	reset($ArrLeyes);
-	while(list($c,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $c=>$v)
 	{
 		if($c!='01')
 			$ColSpan=$ColSpan+1;
@@ -123,7 +123,7 @@
 		{
 			echo "<td align=\"center\">Hum<br>(%)</td>\n";
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				if($c!='01')
 					echo "<td align=\"center\">".$v[1]."<br>(".$v[4].")</td>\n";
@@ -134,7 +134,7 @@
 		{
 			
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				switch ($c)
 				{
@@ -242,7 +242,7 @@
 				{
 					echo "<tr>";
 					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+					echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					$TotalPesoSecLote=0;$TotalPesoHumLote=0;
 					$Consulta = "select ifnull(porc,0) as merma from age_web.mermas ";
 					$Consulta.= " where cod_producto='".$FilaLote["cod_producto"]."' ";

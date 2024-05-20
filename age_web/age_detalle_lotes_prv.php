@@ -84,7 +84,7 @@ function Detalle(Lote)
 		  <?php
 			$ArrLeyes=array();
 			DefinirArregloLeyes('1',$SubProducto,&$ArrLeyes);
-		  	while(list($c,$v)=each($ArrLeyes))
+		  	foreach($ArrLeyes as $c=>$v)
 			{
 				$Consulta="select t1.abreviatura as nom_ley,t2.abreviatura as nom_unidad,t2.conversion from proyecto_modernizacion.leyes t1 inner join proyecto_modernizacion.unidades t2 ";
 				$Consulta.="on t1.cod_unidad =t2.cod_unidad where t1.cod_leyes='".$c."'";
@@ -186,7 +186,7 @@ function Detalle(Lote)
 				echo "<td align='center'>".number_format($DatosLoteProd["peso_humedo"],0,'','.')."</td>\n";
 				echo "<td align='center'>".number_format($DatosLoteProd["peso_seco"],0,'','.')."</td>\n";
 				reset($ArrLeyesProd);
-				while(list($c,$v)=each($ArrLeyesProd))
+				foreach($ArrLeyesProd as $c=>$v)
 				{
 					if($c!='')				
 						echo "<td align='center'>".number_format($v[23],2,',','.')."</td>\n";	

@@ -186,7 +186,7 @@ if ($OptFinos=="S")
 				{
 					echo "<tr>";
 					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+					echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					$DatosLote= array();
 					$ArrLeyes=array();
 					$DatosLote["lote"]=$FilaLote["lote"];
@@ -204,7 +204,7 @@ if ($OptFinos=="S")
 					echo "<td align=\"right\">".number_format($PesoLoteH,$CantDecPeso,',','.')."</td>";
 					//LEYES
 					reset($ArrLeyes);
-					while(list($c,$v)=each($ArrLeyes))
+					foreach($ArrLeyes as $c=>$v)
 					{
 						$Decimales=0;
 						switch ($c)
@@ -234,7 +234,7 @@ if ($OptFinos=="S")
 						echo "<td align=\"right\">".number_format($PesoLoteS,$CantDecPeso,',','.')."</td>";					
 					//FINOS
 					reset($ArrLeyes);
-					while(list($c,$v)=each($ArrLeyes))
+					foreach($ArrLeyes as $c=>$v)
 					{
 						if($c!='')
 						{
@@ -323,7 +323,7 @@ if ($OptFinos=="S")
 			echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";
 			//LEYES
 			reset($ArrLeyesProd);
-			while(list($c,$v)=each($ArrLeyesProd))
+			foreach($ArrLeyesProd as $c=>$v)
 			{
 				$Decimales=0;
 				switch ($c)
@@ -349,7 +349,7 @@ if ($OptFinos=="S")
 			if ($OptFinos == "S")
 				echo "<td align=\"right\">".number_format($PesoS,$CantDecPeso,',','.')."</td>";			
 			reset($ArrLeyesProd);
-			while(list($c,$v)=each($ArrLeyesProd))
+			foreach($ArrLeyesProd as $c=>$v)
 			{
 				if($c!='')
 				{
@@ -383,7 +383,7 @@ if ($OptFinos=="S")
 		echo "<td align=\"right\">".number_format($ArrDatos["peso_humedo"],$CantDecPeso,',','.')."</td>";
 		//LEYES
 		reset($ArrLeyesProd);
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			$Decimales=0;
 			switch ($c)
@@ -409,7 +409,7 @@ if ($OptFinos=="S")
 		//FINOS
 		if ($OptFinos == "S")
 			echo "<td align=\"right\">".number_format($PesoS,$CantDecPeso,',','.')."</td>";		
-		while(list($c,$v)=each($ArrLeyesProd))
+		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='')
 			{

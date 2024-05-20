@@ -78,7 +78,7 @@
 	<?php
 	$ColSpan=3+($ContLeyes*2);
 	reset($ArrLeyes);
-	while(list($c,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $c=>$v)
 	{
 		if($c!='01')
 			$ColSpan=$ColSpan+1;
@@ -150,7 +150,7 @@
 		{
 			echo "<td align=\"center\">Hum<br>(%)</td>\n";
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				if($c!='01')
 					echo "<td align=\"center\">".$v[1]."<br>(".$v[4].")</td>\n";
@@ -161,7 +161,7 @@
 		{
 			
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				switch ($c)
 				{
@@ -271,7 +271,7 @@
 				{
 					echo "<tr>";
 					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+					echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					$DatosLote= array();
 					reset($ArrLeyes);
 					$DatosLote["lote"]=$FilaLote["lote"];
@@ -303,7 +303,7 @@
 					if ($OptLeyes == "S")
 					{
 						reset($ArrLeyes);
-						while(list($c,$v)=each($ArrLeyes))
+						foreach($ArrLeyes as $c=>$v)
 						{
 							if($c!='')
 							{
@@ -340,7 +340,7 @@
 						echo "<td align=\"right\">".number_format($PesoLoteS,$CantDecLF,',','.')."</td>";
 					//FINOS
 					reset($ArrLeyes);
-					while(list($c,$v)=each($ArrLeyes))
+					foreach($ArrLeyes as $c=>$v)
 					{
 						if($c!='')
 						{
@@ -374,7 +374,7 @@
 				$ArrDatos=array();
 				$ArrLeyesProv=array();
 				reset($ArrLeyes);
-				while(list($c,$v)=each($ArrLeyes))
+				foreach($ArrLeyes as $c=>$v)
 				{
 					$ArrLeyesProv[$c][0]=$c;
 				}
@@ -450,7 +450,7 @@
 			$ArrDatos=array();
 			$ArrLeyesProd=array();
 			reset($ArrLeyes);
-			while(list($c,$v)=each($ArrLeyes))
+			foreach($ArrLeyes as $c=>$v)
 			{
 				$ArrLeyesProd[$c][0]=$c;
 			}
@@ -480,7 +480,7 @@
 			if ($OptLeyes == "S")
 			{
 				reset($ArrLeyesProd);
-				while(list($c,$v)=each($ArrLeyesProd))
+				foreach($ArrLeyesProd as $c=>$v)
 				{
 					if($c!='')
 					{					
@@ -503,7 +503,7 @@
 				//PESO SECO
 				echo "<td align=\"right\">".number_format($PesoS,$CantDecPeso,',','.')."</td>";	
 			reset($ArrLeyesProd);
-			while(list($c,$v)=each($ArrLeyesProd))
+			foreach($ArrLeyesProd as $c=>$v)
 			{
 				if($c!='')
 				{
@@ -531,7 +531,7 @@
 		$ArrDatos=array();
 		$ArrLeyesProd2=array();
 		reset($ArrLeyes);
-		while(list($c,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $c=>$v)
 		{
 			$ArrLeyesProd2[$c][0]=$c;
 		}

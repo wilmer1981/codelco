@@ -841,7 +841,7 @@
 						$LoteTemporal=$FilaTemp["lote"];
 						$CodSubProducto=$FilaTemp["cod_subproducto"];
 						$RutProveedor=$FilaTemp["rut_proveedor"];
-						$FechaRecepcion=$FilaTemp[fecha_recepcion];
+						$FechaRecepcion=$FilaTemp["fecha_recepcion"];
 						$Cancha=$FilaTemp[cancha];
 						$Cod_Faena=$FilaTemp[cod_faena];
 						$CodRecepcion=$FilaTemp["cod_recepcion"];
@@ -901,7 +901,7 @@
 						while($FilaDet = mysqli_fetch_array($RespDet))
 						{
 							$Recargo=$FilaDet["recargo"];
-							$FechaRecarDet=$FilaDet[fecha_recepcion];
+							$FechaRecarDet=$FilaDet["fecha_recepcion"];
 							$PesoBruto=$FilaDet[peso_bruto];
 							$PesoTara=$FilaDet["peso_tara"];
 							$PesoNeto=$FilaDet[peso_neto];

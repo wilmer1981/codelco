@@ -2,16 +2,22 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 84;
 	include("../principal/conectar_principal.php");
-	if(!isset($CmbMes))
-	{
-		$CmbMes = str_pad(date('m'),2,"0",STR_PAD_LEFT);
-		$CmbAno = date('Y');
-	}
-	if(!isset($TxtFechaCon))
-	{
-		$TxtFechaCon = date("Y-m-d");
-	}
-	if(!isset($TxtLeyesMuestra))
+
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Busq       = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:str_pad(date('m'),2,"0",STR_PAD_LEFT);
+	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
+	$TxtFechaCon     = isset($_REQUEST["TxtFechaCon"])?$_REQUEST["TxtFechaCon"]:date("Y-m-d");
+	$TxtLeyesMuestra = isset($_REQUEST["TxtLeyesMuestra"])?$_REQUEST["TxtLeyesMuestra"]:"";
+	$CmbRecepcion      = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$TxtCodLeyes       = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:"";
+
+
+	if($TxtLeyesMuestra=="")
 	{	
 		$TxtLeyesMuestra='Cu,Ag,Au';
 		$TxtCodLeyes="02~Cu~1~100~%~2//04~Ag~4~1000~g/T~3//05~Au~4~1000~g/T~3";

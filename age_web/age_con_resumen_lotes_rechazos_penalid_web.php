@@ -90,7 +90,7 @@ body {
 	<?php
 	$ColSpan=3+($ContLeyes*2);
 	reset($ArrLeyes);
-	while(list($c,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $c=>$v)
 	{
 		if($c!='01')
 			$ColSpan=$ColSpan+1;
@@ -149,7 +149,7 @@ body {
 		{
 			echo "<td align=\"center\">Hum<br>(%)</td>\n";
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				if($c!='01')
 					echo "<td align=\"center\">".$v[1]."<br>(".$v[4].")</td>\n";
@@ -160,7 +160,7 @@ body {
 		{
 			
 			reset($ArrLeyesAux);
-			while(list($c,$v)=each($ArrLeyesAux))
+			foreach($ArrLeyesAux as $c=>$v)
 			{
 				switch ($c)
 				{
@@ -255,7 +255,7 @@ body {
 				{
 					echo "<tr>";
 					echo "<td align=\"center\">".$FilaLote["lote"]."</td>";
-					echo "<td align=\"center\">".substr($FilaLote[fecha_recepcion],8,2)."/".substr($FilaLote[fecha_recepcion],5,2)."/".substr($FilaLote[fecha_recepcion],0,4)."</td>";
+					echo "<td align=\"center\">".substr($FilaLote["fecha_recepcion"],8,2)."/".substr($FilaLote["fecha_recepcion"],5,2)."/".substr($FilaLote["fecha_recepcion"],0,4)."</td>";
 					$DatosLote= array();
 					reset($ArrLeyes);
 					$DatosLote["lote"]=$FilaLote["lote"];
@@ -275,7 +275,7 @@ body {
 					if ($OptLeyes == "S")
 					{
 						reset($ArrLeyes);
-						while(list($c,$v)=each($ArrLeyes))
+						foreach($ArrLeyes as $c=>$v)
 						{
 							if($c!='')
 							{
@@ -293,7 +293,7 @@ body {
 					{
 						//FINOS
 						reset($ArrLeyes);
-						while(list($c,$v)=each($ArrLeyes))
+						foreach($ArrLeyes as $c=>$v)
 						{
 							if($c!='')
 							{
@@ -321,7 +321,7 @@ body {
 				$ArrDatos=array();
 				$ArrLeyesProv=array();
 				reset($ArrLeyes);
-				while(list($c,$v)=each($ArrLeyes))
+				foreach($ArrLeyes as $c=>$v)
 				{
 					$ArrLeyesProv[$c][0]=$c;
 				}
@@ -391,7 +391,7 @@ body {
 			$ArrDatos=array();
 			$ArrLeyesProd=array();
 			reset($ArrLeyes);
-			while(list($c,$v)=each($ArrLeyes))
+			foreach($ArrLeyes as $c=>$v)
 			{
 				$ArrLeyesProd[$c][0]=$c;
 			}
@@ -410,7 +410,7 @@ body {
 			if ($OptLeyes == "S")
 			{
 				reset($ArrLeyesProd);
-				while(list($c,$v)=each($ArrLeyesProd))
+				foreach($ArrLeyesProd as $c=>$v)
 				{
 					if($c!='')
 					{					
@@ -432,7 +432,7 @@ body {
 			if ($OptFinos == "S")
 			{
 				reset($ArrLeyesProd);
-				while(list($c,$v)=each($ArrLeyesProd))
+				foreach($ArrLeyesProd as $c=>$v)
 				{
 					if($c!='')
 					{
@@ -460,7 +460,7 @@ body {
 		$ArrDatos=array();
 		$ArrLeyesProd2=array();
 		reset($ArrLeyes);
-		while(list($c,$v)=each($ArrLeyes))
+		foreach($ArrLeyes as $c=>$v)
 		{
 			$ArrLeyesProd2[$c][0]=$c;
 		}
