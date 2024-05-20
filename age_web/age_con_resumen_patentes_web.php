@@ -1,6 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");	
+	
+	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+	$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');
+	$OptVer         = isset($_REQUEST["OptVer"])?$_REQUEST["OptVer"]:"P";
+	$Busq           = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
 ?>
 <html>
 <head>
@@ -104,7 +113,7 @@ body {
 		{
 			$TotProd=0;
 			echo "<tr class=\"Detalle02\">";
-			echo "<td colspan='3'>".$FilaProd[NomProd]."</td>";
+			echo "<td colspan='3'>".$FilaProd["NomProd"]."</td>";
 			echo "</tr>";
 			echo "<tr class=\"ColorTabla02\">\n";		
 			echo "<td align=\"center\" width=\"150\">Patente</td>\n";
@@ -121,12 +130,12 @@ body {
 				echo "<tr>";
 				echo "<td align=\"center\">".$FilaDeta["patente"]."</td>";
 				echo "<td align=\"center\">".$FilaDeta["guia_despacho"]."</td>";
-				echo "<td align=\"right\">".number_format($FilaDeta[peso_neto],0,'','.')."</td>";
+				echo "<td align=\"right\">".number_format($FilaDeta["peso_neto"],0,'','.')."</td>";
 				echo "</tr>";
-				$TotProd=$TotProd+$FilaDeta[peso_neto];
+				$TotProd=$TotProd+$FilaDeta["peso_neto"];
 			}
 			//TOTAL PRODUCTO
-			echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\"><td colspan='2' align=\"left\">TOTAL: ".strtoupper($FilaProd[NomProd])."</td>\n";
+			echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\"><td colspan='2' align=\"left\">TOTAL: ".strtoupper($FilaProd["NomProd"])."</td>\n";
 			echo "<td align=\"right\">".number_format($TotProd,0,',','.')."</td>\n";
 			echo "</tr>\n";	
 			$TotPrv=$TotPrv+$TotProd;
