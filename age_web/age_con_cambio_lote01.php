@@ -52,7 +52,7 @@ if ($Proceso=="G")
 	{
 		$Existe = 1;
 	}
-	if(Existe==0)
+	if($Existe==0)
 	{
 		$Consulta2 = "Select * from  age_web.detalle_lotes where lote = '".$LoteC."' ";
 		$Resp2 = mysqli_query($link, $Consulta2);
