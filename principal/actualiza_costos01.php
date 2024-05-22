@@ -1,17 +1,13 @@
 <?php
 include("conectar_principal.php");
 
-if(isset($_GET["Proceso"])){
-	$Proceso = $_GET["Proceso"];
-}else{
-	$Proceso = "";
-}
+$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 //if($Proceso=='G'){
-	$CCosto = $_REQUEST["CCosto"];
-	$Descripcion = $_REQUEST["Descripcion"];
-	$MostrarCal = $_REQUEST["MostrarCal"];
-	$MostrarFrx = $_REQUEST["MostrarFrx"];
-	$CmbArea = $_REQUEST["CmbArea"];
+	$CCosto    = isset($_REQUEST["CCosto"])?$_REQUEST["CCosto"]:"";
+	$Descripcion = isset($_REQUEST["Descripcion"])?$_REQUEST["Descripcion"]:"";
+	$MostrarCal  = isset($_REQUEST["MostrarCal"])?$_REQUEST["MostrarCal"]:"";
+	$MostrarFrx  = isset($_REQUEST["MostrarFrx"])?$_REQUEST["MostrarFrx"]:"";
+	$CmbArea     = isset($_REQUEST["CmbArea"])?$_REQUEST["CmbArea"]:"";
 //}
 	
  $centros = 0;

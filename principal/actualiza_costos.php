@@ -4,50 +4,15 @@ include ("../principal/conectar_principal.php");
 $CodigoDeSistema = 99;
 $CodigoDePantalla = 13;
 
-if(isset($_GET["Proceso"])){
-	$Proceso = $_GET["Proceso"];
-}else{
-	$Proceso = "";
-}
-if(isset($_GET["error"])){
-	$error = $_GET["error"];
-}else{
-	$error = "";
-}
-if(isset($_GET["mensaje"])){
-	$mensaje = $_GET["mensaje"];
-}else{
-	$mensaje = "";
-}
 
-	if(isset($_POST["CCosto"])){
-		$CCosto      = $_POST["CCosto"];
-	}else{
-		$CCosto  = "";
-	}
-	if(isset($_POST["Descripcion"])){
-		$Descripcion = $_POST["Descripcion"]; 
-	}else{
-		$Descripcion  = "";
-	}
-	if(isset($_POST["MostrarCal"])){
-		$MostrarCal = $_POST["MostrarCal"]; 
-	}else{
-		$MostrarCal  = "";
-	}
-	if(isset($_POST["MostrarFrx"])){
-		$MostrarFrx = $_POST["MostrarFrx"]; 
-	}else{
-		$MostrarFrx  = "";
-	}
-
-	if(isset($_POST["CmbArea"])){
-		$CmbArea     = $_POST["CmbArea"];
-	}else{
-		$CmbArea  = "";
-	}
-
-
+$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$error     = isset($_REQUEST["error"])?$_REQUEST["error"]:"";
+$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+$CCosto    = isset($_REQUEST["CCosto"])?$_REQUEST["CCosto"]:"";
+$Descripcion = isset($_REQUEST["Descripcion"])?$_REQUEST["Descripcion"]:"";
+$MostrarCal  = isset($_REQUEST["MostrarCal"])?$_REQUEST["MostrarCal"]:"";
+$MostrarFrx  = isset($_REQUEST["MostrarFrx"])?$_REQUEST["MostrarFrx"]:"";
+$CmbArea     = isset($_REQUEST["CmbArea"])?$_REQUEST["CmbArea"]:"";
 
   	if($Proceso=="B")
   	{
@@ -147,7 +112,7 @@ function Cambia(opcion)
   	<table width="775" border="1" cellpadding="1" cellspacing="0" class="TablaPrincipal" left="5">
 		<tr class='ColorTabla01'> 
 			<td width='80' align='center'>Centro Costos</td>
-			<td width='280' align='center'>Descripci�n</td>
+			<td width='280' align='center'>Descripci&oacute;n</td>
 			<td width='80' align='center'>Mostrar Calidad</td>
 			<td width='70' align='center'>Mostrar Frx</td>
 			<td width='150' align='center'>Codigo Area</td>
