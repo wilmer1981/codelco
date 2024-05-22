@@ -3,23 +3,9 @@
 	$CodigoDePantalla = 11;
 	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	if (!isset($CmbMes))
-	{
-		$CmbMes=date('n');
-	}
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-	}
-
-	
-	if(isset($_GET["EncontroRelacion"])){
-		$EncontroRelacion = $_GET["EncontroRelacion"];
-	}else{
-		$EncontroRelacion=false;
-	}
-
-
+    $CmbMes   = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('n');	
+    $CmbAno   = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');	
+    $EncontroRelacion   = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:false;
 	
 ?>
 <html>
@@ -180,7 +166,7 @@ function Salir()
     <tr> 
       <td align="center" valign="top" > 
 	  	<table width='760' border='1' cellpadding='1' cellspacing='0' >
-		<td width='40' align='center'>Versi�n 1</td>
+		<td width='40' align='center'>Versi&oacute;n 1</td>
 		<td align='center'>
 		
 		<input type="button" name="BtnNuevo" value="Agregar Producto" style="width:100" onClick="MostrarPopupProceso('NC');"> 

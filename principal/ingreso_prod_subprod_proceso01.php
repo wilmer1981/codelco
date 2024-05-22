@@ -1,52 +1,40 @@
 <?php
 	include("../principal/conectar_principal.php");
 	//echo "EEE".$Proceso;
-
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-	if(isset($_GET["Valores"])){
-		$Valores = $_GET["Valores"];
-	}else{
-		$Valores = "";
-	}
-
-	$TxtCodigo = $_POST["TxtCodigo"];
-	$TxtDescripcion = $_POST["TxtDescripcion"];
-
-	$TxtValor1 = $_POST["TxtValor1"];
-	$TxtValor2 = $_POST["TxtValor2"];
-	$TxtValor3 = $_POST["TxtValor3"];
-
-	$TxtCodSubProdu = $_POST["TxtCodSubProdu"];
-	$Txtmostrar = $_POST["Txtmostrar"];
-	$TxtAbrevia = $_POST["TxtAbrevia"];
-	$TxtLotes = $_POST["TxtLotes"];
-	$TxtFlujos = $_POST["TxtFlujos"];
-	$TxtAnodo  = $_POST["TxtAnodo "];
-	$TxtMostrarSea = $_POST["TxtMostrarSea"];
-	$TxtAplicacion = $_POST["TxtAplicacion"];
-	$TxtRutProv = $_POST["TxtRutProv"];
-	$TxtProdRam = $_POST["TxtProdRam"];
-	$TxtMostrarPmn = $_POST["TxtMostrarPmn"];
-	$TxtTipMov = $_POST["TxtTipMov"];
-	$TxtStockSec = $_POST["TxtStockSec"];
-	$TxtOrdenStockSec = $_POST["TxtOrdenStockSec"];
-	$TxtMostrar2 = $_POST["TxtMostrar2"];
-	$TxtBalanceSec = $_POST["TxtBalanceSec"];
-	$TxtTipoMovPmn = $_POST["TxtTipoMovPmn"];
-	$TxtProductoSipa = $_POST["TxtProductoSipa"];
-	$TxtRecepcion = $_POST["TxtRecepcion"];
-	$TxtMostrarAge = $_POST["TxtMostrarAge"];
-	$TxtClaseProducto = $_POST["TxtClaseProducto"];
-	$TxtHumedad = $_POST["TxtHumedad"];
-	$TxtEtiqueta = $_POST["TxtEtiqueta"];
 	
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+    $Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";	
 
-
-	$EncontroRelacion=false;
+	$TxtCodigo      = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
+	$TxtDescripcion = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$TxtValor1 = isset($_REQUEST["TxtValor1"])?$_REQUEST["TxtValor1"]:"";
+	$TxtValor2 = isset($_REQUEST["TxtValor2"])?$_REQUEST["TxtValor2"]:"";
+	$TxtValor3 = isset($_REQUEST["TxtValor3"])?$_REQUEST["TxtValor3"]:"";
+	$TxtCodSubProdu = isset($_REQUEST["TxtCodSubProdu"])?$_REQUEST["TxtCodSubProdu"]:"";
+	$Txtmostrar = isset($_REQUEST["Txtmostrar"])?$_REQUEST["Txtmostrar"]:"";
+	$TxtAbrevia = isset($_REQUEST["TxtAbrevia"])?$_REQUEST["TxtAbrevia"]:"";
+	$TxtLotes   = isset($_REQUEST["TxtLotes"])?$_REQUEST["TxtLotes"]:"";
+	$TxtFlujos  = isset($_REQUEST["TxtFlujos"])?$_REQUEST["TxtFlujos"]:"";
+	$TxtAnodo   = isset($_REQUEST["TxtAnodo"])?$_REQUEST["TxtAnodo"]:"";
+	$TxtMostrarSea = isset($_REQUEST["TxtMostrarSea"])?$_REQUEST["TxtMostrarSea"]:"";
+	$TxtAplicacion = isset($_REQUEST["TxtAplicacion"])?$_REQUEST["TxtAplicacion"]:"";
+	$TxtRutProv    = isset($_REQUEST["TxtRutProv"])?$_REQUEST["TxtRutProv"]:"";
+	$TxtProdRam    = isset($_REQUEST["TxtProdRam"])?$_REQUEST["TxtProdRam"]:"";
+	$TxtMostrarPmn = isset($_REQUEST["TxtMostrarPmn"])?$_REQUEST["TxtMostrarPmn"]:"";
+	$TxtTipMov     = isset($_REQUEST["TxtTipMov"])?$_REQUEST["TxtTipMov"]:"";
+	$TxtStockSec   = isset($_REQUEST["TxtStockSec"])?$_REQUEST["TxtStockSec"]:"";
+	$TxtOrdenStockSec = isset($_REQUEST["TxtOrdenStockSec"])?$_REQUEST["TxtOrdenStockSec"]:"";
+	$TxtMostrar2      = isset($_REQUEST["TxtMostrar2"])?$_REQUEST["TxtMostrar2"]:"";
+	$TxtBalanceSec    = isset($_REQUEST["TxtBalanceSec"])?$_REQUEST["TxtBalanceSec"]:"";
+	$TxtTipoMovPmn    = isset($_REQUEST["TxtTipoMovPmn"])?$_REQUEST["TxtTipoMovPmn"]:"";
+	$TxtProductoSipa  = isset($_REQUEST["TxtProductoSipa"])?$_REQUEST["TxtProductoSipa"]:"";
+	$TxtRecepcion     = isset($_REQUEST["TxtRecepcion"])?$_REQUEST["TxtRecepcion"]:"";
+	$TxtMostrarAge    = isset($_REQUEST["TxtMostrarAge"])?$_REQUEST["TxtMostrarAge"]:"";
+	$TxtClaseProducto = isset($_REQUEST["TxtClaseProducto"])?$_REQUEST["TxtClaseProducto"]:"";
+	$TxtHumedad       = isset($_REQUEST["TxtHumedad"])?$_REQUEST["TxtHumedad"]:"";
+	$TxtEtiqueta      = isset($_REQUEST["TxtEtiqueta"])?$_REQUEST["TxtEtiqueta"]:"";
+	
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:false;
 	
 	switch ($Proceso)
 	{

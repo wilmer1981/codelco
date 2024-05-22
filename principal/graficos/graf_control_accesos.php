@@ -1,26 +1,26 @@
 <?php
 	include("../conectar_principal.php");
-	$cmb_ano = $_POST["cmb_ano"];
-	$cmb_mes = $_POST["cmb_mes"];
-	$cmb_dia = $_POST["cmb_dia"];
-	$cmb_ano_fin = $_POST["cmb_ano_fin"];
-	$cmb_mes_fin = $_POST["cmb_mes_fin"];
-	$cmb_dia_fin = $_POST["cmb_dia_fin"];
-	$HoraIni  = $_POST["HoraIni"];
-	$MinIni = $_POST["MinIni"];
-	$HoraFin = $_POST["HoraFin"];
-	$MinFin = $_POST["MinFin"];
+	$cmb_ano = isset($_REQUEST["cmb_ano"])?$_REQUEST["cmb_ano"]:"";
+	$cmb_mes = isset($_REQUEST["cmb_mes"])?$_REQUEST["cmb_mes"]:"";
+	$cmb_dia = isset($_REQUEST["cmb_dia"])?$_REQUEST["cmb_dia"]:"";
+	$cmb_ano_fin = isset($_REQUEST["cmb_ano_fin"])?$_REQUEST["cmb_ano_fin"]:"";
+	$cmb_mes_fin = isset($_REQUEST["cmb_mes_fin"])?$_REQUEST["cmb_mes_fin"]:"";
+	$cmb_dia_fin = isset($_REQUEST["cmb_dia_fin"])?$_REQUEST["cmb_dia_fin"]:"";
+	$HoraIni  = isset($_REQUEST["HoraIni"])?$_REQUEST["HoraIni"]:"";
+	$MinIni   = isset($_REQUEST["MinIni"])?$_REQUEST["MinIni"]:"";
+	$HoraFin  = isset($_REQUEST["HoraFin"])?$_REQUEST["HoraFin"]:"";
+	$MinFin   = isset($_REQUEST["MinFin"])?$_REQUEST["MinFin"]:"";
 
-	$USUARIO = $_POST["USUARIO"];
-	$SISTEMA = $_POST["SISTEMA"];
-	$TIPO_CONSULTA = $_POST["TIPO_CONSULTA"];
-	$TIPO_GRAF     = $_POST["TIPO_GRAF"];
+	$USUARIO = isset($_REQUEST["USUARIO"])?$_REQUEST["USUARIO"]:"";
+	$SISTEMA = isset($_REQUEST["SISTEMA"])?$_REQUEST["SISTEMA"]:"";
+	$TIPO_CONSULTA = isset($_REQUEST["TIPO_CONSULTA"])?$_REQUEST["TIPO_CONSULTA"]:"";
+	$TIPO_GRAF     = isset($_REQUEST["TIPO_GRAF"])?$_REQUEST["TIPO_GRAF"]:"";
 
-	$Fecha1 = $cmb_ano."-".$cmb_mes."-".$cmb_dia;
+	$Fecha1     = $cmb_ano."-".$cmb_mes."-".$cmb_dia;
 	$Fecha1_Aux = $Fecha1;
-	$Fecha2 = $cmb_ano_fin."-".$cmb_mes_fin."-".$cmb_dia_fin;
-	$Hora1 = $HoraIni.":".$MinIni.":00";
-	$Hora2 = $HoraFin.":".$MinFin.":59";
+	$Fecha2     = $cmb_ano_fin."-".$cmb_mes_fin."-".$cmb_dia_fin;
+	$Hora1      = $HoraIni.":".$MinIni.":00";
+	$Hora2      = $HoraFin.":".$MinFin.":59";
 	$i = 0;
 	while (date($Fecha1) <= date($Fecha2))
 	{
@@ -157,14 +157,13 @@ $plot->SetDataValues($data);
 $plot->SetDataType('data-data');
 $plot->DrawGraph();
 */
-
 //Define the object
 //$graph = new PHPlot(750,420,"","");
-
 //$graph = new PHPlot(700,400,"","../imagenes/fondo5.jpg");
 //$graph->background_done = 1;  //The image background we get from 0cars.jpg
 
-$graph = new phplot(750,420);
+//$graph = new PHPlot(750,420,"","");
+$graph = new Phplot\Phplot\phplot(750, 420);
 
 $graph->SetDataValues($Array);//ARREGLO QUE TIENE LOS DATOS
 $graph->SetPlotType($TIPO_GRAF);//TIPO DE GRAFICO
@@ -178,7 +177,7 @@ $graph->SetLegend(array('Cantidad de Usuarios')); //Lets have a legend
 $graph->SetDrawDataLabels('1');
 $graph->SetXDataLabelAngle(90);//POSICION DE LOS DATOS DE X
 $graph->SetLabelScalePosition('1');
-$graph->SetTitle("N� de Usuarios que Accesan entre ".$Fecha1_Aux." y ".$Fecha2."");
+$graph->SetTitle("N° de Usuarios que Accesan entre ".$Fecha1_Aux." y ".$Fecha2."");
 //Set Output format
 //$graph->SetFileFormat("png");
 //Draw it
