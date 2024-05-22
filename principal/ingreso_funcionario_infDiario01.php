@@ -4,13 +4,12 @@
 	//mysql_select_db("informe_diario", $link);
 	include("../principal/conectar_principal.php");
 
-	$Proceso = $_GET["Proceso"];
-
-	$CmbGrupo       = $_POST["CmbGrupo"];
-	$TxtDescripcion = $_POST["TxtDescripcion"]; 
-	$TxtNombres     = $_POST["TxtNombres"]; 
-	$TxtPassword    = $_POST["TxtPassword"]; 
-	$TxtRut         = $_POST["TxtRut"];
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtRut       = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtNombres   = isset($_REQUEST["TxtNombres"])?$_REQUEST["TxtNombres"]:"";
+	$TxtPassword  = isset($_REQUEST["TxtPassword"])?$_REQUEST["TxtPassword"]:"";
+	$CmbGrupo     = isset($_REQUEST["CmbGrupo"])?$_REQUEST["CmbGrupo"]:"";
+	$TxtDescripcion     = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
 
 
   $Consulta="SELECT * from informe_diario.usuarios where Grupo = '".$CmbGrupo."' and DESCRIPCION_GRUPO !=''";
@@ -28,7 +27,7 @@
 			if ($Row=mysqli_fetch_array($Resp))
 			{
 					$actualizo="UPDATE informe_diario.usuarios set PASSWORD = '".strtoupper(trim($TxtPassword))."',";
-					$actualizo.="Grupo = '".$CmbGrupo."', DESCRIPCION_GRUPO = '".$TxtDescripcion."' where rut = '".$TxtRut."'";
+					$actualizo.="NOMBRE_APELLIDO = '".$TxtNombres."', Grupo = '".$CmbGrupo."', DESCRIPCION_GRUPO = '".$TxtDescripcion."' where rut = '".$TxtRut."'";
 					//echo $actualizo;
 					mysqli_query($link, $actualizo);
 			}

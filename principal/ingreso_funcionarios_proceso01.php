@@ -10,13 +10,7 @@
 
 	//Frm.action="ingreso_funcionarios_proceso01.php?Proceso="+Proceso+"&TxtCodigo="+Frm.TxtCodigo.value+"&CmbCCosto2="+Frm.CmbCCosto2.value+"&Valores="+Valores;
 
-	//VARIABLES POST
-	if(isset($_POST["CmbRut"])){
-	$CmbRut=$_POST["CmbRut"];
-	}else{
-		$CmbRut="";
-	}
-
+	$CmbRut    = isset($_REQUEST["CmbRut"])?$_REQUEST["CmbRut"]:"";
 	$TxtNombres    = isset($_REQUEST["TxtNombres"])?$_REQUEST["TxtNombres"]:"";
 	$TxtApePaterno = isset($_REQUEST["TxtApePaterno"])?$_REQUEST["TxtApePaterno"]:"";
 	$TxtApeMaterno = isset($_REQUEST["TxtApeMaterno"])?$_REQUEST["TxtApeMaterno"]:"";

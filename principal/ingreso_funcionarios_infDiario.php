@@ -3,35 +3,12 @@
 <?php 	
 include("../principal/conectar_principal.php");
 
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
+$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$TxtRut   = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+$TxtNombres   = isset($_REQUEST["TxtNombres"])?$_REQUEST["TxtNombres"]:"";
+$TxtPassword  = isset($_REQUEST["TxtPassword"])?$_REQUEST["TxtPassword"]:"";
+$CmbGrupo     = isset($_REQUEST["CmbGrupo"])?$_REQUEST["CmbGrupo"]:"";
 
-	if(isset($_POST["TxtRut"])){
-		$TxtRut = $_POST["TxtRut"];
-	}else{
-		$TxtRut = "";
-	}
-	if(isset($_POST["TxtNombres"])){
-		$TxtNombres = $_POST["TxtNombres"];
-	}else{
-		$TxtNombres = "";
-	}
-	if(isset($_POST["TxtPassword"])){
-		$TxtPassword = $_POST["TxtPassword"];
-	}else{
-		$TxtPassword = "";
-	}
-
-	if(isset($_POST["CmbGrupo"])){
-		$CmbGrupo = $_POST["CmbGrupo"];
-	}else{
-		$CmbGrupo = "";
-	}
-
-	
 
 	$CodigoDeSistema = 99;
 	$CodigoDePantalla = 12;
@@ -39,20 +16,20 @@ include("../principal/conectar_principal.php");
 	//$CodigoDeSistema = $_POST["CodSist"];
 	//$CodigoDePantalla = $_POST["CodPant"];
 	//f.Pagina.value=url;
-
-
 	$encuentro=0;
 	if ($Proceso=="M")
 	{
 		$Consulta = "SELECT * from informe_diario.usuarios where RUT = '".$TxtRut."'";
 		$resp=mysqli_query($link, $Consulta);
+		//$row = mysqli_fetch_array($resp);
+		//var_dump($row);
 		if ($row = mysqli_fetch_array($resp))
 		{
 		
-			$encuentro = 1;
-			$TxtRut = $row["RUT"];
-			$TxtNombres = $row["NOMBRE_APELLIDO"];
-			$TxtGrupo = $row["Grupo"];
+			$encuentro   = 1;
+			$TxtRut      = $row["RUT"];
+			$TxtNombres  = $row["NOMBRE_APELLIDO"];
+			$CmbGrupo    = $row["Grupo"];
 			$TxtPassword = $row["PASSWORD"];
 		}
 	}
