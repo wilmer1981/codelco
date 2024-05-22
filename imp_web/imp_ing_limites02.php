@@ -1,38 +1,13 @@
 <?php
 
-	if(isset($_REQUEST["Proceso"])){
-		$Proceso = $_REQUEST["Proceso"];
-	}else {
-		$Proceso = "";
-	}
-
-	if(isset($_REQUEST["Producto"])){
-		$Producto = $_REQUEST["Producto"];
-	}else {
-		$Producto = "";
-	}
-	if(isset($_REQUEST["Ley"])){
-		$Ley = $_REQUEST["Ley"];
-	}else {
-		$Ley = "";
-	}
-
-	if(isset($_REQUEST["Proveedor"])){
-		$Proveedor = $_REQUEST["Proveedor"];
-	}else {
-		$Proveedor = "";
-	}
-
+$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Producto  = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+$Ley       = isset($_REQUEST["Ley"])?$_REQUEST["Ley"]:"";
+$Proveedor = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+$Limite = isset($_REQUEST["Limite"])?$_REQUEST["Limite"]:"0.0";
 
 	//$Limite = "0.0"; //Agregado por WSO
 	
-	if(isset($_REQUEST["Limite"])){
-		$Limite = $_REQUEST["Limite"];
-	}else {
-		$Limite = "0.0";
-	}
-
-
 	$OptBoton = "G";
 
 	if ($Proceso == "ML")
@@ -62,7 +37,7 @@
 		}
 		
 		include("../principal/cerrar_imp_web.php");
-		echo "Limite:".$Limite;
+		//echo "Limite:".$Limite;
 	}
 ?>
 <html>

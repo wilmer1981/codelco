@@ -1,39 +1,14 @@
 <?php
 	include("../principal/conectar_imp_web.php");
+
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Producto  = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$Leyes       = isset($_REQUEST["Leyes"])?$_REQUEST["Leyes"]:"";
+	$Proveedor = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Limite    = isset($_REQUEST["Limite"])?$_REQUEST["Limite"]:"0.0";
+	$CodLeyes    = isset($_REQUEST["CodLeyes"])?$_REQUEST["Limite"]:"CodLeyes";
 	
-	if(isset($_REQUEST["Proceso"])){
-		$Proceso = $_REQUEST["Proceso"];
-	}else {
-		$Proceso = "";
-	}
-	if(isset($_REQUEST["Leyes"])){
-		$Leyes = $_REQUEST["Leyes"];
-	}else {
-		$Leyes = "";
-	}
 
-	if(isset($_POST["Producto"])){
-		$Producto = $_POST["Producto"];
-	}else {
-		$Producto = "";
-	}
-	if(isset($_POST["Proveedor"])){
-		$Proveedor = $_POST["Proveedor"];
-	}else {
-		$Proveedor = "";
-	}
-
-	if(isset($_POST["CodLeyes"])){
-		$CodLeyes = $_POST["CodLeyes"];
-	}else {
-		$CodLeyes = "";
-	}
-
-	if(isset($_POST["Limite"])){
-		$Limite = $_POST["Limite"];
-	}else {
-		$Limite = "";
-	}
 /*
 echo "Proceso:".$Proceso;
 echo "<br>Producto:".$Producto;
@@ -42,8 +17,6 @@ echo "<br>CodLeyes:".$CodLeyes;
 echo "<br>Leyes:".$Leyes;
 echo "<br>Limite:".$Limite;
 exit();
-
-
 */
 
 	switch ($Proceso)
@@ -82,13 +55,15 @@ exit();
 			break;
 		case "ML":
 			$Limite=str_replace(",",".",$Limite);
-			$Actualizar = "UPDATE limites set ";
-			$Actualizar.= " limite = ".$Limite;
+			$Actualizar = "UPDATE limites SET ";
+			$Actualizar.= " limite = '".$Limite."'";
 			$Actualizar.= " where ";
 			$Actualizar.= " tipo_producto = '".$Producto."'";
 			if ($Proveedor == "")
 				$Actualizar.= " and rut_proveedor = '000000000'";
-			else	$Actualizar.= " and rut_proveedor = '".$Proveedor."'";
+			else	
+				$Actualizar.= " and rut_proveedor = '".$Proveedor."'";
+
 			$Actualizar.= " and cod_leyes = '".$Leyes."'";
 			mysqli_query($link, $Actualizar);
 			echo "<script language='JavaScript'>";

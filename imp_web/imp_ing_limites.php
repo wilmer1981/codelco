@@ -11,24 +11,9 @@
 	}
 	include("../principal/cerrar_principal.php");	
 
-	if(isset($_REQUEST["Producto"])){
-		$Producto = $_REQUEST["Producto"];
-	}else {
-		$Producto = "";
-	}
-	if(isset($_REQUEST["Proveedor"])){
-		$Proveedor = $_REQUEST["Proveedor"];
-	}else {
-		$Proveedor = "";
-	}
-	
-	if(isset($_REQUEST["NomBuscado"])){
-		$NomBuscado = $_REQUEST["NomBuscado"];
-	}else {
-		$NomBuscado = "";
-	}
-
-
+	$Producto  = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$Proveedor = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$NomBuscado= isset($_REQUEST["NomBuscado"])?$_REQUEST["NomBuscado"]:"";
 	
 ?>	
 <html>
@@ -209,7 +194,7 @@ body {
         <div style="position:absolute;width:565px;height:217px;top:180px;left:140px;overflow:auto"> 
           <table width="547" border="1" cellpadding="0" align="left" cellspacing="0" id="TablaDetalle">
             <?php
-	if (isset($Producto))
+	if ($Producto!="")
 	{
 		$sql = "SELECT * from limites ";
 		if ($Producto!="000")
