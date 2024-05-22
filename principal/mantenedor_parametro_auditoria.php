@@ -3,17 +3,13 @@
 	$CodigoDeSistema = 99;
 	$CodigoDePantalla = 14;
 
-	if(isset($_GET["mensaje"])){
-		$mensaje = $_GET["mensaje"];
-	}else{
-		$mensaje = "";
-	}
+	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	
 
 ?>
 <html>
 <head>
-<title>Par�metros de Auditor�a</title>
+<title>Par&aacute;metros de Auditor&iacute;a</title>
 <link href="estilos/css_principal.css" rel="stylesheet" type="text/css">
 <style>
 #postit{
@@ -55,11 +51,11 @@ function verMensaje(Msj)
 	switch(Msj)
 	{
 		case "E":
-			var msj='Datos modificados con �xito';
+			var msj='Datos modificados con éxito';
 			alert(msj);
 			break;
 		case "I":
-			var msj='Ingrese solo valores num�ricos';
+			var msj='Ingrese solo valores numéricos';
 			alert(msj);
 			break;
 	}
@@ -106,8 +102,8 @@ a:active {
           <br> 
         <table width="550" border="1" align="center" cellpadding="1" cellspacing="0" class="TablaDetalle">
           <tr align="center" class="ColorTabla01"> 
-            <td width="10%"><strong><label>C�digo</label></strong></td>
-            <td width="50%"><strong><label>Descripci�n</label></strong></td>
+            <td width="10%"><strong><label>C&oacute;digo</label></strong></td>
+            <td width="50%"><strong><label>Descripci&oacute;n</label></strong></td>
             <td width="15%"><strong><label>Valor</label></strong></td>
           </tr>
 <?php 
