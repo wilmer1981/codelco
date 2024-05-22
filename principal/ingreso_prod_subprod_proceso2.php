@@ -2,22 +2,11 @@
 	//include("../principal/conectar_comet_web.php");
 	include("conectar_principal.php");
 
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-	if(isset($_GET["Valores"])){
-		$Valores = $_GET["Valores"];
-	}else{
-		$Valores = "";
-	}
-	
-	if(isset($_GET["cod_subproducto"])){
-		$cod_subproducto = $_GET["cod_subproducto"];
-	}else{
-		$cod_subproducto = "";
-	}
+	$Proceso         = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+    $Valores         = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$cod_subproducto = isset($_REQUEST["cod_subproducto"])?$_REQUEST["cod_subproducto"]:"";
+
+	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";
 
 	$Datos=explode('//',$Valores);
 	$TxtCodigo=$Datos[0];
@@ -240,7 +229,7 @@ function Salir()
 			</tr>
 			
 			<tr> 
-            <td>Descripci�n Etiqueta </td>
+            <td>Descripci&oacute;n Etiqueta </td>
             <td colspan="3"><input type="text" name="TxtEtiqueta" size="50" maxlength="50" value="<?php echo $TxtEtiqueta;?>">
 			</tr>
 
@@ -279,7 +268,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroCoincidencia))
+	if ($EncontroCoincidencia!="")
 	{
 		if ($EncontroCoincidencia==true)
 		{

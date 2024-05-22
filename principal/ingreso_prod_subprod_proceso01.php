@@ -4,7 +4,6 @@
 	
 	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
     $Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";	
-
 	$TxtCodigo      = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
 	$TxtDescripcion = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
 	$TxtValor1 = isset($_REQUEST["TxtValor1"])?$_REQUEST["TxtValor1"]:"";

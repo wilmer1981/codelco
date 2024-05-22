@@ -2,19 +2,14 @@
 	//include("../principal/conectar_comet_web.php");
 	include("conectar_principal.php");
 
-	if(isset($_GET["Proceso"])){
-		$Proceso = $_GET["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 
 	if($Proceso=='MC'){
 		//$TxtDescripcion = $_POST["TxtDescripcion"];
 		//$TxtValor1 = $_POST["TxtValor1"];
 		//$TxtValor2 = $_POST["TxtValor2"];
 		//$TxtValor3 = $_POST["TxtValor3"];
-		$Valores = $_GET["Valores"];
+		$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";	
 	}else{
 		$TxtDescripcion = '';
 		$TxtValor1 = '';
