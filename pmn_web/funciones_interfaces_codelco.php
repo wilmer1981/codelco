@@ -175,7 +175,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 				$Consulta.= " on t1.num_certificado=t2.num_certificado and t1.version=t2.version ";
 				$Consulta.= " where t1.corr_enm = '".$FilaAux["corr_enm"]."' and (";
 				reset($ArregloLeyes);
-				while (list($k,$v)=each($ArregloLeyes))
+				foreach($ArregloLeyes as $k=>$v)
 				{
 					$Consulta.= " t2.cod_leyes='".$v["cod_leyes"]."' or";
 				}
@@ -226,7 +226,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
                     $Consulta.= " (t1.fecha_hora between '".$AnoResto."-01' and '".$AnoResto."-31'  or t1.fecha_hora between '".$AnoResto."-31' and '".$FechaControl1."')";
                     $Consulta.= " and ( ";
                     reset($ArregloLeyes);
-                    while (list($k,$v)=each($ArregloLeyes))
+                    foreach($ArregloLeyes as $k=>$v)
                     {
                           $Consulta.= " t1.cod_leyes='".$v["cod_leyes"]."' or";
                     }
@@ -304,7 +304,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$Consulta.= " WHERE t3.cod_producto = '34' AND t3.cod_subproducto = '2'";
 			$Consulta.= " and t2.num_barra='".$FilaAux["num_barra"]."' and ( ";
 			reset($ArregloLeyes);
-			while (list($k,$v)=each($ArregloLeyes))
+			foreach($ArregloLeyes as $k=>$v)
 			{
 				$Consulta.= " t4.cod_leyes='".$v["cod_leyes"]."' or";
 			}
@@ -399,7 +399,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
    
    		$Consulta.= " AND (t2.num_electrolisis = '".$FilaAux["num_electrolisis"]."' or t2.num_electrolisis = '".$pp."'+'".$FilaAux["num_electrolisis"]."') and (";
 			reset($ArregloLeyes);
-			while (list($k,$v)=each($ArregloLeyes))
+			foreach($ArregloLeyes as $k=>$v)
 			{
 				$Consulta.= " t5.cod_leyes='".$v["cod_leyes"]."' or";
 			}

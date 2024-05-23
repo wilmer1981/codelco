@@ -2,37 +2,13 @@
 	$CodigoDeSistema = 21;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_principal.php");
-	if (!isset($CmbMovimiento))
-		$CmbMovimiento="101";
 
-		if(isset($_REQUEST["CmbSubProducto"])){
-			$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-		}else {
-			$CmbSubProducto = "";
-		}
-
-		if(isset($_REQUEST["Mostrar"])){
-			$Mostrar = $_REQUEST["Mostrar"];
-		}else {
-			$Mostrar = "";
-		}
-		if(isset($_REQUEST["Mensaje"])){
-			$Mensaje = $_REQUEST["Mensaje"];
-		}else {
-			$Mensaje = "";
-		}
-
-		//Si mostrar=S
-		if(isset($_REQUEST["Ano"])){
-			$Ano = $_REQUEST["Ano"];
-		}else {
-			$Ano = "";
-		}
-		if(isset($_REQUEST["Mes"])){
-			$Mes = $_REQUEST["Mes"];
-		}else {
-			$Mes = "";
-		}
+	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"101";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 ?>
 <html>
 <head>
@@ -55,7 +31,7 @@ function Proceso(opt)
 			//alert(Valores);
 			if(Valores!='')
 			{	
-				if(confirm('�Esta Seguro de Traspasar Los Datos?'))
+				if(confirm('¿Esta Seguro de Traspasar Los Datos?'))
 				{
 					f.action = "traspaso_recepcion01.php?Valores="+Valores+"&Proceso=G";
 					f.submit();

@@ -216,6 +216,7 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 	$SumHumedad=0;
 	$RespProd = mysqli_query($link, $Consulta);
 	$TotalPesoHumProd=0;$TotalPesoSecoProd=0;$TotalPesoTaraProd=0;$TotalPesoBrutoProd=0;$TotalPesoNetoProd=0;$TotalPesoSecoProd_R2=0;
+	$TotalPesoSecoProd_R=0;
 	while ($FilaProd=mysqli_fetch_array($RespProd))
 	{
 		$ArrDatosLote=array();
@@ -259,8 +260,13 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 		$TotalPesoNetoProd=$TotalPesoNetoProd + $ArrDatosLote["peso_neto"];
 		reset($ArrLeyesLote);
 		foreach($ArrLeyesLote as $k => $v)
-		{
-			if ($ArrDatosLote["peso_seco2"]!=0 && $v[2]!=0 && $v[5]!=0) 
+		{   $peso_seco2 = isset($ArrDatosLote["peso_seco2"])?$ArrDatosLote["peso_seco2"]:0;
+			$v1 = isset($v[1])?$v[1]:"";
+			$v2 = isset($v[2])?$v[2]:0;
+			$v3 = isset($v[3])?$v[3]:"";
+			$v4 = isset($v[4])?$v[4]:"";
+			$v5 = isset($v[5])?$v[5]:0;
+			if ($peso_seco2!=0 && $v2!=0 && $v5!=0) 
 			{
 				//SUMA LAS HUMEDADES PARA LUEGO COMPARAR SI TIENE ALGO O NO
 				if ($k=="01")
@@ -306,9 +312,12 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 						break;
 				}				
 			}	
-			$ArrLeyesProd[$v[0]][3] = $v[3];//COD UNIDAD
+			/*$ArrLeyesProd[$v[0]][3] = $v[3];//COD UNIDAD
 			$ArrLeyesProd[$v[0]][4] = $v[4];//NOM UNIDAD
-			$ArrLeyesProd[$v[0]][5] = $v[5];//CONVERSION
+			$ArrLeyesProd[$v[0]][5] = $v[5];//CONVERSION*/
+			$ArrLeyesProd[$k][3] = $v[3];//COD UNIDAD
+			$ArrLeyesProd[$k][4] = $v[4];//NOM UNIDAD
+			$ArrLeyesProd[$k][5] = $v[5];//CONVERSION
 		}
 	}
 	if ($TotalPesoSecoProd>0 && $TotalPesoHumProd>0 && $SumHumedad!=0)
@@ -586,8 +595,11 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 		$TotalPesoNetoProv=$TotalPesoNetoProv + $ArrDatosLote["peso_neto"];
 		reset($ArrLeyesLote);
 		foreach($ArrLeyesLote as $k => $v)
-		{
-			if ($v[2]!=0 && $v[5]!=0)// $ArrDatosLote["peso_seco2"]!=0 && 
+		{	$v2 = isset($v[2])?$v[2]:0;
+			$v3 = isset($v[3])?$v[3]:0;
+			$v4 = isset($v[4])?$v[4]:0;
+		    $v5 = isset($v[5])?$v[5]:0;
+			if ($v2!=0 && $v5!=0)// $ArrDatosLote["peso_seco2"]!=0 && 
 			{
 				//SUMA LAS HUMEDADES PARA LUEGO COMPARAR SI TIENE ALGO O NO
 				if ($k=="01")
@@ -637,9 +649,12 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 						break;
 				}				
 			}				
-			$ArrLeyesProv[$v[0]][3] = $v[3];//COD UNIDAD
+			/*$ArrLeyesProv[$v[0]][3] = $v[3];//COD UNIDAD
 			$ArrLeyesProv[$v[0]][4] = $v[4];//NOM UNIDAD
-			$ArrLeyesProv[$v[0]][5] = $v[5];//CONVERSION
+			$ArrLeyesProv[$v[0]][5] = $v[5];//CONVERSION*/
+			$ArrLeyesProv[$k][3] = $v3;//COD UNIDAD
+			$ArrLeyesProv[$k][4] = $v4;//NOM UNIDAD
+			$ArrLeyesProv[$k][5] = $v5;//CONVERSION
 		}
 	}
 	
@@ -765,8 +780,8 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 				$Consulta.= " and (";
 				reset($LeyesPond);
 				foreach($LeyesPond as $k => $v)
-				{			
-					$Consulta.= " t1.cod_leyes='".$v[0]."' or";
+				{	$v0 = isset($v[0])?$v[0]:"";			
+					$Consulta.= " t1.cod_leyes='".$v0."' or";
 				}
 				$Consulta = substr($Consulta,0,strlen($Consulta)-3);
 				$Consulta.= ")";
@@ -1063,8 +1078,12 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 					}
 					else
 					{*/
-						$LeyesPond[$key][23] = ($Lote["peso_seco2"] * $LeyesPond[$key][2])/$LeyesPond[$key][5];
-						$LeyesPond[$key][9] = ($Lote["peso_seco2"] * $LeyesPond[$key][8])/$LeyesPond[$key][5];//FINO CANJE
+						$LeyesPond2 = isset($LeyesPond[$key][2])?$LeyesPond[$key][2]:0;				
+				        $LeyesPond5 = isset($LeyesPond[$key][5])?$LeyesPond[$key][5]:0;
+						$LeyesPond8 = isset($LeyesPond[$key][8])?$LeyesPond[$key][8]:0;
+
+						$LeyesPond[$key][23] = ($Lote["peso_seco2"] * $LeyesPond2)/$LeyesPond5;
+						$LeyesPond[$key][9] = ($Lote["peso_seco2"] * $LeyesPond8)/$LeyesPond5;//FINO CANJE
 					//}
 					break;
 			}			

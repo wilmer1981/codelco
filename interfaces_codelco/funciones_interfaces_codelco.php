@@ -1,6 +1,6 @@
 <?php
 
-function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE,$Orden,$Archivo1,$Archivo2,$Archivo3,$SAP_TipoMov,$SAP_OrdenProd_Manual,$SAP_ClaseValoriz_Manual,$CorrIE)
+function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE,$Orden,$Archivo1,$Archivo2,$Archivo3,$SAP_TipoMov,$SAP_OrdenProd_Manual,$SAP_ClaseValoriz_Manual,$CorrIE,$link)
 {
 	$AnoMenos = $AnoAux - 1;
 	$Consulta = "select  t0.cod_bulto, t0.num_bulto, t0.cod_marca, t0.corr_enm, t3.abreviatura as descripcion, tt.fecha_disponible, ";
@@ -97,7 +97,7 @@ function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE
 		$SAP_Status = "";
 		$SAP_Msg = "";				
 		
-		OrdenProduccionSap($FilaAux["asignacion"],$FilaAux["cod_producto"],$FilaAux["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro);								
+		OrdenProduccionSap($FilaAux["asignacion"],$FilaAux["cod_producto"],$FilaAux["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
 		$Linea = str_pad($SAP_Tipo,1," ",STR_PAD_LEFT);
 		$Linea.= str_pad($SAP_FechaDoc,10," ",STR_PAD_LEFT);
 		$Linea.= str_pad($SAP_FechaCon,10," ",STR_PAD_LEFT);
@@ -116,8 +116,8 @@ function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE
 		InsertarLineaTmp($CorrIE,'1',$Linea);
 		//fwrite($Archivo1,$Linea."\r\n");
 		$FechaRenov='';
-		CreaArchivoLotePqtePqte($FilaAux["cod_grupo"],$CorrEnm,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdLote,$Archivo1,$FechaRenov,$CorrIE,$MarcaLote);
-		CreaArchivoLeyesPqtePqte($FilaAux["cod_grupo"],$CorrEnm,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdLote,$Archivo1,$FechaRenov,$SAP_Cantidad,$SAP_Unidad,$FilaAux["descrip_marca"],$FilaAux["num_paquetes"],$FilaAux["num_unidades"],$FilaAux["asignacion"],$SAP_Almacen,$SAP_FechaDoc,$SAP_OrdenProd,$CorrIE,$MarcaLote);
+		CreaArchivoLotePqtePqte($FilaAux["cod_grupo"],$CorrEnm,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdLote,$Archivo1,$FechaRenov,$CorrIE,$MarcaLote,$link);
+		CreaArchivoLeyesPqtePqte($FilaAux["cod_grupo"],$CorrEnm,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdLote,$Archivo1,$FechaRenov,$SAP_Cantidad,$SAP_Unidad,$FilaAux["descrip_marca"],$FilaAux["num_paquetes"],$FilaAux["num_unidades"],$FilaAux["asignacion"],$SAP_Almacen,$SAP_FechaDoc,$SAP_OrdenProd,$CorrIE,$MarcaLote,$link);
 		
 	}
 
@@ -151,9 +151,9 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 	$RespPqte=mysqli_query($link, $Consulta);
 	while($FilaPqte=mysqli_fetch_array($RespPqte))
 	{
-		$CodCircuitoEti=ObtieneCircuito($FilaPqte["cod_grupo"]);
+		$CodCircuitoEti=ObtieneCircuito($FilaPqte["cod_grupo"],$link);
 		$FechaPqte=explode('-',$FilaPqte["fecha_creacion_paquete"]);
-		$FechaRenov=ObtieneFechaRenov($FilaPqte["cod_grupo"],$FechaPqte[1],$FechaPqte[2],$FechaPqte[0]);
+		$FechaRenov=ObtieneFechaRenov($FilaPqte["cod_grupo"],$FechaPqte[1],$FechaPqte[2],$FechaPqte[0],$link);
 		$FechaCreaGrupoDatos=explode('-',$FechaRenov);
 	
 	//MFM Axity $id_paquete='VE-REF-'.str_pad($FechaCreaGrupoDatos[2],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[1],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[0],4,"0").'-'.str_pad($CodCircuitoEti,2,"0",STR_PAD_LEFT).str_pad($FilaPqte["cod_grupo"],2,"0",STR_PAD_LEFT).'-'.$FilaPqte[cod_paquete]."-".str_pad($FilaPqte["num_paquete"],5,"0",STR_PAD_LEFT);
@@ -167,14 +167,14 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 		$LOTE_SAP=str_pad(str_pad($FilaPqte["corr_enm"],5,'0',STR_PAD_LEFT).substr($AnoAux,2,2).str_pad($Grupo,2,'0',STR_PAD_LEFT),10,' ',STR_PAD_RIGHT);
 		$NRO_GUIA=str_pad($FilaPqte["num_guia"],10,' ',STR_PAD_RIGHT);
 		$CONTAINER=str_pad('',30,' ',STR_PAD_RIGHT);
-		$PNETO=str_pad(number_format($FilaPqte[peso_paquetes],3,'.',''),8,' ',STR_PAD_LEFT);
-		$PBRUTO=str_pad(number_format($FilaPqte[peso_paquetes]+1,3,'.',''),8,' ',STR_PAD_LEFT);
+		$PNETO=str_pad(number_format($FilaPqte["peso_paquetes"],3,'.',''),8,' ',STR_PAD_LEFT);
+		$PBRUTO=str_pad(number_format($FilaPqte["peso_paquetes"]+1,3,'.',''),8,' ',STR_PAD_LEFT);
 		// MFM Axity $LOTE_PROD='VEN'.str_pad($FechaCreaGrupoDatos[2],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[1],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[0],4,"0",STR_PAD_LEFT).str_pad($CodCircuitoEti,2,"0",STR_PAD_LEFT).str_pad($FilaPqte["cod_grupo"],2,'0',STR_PAD_LEFT);
 		
 
 		$LOTE_PROD='VEN'.str_pad($FechaPqte[2],2,"0",STR_PAD_LEFT).str_pad($FechaPqte[1],2,"0",STR_PAD_LEFT).$FechaPqte[0].str_pad($CodCircuitoEti,2,"0",STR_PAD_LEFT).str_pad($FilaPqte["cod_grupo"],2,'0',STR_PAD_LEFT);
 				
-		$DatosIdPaquete=explode('-',$FilaPqte[id_paquete]);
+		$DatosIdPaquete=explode('-',$FilaPqte["id_paquete"]);
 		$FECHA_COS=str_pad($FechaPqte[2],2,"0",STR_PAD_LEFT).str_pad($FechaPqte[1],2,"0",STR_PAD_LEFT).$FechaPqte[0];
 		$COD_PAQTE=str_pad($FilaPqte["num_paquete"],8,' ',STR_PAD_LEFT);
 		$PLANTA=str_pad('VENTANAS',25,' ',STR_PAD_RIGHT);
@@ -293,8 +293,8 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 	$L_SAP_UnidadPeso = "";
 	$L_SAP_Centro = "";
 	$L_SAP_FormaEmpaque01 = "";
-	Homologar($ProdAux,$SubProdAux,$L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01);
-	OrdenProduccionSap($Asignacion,$ProdAux,$SubProdAux,$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro);								
+	Homologar($ProdAux,$SubProdAux,$L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01,$link);
+	OrdenProduccionSap($Asignacion,$ProdAux,$SubProdAux,$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
 	if($FechaRenov!='')
 	{	
 		$FechaCreaGrupoDatos=explode('-',$FechaRenov);
@@ -453,7 +453,7 @@ function ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdL
 		$FechaR=explode('-',$FilaPqte["fecha_creacion_paquete"]);
 		if(intval($Grupo)<50)
 		{
-			$FechaRenov=ObtieneFechaRenov(intval($Grupo),$FechaR[1],$FechaR[2],$FechaR[0]);
+			$FechaRenov=ObtieneFechaRenov(intval($Grupo),$FechaR[1],$FechaR[2],$FechaR[0],$link);
 			if($FechaRenov!='')
 			{			
 				$DatoFecha=explode('-',$FechaRenov);
@@ -534,7 +534,7 @@ function Homologar($ProdAux, $SubProdAux, $CodSap, $Unidad, $CentroHomo, $CodEmp
 	}
 }
 
-function OrdenProduccionSap($Asignacion,$Prod,$SubProd,$OrdenProd,$CodMatSAP,$UnidSAP,$ClaseValorAux,$Centro)	
+function OrdenProduccionSap($Asignacion,$Prod,$SubProd,$OrdenProd,$CodMatSAP,$UnidSAP,$ClaseValorAux,$Centro,$link)	
 {
 
 	$Consulta = "select * from interfaces_codelco.ordenes_produccion ";
@@ -695,7 +695,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 				$Consulta.= " on t1.num_certificado=t2.num_certificado and t1.version=t2.version ";
 				$Consulta.= " where t1.corr_enm = '".$FilaAux["corr_enm"]."' and (";
 				reset($ArregloLeyes);
-				while (list($k,$v)=each($ArregloLeyes))
+				foreach($ArregloLeyes as $k=>$v)
 				{
 					$Consulta.= " t2.cod_leyes='".$v["cod_leyes"]."' or";
 				}
@@ -756,7 +756,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
                     $Consulta.= " (t1.fecha_hora between '".$AnoResto."-01' and '".$AnoResto."-31'  or t1.fecha_hora between '".$AnoResto."-31' and '".$FechaControl1."')";
                     $Consulta.= " and ( ";
                     reset($ArregloLeyes);
-                    while (list($k,$v)=each($ArregloLeyes))
+					foreach($ArregloLeyes as $k=>$v)
                     {
                           $Consulta.= " t1.cod_leyes='".$v["cod_leyes"]."' or";
                     }
@@ -894,7 +894,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 				$Consulta.= " on t1.num_certificado=t2.num_certificado and t1.version=t2.version ";
 				$Consulta.= " where t1.corr_enm = '".$FilaAux["corr_enm"]."' and (";
 				reset($ArregloLeyes);
-				//while (list($k,$v)=each($ArregloLeyes))
+				//foreach($ArregloLeyes as $k=>$v)
 				foreach ($ArregloLeyes as $k => $v)
 				{
 					$Consulta.= " t2.cod_leyes='".$v["cod_leyes"]."' or";
@@ -956,7 +956,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
                     $Consulta.= " (t1.fecha_hora between '".$AnoResto."-01' and '".$AnoResto."-31'  or t1.fecha_hora between '".$AnoResto."-31' and '".$FechaControl1."')";
                     $Consulta.= " and ( ";
                     reset($ArregloLeyes);
-                    //while (list($k,$v)=each($ArregloLeyes))
+                    //foreach($ArregloLeyes as $k=>$v)
 					foreach ($ArregloLeyes as $k => $v)
                     {
                           $Consulta.= " t1.cod_leyes='".$v["cod_leyes"]."' or";
@@ -1037,7 +1037,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$Consulta.= " AND t2.lote='".$FilaAux["lote"]."' AND ( t4.cod_leyes=11 ";
 			reset($ArregloLeyes);
 
-			//while (list($k,$v)=each($ArregloLeyes))
+			//foreach($ArregloLeyes as $k=>$v)
 			foreach ($ArregloLeyes as $k => $v)
 			{
 				$Consulta.= " OR t4.cod_leyes='".$v["cod_leyes"]."' ";
@@ -1119,7 +1119,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$Consulta.= " WHERE t3.cod_producto = '34' AND t3.cod_subproducto = '2'";
 			$Consulta.= " and t2.num_barra='".$FilaAux["num_barra"]."' and ( ";
 			reset($ArregloLeyes);
-			//while (list($k,$v)=each($ArregloLeyes))
+			//foreach($ArregloLeyes as $k=>$v)
 			foreach ($ArregloLeyes as $k => $v)
 			{
 				$Consulta.= " t4.cod_leyes='".$v["cod_leyes"]."' or";
@@ -1224,7 +1224,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			//$Consulta.= " AND t2.num_electrolisis = '".$FilaAux["num_electrolisis"]."' and (";
    			$Consulta.= " AND (t2.num_electrolisis = '".$FilaAux["num_electrolisis"]."' or t2.num_electrolisis = '".$pp."'+'".$FilaAux["num_electrolisis"]."') and (";
 			reset($ArregloLeyes);
-			while (list($k,$v)=each($ArregloLeyes))
+			foreach($ArregloLeyes as $k=>$v)
 			{
 				$Consulta.= " t5.cod_leyes='".$v["cod_leyes"]."' or";
 			}
@@ -1331,7 +1331,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 				$Consulta.= " AND t1.fecha_venta BETWEEN '".$AnoAux."-".$MesAux."-01' AND '".$AnoAux."-".$MesAux."-31' ";			
 				$Consulta.= " AND (t2.recargo='0' or t2.recargo='' or t2.recargo = '1') and ( ";
 				reset($ArregloLeyes);
-			while (list($k,$v)=each($ArregloLeyes))
+			foreach($ArregloLeyes as $k=>$v)
 			{
 				$Consulta.= " t3.cod_leyes='".$v["cod_leyes"]."' or";
 			}
