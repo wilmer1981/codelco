@@ -101,7 +101,7 @@ function Proceso(opt)
             <td>S.A.</td>
             <?php
 	reset($ArrLeyes);
-	//while (list($k,$v)=each($ArrLeyes))
+	//foreach($ArrLeyes as $k=>$v)
 	foreach ($ArrLeyes as $k => $v)
 	{
 		echo "<td align='center'>".$v["nom_leyes"]."</td>\n";

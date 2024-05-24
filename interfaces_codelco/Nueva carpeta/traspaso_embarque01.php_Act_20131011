@@ -299,7 +299,7 @@ $ProdAux = explode("~",$Valores);
 					$L_SAP_MarcaLote = $Fila["descrip_marca"];
 					reset($ArrRespLeyes);
 					$pesoseco=0;
-					while (list($k,$Valor)=each($ArrRespLeyes))
+					foreach($ArrRespLeyes as $k=>$Valor)
 					{
 					   if ($Valor["cod_leyes"]=="01")
 					   {
@@ -661,7 +661,7 @@ $ProdAux = explode("~",$Valores);
 					$L_SAP_MarcaLote = $Fila["descrip_marca"];
 					reset($ArrRespLeyes);
 					$pesoseco=0;
-					while (list($k,$Valor)=each($ArrRespLeyes))
+					foreach($ArrRespLeyes as $k=>$Valor)
 					{
 					   if ($Valor["cod_leyes"]=="01")
 					   {

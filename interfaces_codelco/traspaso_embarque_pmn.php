@@ -452,7 +452,7 @@ if ($Mostrar == "S")
 	$SubProdAnt = "";
 	$DescAnt    = "";
 	reset($ArrResp);
-	//while (list($k,$Fila)=each($ArrResp))
+	//foreach($ArrResp as $k=>$Fila)
 	foreach ($ArrResp as $k => $Fila)
 	{
 		$Referencia="";

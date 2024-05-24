@@ -215,13 +215,13 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 	//echo "GRUPO: ".$Grupo."<br><br>";
 	DefinirArregloLeyes("18",'',$ArrRespLeyes);
 	reset($ArrRespLeyes);
-	//while (list($k,$Valor)=each($ArrRespLeyes))
+	//foreach($ArrRespLeyes as $k=>$Valor)
 	foreach ($ArrRespLeyes as $k => $Valor)
 	{
 		$ArrRespLeyes[$k]=0;
 	}
 	reset($ArrRespLeyes);
-	//while (list($k,$Valor)=each($ArrRespLeyes))
+	//foreach($ArrRespLeyes as $k=>$Valor)
 	foreach ($ArrRespLeyes as $k => $Valor)
 	{
 		$Consulta="select cod_leyes,valor from cal_web.leyes_por_solicitud where nro_solicitud='".$SA."' and cod_leyes='".$k."'";
@@ -242,7 +242,7 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 		//echo $FilaSA["cod_leyes"]."  ".$FilaSA["valor"]."<br>";	
 	}*/
 	reset($ArrRespLeyes);$L_SAP_Leyes='';
-	//while (list($k,$Valor)=each($ArrRespLeyes))
+	//foreach($ArrRespLeyes as $k=>$Valor)
 	foreach ($ArrRespLeyes as $k => $Valor)
 	{
 		

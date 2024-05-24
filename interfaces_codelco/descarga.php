@@ -40,7 +40,7 @@ body {
 function DelFile(arch)
 {
 	var f=document.frmDescarga;
-	var msg=confirm("�Desea Eliminar este Archivo?");
+	var msg=confirm("¿Desea Eliminar este Archivo?");
 	if (msg==true)
 	{
 		f.action="descarga.php?Elim=S&ArchivoElim="+arch;

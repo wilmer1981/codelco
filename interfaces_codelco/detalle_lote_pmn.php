@@ -1,5 +1,10 @@
 <?php
 	include("../principal/conectar_pmn_web.php");
+
+	$NumLote = isset($_REQUEST["NumLote"])?$_REQUEST["NumLote"]:"";
+	$Producto  = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
 	$ArrLeyes = array();
 	if ($Producto=="25" && $SubProducto=="1")//RESCATA BAD
 	{		
@@ -168,11 +173,9 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
@@ -188,7 +191,7 @@ body {
 	<td>S.A.</td>
 <?php
 	reset($ArrLeyes);
-	while (list($k,$v)=each($ArrLeyes))
+	foreach($ArrLeyes as $k=>$v)
 	{
 		echo "<td align='center'>".$v["nom_leyes"]."</td>\n";
 	}
@@ -245,7 +248,7 @@ body {
 			}									
 			echo "<td align='center'>".substr($SA,4)."</td>";
 			reset($ArrLeyes);
-			while (list($k,$f)=each($ArrLeyes))
+			foreach($ArrLeyes as $k=>$f)
 			{			
 				echo "<td align='center'>".number_format($f["valor"],3,",",".")."</td>\n";
 			}							
@@ -305,7 +308,7 @@ body {
 			}									
 			echo "<td align='center'>".substr($SA,4)."</td>";
 			reset($ArrLeyes);
-			while (list($k,$f)=each($ArrLeyes))
+			foreach($ArrLeyes as $k=>$f)
 			{			
 				echo "<td align='center'>".number_format($f["valor"],3,",",".")."</td>\n";
 			}							
@@ -382,7 +385,7 @@ body {
 				echo "<td align='right'>".number_format($Peso,0,",",".")."</td>";						
 				echo "<td align='center'>".substr($SA,4)."</td>";
 				reset($ArrLeyes);
-				while (list($k,$f)=each($ArrLeyes))
+				foreach($ArrLeyes as $k=>$f)
 				{			
 					echo "<td align='center'>".number_format($f["valor"],3,",",".")."</td>\n";
 				}							
@@ -466,7 +469,7 @@ body {
 			echo "<td align='right'>".number_format($Peso,4,",",".")."</td>";	
 			echo "<td align='center'>".substr($SA,4)."</td>";
 			reset($ArrLeyes);
-			while (list($k,$f)=each($ArrLeyes))
+			foreach($ArrLeyes as $k=>$f)
 			{			
 				echo "<td align='center'>".number_format($f["valor"],3,",",".")."</td>\n";
 				//ARREGLO TOTALES
@@ -554,7 +557,7 @@ body {
 			echo "<td align='right'>".number_format($Peso,0,",",".")."</td>";	
 			echo "<td align='center'>&nbsp;</td>";
 			reset($ArrLeyes);
-			while (list($k,$f)=each($ArrLeyes))
+			foreach($ArrLeyes as $k=>$f)
 			{			
 				echo "<td align='center'>".number_format($f["valor"],3,",",".")."</td>\n";
 			}							
@@ -580,7 +583,7 @@ body {
 	echo "<td align='right'>".number_format($TotalPeso,4,",",".")."</td>";	
 	echo "<td align='right'>&nbsp;</td>";	
 	reset($ArrTotales);
-	while(list($k,$v)=each($ArrTotales))
+	foreach($ArrTotales as $k=>$v)
 	{
 		
 		echo "<td align='center'>".number_format(($v["valor"]/$TotalPeso)*$v["conversion"],3,",",".")."</td>\n";

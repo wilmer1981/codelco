@@ -128,7 +128,7 @@
 	<td width="80">Solicitud</td>
     <td width="80">Id.Muestra</td>
     <?php	
-	//while (list($k,$v)=each($ArrLeyes))
+	//foreach($ArrLeyes as $k=>$v)
 	foreach($ArrLeyes as $k => $v )
 	{
 		if ($v[1]!="")
@@ -199,7 +199,7 @@
 		else
 			$ArrLeyes["AS/SB"][4] = 0;
 		reset($ArrLeyes);
-		//while (list($k,$v)=each($ArrLeyes))
+		//foreach($ArrLeyes as $k=>$v)
 		foreach($ArrLeyes as $k => $v )
 		{
 			$Color = "";

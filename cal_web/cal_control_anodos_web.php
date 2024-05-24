@@ -172,7 +172,7 @@ function Proceso(o)
     <td width="29">Id.Muestra</td>
     <td width="30">Estado</td>
     <?php	
-	//while (list($k,$v)=each($ArrLeyes))
+	//foreach($ArrLeyes as $k=>$v)
 	foreach($ArrLeyes as $k => $v)
 	{
 		if ($v[1]!="")
@@ -252,7 +252,7 @@ function Proceso(o)
 		reset($ArrLeyes);
 		$ClaveChk="";
 		$SinDefinir=false;
-		//while (list($k,$v)=each($ArrLeyes))
+		//foreach($ArrLeyes as $k=>$v)
 		foreach($ArrLeyes as $k => $v )
 		{
 			$Color = "";
