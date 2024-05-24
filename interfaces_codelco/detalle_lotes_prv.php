@@ -1,7 +1,14 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");
-	include("funciones_interfaces_codelco.php");	
+	include("funciones_interfaces_codelco.php");
+	
+	$RutPrv = isset($_REQUEST["RutPrv"])?$_REQUEST["RutPrv"]:"";	
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");	
+	$Producto = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
 ?>
 <html>
 <head>

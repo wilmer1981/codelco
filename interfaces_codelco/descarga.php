@@ -1,32 +1,10 @@
 <?php
-		if(isset($_REQUEST["Proceso"])){
-			$Proceso = $_REQUEST["Proceso"];
-		}else {
-			$Proceso = "";
-		}
-		if(isset($_REQUEST["Tipo"])){
-			$Tipo = $_REQUEST["Tipo"];
-		}else {
-			$Tipo = "";
-		}
-		if(isset($_REQUEST["Elim"])){
-			$Elim = $_REQUEST["Elim"];
-		}else {
-			$Elim = "";
-		}
-		if(isset($_REQUEST["Directorio"])){
-			$Directorio = $_REQUEST["Directorio"];
-		}else {
-			$Directorio = "";
-		}
-
-		if(isset($_REQUEST["M"])){
-			$M = $_REQUEST["M"];
-		}else {
-			$M = "";
-		}
-
-
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Tipo    = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$Elim    = isset($_REQUEST["Elim"])?$_REQUEST["Elim"]:"";
+	$ArchivoElim = isset($_REQUEST["ArchivoElim"])?$_REQUEST["ArchivoElim"]:"";
+	$Directorio  = isset($_REQUEST["Directorio"])?$_REQUEST["Directorio"]:"";
+	$M           = isset($_REQUEST["M"])?$_REQUEST["M"]:"";
 
 	if ($Elim=="S")
 	{

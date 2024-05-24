@@ -4,44 +4,17 @@
 	$CodigoDePantalla = 2;
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
-	if (!isset($CmbMovimiento))
-		$CmbMovimiento="921";
-	if (!isset($Orden))
-		$Orden="L";	
-	
-	if(isset($_REQUEST["Mostrar"])){
-		$Mostrar = $_REQUEST["Mostrar"];
-	}else {
-		$Mostrar = "";
-	}
-	if(isset($_REQUEST["Mensaje"])){
-		$Mensaje = $_REQUEST["Mensaje"];
-	}else {
-		$Mensaje = "";
-	}
 
+	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"921";
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 
-	if(isset($_REQUEST["Ano"])){
-		$Ano = $_REQUEST["Ano"];
-	}else {
-		$Ano = "";
-	}
-	if(isset($_REQUEST["Mes"])){
-		$Mes = $_REQUEST["Mes"];
-	}else {
-		$Mes = "";
-	}
-	if(isset($_REQUEST["CodProducto"])){
-		$CodProducto = $_REQUEST["CodProducto"];
-	}else {
-		$CodProducto = "";
-	}
+	$Orden   = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"L";
+	$CodProducto     = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$SubProducto     = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 
-	if(isset($_REQUEST["SubProducto"])){
-		$SubProducto = $_REQUEST["SubProducto"];
-	}else {
-		$SubProducto = "";
-	}
 /*
 	if(isset($_REQUEST["DescAnt"])){
 		$DescAnt = $_REQUEST["DescAnt"];
@@ -88,7 +61,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if(confirm('�Esta Seguro de Traspasar Los Datos?'))
+				if(confirm('¿Esta Seguro de Traspasar Los Datos?'))
 				{
 					var Largo = Valor.length;
 					f.Valores.value = Valor.substring(0,Largo-2);

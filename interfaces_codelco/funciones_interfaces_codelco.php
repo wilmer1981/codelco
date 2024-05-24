@@ -650,8 +650,8 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 		$Arreglo[$i]["num_paquetes"] = $FilaAux["num_paquetes"]/1000;
 		$Arreglo[$i]["num_unidades"] = $FilaAux["num_unidades"];
 		$Arreglo[$i]["cod_marca"] = $FilaAux["cod_marca"];
-
-		if ($ValorId[2] == 'E')
+		$ValorId = isset($ValorId[2])?$ValorId[2]:"";
+		if ($ValorId == 'E')
 		{
 			$Arreglo[$i]["descrip_marca"] = $FilaAux["marca_ingles"];
 		}
