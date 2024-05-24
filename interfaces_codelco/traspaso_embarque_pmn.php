@@ -4,44 +4,20 @@
 	include("../principal/conectar_principal.php");
 	set_time_limit(400);
 	include("funciones_interfaces_codelco.php");
-	if (!isset($CmbMovimiento))
-		$CmbMovimiento="921";
-	if (!isset($Orden))
-		$Orden="L";	
 	
-	
-	if(isset($_REQUEST["Mensaje"])){
-		$Mensaje = $_REQUEST["Mensaje"];
-	}else {
-		$Mensaje = "";
-	}
-	if(isset($_REQUEST["Mostrar"])){
-		$Mostrar = $_REQUEST["Mostrar"];
-	}else {
-		$Mostrar = "";
-	}
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 
-	if(isset($_REQUEST["CodProducto"])){
-		$CodProducto = $_REQUEST["CodProducto"];
-	}else {
-		$CodProducto = "";
-	}
-	if(isset($_REQUEST["SubProducto"])){
-		$SubProducto = $_REQUEST["SubProducto"];
-	}else {
-		$SubProducto = "";
-	}
+	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"921";
+	$CmbOrden  = isset($_REQUEST["CmbOrden"])?$_REQUEST["CmbOrden"]:"";
+	$CmbAlmacen  = isset($_REQUEST["CmbAlmacen"])?$_REQUEST["CmbAlmacen"]:"";
 
-	if(isset($_REQUEST["Ano"])){
-		$Ano = $_REQUEST["Ano"];
-	}else {
-		$Ano = "";
-	}
-	if(isset($_REQUEST["Mes"])){
-		$Mes = $_REQUEST["Mes"];
-	}else {
-		$Mes = "";
-	}
+	$Orden        = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"L";
+	$CodProducto  = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
 ?>
 <html>
@@ -82,7 +58,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if(confirm('�Esta Seguro de Traspasar Los Datos?'))
+				if(confirm('¿Esta Seguro de Traspasar Los Datos?'))
 				{
 					var Largo = Valor.length;
 					f.Valores.value = Valor.substring(0,Largo-2);
@@ -198,8 +174,8 @@ function DescargaArchivos()
 {
 	window.open("descarga.php?Proceso=E&Tipo=PMN","","top=35,left=10,width=600,height=400,scrollbars=yes,resizable=YES,toolbar=YES,menubar=YES");
 }
-</script><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-
+</script><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -210,8 +186,8 @@ body {
 	color: #0066CC;
 	font-weight: bold;
 }
-
-</style></head>
+</style>
+</head>
 
 <body>
 <form name="frmPrincipal" action="" method="post">
@@ -280,33 +256,32 @@ body {
         <tr bgcolor="#FFFFFF">
           <td height="24">Producto:</td>
           <td height="24" colspan="4"><select name="CodProducto" onChange="Proceso('R')">
-<?php
-	$Consulta = "select * from proyecto_modernizacion.productos ";
-	$Consulta.= " where cod_producto in('24','25','34','29','33','31','47','28') order by lpad(cod_producto,2,'0')";
-	$Resp = mysqli_query($link, $Consulta);
-	while ($Fila=mysqli_fetch_array($Resp))
-	{
-		if ($CodProducto==$Fila["cod_producto"])
-			echo "<option value=\"".$Fila["cod_producto"]."\" selected>".strtoupper($Fila["descripcion"])."</option>\n";
-		else
-			echo "<option value=\"".$Fila["cod_producto"]."\" >".strtoupper($Fila["descripcion"])."</option>\n";			
-	}
-?>		  
+			<?php
+				$Consulta = "select * from proyecto_modernizacion.productos ";
+				$Consulta.= " where cod_producto in('24','25','34','29','33','31','47','28') order by lpad(cod_producto,2,'0')";
+				$Resp = mysqli_query($link, $Consulta);
+				while ($Fila=mysqli_fetch_array($Resp))
+				{
+					if ($CodProducto==$Fila["cod_producto"])
+						echo "<option value=\"".$Fila["cod_producto"]."\" selected>".strtoupper($Fila["descripcion"])."</option>\n";
+					else
+						echo "<option value=\"".$Fila["cod_producto"]."\" >".strtoupper($Fila["descripcion"])."</option>\n";			
+				}
+			?>		  
           </select>
             <input type="hidden" name="Producto" value="PMN"></td>
           </tr>
 <?php  // Desde aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii 15-12-2008 
      
    		if ($CodProducto =='28')
-      {   ?>
+        {   ?>
           <tr bgcolor="#FFFFFF">
             <td height="24">SubProducto</td>
             <td height="24" colspan="4"><select name="SubProducto">
               <option value="S">TODOS</option>
               <?php
 				$Consulta = "select * from proyecto_modernizacion.subproducto ";
-				$Consulta.= " where cod_producto='".$CodProducto."' order by lpad(cod_subproducto,2,'0')";
-				
+				$Consulta.= " where cod_producto='".$CodProducto."' order by lpad(cod_subproducto,2,'0')";				
 				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Resp))
 				{
@@ -318,10 +293,10 @@ body {
 				?>
             </select></td>
           </tr>
-     <?php } 
-
-
-	// hasta acccccccccccccccccccccccc              ?>		  
+		<?php 
+		} 
+		// hasta acccccccccccccccccccccccc              
+		?>		  
         <tr align="center" bgcolor="#FFFFFF">
           <td>&nbsp;</td>
           <td width="122" height="20" class="ColorTabla01">Movimiento</td>
@@ -561,7 +536,7 @@ if ($Mostrar == "S")
 		$SAP_Unidad = "";
 		$SAP_ClaseValoriz = "";
 		$SAP_Centro = "";
-		OrdenProduccionSap($Fila["asignacion"], $Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro);	
+		OrdenProduccionSap($Fila["asignacion"], $Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);	
 		echo '<tr>';	
 		if ($Fila["cod_producto"]=="29" && $Fila["cod_subproducto"]=="4")
 			$ClaveChk = $Fila["cod_producto"]."~".$Fila["cod_subproducto"]."~".$Lote2."//".$Fila["num_acta"];

@@ -53,10 +53,9 @@ if ($Row = mysqli_fetch_array($Respuesta))
 		$TxtLotes = $Row["nro_lote"];
 	}else{
 		$TxtLotes = "";
-	}
-	
+	}	
 
-	$TxtCCosto = $Row["descripcion"];
+	$TxtCCosto = $Row["DESCRIPCION"];
 	$Consulta = "SELECT * from sub_clase where cod_clase = 1002 and cod_subclase = ".$Row["estado_actual"];
 
 	$Respuesta2 = mysqli_query($link, $Consulta);
@@ -873,8 +872,8 @@ function Imprimir()
 				}
 				$Respuesta19 = mysqli_query($link, $Consulta); 	
 				$Fila19 = mysqli_fetch_array($Respuesta19);
-				echo "<td width = '277'><center>".$Fila19["observacion"]."</center></td>";
-				echo "</tr>";
+			echo "<td width = '277'><center>".$Fila19["observacion"]."</center></td>";
+			echo "</tr>";
 			}
 			//consulta para los estados creados por el laboratirio frx 
 			$Consulta ="SELECT distinct t1.recargo,t1.fecha_hora, t1.cod_estado,t2.apellido_paterno,t2.nombres,t3.nombre_subclase from cal_web.estados_por_solicitud t1 ";
