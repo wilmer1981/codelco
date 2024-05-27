@@ -905,9 +905,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 				$ConLeyes = "N";
 				$NumCertificado = "";
 				$ArregloLeyes["02"]["cod_leyes"] = "02";
-				$ArregloLeyes["02"]["valor"] = 99.99;
-				
-				
+				$ArregloLeyes["02"]["valor"] = 99.99;				
 				
 				while ($Fila2 = mysqli_fetch_array($Resp2))
 				{

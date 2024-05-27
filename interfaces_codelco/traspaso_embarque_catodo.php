@@ -4,44 +4,17 @@
 	$CodigoDePantalla = 2;
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
-	if (!isset($CmbMovimiento))
-		$CmbMovimiento="921";
-	if (!isset($Orden))
-		$Orden="L";
-	
-		if(isset($_REQUEST["Mensaje"])){
-			$Mensaje = $_REQUEST["Mensaje"];
-		}else {
-			$Mensaje = "";
-		}
-		if(isset($_REQUEST["Mostrar"])){
-			$Mostrar = $_REQUEST["Mostrar"];
-		}else {
-			$Mostrar = "";
-		}
 
-		if(isset($_REQUEST["CodProducto"])){
-			$CodProducto = $_REQUEST["CodProducto"];
-		}else {
-			$CodProducto = "";
-		}
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Orden   = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"L";
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"";
+	$CmbOrden       = isset($_REQUEST["CmbOrden"])?$_REQUEST["CmbOrden"]:"";
 	
-		if(isset($_REQUEST["SubProducto"])){
-			$SubProducto = $_REQUEST["SubProducto"];
-		}else {
-			$SubProducto = "";
-		}
-	
-		if(isset($_REQUEST["Ano"])){
-			$Ano = $_REQUEST["Ano"];
-		}else {
-			$Ano = "";
-		}
-		if(isset($_REQUEST["Mes"])){
-			$Mes = $_REQUEST["Mes"];
-		}else {
-			$Mes = "";
-		}
+	$CodProducto    = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$SubProducto    = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Ano            = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes            = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 
 ?>
 <html>
@@ -392,17 +365,17 @@ body {
             <!--<td height="28"><select name="CmbAlmacen" id="CmbClaseValor">
               <option value="" class="NoSelec">Almacen</option>
               <?php
-	$Consulta = "select distinct cod_almacen_codelco, abreviatura from interfaces_codelco.relacion_almacen order by cod_almacen_codelco ";
-	$Resp = mysqli_query($link, $Consulta);	 
-	while ($Fila=mysqli_fetch_array($Resp))
-	{
-		if ($CmbAlmacen==$Fila["cod_almacen_codelco"])
-			echo "<option selected value=\"".$Fila["cod_almacen_codelco"]."\">".strtoupper($Fila["abreviatura"])."</option>\n";
-		else
-			echo "<option value=\"".$Fila["cod_almacen_codelco"]."\">".strtoupper($Fila["abreviatura"])."</option>\n";
-	}			  
+				$Consulta = "select distinct cod_almacen_codelco, abreviatura from interfaces_codelco.relacion_almacen order by cod_almacen_codelco ";
+				$Resp = mysqli_query($link, $Consulta);	 
+				while ($Fila=mysqli_fetch_array($Resp))
+				{
+					if ($CmbAlmacen==$Fila["cod_almacen_codelco"])
+						echo "<option selected value=\"".$Fila["cod_almacen_codelco"]."\">".strtoupper($Fila["abreviatura"])."</option>\n";
+					else
+						echo "<option value=\"".$Fila["cod_almacen_codelco"]."\">".strtoupper($Fila["abreviatura"])."</option>\n";
+				}			  
 	
-?>
+			?>
             </select>
           </td>-->
             <td align="center" colspan="2"><input name="BtnMovimiento" type="button" id="BtnMovimiento2" style="width:70px;" onClick="AsignaMovimiento()" value="Asignar"></td>
@@ -512,7 +485,7 @@ if ($Mostrar == "S")
 		$SAP_ClaseValoriz = "";
 		$SAP_Centro = "";
 		//echo "PPP".$Fila["cod_marca"];
-		OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro);	
+		OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);	
 		echo '<tr>';	
 		$ClaveChk = $Fila["cod_producto"]."~".$Fila["cod_subproducto"]."~".$Lote2."~".'".$Fila["corr_enm"]."';
 		//echo "SSS".$ClaveChk."--".$Estado."--".$Fila2["tipo_movimiento"];
