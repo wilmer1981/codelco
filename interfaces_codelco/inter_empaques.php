@@ -40,7 +40,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if (confirm("¿Desea Eliminar este Elemento?"))
+				if (confirm("Â¿Desea Eliminar este Elemento?"))
 				{
 					var Largo=Valores.length;
 					Valores=Valores.substring(0,Largo-2);
@@ -95,7 +95,6 @@ function Proceso(opt)
 	}	
 }
 </script><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -106,7 +105,6 @@ body {
 	color: #0066CC;
 	font-weight: bold;
 }
--->
 </style></head>
 
 <body>

@@ -2,21 +2,9 @@
 	//echo "PROCESO:".$Proceso;
 	include("../principal/conectar_principal.php");
 
-	if(isset($_REQUEST["Proceso"])){
-		$Proceso = $_REQUEST["Proceso"];
-	}else {
-		$Proceso = "";
-	}
-	if(isset($_REQUEST["Valores"])){
-		$Valores = $_REQUEST["Valores"];
-	}else {
-		$Valores = "";
-	}
-	if(isset($_REQUEST["Existe"])){
-		$Existe = $_REQUEST["Existe"];
-	}else {
-		$Existe = "";
-	}
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Existe  = isset($_REQUEST["Existe"])?$_REQUEST["Existe"]:"";
 
 	$EstCod='';
 	$TxtDescrip="";
