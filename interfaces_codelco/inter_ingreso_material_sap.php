@@ -2,44 +2,17 @@
 	//echo "PROCESO:".$Proceso;
 	include("../principal/conectar_principal.php");
 
-	if(isset($_REQUEST["Proceso"])){
-		$Proceso = $_REQUEST["Proceso"];
-	}else {
-		$Proceso = "";
-	}
-	if(isset($_REQUEST["Valores"])){
-		$Valores = $_REQUEST["Valores"];
-	}else {
-		$Valores = "";
-	}
-	if(isset($_REQUEST["Existe"])){
-		$Existe = $_REQUEST["Existe"];
-	}else {
-		$Existe = "";
-	}
-
-	if(isset($_REQUEST["CmbProducto"])){
-		$CmbProducto = $_REQUEST["CmbProducto"];
-	}else {
-		$CmbProducto = "";
-	}
-	if(isset($_REQUEST["CmbSubProducto"])){
-		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	}else {
-		$CmbSubProducto = "";
-	}
-	if(isset($_REQUEST["CmbEmpaque"])){
-		$CmbEmpaque = $_REQUEST["CmbEmpaque"];
-	}else {
-		$CmbEmpaque = "";
-	}
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Existe  = isset($_REQUEST["Existe"])?$_REQUEST["Existe"]:false;
+	$CmbProducto    = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbEmpaque     = isset($_REQUEST["CmbEmpaque"])?$_REQUEST["CmbEmpaque"]:"";
 
 	$TxtMaterialSap="";
 	$TxtMedidaSap="";
 	$TxtMedida="";
-	$TxtCentro="";
-
-	
+	$TxtCentro="";	
 
 	if($Proceso=='M')
 	{
@@ -239,9 +212,9 @@ body {
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
 					if ($CmbProducto == $Fila["cod_producto"])
-						echo "<option selected value='".$Fila["cod_producto"]."'>$Fila["descripcion"]</option>\n";
+						echo "<option selected value='".$Fila["cod_producto"]."'>".$Fila["descripcion"]."</option>\n";
 					else
-						echo "<option value='".$Fila["cod_producto"]."'>$Fila["descripcion"]</option>\n";
+						echo "<option value='".$Fila["cod_producto"]."'>".$Fila["descripcion"]."</option>\n";
 				}
 			?>
                 </select>

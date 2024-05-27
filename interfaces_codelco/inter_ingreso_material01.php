@@ -1,16 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php");
 
-	$Proceso           = $_REQUEST["Proceso"];
-	$CmbProducto       = $_REQUEST["CmbProducto"];
-	$CmbSubProducto    = $_REQUEST["CmbSubProducto"];
-	$TxtMaterialSap    = $_REQUEST["TxtMaterialSap"];
-	$TxtMedidaSap      = $_REQUEST["TxtMedidaSap"];
-	$TxtMedida         = $_REQUEST["TxtMedida"];
-	$CmbEmpaque        = $_REQUEST["CmbEmpaque"];
-	$Valores           = $_REQUEST["Valores"];
-	$TxtCentro         = $_REQUEST["TxtCentro"];
-	
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbProducto    = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbEmpaque     = isset($_REQUEST["CmbEmpaque"])?$_REQUEST["CmbEmpaque"]:"";
+	$TxtMaterialSap = isset($_REQUEST["TxtMaterialSap"])?$_REQUEST["TxtMaterialSap"]:"";
+	$TxtMedidaSap   = isset($_REQUEST["TxtMedidaSap"])?$_REQUEST["TxtMedidaSap"]:"";
+	$TxtMedida      = isset($_REQUEST["TxtMedida"])?$_REQUEST["TxtMedida"]:"";
+	$TxtCentro      = isset($_REQUEST["TxtCentro"])?$_REQUEST["TxtCentro"]:"";
 
 //	echo $ValoresAux;
 	switch ($Proceso)
@@ -53,7 +52,7 @@
 				$Eliminar=" delete from interfaces_codelco.homologacion";
 				$Eliminar.=" where ";
 				$Eliminar.=" cod_producto='".$arreglo[0]."' and ";
-				$Eliminar.=" cod_subproducto = '".$arreglo[1]."'";
+				$Eliminar.=" cod_subproducto = '".$arreglo[1]."' and ";
 				$Eliminar.=" cod_empaque = '".$arreglo[2]."'";
 				mysqli_query($link, $Eliminar);  
 				//echo $Eliminar."<br>";

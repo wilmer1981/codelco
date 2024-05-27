@@ -3,22 +3,9 @@
 	$CodigoDePantalla = 11;
 	include("../principal/conectar_principal.php");
 
-	if(isset($_REQUEST["Proceso"])){
-		$Proceso = $_REQUEST["Proceso"];
-	}else {
-		$Proceso = "";
-	}
-	if(isset($_REQUEST["Valores"])){
-		$Valores = $_REQUEST["Valores"];
-	}else {
-		$Valores = "";
-	}
-	if(isset($_REQUEST["Existe"])){
-		$Existe = $_REQUEST["Existe"];
-	}else {
-		$Existe = "";
-	}
-
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Existe  = isset($_REQUEST["Existe"])?$_REQUEST["Existe"]:false;
 
 ?>
 <html>
@@ -58,7 +45,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if (confirm("�Desea Eliminar este Elemento?"))
+				if (confirm("¿Desea Eliminar este Elemento?"))
 				{
 					var Largo=Valores.length;
 					Valores=Valores.substring(0,Largo-2);
@@ -88,7 +75,7 @@ function Proceso(opt)
 					contador=contador+1;
 				}	
 			}
-			alert(Valores);
+			//alert(Valores);
 			if (Valores=="")
 			{
 				alert("Debe Seleccinar un Elemento para Modificar");
