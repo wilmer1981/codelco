@@ -2,68 +2,27 @@
 	//echo "PROCESO:".$Proceso;
 	include("../principal/conectar_principal.php");
 
-	if(isset($_REQUEST["Proceso"])){
-		$Proceso = $_REQUEST["Proceso"];
-	}else {
-		$Proceso = "";
-	}
-	if(isset($_REQUEST["Valores"])){
-		$Valores = $_REQUEST["Valores"];
-	}else {
-		$Valores = "";
-	}
-
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbAsignacion  = isset($_REQUEST["CmbAsignacion"])?$_REQUEST["CmbAsignacion"]:"";
+	$CmbProducto    = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbMateriales  = isset($_REQUEST["CmbMateriales"])?$_REQUEST["CmbMateriales"]:"";
+	$CmbDivision    = isset($_REQUEST["CmbDivision"])?$_REQUEST["CmbDivision"]:"";
+	$CmbUnidad      = isset($_REQUEST["CmbUnidad"])?$_REQUEST["CmbUnidad"]:"";
+	$Existe         = isset($_REQUEST["Existe"])?$_REQUEST["Existe"]:"";
 	
-	if(isset($_REQUEST["CmbAsignacion"])){
-		$CmbAsignacion = $_REQUEST["CmbAsignacion"];
-	}else {
-		$CmbAsignacion = "";
-	}
-	if(isset($_REQUEST["CmbProducto"])){
-		$CmbProducto = $_REQUEST["CmbProducto"];
-	}else {
-		$CmbProducto = "";
-	}
-	if(isset($_REQUEST["CmbSubProducto"])){
-		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	}else {
-		$CmbSubProducto = "";
-	}
-	if(isset($_REQUEST["CmbMateriales"])){
-		$CmbMateriales = $_REQUEST["CmbMateriales"];
-	}else {
-		$CmbMateriales = "";
-	}
-	if(isset($_REQUEST["CmbDivision"])){
-		$CmbDivision = $_REQUEST["CmbDivision"];
-	}else {
-		$CmbDivision = "";
-	}
-	if(isset($_REQUEST["CmbUnidad"])){
-		$CmbUnidad = $_REQUEST["CmbUnidad"];
-	}else {
-		$CmbUnidad = "";
-	}
-
-	if(isset($_REQUEST["Existe"])){
-		$Existe = $_REQUEST["Existe"];
-	}else {
-		$Existe = "";
-	}
-
-	
-	$TxtClase="";
-	$TxtOP="";
-	$Habilitar=TRUE;
+	$TxtClase  = "";
+	$TxtOP     = "";
+	$Habilitar = TRUE;
 
 	if($Proceso=='M')
 	{
 		$Datos2=explode('~',$Valores);
-		$CmbAsignacion=$Datos2[0];
-		$CmbProducto=$Datos2[1];
-		$CmbSubProducto=$Datos2[2];
-		$TxtOP=$Datos2[3];
-		
+		$CmbAsignacion = $Datos2[0];
+		$CmbProducto   = $Datos2[1];
+		$CmbSubProducto= $Datos2[2];
+		$TxtOP         = $Datos2[3];		
 			
 		$Consulta="SELECT * from interfaces_codelco.ordenes_produccion where ";
 		if($CmbAsignacion == "")
@@ -150,7 +109,7 @@ function Procesos(TipoProceso)
 		case 'M'://MODIFICAR
 			if(f.CmbAsignacion.value == 'S')
 			{
-				alert("Debe Seleccionar Asignaci�n");
+				alert("Debe Seleccionar Asignación");
 				f.CmbAsignacion.focus();
 				return;
 			}

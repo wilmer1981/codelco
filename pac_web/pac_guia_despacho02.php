@@ -4,10 +4,11 @@ include("../principal/conectar_pac_web.php");
 	$Fecha_Hora2 = date("Y-m-d");
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 3;
-	$Rut =$CookieRut;
 
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Rut =$CookieRut;
 	//Valores=1588807
-	$Valores = $_REQUEST["Valores"];
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Consulta ="select * from pac_web.guia_despacho t1 where num_guia ='".$Valores."'";

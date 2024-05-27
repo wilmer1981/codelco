@@ -4,35 +4,21 @@
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
 	include("funcion_consulta.php");
-	if (!isset($CodProducto))
-		$CodProducto="18";
-	if (!isset($CmbMovimiento))
-		$CmbMovimiento="921";
-	if (!isset($Orden))
-		$Orden="L";	
+
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+
+	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"921";
+	$CmbOrden  = isset($_REQUEST["CmbOrden"])?$_REQUEST["CmbOrden"]:"";
+	$CmbAlmacen  = isset($_REQUEST["CmbAlmacen"])?$_REQUEST["CmbAlmacen"]:"";
+
+	$Orden        = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"L";
+	$CodProducto  = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"18";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	
-	
-		if(isset($_REQUEST["Mostrar"])){
-			$Mostrar = $_REQUEST["Mostrar"];
-		}else {
-			$Mostrar = "";
-		}
-		if(isset($_REQUEST["SubProducto"])){
-			$SubProducto = $_REQUEST["SubProducto"];
-		}else {
-			$SubProducto = "";
-		}
-	
-		if(isset($_REQUEST["Ano"])){
-			$Ano = $_REQUEST["Ano"];
-		}else {
-			$Ano = "";
-		}
-		if(isset($_REQUEST["Mes"])){
-			$Mes = $_REQUEST["Mes"];
-		}else {
-			$Mes = "";
-		}
 ?>
 <html>
 <head>

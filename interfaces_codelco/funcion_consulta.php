@@ -10,7 +10,7 @@ function SapValidos($ProdAux, $AnoAux, $MesAux, $link)
 	}		
 	$Ano_control = date("Y");
 	$anito = substr($AnoAux,2,2);
-	$lar = strlen($MesAux);
+	$lar   = strlen($MesAux);
 	if ($lar==1)
 	{
 		$MesAux="0$MesAux";
@@ -33,9 +33,8 @@ function SapValidos($ProdAux, $AnoAux, $MesAux, $link)
 	$Consulta.= " order by tt.cod_producto,tt.cod_subproducto,t0.corr_enm ";
 	$RespAux = mysqli_query($link, $Consulta);
 	while ($FilaAux = mysqli_fetch_array($RespAux))
-	{
-			$Referencia = "";
-			$Referencia ="$anito$MesAux$FilaAux["corr_enm"]";
+	{       $corr_enm   = $FilaAux["corr_enm"];
+		    $Referencia = "$anito$MesAux$corr_enm";
 			$Inserta = "INSERT INTO interfaces_codelco.tmp_control_pas (ano,mes,referencia) ";
 			$Inserta.=" values(".$AnoAux.",".$MesAux.",'".$Referencia."')";
 			mysqli_query($link, $Inserta);
