@@ -40,7 +40,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if (confirm("�Desea Eliminar este Elemento?"))
+				if (confirm("¿Desea Eliminar este Elemento?"))
 				{
 					var Largo=Valores.length;
 					Valores=Valores.substring(0,Largo-2);
