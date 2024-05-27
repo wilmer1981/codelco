@@ -15,7 +15,6 @@
 	$TxtClase  = "";
 	$TxtOP     = "";
 	$Habilitar = TRUE;
-
 	if($Proceso=='M')
 	{
 		$Datos2=explode('~',$Valores);
