@@ -5,17 +5,27 @@ $Fecha_Hora = date("Y-m-d");
 include("../principal/conectar_principal.php");
 //header("location:cal_con_multiple_producto.php?Leyes=".$ValoresLeyes."&CodLeyes=".$ValoresCodLeyes."&TxtProducto=".$Producto01."&TxtSubProducto=".$SubProducto01."&CmbDias=".$Dia."&CmbMes=".$Mes."&CmbAno=".$Ano."&CmbDiasT=".$DiaT."&CmbMesT=".$MesT."&CmbAnoT=".$AnoT."&CmbPeriodo=".$Periodo."&CmbProductos=".$Producto."&CmbSubProducto=".$SubProducto);
 
-$ValoresLeyes    = $_REQUEST["ValoresLeyes"];
-$ValoresCodLeyes = $_REQUEST["ValoresCodLeyes"];
-$E = $_REQUEST["E"];
-$ProSubPro = $_REQUEST["ProSubPro"];
-$Salir     = $_REQUEST["Salir"];
-$cod_consulta = $_REQUEST["cod_consulta"];
-$Enabal       = $_REQUEST["Enabal"];
-$Codigos      = $_REQUEST["Codigos"];
-$TxtConsulta  = $_REQUEST["TxtConsulta"];
+$ValoresLeyes    = isset($_REQUEST["ValoresLeyes"])?$_REQUEST["ValoresLeyes"]:"";
+$ValoresCodLeyes = isset($_REQUEST["ValoresCodLeyes"])?$_REQUEST["ValoresCodLeyes"]:"";
+$Producto01      = isset($_REQUEST["Producto01"])?$_REQUEST["Producto01"]:"";
+$SubProducto01   = isset($_REQUEST["SubProducto01"])?$_REQUEST["SubProducto01"]:"";
+$Dia             = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+$Mes             = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+$Ano             = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+$DiaT            = isset($_REQUEST["DiaT"])?$_REQUEST["DiaT"]:"";
+$MesT            = isset($_REQUEST["MesT"])?$_REQUEST["MesT"]:"";
+$AnoT            = isset($_REQUEST["AnoT"])?$_REQUEST["AnoT"]:"";
+$Periodo        = isset($_REQUEST["Periodo"])?$_REQUEST["Periodo"]:"";
+$Producto       = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+$SubProducto    = isset($_REQUEST["AnoT"])?$_REQUEST["SubProducto"]:"";
 
-
+$E              = isset($_REQUEST["E"])?$_REQUEST["E"]:"";
+$ProSubPro      = isset($_REQUEST["ProSubPro"])?$_REQUEST["ProSubPro"]:"";
+$Salir          = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+$cod_consulta = isset($_REQUEST["cod_consulta"])?$_REQUEST["cod_consulta"]:"";
+$Enabal       = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:"";
+$Codigos      = isset($_REQUEST["Codigos"])?$_REQUEST["Codigos"]:"";
+$TxtConsulta  = isset($_REQUEST["TxtConsulta"])?$_REQUEST["TxtConsulta"]:"";
 
 switch ($Salir) 
 {

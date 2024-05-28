@@ -171,12 +171,12 @@ function Leyes(Enabal)
 <input name="Periodo" type="hidden" value="<?php echo $Periodo  ?>">
 <input name="Tipo" type="hidden" value="<?php echo $Tipo  ?>">
 <input name="Analisis" type="hidden" value="<?php echo $Analisis  ?>">
-<input name="Producto" type="hidden" value="<?php echo $Productos  ?>">
+<input name="Producto" type="hidden" value="<?php echo $Producto  ?>">
 <input name="SubProducto" type="hidden" value="<?php echo $SubProducto  ?>">
 <input name="Dia" type="hidden" value="<?php echo $Dia  ?>">
 <input name="Mes" type="hidden" value="<?php echo $Mes  ?>">
 <input name="Ano" type="hidden" value="<?php echo $Ano  ?>">
-<input name="DiaT" type="hidden" value="<?php echo $DiasT  ?>">
+<input name="DiaT" type="hidden" value="<?php echo $DiaT  ?>">
 <input name="MesT" type="hidden" value="<?php echo $MesT  ?>">
 <input name="AnoT" type="hidden" value="<?php echo $AnoT  ?>">
 
