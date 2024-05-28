@@ -712,11 +712,13 @@ function Imprimir()
 			while($Fila30= mysqli_fetch_array($Respuesta30))
 			{
 				echo "<tr>";
-				$SubClase=$Fila30["nombre_subclase"];
+				$SubClase=isset($Fila30["nombre_subclase"])?$Fila30["nombre_subclase"]:"";
+				$recargo =isset($Fila30["recargo"])?$Fila30["recargo"]:"";
+				$fecha_hora =isset($Fila30["fecha_hora"])?$Fila30["fecha_hora"]:"";
 				echo "<td width = '79'><center>".substr($Fila30["nombres"],0,1).".".$Fila30["apellido_paterno"]."</center></td>";
-				echo "<td width = '60'><center>".$Fila30["recargo"]."</center></td>";
+				echo "<td width = '60'><center>".$recargo."</center></td>";
 				echo "<td width = '130'><center>".$SubClase."</center></td>";
-				echo "<td width = '160'><center>".$Fila30["fecha_hora"]."</center></td>";
+				echo "<td width = '160'><center>".$fecha_hora."</center></td>";
 				$Consulta ="SELECT  observacion  from cal_web.solicitud_analisis ";
 				if ($Recargo=='N')
 				{
@@ -724,7 +726,8 @@ function Imprimir()
 				}
 				else
 				{
-					$Consulta = $Consulta." where nro_solicitud = '".$SA."' and recargo = '".$Fila4["recargo"]."'  ";
+					//$Consulta = $Consulta." where nro_solicitud = '".$SA."' and recargo = '".$Fila4["recargo"]."'  ";
+					$Consulta = $Consulta." where nro_solicitud = '".$SA."' and recargo = '".$recargo."'  ";
 				}
 				$Respuesta31 = mysqli_query($link, $Consulta); 	
 				$Fila31 = mysqli_fetch_array($Respuesta31);

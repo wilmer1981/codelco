@@ -25,6 +25,7 @@
 		$FechaBusqueda="";
 	}
 	$Solicitudes=$ValoresSA;
+	$Criterio = "";
 	for ($j = 0;$j <= strlen($ValoresSA); $j++)
 	{
 		if (substr($ValoresSA,$j,2) == "//")

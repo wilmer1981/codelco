@@ -7,6 +7,7 @@
 	}*/
 	include("../principal/conectar_principal.php");
 	$Fecha_Hora = date("Y-m-d");
+	$CookieRut=$_COOKIE["CookieRut"];
 
 	if(isset($_REQUEST["ValoresSA"])) {
 		$ValoresSA = $_REQUEST["ValoresSA"];
@@ -23,7 +24,7 @@
 	}else{
 		$FechaBusqueda = "";
 	}
-
+	$Popup = isset($_REQUEST["Popup"])?$_REQUEST["Popup"]:"";
 
 	if (isset($FechaBusqueda) and ($FechaBusqueda !=""))
 	{
@@ -31,6 +32,7 @@
 		$FechaBusqueda="";
 	}
 	$Solicitudes=$ValoresSA;
+	$Criterio = "";
 	for ($j = 0;$j <= strlen($ValoresSA); $j++)
 	{
 		if (substr($ValoresSA,$j,2) == "//")
@@ -46,8 +48,8 @@
 					{
 						if (substr($RutRecargo,$y,2) == "||")
 						{
-							$Rut = substr($RutRecargo,0,$y);
-							$Recargo=substr($RutRecargo,$y+2,strlen($RutRecargo));
+							$Rut     = substr($RutRecargo,0,$y);
+							$Recargo = substr($RutRecargo,$y+2,strlen($RutRecargo));
 							if ($Recargo =='N')
 							{
 								$Criterio=$Criterio."(nro_solicitud =".$SA." and rut_funcionario='".$Rut."') or ";   
@@ -322,7 +324,7 @@ function Salir(Valores)
 	        	$Consulta ="select count(t1.candado) as encontro from cal_web.leyes_por_solicitud t1 where (".$Criterio.") and (t1.cod_leyes='01') and (t1.candado='0')";
 				$RespTodosCandados=mysqli_query($link, $Consulta);
 				$FilaTodosCandados=mysqli_fetch_array($RespTodosCandados);
-				if ($FilaTodosCandados[encontro]==0)
+				if ($FilaTodosCandados["encontro"]==0)
 				{
 					$CheckT="S";
 				}

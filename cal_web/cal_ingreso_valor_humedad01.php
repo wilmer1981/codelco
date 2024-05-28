@@ -1,11 +1,13 @@
 <?php 
 include("../principal/conectar_principal.php");
 $CookieRut = $_COOKIE["CookieRut"];
-$ValoresSA = $_REQUEST["ValoresSA"];
-$Valores   = $_REQUEST["Valores"];
-$Tipo      = $_REQUEST["Tipo"];
-$Opcion    = $_REQUEST["Opcion"];
-$CheckT    = $_REQUEST["CheckT"];
+
+$ValoresSA    = isset($_REQUEST["ValoresSA"])?$_REQUEST["ValoresSA"]:"";
+$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$Tipo         = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+$Opcion       = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+$CheckT       = isset($_REQUEST["CheckT"])?$_REQUEST["CheckT"]:"";
+$PonerCandado = isset($_REQUEST["PonerCandado"])?$_REQUEST["PonerCandado"]:"";
 
 function LimiteControl($SA,$CodLey,$Unidad,$Valor,$link)
 {
@@ -324,7 +326,7 @@ switch ($Opcion)
 																						$Actualizar = "UPDATE cal_web.leyes_por_solicitud set peso_humedo=".$PesoH.",peso_seco=".$PesoS.",valor=".$Valor.",cod_unidad='".$Unidad."',proceso=3,rut_quimico='".$RutQ."' ";
 																						
 																						$Var='';
-																						$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor);
+																						$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor,$link);
 																						if($Var=='S')
 																							$Actualizar.= " , observacion='".$CookieRut."' ";
 																						$Actualizar.= " where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";
@@ -337,7 +339,7 @@ switch ($Opcion)
 																						{
 																							$Actualizar = "UPDATE cal_web.leyes_por_solicitud set peso_humedo=".$PesoH.",peso_seco=".$PesoS.",valor=".$Valor.",cod_unidad='".$Unidad."',proceso=5,rut_quimico='".$RutQ."' ";
 																							$Var='';
-																							$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor);
+																							$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor,$link);
 																							if($Var=='S')
 																								$Actualizar.= " , observacion='".$CookieRut."' ";
 																						    $Actualizar.= " where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";
@@ -348,7 +350,7 @@ switch ($Opcion)
 																						{
 																							$Actualizar = "UPDATE cal_web.leyes_por_solicitud set peso_humedo=".$PesoH.",peso_seco=".$PesoS.",valor=".$Valor.",cod_unidad='".$Unidad."',proceso=4,rut_quimico='".$RutQ."'";
 																							$Var='';
-																							$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor);
+																							$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor,$link);
 																							if($Var=='S')
 																								$Actualizar.= " , observacion='".$CookieRut."' ";
 																						    $Actualizar.= "  where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";
@@ -438,7 +440,7 @@ switch ($Opcion)
 																					{
 																						$Actualizar = "UPDATE cal_web.leyes_por_solicitud set peso_humedo=".$PesoH.",peso_seco=".$PesoS.",valor=".$Valor.",cod_unidad='".$Unidad."',proceso=3,rut_quimico='".$RutQ."' ";
 																						$Var='';
-																						$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor);
+																						$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor,$link);
 																						if($Var=='S')
 																							$Actualizar.= " , observacion='".$CookieRut."' ";
 																						$Actualizar.= "	where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
@@ -450,7 +452,7 @@ switch ($Opcion)
 																						{
 																							$Actualizar = "UPDATE cal_web.leyes_por_solicitud set peso_humedo=".$PesoH.",peso_seco=".$PesoS.",valor=".$Valor.",cod_unidad='".$Unidad."',proceso=5,rut_quimico='".$RutQ."' ";
 																							$Var='';
-																							$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor);
+																							$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor,$link);
 																							if($Var=='S')
 																								$Actualizar.= " , observacion='".$CookieRut."' ";
 																							$Actualizar.= "	where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
@@ -461,7 +463,7 @@ switch ($Opcion)
 																						{
 																							$Actualizar = "UPDATE cal_web.leyes_por_solicitud set peso_humedo=".$PesoH.",peso_seco=".$PesoS.",valor=".$Valor.",cod_unidad='".$Unidad."',proceso=4,rut_quimico='".$RutQ."' ";
 																							$Var='';
-																							$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor);
+																							$Var=LimiteControl($SA,$Leyes,$Unidad,$Valor,$link);
 																							if($Var=='S')
 																								$Actualizar.= " , observacion='".$CookieRut."' ";
 																							$Actualizar.= "	where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";

@@ -200,7 +200,7 @@ function Salir(Valores)
 					$Consulta ="select count(t1.candado) as encontro from cal_web.leyes_por_solicitud t1 inner join proyecto_modernizacion.leyes t2 on t1.cod_leyes = t2.cod_leyes  and t2.cod_leyes <> '01' and (tipo_leyes = 1) where (".$Criterio.") and (t1.candado='0')";
 					$RespTodosCandados=mysqli_query($link, $Consulta);
 					$FilaTodosCandados=mysqli_fetch_array($RespTodosCandados);
-					if ($FilaTodosCandados[encontro]==0)
+					if ($FilaTodosCandados["encontro"]==0)
 					{
 						echo "<td align='right'><input type='checkbox' name='CheckTodos' checked value='checkbox' onClick=Todos('$Solicitudes')>Todos&nbsp;<img src='../principal/imagenes/cand_cerrado.gif'>&nbsp;&nbsp;&nbsp;</td>";
 					}

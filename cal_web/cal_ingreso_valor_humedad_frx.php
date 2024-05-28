@@ -264,7 +264,7 @@ function Salir(Valores)
 	        	$Consulta ="select count(t1.candado) as encontro from cal_web.leyes_por_solicitud t1 where (".$Criterio.") and (t1.cod_leyes='01') and (t1.candado='0')";
 				$RespTodosCandados=mysqli_query($link, $Consulta);
 				$FilaTodosCandados=mysqli_fetch_array($RespTodosCandados);
-				if ($FilaTodosCandados[encontro]==0)
+				if ($FilaTodosCandados["encontro"]==0)
 				{
 					$CheckT="S";
 				}

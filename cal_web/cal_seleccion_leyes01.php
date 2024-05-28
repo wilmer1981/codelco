@@ -3,15 +3,15 @@ include("../principal/conectar_principal.php");
 $CookieRut=$_COOKIE["CookieRut"];
 $Fecha_Hora=date("Y-m-d h:i:s");
 
-$Pantalla = $_REQUEST["Pantalla"];
-$ValoresSA = $_REQUEST["ValoresSA"];
-$ValoresCheck = $_REQUEST["ValoresCheck"];
-$LeyNueva = $_REQUEST["LeyNueva"];
-$UnidadNueva = $_REQUEST["UnidadNueva"];
-$SA = $_REQUEST["SA"];
-$Ley = $_REQUEST["Ley"];
-$Recargo = $_REQUEST["Recargo"];
-$Proceso = $_REQUEST["Proceso"];
+$Pantalla  = isset($_REQUEST["Pantalla"])?$_REQUEST["Pantalla"]:"";
+$ValoresSA = isset($_REQUEST["ValoresSA"])?$_REQUEST["ValoresSA"]:"";
+$ValoresCheck = isset($_REQUEST["ValoresCheck"])?$_REQUEST["ValoresCheck"]:"";
+$LeyNueva     = isset($_REQUEST["LeyNueva"])?$_REQUEST["LeyNueva"]:"";
+$UnidadNueva  = isset($_REQUEST["UnidadNueva"])?$_REQUEST["UnidadNueva"]:"";
+$SA           = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+$Ley          = isset($_REQUEST["Ley"])?$_REQUEST["Ley"]:"";
+$Recargo      = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 
 	switch ($Proceso)
 	{

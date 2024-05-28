@@ -288,7 +288,7 @@ body {
 					}
 					if ($Encontro == false)
      				{
-						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."' onClick='Muestra(this,".$Pos.")'>".$Fila[abrev];
+						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."' onClick='Muestra(this,".$Pos.")'>".$Fila["abrev"];
 						echo "<select name='TxtUnidad' style='visibility:hidden'>\n";
 						$Consulta = "select * from proyecto_modernizacion.unidades order by cod_unidad";
 						$RespAux = mysqli_query($link, $Consulta);
@@ -303,7 +303,7 @@ body {
 					}
 					else
 					{
-						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."' checked onClick='Muestra(this,".$Pos.")'>".$Fila[abrev];
+						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."' checked onClick='Muestra(this,".$Pos.")'>".$Fila["abrev"];
 						echo "<select name='TxtUnidad' style='visibility:visible'>\n";
 						$Consulta = "select * from proyecto_modernizacion.unidades order by cod_unidad";
 						$RespAux = mysqli_query($link, $Consulta);
@@ -357,7 +357,7 @@ body {
 				}
 				if ($Encontro == false)
    				{
-					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."' onClick='Muestra(this,".$Pos.")'>".$Fila[abrev];		
+					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."' onClick='Muestra(this,".$Pos.")'>".$Fila["abrev"];		
 					echo "<select name='TxtUnidad' style='visibility:hidden'>\n";
 					$Consulta = "select * from proyecto_modernizacion.unidades order by cod_unidad";
 					$RespAux = mysqli_query($link, $Consulta);
@@ -372,7 +372,7 @@ body {
 				}
 				else
 				{
-					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."' checked onClick='Muestra(this,".$Pos.")'>".$Fila[abrev];						
+					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."' checked onClick='Muestra(this,".$Pos.")'>".$Fila["abrev"];						
 					echo "<select name='TxtUnidad' style='visibility:visible'>\n";
 					$Consulta = "select * from proyecto_modernizacion.unidades order by cod_unidad";
 					$RespAux = mysqli_query($link, $Consulta);
@@ -426,7 +426,7 @@ body {
 				}
 				if ($Encontro == false)
    				{
-					echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."' onClick='Muestra(this,".$Pos.")'>".$Fila[abrev];		
+					echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."' onClick='Muestra(this,".$Pos.")'>".$Fila["abrev"];		
 					echo "<select name='TxtUnidad' style='visibility:hidden'>\n";
 					$Consulta = "select * from proyecto_modernizacion.unidades order by cod_unidad";
 					$RespAux = mysqli_query($link, $Consulta);
@@ -441,7 +441,7 @@ body {
 				}
 				else
 				{
-					echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."' checked onClick='Muestra(this,".$Pos.")'>".$Fila[abrev];		
+					echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."' checked onClick='Muestra(this,".$Pos.")'>".$Fila["abrev"];		
 					echo "<select name='TxtUnidad' style='visibility:visible'>\n";
 					$Consulta = "select * from proyecto_modernizacion.unidades order by cod_unidad";
 					$RespAux = mysqli_query($link, $Consulta);

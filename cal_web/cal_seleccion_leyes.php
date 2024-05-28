@@ -1,21 +1,12 @@
 ﻿<?php
 	include("../principal/conectar_principal.php");
 
-	if(isset($_REQUEST["SA"])) {
-		$SA = $_REQUEST["SA"];
-	}else{
-		$SA = "";
-	}
-	if(isset($_REQUEST["Recargo"])) {
-		$Recargo = $_REQUEST["Recargo"];
-	}else{
-		$Recargo = "";
-	}
-	if(isset($_REQUEST["ValoresSA"])) {
-		$ValoresSA = $_REQUEST["ValoresSA"];
-	}else{
-		$ValoresSA = "";
-	}
+	$Ley       = isset($_REQUEST["Ley"])?$_REQUEST["Ley"]:"";
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Pantalla  = isset($_REQUEST["Pantalla"])?$_REQUEST["Pantalla"]:"";
+	$SA        = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$Recargo   = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+	$ValoresSA = isset($_REQUEST["ValoresSA"])?$_REQUEST["ValoresSA"]:"";
 
 	$Consulta="select t1.cod_leyes from cal_web.leyes_por_solicitud t1 inner join proyecto_modernizacion.leyes t2";
 	$Consulta=$Consulta." on t1.cod_leyes = t2.cod_leyes and t2.tipo_leyes='0' where t1.nro_solicitud=".$SA;
@@ -24,6 +15,7 @@
 		$Consulta=$Consulta." and recargo='".$Recargo."'";
 	}
 	$Respuesta=mysqli_query($link, $Consulta);
+	$Leyes="";
 	while ($Fila=mysqli_fetch_array($Respuesta))
 	{
 		$Leyes=$Leyes." and t1.cod_leyes <>'".$Fila["cod_leyes"]."'"; 
@@ -36,6 +28,7 @@
 		$Consulta=$Consulta." and recargo='".$Recargo."'";
 	}
 	$Respuesta=mysqli_query($link, $Consulta);
+	$Imp="";
 	while ($Fila=mysqli_fetch_array($Respuesta))
 	{
 		$Imp=$Imp." and t1.cod_leyes <>'".$Fila["cod_leyes"]."'"; 
@@ -48,6 +41,7 @@
 		$Consulta=$Consulta." and recargo='".$Recargo."'";
 	}
 	$Respuesta=mysqli_query($link, $Consulta);
+	$Fis="";
 	while ($Fila=mysqli_fetch_array($Respuesta))
 	{
 		$Fis=$Fis." and t1.cod_leyes <>'".$Fila["cod_leyes"]."'"; 

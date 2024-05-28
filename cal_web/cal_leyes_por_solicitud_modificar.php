@@ -271,12 +271,12 @@ function Grabar(Sol,Recargo)
 					{
 						if ($EncontroLey==false)
 						{
-							echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];
+							echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];
 							echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";					
 						}
 						else
 						{
-							echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."' checked>".$Fila[abrev];
+							echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."' checked>".$Fila["abrev"];
 							echo "<input type ='hidden' name='TxtUnidad' value='$Unidad'>";
 						}
 						$cont =$cont+ 1;
@@ -340,12 +340,12 @@ function Grabar(Sol,Recargo)
 				{
 					if ($EncontroLey == false)
 					{
-						echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];		
+						echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];		
 						echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";
 					}
 					else
 					{
-						echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."' checked>".$Fila[abrev];						
+						echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."' checked>".$Fila["abrev"];						
 						echo "<input type ='hidden' name='TxtUnidad' value='$Unidad'>";
 					}
 					$cont =$cont+ 1;
@@ -408,12 +408,12 @@ function Grabar(Sol,Recargo)
 				{
 					if ($EncontroLey == false)
 					{
-						echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];		
+						echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];		
 						echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";
 					}
 					else
 					{
-						echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."' checked>".$Fila[abrev];		
+						echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."' checked>".$Fila["abrev"];		
 						echo "<input type ='hidden' name='TxtUnidad' value='$Unidad'>";
 					}
 					$cont =$cont+ 1;

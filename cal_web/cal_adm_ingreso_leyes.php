@@ -1,112 +1,37 @@
 ﻿<?php
+
 $CodigoDeSistema = 1;
 $CodigoDePantalla = 6;
-$CookieRut=$_COOKIE["CookieRut"];
 include("../principal/conectar_principal.php");
-
+$CookieRut=$_COOKIE["CookieRut"];
 $Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
 $Respuesta = mysqli_query($link, $Consulta);
 $Fila=mysqli_fetch_array($Respuesta);
 $Nivel=$Fila["nivel"];
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-$Rut =$CookieRut;
-$HoraActual = date("H");
+$Rut =  $CookieRut;
+$HoraActual   = date("H");
 $MinutoActual = date("i");
 
-if(isset($_REQUEST["CmbAno"])) {
-	$CmbAno = $_REQUEST["CmbAno"];
-}else{
-	$CmbAno = date("Y");
-}
-if(isset($_REQUEST["CmbMes"])) {
-	$CmbMes = $_REQUEST["CmbMes"];
-}else{
-	$CmbMes  = date("m");
-}
-if(isset($_REQUEST["CmbDias"])) {
-	$CmbDias= $_REQUEST["CmbDias"];
-}else{
-	$CmbDias = date("d");
-}
-if(isset($_REQUEST["CmbAnoT"])) {
-	$CmbAnoT = $_REQUEST["CmbAnoT"];
-}else{
-	$CmbAnoT = date("Y");
-}
-if(isset($_REQUEST["CmbMesT"])) {
-	$CmbMesT = $_REQUEST["CmbMesT"];
-}else{
-	$CmbMesT = date("m");
-}
-if(isset($_REQUEST["CmbDiasT"])) {
-	$CmbDiasT = $_REQUEST["CmbDiasT"];
-}else{
-	$CmbDiasT = date("d");
-}
-if(isset($_REQUEST["Mostrar"])) {
-	$Mostrar = $_REQUEST["Mostrar"];
-}else{
-	$Mostrar = "";
-}
-if(isset($_REQUEST["CmbEstado"])) {
-	$CmbEstado = $_REQUEST["CmbEstado"];
-}else{
-	$CmbEstado = "";
-}
-if(isset($_REQUEST["CmbProductos"])) {
-	$CmbProductos = $_REQUEST["CmbProductos"];
-}else{
-	$CmbProductos = "";
-}
-if(isset($_REQUEST["CmbSubProducto"])) {
-	$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-}else{
-	$CmbSubProducto = "";
-}
-if(isset($_REQUEST["AnoBuscadoIni"])) {
-	$AnoBuscadoIni = $_REQUEST["AnoBuscadoIni"];
-}else{
-	$AnoBuscadoIni = 0;
-}
-if(isset($_REQUEST["AnoBuscadoFin"])) {
-	$AnoBuscadoFin = $_REQUEST["AnoBuscadoFin"];
-}else{
-	$AnoBuscadoFin = 0;
-}
-if(isset($_REQUEST["TxtSa"])) {
-	$TxtSa = $_REQUEST["TxtSa"];
-}else{
-	$TxtSa = 0;
-}
-if(isset($_REQUEST["TxtSaFin"])) {
-	$TxtSaFin = $_REQUEST["TxtSaFin"];
-}else{
-	$TxtSaFin = 0;
-}
-if(isset($_REQUEST["checkTodos"])) {
-	$checkTodos = $_REQUEST["checkTodos"];
-}else{
-	$checkTodos = "";
-}
-
-
-if(isset($_REQUEST["LimitIni"])) {
-	$LimitIni = $_REQUEST["LimitIni"];
-}else{
-	$LimitIni = 0;
-}
-if(isset($_REQUEST["LimitFin"])) {
-	$LimitFin = $_REQUEST["LimitFin"];
-}else{
-	$LimitFin = 30;
-}
-if(isset($_REQUEST["Valores_Check"])) {
-	$Valores_Check = $_REQUEST["Valores_Check"];
-}else{
-	$Valores_Check = "";
-}
-
+$CmbAno   = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbMes   = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbDias  = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+$CmbAnoT  = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+$CmbMesT  = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+$CmbDiasT = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+$Mostrar  = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+$CmbEstado      = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+$CmbProductos   = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+$AnoBuscadoIni  = isset($_REQUEST["AnoBuscadoIni"])?$_REQUEST["AnoBuscadoIni"]:date("Y");
+$AnoBuscadoFin  = isset($_REQUEST["AnoBuscadoFin"])?$_REQUEST["AnoBuscadoFin"]:date("Y");
+$TxtSa          = isset($_REQUEST["TxtSa"])?$_REQUEST["TxtSa"]:0;
+$TxtSaFin       = isset($_REQUEST["TxtSaFin"])?$_REQUEST["TxtSaFin"]:0;
+$checkTodos     = isset($_REQUEST["checkTodos"])?$_REQUEST["checkTodos"]:"";
+$LimitIni       = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+$LimitFin       = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:30;
+$Valores_Check  = isset($_REQUEST["Valores_Check"])?$_REQUEST["Valores_Check"]:"";
 
 ?>
 <html>
@@ -1183,8 +1108,8 @@ function ValidarModificar()
 					while ($Fila3 = mysqli_fetch_array($Respuesta3))
 					{
 						$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
-						$CodAgrupacion = $Fila3[agrupacion];
-						$CodTipo = $Fila3[tipo];
+						$CodAgrupacion = $Fila3["agrupacion"];
+						$CodTipo = $Fila3["tipo"];
 						//echo "FechaMuestreo".$TxtFechaMuestreo."<br>";
 					}
 					//AGRUPACION
@@ -1301,10 +1226,6 @@ function ValidarModificar()
 						$Consulta ="select valor,candado,signo from leyes_por_solicitud  t1 where rut_funcionario = '".$Fila["rut_funcionario"]."' and nro_solicitud =".$Fila["nro_solicitud"]." and recargo ='".$Fila["recargo"]."' and fecha_hora ='".$Fila["fecha_hora"]."'";
       
 					}
-
-
-
-
                          
 					$Respuesta4 = mysqli_query($link, $Consulta);
 					while ($Fila4 = mysqli_fetch_array($Respuesta4))
@@ -1406,8 +1327,8 @@ function ValidarModificar()
 					while ($Fila3 = mysqli_fetch_array($Respuesta3))
 					{
 						$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
-						$CodAgrupacion = $Fila3[agrupacion];
-						$CodTipo = $Fila3[tipo];
+						$CodAgrupacion = $Fila3["agrupacion"];
+						$CodTipo = $Fila3["tipo"];
 						//echo "FechaMuestreo".$TxtFechaMuestreo."<br>";
 					}
 					//AGRUPACION
@@ -1619,8 +1540,8 @@ function ValidarModificar()
 					while ($Fila3 = mysqli_fetch_array($Respuesta3))
 					{
 						$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
-						$CodAgrupacion = $Fila3[agrupacion];
-						$CodTipo = $Fila3[tipo];
+						$CodAgrupacion = $Fila3["agrupacion"];
+						$CodTipo = $Fila3["tipo"];
 						//echo "FechaMuestreo".$TxtFechaMuestreo."<br>";
 					}
 					//AGRUPACION
@@ -1826,8 +1747,8 @@ function ValidarModificar()
 					while ($Fila3 = mysqli_fetch_array($Respuesta3))
 					{
 						$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
-						$CodAgrupacion = $Fila3[agrupacion];
-						$CodTipo = $Fila3[tipo];
+						$CodAgrupacion = $Fila3["agrupacion"];
+						$CodTipo = $Fila3["tipo"];
 						//echo "FechaMuestreo".$TxtFechaMuestreo."<br>";
 					}
 					//AGRUPACION

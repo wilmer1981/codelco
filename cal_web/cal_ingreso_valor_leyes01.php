@@ -2,11 +2,11 @@
 include("../principal/conectar_principal.php");
 $CookieRut=$_COOKIE["CookieRut"];
 
-	$ValoresSA    = $_REQUEST["ValoresSA"];
-	$Valores      = $_REQUEST["Valores"];
-	$Tipo         = $_REQUEST["Tipo"];
-	$Opcion       = $_REQUEST["Opcion"];
-	$PonerCandado = $_REQUEST["PonerCandado"];
+$ValoresSA    = isset($_REQUEST["ValoresSA"])?$_REQUEST["ValoresSA"]:"";
+$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$Tipo         = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+$Opcion       = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+$PonerCandado = isset($_REQUEST["PonerCandado"])?$_REQUEST["PonerCandado"]:"";
 
 
 
