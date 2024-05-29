@@ -14,62 +14,17 @@ if($Fila =mysqli_fetch_array($Respuesta))
 	
 }
 
-if(isset($_REQUEST["CmbDias"])) {
-	$CmbDias = $_REQUEST["CmbDias"];
-}else{
-	$CmbDias =  date("d");
-}
-if(isset($_REQUEST["CmbMes"])) {
-	$CmbMes = $_REQUEST["CmbMes"];
-}else{
-	$CmbMes =  date("m");
-}
-if(isset($_REQUEST["CmbAno"])) {
-	$CmbAno = $_REQUEST["CmbAno"];
-}else{
-	$CmbAno =  date("Y");
-}
-if(isset($_REQUEST["CmbDiasT"])) {
-	$CmbDiasT = $_REQUEST["CmbDiasT"];
-}else{
-	$CmbDiasT =  date("d");
-}
-if(isset($_REQUEST["CmbMesT"])) {
-	$CmbMesT = $_REQUEST["CmbMesT"];
-}else{
-	$CmbMesT =  date("m");
-}
-if(isset($_REQUEST["CmbAnoT"])) {
-	$CmbAnoT = $_REQUEST["CmbAnoT"];
-}else{
-	$CmbAnoT =  date("Y");
-}
-if(isset($_REQUEST["CmbEstado"])) {
-	$CmbEstado = $_REQUEST["CmbEstado"];
-}else{
-	$CmbEstado =  "";
-}
-if(isset($_REQUEST["Mostrar"])) {
-	$Mostrar = $_REQUEST["Mostrar"];
-}else{
-	$Mostrar =  "";
-}
-
-if(isset($_REQUEST["LimitIni"])) {
-	$LimitIni = $_REQUEST["LimitIni"];
-}else{
-	$LimitIni =  0;
-}
-if(isset($_REQUEST["LimitFin"])) {
-	$LimitFin = $_REQUEST["LimitFin"];
-}else{
-	$LimitFin =  10;
-}
-if(isset($_REQUEST["Nivel"])) {
-	$Nivel = $_REQUEST["Nivel"];
-}else{
-	$Nivel =  0;
-}
+$CmbDias            = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+$CmbMes             = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbAno             = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbDiasT           = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+$CmbMesT            = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+$CmbAnoT            = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+$CmbEstado          = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+$Mostrar            = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+$LimitIni           = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+$LimitFin           = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:10;
+$Nivel              = isset($_REQUEST["Nivel"])?$_REQUEST["Nivel"]:0;
 
 ?>
 <html>
