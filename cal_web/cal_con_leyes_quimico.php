@@ -26,6 +26,7 @@ $FechaHora          = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
 		
 $Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
 $Respuesta =mysqli_query($link, $Consulta);
+$Nivel="";
 if($Fila =mysqli_fetch_array($Respuesta))
 {
 	$Nivel = $Fila["nivel"];
@@ -612,6 +613,19 @@ function Recarga3(URL,LimiteIni,Mostrar,Quimico,Fisico,CkCombo,B)
           <td width="182"><strong> Unidad</strong></td>
         </tr>
         <?php
+		 if(strlen($CmbMes)==1){
+			$CmbMes ="0".$CmbMes;
+		 }
+		 if(strlen($CmbDias)==1){
+			$CmbDias ="0".$CmbDias;
+		 }
+		 if(strlen($CmbMesT)==1){
+			$CmbMesT ="0".$CmbMesT;
+		 }
+		 if(strlen($CmbDiasT)==1){
+			$CmbDiasT ="0".$CmbDiasT;
+		 }
+
 	   	$FechaI = $CmbAno."-".$CmbMes."-".$CmbDias.' 00:01';
 		$FechaT = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT.' 23:59';
 		if (($Mostrar=='B')&& (($Nivel!=1)&&($Nivel!=2)&&($Nivel!=3)))	
@@ -718,7 +732,7 @@ function Recarga3(URL,LimiteIni,Mostrar,Quimico,Fisico,CkCombo,B)
 					$Consulta= $Consulta."  and (t5.estado_actual = 5 or t5.estado_actual = 6 or t5.estado_actual = 31 or t5.estado_actual = 32) and (t5.cod_analisis ='2') and (not isnull(valor) or valor = '')   order by t1.nro_solicitud,recargo_ordenado ";
 					//echo "4".$Consulta."<br>";
 				}
-				if (($CmbFisico!='-1')&&($CheckCombo==2))//&&($CmbFisico!='-1'))
+				if (($CmbFisico!='-1') && ($CheckCombo==2))//&&($CmbFisico!='-1'))
 				{
 					$Consulta=" select STRAIGHT_JOIN t1.nro_solicitud,t1.recargo,t4.id_muestra,t2.abreviatura as leyes ,t3.abreviatura as unidad,t1.valor,t1.signo,if(length(t1.recargo)=1,concat('0',t1.recargo),t1.recargo) as recargo_ordenado ";
 					$Consulta= $Consulta." from cal_web.leyes_por_solicitud t1 inner join proyecto_modernizacion.leyes t2 ";
@@ -726,7 +740,7 @@ function Recarga3(URL,LimiteIni,Mostrar,Quimico,Fisico,CkCombo,B)
 					$Consulta= $Consulta."on t1.cod_unidad = t3.cod_unidad ";
 					$Consulta= $Consulta." inner join cal_web.solicitud_analisis t4 on t1.nro_solicitud = t4.nro_solicitud and t1.recargo= t4.recargo  and t1.fecha_hora = t4.fecha_hora and t1.rut_funcionario = t4.rut_funcionario ";
 					$Consulta= $Consulta." where (t4.fecha_muestra between '".$FechaI."' and '".$FechaT."') ";
-					$Consulta= $Consulta."  and (t4.estado_actual = 5 or t4.estado_actual = 6 or t4.estado_actual = 31 or t4.estado_actual = 32) and t1.rut_quimico = '".$CmbFisico."' and (t4.cod_analisis ='2') and (not isnull(valor) or valor = '') order by t1.nro_solicitud,recargo_ordenado ";
+					$Consulta= $Consulta."  and (t4.estado_actual = 5 or t4.estado_actual = 6 or t4.estado_actual = 31 or t4.estado_actual = 32) and t1.rut_quimico = '".$CmbFisico."' and (t4.cod_analisis ='2') and (not isnull(t1.valor) or t1.valor = '') order by t1.nro_solicitud,recargo_ordenado ";
 					//echo "5".$Consulta."<br>";
 				}
 				//echo $Consulta."<br>";
