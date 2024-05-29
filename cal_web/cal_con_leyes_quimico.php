@@ -1,98 +1,35 @@
 ﻿<?php
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $CookieRut= $_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 $CodigoDeSistema = 1;
 $CodigoDePantalla = 5;
+
+$Bloquear           = isset($_REQUEST["Bloquear"])?$_REQUEST["Bloquear"]:"";
+$CheckCombo         = isset($_REQUEST["CheckCombo"])?$_REQUEST["CheckCombo"]:"";
+$CmbDias            = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+$CmbMes             = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbAno             = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbDiasT           = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+$CmbMesT            = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+$CmbAnoT            = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+$Mostrar            = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+$LimitIni           = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+$LimitFin           = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:50;
+$CmbQuimico         = isset($_REQUEST["CmbQuimico"])?$_REQUEST["CmbQuimico"]:"";
+$CmbFisico          = isset($_REQUEST["CmbFisico"])?$_REQUEST["CmbFisico"]:"";
+$TxtOpcion          = isset($_REQUEST["TxtOpcion"])?$_REQUEST["TxtOpcion"]:"";
+$CmbEspectrografo   = isset($_REQUEST["CmbEspectrografo"])?$_REQUEST["CmbEspectrografo"]:"";
+$FechaHora          = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+		
 $Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
 $Respuesta =mysqli_query($link, $Consulta);
 if($Fila =mysqli_fetch_array($Respuesta))
 {
 	$Nivel = $Fila["nivel"];
 }
-
-
-if(isset($_REQUEST["Bloquear"])) {
-	$Bloquear = $_REQUEST["Bloquear"];
-}else{
-	$Bloquear =  "";
-}
-if(isset($_REQUEST["CheckCombo"])) {
-	$CheckCombo = $_REQUEST["CheckCombo"];
-}else{
-	$CheckCombo =  "";
-}
-
-if(isset($_REQUEST["CmbDias"])) {
-	$CmbDias = $_REQUEST["CmbDias"];
-}else{
-	$CmbDias =  date("d");
-}
-if(isset($_REQUEST["CmbMes"])) {
-	$CmbMes = $_REQUEST["CmbMes"];
-}else{
-	$CmbMes =  date("m");
-}
-if(isset($_REQUEST["CmbAno"])) {
-	$CmbAno = $_REQUEST["CmbAno"];
-}else{
-	$CmbAno =  date("Y");
-}
-if(isset($_REQUEST["CmbDiasT"])) {
-	$CmbDiasT = $_REQUEST["CmbDiasT"];
-}else{
-	$CmbDiasT =  date("d");
-}
-if(isset($_REQUEST["CmbMesT"])) {
-	$CmbMesT = $_REQUEST["CmbMesT"];
-}else{
-	$CmbMesT =  date("m");
-}
-if(isset($_REQUEST["CmbAnoT"])) {
-	$CmbAnoT = $_REQUEST["CmbAnoT"];
-}else{
-	$CmbAnoT =  date("Y");
-}
-if(isset($_REQUEST["CmbQuimico"])) {
-	$CmbQuimico = $_REQUEST["CmbQuimico"];
-}else{
-	$CmbQuimico =  "";
-}
-if(isset($_REQUEST["CmbFisico"])) {
-	$CmbFisico = $_REQUEST["CmbFisico"];
-}else{
-	$CmbFisico =  "";
-}
-if(isset($_REQUEST["TxtOpcion"])) {
-	$TxtOpcion = $_REQUEST["TxtOpcion"];
-}else{
-	$TxtOpcion =  "";
-}
-if(isset($_REQUEST["Mostrar"])) {
-	$Mostrar = $_REQUEST["Mostrar"];
-}else{
-	$Mostrar =  "";
-}
-if(isset($_REQUEST["LimitIni"])) {
-	$LimitIni = $_REQUEST["LimitIni"];
-}else{
-	$LimitIni = 0;
-}
-if(isset($_REQUEST["LimitFin"])) {
-	$LimitFin = $_REQUEST["LimitFin"];
-}else{
-	$LimitFin = 50;
-}
-if(isset($_REQUEST["CmbEspectrografo"])) {
-	$CmbEspectrografo = $_REQUEST["CmbEspectrografo"];
-}else{
-	$CmbEspectrografo = "";
-}
-		
-
-
 
 ?>
 <html>
@@ -291,7 +228,7 @@ function Recarga3(URL,LimiteIni,Mostrar,Quimico,Fisico,CkCombo,B)
             <?php echo $Fecha_Hora ?>
             </strong>&nbsp; <strong> 
             <?php
-			if (!isset($FechaHora))
+			if ($FechaHora=="")
   			{
 				echo "<input name='FechaHora' type='hidden' value='".date('Y-m-d H:i')."'>";
 				$FechaHora=date('Y-m-d H:i');
@@ -589,7 +526,7 @@ function Recarga3(URL,LimiteIni,Mostrar,Quimico,Fisico,CkCombo,B)
             <input name="BtnImprimir2" type="button" value="Imprimir" onClick='JavaScript:Imprimir();' style="width:70">
             &nbsp;</font><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
             <?php
-			if (!isset($TxtOpcion))
+			if ($TxtOpcion=="")
 			{
 				echo "<input name='TxtOpcion' type='hidden' value=''>";
  				$TxtOpcion=$TxtOpcion;
@@ -615,7 +552,7 @@ function Recarga3(URL,LimiteIni,Mostrar,Quimico,Fisico,CkCombo,B)
           <td width="128" height="30">Equipo Espectrográfo:</td>
           <td width="266" height="30"> <select name="CmbEspectrografo" style="width:150">
               <?php
-					if (!isset($CmbEspectrografo))
+					if ($CmbEspectrografo=="")
 					{
 						echo "<option selected value='-1' selected>Seleccionar</option>";
 						echo "<option value='00000000-1'>EEA-Arco</option>";
