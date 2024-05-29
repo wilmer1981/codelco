@@ -23,7 +23,6 @@
 
 		$CookieRut= $_COOKIE["CookieRut"];
 
-
 		$CmbProductos = $_REQUEST["CmbProductos"];
 		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
 		$CmbCCosto = $_REQUEST["CmbCCosto"];
@@ -234,7 +233,7 @@
 				$Con=$Con." and cod_subclase = '".$CmbTipo."'";
 				$Respuesta= mysqli_query($link, $Con);
 				$Fila= mysqli_fetch_array($Respuesta); 
-				$Tipo= $Fila["nombre_subclase"];
+				$Tipo= isset($Fila["nombre_subclase"])?$Fila["nombre_subclase"]:"";
 				if ($CmbTipo=='-1')
 				{	
 					echo "Todos";
@@ -419,10 +418,12 @@
 						reset($Arreglo);
 						//while(list($Clave,$Valor)=each($Arreglo))
 						foreach ($Arreglo as $Clave => $Valor) 
-						{
-							echo "<td align=\"right\" >".$Valor[3]."</td>";
-							echo "<td align=\"right\" >".$Valor[1]."</td>";
-							echo "<td align=\"center\" bgcolor=\"#efefef\" >".$Valor[2]."</td>";
+						{   $Valor1 = isset($Valor[1])?$Valor[1]:"";
+						    $Valor2 = isset($Valor[2])?$Valor[2]:"";
+						    $Valor3 = isset($Valor[3])?$Valor[3]:""; 
+							echo "<td align=\"right\" >".$Valor3."</td>";
+							echo "<td align=\"right\" >".$Valor1."</td>";
+							echo "<td align=\"center\" bgcolor=\"#efefef\" >".$Valor2."</td>";
 						}
 						if ($ChkAgrupacion=="S")
 							echo "<td align=\"left\">".$FilaDatos["nombre_subclase"]."</td>";							

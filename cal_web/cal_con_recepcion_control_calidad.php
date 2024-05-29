@@ -1,18 +1,11 @@
 ﻿<?php
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $CookieRut= $_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 $CodigoDeSistema = 1;
 $CodigoDePantalla = 5;
-$Consulta = "SELECT * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
-$Respuesta =mysqli_query($link, $Consulta);
-if($Fila =mysqli_fetch_array($Respuesta))
-{
-	$Nivel = $Fila["nivel"];
-	
-}
 
 $CmbDias            = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
 $CmbMes             = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
@@ -25,6 +18,13 @@ $Mostrar            = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 $LimitIni           = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
 $LimitFin           = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:10;
 $Nivel              = isset($_REQUEST["Nivel"])?$_REQUEST["Nivel"]:0;
+
+$Consulta = "SELECT * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
+$Respuesta =mysqli_query($link, $Consulta);
+if($Fila =mysqli_fetch_array($Respuesta))
+{
+	$Nivel = $Fila["nivel"];	
+}
 
 ?>
 <html>

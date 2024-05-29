@@ -2,98 +2,26 @@
 	$CodigoDeSistema = 1;
 	$CookieRut= $_COOKIE["CookieRut"];
 
-	if(isset($_REQUEST["CmbProductos"])) {
-		$CmbProductos = $_REQUEST["CmbProductos"];
-	}else{
-		$CmbProductos =  "";
-	}
-	if(isset($_REQUEST["CmbSubProducto"])) {
-		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	}else{
-		$CmbSubProducto =  "";
-	}
-	if(isset($_REQUEST["CmbCCosto"])) {
-		$CmbCCosto = $_REQUEST["CmbCCosto"];
-	}else{
-		$CmbCCosto =  "";
-	}
-	if(isset($_REQUEST["CmbAreasProceso"])) {
-		$CmbAreasProceso = $_REQUEST["CmbAreasProceso"];
-	}else{
-		$CmbAreasProceso =  "";
-	}
-	if(isset($_REQUEST["CmbPeriodo"])) {
-		$CmbPeriodo = $_REQUEST["CmbPeriodo"];
-	}else{
-		$CmbPeriodo =  "";
-	}
-	if(isset($_REQUEST["Enabal"])) {
-		$Enabal = $_REQUEST["Enabal"];
-	}else{
-		$Enabal =  "";
-	}
-	if(isset($_REQUEST["CmbTipo"])) {
-		$CmbTipo = $_REQUEST["CmbTipo"];
-	}else{
-		$CmbTipo =  "";
-	}
-	if(isset($_REQUEST["CmbTipoAnalisis"])) {
-		$CmbTipoAnalisis = $_REQUEST["CmbTipoAnalisis"];
-	}else{
-		$CmbTipoAnalisis =  "";
-	}
-	if(isset($_REQUEST["CmbDias"])) {
-		$CmbDias = $_REQUEST["CmbDias"];
-	}else{
-		$CmbDias =  date("d");
-	}
-	if(isset($_REQUEST["CmbMes"])) {
-		$CmbMes = $_REQUEST["CmbMes"];
-	}else{
-		$CmbMes =  date("m");
-	}
-	if(isset($_REQUEST["CmbAno"])) {
-		$CmbAno = $_REQUEST["CmbAno"];
-	}else{
-		$CmbAno =  date("Y");
-	}
-	if(isset($_REQUEST["CmbDiasT"])) {
-		$CmbDiasT = $_REQUEST["CmbDiasT"];
-	}else{
-		$CmbDiasT =  date("d");
-	}
-	if(isset($_REQUEST["CmbMesT"])) {
-		$CmbMesT = $_REQUEST["CmbMesT"];
-	}else{
-		$CmbMesT =  date("m");
-	}
-	if(isset($_REQUEST["CmbAnoT"])) {
-		$CmbAnoT = $_REQUEST["CmbAnoT"];
-	}else{
-		$CmbAnoT =  date("Y");
-	}
-	if(isset($_REQUEST["LimitFinAux"])) {
-		$LimitFinAux = $_REQUEST["LimitFinAux"];
-	}else{
-		$LimitFinAux =  50;
-	}
-	if(isset($_REQUEST["Opc"])) {
-		$Opc = $_REQUEST["Opc"];
-	}else{
-		$Opc =  1;
-	}
+	$CmbProductos       = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbSubProducto     = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbCCosto          = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:"";
+	$CmbDias            = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:1;
+	$CmbMes             = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno             = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbDiasT           = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+	$CmbMesT            = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+	$CmbAnoT            = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+	$LimitFinAux        = isset($_REQUEST["LimitFinAux"])?$_REQUEST["LimitFinAux"]:50;
+	$Opc                = isset($_REQUEST["Opc"])?$_REQUEST["Opc"]:1;
+	$Opcion             = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+	$CmbTipoAnalisis    = isset($_REQUEST["CmbTipoAnalisis"])?$_REQUEST["CmbTipoAnalisis"]:"";
+	$CmbTipo            = isset($_REQUEST["CmbTipo"])?$_REQUEST["CmbTipo"]:"";
+	$Enabal             = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:"";
+	$CmbPeriodo         = isset($_REQUEST["CmbPeriodo"])?$_REQUEST["CmbPeriodo"]:"";
+	$CmbAreasProceso    = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:"";
 
-	if(isset($_REQUEST["Opcion"])) {
-		$Opcion = $_REQUEST["Opcion"];
-	}else{
-		$Opcion =  "";
-	}
-
-	//if (!isset($LimitFinAux))
-	//	$LimitFinAux=50;
 //	$CodigoDePantalla = 22;
-	//if (!isset($Opc))
-	//	$Opc=1;
+	/*
 	if (!isset($CmbDias))
 	{
 		$CmbDias=1;
@@ -102,14 +30,14 @@
 		$CmbDiasT=date("j");
 		$CmbMesT=date("n");
 		$CmbAnoT=date("Y");
-	}
+	}*/
 	include("../principal/conectar_principal.php");
 
-$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-$Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
-$Respuesta = mysqli_query($link, $Consulta);
-$Fila=mysqli_fetch_array($Respuesta);
-$Nivel=$Fila["nivel"];
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
+	$Respuesta = mysqli_query($link, $Consulta);
+	$Fila=mysqli_fetch_array($Respuesta);
+	$Nivel=$Fila["nivel"];
 
 ?>
 <html>
