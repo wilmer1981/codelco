@@ -26,7 +26,7 @@ if(isset($_REQUEST["AnoIni"])) {
 if(isset($_REQUEST["NumIni"])) {
 	$NumIni = $_REQUEST["NumIni"];
 }else{
-	$NumIni = 0;
+	$NumIni = '';
 }
 if(isset($_REQUEST["AnoFin"])) {
 	$AnoFin = $_REQUEST["AnoFin"];
@@ -36,7 +36,7 @@ if(isset($_REQUEST["AnoFin"])) {
 if(isset($_REQUEST["NumFin"])) {
 	$NumFin = $_REQUEST["NumFin"];
 }else{
-	$NumFin = 0;
+	$NumFin = '';
 }
 
 
@@ -114,12 +114,6 @@ function Recarga(URL,LimiteIni)
 </head>
 <body background="../principal/imagenes/fondo3.gif">
 <form name="frmPrincipal" action="" method="post">
-<?php
-	if (!isset($LimitIni))
-		$LimitIni = 0;
-	if (!isset($LimitFin))
-		$LimitFin = 10;
-?>
 <input type="hidden" name="LimitIni" value="<?php echo $LimitIni; ?>">
   <table width="765" border="0">
     <tr>
@@ -194,13 +188,13 @@ function Recarga(URL,LimiteIni)
       <td width="94"><strong>Ult. Estado</strong></td>
     </tr>
     <?php
-	if (!isset($AnoIni))
+	if ($AnoIni=="")
 		$AnoIni = 0;
-	if (!isset($NumIni))
+	if ($NumIni=="")
 		$NumIni = 0;
-	if (!isset($AnoFin))
+	if ($AnoFin=="")
 		$AnoFin = 0;
-	if (!isset($NumFin))
+	if ($NumFin=="")
 		$NumFin = 0;
 	$SolIni = $AnoIni."000000";
 	$SolFin = $AnoFin."000000";
@@ -240,8 +234,8 @@ function Recarga(URL,LimiteIni)
 		}
 		else
 		{
-
-			if ($Fila["nro_sa_lims"]=='') {
+			$nro_sa_lims = isset($Fila["nro_sa_lims"])?$Fila["nro_sa_lims"]:"";
+			if ($nro_sa_lims=='') {
 				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Row["recargo"]."','".$Nivel."')\">\n";
 				echo $Row["nro_solicitud"]."-".$Row["recargo"]."</td>\n";
 			}else{

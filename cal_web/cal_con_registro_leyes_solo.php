@@ -992,7 +992,7 @@ function Imprimir()
 	{
 		$Consulta.=" where nro_solicitud = ".$SA." and recargo =".$Recargo." ORDER BY fecha_hora, recargo, cod_leyes";
 	}
-	echo $Consulta;
+	//echo $Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Row = mysqli_fetch_array($Respuesta))
 	{
