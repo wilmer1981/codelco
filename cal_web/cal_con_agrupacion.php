@@ -394,6 +394,18 @@ function Recarga(URL,LimiteIni)
   </table>
   <br>
 <?php
+	 if(strlen($MesIni)==1){
+		$MesIni ="0".$MesIni;
+	 }
+	 if(strlen($MesFin)==1){
+		$MesFin ="0".$MesFin;
+	 }
+	 if(strlen($DiaIni)==1){
+		$DiaIni ="0".$DiaIni;
+	 }
+	 if(strlen($DiaFin)==1){
+		$DiaFin ="0".$DiaFin;
+	 }
 	$FechaIni = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaFin = $AnoFin."-".$MesFin."-".$DiaFin;
 	$Consulta = "select STRAIGHT_JOIN distinct(t2.cod_leyes), t3.abreviatura ";
