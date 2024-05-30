@@ -381,10 +381,26 @@ function Recarga(URL,LimiteIni)
   </table>
   <br>
 <?php
+
+
 	$SolIni = $AnoIni2."000000";
 	$SolFin = $AnoFin2."000000";
 	$SolIni = $SolIni + $NumIni;
 	$SolFin = $SolFin + $NumFin;
+
+	if(strlen($MesIni)==1){
+		$MesIni ="0".$MesIni;
+	 }
+	 if(strlen($MesFin)==1){
+		$MesFin ="0".$MesFin;
+	 }
+	 if(strlen($DiaIni)==1){
+		$DiaIni ="0".$DiaIni;
+	 }
+	 if(strlen($DiaFin)==1){
+		$DiaFin ="0".$DiaFin;
+	 }
+
 	$FechaIni = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaFin = $AnoFin."-".$MesFin."-".$DiaFin;
 ?>	    

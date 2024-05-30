@@ -17,8 +17,6 @@ $TxtArea     = isset($_REQUEST["TxtArea"])?$_REQUEST["TxtArea"]:"";
 $TxtAnalisis     = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
 $TxtTipo     = isset($_REQUEST["TxtTipo"])?$_REQUEST["TxtTipo"]:"";
 $TxtFechaC     = isset($_REQUEST["TxtFechaC"])?$_REQUEST["TxtFechaC"]:"";
-$TxtAnalisis     = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
-$TxtAnalisis     = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
 
 //CONSULTA DATOS BASE
 $Consulta ="SELECT * ";
