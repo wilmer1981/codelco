@@ -1,7 +1,7 @@
 ﻿<?php
 include("../principal/conectar_principal.php");
 
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $CookieRut= $_COOKIE["CookieRut"];
 $Rut = $CookieRut;
@@ -561,7 +561,19 @@ function Recarga(URL,LimiteIni)
         <td width="173"><div align="center">SubProducto</div></td>
       </tr>
       <?php	  
-	 	include ("../Principal/conectar_cal_web.php");	
+	 	include ("../Principal/conectar_cal_web.php");
+		 if(strlen($CmbDias)==1){
+			$CmbDias= "0".$CmbDias;
+		}
+		if(strlen($CmbMes)==1){
+			$CmbMes= "0".$CmbMes;
+		}
+		if(strlen($CmbDiasT)==1){
+			$CmbDiasT= "0".$CmbDiasT;
+		}
+		if(strlen($CmbMesT)==1){
+			$CmbMesT= "0".$CmbMesT;
+		} 	
 		 $Chanta="";
         if($Mostrar=="S")
 		{     
