@@ -1,22 +1,22 @@
 <?php   
 	ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        	$filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+		$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 
@@ -124,6 +124,18 @@
 				}
 				else
 				{
+					if(strlen($CmbDias)==1){
+						$CmbDias= "0".$CmbDias;
+					}
+					if(strlen($CmbMes)==1){
+						$CmbMes= "0".$CmbMes;
+					}
+					if(strlen($CmbDiasT)==1){
+						$CmbDiasT= "0".$CmbDiasT;
+					}
+					if(strlen($CmbMesT)==1){
+						$CmbMesT= "0".$CmbMesT;
+					}
 					$FechaI=$CmbAno."-".$CmbMes."-".$CmbDias." 00:00:01";
 					$FechaT=$CmbAnoT."-".$CmbMesT."-".$CmbDiasT." 23:59:59";
 				}	
@@ -142,6 +154,7 @@
 					//	echo $Consulta."<br>";	
 					//	$Consulta="select abreviatura from proyecto_modernizacion.leyes where cod_leyes=".$ArregloAux[$i];
 					$Respuesta=mysqli_query($link, $Consulta);
+					$LeyesExistentes="";
 					if($Fila=mysqli_fetch_array($Respuesta))
 					{
 						$Arreglo[$ArregloAux[$i]][0]=$Fila["abreviatura"];
@@ -165,6 +178,7 @@
 						reset($Arreglo);
 						ksort($Arreglo);
 							//while(list($Clave,$Valor)=each($Arreglo))
+							$CodLeyes="";
 							foreach($Arreglo as $Clave => $Valor)
 							{
 								echo "<td width='50' align='center'>";

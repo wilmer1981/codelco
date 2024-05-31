@@ -1,6 +1,6 @@
 <?php
 $CodigoDeSistema = 1;
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 include("../principal/conectar_principal.php");
 $CookieRut = $_COOKIE["CookieRut"];
 $Rut =$CookieRut;
@@ -365,6 +365,7 @@ function Recarga(URL,LimiteIni)
 				$i++;
 		}
 	}
+	$Pregunta="";
 	if ($Encontro==true)
 	{
 		$Pregunta.=" (t1.id_muestra between '".$LoteOrigen."' and '".$LoteFinal."') or (t1.id_muestra between '".$IdInicial."' and '".$IdFinal."')  ";
@@ -373,6 +374,20 @@ function Recarga(URL,LimiteIni)
 	{
 		$Pregunta = "   (t1.id_muestra between '".$IdInicial."' and '".$IdFinal."')  ";
 	}
+
+	if(strlen($DiaIni)==1){
+		$DiaIni= "0".$DiaIni;
+	}
+	if(strlen($MesIni)==1){
+		$MesIni= "0".$MesIni;
+	}
+	if(strlen($DiaFin)==1){
+		$DiaFin= "0".$DiaFin;
+	}
+	if(strlen($MesFin)==1){
+		$MesFin= "0".$MesFin;
+	} 
+	
 	$FechaIni = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaFin = $AnoFin."-".$MesFin."-".$DiaFin;
 	$Consulta = "select STRAIGHT_JOIN t2.cod_leyes, t3.abreviatura,t4.lotes ";

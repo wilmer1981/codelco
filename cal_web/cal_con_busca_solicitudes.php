@@ -14,7 +14,7 @@ $Nivel=$Fila["nivel"];
 if(isset($_REQUEST["AnoIni2"])) {
 	$AnoIni2 = $_REQUEST["AnoIni2"];
 }else{
-	$AnoIni2 =  0;
+	$AnoIni2 =  date("Y");
 }
 if(isset($_REQUEST["AnoIni"])) {
 	$AnoIni = $_REQUEST["AnoIni"];
@@ -34,7 +34,7 @@ if(isset($_REQUEST["DiaIni"])) {
 if(isset($_REQUEST["AnoFin2"])) {
 	$AnoFin2 = $_REQUEST["AnoFin2"];
 }else{
-	$AnoFin2 =  0;
+	$AnoFin2 =  date("Y");
 }
 if(isset($_REQUEST["AnoFin"])) {
 	$AnoFin = $_REQUEST["AnoFin"];
@@ -59,12 +59,12 @@ if(isset($_REQUEST["CmbPeriodo"])) {
 if(isset($_REQUEST["NumIni"])) {
 	$NumIni = $_REQUEST["NumIni"];
 }else{
-	$NumIni =  0;
+	$NumIni =  "";
 }
 if(isset($_REQUEST["NumFin"])) {
 	$NumFin = $_REQUEST["NumFin"];
 }else{
-	$NumFin =  0;
+	$NumFin =  "";
 }
 if(isset($_REQUEST["LimitIni"])) {
 	$LimitIni = $_REQUEST["LimitIni"];
@@ -76,9 +76,6 @@ if(isset($_REQUEST["LimitFin"])) {
 }else{
 	$LimitFin =  10;
 }
-
-
-
 
 
 ?>
@@ -256,16 +253,30 @@ function Imprimir()
 			$AgrupPeriodo=" and (t1.cod_periodo = '5') ";
 			break;			
 	}
+	if(strlen($DiaIni)==1){
+		$DiaIni= "0".$CmbDiaIni;
+	}
+	if(strlen($MesIni)==1){
+		$MesIni= "0".$MesIni;
+	}
+	if(strlen($DiaFin)==1){
+		$DiaFin= "0".$DiaFin;
+	}
+	if(strlen($MesFin)==1){
+		$MesFin= "0".$MesFin;
+	} 
+	
 	$FechaIni = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaFin = $AnoFin."-".$MesFin."-".$DiaFin;
-	/*if (!isset($AnoIni2))
+	/*
+	if (!isset($AnoIni2))
 	$AnoIni2 = 0;*/
-	/*if (!isset($NumIni))
-		$NumIni = 0;*/
+	if ($NumIni=="")
+		$NumIni = 0;
 	/*if (!isset($AnoFin2))
 		$AnoFin2 = 0;*/
-	/*if (!isset($NumFin))
-		$NumFin = 0;*/
+	if ($NumFin=="")
+		$NumFin = 0;
 
 	//$SolIniLims=$NumIni;
 	//$SolIniLims=$NumFin;

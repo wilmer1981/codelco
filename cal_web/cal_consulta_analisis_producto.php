@@ -405,9 +405,10 @@ function Salir()
 						$Consulta="SELECT t2.cod_leyes,t3.abreviatura from cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2 on t1.nro_solicitud=t2.nro_solicitud inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes=t3.cod_leyes  ";
 						$Consulta.=" where not isnull(t1.nro_solicitud)  and t1.estado_actual !='7' and t1.estado_actual !='16' and  t1.fecha_hora between '".$FechaI."' and '".$FechaT."' and  t2.cod_leyes='".$ArregloDescrip[$i]."' limit 1";
 					//	$Consulta="select abreviatura from proyecto_modernizacion.leyes where cod_leyes=".$ArregloDescrip[$i];
-					echo $Consulta."<br>";	
+					//echo $Consulta."<br>";	
 				//	$Consulta="select abreviatura from proyecto_modernizacion.leyes where cod_leyes=".$ArregloAux[$i];
 					$Respuesta=mysqli_query($link, $Consulta);
+					$LeyesExistentes="";
 					if($Fila=mysqli_fetch_array($Respuesta))
 					{
 						$Arreglo[$ArregloAux[$i]][0]=$Fila["abreviatura"];
@@ -433,6 +434,7 @@ function Salir()
 					reset($Arreglo);
 					ksort($Arreglo);
 					//while(list($Clave,$Valor)=each($Arreglo))
+					$CodLeyes="";
 					foreach($Arreglo as $Clave => $Valor)
 					{
 						echo "<td width='50' align='center'>";

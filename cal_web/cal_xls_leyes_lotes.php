@@ -1,21 +1,22 @@
-<?php         ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+<?php   
+ob_end_clean();
+$file_name=basename($_SERVER['PHP_SELF']).".xls";
+$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+$filename="";
+if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+$filename = urlencode($filename);
+}
+$filename = iconv('UTF-8', 'gb2312', $filename);
+$file_name = str_replace(".php", "", $file_name);
+header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+
+header("content-disposition: attachment;filename={$file_name}");
+header( "Cache-Control: public" );
+header( "Pragma: public" );
+header( "Content-type: text/csv" ) ;
+header( "Content-Dis; filename={$file_name}" ) ;
+header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
@@ -133,6 +134,7 @@ if(isset($_REQUEST["LimitFin"])) {
 				$i++;
 		}
 	}
+	$Pregunta="";
 	if ($Encontro==true)
 	{
 		$Pregunta.=" (t1.id_muestra between '".$LoteOrigen."' and '".$LoteFinal."') or (t1.id_muestra between '".$IdInicial."' and '".$IdFinal."')  ";
@@ -141,6 +143,20 @@ if(isset($_REQUEST["LimitFin"])) {
 	{
 		$Pregunta = "   (t1.id_muestra between '".$IdInicial."' and '".$IdFinal."')  ";
 	}
+
+	if(strlen($DiaIni)==1){
+		$DiaIni= "0".$DiaIni;
+	}
+	if(strlen($MesIni)==1){
+		$MesIni= "0".$MesIni;
+	}
+	if(strlen($DiaFin)==1){
+		$DiaFin= "0".$DiaFin;
+	}
+	if(strlen($MesFin)==1){
+		$MesFin= "0".$MesFin;
+	} 
+
 	$FechaIni = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaFin = $AnoFin."-".$MesFin."-".$DiaFin;
 	$Consulta = "select t2.cod_leyes, t3.abreviatura,t4.lotes ";
@@ -207,11 +223,11 @@ if(isset($_REQUEST["LimitFin"])) {
 			$Recargo='N';
 
 			if ($Row["nro_sa_lims"]=='') {
-				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Recargo."')\">\n";
-			echo $Row["nro_solicitud"]."</a></td>\n";
+				echo "<td>\n";
+			echo $Row["nro_solicitud"]."</td>\n";
 			}else{
-				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Recargo."')\">\n";
-			echo $Row["nro_sa_lims"]."</a></td>\n";
+				echo "<td>\n";
+			echo $Row["nro_sa_lims"]."</td>\n";
 			}
 
 			//echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Recargo."')\">\n";
@@ -220,10 +236,10 @@ if(isset($_REQUEST["LimitFin"])) {
 		else
 		{
 			if ($Row["nro_sa_lims"]=='') {
-				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Row["recargo"]."')\">\n";
+				echo "<td>\n";
 			echo $Row["nro_solicitud"]."-".$Row["recargo"]."</td>\n";
 			}else{
-				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Row["recargo"]."')\">\n";
+				echo "<td>\n";
 			echo $Row["nro_sa_lims"]."-".$Row["recargo"]."</td>\n";
 			}
 
@@ -347,7 +363,8 @@ if(isset($_REQUEST["LimitFin"])) {
 			}
 			else
 			{
-				echo "<td width='70' align='center'><img src='../principal/imagenes/ico_x.gif'></td>\n";
+				//echo "<td width='70' align='center'><img src='../principal/imagenes/ico_x.gif'></td>\n";
+				echo "<td width='70' align='center'>X</td>\n";
 			}			
 		}
 		echo "</tr>\n";
