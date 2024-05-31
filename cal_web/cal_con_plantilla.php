@@ -1,6 +1,6 @@
 ﻿<?php
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $CookieRut= $_COOKIE["CookieRut"];
 $Rut =$CookieRut;
@@ -308,7 +308,9 @@ function Imprimir()
 					$Consulta ="select * from proyecto_modernizacion.funcionarios where rut = '".$Fila["rut_funcionario"]."' ";
 					$Resp=mysqli_query($link, $Consulta);
 					$Fil=mysqli_fetch_array($Resp);
-					echo "<td>".substr($Fil["nombres"],0,1).".".$Fil["apellido_paterno"]."</center></td>";
+					$nombres          = isset($Fil["nombres"])?$Fil["nombres"]:"";
+			        $apellido_paterno = isset($Fil["apellido_paterno"])?$Fil["apellido_paterno"]:"";
+					echo "<td>".substr($nombres,0,1).".".$apellido_paterno."</center></td>";
 				}
 				else
 				{
