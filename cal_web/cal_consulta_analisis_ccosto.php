@@ -35,7 +35,6 @@
 	}else{
 		$CmbDias =  date("d");
 	}
-
 	if(isset($_REQUEST["CmbAnoT"])) {
 		$CmbAnoT = $_REQUEST["CmbAnoT"];
 	}else{
@@ -50,8 +49,7 @@
 		$CmbDiasT = $_REQUEST["CmbDiasT"];
 	}else{
 		$CmbDiasT =  date("d");
-	}
-	
+	}	
 	if(isset($_REQUEST["LimitIni"])) {
 		$LimitIni = $_REQUEST["LimitIni"];
 		//$LimitIni=$Limite;
@@ -63,12 +61,6 @@
 	}else{
 		$LimitFin =  99;
 	}
-
-/*
-	if (!isset($LimitIni))
-		$LimitIni = 0;
-	if (!isset($LimitFin))
-		$LimitFin = 99;*/
 ?>
 <html>
 <head>
@@ -444,7 +436,7 @@ function Salir()
 					$Cont=0; //WSO
 					while($Fila1=mysqli_fetch_array($Respuesta))
 					{
-						$Arreglo[$Fila1["cod_Leyes"]][0]=$Fila1["abreviatura"];
+						$Arreglo[$Fila1["cod_leyes"]][0]=$Fila1["abreviatura"];
 						$Arreglo[$Fila1["cod_leyes"]][1]=$Fila1["abreviatura"];
 						$Arreglo[$Fila1["cod_leyes"]][2]="";
 						$Arreglo[$Fila1["cod_leyes"]][3]="";
@@ -462,11 +454,11 @@ function Salir()
 						ksort($Arreglo);
 						//while(list($Clave,$Valor)=each($Arreglo))
 						foreach ($Arreglo as $Clave => $Valor) 
-						{
+						{  $Valor1 = isset($Valor[1])?$Valor[1]:"";
 							echo "<td width='50' align='center'>";
-							if ($Valor[1]!='')
+							if ($Valor1!='')
 							{
-								echo $Valor[1];
+								echo $Valor1;
 							}
 							else
 							{
@@ -503,9 +495,8 @@ function Salir()
 						$Consulta.=" inner join proyecto_modernizacion.centro_costo t3 on t1.cod_ccosto=t3.centro_costo ";
 						$Consulta.=" where not isnull(t1.cod_ccosto) ".$CodCCosto." t1.fecha_hora between '".$FechaI."' and '".$FechaT."' group by t1.cod_ccosto LIMIT ".$LimitIni.", ".$LimitFin;
 						$Respuesta2=mysqli_query($link, $Consulta);
-						$TotGeneral=0;
 						$TotSA=0;
-						echo "CONSULTA:".$Consulta."<br>";
+						//echo "CONSULTA:".$Consulta."<br>";
 						while ($Fila=mysqli_fetch_array($Respuesta2))
 						{
 							$CantLeyesCCosto=0;
@@ -532,13 +523,15 @@ function Salir()
 								$Arreglo[$Clave][1]="&nbsp;";
 								$Arreglo[$Clave][3]="&nbsp;";				
 							}
+							$TotGeneral=0;
 							while($FilaLeyes=mysqli_fetch_array($Respuesta3))
-							{
-								$Arreglo[$FilaLeyes["cod_leyes"]][2]=$FilaLeyes["total"];
-								$Arreglo[$FilaLeyes["cod_leyes"]][3]=$FilaLeyes["total"];
-								$ArregloTot[$FilaLeyes["cod_leyes"]][0]=$ArregloTot[$FilaLeyes["cod_leyes"]][0] + $FilaLeyes["total"];
-								$CantLeyesCCosto=$CantLeyesCCosto+$FilaLeyes["total"];
-								$TotGeneral=$TotGeneral+$FilaLeyes["total"];
+							{   $total = isset($FilaLeyes["total"])?$FilaLeyes["total"]:0;
+								$ArregloTot0 =isset($ArregloTot[$FilaLeyes["cod_leyes"]][0])?$ArregloTot[$FilaLeyes["cod_leyes"]][0]:0;
+								$Arreglo[$FilaLeyes["cod_leyes"]][2]=$total;
+								$Arreglo[$FilaLeyes["cod_leyes"]][3]=$total;
+								$ArregloTot[$FilaLeyes["cod_leyes"]][0]=$ArregloTot0 + $total;
+								$CantLeyesCCosto=$CantLeyesCCosto + $total;
+								$TotGeneral= $TotGeneral + $total;
 							}	
 							reset($Arreglo);
 							ksort($Arreglo);
