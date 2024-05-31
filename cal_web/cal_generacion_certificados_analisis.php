@@ -2,11 +2,7 @@
 	include("../principal/conectar_principal.php");
 	$CookieRut= $_COOKIE["CookieRut"];
 
-	if(isset($_REQUEST["SolRecargo"])) {
-		$SolRecargo = $_REQUEST["SolRecargo"];
-	}else{
-		$SolRecargo =  "";
-	}
+	$SolRecargo = isset($_REQUEST["SolRecargo"])?$_REQUEST["SolRecargo"]:"";
 
 ?>
 <html>
@@ -18,7 +14,6 @@
 function Proceso()
 {
 	var f = document.frmPrincipal;
-
 	f.BtnImprimir.style.visibility = 'hidden';
 	window.print();
 	
@@ -93,7 +88,6 @@ function Proceso()
 	  <td> : 
 	  <?php
 		echo '<strong>'.$Sol.'</strong>';
-
 	  ?>
 	  </td>	
 	</tr>
@@ -120,6 +114,7 @@ function Proceso()
     <?php
 			$Consulta ="SELECT distinct(id_muestra) as id_muestra from cal_web.solicitud_analisis where nro_solicitud = '".$Sol."'";
 			$Respuesta1 = mysqli_query($link, $Consulta);
+			$Muestra="";
 			if ($Fila1=mysqli_fetch_array($Respuesta1))
 			{
 				$Muestra = $Fila1["id_muestra"];
@@ -132,13 +127,20 @@ function Proceso()
 			$Consulta = $Consulta." on t1.cod_subproducto = t3.cod_subproducto and t1.cod_producto = t3.cod_producto";
 			$Consulta = $Consulta." where t1.nro_solicitud = '".$Sol."'"; 
 			$Respuesta2=mysqli_query($link, $Consulta);
+			$CodProducto="";
+			$CodSubProducto="";
+			$Producto="";
+			$SubProducto="";
+			$cc="";
+			$contador=0;//WSO;
 			if ($Fila2=mysqli_fetch_array($Respuesta2))			
 			{
-				$CodProducto = $Fila2["cod_producto"];
+				$CodProducto    = $Fila2["cod_producto"];
 				$CodSubProducto = $Fila2["cod_subproducto"];
-				$Producto = $Fila2["DesProducto"];
-				$SubProducto= $Fila2["DesSubProducto"];
-				$cc= $Fila2["cod_ccosto"];
+				$Producto       = $Fila2["DesProducto"];
+				$SubProducto    = $Fila2["DesSubProducto"];
+				$cc = $Fila2["cod_ccosto"];
+				$contador++;
 			}						
 		?>
     <tr> 
@@ -178,10 +180,11 @@ function Proceso()
 									
 			$Resp = mysqli_query($link, $Consulta);
 			$Fil=mysqli_fetch_array($Resp);
-			$Tipo=$Fil["tipo_solicitud"];
-		
+			$Tipo          = isset($Fil["tipo_solicitud"])?$Fil["tipo_solicitud"]:"";	
+			$agrupacion    = isset($Fil["agrupacion"])?$Fil["agrupacion"]:"";
+			$rut_proveedor = isset($Fil["rut_proveedor"])?$Fil["rut_proveedor"]:null;		
 			$senal=0;
-			if (($Tipo == 'A') && ($Fil["agrupacion"] == '1') && (!is_null($Fil["rut_proveedor"])))
+			if (($Tipo == 'A') && ($agrupacion == '1') && (!is_null($rut_proveedor)))
 			{
 				$Consulta="SELECT distinct(t1.r_prov_a),t1.d_prov_a,t3.nommin_a,t3.sierra_a,t1.d_clas_a from rec_web.recepciones t1 ";
 				$Consulta.=" inner join cal_web.solicitud_analisis t2 on t1.lote_a = t2.id_muestra and t1.r_prov_a = t2.rut_proveedor ";
@@ -233,7 +236,7 @@ function Proceso()
 
 			    	echo"<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 					echo"<tr> 
-				  	<td width='131'>Observaci�n</td>
+				  	<td width='131'>Observaci&oacute;n</td>
 				  	<td>:</td>
 				  	<td rowspan='5'>"; 
 

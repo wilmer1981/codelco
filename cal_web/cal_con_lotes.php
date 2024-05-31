@@ -1,6 +1,6 @@
 ﻿<?php
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $CookieRut= $_COOKIE["CookieRut"];
 $Rut =$CookieRut;
@@ -161,11 +161,10 @@ function RecuperarSolicitud()
 				Encontro=true;
 			}
 		}
-	}	
-	catch (e)
-	{
+	}catch (e){
 	 	 alert("No hay Elementos para Seleccionar");
 	}
+
 	if (Encontro==false)
 	{
 		alert("No hay Elementos para Seleccionar");
@@ -205,12 +204,6 @@ function Recarga(URL,LimiteIni)
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body background="../principal/imagenes/fondo3.gif">
 <form name="FrmConsultaRecepcion" method="post" action="">
-<?php
-	/*if (!isset($LimitIni))
-		$LimitIni = 0;
-	if (!isset($LimitFin))
-		$LimitFin = 10;*/
-?>
 <input type="hidden" name="LimitIni" value="<?php echo $LimitIni; ?>">
   <tr> <td width="756"></tr>
   <tr>
@@ -471,6 +464,19 @@ function Recarga(URL,LimiteIni)
       </tr>
       <?php
 	 	include ("../Principal/conectar_cal_web.php");	
+		 if(strlen($CmbMes)==1){
+			$CmbMes ="0".$CmbMes;
+		 }
+		 if(strlen($CmbDias)==1){
+			$CmbDias ="0".$CmbDias;
+		 }
+		 if(strlen($CmbMesT)==1){
+			$CmbMesT ="0".$CmbMesT;
+		 }
+		 if(strlen($CmbDiasT)==1){
+			$CmbDiasT ="0".$CmbDiasT;
+		 }
+
 		$FechaI = $CmbAno."-".$CmbMes."-".$CmbDias.' 00:01';
 		$FechaT = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT.' 23:59';
 		$Consulta=" select STRAIGHT_JOIN t1.lote_origen,t1.cod_origen from sea_web.relaciones t1";
@@ -513,8 +519,7 @@ function Recarga(URL,LimiteIni)
 	  	{
 				if (($Fila["tipo_solicitud"]=='R') && ($Fila["estado_actual"] =='6')) 				
 				{
-					//$Chanta=$Chanta."t1.nro_solicitud=".$Fila["nro_solicitud"]." or ";
-					$Chanta=" t1.nro_solicitud=".$Fila["nro_solicitud"]." or ";
+					$Chanta        = $Chanta."t1.nro_solicitud=".$Fila["nro_solicitud"]." or ";
 					$Coincidencias=$Coincidencias+1;
 				
 				}
@@ -530,8 +535,7 @@ function Recarga(URL,LimiteIni)
 					$N2=$Fila3["NroSolF"];
 					if (($Fila2["NroSol"]) == ($Fila3["NroSolF"]))
 					{		
-						//$Chanta=$Chanta."t1.nro_solicitud=".$Fila["nro_solicitud"]." or ";
-						$Chanta= " t1.nro_solicitud=".$Fila["nro_solicitud"]." or ";
+						$Chanta=$Chanta."t1.nro_solicitud=".$Fila["nro_solicitud"]." or ";
 						$Coincidencias=$Coincidencias+1;						
 					}	
 				}
@@ -629,15 +633,6 @@ function Recarga(URL,LimiteIni)
               				 
               				<input name='TxtVarSA' type='hidden' readonly style='width:100' maxlength='100' value =".$VarSA.">
               				</td>";
-
-
-							 
-
-
-
-
-
-
 
 							$Consulta ="select STRAIGHT_JOIN t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 							$Consulta.= " inner join cal_web.solicitud_analisis t1 on  t1.agrupacion = t2.cod_subclase and t2.cod_clase = 1004  "; 

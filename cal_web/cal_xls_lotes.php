@@ -1,21 +1,21 @@
-<?php         ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+<?php
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 include("../principal/conectar_principal.php");
@@ -91,12 +91,6 @@ if(isset($_REQUEST["LimitFin"])) {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body background="../principal/imagenes/fondo3.gif">
 <form name="FrmConsultaRecepcion" method="post" action="">
-<?php
-	/*if (!isset($LimitIni))
-		$LimitIni = 0;
-	if (!isset($LimitFin))
-		$LimitFin = 10;*/
-?>
 <input type="hidden" name="LimitIni" value="<?php echo $LimitIni; ?>">
   <tr> <td width="756"></tr>
   <tr>
@@ -105,7 +99,7 @@ if(isset($_REQUEST["LimitFin"])) {
         <td width="89"><div align="left"><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
             Usuario:</font></font></div></td>
         <td width="241"><strong> 
-          <?php
+        <?php
 		$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from funcionarios where rut = '".$Rut."'";
 	  	$Resultado= mysqli_query($link, $Consulta);
 		if ($Fila =mysqli_fetch_array($Resultado))
@@ -113,16 +107,16 @@ if(isset($_REQUEST["LimitFin"])) {
 			echo ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
 		}	  
 	  	else
+		{
+			$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
+			$Respuesta = mysqli_query($link, $Consulta);
+			if ($Fila=mysqli_fetch_array($Respuesta))
 			{
-		  		$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
-				$Respuesta = mysqli_query($link, $Consulta);
-				if ($Fila=mysqli_fetch_array($Respuesta))
-					{
-						echo ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
-					}
-		
+					echo ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
 			}
-		  ?>
+		
+		}
+		?>
           </strong></td>
       </tr>
       <tr> 
@@ -159,6 +153,19 @@ if(isset($_REQUEST["LimitFin"])) {
       </tr>
      <?php
 	 	include ("../Principal/conectar_cal_web.php");	
+		 if(strlen($CmbMes)==1){
+			$CmbMes ="0".$CmbMes;
+		 }
+		 if(strlen($CmbDias)==1){
+			$CmbDias ="0".$CmbDias;
+		 }
+		 if(strlen($CmbMesT)==1){
+			$CmbMesT ="0".$CmbMesT;
+		 }
+		 if(strlen($CmbDiasT)==1){
+			$CmbDiasT ="0".$CmbDiasT;
+		 }
+
 		$FechaI = $CmbAno."-".$CmbMes."-".$CmbDias.' 00:01';
 		$FechaT = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT.' 23:59';
 		$Consulta=" select t1.lote_origen,t1.cod_origen from sea_web.relaciones t1";
@@ -205,15 +212,9 @@ if(isset($_REQUEST["LimitFin"])) {
   				}else{
   					$VarSA=$Fila["nro_sa_lims"];
   				}
-
-
 				echo "<td width='95'>".$TxtSA = $VarSA."
 				<input name = TxtSAO type = 'hidden' value ='".$VarSA."'>
 				<input name = TxtRecargoO type = 'hidden' value ='N'></div></td>";	
-
-
-
-
 				$Consulta ="select t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 				$Consulta.= " inner join cal_web.solicitud_analisis t1 on  t1.agrupacion = t2.cod_subclase and t2.cod_clase = 1004  "; 
 				$Consulta.= " where t1.nro_solicitud = ".$Fila["nro_solicitud"]." ";
