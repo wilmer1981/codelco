@@ -251,9 +251,9 @@ function Salir()
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
 					echo "<tr>";
-					echo "<td align='center'>$Fila[lote_a]</td>";
-					echo "<td align='center'>$Fila[recargo_ordenado]</td>";
-					echo "<td align='center'>$Fila[fecha_a]</td>";
+					echo "<td align='center'>".$Fila["lote_a"]."</td>";
+					echo "<td align='center'>".$Fila["recargo_ordenado"]."</td>";
+					echo "<td align='center'>".$Fila["fecha_a"]."</td>";
 					if ($Fila["d_past_a"] !="" && $Fila["d_impu_a"] !="")
 					{
 						echo "<td>".$Fila["d_past_a"]." ".$Fila["d_impu_a"]."</td>";
@@ -262,8 +262,8 @@ function Salir()
 					{
 						echo "<td>&nbsp;</td>";
 					}
-					echo "<td>$Fila[d_prov_a]</td>";
-					echo "<td>$Fila[d_prod_a]</td>";
+					echo "<td>".$Fila["d_prov_a"]."</td>";
+					echo "<td>".$Fila["d_prod_a"]."</td>";
 					echo "</tr>";
 				}
 				echo "</table>";

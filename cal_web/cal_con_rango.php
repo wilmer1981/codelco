@@ -451,8 +451,9 @@ function Recarga(URL,LimiteIni)
 				}
 			}
 			echo "</tr>";
-		$Cont++;
+			$Cont++;
 		}
+		//$Cont++;
 	}	
 ?>
   </table>
@@ -463,8 +464,8 @@ function Recarga(URL,LimiteIni)
 				//echo $Suma;	
 				//$Coincidencias = $Suma;
 				$Coincidencias = $Cont;
-				//$NumPaginas = ($Coincidencias / $LimitFin);
-				$NumPaginas = ($Coincidencias / 12);
+				$NumPaginas = ($Coincidencias / $LimitFin);
+				//$NumPaginas = ($Coincidencias / 12);
 				$LimitFinAnt = $LimitIni;
 				$StrPaginas = "";
 				for ($i = 0; $i <= $NumPaginas; $i++)
