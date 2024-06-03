@@ -31,12 +31,12 @@ if(isset($_REQUEST["AnoFin"])) {
 if(isset($_REQUEST["NumIni"])) {
 	$NumIni = $_REQUEST["NumIni"];
 }else{
-	$NumIni =  0;
+	$NumIni = "";
 }
 if(isset($_REQUEST["NumFin"])) {
 	$NumFin = $_REQUEST["NumFin"];
 }else{
-	$NumFin =  0;
+	$NumFin = "";
 }
 if(isset($_REQUEST["SolIni"])) {
 	$SolIni = $_REQUEST["SolIni"];
@@ -48,7 +48,16 @@ if(isset($_REQUEST["SolFin"])) {
 }else{
 	$SolFin =  0;
 }
-
+if(isset($_REQUEST["CmbProductos"])) {
+	$CmbProductos = $_REQUEST["CmbProductos"];
+}else{
+	$CmbProductos = "";
+}
+if(isset($_REQUEST["CmbSubProducto"])) {
+	$CmbSubProducto = $_REQUEST["CmbSubProducto"];
+}else{
+	$CmbSubProducto = "";
+}
 
 ?>
 <html>
@@ -130,15 +139,7 @@ function Recarga(URL,LimiteIni)
 </head>
 <body background="../principal/imagenes/fondo3.gif">
 <form name="frmPrincipal" action="" method="post">
-<?php
-/*
-$LimitFin=30;
-	if (!isset($LimitIni))
-		$LimitIni = 0;
-	if (!isset($LimitFin))
-		$LimitFin = 30;*/
-		
-?>
+
 <input type="hidden" name="LimitIni" value="<?php echo $LimitIni; ?>">
   <table width="758" border="0">
     <tr>
@@ -148,7 +149,7 @@ $LimitFin=30;
   <br>
   <table width="758" border="0" class="TablaDetalle">
     <tr> 
-      <td width="110">N� Certificado Inicio</td>
+      <td width="110">N° Certificado Inicio</td>
       <td width="132"><select name="AnoIni" style="width:60px;">
           <?php
 			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
@@ -169,7 +170,7 @@ $LimitFin=30;
 		?>
 		
           </select> <input name="NumIni" type="text" id="NumIni2"  onKeyDown="TeclaPulsada1('NumFin')" value="<?php echo $NumIni; ?>" size="10" maxlength="15"></td>
-      <td width="120">N� Certificado Termino</td>
+      <td width="120">N° Certificado Termino</td>
       <td width="148"><select name="AnoFin" style="width:60px;">
           <?php
 			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
@@ -213,15 +214,15 @@ $LimitFin=30;
            	<td width='276'><div align='center'>NOMBRE GENERADOR</div></td>
            	<td width='170'><div align='center'>FECHA CERTIFICADO </div></td>
 <?php
-/*
-	if (!isset($AnoIni))
-		$AnoIni = 0;
-	if (!isset($NumIni))
+
+	//if (!isset($AnoIni))
+	//	$AnoIni = 0;
+	if ($NumIni=="")
 		$NumIni = 0;
-	if (!isset($AnoFin))
-		$AnoFin = 0;
-	if (!isset($NumFin))
-		$NumFin = 0;*/
+	//if (!isset($AnoFin))
+	//	$AnoFin = 0;
+	if ($NumFin=="")
+		$NumFin = 0;
 	$CertIni = $AnoIni."000000";
 	$CertFin = $AnoFin."000000";
 
@@ -230,8 +231,7 @@ $LimitFin=30;
 	
 	$consulta="select * from cal_web.certificados where nro_certificado between '".$CertIni."' and '".$CertFin."' ";
 	$consulta.= " and  SUBSTRING(fecha_hora,1,4) between '".$AnoIni."' and '".$AnoFin."' order by nro_certificado,nro_solicitud";
-	$consulta = $consulta." LIMIT ".$LimitIni.", ".$LimitFin;
-
+	$consulta.= " LIMIT ".$LimitIni.", ".$LimitFin;
 	$respuesta =mysqli_query($link, $consulta);
 	while ($fila=mysqli_fetch_array($respuesta))
 	{
@@ -254,8 +254,6 @@ $LimitFin=30;
 		}else{
 			echo"<td width='150'><div align='center'>".$fila1["nro_sa_lims"]."</div></td>";
 		}
- 
-
 
 		$consulta2="select rut,apellido_paterno,apellido_materno,nombres from proyecto_modernizacion.funcionarios where rut ='".$fila["rut_generador"]."'";
 		$respuesta2=mysqli_query($link, $consulta2);

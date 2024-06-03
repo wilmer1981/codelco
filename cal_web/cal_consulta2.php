@@ -1,5 +1,8 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$CookieRut= $_COOKIE["CookieRut"];
+	$nro_certificado = isset($_REQUEST["nro_certificado"])?$_REQUEST["nro_certificado"]:0;
+	$nro_solicitud = isset($_REQUEST["nro_solicitud"])?$_REQUEST["nro_solicitud"]:0;
 ?>
 <html>
 <head>
@@ -35,22 +38,18 @@ function Proceso()
 			$Cert =$nro_certificado; 
 
 			include("../principal/conectar_principal.php");
-			mysqli_query($link, $Eliminar);
-			$FechaHora = date("Y-m-d h:i");
-			
+			//mysqli_query($link, $Eliminar);
+			$FechaHora = date("Y-m-d h:i");			
 			$Rut = $CookieRut;
-
 			//Consulta que devuelve el mayor de los elementos de la tabla certificados
 			$Consulta = "SELECT nro_certificado as numero,fecha_hora as fecha FROM cal_web.certificados WHERE nro_solicitud = $Sol";
 			$rs2 = mysqli_query($link, $Consulta);
-			//echo $Consulta;
-			
+			//echo $Consulta;			
 
 			if($row2 = mysqli_fetch_array($rs2))
 			{
-			$FechaHora1 = date($row2["fecha"],("h:i d-m-Y"));
-
-
+					//$FechaHora1 = date($row2["fecha"],("h:i d-m-Y"));
+					$FechaHora1 = $row2["fecha"];
 					$NroCert = $row2["numero"];
 					$Correlativo = str_pad($NroCert,7,"0",STR_PAD_LEFT);
 			}
@@ -199,7 +198,7 @@ function Proceso()
 				$Row = mysqli_fetch_array($Rs);
 			    echo"<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 				echo"<tr> 
-				  <td width='131'>Observaci�n</td>
+				  <td width='131'>Observaci&oacuten</td>
 				  <td>:</td>
 				  <td rowspan='5'>"; 
 						echo nl2br($Row["observacion"]);
@@ -263,7 +262,8 @@ function Proceso()
 						
 						echo "<tr>";
 						echo "<td>".$Fila3["abrevLey"]."</td>";
-						echo "<td>".$Signo."</td>";
+						echo "<td>".$Fila3["signo"]."</td>";
+						//echo "<td>".$Signo."</td>";
 						$Valor = round($Fila3["valor"],3);
 						echo "<td>".$Valor."</td>";
 						echo "<td>".$Fila3["abrevUnidad"]."</td>";
@@ -869,7 +869,7 @@ poly*/
 			$rs = mysqli_query($link, $Consulta);
 			if($row = mysqli_fetch_array($rs))
 			{
-				$sigla = '/'.substr($row[nombres],0,1).substr($row["apellido_paterno"],0,1).substr($row["apellido_materno"],0,1);
+				$sigla = '/'.substr($row["nombres"],0,1).substr($row["apellido_paterno"],0,1).substr($row["apellido_materno"],0,1);
 			}
 			/*echo '<table width="400" height="46" border="0" align="center">';
 			echo '<tr>';
