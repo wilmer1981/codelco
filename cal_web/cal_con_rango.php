@@ -1,9 +1,9 @@
 <?php
 	$CodigoDeSistema = 1;
-	$Fecha_Hora = date("d-m-Y h:i");
+	$Fecha_Hora = date("d-m-Y H:i");
 	include("../principal/conectar_principal.php");
-	$CookieRut= $_COOKIE["CookieRut"];
-	$Rut =$CookieRut;
+	$CookieRut = $_COOKIE["CookieRut"];
+	$Rut       = $CookieRut;
 
 	if(isset($_REQUEST["AnoIni"])) {
 		$AnoIni = $_REQUEST["AnoIni"];
@@ -35,6 +35,8 @@
 	}else{
 		$DiaFin =  date("d");
 	}
+	$LimitIni = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+	$LimitFin = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:10;
 ?>
 <html>
 <head>
@@ -288,6 +290,19 @@ function Recarga(URL,LimiteIni)
   </table>
   <br>
 <?php
+	if(strlen($DiaIni)==1){
+		$DiaIni= "0".$DiaIni;
+	}
+	if(strlen($MesIni)==1){
+		$MesIni= "0".$MesIni;
+	}
+	if(strlen($DiaFin)==1){
+		$DiaFin= "0".$DiaFin;
+	}
+	if(strlen($MesFin)==1){
+		$MesFin= "0".$MesFin;
+	}
+
 	$FechaIni = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaFin = $AnoFin."-".$MesFin."-".$DiaFin;
 	$Consulta =" select distinct cod_producto,cod_subproducto,cod_ley from cal_web.rango order by cod_producto,cod_subproducto ";
