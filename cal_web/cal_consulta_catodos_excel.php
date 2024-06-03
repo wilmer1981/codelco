@@ -61,14 +61,14 @@
   <table width="<?php echo (270 + ($TotalLeyes * 3)); ?>" border="1" cellpadding="1" cellspacing="1">
     <tr> 
       <td colspan="16"> 
-        <?php
+    <?php
 		if ($CmbMes == $CmbMesT)
 		{
 			echo "MES: ".$Meses[$CmbMes]." ".$CmbAno;
 		}
 		else
 		{
-			echo "PERIODO: ".$Meses[$CmbMes]." ".$CmbAno." - ".$Meses[$CmbMesT]." ".$CmbAnoT;
+			echo "PERIODO: ".$Meses[$CmbMes-1]." ".$CmbAno." - ".$Meses[$CmbMesT-1]." ".$CmbAnoT;
 		}
 		?>
       </td>
@@ -94,7 +94,20 @@
       <td><strong>Au</strong></td>
       <td><strong>Ag</strong></td>
     </tr>
-    <?php  
+    <?php 
+    
+    if(strlen($CmbDias)==1){
+      $CmbDias= "0".$CmbDias;
+    }
+    if(strlen($CmbMes)==1){
+      $CmbMes= "0".$CmbMes;
+    }
+    if(strlen($CmbDiasT)==1){
+      $CmbDiasT= "0".$CmbDiasT;
+    }
+    if(strlen($CmbMesT)==1){
+      $CmbMesT= "0".$CmbMesT;
+    }
 	$FechaInicio = $CmbAno."-".$CmbMes."-".$CmbDias;
 	$FechaTermino = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT;
 	$Consulta = "select year(t1.fecha_muestra) as ano, ";

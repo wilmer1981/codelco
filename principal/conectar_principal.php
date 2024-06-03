@@ -26,7 +26,7 @@
 	//$IP_USER = $REMOTE_ADDR;
 	$IP_USER = $_SERVER['REMOTE_ADDR'];
 		
-	$Dias = array("Domingo","Lunes","Martes","Mi&eacute;rcoles","Jueves","Viernes","S�bado");
+	$Dias = array("Domingo","Lunes","Martes","Mi&eacute;rcoles","Jueves","Viernes","Sábado");
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	//ARREGLO DE PARAMETROS DE LEYES PARA SISTEMA DE AGENCIA, PROD. MINEROS
 	$ArrParamLeyes = array();

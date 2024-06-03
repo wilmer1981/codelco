@@ -92,7 +92,7 @@ function Proceso(opt)
 								  echo "<option value='".$i."'>".$i."</option>";
 								}
 							}	
-						  }
+						}
 			?>
         </select> <select name="CmbMes">
           <?php
@@ -153,91 +153,93 @@ function Proceso(opt)
 				?>
         </select> &nbsp; </td>
       <td width="106" align="left">Fecha Termino:</td>
-      <td width="242" align="left"> <select name="CmbDiasT">
-          <?php
-					for ($i=1;$i<=31;$i++)
+      <td width="242" align="left">
+		<select name="CmbDiasT">
+            <?php
+			for ($i=1;$i<=31;$i++)
+			{
+				if (isset($CmbDiasT))
+				{
+					if ($i==$CmbDiasT)
 					{
-						if (isset($CmbDiasT))
-						{
-							if ($i==$CmbDiasT)
-							{
-								echo "<option selected value= '".$i."'>".$i."</option>";
-							}
-							else
-							{
-							  echo "<option value='".$i."'>".$i."</option>";
-							}
-						}
-						else
-						{
-							if ($i==date("j"))
-							{
-								echo "<option selected value= '".$i."'>".$i."</option>";
-							}
-							else
-							{
-							  echo "<option value='".$i."'>".$i."</option>";
-							}
-						}	
+						echo "<option selected value= '".$i."'>".$i."</option>";
 					}
-				?>
-        </select> <select name="CmbMesT">
-          <?php
-				  for($i=1;$i<13;$i++)
-				  {
-						if (isset($CmbMesT))
-						{
-							if ($i==$CmbMesT)
-							{
-								echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
-							}
-							else
-							{
-								echo "<option value='$i'>".$Meses[$i-1]."</option>\n";
-							}
-						
-						}	
-						else
-						{
-							if ($i==date("n"))
-							{
-								echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
-							}
-							else
-							{
-								echo "<option value='$i'>".$Meses[$i-1]."</option>\n";
-							}
-						}	
-				   }
-				 ?>
+					else
+					{
+						echo "<option value='".$i."'>".$i."</option>";
+					}
+				}
+				else
+				{
+					if ($i==date("j"))
+					{
+						echo "<option selected value= '".$i."'>".$i."</option>";
+					}
+					else
+					{
+						echo "<option value='".$i."'>".$i."</option>";
+					}
+				}	
+			}
+			?>
+        </select>
+		<select name="CmbMesT">
+        <?php
+			for($i=1;$i<13;$i++)
+			{
+				if (isset($CmbMesT))
+				{
+					if ($i==$CmbMesT)
+					{
+						echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
+					}
+					else
+					{
+						echo "<option value='$i'>".$Meses[$i-1]."</option>\n";
+					}
+				
+				}	
+				else
+				{
+					if ($i==date("n"))
+					{
+						echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
+					}
+					else
+					{
+						echo "<option value='$i'>".$Meses[$i-1]."</option>\n";
+					}
+				}	
+			}
+		?>
         </select> <select name="CmbAnoT">
-          <?php
-				   for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+        <?php
+		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+		{
+			if (isset($CmbAnoT))
+			{
+				if ($i==$CmbAnoT)
 					{
-						if (isset($CmbAnoT))
-						{
-							if ($i==$CmbAnoT)
-								{
-									echo "<option selected value ='$i'>$i</option>";
-								}
-							else	
-								{
-									echo "<option value='".$i."'>".$i."</option>";
-								}
-						}
-						else
-						{
-							if ($i==date("Y"))
-								{
-									echo "<option selected value ='$i'>$i</option>";
-								}
-							else	
-								{
-									echo "<option value='".$i."'>".$i."</option>";
-								}
-						}		
+						echo "<option selected value ='$i'>$i</option>";
 					}
-				?>
+				else	
+					{
+						echo "<option value='".$i."'>".$i."</option>";
+					}
+			}
+			else
+			{
+				if ($i==date("Y"))
+					{
+						echo "<option selected value ='$i'>$i</option>";
+					}
+				else	
+					{
+						echo "<option value='".$i."'>".$i."</option>";
+					}
+			}		
+		}
+		?>
         </select> </td>
     </tr>
     <tr> 
@@ -270,6 +272,18 @@ function Proceso(opt)
       <td width="51"><strong>Ag</strong></td>
     </tr>
     <?php  
+	if(strlen($CmbDias)==1){
+		$CmbDias= "0".$CmbDias;
+	}
+	if(strlen($CmbMes)==1){
+		$CmbMes= "0".$CmbMes;
+	}
+	if(strlen($CmbDiasT)==1){
+		$CmbDiasT= "0".$CmbDiasT;
+	}
+	if(strlen($CmbMesT)==1){
+		$CmbMesT= "0".$CmbMesT;
+	}
 	$FechaInicio = $CmbAno."-".$CmbMes."-".$CmbDias;
 	$FechaTermino = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT;
 	$Consulta = "select year(t1.fecha_muestra) as ano, ";
