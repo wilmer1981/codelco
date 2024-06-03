@@ -1,7 +1,7 @@
 <?php
 $CodigoDeSistema = 1;
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $CookieRut=$_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 
