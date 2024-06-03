@@ -1,6 +1,6 @@
 ﻿<?php
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $CookieRut= $_COOKIE["CookieRut"];
 $Rut =$CookieRut;
@@ -122,17 +122,8 @@ function Imprimir()
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body background="../principal/imagenes/fondo3.gif">
 <form name="FrmConsultaRecepcion" method="post" action="">
-<?php/*
-	if (!isset($LimitIni))
-		$LimitIni = 0;
-	if (!isset($LimitFin))
-		$LimitFin = 10;*/
-?>
 <input type="hidden" name="LimitIni" value="<?php echo $LimitIni; ?>">
-
 <input type="hidden" name="Rut1" value="<?php echo $Rut1; ?>">
-
-
   <tr> <td width="756"></tr>
   <tr>
     <table width="795" border="0" cellpadding="3" cellspacing="0" class="TablaInterior">
@@ -295,7 +286,8 @@ function Imprimir()
 			$Consulta ="select descripcion as des from proyecto_modernizacion.centro_costo where centro_costo = '".$Fila["cod_ccosto"]."' ";
 			$Resp=mysqli_query($link, $Consulta);
 			$Fil=mysqli_fetch_array($Resp);
-			echo "<td>".$Fil["des"]."</center></td>";
+			$des = isset($Fil["des"])?$Fil["des"]:"";
+			echo "<td>".$des."</center></td>";
 			echo "<td>".$Fila["DesP"]."</td>";
 			echo "<td>".$Fila["DesSub"]."</td>";
 			//aqui lleno arreglo con leyes e impurezas
