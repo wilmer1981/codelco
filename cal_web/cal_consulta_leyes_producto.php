@@ -441,11 +441,13 @@ function Salir()
 						}
 					}
 					//$Consulta.= " and t1.fecha_muestra between '".$Fila["fecha_muestra"]." 00:00:00' and '".$Fila["fecha_muestra"]." 23:59:59' ";
-					//$Consulta="CREATE table cal_web.tmp_paso_leyes as SELECT * FROM cal_web.solicitud_analisis WHERE NOT isnull(nro_solicitud)  and estado_actual !='7' and estado_actual !='16' and  fecha_hora between '".$FechaI."' and '".$FechaT."' ";
+					$Consulta="CREATE table cal_web.tmp_paso_leyes as SELECT * FROM cal_web.solicitud_analisis WHERE NOT isnull(nro_solicitud)  and estado_actual !='7' and estado_actual !='16' and  fecha_hora between '".$FechaI."' and '".$FechaT."' ";
+					/*
 					$Consulta="CREATE TABLE `cal_web`.`tmp_paso_leyes`";
 					$Consulta.=" SELECT * FROM `cal_web`.`solicitud_analisis` t1 ";
 					$Consulta.=" WHERE NOT isnull(t1.nro_solicitud) AND t1.estado_actual !=7 AND t1.estado_actual !=16 ";
 					$Consulta.=" AND t1.fecha_hora BETWEEN '".$FechaI."' AND '".$FechaT."' ";
+					*/
 					//$Consulta.=" and  fecha_hora between '".$FechaI." 00:00:00' and '".$FechaT." 23:59:59' ";
 					//echo "Consulta:".$Consulta;
 
