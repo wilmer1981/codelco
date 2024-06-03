@@ -53,12 +53,12 @@ if(isset($_REQUEST["AnoFin"])) {
 if(isset($_REQUEST["NumIni"])) {
 	$NumIni = $_REQUEST["NumIni"];
 }else{
-	$NumIni =  0;
+	$NumIni = "";
 }
 if(isset($_REQUEST["NumFin"])) {
 	$NumFin = $_REQUEST["NumFin"];
 }else{
-	$NumFin =  0;
+	$NumFin = "";
 }
 if(isset($_REQUEST["SolIni"])) {
 	$SolIni = $_REQUEST["SolIni"];
@@ -69,6 +69,17 @@ if(isset($_REQUEST["SolFin"])) {
 	$SolFin = $_REQUEST["SolFin"];
 }else{
 	$SolFin =  0;
+}
+
+if(isset($_REQUEST["CmbProductos"])) {
+	$CmbProductos = $_REQUEST["CmbProductos"];
+}else{
+	$CmbProductos = "";
+}
+if(isset($_REQUEST["CmbSubProducto"])) {
+	$CmbSubProducto = $_REQUEST["CmbSubProducto"];
+}else{
+	$CmbSubProducto = "";
 }
 
 
@@ -150,15 +161,6 @@ function Recarga(URL,LimiteIni)
 </head>
 <body background="../principal/imagenes/fondo3.gif">
 <form name="frmPrincipal" action="" method="post">
-<?php
-/*
-	if (!isset($LimitIni))
-		$LimitIni = 0;
-	if (!isset($LimitFin))
-		$LimitFin = 10;*/
-		
-		
-?>
 <input type="hidden" name="LimitIni" value="<?php echo $LimitIni; ?>">
 
   <?php
@@ -174,15 +176,14 @@ function Recarga(URL,LimiteIni)
 			<br>
 			
 <?php	
-/*
-	if (!isset($AnoIni))
-		$AnoIni = 0;
-	if (!isset($NumIni))
+	//if (!isset($AnoIni))
+	//	$AnoIni = 0;
+	if ($NumIni=="")
 		$NumIni = 0;
-	if (!isset($AnoFin))
-		$AnoFin = 0;
-	if (!isset($NumFin))
-		$NumFin = 0;*/
+	//if (!isset($AnoFin))
+	//	$AnoFin = 0;
+	if ($NumFin=="")
+		$NumFin = 0;
 	$CertIni = $AnoIni."000000";
 	$CertFin = $AnoFin."000000";
 	$CertIni = $SolIni + $NumIni;
