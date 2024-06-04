@@ -1,6 +1,6 @@
 <?php
-	$CodigoDeSistema = 15;
-	$CodigoDePantalla = 37;
+	$CodigoDeSistema = 1;
+	$CodigoDePantalla = 68;
 	set_time_limit(1000);
 	include("../principal/conectar_principal.php");
 
