@@ -70,7 +70,7 @@ function cdFilterMsg($msg)
 			return $msg;
 		for ($i = $pos - 1; $i >= 0; --$i)
 		{
-			if (strstr(" \t\n\r'\"", $msg{$i}))
+			if (strstr(" \t\n\r'\"", $msg[$i]))
 				break;
 		}
 		$msg = substr($msg, 0, $i + 1)."/".substr($msg, $pos + strlen($cdRelOp));
@@ -82,9 +82,9 @@ function cdFilterMsg($msg)
 function listExtDir()
 {
 	$extdir = ini_get("extension_dir");
-	if (($extdir{0} != "/") && ($extdir{0} != "\\") && ($extdir{1} != ":"))
+	if (($extdir[0] != "/") && ($extdir[0] != "\\") && ($extdir[1] != ":"))
 		return '"'.$extdir.'" (note: directory ambiguous)';
-	elseif (isOnWindows() && ($extdir{1} != ":"))
+	elseif (isOnWindows() && ($extdir[1] != ":"))
 		return '"'.$extdir.'" (note: drive ambiguous)';
 	else
 		return '"'.$extdir.'"';
@@ -92,10 +92,10 @@ function listExtDir()
 
 function listRelExtDir($path)
 {
-	if ($path{1} == ":")
+	if ($path[1] == ":")
 	{	
 		$extdir = ini_get("extension_dir");
-		if ($extdir{1} != ":")
+		if ($extdir[1] != ":")
 			return '"'.substr($path, 2).'" (note: drive ambiguous)';
 	}
 	return '"'.$path.'"';
@@ -103,10 +103,10 @@ function listRelExtDir($path)
 
 function getRelExtPath($path)
 {
-	if ($path{1} == ":")
+	if ($path[1] == ":")
 	{
 		$extdir = ini_get("extension_dir");
-		if (($extdir{1} == ":") && (strcasecmp($extdir{0}, $path{0}) != 0))
+		if (($extdir[1] == ":") && (strcasecmp($extdir[0], $path[0]) != 0))
 			return "";
 		$path = substr($path, 2);
 	}
