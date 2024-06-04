@@ -1,5 +1,8 @@
-<?php 	include("../principal/conectar_principal.php");
+<?php
+   include("../principal/conectar_principal.php");
 	include("phpchartdir.php");
+
+
 	
  	$Seleccion1= "select distinct t3.cod_leyes,t4.abreviatura";
 	$Seleccion2= "select distinct t1.nro_solicitud,t1.recargo ";
@@ -188,8 +191,8 @@
 		$RespVar= mysqli_query($link, $ConsultaVAR);
 		if($FilaVar=mysqli_fetch_array($RespVar))
 		{
-				$LimitIniVALOR=$FilaVar[limite_inicial];
-				$LimitFinVALOR=$FilaVar[limite_final];
+				$LimitIniVALOR=$FilaVar["limite_inicial"];
+				$LimitFinVALOR=$FilaVar["limite_final"];
 	
 		}
 		
@@ -282,7 +285,7 @@ function ValorLimiteControl($Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor
 	$RespColor = mysqli_query($link, $Consulta);
 	if($FilaColor=mysqli_fetch_array($RespColor))
 	{
-		if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+		if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor["limite_final"] ))
 		{
 			$Valor=number_format($Valor,3,",",".");
 			$Existe='N';
@@ -303,7 +306,7 @@ function ValorLimiteControl($Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor
 		{
 		
 		//    0 <= 70   && 60 >= 70
-			if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+			if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor["limite_final"] ))
 			{
 				$Existe='N';
 			}
@@ -331,8 +334,8 @@ function ValorColor($SA,$Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor,$Va
 	$RespColor = mysqli_query($link, $Consulta);
 	if($FilaColor=mysqli_fetch_array($RespColor))
 	{
-	//	echo $FilaColor[limite_inicial]." ".$Valor." ".$FilaColor[limite_final];
-		if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+	//	echo $FilaColor["limite_inicial"]." ".$Valor." ".$FilaColor["limite_final"];
+		if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor["limite_final"] ))
 		{
 			$ValorR=number_format($Valor,3,",",".");
 		}
@@ -348,7 +351,7 @@ function ValorColor($SA,$Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor,$Va
 		$RespColor = mysqli_query($link, $Consulta);
 		if($FilaColor=mysqli_fetch_array($RespColor))
 		{
-			if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+			if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor["limite_final"] ))
 			{
 				$ValorR=number_format($Valor,3,",",".");
 			}

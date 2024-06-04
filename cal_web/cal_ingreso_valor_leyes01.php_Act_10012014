@@ -20,7 +20,7 @@ function LimiteControl($SA,$CodLey,$Unidad,$Valor)
 		$RespColor = mysqli_query($link, $Consulta);
 		if($FilaColor=mysql_fetch_array($RespColor))
 		{
-			if(($FilaColor[limite_inicial]<=$Valor) && ( $FilaColor[limite_final] >=$Valor))
+			if(($FilaColor["limite_inicial"]<=$Valor) && ( $FilaColor[limite_final] >=$Valor))
 			{
 				$Actualiza='N';
 			}
@@ -39,7 +39,7 @@ function LimiteControl($SA,$CodLey,$Unidad,$Valor)
 			$RespColor = mysqli_query($link, $Consulta);
 			if($FilaColor=mysql_fetch_array($RespColor))
 			{
-				if(($FilaColor[limite_inicial]<=$Valor) && ( $FilaColor[limite_final] >=$Valor))
+				if(($FilaColor["limite_inicial"]<=$Valor) && ( $FilaColor[limite_final] >=$Valor))
 				{
 					$Actualiza='N';
 				}

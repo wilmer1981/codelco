@@ -240,7 +240,7 @@ function Salir(Valores)
 					$Resp1= mysqli_query($link, $Consulta);
 					if($Fila1=mysqli_fetch_array($Resp1))
 					{
-							$LimitIni=$Fila1[limite_inicial];
+							$LimitIni=$Fila1["limite_inicial"];
 							$LimitFin=$Fila1[limite_final];
 				
 					}
@@ -252,7 +252,7 @@ function Salir(Valores)
 						$Resp1= mysqli_query($link, $Consulta);
 						if($Fila1=mysqli_fetch_array($Resp1))
 						{
-								$LimitIni=$Fila1[limite_inicial];
+								$LimitIni=$Fila1["limite_inicial"];
 								$LimitFin=$Fila1[limite_final];
 						}
 					}

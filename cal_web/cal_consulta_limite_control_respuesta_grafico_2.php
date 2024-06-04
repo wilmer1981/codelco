@@ -1,5 +1,125 @@
-<?php 	include("../principal/conectar_principal.php");
+<?php 
+    include("../principal/conectar_principal.php");
 	include("../principal/graficos/phpchartdir.php");
+
+	$CookieRut=$_COOKIE["CookieRut"];
+
+	if(isset($_REQUEST["CmbProductos"])) {
+		$CmbProductos = $_REQUEST["CmbProductos"];
+	}else{
+		$CmbProductos ="";
+	}
+	if(isset($_REQUEST["CmbSubProducto"])) {
+		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
+	}else{
+		$CmbSubProducto ="";
+	}
+	if(isset($_REQUEST["CmbPeriodo"])) {
+		$CmbPeriodo = $_REQUEST["CmbPeriodo"];
+	}else{
+		$CmbPeriodo ="";
+	}
+	if(isset($_REQUEST["CmbTipo"])) {
+		$CmbTipo = $_REQUEST["CmbTipo"];
+	}else{
+		$CmbTipo ="";
+	}
+	if(isset($_REQUEST["CmbTipoAnalisis"])) {
+		$CmbTipoAnalisis = $_REQUEST["CmbTipoAnalisis"];
+	}else{
+		$CmbTipoAnalisis ="";
+	}
+	if(isset($_REQUEST["CmbProveedores"])) {
+		$CmbProveedores = $_REQUEST["CmbProveedores"];
+	}else{
+		$CmbProveedores ="";
+	}
+	if(isset($_REQUEST["CmbDias"])) {
+		$CmbDias = $_REQUEST["CmbDias"];
+	}else{
+		$CmbDias=1;
+	}
+	if(isset($_REQUEST["CmbMes"])) {
+		$CmbMes = $_REQUEST["CmbMes"];
+	}else{
+		$CmbMes=date("n");
+	}
+	if(isset($_REQUEST["CmbAno"])) {
+		$CmbAno = $_REQUEST["CmbAno"];
+	}else{
+		$CmbAno=date("Y");
+	}
+	if(isset($_REQUEST["CmbDiasT"])) {
+		$CmbDiasT = $_REQUEST["CmbDiasT"];
+	}else{
+		$CmbDiasT=date("j");
+	}
+	if(isset($_REQUEST["CmbMesT"])) {
+		$CmbMesT = $_REQUEST["CmbMesT"];
+	}else{
+		$CmbMesT=date("n");
+	}
+	if(isset($_REQUEST["CmbAnoT"])) {
+		$CmbAnoT = $_REQUEST["CmbAnoT"];
+	}else{
+		$CmbAnoT = date("Y");
+	}
+	if(isset($_REQUEST["Opc"])) {
+		$Opc = $_REQUEST["Opc"];
+	}else{
+		$Opc = 1;
+	}
+	if(isset($_REQUEST["CmbLey"])) {
+		$CmbLey = $_REQUEST["CmbLey"];
+	}else{
+		$CmbLey = "";
+	}
+	if(isset($_REQUEST["CmbUnidad"])) {
+		$CmbUnidad = $_REQUEST["CmbUnidad"];
+	}else{
+		$CmbUnidad = "";
+	}
+	if(isset($_REQUEST["Buscar"])) {
+		$Buscar = $_REQUEST["Buscar"];
+	}else{
+		$Buscar = "";
+	}
+	if(isset($_REQUEST["LimitIni"])) {
+		$LimitIni = $_REQUEST["LimitIni"];
+	}else{
+		$LimitIni = 0;
+	}
+	if(isset($_REQUEST["LimitFin"])) {
+		$LimitFin = $_REQUEST["LimitFin"];
+	}else{
+		$LimitFin = 50;
+	}
+	if(isset($_REQUEST["LimitFinAux"])) {
+		$LimitFinAux = $_REQUEST["LimitFinAux"];
+	}else{
+		$LimitFinAux = 50;
+	}
+	if(isset($_REQUEST["ChkLimite"])) {
+		$ChkLimite = $_REQUEST["ChkLimite"];
+	}else{
+		$ChkLimite = "";
+	}
+	if(isset($_REQUEST["Chk"])) {
+		$Chk = $_REQUEST["Chk"];
+	}else{
+		$Chk="S";
+	}
+	if(isset($_REQUEST["Busq"])) {
+		$Busq = $_REQUEST["Busq"];
+	}else{
+		$Busq = "";
+	}
+	if(isset($_REQUEST["TxtFiltroPrv"])) {
+		$TxtFiltroPrv = $_REQUEST["TxtFiltroPrv"];
+	}else{
+		$TxtFiltroPrv = "";
+	}
+
 	
  	$Seleccion1= "select distinct t3.cod_leyes,t4.abreviatura";
 	$Seleccion2= "select distinct t1.nro_solicitud,t1.recargo ";
@@ -136,6 +256,18 @@
 		if($CmbProveedores!='T')
 			$Consulta = $Consulta." and  t1.rut_proveedor='".$CmbProveedores."' ";
 	}
+	if(len($CmbMes)==1){
+		$CmbMes = "0".$CmbMes;
+	}
+	if(len($CmbDias)==1){
+		$CmbDias = "0".$CmbDias;
+	}
+	if(len($CmbMesT)==1){
+		$CmbMesT = "0".$CmbMesT;
+	}
+	if(len($CmbDiasT)==1){
+		$CmbDiasT = "0".$CmbDiasT;
+	}
 	$FechaI=$CmbAno."-".$CmbMes."-".$CmbDias." 00:00:01";
 	$FechaT=$CmbAnoT."-".$CmbMesT."-".$CmbDiasT." 23:59:59";
 	$Consulta = $Consulta." and (t1.fecha_muestra between '".$FechaI."' and '".$FechaT."')";
@@ -188,10 +320,10 @@
 		$RespVar= mysqli_query($link, $ConsultaVAR);
 		if($FilaVar=mysqli_fetch_array($RespVar))
 		{
-			$LimitIniVALOR=$FilaVar[limite_inicial];
-			$LimitFinVALOR=$FilaVar[limite_final];
-			//	$LimitIniVALOR=number_format($FilaVar[limite_inicial],3,'.','');
-			//	$LimitFinVALOR=number_format($FilaVar[limite_final],3,'.','');
+			$LimitIniVALOR=$FilaVar["limite_inicial"];
+			$LimitFinVALOR=$FilaVar["limite_final"];
+			//	$LimitIniVALOR=number_format($FilaVar["limite_inicial"],3,'.','');
+			//	$LimitFinVALOR=number_format($FilaVar["limite_final"],3,'.','');
 		}
 		else
 		{
@@ -200,11 +332,11 @@
 			$RespVar= mysqli_query($link, $ConsultaVAR);
 			if($FilaVar=mysqli_fetch_array($RespVar))
 			{
-			$LimitIniVALOR=$FilaVar[limite_inicial];
-			$LimitFinVALOR=$FilaVar[limite_final];
+			$LimitIniVALOR=$FilaVar["limite_inicial"];
+			$LimitFinVALOR=$FilaVar["limite_final"];
 			
-			//$LimitIniVALOR=number_format($FilaVar[limite_inicial],3,'.','');
-			//$LimitFinVALOR=number_format($FilaVar[limite_final],3,'.','');
+			//$LimitIniVALOR=number_format($FilaVar["limite_inicial"],3,'.','');
+			//$LimitFinVALOR=number_format($FilaVar["limite_final"],3,'.','');
 			}
 		
 		}
@@ -227,7 +359,7 @@
 		$Respuesta3=mysqli_query($link, $Consulta);
 		if($Fila3=mysqli_fetch_array($Respuesta3))
 		{
-			$Valor=ValorColor($Fila["nro_solicitud"],$CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"]);
+			$Valor=ValorColor($Fila["nro_solicitud"],$CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"],$link);
 			$M=explode('~',$Valor);
 			$ArregloSolicitudValor[$Cont]=$M[0];
 			$ArregloInicial[$Cont]=$LimitIniVALOR;
@@ -302,7 +434,7 @@ header("Content-type: image/png");
 print($c->makeChart2(PNG));
 	
 
-function ValorLimiteControl($Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor,$Valor,$Tiene)
+function ValorLimiteControl($Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor,$Valor,$Tiene,$link)
 {
 
 	
@@ -311,7 +443,7 @@ function ValorLimiteControl($Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor
 	$RespColor = mysqli_query($link, $Consulta);
 	if($FilaColor=mysqli_fetch_array($RespColor))
 	{
-		if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+		if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor["limite_final"] ))
 		{
 				$Valor=$Valor;
 			$Existe='N';
@@ -333,7 +465,7 @@ function ValorLimiteControl($Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor
 		{
 		
 		//    0 <= 70   && 60 >= 70
-			if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+			if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor["limite_final"] ))
 			{
 				$Existe='N';
 			}
@@ -353,7 +485,7 @@ function ValorLimiteControl($Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor
 	return($Tiene);
 }
 
-function ValorColor($SA,$Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor,$Valor,$Recargo)
+function ValorColor($SA,$Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor,$Valor,$Recargo,$link)
 {
 	$Obs='';
 	$Consulta="Select * from cal_web.limite where cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
@@ -361,8 +493,8 @@ function ValorColor($SA,$Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor,$Va
 	$RespColor = mysqli_query($link, $Consulta);
 	if($FilaColor=mysqli_fetch_array($RespColor))
 	{
-	//	echo $FilaColor[limite_inicial]." ".$Valor." ".$FilaColor[limite_final];
-		if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+	//	echo $FilaColor["limite_inicial"]." ".$Valor." ".$FilaColor["limite_final"];
+		if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor["limite_final"] ))
 		{
 				$ValorR=$Valor;
 		}
@@ -378,7 +510,7 @@ function ValorColor($SA,$Producto,$SubProducto,$CodLey,$Unidad,$RutProveedor,$Va
 		$RespColor = mysqli_query($link, $Consulta);
 		if($FilaColor=mysqli_fetch_array($RespColor))
 		{
-			if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+			if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor["limite_final"] ))
 			{
 					$ValorR=$Valor;
 			}

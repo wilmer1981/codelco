@@ -543,7 +543,7 @@
 		$RespColor = mysqli_query($link, $Consulta);
 		if($FilaColor=mysqli_fetch_array($RespColor))
 		{
-			if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+			if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor[limite_final] ))
 			{
 				$Valor=number_format($Valor,3,",",".");
 				$Existe='N';
@@ -562,7 +562,7 @@
 			$RespColor = mysqli_query($link, $Consulta);
 			if($FilaColor=mysqli_fetch_array($RespColor))
 			{
-				if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+				if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor[limite_final] ))
 				{
 					$Existe='N';
 				}
@@ -589,8 +589,8 @@
 		$RespColor = mysqli_query($link, $Consulta);
 		if($FilaColor=mysqli_fetch_array($RespColor))
 		{
-		//	echo $FilaColor[limite_inicial]." ".$Valor." ".$FilaColor[limite_final];
-			if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+		//	echo $FilaColor["limite_inicial"]." ".$Valor." ".$FilaColor[limite_final];
+			if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor[limite_final] ))
 			{
 				$ValorR=number_format($Valor,3,",",".");
 			}
@@ -613,7 +613,7 @@
 			$RespColor = mysqli_query($link, $Consulta);
 			if($FilaColor=mysqli_fetch_array($RespColor))
 			{
-				if(($Valor>=$FilaColor[limite_inicial]) && ( $Valor<=$FilaColor[limite_final] ))
+				if(($Valor>=$FilaColor["limite_inicial"]) && ( $Valor<=$FilaColor[limite_final] ))
 				{
 					$ValorR=number_format($Valor,3,",",".");
 				}
