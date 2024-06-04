@@ -62,7 +62,7 @@
 		{
 			$Ley=ucwords(strtolower($Fila["abreviatura"]));				
 		}
-	$Titulo= " Gesti�n Indicadores ".$SubProducto. " - Ley ".$Ley;
+	$Titulo= " Gestión Indicadores ".$SubProducto. " - Ley ".$Ley;
 	for($i=0;$i<$Mes;$i++)
 	{
 		                                  

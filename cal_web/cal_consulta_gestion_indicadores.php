@@ -155,7 +155,7 @@ function Salir()
 
 
 </script>
-<title>Consulta Gesti�n Indicadores </title>
+<title>Consulta Gesti&oacute;n Indicadores </title>
 </head>
 <link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0"> 
