@@ -130,6 +130,12 @@ if(isset($_REQUEST["CmbAreasProceso"])) {
 }else{
 	$CmbAreasProceso ="";
 }
+
+$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+$CCosto      = isset($_REQUEST["CCosto"])?$_REQUEST["CCosto"]:"";
+$Areas       = isset($_REQUEST["Areas"])?$_REQUEST["Areas"]:"";
+$Enabal      = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:"";
 /*********************************************************************** */
 
 

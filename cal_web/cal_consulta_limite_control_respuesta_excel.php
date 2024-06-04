@@ -51,6 +51,12 @@
 	$CmbCCosto = $_REQUEST["CmbCCosto"];
 	$CmbAreasProceso = $_REQUEST["CmbAreasProceso"];
 
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$CCosto      = isset($_REQUEST["CCosto"])?$_REQUEST["CCosto"]:"";
+	$Areas       = isset($_REQUEST["Areas"])?$_REQUEST["Areas"]:"";
+	$Enabal      = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:"";
+
 	/*********************************************************** */
 
  	$Seleccion1= "select distinct t3.cod_leyes,t4.abreviatura";
@@ -330,7 +336,7 @@
 				$Con=$Con." and cod_subclase = '".$CmbTipo."'";
 				$Respuesta= mysqli_query($link, $Con);
 				$Fila= mysqli_fetch_array($Respuesta); 
-				$Tipo= $Fila["nombre_subclase"];
+				$Tipo= isset($Fila["nombre_subclase"])?$Fila["nombre_subclase"]:"";
 				if ($CmbTipo=='-1')
 				{	
 					echo "Todos";
