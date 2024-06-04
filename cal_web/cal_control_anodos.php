@@ -94,7 +94,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if (confirm("�Desea reemplazar la Plantilla Existente?"))
+				if (confirm("¿Desea reemplazar la Plantilla Existente?"))
 				{
 					f.action="cal_control_anodos01.php?TxtCodigo="+f.CmbPlantilla.value+"&Proceso=G&Modif=S&TipoProducto="+ f.TipoProducto.value+"&Valores="+Valores;
 					f.submit();
@@ -106,7 +106,7 @@ function Proceso(opt)
 			}
 			break;
 		case "EP": //ELIMINA PLANTILLA
-			var msg = confirm("�Confirma que desea eliminar esta Plantilla?");
+			var msg = confirm("¿onfirma que desea eliminar esta Plantilla?");
 			if (msg==true)
 			{
 				f.action = "cal_control_anodos01.php?Proceso=E";

@@ -21,6 +21,8 @@
 		$TxtFechaFin=date("Y-m-d");
 	}
 
+	$NomSubProducto = isset($_REQUEST["NomSubProducto"])?$_REQUEST["NomSubProducto"]:"";
+
 	$Datos = explode("-",$TipoProducto);
 	$Producto = $Datos[0];
 	$SubProducto = $Datos[1];
@@ -50,7 +52,7 @@
 	$Datos = explode("//",$Valores);
 	$i=1;
 	$LimitesCons = "";
-	//foreach($Datos as $k => $v)
+	$Abrev="";
 	foreach($Datos as $k => $v )
 	{
 		$Datos2 = explode("~~",$v);
@@ -69,14 +71,16 @@
 		}
 		//ARREGLO LEYES
 		$ArrLeyes[$Datos2[0]][0] = $Datos2[0]; //COD_LEYES
-		if ($Datos2[2] > 0)
+		$Datos22 = isset($Datos2[2])?$Datos2[2]:0;
+		if ($Datos22 > 0)
 			$ArrLeyes[$Datos2[0]][1] = $Datos2[1]; //SIGNO
 		else
 			$ArrLeyes[$Datos2[0]][1] = ""; //SIGNO
-		$ArrLeyes[$Datos2[0]][2] = str_replace(",",".",$Datos2[2]); //VALOR
+
+		$ArrLeyes[$Datos2[0]][2] = str_replace(",",".",$Datos22); //VALOR
 		$ArrLeyes[$Datos2[0]][3] = $Abrev;     //ABREVIATURA 
 		//ARREGLO LIMITES
-		if ($Datos2[2] > 0)
+		if ($Datos22 > 0)
 		{
 			$ArrLimites[$Datos2[0]][0] = $Datos2[0]; //COD_LEYES
 			$ArrLimites[$Datos2[0]][1] = $Datos2[1]; //SIGNO
@@ -237,15 +241,17 @@ function Proceso(o)
 		$Consulta.= " order by cod_leyes";
 		$Resp2 = mysqli_query($link, $Consulta);
 		while ($Fila2 = mysqli_fetch_array($Resp2))
-		{			
-			if( $ArrLeyes[$Fila2["cod_leyes"]][0]!="")
+		{	$cod_leyes0 = isset($ArrLeyes[$Fila2["cod_leyes"]][0])?$ArrLeyes[$Fila2["cod_leyes"]][0]:"";	
+			if( $cod_leyes0!="")
 			{
 				$ArrLeyes[$Fila2["cod_leyes"]][4] = $Fila2["valor"];
 				$ArrLeyes[$Fila2["cod_leyes"]][5] = $Fila2["cod_unidad"];
 				$ArrLeyes[$Fila2["cod_leyes"]][6] = $Fila2["signo"];
 			}
 		}
-		if ($ArrLeyes["08"][4]>0 && $ArrLeyes["09"][4]>0)
+		$ArrLeyes084 = isset($ArrLeyes["08"][4])?$ArrLeyes["08"][4]:0;
+		$ArrLeyes094 = isset($ArrLeyes["09"][4])?$ArrLeyes["09"][4]:0;
+		if ($ArrLeyes084>0 && $ArrLeyes094>0)
 			$ArrLeyes["AS/SB"][4] = $ArrLeyes["08"][4]/$ArrLeyes["09"][4];
 		else
 			$ArrLeyes["AS/SB"][4] = 0;
@@ -256,7 +262,8 @@ function Proceso(o)
 		foreach($ArrLeyes as $k => $v )
 		{
 			$Color = "";
-				if ($v[1] != "")
+			$v1 = isset($v[1])?$v[1]:"";
+				if ($v1 != "")
 				{
 					switch ($v[1])
 					{
@@ -286,8 +293,9 @@ function Proceso(o)
 							break;
 					}
 				}
-				
-				if ($v[6]==">")
+				$v6 = isset($v[6])?$v[6]:"";
+				$v4 = isset($v[4])?$v[4]:0.0;
+				if ($v6==">")
 				{					
 					echo "<td align='right' bgcolor='#FF9900'>";
 					echo $v[6]." ";
@@ -297,7 +305,7 @@ function Proceso(o)
 				{
 					echo "<td align='right' bgcolor='".$Color."'>";
 				}
-				echo number_format($v[4],2,",",".")."</td>\n";	
+				echo number_format((float)$v4,2,",",".")."</td>\n";	
 		}
 		echo "<td align='center'>";		
 		if ($SinDefinir==true)

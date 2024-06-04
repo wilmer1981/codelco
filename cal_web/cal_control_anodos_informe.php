@@ -9,9 +9,10 @@
 
 	$Datos=explode("//",$Informacion);
 	$Cont=0;
+	$Fila = array();
 	//foreach($Datos as $k => $v)
 	foreach($Datos as $k => $v )
-	{
+	{   /*
 		if ($v["hornada"]!="")
 		{
 			$Datos2=explode("~~",$v);
@@ -23,6 +24,26 @@
 			$Fila[$Cont]["limite"]=$Datos2[5];
 			$Fila[$Cont]["valor"]=$Datos2[6];
 			$Fila[$Cont]["cod_unidad"]=$Datos2[7];
+			$Cont++;
+		}*/
+		$Datos2=explode("~~",$v);
+		$Datos20 = isset($Datos2[0])?$Datos2[0]:"";
+		$Datos21 = isset($Datos2[1])?$Datos2[1]:"";
+		$Datos22 = isset($Datos2[2])?$Datos2[2]:"";
+		$Datos23 = isset($Datos2[3])?$Datos2[3]:"";
+		$Datos24 = isset($Datos2[4])?$Datos2[4]:"";
+		$Datos25 = isset($Datos2[5])?$Datos2[5]:"";
+		$Datos26 = isset($Datos2[6])?$Datos2[6]:"";
+		$Datos27 = isset($Datos2[7])?$Datos2[7]:"";
+		if ($Datos22!=""){
+			$Fila[$Cont]["cod_producto"]=$Datos20;
+			$Fila[$Cont]["cod_subproducto"]=$Datos21;
+			$Fila[$Cont]["hornada"]=$Datos22;
+			$Fila[$Cont]["cod_leyes"]=$Datos23;
+			$Fila[$Cont]["signo"]=$Datos24;
+			$Fila[$Cont]["limite"]=$Datos25;
+			$Fila[$Cont]["valor"]=$Datos26;
+			$Fila[$Cont]["cod_unidad"]=$Datos27;
 			$Cont++;
 		}
 	}
@@ -135,9 +156,10 @@ function Proceso(o)
 		{
 			echo "As/Sb";
 		}
+		$valor = isset($v["valor"])?$v["valor"]:0.0;
 		echo "</td>\n";
 		echo "<td align=\"center\">".$v["signo"]."&nbsp;".$v["limite"]."</td>\n";
-		echo "<td align=\"center\">".number_format($v["valor"],2,",",".");
+		echo "<td align=\"center\">".number_format((float)$valor,2,",",".");
 		if ($v["cod_unidad"]!="")
 		{
 			$Consulta = "select * from proyecto_modernizacion.unidades where cod_unidad='".$v["cod_unidad"]."'";
