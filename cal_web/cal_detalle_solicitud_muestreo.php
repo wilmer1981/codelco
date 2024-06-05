@@ -32,6 +32,12 @@ if(isset($_REQUEST["Recargo"])) {
 	$Recargo = "";
 }
 
+$Estado = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
+$FechaAt = isset($_REQUEST["FechaAt"])?$_REQUEST["FechaAt"]:"";
+$HoraAt = isset($_REQUEST["HoraAt"])?$_REQUEST["HoraAt"]:"";
+$FechaC = isset($_REQUEST["FechaC"])?$_REQUEST["FechaC"]:"";
+$HoraC = isset($_REQUEST["HoraC"])?$_REQUEST["HoraC"]:"";
+
 //Consulta que devuelve el centro de costo y las leyes asociadas a la solicitud
 $Consulta ="select t3.abreviatura,t4.descripcion,t3.cod_leyes,t4.centro_costo,t3.tipo_leyes,t1.recargo "; 
 $Consulta = $Consulta."from  cal_web.solicitud_analisis t1 left join cal_web.leyes_por_solicitud t2 on (t1.rut_funcionario = t2.rut_funcionario) "; 
@@ -236,7 +242,7 @@ if ($Fila3=mysqli_fetch_array($Respuesta3))
           <tr> 
             <td><strong>Leyes</strong></td>
             <td><strong> 
-              <input name="TxtLeyes" type="text" id="TxtLeyes6" readonly style='width:250' value="<?phpecho $TxtLeyes ?>">
+              <input name="TxtLeyes" type="text" id="TxtLeyes6" readonly style='width:250' value="<?php echo $TxtLeyes ?>">
               </strong></td>
             <td><strong>Impurezas</strong></td>
             <td><strong> 
@@ -255,7 +261,7 @@ if ($Fila3=mysqli_fetch_array($Respuesta3))
 				$Fila3=mysqli_fetch_array($Respuesta3);
 				$TxtTipoAnalisis = $Fila3["nombre_subclase"];
 			?>
-              <input name="TxtTipoAnalisis" type="text" id="TxtTipoAnalisis2" readonly style='width:250' value="<?phpecho $TxtTipoAnalisis ?>">
+              <input name="TxtTipoAnalisis" type="text" id="TxtTipoAnalisis2" readonly style='width:250' value="<?php echo $TxtTipoAnalisis ?>">
               </strong></td>
             <td><strong>Estado</strong></td>
             <td><strong> 
@@ -317,6 +323,7 @@ if ($Fila3=mysqli_fetch_array($Respuesta3))
 					$Consulta = $Consulta."where t1.nro_solicitud ='".$SA."' and t1.recargo ='".$Recargo."' and t1.rut_funcionario = '".$RutF."' and cod_estado = '2'"; 
 				}
 				$Respuesta =mysqli_query($link, $Consulta);
+				$TxtFechaR="";
 				if ($Fila1=mysqli_fetch_array($Respuesta))
 				{
 					$TxtFechaR = $Fila1["fecha_hora"];
@@ -340,6 +347,7 @@ if ($Fila3=mysqli_fetch_array($Respuesta3))
 				$Consulta = $Consulta."where t1.nro_solicitud ='".$SA."' and t1.recargo ='".$Recargo."' and t1.rut_funcionario = '".$RutF."' and cod_estado = '13'"; 
 			}
 			$Respuesta =mysqli_query($link, $Consulta);
+			$TxtFechaA="";
 			if ($Fila1=mysqli_fetch_array($Respuesta))
 			{
 				$TxtFechaA = $Fila1["fecha_hora"];
@@ -409,11 +417,11 @@ if ($Fila3=mysqli_fetch_array($Respuesta3))
 					$Estados = $Estados.$Fila2["nombre_subclase"].'-'; 	
 				
 				}
-			  
-			  $Estados = substr($Estados,0,strlen-1);
+			   //$Estados = substr($Estados,0,strlen-1);
+			   $Estados = substr($Estados,0,strlen($Estados)-1);
 	           echo "<textarea name='TxtEstado' readonly='readonly' style='width:250'>";
 			   echo $Estados;
-			  echo "</textarea>";
+			   echo "</textarea>";
 			  ?>
               </strong></td>
             <td><strong>Observacion </strong></td>

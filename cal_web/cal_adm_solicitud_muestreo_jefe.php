@@ -1,6 +1,6 @@
 ﻿<?php
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $CookieRut=$_COOKIE["CookieRut"];
 $Rut =$CookieRut;
@@ -90,9 +90,8 @@ if(isset($_REQUEST["MinutosLixiv"])) {
 	$MinutosLixiv =  date("i");
 }
 
-
-
-
+$Valores_Check = isset($_REQUEST["Valores_Check"])?$_REQUEST["Valores_Check"]:"";
+$FechaAtencion = isset($_REQUEST["FechaAtencion"])?$_REQUEST["FechaAtencion"]:"";
 ?>
 <html>
 <head>
@@ -927,10 +926,23 @@ function Recarga(URL,LimiteIni)
           </tr>
           <?php
 	 		include ("../Principal/conectar_cal_web.php");	
+			 if(strlen($CmbMes)==1){
+				$CmbMes = "0".$CmbMes;
+			}
+			if(strlen($CmbDias)==1){
+				$CmbDias = "0".$CmbDias;
+			}
+			if(strlen($CmbMesT)==1){
+				$CmbMesT = "0".$CmbMesT;
+			}
+			if(strlen($CmbDiasT)==1){
+				$CmbDiasT = "0".$CmbDiasT;
+			}
 			$FechaI = $CmbAno."-".$CmbMes."-".$CmbDias.' 00:01';
 			$FechaT = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT.' 23:59';
 			$Entrar = true;
 			//echo $CmbEstado."<br>";
+			$Estado="";
 			switch ($CmbEstado) 
 			{
 				//enviado a laboratorio 
@@ -1062,7 +1074,8 @@ function Recarga(URL,LimiteIni)
           <tr>
             <td height="25" align="center" valign="middle">Paginas &gt;&gt; >
 			<?php 
-			$Consulta = "select count(*) as total_registros ";
+			//echo "Estado:".$Estado."<br>";
+			$Consulta = "select count(distinct t1.nro_solicitud) as total_registros ";
 			$Consulta = $Consulta."from cal_web.solicitud_analisis t1 " ;
 			$Consulta = $Consulta."inner join proyecto_modernizacion.productos t2 on t2.cod_producto=t1.cod_producto ";
 			$Consulta = $Consulta."inner join proyecto_modernizacion.subproducto t3 on t3.cod_producto=t1.cod_producto and t3.cod_subproducto=t1.cod_subproducto ";
@@ -1073,6 +1086,7 @@ function Recarga(URL,LimiteIni)
 			//echo $Consulta."<br>";
 			$Respuesta = mysqli_query($link, $Consulta);
 			$Row = mysqli_fetch_array($Respuesta);
+			//var_dump($Row);
 			$Coincidencias = $Row["total_registros"];
 			$NumPaginas = ($Coincidencias / $LimitFin);
 			$LimitFinAnt = $LimitIni;
