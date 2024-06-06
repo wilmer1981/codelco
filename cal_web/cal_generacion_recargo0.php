@@ -6,7 +6,7 @@ $CookieRut=$_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 //$CodigoDePantalla = 5;
@@ -16,7 +16,6 @@ if($Fila =mysqli_fetch_array($Respuesta))
 {
 	$Nivel = $Fila["nivel"];
 }
-
 
 if(isset($_REQUEST["NumSolicitud"])) {
 	$NumSolicitud = $_REQUEST["NumSolicitud"];
@@ -38,6 +37,11 @@ if(isset($_REQUEST["MensajeGenerar"])) {
 }else{
 	$MensajeGenerar = "";
 }
+if(isset($_REQUEST["MensajeLey"])) {
+	$MensajeLey = $_REQUEST["MensajeLey"];
+}else{
+	$MensajeLey = "";
+}
 if(isset($_REQUEST["Encontro"])) {
 	$Encontro = $_REQUEST["Encontro"];
 }else{
@@ -48,10 +52,6 @@ if(isset($_REQUEST["LimitIni"])) {
 }else{
 	$LimitIni = 0;
 }
-
-
-
-
 ?>
 <html>
 <head>
@@ -92,10 +92,6 @@ function MostrarLeyes(Sol)
 </head>
 <body leftmargin="3" topmargin="3" marginwidth="0" marginheight="0">
 <form name="FrmRecepcion" method="post" action="">
-<?php
-	//if (!isset($LimitIni))
-	//	$LimitIni = 0;
-?>
 <input type="hidden" name="LimitIni" value="<?php echo $LimitIni; ?>">
   <?php include("../principal/encabezado.php")?>
   <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5" >

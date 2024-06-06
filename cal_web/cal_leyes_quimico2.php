@@ -130,7 +130,7 @@ function Validar(valores,Personalizar,Producto,SubProducto,NombrePlantilla,CodPl
 						echo '<tr>';
 						$cont=1;
 			    	}
-     				echo "<td align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];
+     				echo "<td align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];
 					echo "<select name='CmbUnidad' style='width:80' align='right'>";
 					$Consulta = "select * from unidades";
 					$Resultado2 = mysqli_query($link, $Consulta);
@@ -174,7 +174,7 @@ function Validar(valores,Personalizar,Producto,SubProducto,NombrePlantilla,CodPl
 						echo '<tr>';
 						$cont=1;
 			    	}
-     				echo "<td align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];		
+     				echo "<td align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];		
 					echo "<select name='CmbUnidad' style='width:80' align='right'>";
 					$Consulta = "select * from unidades";
 					$Resultado2 = mysqli_query($link, $Consulta);

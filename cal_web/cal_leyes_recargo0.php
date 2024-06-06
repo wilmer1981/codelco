@@ -1,5 +1,6 @@
 ﻿<?php
 	include("../principal/conectar_principal.php");
+	$CookieRut=$_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
 	
 ?>
@@ -136,7 +137,7 @@ function Validar(Sol)
 						$cont=1;
 			    	}
 					
-						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];
+						echo "<td width='150' align='left'><input type='checkbox' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];
 						echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";					
 						echo '</td>';
 						$cont =$cont+ 1;
@@ -169,7 +170,7 @@ function Validar(Sol)
 					$cont=1;
 				}
 				
-					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];		
+					echo "<td width='150' align='left'><input type='checkbox' name ='checkImpurezas' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];		
 					echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";
 					echo "</td>";
 					$cont =$cont+ 1;
@@ -192,7 +193,7 @@ function Validar(Sol)
 					echo '<tr>';
 					$cont=1;
 				}
-				echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];		
+				echo "<td width='150' align='left'><input type='checkbox' name ='checkFisicas' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];		
 				echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";
 				
 				echo "</td>";

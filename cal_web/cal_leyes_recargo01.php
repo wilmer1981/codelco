@@ -1,5 +1,11 @@
 <?php
 include("../principal/conectar_cal_web.php");
+$CookieRut=$_COOKIE["CookieRut"];
+
+$Sol              = isset($_REQUEST["Sol"])?$_REQUEST["Sol"]:"";
+$ValoresLeyes     = isset($_REQUEST["ValoresLeyes"])?$_REQUEST["ValoresLeyes"]:"";
+$ValoresImpurezas = isset($_REQUEST["ValoresImpurezas"])?$_REQUEST["ValoresImpurezas"]:"";
+
 $ValCheck = $Muestras;
 $Rut=$CookieRut;
 

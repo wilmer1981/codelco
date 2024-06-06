@@ -2,9 +2,9 @@
 $CodigoDeSistema=1;
 include("../principal/conectar_principal.php");
 
-$Proceso = $_REQUEST["Proceso"];
-$NumSolicitud = $_REQUEST["NumSolicitud"];
-$IdMuestra = $_REQUEST["IdMuestra"];
+$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$NumSolicitud = isset($_REQUEST["NumSolicitud"])?$_REQUEST["NumSolicitud"]:"";
+$IdMuestra    = isset($_REQUEST["IdMuestra"])?$_REQUEST["IdMuestra"]:"";
 
 
 if($Proceso!="S")

@@ -4,7 +4,7 @@ $CookieRut=$_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 //$CodigoDePantalla = 5;
@@ -34,6 +34,11 @@ if(isset($_REQUEST["MensajeGenerar"])) {
 	$MensajeGenerar = $_REQUEST["MensajeGenerar"];
 }else{
 	$MensajeGenerar = "";
+}
+if(isset($_REQUEST["MensajeLey"])) {
+	$MensajeLey = $_REQUEST["MensajeLey"];
+}else{
+	$MensajeLey = "";
 }
 if(isset($_REQUEST["Encontro"])) {
 	$Encontro = $_REQUEST["Encontro"];

@@ -117,7 +117,7 @@ function Validar(ValoresSA,SA,Recargo,Ley,Proceso)
 						echo '<tr>';
 						$cont=1;
 			    	}
-     				echo "<td align='left'><input type='radio' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];
+     				echo "<td align='left'><input type='radio' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];
 					echo "&nbsp;";
 					echo "<select name='CmbUnidad' style='width:80'";
 					$Consulta = "select * from unidades";
@@ -160,7 +160,7 @@ function Validar(ValoresSA,SA,Recargo,Ley,Proceso)
 						echo '<tr>';
 						$cont=1;
 			    	}
-     				echo "<td align='left'><input type='radio' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];		
+     				echo "<td align='left'><input type='radio' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];		
 					echo "<select name='CmbUnidad' style='width:80' align='right'>";
 					$Consulta = "select * from unidades";
 					$Resultado2 = mysqli_query($link, $Consulta);
@@ -201,7 +201,7 @@ function Validar(ValoresSA,SA,Recargo,Ley,Proceso)
 					echo '<tr>';
 					$cont=1;
 				}
-				echo "<td width='150' align='left'><input type='radio' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila[abrev];		
+				echo "<td width='150' align='left'><input type='radio' name ='checkLeyes' value='".$Fila["cod_leyes"]."'>".$Fila["abrev"];		
 				echo "<input type ='hidden' name='TxtUnidad' value='".$Fila["cod_unidad"]."'>";
 				echo "<select name='CmbUnidad' style='width:80' align='right'>";
 				$Consulta = "select * from unidades";
