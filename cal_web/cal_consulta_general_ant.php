@@ -360,7 +360,7 @@ function Habilitar(Opcion)
 					echo "<select name='CmbCCosto' style='width:250'>";
 					echo "<option value ='-1' selected>Seleccionar</option>\n;";
 					$Consulta = "select centro_costo,descripcion from centro_costo  where mostrar_calidad='S' order by centro_costo";
-					$Respuesta = mysql_query ($Consulta);
+					$Respuesta = mysqli_query ($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						if ($CmbCCosto==$Fila["centro_costo"])
@@ -374,7 +374,7 @@ function Habilitar(Opcion)
 					}
 					echo "<option value ='-1'>____________________________________________________</option>\n";
 					$Consulta = "select centro_costo,descripcion from centro_costo  where mostrar_calidad<>'S' order by centro_costo";
-					$Respuesta = mysql_query ($Consulta);
+					$Respuesta = mysqli_query ($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						if ($CmbCCosto==$Fila["centro_costo"])
@@ -453,7 +453,7 @@ function Habilitar(Opcion)
 					    echo "<select name='CmbAreasProceso' style='width:250'>";
 						echo "<option value ='-1' selected>Seleccionar</option>\n;";
 						$Consulta = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase = 3 order by cod_subclase";
-						$Respuesta = mysql_query ($Consulta);
+						$Respuesta = mysqli_query ($link, $Consulta);
 						while ($Fila=mysqli_fetch_array($Respuesta))
 						{
 							if ($CmbAreasProceso == $Fila["cod_subclase"])

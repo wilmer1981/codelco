@@ -1,10 +1,18 @@
 <?php
 include ("../Principal/conectar_cal_web.php");	
 //$FechaP = $CmbAnoP."-".$CmbMesP."-".$CmbDiaP." ".$HoraAnalisis.":".$MinutosLixiv;
-$FechaP=date('Y-m-d G:i:s');
-$CookieRut=$_COOKIE["CookieRut"];
+$FechaP    =date('Y-m-d G:i:s');
+$CookieRut =$_COOKIE["CookieRut"];
 $ValoresSA = $_REQUEST["ValoresSA"];
-$CmbTipo = $_REQUEST["CmbTipo"];
+$CmbTipo   = $_REQUEST["CmbTipo"];
+
+$CmbEstado    = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+$LimitIni    = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:"";
+$LimitFin    = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:"";
+$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:"";
+$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:"";
+$CmbAnoSol      = isset($_REQUEST["CmbAnoSol"])?$_REQUEST["CmbAnoSol"]:"";
+$NSol      = isset($_REQUEST["NSol"])?$_REQUEST["NSol"]:"";
 
 
 $Valores_Check = $ValoresSA;
@@ -186,7 +194,7 @@ for ($j = 0;$j <= strlen($ValoresSA); $j++)
 								{
 									// "voy asignar fechas a estados sin recargos"."<br>";
 									$Consulta = "select * from cal_web.estados_por_solicitud where (rut_funcionario = '".$Rut."') and (nro_solicitud = '".$SA."') and  (cod_estado between  '50' and '55') ";
-									$Respuesta = mysql_query ($Consulta);
+									$Respuesta = mysqli_query ($link, $Consulta);
 									while ($Fila=mysqli_fetch_array($Respuesta))
 									{
 										if ($Fila["cod_estado"] == $CmbTipo)
@@ -202,7 +210,7 @@ for ($j = 0;$j <= strlen($ValoresSA); $j++)
 								{
 									// "voy asignar fechas a estados con recargos"."<br>";
 									$Consulta = "select * from cal_web.estados_por_solicitud where (rut_funcionario = '".$Rut."') and (nro_solicitud = '".$SA."') and (recargo = '".$Recargo."') and (cod_estado between  '50' and '55') ";
-									$Respuesta = mysql_query ($Consulta);
+									$Respuesta = mysqli_query ($link, $Consulta);
 									while ($Fila=mysqli_fetch_array($Respuesta))
 									{
 										if ($Fila["cod_estado"] == $CmbTipo)

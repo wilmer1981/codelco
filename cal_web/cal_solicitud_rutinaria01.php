@@ -44,7 +44,7 @@
 				$Insertar = $Insertar.$Fila[cod_ccosto]."',";			
 				$Insertar = $Insertar.$Fila[cod_area].",'";
 				$Insertar = $Insertar.$Fila[leyes]."','";
-				$Insertar = $Insertar.$Fila[impurezas]."')";	
+				$Insertar = $Insertar.$Fila["impurezas"]."')";	
 				//echo 	$Insertar;	
 				mysqli_query($link, $Insertar);
 				$CodPeriodo=$Fila[cod_periodo];

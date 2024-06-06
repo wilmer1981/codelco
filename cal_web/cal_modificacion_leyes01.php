@@ -11,7 +11,6 @@ $RutPlant  = $_REQUEST["RutPlant"];
 $RutPlant  = $_REQUEST["RutPlant"];
 $TxtRecargo = $_REQUEST["TxtRecargo"];
 
-
 if($TxtRecargo=='N')
 {
 	$Criterio="";		

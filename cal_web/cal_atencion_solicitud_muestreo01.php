@@ -1,14 +1,21 @@
 <?php
-	$CodigoDeSistema=1;
+$CodigoDeSistema=1;
 include("../principal/conectar_cal_web.php");
 $CookieRut=$_COOKIE["CookieRut"];
 $RutProceso =$CookieRut;
 
-$Opcion   = $_REQUEST["Opcion"];
-$Muestras = $_REQUEST["Muestras"];
-$ValorSA  = $_REQUEST["ValorSA"];
-$FechaAT  = $_REQUEST["FechaAT"];
-$TSaRutFecha  = $_REQUEST["TSaRutFecha"];
+$Opcion   = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+$Muestras = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:"";
+$ValorSA  = isset($_REQUEST["ValorSA"])?$_REQUEST["ValorSA"]:"";
+$FechaAT  = isset($_REQUEST["FechaAT"])?$_REQUEST["FechaAT"]:"";
+$TSaRutFecha  = isset($_REQUEST["TSaRutFecha"])?$_REQUEST["TSaRutFecha"]:"";
+$FechaHora    = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+
+$CmbEstado    = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+$LimitIni    = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:"";
+$LimitFin    = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:"";
+$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:"";
+$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:"";
 
 switch ($Opcion)
 {
@@ -47,10 +54,12 @@ switch ($Opcion)
 									//echo $Consulta."<br>";
 									$Respuesta=mysqli_query($link, $Consulta);
 									$Fila=mysqli_fetch_array($Respuesta);   
+									$id_muestra = isset($Fila["id_muestra"])?$Fila["id_muestra"]:"";
+									$fecha_hora = isset($Fila["fecha_hora"])?$Fila["fecha_hora"]:"";
 									//Elimina en solictud de analisis
 									$Eliminar="delete from cal_web.solicitud_analisis where  ";
 									$Eliminar.=" nro_solicitud = '".$Sa."' and rut_funcionario and recargo = '".$Recargo."' ";
-									$Eliminar.= " and id_muestra = '".$Fila["id_muestra"]."' and fecha_hora = '".$Fila["fecha_hora"]."'";
+									$Eliminar.= " and id_muestra = '".$id_muestra."' and fecha_hora = '".$fecha_hora."'";
 									mysqli_query($link, $Eliminar);
 									//Elimina en estados por solicitud
 									$Eliminar = "delete from cal_web.estados_por_solicitud where nro_solicitud = '".$Sa."' and recargo = '".$Recargo."' ";		

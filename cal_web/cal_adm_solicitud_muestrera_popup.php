@@ -29,7 +29,7 @@
 	if(isset($_REQUEST["CmbAnoSol"])) {
 		$CmbAnoSol = $_REQUEST["CmbAnoSol"];
 	}else{
-		$CmbAnoSol = "";
+		$CmbAnoSol = date("Y");
 	}
 	if(isset($_REQUEST["Opc"])) {
 		$Opc = $_REQUEST["Opc"];
@@ -53,6 +53,8 @@
 <html>
 <head>
 <?php
+$Msj="";	
+$Boton="";
 	if($Consulta=='S')
 	{
 		$Estado = " where t1.nro_solicitud='".$CmbAnoSol.str_pad($S,6,0,STR_PAD_LEFT)."' and t1.recargo='".$R."'";

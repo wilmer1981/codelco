@@ -170,7 +170,7 @@ for ($j = 0;$j <= strlen($ValoresSA); $j++)
 								{
 									// "voy asignar fechas a estados sin recargos"."<br>";
 									$Consulta = "select * from cal_web.estados_por_solicitud where (rut_funcionario = '".$Rut."') and (nro_solicitud = '".$SA."') and  (cod_estado between  '50' and '55') ";
-									$Respuesta = mysql_query ($Consulta);
+									$Respuesta = mysqli_query ($link, $Consulta);
 									while ($Fila=mysql_fetch_array($Respuesta))
 									{
 										
@@ -187,7 +187,7 @@ for ($j = 0;$j <= strlen($ValoresSA); $j++)
 								{
 									// "voy asignar fechas a estados con recargos"."<br>";
 									$Consulta = "select * from cal_web.estados_por_solicitud where (rut_funcionario = '".$Rut."') and (nro_solicitud = '".$SA."') and (recargo = '".$Recargo."') and (cod_estado between  '50' and '55') ";
-									$Respuesta = mysql_query ($Consulta);
+									$Respuesta = mysqli_query ($link, $Consulta);
 									while ($Fila=mysql_fetch_array($Respuesta))
 									{
 										if ($Fila["cod_estado"] == $CmbTipo)

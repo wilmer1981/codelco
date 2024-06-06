@@ -107,7 +107,7 @@
             <td colspan="15"><?php 
 			$ConsultaN = "select centro_costo,descripcion ";
 			$ConsultaN.= " from centro_costo  where mostrar_calidad='S' and centro_costo = '".$CmbCCosto."' order by centro_costo";
-			$RespuestaN = mysql_query ($ConsultaN);
+			$RespuestaN = mysqli_query ($link, $ConsultaN);
 			if ($FilaN=mysqli_fetch_array($RespuestaN))
 			{
 				$CCosto = $FilaN[centro_costo]." - ".ucwords(strtolower($FilaN["descripcion"]));
@@ -124,7 +124,7 @@
             <td colspan="15"><?php 
 			$ConsultaN = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase ";
 			$ConsultaN.= "where cod_clase = '3' and cod_subclase= '".CmbAreasProceso."' order by cod_subclase";
-			$RespuestaN = mysql_query ($ConsultaN);
+			$RespuestaN = mysqli_query ($link, $ConsultaN);
 			if ($FilaN=mysqli_fetch_array($RespuestaN))
 			{
 				$Area = ucwords(strtolower($FilaN["nombre_subclase"]));
@@ -162,7 +162,7 @@
             <td width="17%"><strong>Tipo Producto:</strong></td>
             <td colspan="15"><?php 
 			$ConsultaN="select cod_producto,descripcion from productos where cod_producto='".$CmbProductos."' order by descripcion"; 
-			$RespuestaN = mysql_query ($ConsultaN);
+			$RespuestaN = mysqli_query ($link, $ConsultaN);
 			if ($FilaN=mysqli_fetch_array($RespuestaN))
 			{
 				$Producto = ucwords(strtolower($FilaN["descripcion"]));
@@ -179,7 +179,7 @@
             <td colspan="15"><?php 
 			$ConsultaN="select cod_subproducto,descripcion from subproducto ";
 			$ConsultaN.="where cod_producto = '".$CmbProductos."' and cod_subproducto='".$CmbSubProducto."'"; 
-			$RespuestaN = mysql_query ($ConsultaN);
+			$RespuestaN = mysqli_query ($link, $ConsultaN);
 			if ($FilaN=mysqli_fetch_array($RespuestaN))
 			{
 				$SubProducto = ucwords(strtolower($FilaN["descripcion"]));

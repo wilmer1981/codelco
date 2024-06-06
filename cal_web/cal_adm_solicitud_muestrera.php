@@ -2,7 +2,7 @@
 	$CodigoDeSistema = 1;
 	$CodigoDePantalla = 3;
 	include("../principal/conectar_principal.php");
-	$Fecha_Hora = date("d-m-Y h:i");
+	$Fecha_Hora = date("d-m-Y H:i");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	$CookieRut=$_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
@@ -15,7 +15,7 @@
 	if(isset($_REQUEST["CmbAnoSol"])) {
 		$CmbAnoSol = $_REQUEST["CmbAnoSol"];
 	}else{
-		$CmbAnoSol = "";
+		$CmbAnoSol = date("Y");
 	}
 	if(isset($_REQUEST["NSol"])) {
 		$NSol = $_REQUEST["NSol"];
@@ -71,14 +71,12 @@
 	}else{
 		$EstOpe = "";
 	}
-	
-
-
-
+	$Valores_Check = isset($_REQUEST["Valores_Check"])?$_REQUEST["Valores_Check"]:"";
+	$FechaAtencion = isset($_REQUEST["FechaAtencion"])?$_REQUEST["FechaAtencion"]:"";	
 ?>
 <html>
 <head>
-<title>Administraci�n de Solicitudes de Muestreo</title>
+<title>Administraci&oacute;n de Solicitudes de Muestreo</title>
 <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 <SCRIPT event=onclick() for=document>popCal.style.visibility = "hidden";</SCRIPT>
@@ -462,7 +460,7 @@ function ValidarCambiarEstado()
 	TSaRutFecha=RecuperarSolEliminar();
 	if (TSaRutFecha!="")
 	{
-		var mensaje = confirm("�Seguro que desea Eliminar?");
+		var mensaje = confirm("¿Seguro que desea Eliminar?");
 		if (mensaje==true)
 		{
 			frm.action="cal_atencion_solicitud_muestreo01.php?TSaRutFecha="+ TSaRutFecha + "&Opcion=E";
@@ -523,7 +521,7 @@ function Recepcionar()
 	{
 		if (frm.CmbTipo.value=='7')
 		{
-			var mensaje = confirm("�Seguro que desea Eliminar?");
+			var mensaje = confirm("¿Seguro que desea Eliminar?");
 			if (mensaje==true)
 			{
 				frm.action="cal_adm_solicitud_muestreo_jefe01.php?ValoresSA="+ ValoresSA ;
@@ -546,9 +544,9 @@ function Recepcionar()
 function Impresion(txtnro_solicitud, recargo,impres)
 {
 		if(impres != "")
-			var mensaje = confirm("�Esta seguro de Reimprimir la Plantilla?");
+			var mensaje = confirm("¿Esta seguro de Reimprimir la Plantilla?");
 		else
-			var mensaje = confirm("�Esta seguro de Generar una Plantilla?");
+			var mensaje = confirm("¿Esta seguro de Generar una Plantilla?");
 		if (mensaje==true)
 		{
 			window.open("cal_muestrera_impresion.php?txtnro_solicitud="+txtnro_solicitud+"&recargo="+recargo,"","scrollbars=yes,top=60px,left=50px,width=800px,height=640px, align=center");		
@@ -671,7 +669,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		?>
       </select>
     </font></font></strong></font></font></td>
-<td align="right" class="Colum01"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N� Solicitud</font></td>
+<td align="right" class="Colum01"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">N° Solicitud</font></td>
     <td width="280" align="left" class="Colum01">
     <font size="1"><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><font size="1"><font size="1"><font size="1"><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
     <select name="CmbAnoSol" size="1" style="width:70px;">
@@ -1057,10 +1055,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		}
 		else
 			$Estado = " where t1.nro_solicitud='".$CmbAnoSol.str_pad($NSol,6,0,STR_PAD_LEFT)."' and t6.cod_estado='".$CmbEstado."'";
+
+		//$ConsultaPag="";
 		if ($Entrar == true)
 		{
 			$Consulta = "select t1.tipo_solicitud,t2.descripcion as nomproducto,t3.descripcion as nomsubproducto,";
-			$Consulta = $Consulta."t1.rut_funcionario,t1.recargo,t1.fecha_hora,if(length(t1.recargo)=1,concat('0',t1.recargo),t1.recargo) as recargo_ordenado, ";
+			$Consulta = $Consulta."t1.rut_funcionario,t1.recargo,t1.fecha_hora,t6.fecha_hora as FechaAtencion, if(length(t1.recargo)=1,concat('0',t1.recargo),t1.recargo) as recargo_ordenado, ";
 			$Consulta = $Consulta."concat(t4.nombres,' ',t4.apellido_paterno,' ',t4.apellido_materno) as nombreapellido, ";
 			$Consulta = $Consulta."t4.apellido_paterno as ap_paterno, ";
 			$Consulta = $Consulta."t4.apellido_materno as ap_materno, ";
@@ -1252,26 +1252,28 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
           <tr> 
             <td height="25" align="center" valign="middle">Paginas &gt;&gt; 
 		    <?php
-			//echo $ConsultaPag;
-			$Respuesta = mysqli_query($link, $ConsultaPag);
-			$Coincidencias=0; //WSO
-			while($Row = mysqli_fetch_array($Respuesta))
-				$Coincidencias = $Coincidencias+1;
-			$NumPaginas = ($Coincidencias / $LimitFin);
-			$LimitFinAnt = $LimitIni;
-			$StrPaginas = "";
-			for ($i = 0; $i <= $NumPaginas; $i++)
-			{
-				$LimitIni = ($i * $LimitFin);
-				if ($LimitIni == $LimitFinAnt)
-					$StrPaginas.= "<strong>".($i + 1)."</strong>&nbsp;-&nbsp;\n";
-				else
+			if ($Entrar == true){
+				//echo $ConsultaPag;
+				$Respuesta = mysqli_query($link, $ConsultaPag);
+				$Coincidencias=0; //WSO
+				while($Row = mysqli_fetch_array($Respuesta))
+					$Coincidencias = $Coincidencias+1;
+				$NumPaginas = ($Coincidencias / $LimitFin);
+				$LimitFinAnt = $LimitIni;
+				$StrPaginas = "";
+				for ($i = 0; $i <= $NumPaginas; $i++)
 				{
-					$StrPaginas.=  "<a href=JavaScript:Recarga('cal_adm_solicitud_muestrera.php?CmbEstado=".$CmbEstado."','".($i * $LimitFin)."');>";
-					$StrPaginas.= ($i + 1)."</a>&nbsp;-&nbsp;\n";
+					$LimitIni = ($i * $LimitFin);
+					if ($LimitIni == $LimitFinAnt)
+						$StrPaginas.= "<strong>".($i + 1)."</strong>&nbsp;-&nbsp;\n";
+					else
+					{
+						$StrPaginas.=  "<a href=JavaScript:Recarga('cal_adm_solicitud_muestrera.php?CmbEstado=".$CmbEstado."','".($i * $LimitFin)."');>";
+						$StrPaginas.= ($i + 1)."</a>&nbsp;-&nbsp;\n";
+					}
 				}
-			}
-			echo substr($StrPaginas,0,-15);
+				echo substr($StrPaginas,0,-15);
+		    }
 	?>
     	</td></tr>
         </table>

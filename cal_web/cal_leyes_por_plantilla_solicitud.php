@@ -48,7 +48,7 @@
 								$l=0;
 							}
 						}
-						$ImpurezasAux=$Fila[impurezas];
+						$ImpurezasAux=$Fila["impurezas"];
 						for ($l = 0;$l <= strlen($ImpurezasAux); $l++)
 						{
 							if (substr($ImpurezasAux,$l,2) == "//")

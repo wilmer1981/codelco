@@ -41,6 +41,9 @@ if(isset($_REQUEST["Plantilla"])) {
 }else{
 	$Plantilla = "";
 }
+$CentroCosto = isset($_REQUEST["CentroCosto"])?$_REQUEST["CentroCosto"]:"";
+$RutPlant    = isset($_REQUEST["RutPlant"])?$_REQUEST["RutPlant"]:"";
+$CmbCCosto = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:"";
 
 /************************************************************ */
 $Consulta = "SELECT t1.nro_solicitud,t1.id_muestra,t4.abreviatura,t4.tipo_leyes, ";
@@ -87,7 +90,8 @@ if ($Fila = mysqli_fetch_array($Respuesta))
 	$Producto = $Fila["cod_producto"];
 	$SubProducto= $Fila["cod_subproducto"];
 	//echo $Consulta."<br>";
-	
+	$Impurezas="";
+	$Ley="";
 	while( $Fila = mysqli_fetch_array($Respuesta2)) 
 	{
 		if (($Fila["tipo_leyes"] == '0')|| ($Fila["tipo_leyes"] == '3'))
@@ -111,7 +115,7 @@ if ($Fila = mysqli_fetch_array($Respuesta))
 	
 	//asigno el tipo de anlisis , si es quimico o fisico  para ocultar los botones plantillas o personalizar 
 }
-if (isset($Plantilla))
+if ($Plantilla!="")
 {
 	$CCosto=$CentroCosto;
 	$Consulta ="select t3.abreviatura,t3.tipo_leyes ";
@@ -269,7 +273,7 @@ else
                 <?php
 
 				$Consulta1 = "select centro_costo,descripcion from centro_costo  where mostrar_calidad='S' order by centro_costo";
-				$Respuesta1 = mysql_query ($Consulta1);
+				$Respuesta1 = mysqli_query ($link, $Consulta1);
 				while ($Fila1=mysqli_fetch_array($Respuesta1))
 				{
 					
@@ -287,7 +291,7 @@ else
 				}
 				echo "<option value ='-1'>____________________________________________________</option>\n";
 				$Consulta1 = "select centro_costo,descripcion from centro_costo  where mostrar_calidad<>'S' order by centro_costo";
-				$Respuesta1 = mysql_query ($Consulta1);
+				$Respuesta1 = mysqli_query ($link, $Consulta1);
 				while ($Fila1=mysqli_fetch_array($Respuesta1))
 				{
 					

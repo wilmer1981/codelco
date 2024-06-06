@@ -370,7 +370,7 @@ while($FilaDet = mysqli_fetch_array($RespDet))
 					}
 					$Leyes1=substr($Leyes,0,strlen($Leyes)-1);
 					
-					$Impu=explode("~",$Fila2[impurezas]);
+					$Impu=explode("~",$Fila2["impurezas"]);
 					while(list($c,$IM)=each($Impu))
 					{
 						$ConIMP="select * from proyecto_modernizacion.leyes where cod_leyes='".$IM."'";

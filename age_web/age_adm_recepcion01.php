@@ -21,7 +21,7 @@
 			$Insertar.= " '".$CmbCodRecepcion."', '".$CmbClaseProducto."', '".$TxtConjunto."', '".$TxtMuestraParalela."', '".$Remuestreo."', '".$TxtLoteRemuestreo."',";
 			$Insertar.= " '".$CmbEstadoLote."','S','".$CmbCodRecepcionENM."')";
 			//Insertar."<br>";
-			mysql_query ($Insertar);	
+			mysqli_query ($link, $Insertar);	
 			if (mysql_errno($link)==0)
 			{
 				$EstOpe1 = "S";
@@ -356,7 +356,7 @@
 			$Insertar.= " values('".$TxtLote."','".intval($TxtRecargo)."', '".$TxtFolio."','".$TxtCorrelativo."', '".$TxtFechaRecep."', '00:00:00', ";
 			$Insertar.= " '00:00:00', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
 			$Insertar.= " '".$TxtPatente."', '".$CmbAutorizado."', '".$CmbEstadoRecargo."','S')";
-			mysql_query ($Insertar);	
+			mysqli_query ($link, $Insertar);	
 			if (mysql_errno($link)==0)
 			{
 				$EstOpe = "S";
@@ -682,7 +682,7 @@
 							$Insertar.= " values('".$EntradaLote."','1','".$CmbSubProducto."','".$CmbProveedor."', '".$TxtFechaRecep."', '".$TxtCancha."', '".$CmbCodFaena."', ";
 							$Insertar.= " '".$CmbCodRecepcion."', '".$CmbClaseProducto."', '".$TxtConjunto."',";
 							$Insertar.= " '".$CmbEstadoLote."','S','".$CmbCodRecepcionENM."')";
-							mysql_query ($Insertar);
+							mysqli_query ($link, $Insertar);
 							
 							$Lotes=$Lotes.$EntradaLote."~";	
 						}
@@ -763,8 +763,8 @@
 							   $Respuesta=mysqli_query($link, $Consulta);
 							   if($Fila=mysqli_fetch_array($Respuesta))
                                {
-                                        $TxtLeyes=$Fila[leyes];
-                                        $TxtImpurezas="01~".$Fila[impurezas];
+                                        $TxtLeyes=$Fila["leyes"];
+                                        $TxtImpurezas="01~".$Fila["impurezas"];
                                }    
 							if($TxtLeyes=='01~02~04~05')
 								$TxtLeyes='02~04~05';
@@ -881,7 +881,7 @@
 									$Insertar.= " '".$CodRecepcion."', '".$ClaseProducto."', '".$NumConjunto."',";
 									$Insertar.= " '".$EstadoLote."','S','".$CodRecepEnm."')";
 									//echo "INGRESA EL LOTE EN LA TABLA LOTE    ".$Insertar."<br>";
-									mysql_query ($Insertar);
+									mysqli_query ($link, $Insertar);
 							}
 							else
 							{
@@ -912,7 +912,7 @@
 							$Hum=$FilaDet[humedad];
 							$PesSeco=$FilaDet["peso_seco"];
 							$Ley=str_replace('~','',$FilaDet[pastas]);	
-							$Impu=str_replace('~','',$FilaDet[impurezas]);	
+							$Impu=str_replace('~','',$FilaDet["impurezas"]);	
 							
 							
 							//CONSULTAMOS SI EXISTE EN EL DETALLE LOTE, SINO ES ASI, INSERTAMOS LOS DATOS DEL DETALLE DE LA TEMPORAL
@@ -959,14 +959,14 @@
 									$Insertar.= "romana_salida,tipo,patente,leyes,impurezas,cod_clase) VALUES ('".$correl."','".$TxtLoteMod."','".$Recargo."','".$FinLote."','99999999','0','0',";
 									$Insertar.= " '".$FechaRecarDet."','00:00:00','00:00:00','".$PesoBruto."','".$PesoTara."','".$PesoNeto."',";
 									$Insertar.= " '".$Proveedor."','".$CodFaena."',1,'".$SubProducto."','".$GuiaDespa."',";
-									$Insertar.= "'".$Conjunto."','Ingresado x Abastecimiento','S',null,'S','0','0','0','0','','".$Patente."','".$FilaDet[pastas]."','".$FilaDet[impurezas]."','".$ClaseProducto."')";
+									$Insertar.= "'".$Conjunto."','Ingresado x Abastecimiento','S',null,'S','0','0','0','0','','".$Patente."','".$FilaDet[pastas]."','".$FilaDet["impurezas"]."','".$ClaseProducto."')";
 									//echo "INSERTAMOS EN RECEPCIONES SIPA:   ".$Insertar."<br>";
 									mysqli_query($link, $Insertar);
 									
 								//		echo "crea sa ".$Recargo."<br>";
 									//FUNCION PARA CREAR SOLICITUDES.
 									//TxtLoteMod." ".$FinLote."<br>";							
-									$SolicitudesCreadas=CrearSA($TxtLoteMod,$Recargo,$RutProveedor,$FinLote,'1',$CmbSubProducto,$FilaDet[pastas],$FilaDet[impurezas],$CookieRut,$PesoNeto,$Hum,$PesSeco);							
+									$SolicitudesCreadas=CrearSA($TxtLoteMod,$Recargo,$RutProveedor,$FinLote,'1',$CmbSubProducto,$FilaDet[pastas],$FilaDet["impurezas"],$CookieRut,$PesoNeto,$Hum,$PesSeco);							
 								}
 							}
 							else

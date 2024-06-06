@@ -1,4 +1,8 @@
 <?php
+$txtnro_solicitud = isset($_REQUEST["txtnro_solicitud"])?$_REQUEST["txtnro_solicitud"]:"";
+$recargo          = isset($_REQUEST["recargo"])?$_REQUEST["recargo"]:"";
+$R          = isset($_REQUEST["R"])?$_REQUEST["R"]:"";
+$D          = isset($_REQUEST["D"])?$_REQUEST["D"]:"";
 header("Content-Type:  apliccation/msword");
 header("Content-Disposition: inline; filename=".$R."-".$D."_".date('Y-m-d').".doc");
 header("Expires: 0");
@@ -45,13 +49,11 @@ if ($Fila["corr_impresion"] == "")
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Impresi&oacute;n de Solicitudes de Muestreo</title>
 		<style type="text/css">
-        <!--
         .estilo1 {
         font-family: Calibri;
         font-size: 8px;
 
         }
-        -->
         </style>
 
     </head> 

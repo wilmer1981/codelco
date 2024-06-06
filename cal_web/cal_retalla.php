@@ -27,6 +27,8 @@ if(isset($_REQUEST["TxtValor"])) {
 	$TxtValor = "";
 }
 
+$Recargo = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+
 for ($j = 0;$j <= strlen($ValoresSA); $j++)
 {
 	if (substr($ValoresSA,$j,2) == "//")

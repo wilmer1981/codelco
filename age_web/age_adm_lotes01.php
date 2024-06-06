@@ -101,7 +101,7 @@
 			$Insertar.= " values('".$TxtLote."','".intval($TxtRecargo)."', '".$TxtFolio."','".$TxtCorrelativo."', '".$TxtFechaRecep."', '".$HoraEntrada."', ";
 			$Insertar.= " '".$HoraSalida."', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
 			$Insertar.= " '".$TxtPatente."', '".$ChkAutorizado."', '".$CmbEstadoRecargo."','S')";
-			mysql_query ($Insertar);	
+			mysqli_query ($link, $Insertar);	
 			if (mysql_errno($link)==0)
 			{
 				$EstOpe = "S";
@@ -131,7 +131,7 @@
 					$Insertar.="('".$TxtCorrelativo."','".$TxtLote."','".$TxtRecargo."','".$ChkFinLote."',";
 					$Insertar.="'".$Fil[rut_operador]."', '1','1','".$TxtFechaRecep."','".$HoraEntrada."','".$HoraSalida."',";
 					$Insertar.="'".$TxtPesoBruto."','".$TxtPesoTara."','".$TxtPesoNeto."','".$Fil[rut_prv]."','".$Fil[cod_mina]."',";
-			        $Insertar.="'1','".$Fil["cod_subproducto"]."','".$Fil[cod_pta_maq]."','".$Fil[leyes]."','".$Fil[impurezas]."',";
+			        $Insertar.="'1','".$Fil["cod_subproducto"]."','".$Fil[cod_pta_maq]."','".$Fil["leyes"]."','".$Fil["impurezas"]."',";
 					$Insertar.="'".$TxtGuia."','".$TxtPatente."','".$Fil[cod_clase]."','".$Fil[conjunto]."','','".$Fil["activo"]."',";
 					$Insertar.="'".$Fil[estado]."','".$Fil[humedad]."','".$Fil["cod_grupo"]."','".$Fil[sa_asignada]."','1','1',";
 					$Insertar.="'".$Fil[tipo]."')";

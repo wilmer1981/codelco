@@ -1,12 +1,12 @@
 <?php
 	include("../principal/conectar_principal.php");
-	$CookieRut=$_COOKIE["CookieRut"];
-	$RutProceso =$CookieRut;
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$RutProceso = $CookieRut;
 
-		$Rut = $_REQUEST["Rut"];
-		$SA = $_REQUEST["SA"];
-		$Rec = $_REQUEST["Rec"];
-		$TxtValor = $_REQUEST["TxtValor"];
+	$Rut      = isset($_REQUEST["Rut"])?$_REQUEST["Rut"]:"";
+	$SA       = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$Rec      = isset($_REQUEST["Rec"])?$_REQUEST["Rec"]:"";
+	$TxtValor = isset($_REQUEST["TxtValor"])?$_REQUEST["TxtValor"]:"";
 
 	$Consulta = "select nro_solicitud,recargo,peso_muestra from cal_web.solicitud_analisis where nro_solicitud = '".$SA."'";
 	$Respuesta2= mysqli_query($link, $Consulta);

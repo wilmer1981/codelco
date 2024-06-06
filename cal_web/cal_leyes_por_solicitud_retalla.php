@@ -65,7 +65,7 @@
 						$Consulta="select leyes,impurezas from cal_web.solicitud_analisis where rut_funcionario = '".$Rut."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'"; 
 						$Respuesta = mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
-						$LeyesAux=$Fila[leyes];
+						$LeyesAux=$Fila["leyes"];
 						for ($l = 0;$l <= strlen($LeyesAux); $l++)
 						{
 							if (substr($LeyesAux,$l,2) == "//")
@@ -84,7 +84,7 @@
 								$l=0;
 							}
 						}
-						$ImpurezasAux=$Fila[impurezas];
+						$ImpurezasAux=$Fila["impurezas"];
 						for ($l = 0;$l <= strlen($ImpurezasAux); $l++)
 						{
 							if (substr($ImpurezasAux,$l,2) == "//")
@@ -129,7 +129,7 @@
 							$Consulta="select leyes,impurezas from cal_web.solicitud_analisis where rut_funcionario = '".$Rut."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'"; 
 							$Respuesta = mysqli_query($link, $Consulta);
 							$Fila=mysqli_fetch_array($Respuesta);
-							$LeyesAux=$Fila[leyes];
+							$LeyesAux=$Fila["leyes"];
 							for ($l = 0;$l <= strlen($LeyesAux); $l++)
 							{
 								if (substr($LeyesAux,$l,2) == "//")
@@ -149,7 +149,7 @@
 								}
 							}
 
-							$ImpurezasAux=$Fila[impurezas];
+							$ImpurezasAux=$Fila["impurezas"];
 							for ($l = 0;$l <= strlen($ImpurezasAux); $l++)
 							{
 								if (substr($ImpurezasAux,$l,2) == "//")
@@ -175,7 +175,7 @@
 							$Consulta="select leyes,impurezas from cal_web.solicitud_analisis where rut_funcionario = '".$Rut."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."' and recargo='".$Recargo."'"; 
 							$Respuesta = mysqli_query($link, $Consulta);
 							$Fila=mysqli_fetch_array($Respuesta);
-							$LeyesAux=$Fila[leyes];
+							$LeyesAux=$Fila["leyes"];
 							for ($l = 0;$l <= strlen($LeyesAux); $l++)
 							{
 								if (substr($LeyesAux,$l,2) == "//")
@@ -194,7 +194,7 @@
 									$l=0;
 								}
 							}			
-							$ImpurezasAux=$Fila[impurezas];
+							$ImpurezasAux=$Fila["impurezas"];
 							for ($l = 0;$l <= strlen($ImpurezasAux); $l++)
 							{
 								if (substr($ImpurezasAux,$l,2) == "//")

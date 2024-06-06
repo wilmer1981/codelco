@@ -942,7 +942,7 @@ function Recarga(URL,LimiteIni)
 			$FechaT = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT.' 23:59';
 			$Entrar = true;
 			//echo $CmbEstado."<br>";
-			$Estado="";
+			//$Estado="";
 			switch ($CmbEstado) 
 			{
 				//enviado a laboratorio 
@@ -985,6 +985,7 @@ function Recarga(URL,LimiteIni)
 				$Consulta = $Consulta."left join cal_web.estados_por_solicitud t6 on (t1.rut_funcionario=t6.rut_funcionario) and (t1.nro_solicitud = t6.nro_solicitud) and (t1.estado_actual = t6.cod_estado) and (t1.recargo = t6.recargo)";
 				$Consulta = $Consulta."inner join proyecto_modernizacion.sub_clase t7 on t1.estado_actual = t7.cod_subclase  and t7.cod_clase = '1002'";
 				$Consulta = $Consulta.$Estado." order by t1.nro_solicitud,recargo_ordenado";
+				$ConsultaPag=$Consulta;
 				$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
 				//echo $Consulta."<br>";
 				echo "<input type='hidden' name='checkAtender'><input name ='TxtSAO' type='hidden'><input name ='TxtRutO' type='hidden'><input name ='TxtRecargoO' type='hidden'><input name ='TxtIdMuestra' type='hidden'><input name ='TxtLotes' type='hidden'><input name ='TxtProducto' type='hidden'>";
@@ -1075,36 +1076,31 @@ function Recarga(URL,LimiteIni)
             <td height="25" align="center" valign="middle">Paginas &gt;&gt; >
 			<?php 
 			//echo "Estado:".$Estado."<br>";
-			$Consulta = "select count(distinct t1.nro_solicitud) as total_registros ";
-			$Consulta = $Consulta."from cal_web.solicitud_analisis t1 " ;
-			$Consulta = $Consulta."inner join proyecto_modernizacion.productos t2 on t2.cod_producto=t1.cod_producto ";
-			$Consulta = $Consulta."inner join proyecto_modernizacion.subproducto t3 on t3.cod_producto=t1.cod_producto and t3.cod_subproducto=t1.cod_subproducto ";
-			$Consulta = $Consulta."inner join proyecto_modernizacion.funcionarios t4 on t4.rut=t1.rut_funcionario ";
-			$Consulta = $Consulta."left join cal_web.estados_por_solicitud t6 on (t1.rut_funcionario=t6.rut_funcionario) and (t1.nro_solicitud = t6.nro_solicitud) and (t1.estado_actual = t6.cod_estado) and (t1.recargo = t6.recargo)";
-			$Consulta = $Consulta."inner join proyecto_modernizacion.sub_clase t7 on t1.estado_actual = t7.cod_subclase  and t7.cod_clase = '1002'";
-			$Consulta = $Consulta.$Estado;
-			//echo $Consulta."<br>";
-			$Respuesta = mysqli_query($link, $Consulta);
-			$Row = mysqli_fetch_array($Respuesta);
-			//var_dump($Row);
-			$Coincidencias = $Row["total_registros"];
-			$NumPaginas = ($Coincidencias / $LimitFin);
-			$LimitFinAnt = $LimitIni;
-			$StrPaginas = "";
-			for ($i = 0; $i <= $NumPaginas; $i++)
-			{
-				$LimitIni = ($i * $LimitFin);
-				if ($LimitIni == $LimitFinAnt)
+
+			if ($Entrar == true){
+				//echo $ConsultaPag;
+				$Respuesta = mysqli_query($link, $ConsultaPag);
+				$Coincidencias=0; //WSO
+				while($Row = mysqli_fetch_array($Respuesta))
+					$Coincidencias = $Coincidencias+1;
+				$NumPaginas = ($Coincidencias / $LimitFin);
+				$LimitFinAnt = $LimitIni;
+				$StrPaginas = "";
+				for ($i = 0; $i <= $NumPaginas; $i++)
 				{
-					$StrPaginas.= "<strong>".($i + 1)."</strong>&nbsp;-&nbsp;\n";
+					$LimitIni = ($i * $LimitFin);
+					if ($LimitIni == $LimitFinAnt)
+					{
+						$StrPaginas.= "<strong>".($i + 1)."</strong>&nbsp;-&nbsp;\n";
+					}
+					else
+					{
+						$StrPaginas.=  "<a href=JavaScript:Recarga('cal_adm_solicitud_muestreo_jefe.php?CmbEstado=".$CmbEstado."','".($i * $LimitFin)."');>";
+						$StrPaginas.= ($i + 1)."</a>&nbsp;-&nbsp;\n";
+					}
 				}
-				else
-				{
-					$StrPaginas.=  "<a href=JavaScript:Recarga('cal_adm_solicitud_muestreo_jefe.php?CmbEstado=".$CmbEstado."','".($i * $LimitFin)."');>";
-					$StrPaginas.= ($i + 1)."</a>&nbsp;-&nbsp;\n";
-				}
-			}
-			echo substr($StrPaginas,0,-15);			
+				echo substr($StrPaginas,0,-15);	
+		    }		
 			?>
 			</td>
           </tr>

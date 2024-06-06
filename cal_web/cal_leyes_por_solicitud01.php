@@ -1,7 +1,30 @@
 <?php
 include("../principal/conectar_cal_web.php");
+$CookieRut=$_COOKIE["CookieRut"];
+
+$Opcion      = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+$Rec    = isset($_REQUEST["Rec"])?$_REQUEST["Rec"]:"";
+$Sol    = isset($_REQUEST["Sol"])?$_REQUEST["Sol"]:"";
+
+$ValoresLeyes        = isset($_REQUEST["ValoresLeyes"])?$_REQUEST["ValoresLeyes"]:"";
+$ValoresImpurezas    = isset($_REQUEST["ValoresImpurezas"])?$_REQUEST["ValoresImpurezas"]:"";
+$ValoresLeyesFisicas = isset($_REQUEST["ValoresLeyesFisicas"])?$_REQUEST["ValoresLeyesFisicas"]:"";
+$Personalizar        = isset($_REQUEST["Personalizar"])?$_REQUEST["Personalizar"]:"";
+$Muestras            = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:"";
+$Productos           = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+$SubProducto         = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+$NombrePlantilla     = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:"";
+$CodPlantilla        = isset($_REQUEST["CodPlantilla"])?$_REQUEST["CodPlantilla"]:"";
+$Modificando         = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:"";
+$Salir               = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+$SolAut              = isset($_REQUEST["SolAut"])?$_REQUEST["SolAut"]:"";
+$BuscarDetalle       = isset($_REQUEST["BuscarDetalle"])?$_REQUEST["BuscarDetalle"]:"";
+$BuscarPrv           = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";
+$CmbRutPrv           = isset($_REQUEST["CmbRutPrv"])?$_REQUEST["CmbRutPrv"]:"";
+$VolverAEsp          = isset($_REQUEST["VolverAEsp"])?$_REQUEST["VolverAEsp"]:"";
+
 $ValCheck = $Muestras;
-$Rut=$CookieRut;
+$Rut      = $CookieRut;
 if ($Opcion == 3)
 {
 	if ($Rec == 'N')
@@ -209,9 +232,9 @@ echo "window.close();</script>";
 }
 else
 {
-	if (!isset($Personalizar))
+	if ($Personalizar=="")
 	{
-		if (!isset($SolAut))
+		if ($SolAut=="")
 		{
 			$Fecha="";
 			$Muestra="";
