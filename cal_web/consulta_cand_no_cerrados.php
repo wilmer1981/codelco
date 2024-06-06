@@ -36,6 +36,11 @@ function Salir()
 	echo "<td>NRO.SA</td>";
 	echo "<td>NRO.RECARGO</td>";
 	echo "<td>NRO.ID_MUESTRA</td></tr>";
+	if(strlen($CmbMes)==1){$CmbMes="0".$CmbMes;}
+	if(strlen($CmbDias)==1){$CmbDias="0".$CmbDias;}
+	if(strlen($CmbMesT)==1){$CmbMesT="0".$CmbMesT;}
+	if(strlen($CmbDiasT)==1){$CmbDiasT="0".$CmbDiasT;}
+
 	$FechaInicio=$CmbAno."-".$CmbMes."-".$CmbDias." 00:00:01";
 	$FechaTermino=$CmbAnoT."-".$CmbMesT."-".$CmbDiasT." 23:59:59";
 	$Consulta="select * from cal_web.solicitud_analisis where estado_actual='5' and fecha_hora between '".$FechaInicio."' and '".$FechaTermino."'";
