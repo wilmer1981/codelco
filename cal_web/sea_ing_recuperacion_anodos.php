@@ -131,7 +131,7 @@ function Limpiar()
 </script>
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
 <?php
-	if (isset($mensaje))
+	if ($mensaje!="")
 		echo '<script langueage="JavaScript"> alert("'.$mensaje.'") </script>';
 ?>
 <form name="frm1" action="" method="post">
