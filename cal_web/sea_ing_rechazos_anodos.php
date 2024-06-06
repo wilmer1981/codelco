@@ -413,8 +413,8 @@ function Eliminar(f)
 </script>
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
 <?php
-	if (isset($mensaje))
-		//echo '<script langueage="JavaScript"> alert("'.$mensaje.'") </script>';
+	if ($mensaje!="")
+		echo '<script langueage="JavaScript"> alert("'.$mensaje.'") </script>';
 ?>
 <form name="frm1" action="" method="post">
 <?php include("../principal/encabezado.php") ?>
@@ -611,11 +611,11 @@ function Eliminar(f)
 						echo '<tr>';
 					echo '<td width="120">';
 					//$codsubclase = isset($row["cod_subclase"]) ? $row["cod_subclase"] : '0';
-					if(isset($row["cod_subclase"])){
-						$vect= $vector[$row["cod_subclase"]-1];
-					}else{
-						$vect= 0;
-					}
+					//if(isset($row["cod_subclase"])){
+						$vect= isset($vector[$row["cod_subclase"]-1])?$vector[$row["cod_subclase"]-1]:0;
+					//}//else{
+					//	$vect= 0;
+					//}
 					//if ($vector[$row["cod_subclase"]-1] == 1)
 					if ($vect == 1)
 						echo '<input type="checkbox" name="opciones" value="'.$row["cod_subclase"].'" checked disabled>';

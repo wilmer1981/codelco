@@ -1,20 +1,27 @@
 <?php
 	include("../principal/conectar_sea_web.php");
+	$CookieRut = $_COOKIE["CookieRut"];
 
-	$proceso        = $_REQUEST["proceso"];
-	$cmbsubprod     = $_REQUEST["cmbsubprod"];
-	$txtrecuperados = $_REQUEST["txtrecuperados"];
-	$txtrechazos    = $_REQUEST["txtrechazos"];
-	$cmbloteenami   = $_REQUEST["cmbloteenami"];
+	$proceso        = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubprod     = isset($_REQUEST["cmbsubprod"])?$_REQUEST["cmbsubprod"]:"";
+	$txtrecuperados = isset($_REQUEST["txtrecuperados"])?$_REQUEST["txtrecuperados"]:"";
+	$txtrechazos    = isset($_REQUEST["txtrechazos"])?$_REQUEST["txtrechazos"]:"";
+	$cmbloteenami   = isset($_REQUEST["cmbloteenami"])?$_REQUEST["cmbloteenami"]:"";
+	$parametros     = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
 
-	$dia = $_REQUEST["dia"];
-	$mes = $_REQUEST["mes"];
-	$ano = $_REQUEST["ano"];
-
+	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
+	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
 	
 	if ($proceso == "G")
 	{
+		if(strlen($dia)==1){$dia="0".$dia;}
+		if(strlen($mes)==1){$mes="0".$mes;}
 		$fecha = $ano.'-'.$mes.'-'.$dia.' '.date("H:i:s");
+
+		//echo "Fecha:".$fecha;
+		//exit();
 		$hornada = explode("~",$cmbloteenami); // 0: lote_enami, 1: marca, 2: lote_origen, 3: hornada.
 		
 		//Busca el flujo Asociado al producto y proceso.		
@@ -56,11 +63,11 @@
 			//Ingresa los detalles de los rechazos y recuperables.
 			$arreglo = explode("/",$parametros); //Separa los parametros en un array.
 			reset($arreglo);					
-			while (list($clave, $valor) = each($arreglo))
+			foreach($arreglo as $clave => $valor)
 			{		
 				$detalle = explode("~",$valor); //check - observacion - recuperables - rechazados. 
 				
-				$insertar = "INSERT INTO rechazos VALUES (6,'".$fecha."','',".$cmbproducto.",".$cmbsubprod.",".$hornada[3].",".$detalle[1].",'";
+				$insertar = "INSERT INTO rechazos VALUES (6,'".$fecha."','0000-00-00 00:00:00',".$cmbproducto.",".$cmbsubprod.",".$hornada[3].",".$detalle[1].",'";
 				$insertar = $insertar.$CookieRut."',".$detalle[2].",".$detalle[3].",0)";
 				mysqli_query($link, $insertar);			
 			}
@@ -75,7 +82,7 @@
 			//Ingresa los totales de rechazos y recuperables.
 			
 			//En Rechazos.
-			$insertar = "INSERT INTO rechazos VALUES (6,'".$fecha."','',".$cmbproducto.",".$cmbsubprod.",".$hornada[3].",0,'";
+			$insertar = "INSERT INTO rechazos VALUES (6,'".$fecha."','0000-00-00 00:00:00',".$cmbproducto.",".$cmbsubprod.",".$hornada[3].",0,'";
 			$insertar = $insertar.$CookieRut."',".$txtrecuperados.",".$txtrechazos.",0)";
 			mysqli_query($link, $insertar);
 			
@@ -93,11 +100,11 @@
 			//Ingresa los detalles de los rechazos y recuperables.
 			$arreglo = explode("/",$parametros); //Separa los parametros en un array.
 			reset($arreglo);					
-			while (list($clave, $valor) = each($arreglo))
+			foreach($arreglo as $clave => $valor)
 			{		
 				$detalle = explode("~",$valor); //check - observacion - recuperables - rechazados. 
 				
-				$insertar = "INSERT INTO rechazos VALUES ('6','".$fecha."','','".$cmbproducto."','".$cmbsubprod."','".$hornada[3]."','".$detalle[1]."','";
+				$insertar = "INSERT INTO rechazos VALUES ('6','".$fecha."','0000-00-00 00:00:00','".$cmbproducto."','".$cmbsubprod."','".$hornada[3]."','".$detalle[1]."','";
 				$insertar = $insertar.$CookieRut."','".$detalle[2]."','".$detalle[3]."',0)";
 				//echo $insertar."<br>";
 				mysqli_query($link, $insertar);			
@@ -124,7 +131,7 @@
 		$rs = mysqli_query($link, $consulta);
 		if ($row = mysqli_fetch_array($rs))
 		{			
-			$valores = $valores."&txtrecuperados=".$row[recuperables]."&txtrechazos=".$row[rechazados];
+			$valores = $valores."&txtrecuperados=".$row["recuperables"]."&txtrechazos=".$row["rechazados"];
 			//recuperar los detalles.
 			$parametros = "";
 			$consulta = "SELECT * FROM rechazos WHERE cod_tipo = 6 AND cod_defecto <> 0 AND cod_subproducto = ".$cmbsubprod." AND hornada = ".$arreglo[3];
@@ -132,7 +139,7 @@
 			$rs1 = mysqli_query($link, $consulta);
 			while ($row1 = mysqli_fetch_array($rs1))
 			{
-				$parametros = $parametros."0~".$row1[cod_defecto]."~".$row1[recuperables]."~".$row1[rechazados]."/";
+				$parametros = $parametros."0~".$row1["cod_defecto"]."~".$row1["recuperables"]."~".$row1["rechazados"]."/";
 				$i++;
 			}
 			
@@ -156,7 +163,7 @@
 			$valores = $valores."&parametros=".$parametros."&stropc=".$stropc;
 		
 		
-			$arreglo = explode("-",$row[fecha_ini]); //0: ano, 1: mes, 2: dia.
+			$arreglo = explode("-",$row["fecha_ini"]); //0: ano, 1: mes, 2: dia.
 			$valores = $valores."&ano=".$arreglo[0]."&mes=".$arreglo[1]."&dia=".substr($arreglo[2],0,2);
 		}				
 

@@ -82,9 +82,9 @@ function Salir()
 				$Respuesta2=mysqli_query($link, $Consulta);
 				if ($Fila2=mysqli_fetch_array($Respuesta2))
 				{
-					echo "<td align='right'>".$Fila2[recuperables]."</td>";
-					echo "<td align='right' class='detalle01'>".$Fila2[recuperables]."</td>";
-					$TotalRecup=$TotalRecup+$Fila2[recuperables];
+					echo "<td align='right'>".$Fila2["recuperables"]."</td>";
+					echo "<td align='right' class='detalle01'>".$Fila2["recuperables"]."</td>";
+					$TotalRecup=$TotalRecup+$Fila2["recuperables"];
 				}
 				else
 				{
