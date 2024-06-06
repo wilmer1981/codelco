@@ -1,6 +1,6 @@
 ﻿<?php
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $CookieRut=$_COOKIE["CookieRut"];
 $Rut =$CookieRut;
@@ -43,6 +43,11 @@ if(isset($_REQUEST["Encontro"])) {
 	$Encontro = $_REQUEST["Encontro"];
 }else{
 	$Encontro = "";
+}
+if(isset($_REQUEST["LimitIni"])) {
+	$LimitIni = $_REQUEST["LimitIni"];
+}else{
+	$LimitIni =  0;
 }
 
 
@@ -92,10 +97,6 @@ function MostrarLeyes(Sol)
 </head>
 <body leftmargin="3" topmargin="3" marginwidth="0" marginheight="0">
 <form name="FrmRecepcion" method="post" action="">
-<?php
-	if (!isset($LimitIni))
-		$LimitIni = 0;
-?>
 <input type="hidden" name="LimitIni" value="<?php echo $LimitIni; ?>">
   <?php include("../principal/encabezado.php")?>
   <table width="770" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5" >

@@ -41,8 +41,6 @@ if(isset($_REQUEST["CmbAnoT"])) {
 	$CmbAnoT = date("Y");
 }
 
-
-
 ?>
 <html>
 <head>

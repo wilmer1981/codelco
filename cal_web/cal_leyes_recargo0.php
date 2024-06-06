@@ -2,7 +2,9 @@
 	include("../principal/conectar_principal.php");
 	$CookieRut=$_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
-	
+
+	$Sol = isset($_REQUEST["Sol"])?$_REQUEST["Sol"]:"";
+		
 ?>
 <html>
 <head>
