@@ -131,7 +131,7 @@ if($Proceso == "M")
 ?>
 <html>
 <head>
-<title>Selecci�n de Catodos</title>
+<title>Selecci&oacute;n de Catodos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
 function Nuevo_Dato()
@@ -255,7 +255,7 @@ var f=formulario;
   	<td height="313" align="center" valign="top" >
 		<table width="750" border="0" class="TablaDetalle">
           <tr> 
-            <td class="ColorTabla01" colspan="7" align="center">Selecci�n de Catodos 
+            <td class="ColorTabla01" colspan="7" align="center">Selecci&oacute;n de Catodos 
             </td>
           </tr>
           <tr> 
@@ -392,9 +392,9 @@ var f=formulario;
 				while ($row = mysqli_fetch_array($rs))
 				{
 					if ($row["cod_subclase"] == $cmbgrupo)
-						echo '<option value="'.$row["cod_subclase"].'" selected>N� '.$row["cod_subclase"].'</option>';
+						echo '<option value="'.$row["cod_subclase"].'" selected>N° '.$row["cod_subclase"].'</option>';
 					else 
-						echo '<option value="'.$row["cod_subclase"].'">N� '.$row["cod_subclase"].'</option>';
+						echo '<option value="'.$row["cod_subclase"].'">N° '.$row["cod_subclase"].'</option>';
 				}
 		  ?>
           </select>
@@ -482,9 +482,9 @@ var f=formulario;
 					for ($i=1; $i<=42; $i++)				
 					{
 						if ($i == $cmbcuba)
-							echo '<option value="'.$i.'" selected>N� '.$i.'</option>';
+							echo '<option value="'.$i.'" selected>N° '.$i.'</option>';
 						else 
-							echo '<option value="'.$i.'">N� '.$i.'</option>';
+							echo '<option value="'.$i.'">N° '.$i.'</option>';
 					}
 						
 				?>
