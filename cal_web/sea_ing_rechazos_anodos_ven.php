@@ -49,20 +49,18 @@
 	}else{
 		$txthornada =  "";
 	}
+	
 	if(isset($_REQUEST["textfield"])) {
 		$textfield = $_REQUEST["textfield"];
 	}else{
 		$textfield =  "";
 	}
 	
-
 	if(isset($_REQUEST["cmbhornada"])) {
 		$cmbhornada = $_REQUEST["cmbhornada"];
 	}else{
 		$cmbhornada =  "";
 	}
-
-
 
 	if(isset($_REQUEST["recup1"])) {
 		$recup1 = $_REQUEST["recup1"];
@@ -497,11 +495,12 @@ function Buscar(f)
 /**************/
 function BuscarRechazo(f)
 {
-	if (f.cmbhornada.value != -1)
+	//alert(f.cmbhornada.value);
+	//if (f.cmbhornada.value != -1){
 		f.action = "sea_ing_rechazos_anodos_ven01.php?proceso=B";
-	else
-		f.actino = "sea_ing_rechazos_anodos_ven.php?buscar=S&txtbuscar=" + f.txtbuscar.value;
-
+	//}else{
+	//	f.actino = "sea_ing_rechazos_anodos_ven.php?buscar=S&txtbuscar=" + f.txtbuscar.value;
+	//}
 	f.submit();
 }
 /***************/
@@ -523,8 +522,8 @@ function Eliminar(f)
 
 <body leftmargin="3" topmargin="5">
 <?php
-	if (isset($mensaje))
-		//echo '<script langueage="JavaScript"> alert("'.$mensaje.'") </script>';
+	if ($mensaje!="")
+		echo '<script langueage="JavaScript"> alert("'.$mensaje.'") </script>';
 ?>
 
 <form name="frm1" action="" method="post">
@@ -684,7 +683,7 @@ function Eliminar(f)
             <td>Buscar Hornada</td>
             <td width="94"> 
               <?php
-				echo '<input name="txtbuscar" type="text" id="txtbuscar" value="'.$txtbuscar.'" size="10">';
+				echo '<input name="txtbuscar" type="text" id="txtbuscar" size="10">';
 				echo '<input name="txthornada" type="hidden" value="'.$txtbuscar.'">';
 			?>
               <input name="btnok" type="button" value="OK" onClick="JavaScript:Buscar(this.form)"></td>

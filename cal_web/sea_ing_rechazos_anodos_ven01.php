@@ -1,47 +1,45 @@
 <?php
 	include("../principal/conectar_sea_web.php");
 
-	$proceso = $_REQUEST["proceso"];
+	$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
 
-	$parametros = $_REQUEST["parametros"];
-	$recup1 = $_REQUEST["recup1"];
-	$recup2 = $_REQUEST["recup2"];
-	$recup3 = $_REQUEST["recup3"];
-	$recup4 = $_REQUEST["recup4"];
+	$parametros = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$recup1 = isset($_REQUEST["recup1"])?$_REQUEST["recup1"]:"";
+	$recup2 = isset($_REQUEST["recup2"])?$_REQUEST["recup2"]:"";
+	$recup3 = isset($_REQUEST["recup3"])?$_REQUEST["recup3"]:"";
+	$recup4 = isset($_REQUEST["recup4"])?$_REQUEST["recup4"]:"";
 
-	$recha1 = $_REQUEST["recha1"];
-	$recha2 = $_REQUEST["recha2"];
-	$recha3 = $_REQUEST["recha3"];
-	$recha4 = $_REQUEST["recha4"];
+	$recha1 = isset($_REQUEST["recha1"])?$_REQUEST["recha1"]:"";
+	$recha2 = isset($_REQUEST["recha2"])?$_REQUEST["recha2"]:"";
+	$recha3 = isset($_REQUEST["recha3"])?$_REQUEST["recha3"]:"";
+	$recha4 = isset($_REQUEST["recha4"])?$_REQUEST["recha4"]:"";
 
-	$prod1 = $_REQUEST["prod1"];
-	$prod2 = $_REQUEST["prod2"];
-	$prod3 = $_REQUEST["prod3"];
-	$prod4 = $_REQUEST["prod4"];
+	$prod1 = isset($_REQUEST["prod1"])?$_REQUEST["prod1"]:"";
+	$prod2 = isset($_REQUEST["prod2"])?$_REQUEST["prod2"]:"";
+	$prod3 = isset($_REQUEST["prod3"])?$_REQUEST["prod3"]:"";
+	$prod4 = isset($_REQUEST["prod4"])?$_REQUEST["prod4"]:"";
 
-	$cmbhornada = $_REQUEST["cmbhornada"];
+	$cmbhornada = isset($_REQUEST["cmbhornada"])?$_REQUEST["cmbhornada"]:"";
 	//$cmbhornada = substr($cmbhornada, 1);
 	//echo "HORNADAI:".$cmbhornada;
 	//$cmbhornada = substr($cmbhornada, 0, -2);
 	//echo "HORNADAF:".$cmbhornada;
 
-	$txthornada = $_REQUEST["txthornada"];
+	$txthornada = isset($_REQUEST["txthornada"])?$_REQUEST["txthornada"]:"";
 
-	$dia1 = $_REQUEST["dia1"];
-	$mes1 = $_REQUEST["mes1"];
-	$ano1 = $_REQUEST["ano1"];
+	$dia1 = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
+	$mes1 = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+	$ano1 = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 
-	$dia2 = $_REQUEST["dia2"];
-	$mes2 = $_REQUEST["mes2"];
-	$ano2 = $_REQUEST["ano2"];
+	$dia2 = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
+	$mes2 = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
+	$ano2 = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
 
-	$hr1 = $_REQUEST["hr1"];
-	$mm1 = $_REQUEST["mm1"];
-	$hr2 = $_REQUEST["hr2"];
-	$mm2 = $_REQUEST["mm2"];
+	$hr1 = isset($_REQUEST["hr1"])?$_REQUEST["hr1"]:"";
+	$mm1 = isset($_REQUEST["mm1"])?$_REQUEST["mm1"]:"";
+	$hr2 = isset($_REQUEST["hr2"])?$_REQUEST["hr2"]:"";
+	$mm2 = isset($_REQUEST["mm2"])?$_REQUEST["mm2"]:"";
 
-
-	
 	if ($proceso == "G")
 	{
 		$fecha_ini = $ano1.'-'.$mes1.'-'.$dia1.' '.$hr1.'-'.$mm1;
@@ -245,15 +243,16 @@
 	
 	if ($proceso == "B")
 	{
+
 		$valores = "buscar=S&txtbuscar=".$txthornada."&cmbhornada=".$cmbhornada;
 		if ($cmbhornada == -1)
 			$valores = $valores."&mostrar=N";
 		else
 			$valores = $valores."&mostrar=S";
-			
+
 		//Corrientes. (Rueda 1)
 		$consulta = "SELECT * FROM rechazos WHERE cod_tipo = 6 AND cod_defecto = 0 AND cod_subproducto = 4 AND hornada = ".$cmbhornada." AND rueda = 1"; 
-		echo $consulta;
+		//echo $consulta;
 		$rs1 = mysqli_query($link, $consulta);
 		if ($row1 = mysqli_fetch_array($rs1))
 		{
