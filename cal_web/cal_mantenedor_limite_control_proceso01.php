@@ -2,19 +2,17 @@
 	include("../principal/conectar_principal.php");	
 
 	$Proceso = $_REQUEST["Proceso"];
-	$Valores = $_REQUEST["Valores"];
-
-	$CmbProductos = $_REQUEST["CmbProductos"];
+	$Valor   = $_REQUEST["Valor"];
+	$CmbProductos   = $_REQUEST["CmbProductos"];
 	$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	$CmbLeyes = $_REQUEST["CmbLeyes"];
+	$CmbLeyes       = $_REQUEST["CmbLeyes"];
 	$CmbProveedores = $_REQUEST["CmbProveedores"];
-	$LimitIni = $_REQUEST["LimitIni"];
-	$LimitFin = $_REQUEST["LimitFin"];
-	$CmbUnidad = $_REQUEST["CmbUnidad"];
-	$Proc = $_REQUEST["Proc"];
-	$NewRec = $_REQUEST["NewRec"];
-	$TipoConsulta = $_REQUEST["TipoConsulta"];
-		
+	$LimitIni       = $_REQUEST["LimitIni"];
+	$LimitFin       = $_REQUEST["LimitFin"];
+	$CmbUnidad      = $_REQUEST["CmbUnidad"];
+	$Proc           = $_REQUEST["Proc"];
+	$NewRec         = $_REQUEST["NewRec"];
+	$TipoConsulta   = $_REQUEST["TipoConsulta"];		
 
 	switch ($Proceso)
 	{

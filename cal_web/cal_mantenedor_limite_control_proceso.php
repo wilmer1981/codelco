@@ -59,7 +59,7 @@
 	if(isset($_REQUEST["LimitFin"])) {
 		$LimitFin = $_REQUEST["LimitFin"];
 	}else{
-		$LimitFin = 30;
+		$LimitFin = 0;
 	}
 	if(isset($_REQUEST["Msj"])) {
 		$Msj = $_REQUEST["Msj"];
@@ -453,9 +453,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     </tr>
   <tr class="Colum01">
     <td class="Colum01">Limite inicial </td>
-    <td width="170" class="Colum01"><input name="LimitIni" type="text" id="LimitIni" value="<?php echo number_format($LimitIni,3,',','');?>" size="12" maxlength="7" onKeyDown="SoloNumerosyNegativo(true,this)"></td>					
+    <td width="170" class="Colum01"><input name="LimitIni" type="text" id="LimitIni" value="<?php echo number_format((float)$LimitIni,3,',','');?>" size="12" maxlength="7" onKeyDown="SoloNumerosyNegativo(true,this)"></td>					
     <td width="72" align="left" class="Colum01">Limite Final </td>
-    <td width="189" class="Colum01"><input name="LimitFin" type="text" id="LimitFin" value="<?php echo number_format($LimitFin,3,',','');?>" size="12" maxlength="7" onKeyDown="SoloNumerosyNegativo(true,this)"></td>
+    <td width="189" class="Colum01"><input name="LimitFin" type="text" id="LimitFin" value="<?php echo number_format((float)$LimitFin,3,',','');?>" size="12" maxlength="7" onKeyDown="SoloNumerosyNegativo(true,this)"></td>
   </tr>
   <?php
   	if($Opc=='N'){
