@@ -42,8 +42,6 @@
 		$TxtValor = 0;
 	}
 	
-
-
 	if(isset($_REQUEST["Proc"])) {
 		$Proc = $_REQUEST["Proc"];
 	}else{
@@ -59,7 +57,6 @@
 	}else{
 		$TipoConsulta = "";
 	}
-
 
 
 	if($Opc=='M')
@@ -82,9 +79,9 @@
 <head>
 <?php
   if($Opc=='N')
-	echo "<title>Nuevo Gesti�n de Indicadores</title>";
+	echo "<title>Nuevo Gestión de Indicadores</title>";
   else
-  	echo "<title>Modificar Gesti�n de Indicadores</title>";	
+  	echo "<title>Modificar Gestión de Indicadores</title>";	
 ?>
 <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
@@ -233,7 +230,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  	$Nom='Nuevo';
 	  else
 	  	$Nom='Modificar';		
-	  echo  $Nom." Gesti�n de Indicadores";	
+	  echo  $Nom." Gestión de Indicadores";	
 	?></td>
   </tr>
   <tr class="Colum01">
@@ -379,7 +376,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     </tr>
   <tr class="Colum01">
     <td class="Colum01">Uspec</td>
-    <td class="Colum01"><input name="TxtValor" type="text" id="TxtValor" value="<?php echo number_format($TxtValor,3,',','');?>" size="12" maxlength="7" onKeyDown="SoloNumerosyNegativo(true,this)"></td>					
+    <td class="Colum01"><input name="TxtValor" type="text" id="TxtValor" value="<?php echo number_format((float)$TxtValor,3,',','');?>" size="12" maxlength="7" onKeyDown="SoloNumerosyNegativo(true,this)"></td>					
     </tr>
   <?php
   	if($Opc=='N')
