@@ -1,12 +1,29 @@
 <?php 
-	$CodigoDeSistema = 1;
-	$CodigoDePantalla = 9;
+$CodigoDeSistema = 1;
+$CodigoDePantalla = 9;
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+$CookieRut = $_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 $HoraActual = date("H");
 $MinutoActual = date("i");
+
+$CmbProductos   = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+$CmbDias = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbDiasT = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+$CmbMesT  = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+$CmbAnoT  = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+$Mostrar  = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+$NumIni   = isset($_REQUEST["NumIni"])?$_REQUEST["NumIni"]:"";
+$NumFin   = isset($_REQUEST["NumFin"])?$_REQUEST["NumFin"]:"";
+$AnoIni2  = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:date("Y");
+$AnoFin2  = isset($_REQUEST["AnoFin2"])?$_REQUEST["AnoFin2"]:date("Y");
+$SA  = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+
 ?>
 <html>
 <head>
@@ -542,6 +559,10 @@ function Salir()
         <div style='position:absolute; overflow:auto; left: 564px; top: 126px; width: 190px; height: 147px; border:solid 0px'> 
           <table width="170" border="1"  class="ColorTabla01" cellpadding="3" cellspacing="0" >
             <?php
+					if(strlen($CmbDias)==1){$CmbDias="0".$CmbDias;}
+					if(strlen($CmbMes)==1){$CmbMes="0".$CmbMes;}
+					if(strlen($CmbDias)==1){$CmbDiasT="0".$CmbDiasT;}
+					if(strlen($CmbMesT)==1){$CmbMesT="0".$CmbMesT;}
 					$FechaI = $CmbAno."-".$CmbMes."-".$CmbDias.' 00:01';
 					$FechaT = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT.' 23:59';
 					//Entra si a clickeado el boton busqueda y valor del combo es producto mineros  y realizo la busqueda por el proveedor
