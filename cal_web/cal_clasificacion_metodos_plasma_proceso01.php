@@ -1,16 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php");
 
-	$Opcion = $_REQUEST["Opcion"];
-	$Valor = $_REQUEST["Valor"];
+	$Opcion = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+	$Valor  = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
 	
-	$CmbProductos   = $_REQUEST["CmbProductos"];
-	$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	$CmbLeyes       = $_REQUEST["CmbLeyes"];
-	$CmbUnidad      = $_REQUEST["CmbUnidad"];
-	$Signo          = $_REQUEST["Signo"];
-	$ValoresMOD     = $_REQUEST["ValoresMOD"];
-
+	$CmbProductos   = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbLeyes       = isset($_REQUEST["CmbLeyes"])?$_REQUEST["CmbLeyes"]:"";
+	$CmbUnidad      = isset($_REQUEST["CmbUnidad"])?$_REQUEST["CmbUnidad"]:"";
+	$Signo          = isset($_REQUEST["Signo"])?$_REQUEST["Signo"]:"";
+	$ValoresMOD     = isset($_REQUEST["ValoresMOD"])?$_REQUEST["ValoresMOD"]:"";
 
 	//$CmbProductos2 = $_REQUEST["CmbProductos2"];
 	//$CmbSubProducto2 = $_REQUEST["CmbSubProducto2"];

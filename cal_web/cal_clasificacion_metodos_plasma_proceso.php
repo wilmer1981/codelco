@@ -106,7 +106,7 @@
 function Elimina(Valor)
 {
 	var f = document.frmProceso;
-	var mensaje=confirm('�Esta Seguro de Eliminar Registro?');
+	var mensaje=confirm('¿Esta Seguro de Eliminar Registro?');
 	if(mensaje==true)
 	{
 		f.action = "cal_clasificacion_metodos_plasma_proceso01.php?Opcion=E&Valor="+Valor;
