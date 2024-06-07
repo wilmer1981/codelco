@@ -36,7 +36,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if (confirm("�Desea Eliminar este Elemento?"))
+				if (confirm("¿Desea Eliminar este Elemento?"))
 				{
 					var Largo=Valores.length;
 					Valores=Valores.substring(0,Largo-2);
@@ -107,7 +107,7 @@ body {
       <td width="762" height="313" align="center" valign="top">
 	  <table width="500" border="1" cellspacing="0" cellpadding="3" class="TablaInterior">
         <tr align="center">
-          <td class="ColorTabla02"><strong>Clasificaci�n Catodos Comerciales</strong></td>
+          <td class="ColorTabla02"><strong>Clasificaci&oacute;n Catodos Comerciales</strong></td>
         </tr>
         <tr align="center">
           <td height="30"> <!--<input name="BtnNuevo" type="button" id="BtnNuevo" style="width:70px;" onClick="Proceso('N')" value="Nuevo">

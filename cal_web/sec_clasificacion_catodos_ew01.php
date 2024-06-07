@@ -2,12 +2,12 @@
 	include("../principal/conectar_principal.php");
 //	echo $ValoresAux;
 
-	$Proceso = $_REQUEST["Proceso"];
-	$Valores = $_REQUEST["Valores"];
-	$CmbLey = $_REQUEST["CmbLey"];
-	$TxtSTD1 = $_REQUEST["TxtSTD1"];
-	$TxtSTD2 = $_REQUEST["TxtSTD2"];
-	$TxtSTD3 = $_REQUEST["TxtSTD3"];
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbLey  = isset($_REQUEST["CmbLey"])?$_REQUEST["CmbLey"]:"";
+	$TxtSTD1 = isset($_REQUEST["TxtSTD1"])?$_REQUEST["TxtSTD1"]:"";
+	$TxtSTD2 = isset($_REQUEST["TxtSTD2"])?$_REQUEST["TxtSTD2"]:"";
+	$TxtSTD3 = isset($_REQUEST["TxtSTD3"])?$_REQUEST["TxtSTD3"]:"";
 
 
 	switch ($Proceso)

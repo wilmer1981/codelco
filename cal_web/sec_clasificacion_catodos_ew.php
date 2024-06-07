@@ -36,7 +36,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if (confirm("�Desea Eliminar este Elemento?"))
+				if (confirm("¿Desea Eliminar este Elemento?"))
 				{
 					var Largo=Valores.length;
 					Valores=Valores.substring(0,Largo-2);
@@ -106,7 +106,7 @@ body {
       <td width="762" height="313" align="center" valign="top">
 	  <table width="500" border="1" cellspacing="0" cellpadding="3" class="TablaInterior">
         <tr align="center">
-          <td class="ColorTabla02"><strong>Clasificaci�n Catodos EW STD</strong></td>
+          <td class="ColorTabla02"><strong>Clasificaci&oacute;n Catodos EW STD</strong></td>
         </tr>
         <tr align="center">
           <td height="30"> <!--<input name="BtnNuevo" type="button" id="BtnNuevo" style="width:70px;" onClick="Proceso('N')" value="Nuevo">
@@ -127,9 +127,9 @@ body {
       <td width="100">Ley</td>
       <td width="100">Simbolo</td>
 	 <!-- <td width="100">Unidad</td>-->
-	  <td width="100">Est�ndar 1</td>
-	  <td width="100">Est�ndar 2</td>
-	  <td width="100">Est�ndar 3</td>
+	  <td width="100">Est&aacute;ndar 1</td>
+	  <td width="100">Est&aacute;ndar 2</td>
+	  <td width="100">Est&aacute;ndar 3</td>
       </tr>
 <?php	
 	$Consulta = "select t1.cod_leyes,t1.std_1,t1.std_2,t1.std_3,t3.abreviatura as uni,t2.abreviatura as ley,t2.nombre_leyes from cal_web.clasificacion_catodos_ew t1";

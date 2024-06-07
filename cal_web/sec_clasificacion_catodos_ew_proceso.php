@@ -41,9 +41,6 @@ if(isset($_REQUEST["TxtSTD3"])) {
 	$TxtSTD3 = "";
 }
 
-
-
-
 	$EstCod='';
 	switch ($Proceso)
 	{
