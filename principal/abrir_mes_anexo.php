@@ -101,7 +101,7 @@ function Desbloquear()
 	var Frm=document.FrmDesbloquear;
 	if (Frm.TxtPassword.value=='')
 	{
-		alert("Debe Ingresar Contrase�a");
+		alert("Debe Ingresar Contraseña");
 		Frm.TxtPassword.focus();
 		return;
 	}
