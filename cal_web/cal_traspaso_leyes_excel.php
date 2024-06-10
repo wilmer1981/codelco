@@ -1,12 +1,11 @@
 ﻿<?php
 include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
+$Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $CookieRut=$_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 $CodigoDeSistema = 1;
 $CodigoDePantalla = 80;
-
 
 $Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
 $Respuesta =mysqli_query($link, $Consulta);
@@ -24,9 +23,8 @@ if(isset($_REQUEST["Elim"])) {
 
 if($Elim!='N')
 {
-	
-$Eliminar=" delete from cal_web.tmp_solicitud_excel where run_registro='".$CookieRut."'";
-		mysqli_query($link, $Eliminar);
+	$Eliminar=" delete from cal_web.tmp_solicitud_excel where run_registro='".$CookieRut."'";  
+	mysqli_query($link, $Eliminar);
 }
 
 ?>
