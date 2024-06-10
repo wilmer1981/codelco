@@ -7,6 +7,11 @@
 	}else{
 		$Proceso = "";
 	}
+	if(isset($_REQUEST["CodSistema"])){
+		$CodSistema = $_REQUEST["CodSistema"];
+	}else{
+		$CodSistema = "";
+	}
 	if(isset($_REQUEST["Sistema"])){
 		$Sistema = $_REQUEST["Sistema"];
 	}else{
@@ -22,14 +27,11 @@
 	}else{
 		$Mes = "";
 	}
-
 	if(isset($_REQUEST["TxtPassword"])){
 		$TxtPassword = $_REQUEST["TxtPassword"];
 	}else{
 		$TxtPassword = "";
-	}
-
-	
+	}	
 
 	switch ($Proceso)
 	{

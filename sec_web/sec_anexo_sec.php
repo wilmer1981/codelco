@@ -27,12 +27,12 @@
 	if(isset($_REQUEST["Ano"])){
 		$Ano = $_REQUEST["Ano"];
 	}else{
-		$Ano = "";
+		$Ano = date("Y");
 	}
 	if(isset($_REQUEST["Mes"])){
 		$Mes = $_REQUEST["Mes"];
 	}else{
-		$Mes = "";
+		$Mes = date("m");
 	}
 	if(isset($_REQUEST["Mostrar"])){
 		$Mostrar = $_REQUEST["Mostrar"];
