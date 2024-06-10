@@ -15,6 +15,7 @@
 		$Ano = date("Y");
 	}
 
+	if(strlen($Mes)==1){$Mes = "0".$Mes;}
 
 ?>
 <html>

@@ -1,36 +1,18 @@
 <?php 
 	include("../principal/conectar_principal.php");
 
-	if(isset($Fila["Mes"])){
-		$Mes	= $Fila["Mes"];
-	}else{
-		$Mes	= "";
-	}
-	if(isset($Fila["Ano"])){
-		$Ano	= $Fila["Ano"];
-	}else{
-		$Ano	= "";
-	}
-	if(isset($Fila["Lote"])){
-		$Lote	= $Fila["Lote"];
-	}else{
-		$Lote	= "";
-	}
-	if(isset($Fila["Grupo"])){
-		$Grupo	= $Fila["Grupo"];
-	}else{
-		$Grupo	= "";
-	}
-	if(isset($Fila["CodGrupo"])){
-		$CodGrupo	= $Fila["CodGrupo"];
-	}else{
-		$CodGrupo	= "";
-	}
-	
+	$Corr  = isset($_REQUEST["Corr"])?$_REQUEST["Corr"]:"";
+	$Lote   = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$Ano    = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes    = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$Grupo            = isset($_REQUEST["Grupo"])?$_REQUEST["Grupo"]:"";
+	$CodGrupo         = isset($_REQUEST["CodGrupo"])?$_REQUEST["CodGrupo"]:"";
+	$CodProducto      = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$CodSubProducto   = isset($_REQUEST["CodSubProducto"])?$_REQUEST["CodSubProducto"]:"";
 	
 	//$Ano=$_GET['Ano'];
 	//$Ano=2015;
-//	echo "Ano ".$Ano."<br>";
+    //	echo "Ano ".$Ano."<br>";
 	/*		if ($Mes=='A' && $Lote==25000)
 		{
 			$Ano =2007;
@@ -39,7 +21,8 @@
 		else
 		{
 		$Ano = '2007';  
-		}*/
+		}
+	*/
 	$Consulta = "SELECT distinct ifnull(t2.cod_grupo,'00') as cod_grupo";
 	$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
 	$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";

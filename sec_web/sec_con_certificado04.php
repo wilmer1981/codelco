@@ -1,43 +1,20 @@
 <?php 	
-	
 	include("../principal/conectar_principal.php");
-	//TABLA PAQUETE_CATODO
 
-	//Corr=63799&Mes=M&Lote=196&CmbAno=2022
-	
-	if(isset($_REQUEST["Lote"])) {
-		$Lote = $_REQUEST["Lote"];
-	}else{
-		$Lote = "";
-	}
-	if(isset($_REQUEST["Mes"])) {
-		$Mes = $_REQUEST["Mes"];
-	}else{
-		$Mes = date("m");
-	}
+	$Corr  = isset($_REQUEST["Corr"])?$_REQUEST["Corr"]:"";
+	$Lote   = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$Mes    = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$CodProducto      = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$CodSubProducto   = isset($_REQUEST["CodSubProducto"])?$_REQUEST["CodSubProducto"]:"";
 
-	if(isset($_REQUEST["CodProducto"])) {
-		$CodProducto = $_REQUEST["CodProducto"];
-	}else{
-		$CodProducto = "";
-	}
-	if(isset($_REQUEST["CodSubProducto"])) {
-		$CodSubProducto = $_REQUEST["CodSubProducto"];
-	}else{
-		$CodSubProducto = "";
-	}
-
-	
-	$CmbAno="";
 	if ($Mes=='A' && $Lote==25000)
 	{
 		$CmbAno =2007;
-
 	}
 
-		
 	$Ano = $CmbAno;  
-	//	echo $Ano;
+
 	$Consulta = "SELECT distinct t2.cod_producto, t2.cod_subproducto ";
 	$Consulta.= " from sec_web.lote_catodo t1	inner join";
 	$Consulta.= " sec_web.paquete_catodo t2 on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
@@ -69,7 +46,7 @@ function Historial(SA,Rec)
 <?php
 	$Error = "";
 	$ArrProd = array();
-	if (isset($Lote))
+	if ($Lote!="")
 	{
 		$Eliminar = "delete from sec_web.tmp_leyes_grupos";
 		mysqli_query($link, $Eliminar);
@@ -603,6 +580,7 @@ else
 					$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = '".$v."' ";
 					//echo $Consulta;
 					$Rs = mysqli_query($link, $Consulta);
+					$cont = 0;
 					if($fila = mysqli_fetch_array($Rs))
 					{
 						if ($Fila2["valor"] <= $fila["grado_a_codelco"])

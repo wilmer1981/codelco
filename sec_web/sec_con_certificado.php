@@ -3,6 +3,7 @@
 	$FechaCreacion = "";
 	$Emisor = "";
 	$Error00 = "";
+	$CookieRut = $_COOKIE["CookieRut"];
 
 	if(isset($_REQUEST["Proceso"])) {
 		$Proceso = $_REQUEST["Proceso"];
@@ -24,7 +25,7 @@
 	if(isset($_REQUEST["Mes"])) {
 		$Mes = $_REQUEST["Mes"];
 	}else{
-		$Mes = date("m");
+		$Mes = "";
 	}
 	if(isset($_REQUEST["Lote"])) {
 		$Lote = $_REQUEST["Lote"];
@@ -46,15 +47,16 @@
 	if(isset($_REQUEST["CmbMes"])) {
 		$CmbMes = $_REQUEST["CmbMes"];
 	}else{
-		$CmbMes = 0;
+		$CmbMes = date("m");
 	}
 	
 	if(isset($_REQUEST["CmbAno"])) {
 		$CmbAno = $_REQUEST["CmbAno"];
 	}else{
-		$CmbAno = 0;
+		$CmbAno = date("Y");
 	}
-	
+
+	$NumCertificado = isset($_REQUEST["NumCertificado"])?$_REQUEST["NumCertificado"]:"";
 
 	if ($Proceso != "P")
 	{		
@@ -115,7 +117,7 @@
 		}
 		if ($Error00 == "")
 		{
-			if (!isset($NumCertificado))
+			if ($NumCertificado=="")
 			{
 				$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
 				$Respuesta = mysqli_query($link, $Consulta);
@@ -195,7 +197,7 @@
 		//$FechaDisp 		= $Fila["fecha_envio"];			
 		$NumEnvio 		= $Corr;
 		$MarcaCatodo 	= $Fila["cod_marca"];						
-		$TipoEmbarque 	= $Fila["tipo_embarque"];
+		//$TipoEmbarque 	= $Fila["tipo_embarque"];
 	}	
 ?>
 <html>
@@ -880,7 +882,7 @@ function Proceso(opt)
         <?php
 	  	if ($Proceso == "P")
 	  	{
-			$NumCertificado = "";
+			//$NumCertificado = "";
 			//echo "HHHoolllaa";
 	  		$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
 			$Respuesta = mysqli_query($link, $Consulta);				
