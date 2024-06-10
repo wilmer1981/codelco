@@ -243,7 +243,7 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 	$Fino_Au = $Fino_Au + $FinoAu;	
 }	
 
-function RescataLeyes($Ano, $Mes, $link)
+function RescataLeyes($Ano,$Mes,$link)
 {
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase=3004 and cod_subclase =".$Mes;

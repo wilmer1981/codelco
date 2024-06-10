@@ -213,6 +213,7 @@ function Detalle(flu,pag)
       <td  align="right">Cierre Parcial:
       </td>
       <td width="183"><?php
+	 // if(strlen($Mes)==1){$Mes="0".$Mes;}
 	//CONSULTO SI SE CERRO DEFINITIVO EL MES
 	$Consulta = "select estado, fecha_cierre from proyecto_modernizacion.cierre_mes";
 	$Consulta.= " where cod_sistema='3' ";
@@ -342,7 +343,7 @@ if ($Mostrar == "S")
 	if ($Copiar == "S")
 	{
 		//RESCATA LEYES
-		RescataLeyes($Ano, $Mes, $link);
+		RescataLeyes($Ano,$Mes,$link);
 		//-------------
 		$FechaInicio = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-01";
 		$FechaTermino = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-31";
