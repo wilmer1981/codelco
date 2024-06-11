@@ -311,9 +311,8 @@ function Recarga3(opc)
 		echo '<input name="nodo" type="hidden" value="'.$nodo.'">';
 		echo '<input name="sistema" type="hidden" value="'.$sistema.'">';
 		echo '<input name="tipo" type="hidden" value="'.$tipo2.'">';
-		
-		$consulta = "SELECT descripcion,sistema,virtual as esvirtual FROM proyecto_modernizacion.nodos";
-		$consulta.= " WHERE cod_nodo = '".$nodo."' AND sistema = '".$sistema."'";
+		$consulta = "SELECT n.descripcion, n.sistema, n.virtual AS esvirtual FROM proyecto_modernizacion.nodos AS n";
+		$consulta.= " WHERE n.cod_nodo = '".$nodo."' AND n.sistema = '".$sistema."'";
 		//echo $consulta."<br>";
 		$rs = mysqli_query($link, $consulta);
 		$row = mysqli_fetch_array($rs);
