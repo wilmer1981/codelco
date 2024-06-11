@@ -2,21 +2,10 @@
 	//include("../principal/conectar_comet_web.php");
 	include("../principal/conectar_principal.php");
 
-	if(isset($_REQUEST["opc"])){
-		$opc=$_REQUEST["opc"];
-	}else{
-		$opc="";
-	}
-	if(isset($_REQUEST["sistema"])){
-		$sistema=$_REQUEST["sistema"];
-	}else{
-		$sistema="";
-	}
-	if(isset($_REQUEST["nodo"])){
-		$nodo=$_REQUEST["nodo"];
-	}else{
-		$nodo="";
-	}
+	$opc       = isset($_REQUEST["opc"])?$_REQUEST["opc"]:"";
+	$proceso   = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$nodo	   = isset($_REQUEST["nodo"])?$_REQUEST["nodo"]:"";
+	$sistema   = isset($_REQUEST["sistema"])?$_REQUEST["sistema"]:"";
 
 
 	//$existencia		=$_REQUEST["existencia"];

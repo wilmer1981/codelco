@@ -5,7 +5,7 @@
 	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	
-	
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
 	//echo "RUT:".$Rut;
 	$Consulta="select * from proyecto_modernizacion.sistemas_por_usuario where rut='".$Rut."' and cod_sistema=".$CodigoDeSistema;
