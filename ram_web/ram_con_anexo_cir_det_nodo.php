@@ -79,9 +79,11 @@ body {
 	//echo $Consulta;
 	$Resp2 = mysqli_query($link, $Consulta);
 	$Cont=0;
+	$PesoNodo=0;
 	while ($Fila2 = mysqli_fetch_array($Resp2))
 	{		
-		$PesoNodo = $Fila2["peso_seco"] + $StockPisoActual;
+		//$PesoNodo = $Fila2["peso_seco"] + $StockPisoActual;
+		$PesoNodo = $Fila2["peso_seco"] + $PesoNodo;
 		$ArrDetalle[$Cont][0] = $Fila2["num_conjunto"];
 		$ArrDetalle[$Cont][1] = $PesoNodo;
 		$ArrDetalle[$Cont][2] = $Fila2["fino_cu"];
