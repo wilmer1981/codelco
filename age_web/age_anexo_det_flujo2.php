@@ -1,7 +1,7 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-
+	set_time_limit(1000);
 
 if(isset($_REQUEST["Flujo"])){
 	$Flujo = $_REQUEST["Flujo"];
@@ -134,7 +134,7 @@ body {
 	$Consulta = "select cod_producto, cod_subproducto, rut_proveedor ";
 	$Consulta.= " from age_web.relaciones where flujo='".$Flujo."' order by lpad(rut_proveedor,10,'0')";
 	$RespFlujo=mysqli_query($link, $Consulta);
-/*
+
 	$TotalPesoHumPrv = 0;
 	$TotalPesoSecPrv = 0;
 	$TotalFinoCuPrv  = 0;
@@ -144,8 +144,7 @@ body {
 	$TotalFinoAg  = 0;
 	$TotalFinoAu=0;
 	$TotalPesoFlujo=0;
-	*/
-
+	
 	while ($FilaFlujo=mysqli_fetch_array($RespFlujo))
 	{
 		$FinoCu=0;$FinoAg=0;$FinoAu=0;$PesoSecoProv=0;$TipoRecep="";
@@ -221,7 +220,8 @@ body {
 			//echo $Consulta."<br>";
 			$ContRecargos = 1;
 			$RespDetLote=mysqli_query($link, $Consulta);
-
+			$TotalPesoSecLote=0;//WSO
+			$TotalPesoHumLote=0; //WSO
 			while ($FilaDetLote = mysqli_fetch_array($RespDetLote))
 			{					
 				$PorcHum=0;

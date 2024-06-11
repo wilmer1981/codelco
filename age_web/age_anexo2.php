@@ -3,7 +3,7 @@
 	$CodigoDePantalla = 6;
 	include("age_funciones.php");
 	include("../principal/conectar_principal.php");
-	set_time_limit(450);
+	set_time_limit(1000);
 	
 
 	if(isset($_REQUEST["Mostrar"])){
@@ -237,11 +237,11 @@
 						}
 						$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
 						$EsPlamen=false;
-						/*if($Fila01["recepcion"]=='PMN')
+						if($Fila01["recepcion"]=='PMN')
 						{
 							$EsPlamen=true;
 							$DecPHum=2;$DecPSeco=2;$DecLeyes=2;$DecFinos=2;
-						}*/
+						}
 						$PorcHumLote=0;
 						if ($TotalPesoHumLote!=0)
 							$PorcHumLote = abs(100 - ($TotalPesoSecLote * 100)/$TotalPesoHumLote);
@@ -490,7 +490,7 @@ function Proceso(opt)
 			window.open(Pag,"","top=200,left=175,width=409,height=210,scrollbars=no,resizable = no");	
 			break;
 		case "CM":
-			var msg = confirm("�Esta seguro que desea guardar esta version del Anexo.AGE?");
+			var msg = confirm("¿Esta seguro que desea guardar esta version del Anexo.AGE?");
 			if (msg)
 			{
 				f.action = "age_anexo01.php?Proceso=G&Ano=" + f.Ano.value + "&Mes=" + f.Mes.value;
@@ -591,6 +591,7 @@ function Detalle(flu)
 	$Consulta.= " select max(fecha_cierre) from proyecto_modernizacion.cierre_mes";
 	$Consulta.= " where cod_sistema='15' ";
 	$Consulta.= " and ano='".$Ano."' and mes='".$Mes."' and cod_bloqueo='1')";
+	//echo $Consulta;
 	$Resp = mysqli_query($link, $Consulta);
 	$CierreBalance = false;	
 	if ($Fila = mysqli_fetch_array($Resp))
