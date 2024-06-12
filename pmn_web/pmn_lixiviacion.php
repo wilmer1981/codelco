@@ -3,7 +3,6 @@
 	include("pmn_funciones.php");		
   
   $CookieRut = $_COOKIE["CookieRut"]; 
-  //pmn_lixiviacion.php?ModifLixi=S&DiaModif=" + ValFechaAux[2] + "&MesModif=" + ValFechaAux[1] + "&AnoModif=" + ValFechaAux[0] + "&TurnoModif=" + ValTurno + "&NumLixModif="+ValLixiv + "&FechaModif="+ValFecha+"&Tab6=true" ;
 
 	if(isset($_REQUEST["ModifLixi"])){
 		$ModifLixi=$_REQUEST["ModifLixi"];

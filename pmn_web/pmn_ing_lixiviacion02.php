@@ -2,9 +2,9 @@
 	include("../principal/conectar_pmn_web.php"); 
 	//Dia=11&Mes=12&Ano=2023
 	//pmn_ing_lixiviacion02.php?Dia=".$Dia."&Mes=".$Mes."&Ano=".$Ano."&DiaF=".$DiaF."&MesF=".$MesF."&AnoF=".$AnoF
-	$Dia=$_REQUEST["Dia"];
-	$Mes=$_REQUEST["Mes"];
-	$Ano=$_REQUEST["Ano"];
+	$Dia=isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes=isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano=isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 
 	$fechaActual = date('Y-m-d h:i:s'); 
     $fechaSegundos = strtotime($fechaActual);
@@ -12,31 +12,14 @@
     $dia = date( "j", $fechaSegundos);
     $mes = date("n", $fechaSegundos);
     $ano = date("Y", $fechaSegundos);
-
 	
-	if(isset($_REQUEST["DiaF"])){
-		$DiaF=$_REQUEST["DiaF"];
-	}else{
-		$DiaF = $dia;
-	}
-	if(isset($_REQUEST["MesF"])){
-		$MesF=$_REQUEST["MesF"];
-	}else{
-		$MesF = $mes;
-	}
-	if(isset($_REQUEST["AnoF"])){
-		$AnoF=$_REQUEST["AnoF"];
-	}else{
-		$AnoF = $ano;
-	}
+	$DiaF=isset($_REQUEST["DiaF"])?$_REQUEST["DiaF"]:$dia;
+	$MesF=isset($_REQUEST["MesF"])?$_REQUEST["MesF"]:$mes;
+	$AnoF=isset($_REQUEST["AnoF"])?$_REQUEST["AnoF"]:$ano;
 
 	$AnoActual=$ano;
 	$MesActual=$mes;
 	$DiaActual=$dia;
-	
-	
-
-
 
 ?>
 <html>
@@ -278,7 +261,11 @@ function Proceso(opt)
         <td width="110" align="center" valign="middle">Operador</td>
         <td width="174" colspan="2" align="center" valign="middle">Jefe Tuno</td>
     </tr>
-      <?php	 
+    <?php	
+	$Mes    = str_pad($Mes, 2, "0", STR_PAD_LEFT);
+	$Dia    = str_pad($Dia, 2, "0", STR_PAD_LEFT);
+	$MesF    = str_pad($MesF, 2, "0", STR_PAD_LEFT);
+	$DiaF    = str_pad($DiaF, 2, "0", STR_PAD_LEFT);
 	$FechaI = $Ano."-".$Mes."-".$Dia;
 	$FechaF = $AnoF."-".$MesF."-".$DiaF;
 	$sql = "SELECT * from lixiviacion_barro_anodico";
@@ -286,7 +273,7 @@ function Proceso(opt)
 //	$sql.= " where fecha='".$Fecha."'";
 	$sql.= " ORDER BY num_lixiviacion,fecha,turno";
 
-	//echo "cvomnsulta:".$sql;
+	echo "cvomnsulta:".$sql;
 	$result = mysqli_query($link, $sql);
 	while ($row = mysqli_fetch_array($result))
 	{
@@ -302,7 +289,8 @@ function Proceso(opt)
 		$result2 = mysqli_query($link, $sql);
 		if ($row2=mysqli_fetch_array($result2))
 			$TxtTurno = strtoupper($row2["nombre_subclase"]);
-		else	$TxtTurno = "N";
+		else	
+			$TxtTurno = "N";
 		echo "<td align='center' valign='middle'><input name='TxtAcidc'      readonly type='text' size=7  maxlength=10 value='".$row["acidc"]."'></td>\n";		
 		echo "<td align='center' valign='middle'><input name='TxtFecha'      readonly type='text' size=11  maxlength=10 value='".$row["fecha_carga"]."'></td>\n";
 		//echo "<td align='center' valign='middle'><input name='TxtDia'        readonly type='text' size=7  maxlength=7  value='".$row[dia_carga]."'></td>\n";
@@ -318,13 +306,17 @@ function Proceso(opt)
 		$result2 = mysqli_query($link, $sql);
 		if ($row2=mysqli_fetch_array($result2))
 			$TxtOperador = ucwords(strtolower(substr($row2["nombres"],0,1).". ".$row2["apellido_paterno"]));
-		else	$TxtOperador = "No Encontrado";
+		else	
+			$TxtOperador = "No Encontrado";
+
 		echo "<td align='center' valign='middle'><input name='TxtOperador'   readonly type='text' size=15 maxlength=15 value='".$TxtOperador."'></td>\n";
 		$sql = "select * from proyecto_modernizacion.funcionarios where rut = '".$row["jefe_turno"]."'";
 		$result2 = mysqli_query($link, $sql);
 		if ($row2=mysqli_fetch_array($result2))
 			$TxtJefeTurno = ucwords(strtolower(substr($row2["nombres"],0,1).". ".$row2["apellido_paterno"]));
-		else	$TxtJefeTurno = "No Encontrado";
+		else	
+			$TxtJefeTurno = "No Encontrado";
+		
 		echo "<td colspan=2 align='center' valign='middle'><input name='TxtJefeturno' readonly type='text' size=15 maxlength=15 value='".$TxtJefeTurno."'></td>\n";
 		echo "</tr>\n";
 	}

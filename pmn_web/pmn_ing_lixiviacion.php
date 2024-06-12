@@ -58,7 +58,6 @@
 	$TxtPorcAgua4 = 0;	
 	$TxtPorcAgua5 = 0;	
 	$TxtNumLixiv="";
-	//$TxtAcidc="";
 	$TxtLixiv="";
 	$TxtAcidc=0;
 	$Operador="";
@@ -868,7 +867,7 @@ Hora
 				if ($i<10)
 					$Valor = "0".$i;
 				else	$Valor = $i;
-				if (isset($MinutosFiltra))
+				if ($MinutosFiltra!="")
 				{	
 					if ($MinutosFiltra == $Valor)
 						echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
