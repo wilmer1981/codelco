@@ -16,11 +16,13 @@ if(isset($_REQUEST["Ano"])){
 	$Ano = $_REQUEST["Ano"];
 }else{
 	$Ano = date('Y');
+	$AnoActual=date('Y');
 }
 if(isset($_REQUEST["Mes"])){
 	$Mes = $_REQUEST["Mes"];
 }else{
 	$Mes = date('m');
+	$MesActual=date('m');
 }
 if(isset($_REQUEST["Dia"])){
 	$Dia = $_REQUEST["Dia"];
@@ -118,13 +120,13 @@ if(!isset($Ano))
 				if ($Dia == $i)
 					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
-			}/*
+			}
 			else
 			{
 				if ($i == 1)
 					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
-			}*/
+			}
 		}
 	  ?>
           </select>
@@ -137,13 +139,13 @@ if(!isset($Ano))
 				if ($Mes == $i)
 					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-			}/*
+			}
 			else
 			{
 				if ($i == $MesActual)
 					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-			}*/
+			}
 		}
 		?>
           </select>
@@ -156,13 +158,13 @@ if(!isset($Ano))
 				if ($Ano == $i)
 					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
-			}/*
+			}
 			else
 			{
 				if ($i == $AnoActual)
 					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
-			}*/
+			}
 		}
 		?>
           </select>
@@ -181,13 +183,12 @@ if(!isset($Ano))
 						echo "<option selected value='".$i."'>".$i."</option>\n";
 					else	echo "<option value='".$i."'>".$i."</option>\n";
 				}
-				/*
 				else
 				{
 					if ($i == $DiaActual)
 						echo "<option selected value='".$i."'>".$i."</option>\n";
 					else	echo "<option value='".$i."'>".$i."</option>\n";
-				}*/
+				}
 			}
 		?>
           </select>
@@ -200,13 +201,13 @@ if(!isset($Ano))
 				if ($MesH == $i)
 					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-			}/*
+			}
 			else
 			{
 				if ($i == $MesActual)
 					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-			}*/
+			}
 		}
 		?>
           </select>
@@ -219,13 +220,13 @@ if(!isset($Ano))
 				if ($AnoH == $i)
 					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
-			}/*
+			}
 			else
 			{
 				if ($i == $AnoActual)
 					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
-			}*/
+			}
 		}
 		?>
           </select>
@@ -254,6 +255,11 @@ if(!isset($Ano))
     <td width="1%" background="archivos/images/interior/izquierdo.png"></td>
     <td align="center"><table width="100%" border="1" cellpadding="0" cellspacing="0" class="TablaDetalle">
       <?php	
+	  $Mes    = str_pad($Mes,2,'0',STR_PAD_LEFT);
+	  $Dia    = str_pad($Dia,2,'0',STR_PAD_LEFT);
+	  $MesH   = str_pad($MesH,2,'0',STR_PAD_LEFT);
+	  $DiaH   = str_pad($DiaH,2,'0',STR_PAD_LEFT);
+
 				$Consulta = "SELECT * from pmn_web.pmn_pesa_bad_cabecera t1 inner join pmn_web.pmn_pesa_bad_detalle t2 on t1.lote=t2.lote";
 				$Consulta.= " where t2.fecha_embarque between '".$Ano."-".$Mes."-".$Dia." 00:00:00' and '".$AnoH."-".$MesH."-".$DiaH." 23:59:59'";
 				$Consulta.= " group by t2.correlativo_sipa";
@@ -363,7 +369,7 @@ if(!isset($Ano))
 				  <?php
 				}
 				?>
-    </table>�	</td>
+    </table></td>
     <td width="1%" background="archivos/images/interior/derecho.png"></td>
   </tr>
   <tr>
@@ -588,7 +594,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
       <?php
 				}
 				?>
-    </table>      �	</td>
+    </table>     </td>
     <td width="1%"></td>
   </tr>
 </table>
