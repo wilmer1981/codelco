@@ -10,21 +10,6 @@
 	}else{
 		$Mostrar = "";
 	}
-	if(isset($_REQUEST["Ano"])){
-		$Ano = $_REQUEST["Ano"];
-	}else{
-		$Ano = "";
-	}
-	if(isset($_REQUEST["Mes"])){
-		$Mes = $_REQUEST["Mes"];
-	}else{
-		$Mes = "";
-	}
-	if(isset($_REQUEST["Dia"])){
-		$Dia = $_REQUEST["Dia"];
-	}else{
-		$Dia = "";
-	}
 	if(isset($_REQUEST["AnoF"])){
 		$AnoF = $_REQUEST["AnoF"];
 	}else{
@@ -130,6 +115,7 @@ $Check2='checked=checked';
 <head>
 <title>Planta de Metales Nobles</title>
 <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" src="funciones/funciones_java.js"></script>
 <script language="JavaScript">
 function Proceso(opt)
 {
@@ -222,8 +208,8 @@ function Msj(Msj)
 .Estilo2 {color: #FF0000}
 
 </style>
-</head>
 <link href="estilos/pmn_style.css" rel="stylesheet" type="text/css">
+</head>
 <body leftmargin="3" topmargin="3" marginwidth="0" marginheight="0" onLoad="Msj('<?php echo $Msj;?>')" >
 <form name="frmPrincipal" method="post" action="">
 <table width="100%" border="0" class="TituloCabeceraOz">
@@ -432,16 +418,16 @@ function Msj(Msj)
 				while ($Row = mysqli_fetch_array($Respuesta))
 				{
 					$HayD='S';
-					$NomProductoSA=NomProducto($Row["cod_producto"]);
-					$NomSubProductoSA=NomSubProducto($Row["cod_producto"],$Row["cod_subproducto"]);
-					$Leyes=ObtenerLeyes($Row["nro_solicitud"]);
-					$TotTambores=ObtenerTambores($Row["lote"]);
-										
+					$NomProductoSA=NomProducto($Row["cod_producto"],$link);
+					$NomSubProductoSA=NomSubProducto($Row["cod_producto"],$Row["cod_subproducto"],$link);
+					$Leyes=ObtenerLeyes($Row["nro_solicitud"],$link);
+					$TotTambores=ObtenerTambores($Row["lote"],$link);
+					$CabeceraSA = isset($Row["CabeceraSA"])?$Row["CabeceraSA"]:"";				
 					$OK='';
-					if($Row["CabeceraSA"]!='')
+					if($CabeceraSA!='')
 						$OK='OK';
 						
-					$TotNeto=TotalNetoLote($Row["lote"]);	
+					$TotNeto=TotalNetoLote($Row["lote"],$link);	
 					echo "<tr valign='top'>\n";
 				    //if($ExisteCorrelativo=='S')
 					echo "</td>\n";
@@ -450,16 +436,16 @@ function Msj(Msj)
 					echo "<td align='left'>".$NomProductoSA."</td>\n";
 					echo "<td align='left'>".$NomSubProductoSA."</td>\n";
 					echo "<td align='left'>".$Leyes."</td>\n";
-					$PaletA=ObtengoDatosPaletAB($Row["lote"],'A','S');
+					$PaletA=ObtengoDatosPaletAB($Row["lote"],'A','S',$link);
 					$PaletA=explode('-:-',$PaletA);
 					$ValorA=$PaletA[0];
 					$TmbA=$PaletA[1];
-					$CorrSIPAa=$PaletB[2];//SI TIENE ESTE CAMPO, ESTA EMBARCADO
-					$PaletB=ObtengoDatosPaletAB($Row["lote"],'B','S');
+					$CorrSIPAa=isset($PaletB[2])?$PaletB[2]:"";//SI TIENE ESTE CAMPO, ESTA EMBARCADO
+					$PaletB=ObtengoDatosPaletAB($Row["lote"],'B','S',$link);
 					$PaletB=explode('-:-',$PaletB);
 					$ValorB=$PaletB[0];
 					$TmbB=$PaletB[1];
-					$CorrSIPAb=$PaletB[2];//SI TIENE ESTE CAMPO, ESTA EMBARCADO
+					$CorrSIPAb=isset($PaletB[2])?$PaletB[2]:"";//SI TIENE ESTE CAMPO, ESTA EMBARCADO
 					echo "<td colspan='3'>";
 						echo "<table width='100%' border='1' cellpadding='0' cellspacing='0'>";
 						if($ValorA!='0'){

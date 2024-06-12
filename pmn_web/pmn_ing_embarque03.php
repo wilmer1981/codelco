@@ -7,36 +7,35 @@
 	}else{
 		$Tipo = "";
 	}
-
 	if(isset($_REQUEST["Ano"])){
 		$Ano = $_REQUEST["Ano"];
 	}else{
-		$Ano = "";
+		$Ano = date("Y");
 	}
 	if(isset($_REQUEST["Mes"])){
 		$Mes = $_REQUEST["Mes"];
 	}else{
-		$Mes = "";
+		$Mes = date("m");
 	}
 	if(isset($_REQUEST["Dia"])){
 		$Dia = $_REQUEST["Dia"];
 	}else{
-		$Dia = "";
+		$Dia = date("d");
 	}
 	if(isset($_REQUEST["AnoF"])){
 		$AnoF = $_REQUEST["AnoF"];
 	}else{
-		$AnoF = "";
+		$AnoF = date("Y");
 	}
 	if(isset($_REQUEST["MesF"])){
 		$MesF = $_REQUEST["MesF"];
 	}else{
-		$MesF = "";
+		$MesF = date("m");
 	}
 	if(isset($_REQUEST["DiaF"])){
 		$DiaF = $_REQUEST["DiaF"];
 	}else{
-		$DiaF = "";
+		$DiaF = date("d");
 	}
 ?>
 <html>
@@ -45,7 +44,6 @@
 <link href="estilos/pmn_style.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" src="funciones/funciones_java.js"></script>
 <script language="JavaScript">
-<!--
 function Proceso(opt)
 {
 	var f=document.frmConsulta;
@@ -119,7 +117,6 @@ function Proceso(opt)
 		break
 	}
 }
-//-->
 </script>
 </head>
 <style type="text/css">

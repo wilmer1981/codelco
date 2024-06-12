@@ -26,17 +26,17 @@
 	if(isset($_REQUEST["Ano"])){
 		$Ano = $_REQUEST["Ano"];
 	}else{
-		$Ano = "";
+		$Ano = date("Y");
 	}
 	if(isset($_REQUEST["Mes"])){
 		$Mes = $_REQUEST["Mes"];
 	}else{
-		$Mes = "";
+		$Mes = date("m");
 	}
 	if(isset($_REQUEST["Dia"])){
 		$Dia = $_REQUEST["Dia"];
 	}else{
-		$Dia = "";
+		$Dia = date("d");
 	}
 	
 	if(isset($_REQUEST["Corr"])){
@@ -92,9 +92,9 @@ f.action=Pant;
 f.submit();
 }
 </script>
+<link href="estilos/pmn_style.css" rel="stylesheet" type="text/css">
 </head>
 <body topmargin="5">
-<link href="estilos/pmn_style.css" rel="stylesheet" type="text/css">
 <form name="frmPrincipalRpt" method="post" action="">
   <table width="900" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>

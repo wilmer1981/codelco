@@ -39,6 +39,8 @@
 		$Corr = "";
 	}
 
+	$CorrEs = isset($_REQUEST["CorrEs"])?$_REQUEST["CorrEs"]:"";
+
 
 	switch ($Proceso)
 	{
@@ -56,9 +58,9 @@
 				//mysqli_query($link, $Insertar);
 
 				if($Tipo=='SIPA')								
-					Bitacora($v[0],'','','','','','','','','Se ingresa relacion Lote - Corr. SIPA de Palet '.$v[1],'I',$Corr,'','','');
+					Bitacora($v[0],'','','','','','','','','Se ingresa relacion Lote - Corr. SIPA de Palet '.$v[1],'I',$Corr,'','','',$link);
 				else
-					Bitacora($v[0],'','','','','','','','','Se ingresa relacion Lote - Corr. ESPECIAL de Palet '.$v[1],'I',$CorrEs,'','','');	
+					Bitacora($v[0],'','','','','','','','','Se ingresa relacion Lote - Corr. ESPECIAL de Palet '.$v[1],'I',$CorrEs,'','','',$link);	
 
 				$valor1='5';$valor2='8';				
 				if($v[1]=='A')
@@ -115,7 +117,7 @@
 					//echo $Actualiza."<br />";
 					mysqli_query($link, $Actualiza);
 				}
-				Bitacora($v[0],'','','','','','','','','Se elimina relacion Lote - Corr. SIPA de Palet '.$v[1],'E',$v[2],'','','');
+				Bitacora($v[0],'','','','','','','','','Se elimina relacion Lote - Corr. SIPA de Palet '.$v[1],'E',$v[2],'','','',$link);
 			}			
 			header("location:pmn_ing_embarque03.php?Mostrar=S&Dia=".$Dia."&Mes=".$Mes."&Ano=".$Ano."&DiaF=".$DiaF."&MesF=".$MesF."&AnoF=".$AnoF."&Corr=".$Corr."&Tipo=".$Tipo);
 		break;

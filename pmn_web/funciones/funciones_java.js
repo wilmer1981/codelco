@@ -1496,7 +1496,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                {
               	   if (mYear.length < 4)
                   {
-              		 alert("Fecha no v�lida\n Formato DD/MM/AAA");
+              		 alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateName.value = "";
                      vDateName.focus();
                      return true;

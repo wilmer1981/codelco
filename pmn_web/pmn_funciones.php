@@ -4,17 +4,17 @@ include("../principal/conectar_pmn_web.php");
 
 function AccionBitacora($Accion)
 {
-	$Retorno='Sin Acci�n';
+	$Retorno='Sin Acción';
 	switch($Accion)
 	{
 		case "I":
 			$Retorno='Ingreso';
 		break;
 		case "M":
-			$Retorno='Modificaci�n';
+			$Retorno='Modificación';
 		break;
 		case "E":
-			$Retorno='Eliminaci�n';
+			$Retorno='Eliminación';
 		break;
 	}
 	return($Retorno);
