@@ -2,9 +2,7 @@
 	$CodigoDeSistema = 99;
 	$CodigoDePantalla = 10;
 	include("../principal/conectar_principal.php");
-	/*if(!isset($TipoBusq))
-		$TipoBusq='0';*/
-
+	
 		if(isset($_REQUEST["TipoBusq"])){
 			$TipoBusq = $_REQUEST["TipoBusq"];
 		}else{
@@ -217,7 +215,7 @@ function Salir()
 	Frm.submit();
 }
 </script>
-<title>PMN - Asociaci�n Funcionario Proceso</title>
+<title>PMN - Asociaci&oacute;n Funcionario Proceso</title>
 <link href="estilos/pmn_style.css" rel="stylesheet" type="text/css">
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
 <form name="FrmIngFun" method="post" action="">

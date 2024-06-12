@@ -27,6 +27,8 @@
 		$R = "";
 	}
 
+	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";
+
 	switch($Proceso)
 	{
 		case "N":
@@ -142,31 +144,24 @@ function Salir()
           <td width="96" class="formulario">Rut</td>
           <td width="336">
 			<?php
-			  if($Proceso=='M'){
+			if($Proceso=='M'){
 				echo $TxtCodigo;
-			  }else{
+			}else{
 					$Consulta="SELECT distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 inner join ";
 					$Consulta.="proyecto_modernizacion.sub_clase t2 on t2.cod_clase='6002' and t1.rut=t2.nombre_subclase where t2.valor_subclase1='".$CmbTipo."' order by apellido_paterno";
 					$Resultado=mysqli_query($link, $Consulta);
-
 					$In=""; //agaregado por wilmer
 					while ($Fila=mysqli_fetch_array($Resultado))
-						//$In=$In."'".$Fila["rut"]."',";
-						//if($In !='')
-						//	$In=substr($In,0,strlen($In)-1);
-						
-						$In = $Fila["rut"].",";
-						//echo "IN: ".$In;
+						$In=$In."'".$Fila["rut"]."',";
+					 if($In !='')
+						$In=substr($In,0,strlen($In)-1);
 					//echo $Consulta."<br>";								
 					echo "<select name='CmbRut' style='width:320'>";
-					echo "<option value='-1'>Seleccionar</option>";
-					
-					$Consulta1="SELECT distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres FROM proyecto_modernizacion.funcionarios t1 ";
-					$Consulta1.="WHERE t1.rut NOT IN('".$In."') ORDER BY t1.apellido_paterno";
-					//echo "<br>CONSULTA:".$Consulta1;
-					
+					echo "<option value='-1'>Seleccionar</option>";					
+					$Consulta1="select distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 ";
+					$Consulta1.="where t1.rut not in($In) order by t1.apellido_paterno";
+					//echo "<br>CONSULTA:".$Consulta1;					
 					$Resultado1=mysqli_query($link, $Consulta1);
-
 					while ($Fila1=mysqli_fetch_array($Resultado1))
 					{
 						if(strlen($Fila1["rut"])==9)
@@ -181,10 +176,10 @@ function Salir()
 							echo "<option value='".$Fila1["rut"]."'>".$Rut."-".strtoupper($Nombre)."</option>";
 					}
 					echo "</select>";  
-			  }	
+			}	
 			  //echo 	$In."<br>";
-			 // echo $Consulta1."<br>";	
-  			  ?>
+			  // echo $Consulta1."<br>";	
+  			?>
           </td>
         </tr>
       </table>
@@ -206,7 +201,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroCoincidencia))
+	if ($EncontroCoincidencia!="")
 	{
 		if ($EncontroCoincidencia==true)
 		{
