@@ -20,7 +20,7 @@
 	$AnoActual=$ano;
 	$MesActual=$mes;
 	$DiaActual=$dia;
-
+	
 ?>
 <html>
 <head>
@@ -316,7 +316,7 @@ function Proceso(opt)
 			$TxtJefeTurno = ucwords(strtolower(substr($row2["nombres"],0,1).". ".$row2["apellido_paterno"]));
 		else	
 			$TxtJefeTurno = "No Encontrado";
-		
+
 		echo "<td colspan=2 align='center' valign='middle'><input name='TxtJefeturno' readonly type='text' size=15 maxlength=15 value='".$TxtJefeTurno."'></td>\n";
 		echo "</tr>\n";
 	}

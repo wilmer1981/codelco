@@ -4,32 +4,32 @@ include("../principal/conectar_pmn_web.php");
 if(isset($_REQUEST["AnoIniCon"])){
 	$AnoIniCon = $_REQUEST["AnoIniCon"];
 }else{
-	$AnoIniCon = "";
+	$AnoIniCon = date("Y");
 }
 if(isset($_REQUEST["MesIniCon"])){
 	$MesIniCon = $_REQUEST["MesIniCon"];
 }else{
-	$MesIniCon = "";
+	$MesIniCon = date("m");
 }
 if(isset($_REQUEST["DiaIniCon"])){
 	$DiaIniCon = $_REQUEST["DiaIniCon"];
 }else{
-	$DiaIniCon = "";
+	$DiaIniCon = date("d");
 }
 if(isset($_REQUEST["AnoFinCon"])){
 	$AnoFinCon = $_REQUEST["AnoFinCon"];
 }else{
-	$AnoFinCon = "";
+	$AnoFinCon = date("Y");
 }
 if(isset($_REQUEST["MesFinCon"])){
 	$MesFinCon = $_REQUEST["MesFinCon"];
 }else{
-	$MesFinCon = "";
+	$MesFinCon = date("m");
 }
 if(isset($_REQUEST["DiaFinCon"])){
 	$DiaFinCon = $_REQUEST["DiaFinCon"];
 }else{
-	$DiaFinCon = "";
+	$DiaFinCon = date("d");
 }
 
 ?>

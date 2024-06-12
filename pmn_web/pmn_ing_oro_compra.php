@@ -24,23 +24,6 @@ if(isset($_REQUEST["Mensaje"])){
 	$Mensaje = "";
 }
 
-
-if(isset($_REQUEST["CmbAno"])){
-	$CmbAno = $_REQUEST["CmbAno"];
-}else{
-	$CmbAno = "";
-}
-if(isset($_REQUEST["CmbMes"])){
-	$CmbMes = $_REQUEST["CmbMes"];
-}else{
-	$CmbMes = "";
-}
-if(isset($_REQUEST["CmbDias"])){
-	$CmbDias = $_REQUEST["CmbDias"];
-}else{
-	$CmbDias = "";
-}
-
 //echo "Oro:    ".$VerOro."<br>"; 
 if ($VerOro == "S")
 {

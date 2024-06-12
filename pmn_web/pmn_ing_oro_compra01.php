@@ -156,7 +156,7 @@ switch ($Opcion)
 		header("location:pmn_oro_compra.php?Mostrar=C&CmbAno=".$CmbAno."&CmbMes=".$CmbMes."&CmbDias=".$CmbDias."&Tab1=true&TabOC=true");
 	break;
 	case "M":
-		if (count($ChkFecha)>0)
+		if (count((array)$ChkFecha)>0)
 		{
 			reset($ChkFecha);
 			//while (list($i,$p) = each($ChkFecha))

@@ -4,7 +4,8 @@
 
   $CookieRut = $_COOKIE["CookieRut"]; 
   //Tab1=true&TabOC=true&VerOro=S&IdDiaOro=05&IdMesOro=05&IdAnoOro=2021&IdFechaOro=2021-05-05
-    if(isset($_REQUEST["Tab1"])){
+
+  if(isset($_REQUEST["Tab1"])){
     $Tab1 = $_REQUEST["Tab1"];
   }else{
     $Tab1 = false;
@@ -47,21 +48,9 @@
   }else{
     $Mostrar = "";
   }
-  if(isset($_REQUEST["CmbDias"])){
-    $CmbDias = $_REQUEST["CmbDias"];
-  }else{
-    $CmbDias = "";
-  }
-  if(isset($_REQUEST["CmbMes"])){
-    $CmbMes = $_REQUEST["CmbMes"];
-  }else{
-    $CmbMes = "";
-  }
-  if(isset($_REQUEST["CmbAno"])){
-    $CmbAno = $_REQUEST["CmbAno"];
-  }else{
-    $CmbAno = "";
-  }
+  $CmbDias=isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+	$CmbMes=isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno=isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
   if(isset($_REQUEST["NumBarra"])){
     $NumBarra = $_REQUEST["NumBarra"];
   }else{
