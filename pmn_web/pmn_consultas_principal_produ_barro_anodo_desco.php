@@ -48,14 +48,13 @@ if(!isset($Ano))
 					else	
 						echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
 				}
-				/*
 				else
 				{
 					if ($i == $MesActual)
 						echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
 					else	
 						echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
-				}*/
+				}
 			}
 		?>
         </select>
@@ -70,14 +69,14 @@ if(!isset($Ano))
 					if ($i == $Ano)
 						echo "<option selected value='".$i."'>".$i."</option>\n";
 					else	echo "<option value='".$i."'>".$i."</option>\n";
-				}/*
+				}
 				else
 				{
 					if ($i == $AnoActual)
 						echo "<option selected value='".$i."'>".$i."</option>\n";
 					else	
 						echo "<option value='".$i."'>".$i."</option>\n";
-				}*/
+				}
 			}
 			?>
 </select></td>
@@ -132,10 +131,11 @@ if(!isset($Ano))
 		 <?php
 		 $Total=0;
 		  for($i=1;$i<=31;$i++)
-		  {		
+		  {		$Mes = str_pad($Mes,2,'0',STR_PAD_LEFT);
+			    $i   = str_pad($i,2,'0',STR_PAD_LEFT);
 		  		$Fecha=	$Ano."-".$Mes."-".$i;
 				$sql = "select fecha from lixiviacion_barro_anodico";
-				$sql.= " where fecha='".$Fecha."'";
+				$sql.= " where fecha=".$Fecha;
 				$sql.= " group by fecha order by fecha asc,turno";
 				//echo $sql."<br>"; 
 				$result = mysqli_query($link, $sql);
@@ -211,7 +211,7 @@ if(!isset($Ano))
 		  <?php
 	 }	
 	  ?> 		  
-    </table>      �	
+    </table>  
 	</td>
     <td width="1%" background="archivos/images/interior/derecho.png"></td>
   </tr>

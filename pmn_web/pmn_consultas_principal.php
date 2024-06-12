@@ -15,12 +15,12 @@
 	if(isset($_REQUEST["FDesde"])){
 		$FDesde = $_REQUEST["FDesde"];
 	}else{
-		$FDesde = "";
+		$FDesde = date('Y-m-d');
 	}
 	if(isset($_REQUEST["FHasta"])){
 		$FHasta = $_REQUEST["FHasta"];
 	}else{
-		$FHasta = "";
+		$FHasta = date('Y-m-d');
 	}
 	if(isset($_REQUEST["NivelOrg"])){
 		$NivelOrg = $_REQUEST["NivelOrg"];
@@ -36,15 +36,14 @@
 		$Ano = $_REQUEST["Ano"];
 	}else{
 		$Ano = date('Y');
-		//$AnoActual=date('Y');
+		$AnoActual=date('Y');
 	}
 	if(isset($_REQUEST["Mes"])){
 		$Mes = $_REQUEST["Mes"];
 	}else{
 		$Mes = date('m');
-		//$MesActual=date('m');
+		$MesActual=date('m');
 	}
-
 
 	if(isset($_REQUEST["Mensaje"])){
 		$Mensaje = $_REQUEST["Mensaje"];
@@ -65,11 +64,6 @@
 
 if($VisibleDivProceso=='S')
 $VisibleDiv='hidden';
-
-if(!isset($FDesde))
-	$FDesde=date('Y-m-d');
-if(!isset($FHasta))
-	$FHasta=date('Y-m-d');
 	
 $SelTarea=$NivelOrg;
 set_time_limit(1000);
