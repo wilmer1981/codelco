@@ -204,12 +204,12 @@ if($Buscar=='S')
     <td align="center"><table width="100%" border="1" cellpadding="0" cellspacing="0" class="TablaDetalle">
       <tr align="center" class="TituloCabeceraAzul">
         <td width="189" height="15" class="TituloCabeceraAzul">Rut Realizo</td>
-        <td width="76">Acci�n</td>
+        <td width="76">Acci&oacute;n</td>
         <td width="103">Fecha Hora Bitacora</td>
         <td width="52">Lote</td>
         <td width="51">Recargo</td>
         <td width="48">Lixi.</td>
-        <td width="222">Observaci�n</td>
+        <td width="222">Observaci&oacute;n</td>
       </tr>
       <?php	
 	  $Consulta = "SELECT * from pmn_web.pmn_bad_bitacora";
@@ -223,7 +223,7 @@ if($Buscar=='S')
 	  	  $RetAccion=AccionBitacora($Row["accion"]);	
 		  ?>
 		  <tr align="center" class="TituloCabecera">
-			<td align="left" ><?php echo NomUsuario($Row["rut_realizo"]); ?></td>
+			<td align="left" ><?php echo NomUsuario($Row["rut_realizo"],$link); ?></td>
 			<td align="left"><?php echo $RetAccion; ?>&nbsp;</td>
 			<td align="right"><?php echo $Row["fecha_hora_bita"]; ?>&nbsp;</td>
 			<td align="right" class="TituloCabeceraSalmon"><?php echo $Row["lote"]; ?>&nbsp;</td>
@@ -235,7 +235,7 @@ if($Buscar=='S')
 	  }
 	  ?>
     </table>
-      � </td>
+    </td>
     <td width="1%" background="archivos/images/interior/derecho.png"></td>
   </tr>
   <tr>
@@ -353,7 +353,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	  	  $RetAccion=AccionBitacora($Row["accion"]);	
 		  ?>
       <tr align="center" class="TituloCabecera">
-        <td align="left" ><?php echo NomUsuario($Row["rut_realizo"]); ?></td>
+        <td align="left" ><?php echo NomUsuario($Row["rut_realizo"],$link); ?></td>
         <td align="left"><?php echo $RetAccion; ?>&nbsp;</td>
         <td align="right"><?php echo $Row["fecha_hora_bita"]; ?>&nbsp;</td>
         <td align="right" class="TituloCabeceraSalmon"><?php echo $Row["lote"]; ?>&nbsp;</td>
