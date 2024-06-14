@@ -2,37 +2,12 @@
 include("../principal/conectar_pmn_web.php");	
 include("pmn_funciones.php");
 
-if(isset($_REQUEST["xls"])){
-	$xls = $_REQUEST["xls"];
-}else{
-	$xls = '';
-}
-if(isset($_REQUEST["Mes"])){
-	$Mes = $_REQUEST["Mes"];
-}else{
-	$Mes = date('m');
-}
-if(isset($_REQUEST["Ano"])){
-	$Ano = $_REQUEST["Ano"];
-}else{
-	$Ano = date('Y');
-}
-if(isset($_REQUEST["EmbChk"])){
-	$EmbChk = $_REQUEST["EmbChk"];
-}else{
-	$EmbChk = 'N';
-}
-
-if(isset($_REQUEST["Pag"])){
-	$Pag = $_REQUEST["Pag"];
-}else{
-	$Pag = '';
-}
-if(isset($_REQUEST["Buscar"])){
-	$Buscar = $_REQUEST["Buscar"];
-}else{
-	$Buscar = '';
-}
+$Pag    = isset($_REQUEST["Pag"])?$_REQUEST["Pag"]:"";
+$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+$xls = isset($_REQUEST["xls"])?$_REQUEST["xls"]:"";
+$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date('Y');
+$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date('m');
+$EmbChk = isset($_REQUEST["EmbChk"])?$_REQUEST["EmbChk"]:'N';
 
 
 /**************************************************************************** */
@@ -68,12 +43,6 @@ function Proceso(Proc,Pag)
 .Estilo7 {font-size: 14px}
 </style>
 <?php
-if(!isset($Mes))
-	$MesActual=date('m');
-if(!isset($Ano))
-	$AnoActual=date('Y');
-if(!isset($EmbChk))
-	$EmbChk='N';
 $Chk1='checked="checked"';
 $Chk2='';
 if($EmbChk=='S')
@@ -114,13 +83,13 @@ if($EmbChk=='S')
 						if ($Mes == $i)
 							echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}/*
 					else
 					{
 						if ($i == $MesActual)
 							echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
-					}
+					}*/
 				}
 				?>
           </select>
@@ -172,10 +141,11 @@ if($EmbChk=='S')
 		?>
       </tr>
       <?php	
-	  $FinoTotCu=0;$FinoTotAg=0;$FinoTotAu=0;$TotalFinoCu=0;$TotalFinoAg=0;$TotalFinoAu=0;$Total02=0;
+	  $FinoTotCu=0;$FinoTotAg=0;$FinoTotAu=0;$TotalFinoCu=0;$TotalFinoAg=0;$TotalFinoAu=0;
 	  $Consulta = "select *,t2.fecha_hora as fecha_hora_SA from pmn_web.pmn_pesa_bad_cabecera t1 inner join cal_web.solicitud_analisis t2 on t1.lote=t2.id_muestra  and t2.recargo in('0','') and t2.nro_solicitud is not null";
 	  $Consulta.= " where month(t1.fecha_hora)='".$Mes."'";
-	  $Respuesta = mysqli_query($link,$Consulta);$Total02=0;$Total03=0;$Total04=0;$Total05=0;
+	  $Respuesta = mysqli_query($link,$Consulta);
+	  $Total02=0;$Total03=0;$Total04=0;$Total05=0;
 	  while ($Row = mysqli_fetch_array($Respuesta))
 	  {
 			$Consulta = "select * from pmn_web.pmn_pesa_bad_cabecera t1 inner join pmn_web.pmn_pesa_bad_detalle t2 on t1.lote=t2.lote";
@@ -189,21 +159,37 @@ if($EmbChk=='S')
 				$PesoBruto=$PesoBruto+$Row2["pbruto"];
 				$PesoTara=$PesoTara+$Row2["ptara"];
 			}	
-			$Retorno=ObtenerLeyesH20yCuAgAu($Row["nro_solicitud"],$link);	
+			$nro_solicitud=isset($Row["nro_solicitud"])?$Row["nro_solicitud"]:0;
+			$Retorno=ObtenerLeyesH20yCuAgAu($nro_solicitud,$link);	
 			$Retorno=explode('//',$Retorno);
+			/*
 			$H20=$Retorno[0];
 			$Cu=$Retorno[1];
 			$Ag=$Retorno[2];
 			$Au=$Retorno[3];
+			*/
+			$H20 = isset($Retorno[0])?$Retorno[0]:0;
+			$Cu  = isset($Retorno[1])?$Retorno[1]:0;
+			$Ag  = isset($Retorno[2])?$Retorno[2]:0;
+			$Au  = isset($Retorno[3])?$Retorno[3]:0;
+
 			$ValorSeco=$PesoNeto-($PesoNeto*str_replace(',','.',$H20)/100);
-			
+		    $nro_sa_lims = isset($Row["nro_sa_lims"])?$Row["nro_sa_lims"]:"";			
+			if ($nro_sa_lims=='') {
+				$SA = $nro_solicitud;
+			}else{
+				$SA = $nro_sa_lims;
+			}
+						
+			/*
 				if ($Row["nro_sa_lims"]=='') {
 					$SA = $Row["nro_solicitud"];
 				}else{
 					$SA = $Row["nro_sa_lims"];
 				}
+				*/
 
-			  ?>
+			?>
 			  <tr align="center" class="TituloCabecera">
 				<td align="right" class="TituloCabeceraSalmon"><?php echo $Row["lote"]; ?></td>
 				<td align="right"><?php echo number_format($PesoBruto,2,',',''); ?></td>
@@ -228,11 +214,13 @@ if($EmbChk=='S')
 				foreach ($valores as $c => $v)
 				{
 					$Dato=explode('~',$v);
-					$Datos=ObtenerLeyes2($Row["nro_solicitud"],$Dato[0],$link);
+					$Datos=ObtenerLeyes2($nro_solicitud,$Dato[0],$link);
 					$Datos3=explode('~',$Datos);
+					$Datos30 = isset($Datos3[0])?$Datos3[0]:0;
+					$Datos32 = isset($Datos3[2])?$Datos3[2]:"";
 					?>
-					<td><?php echo number_format($Datos3[0],2,',','');?>&nbsp;</td>
-					<td><?php echo $Datos3[2];?>&nbsp;</td>
+					<td><?php echo number_format($Datos30,2,',','');?>&nbsp;</td>
+					<td><?php echo $Datos32;?>&nbsp;</td>
 					<!--<td><?php //echo $Datos3[1];?>&nbsp;</td>-->
 					<?php
 				}
@@ -340,10 +328,11 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		?>
       </tr>
       <?php	
-	  $FinoTotCu=0;$FinoTotAg=0;$FinoTotAu=0;$TotalFinoCu=0;$TotalFinoAg=0;$TotalFinoAu=0;$Total02=0;
+	  $FinoTotCu=0;$FinoTotAg=0;$FinoTotAu=0;$TotalFinoCu=0;$TotalFinoAg=0;$TotalFinoAu=0;
 	  $Consulta = "select *,t2.fecha_hora as fecha_hora_SA from pmn_web.pmn_pesa_bad_cabecera t1 inner join cal_web.solicitud_analisis t2 on t1.lote=t2.id_muestra  and t2.recargo in('0','') and t2.nro_solicitud is not null";
 	  $Consulta.= " where month(t1.fecha_hora)='".$Mes."'";
-	  $Respuesta = mysqli_query($link,$Consulta);$Total02=0;$Total03=0;$Total04=0;$Total05=0;$Total03=0;
+	  $Respuesta = mysqli_query($link,$Consulta);
+	  $Total02=0;$Total03=0;$Total04=0;$Total05=0;$Total03=0;
 	  while ($Row = mysqli_fetch_array($Respuesta))
 	  {
 			$Consulta = "select * from pmn_web.pmn_pesa_bad_cabecera t1 inner join pmn_web.pmn_pesa_bad_detalle t2 on t1.lote=t2.lote";
@@ -357,12 +346,19 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 				$PesoBruto=$PesoBruto+$Row2["pbruto"];
 				$PesoTara=$PesoTara+$Row2["ptara"];
 			}	
-			$Retorno=ObtenerLeyesH20yCuAgAu($Row["nro_solicitud"],$link);	
+			$nro_solicitud = isset($Row["nro_solicitud"])?$Row["nro_solicitud"]:"";
+			$Retorno=ObtenerLeyesH20yCuAgAu($nro_solicitud,$link);	
 			$Retorno=explode('//',$Retorno);
+			/*
 			$H20=$Retorno[0];
 			$Cu=$Retorno[1];
 			$Ag=$Retorno[2];
 			$Au=$Retorno[3];
+			*/
+			$H20 = isset($Retorno[0])?$Retorno[0]:0;
+			$Cu  = isset($Retorno[1])?$Retorno[1]:0;
+			$Ag  = isset($Retorno[2])?$Retorno[2]:0;
+			$Au  = isset($Retorno[3])?$Retorno[3]:0;
 			$ValorSeco=$PesoNeto-($PesoNeto*str_replace(',','.',$H20)/100);
 				
 				if ($Row["nro_sa_lims"]=='') {
@@ -372,7 +368,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 					$SA = $Row["nro_sa_lims"];
 				 
 				}		
-			  ?>
+		?>
       <tr align="center" class="TituloCabecera">
         <td align="right"><?php echo $Row["lote"]; ?></td>
         <td align="right"><?php echo number_format($PesoBruto,2,',',''); ?></td>
@@ -395,9 +391,11 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 					$Dato=explode('~',$v);
 					$Datos=ObtenerLeyes2($Row["nro_solicitud"],$Dato[0],$link);
 					$Datos3=explode('~',$Datos);
+					$Datos30 = isset($Datos3[0])?$Datos3[0]:0;
+					$Datos32 = isset($Datos3[2])?$Datos3[2]:"";
 					?>
-        <td><?php echo number_format($Datos3[0],2,',','');?>&nbsp;</td>
-        <td><?php echo $Datos3[2];?>&nbsp;</td>
+        <td><?php echo number_format($Datos30,2,',','');?>&nbsp;</td>
+        <td><?php echo $Datos32;?>&nbsp;</td>
         <!--<td><? //echo $Datos3[1];?>&nbsp;</td>-->
         <?php
 				}

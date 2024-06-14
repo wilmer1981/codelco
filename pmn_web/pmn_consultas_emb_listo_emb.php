@@ -2,23 +2,12 @@
 include("../principal/conectar_pmn_web.php");	
 include("pmn_funciones.php");
 
-if(isset($_REQUEST["xls"])){
-	$xls = $_REQUEST["xls"];
-}else{
-	$xls = "";
-}
-
-if(isset($_REQUEST["Ano"])){
-	$Ano = $_REQUEST["Ano"];
-}else{
-	$Ano = date('Y');
-}
-if(isset($_REQUEST["Mes"])){
-	$Mes = $_REQUEST["Mes"];
-}else{
-	$Mes = date('m');
-}
-
+$Pag    = isset($_REQUEST["Pag"])?$_REQUEST["Pag"]:"";
+$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+$xls = isset($_REQUEST["xls"])?$_REQUEST["xls"]:"";
+$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date('Y');
+$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date('m');
+$EmbChk = isset($_REQUEST["EmbChk"])?$_REQUEST["EmbChk"]:'N';
 
 if($xls=='')
 {
@@ -59,21 +48,6 @@ function DetalleLotePMN(Lote,Prod,SubProd)
 
 </style>
 <?php
-/*
-if(!isset($Mes))
-	$MesActual=date('m');
-if(!isset($Ano))
-	$AnoActual=date('Y');
-if(!isset($EmbChk))
-	$EmbChk='N';
-*/
-
-	if(isset($_REQUEST["EmbChk"])){
-		$EmbChk = $_REQUEST["EmbChk"];
-	}else{
-		$EmbChk = 'N';
-	}
-
 $Chk1='checked="checked"';
 $Chk2='';
 if($EmbChk=='S')
@@ -190,12 +164,13 @@ if($EmbChk=='S')
         <td width="72">Lote Camion</td>
       </tr>
       <?php
-	  $FinoTotCu=0;$FinoTotAg=0;$FinoTotAu=0;$TotalFinoCu=0;$TotalFinoAg=0;$TotalFinoAu=0;
-	  $Consulta = "SELECT * from pmn_web.pmn_pesa_bad_cabecera ";
-	  $Consulta.= " where month(fecha_hora)='".$Mes."' group by lote";
-	  $Respuesta = mysqli_query($link, $Consulta);
-	  $Total02=0;
-	  $Total03=0;
+		$Mes = str_pad($Mes,2,'0',STR_PAD_LEFT);
+		$FinoTotCu=0;$FinoTotAg=0;$FinoTotAu=0;$TotalFinoCu=0;$TotalFinoAg=0;$TotalFinoAu=0;
+		$Consulta = "SELECT * from pmn_web.pmn_pesa_bad_cabecera ";
+		$Consulta.= " where month(fecha_hora)='".$Mes."' group by lote";
+		$Respuesta = mysqli_query($link, $Consulta);
+		$Total02=0;
+		$Total03=0;
 
 	    while ($Row = mysqli_fetch_array($Respuesta))
 	    {
@@ -238,26 +213,11 @@ if($EmbChk=='S')
 			if(isset($Retorno) && $Retorno!=""){
 				$Retorno=explode('//',$Retorno);
 				
-				if(isset($Retorno[0])){
-					$H20=$Retorno[0];
-				}else{
-					$H20=0;
-				}
-				if(isset($Retorno[1])){
-					$Cu=$Retorno[1];
-				}else{
-					$Cu=0;
-				}
-				if(isset($Retorno[2])){
-					$Ag=$Retorno[2];
-				}else{
-					$Ag=0;
-				}
-				if(isset($Retorno[3])){
-					$Au=$Retorno[3];
-				}else{
-					$Au=0;
-				}
+				$H20 = isset($Retorno[0])?$Retorno[0]:0;
+				$Cu  = isset($Retorno[1])?$Retorno[1]:0;
+				$Ag  = isset($Retorno[2])?$Retorno[2]:0;
+				$Au  = isset($Retorno[3])?$Retorno[3]:0;
+
 			}else{
 				$H20=0;
 				$Cu=0;
@@ -274,26 +234,34 @@ if($EmbChk=='S')
 			$AuFino=$ValorSeco*str_replace(',','.',$Au)/1000;
 			
 			$SA='SinSA.';
- 
+
 			if(isset($FilaSa["nro_sa_lims"]) && $FilaSa["nro_sa_lims"]=='') {
 				$SA = $FilaSa["nro_solicitud"];
  			}else{
 				if(isset($FilaSa["nro_sa_lims"]))
  				   $SA = $FilaSa["nro_sa_lims"];
 			}
+			/*
+			if ($FilaSa["nro_sa_lims"]=='') {
+				$SA = $FilaSa["nro_solicitud"];
+ 
+			}else{
+ 
+				$SA =$FilaSa["nro_sa_lims"];
+			}*/
 
 			//if($FilaSa["nro_solicitud"]!='')
 				//$SA=$FilaSa["nro_solicitud"];
 			
 			
-			$AuP=$Au/1000;	
+			$AuP=(int)$Au/1000;	
 			if($ValorSeco!=0)
 				$AuP=($AuP*100)/$ValorSeco;
 			$ColorAu="";
 			if($Au < $ValorOro  && $AuP!='0')
 				$ColorAu="#FF0000";
 				
-			$AgP=$Ag/1000;	
+			$AgP=(int)$Ag/1000;	
 			if($ValorSeco!=0)
 				$AgP=($AgP*100)/$ValorSeco;
 			$ColorAg="";
@@ -301,7 +269,7 @@ if($EmbChk=='S')
 				$ColorAg="#FF0000";
 			
 				
-			?>
+		?>
       <tr align="center" class="TituloCabecera">
 
 
@@ -312,9 +280,9 @@ if($EmbChk=='S')
         <td align="right"><?php echo $H20; ?>&nbsp;</td>
         <td align="right"><?php echo $Cu;?>&nbsp;</td>
         <td align="right" style="color:<?php echo $ColorAg;?>;"><?php echo number_format($AgP,2,',','');?>&nbsp;</td>
-        <td align="right"><?php echo number_format($Ag,2,',','');?>&nbsp;</td>
+        <td align="right"><?php echo number_format((float)$Ag,2,',','');?>&nbsp;</td>
         <td align="right" style="color:<?php echo $ColorAu;?>;"><?php echo number_format($AuP,2,',','');?>&nbsp;</td>
-        <td align="right"><?php echo number_format($Au,2,',','');?>&nbsp;</td>
+        <td align="right"><?php echo number_format((float)$Au,2,',','');?>&nbsp;</td>
         <td align="right"><?php echo number_format($CuFino,2,',','');?>&nbsp;</td>
         <td align="right"><?php echo number_format($AGFino,2,',','');?>&nbsp;</td>
         <td align="right"><?php echo number_format($AuFino,2,',','');?>&nbsp;</td>
@@ -588,12 +556,27 @@ header("Content-Type:  application/vnd.ms-excel");
         <td width="72">Lote Camion</td>
       </tr>
       <?php
-	  $FinoTotCu=0;$FinoTotAg=0;$FinoTotAu=0;$TotalFinoCu=0;$TotalFinoAg=0;$TotalFinoAu=0;
-	  $Consulta = "select * from pmn_web.pmn_pesa_bad_cabecera ";
-	  $Consulta.= " where month(fecha_hora)='".$Mes."' group by lote";
-	  $Respuesta = mysqli_query($link, $Consulta);
-	  while ($Row = mysqli_fetch_array($Respuesta))
-	  {
+	  
+		$Consulto="select cod_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase='6000' and cod_subclase in('1','2')";
+		$Resp=mysqli_query($link, $Consulto);	
+		while($Fila=mysqli_fetch_assoc($Resp))
+		{
+			if(strtolower($Fila["cod_subclase"])=='1')	
+				$ValorOro=str_replace('%','',$Fila['valor_subclase1']);
+			if(strtolower($Fila["cod_subclase"])=='2')	
+				$ValorPlata=str_replace('%','',$Fila['valor_subclase1']);
+		}	
+
+		$FinoTotCu=0;$FinoTotAg=0;$FinoTotAu=0;$TotalFinoCu=0;$TotalFinoAg=0;$TotalFinoAu=0;
+		$Consulta = "select * from pmn_web.pmn_pesa_bad_cabecera ";
+		$Consulta.= " where month(fecha_hora)='".$Mes."' group by lote";
+		$Respuesta = mysqli_query($link, $Consulta);
+
+		$Total02=0;
+		$Total03=0;
+		
+		while ($Row = mysqli_fetch_array($Respuesta))
+		{
 			$Consulta = "select * from pmn_web.pmn_pesa_bad_cabecera t1 inner join pmn_web.pmn_pesa_bad_detalle t2 on t1.lote=t2.lote";
 			$Consulta.= " where t1.lote='".$Row["lote"]."'";
 			$Consulta.= " order by t2.lote,t2.recargo";
@@ -619,30 +602,39 @@ header("Content-Type:  application/vnd.ms-excel");
 			$RespSa=mysqli_query($link, "select nro_solicitud, nro_sa_lims from cal_web.solicitud_analisis where id_muestra='".$Row["lote"]."' and recargo='0' and nro_solicitud is not null");
 			//echo "select nro_solicitud from cal_web.solicitud_analisis where id_muestra='".$Row["lote"]."' and recargo='0' and nro_solicitud is not null<br>";
 			$FilaSa=mysqli_fetch_assoc($RespSa);
-			$Retorno=ObtenerLeyesH20yCuAgAu($FilaSa["nro_solicitud"],$link);	
+			if(isset($FilaSa["nro_solicitud"])){
+				$NumSol=$FilaSa["nro_solicitud"];
+			}else{
+				$NumSol=0;
+			}
+			$Retorno=ObtenerLeyesH20yCuAgAu($NumSol,$link);	
 			$Retorno=explode('//',$Retorno);
 			
-			$H20=$Retorno[0];
-			$Cu=$Retorno[1];
-			$Ag=$Retorno[2];
-			$Au=$Retorno[3];
+			$H20=isset($Retorno[0])?$Retorno[0]:0;
+			$Cu=isset($Retorno[1])?$Retorno[1]:0;
+			$Ag=isset($Retorno[2])?$Retorno[2]:0;
+			$Au=isset($Retorno[3])?$Retorno[3]:0;
 
-			$ValorSeco=$PesoHdo-($PesoHdo*str_replace(',','.',$H20)/100);
+			$ValorSeco=$PesoHdo-($PesoHdo * str_replace(',','.',(float)$H20)/100);
 			
-			$CuFino=$ValorSeco*str_replace(',','.',$Cu)/100;
-			$AGFino=$ValorSeco*str_replace(',','.',$Ag)/1000;
-			$AuFino=$ValorSeco*str_replace(',','.',$Au)/1000;
+			$CuFino = $ValorSeco*str_replace(',','.',$Cu)/100;
+			$AGFino = $ValorSeco*str_replace(',','.',$Ag)/1000;
+			$AuFino = $ValorSeco*str_replace(',','.',$Au)/1000;
 			
-			$SA='SinSA.';
- 
+			$SA='SinSA.'; 
 
+			if(isset($FilaSa["nro_sa_lims"]) && $FilaSa["nro_sa_lims"]=='') {
+				$SA = $FilaSa["nro_solicitud"];
+ 			}else{
+				if(isset($FilaSa["nro_sa_lims"]))
+ 				   $SA = $FilaSa["nro_sa_lims"];
+			}
+			/*
 			if ($FilaSa["nro_sa_lims"]=='') {
 				$SA = $FilaSa["nro_solicitud"];
- 
 			}else{
- 
 				$SA =$FilaSa["nro_sa_lims"];
-			}
+			}*/
 			
 			$AuP=$Au/1000;	
 			if($ValorSeco!=0)

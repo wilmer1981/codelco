@@ -1,26 +1,11 @@
 <?php
 	include("../principal/conectar_pmn_web.php");
 
-	if(isset($_REQUEST["xls"])){
-		$xls = $_REQUEST["xls"];
-	}else{
-		$xls = '';
-	}
-	if(isset($_REQUEST["NumLote"])){
-		$NumLote = $_REQUEST["NumLote"];
-	}else{
-		$NumLote = '';
-	}
-	if(isset($_REQUEST["Producto"])){
-		$Producto = $_REQUEST["Producto"];
-	}else{
-		$Producto = '';
-	}
-	if(isset($_REQUEST["SubProducto"])){
-		$SubProducto = $_REQUEST["SubProducto"];
-	}else{
-		$SubProducto = '';
-	}
+	$xls         = isset($_REQUEST["xls"])?$_REQUEST["xls"]:"";
+	$NumLote     = isset($_REQUEST["NumLote"])?$_REQUEST["NumLote"]:"";
+	$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+
 
 	$ArrLeyes = array();
 	if ($Producto=="25" && $SubProducto=="1")//RESCATA BAD
@@ -73,12 +58,7 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-
-/*body {
-	background-image: url(../principal/imagenes/fondo3.gif);
-}*/
 .Estilo7 {font-size: 14px}
-
 </style></head>
 
 <body>
@@ -125,6 +105,7 @@ function Proceso(opt)
 		$i=0;
 		if ($FilaAux = mysqli_fetch_array($RespAux))
 		{
+			$peso_neto_barra = isset($FilaAux["peso_neto_barra"])?$FilaAux["peso_neto_barra"]:0;
 			echo "<tr>\n";	
 			echo "<td align='center' width='200px'>".substr($FilaAux["fecha_embarque"],0,10)."</td>\n";
 			echo "<td align='center'>".$NumLote."</td>";			
@@ -146,14 +127,17 @@ function Proceso(opt)
 			while ($Fila2 = mysqli_fetch_array($Resp2))
 			{
 				$SA = $Fila2["nro_solicitud"];
+				$valor      = isset($Fila2["valor"])?$Fila2["valor"]:0;
+				$conversion = isset($Fila2["conversion"])?$Fila2["conversion"]:0;
 				$ArrLeyes[$Fila2["cod_leyes"]]["cod_leyes"] = $Fila2["cod_leyes"];
 				$ArrLeyes[$Fila2["cod_leyes"]]["valor"] = $Fila2["valor"];
 				$ArrLeyes[$Fila2["cod_leyes"]]["cod_unidad"] = $Fila2["cod_unidad"];
 				$ArrLeyes[$Fila2["cod_leyes"]]["nom_leyes"] = $Fila2["abreviatura"];
 				$ArrLeyes[$Fila2["cod_leyes"]]["conversion"] = $Fila2["conversion"];
 				//ARREGLO TOTALES
+				$ATFilcod_leyes_valor = isset($ArrTotales[$Fila2["cod_leyes"]]["valor"])?$ArrTotales[$Fila2["cod_leyes"]]["valor"]:0;
 				$ArrTotales[$Fila2["cod_leyes"]]["cod_leyes"] = $Fila2["cod_leyes"];
-				$ArrTotales[$Fila2["cod_leyes"]]["valor"] = $ArrTotales[$Fila2["cod_leyes"]]["valor"] + (($Fila2["valor"] * $FilaAux["peso_neto_barra"])/$Fila2["conversion"]);
+				$ArrTotales[$Fila2["cod_leyes"]]["valor"] = $ATFilcod_leyes_valor + (($valor * $peso_neto_barra)/$conversion);
 				$ArrTotales[$Fila2["cod_leyes"]]["cod_unidad"] = $Fila2["cod_unidad"];
 				$ArrTotales[$Fila2["cod_leyes"]]["nom_leyes"] = $Fila2["abreviatura"];
 				$ArrTotales[$Fila2["cod_leyes"]]["conversion"] = $Fila2["conversion"];
@@ -161,7 +145,7 @@ function Proceso(opt)
 			echo "<td align='center'>".substr($SA,4)."</td>";
 			reset($ArrLeyes);
 			//while (list($k,$f)=each($ArrLeyes))
-			foreach ($ArrLeyes as $k => $v)
+			foreach ($ArrLeyes as $k => $f)
 			{			
 				echo "<td align='center'>".number_format($f["valor"],3,",",".")."</td>\n";
 			}							
