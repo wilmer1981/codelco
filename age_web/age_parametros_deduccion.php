@@ -295,7 +295,7 @@ function Habilita(obj,lote,rec)
 
 if ($Mostrar=="S")
 {
-	$Consulta="select t1.cod_recepcion,t1.cod_subproducto,t1.rut_proveedor,t1.cod_leyes,t2.descripcion, nombre_prv,valor1,valor2,valor3,valor4 from age_web.deduc_metalurgicas t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
+	$Consulta="select t1.cod_recepcion,t1.cod_subproducto,t1.rut_proveedor,t1.cod_leyes,t1.cant_param,t1.tipo_formula,t1.formula, t2.descripcion, nombre_prv,valor1,valor2,valor3,valor4 from age_web.deduc_metalurgicas t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 	$Consulta.="left join sipa_web.proveedores t3 on t1.rut_proveedor=t3.rut_prv where t1.cod_recepcion<>'' ";
 	if($CmbRecepcion!='S')
 		$Consulta.="and t1.cod_recepcion='$CmbRecepcion'";
@@ -309,7 +309,8 @@ if ($Mostrar=="S")
 	while($FilaDeduc=mysqli_fetch_array($RespDeduc))
 	{
 		echo "<tr>";
-		$Valores=str_replace(' ','*',$FilaDeduc["cod_recepcion"])."~".$FilaDeduc["cod_subproducto"]."~".$FilaDeduc["rut_proveedor"]."~".$FilaDeduc["cod_leyes"];
+		//$Valores=str_replace(' ','*',$FilaDeduc["cod_recepcion"])."~".$FilaDeduc["cod_subproducto"]."~".$FilaDeduc["rut_proveedor"]."~".$FilaDeduc["cod_leyes"];
+		$Valores=str_replace(' ','*',$FilaDeduc["cod_recepcion"])."~".$FilaDeduc["cod_subproducto"]."~".$FilaDeduc["rut_proveedor"]."~".$FilaDeduc["cod_leyes"]."~".$FilaDeduc["cant_param"]."~".$FilaDeduc["tipo_formula"];
 		echo "<td><input type='radio' name='OptDeduc' onClick=Deduccion('".$Valores."')></td>";
 		echo "<td>".$FilaDeduc["cod_recepcion"]."</td>";
 		echo "<td>".$FilaDeduc["descripcion"]."</td>";

@@ -1,13 +1,15 @@
 <?php 	
 	include("../principal/conectar_principal.php");
-	$Datos  = isset($_REQUEST["Datos"])?$_REQUEST["Datos"]:"";
 
-	$Valores=explode('~',$Datos);
-	$CodAsig=str_replace('*',' ',$Valores[0]);
-	$CodSubProd=$Valores[1];
-	$RutPrv=$Valores[2];
-	$CodLey=$Valores[3];
-	$Consulta="select t1.cod_recepcion,t1.cod_subproducto,t1.rut_proveedor,t1.cod_leyes,t2.descripcion, nombre_prv,valor1,valor2,valor3,valor4,t1.cant_param,t1.formula ";
+	$TProceso  = isset($_REQUEST["TProceso"])?$_REQUEST["TProceso"]:"";
+	$Datos     = isset($_REQUEST["Datos"])?$_REQUEST["Datos"]:"";
+
+	$Valores    = explode('~',$Datos);
+	$CodAsig    = str_replace('*',' ',$Valores[0]);
+	$CodSubProd = $Valores[1];
+	$RutPrv     = $Valores[2];
+	$CodLey     = $Valores[3];
+	$Consulta="select t1.cod_recepcion,t1.cod_subproducto,t1.rut_proveedor,t1.cod_leyes,t2.descripcion, nombre_prv,valor1,valor2,valor3,valor4,t1.cant_param,t1.tipo_formula,t1.formula ";
 	$Consulta.="from age_web.deduc_metalurgicas t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 	$Consulta.="left join sipa_web.proveedores t3 on t1.rut_proveedor=t3.rut_prv where t1.cod_recepcion<>'' ";
 	$Consulta.="and t1.cod_recepcion='$CodAsig'";
@@ -25,8 +27,10 @@
 			$Prv='TODOS';
 		else
 			$Prv=$FilaDeduc["nombre_prv"];
-		$CantP=$FilaDeduc["cant_param"];
-		$Formula=$FilaDeduc["formula"];
+
+		$CantP       = $FilaDeduc["cant_param"];
+		$TipoFormula = $FilaDeduc["tipo_formula"];
+		$Formula     = $FilaDeduc["formula"];
 		switch($CodLey)
 		{
 			case "02":
@@ -81,7 +85,8 @@ function Proceso(tipo)
 			}
 		case "M":
 			var Valores = "";
-			Valores = Frm.Casig.value+"~"+Frm.Cprod.value+"~"+Frm.Cprov.value+"~"+Frm.Cley.value;
+			//Valores = Frm.Casig.value+"~"+Frm.Cprod.value+"~"+Frm.Cprov.value+"~"+Frm.Cley.value;
+			Valores = Frm.Casig.value+"~"+Frm.Cprod.value+"~"+Frm.Cprov.value+"~"+Frm.Cley.value+"~"+Frm.CantP.value+"~"+Frm.TipoFormula.value;
 			Frm.action='age_parametros_deduccion_proceso2.php?TProceso=M&Datos='+Valores;
 			Frm.submit();	
 			break;
@@ -113,6 +118,8 @@ function Salir()
 <input type="hidden" name="Cprod" value="<?php echo $CodSubProd;?>">
 <input type="hidden" name="Cprov" value="<?php echo $RutPrv;?>">
 <input type="hidden" name="Cley" value="<?php echo $CodLey;?>">
+<input type="hidden" name="CantP" value="<?php echo $CantP;?>">
+<input type="hidden" name="TipoFormula" value="<?php echo $TipoFormula;?>">
 
   <table width="600" height="157" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
     <tr>

@@ -1,7 +1,6 @@
 <?php 	
 	include("../principal/conectar_principal.php");
 
-	
 	$TProceso  = isset($_REQUEST["TProceso"])?$_REQUEST["TProceso"]:"";
 	$Busq      = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
 	$Datos     = isset($_REQUEST["Datos"])?$_REQUEST["Datos"]:"";
@@ -19,16 +18,30 @@
 	$TxtValor3 = isset($_REQUEST["TxtValor3"])?$_REQUEST["TxtValor3"]:"";
 	$TxtValor4 = isset($_REQUEST["TxtValor4"])?$_REQUEST["TxtValor4"]:"";
 
-	if(!isset($Valores)){
+	$CodAsig    = isset($_REQUEST["CodAsig"])?$_REQUEST["CodAsig"]:"";
+	$CodSubProd = isset($_REQUEST["CodSubProd"])?$_REQUEST["CodSubProd"]:"";
+	$CodLey     = isset($_REQUEST["CodLey"])?$_REQUEST["CodLey"]:"";
+	$RutPrv     = isset($_REQUEST["RutPrv"])?$_REQUEST["RutPrv"]:"";
+	$CantP      = isset($_REQUEST["CantP"])?$_REQUEST["CantP"]:"";
+	$TipoFormula= isset($_REQUEST["TipoFormula"])?$_REQUEST["TipoFormula"]:"";
+	$Formula    = isset($_REQUEST["Formula"])?$_REQUEST["Formula"]:"";
+
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+
+	//TProceso=M&Datos=MAQ%20ENM~3~T~04~1~1~ROUND(FINOAG*VALOR1)
+    echo "Datos:".$Datos."<br>";
+	if($Valores==""){
 		$Valores = explode('~', $Datos);
 	}
 	if($Valores[0]<>''){
-		$CodAsig=str_replace('*',' ',$Valores[0]);
-		$CodSubProd=$Valores[1];
-		$RutPrv=$Valores[2];
-		$CodLey=$Valores[3];
-	}
-	
+		$CodAsig    = str_replace('*',' ',$Valores[0]);
+		$CodSubProd = $Valores[1];
+		$RutPrv     = $Valores[2];
+		$CodLey     = $Valores[3];
+		$CantP      = $Valores[4];
+		$TipoFormula= $Valores[5];
+		//$Formula    = $Valores[6];
+	}	
 	/*
 	$Valores=explode('~',$Datos);
 	$CodAsig=str_replace('*',' ',$Valores[0]);
@@ -36,7 +49,6 @@
 	$RutPrv    =isset($Valores[2])?$Valores[2]:"";
 	$CodLey    =isset($Valores[3])?$Valores[3]:"";
 	*/
-
 	$Consulta="select t1.cod_recepcion,t1.cod_subproducto,t1.rut_proveedor,t1.cod_leyes,t2.descripcion, nombre_prv,valor1,valor2,valor3,valor4 from age_web.deduc_metalurgicas t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 	$Consulta.="left join sipa_web.proveedores t3 on t1.rut_proveedor=t3.rut_prv where t1.cod_recepcion<>'' ";
 	$Consulta.="and t1.cod_recepcion='$CodAsig'";
@@ -67,10 +79,8 @@
 		$TxtValor1=$FilaDeduc["valor1"];
 		$TxtValor2=$FilaDeduc["valor2"];
 		$TxtValor3=$FilaDeduc["valor3"];
-		$TxtValor4=$FilaDeduc["valor4"];
-	
-	}
-	
+		$TxtValor4=$FilaDeduc["valor4"];	
+	}	
 ?>
 <html>
 <head>
@@ -166,7 +176,7 @@ function Grabar()
 	}
 	if (Frm.TipoProc.value=="M")
 		Frm.action='age_parametros_deduccion01.php?Proceso=M&Formula='+Frm.CmbTipoF.options[Frm.CmbTipoF.selectedIndex].text;
-		else
+	else
 		Frm.action='age_parametros_deduccion01.php?Proceso=N&Formula='+Frm.CmbTipoF.options[Frm.CmbTipoF.selectedIndex].text;
 	Frm.submit();
 }
@@ -307,7 +317,8 @@ function Salir()
 			<td colspan="3"  align="left"><select name="CmbCantP" onChange="Proceso('P')">
               <option class="NoSelec" value="S">Seleccionar</option>
 			  <?php
-			  	switch($CmbCantP)
+			  	//switch($CmbCantP)
+				switch($CantP)
 				{
 					case "1":
 						echo "<option value='1' selected>1</option>";
@@ -355,14 +366,23 @@ function Salir()
              <?php 
 				$Consulta = "select formula,tipo_formula ";
 				$Consulta.= " from age_web.deduc_metalurgicas ";
-				$Consulta.= " where cant_param='".$CmbCantP."' group by cant_param,cod_leyes,tipo_formula order by tipo_formula";
+				$Consulta.= " where cant_param='".$CantP."' group by cant_param,cod_leyes,tipo_formula order by tipo_formula";
 				$Resp = mysqli_query($link, $Consulta);
+				echo $Consulta;
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
-					if ($CmbTipoF == $Fila["tipo_formula"])
-						echo "<option selected value='".$Fila["tipo_formula"]."'>".$Fila["formula"]."</option>";
-					else
-						echo "<option value='".$Fila["tipo_formula"]."'>".$Fila["formula"]."</option>";
+					if ($TProceso=="M"){
+						if ($TipoFormula == $Fila["tipo_formula"])
+							echo "<option selected value='".$Fila["tipo_formula"]."'>".$Fila["formula"]."</option>";
+						else
+							echo "<option value='".$Fila["tipo_formula"]."'>".$Fila["formula"]."</option>";
+					}else{
+						if ($CmbTipoF == $Fila["tipo_formula"])
+							echo "<option selected value='".$Fila["tipo_formula"]."'>".$Fila["formula"]."</option>";
+						else
+							echo "<option value='".$Fila["tipo_formula"]."'>".$Fila["formula"]."</option>";
+
+					}
 				}				
 			 ?>
             </select><?php //echo $Consulta;?></td>
@@ -377,16 +397,17 @@ function Salir()
 			$Resp = mysqli_query($link, $Consulta);
 			while ($Fila = mysqli_fetch_array($Resp))
 			{
-				if ($CmbLey == $Fila["cod_leyes"])
-					echo "<option selected value='".$Fila["cod_leyes"]."'>".$Fila["abreviatura"]."</option>";
-				else
-					echo "<option value='".$Fila["cod_leyes"]."'>".$Fila["abreviatura"]."</option>";
-				if ($TProceso=="M")
-				{
+				if ($TProceso=="M"){
 					if ($CodLey == $Fila["cod_leyes"])
 						echo "<option selected value='".$Fila["cod_leyes"]."'>".$Fila["abreviatura"]."</option>";
 					else
 						echo "<option value='".$Fila["cod_leyes"]."'>".$Fila["abreviatura"]."</option>";
+				}else{
+					if ($CmbLey == $Fila["cod_leyes"])
+					echo "<option selected value='".$Fila["cod_leyes"]."'>".$Fila["abreviatura"]."</option>";
+					else
+					echo "<option value='".$Fila["cod_leyes"]."'>".$Fila["abreviatura"]."</option>";
+
 				}
 			}			
 			?>
