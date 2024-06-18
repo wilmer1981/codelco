@@ -1,4 +1,4 @@
-<?phpphp
+<?php
 
 //require_once 'PEAR.php';
 require_once 'oleread.inc';

@@ -15,7 +15,6 @@
 	$TxtLoteIni = isset($_REQUEST['TxtLoteIni']) ? $_REQUEST['TxtLoteIni'] : '';
 	$TxtLoteFin = isset($_REQUEST['TxtLoteFin']) ? $_REQUEST['TxtLoteFin'] : '';
 
-
 	$ContReg = isset($_REQUEST['ContReg']) ? $_REQUEST['ContReg'] : 0;
 	$TotPesoBr = isset($_REQUEST['TotPesoBr']) ? $_REQUEST['TotPesoBr'] : 0;
 	$TotPesoBrAnt = isset($_REQUEST['TotPesoBrAnt']) ? $_REQUEST['TotPesoBrAnt'] : 0;
@@ -29,10 +28,9 @@
 	$TotPesoNtAntSubProd = isset($_REQUEST['TotPesoNtAntSubProd']) ? $_REQUEST['TotPesoNtAntSubProd'] : 0;
 	$RegSubProd = isset($_REQUEST['RegSubProd']) ? $_REQUEST['RegSubProd'] : 0;
 
-	$Coincidencias = isset($_REQUEST['Coincidencias']) ? $_REQUEST['Coincidencias'] : '';
+	//$Coincidencias = isset($_REQUEST['Coincidencias']) ? $_REQUEST['Coincidencias'] : '';
 
-	$Fila2 = isset($_REQUEST['Fila2']) ? $_REQUEST['Fila2'] : '';
-	
+	//$Fila2 = isset($_REQUEST['Fila2']) ? $_REQUEST['Fila2'] : '';	
 
 	$ArrLeyes = array();
 	$Consulta = "select * from proyecto_modernizacion.leyes ";
@@ -350,7 +348,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <td width="4%">Aut</td>
             </tr>
 <?php	
-if ($TipoCon!="")	
+if (isset($TipoCon) && $TipoCon!="")
 {
 	$Consulta = "select t2.fecha_recepcion, t2.corr, t2.lote, t2.recargo, t2.fin_lote, t5.nombre_prv as nom_proveedor, ";
 	$Consulta.= " t1.cod_producto, t1.cod_subproducto, t2.peso_bruto, t2.peso_tara, t2.peso_neto, t2.guia_despacho, ";
@@ -471,8 +469,9 @@ if ($TipoCon!="")
 				$Impurezas = substr($Impurezas,2);
 			}
 		}			
-		//NOMBRE_PROV			
-		if ($Fila2["nom_proveedor"]=="")
+		//NOMBRE_PROV	
+		$nom_proveedor = isset($Fila2["nom_proveedor"])?$Fila2["nom_proveedor"]:"";			
+		if ($nom_proveedor=="")
 			$NomProv = $Fila["nom_proveedor"];
 		else
 			$NomProv = $Fila["rut_proveedor"];
@@ -646,8 +645,8 @@ function EscribeSubTotal($Opt, $NomProd, $NomRut, $PesoBr, $PesoTr, $PesoNt, $Re
             </tr>
 		</table>	
 <?php
-	if ($Coincidencias>$LimitFin)			
-	{
+	//if ($Coincidencias>$LimitFin)			
+	//{
 ?>	<br>	
 <table width="377"  border="1" cellpadding="2" cellspacing="0" class="TablaDetalle">
   <tr class="ColorTabla01">
@@ -665,11 +664,11 @@ function EscribeSubTotal($Opt, $NomProd, $NomRut, $PesoBr, $PesoTr, $PesoNt, $Re
 		</table>
 <br>
 <?php
-	}
+	//}
 ?>			
         	              
 <?php
-if ($TipoCon!="")
+if (isset($TipoCon))
 {
 	if ($Coincidencias > $LimitFin)
 	{

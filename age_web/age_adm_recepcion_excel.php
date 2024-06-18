@@ -2,6 +2,7 @@
 	        ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -21,16 +22,30 @@
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=11;
 	include("../principal/conectar_principal.php");
-	if (!isset($TxtFechaIni))
-		$TxtFechaIni = date("Y-m-d");
-	if (!isset($TxtFechaFin))
-		$TxtFechaFin = date("Y-m-d");
-	if (!isset($LimitIni))
-		$LimitIni=0;
-	if (!isset($LimitFin))
-		$LimitFin=999;	
-	if (!isset($CmbAutorizado))
-		$CmbAutorizado="T";
+	$TipoCon = isset($_REQUEST['TipoCon']) ? $_REQUEST['TipoCon'] : '';
+	$Orden = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$TxtFechaIni = isset($_REQUEST['TxtFechaIni']) ? $_REQUEST['TxtFechaIni'] : date("Y-m-d");
+	$TxtFechaFin = isset($_REQUEST['TxtFechaFin']) ? $_REQUEST['TxtFechaFin'] : date("Y-m-d");
+
+	$LimitIni = isset($_REQUEST['LimitIni']) ? $_REQUEST['LimitIni'] : 0;
+	$LimitFin = isset($_REQUEST['LimitFin']) ? $_REQUEST['LimitFin'] : 999;
+	$CmbAutorizado = isset($_REQUEST['CmbAutorizado']) ? $_REQUEST['CmbAutorizado'] : 'T';
+	$TxtLoteIni = isset($_REQUEST['TxtLoteIni']) ? $_REQUEST['TxtLoteIni'] : '';
+	$TxtLoteFin = isset($_REQUEST['TxtLoteFin']) ? $_REQUEST['TxtLoteFin'] : '';
+
+	$ContReg = isset($_REQUEST['ContReg']) ? $_REQUEST['ContReg'] : 0;
+	$TotPesoBr = isset($_REQUEST['TotPesoBr']) ? $_REQUEST['TotPesoBr'] : 0;
+	$TotPesoBrAnt = isset($_REQUEST['TotPesoBrAnt']) ? $_REQUEST['TotPesoBrAnt'] : 0;
+	$TotPesoTr = isset($_REQUEST['TotPesoTr']) ? $_REQUEST['TotPesoTr'] : 0;
+	$TotPesoTrAnt = isset($_REQUEST['TotPesoTrAnt']) ? $_REQUEST['TotPesoTrAnt'] : 0;
+	$TotPesoNt = isset($_REQUEST['TotPesoNt']) ? $_REQUEST['TotPesoNt'] : 0;
+	$TotPesoNtAnt = isset($_REQUEST['TotPesoNtAnt']) ? $_REQUEST['TotPesoNtAnt'] : 0;
+	$LimitFinAnt = isset($_REQUEST['LimitFinAnt']) ? $_REQUEST['LimitFinAnt'] : 0;
+	$TotPesoBrAntSubProd = isset($_REQUEST['TotPesoBrAntSubProd']) ? $_REQUEST['TotPesoBrAntSubProd'] : 0;
+	$TotPesoTrAntSubProd = isset($_REQUEST['TotPesoTrAntSubProd']) ? $_REQUEST['TotPesoTrAntSubProd'] : 0;
+	$TotPesoNtAntSubProd = isset($_REQUEST['TotPesoNtAntSubProd']) ? $_REQUEST['TotPesoNtAntSubProd'] : 0;
+	$RegSubProd = isset($_REQUEST['RegSubProd']) ? $_REQUEST['RegSubProd'] : 0;
 ?>
 <html>
 <head>
@@ -135,20 +150,20 @@ if (isset($TipoCon) && $TipoCon!="")
 			if (($ProdAnt!="" && $SubProdAnt!="") && ($ProdAnt!=$Fila["cod_producto"] || $SubProdAnt!=$Fila["cod_subproducto"]))
 			{
 				if ($RutAnt!=$Fila["rut_proveedor"])
-					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, &$TotPesoBrAnt, &$TotPesoTrAnt, &$TotPesoNtAnt, &$Reg);
-				EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, &$TotPesoBrAntSubProd, &$TotPesoTrAntSubProd, &$TotPesoNtAntSubProd, &$RegSubProd);
+					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, $TotPesoBrAnt, $TotPesoTrAnt, $TotPesoNtAnt, $Reg);
+				EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, $TotPesoBrAntSubProd, $TotPesoTrAntSubProd, $TotPesoNtAntSubProd, $RegSubProd);
 			}
 			else
 			{
 				if (($ProdAnt!="" && $SubProdAnt!="" && $RutAnt!="") && 
 				($ProdAnt==$Fila["cod_producto"] && $SubProdAnt==$Fila["cod_subproducto"] && $RutAnt!=$Fila["rut_proveedor"]))
 				{
-					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, &$TotPesoBrAnt, &$TotPesoTrAnt, &$TotPesoNtAnt, &$Reg);
+					EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, $TotPesoBrAnt, $TotPesoTrAnt, $TotPesoNtAnt, $Reg);
 				}
 			}
 		}
 		//NOMBRE_PROV			
-		if ($Fila2["nom_proveedor"]=="")
+		if ($Fila["nom_proveedor"]=="")
 			$NomProv = $Fila["nom_proveedor"];
 		else
 			$NomProv = $Fila["rut_proveedor"];
@@ -200,8 +215,8 @@ if (isset($TipoCon) && $TipoCon!="")
 	}
 	if ($Orden=="T")
 	{
-		EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, &$TotPesoBrAnt, &$TotPesoTrAnt, &$TotPesoNtAnt, &$Reg);
-		EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, &$TotPesoBrAntSubProd, &$TotPesoTrAntSubProd, &$TotPesoNtAntSubProd, &$RegSubProd);
+		EscribeSubTotal("R", $NomProdAnt, $NomRutAnt, $TotPesoBrAnt, $TotPesoTrAnt, $TotPesoNtAnt, $Reg);
+		EscribeSubTotal("P", $NomProdAnt, $NomRutAnt, $TotPesoBrAntSubProd, $TotPesoTrAntSubProd, $TotPesoNtAntSubProd, $RegSubProd);
 	}
 	//TOTAL POR CONSULTA
 	$Consulta = "select sum(t2.peso_bruto) as peso_bruto, sum(t2.peso_tara) as peso_tara, sum(t2.peso_neto) as peso_neto ";
