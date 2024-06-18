@@ -3,7 +3,7 @@
 	$CodigoDePantalla=3;
 	include("../principal/conectar_principal.php");
 
-	$TipoProg = isset($_REQUEST['TipoProg']) ? $_REQUEST['TipoProg'] : '';
+	$TipoProg       = isset($_REQUEST['TipoProg']) ? $_REQUEST['TipoProg'] : '';
 	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
 	$CmbContrato = isset($_REQUEST['CmbContrato']) ? $_REQUEST['CmbContrato'] : '';
 	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';	

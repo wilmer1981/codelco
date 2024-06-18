@@ -92,7 +92,7 @@ function Proceso(opt)
 			f.submit();
 			break;
 		case "E":
-			var msg=confirm("¿eguro que  desea Eliminar Este Contrato Se Eliminaran Todos los Proveedores Ya Ingresados?");
+			var msg=confirm("¿Seguro que  desea Eliminar Este Contrato Se Eliminaran Todos los Proveedores Ya Ingresados?");
 			if (msg==true)
 			{
 				f.action = "age_programa_recepcion01.php?Proceso=EC";
