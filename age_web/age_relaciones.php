@@ -3,28 +3,21 @@
 	$CodigoDePantalla = 22;
 	include("../principal/conectar_principal.php");	
 
-	$Mostrar = isset($_REQUEST['Mostrar']) ? $_REQUEST['Mostrar'] : '';
+	$Mostrar  = isset($_REQUEST['Mostrar']) ? $_REQUEST['Mostrar'] : '';
 	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
 	$TipoBusqueda = isset($_REQUEST['TipoBusqueda']) ? $_REQUEST['TipoBusqueda'] : '';
-	$SubProducto = isset($_REQUEST['SubProducto']) ? $_REQUEST['SubProducto'] : '';
-	$Busq = isset($_REQUEST['Busq']) ? $_REQUEST['Busq'] : '';
-	$Proveedor = isset($_REQUEST['Proveedor']) ? $_REQUEST['Proveedor'] : '';
-	$Flujos = isset($_REQUEST['Flujos']) ? $_REQUEST['Flujos'] : '';
-	$Orden = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
-	$Cont = isset($_REQUEST['Cont']) ? $_REQUEST['Cont'] : '';
+	$SubProducto  = isset($_REQUEST['SubProducto']) ? $_REQUEST['SubProducto'] : '';
+	$Busq         = isset($_REQUEST['Busq']) ? $_REQUEST['Busq'] : '';
+	$Proveedor    = isset($_REQUEST['Proveedor']) ? $_REQUEST['Proveedor'] : '';
+	$Flujos   = isset($_REQUEST['Flujos']) ? $_REQUEST['Flujos'] : '';
+	$Orden    = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
+	$Cont     = isset($_REQUEST['Cont']) ? $_REQUEST['Cont'] : '';
 	$ChkOrden = isset($_REQUEST['ChkOrden']) ? $_REQUEST['ChkOrden'] : 'R';
 	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : '';
 
 	$ChkTipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
-	$TipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
-/*
-	if (!isset($ChkTipoFlujo))
-	{
-		$ChkTipoFlujo="RAM";
-		$TipoFlujo="RAM";
-	}
-	if (!isset($ChkOrden))
-		$ChkOrden="R";*/
+	$TipoFlujo    = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
+
 ?>
 <html>
 <head>
@@ -165,7 +158,7 @@ function Eliminar()
 	}
 	else
 	{
-		var msg = confirm("�Esta Seguro de Eliminar este registro?");
+		var msg = confirm("¿Esta Seguro de Eliminar este registro?");
 		if (msg==true)
 		{
 			f.action="age_relaciones01.php?Orden=<?php echo $Orden; ?>&Proceso=E&Valores="+Valores;					

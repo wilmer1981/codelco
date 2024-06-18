@@ -8,8 +8,11 @@
 	$TxtCodLeyes = isset($_REQUEST['TxtCodLeyes']) ? $_REQUEST['TxtCodLeyes'] : '';
 	$TxtCodImpurezas = isset($_REQUEST['TxtCodImpurezas']) ? $_REQUEST['TxtCodImpurezas'] : '';
 	$TipoBusq        = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
+	$TipoBusqueda    = isset($_REQUEST['TipoBusqueda']) ? $_REQUEST['TipoBusqueda'] : '';
 	$Proveedor       = isset($_REQUEST['Proveedor']) ? $_REQUEST['Proveedor'] : '';
 	$ChkTipoFlujo    = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : '';
+	$TipoFlujo       = isset($_REQUEST['TipoFlujo']) ? $_REQUEST['TipoFlujo'] : '';
+	$Orden           = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
 	$Valores         = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
 
 	switch ($Proceso)
@@ -50,7 +53,7 @@
 				
 				
 			}
-			exit();
+			//exit();
 			echo "<script language='JavaScript'>";
 			echo " window.opener.document.frmPrincipal.action = 'age_relaciones.php?TipoBusq=".$TipoBusq."&Mostrar=S&SubProducto=".$SubProducto."&Proveedor=".$Proveedor."&Flujos=".$Flujos."&ChkTipoFlujo=".$ChkTipoFlujo."&TipoFlujo=".$ChkTipoFlujo."';";
 			echo " window.opener.document.frmPrincipal.submit();";

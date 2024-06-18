@@ -35,12 +35,7 @@
 
 	$ChkTipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
 	$TipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
-/*
-	if (!isset($ChkTipoFlujo))
-	{
-		$ChkTipoFlujo="RAM";
-		$TipoFlujo="RAM";
-	}*/
+
 ?>
 <html>
 <head>
