@@ -96,10 +96,11 @@ $TxtDescripcion = isset($_REQUEST['TxtDescripcion']) ? $_REQUEST['TxtDescripcion
 						echo "</tr>\n";
 						break;
 					case "4"://MINA
+						$NOMPRV_A = isset($Fila["NOMPRV_A"])?$Fila["NOMPRV_A"]:"";
 						echo "<tr onMouseOver=\"CCA(this,'CL01')\" onMouseOut=\"CCA(this,'CL02')\">\n";
 						echo "<td align='center'>".$Fila["cod_mina"]."</td>\n";
 						echo "<td align='left'>".$Fila["nombre_mina"]."</td>\n";
-						echo "<td align='center'>".$Fila["rut_prv"]." - ".$Fila["NOMPRV_A"]."</td>\n";
+						echo "<td align='center'>".$Fila["rut_prv"]." - ".$NOMPRV_A."</td>\n";
 						echo "<td align='left'>".$Fila["sierra"]."</td>\n";
 						echo "<td align='left'>".$Fila["comuna"]."</td>\n";
 						echo "<td align='center'>".$Fila["fecha_padron"]."</td>\n";
