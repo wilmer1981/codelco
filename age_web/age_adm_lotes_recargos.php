@@ -1,5 +1,30 @@
 <?php
 	include("../principal/conectar_principal.php"); 
+	$Proc        = isset($_REQUEST['Proc']) ? $_REQUEST['Proc'] : '';
+	$EstOpe      = isset($_REQUEST['EstOpe']) ? $_REQUEST['EstOpe'] : '';
+	$TxtLote     = isset($_REQUEST['TxtLote']) ? $_REQUEST['TxtLote'] : '';
+	$NewRec      = isset($_REQUEST['NewRec']) ? $_REQUEST['NewRec'] : '';
+	$EstadoInput = isset($_REQUEST['EstadoInput']) ? $_REQUEST['EstadoInput'] : '';
+	$TxtRecargo  = isset($_REQUEST['TxtRecargo']) ? $_REQUEST['TxtRecargo'] : '';
+	$TipoConsulta = isset($_REQUEST['TipoConsulta']) ? $_REQUEST['TipoConsulta'] : '';
+	$CmbHoraEnt   = isset($_REQUEST['CmbHoraEnt']) ? $_REQUEST['CmbHoraEnt'] : '';
+	$CmbMinEnt    = isset($_REQUEST['CmbMinEnt']) ? $_REQUEST['CmbMinEnt'] : '';
+	$CmbMinSal    = isset($_REQUEST['CmbMinSal']) ? $_REQUEST['CmbMinSal'] : '';
+	$CmbHoraSal   = isset($_REQUEST['CmbHoraSal']) ? $_REQUEST['CmbHoraSal'] : '';
+	$CmbEstadoRecargo = isset($_REQUEST['CmbEstadoRecargo']) ? $_REQUEST['CmbEstadoRecargo'] : '';
+	
+	$ChkAutorizado  = isset($_REQUEST['ChkAutorizado']) ? $_REQUEST['ChkAutorizado'] : '';
+    $ChkFinLote	    = isset($_REQUEST['ChkFinLote']) ? $_REQUEST['ChkFinLote'] : '';
+	$Mensaje        = isset($_REQUEST['Mensaje']) ? $_REQUEST['Mensaje'] : '';
+	$TxtFechaRecep  = isset($_REQUEST['TxtFechaRecep']) ? $_REQUEST['TxtFechaRecep'] : '';
+	$TxtFolio       = isset($_REQUEST['TxtFolio']) ? $_REQUEST['TxtFolio'] : '';
+	$TxtCorrelativo = isset($_REQUEST['TxtCorrelativo']) ? $_REQUEST['TxtCorrelativo'] : '';
+	$TxtGuia        = isset($_REQUEST['TxtGuia']) ? $_REQUEST['TxtGuia'] : '';
+	$TxtPatente     = isset($_REQUEST['TxtPatente']) ? $_REQUEST['TxtPatente'] : '';
+	$TxtPesoBruto   = isset($_REQUEST['TxtPesoBruto']) ? $_REQUEST['TxtPesoBruto'] : '';
+	$TxtPesoTara    = isset($_REQUEST['TxtPesoTara']) ? $_REQUEST['TxtPesoTara'] : '';
+	$TxtPesoNeto    = isset($_REQUEST['TxtPesoNeto']) ? $_REQUEST['TxtPesoNeto'] : '';
+	
 	if ($Proc == "M")
 	{
 		$EstadoInput = "readonly";

@@ -1,5 +1,36 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso = isset($_REQUEST['Proceso']) ? $_REQUEST['Proceso'] : '';
+	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo']) ? $_REQUEST['TxtLoteRemuestreo'] : '';
+	$TxtLote = isset($_REQUEST['TxtLote']) ? $_REQUEST['TxtLote'] : '';
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$CmbCodFaena = isset($_REQUEST['CmbCodFaena']) ? $_REQUEST['CmbCodFaena'] : '';
+	$CmbCodRecepcion = isset($_REQUEST['CmbCodRecepcion']) ? $_REQUEST['CmbCodRecepcion'] : '';
+	$CmbClaseProducto = isset($_REQUEST['CmbClaseProducto']) ? $_REQUEST['CmbClaseProducto'] : '';
+	$TxtConjunto = isset($_REQUEST['TxtConjunto']) ? $_REQUEST['TxtConjunto'] : '';
+	$CmbCodRecepcionENM = isset($_REQUEST['CmbCodRecepcionENM']) ? $_REQUEST['CmbCodRecepcionENM'] : '';
+	$TxtMuestraParalela = isset($_REQUEST['TxtMuestraParalela']) ? $_REQUEST['TxtMuestraParalela'] : '';
+	$CmbEstadoLote = isset($_REQUEST['CmbEstadoLote']) ? $_REQUEST['CmbEstadoLote'] : '';	
+	$TxtRecargo   = isset($_REQUEST['TxtRecargo']) ? $_REQUEST['TxtRecargo'] : '';
+	
+	$ChkAutorizado  = isset($_REQUEST['ChkAutorizado']) ? $_REQUEST['ChkAutorizado'] : '';
+    $ChkFinLote	    = isset($_REQUEST['ChkFinLote']) ? $_REQUEST['ChkFinLote'] : '';
+	$Mensaje        = isset($_REQUEST['Mensaje']) ? $_REQUEST['Mensaje'] : '';
+	$TxtFechaRecep  = isset($_REQUEST['TxtFechaRecep']) ? $_REQUEST['TxtFechaRecep'] : '';
+	$TxtFolio       = isset($_REQUEST['TxtFolio']) ? $_REQUEST['TxtFolio'] : '';
+	$TxtCorrelativo = isset($_REQUEST['TxtCorrelativo']) ? $_REQUEST['TxtCorrelativo'] : '';
+	$TxtGuia        = isset($_REQUEST['TxtGuia']) ? $_REQUEST['TxtGuia'] : '';
+	$TxtPatente     = isset($_REQUEST['TxtPatente']) ? $_REQUEST['TxtPatente'] : '';
+	$TxtPesoBruto   = isset($_REQUEST['TxtPesoBruto']) ? $_REQUEST['TxtPesoBruto'] : '';
+	$TxtPesoTara    = isset($_REQUEST['TxtPesoTara']) ? $_REQUEST['TxtPesoTara'] : '';
+	$TxtPesoNeto    = isset($_REQUEST['TxtPesoNeto']) ? $_REQUEST['TxtPesoNeto'] : '';
+    $CmbEstadoRecargo = isset($_REQUEST['CmbEstadoRecargo']) ? $_REQUEST['CmbEstadoRecargo'] : '';
+	$CmbHoraEnt   = isset($_REQUEST['CmbHoraEnt']) ? $_REQUEST['CmbHoraEnt'] : '';
+	$CmbHoraSal   = isset($_REQUEST['CmbHoraSal']) ? $_REQUEST['CmbHoraSal'] : '';
+	$CmbMinEnt    = isset($_REQUEST['CmbMinEnt']) ? $_REQUEST['CmbMinEnt'] : '';
+	$CmbMinSal    = isset($_REQUEST['CmbMinSal']) ? $_REQUEST['CmbMinSal'] : '';
+
 	switch ($Proceso)
 	{		
 		case "ML": //MODIFICA LOTE
@@ -102,7 +133,7 @@
 			$Insertar.= " '".$HoraSalida."', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
 			$Insertar.= " '".$TxtPatente."', '".$ChkAutorizado."', '".$CmbEstadoRecargo."','S')";
 			mysqli_query ($link, $Insertar);	
-			if (mysql_errno($link)==0)
+			if (mysqli_errno($link)==0)
 			{
 				$EstOpe = "S";
 				$Mensaje = "Operacion Realizada";
@@ -110,8 +141,8 @@
 			else
 			{
 				$EstOpe = "N";
-				$Mensaje = "Error ".mysql_errno($link);
-				$Mensaje.= ", ".mysql_error($link)."<br>";
+				$Mensaje = "Error ".mysqli_errno($link);
+				$Mensaje.= ", ".mysqli_error($link)."<br>";
 			}	
 			//INSERTA EN  SIPA_WEB.RECEPCIONES
 			$control=0;
@@ -187,7 +218,7 @@
 				$Actualizar1.=" patente ='".$TxtPatente."' "; 
 				$Actualizar1.= " where lote='".$TxtLote."' and recargo='".$TxtRecargo."'";
 				mysqli_query($link, $Actualizar1);
-				if (mysql_errno($link)==0)
+				if (mysqli_errno($link)==0)
 				{
 					$EstOpe = "S";
 					$Mensaje = "Operacion Realizada";
@@ -195,8 +226,8 @@
 				else
 				{
 					$EstOpe = "N";
-					$Mensaje.= "Error ".mysql_errno($link);
-					$Mensaje.= ", ".mysql_error($link);
+					$Mensaje.= "Error ".mysqli_errno($link);
+					$Mensaje.= ", ".mysqli_error($link);
 				}					
 					
 				//ACTUALIZA ESTADO DEL LOTE SEGUN RECARGOS

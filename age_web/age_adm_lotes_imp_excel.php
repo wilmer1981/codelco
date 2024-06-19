@@ -1,25 +1,59 @@
 <?php	
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
-	if (isset($TxtLote))
+
+	$EstOpe      = isset($_REQUEST['EstOpe']) ? $_REQUEST['EstOpe'] : '';
+	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo']) ? $_REQUEST['TxtLoteRemuestreo'] : '';
+	$TxtLote = isset($_REQUEST['TxtLote']) ? $_REQUEST['TxtLote'] : '';
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$CmbCodFaena = isset($_REQUEST['CmbCodFaena']) ? $_REQUEST['CmbCodFaena'] : '';
+	$CmbCodRecepcion = isset($_REQUEST['CmbCodRecepcion']) ? $_REQUEST['CmbCodRecepcion'] : '';
+	$CmbClaseProducto = isset($_REQUEST['CmbClaseProducto']) ? $_REQUEST['CmbClaseProducto'] : '';
+	$TxtConjunto = isset($_REQUEST['TxtConjunto']) ? $_REQUEST['TxtConjunto'] : '';
+	$CmbCodRecepcionENM = isset($_REQUEST['CmbCodRecepcionENM']) ? $_REQUEST['CmbCodRecepcionENM'] : '';
+	$TxtMuestraParalela = isset($_REQUEST['TxtMuestraParalela']) ? $_REQUEST['TxtMuestraParalela'] : '';
+	$CmbEstadoLote = isset($_REQUEST['CmbEstadoLote']) ? $_REQUEST['CmbEstadoLote'] : '';	
+	$TxtRecargo   = isset($_REQUEST['TxtRecargo']) ? $_REQUEST['TxtRecargo'] : '';
+	
+	$ChkAutorizado  = isset($_REQUEST['ChkAutorizado']) ? $_REQUEST['ChkAutorizado'] : '';
+    $ChkFinLote	    = isset($_REQUEST['ChkFinLote']) ? $_REQUEST['ChkFinLote'] : '';
+	$Mensaje        = isset($_REQUEST['Mensaje']) ? $_REQUEST['Mensaje'] : '';
+	$TxtFechaRecep  = isset($_REQUEST['TxtFechaRecep']) ? $_REQUEST['TxtFechaRecep'] : '';
+	$TxtFolio       = isset($_REQUEST['TxtFolio']) ? $_REQUEST['TxtFolio'] : '';
+	$TxtCorrelativo = isset($_REQUEST['TxtCorrelativo']) ? $_REQUEST['TxtCorrelativo'] : '';
+	$TxtGuia        = isset($_REQUEST['TxtGuia']) ? $_REQUEST['TxtGuia'] : '';
+	$TxtPatente     = isset($_REQUEST['TxtPatente']) ? $_REQUEST['TxtPatente'] : '';
+	$TxtPesoBruto   = isset($_REQUEST['TxtPesoBruto']) ? $_REQUEST['TxtPesoBruto'] : '';
+	$TxtPesoTara    = isset($_REQUEST['TxtPesoTara']) ? $_REQUEST['TxtPesoTara'] : '';
+	$TxtPesoNeto    = isset($_REQUEST['TxtPesoNeto']) ? $_REQUEST['TxtPesoNeto'] : '';
+    $CmbEstadoRecargo = isset($_REQUEST['CmbEstadoRecargo']) ? $_REQUEST['CmbEstadoRecargo'] : '';
+	$CmbHoraEnt   = isset($_REQUEST['CmbHoraEnt']) ? $_REQUEST['CmbHoraEnt'] : '';
+	$CmbHoraSal   = isset($_REQUEST['CmbHoraSal']) ? $_REQUEST['CmbHoraSal'] : '';
+	$CmbMinEnt    = isset($_REQUEST['CmbMinEnt']) ? $_REQUEST['CmbMinEnt'] : '';
+	$CmbMinSal    = isset($_REQUEST['CmbMinSal']) ? $_REQUEST['CmbMinSal'] : '';
+	$Orden        = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
+
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta = "select * ";

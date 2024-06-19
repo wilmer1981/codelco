@@ -2,7 +2,38 @@
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=12;
 	include("../principal/conectar_principal.php");
-	if (isset($TxtLote))
+	$EstOpe = isset($_REQUEST['EstOpe']) ? $_REQUEST['EstOpe'] : '';
+	$EstadoInput = isset($_REQUEST['EstadoInput']) ? $_REQUEST['EstadoInput'] : '';
+	$TxtLote = isset($_REQUEST['TxtLote']) ? $_REQUEST['TxtLote'] : '';
+	$TxtConjunto = isset($_REQUEST['TxtConjunto']) ? $_REQUEST['TxtConjunto'] : '';
+
+	$ContReg = isset($_REQUEST['ContReg']) ? $_REQUEST['ContReg'] : 0;
+	$TotPesoBr = isset($_REQUEST['TotPesoBr']) ? $_REQUEST['TotPesoBr'] : 0;
+	$TotPesoTr = isset($_REQUEST['TotPesoTr']) ? $_REQUEST['TotPesoTr'] : 0;
+	$TotPesoNt = isset($_REQUEST['TotPesoNt']) ? $_REQUEST['TotPesoNt'] : 0;
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbClaseProducto = isset($_REQUEST['CmbClaseProducto']) ? $_REQUEST['CmbClaseProducto'] : '';
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : '';
+	$CmbCodRecepcion = isset($_REQUEST['CmbCodRecepcion']) ? $_REQUEST['CmbCodRecepcion'] : '';
+	$CmbCodFaena = isset($_REQUEST['CmbCodFaena']) ? $_REQUEST['CmbCodFaena'] : '';
+	$CmbCodRecepcionENM = isset($_REQUEST['CmbCodRecepcionENM']) ? $_REQUEST['CmbCodRecepcionENM'] : '';
+	$CmbEstadoLote = isset($_REQUEST['CmbEstadoLote']) ? $_REQUEST['CmbEstadoLote'] : '';
+	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo']) ? $_REQUEST['TxtLoteRemuestreo'] : '';
+	$TxtMuestraParalela = isset($_REQUEST['TxtMuestraParalela']) ? $_REQUEST['TxtMuestraParalela'] : '';
+
+	$Proc = isset($_REQUEST['Proc']) ? $_REQUEST['Proc'] : '';
+	$NewRec = isset($_REQUEST['NewRec']) ? $_REQUEST['NewRec'] : '';
+	$TipoConsulta = isset($_REQUEST['TipoConsulta']) ? $_REQUEST['TipoConsulta'] : '';
+	$LimitIni = isset($_REQUEST['LimitIni']) ? $_REQUEST['LimitIni'] : 0;
+	$TipoCon = isset($_REQUEST['TipoCon']) ? $_REQUEST['TipoCon'] : '';
+
+	$TotalPesoBruto = isset($_REQUEST['TotalPesoBruto']) ? $_REQUEST['TotalPesoBruto'] : 0;
+	$TotalPesoTara = isset($_REQUEST['TotalPesoTara']) ? $_REQUEST['TotalPesoTara'] : 0;
+	$TotalPesoNeto = isset($_REQUEST['TotalPesoNeto']) ? $_REQUEST['TotalPesoNeto'] : 0;
+
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta = "select * ";
@@ -221,7 +252,6 @@ function Proceso(opt)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -240,7 +270,6 @@ a:hover {
 a:active {
 	color: #FFFF00;
 }
--->
 </style><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
 
 <body onLoad="window.document.frmPrincipal.TxtLote.focus();">
