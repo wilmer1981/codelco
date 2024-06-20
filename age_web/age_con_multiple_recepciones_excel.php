@@ -2,6 +2,7 @@
 	        ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -20,6 +21,23 @@
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");	
+
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$OpcConsulta = isset($_REQUEST['OpcConsulta']) ? $_REQUEST['OpcConsulta'] : '';
+	$OpcHLF = isset($_REQUEST['OpcHLF']) ? $_REQUEST['OpcHLF'] : '';
+	$OpcSF  = isset($_REQUEST['OpcSF']) ? $_REQUEST['OpcSF'] : '';
+	$OpcTR  = isset($_REQUEST['OpcTR']) ? $_REQUEST['OpcTR'] : '';
+	$CmbMes = isset($_REQUEST['CmbMes']) ? $_REQUEST['CmbMes'] : date('m');
+	$CmbAno = isset($_REQUEST['CmbAno']) ? $_REQUEST['CmbAno'] : date('Y');
+	$CmbFlujos  = isset($_REQUEST['CmbFlujos']) ? $_REQUEST['CmbFlujos'] : '';
+	$TxtLoteIni = isset($_REQUEST['TxtLoteIni']) ? $_REQUEST['TxtLoteIni'] : '';
+	$TxtLoteFin = isset($_REQUEST['TxtLoteFin']) ? $_REQUEST['TxtLoteFin'] : '';
+	$TxtConjIni = isset($_REQUEST['TxtConjIni']) ? $_REQUEST['TxtConjIni'] : '';
+	$TxtConjFin  = isset($_REQUEST['TxtConjFin']) ? $_REQUEST['TxtConjFin'] : '';
+	$TxtFechaIni = isset($_REQUEST['TxtFechaIni']) ? $_REQUEST['TxtFechaIni'] : "";
+	$TxtFechaFin = isset($_REQUEST['TxtFechaFin']) ? $_REQUEST['TxtFechaFin'] : "";
+
 	$ArrLeyes = array();
 	$ArrLoteLeyes = array();
 	$ArrSubTotalLeyes = array();
@@ -427,6 +445,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	}
 	//echo $Consulta."<br>";
 	$RespAux = mysqli_query($link, $Consulta);
+	$TotalPesoHum=0; //WSO
+	$TotalPesoSeco=0;
 	while ($FilaAux = mysqli_fetch_array($RespAux))
 	{
 		//TITULO		
@@ -574,11 +594,13 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			$Consulta.= " group by t1.num_conjunto, t1.lote, t2.recargo order by t1.num_conjunto, t1.lote, orden";
 		$Resp = mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
+		$SubTotalPesoSeco=0; //WSO	
+		$SubTotalPesoSeco=0;	
 		for ($i = 0; $i <=mysqli_num_rows($Resp) - 1; $i++)
 		{
-			if (mysql_data_seek ($Resp, $i)) 
+			if (mysqli_data_seek ($Resp, $i)) 
 			{
-				if ($Fila = mysql_fetch_row($Resp))  
+				if ($Fila = mysqli_fetch_row($Resp))  
 				{        				
 					$Lote = $Fila[0];
 					$Recargo = $Fila[1];
@@ -613,7 +635,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$DatosLoteRec = array();
 						$DatosLoteRec["lote"]=$Lote;
 						$DatosLoteRec["recargo"]=$Recargo;
-						LeyesLoteRecargo(&$DatosLoteRec,&$ArrLeyes,"N","S","S","","");
+						LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","S","S","","",$link);
 						$PesoSeco=$DatosLoteRec["peso_seco2"];
 						//------------------------------------------------------	
 						echo "<tr>\n";
@@ -671,9 +693,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 					$i++;
 					if ($i<=mysqli_num_rows($Resp)-1)
 					{
-						if (mysql_data_seek($Resp, $i))
+						if (mysqli_data_seek($Resp, $i))
 						{
-							if ($Fila = mysql_fetch_row($Resp))	
+							if ($Fila = mysqli_fetch_row($Resp))	
 							{	 
 								$Sgte = $Fila[0]; //LOTE									
 								if ($Lote==$Sgte)
@@ -681,14 +703,14 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 							}								
 						}								
 						$i--;
-					}					
+					}									
 					if ($Totalizar)
 					{
 						//------------CONSULTA LEYES DE LOTE -----------------
 						$DatosLote = array();
 						$DatosLote["lote"]=$Lote;
 						$DatosLote["recargo"]="";
-						LeyesLote(&$DatosLote,&$ArrLoteLeyes,"N","S","S","","","");
+						LeyesLote($DatosLote,$ArrLoteLeyes,"N","S","S","","","",$link);
 						$TotalLotePesoHum = $DatosLote["peso_humedo"];
 						$TotalLotePesoSeco = $DatosLote["peso_seco2"];
 						//----------------------------------------------------
@@ -722,7 +744,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						if ($Humedad == true)
 							echo "<td align='center'>".$Negrita01."".number_format($TotalLoteHumedad,$ArrParamLeyes["01"][2],",",".")."".$Negrita02."</td>\n";
 						reset($ArrLoteLeyes);
-						while (list($k,$v)=each($ArrLoteLeyes))
+						foreach($ArrLoteLeyes as $k => $v)
 						{
 							if ($k!="01")
 							{
@@ -745,7 +767,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 							if ($TotalLotePesoSeco>0 && $v[2]>0 && $v[5]>0) 
 								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2] + (($TotalLotePesoSeco * $v[2])/$v[5]);//VALOR
 							else
-								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2] + 0;
+								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2];
+
 							$ArrSubTotalLeyes[$v[0]][3] = $ArrParamLeyes[$v[0]][0];//COD UNIDAD
 							$ArrSubTotalLeyes[$v[0]][4] = $ArrParamLeyes[$v[0]][3];//NOM UNIDAD
 							$ArrSubTotalLeyes[$v[0]][5] = $ArrParamLeyes[$v[0]][1];//CONVERSION
@@ -837,7 +860,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		if ($Humedad==true)
 			echo "<td align='center'><font color='blue'><strong>".number_format($SubTotalHumedad,$ArrParamLeyes["01"][2],",",".")."</strong></font></td>\n";
 		reset($ArrSubTotalLeyes);
-		while (list($k,$v)=each($ArrSubTotalLeyes))
+		foreach($ArrSubTotalLeyes as $k => $v)
 		{
 			if ($k!="01" && ($OpcHLF!="P"))
 			{
@@ -863,7 +886,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			if ($SubTotalPesoSeco>0 && $v[2]>0 && $v[5]>0) 
 				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2] + (($SubTotalPesoSeco * $Ley)/$ArrParamLeyes[$k][1]);//VALOR
 			else
-				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2] + 0;
+				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2];
 			$ArrTotalLeyes[$k][3] = $ArrParamLeyes[$k][0];//COD UNIDAD
 			$ArrTotalLeyes[$k][4] = $ArrParamLeyes[$k][3];//NOM UNIDAD
 			$ArrTotalLeyes[$k][5] = $ArrParamLeyes[$k][1];//CONVERSION
@@ -915,7 +938,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	if ($Humedad==true)
 		echo "<td align='center'><strong>".number_format($TotalHumedad,$ArrParamLeyes["01"][2],",",".")."</strong></td>\n";
 	reset($ArrTotalLeyes);
-	while (list($k,$v)=each($ArrTotalLeyes))
+	foreach($ArrTotalLeyes as $k => $v)
 	{
 		if ($k!="01" && $OpcHLF!="P")
 		{

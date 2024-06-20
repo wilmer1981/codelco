@@ -816,7 +816,8 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		else
 			$PorcHumAnt=$PorcHum;
 		//RESCATA LEYES CANJEABLES
-		if($Lote["canjeable"]=='S')
+		$canjeable = isset($Lote["canjeable"])?$Lote["canjeable"]:"";
+		if($canjeable=='S')
 		{
 			$Consulta = "select distinct t1.lote, t2.cod_leyes, (t2.inc_retalla+t2.ley_canje) as ley_canje, t2.pendiente, ";
 			$Consulta.= " (t2.inc_retalla+t2.valor1) as valor1";
@@ -1029,16 +1030,24 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		else
 			echo " lote=".$FilaR["lote"]." -> ";
 		echo $LeyesAju["02"][2]." / ".$LeyesAju["04"][2]." / ".$LeyesAju["05"][2]."<br>";*/
-		$LeyesPond["02"][60]=$LeyesPond["02"][2];
-		$LeyesPond["04"][60]=$LeyesPond["04"][2];
-		$LeyesPond["05"][60]=$LeyesPond["05"][2];
+		$LeyesPond022=isset($LeyesPond["02"][2])?$LeyesPond["02"][2]:0;
+		$LeyesPond042=isset($LeyesPond["04"][2])?$LeyesPond["04"][2]:0;
+		$LeyesPond052=isset($LeyesPond["05"][2])?$LeyesPond["05"][2]:0;
+		
+		$LeyesPond["02"][60]=$LeyesPond022;
+		$LeyesPond["04"][60]=$LeyesPond042;
+		$LeyesPond["05"][60]=$LeyesPond052;
 		//NUEVOS VALORES (AJUSTE)				
 		//echo $FilaR["lote"]." Cu = ".$LeyesPond["02"][2]."=".$LeyesPond["02"][2]."-".$LeyesAju["02"][2]."<br>";
 		//echo $FilaR["lote"]." Ag = ".$LeyesPond["04"][2]."=".$LeyesPond["04"][2]."-".$LeyesAju["04"][2]."<br>";
 		//echo $FilaR["lote"]." Au = ".$LeyesPond["05"][2]."=".$LeyesPond["05"][2]."-".$LeyesAju["05"][2]."<br>";
-		$LeyesPond["02"][2]=$LeyesPond["02"][2] - $LeyesAju["02"][2];
-		$LeyesPond["04"][2]=$LeyesPond["04"][2] - $LeyesAju["04"][2];
-		$LeyesPond["05"][2]=$LeyesPond["05"][2] - $LeyesAju["05"][2];
+		$LeyesAju022=isset($LeyesAju["02"][2])?$LeyesAju["02"][2]:0;
+		$LeyesAju042=isset($LeyesAju["04"][2])?$LeyesAju["04"][2]:0;
+		$LeyesAju052=isset($LeyesAju["05"][2])?$LeyesAju["05"][2]:0;
+		
+		$LeyesPond["02"][2]=$LeyesPond022 - $LeyesAju022;
+		$LeyesPond["04"][2]=$LeyesPond042 - $LeyesAju042;
+		$LeyesPond["05"][2]=$LeyesPond052 - $LeyesAju052;
 		
 	} 
 	//CALCULA FINOS	
@@ -1136,17 +1145,21 @@ function ValoresRetalla($Lote,$Leyes,$CalculaInc,$link)
 		
 		$InfRetalla[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];//CODIGO LEY RETALLA
 		//echo $Lote["peso_retalla"]." - ".$Lote["peso_muestra"]." - ".$LeyesRetalla[$FilaLeyes["cod_leyes"]][2]."<br>";
-		if ($Lote["peso_retalla"]>0 && $Lote["peso_muestra"]>0 && $LeyesRetalla[$FilaLeyes["cod_leyes"]][2]>0)
+		$peso_retalla = isset($Lote["peso_retalla"])?$Lote["peso_retalla"]:0;
+		$peso_muestra = isset($Lote["peso_muestra"])?$Lote["peso_muestra"]:0;
+		if ($peso_retalla>0 && $peso_muestra>0 && $LeyesRetalla[$FilaLeyes["cod_leyes"]][2]>0)
 			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = ($LeyesRetalla[$FilaLeyes["cod_leyes"]][2]  - $Leyes[$FilaLeyes["cod_leyes"]][2]) * ($Lote["peso_retalla"]/$Lote["peso_muestra"]);  //VALOR
 		else
 			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = 0;  //VALOR
 		//CALCULA LA LEY INCLUYENDO INCIDENCIA DE LA RETALLA
+		$Leyescod_leyes2      = isset($Leyes[$FilaLeyes["cod_leyes"]][2])?$Leyes[$FilaLeyes["cod_leyes"]][2]:0;
+		$InfRetallacod_leyes2 = isset($InfRetalla[$FilaLeyes["cod_leyes"]][2])?$InfRetalla[$FilaLeyes["cod_leyes"]][2]:0;
 		if ($CalculaInc=="S")
-			$Leyes[$FilaLeyes["cod_leyes"]][2] = $Leyes[$FilaLeyes["cod_leyes"]][2] + ($InfRetalla[$FilaLeyes["cod_leyes"]][2]); //LEY PRI + INC. RETALLA			
+			$Leyes[$FilaLeyes["cod_leyes"]][2] = $Leyescod_leyes2 + $InfRetallacod_leyes2; //LEY PRI + INC. RETALLA			
 		//echo $Leyes[$FilaLeyes["cod_leyes"]][2]." + ".$InfRetalla[$FilaLeyes["cod_leyes"]][2];
 		//REGISTRA LOS VALORES DE LA RETALLA
 		$Leyes[$FilaLeyes["cod_leyes"]][12] = $FilaLeyes["valor"];     //VALOR RETALLA
-		$Leyes[$FilaLeyes["cod_leyes"]][13] = $FilaLeyes["cod_unidad"];//COD UNIDAD RETALLA
+		$Leyes[$FilaLeyes["cod_leyes"]][13] = isset($FilaLeyes["cod_unidad"])?$FilaLeyes["cod_unidad"]:0;//COD UNIDAD RETALLA
 		$Leyes[$FilaLeyes["cod_leyes"]][14] = $FilaLeyes["nom_unidad"];//NOM UNIDAD RETALLA
 		$Leyes[$FilaLeyes["cod_leyes"]][15] = $FilaLeyes["conversion"];//CONVERSION RETALLA
 		//REGISTRA LA INCIDENCIA DE LA RETALLA

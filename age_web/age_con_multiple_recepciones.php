@@ -3,9 +3,22 @@
 	$CodigoDePantalla = 13;
 	include("../principal/conectar_principal.php");
 
+	$TxtFechaIni = isset($_REQUEST['TxtFechaIni']) ? $_REQUEST['TxtFechaIni'] : date('Y-m')."-01";
+	$TxtFechaFin = isset($_REQUEST['TxtFechaFin']) ? $_REQUEST['TxtFechaFin'] : date('Y-m')."-".date('t');
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : "";
+	$CmbMes = isset($_REQUEST['CmbMes']) ? $_REQUEST['CmbMes'] : date('m');
+	$CmbAno = isset($_REQUEST['CmbAno']) ? $_REQUEST['CmbAno'] : date('Y');
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbFlujos = isset($_REQUEST['CmbFlujos']) ? $_REQUEST['CmbFlujos'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : '';
+	$TxtLoteIni = isset($_REQUEST['TxtLoteIni']) ? $_REQUEST['TxtLoteIni'] : '';
+	$TxtLoteFin = isset($_REQUEST['TxtLoteFin']) ? $_REQUEST['TxtLoteFin'] : '';
+	$TxtConjIni = isset($_REQUEST['TxtConjIni']) ? $_REQUEST['TxtConjIni'] : '';
+	$TxtConjFin  = isset($_REQUEST['TxtConjFin']) ? $_REQUEST['TxtConjFin'] : '';
+	$OpcTR = isset($_REQUEST['OpcTR']) ? $_REQUEST['OpcTR'] : '';
 
-	$TxtFechaIni = date('Y-m')."-01";
-	$TxtFechaFin = date('Y-m')."-".date('t');
+
 ?>
 <html>
 <head>
@@ -140,20 +153,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <?php
 	for ($i=1;$i<=12;$i++)
 	{
-		if (!isset($Mes))
-		{
-			if ($i == date("n"))
+		
+			if ($i == $CmbMes)
 				echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
 			else
 				echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
-		}	
-		else
-		{
-			if ($i == $Mes)
-				echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
-			else
-				echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
-		}
+
 	}
 ?>
           </select>
@@ -161,20 +166,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <?php
 	for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 	{
-		if (!isset($Ano))
-		{
-			if ($i == date("Y"))
+
+			if ($i == $CmbAno)
 				echo "<option selected value='".$i."'>".$i."</option>\n";
 			else
 				echo "<option value='".$i."'>".$i."</option>\n";
-		}	
-		else
-		{
-			if ($i == $Ano)
-				echo "<option selected value='".$i."'>".$i."</option>\n";
-			else
-				echo "<option value='".$i."'>".$i."</option>\n";
-		}
+
 	}
 ?>
             </select>

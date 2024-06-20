@@ -15,7 +15,7 @@ $SQLstatement =
 #
 mysql_connect("localhost", "test", "test");
 $result = mysql_db_query("sample", $SQLstatement);
-while ($row = mysql_fetch_row($result)) {
+while ($row = mysqli_fetch_row($result)) {
 	$revenue[] = $row[0];
 	$timestamp[] = $row[1];
 }

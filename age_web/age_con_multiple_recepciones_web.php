@@ -1,8 +1,21 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");	
-
-
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$OpcConsulta = isset($_REQUEST['OpcConsulta']) ? $_REQUEST['OpcConsulta'] : '';
+	$OpcHLF = isset($_REQUEST['OpcHLF']) ? $_REQUEST['OpcHLF'] : '';
+	$OpcSF  = isset($_REQUEST['OpcSF']) ? $_REQUEST['OpcSF'] : '';
+	$OpcTR  = isset($_REQUEST['OpcTR']) ? $_REQUEST['OpcTR'] : '';
+	$CmbMes = isset($_REQUEST['CmbMes']) ? $_REQUEST['CmbMes'] : date('m');
+	$CmbAno = isset($_REQUEST['CmbAno']) ? $_REQUEST['CmbAno'] : date('Y');
+	$CmbFlujos  = isset($_REQUEST['CmbFlujos']) ? $_REQUEST['CmbFlujos'] : '';
+	$TxtLoteIni = isset($_REQUEST['TxtLoteIni']) ? $_REQUEST['TxtLoteIni'] : '';
+	$TxtLoteFin = isset($_REQUEST['TxtLoteFin']) ? $_REQUEST['TxtLoteFin'] : '';
+	$TxtConjIni = isset($_REQUEST['TxtConjIni']) ? $_REQUEST['TxtConjIni'] : '';
+	$TxtConjFin  = isset($_REQUEST['TxtConjFin']) ? $_REQUEST['TxtConjFin'] : '';
+	$TxtFechaIni = isset($_REQUEST['TxtFechaIni']) ? $_REQUEST['TxtFechaIni'] : "";
+	$TxtFechaFin = isset($_REQUEST['TxtFechaFin']) ? $_REQUEST['TxtFechaFin'] : "";
 	
 	$ArrLeyes = array();
 	$ArrLoteLeyes = array();
@@ -580,6 +593,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	}
 	//echo $Consulta."<br>";
 	$RespAux = mysqli_query($link, $Consulta);
+	$TotalPesoSeco = 0;
+	$TotalPesoHum = 0;
 	while ($FilaAux = mysqli_fetch_array($RespAux))
 	{
 		//TITULO		
@@ -728,9 +743,11 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		//echo $Consulta."<br>";
 		for ($i = 0; $i <=mysqli_num_rows($Resp) - 1; $i++)
 		{
-			if (mysql_data_seek ($Resp, $i)) 
+			if (mysqli_data_seek($Resp, $i)) 
 			{
-				if ($Fila = mysql_fetch_row($Resp))  
+				$TotalLotePesoHum =0;
+				$TotalLotePesoSeco=0;
+				if ($Fila = mysqli_fetch_row($Resp))  
 				{        				
 					$Lote = $Fila[0];
 					$Recargo = $Fila[1];
@@ -757,8 +774,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$N_Conjto = $Fila[7];
 					else
 						if ($OpcSF!="F" && $OpcConsulta=="C")
-							$N_Conjto = $Fila[6];																		
-					
+							$N_Conjto = $Fila[6];	
+
+					$PesoSeco=0;
 					if ($OpcTR=="R")
 					{
 						//------------CONSULTA LEYES DE LOTE RECARGO----------
@@ -766,9 +784,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$DatosLoteRec["lote"]=$Lote;
 						$DatosLoteRec["recargo"]=$Recargo;
 						if ($OpcConsulta=="F")
-							LeyesLoteRecargo(&$DatosLoteRec,&$ArrLeyes,"S","S","S",$Fila01["fecha_recepcion"],$Fila01["fecha_recepcion"]);
+							LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"S","S","S",$Fila01["fecha_recepcion"],$Fila01["fecha_recepcion"],$link);
 						else
-							LeyesLoteRecargo(&$DatosLoteRec,&$ArrLeyes,"N","S","S","","");
+							LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","S","S","","",$link);
 						$PesoSeco=$DatosLoteRec["peso_seco2"];
 						//------------------------------------------------------	
 						echo "<tr>\n";
@@ -826,9 +844,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 					$i++;
 					if ($i<=mysqli_num_rows($Resp)-1)
 					{
-						if (mysql_data_seek($Resp, $i))
+						if (mysqli_data_seek($Resp, $i))
 						{
-							if ($Fila = mysql_fetch_row($Resp))	
+							if ($Fila = mysqli_fetch_row($Resp))	
 							{	 
 								$Sgte = $Fila[0]; //LOTE									
 								if ($Lote==$Sgte)
@@ -836,7 +854,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 							}								
 						}								
 						$i--;
-					}					
+					}	
+					$SubTotalPesoHum =0; //WSO	
+					$SubTotalPesoSeco =0;			
 					if ($Totalizar)
 					{
 						//------------CONSULTA LEYES DE LOTE -----------------
@@ -844,13 +864,16 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$DatosLote["lote"]=$Lote;
 						$DatosLote["recargo"]="";
 						if ($OpcConsulta=="F")
-							LeyesLote(&$DatosLote,&$ArrLoteLeyes,"S","S","S",$Fila01["fecha_recepcion"],$Fila01["fecha_recepcion"],"");
+							LeyesLote($DatosLote,$ArrLoteLeyes,"S","S","S",$Fila01["fecha_recepcion"],$Fila01["fecha_recepcion"],"",$link);
 						else
-							LeyesLote(&$DatosLote,&$ArrLoteLeyes,"N","S","S","","","");
-						$TotalLotePesoHum = $DatosLote["peso_humedo"];
-						$TotalLotePesoSeco = $DatosLote["peso_seco2"];
+							LeyesLote($DatosLote,$ArrLoteLeyes,"N","S","S","","","",$link);
+						$TotalLotePesoHum = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
+						$TotalLotePesoSeco = isset($DatosLote["peso_seco2"])?$DatosLote["peso_seco2"]:0;
+						//$TotalLotePesoHum = $DatosLote["peso_humedo"];
+						//$TotalLotePesoSeco = $DatosLote["peso_seco2"];
 						$Decimales=0;
-						if ($DatosLote["recepcion"]=="PMN")
+						$recepcion = isset($DatosLote["recepcion"])?$DatosLote["recepcion"]:"";
+						if ($recepcion=="PMN")
 							$Decimales=3;						
 						//----------------------------------------------------
 						if ($TotalLotePesoSeco>0 && $TotalLotePesoHum>0)
@@ -883,7 +906,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						if ($Humedad == true)
 							echo "<td align='center'>".$Negrita01."".number_format($TotalLoteHumedad,$ArrParamLeyes["01"][2],",",".")."".$Negrita02."</td>\n";
 						reset($ArrLoteLeyes);
-						while (list($k,$v)=each($ArrLoteLeyes))
+						foreach($ArrLoteLeyes as $k => $v)
 						{
 							if ($k!="01")
 							{
@@ -903,10 +926,12 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 								}
 							}
 							//SUB-TOTAL
+							//$ArrSubTotalLeyes02 = isset($ArrSubTotalLeyes[$v[0]][2])?$ArrSubTotalLeyes[$v[0]][2]:0;
 							if ($TotalLotePesoSeco>0 && $v[2]>0 && $v[5]>0) 
 								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2] + (($TotalLotePesoSeco * $v[2])/$v[5]);//VALOR
 							else
-								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2] + 0;
+								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2];
+
 							$ArrSubTotalLeyes[$v[0]][3] = $ArrParamLeyes[$v[0]][0];//COD UNIDAD
 							$ArrSubTotalLeyes[$v[0]][4] = $ArrParamLeyes[$v[0]][3];//NOM UNIDAD
 							$ArrSubTotalLeyes[$v[0]][5] = $ArrParamLeyes[$v[0]][1];//CONVERSION
@@ -998,7 +1023,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		if ($Humedad==true)
 			echo "<td align='center'><font color='blue'><strong>".number_format($SubTotalHumedad,$ArrParamLeyes["01"][2],",",".")."</strong></font></td>\n";
 		reset($ArrSubTotalLeyes);
-		while (list($k,$v)=each($ArrSubTotalLeyes))
+		foreach($ArrSubTotalLeyes as $k => $v)
 		{
 			if ($k!="01" && ($OpcHLF!="P"))
 			{
@@ -1024,7 +1049,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			if ($SubTotalPesoSeco>0 && $v[2]>0 && $v[5]>0) 
 				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2] + (($SubTotalPesoSeco * $Ley)/$ArrParamLeyes[$k][1]);//VALOR
 			else
-				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2] + 0;
+				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2];
+
 			$ArrTotalLeyes[$k][3] = $ArrParamLeyes[$k][0];//COD UNIDAD
 			$ArrTotalLeyes[$k][4] = $ArrParamLeyes[$k][3];//NOM UNIDAD
 			$ArrTotalLeyes[$k][5] = $ArrParamLeyes[$k][1];//CONVERSION
@@ -1076,7 +1102,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	if ($Humedad==true)
 		echo "<td align='center'><strong>".number_format($TotalHumedad,$ArrParamLeyes["01"][2],",",".")."</strong></td>\n";
 	reset($ArrTotalLeyes);
-	while (list($k,$v)=each($ArrTotalLeyes))
+	foreach($ArrTotalLeyes as $k => $v)
 	{
 		if ($k!="01" && $OpcHLF!="P")
 		{

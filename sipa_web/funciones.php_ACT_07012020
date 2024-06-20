@@ -821,7 +821,7 @@ while ($DatosUsuarios = mysql_fetch_array($Resultado))
 // Obtenemos datos de Tabla Mensaje id = 1 Primera Parte del mensaje 
 $Consulta = "SELECT cmens_asunto, cmens_mensaje from sipa_web.mensaje where cmens_id =1";
 $Resultado = mysqli_query($link, $Consulta);
-$Resultado = mysql_fetch_row($Resultado);
+$Resultado = mysqli_fetch_row($Resultado);
 			
 $ASUNTO = $Resultado[0];
 
@@ -845,7 +845,7 @@ $subprodu = $ps[1]; // subproducto
 // Obtenemos datos de Tabla Productos 
 $Consulta = "SELECT descripcion from proyecto_modernizacion.subproducto where cod_producto=" . $prod . " and cod_subproducto=" . $subprodu;
 $Resultado = mysqli_query($link, $Consulta);
-$Resultado = mysql_fetch_row($Resultado);
+$Resultado = mysqli_fetch_row($Resultado);
 
 $MENSAJE = $MENSAJE . 
 " Producto       : " .$Resultado[0]  . "<BR>" .        	
@@ -857,7 +857,7 @@ $Rutsndv = explode("-", $RutOper);
 // Obtenemos datos Operador 
 $Consulta = "SELECT apellido_paterno, apellido_materno, nombres FROM proyecto_modernizacion.funcionarios where rut =".$Rutsndv[0];
 $Resultado = mysqli_query($link, $Consulta);
-$Resultado = mysql_fetch_row($Resultado);
+$Resultado = mysqli_fetch_row($Resultado);
 
 $MENSAJE = $MENSAJE . 
 " Operador       : " .$RutOpera.' '.strtoupper($Resultado[0]).' '.strtoupper($Resultado[1]).' '.strtoupper($Resultado[2])."<BR>" ;
@@ -865,7 +865,7 @@ $MENSAJE = $MENSAJE .
 // Obtenemos datos de Tabla Mensaje id =2 SegundaParte del mensaje 
 $Consulta = "SELECT cmens_asunto, cmens_mensaje from sipa_web.mensaje where cmens_id =2";
 $Resultado = mysqli_query($link, $Consulta);
-$Resultado = mysql_fetch_row($Resultado);
+$Resultado = mysqli_fetch_row($Resultado);
 
 $MENSAJE = $MENSAJE . "<BR>" . $Resultado[1];
 
