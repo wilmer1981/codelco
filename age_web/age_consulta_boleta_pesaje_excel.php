@@ -1,29 +1,39 @@
 <?php 		
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
-header("Expires: 0");
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 14;
 	include("../principal/conectar_principal.php");
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");		
-	if(!isset($TipoBusq))
-		$TipoBusq='0';
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+			
+	$Recarga  = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+	$Mostrar  = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$TipoBusq = isset($_REQUEST["TipoBusq"])?$_REQUEST["TipoBusq"]:0;
+	$CmbMes = isset($_REQUEST['CmbMes']) ? $_REQUEST['CmbMes'] : date('m');
+	$CmbAno = isset($_REQUEST['CmbAno']) ? $_REQUEST['CmbAno'] : date('Y');
+	$TxtBolIni = isset($_REQUEST["TxtBolIni"])?$_REQUEST["TxtBolIni"]:"";
+	$TxtBolFin = isset($_REQUEST["TxtBolFin"])?$_REQUEST["TxtBolFin"]:"";
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbProveedor   = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$TxtFiltroPrv   = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
 ?>
 <html>
 <head>
@@ -45,6 +55,11 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		  <td align="right"  width="90">Peso.Hum(Kg)</td>
 		  </tr>          
 		  <?php
+			$SubTotalPeso=0;
+			$TotalPeso = 0;
+			$SubCantReg=0;
+			$DescrAnt="";
+			$CantReg = 0;
 			if ($Mostrar=='S')	
 			{
 				if (strlen($CmbMes)=='1')
@@ -94,19 +109,20 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 				{
 					if (($ProdAnt!="" && $SubProdAnt!="") && ($ProdAnt!=$Fila["cod_producto"] || $SubProdAnt!=$Fila["cod_subproducto"]))
 					{
-						EscribeSubTotal($DescrAnt, &$SubTotalPeso, &$SubCantReg);
+						EscribeSubTotal($DescrAnt, $SubTotalPeso, $SubCantReg);
 					}
 					else
 					{
 						if (($ProdAnt!="" && $SubProdAnt!="" && $RutAnt!="") && 
 						($ProdAnt==$Fila["cod_producto"] && $SubProdAnt==$Fila["cod_subproducto"] && $RutAnt!=$Fila["rut_proveedor"]))
 						{
-							EscribeSubTotal($DescrAnt, &$SubTotalPeso, &$SubCantReg);
+							EscribeSubTotal($DescrAnt, $SubTotalPeso, $SubCantReg);
 						}
 					}
+					$fecha_recepcion = isset($Fila["fecha_recepcion"])?$Fila["fecha_recepcion"]:"";
 					echo "<tr>\n";
 					echo "<td align='center'>".$Fila["lote"]."</td>\n";
-					echo "<td align='center'>".substr($Fila["fecha_recepcion"],8,2)."/".substr($Meses[intval(substr($Fila["fecha_recepcion"],5,2))-1],0,3)."</td>\n";
+					echo "<td align='center'>".substr($fecha_recepcion,8,2)."/".substr($Meses[intval(substr($fecha_recepcion,5,2))-1],0,3)."</td>\n";
 					echo "<td align='right'>".$Fila["rut_proveedor"]."</td>\n";
 					echo "<td align='left'>".strtoupper(substr($Fila["nombre"],0,18))."</td>\n";
 					echo "<td align='left'>".$Fila["subproducto"]."</td>\n";
@@ -125,7 +141,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 					$DescrAnt = $Fila["subproducto"]."&nbsp;".strtoupper(substr($Fila["nombre"],0,18));					
 				}
 			}
-			EscribeSubTotal($DescrAnt, &$SubTotalPeso, &$SubCantReg);
+			EscribeSubTotal($DescrAnt, $SubTotalPeso, $SubCantReg);
 			
 			
 function EscribeSubTotal($Descr, $PesoSubTotal, $SubTotalReg)

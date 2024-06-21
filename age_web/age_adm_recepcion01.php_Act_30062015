@@ -845,7 +845,7 @@
 						$RutProveedor=$FilaTemp["rut_proveedor"];
 						$FechaRecepcion=$FilaTemp["fecha_recepcion"];
 						$Cancha=$FilaTemp[cancha];
-						$Cod_Faena=$FilaTemp[cod_faena];
+						$Cod_Faena=$FilaTemp["cod_faena"];
 						$CodRecepcion=$FilaTemp["cod_recepcion"];
 						$ClaseProducto=$FilaTemp[clase_producto];
 						$NumConjunto=$FilaTemp["num_conjunto"];
@@ -948,7 +948,7 @@
 									if($FilaLote = mysql_fetch_array($RespLote))
 									{
 										$Proveedor=$FilaLote["rut_proveedor"];
-										$CodFaena=$FilaLote[cod_faena];
+										$CodFaena=$FilaLote["cod_faena"];
 										$SubProducto=$FilaLote["cod_subproducto"];
 										$Guia=$FilaLote["rut_proveedor"];
 										$Conjunto=$FilaLote["num_conjunto"];

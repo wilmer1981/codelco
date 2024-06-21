@@ -1,5 +1,8 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	
 	$Datos=explode('//',$Valores);
 	$Lote=$Datos[0];
 	$Consulta ="select sum(t5.peso_neto) as tot_peso_neto,t1.lote,t1.fecha_recepcion,t1.rut_proveedor,t1.cod_subproducto,t3.nomprv_a as nombre,t2.abreviatura as subproducto,t1.cod_faena,t4.NOMMIN_A ";
@@ -14,10 +17,9 @@
 	$NomPrv=$Fila["nombre"];
 	$NomSubProducto=$Fila["subproducto"];
 	$FechaRecepcion=$Fila["fecha_recepcion"];
-	$RutMina=$Fila[cod_faena];
-	$NomMina=$Fila[NOMMIN_A];
-	$TotalPesoNeto=$Fila[tot_peso_neto];
-	
+	$RutMina=$Fila["cod_faena"];
+	$NomMina=$Fila["NOMMIN_A"];
+	$TotalPesoNeto=$Fila["tot_peso_neto"];	
 		
 ?>
 <html>

@@ -108,7 +108,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 						echo "<td align='right'>".$Row["peso_neto"]."</td>\n";
 						echo "<td>".$Row["rut_proveedor"]."</td>\n";
 						echo "<td>".$Row["nom_proveedor"]."</td>\n";
-						echo "<td>".$Row[cod_faena]."&nbsp;</td>\n";
+						echo "<td>".$Row["cod_faena"]."&nbsp;</td>\n";
 						echo "<td>".$Row["nom_faena"]."&nbsp;</td>\n";
 						echo "<td>".$Row["cod_subproducto"]."</td>\n";
 						echo "<td>".$Row["nom_subproducto"]."</td>\n";

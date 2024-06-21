@@ -2,9 +2,19 @@
 	$CodigoDeSistema = 15;
 	$CodigoDePantalla = 14;
 	include("../principal/conectar_principal.php");
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");		
-	if(!isset($TipoBusq))
-		$TipoBusq='0';
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	
+	$Recarga = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$TipoBusq = isset($_REQUEST["TipoBusq"])?$_REQUEST["TipoBusq"]:0;
+	$CmbMes = isset($_REQUEST['CmbMes']) ? $_REQUEST['CmbMes'] : date('m');
+	$CmbAno = isset($_REQUEST['CmbAno']) ? $_REQUEST['CmbAno'] : date('Y');
+	$TxtBolIni = isset($_REQUEST["TxtBolIni"])?$_REQUEST["TxtBolIni"]:"";
+	$TxtBolFin = isset($_REQUEST["TxtBolFin"])?$_REQUEST["TxtBolFin"]:"";
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$TxtFiltroPrv    = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
+
 ?>
 <html>
 <head>
@@ -187,6 +197,11 @@ function Salir()
 		  <td align="right"  width="90">Peso.Hum(Kg)</td>
 		  </tr>          
 		  <?php
+		  $SubTotalPeso=0;
+		  $TotalPeso = 0;
+		  $SubCantReg=0;
+		  $DescrAnt="";
+		  $CantReg = 0;
 			if ($Mostrar=='S')	
 			{
 				if (strlen($CmbMes)=='1')
@@ -232,23 +247,25 @@ function Salir()
 				$ProdAnt = "";
 				$SubProdAnt = "";
 				$RutAnt = "";
+				$DescrAnt = "";
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
 					if (($ProdAnt!="" && $SubProdAnt!="") && ($ProdAnt!=$Fila["cod_producto"] || $SubProdAnt!=$Fila["cod_subproducto"]))
 					{
-						EscribeSubTotal($DescrAnt, &$SubTotalPeso, &$SubCantReg);
+						EscribeSubTotal($DescrAnt, $SubTotalPeso, $SubCantReg);
 					}
 					else
 					{
 						if (($ProdAnt!="" && $SubProdAnt!="" && $RutAnt!="") && 
 						($ProdAnt==$Fila["cod_producto"] && $SubProdAnt==$Fila["cod_subproducto"] && $RutAnt!=$Fila["rut_proveedor"]))
 						{
-							EscribeSubTotal($DescrAnt, &$SubTotalPeso, &$SubCantReg);
+							EscribeSubTotal($DescrAnt, $SubTotalPeso, $SubCantReg);
 						}
 					}
+					$fecha_recepcion = isset($Fila["fecha_recepcion"])?$Fila["fecha_recepcion"]:"";
 					echo "<tr>\n";
 					echo "<td align='center'><a href=JavaScript:Detalle('".$Fila["lote"]."')>".$Fila["lote"]."</a></td>\n";
-					echo "<td align='center'>".substr($Fila["fecha_recepcion"],8,2)."/".substr($Meses[intval(substr($Fila["fecha_recepcion"],5,2))-1],0,3)."</td>\n";
+					echo "<td align='center'>".substr($fecha_recepcion,8,2)."/".substr($Meses[intval(substr($fecha_recepcion,5,2))-1],0,3)."</td>\n";
 					echo "<td align='right'>".$Fila["rut_proveedor"]."</td>\n";
 					echo "<td align='left'>".strtoupper(substr($Fila["nombre"],0,18))."</td>\n";
 					echo "<td align='left'>".$Fila["subproducto"]."</td>\n";
@@ -267,7 +284,7 @@ function Salir()
 					$DescrAnt = $Fila["subproducto"]."&nbsp;".strtoupper(substr($Fila["nombre"],0,18));					
 				}
 			}
-			EscribeSubTotal($DescrAnt, &$SubTotalPeso, &$SubCantReg);
+			EscribeSubTotal($DescrAnt, $SubTotalPeso, $SubCantReg);
 			
 			
 function EscribeSubTotal($Descr, $PesoSubTotal, $SubTotalReg)
