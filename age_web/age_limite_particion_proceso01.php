@@ -12,6 +12,9 @@
 	$CmbUnidad          = isset($_REQUEST["CmbUnidad"])?$_REQUEST["CmbUnidad"]:"";
 	$TipoProceso        = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
 	$CmbPlantilla       = isset($_REQUEST["CmbPlantilla"])?$_REQUEST["CmbPlantilla"]:"";
+
+	$TxtRango1 = str_replace(',','',$TxtRango1);
+	$TxtRango2 = str_replace(',','',$TxtRango2);
 	
 	$Param='';
 	switch ($Proceso)
