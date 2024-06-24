@@ -68,7 +68,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 		$Leyes[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"]; //CODIGO LEY
 		$Leyes[$FilaLeyes["cod_leyes"]][1] = $FilaLeyes["nom_ley"];   //ABREVIATURA
 		$Leyes[$FilaLeyes["cod_leyes"]][2] = $FilaLeyes["valor"];     //VALOR
-		$Leyes[$FilaLeyes["cod_leyes"]][3] = $FilaLeyes["cod_unidad"];//COD UNIDAD
+		$Leyes[$FilaLeyes["cod_leyes"]][3] = isset($FilaLeyes["cod_unidad"])?$FilaLeyes["cod_unidad"]:"";//COD UNIDAD
 		$Leyes[$FilaLeyes["cod_leyes"]][4] = $FilaLeyes["nom_unidad"];//NOM UNIDAD
 		$Leyes[$FilaLeyes["cod_leyes"]][5] = $FilaLeyes["conversion"];//CONVERSION
 		$Leyes[$FilaLeyes["cod_leyes"]][6] = $FilaLeyes["nombre_ley"];//NOMBRE_LEY

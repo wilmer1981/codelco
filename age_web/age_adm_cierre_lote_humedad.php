@@ -19,7 +19,7 @@
 	$Resp = mysqli_query($link, $Consulta);	
 	$ContReg   = 0;
 	$PorcMerma = 0;
-	$DescMerma = 0;
+	$DescMerma = "";
 	$CantDec   = 0;
 	$TotPesoSeco = 0;
 	$TotPesoHum  = 0;
@@ -122,10 +122,15 @@
 		//echo $ValorLey;
 		//$TotPorc=abs($ValorLey-$ArrLeyes["01"][30]);
 		//echo "TotPesoHum:".$TotPesoHum;
-		$TotPorc=100-($TotPesoSeco*100)/$TotPesoHum;
+		if($TotPesoHum > 0){
+			$TotPorc = 100-($TotPesoSeco*100)/$TotPesoHum;
+		}else{
+			$TotPorc = 0;
+		}		
+
 		//$TotNuevoPorc=$ValorLey;
-		$TotNuevoPorc=abs($TotPorc-$ArrLeyes["01"][30]);
-		
+		$ArrLeyes0130 = isset($ArrLeyes["01"][30])?$ArrLeyes["01"][30]:0;
+		$TotNuevoPorc = abs($TotPorc-$ArrLeyes0130);		
 		
 	?>
     <td align="right"><?php echo number_format($TotPesoHum,$CantDec,",",".");?></td>

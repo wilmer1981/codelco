@@ -21,6 +21,7 @@
 		$Consulta.="proyecto_modernizacion.sub_clase t8 on t8.cod_clase='3104' and t1.cod_recepcion=t8.nombre_subclase ";
 		$Consulta.= "where t1.lote = '".$TxtLote."'";
 		$Resp = mysqli_query($link, $Consulta);
+		$CierreComercial="";
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			//DATOS DEL LOTE
@@ -55,7 +56,9 @@
 			
 		}
 	}
-	if (strlen($Fila["muestra_paralela"]>1))
+	$muestra_paralela = isset($Fila["muestra_paralela"])?$Fila["muestra_paralela"]:0;
+	$ExLote           = isset($Fila["ExLote"])?$Fila["ExLote"]:0;
+	if (strlen($muestra_paralela>1))
 	{
 			$ConsultaR = "select distinct t1.id_muestra, t1.nro_solicitud, t1.peso_muestra, t1.peso_retalla";
 			$ConsultaR.=" from cal_web.solicitud_analisis t1 where t1.id_muestra = '".$Fila["muestra_paralela"]."'";
