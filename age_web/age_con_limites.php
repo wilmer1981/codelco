@@ -6,8 +6,8 @@
 	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
 	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"S";
 	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"S";
-	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
-	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
 	
 	//COLORES DE LIMITES
