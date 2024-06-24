@@ -1,22 +1,22 @@
 <?php
-	    ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
@@ -266,11 +266,11 @@ else
 		}		
 		reset($ArrLeyes);
 		foreach($ArrLeyes as $k => $v)	
-		{
-			if ($v["usada"]=="S")
-			{
+		{   $usada = isset($v["usada"])?$v["usada"]:"";
+			if ($usada=="S")
+			{   $ArrTotalcod_leyes = isset($ArrTotal[$v["cod_leyes"]]["valor"])?$ArrTotal[$v["cod_leyes"]]["valor"]:0;
 				echo "<td align='right'>".number_format($v["valor"],$v["decimales"],",",".")."</td>\n";
-				$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotal[$v["cod_leyes"]]["valor"] + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
+				$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotalcod_leyes + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
 				$ArrTotal[$v["cod_leyes"]]["usada"] = "S";
 				$ArrTotal[$v["cod_leyes"]]["conversion"] = $v["conversion"];
 				$ArrTotal[$v["cod_leyes"]]["decimales"] = $v["decimales"];

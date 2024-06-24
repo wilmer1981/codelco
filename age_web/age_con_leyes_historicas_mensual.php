@@ -343,8 +343,9 @@ if ($Plantilla!="S")
 	foreach($ArrLeyes as $k => $v)   
 	{ $usada = isset($v["usada"])?$v["usada"]:"";
 		if ($usada=="S")
-		{ 
-			if ($ArrLimites[$k]["usada"]=="S")
+		{   
+			$ArrLimites_usada = isset($ArrLimites[$k]["usada"])?$ArrLimites[$k]["usada"]:"";
+			if ($ArrLimites_usada=="S")
 			{
 				echo "<td width=60 align='center' onMouseOver=\"JavaScript:muestra('".$v["abreviatura"]."');\" onMouseOut=\"JavaScript:oculta('".$v["abreviatura"]."');\">";
 				echo "<div id='Txt".$v["abreviatura"]."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:70px'>\n";
@@ -421,13 +422,14 @@ if ($Plantilla!="S")
 		}		
 		reset($ArrLeyes);
 		foreach($ArrLeyes as $k => $v)	
-		{
-			if ($v["usada"]=="S")
+		{   $usada = isset($v["usada"])?$v["usada"]:"";
+			if ($usada=="S")
 			{
 				$Color="";
+				$ArrTotalcod_leyes = isset($ArrTotal[$v["cod_leyes"]]["valor"])?$ArrTotal[$v["cod_leyes"]]["valor"]:0;
 				AsignaColor("PROM", $v["cod_leyes"], $v["valor"], $ArrLimites, $Color, $BajoMin, $SobreMax);
 				echo "<td align='right' bgcolor='".$Color."'>".number_format($v["valor"],$v["decimales"],",",".")."</td>\n";
-				$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotal[$v["cod_leyes"]]["valor"] + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
+				$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotalcod_leyes + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
 				$ArrTotal[$v["cod_leyes"]]["usada"] = "S";
 				$ArrTotal[$v["cod_leyes"]]["conversion"] = $v["conversion"];
 				$ArrTotal[$v["cod_leyes"]]["decimales"] = $v["decimales"];
@@ -464,8 +466,9 @@ function TotalAnual($Ano, $TotalPesoH, $ArrTotalLeyes, $ArrLimites, $BajoMin, $S
 }
 
 function AsignaColor($Tipo, $CodLey, $Valor, $Limites, $BgColor, $BajoMin, $SobreMax)
-{
-	if ($Limites[$CodLey]["usada"]=="S")
+{   
+	$Limites_usada = isset($Limites[$CodLey]["usada"])?$Limites[$CodLey]["usada"]:"";
+	if ($Limites_usada=="S")
 	{
 		switch ($Tipo)
 		{

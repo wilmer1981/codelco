@@ -1,5 +1,19 @@
 ﻿<?php 
 	include("../principal/conectar_principal.php");
+	
+	$PopUp         = isset($_REQUEST["PopUp"])?$_REQUEST["PopUp"]:"";
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAnoFin        = isset($_REQUEST["CmbAnoFin"])?$_REQUEST["CmbAnoFin"]:date("Y");
+	$CmbAnoIni        = isset($_REQUEST["CmbAnoIni"])?$_REQUEST["CmbAnoIni"]:data("Y");
+	$CmbProductoAux      = isset($_REQUEST["CmbProductoAux"])?$_REQUEST["CmbProductoAux"]:"";
+	$CmbSubProductoAux   = isset($_REQUEST["CmbSubProductoAux"])?$_REQUEST["CmbSubProductoAux"]:"";
+	$CmbProveedorAux     = isset($_REQUEST["CmbProveedorAux"])?$_REQUEST["CmbProveedorAux"]:"";
+	$CmbProveedor        = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+
+
 	//COLORES DE LIMITES
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);
@@ -178,13 +192,10 @@ function Proceso(opcion)
 //-->
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
-
 <body>
 <form name="frmPrincipal" action="" method="post">
 <input type="hidden" name="CmbAno" value="<?php echo $CmbAno; ?>">
@@ -315,10 +326,10 @@ if ($Plantilla!="S")
 		reset($ArrLeyes);
 		$ColSpan=0;
 		foreach($ArrLeyes as $k => $v)   
-		{
-			if ($v["usada"]=="S")
-			{
-				if ($ArrLimites[$k]["usada"]=="S")
+		{   $usada = isset($v["usada"])?$v["usada"]:"";
+			if ($usada=="S")
+			{   $ArrLimites_usada = isset($ArrLimites[$k]["usada"])?$ArrLimites[$k]["usada"]:"";
+				if ($ArrLimites_usada=="S")
 				{
 					echo "<td onMouseOver=\"JavaScript:muestra('".$v["abreviatura"]."');\" onMouseOut=\"JavaScript:oculta('".$v["abreviatura"]."');\">";
 					echo "<div id='Txt".$v["abreviatura"]."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:140px'>\n";
@@ -381,13 +392,14 @@ if ($Plantilla!="S")
 			}		
 			reset($ArrLeyes);
 			foreach($ArrLeyes as $k => $v)	
-			{
-				if ($v["usada"]=="S")
+			{   $usada = isset($v["usada"])?$v["usada"]:"";
+				if ($usada=="S")
 				{
 					$Color="";
-					AsignaColor("", $v["cod_leyes"], $v["valor"], $ArrLimites, &$Color, $BajoMin, $SobreMax);
+					$ArrTotalcod_leyes = isset($ArrTotal[$v["cod_leyes"]]["valor"])?$ArrTotal[$v["cod_leyes"]]["valor"]:0;
+					AsignaColor("", $v["cod_leyes"], $v["valor"], $ArrLimites, $Color, $BajoMin, $SobreMax);
 					echo "<td align='right' bgcolor='".$Color."'>".number_format($v["valor"],$v["decimales"],",",".")."</td>\n";
-					$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotal[$v["cod_leyes"]]["valor"] + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
+					$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotalcod_leyes + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
 					$ArrTotal[$v["cod_leyes"]]["usada"] = "S";
 					$ArrTotal[$v["cod_leyes"]]["conversion"] = $v["conversion"];
 					$ArrTotal[$v["cod_leyes"]]["decimales"] = $v["decimales"];
@@ -425,11 +437,11 @@ if ($Plantilla!="S")
 			}		
 			reset($ArrLeyes);
 			foreach($ArrLeyes as $k => $v)	
-			{
-				if ($v["usada"]=="S")
+			{   $usada = isset($v["usada"])?$v["usada"]:"";
+				if ($usada=="S")
 				{
 					$Color="";
-					AsignaColor("PROM", $v["cod_leyes"], $v["valor"], $ArrLimites, &$Color, $BajoMin, $SobreMax);
+					AsignaColor("PROM", $v["cod_leyes"], $v["valor"], $ArrLimites, $Color, $BajoMin, $SobreMax);
 					echo "<td align='right' bgcolor='".$Color."'>".number_format($v["valor"],$v["decimales"],",",".")."</td>\n";					
 				}
 			}
@@ -438,8 +450,9 @@ if ($Plantilla!="S")
 		echo "</table>\n";
 		
 function AsignaColor($Tipo, $CodLey, $Valor, $Limites, $BgColor, $BajoMin, $SobreMax)
-{
-	if ($Limites[$CodLey]["usada"]=="S")
+{   
+	$Limites_usada = isset($Limites[$CodLey]["usada"])?$Limites[$CodLey]["usada"]:"";
+	if ($Limites_usada=="S")
 	{
 		switch ($Tipo)
 		{

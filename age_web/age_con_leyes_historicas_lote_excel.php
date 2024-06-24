@@ -1,24 +1,38 @@
 <?php 
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename = "";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
+
+	$PopUp         = isset($_REQUEST["PopUp"])?$_REQUEST["PopUp"]:"";
+	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAnoFin        = isset($_REQUEST["CmbAnoFin"])?$_REQUEST["CmbAnoFin"]:date("Y");
+	$CmbAnoIni        = isset($_REQUEST["CmbAnoIni"])?$_REQUEST["CmbAnoIni"]:date("Y");
+	$CmbProductoAux      = isset($_REQUEST["CmbProductoAux"])?$_REQUEST["CmbProductoAux"]:"";
+	$CmbSubProductoAux   = isset($_REQUEST["CmbSubProductoAux"])?$_REQUEST["CmbSubProductoAux"]:"";
+	$CmbProveedorAux     = isset($_REQUEST["CmbProveedorAux"])?$_REQUEST["CmbProveedorAux"]:"";
+	$CmbProveedor        = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+
 	//---------------LLENA ARREGLO DE LEYES----------------
 	//SELECCIONA LAS LEYES QUE TIENEN VALOR	
 	$ArrLeyes = array();
@@ -189,8 +203,8 @@ else
 		reset($ArrLeyes);
 		$ColSpan=0;
 		foreach($ArrLeyes as $k => $v)   
-		{
-			if ($v["usada"]=="S")
+		{   $usada = isset($v["usada"])?$v["usada"]:"";
+			if ($usada=="S")
 			{
 				echo "<td width=60 align='center'>".$v["abreviatura"]."<br>(".$v["nom_unidad"].")</td>\n";
 				$ColSpan++;
@@ -238,11 +252,11 @@ else
 			}		
 			reset($ArrLeyes);
 			foreach($ArrLeyes as $k => $v)	
-			{
-				if ($v["usada"]=="S")
-				{
+			{   $usada = isset($v["usada"])?$v["usada"]:"";
+				if ($usada=="S")
+				{   $ArrTotalcod_leyes = isset($ArrTotal[$v["cod_leyes"]]["valor"])?$ArrTotal[$v["cod_leyes"]]["valor"]:0;
 					echo "<td align='right'>".number_format($v["valor"],$v["decimales"],",",".")."</td>\n";
-					$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotal[$v["cod_leyes"]]["valor"] + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
+					$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotalcod_leyes + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
 					$ArrTotal[$v["cod_leyes"]]["usada"] = "S";
 					$ArrTotal[$v["cod_leyes"]]["conversion"] = $v["conversion"];
 					$ArrTotal[$v["cod_leyes"]]["decimales"] = $v["decimales"];
@@ -258,9 +272,9 @@ else
 		echo "<td align='center'><strong>".number_format($CantLotes,0,',','.')."</strong></td>\n";
 		echo "<td align='right'>".number_format($TotalPesoHum,0,',','.')."</td>\n";
 		reset($ArrTotal);
-		while (list($k,$v)=each($ArrTotal))	
-		{
-			if ($v["usada"]=="S")
+		foreach($ArrTotal as $k => $v)
+		{   $usada = isset($v["usada"])?$v["usada"]:"";
+			if ($usada=="S")
 			{
 				echo "<td align='right'>".number_format(($v["valor"]/$TotalPesoHum)*$v["conversion"],$v["decimales"],",",".")."</td>\n";				
 			}
