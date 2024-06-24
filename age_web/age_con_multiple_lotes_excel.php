@@ -1,22 +1,22 @@
 <?php
-	    ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");	
@@ -484,6 +484,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	}
 	//echo $Consulta."<br>";
 	$RespAux = mysqli_query($link, $Consulta);
+	$TotalPesoHum=0;
+	$TotalPesoSeco=0;
 	while ($FilaAux = mysqli_fetch_array($RespAux))
 	{
 		//TITULO		
@@ -631,11 +633,17 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		}		
 		$Resp = mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
+		$TotalLotePesoHum=0; //WSO
+		$PesoHum =0;
+		$TotalLotePesoSeco =0;
+		$PesoSeco=0;
+		$SubTotalPesoHum=0;
+		$SubTotalPesoSeco=0;
 		for ($i = 0; $i <=mysqli_num_rows($Resp) - 1; $i++)
 		{
-			if (mysql_data_seek ($Resp, $i)) 
+			if (mysqli_data_seek ($Resp, $i)) 
 			{
-				if ($Fila = mysql_fetch_row($Resp))  
+				if ($Fila = mysqli_fetch_row($Resp))  
 				{        				
 					$Lote = $Fila[0];
 					$Recargo = $Fila[1];
@@ -731,9 +739,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 					$i++;
 					if ($i<=mysqli_num_rows($Resp)-1)
 					{
-						if (mysql_data_seek($Resp, $i))
+						if (mysqli_data_seek($Resp, $i))
 						{
-							if ($Fila = mysql_fetch_row($Resp))	
+							if ($Fila = mysqli_fetch_row($Resp))	
 							{	 
 								$Sgte = $Fila[0]; //LOTE									
 								if ($Lote==$Sgte)
@@ -749,8 +757,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$DatosLote["lote"]=$Lote;
 						$DatosLote["recargo"]="";
 						LeyesLote($DatosLote,$ArrLoteLeyes,"N","S","S","","","",$link);
-						$TotalLotePesoHum = $DatosLote["peso_humedo"];
-						$TotalLotePesoSeco = $DatosLote["peso_seco2"];
+						$TotalLotePesoHum  = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
+						$TotalLotePesoSeco = isset($DatosLote["peso_seco2"])?$DatosLote["peso_seco2"]:0;
 						//----------------------------------------------------
 						if ($OpcTR=="R")	
 							echo "<tr class='ColorTabla02'>\n";
@@ -772,11 +780,12 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 								echo "<td align='center'>".$N_Conjto."</td>\n";
 							echo "<td colspan=\"".($ColSpanSubTotal-1)."\" align='center'>".$Negrita01."".$Lote."".$Negrita02."</td>\n";
 						}
+						$ArrLoteLeyes012 = isset($ArrLoteLeyes["01"][2])?$ArrLoteLeyes["01"][2]:0;
 						if ($Humedad==true)
 							echo "<td align='center'>".$Negrita01."".number_format($TotalLotePesoHum,0,",",".")."".$Negrita02."</td>\n";
 						echo "<td align='center'>".$Negrita01."".number_format($TotalLotePesoSeco,0,",",".")."".$Negrita02."</td>\n";
 						if ($Humedad == true)
-							echo "<td align='center'>".$Negrita01."".number_format($ArrLoteLeyes["01"][2],$ArrParamLeyes["01"][2],",",".")."".$Negrita02."</td>\n";
+							echo "<td align='center'>".$Negrita01."".number_format((float)$ArrLoteLeyes012,$ArrParamLeyes["01"][2],",",".")."".$Negrita02."</td>\n";
 						reset($ArrLoteLeyes);
 						foreach($ArrLoteLeyes as $k => $v)
 						{
@@ -838,7 +847,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 							if ($TotalLotePesoSeco>0 && $v[2]>0 && $v[5]>0) 
 								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2] + (($TotalLotePesoSeco * $v[2])/$v[5]);//VALOR
 							else
-								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2] + 0;
+								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2];
 							$ArrSubTotalLeyes[$v[0]][3] = $ArrParamLeyes[$v[0]][0];//COD UNIDAD
 							$ArrSubTotalLeyes[$v[0]][4] = $ArrParamLeyes[$v[0]][3];//NOM UNIDAD
 							$ArrSubTotalLeyes[$v[0]][5] = $ArrParamLeyes[$v[0]][1];//CONVERSION
@@ -991,7 +1000,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			if ($SubTotalPesoSeco>0 && $v[2]>0 && $v[5]>0) 
 				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2] + (($SubTotalPesoSeco * $Ley)/$ArrParamLeyes[$k][1]);//VALOR
 			else
-				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2] + 0;
+				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2];
 			$ArrTotalLeyes[$k][3] = $ArrParamLeyes[$k][0];//COD UNIDAD
 			$ArrTotalLeyes[$k][4] = $ArrParamLeyes[$k][3];//NOM UNIDAD
 			$ArrTotalLeyes[$k][5] = $ArrParamLeyes[$k][1];//CONVERSION

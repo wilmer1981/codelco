@@ -4,6 +4,7 @@
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
 
+	$Recargo   = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
 	$Petalo    = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
 	$EsPopup   = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";
 	$Plantilla = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
@@ -12,7 +13,6 @@
 	$EstadoInput = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
 	$ExLote      = isset($_REQUEST["ExLote"])?$_REQUEST["ExLote"]:"";	
 	$FechaRecepcion = isset($_REQUEST["FechaRecepcion"])?$_REQUEST["FechaRecepcion"]:"";
-
 
 	//COLORES DE LIMITES
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";

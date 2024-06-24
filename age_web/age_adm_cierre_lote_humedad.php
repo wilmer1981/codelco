@@ -23,6 +23,7 @@
 	$CantDec   = 0;
 	$TotPesoSeco = 0;
 	$TotPesoHum  = 0;
+	$TotPesoSecoAnt=0;
 	while ($Fila = mysqli_fetch_array($Resp))
 	{		
 		$DatosLoteRec = array();
@@ -30,16 +31,19 @@
 		$DatosLoteRec["lote"]=$TxtLote;
 		$DatosLoteRec["recargo"]=$Fila["recargo"];
 		$FechaMer = "20".substr($TxtLote,0,2)."-".substr($TxtLote,2,2);
-		LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","N","S","","","",$link);
-		if ($ArrLeyes["01"][30]>0)
+		LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","N","S","","",$link);
+		$ArrLeyes0130=isset($ArrLeyes["01"][30])?$ArrLeyes["01"][30]:0;
+		$ArrLeyes012 =isset($ArrLeyes["01"][2])?$ArrLeyes["01"][2]:0;
+		if ($ArrLeyes0130>0)
 		{
 			$PorcMerma = $ArrLeyes["01"][30];
 			$DescMerma = $ArrLeyes["01"][31];
 		}
 		//echo $ArrLeyes["01"][2]."<br>";
 		//echo $ArrLeyes["01"][30]."<br>";
+		$recepcion = isset($DatosLoteRec["recepcion"])?$DatosLoteRec["recepcion"]:"";
 		$peso_humedo = isset($DatosLoteRec["peso_humedo"])?$DatosLoteRec["peso_humedo"]:0;
-		$NuevoPorc = ($ArrLeyes["01"][2] + $ArrLeyes["01"][30]);
+		$NuevoPorc = ($ArrLeyes012 + $ArrLeyes0130);
 		if ($peso_humedo>0 && $NuevoPorc>0)
 		{
 			/*echo $ArrLeyes["01"][2]."<br>";
@@ -47,26 +51,26 @@
 			echo $NuevoPorc."<br>";
 			echo $ArrLeyes["01"][30]."<br><br>";*/
 			
-			if ($DatosLoteRec["recepcion"]=="PMN" && $Fila["cod_subproducto"] !="43")
+			if ($recepcion=="PMN" && $Fila["cod_subproducto"] !="43")
 				$PesoSeco = $peso_humedo;
 			else
 				$PesoSeco = $peso_humedo - ($peso_humedo * $NuevoPorc)/100;
 		}
 		else
 		{
-			if ($DatosLoteRec["recepcion"]=="PMN")
+			if ($recepcion=="PMN")
 				$PesoSeco = $peso_humedo;
 			else
 				$PesoSeco = $peso_seco;			
 		}
 		echo "<tr >\n";
 		echo "<td align='center'>".$Fila["recargo"]."</td>\n";
-		if ($DatosLoteRec["recepcion"]=="PMN")
+		if ($recepcion=="PMN")
 			$CantDec=4;
 		else
 			$CantDec=0;
-		echo "<td align='right'>".number_format($DatosLoteRec["peso_humedo"],$CantDec,'','.')."</td>\n";		
-		echo "<td align='right'>".number_format($ArrLeyes["01"][2],4,',','.')."</td>\n";		
+		echo "<td align='right'>".number_format($peso_humedo,$CantDec,'','.')."</td>\n";		
+		echo "<td align='right'>".number_format($ArrLeyes012,4,',','.')."</td>\n";		
 		//echo "<td align='right'>".number_format(($ArrLeyes["01"][23]*100)/$PesoSeco,2,',','.')."</td>\n";		
 		echo "<td align='right'>".number_format($PorcMerma,2,',','.')."</td>\n";		
 		echo "<td align='right'>".number_format($NuevoPorc,4,',','.')."</td>\n";				
@@ -75,7 +79,7 @@
 		$TotPesoHum = $TotPesoHum + $peso_humedo;
 		$TotPesoSecoAnt = $TotPesoSecoAnt + $PesoSeco;
 		//$TotPesoSecoAnt2 = $TotPesoSecoAnt2 + $DatosLoteRec["peso_seco2"];
-		if ($DatosLoteRec["recepcion"]=="PMN")
+		if ($recepcion=="PMN")
 			$TotPesoSeco = $TotPesoSeco + $PesoSeco;
 		else
 			$TotPesoSeco = $TotPesoSeco + round($PesoSeco);
@@ -84,7 +88,7 @@
 	/*if ($TotPesoSecoAnt!=0 && $TotPesoHum!=0)
 		$TotPorc = 100 - ($TotPesoSecoAnt * 100)/$TotPesoHum;
 	else
-		$TotPorc = 0;*/
+		$TotPorc = 0;*/ 
 	if ($TotPesoSeco!=0 && $TotPesoHum!=0)
 		$TotNuevoPorc = 100 - ($TotPesoSeco * 100)/$TotPesoHum;
 	else

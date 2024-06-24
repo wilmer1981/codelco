@@ -20,6 +20,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 		$Consulta.= " and t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
 	$Consulta.= " order by t1.lote, t2.recargo";
 	$RespPeso=mysqli_query($link, $Consulta);
+	$PesoHumedo=0;
 	if ($FilaPeso = mysqli_fetch_array($RespPeso))
 	{
 		$PesoHumedo = $FilaPeso["peso_humedo"];
@@ -76,7 +77,8 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 			$PorcHum = $FilaLeyes["valor"];	
 	}
 	//RESCATA LEYES CANJEABLES
-	if($Lote["canjeable"]=='S')
+	$canjeable=isset($Lote["canjeable"])?$Lote["canjeable"]:"";
+	if($canjeable=='S')
 	{
 		$Consulta = "select distinct t1.cod_leyes,(t1.inc_retalla+t1.ley_canje) as ley_canje ";
 		$Consulta.= " from age_web.leyes_por_lote_canje t1 where t1.lote='".$Lote["lote"]."' ";
@@ -113,13 +115,15 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	//ValorMerma(&$Lote,&$Leyes,$IncMerma);
 	//CONSULTO LUGAR DE DESTINO
 	$TieneConj=false;
-
-	if ($Lote["num_conjunto"]>0)
+	$LugarDestino=0;
+	$NomLugar="";
+	$num_conjunto= isset($Lote["num_conjunto"])?$Lote["num_conjunto"]:0;
+	if ($num_conjunto>0)
 	{
 		$Consulta = "select t1.cod_lugar, t2.descripcion_lugar ";
 		$Consulta.= " from ram_web.conjunto_ram t1 inner join ram_web.tipo_lugar t2 on t1.cod_lugar=t2.cod_tipo_lugar ";
 		$Consulta.= " where t1.cod_conjunto='01' ";
-		$Consulta.= " and t1.num_conjunto='".$Lote["num_conjunto"]."' ";
+		$Consulta.= " and t1.num_conjunto='".$num_conjunto."' ";
 		$RespM01 = mysqli_query($link, $Consulta);
 		if ($FilaM01 = mysqli_fetch_array($RespM01))
 		{
@@ -129,10 +133,14 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 		}
 	}
 	//CONSULTO EL CONTRATO
+	$cod_producto   = isset($Lote["cod_producto"])?$Lote["cod_producto"]:"";
+	$cod_subproducto= isset($Lote["cod_subproducto"])?$Lote["cod_subproducto"]:"";
+	$rut_proveedor  = isset($Lote["rut_proveedor"])?$Lote["rut_proveedor"]:"";
 	$Consulta = "select * from age_web.programa_recepcion ";
-	$Consulta.= " where tipo_programa='00' and cod_producto='".$Lote["cod_producto"]."' ";
-	$Consulta.= " and cod_subproducto='".$Lote["cod_subproducto"]."' and  rut_proveedor='".$Lote["rut_proveedor"]."'";
+	$Consulta.= " where tipo_programa='00' and cod_producto='".$cod_producto."' ";
+	$Consulta.= " and cod_subproducto='".$cod_subproducto."' and  rut_proveedor='".$rut_proveedor."'";
 	$RespM01 = mysqli_query($link, $Consulta);
+	$Cont=0;
 	if ($FilaM01 = mysqli_fetch_array($RespM01))
 	{		
 		$Cont=$FilaM01["cod_contrato"];
@@ -166,11 +174,14 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	if (!$FilaProvi=mysqli_fetch_array($RespProvi))
 		ValoresRetalla($Lote,$Leyes,$IncRetalla,$link);
 	//CALCULA FINOS
+	$peso_seco = isset($Lote["peso_seco"])?$Lote["peso_seco"]:0;
 	reset($Leyes);
 	do {			 
 		$key = key ($Leyes);
-		if ($Lote["peso_seco"]>0 && $Leyes[$key][2]>0 && $Leyes[$key][5]>0)
-			$Leyes[$key][23] = ($Lote["peso_seco"] * $Leyes[$key][2])/$Leyes[$key][5];
+		$Leyes2 = isset($Leyes[$key][2])?$Leyes[$key][2]:0;
+		$Leyes5 = isset($Leyes[$key][5])?$Leyes[$key][5]:0;
+		if ($peso_seco>0 && $Leyes2>0 && $Leyes5>0)
+			$Leyes[$key][23] = ($peso_seco * $Leyes2)/$Leyes5;
 		else
 			$Leyes[$key][23] = '0';
 	} while (next($Leyes));	
