@@ -12,10 +12,10 @@ $TxtLeyes  = isset($_REQUEST["TxtLeyes"])?$_REQUEST["TxtLeyes"]:"";
 $TxtSALIMS = isset($_REQUEST["TxtSALIMS"])?$_REQUEST["TxtSALIMS"]:"";
 $TxtSA     = isset($_REQUEST["TxtSA"])?$_REQUEST["TxtSA"]:"";
 $TxtCCosto     = isset($_REQUEST["TxtCCosto"])?$_REQUEST["TxtCCosto"]:"";
-$TxtAgrupacion     = isset($_REQUEST["TxtAgrupacion"])?$_REQUEST["TxtAgrupacion"]:"";
-$TxtArea     = isset($_REQUEST["TxtArea"])?$_REQUEST["TxtArea"]:"";
-$TxtAnalisis     = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
-$TxtTipo     = isset($_REQUEST["TxtTipo"])?$_REQUEST["TxtTipo"]:"";
+$TxtAgrupacion = isset($_REQUEST["TxtAgrupacion"])?$_REQUEST["TxtAgrupacion"]:"";
+$TxtArea       = isset($_REQUEST["TxtArea"])?$_REQUEST["TxtArea"]:"";
+$TxtAnalisis   = isset($_REQUEST["TxtAnalisis"])?$_REQUEST["TxtAnalisis"]:"";
+$TxtTipo       = isset($_REQUEST["TxtTipo"])?$_REQUEST["TxtTipo"]:"";
 $TxtFechaC     = isset($_REQUEST["TxtFechaC"])?$_REQUEST["TxtFechaC"]:"";
 
 //CONSULTA DATOS BASE
@@ -369,8 +369,7 @@ function Imprimir()
 		   	$Consulta = "SELECT fecha_hora from cal_web.estados_por_solicitud t1 ";
 		   	if ($Recargo=='N')
 		   	{
-				$Consulta = $Consulta."where t1.nro_solicitud ='".$SA."'  and cod_estado = '13' "; 
-				
+				$Consulta = $Consulta."where t1.nro_solicitud ='".$SA."'  and cod_estado = '13' "; 				
 			}
 		  	else
 			{
@@ -984,11 +983,11 @@ function Imprimir()
 	$Consulta = "SELECT * from cal_web.registro_leyes ";
 	if($Recargo == 'N')
 	{
-		$Consulta.=" where nro_solicitud = ".$SA." ORDER BY fecha_hora, recargo, cod_leyes";
+		$Consulta.=" where nro_solicitud = '".$SA."' ORDER BY fecha_hora, recargo, cod_leyes";
 	}
 	else
 	{
-		$Consulta.=" where nro_solicitud = ".$SA." and recargo =".$Recargo." ORDER BY fecha_hora, recargo, cod_leyes";
+		$Consulta.=" where nro_solicitud = '".$SA."' and recargo ='".$Recargo."' ORDER BY fecha_hora, recargo, cod_leyes";
 	}
 	//echo $Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
