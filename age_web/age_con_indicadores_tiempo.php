@@ -360,9 +360,11 @@ if ($Mostrar=="S")
 		$Consulta.= " where t1.nro_solicitud = '".$SA."' ";			
 		$Consulta.= " and t1.recargo='".$Recargo."' ";	
 		$Consulta.= " and t1.cod_estado='6' "; //RECEPCIONADO LABORATORIO	
-		$RespAux = mysqli_query($link, $Consulta);
+		//echo $Consulta."<br>";
+		$RespAux = mysqli_query($link, $Consulta);	
 		if ($FilaAux=mysqli_fetch_array($RespAux))
 		{
+			//echo "Fecha-Hora:".$FilaAux["fecha_hora"]."<br>";
 			$FechaFinalizSA=$FilaAux["fecha_hora"];
 		}		
 		//FECHA FINALIZADA RETALLA
@@ -387,7 +389,9 @@ if ($Mostrar=="S")
 		{
 			$FechaFinalizParalela=$FilaAux["fecha_hora"];
 		}		
-		$FechaFinaliz="";
+		//$FechaFinaliz="";
+		$FechaFinaliz="0000-00-00 00:00:00";
+		//$FechaFinaliz=date("Y-m-d H:i:s");
 		if ($SA_Retalla=="" && $SA_Paralela=="")
 		{
 			if ($CodEstadoSA=="6")
@@ -536,20 +540,25 @@ if ($Mostrar=="S")
 
 function DifFecha($Fecha1, $Fecha2, $Tipo, $DifFecha)
 {
-	//echo $Fecha1."<br>";
+	//echo "Fecha1:".$Fecha1."<br>";
 	$AnoAux=substr($Fecha1,0,4);
 	$MesAux=substr($Fecha1,5,2);
 	$DiaAux=substr($Fecha1,8,2);
 	$HoraAux=substr($Fecha1,11,2);
 	$MinutoAux=substr($Fecha1,14,2);
 	$SegundoAux=substr($Fecha1,17,2);
-	//echo $Fecha2."<br>";
+	//echo "Fecha2:".$Fecha2."<br>";
 	$AnoAux2=substr($Fecha2,0,4);
 	$MesAux2=substr($Fecha2,5,2);
 	$DiaAux2=substr($Fecha2,8,2);
 	$HoraAux2=substr($Fecha2,11,2);
 	$MinutoAux2=substr($Fecha2,14,2);
 	$SegundoAux2=substr($Fecha2,17,2);
+	if($HoraAux==""){
+		$HoraAux="00";
+		$MinutoAux="00";
+		$SegundooAux="00";
+	}
 	//echo $Fecha1." - ".$Fecha2."<br>";	
 	//echo $HoraAux2."-".$HoraAux.", ".$MinutoAux2."-".$MinutoAux.", ".$SegundoAux2."-".$SegundoAux.", ".$MesAux2."-".$MesAux.", ".$DiaAux2."-".$DiaAux.", ".$AnoAux2."-".$AnoAux."<br>";
 	$Fecha1=mktime($HoraAux, $MinutoAux, 0, $MesAux, $DiaAux, $AnoAux);
