@@ -4,7 +4,7 @@
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
 	$Mostrar       = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
-	$Mes           = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
+	$Mes           = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 	$Ano           = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
 	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
@@ -285,6 +285,7 @@ if ($Mostrar=="S")
 		//echo $Consulta;
 		$RespLote = mysqli_query($link, $Consulta);
 		$Cont=0;
+		$LoteEnc="";
 		while ($FilaLote = mysqli_fetch_array($RespLote))
 		{				
 			echo "<tr>";
