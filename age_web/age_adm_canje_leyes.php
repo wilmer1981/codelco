@@ -26,7 +26,7 @@
 	$CmbLaboratorios    = isset($_REQUEST["CmbLaboratorios"])?$_REQUEST["CmbLaboratorios"]:"";
 	$TieneArb           = isset($_REQUEST["TieneArb"])?$_REQUEST["TieneArb"]:"";	
 	$TxtConjunto        = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
-	$TxtFechaCanje      = isset($_REQUEST["TxtFechaCanje"])?$_REQUEST["TxtFechaCanje"]:"";
+	$TxtFechaCanje      = isset($_REQUEST["TxtFechaCanje"])?$_REQUEST["TxtFechaCanje"]:date("Y-m-d");
 	$TxtOrdenEnsaye     = isset($_REQUEST["TxtOrdenEnsaye"])?$_REQUEST["TxtOrdenEnsaye"]:"";
 	$TxtFechaSolPqts    = isset($_REQUEST["TxtFechaSolPqts"])?$_REQUEST["TxtFechaSolPqts"]:"";
 	$ClaseProducto      = isset($_REQUEST["ClaseProducto"])?$_REQUEST["ClaseProducto"]:"";
