@@ -1,25 +1,39 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
+
+	$TxtOrdenEns     = isset($_REQUEST["TxtOrdenEns"])?$_REQUEST["TxtOrdenEns"]:"";
+	$TxtOrdenEnsaye  = isset($_REQUEST["TxtOrdenEnsaye"])?$_REQUEST["TxtOrdenEnsaye"]:"";
+	$Calcular        = isset($_REQUEST["Calcular"])?$_REQUEST["Calcular"]:"";
+	$EstadoInput     = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$TxtFactura      = isset($_REQUEST["TxtFactura"])?$_REQUEST["TxtFactura"]:"";
+	$TxtFechaFactura = isset($_REQUEST["TxtFechaFactura"])?$_REQUEST["TxtFechaFactura"]:"";
+	$TxtFechaIni     = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:"";
+	$TxtFechaFin     = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:"";
+	$TxtValorMoneda  = isset($_REQUEST["TxtValorMoneda"])?$_REQUEST["TxtValorMoneda"]:"";
+	$TipoMoneda      = isset($_REQUEST["TipoMoneda"])?$_REQUEST["TipoMoneda"]:"";
+	$Petalo          = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+
 	$Consulta ="select t2.nombre_subclase as nom_lab,t2.valor_subclase1,t2.valor_subclase2,t2.valor_subclase3,t2.valor_subclase4 from age_web.lotes t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='15009' and t1.laboratorio_externo=t2.cod_subclase ";
 	$Consulta.="where t1.orden_ensaye='".$TxtOrdenEns."' order by t1.lote desc limit 1";
 	//echo $Consulta;
@@ -31,20 +45,21 @@
 	$PrecioAg=$Fila["valor_subclase3"];
 	$PrecioAu=$Fila["valor_subclase4"];
 	
-	if(!isset($TxtOrdenEnsaye))
+	if($TxtOrdenEnsaye=="")
 		$TxtOrdenEnsaye=$TxtOrdenEns;
+
 	if($Calcular!='S')
 	{	
 		$Consulta="select * from age_web.facturacion_canje_leyes where orden_ensaye='".$TxtOrdenEns."'";
 		$RespOrdenEns=mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($RespOrdenEns))
 		{
-			$TxtFactura=$Fila[num_factura];
-			$TxtFechaFactura=$Fila[fecha_factura];
-			$TxtFechaIni=$Fila[fecha_moneda_desde];
-			$TxtFechaFin=$Fila[fecha_moneda_hasta];
-			$CmbTipoMoneda=$Fila[tipo_moneda];
-			$TxtValorMoneda=$Fila[valor_moneda];
+			$TxtFactura=$Fila["num_factura"];
+			$TxtFechaFactura=$Fila["fecha_factura"];
+			$TxtFechaIni=$Fila["fecha_moneda_desde"];
+			$TxtFechaFin=$Fila["fecha_moneda_hasta"];
+			$CmbTipoMoneda=$Fila["tipo_moneda"];
+			$TxtValorMoneda=$Fila["valor_moneda"];
 		}
 	}	
 ?>
@@ -217,52 +232,52 @@
 	  <td align="center">COBRE</td>
 	  <td align="right"><?php echo $CantGanaE_CU;?></td>
 	  <td align="right"><?php echo $PrecioCu;?></td>
-	  <td align="right"><?php echo ($CantGanaE_CU*$PrecioCu);?></td>
-	  <td align="right"><?php echo number_format(($CantGanaE_CU*$PrecioCu)*$TxtValorMoneda,'0',',','.');?></td>
+	  <td align="right"><?php echo ((float)$CantGanaE_CU*(float)$PrecioCu);?></td>
+	  <td align="right"><?php echo number_format(((float)$CantGanaE_CU*(float)$PrecioCu)*(float)$TxtValorMoneda,'0',',','.');?></td>
 	  <td align="center" class="Detalle04">&nbsp;</td>
 	  <td align="center">COBRE</td>
 	  <td align="right"><?php echo $CantGanaC_CU;?></td>
 	  <td align="right"><?php echo $PrecioCu;?></td>
-	  <td align="right"><?php echo ($CantGanaC_CU*$PrecioCu);?></td>
-	  <td align="right"><?php echo number_format(($CantGanaC_CU*$PrecioCu)*$TxtValorMoneda,'0',',','.');?></td>
+	  <td align="right"><?php echo ((float)$CantGanaC_CU*(float)$PrecioCu);?></td>
+	  <td align="right"><?php echo number_format(((float)$CantGanaC_CU*(float)$PrecioCu)*(float)$TxtValorMoneda,'0',',','.');?></td>
 	  </tr>
 	<tr align="center" class="ColorTabla02">
 	  <td align="center">PLATA</td>
 	  <td align="right"><?php echo $CantGanaE_AG;?></td>
 	  <td align="right"><?php echo $PrecioAg;?></td>
-	  <td align="right"><?php echo ($CantGanaE_AG*$PrecioAg);?></td>
-	  <td align="right"><?php echo number_format(($CantGanaE_AG*$PrecioAg)*$TxtValorMoneda,'0',',','.');?></td>
+	  <td align="right"><?php echo ((float)$CantGanaE_AG*(float)$PrecioAg);?></td>
+	  <td align="right"><?php echo number_format(((float)$CantGanaE_AG*(float)$PrecioAg)*(float)$TxtValorMoneda,'0',',','.');?></td>
 	  <td align="center" class="Detalle04">&nbsp;</td>
 	  <td align="center">PLATA</td>
 	  <td align="right"><?php echo $CantGanaC_AG;?></td>
 	  <td align="right"><?php echo $PrecioAg;?></td>
-	  <td align="right"><?php echo ($CantGanaC_AG*$PrecioAg);?></td>
-	  <td align="right"><?php echo number_format(($CantGanaC_AG*$PrecioAg)*$TxtValorMoneda,'0',',','.');?></td>
+	  <td align="right"><?php echo ((float)$CantGanaC_AG*(float)$PrecioAg);?></td>
+	  <td align="right"><?php echo number_format(((float)$CantGanaC_AG*(float)$PrecioAg)*(float)$TxtValorMoneda,'0',',','.');?></td>
 	  </tr>
 	<tr align="center" class="ColorTabla02">
 	  <td align="center">ORO</td>
 	  <td align="right"><?php echo $CantGanaE_AU;?></td>
 	  <td align="right"><?php echo $PrecioAu;?></td>
-	  <td align="right"><?php echo ($CantGanaE_AU*$PrecioAu);?></td>
-	  <td align="right"><?php echo number_format(($CantGanaE_AU*$PrecioAu)*$TxtValorMoneda,'0',',','.');?></td>
+	  <td align="right"><?php echo ((float)$CantGanaE_AU*(float)$PrecioAu);?></td>
+	  <td align="right"><?php echo number_format(((float)$CantGanaE_AU*(float)$PrecioAu)*(float)$TxtValorMoneda,'0',',','.');?></td>
 	  <td align="center" class="Detalle04">&nbsp;</td>
 	  <td align="center">ORO</td>
 	  <td align="right"><?php echo $CantGanaC_AU;?></td>
 	  <td align="right"><?php echo $PrecioAu;?></td>
-	  <td align="right"><?php echo ($CantGanaC_AU*$PrecioAu);?></td>
-	  <td align="right"><?php echo number_format(($CantGanaC_AU*$PrecioAu)*$TxtValorMoneda,'0',',','.');?></td>
+	  <td align="right"><?php echo ((float)$CantGanaC_AU*(float)$PrecioAu);?></td>
+	  <td align="right"><?php echo number_format(((float)$CantGanaC_AU*(float)$PrecioAu)*(float)$TxtValorMoneda,'0',',','.');?></td>
 	  </tr>
 	<tr align="center" class="detalle01">
 	  <td colspan="3" align="right">Valor Neto </td>
-	  <?php $ValorNeto=($CantGanaE_CU*$PrecioCu)+($CantGanaE_AG*$PrecioAg)+($CantGanaE_AU*$PrecioAu);?>
+	  <?php $ValorNeto=((float)$CantGanaE_CU*(float)$PrecioCu)+((float)$CantGanaE_AG*(float)$PrecioAg)+((float)$CantGanaE_AU*(float)$PrecioAu);?>
 	  <td align="right"><?php echo number_format($ValorNeto,1,',','.');?></td>
-	  <?php $ValorNetoPeso=(($CantGanaE_CU*$PrecioCu)*$TxtValorMoneda)+(($CantGanaE_AG*$PrecioAg)*$TxtValorMoneda)+(($CantGanaE_AU*$PrecioAu)*$TxtValorMoneda);?>
+	  <?php $ValorNetoPeso=(((float)$CantGanaE_CU*(float)$PrecioCu)*(float)$TxtValorMoneda)+(((float)$CantGanaE_AG*(float)$PrecioAg)*(float)$TxtValorMoneda)+(((float)$CantGanaE_AU*(float)$PrecioAu)*(float)$TxtValorMoneda);?>
 	  <td align="right"><?php echo number_format($ValorNetoPeso,0,',','.');?></td>
 	  <td align="center" class="Detalle04">&nbsp;</td>
 	  <td colspan="3" align="right">Valor Neto</td>
-	  <?php $ValorNetoC=($CantGanaC_CU*$PrecioCu)+($CantGanaC_AG*$PrecioAg)+($CantGanaC_AU*$PrecioAu);?>
+	  <?php $ValorNetoC=((float)$CantGanaC_CU*(float)$PrecioCu)+((float)$CantGanaC_AG*(float)$PrecioAg)+((float)$CantGanaC_AU*(float)$PrecioAu);?>
 	  <td align="right"><?php echo number_format($ValorNetoC,1,',','.');?></td>
-	  <?php $ValorNetoPesoC=(($CantGanaC_CU*$PrecioCu)*$TxtValorMoneda)+(($CantGanaC_AG*$PrecioAg)*$TxtValorMoneda)+(($CantGanaC_AU*$PrecioAu)*$TxtValorMoneda);?>
+	  <?php $ValorNetoPesoC=(((float)$CantGanaC_CU*(float)$PrecioCu)*(float)$TxtValorMoneda)+(((float)$CantGanaC_AG*(float)$PrecioAg)*(float)$TxtValorMoneda)+(((float)$CantGanaC_AU*(float)$PrecioAu)*(float)$TxtValorMoneda);?>
 	  <td align="right"><?php echo number_format($ValorNetoPesoC,0,',','.');?></td>
 	  </tr>
 	<tr align="center" class="Detalle01">

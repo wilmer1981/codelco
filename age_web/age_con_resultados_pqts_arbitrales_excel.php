@@ -71,10 +71,10 @@
   <br>
 	<table border='1' align='center' cellpadding='1' cellspacing='0' class='TablaInterior'>
 	<tr align="center" class="ColorTabla01">
-	<td colspan="11">CANJE MES O-E N�</td>
+	<td colspan="11">CANJE MES O-E N°</td>
 	</tr>
 	<tr align="center" class="ColorTabla01">
-	<td rowspan="2">N�</td>
+	<td rowspan="2">N°</td>
 	<td rowspan="2">Lote</td>
 	<td rowspan="2">Proveedor</td>
 	<td colspan="3">Gana Codelco</td>
