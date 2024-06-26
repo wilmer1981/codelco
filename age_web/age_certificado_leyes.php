@@ -242,6 +242,7 @@
 			$Consulta="select lpad(t1.recargo,2,'0') as rec,t1.recargo from age_web.detalle_lotes t1 inner join age_web.leyes_por_lote t2 on ";
 			$Consulta.="t1.lote=t2.lote and t1.recargo=t2.recargo where t1.lote='$Lote' order by rec";
 			$RespRec=mysqli_query($link, $Consulta);
+			$ContFilas=1;
 			while($FilaRec=mysqli_fetch_array($RespRec))
 			{
 				if($ContFilas==15)
@@ -255,7 +256,7 @@
 				$DatosLote["lote"]=$Lote;
 				$DatosLote["recargo"]=$FilaRec["recargo"];
 				$ArrLeyes["01"][0]="01";
-				LeyesLoteRecargo($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
+				LeyesLoteRecargo($DatosLote,$ArrLeyes,"N","S","N","","",$link);
 				$pdf->addTextWrap($PosCol,$PosAux,60,10,"R ".$FilaRec["rec"],$justification='left',0,0);
 				reset($ArrLeyes);
 				$pdf->addTextWrap($PosCol+30,$PosAux,60,10,number_format($ArrLeyes["01"][2],4,',','.'),$justification='left',0,0);

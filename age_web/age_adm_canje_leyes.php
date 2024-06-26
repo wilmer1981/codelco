@@ -12,7 +12,6 @@
 	$Valores          = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$SeguimientoHVL   = isset($_REQUEST["SeguimientoHVL"])?$_REQUEST["SeguimientoHVL"]:"";
 
-
 	$CodFaena        = isset($_REQUEST["CodFaena"])?$_REQUEST["CodFaena"]:"";
 	$NombreFaena     = isset($_REQUEST["NombreFaena"])?$_REQUEST["NombreFaena"]:"";
 	$EstOpe          = isset($_REQUEST["EstOpe"])?$_REQUEST["EstOpe"]:"";
@@ -1086,7 +1085,8 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				}
 				echo "<td><input type='radio' name='$NombreOpt' value='1' $Chekeado1><input type='text' name='$NombreTxt' size='6' value='$v[2]' class='InputCen' readonly=true></td>";
 				echo "<td colspan='2'><input type='radio' name='$NombreOpt' value='2' $Chekeado2><input type='text' name='$NombreTxt' size='6' value='$v[3]' class='InputCen' $ClaseInput2>";
-				if($v[30]=='S')
+				$v30 = isset($v[30])?$v[30]:"";
+				if($v30=='S')
 					echo "<input type='checkbox' name='CheckForzarLey' value='' checked></td>";
 				else
 					echo "<input type='checkbox' name='CheckForzarLey' value=''></td>";
@@ -1096,7 +1096,8 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				echo "<td><input type='text' name='$NombreTxt' size='10' value='$v[7]' class='InputCen' readonly=true></td>";
 				echo "<td><input type='text' name='$NombreTxt' size='10' value='$v[8]' style ='background:#FFFFCC' class='InputCen'></td>";
 				echo "<td><input type='text' name='$NombreTxt' size='12' value='$v[9]' style ='background:#FFFF99' class='InputCen'></td>";
-				if($v[20]=='S')
+				$v20 = isset($v[20])?$v[20]:"";
+				if($v20=='S')
 				{
 					$TieneArb='S';
 					echo "<td><input type='checkbox' name='CheckArbitral' size='12' value='' class='InputCen' checked></td>";

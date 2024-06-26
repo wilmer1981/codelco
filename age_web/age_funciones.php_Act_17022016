@@ -1,4 +1,4 @@
-<?
+<?php
 require "../principal/clasemail/class.phpmailer.php";
 
 //FUNCIONES PARA EL SISTEMA DE AGENCIA

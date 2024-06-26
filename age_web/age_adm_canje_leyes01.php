@@ -3,7 +3,7 @@
 
 	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$CodLeyEli = isset($_REQUEST["CodLeyEli"])?$_REQUEST["CodLeyEli"]:"";
-
+	$CmbPlantLimPart  = isset($_REQUEST["CmbPlantLimPart"])?$_REQUEST["CmbPlantLimPart"]:"";
 	$TxtLote          = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
 	$TxtFechaCanje    = isset($_REQUEST["TxtFechaCanje"])?$_REQUEST["TxtFechaCanje"]:"";
 	$TxtOrdenEnsaye   = isset($_REQUEST["TxtOrdenEnsaye"])?$_REQUEST["TxtOrdenEnsaye"]:"";
@@ -52,6 +52,11 @@
 					$ValorLeyR=0;
 				if($ValorIncR=='')
 					$ValorIncR=0;
+			
+				//echo "ValorLeyC:".$ValorLeyC."<br>";
+				if($ValorLeyC==""){
+					$ValorLeyC=0.00;
+				}
 				$Insertar="INSERT INTO age_web.leyes_por_lote_canje(lote,recargo,cod_leyes,valor1,valor2,valor3,valor4,cod_unidad,paquete_canje,valor_retalla,inc_retalla,ley_canje,observacion,plantilla_limite,pendiente,ley_forzada) values (";
 				$Insertar.="'$TxtLote','0','$CodLey','".str_replace(',','.',$ValorLey1)."','".str_replace(',','.',$ValorLey2)."','".str_replace(',','.',$ValorLey3)."','".str_replace(',','.',$ValorLey4)."','$CodUnidad',";
 				$Insertar.="'$NumPqte','".str_replace(',','.',$ValorLeyR)."','".str_replace(',','.',$ValorIncR)."','".str_replace(',','.',$ValorLeyC)."','$Seguimiento','$CmbPlantLimPart','$Arbitral','$ForzarLey2')";

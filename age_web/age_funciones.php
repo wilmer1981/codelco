@@ -8,7 +8,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	reset($Leyes);
 	$TxtLote = $Lote["lote"];
 	//RESCATA PESO
-	$Consulta = "select t1.lote, t2.recargo, t2.peso_neto as peso_humedo, t2.peso_bruto, t2.peso_tara, ";
+	$Consulta = "SELECT t1.lote, t2.recargo, t2.peso_neto as peso_humedo, t2.peso_bruto, t2.peso_tara, ";
 	$Consulta.= " t1.peso_muestra, t1.peso_retalla, t1.cod_producto, t1.cod_subproducto, t1.rut_proveedor, ";
 	$Consulta.= " t1.fecha_recepcion, t1.cod_faena, t1.cod_recepcion, t1.clase_producto, t1.num_conjunto, ";
 	$Consulta.= " t1.remuestreo, t1.num_lote_remuestreo, t1.estado_lote, t1.modificado, t1.fin_canje, t1.canjeable, t3.recepcion ";
@@ -836,11 +836,11 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 			$Consulta.= " where (t1.lote='".$Lote["lote"]."' and t1.estado_lote <>'6' ";
 			$Consulta.= " and t1.fecha_canje<='".$FechaCierreAnexo."') ";
 			$Consulta.= " or (t1.lote='".$Lote["lote"]."' and t1.fecha_fin_canje between '".$FechaIni."' and '".$FechaFin."') ";	
-			if (count($Leyes)>0)
+			if (count($LeyesPond)>0)
 			{
 				$Consulta.= " and (";
-				reset($Leyes);
-				foreach($Leyes as $k => $v)
+				reset($LeyesPond);
+				foreach($LeyesPond as $k => $v)
 				{			
 					$Consulta.= " t2.cod_leyes='".$v[0]."' or";
 				}
@@ -1149,8 +1149,8 @@ function ValoresRetalla($Lote,$Leyes,$CalculaInc,$link)
 	while ($FilaLeyes = mysqli_fetch_array($RespLeyes))
 	{							
 		$LeyesRetalla[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];//CODIGO
-		$LeyesRetalla[$FilaLeyes["cod_leyes"]][2] = $FilaLeyes["valor"];//VALOR
-		$LeyesRetalla[$FilaLeyes["cod_leyes"]][3] = $FilaLeyes["cod_unidad"];//COD UNIDAD
+		$LeyesRetalla[$FilaLeyes["cod_leyes"]][2] = isset($FilaLeyes["valor"])?$FilaLeyes["valor"]:0;//VALOR
+		$LeyesRetalla[$FilaLeyes["cod_leyes"]][3] = isset($FilaLeyes["cod_unidad"])?$FilaLeyes["cod_unidad"]:"";//COD UNIDAD
 		$LeyesRetalla[$FilaLeyes["cod_leyes"]][4] = $FilaLeyes["nom_unidad"];//NOM UNIDAD
 		$LeyesRetalla[$FilaLeyes["cod_leyes"]][5] = $FilaLeyes["conversion"];//CONVERSION
 		
