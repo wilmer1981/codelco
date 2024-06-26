@@ -1158,12 +1158,12 @@ function ValoresRetalla($Lote,$Leyes,$CalculaInc,$link)
 		//echo $Lote["peso_retalla"]." - ".$Lote["peso_muestra"]." - ".$LeyesRetalla[$FilaLeyes["cod_leyes"]][2]."<br>";
 		$peso_retalla = isset($Lote["peso_retalla"])?$Lote["peso_retalla"]:0;
 		$peso_muestra = isset($Lote["peso_muestra"])?$Lote["peso_muestra"]:0;
+		$Leyescod_leyes2      = isset($Leyes[$FilaLeyes["cod_leyes"]][2])?$Leyes[$FilaLeyes["cod_leyes"]][2]:0;
 		if ($peso_retalla>0 && $peso_muestra>0 && $LeyesRetalla[$FilaLeyes["cod_leyes"]][2]>0)
-			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = ($LeyesRetalla[$FilaLeyes["cod_leyes"]][2]  - $Leyes[$FilaLeyes["cod_leyes"]][2]) * ($Lote["peso_retalla"]/$Lote["peso_muestra"]);  //VALOR
+			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = ($LeyesRetalla[$FilaLeyes["cod_leyes"]][2]  - $Leyescod_leyes2) * ($peso_retalla/$peso_muestra);  //VALOR
 		else
 			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = 0;  //VALOR
-		//CALCULA LA LEY INCLUYENDO INCIDENCIA DE LA RETALLA
-		$Leyescod_leyes2      = isset($Leyes[$FilaLeyes["cod_leyes"]][2])?$Leyes[$FilaLeyes["cod_leyes"]][2]:0;
+		//CALCULA LA LEY INCLUYENDO INCIDENCIA DE LA RETALLA		
 		$InfRetallacod_leyes2 = isset($InfRetalla[$FilaLeyes["cod_leyes"]][2])?$InfRetalla[$FilaLeyes["cod_leyes"]][2]:0;
 		if ($CalculaInc=="S")
 			$Leyes[$FilaLeyes["cod_leyes"]][2] = $Leyescod_leyes2 + $InfRetallacod_leyes2; //LEY PRI + INC. RETALLA			

@@ -11,7 +11,6 @@
 	$Calcular         = isset($_REQUEST["Calcular"])?$_REQUEST["Calcular"]:"";
 	$Valores          = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$SeguimientoHVL   = isset($_REQUEST["SeguimientoHVL"])?$_REQUEST["SeguimientoHVL"]:"";
-
 	$CodFaena        = isset($_REQUEST["CodFaena"])?$_REQUEST["CodFaena"]:"";
 	$NombreFaena     = isset($_REQUEST["NombreFaena"])?$_REQUEST["NombreFaena"]:"";
 	$EstOpe          = isset($_REQUEST["EstOpe"])?$_REQUEST["EstOpe"]:"";
@@ -32,12 +31,9 @@
 	$Recepcion          = isset($_REQUEST["Recepcion"])?$_REQUEST["Recepcion"]:"";
 	$PesoRetalla        = isset($_REQUEST["PesoRetalla"])?$_REQUEST["PesoRetalla"]:"";
 	$PesoMuestra        = isset($_REQUEST["PesoMuestra"])?$_REQUEST["PesoMuestra"]:"";
-
 	$EstadoCierre  = isset($_REQUEST["EstadoCierre"])?$_REQUEST["EstadoCierre"]:"";
-	$EsPopup       = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";
-	
-	$Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
-	$Habilitado   = isset($_REQUEST["Habilitado"])?$_REQUEST["Habilitado"]:"";
+	$EsPopup       = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";	
+	$Mensaje       = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
 	if ($TxtLote!="")
 	{
@@ -112,12 +108,10 @@
 					$TxtFechaSolPqts=$Fila2["valor_subclase1"];				
 				}	
 				
-				//$Habilitado='';
-				
+				$Habilitado='';
 				if($Fila["fin_canje"]=='S')
 				{
-					$EstadoCierre='Lote Cerrado Comercial';
-					
+					$EstadoCierre='Lote Cerrado Comercial';					
 					$Habilitado='disabled';
 				}	
 				else
@@ -241,6 +235,10 @@
 			$Consulta.=" where lote = '".$FilaHVL["lote"]."' and valor2<>0";
 			//echo $Consulta;
 			$RespLeyesHvl=mysqli_query($link, $Consulta);
+			$AcumAg1=0;
+			$AcumAg2=0;
+			$AcumAu1=0;
+			$AcumAu2=0;
 			while($FilaLeyesHVL=mysqli_fetch_array($RespLeyesHvl))
 			{
 				switch($FilaLeyesHVL["cod_leyes"])
@@ -367,15 +365,15 @@
 			$Datos210=isset($Datos2[10])?$Datos2[10]:0;
 			$Datos211=isset($Datos2[11])?$Datos2[11]:0;
 			$Datos215=isset($Datos2[15])?$Datos2[15]:0;
-
+			//echo "Datos28:".$Datos28;
 			$ValorLey1=$Datos23*1;
 			$ValorLey2=$Datos24*1;
 			$ValorLey3=$Datos25*1;
 			$ValorLey4=$Datos26*1;
 			$ValorLeyR=$Datos27*1;
-			$ValorIncR=$Datos28*1;
+			$ValorIncR=(int)$Datos28*1;
 			$ValorLeyC=$Datos29*1;
-			$ValorLeyF=$Datos210*1;
+			$ValorLeyF=(int)$Datos210*1;
 			$NumPqte=$Datos211;
 			$ForzarLey2=$Datos215;
 			$Seguimiento='';

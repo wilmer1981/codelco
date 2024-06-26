@@ -248,11 +248,13 @@
 				$DatosLote["lote"]=$Lote;
 				$DatosLote["recargo"]=$FilaRec["recargo"];
 				$ArrLeyes["01"][0]="01";
+				$ArrLeyes012 = isset($ArrLeyes["01"][2])?$ArrLeyes["01"][2]:0;
+				$ArrLeyes014 = isset($ArrLeyes["01"][4])?$ArrLeyes["01"][4]:0;
 				LeyesLoteRecargo($DatosLote,$ArrLeyes,"N","S","N","","",$link);
 				$pdf->addTextWrap($PosCol,$PosAux,60,10,"R ".$FilaRec["rec"],$justification='left',0,0);
 				reset($ArrLeyes);
-				$pdf->addTextWrap($PosCol+30,$PosAux,60,10,number_format($ArrLeyes["01"][2],4,',','.'),$justification='left',0,0);
-				$pdf->addTextWrap($PosCol+90,$PosAux,60,10,$ArrLeyes["01"][4],$justification='left',0,0);
+				$pdf->addTextWrap($PosCol+30,$PosAux,60,10,number_format($ArrLeyes012,4,',','.'),$justification='left',0,0);
+				$pdf->addTextWrap($PosCol+90,$PosAux,60,10,$ArrLeyes014,$justification='left',0,0);
 				$Pos=$Pos-15;
 				$PosAux=$Pos;
 				$ContFilas++;

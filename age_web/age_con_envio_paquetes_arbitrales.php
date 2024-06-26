@@ -1,8 +1,8 @@
 <?php
 	$CodigoDeSistema=15;
 	$CodigoDePantalla=100;
-	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
-	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$Recarga    = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
 	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 	$TipoBusqueda = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
@@ -159,7 +159,7 @@ body {
 	<br>
 	<table width='700'  border='1' align='center' cellpadding='1' cellspacing='0' class='TablaInterior'>
 	<tr align="center" class="ColorTabla01">
-	<td width="14" rowspan="2">N�</td>
+	<td width="14" rowspan="2">N°</td>
 	<td width="24" rowspan="2">Lote</td>
 	<td width="56" rowspan="2">Proveedor</td>
 	<td colspan="3">Pastas a tercero</td>
