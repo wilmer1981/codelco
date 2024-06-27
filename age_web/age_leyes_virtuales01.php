@@ -72,7 +72,7 @@
 							$Actualizar.= " candado='1', ";
 							$Actualizar.= " proceso='99', ";
 							$Actualizar.= " rut_quimico='".$CookieRut."' ";
-							$Actualizar.= " where nro_solicitud='".$SA."' ";
+							$Actualizar.= " WHERE nro_solicitud='".$SA."' ";
 							$Actualizar.= " and recargo = '".$Recargo."' ";
 							$Actualizar.= " and cod_leyes = '".$CodLey."'";
 							mysqli_query($link, $Actualizar);

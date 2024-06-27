@@ -14,14 +14,12 @@
 	$TxtLey     = isset($_REQUEST["TxtLey"])?$_REQUEST["TxtLey"]:"";
 	$TxtLoteInicio = isset($_REQUEST["TxtLoteInicio"])?$_REQUEST["TxtLoteInicio"]:"";
 	$TxtLoteFinal  = isset($_REQUEST["TxtLoteFinal"])?$_REQUEST["TxtLoteFinal"]:"";
-	$CmbLeyes      = isset($_REQUEST["CmbLeyes"])?$_REQUEST["CmbLeyes"]:"";
-	
+	$CmbLeyes      = isset($_REQUEST["CmbLeyes"])?$_REQUEST["CmbLeyes"]:"";	
 
 	$ValoresSel=$LotesOcultos;//LotesOcultos ES UN HIDDEN QUE TOMA TODOS LO VALORES SELECCIONADOS
-
+	$Solicitudes="";
 	if($Proceso=='LMA'||$Proceso=='UL')	
-	{
-		
+	{		
 		$Datos=explode("//",$ValoresSel);
 		foreach($Datos as $k => $v)
 		{
@@ -693,9 +691,9 @@ body,td,th {
 							foreach($ArrayLeyes as $c=>$v)
 							{
 								if($v[2]=='S')
-									echo "<td><input type='text' name='TxtLeyes' value='".number_format($v[0],2,',','')."' maxlength='8' class='InputColor' size='14' onkeydown=TeclaPulsada(true)>&nbsp;$v[1]<input name='TxtVirtual' type='hidden' value='S~~$c'></td>\n";
+									echo "<td><input type='text' name='TxtLeyes' value='".number_format((float)$v[0],2,',','')."' maxlength='8' class='InputColor' size='14' onkeydown=TeclaPulsada(true)>&nbsp;$v[1]<input name='TxtVirtual' type='hidden' value='S~~$c'></td>\n";
 								else
-									echo "<td><input type='text' name='TxtLeyes' value='".number_format($v[0],2,',','')."' maxlength='8' class='InputCent' size='14' onkeydown=TeclaPulsada(true)>&nbsp;$v[1]<input name='TxtVirtual' type='hidden' value='S~~$c'></td>\n";
+									echo "<td><input type='text' name='TxtLeyes' value='".number_format((float)$v[0],2,',','')."' maxlength='8' class='InputCent' size='14' onkeydown=TeclaPulsada(true)>&nbsp;$v[1]<input name='TxtVirtual' type='hidden' value='S~~$c'></td>\n";
 									//echo "<td><input type='text' name='TxtLeyes' value='".number_format($v[0],2,',','')."' maxlength='8' class='InputColor' size='10' readonly='true'>&nbsp;$v[1]<input name='TxtVirtual' type='hidden' value='N~~$c'></td>\n";											
 							}
 							echo "</tr>\n";
