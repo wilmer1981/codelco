@@ -7,6 +7,9 @@
 	$CmbRecepcion     = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
 	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$OptFinos  = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+	$OptLeyes  = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+	$TxtFechaCon = isset($_REQUEST["TxtFechaCon"])?$_REQUEST["TxtFechaCon"]:"";
 
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
@@ -32,6 +35,8 @@
 	$ContLeyes=0;
 	$LeyesImp="(01,";
 	//echo "DATOS:".$TxtCodLeyes."<BR>";
+	//WSO
+	$HayImpurezas=false;
 	foreach($Datos as $c => $v)
 	{
 		$ContLeyes++;
@@ -147,9 +152,11 @@ body {
 	$Consulta.= " order by t1.cod_producto, orden ";
 	//echo "-A-".$Consulta."<br>";
 	$Resp01 = mysqli_query($link, $Consulta);
-	$TotalPesoHumTot=0;//WSO
-	$TotalPesoSecTot=0;
+	//WSO
+	$EsPlamen=false;
+	$TotalPesoHumTot=0;$TotalPesoSecTot=0;
 	$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
+	$TotalFinoCuTot=0;$TotalFinoAgTot=0;$TotalFinoAuTot=0;
 	while ($Fila01 = mysqli_fetch_array($Resp01))	
 	{			
 		echo "<tr class=\"ColorTabla01\">\n";			
@@ -261,6 +268,8 @@ body {
 			//echo "--C--".$Consulta."<br>";
 			$RutPrv='';
 			$RespAux = mysqli_query($link, $Consulta);
+			//WSO
+			$TotalPesoHumAsig=0;$TotalPesoSecAsig=0;$TotalFinoCuAsig=0;$TotalFinoAgAsig=0;$TotalFinoAuAsig=0;
 			while ($FilaAux = mysqli_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -301,7 +310,9 @@ body {
 				$Consulta.= " and t1.estado_lote <>'6' group by t1.lote order by t1.lote, orden";
 				$RespLote = mysqli_query($link, $Consulta);
 				//echo "=D=".$Consulta."<br>";
-				$EsPlamen=false;
+				//$EsPlamen=false;
+				//WSO
+				$TotalPesoHumPrv=0;$TotalPesoSecPrv=0;$TotalFinoCuPrv=0;$TotalFinoAgPrv=0;$TotalFinoAuPrv=0;
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					echo "<tr>";
@@ -313,7 +324,7 @@ body {
 					$Consulta.= " where cod_producto='".$FilaLote["cod_producto"]."' ";
 					$Consulta.= " and cod_subproducto='".$FilaLote["cod_subproducto"]."' ";
 					$Consulta.=" and ((year(fecha) < '".$CmbAno."') or (year(fecha) = '".$CmbMes."' and month(fecha) <= '".$CmbMes."'))";
-					$Consulta.=" order by cod_producto,cod_subproudcto,rut_proveedor";
+					$Consulta.=" order by cod_producto,cod_subproducto,rut_proveedor";
 					$RespMerma=mysqli_query($link, $Consulta);
 					while($FilaMerma=mysqli_fetch_array($RespMerma))
 					{
@@ -410,8 +421,9 @@ body {
 						$i = 1;
 						$LeyJcf = "";
 						while($i <= $LargoImp)
-						{
-							if ($LImp[$i] !='01' && $LImp[$i] !='02' && $LImp[$i] !='04' && $LImp[$i] !='05') 
+						{   $LImpi = isset($LImp[$i])?$LImp[$i]:"";
+							//if ($LImp[$i] !='01' && $LImp[$i] !='02' && $LImp[$i] !='04' && $LImp[$i] !='05') 
+							if ($LImpi !='01' && $LImpi !='02' && $LImpi !='04' && $LImpi !='05' && $LImpi!="" ) 
 							{
 								$LeyJcf = $LImp[$i];
 							}
@@ -449,7 +461,7 @@ body {
 
 					//
 					$DecPHum=0;$DecPSeco=0;$DecLeyes=3;$DecFinos=0;
-					$EsPlamen=false;
+					//$EsPlamen=false;
 					if($Fila01["recepcion"]=='PMN')
 					{
 						$EsPlamen=true;
@@ -652,10 +664,21 @@ body {
 		{
 			$DecPHum=2;$DecPSeco=3;$DecLeyes=3;$DecFinos=2;
 		}
-		$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
-		$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
-		$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
-		$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
+		if($TotalPesoHumProd>0){
+			$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
+		}else{
+			$PorcHumProd=0;
+		}
+		if($TotalPesoSecProd>0){
+			$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
+			$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
+			$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
+		}else{
+			$LeyCuProd=0;
+			$LeyAgProd=0;
+			$LeyAuProd=0;
+		}
+
 		reset($ArrLeyesProd);
 		foreach($ArrLeyesProd as $c=>$v)
 		{
@@ -696,7 +719,7 @@ body {
 		$TotalFinoCuTot=$TotalFinoCuTot+round($TotalFinoCuProd);
 		$TotalFinoAgTot=$TotalFinoAgTot+round($TotalFinoAgProd);
 		$TotalFinoAuTot=$TotalFinoAuTot+round($TotalFinoAuProd);
-		//$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
+		$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
     }	
 	//TOTAL
 	$DecPHum=0;$DecPSeco=0;$DecLeyes=3;$DecFinos=0;

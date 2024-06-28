@@ -8,6 +8,9 @@
 	$CmbRecepcion     = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
 	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$OptFinos  = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+	$OptLeyes  = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+	$TxtFechaCon = isset($_REQUEST["TxtFechaCon"])?$_REQUEST["TxtFechaCon"]:"";
 
 	$CmbMes      = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
@@ -33,6 +36,7 @@
 	$ContLeyes=0;
 	$LeyesImp="(01,";
 	//echo "DATOS:".$TxtCodLeyes."<BR>";
+	$HayImpurezas=false;
 	foreach($Datos as $c => $v)
 	{
 		$ContLeyes++;
@@ -144,14 +148,13 @@ body {
 	$Consulta.= " order by t1.cod_producto, orden ";
 	//echo "entro".$Consulta."<br>";
 	$Resp01 = mysqli_query($link, $Consulta);
-	$TotalPesoHumTot=0;
-	$TotalPesoSecTot=0;
-	$TotalFinoCuTot=0;
-	$TotalFinoAgTot=0;
-	$TotalFinoAuTot=0;
-	$LeyCuTot=0;
-	$LeyAgTot=0;
-	$LeyAuTot=0;
+	$TotalPesoHumTot=0;$TotalPesoSecTot=0;$TotalFinoCuTot=0;$TotalFinoAgTot=0;$TotalFinoAuTot=0;
+	$LeyCuTot=0;$LeyAgTot=0;$LeyAuTot=0;
+	$EsPlamen=false;
+	$TotalPesoSecProd=0;$TotalPesoHumProd=0;
+	$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
+	$TotalDeducCuProd=0;$TotalDeducAgProd=0;$TotalDeducAuProd=0;
+	$TotalFPCuProd=0;$TotalFPAgProd=0;$TotalFPAuProd=0;
 	while ($Fila01 = mysqli_fetch_array($Resp01))	
 	{			
 		echo "<tr class=\"ColorTabla01\">\n";			
@@ -272,6 +275,11 @@ body {
 			//echo "entro 2".$Consulta."<br>";
 			$RutPrv='';
 			$RespAux = mysqli_query($link, $Consulta);
+			$TotalFPCuPrv=0;$TotalFPAgPrv=0;$TotalFPAuPrv=0;
+			$TotalPesoHumAsig=0;$TotalPesoSecAsig =0;
+			$TotalFinoCuAsig=0;$TotalFinoAgAsig=0;$TotalFinoAuAsig=0;
+			$TotalDeducCuAsig=0;$TotalDeducAgAsig=0;$TotalDeducAuAsig=0;
+			$TotalFPCuAsig=0;$TotalFPAgAsig=0;$TotalFPAu
 			while ($FilaAux = mysqli_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -312,7 +320,9 @@ body {
 				$Consulta.= " and t1.estado_lote <>'6' group by t1.lote order by t1.lote, orden";
 				$RespLote = mysqli_query($link, $Consulta);
 				//echo "entro 3".$Consulta."<br>";
-				$EsPlamen=false;
+				//$EsPlamen=false;
+				$TotalPesoHumPrv=0;$TotalPesoSecPrv=0;$TotalFinoCuPrv=0;$TotalFinoAgPrv=0;$TotalFinoAuPrv=0;
+				$TotalDeducCuPrv=0;$TotalDeducAgPrv=0;$TotalDeducAuPrv=0;
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					echo "<tr>";
@@ -323,7 +333,7 @@ body {
 					$Consulta = "select * from age_web.mermas ";
 					$Consulta.= " where cod_producto='".$FilaLote["cod_producto"]."' ";
 					$Consulta.= " and cod_subproducto='".$FilaLote["cod_subproducto"]."' ";
-					$Consulta.=" and ((year(fecha) < '".$CmbAno."') or (year(fecha) = '".$cmbAno."' and month(fecha) <= '".$CmbMes."'))";
+					$Consulta.=" and ((year(fecha) < '".$CmbAno."') or (year(fecha) = '".$CmbAno."' and month(fecha) <= '".$CmbMes."'))";
 					$Consulta.=" order by cod_producto,cod_subproducto,rut_proveedor";
 					$RespMerma=mysqli_query($link, $Consulta);
 					while($FilaMerma=mysqli_fetch_array($RespMerma))
@@ -416,7 +426,7 @@ body {
 						$ContRecargos++;
 					}
 					$DecPHum=0;$DecPSeco=0;$DecLeyes=3;$DecFinos=0;
-					$EsPlamen=false;
+					//$EsPlamen=false;
 					if($Fila01["recepcion"]=='PMN')
 					{
 						$EsPlamen=true;
@@ -494,6 +504,7 @@ body {
 							$ArrLeyesPrv[$c][7]=0;
 						}	
 					}
+					$ValorDed=0;$ValorFP=0;$Dec=0;
 					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"02",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyCu,$FinoCu,$ValorDed,$ValorFP,$Dec,$link);					
 					echo "<td align='right'>".number_format($ValorDed,$Dec,',','.')."</td>";
 					$TotalDeducCuPrv=$TotalDeducCuPrv+round($ValorDed);
@@ -666,10 +677,20 @@ body {
 		{
 			$DecPHum=2;$DecPSeco=3;$DecLeyes=3;$DecFinos=2;
 		}
-		$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
-		$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
-		$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
-		$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
+		if($TotalPesoHumProd>0){
+			$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
+		}else{
+			$PorcHumProd=0;
+		}
+		if($TotalPesoSecProd>0){
+			$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
+			$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
+			$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
+		}else{
+			$LeyCuProd=0;
+			$LeyAgProd=0;
+			$LeyAuProd=0;
+		}
 		reset($ArrLeyesProd);
 		foreach($ArrLeyesProd as $c=>$v)
 		{
@@ -735,7 +756,10 @@ body {
 	foreach($ArrLeyesTot as $c=>$v)
 	{
 		if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
-			$ArrLeyesTot[$c][2]=($ArrLeyesTot[$c][3]*$ArrLeyesTot[$c][1])/$TotalPesoSecTot;
+		    if($TotalPesoSecTot>0)
+				$ArrLeyesTot[$c][2]=($ArrLeyesTot[$c][3]*$ArrLeyesTot[$c][1])/$TotalPesoSecTot;
+			else
+				$ArrLeyesTot[$c][2]=0;
 	}	
 	echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\">";
 	echo "<td align=\"left\" colspan=\"2\">TOTAL:</td>\n";

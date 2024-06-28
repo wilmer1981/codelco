@@ -2,6 +2,8 @@
 	include("../principal/conectar_principal.php");
 	$TxtLeyesMuestra='Cu,Ag,Au,';
 	$TxtCodLeyes="02~Cu~1~100~%~2//04~Ag~4~1000~g/T~0//05~Au~4~1000~g/T~1//";
+
+	$Pag = isset($_REQUEST['Pag'])?$_REQUEST['Pag']:"";
 	
 ?>
 <html>
@@ -61,11 +63,9 @@ function Proceso(opt,pag)
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style></head>
 
 <body>
