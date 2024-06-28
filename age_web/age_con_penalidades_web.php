@@ -346,7 +346,7 @@ body {
 				{
 					if($FilaMerma["rut_proveedor"]=="")
 					{
-						$VarMerma = $FilaMerma[merma];
+						$VarMerma = $FilaMerma["merma"];
 						$FechaM = substr($FilaMerma["fecha"],5,2)."-".substr($FilaMerma["fecha"],0,4);
 					}
 					$Consulta2 = "select ifnull(porc,0) as mermas,fecha   from age_web.mermas ";
@@ -358,7 +358,7 @@ body {
 					if($FilaM=mysqli_fetch_array($RespM))
 					{
 						$SiMerma=1;
-						$PrvMerma= $FilaM[mermas];
+						$PrvMerma= $FilaM["mermas"];
 						$FechaM1 = substr($FilaMerma["fecha"],5,2)."-".substr($FilaMerma["fecha"],0,4);
 					}
 				}

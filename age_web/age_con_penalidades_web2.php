@@ -10,9 +10,11 @@
 	$ChkDetalle     = isset($_REQUEST["ChkDetalle"])?$_REQUEST["ChkDetalle"]:"";
 	$TxtCodLeyes    = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:""; 
 
-	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
+	if(strlen($CmbMes)==1){
+		$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
+	}
 	
-	$var1 =0;
+	$var1=0;
 	$var2=0;
 	$var3=0;
 	$var4=0;
@@ -130,11 +132,8 @@ body {
 }
 .Estilo1 {color: #0000FF}
 </style></head>
-
-
 <body>
 <form  name="frmPrincipal" action="" method="post">
-
   <table width="900" border="0" align="center">
     <tr>
       <td width="294">CODELCO CHILE<br>
@@ -237,36 +236,26 @@ body {
 			$Consulta.= " and t1.rut_proveedor = '".$CmbProveedor."' ";
 		$Consulta.= " order by t1.cod_producto, orden ";
 		//echo $Consulta."<br>";
-		$Resp01 = mysqli_query($link, $Consulta);
-  
-
-
-
-  
-  
-  
+		$Resp01 = mysqli_query($link, $Consulta);  
 		while ($Fila01 = mysqli_fetch_array($Resp01))	
 		{			
-
-
-
-                  $ResultadoH2O =0;
-                   $TotalHumedo = 0;
-                   $ResultadoAs = 0;
-                   $TotalSeco1  = 0;
-                   $TotalSeco = 0;
-                   $ResultadoSb = 0;
-                   $TotalSeco2  = 0;
-                   $ResultadoZn =  0;
-                   $TotalSeco3  =  0;
-                   $ResultadoPb =  0;
-                   $TotalSeco4  =  0;
-                   $ResultadoCd =  0;
-                   $TotalSeco6  =  0;
-                   $ResultadoHg =  0;
-                   $TotalSeco5  =  0;
-                   $a=0;
-                   $B=0;
+			$ResultadoH2O =0;
+			$TotalHumedo = 0;
+			$ResultadoAs = 0;
+			$TotalSeco1  = 0;
+			$TotalSeco = 0;
+			$ResultadoSb = 0;
+			$TotalSeco2  = 0;
+			$ResultadoZn =  0;
+			$TotalSeco3  =  0;
+			$ResultadoPb =  0;
+			$TotalSeco4  =  0;
+			$ResultadoCd =  0;
+			$TotalSeco6  =  0;
+			$ResultadoHg =  0;
+			$TotalSeco5  =  0;
+			$a=0;
+			$B=0;
 
 			echo "<tr bgcolor=\"#CCCCCC\">\n";			
 			$Consulta = "select * from proyecto_modernizacion.subproducto ";
@@ -666,62 +655,51 @@ body {
 						   }
 
                           echo "<td align=\"center\"><strong>  Ley   ".number_format($var1,3,",",".")."</strong></td>\n";
-
-
-
                       }
 			          else
                       {
                        	echo "<td align=\"right\">&nbsp;</td>\n";
 
-                      }
-                      
-
-                      
+                      }                      
                   echo "<td align=\"center\"><strong>  Dolar ".number_format($v[1],2,",",".")."</td>\n";   //dolar
-
 				}
-    
-
 			}
-			echo "</tr>\n";	
-
+			echo "</tr>\n";
             echo "<tr bgcolor=\"#CCCCCC\"><td align=\"left\" colspan=\"3\">PESO SECO </td>\n";
-                    echo "<td align=\"center\"><strong>".number_format($TotalSeco,0,",",".")."</strong></td>\n";  //peso  seco
-                 	if ($TotalSeco1 > 0)
-					{
-				    	echo "<td align=\"right\">&nbsp;</td>\n";
-                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco1,0,",",".")."</strong></td>\n";  //peso  seco
-					}
-					if ($TotalSeco2 > 0)
-					{
-                    	echo "<td align=\"right\">&nbsp;</td>\n";
-                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco2,0,",",".")."</strong></td>\n";  //peso  seco
-					}
-					if ($TotalSeco3 > 0)
-					{
-                    	echo "<td align=\"right\">&nbsp;</td>\n";
-                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco3,0,",",".")."</strong></td>\n";  //peso  seco
-					}
-					if ($TotalSeco5 > 0)
-					{
-	                    echo "<td align=\"right\">&nbsp;</td>\n";
-                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco5,0,",",".")."</strong></td>\n";  //peso  seco
-					}
-					if ($TotalSeco4 > 0)
-					{
-                    	echo "<td align=\"right\">&nbsp;</td>\n";
-                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco4,0,",",".")."</strong></td>\n";  //peso  seco
-					}
-					if ($TotalSeco6 > 0)
-					{
-	                    echo "<td align=\"right\">&nbsp;</td>\n";
-                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco6,0,",",".")."</strong></td>\n";  //peso  seco
-					}
-	                 echo "<td align=\"right\">&nbsp;</td>\n";
-           echo "</tr>\n";
-
-    }
+			echo "<td align=\"center\"><strong>".number_format($TotalSeco,0,",",".")."</strong></td>\n";  //peso  seco
+			if ($TotalSeco1 > 0)
+			{
+				echo "<td align=\"right\">&nbsp;</td>\n";
+				echo "<td align=\"center\"><strong>".number_format($TotalSeco1,0,",",".")."</strong></td>\n";  //peso  seco
+			}
+			if ($TotalSeco2 > 0)
+			{
+				echo "<td align=\"right\">&nbsp;</td>\n";
+				echo "<td align=\"center\"><strong>".number_format($TotalSeco2,0,",",".")."</strong></td>\n";  //peso  seco
+			}
+			if ($TotalSeco3 > 0)
+			{
+				echo "<td align=\"right\">&nbsp;</td>\n";
+				echo "<td align=\"center\"><strong>".number_format($TotalSeco3,0,",",".")."</strong></td>\n";  //peso  seco
+			}
+			if ($TotalSeco5 > 0)
+			{
+				echo "<td align=\"right\">&nbsp;</td>\n";
+				echo "<td align=\"center\"><strong>".number_format($TotalSeco5,0,",",".")."</strong></td>\n";  //peso  seco
+			}
+			if ($TotalSeco4 > 0)
+			{
+				echo "<td align=\"right\">&nbsp;</td>\n";
+				echo "<td align=\"center\"><strong>".number_format($TotalSeco4,0,",",".")."</strong></td>\n";  //peso  seco
+			}
+			if ($TotalSeco6 > 0)
+			{
+				echo "<td align=\"right\">&nbsp;</td>\n";
+				echo "<td align=\"center\"><strong>".number_format($TotalSeco6,0,",",".")."</strong></td>\n";  //peso  seco
+			}
+			echo "<td align=\"right\">&nbsp;</td>\n";
+            echo "</tr>\n";
+		}
 		//FIN PRODUCTOS
 
 		echo "<tr class=\"ColorTabla01\"><td align=\"left\" colspan=\"3\">TOTAL PESO VS VALOR US$ :".strtoupper($FilaTipoRecep["desc_a"])."</td>\n";

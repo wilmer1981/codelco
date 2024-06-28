@@ -183,7 +183,6 @@ body {
 						$Consulta.= " on t1.lote = t2.lote ";			
 						$Consulta.= " where t1.cod_producto = '".$FilaProd["cod_producto"]."' ";
 						$Consulta.= " and t1.cod_subproducto = '".$FilaProd["cod_subproducto"]."' ";
-						//$Consulta.= " and t2.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 						$Consulta.= " and ((t2.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 						if($CmbAno=='2005')
 						{	
@@ -305,7 +304,7 @@ body {
 							}
 							$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
 							$EsPlamen=false;
-							if($Fila01["recepcion"]=='PMN')
+							if($FilaProd["recepcion"]=='PMN')
 							{
 								$EsPlamen=true;
 								$DecPHum=4;$DecPSeco=4;$DecLeyes=4;$DecFinos=4;
