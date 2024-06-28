@@ -43,6 +43,7 @@
 		//echo $ArrLeyes["01"][30]."<br>";
 		$recepcion = isset($DatosLoteRec["recepcion"])?$DatosLoteRec["recepcion"]:"";
 		$peso_humedo = isset($DatosLoteRec["peso_humedo"])?$DatosLoteRec["peso_humedo"]:0;
+		$peso_bruto = isset($DatosLoteRec["peso_bruto"])?$DatosLoteRec["peso_bruto"]:0;
 		$NuevoPorc = ($ArrLeyes012 + $ArrLeyes0130);
 		if ($peso_humedo>0 && $NuevoPorc>0)
 		{
