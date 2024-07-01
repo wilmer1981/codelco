@@ -88,11 +88,8 @@
 		//echo $Consulta;
 		$RespAsig = mysqli_query($link, $Consulta);
 		$EsPlamen=false;
-		$TotalPesoHumTot=0;
-		$TotalPesoSecTot=0;
-		$TotalFinoCuTot=0;
-		$TotalFinoAgTot=0;
-		$TotalFinoAuTo=0;
+		$TotalPesoHumTot=0;$TotalPesoSecTot=0;
+		$TotalFinoCuTot=0;$TotalFinoAgTot=0;$TotalFinoAuTot=0;
 		while ($FilaAsig = mysqli_fetch_array($RespAsig))
 		{
 			echo "<tr class='ColorTabla01'>\n";
@@ -109,6 +106,8 @@
 			$Consulta.="group by t1.valor_subclase2 ";
 			//echo $Consulta."<br>";
 			$RespClaseProd=mysqli_query($link, $Consulta);
+			//WSO
+			$TotalPesoHumAsig=0;$TotalPesoSecAsig=0;
 			while($FilaClaseProd=mysqli_fetch_array($RespClaseProd))
 			{
 				echo "<tr bgcolor='#CCCCCC'>\n";
@@ -129,6 +128,9 @@
 				$Consulta.="group by t1.cod_producto,t1.cod_subproducto ";	
 				//echo $Consulta."<br>";	
 				$RespProd=mysqli_query($link, $Consulta);
+				//WSO
+				$TotalPesoHumClasProd=0;$TotalPesoSecClasProd=0;
+				$TotalFinoCuClasProd=0;$TotalFinoAgClasProd=0;$TotalFinoAuClasProd=0;
 				while($FilaProd=mysqli_fetch_array($RespProd))
 				{
 					echo "<tr class='Detalle01'>\n";
@@ -159,6 +161,9 @@
 					//echo $Consulta."<br>";
 					$SumHumedad=0;
 					$RespPrv = mysqli_query($link, $Consulta);
+					//WSO
+					$TotalPesoHumProd=0;$TotalPesoSecProd=0;
+					$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
 					while ($FilaPrv = mysqli_fetch_array($RespPrv))
 					{						
 						echo "<tr>\n";
@@ -189,6 +194,8 @@
 						//echo $Consulta."<br>";
 						$EsPlamen=false;
 						$Ajuste='N';
+						//WSO
+						$TotalPesoHumPrv=0;$TotalPesoSecPrv=0;
 						while($FilaLote=mysqli_fetch_array($RespLote))
 						{
 							$PorcMerma=0;$SiMerma=0;$VarMerma=0;$PrvMerma=0;
@@ -229,6 +236,8 @@
 							$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaLote["lote"]."' order by lote, lpad(recargo,4,'0')";
 							$ContRecargos = 1;
 							$RespDetLote=mysqli_query($link, $Consulta);
+							//WSO
+							$TotalPesoHumLote=0;$TotalPesoSecLote=0;
 							while ($FilaDetLote = mysqli_fetch_array($RespDetLote))
 							{					
 								$PorcHum=0;
@@ -330,10 +339,11 @@
 							$DecPHum=2;$DecPSeco=3;$DecLeyes=2;$DecFinos=2;
 						}
 						$PorcHumPrv=0;
-						if ($TotalPesoHumPrv!='0')
+						if ($TotalPesoHumPrv>0)
 							$PorcHumPrv=100-($TotalPesoSecPrv*100)/$TotalPesoHumPrv;
+
 						$LeyCuPrv=0;$LeyAgPrv=0;$LeyAuPrv=0;	
-						if ($TotalPesoSecPrv!='0')
+						if ($TotalPesoSecPrv>0)
 						{	
 							$LeyCuPrv=($TotalFinoCuPrv*100)/$TotalPesoSecPrv;
 							$LeyAgPrv=($TotalFinoAgPrv*1000)/$TotalPesoSecPrv;
@@ -370,10 +380,20 @@
 					{
 						$DecPHum=2;$DecPSeco=3;$DecLeyes=2;$DecFinos=2;
 					}
-					$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
-					$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
-					$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
-					$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
+					if($TotalPesoHumProd>0){
+						$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
+					}else{
+						$PorcHumProd=0;
+					}
+					if($TotalPesoSecProd>0){
+						$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
+						$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
+						$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
+					}else{
+						$LeyCuProd=0;
+						$LeyAgProd=0;
+						$LeyAuProd=0;
+					}
 					echo "<tr class='Detalle01'>\n";
 					echo "<td align='left' colspan='2'>TOTAL ".$FilaProd["descripcion"]."</td>";
 					echo "<td align='right'>".number_format($TotalPesoHumProd,$DecPHum,',','.')."</td>";
@@ -407,10 +427,20 @@
 				{
 					$DecPHum=2;$DecPSeco=3;$DecLeyes=2;$DecFinos=2;
 				}
-				$PorcHumClasProd=100-($TotalPesoSecClasProd*100)/$TotalPesoHumClasProd;
-				$LeyCuClasProd=($TotalFinoCuClasProd*100)/$TotalPesoSecClasProd;
-				$LeyAgClasProd=($TotalFinoAgClasProd*1000)/$TotalPesoSecClasProd;
-				$LeyAuClasProd=($TotalFinoAuClasProd*1000)/$TotalPesoSecClasProd;
+				if($TotalPesoHumClasProd>0){
+					$PorcHumClasProd=100-($TotalPesoSecClasProd*100)/$TotalPesoHumClasProd;
+				}else{
+					$PorcHumClasProd=0;
+				}
+				if($TotalPesoSecClasProd>0){
+					$LeyCuClasProd=($TotalFinoCuClasProd*100)/$TotalPesoSecClasProd;
+					$LeyAgClasProd=($TotalFinoAgClasProd*1000)/$TotalPesoSecClasProd;
+					$LeyAuClasProd=($TotalFinoAuClasProd*1000)/$TotalPesoSecClasProd;
+				}else{
+					$LeyCuClasProd=0;
+					$LeyAgClasProd=0;
+					$LeyAuClasProd=0;
+				}
 				echo "<tr bgcolor='#CCCCCC'>\n";
 				if($FilaClaseProd["valor_subclase2"]=='METALICO')	
 					echo "<td align='left' colspan='2'>TOTAL ".$FilaClaseProd["valor_subclase1"]."</td>";
@@ -448,10 +478,20 @@
 			{
 				$DecPHum=2;$DecPSeco=3;$DecLeyes=2;$DecFinos=2;
 			}
-			$PorcHumAsig=100-($TotalPesoSecAsig*100)/$TotalPesoHumAsig;
-			$LeyCuAsig=($TotalFinoCuAsig*100)/$TotalPesoSecAsig;
-			$LeyAgAsig=($TotalFinoAgAsig*1000)/$TotalPesoSecAsig;
-			$LeyAuAsig=($TotalFinoAuAsig*1000)/$TotalPesoSecAsig;
+			if($TotalPesoHumAsig>0){
+				$PorcHumAsig=100-($TotalPesoSecAsig*100)/$TotalPesoHumAsig;
+			}else{
+				$PorcHumAsig=0;
+			}
+			if($TotalPesoSecAsig>0){
+				$LeyCuAsig=($TotalFinoCuAsig*100)/$TotalPesoSecAsig;
+				$LeyAgAsig=($TotalFinoAgAsig*1000)/$TotalPesoSecAsig;
+				$LeyAuAsig=($TotalFinoAuAsig*1000)/$TotalPesoSecAsig;
+			}else{
+				$LeyCuAsig=0;
+				$LeyAgAsig=0;
+				$LeyAuAsig=0;
+			}
 			echo "<tr class='ColorTabla01'>\n";
 			echo "<td align='left' colspan='2'>TOTAL ".$FilaAsig["cod_recepcion"]."</td>";
 			echo "<td align='right'>".number_format($TotalPesoHumAsig,0,',','.')."</td>";
@@ -486,10 +526,20 @@
 		{
 			$DecPHum=2;$DecPSeco=3;$DecLeyes=2;$DecFinos=2;
 		}
-		$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
-		$LeyCuTot=($TotalFinoCuTot*100)/$TotalPesoSecTot;
-		$LeyAgTot=($TotalFinoAgTot*1000)/$TotalPesoSecTot;
-		$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
+		if($TotalPesoHumTot>0){
+			$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
+		}else{
+			$PorcHumTot=0;
+		}
+		if($TotalPesoSecTot>0){
+			$LeyCuTot=($TotalFinoCuTot*100)/$TotalPesoSecTot;
+			$LeyAgTot=($TotalFinoAgTot*1000)/$TotalPesoSecTot;
+			$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
+		}else{
+			$LeyCuTot=0;
+			$LeyAgTot=0;
+			$LeyAuTot=0;
+		}
 		echo "<tr class='Detalle03'>\n";
 		echo "<td align='left' colspan='2'>TOTAL</td>";
 		echo "<td align='right'>".number_format($TotalPesoHumTot,$DecPHum,',','.')."</td>";
