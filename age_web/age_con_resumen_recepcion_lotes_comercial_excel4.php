@@ -29,6 +29,10 @@
 	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
 
+	$OptFinos  = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+	$OptLeyes  = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+	$TxtFechaCon = isset($_REQUEST["TxtFechaCon"])?$_REQUEST["TxtFechaCon"]:"";	
+
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
 	$FechaMer=$CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
@@ -50,6 +54,7 @@
 	$Datos=explode('//',$TxtCodLeyes);
 	$ContLeyes=0;
 	$LeyesImp="(01,";
+	$HayImpurezas=false;
 	foreach($Datos as $c => $v)
 	{
 		$ContLeyes++;
@@ -153,6 +158,9 @@ function Proceso(opt)
 	$Consulta.= " order by t1.cod_producto, orden ";
 	//echo $Consulta."<br>";
 	$Resp01 = mysqli_query($link, $Consulta);
+	//WSO
+	$TotalPesoHumTot=0;$TotalPesoSecTot=0;
+	$TotalFinoCuTot=0;$TotalFinoAgTot=0;$TotalFinoAuTot=0;
 	while ($Fila01 = mysqli_fetch_array($Resp01))	
 	{			
 		echo "<tr class=\"ColorTabla01\">\n";			
@@ -247,6 +255,11 @@ function Proceso(opt)
 		//echo $Consulta."<br>";
 		$RutPrv2='';
 		$RespTipoRecep = mysqli_query($link, $Consulta);
+		//WSO
+		$TotalPesoHumProd=0;$TotalPesoSecProd=0;
+		$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
+		$TotalDeducCuProd=0;$TotalDeducAgProd=0;$TotalDeducAuProd=0;
+		$TotalFPCuProd=0;$TotalFPAgProd=0;$TotalFPAuProd=0;
 		while ($FilaTipoRecep = mysqli_fetch_array($RespTipoRecep))
 		{					
 			//TITULO COD RECEPCION
@@ -272,6 +285,11 @@ function Proceso(opt)
 			//echo $Consulta."<br>";
 			$RutPrv='';
 			$RespAux = mysqli_query($link, $Consulta);
+			//WSO
+			$TotalPesoHumAsig=0;$TotalPesoSecAsig=0;
+			$TotalFinoCuAsig=0;$TotalFinoAgAsig=0;$TotalFinoAuAsig=0;
+			$TotalDeducCuAsig=0;$TotalDeducAgAsig=0;$TotalDeducAuAsig=0;
+			$TotalFPCuAsig=0;$TotalFPAgAsig=0;$TotalFPAuAsig=0;
 			while ($FilaAux = mysqli_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -314,6 +332,11 @@ function Proceso(opt)
 				//echo $Consulta."<br>";
 				$EsPlamen=false;
 				$PorcMerma=0;$SiMerma=0;$VarMerma=0;$PrvMerma=0;
+				//WSO
+				$TotalDeducCuPrv=0;$TotalDeducAgPrv=0;$TotalDeducAuPrv=0;
+				$TotalFPCuPrv=0;$TotalFPCuPrv=0;$TotalFPAuPrv=0;$TotalFPAgPrv=0;
+				$TotalPesoHumPrv=0;$TotalPesoSecPrv=0;
+				$TotalFinoCuPrv=0;$TotalFinoAgPrv=0;$TotalFinoAuPrv=0;
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					echo "<tr>";
@@ -501,6 +524,7 @@ function Proceso(opt)
 							$ArrLeyesAux[$c][7]=0;
 						}	
 					}
+					$ValorDed=0;$ValorFP=0;$Dec=0;
 					CalculaDeduccionMet($FilaAux["cod_recepcion"],$FilaLote["cod_producto"],$FilaLote["cod_subproducto"],"02",$FilaAux["rut_proveedor"],$TotalPesoSecLote,$LeyCu,$FinoCu,$ValorDed,$ValorFP,$Dec,$link);					
 					echo "<td align='right'>".number_format($ValorDed,$Dec,',','.')."</td>";
 					$TotalDeducCuPrv=$TotalDeducCuPrv+round($ValorDed);
@@ -805,7 +829,7 @@ function Proceso(opt)
 	echo "</tr>\n";
 echo "</table>\n";
 //FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla)
+function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
 {	
 	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
 	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
@@ -821,7 +845,7 @@ function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetal
 			$IncRetalla=($FilaLeyes["valor"] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
 	}	
 }
-function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv,$PSeco,$ValorLey,$ValorFino,$ValorDed,$ValorFP,$Dec)
+function CalculaDeduccionMet($CodRecepcion,$CodProd,$CodSubProd,$CodLey,$RutProv,$PSeco,$ValorLey,$ValorFino,$ValorDed,$ValorFP,$Dec,$link)
 {
 	switch($CodLey)
 	{

@@ -28,6 +28,10 @@
 	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
 
+	$OptFinos  = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
+	$OptLeyes  = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
+	$TxtFechaCon = isset($_REQUEST["TxtFechaCon"])?$_REQUEST["TxtFechaCon"]:"";
+
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
 	$FechaMer=$CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
@@ -49,6 +53,7 @@
 	$Datos=explode('//',$TxtCodLeyes);
 	$ContLeyes=0;
 	$LeyesImp="(01,";
+	$HayImpurezas=false;
 	foreach($Datos as $c => $v)
 	{
 		$ContLeyes++;
@@ -160,17 +165,10 @@ function Proceso(opt)
 	$Consulta.= " order by t1.cod_producto, orden ";
 	//echo $Consulta."<br>";
 	$Resp01 = mysqli_query($link, $Consulta);
-	$TotalPesoHumTot=0;//WSO
-	$TotalPesoSecTot=0;
+	//WSO
+	$TotalPesoHumTot=0;$TotalPesoSecTot=0;
 	$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
-
-	//$LeyCuTot=0; //WSO
-	//$LeyAgTot=0;
-	//$LeyAuTot=0;
-	$TotalFinoCuTot=0;
-	//$TotalFinoAgTot=0;
-	//$TotalFinoAuTot=0;
-
+	$TotalPesoHumTot=0;$TotalPesoSecTot=0;$TotalFinoCuTot=0;$TotalFinoAgTot=0;$TotalFinoAuTot=0;
 	while ($Fila01 = mysqli_fetch_array($Resp01))	
 	{			
 		echo "<tr class=\"ColorTabla01\">\n";			
@@ -281,6 +279,12 @@ function Proceso(opt)
 			//echo $Consulta."<br>";
 			$RutPrv='';
 			$RespAux = mysqli_query($link, $Consulta);
+			//WSO
+			$TotalFPCuPrv=0;$TotalFPAgPrv=0;$TotalFPAuPrv=0;
+			$TotalPesoHumAsig=0;$TotalPesoSecAsig =0;
+			$TotalFinoCuAsig=0;$TotalFinoAgAsig=0;$TotalFinoAuAsig=0;
+			$TotalDeducCuAsig=0;$TotalDeducAgAsig=0;$TotalDeducAuAsig=0;
+			$TotalFPCuAsig=0;$TotalFPAgAsig=0;$TotalFPAuAsig=0;
 			while ($FilaAux = mysqli_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -322,6 +326,9 @@ function Proceso(opt)
 				$RespLote = mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
 				$EsPlamen=false;
+				//WSO
+				$TotalPesoHumPrv=0;$TotalPesoSecPrv=0;$TotalFinoCuPrv=0;$TotalFinoAgPrv=0;$TotalFinoAuPrv=0;
+				$TotalDeducCuPrv=0;$TotalDeducAgPrv=0;$TotalDeducAuPrv=0;
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					echo "<tr>";

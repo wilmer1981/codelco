@@ -279,7 +279,7 @@ body {
 			$TotalPesoHumAsig=0;$TotalPesoSecAsig =0;
 			$TotalFinoCuAsig=0;$TotalFinoAgAsig=0;$TotalFinoAuAsig=0;
 			$TotalDeducCuAsig=0;$TotalDeducAgAsig=0;$TotalDeducAuAsig=0;
-			$TotalFPCuAsig=0;$TotalFPAgAsig=0;$TotalFPAu
+			$TotalFPCuAsig=0;$TotalFPAgAsig=0;$TotalFPAuAsig=0;
 			while ($FilaAux = mysqli_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
