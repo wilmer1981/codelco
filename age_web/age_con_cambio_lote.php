@@ -22,9 +22,7 @@
 	$TxtFechaB      = isset($_REQUEST["TxtFechaB"])?$_REQUEST["TxtFechaB"]:"";
 	$TipoCon        = isset($_REQUEST["TipoCon"])?$_REQUEST["TipoCon"]:"";
 	$LCatodo        = isset($_REQUEST["LCatodo"])?$_REQUEST["LCatodo"]:"";
-	$TipoBusqueda   = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
-	
-	
+	$TipoBusqueda   = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";	
 
 ?>
 <html>
@@ -207,7 +205,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Resp = mysqli_query($link, $Consulta);	
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
-			$Tipo_Recep=$Fila["recepcion"];
+			$Tipo_Recep=isset($Fila["recepcion"])?$Fila["recepcion"]:"";
 			$Decimales=0;
 			if ($Tipo_Recep=="PMN")
 				$Decimales=3;
