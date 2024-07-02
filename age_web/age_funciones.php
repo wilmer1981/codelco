@@ -453,22 +453,26 @@ function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeye
 	$Consulta.= " and cod_producto='".$Prod."' and cod_subproducto='".$SubProd."' ";
 	$Consulta.= " and estado_lote<>'6'";
 	$RespConj=mysqli_query($link, $Consulta);
+	$PesoHumProv=0;$PesoSecoProv=0;
 	while ($FilaConj=mysqli_fetch_array($RespConj))
 	{
 		$ArrDatosLote=array();		
 		$ArrDatosLote["lote"]=$FilaConj["lote"];
 		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link);
-		$PesoHumProv=$PesoHumProv  + $ArrDatosLote["peso_humedo"];
-		$PesoSecoProv=$PesoSecoProv + $ArrDatosLote["peso_seco2"];
+		$peso_humedo = isset($ArrDatosLote["peso_humedo"])?$ArrDatosLote["peso_humedo"]:0;
+		$peso_seco2 = isset($ArrDatosLote["peso_seco2"])?$ArrDatosLote["peso_seco2"]:0;
+		$PesoHumProv=$PesoHumProv  + $peso_humedo;
+		$PesoSecoProv=$PesoSecoProv + $peso_seco2;
 		//echo "LOTE........ ".$ArrDatosLote["lote"]." = ".$ArrDatosLote["peso_humedo"]." - ".$ArrDatosLote["peso_seco"]."<br>";
 		reset($ArrLeyesLote);
 		foreach($ArrLeyesLote as $k => $v)
-		{
-			if ($ArrDatosLote["peso_seco2"]=!0 && $v[2]=!0 && $v[5]=!0) 
-				$ArrLeyesProv[$k][2] = $ArrLeyesProv[$k][2] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR
-			$ArrLeyesProv[$k][3] = $v[3];//COD UNIDAD
-			$ArrLeyesProv[$k][4] = $v[4];//NOM UNIDAD
-			$ArrLeyesProv[$k][5] = $v[5];//CONVERSION
+		{   $ArrLeyesProv2 = isset($ArrLeyesProv[$k][2])?$ArrLeyesProv[$k][2]:0;
+			if ($peso_seco2=!0 && $v[2]=!0 && $v[5]=!0) 
+				$ArrLeyesProv[$k][2] = $ArrLeyesProv2 + round(($peso_seco2 * $v[2])/$v[5]);//VALOR
+
+			$ArrLeyesProv[$k][3] = isset($v[3])?$v[3]:"";//COD UNIDAD
+			$ArrLeyesProv[$k][4] = isset($v[4])?$v[4]:"";//NOM UNIDAD
+			$ArrLeyesProv[$k][5] = isset($v[5])?$v[5]:"";//CONVERSION
 		}
 		//reset($ArrLeyesLote);
 		do {			 
@@ -1101,9 +1105,10 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 						$LeyesPond2 = isset($LeyesPond[$key][2])?$LeyesPond[$key][2]:0;				
 				        $LeyesPond5 = isset($LeyesPond[$key][5])?$LeyesPond[$key][5]:0;
 						$LeyesPond8 = isset($LeyesPond[$key][8])?$LeyesPond[$key][8]:0;
+						$peso_seco2 = isset($Lote["peso_seco2"])?$Lote["peso_seco2"]:0;
 
-						$LeyesPond[$key][23] = ($Lote["peso_seco2"] * $LeyesPond2)/$LeyesPond5;
-						$LeyesPond[$key][9] = ($Lote["peso_seco2"] * $LeyesPond8)/$LeyesPond5;//FINO CANJE
+						$LeyesPond[$key][23] = ((float)$peso_seco2 * (float)$LeyesPond2)/$LeyesPond5;
+						$LeyesPond[$key][9] = ((float)$peso_seco2 * (float)$LeyesPond8)/$LeyesPond5;//FINO CANJE
 					//}
 					break;
 			}			
