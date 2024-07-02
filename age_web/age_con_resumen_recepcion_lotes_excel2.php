@@ -142,6 +142,8 @@
 		//echo $Consulta."<br>";
 		$RutPrv2='';
 		$RespTipoRecep = mysqli_query($link, $Consulta);
+		$TotalPesoHumProd=0;$TotalPesoSecProd=0;
+		$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
 		while ($FilaTipoRecep = mysqli_fetch_array($RespTipoRecep))
 		{					
 			//TITULO COD RECEPCION
@@ -167,6 +169,8 @@
 			//echo $Consulta."<br>";
 			$RutPrv='';
 			$RespAux = mysqli_query($link, $Consulta);
+			$TotalPesoHumAsig=0; $TotalPesoSecAsig=0;
+			$TotalFinoCuAsig=0;$TotalFinoAgAsig=0;$TotalFinoAuAsig=0;
 			while ($FilaAux = mysqli_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -208,6 +212,8 @@
 				$RespLote = mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
 				$EsPlamen=false;
+				$TotalPesoHumPrv=0;$TotalPesoSecPrv=0;
+				$TotalFinoCuPrv=0;$TotalFinoAgPrv=0;$TotalFinoAuPrv=0;
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					echo "<tr>";
@@ -470,12 +476,17 @@
 			$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
 		
 		} 
-				
-		/*$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
-		$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
-		$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
-		$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
-	  */echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\">";
+		$PorcHumProd=0;
+		if($TotalPesoHumProd>0){
+			$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
+		}
+		/*
+			$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
+			$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
+			$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
+		*/
+	  
+		echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\">";
 		echo "<td align=\"left\" colspan=\"2\">TOTAL: ".str_pad($Fila01["cod_subproducto"],2,'0',STR_PAD_LEFT)." ".strtoupper($NomSubProd)."</td>\n";
 		echo "<td align='right'>".number_format($TotalPesoHumProd,$DecPHum,',','.')."</td>";
 		echo "<td align='right'>".number_format($PorcHumProd,2,',','.')."</td>";

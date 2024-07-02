@@ -89,8 +89,8 @@ function Proceso(opt)
 	$Consulta.= " order by t1.cod_producto, orden ";
 	//echo $Consulta."<br>";
 	$Resp01 = mysqli_query($link, $Consulta);
-	$TotalPesoSecTot=0;//WSO
-	$TotalPesoHumTot=0;
+	$TotalPesoSecTot=0;$TotalPesoHumTot=0;
+	$TotalFinoCuTot=0;$TotalFinoAgTot=0;$TotalFinoAuTot=0;
 	while ($Fila01 = mysqli_fetch_array($Resp01))	
 	{			
 		echo "<tr class=\"ColorTabla01\">\n";			
@@ -145,6 +145,9 @@ function Proceso(opt)
 		//echo $Consulta."<br>";
 		$RutPrv2='';
 		$RespTipoRecep = mysqli_query($link, $Consulta);
+		$TotalFinoCuAsig=0;$TotalFinoAgAsig=0;$TotalFinoAuAsig=0;
+		$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;
+		$TotalFinoAgProd=0;$TotalFinoAuProd=0;
 		while ($FilaTipoRecep = mysqli_fetch_array($RespTipoRecep))
 		{					
 			//TITULO COD RECEPCION
@@ -170,6 +173,7 @@ function Proceso(opt)
 			//echo $Consulta."<br>";
 			$RutPrv='';
 			$RespAux = mysqli_query($link, $Consulta);
+			$TotalPesoHumAsig=0;$TotalPesoSecAsig=0;
 			while ($FilaAux = mysqli_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -211,6 +215,8 @@ function Proceso(opt)
 				$RespLote = mysqli_query($link, $Consulta);
 				//echo $Consulta."<br>";
 				$EsPlamen=false;
+				$TotalPesoHumPrv=0;$TotalPesoSecPrv=0;
+				$TotalFinoCuPrv=0;$TotalFinoAgPrv=0;$TotalFinoAuPrv=0;
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					echo "<tr>";
@@ -500,10 +506,16 @@ function Proceso(opt)
     }	
 	//TOTAL
 	$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
-	$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
-	$LeyCuTot=($TotalFinoCuTot*100)/$TotalPesoSecTot;
-	$LeyAgTot=($TotalFinoAgTot*1000)/$TotalPesoSecTot;
-	$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
+	$PorcHumTot=0;
+	if($TotalPesoHumTot>0){
+		$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
+	}
+	$LeyCuTot=0;$LeyAgTot=0;$LeyAuTot=0;
+	if($TotalPesoSecTot>0){
+		$LeyCuTot=($TotalFinoCuTot*100)/$TotalPesoSecTot;
+		$LeyAgTot=($TotalFinoAgTot*1000)/$TotalPesoSecTot;
+		$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
+	}
 	echo "<tr class=\"ColorTabla02\" bgcolor=\"#CCCCCC\">";
 	echo "<td align=\"left\" colspan=\"2\">TOTAL:</td>\n";
 	echo "<td align='right'>".number_format($TotalPesoHumTot,0,',','.')."</td>";
