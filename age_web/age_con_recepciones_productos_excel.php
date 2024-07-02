@@ -125,7 +125,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 {			
 	echo "<tr class='ColorTabla01'>\n";			
 	$Datos = explode("-",$Fila01["rut_proveedor"]);
-	$RutAux = ($Datos[0]*1)."-".$Datos[1];
+	$Datos0=isset($Datos[0])?$Datos[0]:0;
+	$Datos1=isset($Datos[1])?$Datos[1]:"";
+	$RutAux = ((int)$Datos0*1)."-".$Datos1;
 	$NomProveedor = "";
 	$Consulta = "select * ";
 	$Consulta.= " from rec_web.proved ";
@@ -176,6 +178,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	$Consulta.= " order by t1.cod_recepcion ";
 	//echo $Consulta."<br>";
 	$RespTipoRecep = mysqli_query($link, $Consulta);
+	$ArrTotalTipo = array();
+	$TotalPesoHum=0;$TotalPesoSeco=0;
 	while ($FilaTipoRecep = mysqli_fetch_array($RespTipoRecep))
 	{					
 		//TITULO COD RECEPCION
@@ -204,6 +208,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		//echo $Consulta."<br>";
 		$CodRecepAnt = "";
 		$RespAux = mysqli_query($link, $Consulta);
+		$TotalTipoPesoSeco=0;$TotalTipoPesoHum=0;
+		$TotalLotePesoHum=0;$TotalLotePesoSeco=0;
+		$SubTotalPesoHum=0;$SubTotalPesoSeco=0;
 		while ($FilaAux = mysqli_fetch_array($RespAux))
 		{						
 			//TITULO SUBPRODUCTO
@@ -227,9 +234,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			//echo $Consulta."<br><br>";
 			for ($i = 0; $i <=mysqli_num_rows($Resp) - 1; $i++)
 			{
-				if (mysql_data_seek ($Resp, $i)) 
+				if (mysqli_data_seek ($Resp, $i)) 
 				{
-					if ($Fila = mysql_fetch_row($Resp))  
+					if ($Fila = mysqli_fetch_row($Resp))  
 					{        				
 						$Lote = $Fila[0];
 						$Recargo = $Fila[1];
@@ -252,14 +259,14 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						while ($Fila2 = mysqli_fetch_array($Resp2))
 						{			
 							$ArrLeyes[$Fila2["cod_leyes"]][2] = $Fila2["valor"];//VALOR
-							$ArrLeyes[$Fila2["cod_leyes"]][3] = $Fila2["cod_unidad"];//COD UNIDAD
+							$ArrLeyes[$Fila2["cod_leyes"]][3] = isset($Fila2["cod_unidad"])?$Fila2["cod_unidad"]:"";//COD UNIDAD
 							$ArrLeyes[$Fila2["cod_leyes"]][4] = $Fila2["nom_unidad"];//NOM UNIDAD
 							$ArrLeyes[$Fila2["cod_leyes"]][5] = $Fila2["conversion"];//CONVERSION
 							if ($Fila2["cod_leyes"]=="01")
 								$PorcHum = $Fila2["valor"];
 							//TOTAL DEL LOTE
 							$ArrLoteLeyes[$Fila2["cod_leyes"]][2] = $Fila2["valor"];//VALOR
-							$ArrLoteLeyes[$Fila2["cod_leyes"]][3] = $Fila2["cod_unidad"];//COD UNIDAD
+							$ArrLoteLeyes[$Fila2["cod_leyes"]][3] = isset($Fila2["cod_unidad"])?$Fila2["cod_unidad"]:"";//COD UNIDAD
 							$ArrLoteLeyes[$Fila2["cod_leyes"]][4] = $Fila2["nom_unidad"];//NOM UNIDAD	
 							$ArrLoteLeyes[$Fila2["cod_leyes"]][5] = $Fila2["conversion"];//CONVERSION	
 						}
@@ -272,9 +279,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$i++;
 						if ($i<=mysqli_num_rows($Resp)-1)
 						{
-							if (mysql_data_seek($Resp, $i))
+							if (mysqli_data_seek($Resp, $i))
 							{
-								if ($Fila = mysql_fetch_row($Resp))	
+								if ($Fila = mysqli_fetch_row($Resp))	
 								{	 
 									$Sgte = $Fila[0]; //LOTE									
 									if ($Lote==$Sgte)
@@ -320,9 +327,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 											$Ley = ($Fino / $TotalLotePesoSeco)*$ArrParamLeyes[$k][1];
 										}
 										if ($OptLeyes == "S")
-											$LineaLeyes.= "<td align='right'>".number_format($Ley,$ArrParamLeyes[$k][2],",",".")."</td>\n";												
+											$LineaLeyes.= "<td align='right'>".number_format((float)$Ley,$ArrParamLeyes[$k][2],",",".")."</td>\n";												
 										if ($OptFinos == "S")
-											$LineaFinos.= "<td align='right'>".number_format($Fino,$ArrParamLeyes[$k][4],",",".")."</td>\n";	
+											$LineaFinos.= "<td align='right'>".number_format((float)$Fino,$ArrParamLeyes[$k][4],",",".")."</td>\n";	
 									}
 									else
 									{
@@ -334,10 +341,13 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 								}			
 													
 								//TOTAL PROVEEDOR
+								$ArrSubTotalLeyes02=isset($ArrSubTotalLeyes[$v[0]][2])?$ArrSubTotalLeyes[$v[0]][2]:0;
+								$v2=isset($v[2])?$v[2]:0;
+								$v5=isset($v[5])?$v[5]:0;
 								if ($TotalLotePesoSeco>0 && $v[2]>0 && $v[5]>0) 
-									$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2] + (($TotalLotePesoSeco * $v[2])/$v[5]);//VALOR
+									$ArrSubTotalLeyes[$v[0]][2] = (float)$ArrSubTotalLeyes02 + (($TotalLotePesoSeco * $v2)/$v5);//VALOR
 								else
-									$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2] + 0;
+									$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes02;
 								$ArrSubTotalLeyes[$v[0]][3] = $ArrParamLeyes[$v[0]][0];//COD UNIDAD
 								$ArrSubTotalLeyes[$v[0]][4] = $ArrParamLeyes[$v[0]][3];//NOM UNIDAD
 								$ArrSubTotalLeyes[$v[0]][5] = $ArrParamLeyes[$v[0]][1];//CONVERSION
@@ -403,9 +413,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						if ($Fino>0 && $ArrParamLeyes[$k][1]>0 && $SubTotalPesoSeco>0)
 							$Ley = ($Fino*$ArrParamLeyes[$k][1])/$SubTotalPesoSeco;		
 						if ($OptLeyes == "S")
-							$LineaLeyes.= "<td align='right'>".number_format($Ley,$ArrParamLeyes[$k][2],",",".")."</td>\n";				
+							$LineaLeyes.= "<td align='right'>".number_format((float)$Ley,$ArrParamLeyes[$k][2],",",".")."</td>\n";				
 						if ($OptFinos == "S")
-							$LineaFinos.= "<td align='right'>".number_format($Fino,$ArrParamLeyes[$k][4],",",".")."</td>\n";				
+							$LineaFinos.= "<td align='right'>".number_format((float)$Fino,$ArrParamLeyes[$k][4],",",".")."</td>\n";				
 					}
 					else
 					{
@@ -416,10 +426,12 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 					}		
 				}
 				//TOTAL TIPO RECEPCION
+				$ArrTotalTipo2=isset($ArrTotalTipo[$k][2])?$ArrTotalTipo[$k][2]:0;
+				$ArrParamLeyes1=isset($ArrParamLeyes[$k][1])?$ArrParamLeyes[$k][1]:0;
 				if ($SubTotalPesoSeco>0 && $v[2]>0 && $v[5]>0) 
-					$ArrTotalTipo[$k][2] = $ArrTotalTipo[$k][2] + (($SubTotalPesoSeco * $Ley)/$ArrParamLeyes[$k][1]);//VALOR
+					$ArrTotalTipo[$k][2] = (float)$ArrTotalTipo2 + (((float)$SubTotalPesoSeco * (float)$Ley)/(float)$ArrParamLeyes1);//VALOR
 				else
-					$ArrTotalTipo[$k][2] = $ArrTotalTipo[$k][2] + 0;
+					$ArrTotalTipo[$k][2] = $ArrTotalTipo2;
 				$ArrTotalTipo[$k][3] = $ArrParamLeyes[$k][0];//COD UNIDAD
 				$ArrTotalTipo[$k][4] = $ArrParamLeyes[$k][3];//NOM UNIDAD
 				$ArrTotalTipo[$k][5] = $ArrParamLeyes[$k][1];//CONVERSION
@@ -467,9 +479,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 					if ($Fino>0 && $ArrParamLeyes[$k][1]>0 && $TotalTipoPesoSeco>0)
 						$Ley = ($Fino*$ArrParamLeyes[$k][1])/$TotalTipoPesoSeco;		
 					if ($OptLeyes == "S")
-						$LineaLeyes.= "<td align='right'>".number_format($Ley,$ArrParamLeyes[$k][2],",",".")."</td>\n";				
+						$LineaLeyes.= "<td align='right'>".number_format((float)$Ley,$ArrParamLeyes[$k][2],",",".")."</td>\n";				
 					if ($OptFinos == "S")
-						$LineaFinos.= "<td align='right'>".number_format($Fino,$ArrParamLeyes[$k][4],",",".")."</td>\n";				
+						$LineaFinos.= "<td align='right'>".number_format((float)$Fino,$ArrParamLeyes[$k][4],",",".")."</td>\n";				
 				}
 				else
 				{
@@ -481,9 +493,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			}
 			//TOTAL PRODUCTO
 			if ($TotalTipoPesoSeco>0 && $v[2]>0 && $v[5]>0) 
-				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2] + (($TotalTipoPesoSeco * $Ley)/$ArrParamLeyes[$k][1]);//VALOR
+				$ArrTotalLeyes[$k][2] = (float)$ArrTotalLeyes[$k][2] + (((float)$TotalTipoPesoSeco * (float)$Ley)/(float)$ArrParamLeyes[$k][1]);//VALOR
 			else
-				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2] + 0;
+				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2];
 			$ArrTotalLeyes[$k][3] = $ArrParamLeyes[$k][0];//COD UNIDAD
 			$ArrTotalLeyes[$k][4] = $ArrParamLeyes[$k][3];//NOM UNIDAD
 			$ArrTotalLeyes[$k][5] = $ArrParamLeyes[$k][1];//CONVERSION
@@ -531,9 +543,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 				if ($Fino>0 && $ArrParamLeyes[$k][1]>0 && $TotalPesoSeco>0)
 					$Ley = ($Fino*$ArrParamLeyes[$k][1])/$TotalPesoSeco;		
 				if ($OptLeyes == "S")
-					$LineaLeyes.= "<td align='right'>".number_format($Ley,$ArrParamLeyes[$k][2],",",".")."</td>\n";				
+					$LineaLeyes.= "<td align='right'>".number_format((float)$Ley,$ArrParamLeyes[$k][2],",",".")."</td>\n";				
 				if ($OptFinos == "S")
-					$LineaFinos.= "<td align='right'>".number_format($Fino,$ArrParamLeyes[$k][4],",",".")."</td>\n";				
+					$LineaFinos.= "<td align='right'>".number_format((float)$Fino,$ArrParamLeyes[$k][4],",",".")."</td>\n";				
 			}
 			else
 			{

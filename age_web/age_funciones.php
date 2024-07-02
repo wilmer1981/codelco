@@ -560,7 +560,8 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 	$RespProv = mysqli_query($link, $Consulta);
 	//echo $Consulta."<br>";
 	$SumHumedad=0;
-	$TotalPesoHumProv=0;$TotalPesoSecoProv=0;$TotalPesoTaraProv=0;$TotalPesoBrutoProv=0;$TotalPesoNetoProv=0;$TotalPesoSecoProv_R2=0;
+	$TotalPesoHumProv=0;$TotalPesoSecoProv=0;$TotalPesoTaraProv=0;$TotalPesoBrutoProv=0;$TotalPesoNetoProv=0;
+	$TotalPesoSecoProv_R2=0;$TotalPesoSecoProv_R=0;
 	while ($FilaProv=mysqli_fetch_array($RespProv))
 	{
 		$ArrDatosLote=array();
@@ -576,7 +577,14 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 		$ArrDatosLote["lote"]=$FilaProv["lote"];
 		//echo $FilaProv["lote"]."<br>";
 		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre,$link);
-		if ($ArrDatosLote["tipo_remuestreo"]=="A")
+		$tipo_remuestreo = isset($ArrDatosLote["tipo_remuestreo"])?$ArrDatosLote["tipo_remuestreo"]:"";
+		$peso_humedo     = isset($ArrDatosLote["peso_humedo"])?$ArrDatosLote["peso_humedo"]:0;
+		$peso_seco       = isset($ArrDatosLote["peso_seco"])?$ArrDatosLote["peso_seco"]:0;
+		$peso_seco2      = isset($ArrDatosLote["peso_seco2"])?$ArrDatosLote["peso_seco2"]:0;
+		$peso_tara       = isset($ArrDatosLote["peso_tara"])?$ArrDatosLote["peso_tara"]:0;
+		$peso_bruto      = isset($ArrDatosLote["peso_bruto"])?$ArrDatosLote["peso_bruto"]:0;
+		$peso_neto       = isset($ArrDatosLote["peso_neto"])?$ArrDatosLote["peso_neto"]:0;
+		if ($tipo_remuestreo=="A")
 		{
 			/*$TotalPesoHumProv=$TotalPesoHumProv  + $ArrDatosLote["peso_humedo_ori"];
 			$TotalPesoSecoProv=$TotalPesoSecoProv + $ArrDatosLote["peso_seco2_ori"];*/
@@ -584,30 +592,30 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 			$ArrDatosLote["peso_seco2"]=$ArrDatosLote["peso_seco2_ori"];
 			$TotalPesoHumProv=$TotalPesoHumProv  + $ArrDatosLote["peso_humedo"];
 			$TotalPesoSecoProv_R2=$TotalPesoSecoProv_R2 + round($ArrDatosLote["peso_seco2"],0);
-			$TotalPesoSecoProv_R=$TotalPesoSecoProv_R + $ArrDatosLote["peso_seco"]; //(EN CASO DE QUE HAYA QUE TRABAJAR CON PESO REDONDEADO)
+			$TotalPesoSecoProv_R=$TotalPesoSecoProv_R + $peso_seco; //(EN CASO DE QUE HAYA QUE TRABAJAR CON PESO REDONDEADO)
 			
 		}
 		else
 		{
-			$TotalPesoHumProv=$TotalPesoHumProv  + $ArrDatosLote["peso_humedo"];
+			$TotalPesoHumProv=$TotalPesoHumProv  + $peso_humedo;
 			switch ($SubProd)
 			{
 				case 43:
 				case 56:
 				case 58:
-					$TotalPesoSecoProv=$TotalPesoSecoProv + $ArrDatosLote["peso_seco"]; //PARA PRODUCTOS DE PLAMEN CON DECIMALES
+					$TotalPesoSecoProv=$TotalPesoSecoProv + $peso_seco; //PARA PRODUCTOS DE PLAMEN CON DECIMALES
 					break;
 				default:
-					$TotalPesoSecoProv=$TotalPesoSecoProv + $ArrDatosLote["peso_seco2"];
+					$TotalPesoSecoProv=$TotalPesoSecoProv + $peso_seco2;
 					break;
 			}
-			$TotalPesoSecoProv_R2=$TotalPesoSecoProv_R2 + round($ArrDatosLote["peso_seco2"],0);
-			$TotalPesoSecoProv_R=$TotalPesoSecoProv_R + $ArrDatosLote["peso_seco"]; //(EN CASO DE QUE HAYA QUE TRABAJAR CON PESO REDONDEADO)
+			$TotalPesoSecoProv_R2=$TotalPesoSecoProv_R2 + round($peso_seco2,0);
+			$TotalPesoSecoProv_R=$TotalPesoSecoProv_R + $peso_seco; //(EN CASO DE QUE HAYA QUE TRABAJAR CON PESO REDONDEADO)
 			
 		}
-		$TotalPesoTaraProv=$TotalPesoTaraProv + $ArrDatosLote["peso_tara"];
-		$TotalPesoBrutoProv=$TotalPesoBrutoProv + $ArrDatosLote["peso_bruto"];
-		$TotalPesoNetoProv=$TotalPesoNetoProv + $ArrDatosLote["peso_neto"];
+		$TotalPesoTaraProv  = $TotalPesoTaraProv + $peso_tara;
+		$TotalPesoBrutoProv = $TotalPesoBrutoProv + $peso_bruto;
+		$TotalPesoNetoProv  = $TotalPesoNetoProv + $peso_neto;
 		reset($ArrLeyesLote);
 		foreach($ArrLeyesLote as $k => $v)
 		{	$v2 = isset($v[2])?$v[2]:0;

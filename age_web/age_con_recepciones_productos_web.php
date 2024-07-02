@@ -98,13 +98,9 @@ if ($CmbProveedor != "S")
 	$Consulta.= " and t1.rut_proveedor = '".$CmbProveedor."' ";
 $Consulta.= " order by t1.cod_producto, lpad(t1.cod_subproducto,4,'0') ";
 $Resp01 = mysqli_query($link, $Consulta);
-$PesoSecoTotal=0; //WSO
-$PesoHumTotal=0;
-$PorcHumTotal=0;
-$FinoTotalCu=0;		
-$FinoTotalAg=0;
-$FinoTotalAu=0;
-
+//WSO
+$PesoSecoTotal=0;$PesoHumTotal=0;$PorcHumTotal=0;
+$FinoTotalCu=0;$FinoTotalAg=0;$FinoTotalAu=0;
 while ($Fila01 = mysqli_fetch_array($Resp01))	
 {			
 	//TITULO SUBPRODUCTO
@@ -144,6 +140,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	$Consulta.= " order by t1.rut_proveedor";
 	$RespTipoRecep = mysqli_query($link, $Consulta);
 	//echo $Consulta."<br><br>";
+	$PesoHumProd=0;$PesoSecoProd=0;
+	$FinoProdCu=0;$FinoProdAg=0;$FinoProdAu=0;
 	while ($FilaTipoRecep = mysqli_fetch_array($RespTipoRecep))
 	{				
 		$TipoRecep="";			
@@ -161,29 +159,38 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		LeyesProveedor($TipoRecep,$FilaTipoRecep["rut_proveedor"],$Fila01["cod_producto"],$Fila01["cod_subproducto"],$ArrDatosProv,$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"",$link);
 		//if ($ArrDatosProv["peso_humedo"]!=0 || $ArrDatosProv["peso_seco"]!=0)
 		//{
+			$peso_humedo = isset($ArrDatosProv["peso_humedo"])?$ArrDatosProv["peso_humedo"]:0;
+			$peso_seco   = isset($ArrDatosProv["peso_seco"])?$ArrDatosProv["peso_seco"]:0;
+			$ArrLeyesProv012 = isset($ArrLeyesProv["01"][2])?$ArrLeyesProv["01"][2]:0;
+			$ArrLeyesProv022 = isset($ArrLeyesProv["02"][2])?$ArrLeyesProv["02"][2]:0;
+			$ArrLeyesProv042 = isset($ArrLeyesProv["04"][2])?$ArrLeyesProv["04"][2]:0;
+			$ArrLeyesProv052 = isset($ArrLeyesProv["05"][2])?$ArrLeyesProv["05"][2]:0;
+			$ArrLeyesProv0223 = isset($ArrLeyesProv["02"][23])?$ArrLeyesProv["02"][23]:0;
+			$ArrLeyesProv0423 = isset($ArrLeyesProv["04"][23])?$ArrLeyesProv["04"][23]:0;
+			$ArrLeyesProv0523 = isset($ArrLeyesProv["05"][23])?$ArrLeyesProv["05"][23]:0;
 			echo "<tr>\n";
 			echo "<td align=\"left\" >".str_pad($FilaTipoRecep["rut_proveedor"],10,'0',STR_PAD_LEFT)."<br>".substr(strtoupper($NomProveedor),0,20)."</td>\n";
-			echo "<td align=\"right\">".number_format($ArrDatosProv["peso_humedo"],0,",",".")."</td>\n";
-			echo "<td align=\"right\">".number_format($ArrDatosProv["peso_seco"],0,",",".")."</td>\n";		
-			echo "<td align=\"right\">".number_format($ArrLeyesProv["01"][2],2,",",".")."</td>\n";							
+			echo "<td align=\"right\">".number_format($peso_humedo,0,",",".")."</td>\n";
+			echo "<td align=\"right\">".number_format($peso_seco,0,",",".")."</td>\n";		
+			echo "<td align=\"right\">".number_format($ArrLeyesProv012,2,",",".")."</td>\n";							
 			if ($OptLeyes=="S")
 			{
-				echo "<td align=\"right\">".number_format($ArrLeyesProv["02"][2],2,",",".")."</td>\n";		
-				echo "<td align=\"right\">".number_format($ArrLeyesProv["04"][2],2,",",".")."</td>\n";
-				echo "<td align=\"right\">".number_format($ArrLeyesProv["05"][2],2,",",".")."</td>\n";	
+				echo "<td align=\"right\">".number_format($ArrLeyesProv022,2,",",".")."</td>\n";		
+				echo "<td align=\"right\">".number_format($ArrLeyesProv042,2,",",".")."</td>\n";
+				echo "<td align=\"right\">".number_format($ArrLeyesProv052,2,",",".")."</td>\n";	
 			}
 			if ($OptFinos=="S")
 			{
-				echo "<td align=\"right\">".number_format($ArrLeyesProv["02"][23],0,",",".")."</td>\n";		
-				echo "<td align=\"right\">".number_format($ArrLeyesProv["04"][23],0,",",".")."</td>\n";
-				echo "<td align=\"right\">".number_format($ArrLeyesProv["05"][23],0,",",".")."</td>\n";		
+				echo "<td align=\"right\">".number_format($ArrLeyesProv0223,0,",",".")."</td>\n";		
+				echo "<td align=\"right\">".number_format($ArrLeyesProv04230,",",".")."</td>\n";
+				echo "<td align=\"right\">".number_format($ArrLeyesProv0523,0,",",".")."</td>\n";		
 			}
 			echo "</tr>\n";
-			$PesoHumProd=$PesoHumProd + $ArrDatosProv["peso_humedo"];
-			$PesoSecoProd=$PesoSecoProd + $ArrDatosProv["peso_seco"];
-			$FinoProdCu=$FinoProdCu + $ArrLeyesProv["02"][23];
-			$FinoProdAg=$FinoProdAg + $ArrLeyesProv["04"][23];
-			$FinoProdAu=$FinoProdAu + $ArrLeyesProv["05"][23];
+			$PesoHumProd=$PesoHumProd + $peso_humedo;
+			$PesoSecoProd=$PesoSecoProd + $peso_seco;
+			$FinoProdCu=$FinoProdCu + $ArrLeyesProv0223;
+			$FinoProdAg=$FinoProdAg + $ArrLeyesProv0423;
+			$FinoProdAu=$FinoProdAu + $ArrLeyesProv0523;
 		//}
 	}
 	if ($PesoSecoProd>0 && $PesoHumProd>0)
