@@ -131,6 +131,7 @@ body {
 		$Consulta.= " order by t1.cod_recepcion ";
 		//echo "dos".$Consulta."<br>";
 		$RespTipoRecep = mysqli_query($link, $Consulta);
+		$TotalPesoHumTot=0;$TotalPesoSecTot=0;
 		while ($FilaTipoRecep = mysqli_fetch_array($RespTipoRecep))
 		{					
 			//TITULO COD RECEPCION
@@ -155,6 +156,7 @@ body {
 			//echo "tres".$Consulta."<br>";
 			$RutPrv='';
 			$RespAux = mysqli_query($link, $Consulta);
+			$TotalPesoHumAsig=0;$TotalPesoSecAsig=0;
 			while ($FilaAux = mysqli_fetch_array($RespAux))
 			{		
 				$Datos = explode("-",$FilaAux["rut_proveedor"]);
@@ -188,6 +190,7 @@ body {
 				$Consulta.= " and t1.estado_lote <>'6' group by t1.lote order by t1.lote, orden";
 				$RespLote = mysqli_query($link, $Consulta);
 				//echo "cuatro".$Consulta."<br>";
+				$TotalPesoHumPrv=0;$TotalPesoSecPrv=0;
 				while($FilaLote=mysqli_fetch_array($RespLote))
 				{
 					$TotalPesoSecLote=0;$TotalPesoHumLote=0;
