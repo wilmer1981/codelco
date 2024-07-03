@@ -14,16 +14,16 @@
 		$proceso = '';
 	}
 
-	$txtmarca = $_REQUEST["txtmarca"];
-	$txtlote  = $_REQUEST["txtlote"];
-	$txtorigen  = $_REQUEST["txtorigen"];
+	$txtmarca   = isset($_REQUEST["txtmarca"])?$_REQUEST["txtmarca"]:"";
+	$txtlote    = isset($_REQUEST["txtlote"])?$_REQUEST["txtlote"]:"";
+	$txtorigen  = isset($_REQUEST["txtorigen"])?$_REQUEST["txtorigen"]:"";
 	 
-	$txthornada = $_REQUEST["txthornada"];
-	$cmbanodos = $_REQUEST["cmbanodos"];
+	$txthornada = isset($_REQUEST["txthornada"])?$_REQUEST["txthornada"]:"";
+	$cmbanodos  = isset($_REQUEST["cmbanodos"])?$_REQUEST["cmbanodos"]:"";
 
 	if ($proceso == "B") //Buscar
 	{
-		$consulta = "SELECT * FROM relaciones WHERE lote_ventana = ".$txtlote;
+		$consulta = "SELECT * FROM relaciones WHERE lote_ventana = '".$txtlote."' ";
 		$rs = mysqli_query($link, $consulta);
 		if ($row = mysqli_fetch_array($rs))
 		{
@@ -49,17 +49,17 @@
 		if ($row = mysqli_fetch_array($rs)) //Existe
 		{
 			$mensaje = "El Lote ya existe";
-			header("Location:sing_lotes.php?mensaje=".$mensaje);
+			header("Location:sea_ing_lotes.php?mensaje=".$mensaje);
 		}
 		else 
 		{
 			//Consulto a que ciclo pertenece la hornada.
-			$consulta = "SELECT IFNULL(MAX(ciclo),0) AS ciclo FROM sea_web.relaciones WHERE cod_origen = ".$cmbanodos;
+			$consulta = "SELECT IFNULL(MAX(ciclo),0) AS ciclo FROM sea_web.relaciones WHERE cod_origen = '".$cmbanodos."' ";
 			$rs = mysqli_query($link, $consulta);
 			$row = mysqli_fetch_array($rs);
 			
 			//Si la hornada es igual a la hornada de inicio (sub-clase), aumentar en 1.
-			$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2005 AND cod_subclase = ".$cmbanodos;
+			$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2005 AND cod_subclase = '".$cmbanodos."' ";
 			$rs1 = mysqli_query($link, $consulta);
 			$row1 = mysqli_fetch_array($rs1);
 			
@@ -99,7 +99,7 @@
 		}
 		else
 		{
-			$mensaje = "El Lote N� ".$txtlote." No Existe";
+			$mensaje = "El Lote N° ".$txtlote." No Existe";
 			header("Location:sea_ing_lotes.php?mensaje=".$mensaje);
 		}		
 	}
