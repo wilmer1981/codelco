@@ -2,6 +2,7 @@
   	include("../principal/conectar_sea_web.php");
 	
 	$CodigoDeSistema = 2;	
+	$CodigoDePantalla = 56;
 
 	if(isset($_REQUEST["RecargaPag"])) {
 		$RecargaPag = $_REQUEST["RecargaPag"];
