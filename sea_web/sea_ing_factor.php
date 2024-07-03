@@ -1,7 +1,7 @@
 <?php 
 	$CodigoDeSistema = 2;
 	//$CodigoDePantalla = 1;
-	$CodigoDePantalla = 30;
+	$CodigoDePantalla = 2;
 
 	if(isset($_REQUEST["recargapag"])) {
 		$recargapag = $_REQUEST["recargapag"];
