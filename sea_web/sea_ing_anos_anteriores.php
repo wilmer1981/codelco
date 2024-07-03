@@ -3,7 +3,7 @@
   	include("funciones.php");
 	
 	$CodigoDeSistema = 2;
-	$CodigoDePantalla = 58;
+	$CodigoDePantalla = 57;
 
 	if(isset($_REQUEST["g"])) {
 		$g = $_REQUEST["g"];
