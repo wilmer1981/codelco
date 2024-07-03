@@ -39,7 +39,16 @@
 		$subprohm =  "";
 	}
 
+	$rechacp = isset($_REQUEST["rechacp"])?$_REQUEST["rechacp"]:0;
+	$rechac  = isset($_REQUEST["rechac"])?$_REQUEST["rechac"]:0;
+	$rechahp  = isset($_REQUEST["rechahp"])?$_REQUEST["rechahp"]:0;
 
+	$hora = date("h:i");
+	if(strlen($Mes)==1)
+		$Mes = "0".$Mes;
+	if(strlen($Dia)==1)
+		$Dia = "0".$Dia;
+	$fecha  = $Ano."-".$Mes."-".$Dia;
 ?>
 
 <html>
@@ -262,7 +271,7 @@ function BuscarRechazo()
 				{
 					$subprocor = 0;
 					$subprohm = 0;
-					$consulta = "SELECT * FROM sea_web.hornadas WHERE cod_producto = 17  AND hornada_ventana = ".$TxtHornada;
+					$consulta = "SELECT * FROM sea_web.hornadas WHERE cod_producto = 17  AND hornada_ventana = '".$TxtHornada."' ";
 					$consulta.=" order by cod_subproducto";
 					$rs = mysqli_query($link, $consulta);
 					while($row = mysqli_fetch_array($rs))
@@ -373,7 +382,7 @@ function BuscarRechazo()
 				<td><input name="traspaso" type="text" align="right" value="<?php echo $traspaso; ?>" size="12" disabled></td>
 				<td><input name="rechampa" type="text" align="right" value="<?php echo $rechampa; ?>" size="12" disabled></td>
             <td align="center">
-				<input name="rechacp" type="hidden" align="right" value="'.$rechacp.'">
+				<input name="rechacp" type="hidden" align="right" value="<?php echo $rechacp;?>">
 				<?php 
 					if($SaldoC==0)
 						echo '<input name="rechac" type="text" align="right" value="'.$rechac.'"  size="12" disabled >';
@@ -445,7 +454,7 @@ function BuscarRechazo()
 				<td><input name="traspasoHM" type="text" align="right" value="<?php echo $traspasoHM; ?>" size="12" disabled></td>
 				
             <td><input name="rechampaHM" type="text" align="right" value="<?php echo $rechampaHM; ?>" size="12" disabled></td>
-			<input name="rechahp" type="hidden" align="right" value="'.$rechahp.'">
+			<input name="rechahp" type="hidden" align="right" value="<?php echo $rechahp; ?>">
             <td align="center">
 			<?php
 				if($SaldoHM==0)  
