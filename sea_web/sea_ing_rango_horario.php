@@ -3,7 +3,7 @@
   	include("funciones.php");
 	
 	$CodigoDeSistema = 2;
-	$CodigoDePantalla = 59;
+	$CodigoDePantalla = 58;
 
 	if(isset($_REQUEST["g"])) {
 		$g = $_REQUEST["g"];
@@ -80,7 +80,7 @@ function Salir()
 	  <td width="762" height="316" align="center" valign="top"> <br /><br />
         <table width="300" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
           <tr>
-            <td colspan="4" align="center" class="ColorTabla01">Seleccionar Periodo del D�a</td>
+            <td colspan="4" align="center" class="ColorTabla01">Seleccionar Periodo del D&iacute;a</td>
           </tr>
           <?php
           $Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='2018'";
