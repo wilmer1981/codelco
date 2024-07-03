@@ -31,7 +31,7 @@ if(isset($_REQUEST["cmbproductos"])) {
 
 <html>
 <head>
-<title>Recepci�n de Productos</title>
+<title>Recepci&oacute;n de Productos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
 function BuscarRechazos()
