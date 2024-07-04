@@ -1,4 +1,5 @@
 <?php
+require("../principal/conectar_principal.php");
 $CodigoDeSistema = 2;
 $CodigoDePantalla = 3;
 
@@ -145,7 +146,7 @@ if ($Proceso == 'G')
 	
 	for ($k=0; $k < $largo_h; $k++)
 	{
-         include("../principal/conectar_sea_web.php");
+        //include("../principal/conectar_sea_web.php");
 		
 		/********* inserta hornada ***********/
 
@@ -160,7 +161,7 @@ if ($Proceso == 'G')
 			
 			$valor_h = $ano.$mes.$valor_h;   */         
 			$fecha_hora = $fecha." ".$Hora.":".$Minutos.":00";	
-			$Insertar = "INSERT INTO movimientos";
+			$Insertar = "INSERT INTO sea_web.movimientos";
 			$Insertar = "$Insertar (tipo_movimiento,cod_producto,cod_subproducto,hornada,numero_recarga,fecha_movimiento,campo1,
 								   campo2,unidades,flujo,peso,hora,sub_tipo_movim)";
 		    $Insertar = "$Insertar VALUES(1,17,0,'".$valor_h."',0,'".$fecha."','".$guia."','".$patente."',0,0,0,'".$fecha_hora."',1)";
@@ -195,7 +196,7 @@ if ($Proceso == 'G')
 
 
                     /************ consulto flujo *********/ 
-		             include("../principal/conectar_principal.php");
+		             //include("../principal/conectar_principal.php");
 					
 		             $consulta = "SELECT flujo FROM relacion_prod_flujo_nodo WHERE cod_proceso = 1 AND cod_producto = 17 AND cod_subproducto = '".$valor_a."' ";
 		             //$consulta = $consulta." AND cod_subproducto = ".$valor_a;
@@ -206,9 +207,9 @@ if ($Proceso == 'G')
 		             else 
 			        	$flujo = 0;
 					
-					include("../principal/conectar_sea_web.php");
+					//include("../principal/conectar_sea_web.php");
 					 
-					$Actualizar1 = "UPDATE movimientos set cod_subproducto = '".$valor_a."', flujo = '".$flujo."' where fecha_movimiento='".$fecha."' and hornada= '".$valor_h."' and ";
+					$Actualizar1 = "UPDATE sea_web.movimientos set cod_subproducto = '".$valor_a."', flujo = '".$flujo."' where fecha_movimiento='".$fecha."' and hornada= '".$valor_h."' and ";
 					$Actualizar1.=" cod_subproducto = 0 and flujo=0 and tipo_movimiento = 1 and sub_tipo_movim = 1";
 			    	 mysqli_query($link, $Actualizar1);
 
@@ -230,7 +231,7 @@ if ($Proceso == 'G')
 					$valores_recargo = substr($valores_recargo,$r+1);
 					$r=0;
 
-					$Actualizar2 = "UPDATE movimientos set numero_recarga = '".$valor_r."' where fecha_movimiento='".$fecha."' and hornada= '".$valor_h."' and ";
+					$Actualizar2 = "UPDATE sea_web.movimientos set numero_recarga = '".$valor_r."' where fecha_movimiento='".$fecha."' and hornada= '".$valor_h."' and ";
 					$Actualizar2.=" numero_recarga = 0 and tipo_movimiento = 1 and sub_tipo_movim = 1";
 					mysqli_query($link, $Actualizar2);
 					break;
@@ -247,7 +248,7 @@ if ($Proceso == 'G')
 					$valores_unidades = substr($valores_unidades,$u+1);
 					$u=0;
 
-					$Actualizar3 = "UPDATE movimientos set unidades = '".$valor_u."' where fecha_movimiento='".$fecha."' and hornada= '".$valor_h."' and unidades = 0 and tipo_movimiento = 1";
+					$Actualizar3 = "UPDATE sea_web.movimientos set unidades = '".$valor_u."' where fecha_movimiento='".$fecha."' and hornada= '".$valor_h."' and unidades = 0 and tipo_movimiento = 1";
 					$Actualizar3.=" and sub_tipo_movim = 1";
 					mysqli_query($link, $Actualizar3);
 					if(isset($row["unidades"])){
@@ -273,7 +274,7 @@ if ($Proceso == 'G')
 					$valores_peso = substr($valores_peso,$p+1);
 					$p=0;
 
-					$Actualizar4 = "UPDATE movimientos set peso = '".$valor_p."' where fecha_movimiento='".$fecha."' and hornada= '".$valor_h."' and peso = 0 and tipo_movimiento = 1";
+					$Actualizar4 = "UPDATE sea_web.movimientos set peso = '".$valor_p."' where fecha_movimiento='".$fecha."' and hornada= '".$valor_h."' and peso = 0 and tipo_movimiento = 1";
 					$Actualizar4.=" and sub_tipo_movim = 1";
 					mysqli_query($link, $Actualizar4);
 
@@ -309,7 +310,7 @@ if ($Proceso == 'G')
 if ($mostrar=="S" || $mostrar2 == "S")	
 {
     $valores_lote='';
-	include("../principal/conectar_rec_web.php");
+	//include("../principal/conectar_rec_web.php");
 
 	 if($mostrar2 == "S")		
 	 {
@@ -348,7 +349,7 @@ if ($mostrar=="S" || $mostrar2 == "S")
 			     $valores_lote = $row2['LOTE_A'].'/'.$valores_lote;
 			}
 		}
-		  include("../principal/conectar_rec_web.php");
+		  //include("../principal/conectar_rec_web.php");
 	
 		  $consulta_s = "SELECT SUM(PESO_NETO) AS peso_t FROM SIPA_WEB.recepciones WHERE GUIA_DESPACHO ='".$guia."' AND FECHA = '".$fecha."' 
 						 and PATENTE='".$patente."' and COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' and estado <>'A'";
@@ -360,8 +361,8 @@ if ($mostrar=="S" || $mostrar2 == "S")
 			
 		  }	
 		         
-   include("../principal/conectar_sea_web.php");
-   $consulta_g = "SELECT * from movimientos WHERE campo1 = '".$guia."' and campo2 = '".$patente."'";
+   //include("../principal/conectar_sea_web.php");
+   $consulta_g = "SELECT * from sea_web.movimientos WHERE campo1 = '".$guia."' and campo2 = '".$patente."'";
    $rs_g = mysqli_query($link, $consulta_g);
 
    while($row_g = mysqli_fetch_array($rs_g))
@@ -369,7 +370,7 @@ if ($mostrar=="S" || $mostrar2 == "S")
 			$FechaMov= $row_g['fecha_movimiento'];
 			$HoraMov= substr($row_g['hora'],11);
 		 
-		 $Consulta = "SELECT * from movimientos WHERE tipo_movimiento = 6 AND hornada = '".$row_g["hornada"]."' ";
+		 $Consulta = "SELECT * from sea_web.movimientos WHERE tipo_movimiento = 6 AND hornada = '".$row_g["hornada"]."' ";
 		 $rs5 = mysqli_query($link, $Consulta);
 		 if($row5 = mysqli_fetch_array($rs5))
 		 {
@@ -1034,9 +1035,12 @@ if(($mostrar =='S' || $Agregar == 'S') && $Buscar != "S" && $Modificar != "S")
 
 		  if($lote_ventana != '')
 		  {
-			  $consulta = "SELECT * FROM relaciones WHERE lote_ventana = '".$lote_ventana."' ";
-              include("../principal/conectar_sea_web.php");
+			  $consulta = "SELECT * FROM sea_web.relaciones WHERE lote_ventana = '".$lote_ventana."' ";
+              //include("../principal/conectar_sea_web.php");
 			  $rs = mysqli_query($link, $consulta);
+			  $hornada="";
+			  $lote_origen="";
+			  $marca="";
 			  if ($row = mysqli_fetch_array($rs))
 			  {
 				  $cmbanodos = $row["cod_origen"];
@@ -1055,7 +1059,7 @@ if(($mostrar =='S' || $Agregar == 'S') && $Buscar != "S" && $Modificar != "S")
 			echo '<option value="-1" SELECTed>Seleccionar</option>';
 
 			$consulta = "SELECT * FROM subproducto WHERE cod_producto = '17' and cod_subproducto in(1,2,3,5,6,7,9,10,12,13,14,15)";
-	        include("../principal/conectar_principal.php");
+	        //include("../principal/conectar_principal.php");
 			$rs2 = mysqli_query($link, $consulta);
 		   
 			while($row2 = mysqli_fetch_array($rs2))						
@@ -1095,7 +1099,7 @@ if($Agregar == "S" )
 			echo '<option value="-1" SELECTed>Seleccionar</option>';
 
 			$consulta = "SELECT * FROM subproducto WHERE cod_producto = '17' and cod_subproducto in(1,2,3,5,6,7,9,10,12,13,14,15)";
-	        include("../principal/conectar_principal.php");
+	        //include("../principal/conectar_principal.php");
 			$rs2 = mysqli_query($link, $consulta);
 		   
 			while($row2 = mysqli_fetch_array($rs2))						
@@ -1139,11 +1143,11 @@ if($Buscar == "S" && $Modificar != "S")
 			$valores= substr($valores,$i+1);
 			$i = 0;
 			$j = $j + 1;
-			include("../principal/conectar_sea_web.php");
+			//include("../principal/conectar_sea_web.php");
 		   
 		  if($valor != '')	
 		  {
-			$consulta = "SELECT * FROM relaciones WHERE lote_ventana = '".$valor."' ";
+			$consulta = "SELECT * FROM sea_web.relaciones WHERE lote_ventana = '".$valor."' ";
 			$result = mysqli_query($link, $consulta);
 		 
 			if ($row = mysqli_fetch_array($result))
@@ -1163,7 +1167,7 @@ if($Buscar == "S" && $Modificar != "S")
 				echo '<option value="-1" SELECTed>Seleccionar</option>';
 		
 				$consulta = "SELECT * FROM subproducto WHERE cod_producto = '17' and cod_subproducto in(1,2,3,5,6,7,9,10,12,13,14,15)";
-				include("../principal/conectar_principal.php");
+				//include("../principal/conectar_principal.php");
 				$rs2 = mysqli_query($link, $consulta);
 			   
 				while($row2 = mysqli_fetch_array($rs2))						
@@ -1189,7 +1193,7 @@ if($Buscar == "S" && $Modificar != "S")
                 
 				if($hornada != '')
 				{
-					$consulta3 = "SELECT MAX(numero_recarga) AS recargo FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND hornada = $hornada";
+					$consulta3 = "SELECT MAX(numero_recarga) AS recargo FROM sea_web.sea_web.movimientos WHERE tipo_movimiento = 1 AND hornada = $hornada";
 					$rs3 = mysqli_query($link, $consulta3);
 					
 					if($row3 = mysqli_fetch_array($rs3))
@@ -1230,8 +1234,8 @@ if($Buscar == "S" && $Modificar != "S")
 
 if($Modificar == "S")
 {
-	include("../principal/conectar_sea_web.php");
-	$consulta = "SELECT * FROM movimientos WHERE campo1 = '".$guia."' and campo2 = '".$patente."' ";
+	//include("../principal/conectar_sea_web.php");
+	$consulta = "SELECT * FROM sea_web.movimientos WHERE campo1 = '".$guia."' and campo2 = '".$patente."' ";
 	$rs = mysqli_query($link, $consulta);
 	while($row = mysqli_fetch_array($rs))
 	{
@@ -1242,8 +1246,8 @@ if($Modificar == "S")
 	  $unidades = $row["unidades"];
 	  $peso = $row["peso"];
 	  
-	  $consulta = "SELECT * FROM relaciones WHERE hornada_ventana = '".$hornada."' ";
-	  include("../principal/conectar_sea_web.php");
+	  $consulta = "SELECT * FROM sea_web.relaciones WHERE hornada_ventana = '".$hornada."' ";
+	  //include("../principal/conectar_sea_web.php");
 	  $rs3 = mysqli_query($link, $consulta);
 	  
 	  if($row3 = mysqli_fetch_array($rs3))
@@ -1261,7 +1265,7 @@ if($Modificar == "S")
 			echo '<option value="-1" SELECTed>Seleccionar</option>';
 
 			$consulta = "SELECT * FROM subproducto WHERE cod_producto = '17' and cod_subproducto in(1,2,3,5,6,7,9,10,12,13,14,15)";
-            include("../principal/conectar_principal.php");
+            //include("../principal/conectar_principal.php");
 			$rs2 = mysqli_query($link, $consulta);
 		   
 			while($row2 = mysqli_fetch_array($rs2))						

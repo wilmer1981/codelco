@@ -1,4 +1,5 @@
 <?php
+require("../principal/conectar_principal.php");
 $CodigoDeSistema = 2;
 $CodigoDePantalla = 3;
 
@@ -46,7 +47,7 @@ if(isset($_REQUEST["Minutos"])) {
 
 $HoraAux=date('G');
 $MinAux=date('i');
-if(!isset($Hora))
+if($Hora!="")
 {
 	if(intval($HoraAux)>=0&&intval($HoraAux)<8)
 	{
@@ -68,7 +69,7 @@ if(!isset($Hora))
 ?>
 <html>
 <head>
-<title>Recepci�n Productos Intermedios</title>
+<title>Recepci&oacute;n Productos Intermedios</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 <script language="JavaScript">
@@ -248,7 +249,6 @@ body {
 <body>
 <form name="frmPrincipal" method="post" action="">
   <?php include("../principal/encabezado.php")?>
-  <?php include("../principal/conectar_principal.php") ?> 
   <input name="PProveedor" type="hidden" value="PProveedor">
 <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
 <tr>
@@ -503,7 +503,7 @@ $prov="";
 			$consulta.= " FROM sipa_web.recepciones ";
 			$consulta.= " WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' AND RUT_PRV = '".$prov."' and peso_neto <> '0' ";
 			$consulta.=" ORDER BY HORA_ENTRADA";
-			include("../principal/conectar_rec_web.php");
+			//include("../principal/conectar_rec_web.php");
 			
 			$rs = mysqli_query($link, $consulta);
       }
@@ -512,7 +512,7 @@ $prov="";
 			$consulta = "SELECT distinct GUIA_DESPACHO AS GUIADP_A, PATENTE AS PATENT_A, LOTE AS LOTE_A ";
 			$consulta.= " FROM SIPA_WEB.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' ";
 			$consulta.=" ORDER BY GUIA_DESPACHO ";
-			include("../principal/conectar_rec_web.php");
+			//include("../principal/conectar_rec_web.php");
 			
 			$rs = mysqli_query($link, $consulta);
 	  }	
@@ -522,7 +522,7 @@ $prov="";
 			$i = $i + 1;
 			$unidades = '';
 	
-			include("../principal/conectar_rec_web.php");
+			//include("../principal/conectar_rec_web.php");
 			$consulta = "SELECT GUIA_DESPACHO AS GUIADP_A, FECHA AS FECHA_A, PATENTE AS PATENT_A, LOTE AS LOTE_A, RECARGO AS RECARG_A, PESO_NETO AS PESONT_A ";
 			$consulta.= " FROM SIPA_WEB.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' AND GUIA_DESPACHO = ".$row["GUIADP_A"]." ";
 			$consulta.= " AND LOTE = '".$row["LOTE_A"]."' AND PATENTE = '".$row["PATENT_A"]."' and estado <>'A'";
@@ -555,7 +555,7 @@ $prov="";
 				 //$consulta_u = "SELECT SUM(unidades) AS unid FROM movimientos WHERE fecha_movimiento between '$fecha' and '$fecha2' and hora between '$FechaInicio' and '$FechaTermino' AND campo1 = '$row["GUIADP_A"]' AND campo2 = '$row["PATENT_A"]'";
 				 $consulta_u = "SELECT SUM(unidades) AS unid FROM movimientos WHERE fecha_movimiento between '".$fecha."' and '".$fecha2."' AND campo1 = '".$row["GUIADP_A"]."' AND campo2 = '".$row["PATENT_A"]."'";
 				 //echo $consulta_u."<br>";
-				 include("../principal/conectar_sea_web.php"); 
+				// include("../principal/conectar_sea_web.php"); 
 				 $result_u = mysqli_query($link, $consulta_u);
 						
 					
@@ -567,8 +567,9 @@ $prov="";
  				 if($lote_ventana != '')
 				 {
 					   $consulta = "SELECT * FROM relaciones WHERE lote_ventana = $lote_ventana";
-					   include("../principal/conectar_sea_web.php");
+					  // include("../principal/conectar_sea_web.php");
 					   $rs2 = mysqli_query($link, $consulta);
+					   $producto="";
 					   if ($row2 = mysqli_fetch_array($rs2))
 					   {
 							$producto = $row2["cod_origen"];
@@ -620,15 +621,15 @@ $prov="";
 	  </tr>';
          $l = strlen($mes);
 		 if ($l==1)
-		     $mes = "0$mes";
+		     $mes = "0".$mes;
 		$fecha = $ano.'-'.$mes.'-'.$dia;
 		$cont = 20;
         $Fecha2 = date("Y-m-d", mktime(1,0,0,intval(substr($fecha, 5, 2)) ,intval(substr($fecha, 8, 2)) + 1,intval(substr($fecha, 0, 4))));
 		$consulta = "SELECT distinct LOTE AS LOTE_A FROM SIPA_WEB.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' AND (RUT_PRV = '".$prov."' or RUT_PRV = '".$prv2."') and tipo<>'A' and tipo <>'C'";
-		include("../principal/conectar_rec_web.php");
+		//include("../principal/conectar_rec_web.php");
 		$rs = mysqli_query($link, $consulta);
 		$i =0;
-		
+		$Total_peso=0;$Total_origen=0;$Total_unid=0;
 		while($row = mysqli_fetch_array($rs))
 		{
 
@@ -636,7 +637,7 @@ $prov="";
 			$i = $i + 1;
 			$unidades = '';
 
-			include("../principal/conectar_rec_web.php");
+			//include("../principal/conectar_rec_web.php");
 			$consulta = "SELECT MAX(ceiling(RECARGO)) as recargo FROM SIPA_WEB.recepciones ";
 			$consulta.= " WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' AND LOTE = '".$row["LOTE_A"]."' AND (RUT_PRV = '".$prov."' or RUT_PRV = '".$prv2."')";
 			$result = mysqli_query($link, $consulta);
@@ -658,7 +659,7 @@ $prov="";
 				{
 					  $consulta = "SELECT * FROM relaciones WHERE lote_ventana = '".$row["LOTE_A"]."' ";
 					  //echo $consulta."<br>";
-					  include("../principal/conectar_sea_web.php");
+					  //include("../principal/conectar_sea_web.php");
 					  $rs2 = mysqli_query($link, $consulta);
 					  if ($row2 = mysqli_fetch_array($rs2))
 					  {
@@ -682,7 +683,7 @@ $prov="";
 							$FechaTermino =date("Y-m-d", mktime(1,0,0,$mes,($dia +1),$ano))." 07:59:59";
 						   //$consulta_u = "SELECT SUM(unidades) AS unid, SUM(peso) AS peso, SUM(peso_origen) AS peso_origen,hora,fecha_movimiento FROM movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento between '$fecha' and '$Fecha2' and hora between '$FechaInicio' and '$FechaTermino' AND hornada = $hornada group by hornada, fecha_movimiento";						   
 						   $consulta_u = "SELECT SUM(unidades) AS unid, SUM(peso) AS peso, SUM(peso_origen) AS peso_origen,hora,fecha_movimiento FROM movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento between '$fecha' and '$Fecha2' AND hornada = $hornada group by hornada, fecha_movimiento";
-						   include("../principal/conectar_sea_web.php"); 
+						   //include("../principal/conectar_sea_web.php"); 
 						   $result_u = mysqli_query($link, $consulta_u);
 							//echo $consulta_u;	
 						   if ($row_u = mysqli_fetch_array($result_u))
@@ -761,7 +762,7 @@ $prov="";
 	  </tr>';
          $l = strlen($mes);
 		 if ($l==1)
-		     $mes = "0$mes";
+		     $mes = "0".$mes;
 		$fecha = $ano.'-'.$mes.'-'.$dia;
 		$cont = 20;
         $Fecha2 = date("Y-m-d", mktime(1,0,0,intval(substr($fecha, 5, 2)) ,intval(substr($fecha, 8, 2)) + 1,intval(substr($fecha, 0, 4))));
@@ -895,7 +896,7 @@ $prov="";
 		$consulta = "SELECT GUIA_DESPACHO AS GUIADP_A, PATENTE AS PATENT_A, LOTE AS LOTE_A, RECARGO AS RECARG_A ";
 		$consulta.= " FROM SIPA_WEB.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '16' AND RUT_PRV= '".$prov."' ORDER by HORA_ENTRADA";
     	//echo $consulta;
-		include("../principal/conectar_rec_web.php");
+		//include("../principal/conectar_rec_web.php");
 		$rs = mysqli_query($link, $consulta);
 
 		while($row = mysqli_fetch_array($rs))
@@ -908,7 +909,7 @@ $prov="";
 				$unidades = '';
 				$radio = 3;
 
-				include("../principal/conectar_rec_web.php");
+				//include("../principal/conectar_rec_web.php");
 				$consulta = "SELECT RECARGO as recargo FROM SIPA_WEB.recepciones ";
 				$consulta.= " WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = 16 AND LOTE = '".$row["LOTE_A"]."' AND RECARGO = '".$row["RECARG_A"]."' AND RUT_PRV = '".$prov."' ";
                 $result = mysqli_query($link, $consulta);
@@ -961,7 +962,7 @@ $prov="";
 					      {
 						       //consulta movimientos hechos	
 							   $consulta_u = "SELECT SUM(unidades) AS unid, SUM(peso) AS peso, SUM(peso_origen) AS peso_origen, SUM(zuncho) AS zuncho FROM movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento ='".$fecha."' AND hornada = '".$hornada."' AND numero_recarga = '".$recargo."' AND lote_ventana = '".$lote_ventana."'";
-							   include("../principal/conectar_sea_web.php"); 
+							  // include("../principal/conectar_sea_web.php"); 
 							   $result_u = mysqli_query($link, $consulta_u);
 					
 							   if ($row_u = mysqli_fetch_array($result_u))
