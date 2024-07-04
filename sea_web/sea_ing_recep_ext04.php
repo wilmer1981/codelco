@@ -38,7 +38,7 @@ if(isset($_REQUEST["Todos"])) {
 
 <html>
 <head>
-<title>Recepci�n de Productos</title>
+<title>Recepci&oacute;n de Productos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
 function Datos_Excel()
@@ -239,7 +239,7 @@ if($Proceso == "B")
 	echo'<center><font size="7">Fecha: '.$dia.'-'.$mes.'-'.$ano.'</font></center><br>';	
 	echo'<div align="center"><table cellpadding="3" cellspacing="0" width="300" border="1" bordercolor="#b26c4a" class="TablaPrincipal" >
       	<tr class="ColorTabla02"> 
-        	<td colspan="7"><div align="center"><strong>Recepci�n de Productos de Terceros</strong></div></td>
+        	<td colspan="7"><div align="center"><strong>Recepción de Productos de Terceros</strong></div></td>
       	</tr>
 		</table><br>';
 }
@@ -259,7 +259,7 @@ $fecha = $ano.'-'.$mes.'-'.$dia;
 
 echo'<div align="center"><table cellpadding="0" cellspacing="0" width="520" border="1" bordercolor="#b26c4a" class="TablaPrincipal">
       <tr class="ColorTabla02"> 
-        <td colspan="7"><div align="center">�nodos HVL</div></td>
+        <td colspan="7"><div align="center">Ánodos HVL</div></td>
       </tr>
       <tr class="ColorTabla01"> 
         <td width="15%"><div align="center">Lote Origen</div></td>
@@ -350,7 +350,7 @@ $total_peso = 0;
 
 echo'<div align="center"><table cellpadding="0" cellspacing="0"  width="520" border="1" bordercolor="#b26c4a" class="TablaPrincipal">
       <tr class="ColorTabla02"> 
-        <td colspan="7"><div align="center">�nodos Teniente</div></td>
+        <td colspan="7"><div align="center">Ánodos Teniente</div></td>
       </tr>
       <tr class="ColorTabla01"> 
         <td width="15%"><div align="center">Lote Origen</div></td>
@@ -655,7 +655,7 @@ echo'<table cellpadding="0" cellspacing="0"  width="520" border="1" bordercolor=
   </tr>
   <tr>'; 
 
-    echo'<td width="40%">�nodos HVL</td>';
+    echo'<td width="40%">Ánodos HVL</td>';
     //semanal HVL	
 	$consulta = "SELECT SUM(unidades) as unidades,SUM(peso) as peso FROM movimientos WHERE tipo_movimiento = 1 
 				 AND cod_producto = 17 AND cod_subproducto = 1 AND fecha_movimiento BETWEEN '".$fecha_sem."' AND '".$fecha_ter."' ";
@@ -684,7 +684,7 @@ echo'<table cellpadding="0" cellspacing="0"  width="520" border="1" bordercolor=
   
   echo'</tr>';
   echo'<tr> 
-    <td>�nodos Teniente</td>';
+    <td>Ánodos Teniente</td>';
 
     //semanal TTE	
 	$consulta = "SELECT SUM(unidades) as unidades,SUM(peso) as peso FROM movimientos WHERE tipo_movimiento = 1 
@@ -715,7 +715,7 @@ echo'<table cellpadding="0" cellspacing="0"  width="520" border="1" bordercolor=
   
   echo'</tr>';
   echo'<tr>'; 
-    echo'<td>�nodos Anglo American Sur SA</td>';
+    echo'<td>Ánodos Anglo American Sur SA</td>';
     //semanal DISP	
 	$consulta = "SELECT SUM(unidades) as unidades,SUM(peso) as peso FROM movimientos WHERE tipo_movimiento = 1 
 				 AND cod_producto = 17 AND cod_subproducto = 3 AND fecha_movimiento BETWEEN '".$fecha_sem."' AND '".$fecha_ter."' ";

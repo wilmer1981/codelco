@@ -1,16 +1,18 @@
 <?php
-require("../principal/conectar_principal.php");
+  require("../principal/conectar_principal.php");
 $CodigoDeSistema = 2;
 $CodigoDePantalla = 3;
 
 $HoraAux=date('G');
 $MinAux=date('i');
 
-if(isset($_REQUEST["Proceso"])) {
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso = '';
-}
+$mostrar2 = isset($_REQUEST["mostrar2"])?$_REQUEST["mostrar2"]:"";
+$guia_aux = isset($_REQUEST["guia_aux"])?$_REQUEST["guia_aux"]:"";
+$patente  = isset($_REQUEST["patente"])?$_REQUEST["patente"]:"";
+$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$cmbanodos = isset($_REQUEST["cmbanodos"])?$_REQUEST["cmbanodos"]:"";
+
 if(isset($_REQUEST["Modificar"])) {
 	$Modificar = $_REQUEST["Modificar"];
 }else{
@@ -32,32 +34,12 @@ if(isset($_REQUEST["Agregar"])) {
 	$Agregar = '';
 }
 
-//mostrar2=S&guia_aux=159590&patente=KXHH-93&fecha=2023-11-9//
 if(isset($_REQUEST["mostrar"])) {
 	$mostrar = $_REQUEST["mostrar"];
 }else{
 	$mostrar = '';
 }
-if(isset($_REQUEST["mostrar2"])) {
-	$mostrar2 = $_REQUEST["mostrar2"];
-}else{
-	$mostrar2 = '';
-}
-if(isset($_REQUEST["guia_aux"])) {
-	$guia_aux = $_REQUEST["guia_aux"];
-}else{
-	$guia_aux = '';
-}
-if(isset($_REQUEST["patente"])) {
-	$patente = $_REQUEST["patente"];
-}else{
-	$patente = '';
-}
-if(isset($_REQUEST["fecha"])) {
-	$fecha = $_REQUEST["fecha"];
-}else{
-	$fecha = '';
-}
+
 /*
 if(isset($_REQUEST["FechaMov"])) {
 	$FechaMov = $_REQUEST["FechaMov"];
@@ -107,7 +89,7 @@ $total_unidades=0;
 $HoraMov = $Hora.":".$Minutos.":00";
 $FechaMov = $fecha;
 
-if(!isset($Hora))
+if($Hora!="")
 {
 	if(intval($HoraAux)>=0 && intval($HoraAux)<8)
 	{
@@ -125,17 +107,15 @@ if(!isset($Hora))
 		$Minutos="59";
 	}
 }	
-
+	$valores_hornada   = isset($_REQUEST["valores_hornada"])?$_REQUEST["valores_hornada"]:0;
+	$valores_peso      = isset($_REQUEST["valores_peso"])?$_REQUEST["valores_peso"]:0;
+	$valores_unidades  = isset($_REQUEST["valores_unidades"])?$_REQUEST["valores_unidades"]:0;
+	$valores_cmbanodos = isset($_REQUEST["valores_cmbanodos"])?$_REQUEST["valores_cmbanodos"]:"";
+	$valores_lote      = isset($_REQUEST["valores_lote"])?$_REQUEST["valores_lote"]:0;
+	$valores_recargo   = isset($_REQUEST["valores_recargo"])?$_REQUEST["valores_recargo"]:0;
 /******************************* Guardar *********************************/
 if ($Proceso == 'G')
 {
-	$valores_hornada   = $_REQUEST["valores_hornada"];
-	$valores_peso      = $_REQUEST["valores_peso"];
-	$valores_unidades  = $_REQUEST["valores_unidades"];
-	$valores_cmbanodos = $_REQUEST["valores_cmbanodos"];
-	$valores_lote      = $_REQUEST["valores_lote"];
-	$valores_recargo   = $_REQUEST["valores_recargo"];
-
 	$largo_h = strlen($valores_hornada);
 	$largo_p = strlen($valores_peso);
 	$largo_u = strlen($valores_unidades);

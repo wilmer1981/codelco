@@ -27,7 +27,7 @@ if(isset($_REQUEST["dia"])) {
 ?>
 <html>
 <head>
-<title>Busqueda de Gu�a</title>
+<title>Busqueda de Gu&iacute;a</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
 
@@ -96,7 +96,7 @@ function ModGuia()
 	}
 	else
 	{
-		var mensaje = confirm("�Seguro que desea Modificar esta Guia?");
+		var mensaje = confirm("¿Seguro que desea Modificar esta Guia?");
 		if (mensaje == true)
 		{
 			var URL = "sea_modif_guia.php?Ano=" + f.ano.value + "&Mes=" + f.mes.value + "&Dia=" + f.dia.value + "&GUIA=" + GUIA + "&FOLIO=" + FOLIO + "&CORREC=" + CORREC;
@@ -243,7 +243,7 @@ if($Proceso == 'B')
   <div align="left" style="position:absolute; overflow:auto; top: 90px; height: 380px;"> 
   <table cellpadding="0" cellspacing="0"  width="500" border="1" class="TablaDetalle">';  
  
-	include("../principal/conectar_rec_web.php");
+	//include("../principal/conectar_rec_web.php");
     $fecha = $ano.'-'.$mes.'-'.$dia;
 	$consulta = "SELECT * FROM SIPA_WEB.recepciones where FECHA = '".$fecha."' AND peso_neto <> '0' and COD_PRODUCTO='1' AND ";
     $consulta.= "(COD_SUBPRODUCTO = '16' or COD_SUBPRODUCTO = '17' or COD_SUBPRODUCTO = '18') and tipo<>'A' ORDER BY GUIA_DESPACHO";

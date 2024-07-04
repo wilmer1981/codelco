@@ -1,6 +1,5 @@
 <?php  
 	include("../principal/conectar_sea_web.php");
-	//Ano=2023&Mes=11&Dia=9&GUIA=159590&FOLIO=&CORREC=466571
 
 	if(isset($_REQUEST["Ano"])) {
 		$Ano = $_REQUEST["Ano"];
@@ -59,15 +58,31 @@
 	}else{
 		$Guia = "";
 	}
+	if(isset($_REQUEST["Peso"])) {
+		$Peso = $_REQUEST["Peso"];
+	}else{
+		$Peso = 0;
+	}
 
-
-
-	$Fecha = $Ano."-".$Mes."-".$Dia;
+	if(isset($_REQUEST["Fecha"])) {
+		$Fecha = $_REQUEST["Fecha"];
+	}else{
+		$Fecha = $Ano."-".$Mes."-".$Dia;
+	}
+	/*
+	if(isset($_REQUEST["control"])) {
+		$control = $_REQUEST["control"];
+	}else{
+		$control = 0;
+	}*/
 	 //echo "FECHA: ".$Fecha;
 	if ($Grabar == "B")
-	{
-	        $Consulta2 = "SELECT * from SIPA_WEB.recepciones ";
-      		$Consulta2.= " where FECHA = '".$Ano."-".$Mes."-".$Dia."'";
+	{       
+
+			//if(strlen($dia)==1){$dia="0".$dia;}
+			//if(strlen($mes)==1){$mes="0".$mes;}
+	        $Consulta2 = "select * from SIPA_WEB.recepciones ";
+			$Consulta2.= " where FECHA = '".$Ano."-".$Mes."-".$Dia."'";
 		    //$Consulta2.= " and FOLIOS_A = '".$FOLIO."'";
 	        $Consulta2.= " and CORRELATIVO = '".$CORREC."'";
 		    $Respuesta2 = mysqli_query($link, $Consulta2);
@@ -75,7 +90,7 @@
 		    {
                 $Producto = $Row2["cod_subproducto"];
             }
-					$Actualizar = "UPDATE sipa_web.recepciones set ";
+					$Actualizar = "update sipa_web.recepciones set ";
 					$Actualizar.= " GUIA_DESPACHO = '".$Guia."',PATENTE = '".$Patente."', ";
 					$Actualizar.= " LOTE = '".$Lote."',RECARGO = '".$Recargo."', ";
 					$Actualizar.= " ACTIVO = 'M'";
@@ -92,78 +107,76 @@
 					echo "window.opener.document.frmPoPup.submit();";
 					echo "window.close();";
 					echo "</script>";
-					/*
-					$valores = "?Proceso=B&ano=".$Ano."&mes=".$Mes."&dia=".$Dia;
-					header("Location:sea_ing_recep_ext03.php".$valores);	*/
 	}
     elseif($Grabar=="S")
 	{	
-		
-			
-					$control = 0;
-					$Buscar = "SELECT * from sipa_web.recepciones where  LOTE = '".$Lote."'";
-					$Buscar.=" and RECARGO = '".$Recargo."' and cod_subproducto = '17' ";
-					//echo "Buscar".$Buscar;
-					$Rbusca=mysqli_query($link, $Buscar);
-					if ($Linea1 = mysqli_fetch_array($Rbusca))
-					{
-						$control = 1;
-					}
-					else
-					{
-						$Busca2 = "SELECT max(RECARGO) as recargo2 from sipa_web.recepciones where ";
-						$Busca2.=" LOTE = '".$Lote."' and cod_subproducto = '17' ";
-						$Rbusca2=mysqli_query($link, $Busca2);
-						if ($Linea2 = mysqli_fetch_array($Rbusca2))
-						{
-							if ($Linea2["recargo2"] + 1 < $Recargo)
-							$control = 2;
-						}
-					}
-					//polyif ($control==0)
-					if ($control==1)
+				
+		$control = 0;
+		$Buscar = "select * from sipa_web.recepciones where  LOTE = '".$Lote."'";
+		$Buscar.=" and RECARGO = '".$Recargo."' and cod_subproducto = '17' ";
+		//echo "Buscar".$Buscar;
+		$Rbusca=mysqli_query($link, $Buscar);
+		if ($Linea1 = mysqli_fetch_array($Rbusca))
+		{
+			$control = 1;
+		}
+		else
+		{
+			$Busca2 = "select max(RECARGO) as recargo2 from sipa_web.recepciones where ";
+			$Busca2.=" LOTE = '".$Lote."' and cod_subproducto = '17' ";
+			$Rbusca2=mysqli_query($link, $Busca2);
+			if ($Linea2 = mysqli_fetch_array($Rbusca2))
+			{
+				if ($Linea2["recargo2"] + 1 < $Recargo)
+				$control = 2;
+			}
+		}
+		//polyif ($control==0)
+		if ($control==1)
 
-					{
-						$Actualizar = "UPDATE SIPA_WEB.recepciones set ";
-						$Actualizar.= " GUIA_DESPACHO = '".$Guia."',PATENTE = '".$Patente."', ";
-						$Actualizar.= " LOTE = '".$Lote."',RECARGO = '".$Recargo."', ";
-						$Actualizar.= " ACTIVO = 'M'";
-						$Actualizar.= " where FECHA = '".$Ano."-".$Mes."-".$Dia."'";
-					//$Actualizar.= " and FOLIOS_A = '".$FOLIO."'";
-						$Actualizar.= " and CORRELATIVO = '".$CORREC."'";
-						mysqli_query($link, $Actualizar);
-					}
-					
-					/*poly if($control==1)
-					{
-		 				echo'<script>
-		      				alert("Recargo Ingresado para lote ya existe");
-			  				</script>';
-					}*/
-					if ($control==2)
-					{
-						echo'<script>
-						alert("Recargo Ingresado fuera de rango revise");
-						</script>';
-					
-					}
-					echo'<script>
-							alert("Ano:"'.$Fecha.');
-							</script>';
-					/*
-					echo "<script languaje='JavaScript'>";
-					echo "window.opener.document.frmPoPup.action = 'sea_ing_recep_ext03.php?Proceso=B&ano=".$Ano."&mes=".$Mes."&dia=".$Dia."';";
-					echo "window.opener.document.frmPoPup.submit();";
-					echo "window.close();";
-					echo "</script>";
-					*/
-					/*
-					$valores = "?Proceso=B&ano=".$Ano."&mes=".$Mes."&dia=".$Dia;
-					header("Location:sea_ing_recep_ext03.php".$valores);	*/
+		{
+			$Actualizar = "update SIPA_WEB.recepciones set ";
+			$Actualizar.= " GUIA_DESPACHO = '".$Guia."',PATENTE = '".$Patente."', ";
+			$Actualizar.= " LOTE = '".$Lote."',RECARGO = '".$Recargo."', ";
+			$Actualizar.= " ACTIVO = 'M'";
+			$Actualizar.= " where FECHA = '".$Ano."-".$Mes."-".$Dia."'";
+		//$Actualizar.= " and FOLIOS_A = '".$FOLIO."'";
+			$Actualizar.= " and CORRELATIVO = '".$CORREC."'";
+			//echo $Actualizar;
+			//exit();
+			mysqli_query($link, $Actualizar);
+		}
+		
+		/*poly if($control==1)
+		{
+			echo'<script>
+				alert("Recargo Ingresado para lote ya existe");
+				</script>';
+		}*/
+		if ($control==2)
+		{
+			echo'<script>
+			alert("Recargo Ingresado fuera de rango revise");
+			</script>';
+		
+		}
+		/*echo'<script>
+				alert("Ano:"'.$Fecha.');
+				</script>';*/
+		
+		echo "<script languaje='JavaScript'>";
+		echo "window.opener.document.frmPoPup.action = 'sea_ing_recep_ext03.php?Proceso=B&ano=".$Ano."&mes=".$Mes."&dia=".$Dia."';";
+		echo "window.opener.document.frmPoPup.submit();";
+		echo "window.close();";
+		echo "</script>";
+		
+		/*
+		$valores = "?Proceso=B&ano=".$Ano."&mes=".$Mes."&dia=".$Dia;
+		header("Location:sea_ing_recep_ext03.php".$valores);	*/
 	}
 	else
 	{		
-		$Consulta = "SELECT * from SIPA_WEB.recepciones ";
+		$Consulta = "select * from SIPA_WEB.recepciones ";
 		$Consulta.= " where FECHA = '".$Fecha."'";
 		$Consulta.= " and GUIA_DESPACHO = '".$GUIA."'";
 		//$Consulta.= " and FOLIOS_A = '".$FOLIO."'";
@@ -181,7 +194,7 @@
 ?>
 <html>
 <head>
-<title>Modifica Guia</title>
+<title>Modifica Gu&iacute;a</title>
 <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 <script language="JavaScript">
 function Proceso()
@@ -194,7 +207,7 @@ function Proceso()
 	}
  	if (isNaN(parseInt(f.Guia.value)))			
 	{
-		alert("El N� Gu�a no es V�lido");
+		alert("El N° Guía no es Válido");
 		f.Guia.focus();
 		return
 	}	
@@ -212,7 +225,7 @@ function Proceso2()
 	}
  	if (isNaN(parseInt(f.Guia.value)))
 	{
-		alert("El N� Gu�a no es V�lido");
+		alert("El N° Guía no es Válido");
 		f.Guia.focus();
 		return
 	}
@@ -227,16 +240,16 @@ function Proceso2()
 <body background="../Principal/imagenes/fondo3.gif" leftmargin="3" topmargin="3" marginwidth="0" marginheight="0">
 <form name="frmPoPup" method="post" action="">
 <input type="hidden" name="control" value="<?php echo $control; ?>"> 
-<input type="hidden" name="ano" value="<?php echo $Ano; ?>">
-<input type="hidden" name="mes" value="<?php echo $Mes; ?>">
-<input type="hidden" name="dia" value="<?php echo $Dia; ?>">
+<input type="hidden" name="Ano" value="<?php echo $Ano; ?>">
+<input type="hidden" name="Mes" value="<?php echo $Mes; ?>">
+<input type="hidden" name="Dia" value="<?php echo $Dia; ?>">
 <input type="hidden" name="FOLIO" value="<?php echo $FOLIO; ?>">
 <input type="hidden" name="CORREC" value="<?php echo $CORREC; ?>">
   <br>
   <table width="387" border="1" align="center" cellpadding="3" cellspacing="0" class="TablaInterior">
     <tr> 
       <td>FECHA</td>
-      <td><?php echo $Fecha; ?>&nbsp;</td>
+      <td><input type="hidden" name="Fecha" value="<?php echo $Fecha; ?>"><?php echo $Fecha; ?>&nbsp;</td>
       <td width="97" rowspan="6" align="center" valign="middle"> 
         <input name="BtnGrabar" type="button" id="BtnGrabar" value="Grabar" style="width:90;" onClick="Proceso();">
         <br>
@@ -264,7 +277,7 @@ function Proceso2()
     </tr>
     <tr> 
       <td>PESO</td>
-      <td><?php echo $Peso; ?>&nbsp;</td>
+      <td><input type="hidden" name="Peso" value="<?php echo $Peso; ?>"><?php echo $Peso; ?>&nbsp;</td>
     </tr>
   </table>
 </form>
