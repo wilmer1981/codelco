@@ -23,7 +23,7 @@ $Link         = isset($_REQUEST["Link"])?$_REQUEST["Link"]:"";
 		//echo "<br>NomSistema:".$NomSistema;
 
 	//if ((isset($Sistema)) && ($Sistema != "S") && ($Proceso == "N"))
-	if (($Sistema!="") && ($Sistema != "S") && ($Proceso == "N"))
+	if ($Sistema!="" && $Sistema != "S" && $Proceso == "N")
 	{
 
 		//$Sistema   = $_POST["Sistema"];
