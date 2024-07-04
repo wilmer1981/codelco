@@ -96,7 +96,7 @@ if($checkbox == "on")
 		if($row["nivel"] != 1)
 		{
 		 echo'<script>
-		      alert("No tiene Permiso para Realizar esta Operaci�n");
+		      alert("No tiene Permiso para Realizar esta Operación");
 			  JavaScript:window.location = "sea_ing_prod_vent.php";
 			  </script>';
 		}
@@ -219,7 +219,7 @@ if($checkbox == "on")
 
 <html>
 <head>
-<title>Producci�n de �nodos Ventana</title>
+<title>Producci&oacute;n de &Aacute;nodos Ventana</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <script language="JavaScript">
@@ -230,13 +230,13 @@ function guardar_datos()
     var valido = ""; 
 	    if (f.num_hornada.value =='' )
         {
-                alert ("Debe Ingresar N�mero de Hornada");
+                alert ("Debe Ingresar Número de Hornada");
                 f.num_hornada.focus();
                 return
         }
 		 if (f.cmbhornos.value =='-1' )
         {
-                alert ("Debe Ingresar N�mero de Hornos");
+                alert ("Debe Ingresar Número de Hornos");
                 f.cmbhornos.focus();
                 return
         }
@@ -362,7 +362,7 @@ function generar_hornada(f)
 		  return
 		  
 	   }	 
-	   if(confirm("Reiniciar� La Hornada �Desea Continuar?"))
+	   if(confirm("Reiniciará La Hornada ¿Desea Continuar?"))
 	   {
 	   	 f.action="sea_ing_prod_vent.php?generar_h=S";
 	   	 f.submit();

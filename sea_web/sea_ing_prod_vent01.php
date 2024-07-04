@@ -21,7 +21,7 @@
 
 		$peso_rechazo_hm   	= $_REQUEST["peso_rechazo_hm"];
 		$cmbhornos   		= $_REQUEST["cmbhornos"];
-		$flujo_hm   		= $_REQUEST["flujo_hm"];
+		//$flujo_hm   		= $_REQUEST["flujo_hm"];
 			
 //*******************************************************************************//
 	//Valida que no se realicen cambios de movimientos, en la fecha ingresada.
@@ -74,6 +74,7 @@ if($peso_hornada=='')
 	}
 $RegistroHornada=false;
 /*****************************************GUARDAR****************************************/
+$flujo_hm=0;
 if ($proceso == 'G')
 {
 // asign flujo según horno	 
