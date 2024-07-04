@@ -52,7 +52,7 @@ if(isset($_REQUEST["Minutos"])) {
 $HoraAux=date('G');
 $MinAux=date('i');
 
-if(!isset($Hora))
+if($Hora=="")
 {
 	if(intval($HoraAux)>=0&&intval($HoraAux)<8)
 	{
@@ -78,7 +78,7 @@ if(!isset($ano2))
 ?>
 <html>
 <head>
-<title>Recepci�n Productos Intermedios</title>
+<title>Recepci&oacute;n Productos Intermedios</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 <script language="JavaScript">
@@ -559,7 +559,7 @@ body {
 			if($proveedor == "A-61704005-0")
 			{
 
-				if(!isset($Est))
+				if($Est=="")
 					$Est='A';
 				if($Est=='A')
 				{  

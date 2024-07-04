@@ -231,7 +231,7 @@ function guardar_datos()
 
 	if(f.guia.value == '')
 	{
-		alert("Debe Ingresar Nro de Gu�a")
+		alert("Debe Ingresar Nro de Guía")
 		f.guia.focus();
 		return
 	}
@@ -259,7 +259,7 @@ function guardar_datos()
 
 	if(f.peso_recepcion.value == '')
 	{
-		alert("Debe Ingresar Peso Recepci�n")
+		alert("Debe Ingresar Peso Recepción")
 		f.peso_recepcion.focus();
 		return
 	}
@@ -430,7 +430,7 @@ function Recarga()
 		<tr> 
 		  <td>Patente</td>
 		  <td>
-		  <input type="text" name="patente" size="8"><strong>&nbsp;&nbsp;Formato Ej: EH-2134 � HNBS-99</strong>
+		  <input type="text" name="patente" size="8"><strong>&nbsp;&nbsp;Formato Ej: EH-2134 ó HNBS-99</strong>
 		  </td>
 		</tr>
 		<tr> 
