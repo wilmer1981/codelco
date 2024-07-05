@@ -1,5 +1,5 @@
 <?php
-
+	 
 	$TotalTara = 0;
 	$PesoBruto = 0;
 	$PesoNeto = 0;

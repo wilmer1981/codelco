@@ -12,8 +12,6 @@
 		$IpPc = $Fila["valor_subclase1"];
 	}
 
-
-
 	if(isset($_REQUEST["Proceso"])) {
 		$Proceso = $_REQUEST["Proceso"];
 	}else{
@@ -145,7 +143,7 @@ if(isset($_REQUEST["NumRack"])) {
 if(isset($_REQUEST["NumCubas"])) {
 	$NumCubas = $_REQUEST["NumCubas"];
 }else{
-	$NumCubas = "";
+	$NumCubas = 0;
 }
 
 if(isset($_REQUEST["PesoRack"])) {
@@ -200,9 +198,6 @@ if(isset($_REQUEST["PesoHM"])) {
 }else{
 	$PesoHM = "";
 }
-
-
-
 
 /********************************** ELIMINAR ************************************* */
 
@@ -334,7 +329,7 @@ switch ($Proceso)
 				$Actualizar.= " , num_carro = '".$NumCarro."'";
 				$Actualizar.= " , num_rack = '".$NumRack."'";
 				$Actualizar.= " , unidades = '".$UnidCorrientes."'";
-				$Actualizar.= " , peso = ''";
+				$Actualizar.= " , peso = '0'";
 				$Actualizar.= " , peso_total = '".$PesoNeto."'";
 				$Actualizar.= " , promedio = '".$Prom."' ";
 				$Actualizar.= " , bascula = '".$IpPc."' ";
@@ -351,7 +346,7 @@ switch ($Proceso)
 				$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
 				$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `bascula`) ";
 				$Insertar.= " VALUES ('".$fecha." ".$Hora."', '17', '4', 'PA', '".$Hornos."', '".$NumRueda."', '".$num_hornada."', ";
-				$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidCorrientes."', '', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
+				$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidCorrientes."', '0', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
 				mysqli_query($link, $Insertar);	
 			}
 		}
@@ -373,7 +368,7 @@ switch ($Proceso)
 				$Actualizar.= " , num_carro = '".$NumCarro."'";
 				$Actualizar.= " , num_rack = '".$NumRack."'";
 				$Actualizar.= " , unidades = '".$UnidEspeciales."'";
-				$Actualizar.= " , peso = ''";
+				$Actualizar.= " , peso = '0'";
 				$Actualizar.= " , peso_total = '".$PesoNeto."'";
 				$Actualizar.= " , promedio = '".$Prom."' ";
 				$Actualizar.= " , bascula = '".$IpPc."' ";
@@ -390,7 +385,7 @@ switch ($Proceso)
 				$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
 				$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `bascula`) ";
 				$Insertar.= " VALUES ('".$fecha." ".$Hora."', '17', '11', 'PA', '".$Hornos."', '".$NumRueda."', '".$num_hornada."', ";
-				$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidEspeciales."', '', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
+				$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidEspeciales."', '0', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
 				mysqli_query($link, $Insertar);
 			}
 		}
@@ -412,7 +407,7 @@ switch ($Proceso)
 				$Actualizar.= " , num_carro = '".$NumCarro."'";
 				$Actualizar.= " , num_rack = '".$NumRack."'";
 				$Actualizar.= " , unidades = '".$UnidHM."'";
-				$Actualizar.= " , peso = ''";
+				$Actualizar.= " , peso = '0'";
 				$Actualizar.= " , peso_total = '".$PesoNeto."'";
 				$Actualizar.= " , promedio = '".$Prom."' ";
 				$Actualizar.= " , bascula = '".$IpPc."' ";
@@ -429,7 +424,7 @@ switch ($Proceso)
 				$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
 				$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `bascula`) ";
 				$Insertar.= " VALUES ('".$fecha." ".$Hora."', '17', '8', 'PA', '".$Hornos."', '".$NumRueda."', '".$num_hornada."', ";
-				$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidHM."', '', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
+				$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidHM."', '0', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
 				mysqli_query($link, $Insertar);
 			}
 		}
@@ -854,8 +849,8 @@ switch ($Proceso)
 		echo "Consulta:".$Consulta;
 		$Respuesta = mysqli_query($link, $Consulta);
 		$Fila = mysqli_fetch_array($Respuesta);
-		echo "<br>Resultado:".$Fila;
-		exit();
+		//echo "<br>Resultado:".$Fila;
+		//exit();
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			//ACTUALIZA LAS UNIDADES DEL PRODUCTO QUE SACA EL PROMEDIO (H.M.)
@@ -1480,12 +1475,14 @@ switch ($Proceso)
 				mysqli_query($link, $Actualizar);
 			}
 			else
-			{			
-				//INSERTA DATOS
+			{	
+				//INSERTA DATOS		
 				$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
 				$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `fecha_carga`, `bascula`) ";
-				$Insertar.= " VALUES ('".$fecha." ".$Hora."', '".$Grupo."', '".$Lado."', 'RA', '".$NumCubas."', '', '', ";
-				$Insertar.= " '".$NumCarro."', '".$NumRack."', '', '', '".$PesoNeto."', 'P', '', '".$FechaCarga."', '".$IpPc."')";
+				$Insertar.= " VALUES ('".$fecha." ".$Hora."', '".$Grupo."', '".$Lado."', 'RA', '".$NumCubas."', '0', '0', ";
+				$Insertar.= " '".$NumCarro."', '".$NumRack."', '0', '0', '".$PesoNeto."', 'P', '', '".$FechaCarga."', '".$IpPc."')";
+				//echo $Insertar;
+				//exit();
 				mysqli_query($link, $Insertar);	
 			}
 			//OTRAS OPCIONES

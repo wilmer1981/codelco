@@ -583,19 +583,19 @@ if (isset($Hornada) && $Hornada != "-1")
       </tr>
       <tr>
         <td width="95"><strong>CORRIENTES</strong></td>
-        <td width="65" align="center"><?php echo number_format($UnidCttes,0,",","."); ?></td>
-        <td width="69" align="center"><?php echo number_format($PesoCttes,0,",","."); ?></td>
+        <td width="65" align="center"><?php echo number_format((float)$UnidCttes,0,",","."); ?></td>
+        <td width="69" align="center"><?php echo number_format((float)$PesoCttes,0,",","."); ?></td>
         <td width="74" align="center"><?php echo number_format($PromRealCtte,0,",","."); ?></td>
       </tr>
       <tr>
         <td><strong>ESPECIALES</strong></td>
-        <td align="center"><?php echo number_format($UnidEsp,0,",","."); ?></td>
+        <td align="center"><?php echo number_format((float)$UnidEsp,0,",","."); ?></td>
         <td align="center"><?php echo number_format($PesoEsp,0,",","."); ?></td>
         <td width="74" align="center"><?php echo number_format($PromRealCtte,0,",","."); ?></td>
       </tr>
       <tr>
         <td><strong>HOJAS MADRES</strong></td>
-        <td align="center"><?php echo number_format($UnidHM,0,",","."); ?></td>
+        <td align="center"><?php echo number_format((float)$UnidHM,0,",","."); ?></td>
         <td align="center"><?php echo number_format($PesoHM,0,",","."); ?></td>
         <td align="center"><?php echo number_format($PromRealHM,0,",","."); ?></td>
       </tr>

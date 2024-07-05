@@ -226,7 +226,7 @@ if(isset($_REQUEST["Numero"])) {
 ?>
 <html>
 <head>
-<title>Producci�n de �nodos Ventana</title>
+<title>Producci&oacute;n de &Aacute;nodos Ventana</title>
 <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 <!--<script language="VBScript">-->
 <script type="text/vbscript">
@@ -282,6 +282,7 @@ function TeclaPulsada(salto)
 function TeclaPulsadaHM(salto) 
 { 
 	var f = document.formulario;
+	//alert(salto);
 	if (salto == "Recarga")
 	{	
 		if (f.Grupo.value != "")
@@ -312,7 +313,7 @@ function TeclaPulsadaHM(salto)
 			{
 				echo "if (".$Condicion.")\n";
 				echo "{\n";
-				echo "alert(\"Los Grupos de H.M. son ".$GruposHM."\");\n";
+				echo "alert(\"Losssss Grupos de H.M. son ".$GruposHM."\");\n";
 				echo "f.Grupo.focus();\n";
 				echo "return;\n";
 				echo "}\n";
@@ -605,7 +606,7 @@ function Proceso(opt)
 					$GruposHM =  substr($GruposHM,0,strlen($GruposHM)-1);
 				if ($Condicion != "")
 					$Condicion = substr($Condicion,0,strlen($Condicion)-4);
-				if ($Entro)
+				if ($Entro==true)
 				{
 					echo "if (".$Condicion.")\n";
 					echo "{\n";
@@ -878,7 +879,7 @@ function Proceso(opt)
 					$GruposHM =  substr($GruposHM,0,strlen($GruposHM)-1);
 				if ($Condicion != "")
 					$Condicion = substr($Condicion,0,strlen($Condicion)-4);
-				if ($Entro)
+				if ($Entro==true)
 				{
 					echo "if (".$Condicion.")\n";
 					echo "{\n";
@@ -1090,7 +1091,7 @@ function GenerarHornada(ReiniciarHornada)
 	}	 
 	if(ReiniciarHornada == "S")	 
 	{		 
-		if(confirm("Reiniciar� La Hornada �Desea Continuar?"))
+		if(confirm("Reiniciará La Hornada ¿Desea Continuar?"))
 		{
 			f.action = "sea_ing_prod_vent_auto01.php?Proceso=Genera_Hornada&Reiniciar=S";
 			f.submit();
@@ -1121,7 +1122,7 @@ function Valida()
 			if (f.NumCarro.value != "")
 			{		
 				f.PesoCarro.value = "";
-				var msg = confirm("�Carro no Ingresado\nDesea ingresar el Peso Para Guardarlo?");
+				var msg = confirm("¿Carro no Ingresado\nDesea ingresar el Peso Para Guardarlo?");
 				if (msg==true)
 				{
 					f.PesoCarro.disabled = false;
@@ -1135,7 +1136,7 @@ function Valida()
 			if (f.NumRack.value != "")
 			{		
 				f.PesoRack.value = "";
-				var msg = confirm("�Rack no Ingresado\nDesea ingresar el Peso Para Guardarlo?");
+				var msg = confirm("¿Rack no Ingresado\nDesea ingresar el Peso Para Guardarlo?");
 				if (msg==true)
 				{
 					f.PesoRack.disabled = false;
@@ -1350,32 +1351,32 @@ function PesosPromedio()
 				{
 					case 1:
 						echo "<option SELECTed value='1'>Prod. Anodos y Hojas Madres</option>\n";
-						echo "<option value='2'>Producci�n Restos de Anodos </option>\n";
-						echo "<option value='3'>Producci�n Restos Hojas Madres</option>\n";
+						echo "<option value='2'>Producci&oacute;n Restos de Anodos </option>\n";
+						echo "<option value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
 						echo "<option value='4'>Tara de Rack y Carros</option>\n";
 						break;
 					case 2:
 						echo "<option value='1'>Prod. Anodos y Hojas Madres</option>\n";
-						echo "<option SELECTed value='2'>Producci�n Restos de Anodos</option>\n";
-						echo "<option value='3'>Producci�n Restos Hojas Madres</option>\n";
+						echo "<option SELECTed value='2'>Producci&oacute;n Restos de Anodos</option>\n";
+						echo "<option value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
 						echo "<option value='4'>Tara de Rack y Carros</option>\n";
 						break;
 					case 3:
 						echo "<option value='1'>Prod. Anodos y Hojas Madres</option>\n";
-						echo "<option value='2'>Producci�n Restos de Anodos</option>\n";
-						echo "<option SELECTed value='3'>Producci�n Restos Hojas Madres</option>\n";
+						echo "<option value='2'>Producci&oacute;n Restos de Anodos</option>\n";
+						echo "<option SELECTed value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
 						echo "<option value='4'>Tara de Rack y Carros</option>\n";
 						break;
 					case 4:
 						echo "<option value='1'>Prod. Anodos y Hojas Madres</option>\n";
-						echo "<option value='2'>Producci�n Restos de Anodos</option>\n";
-						echo "<option value='3'>Producci�n Restos Hojas Madres</option>\n";
+						echo "<option value='2'>Producci&oacute;n Restos de Anodos</option>\n";
+						echo "<option value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
 						echo "<option SELECTed value='4'>Tara de Rack y Carros</option>\n";
 						break;
 					default:
 						echo "<option value='1'>Prod. Anodos y Hojas Madres</option>\n";
-						echo "<option value='2'>Producci�n Restos de Anodos</option>\n";
-						echo "<option value='3'>Producci�n Restos Hojas Madres</option>\n";
+						echo "<option value='2'>Producci&oacute;n Restos de Anodos</option>\n";
+						echo "<option value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
 						echo "<option value='4'>Tara de Rack y Carros</option>\n";
 						break;
 				}			

@@ -99,7 +99,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				var msg = confirm("�Seguro que desea Eliminar este Pesaje?");
+				var msg = confirm("¿Seguro que desea Eliminar este Pesaje?");
 				if (msg==true)
 				{
 					f.action = "sea_ing_prod_vent_auto01.php?Proceso=E_ProdAnodos&FechaElim=" + Valores + "&HornadaElim=" + HornadaElim;

@@ -99,7 +99,7 @@ function Proceso(opt)
 				}
 				else
 				{
-					var msg = confirm("�Seguro que desea Eliminar este Registro?");
+					var msg = confirm("¿Seguro que desea Eliminar este Registro?");
 					if (msg==true)
 					{
 						f.action = "sea_ing_prod_vent_auto01.php?Proceso=E_Tara&TipoTara=" + TipoTara + "&Numero=" + NumeroM;
@@ -181,7 +181,7 @@ function Proceso(opt)
 </table>
 <?php
 //DETALLE CARROS
-if ($Tipo == "C" || $Tipo == "T" || !isset($Tipo))
+if ($Tipo == "C" || $Tipo == "T" || $Tipo=="")
 {
 	
 	echo "<br><table align='center' width='400' border='1' cellspacing='0' cellpadding='3' class='TablaDetalle'>\n";
@@ -228,7 +228,7 @@ if ($Tipo == "C" || $Tipo == "T" || !isset($Tipo))
 	echo "</table>\n";
 }	
 //DETALLE RACKS
-if ($Tipo == "R" || $Tipo == "T" || !isset($Tipo))
+if ($Tipo == "R" || $Tipo == "T" || $Tipo=="")
 {
 	echo "<br><table align='center' width='400' border='1' cellspacing='0' cellpadding='3' class='TablaDetalle'>\n";
 	echo "<tr align='center' class='ColorTabla01'>\n";

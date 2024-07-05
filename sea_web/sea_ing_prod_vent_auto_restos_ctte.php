@@ -15,7 +15,7 @@
 	$HoraAux=date('G');
 	$MinAux=date('i');
 
-	if(!isset($Hora))
+	if($Hora=="")
 	{
 		if(intval($HoraAux)>=0 && intval($HoraAux)<8)
 		{
