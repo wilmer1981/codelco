@@ -1,6 +1,5 @@
-﻿<?php include ("funciones.php") ?>
+﻿<?php include ("funciones.php");
 
-<?php 
 	$CodigoDeSistema = 2;
 	$CodigoDePantalla = 4;
 	$HoraAux=date('G');
@@ -157,7 +156,7 @@
 	
 	
 
-	if(!isset($Hora))
+	if($Hora=="")
 	{
 		if(intval($HoraAux)>=0&&intval($HoraAux)<8)
 		{
@@ -237,7 +236,6 @@ function Buscar(f)
 {
 	if (f.cmbhornada.value != -1)
 	{
-		alert ("por aca");
 		f.action = "sea_ing_beneficio01.php?proceso=B";
 		f.submit();
 	}

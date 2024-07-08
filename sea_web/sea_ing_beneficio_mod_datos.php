@@ -93,12 +93,12 @@ if($proceso == "P")  // inicia la primera vez el proceso
 
 <html>
 <head>
-<title>Modificaci�n Datos Beneficios</title>
+<title>Modificaci&oacute;n Datos Beneficios</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
 function guardar_datos()
 {
-	  if(confirm("�Desea Modificar las unidades y Peso de la Hornada?"))
+	  if(confirm("¿Desea Modificar las unidades y Peso de la Hornada?"))
         {
 			f=document.formulario;	
 			f.action="sea_ing_beneficio_mod_datos.php?proceso=G&producto=" + f.producto.value + "&subproducto=" + f.subproducto.value +
