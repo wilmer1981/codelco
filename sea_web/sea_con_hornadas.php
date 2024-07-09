@@ -1,3 +1,6 @@
+<?php
+ $valores = isset($_REQUEST["valores"])?$_REQUEST["valores"]:"";
+?>
 <html>
 <head>
 <title>Documento sin t&iacute;tulo</title>
@@ -31,6 +34,7 @@
 	//Separa los parametros (hornada-unidades-peso).
 	//echo $valores."<br>";
 	$cont = 0;
+	$tabla = array();
 	$largo = strlen($parametros);
 	for ($i=0; $i < $largo; $i++)
 	{
@@ -55,7 +59,7 @@
 		}				
 	}	
 	
-	while (list($clave, $valor) = each($tabla))
+	foreach($tabla as $clave => $valor)
 	{
 		echo '<tr>';
     	echo '<td width="150" height="20" align="center">'.substr($valor[0],6,6).'</td>';

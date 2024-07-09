@@ -2,93 +2,31 @@
 	$CodigoDeSistema = 2;
 	$CodigoDePantalla = 6;
 
-	if(isset($_REQUEST["modificar"])) {
-		$modificar = $_REQUEST["modificar"];
-	}else{
-		$modificar = "";
-	}
-	if(isset($_REQUEST["mostrar"])) {
-		$mostrar = $_REQUEST["mostrar"];
-	}else{
-		$mostrar = "";
-	}
+	$modificar = isset($_REQUEST["modificar"])?$_REQUEST["modificar"]:"";
+	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$cmbgrupo  = isset($_REQUEST["cmbgrupo"])?$_REQUEST["cmbgrupo"]:"";
+	$Hora      = isset($_REQUEST["Hora"])?$_REQUEST["Hora"]:date("G");
+	$Minutos   = isset($_REQUEST["Minutos"])?$_REQUEST["Minutos"]:date("i");
+	$fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$hornada2  = isset($_REQUEST["hornada2"])?$_REQUEST["hornada2"]:"";
+	$hornada_aux = isset($_REQUEST["hornada_aux"])?$_REQUEST["hornada_aux"]:"";
+	$activar     = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	$bloquear    = isset($_REQUEST["bloquear"])?$_REQUEST["bloquear"]:"";
 
-	if(isset($_REQUEST["cmbgrupo"])) {
-		$cmbgrupo = $_REQUEST["cmbgrupo"];
-	}else{
-		$cmbgrupo = "";
-	}
-	if(isset($_REQUEST["Hora"])) {
-		$Hora = $_REQUEST["Hora"];
-	}else{
-		$Hora = date("G");
-	}
-	if(isset($_REQUEST["Minutos"])) {
-		$Minutos = $_REQUEST["Minutos"];
-	}else{
-		$Minutos = date("i");
-	}
-	if(isset($_REQUEST["dia"])) {
-		$dia = $_REQUEST["dia"];
-	}else{
-		$dia = date("d");
-	}
-	if(isset($_REQUEST["mes"])) {
-		$mes = $_REQUEST["mes"];
-	}else{
-		$mes =  date("m");
-	}
-	if(isset($_REQUEST["ano"])) {
-		$ano = $_REQUEST["ano"];
-	}else{
-		$ano =  date("Y");
-	}
-	if(isset($_REQUEST["bloquear"])) {
-		$bloquear = $_REQUEST["bloquear"];
-	}else{
-		$bloquear = "";
-	}
-	if(isset($_REQUEST["hornada_aux"])) {
-		$hornada_aux = $_REQUEST["hornada_aux"];
-	}else{
-		$hornada_aux = "";
-	}
-	if(isset($_REQUEST["parametros"])) {
-		$parametros = $_REQUEST["parametros"];
-	}else{
-		$parametros = "";
-	}
-	if(isset($_REQUEST["cant_cubas"])) {
-		$cant_cubas = $_REQUEST["cant_cubas"];
-	}else{
-		$cant_cubas = "";
-	}
-	if(isset($_REQUEST["txtunid1"])) {
-		$txtunid1 = $_REQUEST["txtunid1"];
-	}else{
-		$txtunid1 = "";
-	}
-	if(isset($_REQUEST["txtpeso1"])) {
-		$txtpeso1 = $_REQUEST["txtpeso1"];
-	}else{
-		$txtpeso1 = "";
-	}
-	if(isset($_REQUEST["txtpesoproduccion"])) {
-		$txtpesoproduccion = $_REQUEST["txtpesoproduccion"];
-	}else{
-		$txtpesoproduccion = "";
-	}
-	
+	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$parametros = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$cant_cubas = isset($_REQUEST["cant_cubas"])?$_REQUEST["cant_cubas"]:"";
+	$txtunid1 = isset($_REQUEST["txtunid1"])?$_REQUEST["txtunid1"]:"";
+	$txtpeso1 = isset($_REQUEST["txtpeso1"])?$_REQUEST["txtpeso1"]:"";
+	$txtpesoproduccion = isset($_REQUEST["txtpesoproduccion"])?$_REQUEST["txtpesoproduccion"]:"";
+	$total_prod = isset($_REQUEST["total_prod"])?$_REQUEST["total_prod"]:"";
+	$valores    = isset($_REQUEST["valores"])?$_REQUEST["valores"]:"";
 
-	if(isset($_REQUEST["total_prod"])) {
-		$total_prod = $_REQUEST["total_prod"];
-	}else{
-		$total_prod = "";
-	}
-	
 	$HoraAux=date('G');
 	$MinAux=date('i');
-	if(!isset($Hora))
+	if($Hora=="")
 	{
 		if(intval($HoraAux)>=0&&intval($HoraAux)<8)
 		{
@@ -468,9 +406,9 @@ function Salir()
 			while ($row = mysqli_fetch_array($rs))
 			{
 				if (($mostrar == "S") and ($row["grupo"] == $cmbgrupo))
-					echo '<option value="'.$row["grupo"].'" SELECTed>N� '.$row["grupo"].'</option>';
+					echo '<option value="'.$row["grupo"].'" SELECTed>N° '.$row["grupo"].'</option>';
 				else 
-					echo '<option value="'.$row["grupo"].'">N� '.$row["grupo"].'</option>';
+					echo '<option value="'.$row["grupo"].'">N° '.$row["grupo"].'</option>';
 			}			
 		?>
               </SELECT> </td>
@@ -645,7 +583,7 @@ function Salir()
 </div>
 
         <?php
-	if (isset($activar))
+	if ($activar!="")
 		echo '<script language="JavaScript"> window.open("sea_con_hornadas.php?valores='.$valores.'", "","menubar=no resizable=no width=500 height=250") </script>';
 ?>
 

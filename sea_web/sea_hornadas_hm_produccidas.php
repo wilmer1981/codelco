@@ -1,4 +1,11 @@
-<?php include("../principal/conectar_sea_web.php") ?>
+<?php 
+include("../principal/conectar_sea_web.php");
+
+$proceso  = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+$cmbgrupo = isset($_REQUEST["cmbgrupo"])?$_REQUEST["cmbgrupo"]:"";
+$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+
+?>
 
 <html>
 <head>
@@ -67,16 +74,16 @@ function Enviar(f)
 	$consulta = $consulta." AND t1.hornada = t2.hornada_ventana";
 	$consulta = $consulta." WHERE tipo_movimiento = 3 AND fecha_movimiento = '".$fecha."' AND campo1 NOT IN ('M','T')";
 	$consulta = $consulta." AND campo2 = '".$cmbgrupo."'";
-//echo "CC".$consulta;
+	//echo "CC".$consulta;
 	$rs = mysqli_query($link, $consulta);	
-		
+	
 	while ($row = mysqli_fetch_array($rs))
 	{
 		echo '<tr>';		
     	echo '<td width="150" height="20" align="left">';
-		echo '<input name="radio" type="radio" value="'.$row[hornada].'" onClick="Enviar(this.form)">'.substr($row[hornada],6,6).'</td>';
+		echo '<input name="radio" type="radio" value="'.$row["hornada"].'" onClick="Enviar(this.form)">'.substr($row["hornada"],6,6).'</td>';
 	    echo '<td width="150" align="center">'.$row["unidades"].'</td>';
-    	echo '<td width="150" align="center">'.$row[peso_unidades].'</td>';
+    	echo '<td width="150" align="center">'.$row["peso_unidades"].'</td>';
 	  	echo '</tr>';
 	}
 ?>

@@ -47,7 +47,7 @@
 	if(isset($_REQUEST["txtunid1"])) {
 		$txtunid1 = $_REQUEST["txtunid1"];
 	}else{
-		$txtunid1 = "";
+		$txtunid1 = 0;
 	}
 	if(isset($_REQUEST["txtpeso1"])) {
 		$txtpeso1 = $_REQUEST["txtpeso1"];
@@ -255,7 +255,7 @@
 					$hornadamax= 0;
 				}
 				//$hornadas[$row5["valor_subclase2"]] = $ano_mes.$row6["hornada_max"] + 1;
-				$hornadas[$row5["valor_subclase2"]] = $ano_mes.$hornadamax + 1;
+				$hornadas[$row5["valor_subclase2"]] = (int)($ano_mes.$hornadamax) + 1;
 			}
 									
 		}
