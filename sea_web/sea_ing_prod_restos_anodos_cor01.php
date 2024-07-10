@@ -12,23 +12,22 @@
 		$cmbgrupo = "";
 	}
 
-	
-	$dia1 = $_REQUEST["dia1"];
-	$mes1 = $_REQUEST["mes1"];
-	$ano1 = $_REQUEST["ano1"];
-	$dia2 = $_REQUEST["dia2"];
-	$mes2 = $_REQUEST["mes2"];
-	$ano2 = $_REQUEST["ano2"];
+	$dia1 = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
+	$mes1 = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+	$ano1 = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+	$dia2 = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
+	$mes2 = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
+	$ano2 = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
 
-	$cmblado = $_REQUEST["cmblado"];
-	$Hora = $_REQUEST["Hora"];
-	$Minutos = $_REQUEST["Minutos"];
-	$Hora2 = $_REQUEST["Hora2"];
-	$Minutos2 = $_REQUEST["Minutos2"];
+	$cmblado = isset($_REQUEST["cmblado"])?$_REQUEST["cmblado"]:"";
+	$Hora    = isset($_REQUEST["Hora"])?$_REQUEST["Hora"]:"";
+	$Minutos = isset($_REQUEST["Minutos"])?$_REQUEST["Minutos"]:"";
+	$Hora2   = isset($_REQUEST["Hora2"])?$_REQUEST["Hora2"]:"";
+	$Minutos2 = isset($_REQUEST["Minutos2"])?$_REQUEST["Minutos2"]:"";
 
-	$txttotalunid = $_REQUEST["txttotalunid"];
-	$txtpesohm = $_REQUEST["txtpesohm"];
-	$txtpesocor = $_REQUEST["txtpesocor"];
+	$txttotalunid = isset($_REQUEST["txttotalunid"])?$_REQUEST["txttotalunid"]:"";
+	$txtpesohm    = isset($_REQUEST["txtpesohm"])?$_REQUEST["txtpesohm"]:"";
+	$txtpesocor   = isset($_REQUEST["txtpesocor"])?$_REQUEST["txtpesocor"]:"";
 
 	if ($proceso == "B")
 	{
@@ -356,7 +355,7 @@
 				$hornada1 = $ano_mes.$row1["valor_subclase1"];			
 			}
 			else{
-				$hornada1 = $ano_mes.$row["hornada_max"] + 1;
+				$hornada1 = (int)($ano_mes.$row["hornada_max"]) + 1;
 			}
 				
 		
@@ -421,7 +420,9 @@
 		
 		$rs8 = mysqli_query($link, $consulta);
 		$row8 = mysqli_fetch_array($rs8);
-		$diferencia = ($txtpesocor - $row8["peso_mov"]);
+		$peso_mov = isset($row8["peso_mov"])?$row8["peso_mov"]:0;
+		$fecha_benef = isset($row8["fecha_benef"])?$row8["fecha_benef"]:"0000-00-00";
+		$diferencia = ($txtpesocor - $peso_mov);
 		/*echo $txtpesocor."<br>";
 		echo $row8["peso_mov"]."<br>";
 		echo $diferencia."<br>";*/
@@ -497,7 +498,7 @@
 				$hornada2 = $ano_mes.$row5["valor_subclase1"];
 			}
 			else 
-				$hornada2 = $ano_mes.$row4["hornada_max"] + 1;	
+				$hornada2 = (int)($ano_mes.$row4["hornada_max"]) + 1;	
 	
 			//Buscar los codigos de H.M.
 			$valores = "";

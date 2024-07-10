@@ -31,9 +31,7 @@
 		$cmblado = $_REQUEST["cmblado"];
 	}else{
 		$cmblado = "";
-	}
-
-	
+	}	
 	if(isset($_REQUEST["mostrar"])) {
 		$mostrar = $_REQUEST["mostrar"];
 	}else{
@@ -76,16 +74,15 @@
 		$cambiarboton =  "";
 	}
 
-
 	if(isset($_REQUEST["txthm1"])) {
 		$txthm1 = $_REQUEST["txthm1"];
 	}else{
-		$txthm1 =  0;
+		$txthm1 =  "";
 	}
 	if(isset($_REQUEST["txthm2"])) {
 		$txthm2 = $_REQUEST["txthm2"];
 	}else{
-		$txthm2 =  0;
+		$txthm2 =  "";
 	}
 	if(isset($_REQUEST["txttotalunid"])) {
 		$txttotalunid = $_REQUEST["txttotalunid"];
@@ -124,10 +121,16 @@
 		$txtpesohm = "";
 	}
 
+	$existe = isset($_REQUEST["existe"])?$_REQUEST["existe"]:"";
+	$grupo = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+	$fecha = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$activar = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	$valores = isset($_REQUEST["valores"])?$_REQUEST["valores"]:"";
+
 	$HoraAux=date('G');
 	$MinAux=date('i');
 	$FechaHoy = date("Y-m-d");
-	if(!isset($Hora))
+	if($Hora!="")
 	{
 		if(intval($HoraAux)>=0&&intval($HoraAux)<8)
 		{
@@ -356,7 +359,7 @@ function Salir()
           <tr> 
             <td width="73" height="40">Fecha Produccion</td>
             <td width="284"> <SELECT name="dia1" size="1">
-                <?php
+            <?php
 			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 			for ($i=1;$i<=31;$i++)
 			{	
@@ -367,9 +370,9 @@ function Salir()
 				else					
 					echo "<option value='".$i."'>".$i."</option>";												
 			}		
-		?>
+		    ?>
               </SELECT> <SELECT name="mes1" size="1">
-                <?php
+            <?php
 		 	for($i=1;$i<13;$i++)
 		  	{
 				if (($mostrar == "S") && ($i == $mes1))
@@ -379,7 +382,7 @@ function Salir()
 				else
 					echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
 			}		  
-		?>
+		    ?>
               </SELECT> <SELECT name="ano1" size="1">
                 <?php
 			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
@@ -391,7 +394,7 @@ function Salir()
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
-		?>
+		    ?>
               </SELECT>
               <font size="1"><font size="2">
               <SELECT name="Hora">
@@ -720,12 +723,12 @@ function Salir()
 			if(isset($tabla[$row["valor"]][0])){
 				$valor0= $tabla[$row["valor"]][0];
 			}else{
-				$valor0= 0;
+				$valor0= "";
 			}
 			if(isset($tabla[$row["valor"]][1])){
 				$valor1= $tabla[$row["valor"]][1];
 			}else{
-				$valor1= 0;
+				$valor1= "";
 			}
 
 			echo '<tr>';
@@ -743,10 +746,20 @@ function Salir()
        	echo '<td width="150"><div align="center"><input name="txthm2" type="text" size="10" value="'.$txthm2.'" readonly></div></td>';
     	echo '</tr>';
 		//Totales
+		$T_U = 0;
+		if($txthm1!=""){
+			$T_U = $txttotalunid + $txthm1;
+		}
+		$T_P = 0;
+		if($txthm2!=""){
+			$T_P = $txttotalpeso + $txthm2;
+		}
 		echo '<tr>';
 		echo '<td width="300" height="20">TOTAL</td>';	
-		echo '<td width="150"><div align="center"><input name="T_U" type="text" size="10" value="'.($txttotalunid + $txthm1).'" readonly></div></td>';
-       	echo '<td width="150"><div align="center"><input name="T_P" type="text" size="10" value="'.($txttotalpeso + $txthm2).'" readonly></div></td>';
+		//echo '<td width="150"><div align="center"><input name="T_U" type="text" size="10" value="'.($txttotalunid + $txthm1).'" readonly></div></td>';
+       	//echo '<td width="150"><div align="center"><input name="T_P" type="text" size="10" value="'.($txttotalpeso + $txthm2).'" readonly></div></td>';
+		echo '<td width="150"><div align="center"><input name="T_U" type="text" size="10" value="'.$T_U.'" readonly></div></td>';
+       	echo '<td width="150"><div align="center"><input name="T_P" type="text" size="10" value="'.$T_P.'" readonly></div></td>';
 		echo '</tr>';
 	?>
   </table><br>
@@ -816,13 +829,14 @@ function Salir()
 
 <?php
 	//Muestra PopUp con las hornadas generadas.
-	if (isset($activar))
+	if ($activar!=""){
 		echo '<script language="JavaScript"> window.open("sea_con_hornadas.php?valores='.$valores.'", "","menubar=no resizable=no width=500 height=250") </script>';
+	}
 ?>
 
 <?php
 	//Existe produccion el mismo dia, de un grupo.
-	if (isset($existe))
+	if ($existe!="")
 	{
 		echo '<script language="JavaScript"> alert("Ya Existe Produccion del Grupo '.$grupo.' en la Fecha '.$fecha.'"); </script>';
 	}
