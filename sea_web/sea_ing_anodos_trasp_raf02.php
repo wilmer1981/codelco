@@ -27,9 +27,8 @@ if(isset($_REQUEST["cmbproductos"])) {
 }else{
 	$cmbproductos = "";
 }
+$hornada_aux = isset($_REQUEST["hornada_aux"])?$_REQUEST["hornada_aux"]:"";
 
-
- 
  $fecha = $ano.'-'.$mes.'-'.$dia;	
  $FechaInicio=$ano.'-'.$mes.'-'.$dia." 08:00:00";
  $FechaTermino =date("Y-m-d", mktime(1,0,0,$mes,($dia +1),$ano))." 07:59:59";

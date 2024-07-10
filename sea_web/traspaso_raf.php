@@ -33,7 +33,6 @@
 		$cmbproducto = "";
 	}
 	
-
 	if(isset($_REQUEST["dia1"])) {
 		$dia1 = $_REQUEST["dia1"];
 	}else{
@@ -64,7 +63,6 @@
 	}else{
 		$ano2 =  date("Y");
 	}
-
 	if(isset($_REQUEST["txthornada"])) {
 		$txthornada = $_REQUEST["txthornada"];
 	}else{
@@ -75,7 +73,6 @@
 	}else{
 		$boton = "";
 	}
-
 	if(isset($_REQUEST["fecha"])) {
 		$fecha = $_REQUEST["fecha"];
 	}else{
@@ -91,13 +88,11 @@
 	}else{
 		$peso_prom = "0.0";
 	}
-
 	if(isset($_REQUEST["codigo"])) {
 		$codigo = $_REQUEST["codigo"];
 	}else{
 		$codigo = 0;
 	}
-	
 
 	
 ?>
@@ -569,7 +564,7 @@ body {
               </SELECT>
         </font></td>
       <td width="394"><input name="btnbuscar" type="button" value="Buscar" onClick="Buscar(this.form,1)">
-        &nbsp;&nbsp;* Fecha de Rechazo Por Calidad o Recepci�n de Blister</td>
+        &nbsp;&nbsp;* Fecha de Rechazo Por Calidad o Recepci&oacute;n de Blister</td>
     </tr>
   </table>
   <br>
@@ -797,7 +792,7 @@ body {
 			<?php
 				if ($recargapag2 == "S")
 					//echo '<input name="peso_prom" type="text" style="background:#FFFFCC" size="10" value="'.round($pesopromedio,2).'" readonly></td>';
-					echo '<input name="peso_prom" type="text" style="background:#FFFFCC" size="10" value="'.round($peso_prom,2).'" readonly></td>';
+					echo '<input name="peso_prom" type="text" style="background:#FFFFCC" size="10" value="'.round((float)$peso_prom,2).'" readonly></td>';
 				else 
 					echo '<input name="peso_prom" type="text" style="background:#FFFFCC" size="10" value="" readonly></td>';
 				
