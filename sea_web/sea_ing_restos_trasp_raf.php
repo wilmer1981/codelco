@@ -17,8 +17,6 @@ if(isset($_REQUEST["cmbfecha"])) {
 }else{
 	$cmbfecha = "";
 }
-
-
 if(isset($_REQUEST["dia_r"])) {
 	$dia_r = $_REQUEST["dia_r"];
 }else{
