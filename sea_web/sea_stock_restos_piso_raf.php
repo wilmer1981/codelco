@@ -7,7 +7,6 @@ if(isset($_REQUEST["Proceso"])) {
 }else{
 	$Proceso = "";
 }
-
 if(isset($_REQUEST["Mensaje"])) {
 	$Mensaje = $_REQUEST["Mensaje"];
 }else{
@@ -28,8 +27,6 @@ if(isset($_REQUEST["cmbgrupo"])) {
 }else{
 	$cmbgrupo = "";
 }
-
-
 if(isset($_REQUEST["dia2"])) {
 	$dia2 = $_REQUEST["dia2"];
 }else{
@@ -45,8 +42,6 @@ if(isset($_REQUEST["ano2"])) {
 }else{
 	$ano2 =  date("Y");
 }
-
-
 if(isset($_REQUEST["dia"])) {
 	$dia = $_REQUEST["dia"];
 }else{
