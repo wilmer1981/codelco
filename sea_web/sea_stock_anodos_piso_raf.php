@@ -26,8 +26,6 @@ if(isset($_REQUEST["ano"])) {
 }else{
 	$ano =  date("Y");
 }
-
-
 if(isset($_REQUEST["Mensaje"])) {
 	$Mensaje = $_REQUEST["Mensaje"];
 }else{
@@ -44,8 +42,6 @@ if(isset($_REQUEST["cmbproductos"])) {
 }else{
 	$cmbproductos = "";
 }
-
-
 if(isset($_REQUEST["Encontrado"])) {
 	$Encontrado = $_REQUEST["Encontrado"];
 }else{
@@ -56,8 +52,6 @@ if(isset($_REQUEST["Encontrado2"])) {
 }else{
 	$Encontrado2 = "";
 }
-
-
 
  /* if($Mensaje == 1)
   {
