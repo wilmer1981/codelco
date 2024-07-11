@@ -181,7 +181,7 @@ echo '<td width="100" align="center">PESO<br>KGS.</td></tr>';
 	while ($row2 = mysqli_fetch_array($rs2))
 	{			
 		echo '<tr>';									 
-		echo '<td width="100"><center>'.$row2[fecha_movimiento].'</center></td>';
+		echo '<td width="100"><center>'.$row2["fecha_movimiento"].'</center></td>';
 		echo '<td width="100"><center>'.$row2["hornada"].'</center></td>';
 		echo '<td width="100" align="center">'.$row2["grupo"].'</td>';
 		echo '<td width="100" align="center">'.$row2["unidades"].'</td>';
