@@ -7,13 +7,11 @@ if(isset($_REQUEST["Proceso"])) {
 }else{
 	$Proceso = "";
 }
-
 if(isset($_REQUEST["fecha_t"])) {
 	$fecha_t = $_REQUEST["fecha_t"];
 }else{
 	$fecha_t = "";
 }
-
 if(isset($_REQUEST["Mensaje"])) {
 	$Mensaje = $_REQUEST["Mensaje"];
 }else{
@@ -64,7 +62,7 @@ if(isset($_REQUEST["ano_r"])) {
 }else{
 	$ano_r =  date("Y");
 }
-
+$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
   /*if($Mensaje == 1)
   {
   	echo "<Script>
@@ -76,7 +74,7 @@ if(isset($_REQUEST["ano_r"])) {
 ?>
 <html>
 <head>
-<title>�nodos A Venta</title>
+<title>&Aacute;nodos A Venta</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
 body {

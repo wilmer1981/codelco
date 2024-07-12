@@ -1,17 +1,16 @@
 <?php
 
-$Proceso = $_REQUEST["Proceso"];
+$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 
-$ano_r = $_REQUEST["ano_r"];
-$mes_r = $_REQUEST["mes_r"];
-$dia_r = $_REQUEST["dia_r"];
+$ano_r = isset($_REQUEST["ano_r"])?$_REQUEST["ano_r"]:date("Y");
+$mes_r = isset($_REQUEST["mes_r"])?$_REQUEST["mes_r"]:date("m");
+$dia_r = isset($_REQUEST["dia_r"])?$_REQUEST["dia_r"]:date("d");
 
-$valores_unidades    = $_REQUEST["valores_unidades"];
-$valores_peso        = $_REQUEST["valores_peso"];
-$valores_hornada     = $_REQUEST["valores_hornada"];
-$valores_subproducto = $_REQUEST["valores_subproducto"];
-$valores_producto    = $_REQUEST["valores_producto"];
-
+$valores_hornada     = isset($_REQUEST["valores_hornada"])?$_REQUEST["valores_hornada"]:"";
+$valores_peso        = isset($_REQUEST["valores_peso"])?$_REQUEST["valores_peso"]:"";
+$valores_unidades    = isset($_REQUEST["valores_unidades"])?$_REQUEST["valores_unidades"]:"";
+$valores_subproducto = isset($_REQUEST["valores_subproducto"])?$_REQUEST["valores_subproducto"]:"";
+$valores_producto    = isset($_REQUEST["valores_producto"])?$_REQUEST["valores_producto"]:"";
 
 $fecha_r = $ano_r."-".$mes_r."-".$dia_r;
 
