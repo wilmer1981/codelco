@@ -6,6 +6,13 @@ $ano_r = isset($_REQUEST["ano_r"])?$_REQUEST["ano_r"]:date("Y");
 $mes_r = isset($_REQUEST["mes_r"])?$_REQUEST["mes_r"]:date("m");
 $dia_r = isset($_REQUEST["dia_r"])?$_REQUEST["dia_r"]:date("d");
 
+$ano_t = isset($_REQUEST["ano_t"])?$_REQUEST["ano_t"]:date("Y");
+$mes_t = isset($_REQUEST["mes_t"])?$_REQUEST["mes_t"]:date("m");
+$dia_t = isset($_REQUEST["dia_t"])?$_REQUEST["dia_t"]:date("d");
+$radio = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$cmbtipo = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
+$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+
 $valores_hornada     = isset($_REQUEST["valores_hornada"])?$_REQUEST["valores_hornada"]:"";
 $valores_peso        = isset($_REQUEST["valores_peso"])?$_REQUEST["valores_peso"]:"";
 $valores_unidades    = isset($_REQUEST["valores_unidades"])?$_REQUEST["valores_unidades"]:"";

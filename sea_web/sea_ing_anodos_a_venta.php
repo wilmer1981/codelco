@@ -546,29 +546,31 @@ var f=formulario;
             <td width="220"> <select name="cmbproducto">
                 <option value="-1">SELECCIONAR</option>
                 <?php
-			include("../principal/conectar_principal.php");
-				
-				if ($cmbtipo == 1) //Corrientes
-					$consulta = "SELECT valor_subclase1 AS valor FROM sub_clase WHERE cod_clase = 2002";
-				else if ($cmbtipo == 2) //H. Madres
-						$consulta = "SELECT valor_subclase2 AS valor FROM sub_clase WHERE cod_clase = 2002";
-				else if ($cmbtipo == 3) //Especiales
-						$consulta = "SELECT valor_subclase3 AS valor FROM sub_clase WHERE cod_clase = 2002";
+				if($cmbtipo!=""){
+					include("../principal/conectar_principal.php");
 					
-				$rs = mysqli_query($link, $consulta);
-				while ($row = mysqli_fetch_array($rs))
-				{
-					$consulta = "SELECT * FROM subproducto WHERE cod_producto = 17 AND cod_subproducto = '".$row["valor"]."' AND mostrar_sea = 'S'";
-					$rs1 = mysqli_query($link, $consulta);					
-					if ($row1 = mysqli_fetch_array($rs1))
+					if ($cmbtipo == 1) //Corrientes
+						$consulta = "SELECT valor_subclase1 AS valor FROM sub_clase WHERE cod_clase = 2002";
+					else if ($cmbtipo == 2) //H. Madres
+							$consulta = "SELECT valor_subclase2 AS valor FROM sub_clase WHERE cod_clase = 2002";
+					else if ($cmbtipo == 3) //Especiales
+							$consulta = "SELECT valor_subclase3 AS valor FROM sub_clase WHERE cod_clase = 2002";
+						
+					$rs = mysqli_query($link, $consulta);
+					while ($row = mysqli_fetch_array($rs))
 					{
-						if ($row1["cod_subproducto"] == $cmbproducto)
-							echo '<option value="'.$row1["cod_subproducto"].'" selected>'.$row1["descripcion"].'</option>';
-						else
-							echo '<option value="'.$row1["cod_subproducto"].'">'.$row1["descripcion"].'</option>';
+						$consulta = "SELECT * FROM subproducto WHERE cod_producto = 17 AND cod_subproducto = '".$row["valor"]."' AND mostrar_sea = 'S'";
+						$rs1 = mysqli_query($link, $consulta);					
+						if ($row1 = mysqli_fetch_array($rs1))
+						{
+							if ($row1["cod_subproducto"] == $cmbproducto)
+								echo '<option value="'.$row1["cod_subproducto"].'" selected>'.$row1["descripcion"].'</option>';
+							else
+								echo '<option value="'.$row1["cod_subproducto"].'">'.$row1["descripcion"].'</option>';
+						}
 					}
 				}
-		?>
+				?>
               </select> </td>
             <td width="159"> <input name="buscar" type="button" style="width:70" value="Buscar" onClick="mostrar_datos();"> 
             </td>
@@ -628,10 +630,15 @@ var f=formulario;
 	               ON t1.hornada = t2.hornada_ventana AND t1.cod_producto = t2.cod_producto AND t1.cod_subproducto = t2.cod_subproducto   
 	               WHERE t1.tipo_movimiento = 6 AND t1.fecha_movimiento =  '".$fecha."' AND t1.cod_producto = 17 AND 
 				         t1.cod_subproducto = '".$cmbproducto."' AND t2.estado = 0"; 
-     $rs8 = mysqli_query($link, $consulta8);
+    // $rs8 = mysqli_query($link, $consulta8);
 
-     }
-
+     }else{
+		$consulta8 = "SELECT distinct t1.hornada, t1.cod_subproducto, t1.cod_producto FROM movimientos as t1 inner join hornadas as t2 
+						ON t1.hornada = t2.hornada_ventana AND t1.cod_producto = t2.cod_producto AND t1.cod_subproducto = t2.cod_subproducto   
+						WHERE t1.tipo_movimiento = 1 AND t1.fecha_movimiento = '".$fecha."' AND t1.cod_producto = 17 AND 
+							t1.cod_subproducto = '".$cmbproducto."' AND t2.estado = 0"; 
+	 }
+/*
      elseif($radio == 'P') 	 
 	 {
 	 $consulta8 = "SELECT distinct t1.hornada, t1.cod_subproducto, t1.cod_producto FROM movimientos as t1 inner join hornadas as t2 
@@ -640,9 +647,9 @@ var f=formulario;
 				         t1.cod_subproducto = '".$cmbproducto."' AND t2.estado = 0"; 
 
      $rs8 = mysqli_query($link, $consulta8);
-	 }
+	 }*/
 
-
+	 $rs8 = mysqli_query($link, $consulta8);
      while ($row8 = mysqli_fetch_array($rs8))
 	{	
    		$hornada=$row8["hornada"];
