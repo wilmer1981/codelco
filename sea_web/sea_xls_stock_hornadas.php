@@ -1,22 +1,22 @@
 <?php 
-  	    ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename ="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename ="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
   	include("../principal/conectar_sea_web.php");
@@ -49,7 +49,6 @@
 	}else{
 		$RadioTipoCons =  "";
 	}
-
 	if(isset($_REQUEST["cmbproducto"])) {
 		$cmbproducto = $_REQUEST["cmbproducto"];
 	}else{
@@ -65,7 +64,6 @@
 	}else{
 		$activar = "";
 	}
-
 	if(isset($_REQUEST["EjecAuto"])) {
 		$EjecAuto = $_REQUEST["EjecAuto"];
 	}else{
@@ -87,7 +85,8 @@ function Recarga(f)
 	vector = f.cmbproducto.value.split("-");
 	if ((f.por_grupo.checked == true) && (vector[0] == '19') && (vector[1] != 8) && (vector[1] != 30) && ((f.RadioTipoFecha[1].checked == true) || (f.RadioTipoFecha[1].checked == false)) && (f.RadioTipoCons[0].checked == true))
 		chequeado = "S";
-	else chequeado = false;
+	else 
+		chequeado = false;
 	
 	f.action = "sea_con_stock_hornadas.php?recargapag=S&cmbproducto=" + f.cmbproducto.value + "&activar=" + chequeado;		
 	f.submit();	
@@ -497,7 +496,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 				ksort($array_hornadas); //Orderna por la clave.						
 				echo $array_hornadas[0];
 				reset($array_hornadas);
-				while (list($clave,$valor) = each($array_hornadas))
+				foreach ($array_hornadas as $clave=>$valor) 
 				{
 					echo '<tr>';
 					$hornadas = $valor[0];
@@ -896,14 +895,13 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 				$PSubproducto = substr($cmbproducto,3,1);
      			//ksort($array_hornadas); //Orderna por la clave.
 				reset($array_hornadas);
-				while (list($clave,$valor) = each($array_hornadas))
+				foreach ($array_hornadas as $clave=>$valor) 
 				{
 					//LEYES DE LA HORNADA
 					$consulta = "SELECT distinct ifnull(cod_leyes,' ') as cod_leyes, valor from sea_web.leyes_por_hornada ";
 					$consulta.= " where hornada = '".$valor[0]."' ";
 					$consulta.= " and (cod_leyes = '08' or cod_leyes = '09') order by cod_leyes";
-					$rs1 = mysqli_query($link, $consulta);
-			
+					$rs1 = mysqli_query($link, $consulta);			
 					$Arsenico = 0;
 					$Antimonio = 0;
 					while($row1 = mysqli_fetch_array($rs1))

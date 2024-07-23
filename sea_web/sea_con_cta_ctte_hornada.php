@@ -12,9 +12,7 @@ if(isset($_REQUEST["Hornada"])) {
 }else{
 	$Hornada =  "";
 }
-
 ?>
-
 <html>
 <head>
 <title>Sistema de Anodos</title>

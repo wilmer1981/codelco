@@ -28,8 +28,7 @@
 		$RadioTipoCons = $_REQUEST["RadioTipoCons"];
 	}else{
 		$RadioTipoCons =  "";
-	}
-	
+	}	
 	if(isset($_REQUEST["cmbproducto"])) {
 		$cmbproducto = $_REQUEST["cmbproducto"];
 	}else{
@@ -45,21 +44,14 @@
 	}else{
 		$activar = "";
 	}
-
-
 	if(isset($_REQUEST["EjecAuto"])) {
 		$EjecAuto = $_REQUEST["EjecAuto"];
 	}else{
 		$EjecAuto = "";
-	}
-
-	
-	
-	
+	}	
 
 	if($EjecAuto=='S')
-		//exec("stockanodos.exe");
-		
+		//exec("stockanodos.exe");		
 ?>
 
 <html>
@@ -72,7 +64,8 @@ function Recarga(f)
 	vector = f.cmbproducto.value.split("-");
 	if ((f.por_grupo.checked == true) && (vector[0] == '19') && (vector[1] != 8) && (vector[1] != 30) && ((f.RadioTipoFecha[1].checked == true) || (f.RadioTipoFecha[1].checked == false)) && (f.RadioTipoCons[0].checked == true))
 		chequeado = "S";
-	else chequeado = false;
+	else 
+		chequeado = false;
 	f.action = "sea_con_stock_hornadas.php?recargapag=S&cmbproducto=" + f.cmbproducto.value + "&activar=" + chequeado;		
 	f.submit();	
 }
@@ -303,7 +296,7 @@ function Salir()
 			?>
             <td colspan="2" align="center">Stock Inicial</td>
 			<?php
-			// se agrega blister catodos despuntes 
+			    // se agrega blister catodos despuntes 
 				if ((($arregloAux[0] == "17") or ($arregloAux[0] =="16") or ($arregloAux[0]=="18") or ($arregloAux[0]=="48")) or ($RadioTipoCons == "P"))
     		    {
 				    echo '<td colspan="2" align="center">Recep. Aprobados</td>';
@@ -553,9 +546,30 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 <?php
 	$FechaTermino =date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano))." 07:59:59";
 	$FechaConsulta2 =date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano));
-
+	$arreglo = array();
 	if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
-	{		  
+	{	
+		$TotalStockIniUnid = 0;
+		$TotalStockIniPeso = 0;
+		$TotalRecepUnid = 0;
+		$TotalRecepPeso = 0;
+		$TotalBenefUnid = 0;
+		$TotalBenefPeso = 0;
+		$TotalProdUnid = 0;
+		$TotalProdPeso = 0;
+		$TotalRecUnid = 0;
+		$TotalRecPeso = 0;
+		$TotalRecUnidM = 0;
+		$TotalRecPesoM = 0;
+		$TotalTrasUnid = 0;
+		$TotalTrasPeso = 0;
+		$TotalOtrosUnid = 0;
+		$TotalOtrosPeso = 0;
+		$TotalStockFinUnid = 0;
+		$TotalStockFinPeso = 0;
+		$TotalPisoUnid = 0;
+		$TotalPisoPeso = 0;	
+
 		if (($activar == "S") and (($RadioTipoFecha == "A") or ($RadioTipoFecha == "D")) and ($RadioTipoCons == "H")) // Restos por Grupo.
 		{
 			$FechaConsulta = $Ano."-".$Mes."-".$Dia;
@@ -568,7 +582,8 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 			{	
 				$FechaInicio = $Ano."-".$Mes."-01";	
 				$FechaInicio2 =$Ano."-".$Mes."-01 08:00:00";			
-			}	
+			}
+			/*	
 			$TotalStockIniUnid = 0;
 			$TotalStockIniPeso = 0;
 			$TotalRecepUnid = 0;
@@ -588,7 +603,8 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 			$TotalStockFinUnid = 0;
 			$TotalStockFinPeso = 0;
 			$TotalPisoUnid = 0;
-			$TotalPisoPeso = 0;		
+			$TotalPisoPeso = 0;	
+			*/	
 			if ($recargapag == "S")
 			{
 				$arreglo = explode("-", $cmbproducto); //0: Producto, 1: SubProducto.
@@ -922,6 +938,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 				$FechaInicio = $Ano."-".$Mes."-01";
 				$FechaInicio2 = $Ano."-".$Mes."-01 08:00:00";
 			}	
+			/*
 			$TotalStockIniUnid = 0;
 			$TotalStockIniPeso = 0;
 			$TotalRecepUnid = 0;
@@ -941,7 +958,8 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 			$TotalStockFinUnid = 0;
 			$TotalStockFinPeso = 0;
 			$TotalPisoUnid = 0;
-			$TotalPisoPeso = 0;			
+			$TotalPisoPeso = 0;		
+			*/	
 			if ($recargapag == "S")
 			{
 				$arreglo = explode("-", $cmbproducto); //0: Producto, 1: SubProducto.					
@@ -968,11 +986,9 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 					$consulta.= " AND t1.cod_subproducto = '".$arreglo[1]."' ";
 					$consulta.= " AND t1.ano = YEAR(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH)) and t1.mes = MONTH(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH))";
 					$consulta.= " ORDER BY  t1.hornada";
-				}
-				
+				}				
 				$array_hornadas = array();
-				$rs = mysqli_query($link, $consulta);
-	
+				$rs = mysqli_query($link, $consulta);	
 				while ($row = mysqli_fetch_array($rs))
 				{
 					$consulta = "SELECT campo2, CASE WHEN LENGTH(campo2) = 1 THEN CONCAT('0',campo2) ELSE campo2 END AS grupo,hornada";
@@ -1037,15 +1053,13 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 				$PSubproducto = substr($cmbproducto,3,1);
      			//ksort($array_hornadas); //Orderna por la clave.
 				reset($array_hornadas);
-				//while (list($clave,$valor) = each($array_hornadas))
 				foreach ($array_hornadas as $clave=>$valor)
 				{
 					//LEYES DE LA HORNADA
 					$consulta = "SELECT distinct ifnull(cod_leyes,' ') as cod_leyes, valor from sea_web.leyes_por_hornada ";
 					$consulta.= " where hornada = '".$valor[0]."' ";
 					$consulta.= " and (cod_leyes = '08' or cod_leyes = '09') order by cod_leyes";
-					$rs1 = mysqli_query($link, $consulta);
-			
+					$rs1 = mysqli_query($link, $consulta);			
 					$Arsenico = 0;
 					$Antimonio = 0;
 					while($row1 = mysqli_fetch_array($rs1))
@@ -1112,42 +1126,42 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 								     echo '<tr>';
 							    }
 					    	}
-				 }
-				else
-				{	
+				    }
+				    else
+				    {	
 						     echo '<tr>';
-				}
-				//echo '<td align="center">'.substr($valor[0],6,6).'</td>';
-				echo '<td align="right">'.substr($valor[0],2,10).'</td>';
-                echo '<td align="right">'.number_format($Arsenico,0,",",".").'</td>';
-				echo '<td align="right">'.number_format($Antimonio,0,",",".").'</td>';
+				    }
+					//echo '<td align="center">'.substr($valor[0],6,6).'</td>';
+					echo '<td align="right">'.substr($valor[0],2,10).'</td>';
+					echo '<td align="right">'.number_format($Arsenico,0,",",".").'</td>';
+					echo '<td align="right">'.number_format($Antimonio,0,",",".").'</td>';
 					//-----------------------------------------------------
 					echo '<td align="center">';
 					if (($arreglo[0]==17) && (($arreglo[1] == 4) || ($arreglo[1]==8)))
 					{
-					   $colores = "";
-					   $num_hornada = substr($valor[0],6);					
-					   $num1 = substr($num_hornada,0,1);
-					   $num2 = substr($num_hornada,2,1);
-					   $num3 = substr($num_hornada,3,1);
-					   $consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2011 AND cod_subclase = '".$num3."'";				   
-					   $rs1 = mysqli_query($link, $consulta);				   
-					   if ($row1 = mysqli_fetch_array($rs1))
-					   {
-						   $colores = $row1["valor_subclase1"] .''. $colores;	
-					   }
-					   $consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2011 AND cod_subclase = '".$num2."'";
-					   $rs1 = mysqli_query($link, $consulta);				   
-					   if($row1 = mysqli_fetch_array($rs1))
-					   {
-						   $colores = $row1["valor_subclase1"] .''. $colores;	
-					   }
-					   $consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2011 AND cod_subclase = '".$num1."'";
-					   $rs1 = mysqli_query($link, $consulta);
-					   if($row1 = mysqli_fetch_array($rs1))
-					   {
-						   $colores = $row1["valor_subclase1"] .''. $colores;	
-					   }
+						$colores = "";
+						$num_hornada = substr($valor[0],6);					
+						$num1 = substr($num_hornada,0,1);
+						$num2 = substr($num_hornada,2,1);
+						$num3 = substr($num_hornada,3,1);
+						$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2011 AND cod_subclase = '".$num3."'";				   
+						$rs1 = mysqli_query($link, $consulta);				   
+						if ($row1 = mysqli_fetch_array($rs1))
+						{
+							$colores = $row1["valor_subclase1"] .''. $colores;	
+						}
+						$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2011 AND cod_subclase = '".$num2."'";
+						$rs1 = mysqli_query($link, $consulta);				   
+						if($row1 = mysqli_fetch_array($rs1))
+						{
+							$colores = $row1["valor_subclase1"] .''. $colores;	
+						}
+						$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2011 AND cod_subclase = '".$num1."'";
+						$rs1 = mysqli_query($link, $consulta);
+						if($row1 = mysqli_fetch_array($rs1))
+						{
+							$colores = $row1["valor_subclase1"] .''. $colores;	
+						}
 						echo $colores;
 					}
 					else
@@ -1175,7 +1189,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 						{
 							$consulta = "SELECT marca FROM sea_web.relaciones";
 							$consulta = $consulta." WHERE cod_origen = ".$arreglo[1]." AND hornada_ventana = '".$valor[0]."' ";
-	
+
 							$rs1 = mysqli_query($link, $consulta);
 							if ($row1 = mysqli_fetch_array($rs1))
 								echo $row1["marca"];
@@ -1183,12 +1197,10 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 								echo "&nbsp;";
 						}
 					}
-					echo '</td>';				
-	
+				    echo '</td>';		
 					//STOCK INICIAL
 					$peso_aux = 0;
-					$unid_aux = 0;
-					
+					$unid_aux = 0;					
 					//Por Dia.
 					if ($RadioTipoFecha == "D")
 					{
@@ -1212,8 +1224,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 							$vector[0] = $row1["unidades"];
 							$vector[1] = $row1["peso"];
 						}
-					}
-	
+					}	
 					//-----*****-----//
 					if ($vector[0] <=  0) //Unidades
 					{
@@ -1224,17 +1235,14 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 					{
 						echo '<td align="right">'.$vector[0].'</td>';
 						echo '<td align="right">'.$vector[1].'</td>';
-					}
-					
+					}					
 					
 					$TotalStockIniUnid = $TotalStockIniUnid + $vector[0];
 					$TotalStockIniPeso = $TotalStockIniPeso + $vector[1];
 					
 					$unid_aux = $vector[0];				
-					$peso_aux = $vector[1];
-	
-					
-//------------- agrego blister, catodos, despuntes
+					$peso_aux = $vector[1];						
+                    //------------- agrego blister, catodos, despuntes
 					if (($arreglo[0] == 17) or ($arreglo[0]==16) or ($arreglo[0]==18) or ($arreglo[0]==48))
 					{
 						//RECEPCION
@@ -1420,16 +1428,13 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 					{
 						echo '<td align="right">&nbsp;</td>';
 						echo '<td align=? ???"right">&nbsp;</td>';
-					}
-									
+					}									
 					//-----------------				
-					//STOCK FINAL A LA FECHA DE CONSULTA
-					
-						echo '<td align="right"><font color="blue">'.$unid_aux.'</font></td>';
-						echo '<td align="right"><font color="blue">'.$peso_aux.'</font></td>';					
-						$TotalStockFinUnid = $TotalStockFinUnid + $unid_aux;
-						$TotalStockFinPeso = $TotalStockFinPeso + $peso_aux;				
-	
+					//STOCK FINAL A LA FECHA DE CONSULTA					
+					echo '<td align="right"><font color="blue">'.$unid_aux.'</font></td>';
+					echo '<td align="right"><font color="blue">'.$peso_aux.'</font></td>';					
+					$TotalStockFinUnid = $TotalStockFinUnid + $unid_aux;
+					$TotalStockFinPeso = $TotalStockFinPeso + $peso_aux;	
 					//-----------------
 					//STOCK EN PISO
 					$consulta = "SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.stock_piso_raf ";
@@ -1452,7 +1457,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 					}
 					//-------------
 					echo '</tr>';
-				}										 						
+				}	// Fin Foreach 									 						
 			}
 		}
 	}
@@ -1508,15 +1513,15 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 		$SubTotalPisoUnid = 0;
         $SubTotalPisoPeso = 0;		
         $SubTotalStockFinUnid = 0;
-        $SubTotalStockFinPeso = 0;			
+        $SubTotalStockFinPeso = 0;		
+		$TotalPisoUnid = 0; // wso
+		$TotalPisoPeso = 0; //wso	
 		if ($recargapag == "S")
 		{
 			$arreglo = explode("-", $cmbproducto); //0: Producto, 1: SubProducto.
 			$consulta = "SELECT STRAIGHT_JOIN distinct t1.cod_producto, t1.cod_subproducto, t2.abreviatura  ";
 			$consulta.= " FROM sea_web.hornadas t1 inner join proyecto_modernizacion.subproducto t2 ";
-			$consulta.= " on t1.cod_producto = t2.cod_producto and t1.cod_subproducto = t2.cod_subproducto ";
-
-			
+			$consulta.= " on t1.cod_producto = t2.cod_producto and t1.cod_subproducto = t2.cod_subproducto ";			
 			if (($arreglo[0] != 0) && ($arreglo[1] != 0))
 			{
 				$consulta.= " AND t1.cod_subproducto = '".$arreglo[1]."' ";
@@ -1525,415 +1530,86 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 			$consulta.= " ORDER BY t1.cod_producto, t1.cod_subproducto";
 			$rs = mysqli_query($link, $consulta);
 			$i = 1;
-   //aca parto con modificacion jcf 21-04-2004
+            //aca parto con modificacion jcf 21-04-2004
             $produ_c = 16;
 			while ($row = mysqli_fetch_array($rs))
 			{
-              $produ_t = $row["cod_producto"];
-              if ($produ_t == $produ_c)
-              {
-                $unidades_aux = 0;
-                $peso_aux = 0;
-
-                echo '<td align="left">';
-                echo trim($row["abreviatura"]);
-                echo '</td>';
-                //STOCK INICIAL
-                $consulta = "SELECT cod_producto, cod_subproducto, ifnull(sum(unid_fin),0) as unidades, ifnull(sum(peso_fin),0) as peso ";
-                $consulta.= " FROM sea_web.stock ";
-                $consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' ";
-                $consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
-                $consulta.= " AND ano = YEAR(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH))";
-                $consulta.= " GROUP BY cod_producto, cod_subproducto";
-
-                $rs1 = mysqli_query($link, $consulta);
-                if ($row1 = mysqli_fetch_array($rs1))
-                {
-                  echo '<td align="right">'.$row1["unidades"].'</td>';
-                  echo '<td align="right">'.$row1["peso"].'</td>';
-                  $TotalStockIniUnid = $TotalStockIniUnid + $row1["unidades"];
-                  $TotalStockIniPeso = $TotalStockIniPeso + $row1["peso"];
-                  $SubTotalStockIniUnid = $SubTotalStockIniUnid + $row1["unidades"];
-                  $SubTotalStockIniPeso = $SubTotalStockIniPeso + $row1["peso"];
-                  $unidades_aux = $row1["unidades"];
-                  $peso_aux = $row1["peso"];
-                }
-                else
-                {
-                  echo '<td>&nbsp;</td>';
-                  echo '<td>&nbsp;</td>';
-                }
-                //RECEPCION
-// agrego catodos despuntes
-				$tp = $arreglo[0];
-                if ((($tp==16) or  ($tp==17) or ($tp==18) or ($tp==48)) or  ($RadioTipoCons == "P"))
-                {
-                  	$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-                  	$consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
-                  	$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
-					if ($row["cod_producto"]=='17' && ($row["cod_subproducto"]=='4' || $row["cod_subproducto"]=='8' || $row["cod_subproducto"]=='1' || $row["cod_subproducto"]=='2' || $row["cod_subproducto"]=='3'))
-						$consulta.=" and tipo_movimiento = '1' and sub_tipo_movim = '1'";
-						else
-	                  	$consulta.= " AND tipo_movimiento = '1'";
-				  	$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-                  	$consulta.= " GROUP BY cod_producto, cod_subproducto";
-				  	$rs1 = mysqli_query($link, $consulta);
-                  	if ($row1 = mysqli_fetch_array($rs1))
-                  	{
-                  	  	echo '<td align="right">'.$row1["unidades"].'</td>';
-                  	  	echo '<td align="right">'.$row1["peso"].'</td>';
-                  	  	$TotalRecepUnid = $TotalRecepUnid + $row1["unidades"];
-                 	   	$TotalRecepPeso = $TotalRecepPeso + $row1["peso"];
-                 	   	$SubTotalRecepUnid = $SubTotalRecepUnid + $row1["unidades"];
-                 	   	$SubTotalRecepPeso = $SubTotalRecepPeso + $row1["peso"];
-
-                	    $unidades_aux = $unidades_aux + $row1["unidades"];
-                	    $peso_aux = $peso_aux + $row1["peso"];
-                   }
-                   else
-                   {
-                     	echo '<td align="right">&nbsp;</td>';
-                     	echo '<td align="right">&nbsp;</td>';
-                   }
-				   //RECHAZOS
-				   $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				   $consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' AND cod_subproducto = '".$row["cod_subproducto"]."' ";
-				   $consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
-					if ($row["cod_producto"]=='17' && ($row["cod_subproducto"]=='4' || $row["cod_subproducto"]=='8'))
-						$consulta.=" and tipo_movimiento = '1' and sub_tipo_movim = '2'";
-						else
-					   $consulta.= " AND tipo_movimiento in ('44')";
-				   $consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-				   $consulta.= " GROUP BY cod_producto, cod_subproducto";
-				   $rs44= mysqli_query($link, $consulta);
-				   if ($row44 = mysqli_fetch_array($rs44))
-				   {
-						echo '<td align="right">'.$row44["unidades"].'</td>';
-						echo '<td align="right">'.$row44["peso"].'</td>';
-						$TotalRecUnid = $TotalRecUnid + $row44["unidades"];
-						$TotalRecPeso = $TotalRecPeso + $row44["peso"];
-						$SubTotalRecUnid = $SubTotalRecUnid + $row44["unidades"];
-						$SubTotalRecPeso = $SubTotalRecPeso + $row44["peso"];
-
-						$unidades_aux = $unidades_aux + $row44["unidades"];
-						$peso_aux = $peso_aux + $row44["peso"];
-			     	}
-				 	else
-				 	{
-						echo '<td align="right">&nbsp;</td>';
-						echo '<td align="right">&nbsp;</td>';
-				 	}
-					
-					//Rechazos MPA
-				   	$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				   	$consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
-				   	$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
-				   	$consulta.=" and tipo_movimiento = '1' and sub_tipo_movim = '4'";
-				   	$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-				   	$consulta.= " GROUP BY cod_producto, cod_subproducto";
-				   	$rs44M= mysqli_query($link, $consulta);
-				   	if ($row44M = mysqli_fetch_array($rs44M))
-				   	{
-						echo '<td align="right">'.$row44M["unidades"].'</td>';
-						echo '<td align="right">'.$row44M["peso"].'</td>';
-						$TotalRecUnidM = $TotalRecUnidM + $row44M["unidades"];
-						$TotalRecPesoM = $TotalRecPesoM + $row44M["peso"];
-						$SubTotalRecUnidM = $SubTotalRecUnidM + $row44M["unidades"];
-						$SubTotalRecPesoM = $SubTotalRecPesoM + $row44M["peso"];
-
-						$unidades_aux = $unidades_aux + $row44M["unidades"];
-						$peso_aux = $peso_aux + $row44M["peso"];
-			     	}
-				 	else
-				 	{
-						echo '<td align="right">&nbsp;</td>';
-						echo '<td align="right">&nbsp;</td>';
-				 	}
-
-				 }
-				   //-----------------
-                  //BENEFICIO
-                  $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				  $consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
-				  $consulta.= " AND ((fecha_movimiento BETWEEN '".$FechaInicio."' AND '".$FechaConsulta2."' AND hora between '".$FechaInicio2."' and '".$FechaTermino."' AND (fecha_benef = '0000-00-00' or fecha_benef = '0001-01-01')) ";
-				  $consulta.= " OR (fecha_benef BETWEEN '".$FechaInicio."' AND '".$FechaConsulta."'))";
-				  $consulta.= " AND tipo_movimiento = '2'";
-				  $consulta.= " GROUP BY cod_producto, cod_subproducto";
-
-                  $rs1 = mysqli_query($link, $consulta);
-                  if ($row1 = mysqli_fetch_array($rs1))
-				  {
-					echo '<td align="right">'.$row1["unidades"].'</td>';
-					echo '<td align="right">'.$row1["peso"].'</td>';
-					$TotalBenefUnid = $TotalBenefUnid + $row1["unidades"];
-					$TotalBenefPeso = $TotalBenefPeso + $row1["peso"];
-					$SubTotalBenefUnid = $SubTotalBenefUnid + $row1["unidades"];
-					$SubTotalBenefPeso = $SubTotalBenefPeso + $row1["peso"];
-
-					$unidades_aux = $unidades_aux - $row1["unidades"];
-					$peso_aux = $peso_aux - $row1["peso"];
-		           }
-				   else
-				   {
-					echo '<td align="right">&nbsp;</td>';
-
-				    echo '<td align="right">&nbsp;</td>';
-                   }
-                  //-----------------
-                 //PRODUCCION
-                 $tp = $arreglo[0];
-				 if ((($tp==18) or ($tp==19) or ($tp==48))  or ($RadioTipoCons == "P"))
-				 {
-					$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-					$consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
-					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
-					$consulta.= " AND tipo_movimiento = '3'";
-					$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+            	$produ_t = $row["cod_producto"];
+            	if ($produ_t == $produ_c)
+            	{
+					$unidades_aux = 0;
+					$peso_aux = 0;
+					echo '<td align="left">';
+					echo trim($row["abreviatura"]);
+					echo '</td>';
+					//STOCK INICIAL
+					$consulta = "SELECT cod_producto, cod_subproducto, ifnull(sum(unid_fin),0) as unidades, ifnull(sum(peso_fin),0) as peso ";
+					$consulta.= " FROM sea_web.stock ";
+					$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' ";
+					$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
+					$consulta.= " AND ano = YEAR(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH))";
 					$consulta.= " GROUP BY cod_producto, cod_subproducto";
 					$rs1 = mysqli_query($link, $consulta);
 					if ($row1 = mysqli_fetch_array($rs1))
 					{
-						echo '<td align="right">'.$row1["unidades"].'</td>';
-						echo '<td align="right">'.$row1["peso"].'</td>';
-						$TotalProdUnid = $TotalProdUnid + $row1["unidades"];
-						$TotalProdPeso = $TotalProdPeso + $row1["peso"];
-						$SubTotalProdUnid = $SubTotalProdUnid + $row1["unidades"];
-						$SubTotalProdPeso = $SubTotalProdPeso + $row1["peso"];
-
-						$unidades_aux = $unidades_aux + $row1["unidades"];
-						$peso_aux = $peso_aux + $row1["peso"];
+					echo '<td align="right">'.$row1["unidades"].'</td>';
+					echo '<td align="right">'.$row1["peso"].'</td>';
+					$TotalStockIniUnid = $TotalStockIniUnid + $row1["unidades"];
+					$TotalStockIniPeso = $TotalStockIniPeso + $row1["peso"];
+					$SubTotalStockIniUnid = $SubTotalStockIniUnid + $row1["unidades"];
+					$SubTotalStockIniPeso = $SubTotalStockIniPeso + $row1["peso"];
+					$unidades_aux = $row1["unidades"];
+					$peso_aux = $row1["peso"];
 					}
 					else
 					{
-						echo '<td align="right">&nbsp;</td>';
-						echo '<td align="right">&nbsp;</td>';
+					echo '<td>&nbsp;</td>';
+					echo '<td>&nbsp;</td>';
 					}
-				  }
-				 //-----------------
-		 	
-				 
-				 //TRASPASO
-				 $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				 $consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
-				 $consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
-				 $consulta.= " AND tipo_movimiento in ('4')";
-				 $consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-				 $consulta.= " GROUP BY cod_producto, cod_subproducto";
-				 
-				 $rs1 = mysqli_query($link, $consulta);
-				 if ($row1 = mysqli_fetch_array($rs1))
-				 {
-					echo '<td align="right">'.$row1["unidades"].'</td>';
-					echo '<td align="right">'.$row1["peso"].'</td>';
-					$TotalTrasUnid = $TotalTrasUnid + $row1["unidades"];
-					$TotalTrasPeso = $TotalTrasPeso + $row1["peso"];
-					$SubTotalTrasUnid = $SubTotalTrasUnid + $row1["unidades"];
-					$SubTotalTrasPeso = $SubTotalTrasPeso + $row1["peso"];
-
-					$unidades_aux = $unidades_aux - $row1["unidades"];
-					$peso_aux = $peso_aux - $row1["peso"];
-			     }
-				 else
-				 {
-					echo '<td align="right">&nbsp;</td>';
-					echo '<td align="right">&nbsp;</td>';
-				 }
-                //-----------------
-				//OTROS DESTINOS
-				$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."'" ;
-				$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
-				$consulta.= " AND fecha_movimiento between '".$FechaInicio."' AND '".$FechaConsulta2."' ";
-				$consulta.= " AND tipo_movimiento in(5,9,10)";
-				$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-				$consulta.= " GROUP BY cod_producto, cod_subproducto";
-				$rs1 = mysqli_query($link, $consulta);
-				if ($row1 = mysqli_fetch_array($rs1))
-				{
-				  echo '<td align="right">'.$row1["unidades"].'</td>';
-				  echo '<td align="right">'.$row1["peso"].'</td>';
-				  $TotalOtrosUnid = $TotalOtrosUnid + $row1["unidades"];
-				  $TotalOtrosPeso = $TotalOtrosPeso + $row1["peso"];
-				  $SubTotalOtrosUnid = $SubTotalOtrosUnid + $row1["unidades"];
-				  $SubTotalOtrosPeso = $SubTotalOtrosPeso + $row1["peso"];
-
-                  $unidades_aux = $unidades_aux - $row1["unidades"];
-                  $peso_aux = $peso_aux - $row1["peso"];
-				}
-				else
-				{
-					echo '<td align="right">&nbsp;</td>';
-					echo '<td align="right">&nbsp;</td>';
-				}
-
-				//STOCK FINAL A LA FECHA DE CONSULTA
-				echo '<td align="right"><font color="blue">'.$unidades_aux.'</font></td>';
-				echo '<td align="right"><font color="blue">'.$peso_aux.'</font></td>';
-				$SubTotalStockFinPeso = $SubTotalStockFinPeso + $peso_aux;
-				$SubTotalStockFinUnid = $SubTotalStockFinUnid + $unidades_aux;
-				$TotalStockFinUnid = $TotalStockFinUnid + $unidades_aux;
-				$TotalStockFinPeso = $TotalStockFinPeso + $peso_aux;
-				//-----------------
-				//STOCK PISO.
-				$TotalPisoUnid = 0; // wso
-				$TotalPisoPeso = 0; //wso
-				$consulta = "SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.stock_piso_raf ";
-				$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."'" ;
-				$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
-				$consulta.= " AND fecha between '".$FechaInicio."' AND '".$FechaConsulta."' ";
-				$rs1 = mysqli_query($link, $consulta);
-				if ($row1 = mysqli_fetch_array($rs1))
-				{
-				   echo '<td align="right">'.$row1["unidades"].'</td>';
-				   echo '<td align="right">'.$row1["peso"].'</td>';
-				   $TotalPisoUnid = $TotalPisoUnid + $row1["unidades"];
-				   $TotalPisoPeso = $TotalPisoPeso + $row1["peso"];
-				   $SubTotalPisoUnid = $SubTotalPisoUnid + $row1["unidades"];
-				   $SubTotalPisoPeso = $SubTotalPisoPeso + $row1["peso"];
-				 }
-				 else
-				 {
-                   echo '<td align="right">&nbsp;</td>';
-                   echo '<td align="right">&nbsp;</td>';
-				 }
-				//--------
-				echo "</tr>";
-             }
-             else
-             {
-               echo "<tr align='right' bgcolor='#CCCCCC'>\n";
-               if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
-                  echo "<td aling='center' colspan='4'><strong>SUB-TOTAL</strong></td>";
-                  else echo "<td align='center'><strong>SUB-TOTAL</strong></td>";
-               echo "<td>".$SubTotalStockIniUnid."</td>\n";
-               echo "<td>".$SubTotalStockIniPeso."</td>\n";
-//agrego catodos, despuntes
-               if ((($tp==16) or ($tp==17) or ($tp==18) or ($tp==48)) or ($RadioTipoCons=="P"))
-               {
-                 echo "<td>".$SubTotalRecepUnid."</td>\n";
-                 echo "<td>".$SubTotalRecepPeso."</td>\n";
-	             echo "<td>".$SubTotalRecUnid."</td>\n";
-                 echo "<td>".$SubTotalRecPeso."</td>\n";
-	             echo "<td>".$SubTotalRecUnidM."</td>\n";
-                 echo "<td>".$SubTotalRecPesoM."</td>\n";
-               }
-               echo "<td>".$SubTotalBenefUnid."</td>\n";
-               echo "<td>".$SubTotalBenefPeso."</td>\n";
-               if ((($tp== 18) or ($tp==19) or ($tp==48)) or  ($RadioTipoCons == "P"))
-               {
-                 echo "<td>".$SubTotalProdUnid."</td>\n";
-                 echo "<td>".$SubTotalProdPeso."</td>\n";
-               }
-                 echo "<td>".$SubTotalTrasUnid."</td>\n";
-                 echo "<td>".$SubTotalTrasPeso."</td>\n";
-                 echo "<td>".$SubTotalOtrosUnid."</td>\n";
-                 echo "<td>".$SubTotalOtrosPeso."</td>\n";
-                 echo "<td>".$SubTotalStockFinUnid."</td>\n";
-                 echo "<td>".$SubTotalStockFinPeso."</td>\n";
-                 echo "<td>".$SubTotalPisoUnid."</td>\n";
-        		 echo "<td>".$SubTotalPisoPeso."</td>\n";
-                 echo "</tr>\n";
-				$SubTotalStockIniUnid = 0;
-				$SubTotalStockIniPeso = 0;
-				$SubTotalRecepUnid = 0;
-				$SubTotalRecepPeso = 0;
-				$SubTotalBenefUnid = 0;
-				$SubTotalBenefPeso = 0;
-				$SubTotalProdUnid = 0;
-				$SubTotalProdPeso = 0;
-				$SubTotalRecUnid = 0;
-				$SubTotalRecPeso = 0;
-				$SubTotalRecUnidM = 0;
-				$SubTotalRecPesoM = 0;
-				$SubTotalTrasUnid = 0;
-				$SubTotalTrasPeso = 0;
-				$SubTotalOtrosUnid = 0;
-				$SubTotalOtrosPeso = 0;
-				$SubTotalStockFinUnid = 0;
-			    $SubTotalStockFinPeso = 0;
-				$SubTotalPisoUnid = 0;
-				$SubTotalPisoPeso = 0;
-				$produ_c = $produ_t;
-				$tp = $produ_t; 
-				 
-                 $unidades_aux = 0;
-                 $peso_aux = 0;
-
-                 echo '<td align="left">';
-                 echo trim($row["abreviatura"]);
-                 echo '</td>';
-                 //STOCK INICIAL
-                 $consulta = "SELECT cod_producto, cod_subproducto, ifnull(sum(unid_fin),0) as unidades, ifnull(sum(peso_fin),0) as peso ";
-                 $consulta.= " FROM sea_web.stock ";
-                 $consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' ";
-                 $consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
-				$Valores=explode('-',$FechaInicio);
-				 $consulta.= " AND ano = YEAR(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH))";
-                 $consulta.= " GROUP BY cod_producto, cod_subproducto";
-
-                 $rs1 = mysqli_query($link, $consulta);
-                 if ($row1 = mysqli_fetch_array($rs1))
-                 {
-                   echo '<td align="right">'.$row1["unidades"].'</td>';
-                   echo '<td align="right">'.$row1["peso"].'</td>';
-                   $TotalStockIniUnid = $TotalStockIniUnid + $row1["unidades"];
-                   $TotalStockIniPeso = $TotalStockIniPeso + $row1["peso"];
-                   $SubTotalStockIniUnid = $SubTotalStockIniUnid + $row1["unidades"];
-                   $SubTotalStockIniPeso = $SubTotalStockIniPeso + $row1["peso"];
-                   $unidades_aux = $row1["unidades"];
-                   $peso_aux = $row1["peso"];
-                 }
-                 else
-                 {
-                   echo '<td>&nbsp;</td>';
-                   echo '<td>&nbsp;</td>';
-                 }
-                 //-------------
-                 //RECEPCION
-				// se agrega catodos, despuntes
-                 if ((($tp==16) or ($tp == 17) or ($tp==18) or ($tp==48)) or  ($RadioTipoCons == "P"))
-                 {
-					  $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-					  $consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
-					  $consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
-					  if ($row["cod_producto"]=='17' && ($row["cod_subproducto"]=='4' || $row["cod_subproducto"]=='8' || $row["cod_subproducto"]=='1' || $row["cod_subproducto"]=='2' || $row["cod_subproducto"]=='3'))
+					//RECEPCION
+					// agrego catodos despuntes
+					$tp = $arreglo[0];
+					if ((($tp==16) or  ($tp==17) or ($tp==18) or ($tp==48)) or  ($RadioTipoCons == "P"))
+					{
+						$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+						$consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
+						$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+						if ($row["cod_producto"]=='17' && ($row["cod_subproducto"]=='4' || $row["cod_subproducto"]=='8' || $row["cod_subproducto"]=='1' || $row["cod_subproducto"]=='2' || $row["cod_subproducto"]=='3'))
 							$consulta.=" and tipo_movimiento = '1' and sub_tipo_movim = '1'";
-							else
-						  	$consulta.= " AND tipo_movimiento = '1'";
-					  $consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-					  $consulta.= " GROUP BY cod_producto, cod_subproducto";
-					  $rs1 = mysqli_query($link, $consulta);
-					  if ($row1 = mysqli_fetch_array($rs1))
-					  {
-						echo '<td align="right">'.$row1["unidades"].'</td>';
-						echo '<td align="right">'.$row1["peso"].'</td>';
-						
-						$TotalRecepUnid = $TotalRecepUnid + $row1["unidades"];
-						$TotalRecepPeso = $TotalRecepPeso + $row1["peso"];
-						$SubTotalRecepUnid = $SubTotalRecepUnid + $row1["unidades"];
-						$SubTotalRecepPeso = $SubTotalRecepPeso + $row1["peso"];
-						
-						$unidades_aux = $unidades_aux + $row1["unidades"];
-						$peso_aux = $peso_aux + $row1["peso"];
-					   }
-					   else
-					   {
-						 echo '<td align="right">&nbsp;</td>';
-						 echo '<td align="right">&nbsp;</td>';
-					   }				 
-					   //RECHAZO
-				 	   $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				       $consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = '".$row["cod_subproducto"]."' ";
-				       $consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+						else
+							$consulta.= " AND tipo_movimiento = '1'";
+						$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+						$consulta.= " GROUP BY cod_producto, cod_subproducto";
+						$rs1 = mysqli_query($link, $consulta);
+						if ($row1 = mysqli_fetch_array($rs1))
+						{
+							echo '<td align="right">'.$row1["unidades"].'</td>';
+							echo '<td align="right">'.$row1["peso"].'</td>';
+							$TotalRecepUnid = $TotalRecepUnid + $row1["unidades"];
+							$TotalRecepPeso = $TotalRecepPeso + $row1["peso"];
+							$SubTotalRecepUnid = $SubTotalRecepUnid + $row1["unidades"];
+							$SubTotalRecepPeso = $SubTotalRecepPeso + $row1["peso"];
+							$unidades_aux = $unidades_aux + $row1["unidades"];
+							$peso_aux = $peso_aux + $row1["peso"];
+						}
+						else
+						{
+							echo '<td align="right">&nbsp;</td>';
+							echo '<td align="right">&nbsp;</td>';
+						}
+						//RECHAZOS
+						$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+						$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' AND cod_subproducto = '".$row["cod_subproducto"]."' ";
+						$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
 						if ($row["cod_producto"]=='17' && ($row["cod_subproducto"]=='4' || $row["cod_subproducto"]=='8'))
 							$consulta.=" and tipo_movimiento = '1' and sub_tipo_movim = '2'";
-							else
-					       $consulta.= " AND tipo_movimiento in ('44')";
-				       $consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-				       $consulta.= " GROUP BY cod_producto, cod_subproducto";
-				       $rs44 = mysqli_query($link, $consulta);
-				       if ($row44 = mysqli_fetch_array($rs44))
-				       {
+						else
+							$consulta.= " AND tipo_movimiento in ('44')";
+						$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+						$consulta.= " GROUP BY cod_producto, cod_subproducto";
+						$rs44= mysqli_query($link, $consulta);
+						if ($row44 = mysqli_fetch_array($rs44))
+						{
 							echo '<td align="right">'.$row44["unidades"].'</td>';
 							echo '<td align="right">'.$row44["peso"].'</td>';
 							$TotalRecUnid = $TotalRecUnid + $row44["unidades"];
@@ -1942,22 +1618,336 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 							$SubTotalRecPeso = $SubTotalRecPeso + $row44["peso"];
 							$unidades_aux = $unidades_aux + $row44["unidades"];
 							$peso_aux = $peso_aux + $row44["peso"];
-			     	   }
-				 	   else
-				      {
+						}
+						else
+						{
 							echo '<td align="right">&nbsp;</td>';
 							echo '<td align="right">&nbsp;</td>';
-				      }				   
-					   //RECHAZO MPA
-				 	   $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				       $consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = '".$row["cod_subproducto"]."' ";
-				       $consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+						}					
+						//Rechazos MPA
+						$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+						$consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
+						$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
 						$consulta.=" and tipo_movimiento = '1' and sub_tipo_movim = '4'";
-				       $consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-				       $consulta.= " GROUP BY cod_producto, cod_subproducto";
-				       $rs44M = mysqli_query($link, $consulta);
-				       if ($row44M = mysqli_fetch_array($rs44M))
-				       {
+						$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+						$consulta.= " GROUP BY cod_producto, cod_subproducto";
+						$rs44M= mysqli_query($link, $consulta);
+						if ($row44M = mysqli_fetch_array($rs44M))
+						{
+							echo '<td align="right">'.$row44M["unidades"].'</td>';
+							echo '<td align="right">'.$row44M["peso"].'</td>';
+							$TotalRecUnidM = $TotalRecUnidM + $row44M["unidades"];
+							$TotalRecPesoM = $TotalRecPesoM + $row44M["peso"];
+							$SubTotalRecUnidM = $SubTotalRecUnidM + $row44M["unidades"];
+							$SubTotalRecPesoM = $SubTotalRecPesoM + $row44M["peso"];
+
+							$unidades_aux = $unidades_aux + $row44M["unidades"];
+							$peso_aux = $peso_aux + $row44M["peso"];
+						}
+						else
+						{
+							echo '<td align="right">&nbsp;</td>';
+							echo '<td align="right">&nbsp;</td>';
+						}
+					}
+					//-----------------
+					//BENEFICIO
+					$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+					$consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
+					$consulta.= " AND ((fecha_movimiento BETWEEN '".$FechaInicio."' AND '".$FechaConsulta2."' AND hora between '".$FechaInicio2."' and '".$FechaTermino."' AND (fecha_benef = '0000-00-00' or fecha_benef = '0001-01-01')) ";
+					$consulta.= " OR (fecha_benef BETWEEN '".$FechaInicio."' AND '".$FechaConsulta."'))";
+					$consulta.= " AND tipo_movimiento = '2'";
+					$consulta.= " GROUP BY cod_producto, cod_subproducto";
+
+					$rs1 = mysqli_query($link, $consulta);
+					if ($row1 = mysqli_fetch_array($rs1))
+					{
+						echo '<td align="right">'.$row1["unidades"].'</td>';
+						echo '<td align="right">'.$row1["peso"].'</td>';
+						$TotalBenefUnid = $TotalBenefUnid + $row1["unidades"];
+						$TotalBenefPeso = $TotalBenefPeso + $row1["peso"];
+						$SubTotalBenefUnid = $SubTotalBenefUnid + $row1["unidades"];
+						$SubTotalBenefPeso = $SubTotalBenefPeso + $row1["peso"];
+
+						$unidades_aux = $unidades_aux - $row1["unidades"];
+						$peso_aux = $peso_aux - $row1["peso"];
+					}
+					else
+					{
+						echo '<td align="right">&nbsp;</td>';
+
+						echo '<td align="right">&nbsp;</td>';
+					}
+                    //-----------------
+                    //PRODUCCION
+                    $tp = $arreglo[0];
+				 	if ((($tp==18) or ($tp==19) or ($tp==48))  or ($RadioTipoCons == "P"))
+				 	{
+						$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+						$consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
+						$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+						$consulta.= " AND tipo_movimiento = '3'";
+						$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+						$consulta.= " GROUP BY cod_producto, cod_subproducto";
+						$rs1 = mysqli_query($link, $consulta);
+						if ($row1 = mysqli_fetch_array($rs1))
+						{
+							echo '<td align="right">'.$row1["unidades"].'</td>';
+							echo '<td align="right">'.$row1["peso"].'</td>';
+							$TotalProdUnid = $TotalProdUnid + $row1["unidades"];
+							$TotalProdPeso = $TotalProdPeso + $row1["peso"];
+							$SubTotalProdUnid = $SubTotalProdUnid + $row1["unidades"];
+							$SubTotalProdPeso = $SubTotalProdPeso + $row1["peso"];
+
+							$unidades_aux = $unidades_aux + $row1["unidades"];
+							$peso_aux = $peso_aux + $row1["peso"];
+						}
+						else
+						{
+							echo '<td align="right">&nbsp;</td>';
+							echo '<td align="right">&nbsp;</td>';
+						}
+				    }
+				    //-----------------				 
+				 	//TRASPASO
+					$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+					$consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
+					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+					$consulta.= " AND tipo_movimiento in ('4')";
+					$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+					$consulta.= " GROUP BY cod_producto, cod_subproducto";				 
+					$rs1 = mysqli_query($link, $consulta);
+					if ($row1 = mysqli_fetch_array($rs1))
+					{
+						echo '<td align="right">'.$row1["unidades"].'</td>';
+						echo '<td align="right">'.$row1["peso"].'</td>';
+						$TotalTrasUnid = $TotalTrasUnid + $row1["unidades"];
+						$TotalTrasPeso = $TotalTrasPeso + $row1["peso"];
+						$SubTotalTrasUnid = $SubTotalTrasUnid + $row1["unidades"];
+						$SubTotalTrasPeso = $SubTotalTrasPeso + $row1["peso"];
+
+						$unidades_aux = $unidades_aux - $row1["unidades"];
+						$peso_aux = $peso_aux - $row1["peso"];
+					}
+					else
+					{
+						echo '<td align="right">&nbsp;</td>';
+						echo '<td align="right">&nbsp;</td>';
+					}
+					//-----------------
+					//OTROS DESTINOS
+					$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+					$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."'" ;
+					$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
+					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' AND '".$FechaConsulta2."' ";
+					$consulta.= " AND tipo_movimiento in(5,9,10)";
+					$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+					$consulta.= " GROUP BY cod_producto, cod_subproducto";
+					$rs1 = mysqli_query($link, $consulta);
+					if ($row1 = mysqli_fetch_array($rs1))
+					{
+					echo '<td align="right">'.$row1["unidades"].'</td>';
+					echo '<td align="right">'.$row1["peso"].'</td>';
+					$TotalOtrosUnid = $TotalOtrosUnid + $row1["unidades"];
+					$TotalOtrosPeso = $TotalOtrosPeso + $row1["peso"];
+					$SubTotalOtrosUnid = $SubTotalOtrosUnid + $row1["unidades"];
+					$SubTotalOtrosPeso = $SubTotalOtrosPeso + $row1["peso"];
+
+					$unidades_aux = $unidades_aux - $row1["unidades"];
+					$peso_aux = $peso_aux - $row1["peso"];
+					}
+					else
+					{
+						echo '<td align="right">&nbsp;</td>';
+						echo '<td align="right">&nbsp;</td>';
+					}
+					//STOCK FINAL A LA FECHA DE CONSULTA
+					echo '<td align="right"><font color="blue">'.$unidades_aux.'</font></td>';
+					echo '<td align="right"><font color="blue">'.$peso_aux.'</font></td>';
+					$SubTotalStockFinPeso = $SubTotalStockFinPeso + $peso_aux;
+					$SubTotalStockFinUnid = $SubTotalStockFinUnid + $unidades_aux;
+					$TotalStockFinUnid = $TotalStockFinUnid + $unidades_aux;
+					$TotalStockFinPeso = $TotalStockFinPeso + $peso_aux;
+					//-----------------
+					//STOCK PISO.
+					$consulta = "SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.stock_piso_raf ";
+					$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."'" ;
+					$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
+					$consulta.= " AND fecha between '".$FechaInicio."' AND '".$FechaConsulta."' ";
+					$rs1 = mysqli_query($link, $consulta);
+					if ($row1 = mysqli_fetch_array($rs1))
+					{
+					echo '<td align="right">'.$row1["unidades"].'</td>';
+					echo '<td align="right">'.$row1["peso"].'</td>';
+					$TotalPisoUnid    = $TotalPisoUnid + $row1["unidades"];
+					$TotalPisoPeso    = $TotalPisoPeso + $row1["peso"];
+					$SubTotalPisoUnid = $SubTotalPisoUnid + $row1["unidades"];
+					$SubTotalPisoPeso = $SubTotalPisoPeso + $row1["peso"];
+					}
+					else
+					{
+					echo '<td align="right">&nbsp;</td>';
+					echo '<td align="right">&nbsp;</td>';
+					}
+					//--------
+				    echo "</tr>";
+                }
+             	else
+             	{
+               		echo "<tr align='right' bgcolor='#CCCCCC'>\n";
+               		if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+                  		echo "<td aling='center' colspan='4'><strong>SUB-TOTAL</strong></td>";
+                  	else echo "<td align='center'><strong>SUB-TOTAL</strong></td>";
+               			echo "<td>".$SubTotalStockIniUnid."</td>\n";
+               			echo "<td>".$SubTotalStockIniPeso."</td>\n";
+					//agrego catodos, despuntes
+					if ((($tp==16) or ($tp==17) or ($tp==18) or ($tp==48)) or ($RadioTipoCons=="P"))
+					{
+					echo "<td>".$SubTotalRecepUnid."</td>\n";
+					echo "<td>".$SubTotalRecepPeso."</td>\n";
+					echo "<td>".$SubTotalRecUnid."</td>\n";
+					echo "<td>".$SubTotalRecPeso."</td>\n";
+					echo "<td>".$SubTotalRecUnidM."</td>\n";
+					echo "<td>".$SubTotalRecPesoM."</td>\n";
+					}
+					echo "<td>".$SubTotalBenefUnid."</td>\n";
+					echo "<td>".$SubTotalBenefPeso."</td>\n";
+					if ((($tp== 18) or ($tp==19) or ($tp==48)) or  ($RadioTipoCons == "P"))
+					{
+					echo "<td>".$SubTotalProdUnid."</td>\n";
+					echo "<td>".$SubTotalProdPeso."</td>\n";
+					}
+					echo "<td>".$SubTotalTrasUnid."</td>\n";
+					echo "<td>".$SubTotalTrasPeso."</td>\n";
+					echo "<td>".$SubTotalOtrosUnid."</td>\n";
+					echo "<td>".$SubTotalOtrosPeso."</td>\n";
+					echo "<td>".$SubTotalStockFinUnid."</td>\n";
+					echo "<td>".$SubTotalStockFinPeso."</td>\n";
+					echo "<td>".$SubTotalPisoUnid."</td>\n";
+					echo "<td>".$SubTotalPisoPeso."</td>\n";
+					echo "</tr>\n";
+					$SubTotalStockIniUnid = 0;
+					$SubTotalStockIniPeso = 0;
+					$SubTotalRecepUnid = 0;
+					$SubTotalRecepPeso = 0;
+					$SubTotalBenefUnid = 0;
+					$SubTotalBenefPeso = 0;
+					$SubTotalProdUnid = 0;
+					$SubTotalProdPeso = 0;
+					$SubTotalRecUnid = 0;
+					$SubTotalRecPeso = 0;
+					$SubTotalRecUnidM = 0;
+					$SubTotalRecPesoM = 0;
+					$SubTotalTrasUnid = 0;
+					$SubTotalTrasPeso = 0;
+					$SubTotalOtrosUnid = 0;
+					$SubTotalOtrosPeso = 0;
+					$SubTotalStockFinUnid = 0;
+					$SubTotalStockFinPeso = 0;
+					$SubTotalPisoUnid = 0;
+					$SubTotalPisoPeso = 0;
+					$produ_c = $produ_t;
+					$tp = $produ_t; 
+					
+					$unidades_aux = 0;
+					$peso_aux = 0;
+
+					echo '<td align="left">';
+					echo trim($row["abreviatura"]);
+					echo '</td>';
+					//STOCK INICIAL
+					$consulta = "SELECT cod_producto, cod_subproducto, ifnull(sum(unid_fin),0) as unidades, ifnull(sum(peso_fin),0) as peso ";
+					$consulta.= " FROM sea_web.stock ";
+					$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' ";
+					$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
+					$Valores=explode('-',$FechaInicio);
+					$consulta.= " AND ano = YEAR(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH))";
+					$consulta.= " GROUP BY cod_producto, cod_subproducto";
+					$rs1 = mysqli_query($link, $consulta);
+					if ($row1 = mysqli_fetch_array($rs1))
+					{
+					echo '<td align="right">'.$row1["unidades"].'</td>';
+					echo '<td align="right">'.$row1["peso"].'</td>';
+					$TotalStockIniUnid = $TotalStockIniUnid + $row1["unidades"];
+					$TotalStockIniPeso = $TotalStockIniPeso + $row1["peso"];
+					$SubTotalStockIniUnid = $SubTotalStockIniUnid + $row1["unidades"];
+					$SubTotalStockIniPeso = $SubTotalStockIniPeso + $row1["peso"];
+					$unidades_aux = $row1["unidades"];
+					$peso_aux = $row1["peso"];
+					}
+					else
+					{
+					echo '<td>&nbsp;</td>';
+					echo '<td>&nbsp;</td>';
+					}
+					//-------------
+					//RECEPCION
+					// se agrega catodos, despuntes
+                    if ((($tp==16) or ($tp == 17) or ($tp==18) or ($tp==48)) or  ($RadioTipoCons == "P"))
+                    {
+						$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+						$consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = ".$row["cod_subproducto"];
+						$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+					    if ($row["cod_producto"]=='17' && ($row["cod_subproducto"]=='4' || $row["cod_subproducto"]=='8' || $row["cod_subproducto"]=='1' || $row["cod_subproducto"]=='2' || $row["cod_subproducto"]=='3'))
+							$consulta.=" and tipo_movimiento = '1' and sub_tipo_movim = '1'";
+						else
+						  	$consulta.= " AND tipo_movimiento = '1'";
+					    $consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+					    $consulta.= " GROUP BY cod_producto, cod_subproducto";
+					    $rs1 = mysqli_query($link, $consulta);
+						if ($row1 = mysqli_fetch_array($rs1))
+					    {
+							echo '<td align="right">'.$row1["unidades"].'</td>';
+							echo '<td align="right">'.$row1["peso"].'</td>';						
+							$TotalRecepUnid    = $TotalRecepUnid + $row1["unidades"];
+							$TotalRecepPeso    = $TotalRecepPeso + $row1["peso"];
+							$SubTotalRecepUnid = $SubTotalRecepUnid + $row1["unidades"];
+							$SubTotalRecepPeso = $SubTotalRecepPeso + $row1["peso"];						
+							$unidades_aux      = $unidades_aux + $row1["unidades"];
+							$peso_aux          = $peso_aux + $row1["peso"];
+					    }
+					    else
+					    {
+							echo '<td align="right">&nbsp;</td>';
+							echo '<td align="right">&nbsp;</td>';
+					    }				 
+					    //RECHAZO
+				 	    $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+				        $consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = '".$row["cod_subproducto"]."' ";
+				        $consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+						if ($row["cod_producto"]=='17' && ($row["cod_subproducto"]=='4' || $row["cod_subproducto"]=='8'))
+							$consulta.=" and tipo_movimiento = '1' and sub_tipo_movim = '2'";
+						else
+					       $consulta.= " AND tipo_movimiento in ('44')";
+				        $consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+				        $consulta.= " GROUP BY cod_producto, cod_subproducto";
+				        $rs44 = mysqli_query($link, $consulta);
+				        if ($row44 = mysqli_fetch_array($rs44))
+				        {
+							echo '<td align="right">'.$row44["unidades"].'</td>';
+							echo '<td align="right">'.$row44["peso"].'</td>';
+							$TotalRecUnid = $TotalRecUnid + $row44["unidades"];
+							$TotalRecPeso = $TotalRecPeso + $row44["peso"];
+							$SubTotalRecUnid = $SubTotalRecUnid + $row44["unidades"];
+							$SubTotalRecPeso = $SubTotalRecPeso + $row44["peso"];
+							$unidades_aux = $unidades_aux + $row44["unidades"];
+							$peso_aux = $peso_aux + $row44["peso"];
+			     	    }
+				 	    else
+				        {
+							echo '<td align="right">&nbsp;</td>';
+							echo '<td align="right">&nbsp;</td>';
+				        }				   
+					    //RECHAZO MPA
+				 	    $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+				        $consulta.= " WHERE cod_producto = ".$row["cod_producto"]." AND cod_subproducto = '".$row["cod_subproducto"]."' ";
+				        $consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+						$consulta.=" and tipo_movimiento = '1' and sub_tipo_movim = '4'";
+				        $consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+				        $consulta.= " GROUP BY cod_producto, cod_subproducto";
+				        $rs44M = mysqli_query($link, $consulta);
+				        if ($row44M = mysqli_fetch_array($rs44M))
+				        {
 							echo '<td align="right">'.$row44M["unidades"].'</td>';
 							echo '<td align="right">'.$row44M["peso"].'</td>';
 							$TotalRecUnidM = $TotalRecUnidM + $row44M["unidades"];
@@ -1966,170 +1956,162 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 							$SubTotalRecPesoM = $SubTotalRecPesoM + $row44M["peso"];
 							$unidades_aux = $unidades_aux + $row44M["unidades"];
 							$peso_aux = $peso_aux + $row44M["peso"];
-			     	   }
-				 	   else
-				      {
+			     	    }
+				 	    else
+				        {
 							echo '<td align="right">&nbsp;</td>';
 							echo '<td align="right">&nbsp;</td>';
-				      }				   
-				   }
-				   //-----------------
-                  //BENEFICIO
-                  $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				  $consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' AND cod_subproducto = '".$row["cod_subproducto"]."' ";
-				  $consulta.= " AND ((fecha_movimiento BETWEEN '".$FechaInicio."' AND '".$FechaConsulta2."' AND hora between '".$FechaInicio2."' and '".$FechaTermino."' AND (fecha_benef = '0000-00-00' or fecha_benef = '0001-01-01')) ";
-				  $consulta.= " OR (fecha_benef BETWEEN '".$FechaInicio."' AND '".$FechaConsulta."'))";
-				  $consulta.= " AND tipo_movimiento = '2'";
-				  $consulta.= " GROUP BY cod_producto, cod_subproducto";
-
-                  $rs1 = mysqli_query($link, $consulta);
-                  if ($row1 = mysqli_fetch_array($rs1))
-				  {
-					echo '<td align="right">'.$row1["unidades"].'</td>';
-					echo '<td align="right">'.$row1["peso"].'</td>';
-					$TotalBenefUnid = $TotalBenefUnid + $row1["unidades"];
-					$TotalBenefPeso = $TotalBenefPeso + $row1["peso"];
-					$SubTotalBenefUnid = $SubTotalBenefUnid + $row1["unidades"];
-					$SubTotalBenefPeso = $SubTotalBenefPeso + $row1["peso"];
-
-					$unidades_aux = $unidades_aux - $row1["unidades"];
-					$peso_aux = $peso_aux - $row1["peso"];
-		           }
-				   else
-				   {
-					echo '<td align="right">&nbsp;</td>';
-
-				    echo '<td align="right">&nbsp;</td>';
-                   }
-                  //-----------------
-                 //PRODUCCION
-				 if (($arreglo[0] == 19) or ($RadioTipoCons == "P"))
-				 {
+				        }				   
+				    }
+				   	//-----------------
+                  	//BENEFICIO
 					$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
 					$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' AND cod_subproducto = '".$row["cod_subproducto"]."' ";
-					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
-					$consulta.= " AND tipo_movimiento = '3'";
-					$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+					$consulta.= " AND ((fecha_movimiento BETWEEN '".$FechaInicio."' AND '".$FechaConsulta2."' AND hora between '".$FechaInicio2."' and '".$FechaTermino."' AND (fecha_benef = '0000-00-00' or fecha_benef = '0001-01-01')) ";
+					$consulta.= " OR (fecha_benef BETWEEN '".$FechaInicio."' AND '".$FechaConsulta."'))";
+					$consulta.= " AND tipo_movimiento = '2'";
 					$consulta.= " GROUP BY cod_producto, cod_subproducto";
 					$rs1 = mysqli_query($link, $consulta);
 					if ($row1 = mysqli_fetch_array($rs1))
 					{
 						echo '<td align="right">'.$row1["unidades"].'</td>';
 						echo '<td align="right">'.$row1["peso"].'</td>';
-						$TotalProdUnid = $TotalProdUnid + $row1["unidades"];
-						$TotalProdPeso = $TotalProdPeso + $row1["peso"];
-						$SubTotalProdUnid = $SubTotalProdUnid + $row1["unidades"];
-						$SubTotalProdPeso = $SubTotalProdPeso + $row1["peso"];
+						$TotalBenefUnid = $TotalBenefUnid + $row1["unidades"];
+						$TotalBenefPeso = $TotalBenefPeso + $row1["peso"];
+						$SubTotalBenefUnid = $SubTotalBenefUnid + $row1["unidades"];
+						$SubTotalBenefPeso = $SubTotalBenefPeso + $row1["peso"];
 
-						$unidades_aux = $unidades_aux + $row1["unidades"];
-						$peso_aux = $peso_aux + $row1["peso"];
+						$unidades_aux = $unidades_aux - $row1["unidades"];
+						$peso_aux = $peso_aux - $row1["peso"];
 					}
 					else
 					{
 						echo '<td align="right">&nbsp;</td>';
 						echo '<td align="right">&nbsp;</td>';
 					}
-				  }
-				 //-----------------
-	 				 
-				 //TRASPASO
-				 $consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				 $consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' AND cod_subproducto = '".$row["cod_subproducto"]."' ";
-				 $consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
-				$consulta.= " AND tipo_movimiento in ('4')";
-				$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-				 $consulta.= " GROUP BY cod_producto, cod_subproducto";
-			 
-				 $rs1 = mysqli_query($link, $consulta);
-				 if ($row1 = mysqli_fetch_array($rs1))
-				 {
+                    //-----------------
+					//PRODUCCION
+					if (($arreglo[0] == 19) or ($RadioTipoCons == "P"))
+					{
+						$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+						$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' AND cod_subproducto = '".$row["cod_subproducto"]."' ";
+						$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+						$consulta.= " AND tipo_movimiento = '3'";
+						$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+						$consulta.= " GROUP BY cod_producto, cod_subproducto";
+						$rs1 = mysqli_query($link, $consulta);
+						if ($row1 = mysqli_fetch_array($rs1))
+						{
+							echo '<td align="right">'.$row1["unidades"].'</td>';
+							echo '<td align="right">'.$row1["peso"].'</td>';
+							$TotalProdUnid = $TotalProdUnid + $row1["unidades"];
+							$TotalProdPeso = $TotalProdPeso + $row1["peso"];
+							$SubTotalProdUnid = $SubTotalProdUnid + $row1["unidades"];
+							$SubTotalProdPeso = $SubTotalProdPeso + $row1["peso"];
+							$unidades_aux = $unidades_aux + $row1["unidades"];
+							$peso_aux = $peso_aux + $row1["peso"];
+						}
+						else
+						{
+							echo '<td align="right">&nbsp;</td>';
+							echo '<td align="right">&nbsp;</td>';
+						}
+					}
+					//-----------------	 				 
+					//TRASPASO
+					$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+					$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."' AND cod_subproducto = '".$row["cod_subproducto"]."' ";
+					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta2."' ";
+					$consulta.= " AND tipo_movimiento in ('4')";
+					$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+					$consulta.= " GROUP BY cod_producto, cod_subproducto";			 
+					$rs1 = mysqli_query($link, $consulta);
+					if ($row1 = mysqli_fetch_array($rs1))
+					{
+						echo '<td align="right">'.$row1["unidades"].'</td>';
+						echo '<td align="right">'.$row1["peso"].'</td>';
+						$TotalTrasUnid = $TotalTrasUnid + $row1["unidades"];
+						$TotalTrasPeso = $TotalTrasPeso + $row1["peso"];
+						$SubTotalTrasUnid = $SubTotalTrasUnid + $row1["unidades"];
+						$SubTotalTrasPeso = $SubTotalTrasPeso + $row1["peso"];
+
+						$unidades_aux = $unidades_aux - $row1["unidades"];
+						$peso_aux = $peso_aux - $row1["peso"];
+					}
+					else
+					{
+						echo '<td align="right">&nbsp;</td>';
+						echo '<td align="right">&nbsp;</td>';
+					}
+					//-----------------
+					//OTROS DESTINOS
+					$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
+					$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."'" ;
+					$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
+					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' AND '".$FechaConsulta2."' ";
+					$consulta.= " AND tipo_movimiento in(5,9,10)";
+					$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
+					$consulta.= " GROUP BY cod_producto, cod_subproducto";
+					$rs1 = mysqli_query($link, $consulta);
+					if ($row1 = mysqli_fetch_array($rs1))
+					{
+						echo '<td align="right">'.$row1["unidades"].'</td>';
+						echo '<td align=? ???"right">'.$row1["peso"].'</td>';
+						$TotalOtrosUnid = $TotalOtrosUnid + $row1["unidades"];
+						$TotalOtrosPeso = $TotalOtrosPeso + $row1["peso"];
+						$SubTotalOtrosUnid = $SubTotalOtrosUnid + $row1["unidades"];
+						$SubTotalOtrosPeso = $SubTotalOtrosPeso + $row1["peso"];
+						$unidades_aux = $unidades_aux - $row1["unidades"];
+						$peso_aux = $peso_aux - $row1["peso"];
+					}
+					else
+					{
+						echo '<td align="right">&nbsp;</td>';
+						echo '<td align="right">&nbsp;</td>';
+					}
+					//AJUSTES
+					//-----------------
+					//STOCK FINAL A LA FECHA DE CONSULTA
+					echo '<td align="right"><font color="blue">'.$unidades_aux.'</font></td>';
+					echo '<td align="right"><font color="blue">'.$peso_aux.'</font></td>';
+					$SubTotalStockFinPeso = $SubTotalStockFinPeso + $peso_aux;
+					$SubTotalStockFinUnid = $SubTotalStockFinUnid + $unidades_aux;
+					$TotalStockFinUnid = $TotalStockFinUnid + $unidades_aux;
+					$TotalStockFinPeso = $TotalStockFinPeso + $peso_aux;
+					//-----------------
+					//STOCK PISO.
+					$consulta = "SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.stock_piso_raf ";
+					$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."'" ;
+					$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
+					$consulta.= " AND fecha between '".$FechaInicio."' AND '".$FechaConsulta."' ";
+					$rs1 = mysqli_query($link, $consulta);
+					if ($row1 = mysqli_fetch_array($rs1))
+					{
 					echo '<td align="right">'.$row1["unidades"].'</td>';
 					echo '<td align="right">'.$row1["peso"].'</td>';
-					$TotalTrasUnid = $TotalTrasUnid + $row1["unidades"];
-					$TotalTrasPeso = $TotalTrasPeso + $row1["peso"];
-					$SubTotalTrasUnid = $SubTotalTrasUnid + $row1["unidades"];
-					$SubTotalTrasPeso = $SubTotalTrasPeso + $row1["peso"];
-
-					$unidades_aux = $unidades_aux - $row1["unidades"];
-					$peso_aux = $peso_aux - $row1["peso"];
-			     }
-				 else
-				 {
+					$TotalPisoUnid = $TotalPisoUnid + $row1["unidades"];
+					$TotalPisoPeso = $TotalPisoPeso + $row1["peso"];
+					$SubTotalPisoUnid = $SubTotalPisoUnid + $row1["unidades"];
+					$SubTotalPisoPeso = $SubTotalPisoPeso + $row1["peso"];
+					}
+					else
+					{
 					echo '<td align="right">&nbsp;</td>';
 					echo '<td align="right">&nbsp;</td>';
-				 }
-                //-----------------
-				//OTROS DESTINOS
-				$consulta = "SELECT tipo_movimiento, ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.movimientos ";
-				$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."'" ;
-				$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
-				$consulta.= " AND fecha_movimiento between '".$FechaInicio."' AND '".$FechaConsulta2."' ";
-				$consulta.= " AND tipo_movimiento in(5,9,10)";
-				$consulta.= " AND hora between '".$FechaInicio2."' and '".$FechaTermino."'";
-				$consulta.= " GROUP BY cod_producto, cod_subproducto";
-				$rs1 = mysqli_query($link, $consulta);
-				if ($row1 = mysqli_fetch_array($rs1))
-				{
-				  echo '<td align="right">'.$row1["unidades"].'</td>';
-				  echo '<td align=? ???"right">'.$row1["peso"].'</td>';
-				  $TotalOtrosUnid = $TotalOtrosUnid + $row1["unidades"];
-				  $TotalOtrosPeso = $TotalOtrosPeso + $row1["peso"];
-				  $SubTotalOtrosUnid = $SubTotalOtrosUnid + $row1["unidades"];
-				  $SubTotalOtrosPeso = $SubTotalOtrosPeso + $row1["peso"];
-
-                  $unidades_aux = $unidades_aux - $row1["unidades"];
-                  $peso_aux = $peso_aux - $row1["peso"];
-				}
-				else
-				{
-					echo '<td align="right">&nbsp;</td>';
-					echo '<td align="right">&nbsp;</td>';
-				}
-
-				//AJUSTES
-
-				//-----------------
-				//STOCK FINAL A LA FECHA DE CONSULTA
-				echo '<td align="right"><font color="blue">'.$unidades_aux.'</font></td>';
-				echo '<td align="right"><font color="blue">'.$peso_aux.'</font></td>';
-				$SubTotalStockFinPeso = $SubTotalStockFinPeso + $peso_aux;
-				$SubTotalStockFinUnid = $SubTotalStockFinUnid + $unidades_aux;
-				$TotalStockFinUnid = $TotalStockFinUnid + $unidades_aux;
-				$TotalStockFinPeso = $TotalStockFinPeso + $peso_aux;
-				//-----------------
-				//STOCK PISO.
-				$consulta = "SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.stock_piso_raf ";
-				$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."'" ;
-				$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
-				$consulta.= " AND fecha between '".$FechaInicio."' AND '".$FechaConsulta."' ";
-				$rs1 = mysqli_query($link, $consulta);
-				if ($row1 = mysqli_fetch_array($rs1))
-				{
-				   echo '<td align="right">'.$row1["unidades"].'</td>';
-				   echo '<td align="right">'.$row1["peso"].'</td>';
-				   $TotalPisoUnid = $TotalPisoUnid + $row1["unidades"];
-				   $TotalPisoPeso = $TotalPisoPeso + $row1["peso"];
-				   $SubTotalPisoUnid = $SubTotalPisoUnid + $row1["unidades"];
-				   $SubTotalPisoPeso = $SubTotalPisoPeso + $row1["peso"];
-
-				 }
-				 else
-				 {
-                   echo '<td align="right">&nbsp;</td>';
-                   echo '<td align="right">&nbsp;</td>';
-				 }
-				//--------
-				echo "</tr>";
-               }
-               $i++;
+					}
+					//--------
+				    echo "</tr>";
+                }
+                $i++;
 			}
 		    echo "<tr align='right' bgcolor='#CCCCCC'>\n";
 			if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
-			  echo "<td align='center' colspan='4'><strong>SUB-TOTAL</strong></td>";
-               else echo "<td align='center'><strong>SUB-TOTAL</strong></td>";
+				echo "<td align='center' colspan='4'><strong>SUB-TOTAL</strong></td>";
+            else 
+				echo "<td align='center'><strong>SUB-TOTAL</strong></td>";
 			echo "<td>".$SubTotalStockIniUnid."</td>\n";
 			echo "<td>".$SubTotalStockIniPeso."</td>\n";
-//se agrega blister, catodos, despuntes
+			//se agrega blister, catodos, despuntes
 			if ((($arreglo[0] == 17) or ($arreglo[0]== 18) or ($arreglo[0]==16) or ($arreglo[0]== 48)) or ($RadioTipoCons == "P"))
 			{
 				echo "<td>".$SubTotalRecepUnid."</td>\n";
@@ -2160,20 +2142,22 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 	}
 ?>
           <tr align="right">
-		  <?php
+		    <?php
 		  	if (($activar == "S") and (($RadioTipoFecha == "A") or ($RadioTipoFecha == "D")) and ($RadioTipoCons == "H"))
 			{
 				echo '<td align="center" colspan="2"><strong>TOTALES</strong></td>';
 			}
 			else if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
 				echo '<td align="center" colspan="4"><strong>TOTALES</strong></td>';
-			else echo '<td align="center"><strong>TOTALES</strong></td>';
-		?>
+			else 
+				echo '<td align="center"><strong>TOTALES</strong></td>';
+		    ?>
             <td><?php echo $TotalStockIniUnid; ?></td>
             <td><?php echo $TotalStockIniPeso; ?></td>
 			<?php
-		// agrego blister, catodos, despuntes
-				if ((($arreglo[0] == "17") or ($arreglo[0]=="16") or ($arreglo[0]=="18") or ($arreglo[0]=="48")) or  ($RadioTipoCons == "P"))
+		        // agrego blister, catodos, despuntes
+				$arreglo_0= isset($arreglo[0])?$arreglo[0]:0;
+				if ((($arreglo_0 == "17") or ($arreglo_0=="16") or ($arreglo_0=="18") or ($arreglo_0=="48")) or  ($RadioTipoCons == "P"))
 				{
             		echo '<td>'.$TotalRecepUnid.'</td>';
             		echo '<td>'.$TotalRecepPeso.'</td>';
@@ -2186,7 +2170,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
             <td><?php echo $TotalBenefUnid; ?></td>
             <td><?php echo $TotalBenefPeso; ?></td>
 			<?php
-				if (($arreglo[0] == "19") or  ($RadioTipoCons == "P"))
+				if (($arreglo_0 == "19") or  ($RadioTipoCons == "P"))
 				{
             		echo '<td>'.$TotalProdUnid.'</td>';
             		echo '<td>'.$TotalProdPeso.'</td>';
