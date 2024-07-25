@@ -224,14 +224,14 @@ Periodo: <?php echo substr($FechaIni,8,2).'-'.substr($FechaIni,5,2).'-'.substr($
 			if ($TipoCalculo == "L")			
 				echo '<td align="right">'.number_format($row["valor"],3,",","").'</td>';
 			else 
-				echo '<td align="right">'.number_format(($row["valor"] * $row[peso_seco] / $row[conversion]),3,",","").'</td>';
+				echo '<td align="right">'.number_format(($row["valor"] * $row[peso_seco] / $row["conversion"]),3,",","").'</td>';
 			$Cont++;
 			
 			//---.
-			$Finos[$row["cod_leyes"]] = $Finos[$row["cod_leyes"]] + ($row["valor"] * $row[peso_seco] / $row[conversion]);			
+			$Finos[$row["cod_leyes"]] = $Finos[$row["cod_leyes"]] + ($row["valor"] * $row[peso_seco] / $row["conversion"]);			
 			
 			//Llenar el arreglo unidades.
-			$Unidad[$row["cod_leyes"]] = $row[conversion];			
+			$Unidad[$row["cod_leyes"]] = $row["conversion"];			
 			//---.								
 		}
 		

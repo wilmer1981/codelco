@@ -20,10 +20,10 @@
 			while ($row = mysql_fetch_array($rs))
 			{	
 				$det_leyes[$row[codigo]][0] = 0; //ley.
-				$det_leyes[$row[codigo]][1] = $row[conversion]; //Unidad de conversion.				
+				$det_leyes[$row[codigo]][1] = $row["conversion"]; //Unidad de conversion.				
 				
 				$total_leyes[$row[codigo]][0] = 0; //ley.
-				$total_leyes[$row[codigo]][1] = $row[conversion]; //Unidad de conversion.								
+				$total_leyes[$row[codigo]][1] = $row["conversion"]; //Unidad de conversion.								
 				$total_leyes[$row[codigo]][2] = 0; //Peso.
 			}
 		

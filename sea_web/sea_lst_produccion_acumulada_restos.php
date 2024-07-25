@@ -229,13 +229,13 @@ function Imprimir()
 					echo '<td width="40" align="center">'.$row6[ab1].'<br>'.$row6[ab2].'</td>';
 					
 				$det_leyes[$row6[codigo]][0] = 0; //ley.
-				$det_leyes[$row6[codigo]][1] = $row6[conversion]; //unidad de conversion.
+				$det_leyes[$row6[codigo]][1] = $row6["conversion"]; //unidad de conversion.
 				
 				$total_grupo[$row6[codigo]][0] = 0;
-				$total_grupo[$row6[codigo]][1] = $row6[conversion]; //unidad de conversion.
+				$total_grupo[$row6[codigo]][1] = $row6["conversion"]; //unidad de conversion.
 				
 				$total_leyes[$row6[codigo]][0] = 0; //Acumulador por cada Ley.
-				$total_leyes[$row6[codigo]][1] = $row6[conversion]; //unidad de conversion.
+				$total_leyes[$row6[codigo]][1] = $row6["conversion"]; //unidad de conversion.
 			}
          }//			
  			 echo '</tr></table><br>';					 	

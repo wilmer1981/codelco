@@ -7,7 +7,6 @@ if(isset($_REQUEST["Proceso"])) {
 }else{
 	$Proceso = "";
 }
-
 if(isset($_REQUEST["listados"])) {
 	$listados = $_REQUEST["listados"];
 }else{
@@ -33,7 +32,6 @@ if(isset($_REQUEST["cmbrestos"])) {
 }else{
 	$cmbrestos =  "";
 }
-
 if(isset($_REQUEST["cmbanodos"])) {
 	$cmbanodos = $_REQUEST["cmbanodos"];
 }else{
@@ -49,10 +47,6 @@ if(isset($_REQUEST["radio2"])) {
 }else{
 	$radio2 =  "";
 }
-
-
-
-
 
 ?>
 <html>
@@ -92,13 +86,8 @@ function recarga_productos()
 					f.action="sea_lista.php?listados=S&Proceso=R&radio="+radio;
 					f.submit();
 				 }
-				
-
 		}
-	}
-		 
-		 
-	
+	}	
 }
 
 function ejecucion(opc)
@@ -116,7 +105,7 @@ function ejecucion(opc)
 	{
 		if(f.radio2[0].checked == false && f.radio2[1].checked == false && f.radio2[2].checked == false)
 		{
-			alert("Debe escoger si Listado es por Finos, Leyes � Peso ");
+			alert("Debe escoger si Listado es por Finos, Leyes ó Peso ");
 			return	
 		}
     }
@@ -319,24 +308,23 @@ var f=formulario;
 
     if($listados == 'S')       	
    {
-
 		
 		if($cmbmovimiento == 1)
 		{	
 			if($cmblistados == 1)
-			echo '<option value="1" SELECTed>Producci�n/Recepci�n de �nodos Diaria</option>';
+			echo '<option value="1" SELECTed>Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Diaria</option>';
 			else
-			echo '<option value="1">Producci�n/Recepci�n de �nodos Diaria</option>';
+			echo '<option value="1">Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Diaria</option>';
 
 			if($cmblistados == 10)
-			echo '<option value="10" SELECTed>Producci�n/Recepci�n de �nodos Acumulada</option>';
+			echo '<option value="10" SELECTed>Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Acumulada</option>';
 			else
-			echo '<option value="10">Producci�n/Recepci�n de �nodos Acumulada</option>';
+			echo '<option value="10">Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Acumulada</option>';
 
 			if($cmblistados == 12)
-			echo '<option value="12" SELECTed>Recepci�n de Blister</option>';
+			echo '<option value="12" SELECTed>Recepci&oacute;n de Blister</option>';
 			else
-			echo '<option value="12">Recepci�n de Blister</option>';
+			echo '<option value="12">Recepci&oacute;n de Blister</option>';
         }  
 
 
@@ -494,7 +482,7 @@ include("../principal/conectar_principal.php");
 /*********** anodos de cobre ********/
   		 if($cmbmovimiento == 1 || $cmbmovimiento == 10 || $cmbmovimiento == 2 || $cmbmovimiento == 4)
 		 {
-			echo'<tr><td width="100">�nodos de Cobre</td>';
+			echo'<tr><td width="100">&Aacute;nodos de Cobre</td>';
 			echo "<td><SELECT name='cmbanodos'>";           
 
         	if (($cmbanodos == 'T') and ($Proceso == 'R'))				

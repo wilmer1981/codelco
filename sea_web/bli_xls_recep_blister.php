@@ -126,16 +126,16 @@ function Imprimir()
 				echo '<td width="40" align="center">'.$row4[ab1].'<br>'.$row4[ab2].'</td>';
 				
 			$det_leyes[$row4[codigo]][0] = 0; //ley.
-			$det_leyes[$row4[codigo]][1] = $row4[conversion]; //Unidad de conversion.
+			$det_leyes[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.
 				
 			$total_leyes[$row4[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_leyes[$row4[codigo]][1] = $row4[conversion]; //Unidad de conversion.
+			$total_leyes[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.
 				
 			$total_dia[$row4[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_dia[$row4[codigo]][1] = $row4[conversion]; //Unidad de conversion.			
+			$total_dia[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.			
 				
 			$total_horno[$row4[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_horno[$row4[codigo]][1] = $row4[conversion]; //Unidad de conversion.		
+			$total_horno[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.		
 		}
 	}
     echo '</tr>';	

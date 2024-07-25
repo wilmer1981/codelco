@@ -233,7 +233,7 @@ function Rech(H,HR)
 			if($CmbEstado==$Fila["codigo"])
 				echo "<option value='".$Fila["codigo"]."' SELECTed>".$Fila["descripcion"]."</option>";
 			else	
-				echo "<option value='".$Fila[codigo]."'>".$Fila["descripcion"]."</option>";
+				echo "<option value='".$Fila["codigo"]."'>".$Fila["descripcion"]."</option>";
 		}
 		?>
             </SELECT></td>

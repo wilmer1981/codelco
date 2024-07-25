@@ -235,7 +235,7 @@ function Salir()
 			$Finos[$row["cod_leyes"]] = $Finos[$row["cod_leyes"]] + $row[fino];			
 			
 			//Llenar el arreglo unidades.
-			$Unidad[$row["cod_leyes"]] = $row[conversion];			
+			$Unidad[$row["cod_leyes"]] = $row["conversion"];			
 			//---.								
 		}
 		
