@@ -40,7 +40,6 @@
 	}else{
 		$cmbhornada =  "";
 	}
-
 	if(isset($_REQUEST["txtbuscar"])) {
 		$txtbuscar = $_REQUEST["txtbuscar"];
 	}else{
@@ -56,13 +55,16 @@
 	}else{
 		$tipo_prod =  "";
 	}
-
 	if(isset($_REQUEST["activar"])) {
 		$activar = $_REQUEST["activar"];
 	}else{
 		$activar =  "";
 	}
-
+	if(isset($_REQUEST["radio"])) {
+		$radio = $_REQUEST["radio"];
+	}else{
+		$radio =  "";
+	}
 	if(isset($_REQUEST["radio1"])) {
 		$radio1 = $_REQUEST["radio1"];
 	}else{
@@ -95,11 +97,9 @@ function Buscar(f)
 	{
 		alert("Debe Seleccionar el Sub-Producto");
 		return;
-	}
-	
+	}	
 	//linea = "recargapag2=S&recargapag1=S&radio=" + f.tipo_mov.value + "&cmbsubprod=" + f.cmbsubprod.value + "&txtbuscar=" + f.busqueda.value;
-	//f.action = "sea_modificador_movimientos.php?" + linea
-	
+	//f.action = "sea_modificador_movimientos.php?" + linea	
 	linea = "ok=S&proceso=B&radio=" + f.tipo_mov.value  + "&cmbsubprod=" + f.cmbsubprod.value + "&txtbuscar=" + f.busqueda.value;
 	//alert(linea);
 	f.action = "sea_modificador_movimientos01.php?" + linea;
@@ -574,9 +574,9 @@ body {
 						{
 							$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos";
 							if ($cmbproducto == '17') 
-								$consulta = $consulta." WHERE cod_producto = 17 AND cod_subproducto = ".$cmbsubprod;
+								$consulta = $consulta." WHERE cod_producto = 17 AND cod_subproducto = '".$cmbsubprod."' ";
 							else
-								$consulta = $consulta." WHERE cod_producto = 16 AND cod_subproducto = ".$cmbsubprod;							
+								$consulta = $consulta." WHERE cod_producto = 16 AND cod_subproducto = '".$cmbsubprod."' ";							
 							$consulta = $consulta." AND tipo_movimiento = 1 AND SUBSTRING(hornada,7,6) LIKE '".$txtbuscar."%'";
 							$consulta = $consulta." ORDER BY hornada DESC"; 							
 							$consulta = $consulta." LIMIT 0,1";						
@@ -584,7 +584,7 @@ body {
 						else if ($radio1 == 2)
 							{
 								$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos";
-								$consulta = $consulta." WHERE cod_producto = 19 AND cod_subproducto = ".$cmbsubprod;
+								$consulta = $consulta." WHERE cod_producto = 19 AND cod_subproducto = '".$cmbsubprod."' ";
 								$consulta = $consulta." AND tipo_movimiento = 3 AND SUBSTRING(hornada,7,6) LIKE '".$txtbuscar."%'";
 								$consulta = $consulta." ORDER BY hornada DESC"; 
 								$consulta = $consulta." LIMIT 0,1";								
@@ -593,9 +593,9 @@ body {
 							{
 								$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos";
 								if ($cmbproducto=='17')
-									$consulta = $consulta." WHERE cod_producto = 17 AND cod_subproducto = ".$cmbsubprod;
+									$consulta = $consulta." WHERE cod_producto = 17 AND cod_subproducto = '".$cmbsubprod."' ";
 								else
-									$consulta = $consulta." WHERE cod_producto = 16 AND cod_subproducto = ".$cmbsubprod;
+									$consulta = $consulta." WHERE cod_producto = 16 AND cod_subproducto = '".$cmbsubprod."' ";
 								$consulta = $consulta." AND tipo_movimiento = 4 AND SUBSTRING(hornada,7,6) LIKE '".$txtbuscar."%'";
 								$consulta = $consulta." ORDER BY hornada DESC"; 
 								$consulta = $consulta." LIMIT 0,1";
@@ -603,7 +603,7 @@ body {
 						else if ($radio1 == 4)
 							{
 								$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos";
-								$consulta = $consulta." WHERE cod_producto = 19 AND cod_subproducto = ".$cmbsubprod;
+								$consulta = $consulta." WHERE cod_producto = 19 AND cod_subproducto = '".$cmbsubprod."' ";
 								$consulta = $consulta." AND tipo_movimiento = 4 AND SUBSTRING(hornada,7,6) LIKE '".$txtbuscar."%'";
 								$consulta = $consulta." ORDER BY hornada DESC";
 								$consulta = $consulta." LIMIT 0,1";
@@ -676,7 +676,8 @@ body {
 						  echo '<input name="txtpeso" type="text" size="10" value="'.PesoFaltante($cmbproducto,$cmbsubprod,$cmbhornada, $link).'" readonly>';
 					}
 					else
-					{						
+					{	
+						$peso_prom = 0;					
 						if ($tipo_prod == "H")	 //Para Resto H.M. 
 						{
 							$Consulta = "SELECT * from sea_web.hornadas ";
@@ -701,7 +702,7 @@ body {
 							{
 								$peso_prom = $Row["peso_unidades"] / $Row["unidades"];
 							}
-							echo '<input name="txtpeso" type="text" size="10" value="'.round(StockRestoCTTE($cmbhornada,19,$cmbsubprod,$link) * $peso_prom).'" readonly>';							
+							echo '<input name="txtpeso" type="text" size="10" value="'.round(StockRestoCTTE($cmbhornada, 19, $cmbsubprod, $link) * $peso_prom).'" readonly>';							
 						}
 					}
 						
@@ -809,8 +810,7 @@ body {
 		$pos_aux = 1;
 		while ($row2 = mysqli_fetch_array($rs2))
 		{
-			$UNIDADES_MOV[$row2["tipo_movimiento"]]=	$UNIDADES_MOV[$row2["tipo_movimiento"]]+$row2["unidades"];
-			
+			$UNIDADES_MOV[$row2["tipo_movimiento"]]=	$UNIDADES_MOV[$row2["tipo_movimiento"]]+$row2["unidades"];	
 			
 			echo '<tr>';
 			echo '<td width="170" height="20">';

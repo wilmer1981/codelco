@@ -1,17 +1,18 @@
 <?php	
 	include ("../principal/conectar_sea_web.php");
 
-	$ok         = $_REQUEST["ok"];
-	$proceso    = $_REQUEST["proceso"];
-	$radio1     = $_REQUEST["radio1"];
-	$cmbproducto = $_REQUEST["cmbproducto"];
-	$cmbsubprod = $_REQUEST["cmbsubprod"];
-	$peso_prom  = $_REQUEST["peso_prom"];
-	$txtbuscar  = $_REQUEST["txtbuscar"];
-	$tipo_mov   = $_REQUEST["tipo_mov"];
-	$txthornada = $_REQUEST["txthornada"];
-	
-	
+	$ok          = isset($_REQUEST["ok"])?$_REQUEST["ok"]:"";
+	$proceso     = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$radio       = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+	$radio1      = isset($_REQUEST["radio1"])?$_REQUEST["radio1"]:"";
+	$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubprod  = isset($_REQUEST["cmbsubprod"])?$_REQUEST["cmbsubprod"]:"";
+	$peso_prom   = isset($_REQUEST["peso_prom"])?$_REQUEST["peso_prom"]:"";
+	$txtbuscar   = isset($_REQUEST["txtbuscar"])?$_REQUEST["txtbuscar"]:"";
+	$tipo_mov    = isset($_REQUEST["tipo_mov"])?$_REQUEST["tipo_mov"]:"";
+	$txthornada  = isset($_REQUEST["txthornada"])?$_REQUEST["txthornada"]:"";
+	$cmbhornada  = isset($_REQUEST["cmbhornada"])?$_REQUEST["cmbhornada"]:"";
+	$parametros  = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
 
 	if ($proceso == "B")
 	{
@@ -26,7 +27,7 @@
 			$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos where ";
 			if ($cmbproducto=='16')
 	 			$consulta = $consulta." cod_producto = 16  AND cod_subproducto = '".$cmbsubprod."' ";
-				else
+			else
  				$consulta = $consulta." cod_producto = 17  AND cod_subproducto = '".$cmbsubprod."' ";
 			$consulta = $consulta." AND tipo_movimiento = 1 AND SUBSTRING(hornada,7,6) = '".$txtbuscar."'";
 			$consulta = $consulta." ORDER BY hornada DESC"; 							
@@ -45,7 +46,7 @@
 				$consulta = "SELECT DISTINCT hornada FROM sea_web.movimientos where ";
 				if ($cmbproducto=='16')
 					$consulta = $consulta." cod_producto = 16 AND cod_subproducto = '".$cmbsubprod."' ";
-					else
+				else
 					$consulta = $consulta." cod_producto = 17 AND cod_subproducto = '".$cmbsubprod."' ";
 				$consulta = $consulta." AND tipo_movimiento = 4 AND SUBSTRING(hornada,7,6) = '".$txtbuscar."' ";
 				$consulta = $consulta." ORDER BY hornada DESC"; 
@@ -133,7 +134,7 @@
 		{
 			$FechaHora=$valor[1][0]." ".$HoraAux.":".$MinAux;
 			$actualizar = "UPDATE sea_web.movimientos SET fecha_movimiento = '".$valor[1][0]."',hora='".$FechaHora."'";
-			$actualizar = $actualizar." WHERE tipo_movimiento = 4 AND cod_producto = 19 AND cod_subproducto = ".$cmbsubprod;
+			$actualizar = $actualizar." WHERE tipo_movimiento = 4 AND cod_producto = 19 AND cod_subproducto = '".$cmbsubprod."' ";
 			$actualizar = $actualizar." AND hornada = ".$cmbhornada." AND fecha_movimiento = '".$valor[0][0]."'";
 			$actualizar = $actualizar." AND campo2 = '".$valor[0][3]."' AND fecha_benef = '".$valor[0][8]."'";
 			mysqli_query($link, $actualizar);
@@ -143,13 +144,13 @@
 			$FechaHora=$valor[1][0]." ".$HoraAux.":".$MinAux;
 			//Modifica el tipo 4.
 			$actualizar = "UPDATE sea_web.movimientos SET unidades = '".$valor[1][2]."', peso = '".$valor[1][9]."', fecha_movimiento = '".$valor[1][0]."',hora='".$FechaHora."'";
-			$actualizar = $actualizar." WHERE tipo_movimiento = 4 AND cod_producto = 17 AND cod_subproducto = ".$cmbsubprod;
+			$actualizar = $actualizar." WHERE tipo_movimiento = 4 AND cod_producto = 17 AND cod_subproducto = '".$cmbsubprod."' ";
 			$actualizar = $actualizar." AND hornada = ".$cmbhornada." AND fecha_movimiento = '".$valor[0][0]."' AND unidades = ".$valor[0][2]." AND peso = ".$valor[0][9];
 			mysqli_query($link, $actualizar);
 						
 			//Modifica el tipo 7.
 			$actualizar = "UPDATE sea_web.movimientos SET unidades = '".$valor[1][2]."', peso = '".$valor[1][9]."', fecha_movimiento = '".$valor[1][0]."',hora='".$FechaHora."'";
-			$actualizar = $actualizar." WHERE tipo_movimiento = 7 AND cod_producto = 17 AND cod_subproducto = ".$cmbsubprod;
+			$actualizar = $actualizar." WHERE tipo_movimiento = 7 AND cod_producto = 17 AND cod_subproducto = '".$cmbsubprod."' ";
 			$actualizar = $actualizar." AND hornada = ".$cmbhornada." AND fecha_movimiento = '".$valor[0][0]."' AND unidades = ".$valor[0][2]." AND peso = ".$valor[0][9];			
 			mysqli_query($link, $actualizar);			
 		}
@@ -160,7 +161,7 @@
 				$FechaHora=$valor[1][0]." ".$HoraAux.":".$MinAux;
 				$actualizar = "UPDATE sea_web.movimientos SET unidades = ".$valor[1][1].", campo1 = '".$valor[1][4]."', campo2 = '".$valor[1][3]."',";
 				$actualizar = $actualizar." fecha_movimiento = '".$valor[1][0]."',hora='".$FechaHora."', peso = ".$valor[1][2];
-				$actualizar = $actualizar." WHERE tipo_movimiento = ".$valor[0][1]." AND cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod;
+				$actualizar = $actualizar." WHERE tipo_movimiento = ".$valor[0][1]." AND cod_producto = ".$producto." AND cod_subproducto = '".$cmbsubprod."' ";
 				$actualizar = $actualizar." AND hornada = ".$cmbhornada." AND numero_recarga = '".$valor[0][6]."' AND fecha_movimiento = '".$valor[0][0]."'";
 				$actualizar = $actualizar." AND campo1 = '".$valor[0][4]."' AND campo2 = '".$valor[0][3]."' AND unidades = ".$valor[0][2];
 				$actualizar = $actualizar." AND peso = ".$valor[0][9];
@@ -172,7 +173,7 @@
 			$FechaHora=$valor[1][0]." ".$HoraAux.":".$MinAux;
 			$actualizar = "UPDATE sea_web.movimientos SET unidades = ".$valor[1][2].", campo1 = '".$valor[1][4]."', campo2 = '".$valor[1][3]."',";
 			$actualizar = $actualizar." fecha_movimiento = '".$valor[1][0]."',hora='".$FechaHora."', peso = ".$valor[1][9];
-			$actualizar = $actualizar." WHERE tipo_movimiento = ".$valor[0][1]." AND cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod;
+			$actualizar = $actualizar." WHERE tipo_movimiento = ".$valor[0][1]." AND cod_producto = ".$producto." AND cod_subproducto = '".$cmbsubprod."' ";
 			$actualizar = $actualizar." AND hornada = ".$cmbhornada." AND numero_recarga = '".$valor[0][6]."' AND fecha_movimiento = '".$valor[0][0]."'";
 			$actualizar = $actualizar." AND campo1 = '".$valor[0][4]."' AND campo2 = '".$valor[0][3]."' AND unidades = ".$valor[0][2];
 			$actualizar = $actualizar." AND peso = ".$valor[0][9];
@@ -185,7 +186,7 @@
 				//Consulta el total de las Unidades con su Peso, para Actualizar la Hornada.
 				$consulta = "SELECT IFNULL(SUM(unidades),0) AS unidades, IFNULL(SUM(peso),0) AS peso";
 				$consulta = $consulta." FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND cod_producto = '".$producto."'";
-				$consulta = $consulta." AND cod_subproducto = ".$cmbsubprod." AND hornada = ".$cmbhornada;
+				$consulta = $consulta." AND cod_subproducto = ".$cmbsubprod." AND hornada = '".$cmbhornada."' ";
 				$rs = mysqli_query($link, $consulta);
 				$row = mysqli_fetch_array($rs);
 								
@@ -193,13 +194,13 @@
 				{
 					//Actualiza las Unidades y Peso en la Tabla hornadas.
 					$actualizar = "UPDATE sea_web.hornadas SET unidades = ".$row["unidades"].", peso_unidades = ".$row["peso"];
-					$actualizar = $actualizar." WHERE cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = ".$cmbhornada;
+					$actualizar = $actualizar." WHERE cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = '".$cmbhornada."' ";
 					mysqli_query($link, $actualizar);
 				}
 				else 
 				{
 					$eliminar = "DELETE FROM sea_web.hornadas";
-					$eliminar = $eliminar." WHERE cod_producto = '".$producto."' AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = ".$cmbhornada;
+					$eliminar = $eliminar." WHERE cod_producto = '".$producto."' AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = '".$cmbhornada."' ";
 					mysqli_query($link, $eliminar);
 				}
 			}
@@ -208,13 +209,13 @@
 					//Consulta el total de las Unidades con su Peso, para Actualizar la Hornada.
 					$consulta = "SELECT IFNULL(SUM(unidades),0) AS unidades, IFNULL(SUM(peso),0) AS peso";
 					$consulta = $consulta." FROM sea_web.movimientos WHERE tipo_movimiento = 3 AND cod_producto = 19";
-					$consulta = $consulta." AND cod_subproducto = ".$cmbsubprod." AND hornada = ".$cmbhornada;
+					$consulta = $consulta." AND cod_subproducto = ".$cmbsubprod." AND hornada = '".$cmbhornada."' ";
 					$rs = mysqli_query($link, $consulta);
 					$row = mysqli_fetch_array($rs);
 						
 					//Actualiza las Unidades y Peso en la Tabla hornadas.
 					$actualizar = "UPDATE sea_web.hornadas SET unidades = ".$row["unidades"].", peso_unidades = ".$row["peso"];
-					$actualizar = $actualizar." WHERE cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = ".$cmbhornada;
+					$actualizar = $actualizar." WHERE cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = '".$cmbhornada."' ";
 					mysqli_query($link, $actualizar);							
 				}
 				
@@ -223,14 +224,14 @@
 			if (($valor[0][1] == 1) or (($valor[0][1] == 3) and ($tipo_prod == "H")))
 			{
 				$consulta = "SELECT ROUND((peso_unidades / unidades),9) AS peso_promedio FROM sea_web.hornadas";
-				$consulta = $consulta." WHERE cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = ".$cmbhornada;
+				$consulta = $consulta." WHERE cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = '".$cmbhornada."' ";
 				
 				$rs1 = mysqli_query($link, $consulta);
 				$row1 = mysqli_fetch_array($rs1);
 
 				$actualizar = "UPDATE sea_web.movimientos SET peso = (unidades * ".$row1["peso_promedio"].")";
-				$actualizar = $actualizar." WHERE tipo_movimiento = 2 AND cod_producto = ".$producto;
-				$actualizar = $actualizar." AND cod_subproducto = ".$cmbsubprod." AND hornada = ".$cmbhornada;
+				$actualizar = $actualizar." WHERE tipo_movimiento = 2 AND cod_producto = '".$producto."' ";
+				$actualizar = $actualizar." AND cod_subproducto = ".$cmbsubprod." AND hornada = '".$cmbhornada."' ";
 				mysqli_query($link, $actualizar);
 			}
 			
@@ -238,14 +239,14 @@
 			if ($valor[0][1] == 3)
 			{
 				$consulta = "SELECT ROUND((peso_unidades / unidades),9) AS peso_promedio FROM sea_web.hornadas";
-				$consulta = $consulta." WHERE cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = ".$cmbhornada;
+				$consulta = $consulta." WHERE cod_producto = ".$producto." AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = '".$cmbhornada."' ";
 				
 				$rs1 = mysqli_query($link, $consulta);
 				$row1 = mysqli_fetch_array($rs1);
 							
 				$actualizar = "UPDATE sea_web.movimientos SET peso = (unidades * ".$row1["peso_promedio"].")";
-				$actualizar = $actualizar." WHERE tipo_movimiento = 4 AND cod_producto = ".$producto;
-				$actualizar = $actualizar." AND cod_subproducto = ".$cmbsubprod." AND hornada = ".$cmbhornada;
+				$actualizar = $actualizar." WHERE tipo_movimiento = 4 AND cod_producto = '".$producto."' ";
+				$actualizar = $actualizar." AND cod_subproducto = ".$cmbsubprod." AND hornada = '".$cmbhornada."' ";
 				mysqli_query($link, $actualizar);							
 			}
 			
@@ -259,7 +260,7 @@
 			{
 				$actualizar = "UPDATE sea_web.movimientos SET unidades = ".$valor[1][2].",campo2 = '".$valor[1][3]."',campo1 = '".$valor[1][4]."',";
 				$actualizar = $actualizar." fecha_benef = '".$valor[1][0]."'";
-				$actualizar = $actualizar." WHERE tipo_movimiento = 3 AND cod_producto = 19 AND cod_subproducto = 30 AND numero_recarga = ".$cmbhornada;
+				$actualizar = $actualizar." WHERE tipo_movimiento = 3 AND cod_producto = 19 AND cod_subproducto = 30 AND numero_recarga = '".$cmbhornada."' ";
 				$actualizar = $actualizar." AND campo2 = '".$valor[0][3]."' AND campo1 = '".$valor[0][4]."'";
 				$actualizar = $actualizar." AND unidades = ".$valor[0][2]." AND fecha_benef = '".$valor[0][0]."'";
 				mysqli_query($link, $actualizar);
@@ -268,7 +269,7 @@
 				{
 					$actualizar = "UPDATE sea_web.movimientos SET unidades = ".$valor[1][2].",campo2 = '".$valor[1][3]."',campo1 = '".$valor[1][4]."',";
 					$actualizar = $actualizar." fecha_benef = '".$valor[1][0]."'";
-					$actualizar = $actualizar." WHERE tipo_movimiento = 3 AND cod_producto = 19 AND cod_subproducto = ".$cmbsubprod." AND numero_recarga = ".$cmbhornada;
+					$actualizar = $actualizar." WHERE tipo_movimiento = 3 AND cod_producto = 19 AND cod_subproducto = ".$cmbsubprod." AND numero_recarga = '".$cmbhornada."' ";
 					$actualizar = $actualizar." AND campo2 = '".$valor[0][3]."' AND campo1 = '".$valor[0][4]."'";
 					$actualizar = $actualizar." AND unidades = ".$valor[0][2]." AND fecha_benef = '".$valor[0][0]."'";
 					mysqli_query($link, $actualizar);
@@ -310,7 +311,7 @@
         //*******************************************************************************//
 
 		$eliminar = "DELETE FROM sea_web.movimientos";
-		$eliminar = $eliminar." WHERE tipo_movimiento = ".$valor[1]." AND cod_producto = ".$valor[7]." AND cod_subproducto = ".$cmbsubprod;
+		$eliminar = $eliminar." WHERE tipo_movimiento = ".$valor[1]." AND cod_producto = ".$valor[7]." AND cod_subproducto = '".$cmbsubprod."' ";
 		$eliminar = $eliminar." AND hornada = ".$cmbhornada." AND numero_recarga = ".$valor[6]." AND fecha_movimiento = '".$valor[0]."'";
 		$eliminar = $eliminar." AND campo1 = '".$valor[4]."' AND campo2 = '".$valor[3]."' AND unidades = ".$valor[2];
 		mysqli_query($link, $eliminar);
@@ -325,7 +326,7 @@
 		if (($valor[1] == 4) and ($valor[7] == 17))
 		{
 			$eliminar = "DELETE FROM sea_web.movimientos";
-			$eliminar = $eliminar." WHERE tipo_movimiento = 7 AND cod_producto = ".$valor[7]." AND cod_subproducto = ".$cmbsubprod;
+			$eliminar = $eliminar." WHERE tipo_movimiento = 7 AND cod_producto = ".$valor[7]." AND cod_subproducto = '".$cmbsubprod."' ";
 			$eliminar = $eliminar." AND hornada = ".$cmbhornada." AND numero_recarga = ".$valor[6]." AND fecha_movimiento = '".$valor[0]."'";
 			$eliminar = $eliminar." AND campo1 = '".$valor[4]."' AND campo2 = '".$valor[3]."' AND unidades = ".$valor[2];
 			mysqli_query($link, $eliminar);
@@ -334,7 +335,7 @@
 		if (($valor[1] == 4) and ($valor[7] == 19))
 		{
 			$eliminar = "DELETE FROM sea_web.movimientos";
-			$eliminar = $eliminar." WHERE tipo_movimiento = 4 AND cod_producto = ".$valor[7]." AND cod_subproducto = ".$cmbsubprod;
+			$eliminar = $eliminar." WHERE tipo_movimiento = 4 AND cod_producto = ".$valor[7]." AND cod_subproducto = '".$cmbsubprod."' ";
 			$eliminar = $eliminar." AND hornada = ".$cmbhornada." AND fecha_movimiento = '".$valor[0]."'";
 			$eliminar = $eliminar." AND campo2 = '".$valor[3]."'";
 			mysqli_query($link, $eliminar);
@@ -357,14 +358,14 @@
 				$promedio = round(($row1["peso_unidades"] / $row1["unidades"]),9);
 				$actualizar = "UPDATE sea_web.movimientos SET peso = (unidades * '".$promedio."')";
 				$actualizar = $actualizar." WHERE tipo_movimiento = 2 AND cod_producto = ".$valor[7];
-				$actualizar = $actualizar." AND cod_subproducto = ".$cmbsubprod." AND hornada = ".$cmbhornada;
+				$actualizar = $actualizar." AND cod_subproducto = ".$cmbsubprod." AND hornada = '".$cmbhornada."' ";
 				mysqli_query($link, $actualizar);
 			}
 			else
 			{
 				//Eliminar Hornada.
 				$eliminar = "DELETE FROM sea_web.hornadas";
-				$eliminar = $eliminar." WHERE cod_producto = '".$producto."' AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = ".$cmbhornada;
+				$eliminar = $eliminar." WHERE cod_producto = '".$producto."' AND cod_subproducto = ".$cmbsubprod." AND hornada_ventana = '".$cmbhornada."' ";
 				mysqli_query($link, $eliminar);
 			}
 			
