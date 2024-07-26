@@ -1,6 +1,18 @@
 <?php
 include("../principal/conectar_sea_web.php");
 $CodigoDeSistema=2;
+
+$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+
+$Vent      = isset($_REQUEST["Vent"])?$_REQUEST["Vent"]:"";
+$HMadres   = isset($_REQUEST["HMadres"])?$_REQUEST["HMadres"]:"";
+$Teniente  = isset($_REQUEST["Teniente"])?$_REQUEST["Teniente"]:"";
+$FHVL      = isset($_REQUEST["FHVL"])?$_REQUEST["FHVL"]:"";
+$Disputada = isset($_REQUEST["Disputada"])?$_REQUEST["Disputada"]:"";
+$Restos    = isset($_REQUEST["Restos"])?$_REQUEST["Restos"]:"";
+
 if($Proceso == 'E')
 {
 	$Fecha = $Ano.'-'.$Mes.'-01';
@@ -16,36 +28,42 @@ if($Proceso == 'B')
 	$rs = mysqli_query($link, $Consulta);
 	$Fila = mysqli_fetch_array($rs);
 
-	if($Fila[Vent] == 0)
+	$Vent        = isset($Fila["Vent"])?$Fila["Vent"]:0;
+	$HMadres     = isset($Fila["HMadres"])?$Fila["HMadres"]:0;
+	$Teniente    = isset($Fila["Teniente"])?$Fila["Teniente"]:0;
+	$FHVL        = isset($Fila["FHVL"])?$Fila["FHVL"]:0;
+	$Disputada   = isset($Fila["Disputada"])?$Fila["Disputada"]:0;
+	$Restos      = isset($Fila["Restos"])?$Fila["Restos"]:0;
+
+	if($Vent == 0)
 		$Vent = '';		
 	else
-		$Vent = $Fila[Vent];	
+		$Vent = $Fila["Vent"];	
 
-	if($Fila[HMadres] == 0)
+	if($HMadres == 0)
 		$HMadres = '';		
 	else
-		$HMadres = $Fila[HMadres];	
+		$HMadres = $Fila["HMadres"];	
 
-	if($Fila[Teniente] == 0)
+	if($Teniente == 0)
 		$Teniente = '';		
 	else
-		$Teniente = $Fila[Teniente];	
+		$Teniente = $Fila["Teniente"];	
 
-	if($Fila[FHVL] == 0)
+	if($FHVL == 0)
 		$FHVL = '';		
 	else
-		$FHVL = $Fila[FHVL];	
+		$FHVL = $Fila["FHVL"];	
 
-	if($Fila[Disputada] == 0)
+	if($Disputada == 0)
 		$Disputada = '';		
 	else
-		$Disputada = $Fila[Disputada];	
+		$Disputada = $Fila["Disputada"];	
 
-	if($Fila[Restos] == 0)
+	if($Restos == 0)
 		$Restos = '';		
 	else	
-		$Restos = $Fila[Restos];
-		
+		$Restos = $Fila["Restos"];		
 }
 ?>
 <html>
@@ -80,16 +98,14 @@ var f = document.FrmPrincipal;
 }
 </script>
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
-</style></head>
-
+</style>
+</head>
 <body>
 <form name="FrmPrincipal" method="post" action="">
 <?php include("../principal/encabezado.php")?>

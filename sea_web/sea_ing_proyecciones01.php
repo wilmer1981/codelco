@@ -1,6 +1,17 @@
 <?php
 include("../principal/conectar_sea_web.php");
 
+$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+
+$Vent      = isset($_REQUEST["Vent"])?$_REQUEST["Vent"]:"";
+$HMadres   = isset($_REQUEST["HMadres"])?$_REQUEST["HMadres"]:"";
+$Teniente  = isset($_REQUEST["Teniente"])?$_REQUEST["Teniente"]:"";
+$FHVL      = isset($_REQUEST["FHVL"])?$_REQUEST["FHVL"]:"";
+$Disputada = isset($_REQUEST["Disputada"])?$_REQUEST["Disputada"]:"";
+$Restos    = isset($_REQUEST["Restos"])?$_REQUEST["Restos"]:"";
+
 if($Proceso == "G")
 {
 	if(strlen($Mes) == 1)
