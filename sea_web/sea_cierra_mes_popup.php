@@ -38,7 +38,7 @@ function Confirmar(f)
 {
 	if (f.txtpassword.value=='')
 	{
-		alert("Debe Ingresar Contrase�a");
+		alert("Debe Ingresar Contraseña");
 		f.txtpassword.focus();
 		return;
 	}
