@@ -17,9 +17,6 @@
 		$Ano =  date("Y");
 	}
 
-
-
-
 	$Ayer = date("Y-m-d", mktime(1,0,0,date("m"),(date("d")-1),date("Y")));
 	$DiaAyer = intval(substr($Ayer,8,2));
 	$MesAyer = intval(substr($Ayer,5,2));

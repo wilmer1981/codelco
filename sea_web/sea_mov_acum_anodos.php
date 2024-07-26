@@ -1,33 +1,30 @@
 <?php
 include("../principal/conectar_sea_web.php");
-//include("../principal/conectar_principal.php"); 
- //$link = mysql_connect('10.56.11.7','adm_bd','672312');
-// mysql_SELECT_db("sea_web",$link);
-set_time_limit(1000);
+	//include("../principal/conectar_principal.php"); 
+	//$link = mysql_connect('10.56.11.7','adm_bd','672312');
+	// mysql_SELECT_db("sea_web",$link);
+	set_time_limit(1000);
 
-if(isset($_REQUEST["opcion"])) {
-	$opcion = $_REQUEST["opcion"];
-}else{
-	$opcion =  "";
-}
-
-if(isset($_REQUEST["Dia"])) {
-	$Dia = $_REQUEST["Dia"];
-}else{
-	$Dia =  date("d");
-}
-if(isset($_REQUEST["Mes"])) {
-	$Mes = $_REQUEST["Mes"];
-}else{
-	$Mes =  date("m");
-}
-if(isset($_REQUEST["Ano"])) {
-	$Ano = $_REQUEST["Ano"];
-}else{
-	$Ano = date("Y");
-}
-
-
+	if(isset($_REQUEST["opcion"])) {
+		$opcion = $_REQUEST["opcion"];
+	}else{
+		$opcion =  "";
+	}
+	if(isset($_REQUEST["Dia"])) {
+		$Dia = $_REQUEST["Dia"];
+	}else{
+		$Dia =  date("d");
+	}
+	if(isset($_REQUEST["Mes"])) {
+		$Mes = $_REQUEST["Mes"];
+	}else{
+		$Mes =  date("m");
+	}
+	if(isset($_REQUEST["Ano"])) {
+		$Ano = $_REQUEST["Ano"];
+	}else{
+		$Ano = date("Y");
+	}
 
 	//$dia = date("j");
 	//$mes = date("n");
@@ -51,7 +48,6 @@ if(isset($_REQUEST["Ano"])) {
 	$Fecha_Ini = $Ano.'-'.$Mes.'-01';			
 	$Fecha_Ter = date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano));
 	$Fecha_Ter2 = date($Ano.'-'.$Mes.'-'.$Dia, mktime(1,0,0,$Mes,($Dia +1),$Ano));
-
 	
 	$FechaQuim=  $Ano.'-'.$Mes.'-'.$Dia;
 	$FechaQuimI= $Ano."-".$Mes."-".$Dia." 08:00:00";
@@ -135,7 +131,7 @@ function Proceso(opc)
 		    //ANODOS
 			$Consulta = "SELECT distinct cod_subproducto FROM sea_web.movimientos WHERE cod_producto = 17 ";
             $Consulta.=" and fecha_movimiento < '".$fechasubprod."'"; 
-//echo $Consulta;
+			//echo $Consulta;
 			$resp = mysqli_query($link, $Consulta);
 			while($Fila = mysqli_fetch_array($resp))
 			{
@@ -1142,16 +1138,16 @@ function Proceso(opc)
 		 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '".$FechaTer2."' AND turno = 'A'";
 			$rs = mysqli_query($link, $Consulta);
 			$fil = mysqli_fetch_array($rs);
-				echo'<td width="63" align="center">'.$fil[grupo1].'</td>';
-				echo'<td width="63" align="center">'.$fil[grupo2].'</td>';
-				echo'<td width="63" align="center">'.$fil[grupo3].'</td>';
+				echo'<td width="63" align="center">'.$fil["grupo1"].'</td>';
+				echo'<td width="63" align="center">'.$fil["grupo2"].'</td>';
+				echo'<td width="63" align="center">'.$fil["grupo3"].'</td>';
 
 		 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '".$FechaTer2."' AND turno = 'B'";
 			$rs = mysqli_query($link, $Consulta);
 			$fil = mysqli_fetch_array($rs);
-				echo'<td width="63" align="center">'.$fil[grupo1].'</td>';
-				echo'<td width="63" align="center">'.$fil[grupo2].'</td>';
-				echo'<td width="63" align="center">'.$fil[grupo3].'</td>';
+				echo'<td width="63" align="center">'.$fil["grupo1"].'</td>';
+				echo'<td width="63" align="center">'.$fil["grupo2"].'</td>';
+				echo'<td width="63" align="center">'.$fil["grupo3"].'</td>';
 		}
 		else
 		{
@@ -1194,16 +1190,16 @@ function Proceso(opc)
 		 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '".$FechaTer2."' AND turno = 'A'";
 			$rs = mysqli_query($link, $Consulta);
 			$fil = mysqli_fetch_array($rs);
-				echo'<td width="63" align="center">'.$fil[producto1].'</td>';
-				echo'<td width="63" align="center">'.$fil[producto2].'</td>';
-				echo'<td width="63" align="center">'.$fil[producto3].'</td>';
+				echo'<td width="63" align="center">'.$fil["producto1"].'</td>';
+				echo'<td width="63" align="center">'.$fil["producto2"].'</td>';
+				echo'<td width="63" align="center">'.$fil["producto3"].'</td>';
 
 		 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '".$FechaTer2."' AND turno = 'B'";
 			$rs = mysqli_query($link, $Consulta);
 			$fil = mysqli_fetch_array($rs);
-				echo'<td width="63" align="center">'.$fil[producto1].'</td>';
-				echo'<td width="63" align="center">'.$fil[producto2].'</td>';
-				echo'<td width="63" align="center">'.$fil[producto3].'</td>';
+				echo'<td width="63" align="center">'.$fil["producto1"].'</td>';
+				echo'<td width="63" align="center">'.$fil["producto2"].'</td>';
+				echo'<td width="63" align="center">'.$fil["producto3"].'</td>';
 		}
 		else
 		{
@@ -1218,13 +1214,13 @@ function Proceso(opc)
 			while($Fila = mysqli_fetch_array($rs))
 			{		
 				if($Fila["cod_subproducto"] == 1)
-					$Producto = HVL;
+					$Producto = 'HVL';
 				if($Fila["cod_subproducto"] == 2)
-					$Producto = TTE;
+					$Producto = 'TTE';
 				if($Fila["cod_subproducto"] == 3)
-					$Producto =DISP;
+					$Producto = 'DISP';
 				if($Fila["cod_subproducto"] == 4)
-					$Producto = VENT;
+					$Producto = 'VENT';
 					
 				echo'<td width="63" align="center">'.$Producto.'&nbsp;</td>';
 			}
@@ -1239,13 +1235,13 @@ function Proceso(opc)
 			while($Fila = mysqli_fetch_array($rs))
 			{		
 				if($Fila["cod_subproducto"] == 1)
-					$Producto = HVL;
+					$Producto = 'HVL';
 				if($Fila["cod_subproducto"] == 2)
-					$Producto = TTE;
+					$Producto = 'TTE';
 				if($Fila["cod_subproducto"] == 3)
-					$Producto = DISP;
+					$Producto = 'DISP';
 				if($Fila["cod_subproducto"] == 4)
-					$Producto = VENT;
+					$Producto = 'VENT';
 					
 				echo'<td width="63" align="center">'.$Producto.'</td>';
 			}
@@ -1441,11 +1437,11 @@ function Proceso(opc)
 	</tr>
 	<tr class="Detalle01">
 	  <td width="67" align="center">Fecha</td> 
-	  <td width="98" align="center">N� Camiones</td> 
+	  <td width="98" align="center">N&deg; Camiones</td> 
 	  <td width="60" align="center">TMS</td> 
-	  <td width="94" align="center">N� Camiones</td> 
+	  <td width="94" align="center">N&deg; Camiones</td> 
 	  <td width="54" align="center">TMS</td> 
-	  <td width="105" align="center">N� Camiones</td> 
+	  <td width="105" align="center">N&deg; Camiones</td> 
 	  <td width="55" align="center">TMS</td> 
 	</tr>
 	<?php
@@ -1525,9 +1521,9 @@ function Proceso(opc)
     </tr>
 	<tr class="Detalle01">
 	  <td align="center">Fecha</td>	
-	  <td align="center">N� Camiones</td>	
+	  <td align="center">N&deg; Camiones</td>	
 	  <td align="center">TMS</td>	
-	  <td align="center">N� Camiones</td>	
+	  <td align="center">N&deg; Camiones</td>	
 	  <td align="center">TMS</td>	
 	</tr>
 	<?php
@@ -1728,9 +1724,10 @@ function Proceso(opc)
 			  $Consulta.= " GROUP BY cod_producto, cod_subproducto";
 			  $rs2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysqli_fetch_array($rs2);
-			  echo'<td align="right">'.number_format($Fil2["peso"]/1000,0,"",".").'&nbsp;</td>';
-			  $AcumIni = $AcumIni + $Fil2["peso"]; 				  
-			  $AcumIni2 = $AcumIni2 + $Fil2["peso"]; 				  
+			  $peso = isset($Fil2["peso"])?$Fil2["peso"]:0;
+			  echo'<td align="right">'.number_format($peso/1000,0,"",".").'&nbsp;</td>';
+			  $AcumIni = $AcumIni + $peso; 				  
+			  $AcumIni2 = $AcumIni2 + $peso; 				  
 			  
 			  //Recep 	
 			  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = '".$Fila["cod_producto"]."'";

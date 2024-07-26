@@ -310,6 +310,7 @@ function Proceso(opt)
 		echo "</td>\n";		
 		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";
 		$Consulta = "SELECT sum(peso_neto) as peso_sipa FROM sipa_web.recepciones ";
+		$LoteVentana="";
 		if ($Fila["cod_subproducto"] == 1)
 		{
 			$Consulta.= " where guia_despacho = '".$Fila["campo1"]."' AND patente = '".$Fila["campo2"]."' AND fecha = '".$Fila["fecha_movimiento"]."'";

@@ -1,35 +1,34 @@
 <?php
-        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
-header("Expires: 0");
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-include("../principal/conectar_sea_web.php");
-// $link = mysql_connect('10.56.11.7','adm_bd','672312');
- //mysql_SELECT_db("sea_web",$link);
-set_time_limit(900);
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	include("../principal/conectar_sea_web.php");
+	// $link = mysql_connect('10.56.11.7','adm_bd','672312');
+	//mysql_SELECT_db("sea_web",$link);
+	set_time_limit(900);
 
 	$Dia = $_REQUEST["Dia"];
 	$Mes = $_REQUEST["Mes"];
 	$Ano = $_REQUEST["Ano"];
 
-	$opcion = $_REQUEST["opcion"];
-	
+	$opcion = $_REQUEST["opcion"];	
 
 	$dia = date("d");
 	$mes = date("m");
@@ -97,7 +96,7 @@ function Proceso(opc)
   </table>
   <br>
   <?php
-  	$fechaControl=date("Y-m-d  h:i:s");
+  	$fechaControl = date("Y-m-d  h:i:s");
 	echo $fechaControl;
   ?>
   <table width="561" border="1" cellspacing="0" cellpadding="0">
@@ -707,24 +706,23 @@ function Proceso(opc)
 
                   }
 				  $entero=0;$entero1=0;$entero2=0;$entero3=0;
-				  $entero1=number_format($peso_fisico/1000,0,"","");
-				  $entero2=number_format($peso_quimico/1000,0,"","");
-				  $entero3=number_format($peso_calafateo/1000,0,"","");
-				  $entero4=number_format($peso_analisis/1000,0,"","");
+				  $entero1 = number_format($peso_fisico/1000,0,"","");
+				  $entero2 = number_format($peso_quimico/1000,0,"","");
+				  $entero3 = number_format($peso_calafateo/1000,0,"","");
+				  $entero4 = number_format($peso_analisis/1000,0,"","");
 				  $AcumFisi = $AcumFisi + $entero1;
-				  $AcumQuim = $AcumQuim + $entero2;
+				  $AcumQuim  = $AcumQuim + $entero2;
 				  $AcumCalaf = $AcumCalaf + $entero3;
-				  $AcumAna = $AcumAna + $entero4;
-										  
+				  $AcumAna   = $AcumAna + $entero4;										  
 	
 				  $ExFinal3 = $AcumIni3 + $AcumRecep3 - $AcumNave3 - $AcumRaf3 - $AcumDest3;
 				  $AcumFinal3 = $AcumFinal3 + $ExFinal3;              
 				  $Aprobados = $ExFinal3 - $entero1 - $entero2 - $entero3 - $entero4;
-				  $entero=0;
+				  $entero = 0;
 				  $entero = number_format($Aprobados,0,"","");
 				  $AcumAprob = $AcumAprob + $entero;
 				  $Total =  $entero1 + $entero2 + $entero3 + $entero4;					  
-				   $AcumTotal = $AcumTotal + $Total;
+				  $AcumTotal = $AcumTotal + $Total;
 				  echo'<td align="right">'.number_format($Aprobados,0,"",".").'</td>';				  
 				  echo'<td align="right">'.number_format($peso_analisis/1000,0,"",".").'</td>';
 				  echo'<td align="right">'.number_format($peso_calafateo/1000,0,"",".").'</td>';
@@ -903,9 +901,7 @@ function Proceso(opc)
 				  echo'<td align="right">'.number_format($peso_calaf/1000,0,"",".").'</td>';
 				  echo'<td align="right">'.number_format($peso_fisico/1000,0,"",".").'</td>';
 				  echo'<td align="right">'.number_format($peso_quimico/1000,0,"",".").'</td>';
-				  echo'<td align="right">'.number_format($total,0,"",".").'</td>';
-				  
-				 
+				  echo'<td align="right">'.number_format($total,0,"",".").'</td>';				 
 				  echo'<td></td>';
 				  echo'<td align="right">'.number_format($ExFinal3,0,"",".").'</td>';				  
 				  $ExFinal3 = 0;			  
@@ -933,8 +929,7 @@ function Proceso(opc)
 		$rs = mysqli_query($link, $Consulta);		
 		if($row = mysqli_fetch_array($rs))
 		{
-			//STOCK INICIAL
-			
+			//STOCK INICIAL			
 			$ExFinal5 = 0;
 			$AcumIni5 = 0;
 			$AcumProd5 = 0;
@@ -988,7 +983,7 @@ function Proceso(opc)
 		    if($row["Ana_Restos"] != '')
 			  $peso_analisis = $row["Ana_Restos"]*1000;
 		
-		//embarque
+		    //embarque
 			$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 			$Consulta.=" AND tipo_movimiento = 10";	
 			$Consulta.=" AND fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '".$FechaInicio."' and '".$FechaTermino."'";
@@ -1067,9 +1062,7 @@ function Proceso(opc)
 			echo'<td align="right">'.number_format($AprobRestos,0,"",".").'</td>';				  
 			echo'<td>&nbsp;</td>';
 			echo'<td>&nbsp;</td>';
-			echo'<td align="right">'.number_format($peso_restos/1000,0,"",".").'</td>';		
-			
-			
+			echo'<td align="right">'.number_format($peso_restos/1000,0,"",".").'</td>';				
 			echo'<td>&nbsp;</td>';
 			echo'<td>&nbsp;</td>';
 			echo'<td align="right">'.number_format($ExFinal5,0,"",".").'</td>';				  
@@ -1078,15 +1071,11 @@ function Proceso(opc)
 	  ?>		
     </tr>	
   </table> 		
-  <br>
-
-  
+  <br>  
   <?php
 
-  	if ($opcion == 2)
-	
-	{
-	
+  	if ($opcion == 2)	
+	{	
 		$diar = date("j");
 		$mesr = date("n");
 		$anor = date("Y");   
@@ -1099,17 +1088,15 @@ function Proceso(opc)
 			$diar = '0'.$diar;
 		}		
 		$FechaTitulo = date("d-m-Y",mktime(7,59,59,$mesr,$diar,$anor));
-		$FechaTer2   = date("Y-m-d",mktime(7,59,59,$mesr,$diar,$anor));
-		
+		$FechaTer2   = date("Y-m-d",mktime(7,59,59,$mesr,$diar,$anor));		
 	}
 	else
 	{
 	    $FechaTitulo = date("d-m-Y",mktime(7,59,59,$Mes,$Dia,$Ano));
-		$FechaTer2   = date("Y-m-d",mktime(7,59,59,$Mes,$Dia,$Ano));
-		
+		$FechaTer2   = date("Y-m-d",mktime(7,59,59,$Mes,$Dia,$Ano));		
 	}
 				
-	 ?>
+	?>
     <?php 	
     $fechaControl = date("Y-m-d h:i:s");
 	echo $fechaControl;  
@@ -1118,9 +1105,7 @@ function Proceso(opc)
   <table width="561" border="1" cellspacing="0" cellpadding="0">
     <tr> 
       <td colspan="2"><strong>RENOVACION PROYECTADA PARA </strong></td>
-	  <td width="264"><strong></strong>&nbsp;&nbsp;<?php echo $FechaTitulo; ?></td>
-
-	 
+	  <td width="264"><strong></strong>&nbsp;&nbsp;<?php echo $FechaTitulo; ?></td>	 
     </tr>
   </table>
   <table width="600" border="1" cellspacing="0" cellpadding="0" class="TablaDetalle">
@@ -1131,8 +1116,7 @@ function Proceso(opc)
 	</tr>	
     <tr>
 	 <td>Grupos</td>
-	 <?php
-	 
+	 <?php	 
 		$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '".$FechaTer2."'";
 		$resp = mysqli_query($link, $Consulta);
 		if($fila = mysqli_fetch_array($resp))
@@ -1216,13 +1200,13 @@ function Proceso(opc)
 			while($Fila = mysqli_fetch_array($rs))
 			{		
 				if($Fila["cod_subproducto"] == 1)
-					$Producto = HVL;
+					$Producto = 'HVL';
 				if($Fila["cod_subproducto"] == 2)
-					$Producto = TTE;
+					$Producto = 'TTE';
 				if($Fila["cod_subproducto"] == 3)
-					$Producto =DISP;
+					$Producto = 'DISP';
 				if($Fila["cod_subproducto"] == 4)
-					$Producto = VENT;
+					$Producto = 'VENT';
 					
 				echo'<td width="63" align="center">'.$Producto.'&nbsp;</td>';
 			}
@@ -1237,13 +1221,13 @@ function Proceso(opc)
 			while($Fila = mysqli_fetch_array($rs))
 			{		
 				if($Fila["cod_subproducto"] == 1)
-					$Producto = HVL;
+					$Producto = 'HVL';
 				if($Fila["cod_subproducto"] == 2)
-					$Producto = TTE;
+					$Producto = 'TTE';
 				if($Fila["cod_subproducto"] == 3)
-					$Producto = DISP;
+					$Producto = 'DISP';
 				if($Fila["cod_subproducto"] == 4)
-					$Producto = VENT;
+					$Producto = 'VENT';
 					
 				echo'<td width="63" align="center">'.$Producto.'</td>';
 			}
@@ -1255,9 +1239,7 @@ function Proceso(opc)
     <table width="561" border="1" cellspacing="0" cellpadding="0">
     <tr> 
       <td colspan="2"><strong>RECEP. MOLDEOS PROYECT. PARA </strong></td>
-	  <td width="264"><strong></strong>&nbsp;&nbsp;<?php echo $FechaTitulo; ?></td>
-
-	 
+	  <td width="264"><strong></strong>&nbsp;&nbsp;<?php echo $FechaTitulo; ?></td>	 
     </tr>
   </table>
   
@@ -1439,11 +1421,11 @@ function Proceso(opc)
 	</tr>
 	<tr class="Detalle01">
 	  <td width="67" align="center">Fecha</td> 
-	  <td width="98" align="center">N� Camiones</td> 
+	  <td width="98" align="center">N&deg; Camiones</td> 
 	  <td width="60" align="center">TMS</td> 
-	  <td width="94" align="center">N� Camiones</td> 
+	  <td width="94" align="center">N&deg; Camiones</td> 
 	  <td width="54" align="center">TMS</td> 
-	  <td width="105" align="center">N� Camiones</td> 
+	  <td width="105" align="center">N&deg; Camiones</td> 
 	  <td width="55" align="center">TMS</td> 
 	</tr>
 	<?php
@@ -1523,9 +1505,9 @@ function Proceso(opc)
     </tr>
 	<tr class="Detalle01">
 	  <td align="center">Fecha</td>	
-	  <td align="center">N� Camiones</td>	
+	  <td align="center">N&deg; Camiones</td>	
 	  <td align="center">TMS</td>	
-	  <td align="center">N� Camiones</td>	
+	  <td align="center">N&deg; Camiones</td>	
 	  <td align="center">TMS</td>	
 	</tr>
 	<?php
@@ -1726,9 +1708,10 @@ function Proceso(opc)
 			  $Consulta.= " GROUP BY cod_producto, cod_subproducto";
 			  $rs2 = mysqli_query($link, $Consulta);
 			  $Fil2 = mysqli_fetch_array($rs2);
-			  echo'<td align="right">'.number_format($Fil2["peso"]/1000,0,"",".").'&nbsp;</td>';
-			  $AcumIni = $AcumIni + $Fil2["peso"]; 				  
-			  $AcumIni2 = $AcumIni2 + $Fil2["peso"]; 				  
+			  $peso = isset($Fil2["peso"])?$Fil2["peso"]:0;
+			  echo'<td align="right">'.number_format($peso/1000,0,"",".").'&nbsp;</td>';
+			  $AcumIni = $AcumIni + $peso; 				  
+			  $AcumIni2 = $AcumIni2 + $peso; 				  
 			  
 			  //Recep 	
 			  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = '".$Fila["cod_producto"]."'";
