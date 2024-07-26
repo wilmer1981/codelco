@@ -21,7 +21,7 @@ if(isset($_REQUEST["ano_t"])) {
 ?>
 <html>
 <head>
-<title>Informe Diario Prooducci�n</title>
+<title>Informe Diario Prooducci&oacute;n</title>
 <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 
 <script language="JavaScript">
@@ -41,7 +41,7 @@ function Imprimir()
 <body class="TablaPrincipal">
 <table width="374" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr class="ColorTabla01">
-    <td width="374" align="center">INFORME DIARIO DE PRODUCCION DE �NODOS</td>
+    <td width="374" align="center">INFORME DIARIO DE PRODUCCION DE &Aacute;NODOS</td>
   </tr>
   <tr class="ColorTabla02"> 
     <td align="center">FECHA:  <?php echo $dia_t.'/'.$mes_t.'/'.$ano_t ?></td>
