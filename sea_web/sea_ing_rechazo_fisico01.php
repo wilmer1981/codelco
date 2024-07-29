@@ -1,7 +1,49 @@
 <?php
 include("../principal/conectar_sea_web.php");
 
-if($Proceso ==G)
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+$Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+$Dia      = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+$hora     = isset($_REQUEST["hora"])?$_REQUEST["hora"]:date("H");
+$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:date("i");
+
+$Fis_Vent   = isset($_REQUEST["Fis_Vent"])?$_REQUEST["Fis_Vent"]:"";
+$Quim_Vent  = isset($_REQUEST["Quim_Vent"])?$_REQUEST["Quim_Vent"]:"";
+$Calaf_Vent = isset($_REQUEST["Calaf_Vent"])?$_REQUEST["Calaf_Vent"]:"";
+$Ana_Vent   = isset($_REQUEST["Ana_Vent"])?$_REQUEST["Ana_Vent"]:"";
+
+$Fis_HMadres   = isset($_REQUEST["Fis_HMadres"])?$_REQUEST["Fis_HMadres"]:"";
+$Quim_HMadres  = isset($_REQUEST["Quim_HMadres"])?$_REQUEST["Quim_HMadres"]:"";
+$Calaf_HMadres = isset($_REQUEST["Calaf_HMadres"])?$_REQUEST["Calaf_HMadres"]:"";
+$Ana_HMadres   = isset($_REQUEST["Ana_HMadres"])?$_REQUEST["Ana_HMadres"]:"";
+
+$Fis_Teniente   = isset($_REQUEST["Fis_Teniente"])?$_REQUEST["Fis_Teniente"]:"";
+$Quim_Teniente  = isset($_REQUEST["Quim_Teniente"])?$_REQUEST["Quim_Teniente"]:"";
+$Calaf_Teniente = isset($_REQUEST["Calaf_Teniente"])?$_REQUEST["Calaf_Teniente"]:"";
+$Ana_Teniente   = isset($_REQUEST["Ana_Teniente"])?$_REQUEST["Ana_Teniente"]:"";
+
+$Fis_FHVL   = isset($_REQUEST["Fis_FHVL"])?$_REQUEST["Fis_FHVL"]:"";
+$Quim_FHVL  = isset($_REQUEST["Quim_FHVL"])?$_REQUEST["Quim_FHVL"]:"";
+$Calaf_FHVL = isset($_REQUEST["Calaf_FHVL"])?$_REQUEST["Calaf_FHVL"]:"";
+$Ana_FHVL   = isset($_REQUEST["Ana_FHVL"])?$_REQUEST["Ana_FHVL"]:"";
+
+$Fis_Disputada   = isset($_REQUEST["Fis_Disputada"])?$_REQUEST["Fis_Disputada"]:"";
+$Quim_Disputada  = isset($_REQUEST["Quim_Disputada"])?$_REQUEST["Quim_Disputada"]:"";
+$Calaf_Disputada = isset($_REQUEST["Calaf_Disputada"])?$_REQUEST["Calaf_Disputada"]:"";
+$Ana_Disputada   = isset($_REQUEST["Ana_Disputada"])?$_REQUEST["Ana_Disputada"]:"";
+
+$Fis_Restos   = isset($_REQUEST["Fis_Restos"])?$_REQUEST["Fis_Restos"]:"";
+$Quim_Restos  = isset($_REQUEST["Quim_Restos"])?$_REQUEST["Quim_Restos"]:"";
+$Calaf_Restos = isset($_REQUEST["Calaf_Restos"])?$_REQUEST["Calaf_Restos"]:"";
+$Ana_Restos   = isset($_REQUEST["Ana_Restos"])?$_REQUEST["Ana_Restos"]:"";
+
+$Fis_Expo   = isset($_REQUEST["Fis_Expo"])?$_REQUEST["Fis_Expo"]:"";
+$Quim_Expo  = isset($_REQUEST["Quim_Expo"])?$_REQUEST["Quim_Expo"]:"";
+$Calaf_Expo = isset($_REQUEST["Calaf_Expo"])?$_REQUEST["Calaf_Expo"]:"";
+$Ana_Expo   = isset($_REQUEST["Ana_Expo"])?$_REQUEST["Ana_Expo"]:"";
+
+if($Proceso == 'G')
 {
 	if($Fis_Vent == '')
 		$Fis_Vent = 0;		

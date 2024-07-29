@@ -152,7 +152,7 @@ function CalculaPesoReal($PesoAux, $AnoAux, $MesAux, $DiaAux)
 					$peso_fisico = $row[Fis_Teniente]*1000;
 				if($row[Quim_Teniente] != '')
 					$peso_quimico = $row[Quim_Teniente]*1000;
-				if($row[Calaf_Teniente] != '')
+				if($row["Calaf_Teniente"] != '')
 					$peso_calafateo = $row[Calaf_Teniente]*1000;
 				if($row[Ana_Teniente] != '')
 					$peso_analisis = $row[Ana_Teniente]*1000;

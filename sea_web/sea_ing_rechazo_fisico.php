@@ -1,6 +1,49 @@
 <?php
 include("../principal/conectar_sea_web.php");
 $CodigoDeSistema=2;
+
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+$Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+$Dia      = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+$hora     = isset($_REQUEST["hora"])?$_REQUEST["hora"]:date("H");
+$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:date("i");
+
+$Fis_Vent   = isset($_REQUEST["Fis_Vent"])?$_REQUEST["Fis_Vent"]:"";
+$Quim_Vent  = isset($_REQUEST["Quim_Vent"])?$_REQUEST["Quim_Vent"]:"";
+$Calaf_Vent = isset($_REQUEST["Calaf_Vent"])?$_REQUEST["Calaf_Vent"]:"";
+$Ana_Vent   = isset($_REQUEST["Ana_Vent"])?$_REQUEST["Ana_Vent"]:"";
+
+$Fis_HMadres   = isset($_REQUEST["Fis_HMadres"])?$_REQUEST["Fis_HMadres"]:"";
+$Quim_HMadres  = isset($_REQUEST["Quim_HMadres"])?$_REQUEST["Quim_HMadres"]:"";
+$Calaf_HMadres = isset($_REQUEST["Calaf_HMadres"])?$_REQUEST["Calaf_HMadres"]:"";
+$Ana_HMadres   = isset($_REQUEST["Ana_HMadres"])?$_REQUEST["Ana_HMadres"]:"";
+
+$Fis_Teniente   = isset($_REQUEST["Fis_Teniente"])?$_REQUEST["Fis_Teniente"]:"";
+$Quim_Teniente  = isset($_REQUEST["Quim_Teniente"])?$_REQUEST["Quim_Teniente"]:"";
+$Calaf_Teniente = isset($_REQUEST["Calaf_Teniente"])?$_REQUEST["Calaf_Teniente"]:"";
+$Ana_Teniente   = isset($_REQUEST["Ana_Teniente"])?$_REQUEST["Ana_Teniente"]:"";
+
+$Fis_FHVL   = isset($_REQUEST["Fis_FHVL"])?$_REQUEST["Fis_FHVL"]:"";
+$Quim_FHVL  = isset($_REQUEST["Quim_FHVL"])?$_REQUEST["Quim_FHVL"]:"";
+$Calaf_FHVL = isset($_REQUEST["Calaf_FHVL"])?$_REQUEST["Calaf_FHVL"]:"";
+$Ana_FHVL   = isset($_REQUEST["Ana_FHVL"])?$_REQUEST["Ana_FHVL"]:"";
+
+$Fis_Disputada   = isset($_REQUEST["Fis_Disputada"])?$_REQUEST["Fis_Disputada"]:"";
+$Quim_Disputada  = isset($_REQUEST["Quim_Disputada"])?$_REQUEST["Quim_Disputada"]:"";
+$Calaf_Disputada = isset($_REQUEST["Calaf_Disputada"])?$_REQUEST["Calaf_Disputada"]:"";
+$Ana_Disputada   = isset($_REQUEST["Ana_Disputada"])?$_REQUEST["Ana_Disputada"]:"";
+
+$Fis_Restos   = isset($_REQUEST["Fis_Restos"])?$_REQUEST["Fis_Restos"]:"";
+$Quim_Restos  = isset($_REQUEST["Quim_Restos"])?$_REQUEST["Quim_Restos"]:"";
+$Calaf_Restos = isset($_REQUEST["Calaf_Restos"])?$_REQUEST["Calaf_Restos"]:"";
+$Ana_Restos   = isset($_REQUEST["Ana_Restos"])?$_REQUEST["Ana_Restos"]:"";
+
+$Fis_Expo   = isset($_REQUEST["Fis_Expo"])?$_REQUEST["Fis_Expo"]:"";
+$Quim_Expo  = isset($_REQUEST["Quim_Expo"])?$_REQUEST["Quim_Expo"]:"";
+$Calaf_Expo = isset($_REQUEST["Calaf_Expo"])?$_REQUEST["Calaf_Expo"]:"";
+$Ana_Expo   = isset($_REQUEST["Ana_Expo"])?$_REQUEST["Ana_Expo"]:"";
+
 if($Proceso == 'E')
 {
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;
@@ -18,147 +61,147 @@ if($Proceso == 'B')
 	//echo $Consulta;
 	$rs = mysqli_query($link, $Consulta);
 	$Fila = mysqli_fetch_array($rs);
-	$hora = substr($Fila[hora],11,2);
-	$minuto = substr($Fila[hora],14,2);
+	$hora = substr($Fila["hora"],11,2);
+	$minuto = substr($Fila["hora"],14,2);
 	
-	if($Fila[Fis_Vent] == 0)
+	if($Fila["Fis_Vent"] == 0)
 		$Fis_Vent = '';	
 	else	
-		$Fis_Vent = $Fila[Fis_Vent];	
+		$Fis_Vent = $Fila["Fis_Vent"];	
 
-	if($Fila[Quim_Vent] == 0)
+	if($Fila["Quim_Vent"] == 0)
 		$Quim_Vent = '';	
 	else
-		$Quim_Vent = $Fila[Quim_Vent];	
+		$Quim_Vent = $Fila["Quim_Vent"];	
 
-	if($Fila[Calaf_Vent] == 0)
+	if($Fila["Calaf_Vent"] == 0)
 		$Calaf_Vent = '';	
 	else
-		$Calaf_Vent = $Fila[Calaf_Vent];	
+		$Calaf_Vent = $Fila["Calaf_Vent"];	
 
-	if($Fila[Ana_Vent] == 0)
+	if($Fila["Ana_Vent"] == 0)
 		$Ana_Vent = '';	
 	else
-		$Ana_Vent = $Fila[Ana_Vent];	
+		$Ana_Vent = $Fila["Ana_Vent"];	
 
-	if($Fila[Fis_HMadres] == 0)
+	if($Fila["Fis_HMadres"] == 0)
 		$Fis_HMadres = '';	
 	else	
-		$Fis_HMadres = $Fila[Fis_HMadres];	
+		$Fis_HMadres = $Fila["Fis_HMadres"];	
 
-	if($Fila[Quim_HMadres] == 0)
+	if($Fila["Quim_HMadres"] == 0)
 		$Quim_HMadres = '';	
 	else
-		$Quim_HMadres = $Fila[Quim_HMadres];	
+		$Quim_HMadres = $Fila["Quim_HMadres"];	
 
-	if($Fila[Calaf_HMadres] == 0)
+	if($Fila["Calaf_HMadres"] == 0)
 		$Calaf_HMadres = '';	
 	else
-		$Calaf_HMadres = $Fila[Calaf_HMadres];	
+		$Calaf_HMadres = $Fila["Calaf_HMadres"];	
 
-	if($Fila[Ana_HMadres] == 0)
+	if($Fila["Ana_HMadres"] == 0)
 		$Ana_HMadres = '';	
 	else
-		$Ana_HMadres = $Fila[Ana_HMadres];	
+		$Ana_HMadres = $Fila["Ana_HMadres"];	
 
-	if($Fila[Fis_Teniente] == 0)
+	if($Fila["Fis_Teniente"] == 0)
 		$Fis_Teniente = '';	
 	else
-		$Fis_Teniente = $Fila[Fis_Teniente];	
+		$Fis_Teniente = $Fila["Fis_Teniente"];	
 
-	if($Fila[Quim_Teniente] == 0)
+	if($Fila["Quim_Teniente"] == 0)
 		$Quim_Teniente = '';	
 	else
-		$Quim_Teniente = $Fila[Quim_Teniente];	
+		$Quim_Teniente = $Fila["Quim_Teniente"];	
 
-	if($Fila[Calaf_Teniente] == 0)
+	if($Fila["Calaf_Teniente"] == 0)
 		$Calaf_Teniente = '';	
 	else
-		$Calaf_Teniente = $Fila[Calaf_Teniente];	
+		$Calaf_Teniente = $Fila["Calaf_Teniente"];	
 
-	if($Fila[Ana_Teniente] == 0)
+	if($Fila["Ana_Teniente"] == 0)
 		$Ana_Teniente = '';	
 	else
-		$Ana_Teniente = $Fila[Ana_Teniente];	
+		$Ana_Teniente = $Fila["Ana_Teniente"];	
 
-	if($Fila[Fis_FHVL] == 0)
+	if($Fila["Fis_FHVL"] == 0)
 		$Fis_FHVL = '';	
 	else
-		$Fis_FHVL = $Fila[Fis_FHVL];	
+		$Fis_FHVL = $Fila["Fis_FHVL"];	
 
-	if($Fila[Quim_FHVL] == 0)
+	if($Fila["Quim_FHVL"] == 0)
 		$Quim_FHVL = '';	
 	else
-		$Quim_FHVL = $Fila[Quim_FHVL];	
+		$Quim_FHVL = $Fila["Quim_FHVL"];	
 
-	if($Fila[Calaf_FHVL] == 0)
+	if($Fila["Calaf_FHVL"] == 0)
 		$Calaf_FHVL = '';	
 	else
-		$Calaf_FHVL = $Fila[Calaf_FHVL];	
+		$Calaf_FHVL = $Fila["Calaf_FHVL"];	
 
-	if($Fila[An_FHVL] == 0)
+	if($Fila["Ana_FHVL"] == 0)
 		$Ana_FHVL = '';	
 	else
-		$Ana_FHVL = $Fila[Ana_FHVL];	
+		$Ana_FHVL = $Fila["Ana_FHVL"];	
 
-	if($Fila[Fis_Disputada] == 0)
+	if($Fila["Fis_Disputada"] == 0)
 		$Fis_Disputada = '';	
 	else
-		$Fis_Disputada = $Fila[Fis_Disputada];	
+		$Fis_Disputada = $Fila["Fis_Disputada"];	
 
-	if($Fila[Quim_Disputada] == 0)
+	if($Fila["Quim_Disputada"] == 0)
 		$Quim_Disputada = '';	
 	else
-		$Quim_Disputada = $Fila[Quim_Disputada];	
+		$Quim_Disputada = $Fila["Quim_Disputada"];	
 
-	if($Fila[Calaf_Disputada] == 0)
+	if($Fila["Calaf_Disputada"] == 0)
 		$Calaf_Disputada = '';	
 	else
-		$Calaf_Disputada = $Fila[Calaf_Disputada];	
+		$Calaf_Disputada = $Fila["Calaf_Disputada"];	
 
-	if($Fila[Ana_Disputada] == 0)
+	if($Fila["Ana_Disputada"] == 0)
 		$Ana_Disputada = '';	
 	else
-		$Ana_Disputada = $Fila[Ana_Disputada];	
+		$Ana_Disputada = $Fila["Ana_Disputada"];	
 
-	if($Fila[Fis_Restos] == 0)
+	if($Fila["Fis_Restos"] == 0)
 		$Fis_Restos = '';	
 	else
-		$Fis_Restos = $Fila[Fis_Restos];	
+		$Fis_Restos = $Fila["Fis_Restos"];	
 
-	if($Fila[Quim_Restos] == 0)
+	if($Fila["Quim_Restos"] == 0)
 		$Quim_Restos = '';	
 	else
-		$Quim_Restos = $Fila[Quim_Restos];	
+		$Quim_Restos = $Fila["Quim_Restos"];	
 
-	if($Fila[Calaf_Restos] == 0)
+	if($Fila["Calaf_Restos"] == 0)
 		$Calaf_Restos = '';	
 	else
-		$Calaf_Restos = $Fila[Calaf_Restos];	
+		$Calaf_Restos = $Fila["Calaf_Restos"];	
 
-	if($Fila[Ana_Restos] == 0)
+	if($Fila["Ana_Restos"] == 0)
 		$Ana_Restos = '';	
 	else
-		$Ana_Restos = $Fila[Ana_Restos];	
-   	if($Fila[Fis_Expo] == 0)
+		$Ana_Restos = $Fila["Ana_Restos"];	
+   	if($Fila["Fis_Expo"] == 0)
 		$Fis_Expo = '';
 	else
-		$Fis_Expo = $Fila[Fis_Expo];
+		$Fis_Expo = $Fila["Fis_Expo"];
 
-	if($Fila[Quim_Expo] == 0)
+	if($Fila["Quim_Expo"] == 0)
 		$Quim_Expo = '';
 	else
-		$Quim_Expo = $Fila[Quim_Expo];
+		$Quim_Expo = $Fila["Quim_Expo"];
 
-	if($Fila[Calaf_Expo] == 0)
+	if($Fila["Calaf_Expo"] == 0)
 		$Calaf_Expo = '';
 	else
-		$Calaf_Expo = $Fila[Calaf_Expo];
+		$Calaf_Expo = $Fila["Calaf_Expo"];
 
-	if($Fila[Ana_Expo] == 0)
+	if($Fila["Ana_Expo"] == 0)
 		$Ana_Expo = '';
 	else
-		$Ana_Expo = $Fila[Ana_Expo];
+		$Ana_Expo = $Fila["Ana_Expo"];
 
 }
 ?>
@@ -199,7 +242,7 @@ var f = document.FrmPrincipal;
 			f.submit();
 			break;		
 		case "S":
-			document.location = "../principal/sistemas_usuario.php?CodSistema=2&Nivel=1";										 	
+			document.location = "../principal/sistemas_usuario.php?CodSistema=2&Nivel=1&CodPantalla=45";										 	
 			break;
 	}
 
@@ -235,15 +278,14 @@ function TeclaPulsada1(salto)
 
 </script>
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
-</style></head>
+</style>
+</head>
 
 <body>
 <form name="FrmPrincipal" method="post" action="">
