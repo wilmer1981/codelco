@@ -1,11 +1,26 @@
-<?
- include("../principal/conectar_raf_web.php");
+<?php
+include("../principal/conectar_raf_web.php");
 $CodigoDeSistema=2;
+
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+$Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+$Dia      = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+$cmbturno = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
+
+$ton_proy1 = isset($_REQUEST["ton_proy1"])?$_REQUEST["ton_proy1"]:"";
+$ton_proy2 = isset($_REQUEST["ton_proy2"])?$_REQUEST["ton_proy2"]:"";
+$ton_proy3 = isset($_REQUEST["ton_proy3"])?$_REQUEST["ton_proy3"]:"";
+$hornada1  = isset($_REQUEST["hornada1"])?$_REQUEST["hornada1"]:"";
+$hornada2  = isset($_REQUEST["hornada2"])?$_REQUEST["hornada2"]:"";
+$hornada3  = isset($_REQUEST["hornada3"])?$_REQUEST["hornada3"]:"";
+$observacion = isset($_REQUEST["observacion"])?$_REQUEST["observacion"]:"";
+
 if($Proceso == "E")
 {
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;	
 	$Eliminar = "DELETE FROM raf_web.proyeccion_moldeo WHERE fecha = '$Fecha' AND turno = '$cmbturno'";
-	mysql_query($Eliminar);
+	mysqli_query($link, $Eliminar);
 	$Proceso = "B";
 }
 
@@ -14,46 +29,51 @@ if($Proceso == "B")
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;	
 	$Consulta = "SELECT * FROM raf_web.proyeccion_moldeo WHERE fecha = '$Fecha' AND turno = '$cmbturno'";
 	$rs = mysqli_query($link, $Consulta);
-	$Fila = mysql_fetch_array($rs);
-	if($Fila[hornada1] == 0)
+	$Fila = mysqli_fetch_array($rs);
+	
+	$ton_proy1 = isset($Fila["ton_proy1"])?$Fila["ton_proy1"]:0;
+	$ton_proy2 = isset($Fila["ton_proy2"])?$Fila["ton_proy2"]:0;
+	$ton_proy3 = isset($Fila["ton_proy3"])?$Fila["ton_proy3"]:0;
+	$hornada1  = isset($Fila["hornada1"])?$Fila["hornada1"]:0;
+	$hornada2  = isset($Fila["hornada2"])?$Fila["hornada2"]:0;
+	$hornada3  = isset($Fila["hornada3"])?$Fila["hornada3"]:0;
+	$observacion = isset($Fila["observacion"])?$Fila["observacion"]:"";
+	
+	if($hornada1 == 0)
 	   $hornada1 = '';		
 	else
-		$hornada1 = $Fila[hornada1];
+		$hornada1 = $Fila["hornada1"];
 
-	if($Fila[ton_proy1] == 0)
+	if($ton_proy1 == 0)
 		$ton_proy1 = '';
 	else
-		$ton_proy1 = $Fila[ton_proy1];
+		$ton_proy1 = $Fila["ton_proy1"];
 
-	if($Fila[hornada2] == 0)
+	if($hornada2 == 0)
 	   $hornada2 = '';		
 	else
-		$hornada2 = $Fila[hornada2];
+		$hornada2 = $Fila["hornada2"];
 
-	if($Fila[ton_proy2] == 0)
+	if($ton_proy2 == 0)
 		$ton_proy2 = '';
 	else
-		$ton_proy2 = $Fila[ton_proy2];
+		$ton_proy2 = $Fila["ton_proy2"];
 
-
-	if($Fila[hornada3] == 0)
+	if($hornada3 == 0)
 	   $hornada3 = '';		
 	else
-		$hornada3 = $Fila[hornada3];
+		$hornada3 = $Fila["hornada3"];
 
-	if($Fila[ton_proy3] == 0)
+	if($ton_proy3 == 0)
 		$ton_proy3 = '';
 	else
-		$ton_proy3 = $Fila[ton_proy3];
+		$ton_proy3 = $Fila["ton_proy3"];
 
 	$Consulta = "SELECT observacion FROM raf_web.proyeccion_moldeo WHERE fecha = '$Fecha' AND observacion != ''";
 	$rs = mysqli_query($link, $Consulta);
-	$fila = mysql_fetch_array($rs);
-	$observacion = $fila["observacion"];
-
+	$fila = mysqli_fetch_array($rs);
+	$observacion = isset($fila["observacion"])?$fila["observacion"]:"";
 }
-
-
 ?>
 <html>
 <head>
@@ -117,7 +137,7 @@ body {
 <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
 <body >
 <form name="FrmPrincipal" method="post" action="">
-  <? include("../principal/encabezado.php")?>
+  <?php include("../principal/encabezado.php")?>
   <table width="770" height="340" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
     <tr> 
       <td valign="top" align="center"><br>  		  
@@ -129,7 +149,7 @@ body {
           <tr> 
             <td width="73">Fecha</td>
             <td width="266"><select name="Dia" style="width:50px;">
-                <?
+                <?php
 				for ($i = 1;$i <= 31; $i++)
 				{
 					if (isset($Dia))
@@ -147,7 +167,7 @@ body {
 				}
 			  ?>
               </select> <select name="Mes" style="width:90px;">
-                <?
+                <?php
                 $Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 				for ($i = 1;$i <= 12; $i++)
 				{
@@ -166,7 +186,7 @@ body {
 				}
 				?>
               </select> <select name="Ano" style="width:60px;">
-                <?
+                <?php
 				for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
 				{
 					if (isset($Ano))
@@ -186,7 +206,7 @@ body {
               </select></td>
             <td width="62">Turno </td>
             <td width="156"><select name="cmbturno">
-                <?
+                <?php
 				echo"<option value='-1' selected>Turno</option>";
 				if($cmbturno == "A")
 					echo"<option value='A' selected>Turno A</option>";
@@ -215,18 +235,18 @@ body {
           </tr>
           <tr> 
             <td width="150">Reverb 1</td>
-            <td width="184" align="center"><input type="text" name="hornada1" size="15" value="<? echo $hornada1; ?>"></td>
-            <td width="218" align="center"><input type="text" name="ton_proy1" size="15" value="<? echo $ton_proy1; ?>"></td>
+            <td width="184" align="center"><input type="text" name="hornada1" size="15" value="<?php echo $hornada1; ?>"></td>
+            <td width="218" align="center"><input type="text" name="ton_proy1" size="15" value="<?php echo $ton_proy1; ?>"></td>
           </tr>
           <tr> 
             <td>Reverb 2</td>
-            <td width="184" align="center"><input type="text" name="hornada2" size="15" value="<? echo $hornada2; ?>"></td>
-            <td width="218" align="center"><input type="text" name="ton_proy2" size="15" value="<? echo $ton_proy2; ?>"></td>
+            <td width="184" align="center"><input type="text" name="hornada2" size="15" value="<?php echo $hornada2; ?>"></td>
+            <td width="218" align="center"><input type="text" name="ton_proy2" size="15" value="<?php echo $ton_proy2; ?>"></td>
           </tr>
           <tr> 
             <td>Basculante</td>
-            <td width="184" align="center"><input type="text" name="hornada3" size="15" value="<? echo $hornada3; ?>"></td>
-            <td width="218" align="center"><input type="text" name="ton_proy3" size="15" value="<? echo $ton_proy3; ?>"></td>
+            <td width="184" align="center"><input type="text" name="hornada3" size="15" value="<?php echo $hornada3; ?>"></td>
+            <td width="218" align="center"><input type="text" name="ton_proy3" size="15" value="<?php echo $ton_proy3; ?>"></td>
           </tr>
         </table>
 		<br>
@@ -235,7 +255,7 @@ body {
             <td align="center"><span class="Estilo4">OBSERVACIONES</span></td>
 		  </tr>
 		  <tr> 	
-            <td align="center"><textarea name="observacion" cols="60" rows="3" wrap="VIRTUAL"><? echo $observacion;?></textarea></td>
+            <td align="center"><textarea name="observacion" cols="60" rows="3" wrap="VIRTUAL"><?php echo $observacion;?></textarea></td>
 		  </tr>
 		</table>  	
 		<div style='position:absolute; left: 115px; top: 364px; width: 560px; height: 31px; OVERFLOW: auto;' id='div2'> 
@@ -251,7 +271,7 @@ body {
       </td>
     </tr>
   </table>
-  <? include("../principal/pie_pagina.php")?>
+  <?php include("../principal/pie_pagina.php")?>
 </form>
 </body>
 </html>
