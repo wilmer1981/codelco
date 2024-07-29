@@ -1,6 +1,19 @@
 <?php
  include("../principal/conectar_raf_web.php");
 $CodigoDeSistema=2;
+
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+$Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+$Dia      = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+$hora     = isset($_REQUEST["hora"])?$_REQUEST["hora"]:date("H");
+$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:date("i");
+$cmbturno = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
+$grupo1   = isset($_REQUEST["grupo1"])?$_REQUEST["grupo1"]:"";
+$grupo2   = isset($_REQUEST["grupo2"])?$_REQUEST["grupo2"]:"";
+$cmbproducto1 = isset($_REQUEST["cmbproducto1"])?$_REQUEST["cmbproducto1"]:"";
+$cmbproducto2 = isset($_REQUEST["cmbproducto2"])?$_REQUEST["cmbproducto2"]:"";
+
 if($Proceso == "E")
 {
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;	
@@ -16,12 +29,12 @@ if($Proceso == "B")
 	$rs = mysqli_query($link, $Consulta);
 	$Fila = mysqli_fetch_array($rs);
 
-	$grupo1 = $Fila[grupo1];
-	$cmbproducto1 = $Fila[producto1];
-	$grupo2 = $Fila[grupo2];
-	$cmbproducto2 = $Fila[producto2];
-	$grupo3 = $Fila[grupo3];
-	$cmbproducto3 = $Fila[producto3];
+	$grupo1       = isset($Fila["grupo1"])?$Fila["grupo1"]:"";
+	$cmbproducto1 = isset($Fila["producto1"])?$Fila["producto1"]:"";
+	$grupo2       = isset($Fila["grupo2"])?$Fila["grupo2"]:"";
+	$cmbproducto2 = isset($Fila["producto2"])?$Fila["producto2"]:"";
+	$grupo3       = isset($Fila["grupo3"])?$Fila["grupo3"]:"";
+	$cmbproducto3 = isset( $Fila["producto3"])?$Fila["producto3"]:"";
 
 }
 
@@ -76,15 +89,14 @@ function Proceso(opc)
 
 </script>
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
-</style></head>
+</style>
+</head>
 <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
 <body >
 <form name="FrmPrincipal" method="post" action="">
