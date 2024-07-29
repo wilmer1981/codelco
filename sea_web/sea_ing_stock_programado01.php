@@ -1,5 +1,11 @@
 <?php
 	include("../principal/conectar_principal.php");
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+    $Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+
 	switch ($Proceso)
 	{
 		case "G":

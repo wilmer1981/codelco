@@ -2,6 +2,10 @@
 	include("../principal/conectar_principal.php");
 	$CodigoDeSistema=2;
 	$CodigoDePantalla=50;
+
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 ?>
 <html>
 <head>
@@ -74,17 +78,16 @@ function Proceso(opt)
 	}
 }
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
--->
-</style></head>
-
+</style>
+</head>
 <body>
 <form name="frmPrincipal" action="" method="post">
 <?php include("../principal/encabezado.php") ?>
@@ -154,39 +157,40 @@ body {
                   <td width="187">Stock programado </td>
                 </tr>
                 <?php	
-	$Fecha01 = date("Y-m-d", mktime(0,0,0,$Mes+1,1,$Ano));
-	$FinMes = date("d", mktime(0,0,0,substr($Fecha01,5,2),intval(substr($Fecha01,8,2))-1,substr($Fecha01,0,4)));
-	for ($i=1;$i<=$FinMes;$i++)
-	{	
-		$Consulta = "SELECT * from sea_web.stock_programado ";
-		$Consulta.= " where fecha = '".$Ano."-".$Mes."-".$i."'";
-		$Resp = mysqli_query($link, $Consulta);
-		$PesoDia="";
-		if ($Fila = mysqli_fetch_array($Resp))
-		{
-			$PesoDia=$Fila["peso"];
-		}
-		if ($PesoDia==0)
-			$PesoDia="";		
-		echo "<tr align='center'>\n";  
-		echo "<td>".str_pad($i,2,"0",STR_PAD_LEFT)."</td>\n";
-		if (($i+1)>$FinMes)
-			echo "<td><input size='12' maxlength='10' name='TxtStockDia".str_pad($i,2,"0",STR_PAD_LEFT)."' type='text' value='".$PesoDia."' ></td>\n";
-		else
-			echo "<td><input size='12' maxlength='10' name='TxtStockDia".str_pad($i,2,"0",STR_PAD_LEFT)."' type='text' value='".$PesoDia."' onKeyDown=\"TeclaPulsada('TxtStockDia".str_pad($i+1,2,"0",STR_PAD_LEFT)."')\"></td>\n";
-		echo "</tr>\n";
-		$TotalStockMes = $TotalStockMes + $PesoDia;
-		if (($i+1)==11 || ($i+1)==21)
-		{
-			echo "</table>\n";
-			echo "<table width='176' border='1' cellpadding='2' cellspacing='0' class='TablaDetalle' align='left'>\n";
-            echo "<tr align='center' class='ColorTabla01'>\n";
-            echo "<td width='48'>Dia</td>\n";
-            echo "<td width='187'>Stock programado </td>\n";
-            echo "</tr>\n";
-		}
-	}
-?>
+					$Fecha01 = date("Y-m-d", mktime(0,0,0,$Mes+1,1,$Ano));
+					$FinMes = date("d", mktime(0,0,0,substr($Fecha01,5,2),intval(substr($Fecha01,8,2))-1,substr($Fecha01,0,4)));
+					$TotalStockMes=0;
+					for ($i=1;$i<=$FinMes;$i++)
+					{	
+						$Consulta = "SELECT * from sea_web.stock_programado ";
+						$Consulta.= " where fecha = '".$Ano."-".$Mes."-".$i."'";
+						$Resp = mysqli_query($link, $Consulta);
+						$PesoDia=0;
+						if ($Fila = mysqli_fetch_array($Resp))
+						{
+							$PesoDia=$Fila["peso"];
+						}
+						if ($PesoDia==0)
+							$PesoDia=0;		
+						echo "<tr align='center'>\n";  
+						echo "<td>".str_pad($i,2,"0",STR_PAD_LEFT)."</td>\n";
+						if (($i+1)>$FinMes)
+							echo "<td><input size='12' maxlength='10' name='TxtStockDia".str_pad($i,2,"0",STR_PAD_LEFT)."' type='text' value='".$PesoDia."' ></td>\n";
+						else
+							echo "<td><input size='12' maxlength='10' name='TxtStockDia".str_pad($i,2,"0",STR_PAD_LEFT)."' type='text' value='".$PesoDia."' onKeyDown=\"TeclaPulsada('TxtStockDia".str_pad($i+1,2,"0",STR_PAD_LEFT)."')\"></td>\n";
+						echo "</tr>\n";
+						$TotalStockMes = $TotalStockMes + $PesoDia;
+						if (($i+1)==11 || ($i+1)==21)
+						{
+							echo "</table>\n";
+							echo "<table width='176' border='1' cellpadding='2' cellspacing='0' class='TablaDetalle' align='left'>\n";
+							echo "<tr align='center' class='ColorTabla01'>\n";
+							echo "<td width='48'>Dia</td>\n";
+							echo "<td width='187'>Stock programado </td>\n";
+							echo "</tr>\n";
+						}
+					}
+				?>
                 <tr>
                   <td><strong>TOTAL</strong></td>
                   <td align="center"><?php echo number_format($TotalStockMes,0,",","."); ?></td>
