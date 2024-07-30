@@ -9,6 +9,11 @@
 	}else{
 		$SubProducto =  "";
 	}
+	if(isset($_REQUEST["Horno"])) {
+		$Horno = $_REQUEST["Horno"];
+	}else{
+		$Horno =  "";
+	}
 	if(isset($_REQUEST["Ano"])) {
 		$Ano = $_REQUEST["Ano"];
 	}else{
@@ -28,9 +33,8 @@
 	if(isset($_REQUEST["TotalPorc"])) {
 		$TotalPorc = $_REQUEST["TotalPorc"];
 	}else{
-		$TotalPorc =  "";
+		$TotalPorc =  0;
 	}
-	
 
 ?>
 <html>
@@ -356,11 +360,12 @@ if ($Mostrar == "S")
 	$Consulta.= " where cod_clase='2008' order by cod_subclase "; 
 	
 	$Resp = mysqli_query($link, $Consulta);
+	$TotalPorcAno =0;	
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		
 		$TotalInspec = 0;	
-		$TotalPorcAno =0;	
+		//$TotalPorcAno =0;	
 		echo "<tr>\n";
 		echo "<td align='left'>".$Fila["nombre_subclase"]."</td>\n";
 		for ($i=1;$i<=12;$i++)
@@ -417,14 +422,15 @@ if ($Mostrar == "S")
 		}
 		if ($TotalInspec > 0 && $TotalDefectoAnual > 0)
 			$TotalPorc = ($TotalInspec*100)/$TotalDefectoAnual;
-		else	$TotalPorc=0;
+		else	
+			$TotalPorc=0;
 
 		$TotalPorcAno = $TotalPorcAno + $TotalPorc;
 		echo "<td class='ColorTabla02' align='right'>".number_format($TotalInspec,0,",",".")."</td>\n";
 		echo "<td class='ColorTabla02' align='right'>".number_format($TotalPorc,2,",",".")."</td>\n";
 		echo "</tr>\n";
 	}
-	$TotalAno = 0;
+	//$TotalAno = 0;
 	//TOTAL INCIDENCIAS
 	$ArrIncRecep = array();
 	echo "<tr class='ColorTabla02'>\n";
@@ -455,6 +461,7 @@ if ($Mostrar == "S")
 		$Consulta.= " and cod_defecto <> '0'";
 		$Consulta.= " group by cod_producto, cod_subproducto";
 		$Resp2 = mysqli_query($link, $Consulta);
+		$TotalAno = 0;
 		if ($Fila2 = mysqli_fetch_array($Resp2))
 		{								
 			switch ($TipoCons)
@@ -487,6 +494,8 @@ if ($Mostrar == "S")
 	//TOTAL PROD POR MES
 	echo "<tr class='ColorTabla02'>\n";
     echo "<td>TOTAL UNID. MES</td>\n";
+	$TotalUnidadesAno=0; // WSO
+	$TotalPesoAno=0; // WSO
     for ($i=1;$i<=12;$i++)
 	{	
 		$FechaIni = $Ano."-".$i."-01";
@@ -513,8 +522,8 @@ if ($Mostrar == "S")
 			}
 		}
 		$Resp = mysqli_query($link, $Consulta);
-		$TotalUnidadesAno=0; // WSO
-		$TotalPesoAno=0; // WSO
+		//$TotalUnidadesAno=0; // WSO
+		//$TotalPesoAno=0; // WSO
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			$TotalUnidades = $Fila["unidades"];
