@@ -247,9 +247,9 @@ function Proceso(o)
 <?php  	
 	if ($TipoMovimiento == "S")//STOCK
 	{
-		$Consulta = "SELECT distinct t1.ano, t1.mes, t1.hornada, t1.unid_fin as unidades, t1.peso_fin as peso";
-		$Consulta.= " from sea_web.stock t1 inner join sea_web.leyes_por_hornada t2 on t1.hornada=t2.hornada";
-		$Consulta.= " where t1.ano = '".$AnoFin."' and t1.mes = '".$MesFin."'";	
+		$Consulta = "SELECT distinct t1.ano, t1.mes, t1.hornada, t1.unid_fin as unidades, t1.peso_fin as peso ";
+		$Consulta.= " from sea_web.stock t1 inner join sea_web.leyes_por_hornada t2 on t1.hornada=t2.hornada ";
+		$Consulta.= " where t1.ano = '".$AnoFin."' and t1.mes = '".$MesFin."' ";	
 		$i=1;
 		//while (list($k,$v)=each($ArrLimites))
 		foreach ($ArrLimites as $k=>$v)
@@ -264,18 +264,18 @@ function Proceso(o)
 			$Consulta.= ")";
 		if ($Producto != 0)
 		{
-			$Consulta.= " and t1.cod_producto = '".$Producto."'";
+			$Consulta.= " and t1.cod_producto = '".$Producto."' ";
 			if ($SubProducto != 0)
-				$Consulta.= " and t1.cod_subproducto = '".$SubProducto."'";
+				$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
 		}
 		$Consulta.= " order by t1.ano, t1.mes , t1.hornada ";
 	}
 	else
-	{
+	{	
 		$Consulta = "SELECT distinct t1.fecha_movimiento, t1.hornada, t1.campo1, t1.campo2, t1.unidades, t1.peso";
 		$Consulta.= " from sea_web.movimientos t1 inner join sea_web.leyes_por_hornada t2 on t1.hornada=t2.hornada";
 		$Consulta.= " where t1.tipo_movimiento = '".$TipoMovimiento."' ";
-		$Consulta.= " and t1.fecha_movimiento between '".$FechaIni."' and '".$FechaFin."'";	
+		$Consulta.= " and t1.fecha_movimiento between '$FechaIni' and '$FechaFin' ";	
 		$i=1;
 		//while (list($k,$v)=each($ArrLimites))
 		foreach ($ArrLimites as $k=>$v)
