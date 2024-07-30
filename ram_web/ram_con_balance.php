@@ -8,19 +8,21 @@
 	}else{
 		$Acum = "";
 	}
-
+	if(isset($_REQUEST["Agrup"])){
+		$Agrup = $_REQUEST["Agrup"];
+	}else{
+		$Agrup = "";
+	}
 	if(isset($_REQUEST["FinoLeyes"])){
 		$FinoLeyes = $_REQUEST["FinoLeyes"];
 	}else{
 		$FinoLeyes = "";
 	}
-
 	if(isset($_REQUEST["ConsComun"])){
 		$ConsComun = $_REQUEST["ConsComun"];
 	}else{
 		$ConsComun = "";
 	}
-
 	if(isset($_REQUEST["TxtConjunto"])){
 		$TxtConjunto = $_REQUEST["TxtConjunto"];
 	}else{
@@ -55,8 +57,8 @@
                 f.submit();
                 break;
             case "S":
-                //f.action = "../principal/sistemas_usuario.php?CodSistema=7&Nivel=1&CodPantalla=19";
-                f.action = "ram_generador_consultas_usuarios2.php";
+                f.action = "../principal/sistemas_usuario.php?CodSistema=7&Nivel=1&CodPantalla=19";
+                //f.action = "ram_generador_consultas_usuarios2.php";
                 f.submit();
                 break;
             case "S2":
@@ -109,7 +111,7 @@
                         <tr align="center">
                             <td colspan="2">
                                 <?php
-				if (!isset($Agrup) || $Agrup=="C")				 
+				if ($Agrup=="" || $Agrup=="C")				 
 				{
 					echo "<input name='Agrup' type='radio' value='C' checked>VER POR CONJUNTO&nbsp;\n";             
 	                echo "<input name='Agrup' type='radio' value='P'>VER POR PROVEEDOR\n";  								     
@@ -125,7 +127,7 @@
                         <tr>
                             <td width="27%">
                                 <?php
-				if (!isset($Acum) || $Acum=="D")				 				
+				if ($Acum=="" || $Acum=="D")				 				
 					echo "<input name='Acum' type='radio' value='D' checked>VER EL DIA\n";            
 				else
 					echo "<input name='Acum' type='radio' value='D'>VER EL DIA\n";            
@@ -223,7 +225,7 @@
                                     <tr>
                                         <td width='68'>LEYES</td>
                                         <td width='102' align='center'><?php
-				if (($FinoLeyes == "L"))
+				if ($FinoLeyes == "L")
 					echo "<input type='radio' checked name='FinoLeyes' value='L'></td>\n";
 				else
 					echo "<input type='radio' name='FinoLeyes' value='L'></td>\n";
@@ -233,7 +235,7 @@
                                     <tr>
                                         <td>FINOS</td>
                                         <td align='center'><?php
-				if ($FinoLeyes == "F" || (!isset($FinoLeyes)))
+				if ($FinoLeyes == "F" || $FinoLeyes=="")
 					echo "<input name='FinoLeyes' checked type='radio' value='F'>\n";
 				else
 					echo "<input name='FinoLeyes' type='radio' value='F'>\n";		
