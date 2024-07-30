@@ -1,4 +1,4 @@
-<?php
+<?
 	//GRABA ARCHIVO DE CONFIGURACION
 	if ($DiaIni < 10)
 	{

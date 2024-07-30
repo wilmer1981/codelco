@@ -1,4 +1,4 @@
-<?php 
+<? 
         ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
@@ -44,7 +44,7 @@ include("../principal/conectar_principal.php");
             <td width="7%">Ley.Au</td>
 			<td width="7%">Ley.As</td>
           </tr>
-<?php	
+<?	
 	if (!isset($Mes))	
 	{
 	 	$Mes = date("n");
@@ -55,12 +55,12 @@ include("../principal/conectar_principal.php");
 	$Consulta = "select * from ram_web.stock_piso "; 
 	$Consulta.= " where fecha = '".$FechaAux2."'";
 	$Consulta.= " order by cod_producto, cod_subproducto"; 
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysql_query($Consulta);
 	$TotalPesoSeco = 0;
 	$TotalFinoCu = 0;
 	$TotalFinoAg = 0;
 	$TotalFinoAu = 0;
-	while ($Fila = mysqli_fetch_array($Resp))
+	while ($Fila = mysql_fetch_array($Resp))
 	{
 		echo "<tr>\n";
 		echo "<td align='center'>".$Fila["cod_producto"]."</td>\n";
@@ -69,8 +69,8 @@ include("../principal/conectar_principal.php");
 		$Consulta = "select * from proyecto_modernizacion.subproducto ";
 		$Consulta.= " where cod_producto='".$Fila["cod_producto"]."'";
 		$Consulta.= " and cod_subproducto='".$Fila["cod_subproducto"]."'";
-		$Resp2 = mysqli_query($link, $Consulta);
-		if ($Fila2 = mysqli_fetch_array($Resp2))
+		$Resp2 = mysql_query($Consulta);
+		if ($Fila2 = mysql_fetch_array($Resp2))
 			echo "<td>".$Fila2["descripcion"]."</td>\n";
 		else
 			echo "<td>&nbsp;</td>\n";

@@ -1,4 +1,4 @@
-<?php
+<?
 	include("../principal/conectar_principal.php");
 	set_time_limit(450);
  //$link = mysql_connect('10.56.11.7','adm_bd','672312');
@@ -33,12 +33,12 @@ function cerrar_con()
 </script> 
 <body>
 <form name="frmPrincipal" action="" method="post">
-<input type="hidden" name="ConsComun" value="<?php echo $ConsComun; ?>">
+<input type="hidden" name="ConsComun" value="<? echo $ConsComun; ?>">
 		
 <table width="523" border="0" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr>
     <td colspan="3"><strong>
-	<?php
+	<?
            $TipoMovimiento =  "in(12)"; // filtrado por Beneficio
 	       $Agrup = "P";  //agrupado por proveedor 
 	       $FinoLeyes = "L";  //filtrado por leyes
@@ -54,18 +54,18 @@ function cerrar_con()
 
       //  $cons_fech = "select  year(now()) aa, month(now()) mm, day(now()) dd   from dual  ";
 	    $cons_fech = "SELECT year(DATE_ADD(now(),INTERVAL -1 DAY) )AS aa, month(DATE_ADD(now(),INTERVAL -1 DAY) )AS mm, day(DATE_ADD(now(),INTERVAL -1 DAY) )AS dd from dual";
-	    $Respuesta = mysqli_query($link, $cons_fech);
-		if ($Fila = mysqli_fetch_array($Respuesta))	
+	    $Respuesta = mysql_query($cons_fech);
+		if ($Fila = mysql_fetch_array($Respuesta))	
 		   { 				
 	  		  $Ano = $Fila["aa"];
 			  $Mes = $Fila["mm"];
 			  $Dia = $Fila["dd"];
 		   }
 		 
-		//Asigna la fecha del proceso en forma automatica, toma el dï¿½a operacional anterior a la fecha actual
+		//Asigna la fecha del proceso en forma automatica, toma el día operacional anterior a la fecha actual
 	   // $cons_fech = " SELECT DATE_ADD(curdate(),INTERVAL -1 DAY) AS fechaop";
-	   // $rsf = mysqli_query($link, $cons_fech);
-	   // $row1 = mysqli_fetch_array($rsf);
+	   // $rsf = mysql_query($cons_fech);
+	   // $row1 = mysql_fetch_array($rsf);
 	   // $fecha_oper = $row1[fechaop];	
 		
 	
@@ -76,7 +76,7 @@ function cerrar_con()
   </tr>
   <tr>
     <td width="117"><strong>AGRUPADO POR: </strong></td>
-    <td width="269"><?php
+    <td width="269"><?
 
 			echo "PROVEEDOR";
 
@@ -85,21 +85,21 @@ function cerrar_con()
   </tr>
   <tr>
     <td><strong>PERIODO</strong></td>
-    <td><?php
+    <td><?
 	if ($Acum == "D")
 	{
-		echo str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;
-		$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
-		$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+		echo str_pad($Dia,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;
+		$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
+		$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
 	}
 	else
 	{
 		if ($Acum == "A")
 		{
 		    $ult_dia = date("d",(mktime(0,0,0,$Mes+1,1,$Ano)-1));
-			echo "01-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano." AL ".str_pad($ult_dia ,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;			
-			$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-01";
-			$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($ult_dia,2,"0",STR_PAD_LEFT);
+			echo "01-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano." AL ".str_pad($ult_dia ,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;			
+			$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-01";
+			$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($ult_dia,2,"0",str_pad_left);
 		}
 		else
 		{
@@ -113,7 +113,7 @@ function cerrar_con()
 </table>
 <br>
 <br>
-<?php
+<?
 echo "<table width='700' border='1' align='center' cellpadding='0' cellspacing='0' class='TablaDetalle02'>\n";
 echo "<tr align='center' class='ColorTabla02'>\n";
 echo "<td width='50'> </td>";   
@@ -126,8 +126,8 @@ $Consulta = "select * from proyecto_modernizacion.sub_clase ";
 $Consulta.= " where cod_clase = '7002'";
 $Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 $Consulta.= " order by cod_subclase";
-$Resp1 = mysqli_query($link, $Consulta);
-while ($Fila1 = mysqli_fetch_array($Resp1))  //beneficio
+$Resp1 = mysql_query($Consulta);
+while ($Fila1 = mysql_fetch_array($Resp1))  //beneficio
 {		
    $fecha_aux = $FechaIni; 
    while (date($fecha_aux) <= date($FechaFin)) //Recorre los dias.
@@ -167,9 +167,9 @@ while ($Fila1 = mysqli_fetch_array($Resp1))  //beneficio
 
 	    // echo $Consulta."<br>";	
 		
-	  $Respuesta = mysqli_query($link, $Consulta);
+	  $Respuesta = mysql_query($Consulta);
 					
- 	  if ($Fila = mysqli_fetch_array($Respuesta))
+ 	  if ($Fila = mysql_fetch_array($Respuesta))
 	  { 
 				$PesoHumedo = $Fila["peso_humedo"];
 				$PesoSeco = $Fila["peso_seco"];
@@ -252,14 +252,14 @@ while ($Fila1 = mysqli_fetch_array($Resp1))  //beneficio
 			
 			$insertar = "INSERT INTO ram_web.flujos_concentrado (fecha,peso_humedo,porc_hum,ley_as,ley_s)";
 			$insertar.= " VALUES('".$fecha_aux."',".$peso_humedo.",".$porc_hum.",".$ley_as.",".$ley_s.")";
-			mysqli_query($link, $insertar);
+			mysql_query($insertar);
 			echo $insertar."<br>";	
 		
       //Incrementa la fecha en 1 Dia.
 	    $ciclo = "SELECT DATE_ADD('".$fecha_aux."',INTERVAL 1 DAY) AS fecha";
-	    $rs10 = mysqli_query($link, $ciclo);
-	    $row10 = mysqli_fetch_array($rs10);
-	    $fecha_aux = $row10["fecha"];	
+	    $rs10 = mysql_query($ciclo);
+	    $row10 = mysql_fetch_array($rs10);
+	    $fecha_aux = $row10[fecha];	
 
 	 }	// fin while fecha
 		 		

@@ -2,75 +2,114 @@
 	include("../principal/conectar_principal.php"); 
 	$CodigoDeSistema=7;
 
+	if(isset($_REQUEST["Recep"])){
+		$Recep = $_REQUEST["Recep"];
+	}else{
+		$Recep = "";
+	}
+	if(isset($_REQUEST["Proceso"])){
+		$Proceso = $_REQUEST["Proceso"];
+	}else{
+		$Proceso= "";
+	}
 
+	if(isset($_REQUEST["DiaIni"])){
+		$DiaIni = $_REQUEST["DiaIni"];
+	}else{
+		$DiaIni= 0;
+	}
+	if(isset($_REQUEST["MesIni"])){
+		$MesIni = $_REQUEST["MesIni"];
+	}else{
+		$MesIni= 0;
+	}
+	if(isset($_REQUEST["DiaFin"])){
+		$DiaFin = $_REQUEST["DiaFin"];
+	}else{
+		$DiaFin= 0;
+	}
+	if(isset($_REQUEST["MesFin"])){
+		$MesFin = $_REQUEST["MesFin"];
+	}else{
+		$MesFin= 0;
+	}
+	if(isset($_REQUEST["AnoIni"])){
+		$AnoIni = $_REQUEST["AnoIni"];
+	}else{
+		$AnoIni= "";
+	}
+	if(isset($_REQUEST["AnoFin"])){
+		$AnoFin = $_REQUEST["AnoFin"];
+	}else{
+		$AnoFin= "";
+	}
 ?>
 <html>
-<head>
-<title>Sistemas de Informaci&oacute;n</title>
-<link href="../Principal/estilos/css_principal.css" rel="stylesheet" type="text/css">
-<!--<script language="vbscript"></script>-->
-<script language="JavaScript">
-function Proceso()
-{
-	var f = document.frmPrincipal;
-	//var ProcessRun = "N";
 
-	//alert('PRUEBA DVS');
-	//validaProceRun('hola');
-	//ProcessRun=validaProceRun(ProcessRun);
-	//if(ProcessRun=="N")
-	//{
-	var Recepcion = "N";
-	if (f.ChkRecep.checked)
-	{
-		Recepcion = "R";
-	}
-	f.action = "ram_calcula_stock.php?Proceso=E&Recep=" + Recepcion;
-	f.submit();
-	/*}
-	else
-	{
-		alert("Proceso Ejecutandose...");
-		
-	}*/
-}
-function VerLog()
-{
-	var f = document.frmPrincipal;
-	var Recepcion = "N";
-	if (f.ChkRecep.checked)
-	{
-		Recepcion = "R";
-	}
-	f.action = "ram_calcula_stock.php?Proceso=L&Recep=" + Recepcion;
-	f.submit();
-}
-function Salir()
-{
-	var f = document.frmPrincipal;
-    f.action ="../principal/sistemas_usuario.php?CodSistema=7";
-	f.submit();
-}
-</script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+<head>
+    <title>Sistemas de Informaci&oacute;n</title>
+    <link href="../Principal/estilos/css_principal.css" rel="stylesheet" type="text/css">
+    <!--<script language="vbscript"></script>-->
+    <script language="JavaScript">
+    function Proceso() {
+        var f = document.frmPrincipal;
+        //var ProcessRun = "N";
+
+        //alert('PRUEBA DVS');
+        //validaProceRun('hola');
+        //ProcessRun=validaProceRun(ProcessRun);
+        //if(ProcessRun=="N")
+        //{
+        var Recepcion = "N";
+        if (f.ChkRecep.checked) {
+            Recepcion = "R";
+        }
+        f.action = "ram_calcula_stock.php?Proceso=E&Recep=" + Recepcion;
+        f.submit();
+        /*}
+        else
+        {
+        	alert("Proceso Ejecutandose...");
+        	
+        }*/
+    }
+
+    function VerLog() {
+        var f = document.frmPrincipal;
+        var Recepcion = "N";
+        if (f.ChkRecep.checked) {
+            Recepcion = "R";
+        }
+        f.action = "ram_calcula_stock.php?Proceso=L&Recep=" + Recepcion;
+        f.submit();
+    }
+
+    function Salir() {
+        var f = document.frmPrincipal;
+        f.action = "../principal/sistemas_usuario.php?CodSistema=7";
+        f.submit();
+    }
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
 
 <body leftmargin="3" topmargin="2" marginwidth="0" marginheight="0">
-<form name="frmPrincipal" method="post" action="">
-<?php include("../principal/encabezado.php");?>
-<table width="770" border="0" class="TablaPrincipal">
-  <tr>
-      <td height="313" align="center" valign="top"> 
-        <table width="720" border="0" align="center" class="TablaDetalle">
-          <tr align="center" class="ColorTabla01"> 
-            <td height="17" colspan="4">EJECUTAR PROGRAMA DE STOCK RAM</td>
-          </tr>
-          <tr> 
-            <td colspan="4">&nbsp;</td>
-          </tr>
-          <tr> 
-            <td width="81">Fecha Inicio:</td>
-            <td width="294"><select name="DiaIni" style="width:45;">
-                <?php
+    <form name="frmPrincipal" method="post" action="">
+        <?php include("../principal/encabezado.php");?>
+        <table width="770" border="0" class="TablaPrincipal">
+            <tr>
+                <td height="313" align="center" valign="top">
+                    <table width="720" border="0" align="center" class="TablaDetalle">
+                        <tr align="center" class="ColorTabla01">
+                            <td height="17" colspan="4">EJECUTAR PROGRAMA DE STOCK RAM</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td width="81">Fecha Inicio:</td>
+                            <td width="294"><select name="DiaIni" style="width:45;">
+                                    <?php
 		  	for ($i=1;$i<=31;$i++)
 			{
 				if (!isset($DiaIni))
@@ -89,8 +128,8 @@ function Salir()
 				}
 			}
 		  ?>
-              </select> <select name="MesIni" style="width:90;">
-                <?php
+                                </select> <select name="MesIni" style="width:90;">
+                                    <?php
 		  	for ($i=1;$i<=12;$i++)
 			{
 				if (!isset($MesIni))
@@ -109,8 +148,8 @@ function Salir()
 				}
 			}
 		  ?>
-              </select> <select name="AnoIni" style="width:60;">
-                <?php
+                                </select> <select name="AnoIni" style="width:60;">
+                                    <?php
 		  	for ($i=2003;$i<=(date("Y")+1);$i++)
 			{
 				if (!isset($AnoIni))
@@ -129,10 +168,10 @@ function Salir()
 				}
 			}
 		  ?>
-              </select></td>
-            <td width="97">Fecha Termino:</td>
-            <td width="220"><select name="DiaFin" style="width:45;">
-                <?php
+                                </select></td>
+                            <td width="97">Fecha Termino:</td>
+                            <td width="220"><select name="DiaFin" style="width:45;">
+                                    <?php
 		  	for ($i=1;$i<=31;$i++)
 			{
 				if (!isset($DiaFin))
@@ -151,8 +190,8 @@ function Salir()
 				}
 			}
 		  ?>
-              </select> <select name="MesFin" style="width:90;">
-                <?php
+                                </select> <select name="MesFin" style="width:90;">
+                                    <?php
 		  	for ($i=1;$i<=12;$i++)
 			{
 				if (!isset($MesFin))
@@ -171,8 +210,8 @@ function Salir()
 				}
 			}
 		  ?>
-              </select> <select name="AnoFin" style="width:60;">
-                <?php
+                                </select> <select name="AnoFin" style="width:60;">
+                                    <?php
 		  	for ($i=2003;$i<=(date("Y")+1);$i++)
 			{
 				if (!isset($AnoFin))
@@ -191,10 +230,10 @@ function Salir()
 				}
 			}
 		  ?>
-              </select></td>
-          </tr>
-          <tr>
-            <td colspan="4"><?php
+                                </select></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><?php
 			if ($Recep == "R")
 			{
 				echo "<input type='checkbox' name='ChkRecep' checked='true' value='".$Recep."'>Con Recepcion";
@@ -211,29 +250,31 @@ function Salir()
 				}
 			}
 				?>
-              </td>
-          </tr>
-          <tr> 
-            <td colspan="4">&nbsp;</td>
-          </tr>
-          <tr align="center"> 
-            <td colspan="4">
-	      <input type="button" name="Submit" value="Ejecutar" style="width:70;" onClick="Proceso();">
- 	      <input type="button" name="Submit" value="Ver Log" style="width:70;" onClick="VerLog();">
-              <input type="submit" name="button" value="Salir" style="width:70;" onClick="Salir()"> 
-            </td>
-          </tr>
-          <tr> 
-            <td colspan="4">&nbsp;</td>
-          </tr>
-          <tr> 
-            <td colspan="4">NOTA: Este programa corre sobre el servidor, el tiempo 
-              para ver resultados de un dia es app 45' y un mes 2''</td>
-          </tr>
-        </table> 
-        <br>
-        <br>
-<?php
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">&nbsp;</td>
+                        </tr>
+                        <tr align="center">
+                            <td colspan="4">
+                                <input type="button" name="Submit" value="Ejecutar" style="width:70;"
+                                    onClick="Proceso();">
+                                <input type="button" name="Submit" value="Ver Log" style="width:70;"
+                                    onClick="VerLog();">
+                                <input type="submit" name="button" value="Salir" style="width:70;" onClick="Salir()">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">NOTA: Este programa corre sobre el servidor, el tiempo
+                                para ver resultados de un dia es app 45' y un mes 2''</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <br>
+                    <?php
 	
 	switch($Proceso)
 	{
@@ -265,10 +306,11 @@ function Salir()
 			if ($Arr = file($Archivo)) 
 			{
 				$i = 0;
-				while (list ($Linea, $Contenido) = each ($Arr)) 
+				foreach ($Arr as $Contenido=>$FilaPri) 
+				//while (list ($Linea, $Contenido) = each ($Arr)) 
 				{
 					$Linea0 = $Contenido;			
-					//echo "Linea Nº ".$Linea." = ".$Contenido."<br>";
+					//echo "Linea Nï¿½ ".$Linea." = ".$Contenido."<br>";
 				}
 			}
 
@@ -310,7 +352,8 @@ function Salir()
 			$Archivo = "ramlog.txt";
 			if ($Arr = file($Archivo)) 
 			{
-				while (list ($Linea, $Contenido) = each ($Arr)) 
+				//while (list ($Linea, $Contenido) = each ($Arr)) 
+				foreach ($Arr as $Linea=>$Contenido)
 				{
 					echo "<tr>\n";				
 					echo "<td>".$Contenido."</td>\n";
@@ -322,12 +365,13 @@ function Salir()
 
 	}
 	
-?>		
-      </td>
-  </tr>
-</table>
-<?php include("../principal/pie_pagina.php");?>
-<?php include("../principal/cerrar_principal.php");?>
-</form>
+?>
+                </td>
+            </tr>
+        </table>
+        <?php include("../principal/pie_pagina.php");?>
+        <?php include("../principal/cerrar_principal.php");?>
+    </form>
 </body>
+
 </html>

@@ -1,7 +1,78 @@
 <?php
 include("../principal/conectar_ram_web.php"); 
 
-$fecha = $ano.'-'.$mes.'-'.$dia;
+if(isset($_REQUEST["ano"])){
+	$ano = $_REQUEST["ano"];
+}else{
+	$ano = date("Y");
+}
+if(isset($_REQUEST["dia"])){
+	$dia = $_REQUEST["dia"];
+}else{
+	$dia = date("d");
+}
+if(isset($_REQUEST["mes"])){
+	$mes = $_REQUEST["mes"];
+}else{
+	$mes = date("m");
+}
+if(isset($_REQUEST["fecha_c"])){
+	$fecha_c = $_REQUEST["fecha_c"];
+}else{
+	$fecha_c = "";
+}
+if(isset($_REQUEST["n_conjunto"])){
+	$n_conjunto = $_REQUEST["n_conjunto"];
+}else{
+	$n_conjunto = "";
+}
+if(isset($_REQUEST["fecha"])){
+	$fecha = $_REQUEST["fecha"];
+}else{
+	$fecha = "";
+}
+if(isset($_REQUEST["conjunto"])){
+	$conjunto = $_REQUEST["conjunto"];
+}else{
+	$conjunto = "";
+}
+
+echo "conjunto".$conjunto;
+echo "fecha".$fecha;
+
+echo "n_conjunto".$n_conjunto;
+echo "fecha_c".$fecha_c;
+
+
+if(isset($_REQUEST["Proceso"])){
+	$Proceso = $_REQUEST["Proceso"];
+}else{
+	$Proceso = "";
+}
+
+if(isset($_REQUEST["peso_humedo"])){
+	$peso_humedo = $_REQUEST["peso_humedo"];
+}else{
+	$peso_humedo = 0;
+}
+if(isset($_REQUEST["cod_conjunto"])){
+	$cod_conjunto = $_REQUEST["cod_conjunto"];
+}else{
+	$cod_conjunto = 0;
+}
+if(isset($_REQUEST["cod_lugar"])){
+	$cod_lugar = $_REQUEST["cod_lugar"];
+}else{
+	$cod_lugar = 0;
+}
+
+if(isset($_REQUEST["num_conjunto"])){
+	$num_conjunto = $_REQUEST["num_conjunto"];
+}else{
+	$num_conjunto = 0;
+}
+
+//$fecha = $ano.'-'.$mes.'-'.$dia;
 
 $peso_humedo = str_replace(',','.',$peso_humedo);
 $peso_humedo = $peso_humedo * 1000;
@@ -21,9 +92,9 @@ if($Proceso == "G")
 	
 		if($row = mysqli_fetch_array($rs))
 		{
-			$cod_conjunto = $row[cod_conjunto];
-			$cod_lugar = $row[cod_lugar];
-			$num_lugar = $row[num_lugar];
+			$cod_conjunto = $row["cod_conjunto"];
+			$cod_lugar = $row["cod_lugar"];
+			$num_lugar = $row["num_lugar"];
 			
 			if(strlen($cod_conjunto) == 1)
 				$cod_conjunto = "0".$cod_conjunto;				
@@ -52,10 +123,11 @@ if($Proceso == "M")
  	if (strlen($mes) < 2)
 	   $mes = '0'.$mes; 
     
-	$fecha = $ano.'-'.$mes.'-'.$dia;
+	//$fecha = $ano.'-'.$mes.'-'.$dia;
 		   
 	$Modificar = "UPDATE movimiento_conjunto SET NUM_CONJUNTO = '$num_conjunto', PESO_HUMEDO_MOVIDO = $peso_humedo
-	              WHERE COD_EXISTENCIA = 02 AND COD_CONJUNTO = 03 AND NUM_CONJUNTO = '$n_conjunto' AND FECHA_MOVIMIENTO = '$fecha_c' ";
+	              WHERE COD_EXISTENCIA = 02 AND COD_CONJUNTO = 03 AND NUM_CONJUNTO = '".$n_conjunto."'  AND FECHA_MOVIMIENTO = '".$fecha_c."' ";
+				  echo $Modificar;
 	mysqli_query($link, $Modificar);
 		
 }
@@ -70,6 +142,6 @@ if($Proceso == "E")
 }
 
 	$valores = "Proceso=V"."&ano=".$ano."&mes=".$mes."&dia=".$dia;  
-    header("Location:ram_ing_circulante.php?".$valores); 
+   // header("Location:ram_ing_circulante.php?".$valores); 
 
 ?>

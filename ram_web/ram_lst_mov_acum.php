@@ -1,8 +1,55 @@
 <?php 
   	include("../principal/conectar_ram_web.php");
-	
-	
- mysql_select_db("ram_web",$link);
+//$fecha_ter = date("Y-m-d",mktime(7,59,59,$mes2,($dia2 + 1),$ano2))." 07:59:59";
+
+if(isset($_REQUEST["dia"])){
+	$dia = $_REQUEST["dia"];
+}else{
+	$dia = "";
+}
+if(isset($_REQUEST["mes"])){
+	$mes = $_REQUEST["mes"];
+}else{
+	$mes = date("m");
+}
+if(isset($_REQUEST["dia2"])){
+	$dia2 = $_REQUEST["dia2"];
+}else{
+	$dia2 = "";
+}
+if(isset($_REQUEST["mes2"])){
+	$mes2 = $_REQUEST["mes2"];
+}else{
+	$mes2 = "";
+}
+if(isset($_REQUEST["ano"])){
+	$ano = $_REQUEST["ano"];
+}else{
+	$ano = "";
+}
+if(isset($_REQUEST["ano2"])){
+	$ano2 = $_REQUEST["ano2"];
+}else{
+	$ano2 = "";
+}
+
+$Total_ini_prod  = isset($_REQUEST["Total_ini_prod"])?$_REQUEST["Total_ini_prod"]:0;
+$Total_recep_prod  = isset($_REQUEST["Total_recep_prod"])?$_REQUEST["Total_recep_prod"]:0;
+$Total_trasp_prod  = isset($_REQUEST["Total_trasp_prod"])?$_REQUEST["Total_trasp_prod"]:0;
+$Total_val_prod  = isset($_REQUEST["Total_val_prod"])?$_REQUEST["Total_val_prod"]:0;
+$Total_emb_prod  = isset($_REQUEST["Total_emb_prod"])?$_REQUEST["Total_emb_prod"]:0;
+$Total_exist_prod  = isset($_REQUEST["Total_exist_prod"])?$_REQUEST["Total_exist_prod"]:0;
+$Total_benef_prod  = isset($_REQUEST["Total_benef_prod"])?$_REQUEST["Total_benef_prod"]:0;
+$Total_ini_cir  = isset($_REQUEST["Total_ini_cir"])?$_REQUEST["Total_ini_cir"]:0;
+$Total_recep_cir  = isset($_REQUEST["Total_recep_cir"])?$_REQUEST["Total_recep_cir"]:0;
+$Total_trasp_d_cir  = isset($_REQUEST["Total_trasp_d_cir"])?$_REQUEST["Total_trasp_d_cir"]:0;
+$Total_trasp_cir  = isset($_REQUEST["Total_trasp_cir"])?$_REQUEST["Total_trasp_cir"]:0;
+$Total_benef_cir  = isset($_REQUEST["Total_benef_cir"])?$_REQUEST["Total_benef_cir"]:0;
+$Total_emb_cir  = isset($_REQUEST["Total_emb_cir"])?$_REQUEST["Total_emb_cir"]:0;
+$Total_trasp_a_cir  = isset($_REQUEST["Total_trasp_a_cir"])?$_REQUEST["Total_trasp_a_cir"]:0;
+$Total_exist_cir  = isset($_REQUEST["Total_exist_cir"])?$_REQUEST["Total_exist_cir"]:0;
+
+ //mysql_select_db("ram_web",$link);
 	
 	if(strlen($dia) == 1)
 		$dia = '0'.$dia;
@@ -19,52 +66,51 @@
 ?>
 
 <html>
+
 <head>
-<title>Movimientos Acumulados</title>
-<link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
-<script language="JavaScript">
-function Detalle(dir)
-{
-	window.open(dir, "","menubar=no resizable=no Top=50 Left=200 width=550 height=300 scrollbars=yes");
-}
-function Imprimir()
-{	
-	var f = document.frm1;
+    <title>Movimientos Acumulados</title>
+    <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
+    <script language="JavaScript">
+    function Detalle(dir) {
+        window.open(dir, "", "menubar=no resizable=no Top=50 Left=200 width=550 height=300 scrollbars=yes");
+    }
 
-	f.BtnImprimir.style.visibility = 'hidden';
-	f.BtnSalir.style.visibility = 'hidden';
-	window.print();
-	f.BtnImprimir.style.visibility = '';
-	f.BtnSalir.style.visibility = '';
-}
+    function Imprimir() {
+        var f = document.frm1;
 
-/**************/
-function Salir()
-{
-	window.history.back();
-}
+        f.BtnImprimir.style.visibility = 'hidden';
+        f.BtnSalir.style.visibility = 'hidden';
+        window.print();
+        f.BtnImprimir.style.visibility = '';
+        f.BtnSalir.style.visibility = '';
+    }
 
-</script>
+    /**************/
+    function Salir() {
+        window.history.back();
+    }
+    </script>
 </head>
 
 <body class="TablaPrincipal">
-<form name="frm1" action="" method="post">
-        
-		<table width="500" border="0" align="center">
-          <tr class="ColorTabla01"> 
-		  	<td align="center" colspan="9">INFORME MOVIMIENTOS PRODUCTOS MINEROS, CIRCULANTES Y FUNDENTES</td>
-		  </tr>
-          <tr class="ColorTabla02"> 
-		  	<td align="center" colspan="9">PERIODO:  <?php echo $dia.'/'.$mes.'/'.$ano ?>  A  <?php echo $dia2.'/'.$mes2.'/'.$ano2 ?></td>
-		  </tr>
-		</table><br>
-		<table width="300" border="0" align="center">
-          <tr class="ColorTabla02"> 
-		  	<td align="center" colspan="9">01 - PRODUCTOS MINEROS</td>
-		  </tr>
-		</table>  
-  
-<?php
+    <form name="frm1" action="" method="post">
+
+        <table width="500" border="0" align="center">
+            <tr class="ColorTabla01">
+                <td align="center" colspan="9">INFORME MOVIMIENTOS PRODUCTOS MINEROS, CIRCULANTES Y FUNDENTES</td>
+            </tr>
+            <tr class="ColorTabla02">
+                <td align="center" colspan="9">PERIODO: <?php echo $dia.'/'.$mes.'/'.$ano ?> A
+                    <?php echo $dia2.'/'.$mes2.'/'.$ano2 ?></td>
+            </tr>
+        </table><br>
+        <table width="300" border="0" align="center">
+            <tr class="ColorTabla02">
+                <td align="center" colspan="9">01 - PRODUCTOS MINEROS</td>
+            </tr>
+        </table>
+
+        <?php
 
 if(strlen($dia) == 1)
 	$dia = '0'.$dia;
@@ -80,7 +126,8 @@ if(strlen($mes2) == 1)
 
 $fecha_ini = $ano.'-'.$mes.'-'.$dia.' 08:00:00';
 
-$fecha_ter = date("Y-m-d",mktime(7,59,59,$mes2,($dia2 + 1),$ano2))." 07:59:59";
+//$fecha_ter = date("Y-m-d",mktime(7,59,59,$mes2,($dia2 + 1),$ano2))." 07:59:59";
+$fecha_ter = $ano.'-'.$mes.'-'.$dia.' 07:59:59';
 
 $fecha_t = $ano2.'-'.$mes2.'-'.$dia2;
 $fecha_i = $ano.'-'.$mes.'-'.$dia;
@@ -89,7 +136,7 @@ $fecha_i = $ano.'-'.$mes.'-'.$dia;
 
 ?>
 
-<?php
+        <?php
 
 /******************************************* cod_conjunto = 1 *********************************************/
 
@@ -105,8 +152,18 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	echo '<td width="10%" align="center">Trasp<br>a Cjto</td>';
 	echo '<td width="10%" align="center">Exist Final</td></table><br>';			
 	
-	$Consulta = "CREATE TEMPORARY TABLE `tmp_table` (key ind01(num_conjunto,conjunto_destino)) as";
+	$Consulta = "CREATE TEMPORARY TABLE `tmp_table` (";
 	//$Consulta = "CREATE TABLE bd_temp.tmp_table (key ind01(num_conjunto,conjunto_destino)) as";
+	$Consulta.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
+		$Consulta.= " num_conjunto varchar(6) NOT NULL DEFAULT '0' , ";
+		$Consulta.= " conjunto_destino varchar(6) NOT NULL DEFAULT '0' , ";
+		//$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT '0000-00-00 00:00:00' , ";
+		$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT CURRENT_TIMESTAMP , ";
+		$Consulta.= " peso_humedo double NOT NULL DEFAULT '0' , ";
+		$Consulta.= " estado_validacion double NOT NULL DEFAULT '0' , ";
+		$Consulta.= " PRIMARY KEY (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		$Consulta.= " UNIQUE KEY Ind02 (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		$Consulta.= " KEY Ind01 (num_conjunto,conjunto_destino)) AS";
 	$Consulta.= " SELECT cod_existencia, cod_conjunto, num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, cod_validacion as estado_validacion";
     $Consulta = $Consulta." FROM ram_web.movimiento_proveedor WHERE cod_conjunto = 1 AND peso_humedo > 0";
     $Consulta = $Consulta." AND fecha_movimiento" ;
@@ -122,7 +179,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	while ($row = mysqli_fetch_array($rs))
 	{		 		
 		$Insertar = "INSERT INTO tmp_table (cod_existencia, cod_conjunto,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo,estado_validacion)";
-		$Insertar = "$Insertar VALUES ($row["cod_existencia"],$row[cod_conjunto],$row[num_conjunto],$row[conjunto_destino],'".$row[fecha_movimiento]."',$row["peso_humedo_movido"],$row["estado_validacion"])";
+		$Insertar = "$Insertar VALUES ($row[cod_existencia],$row[cod_conjunto],$row[num_conjunto],$row[conjunto_destino],'$row[fecha_movimiento]',$row[peso_humedo_movido],$row[estado_validacion])";
 		mysqli_query($link, $Insertar);
 	}
 
@@ -155,7 +212,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  {	
 
 
-        	    if($row_p[cod_subproducto] == "91") 
+        	    if($row_p["cod_subproducto"] == "91") 
 			{
 			  echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="center">';
 			  echo '<tr class="Detalle02">';
@@ -172,7 +229,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 			}
 			  echo '<table width="300" border="0" align="center">';
 			  echo '<tr class="ColorTabla01">'; 
-	    	  	  echo '<td>'.$row_p[cod_subproducto].' - '.$row_p["descripcion"].'</td>';
+	    	  	  echo '<td>'.$row_p["cod_subproducto"].' - '.$row_p["descripcion"].'</td>';
 		  	  echo '</tr></table>'; 
 		  }
 
@@ -200,14 +257,14 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 			$rs1 = mysqli_query($link, $Consulta);
 			if($row1 = mysqli_fetch_array($rs1))
 			{
-            	echo '<td width="20%">'.$row[num_conjunto].' '.substr($row1["descripcion"],0,22).'</td>';
+            	echo '<td width="20%">'.$row["num_conjunto"].' '.substr($row1["descripcion"],0,22).'</td>';
 				
 				//Existencia Ini		
 				$Consulta ="SELECT sum(peso_humedo) AS peso_ini from tmp_table WHERE num_conjunto = $row[num_conjunto] AND cod_existencia = 13 AND left(FECHA_MOVIMIENTO,10) = '".$fecha_i."'";
 				$rs2 = mysqli_query($link, $Consulta);
 				if($row2 = mysqli_fetch_array($rs2))
 				{
-                    $peso_ini = $row2[peso_ini];
+                    $peso_ini = $row2["peso_ini"];
 					$Total_ini = $Total_ini + $peso_ini;		
 					echo '<td align="right" width="10%">'.number_format($peso_ini/1000,3,",","").'</td>';
 				}
@@ -217,10 +274,10 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				$rs3 = mysqli_query($link, $Consulta);
 				if($row3 = mysqli_fetch_array($rs3))
 				{		
-					$peso_recep = $row3[peso_recep];
+					$peso_recep = $row3["peso_recep"];
 					$Total_recep = $Total_recep + $peso_recep;		
 
-					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=02&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_i."&Fecha_ter=".$fecha_t);
+					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=02&Conjunto=".$row["num_conjunto"]."&Fecha_ini=".$fecha_i."&Fecha_ter=".$fecha_t);
 					if($peso_recep != 0)				
 						echo "<td align='right' width='10%'><a href=JavaScript:Detalle('$Valores');>".number_format($peso_recep/1000,3,",","")."</a></td>";
 					else
@@ -240,7 +297,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
             	    $peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
 
-					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=06&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
+					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=06&Conjunto=".$row["num_conjunto"]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
 					if($peso_trasp != 0)				
 						echo "<td align='right'  width='10%'><a href=JavaScript:Detalle('$Valores');>".number_format($peso_trasp/1000,3,",","")."</a></td>";
 					else
@@ -255,9 +312,9 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				$rs3 = mysqli_query($link, $Consulta);
 				if($row3 = mysqli_fetch_array($rs3))
 				{		
-					$peso_emb = $row3[peso_emb];
+					$peso_emb = $row3["peso_emb"];
 					$Total_emb = $Total_emb + $peso_emb;		
-					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=05&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
+					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=05&Conjunto=".$row["num_conjunto"]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
 					if($peso_emb != 0)				
 						echo "<td align='right'  width='10%'><a href=JavaScript:Detalle('$Valores');>".number_format($peso_emb/1000,3,",","")."</a></td>";
 					else
@@ -273,7 +330,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 
 				if($row6 = mysqli_fetch_array($rs6))
 				{
-					$peso_final = $row6[peso_final];
+					$peso_final = $row6["peso_final"];
 					$Total_exist = $Total_exist + $peso_final;
 		            echo '<td align="right" width="10%">'.number_format($peso_final/1000,3,",","").'</td>';            
 				}
@@ -321,13 +378,13 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 
 ?>
 
-		<table width="300" border="0" align="center">
-          <tr class="ColorTabla02"> 
-		  	<td align="center" colspan="9">03 - PRODUCTOS CIRCULANTES</td>
-		  </tr>
-		</table>  
+        <table width="300" border="0" align="center">
+            <tr class="ColorTabla02">
+                <td align="center" colspan="9">03 - PRODUCTOS CIRCULANTES</td>
+            </tr>
+        </table>
 
-<?php
+        <?php
 /******************************************* cod_conjunto = 3 *********************************************/
 
 echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="center">';
@@ -342,7 +399,18 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	echo '<td width="10%" align="center">Trasp<br>a Cjto</td>';			
 	echo '<td width="10%" align="center">Exist Final</td></table><br>';			
 	
-	$Consulta = "CREATE  TEMPORARY  TABLE  `tmp_table2` (key ind01(num_conjunto,conjunto_destino)) as";
+	$Consulta = "CREATE  TEMPORARY  TABLE  `tmp_table2` (";
+	$Consulta.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
+		$Consulta.= " num_conjunto varchar(6) NOT NULL DEFAULT '0' , ";
+		$Consulta.= " conjunto_destino varchar(6) NOT NULL DEFAULT '0' , ";
+		//$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT '0000-00-00 00:00:00' , ";
+		$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT CURRENT_TIMESTAMP , ";
+		$Consulta.= " peso_humedo double NOT NULL DEFAULT '0' , ";
+		$Consulta.= " estado_validacion double NOT NULL DEFAULT '0' , ";
+		$Consulta.= " PRIMARY KEY (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		$Consulta.= " UNIQUE KEY Ind02 (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		$Consulta.= " KEY Ind01 (num_conjunto,conjunto_destino)) AS";
+	
 	$Consulta.= " SELECT cod_existencia, cod_conjunto, num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, cod_validacion as estado_validacion";
     $Consulta = $Consulta." FROM ram_web.movimiento_proveedor WHERE cod_conjunto = 3 AND peso_humedo > 0";
     $Consulta = $Consulta." AND fecha_movimiento" ;
@@ -357,7 +425,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	while ($row = mysqli_fetch_array($rs))
 	{		 		
 		$Insertar = "INSERT INTO tmp_table2 (cod_existencia, cod_conjunto,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo,estado_validacion)";
-		$Insertar = "$Insertar VALUES ($row["cod_existencia"],$row[cod_conjunto],$row[num_conjunto],$row[conjunto_destino],'".$row[fecha_movimiento]."',$row["peso_humedo_movido"],$row["estado_validacion"])";
+		$Insertar = "$Insertar VALUES ($row[cod_existencia],$row[cod_conjunto],$row[num_conjunto],$row[conjunto_destino],'$row[fecha_movimiento]',$row[peso_humedo_movido],$row[estado_validacion])";
 		mysqli_query($link, $Insertar);
 	}
 
@@ -390,7 +458,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  {	
 			  echo '<table width="300" border="0" align="center">';
 			  	echo '<tr class="ColorTabla01">'; 
-	    	  	echo '<td>'.$row_p[ap_subproducto].' - '.$row_p["descripcion"].'</td>';
+	    	  	echo '<td>'.$row_p["ap_subproducto"].' - '.$row_p["descripcion"].'</td>';
 		  	  echo '</tr></table>'; 
 		  }
 		  	
@@ -415,7 +483,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 			$rs1 = mysqli_query($link, $Consulta);
 			if($row1 = mysqli_fetch_array($rs1))
 			{
-            	echo '<td width="20%">'.$row[num_conjunto].' '.substr($row1["descripcion"],0,22).'</td>';
+            	echo '<td width="20%">'.$row["num_conjunto"].' '.substr($row1["descripcion"],0,22).'</td>';
 				
 
 				//Existencia Ini		
@@ -424,7 +492,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				$rs2 = mysqli_query($link, $Consulta);
 				if($row2 = mysqli_fetch_array($rs2))
 				{
-                    $peso_ini = $row2[peso_ini];
+                    $peso_ini = $row2["peso_ini"];
 					$Total_ini = $Total_ini + $peso_ini;		
 					echo '<td align="right" width="10%">'.number_format($peso_ini/1000,3,",","").'</td>';
 				}
@@ -434,10 +502,10 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				$rs3 = mysqli_query($link, $Consulta);
 				if($row3 = mysqli_fetch_array($rs3))
 				{		
-					$peso_recep = $row3[peso_recep];
+					$peso_recep = $row3["peso_recep"];
 					$Total_recep = $Total_recep + $peso_recep;
 					
-					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=22&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
+					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=22&Conjunto=".$row["num_conjunto"]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
 					if($peso_recep != 0)				
 						echo "<td align='right' width='10%'><a href=JavaScript:Detalle('$Valores');>".number_format($peso_recep/1000,3,",","")."</a></td>";
 					else
@@ -451,10 +519,10 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				//echo $Consulta;				
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-            	    $peso_trasp_d = $row5[peso_trasp_d];	
+            	    $peso_trasp_d = $row5["peso_trasp_d"];	
 					$Total_trasp_d = $Total_trasp_d + $peso_trasp_d;		
 
-					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=17&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
+					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=17&Conjunto=".$row["num_conjunto"]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
 					if($peso_trasp_d != 0)				
 						echo "<td  align='right' width='10%'><a href=JavaScript:Detalle('$Valores');>".number_format($peso_trasp_d/1000,3,",","")."</a></td>";
 					else
@@ -468,7 +536,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				{
             	    $peso_trasp = $row5["peso_trasp"];	
 					$Total_trasp = $Total_trasp + $peso_trasp;		
-					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=06&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
+					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=06&Conjunto=".$row["num_conjunto"]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
 					if($peso_trasp != 0)				
 						echo "<td  align='right' width='10%'><a href=JavaScript:Detalle('$Valores');>".number_format($peso_trasp/1000,3,",","")."</a></td>";
 					else
@@ -483,9 +551,9 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				$rs3 = mysqli_query($link, $Consulta);
 				if($row3 = mysqli_fetch_array($rs3))
 				{		
-					$peso_emb = $row3[peso_emb];
+					$peso_emb = $row3["peso_emb"];
 					$Total_emb = $Total_emb + $peso_emb;		
-					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=05&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
+					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=05&Conjunto=".$row["num_conjunto"]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
 					if($peso_emb != 0)				
 						echo "<td align='right' width='10%'><a href=JavaScript:Detalle('$Valores');>".number_format($peso_emb/1000,3,",","")."</a></td>";
 					else
@@ -497,9 +565,9 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-            	    $peso_trasp_a = $row5[peso_trasp_a];	
+            	    $peso_trasp_a = $row5["peso_trasp_a"];	
 					$Total_trasp_a = $Total_trasp_a + $peso_trasp_a;		
-					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=15&Conjunto=".$row[num_conjunto]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
+					$Valores = str_replace(' ','%20',"ram_con_recep_acum.php?cod_exist=15&Conjunto=".$row["num_conjunto"]."&Fecha_ini=".$fecha_ini."&Fecha_ter=".$fecha_ter);
 					if($peso_trasp_a != 0)				
 						echo "<td align='right' width='10%'><a href=JavaScript:Detalle('$Valores');>".number_format($peso_trasp_a/1000,3,",","")."</a></td>";
 					else
@@ -508,7 +576,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 
 
 			/*	$Consulta = "SELECT MAX(fecha_movimiento) as fecha_ter FROM ram_web.movimiento_proveedor
-				 WHERE num_conjunto = $row[num_conjunto] AND cod_existencia = 1 AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+				 WHERE num_conjunto = $row["num_conjunto"] AND cod_existencia = 1 AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 				$rs7 = mysqli_query($link, $Consulta); 
 				
 				if($row7 = mysqli_fetch_array($rs7))
@@ -522,7 +590,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				//echo $Consulta;
 				if($row6 = mysqli_fetch_array($rs6))
 				{
-					$peso_final = $row6[peso_final];
+					$peso_final = $row6["peso_final"];
 					$Total_exist = $Total_exist + $peso_final;
 		            echo '<td align="right" width="10%">'.number_format($peso_final/1000,3,",","").'</td>';            
 				}
@@ -575,15 +643,16 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 
 ?>
 
-      <table width="450" border="0" cellspacing="0" cellpadding="0" align="center">
-        <tr>
-          <td align="center">
-              <input name="BtnImprimir" type="button" style="width:70;" value="Imprimir" onClick="Imprimir()">
-              <input name="BtnSalir" type="button" style="width:70;" value="Salir" onClick="JavaScritp:Salir()">
-		  </td>
-        </tr>
-      </table>
-</form>
+        <table width="450" border="0" cellspacing="0" cellpadding="0" align="center">
+            <tr>
+                <td align="center">
+                    <input name="BtnImprimir" type="button" style="width:70;" value="Imprimir" onClick="Imprimir()">
+                    <input name="BtnSalir" type="button" style="width:70;" value="Salir" onClick="JavaScritp:Salir()">
+                </td>
+            </tr>
+        </table>
+    </form>
 </body>
+
 </html>
 <?php include("../principal/cerrar_sea_web.php") ?>

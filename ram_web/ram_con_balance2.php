@@ -1,4 +1,4 @@
-<?php
+<?
 	$CodigoDeSistema = 7;
 	$CodigoDePantalla =15; 
 	include("../principal/conectar_principal.php")
@@ -50,7 +50,7 @@ function Recarga()
 
 <body leftmargin="3" topmargin="2" marginwidth="0" marginheight="0">
 <form name="frmPrincipal" action="" method="post">
-<?php include("../principal/encabezado.php"); ?>
+<? include("../principal/encabezado.php"); ?>
   <table width="770" height="315" border="0" cellpadding="3" cellspacing="3" class="TablaPrincipal">
     <tr>
       <td valign="top">
@@ -59,12 +59,12 @@ function Recarga()
             <td width="27%">TIPO MOVIMIENTO:</td>
             <td width="73%"><select name="TipoMovimiento" id="TipoMovimiento" style="width:250px">
                 <option value="T">Balance Completo</option>
-                <?php
+                <?
 				$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 				$Consulta.= " where cod_clase = '7002'";
 				$Consulta.= " order by cod_subclase";
-				$Respuesta = mysqli_query($link, $Consulta);
-				while ($Fila = mysqli_fetch_array($Respuesta))
+				$Respuesta = mysql_query($Consulta);
+				while ($Fila = mysql_fetch_array($Respuesta))
 				{
 					if ($TipoBalance == $Fila["cod_subclase"])
 						echo "<option value='".$Fila["valor_subclase1"]."' selected>".ucwords(strtolower($Fila["nombre_subclase"]))."</option>\n";
@@ -76,7 +76,7 @@ function Recarga()
           </tr>
           <tr align="center"> 
             <td colspan="2">
-			<?php
+			<?
 				if (!isset($Agrup) || $Agrup=="C")				 
 				{
 					echo "<input name='Agrup' type='radio' value='C' checked>VER POR CONJUNTO&nbsp;\n";             
@@ -92,7 +92,7 @@ function Recarga()
           </tr>
           <tr> 
             <td width="27%">
-			<?php
+			<?
 				if (!isset($Acum) || $Acum=="D")				 				
 					echo "<input name='Acum' type='radio' value='D' checked>VER EL DIA\n";            
 				else
@@ -100,7 +100,7 @@ function Recarga()
 			?>
 			</td>
             <td width="73%" rowspan="2"><select name="Dia" style="width:60px">
-                <?php
+                <?
 				for ($i = 1; $i <= 31; $i++)
 				{
 					if (isset($Dia))
@@ -121,7 +121,7 @@ function Recarga()
 			?>
                         </select>
               <select name="Mes" id="select5" style="width:110px">
-                <?php
+                <?
 			  	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 				for ($i = 1; $i <= 12; $i++)
 				{
@@ -143,7 +143,7 @@ function Recarga()
 			?>
                             </select>
               <select name="Ano" style="width:70px">
-                <?php
+                <?
 				for ($i = (date("Y")-1); $i <= (date("Y")+1); $i++)
 				{
 					if (isset($Ano))
@@ -166,7 +166,7 @@ function Recarga()
           </tr>
           <tr>
             <td>
-			<?php
+			<?
 				if ($Acum=="A")				 				
 					echo "<input name='Acum' type='radio' value='A' checked>VER ACUMULADO AL\n";            
 				else
@@ -186,7 +186,7 @@ CIRCULANTES</td>
             <table width='190' border='1' cellpadding='2' cellspacing='0' class="TablaInterior">
               <tr>
                   <td width='68'>LEYES</td>
-                  <td width='102' align='center'><?php
+                  <td width='102' align='center'><?
 				if (($FinoLeyes == "L"))
 					echo "<input type='radio' checked name='FinoLeyes' value='L'></td>\n";
 				else
@@ -196,7 +196,7 @@ CIRCULANTES</td>
               </tr>
               <tr>
                 <td>FINOS</td>
-                <td align='center'><?php
+                <td align='center'><?
 				if ($FinoLeyes == "F" || (!isset($FinoLeyes)))
 					echo "<input name='FinoLeyes' checked type='radio' value='F'>\n";
 				else
@@ -214,7 +214,7 @@ CIRCULANTES</td>
       </table></td>
   </tr>
 </table>
-<?php include("../principal/pie_pagina.php"); ?>
+<? include("../principal/pie_pagina.php"); ?>
 </form>
 </body>
 </html>

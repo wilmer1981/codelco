@@ -1,4 +1,4 @@
-<?php 
+<? 
 	include("../principal/conectar_principal.php"); 
 	$CodigoDeSistema=7;
 ?>
@@ -30,7 +30,7 @@ function Salir()
 
 <body leftmargin="3" topmargin="2" marginwidth="0" marginheight="0">
 <form name="frmPrincipal" method="post" action="">
-<?php include("../principal/encabezado.php");?>
+<? include("../principal/encabezado.php");?>
 <table width="770" border="0" class="TablaPrincipal">
   <tr>
       <td height="313" align="center" valign="top"> 
@@ -44,7 +44,7 @@ function Salir()
           <tr> 
             <td width="81">Fecha Inicio:</td>
             <td width="294"><select name="DiaIni" style="width:45;">
-                <?php
+                <?
 		  	for ($i=1;$i<=31;$i++)
 			{
 				if (!isset($DiaIni))
@@ -64,7 +64,7 @@ function Salir()
 			}
 		  ?>
               </select> <select name="MesIni" style="width:90;">
-                <?php
+                <?
 		  	for ($i=1;$i<=12;$i++)
 			{
 				if (!isset($MesIni))
@@ -84,7 +84,7 @@ function Salir()
 			}
 		  ?>
               </select> <select name="AnoIni" style="width:60;">
-                <?php
+                <?
 		  	for ($i=2003;$i<=(date("Y")+1);$i++)
 			{
 				if (!isset($AnoIni))
@@ -106,7 +106,7 @@ function Salir()
               </select></td>
             <td width="97">Fecha Termino:</td>
             <td width="220"><select name="DiaFin" style="width:45;">
-                <?php
+                <?
 		  	for ($i=1;$i<=31;$i++)
 			{
 				if (!isset($DiaFin))
@@ -126,7 +126,7 @@ function Salir()
 			}
 		  ?>
               </select> <select name="MesFin" style="width:90;">
-                <?php
+                <?
 		  	for ($i=1;$i<=12;$i++)
 			{
 				if (!isset($MesFin))
@@ -146,7 +146,7 @@ function Salir()
 			}
 		  ?>
               </select> <select name="AnoFin" style="width:60;">
-                <?php
+                <?
 		  	for ($i=2003;$i<=(date("Y")+1);$i++)
 			{
 				if (!isset($AnoFin))
@@ -168,7 +168,7 @@ function Salir()
               </select></td>
           </tr>
           <tr>
-            <td colspan="4"><?php
+            <td colspan="4"><?
 			if ($Recep == "R")
 			{
 				echo "<input type='checkbox' name='ChkRecep' checked='true' value='".$Recep."'>Con Recepcion";
@@ -205,7 +205,7 @@ function Salir()
         </table> 
         <br>
         <br>
-<?php
+<?
 	if ($Proceso == "E")
 	{
 		//GRABA ARCHIVO DE CONFIGURACION
@@ -297,8 +297,8 @@ function Salir()
       </td>
   </tr>
 </table>
-<?php include("../principal/pie_pagina.php");?>
-<?php include("../principal/cerrar_principal.php");?>
+<? include("../principal/pie_pagina.php");?>
+<? include("../principal/cerrar_principal.php");?>
 </form>
 </body>
 </html>

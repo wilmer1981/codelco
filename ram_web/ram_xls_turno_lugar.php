@@ -1,17 +1,29 @@
 <?php 
-if($cmbturno == A)
+
+if(isset($_REQUEST["filename"])){
+	$filename = $_REQUEST["filename"];
+}else{
+	$filename = "";
+}
+//cmbturno
+$cmbturno  = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
+
+$ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+if($cmbturno == "A")
 {
 	$Turno_Ini = "08:00:00";
 	$Turno_Ter = "15:59:59";
 }	
 
-if($cmbturno == B)
+if($cmbturno == "B")
 {
 	$Turno_Ini = "16:00:00";
 	$Turno_Ter = "23:59:59";
 }	
 
-if($cmbturno == C)
+if($cmbturno == "C")
 {
 	$Turno_Ini = "00:00:00";
 	$Turno_Ter = "07:59:59";
@@ -49,35 +61,25 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
     include("../principal/conectar_ram_web.php"); 
 ?>
 <html>
+
 <head>
-<title>Documento sin t&iacute;tulo</title>
-<script language="JavaScript">
-function Salir()
-{
-	window.history.back();
-}
-/***********/
-function Imprimir()
-{
-	window.print();
-}
-</script>
-<?php
+    <title>Documento sin t&iacute;tulo</title>
+    <?php
 	//<link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 ?>
 
 <body class="TablaPrincipal">
-<table width="320" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr class="ColorTabla01">
-    <td align="center" colspan="10">INFORME MOVIMIENTO TOTALES POR LUGAR</td>
-  </tr>
-  <tr class="ColorTabla02"> 
-    <td align="center" colspan="10">FECHA:&nbsp;  <?php echo $dia.'/'.$mes.'/'.$ano ?></td>
-  </tr>
-</table>
-<br>
+    <table width="320" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr class="ColorTabla01">
+            <td align="center" colspan="10">INFORME MOVIMIENTO TOTALES POR LUGAR</td>
+        </tr>
+        <tr class="ColorTabla02">
+            <td align="center" colspan="10">FECHA:&nbsp; <?php echo $dia.'/'.$mes.'/'.$ano ?></td>
+        </tr>
+    </table>
+    <br>
 
-<?php
+    <?php
 		echo '<table width="100"  border="0" cellspacing="0" cellpadding="0" align="center">';
 		echo'<tr class="ColorTabla01">';
 			echo '<td width="60%" align="center"><strong>TURNO &nbsp;: </strong></td>';
@@ -98,7 +100,7 @@ function Imprimir()
 		
 		if($row2 = mysqli_fetch_array($rs2))
 		{
-			echo '<td width="60%">'.$row2[cod_tipo_lugar].' - '.$row2[descripcion_lugar].'</td>';
+			echo '<td width="60%">'.$row2["cod_tipo_lugar"].' - '.$row2["descripcion_lugar"].'</td>';
 		}
 		echo '</tr></table>';
 
@@ -126,33 +128,33 @@ function Imprimir()
 	
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-			    	echo '<tr><td width="8%" align="center">'.$row3[COD_CONJUNTO].' * '.$row3[NUM_CONJUNTO].'</td>';
+			    	echo '<tr><td width="8%" align="center">'.$row3["COD_CONJUNTO"].' * '.$row3["NUM_CONJUNTO"].'</td>';
 	 			    	echo '<td width="22%">'.$row5["descripcion"].'</td>';
 
-						echo '<td width="10%" align="center">'.$row3[CONJUNTO_DESTINO].'</td>';
+						echo '<td width="10%" align="center">'.$row3["CONJUNTO_DESTINO"].'</td>';
 		
 						$consulta = "SELECT nombre_existencia FROM atributo_existencia where cod_existencia = $row3[COD_EXISTENCIA]"; 
 						$rs6 = mysqli_query($link, $consulta);
 			
 						if($row6 = mysqli_fetch_array($rs6))
 						{
-								echo '<td width="10%" align="center">'.$row6[nombre_existencia].'</td>';
+								echo '<td width="10%" align="center">'.$row6["nombre_existencia"].'</td>';
 						}
 		
-						echo '<td width="20%" align="center">'.$row3[FECHA_MOVIMIENTO].'</td>';
-						echo '<td width="10%" align="center">'.number_format($row3[PESO_HUMEDO_MOVIDO]/1000,3,",","").'</td>';					
-						$validacion = $row3[ESTADO_VALIDACION] * -1;
+						echo '<td width="20%" align="center">'.$row3["FECHA_MOVIMIENTO"].'</td>';
+						echo '<td width="10%" align="center">'.number_format($row3["PESO_HUMEDO_MOVIDO"]/1000,3,",","").'</td>';					
+						$validacion = $row3["ESTADO_VALIDACION"] * -1;
 						echo '<td width="10%" align="center">'.number_format($validacion/1000,3,",","").'</td>';
 		
-						if ( $row3[ESTADO_VALIDACION] < 0)
+						if ( $row3["ESTADO_VALIDACION"] < 0)
 						{
-							$suma = $row3[ESTADO_VALIDACION] * -1;
-							$Total = $row3[PESO_HUMEDO_MOVIDO] + $suma;
+							$suma = $row3["ESTADO_VALIDACION"] * -1;
+							$Total = $row3["PESO_HUMEDO_MOVIDO"] + $suma;
 						}	
 		
-						if ( $row3[ESTADO_VALIDACION] >= 0)
+						if ( $row3["ESTADO_VALIDACION"] >= 0)
 						{
-							$Total = $row3[PESO_HUMEDO_MOVIDO] - $row3[ESTADO_VALIDACION];
+							$Total = $row3["PESO_HUMEDO_MOVIDO"] - $row3["ESTADO_VALIDACION"];
 						}	
 		
 						echo '<td width="10%" align="center">'.number_format($Total/1000,3,",","").'</td>';
@@ -166,7 +168,7 @@ function Imprimir()
 
 		if($row7 = mysqli_fetch_array($rs7))
 		{
-			$Total_Humedo = $row7[Total_Humedo];
+			$Total_Humedo = $row7["Total_Humedo"];
 		}
 
 		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = $row[COD_LUGAR_DESTINO]";
@@ -174,16 +176,16 @@ function Imprimir()
 
 		if($row8 = mysqli_fetch_array($rs8))
 		{
-				$Total_val = $row8[Validacion];
-			if ($row8[Validacion] < 0)
+				$Total_val = $row8["Validacion"];
+			if ($row8["Validacion"] < 0)
 			{
-				$estado_total= $row8[Validacion] * -1;
-				$Total_Final = $row7[Total_Humedo] + $estado_total;
+				$estado_total= $row8["Validacion"] * -1;
+				$Total_Final = $row7["Total_Humedo"] + $estado_total;
 			}
-			if ($row8[Validacion] >= 0)
+			if ($row8["Validacion"] >= 0)
 			{
-				$estado_total = $row8[Validacion];
-				$Total_Final = $row7[Total_Humedo] - $estado_total;
+				$estado_total = $row8["Validacion"];
+				$Total_Final = $row7["Total_Humedo"] - $estado_total;
 			}
 		}
 
@@ -201,14 +203,17 @@ function Imprimir()
 
 
 ?>
-<table width="300" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-	<td align="center">
-    <input name="btnimprimir" type="button" value="Imprimir" style="width:70;" onClick="JavaScript:Imprimir()">
-	<input name="btnsalir" type="button" style="width:70" onClick="JavaScript:Salir()" value="Salir"></td>
-  </tr>
-</table>
+    <table width="300" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
+                <input name="btnimprimir" type="button" value="Imprimir" style="width:70;"
+                    onClick="JavaScript:Imprimir()">
+                <input name="btnsalir" type="button" style="width:70" onClick="JavaScript:Salir()" value="Salir">
+            </td>
+        </tr>
+    </table>
 
 </body>
+
 </html>
 <?php include("../principal/cerrar_ram_web.php") ?>

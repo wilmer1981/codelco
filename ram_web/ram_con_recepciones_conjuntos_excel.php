@@ -1,4 +1,39 @@
 <?php
+
+if(isset($_REQUEST["filename"])){
+	$filename = $_REQUEST["filename"];
+}else{
+	$filename = "";
+}
+
+if(isset($_REQUEST["TxtFechaIni"])){
+	$TxtFechaIni = $_REQUEST["TxtFechaIni"];
+}else{
+	$TxtFechaIni = "";
+}
+
+if(isset($_REQUEST["TxtFechaFin"])){
+	$TxtFechaFin = $_REQUEST["TxtFechaFin"];
+}else{
+	$TxtFechaFin = "";
+}
+
+	if(isset($_REQUEST["CmbSubProducto"])){
+		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
+	}else{
+		$CmbSubProducto = "";
+	}
+	if(isset($_REQUEST["CmbProveedor"])){
+		$CmbProveedor = $_REQUEST["CmbProveedor"];
+	}else{
+		$CmbProveedor = "";
+	}
+	if(isset($_REQUEST["TxtConjIni"])){
+		$TxtConjIni = $_REQUEST["TxtConjIni"];
+	}else{
+		$TxtConjIni = "";
+	}
+
 	        ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
@@ -22,31 +57,37 @@
 	include("../age_web/age_funciones.php");
 ?>
 <html>
+
 <head>
-<title>Sistema de Agencia</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+    <title>Sistema de Agencia</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
 
 <body>
-<form name="frmPrincipal" action="" method="post">
-  <table width="620" border="0" align="center">
-    <tr align="center">
-      <td width="590" height="30" colspan="2"><strong><u>RECEPCION DE CONJUNTOS</u></strong></td>
-    </tr>
-    <tr align="center">
-      <td colspan="2"><?php echo substr($TxtFechaIni,8,2)."-".substr($TxtFechaIni,5,2)."-".substr($TxtFechaIni,0,4)." al ".substr($TxtFechaFin,8,2)."-".substr($TxtFechaFin,5,2)."-".substr($TxtFechaFin,0,4) ?></td>
-    </tr>
-  </table>
-  <br>
-  <?php
+    <form name="frmPrincipal" action="" method="post">
+        <table width="620" border="0" align="center">
+            <tr align="center">
+                <td width="590" height="30" colspan="2"><strong><u>RECEPCION DE CONJUNTOS</u></strong></td>
+            </tr>
+            <tr align="center">
+                <td colspan="2">
+                    <?php echo substr($TxtFechaIni,8,2)."-".substr($TxtFechaIni,5,2)."-".substr($TxtFechaIni,0,4)." al ".substr($TxtFechaFin,8,2)."-".substr($TxtFechaFin,5,2)."-".substr($TxtFechaFin,0,4) ?>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <?php
 $ColSpan01 = 5;
 $LargoTabla=400;
 //$LoteIni = substr($TxtFechaIni,2,2)."".substr($TxtFechaIni,5,2)."000";
 //$LoteFin = substr($TxtFechaFin,2,2)."".substr($TxtFechaFin,5,2)."000";
 echo "<table width=\"650\"  border=\"1\" align=\"center\" cellpadding=\"1\" cellspacing=\"0\">\n";
 $Consulta = "select distinct t1.cod_producto, t1.cod_subproducto, t3.descripcion  ";
-$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 inner join proyecto_modernizacion.subproducto t3 ";
-$Consulta.= " on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
+$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 ";
 $Consulta.= " on t1.lote = t2.lote ";
+$Consulta.= " inner join proyecto_modernizacion.subproducto t3 ";
+
+$Consulta.= " on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
 $Consulta.= " where t1.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 if ($CmbSubProducto != "S")
 {
@@ -134,7 +175,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			$ArrDatosProv=array();
 			$ArrLeyesProv=array();
 			$ArrLeyesProv["01"][0]="01";/*$ArrLeyesProv["02"][0]="02";$ArrLeyesProv["04"][0]="04";$ArrLeyesProv["05"][0]="05";*/
-			LeyesConjunto($Fila01["cod_producto"], $Fila01["cod_subproducto"], $FilaAux["rut_proveedor"], $FilaTipoRecep["num_conjunto"],&$ArrDatosProv,&$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"");
+			LeyesConjunto($Fila01["cod_producto"], $Fila01["cod_subproducto"], $FilaAux["rut_proveedor"], $FilaTipoRecep["num_conjunto"],$ArrDatosProv,$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"");
 			if ($ArrDatosProv["peso_humedo"]!=0 || $ArrDatosProv["peso_seco"]!=0)
 			{
 				echo "<tr>\n";
@@ -174,8 +215,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	$PorcHumProd=0;
 }
 echo "</table>\n";
-?>  
+?>
 
-</form>
+    </form>
 </body>
+
 </html>

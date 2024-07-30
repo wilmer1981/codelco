@@ -1,4 +1,4 @@
-<?php
+<?
 	include("../principal/conectar_principal.php");
 	if($H2O=='')
 		$H2O=0;
@@ -45,11 +45,11 @@
 			$Consulta.= " and num_conjunto = '".$Conjunto."'";
 			$Consulta.= " and tipo_ley = '".$TipoLey."'";
 			$Consulta.= " and fecha = '".$Ano."-".$Mes."-01'";
-			$Respuesta = mysqli_query($link, $Consulta);
-			if ($Fila = mysqli_fetch_array($Respuesta))
+			$Respuesta = mysql_query($Consulta);
+			if ($Fila = mysql_fetch_array($Respuesta))
 			{
 				//ACTUALIZA
-				$Actualizar = "UPDATE ram_web.leyes_especiales set ";
+				$Actualizar = "update ram_web.leyes_especiales set ";
 				$Actualizar.= " v_h2o = '".str_replace(",",".",$H2O)."'";
 				$Actualizar.= ",v_cu = '".str_replace(",",".",$Cu)."'";
 				$Actualizar.= ",v_ag = '".str_replace(",",".",$Ag)."'";
@@ -74,19 +74,19 @@
 				$Actualizar.= " and num_conjunto = '".$Conjunto."' ";
 				$Actualizar.= " and tipo_ley = '".$TipoLey."' ";
 				$Actualizar.= " and fecha = '".$Ano."-".$Mes."-01'";
-				mysqli_query($link, $Actualizar);
+				mysql_query($Actualizar);
 				//echo $Actualizar;
 			}
 			else
 			{
 				//INSERTA
-				$Insertar = "INSERT INTO ram_web.leyes_especiales (cod_producto,cod_subproducto,cod_conjunto,num_conjunto,fecha,";
+				$Insertar = "insert into ram_web.leyes_especiales (cod_producto,cod_subproducto,cod_conjunto,num_conjunto,fecha,";
 				$Insertar.= "v_h2o,v_cu,v_ag,v_au,v_as,v_s,v_pb,v_fe,v_si,v_cao,v_al2o3,v_mgo,v_sb,v_cd,v_hg,v_te,v_zn,v_fe3o4, tipo_ley) ";
 				$Insertar.= " values('".$Productos."','".$SubProductos."','".$CodConjunto."','".$Conjunto."','".$Ano."-".$Mes."-01','".str_replace(",",".",$H2O)."','".str_replace(",",".",$Cu)."'";
 				$Insertar.= ",'".str_replace(",",".",$Ag)."','".str_replace(",",".",$Au)."','".str_replace(",",".",$As)."','".str_replace(",",".",$S)."','".str_replace(",",".",$Pb)."'";
 				$Insertar.= ",'".str_replace(",",".",$Fe)."','".str_replace(",",".",$Si)."','".str_replace(",",".",$CaO)."','".str_replace(",",".",$AL2O3)."','".str_replace(",",".",$MgO)."','".str_replace(",",".",$Sb)."'";
 				$Insertar.= ",'".str_replace(",",".",$Cd)."','".str_replace(",",".",$Hg)."','".str_replace(",",".",$Te)."','".str_replace(",",".",$Zn)."','".str_replace(",",".",$Fe3O4)."','".$TipoLey."')";
-				mysqli_query($link, $Insertar);
+				mysql_query($Insertar);
 				//echo $Insertar;
 			}
 			header("location:ram_ing_leyes_esp.php?Productos=".$Productos."&SubProductos=".$SubProductos."&Conjunto=".$Conjunto."&TipoLey=".$TipoLey."&Ano=".$Ano."&Mes=".$Mes);
@@ -98,7 +98,7 @@
 			$Eliminar.= " and num_conjunto = '".$Conjunto."'";
 			$Eliminar.= " and tipo_ley = '".$TipoLey."'";
 			$Eliminar.= " and fecha = '".$Ano."-".$Mes."-01'";
-			mysqli_query($link, $Eliminar);
+			mysql_query($Eliminar);
 			header("location:ram_ing_leyes_esp.php?Productos=".$Productos."&SubProductos=".$SubProductos."&Conjunto=".$Conjunto."&TipoLey=".$TipoLey."&Ano=".$Ano."&Mes=".$Mes);
 			break;
 	}

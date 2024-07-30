@@ -1,4 +1,4 @@
-<?php
+<?
 	$CodigoDeSistema=7;
 	$CodigoDePantalla=24;
 	include("../principal/conectar_principal.php");
@@ -52,7 +52,7 @@ body {
   </tr>
   <tr class="Colum01">
     <td width="88" class="Colum01">Mes:</td>
-    <td width="664" class="Colum01"><?php
+    <td width="664" class="Colum01"><?
 			echo "<select name='CmbMes' size='1' style='width:90px;'>";
 			for($i=1;$i<13;$i++)
 			{
@@ -80,8 +80,8 @@ body {
   <tr align="center" class="Colum01">
 	  <td height="30" colspan="4" class="Colum01">
 		<input name="BtnOK" type="button" value="Buscar" style="width:80px " onClick="Proceso('B')">
-		<input name="BtnImprimir" type="button" value="Imprimir" style="width:80px " onClick="Proceso('I','<?php echo $Petalo?>')">
-		<input name="BtnExcel" type="button" value="Excel" style="width:80px " onClick="Proceso('E','<?php echo $Petalo?>')">
+		<input name="BtnImprimir" type="button" value="Imprimir" style="width:80px " onClick="Proceso('I','<? echo $Petalo?>')">
+		<input name="BtnExcel" type="button" value="Excel" style="width:80px " onClick="Proceso('E','<? echo $Petalo?>')">
 		<input name="BtnSalir" type="button" value="Salir" style="width:80px " onClick="Proceso('S')">
 	  </td>
 	</tr>
@@ -108,7 +108,7 @@ Convert.</td>
 	<td>Silice</td>
 	<td width="14">TOTAL</td>
 	</tr>
-	<?php
+	<?
 	if($Buscar=='S')
 	{
 		$FinMes = date("t",mktime(0, 0, 0, $CmbMes, 1, $CmbAno));
@@ -126,12 +126,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot2=$Tot2+($Fila["peso_humedo"]/1000);
-				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);	
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot2=$Tot2+($Fila[peso_humedo]/1000);
+				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);	
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -141,12 +141,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot3=$Tot3+($Fila["peso_humedo"]/1000);
-				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);	
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot3=$Tot3+($Fila[peso_humedo]/1000);
+				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);	
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -156,12 +156,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot4=$Tot4+($Fila["peso_humedo"]/1000);	
-				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot4=$Tot4+($Fila[peso_humedo]/1000);	
+				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -171,12 +171,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot5=$Tot5+($Fila["peso_humedo"]/1000);	
-				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot5=$Tot5+($Fila[peso_humedo]/1000);	
+				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -186,12 +186,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot6=$Tot6+($Fila["peso_humedo"]/1000);	
-				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot6=$Tot6+($Fila[peso_humedo]/1000);	
+				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -201,12 +201,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot7=$Tot7+($Fila["peso_humedo"]/1000);
-				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);	
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot7=$Tot7+($Fila[peso_humedo]/1000);
+				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);	
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -216,12 +216,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot8=$Tot8+($Fila["peso_humedo"]/1000);
-				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);	
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot8=$Tot8+($Fila[peso_humedo]/1000);
+				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);	
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -231,12 +231,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot9=$Tot9+($Fila["peso_humedo"]/1000);	
-				$SubTotDia1=$SubTotDia1+($Fila["peso_humedo"]/1000);
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot9=$Tot9+($Fila[peso_humedo]/1000);	
+				$SubTotDia1=$SubTotDia1+($Fila[peso_humedo]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -249,12 +249,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot10=$Tot10+($Fila["peso_humedo"]/1000);	
-				$SubTotDia2=$SubTotDia2+($Fila["peso_humedo"]/1000);
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot10=$Tot10+($Fila[peso_humedo]/1000);	
+				$SubTotDia2=$SubTotDia2+($Fila[peso_humedo]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";
@@ -265,12 +265,12 @@ Convert.</td>
 			$Consulta.="GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ";
 			$Consulta.="ORDER BY t1.cod_conjunto, t1.num_conjunto	";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);		
-			if($Fila=mysqli_fetch_array($Resp))
+			$Resp=mysql_query($Consulta);		
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				echo "<td align='right'>".number_format(($Fila["peso_humedo"]/1000),1,',','.')."</td>";
-				$Tot12=$Tot12+($Fila["peso_humedo"]/1000);
-				$SubTotDia2=$SubTotDia2+($Fila["peso_humedo"]/1000);
+				echo "<td align='right'>".number_format(($Fila[peso_humedo]/1000),1,',','.')."</td>";
+				$Tot12=$Tot12+($Fila[peso_humedo]/1000);
+				$SubTotDia2=$SubTotDia2+($Fila[peso_humedo]/1000);
 			}	
 			else
 				echo "<td align='right'>0,0</td>";$CuSucio=0;
@@ -281,11 +281,11 @@ Convert.</td>
 			$Consulta.="then (t3.cod_existencia = 5 OR t3.cod_existencia = 6 OR t3.cod_existencia = 16) else (t3.cod_existencia <> 5 AND t3.cod_existencia <> 6 AND t3.cod_existencia <> 16) end ";
 			$Consulta.="WHERE cod_producto='42' and cod_subproducto='13' and t1.num_conjunto='942' and t1.cod_conjunto in(03) and t2.estado='a' and t1.peso_humedo > 0 ";
 			$Consulta.="and (t1.cod_existencia in(05,12,15,16)) and t1.fecha_movimiento between '".$Fecha1."' and '".$Fecha2."' GROUP BY t2.cod_producto, t2.cod_subproducto, t1.cod_conjunto, t1.num_conjunto ORDER BY t1.cod_conjunto, t1.num_conjunto ";				
-			$Resp=mysqli_query($link, $Consulta);	
+			$Resp=mysql_query($Consulta);	
 			//echo $Consulta."<br>";
-			if($Fila=mysqli_fetch_array($Resp))
+			if($Fila=mysql_fetch_array($Resp))
 			{
-				$CuSucio=$Fila["peso_humedo"]/1000;
+				$CuSucio=$Fila[peso_humedo]/1000;
 			}
 			$SubTot2=$Tot10+$Tot11+$Tot12;
 			echo "<td align='right'>".number_format($SubTotDia2+$CuSucio,1,',','.')."</td>";

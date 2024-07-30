@@ -1,4 +1,12 @@
 <?php  
+$ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+if(isset($_REQUEST["filename"])){
+	$filename = $_REQUEST["filename"];
+}else{
+	$filename = "";
+}
 	        ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
@@ -21,36 +29,26 @@
     include("../principal/conectar_ram_web.php"); 
 ?>
 <html>
+
 <head>
-<title>Movimientos Por D�a</title>
-<script language="JavaScript">
-function Salir()
-{
-	window.history.back();
-}
-/***********/
-function Imprimir()
-{
-	window.print();
-}
-</script>
-<?php
+    <title>Movimientos Por D�a</title>
+    <?php
 	//<link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 ?>
 </head>
 
 <body class="TablaPrincipal">
-<table width="320" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr class="ColorTabla01">
-    <td align="center" colspan="10">INFORME MOVIMIENTO TOTALES POR DIA</td>
-  </tr>
-  <tr class="ColorTabla02"> 
-    <td align="center" colspan="10">FECHA:  <?php echo $dia.'/'.$mes.'/'.$ano ?></td>
-  </tr>
-</table>
-<br>
+    <table width="320" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr class="ColorTabla01">
+            <td align="center" colspan="10">INFORME MOVIMIENTO TOTALES POR DIA</td>
+        </tr>
+        <tr class="ColorTabla02">
+            <td align="center" colspan="10">FECHA: <?php echo $dia.'/'.$mes.'/'.$ano ?></td>
+        </tr>
+    </table>
+    <br>
 
-<?php
+    <?php
     if(strlen($dia) == 1)
 	$dia = '0'.$dia;
 
@@ -76,7 +74,7 @@ function Imprimir()
 		
 		if($row2 = mysqli_fetch_array($rs2))
 		{
-			echo '<td width="60%">'.$row2[cod_tipo_lugar].' - '.$row2[descripcion_lugar].'</td>';
+			echo '<td width="60%">'.$row2["cod_tipo_lugar"].' - '.$row2["descripcion_lugar"].'</td>';
 		}
 		echo '</tr></table>';
 
@@ -106,7 +104,7 @@ function Imprimir()
 	
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-		    		echo '<tr><td width="8%">'.$row3[COD_CONJUNTO].' - '.$row3[NUM_CONJUNTO].'</td>';
+		    		echo '<tr><td width="8%">'.$row3["COD_CONJUNTO"].' - '.$row3["NUM_CONJUNTO"].'</td>';
 
 	 			    	echo '<td width="22%">'.$row5["descripcion"].'</td>';
 						echo '<td width="10%" align="center">'.$row3[CONJUNTO_DESTINO].'</td>';
@@ -167,14 +165,17 @@ function Imprimir()
 
 
 ?>
-<table width="300" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-	<td align="center">
-    <input name="btnimprimir" type="button" value="Imprimir" style="width:70;" onClick="JavaScript:Imprimir()">
-	<input name="btnsalir" type="button" style="width:70" onClick="JavaScript:Salir()" value="Salir"></td>
-  </tr>
-</table>
+    <table width="300" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
+                <input name="btnimprimir" type="button" value="Imprimir" style="width:70;"
+                    onClick="JavaScript:Imprimir()">
+                <input name="btnsalir" type="button" style="width:70" onClick="JavaScript:Salir()" value="Salir">
+            </td>
+        </tr>
+    </table>
 
 </body>
+
 </html>
 <?php include("../principal/cerrar_ram_web.php") ?>

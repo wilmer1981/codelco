@@ -1,4 +1,4 @@
-<?php
+<?
 	        ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
@@ -34,15 +34,15 @@
 <table width="523" border="0" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr align="center">
     <td colspan="11"><strong>
-	<?php
+	<?
 		if ($TipoMovimiento != "T")
 		{
 			$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 			$Consulta.= " where cod_clase = '7002'";
 			$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 			$Consulta.= " order by cod_subclase";
-			$Respuesta = mysqli_query($link, $Consulta);
-			if ($Fila = mysqli_fetch_array($Respuesta))					
+			$Respuesta = mysql_query($Consulta);
+			if ($Fila = mysql_fetch_array($Respuesta))					
 				echo strtoupper($Fila["nombre_subclase"]);
 			else
 				echo "&nbsp;";
@@ -58,7 +58,7 @@
   </tr>
   <tr>
     <td width="117" colspan="3"><strong>AGRUPADO POR: </strong></td>
-    <td width="269" colspan="5"><?php
+    <td width="269" colspan="5"><?
 	if ($Agrup == "C")
 	{
 		echo "CONJUNTO";
@@ -80,20 +80,20 @@
   </tr>
   <tr>
     <td colspan="3"><strong>PERIODO</strong></td>
-    <td colspan="5"><?php
+    <td colspan="5"><?
 	if ($Acum == "D")
 	{
-		echo str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;
-		$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
-		$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+		echo str_pad($Dia,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;
+		$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
+		$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
 	}
 	else
 	{
 		if ($Acum == "A")
 		{
-			echo "01-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano." AL ".str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;			
-			$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-01";
-			$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+			echo "01-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano." AL ".str_pad($Dia,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;			
+			$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-01";
+			$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
 		}
 		else
 		{
@@ -106,7 +106,7 @@
 </table>
 <br>
 <br>
-<?php
+<?
 if ($ChkPMineros=="S" && $ChkCirculantes=="S")
 {
 	$CodConjunto = "in(01,03)";
@@ -188,8 +188,8 @@ $Consulta.= " where cod_clase = '7002'";
 if ($TipoMovimiento != "T")
 	$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 $Consulta.= " order by cod_subclase";
-$Resp1 = mysqli_query($link, $Consulta);
-while ($Fila1 = mysqli_fetch_array($Resp1))
+$Resp1 = mysql_query($Consulta);
+while ($Fila1 = mysql_fetch_array($Resp1))
 {		
 	$CodConjuntoAnt="";
 	if ($TipoMovimiento == "T")
@@ -375,7 +375,7 @@ while ($Fila1 = mysqli_fetch_array($Resp1))
 			break;
 	}
 	//echo $Consulta;	
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysql_query($Consulta);
 	//SUBTOTALES
 	$SubTotalHum = 0;
 	$SubTotalSeco = 0;
@@ -406,7 +406,7 @@ while ($Fila1 = mysqli_fetch_array($Resp1))
 	$TotalNi = 0;
 	$OtrosProd = false;
 	$Cont = 1;
-	while ($Fila = mysqli_fetch_array($Respuesta))
+	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		if ($CodConjuntoAnt != $Fila["cod_conjunto"])
 		{
@@ -835,7 +835,7 @@ while ($Fila1 = mysqli_fetch_array($Resp1))
 		switch ($Agrup)
 		{
 			case "C":
-				echo "<td>".str_pad($Fila["cod_conjunto"],2,"0",STR_PAD_LEFT)." | ".$Fila["num_conjunto"]."</td>\n";
+				echo "<td>".str_pad($Fila["cod_conjunto"],2,"0",str_pad_left)." | ".$Fila["num_conjunto"]."</td>\n";
 				echo "<td align='left'>".substr(strtoupper($Fila["descripcion"]),0,16)."</td>\n";
 				break;	
 			case "P":

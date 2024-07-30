@@ -1,58 +1,93 @@
 <?php
+//Petalo
+$Petalo  = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+
+	if(isset($_REQUEST["Buscar"])){
+		$Buscar = $_REQUEST["Buscar"];
+	}else{
+		$Buscar = "";
+	}
+
+	if(isset($_REQUEST["CmbMes"])){
+		$CmbMes = $_REQUEST["CmbMes"];
+	}else{
+		$CmbMes = "";
+	}
+	if(isset($_REQUEST["CmbAno"])){
+		$CmbAno = $_REQUEST["CmbAno"];
+	}else{
+		$CmbAno = "";
+	}
+	if(isset($_REQUEST["Tot"])){
+		$Tot = $_REQUEST["Tot"];
+	}else{
+		$Tot = 0;
+	}
+
+	if(isset($_REQUEST["peso_humedo"])){
+		$peso_humedo = $_REQUEST["peso_humedo"];
+	}else{
+		$peso_humedo = 0;
+	}
+	
 	$CodigoDeSistema=7;
 	$CodigoDePantalla=24;
 	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");		
 ?>
 <html>
+
 <head>
-<title>GENERACION DE CIRCULANTES DE FUNDICION Y RAF RECEPCIONADOS EN RECEPCION Y MEZCLA</title>
-<link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
-<script language="javascript" src="../principal/funciones/funciones_java.js"></script>
-<script language="javascript">
-function Proceso(opt,opt2)
-{
-	var f = document.frmPrincipal;
-	var Valores='';
-	switch (opt)
-	{
-		case "B"://BUSCAR
-			f.action = "ram_con_gener_circulantes_raf.php?Recarga=S&TipoBusqueda=BM&Buscar=S";
-			f.submit();		
-			break;		
-		case "I"://IMPRIMIR			
-			window.print();
-			break;
-		case "E"://EXCEL	
-			f.action = "ram_con_gener_circulantes_raf_excel.php?Recarga=S&TipoBusqueda=BM&Buscar=S";
-			f.submit();	
-			break;		
-		case "S"://SALIR
-			frmPrincipal.action = "../principal/sistemas_usuario.php?CodSistema=7&Nivel=1&CodPantalla=24";
-			frmPrincipal.submit();
-			break;			
-	}
-}
-</script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<style type="text/css">
-<!--
-body {
-	background-image: url(../principal/imagenes/fondo3.gif);
-}
-.Estilo1 {color: #0000FF}
--->
-</style>
+    <title>GENERACION DE CIRCULANTES DE FUNDICION Y RAF RECEPCIONADOS EN RECEPCION Y MEZCLA</title>
+    <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
+    <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
+    <script language="javascript">
+    function Proceso(opt, opt2) {
+        var f = document.frmPrincipal;
+        var Valores = '';
+        switch (opt) {
+            case "B": //BUSCAR
+                f.action = "ram_con_gener_circulantes_raf.php?Recarga=S&TipoBusqueda=BM&Buscar=S";
+                f.submit();
+                break;
+            case "I": //IMPRIMIR			
+                window.print();
+                break;
+            case "E": //EXCEL	
+                f.action = "ram_con_gener_circulantes_raf_excel.php?Recarga=S&TipoBusqueda=BM&Buscar=S";
+                f.submit();
+                break;
+            case "S": //SALIR
+                frmPrincipal.action = "../principal/sistemas_usuario.php?CodSistema=7&Nivel=1&CodPantalla=24";
+                frmPrincipal.submit();
+                break;
+        }
+    }
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <style type="text/css">
+    <!--
+    body {
+        background-image: url(../principal/imagenes/fondo3.gif);
+    }
+
+    .Estilo1 {
+        color: #0000FF
+    }
+    -->
+    </style>
 </head>
+
 <body>
-<form name="frmPrincipal" action="" method="post">
-<table width="544"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
-  <tr class="ColorTabla02" align="center">
-    <td colspan="4"><strong>GENERACION DE CIRCULANTES DE FUNDICION Y RAF RECEPCIONADOS EN RECEPCION Y MEZCLA </strong></td>
-  </tr>
-  <tr class="Colum01">
-    <td width="88" class="Colum01">Mes:</td>
-    <td width="664" class="Colum01"><?php
+    <form name="frmPrincipal" action="" method="post">
+        <table width="544" border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
+            <tr class="ColorTabla02" align="center">
+                <td colspan="4"><strong>GENERACION DE CIRCULANTES DE FUNDICION Y RAF RECEPCIONADOS EN RECEPCION Y MEZCLA
+                    </strong></td>
+            </tr>
+            <tr class="Colum01">
+                <td width="88" class="Colum01">Mes:</td>
+                <td width="664" class="Colum01"><?php
 			echo "<select name='CmbMes' size='1' style='width:90px;'>";
 			for($i=1;$i<13;$i++)
 			{
@@ -76,41 +111,43 @@ body {
 			}
 			echo "</select>";
 			?>&nbsp;&nbsp;&nbsp;</td>
-  </tr>
-  <tr align="center" class="Colum01">
-	  <td height="30" colspan="4" class="Colum01">
-		<input name="BtnOK" type="button" value="Buscar" style="width:80px " onClick="Proceso('B')">
-		<input name="BtnImprimir" type="button" value="Imprimir" style="width:80px " onClick="Proceso('I','<?php echo $Petalo?>')">
-		<input name="BtnExcel" type="button" value="Excel" style="width:80px " onClick="Proceso('E','<?php echo $Petalo?>')">
-		<input name="BtnSalir" type="button" value="Salir" style="width:80px " onClick="Proceso('S')">
-	  </td>
-	</tr>
-  </table>
-	<br>
-	<table width='800'  border='1' align='center' cellpadding='1' cellspacing='0' class='TablaInterior'>
-	<tr align="center" class="ColorTabla01">
-	<td width="14" rowspan="2">DIA</td>
-	<td colspan="10">Circulantes Fundicion (Ton.)</td>
-	<td colspan="4">Circulantes Refino a Fuego (Ton.)</td>
-	<td width="14" rowspan="2">TOTAL</td>
-	</tr>
-	<tr align="center" class="ColorTabla01">
-	<td>Cascaron<br>M.Blanco</td>
-	<td>Bajo<br>Cuchara</td>
-	<td>Polvo<br>Convert.</td>
-	<td>Polvo<br>Miljo CPS</td>
-	<td>Carga<br>Fria</td>
-	<td>Esc. Ret<br>CPS-Basc</td>
-	<td>Mbco<br>Pozo</td>
-	<td>Concent<br>Sec.-Rec.</td>
-	<td>Polvo<br>Miljo H.E</td>
-	<td>SubTotal</td>
-	<td>Escoria<br>An�dica</td>
-	<td>Chatarra<br>RAF</td>
-	<td>Granza</td>
-	<td>Sub-Total</td>
-	</tr>
-	<?php
+            </tr>
+            <tr align="center" class="Colum01">
+                <td height="30" colspan="4" class="Colum01">
+                    <input name="BtnOK" type="button" value="Buscar" style="width:80px " onClick="Proceso('B')">
+                    <input name="BtnImprimir" type="button" value="Imprimir" style="width:80px "
+                        onClick="Proceso('I','<?php echo $Petalo?>')">
+                    <input name="BtnExcel" type="button" value="Excel" style="width:80px "
+                        onClick="Proceso('E','<?php echo $Petalo?>')">
+                    <input name="BtnSalir" type="button" value="Salir" style="width:80px " onClick="Proceso('S')">
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table width='800' border='1' align='center' cellpadding='1' cellspacing='0' class='TablaInterior'>
+            <tr align="center" class="ColorTabla01">
+                <td width="14" rowspan="2">DIA</td>
+                <td colspan="10">Circulantes Fundicion (Ton.)</td>
+                <td colspan="4">Circulantes Refino a Fuego (Ton.)</td>
+                <td width="14" rowspan="2">TOTAL</td>
+            </tr>
+            <tr align="center" class="ColorTabla01">
+                <td>Cascaron<br>M.Blanco</td>
+                <td>Bajo<br>Cuchara</td>
+                <td>Polvo<br>Convert.</td>
+                <td>Polvo<br>Miljo CPS</td>
+                <td>Carga<br>Fria</td>
+                <td>Esc. Ret<br>CPS-Basc</td>
+                <td>Mbco<br>Pozo</td>
+                <td>Concent<br>Sec.-Rec.</td>
+                <td>Polvo<br>Miljo H.E</td>
+                <td>SubTotal</td>
+                <td>Escoria<br>An�dica</td>
+                <td>Chatarra<br>RAF</td>
+                <td>Granza</td>
+                <td>Sub-Total</td>
+            </tr>
+            <?php
 	if($Buscar=='S')
 	{
 		$FinMes = date("t",mktime(0, 0, 0, $CmbMes, 1, $CmbAno));
@@ -336,7 +373,8 @@ body {
 		echo "</tr>";
 	}
 	?>
-	</table>	
-</form>
+        </table>
+    </form>
 </body>
+
 </html>

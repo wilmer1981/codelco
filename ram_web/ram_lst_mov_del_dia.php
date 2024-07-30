@@ -1,34 +1,38 @@
 <?php
  include("../principal/conectar_ram_web.php"); 
+
+ $ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 ?>
 <html>
+
 <head>
-<title>Movimientos Por D�a</title>
-<script language="JavaScript">
-function Salir()
-{
-	window.history.back();
-}
-/***********/
-function Imprimir()
-{
-	window.print();
-}
-</script><link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
+    <title>Movimientos Por D�a</title>
+    <script language="JavaScript">
+    function Salir() {
+        window.history.back();
+    }
+    /***********/
+    function Imprimir() {
+        window.print();
+    }
+    </script>
+    <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 </head>
 
 <body class="TablaPrincipal">
-<table width="320" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr class="ColorTabla01">
-    <td align="center" colspan="10">INFORME MOVIMIENTO TOTALES POR DIA</td>
-  </tr>
-  <tr class="ColorTabla02"> 
-    <td align="center" colspan="10">FECHA:  <?php echo $dia.'/'.$mes.'/'.$ano ?></td>
-  </tr>
-</table>
-<br>
+    <table width="320" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr class="ColorTabla01">
+            <td align="center" colspan="10">INFORME MOVIMIENTO TOTALES POR DIA</td>
+        </tr>
+        <tr class="ColorTabla02">
+            <td align="center" colspan="10">FECHA: <?php echo $dia.'/'.$mes.'/'.$ano ?></td>
+        </tr>
+    </table>
+    <br>
 
-<?php
+    <?php
     if(strlen($dia) == 1)
 	$dia = '0'.$dia;
 
@@ -54,7 +58,7 @@ function Imprimir()
 		
 		if($row2 = mysqli_fetch_array($rs2))
 		{
-			echo '<td width="60%">'.$row2[cod_tipo_lugar].' - '.$row2[descripcion_lugar].'</td>';
+			echo '<td width="60%">'.$row2["cod_tipo_lugar"].' - '.$row2["descripcion_lugar"].'</td>';
 		}
 		echo '</tr></table>';
 
@@ -84,27 +88,27 @@ function Imprimir()
 	
 				if($row5 = mysqli_fetch_array($rs5))
 				{
-		    		echo '<tr><td width="8%">'.$row3[COD_CONJUNTO].' - '.$row3[NUM_CONJUNTO].'</td>';
+		    		echo '<tr><td width="8%">'.$row3["COD_CONJUNTO"].' - '.$row3["NUM_CONJUNTO"].'</td>';
 
 	 			    	echo '<td width="22%">'.$row5["descripcion"].'</td>';
-						echo '<td width="10%" align="center">'.$row3[CONJUNTO_DESTINO].'</td>';
+						echo '<td width="10%" align="center">'.$row3["CONJUNTO_DESTINO"].'</td>';
 		
 						$consulta = "SELECT nombre_existencia FROM atributo_existencia where cod_existencia = $row3[COD_EXISTENCIA]"; 
 						$rs6 = mysqli_query($link, $consulta);
 						if($row6 = mysqli_fetch_array($rs6))
 						{
-								echo '<td width="10%" align="center">'.$row6[nombre_existencia].'</td>';
+								echo '<td width="10%" align="center">'.$row6["nombre_existencia"].'</td>';
 						}
 		
-						echo '<td width="20%" align="center">'.$row3[FECHA_MOVIMIENTO].'</td>';
-						echo '<td width="10%" align="right">'.number_format($row3[PESO_HUMEDO_MOVIDO]/1000,3,",","").'</td>';
-						$validacion = $row3[ESTADO_VALIDACION];
+						echo '<td width="20%" align="center">'.$row3["FECHA_MOVIMIENTO"].'</td>';
+						echo '<td width="10%" align="right">'.number_format($row3["PESO_HUMEDO_MOVIDO"]/1000,3,",","").'</td>';
+						$validacion = $row3["ESTADO_VALIDACION"];
 						echo '<td width="10%" align="center">'.number_format($validacion/1000,3,",","").'</td>';
 
-						$Total = $row3[PESO_HUMEDO_MOVIDO] + $validacion;
+						$Total = $row3["PESO_HUMEDO_MOVIDO"] + $validacion;
 
 						echo '<td width="10%" align="right">'.number_format($Total/1000,3,",","").'</td>';
-					  if($row3[ORIGEN]=='A')//INGRESADO POR SIPA PESAJE CIRCULANTES
+					  if($row3["ORIGEN"]=='A')//INGRESADO POR SIPA PESAJE CIRCULANTES
 							echo'<td><center>&nbsp;SIPA</center></td>';
 						else
 							echo'<td><center>&nbsp;MANUAL</center></td>';
@@ -119,7 +123,7 @@ function Imprimir()
 
 		if($row7 = mysqli_fetch_array($rs7))
 		{
-			$Total_Humedo = $row7[Total_Humedo];
+			$Total_Humedo = $row7["Total_Humedo"];
 		}
 
 		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND COD_LUGAR_DESTINO = $row[COD_LUGAR_DESTINO]";
@@ -127,7 +131,7 @@ function Imprimir()
 
 		if($row8 = mysqli_fetch_array($rs8))
 		{
-				$Total_val = $row8[Validacion];
+				$Total_val = $row8["Validacion"];
 		}
 
 				echo '<tr class="ColorTabla02">';
@@ -145,14 +149,17 @@ function Imprimir()
 
 
 ?>
-<table width="300" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-	<td align="center">
-    <input name="btnimprimir" type="button" value="Imprimir" style="width:70;" onClick="JavaScript:Imprimir()">
-	<input name="btnsalir" type="button" style="width:70" onClick="JavaScript:Salir()" value="Salir"></td>
-  </tr>
-</table>
+    <table width="300" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
+                <input name="btnimprimir" type="button" value="Imprimir" style="width:70;"
+                    onClick="JavaScript:Imprimir()">
+                <input name="btnsalir" type="button" style="width:70" onClick="JavaScript:Salir()" value="Salir">
+            </td>
+        </tr>
+    </table>
 
 </body>
+
 </html>
 <?php include("../principal/cerrar_ram_web.php") ?>

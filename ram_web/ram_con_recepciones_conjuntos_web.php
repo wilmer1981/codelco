@@ -1,71 +1,123 @@
 <?php
 	include("../principal/conectar_principal.php");	
 	include("../age_web/age_funciones.php");	
+
+	if(isset($_REQUEST["TxtFechaIni"])){
+		$TxtFechaIni = $_REQUEST["TxtFechaIni"];
+	}else{
+		$TxtFechaIni = "";
+	}
+
+	if(isset($_REQUEST["TxtFechaFin"])){
+		$TxtFechaFin = $_REQUEST["TxtFechaFin"];
+	}else{
+		$TxtFechaFin = "";
+	}
+	if(isset($_REQUEST["TxtConjFin"])){
+		$TxtConjFin = $_REQUEST["TxtConjFin"];
+	}else{
+		$TxtConjFin = "";
+	}
+
+	//CmbSubProducto CmbProveedor TxtConjIni 
+	if(isset($_REQUEST["CmbSubProducto"])){
+		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
+	}else{
+		$CmbSubProducto = "";
+	}
+	if(isset($_REQUEST["CmbProveedor"])){
+		$CmbProveedor = $_REQUEST["CmbProveedor"];
+	}else{
+		$CmbProveedor = "";
+	}
+	if(isset($_REQUEST["TxtConjIni"])){
+		$TxtConjIni = $_REQUEST["TxtConjIni"];
+	}else{
+		$TxtConjIni = "";
+	}
 ?>
 <html>
+
 <head>
-<title>Sistema de Agencia</title>
-<link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
-<script language="javascript" src="../principal/funciones/funciones_java.js"></script>
-<script language="javascript">
-function Proceso(opt)
-{
-	var f = document.frmPrincipal;
-	switch (opt)
-	{		
-		case "I":
-			f.BtnImprimir.style.visibility = "hidden";
-			f.BtnSalir.style.visibility = "hidden";
-			window.print();
-			f.BtnImprimir.style.visibility = "visible";
-			f.BtnSalir.style.visibility = "visible";
-			break;	
-		case "S":
-			f.action = "ram_con_recepciones_conjuntos.php";
-			f.submit();
-			break;
-	}
-}
-</script>
-<style type="text/css">
-<!--
-body {
-	background-image: url(../principal/imagenes/fondo3.gif);
-}
-.Estilo1 {color: #0000FF}
--->
-</style></head>
+    <title>Sistema de Agencia</title>
+    <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
+    <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
+    <script language="javascript">
+    function Proceso(opt) {
+        var f = document.frmPrincipal;
+        switch (opt) {
+            case "I":
+                f.BtnImprimir.style.visibility = "hidden";
+                f.BtnSalir.style.visibility = "hidden";
+                window.print();
+                f.BtnImprimir.style.visibility = "visible";
+                f.BtnSalir.style.visibility = "visible";
+                break;
+            case "S":
+                f.action = "ram_con_recepciones_conjuntos.php";
+                f.submit();
+                break;
+        }
+    }
+    </script>
+    <style type="text/css">
+    <!--
+    body {
+        background-image: url(../principal/imagenes/fondo3.gif);
+    }
+
+    .Estilo1 {
+        color: #0000FF
+    }
+    -->
+    </style>
+</head>
 
 <body>
-<form name="frmPrincipal" action="" method="post">
-  <table width="620" border="0" align="center">
-    <tr>
-      <td width="294">CODELCO CHILE<br>
-        DIVISION VENTANAS <br> </td>
-      <td width="296" align="right">FECHA:&nbsp;<?php echo date("d-m-Y")?></td>
-    </tr>
-    <tr align="center">
-      <td height="30" colspan="2"><strong><u>RECEPCION DE CONJUNTOS</u></strong></td>
-    </tr>
-    <tr align="center">
-      <td colspan="2"><?php echo substr($TxtFechaIni,8,2)."-".substr($TxtFechaIni,5,2)."-".substr($TxtFechaIni,0,4)." al ".substr($TxtFechaFin,8,2)."-".substr($TxtFechaFin,5,2)."-".substr($TxtFechaFin,0,4) ?></td>
-    </tr>
-    <tr align="center">
-      <td colspan="2"><input name="BtnImprimir" type="button" id="BtnImprimir" value="Imprimir" style="width:70px " onClick="Proceso('I')">
-      <input name="BtnSalir" type="button" id="BtnSalir" value="Salir" style="width:70px " onClick="Proceso('S')"></td>
-    </tr>
-  </table>
-  <br>
-  <?php
+    <form name="frmPrincipal" action="" method="post">
+        <table width="620" border="0" align="center">
+            <tr>
+                <td width="294">CODELCO CHILE<br>
+                    DIVISION VENTANAS <br> </td>
+                <td width="296" align="right">FECHA:&nbsp;<?php echo date("d-m-Y")?></td>
+            </tr>
+            <tr align="center">
+                <td height="30" colspan="2"><strong><u>RECEPCION DE CONJUNTOS</u></strong></td>
+            </tr>
+            <tr align="center">
+                <td colspan="2">
+                    <?php echo substr($TxtFechaIni,8,2)."-".substr($TxtFechaIni,5,2)."-".substr($TxtFechaIni,0,4)." al ".substr($TxtFechaFin,8,2)."-".substr($TxtFechaFin,5,2)."-".substr($TxtFechaFin,0,4) ?>
+                </td>
+            </tr>
+            <tr align="center">
+                <td colspan="2"><input name="BtnImprimir" type="button" id="BtnImprimir" value="Imprimir"
+                        style="width:70px " onClick="Proceso('I')">
+                    <input name="BtnSalir" type="button" id="BtnSalir" value="Salir" style="width:70px "
+                        onClick="Proceso('S')">
+                </td>
+            </tr>
+        </table>
+        <br>
+        <?php
 $ColSpan01 = 5;
 $LargoTabla=400;
+/**select distinct t1.cod_producto, t1.cod_subproducto, t3.descripcion 
+	from age_web.lotes t1 
+	inner join age_web.detalle_lotes t2 on t1.lote = t2.lote
+	inner join proyecto_modernizacion.subproducto t3 on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto
+	where t1.fecha_recepcion between '2024-03-01' and '2024-03-31' 
+	and t1.cod_producto = '1' and t1.cod_subproducto = '2' and t1.rut_proveedor = '11383924-4' 
+	order by t1.cod_producto, lpad(t1.cod_subproducto,4,'0') */
+	
 //$LoteIni = substr($TxtFechaIni,2,2)."".substr($TxtFechaIni,5,2)."000";
 //$LoteFin = substr($TxtFechaFin,2,2)."".substr($TxtFechaFin,5,2)."000";
 echo "<table width=\"650\"  border=\"1\" align=\"center\" cellpadding=\"1\" cellspacing=\"0\">\n";
 $Consulta = "select distinct t1.cod_producto, t1.cod_subproducto, t3.descripcion  ";
-$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 inner join proyecto_modernizacion.subproducto t3 ";
-$Consulta.= " on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
+$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 ";
 $Consulta.= " on t1.lote = t2.lote ";
+$Consulta.= " inner join proyecto_modernizacion.subproducto t3 ";
+
+$Consulta.= " on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto";
 $Consulta.= " where t1.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 if ($CmbSubProducto != "S")
 {
@@ -153,7 +205,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			$ArrDatosProv=array();
 			$ArrLeyesProv=array();
 			$ArrLeyesProv["01"][0]="01";/*$ArrLeyesProv["02"][0]="02";$ArrLeyesProv["04"][0]="04";$ArrLeyesProv["05"][0]="05";*/
-			LeyesConjunto($Fila01["cod_producto"], $Fila01["cod_subproducto"], $FilaAux["rut_proveedor"], $FilaTipoRecep["num_conjunto"],&$ArrDatosProv,&$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"");
+			LeyesConjunto($Fila01["cod_producto"], $Fila01["cod_subproducto"], $FilaAux["rut_proveedor"], $FilaTipoRecep["num_conjunto"],$ArrDatosProv,$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"");
 			if ($ArrDatosProv["peso_humedo"]!=0 || $ArrDatosProv["peso_seco"]!=0)
 			{
 				echo "<tr>\n";
@@ -193,8 +245,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	$PorcHumProd=0;
 }
 echo "</table>\n";
-?>  
+?>
 
-</form>
+    </form>
 </body>
+
 </html>

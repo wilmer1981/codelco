@@ -1,4 +1,4 @@
-<?php 
+<? 
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 17;
 include("../principal/conectar_principal.php");
@@ -61,7 +61,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				var msg = confirm("ï¿½Seguro que desea eliminar esta relacion?");
+				var msg = confirm("¿Seguro que desea eliminar esta relacion?");
 				if (msg==true)
 				{				
 					f.action="ram_param_circulante01.php?Proceso=E&Valores=" + Valores;
@@ -95,7 +95,7 @@ function Proceso(opt)
 
 <body leftmargin="3" topmargin="5">
 <form name="frm1" action="" method="post">
-<?php include("../principal/encabezado.php") ?>
+<? include("../principal/encabezado.php") ?>
   <table width="770" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
     <tr> 
       <td width="762" height="313" align="center" valign="top"><table width="71%"  border="1" cellpadding="3" cellspacing="0" class="TablaInterior">
@@ -103,15 +103,15 @@ function Proceso(opt)
           <td width="23%">Nodo</td>
           <td width="77%"><select name="Nodo" onChange="Proceso('R')">
 		  <option value="S">SELECCIONAR</option>
-<?php
+<?
 	$Consulta = "select * from proyecto_modernizacion.nodos where sistema='CIR' order by cod_nodo";
-	$Resp = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Resp))
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Nodo == $Fila["cod_nodo"])
-			echo "<option selected value='".$Fila["cod_nodo"]."'>".str_pad($Fila["cod_nodo"],3,"0",STR_PAD_LEFT)." - ".$Fila["descripcion"]."</option>";
+			echo "<option selected value='".$Fila["cod_nodo"]."'>".str_pad($Fila["cod_nodo"],3,"0",str_pad_left)." - ".$Fila["descripcion"]."</option>";
 		else
-			echo "<option value='".$Fila["cod_nodo"]."'>".str_pad($Fila["cod_nodo"],3,"0",STR_PAD_LEFT)." - ".$Fila["descripcion"]."</option>";
+			echo "<option value='".$Fila["cod_nodo"]."'>".str_pad($Fila["cod_nodo"],3,"0",str_pad_left)." - ".$Fila["descripcion"]."</option>";
 	}
 ?>		  
           </select></td>
@@ -120,16 +120,16 @@ function Proceso(opt)
           <td>Flujo</td>
           <td><select name="Flujo" onChange="Proceso('R')">
 		  <option value="S">SELECCIONAR</option>
-<?php
+<?
 	$Consulta = "select * from proyecto_modernizacion.flujos ";
 	$Consulta.= " where nodo='".$Nodo."' and sistema='CIR' and esflujo<>'N' order by cod_flujo";
-	$Resp = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Resp))
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Flujo == $Fila["cod_flujo"])
-			echo "<option selected value='".$Fila["cod_flujo"]."'>".str_pad($Fila["cod_flujo"],3,"0",STR_PAD_LEFT)." - ".$Fila["descripcion"]."</option>";
+			echo "<option selected value='".$Fila["cod_flujo"]."'>".str_pad($Fila["cod_flujo"],3,"0",str_pad_left)." - ".$Fila["descripcion"]."</option>";
 		else
-			echo "<option value='".$Fila["cod_flujo"]."'>".str_pad($Fila["cod_flujo"],3,"0",STR_PAD_LEFT)." - ".$Fila["descripcion"]."</option>";
+			echo "<option value='".$Fila["cod_flujo"]."'>".str_pad($Fila["cod_flujo"],3,"0",str_pad_left)." - ".$Fila["descripcion"]."</option>";
 	}
 ?>		  
           </select></td>
@@ -138,10 +138,10 @@ function Proceso(opt)
           <td>Producto</td>
           <td><select name="Producto" onChange="Proceso('R')">
 <option value="S">SELECCIONAR</option>
-<?php
+<?
 	$Consulta = "select * from proyecto_modernizacion.productos order by descripcion";
-	$Resp = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Resp))
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Producto == $Fila["cod_producto"])
 			echo "<option selected value='".$Fila["cod_producto"]."'>".$Fila["descripcion"]."</option>";
@@ -155,10 +155,10 @@ function Proceso(opt)
           <td>SubProducto</td>
           <td><select name="SubProducto" onChange="Proceso('R')">
 <option value="S">SELECCIONAR</option>		  
-		  <?php
+		  <?
 	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='".$Producto."' order by descripcion";
-	$Resp = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Resp))
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($SubProducto == $Fila["cod_subproducto"])
 			echo "<option selected value='".$Fila["cod_subproducto"]."'>".$Fila["descripcion"]."</option>";
@@ -171,7 +171,7 @@ function Proceso(opt)
         <tr>
           <td>Tipo</td>
           <td><select name="Tipo" onChange="Proceso('R')">		  
-<?php
+<?
 	switch($Tipo)
 	{
 		case "E":
@@ -203,18 +203,18 @@ function Proceso(opt)
       <br>
         <br>        
 		<table width="600"  border="1" cellpadding="3" cellspacing="0" class="TablaDetalle">              
-<?php	
+<?	
 	$Consulta = "select distinct nodo ";
 	$Consulta.= " from ram_web.param_circulante ";
 	$Consulta.= " order by nodo";	
-	$Resp = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Resp))
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
 	{		
 		//NOMBRE FLUJO
 		$Consulta = "select distinct descripcion from proyecto_modernizacion.nodos ";
 		$Consulta.= " where cod_nodo='".$Fila["nodo"]."' and sistema='CIR'";	
-		$Resp3 = mysqli_query($link, $Consulta);
-		if ($Fila3 = mysqli_fetch_array($Resp3))
+		$Resp3 = mysql_query($Consulta);
+		if ($Fila3 = mysql_fetch_array($Resp3))
 			$NomNodo = $Fila3["descripcion"];
 		else
 			$NomNodo = "&nbsp;";
@@ -232,22 +232,22 @@ function Proceso(opt)
 		$Consulta.= " from ram_web.param_circulante ";
 		$Consulta.= " where nodo='".$Fila["nodo"]."'";
 		$Consulta.= " order by nodo, flujo, cod_producto, cod_subproducto, tipo_movimiento";	
-		$Resp2 = mysqli_query($link, $Consulta);
-		while ($Fila2 = mysqli_fetch_array($Resp2))
+		$Resp2 = mysql_query($Consulta);
+		while ($Fila2 = mysql_fetch_array($Resp2))
 		{	
 			//NOMBRE SUBPROD.
 			$Consulta = "select * from proyecto_modernizacion.subproducto ";
 			$Consulta.= " where cod_producto='".$Fila2["cod_producto"]."' and cod_subproducto='".$Fila2["cod_subproducto"]."'";	
-			$Resp3 = mysqli_query($link, $Consulta);
-			if ($Fila3 = mysqli_fetch_array($Resp3))
+			$Resp3 = mysql_query($Consulta);
+			if ($Fila3 = mysql_fetch_array($Resp3))
 				$NomSubProd = $Fila3["descripcion"];
 			else
 				$NomSubProd = "&nbsp;";
 			//NOMBRE FLUJO
 			$Consulta = "select distinct descripcion from proyecto_modernizacion.flujos ";
 			$Consulta.= " where cod_flujo='".$Fila2["flujo"]."' and sistema='CIR'";	
-			$Resp3 = mysqli_query($link, $Consulta);
-			if ($Fila3 = mysqli_fetch_array($Resp3))
+			$Resp3 = mysql_query($Consulta);
+			if ($Fila3 = mysql_fetch_array($Resp3))
 				$NomFlujo = $Fila3["descripcion"];
 			else
 				$NomFlujo = "&nbsp;";
@@ -269,7 +269,7 @@ function Proceso(opt)
       </td>
     </tr>
 </table>
-<?php include ("../principal/pie_pagina.php") ?>   
+<? include ("../principal/pie_pagina.php") ?>   
 </form>
 </body>
 </html>

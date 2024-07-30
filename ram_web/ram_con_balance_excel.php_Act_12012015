@@ -25,7 +25,7 @@
 			$Consulta.= " where cod_clase = '7002'";
 			$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 			$Consulta.= " order by cod_subclase";
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysql_query($Consulta);
 			if ($Fila = mysql_fetch_array($Respuesta))					
 				echo strtoupper($Fila["nombre_subclase"]);
 			else
@@ -67,17 +67,17 @@
     <td colspan="5"><?
 	if ($Acum == "D")
 	{
-		echo str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;
-		$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
-		$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+		echo str_pad($Dia,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;
+		$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
+		$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
 	}
 	else
 	{
 		if ($Acum == "A")
 		{
-			echo "01-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano." AL ".str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;			
-			$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-01";
-			$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+			echo "01-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano." AL ".str_pad($Dia,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;			
+			$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-01";
+			$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
 		}
 		else
 		{
@@ -159,7 +159,7 @@ $Consulta.= " where cod_clase = '7002'";
 if ($TipoMovimiento != "T")
 	$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 $Consulta.= " order by cod_subclase";
-$Resp1 = mysqli_query($link, $Consulta);
+$Resp1 = mysql_query($Consulta);
 $DifPesoHum=0;
 while ($Fila1 = mysql_fetch_array($Resp1))
 {		
@@ -342,7 +342,7 @@ while ($Fila1 = mysql_fetch_array($Resp1))
 			break;
 	}	
 	//echo $Consulta."</br>";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysql_query($Consulta);
 	//SUBTOTALES
 	$SubTotalHum = 0;
 	$SubTotalSeco = 0;
@@ -680,7 +680,7 @@ while ($Fila1 = mysql_fetch_array($Resp1))
 		switch ($Agrup)
 		{
 			case "C":
-				echo "<td>".str_pad($Fila["cod_conjunto"],2,"0",STR_PAD_LEFT)." | ".$Fila["num_conjunto"]."</td>\n";
+				echo "<td>".str_pad($Fila["cod_conjunto"],2,"0",str_pad_left)." | ".$Fila["num_conjunto"]."</td>\n";
 				echo "<td align='left'>".substr(strtoupper($Fila["descripcion"]),0,16)."</td>\n";
 				break;	
 			case "P":

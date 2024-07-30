@@ -1,6 +1,37 @@
 <?php
 include("../principal/conectar_ram_web.php"); 
 
+$cmbtipo  = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
+$cmbtipo_d  = isset($_REQUEST["cmbtipo_d"])?$_REQUEST["cmbtipo_d"]:"";
+$cod_lugar  = isset($_REQUEST["cod_lugar"])?$_REQUEST["cod_lugar"]:"";
+$cod_lugar_d  = isset($_REQUEST["cod_lugar_d"])?$_REQUEST["cod_lugar_d"]:"";
+$num_lugar  = isset($_REQUEST["num_lugar"])?$_REQUEST["num_lugar"]:"";
+$num_lugar_d  = isset($_REQUEST["num_lugar_d"])?$_REQUEST["num_lugar_d"]:"";
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+
+$checkbox  = isset($_REQUEST["checkbox"])?$_REQUEST["checkbox"]:"";
+$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
+$num_conjunto  = isset($_REQUEST["num_conjunto"])?$_REQUEST["num_conjunto"]:"";
+$num_conjunto_d  = isset($_REQUEST["num_conjunto_d"])?$_REQUEST["num_conjunto_d"]:"";
+
+if(isset($_REQUEST["peso_humedo"])){
+	$peso_humedo = $_REQUEST["peso_humedo"];
+}else{
+	$peso_humedo = 0;
+}
+if(isset($_REQUEST["dia"])){
+	$dia = $_REQUEST["dia"];
+}else{
+	$dia = date("d");
+}
+if(isset($_REQUEST["mes"])){
+	$mes = $_REQUEST["mes"];
+}else{
+	$mes = date("m");
+}
+
+
 if(strlen($dia) == 1)
 	$dia = "0".$dia;
 
@@ -36,7 +67,7 @@ if($Proceso == "G")
 
 	$fecha = $ano.'-'.$mes.'-'.$dia.' '.date("H:i:s");
     
-	if($checkbox == on)
+	if($checkbox == "on")
 	{
 		   $validacion = 1;
 	}
@@ -56,7 +87,7 @@ if($Proceso == "G")
 if($Proceso == "M")
 {		
     
-	if($checkbox == on)
+	if($checkbox == "on")
 	{
 		   $validacion = 1;
 	}

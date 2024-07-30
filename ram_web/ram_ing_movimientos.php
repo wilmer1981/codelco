@@ -1,4 +1,80 @@
 <?php
+$cmbmovimiento_aux  = isset($_REQUEST["cmbmovimiento_aux"])?$_REQUEST["cmbmovimiento_aux"]:"";
+$cmbtipo_aux  = isset($_REQUEST["cmbtipo_aux"])?$_REQUEST["cmbtipo_aux"]:"";
+$nombre_conjunto_aux  = isset($_REQUEST["nombre_conjunto_aux"])?$_REQUEST["nombre_conjunto_aux"]:"";
+$stock_aux  = isset($_REQUEST["stock_aux"])?$_REQUEST["stock_aux"]:"";
+$cod_lugar_aux  = isset($_REQUEST["cod_lugar_aux"])?$_REQUEST["cod_lugar_aux"]:"";
+$num_lugar_aux  = isset($_REQUEST["num_lugar_aux"])?$_REQUEST["num_lugar_aux"]:"";
+$lugar_origen_aux  = isset($_REQUEST["lugar_origen_aux"])?$_REQUEST["lugar_origen_aux"]:"";
+$num_conjunto_d_aux  = isset($_REQUEST["num_conjunto_d_aux"])?$_REQUEST["num_conjunto_d_aux"]:"";
+$cmbtipo_d_aux  = isset($_REQUEST["cmbtipo_d_aux"])?$_REQUEST["cmbtipo_d_aux"]:"";
+$nombre_conjunto_d_aux  = isset($_REQUEST["nombre_conjunto_d_aux"])?$_REQUEST["nombre_conjunto_d_aux"]:"";
+$cod_lugar_d_aux  = isset($_REQUEST["cod_lugar_d_aux"])?$_REQUEST["cod_lugar_d_aux"]:"";
+$cod_lugar_d_aux  = isset($_REQUEST["cod_lugar_d_aux"])?$_REQUEST["cod_lugar_d_aux"]:"";
+$num_lugar_d_aux  = isset($_REQUEST["num_lugar_d_aux"])?$_REQUEST["num_lugar_d_aux"]:"";
+$lugar_destino_aux  = isset($_REQUEST["lugar_destino_aux"])?$_REQUEST["lugar_destino_aux"]:"";
+$peso_humedo_aux  = isset($_REQUEST["peso_humedo_aux"])?$_REQUEST["peso_humedo_aux"]:"";
+$estado_val_aux  = isset($_REQUEST["estado_val_aux"])?$_REQUEST["estado_val_aux"]:"";
+$cmbtipo  = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
+$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+$nombre_conjunto  = isset($_REQUEST["nombre_conjunto"])?$_REQUEST["nombre_conjunto"]:"";
+$cod_lugar  = isset($_REQUEST["cod_lugar"])?$_REQUEST["cod_lugar"]:"";
+$num_lugar  = isset($_REQUEST["num_lugar"])?$_REQUEST["num_lugar"]:"";
+$lugar_origen  = isset($_REQUEST["lugar_origen"])?$_REQUEST["lugar_origen"]:"";
+$cmbtipo_d  = isset($_REQUEST["cmbtipo_d"])?$_REQUEST["cmbtipo_d"]:"";
+
+$mostrar2  = isset($_REQUEST["mostrar2"])?$_REQUEST["mostrar2"]:"";
+$nombre_conjunto_d  = isset($_REQUEST["nombre_conjunto_d"])?$_REQUEST["nombre_conjunto_d"]:"";
+$cod_lugar_d  = isset($_REQUEST["cod_lugar_d"])?$_REQUEST["cod_lugar_d"]:"";
+$num_lugar_d  = isset($_REQUEST["num_lugar_d"])?$_REQUEST["num_lugar_d"]:"";
+$lugar_destino  = isset($_REQUEST["lugar_destino"])?$_REQUEST["lugar_destino"]:"";
+
+if(isset($_REQUEST["Proceso"])){
+	$Proceso = $_REQUEST["Proceso"];
+}else{
+	$Proceso= "";
+}
+if(isset($_REQUEST["Proceso2"])){
+	$Proceso2 = $_REQUEST["Proceso2"];
+}else{
+	$Proceso2= "";
+}
+if(isset($_REQUEST["cmbmovimiento"])){
+	$cmbmovimiento = $_REQUEST["cmbmovimiento"];
+}else{
+	$cmbmovimiento= "";
+}
+if(isset($_REQUEST["fecha"])){
+	$fecha = $_REQUEST["fecha"];
+}else{
+	$fecha= "";
+}
+if(isset($_REQUEST["stock"])){
+	$stock = $_REQUEST["stock"];
+}else{
+	$stock= "";
+}
+if(isset($_REQUEST["num_conjunto_aux"])){
+	$num_conjunto_aux = $_REQUEST["num_conjunto_aux"];
+}else{
+	$num_conjunto_aux= "";
+}
+if(isset($_REQUEST["num_conjunto"])){
+	$num_conjunto = $_REQUEST["num_conjunto"];
+}else{
+	$num_conjunto= "";
+}
+if(isset($_REQUEST["num_conjunto_d"])){
+	$num_conjunto_d = $_REQUEST["num_conjunto_d"];
+}else{
+	$num_conjunto_d= "";
+}
+if(isset($_REQUEST["num_conjunto_aux_d"])){
+	$num_conjunto_aux_d = $_REQUEST["num_conjunto_aux_d"];
+}else{
+	$num_conjunto_aux_d= "";
+}
+
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 4;
 
@@ -54,13 +130,13 @@ if($Proceso == "B")
 		
 		if($row = mysqli_fetch_array($rs))
 		{	
-		   $cmbtipo = $row[cod_conjunto];
-		   $num_conjunto = $row[num_conjunto];
+		   $cmbtipo = $row["cod_conjunto"];
+		   $num_conjunto = $row["num_conjunto"];
 		   $nombre_conjunto = $row["descripcion"];
-		   $cmbestado = $row[estado];
-		   $cod_lugar = $row[cod_lugar];
-		   $num_lugar = $row[num_lugar];
-		   $stock = $row[peso_conjunto];
+		   $cmbestado = $row["estado"];
+		   $cod_lugar = $row["cod_lugar"];
+		   $num_lugar = $row["num_lugar"];
+		   $stock = $row["peso_conjunto"];
 		   
 		   if($stock == 0 || $stock == '')
 		   {
@@ -72,7 +148,7 @@ if($Proceso == "B")
 		   
 		   if($row2 = mysqli_fetch_array($rs2))
 		   {
-				$lugar_origen = $row2[descripcion_lugar];
+				$lugar_origen = $row2["descripcion_lugar"];
 		   }
 	
 		}
@@ -102,20 +178,20 @@ if($Proceso2 == "B")
 	
 		if($row3 = mysqli_fetch_array($rs3))
 		{	
-		   $cmbtipo_d = $row3[cod_conjunto];
-		   $num_conjunto_d = $row3[num_conjunto];
+		   $cmbtipo_d = $row3["cod_conjunto"];
+		   $num_conjunto_d = $row3["num_conjunto"];
 		   $nombre_conjunto_d = $row3["descripcion"];
-		   $cmbestado = $row3[estado];
-		   $cod_lugar_d = $row3[cod_lugar];
-		   $num_lugar_d = $row3[num_lugar];
-		   $stock_d = $row3[peso_conjunto];
+		   $cmbestado = $row3["estado"];
+		   $cod_lugar_d = $row3["cod_lugar"];
+		   $num_lugar_d = $row3["num_lugar"];
+		   $stock_d = $row3["peso_conjunto"];
 	
 		   $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $cod_lugar_d AND num_lugar = $num_lugar_d ";
 		   $rs4 = mysqli_query($link, $consulta);
 		   
 		   if($row4 = mysqli_fetch_array($rs4))
 		   {
-				$lugar_destino = $row4[descripcion_lugar];
+				$lugar_destino = $row4["descripcion_lugar"];
 		   }
 	
 		}
@@ -130,128 +206,123 @@ if($Proceso2 == "B")
 
 ?>
 <html>
+
 <head>
-<title>Ingreso de Movimientos</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="JavaScript">
+    <title>Ingreso de Movimientos</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <script language="JavaScript">
+    function Buscar_Conjuntos() {
+        var f = formulario;
 
-function Buscar_Conjuntos()
-{
-var f=formulario;
+        if (f.cmbmovimiento.value == -1) {
+            alert("Debe escoger Tipo de Moviminento");
+            f.cmbmovimiento.focus()
+            return
+        }
 
-	if(f.cmbmovimiento.value == -1)
-	{
-		alert("Debe escoger Tipo de Moviminento");
-		f.cmbmovimiento.focus()
-		return
-	}
+        f.action = "ram_ing_movimientos.php?Proceso=B&Proceso2=B";
+        f.submit();
 
-    f.action ="ram_ing_movimientos.php?Proceso=B&Proceso2=B";
-	f.submit();
+    }
 
-}
+    function Buscar_Conjuntos_Destino() {
+        var f = formulario;
+        f.action = "ram_ing_movimientos.php?Proceso2=B&Proceso=B";
+        f.submit();
 
-function Buscar_Conjuntos_Destino()
-{
-var f=formulario;
-    f.action ="ram_ing_movimientos.php?Proceso2=B&Proceso=B";
-	f.submit();
+    }
 
-}
+    function Ver_Datos() {
+        var f = formulario;
 
-function Ver_Datos()
-{
-	var f = formulario;	
+        if (f.cmbmovimiento.value == -1) {
+            alert("Debe escoger Tipo de Moviminento");
+            f.cmbmovimiento.focus()
+            return
+        }
 
-	if(f.cmbmovimiento.value == -1)
-	{
-		alert("Debe escoger Tipo de Moviminento");
-		f.cmbmovimiento.focus()
-		return
-	}
-	
-	valores = "ano=" + f.ano.value + "&mes=" + f.mes.value + "&dia=" + f.dia.value + "&movimiento=" + f.cmbmovimiento.value;
-	
-    window.open("ram_ing_movimientos02.php?"+valores , "","menubar=no resizable=no Top=50 Left=200 width=770 height=500 scrollbars=no");
-}
+        valores = "ano=" + f.ano.value + "&mes=" + f.mes.value + "&dia=" + f.dia.value + "&movimiento=" + f
+            .cmbmovimiento.value;
 
-function Guardar_Datos()
-{
-var f=formulario;
-//var cod_lugar = f.cod_lugar.value;
-//var num_lugar = f.num_lugar.value;
-//var cod_lugar_d = f.cod_lugar_d.value;
-//var num_lugar_d = f.num_lugar_d.value;
-//var valores;
-	
-	if(f.cmbmovimiento.value == -1)
-	{
-		alert("Debe Escoger Tipo de Movimiento");
-		f.cmbmovimiento.focus()
-		return
-	}			
+        window.open("ram_ing_movimientos02.php?" + valores, "",
+            "menubar=no resizable=no Top=50 Left=200 width=770 height=500 scrollbars=no");
+    }
 
-	if(f.lugar_origen.value == '' || f.nombre_conjunto.value == '' || f.nombre_conjunto_d.value == '' || f.lugar_destino.value == '')
-	{
-		alert("Datos No Habilitados");
-		return
-	}
+    function Guardar_Datos() {
+        var f = formulario;
+        //var cod_lugar = f.cod_lugar.value;
+        //var num_lugar = f.num_lugar.value;
+        //var cod_lugar_d = f.cod_lugar_d.value;
+        //var num_lugar_d = f.num_lugar_d.value;
+        //var valores;
 
-//	valores = "&cod_lugar=" + cod_lugar + "&num_lugar="	+ num_lugar + "&cod_lugar_d=" + cod_lugar_d + "&num_lugar_d="	+ num_lugar_d;	
-//	f.action = "ram_ing_movimientos01.php?Proceso=G"+valores;
-	f.action = "ram_ing_movimientos01.php?Proceso=G";
-	f.submit();
-}
+        if (f.cmbmovimiento.value == -1) {
+            alert("Debe Escoger Tipo de Movimiento");
+            f.cmbmovimiento.focus()
+            return
+        }
 
-function Modificar_Datos()
-{
-var f=formulario;
-//var fecha_aux = f.fecha_aux.value;
-var cod_lugar = f.cod_lugar.value;
-var num_lugar = f.num_lugar.value;
-var cod_lugar_d = f.cod_lugar_d.value;
-var num_lugar_d = f.num_lugar_d.value;
-var valores;
+        if (f.lugar_origen.value == '' || f.nombre_conjunto.value == '' || f.nombre_conjunto_d.value == '' || f
+            .lugar_destino.value == '') {
+            alert("Datos No Habilitados");
+            return
+        }
 
-	valores = "&fecha=" + f.fecha_aux.value + "&cod_lugar=" + cod_lugar + "&num_lugar="	+ num_lugar + "&cod_lugar_d=" + cod_lugar_d + "&num_lugar_d="	+ num_lugar_d;	
-	f.action = "ram_ing_movimientos01.php?Proceso=M"+valores;
-	f.submit();
-}
+        //	valores = "&cod_lugar=" + cod_lugar + "&num_lugar="	+ num_lugar + "&cod_lugar_d=" + cod_lugar_d + "&num_lugar_d="	+ num_lugar_d;	
+        //	f.action = "ram_ing_movimientos01.php?Proceso=G"+valores;
+        f.action = "ram_ing_movimientos01.php?Proceso=G";
+        f.submit();
+    }
 
-function salir_menu()
-{
-var f=formulario;
-    f.action ="../principal/sistemas_usuario.php?CodSistema=7";
-	f.submit();
-}
+    function Modificar_Datos() {
+        var f = formulario;
+        //var fecha_aux = f.fecha_aux.value;
+        var cod_lugar = f.cod_lugar.value;
+        var num_lugar = f.num_lugar.value;
+        var cod_lugar_d = f.cod_lugar_d.value;
+        var num_lugar_d = f.num_lugar_d.value;
+        var valores;
 
-</script>
-<link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
-<style type="text/css">
-<!--
-body {
-	margin-left: 3px;
-	margin-top: 3px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-}
--->
-</style></head>
+        valores = "&fecha=" + f.fecha_aux.value + "&cod_lugar=" + cod_lugar + "&num_lugar=" + num_lugar +
+            "&cod_lugar_d=" + cod_lugar_d + "&num_lugar_d=" + num_lugar_d;
+        f.action = "ram_ing_movimientos01.php?Proceso=M" + valores;
+        f.submit();
+    }
+
+    function salir_menu() {
+        var f = formulario;
+        f.action = "../principal/sistemas_usuario.php?CodSistema=7";
+        f.submit();
+    }
+    </script>
+    <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
+    <style type="text/css">
+    <!--
+    body {
+        margin-left: 3px;
+        margin-top: 3px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+    }
+    -->
+    </style>
+</head>
 
 <body>
-<form name="formulario" method="post">
-  <?php include("../principal/encabezado.php")?>
-  <?php include("../principal/conectar_principal.php") ?> 
-  
-  <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
-    <tr> 
-      <td align="center" valign="top" >
-<table width="700" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
-          <tr> 
-            <td width="104">Fecha Movimiento</td>
-            <td width="203"><font color="#000000" size="2"> 
-              <select name="dia" size="1" style="font-face:verdana;font-size:10">
-                <?php
+    <form name="formulario" method="post">
+        <?php include("../principal/encabezado.php")?>
+        <?php include("../principal/conectar_principal.php") ?>
+
+        <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
+            <tr>
+                <td align="center" valign="top">
+                    <table width="700" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
+                        <tr>
+                            <td width="104">Fecha Movimiento</td>
+                            <td width="203">
+                                <font color="#000000" size="2">
+                                    <select name="dia" size="1" style="font-face:verdana;font-size:10">
+                                        <?php
 			if($Proceso=='B' || $Proceso == "M")
 			{
     			for ($i=1;$i<=31;$i++)
@@ -281,10 +352,11 @@ body {
  				}
 		   }			
 	?>
-              </select>
-              </font> <font color="#000000" size="2"> 
-              <select name="mes" size="1" id="select7" style="FONT-FACE:verdana;FONT-SIZE:10">
-                <?php
+                                    </select>
+                                </font>
+                                <font color="#000000" size="2">
+                                    <select name="mes" size="1" id="select7" style="FONT-FACE:verdana;FONT-SIZE:10">
+                                        <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Proceso=='B' || $Proceso == "M")
 		{
@@ -316,9 +388,9 @@ body {
 	    } 	  
   		  
      ?>
-              </select>
-              <select name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
-                <?php
+                                    </select>
+                                    <select name="ano" size="1" style="FONT-FACE:verdana;FONT-SIZE:10">
+                                        <?php
 	if($Proceso=='B' || $Proceso == "M")
 	{
 	    for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
@@ -348,12 +420,16 @@ body {
          }   
     }	
 ?>
-              </select>
-              </font></td>
-            <td width="133"><input name='Ver_Movimientos' type='button' style="width:110" value='Ver Movimientos' onClick='Ver_Datos();'></td>
-            <td width="27"><font color="#000000" size="2">Hora</font></td>
-            <td width="200"><select name="hh" id="select5">
-                <?php
+                                    </select>
+                                </font>
+                            </td>
+                            <td width="133"><input name='Ver_Movimientos' type='button' style="width:110"
+                                    value='Ver Movimientos' onClick='Ver_Datos();'></td>
+                            <td width="27">
+                                <font color="#000000" size="2">Hora</font>
+                            </td>
+                            <td width="200"><select name="hh" id="select5">
+                                    <?php
             if ($Proceso=="B" || $Proceso == "M")
                  {
 		echo '<option selected value ="'.$hh.'">'.$hh.'</option>';
@@ -371,10 +447,10 @@ body {
 			}
 		 }
 		?>
-              </select>
-              : 
-              <select name="mm" id="select6">
-                <?php
+                                </select>
+                                :
+                                <select name="mm" id="select6">
+                                    <?php
                 if ($Proceso=="B" || $Proceso == "M")
                  {
 		echo '<option selected value ="'.$mm.'">'.$mm.'</option>';
@@ -392,15 +468,16 @@ body {
 			}
 		  }	
 		?>
-              </select> </td>
-          </tr>
-        </table>
-	  <br>
-	  <table width="279" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
-          <tr> 
-            <td width="111"><strong>Tipo Movimiento</strong></td>
-            <td width="146" colspan="2"> 
-              <?php
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table width="279" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
+                        <tr>
+                            <td width="111"><strong>Tipo Movimiento</strong></td>
+                            <td width="146" colspan="2">
+                                <?php
 			  
 			  echo'<select name="cmbmovimiento" style="width:170">';
               echo'<option value = "-1" selected>SELECCIONAR</option>';
@@ -411,25 +488,25 @@ body {
 			  while($row = mysqli_fetch_array($rs))
 			  {
 				if ($row["cod_existencia"] == $cmbmovimiento AND ($Proceso2 == "B" || $Proceso == "B" || $Proceso == "M"))
-					echo '<option value="'.$row["cod_existencia"].'" selected>'.$row[nombre_existencia].'</option>';
+					echo '<option value="'.$row["cod_existencia"].'" selected>'.$row["nombre_existencia"].'</option>';
 				else
-					echo '<option value="'.$row["cod_existencia"].'">'.$row[nombre_existencia].'</option>';									
+					echo '<option value="'.$row["cod_existencia"].'">'.$row["nombre_existencia"].'</option>';									
 			  
 			  }		  
 			  echo'</select>';
 			 ?>
-            </td>
-          </tr>
-      </table>
-	  <br>
-	  <table width="700" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
-          <tr> 
-            <td colspan="7" class="ColorTabla01">Datos Orig&eacute;n</td>
-          </tr>
-          <tr> 
-            <td>Tipo Conjunto</td>
-            <td width="171"> 
-              <?php
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table width="700" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
+                        <tr>
+                            <td colspan="7" class="ColorTabla01">Datos Orig&eacute;n</td>
+                        </tr>
+                        <tr>
+                            <td>Tipo Conjunto</td>
+                            <td width="171">
+                                <?php
 			  
 			  echo'<select name="cmbtipo" style="width:150">';
               echo'<option value = "-1" selected>SELECCIONAR</option>';
@@ -452,10 +529,12 @@ body {
 			  }		  
 			  echo'</select>';
 			 ?>
-            </td>
-            <td width="95"><font color="#000000" size="2">Conjunto Origen </font></td>
-            <td width="64"> 
-              <?php
+                            </td>
+                            <td width="95">
+                                <font color="#000000" size="2">Conjunto Origen </font>
+                            </td>
+                            <td width="64">
+                                <?php
 			if($Proceso == "B" || $Proceso == "M")
 			{	
 				echo'<input name="num_conjunto" type="text" size="10" value="'.$num_conjunto.'">';
@@ -464,16 +543,18 @@ body {
 			else
 				echo'<input name="num_conjunto" type="text" size="10">';
 			?>
-            </td>
-            <td width="65"> <input name="buscar" type="button" value="Ok" onClick="Buscar_Conjuntos();"> 
-            </td>
-            <td width="34">Stock</td>
-            <td width="96"><?php echo'<input name="stock" type="text" size="10" value="'.$stock.'" ReadOnly>'; ?></td>
-          </tr>
-          <tr> 
-            <td width="130">Nombre Conjunto</td>
-            <td colspan="6"> 
-              <?php
+                            </td>
+                            <td width="65"> <input name="buscar" type="button" value="Ok" onClick="Buscar_Conjuntos();">
+                            </td>
+                            <td width="34">Stock</td>
+                            <td width="96">
+                                <?php echo'<input name="stock" type="text" size="10" value="'.$stock.'" ReadOnly>'; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="130">Nombre Conjunto</td>
+                            <td colspan="6">
+                                <?php
 			if($Proceso == "B" || $Proceso == "M")
 			{	
 				echo'<input name="nombre_conjunto" type="text" size="52" value="'.$nombre_conjunto.'" disabled>';
@@ -482,12 +563,12 @@ body {
 			else
 				echo'<input name="nombre_conjunto" type="text" size="52">';
 			?>
-            </td>
-          </tr>
-          <tr> 
-            <td>Lugar Origen</td>
-            <td colspan="6"> 
-              <?php
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lugar Origen</td>
+                            <td colspan="6">
+                                <?php
 			if($Proceso == "B" || $Proceso == "M")
 			{	
 				echo'<input name="cod_lugar" type="hidden" size="30" value="'.$cod_lugar.'">';
@@ -498,18 +579,18 @@ body {
 			else
 				echo'<input name="lugar_origen" type="text" size="40">';
 			?>
-            </td>
-          </tr>
-        </table>
-	  <br>
-	  <table width="700" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
-          <tr> 
-            <td colspan="7" class="ColorTabla01">Datos Destino </td>
-          </tr>
-          <tr> 
-            <td width="131">Tipo Conjunto</td>
-            <td width="164"> 
-              <?php
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table width="700" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
+                        <tr>
+                            <td colspan="7" class="ColorTabla01">Datos Destino </td>
+                        </tr>
+                        <tr>
+                            <td width="131">Tipo Conjunto</td>
+                            <td width="164">
+                                <?php
 			  
 			  echo'<select name="cmbtipo_d" style="width:150">';
               echo'<option value = "-1" selected>SELECCIONAR</option>';
@@ -552,10 +633,12 @@ body {
 			  }		  
 			  echo'</select>';
 			 ?>
-            </td>
-            <td width="99"><font color="#000000" size="2">Conjunto Destino</font></td>
-            <td width="62"> 
-              <?php
+                            </td>
+                            <td width="99">
+                                <font color="#000000" size="2">Conjunto Destino</font>
+                            </td>
+                            <td width="62">
+                                <?php
 			if($Proceso2 == "B" || $Proceso == "M")
 			{	
 				echo'<input name="num_conjunto_d" type="text" size="10" value="'.$num_conjunto_d.'">';
@@ -564,16 +647,19 @@ body {
 			else
 				echo'<input name="num_conjunto_d" type="text" size="10">';
 			?>
-            </td>
-            <td width="68"><input name="buscar2" type="button" value="Ok" onClick="Buscar_Conjuntos_Destino();"> 
-            </td>
-            <td width="34">&nbsp;</td>
-            <td width="97"><?php //echo'<input name="stock_d" type="text" size="10" value="'.$stock_d.'" disabled>'; ?></td>
-          </tr>
-          <tr> 
-            <td>Nombre Conjunto</td>
-            <td colspan="6"> 
-              <?php
+                            </td>
+                            <td width="68"><input name="buscar2" type="button" value="Ok"
+                                    onClick="Buscar_Conjuntos_Destino();">
+                            </td>
+                            <td width="34">&nbsp;</td>
+                            <td width="97">
+                                <?php //echo'<input name="stock_d" type="text" size="10" value="'.$stock_d.'" disabled>'; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nombre Conjunto</td>
+                            <td colspan="6">
+                                <?php
 			if($Proceso2 == "B" || $Proceso == "M")
 			{	
 				echo'<input name="nombre_conjunto_d" type="text" size="52" value="'.$nombre_conjunto_d.'" disabled>';
@@ -582,12 +668,12 @@ body {
 			else
 				echo'<input name="nombre_conjunto_d" type="text" size="52">';
 			?>
-            </td>
-          </tr>
-          <tr> 
-            <td>Lugar Destino</td>
-            <td colspan="6"> 
-              <?php
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lugar Destino</td>
+                            <td colspan="6">
+                                <?php
 			if($Proceso2 == "B" || $Proceso == "M")
 			{	
 				echo'<input name="cod_lugar_d" type="hidden" size="30" value="'.$cod_lugar_d.'">';
@@ -598,39 +684,40 @@ body {
 			else
 				echo'<input name="lugar_destino" type="text" size="40">';
 			?>
-            </td>
-          </tr>
-        </table>
-      <br>
-	  <table width="406" height="28" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
-          <tr> 
-            <td width="56" height="25">Validaci&oacute;n</td>
-            <td width="20">
-			<?php			
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table width="406" height="28" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
+                        <tr>
+                            <td width="56" height="25">Validaci&oacute;n</td>
+                            <td width="20">
+                                <?php			
 			  if($estado_val == 1)
 			  	echo '<input type="checkbox" name="checkbox" checked>';
 			  if($estado_val == 0)
 			  	echo '<input type="checkbox" name="checkbox">';
              ?>
-			</td>
-			<td width="38">&nbsp;</td>
-            <td width="145">Peso Humedo a Mover</td>
-            <td width="62"> 
-              <?php 
+                            </td>
+                            <td width="38">&nbsp;</td>
+                            <td width="145">Peso Humedo a Mover</td>
+                            <td width="62">
+                                <?php 
 			  if($Proceso == "M")	
 				  echo'<input name="peso_humedo" type="text" size="10" value="'.number_format($peso_humedo/1000,3,",","").'">';
 			  else 	 
 				  echo'<input name="peso_humedo" type="text" size="10">';
               ?>
-            </td>
-            <td width="46">Tons </td>
-          </tr>
-        </table>
-	  <br>
-	  <table width="700" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">	  	  
-          <tr> 
-            <td colspan="3"><div align="center"> 
-			<?php
+                            </td>
+                            <td width="46">Tons </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table width="700" border="0" cellpadding="3" cellspacing="0" class="TablaDetalle">
+                        <tr>
+                            <td colspan="3">
+                                <div align="center">
+                                    <?php
 				 if($fecha != '')
 				 {				
 					 echo'<input name="modificar" type="button" style="width:70" value="Modificar" onClick="Modificar_Datos();">';
@@ -640,13 +727,16 @@ body {
 				 {
 					 echo'<input name="guardar" type="button" style="width:70" value="Guardar" onClick="Guardar_Datos();">';
             	 }
-			 ?>   <input name="salir" type="button" style="width:70" onClick="salir_menu();" value="Salir">
-              </div></td>
-          </tr>
-        </table>     </td>
-  </tr>
-</table>
-<?php include("../principal/pie_pagina.php")?>  
-</form>
+			 ?> <input name="salir" type="button" style="width:70" onClick="salir_menu();" value="Salir">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <?php include("../principal/pie_pagina.php")?>
+    </form>
 </body>
+
 </html>

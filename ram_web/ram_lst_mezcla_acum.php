@@ -1,4 +1,4 @@
-<?php
+<?
  include("../principal/conectar_ram_web.php"); 
 ?>
 <html>
@@ -23,12 +23,12 @@ function Imprimir()
     <td align="center" colspan="10">MOVIMIENTO DE MEZCLAS ACUMULADO</td>
   </tr>
   <tr class="ColorTabla02"> 
-    <td align="center" colspan="10">FECHA:  <?php echo $dia.'/'.$mes.'/'.$ano ?></td>
+    <td align="center" colspan="10">FECHA:  <? echo $dia.'/'.$mes.'/'.$ano ?></td>
   </tr>
 </table>
 <br>
 
-<?php
+<?
     if(strlen($dia) == 1)
 	$dia = '0'.$dia;
 
@@ -39,20 +39,20 @@ function Imprimir()
 //	$fecha = $dia.'-'.$mes.'-'.$ano;
 	
 	$consulta = "SELECT distinct CONJUNTO_DESTINO FROM ram_web.movimiento_conjunto WHERE left(FECHA_MOVIMIENTO,10) = '".$fecha."' AND cod_conjunto_destino = 2 AND cod_conjunto = 1 order by CONJUNTO_DESTINO ASC ";
-	$rs = mysqli_query($link, $consulta);
+	$rs = mysql_query($consulta);
 
-	while($row = mysqli_fetch_array($rs))
+	while($row = mysql_fetch_array($rs))
 	{
 		echo '<table width="300" border="0" cellspacing="0" cellpadding="0" align="center">';
 		echo'<tr class="ColorTabla02">';
 		echo '<td width="40%" align="center"><strong>MEZCLA :</strong></td>';
 
 		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = $row[CONJUNTO_DESTINO]";
-		$rs2 = mysqli_query($link, $consulta);
+		$rs2 = mysql_query($consulta);
 		
-		if($row2 = mysqli_fetch_array($rs2))
+		if($row2 = mysql_fetch_array($rs2))
 		{
-			echo '<td width="60%">'.$row2[num_conjunto].' - '.$row2["descripcion"].'</td>';
+			echo '<td width="60%">'.$row2[num_conjunto].' - '.$row2[descripcion].'</td>';
 		}
 		echo '</tr></table>';
 
@@ -63,31 +63,31 @@ function Imprimir()
 //		echo '<td width="18%" align="center">TIPO MOV.</td>';
 		echo '<td width="20%" align="center">FECHA MOVIMIENTO</td>';
 		echo '<td width="10%"align="center">PESO HUMEDO</td>';
-		echo '<td width="10%"align="center">VALIDACIï¿½N</td>';
+		echo '<td width="10%"align="center">VALIDACIÓN</td>';
 		echo '<td width="10%" align="center">PESO TOTAL</td>';
 		echo '</tr>';
 
 		$consulta = "SELECT COD_EXISTENCIA,COD_CONJUNTO,NUM_CONJUNTO,FECHA_MOVIMIENTO,PESO_HUMEDO_MOVIDO,ESTADO_VALIDACION FROM movimiento_conjunto
 		 WHERE left(FECHA_MOVIMIENTO,10) = '".$fecha."' AND CONJUNTO_DESTINO = $row2[num_conjunto] AND cod_conjunto_destino = 2 ORDER BY FECHA_MOVIMIENTO";
-		$rs3 = mysqli_query($link, $consulta);
+		$rs3 = mysql_query($consulta);
 				            
-		while ($row3 = mysqli_fetch_array($rs3))
+		while ($row3 = mysql_fetch_array($rs3))
 		{												  
 
 		    	echo '<tr><td width="8%">'.$row3[COD_CONJUNTO].' - '.$row3[NUM_CONJUNTO].'</td>';
 
 				$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = $row3[COD_CONJUNTO] AND num_conjunto = $row3[NUM_CONJUNTO]"; 
-				$rs5 = mysqli_query($link, $consulta);
+				$rs5 = mysql_query($consulta);
 	
-				if($row5 = mysqli_fetch_array($rs5))
+				if($row5 = mysql_fetch_array($rs5))
 				{
-	 			    	echo '<td width="22%">'.$row5["descripcion"].'</td>';
+	 			    	echo '<td width="22%">'.$row5[descripcion].'</td>';
 				}
 
 
 /*				$consulta = "SELECT nombre_existencia FROM atributo_existencia where cod_existencia = $row3[COD_EXISTENCIA]"; 
-				$rs6 = mysqli_query($link, $consulta);
-				if($row6 = mysqli_fetch_array($rs6))
+				$rs6 = mysql_query($consulta);
+				if($row6 = mysql_fetch_array($rs6))
 				{
 	 			    	echo '<td width="10%" align="center">'.$row6[nombre_existencia].'</td>';
 				}
@@ -114,17 +114,17 @@ function Imprimir()
      	echo '</tr>';
 		
 		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM movimiento_conjunto WHERE left(FECHA_MOVIMIENTO,10) = '".$fecha."' AND CONJUNTO_DESTINO = $row[CONJUNTO_DESTINO]";
-		$rs7 = mysqli_query($link, $consulta);
+		$rs7 = mysql_query($consulta);
 
-		if($row7 = mysqli_fetch_array($rs7))
+		if($row7 = mysql_fetch_array($rs7))
 		{
 			$Total_Humedo = $row7[Total_Humedo];
 		}
 
 		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM movimiento_conjunto WHERE left(FECHA_MOVIMIENTO,10) = '".$fecha."' AND CONJUNTO_DESTINO = $row[CONJUNTO_DESTINO]";
-		$rs8 = mysqli_query($link, $consulta);
+		$rs8 = mysql_query($consulta);
 
-		if($row8 = mysqli_fetch_array($rs8))
+		if($row8 = mysql_fetch_array($rs8))
 		{
 				$Total_val = $row8[Validacion];
 			if ($row8[Validacion] < 0)
@@ -162,4 +162,4 @@ function Imprimir()
 
 </body>
 </html>
-<?php include("../principal/cerrar_ram_web.php") ?>
+<? include("../principal/cerrar_ram_web.php") ?>

@@ -97,7 +97,7 @@ if ($Mostrar == "S")
 						$FinoAsSP = (($PisoActual * $LeyAs)/100);
 					}
 					//echo $Fila["cod_producto"]."-".$Fila["cod_subproducto"]." == Hum=".$LeyH2O."; Cu=".$LeyCu."; Ag=".$LeyAg."; Au=".$LeyAu."<br>";
-					$Actualizar = "UPDATE ram_web.stock_piso set ";
+					$Actualizar = "update ram_web.stock_piso set ";
 					$Actualizar.= " peso_seco = '".$PesoSecoSP."' ";
 					$Actualizar.= " , fino_cu = '".$FinoCuSP."' ";
 					$Actualizar.= " , fino_ag = '".$FinoAgSP."' ";
@@ -288,7 +288,7 @@ if ($Mostrar == "S")
 		$Resp = mysqli_query($link, $Consulta);
 		while ($Fila = mysqli_fetch_array($Resp))
 		{			
-			$Actualizar = "UPDATE ram_web.flujos_mes_cir set ";
+			$Actualizar = "update ram_web.flujos_mes_cir set ";
 			$Actualizar.= " peso = (peso + ".$Fila["peso_seco"].") ";
 			$Actualizar.= " ,fino_cu = (fino_cu + ".$Fila["fino_cu"].") ";
 			$Actualizar.= " ,fino_ag = (fino_ag + ".$Fila["fino_ag"].") ";
@@ -369,7 +369,7 @@ if ($Mostrar == "S")
 				if ($Fila2 = mysqli_fetch_array($Resp2))
 				{
 					//AJUSTA BENEFICIO
-					$Actualizar = "UPDATE ram_web.flujos_mes_cir set ";
+					$Actualizar = "update ram_web.flujos_mes_cir set ";
 					$Actualizar.= " peso = (peso + ".abs($DifStockPiso).") ";
 					$Actualizar.= " , fino_cu = (fino_cu + ".abs($DifFinoCu).") ";
 					$Actualizar.= " , fino_ag = (fino_ag + ".abs($DifFinoAg).") ";
@@ -463,7 +463,7 @@ if ($Mostrar == "S")
 					if ($Fila3 = mysqli_fetch_array($Resp3))
 					{
 						//AJUSTA BENEFICIO
-						$Actualizar = "UPDATE ram_web.flujos_mes_cir set ";
+						$Actualizar = "update ram_web.flujos_mes_cir set ";
 						$Actualizar.= " peso = '".$PesoAjuste."' ";
 						$Actualizar.= " , fino_cu = '".$FinoCuAjuste."' ";
 						$Actualizar.= " , fino_ag = '".$FinoAgAjuste."' ";
@@ -486,7 +486,7 @@ if ($Mostrar == "S")
 					if ($Fila2 = mysqli_fetch_array($Resp2))
 					{
 						//AJUSTA RECEPCION
-						$Actualizar = "UPDATE ram_web.flujos_mes_cir set ";
+						$Actualizar = "update ram_web.flujos_mes_cir set ";
 						$Actualizar.= " peso = (peso + ".abs($DifStockPiso).") ";
 						$Actualizar.= " , fino_cu = (fino_cu + ".abs($DifFinoCu).") ";
 						$Actualizar.= " , fino_ag = (fino_ag + ".abs($DifFinoAg).") ";
@@ -581,7 +581,7 @@ if ($Mostrar == "S")
 						if ($Fila3 = mysqli_fetch_array($Resp3))
 						{
 							//AJUSTA RECEPCION
-							$Actualizar = "UPDATE ram_web.flujos_mes_cir set ";
+							$Actualizar = "update ram_web.flujos_mes_cir set ";
 							$Actualizar.= " peso = '".$PesoAjuste."' ";
 							$Actualizar.= " , fino_cu = '".$FinoCuAjuste."' ";
 							$Actualizar.= " , fino_ag = '".$FinoAgAjuste."' ";

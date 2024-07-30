@@ -1,4 +1,4 @@
-<?php         ob_end_clean();
+<?         ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
@@ -27,18 +27,18 @@ include("../principal/conectar_principal.php");
 <body leftmargin="3" topmargin="5">
         <br>        
 		<table width="750"  border="1" cellpadding="3" cellspacing="0" class="TablaDetalle">              
-<?php	
+<?	
 	$Consulta = "select distinct nodo ";
 	$Consulta.= " from ram_web.flujo_rut ";
 	$Consulta.= " order by nodo";	
-	$Resp = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Resp))
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
 	{
 		//NOMBRE FLUJO
 		$Consulta = "select distinct descripcion from proyecto_modernizacion.nodos ";
 		$Consulta.= " where cod_nodo='".$Fila["nodo"]."' and sistema='RAM'";	
-		$Resp3 = mysqli_query($link, $Consulta);
-		if ($Fila3 = mysqli_fetch_array($Resp3))
+		$Resp3 = mysql_query($Consulta);
+		if ($Fila3 = mysql_fetch_array($Resp3))
 			$NomNodo = $Fila3["descripcion"];
 		else
 			$NomNodo = "&nbsp;";
@@ -60,22 +60,22 @@ include("../principal/conectar_principal.php");
 		$Consulta.= " from ram_web.flujo_rut ";
 		$Consulta.= " where nodo='".$Fila["nodo"]."'";
 		$Consulta.= " order by nodo, flujo, cod_producto, cod_subproducto";	
-		$Resp2 = mysqli_query($link, $Consulta);
-		while ($Fila2 = mysqli_fetch_array($Resp2))
+		$Resp2 = mysql_query($Consulta);
+		while ($Fila2 = mysql_fetch_array($Resp2))
 		{	
 			//NOMBRE SUBPROD.
 			$Consulta = "select * from proyecto_modernizacion.subproducto ";
 			$Consulta.= " where cod_producto='".$Fila2["cod_producto"]."' and cod_subproducto='".$Fila2["cod_subproducto"]."'";	
-			$Resp3 = mysqli_query($link, $Consulta);
-			if ($Fila3 = mysqli_fetch_array($Resp3))
+			$Resp3 = mysql_query($Consulta);
+			if ($Fila3 = mysql_fetch_array($Resp3))
 				$NomSubProd = strtoupper($Fila3["descripcion"]);
 			else
 				$NomSubProd = "&nbsp;";
 			//NOMBRE FLUJO
 			$Consulta = "select distinct descripcion from proyecto_modernizacion.flujos ";
 			$Consulta.= " where cod_flujo='".$Fila2["flujo"]."' and sistema='RAM'";	
-			$Resp3 = mysqli_query($link, $Consulta);
-			if ($Fila3 = mysqli_fetch_array($Resp3))
+			$Resp3 = mysql_query($Consulta);
+			if ($Fila3 = mysql_fetch_array($Resp3))
 				$NomFlujo = strtoupper($Fila3["descripcion"]);
 			else
 				$NomFlujo = "&nbsp;";
@@ -90,8 +90,8 @@ include("../principal/conectar_principal.php");
 			//PROVEEDOR
 			$Consulta = "select * from ram_web.proveedor ";
 			$Consulta.= " where rut_proveedor= '".$Fila2["rut"]."'";	
-			$Resp3 = mysqli_query($link, $Consulta);
-			if ($Fila3 = mysqli_fetch_array($Resp3))
+			$Resp3 = mysql_query($Consulta);
+			if ($Fila3 = mysql_fetch_array($Resp3))
 				$NomProveedor = $Fila3["nombre"];
 			else
 				$NomProveedor = "&nbsp;";
@@ -100,8 +100,8 @@ include("../principal/conectar_principal.php");
 			//EXISTENCIA			
 			$Consulta = "select * from ram_web.atributo_existencia ";
 			$Consulta.= " where cod_existencia= '".$Fila2["cod_existencia"]."'";	
-			$Resp3 = mysqli_query($link, $Consulta);
-			if ($Fila3 = mysqli_fetch_array($Resp3))
+			$Resp3 = mysql_query($Consulta);
+			if ($Fila3 = mysql_fetch_array($Resp3))
 				$NomExist = $Fila3["nombre_existencia"];
 			else
 				$NomExist = "&nbsp;";
@@ -110,8 +110,8 @@ include("../principal/conectar_principal.php");
 			//LUGAR DESTINO
 			$Consulta = "select * from ram_web.tipo_lugar ";
 			$Consulta.= " where cod_tipo_lugar = '".$Fila2["destino"]."'";	
-			$Resp3 = mysqli_query($link, $Consulta);
-			if ($Fila3 = mysqli_fetch_array($Resp3))
+			$Resp3 = mysql_query($Consulta);
+			if ($Fila3 = mysql_fetch_array($Resp3))
 				$NomDestino = $Fila3["descripcion_lugar"];
 			else
 				$NomDestino = "&nbsp;";

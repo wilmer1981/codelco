@@ -1,4 +1,4 @@
-<?php
+<?
 	$CodigoDeSistema = 7;
 	$CodigoDePantalla =15; 
 	include("../principal/conectar_principal.php")
@@ -52,8 +52,8 @@ function cerrar_con()
 
 <body leftmargin="3" topmargin="2" marginwidth="0" marginheight="0">
 <form name="frmPrincipal" action="" method="post">
-<input type="hidden" name="ConsComun" value="<?php echo $ConsComun; ?>">
-<?php include("../principal/encabezado.php"); ?>
+<input type="hidden" name="ConsComun" value="<? echo $ConsComun; ?>">
+<? include("../principal/encabezado.php"); ?>
   <table width="770" height="315" border="0" cellpadding="3" cellspacing="3" class="TablaPrincipal">
   
       <tr> 
@@ -67,7 +67,7 @@ function cerrar_con()
        				
 		<tr> 	
             <select name="Mes" id="select5" style="width:110px">
-                <?php
+                <?
 			  	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 				for ($i = 1; $i <= 12; $i++)
 				{
@@ -89,7 +89,7 @@ function cerrar_con()
 			?>
               </select>
               <select name="Ano" style="width:70px">
-                <?php
+                <?
 				for ($i = (date("Y")-1); $i <= (date("Y")+1); $i++)
 				{
 					if (isset($Ano))
@@ -121,7 +121,7 @@ function cerrar_con()
       </table></td>
   </tr>
 </table>
-<?php include("../principal/pie_pagina.php"); ?>
+<? include("../principal/pie_pagina.php"); ?>
 </form>
 </body>
 </html>

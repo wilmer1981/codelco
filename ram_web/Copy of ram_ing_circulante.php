@@ -1,4 +1,4 @@
-<?php
+<?
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 5;
 
@@ -6,19 +6,19 @@ $CodigoDePantalla = 5;
  {
 	$consulta = "SELECT NUM_CONJUNTO,PESO_HUMEDO_MOVIDO FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO = '$fecha_c' AND COD_EXISTENCIA = 02 AND COD_CONJUNTO = 03  AND NUM_CONJUNTO = '$n_conjunto'";
 	include("../principal/conectar_ram_web.php");
-	$rs = mysqli_query($link, $consulta);
+	$rs = mysql_query($consulta);
 	
-	if($row = mysqli_fetch_array($rs))
+	if($row = mysql_fetch_array($rs))
 	{	
 	   $num_conjunto = $row[NUM_CONJUNTO];
 	   $peso_humedo = number_format(($row[PESO_HUMEDO_MOVIDO]/1000),3,",","");
 	            
 		$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $num_conjunto AND estado != 'f'";
-		$rs1 = mysqli_query($link, $consulta);
+		$rs1 = mysql_query($consulta);
 	
-		if($row1 = mysqli_fetch_array($rs1))
+		if($row1 = mysql_fetch_array($rs1))
 		{	
-	   		$descripcion = $row1["descripcion"];
+	   		$descripcion = $row1[descripcion];
 	  		$cod_lugar = $row1[cod_lugar];
 	   		$num_lugar = $row1[num_lugar];
 		}
@@ -33,12 +33,12 @@ $CodigoDePantalla = 5;
 	{
 		$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $num_conjunto AND estado != 'f'";
 		include("../principal/conectar_ram_web.php");
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysql_query($consulta);
 		
-		if($row = mysqli_fetch_array($rs))
+		if($row = mysql_fetch_array($rs))
 		{	
 		   $num_conjunto = $row[num_conjunto];
-		   $descripcion = $row["descripcion"];
+		   $descripcion = $row[descripcion];
 		   $cod_lugar = $row[cod_lugar];
 		   $num_lugar = $row[num_lugar];
 		}
@@ -200,8 +200,8 @@ body {
 
 <body>
 <form name="formulario" method="post">
-  <?php include("../principal/encabezado.php")?>
-  <?php include("../principal/conectar_principal.php") ?> 
+  <? include("../principal/encabezado.php")?>
+  <? include("../principal/conectar_principal.php") ?> 
   
 <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
  <tr> 
@@ -212,7 +212,7 @@ body {
             </td>
             <td width="205"><font color="#000000" size="2"> 
               <select name="dia" size="1" style="font-face:verdana;font-size:10">
-                <?php
+                <?
 			if($Proceso=='V' || $Proceso=='B')
 			{
     			for ($i=1;$i<=31;$i++)
@@ -245,7 +245,7 @@ body {
               </select>
               </font> <font color="#000000" size="2"> 
               <select name="mes" size="1" id="select" style="FONT-FACE:verdana;FONT-SIZE:10">
-                <?php
+                <?
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
     	if($Proceso=='V' || $Proceso=='B')
 		{
@@ -279,7 +279,7 @@ body {
      ?>
               </select>
               <select name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
-                <?php
+                <?
 	if($Proceso=='V' || $Proceso=='B')
 	{
 	    for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
@@ -314,7 +314,7 @@ body {
             <td width="144"><input name="buscar_mov" type="button" id="buscar_mov" style="width:130" onClick="Buscar_Movimientos();" value="Buscar Movimientos"></td>
             <td width="48"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Hora</td>
             <td width="221"><select name="hh">
-                <?php
+                <?
 		 	for($i=0; $i<=23; $i++)
 			{
 				if (($recargapag == "S") && ($i == $hr1))
@@ -328,7 +328,7 @@ body {
               </select>
               : 
               <select name="mm">
-                <?php
+                <?
 		 	for($i=0; $i<=59; $i++)
 			{
 				if (($recargapag == "S") && ($i == $mm1))
@@ -348,7 +348,7 @@ body {
             <td width="149"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;N&uacute;mero 
               Conjunto </td>
             <td width="60"> 
-              <?php
+              <?
 			if($Proceso == "B" || $buscar == "S")
 			{
 				echo'<input name="num_conjunto" type="text" size="10" value="'.$num_conjunto.'" onKeyDown="TeclaPulsada()">';
@@ -366,7 +366,7 @@ body {
             <td><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Nombre 
               Conjunto</td>
             <td colspan="2">
-              <?php
+              <?
 			if($Proceso == "B" || $buscar == "S")
 			{
 				echo'<input name="descripcion" type="text" size="50" value="'.$descripcion.'" disabled>';
@@ -383,14 +383,14 @@ body {
             <td><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Lugar 
               Origen </td>
             <td colspan="2"> 
-              <?php			   	          
+              <?			   	          
 			  include("../principal/conectar_ram_web.php");			   
 			  if($Proceso == B || $buscar == "S")
 			  { 
 				  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $cod_lugar AND num_lugar = $num_lugar AND cod_estado != 'f'";
-				  $rs = mysqli_query($link, $consulta);
+				  $rs = mysql_query($consulta);
 				  
-				  if($row = mysqli_fetch_array($rs))
+				  if($row = mysql_fetch_array($rs))
 				  {
 						echo '<input type="text" name="lugar" value="'.$row[descripcion_lugar].'" size="50" disabled>';
 				  }
@@ -410,7 +410,7 @@ body {
             <td><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Peso 
               Humedo a Mover</td>
             <td colspan="2"> 
-              <?php
+              <?
 			if($buscar == "S")
 			{
 				echo'<input name="peso_humedo" type="text" size="10" value="'.$peso_humedo.'">';
@@ -425,7 +425,7 @@ body {
           </tr>
           <tr> 
             <td colspan="3"><div align="center"> 
-                <?php
+                <?
 				 if($buscar != "S")
 				 	echo'<input name="guardar" type="button" style="width:70" value="Guardar" onClick="Guardar_Datos();">';
                  else
@@ -434,7 +434,7 @@ body {
 				 	echo'<input name="guardar" type="button" style="width:70" value="Guardar" disabled>';
 				 }
 				?>
-                <?php
+                <?
 				 if($buscar == "S")
 				 {	
 					echo'<input name="modificar" type="button"  value="Modificar" onClick="Modificar_Datos();" style="width:70px">&nbsp;';				
@@ -463,7 +463,7 @@ body {
             <td width="229"><div align="center">Lugar Destino</div></td>
           </tr>
 
-		<?php
+		<?
 		if($Proceso == "V")
 		{   
 			if (strlen($mes) < 2)
@@ -476,9 +476,9 @@ body {
 			$consulta = "SELECT NUM_CONJUNTO,FECHA_MOVIMIENTO,PESO_HUMEDO_MOVIDO,COD_LUGAR_DESTINO,LUGAR_DESTINO FROM movimiento_conjunto WHERE left(FECHA_MOVIMIENTO,10) = '$fecha' AND COD_EXISTENCIA = 02 AND COD_CONJUNTO = 03";
 			include("../principal/conectar_ram_web.php");
 						
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysql_query($consulta);
 		
-			while($row = mysqli_fetch_array($rs))
+			while($row = mysql_fetch_array($rs))
 			{
 			  echo'<tr><td><center>';
 
@@ -497,19 +497,19 @@ body {
 
 			  //consulto descripcion conjunto
 			  $consulta = "SELECT descripcion FROM ram_web.conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $row[NUM_CONJUNTO] AND estado != 'f'";
-			  $rs1 = mysqli_query($link, $consulta);
+			  $rs1 = mysql_query($consulta);
 
-			  if($row1 = mysqli_fetch_array($rs1))
+			  if($row1 = mysql_fetch_array($rs1))
 			  {
-				  echo'<td><center>'.$row1["descripcion"].'</center></td>';
+				  echo'<td><center>'.$row1[descripcion].'</center></td>';
               }
 			   
 			  echo'<td><center>'.number_format(($row[PESO_HUMEDO_MOVIDO]/1000),3,",","").'</center></td>';
 			  
 			  $consulta = "SELECT descripcion_lugar FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = $row[COD_LUGAR_DESTINO] AND num_lugar = $row[LUGAR_DESTINO] AND cod_estado != 'f'";
-			  $rs2 = mysqli_query($link, $consulta);
+			  $rs2 = mysql_query($consulta);
 			  
-			  if($row2 = mysqli_fetch_array($rs2))
+			  if($row2 = mysql_fetch_array($rs2))
 			  {
 			     echo'<td><center>&nbsp;'.$row2[descripcion_lugar].'</center></td></tr>';
 			  }
@@ -524,7 +524,7 @@ body {
         </table>	</td>
   </tr>
 </table>
-<?php include("../principal/pie_pagina.php")?>  
+<? include("../principal/pie_pagina.php")?>  
   
 </form>
 </body>

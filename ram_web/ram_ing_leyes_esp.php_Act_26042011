@@ -96,16 +96,16 @@ function Proceso(opt)
                 <option selected value="S">Seleccionar</option>
                 <?
 	$Consulta = "select * from proyecto_modernizacion.productos order by descripcion";
-	$result = mysqli_query($link, $Consulta);
+	$result = mysql_query($Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
-		if ($Productos == $Row["cod_producto"])
+		if ($Productos == $Row[cod_producto])
 		{
-			echo "<option selected value='".$Row["cod_producto"]."'>".$Row["cod_producto"]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+			echo "<option selected value='".$Row[cod_producto]."'>".$Row[cod_producto]."&nbsp;-&nbsp;".ucwords(strtolower($Row[descripcion]))."</option>\n";
 		}
 		else
 		{
-			echo "<option value='".$Row["cod_producto"]."'>".$Row["cod_producto"]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+			echo "<option value='".$Row[cod_producto]."'>".$Row[cod_producto]."&nbsp;-&nbsp;".ucwords(strtolower($Row[descripcion]))."</option>\n";
 		}
 	}
 ?>
@@ -119,16 +119,16 @@ function Proceso(opt)
                 <option selected value="S">Seleccionar</option>
                 <?
 	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto = '".$Productos."' order by descripcion";
-	$result = mysqli_query($link, $Consulta);
+	$result = mysql_query($Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		if ($SubProductos == $Row[cod_subproducto])
 		{
-			echo "<option selected value='".$Row[cod_subproducto]."'>".$Row[cod_subproducto]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+			echo "<option selected value='".$Row[cod_subproducto]."'>".$Row[cod_subproducto]."&nbsp;-&nbsp;".ucwords(strtolower($Row[descripcion]))."</option>\n";
 		}
 		else
 		{
-			echo "<option value='".$Row[cod_subproducto]."'>".$Row[cod_subproducto]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+			echo "<option value='".$Row[cod_subproducto]."'>".$Row[cod_subproducto]."&nbsp;-&nbsp;".ucwords(strtolower($Row[descripcion]))."</option>\n";
 		}
 	}
 ?>
@@ -146,7 +146,7 @@ function Proceso(opt)
 	$Consulta.= " where cod_producto = '".$Productos."' ";
 	$Consulta.= " and cod_subproducto = '".$SubProductos."'";
 	$Consulta.= " order by num_conjunto";
-	$result = mysqli_query($link, $Consulta);
+	$result = mysql_query($Consulta);
 	while ($Row = mysql_fetch_array($result))
 	{
 		$Consulta = "select descripcion ";
@@ -155,10 +155,10 @@ function Proceso(opt)
 		$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
 		$Consulta.= " and num_conjunto = '".$Row[num_conjunto]."' ";
 		$Consulta.= " order by num_conjunto";
-		$Resultado = mysqli_query($link, $Consulta);
+		$Resultado = mysql_query($Consulta);
 		if ($Row2 = mysql_fetch_array($Resultado))
 		{
-			$Descripcion = $Row2["descripcion"];
+			$Descripcion = $Row2[descripcion];
 		}
 		if ($Conjunto == $Row[num_conjunto])
 		{
@@ -223,7 +223,7 @@ function Proceso(opt)
 				$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
 				$Consulta.= " and num_conjunto = '".$Conjunto."'";
 				//echo $Consulta;
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysql_query($Consulta);
 				if ($Fila = mysql_fetch_array($Respuesta))
 				{
 					$CodConjunto = $Fila["cod_conjunto"];
@@ -237,7 +237,7 @@ function Proceso(opt)
 				$Consulta.= " and num_conjunto = '".$Conjunto."'";
 				$Consulta.= " and tipo_ley = '".$TipoLey."'";
 				$Consulta.= " and fecha = '".$Ano."-".$Mes."-01'";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysql_query($Consulta);
 				//echo $Consulta;
 				if ($Fila = mysql_fetch_array($Respuesta))
 				{
@@ -310,44 +310,44 @@ function Proceso(opt)
 					$Consulta.="inner join proyecto_modernizacion.leyes t4 on t3.cod_leyes = t4.cod_leyes where (t1.cod_periodo='3') and (t1.estado_actual <> '7') and t1.cod_producto ='".$Productos."' and t1.cod_subproducto ='".$SubProductos."' ";
 					$Consulta.="and (t1.fecha_muestra between '".$FechaIni."' and '".$FechaFin."') and t1.id_muestra='".trim($Conjunto)."'";
 					//echo $Consulta;
-					$RespLey=mysqli_query($link, $Consulta);
+					$RespLey=mysql_query($Consulta);
 					while($FilaLey=mysql_fetch_array($RespLey))
 					{
 						$H2O = "0,5";
-						if($FilaLey["cod_leyes"]=='02')
-							$Cu =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='04')
-							$Ag =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='05')
-							$Au =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='08')
-							$As =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='26')
-							$S =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='39')
-							$Pb =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='31')
-							$Fe =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='118')
-							$Si =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='82')
-							$CaO =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='25')
-							$AL2O3 =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='12')
-							$MgO =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='09')
-							$Sb =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='58')
-							$Cd =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='34')
-							$Hg =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='44')
-							$Te =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='10')
-							$Zn =number_format($FilaLey["valor"],3,'.',',');
-						if($FilaLey["cod_leyes"]=='63')
-							$Fe3O4 =number_format($FilaLey["valor"],3,'.',',');
+						if($FilaLey[cod_leyes]=='02')
+							$Cu =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='04')
+							$Ag =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='05')
+							$Au =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='08')
+							$As =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='26')
+							$S =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='39')
+							$Pb =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='31')
+							$Fe =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='118')
+							$Si =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='82')
+							$CaO =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='25')
+							$AL2O3 =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='12')
+							$MgO =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='09')
+							$Sb =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='58')
+							$Cd =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='34')
+							$Hg =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='44')
+							$Te =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='10')
+							$Zn =number_format($FilaLey[valor],3,'.',',');
+						if($FilaLey[cod_leyes]=='63')
+							$Fe3O4 =number_format($FilaLey[valor],3,'.',',');
 					}
 				}
 				if ($TipoLey == "S")

@@ -2,6 +2,60 @@
 
 include("../principal/conectar_ram_web.php");
 
+if(isset($_REQUEST["Proceso"])){
+	$Proceso = $_REQUEST["Proceso"];
+}else{
+	$Proceso= "";
+}
+if(isset($_REQUEST["filename"])){
+	$filename = $_REQUEST["filename"];
+}else{
+	$filename = "";
+}
+if(isset($_REQUEST["num_conjunto"])){
+	$num_conjunto = $_REQUEST["num_conjunto"];
+}else{
+	$num_conjunto= "";
+}
+
+if(isset($_REQUEST["ano"])){
+	$ano = $_REQUEST["ano"];
+}else{
+	$ano = date("Y");
+}
+if(isset($_REQUEST["dia"])){
+	$dia = $_REQUEST["dia"];
+}else{
+	$dia = "";
+}
+if(isset($_REQUEST["mes_t"])){
+	$mes_t = $_REQUEST["mes_t"];
+}else{
+	$mes_t = date("m");
+}
+
+if(isset($_REQUEST["ano_t"])){
+	$ano_t = $_REQUEST["ano_t"];
+}else{
+	$ano_t = date("Y");
+}
+if(isset($_REQUEST["dia_t"])){
+	$dia_t = $_REQUEST["dia_t"];
+}else{
+	$dia_t = "";
+}
+if(isset($_REQUEST["mes"])){
+	$mes = $_REQUEST["mes"];
+}else{
+	$mes = date("m");
+}
+
+if(isset($_REQUEST["cmbproducto"])){
+	$cmbproducto = $_REQUEST["cmbproducto"];
+}else{
+	$cmbproducto= "";
+}
+
 if($Proceso == 'B2')
 {
 	        ob_end_clean();
@@ -33,111 +87,98 @@ $CodigoDePantalla = 9;
 
 ?>
 <html>
+
 <head>
-<title>Informe Vida De Un Conjunto</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="JavaScript">
-function TeclaPulsada() 
-{ 
-	var Frm=document.FrmProceso;
-	var teclaCodigo = event.keyCode; 
-	var CantComas =0;
+    <title>Informe Vida De Un Conjunto</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <script language="JavaScript">
+    function TeclaPulsada() {
+        var Frm = document.FrmProceso;
+        var teclaCodigo = event.keyCode;
+        var CantComas = 0;
 
-	//alert(teclaCodigo);	
-	if (teclaCodigo == 13)
-	{
-		//Frm.CmbHoraInicio.focus();
-	}
-	else
-	{
-		if ((teclaCodigo != 188 )&&(teclaCodigo != 110 )&&(teclaCodigo != 190 )&&(teclaCodigo != 37)&&(teclaCodigo != 39)&&(teclaCodigo !=9))
-		{
-			if ((teclaCodigo != 8) && (teclaCodigo < 48) || (teclaCodigo > 57))
-			{
-			   if ((teclaCodigo < 96) || (teclaCodigo > 105))
-			   {
-			   		event.keyCode=46;
-			   }		
-			}   
-		}
-		else
-		{
-			/*CantComas=Frm.TxtStockInicial[1].value.search(',');
-			if (CantComas!=-1)
-			{
-				event.keyCode=46;
-				return;
-			}
-			if ((Frm.TxtStockInicial[1].value.substr(Frm.TxtStockInicial[1].value.length-1,1)==",")||(Frm.TxtStockInicial[1].value.substr(Frm.TxtStockInicial[1].value.length-1,1)==""))
-			{
-				if ((teclaCodigo != 37)&&(teclaCodigo != 39))
-				{
-					event.keyCode=46;
-				}	
-			}*/
-		}
-	}	
-} 
+        //alert(teclaCodigo);	
+        if (teclaCodigo == 13) {
+            //Frm.CmbHoraInicio.focus();
+        } else {
+            if ((teclaCodigo != 188) && (teclaCodigo != 110) && (teclaCodigo != 190) && (teclaCodigo != 37) && (
+                    teclaCodigo != 39) && (teclaCodigo != 9)) {
+                if ((teclaCodigo != 8) && (teclaCodigo < 48) || (teclaCodigo > 57)) {
+                    if ((teclaCodigo < 96) || (teclaCodigo > 105)) {
+                        event.keyCode = 46;
+                    }
+                }
+            } else {
+                /*CantComas=Frm.TxtStockInicial[1].value.search(',');
+                if (CantComas!=-1)
+                {
+                	event.keyCode=46;
+                	return;
+                }
+                if ((Frm.TxtStockInicial[1].value.substr(Frm.TxtStockInicial[1].value.length-1,1)==",")||(Frm.TxtStockInicial[1].value.substr(Frm.TxtStockInicial[1].value.length-1,1)==""))
+                {
+                	if ((teclaCodigo != 37)&&(teclaCodigo != 39))
+                	{
+                		event.keyCode=46;
+                	}	
+                }*/
+            }
+        }
+    }
 
 
-function buscar_conjunto_excel()
-{
-var f = formulario;
-	
-	if(f.cmbproducto.value == -1)
-	{
-		alert("Seleccione el Tipo de Conjunto");
-    	f.cmbproducto.focus();
-		return
-	}
+    function buscar_conjunto_excel() {
+        var f = formulario;
 
-	f.action="ram_lst_mov_conjuntos.php?Proceso=B2";
-	f.submit();
-}
+        if (f.cmbproducto.value == -1) {
+            alert("Seleccione el Tipo de Conjunto");
+            f.cmbproducto.focus();
+            return
+        }
 
-function buscar_conjunto()
-{
-var f = formulario;
+        f.action = "ram_lst_mov_conjuntos.php?Proceso=B2";
+        f.submit();
+    }
 
-	if(f.cmbproducto.value == -1)
-	{
-		alert("Seleccione el Tipo de Conjunto");
-    	f.cmbproducto.focus();
-		return
-	}
+    function buscar_conjunto() {
+        var f = formulario;
 
-    f.action="ram_lst_mov_conjuntos.php?Proceso=B";
-	f.submit();
-}
+        if (f.cmbproducto.value == -1) {
+            alert("Seleccione el Tipo de Conjunto");
+            f.cmbproducto.focus();
+            return
+        }
 
-function Imprimir()
-{
-	window.print();
-}
+        f.action = "ram_lst_mov_conjuntos.php?Proceso=B";
+        f.submit();
+    }
 
-function salir_menu()
-{
-var f=formulario;
-    f.action ="../principal/sistemas_usuario.php?CodSistema=7";
-	f.submit();
-}
+    function Imprimir() {
+        window.print();
+    }
 
-</script>
-<style type="text/css">
-<!--
-body {
-	margin-left: 3px;
-	margin-top: 3px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-}
--->
-</style></head>
+    function salir_menu() {
+        var f = formulario;
+        f.action = "../principal/sistemas_usuario.php?CodSistema=7";
+        f.submit();
+    }
+    </script>
+    <style type="text/css">
+    <!--
+    body {
+        margin-left: 3px;
+        margin-top: 3px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+    }
+    -->
+    </style>
+</head>
 
 <body>
-<form name="formulario" method="post" action="">
+    <form name="formulario" method="post" action="">
 
-  <?php
+        <?php
 	if($Proceso == 'B' || $Proceso == '')
   	 include("../principal/encabezado.php");
 
@@ -145,22 +186,24 @@ body {
   
    if($Proceso == 'B' || $Proceso == '')
    {	 
-  ?> 
-  
-<table width="770" height="313" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
-  <tr>
-  	<td height="313" align="center" valign="top">
-	
-	<table cellpadding="2" cellspacing="0" width="700" align="center" border="1" class="TablaInterior" >
-          <tr class="ColorTabla02"> 
-            <td colspan="5"><div align="center">Vida De Un Conjunto</div></td>
-          </tr>
-          <tr> 
-            <td><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Fecha 
-              Inicio </td>
-            <td colspan="2"> 
-              <select name="dia">
-                <?php
+  ?>
+
+        <table width="770" height="313" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
+            <tr>
+                <td height="313" align="center" valign="top">
+
+                    <table cellpadding="2" cellspacing="0" width="700" align="center" border="1" class="TablaInterior">
+                        <tr class="ColorTabla02">
+                            <td colspan="5">
+                                <div align="center">Vida De Un Conjunto</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Fecha
+                                Inicio </td>
+                            <td colspan="2">
+                                <select name="dia">
+                                    <?php
 			if($Proceso=='B')
 			{
     			for ($i=1;$i<=31;$i++)
@@ -190,10 +233,10 @@ body {
  				}
 		   }			
 	?>
-              </select>
+                                </select>
 
-              <select name="mes">
-                <?php
+                                <select name="mes">
+                                    <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Proceso=='B')
 		{
@@ -225,9 +268,9 @@ body {
 	    } 	  
   		  
      ?>
-              </select>
-              <select name="ano">
-                <?php
+                                </select>
+                                <select name="ano">
+                                    <?php
 	if($Proceso=='B')
 	{
 	    for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
@@ -257,13 +300,14 @@ body {
          }   
     }	
 ?>
-              </select>
-            </td>
-            <td width="100"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Fecha 
-              T&eacute;rmino</td>
-            <td width="235">
-              <select name="dia_t">
-                <?php
+                                </select>
+                            </td>
+                            <td width="100"><img src="../principal/imagenes/left-flecha.gif" width="11"
+                                    height="11">&nbsp;Fecha
+                                T&eacute;rmino</td>
+                            <td width="235">
+                                <select name="dia_t">
+                                    <?php
 			if($Proceso=='B')
 			{
     			for ($i=1;$i<=31;$i++)
@@ -293,10 +337,10 @@ body {
  				}
 		   }			
 	?>
-              </select>
-             
-              <select name="mes_t">
-                <?php
+                                </select>
+
+                                <select name="mes_t">
+                                    <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Proceso=='B')
 		{
@@ -328,9 +372,9 @@ body {
 	    } 	  
   		  
      ?>
-              </select>
-              <select name="ano_t">
-                <?php
+                                </select>
+                                <select name="ano_t">
+                                    <?php
 	if($Proceso=='B')
 	{
 	    for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
@@ -360,13 +404,15 @@ body {
          }   
     }	
 ?>
-              </select>
-              </font></td>
-          </tr>
-		  <tr>
-		  <td><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Tipo Conjunto</td>
-		  <td colspan="4">
-		  <?php
+                                </select>
+                                </font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Tipo
+                                Conjunto</td>
+                            <td colspan="4">
+                                <?php
 		    echo '<SELECT name="cmbproducto">';
 			if($cmbproducto == -1)
 				echo '<option value="-1" selected>Seleccionar</option>';			  	
@@ -386,31 +432,36 @@ body {
 				echo '<option value="2">Mezcla</option>';
 			echo '</SELECT>';				  	
 		  ?>
-		  </td>
-		  </tr>	
-          <tr> 
-            <td width="105"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;Nro 
-              Conjunto</td>
-            <td width="80"> 
-              <?php
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="105"><img src="../principal/imagenes/left-flecha.gif" width="11"
+                                    height="11">&nbsp;Nro
+                                Conjunto</td>
+                            <td width="80">
+                                <?php
 			if($Proceso == 'B' || $num_conjunto != '')
 				echo '<input name="num_conjunto" type="text" size="8" value="'.$num_conjunto.'" onKeyDown="TeclaPulsada()">';
             else		
 				echo '<input name="num_conjunto" type="text" size="8" onKeyDown="TeclaPulsada()">';
 			?>
-            </td>
-            <td colspan="3" align="center"><input name="buscar" type="button" style="width:70" value="Buscar" onClick="buscar_conjunto();">
-			              <input name="excel" type="button"  style="width:70" onClick="buscar_conjunto_excel();" value="Excel">			              <input name="btnimprimir2" type="button" style="width:70" value="Imprimir" onClick="Imprimir();"> 
-              <input name="btnsalir2" type="button" style="width:70" value="Salir" onClick="salir_menu();"> 
-            </td>
-          </tr> 
-        </table>
-        <br>
-	  <?php
+                            </td>
+                            <td colspan="3" align="center"><input name="buscar" type="button" style="width:70"
+                                    value="Buscar" onClick="buscar_conjunto();">
+                                <input name="excel" type="button" style="width:70" onClick="buscar_conjunto_excel();"
+                                    value="Excel"> <input name="btnimprimir2" type="button" style="width:70"
+                                    value="Imprimir" onClick="Imprimir();">
+                                <input name="btnsalir2" type="button" style="width:70" value="Salir"
+                                    onClick="salir_menu();">
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <?php
 		}
 	  ?>
-	   	  	        
-    <?php
+
+                    <?php
 if($Proceso == 'B'|| $Proceso == 'B2')
 {
 	if(strlen($dia) == 1)
@@ -434,10 +485,10 @@ if($Proceso == 'B'|| $Proceso == 'B2')
 	$rs = mysqli_query($link, $Consulta);
 	if($row = mysqli_fetch_array($rs))
 	{
-		$cod_conjunto = $row[cod_conjunto];
+		$cod_conjunto = $row["cod_conjunto"];
 	 	echo'<table cellpadding="2" cellspacing="0" width="300" align="center" border="0" class="TablaDetalle" >';
 	  	  echo'<tr class="ColorTabla02">';
-          	 echo'<td colspan="6" align="center"><strong>Conjunto : '.$row[cod_conjunto].' - '.$row[num_conjunto].'</strong></td>';
+          	 echo'<td colspan="6" align="center"><strong>Conjunto : '.$row["cod_conjunto"].' - '.$row["num_conjunto"].'</strong></td>';
           echo'</tr>';
 	    echo'</table>';	  
 	
@@ -466,7 +517,7 @@ if($Proceso == 'B'|| $Proceso == 'B2')
 		  while ($row = mysqli_fetch_array($rs))
 		  {		 		
 				$Insertar = "INSERT INTO ram_web.tmp_table (cod_existencia,fecha_movimiento,num_conjunto,conjunto_destino,peso_humedo,validacion)";
-				$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row["peso_humedo"],0)";
+				$Insertar = "$Insertar VALUES ('$row[cod_existencia]','$row[fecha_movimiento]',$row[num_conjunto],$row[conjunto_destino],$row[peso_humedo],0)";
 				mysqli_query($link, $Insertar);
 		  }
 		  
@@ -477,7 +528,7 @@ if($Proceso == 'B'|| $Proceso == 'B2')
 		  while ($row = mysqli_fetch_array($rs))
 		  {		 		
 					$Insertar = "INSERT INTO ram_web.tmp_table (cod_existencia,fecha_movimiento,num_conjunto,conjunto_destino,peso_humedo,validacion)";
-					$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row["peso_humedo_movido"],$row["estado_validacion"])";
+					$Insertar = "$Insertar VALUES ('$row[cod_existencia]','$row[fecha_movimiento]',$row[num_conjunto],$row[conjunto_destino],$row[peso_humedo_movido],$row[estado_validacion])";
 					mysqli_query($link, $Insertar);
 		  }
 
@@ -488,7 +539,7 @@ if($Proceso == 'B'|| $Proceso == 'B2')
 		  while ($row = mysqli_fetch_array($rs))
 		  {		 		
 					$Insertar = "INSERT INTO ram_web.tmp_table (cod_existencia,fecha_movimiento,num_conjunto,conjunto_destino,peso_humedo,validacion)";
-					$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row[fecha_movimiento]."',$row[num_conjunto],$row[conjunto_destino],$row["peso_humedo_movido"],$row["estado_validacion"])";
+					$Insertar = "$Insertar VALUES ('$row[cod_existencia]','$row[fecha_movimiento]',$row[num_conjunto],$row[conjunto_destino],$row[peso_humedo_movido],$row[estado_validacion])";
 					mysqli_query($link, $Insertar);
 		  }*/
 
@@ -509,21 +560,21 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 	$rs = mysqli_query($link, $Consulta);	
 	while($row = mysqli_fetch_array($rs))
 	{
-		$fecha = substr($row[fecha_movimiento],0,10);	
+		$fecha = substr($row["fecha_movimiento"],0,10);	
 		echo '<tr>';				 
-		echo '<td>'.$row[fecha_movimiento].'</td>';
+		echo '<td>'.$row["fecha_movimiento"].'</td>';
 		//consulto tipo movimiento
-		$Consulta = "SELECT * FROM ram_web.atributo_existencia WHERE cod_existencia = $row["cod_existencia"]";
+		$Consulta = "SELECT * FROM ram_web.atributo_existencia WHERE cod_existencia = $row[cod_existencia]";
 		$rs2 = mysqli_query($link, $Consulta);
 		if($row2 = mysqli_fetch_array($rs2))
-			echo'<td>'.strtoupper($row2[nombre_existencia]).'</td>';
-			echo'<td align="center">'.$row[num_conjunto].'</td>';		  	
-			echo'<td align="center">'.$row[conjunto_destino].'</td>';  
+			echo'<td>'.strtoupper($row2["nombre_existencia"]).'</td>';
+			echo'<td align="center">'.$row["num_conjunto"].'</td>';		  	
+			echo'<td align="center">'.$row["conjunto_destino"].'</td>';  
 		if(($stock_ini == '' || $row["cod_existencia"] == 02 ) && ($stock_ini == '' || $row["cod_existencia"] == 06))
 		{
 				
 			$Consulta = "SELECT SUM(peso_humedo) as peso_humedo FROM ram_web.tmp_table WHERE cod_existencia = 13
-			AND num_conjunto = '".$row[num_conjunto]."' AND left(fecha_movimiento,10) = '".$fecha."' ";
+			AND num_conjunto = '".$row["num_conjunto"]."' AND left(fecha_movimiento,10) = '".$fecha."' ";
 			$rs1 = mysqli_query($link, $Consulta);
 			if($row1 = mysqli_fetch_array($rs1))
 			{
@@ -541,7 +592,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 		if($row["cod_existencia"] == 2)
 		{
 			$Consulta = "SELECT SUM(peso_humedo) as peso_humedo FROM ram_web.tmp_table WHERE cod_existencia ='02'
-			AND num_conjunto = ".$row[num_conjunto]." AND fecha_movimiento = '".$fecha."' ";
+			AND num_conjunto = ".$row["num_conjunto"]." AND fecha_movimiento = '".$fecha."' ";
 			$rs2 = mysqli_query($link, $Consulta);			
 			if($row2 = mysqli_fetch_array($rs2))
 			{
@@ -561,7 +612,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			{
 				$stock_benef = $row3["peso_humedo"]; 
 				
-				if (($stock_ini=='') || ($row["cod_existencia"] == 15 && $row[conjunto_destino] == $num_conjunto))
+				if (($stock_ini=='') || ($row["cod_existencia"] == 15 && $row["conjunto_destino"] == $num_conjunto))
 				{
 					$stock_final = $stock_ini * 1 + $row3["peso_humedo"] * 1;
 				}
@@ -589,16 +640,17 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 }
 }
 ?>
-  </table>
-	  </td>
-	</tr>
-</table>
- <?php 
+        </table>
+        </td>
+        </tr>
+        </table>
+        <?php 
  if($Proceso == 'B'|| $Proceso == '')
 	include("../principal/pie_pagina.php");
 
- ?>  	
-</form>
+ ?>
+    </form>
 </body>
+
 </html>
 <?php include("../principal/cerrar_ram_web.php") ?>

@@ -1,4 +1,4 @@
-<?php
+<?
  include("../principal/conectar_ram_web.php"); 
 
 //Guardar Datos
@@ -9,7 +9,7 @@ if($Proceso == "G")
 
 	$Insertar = "INSERT INTO tipo_lugar (cod_tipo_lugar, descripcion_lugar)";
 	$Insertar = "$Insertar values('$cod_tipo', '$descripcion')";
-	mysqli_query($link, $Insertar);
+	mysql_query($Insertar);
 }
 
 //Modificar Datos
@@ -20,7 +20,7 @@ if($Proceso == "M")
 
 	$Modificar = "UPDATE tipo_lugar SET cod_tipo_lugar = '$cod_tipo', descripcion_lugar = '$descripcion'
 	              WHERE cod_tipo_lugar = $radio";
-	mysqli_query($link, $Modificar);
+	mysql_query($Modificar);
 
 }
 
@@ -28,7 +28,7 @@ if($Proceso == "M")
 if($Proceso == "E")
 {
 	$Eliminar = "DELETE FROM tipo_lugar WHERE cod_tipo_lugar = $radio";
-	mysqli_query($link, $Eliminar);
+	mysql_query($Eliminar);
 }
 
 	$valores = "Proceso=V";  

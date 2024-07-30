@@ -1,4 +1,4 @@
-<?php include("../principal/conectar_ram_web.php")?>
+<? include("../principal/conectar_ram_web.php")?>
 <html>
 <head>
 <title>Busqueda de Conjuntos</title>
@@ -60,21 +60,21 @@ function Enviar(f)
       </tr>
       <tr> 
         <td>T. Conjunto</td>
-        <td colspan="4"> <?php
+        <td colspan="4"> <?
 			  
 			  echo'<select name="cmbtipo" style="width:150">';
               echo'<option value = "-1" selected>SELECCIONAR</option>';
  	          
 			  include("../principal/conectar_principal.php"); 
 			  $consulta = "SELECT * FROM sub_clase WHERE cod_clase = 7001";
-			  $rs = mysqli_query($link, $consulta);
+			  $rs = mysql_query($consulta);
 			  
-			  while($row = mysqli_fetch_array($rs))
+			  while($row = mysql_fetch_array($rs))
 			  {
-				if ($row["cod_subclase"] == $cmbtipo)
-					echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
+				if ($row[cod_subclase] == $cmbtipo)
+					echo '<option value="'.$row[cod_subclase].'" selected>'.$row[nombre_subclase].'</option>';
 				else
-					echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';									
+					echo '<option value="'.$row[cod_subclase].'">'.$row[nombre_subclase].'</option>';									
 			  
 			  }		  
 			  echo'</select>';
@@ -84,20 +84,20 @@ function Enviar(f)
       <tr> 
         <td width="75" height="26">Producto</td>
         <td width="197"> 
-          <?php
+          <?
 			  echo'<select name="cmbproducto" style="width:230">';              
 
 			  echo'<option value = "-1" selected>SELECCIONAR</option>';
  			  include("../principal/conectar_ram_web.php"); 
 			  $consulta = "SELECT * FROM producto ORDER BY COD_PRODUCTO";
-			  $rs = mysqli_query($link, $consulta);
+			  $rs = mysql_query($consulta);
 			  
-			  while($row = mysqli_fetch_array($rs))
+			  while($row = mysql_fetch_array($rs))
 			  {
 				if ($row[COD_PRODUCTO] == $cmbproducto)
-					echo '<option value="'.$row[COD_PRODUCTO].'" selected>'.$row["descripcion"].'</option>';
+					echo '<option value="'.$row[COD_PRODUCTO].'" selected>'.$row[DESCRIPCION].'</option>';
 				else
-					echo '<option value="'.$row[COD_PRODUCTO].'">'.$row["descripcion"].'</option>';									
+					echo '<option value="'.$row[COD_PRODUCTO].'">'.$row[DESCRIPCION].'</option>';									
 			  
 			  }		  
 			  echo'</select>';
@@ -106,12 +106,12 @@ function Enviar(f)
         <td width="308" colspan="3"> <input name="buscar" type="button" style="width:70" value="Buscar" onClick="buscar_conjunto();"></td>
       </tr>
     </table>
-    <?php
+    <?
 if($Proceso == 'B')
 {
     echo'<table cellpadding="3" cellspacing="0" width="550" border="1" bordercolor="#b26c4a" class="TablaPrincipal" >
     <tr class="ColorTabla01"> 
-      <td height="20%" colspan="2"><div align="center">Nï¿½mero Conjunto</div></td>
+      <td height="20%" colspan="2"><div align="center">Número Conjunto</div></td>
       <td width="30%"><div align="center">Nombre Conjunto</div></td>
       <td width="30%"><div align="center">Lugar</div></td>
       <td width="20%"><div align="center">Stock</div></td>
@@ -124,30 +124,30 @@ if($Proceso == 'B')
 	include("../principal/conectar_ram_web.php");
 					$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = $cmbtipo AND cod_producto = $cmbproducto ORDER BY num_conjunto"; 
 					
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysql_query($consulta);
 
-					while ($row = mysqli_fetch_array($rs))
+					while ($row = mysql_fetch_array($rs))
 					{
 						echo '<tr><td width="10%" align="center">';
 						echo '<input type="radio" name="radio" value="'.$row[num_conjunto].'"></td>';
 						echo '<td width="10%"><div align="center">'.$row[num_conjunto].'</div></td>';
-						echo '<td width="30%"><div align="center">'.$row["descripcion"].'</div></td>';
+						echo '<td width="30%"><div align="center">'.$row[descripcion].'</div></td>';
 					
 					    $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $row[cod_lugar] AND num_lugar = $row[num_lugar] ";
-					    $rs2 = mysqli_query($link, $consulta);
+					    $rs2 = mysql_query($consulta);
 					   
-					    if($row2 = mysqli_fetch_array($rs2))
+					    if($row2 = mysql_fetch_array($rs2))
 					    {
 							$lugar_origen = $row2[descripcion_lugar];
 	   						echo '<td width="30%"><div align="center">'.$lugar_origen.'</div></td>';					 
 					    }
 
 					    $consulta = "SELECT * FROM movimiento_proveedor WHERE cod_existencia = 01 AND cod_conjunto = $row[cod_conjunto] AND num_conjunto = $row[num_conjunto] ";
-					    $rs3 = mysqli_query($link, $consulta);
+					    $rs3 = mysql_query($consulta);
 
-					    if($row3 = mysqli_fetch_array($rs3))
+					    if($row3 = mysql_fetch_array($rs3))
 						{
-								$stock = $row3["peso_humedo"];
+								$stock = $row3[peso_humedo];
 
 								echo '<td width="20%"><div align="center">'.$stock.'</div></td></tr>';
 						}
@@ -174,4 +174,4 @@ if($Proceso == 'B')
 </form>
 </body>
 </html>
-<?php include("../principal/cerrar_ram_web.php") ?>
+<? include("../principal/cerrar_ram_web.php") ?>

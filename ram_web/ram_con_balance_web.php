@@ -1,4 +1,4 @@
-<?php
+<?
 	include("../principal/conectar_principal.php");
 	set_time_limit(450);
  //$link = mysql_connect('10.56.11.7','adm_bd','672312');
@@ -38,19 +38,19 @@ function Proceso(opt)
 
 <body>
 <form name="frmPrincipal" action="" method="post">
-<input type="hidden" name="ConsComun" value="<?php echo $ConsComun; ?>">
+<input type="hidden" name="ConsComun" value="<? echo $ConsComun; ?>">
 <table width="523" border="0" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr>
     <td colspan="3"><strong>
-	<?php
+	<?
 		if ($TipoMovimiento != "T")
 		{
 			$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 			$Consulta.= " where cod_clase = '7002'";
 			$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 			$Consulta.= " order by cod_subclase";
-			$Respuesta = mysqli_query($link, $Consulta);
-			if ($Fila = mysqli_fetch_array($Respuesta))					
+			$Respuesta = mysql_query($Consulta);
+			if ($Fila = mysql_fetch_array($Respuesta))					
 				echo strtoupper($Fila["nombre_subclase"]);
 			else
 				echo "&nbsp;";
@@ -66,7 +66,7 @@ function Proceso(opt)
   </tr>
   <tr>
     <td width="117"><strong>AGRUPADO POR: </strong></td>
-    <td width="269"><?php
+    <td width="269"><?
 	if ($Agrup == "C")
 	{
 		echo "CONJUNTO";
@@ -87,20 +87,20 @@ function Proceso(opt)
   </tr>
   <tr>
     <td><strong>PERIODO</strong></td>
-    <td><?php
+    <td><?
 	if ($Acum == "D")
 	{
-		echo str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;
-		$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
-		$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+		echo str_pad($Dia,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;
+		$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
+		$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
 	}
 	else
 	{
 		if ($Acum == "A")
 		{
-			echo "01-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano." AL ".str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;			
-			$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-01";
-			$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+			echo "01-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano." AL ".str_pad($Dia,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;			
+			$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-01";
+			$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
 		}
 		else
 		{
@@ -110,22 +110,22 @@ function Proceso(opt)
     ?></td>
     <td align="center"><input name="BtnSalir" type="button" value="Salir" style="width:70px;" onClick="Proceso('S')"></td>
   </tr>
-<?php
+<?
 	if ($TxtConjunto!="")
 	{
 ?>  
   <tr>
     <td><strong>CONJUNTO: </strong></td>
-    <td><?php echo $TxtConjunto; ?></td>
+    <td><? echo $TxtConjunto; ?></td>
     <td align="center">&nbsp;</td>
   </tr>
-<?php
+<?
 	}
 ?>  
 </table>
 <br>
 <br>
-<?php
+<?
 if ($ChkPMineros=="S" && $ChkCirculantes=="S")
 {
 	$CodConjunto = "in(01,03)";
@@ -207,8 +207,8 @@ $Consulta.= " where cod_clase = '7002'";
 if ($TipoMovimiento != "T")
 	$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 $Consulta.= " order by cod_subclase";
-$Resp1 = mysqli_query($link, $Consulta);
-while ($Fila1 = mysqli_fetch_array($Resp1))
+$Resp1 = mysql_query($Consulta);
+while ($Fila1 = mysql_fetch_array($Resp1))
 {		
 	$CodConjuntoAnt="";
 	if ($TipoMovimiento == "T")
@@ -393,7 +393,7 @@ while ($Fila1 = mysqli_fetch_array($Resp1))
 			break;
 	}
 	//echo $Consulta;	
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysql_query($Consulta);
 	//SUBTOTALES
 	$SubTotalHum = 0;
 	$SubTotalSeco = 0;
@@ -424,7 +424,7 @@ while ($Fila1 = mysqli_fetch_array($Resp1))
 	$TotalNi = 0;
 	$OtrosProd = false;
 	$Cont = 1;
-	while ($Fila = mysqli_fetch_array($Respuesta))
+	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		if ($CodConjuntoAnt != $Fila["cod_conjunto"])
 		{

@@ -1,4 +1,4 @@
-<?php 
+<? 
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 21;
 include("../principal/conectar_principal.php");
@@ -89,14 +89,14 @@ function Proceso(opt)
 
 <body leftmargin="3" topmargin="5">
 <form name="frm1" action="" method="post">
-<?php include("../principal/encabezado.php") ?>
+<? include("../principal/encabezado.php") ?>
   <table width="770" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
     <tr> 
       <td width="762" height="313" align="center" valign="top"><table width="80%"  border="1" cellpadding="3" cellspacing="0" class="TablaInterior">
         <tr>
           <td>Mes-A&ntilde;o</td>
           <td colspan="3"><select name="Mes" onChange="Proceso('R')">
-<?php
+<?
 	for ($i=1;$i<=12;$i++)
 	{
 		if (isset($Mes))
@@ -117,7 +117,7 @@ function Proceso(opt)
 ?>		  
           </select>
             <select name="Ano" onChange="Proceso('R')">
-<?php
+<?
 	for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 	{
 		if (isset($Ano))
@@ -143,10 +143,10 @@ function Proceso(opt)
           <td width="20%">Producto</td>
           <td colspan="5"><select name="Producto" onChange="Proceso('R')">
 <option value="S">SELECCIONAR</option>
-<?php
+<?
 	$Consulta = "select * from proyecto_modernizacion.productos order by descripcion";
-	$Resp = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Resp))
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($Producto == $Fila["cod_producto"])
 			echo "<option selected value='".$Fila["cod_producto"]."'>".$Fila["descripcion"]."</option>";
@@ -160,10 +160,10 @@ function Proceso(opt)
           <td>SubProducto</td>
           <td colspan="5"><select name="SubProducto" onChange="Proceso('R')">
 <option value="S">SELECCIONAR</option>		  
-		  <?php
+		  <?
 	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='".$Producto."' order by descripcion";
-	$Resp = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Resp))
+	$Resp = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Resp))
 	{
 		if ($SubProducto == $Fila["cod_subproducto"])
 			echo "<option selected value='".$Fila["cod_subproducto"]."'>".$Fila["descripcion"]."</option>";
@@ -175,12 +175,12 @@ function Proceso(opt)
         </tr>
         <tr>
           <td>Peso Humedo</td>
-          <td colspan="5"><input name="PesoHum" type="text" id="PesoHum" value="<?php echo $PesoHum; ?>" size="20" maxlength="10"></td>
+          <td colspan="5"><input name="PesoHum" type="text" id="PesoHum" value="<? echo $PesoHum; ?>" size="20" maxlength="10"></td>
           </tr>
         <tr align="center">
           <td class="Detalle01">Opcion de Leyes:            </td>
           <td colspan="5" align="center" class="Detalle01">
-<?php
+<?
 	if ($ChkLeyes == "M")
 	{
 		echo "<input name='ChkLeyes' type='radio' value='A' checked onClick=\"Proceso('R')\">Automaticas&nbsp\n";
@@ -193,26 +193,26 @@ function Proceso(opt)
 	}		  
 ?> </td>
           </tr>
-<?php
+<?
 	if ($ChkLeyes == "M")
 	{
 ?>		  
         <tr align="center" class="ColorTabla02">
           <td>Hum (%) </td>
-          <td width="15%"><input name="TxtLeyHum" type="text" id="TxtLeyHum" value="<?php echo $TxtLeyHum; ?>" size="10" maxlength="8"></td>
+          <td width="15%"><input name="TxtLeyHum" type="text" id="TxtLeyHum" value="<? echo $TxtLeyHum; ?>" size="10" maxlength="8"></td>
           <td width="13%">Ley Cu (%) </td>
-          <td width="25%"><input name="TxtLeyCu" type="text" id="TxtLeyCu" value="<?php echo $TxtLeyCu; ?>" size="10" maxlength="8"></td>
+          <td width="25%"><input name="TxtLeyCu" type="text" id="TxtLeyCu" value="<? echo $TxtLeyCu; ?>" size="10" maxlength="8"></td>
           <td>Ley Ag (g/T</td>
-          <td><input name="TxtLeyAg" type="text" id="TxtLeyAg" value="<?php echo $TxtLeyAg; ?>" size="10" maxlength="8"></td>
+          <td><input name="TxtLeyAg" type="text" id="TxtLeyAg" value="<? echo $TxtLeyAg; ?>" size="10" maxlength="8"></td>
         </tr>
         <tr align="center" class="ColorTabla02">
           <td>Ley Au (g/T)</td>
-          <td><input name="TxtLeyAu" type="text" id="TxtLeyAu" value="<?php echo $TxtLeyAu; ?>" size="10" maxlength="8"></td>
+          <td><input name="TxtLeyAu" type="text" id="TxtLeyAu" value="<? echo $TxtLeyAu; ?>" size="10" maxlength="8"></td>
           <td>Ley As (%) </td>
-          <td><input name="TxtLeyAs" type="text" id="TxtLeyAs" value="<?php echo $TxtLeyAs; ?>" size="10" maxlength="8"></td>
+          <td><input name="TxtLeyAs" type="text" id="TxtLeyAs" value="<? echo $TxtLeyAs; ?>" size="10" maxlength="8"></td>
           <td colspan="2">&nbsp;</td>
         </tr>
-<?php
+<?
 	}
 ?>
 		
@@ -243,7 +243,7 @@ function Proceso(opt)
             <td width="3%">Ley.Au</td>
             <td width="4%">Ley.As</td>
           </tr>
-<?php	
+<?	
 	if (!isset($Mes))	
 	{
 	 	$Mes = date("n");
@@ -254,12 +254,12 @@ function Proceso(opt)
 	$Consulta = "select * from ram_web.stock_piso "; 
 	$Consulta.= " where fecha = '".$FechaAux2."'";
 	$Consulta.= " order by cod_producto, cod_subproducto"; 
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysql_query($Consulta);
 	$TotalPesoSeco = 0;
 	$TotalFinoCu = 0;
 	$TotalFinoAg = 0;
 	$TotalFinoAu = 0;
-	while ($Fila = mysqli_fetch_array($Resp))
+	while ($Fila = mysql_fetch_array($Resp))
 	{
 		echo "<tr>\n";
 		$ValorRadio = $Fila["cod_producto"]."//".$Fila["cod_subproducto"];
@@ -270,8 +270,8 @@ function Proceso(opt)
 		$Consulta = "select * from proyecto_modernizacion.subproducto ";
 		$Consulta.= " where cod_producto='".$Fila["cod_producto"]."'";
 		$Consulta.= " and cod_subproducto='".$Fila["cod_subproducto"]."'";
-		$Resp2 = mysqli_query($link, $Consulta);
-		if ($Fila2 = mysqli_fetch_array($Resp2))
+		$Resp2 = mysql_query($Consulta);
+		if ($Fila2 = mysql_fetch_array($Resp2))
 			echo "<td>".$Fila2["descripcion"]."</td>\n";
 		else
 			echo "<td>&nbsp;</td>\n";
@@ -335,7 +335,7 @@ function Proceso(opt)
 	  </td>
     </tr>
 </table>
-<?php include ("../principal/pie_pagina.php") ?>   
+<? include ("../principal/pie_pagina.php") ?>   
 </form>
 </body>
 </html>

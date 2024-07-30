@@ -2,103 +2,156 @@
 	$CodigoDeSistema = 5;
 	$CodigoDePantalla = 3;
 	include("../principal/conectar_principal.php");
-?>	
-<html>
-<head>
-<title>Sistema de RAM</title>
-<link href="../principal/estilos/css_imp_web.css" type="text/css" rel="stylesheet">
-<script language="JavaScript">
-<!--
-function Proceso(opt)
-{
-	var f=document.frmPrincipal;
-	switch (opt)
-	{
-		case "G": // GRABA o MODIFICA
-			if (f.Productos.value == "S")
-			{
-				alert("Debe seleccionar Producto");
-				f.Productos.focus();
-				return;
-			}
-			if (f.SubProductos.value == "S")
-			{
-				alert("Debe seleccionar Sub-Producto");
-				f.SubProductos.focus();
-				return;
-			}
-			if (f.Conjunto.value == "S")
-			{
-				alert("Debe seleccionar Conjunto");
-				f.Conjunto.focus();
-				return;
-			}
-			f.action = "ram_ing_leyes_esp01.php?Proceso=G";
-			f.submit();
-			break;
-		case "E": // ELIMINAR
-			if (f.Productos.value == "S")
-			{
-				alert("Debe seleccionar Producto");
-				f.Productos.focus();
-				return;
-			}
-			if (f.SubProductos.value == "S")
-			{
-				alert("Debe seleccionar Sub-Producto");
-				f.SubProductos.focus();
-				return;
-			}
-			if (f.Conjunto.value == "S")
-			{
-				alert("Debe seleccionar Conjunto");
-				f.Conjunto.focus();
-				return;
-			}
-			f.action = "ram_ing_leyes_esp01.php?Proceso=E";
-			f.submit();
-			break;
-		case "R": //RECARGA PAGINA			
-			f.action = "ram_ing_leyes_esp.php?";
-			f.submit();
-			break;
-		case "CL": //CONSULTA LEYES EN CONTROL DE CALIDAD			
-			f.action = "ram_ing_leyes_esp.php?BuscaLey=S";
-			f.submit();
-			break;
 
-		case "S":  //SALIR
-			f.action = "../principal/sistemas_usuario.php?CodSistema=7";
-			f.submit();
-			break;
-		case "C":
-			var URL = "ram_con_leyes_especiales.php";
-			window.open(URL,"","top=35,left=10,width=750,height=460,scrollbars=yes,resizable = YES");
-			break;			 			 			
-		case "CLMA":
-			var URL = "ram_con_leyes_especiales2.php?Producto="+f.Productos.value+"&SubProducto="+f.SubProductos.value+"&Conjunto="+f.Conjunto.value+"&Ano="+f.Ano.value+"&Mes="+f.Mes.value;
-			window.open(URL,"","top=35,left=10,width=850,height=550,scrollbars=yes,resizable = YES,status=yes");
-			break;			 			 			
-
-	}
+if(isset($_REQUEST["Productos"])){
+	$Productos = $_REQUEST["Productos"];
+}else{
+	$Productos = "";
 }
-//-->
-</script>
+if(isset($_REQUEST["SubProductos"])){
+	$SubProductos = $_REQUEST["SubProductos"];
+}else{
+	$SubProductos = "";
+}
+if(isset($_REQUEST["Conjunto"])){
+	$Conjunto = $_REQUEST["Conjunto"];
+}else{
+	$Conjunto = "";
+}
+
+if(isset($_REQUEST["CodConjunto"])){
+	$CodConjunto = $_REQUEST["CodConjunto"];
+}else{
+	$CodConjunto = "";
+}
+if(isset($_REQUEST["RutProveedor"])){
+	$RutProveedor = $_REQUEST["RutProveedor"];
+}else{
+	$RutProveedor = "";
+}
+if(isset($_REQUEST["BuscaLey"])){
+	$BuscaLey = $_REQUEST["BuscaLey"];
+}else{
+	$BuscaLey = "";
+}
+if(isset($_REQUEST["BuscaLeyesAnt"])){
+	$BuscaLeyesAnt = $_REQUEST["BuscaLeyesAnt"];
+}else{
+	$BuscaLeyesAnt = "";
+}
+
+if(isset($_REQUEST["TipoLey"])){
+	$TipoLey = $_REQUEST["TipoLey"];
+}else{
+	$TipoLey = "";
+}
+if(isset($_REQUEST["Ano"])){
+	$Ano = $_REQUEST["Ano"];
+}else{
+	$Ano = date("Y");
+}
+if(isset($_REQUEST["Mes"])){
+	$Mes = $_REQUEST["Mes"];
+}else{
+	$Mes = date("m");
+}
+
+
+?>
+<html>
+
+<head>
+    <title>Sistema de RAM</title>
+    <link href="../principal/estilos/css_imp_web.css" type="text/css" rel="stylesheet">
+    <script language="JavaScript">
+    <!--
+    function Proceso(opt) {
+        var f = document.frmPrincipal;
+        switch (opt) {
+            case "G": // GRABA o MODIFICA
+                if (f.Productos.value == "S") {
+                    alert("Debe seleccionar Producto");
+                    f.Productos.focus();
+                    return;
+                }
+                if (f.SubProductos.value == "S") {
+                    alert("Debe seleccionar Sub-Producto");
+                    f.SubProductos.focus();
+                    return;
+                }
+                if (f.Conjunto.value == "S") {
+                    alert("Debe seleccionar Conjunto");
+                    f.Conjunto.focus();
+                    return;
+                }
+                f.action = "ram_ing_leyes_esp01.php?Proceso=G";
+                f.submit();
+                break;
+            case "E": // ELIMINAR
+                if (f.Productos.value == "S") {
+                    alert("Debe seleccionar Producto");
+                    f.Productos.focus();
+                    return;
+                }
+                if (f.SubProductos.value == "S") {
+                    alert("Debe seleccionar Sub-Producto");
+                    f.SubProductos.focus();
+                    return;
+                }
+                if (f.Conjunto.value == "S") {
+                    alert("Debe seleccionar Conjunto");
+                    f.Conjunto.focus();
+                    return;
+                }
+                f.action = "ram_ing_leyes_esp01.php?Proceso=E";
+                f.submit();
+                break;
+            case "R": //RECARGA PAGINA			
+                f.action = "ram_ing_leyes_esp.php?";
+                f.submit();
+                break;
+            case "CL": //CONSULTA LEYES EN CONTROL DE CALIDAD			
+                f.action = "ram_ing_leyes_esp.php?BuscaLey=S";
+                f.submit();
+                break;
+
+            case "S": //SALIR
+                f.action = "../principal/sistemas_usuario.php?CodSistema=7";
+                f.submit();
+                break;
+            case "C":
+                var URL = "ram_con_leyes_especiales.php";
+                window.open(URL, "", "top=35,left=10,width=750,height=460,scrollbars=yes,resizable = YES");
+                break;
+            case "CLMA":
+                var URL = "ram_con_leyes_especiales2.php?Producto=" + f.Productos.value + "&SubProducto=" + f
+                    .SubProductos.value + "&Conjunto=" + f.Conjunto.value + "&Ano=" + f.Ano.value + "&Mes=" + f.Mes
+                    .value;
+                window.open(URL, "", "top=35,left=10,width=850,height=550,scrollbars=yes,resizable = YES,status=yes");
+                break;
+
+        }
+    }
+    //
+    -->
+    </script>
+
 <body leftmargin="3" topmargin="2" marginwidth="0" marginheight="0">
-<form name="frmPrincipal" action="" method="post">
-<?php 
+    <form name="frmPrincipal" action="" method="post">
+        <?php 
 	include("../principal/encabezado.php");
 ?>
-  <table width="770" border="0" cellspacing="0" cellpadding="5" class="TablaPrincipal">
-    <tr>
-      <td height="380" align="center" valign="top"> 
-        <table width="750" height="97" border="0" cellpadding="1" cellspacing="1" class="TablaInterior">
-          <tr> 
-            <td width="15" height="23" align="right"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">            </td>
-            <td width="55">Producto</td>
-            <td width="371"><select name="Productos" style="width:350" onChange="Proceso('R');">
-                <option selected value="S">Seleccionar</option>
-                <?php
+        <table width="770" border="0" cellspacing="0" cellpadding="5" class="TablaPrincipal">
+            <tr>
+                <td height="380" align="center" valign="top">
+                    <table width="750" height="97" border="0" cellpadding="1" cellspacing="1" class="TablaInterior">
+                        <tr>
+                            <td width="15" height="23" align="right"><img src="../principal/imagenes/left-flecha.gif"
+                                    width="11" height="11"> </td>
+                            <td width="55">Producto</td>
+                            <td width="371"><select name="Productos" style="width:350" onChange="Proceso('R');">
+                                    <option selected value="S">Seleccionar</option>
+                                    <?php
 	$Consulta = "select * from proyecto_modernizacion.productos order by descripcion";
 	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysqli_fetch_array($result))
@@ -113,40 +166,48 @@ function Proceso(opt)
 		}
 	}
 ?>
-              </select> </td>
-            <td align="center" valign="middle"><input type="button" name="BtnGrabar" value="Grabar" onClick="Proceso('G');" style="width:70px">
-            <input name="BtnEliminar" type="button" id="BtnEliminar" style="width:70px" onClick="Proceso('E');" value="Eliminar"></td>
-          </tr>
-          <tr> 
-            <td height="23" align="right"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11"></td>
-            <td>SubProducto</td>
-            <td><select name="SubProductos" style="width:350" onChange="Proceso('R');">
-                <option selected value="S">Seleccionar</option>
-                <?php
+                                </select> </td>
+                            <td align="center" valign="middle"><input type="button" name="BtnGrabar" value="Grabar"
+                                    onClick="Proceso('G');" style="width:70px">
+                                <input name="BtnEliminar" type="button" id="BtnEliminar" style="width:70px"
+                                    onClick="Proceso('E');" value="Eliminar">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="23" align="right"><img src="../principal/imagenes/left-flecha.gif" width="11"
+                                    height="11"></td>
+                            <td>SubProducto</td>
+                            <td><select name="SubProductos" style="width:350" onChange="Proceso('R');">
+                                    <option selected value="S">Seleccionar</option>
+                                    <?php
 	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto = '".$Productos."' order by descripcion";
 	$result = mysqli_query($link, $Consulta);
 	while ($Row = mysqli_fetch_array($result))
 	{
-		if ($SubProductos == $Row[cod_subproducto])
+		if ($SubProductos == $Row["cod_subproducto"])
 		{
-			echo "<option selected value='".$Row[cod_subproducto]."'>".$Row[cod_subproducto]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+			echo "<option selected value='".$Row["cod_subproducto"]."'>".$Row["cod_subproducto"]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
 		}
 		else
 		{
-			echo "<option value='".$Row[cod_subproducto]."'>".$Row[cod_subproducto]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
+			echo "<option value='".$Row["cod_subproducto"]."'>".$Row["cod_subproducto"]."&nbsp;-&nbsp;".ucwords(strtolower($Row["descripcion"]))."</option>\n";
 		}
 	}
 ?>
-              </select></td>
-            <td align="center" valign="middle"><input name="BtnConsultar" type="button" id="BtnConsultar2" style="width:70px" onClick="Proceso('C');" value="Consultar">
-            <input type="button" name="BtnSalir" value="Salir" onClick="Proceso('S');" style="width:70px"></td>
-          </tr>
-          <tr> 
-            <td height="23" align="right"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11"></td>
-            <td>Conjunto</td>
-            <td><select name="Conjunto" style="width:350" onChange="Proceso('R');">
-                <option selected value="S">Seleccionar</option>
-                <?php
+                                </select></td>
+                            <td align="center" valign="middle"><input name="BtnConsultar" type="button"
+                                    id="BtnConsultar2" style="width:70px" onClick="Proceso('C');" value="Consultar">
+                                <input type="button" name="BtnSalir" value="Salir" onClick="Proceso('S');"
+                                    style="width:70px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="23" align="right"><img src="../principal/imagenes/left-flecha.gif" width="11"
+                                    height="11"></td>
+                            <td>Conjunto</td>
+                            <td><select name="Conjunto" style="width:350" onChange="Proceso('R');">
+                                    <option selected value="S">Seleccionar</option>
+                                    <?php
 	$Consulta = "select distinct num_conjunto ";
 	$Consulta.= " from ram_web.conjunto_ram ";
 	$Consulta.= " where cod_producto = '".$Productos."' ";
@@ -159,30 +220,33 @@ function Proceso(opt)
 		$Consulta.= " from ram_web.conjunto_ram ";
 		$Consulta.= " where cod_producto = '".$Productos."' ";
 		$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
-		$Consulta.= " and num_conjunto = '".$Row[num_conjunto]."' ";
+		$Consulta.= " and num_conjunto = '".$Row["num_conjunto"]."' ";
 		$Consulta.= " order by num_conjunto";
 		$Resultado = mysqli_query($link, $Consulta);
 		if ($Row2 = mysqli_fetch_array($Resultado))
 		{
 			$Descripcion = $Row2["descripcion"];
 		}
-		if ($Conjunto == $Row[num_conjunto])
+		if ($Conjunto == $Row["num_conjunto"])
 		{
-			echo "<option selected value='".$Row[num_conjunto]."'>".$Row[num_conjunto]."&nbsp;-&nbsp;".ucwords(strtolower($Descripcion))."</option>\n";
+			echo "<option selected value='".$Row["num_conjunto"]."'>".$Row["num_conjunto"]."&nbsp;-&nbsp;".ucwords(strtolower($Descripcion))."</option>\n";
 		}
 		else
 		{
-			echo "<option value='".$Row[num_conjunto]."'>".$Row[num_conjunto]."&nbsp;-&nbsp;".ucwords(strtolower($Descripcion))."</option>\n";
+			echo "<option value='".$Row["num_conjunto"]."'>".$Row["num_conjunto"]."&nbsp;-&nbsp;".ucwords(strtolower($Descripcion))."</option>\n";
 		}
 	}
 ?>
-              </select></td>
-            <td align="center" valign="middle"><input name="BtnConsultar2" type="button" style="width:180px" onClick="Proceso('CLMA');" value="Consultar Leyes Mes Anterior"></td>
-          </tr>
-          <tr> 
-            <td height="23" align="center"><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">            </td>
-            <td height="23" colspan="2"> <select name="Mes" onChange="Proceso('R');">
-                <?php
+                                </select></td>
+                            <td align="center" valign="middle"><input name="BtnConsultar2" type="button"
+                                    style="width:180px" onClick="Proceso('CLMA');" value="Consultar Leyes Mes Anterior">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="23" align="center"><img src="../principal/imagenes/left-flecha.gif" width="11"
+                                    height="11"> </td>
+                            <td height="23" colspan="2"> <select name="Mes" onChange="Proceso('R');">
+                                    <?php
 				for ($i = 1; $i <= 12;$i++)
 				{
 					if (isset($Mes))
@@ -201,8 +265,8 @@ function Proceso(opt)
 					}
 				}			  	
 			  ?>
-              </select> <select name="Ano" onChange="Proceso('R');">
-                <?php
+                                </select> <select name="Ano" onChange="Proceso('R');">
+                                    <?php
 				for ($i = (date("Y")-1); $i <= (date("Y") + 1);$i++)
 				{
 					if (isset($Ano))
@@ -221,8 +285,8 @@ function Proceso(opt)
 					}
 				}			  	
 			  ?>
-              </select> 
-              <?php
+                                </select>
+                                <?php
 				$Consulta = "select distinct cod_conjunto, num_conjunto from ram_web.conjunto_ram ";
 				$Consulta.= " where cod_producto = '".$Productos."' ";
 				$Consulta.= " and cod_subproducto = '".$SubProductos."' ";
@@ -393,8 +457,9 @@ function Proceso(opt)
 						echo "<input type='radio' name='TipoLey' value='S'  onClick=\"Proceso('R');\">Ley de Stock&nbsp;&nbsp;\n";
               			echo "<input type='radio' name='TipoLey' value='O' checked  onClick=\"Proceso('R');\">Ley Operacional\n";
 						?>
-						<input name="BtnConsultarLeyes" type="button" style="width:80px" onClick="Proceso('CL');" value="Cons.Leyes">
-						<?php
+                                <input name="BtnConsultarLeyes" type="button" style="width:80px"
+                                    onClick="Proceso('CL');" value="Cons.Leyes">
+                                <?php
 						
 					}
 					else
@@ -403,114 +468,116 @@ function Proceso(opt)
               			echo "<input type='radio' name='TipoLey' value='O'  onClick=\"Proceso('R');\">Ley Operacional\n";
 					}
 				}
-			?>            </td>
-            <td height="23" align="center">&nbsp;</td>
-          </tr>
+			?>
+                            </td>
+                            <td height="23" align="center">&nbsp;</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table width="288" height="342" border="0" cellpadding="3" cellspacing="0" Class="TablaDetalle">
+                        <tr align="center" valign="middle" class="ColorTabla01">
+                            <td width="59" height="18"><strong>Ley</strong></td>
+                            <td width="181"><strong>Valor</strong></td>
+                            <td width="181">Unid.</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">H2O</td>
+                            <td><input type="text" name="H2O" value="<?php echo $H2O; ?>"></td>
+                            <td>%</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Cu</td>
+                            <td><input type="text" name="Cu" value="<?php echo $Cu; ?>"></td>
+                            <td>%</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Ag</td>
+                            <td><input type="text" name="Ag" value="<?php echo $Ag; ?>"></td>
+                            <td>%</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Au</td>
+                            <td><input type="text" name="Au" value="<?php echo $Au; ?>"></td>
+                            <td>%</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">As</td>
+                            <td><input type="text" name="As" value="<?php echo $As; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">S</td>
+                            <td><input type="text" name="S" value="<?php echo $S; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Pb</td>
+                            <td><input type="text" name="Pb" value="<?php echo $Pb; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Fe</td>
+                            <td><input type="text" name="Fe" value="<?php echo $Fe; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Si</td>
+                            <td><input type="text" name="Si" value="<?php echo $Si; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">CaO</td>
+                            <td><input type="text" name="CaO" value="<?php echo $CaO; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Al2O3</td>
+                            <td><input type="text" name="AL2O3" value="<?php echo $AL2O3; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">MgO</td>
+                            <td><input type="text" name="MgO" value="<?php echo $MgO; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Sb</td>
+                            <td><input type="text" name="Sb" value="<?php echo $Sb; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Cd</td>
+                            <td><input type="text" name="Cd" value="<?php echo $Cd; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Hg</td>
+                            <td><input type="text" name="Hg" value="<?php echo $Hg; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Te</td>
+                            <td><input type="text" name="Te" value="<?php echo $Te; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Zn</td>
+                            <td><input type="text" name="Zn" value="<?php echo $Zn; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                        <tr align="center" valign="middle">
+                            <td height="18">Fe3O4</td>
+                            <td><input type="text" name="Fe3O4" value="<?php echo $Fe3O4; ?>"></td>
+                            <td>ppm</td>
+                        </tr>
+                    </table>
+                    <br>
+                </td>
+            </tr>
         </table>
-        <br>       
-        <table width="288" height="342" border="0" cellpadding="3" cellspacing="0" Class="TablaDetalle">
-          <tr align="center" valign="middle" class="ColorTabla01"> 
-            <td width="59" height="18"><strong>Ley</strong></td>
-            <td width="181"><strong>Valor</strong></td>
-            <td width="181">Unid.</td>
-          </tr>
-          <tr align="center" valign="middle">
-            <td height="18">H2O</td>
-            <td><input type="text" name="H2O" value="<?php echo $H2O; ?>"></td>
-            <td>%</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Cu</td>
-            <td><input type="text" name="Cu" value="<?php echo $Cu; ?>"></td>
-            <td>%</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Ag</td>
-            <td><input type="text" name="Ag" value="<?php echo $Ag; ?>"></td>
-            <td>%</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Au</td>
-            <td><input type="text" name="Au" value="<?php echo $Au; ?>"></td>
-            <td>%</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">As</td>
-            <td><input type="text" name="As" value="<?php echo $As; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">S</td>
-            <td><input type="text" name="S" value="<?php echo $S; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Pb</td>
-            <td><input type="text" name="Pb" value="<?php echo $Pb; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Fe</td>
-            <td><input type="text" name="Fe" value="<?php echo $Fe; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Si</td>
-            <td><input type="text" name="Si" value="<?php echo $Si; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">CaO</td>
-            <td><input type="text" name="CaO" value="<?php echo $CaO; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Al2O3</td>
-            <td><input type="text" name="AL2O3" value="<?php echo $AL2O3; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">MgO</td>
-            <td><input type="text" name="MgO" value="<?php echo $MgO; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Sb</td>
-            <td><input type="text" name="Sb" value="<?php echo $Sb; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Cd</td>
-            <td><input type="text" name="Cd" value="<?php echo $Cd; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Hg</td>
-            <td><input type="text" name="Hg" value="<?php echo $Hg; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Te</td>
-            <td><input type="text" name="Te" value="<?php echo $Te; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Zn</td>
-            <td><input type="text" name="Zn" value="<?php echo $Zn; ?>"></td>
-            <td>ppm</td>
-          </tr>
-          <tr align="center" valign="middle"> 
-            <td height="18">Fe3O4</td>
-            <td><input type="text" name="Fe3O4" value="<?php echo $Fe3O4; ?>"></td>
-            <td>ppm</td>
-          </tr>
-        </table> 
-        <br>
-      </td>
-    </tr>
-  </table>
 
-<?php include("../principal/pie_pagina.php");?>
-</form>
+        <?php include("../principal/pie_pagina.php");?>
+    </form>
 </body>
+
 </html>

@@ -1,12 +1,15 @@
 <?php
 include("../principal/conectar_ram_web.php"); 
+
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+
 if($Proceso == "G")
 {
 	//Traspaso
 	$fecha_ini_recep = $ano1.'-'.$mes1.'-'.$dia1.' '.$hr1.':'.$min1.':00';
 	$fecha_ter_recep = $ano2.'-'.$mes2.'-'.$dia2.' '.$hr2.':'.$min2.':00';
 	
-	//Recepción
+	//Recepciï¿½n
 	$fecha_ini_tra = $ano3.'-'.$mes3.'-'.$dia3.' '.$hr3.':'.$min3.':00';
 	$fecha_ter_tra = $ano4.'-'.$mes4.'-'.$dia4.' '.$hr4.':'.$min4.':00';
 

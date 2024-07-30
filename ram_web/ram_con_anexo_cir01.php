@@ -26,11 +26,11 @@
 			if ($Fila["valor"] == "0")
 			{
 				/*INSERTA REGISTRO EN TABLA CIERRE MES
-				$Insertar = "INSERT INTO proyecto_modernizacion.cierre_mes (cod_sistema, ano, mes, fecha_cierre, cod_bloqueo, estado, rut_funcionario) ";
+				$Insertar = "insert into proyecto_modernizacion.cierre_mes (cod_sistema, ano, mes, fecha_cierre, cod_bloqueo, estado, rut_funcionario) ";
 				$Insertar.= " values('7','".$Ano."','".$Mes."','".date("Y-m-d H:i:s")."','1', 'C', '".$CookieRut."')";
 				mysqli_query($link, $Insertar);*/
 				//ACTUALIZO REGISTRO EN TABLA EXISTENCIA NODO
-				$Actualizar = "UPDATE ram_web.existencia_nodo_cir ";
+				$Actualizar = "update ram_web.existencia_nodo_cir ";
 				$Actualizar.= " set bloqueado = '1' ";
 				$Actualizar.= " where ano = '".$Ano."' ";
 				$Actualizar.= " and mes = '".$Mes."' ";
@@ -52,11 +52,11 @@
 			else
 			{
 				/*INSERTA REGISTRO EN TABLA CIERRE MES
-				$Insertar = "INSERT INTO proyecto_modernizacion.cierre_mes (cod_sistema, ano, mes, fecha_cierre, cod_bloqueo, estado, rut_funcionario) ";
+				$Insertar = "insert into proyecto_modernizacion.cierre_mes (cod_sistema, ano, mes, fecha_cierre, cod_bloqueo, estado, rut_funcionario) ";
 				$Insertar.= " values('7','".$Ano."','".$Mes."','".date("Y-m-d H:i:s")."','1', 'A', '".$CookieRut."')";
 				mysqli_query($link, $Insertar);*/
 				//ACTUALIZO REGISTRO EN TABLA EXISTENCIA NODO
-				$Actualizar = "UPDATE ram_web.existencia_nodo_cir ";
+				$Actualizar = "update ram_web.existencia_nodo_cir ";
 				$Actualizar.= " set bloqueado = '0' ";
 				$Actualizar.= " where ano = '".$Ano."' ";
 				$Actualizar.= " and mes = '".$Mes."' ";

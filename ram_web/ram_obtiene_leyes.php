@@ -1,4 +1,4 @@
-<?php
+<?
 	$CodigoDeSistema=7;
 	$CodigoDePantalla=27;
 	include("../principal/conectar_principal.php");
@@ -56,8 +56,8 @@ a:active {
 BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
 <IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=165 scrolling=no height=185></IFRAME></DIV>
 <form name="frmPrincipal" action="" method="post">
-<?php include("../principal/encabezado.php") ?>
-<input type="hidden" name="TipoBusqueda" value="<?php echo $TipoCon; ?>">
+<? include("../principal/encabezado.php") ?>
+<input type="hidden" name="TipoBusqueda" value="<? echo $TipoCon; ?>">
 <table class="TablaPrincipal" width="770">
 	<tr>
 	  <td width="770" height="340" align="center" valign="top"><br>
@@ -67,9 +67,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             </tr>
             <tr>
               <td width="13%">Entre Fechas:</td>
-              <td colspan="3"><input name="TxtFechaIni" type="text" class="InputCen" value="<?php echo $TxtFechaIni; ?>" size="15" maxlength="10" readOnly>
+              <td colspan="3"><input name="TxtFechaIni" type="text" class="InputCen" value="<? echo $TxtFechaIni; ?>" size="15" maxlength="10" readOnly>
               <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaIni,TxtFechaIni,popCal);return false"> Al 
-              <input name="TxtFechaFin" type="text" class="InputCen" id="TxtFechaFin" value="<?php echo $TxtFechaFin; ?>" size="15" maxlength="10" readOnly>
+              <input name="TxtFechaFin" type="text" class="InputCen" id="TxtFechaFin" value="<? echo $TxtFechaFin; ?>" size="15" maxlength="10" readOnly>
               <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaFin,TxtFechaFin,popCal);return false"></td>
             </tr>
             <tr align="center" class="ColorTabla02">
@@ -78,7 +78,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             </tr>
         </table>
 
-<?php
+<?
 if($Procesar=='S')
 {
 	echo "<BR><br><br><strong>OBTENIENDO LEYES DE NI</strong>";
@@ -87,8 +87,8 @@ if($Procesar=='S')
 	$Consulta = "SELECT cod_existencia,cod_conjunto,num_conjunto,rut_proveedor,peso_seco FROM ram_web.movimiento_proveedor WHERE fecha_movimiento BETWEEN '".$TxtFechaIni."' AND '".$TxtFechaFin."'";
 	$Consulta.= " and num_conjunto='3010' and trim(rut_proveedor)='40000-9' and cod_existencia='13'";
 	//echo $Consulta."<br><br>";
-	$RespPrv = mysqli_query($link, $Consulta);	
-	while ($FilaPrv = mysqli_fetch_array($RespPrv))
+	$RespPrv = mysql_query($Consulta);	
+	while ($FilaPrv = mysql_fetch_array($RespPrv))
 	{
 		$PesoSeco = $FilaPrv['peso_seco'];
 		$VENDED_FORMAT=str_replace('-','',$FilaPrv['rut_proveedor']);
@@ -96,8 +96,8 @@ if($Procesar=='S')
 		$Trecep='';
 		$Consulta="select cod_subproducto from ram_web.conjunto_ram where cod_conjunto='".$FilaPrv['cod_conjunto']."' and num_conjunto='".$FilaPrv['num_conjunto']."' limit 1";
 		//echo $Consulta."<br><br>";
-		$RespProd=mysqli_query($link, $Consulta);
-		if($FilaProd=mysqli_fetch_array($RespProd))
+		$RespProd=mysql_query($Consulta);
+		if($FilaProd=mysql_fetch_array($RespProd))
 		{
 			$Trecep=$FilaProd['cod_subproducto'];
 		}
@@ -140,9 +140,9 @@ if($Procesar=='S')
     	$Consulta.=" and tipo_producto = '".str_pad($TiposProds,3,"0",STR_PAD_LEFT)."'";
      	$Consulta.=" and rut_proveedor ='".$VENDED_FORMAT."'";
     	$Consulta.=" and fecha_aamm >= ".$Fecha_aux." and fecha_aamm < ".$Fecha_AUX2;
-		$RespPond = mysqli_query($link, $Consulta);
+		$RespPond = mysql_query($Consulta);
 		echo $Consulta."<br>";	
-		if($FilaPond = mysqli_fetch_array($RespPond))
+		if($FilaPond = mysql_fetch_array($RespPond))
 		{
 			$Por_Ni=$FilaPond['Por_Ni'];
 		}
@@ -152,15 +152,15 @@ if($Procesar=='S')
 			$Fino_Ni=(($Por_Ni * $PesoSeco)/1000000);
 			if($Fino_Ni>0)
 			{
-				$Actualizar="UPDATE ram_web.movimiento_proveedor set fino_ni='".$Fino_Ni."' where cod_existencia='".$FilaPrv['cod_existencia']."' and cod_conjunto='".$FilaPrv['cod_conjunto']."' and num_conjunto='".$FilaPrv['num_conjunto']."' and rut_proveedor='".$FilaPrv['rut_proveedor']."'";
+				$Actualizar="update ram_web.movimiento_proveedor set fino_ni='".$Fino_Ni."' where cod_existencia='".$FilaPrv['cod_existencia']."' and cod_conjunto='".$FilaPrv['cod_conjunto']."' and num_conjunto='".$FilaPrv['num_conjunto']."' and rut_proveedor='".$FilaPrv['rut_proveedor']."'";
 				$Actualizar.=" and fecha_movimiento between '".$TxtFechaIni." 00:00:00' and '".$TxtFechaFin." 23:59:59' ";
-				mysqli_query($link, $Actualizar);
+				mysql_query($Actualizar);
 				//echo "CON NI :".$Actualizar."<br><br><br>";
 				$ConNi++;
 			}
 			else
 			{
-				$Actualizar="UPDATE ram_web.movimiento_proveedor set fino_ni='".$Fino_Ni."' where cod_existencia='".$FilaPrv['cod_existencia']."' and cod_conjunto='".$FilaPrv['cod_conjunto']."' and num_conjunto='".$FilaPrv['num_conjunto']."' and rut_proveedor='".$FilaPrv['rut_proveedor']."'";
+				$Actualizar="update ram_web.movimiento_proveedor set fino_ni='".$Fino_Ni."' where cod_existencia='".$FilaPrv['cod_existencia']."' and cod_conjunto='".$FilaPrv['cod_conjunto']."' and num_conjunto='".$FilaPrv['num_conjunto']."' and rut_proveedor='".$FilaPrv['rut_proveedor']."'";
 				$Actualizar.=" and fecha_movimiento between '".$TxtFechaIni." 00:00:00' and '".$TxtFechaFin." 23:59:59' ";
 				//echo "SIN NI :".$Actualizar."<br><br><br>";
 				$SinNi++;	
@@ -177,7 +177,7 @@ if($Procesar=='S')
 	  <br></td>
 	</tr>
 </table>
-<?php
+<?
 include("../principal/pie_pagina.php"); ?>
 </form>
 </body>
