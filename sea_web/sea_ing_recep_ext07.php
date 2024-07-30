@@ -16,7 +16,6 @@
 	}else{
 		$Todos =  "";
 	}
-
 	if(isset($_REQUEST["TxtFechaIni"])) {
 		$TxtFechaIni = $_REQUEST["TxtFechaIni"];
 	}else{
@@ -32,7 +31,7 @@
 
 <html>
 <head>
-<title>Recepci�n de Productos Externos</title>
+<title>Recepci&oacute;n de Productos Externos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 <SCRIPT event=onclick() for=document>popCal.style.visibility = "hidden";</SCRIPT>
@@ -132,7 +131,7 @@ if($Proceso == "B")
 	
 	echo'<div align="center"><table cellpadding="3" cellspacing="0" width="630" border="1" bordercolor="#b26c4a" class="TablaPrincipal" align="center">
       	<tr class="ColorTabla02"> 
-        	<td colspan="7"><div align="center"><strong>Recepci�n de Productos de Terceros</strong></div></td>
+        	<td colspan="7"><div align="center"><strong>Recepci&oacute;n de Productos de Terceros</strong></div></td>
       	</tr>
 		</table><br>';
 }
@@ -142,7 +141,7 @@ if(($Todos == "S" || $cmbproductos == "2") && $Proceso =="B")
 	$total_unidades = 0;
 	$total_peso = 0;
 	echo'<div align="center"><table cellpadding="0" cellspacing="0"  width="630" border="1" bordercolor="#b26c4a" class="TablaPrincipal" align="center">
-    <tr class="ColorTabla02"><td colspan="10"><div align="center">�nodos Teniente</div></td></tr>
+    <tr class="ColorTabla02"><td colspan="10"><div align="center">&Aacute;nodos Teniente</div></td></tr>
     <tr class="ColorTabla01"> 
         <td><div align="center">Guia</div></td>
 		<td><div align="center">Lote Origen</div></td>
