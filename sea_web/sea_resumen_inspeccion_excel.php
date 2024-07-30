@@ -25,15 +25,37 @@
 	$Producto = 17;
 
 
-		$Mostrar = $_REQUEST["Mostrar"];
+	if(isset($_REQUEST["SubProducto"])) {
 		$SubProducto = $_REQUEST["SubProducto"];
-		$TipoCons = $_REQUEST["TipoCons"];
+	}else{
+		$SubProducto =  "";
+	}
+	if(isset($_REQUEST["Horno"])) {
+		$Horno = $_REQUEST["Horno"];
+	}else{
+		$Horno =  "";
+	}
+	if(isset($_REQUEST["Ano"])) {
 		$Ano = $_REQUEST["Ano"];
-		if(isset($_REQUEST["TotalPorc"])) {
-			$TotalPorc = $_REQUEST["TotalPorc"];
-		}else{
-			$TotalPorc =  "";
-		}
+	}else{
+		$Ano =  date("Y");
+	}
+
+	if(isset($_REQUEST["Mostrar"])) {
+		$Mostrar = $_REQUEST["Mostrar"];
+	}else{
+		$Mostrar =  "";
+	}
+	if(isset($_REQUEST["TipoCons"])) {
+		$TipoCons = $_REQUEST["TipoCons"];
+	}else{
+		$TipoCons =  "";
+	}
+	if(isset($_REQUEST["TotalPorc"])) {
+		$TotalPorc = $_REQUEST["TotalPorc"];
+	}else{
+		$TotalPorc =  0;
+	}
 
 
 	//NOMBRE SUBPRODUCTO
@@ -302,7 +324,8 @@ if ($Mostrar == "S")
 		}
 		if ($TotalInspec > 0 && $TotalDefectoAnual > 0)
 			$TotalPorc = ($TotalInspec*100)/$TotalDefectoAnual;
-		else	$TotalPorc=0;
+		else	
+			$TotalPorc=0;
 		$TotalPorcAno = $TotalPorcAno + $TotalPorc;
 		echo "<td class='ColorTabla02' align='right'>".number_format($TotalInspec,0,",",".")."</td>\n";
 		echo "<td class='ColorTabla02' align='right'>".number_format($TotalPorc,2,",",".")."</td>\n";
