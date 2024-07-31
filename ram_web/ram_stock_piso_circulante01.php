@@ -1,5 +1,19 @@
-<?
+<?php
 	include("../principal/conectar_principal.php");
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mes         = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano         = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$ChkLeyes    = isset($_REQUEST["ChkLeyes"])?$_REQUEST["ChkLeyes"]:"";
+	$PesoHum     = isset($_REQUEST["PesoHum"])?$_REQUEST["PesoHum"]:"";
+	$TxtLeyHum   = isset($_REQUEST["TxtLeyHum"])?$_REQUEST["TxtLeyHum"]:0;
+	$TxtLeyCu    = isset($_REQUEST["TxtLeyCu"])?$_REQUEST["TxtLeyCu"]:0;
+	$TxtLeyAg    = isset($_REQUEST["TxtLeyAg"])?$_REQUEST["TxtLeyAg"]:0;
+	$TxtLeyAu    = isset($_REQUEST["TxtLeyAu"])?$_REQUEST["TxtLeyAu"]:0;
+	$TxtLeyAs    = isset($_REQUEST["TxtLeyAs"])?$_REQUEST["TxtLeyAs"]:0;
+	$Valores     = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	
 	switch ($Proceso)
 	{
 		case "G":
@@ -22,7 +36,7 @@
 			$Insertar.= " (fecha,cod_existencia,cod_producto,cod_subproducto,peso_humedo, peso_seco, fino_cu, fino_ag, fino_au, fino_as, tipo_calculo) ";
 			$Insertar.= " VALUES('".$FechaAux2."','01','".$Producto."','".$SubProducto."','".$PesoHum."',";
 			$Insertar.= " '".$P_Seco."','".$F_Cu."','".$F_Ag."','".$F_Au."','".$F_As."','".$ChkLeyes."')";
-			mysql_query($Insertar);
+			mysqli_query($link, $Insertar);
 			header("location:ram_stock_piso_circulante.php?Mes=".$Mes."&Ano=".$Ano);
 			break;
 		case "E":
@@ -32,7 +46,7 @@
 			$Eliminar = "delete from ram_web.stock_piso ";
 			$Eliminar.= " where fecha='".$FechaAux2."' and cod_existencia='01' ";
 			$Eliminar.= " and cod_producto='".$Datos[0]."' and cod_subproducto='".$Datos[1]."' ";
-			mysql_query($Eliminar);
+			mysqli_query($link, $Eliminar);
 			header("location:ram_stock_piso_circulante.php?Mes=".$Mes."&Ano=".$Ano);
 			break;
 	}

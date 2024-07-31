@@ -1,7 +1,15 @@
-<?
+<?php
 	include("../principal/conectar_principal.php");
+	$ChkCodConjunto    = isset($_REQUEST["ChkCodConjunto"])?$_REQUEST["ChkCodConjunto"]:"A";
+	$Mes         = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano         = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$TxtConjunto  = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$TxtDif  = isset($_REQUEST["TxtDif"])?$_REQUEST["TxtDif"]:"";
+	$Mostrar  = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	/*
 	if (!isset($ChkCodConjunto) || $ChkCodConjunto=="")
 		$ChkCodConjunto="A";
+	*/
 		
 ?>
 <html>
@@ -50,7 +58,7 @@ function Proceso(opt)
   <tr>
     <td>Periodo: </td>
     <td><select name="Mes" id="select2" style="width:110px">
-      <?
+      <?php
 			  	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 				for ($i = 1; $i <= 12; $i++)
 				{
@@ -72,7 +80,7 @@ function Proceso(opt)
 			?>
     </select>
       <select name="Ano" style="width:70px">
-        <?
+        <?php
 				for ($i = (date("Y")-1); $i <= (date("Y")+1); $i++)
 				{
 					if (isset($Ano))
@@ -95,17 +103,17 @@ function Proceso(opt)
   </tr>
   <tr>
     <td>Num Conjunto:</td>
-    <td><input name="TxtConjunto" type="text" id="TxtConjunto" value="<? echo $TxtConjunto; ?>" size="15" maxlength="10">
+    <td><input name="TxtConjunto" type="text" id="TxtConjunto" value="<?php echo $TxtConjunto; ?>" size="15" maxlength="10">
 (Opcional) </td>
   </tr>
   <tr>
     <td width="148">Marcar Cuando Dif. sea &quot;&gt;&quot;</td>
-    <td width="241"><input name="TxtDif" type="text" id="TxtDif" value="<? echo $TxtDif; ?>" size="15" maxlength="10">
+    <td width="241"><input name="TxtDif" type="text" id="TxtDif" value="<?php echo $TxtDif; ?>" size="15" maxlength="10">
       (Opcional)</td>
     </tr>
   <tr align="center">
     <td colspan="2">
-<?
+<?php
 	switch ($ChkCodConjunto)
 	{
 		case "M":
@@ -139,7 +147,7 @@ function Proceso(opt)
 </table>
 <br>
 <br>
-<?
+<?php
 switch ($ChkCodConjunto)
 {
 	case "M":
@@ -176,8 +184,8 @@ if ($Mostrar=="S")
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase = '7002'";
 	$Consulta.= " order by cod_subclase";
-	$Resp1 = mysql_query($Consulta);
-	while ($Fila1 = mysql_fetch_array($Resp1))
+	$Resp1 = mysqli_query($link, $Consulta);
+	while ($Fila1 = mysqli_fetch_array($Resp1))
 	{				
 		switch ($Fila1["cod_subclase"])	
 		{
@@ -261,10 +269,10 @@ if ($Mostrar=="S")
 		$TotalSeco = 0;
 		$TotalHumCal = 0;
 		$TotalSecoCal = 0;
-		$Respuesta = mysql_query($Consulta);
+		$Respuesta = mysqli_query($link, $Consulta);
 		/*if ($Fila1["cod_subclase"]==5)
 			echo $Consulta."<br><br>";*/
-		while ($Fila = mysql_fetch_array($Respuesta))
+		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$Clave = $Fila["cod_conjunto"]."-".$Fila["num_conjunto"];
 			$ArrConjunto[$Clave]["cod_conjunto"]= $Fila["cod_conjunto"];
@@ -304,7 +312,7 @@ if ($Mostrar=="S")
 	$i=1;
 	ksort($ArrConjunto);
 	reset($ArrConjunto);
-	while (list($k,$FilaPri)=each($ArrConjunto))
+	foreach($ArrConjunto as $k => $FilaPri)
 	{
 		$Color = "";
 		$TxtDif=str_replace(",",".",$TxtDif);
