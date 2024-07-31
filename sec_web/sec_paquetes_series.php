@@ -107,8 +107,11 @@ function Detalle(CodBulto,NumBulto,IE)
 		$a=0;
 		$i=0;
 		while ($i < count($arreglo))
-		{
-			if ($arreglo[$i][0]==$arreglo[$i+1][0])
+		{	
+	        $arreglo0  = isset($arreglo[$i][0])?$arreglo[$i][0]:0;
+			$arreglo10 = isset($arreglo[$i+1][0])?$arreglo[$i+1][0]:0;
+			//if ($arreglo[$i][0]==$arreglo[$i+1][0])
+			if ($arreglo0==$arreglo10)
 			{
 				if($arreglo[$i][1]==($arreglo[$i+1][1]-1))
 				{
@@ -150,8 +153,9 @@ function Detalle(CodBulto,NumBulto,IE)
 			else
 			{
 				if ((count($arreglo)-$i)<=1)//fin del arreglo
-				{
-					if ($vector[$a][0]=="")
+				{   
+					$vector0 = isset($vector[$a][0])?$vector[$a][0]:"";
+					if ($vector0=="")
 					{
 						$vector[$a][0]=$arreglo[$i][0]."//".$arreglo[$i][1]."//".$arreglo[$i][2];//inicial
 					}

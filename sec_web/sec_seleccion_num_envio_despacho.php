@@ -1,7 +1,8 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 17;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 
 	if(isset($_REQUEST["Envio"])){
@@ -507,11 +508,11 @@ function Imprimir(opt)
 					switch ($Envio)
 					{
 						case "N":
-							echo "<input type='button' name='BtnAsignar' value='Confirmar N� Envio' style='width:130' onClick='Confirmar();'>";
+							echo "<input type='button' name='BtnAsignar' value='Confirmar N° Envio' style='width:130' onClick='Confirmar();'>";
 							//echo "<input type='button' name='BtnSalir' value='Salir' style='width:90' onClick='Salir();'>";
 							break;
 						case "S":
-							echo "<input type='button' name='BtnEliminar' value='Eliminar N� Envio' style='width:130' onClick='Eliminar();'>";
+							echo "<input type='button' name='BtnEliminar' value='Eliminar N° Envio' style='width:130' onClick='Eliminar();'>";
 							//echo "<input type='button' name='BtnSalir' value='Salir' style='width:90' onClick='Salir();'>";
 							break;
 					}		
