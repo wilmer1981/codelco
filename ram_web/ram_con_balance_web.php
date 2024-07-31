@@ -20,11 +20,9 @@
 <title>Balance RAM</title>
 <link href="../principal/estilos/css_principal.css" rel="stylesheet" type="text/css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
-<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
--->
 </style>
 <script language="javascript">
 function Proceso(opt)
@@ -435,6 +433,9 @@ while ($Fila1 = mysqli_fetch_array($Resp1))
 	$TotalHg = 0;
 	$TotalCd = 0;
 	$TotalNi = 0;
+	////
+	$CantDecCu =0;$CantDecAg=0;$CantDecAu=0;$CantDecAs=0;$CantDecS=0;$CantDecPb=0;
+	$CantDecSb=0;$CantDecFe=0;$CantDecHg=0;$CantDecCd=0;$CantDecNi=0;
 	$OtrosProd = false;
 	$Cont = 1;
 	while ($Fila = mysqli_fetch_array($Respuesta))

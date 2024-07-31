@@ -1,27 +1,38 @@
-<?
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+<?php
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	// $link = mysql_connect('10.56.11.7','adm_bd','672312');
- mysql_select_db("ram_web",$link);
+	//mysql_select_db("ram_web",$link);
 	set_time_limit(450);
+	$TipoMovimiento = isset($_REQUEST["TipoMovimiento"])?$_REQUEST["TipoMovimiento"]:"";
+	$TxtConjunto    = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$Agrup = isset($_REQUEST["Agrup"])?$_REQUEST["Agrup"]:"";
+	$Acum  = isset($_REQUEST["Acum"])?$_REQUEST["Acum"]:"";
+	$ChkPMineros    =  isset($_REQUEST["ChkPMineros"])?$_REQUEST["ChkPMineros"]:"";
+	$ChkCirculantes =  isset($_REQUEST["ChkCirculantes"])?$_REQUEST["ChkCirculantes"]:"";
+	$FinoLeyes  =  isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+	$Dia =  isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes =  isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano =  isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("A");
 
 ?>
 <html>
@@ -34,15 +45,15 @@
 <table width="523" border="0" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr align="center">
     <td colspan="11"><strong>
-	<?
+	<?php
 		if ($TipoMovimiento != "T")
 		{
 			$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 			$Consulta.= " where cod_clase = '7002'";
 			$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 			$Consulta.= " order by cod_subclase";
-			$Respuesta = mysql_query($Consulta);
-			if ($Fila = mysql_fetch_array($Respuesta))					
+			$Respuesta = mysqli_query($link, $Consulta);
+			if ($Fila = mysqli_fetch_array($Respuesta))					
 				echo strtoupper($Fila["nombre_subclase"]);
 			else
 				echo "&nbsp;";
@@ -58,7 +69,7 @@
   </tr>
   <tr>
     <td width="117" colspan="3"><strong>AGRUPADO POR: </strong></td>
-    <td width="269" colspan="5"><?
+    <td width="269" colspan="5"><?php
 	if ($Agrup == "C")
 	{
 		echo "CONJUNTO";
@@ -80,20 +91,20 @@
   </tr>
   <tr>
     <td colspan="3"><strong>PERIODO</strong></td>
-    <td colspan="5"><?
+    <td colspan="5"><?php
 	if ($Acum == "D")
 	{
-		echo str_pad($Dia,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;
-		$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
-		$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
+		echo str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;
+		$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
+		$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
 	}
 	else
 	{
 		if ($Acum == "A")
 		{
-			echo "01-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano." AL ".str_pad($Dia,2,"0",str_pad_left)."-".str_pad($Mes,2,"0",str_pad_left)."-".$Ano;			
-			$FechaIni = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-01";
-			$FechaFin = $Ano."-".str_pad($Mes,2,"0",str_pad_left)."-".str_pad($Dia,2,"0",str_pad_left);
+			echo "01-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano." AL ".str_pad($Dia,2,"0",STR_PAD_LEFT)."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".$Ano;			
+			$FechaIni = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-01";
+			$FechaFin = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-".str_pad($Dia,2,"0",STR_PAD_LEFT);
 		}
 		else
 		{
@@ -106,7 +117,7 @@
 </table>
 <br>
 <br>
-<?
+<?php
 if ($ChkPMineros=="S" && $ChkCirculantes=="S")
 {
 	$CodConjunto = "in(01,03)";
@@ -188,8 +199,10 @@ $Consulta.= " where cod_clase = '7002'";
 if ($TipoMovimiento != "T")
 	$Consulta.= " and valor_subclase1 = '".$TipoMovimiento."'";
 $Consulta.= " order by cod_subclase";
-$Resp1 = mysql_query($Consulta);
-while ($Fila1 = mysql_fetch_array($Resp1))
+$Resp1 = mysqli_query($link, $Consulta);
+$DifPesoHum  = 0;
+$DifPesoSeco = 0;
+while ($Fila1 = mysqli_fetch_array($Resp1))
 {		
 	$CodConjuntoAnt="";
 	if ($TipoMovimiento == "T")
@@ -375,7 +388,7 @@ while ($Fila1 = mysql_fetch_array($Resp1))
 			break;
 	}
 	//echo $Consulta;	
-	$Respuesta = mysql_query($Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	//SUBTOTALES
 	$SubTotalHum = 0;
 	$SubTotalSeco = 0;
@@ -404,9 +417,12 @@ while ($Fila1 = mysql_fetch_array($Resp1))
 	$TotalHg = 0;
 	$TotalCd = 0;
 	$TotalNi = 0;
+	////
+	$CantDecCu =0;$CantDecAg=0;$CantDecAu=0;$CantDecAs=0;$CantDecS=0;$CantDecPb=0;
+	$CantDecSb=0;$CantDecFe=0;$CantDecHg=0;$CantDecCd=0;$CantDecNi=0;
 	$OtrosProd = false;
 	$Cont = 1;
-	while ($Fila = mysql_fetch_array($Respuesta))
+	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($CodConjuntoAnt != $Fila["cod_conjunto"])
 		{
@@ -835,7 +851,7 @@ while ($Fila1 = mysql_fetch_array($Resp1))
 		switch ($Agrup)
 		{
 			case "C":
-				echo "<td>".str_pad($Fila["cod_conjunto"],2,"0",str_pad_left)." | ".$Fila["num_conjunto"]."</td>\n";
+				echo "<td>".str_pad($Fila["cod_conjunto"],2,"0",STR_PAD_LEFT)." | ".$Fila["num_conjunto"]."</td>\n";
 				echo "<td align='left'>".substr(strtoupper($Fila["descripcion"]),0,16)."</td>\n";
 				break;	
 			case "P":
