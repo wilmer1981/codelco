@@ -2,12 +2,12 @@
  	$CodigoDeSistema = 3;
 	$CodigoDePantalla =11;
 	include("../principal/conectar_sec_web.php");
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	$CookieRut = $_COOKIE["CookieRut"];
-	$Rut =$CookieRut;
+	$meses = array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$Rut        = $CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
 
-	$Proceso  = isset($_REQUEST["Proceso"])?:$_REQUEST["Proceso"]:"";
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$CodBulto = isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"";
 	$NumBulto = isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
 	$IE       = isset($_REQUEST["IE"])?$_REQUEST["IE"]:"";
@@ -118,8 +118,11 @@ function Detalle(CodBulto,NumBulto,IE)
 						$sw=1;
 					}
 					else
-					{
-						if ($arreglo[$i+1][1]!=($arreglo[$i+2][1]-1))
+					{ 
+				        $arreglo21 = isset($arreglo[$i+2][1])?$arreglo[$i+2][1]:0;
+						$arreglo11 = isset($arreglo[$i+1][1])?$arreglo[$i+1][1]:0;
+						//if ($arreglo[$i+1][1]!=($arreglo[$i+2][1]-1))
+						if ($arreglo11!=($arreglo21-1))
 						{
 							$vector[$a][1]=$arreglo[$i+1][0]."//".$arreglo[$i+1][1]."//".$arreglo[$i][2];//final
 							$sw=0;

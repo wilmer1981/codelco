@@ -1,13 +1,17 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 12;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 	$TipoIE = isset($_REQUEST["TipoIE"])?$_REQUEST["TipoIE"]:"Normal";
 	$OpcTipoIE = isset($_REQUEST["OpcTipoIE"])?$_REQUEST["OpcTipoIE"]:"";
 	$Error  = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"Error";
 	$Salir  = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$Msj        = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
+	$Mensaje    = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 /*
 	OpcTipoIE: 
 CheckProgLoteo: 
@@ -15,17 +19,6 @@ NumProgLoteo:
 CheckFecha:
 */ 
 
-	
-
-	$Msj    = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
-	//$Mensaje    = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
-	
-	/*
-	if(isset($_REQUEST["Msj"])){
-		$Msj = $_REQUEST["Msj"];
-	}else{
-		$Msj ='';
-	}*/
 ?>
 <html>
 <head>
@@ -344,8 +337,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 	  <tr>
 	
 	  <?php
-	  echo "HHH".$TipoIE;
-			
+		
 			switch ($TipoIE)
 			{
 			
@@ -742,10 +734,8 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 
 						$Fila2=mysqli_fetch_array($Respuesta2);
 						//if($Fila["corr_ie"]=='904807')
-						echo $Fila2;
-												
-						$Cont2++;
-                        
+						//echo $Fila2;												
+						$Cont2++;                        
 						$corr_ie = isset($Fila["corr_ie"])?$Fila["corr_ie"]:"";
 						$producto = isset($Fila["producto"])?$Fila["producto"]:"";
 						$subproducto = isset($Fila["subproducto"])?$Fila["subproducto"]:"";
@@ -875,7 +865,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
 		{
@@ -884,7 +874,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 			echo "</script>";
 		}
 	}
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo "<script languaje='javascript'>";
 		echo "alert('".$Mensaje."');";	
