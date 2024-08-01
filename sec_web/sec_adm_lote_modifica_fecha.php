@@ -33,7 +33,7 @@ function Proceso(Opcion)
 	}
 	if(Valores!='')
 	{
-		var mensaje=confirm('�Est� Seguro de asignar esta Fecha de Creaci�n al Lote?');
+		var mensaje=confirm('¿Está Seguro de asignar esta Fecha de Creación al Lote?');
 		if(mensaje==true)
 		{
 			f.action="sec_adm_lote_modifica_fecha01.php?CodBulto="+f.CodBulto.value+"&NumBulto="+f.NumBulto.value+"&CorrEnm="+f.CorrENM.value+"&FechaLoteModifi="+Valores;
@@ -170,7 +170,7 @@ body {
           <tr class="ColorTabla01">
             <td width="38"><input type="hidden" name="CheckTodos" value="checkbox">
             </td>
-            <td width="102"><div align="center">Fecha Creaci�n Lote</div></td>
+            <td width="102"><div align="center">Fecha Creaci&oacute;n Lote</div></td>
             <td width="86"><div align="center">#Inicial S-Lote</div></td>
             <td width="88" align="left"><div align="center">#Final S-Lote</div></td>
             <td width="222" align="left"><div align="center">Producto/SubProducto</div></td>
