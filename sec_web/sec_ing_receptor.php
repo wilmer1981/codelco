@@ -1,8 +1,8 @@
 <?php
 include("../principal/conectar_principal.php");
 
-$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
-$Envio   = isset($_REQUEST["Envio"])?$_REQUEST["Envio"]:"";
+$Mostrar      = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+$Envio        = isset($_REQUEST["Envio"])?$_REQUEST["Envio"]:"";
 $TipoEmbarque = isset($_REQUEST["TipoEmbarque"])?$_REQUEST["TipoEmbarque"]:"";
 $Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 $RutCliente   = isset($_REQUEST["RutCliente"])?$_REQUEST["RutCliente"]:"";
@@ -11,6 +11,22 @@ $CmbReceptor = isset($_REQUEST["CmbReceptor"])?$_REQUEST["CmbReceptor"]:"";
 $TipoEmb     = isset($_REQUEST["TipoEmb"])?$_REQUEST["TipoEmb"]:"";
 $Bloquear    = isset($_REQUEST["Bloquear"])?$_REQUEST["Bloquear"]:"";
 //$Mensaje     = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+
+	$NombreCliente=isset($_REQUEST["NombreCliente"])?$_REQUEST["NombreCliente"]:"";
+	$CodReceptor  =isset($_REQUEST["CodReceptor"])?$_REQUEST["CodReceptor"]:"";
+	$Rut          =isset($_REQUEST["Rut"])?$_REQUEST["Rut"]:"";
+	$Sigla        =isset($_REQUEST["Sigla"])?$_REQUEST["Sigla"]:"";
+	$Direccion    =isset($_REQUEST["Direccion"])?$_REQUEST["Direccion"]:"";
+	$CodPais      =isset($_REQUEST["CodPais"])?$_REQUEST["CodPais"]:"";
+	$Telefono1    =isset($_REQUEST["Telefono1"])?$_REQUEST["Telefono1"]:"";
+	$Telefono2    =isset($_REQUEST["Telefono2"])?$_REQUEST["Telefono2"]:"";
+	$Fax          =isset($_REQUEST["Fax"])?$_REQUEST["Fax"]:"";
+	$Observacion  =isset($_REQUEST["Observacion"])?$_REQUEST["Observacion"]:"";
+	$CodPrestador =isset($_REQUEST["CodPrestador"])?$_REQUEST["CodPrestador"]:"";
+	$TxtComuna    =isset($_REQUEST["TxtComuna"])?$_REQUEST["TxtComuna"]:"";
+	$TxtCiudad    =isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtCiudad"]:"";
+	$TxtAlmSAP    =isset($_REQUEST["TxtAlmSAP"])?$_REQUEST["TxtAlmSAP"]:"";
+	$TxtDivSAP    =isset($_REQUEST["TxtDivSAP"])?$_REQUEST["TxtDivSAP"]:"";
 
 
 if ($Mostrar=="S")
@@ -39,6 +55,8 @@ if ($Mostrar=="S")
 	else
 	{
 		$NombreCliente="";
+		$CodReceptor="";
+		$Rut="";
 		$Sigla="";
 		$Direccion="";
 		$CodPais="";
@@ -210,7 +228,7 @@ function Nuevo(R,T)
            
           </tr>
 
-            <td height="22"> Direcci�n</td>
+            <td height="22"> Direcci&oacute;n</td>
  <td colspan="3">: <input name="Direccion" type="text" id="Direccion" style="width:200" maxlenght="30" value="<?php echo $Direccion  ?>"><span class="InputRojo">(*)</span></td>
    
           </tr>

@@ -1,15 +1,15 @@
 <?php 	
  	$CodigoDeSistema = 3;
 	$CodigoDePantalla =28;
-	include("../principal/conectar_sec_web.php");
-	$Fecha1 = date("Y-m-d");
-	
-	$anito=substr($Fecha1,0,4);
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php"); 
+	$Fecha1 = date("Y-m-d");	
+	$anito  = substr($Fecha1,0,4);
 	$Fecha2 = date("Y-m-d", mktime(1,0,0,intval(substr($Fecha1, 5, 2)) - 9,intval(substr($Fecha1, 8, 2)),intval(substr($Fecha1, 0, 4))));
 //	echo "fecha".$Fecha1."-".$Fecha2;
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	$CookieRut = $_COOKIE["CookieRut"];
-	$Rut =$CookieRut;
+	$meses = array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$Rut        = $CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
 
 	if(isset($_REQUEST["Proceso"])){
@@ -40,7 +40,7 @@
 	if(isset($_REQUEST["FechaEnvio"])){
 		$FechaEnvio = $_REQUEST["FechaEnvio"];
 	}else{
-		$FechaEnvio = "";
+		$FechaEnvio = "0000-00-00";
 	}
 	if(isset($_REQUEST["TipoEmbarque"])){
 		$TipoEmbarque = $_REQUEST["TipoEmbarque"];
@@ -170,16 +170,16 @@
 		$Respuesta=mysqli_query($link, $Consulta);
 		if ($Fila=mysqli_fetch_array($Respuesta))
 		{
-			$FechaEnvio   =$Fila["fecha_envio"];
-			$FechaEmbarque=$Fila["fecha_embarque"];
-			$FechaProgramacion=$Fila["fecha_programacion"];
-			$Descripcion      =$Fila["descripcion"];
-			$DescripcionPuerto=$Fila["nom_aero_puerto"];
-			$DescripcionNave  =$Fila["nombre_nave"];
-			$TipoEmbarque     =$Fila["tipo_embarque"];
-			$SwSubCliente     =$Fila["cod_sub_cliente"];
-			$Cliente          =$Fila["rut_cliente"];
-			$FechaEnvio       =$Fila["fecha_envio"];
+			$FechaEnvio        = $Fila["fecha_envio"];
+			$FechaEmbarque     = $Fila["fecha_embarque"];
+			$FechaProgramacion = $Fila["fecha_programacion"];
+			$Descripcion       = $Fila["descripcion"];
+			$DescripcionPuerto = $Fila["nom_aero_puerto"];
+			$DescripcionNave   = $Fila["nombre_nave"];
+			$TipoEmbarque      = $Fila["tipo_embarque"];
+			$SwSubCliente      = $Fila["cod_sub_cliente"];
+			$Cliente           = $Fila["rut_cliente"];
+		
 		//	echo "TTTT".$FechaEnvio;
 		}
 		else
@@ -205,7 +205,7 @@
 			$FechaEnvio=$Fila["fecha_envio"];
 			*/
 			//	echo "mmmmmm".$FechaEnvio;
-			$FechaEnvio       =isset($Fila["fecha_envio"])?$Fila["fecha_envio"]:"";
+			$FechaEnvio       =isset($Fila["fecha_envio"])?$Fila["fecha_envio"]:"0000-00-00";
 			$FechaEmbarque    =isset($Fila["fecha_embarque"])?$Fila["fecha_embarque"]:"";
 			$FechaProgramacion=isset($Fila["fecha_programacion"])?$Fila["fecha_programacion"]:"";
 			$Descripcion      =isset($Fila["descripcion"])?$Fila["descripcion"]:"";
@@ -214,7 +214,6 @@
 			$TipoEmbarque     =isset($Fila["tipo_embarque"])?$Fila["tipo_embarque"]:"";
 			$SwSubCliente     =isset($Fila["cod_sub_cliente"])?$Fila["cod_sub_cliente"]:"";
 			$Cliente          =isset($Fila["rut_cliente"])?$Fila["rut_cliente"]:"";
-			$FechaEnvio       =isset($Fila["fecha_envio"])?$Fila["fecha_envio"]:"";
 			
 		}
 		
@@ -448,7 +447,7 @@ function Eliminar()
 	ValoresCheck=Recuperar();
 	if (ValoresCheck!="")
 	{
-		mensaje=confirm("�Esta Seguro de quitar la relacion ?");
+		mensaje=confirm("¿Esta Seguro de quitar la relacion ?");
 		if(mensaje==true)
 		{
 			ValoresCheck=ValoresCheck.substr(0,ValoresCheck.length-2);
@@ -507,7 +506,7 @@ body {
 <?php include("../principal/encabezado.php")?>
   <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
     <tr>
-      <td width="758">Versi�n : 2 
+      <td width="758">Versi&oacute;n : 2 
         <table width="754" border="0" class="TablaInterior">
           <tr> 
             <td width="27"><font size="2">&nbsp; </font></td>  
