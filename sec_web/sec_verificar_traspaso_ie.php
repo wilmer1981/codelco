@@ -1,34 +1,17 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 29;
-	include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 
-	//$Mensaje   = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
-	$Traspasado   = isset($_REQUEST["Traspasado"])?$_REQUEST["Traspasado"]:"N";
+	$Traspasado       = isset($_REQUEST["Traspasado"])?$_REQUEST["Traspasado"]:"N";
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$Mensaje          = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	
 	$CmbDias = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date('d');
 	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
 	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
 
-	/*
-	if (!isset($Traspasado))
-	{
-		$Traspasado='N';
-	}
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-	}
-	if (!isset($CmbMes))
-	{
-		$CmbMes=date('n');
-	}
-	if (!isset($CmbDias))
-	{
-		$CmbDias=date('d');
-	}
-	*/
     $FechaMenos = $CmbAno - 1;
     
 
@@ -249,14 +232,14 @@ function Salir()
           <table width="740" border="0" cellpadding="3" cellspacing="0" bordercolor="#b26c4a" class="TablaDetalle">
             <tr class="ColorTabla01"> 
               <td width="10" align="center"></td>
-              <td width='20' align="center">Prog.N�</td>
+              <td width='20' align="center">Prog.N&deg;</td>
               <td width='55' align="center">I.E</td>
               <td width='90' align="center">Nave/Cliente</td>
               <td width='60' align="center">Fecha Emb</td>
               <td width='70' align="center">Peso Prog.</td>
               <td width='60' align="center">Peso Prep.</td>
               <td width='50' align="center">Dif.</td>
-              <td width='40' align="center">N� Lote</td>
+              <td width='40' align="center">N&deg; Lote</td>
               <td width="10" align="center">Paq.</td>
               <td width="60" align="center">Marca</td>
               <td width="20" align="center">Est</td>
@@ -364,7 +347,7 @@ function Salir()
                  // echo $Consulta;
 				$Respuesta2=mysqli_query($link, $Consulta);
 				$MostrarBoton=true;
-				
+				$Cont2=0;
 				while ($Fila2=mysqli_fetch_array($Respuesta2)) 
 				{
 					$Consulta="SELECT count(*) as cantpaquetes from sec_web.lote_catodo";
@@ -430,7 +413,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
 		{
@@ -439,7 +422,7 @@ function Salir()
 			echo "</script>";
 		}
 	}
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo "<script languaje='javascript'>";
 		echo "alert('".$Mensaje."');";	
