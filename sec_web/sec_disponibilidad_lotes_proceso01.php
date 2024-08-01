@@ -6,7 +6,7 @@
 	$CmbDias = $_REQUEST["CmbDias"];
 	$CmbMes  = $_REQUEST["CmbMes"];
 	$CmbAno  = $_REQUEST["CmbAno"];
-	
+
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
 	{

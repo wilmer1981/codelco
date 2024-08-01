@@ -1,10 +1,13 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 19;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 
 	$DispEmb   = isset($_REQUEST["DispEmb"])?$_REQUEST["DispEmb"]:"N";
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$Mensaje          = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
 	/*
 	if (!isset($DispEmb))
@@ -151,14 +154,14 @@ function Lote()
 	  <div style="position:absolute; left: 15px; top: 85px; width: 750px; height: 250px; OVERFLOW: auto;" id="div2">
 	  <table width="730" border="0" cellpadding="3" cellspacing="0" bordercolor="#b26c4a" class="TablaDetalle">
           <tr class="ColorTabla01">
-		    <td width='85' align="center">Prog.N�</td>
+		    <td width='85' align="center">Prog.N&deg;</td>
 			<td width='2' align="center">I.E</td>
 			<td width='150' align="center">Nave/Cliente</td>
 			<td width='90' align="center">Fecha Emb</td>
 			<td width='60' align="center">Peso Prog.</td>
 			<td width='90' align="center">Peso Prep.</td>
 			<td width='70' align="center">Diferencia</td>
-			<td width='70' align="center">N� Lote</td>
+			<td width='70' align="center">N&deg; Lote</td>
 			<td width="30" align="center">Est.</td>
           </tr>
         </table></div>
@@ -242,6 +245,7 @@ function Lote()
 				}	
 				$Respuesta2=mysqli_query($link, $Consulta);
 				$MostrarBoton=true;
+				$Cont2=0;
 				while ($Fila2=mysqli_fetch_array($Respuesta2))
 				{
 					$Cont2++;
@@ -284,7 +288,7 @@ function Lote()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
 		{
@@ -293,7 +297,7 @@ function Lote()
 			echo "</script>";
 		}
 	}
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo "<script languaje='javascript'>";
 		echo "alert('".$Mensaje."');";	

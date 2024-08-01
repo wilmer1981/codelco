@@ -4,6 +4,7 @@
 
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:""; 
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$FechaMaxima = isset($_REQUEST["FechaMaxima"])?$_REQUEST["FechaMaxima"]:"";
 
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
