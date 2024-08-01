@@ -300,11 +300,15 @@ function Proceso(opt)
       <td width="99">SERIE</td>
     </tr>    
 <?php   
-if (isset($NumInstruccion))
+$TotalPaquetes=0;
+$TotalPesoNeto=0;
+$TotalPesoBruto=0;
+$TotalUnidades=0;
+if ($NumInstruccion!="")
 {
 	$NomArchivo = "packing_list\\packing_".$NumInstruccion.".lst";
 	$Archivo = fopen($NomArchivo,"w+");
-	echo "archivo : ".$NumInstruccion;	
+	//echo "archivo : ".$NumInstruccion;	
 	Cabecera($Archivo,$CodLote,$NumLote,$DescProducto,$NumInstruccion,$Cliente,'1',date("d/m/Y"),$LoteSipa);
 	$Consulta = "SELECT * from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
 	$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete ";
