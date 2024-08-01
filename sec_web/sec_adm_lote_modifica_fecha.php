@@ -97,9 +97,9 @@ body {
 					//echo $Consulta."<br>";
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
-					$Descripcion=$Fila["descripcion"];
-					$CodMarca=$Fila["cod_marca"];
-					$IE=$Fila["corr_enm"];
+					$Descripcion=isset($Fila["descripcion"])?$Fila["descripcion"]:"";
+					$CodMarca=isset($Fila["cod_marca"])?$Fila["cod_marca"]:"";
+					$IE=isset($Fila["corr_enm"])?$Fila["corr_enm"]:"";
 				//}
 			echo $CodMarca;
 			echo "&nbsp;&nbsp;";

@@ -68,6 +68,7 @@
 			$Consulta.=" cod_bulto='".$Codigo."' and num_bulto='".$Numero."' and left(fecha_creacion_lote,4)='".$Ano."' and cod_estado='c'		";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
+			$Mensaje3="";
 			if($Fila["cantidad"]>0)
 			{
 				$Mensaje3="No se puede Modificar la Marca por que el Lote se despacho ";			

@@ -2,13 +2,14 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_principal.php");
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$datos = explode("//",$Valores);	
 	$Consulta="select *,t2.cod_subclase from sec_web.lote_catodo t1  ";
 	$Consulta.=" inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase =3004 and t1.cod_bulto=t2.nombre_subclase	";
 	$Consulta.=" where t1.cod_bulto='".$datos[0]."' and t1.num_bulto='".$datos[1]."' and ";
 	$Consulta.=" t1.cod_paquete='".$datos[2]."' and t1.num_paquete='".$datos[3]."' and t1.fecha_creacion_lote='".$datos[4]."' ";															
-	$Respuesta=mysqli_query($link, $Consulta);
-	$Fila=mysqli_fetch_array($Respuesta);
+	$Respuesta=mysql_query($Consulta);
+	$Fila=mysql_fetch_array($Respuesta);
 	$CodBulto=$Fila["cod_bulto"];
 	$NumBulto=$Fila["num_bulto"];
 	$NumPaquete=$Fila["num_paquete"];
@@ -64,26 +65,26 @@ function Recarga()
 			<select name="CmbCodBulto">
 			<?php
 			$Consulta=" select MONTH(NOW()) as mes ";
-			$Respuesta1=mysqli_query($link, ($Consulta));
-			$Fila1=mysqli_fetch_array($Respuesta1);
+			$Respuesta1=mysql_query(($Consulta));
+			$Fila1=mysql_fetch_array($Respuesta1);
 			$Consulta="select * from proyecto_modernizacion.sub_clase ";
 			$Consulta.=" where cod_clase='3004' and cod_subclase between 1 and 12   ";
-           	$Respuesta=mysqli_query($link, $Consulta);
-			while($Fila=mysqli_fetch_array($Respuesta))
+           	$Respuesta=mysql_query($Consulta);
+			while($Fila=mysql_fetch_array($Respuesta))
 			{
 				if ($CmbCodBulto==$Fila1[mes])
 				{
-					echo "<option value=".$Fila["nombre_subclase"]." selected>".$Fila["nombre_subclase"]."</option>";	
+					echo "<option value=".$Fila[nombre_subclase]." selected>".$Fila[nombre_subclase]."</option>";	
 				}
 				else
 				{
-					echo "<option value=".$Fila["nombre_subclase"].">".$Fila["nombre_subclase"]."</option>";	
+					echo "<option value=".$Fila[nombre_subclase].">".$Fila[nombre_subclase]."</option>";	
 				}
 			}
 		    ?>
 			  </select>
               -
-              <input name="NumBulto" type="text" id="NumBulto" value="<?php echo $NumBulto; ?>"> </td>
+              <input name="NumBulto" type="text" id="NumBulto" value="<? echo $NumBulto; ?>"> </td>
           </tr>
           <tr> 
 		 
@@ -91,39 +92,39 @@ function Recarga()
             <td colspan="3"> <select name="CmbCodPaqueteI">
 			<?php
 			$Consulta=" select MONTH(NOW()) as mes ";
-			$Respuesta1=mysqli_query($link, ($Consulta));
-			$Fila1=mysqli_fetch_array($Respuesta1);
+			$Respuesta1=mysql_query(($Consulta));
+			$Fila1=mysql_fetch_array($Respuesta1);
 			$Consulta="select * from proyecto_modernizacion.sub_clase ";
 			$Consulta.=" where cod_clase='3004' and cod_subclase between 1 and 12   ";
-           	$Respuesta=mysqli_query($link, $Consulta);
-			while($Fila=mysqli_fetch_array($Respuesta))
+           	$Respuesta=mysql_query($Consulta);
+			while($Fila=mysql_fetch_array($Respuesta))
 			{
 				if ($CmbCodPaqueteI==$Fila1[mes])
 				{
-					echo "<option value=".$Fila["nombre_subclase"]." selected>".$Fila["nombre_subclase"]."</option>";	
+					echo "<option value=".$Fila[nombre_subclase]." selected>".$Fila[nombre_subclase]."</option>";	
 				}
 				else
 				{
-					echo "<option value=".$Fila["nombre_subclase"].">".$Fila["nombre_subclase"]."</option>";	
+					echo "<option value=".$Fila[nombre_subclase].">".$Fila[nombre_subclase]."</option>";	
 				}
 			}
 		    ?>
               </select>
               - 
-              <input name="NumPaqueteI" type="text" id="NumPaqueteI" value="<?php  echo $NumPaqueteI;  ?>"></td>
+              <input name="NumPaqueteI" type="text" id="NumPaqueteI" value="<?  echo $NumPaqueteI;  ?>"></td>
           </tr>
           <tr> 
             <td colspan="2">N&deg; Serie Final Sub -Lote</td>
             <td colspan="3"> 
-              <input name="NumPaqueteF" type="text" id="NumPaqueteF" value="<?php   echo $NumPaqueteF;  ?>"></td>
+              <input name="NumPaqueteF" type="text" id="NumPaqueteF" value="<?   echo $NumPaqueteF;  ?>"></td>
           </tr>
           <tr> 
             <td colspan="2">Marca</td>
-            <td colspan="3"><input name="Marca" type="text" id="Marca" value="<?php  echo $Marca;  ?>"></td>
+            <td colspan="3"><input name="Marca" type="text" id="Marca" value="<?  echo $Marca;  ?>"></td>
           </tr>
           <tr> 
             <td colspan="2">ENM</td>
-            <td colspan="3"><input name="ENM" type="text" id="ENM" value="<?php  echo $ENM;     ?>"></td>
+            <td colspan="3"><input name="ENM" type="text" id="ENM" value="<?  echo $ENM;     ?>"></td>
           </tr>
           <tr> 
             <td colspan="2">Estado</td>
@@ -132,17 +133,17 @@ function Recarga()
 				<?php
 				$Consulta="select * from proyecto_modernizacion.sub_clase";
 				$Consulta.=" where cod_clase='3003' and (cod_subclase='2' or cod_subclase='4')";
-				$Respuesta=mysqli_query($link, $Consulta);
-				while($Fila=mysqli_fetch_array($Respuesta))
+				$Respuesta=mysql_query($Consulta);
+				while($Fila=mysql_fetch_array($Respuesta))
 				{
 					
-					if ($CmbEstado == $Fila["cod_subclase"])
+					if ($CmbEstado == $Fila[cod_subclase])
 					{
-						echo "<option value='".$Fila["valor_subclase1"]."' selected>".$Fila["nombre_subclase"]."</option>";
+						echo "<option value='".$Fila[valor_subclase1]."' selected>".$Fila[nombre_subclase]."</option>";
 					}
 					else
 					{
-						echo "<option value='".$Fila["valor_subclase1"]."'>".$Fila["nombre_subclase"]."</option>";
+						echo "<option value='".$Fila[valor_subclase1]."'>".$Fila[nombre_subclase]."</option>";
 					}
 				}
 				
@@ -156,7 +157,7 @@ function Recarga()
         <br>
         <table width="395" border="0">
           <tr> 
-            <td  align="center" width="509"><input type="button" name="BtnGrabar" value="Grabar" style="width:60" onClick="Grabar('<?php echo $Proceso;?>','<?php echo $Valores;?>')">
+            <td  align="center" width="509"><input type="button" name="BtnGrabar" value="Grabar" style="width:60" onClick="Grabar('<? echo $Proceso;?>','<? echo $Valores;?>')">
               <input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();">
               &nbsp; </td>
           </tr>

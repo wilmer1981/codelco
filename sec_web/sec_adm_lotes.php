@@ -1,7 +1,8 @@
 <?php 	
  	$CodigoDeSistema = 3;
 	$CodigoDePantalla =11;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	require("../principal/conectar_index.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut = $CookieRut;
@@ -19,8 +20,8 @@
 	$CodBulto = isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"";
 	$CmbSerie = isset($_REQUEST["CmbSerie"])?$_REQUEST["CmbSerie"]:"";	
 
-	$CmbAno      = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
-	$Mes         = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$CmbAno      = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$Mes         = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 	$CmbCodBulto = isset($_REQUEST["CmbCodBulto"])?$_REQUEST["CmbCodBulto"]:"";
 	$NumBulto    = isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
 	$Mensaje3    = isset($_REQUEST["Mensaje3"])?$_REQUEST["Mensaje3"]:"";
@@ -180,14 +181,14 @@ function CierreLotesAnteriores()
 	var Resp="";
 	if(Frm.CmbSerie.value!='-1')
 	{	
-		if(confirm("�Esta seguro de realizar el cierre de los años anteriores?"))
+		if(confirm("¿Esta seguro de realizar el cierre de los años anteriores?"))
 		{
 			window.open("sec_proceso_cierre_lote.php?Anio="+Frm.CmbAno.value+"&CodBulto="+Frm.CmbCodBulto.value+"&NroBulto="+Frm.CmbSerie.value,"","top=80,left=180,width=400,height=200,scrollbars=yes,resizable =no");
 		}
 	}
 	else
 	{
-		alert("Debe Seleccionar el lote que cerrar�, recuerde anular la gu�a que hace referencia al lote del año actual. ")
+		alert("Debe Seleccionar el lote que cerrará, recuerde anular la guía que hace referencia al lote del año actual. ")
 		
 	}
 	
@@ -208,7 +209,7 @@ function MostrarPopupProceso(Proceso)
 function Eliminar(Ano,codigo,numero)
 {
 	var Frm=document.FrmProceso;
-	var mensaje = confirm("�Seguro que desea Quitar la Relacion?");
+	var mensaje = confirm("¿Seguro que desea Quitar la Relacion?");
 	var Valores="";
 	if (mensaje==true)
 	{
