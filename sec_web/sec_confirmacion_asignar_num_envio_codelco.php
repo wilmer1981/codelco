@@ -1,6 +1,10 @@
-<?php 	
+<?php
 	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	
+	$NumEnvio = isset($_REQUEST["NumEnvio"])?$_REQUEST["NumEnvio"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Tipo     = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
 ?>
 <html>
 <head>

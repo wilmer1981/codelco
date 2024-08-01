@@ -3,16 +3,17 @@
 	include("../principal/conectar_sec_web.php");
 	$FechaEnvio = date("Y-m-d");
 
-	$Proceso = $_REQUEST["Proceso"];
-	$Valores = $_REQUEST["Valores"];
-	$Tipo = $_REQUEST["Tipo"];
-
-	$Envio = $_REQUEST["Envio"];
-	$TipoEmbarque = $_REQUEST["TipoEmbarque"];
-	$ValoresAux = $_REQUEST["ValoresAux"];
-	$CodNave = $_REQUEST["CodNave"];
-	$CodPuerto = $_REQUEST["CodPuerto"];
-	$NumOrden = $_REQUEST["NumOrden"];
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Tipo    = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$Envio         = isset($_REQUEST["Envio"])?$_REQUEST["Envio"]:"";
+	$TipoEmbarque  = isset($_REQUEST["TipoEmbarque"])?$_REQUEST["TipoEmbarque"]:"";
+	$ValoresAux    = isset($_REQUEST["ValoresAux"])?$_REQUEST["ValoresAux"]:"";
+	$CodNave       = isset($_REQUEST["CodNave"])?$_REQUEST["CodNave"]:"";
+	$CodPuerto     = isset($_REQUEST["CodPuerto"])?$_REQUEST["CodPuerto"]:"";
+	$NumOrden      = isset($_REQUEST["NumOrden"])?$_REQUEST["NumOrden"]:"";
+	$NumPaqueteI01 = isset($_REQUEST["NumPaqueteI01"])?$_REQUEST["NumPaqueteI01"]:"";
+	$NumPaqueteF01 = isset($_REQUEST["NumPaqueteF01"])?$_REQUEST["NumPaqueteF01"]:"";
 	
 	switch ($Proceso)
 	{
@@ -129,7 +130,7 @@
 				}
 				if ($Existe == 0)  
 				{
-					$Mensaje="No se puede asignar Instrucci�n Embarque, Envio no Existe,Revise..... ";
+					$Mensaje="No se puede asignar Instrucción Embarque, Envio no Existe,Revise..... ";
 				}
 				else
 				{	

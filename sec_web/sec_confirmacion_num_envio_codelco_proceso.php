@@ -22,7 +22,7 @@
 		$CmbTipoEmb = $_REQUEST["CmbTipoEmb"];
 	}else{
 		$CmbTipoEmb = "";
-	}
+	} 
 	
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
@@ -109,7 +109,7 @@ function Recarga(Envio,Valor)//#envio y valor=string de checkbox
 			$Consulta.=" where YEAR(fecha_envio) = year(now()) and tipo <> 'V'	";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$NumEnvio=$Fila[NroMayor]+1;
+			$NumEnvio=$Fila["NroMayor"]+1;
 			?>
 			<input name="NumEnvio" type="text" id="NumEnvio" size="10" value="<?php echo $NumEnvio; ?>"></td>
           </tr>
