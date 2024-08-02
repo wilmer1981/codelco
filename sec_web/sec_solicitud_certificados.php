@@ -523,9 +523,7 @@ function CodCliente(CodBulto, NumBulto, CodCliente, IE)
 			 //esto es lo que estaba
 			if ($Estado!='N')
 			{
-			 	//aqui incluir select para certificado con stado = N(no solicitados) poly 05062009
-				
-				
+			 	//aqui incluir select para certificado con stado = N(no solicitados) poly 05062009					
 				
 				//$Consulta="SELECT *, t1.corr_ie,t1.cod_bulto,t1.num_bulto from sec_web.tmpCertificados t1 ";
 				$Consulta="SELECT t1.corr_ie, t1.cod_bulto, t1.num_bulto from sec_web.tmpCertificados t1 ";
@@ -536,24 +534,23 @@ function CodCliente(CodBulto, NumBulto, CodCliente, IE)
 				$Consulta.=" inner join sec_web.marca_catodos t3 on t1.cod_marca=t3.cod_marca";
 				
 				$Consulta.=" where  ";//(substring(t2.fecha_hora,1,7) ='".$Fecha_Envio."' or substring(t2.fecha_hora,1,7) ='".$Fecha_Envio1."')";
-
 				
 				if($Estado=='E')
 				{
 					$Consulta.= " year(t2.fecha_hora) ='".$CmbAno."' ";
 
 					$Consulta.=" and t2.generacion='S' and (t2.estado_certificado='')";	
-					$Consulta.=" and  year(t2.fecha_generacion) = '".$CmbAno."' ";
+					$Consulta.=" and  year(t2.fecha_generacion) = '".$CmbAno."' and ";
 				}
 				if($Estado=='P')
 				{
 					$Consulta.= " t1.corr_ie = t2.corr_enm and t1.cod_bulto = t2.cod_bulto and ";
 					$Consulta.= " t1.num_bulto = t2.num_bulto and t1.estado = 'P' and ";
-					$Consulta.="  t2.generacion='N' and (t2.estado_certificado='')	";	
+					$Consulta.="  t2.generacion='N' and (t2.estado_certificado='') and ";	
 				}
-				$Consulta.=" and cod_producto in('18')	order by  t1.envio desc ";
-				$Respuesta=mysqli_query($link, $Consulta);
-					//echo "DDD".$Consulta."<br>";
+				$Consulta.=" cod_producto in('18')	order by  t1.envio desc ";
+				//echo "DDD".$Consulta."<br>";
+				$Respuesta=mysqli_query($link, $Consulta);				
 				echo "<input name='checkbox' type='hidden'></td>";
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{

@@ -4,17 +4,17 @@
 	$Rut =$CookieRut;
 	$Fecha=date('Y-m-d H:i:s');
 
-	$Proceso = $_REQUEST["Proceso"];
-	$Valores = $_REQUEST["Valores"];
-	$CmbMes = $_REQUEST["CmbMes"];
-	$CmbAno = $_REQUEST["CmbAno"];
-	//$CmbEstado = $_REQUEST["CmbEstado"];
-	$Estado = $_REQUEST["Estado"];
-	$CodBulto = $_REQUEST["CodBulto"];
-	$NumBulto = $_REQUEST["NumBulto"];
-	$CodCliente = $_REQUEST["CodCliente"];
-	$IE = $_REQUEST["IE"];
-	$CorrCanje = $_REQUEST["CorrCanje"];
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
+	$CmbEstado  = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+	$Estado     = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
+	$CodBulto   = isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"";
+	$NumBulto   = isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
+	$CodCliente = isset($_REQUEST["CodCliente"])?$_REQUEST["CodCliente"]:"";
+	$IE         = isset($_REQUEST["IE"])?$_REQUEST["IE"]:"";
+	$CorrCanje  = isset($_REQUEST["CorrCanje"])?$_REQUEST["CorrCanje"]:"";
 	
 	switch ($Proceso)
 	{  
