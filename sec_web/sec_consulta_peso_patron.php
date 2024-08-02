@@ -1,7 +1,8 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 37;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	//$Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 	$CmbBascula = isset($_REQUEST["CmbBascula"])?$_REQUEST["CmbBascula"]:"";
