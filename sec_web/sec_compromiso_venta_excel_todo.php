@@ -27,10 +27,16 @@
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");	
+	
+	$FechaHora  = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+	$Tipo       = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$MesIni2    = isset($_REQUEST["MesIni2"])?$_REQUEST["MesIni2"]:date("m");
+	$AnoIni2    = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:date("Y");
 
-	$Tipo    = $_REQUEST["Tipo"];
-	$MesIni2 = $_REQUEST["MesIni2"];
-	$AnoIni2 = $_REQUEST["AnoIni2"];
+	$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$Pais        = isset($_REQUEST["Pais"])?$_REQUEST["Pais"]:"";
+	$CmbContrato = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";	
+	$Mostrar     = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 
 ?>
 <html>
@@ -45,7 +51,7 @@
 	if ($MesIni2 != "T")
 		echo strtoupper($meses2[$MesIni2-1])." DEL ".$AnoIni2; 
 	else
-		echo " A�O ".$AnoIni2; 	
+		echo " AñO ".$AnoIni2; 	
 ?>      </font></strong></td>
   </tr>
   <tr align="center" class="ColorTabla01"> 

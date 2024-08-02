@@ -5,21 +5,18 @@
 	$meses =array ("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
 	$meses2 =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
-	$CookieRut = $_COOKIE["CookieRut"];
-	$Rut=$CookieRut;
-	$Fecha_Hora = date("d-m-Y h:i");
-	
-	
-	
-	$Tipo = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$Rut        = $CookieRut;
+	$Fecha_Hora = date("d-m-Y h:i");	
+	$FechaHora  = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+	$Tipo    = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
 	$MesIni2 = isset($_REQUEST["MesIni2"])?$_REQUEST["MesIni2"]:date("m");
 	$AnoIni2 = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:date("Y");
 
 	$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
 	$Pais        = isset($_REQUEST["Pais"])?$_REQUEST["Pais"]:"";
-	$CmbContrato = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
-	
-	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$CmbContrato = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";	
+	$Mostrar     = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	
 
 ?>
@@ -57,7 +54,7 @@ function Proceso(Opt,f)
 			Frm.submit();
 			break;
 		case "E":
-		var mensaje=confirm("�Seguro que Desea Elimnar?");
+		var mensaje=confirm("¿Seguro que Desea Elimnar?");
 		if (mensaje==true)
 		{
 			Frm.action= "sec_compromiso_venta01.php?Proceso="+Opt;
@@ -80,7 +77,7 @@ function Proceso(Opt,f)
 	 		Frm.submit();
 		break;
 		case "EX"://EXCEL
-			var msg = confirm("�Si desea ver todos los meses presione Aceptar\nPara ver solo el mes actual presione Cancelar?");
+			var msg = confirm("¿Si desea ver todos los meses presione Aceptar\nPara ver solo el mes actual presione Cancelar?");
 			if (msg==true)
 				Frm.action= "sec_compromiso_venta_excel_todo.php";
 			else
@@ -233,7 +230,7 @@ function TeclaPulsada (tecla)
       <td width="218" align="center" valign="top"><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong> 
         <?php echo $Fecha_Hora ?> </strong>&nbsp; <strong> 
         <?php
-					if (!isset($FechaHora))
+					if ($FechaHora=="")
 					{
 						echo "<input name='FechaHora' type='hidden' value='".date('Y-m-d H:i')."'>";
 						$FechaHora=date('Y-m-d H:i');
@@ -253,7 +250,8 @@ function TeclaPulsada (tecla)
             <td height="23" align="right"><?php 
 			if ($Tipo != "C")
 				echo "Mercado";
-			else echo "Asignacion"; 
+			else 
+				echo "Asignacion"; 
 			?></td>
             <td width="377"><?php 
 			if ($Tipo != "C")
@@ -355,14 +353,14 @@ function TeclaPulsada (tecla)
 				echo "<select name='CmbContrato' style='width:90' >\n";
                 echo "<option value='-1'>Seleccionar</option>\n";
 				//$EnmCode="";
+				$EnmCode = "enami";				
 				if ($Tipo == "E"){
 					$EnmCode = "enami";
-				}
-				
+				}			
 				if ($Tipo == "C"){
 					$EnmCode = "codelco";
 				}
-				echo "Tipo:".$EnmCode;
+				//echo "Tipo:".$EnmCode;
 				$Consulta="SELECT distinct cod_contrato from sec_web.programa_$EnmCode where cod_cliente = '".$CmbCliente."' ";
 				$Respuesta=mysqli_query($link, $Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
@@ -400,7 +398,7 @@ function TeclaPulsada (tecla)
         </table>
         <br> 
 <?php
-	if (!isset($Tipo))
+	if ($Tipo=="")
 	{
 		$AnoIni2 = date("Y");
 		$Tipo = "E";
@@ -440,6 +438,7 @@ function TeclaPulsada (tecla)
 		$Total2=0;
 		$TotalEne2=0; $TotalFeb2=0; $TotalMar2=0; $TotalAbr2=0; $TotalMay2=0; $TotalJun2=0;
 		$TotalJul2=0; $TotalAgo2=0; $TotalSep2=0; $TotalOct2=0; $TotalNov2=0; $TotalDic2=0;
+		//$NomPais="";
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$CodPais = substr($Fila["cod_cliente"],0,2);
@@ -632,8 +631,13 @@ function TeclaPulsada (tecla)
 		$Respuesta = mysqli_query($link, $Consulta);
 		$i=1;
 		$J=10;
-		$CodPaisAnt = 0;
-		$CodPais = 0;
+		$CodPaisAnt = 0; $CodPais = 0; $NomPais="";
+		$Total=0; $Total2=0;
+		$TotalEne=0; $TotalFeb=0; $TotalMar=0; $TotalAbr=0; $TotalMay=0; $TotalJun=0; 
+		$TotalJul=0; $TotalAgo=0; $TotalSep=0; $TotalOct=0; $TotalNov=0; $TotalDic=0;
+		$TotalEne2=0; $TotalFeb2=0; $TotalMar2=0; $TotalAbr2=0; $TotalMay2=0; $TotalJun2=0; 
+		$TotalJul2=0; $TotalAgo2=0; $TotalSep2=0; $TotalOct2=0; $TotalNov2=0; $TotalDic2=0;
+
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{										
 			$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3016' and nombre_subclase = '".$Fila["cod_cliente"]."'";
