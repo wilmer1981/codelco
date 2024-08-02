@@ -263,8 +263,7 @@ if (strtoupper($ConsProd) == "S")
 			$Class = "";
 			$conta_a = 0;
 			$conta_b = 0;
-			$conta_r = 0;
-			
+			$conta_r = 0;			
 			$rs1 = mysqli_query($link, $Consulta);
 			while($row1 = mysqli_fetch_array($rs1))
 			{				
@@ -285,9 +284,7 @@ if (strtoupper($ConsProd) == "S")
 					if ($row1["valor"] > $row2["b_115"])
 					{
 						$conta_r = 1;
-					}	
-
-					
+					}						
 					/*$Valor = $Valor + $row1["valor"];			
 					$Grado_A = $Grado_A + $row2["grado_a"];  								
 					$Astm = $Astm + $row2["b_115"];*/
@@ -332,8 +329,7 @@ if (strtoupper($ConsProd) == "S")
 				//No hay solicitud;
 				$clave = $row["fecha_produccion"].'~'.$row["cod_grupo"].'~'.$row["cod_cuba"];					
 				$Cubas_N[$clave] =  array(0=> $row["fecha_produccion"], 1=>$row["cod_grupo"], 2=>$row["cod_cuba"], 3=>$row["peso_produccion"]);
-			}
-				
+			}				
 			//echo "TIPO: ".$Class."<br><br>";		
 		}				
 	}	
@@ -342,8 +338,7 @@ if (strtoupper($ConsProd) == "S")
 	$crear = "CREATE TABLE IF NOT EXISTS sec_web.listado_grupo (fecha date,grupo char(2),cuba char(2), peso bigint)";
 	mysqli_query($link, $crear);
 	$eliminar = "DELETE FROM sec_web.listado_grupo";
-	mysqli_query($link, $eliminar);
-	
+	mysqli_query($link, $eliminar);	
 	
 	$TipoProducto = array(42=>"A", 43=>"B", 44=>"R");
 	$tipo_prod = $TipoProducto[$subproducto];
@@ -393,7 +388,7 @@ if (strtoupper($ConsProd) == "S")
 		$cubas_grupo = array();
 		while ($row5 = mysqli_fetch_array($rs5))
 		{
-			 $cubas_grupo[] = $row5[cuba];
+			$cubas_grupo[] = $row5["cuba"];
 			
 			//CONSULTA SI YA FUE ASIGNADO A ESTE LOTE.
 			$consulta = "SELECT * FROM sec_web.catodos_desc_normal"; 
@@ -483,7 +478,7 @@ if (strtoupper($ConsProd) == "S")
 			switch ($Participacion)
 			{
 				case "T":
-					 echo "<option value='0'>0-NO PARTICIPA</option>\n";
+					echo "<option value='0'>0-NO PARTICIPA</option>\n";
 					echo "<option selected value='T'>T-TOTAL</option>\n";
 					echo "<option value='P'>P-PARCIAL</option>\n";
 					break;

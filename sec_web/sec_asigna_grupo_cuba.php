@@ -2,13 +2,12 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla =16; 
 	include("../principal/conectar_principal.php");
-
-	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date('Y');
-	$NumBulto= isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
-	$CodBulto= isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"A";
-	$UnidLote= isset($_REQUEST["UnidLote"])?$_REQUEST["UnidLote"]:"";
-	$PesoLote= isset($_REQUEST["PesoLote"])?$_REQUEST["PesoLote"]:"";
 	
+	$Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date('Y');
+	$NumBulto = isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
+	$CodBulto = isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"A";
+	$UnidLote = isset($_REQUEST["UnidLote"])?$_REQUEST["UnidLote"]:"";
+	$PesoLote = isset($_REQUEST["PesoLote"])?$_REQUEST["PesoLote"]:"";
 
 ?>
 <html>
@@ -67,7 +66,6 @@ function Historial(SA)
 	window.open("../cal_web/cal_con_registro_leyes.php?SA="+ SA,"","top=50,left=10,width=790,height=450,scrollbars=yes,resizable = yes");					
 }
 
-
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
 
@@ -109,16 +107,16 @@ function Historial(SA)
             <td> COD.LOTE:</td>
             <td><select name="CodBulto" onChange="Recarga();">
                 <?php
-	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3004' order by nombre_subclase";
-	$Respuesta = mysqli_query($link, $Consulta);	
-	while ($Fila = mysqli_fetch_array($Respuesta))
-	{
-		if ($CodBulto == $Fila["nombre_subclase"])
-			echo "<option selected value='".$Fila["nombre_subclase"]."'>".$Fila["nombre_subclase"]."</option>\n";
-		else
-			echo "<option value='".$Fila["nombre_subclase"]."'>".$Fila["nombre_subclase"]."</option>\n";
-	}		
-?>
+					$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3004' order by nombre_subclase";
+					$Respuesta = mysqli_query($link, $Consulta);	
+					while ($Fila = mysqli_fetch_array($Respuesta))
+					{
+						if ($CodBulto == $Fila["nombre_subclase"])
+							echo "<option selected value='".$Fila["nombre_subclase"]."'>".$Fila["nombre_subclase"]."</option>\n";
+						else
+							echo "<option value='".$Fila["nombre_subclase"]."'>".$Fila["nombre_subclase"]."</option>\n";
+					}		
+				?>
               </select></td>
             <td width="115">LOTE:</td>
             <td width="259"><select name="NumBulto" onChange="Recarga();">
@@ -160,7 +158,7 @@ function Historial(SA)
 				$Consulta.= " and t1.num_bulto = '".$NumBulto."'";
 				$Consulta.= " group by t1.cod_bulto, t1.num_bulto";
 				$Respuesta = mysqli_query($link, $Consulta);
-				$FechaLote="";
+				$FechaLote="0000-00-00";
 				if ($Fila = mysqli_fetch_array($Respuesta))
 				{
 					$UnidLote = $Fila["unidades"];

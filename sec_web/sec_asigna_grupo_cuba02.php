@@ -1,17 +1,16 @@
 <?php
 	include("../principal/conectar_principal.php");
 	$Mensaje = "";
-	$Proceso= $_REQUEST["Proceso"];
-	$Participa= $_REQUEST["Participa"];
-	$TipoProd= $_REQUEST["TipoProd"];
-	$PesoProd= $_REQUEST["PesoProd"];
-	$Fecha   = $_REQUEST["Fecha"];
-	$Grupo   = $_REQUEST["Grupo"];
-	$Valores= $_REQUEST["Valores"];
-
-	$NumBulto= $_REQUEST["NumBulto"];
-	$CodBulto= $_REQUEST["CodBulto"];
-	$FechaLote=$_REQUEST["FechaLote"];
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Participa= isset($_REQUEST["Participa"])?$_REQUEST["Participa"]:"";
+	$TipoProd = isset($_REQUEST["TipoProd"])?$_REQUEST["TipoProd"]:"";
+	$PesoProd = isset($_REQUEST["PesoProd"])?$_REQUEST["PesoProd"]:"";
+	$Fecha    = isset($_REQUEST["Fecha"])?$_REQUEST["Fecha"]:"";
+	$Grupo    = isset($_REQUEST["Grupo"])?$_REQUEST["Grupo"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$NumBulto = isset($_REQUEST["NumBulto"])?$_REQUEST["NumBulto"]:"";
+	$CodBulto = isset($_REQUEST["CodBulto"])?$_REQUEST["CodBulto"]:"";
+	$FechaLote= isset($_REQUEST["FechaLote"])?$_REQUEST["FechaLote"]:"";
 
 	switch ($Proceso)
 	{		
