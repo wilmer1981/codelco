@@ -10,21 +10,21 @@
 	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 	$Dia = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
 
-	$PaqLavar = "";
-	$PaqPesar = "";
-	$PaqStandard = "";
-	$PaqCatodosGranel = "";
-	$PaqStandardGranel = "";
-	$ConfecGranel = "";
-	$Observacion = "";
-	$EnPreparacion = "";
-
-	$Validacion = "";
 	
-	$RecuperadoDiario = "";
-	$RecuperadoAcumulado = "";
-	$StandardDiario = "";
-	$StandardAcumulado = "";
+	$RecuperadoDiario    = isset($_REQUEST["RecuperadoDiario"])?$_REQUEST["RecuperadoDiario"]:"";
+	$RecuperadoAcumulado = isset($_REQUEST["RecuperadoAcumulado"])?$_REQUEST["RecuperadoAcumulado"]:"";
+	$StandardDiario      = isset($_REQUEST["StandardDiario"])?$_REQUEST["StandardDiario"]:"";
+	$StandardAcumulado   = isset($_REQUEST["StandardAcumulado"])?$_REQUEST["StandardAcumulado"]:"";
+	$PaqLavar            = isset($_REQUEST["PaqLavar"])?$_REQUEST["PaqLavar"]:"";
+	$PaqPesar            = isset($_REQUEST["PaqPesar"])?$_REQUEST["PaqPesar"]:"";
+	$PaqStandard         = isset($_REQUEST["PaqStandard"])?$_REQUEST["PaqStandard"]:"";
+	$PaqCatodosGranel    = isset($_REQUEST["PaqCatodosGranel"])?$_REQUEST["PaqCatodosGranel"]:"";
+	$PaqStandardGranel   = isset($_REQUEST["PaqStandardGranel"])?$_REQUEST["PaqStandardGranel"]:"";
+	$ConfecGranel        = isset($_REQUEST["ConfecGranel"])?$_REQUEST["ConfecGranel"]:"";
+	$Observacion         = isset($_REQUEST["Observacion"])?$_REQUEST["Observacion"]:"";
+	$EnPreparacion       = isset($_REQUEST["EnPreparacion"])?$_REQUEST["EnPreparacion"]:"";
+    $Validacion          = isset($_REQUEST["Validacion"])?$_REQUEST["Validacion"]:"";
+	
 	$Genera = false;
 	if (isset($Dia))
 	{
@@ -93,7 +93,7 @@ function Proceso(opt)
 			f.submit();
 			break;		
 		case "E":
-			var msj = confirm("�Seguro que desea eliminar los datos base para este dia?");
+			var msj = confirm("¿Seguro que desea eliminar los datos base para este dia?");
 			if (msj == true)
 			{
 				f.action = "sec_informe_diario_ing01.php?Proceso=E";			

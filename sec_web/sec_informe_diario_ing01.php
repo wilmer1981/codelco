@@ -1,18 +1,26 @@
 <?php
 	include("../principal/conectar_principal.php");
 
-	$Proceso = $_REQUEST["Proceso"];
-	$Ano     = $_REQUEST["Ano"];
-	$Mes     = $_REQUEST["Mes"];
-	$Dia     = $_REQUEST["Dia"];
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date('Y');
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date('m');
+	$Dia     = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date('d');
 
-	$RecuperadoDiario = $_REQUEST["RecuperadoDiario"];
-	$RecuperadoAcumulado = $_REQUEST["RecuperadoAcumulado"];
-	$StandardDiario = $_REQUEST["StandardDiario"];
-	$StandardAcumulado = $_REQUEST["StandardAcumulado"];
+	$RecuperadoDiario    = isset($_REQUEST["RecuperadoDiario"])?$_REQUEST["RecuperadoDiario"]:0;
+	$RecuperadoAcumulado = isset($_REQUEST["RecuperadoAcumulado"])?$_REQUEST["RecuperadoAcumulado"]:0;
+	$StandardDiario      = isset($_REQUEST["StandardDiario"])?$_REQUEST["StandardDiario"]:0;
+	$StandardAcumulado   = isset($_REQUEST["StandardAcumulado"])?$_REQUEST["StandardAcumulado"]:0;
+	$PaqLavar            = isset($_REQUEST["PaqLavar"])?$_REQUEST["PaqLavar"]:"";
+	$PaqPesar            = isset($_REQUEST["PaqPesar"])?$_REQUEST["PaqPesar"]:"";
+	$PaqStandard         = isset($_REQUEST["PaqStandard"])?$_REQUEST["PaqStandard"]:"";
+	$PaqCatodosGranel    = isset($_REQUEST["PaqCatodosGranel"])?$_REQUEST["PaqCatodosGranel"]:"";
+	$PaqStandardGranel   = isset($_REQUEST["PaqStandardGranel"])?$_REQUEST["PaqStandardGranel"]:"";
+	$ConfecGranel        = isset($_REQUEST["ConfecGranel"])?$_REQUEST["ConfecGranel"]:"";
+	$Observacion         = isset($_REQUEST["Observacion"])?$_REQUEST["Observacion"]:"";
+	$EnPreparacion       = isset($_REQUEST["EnPreparacion"])?$_REQUEST["EnPreparacion"]:"";
 
 	$FechaInf = $Ano."-".$Mes."-".$Dia;
-
+	/*
 	if($RecuperadoDiario=='')
 		$RecuperadoDiario=0;
 	if($RecuperadoAcumulado=='')
@@ -21,6 +29,7 @@
 		$StandardDiario=0;
 	if($StandardAcumulado=='')
 		$StandardAcumulado=0;
+	*/
 	switch ($Proceso)
 	{
 		case "G":
@@ -38,7 +47,7 @@
 					$Insertar.= " '".str_replace(",",".",$PaqCatodosGranel)."','".str_replace(",",".",$PaqStandardGranel)."', ";
 					$Insertar.= "'".str_replace(",",".",$ConfecGranel)."', '".$Observacion."', '".str_replace(",",".",$RecuperadoDiario)."', ";
 					$Insertar.= "'".str_replace(",",".",$RecuperadoAcumulado)."', '".str_replace(",",".",$StandardDiario)."', '".str_replace(",",".",$StandardAcumulado)."' , '".str_replace(",",".", $EnPreparacion)."')";
-					//echo $Insertar."<br>";
+					echo $Insertar."<br>";
 					mysqli_query($link, $Insertar);
 				}
 				else
