@@ -8,7 +8,7 @@
 ?>
 <html>
 <head>
-<title>PAR�METROS PROYECCI�N</title>
+<title>PAR&Aacute;METROS PROYECCI&Oacute;N</title>
 <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 <script language="javascript">
@@ -73,7 +73,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 <form name="frmPrincipal" action="" method="post">
 <table width="600"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr align="center" class="ColorTabla01">
-    <td colspan="2"><strong>PAR�METROS PROYECCI�N</strong></td>
+    <td colspan="2"><strong>PAR&Aacute;METROS PROYECCI&Oacute;N</strong></td>
   </tr>
   <tr>
     <td width="10" bgcolor="#FFFFFF">MES/A&Ntilde;O</td>
@@ -121,7 +121,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 <table width="430" border="1" align="center" cellpadding="2" cellspacing="0" >
   <tr class="ColorTabla02">
     <td width="81" align="center">MES</td>
-	<td width="81" align="center">A�O</td>
+	<td width="81" align="center">A&Ntilde;O</td>
     <td width="107" align="center">STOCK MES ANTERIOR (TON.) </td>
 	<td width="135" align="center">FACTOR RECH.</td>
 	<td width="135" align="center">FACTOR RECH. PROG</td>
