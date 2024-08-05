@@ -239,7 +239,7 @@ function Proceso(opt)
 		echo "<td width='240'>".$NombreCliente."</td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
-		echo "<td><strong>N� ENVIO</strong></td>\n";
+		echo "<td><strong>N&deg; ENVIO</strong></td>\n";
 		echo "<td>".$Fila["num_envio"]."</td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
@@ -254,7 +254,7 @@ function Proceso(opt)
 		echo "<br>\n";
 		echo "<table width='804' height='14'  border='1' align='center' cellpadding='0' cellspacing='0'>\n";
 		echo "<tr class='ColorTabla01'>\n";
-		echo "<td width='52' align='center'>N� GUIA</td>\n";
+		echo "<td width='52' align='center'>N&deg; GUIA</td>\n";
 		echo "<td width='60' align='center'>FECHA</td>\n";
 		echo "<td width='50' align='center'>T.PAQU.</td>\n";
 		echo "<td width='42' align='center'>T.UNI.</td>\n";
@@ -352,7 +352,7 @@ function Proceso(opt)
 			//---------------------------------------------------------------------------------------------
 			//----------CONSULTO SI TIENE GDE--------------------------------------
 
-			if($Fila2[gde]=='1')
+			if($Fila2["gde"]=='1')
 			{
 				$Consulta = "SELECT url_gde_local from sec_web.sec_logs where nro_guia='".$Fila2["num_guia"]."' and tipo='C'";
 				$Respuesta3 = mysqli_query($link, $Consulta);
@@ -372,14 +372,14 @@ function Proceso(opt)
 					}
 					else
 					{
-						echo "<td align='center'><img src='../sec_web/pdfBw.png' alt='Sin Gu�a Despacho Electr�nica'></td>";
+						echo "<td align='center'><img src='../sec_web/pdfBw.png' alt='Sin Gu&iacute;a Despacho Electr&oacute;nica'></td>";
 					}
 					
 					}
 			}
 			else
 			{
-				echo "<td align='center'><img src='../sec_web/pdfBw.png' alt='Sin Gu�a Despacho Electr�nica'></td>";
+				echo "<td align='center'><img src='../sec_web/pdfBw.png' alt='Sin Gu&iacute;a Despacho Electr&0acute;nica'></td>";
 			}
 			
 			
