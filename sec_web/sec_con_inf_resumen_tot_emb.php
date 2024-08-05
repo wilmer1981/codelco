@@ -8,17 +8,6 @@
 	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date('m');
 	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date('Y');
 
-	/*
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
-	*/
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -27,6 +16,7 @@
 		$DiaFin = "0".$DiaFin;
 	if ($MesFin < 10)
 		$MesFin = "0".$MesFin;
+	
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 ?>
@@ -261,8 +251,8 @@ function Proceso(opt)
 
 ?>
   		<tr class="ColorTabla02"> 
-		<td align="left"> <strong>Fecha/Hora Inicio Gu�a :  <?php echo $var3." - ".$var1; ?></strong></td>
-		<td align="left"> <strong>Fecha/Hora Termino Gu�a : <?php echo $var4." - ".$var2; ?></strong></td>
+		<td align="left"> <strong>Fecha/Hora Inicio Gu&iacute;a :  <?php echo $var3." - ".$var1; ?></strong></td>
+		<td align="left"> <strong>Fecha/Hora Termino Gu&iacute;a : <?php echo $var4." - ".$var2; ?></strong></td>
 
 		</tr>
   </table>
