@@ -10,7 +10,7 @@
 	
 	//echo "SA__uno__".$SA_C_STD2."<br>";	
 	//echo $tipo_ie;
-	echo "NO SALEEE";
+	//echo "NO SALEEE";
 
 	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";

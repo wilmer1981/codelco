@@ -1876,7 +1876,7 @@ function EjecEtiqueta()
               <SELECT name="cmbsubproducto" onChange="Recarga3()">
                 <option value="-1">SELECCIONAR</option>
                 <?php	
-			$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$cmbproducto." AND tipo_mov LIKE '%".$cmbmovimiento."%'";
+			$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$cmbproducto."' AND tipo_mov LIKE '%".$cmbmovimiento."%'";
 			//echo '<option value="-1">'.$consulta.'</option>';
 			$var1 = $consulta;
 			$rs = mysqli_query($link, $consulta);
