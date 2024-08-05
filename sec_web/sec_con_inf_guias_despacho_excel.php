@@ -129,7 +129,7 @@ function Proceso(opt)
 		echo "<td width='240' colspan='4'>".$NombreCliente."</td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
-		echo "<td><strong>N� ENVIO</strong></td>\n";
+		echo "<td><strong>N&deg; ENVIO</strong></td>\n";
 		echo "<td colspan='4' align='left'>".$Fila["num_envio"]."</td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
@@ -144,7 +144,7 @@ function Proceso(opt)
 		echo "<br>\n";
 		echo "<table width='804' height='14'  border='1' align='center' cellpadding='0' cellspacing='0'>\n";
 		echo "<tr class='ColorTabla01'>\n";
-		echo "<td width='52' align='center'>N� GUIA</td>\n";
+		echo "<td width='52' align='center'>N&deg; GUIA</td>\n";
 		echo "<td width='60' align='center'>FECHA</td>\n";
 		echo "<td width='50' align='center'>T.PAQU.</td>\n";
 		echo "<td width='42' align='center'>T.UNI.</td>\n";
@@ -207,7 +207,7 @@ function Proceso(opt)
 			$Consulta = "SELECT hora_entrada, hora_salida from sipa_web.despachos ";
 			$Consulta.= " where guia_despacho='".$Fila2["num_guia"]."' and fecha = '".$Fila2["fecha_guia"]."' ";
 			$Consulta.= " and replace(patente,'-','') = replace(substring('".trim($Fila2["patente_guia"])."',1,7),'-','')";
-			$Consulta.= " or replace(patente,'-','') = replace(substring('".trim($Fila2["patente_guia"])."',1,8),'-',''))";
+			$Consulta.= " or replace(patente,'-','') = replace(substring('".trim($Fila2["patente_guia"])."',1,8),'-','')";
 			$Respuesta3 = mysqli_query($link, $Consulta);
 			if ($Fila3 = mysqli_fetch_array($Respuesta3))
 			{

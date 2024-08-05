@@ -379,7 +379,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				echo "<td align='center'><img src='../sec_web/pdfBw.png' alt='Sin Gu&iacute;a Despacho Electr&0acute;nica'></td>";
+				echo "<td align='center'><img src='../sec_web/pdfBw.png' alt='Sin Gu&iacute;a Despacho Electr&oacute;nica'></td>";
 			}
 			
 			
