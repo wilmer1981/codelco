@@ -898,9 +898,31 @@ function DefinirArregloLeyes($L_Prod, $L_SubProd, $ArregloLeyes)
 }
 
 /***************Lee archivos TXT********************** */
+/*
+function LeerArchivo($ruta,$archivo,$valor)
+{
+	//$valor  = parseFloat(valor.replace(',','.').replace(' ',''));
+	$valor = "";
+	$nombre = $archivo;
+	if($ruta!=""){
+		$ubicacion = $ruta."/".$nombre;
+	}else{
+		$ubicacion = $nombre;
+	}
+	//$arc = fopen('C:/PesaMatic/'.$nombre,"r");
+	$arc = fopen('C:/'.$ubicacion,"r");
+	while(! feof($arc))  {
+		$valor = fgets($arc);
+	}
+	fclose($arc);
+
+	return($valor); 
+}
+*/
 function LeerArchivo($ruta,$archivo)
 {
 	$nombre=$archivo;
+	//var ubicacion = "C:\\PesoMatic.txt";
 	if($ruta!=""){
 		$ubicacion = $ruta."/".$nombre;
 	}else{
@@ -915,4 +937,5 @@ function LeerArchivo($ruta,$archivo)
 
 	return($linea); 
 }
+
 ?>
