@@ -5,6 +5,11 @@
 	include("funciones.php");	
 	require "includes/class.phpmailer.php";
 
+	$SERVER_NAME  = $_SERVER['SERVER_NAME']; //nombre del servidor : localhost
+	$REMOTER_ADDR = gethostbyaddr($_SERVER['REMOTE_ADDR']); //Nombnre completro de la PC : WSALDANA-PERU.sml.sermaluc.cl
+	$COMPUTERNAME =  getenv("COMPUTERNAME"); //nombre de la PC : WSALDANA-PERU
+	$IP           = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
+
 	$RNA     = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
 	$Bloq1   = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
 	$Bloq2   = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
@@ -35,8 +40,7 @@
 	$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
 	$TxtHumedad = isset($_REQUEST["TxtHumedad"])?$_REQUEST["TxtHumedad"]:"";
 	$TxtLeyes = isset($_REQUEST["TxtLeyes"])?$_REQUEST["TxtLeyes"]:"";
-	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
-	
+	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";	
 
 	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
 	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
@@ -69,12 +73,13 @@
 
 	CerrarLotesMensuales('R',$link);
 	$Tolerancia=ToleranciaPesaje($link);
-
+    
+	/*
 	if(isset($RNA))
 	{
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
-	}
+	}*/
 	if($RNA!='')	
 	{	
 		setcookie("ROMANA",$RNA);
@@ -130,18 +135,13 @@
 			$TipoProceso='S';
 		else
 			$TipoProceso='E';
-
 	}	
 
 	function PatenteValida($Patente,$PatenteOk,$EstPatente)
 	{
 			$EstPatente='readonly';
 			/*$Consulta="SELECT * from sipa_web.camion where patente='".$Patente."'";
-			$Resp
-			
-			
-			
-			uesta=mysqli_query($link, $Consulta);
+			$Respuesta=mysqli_query($link, $Consulta);
 			if($Fila=mysqli_fetch_array($Respuesta))
 			{	
 				$PatenteOk=true;
@@ -335,7 +335,8 @@
 			}	
 			break;	
 	}
-	if(($TipoProceso=='E')&&(isset($CmbSubProducto)&&isset($CmbProveedor)))
+	//if(($TipoProceso=='E')&&(isset($CmbSubProducto)&&isset($CmbProveedor)))
+	if(($TipoProceso=='E')&&($CmbSubProducto!="" && $CmbProveedor!=""))
 	{
 		if($TxtLote=='')
 		{
@@ -356,7 +357,8 @@
 		}
 	}
 	$Proceso='';
-	if(isset($CmbGrupoProd))
+	//if(isset($CmbGrupoProd))
+	if($CmbGrupoProd!="")
 	{
 		$Consulta="SELECT abast_minero from sipa_web.grupos_productos where cod_grupo='".$CmbGrupoProd."'";
 		$RespGrupo=mysqli_query($link, $Consulta);
@@ -365,7 +367,8 @@
 		if($AbastMinero=='N')
 			$BuscarPrv='S';
 	}
-	if(isset($BuscarPrv) && $BuscarPrv=='S')
+	//if(isset($BuscarPrv) && $BuscarPrv=='S')
+	if($BuscarPrv!="" && $BuscarPrv=='S')
 	{
 		$Consulta = "SELECT * from sipa_web.proveedores where rut_prv='".$CmbProveedor."'";
 		$Respuesta=mysqli_query($link, $Consulta);
@@ -412,12 +415,28 @@ function Deshabilita(Bascula)
 function RestaurarBascula()
 {
 	//var Bas2=0;
-//	var Bas1=0;
+   //var Bas1=0;
 	var f = document.FrmRecepcion;
 	//var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
 	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
-	var Bas1 = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
-	var Bas2 = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+	var bascula = f.TxtBasculaAux.value; //
+	if(bascula==1){
+		//Bas1 = 'PesoMatic2_1.txt';
+		//Bas2 = 'PesoMatic_1.txt';
+		Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_1.txt'); ?>';
+		Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_1.txt'); ?>';
+	}
+	if(bascula==2){
+		//Bas1 = 'PesoMatic2_2.txt';
+		//Bas2 = 'PesoMatic_2.txt';
+		Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_2.txt'); ?>';
+		Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_2.txt'); ?>';
+	}
+	//alert(bascula);
+	//var ruta = '<?php // echo "configuracion_pesaje"; ?>';
+
+	//var Bas1 = '<?php //echo LeerArchivo('','PesoMatic2.txt'); ?>';
+	//var Bas2 = '<?php //echo LeerArchivo('','PesoMatic.txt'); ?>';
 
 	if(Bas1 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
@@ -490,12 +509,11 @@ function RestaurarBascula()
 }
 */
 //var ROMA=LeerRomana('');
-//var ROMA=LeerArchivo('ROMANA.txt');
-var ROMA= '<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
+//var ROMA = '<?php //echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
+var ROMA = '<?php echo LeerRomana($COMPUTERNAME,$link); ?>'; 
 /*
- function LeerArchivo(valor)
+function LeerArchivo(valor)
 {
-	
 	var error=1;
 	var ubicacion = "C:\\PesoMatic.txt";
 	var valor="";
@@ -518,6 +536,7 @@ var ROMA= '<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
 		return(valor); 
 }
 */
+
 /*
 function LeerArchivo2(valor)
 {var error=1;
@@ -586,12 +605,12 @@ function CapturaPeso(tipo)
 			{	
 				if(f.Bloq1.value=='S')
 				{
-					alert("B�scula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la b�scula.")
+					alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
 				}
 				else
 				{
 					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);					
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
 					f.Bloq1.value='S';
 					Deshabilita('BasculaA');
 					f.BtnPBruto.disabled=true;
@@ -601,12 +620,12 @@ function CapturaPeso(tipo)
 			{
 				if(f.Bloq2.value=='S')
 				{
-					alert("B�scula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la b�scula.")
+					alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
 				}
 				else
 				{
 					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 						f.Bloq2.value='S';
 						Deshabilita('BasculaB');
 					
@@ -642,12 +661,12 @@ function CapturaPeso(tipo)
 			{	
 				if(f.Bloq1.value=='S')
 				{
-					alert("B�scula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la b�scula.")
+					alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
 				}
 				else
 				{
 					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
-					f.TxtPesoTara.value ='<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
 					f.Bloq1.value='S';
 					Deshabilita('BasculaA');					
 					f.BtnPTara.disabled=true;		
@@ -656,12 +675,12 @@ function CapturaPeso(tipo)
 			{
 				if(f.Bloq2.value=='S')
 				{
-					alert("B�scula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la b�scula.")
+					alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
 				}
 				else
 				{
 					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
-					f.TxtPesoTara.value ='<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 					f.Bloq2.value='S';
 					Deshabilita('BasculaB');					
 					f.BtnPTara.disabled=true;
@@ -1087,22 +1106,19 @@ body {
 	<?php
 		if($TipoProceso!='S')
 		{	echo "ENTRADA DEL CAMION";
-		$Testo="ENTRADA";
-		}else
+			$Testo="ENTRADA";
+		}
+		else
 		{	echo "SALIDA DEL CAMION";
-	$Testo="SALIDA";
+			$Testo="SALIDA";
 		}?>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PESANDO EN BASCULA DE <?php echo $Testo;?>:
-	
-    
      
     <input type="hidden" id="Bloq1" name="Bloq1" class="InputCen" value="<?php echo $Bloq1;?>" size="2"  >	
 	<input type="hidden" id="Bloq2" name="Bloq2" class="InputCen" value="<?php echo $Bloq2;?>" size="2"  >	
 
 	<input type="hidden" name="TxtNumBascula" class="InputCen" value="<?php echo $TxtNumBascula;?>" size="2" > 
-	<?php
-	
-	
+	<?php	
 		switch($TxtNumRomana)
 		{
 			case 1:
@@ -1145,9 +1161,7 @@ body {
  
   <input type="hidden" name="TxtNumRomana" class="InputCen" value="<?php echo $TxtNumRomana;?>" size="2" readonly >
 	<input name="TxtPorcRango" type="hidden" value="<?php echo $TxtPorcRango; ?>" size="2">
-	<input name="TxtPesoHistorico" type="text" class="InputCen" value="<?php echo $TxtPesoHistorico; ?>" size="8" readonly></strong>
-  
- 
+	<input name="TxtPesoHistorico" type="text" class="InputCen" value="<?php echo $TxtPesoHistorico; ?>" size="8" readonly></strong> 
   </td></tr>
 
   <tr>
@@ -1227,8 +1241,7 @@ body {
 					if ($CmbGrupoProd == $Fila["cod_grupo"])
 					{	
 						echo "<option SELECTed value='".$Fila["cod_grupo"]."'>".strtoupper($Fila["descripcion_grupo"])."</option>";
-						$ValidaPadronMin=$Fila["abast_minero"];
-					
+						$ValidaPadronMin=$Fila["abast_minero"];					
 					}
 					else
 						echo "<option value='".$Fila["cod_grupo"]."'>".strtoupper($Fila["descripcion_grupo"])."</option>";
@@ -1271,7 +1284,8 @@ body {
       <SELECT name="CmbProveedor" style="width:300" onkeypress=buscar_op(this,CmbMinaPlanta,0,'S') onBlur="borrar_buffer()" onclick="borrar_buffer()" <?php echo $HabilitarCmb;?>>
         <option class="NoSelec" value="S">Seleccionar</option>
         <?php
-				if(isset($CmbProveedor))
+				//if(isset($CmbProveedor))
+				if($CmbProveedor!="")
 				{
 					$SubProd=explode('~',$CmbSubProducto);
 					$SubProd0 = isset($SubProd[0])?$SubProd[0]:"";
@@ -1319,7 +1333,8 @@ body {
 	<SELECT name="CmbMinaPlanta" style="width:570" onChange="ObtenerFecPadronConj()" onKeypress="TeclaPulsada2('S',true,this.form,'BtnPBruto');" <?php echo $HabilitarCmb;?>>
       <option value="S" SELECTed class="NoSelec">Seleccionar</option>
 	  <?php
-	  		if(isset($CmbMinaPlanta))
+	  		//if(isset($CmbMinaPlanta))
+			if($CmbMinaPlanta!="")
 			{
 				$SubProd=explode('~',$CmbSubProducto);
 				$SubProd1 = isset($SubProd[1])?$SubProd[1]:"";
@@ -1352,7 +1367,8 @@ body {
     <td align="right" class="ColorTabla02">Tipo Recep. :</td>
     <td class="ColorTabla02">
 	<?php
-		if(isset($CmbProveedor))
+		//if(isset($CmbProveedor))
+		if($CmbProveedor!="")
 		{
 			$Consulta="SELECT * from sipa_web.rut_asignacion where rut_prv='$CmbProveedor'";
 			$Resp=mysqli_query($link, $Consulta);
@@ -1553,10 +1569,7 @@ body {
 					$EstBtnPBruto='disabled';
 					$EstBtnPTara='disabled';									
 					break;
-			}
-			
-		
-			
+			}			
 		?>
       <!-- 	<input type="hidden" name="TipoProceso" value="<?php //echo $TipoProceso;?>">
 	 -->
@@ -1588,13 +1601,15 @@ if($Mensaje!='')
 }
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmRecepcion;";
+/////////// SE LEE LA ROMANA ////////////
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
-$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
+//$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
+//echo"COMPUTERNAME:".$COMPUTERNAME;
+$Romana = LeerRomana($COMPUTERNAME,$link);
 echo "f.TxtNumRomana.value=".$Romana.";";
 echo "CalculaPNetoTotal();";
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";
-
 
 $Dias=1;
 $ConsultaCorreo="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15012' and cod_subclase='1' and valor_subclase3='S'";

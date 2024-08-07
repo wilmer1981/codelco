@@ -7,22 +7,25 @@
 	$Dir  = isset($_REQUEST["Dir"])?$_REQUEST["Dir"]:"";
 	$tipo = isset($_REQUEST["tipo"])?$_REQUEST["tipo"]:"";
 	$Frm  = isset($_REQUEST["Frm"])?$_REQUEST["Frm"]:"";
-/*
-	if(isset($_REQUEST["RNA"])){
-		$RNA=$_REQUEST["RNA"];
-	}else{
-		$RNA="";
-	}
-	if(isset($_REQUEST["Bloq1"])){
-		$Bloq1=$_REQUEST["Bloq1"];
-	}else{
-		$Bloq1="";
-	}
-	if(isset($_REQUEST["Bloq2"])){
-		$Bloq2=$_REQUEST["Bloq2"];
-	}else{
-		$Bloq2="";
-	}*/
+
+	$COMPUTERNAME =  getenv("COMPUTERNAME"); //nombre de la PC : WSALDANA-PERU
+	/*
+		if(isset($_REQUEST["RNA"])){
+			$RNA=$_REQUEST["RNA"];
+		}else{
+			$RNA="";
+		}
+		if(isset($_REQUEST["Bloq1"])){
+			$Bloq1=$_REQUEST["Bloq1"];
+		}else{
+			$Bloq1="";
+		}
+		if(isset($_REQUEST["Bloq2"])){
+			$Bloq2=$_REQUEST["Bloq2"];
+		}else{
+			$Bloq2="";
+		}
+	*/
 
 /*
 $directorio = "C:/";
@@ -36,9 +39,20 @@ print_r($ficheros2);
 	
 $Tolerancia=ToleranciaPesaje($link);
 
-$ROMA = LeerArchivo('PesaMatic','ROMANA.txt');
-$Bas1 = LeerArchivo('','PesoMatic.txt');
-$Bas2 = LeerArchivo('','PesoMatic2.txt');
+//$ROMA = LeerArchivo('PesaMatic','ROMANA.txt');
+$ROMA = LeerRomana($COMPUTERNAME,$link);
+if($ROMA==1){
+	$Bas1 = LeerArchivo('configuracion_pesaje','PesoMatic_1.txt');
+	$Bas2 = LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt');
+}
+if($ROMA==2){
+	$Bas1 = LeerArchivo('configuracion_pesaje','PesoMatic_2.txt');
+	$Bas2 = LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt');
+}
+
+//$Bas1 = LeerArchivo('','PesoMatic.txt');
+//$Bas2 = LeerArchivo('','PesoMatic2.txt');
+
 /*
 echo "Tolerancia:".$Tolerancia;
 echo "<br>ROMA:".$ROMA;

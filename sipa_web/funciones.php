@@ -949,7 +949,8 @@ function LeerArchivo($ruta, $archivo)
 {
 	$nombre=$archivo;
 	if($ruta!=""){
-		$ubicacion = $ruta."\\".$nombre;
+		//$ubicacion = $ruta."\\".$nombre;
+		$ubicacion = "xampp\\htdocs\\Proyecto\\".$ruta."\\".$nombre;
 	}else{
 		$ubicacion = $nombre;
 	}
@@ -964,5 +965,17 @@ function LeerArchivo($ruta, $archivo)
 	return($linea); 
 }
 
-
+/******* Consulta el numero de ROMANA *******/
+function LeerRomana($computername,$link)
+{
+	$Consulta = " SELECT * FROM proyecto_modernizacion.sub_clase 
+				  WHERE cod_clase= 24011 AND nombre_subclase = '".$computername."' ";
+	$Resp=mysqli_query($link, $Consulta);
+	$Romana="";
+	if($Fila=mysqli_fetch_array($Resp))
+	{
+		$Romana=$Fila["valor_subclase1"];
+	} 
+	return ($Romana);
+}
 ?>
