@@ -10,6 +10,7 @@ if(isset($_REQUEST["cmbconjunto"])){
 }else{
 	$cmbconjunto= "";
 }
+$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
 if(isset($_REQUEST["Proceso"])){
 	$Proceso = $_REQUEST["Proceso"];
 }else{
@@ -64,7 +65,7 @@ $CodigoDePantalla = 3;
 <html>
 
 <head>
-    <title>Creaci�n de Conjuntos</title>
+    <title>Creaci&oacute;n de Conjuntos</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <script language="JavaScript">
     function TeclaPulsada() {
@@ -332,7 +333,7 @@ $CodigoDePantalla = 3;
 			  echo'<select name="cmbproducto" style="width:230">';              
 
 			  echo'<option value = "-1" selected>SELECCIONAR</option>';
-			  $consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE prod_ram = $cmbconjunto ORDER BY tipo_mov,descripcion";
+			  $consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE prod_ram = '".$cmbconjunto."' ORDER BY tipo_mov,descripcion";
 			  $rs = mysqli_query($link, $consulta);
 			  
 			  while($row = mysqli_fetch_array($rs))
@@ -466,7 +467,7 @@ $CodigoDePantalla = 3;
               echo'<option value = "-1" selected>SELECCIONAR</option>';
  	          
 			  include("../principal/conectar_ram_web.php"); 
-			  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $cmbtipo AND cod_estado != 'f'";
+			  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$cmbtipo."' AND cod_estado != 'f'";
 			  $rs = mysqli_query($link, $consulta);
 			  
 			  while($row = mysqli_fetch_array($rs))
@@ -535,7 +536,7 @@ $CodigoDePantalla = 3;
                         <?php
 		if($Proceso == "V")
 		{   
-			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = $cmbconjunto AND cod_producto = $cmbproducto AND fecha_creacion = '$fecha'";
+			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = '".$cmbconjunto."' AND cod_producto = '".$cmbproducto."' AND fecha_creacion = '".$fecha."'";
 			include("../principal/conectar_ram_web.php");
 			$rs = mysqli_query($link, $consulta);
 		
@@ -557,7 +558,7 @@ $CodigoDePantalla = 3;
 			  echo'<td><center>'.$row["estado"].'</center></td>';
 			  echo'<td><center>'.$row["fecha_creacion"].'</center></td>';
 			  
-			  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $row[cod_lugar] AND num_lugar = $row[num_lugar]";
+			  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."'";
 			  $rs2 = mysqli_query($link, $consulta);
 			  if($row2 = mysqli_fetch_array($rs2))
 			  {
@@ -570,7 +571,7 @@ $CodigoDePantalla = 3;
                         <?php
 		if($Proceso == "B")
 		{   
-			$consulta = "SELECT * FROM conjunto_ram WHERE num_conjunto = $num_conjunto";
+			$consulta = "SELECT * FROM conjunto_ram WHERE num_conjunto = '".$num_conjunto."'";
 			include("../principal/conectar_ram_web.php");
 			$rs = mysqli_query($link, $consulta);
 
@@ -594,7 +595,7 @@ $CodigoDePantalla = 3;
 				  echo'<td><center>'.$row["estado"].'</center></td>';
 				  echo'<td><center>'.$row["fecha_creacion"].'</center></td>';
 				  
-				  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $row[cod_lugar] AND num_lugar = $row[num_lugar]";
+				  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."'";
 				  $rs2 = mysqli_query($link, $consulta);
 				  if($row2 = mysqli_fetch_array($rs2))
 				  {
