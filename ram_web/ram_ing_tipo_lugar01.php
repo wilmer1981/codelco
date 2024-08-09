@@ -1,5 +1,9 @@
-<?
+<?php
  include("../principal/conectar_ram_web.php"); 
+ $Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+ $cod_tipo    = isset($_REQUEST["cod_tipo"])?$_REQUEST["cod_tipo"]:"";
+ $descripcion = isset($_REQUEST["descripcion"])?$_REQUEST["descripcion"]:"";
+ $radio       = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
 
 //Guardar Datos
 if($Proceso == "G")
@@ -9,7 +13,7 @@ if($Proceso == "G")
 
 	$Insertar = "INSERT INTO tipo_lugar (cod_tipo_lugar, descripcion_lugar)";
 	$Insertar = "$Insertar values('$cod_tipo', '$descripcion')";
-	mysql_query($Insertar);
+	mysqli_query($link,$Insertar);
 }
 
 //Modificar Datos
@@ -20,7 +24,7 @@ if($Proceso == "M")
 
 	$Modificar = "UPDATE tipo_lugar SET cod_tipo_lugar = '$cod_tipo', descripcion_lugar = '$descripcion'
 	              WHERE cod_tipo_lugar = $radio";
-	mysql_query($Modificar);
+	mysqli_query($link,$Modificar);
 
 }
 
@@ -28,7 +32,7 @@ if($Proceso == "M")
 if($Proceso == "E")
 {
 	$Eliminar = "DELETE FROM tipo_lugar WHERE cod_tipo_lugar = $radio";
-	mysql_query($Eliminar);
+	mysqli_query($link,$Eliminar);
 }
 
 	$valores = "Proceso=V";  

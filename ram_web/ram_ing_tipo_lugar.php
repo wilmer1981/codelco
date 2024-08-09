@@ -10,19 +10,16 @@ if(isset($_REQUEST["Proceso"])){
 }else{
 	$Proceso= "";
 }
-
 if(isset($_REQUEST["cod_tipo"])){
 	$cod_tipo = $_REQUEST["cod_tipo"];
 }else{
 	$cod_tipo= "";
 }
-
 if(isset($_REQUEST["radio"])){
 	$radio = $_REQUEST["radio"];
 }else{
 	$radio= "";
 }
-
 //cod_tipo_lugar
 if(isset($_REQUEST["cod_tipo_lugar"])){
 	$cod_tipo_lugar = $_REQUEST["cod_tipo_lugar"];
@@ -51,7 +48,7 @@ $CodigoDePantalla = 2;
 <html>
 
 <head>
-    <title>Creaci�n de Tipo de Lugares</title>
+    <title>Creaci&oacute;n de Tipo de Lugares</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <script language="JavaScript">
     function TeclaPulsada() {
@@ -104,7 +101,7 @@ $CodigoDePantalla = 2;
         }
 
         if (f.descripcion.value == '') {
-            alert("Debe Ingresar Decripci�n del Lugar");
+            alert("Debe Ingresar Decripción del Lugar");
             f.descripcion.focus();
             return 1
         }
@@ -184,7 +181,7 @@ $CodigoDePantalla = 2;
                     <table width="88%" class="TablaDetalle" cellpadding="3" cellspacing="0">
                         <tr>
                             <td width="146"><img src="../principal/imagenes/left-flecha.gif" width="11"
-                                    height="11">&nbsp;C�digo Tipo Lugar</td>
+                                    height="11">&nbsp;C&oacute;digo Tipo Lugar</td>
                             <td width="103">
                                 <?php			
 			if($buscar == "S")			 
