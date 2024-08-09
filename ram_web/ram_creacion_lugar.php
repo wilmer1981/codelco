@@ -51,7 +51,7 @@ $CodigoDePantalla = 1;
 <html>
 
 <head>
-    <title>Creaci�n de Lugares</title>
+    <title>Creaci&oacute;n de Lugares</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <script language="JavaScript">
     function TeclaPulsada() {
@@ -103,13 +103,13 @@ $CodigoDePantalla = 1;
         }
 
         if (f.num_lugar.value == '') {
-            alert("Debe N�muero del Lugar");
+            alert("Debe Númuero del Lugar");
             f.num_lugar.focus();
             return 1
         }
 
         if (f.descripcion.value == '') {
-            alert("Debe Ingresar Decripci�n del Lugar");
+            alert("Debe Ingresar Decripción del Lugar");
             f.descripcion.focus();
             return 1
         }
@@ -219,7 +219,7 @@ $CodigoDePantalla = 1;
                             <td width="320">&nbsp;</td>
                         </tr>
                         <tr>
-                            <td><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;N�mero
+                            <td><img src="../principal/imagenes/left-flecha.gif" width="11" height="11">&nbsp;N&uacute;mero
                                 Lugar</td>
                             <td colspan="2">
                                 <?php			
