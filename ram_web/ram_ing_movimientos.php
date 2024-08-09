@@ -1,33 +1,34 @@
 <?php
-$cmbmovimiento_aux  = isset($_REQUEST["cmbmovimiento_aux"])?$_REQUEST["cmbmovimiento_aux"]:"";
-$cmbtipo_aux  = isset($_REQUEST["cmbtipo_aux"])?$_REQUEST["cmbtipo_aux"]:"";
+$cmbmovimiento_aux    = isset($_REQUEST["cmbmovimiento_aux"])?$_REQUEST["cmbmovimiento_aux"]:"";
+$cmbtipo_aux          = isset($_REQUEST["cmbtipo_aux"])?$_REQUEST["cmbtipo_aux"]:"";
 $nombre_conjunto_aux  = isset($_REQUEST["nombre_conjunto_aux"])?$_REQUEST["nombre_conjunto_aux"]:"";
-$stock_aux  = isset($_REQUEST["stock_aux"])?$_REQUEST["stock_aux"]:"";
+$stock_aux      = isset($_REQUEST["stock_aux"])?$_REQUEST["stock_aux"]:"";
 $cod_lugar_aux  = isset($_REQUEST["cod_lugar_aux"])?$_REQUEST["cod_lugar_aux"]:"";
 $num_lugar_aux  = isset($_REQUEST["num_lugar_aux"])?$_REQUEST["num_lugar_aux"]:"";
-$lugar_origen_aux  = isset($_REQUEST["lugar_origen_aux"])?$_REQUEST["lugar_origen_aux"]:"";
+$lugar_origen_aux    = isset($_REQUEST["lugar_origen_aux"])?$_REQUEST["lugar_origen_aux"]:"";
 $num_conjunto_d_aux  = isset($_REQUEST["num_conjunto_d_aux"])?$_REQUEST["num_conjunto_d_aux"]:"";
-$cmbtipo_d_aux  = isset($_REQUEST["cmbtipo_d_aux"])?$_REQUEST["cmbtipo_d_aux"]:"";
+$cmbtipo_d_aux       = isset($_REQUEST["cmbtipo_d_aux"])?$_REQUEST["cmbtipo_d_aux"]:"";
 $nombre_conjunto_d_aux  = isset($_REQUEST["nombre_conjunto_d_aux"])?$_REQUEST["nombre_conjunto_d_aux"]:"";
 $cod_lugar_d_aux  = isset($_REQUEST["cod_lugar_d_aux"])?$_REQUEST["cod_lugar_d_aux"]:"";
 $cod_lugar_d_aux  = isset($_REQUEST["cod_lugar_d_aux"])?$_REQUEST["cod_lugar_d_aux"]:"";
 $num_lugar_d_aux  = isset($_REQUEST["num_lugar_d_aux"])?$_REQUEST["num_lugar_d_aux"]:"";
 $lugar_destino_aux  = isset($_REQUEST["lugar_destino_aux"])?$_REQUEST["lugar_destino_aux"]:"";
-$peso_humedo_aux  = isset($_REQUEST["peso_humedo_aux"])?$_REQUEST["peso_humedo_aux"]:"";
-$estado_val_aux  = isset($_REQUEST["estado_val_aux"])?$_REQUEST["estado_val_aux"]:"";
-$cmbtipo  = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
-$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+$peso_humedo_aux    = isset($_REQUEST["peso_humedo_aux"])?$_REQUEST["peso_humedo_aux"]:"";
+$estado_val_aux     = isset($_REQUEST["estado_val_aux"])?$_REQUEST["estado_val_aux"]:"";
+$cmbtipo          = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
+$mostrar          = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
 $nombre_conjunto  = isset($_REQUEST["nombre_conjunto"])?$_REQUEST["nombre_conjunto"]:"";
-$cod_lugar  = isset($_REQUEST["cod_lugar"])?$_REQUEST["cod_lugar"]:"";
-$num_lugar  = isset($_REQUEST["num_lugar"])?$_REQUEST["num_lugar"]:"";
+$cod_lugar     = isset($_REQUEST["cod_lugar"])?$_REQUEST["cod_lugar"]:"";
+$num_lugar     = isset($_REQUEST["num_lugar"])?$_REQUEST["num_lugar"]:"";
 $lugar_origen  = isset($_REQUEST["lugar_origen"])?$_REQUEST["lugar_origen"]:"";
-$cmbtipo_d  = isset($_REQUEST["cmbtipo_d"])?$_REQUEST["cmbtipo_d"]:"";
+$cmbtipo_d     = isset($_REQUEST["cmbtipo_d"])?$_REQUEST["cmbtipo_d"]:"";
 
-$mostrar2  = isset($_REQUEST["mostrar2"])?$_REQUEST["mostrar2"]:"";
+$mostrar2      = isset($_REQUEST["mostrar2"])?$_REQUEST["mostrar2"]:"";
 $nombre_conjunto_d  = isset($_REQUEST["nombre_conjunto_d"])?$_REQUEST["nombre_conjunto_d"]:"";
 $cod_lugar_d  = isset($_REQUEST["cod_lugar_d"])?$_REQUEST["cod_lugar_d"]:"";
 $num_lugar_d  = isset($_REQUEST["num_lugar_d"])?$_REQUEST["num_lugar_d"]:"";
 $lugar_destino  = isset($_REQUEST["lugar_destino"])?$_REQUEST["lugar_destino"]:"";
+$recargapag = isset($_REQUEST["recargapag"])?$_REQUEST["recargapag"]:"";
 
 if(isset($_REQUEST["Proceso"])){
 	$Proceso = $_REQUEST["Proceso"];
@@ -124,7 +125,7 @@ if($Proceso == "B")
 		{
 			$num_conjunto = $num_conjunto_aux;
 			$cmbtipo = $cmbtipo_aux;
-			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = $num_conjunto AND estado !='f'";
+			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = '".$cmbtipo."' AND num_conjunto = '".$num_conjunto."' AND estado !='f'";
 			$rs = mysqli_query($link, $consulta);	
 		}
 		
@@ -143,7 +144,7 @@ if($Proceso == "B")
 		   		$stock = 0;	
 		   		$estado_val = 1;
 		   }	
-		   $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $cod_lugar AND num_lugar = $num_lugar ";
+		   $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$cod_lugar."' AND num_lugar = '".$num_lugar."' ";
 		   $rs2 = mysqli_query($link, $consulta);
 		   
 		   if($row2 = mysqli_fetch_array($rs2))
@@ -166,13 +167,13 @@ if($Proceso2 == "B")
     include("../principal/conectar_ram_web.php");
     if($num_conjunto_aux_d != '' || $num_conjunto_d != '')
 	{
-		$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = $cmbtipo_d AND num_conjunto = $num_conjunto_d AND estado !='f'";
+		$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = '".$cmbtipo_d."' AND num_conjunto = '".$num_conjunto_d."' AND estado !='f'";
 		$rs3 = mysqli_query($link, $consulta);
 		if($mostrar2 == "S")
 		{
 			$num_conjunto_d = $num_conjunto_aux_d;
 			$cmbtipo_d = $cmbtipo_aux_d;
-			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = $cmbtipo_d AND num_conjunto = $num_conjunto_d AND estado !='f'";
+			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = '".$cmbtipo_d."' AND num_conjunto = '".$num_conjunto_d."' AND estado !='f'";
 			$rs3 = mysqli_query($link, $consulta);	
 		}
 	
@@ -186,7 +187,7 @@ if($Proceso2 == "B")
 		   $num_lugar_d = $row3["num_lugar"];
 		   $stock_d = $row3["peso_conjunto"];
 	
-		   $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $cod_lugar_d AND num_lugar = $num_lugar_d ";
+		   $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$cod_lugar_d."' AND num_lugar = '".$num_lugar_d."' ";
 		   $rs4 = mysqli_query($link, $consulta);
 		   
 		   if($row4 = mysqli_fetch_array($rs4))
@@ -341,7 +342,7 @@ if($Proceso2 == "B")
 			{
 				for ($i=1;$i<=31;$i++)
 				{
-	   				   if ($i==date("j"))
+	   				   if ($i==date("d"))
 						{
 						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
@@ -376,7 +377,7 @@ if($Proceso2 == "B")
 		{
 		    for($i=1;$i<13;$i++)
 		    {
-                if ($i==date("n"))
+                if ($i==date("m"))
 				{				
 				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
@@ -430,44 +431,44 @@ if($Proceso2 == "B")
                             </td>
                             <td width="200"><select name="hh" id="select5">
                                     <?php
-            if ($Proceso=="B" || $Proceso == "M")
-                 {
-		echo '<option selected value ="'.$hh.'">'.$hh.'</option>';
-                 }
-                else
-                  {
-		 	for($i=0; $i<=23; $i++)
-			{
-				if (($recargapag == "S") && ($i == $hh))
-					echo '<option selected value ="'.$i.'">'.$i.'</option>';
-				else if ((($i == date("H")) && ($recargapag != "S")))
-					echo '<option selected value="'.$i.'">'.$i.'</option>';
-				else	
-					echo '<option value="'.$i.'">'.$i.'</option>';
-			}
-		 }
-		?>
+										if ($Proceso=="B" || $Proceso == "M")
+											 {
+											echo '<option selected value ="'.$hh.'">'.$hh.'</option>';
+											 }
+											else
+											  {
+										for($i=0; $i<=23; $i++)
+										{
+											if (($recargapag == "S") && ($i == $hh))
+												echo '<option selected value ="'.$i.'">'.$i.'</option>';
+											else if ((($i == date("H")) && ($recargapag != "S")))
+												echo '<option selected value="'.$i.'">'.$i.'</option>';
+											else	
+												echo '<option value="'.$i.'">'.$i.'</option>';
+										}
+									 }
+									?>
                                 </select>
                                 :
                                 <select name="mm" id="select6">
                                     <?php
-                if ($Proceso=="B" || $Proceso == "M")
-                 {
-		echo '<option selected value ="'.$mm.'">'.$mm.'</option>';
-                 }
-                else
-                  {
-		 for($i=0; $i<=59; $i++)
-			{
-				if (($recargapag == "S") && ($i == $mm))
-					echo '<option selected value ="'.$i.'">'.$i.'</option>';
-				else if (($i == date("i")) && ($recargapag != "S" || $Proceso == "M"))
-					echo '<option selected value ="'.$i.'">'.$i.'</option>';
-				else	
-					echo '<option value="'.$i.'">'.$i.'</option>';
-			}
-		  }	
-		?>
+									if ($Proceso=="B" || $Proceso == "M")
+									{
+										echo '<option selected value ="'.$mm.'">'.$mm.'</option>';
+									}
+									else
+									{
+										for($i=0; $i<=59; $i++)
+										{
+											if (($recargapag == "S") && ($i == $mm))
+												echo '<option selected value ="'.$i.'">'.$i.'</option>';
+											else if (($i == date("i")) && ($recargapag != "S" || $Proceso == "M"))
+												echo '<option selected value ="'.$i.'">'.$i.'</option>';
+											else	
+												echo '<option value="'.$i.'">'.$i.'</option>';
+										}
+									}	
+									?>
                                 </select>
                             </td>
                         </tr>
@@ -718,7 +719,7 @@ if($Proceso2 == "B")
                             <td colspan="3">
                                 <div align="center">
                                     <?php
-				 if($fecha != '')
+				 if($fecha!= '')
 				 {				
 					 echo'<input name="modificar" type="button" style="width:70" value="Modificar" onClick="Modificar_Datos();">';
 				     echo'<input name="fecha_aux" type="hidden" size="30" value="'.$fecha.'">';

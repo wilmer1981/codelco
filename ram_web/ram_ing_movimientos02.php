@@ -1,10 +1,11 @@
 <?php 
 include("../principal/conectar_ram_web.php");
 
-$CookieRut  = isset($_REQUEST["CookieRut"])?$_REQUEST["CookieRut"]:"";
-$radio  = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$CookieRut       = $_COOKIE["CookieRut"];
+//$CookieRut       = isset($_REQUEST["CookieRut"])?$_REQUEST["CookieRut"]:"";
+$radio           = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
 $cod_existencia  = isset($_REQUEST["cod_existencia"])?$_REQUEST["cod_existencia"]:"";
-$Acceso  = isset($_REQUEST["Acceso"])?$_REQUEST["Acceso"]:"";
+$Acceso          = isset($_REQUEST["Acceso"])?$_REQUEST["Acceso"]:"";
 
 if(isset($_REQUEST["ano"])){
 	$ano = $_REQUEST["ano"];
@@ -137,9 +138,9 @@ if($Proceso == "E")
                     <td width="91" height="20" align="center">T. Mov.</td>
                     <td width="150" align="center">Fecha</td>
                     <td width="53" align="center">Cjto.Origen</td>
-                    <td width="200" align="center">Descripci�n</td>
+                    <td width="200" align="center">Descripci&oacute;n</td>
                     <td width="59" align="center">Cjto.Destino</td>
-                    <td width="152" align="center">Descripci�n</td>
+                    <td width="152" align="center">Descripci&oacute;n</td>
                     <td width="65" align="center">P. Humedo</td>
                     <td width="65" align="center">Valid.</td>
                 </tr>
@@ -175,7 +176,7 @@ if($Proceso == "E")
 		echo '<td align="left">'.$row["cod_conjunto"].'-'.$row["num_conjunto"].'</td>';					 
 		echo '<input type="hidden" name="num_conjunto" size="3" value="'.$row["num_conjunto"].'">';//2
 
-		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = $row[num_conjunto] and estado != 'f' and cod_conjunto = $row[cod_conjunto]";
+		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = '".$row["num_conjunto"]."' and estado != 'f' and cod_conjunto = '".$row["cod_conjunto"]."' ";
 		$rs3 = mysqli_query($link, $consulta);
 
 		if($row3 = mysqli_fetch_array($rs3))
@@ -192,7 +193,7 @@ if($Proceso == "E")
 				echo '<input type="hidden" name="cod_lugar" size="3" value="'.$row["cod_lugar_origen"].'">';//6
 				echo '<input type="hidden" name="num_lugar" size="3" value="'.$row["lugar_origen"].'">';//7
 				
-				$Consulta = "SELECT * FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = $row[cod_lugar_origen] AND num_lugar = $row[lugar_origen]";
+				$Consulta = "SELECT * FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar_origen"]."' AND num_lugar = '".$row["lugar_origen"]."'";
 				$rs5 = mysqli_query($link, $Consulta);
 
 				if($row5 = mysqli_fetch_array($rs5))
@@ -203,7 +204,7 @@ if($Proceso == "E")
 		echo '<td align="left">'.$row["cod_conjunto_destino"].'-'.$row["conjunto_destino"].'</td>';					 
 		echo '<input type="hidden" name="conjunto_destino" size="3" value="'.$row["conjunto_destino"].'">';//9
 
-		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = $row[conjunto_destino] and estado != 'f' and cod_conjunto = $row[cod_conjunto_destino]";
+		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = '".$row["conjunto_destino"]."' and estado != 'f' and cod_conjunto = '".$row["cod_conjunto_destino"]."' ";
 		$rs3 = mysqli_query($link, $consulta);
 
 		if($row3 = mysqli_fetch_array($rs3))
@@ -215,7 +216,7 @@ if($Proceso == "E")
 				echo '<input type="hidden" name="cod_lugar_d" size="3" value="'.$row["cod_lugar_destino"].'">';//12
 				echo '<input type="hidden" name="num_lugar_d" size="3" value="'.$row["lugar_destino"].'">';//13
 				
-				$Consulta = "SELECT * FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = $row[cod_lugar_destino] AND num_lugar = $row[lugar_destino]";
+				$Consulta = "SELECT * FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar_destino"]."' AND num_lugar = '".$row["lugar_destino"]."'";
 				$rs5 = mysqli_query($link, $Consulta);
 
 				if($row5 = mysqli_fetch_array($rs5))
@@ -248,19 +249,27 @@ if($Proceso == "E")
                     <td>
                         <div align="center">
                             <?php 
-			$dia_a = date("j");
-			$mes_a = date("n");
+			$dia_a = date("d");
+			$mes_a = date("m");
 			$ano_a = date("Y");
 			$fecha_actual = $ano_a.'-'.$mes_a.'-'.$dia_a;
 			
-			$Consulta = "SELECT PERIOD_DIFF($fecha,$fecha_actual) AS dif";
+			$fecha1 = $ano.''.$mes;
+			$fecha_actual1 = $ano_a.''.$mes_a;
+	
+			//echo "fecha:".$fecha1;
+			//echo "<br>fecha actual:".$fecha_actual1;
+			//$Consulta = "SELECT PERIOD_DIFF($fecha,$fecha_actual) AS dif";
+			$Consulta = "SELECT PERIOD_DIFF($fecha_actual1,$fecha1) AS dif";
+			//$Consulta = "SELECT DATEDIFF($fecha,$fecha_actual) AS dif";
 			$rs4 = mysqli_query($link, $Consulta);
 			if($row_d = mysqli_fetch_array($rs4))
 			{
 				$dif = $row_d["dif"];
 			}
+			//echo "<br>Diferencia:".$dif."<br><br><br>";
 	
-			$Consulta = "SELECT * FROM proyecto_modernizacion.sistemas_por_usuario WHERE rut = '$CookieRut' AND cod_sistema = 7";
+			$Consulta = "SELECT * FROM proyecto_modernizacion.sistemas_por_usuario WHERE rut = '".$CookieRut."' AND cod_sistema = 7";
 			include("../principal/conectar_principal.php"); 
 			$rs = mysqli_query($link, $Consulta); 
 			
