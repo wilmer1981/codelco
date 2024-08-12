@@ -705,7 +705,7 @@ if($Proceso2 == "B")
                             <td width="62">
                                 <?php 
 			  if($Proceso == "M")	
-				  echo'<input name="peso_humedo" type="text" size="10" value="'.number_format($peso_humedo/1000,3,",","").'">';
+				  echo'<input name="peso_humedo" type="text" size="10" value="'.number_format((int)$peso_humedo/1000,3,",","").'">';
 			  else 	 
 				  echo'<input name="peso_humedo" type="text" size="10">';
               ?>
