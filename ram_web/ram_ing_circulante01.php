@@ -36,13 +36,13 @@ if(isset($_REQUEST["conjunto"])){
 }else{
 	$conjunto = "";
 }
-
+/*
 echo "conjunto".$conjunto;
 echo "fecha".$fecha;
 
 echo "n_conjunto".$n_conjunto;
 echo "fecha_c".$fecha_c;
-
+*/
 
 if(isset($_REQUEST["Proceso"])){
 	$Proceso = $_REQUEST["Proceso"];
@@ -127,7 +127,7 @@ if($Proceso == "M")
 		   
 	$Modificar = "UPDATE movimiento_conjunto SET NUM_CONJUNTO = '$num_conjunto', PESO_HUMEDO_MOVIDO = $peso_humedo
 	              WHERE COD_EXISTENCIA = 02 AND COD_CONJUNTO = 03 AND NUM_CONJUNTO = '".$n_conjunto."'  AND FECHA_MOVIMIENTO = '".$fecha_c."' ";
-				  echo $Modificar;
+			//	  echo $Modificar;
 	mysqli_query($link, $Modificar);
 		
 }
@@ -142,6 +142,6 @@ if($Proceso == "E")
 }
 
 	$valores = "Proceso=V"."&ano=".$ano."&mes=".$mes."&dia=".$dia;  
-   // header("Location:ram_ing_circulante.php?".$valores); 
+   header("Location:ram_ing_circulante.php?".$valores); 
 
 ?>

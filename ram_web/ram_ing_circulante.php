@@ -1,6 +1,7 @@
 <?php
 $Aut  = isset($_REQUEST["Aut"])?$_REQUEST["Aut"]:"";
 $radio  = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$recargapag = isset($_REQUEST["recargapag"])?$_REQUEST["recargapag"]:"";
 
 $n_conjunto  = isset($_REQUEST["n_conjunto"])?$_REQUEST["n_conjunto"]:"";
 $descripcion  = isset($_REQUEST["descripcion"])?$_REQUEST["descripcion"]:"";
@@ -47,6 +48,9 @@ if(isset($_REQUEST["mes"])){
 	$mes = date("m");
 }
 
+$hr1 = isset($_REQUEST["hr1"])?$_REQUEST["hr1"]:"";
+$mm1 = isset($_REQUEST["mm1"])?$_REQUEST["mm1"]:"";
+
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 5;
 
@@ -54,8 +58,7 @@ $CodigoDePantalla = 5;
  {
 	$consulta = "SELECT NUM_CONJUNTO,PESO_HUMEDO_MOVIDO FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO = '$fecha_c' AND COD_EXISTENCIA = 02 AND COD_CONJUNTO = 03  AND NUM_CONJUNTO = '$n_conjunto'";
 
-
-	echo $consulta;
+//	echo $consulta;
 	include("../principal/conectar_ram_web.php");
 	$rs = mysqli_query($link, $consulta);
 	
@@ -204,19 +207,17 @@ $CodigoDePantalla = 5;
     function ValidaSeleccion(f, Nombre) {
         var LargoForm = f.elements.length;
         var Valores = "";
-        alert("NOMBRREE" + Nombre);
+       // alert("NOMBRREE" + Nombre);
         for (i = 0; i < LargoForm; i++) {
             //alert(f.elements[i].name);
             if ((f.elements[i].name == Nombre) && (f.elements[i].checked == true)) {
-                alert("ENTRO" + f.elements[i + 1].value + " " + f.elements[i + 2].value);
+               // alert("ENTRO" + f.elements[i + 1].value + " " + f.elements[i + 2].value);
                 Valores = "&n_conjunto=" + f.elements[i + 1].value + "&fecha_c=" + f.elements[i + 2].value;
 
             }
         }
         //asegurarse que retornen todos los valores que se necesitan
-
-
-        alert(Valores);
+//        alert(Valores);
         return Valores;
     }
 
@@ -290,69 +291,70 @@ $CodigoDePantalla = 5;
                                 <font color="#000000" size="2">
                                     <select name="mes" size="1" id="select" style="FONT-FACE:verdana;FONT-SIZE:10">
                                         <?php
-        $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
-    	if($Proceso=='V' || $Proceso=='B')
-		{
-		    for($i=1;$i<13;$i++)
-		    {
-                if ($i==$mes)
-				{				
-				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
-				}			
-				else
-				{
-				echo "<option value='$i'>".$meses[$i-1]."</option>\n";
-				}
-		    }		
-		}
-		else
-		{
-		    for($i=1;$i<13;$i++)
-		    {
-                if ($i==date("n"))
-				{				
-				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
-				}			
-				else
-				{
-				echo "<option value='$i'>".$meses[$i-1]."</option>\n";
-				}
-		    }  			 
-	    } 	  
-  		  
-     ?>
+											$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
+											if($Proceso=='V' || $Proceso=='B')
+											{
+												for($i=1;$i<13;$i++)
+												{
+													if ($i==$mes)
+													{				
+													echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+													}			
+													else
+													{
+													echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+													}
+												}		
+											}
+											else
+											{
+												for($i=1;$i<13;$i++)
+												{
+													if ($i==date("n"))
+													{				
+													echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+													}			
+													else
+													{
+													echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+													}
+												}  			 
+											} 	  
+											  
+										 ?>
                                     </select>
                                     <select name="ano" size="1" style="FONT-FACE:verdana;FONT-SIZE:10">
                                         <?php
-	if($Proceso=='V' || $Proceso=='B')
-	{
-	    for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
-	    {
-            if ($i==date("Y"))
-			{
-			echo "<option selected value ='$i'>$i</option>";
-			}
-			else	
-			{
-			echo "<option value='".$i."'>".$i."</option>";
-			}
-        }
-	}
-	else
-	{
-	    for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
-	    {
-            if ($i==date("Y"))
-			{
-			echo "<option selected value ='$i'>$i</option>";
-			}
-			else	
-			{
-			echo "<option value='".$i."'>".$i."</option>";
-			}
-         }   
-    }	
-?>
+										if($Proceso=='V' || $Proceso=='B')
+										{
+											for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
+											{
+												//if ($i==date("Y"))
+												if ($i==$ano)
+												{
+												echo "<option selected value ='$i'>$i</option>";
+												}
+												else	
+												{
+												echo "<option value='".$i."'>".$i."</option>";
+												}
+											}
+										}
+										else
+										{
+											for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
+											{
+												if ($i==date("Y"))
+												{
+												echo "<option selected value ='$i'>$i</option>";
+												}
+												else	
+												{
+												echo "<option value='".$i."'>".$i."</option>";
+												}
+											 }   
+										}	
+									?>
                                     </select>
                                 </font>
                             </td>
@@ -362,30 +364,30 @@ $CodigoDePantalla = 5;
                                     height="11">&nbsp;Hora</td>
                             <td width="221"><select name="hh">
                                     <?php
-		 	for($i=0; $i<=23; $i++)
-			{
-				if (($recargapag == "S") && ($i == $hr1))
-					echo '<option selected value ="'.$i.'">'.$i.'</option>';
-				else if (($i == date("H")) && ($recargapag != "S"))
-					echo '<option selected value="'.$i.'">'.$i.'</option>';
-				else	
-					echo '<option value="'.$i.'">'.$i.'</option>';
-			}
-		?>
+										for($i=0; $i<=23; $i++)
+										{
+											if (($recargapag == "S") && ($i == $hr1))
+												echo '<option selected value ="'.$i.'">'.$i.'</option>';
+											else if (($i == date("H")) && ($recargapag != "S"))
+												echo '<option selected value="'.$i.'">'.$i.'</option>';
+											else	
+												echo '<option value="'.$i.'">'.$i.'</option>';
+										}
+									?>
                                 </select>
                                 :
                                 <select name="mm">
                                     <?php
-		 	for($i=0; $i<=59; $i++)
-			{
-				if (($recargapag == "S") && ($i == $mm1))
-					echo '<option selected value ="'.$i.'">'.$i.'</option>';
-				else if (($i == date("i")) && ($recargapag != "S"))
-					echo '<option selected value ="'.$i.'">'.$i.'</option>';
-				else	
-					echo '<option value="'.$i.'">'.$i.'</option>';
-			}
-		?>
+										for($i=0; $i<=59; $i++)
+										{
+											if (($recargapag == "S") && ($i == $mm1))
+												echo '<option selected value ="'.$i.'">'.$i.'</option>';
+											else if (($i == date("i")) && ($recargapag != "S"))
+												echo '<option selected value ="'.$i.'">'.$i.'</option>';
+											else	
+												echo '<option value="'.$i.'">'.$i.'</option>';
+										}
+									?>
                                 </select>
                             </td>
                         </tr>
@@ -398,16 +400,16 @@ $CodigoDePantalla = 5;
                                 Conjunto </td>
                             <td width="60">
                                 <?php
-			if($Proceso == "B" || $buscar == "S")
-			{
-				echo'<input name="num_conjunto" type="text" size="10" value="'.$num_conjunto.'" onKeyDown="TeclaPulsada()">';
-			}			
-			else
-			{
-				echo'<input name="num_conjunto" type="text" size="10" onKeyDown="TeclaPulsada()">';
-			}
-				
-   			?>
+								if($Proceso == "B" || $buscar == "S")
+								{
+									echo'<input name="num_conjunto" type="text" size="10" value="'.$num_conjunto.'" onKeyDown="TeclaPulsada()">';
+								}			
+								else
+								{
+									echo'<input name="num_conjunto" type="text" size="10" onKeyDown="TeclaPulsada()">';
+								}
+									
+								?>
                             </td>
                             <td width="458"><input name="buscar" type="button" style="width:70" value="Buscar"
                                     onClick="Buscar_Conjunto();"></td>
@@ -417,16 +419,16 @@ $CodigoDePantalla = 5;
                                 Conjunto</td>
                             <td colspan="2">
                                 <?php
-			if($Proceso == "B" || $buscar == "S")
-			{
-				echo'<input name="descripcion" type="text" size="50" value="'.$descripcion.'" disabled>';
-			}			
-			else
-			{
-				echo'<input name="descripcion" type="text" size="50" disabled>';
-			}
-				
-   			?>
+								if($Proceso == "B" || $buscar == "S")
+								{
+									echo'<input name="descripcion" type="text" size="50" value="'.$descripcion.'" disabled>';
+								}			
+								else
+								{
+									echo'<input name="descripcion" type="text" size="50" disabled>';
+								}
+									
+								?>
                             </td>
                         </tr>
                         <tr>
@@ -434,26 +436,26 @@ $CodigoDePantalla = 5;
                                 Origen </td>
                             <td colspan="2">
                                 <?php			   	          
-			  include("../principal/conectar_ram_web.php");			   
-			  if($Proceso == "B" || $buscar == "S")
-			  { 
-				  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $cod_lugar AND num_lugar = $num_lugar AND cod_estado != 'f'";
-				  $rs = mysqli_query($link, $consulta);
-				  
-				  if($row = mysqli_fetch_array($rs))
-				  {
-						echo '<input type="text" name="lugar" value="'.$row["descripcion_lugar"].'" size="50" disabled>';
-				  }
-				  else
-				  {	
-						echo '<input type="text" name="lugar" size="50" disabled>';
-				  }
-			 }
-			 else	
-			 {	
-				echo '<input type="text" name="lugar" size="50" disabled>';
-			 }
-			 ?>
+								  include("../principal/conectar_ram_web.php");			   
+								  if($Proceso == "B" || $buscar == "S")
+								  { 
+									  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $cod_lugar AND num_lugar = $num_lugar AND cod_estado != 'f'";
+									  $rs = mysqli_query($link, $consulta);
+									  
+									  if($row = mysqli_fetch_array($rs))
+									  {
+											echo '<input type="text" name="lugar" value="'.$row["descripcion_lugar"].'" size="50" disabled>';
+									  }
+									  else
+									  {	
+											echo '<input type="text" name="lugar" size="50" disabled>';
+									  }
+								 }
+								 else	
+								 {	
+									echo '<input type="text" name="lugar" size="50" disabled>';
+								 }
+								 ?>
                             </td>
                         </tr>
                         <tr>
