@@ -220,7 +220,7 @@ $CodigoDePantalla = 8;
 			  $prod = $cmbtipo;
 			  if($prod == 3)
 			  	$prod = 42;
-			  $consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE prod_ram = $prod ORDER BY cod_subproducto";
+			  $consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE prod_ram = '".$prod."' ORDER BY cod_subproducto";
 			  $rs = mysqli_query($link, $consulta);
 			  
 			  while($row = mysqli_fetch_array($rs))
@@ -282,7 +282,7 @@ if($Proceso == 'B')
     <tr class="ColorTabla01"> 
       <td height="10%"><div align="center">Nro. Conj</div></td>
       <td width="30%"><div align="center">Nombre Conjunto</div></td>
-      <td width="15%"><div align="center">Fecha Creaci�n</div></td>
+      <td width="15%"><div align="center">Fecha Creaci&oacute;n</div></td>
       <td width="5%"><div align="center">Est.</div></td>
       <td width="30%"><div align="center">Lugar</div></td>
       <td width="10%"><div align="center">Exist.</div></td>
