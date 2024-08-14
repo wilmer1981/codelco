@@ -1,53 +1,39 @@
 <?php
-	        ob_end_clean();
-if(isset($_REQUEST["filename"])){
-	$filename = $_REQUEST["filename"];
-}else{
-	$filename = "";
-}
+	        
 $generador  = isset($_REQUEST["generador"])?$_REQUEST["generador"]:"";
+$ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+$mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 
-if(isset($_REQUEST["ano"])){
-	$ano = $_REQUEST["ano"];
-}else{
-	$ano = date("Y");
-}
-if(isset($_REQUEST["dia"])){
-	$dia = $_REQUEST["dia"];
-}else{
-	$dia = "";
-}
-if(isset($_REQUEST["mes"])){
-	$mes = $_REQUEST["mes"];
-}else{
-	$mes = date("m");
-}
-			
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();	
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename = "";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     include("../principal/conectar_ram_web.php");
+	
 	if(strlen($dia) == 1)
 		$dia = '0'.$dia;
 	if(strlen($mes) == 1)
 		$mes = '0'.$mes;
-	$IpUsuario=	str_replace('.','',$REMOTE_ADDR);
-	$NombreTabla1="tmp_table".$IpUsuario;
+	
+	$IpUsuario    =	str_replace('.','',$REMOTE_ADDR);
+	$NombreTabla1 = "tmp_table".$IpUsuario;
 		
 ?>
 <html>
@@ -129,7 +115,7 @@ $Total_exist = 0;
 	  while ($row = mysqli_fetch_array($rs))
 	  {		 		
 			$Insertar = "INSERT INTO ".$NombreTabla1." (cod_existencia,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo,estado_validacion)";
-			$Insertar = "$Insertar VALUES ($row[cod_existencia],$row[num_conjunto],$row[conjunto_destino],'$row[fecha_movimiento]',$row[peso_humedo_movido],$row[estado_validacion])";
+			$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row["num_conjunto"]."','".$row["conjunto_destino"]."','".$row["fecha_movimiento"]."','".$row["peso_humedo_movido"]."','".$row["estado_validacion"]."')";
 			mysqli_query($link, $Insertar);
 	  }
 
@@ -146,7 +132,7 @@ $Total_exist = 0;
 			
 		if($row["num_conjunto"] == $row["conjunto_destino"])
 		{
-			$Consulta="SELECT * FROM ".$NombreTabla1." WHERE num_conjunto = $row[num_conjunto] AND conjunto_destino <> $row[num_conjunto]";
+			$Consulta="SELECT * FROM ".$NombreTabla1." WHERE num_conjunto = '".$row["num_conjunto"]."' AND conjunto_destino <> '".$row["num_conjunto"]."'";
 			$Consulta.=" AND ((fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' and ( cod_existencia =02 or cod_existencia =13))";
 			$Consulta.=" or (fecha_movimiento BETWEEN '".$fecha_ini_mov."' AND '".$fecha_ter_mov."' and ( cod_existencia=05 or cod_existencia =12 or cod_existencia =15)))";
 			
@@ -168,7 +154,7 @@ $Total_exist = 0;
         if($Encontrado == "N")
 		{
 				//Descripcion				
-				$Consulta = "SELECT * FROM ram_web.conjunto_ram where cod_conjunto = 1 AND num_conjunto = $row[num_conjunto] and estado <> 'f' ";
+				$Consulta = "SELECT * FROM ram_web.conjunto_ram where cod_conjunto = 1 AND num_conjunto = '".$row["num_conjunto"]."' and estado <> 'f' ";
 				$rs1 = mysqli_query($link, $Consulta);
 				if($row1 = mysqli_fetch_array($rs1))
 				{
@@ -276,7 +262,7 @@ $Total_exist = 0;
 						  echo '<td align="right">0,000</td>';
 					}
 					//Mezcla
-					$Consulta ="SELECT conjunto_destino FROM ".$NombreTabla1." WHERE num_conjunto = $row[num_conjunto] AND conjunto_destino = $row[conjunto_destino]
+					$Consulta ="SELECT conjunto_destino FROM ".$NombreTabla1." WHERE num_conjunto = '".$row["num_conjunto"]."' AND conjunto_destino = '".$row["conjunto_destino"]."'
 					 AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND cod_existencia = 12";
 					$rs4 = mysqli_query($link, $Consulta);
 					
@@ -401,7 +387,7 @@ $Crear_Tabla.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 	  while ($row = mysqli_fetch_array($rs))
 	  {		 		
 			$Insertar = "INSERT INTO tmp_table2 (cod_existencia,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, estado_validacion)";
-			$Insertar = "$Insertar VALUES ($row[cod_existencia],$row[num_conjunto],$row[conjunto_destino],'$row[fecha_movimiento]',$row[peso_humedo_movido],$row[estado_validacion])";
+			$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row["num_conjunto"]."','".$row["conjunto_destino"]."','".$row["fecha_movimiento"]."','".$row["peso_humedo_movido"]."','".$row["estado_validacion"]."')";
 			mysqli_query($link, $Insertar);
 	  }
 
@@ -416,7 +402,7 @@ $Crear_Tabla.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 
 		if($row["num_conjunto"] == $row["conjunto_destino"])
 		{
-			$Consulta = "SELECT * FROM tmp_table2 WHERE num_conjunto = $row[num_conjunto] AND conjunto_destino <> $row[num_conjunto]
+			$Consulta = "SELECT * FROM tmp_table2 WHERE num_conjunto = '".$row["num_conjunto"]."' AND conjunto_destino <> '".$row["num_conjunto"]."'
 			AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 			$rs0 = mysqli_query($link, $Consulta);
 			if($row0 = mysqli_fetch_array($rs0))
@@ -436,7 +422,7 @@ $Crear_Tabla.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 		if($Encontrado == "N")
 		{
 				//Descripcion
-                 $Consulta = "SELECT * FROM ram_web.conjunto_ram where cod_conjunto = 1 AND num_conjunto = $row[num_conjunto] and estado <> 'f'";
+                 $Consulta = "SELECT * FROM ram_web.conjunto_ram where cod_conjunto = 1 AND num_conjunto = '".$row["num_conjunto"]."' and estado <> 'f'";
 				$rs1 = mysqli_query($link, $Consulta);
 		
 				if($row1 = mysqli_fetch_array($rs1))
@@ -533,7 +519,7 @@ $Crear_Tabla.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 					}
 					
 					//Mezcla
-					$Consulta ="SELECT conjunto_destino FROM tmp_table2 WHERE num_conjunto = $row[num_conjunto] AND conjunto_destino = $row[conjunto_destino]
+					$Consulta ="SELECT conjunto_destino FROM tmp_table2 WHERE num_conjunto = '".$row["num_conjunto"]."' AND conjunto_destino = '".$row["conjunto_destino"]."'
 					 AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND cod_existencia = 12";
 					$rs4 = mysqli_query($link, $Consulta);
 					if($row4 = mysqli_fetch_array($rs4))
@@ -552,7 +538,7 @@ $Crear_Tabla.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 					$Consulta.= " case when (cod_existencia = 5)  then sum(peso_humedo) end AS peso_benef, ";
 					$Consulta.= " case when (cod_existencia = 6 OR cod_existencia = 16 OR cod_existencia = 5)  then sum(estado_validacion) end AS peso_val ";
 					$Consulta.= " FROM tmp_table2   ";
-					$Consulta.= " WHERE num_conjunto = ".$row["num_conjunto"]." AND conjunto_destino = ".$row["conjunto_destino"]." ";
+					$Consulta.= " WHERE num_conjunto = '".$row["num_conjunto"]."' AND conjunto_destino = '".$row["conjunto_destino"]."' ";
 					$Consulta.= " AND fecha_movimiento BETWEEN '".$fecha_i."' AND '".$fecha_t."' ";
 					$Consulta.= " AND (cod_existencia = 5 OR cod_existencia = 6 OR cod_existencia = 15 OR cod_existencia = 16) ";
 					$Consulta.= " group by cod_existencia";					

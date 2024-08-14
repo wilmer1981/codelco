@@ -429,9 +429,9 @@ $fecha = $ano.'-'.$mes.'-'.$dia;
           	echo'<option value="-1" selected>Seleccionar</option>';
            
 		    if($cmbconsulta == "1")
-          		echo'<option value="1" selected>Movimientos Totales por D�a</option>';
+          		echo'<option value="1" selected>Movimientos Totales por D&iacute;a</option>';
             else 	
-          		echo'<option value="1">Movimientos Totales por D�a</option>';
+          		echo'<option value="1">Movimientos Totales por D&iacute;a</option>';
 
             if($cmbconsulta == "2")
 				echo'<option value="2" selected>Movimientos Por Lugar/Turno</option>';
