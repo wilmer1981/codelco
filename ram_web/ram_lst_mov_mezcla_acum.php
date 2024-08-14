@@ -6,22 +6,16 @@ if(isset($_REQUEST["Proceso"])){
 }else{
 	$Proceso= "";
 }
-if(isset($_REQUEST["filename"])){
-	$filename = $_REQUEST["filename"];
-}else{
-	$filename = "";
-}
 
 if(isset($_REQUEST["fecha_ini"])){
 	$fecha_ini = $_REQUEST["fecha_ini"];
 }else{
-	$fecha_ini= "";
+	$fecha_ini= date("Y-m-d");
 }
-
 if(isset($_REQUEST["fecha_ter"])){
 	$fecha_ter = $_REQUEST["fecha_ter"];
 }else{
-	$fecha_ter= "";
+	$fecha_ter= date("Y-m-d");
 }
 
 if(isset($_REQUEST["num_conjunto"])){
@@ -32,23 +26,23 @@ if(isset($_REQUEST["num_conjunto"])){
 
 if($Proceso == 'B2')
 {
-	    ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
 	header("Expires: 0");
 	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 }
@@ -146,21 +140,17 @@ $CodigoDePantalla = 10;
                                         height="11">&nbsp;Mezcla</td>
                                 <td width="82">
                                     <?php
-			if($Proceso == 'B' || $Proceso == 'B2')
-				echo '<input name="num_conjunto" type="text" size="15" value="'.$num_conjunto.'">';
-            else		
-				echo '<input name="num_conjunto" type="text" size="15">';
-			?>
+									if($Proceso == 'B' || $Proceso == 'B2')
+										echo '<input name="num_conjunto" type="text" size="15" value="'.$num_conjunto.'">';
+									else		
+										echo '<input name="num_conjunto" type="text" size="15">';
+									?>
                                 </td>
-                                <td width="220"><input name="buscar" type="button" style="width:70" value="Buscar"
-                                        onClick="buscar_conjunto();">
-                                    <input name="excel" type="button" style="width:70"
-                                        onClick="buscar_conjunto_excel();" value="Excel">
+                                <td width="220"><input name="buscar" type="button" style="width:70" value="Buscar" onClick="buscar_conjunto();">
+                                    <input name="excel" type="button" style="width:70" onClick="buscar_conjunto_excel();" value="Excel">
                                 </td>
-                                <td width="152"> <input name="btnimprimir2" type="button" style="width:70"
-                                        value="Imprimir" onClick="Imprimir();">
-                                    <input name="btnsalir2" type="button" style="width:70" value="Salir"
-                                        onClick="salir_menu();">
+                                <td width="152"> <input name="btnimprimir2" type="button" style="width:70" value="Imprimir" onClick="Imprimir();">
+                                    <input name="btnsalir2" type="button" style="width:70" value="Salir" onClick="salir_menu();">
                                 </td>
                             </tr>
                         </table>
@@ -168,10 +158,10 @@ $CodigoDePantalla = 10;
                         <?php
 	}	   	  	        
 ?>
-                        <?php
+<?php
 if($Proceso == 'B' || $Proceso == 'B2')
 {
-	$consulta = "SELECT * FROM ram_web.movimiento_conjunto WHERE conjunto_destino = $num_conjunto group by num_conjunto order by conjunto_destino ASC ";
+	$consulta = "SELECT * FROM ram_web.movimiento_conjunto WHERE conjunto_destino = '".$num_conjunto."' group by num_conjunto order by conjunto_destino ASC ";
 	$rs = mysqli_query($link, $consulta);
 
 	if($row = mysqli_fetch_array($rs))
@@ -179,7 +169,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		echo '<table width="300" border="0" cellspacing="0" cellpadding="0" align="center">';
 		echo'<tr class="ColorTabla02">';
 
-		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = $num_conjunto";
+		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = '".$num_conjunto."'";
 		$rs2 = mysqli_query($link, $consulta);
 		
 		if($row2 = mysqli_fetch_array($rs2))
@@ -192,7 +182,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		echo '<table width="300" border="0" cellspacing="0" cellpadding="0" align="center">';
 		echo'<tr class="ColorTabla02">';
 		$consulta = "SELECT MIN(fecha_movimiento) as fecha_ini, MAX(fecha_movimiento) as fecha_ter FROM ram_web.movimiento_conjunto
-		 WHERE conjunto_destino = $num_conjunto AND cod_conjunto_destino = 2";
+		 WHERE conjunto_destino = '".$num_conjunto."' AND cod_conjunto_destino = 2";
 		$rs4 = mysqli_query($link, $consulta);
 		
 		if($row4 = mysqli_fetch_array($rs4))
@@ -215,7 +205,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		echo '</tr>';				
 				
 		$consulta = "SELECT distinct COD_CONJUNTO,NUM_CONJUNTO,FECHA_MOVIMIENTO FROM ram_web.movimiento_conjunto
-		 WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND conjunto_destino = $num_conjunto AND cod_conjunto_destino = 2 AND cod_conjunto = 1 group by num_conjunto";
+		 WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND conjunto_destino = '".$num_conjunto."' AND cod_conjunto_destino = 2 AND cod_conjunto = 1 group by num_conjunto";
 		$rs3 = mysqli_query($link, $consulta);
 
 		while ($row3 = mysqli_fetch_array($rs3))
@@ -223,7 +213,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 
 		    	echo '<tr><td width="8%">'.$row3["COD_CONJUNTO"].' * '.$row3["NUM_CONJUNTO"].'</td>';
 
-				$consulta = "SELECT * FROM ram_web.conjunto_ram where cod_conjunto = $row3[COD_CONJUNTO] AND num_conjunto = ".$row3["NUM_CONJUNTO"]; 
+				$consulta = "SELECT * FROM ram_web.conjunto_ram where cod_conjunto = '".$row3["COD_CONJUNTO"]."' AND num_conjunto = '".$row3["NUM_CONJUNTO"]."' "; 
 				$rs5 = mysqli_query($link, $consulta);
 	
 				if($row5 = mysqli_fetch_array($rs5))
@@ -234,7 +224,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		    	//echo '<td width="22%">'.$row3[FECHA_MOVIMIENTO].'</td>';
 
 				$consulta = "SELECT SUM(peso_humedo_movido) as peso_humedo, SUM(estado_validacion) as validacion FROM ram_web.movimiento_conjunto
-				 WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND num_conjunto = $row3[NUM_CONJUNTO] AND cod_conjunto = 1 AND conjunto_destino = $num_conjunto group by num_conjunto";
+				 WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND num_conjunto = '".$row3["NUM_CONJUNTO"]."' AND cod_conjunto = 1 AND conjunto_destino = '".$num_conjunto."' group by num_conjunto";
 				$rs6 = mysqli_query($link, $consulta);
 
 				if($row6 = mysqli_fetch_array($rs6))
@@ -251,7 +241,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		}
      	echo '</tr>';
 		
-		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = $num_conjunto AND cod_conjunto = 1";
+		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = '".$num_conjunto."' AND cod_conjunto = 1";
 		$rs7 = mysqli_query($link, $consulta);
 
 		if($row7 = mysqli_fetch_array($rs7))
@@ -259,7 +249,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 			$Total_Humedo = $row7["Total_Humedo"];
 		}
 
-		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = $num_conjunto AND cod_conjunto = 1";
+		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = '".$num_conjunto."' AND cod_conjunto = 1";
 		$rs8 = mysqli_query($link, $consulta);
 
 		if($row8 = mysqli_fetch_array($rs8))
@@ -288,7 +278,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		echo '<td width="17%" align="right">P. TOTAL</td>';
 		echo '</tr>';				
 		$consulta = "SELECT distinct COD_CONJUNTO,NUM_CONJUNTO,FECHA_MOVIMIENTO FROM ram_web.movimiento_conjunto
-		 WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND conjunto_destino = $num_conjunto AND cod_conjunto_destino = 2 AND cod_conjunto = 3 group by num_conjunto";
+		 WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND conjunto_destino = '".$num_conjunto."' AND cod_conjunto_destino = 2 AND cod_conjunto = 3 group by num_conjunto";
 		$rs3 = mysqli_query($link, $consulta);
 
 		while ($row3 = mysqli_fetch_array($rs3))
@@ -296,7 +286,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 
 		    	echo '<tr><td width="8%">'.$row3["COD_CONJUNTO"].' * '.$row3["NUM_CONJUNTO"].'</td>';
 
-				$consulta = "SELECT * FROM ram_web.conjunto_ram where cod_conjunto = $row3[COD_CONJUNTO] AND num_conjunto = ".$row3["NUM_CONJUNTO"]; 
+				$consulta = "SELECT * FROM ram_web.conjunto_ram where cod_conjunto = '".$row3["COD_CONJUNTO"]."' AND num_conjunto = '".$row3["NUM_CONJUNTO"]."' "; 
 				$rs5 = mysqli_query($link, $consulta);
 	
 				if($row5 = mysqli_fetch_array($rs5))
@@ -305,9 +295,8 @@ if($Proceso == 'B' || $Proceso == 'B2')
 				}
 
 		    	//echo '<td width="22%">'.$row3[FECHA_MOVIMIENTO].'</td>';
-
 				$consulta = "SELECT SUM(peso_humedo_movido) as peso_humedo, SUM(estado_validacion) as validacion FROM ram_web.movimiento_conjunto
-				 WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND num_conjunto = $row3[NUM_CONJUNTO] AND cod_conjunto = 3 AND conjunto_destino = $num_conjunto group by num_conjunto";
+				 WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND num_conjunto = '".$row3["NUM_CONJUNTO"]."' AND cod_conjunto = 3 AND conjunto_destino = '".$num_conjunto."' group by num_conjunto";
 				$rs6 = mysqli_query($link, $consulta);
 
 				if($row6 = mysqli_fetch_array($rs6))
@@ -319,14 +308,12 @@ if($Proceso == 'B' || $Proceso == 'B2')
 
                     $Total = $peso_humedo +  $validacion;
 				}
-
-
 				echo '<td width="10%" align="right">'.number_format($Total/1000,3,",","").'</td>';
 				
 		}
      	echo '</tr>';
 		
-		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = $num_conjunto AND cod_conjunto = 3";
+		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = '".$num_conjunto."' AND cod_conjunto = 3";
 		$rs7 = mysqli_query($link, $consulta);
 
 		if($row7 = mysqli_fetch_array($rs7))
@@ -334,7 +321,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 			$Total_Humedo = $row7["Total_Humedo"];
 		}
 
-		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = $num_conjunto AND cod_conjunto = 3";
+		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = '".$num_conjunto."' AND cod_conjunto = 3";
 		$rs8 = mysqli_query($link, $consulta);
 
 		if($row8 = mysqli_fetch_array($rs8))
@@ -342,27 +329,25 @@ if($Proceso == 'B' || $Proceso == 'B2')
 				$Total_val = $row8["Validacion"];
 				$Total_Final = $Total_Humedo + $row8["Validacion"];
 		}
-
-				echo '<tr class="ColorTabla02">';
-					echo '<td width="70%" colspan="2"><strong>Totales</strong></td>';			        
-					echo '<td width="10%" align="right">'.number_format($Total_Humedo/1000,3,",","").'</td>';			        
-					echo '<td width="10%" align="right">'.number_format($Total_val/1000,3,",","").'</td>';			        
-					echo '<td width="10%" align="right">'.number_format($Total_Final/1000,3,",","").'</td>';
-				echo '</tr>';
+		echo '<tr class="ColorTabla02">';
+			echo '<td width="70%" colspan="2"><strong>Totales</strong></td>';			        
+			echo '<td width="10%" align="right">'.number_format($Total_Humedo/1000,3,",","").'</td>';			        
+			echo '<td width="10%" align="right">'.number_format($Total_val/1000,3,",","").'</td>';			        
+			echo '<td width="10%" align="right">'.number_format($Total_Final/1000,3,",","").'</td>';
+		echo '</tr>';
 
 	} 	
 
-		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = $num_conjunto";
+		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND CONJUNTO_DESTINO = '".$num_conjunto."'";
+		//echo "Consulta:".$consulta;
 		$rs7 = mysqli_query($link, $consulta);
-
 		if($row7 = mysqli_fetch_array($rs7))
 		{
 			$Total_Humedo = $row7["Total_Humedo"];
 		}
-
-		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND CONJUNTO_DESTINO = $num_conjunto";
+		
+		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND CONJUNTO_DESTINO = '".$num_conjunto."'";
 		$rs8 = mysqli_query($link, $consulta);
-
 		if($row8 = mysqli_fetch_array($rs8))
 		{
 				$Total_val = $row8["Validacion"];
@@ -375,16 +360,15 @@ if($Proceso == 'B' || $Proceso == 'B2')
 				echo '<td align="right">'.number_format($Total_val/1000,3,",","").'</td>';			        
 				echo '<td align="right">'.number_format($Total_Final/1000,3,",","").'</td>';
 			echo '</tr>';
-		echo '</table><br>'; 								        
+		echo '</table><br>'; 			        
 
 }	
-
 
 ?>
             </table>
             <td align="center" valign="top">
-                </tr>
-        </table>
+        </tr>
+    </table>
         <?php 
 	if($Proceso == '')
  	include("../principal/pie_pagina.php");
