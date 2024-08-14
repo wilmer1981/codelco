@@ -6,7 +6,7 @@
 	require "includes/class.phpmailer.php";
 
 	$SERVER_NAME  = $_SERVER['SERVER_NAME']; //nombre del servidor : localhost
-	$REMOTER_ADDR = gethostbyaddr($_SERVER['REMOTE_ADDR']); //Nombnre completro de la PC : WSALDANA-PERU.sml.sermaluc.cl
+	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']); //Nombnre completro de la PC : WSALDANA-PERU.sml.sermaluc.cl
 	$COMPUTERNAME =  getenv("COMPUTERNAME"); //nombre de la PC : WSALDANA-PERU
 	$IP           = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
 
@@ -68,8 +68,7 @@
 	$TxtConjunto     = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
 	$TxtAsignacion   = isset($_REQUEST["TxtAsignacion"])?$_REQUEST["TxtAsignacion"]:"";
 	$bascula_entrada = isset($_REQUEST["bascula_entrada"])?$_REQUEST["bascula_entrada"]:"";
-	$bascula_salida  = isset($_REQUEST["bascula_salida"])?$_REQUEST["bascula_salida"]:"";
-	
+	$bascula_salida  = isset($_REQUEST["bascula_salida"])?$_REQUEST["bascula_salida"]:"";	
 
 	CerrarLotesMensuales('R',$link);
 	$Tolerancia=ToleranciaPesaje($link);
@@ -414,12 +413,13 @@ function Deshabilita(Bascula)
 }
 function RestaurarBascula()
 {
-	//var Bas2=0;
-   //var Bas1=0;
+	var Bas2=0;
+    var Bas1=0;
 	var f = document.FrmRecepcion;
 	//var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
 	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
 	var bascula = f.TxtBasculaAux.value; //
+	//alert("bascula:"+bascula);
 	if(bascula==1){
 		//Bas1 = 'PesoMatic2_1.txt';
 		//Bas2 = 'PesoMatic_1.txt';
@@ -510,7 +510,7 @@ function RestaurarBascula()
 */
 //var ROMA=LeerRomana('');
 //var ROMA = '<?php //echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
-var ROMA = '<?php echo LeerRomana($COMPUTERNAME,$link); ?>'; 
+var ROMA = '<?php echo LeerRomana($REMOTE_ADDR,$link); ?>'; 
 /*
 function LeerArchivo(valor)
 {
@@ -1591,6 +1591,23 @@ body {
 </body>
 </html>
 <?php
+$GETHOST_NAME  =  gethostname();
+$GETHOSTBYNAME =  gethostbyname($_SERVER['REMOTE_ADDR']);
+$userIp = getUserIP(); 
+$realIp = getRealIP();
+//$ip     = $_SERVER['HTTP_CLIENT_IP'];
+//echo "CLIENT_IP:".$realIp;
+
+echo "<br>GETHOST_NAME:".$GETHOST_NAME;
+echo "<br>COMPUTERNAME:".$COMPUTERNAME;
+//echo "<br>GETHOSTBYNAME:".$GETHOSTBYNAME;
+echo "<br>SERVER_NAME:".$SERVER_NAME;
+echo "<br>REMOTE_ADDR:".$REMOTE_ADDR;
+echo "<br>USER_IP:".$userIp;
+
+$Romana = LeerRomana($REMOTE_ADDR,$link);
+echo "<br>ROMANA: ".$Romana;
+
 if($Mensaje!='')
 {
 	echo "<script language='JavaScript'>";
@@ -1605,7 +1622,6 @@ echo "var f = document.FrmRecepcion;";
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
 //$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
 //echo"COMPUTERNAME:".$COMPUTERNAME;
-$Romana = LeerRomana($COMPUTERNAME,$link);
 echo "f.TxtNumRomana.value=".$Romana.";";
 echo "CalculaPNetoTotal();";
 //echo "alert(f.TxtNumRomana.value);";

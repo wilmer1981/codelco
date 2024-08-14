@@ -9,6 +9,7 @@
 	$Frm  = isset($_REQUEST["Frm"])?$_REQUEST["Frm"]:"";
 
 	$COMPUTERNAME =  getenv("COMPUTERNAME"); //nombre de la PC : WSALDANA-PERU
+	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']); //Nombnre completro de la PC : WSALDANA-PERU.sml.sermaluc.cl
 	/*
 		if(isset($_REQUEST["RNA"])){
 			$RNA=$_REQUEST["RNA"];
@@ -40,7 +41,9 @@ print_r($ficheros2);
 $Tolerancia=ToleranciaPesaje($link);
 
 //$ROMA = LeerArchivo('PesaMatic','ROMANA.txt');
-$ROMA = LeerRomana($COMPUTERNAME,$link);
+$ROMA = LeerRomana($REMOTE_ADDR,$link);
+$Bas1='';
+$Bas2='';
 if($ROMA==1){
 	$Bas1 = LeerArchivo('configuracion_pesaje','PesoMatic_1.txt');
 	$Bas2 = LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt');
