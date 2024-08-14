@@ -39,6 +39,11 @@ if(isset($_REQUEST["BuscaLeyesAnt"])){
 }else{
 	$BuscaLeyesAnt = "";
 }
+if(isset($_REQUEST["Valores"])){
+	$Valores = $_REQUEST["Valores"];
+}else{
+	$Valores = "";
+}
 
 if(isset($_REQUEST["TipoLey"])){
 	$TipoLey = $_REQUEST["TipoLey"];

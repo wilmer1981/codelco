@@ -25,12 +25,17 @@ if(isset($_REQUEST["Mes"])){
 if(isset($_REQUEST["Producto"])){
 	$Producto = $_REQUEST["Producto"];
 }else{
-	$Producto= "";
+	$Producto = "";
 }
 if(isset($_REQUEST["SubProducto"])){
 	$SubProducto = $_REQUEST["SubProducto"];
 }else{
-	$SubProducto= "";
+	$SubProducto = "";
+}
+if(isset($_REQUEST["Conjunto"])){
+	$Conjunto = $_REQUEST["Conjunto"];
+}else{
+	$Conjunto = "";
 }
 
 

@@ -1,41 +1,33 @@
-<?
+<?php
 	include("../principal/conectar_principal.php");
-	if($H2O=='')
-		$H2O=0;
-	if($Cu=='')
-		$Cu=0;
-	if($Ag=='')
-		$Ag=0;
-	if($Au=='')
-		$Au=0;
-	if($As=='')
-		$As=0;
-	if($S=='')
-		$S=0;
-	if($Pb=='')
-		$Pb=0;
-	if($Fe=='')
-		$Fe=0;
-	if($Si=='')
-		$Si=0;
-	if($CaO=='')
-		$CaO=0;
-	if($AL2O3=='')
-		$AL2O3=0;
-	if($MgO=='')
-		$MgO=0;
-	if($Sb=='')
-		$Sb=0;
-	if($Cd=='')
-		$Cd=0;
-	if($Hg=='')
-		$Hg=0;
-	if($Te=='')
-		$Te=0;
-	if($Zn=='')
-		$Zn=0;
-	if($Fe3O4=='')
-		$Fe3O4=0;
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Productos    = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+	$SubProductos = isset($_REQUEST["SubProductos"])?$_REQUEST["SubProductos"]:"";
+	$Conjunto     = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
+	$CodConjunto  = isset($_REQUEST["CodConjunto"])?$_REQUEST["CodConjunto"]:"";
+	$TipoLey      = isset($_REQUEST["TipoLey"])?$_REQUEST["TipoLey"]:"";
+	$Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+	$Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	
+	$H2O      = isset($_REQUEST["H2O"])?$_REQUEST["H2O"]:0;
+	$Cu       = isset($_REQUEST["Cu"])?$_REQUEST["Cu"]:0;
+	$Ag       = isset($_REQUEST["Ag"])?$_REQUEST["Ag"]:0;
+	$Au       = isset($_REQUEST["Au"])?$_REQUEST["Au"]:0;
+	$As       = isset($_REQUEST["As"])?$_REQUEST["As"]:0;
+	$S        = isset($_REQUEST["S"])?$_REQUEST["S"]:0;
+	$Pb       = isset($_REQUEST["Pb"])?$_REQUEST["Pb"]:0;
+	$Fe       = isset($_REQUEST["Fe"])?$_REQUEST["Fe"]:0;
+	$Si       = isset($_REQUEST["Si"])?$_REQUEST["Si"]:0;
+	$CaO      = isset($_REQUEST["CaO"])?$_REQUEST["CaO"]:0;
+	$AL2O3    = isset($_REQUEST["AL2O3"])?$_REQUEST["AL2O3"]:0;
+	$MgO      = isset($_REQUEST["MgO"])?$_REQUEST["MgO"]:0;
+	$Sb       = isset($_REQUEST["Sb"])?$_REQUEST["Sb"]:0;
+	$Cd       = isset($_REQUEST["Cd"])?$_REQUEST["Cd"]:0;
+	$Hg       = isset($_REQUEST["Hg"])?$_REQUEST["Hg"]:0;
+	$Te       = isset($_REQUEST["Te"])?$_REQUEST["Te"]:0;
+	$Zn       = isset($_REQUEST["Zn"])?$_REQUEST["Zn"]:0;
+	$Fe3O4    = isset($_REQUEST["Fe3O4"])?$_REQUEST["Fe3O4"]:0;
+
 	switch ($Proceso)
 	{
 		case "G":
@@ -45,8 +37,8 @@
 			$Consulta.= " and num_conjunto = '".$Conjunto."'";
 			$Consulta.= " and tipo_ley = '".$TipoLey."'";
 			$Consulta.= " and fecha = '".$Ano."-".$Mes."-01'";
-			$Respuesta = mysql_query($Consulta);
-			if ($Fila = mysql_fetch_array($Respuesta))
+			$Respuesta = mysqli_query($link, $Consulta);
+			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
 				//ACTUALIZA
 				$Actualizar = "update ram_web.leyes_especiales set ";
@@ -74,7 +66,7 @@
 				$Actualizar.= " and num_conjunto = '".$Conjunto."' ";
 				$Actualizar.= " and tipo_ley = '".$TipoLey."' ";
 				$Actualizar.= " and fecha = '".$Ano."-".$Mes."-01'";
-				mysql_query($Actualizar);
+				mysqli_query($link, $Actualizar);
 				//echo $Actualizar;
 			}
 			else
@@ -86,7 +78,7 @@
 				$Insertar.= ",'".str_replace(",",".",$Ag)."','".str_replace(",",".",$Au)."','".str_replace(",",".",$As)."','".str_replace(",",".",$S)."','".str_replace(",",".",$Pb)."'";
 				$Insertar.= ",'".str_replace(",",".",$Fe)."','".str_replace(",",".",$Si)."','".str_replace(",",".",$CaO)."','".str_replace(",",".",$AL2O3)."','".str_replace(",",".",$MgO)."','".str_replace(",",".",$Sb)."'";
 				$Insertar.= ",'".str_replace(",",".",$Cd)."','".str_replace(",",".",$Hg)."','".str_replace(",",".",$Te)."','".str_replace(",",".",$Zn)."','".str_replace(",",".",$Fe3O4)."','".$TipoLey."')";
-				mysql_query($Insertar);
+				mysqli_query($link, $Insertar);
 				//echo $Insertar;
 			}
 			header("location:ram_ing_leyes_esp.php?Productos=".$Productos."&SubProductos=".$SubProductos."&Conjunto=".$Conjunto."&TipoLey=".$TipoLey."&Ano=".$Ano."&Mes=".$Mes);
@@ -98,7 +90,7 @@
 			$Eliminar.= " and num_conjunto = '".$Conjunto."'";
 			$Eliminar.= " and tipo_ley = '".$TipoLey."'";
 			$Eliminar.= " and fecha = '".$Ano."-".$Mes."-01'";
-			mysql_query($Eliminar);
+			mysqli_query($link, $Eliminar);
 			header("location:ram_ing_leyes_esp.php?Productos=".$Productos."&SubProductos=".$SubProductos."&Conjunto=".$Conjunto."&TipoLey=".$TipoLey."&Ano=".$Ano."&Mes=".$Mes);
 			break;
 	}

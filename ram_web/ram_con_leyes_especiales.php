@@ -1,4 +1,4 @@
-<?
+<?php
 	include("../principal/conectar_principal.php");
 ?>	
 <html>
@@ -35,22 +35,22 @@
     <td>Zn</td>
     <td>Fe3O4</td>
   </tr>
-<?
+<?php
 	$Consulta = "select * from ram_web.leyes_especiales ";
 	$Consulta.= " order by cod_producto, cod_subproducto, cod_conjunto, num_conjunto, tipo_ley";
-	$Respuesta = mysql_query($Consulta);
-	while ($Fila = mysql_fetch_array($Respuesta))
+	$Respuesta = mysqli_query($link,$Consulta);
+	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$Consulta = "select * from proyecto_modernizacion.productos where cod_producto = '".$Fila["cod_producto"]."'";
-		$Respuesta2 = mysql_query($Consulta);
-		if ($Fila2 = mysql_fetch_array($Respuesta2))
+		$Respuesta2 = mysqli_query($link,$Consulta);
+		if ($Fila2 = mysqli_fetch_array($Respuesta2))
 			$Producto = $Fila2["descripcion"];
 		else
 			$Producto = "";
 		$Consulta = "select * from proyecto_modernizacion.subproducto ";
 		$Consulta.= " where cod_producto = '".$Fila["cod_producto"]."' and cod_subproducto = '".$Fila["cod_subproducto"]."'";
-		$Respuesta2 = mysql_query($Consulta);
-		if ($Fila2 = mysql_fetch_array($Respuesta2))
+		$Respuesta2 = mysqli_query($link,$Consulta);
+		if ($Fila2 = mysqli_fetch_array($Respuesta2))
 			$SubProducto = $Fila2["descripcion"];
 		else
 			$SubProducto = "";
