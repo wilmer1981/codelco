@@ -1,29 +1,17 @@
 <?php
 //Petalo
-$Petalo  = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
-
-	if(isset($_REQUEST["Buscar"])){
-		$Buscar = $_REQUEST["Buscar"];
-	}else{
-		$Buscar = "";
-	}
-
-	if(isset($_REQUEST["CmbMes"])){
-		$CmbMes = $_REQUEST["CmbMes"];
-	}else{
-		$CmbMes = "";
-	}
-	if(isset($_REQUEST["CmbAno"])){
-		$CmbAno = $_REQUEST["CmbAno"];
-	}else{
-		$CmbAno = "";
-	}
+	$Petalo  = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
+	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$Recarga = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+	$TipoBusqueda = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	
 	if(isset($_REQUEST["Tot"])){
 		$Tot = $_REQUEST["Tot"];
 	}else{
 		$Tot = 0;
 	}
-
 	if(isset($_REQUEST["peso_humedo"])){
 		$peso_humedo = $_REQUEST["peso_humedo"];
 	}else{
@@ -142,7 +130,7 @@ $Petalo  = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
                 <td>Concent<br>Sec.-Rec.</td>
                 <td>Polvo<br>Miljo H.E</td>
                 <td>SubTotal</td>
-                <td>Escoria<br>An�dica</td>
+                <td>Escoria<br>An&oacute;dica</td>
                 <td>Chatarra<br>RAF</td>
                 <td>Granza</td>
                 <td>Sub-Total</td>
