@@ -8,7 +8,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	reset($Leyes);
 	$TxtLote = $Lote["lote"];
 	//RESCATA PESO
-	$Consulta = "SELECT t1.lote, t2.recargo, t2.peso_neto as peso_humedo, t2.peso_bruto, t2.peso_tara, ";
+	$Consulta = "select t1.lote, t2.recargo, t2.peso_neto as peso_humedo, t2.peso_bruto, t2.peso_tara, ";
 	$Consulta.= " t1.peso_muestra, t1.peso_retalla, t1.cod_producto, t1.cod_subproducto, t1.rut_proveedor, ";
 	$Consulta.= " t1.fecha_recepcion, t1.cod_faena, t1.cod_recepcion, t1.clase_producto, t1.num_conjunto, ";
 	$Consulta.= " t1.remuestreo, t1.num_lote_remuestreo, t1.estado_lote, t1.modificado, t1.fin_canje, t1.canjeable, t3.recepcion ";
@@ -41,7 +41,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 		$Lote["recepcion"] = $FilaPeso["recepcion"];
 	}
 	//RESCATA LEYES
-	$PorcHum=0;		
+	$PorcHum=0;	
 	$Consulta = "select distinct t1.cod_leyes, t1.valor, t1.valor2, t2.abreviatura as nom_unidad, t2.conversion, t3.abreviatura as nom_ley, t3.nombre_leyes as nombre_ley ";
 	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
 	$Consulta.= " t1.cod_unidad=t2.cod_unidad left join proyecto_modernizacion.leyes t3 on t1.cod_leyes=t3.cod_leyes";
@@ -469,7 +469,7 @@ function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeye
 		{   $ArrLeyesProv2 = isset($ArrLeyesProv[$k][2])?$ArrLeyesProv[$k][2]:0;
 			if ($peso_seco2=!0 && $v[2]=!0 && $v[5]=!0) 
 				$ArrLeyesProv[$k][2] = $ArrLeyesProv2 + round(($peso_seco2 * $v[2])/$v[5]);//VALOR
-
+			
 			$ArrLeyesProv[$k][3] = isset($v[3])?$v[3]:"";//COD UNIDAD
 			$ArrLeyesProv[$k][4] = isset($v[4])?$v[4]:"";//NOM UNIDAD
 			$ArrLeyesProv[$k][5] = isset($v[5])?$v[5]:"";//CONVERSION
@@ -733,6 +733,7 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link)
 {
 	//echo $FechaIni."---".$Lote;
+	//$FechaConCierre="000-00-00";
 	$CierreBalance = true;
 	$FechaCierreAnexo=$FechaConCierre;
 	$ArrayLeyesVacio = false;
@@ -839,6 +840,9 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		else
 			$PorcHumAnt=$PorcHum;
 		//RESCATA LEYES CANJEABLES
+		if(empty($FechaCierreAnexo)){
+			$FechaCierreAnexo= date("Y-m-d");
+		}
 		$canjeable = isset($Lote["canjeable"])?$Lote["canjeable"]:"";
 		if($canjeable=='S')
 		{
@@ -847,19 +851,26 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 			$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
 			$Consulta.= " where (t1.lote='".$Lote["lote"]."' and t1.estado_lote <>'6' ";
 			$Consulta.= " and t1.fecha_canje<='".$FechaCierreAnexo."') ";
-			$Consulta.= " or (t1.lote='".$Lote["lote"]."' and t1.fecha_fin_canje between '".$FechaIni."' and '".$FechaFin."') ";	
+			//$Consulta.= " or (t1.lote='".$Lote["lote"]."' and t1.fecha_fin_canje between '".$FechaIni."' and '".$FechaFin."') ";
+			$Consulta.= " or (t1.lote='".$Lote["lote"]."' ";
+			if($FechaIni!="" && $FechaFin!="")
+					$Consulta.= " and t1.fecha_fin_canje between '".$FechaIni."' and '".$FechaFin."' ";
+			$Consulta.= ")";
+			//echo 	$Consulta;		
 			if (count($LeyesPond)>0)
 			{
 				$Consulta.= " and (";
 				reset($LeyesPond);
 				foreach($LeyesPond as $k => $v)
-				{			
-					$Consulta.= " t2.cod_leyes='".$v[0]."' or";
+				{	
+					$v0 = isset($v[0])?$v[0]:"";
+					$Consulta.= " t2.cod_leyes='".$v0."' or";
 				}
 				$Consulta = substr($Consulta,0,strlen($Consulta)-3);
 				$Consulta.= ")";
 			}
 			$Consulta.= " order by t2.cod_leyes";
+			//echo "<br>".$Consulta."<br>";
 			$RespLoteC = mysqli_query($link, $Consulta);
 			while ($FilaLoteC = mysqli_fetch_array($RespLoteC))
 			{
@@ -1091,7 +1102,10 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 			echo "C--> ".$LeyesPond[$key][2]."<br>";
 			echo "D--> ".$LeyesPond[$key][5]."<br><BR><BR>";
 		}*/
-		if ($Lote["peso_seco2"]!=0 && $LeyesPond[$key][2]!=0 && $LeyesPond[$key][5]!=0)
+		$peso_seco2 = isset($Lote["peso_seco2"])?$Lote["peso_seco2"]:0;
+		$LeyesPond2 = isset($LeyesPond[$key][2])?$LeyesPond[$key][2]:0;
+		$LeyesPond5 = isset($LeyesPond[$key][5])?$LeyesPond[$key][5]:0;
+		if ($peso_seco2!=0 && $LeyesPond2!=0 && $LeyesPond5!=0)
 		{
 			//echo "PESO SECO=".$Lote["peso_seco2"]." LEY=".$LeyesPond[$key][2]."<br>";
 			switch ($Lote["cod_subproducto"])
@@ -1171,12 +1185,12 @@ function ValoresRetalla($Lote,$Leyes,$CalculaInc,$link)
 		//echo $Lote["peso_retalla"]." - ".$Lote["peso_muestra"]." - ".$LeyesRetalla[$FilaLeyes["cod_leyes"]][2]."<br>";
 		$peso_retalla = isset($Lote["peso_retalla"])?$Lote["peso_retalla"]:0;
 		$peso_muestra = isset($Lote["peso_muestra"])?$Lote["peso_muestra"]:0;
-		$Leyescod_leyes2      = isset($Leyes[$FilaLeyes["cod_leyes"]][2])?$Leyes[$FilaLeyes["cod_leyes"]][2]:0;
+		$Leyescod_leyes2 = isset($Leyes[$FilaLeyes["cod_leyes"]][2])?$Leyes[$FilaLeyes["cod_leyes"]][2]:0;
 		if ($peso_retalla>0 && $peso_muestra>0 && $LeyesRetalla[$FilaLeyes["cod_leyes"]][2]>0)
 			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = ($LeyesRetalla[$FilaLeyes["cod_leyes"]][2]  - $Leyescod_leyes2) * ($peso_retalla/$peso_muestra);  //VALOR
 		else
 			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = 0;  //VALOR
-		//CALCULA LA LEY INCLUYENDO INCIDENCIA DE LA RETALLA		
+		//CALCULA LA LEY INCLUYENDO INCIDENCIA DE LA RETALLA
 		$InfRetallacod_leyes2 = isset($InfRetalla[$FilaLeyes["cod_leyes"]][2])?$InfRetalla[$FilaLeyes["cod_leyes"]][2]:0;
 		if ($CalculaInc=="S")
 			$Leyes[$FilaLeyes["cod_leyes"]][2] = $Leyescod_leyes2 + $InfRetallacod_leyes2; //LEY PRI + INC. RETALLA			

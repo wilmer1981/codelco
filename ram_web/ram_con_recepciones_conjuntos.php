@@ -1,40 +1,17 @@
 ﻿<?php 	
+$TxtConjIni = isset($_REQUEST["TxtConjIni"])?$_REQUEST["TxtConjIni"]:"";
+$TxtConjFin = isset($_REQUEST["TxtConjFin"])?$_REQUEST["TxtConjFin"]:"";
+$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+$TxtFechaIni  = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+$TxtFechaFin  = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m')."-".date('t');
+$OptLeyes     = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:""; 
 
-if(isset($_REQUEST["TxtConjIni"])){
-	$TxtConjIni = $_REQUEST["TxtConjIni"];
-}else{
-	$TxtConjIni = "";
-}
-if(isset($_REQUEST["TxtConjFin"])){
-	$TxtConjFin = $_REQUEST["TxtConjFin"];
-}else{
-	$TxtConjFin = "";
-}
-if(isset($_REQUEST["EncontroRelacion"])){
-	$EncontroRelacion = $_REQUEST["EncontroRelacion"];
-}else{
-	$EncontroRelacion = "";
-}
-
-if(isset($_REQUEST["CmbSubProducto"])){
-	$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-}else{
-	$CmbSubProducto = "";
-}
-if(isset($_REQUEST["CmbProveedor"])){
-	$CmbProveedor = $_REQUEST["CmbProveedor"];
-}else{
-	$CmbProveedor = "";
-}
-//CmbProveedor
-
-$CodigoDeSistema = 7;
+	$CodigoDeSistema = 7;
 	$CodigoDePantalla =23;
 	include("../principal/conectar_principal.php");
-	if (!isset($TxtFechaIni))
-		$TxtFechaIni=date('Y-m')."-01";
-	if (!isset($TxtFechaFin))
-		$TxtFechaFin=date('Y-m')."-".date('t');
+
 ?>
 <html>
 
