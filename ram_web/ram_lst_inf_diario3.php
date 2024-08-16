@@ -17,8 +17,8 @@ if(strlen($dia) == 1)
 if(strlen($mes) == 1)
 		$mes = '0'.$mes;
 
-$REMOTE_ADDR='101.23.5.0.1';
-//$REMOTE_ADDR  = $_SERVER['REMOTE_ADDR'];
+//$REMOTE_ADDR='101.23.5.0.1';
+$REMOTE_ADDR  = $_SERVER['REMOTE_ADDR'];
 $IpUsuario    =	str_replace('.','',$REMOTE_ADDR);
 $NombreTabla1 = "ram_web.tmp_table".$IpUsuario;
 //echo $NombreTabla1;
@@ -102,21 +102,23 @@ $Total_exist = 0;
 		echo '<td width="10%" align="right">Exist. Final</td></tr>'; 
 
 	  $Consulta = "CREATE TABLE IF NOT EXISTS ".$NombreTabla1." (";
+	  $Consulta.= " id INT NOT NULL AUTO_INCREMENT, ";
 	  $Consulta.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 	  $Consulta.= " num_conjunto varchar(6) NOT NULL DEFAULT '0' , ";
 	  $Consulta.= " conjunto_destino varchar(6) NOT NULL DEFAULT '0' , ";
 	  //$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT '0000-00-00 00:00:00' , ";
 	  $Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT CURRENT_TIMESTAMP , ";
 	  $Consulta.= " peso_humedo double NOT NULL DEFAULT '0' , ";
-	  $Consulta.= " estado_validacion varchar(15) NOT NULL DEFAULT '0', ";
-	  $Consulta.= " PRIMARY KEY (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
-	  $Consulta.= " UNIQUE KEY Ind02 (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+	  $Consulta.= " estado_validacion varchar(15) NULL DEFAULT '0', ";
+	  $Consulta.= " PRIMARY KEY (id,cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+	  $Consulta.= " UNIQUE KEY Ind02 (id,cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
 	  $Consulta.= " KEY Ind01 (num_conjunto,conjunto_destino)) AS  ";
 	  $Consulta.= " SELECT cod_existencia, num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, cod_validacion as estado_validacion";
       $Consulta = $Consulta." FROM ram_web.movimiento_proveedor WHERE cod_conjunto = 1 AND peso_humedo > 0";
       $Consulta = $Consulta." AND fecha_movimiento" ;
       $Consulta = $Consulta." BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'  AND  num_conjunto ";
-      $Consulta = $Consulta." BETWEEN '1000' AND '8999'";		
+      $Consulta = $Consulta." BETWEEN '1000' AND '8999'";
+      //echo $Consulta;
 	  $rs = mysqli_query($link, $Consulta);
      /*
 	  $Consulta = "CREATE TABLE IF NOT EXISTS ".$NombreTabla1." (key ind01(num_conjunto,conjunto_destino)) as";
@@ -386,15 +388,16 @@ $Total_exist = 0;
 		echo '<td width="10%" align="right">Exist. Final</td></tr>';	
 		
 		$Crear_Tabla = " CREATE TEMPORARY TABLE IF NOT EXISTS `tmp_table2` (";
+		$Crear_Tabla.= " id INT NOT NULL AUTO_INCREMENT, ";
 		$Crear_Tabla.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 		$Crear_Tabla.= " num_conjunto varchar(6) NOT NULL DEFAULT '0' , ";
 		$Crear_Tabla.= " conjunto_destino varchar(6) NOT NULL DEFAULT '0' , ";
 		//$Crear_Tabla.= " fecha_movimiento datetime NOT NULL DEFAULT '0000-00-00 00:00:00' , ";
 		$Crear_Tabla.= " fecha_movimiento datetime NOT NULL DEFAULT CURRENT_TIMESTAMP , ";
 		$Crear_Tabla.= " peso_humedo double NOT NULL DEFAULT '0' , ";
-		$Crear_Tabla.= " estado_validacion double NOT NULL DEFAULT '0' , ";
-		$Crear_Tabla.= " PRIMARY KEY (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
-		$Crear_Tabla.= " UNIQUE KEY Ind02 (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		$Crear_Tabla.= " estado_validacion double NULL DEFAULT '0' , ";
+		$Crear_Tabla.= " PRIMARY KEY (id,cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		$Crear_Tabla.= " UNIQUE KEY Ind02 (id,cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
 		$Crear_Tabla.= " KEY Ind01 (num_conjunto,conjunto_destino)) AS";
 		$Crear_Tabla.= " SELECT cod_existencia, num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, cod_validacion as estado_validacion";
 		$Crear_Tabla.= " FROM ram_web.movimiento_proveedor ";

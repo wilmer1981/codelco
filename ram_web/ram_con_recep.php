@@ -1,4 +1,11 @@
-<? include("../principal/conectar_rec_web.php")?>
+<?php include("../principal/conectar_rec_web.php");
+
+$cod_exist  = isset($_REQUEST["cod_exist"])?$_REQUEST["cod_exist"]:"";
+$Conjunto   = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
+$Fecha      = isset($_REQUEST["Fecha"])?$_REQUEST["Fecha"]:"";
+$Fecha_ini = isset($_REQUEST["Fecha_ini"])?$_REQUEST["Fecha_ini"]:"";
+$Fecha_ter = isset($_REQUEST["Fecha_ter"])?$_REQUEST["Fecha_ter"]:"";
+?>
 
 <html>
 <head>
@@ -23,7 +30,7 @@ function Imprimir()
   <table cellpadding="3" cellspacing="0" width="490" border="0" bordercolor="#b26c4a" class="TablaPrincipal" >
     <tr class="ColorTabla01"> 
       <td colspan="2" align="center"> 
-        <?	
+        <?php	
 
 		if($cod_exist == 2 || $cod_exist == 17)
 			  echo "Recepción Conjunto";
@@ -39,7 +46,7 @@ function Imprimir()
     <tr> 
       <td width="108" height="26">N&uacute;mero Conjunto :</td>
       <td width="328"> <strong> 
-        <?
+        <?php
 	     echo $Conjunto;
 	  ?>
         </strong> </td>
@@ -49,7 +56,7 @@ function Imprimir()
   <table cellpadding="3" cellspacing="0" width="490" border="1" bordercolor="#b26c4a" class="TablaPrincipal" >
   	<tr class="ColorTabla01">
 
-  <?
+  <?php
 	if($cod_exist == 2)
 	{
 	  echo'
@@ -104,26 +111,26 @@ function Imprimir()
 
   ?>		
 	</tr>
-  <?
+  <?php
 	if($cod_exist == 2)
 	{
 		$Consulta = "SELECT * ";
 		$Consulta.= " FROM sipa_web.recepciones ";
 		$Consulta.= " WHERE FECHA = '".$Fecha."' ";
 		$Consulta.= " AND CONJUNTO = '".$Conjunto."' ORDER BY LOTE,RECARGO ";
-		$rs = mysql_query($Consulta);
-		
-		while($row = mysql_fetch_array($rs))
+		$rs = mysqli_query($link, $Consulta);
+		$Peso_Total=0;
+		while($row = mysqli_fetch_array($rs))
 		{
 			echo'<tr>';
-			echo'<td align="center">'.$row[fecha].'</td>';
-			echo'<td align="center">'.$row[guia_despacho].'</td>';
-			echo'<td align="center">'.$row[patente].'</td>';
-			echo'<td align="center">'.$row[lote].'</td>';
-			echo'<td align="center">'.$row[recargo].'</td>';
-			echo'<td align="center">'.number_format($row[peso_neto],0,",",".").'</td>';
+			echo'<td align="center">'.$row["fecha"].'</td>';
+			echo'<td align="center">'.$row["guia_despacho"].'</td>';
+			echo'<td align="center">'.$row["patente"].'</td>';
+			echo'<td align="center">'.$row["lote"].'</td>';
+			echo'<td align="center">'.$row["recargo"].'</td>';
+			echo'<td align="center">'.number_format($row["peso_neto"],0,",",".").'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[peso_neto];
+			$Peso_Total = $Peso_Total + $row["peso_neto"];
 		}
 
 		echo '<tr class="ColorTabla02">';
@@ -144,20 +151,20 @@ function Imprimir()
 		if($cod_exist == 15)
 			$Consulta = "SELECT * FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$Fecha_ini' AND '$Fecha_ter' AND cod_existencia = 15 AND num_conjunto = $Conjunto";
 		//echo $Consulta;
-		$rs = mysql_query($Consulta);
-		
-		while($row = mysql_fetch_array($rs))
+		$rs = mysqli_query($link, $Consulta);
+		$Peso_Total=0;
+		while($row = mysqli_fetch_array($rs))
 		{
 			echo'<tr>';
-			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
-			echo'<td align="center">'.$row[cod_existencia].'</td>';
-			echo'<td align="center">'.$row[conjunto_destino].'</td>';
-			echo'<td align="center">'.$row[lugar_destino].'</td>';
-			$peso = $row[peso_humedo_movido] + $row[estado_validacion];
-			echo'<td align="center">'.number_format($row[peso_humedo_movido],0,",",".").'</td>';
-			echo'<td align="center">'.$row[estado_validacion].'</td>';
+			echo'<td align="center">'.$row["fecha_movimiento"].'</td>';
+			echo'<td align="center">'.$row["cod_existencia"].'</td>';
+			echo'<td align="center">'.$row["conjunto_destino"].'</td>';
+			echo'<td align="center">'.$row["lugar_destino"].'</td>';
+			$peso = $row["peso_humedo_movido"] + $row["estado_validacion"];
+			echo'<td align="center">'.number_format($row["peso_humedo_movido"],0,",",".").'</td>';
+			echo'<td align="center">'.$row["estado_validacion"].'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[peso_humedo_movido] + $row[estado_validacion];
+			$Peso_Total = $Peso_Total + $row["peso_humedo_movido"] + $row["estado_validacion"];
 		}
 
 
@@ -170,20 +177,20 @@ function Imprimir()
 	if($cod_exist == 11)
 	{
 		$Consulta = "SELECT * FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$Fecha_ini' AND '$Fecha_ter' AND (cod_existencia = '06' OR cod_existencia = '05') AND conjunto_destino = $Conjunto";
-		$rs = mysql_query($Consulta);
-		
-		while($row = mysql_fetch_array($rs))
+		$rs = mysqli_query($link, $Consulta);
+		$Peso_Total=0;
+		while($row = mysqli_fetch_array($rs))
 		{
 			echo'<tr>';
-			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
-			echo'<td align="center">'.$row[cod_existencia].'</td>';
-			echo'<td align="center">'.$row[num_conjunto].'</td>';
-			echo'<td align="center">'.$row[lugar_destino].'</td>';
-			$peso = $row[peso_humedo_movido] + $row[estado_validacion];
-			echo'<td align="center">'.number_format($row[peso_humedo_movido],0,",",".").'</td>';
-			echo'<td align="center">'.$row[estado_validacion].'</td>';
+			echo'<td align="center">'.$row["fecha_movimiento"].'</td>';
+			echo'<td align="center">'.$row["cod_existencia"].'</td>';
+			echo'<td align="center">'.$row["num_conjunto"].'</td>';
+			echo'<td align="center">'.$row["lugar_destino"].'</td>';
+			$peso = $row["peso_humedo_movido"] + $row["estado_validacion"];
+			echo'<td align="center">'.number_format($row["peso_humedo_movido"],0,",",".").'</td>';
+			echo'<td align="center">'.$row["estado_validacion"].'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[peso_humedo_movido] + $row[estado_validacion];
+			$Peso_Total = $Peso_Total + $row["peso_humedo_movido"] + $row["estado_validacion"];
 		}
 
 
@@ -209,18 +216,18 @@ function Imprimir()
 
 		$Consulta = "SELECT * FROM ram_web.movimiento_conjunto WHERE (( num_conjunto = $Conjunto  AND cod_existencia = 2 AND fecha_movimiento BETWEEN '$fecha_i' AND '$fecha_t')
 		OR (conjunto_destino = $Conjunto AND cod_existencia = 15 AND fecha_movimiento BETWEEN '$fecha_i' AND '$fecha_t'))";
-		$rs = mysql_query($Consulta);
-		
-		while($row = mysql_fetch_array($rs))
+		$rs = mysqli_query($link, $Consulta);
+		$Peso_Total=0;
+		while($row = mysqli_fetch_array($rs))
 		{
 			echo'<tr>';
-			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
-			echo'<td align="center">'.$row[cod_existencia].'</td>';
-			echo'<td align="center">'.$row[num_conjunto].'</td>';
-			$peso = $row[peso_humedo_movido] + $row[estado_validacion];
+			echo'<td align="center">'.$row["fecha_movimiento"].'</td>';
+			echo'<td align="center">'.$row["cod_existencia"].'</td>';
+			echo'<td align="center">'.$row["num_conjunto"].'</td>';
+			$peso = $row["peso_humedo_movido"] + $row["estado_validacion"];
 			echo'<td align="center">'.number_format($peso,0,",",".").'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[peso_humedo_movido] + $row[estado_validacion];
+			$Peso_Total = $Peso_Total + $row["peso_humedo_movido"] + $row["estado_validacion"];
 		}
 
 
@@ -240,18 +247,18 @@ function Imprimir()
 			$Consulta = "SELECT * FROM ram_web.movimiento_conjunto WHERE fecha_movimiento BETWEEN '$Fecha_ini' AND '$Fecha_ter' AND (cod_existencia = '06' OR cod_existencia = 15 OR cod_existencia = '05') AND num_conjunto = $Conjunto AND estado_validacion <> 0";
 
 //		echo $Consulta
-		$rs = mysql_query($Consulta);
-		
-		while($row = mysql_fetch_array($rs))
+		$rs = mysqli_query($link, $Consulta);
+		$Peso_Total=0;
+		while($row = mysqli_fetch_array($rs))
 		{
 			echo'<tr>';
-			echo'<td align="center">'.$row[fecha_movimiento].'</td>';
-			echo'<td align="center">'.$row[cod_existencia].'</td>';
-			echo'<td align="center">'.$row[conjunto_destino].'</td>';
-			echo'<td align="center">'.$row[lugar_destino].'</td>';
-			echo'<td align="center">'.$row[estado_validacion].'</td>';
+			echo'<td align="center">'.$row["fecha_movimiento"].'</td>';
+			echo'<td align="center">'.$row["cod_existencia"].'</td>';
+			echo'<td align="center">'.$row["conjunto_destino"].'</td>';
+			echo'<td align="center">'.$row["lugar_destino"].'</td>';
+			echo'<td align="center">'.$row["estado_validacion"].'</td>';
 			echo'</tr>';
-			$Peso_Total = $Peso_Total + $row[estado_validacion];
+			$Peso_Total = $Peso_Total + $row["estado_validacion"];
 		}
 
 
@@ -278,4 +285,4 @@ function Imprimir()
 </form>
 </body>
 </html>
-<? include("../principal/cerrar_rec_web.php") ?>
+<?php include("../principal/cerrar_rec_web.php") ?>

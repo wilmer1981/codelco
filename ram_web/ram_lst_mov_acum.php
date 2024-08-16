@@ -1,36 +1,24 @@
 <?php 
   	include("../principal/conectar_ram_web.php");
 //$fecha_ter = date("Y-m-d",mktime(7,59,59,$mes2,($dia2 + 1),$ano2))." 07:59:59";
-
-if(isset($_REQUEST["dia"])){
-	$dia = $_REQUEST["dia"];
-}else{
-	$dia = "";
-}
-if(isset($_REQUEST["mes"])){
-	$mes = $_REQUEST["mes"];
-}else{
-	$mes = date("m");
-}
+$generador  = isset($_REQUEST["generador"])?$_REQUEST["generador"]:"";
+$ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+$mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 if(isset($_REQUEST["dia2"])){
 	$dia2 = $_REQUEST["dia2"];
 }else{
-	$dia2 = "";
+	$dia2 = date("d");
 }
 if(isset($_REQUEST["mes2"])){
 	$mes2 = $_REQUEST["mes2"];
 }else{
-	$mes2 = "";
-}
-if(isset($_REQUEST["ano"])){
-	$ano = $_REQUEST["ano"];
-}else{
-	$ano = "";
+	$mes2 = date("m");
 }
 if(isset($_REQUEST["ano2"])){
 	$ano2 = $_REQUEST["ano2"];
 }else{
-	$ano2 = "";
+	$ano2 = date("Y");
 }
 
 $Total_ini_prod  = isset($_REQUEST["Total_ini_prod"])?$_REQUEST["Total_ini_prod"]:0;
@@ -112,17 +100,6 @@ $Total_exist_cir  = isset($_REQUEST["Total_exist_cir"])?$_REQUEST["Total_exist_c
 
         <?php
 
-if(strlen($dia) == 1)
-	$dia = '0'.$dia;
-
-if(strlen($mes) == 1)
-	$mes = '0'.$mes;
-
-if(strlen($dia2) == 1)
-	$dia2 = '0'.$dia2;
-
-if(strlen($mes2) == 1)
-	$mes2 = '0'.$mes2;
 
 $fecha_ini = $ano.'-'.$mes.'-'.$dia.' 08:00:00';
 
@@ -152,17 +129,19 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	echo '<td width="10%" align="center">Trasp<br>a Cjto</td>';
 	echo '<td width="10%" align="center">Exist Final</td></table><br>';			
 	
-	$Consulta = "CREATE TEMPORARY TABLE `tmp_table` (";
-	//$Consulta = "CREATE TABLE bd_temp.tmp_table (key ind01(num_conjunto,conjunto_destino)) as";
-	$Consulta.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
+	    $Consulta = "CREATE TEMPORARY TABLE `tmp_table` (";
+	    //$Consulta = "CREATE TABLE bd_temp.tmp_table (key ind01(num_conjunto,conjunto_destino)) as";
+		$Consulta.= " id INT NOT NULL AUTO_INCREMENT, ";
+	    $Consulta.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 		$Consulta.= " num_conjunto varchar(6) NOT NULL DEFAULT '0' , ";
 		$Consulta.= " conjunto_destino varchar(6) NOT NULL DEFAULT '0' , ";
 		//$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT '0000-00-00 00:00:00' , ";
 		$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT CURRENT_TIMESTAMP , ";
 		$Consulta.= " peso_humedo double NOT NULL DEFAULT '0' , ";
-		$Consulta.= " estado_validacion double NOT NULL DEFAULT '0' , ";
-		$Consulta.= " PRIMARY KEY (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
-		$Consulta.= " UNIQUE KEY Ind02 (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		//$Consulta.= " estado_validacion double NULL DEFAULT '0' , ";
+		$Consulta.= " estado_validacion varchar(15) NULL DEFAULT '0', ";
+		$Consulta.= " PRIMARY KEY (id,cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		$Consulta.= " UNIQUE KEY Ind02 (id,cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
 		$Consulta.= " KEY Ind01 (num_conjunto,conjunto_destino)) AS";
 	$Consulta.= " SELECT cod_existencia, cod_conjunto, num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, cod_validacion as estado_validacion";
     $Consulta = $Consulta." FROM ram_web.movimiento_proveedor WHERE cod_conjunto = 1 AND peso_humedo > 0";
@@ -179,7 +158,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	while ($row = mysqli_fetch_array($rs))
 	{		 		
 		$Insertar = "INSERT INTO tmp_table (cod_existencia, cod_conjunto,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo,estado_validacion)";
-		$Insertar = "$Insertar VALUES ($row[cod_existencia],$row[cod_conjunto],$row[num_conjunto],$row[conjunto_destino],'$row[fecha_movimiento]',$row[peso_humedo_movido],$row[estado_validacion])";
+		$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row["cod_conjunto"]."','".$row["num_conjunto"]."','".$row["conjunto_destino"]."','".$row["fecha_movimiento"]."','".$row["peso_humedo_movido"]."','".$row["estado_validacion"]."')";
 		mysqli_query($link, $Insertar);
 	}
 
@@ -201,11 +180,9 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  $Total_trasp = 0;
 		  $Total_benef = 0;
 		  $Total_emb = 0;
-		  $Total_exist = 0;
+		  $Total_exist = 0;   
 
-	   
-
-		  $Consulta = "SELECT cod_subproducto,descripcion FROM proyecto_modernizacion.subproducto WHERE prod_ram = 1 AND cod_subproducto = ".$row0["cod_producto"];
+		  $Consulta = "SELECT cod_subproducto,descripcion FROM proyecto_modernizacion.subproducto WHERE prod_ram = 1 AND cod_subproducto = '".$row0["cod_producto"]."' ";
 		  $rs_p = mysqli_query($link, $Consulta);
 
 	         if($row_p = mysqli_fetch_array($rs_p))
@@ -231,10 +208,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 			  echo '<tr class="ColorTabla01">'; 
 	    	  	  echo '<td>'.$row_p["cod_subproducto"].' - '.$row_p["descripcion"].'</td>';
 		  	  echo '</tr></table>'; 
-		  }
-
-	
-	
+		  }	
 		  	
 		  //Consulta los Conjuntos que participan en los Mov.
 		  $Consulta  = "SELECT distinct t1.num_conjunto as num_conjunto, t2.cod_subproducto as cod_producto";
@@ -253,14 +227,14 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  	echo '<tr>';
 
 			//Descripcion
-			$Consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = 1 AND num_conjunto = $row[num_conjunto] AND (estado != 'f' AND estado != 'c')"; 
+			$Consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = 1 AND num_conjunto = '".$row["num_conjunto"]."' AND (estado != 'f' AND estado != 'c')"; 
 			$rs1 = mysqli_query($link, $Consulta);
 			if($row1 = mysqli_fetch_array($rs1))
 			{
             	echo '<td width="20%">'.$row["num_conjunto"].' '.substr($row1["descripcion"],0,22).'</td>';
 				
 				//Existencia Ini		
-				$Consulta ="SELECT sum(peso_humedo) AS peso_ini from tmp_table WHERE num_conjunto = $row[num_conjunto] AND cod_existencia = 13 AND left(FECHA_MOVIMIENTO,10) = '".$fecha_i."'";
+				$Consulta ="SELECT sum(peso_humedo) AS peso_ini from tmp_table WHERE num_conjunto = '".$row["num_conjunto"]."' AND cod_existencia = 13 AND left(FECHA_MOVIMIENTO,10) = '".$fecha_i."'";
 				$rs2 = mysqli_query($link, $Consulta);
 				if($row2 = mysqli_fetch_array($rs2))
 				{
@@ -270,7 +244,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				}
 
 				//Recepcion
-				$Consulta ="SELECT sum(peso_humedo) AS peso_recep from tmp_table WHERE num_conjunto = $row[num_conjunto] AND cod_existencia = 2 AND left(FECHA_MOVIMIENTO,10) BETWEEN '".$fecha_i."' AND '".$fecha_t."'";
+				$Consulta ="SELECT sum(peso_humedo) AS peso_recep from tmp_table WHERE num_conjunto = '".$row["num_conjunto"]."' AND cod_existencia = 2 AND left(FECHA_MOVIMIENTO,10) BETWEEN '".$fecha_i."' AND '".$fecha_t."'";
 				$rs3 = mysqli_query($link, $Consulta);
 				if($row3 = mysqli_fetch_array($rs3))
 				{		
@@ -290,7 +264,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 
 
                 //Traspaso 
-				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_trasp FROM tmp_table WHERE cod_existencia = 6 AND num_conjunto = $row[num_conjunto] AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_trasp FROM tmp_table WHERE cod_existencia = 6 AND num_conjunto = '".$row["num_conjunto"]."' AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
@@ -308,7 +282,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 					echo '<td align="right" width="10%">0,000</td>';
 
                 //Embarque 
-				$Consulta ="SELECT sum(peso_humedo) AS peso_emb from tmp_table where num_conjunto = $row[num_conjunto] AND cod_existencia = 5 AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+				$Consulta ="SELECT sum(peso_humedo) AS peso_emb from tmp_table where num_conjunto = '".$row["num_conjunto"]."' AND cod_existencia = 5 AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 				$rs3 = mysqli_query($link, $Consulta);
 				if($row3 = mysqli_fetch_array($rs3))
 				{		
@@ -325,7 +299,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 					echo '<td align="right" width="10%">0,000</td>';
 
 				//Existencia Final
-				$Consulta ="SELECT sum(peso_humedo) AS peso_final FROM tmp_table WHERE num_conjunto = $row[num_conjunto]  AND cod_existencia = 1 AND left(FECHA_MOVIMIENTO,10) = '".$fecha_t."'";
+				$Consulta ="SELECT sum(peso_humedo) AS peso_final FROM tmp_table WHERE num_conjunto = '".$row["num_conjunto"]."'  AND cod_existencia = 1 AND left(FECHA_MOVIMIENTO,10) = '".$fecha_t."'";
 				$rs6 = mysqli_query($link, $Consulta);
 
 				if($row6 = mysqli_fetch_array($rs6))
@@ -400,15 +374,17 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	echo '<td width="10%" align="center">Exist Final</td></table><br>';			
 	
 	$Consulta = "CREATE  TEMPORARY  TABLE  `tmp_table2` (";
+	$Consulta.= " id INT NOT NULL AUTO_INCREMENT, ";
 	$Consulta.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 		$Consulta.= " num_conjunto varchar(6) NOT NULL DEFAULT '0' , ";
 		$Consulta.= " conjunto_destino varchar(6) NOT NULL DEFAULT '0' , ";
 		//$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT '0000-00-00 00:00:00' , ";
 		$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT CURRENT_TIMESTAMP , ";
 		$Consulta.= " peso_humedo double NOT NULL DEFAULT '0' , ";
-		$Consulta.= " estado_validacion double NOT NULL DEFAULT '0' , ";
-		$Consulta.= " PRIMARY KEY (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
-		$Consulta.= " UNIQUE KEY Ind02 (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		//$Consulta.= " estado_validacion double NULL DEFAULT '0' , ";
+		$Consulta.= " estado_validacion varchar(15) NULL DEFAULT '0', ";
+		$Consulta.= " PRIMARY KEY (id,cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
+		$Consulta.= " UNIQUE KEY Ind02 (id,cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
 		$Consulta.= " KEY Ind01 (num_conjunto,conjunto_destino)) AS";
 	
 	$Consulta.= " SELECT cod_existencia, cod_conjunto, num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, cod_validacion as estado_validacion";
@@ -425,7 +401,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	while ($row = mysqli_fetch_array($rs))
 	{		 		
 		$Insertar = "INSERT INTO tmp_table2 (cod_existencia, cod_conjunto,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo,estado_validacion)";
-		$Insertar = "$Insertar VALUES ($row[cod_existencia],$row[cod_conjunto],$row[num_conjunto],$row[conjunto_destino],'$row[fecha_movimiento]',$row[peso_humedo_movido],$row[estado_validacion])";
+		$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row["cod_conjunto"]."','".$row["num_conjunto"]."','".$row["conjunto_destino"]."','".$row["fecha_movimiento"]."','".$row["peso_humedo_movido"]."','".$row["estado_validacion"]."')";
 		mysqli_query($link, $Insertar);
 	}
 
@@ -451,7 +427,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  $Total_trasp_a = 0;
 		  $Total_exist = 0;
 
-		  $Consulta = "SELECT ap_subproducto,descripcion FROM proyecto_modernizacion.subproducto WHERE cod_producto = 42 AND cod_subproducto = ".$row0["cod_producto"];
+		  $Consulta = "SELECT ap_subproducto,descripcion FROM proyecto_modernizacion.subproducto WHERE cod_producto = 42 AND cod_subproducto = '".$row0["cod_producto"]."' ";
 		  $rs_p = mysqli_query($link, $Consulta); 
 
 		  if($row_p = mysqli_fetch_array($rs_p))
@@ -468,7 +444,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  $Consulta.= " INNER JOIN ram_web.conjunto_ram as t2";
 		  $Consulta.= " on t1.cod_conjunto = t2.cod_conjunto AND t1.num_conjunto = t2.num_conjunto";
 		  $Consulta.= " WHERE t1.fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'"; 
-		  $Consulta.= " AND t1.cod_conjunto = 3 AND (t2.estado != 'f' AND t2.estado != 'c') AND t2.cod_subproducto = ".$row0["cod_producto"];  
+		  $Consulta.= " AND t1.cod_conjunto = 3 AND (t2.estado != 'f' AND t2.estado != 'c') AND t2.cod_subproducto = '".$row0["cod_producto"]."' ";  
 		  $Consulta.= " order by t2.cod_subproducto asc, t1.num_conjunto asc";
 		  //echo $Consulta."<br>";
 		  $rs = mysqli_query($link, $Consulta);
@@ -479,7 +455,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  	echo '<tr>';
 
 			//Descripcion
-			$Consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = 3 AND num_conjunto = $row[num_conjunto] AND (estado != 'f' AND estado != 'c')"; 
+			$Consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = 3 AND num_conjunto = '".$row["num_conjunto"]."' AND (estado != 'f' AND estado != 'c')"; 
 			$rs1 = mysqli_query($link, $Consulta);
 			if($row1 = mysqli_fetch_array($rs1))
 			{
@@ -487,7 +463,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				
 
 				//Existencia Ini		
-				$Consulta ="SELECT sum(peso_humedo) AS peso_ini from tmp_table2 WHERE num_conjunto = $row[num_conjunto] AND cod_existencia = 13 AND FECHA_MOVIMIENTO = '".$fecha_i."' ";
+				$Consulta ="SELECT sum(peso_humedo) AS peso_ini from tmp_table2 WHERE num_conjunto = '".$row["num_conjunto"]."' AND cod_existencia = 13 AND FECHA_MOVIMIENTO = '".$fecha_i."' ";
 				//echo $Consulta."<br>";
 				$rs2 = mysqli_query($link, $Consulta);
 				if($row2 = mysqli_fetch_array($rs2))
@@ -498,7 +474,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				}
 
 				//Recepcion
-				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_recep from tmp_table2 WHERE num_conjunto = $row[num_conjunto] AND cod_existencia = 2 AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_recep from tmp_table2 WHERE num_conjunto = '".$row["num_conjunto"]."' AND cod_existencia = 2 AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 				$rs3 = mysqli_query($link, $Consulta);
 				if($row3 = mysqli_fetch_array($rs3))
 				{		
@@ -514,7 +490,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 
 
                 //Traspaso desde Cjto
-				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_trasp_d FROM tmp_table2 WHERE cod_existencia = 15 AND conjunto_destino = $row[num_conjunto] AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_trasp_d FROM tmp_table2 WHERE cod_existencia = 15 AND conjunto_destino = '".$row["num_conjunto"]."' AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 				$rs5 = mysqli_query($link, $Consulta);
 				//echo $Consulta;				
 				if($row5 = mysqli_fetch_array($rs5))
@@ -530,7 +506,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				}
 
                 //Traspaso 
-				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_trasp FROM tmp_table2 WHERE cod_existencia = 6 AND num_conjunto = $row[num_conjunto] AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_trasp FROM tmp_table2 WHERE cod_existencia = 6 AND num_conjunto = '".$row["num_conjunto"]."' AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
@@ -547,7 +523,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 					echo '<td align="right" width="10%">0,000</td>';
 
                 //Embarque 
-				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_emb from tmp_table2 where num_conjunto = $row[num_conjunto] AND cod_existencia = 5 AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_emb from tmp_table2 where num_conjunto = '".$row["num_conjunto"]."' AND cod_existencia = 5 AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 				$rs3 = mysqli_query($link, $Consulta);
 				if($row3 = mysqli_fetch_array($rs3))
 				{		
@@ -561,7 +537,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				}
 
                 //Traspaso a Cjto
-				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_trasp_a FROM tmp_table2 WHERE cod_existencia = 15 AND num_conjunto = $row[num_conjunto] AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+				$Consulta ="SELECT sum(peso_humedo + estado_validacion) AS peso_trasp_a FROM tmp_table2 WHERE cod_existencia = 15 AND num_conjunto = '".$row["num_conjunto"]."' AND FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 				$rs5 = mysqli_query($link, $Consulta);
 				if($row5 = mysqli_fetch_array($rs5))
 				{
@@ -585,7 +561,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 				}*/
 
 				//Existencia Final
-				$Consulta ="SELECT sum(peso_humedo) AS peso_final FROM tmp_table2 WHERE num_conjunto = $row[num_conjunto]  AND cod_existencia = 1 AND left(FECHA_MOVIMIENTO,10) = '".$fecha_t."'";
+				$Consulta ="SELECT sum(peso_humedo) AS peso_final FROM tmp_table2 WHERE num_conjunto = '".$row["num_conjunto"]."'  AND cod_existencia = 1 AND left(FECHA_MOVIMIENTO,10) = '".$fecha_t."'";
 				$rs6 = mysqli_query($link, $Consulta);
 				//echo $Consulta;
 				if($row6 = mysqli_fetch_array($rs6))
