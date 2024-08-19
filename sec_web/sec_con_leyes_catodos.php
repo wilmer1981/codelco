@@ -16,7 +16,7 @@
 		$DiaFin = "0".$DiaFin;
 	if ($MesFin < 10)
 		$MesFin = "0".$MesFin;
- 	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
+ 	$FechaInicio  = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 ?>
 <html>
@@ -289,7 +289,7 @@ function Proceso(opt)
 			reset($Arreglo);
 			foreach($Arreglo as $Clave => $Valor)
 			{
-				echo "<td width='50' align='right'>".$Arreglo[$Clave][2]." ".number_format($Arreglo[$Clave][1],1,",",".")."</td>\n";				
+				echo "<td width='50' align='right'>".$Arreglo[$Clave][2]." ".number_format((float)$Arreglo[$Clave][1],1,",",".")."</td>\n";				
 			}
 			echo "</tr>\n";
 		}	
