@@ -57,7 +57,7 @@
   <br>
   <table width="847" border="1" align="center" cellpadding="0" cellspacing="0">
     <tr> 
-      <td width='54' align="center">Prog.N�</td>
+      <td width='54' align="center">Prog.N&deg;</td>
       <td width='57' align="center">I.E</td>
       <td width='83' align="center">PTO. EMB.</td>
       <td width='45' align="center">PTO. DEST.</td>
@@ -67,7 +67,7 @@
       <td width='79' align="center">Peso Prog.</td>
       <td width='78' align="center">Peso Prep.</td>
       <td width='64' align="center">Diferencia</td>
-      <td width='78' align="center">N� Lote</td>
+      <td width='78' align="center">N&deg; Lote</td>
       <td width="41" align="center">Est.</td>
     </tr>    
     <?php			
@@ -125,6 +125,7 @@
 			$TotalPesoProgramado = 0;
 			$TotalPesoPreparado = 0;
 			$TotalDiferencia = 0;
+			$Cont2=0;
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				$Consulta="SELECT t1.cod_bulto,t1.num_bulto,sum(t2.peso_paquetes) as peso_preparado from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 on ";
@@ -132,6 +133,9 @@
 				$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." and t1.cod_estado='a' group by t1.corr_enm";
 				$Respuesta2=mysqli_query($link, $Consulta);
 				$Fila2=mysqli_fetch_array($Respuesta2);
+				$peso_preparado = isset($Fila2["peso_preparado"])?$Fila2["peso_preparado"]:0;
+				$cod_bulto = isset($Fila2["cod_bulto"])?$Fila2["cod_bulto"]:"";
+				$num_bulto = isset($Fila2["num_bulto"])?$Fila2["num_bulto"]:"";
 				$MostrarBoton=true;
 				echo "<tr>"; 
 				$Cont2++;
@@ -153,13 +157,13 @@
 				echo "<td width='100' align='center'>".substr($Fila["fecha_programacion"],8,2)."/".substr($Fila["fecha_programacion"],5,2)."/".substr($Fila["fecha_programacion"],0,4)."</td>";
 				echo "<td width='100' align='center'>".substr($Fila["fecha_disponible"],8,2)."/".substr($Fila["fecha_disponible"],5,2)."/".substr($Fila["fecha_disponible"],0,4)."</td>";
 				echo "<td width='80' align='right'>".number_format(($Fila["cantidad_programada"]*1000),0,",",".")."</td>";
-				echo "<td width='100' align='right'>".number_format($Fila2["peso_preparado"],0,",",".")."&nbsp;</td>";
-				echo "<td width='100' align='right'>".number_format(abs($Fila["cantidad_programada"]*1000-$Fila2["peso_preparado"]),0,",",".")."&nbsp;</td>";
+				echo "<td width='100' align='right'>".number_format($peso_preparado,0,",",".")."&nbsp;</td>";
+				echo "<td width='100' align='right'>".number_format(abs($Fila["cantidad_programada"]*1000-$peso_preparado),0,",",".")."&nbsp;</td>";
 				$TotalPesoProgramado = $TotalPesoProgramado + ($Fila["cantidad_programada"]*1000);
-				$TotalPesoPreparado = $TotalPesoPreparado + $Fila2["peso_preparado"];
-				$TotalDiferencia = $TotalDiferencia + abs($Fila["cantidad_programada"]*1000-$Fila2["peso_preparado"]);
-				if ($Fila2["cod_bulto"] != "")
-					echo "<td width='80' align='right'>".$Fila2["cod_bulto"]."-".$Fila2["num_bulto"]."</td>";
+				$TotalPesoPreparado = $TotalPesoPreparado + $peso_preparado;
+				$TotalDiferencia = $TotalDiferencia + abs($Fila["cantidad_programada"]*1000-$peso_preparado);
+				if ($cod_bulto != "")
+					echo "<td width='80' align='right'>".$cod_bulto."-".$num_bulto."</td>";
 				else
 					echo "<td width='80' align='right'>&nbsp;</td>";
 				echo "<td width='40' align='center'>";
