@@ -1,7 +1,7 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 37;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 
 	$CmbDias = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date('d');
@@ -332,7 +332,7 @@ function Salir()
 			echo "<td width='90' align='center'>&nbsp;Fecha Traspaso</td>";
 			echo "<td width='60' align='center'>Peso</td>";
 			echo "<td width='60' align='center'>Paquetes</td>";
-			echo "<td width='60' align='center'>N� Lote</td>";
+			echo "<td width='60' align='center'>N&deg; Lote</td>";
 			/*poly 29.04.2004*/
 			echo "<td width='60' align='center'>Destino</td>";
 		  ?>	
@@ -384,6 +384,7 @@ function Salir()
 				$Consulta=$Consulta." and t1.cod_producto='".$Fila["cod_producto"]."' and t1.cod_subproducto='".$Fila["cod_subproducto"]."' and t1.sw='".$Fila["sw"]."'";
 				
 				$Resultado2=mysqli_query($link, $Consulta);
+				$Cont2=0;
 				while($Fila2=mysqli_fetch_array($Resultado2))  
 				{
 					$EstaEnRaf='N';

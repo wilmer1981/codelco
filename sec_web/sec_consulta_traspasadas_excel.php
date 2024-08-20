@@ -46,7 +46,7 @@
 			echo "<td width='90' align='center'>Fecha Traspaso</td>";
 			echo "<td width='60' align='right'>Peso</td>";
 			echo "<td width='60' align='center'>Paquetes</td>";
-			echo "<td width='60' align='center'>N� Lote</td>";
+			echo "<td width='60' align='center'>N&deg; Lote</td>";
 			/*poly 30.04.2004*/
 			echo "<td width='60' align='center'>Destino</td>";
 		  ?>	
@@ -91,6 +91,7 @@
 				$Consulta=$Consulta." where t1.fecha_traspaso between  '".$FechaTraspaso."' and '".$FechaTraspasoT."'";
 				$Consulta=$Consulta." and t1.cod_producto='".$Fila["cod_producto"]."' and t1.cod_subproducto='".$Fila["cod_subproducto"]."' and t1.sw='".$Fila["sw"]."'";
 				$Resultado2=mysqli_query($link, $Consulta);
+				$Cont2=0;
 				while($Fila2=mysqli_fetch_array($Resultado2))
 				{
 					echo "<tr>";
