@@ -667,7 +667,7 @@ function Recarga()
 				echo "<tr> \n";
 				echo "<td>LEYES</td>\n";
 				echo "<td align='center'>\n";
-				if (($FinoLeyes == "L") || (!isset($FinoLeyes)))
+				if (($FinoLeyes == "L") || ($FinoLeyes==""))
 					echo "<input type='radio' checked name='FinoLeyes' value='L'></td>\n";
 				else
 					echo "<input type='radio' name='FinoLeyes' value='L'></td>\n";
