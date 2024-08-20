@@ -1,7 +1,7 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 30;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 
 	$TipoIE = isset($_REQUEST["TipoIE"])?$_REQUEST["TipoIE"]:"Normal";
@@ -169,7 +169,7 @@ function Salir()
 		  <?php
 			if (($TipoIE=='Normal')||($TipoIE=='Completas'))
 			{
-				echo "<td width='20' align='center'>N�</td>";
+				echo "<td width='20' align='center'>N&deg;</td>";
 				echo "<td width='45' align='center'>I.E</td>";
 				echo "<td width='115' align='center'>SubProducto</td>";
 				echo "<td width='175' align='center'>Nave/Cliente</td>";
@@ -177,7 +177,7 @@ function Salir()
 				echo "<td width='60' align='right'>Peso Prog</td>";
 				echo "<td width='60' align='center'>Peso Pre</td>";
 				echo "<td width='50' align='center'>Dif.</td>";
-				echo "<td width='60' align='center'>N� Lote</td>";
+				echo "<td width='60' align='center'>N&deg; Lote</td>";
 				//echo "<td width='30' align='center'>Est.</td>";
 			}
 			else
@@ -188,7 +188,7 @@ function Salir()
 				echo "<td width='60' align='right'>Peso Prog.</td>";
 				echo "<td width='70' align='center'>Peso Prep.</td>";
 				echo "<td width='70' align='center'>Diferencia</td>";
-				echo "<td width='60' align='center'>N� Lote</td>";
+				echo "<td width='60' align='center'>N&deg; Lote</td>";
 			}	
 		  ?>	
           </tr>
@@ -260,7 +260,7 @@ function Salir()
 					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cantidad_programada bigint(8),fecha_disponible date,";
 					$CrearTmp =$CrearTmp."cod_producto varchar(10),producto varchar(30),";
-					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar(30))";
+					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar(100))";
 					mysqli_query($link, $CrearTmp);
 					//CONSULTA LAS VIRTUALES
 					$Consulta="SELECT t1.corr_virtual,t1.peso_programado,t1.fecha_embarque,t1.cod_producto,t1.cod_subproducto,t6.descripcion as nombre_producto,t2.descripcion as nombre_subproducto ";
