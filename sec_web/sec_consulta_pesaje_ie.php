@@ -1,7 +1,7 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 30;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	
 	$TipoIE = isset($_REQUEST["TipoIE"])?$_REQUEST["TipoIE"]:"Normal";
@@ -178,7 +178,7 @@ function Salir()
 		  <?php
 			if (($TipoIE=='Normal')||($TipoIE=='Completas'))
 			{
-				echo "<td width='20' align='center'>N�</td>";
+				echo "<td width='20' align='center'>N&deg;</td>";
 				echo "<td width='45' align='center'>I.E</td>";
 				echo "<td width='115' align='center'>SubProducto</td>";
 				echo "<td width='175' align='center'>Nave/Cliente</td>";
@@ -186,7 +186,7 @@ function Salir()
 				echo "<td width='60' align='right'>Peso Prog</td>";
 				echo "<td width='60' align='center'>Peso Pre</td>";
 				echo "<td width='50' align='center'>Dif.</td>";
-				echo "<td width='60' align='center'>N� Lote</td>";
+				echo "<td width='60' align='center'>N&deg; Lote</td>";
 				//echo "<td width='30' align='center'>Est.</td>";
 			}
 			else
@@ -197,7 +197,7 @@ function Salir()
 				echo "<td width='60' align='right'>Peso Prog.</td>";
 				echo "<td width='70' align='center'>Peso Prep.</td>";
 				echo "<td width='70' align='center'>Diferencia</td>";
-				echo "<td width='60' align='center'>N� Lote</td>";
+				echo "<td width='60' align='center'>N&deg; Lote</td>";
 			}	
 		  ?>	
           </tr>
@@ -209,8 +209,8 @@ function Salir()
 				case "Normal":
 					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cliente_nave varchar(30),fecha date,fecha_programacion date,";
-					$CrearTmp =$CrearTmp."cantidad_programada bigint(8),num_prog_loteo varchar(3),cod_producto varchar(10),producto varchar(30),";
-					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar (30),pto_destino varchar (30),pto_emb varchar (30),";
+					$CrearTmp =$CrearTmp."cantidad_programada bigint(8),num_prog_loteo varchar(3),cod_producto varchar(10),producto varchar(100),";
+					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar (100),pto_destino varchar (30),pto_emb varchar (30),";
 					$CrearTmp =$CrearTmp."tipo char(1),cod_contrato varchar(10),estado char(1),estado2 char(1),fecha_disponible date,tipoie char(1),descripcion varchar(255))";
 					mysqli_query($link, $CrearTmp);
 					//CONSULTA TABLA PROGRAMA ENAMI
@@ -264,9 +264,9 @@ function Salir()
 					break;
 				case "Virtual":
 					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
-					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cantidad_programada bigint(8),fecha_disponible date,";
-					$CrearTmp =$CrearTmp."cod_producto varchar(10),producto varchar(30),";
-					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar(30))";
+					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cantidad_programada bigint(8),producto varchar(100),";
+					$CrearTmp =$CrearTmp."cod_producto varchar(10),subproducto varchar(100),";
+					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),fecha_disponible date)";
 					mysqli_query($link, $CrearTmp);
 					//CONSULTA LAS VIRTUALES
 					$Consulta="SELECT t1.corr_virtual,t1.peso_programado,t1.fecha_embarque,t1.cod_producto,t1.cod_subproducto,t6.descripcion as nombre_producto,t2.descripcion as nombre_subproducto ";
@@ -274,6 +274,8 @@ function Salir()
 					$Consulta=$Consulta." left join proyecto_modernizacion.productos t6 on t1.cod_producto=t6.cod_producto ";
 					$Consulta=$Consulta." left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 					$Resultado=mysqli_query($link, $Consulta);
+					$Fila=mysqli_fetch_array($Resultado);
+					//var_dump($Fila);
 					while ($Fila=mysqli_fetch_array($Resultado))
 					{
 						$Insertar="INSERT INTO sec_web.tmpprograma (corr_ie,cantidad_programada,producto,cod_producto,subproducto,cod_subproducto,fecha_disponible) values(";
@@ -346,7 +348,7 @@ function Salir()
 							echo "<tr>";
 						//}	 
 					//}
-					$Fila2=null; //WSO
+				    $Fila2=array(); //WSO
 					if ($Fila["estado2"]=='R')
 					{
 						$Consulta="SELECT t1.cod_bulto,t1.num_bulto,t1.cod_marca,sum(t2.peso_paquetes) as peso_preparado from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 on ";

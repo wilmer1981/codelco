@@ -1,24 +1,23 @@
 <?php 	
-	    ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
- 		header("Expires: 0");
-  		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_sec_web.php");
 
 	$TipoIE = isset($_REQUEST["TipoIE"])?$_REQUEST["TipoIE"]:"Normal";
@@ -39,7 +38,7 @@
 		  <?php
 			if (($TipoIE=='Normal')||($TipoIE=='Completas'))
 			{
-				echo "<td width='20' align='center'>N�</td>";
+				echo "<td width='20' align='center'>N&deg;</td>";
 				echo "<td width='45' align='center'>I.E</td>";
 				echo "<td width='115' align='center'>SubProducto</td>";
 				echo "<td width='175' align='center'>Nave/Cliente</td>";
@@ -47,7 +46,7 @@
 				echo "<td width='60' align='right'>Peso Prog</td>";
 				echo "<td width='60' align='center'>Peso Pre</td>";
 				echo "<td width='50' align='center'>Dif.</td>";
-				echo "<td width='60' align='center'>N� Lote</td>";
+				echo "<td width='60' align='center'>N&deg; Lote</td>";
 			}
 			else
 			{
@@ -57,7 +56,7 @@
 				echo "<td width='60' align='right'>Peso Prog.</td>";
 				echo "<td width='70' align='center'>Peso Prep.</td>";
 				echo "<td width='70' align='center'>Diferencia</td>";
-				echo "<td width='60' align='center'>N� Lote</td>";
+				echo "<td width='60' align='center'>N&deg; Lote</td>";
 			}	
 		  ?>	
           </tr>
@@ -69,8 +68,8 @@
 				case "Normal":
 					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cliente_nave varchar(30),fecha date,fecha_programacion date,";
-					$CrearTmp =$CrearTmp."cantidad_programada bigint(8),num_prog_loteo varchar(3),cod_producto varchar(10),producto varchar(30),";
-					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar (30),pto_destino varchar (30),pto_emb varchar (30),";
+					$CrearTmp =$CrearTmp."cantidad_programada bigint(8),num_prog_loteo varchar(3),cod_producto varchar(10),producto varchar(100),";
+					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar (100),pto_destino varchar (30),pto_emb varchar (30),";
 					$CrearTmp =$CrearTmp."tipo char(1),cod_contrato varchar(10),estado char(1),estado2 char(1),fecha_disponible date,tipoie char(1),descripcion varchar(255))";
 					mysqli_query($link, $CrearTmp);
 					//CONSULTA TABLA PROGRAMA ENAMI
@@ -116,8 +115,8 @@
 				case "Virtual":
 					$CrearTmp ="create temporary table if not exists sec_web.tmpprograma "; 
 					$CrearTmp =$CrearTmp."(corr_ie bigint(8),cantidad_programada bigint(8),fecha_disponible date,";
-					$CrearTmp =$CrearTmp."cod_producto varchar(10),producto varchar(30),";
-					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar(30))";
+					$CrearTmp =$CrearTmp."cod_producto varchar(10),producto varchar(100),";
+					$CrearTmp =$CrearTmp."cod_subproducto varchar(10),subproducto varchar(100))";
 					mysqli_query($link, $CrearTmp);
 					//CONSULTA LAS VIRTUALES
 					$Consulta="SELECT t1.corr_virtual,t1.peso_programado,t1.fecha_embarque,t1.cod_producto,t1.cod_subproducto,t6.descripcion as nombre_producto,t2.descripcion as nombre_subproducto ";
@@ -199,6 +198,7 @@
 							echo "<tr>";
 						//}	 
 					//}
+					$Fila2=array(); //WSO
 					if ($Fila["estado2"]=='R')
 					{
 						$Consulta="SELECT t1.cod_bulto,t1.num_bulto,t1.cod_marca,sum(t2.peso_paquetes) as peso_preparado from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 on ";
@@ -209,6 +209,8 @@
 					}	
 					//$MostrarBoton=true;
 					$Cont2++;
+					$peso_preparado = isset($Fila2["peso_preparado"])?$Fila2["peso_preparado"]:0;
+					$cod_bulto      = isset($Fila2["cod_bulto"])?$Fila2["cod_bulto"]:"";
 					//echo "<td width='10' align='center'><input type='radio' name='OptSeleccionar' value='".$Fila["corr_ie"]."~~".$Fila["producto"]."~~".$Fila["subproducto"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."~~".($Fila["cantidad_programada"]*1000)."~~".$Fila[tipoie]."~~".$Fila2["peso_preparado"]."~~".$Fila2["cod_bulto"]."~~".$Fila2["num_bulto"]."~~".$Fila2["cod_marca"]."'></td>";
 					echo "<td width='40' align='center'>".$Fila["num_prog_loteo"]."</td>";
 					echo "<td>".$Fila["corr_ie"]."</td>";
@@ -216,9 +218,9 @@
 					echo "<td width='160'>".$Fila["cliente_nave"]."&nbsp;</td>";
 					echo "<td width='100' align='center'>".$Fila["fecha_disponible"]."</td>";
 					echo "<td width='60' align='right'>".($Fila["cantidad_programada"]*1000)."</td>";
-					echo "<td width='60' align='right'>".$Fila2["peso_preparado"]."&nbsp;</td>";
-					echo "<td width='60' align='right'>".abs($Fila["cantidad_programada"]*1000-$Fila2["peso_preparado"])."&nbsp;</td>";
-					if ($Fila2["cod_bulto"]!="")
+					echo "<td width='60' align='right'>".$peso_preparado."&nbsp;</td>";
+					echo "<td width='60' align='right'>".abs($Fila["cantidad_programada"]*1000-$peso_preparado)."&nbsp;</td>";
+					if ($cod_bulto!="")
 					{
 						echo "<td width='60' align='right'><a href=\"JavaScript:MostrarPaquetes('".$Fila2["cod_bulto"]."','".$Fila2["num_bulto"]."','".$Fila["corr_ie"]."')\">\n";
 						echo $Fila2["cod_bulto"]."-".$Fila2["num_bulto"]."</a></td>\n";
@@ -246,22 +248,14 @@
 						echo "<td width='260'>".$Fila["subproducto"]."&nbsp;</td>";
 						echo "<td width='100' align='center'>".$Fila["fecha_disponible"]."</td>";
 						echo "<td width='80' align='right'>".$Fila["cantidad_programada"]."</td>";
-						if(!is_null($Fila2) && is_array($Fila2) && isset($Fila2["peso_preparado"])){
-							$pesoprepa = $Fila2["peso_preparado"];
-						}else{
-							$pesoprepa = 0;
-						}
+						$peso_preparado = isset($Fila2["peso_preparado"])?$Fila2["peso_preparado"]:0;
+					    $cod_bulto      = isset($Fila2["cod_bulto"])?$Fila2["cod_bulto"]:"";
 						//echo "<td width='100' align='right'>".$Fila2["peso_preparado"]."&nbsp;</td>";
 						//echo "<td width='100' align='right'>".abs($Fila["cantidad_programada"]-$Fila2["peso_preparado"])."&nbsp;</td>";
-						echo "<td width='100' align='right'>".$pesoprepa."&nbsp;</td>";
-						echo "<td width='100' align='right'>".abs($Fila["cantidad_programada"]-$pesoprepa)."&nbsp;</td>";
-						if(!is_null($Fila2) && is_array($Fila2) && isset($Fila2["cod_bulto"])){
-							$codbulto = $Fila2["cod_bulto"];
-						}else{
-							$codbulto = "";
-						}
+						echo "<td width='100' align='right'>".$peso_preparado."&nbsp;</td>";
+						echo "<td width='100' align='right'>".abs($Fila["cantidad_programada"]-$peso_preparado)."&nbsp;</td>";
 						//if ($Fila2["cod_bulto"]!="")
-						if ($codbulto!="")
+						if ($cod_bulto!="")
 						{
 							echo "<td width='80' align='right'><a href=\"JavaScript:MostrarPaquetes('".$Fila2["cod_bulto"]."','".$Fila2["num_bulto"]."','".$Fila["corr_ie"]."')\">\n";
 							echo $Fila2["cod_bulto"]."-".$Fila2["num_bulto"]."</a></td>\n";
