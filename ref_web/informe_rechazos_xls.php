@@ -104,6 +104,18 @@
 							 $Consulta.=" from cal_web.rechazo_catodos as t1 where fecha= '".$Fila_fecha["fecha"]."' group by grupo order by fecha,grupo,turno";
 							 $Respuesta2 = mysqli_query($link, $Consulta);
 					         $pasada='S';
+							$total_nd=0;
+							$total_ne=0;
+							$total_ra=0;
+							$total_cl=0;
+							$total_cs=0;
+							$total_qu=0;
+							$total_re=0;
+							$total_ai=0;
+							$total_ot=0;
+							$total_total_rechazos= 0;
+							$total_menor         = 0;
+							$total_recuperados   =0;
 					         while ($Fila2 = mysqli_fetch_array($Respuesta2))
 							  {
 									 echo "<tr>\n";

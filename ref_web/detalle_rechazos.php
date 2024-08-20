@@ -1,12 +1,9 @@
 <?php include("../principal/conectar_cal_web.php");
 
-$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
-$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
-$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
-
 $fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-$turno  = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
 $grupo  = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+$turno  = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+
 
 	/*	$fecha = $ano.'-'.$mes.'-'.$dia;
 	
@@ -14,13 +11,16 @@ $grupo  = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
 	{
 		$cuba = $cuba_aux;
 		$Eliminar = "DELETE FROM cal_web.rechazo_catodos WHERE fecha = '$Fecha' AND turno = '$turno' AND grupo = $grupo AND cuba = $cuba";
-		mysqli_query($link, $Eliminar);
+		mysqli_query($Eliminar);
 
 		$ano = substr($Fecha,0,4);
 		$mes = substr($Fecha,5,2);
 		$dia = substr($Fecha,8,2);
 	
 	}*/
+	$ano = substr($fecha,0,4);
+	$mes = substr($fecha,5,2);
+	$dia = substr($fecha,8,2);
 		
  ?>
 <html>
@@ -131,13 +131,15 @@ function Excel()
 	$Fechainiturno =$FechaInicio1;
 	$Fechafturno = date("Y-m-d", mktime(0,0,0,intval(substr($Fechainiturno, 5, 2)) ,intval(substr($Fechainiturno, 8, 2)) + 1,intval(substr($Fechainiturno, 0, 4))));
 
-	
+					
 	   echo $fecha;
 	   echo '<input type="hidden" name="ano" value="'.$ano.'">';
 	   echo '<input type="hidden" name="mes" value="'.$mes.'">';
 	   echo '<input type="hidden" name="dia" value="'.$dia.'">';
 	   echo '<input type="hidden" name="fecha" value="'.$fecha.'">';
-	   	   
+	   
+
+	   
 	   ?>
 	  </td>
       <td width="65"><strong>Grupo: &nbsp;</strong></td>
@@ -162,7 +164,7 @@ function Excel()
 
 		if($row = mysqli_fetch_array($rs))
 		{
-			echo $row[inspector];
+			echo $row["inspector"];
 		}
 	  ?>
 	  </td>
@@ -200,13 +202,13 @@ function Excel()
 	$c_superior = 0;	
 	$c_lateral = 0;	
 	$otros = 0;	
-
 	while($row = mysqli_fetch_array($rs))
 	{
+		$rmuestra = isset($row["muestra"])?$row["muestra"]:0;
 		 echo'<tr>'; 
 		 	echo '<td align="center">'.$row["lado"].'</td>';		
-			/*echo '<td><input type="radio" name="radio" value="'.$row["cuba"].'">&nbsp;&nbsp;'.$row["lado"].'</td>';
-			echo '<input type="hidden" name="lado" value="'.$row["lado"].'">';*/
+			/*echo '<td><input type="radio" name="radio" value="'.$row[cuba].'">&nbsp;&nbsp;'.$row[lado].'</td>';
+			echo '<input type="hidden" name="lado" value="'.$row[lado].'">';*/
 
 			echo '<td align="center">'.$row["cuba"].'</td>';
 			echo '<input type="hidden" name="cuba" value="'.$row["cuba"].'">';
@@ -241,7 +243,7 @@ function Excel()
 				
 			$recup = $recup + $row["unid_recup"];	
 			$recup_menor = $recup_menor + $row["recup_menor"];	
-			$muestra = $muestra + $row["muestra"];	
+			$muestra = $muestra + (int)$rmuestra;	
 			$estampa = $estampa + $row["estampa"];	
 			$dispersos = $dispersos + $row["dispersos"];	
 			$rayado = $rayado + $row["rayado"];	
