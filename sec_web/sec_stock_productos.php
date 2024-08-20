@@ -1,10 +1,13 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 41;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
+	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
+	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
 	
 	$Consulta = "SELECT * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'";
 	$Respuesta =mysqli_query($link, $Consulta);
@@ -12,9 +15,6 @@
 	{
 		$Nivel = $Fila["nivel"];
 	}
-
-	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
-	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
 
 	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase =".$CmbMes;
 	$Respuesta =mysqli_query($link, $Consulta);	
@@ -326,10 +326,10 @@ function Salir()
 					if ($Fila2=mysqli_fetch_array($Respuesta2))
 					{
 						echo "<td width='60' align='right'>".number_format($Fila2["peso_paquetes"],0,',','.')."</td>";
-						$StockFinal=$StockFinal+$Fila2["peso_paquetes"];
+						$StockFinal      =$StockFinal+$Fila2["peso_paquetes"];
 						$SubTotalPaquetes=$SubTotalPaquetes+$Fila2["peso_paquetes"];
-						$TotalPaquetes=$TotalPaquetes+$Fila2["peso_paquetes"];
-						$Paquetes=$Fila2[peso_paquetes];
+						$TotalPaquetes   =$TotalPaquetes+$Fila2["peso_paquetes"];
+						$Paquetes        =$Fila2["peso_paquetes"];
 					}
 					else
 					{
@@ -344,9 +344,9 @@ function Salir()
 					if ($Fila2=mysqli_fetch_array($Respuesta2))
 					{
 						echo "<td width='60' align='right'>".number_format($Fila2["peso_traspaso"],0,',','.')."</td>";
-						$StockFinal=abs($StockFinal-$Fila2["peso_traspaso"]);
-						$SubTotalTraspaso=$SubTotalTraspaso+$Fila2["peso_traspaso"];
-						$TotalTraspaso=$TotalTraspaso+$Fila2["peso_traspaso"];
+						$StockFinal       = abs($StockFinal-$Fila2["peso_traspaso"]);
+						$SubTotalTraspaso = $SubTotalTraspaso+$Fila2["peso_traspaso"];
+						$TotalTraspaso    = $TotalTraspaso+$Fila2["peso_traspaso"];
 					}
 					else
 					{
