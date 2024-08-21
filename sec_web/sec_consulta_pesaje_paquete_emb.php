@@ -277,7 +277,7 @@ function Salir()
 				$Consulta="SELECT * from sec_web.tmpConsultaEmb";
 				
 				$Respuesta=mysqli_query($link, $Consulta);
-				
+				$SubTotCtds=0;
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
 					echo "<tr>";
@@ -292,12 +292,12 @@ function Salir()
 					echo "<td align='right'>".number_format($Fila["catodos"],0,'','.')."</td>";
 					echo "<td align='right'>".number_format($Fila["peso_neto"],0,'','.')."</td>";				
 					echo "</tr>";
-					$SubTotPqts=$SubTotPqts+$Fila["paquetes"];
-					$SubTotCtds=$SubTotCtds+$Fila["catodos"];
-					$SubTotPesoNeto=$SubTotPesoNeto+$Fila["peso_neto"];
-					$TotPqts=$TotPqts+$Fila["paquetes"];
-					$TotCtds=$TotCtds+$Fila["catodos"];
-					$TotPesoNeto=$TotPesoNeto+$Fila["peso_neto"];
+					$SubTotPqts     =$SubTotPqts + $Fila["paquetes"];
+					$SubTotCtds     =$SubTotCtds + $Fila["catodos"];
+					$SubTotPesoNeto =$SubTotPesoNeto + $Fila["peso_neto"];
+					$TotPqts        =$TotPqts + $Fila["paquetes"];
+					$TotCtds        =$TotCtds + $Fila["catodos"];
+					$TotPesoNeto    =$TotPesoNeto + $Fila["peso_neto"];
 				}
 				echo "<tr class='detalle02'>";
 				echo "<td>&nbsp;</td>";

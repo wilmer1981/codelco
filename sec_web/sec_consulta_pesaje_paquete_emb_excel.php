@@ -120,6 +120,7 @@
 		}
 		$Consulta="SELECT * from sec_web.tmpConsultaEmb";
 		$Respuesta=mysqli_query($link, $Consulta);
+		$SubTotCtds=0;
 		while($Fila=mysqli_fetch_array($Respuesta))
 		{
 			echo "<tr>";
