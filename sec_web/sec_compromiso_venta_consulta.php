@@ -1,9 +1,9 @@
 <?php include("../principal/conectar_principal.php"); 
 
-$Tipo  = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
-$Pais  = isset($_REQUEST["Pais"])?$_REQUEST["Pais"]:"";
+$Tipo        = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+$Pais        = isset($_REQUEST["Pais"])?$_REQUEST["Pais"]:"";
 $CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
-$Ano  = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+$Ano         = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 ?>
 <html>
 <head>
@@ -218,9 +218,9 @@ if ($Tipo == "E")
 	$Consulta = "SELECT * from sec_web.programa_ventas t1 inner join sec_web.cliente_venta t2 ";
 	$Consulta.= " on t1.cod_cliente = t2.cod_cliente";
 	$Consulta.= " where t1.enm_code = '".$Tipo."' and t1.ano = '".$Ano."'";
-	if (($Pais != "S") && (isset($Pais)))
+	if (($Pais != "S") && ($Pais!=""))
 		$Consulta.= " and substring(t2.cod_cliente,1,2) = '".$Sigla."'";
-	if (($CmbCliente != "S") && (isset($CmbCliente)))
+	if (($CmbCliente != "S") && ($CmbCliente!=""))
 		$Consulta.= " and t2.cod_cliente = '".$CmbCliente."'";
 	$Consulta.= " order by substring(t2.cod_cliente,1,2),t1.cod_contrato,t2.cod_cliente";
 }
@@ -228,7 +228,7 @@ else
 {
 	$Consulta = "SELECT * from sec_web.programa_ventas ";
 	$Consulta.= " where enm_code = '".$Tipo."' and ano = '".$Ano."'";
-	if (($Pais != "S") && (isset($Pais)))
+	if (($Pais != "S") && ($Pais!=""))
 		$Consulta.= " and cod_cliente = '".$Pais."'";
 	$Consulta.= " order by cod_cliente ";
 }
@@ -237,83 +237,20 @@ $CodPais = "";
 $SaldoEnami = 0;
 $Respuesta = mysqli_query($link, $Consulta);
 $i=1;
-$TotalCompEne = 0;
-$TotalCompFeb = 0;
-$TotalCompMar = 0;
-$TotalCompAbr = 0;
-$TotalCompMay = 0;
-$TotalCompJun = 0;
-$TotalCompJul = 0;
-$TotalCompAgo = 0;
-$TotalCompSep = 0;
-$TotalCompOct = 0;
-$TotalCompNov = 0;
-$TotalCompDic = 0;
+$TotalCompEne = 0;$TotalCompFeb = 0;$TotalCompMar = 0;$TotalCompAbr = 0;$TotalCompMay = 0;$TotalCompJun = 0;
+$TotalCompJul = 0;$TotalCompAgo = 0;$TotalCompSep = 0;$TotalCompOct = 0;$TotalCompNov = 0;$TotalCompDic = 0;
+$TotalRealEne = 0;$TotalRealFeb = 0;$TotalRealMar = 0;$TotalRealAbr = 0;$TotalRealMay = 0;$TotalRealJun = 0;
+$TotalRealJul = 0;$TotalRealAgo = 0;$TotalRealSep = 0;$TotalRealOct = 0;$TotalRealNov = 0;$TotalRealDic = 0;
 
-$TotalRealEne = 0;
-$TotalRealFeb = 0;
-$TotalRealMar = 0;
-$TotalRealAbr = 0;
-$TotalRealMay = 0;
-$TotalRealJun = 0;
-$TotalRealJul = 0;
-$TotalRealAgo = 0;
-$TotalRealSep = 0;
-$TotalRealOct = 0;
-$TotalRealNov = 0;
-$TotalRealDic = 0;
+$TotalSaldoEne = 0;$TotalSaldoFeb = 0;$TotalSaldoMar = 0;$TotalSaldoAbr = 0;$TotalSaldoMay = 0;$TotalSaldoJun = 0;
+$TotalSaldoJul = 0;$TotalSaldoAgo = 0;$TotalSaldoSep = 0;$TotalSaldoOct = 0;$TotalSaldoNov = 0;$TotalSaldoDic = 0;
+$SubTotalCompEne = 0;$SubTotalCompFeb = 0;$SubTotalCompMar = 0;$SubTotalCompAbr = 0;$SubTotalCompMay = 0;$SubTotalCompJun = 0;
+$SubTotalCompJul = 0;$SubTotalCompAgo = 0;$SubTotalCompSep = 0;$SubTotalCompOct = 0;$SubTotalCompNov = 0;$SubTotalCompDic = 0;
 
-$TotalSaldoEne = 0;
-$TotalSaldoFeb = 0;
-$TotalSaldoMar = 0;
-$TotalSaldoAbr = 0;
-$TotalSaldoMay = 0;
-$TotalSaldoJun = 0;
-$TotalSaldoJul = 0;
-$TotalSaldoAgo = 0;
-$TotalSaldoSep = 0;
-$TotalSaldoOct = 0;
-$TotalSaldoNov = 0;
-$TotalSaldoDic = 0;
-
-$SubTotalCompEne = 0;
-$SubTotalCompFeb = 0;
-$SubTotalCompMar = 0;
-$SubTotalCompAbr = 0;
-$SubTotalCompMay = 0;
-$SubTotalCompJun = 0;
-$SubTotalCompJul = 0;
-$SubTotalCompAgo = 0;
-$SubTotalCompSep = 0;
-$SubTotalCompOct = 0;
-$SubTotalCompNov = 0;
-$SubTotalCompDic = 0;
-
-$SubTotalRealEne = 0;
-$SubTotalRealFeb = 0;
-$SubTotalRealMar = 0;
-$SubTotalRealAbr = 0;
-$SubTotalRealMay = 0;
-$SubTotalRealJun = 0;
-$SubTotalRealJul = 0;
-$SubTotalRealAgo = 0;
-$SubTotalRealSep = 0;
-$SubTotalRealOct = 0;
-$SubTotalRealNov = 0;
-$SubTotalRealDic = 0;
-
-$SubTotalSaldoEne = 0;
-$SubTotalSaldoFeb = 0;
-$SubTotalSaldoMar = 0;
-$SubTotalSaldoAbr = 0;
-$SubTotalSaldoMay = 0;
-$SubTotalSaldoJun = 0;
-$SubTotalSaldoJul = 0;
-$SubTotalSaldoAgo = 0;
-$SubTotalSaldoSep = 0;
-$SubTotalSaldoOct = 0;
-$SubTotalSaldoNov = 0;
-$SubTotalSaldoDic = 0;
+$SubTotalRealEne = 0;$SubTotalRealFeb = 0;$SubTotalRealMar = 0;$SubTotalRealAbr = 0;$SubTotalRealMay = 0;$SubTotalRealJun = 0;
+$SubTotalRealJul = 0;$SubTotalRealAgo = 0;$SubTotalRealSep = 0;$SubTotalRealOct = 0;$SubTotalRealNov = 0;$SubTotalRealDic = 0;
+$SubTotalSaldoEne = 0;$SubTotalSaldoFeb = 0;$SubTotalSaldoMar = 0;$SubTotalSaldoAbr = 0;$SubTotalSaldoMay = 0;$SubTotalSaldoJun = 0;
+$SubTotalSaldoJul = 0;$SubTotalSaldoAgo = 0;$SubTotalSaldoSep = 0;$SubTotalSaldoOct = 0;$SubTotalSaldoNov = 0;$SubTotalSaldoDic = 0;
 
 while ($Fila = mysqli_fetch_assoc($Respuesta))
 {
@@ -395,31 +332,11 @@ while ($Fila = mysqli_fetch_assoc($Respuesta))
 			echo "<td align='right'>".number_format($SubTotalSaldoDic,0,",",".")."</td>";				
 			echo "</tr>";
 			//COMP
-			$SubTotalCompEne = 0;
-			$SubTotalCompFeb = 0;
-			$SubTotalCompMar = 0;
-			$SubTotalCompAbr = 0;
-			$SubTotalCompMay = 0;
-			$SubTotalCompJun = 0;
-			$SubTotalCompJul = 0;
-			$SubTotalCompAgo = 0;
-			$SubTotalCompSep = 0;
-			$SubTotalCompOct = 0;
-			$SubTotalCompNov = 0;
-			$SubTotalCompDic = 0;
+			$SubTotalCompEne = 0;$SubTotalCompFeb = 0;$SubTotalCompMar = 0;$SubTotalCompAbr = 0;$SubTotalCompMay = 0;$SubTotalCompJun = 0;
+			$SubTotalCompJul = 0;$SubTotalCompAgo = 0;$SubTotalCompSep = 0;$SubTotalCompOct = 0;$SubTotalCompNov = 0;$SubTotalCompDic = 0;
 			//REAL
-			$SubTotalRealEne = 0;
-			$SubTotalRealFeb = 0;
-			$SubTotalRealMar = 0;
-			$SubTotalRealAbr = 0;
-			$SubTotalRealMay = 0;
-			$SubTotalRealJun = 0;
-			$SubTotalRealJul = 0;
-			$SubTotalRealAgo = 0;
-			$SubTotalRealSep = 0;
-			$SubTotalRealOct = 0;
-			$SubTotalRealNov = 0;
-			$SubTotalRealDic = 0;
+			$SubTotalRealEne = 0;$SubTotalRealFeb = 0;$SubTotalRealMar = 0;$SubTotalRealAbr = 0;$SubTotalRealMay = 0;$SubTotalRealJun = 0;
+			$SubTotalRealJul = 0;$SubTotalRealAgo = 0;$SubTotalRealSep = 0;$SubTotalRealOct = 0;$SubTotalRealNov = 0;$SubTotalRealDic = 0;
 			//SALDO
 			$SubTotalSaldoEne = 0;
 			$SubTotalSaldoFeb = 0;
