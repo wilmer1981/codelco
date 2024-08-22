@@ -361,8 +361,7 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 	{
 		$ComercialAcumulado = $Fila["peso"];
 	}
-
-
+	
 	//PESADO A EMBARQUE STANDARD
 	$Consulta = " SELECT sum(peso_paquetes) as peso";
 	$Consulta.= " FROM sec_web.paquete_catodo ";
@@ -382,7 +381,6 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 	//PORCENTAJE DE STANDARD
 	if($ComercialAcumulado<>0)
 		$PorcRechazoProg =round((100-(100 * ($StandardAcumulado/$ComercialAcumulado)))/100,4);
-
 
 }
 function ObtienePesoGuiasDespacho($FechaInicio,$Peso,$link)

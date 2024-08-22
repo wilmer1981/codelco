@@ -366,7 +366,6 @@ function ObtieneCompPreembarque($FechaInicio,$Peso,$link)
 
 	//CONSULTA TABLA PROGRAMA ENAMI
 	$Peso=0;
-
 	$Consulta="SELECT cantidad_programada as peso_neto from sec_web.programa_codelco ";
 	$Consulta=$Consulta." where cod_producto='18' and cod_subproducto='40' and fecha_disponible = '".$FechaInicio."'";
 	$Resultado=mysqli_query($link, $Consulta);
@@ -380,7 +379,6 @@ function ObtieneEta($FechaInicio,$Peso,$link)
 
 	//CONSULTA TABLA PROGRAMA ENAMI
 	$Peso=0;
-
 	$Consulta="SELECT cantidad_programada as peso_neto from sec_web.programa_codelco ";
 	$Consulta=$Consulta." where cod_producto='18' and cod_subproducto='40' and fecha_devolucion_maquila = '".$FechaInicio."'";
 	$Resultado=mysqli_query($link, $Consulta);
@@ -415,7 +413,6 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 		$ComercialAcumulado = $Fila["peso"];
 	}
 
-
 	//PESADO A EMBARQUE STANDARD
 	$Consulta = " SELECT sum(peso_paquetes) as peso";
 	$Consulta.= " FROM sec_web.paquete_catodo ";
@@ -440,7 +437,6 @@ function ObtienePesoGuiasDespacho($FechaInicio,$Peso,$link)
 
 	//CONSULTA TABLA  GUIAS DE DESPACHO
 	$Peso=0;
-	
 	$Consulta = "SELECT sum(t2.peso_paquetes) as peso  ";
 	$Consulta.= "from sec_web.guia_despacho_emb t1 inner join sec_web.paquete_catodo t2  ";
 	$Consulta.= "on t1.num_guia=t2.num_guia inner join proyecto_modernizacion.subproducto t4  ";
