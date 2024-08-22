@@ -26,12 +26,7 @@
 
 	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
 	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
-	/*
-	if (!isset($MesIni))
-	{
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-	}*/
+	
 	$MesIni      = str_pad($MesIni,2,"0",STR_PAD_LEFT);
  	$FechaInicio = $AnoIni."-".$MesIni."-01";
 	$FechaTermino = $AnoIni."-".$MesIni."-31";
@@ -186,6 +181,10 @@
 	$MaqAnt=""; 
 	$Asig="";
 	//echo $Consulta."<br>";
+	$TotalAsigPesoBr = 0;
+	$TotalAsigPeso = 0;
+	$TotalAsigPaquetes = 0;
+	$TotalAsigUnidades = 0;
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if(isset($Fila["asignacion"])){

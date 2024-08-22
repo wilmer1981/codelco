@@ -353,6 +353,10 @@ a:active {
 	$MaqAnt=""; 
 	$Asig="";
 	//echo $Consulta."<br>";
+	$TotalAsigPesoBr = 0;
+	$TotalAsigPeso = 0;
+	$TotalAsigPaquetes = 0;
+	$TotalAsigUnidades = 0;
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if(isset($Fila["asignacion"])){
