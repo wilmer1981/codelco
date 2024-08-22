@@ -28,7 +28,7 @@
 	$Ano = $_REQUEST["Ano"];
 	$Mes = $_REQUEST["Mes"];
 	$Dia = $_REQUEST["Dia"];
-	//$ConsultaGeneral = $_REQUEST["ConsultaGeneral"];
+	$ConsultaGeneral = $_REQUEST["ConsultaGeneral"];
 
 	$str_dia = date("w", mktime(0,0,0,$Mes,$Dia,$Ano));
 	$EnPreparacion =0;
@@ -86,9 +86,7 @@
 	$RechazoQco = 0;
 	$StockIni1ER = 0; 
 	$StockIni2ER = 0; 
-	$StockIni3ER= 0;
-	
-	
+	$StockIni3ER= 0;	
 	
 	$EnPqtes = 0;
 	$ParaPesaje = 0;
