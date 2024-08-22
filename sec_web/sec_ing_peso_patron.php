@@ -1,13 +1,15 @@
 ﻿<?php 
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	require("../principal/conectar_index.php");
 	include("funciones_interfaces_codelco.php");
 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 81;
 
-	$CookieRut = $_COOKIE["CookieRut"];
-	$msj       = isset($_REQUEST["msj"])?$_REQUEST["msj"]:"";
-	$txtpeso   = isset($_REQUEST["txtpeso"])?$_REQUEST["txtpeso"]:"";
+	$CookieRut   = $_COOKIE["CookieRut"];
+	$msj         = isset($_REQUEST["msj"])?$_REQUEST["msj"]:"";
+	$txtpeso     = isset($_REQUEST["txtpeso"])?$_REQUEST["txtpeso"]:"";
+	$mensaje     = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 
 ?>
 
@@ -54,9 +56,11 @@ function Grabar()
 /***************/
 function VerDatos()
 {	
-	var f = document.frm1;
-	//alert("else");*/
-	window.open("sec_consulta_peso_patron_popup.php?Buscar=S","","top=195,left=180,width=600,height=360,scrollbars=no,resizable=no");	
+	var f = document.frm1;	
+
+				//alert("else");*/
+				window.open("sec_consulta_peso_patron_popup.php?Buscar=S","","top=195,left=180,width=600,height=360,scrollbars=no,resizable=no");
+	
 }
 /***************/
 function Limpiar()
@@ -78,7 +82,7 @@ function CapturaPeso()
 {
 	var f = document.frm1;
 	//f.txtpeso.value = LeerArchivo(f.txtpeso.value);		
-	f.txtpeso.value = '<?php echo LeerArchivo('PesaMatic','PesoMatic.txt'); ?>'; 
+	f.txtpeso.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
 	setTimeout("CapturaPeso()",200);	
 }
 </script>
@@ -106,7 +110,6 @@ function CapturaPeso()
 			$IpUser=$_SERVER['REMOTE_ADDR'];
 			$Nombre_Bascula="";
 			$Cod_Bascula="";
-			$mensaje="";
 		  	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3112 and  valor_subclase1='".$IpUser."' ";
 			$Resp=mysqli_query($link, $Consulta);			
 			if ($Fila=mysqli_fetch_array($Resp))
