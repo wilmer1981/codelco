@@ -18,7 +18,7 @@
 	$Validacion = "";
 	$Genera = false;
 
-	if (isset($Dia))
+	if ($Dia!="")
 	{
 		$FechaInf = $Ano."-".$Mes."-".$Dia;
 		$Consulta = "SELECT * from sec_web.informe_diario ";
@@ -71,7 +71,7 @@ function Proceso(opt)
 			f.submit();
 			break;		
 		case "E":
-			var msj = confirm("�Seguro que desea eliminar los datos base para este dia?");
+			var msj = confirm("¿Seguro que desea eliminar los datos base para este dia?");
 			if (msj == true)
 			{
 				f.action = "sec_informe_diario_ing01.php?Proceso=E";			

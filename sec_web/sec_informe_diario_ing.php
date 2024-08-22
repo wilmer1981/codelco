@@ -26,7 +26,7 @@
     $Validacion          = isset($_REQUEST["Validacion"])?$_REQUEST["Validacion"]:"";
 	
 	$Genera = false;
-	if (isset($Dia))
+	if ($Dia!="")
 	{
 		$FechaInf = $Ano."-".$Mes."-".$Dia;
 		$Consulta = "SELECT * from sec_web.informe_diario ";
@@ -151,7 +151,7 @@ function Calcula()
                 <?php
 				for ($i=1;$i<=31;$i++)
 				{
-					if (isset($Dia))
+					if ($Dia!="")
 					{
 						if ($Dia == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
@@ -171,7 +171,7 @@ function Calcula()
                 <?php
 				for ($i=1;$i<=12;$i++)
 				{
-					if (isset($Mes))
+					if ($Mes!="")
 					{
 						if ($Mes == $i)
 							echo "<option SELECTed value='".$i."'>".$Meses[$i-1]."</option>\n";
@@ -191,7 +191,7 @@ function Calcula()
                 <?php
 				for ($i=date("Y")-2;$i<=date("Y");$i++)
 				{
-					if (isset($Ano))
+					if ($Ano!="")
 					{
 						if ($Ano == $i)
 							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
