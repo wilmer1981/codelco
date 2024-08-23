@@ -175,7 +175,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 				$Consulta.= " on t1.num_certificado=t2.num_certificado and t1.version=t2.version ";
 				$Consulta.= " where t1.corr_enm = '".$FilaAux["corr_enm"]."' and (";
 				reset($ArregloLeyes);
-				while (list($k,$v)=each($ArregloLeyes))
+				foreach($ArregloLeyes as $k => $v)
 				{
 					$Consulta.= " t2.cod_leyes='".$v["cod_leyes"]."' or";
 				}
@@ -232,7 +232,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
                     $Consulta.= " (t1.fecha_hora between '".$AnoResto."-01' and '".$AnoResto."-31'  or t1.fecha_hora between '".$AnoResto."-31' and '".$FechaControl1."')";
                     $Consulta.= " and ( ";
                     reset($ArregloLeyes);
-                    while (list($k,$v)=each($ArregloLeyes))
+                    foreach($ArregloLeyes as $k => $v)
                     {
                           $Consulta.= " t1.cod_leyes='".$v["cod_leyes"]."' or";
                     }
@@ -310,7 +310,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$Consulta.= " WHERE t3.cod_producto = '34' AND t3.cod_subproducto = '2'";
 			$Consulta.= " and t2.num_barra='".$FilaAux["num_barra"]."' and ( ";
 			reset($ArregloLeyes);
-			while (list($k,$v)=each($ArregloLeyes))
+			foreach($ArregloLeyes as $k => $v)
 			{
 				$Consulta.= " t4.cod_leyes='".$v["cod_leyes"]."' or";
 			}
@@ -396,7 +396,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
    
    		$Consulta.= " AND (t2.num_electrolisis = '".$FilaAux["num_electrolisis"]."' or t2.num_electrolisis = '".$pp."'+'".$FilaAux["num_electrolisis"]."') and (";
 			reset($ArregloLeyes);
-			while (list($k,$v)=each($ArregloLeyes))
+			foreach($ArregloLeyes as $k => $v)
 			{
 				$Consulta.= " t5.cod_leyes='".$v["cod_leyes"]."' or";
 			}
@@ -500,7 +500,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 				$Consulta.= " AND t1.fecha_venta BETWEEN '".$AnoAux."-".$MesAux."-01' AND '".$AnoAux."-".$MesAux."-31' ";			
 				$Consulta.= " AND (t2.recargo='0' or t2.recargo='' or t2.recargo = '1') and ( ";
 				reset($ArregloLeyes);
-			while (list($k,$v)=each($ArregloLeyes))
+			foreach($ArregloLeyes as $k => $v)
 			{
 				$Consulta.= " t3.cod_leyes='".$v["cod_leyes"]."' or";
 			}
@@ -898,44 +898,60 @@ function DefinirArregloLeyes($L_Prod, $L_SubProd, $ArregloLeyes)
 }
 
 /***************Lee archivos TXT********************** */
-/*
-function LeerArchivo($ruta,$archivo,$valor)
-{
-	//$valor  = parseFloat(valor.replace(',','.').replace(' ',''));
-	$valor = "";
-	$nombre = $archivo;
-	if($ruta!=""){
-		$ubicacion = $ruta."/".$nombre;
-	}else{
-		$ubicacion = $nombre;
-	}
-	//$arc = fopen('C:/PesaMatic/'.$nombre,"r");
-	$arc = fopen('C:/'.$ubicacion,"r");
-	while(! feof($arc))  {
-		$valor = fgets($arc);
-	}
-	fclose($arc);
-
-	return($valor); 
-}
-*/
 function LeerArchivo($ruta,$archivo)
 {
+	//$nombre="archivo.txt";//$archivo;
 	$nombre=$archivo;
-	//var ubicacion = "C:\\PesoMatic.txt";
 	if($ruta!=""){
-		$ubicacion = $ruta."/".$nombre;
+		$ubicacion = 'D:/'.$ruta.'/'.$nombre;
 	}else{
-		$ubicacion = $nombre;
+		$ubicacion = 'D:/'.$nombre;
 	}
-	//$arc = fopen('C:/PesaMatic/'.$nombre,"r");
-	$arc = fopen('C:/'.$ubicacion,"r");
-	while(! feof($arc))  {
-		$linea = fgets($arc);
+	
+	if(file_exists($ubicacion)){
+		$arc = fopen($ubicacion,"r");
+		while(! feof($arc))  {
+			$valor = fgets($arc);
+		}
+		fclose($arc);
+	}else{
+		$valor="";
 	}
-	fclose($arc);
-
-	return($linea); 
+	//fclose($arc);
+	//$valor = parseFloat(valor.replace(',','.').replace(' ',''));
+	if(intval($valor)){
+		$valor = $valor / 10;
+		$valor = str_replace(".", ",", $valor);
+		//valor=valor.toString().replace('.',',');
+	}
+	return($valor); 
 }
+/*
+function LeerArchivo(valor)
+{
+	var ubicacion = "C:\\PesoMatic.txt";
+	var valor="";
+	var fso, f1, ts, s,retorno; 
+	var ForReading = 1; 
+	fso = new ActiveXObject("Scripting.FileSystemObject"); 
+	if(fso.FileExists(ubicacion))
+	{
+          f = fso.OpenTextFile( ubicacion, ForReading); 
+		  valor=f.Readline(); 
+    }
+	else
+	{
+       alert("No Existe archivo en :"+ubicacion);
+	}
+	valor=parseFloat(valor.replace(',','.').replace(' ',''));
+	if (parseInt(valor))
+	{
+		valor=valor/10;
+		//valor=valor.replace('.',',');
+		valor=valor.toString().replace('.',',');
+		
+	}
+	return(valor); 
+}*/
 
 ?>

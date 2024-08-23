@@ -81,8 +81,18 @@ function PesoAutomatico()
 function CapturaPeso()
 {
 	var f = document.frm1;
-	//f.txtpeso.value = LeerArchivo(f.txtpeso.value);		
-	f.txtpeso.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
+	//f.txtpeso.value = LeerArchivo(f.txtpeso.value);
+	
+	//f.txtpeso.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
+	//setTimeout("CapturaPeso()",200);
+	
+	valor = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
+	if(valor==''){
+		alert("No existe el archivo...");
+	}else{
+		f.txtpeso.value = valor; 
+	}
+
 	setTimeout("CapturaPeso()",200);	
 }
 </script>

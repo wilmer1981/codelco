@@ -1,4 +1,4 @@
-<?
+<?php
 	include("../principal/conectar_sec_web.php");
 	$CookieRut = $_COOKIE["CookieRut"];
 	$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
@@ -12,6 +12,7 @@ switch($proceso)
 		{
 			$IpUser=$_SERVER['REMOTE_ADDR'];
 			$Nombre_Bascula="";
+			$Cod_Bascula="";
 		  	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3112 and  valor_subclase1='".$IpUser."' ";
 			$Resp=mysqli_query($link, $Consulta);
 			if ($Fila=mysqli_fetch_array($Resp))
