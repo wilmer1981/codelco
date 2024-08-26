@@ -3,21 +3,19 @@
 	$CodigoDePantalla =28;
 	include("../principal/conectar_sec_web.php");
 	set_time_limit(3000);
-    $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+    $meses     = array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
-
 	
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	$Recarga = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
 
-	$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
 	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
-	$CmbEstado = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
-	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
-	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
-	
-	
-	
+	$CmbEstado      = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+	$CmbMes         = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno         = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");	
+	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
+		
 ?>
 <html>
 <head>
@@ -187,7 +185,7 @@ function Imprimir()
               <td  align="left"><select name="cmbsubproducto">
                 <option value="-1">SELECCIONAR</option>
                 <?php	
-				$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$cmbproducto." AND tipo_mov LIKE '%".$cmbmovimiento."%'";
+				$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$cmbproducto."' AND tipo_mov LIKE '%".$cmbmovimiento."%'";
 				$rs = mysqli_query($link, $consulta);
 				while ($row = mysqli_fetch_array($rs))
 				{

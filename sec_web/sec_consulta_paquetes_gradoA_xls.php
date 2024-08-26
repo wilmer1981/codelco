@@ -5,13 +5,12 @@
 	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
 	$filename="";
 	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-	$filename = urlencode($filename);
+		$filename = urlencode($filename);
 	}
 	$filename = iconv('UTF-8', 'gb2312', $filename);
 	$file_name = str_replace(".php", "", $file_name);
 	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-	
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
 	header("content-disposition: attachment;filename={$file_name}");
 	header( "Cache-Control: public" );
 	header( "Pragma: public" );
@@ -24,14 +23,13 @@
 	$CodigoDePantalla =28;
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-
-	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
-	
-	$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$Mostrar        = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";	
+	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
 	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
-	$CmbEstado = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
-	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
-	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbEstado      = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+	$CmbMes         = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno         = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
 
 ?>
 <html>
@@ -45,11 +43,10 @@
           <tr>
           <td>Producto</td><td colspan="10">
           <?php
- 				$consulta = "SELECT * FROM proyecto_modernizacion.productos WHERE cod_producto = ".$cmbproducto;
+ 				$consulta = "SELECT * FROM proyecto_modernizacion.productos WHERE cod_producto = '".$cmbproducto."' ";
 				$rs = mysqli_query($link, $consulta);
 				if($row = mysqli_fetch_array($rs))
-					echo $row["descripcion"];
-         
+					echo $row["descripcion"];         
 		  ?>
           </td>
           </tr>
@@ -57,11 +54,10 @@
           <td>SubProducto</td>
 		  <td colspan="10">
           <?php
-				$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$cmbproducto." AND cod_subproducto='".$cmbsubproducto."'";
+				$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$cmbproducto."' AND cod_subproducto='".$cmbsubproducto."'";
 				$rs = mysqli_query($link, $consulta);
 				if($row = mysqli_fetch_array($rs))
-					echo $row["descripcion"];
-          
+					echo $row["descripcion"];          
 		  ?>
           </td>          
           </tr>
@@ -100,7 +96,7 @@
           </td>          
           </tr>
 
-          <tr class="ColorTabla01"> 
+        <tr class="ColorTabla01"> 
             <td align="left"><div align="center">I.E.</div></td>
             <td align="left"><div align="center">Cliente</div></td>
             <td align="left"><div align="left">Cod.Lote</div></td>
@@ -108,12 +104,12 @@
             <td align="left"><div align="left">Fecha Creacion Lote</div></td>
             <td align="left"><div align="left">Cod.Paquete</div></td>
             <td align="left"><div align="left">Num.Paquete</div></td>
-            <td ><div align="center">Fecha Creacion Paquete</div>
+            <td><div align="center">Fecha Creacion Paquete</div></td>
             <td align="left"><div align="left">Estado</div></td>
             <td><div align="center">Peso</div></td>
             <td><div align="center">Unidades</div></td>
-            <td><div align="center">Promedio</div></td
-          </tr>
+            <td><div align="center">Promedio</div></td>
+        </tr>
         <?php
 			//$Mostrar='S';
 			if ($Mostrar=='S')
