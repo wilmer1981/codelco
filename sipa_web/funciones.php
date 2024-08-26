@@ -945,17 +945,38 @@ if(!$correo->Send()) {
 }
 
 /***************Lee archivos TXT********************** */
+function LeerArchivo($ruta,$archivo)
+{
+	//$nombre="archivo.txt";//$archivo;
+	$nombre=$archivo;
+	if($ruta!=""){
+		$ubicacion = 'D:/'.$ruta.'/'.$nombre;
+	}else{
+		$ubicacion = 'D:/'.$nombre;
+	}	
+	if(file_exists($ubicacion)){
+		$arc = fopen($ubicacion,"r");
+		while(! feof($arc))  {
+			$valor = fgets($arc);
+		}
+		fclose($arc);
+	}else{
+		$valor="";
+	}
+	return($valor); 
+}
+/*
 function LeerArchivo($ruta, $archivo)
 {
 	$nombre=$archivo;
 	if($ruta!=""){
 		//$ubicacion = $ruta."\\".$nombre;
-		$ubicacion = "xampp\\htdocs\\Proyecto\\".$ruta."\\".$nombre;
+		$ubicacion = "xampp\\htdocs\\proyecto\\".$ruta."\\".$nombre;
 	}else{
 		$ubicacion = $nombre;
 	}
 	//$arc = fopen('C:/PesaMatic/'.$nombre,"r");
-	$arc = fopen("C:\\".$ubicacion,"r");
+	$arc = fopen("D:\\".$ubicacion,"r");
 	//$arc = fopen($ubicacion,"r");
 	while(! feof($arc))  {
 		$linea = fgets($arc);
@@ -963,19 +984,69 @@ function LeerArchivo($ruta, $archivo)
 	fclose($arc);
 
 	return($linea); 
-}
+}*/
 
 /******* Consulta el numero de ROMANA *******/
-function LeerRomana($computername,$link)
+function LeerRomana($REMOTE_ADDR,$link)
 {
 	$Consulta = " SELECT * FROM proyecto_modernizacion.sub_clase 
-				  WHERE cod_clase= 24011 AND nombre_subclase = '".$computername."' ";
+				  WHERE cod_clase= 24011 AND valor_subclase1 = '".$REMOTE_ADDR."' ";
 	$Resp=mysqli_query($link, $Consulta);
 	$Romana="";
 	if($Fila=mysqli_fetch_array($Resp))
 	{
-		$Romana=$Fila["valor_subclase1"];
+		$Romana=$Fila["valor_subclase2"];
 	} 
 	return ($Romana);
 }
+
+	// Function to get the user IP address
+	function getUserIP(){
+		$ipaddress = '';
+		if (isset($_SERVER['HTTP_CLIENT_IP']))
+			$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+		else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		else if(isset($_SERVER['HTTP_X_FORWARDED']))
+			$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+		else if(isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
+			$ipaddress = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+		else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+			$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+		else if(isset($_SERVER['HTTP_FORWARDED']))
+			$ipaddress = $_SERVER['HTTP_FORWARDED'];
+		else if(isset($_SERVER['REMOTE_ADDR']))
+			$ipaddress = $_SERVER['REMOTE_ADDR'];
+		else
+			$ipaddress = 'UNKNOWN';
+		return $ipaddress;
+	}
+
+	function getRealIP(){
+
+        if (isset($_SERVER["HTTP_CLIENT_IP"])){
+
+            return $_SERVER["HTTP_CLIENT_IP"];
+
+        }elseif (isset($_SERVER["HTTP_X_FORWARDED_FOR"])){
+
+            return $_SERVER["HTTP_X_FORWARDED_FOR"];
+
+        }elseif (isset($_SERVER["HTTP_X_FORWARDED"])){
+
+            return $_SERVER["HTTP_X_FORWARDED"];
+
+        }elseif (isset($_SERVER["HTTP_FORWARDED_FOR"])){
+
+            return $_SERVER["HTTP_FORWARDED_FOR"];
+
+        }elseif (isset($_SERVER["HTTP_FORWARDED"])){
+
+            return $_SERVER["HTTP_FORWARDED"];
+
+        }else{
+            return $_SERVER["REMOTE_ADDR"];
+        }
+    }  
+	
 ?>

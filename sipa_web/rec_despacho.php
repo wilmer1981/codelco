@@ -1,9 +1,15 @@
-<?php
+﻿<?php
 	//echo "ESTOY MODIFICANDO LA PANTALLA(INFO-FARA)";
 	$CodigoDeSistema=24;
 	$CodigoDePantalla=4;
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
+	
+	$SERVER_NAME  = $_SERVER['SERVER_NAME']; //nombre del servidor : localhost
+	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']); //Nombnre completro de la PC : WSALDANA-PERU.sml.sermaluc.cl
+	$COMPUTERNAME =  getenv("COMPUTERNAME"); //nombre de la PC : WSALDANA-PERU
+	$IP           = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
+	
 	//echo date_default_timezone_get()."<br>";
 	//echo date('d-m-y H:i:s');
 	$CookieRut = $_COOKIE["CookieRut"];
@@ -556,7 +562,8 @@ function LeerRomana(Rom)
 }
 */
 //var ROMA=LeerRomana('');
-var ROMA= '<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
+//var ROMA= '<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
+var ROMA = '<?php echo LeerRomana($REMOTE_ADDR,$link); ?>'; 
 /*
  function LeerArchivo(valor)
 {
@@ -648,14 +655,16 @@ function CapturaPeso(tipo)
 			 	{
 					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
 					//f.TxtPesoBruto.value = f.TxtPesoBruto.value;
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
 				}
 				
 			   else
 				{
 					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
 					//.TxtPesoBruto.value = f.TxtPesoBruto.value;
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 				}
 		//if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
 			//	f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;
@@ -675,10 +684,12 @@ function CapturaPeso(tipo)
 			//f.TipoProceso.value="E";
 			 if(f.TxtNumBascula.value=='1'){
 				//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-				f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+				f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
 			 }else{
 				//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
-				f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+				f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 			 }
 			//f.TxtPesoTara.value = 13400;
 			if(parseInt(f.TxtPesoHistorico.value)!=0)
@@ -862,7 +873,7 @@ function Proceso(opt,ObjFoco,opt2)
 			}
 			else
 			{
-				if(confirm("�Esta seguro que desea anular el registro correlativo "+f.TxtCorrelativo.value+"?"))
+				if(confirm("¿Esta seguro que desea anular el registro correlativo "+f.TxtCorrelativo.value+"?"))
 				{
 				f.action = "rec_despacho01.php?Proceso=A";
 				f.submit();	
@@ -1892,6 +1903,9 @@ switch($TxtNumRomana)
 </html>
 <?php
 
+$Romana = LeerRomana($REMOTE_ADDR,$link);
+echo "<br>ROMANA: ".$Romana;
+
 if($Mensaje!='')
 {
 	echo "<script language='JavaScript'>";
@@ -1918,7 +1932,8 @@ if($ProdSubProd[0]=='18')
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmDespacho;";
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
-$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
+//$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
+//echo "f.TxtNumRomana.value=".$Romana.";";
 echo "f.TxtNumRomana.value=".$Romana.";";
 echo "CalculaPNetoTotal();";
 echo "</script>";
