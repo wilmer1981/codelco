@@ -11,17 +11,7 @@
 	 $AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 	 $MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
 	 $DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
-/*
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
-	*/
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -238,7 +228,7 @@ function Historial(SA,Rec)
 	if ($Buscar=="S")
 	{
 		$TotalPeso = 0;
-		$Consulta = " SELECT distinct t1.nro_solicitud,t1.recargo,t1.id_muestra,t1.fecha_muestra from cal_web.solicitud_analisis t1 ";
+		$Consulta = " SELECT distinct t1.nro_solicitud,t1.recargo,t1.id_muestra,t1.fecha_muestra,t1.estado_actual from cal_web.solicitud_analisis t1 ";
 		$Consulta.= " where (t1.cod_periodo='1') and (t1.estado_actual = '6') and cod_analisis='1' and t1.cod_producto ='18' and t1.cod_subproducto not in ('3','4','5','6','7','8','9','10') and (left(t1.fecha_muestra,10) between '$FechaInicio' and '$FechaTermino') order by t1.fecha_muestra,t1.nro_solicitud ";		
 		//echo "uno".$Consulta."<br>";;
 		$Respuesta = mysqli_query($link, $Consulta);
@@ -363,7 +353,7 @@ function Historial(SA,Rec)
 	if ($Buscar=="S")
 	{
 		$TotalPeso = 0;
-		$Consulta = " SELECT distinct t1.nro_solicitud,t1.recargo,t1.id_muestra,t1.fecha_muestra from cal_web.solicitud_analisis t1 ";
+		$Consulta = " SELECT distinct t1.nro_solicitud,t1.recargo,t1.id_muestra,t1.fecha_muestra,t1.estado_actual from cal_web.solicitud_analisis t1 ";
 		$Consulta.= " where (t1.cod_periodo='1') and (t1.estado_actual = '6') and t1.cod_producto ='18' and t1.cod_subproducto in ('3','4') and (left(t1.fecha_muestra,10) between '$FechaInicio' and '$FechaTermino') order by t1.fecha_muestra,t1.nro_solicitud ";		
 		//echo $Consulta."<br>";
 		$Respuesta = mysqli_query($link, $Consulta);
@@ -514,6 +504,7 @@ function Historial(SA,Rec)
 			$Mes=substr($FechaM,5,2);
 			$Ano=substr($FechaM,0,4);
 			$FechaMuestra=$Dia.'-'.$Mes.'-'.$Ano;
+			echo $FechaMuestra;
 			$FechaMas=suma_fechas($FechaMuestra,2);
 			$FechaMenos=resta_fechas($FechaMuestra,2);
 			
@@ -538,7 +529,7 @@ function Historial(SA,Rec)
 			//echo $Con."<br>";
 			$ResCant = mysqli_query($link, $Con);
 			$FiCant=mysqli_fetch_array($ResCant);
-			$CantCubas=$FiCant[cantidad];
+			$CantCubas= isset($FiCant["cantidad"])?$FiCant["cantidad"]:0;
 			
 			/***********VALOR MUESTRA******************/
 			$Consulta = " SELECT t1.cod_producto, t1.cod_subproducto, t1.cod_grupo, t1.cod_lado, ";
@@ -613,7 +604,7 @@ function Historial(SA,Rec)
 					}
 				}
 				else	//echo "<td width='70'>".$Row2["valor"]."&nbsp;</td>\n";
-					if ($Row2[candado]== 1)
+					if ($Row2["candado"]== 1)
 					{
 						if($Row2["signo"]=="=")
 						{
@@ -665,22 +656,41 @@ function Historial(SA,Rec)
 
 <?php
 function suma_fechas($fecha,$ndias)
-{
+{      $ArrFecha = array();
+       $ArrFech = array();
 	  if (preg_match("/[0-9]{1,2}\/[0-9]{1,2}\/([0-9][0-9]){1,2}/",$fecha))
-              list($dia,$mes,$año)=split("/", $fecha);
+            list($dia,$mes,$año)=split("/", $fecha);
+		  		/*$ArrFecha = explode("/",$fecha);
+			    $dia      =$ArrFecha[0];
+				$mes      =$ArrFecha[1];
+				$ano      =$ArrFecha[2];*/
       if (preg_match("/[0-9]{1,2}-[0-9]{1,2}-([0-9][0-9]){1,2}/",$fecha))
-              list($dia,$mes,$año)=split("-",$fecha);
-        $nueva = mktime(0,0,0, $mes,$dia,$año)+ $ndias * 24 * 60 * 60;
+              //list($dia,$mes,$año)=split("-",$fecha);
+		        $ArrFech =explode("-",$fecha);
+			    $dia         =$ArrFech[0];
+				$mes         =$ArrFech[1];
+				$ano         =$ArrFech[2];
+        $nueva = mktime(0,0,0, $mes,$dia,$ano)+ $ndias * 24 * 60 * 60;
         $nuevafecha=date("d-m-Y",$nueva);
       return ($nuevafecha);  
 }
 function resta_fechas($fecha,$ndias)
 {
+	   $ArrFecha = array();
+       $ArrFech = array();
 	  if (preg_match("/[0-9]{1,2}\/[0-9]{1,2}\/([0-9][0-9]){1,2}/",$fecha))
-              list($dia,$mes,$año)=split("/", $fecha);
+                list($dia,$mes,$año)=split("/", $fecha);
+		  		/*$ArrFecha =explode("/",$fecha);
+			    $dia         =$ArrFecha[0];
+				$mes         =$ArrFecha[1];
+				$ano         =$ArrFecha[2];*/
       if (preg_match("/[0-9]{1,2}-[0-9]{1,2}-([0-9][0-9]){1,2}/",$fecha))
-              list($dia,$mes,$año)=split("-",$fecha);
-        $nueva = mktime(0,0,0, $mes,$dia,$año)- $ndias * 24 * 60 * 60;
+            //list($dia,$mes,$año)=split("-",$fecha);
+			$ArrFecha =explode("-",$fecha);
+			$dia         =$ArrFecha[0];
+			$mes         =$ArrFecha[1];
+			$ano         =$ArrFecha[2];
+        $nueva = mktime(0,0,0, $mes,$dia,$ano)- $ndias * 24 * 60 * 60;
         $nuevafecha=date("d-m-Y",$nueva);
       return ($nuevafecha);  
 }
