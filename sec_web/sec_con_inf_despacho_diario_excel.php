@@ -29,17 +29,7 @@
 	 $AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 	 $MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
 	 $DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
-	/*
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
-	*/
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -114,7 +104,7 @@ function Proceso(opt)
 		echo "<br>\n";
 		echo "<table width='700' height='14'  border='1' align='center' cellpadding='0' cellspacing='0'>\n";
 		echo "<tr class='ColorTabla01'>\n";
-		echo "<td width='30' align='center'>N� ENVIO</td>\n";
+		echo "<td width='30' align='center'>N&deg; ENVIO</td>\n";
 		echo "<td width='140' align='center'>FECHA DESPACHO</td>\n";
 		echo "<td width='70' align='center'>ASIGNACION</td>\n";
 		echo "<td width='50' align='center'>DESTINATARIO.</td>\n";
@@ -408,12 +398,9 @@ function Proceso(opt)
 		$TotalP = 0;
 		$TotalN = 0;
 		$TotalB = 0;
-		$TotalC = 0;
-
-		
+		$TotalC = 0;		
 		$Consulta = "SELECT distinct  puerto from sec_web.tmp_despacho_diario";
-		$Consulta.= " where enm < 15000";
-		
+		$Consulta.= " where enm < 15000";		
 		$Resp1= mysqli_query($link, $Consulta);
 
 		while ($Row = mysqli_fetch_array($Resp1))

@@ -57,7 +57,7 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
         <tr class="ColorTabla01"> 
 			<td width="119" align="center">Puerto</td>
         	<td width="119" align="center">Moto Nave</td>
-			<td width="100" align="center">Asignaci�n</td>
+			<td width="100" align="center">Asignaci&oacute;n</td>
           	<td width="70" align="center">Camiones</td>
           
         </tr>
@@ -77,7 +77,7 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 		$Consulta = "SELECT distinct  puerto from sec_web.tmp_despacho_diario";
 		$Consulta.= " where enm < 9999 and puerto != '' order by puerto desc";
 		$Resp100= mysqli_query($link, $Consulta);
-		$TotalCamiones = 0;//WSO
+		//$TotalCamiones = 0;//WSO
 		while ($Row1 = mysqli_fetch_array($Resp100))
 		{
 			//$TotalCamiones = 0;
@@ -86,7 +86,7 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 			$Consulta.= " where t1.cod_puerto = '".$Row1["puerto"]."'  and t2.fecha_guia between  '".$FechaInicio."' and '".$FechaTermino."' ";
 			$Consulta.= " and t1.corr_enm = t2.corr_enm  and t2.cod_estado <> 'A'   and t2.corr_enm <9999 ";
 			$Consulta.=" order by t2.fecha_guia,t2.patente_guia,t1.cod_nave";
-		//	echo "CC".$Consulta."<br>";		
+		   //	echo "CC".$Consulta."<br>";		
 			$Resp200 = mysqli_query($link, $Consulta);
 			while ($Row11 = mysqli_fetch_array($Resp200))
 			{
@@ -148,10 +148,10 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 		$Consulta ="SELECT distinct puerto_camion  from sec_web.tmpcamiones  order by puerto_camion";
 		$RespuestaC = mysqli_query($link, $Consulta);
 		//echo "RRRR".$Consulta;
+		$TotalCamiones = 0;
 		while($Fila4=mysqli_fetch_array($RespuestaC))
 		{
-			$TotalPuerto =0;
-			
+			$TotalPuerto =0;			
 			$Consulta = "SELECT nom_aero_puerto from sec_web.puertos"; 
 			$Consulta.= " where cod_puerto = '".$Fila4["puerto_camion"]."'";
 			$Respuesta1 = mysqli_query($link, $Consulta);
@@ -164,9 +164,7 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 				echo "<td>&nbsp;</td>\n";
 				echo "<td>&nbsp;</td>\n";
 				echo "<td>&nbsp;</td>\n";
-				echo "</tr>\n";
-				
-				
+				echo "</tr>\n";			
 				$Consulta = "SELECT distinct  nave_camion";
 				$Consulta.= " from sec_web.tmpcamiones";
 				$Consulta.= " where puerto_camion =  '".$Fila4["puerto_camion"]."'";
@@ -205,8 +203,8 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 						echo "<td align='right'>".number_format($Filaasig["camiones"],0,",",".")."</td>\n";
 						echo "</tr>\n";
 						$TotalCamionesNave = $TotalCamionesNave + $Filaasig["camiones"]; 
-						$TotalCamiones = $TotalCamiones + $Filaasig["camiones"];
-						$TotalPuerto = $TotalPuerto +  $Filaasig["camiones"];
+						$TotalCamiones     = $TotalCamiones + $Filaasig["camiones"];
+						$TotalPuerto       = $TotalPuerto +  $Filaasig["camiones"];
 					}
 					
 					echo "<tr>";
@@ -216,12 +214,9 @@ function MostrarDetalle(puerto,nave,enm,FechaInicio,FechaTermino,Camiones)
 					echo "<td align='right'>".number_format($TotalCamionesNave,0,",",".")."</td>\n";	
 					echo "</tr>";
 				//echo "TT".$TotalCamionesNave;	
-				}
-				
-				
-			}
-			
-				echo "</tr>";
+				}				
+			}			
+			echo "</tr>";
 			echo "<tr class='ColorTabla01'>";
 			echo "<td align'left' colspan='3'<strong>CAMIONES PUERTO</srtong></td>\n";
 			echo "<td align='right'>".number_format($TotalPuerto,0,",",".")."</td>\n";

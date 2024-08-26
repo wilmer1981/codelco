@@ -12,18 +12,7 @@
 	 $DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
 
 	 $vcontrol = isset($_REQUEST["vcontrol"])?$_REQUEST["vcontrol"]:"";
-	 
-	/*
- 	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}  
-	*/
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -210,19 +199,12 @@
 		?>
         </SELECT></td>
     </tr>
-    <tr> 
-	
-	
-	
-	
+    <tr> 	
       <td colspan="4" align="center"> <input name="btnConsultar" type="button" id="btnConsultar" style="width:70" onClick="JavaScript:Proceso('C')" value="Consultar"> 
         <input name="btnimprimir2" type="button" value="Imprimir" style="width:70;" onClick="JavaScript:Proceso('I')">
 		<input name="btnExcel" type="button" id="btnExcel" style="width:70" onClick="JavaScript:Proceso('E')" value="Excel">
-		
 			<input name='BtnCamion' type='button' id="BtnCamion" style='width:120' onClick="JavaScript:Proceso('CA')" value='Detalle Camiones'>
-
-		
-        <input name="btnsalir2" type="button" style="width:70" onClick="JavaScript:Proceso('S')" value="Salir"> 
+			<input name="btnsalir2" type="button" style="width:70" onClick="JavaScript:Proceso('S')" value="Salir"> 
       </td>
     </tr>
 	
@@ -232,7 +214,7 @@
 		echo "<br>\n";
 		echo "<table width='950' height='14'  border='1' align='center' cellpadding='0' cellspacing='0'>\n";
 		echo "<tr class='ColorTabla01'>\n";
-		echo "<td width='52' align='center'>N� ENVIO</td>\n";
+		echo "<td width='52' align='center'>N&deg; ENVIO</td>\n";
 		echo "<td width='140' align='center'>FECHA DESPACHO</td>\n";
 		echo "<td width='70' align='center'>ASIGNACION</td>\n";
 		echo "<td width='50' align='center'>DESTINATARIO.</td>\n";
