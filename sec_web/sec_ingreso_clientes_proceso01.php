@@ -11,7 +11,7 @@
 	$TxtCiudad     = isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtCiudad"]:"";
 	$TxtComuna     = isset($_REQUEST["TxtComuna"])?$_REQUEST["TxtComuna"]:"";
 	$TxtRepresentante = isset($_REQUEST["TxtRepresentante"])?$_REQUEST["TxtRepresentante"]:"";
-	$cmbregion        = isset(isset($_REQUEST["cmbregion"])?$_REQUEST["cmbregion"]:"";
+	$cmbregion        = isset($_REQUEST["cmbregion"])?$_REQUEST["cmbregion"]:"";
 	$TxtTelefono      = isset($_REQUEST["TxtTelefono"])?$_REQUEST["TxtTelefono"]:"";
 	$TxtTelefono2     = isset($_REQUEST["TxtTelefono2"])?$_REQUEST["TxtTelefono2"]:"";
 	$CheckVD          = isset($_REQUEST["CheckVD"])?$_REQUEST["CheckVD"]:"";
