@@ -6,6 +6,7 @@
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
 	$CookieRut = $_COOKIE["CookieRut"];
+	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']); //Nombnre completro de la PC : WSALDANA-PERU.sml.sermaluc.cl
 	$EstadoInput='';
 	/*
 	if(isset($RNA))
@@ -23,16 +24,15 @@
 	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
 	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
 	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
-	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
-		
-	$RNA = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
+	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";		
+	$RNA        = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
 
 	if(isset($RNA) && $RNA!=''){
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
-	}else{
+	}/*else{
 		$RNA = "";
-	}
+	}*/
     /*
 	if($RNA!='')	
 	{	
@@ -127,7 +127,7 @@
 				if($DiasDif>=7) 
 				{
 					$FechaUltAct=explode('-',$Fila["fecha"]);
-					$Mensaje='Actualizar Tara del Cami�n, Ultima Actualizacion '.$FechaUltAct[2]."-".$FechaUltAct[1]."-".$FechaUltAct[0];
+					$Mensaje='Actualizar Tara del Camión, Ultima Actualizacion '.$FechaUltAct[2]."-".$FechaUltAct[1]."-".$FechaUltAct[0];
 				}
 			}	
 			else
@@ -287,7 +287,8 @@ function LeerRomana(Rom)
 	return(valor); 
 }*/
 //var ROMA=LeerRomana('');
-var ROMA='<?php echo LeerArchivo('PesaMatic','ROMANA.txt');?>';
+//var ROMA = '<?php echo LeerArchivo('PesaMatic','ROMANA.txt');?>';
+var ROMA = '<?php echo LeerRomana($REMOTE_ADDR,$link); ?>'; 
 /*
 function LeerArchivo(valor)
 {
@@ -335,10 +336,12 @@ function CapturaPeso(tipo)
 			f.TipoProceso.value="E";
 			if(f.TxtNumBascula.value=='1'){		
 				//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
-				f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+				//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
 			}else{
 				//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-				f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+				//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 			}
 			if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
 				f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;	
@@ -348,10 +351,12 @@ function CapturaPeso(tipo)
 			f.TipoProceso.value="S";
 			if(f.TxtNumBascula.value=='1'){					
 				//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-				f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+				f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
 			}else{
 				//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
-				f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+				f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 			}
 			if(parseInt(f.TxtPesoTara.value)>parseInt(f.TxtPesoBruto.value))
 			{
@@ -776,7 +781,7 @@ body {
     <?php
 		$AnoMes=substr(date('Y'),2,2).date('m');
 		$Consulta ="SELECT distinct t1.correlativo from sipa_web.otros_pesaje t1 ";
-		$Consulta.="where patente='$TxtPatente' and peso_neto=0 and estado<>'A' order by t1.correlativo desc";
+		$Consulta.="where patente='".$TxtPatente."' and peso_neto=0 and estado<>'A' order by t1.correlativo desc";
 		$RespCorr=mysqli_query($link, $Consulta);
 		while($FilaCorr=mysqli_fetch_array($RespCorr))
 		{
@@ -888,7 +893,7 @@ body {
 	}
 ?>
     </SELECT><?php //echo $Consulta;?></td>
-    <td colspan="3" align="center" class="ColorTabla02"><input name="BtnPTara2" type="button" style="width:180px " onClick="IngresaTara()" value="Pesaje Tara de Cami�n"></td>
+    <td colspan="3" align="center" class="ColorTabla02"><input name="BtnPTara2" type="button" style="width:180px " onClick="IngresaTara()" value="Pesaje Tara de Camión"></td>
     </tr>
   <tr>
     <td align="right" class="ColorTabla02">Observacion:</td>
@@ -972,6 +977,8 @@ body {
 		  return($ndias);
 	}
 //echo "AAAAAA".$Mensaje;
+$Romana = LeerRomana($REMOTE_ADDR,$link);
+echo "<br>ROMANA: ".$Romana;
 if($Mensaje!='')
 {
 	echo "<script language='JavaScript'>";
@@ -983,7 +990,7 @@ if($Mensaje!='')
 }
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmOtrosPesajes;";
-$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
+//$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
 echo "f.TxtNumRomana.value=".$Romana.";";
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
 //echo "alert(f.TxtNumRomana.value);";
