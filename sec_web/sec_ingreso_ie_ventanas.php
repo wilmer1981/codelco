@@ -1,7 +1,8 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 49;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$Consulta = "SELECT ifnull(max(corr_enm),800000)+ 1 as mayor  from sec_web.programa_enami where tipo='V'";
 	$Resultado = mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Resultado);
@@ -211,7 +212,7 @@ body {
             <?php
 					echo "<SELECT name='CmbDestino' style='width:500'>";
 					echo '<option value="-1" SELECTed>Seleccionar</option>';	
-					$Consulta = "SELECT * from sec_web.sub_cliente_vta where cod_cliente='$CodCliente' order by comuna";
+					$Consulta = "SELECT * from sec_web.sub_cliente_vta where cod_cliente='".$CodCliente."' order by comuna";
 					$Respuesta = mysqli_query($link, $Consulta);
 					while($Fila = mysqli_fetch_array($Respuesta))
 					{

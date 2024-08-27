@@ -65,7 +65,7 @@
 				$Insertar.=" fecha_embarque,fecha_programacion,bulto_paquetes,bulto_peso,cod_marca,cod_producto";
 				$Insertar.=",cod_subproducto,cod_cliente,cod_puerto,cod_agente,cod_estiba,cod_acopio,cod_confirmado,";
 				$Insertar.=" tipo_embarque,tipo_enm_code,cod_nave,num_viaje,cod_sub_cliente,rut_cliente,fecha_envio,tipo) values(";
-				$Insertar.="'".$TxtNumEnvio."','".$TxtIE."','','','".$Fecha."','".$Fecha2."', ";
+				$Insertar.="'".$TxtNumEnvio."','".$TxtIE."','','0','".$Fecha."','".$Fecha2."', ";
 				$Insertar.=" '','','01BL','".$CodProducto."','".$CodSubProducto."','".$CodCliente."' ";
 				$Insertar.=",'".$cod_puerto."','".$cod_agente."','".$cod_estiba."','".$cod_acopio."','C','T','E','".$cod_nave."','".$num_viaje."','".$CodSubCliente."','".$RutCliente."','".$FechaEnvio."','V')";
 				mysqli_query($link, $Insertar);
