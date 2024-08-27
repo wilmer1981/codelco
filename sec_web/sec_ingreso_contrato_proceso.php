@@ -670,7 +670,7 @@ function Salir()
             <td><SELECT name="cmbsubproducto" style="width:300px">
                 <option value="-1">SELECCIONAR</option>
                 <?php	
-			$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$cmbproducto."";
+			$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$cmbproducto."'";
 			//echo '<option value="-1">'.$consulta.'</option>';
 			$rs = mysqli_query($link, $consulta);
 			while ($row = mysqli_fetch_array($rs))
