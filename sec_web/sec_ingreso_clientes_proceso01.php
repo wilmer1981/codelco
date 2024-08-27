@@ -1,24 +1,23 @@
 <?php
 	include("../principal/conectar_fac_web.php");
 
-	$Proceso   = $_REQUEST["Proceso"];
-	$TxtCodigo = $_REQUEST["TxtCodigo"];
-	$TxtRut    = $_REQUEST["TxtRut"];
-	$TxtDv     = $_REQUEST["TxtDv"];
-
-	$TxtNombre   = $_REQUEST["TxtNombre"];
-	$TxtNombre2  = $_REQUEST["TxtNombre2"];
-	$TxtDireccion  = $_REQUEST["TxtDireccion"];
-	$TxtCiudad     = $_REQUEST["TxtCiudad"];
-	$TxtComuna     = $_REQUEST["TxtComuna"];
-	$TxtRepresentante  = $_REQUEST["TxtRepresentante"];
-	$cmbregion        = $_REQUEST["cmbregion"];
-	$TxtTelefono      = $_REQUEST["TxtTelefono"];
-	$TxtTelefono2     = $_REQUEST["TxtTelefono2"];
-	$CheckVD     = $_REQUEST["CheckVD"];
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TxtCodigo = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
+	$TxtRut    = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$TxtDv     = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
+	$TxtNombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtNombre2    = isset($_REQUEST["TxtNombre2"])?$_REQUEST["TxtNombre2"]:"";
+	$TxtDireccion  = isset($_REQUEST["TxtDireccion"])?$_REQUEST["TxtDireccion"]:"";
+	$TxtCiudad     = isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtCiudad"]:"";
+	$TxtComuna     = isset($_REQUEST["TxtComuna"])?$_REQUEST["TxtComuna"]:"";
+	$TxtRepresentante = isset($_REQUEST["TxtRepresentante"])?$_REQUEST["TxtRepresentante"]:"";
+	$cmbregion        = isset(isset($_REQUEST["cmbregion"])?$_REQUEST["cmbregion"]:"";
+	$TxtTelefono      = isset($_REQUEST["TxtTelefono"])?$_REQUEST["TxtTelefono"]:"";
+	$TxtTelefono2     = isset($_REQUEST["TxtTelefono2"])?$_REQUEST["TxtTelefono2"]:"";
+	$CheckVD          = isset($_REQUEST["CheckVD"])?$_REQUEST["CheckVD"]:"";
 	
 	$RutCliente=$TxtRut."-".$TxtDv;
-	$Regiones =array("I Regi�n","II Regi�n","III Regi�n","IV Regi�n","V Regi�n","VI Regi�n","VII Regi�n","VIII Regi�n","IX Regi�n","X Regi�n","XI Regi�n","XII Regi�n","Regi�n Metrop.");	
+	$Regiones =array("I Región","II Región","III Región","IV Región","V Región","VI Región","VII Región","VIII Región","IX Región","X Región","XI Región","XII Región","Región Metrop.");	
 	$DirecGuiaDespacho=$TxtDireccion;
 	if ($TxtCiudad!='')
 	{
