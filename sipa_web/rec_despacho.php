@@ -68,13 +68,8 @@
 	$TxtDirec = isset($_REQUEST["TxtDirec"])?$_REQUEST["TxtDirec"]:"";
 	$TxtSello = isset($_REQUEST["TxtSello"])?$_REQUEST["TxtSello"]:"";
 	$TxtTransp = isset($_REQUEST["TxtTransp"])?$_REQUEST["TxtTransp"]:"";
-
-	if(isset($RNA))
-	{
-		setcookie("ROMANA",$RNA);
-		$TxtNumRomana=$RNA;
-	}
-	if($RNA!='')	
+  
+	if(isset($RNA) && $RNA!='')	
 	{	
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
@@ -471,7 +466,7 @@
 				$ObjFoco='TxtPatente';				
 			break;	
 	}
-	if(isset($CmbSubProducto)&&isset($CmbProveedor))
+	if($CmbSubProducto!="" && $CmbProveedor!="")
 	{
 		$Consulta = "SELECT leyes,impurezas from age_web.relaciones ";
 		$Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."' and rut_proveedor='".$CmbProveedor."'";
@@ -1196,11 +1191,11 @@ body {
     <td colspan="6"><strong>DESPACHOS:
 	<?php
 		if($TipoProceso!='S')
-		{	echo "ENTRADA DEL CAMION";
+		{	//echo "ENTRADA DEL CAMION";
 		$Testo="ENTRADA";
 		}else
-		{	echo "SALIDA DEL CAMION";
-	$Testo="SALIDA";
+		{	//echo "SALIDA DEL CAMION";
+		$Testo="SALIDA";
 		}?>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PESANDO EN BASCULA DE <?php echo $Testo;?> :
 <input type="hidden" name="TxtNumBascula" class="InputCen" value="<?php echo $TxtNumBascula;?>" size="2" > 
@@ -1221,7 +1216,9 @@ switch($TxtNumRomana)
 			break;
 		}	
 		$Color='000000';
-	if($TxtNumRomana==1 && $TxtNumBascula==1)	
+		//echo "TxtNumRomana :".$TxtNumRomana;
+		//echo "<br>TxtNumBascula:".$TxtNumBascula;
+	    if($TxtNumRomana==1 && $TxtNumBascula==1)	
 		{$Valor=1;$Color='FF0000';}
 		if($TxtNumRomana==1 && $TxtNumBascula==2)	
 		{$Valor=2;$Color='009933';}
@@ -1316,13 +1313,15 @@ switch($TxtNumRomana)
 		if($OrigenGuia=='')
 		{
 			$Consulta3 ="SELECT correlativo,fecha from sipa_web.despachos ";
+			//$Consulta3.="inner join pac_web.guia_despacho t2 on t1.patente=t2.nro_patente and t1.correlativo=t2.corr_romana ";
 			$Consulta3.="where patente='".strtoupper($TxtPatente)."' and peso_neto=0 and estado<>'A' order by correlativo desc";
 			$RespCorr=mysqli_query($link, $Consulta3);
 			while($FilaCorr=mysqli_fetch_array($RespCorr))
 			{
-
+				echo "Correlativo:".$TxtCorrelativo;
 				$Datos=explode('~',$TxtCorrelativo);
-				if($Datos[0]==$FilaCorr["correlativo"]&&$Datos[1]==$FilaCorr["num_guia"])
+				//if($Datos[0]==$FilaCorr["correlativo"]&&$Datos[1]==$FilaCorr["num_guia"])
+				if($Datos[0]==$FilaCorr["correlativo"])
 					echo "<option value='".$FilaCorr["correlativo"]."' SELECTed>".str_pad($FilaCorr["correlativo"],6,0,STR_PAD_LEFT)." | ".$FilaCorr["fecha"]."</option>";
 				else
 					echo "<option value='".$FilaCorr["correlativo"]."'>".str_pad($FilaCorr["correlativo"],6,0,STR_PAD_LEFT)." | ".$FilaCorr["fecha"]."</option>";			
@@ -1401,7 +1400,7 @@ switch($TxtNumRomana)
 		$Consulta="SELECT  t1.cod_producto,t1.cod_subproducto,t2.abreviatura as nom_prod,t2.descripcion as nom_subprod, ";
 		$Consulta.= " case when length(t1.cod_subproducto)<2 then concat('0',t1.cod_subproducto) else t1.cod_subproducto end as orden ";
 		$Consulta.="from sipa_web.grupos_prod_subprod t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto =t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
-		$Consulta.="where t1.cod_grupo='$CmbGrupoProd' order by nom_subprod";
+		$Consulta.="where t1.cod_grupo='".$CmbGrupoProd."' order by nom_subprod";
 		$Resp = mysqli_query($link, $Consulta);
 		while ($Fila = mysqli_fetch_array($Resp))
 		{
@@ -1425,7 +1424,7 @@ switch($TxtNumRomana)
 				$Consulta="SELECT  t1.cod_producto,t1.cod_subproducto,t2.abreviatura as nom_prod,t2.descripcion as nom_subprod, ";
 				$Consulta.= " case when length(t1.cod_subproducto)<2 then concat('0',t1.cod_subproducto) else t1.cod_subproducto end as orden ";
 				$Consulta.="from sipa_web.grupos_prod_subprod t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto =t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
-				$Consulta.="where t1.cod_grupo='$CmbGrupoProd' order by nom_subprod";
+				$Consulta.="where t1.cod_grupo='".$CmbGrupoProd."' order by nom_subprod";
 				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
