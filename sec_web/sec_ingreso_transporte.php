@@ -4,15 +4,15 @@
 	include("../principal/conectar_pac_web.php");
 
 	
-	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-
+	$Proceso          = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Contrato         = isset($_REQUEST["Contrato"])?$_REQUEST["Contrato"]:"";
 	$ContratoVent     = isset($_REQUEST["ContratoVent"])?$_REQUEST["ContratoVent"]:"";
 	$SubContratoVent  = isset($_REQUEST["SubContratoVent"])?$_REQUEST["SubContratoVent"]:"";
 
 	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
-	$estado= isset($_REQUEST["estado"])?$_REQUEST["estado"]:"T";
+	$estado= isset($_REQUEST["estado"])?$_REQUEST["estado"]:"";
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 	
 	if($Proceso == "E")
 	{
@@ -308,7 +308,7 @@ function Salir()
 
 			$Fecha = $Ano.'-'.$Mes;
 			if($Proceso == "B")			
-				$Consulta = "SELECT * from sec_web.contrato_transporte WHERE vigente = '$estado' order by num_cont_transporte";
+				$Consulta = "SELECT * from sec_web.contrato_transporte WHERE vigente = '".$estado."' order by num_cont_transporte";
 				
 			else
 				$Consulta = "SELECT * from sec_web.contrato_transporte order by num_cont_transporte";
@@ -350,7 +350,7 @@ function Salir()
 				}
 
 				$peso = 0;
-				$Consulta = "SELECT * FROM sec_web.det_contrato WHERE num_contrato = ".$Contrato;				
+				$Consulta = "SELECT * FROM sec_web.det_contrato WHERE num_contrato = '".$Contrato."' ";				
 				$Consulta.= " AND num_subcontrato = ".$SubContrato;
 				$Consulta.= " AND cod_producto = ".$Producto;
 				$Consulta.= " AND cod_subproducto = ".$SubProducto;
@@ -397,7 +397,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
 		{
