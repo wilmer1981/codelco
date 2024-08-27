@@ -1,9 +1,10 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 47;
-	include("../principal/conectar_fac_web.php");
-
-	$CmbOpcion = isset($_REQUEST["CmbOpcion"])?$_REQUEST["CmbOpcion"]:"V";
+	//include("../principal/conectar_fac_web.php");
+	include("../principal/conectar_principal.php");
+	
+	$CmbOpcion        = isset($_REQUEST["CmbOpcion"])?$_REQUEST["CmbOpcion"]:"V";
 	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 
 ?>
@@ -243,12 +244,12 @@ function Salir()
             <td align="center"> <input type="button" name="BtnNuevo" value="Nuevo Cliente" style="width:90" onClick="MostrarPopupProceso('N');"> 
               <input type="button" name="BtnSubCliente" value="Destinos" style="width:80" onClick="MostrarPopupProceso('S');"> 
               <input type="button" name="BtnModificar" value="Modificar" style="width:60" onClick="MostrarPopupProceso('M');"> 
-			  <?php
+			    <?php
 			  		if ($CmbOpcion=='V')
 					{
 						echo "<input type='button' name='BtnEliminar' value='Eliminar' style='width:60' onClick=MostrarPopupProceso('E')>";
 					}	
-			  ?>
+			    ?>
               <input type="button" name="BtnSalir" value="Salir" style="width:60" onClick="Salir();"></td>
           </tr>
         </table>
@@ -262,7 +263,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
 		{

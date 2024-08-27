@@ -17,12 +17,13 @@
 	$TxtRepresentante = isset($_REQUEST["TxtRepresentante"])?$_REQUEST["TxtRepresentante"]:"";
 	$TxtFono    = isset($_REQUEST["TxtFono"])?$_REQUEST["TxtFono"]:"";
 	$TxtCelular = isset($_REQUEST["TxtCelular"])?$_REQUEST["TxtCelular"]:"";
+	$Mensaje    = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
 
 	$tope = strlen($Valores);
     $TxtCliente = substr($Valores,0,($tope - 2));
 
-	$Consulta = "SELECT rut,nombre_cliente FROM sec_web.cliente_venta WHERE cod_cliente = '$TxtCliente'";
+	$Consulta = "SELECT rut,nombre_cliente FROM sec_web.cliente_venta WHERE cod_cliente = '".$TxtCliente."'";
 	$rs = mysqli_query($link, $Consulta);
 	$Fila = mysqli_fetch_array($rs);
 	$TxtRut = $Fila["rut"];
@@ -33,7 +34,7 @@
 	$Fila = mysqli_fetch_array($rs);
 	$TxtId = $Fila["Id"];
 
-	$Consulta = "SELECT ifnull(max(ceiling(cod_sub_cliente)),0)+1 as subcliente FROM sec_web.sub_cliente_vta WHERE cod_cliente = '$TxtCliente'";
+	$Consulta = "SELECT ifnull(max(ceiling(cod_sub_cliente)),0)+1 as subcliente FROM sec_web.sub_cliente_vta WHERE cod_cliente = '".$TxtCliente."'";
 	$rs2 = mysqli_query($link, $Consulta);
 	$Fila2 = mysqli_fetch_array($rs2);
 	$TxtSubCliente = $Fila2["subcliente"];
@@ -99,14 +100,14 @@ function Grabar()
 
     if(f.cmbregion.value == -1)
 	{
-	    alert("Debe Seleccionar Regi�n");
+	    alert("Debe Seleccionar Región");
         f.cmbregion.focus();  
 		return
     }   
 
     if(f.TxtDireccion.value == '')
 	{
-	    alert("Debe Ingresar la Direcci�n");
+	    alert("Debe Ingresar la Dirección");
         f.TxtDireccion.focus();  
 		return
     }   
@@ -186,7 +187,7 @@ function Cancelar()
 				<?php
 					echo "<option value='-'>&nbsp;</option>";
 					echo "<option value='-'>------CLIENTES VENTAS DIRECTAS--------------------------</option>";
-					$Consulta="SELECT * from sec_web.cliente_venta where (cod_cliente like '%VD%') and (rut <>'$TxtRut') order by nombre_cliente";
+					$Consulta="SELECT * from sec_web.cliente_venta where (cod_cliente like '%VD%') and (rut <>'".$TxtRut."') and nombre_cliente <> ''  order by nombre_cliente";
 					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysqli_fetch_array($Respuesta))
 					{
@@ -203,7 +204,7 @@ function Cancelar()
 					echo "<option value='-'>------CLIENTES CHILE--BRASIL--ARGENTINA-----------------------------</option>";
 					echo "<option value='-'>&nbsp;</option>";
 					$Consulta="SELECT * from sec_web.cliente_venta where (cod_cliente like '%LX%' or cod_cliente like '%AR%' or ";
-					$Consulta.="cod_cliente like '%BR%' or cod_cliente like '%VD%') and (rut <>'$TxtRut') order by nombre_cliente";
+					$Consulta.="cod_cliente like '%BR%' or cod_cliente like '%VD%') and (rut <>'".$TxtRut."') and nombre_cliente <> '' order by nombre_cliente";
 					$Respuesta=mysqli_query($link, $Consulta);
 					while($Fila=mysqli_fetch_array($Respuesta))
 					{
@@ -248,66 +249,66 @@ function Cancelar()
 				echo'<option value="-1">SELECCIONAR</option>';
 
 				if($cmbregion=="1")
-					echo'<option value="1" SELECTed>I Regi�n</option>';
+					echo'<option value="1" SELECTed>I Región</option>';
 				if($cmbregion=="1")
-					echo'<option value="1" SELECTed>I Regi�n</option>';
+					echo'<option value="1" SELECTed>I Región</option>';
 				else	
-					echo'<option value="1">I Regi�n</option>';
+					echo'<option value="1">I Región</option>';
 				if($cmbregion=="2")
-					echo'<option value="2" SELECTed>II Regi�n</option>';
+					echo'<option value="2" SELECTed>II Región</option>';
 				else	
-					echo'<option value="2">II Regi�n</option>';
+					echo'<option value="2">II Región</option>';
 				if($cmbregion=="3")
-					echo'<option value="3" SELECTed>III Regi�n</option>';
+					echo'<option value="3" SELECTed>III Región</option>';
 				else	
-					echo'<option value="3">III Regi�n</option>';
+					echo'<option value="3">III Región</option>';
 				if($cmbregion=="4")
-					echo'<option value="4" SELECTed>IV Regi�n</option>';
+					echo'<option value="4" SELECTed>IV Región</option>';
 				else	
-					echo'<option value="4">IV Regi�n</option>';
+					echo'<option value="4">IV Región</option>';
 				if($cmbregion=="5")
-					echo'<option value="5" SELECTed>V Regi�n</option>';
+					echo'<option value="5" SELECTed>V Región</option>';
 				else	
-					echo'<option value="5">V Regi�n</option>';
+					echo'<option value="5">V Región</option>';
 				if($cmbregion=="6")
-					echo'<option value="6" SELECTed>VI Regi�n</option>';
+					echo'<option value="6" SELECTed>VI Región</option>';
 				else	
-					echo'<option value="6">VI Regi�n</option>';
+					echo'<option value="6">VI Región</option>';
 				if($cmbregion=="7")
-					echo'<option value="7" SELECTed>VII Regi�n</option>';
+					echo'<option value="7" SELECTed>VII Región</option>';
 				else	
-					echo'<option value="7">VII Regi�n</option>';
+					echo'<option value="7">VII Región</option>';
 				if($cmbregion=="8")
-					echo'<option value="8" SELECTed>VIII Regi�n</option>';
+					echo'<option value="8" SELECTed>VIII Región</option>';
 				else	
-					echo'<option value="8">VIII Regi�n</option>';
+					echo'<option value="8">VIII Región</option>';
 				if($cmbregion=="9")
-					echo'<option value="9" SELECTed>IX Regi�n</option>';
+					echo'<option value="9" SELECTed>IX Región</option>';
 				else	
-					echo'<option value="9">IX Regi�n</option>';
+					echo'<option value="9">IX Región</option>';
 				if($cmbregion=="10")
-					echo'<option value="10" SELECTed>X Regi�n</option>';
+					echo'<option value="10" SELECTed>X Región</option>';
 				else	
-					echo'<option value="10">X Regi�n</option>';
+					echo'<option value="10">X Región</option>';
 				if($cmbregion=="11")
-					echo'<option value="11" SELECTed>XI Regi�n</option>';
+					echo'<option value="11" SELECTed>XI Región</option>';
 				else	
-					echo'<option value="11">XI Regi�n</option>';
+					echo'<option value="11">XI Región</option>';
 				if($cmbregion=="12")
-					echo'<option value="12" SELECTed>XII Regi�n</option>';
+					echo'<option value="12" SELECTed>XII Región</option>';
 				else	
-					echo'<option value="12">XII Regi�n</option>';
+					echo'<option value="12">XII Región</option>';
 				if($cmbregion=="13")
-					echo'<option value="13" SELECTed>Regi�n Metrop.</option>';
+					echo'<option value="13" SELECTed>Región Metrop.</option>';
 				else	
-					echo'<option value="13">Regi�n Metrop.</option>';
+					echo'<option value="13">Región Metrop.</option>';
 								 
 			?>
 			</SELECT>
 			</td>
           </tr>		  
           <tr> 
-            <td width="133" height="26">Direcci�n</td>
+            <td width="133" height="26">Direcci&oacute;n</td>
 			<td width="316">
 			<input type="text" name="TxtDireccion" style="width:300px" value="<?php echo $TxtDireccion?>">
 			</td>

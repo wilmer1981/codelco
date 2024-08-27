@@ -2,7 +2,7 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_sec_web.php");
-	$Regiones =array("I Regi�n","II Regi�n","III Regi�n","IV Regi�n","V Regi�n","VI Regi�n","VII Regi�n","VIII Regi�n","IX Regi�n","X Regi�n","XI Regi�n","XII Regi�n","Regi�n Metrop.");	
+	$Regiones =array("I Región","II Región","III Región","IV Región","V Región","VI Región","VII Región","VIII Región","IX Región","X Región","XI Región","XII Región","Región Metrop.");	
 	
 	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$BuscarRut = isset($_REQUEST["BuscarRut"])?$_REQUEST["BuscarRut"]:"";
@@ -19,8 +19,8 @@
 	$cmbregion        = isset($_REQUEST["cmbregion"])?$_REQUEST["cmbregion"]:"";
 	$TxtTelefono      = isset($_REQUEST["TxtTelefono"])?$_REQUEST["TxtTelefono"]:"";
 	$TxtTelefono2     = isset($_REQUEST["TxtTelefono2"])?$_REQUEST["TxtTelefono2"]:"";
-
-
+	
+	$Mensaje="";
 
 	switch($Proceso)
 	{
@@ -126,7 +126,7 @@ function Grabar(Proceso,Valores)
 	}
 	if (Frm.cmbregion.value == "-1")
 	{
-		alert("Debe Seleccionar Regi�n")
+		alert("Debe Seleccionar Región")
 		Frm.cmbregion.focus();
 		return;
 	}
@@ -268,7 +268,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo "<script languaje='javascript'>";
 		echo "alert('".$Mensaje."');";	
