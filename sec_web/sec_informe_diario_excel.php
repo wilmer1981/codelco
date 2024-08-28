@@ -22,7 +22,7 @@
 //	 $link = mysql_connect('10.56.11.7','adm_bd','672312');
  //mysql_SELECT_db("sec_web",$link);
 	set_time_limit(1000);
-	$Dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","S�bado");
+	$Dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 	$Ano = $_REQUEST["Ano"];
@@ -469,7 +469,7 @@ function Proceso(opt)
     <td><?php echo number_format($PreparadosStd1ER,0,",","."); ?></td>
     <td><?php echo number_format($PreparadosStd2ER,0,",","."); ?></td>
     <td><?php echo number_format($PreparadosStd3ER,0,",","."); ?></td>
-      <td><?php echo number_format($SinPreparar,0,",","."); ?></td>
+    <td><?php echo number_format($SinPreparar,0,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -493,12 +493,12 @@ function Proceso(opt)
     <td width="161" rowspan="2">Detalle de Paquetes</td>
     <td width="213" align="center">Para Lavado</td>
     <td width="138" align="center">Para Pesaje</td>
-      <td width="112" align="center"> STD 1ER,2ER,3ER</td>
+    <td width="112" align="center"> STD 1ER,2ER,3ER</td>
   </tr>
   <tr> 
     <td align="center"><?php echo number_format($PaqLavar,0,",","."); ?></td>
     <td align="center"><?php echo number_format($PaqPesar,0,",","."); ?></td>
-      <td align="center"><?php echo number_format($PaqStandard,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($PaqStandard,0,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -508,11 +508,11 @@ function Proceso(opt)
   <tr class="ColorTabla01"> 
     <td width="160" rowspan="2">Detalle de Granel </td>
     <td width="313" align="center">Grado A</td>
-      <td width="157" align="center">STD 1ER,2ER,3ER</td>
+    <td width="157" align="center">STD 1ER,2ER,3ER</td>
   </tr>
   <tr> 
     <td align="center"><?php echo number_format($PaqCatodosGranel,0,",","."); ?></td>
-      <td align="center"><?php echo number_format($PaqStandardGranel,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($PaqStandardGranel,0,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -529,7 +529,7 @@ function Proceso(opt)
     <td><?php echo number_format(($PesadoEmbarque/1000),0,",","."); ?></td>
     <td><?php echo number_format(($PaqStandard + $PaqStandardGranel),0,",","."); ?></td>
     <td><?php echo number_format(($StandardAcumulado/1000),0,",","."); ?></td>
-      <td><?php echo number_format($PorcStandard,2,",","."); ?></td>
+    <td><?php echo number_format($PorcStandard,2,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -569,8 +569,8 @@ function Proceso(opt)
     <td class="ColorTabla01">Diario</td>
     <td align="center"><?php echo number_format($ComercialDiario,0,",","."); ?></td>
     <td align="center"><?php echo number_format($DescNormalDiario,0,",","."); ?></td>
-	 <td align="center"><?php echo number_format($DespLamDiario,0,",","."); ?></td>
-	  <td align="center"><?php echo number_format($TotalCuElecDiario,0,",","."); ?></td>
+	<td align="center"><?php echo number_format($DespLamDiario,0,",","."); ?></td>
+	<td align="center"><?php echo number_format($TotalCuElecDiario,0,",","."); ?></td>
     <td align="center"><?php echo number_format($DescParcialDiario,0,",","."); ?></td>
     <td align="center"><?php echo number_format($FaenasDiario,0,",","."); ?></td>
   </tr>

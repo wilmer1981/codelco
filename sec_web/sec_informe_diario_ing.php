@@ -10,7 +10,7 @@
 	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 	$Dia = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
 
-	
+	/*
 	$RecuperadoDiario    = isset($_REQUEST["RecuperadoDiario"])?$_REQUEST["RecuperadoDiario"]:"";
 	$RecuperadoAcumulado = isset($_REQUEST["RecuperadoAcumulado"])?$_REQUEST["RecuperadoAcumulado"]:"";
 	$StandardDiario      = isset($_REQUEST["StandardDiario"])?$_REQUEST["StandardDiario"]:"";
@@ -24,6 +24,23 @@
 	$Observacion         = isset($_REQUEST["Observacion"])?$_REQUEST["Observacion"]:"";
 	$EnPreparacion       = isset($_REQUEST["EnPreparacion"])?$_REQUEST["EnPreparacion"]:"";
     $Validacion          = isset($_REQUEST["Validacion"])?$_REQUEST["Validacion"]:"";
+*/
+	
+	$PaqLavar = "";
+	$PaqPesar = "";
+	$PaqStandard = "";
+	$PaqCatodosGranel = "";
+	$PaqStandardGranel = "";
+	$ConfecGranel = "";
+	$Observacion = "";
+	$EnPreparacion = "";
+
+	$Validacion = "";
+	
+	$RecuperadoDiario = "";
+	$RecuperadoAcumulado = "";
+	$StandardDiario = "";
+	$StandardAcumulado = "";
 	
 	$Genera = false;
 	if ($Dia!="")
@@ -31,7 +48,7 @@
 		$FechaInf = $Ano."-".$Mes."-".$Dia;
 		$Consulta = "SELECT * from sec_web.informe_diario ";
 		$Consulta.= " where fecha = '".$FechaInf."'";
-		
+		//echo $Consulta;
 		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
@@ -50,24 +67,19 @@
 			$StandardAcumulado = $Fila["standard_acumulado"];
 			$EnPreparacion=$Fila["sin_preparar_arrastre"];
 			$Validacion = $PaqLavar + $PaqPesar + $PaqStandard + $PaqCatodosGranel + $PaqStandardGranel + $EnPreparacion;
-		}
-		
-		
+		}	
 	}
 		
-		if ($EnPreparacion == 0)
+	if ($EnPreparacion == 0)
+	{	
+		$Consulta = "SELECT *  from sec_web.catodo_por_pesar ";
+		$Resp1 = mysqli_query($link, $Consulta);
+		if ($Fila1 = mysqli_fetch_array($Resp1))
 		{
-		
-		
-			$Consulta = "SELECT *  from sec_web.catodo_por_pesar ";
-			$Resp1 = mysqli_query($link, $Consulta);
-			if ($Fila1 = mysqli_fetch_array($Resp1))
-			{
-				$EnPreparacion=$Fila1["catodo_por_pesar"];
-				$Validacion = $Validacion + $EnPreparacion;
-				
-			}
+			$EnPreparacion=$Fila1["catodo_por_pesar"];
+			$Validacion = $Validacion + $EnPreparacion;			
 		}
+	}
 	
 ?>
 <html>

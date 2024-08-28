@@ -117,7 +117,10 @@
 	while ($Fila2 = mysqli_fetch_array($Respuesta2))
 	{
 		if ($Fila2["cod_subproducto"] == 40)
-			$StockIniGradoA = $StockIniGradoA + $Fila2["peso"];
+			$StockIniGradoA = +
+
+
+		+ $Fila2["peso"];
 		if 	($Fila2["cod_subproducto"] == 46)
 			$StockIni1ER = $StockIni1ER + $Fila2["peso"];
 		if 	($Fila2["cod_subproducto"] == 2)
@@ -455,12 +458,12 @@ function Proceso(opt)
  
 		$SinPreparar = $SinPreparar + $EnPreparacion;
 	?>
-    <td><? echo number_format(($TotalExistencia + $SinPreparar),0,",","."); ?></td>
-    <td><? echo number_format($PreparadosGradoA,0,",","."); ?></td>
-    <td><? echo number_format($PreparadosStd1ER,0,",","."); ?></td>
-    <td><? echo number_format($PreparadosStd2ER,0,",","."); ?></td>
-    <td><? echo number_format($PreparadosStd3ER,0,",","."); ?></td>
-      <td><? echo number_format($SinPreparar,0,",","."); ?></td>
+    <td><?php echo number_format(($TotalExistencia + $SinPreparar),0,",","."); ?></td>
+    <td><?php echo number_format($PreparadosGradoA,0,",","."); ?></td>
+    <td><?php echo number_format($PreparadosStd1ER,0,",","."); ?></td>
+    <td><?php echo number_format($PreparadosStd2ER,0,",","."); ?></td>
+    <td><?php echo number_format($PreparadosStd3ER,0,",","."); ?></td>
+      <td><?php echo number_format($SinPreparar,0,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -471,9 +474,9 @@ function Proceso(opt)
     <td width="151">C&aacute;todos Granel</td>
   </tr>
   <tr align="center"> 
-    <td><? echo number_format($SinPreparar,0,",","."); ?></td>
-    <td><? echo number_format(($PaqLavar + $PaqPesar + $PaqStandard),0,",","."); ?></td>
-    <td><? echo number_format(($PaqCatodosGranel + $PaqStandardGranel),0,",","."); ?></td>
+    <td><?php echo number_format($SinPreparar,0,",","."); ?></td>
+    <td><?php echo number_format(($PaqLavar + $PaqPesar + $PaqStandard),0,",","."); ?></td>
+    <td><?php echo number_format(($PaqCatodosGranel + $PaqStandardGranel),0,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -487,9 +490,9 @@ function Proceso(opt)
       <td width="112" align="center"> STD 1ER,2ER,3ER</td>
   </tr>
   <tr> 
-    <td align="center"><? echo number_format($PaqLavar,0,",","."); ?></td>
-    <td align="center"><? echo number_format($PaqPesar,0,",","."); ?></td>
-      <td align="center"><? echo number_format($PaqStandard,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($PaqLavar,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($PaqPesar,0,",","."); ?></td>
+      <td align="center"><?php echo number_format($PaqStandard,0,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -502,8 +505,8 @@ function Proceso(opt)
       <td width="157" align="center">STD 1ER,2ER,3ER</td>
   </tr>
   <tr> 
-    <td align="center"><? echo number_format($PaqCatodosGranel,0,",","."); ?></td>
-      <td align="center"><? echo number_format($PaqStandardGranel,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($PaqCatodosGranel,0,",","."); ?></td>
+      <td align="center"><?php echo number_format($PaqStandardGranel,0,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -517,10 +520,10 @@ function Proceso(opt)
       <td>% STD 1ER,2ER,3ER</td>
   </tr>
   <tr align="center"> 
-    <td><? echo number_format(($PesadoEmbarque/1000),0,",","."); ?></td>
-    <td><? echo number_format(($PaqStandard + $PaqStandardGranel),0,",","."); ?></td>
-    <td><? echo number_format(($StandardAcumulado/1000),0,",","."); ?></td>
-      <td><? echo number_format($PorcStandard,2,",","."); ?></td>
+    <td><?php echo number_format(($PesadoEmbarque/1000),0,",","."); ?></td>
+    <td><?php echo number_format(($PaqStandard + $PaqStandardGranel),0,",","."); ?></td>
+    <td><?php echo number_format(($StandardAcumulado/1000),0,",","."); ?></td>
+      <td><?php echo number_format($PorcStandard,2,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -534,13 +537,13 @@ function Proceso(opt)
   </tr>
   <tr>
     <td class="ColorTabla01">Recuperado (%) </td>
-    <td align="center"><? echo number_format($RecDiario,2,",","."); ?></td>
-    <td align="center"><? echo number_format($RecAcumulado,2,",","."); ?></td>
+    <td align="center"><?php echo number_format($RecDiario,2,",","."); ?></td>
+    <td align="center"><?php echo number_format($RecAcumulado,2,",","."); ?></td>
   </tr>
   <tr>
     <td class="ColorTabla01">STD 1 ER,2 ER,3 ER(%) </td>
-    <td align="center"><? echo number_format($StDiario,2,",","."); ?></td>
-    <td align="center"><? echo number_format($StAcumulado,2,",","."); ?></td>
+    <td align="center"><?php echo number_format($StDiario,2,",","."); ?></td>
+    <td align="center"><?php echo number_format($StAcumulado,2,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -558,21 +561,21 @@ function Proceso(opt)
   </tr>
   <tr> 
     <td class="ColorTabla01">Diario</td>
-    <td align="center"><? echo number_format($ComercialDiario,0,",","."); ?></td>
-    <td align="center"><? echo number_format($DescNormalDiario,0,",","."); ?></td>
-	 <td align="center"><? echo number_format($DespLamDiario,0,",","."); ?></td>
-	  <td align="center"><? echo number_format($TotalCuElecDiario,0,",","."); ?></td>
-    <td align="center"><? echo number_format($DescParcialDiario,0,",","."); ?></td>
-    <td align="center"><? echo number_format($FaenasDiario,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($ComercialDiario,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($DescNormalDiario,0,",","."); ?></td>
+	<td align="center"><?php echo number_format($DespLamDiario,0,",","."); ?></td>
+	<td align="center"><?php echo number_format($TotalCuElecDiario,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($DescParcialDiario,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($FaenasDiario,0,",","."); ?></td>
   </tr>
   <tr> 
     <td class="ColorTabla01">Acumulado</td>
-    <td align="center"><? echo number_format($ComercialAcumulado,0,",","."); ?></td>
-    <td align="center"><? echo number_format($DescNormalAcumulado,0,",","."); ?></td>
-	<td align="center"><? echo number_format($DespLamAcumulado,0,",","."); ?></td>
-	<td align="center"><? echo number_format($TotalCuElecAcumulado,0,",","."); ?></td> 
-    <td align="center"><? echo number_format($DescParcialAcumulado,0,",","."); ?></td>
-    <td align="center"><? echo number_format($FaenasAcumulado,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($ComercialAcumulado,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($DescNormalAcumulado,0,",","."); ?></td>
+	<td align="center"><?php echo number_format($DespLamAcumulado,0,",","."); ?></td>
+	<td align="center"><?php echo number_format($TotalCuElecAcumulado,0,",","."); ?></td> 
+    <td align="center"><?php echo number_format($DescParcialAcumulado,0,",","."); ?></td>
+    <td align="center"><?php echo number_format($FaenasAcumulado,0,",","."); ?></td>
     
   </tr>
 </table>
@@ -586,9 +589,9 @@ function Proceso(opt)
     <td width="257">Confecci&oacute;n de Paquetes</td>
   </tr>
   <tr align="center"> 
-    <td><? echo number_format($Embarque,0,",","."); ?></td>
-    <td><? echo number_format($Pesaje,0,",","."); ?></td>
-    <td><? echo number_format($ConfecGranel,0,",","."); ?></td>
+    <td><?php echo number_format($Embarque,0,",","."); ?></td>
+    <td><?php echo number_format($Pesaje,0,",","."); ?></td>
+    <td><?php echo number_format($ConfecGranel,0,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -596,7 +599,7 @@ function Proceso(opt)
 <br>
 <table width="650" border="1" cellspacing="0" cellpadding="5">
   <tr> 
-    <td><? echo $Observacion; ?></td>
+    <td><?php echo $Observacion; ?></td>
   </tr> 
 </table>
 <br>
