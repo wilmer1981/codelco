@@ -808,8 +808,11 @@ if (isset($TipoCon) && $TipoCon!="")
 	$TotPesoNtAntSubProd=0; $RegSubProd=0;
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
-
+		$recargo    = isset($Fila["recargo"])?$Fila["recargo"]:"";
 		$Tipo_Recep = isset($Fila["recepcion"])?$Fila["recepcion"]:"";
+		$lote       = isset($Fila["lote"])?$Fila["lote"]:"";
+		$abreviatura      = isset($Fila["abreviatura"])?$Fila["abreviatura"]:"";
+		$cod_subproducto  = isset($Fila["cod_subproducto"])?$Fila["cod_subproducto"]:"";
 		$Decimales  = 0;
 		if ($Orden=="T")
 		{
@@ -860,8 +863,8 @@ if (isset($TipoCon) && $TipoCon!="")
 		}
 		echo "<tr >\n";
 		echo "<td align='center'><input type='checkbox' name='ChkLote' value='".$Fila["correlativo"]."' onClick=\"CCA(this,'CL03')\">";
-		echo "<input type='hidden' name='ChkRecargo' value='".$Fila["lote"]."'></td>\n";
-		echo "<input type='hidden' name='ChkCorr' value='".$Fila["recargo"]."'></td>\n";
+		echo "<input type='hidden' name='ChkRecargo' value='".$lote."'></td>\n";
+		echo "<input type='hidden' name='ChkCorr' value='".$recargo."'></td>\n";
 		echo "<td align='center'>".substr($Fila["fecha"],8,2)."/".substr($Fila["fecha"],5,2)."</td>\n";
 		echo "<td onMouseOver=\"JavaScript:muestra('".$Fila["correlativo"]."');\" onMouseOut=\"JavaScript:oculta('".$Fila["correlativo"]."');\" class='Detalle02'>";
 		echo "<div id='Txt".$Fila["correlativo"]."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:400px'>\n";
@@ -973,10 +976,10 @@ if (isset($TipoCon) && $TipoCon!="")
 		$TotPesoBrAntSubProd = $TotPesoBrAntSubProd + $Fila["peso_bruto"];
 		$TotPesoTrAntSubProd = $TotPesoTrAntSubProd + $Fila["peso_tara"];
 		$TotPesoNtAntSubProd = $TotPesoNtAntSubProd + $Fila["peso_neto"];
-		$NomProdAnt = $Fila["abreviatura"];
+		$NomProdAnt = $abreviatura;
 		$NomRutAnt = $NomProv;
 		$ProdAnt = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
-		$SubProdAnt =$Fila["cod_subproducto"];
+		$SubProdAnt =$cod_subproducto;
 		$RutAnt = isset($Fila["rut_proveedor"])?$Fila["rut_proveedor"]:"";
 		$ContReg++;
 		$Reg++;
