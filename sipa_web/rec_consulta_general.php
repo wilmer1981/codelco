@@ -4,6 +4,8 @@
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
 
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+    $RutProveedor = isset($_REQUEST["RutProveedor"])?$_REQUEST["RutProveedor"]:"";
 	if(isset($_REQUEST["TipoConsulta"])){
 		$TipoConsulta = $_REQUEST["TipoConsulta"];
 	}else{
@@ -31,13 +33,6 @@
 	}else{
 		$TxtLote="";
 	}
-
-    /* 
-	if(!isset($TxtFechaIni))
-		$TxtFechaIni=date('Y-m-d');
-	if(!isset($TxtFechaFin))
-		$TxtFechaFin=date('Y-m-d');
-	*/
 ?>
 <html>
 <head>
@@ -198,7 +193,8 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 
 					}
 					echo "</SELECT></td>\n";
-					$prod = split('[-]."', $Producto);
+					//$prod = split('[-]."', $Producto);
+					$prod = explode('[-]."', $Producto);
 					echo "<td>&nbsp;</td>\n";
 					echo "<td>&nbsp;</td>\n";
 					echo "</tr>\n";
