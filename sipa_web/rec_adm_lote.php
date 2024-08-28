@@ -3,16 +3,17 @@
 	$CodigoDePantalla=7;
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
-
+	$REMOTE_ADDR = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 	$CmbProducto = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
 	$TipoCon     = isset($_REQUEST["TipoCon"])?$_REQUEST["TipoCon"]:"";
-
+	$RutProved     = isset($_REQUEST["RutProved"])?$_REQUEST["RutProved"]:"";
+	$NombreProved     = isset($_REQUEST["NombreProved"])?$_REQUEST["NombreProved"]:"";
 	$CmbTipoRegistro = isset($_REQUEST["CmbTipoRegistro"])?$_REQUEST["CmbTipoRegistro"]:'R';
 	$TxtFechaIni = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date("Y-m-d");
 	$TxtFechaFin = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date("Y-m-d");
 	$LimitIni    = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
 	$LimitFin    = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:999;
-
+    $TxtConjunto = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
 	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
 	$CmbGrupoProd = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
 	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
@@ -307,7 +308,8 @@ function Proceso(opt,valor)
 			if(confirm('Esta Seguro de Imprimir Boleta'))
 			{
 				//TxtNumRomana=LeerRomana('');	
-				TxtNumRomana='<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
+				//TxtNumRomana = '<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
+				var TxtNumRomana = '<?php echo LeerRomana($REMOTE_ADDR,$link); ?>'; 
 				var TxtLotes = "";
 				for (i=1;i<f.elements.length;i++)
 				{
@@ -446,7 +448,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta="SELECT  t1.cod_producto,t1.cod_subproducto,t2.abreviatura as nom_prod,t2.descripcion as nom_subprod, ";
 				$Consulta.= " case when length(t1.cod_subproducto)<2 then concat('0',t1.cod_subproducto) else t1.cod_subproducto end as orden ";
 				$Consulta.="from sipa_web.grupos_prod_subprod t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto =t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
-				$Consulta.="where t1.cod_grupo='$CmbGrupoProd' order by nom_subprod";
+				$Consulta.="where t1.cod_grupo='".$CmbGrupoProd."' order by nom_subprod";
 				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
@@ -644,7 +646,7 @@ if (isset($TipoCon) && $TipoCon!="")
 				$ProdSubProd1=isset($ProdSubProd[1])?$ProdSubProd[1]:"";
 				if ($CmbGrupoProd!= "S"&&$CmbSubProducto== "S")
 				{
-					$ConsultaGrupo = "SELECT distinct cod_producto,cod_subproducto from sipa_web.grupos_prod_subprod where cod_grupo='$CmbGrupoProd'";
+					$ConsultaGrupo = "SELECT distinct cod_producto,cod_subproducto from sipa_web.grupos_prod_subprod where cod_grupo='".$CmbGrupoProd."'";
 					$RespAgrup=mysqli_query($link, $ConsultaGrupo);
 					$CodProd="";//WSO
 					while($FilaGrup=mysqli_fetch_array($RespAgrup))
@@ -1094,7 +1096,7 @@ if ($Coincidencias>$LimitFin)
 ?>			
         	              
 <?php
-if (isset($TipoCon))
+if ($TipoCon!="")
 {
 	if ($Coincidencias > $LimitFin)
 	{
@@ -1146,9 +1148,10 @@ if (isset($TipoCon))
 </body>
 </html>
 <?php
+$Romana = LeerRomana($REMOTE_ADDR,$link);
 echo "<script language='JavaScript'>";
 echo "var f = document.frmPrincipal;";
-$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
+//$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
 echo "f.TxtNumRomana.value=".$Romana.";";
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
 //echo "alert(f.TxtNumRomana.value);";
