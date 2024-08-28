@@ -105,8 +105,10 @@
 			header('location:rec_recepcion.php?TxtNumBascula='.$TxtNumBascula."&Bloq1=".$Bloq1."&Bloq2=".$Bloq2);
 			break;	
 		case "C"://CANCELAR
+		    $Datos=explode('~',$TxtCorrelativo);
 			$Eliminar="delete from sipa_web.recepciones ";
 			$Eliminar.="where correlativo='".$TxtCorrelativo."'";
+			//$Eliminar.="where correlativo='".$Datos[2]."'";
 			mysqli_query($link, $Eliminar);
 			header('location:rec_recepcion.php?TxtNumBascula='.$TxtNumBascula."&Bloq1=".$Bloq1."&Bloq2=".$Bloq2);
 			break;	

@@ -307,7 +307,7 @@
 							/*if($CmbProveedor=='90132000-5')
 								$CmbProveedor='90132000-4';*/
 							$CmbProveedor=$Fila["rut_prv"];
-							$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='$CmbProveedor' and cod_mina='".$Fila["cod_mina"]."'";
+							$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='".$CmbProveedor."' and cod_mina='".$Fila["cod_mina"]."'";
 							//echo $Consulta."<br>";
 							$RespPadron=mysqli_query($link, $Consulta);
 							$FilaPadron=mysqli_fetch_array($RespPadron);
@@ -1598,12 +1598,12 @@ $realIp = getRealIP();
 //$ip     = $_SERVER['HTTP_CLIENT_IP'];
 //echo "CLIENT_IP:".$realIp;
 
-echo "<br>GETHOST_NAME:".$GETHOST_NAME;
+//echo "<br>GETHOST_NAME:".$GETHOST_NAME;
 echo "<br>COMPUTERNAME:".$COMPUTERNAME;
 //echo "<br>GETHOSTBYNAME:".$GETHOSTBYNAME;
 echo "<br>SERVER_NAME:".$SERVER_NAME;
 echo "<br>REMOTE_ADDR:".$REMOTE_ADDR;
-echo "<br>USER_IP:".$userIp;
+//echo "<br>USER_IP:".$userIp;
 
 $Romana = LeerRomana($REMOTE_ADDR,$link);
 echo "<br>ROMANA: ".$Romana;
