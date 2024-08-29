@@ -94,7 +94,7 @@
 	//DETERMINAR SI ES ENTRADA O SALIDA
 	if($TipoProceso=="" && $TxtPatente<>"")
 	{
-		$Consulta="SELECT * from sipa_web.otros_pesaje where patente = '$TxtPatente' ";
+		$Consulta="SELECT * from sipa_web.otros_pesaje where patente = '".$TxtPatente."' ";
 		//$Consulta.="and peso_bruto<>'0' ";
 		$Consulta.="and peso_tara='0' and peso_neto='0' and estado <> 'A'";
 	//	echo $Consulta;
@@ -657,7 +657,7 @@ function IngresaTara()
 		Validado=false;
 		return;
 	}
-	if(confirm('Desea Efectuar Pesaje de Tara de Cami�n'))
+	if(confirm('Desea Efectuar Pesaje de Tara de Camión'))
 	{
 		f.TxtPesoBruto.value = '';
 		f.TxtPesoTara.value = '';

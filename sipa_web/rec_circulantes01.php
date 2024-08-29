@@ -9,21 +9,21 @@
 	$TipoProceso = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:"";
 	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
 	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
-	$TxtPesoTara = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
-	$TxtPesoNeto = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
-
-	$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtPesoNeto  = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+    $TxtFecha     = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:"";
+	$Productos    = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
 	$SubProductos = isset($_REQUEST["SubProductos"])?$_REQUEST["SubProductos"]:"";
-	$Conjunto = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
-	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
+	$Conjunto     = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
+	$TxtNumBascula  = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
 	$TxtBasculaTara = isset($_REQUEST["TxtBasculaTara"])?$_REQUEST["TxtBasculaTara"]:"";
-	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
+	$TxtBasculaAux  = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
 	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
 	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
 	$OptBascula = isset($_REQUEST["OptBascula"])?$_REQUEST["OptBascula"]:"";
-	$SoloTara = isset($_REQUEST["SoloTara"])?$_REQUEST["SoloTara"]:"";
-	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
-	$TxtGuia = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$SoloTara   = isset($_REQUEST["SoloTara"])?$_REQUEST["SoloTara"]:"";
+	$TxtObs     = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
+	$TxtGuia    = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
 	$TxtNumRomana = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
 
 
@@ -54,7 +54,7 @@
 			else
 			{
 				//AGREGA MOVIMIENTO CONJUNTO EN RAM
-				$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $Conjunto AND estado != 'f' order by fecha_creacion desc";
+				$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = '".$Conjunto."' AND estado != 'f' order by fecha_creacion desc";
 				$rs = mysqli_query($link, $consulta);
 				//echo $consulta."<br>";
 				if($row = mysqli_fetch_array($rs))
