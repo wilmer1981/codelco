@@ -903,7 +903,8 @@ function LeerArchivo($ruta,$archivo)
 	//$nombre="archivo.txt";//$archivo;
 	$nombre=$archivo;
 	if($ruta!=""){
-		$ubicacion = 'D:/'.$ruta.'/'.$nombre;
+		//$ubicacion = 'D:/'.$ruta.'/'.$nombre;
+		$ubicacion = "D:\\xampp\\htdocs\\proyecto\\".$ruta."\\".$nombre;
 	}else{
 		$ubicacion = 'D:/'.$nombre;
 	}

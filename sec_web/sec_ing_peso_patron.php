@@ -5,7 +5,7 @@
 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 81;
-
+    $REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 	$CookieRut   = $_COOKIE["CookieRut"];
 	$msj         = isset($_REQUEST["msj"])?$_REQUEST["msj"]:"";
 	$txtpeso     = isset($_REQUEST["txtpeso"])?$_REQUEST["txtpeso"]:"";
@@ -86,7 +86,8 @@ function CapturaPeso()
 	//f.txtpeso.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
 	//setTimeout("CapturaPeso()",200);
 	
-	valor = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
+	//valor = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
+	valor = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 	if(valor==''){
 		alert("No existe el archivo...");
 	}else{
