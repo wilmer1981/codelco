@@ -1,11 +1,15 @@
-<?php
+﻿<?php
 	//echo "TIPO PROCESO:".$TipoProceso."<BR>";
 	//echo "PROCESO:".$Proceso;
 	$CodigoDeSistema=24;
 	$CodigoDePantalla=5;
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
-
+	
+	$SERVER_NAME  = $_SERVER['SERVER_NAME']; //nombre del servidor : localhost
+	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']); //Nombnre completro de la PC : WSALDANA-PERU.sml.sermaluc.cl
+	$COMPUTERNAME =  getenv("COMPUTERNAME"); //nombre de la PC : WSALDANA-PERU
+	$IP           = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
 
 	$RNA     = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
 	$Bloq1   = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
@@ -45,13 +49,11 @@
 	$RecargaConj = isset($_REQUEST["RecargaConj"])?$_REQUEST["RecargaConj"]:"";
 	$ObjFoco     = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
 	
-
-	$EstadoInput='';
-	if(isset($RNA))
+	/*if(isset($RNA))
 	{
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
-	}
+	}*/
 	if($RNA!='')	
 	{	
 		setcookie("ROMANA",$RNA);
@@ -59,7 +61,8 @@
 	}
 	if($TxtNumRomana=='')
 		$TxtNumRomana=isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
-
+	
+	$EstadoInput='';
 	switch($TxtNumBascula)
 	{
 		case "1":
@@ -85,7 +88,7 @@
 	//DETERMINAR SI ES ENTRADA O SALIDA
 	if($TipoProceso==""&&$TxtPatente<>"")
 	{
-		$Consulta="SELECT * from sipa_web.otros_pesaje where patente = '$TxtPatente' ";
+		$Consulta="SELECT * from sipa_web.otros_pesaje where patente = '".$TxtPatente."' ";
 		//$Consulta.="and peso_bruto<>'0' ";
 		$Consulta.="and peso_tara='0' and peso_neto='0' and estado <> 'A'";
 		//echo $Consulta;
@@ -163,7 +166,7 @@
 					case "BC"://BUSCAR CORRELATIVO
 						$Consulta ="SELECT distinct t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.conjunto,t1.cod_mop,";
 						$Consulta.="t1.peso_bruto,t1.guia_despacho,t1.nombre,t1.descripcion,t1.observacion from sipa_web.otros_pesaje t1 ";
-						$Consulta.="where patente='$TxtPatente' and correlativo='".$TxtCorrelativo."'";
+						$Consulta.="where patente='".$TxtPatente."' and correlativo='".$TxtCorrelativo."'";
 						//echo $Consulta;
 						$Resp2 = mysqli_query($link, $Consulta);
 						while($Fila = mysqli_fetch_array($Resp2))
@@ -228,7 +231,9 @@ var cadena=""
 	return(valor); 
 }*/
 //var ROMA=LeerRomana('');
-var ROMA='<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
+//var ROMA='<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
+var ROMA = '<?php echo LeerRomana($REMOTE_ADDR,$link); ?>'; 
+
 /*
 function LeerArchivo(valor)
 {
@@ -304,10 +309,12 @@ function CapturaPeso(tipo)
 			f.TipoProceso.value="E";
 			if(f.TxtNumBascula.value=='1'){		
 				//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
-				f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+				//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
 			}else{
 				//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-				f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+				//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+				f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 			}
 			if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
 				f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;	
@@ -317,10 +324,12 @@ function CapturaPeso(tipo)
 			f.TipoProceso.value="S";
 			if(f.TxtNumBascula.value=='1'){					
 				//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-				f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+				f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
 			}else{
 				//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
-				f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+				f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 			}
 			if(parseInt(f.TxtPesoTara.value)>parseInt(f.TxtPesoBruto.value))
 			{
@@ -599,7 +608,7 @@ body {
 <body <?php echo 'onload=window.document.FrmOtrosPesajes.'.$ObjFoco.'.focus()'?>>
 <form action="" method="post" name="FrmOtrosPesajes" >
 <?php
-	if(!isset($TipoProceso))
+	if($TipoProceso=="")
 		echo "<input type='hidden' name='TipoProceso' value=''>";
 	else
 		echo "<input type='hidden' name='TipoProceso' value='$TipoProceso'>";
@@ -675,7 +684,7 @@ body {
     <td align="right" class="ColorTabla02">Correlativo:</td>
 	<td class="ColorTabla02">
 	<?php
-		if(!isset($TipoProceso)||$TipoProceso=='E')
+		if($TipoProceso=="" || $TipoProceso=='E')
 	{
 	?>
     <input <?php echo $EstadoInput; ?> name="TxtCorrelativo" type="text" class="InputCen" id="TxtCorrelativo" value="<?php echo $TxtCorrelativo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',true,this.form,'BtnOK');" readonly>      
@@ -823,6 +832,9 @@ body {
 </body>
 </html>
 <?php
+$Romana = LeerRomana($REMOTE_ADDR,$link);
+echo "<br>ROMANA: ".$Romana;
+
 if($Mensaje!='')
 {
 	echo "<script language='JavaScript'>";
@@ -834,7 +846,7 @@ if($Mensaje!='')
 echo "<script language='JavaScript'>";
 echo "var f = document.FrmOtrosPesajes;";
 //echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
-$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
+//$Romana = LeerArchivo('PesaMatic','ROMANA.txt');
 echo "f.TxtNumRomana.value=".$Romana.";";
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";
