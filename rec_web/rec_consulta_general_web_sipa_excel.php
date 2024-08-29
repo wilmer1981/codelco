@@ -2,6 +2,7 @@
 	        ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -20,12 +21,49 @@
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	include("../principal/conectar_principal.php");
 	include("../sipa_web/funciones.php");
+	
+		if(isset($_REQUEST["TxtFechaIni"])){
+		$TxtFechaIni = $_REQUEST["TxtFechaIni"];
+	}else{
+		$TxtFechaIni = "";
+	}
+	if(isset($_REQUEST["TxtFechaFin"])){
+		$TxtFechaFin = $_REQUEST["TxtFechaFin"];
+	}else{
+		$TxtFechaFin = "";
+	}
+	if(isset($_REQUEST["Lote"])){
+		$Lote = $_REQUEST["Lote"];
+	}else{
+		$Lote = "";
+	}
+	if(isset($_REQUEST["OptAcumulado"])){
+		$OptAcumulado = $_REQUEST["OptAcumulado"];
+	}else{
+		$OptAcumulado = "";
+	}
+	if(isset($_REQUEST["Consulta"])){
+		$Consulta = $_REQUEST["Consulta"];
+	}else{
+		$Consulta = "";
+	}
+	if(isset($_REQUEST["RutProveedor"])){
+		$RutProveedor = $_REQUEST["RutProveedor"];
+	}else{
+		$RutProveedor = "";
+	}
+	
+	$Producto  = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$TipoConsulta  = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$RutProved     = isset($_REQUEST["RutProved"])?$_REQUEST["RutProved"]:"";
+	$NombreProved     = isset($_REQUEST["NombreProved"])?$_REQUEST["NombreProved"]:"";
+	
 	$DatosLeyes=array();
-	$Consulta = "SELECT distinct cod_leyes, LPAD(cod_leyes,4,'0') as orden, abreviatura as ley,cod_unidad ";
+	$Consulta = "select distinct cod_leyes, LPAD(cod_leyes,4,'0') as orden, abreviatura as ley,cod_unidad ";
 	$Consulta.=" from proyecto_modernizacion.leyes ";
 	$Consulta.= " where cod_leyes<>''";
 	//echo $Consulta;
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while($Fila=mysqli_fetch_array($Resp))
 	{
 		$DatosLeyes[$Fila["cod_leyes"]]=$Fila["ley"];
@@ -71,7 +109,7 @@
 		case "R":
 			if ($Producto != "S")
 			{	
-				$Consulta = "SELECT t2.cod_subproducto, t2.descripcion as nom_subpro from proyecto_modernizacion.subproducto t2 ";
+				$Consulta = "select t2.cod_subproducto, t2.descripcion as nom_subpro from proyecto_modernizacion.subproducto t2 ";
 				$Consulta.= " where t2.cod_producto='1' and t2.cod_subproducto= '".$Producto."'";
 			}	
 			else
@@ -86,7 +124,7 @@
 				$prod2 = $prodx[1];  
 		
 				//echo $prod1."x".$prod2."  ";
-				$Consulta = "SELECT t2.cod_subproducto, t2.descripcion as nom_subpro from proyecto_modernizacion.subproducto t2 ";
+				$Consulta = "select t2.cod_subproducto, t2.descripcion as nom_subpro from proyecto_modernizacion.subproducto t2 ";
 				$Consulta.= "where t2.cod_subproducto = '".$prod2."' and t2.cod_producto = '".$prod1."'";
 			}	
 			else
@@ -101,9 +139,9 @@
 	}	
 	if ((($TipoConsulta == "R") || ($TipoConsulta == "D")) && ($Producto != "S"))
 	{
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Row = mysqli_fetch_array($Respuesta))
-			echo $Row[cod_subproducto]." - ".$Row[nom_subpro];
+			echo $Row["cod_subproducto"]." - ".$Row["nom_subpro"];
 		else
 			echo "NO DEFINIDO";
 	}
@@ -121,7 +159,7 @@
 		case "R":
 			if ($RutProveedor != "S")
 			{
-				$Consulta = "SELECT t2.rut_prv, t2.nombre_prv from sipa_web.proveedores t2  ";
+				$Consulta = "select t2.rut_prv, t2.nombre_prv from sipa_web.proveedores t2  ";
 				$Consulta.= "where t2.rut_prv = '".$RutProveedor."'";
 			}	
 			else
@@ -130,7 +168,7 @@
 		case "D":
 			if ($RutProveedor != "S")
 			{
-				$Consulta = "SELECT t2.rut_prv, t2.nombre_prv from sipa_web.proveedores t2 ";
+				$Consulta = "select t2.rut_prv, t2.nombre_prv from sipa_web.proveedores t2 ";
 				$Consulta.= "where t2.rut_prv = '".$RutProveedor."'";
 			}
 			else
@@ -145,7 +183,7 @@
 	}	
 	if ((($TipoConsulta == "R") || ($TipoConsulta == "D"))  && ($RutProveedor != "S"))
 	{
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Row = mysqli_fetch_array($Respuesta))
 			echo $RutProveedorAux." - ".$Row["nombre_prv"];
 		else
@@ -184,7 +222,7 @@
 				if ($Lote == "S")
 				{
 					$ConsLote = "S";
-					$Consulta = "SELECT t1.rut_prv, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro,t1.cod_mina,t4.nombre_mina ";
+					$Consulta = "select t1.rut_prv, t1.activo, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro,t1.cod_mina,t4.nombre_mina ";
 					$Consulta.= " from sipa_web.recepciones t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 					$Consulta.= " left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv left join sipa_web.minaprv t4 on t1.rut_prv=t4.rut_prv and t1.cod_mina=t4.cod_mina ";
 					$Consulta.= " where lote = '".$TxtLote."'";
@@ -223,7 +261,7 @@
 				{
 					if ($OptAcumulado == "N")
 					{							
-						$Consulta = "SELECT t1.lote,t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.guia_despacho,t1.rut_prv, t3.nombre_prv,t1.recargo,peso_bruto,peso_tara,peso_neto, ";
+						$Consulta = "select t1.lote,t1.activo,t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.guia_despacho,t1.rut_prv, t3.nombre_prv,t1.recargo,peso_bruto,peso_tara,peso_neto, ";
 						$Consulta.= "t1.cod_subproducto,t2.descripcion as nom_subpro,t1.cod_mina,t4.nombre_mina,t1.leyes,t1.impurezas,t1.conjunto,t1.humedad,t1.patente,t1.sa_asignada,bascula_entrada,bascula_salida,romana_entrada,romana_salida ";
 						$Consulta.= " from sipa_web.recepciones t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 						$Consulta.= " left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv left join sipa_web.minaprv t4 on t1.rut_prv=t4.rut_prv and t1.cod_mina=t4.cod_mina ";
@@ -266,7 +304,7 @@
 					}
 					else
 					{				
-						$Consulta = "SELECT t1.rut_prv, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto ";
+						$Consulta = "select t1.rut_prv, t1.activo, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto ";
 						$Consulta.= " from sipa_web.recepciones t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 						$Consulta.= " left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv left join sipa_web.minaprv t4 on t1.rut_prv=t4.rut_prv and t1.cod_mina=t4.cod_mina ";
 						$Consulta.= " where t1.estado <> 'A' and t1.fecha between '".$FechaIni."' and '".$FechaFin."' ";
@@ -299,7 +337,7 @@
 				$prod1 = $prodx[0];
 				$prod2 = $prodx[1];  
 
-				$Consulta = "SELECT t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.lote,t1.recargo,t1.peso_bruto,t1.peso_neto,t1.peso_tara, ";
+				$Consulta = "select t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.lote,t1.recargo,t1.peso_bruto,t1.peso_neto,t1.peso_tara, ";
 				$Consulta.= " t1.guia_despacho,t1.patente,t1.rut_prv, t1.cod_subproducto,t2.descripcion as nom_subpro,bascula_salida,romana_entrada,romana_salida  ";
 				$Consulta.= " from sipa_web.despachos t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 				$Consulta.= " where t1.estado<>'A' and t1.fecha between '".$FechaIni."' and '".$FechaFin."' ";
@@ -335,7 +373,7 @@
 
 				$prod1 = substr($Producto,0,2);
 				$prod2 = substr($Producto,3,2);
-				$Consulta = "SELECT t1.rut_prv, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto";
+				$Consulta = "select t1.rut_prv, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto";
 				$Consulta.= " from sipa_web.despachos t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 				$Consulta.= " left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv ";
 				$Consulta.= " where t1.fecha between '".$FechaIni."' and '".$FechaFin."' ";
@@ -359,7 +397,7 @@
 		case "O": // CONSULTA OTROS PESAJES
 			if ($OptAcumulado == "N")
 			{
-				$Consulta = "SELECT * from sipa_web.otros_pesaje where estado <> 'A' and ";
+				$Consulta = "select * from sipa_web.otros_pesaje where estado <> 'A' and ";
 				$Consulta.= " fecha between '".$FechaIni."' and '".$FechaFin."' ";
 				if ($IdProducto != "*")
 					$Consulta.= " and nombre like '%".$IdProducto."%'";
@@ -385,7 +423,7 @@
 			}
 			else
 			{
-				$Consulta = "SELECT nombre, descripcion, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto ";
+				$Consulta = "select nombre, descripcion, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto ";
 				$Consulta.= " from sipa_web.otros_pesaje where estado <> 'A' and ";
 				$Consulta.= " fecha between '".$FechaIni."' and '".$FechaFin."' ";
 				if ($IdProducto != "*")
@@ -405,136 +443,139 @@
 			}
 			break;
 	}
+
 	$TotalBruto=0;
 	$TotalTara=0;
 	$TotalNeto=0;
+	$Cont_reg=0;
 	//echo "consulta:".$Consulta;
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	while ($Row = mysqli_fetch_array($Respuesta))
 	{
-		$Consulta2 ="SELECT nro_sa_lims from cal_web.solicitud_analisis Where nro_solicitud = '".$Row[sa_asignada]."' limit 1" ;
-		$ArrayRut = explode("~", $Row[rut_prv]);
+		$Consulta2 ="select nro_sa_lims from cal_web.solicitud_analisis Where nro_solicitud = '".$Row["sa_asignada"]."' limit 1" ;
+		$ArrayRut = explode("~", $Row["rut_prv"]);
 		$RutProveedorAux=$ArrayRut[0];
 		//echo $Consulta2;
-		$Respuesta2 = mysqli_query($link, $Consulta2);
+		$Respuesta2 = mysqli_query($link,$Consulta2);
 		$Row2 = mysqli_fetch_array($Respuesta2);
 		switch ($TipoConsulta)
 		{
 			case "R": //DETALLE RECEPCIONES
 				if ($Lote == "S")
 				{
-					if ($Row[ACTIVO] == "M")
+					if ($Row["activo"] == "M")
 							echo "<tr bgcolor='#FFFFFF'> \n";
 						else
 							echo "<tr> \n";
-							echo "<td>".$Row[lote]."</td>\n";
+							echo "<td>".$Row["lote"]."</td>\n";
 						echo "<td>".$Row["recargo"]."</td>\n";
 						echo "<td>".$Row["fecha"]."</td>\n";
-						echo "<td>".$Row[hora_entrada]."</td>\n";
-						echo "<td>".$Row[hora_salida]."</td>\n";
-						echo "<td>".$Row[correlativo]."</td>\n";												
-						echo "<td align='right'>".$Row[peso_bruto]."</td>\n";
+						echo "<td>".$Row["hora_entrada"]."</td>\n";
+						echo "<td>".$Row["hora_salida"]."</td>\n";
+						echo "<td>".$Row["correlativo"]."</td>\n";												
+						echo "<td align='right'>".$Row["peso_bruto"]."</td>\n";
 						echo "<td align='right'>".$Row["peso_tara"]."</td>\n";
-						echo "<td align='right'>".$Row[peso_neto]."</td>\n";
+						echo "<td align='right'>".$Row["peso_neto"]."</td>\n";
 						echo "<td>".$RutProveedorAux."</td>\n";
 						echo "<td>".$Row["nombre_prv"]."</td>\n";
 						echo "<td>".$Row["cod_mina"]."</td>\n";
-						echo "<td>".$Row[nombre_mina]."</td>\n";
-						echo "<td>".$Row[cod_subproducto]."</td>\n";
-						echo "<td>".$Row[nom_subpro]."</td>\n";
-						echo "<td>".str_replace("  ",", ",trim($Row[leyes]))."</td>\n";
-						echo "<td>".str_replace("  ",", ",trim($Row[impurezas]))."</td>\n";
-						echo "<td>".$Row[humedad]."</td>\n";
-						echo "<td>".$Row[guia_despacho]."</td>\n";
-						echo "<td>".$Row[petente]."</td>\n";
-						echo "<td>".$Row[conjunto]."</td>\n";
+						echo "<td>".$Row["nombre_mina"]."</td>\n";
+						echo "<td>".$Row["cod_subproducto"]."</td>\n";
+						echo "<td>".$Row["nom_subpro"]."</td>\n";
+						echo "<td>".str_replace("  ",", ",trim($Row["leyes"]))."</td>\n";
+						echo "<td>".str_replace("  ",", ",trim($Row["impurezas"]))."</td>\n";
+						echo "<td>".$Row["humedad"]."</td>\n";
+						echo "<td>".$Row["guia_despacho"]."</td>\n";
+						echo "<td>".$Row["petente"]."</td>\n";
+						echo "<td>".$Row["conjunto"]."</td>\n";
 						if ($Row2["nro_sa_lims"]=='') {
-							echo "<td>&nbsp;".$Row[sa_asignada]."</td>\n";
+							echo "<td>&nbsp;".$Row["sa_asignada"]."</td>\n";
 						}else{
-							echo "<td>&nbsp;".$Row2[nro_sa_lims]."</td>\n";
+							echo "<td>&nbsp;".$Row2["nro_sa_lims"]."</td>\n";
 						}
 						if ($Row["activo"] == "M")
 							echo "<td align='center'><strong>SI</strong></td>\n";
 						else
 							echo "<td>&nbsp;</td>\n";					
 						echo "</tr>\n";
-						$TotalBruto = $TotalBruto + $Row[peso_bruto];
+						$TotalBruto = $TotalBruto + $Row["peso_bruto"];
 						$TotalTara = $TotalTara + $Row["peso_tara"];
-						$TotalNeto = $TotalNeto + $Row[peso_neto];
+						$TotalNeto = $TotalNeto + $Row["peso_neto"];
 				}
 				else
 				{
 					if ($OptAcumulado == "N")
 					{
-						if ($Row[ACTIVO] == "M")
+						if ($Row["activo"] == "M")
 							echo "<tr bgcolor='#FFFFFF'> \n";
 						else
 							echo "<tr> \n";
-						echo "<td>".$Row[correlativo]."</td>\n";
+						echo "<td>".$Row["correlativo"]."</td>\n";
 						echo "<td>".$Row["fecha"]."</td>\n";
-						echo "<td>".$Row[hora_entrada]."</td>\n";
-						echo "<td>".$Row[hora_salida]."</td>\n";
-						echo "<td>".$Row[lote]."</td>\n";
+						echo "<td>".$Row["hora_entrada"]."</td>\n";
+						echo "<td>".$Row["hora_salida"]."</td>\n";
+						echo "<td>".$Row["lote"]."</td>\n";
 						echo "<td>".$Row["recargo"]."</td>\n";
-						echo "<td align='right'>".$Row[peso_bruto]."</td>\n";
+						echo "<td align='right'>".$Row["peso_bruto"]."</td>\n";
 						echo "<td align='right'>".$Row["peso_tara"]."</td>\n";
-						echo "<td align='right'>".$Row[peso_neto]."</td>\n";
+						echo "<td align='right'>".$Row["peso_neto"]."</td>\n";
 						echo "<td>".$RutProveedorAux."</td>\n";
 						echo "<td>".$Row["nombre_prv"]."</td>\n";
 						echo "<td>".$Row["cod_mina"]."</td>\n";
-						echo "<td>".$Row[nombre_mina]."</td>\n";
-						echo "<td>".$Row[cod_subproducto]."</td>\n";
-						echo "<td>".$Row[nom_subpro]."</td>\n";
-						$Leyes=explode('~',$Row[leyes]);
+						echo "<td>".$Row["nombre_mina"]."</td>\n";
+						echo "<td>".$Row["cod_subproducto"]."</td>\n";
+						echo "<td>".$Row["nom_subpro"]."</td>\n";
+						$Leyes=explode('~',$Row["leyes"]);
 						$StrLeyes='';
-						while(list($c,$v)=each($Leyes))
-						{
-							$StrLeyes=$StrLeyes.$DatosLeyes[$v].",";
+						foreach($Leyes as $c=>$v)
+						{   $DatosL = isset($DatosLeyes[$v])?$DatosLeyes[$v]:"";
+							$StrLeyes=$StrLeyes.$DatosL.",";
 						}
 						$StrLeyes=substr($StrLeyes,0,strlen($StrLeyes)-1);
-						$Impurezas=explode('~',$Row[impurezas]);
+						$Impurezas=explode('~',$Row["impurezas"]);
 						$StrImp='';
-						while(list($c,$v)=each($Impurezas))
-						{
-							$StrImp=$StrImp.$DatosLeyes[$v].",";
+						foreach($Impurezas as $c=>$v)
+						{   $DatosL = isset($DatosLeyes[$v])?$DatosLeyes[$v]:"";
+							$StrImp=$StrImp.$DatosL.",";
 						}
 						$StrImp=substr($StrImp,0,strlen($StrImp)-1);
 						echo "<td align='left'>".$StrLeyes."</td>";
 						echo "<td align='left'>".$StrImp."</td>";
-						echo "<td>".$Row[humedad]."</td>\n";
-						echo "<td>".$Row[guia_despacho]."</td>\n";
+						echo "<td>".$Row["humedad"]."</td>\n";
+						echo "<td>".$Row["guia_despacho"]."</td>\n";
 						echo "<td>".$Row["patente"]."</td>\n";
-						echo "<td>".$Row[conjunto]."</td>\n";
-						if ($Row2["nro_sa_lims"]=='') {
-							echo "<td>&nbsp;".$Row[sa_asignada]."</td>\n";
+						echo "<td>".$Row["conjunto"]."</td>\n";
+						echo "<td>&nbsp;".$Row["sa_asignada"]."</td>\n";
+						/*if ($Row2["nro_sa_lims"]=='') {
+							echo "<td>&nbsp;".$Row["sa_asignada"]."</td>\n";
 						}else{
-							echo "<td>&nbsp;".$Row2[nro_sa_lims]."</td>\n";
-						}
+							echo "<td>&nbsp;".$Row2["nro_sa_lims"]."</td>\n";
+						}*/
 						if ($Row["activo"] == "M")
 							echo "<td align='center'><strong>SI</strong></td>\n";
 						else
 							echo "<td>&nbsp;</td>\n";					
-						echo "<td align='Center'>".$Row[bascula_entrada]."&nbsp;</td>\n";
-						echo "<td align='Center'>".$Row[bascula_salida]."&nbsp;</td>\n";						
+						echo "<td align='Center'>".$Row["bascula_entrada"]."&nbsp;</td>\n";
+						echo "<td align='Center'>".$Row["bascula_salida"]."&nbsp;</td>\n";						
 					
 						echo "</tr>\n";						
-						$TotalBruto = $TotalBruto + $Row[peso_bruto];
+						$TotalBruto = $TotalBruto + $Row["peso_bruto"];
 						$TotalTara = $TotalTara + $Row["peso_tara"];
-						$TotalNeto = $TotalNeto + $Row[peso_neto];
+						$TotalNeto = $TotalNeto + $Row["peso_neto"];
 					}
 					else
 					{
 						echo "<tr> \n";
 						echo "<td align='left'>".$RutProveedorAux."</td>\n";
 						echo "<td align='left'>".$Row["nombre_prv"]."</td>\n";
-						echo "<td align='left'>".$Row[nom_subpro]."</td>\n";
-						echo "<td align='right'>".$Row[peso_bruto]."</td>\n";
+						echo "<td align='left'>".$Row["nom_subpro"]."</td>\n";
+						echo "<td align='right'>".$Row["peso_bruto"]."</td>\n";
 						echo "<td align='right'>".$Row["peso_tara"]."</td>\n";
-						echo "<td align='right'>".$Row[peso_neto]."</td>\n";
+						echo "<td align='right'>".$Row["peso_neto"]."</td>\n";
 						echo "</tr> \n";
-						$TotalBruto = $TotalBruto + $Row[peso_bruto];
+						$TotalBruto = $TotalBruto + $Row["peso_bruto"];
 						$TotalTara = $TotalTara + $Row["peso_tara"];
-						$TotalNeto = $TotalNeto + $Row[peso_neto];
+						$TotalNeto = $TotalNeto + $Row["peso_neto"];
 					}
 				}
 				break;
@@ -542,83 +583,83 @@
 				if ($OptAcumulado == "N")
 				{
 					echo "<tr> \n";
-					echo "<td>".$Row[correlativo]."</td>\n";
+					echo "<td>".$Row["correlativo"]."</td>\n";
 					echo "<td>".$Row["fecha"]."</td>\n";
-					echo "<td>".$Row[hora_entrada]."</td>\n";
-					echo "<td>".$Row[hora_salida]."</td>\n";
-					echo "<td>".$Row[lote]."</td>\n";
+					echo "<td>".$Row["hora_entrada"]."</td>\n";
+					echo "<td>".$Row["hora_salida"]."</td>\n";
+					echo "<td>".$Row["lote"]."</td>\n";
 					echo "<td>".$Row["recargo"]."</td>\n";
-					echo "<td align='right'>".$Row[peso_bruto]."</td>\n";
+					echo "<td align='right'>".$Row["peso_bruto"]."</td>\n";
 					echo "<td align='right'>".$Row["peso_tara"]."</td>\n";
-					echo "<td align='right'>".$Row[peso_neto]."</td>\n";
+					echo "<td align='right'>".$Row["peso_neto"]."</td>\n";
 					echo "<td>".$RutProveedorAux."</td>\n";
-					ObtenerProveedorDespacho('D',$Row[rut_prv],$Row[correlativo],$Row[guia_despacho],&$RutProved,&$NombreProved);
+					ObtenerProveedorDespacho('D',$Row["rut_prv"],$Row["correlativo"],$Row["guia_despacho"],$RutProved,$NombreProved,$link);
 					$NomProv = $NombreProved;
 					echo "<td>".$NomProv."</td>\n";
-					echo "<td>".$Row[cod_subproducto]."</td>\n";
-					echo "<td>".$Row[nom_subpro]."</td>\n";
-					echo "<td>".$Row[guia_despacho]."</td>\n";
+					echo "<td>".$Row["cod_subproducto"]."</td>\n";
+					echo "<td>".$Row["nom_subpro"]."</td>\n";
+					echo "<td>".$Row["guia_despacho"]."</td>\n";
 					echo "<td>".$Row["patente"]."</td>\n";
-						echo "<td align='Center'>".$Row[bascula_entrada]."&nbsp;</td>\n";
-						echo "<td align='Center'>".$Row[bascula_salida]."&nbsp;</td>\n";						
+						echo "<td align='Center'>".$Row["bascula_entrada"]."&nbsp;</td>\n";
+						echo "<td align='Center'>".$Row["bascula_salida"]."&nbsp;</td>\n";						
 					
 					echo "</tr>\n";
-					$TotalBruto = $TotalBruto + $Row[peso_bruto];
+					$TotalBruto = $TotalBruto + $Row["peso_bruto"];
 					$TotalTara = $TotalTara + $Row["peso_tara"];
-					$TotalNeto = $TotalNeto + $Row[peso_neto];
+					$TotalNeto = $TotalNeto + $Row["peso_neto"];
 				}
 				else
 				{
 					echo "<tr> \n";
 					echo "<td align='left'>".$RutProveedorAux."</td>\n";
 					echo "<td align='left'>".$Row["nombre_prv"]."</td>\n";
-					echo "<td align='left'>".$Row[nom_subpro]."</td>\n";
-					echo "<td align='right'>".$Row[peso_bruto]."</td>\n";
+					echo "<td align='left'>".$Row["nom_subpro"]."</td>\n";
+					echo "<td align='right'>".$Row["peso_bruto"]."</td>\n";
 					echo "<td align='right'>".$Row["peso_tara"]."</td>\n";
-					echo "<td align='right'>".$Row[peso_neto]."</td>\n";
+					echo "<td align='right'>".$Row["peso_neto"]."</td>\n";
 					echo "</tr> \n";
-					$TotalBruto = $TotalBruto + $Row[peso_bruto];
+					$TotalBruto = $TotalBruto + $Row["peso_bruto"];
 					$TotalTara = $TotalTara + $Row["peso_tara"];
-					$TotalNeto = $TotalNeto + $Row[peso_neto];
+					$TotalNeto = $TotalNeto + $Row["peso_neto"];
 				}
 				break;
 			case "O": // DETALLE OTROS PESAJES
 				if ($OptAcumulado == "N")
 				{
 					echo "<tr> \n";
-					echo "<td>".$Row[correlativo]."</td>\n";
+					echo "<td>".$Row["correlativo"]."</td>\n";
 					echo "<td>".$Row["fecha"]."</td>\n";
-					echo "<td>".$Row[hora_entrada]."</td>\n";
-					echo "<td>".$Row[hora_salida]."</td>\n";
+					echo "<td>".$Row["hora_entrada"]."</td>\n";
+					echo "<td>".$Row["hora_salida"]."</td>\n";
 					echo "<td>".$Row["nombre"]."</td>\n";
 					echo "<td>".$Row["descripcion"]."</td>\n";
-					echo "<td align='right'>".$Row[peso_bruto]."</td>\n";
+					echo "<td align='right'>".$Row["peso_bruto"]."</td>\n";
 					echo "<td align='right'>".$Row["peso_tara"]."</td>\n";
-					echo "<td align='right'>".$Row[peso_neto]."</td>\n";
-					echo "<td>".$Row[guia_despacho]."</td>\n";
+					echo "<td align='right'>".$Row["peso_neto"]."</td>\n";
+					echo "<td>".$Row["guia_despacho"]."</td>\n";
 					echo "<td>".$Row["patente"]."</td>\n";
 					$BascEnt="";
 					$BascSal="";	
-						echo "<td align='Center'>".$Row[bascula_entrada]."&nbsp;</td>\n";
-						echo "<td align='Center'>".$Row[bascula_salida]."&nbsp;</td>\n";						
+						echo "<td align='Center'>".$Row["bascula_entrada"]."&nbsp;</td>\n";
+						echo "<td align='Center'>".$Row["bascula_salida"]."&nbsp;</td>\n";						
 					
 					echo "</tr>\n";
-					$TotalBruto = $TotalBruto + $Row[peso_bruto];
+					$TotalBruto = $TotalBruto + $Row["peso_bruto"];
 					$TotalTara = $TotalTara + $Row["peso_tara"];
-					$TotalNeto = $TotalNeto + $Row[peso_neto];
+					$TotalNeto = $TotalNeto + $Row["peso_neto"];
 				}
 				else
 				{
 					echo "<tr> \n";
 					echo "<td align='left'>".$Row["nombre"]."</td>\n";
 					echo "<td align='left'>".$Row["descripcion"]."</td>\n";
-					echo "<td align='right'>".$Row[peso_bruto]."</td>\n";
+					echo "<td align='right'>".$Row["peso_bruto"]."</td>\n";
 					echo "<td align='right'>".$Row["peso_tara"]."</td>\n";
-					echo "<td align='right'>".$Row[peso_neto]."</td>\n";
+					echo "<td align='right'>".$Row["peso_neto"]."</td>\n";
 					echo "</tr> \n";
-					$TotalBruto = $TotalBruto + $Row[peso_bruto];
+					$TotalBruto = $TotalBruto + $Row["peso_bruto"];
 					$TotalTara = $TotalTara + $Row["peso_tara"];
-					$TotalNeto = $TotalNeto + $Row[peso_neto];
+					$TotalNeto = $TotalNeto + $Row["peso_neto"];
 				}
 				break;
 		}
