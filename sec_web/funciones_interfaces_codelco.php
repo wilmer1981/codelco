@@ -898,6 +898,48 @@ function DefinirArregloLeyes($L_Prod, $L_SubProd, $ArregloLeyes)
 }
 
 /***************Lee archivos TXT********************** */
+function LeerArchiv($ruta,$archivo,$txtvalor)
+{
+	$nombre=$archivo;
+	if($ruta!=""){
+		//$ubicacion = 'D:/'.$ruta.'/'.$nombre;
+		$ubicacion = "D:\\xampp\\htdocs\\proyecto\\".$ruta."\\".$nombre;
+	}else{
+		$ubicacion = 'D:/'.$nombre;
+		//$ubicacion = $nombre;
+	}	
+	if(file_exists($ubicacion)){
+		$arc = fopen($ubicacion,"r");
+		while(! feof($arc))  {
+			$valor = fgets($arc);
+		}
+		fclose($arc);
+	}else{
+		$valor=$txtvalor;
+	}
+	return($valor); 
+}
+/*
+function LeerArchivo(valor)	
+
+	ubicacion = "c:\PesoMatic.txt"	
+	Set fs = CreateObject("Scripting.FileSystemObject")
+	Set file = fs.OpenTextFile(ubicacion,1,true) //Crea el archivo si no existe.
+	
+	//Validar si el peso del archivo ==  0 no leer. 
+	
+	Set file2 = fs.getFile(ubicacion) 
+	tamano = file2.size	
+
+  	if (tamano <> 0)	then
+		valor = file.ReadLine
+		LeerArchivo = valor
+	else
+		LeerArchivo = valor
+	end if
+
+end function 
+*/
 function LeerArchivo($ruta,$archivo)
 {
 	//$nombre="archivo.txt";//$archivo;

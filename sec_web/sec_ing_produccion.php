@@ -1,39 +1,40 @@
 ﻿<?php 
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	require("../principal/conectar_index.php");
 	include("funciones_interfaces_codelco.php");
 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 7;
-	
+	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 	$movimientos = array(1=>"RECEPCION", 2=> "PRODUCCION", 3=> "PAQUETE");
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
 	//echo "SA__uno__".$SA_C_STD2."<br>";	
 	//echo $tipo_ie;
 	
-	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
-	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-	$ano2    = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
-	$mes2    = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
-	$dia2    = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
-	$codlote    = isset($_REQUEST["codlote"])?$_REQUEST["codlote"]:"";
-	$numlote    = isset($_REQUEST["numlote"])?$_REQUEST["numlote"]:"";
+	$accion    = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
+	$opcion    = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$ano2      = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
+	$mes2      = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
+	$dia2      = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
+	$codlote   = isset($_REQUEST["codlote"])?$_REQUEST["codlote"]:"";
+	$numlote   = isset($_REQUEST["numlote"])?$_REQUEST["numlote"]:"";
 	$codpaq    = isset($_REQUEST["codpaq"])?$_REQUEST["codpaq"]:"";
 	$numpaq    = isset($_REQUEST["numpaq"])?$_REQUEST["numpaq"]:"";
 	$instruccion = isset($_REQUEST["instruccion"])?$_REQUEST["instruccion"]:"";
-	$pesoprog = isset($_REQUEST["pesoprog"])?$_REQUEST["pesoprog"]:"";
-	$marca = isset($_REQUEST["marca"])?$_REQUEST["marca"]:"";
+	$pesoprog    = isset($_REQUEST["pesoprog"])?$_REQUEST["pesoprog"]:"";
+	$marca       = isset($_REQUEST["marca"])?$_REQUEST["marca"]:"";
 	$paq_inicial = isset($_REQUEST["paq_inicial"])?$_REQUEST["paq_inicial"]:"";
-	$grupo = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
-	$unidades = isset($_REQUEST["unidades"])?$_REQUEST["unidades"]:"";
-	$peso = isset($_REQUEST["peso"])?$_REQUEST["peso"]:"";
-	$cuba = isset($_REQUEST["cuba"])?$_REQUEST["cuba"]:"";
-	$SA_C_STD2 = isset($_REQUEST["SA_C_STD2"])?$_REQUEST["SA_C_STD2"]:"";
+	$grupo       = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+	$unidades    = isset($_REQUEST["unidades"])?$_REQUEST["unidades"]:"";
+	$peso        = isset($_REQUEST["peso"])?$_REQUEST["peso"]:"";
+	$cuba        = isset($_REQUEST["cuba"])?$_REQUEST["cuba"]:"";
+	$SA_C_STD2   = isset($_REQUEST["SA_C_STD2"])?$_REQUEST["SA_C_STD2"]:"";
 	
 	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
 	$activa_sipa    = isset($_REQUEST["activa_sipa"])?$_REQUEST["activa_sipa"]:"";
 	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	
-	$tipo_ie        = isset($_REQUEST["tipo_ie"])?$_REQUEST["tipo_ie"]:"";
+	$tipo_ie     = isset($_REQUEST["tipo_ie"])?$_REQUEST["tipo_ie"]:"";
 	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
 	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
 	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
@@ -154,7 +155,8 @@ function CapturaPeso()
 	
 	if (f.checkpeso.checked == true)
 		//f.txtpeso.value = LeerArchivo(f.txtpeso.value);
-		f.txtpeso.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
+		//f.txtpeso.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
+		f.txtpeso.value = '<?php echo LeerArchiv('configuracion_pesaje','PesoMatic_1.txt','f.txtpeso.value'); ?>';
 		
 	setTimeout("CapturaPeso()",200);	
 }
