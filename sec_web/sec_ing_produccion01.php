@@ -1,42 +1,95 @@
 <?php
 	include("../principal/conectar_sec_web.php");
-
-	$proceso    = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
-	$SA_C_STD   = isset($_REQUEST["SA_C_STD"])?$_REQUEST["SA_C_STD"]:"";
-	$NroSolAnalisis   = isset($_REQUEST["NroSolAnalisis"])?$_REQUEST["NroSolAnalisis"]:"";
 	
+	$proceso    = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$NroSolAnalisis   = isset($_REQUEST["NroSolAnalisis"])?$_REQUEST["NroSolAnalisis"]:"";	
 	
 	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	$peso_auto  = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";
-	$listar_ie    = isset($_REQUEST["listar_ie"])?$_REQUEST["listar_ie"]:"";
-	
 	$parametros = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
-	$txtlote    = isset($_REQUEST["txtlote"])?$_REQUEST["txtlote"]:"";
-	$txtrecargo = isset($_REQUEST["txtrecargo"])?$_REQUEST["txtrecargo"]:"";
-
-	$existe_sec     = isset($_REQUEST["existe_sec"])?$_REQUEST["existe_sec"]:"";
-	$existe_rec     = isset($_REQUEST["existe_rec"])?$_REQUEST["existe_rec"]:"";
+	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$SA_C_STD    = isset($_REQUEST["SA_C_STD"])?$_REQUEST["SA_C_STD"]:"";
+	$SA_C_STD2   = isset($_REQUEST["SA_C_STD2"])?$_REQUEST["SA_C_STD2"]:"";
+	
 	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
 	$activa_sipa    = isset($_REQUEST["activa_sipa"])?$_REQUEST["activa_sipa"]:"";
 	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
-	$mostrar        = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
-	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
-	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
-	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
-
+	
 	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
 	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
 	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
 	$recargapag4 = isset($_REQUEST["recargapag4"])?$_REQUEST["recargapag4"]:"";
 	$recargapag5 = isset($_REQUEST["recargapag5"])?$_REQUEST["recargapag5"]:"";
-	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
-	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-
+	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
+	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	$peso_auto   = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";
+	$mostrar     = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	
 	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
 	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
 	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
 	$hh     = isset($_REQUEST["hh"])?$_REQUEST["hh"]:"";
 	$mm     = isset($_REQUEST["mm"])?$_REQUEST["mm"]:"";
+	$ano2   = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
+	$mes2   = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
+	$dia2   = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
+	
+	$cmbinstruccion = isset($_REQUEST["cmbinstruccion"])?$_REQUEST["cmbinstruccion"]:"";
+	$paq_inicial    = isset($_REQUEST["paq_inicial"])?$_REQUEST["paq_inicial"]:"";
+	$agrega_paq     = isset($_REQUEST["agrega_paq"])?$_REQUEST["agrega_paq"]:"";
+	$txtpesoprog   = isset($_REQUEST["txtpesoprog"])?$_REQUEST["txtpesoprog"]:"";
+	$txtnumlote    = isset($_REQUEST["txtnumlote"])?$_REQUEST["txtnumlote"]:"";
+	$txtnumpaq     = isset($_REQUEST["txtnumpaq"])?$_REQUEST["txtnumpaq"]:"";
+	$cmbcodpaq     = isset($_REQUEST["cmbcodpaq"])?$_REQUEST["cmbcodpaq"]:"";
+	$tipo_ie        = isset($_REQUEST["tipo_ie"])?$_REQUEST["tipo_ie"]:"";
+	$genera_lote    = isset($_REQUEST["genera_lote"])?$_REQUEST["genera_lote"]:"";
+	$peso_prog_ok   = isset($_REQUEST["peso_prog_ok"])?$_REQUEST["peso_prog_ok"]:"";
+	$cmbcodlote = isset($_REQUEST["cmbcodlote"])?$_REQUEST["cmbcodlote"]:"";
+	$listar_ie  = isset($_REQUEST["listar_ie"])?$_REQUEST["listar_ie"]:"";
+	$tipo_reg   = isset($_REQUEST["tipo_reg"])?$_REQUEST["tipo_reg"]:"";
+	$txtlote    = isset($_REQUEST["txtlote"])?$_REQUEST["txtlote"]:"";
+	$txtrecargo = isset($_REQUEST["txtrecargo"])?$_REQUEST["txtrecargo"]:"";
+	$existe_sec = isset($_REQUEST["existe_sec"])?$_REQUEST["existe_sec"]:"";
+	$existe_rec = isset($_REQUEST["existe_rec"])?$_REQUEST["existe_rec"]:"";
+	$fecha_pesaje_lodo  = isset($_REQUEST["fecha_pesaje_lodo"])?$_REQUEST["fecha_pesaje_lodo"]:"";
+	$hora_aux           = isset($_REQUEST["hora_aux"])?$_REQUEST["hora_aux"]:"";
+	$txtunidades    = isset($_REQUEST["txtunidades"])?$_REQUEST["txtunidades"]:"";
+	$txtpesobolsa  = isset($_REQUEST["txtpesobolsa"])?$_REQUEST["txtpesobolsa"]:"";
+	$txtpesotara   = isset($_REQUEST["txtpesotara"])?$_REQUEST["txtpesotara"]:"";
+	$txtpesoneto   = isset($_REQUEST["txtpesoneto"])?$_REQUEST["txtpesoneto"]:"";
+	$txtpeso       = isset($_REQUEST["txtpeso"])?$_REQUEST["txtpeso"]:"";
+	$txtguia       = isset($_REQUEST["txtguia"])?$_REQUEST["txtguia"]:"";
+	$txtpatente    = isset($_REQUEST["txtpatente"])?$_REQUEST["txtpatente"]:"";
+	$txtorigen     = isset($_REQUEST["txtorigen"])?$_REQUEST["txtorigen"]:"";
+	$txtrut        = isset($_REQUEST["txtrut"])?$_REQUEST["txtrut"]:"";
+	$txtmarca      = isset($_REQUEST["txtmarca"])?$_REQUEST["txtmarca"]:"";
+	$txtzuncho     = isset($_REQUEST["txtzuncho"])?$_REQUEST["txtzuncho"]:"";
+	$txtmuestra    = isset($_REQUEST["txtmuestra"])?$_REQUEST["txtmuestra"]:"";
+    $txtgrupo      = isset($_REQUEST["txtgrupo"])?$_REQUEST["txtgrupo"]:"";
+	$cmbmedida     = isset($_REQUEST["cmbmedida"])?$_REQUEST["cmbmedida"]:"";
+	$txtcuba       = isset($_REQUEST["txtcuba"])?$_REQUEST["txtcuba"]:"";
+	
+	$id_paquete    = isset($_REQUEST["id_paquete"])?$_REQUEST["id_paquete"]:"";
+	$id_lote       = isset($_REQUEST["id_lote"])?$_REQUEST["id_lote"]:"";
+	$leyes_grupo   = isset($_REQUEST["leyes_grupo"])?$_REQUEST["leyes_grupo"]:"";
+	$NroSA         = isset($_REQUEST["NroSA"])?$_REQUEST["NroSA"]:0; // no se si este seria el valor??
+	$pesotara      = isset($_REQUEST["pesotara"])?$_REQUEST["pesotara"]:"";
+	$pesoneto   = isset($_REQUEST["pesoneto"])?$_REQUEST["pesoneto"]:"";	
+	$codlote   = isset($_REQUEST["codlote"])?$_REQUEST["codlote"]:"";
+	$numlote   = isset($_REQUEST["numlote"])?$_REQUEST["numlote"]:"";
+	$codpaq    = isset($_REQUEST["codpaq"])?$_REQUEST["codpaq"]:"";
+	$numpaq    = isset($_REQUEST["numpaq"])?$_REQUEST["numpaq"]:"";
+	$instruccion = isset($_REQUEST["instruccion"])?$_REQUEST["instruccion"]:"";
+	$pesoprog    = isset($_REQUEST["pesoprog"])?$_REQUEST["pesoprog"]:"";
+	$marca       = isset($_REQUEST["marca"])?$_REQUEST["marca"]:"";
+	$grupo       = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+	$unidades    = isset($_REQUEST["unidades"])?$_REQUEST["unidades"]:"";
+	$peso        = isset($_REQUEST["peso"])?$_REQUEST["peso"]:"";
+	$cuba        = isset($_REQUEST["cuba"])?$_REQUEST["cuba"]:"";
+	$etapa       = isset($_REQUEST["etapa"])?$_REQUEST["etapa"]:"";
+	$medida      = isset($_REQUEST["medida"])?$_REQUEST["medida"]:"";	
+	$fecha_aux   = isset($_REQUEST["fecha_aux"])?$_REQUEST["fecha_aux"]:"";
 
 	$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
 	$rs = mysqli_query($link, $Consulta);
@@ -134,7 +187,7 @@ switch($proceso)
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$linea = "existe_sec=S&existe_rec=S&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtrecargo=".$txtrecargo;
-			$cmbsubproducto=$row["cod_subproducto"];//$linea.= "&txtpeso=".$row["peso_recepcion"]."&txtguia=".$row["num_guia"]."&txtpatente=".$row[patente_camion]."&txtorigen=".$row[peso_origen];
+			$cmbsubproducto=$row["cod_subproducto"];//$linea.= "&txtpeso=".$row["peso_recepcion"]."&txtguia=".$row["num_guia"]."&txtpatente=".$row["patente_camion"]."&txtorigen=".$row["peso_origen"];
 			$cmbproducto=$row["cod_producto"];//$linea.= "&txtrut=".$row["rut_proveedor"];
 		}
 		else
@@ -147,7 +200,7 @@ switch($proceso)
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea = "existe_rec=S&existe_sec=N&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtrecargo=".$txtrecargo;
-				$linea.= "&txtguia=".$row1["guia_despacho"]."&txtpatente=".$row1[patente]."&txtorigen=".$row1["peso_neto"];
+				$linea.= "&txtguia=".$row1["guia_despacho"]."&txtpatente=".$row1["patente"]."&txtorigen=".$row1["peso_neto"];
 				$linea.= "&txtrut=".$row1["rut_prv"];
 			}
 			else			
@@ -169,11 +222,12 @@ switch($proceso)
 		
 		$rs = mysqli_query($link, $consulta);
 		$row = mysqli_fetch_array($rs);
-		$fecha = explode("-",$row[fecha_recepcion]); //0: ao, 1:mes, 2: dia.
+		$fecha = explode("-",$row["fecha_recepcion"]); //0: ao, 1:mes, 2: dia.
 						
-		$linea.= "txtpeso=".$row["peso_recepcion"]."&txtguia=".$row["num_guia"]."&txtpatente=".$row[patente_camion]."&txtrecargo=".$row["recargo"];
-		$linea.= "&txtorigen=".$row[peso_origen]."&txtrut=".$row["rut_proveedor"]."&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtzuncho=".$row["peso_zuncho"];
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "txtpeso=".$row["peso_recepcion"]."&txtguia=".$row["num_guia"]."&txtpatente=".$row["patente_camion"]."&txtrecargo=".$row["recargo"];
+		$linea.= "&txtorigen=".$row["peso_origen"]."&txtrut=".$row["rut_proveedor"]."&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtzuncho=".$row["peso_zuncho"];
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&opcion=M&tipo_reg=L";
 		header("Location:sec_ing_produccion.php?".$linea);	
@@ -227,7 +281,7 @@ switch($proceso)
 			$rs3 = mysqli_query($link, $consulta);
 			
 			if ($row3 = mysqli_fetch_array($rs3)) //Enami.
-				$linea.= "&txtpesoprog=".($row3[cantidad_embarque] * 1000)."&listar_ie=P";
+				$linea.= "&txtpesoprog=".($row3["cantidad_embarque"] * 1000)."&listar_ie=P";
 			else
 			{	
 				$consulta = "SELECT * FROM sec_web.instruccion_virtual";
@@ -242,7 +296,8 @@ switch($proceso)
 						
 		$linea.= "&txtlote=".$vector[0]."&txtrecargo=".$vector[4]."&cmbcodpaq=".$vector[1]."&txtnumpaq=".$vector[2]."&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&txtunidades=".$row["num_unidades"]."&txtpeso=".$row["peso_paquetes"];
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&recargapag4=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&recargapag4=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&recargapag4=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S&encontro_ie=S";
 		$linea.= "&opcion=M&tipo_reg=P&hh=".$hh_mm[0]."&mm=".$hh_mm[1];
 		header("Location:sec_ing_produccion.php?".$linea);		
@@ -274,8 +329,9 @@ switch($proceso)
 		
 		$hh_mm = explode(':', $row["hora"]); //0: hora, 1:minuto.
 		
-		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row["peso_produccion"];
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row["cod_muestra"]."&txtpeso=".$row["peso_produccion"];
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;	
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S";
 		$linea.= "&opcion=M&hh=".$hh_mm[0]."&mm=".$hh_mm[1];		
@@ -308,8 +364,9 @@ switch($proceso)
 		$rs = mysqli_query($link, $consulta);
 		$row = mysqli_fetch_array($rs);
 		$hh_mm = explode(':', $row["hora"]); //0: hora, 1:minuto.				
-		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row["peso_produccion"]."&txtcuba=".$row[cod_cuba];
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;		
+		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row["cod_muestra"]."&txtpeso=".$row["peso_produccion"]."&txtcuba=".$row["cod_cuba"];
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;	
+        //$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;			
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S&txtlado=".$row["cod_lado"];
 		$linea.= "&opcion=M&hh=".$hh_mm[0]."&mm=".$hh_mm[1];
@@ -338,7 +395,7 @@ switch($proceso)
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S";
 		$linea.= "&opcion=M&hh=".$hh_mm[0]."&mm=".$hh_mm[1];
-		$linea.= "&cmbcodpaq=".$vector[0]."&txtnumpaq=".$vector[1]."&cmbgrupo=".$row["cod_grupo"]."&cmbcuba=".$row[cod_cuba];		
+		$linea.= "&cmbcodpaq=".$vector[0]."&txtnumpaq=".$vector[1]."&cmbgrupo=".$row["cod_grupo"]."&cmbcuba=".$row["cod_cuba"];		
 		$linea.= "&txtunidades=".$row["num_unidades"]."&txtpeso=".$row["peso_paquetes"];
 		header("Location:sec_ing_produccion.php?".$linea);		
 	}
@@ -358,7 +415,7 @@ switch($proceso)
 			if ($row2 = mysqli_fetch_array($rs2))
 			{	
 				//mostrar datos y el paquete correlativo correspondiente.
-				$linea = "txtpesoprog=".($row2[cantidad_embarque] * 1000)."&encontro_ie=S&mensaje=".$row2["descripcion"];
+				$linea = "txtpesoprog=".($row2["cantidad_embarque"] * 1000)."&encontro_ie=S&mensaje=".$row2["descripcion"];
 				
 				//consulta el ultimo paquete de la I.E.
 				$consulta = "SELECT * FROM sec_web.lote_catodo";
@@ -449,7 +506,7 @@ switch($proceso)
 					$rs = mysqli_query($link, $consulta);
 					if ($row = mysqli_fetch_array($rs)) //Existe en Enami.
 					{
-						$linea = "txtpesoprog=".($row[cantidad_embarque] * 1000)."&encontro_ie=S&mensaje=".$row["descripcion"];
+						$linea = "txtpesoprog=".($row["cantidad_embarque"] * 1000)."&encontro_ie=S&mensaje=".$row["descripcion"];
 					}
 					else	
 					{
@@ -526,8 +583,8 @@ switch($proceso)
 			$linea.= "&tipo_ie=V"; //Virtual.
 			// echo "lin 2".$linea;
 		}
-			
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;	
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$cmbinstruccion."&listar_ie=".$listar_ie."&recargapag4=S";
 		//&SA_C_STD=".$SA_C_STD;
@@ -622,7 +679,7 @@ switch($proceso)
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea.= "cmbcodlote=".$row1["cod_bulto"]."&txtnumlote=".$row1["num_bulto"]."&txtmarca=".$row1["marca"];
-				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1[fecha_pesaje];
+				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1["fecha_pesaje"];
 				$linea.= "&txtunidades=".$row1["unidades"]."&txtpesotara=".$row1["peso_tara"]."&txtpesoneto=".$row1["peso_neto"];
 				$linea.= "&opcion=L"; //Modifica el peso del Lodo.(2 Pesaje)
 				$linea.= "&tipo_ie=P"; //Virtual.
@@ -643,14 +700,14 @@ switch($proceso)
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea.= "cmbcodlote=".$row1["cod_bulto"]."&txtnumlote=".$row1["num_bulto"]."&txtmarca=".$row1["marca"];
-				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1[fecha_pesaje];
+				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1["fecha_pesaje"];
 				$linea.= "&txtunidades=".$row1["unidades"]."&txtpesotara=".$row1["peso_tara"]."&txtpesoneto=".$row1["peso_neto"];
 				$linea.= "&opcion=L"; //Modifica el peso del Lodo.(2 Pesaje).
 				$linea.= "&tipo_ie=V"; //Virtual.				
 			}							
 		}
-			
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;	
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia."&encontro_ie=S";
 		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$cmbinstruccion."&listar_ie=".$listar_ie."&recargapag4=S";
 		
@@ -716,7 +773,7 @@ switch($proceso)
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea.= "cmbcodlote=".$row1["cod_bulto"]."&txtnumlote=".$row1["num_bulto"]."&txtmarca=".$row1["marca"];
-				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1[fecha_pesaje];
+				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1["fecha_pesaje"];
 				$linea.= "&txtunidades=".$row1["unidades"]."&txtpesotara=".$row1["peso_tara"]."&txtpesoneto=".$row1["peso_neto"];
 				$linea.= "&opcion=L"; //Modifica el peso del Lodo.(2 Pesaje)
 				
@@ -733,8 +790,8 @@ switch($proceso)
 				echo '</script>';
 				//break;
 			}
-			
-			$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+			//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+			$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 			$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 			$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&listar_ie=".$listar_ie."&recargapag4=S&encontro_ie=S";
 
@@ -816,7 +873,7 @@ switch($proceso)
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea.= "cmbcodlote=".$row1["cod_bulto"]."&txtnumlote=".$row1["num_bulto"]."&txtmarca=".$row1["marca"];
-				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1[fecha_pesaje];
+				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1["fecha_pesaje"];
 				$linea.= "&txtunidades=".$row1["unidades"]."&txtpesotara=".$row1["peso_tara"]."&txtpesoneto=".$row1["peso_neto"];
 				$linea.= "&opcion=L"; //Modifica el peso del Lodo.(2 Pesaje)
 				
@@ -1014,11 +1071,19 @@ switch($proceso)
 				mysqli_query($link, $insertar);
 				
 				//Crea Variable se Sesion para manejar el Peso Zuncho.
+				/*
 				session_start();
 				session_register("ses_promedio"); 
 				session_register("ses_quitar"); //Descontar al registro.
 				session_register("ses_resto"); //Sobrante.
 				session_register("ses_numero"); //N de Paquete. 
+				*/
+			
+				session_start();
+				$_SESSION['ses_promedio'] = $ses_promedio;
+				$_SESSION['ses_quitar']   = $ses_quitar;
+				$_SESSION['ses_resto']    = $ses_resto;
+				$_SESSION['ses_numero']   = $ses_numero;
 				
 				$ses_promedio = ($txtzuncho / $txtpaquete);				
 				$ses_quitar = floor($ses_promedio);
@@ -1087,7 +1152,7 @@ switch($proceso)
 					$rs = mysqli_query($link, $consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{
-						$mensaje = "El Paquete Ya Existe Con Estado Abierto, Del Ao ".substr($row[fecha_creacion_paquete],0,4);
+						$mensaje = "El Paquete Ya Existe Con Estado Abierto, Del Ao ".substr($row["fecha_creacion_paquete"],0,4);
 						
 						echo '<script language="JavaScript">';
 						echo 'alert("'.$mensaje.'");';
@@ -1097,13 +1162,19 @@ switch($proceso)
 					}  
 					else
 					{
-					
+						/*
+						session_start();
 						session_register("ses_promedio"); 
 						session_register("ses_quitar"); //Descontar al registro.
 						session_register("ses_resto"); //Sobrante.
 						session_register("ses_numero"); //N de Paquete.	
-						
-						
+						*/
+						session_start();
+						$_SESSION['ses_promedio'] = $ses_promedio;
+						$_SESSION['ses_quitar']   = $ses_quitar;
+						$_SESSION['ses_resto']    = $ses_resto;
+						$_SESSION['ses_numero']   = $ses_numero;
+											
 						//$ses_numero = $txtpaquete;
 						
 						//Ses_numero = 0; entonces el lote completo de pesar los paquetes.					
@@ -1280,7 +1351,7 @@ switch($proceso)
 							$linea.= "&listar_ie=".$listar_ie."&recargapag4=S&tipo_reg=P";
 							
 							//if (($agrega_paq == "S") and (!isset($mensaje)))
-							if (!isset($mensaje))
+							if ($mensaje=="")
 							{
 								$linea.= "&agrega_paq=S&cmbcodpaq=".$cmbcodpaq."&txtnumpaq=".($txtnumpaq + 1);
 							}
@@ -1351,7 +1422,7 @@ switch($proceso)
 				$rs = mysqli_query($link, $consulta);
 				if (($row = mysqli_fetch_array($rs)) and ($etapa == 1))
 				{
-					$mensaje = "El Paquete Ya Existe Con Estado Abierto, Del Ao ".substr($row[fecha_creacion_paquete],0,4);
+					$mensaje = "El Paquete Ya Existe Con Estado Abierto, Del Ao ".substr($row["fecha_creacion_paquete"],0,4);
 					echo '<script language="JavaScript">';
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
@@ -1425,7 +1496,7 @@ switch($proceso)
 							if($cmbproducto=='18'&&$txtpeso>0)
 								$txtpeso=$txtpeso-1;
 							$insertar = "INSERT INTO sec_web.paquete_catodo (cod_existencia,cod_paquete,num_paquete,fecha_creacion_paquete,cod_producto,cod_subproducto,cod_estado,num_unidades,peso_paquetes,cod_grupo,cod_cuba,hora)";
-							$insertar.= " VALUES ('05', '".$cod_paq[$cmbcodpaq]."', '".$txtnumpaq."', '".$fecha."', '".$cmbproducto."', '".$cmbsubproducto."', '".a."','".$txtunidades."', '".$txtpeso."', '".$txtgrupo."', '".$txtcuba."','".$hora."')";
+							$insertar.= " VALUES ('05', '".$cod_paq[$cmbcodpaq]."', '".$txtnumpaq."', '".$fecha."', '".$cmbproducto."', '".$cmbsubproducto."', 'a','".$txtunidades."', '".$txtpeso."', '".$txtgrupo."', '".$txtcuba."','".$hora."')";
 							//echo "Insert N 1:    ".$insertar."<br>";
 							mysqli_query($link, $insertar);
 							if($cmbproducto=='18'||$cmbproducto=='48')//SOLO PARA LAMINAS Y CATODOS
@@ -1616,7 +1687,7 @@ switch($proceso)
 					$rs = mysqli_query($link, $consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{
-						$peso_prog = ($row[cantidad_embarque] * 1000);
+						$peso_prog = ($row["cantidad_embarque"] * 1000);
 					}
 					else
 					{	
@@ -1808,7 +1879,7 @@ switch($proceso)
 				$rs = mysqli_query($link, $consulta);
 				if ($row = mysqli_fetch_array($rs))
 				{
-					$peso_prog = ($row[cantidad_embarque] * 1000);
+					$peso_prog = ($row["cantidad_embarque"] * 1000);
 				}
 				else
 				{	
@@ -1934,14 +2005,14 @@ switch($proceso)
 						{
 							$eliminar = "DELETE FROM sec_web.paquete_catodo";
 							$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-							$eliminar.= " AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."' AND cod_estado = 'a'";
+							$eliminar.= " AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."' AND cod_estado = 'a'";
 							$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 							$eliminar.= " AND fecha_creacion_paquete = '".$fecha_aux."' AND cod_estado = 'a'";       
 							echo "PAQ".$eliminar."<br>";
 							//mysqli_query($link, $eliminar);
 							$eliminar = "DELETE FROM sec_web.paquete_catodo_externo";
 							$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-							$eliminar.= " AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."' AND cod_estado = 'a'";
+							$eliminar.= " AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."' AND cod_estado = 'a'";
 							$eliminar.= " AND lote_origen = '".$txtlote."' AND recargo = '".$txtrecargo."'";
 							$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 							$eliminar.= " AND fecha_creacion_paquete = '".$fecha_aux."' AND cod_estado = 'a'";       
@@ -1949,7 +2020,7 @@ switch($proceso)
 							//mysqli_query($link, $eliminar);
 							$eliminar = "DELETE FROM sec_web.lote_catodo";
 							$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-							$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."'";
+							$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."'";
 							echo "LOTE".$eliminar."<br>";
 							 //mysqli_query($link, $eliminar);                                                                                                                                                                                                                  
 						}
@@ -2044,21 +2115,21 @@ if ($proceso == "E")
 					{
 						$eliminar = "DELETE FROM sec_web.paquete_catodo";
 						$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-						$eliminar.= " AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."' AND cod_estado = 'a'";
+						$eliminar.= " AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."' AND cod_estado = 'a'";
 						$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 						//echo "PAQ".$eliminar."<br>";
 						mysqli_query($link, $eliminar);
 						
 						$eliminar = "DELETE FROM sec_web.paquete_catodo_externo";
 						$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-						$eliminar.= " AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."' AND cod_estado = 'a'";
+						$eliminar.= " AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."' AND cod_estado = 'a'";
 						$eliminar.= " AND lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."'";
 						$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 						//echo "PAQEXT".$eliminar."<br>";
 						mysqli_query($link, $eliminar);
 						$eliminar = "DELETE FROM sec_web.lote_catodo";
 						$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-						$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."'";
+						$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."'";
 						//echo "LOTE".$eliminar."<br>";
 						mysqli_query($link, $eliminar);																		
 					}
@@ -2327,7 +2398,7 @@ if ($proceso == "E")
 					$rs = mysqli_query($link, $Consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{
-						$TxtPesoRango=$row[peso_rango];
+						$TxtPesoRango=$row["peso_rango"];
 					}
 					$Consulta="Select cantidad_programada from  sec_web.programa_codelco where corr_codelco = '".$cmbinstruccion."' ";
 					$rs = mysqli_query($link, $Consulta);
@@ -2429,7 +2500,7 @@ if ($proceso == "E")
 			
 			$insertar = "INSERT INTO sec_web.paquete_catodo (cod_existencia,cod_paquete,num_paquete,fecha_creacion_paquete,cod_producto,cod_subproducto,cod_lugar,cod_estado,num_unidades,peso_paquetes,cod_grupo,cod_cuba,hora)";
 			$insertar.= " VALUES ('05', '".$cod_paquete[$c]."', '".$num_paquete[$c]."', '".$fecha_creacion[$c]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."',";
-			$insertar.= " '".$row[cod_lugar]."','a', '".$row["num_unidades"]."', '".$row[peso_paquete]."', '".$row["cod_grupo"]."', '".$row[cod_cuba]."','".$row["hora"]."')";
+			$insertar.= " '".$row["cod_lugar"]."','a', '".$row["num_unidades"]."', '".$row["peso_paquete"]."', '".$row["cod_grupo"]."', '".$row["cod_cuba"]."','".$row["hora"]."')";
 			//echo $insertar."<br>";
 			mysqli_query($link, $insertar);
 			
@@ -2455,7 +2526,8 @@ if ($proceso == "E")
 		//echo $insertar."<br>";
 		mysqli_query($link, $insertar);
 		$linea.= "tipo_ie=V"; //Virtual.
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$row["instruccion_virtual"];
 		$linea.= "&encontro_ie=S&listar_ie=V&recargapag4=S";
@@ -2476,7 +2548,8 @@ if ($proceso == "E")
 		mysqli_query($link, $actualizar);
 		//echo $actualizar."<br>";
 		$linea.= "tipo_ie=V"; //Virtual.
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&SA_C_STD=".$SA_C_STD."&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&SA_C_STD=".$SA_C_STD."&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&SA_C_STD=".$SA_C_STD."&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$cmbinstruccion;
 		$linea.= "&encontro_ie=S&txtpesoprog=".$txtpesoprog."&peso_prog_ok=S&listar_ie=".$listar_ie."&recargapag4=S";

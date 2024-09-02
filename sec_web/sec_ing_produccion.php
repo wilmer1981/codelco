@@ -9,32 +9,16 @@
 	$movimientos = array(1=>"RECEPCION", 2=> "PRODUCCION", 3=> "PAQUETE");
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
 	//echo "SA__uno__".$SA_C_STD2."<br>";	
-	//echo $tipo_ie;
-	
-	$accion    = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
-	$opcion    = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-	$ano2      = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
-	$mes2      = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
-	$dia2      = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
-	$codlote   = isset($_REQUEST["codlote"])?$_REQUEST["codlote"]:"";
-	$numlote   = isset($_REQUEST["numlote"])?$_REQUEST["numlote"]:"";
-	$codpaq    = isset($_REQUEST["codpaq"])?$_REQUEST["codpaq"]:"";
-	$numpaq    = isset($_REQUEST["numpaq"])?$_REQUEST["numpaq"]:"";
-	$instruccion = isset($_REQUEST["instruccion"])?$_REQUEST["instruccion"]:"";
-	$pesoprog    = isset($_REQUEST["pesoprog"])?$_REQUEST["pesoprog"]:"";
-	$marca       = isset($_REQUEST["marca"])?$_REQUEST["marca"]:"";
-	$paq_inicial = isset($_REQUEST["paq_inicial"])?$_REQUEST["paq_inicial"]:"";
-	$grupo       = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
-	$unidades    = isset($_REQUEST["unidades"])?$_REQUEST["unidades"]:"";
-	$peso        = isset($_REQUEST["peso"])?$_REQUEST["peso"]:"";
-	$cuba        = isset($_REQUEST["cuba"])?$_REQUEST["cuba"]:"";
+	//echo $tipo_ie;	
+	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
+	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$SA_C_STD    = isset($_REQUEST["SA_C_STD"])?$_REQUEST["SA_C_STD"]:"";
 	$SA_C_STD2   = isset($_REQUEST["SA_C_STD2"])?$_REQUEST["SA_C_STD2"]:"";
 	
 	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
 	$activa_sipa    = isset($_REQUEST["activa_sipa"])?$_REQUEST["activa_sipa"]:"";
 	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	
-	$tipo_ie     = isset($_REQUEST["tipo_ie"])?$_REQUEST["tipo_ie"]:"";
 	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
 	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
 	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
@@ -43,17 +27,19 @@
 	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
 	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
 	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
-	$accion      = isset($_REQUEST["accion"])?$_REQUEST["accion"]:"";
-	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";	
 	$peso_auto   = isset($_REQUEST["peso_auto"])?$_REQUEST["peso_auto"]:"";
 	$mostrar     = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	
 	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
 	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
 	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
 	$hh     = isset($_REQUEST["hh"])?$_REQUEST["hh"]:"";
 	$mm     = isset($_REQUEST["mm"])?$_REQUEST["mm"]:"";
+	$ano2   = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
+	$mes2   = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
+	$dia2   = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
+	
 	$cmbinstruccion = isset($_REQUEST["cmbinstruccion"])?$_REQUEST["cmbinstruccion"]:"";
-	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
 	$paq_inicial    = isset($_REQUEST["paq_inicial"])?$_REQUEST["paq_inicial"]:"";
 	$agrega_paq     = isset($_REQUEST["agrega_paq"])?$_REQUEST["agrega_paq"]:"";
 	$txtpesoprog   = isset($_REQUEST["txtpesoprog"])?$_REQUEST["txtpesoprog"]:"";
@@ -70,9 +56,45 @@
 	$txtrecargo = isset($_REQUEST["txtrecargo"])?$_REQUEST["txtrecargo"]:"";
 	$existe_sec = isset($_REQUEST["existe_sec"])?$_REQUEST["existe_sec"]:"";
 	$existe_rec = isset($_REQUEST["existe_rec"])?$_REQUEST["existe_rec"]:"";
-	$etapa      = isset($_REQUEST["etapa"])?$_REQUEST["etapa"]:"";
-	$SA_C_STD = isset($_REQUEST["SA_C_STD"])?$_REQUEST["SA_C_STD"]:"";
-
+	$fecha_pesaje_lodo  = isset($_REQUEST["fecha_pesaje_lodo"])?$_REQUEST["fecha_pesaje_lodo"]:"";
+	$hora_aux           = isset($_REQUEST["hora_aux"])?$_REQUEST["hora_aux"]:"";
+	$txtunidades    = isset($_REQUEST["txtunidades"])?$_REQUEST["txtunidades"]:"";
+	$txtpesobolsa  = isset($_REQUEST["txtpesobolsa"])?$_REQUEST["txtpesobolsa"]:"";
+	$txtpesotara   = isset($_REQUEST["txtpesotara"])?$_REQUEST["txtpesotara"]:"";
+	$txtpesoneto   = isset($_REQUEST["txtpesoneto"])?$_REQUEST["txtpesoneto"]:"";
+	$txtpeso       = isset($_REQUEST["txtpeso"])?$_REQUEST["txtpeso"]:"";
+	$txtcuba       = isset($_REQUEST["txtcuba"])?$_REQUEST["txtcuba"]:"";
+	$txtguia       = isset($_REQUEST["txtguia"])?$_REQUEST["txtguia"]:"";
+	$txtpatente    = isset($_REQUEST["txtpatente"])?$_REQUEST["txtpatente"]:"";
+	$txtorigen     = isset($_REQUEST["txtorigen"])?$_REQUEST["txtorigen"]:"";
+	$txtrut        = isset($_REQUEST["txtrut"])?$_REQUEST["txtrut"]:"";
+	$txtmarca      = isset($_REQUEST["txtmarca"])?$_REQUEST["txtmarca"]:"";
+	$txtzuncho     = isset($_REQUEST["txtzuncho"])?$_REQUEST["txtzuncho"]:"";
+	$txtmuestra    = isset($_REQUEST["txtmuestra"])?$_REQUEST["txtmuestra"]:"";
+    $txtgrupo      = isset($_REQUEST["txtgrupo"])?$_REQUEST["txtgrupo"]:"";
+	$cmbmedida     = isset($_REQUEST["cmbmedida"])?$_REQUEST["cmbmedida"]:"";
+	$fecha_aux   = isset($_REQUEST["fecha_aux"])?$_REQUEST["fecha_aux"]:"";
+	
+	$id_paquete    = isset($_REQUEST["id_paquete"])?$_REQUEST["id_paquete"]:"";
+	$id_lote       = isset($_REQUEST["id_lote"])?$_REQUEST["id_lote"]:"";
+	$leyes_grupo   = isset($_REQUEST["leyes_grupo"])?$_REQUEST["leyes_grupo"]:"";
+	$NroSA         = isset($_REQUEST["NroSA"])?$_REQUEST["NroSA"]:"";    
+	$from	   = isset($_REQUEST["from"])?$_REQUEST["from"]:"";
+	$pesotara  = isset($_REQUEST["pesotara"])?$_REQUEST["pesotara"]:"";
+	$pesoneto  = isset($_REQUEST["pesoneto"])?$_REQUEST["pesoneto"]:"";	
+	$codlote   = isset($_REQUEST["codlote"])?$_REQUEST["codlote"]:"";
+	$numlote   = isset($_REQUEST["numlote"])?$_REQUEST["numlote"]:"";
+	$codpaq    = isset($_REQUEST["codpaq"])?$_REQUEST["codpaq"]:"";
+	$numpaq    = isset($_REQUEST["numpaq"])?$_REQUEST["numpaq"]:"";
+	$marca       = isset($_REQUEST["marca"])?$_REQUEST["marca"]:"";
+	$instruccion = isset($_REQUEST["instruccion"])?$_REQUEST["instruccion"]:"";
+	$pesoprog    = isset($_REQUEST["pesoprog"])?$_REQUEST["pesoprog"]:"";
+	$grupo       = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+	$unidades    = isset($_REQUEST["unidades"])?$_REQUEST["unidades"]:"";
+	$peso        = isset($_REQUEST["peso"])?$_REQUEST["peso"]:"";
+	$cuba        = isset($_REQUEST["cuba"])?$_REQUEST["cuba"]:"";
+	$etapa       = isset($_REQUEST["etapa"])?$_REQUEST["etapa"]:"";
+	$medida      = isset($_REQUEST["medida"])?$_REQUEST["medida"]:"";
 
 ?>
 
@@ -257,8 +279,6 @@ return (Total)
 
 function CalculaDias(FechaInicio,FechaTermino)
 {
-	
-
 	Matriz1= FechaInicio.split("/");
 	Matriz2= FechaTermino.split("/");
 	dia=parseFloat(Matriz1[0]);//dias
@@ -515,7 +535,7 @@ function ValidaCampos3() //Para Paquete.
 		{			
 			if(f.SA_C_STD.value=='')
 			{	
-             		alert('MF Va a VALIDAR analisis 3');
+             	alert('MF Va a VALIDAR analisis 3');
 				alert('Debe Ingresar Solicitud Analisis.')
 				f.SA_C_STD.focus();
 				return false;
@@ -885,10 +905,19 @@ function Grabar()
 		{					
 			if(f.cmbcodpaq.value!='-1')
 			{			
-				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
-								
-				fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
-				
+				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
+				//document.cookie = "myJavascriptVar = " + StrPaquetePeso;			
+				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
+				<?php
+					$ruta ='';
+					$archivo ='datos.txt';
+					//$var = "<script>return StrPaquetePeso;</script>";
+					$var = "<script>document.writeln(StrPaquetePeso);</script>";
+					//$myPhpVar= $_COOKIE['myJavascriptVar'];
+					//echo "<script>document.writeln(StrPaquetePeso);</script>";
+				?>
+				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>';
+				alert("Write:" + write);
 				  // MF alert("MF escribio paquete peso ....");
 				  // MF alert(f.cmbproducto.value);
 				  
@@ -902,21 +931,28 @@ function Grabar()
 						return;
 					}
 				  */
-					StrDatosEtiqueta=f.SubProdEtiq.value+"*"+f.cmbcodlote.options[f.cmbcodlote.SELECTedIndex].text+"-"+str_pad (f.txtnumlote.value, 5, '0','STR_PAD_LEFT')+"*";
+					StrDatosEtiqueta=f.SubProdEtiq.value+"*"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+str_pad (f.txtnumlote.value, 5, '0','STR_PAD_LEFT')+"*";
 					//alert(f.cmbproducto.value);
 					switch(f.cmbproducto.value)
 					{
 						case '48'://LAMINAS NO SE CONSIDERA UNIDADES
-							//StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunid48.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+""+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;
-							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+str_pad (f.txtnumpaq.value, 5, '0','STR_PAD_LEFT')+"*"+f.txtmarca.value+"*"+f.txtunid48.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+""+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;
+							//StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunid48.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+""+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;
+							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+str_pad (f.txtnumpaq.value, 5, '0','STR_PAD_LEFT')+"*"+f.txtmarca.value+"*"+f.txtunid48.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+""+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;
 							break;
 						default:
-							//StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+(f.txtpeso.value-1)+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
-							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+str_pad (f.txtnumpaq.value, 5, '0','STR_PAD_LEFT')+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+(f.txtpeso.value-1)+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
+							//StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+(f.txtpeso.value-1)+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
+							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+str_pad (f.txtnumpaq.value, 5, '0','STR_PAD_LEFT')+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+(f.txtpeso.value-1)+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
 							break;
 					}
 					//alert(StrDatosEtiqueta);
-					 fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
+					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
+					<?php
+					$ruta ='';
+					$archivo ='etiquetas.txt';
+					$var = "<script>document.writeln(StrDatosEtiqueta);</script>";
+					?>
+					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
+					alert("Write:" + write);
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
 					//f.leyes_grupo.value=''				
@@ -931,26 +967,33 @@ function Grabar()
 			if (f.cmbmovimiento.value == 1)
 			{
 				//StrPaquetePeso=f.txtlote.value+"-"+f.txtrecargo.value+"\r\n"+f.txtpeso.value;
-				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
+				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 
 				//alert (StrPaquetePeso);
 
-				fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
+				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
+				<?php
+				$ruta ='';
+				$archivo ='datos.txt';
+				$var = "<script>document.writeln(StrPaquetePeso);</script>";
+				?>
+				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
+				alert("Write:" + write);
 
-				/*StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.SELECTedIndex].text+"-"+f.txtnumlote.value+"\r\n";
-				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
+				/*StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"\r\n";
+				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 				fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
-				StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.SELECTedIndex].text+"-"+f.txtnumlote.value+"\r\n";
+				StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"\r\n";
 				switch(f.cmbproducto.value)
 				{
 					case '48'://LAMINAS NO SE CONSIDERA UNIDADES
-						StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtmarca.value+"\r\n"+f.txtunid48.value+"\r\n"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"\r\n"+f.txtpeso.value+"\r\n"+""+"\r\n"+f.txtnommarca.value;
+						StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtmarca.value+"\r\n"+f.txtunid48.value+"\r\n"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"\r\n"+f.txtpeso.value+"\r\n"+""+"\r\n"+f.txtnommarca.value;
 						break;
 					case '64'://SALES NO CONSIDERA GRUPOS
-						StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtmarca.value+"\r\n"+f.txtunidades.value+"\r\n"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"\r\n"+f.txtpeso.value+"\r\n"+""+"\r\n"+f.txtnommarca.value;						
+						StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtmarca.value+"\r\n"+f.txtunidades.value+"\r\n"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"\r\n"+f.txtpeso.value+"\r\n"+""+"\r\n"+f.txtnommarca.value;						
 						break;								
 					default:
-						StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtmarca.value+"\r\n"+f.txtunidades.value+"\r\n"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"\r\n"+f.txtpeso.value+"\r\n"+f.txtgrupo.value+"\r\n"+f.txtnommarca.value;						
+						StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtmarca.value+"\r\n"+f.txtunidades.value+"\r\n"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"\r\n"+f.txtpeso.value+"\r\n"+f.txtgrupo.value+"\r\n"+f.txtnommarca.value;						
 						break;
 				}
 				//alert (StrDatosEtiqueta);
@@ -985,7 +1028,7 @@ function Grabar()
 			
 		f.submit();
 	}	
-}     
+}  /*   
 function fwrite_x(folder,filename,data,mode)//crea archivo de texto para visor
 { //fwrite_x v1.0 byScriptman
 //modes: 0:si no existe, regresa false ;1: sobreescribe; 2:append.
@@ -1001,7 +1044,7 @@ var tf = fso.CreateTextFile(filename,2);
 tf.write(dataold+data);
 tf.close();
 return true;
-}
+}*/
 /***************/
 function Etiqueta()
 {
@@ -1026,10 +1069,22 @@ function Etiqueta()
 			linea = linea + "&listar_ie=P";
 		else if (f.radio[1].checked == true)	
 				linea = linea + "&listar_ie=V";
-				//StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.SELECTedIndex].text+"-"+f.txtnumlote.value+"\r\n";
-				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
+				//StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"\r\n";
+				var StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 				//alert(StrPaquetePeso);
-				fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
+				//StrPaquetePeso='Hola';
+				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
+				<?php
+				$ruta='';
+				$archivo='datos.txt';
+				$var = "<script>document.writeln(StrPaquetePeso);</script>";				
+				?>
+				//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
+				//alert("Paquete:"+StrPaquetePeso);
+				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
+				alert("Write:" +write);
+				
+				
 				if(f.cmbproducto.value==18||f.cmbproducto.value==48)//ETIQUETAS SOLO PARA CATODOS Y LAMINAS
 				{
 					/*if(f.cmbproducto.value==18&&f.leyes_grupo.value=='')//PARA CATODOS OBLIGACION LEYES DEL GRUPO
@@ -1037,19 +1092,26 @@ function Etiqueta()
 						alert('No hay Leyes para el Grupo Ingresado');
 						return;
 					}*/
-					StrDatosEtiqueta=f.SubProdEtiq.value+"*"+f.cmbcodlote.options[f.cmbcodlote.SELECTedIndex].text+"-"+f.txtnumlote.value+"*";
+					StrDatosEtiqueta=f.SubProdEtiq.value+"*"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"*";
 					//alert(f.cmbproducto.value);
 					switch(f.cmbproducto.value)
 					{
 						case '48'://LAMINAS NO SE CONSIDERA UNIDADES
-							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunid48.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+""+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;
+							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunid48.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+""+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;
 							break;
 						default:
-							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
+							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
 							break;
 					}
 					//alert(StrDatosEtiqueta);
-					fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
+					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
+					<?php
+					$ruta ='';
+					$archivo ='etiquetas.txt';
+					$var = "<script>document.writeln(StrDatosEtiqueta);</script>";	
+					?>
+					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
+					alert("Write:" + write);
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
 					//f.leyes_grupo.value=''				
@@ -1115,10 +1177,18 @@ function Modificar()
 		else if (f.radio[1].checked == true)	
 	
 				linea = linea + "&listar_ie=V";
-				//StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.SELECTedIndex].text+"-"+f.txtnumlote.value+"\r\n";
-				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
+				//StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"\r\n";
+				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 				
-				fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
+				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
+				<?php
+				$ruta='';
+				$archivo='datos.txt';
+				$var = "<script>document.writeln(StrPaquetePeso);</script>";	
+				?>
+				//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
+				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
+				alert("Write:" + write);
 				
 				if(f.cmbproducto.value==18||f.cmbproducto.value==48)//ETIQUETAS SOLO PARA CATODOS Y LAMINAS
 				{
@@ -1131,19 +1201,27 @@ function Modificar()
 					}
 					*/
 					
-					StrDatosEtiqueta=f.SubProdEtiq.value+"*"+f.cmbcodlote.options[f.cmbcodlote.SELECTedIndex].text+"-"+f.txtnumlote.value+"*";
+					StrDatosEtiqueta=f.SubProdEtiq.value+"*"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"*";
 					//alert(f.cmbproducto.value);
 					switch(f.cmbproducto.value)
 					{
 						case '48'://LAMINAS NO SE CONSIDERA UNIDADES
-							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunid48.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+""+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;
+							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunid48.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+""+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;
 							break;
 						default:
-							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
+							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+f.txtpeso.value+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
 							break;
 					}
 					//alert (StrDatosEtiqueta);
-					    fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
+					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
+					<?php
+					$ruta='';
+					$archivo='etiquetas.txt';
+					$var = "<script>document.writeln(StrDatosEtiqueta);</script>";
+					?>
+					//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
+					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
+					alert("Write:" + write);
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
 					//f.leyes_grupo.value=''				
@@ -1526,13 +1604,11 @@ function Posicionar()
 function Posicionar3()
 {
 	var f = document.frm1;
-
 	if ((f.cmbproducto.value == 18) && (f.cmbsubproducto.value != -1))
 	{
 		if ((f.cmbsubproducto.value != 42) && (f.cmbsubproducto.value != 43) && (f.cmbsubproducto.value != 44))
 			f.txtgrupo.focus();
 	}
-
 }
 /*************/
 function ValGrupo()
@@ -1639,12 +1715,12 @@ function ValCuba()
 			else
 			{
 				if ($cmbmovimiento == '2' and $cmbproducto == '18' and $cmbsubproducto == '1'){
-					echo "if ((parseInt(Number(f.txtgrupo.value)) == 49)){"; 
+					echo "if (parseInt(Number(f.txtgrupo.value)) == 49){"; 
 						echo "if ((parseInt(Number(f.txtcuba.value)) < 1) || (parseInt(Number(f.txtcuba.value)) > 60)){";
 						echo "alert('La Cuba Esta Fuera del Rango 1 al 60');";
 						echo "f.txtcuba.focus();";
 						echo "return;}";
-					echo "};";
+					echo "}";
 					echo "else{";
 						echo "if ((parseInt(Number(f.txtcuba.value)) < 1) || (parseInt(Number(f.txtcuba.value)) > 48)){";
 						echo "alert('La Cuba Esta Fuera del Rango 1 al 42');";
@@ -1754,13 +1830,17 @@ function RecargaGrupo()
 	{
 		alert("El Grupo No ES Valido");
 		return;
-	}				
-	
+	}	/*
+var select = document.getElementById('provincia');
+select.addEventListener('change',
+  function(){
+    var selectedOption = this.options[select.selectedIndex];	
+	*/
 	if (f.txtgrupo.value.length == 1) 
 		f.txtgrupo.value = '0' + f.txtgrupo.value;
 	linea = "recargapag1=S&recargapag2=S&recargapag3=S&recargapag4=S&recargapag5=S&accion=N&opcion=<?php echo $opcion;?>";
 	linea = linea +	"&ano2=" + f.ano.value + "&mes2=" + f.mes.value + "&dia2=" + f.dia.value;
-	linea = linea +	"&codlote=" + f.cmbcodlote.options[f.cmbcodlote.SELECTedIndex].text + "&numlote=" + f.txtnumlote.value + "&codpaq=" + f.cmbcodpaq.options[f.cmbcodpaq.SELECTedIndex].text + "&numpaq=" + f.txtnumpaq.value;
+	linea = linea +	"&codlote=" + f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text + "&numlote=" + f.txtnumlote.value + "&codpaq=" + f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text + "&numpaq=" + f.txtnumpaq.value;
 	linea = linea + "&tipo_ie=" + f.tipo_ie.value + "&mostrar=S" + "&instruccion=" + f.cmbinstruccion.value + "&encontro_ie=" + f.encontro_ie.value;
 	linea = linea + "&pesoprog=" + f.txtpesoprog.value + "&genera_lote=" + f.genera_lote.value;
 	linea = linea + "&peso_prog_ok=" + f.peso_prog_ok.value + "&marca=" + f.txtmarca.value + "&paq_inicial=" + f.paq_inicial.value + "&cmbinstruccion=" + f.cmbinstruccion.value 
