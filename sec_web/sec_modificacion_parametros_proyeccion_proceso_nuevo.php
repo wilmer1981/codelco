@@ -3,9 +3,10 @@
 
 	$mes  = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 	$ano  = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
-	$factor  = isset($_REQUEST["factor"])?$_REQUEST["factor"]:"";
+	$factor   = isset($_REQUEST["factor"])?$_REQUEST["factor"]:"";
 	$factor2  = isset($_REQUEST["factor2"])?$_REQUEST["factor2"]:"";
-	$Dia  = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+	$Dia      = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
+	$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
 	
 
 
@@ -52,7 +53,7 @@ body {
   </tr>
   
   <tr class="ColorTabla02">
-    <td colspan="2" class="Colum01"><strong>INSERCI�N PARAMETROS NUEVOS</strong></td>
+    <td colspan="2" class="Colum01"><strong>INSERCI&Oacute;N PARAMETROS NUEVOS</strong></td>
     </tr>
 	<tr class="Colum01">
     <td class="Colum01">Fecha</td>

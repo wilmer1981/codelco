@@ -5,7 +5,7 @@
 	
 	$mes      = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 	$ano      = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
-	$tonelaje = isset($_REQUEST["tonelaje"])?$_REQUEST["tonelaje"]:"";
+	$tonelaje = isset($_REQUEST["tonelaje"])?$_REQUEST["tonelaje"]:0;
 	$factor   = isset($_REQUEST["factor"])?$_REQUEST["factor"]:"";
 	$factor2  = isset($_REQUEST["factor2"])?$_REQUEST["factor2"]:"";
 	$Dia      = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
@@ -15,7 +15,7 @@
 switch($Proceso)
 	{
 		case "N":
-			$Insertar = "INSERT INTO sec_web.parametros_mensual_proyeccion (mes,ano,tonelaje,factor_rechazo,factor_rechazo_prog,dia) VALUES ('$mes','$ano','$tonelaje','".str_replace(",",".",$factor)."','".str_replace(",",".",$factor2)."','".$Dia."')";
+			$Insertar = "INSERT INTO sec_web.parametros_mensual_proyeccion (mes,ano,tonelaje,factor_rechazo,factor_rechazo_prog,dia) VALUES ('$mes','$ano',$tonelaje,'".str_replace(",",".",$factor)."','".str_replace(",",".",$factor2)."','".$Dia."')";
 			//echo $Insertar."<br>";
 			mysqli_query($link, $Insertar);
 			break;
