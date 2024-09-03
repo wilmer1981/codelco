@@ -1,4 +1,16 @@
-﻿<?php	include("../principal/conectar_sec_web.php"); ?>
+﻿<?php	
+include("../principal/conectar_sec_web.php"); 
+
+$producto    = isset($_REQUEST["producto"])?$_REQUEST["producto"]:"";
+$subproducto = isset($_REQUEST["subproducto"])?$_REQUEST["subproducto"]:"";
+$recargo     = isset($_REQUEST["recargo"])?$_REQUEST["recargo"]:"";
+$lote        = isset($_REQUEST["lote"])?$_REQUEST["lote"]:"";
+$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+
+
+?>
 <html>
 <head>
 <title>Documento sin t&iacute;tulo</title>
@@ -92,18 +104,18 @@ function Salir()
 	
 	//$consulta.= " WHERE lote_origen = '".$lote."' AND recargo = '".$recargo."'";
 	//echo "NN".$consulta."<br>";
-	$rs = mysqli_query($link, $consulta);
+	$rs = mysqli_query($link,$consulta);
 	while ($row = mysqli_fetch_array($rs))
 	{
 		echo '<tr>';
-		echo '<td width="100"  height="20"><input type="radio" name="radiobutton" value="'.$row[lote_origen].'/'.$row["cod_paquete"].'/'.$row["num_paquete"].'/'.$row[fecha_creacion_paquete].'/'.$row["recargo"].'" onClick="Chequear(this,\''.$row["cod_estado"].'\')">'.$row["cod_paquete"].'</a></td>';
+		echo '<td width="100"  height="20"><input type="radio" name="radiobutton" value="'.$row["lote_origen"].'/'.$row["cod_paquete"].'/'.$row["num_paquete"].'/'.$row["fecha_creacion_paquete"].'/'.$row["recargo"].'" onClick="Chequear(this,\''.$row["cod_estado"].'\')">'.$row["cod_paquete"].'</a></td>';
 		echo '<td width="100" align="center">'.$row["num_paquete"].'</td>';
 		echo '<td width="100" align="center">'.$row["num_unidades"].'</td>';
-		echo '<td width="100" align="center">'.$row[peso_paquete].'</td>';
+		echo '<td width="100" align="center">'.$row["peso_paquete"].'</td>';
 		echo '<td width="100" align="center">'.$row["cod_estado"].'</td>';		
 		echo '</tr>';
 		$total_unidades = $total_unidades + $row["num_unidades"];
-		$total_peso = $total_peso + $row[peso_paquete];		
+		$total_peso = $total_peso + $row["peso_paquete"];		
 		$cant_paquetes++;
 	}
 	echo '<tr class="ColorTabla02">';

@@ -13,7 +13,7 @@
 	
 	$encontro_ie    = isset($_REQUEST["encontro_ie"])?$_REQUEST["encontro_ie"]:"";
 	$activa_sipa    = isset($_REQUEST["activa_sipa"])?$_REQUEST["activa_sipa"]:"";
-	$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	//$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	
 	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
 	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
@@ -38,7 +38,7 @@
 	$cmbinstruccion = isset($_REQUEST["cmbinstruccion"])?$_REQUEST["cmbinstruccion"]:"";
 	$paq_inicial    = isset($_REQUEST["paq_inicial"])?$_REQUEST["paq_inicial"]:"";
 	$agrega_paq     = isset($_REQUEST["agrega_paq"])?$_REQUEST["agrega_paq"]:"";
-	$txtpesoprog   = isset($_REQUEST["txtpesoprog"])?$_REQUEST["txtpesoprog"]:"";
+	$txtpesoprog   = isset($_REQUEST["txtpesoprog"])?$_REQUEST["txtpesoprog"]:0;
 	$txtnumlote    = isset($_REQUEST["txtnumlote"])?$_REQUEST["txtnumlote"]:"";
 	$txtnumpaq     = isset($_REQUEST["txtnumpaq"])?$_REQUEST["txtnumpaq"]:"";
 	$cmbcodpaq     = isset($_REQUEST["cmbcodpaq"])?$_REQUEST["cmbcodpaq"]:"";
@@ -58,7 +58,7 @@
 	$txtpesobolsa  = isset($_REQUEST["txtpesobolsa"])?$_REQUEST["txtpesobolsa"]:"";
 	$txtpesotara   = isset($_REQUEST["txtpesotara"])?$_REQUEST["txtpesotara"]:"";
 	$txtpesoneto   = isset($_REQUEST["txtpesoneto"])?$_REQUEST["txtpesoneto"]:"";
-	$txtpeso       = isset($_REQUEST["txtpeso"])?$_REQUEST["txtpeso"]:"";
+	$txtpeso       = isset($_REQUEST["txtpeso"])?$_REQUEST["txtpeso"]:0;
 	$txtguia       = isset($_REQUEST["txtguia"])?$_REQUEST["txtguia"]:"";
 	$txtpatente    = isset($_REQUEST["txtpatente"])?$_REQUEST["txtpatente"]:"";
 	$txtorigen     = isset($_REQUEST["txtorigen"])?$_REQUEST["txtorigen"]:"";
@@ -69,6 +69,7 @@
     $txtgrupo      = isset($_REQUEST["txtgrupo"])?$_REQUEST["txtgrupo"]:"";
 	$cmbmedida     = isset($_REQUEST["cmbmedida"])?$_REQUEST["cmbmedida"]:"";
 	$txtcuba       = isset($_REQUEST["txtcuba"])?$_REQUEST["txtcuba"]:"";
+	$txtlado       = isset($_REQUEST["txtlado"])?$_REQUEST["txtlado"]:"";
 	
 	$id_paquete    = isset($_REQUEST["id_paquete"])?$_REQUEST["id_paquete"]:"";
 	$id_lote       = isset($_REQUEST["id_lote"])?$_REQUEST["id_lote"]:"";
@@ -90,6 +91,9 @@
 	$etapa       = isset($_REQUEST["etapa"])?$_REQUEST["etapa"]:"";
 	$medida      = isset($_REQUEST["medida"])?$_REQUEST["medida"]:"";	
 	$fecha_aux   = isset($_REQUEST["fecha_aux"])?$_REQUEST["fecha_aux"]:"";
+	$pesoacumulado = isset($_REQUEST["pesoacumulado"])?$_REQUEST["pesoacumulado"]:0;
+	
+echo 
 
 	$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
 	$rs = mysqli_query($link, $Consulta);
@@ -1369,7 +1373,7 @@ switch($proceso)
 		/* TIPO DE MOVIMIENTO  PESAJE PAQUETE */
 		if ($cmbmovimiento == "3") //PAQUETE.
 		{						
-			//$mensaje='';
+			$mensaje='';
 			$consulta = "SELECT cod_bulto FROM sec_web.lote_catodo";
 			$consulta.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."' and corr_enm<>'".$cmbinstruccion."'";
 			$consulta.= " AND YEAR(fecha_creacion_lote) = YEAR(NOW())";
@@ -1623,7 +1627,7 @@ switch($proceso)
 				$linea.= "&listar_ie=".$listar_ie."&recargapag4=S&txtgrupo=".$txtgrupo;
 				
 				//if (($agrega_paq == "S") and (!isset($mensaje)))
-				if (!isset($mensaje))
+				if ($mensaje=="")
 				{
 					$linea.= "&agrega_paq=S&cmbcodpaq=".$cod_paq[$cmbcodpaq]."&txtnumpaq=".($txtnumpaq + 1);
 				}
@@ -2545,8 +2549,8 @@ if ($proceso == "E")
 	{
 		$actualizar = "UPDATE sec_web.instruccion_virtual SET peso_programado = '".$txtpesoprog."'";
 		$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
-		mysqli_query($link, $actualizar);
-		//echo $actualizar."<br>";
+		echo $actualizar."<br>";
+		mysqli_query($link, $actualizar);		
 		$linea.= "tipo_ie=V"; //Virtual.
 		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&SA_C_STD=".$SA_C_STD."&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&SA_C_STD=".$SA_C_STD."&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;

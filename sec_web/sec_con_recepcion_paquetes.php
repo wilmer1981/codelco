@@ -1,4 +1,11 @@
-<?php	include("../principal/conectar_sec_web.php"); ?>
+<?php	
+include("../principal/conectar_sec_web.php"); 
+$producto    = isset($_REQUEST["producto"])?$_REQUEST["producto"]:"";
+$subproducto = isset($_REQUEST["subproducto"])?$_REQUEST["subproducto"]:"";
+$recargo     = isset($_REQUEST["recargo"])?$_REQUEST["recargo"]:"";
+$lote        = isset($_REQUEST["lote"])?$_REQUEST["lote"]:"";
+
+?>
 <html>
 <head>
 <title>Documento sin t&iacute;tulo</title>
@@ -27,7 +34,7 @@ function Salir()
 		
 		$consulta = "SELECT * FROM proyecto_modernizacion.subproducto";
 		$consulta.= " WHERE cod_producto = '".$producto."' AND cod_subproducto = '".$subproducto."'"; 
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		$row = mysqli_fetch_array($rs);
 		echo $row["descripcion"];		
 	?>
@@ -45,7 +52,7 @@ function Salir()
 <?php
 	$consulta = "SELECT * FROM sec_web.paquete_catodo_externo";
 	$consulta.= " WHERE lote_origen = '".$lote."' AND recargo = '".$recargo."'";
-	$rs1 = mysqli_query($link, $consulta);
+	$rs1 = mysqli_query($link,$consulta);
 	
 	$cant_paq = 0;
 	$cant_unid = 0;
@@ -55,12 +62,12 @@ function Salir()
 		echo '<tr>';
 		echo '<td  align="center">'.$row1["cod_paquete"].' - '.$row1["num_paquete"].'</td>';
 		echo '<td  align="center">'.$row1["num_unidades"].'</td>';
-		echo '<td  align="center">'.$row1[peso_paquete].'</td>';
+		echo '<td  align="center">'.$row1["peso_paquete"].'</td>';
 		echo '</tr>';
 			
 		$cant_paq++;
 		$cant_unid = $cant_unid + $row1["num_unidades"];
-		$cant_peso = $cant_peso + $row1[peso_paquete];
+		$cant_peso = $cant_peso + $row1["peso_paquete"];
 	}
 ?>  
 </table>

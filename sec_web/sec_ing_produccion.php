@@ -73,7 +73,8 @@
 	$txtmuestra    = isset($_REQUEST["txtmuestra"])?$_REQUEST["txtmuestra"]:"";
     $txtgrupo      = isset($_REQUEST["txtgrupo"])?$_REQUEST["txtgrupo"]:"";
 	$cmbmedida     = isset($_REQUEST["cmbmedida"])?$_REQUEST["cmbmedida"]:"";
-	$fecha_aux   = isset($_REQUEST["fecha_aux"])?$_REQUEST["fecha_aux"]:"";
+	$fecha_aux     = isset($_REQUEST["fecha_aux"])?$_REQUEST["fecha_aux"]:"";
+	$txtlado       = isset($_REQUEST["txtlado"])?$_REQUEST["txtlado"]:"";
 	
 	$id_paquete    = isset($_REQUEST["id_paquete"])?$_REQUEST["id_paquete"]:"";
 	$id_lote       = isset($_REQUEST["id_lote"])?$_REQUEST["id_lote"]:"";
@@ -917,7 +918,7 @@ function Grabar()
 					//echo "<script>document.writeln(StrPaquetePeso);</script>";
 				?>
 				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>';
-				alert("Write:" + write);
+				//alert("Write:" + write);
 				  // MF alert("MF escribio paquete peso ....");
 				  // MF alert(f.cmbproducto.value);
 				  
@@ -952,7 +953,7 @@ function Grabar()
 					$var = "<script>document.writeln(StrDatosEtiqueta);</script>";
 					?>
 					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-					alert("Write:" + write);
+					//alert("Write:" + write);
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
 					//f.leyes_grupo.value=''				
@@ -978,7 +979,7 @@ function Grabar()
 				$var = "<script>document.writeln(StrPaquetePeso);</script>";
 				?>
 				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-				alert("Write:" + write);
+				//alert("Write:" + write);
 
 				/*StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"\r\n";
 				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
@@ -1111,7 +1112,7 @@ function Etiqueta()
 					$var = "<script>document.writeln(StrDatosEtiqueta);</script>";	
 					?>
 					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-					alert("Write:" + write);
+					//alert("Write:" + write);
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
 					//f.leyes_grupo.value=''				
@@ -1188,7 +1189,7 @@ function Modificar()
 				?>
 				//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
 				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-				alert("Write:" + write);
+				//alert("Write:" + write);
 				
 				if(f.cmbproducto.value==18||f.cmbproducto.value==48)//ETIQUETAS SOLO PARA CATODOS Y LAMINAS
 				{
@@ -1221,7 +1222,7 @@ function Modificar()
 					?>
 					//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
 					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-					alert("Write:" + write);
+					//alert("Write:" + write);
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
 					//f.leyes_grupo.value=''				
