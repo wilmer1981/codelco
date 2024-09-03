@@ -76,7 +76,7 @@ function Buscar()
 function Salir()
 {
 	var Frm=document.FrmConsultaPatron;
-	Frm.action="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+	Frm.action="../principal/sistemas_usuario.php?CodSistema=3";
 	Frm.submit();
 	
 }
