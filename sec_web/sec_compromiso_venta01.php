@@ -3,35 +3,35 @@
 
 	$Rut =$CookieRut;
 
-	$Proceso = $_REQUEST["Proceso"];
-	$Tipo    = $_REQUEST["Tipo"];
-	$MesIni2 = $_REQUEST["MesIni2"];
-	$AnoIni2 = $_REQUEST["AnoIni2"];
-	$CmbCliente  = $_REQUEST["CmbCliente"];
-	$Pais        = $_REQUEST["Pais"];
-	$CmbContrato = $_REQUEST["CmbContrato"];
-	$Tonelada    = $_REQUEST["Tonelada"];
-	$ChkContrato1= $_REQUEST["ChkContrato1"];
-	$ChkTonelajeTotal= $_REQUEST["ChkTonelajeTotal"];
-	$ChkTonelaje1 =$_REQUEST["ChkTonelaje1"];
-	$ChkTonelaje2 =$_REQUEST["ChkTonelaje2"];
-	$ChkTonelaje3 =$_REQUEST["ChkTonelaje3"];
-	$ChkTonelaje4 =$_REQUEST["ChkTonelaje4"];
-	$ChkTonelaje5 =$_REQUEST["ChkTonelaje5"];
-	$ChkTonelaje6 =$_REQUEST["ChkTonelaje6"];
-	$ChkTonelaje7 =$_REQUEST["ChkTonelaje7"];
-	$ChkTonelaje8 =$_REQUEST["ChkTonelaje8"];
-	$ChkTonelaje9 =$_REQUEST["ChkTonelaje9"];
-	$ChkTonelaje10 =$_REQUEST["ChkTonelaje10"];
-	$ChkTonelaje11 =$_REQUEST["ChkTonelaje11"];
-	$ChkTonelaje12 =$_REQUEST["ChkTonelaje12"];
-
-	$ChkCliente = $_REQUEST["ChkCliente"];
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Tipo    = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$MesIni2 = isset($_REQUEST["MesIni2"])?$_REQUEST["MesIni2"]:"";
+	$AnoIni2 = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:"";
+	$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	$Pais        = isset($_REQUEST["Pais"])?$_REQUEST["Pais"]:"";
+	$CmbContrato = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
+	$Tonelada    = isset($_REQUEST["Tonelada"])?$_REQUEST["Tonelada"]:0;
+	$ChkContrato1= isset($_REQUEST["ChkContrato1"])?$_REQUEST["ChkContrato1"]:"";
+	$ChkTonelajeTotal= isset($_REQUEST["ChkTonelajeTotal"])?$_REQUEST["ChkTonelajeTotal"]:"";
+	$ChkTonelaje1 = isset($_REQUEST["ChkTonelaje1"])?$_REQUEST["ChkTonelaje1"]:"";
+	$ChkTonelaje2 = isset($_REQUEST["ChkTonelaje2"])?$_REQUEST["ChkTonelaje2"]:"";
+	$ChkTonelaje3 = isset($_REQUEST["ChkTonelaje3"])?$_REQUEST["ChkTonelaje3"]:"";
+	$ChkTonelaje4 = isset($_REQUEST["ChkTonelaje4"])?$_REQUEST["ChkTonelaje4"]:"";
+	$ChkTonelaje5 = isset($_REQUEST["ChkTonelaje5"])?$_REQUEST["ChkTonelaje5"]:"";
+	$ChkTonelaje6 = isset($_REQUEST["ChkTonelaje6"])?$_REQUEST["ChkTonelaje6"]:"";
+	$ChkTonelaje7 = isset($_REQUEST["ChkTonelaje7"])?$_REQUEST["ChkTonelaje7"]:"";
+	$ChkTonelaje8 = isset($_REQUEST["ChkTonelaje8"])?$_REQUEST["ChkTonelaje8"]:"";
+	$ChkTonelaje9 = isset($_REQUEST["ChkTonelaje9"])?$_REQUEST["ChkTonelaje9"]:"";
+	$ChkTonelaje10 = isset($_REQUEST["ChkTonelaje10"])?$_REQUEST["ChkTonelaje10"]:"";
+	$ChkTonelaje11 = isset($_REQUEST["ChkTonelaje11"])?$_REQUEST["ChkTonelaje11"]:"";
+	$ChkTonelaje12 = isset($_REQUEST["ChkTonelaje12"])?$_REQUEST["ChkTonelaje12"]:"";
+	$ChkCliente    = isset($_REQUEST["ChkCliente"])?$_REQUEST["ChkCliente"]:"";
 
 	if ($Tipo == "E")
 		$Cliente = $CmbCliente;
 	else
 		$Cliente = $Pais;
+	
 	switch ($Proceso)
 	{
 		case "O": //GRABAR
@@ -48,15 +48,15 @@
 			}
 			else
 			{				
-				$Insertar = "insert into sec_web.programa_ventas ";
+				$Insertar = "insert ignore into sec_web.programa_ventas ";
 				$Insertar.= "(enm_code,cod_cliente,cod_contrato,tonelaje_total,ano) ";
 				$Insertar.= "values('".$Tipo."','".$Cliente."','".$CmbContrato."','".str_replace(",",".",$Tonelada)."','".$AnoIni2."')";
 				mysqli_query($link, $Insertar);	
 			}
-			header("location:sec_compromiso_venta.php?Mostrar=".$Mostrar."&Tipo=".$Tipo."&AnoIni2=".$AnoIni2."&MesIni2=".$MesIni2."&Tipo=".$Tipo."&CmbCliente=".$CmbCliente."&Pais=".$Pais);
+			header("location:sec_compromiso_venta.php?Mostrar=".$Mostrar."&AnoIni2=".$AnoIni2."&MesIni2=".$MesIni2."&Tipo=".$Tipo."&CmbCliente=".$CmbCliente."&Pais=".$Pais);
 			break;
-		case "G": //GRABAR
-			if (count($ChkContrato1)>0)
+		case "G": //GRABAR 
+			if (is_countable($ChkContrato1) && count($ChkContrato1)>0)
 			{
 				foreach($ChkContrato1 as $i => $p)
 				{
@@ -131,10 +131,11 @@
 					mysqli_query($link, $Actualizar);
 				}
 			}	
-			header("location:sec_compromiso_venta.php?Mostrar=".$Mostrar."&Tipo=".$Tipo."&AnoIni2=".$AnoIni2."&MesIni2=".$MesIni2."&Tipo=".$Tipo."&CmbCliente=".$CmbCliente."&Pais=".$Pais);
+			//header("location:sec_compromiso_venta.php?Mostrar=".$Mostrar."&Tipo=".$Tipo."&AnoIni2=".$AnoIni2."&MesIni2=".$MesIni2."&Tipo=".$Tipo."&CmbCliente=".$CmbCliente."&Pais=".$Pais);
+			header("location:sec_compromiso_venta.php?Mostrar=".$Mostrar."&AnoIni2=".$AnoIni2."&MesIni2=".$MesIni2."&Tipo=".$Tipo."&CmbCliente=".$CmbCliente."&Pais=".$Pais);
 			break;
 		case "E":
-			if (count($ChkContrato1)>0)
+			if (is_countable($ChkContrato1) && count($ChkContrato1)>0)
 			{
 				foreach($ChkContrato1 as $i => $p)
 				{
@@ -148,7 +149,8 @@
 					mysqli_query($link, $Eliminar);
 				}
 			}
-			header("location:sec_compromiso_venta.php?Mostrar=".$Mostrar."&Tipo=".$Tipo."&AnoIni2=".$AnoIni2."&MesIni2=".$MesIni2."&Tipo=".$Tipo."&CmbCliente=".$CmbCliente."&Pais=".$Pais);
+			//header("location:sec_compromiso_venta.php?Mostrar=".$Mostrar."&Tipo=".$Tipo."&AnoIni2=".$AnoIni2."&MesIni2=".$MesIni2."&Tipo=".$Tipo."&CmbCliente=".$CmbCliente."&Pais=".$Pais);
+			header("location:sec_compromiso_venta.php?Mostrar=".$Mostrar."&AnoIni2=".$AnoIni2."&MesIni2=".$MesIni2."&Tipo=".$Tipo."&CmbCliente=".$CmbCliente."&Pais=".$Pais);
 			break;		
 	}
 ?>
