@@ -1,6 +1,6 @@
 <?php
 	$CodigoDeSistema = 3;
-	$CodigoDePantalla =16; 
+	$CodigoDePantalla =69; 
 	include("../principal/conectar_principal.php");
 
 	$TipoBalance  = isset($_REQUEST["TipoBalance"])?$_REQUEST["TipoBalance"]:"";
@@ -395,7 +395,7 @@ function Proceso(opt)
 			}			
 			break;
 		case "S":
-			f.action = "../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+			f.action = "../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=65";
 			f.submit();
 			break;
 	}

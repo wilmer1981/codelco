@@ -85,7 +85,7 @@
         <?php 
 	  	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	  	echo $Meses[$MesFin - 1]." del ".$AnoFin; 
-	?>
+		?>
       </td>
     </tr>
   </table>
@@ -528,7 +528,7 @@ while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			switch ($FinoLeyes)
 			{
 				case "L":
-					echo "<td align='center'>".number_format($k[1],2,",",".")."</td>";	
+					echo "<td align='center'>".number_format((float)$k[1],2,",",".")."</td>";	
 					break;
 				case "F":
 					if ($TotalPSeco>0 && $k[1]>0 && $k[3]>0)
