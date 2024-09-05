@@ -69,7 +69,8 @@
 	$txtorigen     = isset($_REQUEST["txtorigen"])?$_REQUEST["txtorigen"]:"";
 	$txtrut        = isset($_REQUEST["txtrut"])?$_REQUEST["txtrut"]:"";
 	$txtmarca      = isset($_REQUEST["txtmarca"])?$_REQUEST["txtmarca"]:"";
-	$txtzuncho     = isset($_REQUEST["txtzuncho"])?$_REQUEST["txtzuncho"]:"";
+	$txtzuncho     = isset($_REQUEST["txtzuncho"])?$_REQUEST["txtzuncho"]:0;
+	$txtpaquete    = isset($_REQUEST["txtpaquete"])?$_REQUEST["txtpaquete"]:0;
 	$txtmuestra    = isset($_REQUEST["txtmuestra"])?$_REQUEST["txtmuestra"]:"";
     $txtgrupo      = isset($_REQUEST["txtgrupo"])?$_REQUEST["txtgrupo"]:"";
 	$cmbmedida     = isset($_REQUEST["cmbmedida"])?$_REQUEST["cmbmedida"]:"";
@@ -851,7 +852,6 @@ function Grabar()
 	if (f.cmbproducto.value==48)
 		f.txtunidades.value = 1;
 	if (ValidaCampos())
-	
 	{
 		linea = "";
 		if (f.cmbmovimiento.value == 2)
@@ -906,15 +906,14 @@ function Grabar()
 		{					
 			if(f.cmbcodpaq.value!='-1')
 			{			
-				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
+				StrPaquetePeso = f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 				//document.cookie = "myJavascriptVar = " + StrPaquetePeso;			
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
+				alert("StrPaquetePeso:"+ StrPaquetePeso);
 				<?php
-					$ruta ='';
-					$archivo ='datos.txt';
-					//$var = "<script>return StrPaquetePeso;</script>";
-					$var = "<script>document.writeln(StrPaquetePeso);</script>";
-					//$myPhpVar= $_COOKIE['myJavascriptVar'];
+					$ruta    = '';
+					$archivo = 'datos.txt';
+					$var     = '<script>document.writeln(StrPaquetePeso);</script>';
 					//echo "<script>document.writeln(StrPaquetePeso);</script>";
 				?>
 				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>';
@@ -948,9 +947,9 @@ function Grabar()
 					//alert(StrDatosEtiqueta);
 					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
 					<?php
-					$ruta ='';
-					$archivo ='etiquetas.txt';
-					$var = "<script>document.writeln(StrDatosEtiqueta);</script>";
+					$ruta    = '';
+					$archivo = 'etiquetas.txt';
+					$var     = "<script>document.writeln(StrDatosEtiqueta);</script>";
 					?>
 					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
 					//alert("Write:" + write);
@@ -974,9 +973,9 @@ function Grabar()
 
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
 				<?php
-				$ruta ='';
-				$archivo ='datos.txt';
-				$var = "<script>document.writeln(StrPaquetePeso);</script>";
+				$ruta    = '';
+				$archivo = 'datos.txt';
+				$var     = "<script>document.writeln(StrPaquetePeso);</script>";
 				?>
 				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
 				//alert("Write:" + write);
@@ -1076,9 +1075,9 @@ function Etiqueta()
 				//StrPaquetePeso='Hola';
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
 				<?php
-				$ruta='';
-				$archivo='datos.txt';
-				$var = "<script>document.writeln(StrPaquetePeso);</script>";				
+				$ruta    = '';
+				$archivo = 'datos.txt';
+				$var     = "<script>document.writeln(StrPaquetePeso);</script>";				
 				?>
 				//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
 				//alert("Paquete:"+StrPaquetePeso);
@@ -1107,9 +1106,9 @@ function Etiqueta()
 					//alert(StrDatosEtiqueta);
 					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
 					<?php
-					$ruta ='';
-					$archivo ='etiquetas.txt';
-					$var = "<script>document.writeln(StrDatosEtiqueta);</script>";	
+					$ruta    = '';
+					$archivo = 'etiquetas.txt';
+					$var     = "<script>document.writeln(StrDatosEtiqueta);</script>";	
 					?>
 					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
 					//alert("Write:" + write);
@@ -1183,9 +1182,9 @@ function Modificar()
 				
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
 				<?php
-				$ruta='';
-				$archivo='datos.txt';
-				$var = "<script>document.writeln(StrPaquetePeso);</script>";	
+				$ruta    = '';
+				$archivo = 'datos.txt';
+				$var     = "<script>document.writeln(StrPaquetePeso);</script>";	
 				?>
 				//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
 				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
@@ -1216,9 +1215,9 @@ function Modificar()
 					//alert (StrDatosEtiqueta);
 					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
 					<?php
-					$ruta='';
-					$archivo='etiquetas.txt';
-					$var = "<script>document.writeln(StrDatosEtiqueta);</script>";
+					$ruta    = '';
+					$archivo = 'etiquetas.txt';
+					$var     = "<script>document.writeln(StrDatosEtiqueta);</script>";
 					?>
 					//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
 					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
