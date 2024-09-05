@@ -1,7 +1,8 @@
 <?php 	
  	$CodigoDeSistema = 3;
 	$CodigoDePantalla =66;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	$CookieRut=$_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
@@ -193,7 +194,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   
 		echo "<tr class='Detalle01'>";
 		echo "<td>&nbsp;</td>";
-		echo "<td width='92' align='center'><strong>Total Gu�a </strong></td>";
+		echo "<td width='92' align='center'><strong>Total Gu&iacute;a </strong></td>";
 		echo "<td align='left'><strong>".$cont."</strong</td>";
 		echo "<td>&nbsp;</td>";
 		echo "<td align='left'><strong>".$TotalUnidades."</strong></td> ";
