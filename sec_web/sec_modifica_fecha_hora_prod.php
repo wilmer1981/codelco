@@ -1,26 +1,27 @@
 <?php 	
  	$CodigoDeSistema = 3;
 	$CodigoDePantalla =67;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	$CookieRut=$_COOKIE["CookieRut"];
-	$Rut =$CookieRut;
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$Rut        = $CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
-	$Encontro=false;
-	$Encontro1=false;
+	$Encontro   = false;
+	$Encontro1  = false;
 
 	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 	$Actualizar = isset($_REQUEST["Actualizar"])?$_REQUEST["Actualizar"]:"";
 	$TxtGrupo   = isset($_REQUEST["TxtGrupo"])?$_REQUEST["TxtGrupo"]:"";
 	$TxtFecha   = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:"";
-	$TxtFechaNueva   = isset($_REQUEST["TxtFechaNueva"])?$_REQUEST["TxtFechaNueva"]:"";
+	$TxtFechaNueva = isset($_REQUEST["TxtFechaNueva"])?$_REQUEST["TxtFechaNueva"]:"";
 	$TxtHora   = isset($_REQUEST["TxtHora"])?$_REQUEST["TxtHora"]:"";
 	$TxtMinuto = isset($_REQUEST["TxtMinuto"])?$_REQUEST["TxtMinuto"]:"";
-	$Lado   = isset($_REQUEST["Lado"])?$_REQUEST["Lado"]:"";
-	$Peso   = isset($_REQUEST["Peso"])?$_REQUEST["Peso"]:"";
-	$Producto = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$Lado      = isset($_REQUEST["Lado"])?$_REQUEST["Lado"]:"";
+	$Peso      = isset($_REQUEST["Peso"])?$_REQUEST["Peso"]:"";
+	$Producto  = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
 
-	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Mensaje   = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
 	if($Actualizar=='S')
 	{
