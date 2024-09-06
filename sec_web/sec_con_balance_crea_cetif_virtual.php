@@ -1,18 +1,18 @@
 <?php
-function CertifVirtual($Mes, $Lote, $Ano)
+function CertifVirtual($Mes, $Lote, $Ano,$link)
 {	
 	$DiasMenos=3;
 	$DiasMas=4;
 	if($CodProducto==18 && $CodSubProducto==57)
 	{							
-		$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='3111' and  cod_subclase='1' ";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='3111' and  cod_subclase='1' ";
+		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$DiasMenos=$Fila["valor_subclase1"];
 		}
-		$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='3111' and  cod_subclase='2' ";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='3111' and  cod_subclase='2' ";
+		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$DiasMas=$Fila["valor_subclase1"];
@@ -23,14 +23,14 @@ function CertifVirtual($Mes, $Lote, $Ano)
 	$FechaActual = date("Y-m-d H:i:s");
 	
 	//TABLA PAQUETE_CATODO
-	$Consulta = "SELECT distinct t2.cod_producto, t2.cod_subproducto,t1.fecha_creacion_lote";
+	$Consulta = "select distinct t2.cod_producto, t2.cod_subproducto,t1.fecha_creacion_lote";
 	$Consulta.= " from sec_web.lote_catodo t1	inner join";
 	$Consulta.= " sec_web.paquete_catodo t2 on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 	$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and  t1.cod_bulto = '".$Mes."'";
 	$Consulta.= " and t1.num_bulto = '".$Lote."' and year(t1.fecha_creacion_lote) = '".$Ano."'";
 	$Consulta.= " order by t2.cod_producto, t2.cod_subproducto";	
 	//echo "CERTIFC ".$Consulta."<br>";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$FechaLote   = $Fila["fecha_creacion_lote"];
@@ -39,32 +39,32 @@ function CertifVirtual($Mes, $Lote, $Ano)
 	}	
 	$Error = "";
 	$ArrProd = array();
-	if (isset($Lote))
+	if ($Lote!="")
 	{
 		$Eliminar = "delete from sec_web.tmp_leyes_grupos";
-		mysqli_query($link, $Eliminar);
+		mysqli_query($link,$Eliminar);
 		if ($CodProducto == "18" && ($CodSubProducto == "3" || $CodSubProducto == "42" || $CodSubProducto == "43" || $CodSubProducto == "44"))  
 		{
 			//PARA DESCOBRIZADOS
 			//TABLA PAQUETE_CATODO
-			$Consulta = "SELECT distinct ifnull(t1.grupo,'00') as cod_grupo, t1.fecha_produccion, peso_produccion ";
+			$Consulta = "select distinct ifnull(t1.grupo,'00') as cod_grupo, t1.fecha_produccion, peso_produccion ";
 			$Consulta.= " from sec_web.catodos_desc_normal t1";
 			$Consulta.= " where t1.cod_bulto = '".$Mes."'";
 			$Consulta.= " and t1.num_bulto = '".$Lote."'";
 			$Consulta.= " order by t1.fecha_produccion, t1.grupo ";
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysqli_query($link,$Consulta);
 			//echo $Consulta."<br>";
 			if($Fila = mysqli_fetch_array($Respuesta))
 			//while ($Fila = mysqli_fetch_array($Respuesta))
 			{
-				$Consulta = "SELECT * from sec_web.produccion_catodo ";
+				$Consulta = "select * from sec_web.produccion_catodo ";
 				$Consulta.= " where cod_grupo = '".$Fila["cod_grupo"]."'";
 				$Consulta.= " and fecha_produccion = '".$Fila["fecha_produccion"]."'";
 				$Consulta.= " and cod_muestra <> 'S' "; 
 				$Consulta.= " and cod_producto = '18' "; 
 				$Consulta.= " and cod_subproducto in (3,42,43,44) "; 
 				$Consulta.= " order by fecha_produccion, cod_grupo, cod_cuba ";
-				$Respuesta2 = mysqli_query($link, $Consulta);
+				$Respuesta2 = mysqli_query($link,$Consulta);
 				//echo $Consulta."<br>";
 				while ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{					
@@ -83,7 +83,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 					$Consulta.= " AND t1.tipo='1' ";
 					$Consulta.= " AND t1.cod_analisis='1' ";
 					$Consulta.= " AND t1.estado_actual <> '7'";	
-					$Respuesta3 = mysqli_query($link, $Consulta);
+					$Respuesta3 = mysqli_query($link,$Consulta);
 					while($Fila3 = mysqli_fetch_array($Respuesta3))
 					{
 						//echo "Nro. SA = ".$Fila3["nro_solicitud"]." LEY = ".$Fila3["cod_leyes"]." VALOR = ".$Fila3["valor"]."<br>";
@@ -91,7 +91,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 						$Insertar.= " fecha_creacion_paquete, nro_solicitud, cod_cuba, peso_produccion) ";
 						$Insertar.= " values('".$Fila["cod_grupo"]."','".$Fila["fecha_produccion"]."','".$Fila3["cod_leyes"]."','".$Fila3["valor"]."', ";
 						$Insertar.= " '".$Fila3["signo"]."', '".$Fila["fecha_produccion"]."', '".$Fila3["nro_solicitud"]."', '".$Fila2["cod_cuba"]."', '".$Fila["peso_produccion"]."')";
-						mysqli_query($link, $Insertar);
+						mysqli_query($link,$Insertar);
 					//	echo "<br>LEYES GRUPO AAAAA ".$Insertar."<br>";
 						
 						
@@ -103,22 +103,22 @@ function CertifVirtual($Mes, $Lote, $Ano)
 		{
 			if ($CodProducto == "18" && $CodSubProducto == "4")//DESC. PARCIAL
 			{
-				$Consulta = "SELECT distinct ifnull(t2.cod_grupo,'00') as cod_grupo, t2.fecha_creacion_paquete ";
+				$Consulta = "select distinct ifnull(t2.cod_grupo,'00') as cod_grupo, t2.fecha_creacion_paquete ";
 				$Consulta.= " from sec_web.lote_catodo t1	inner join";
 				$Consulta.= " sec_web.paquete_catodo t2 on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 				$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$Mes."'";
 				$Consulta.= " and t1.num_bulto = '".$Lote."'";
 				$Consulta.= " order by t2.cod_grupo";
 				//echo $Consulta."<br>";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				$i = 0;
 				while ($Fila = mysqli_fetch_array($Respuesta))
 				{			
-					$Consulta = "SELECT max(fecha_produccion) as fecha_produccion";
+					$Consulta = "select max(fecha_produccion) as fecha_produccion";
 					$Consulta.= " from sec_web.produccion_catodo ";
 					$Consulta.= " where cod_grupo = '".$Fila["cod_grupo"]."'";
 					$Consulta.= " and fecha_produccion <= '".$Fila["fecha_creacion_paquete"]."'";
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
 						$ArrProd[$i][0] = $Fila["cod_grupo"];
@@ -136,7 +136,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 				$CodPaqueteAnt = "";
 				$NumPaqueteAnt = 0;
 				$i = 0;
-				while (list($k,$v)=each($ArrProd))
+				foreach($ArrProd as $k=>$v)
 				{	
 					$DiaAux = intval(substr($v[2],8,2));
 					if ($DiaAux >=1 && $DiaAux <= 15)
@@ -152,7 +152,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 							$Fecha2 = substr($v[2],0,4)."-".substr($v[2],5,2)."-31";
 						}
 					}
-					$Consulta = "SELECT max(t1.fecha_muestra) as fecha_muestra";
+					$Consulta = "select max(t1.fecha_muestra) as fecha_muestra";
 					$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 					$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
 					$Consulta.= " and t1.fecha_hora = t2.fecha_hora and t1.rut_funcionario = t2.rut_funcionario and t1.recargo = t2.recargo ";						
@@ -162,12 +162,12 @@ function CertifVirtual($Mes, $Lote, $Ano)
 					$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1' and t1.tipo = 1";
 					$Consulta.= " and t1.cod_producto = '18' and t1.cod_subproducto = '4'";
 					$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					$Fila2 = mysqli_fetch_array($Respuesta2);
 					$FechaAux = $Fila2["fecha_muestra"];
 					//echo $Consulta."<br>";
 					//-------------------------LEYES DE CALIDAD-----------------------------
-					$Consulta = "SELECT t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
+					$Consulta = "select t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
 					$Consulta.= " t2.signo, t1.nro_solicitud ";
 					$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 					$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
@@ -179,14 +179,14 @@ function CertifVirtual($Mes, $Lote, $Ano)
 					$Consulta.= " and t1.cod_producto = '18' and t1.cod_subproducto = '4'";
 					$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
 					//echo $Consulta."<br>";
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					$Encontro = false;
 					while ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
 						$Encontro = true;
-						$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
+						$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
 						$Consulta.= " and nombre_subclase = '".$Fila2["cod_leyes"]."'";
-						$Respuesta3 = mysqli_query($link, $Consulta);				
+						$Respuesta3 = mysqli_query($link,$Consulta);				
 						if ($Fila3 = mysqli_fetch_array($Respuesta3) || ($CodProducto == 18 && $CodSubProducto==4 && $Fila2["cod_leyes"]=="02"))
 						{
 							$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete, nro_solicitud) ";
@@ -194,7 +194,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 							$Insertar.= "'".$v[1]."',";
 							$Insertar.= "'".$Fila2["cod_leyes"]."','".$Fila2["valor"]."','".$Fila2["signo"]."', '".$v[2]."', '".$Fila2["nro_solicitud"]."')";
 							//echo $Insertar."<br>";
-							mysqli_query($link, $Insertar);				
+							mysqli_query($link,$Insertar);				
 						}
 					}		
 				}		
@@ -203,22 +203,22 @@ function CertifVirtual($Mes, $Lote, $Ano)
 			{
 				//EL RESTO DE LOS CATODOS
 				//TABLA PAQUETE_CATODO
-				$Consulta = "SELECT distinct ifnull(t2.cod_grupo,'00') as cod_grupo, t2.fecha_creacion_paquete,t1.cod_bulto,t1.num_bulto ";
+				$Consulta = "select distinct ifnull(t2.cod_grupo,'00') as cod_grupo, t2.fecha_creacion_paquete,t1.cod_bulto,t1.num_bulto ";
 				$Consulta.= " from sec_web.lote_catodo t1	inner join";
 				$Consulta.= " sec_web.paquete_catodo t2 on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 				$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$Mes."'";
 				$Consulta.= " and t1.num_bulto = '".$Lote."' and year(t1.fecha_creacion_lote) = '".$Ano."'";
 				$Consulta.= " order by t2.cod_grupo";
 			//	echo "AQUIIIII ".$Consulta."<br>";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				$i = 0;
 				while ($Fila = mysqli_fetch_array($Respuesta))
 				{			
-					$Consulta = "SELECT max(fecha_produccion) as fecha_produccion";
+					$Consulta = "select max(fecha_produccion) as fecha_produccion";
 					$Consulta.= " from sec_web.produccion_catodo ";
 					$Consulta.= " where cod_grupo = '".$Fila["cod_grupo"]."'";
 					$Consulta.= " and fecha_produccion <= '".$Fila["fecha_creacion_paquete"]."'";
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
 						
@@ -241,7 +241,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 				$CodPaqueteAnt = "";
 				$NumPaqueteAnt = 0;
 				$i = 0;
-				while (list($k,$v)=each($ArrProd))
+				foreach($ArrProd as $k=>$v)
 				{	
 					if ((($v[0] == "00") || ($v[0] == "0") || ($v[0] == "")) && ($CodProducto == 18 && $CodSubProducto!=5))
 					{					
@@ -255,11 +255,11 @@ function CertifVirtual($Mes, $Lote, $Ano)
 						$Consulta.= " and t1.num_bulto = '".$Lote."' and year(t1.fecha_creacion_lote) = '".$Ano."'";
 						$Consulta.= " order by t2.cod_paquete, t2.num_paquete, t2.lote_origen ";
 						//echo $Consulta;
-						$Respuesta = mysqli_query($link, $Consulta);
+						$Respuesta = mysqli_query($link,$Consulta);
 						while ($Fila = mysqli_fetch_array($Respuesta))
 						{					
 							//---------------------
-							$Consulta = "SELECT t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
+							$Consulta = "select t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
 							$Consulta.= " t2.signo, t1.nro_solicitud ";
 							$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 							$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
@@ -272,14 +272,14 @@ function CertifVirtual($Mes, $Lote, $Ano)
 							$Consulta.= "order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
 							//if ($Fila["lote_origen"]=='07070049')
 							//echo $Consulta;
-							$Respuesta2 = mysqli_query($link, $Consulta);
+							$Respuesta2 = mysqli_query($link,$Consulta);
 							$Encontro = false;
 							while ($Fila2 = mysqli_fetch_array($Respuesta2))
 							{
 								$Encontro = true;
-								$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
+								$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
 								$Consulta.= " and nombre_subclase = '".$Fila2["cod_leyes"]."'";
-								$Respuesta3 = mysqli_query($link, $Consulta);				
+								$Respuesta3 = mysqli_query($link,$Consulta);				
 								if ($Fila3 = mysqli_fetch_array($Respuesta3))
 								{
 									$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, ";
@@ -290,7 +290,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 									$Insertar.= " '".$Fila2["nro_solicitud"]."')";
 									//if ($Fila2["nro_solicitud"]=='2007037263' || $Fila2["nro_solicitud"]=='2007037264')
 							//		echo $Insertar."</br>";
-									mysqli_query($link, $Insertar);		
+									mysqli_query($link,$Insertar);		
 
 								}	
 							}
@@ -301,7 +301,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 					{
 					//	echo "<br><br>CALIDADDDD<br><br>";
 						//-------------------------LEYES DE CALIDAD-----------------------------
-						$Consulta = "SELECT t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
+						$Consulta = "select t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
 						$Consulta.= " t2.signo, t1.nro_solicitud ";
 						$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 						$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
@@ -352,14 +352,14 @@ function CertifVirtual($Mes, $Lote, $Ano)
 						$Consulta.= " and t1.cod_producto = '18'  and t1.cod_subproducto='".$CodSubProducto ."'";
 						$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
 						//echo "<br>AKI ".$Consulta."<br>";
-						$Respuesta2 = mysqli_query($link, $Consulta);
+						$Respuesta2 = mysqli_query($link,$Consulta);
 						$Encontro = false;
 						while ($Fila2 = mysqli_fetch_array($Respuesta2))
 						{
 							$Encontro = true;
-							$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
+							$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
 							$Consulta.= " and nombre_subclase = '".$Fila2["cod_leyes"]."'";
-							$Respuesta3 = mysqli_query($link, $Consulta);				
+							$Respuesta3 = mysqli_query($link,$Consulta);				
 							if ($Fila3 = mysqli_fetch_array($Respuesta3) || ($CodProducto == 18 && $CodSubProducto==5 && $Fila2["cod_leyes"]=="02"))
 							{
 								$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete, nro_solicitud) ";
@@ -373,12 +373,12 @@ function CertifVirtual($Mes, $Lote, $Ano)
 									$Insertar.= "'".$v[1]."',";
 								$Insertar.= "'".$Fila2["cod_leyes"]."','".$Fila2["valor"]."','".$Fila2["signo"]."', '".$v[2]."', '".$Fila2["nro_solicitud"]."')";
 								//echo "<br>LEYES GRUPO BBBBB ".$Insertar."</br>";
-								mysqli_query($link, $Insertar);				
+								mysqli_query($link,$Insertar);				
 							}
 						}
 						if (($v[0] >= 50) && ($Encontro == false))
 						{
-							$Consulta = "SELECT max(t1.fecha_muestra) as fecha_muestra";
+							$Consulta = "select max(t1.fecha_muestra) as fecha_muestra";
 							$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 							$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
 							$Consulta.= " and t1.fecha_hora = t2.fecha_hora and t1.rut_funcionario = t2.rut_funcionario and t1.recargo = t2.recargo ";
@@ -406,10 +406,10 @@ function CertifVirtual($Mes, $Lote, $Ano)
 							$Consulta.= " and t1.fecha_muestra < '".substr($Fecha1,0,7)."-01 00:00:00' ";
 							$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1'";
 							$Consulta.= " and t1.cod_producto = '18'  and t1.cod_subproducto='".$CodSubProducto."'";
-							$Respuesta3 = mysqli_query($link, $Consulta);
+							$Respuesta3 = mysqli_query($link,$Consulta);
 							while ($Fila3 = mysqli_fetch_array($Respuesta3))
 							{
-								$Consulta = "SELECT t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
+								$Consulta = "select t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
 								$Consulta.= " t2.signo, t1.nro_solicitud ";
 								$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 								$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
@@ -438,12 +438,12 @@ function CertifVirtual($Mes, $Lote, $Ano)
 								$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1'";
 								$Consulta.= " and t1.cod_producto = '18' and t1.cod_subproducto='".$CodSubProducto ."' ";
 								$Consulta.= " order by t2.cod_leyes";
-								$Respuesta4 = mysqli_query($link, $Consulta);
+								$Respuesta4 = mysqli_query($link,$Consulta);
 								while ($Fila4 = mysqli_fetch_array($Respuesta4))
 								{
-									$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
+									$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
 									$Consulta.= " and nombre_subclase = '".$Fila4["cod_leyes"]."'";
-									$Respuesta5 = mysqli_query($link, $Consulta);				
+									$Respuesta5 = mysqli_query($link,$Consulta);				
 									if ($Fila5 = mysqli_fetch_array($Respuesta5) || ($CodProducto == 18 && $CodSubProducto==5 && $Fila4["cod_leyes"]=="02"))
 									{
 										$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete, nro_solicitud) ";
@@ -452,7 +452,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 										else
 											$Insertar.= " values('".$v[0]."',";
 										$Insertar.= "'".$v[2]."','".$Fila4["cod_leyes"]."','".$Fila4["valor"]."','".$Fila4["signo"]."', '".$v[2]."', '".$Fila4["nro_solicitud"]."')";
-										mysqli_query($link, $Insertar);	
+										mysqli_query($link,$Insertar);	
 								//		echo "<br>LEYES GRUPO CCCCC ".$Insertar."<br>";			
 									}
 								}
@@ -462,27 +462,27 @@ function CertifVirtual($Mes, $Lote, $Ano)
 						if ($CodProducto == 18 && $CodSubProducto == 5)
 						{
 							//-------------------------LEYES DE CALIDAD-----------------------------
-							$Consulta = "SELECT t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
+							$Consulta = "select t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
 							$Consulta.= " t2.signo, t1.nro_solicitud ";
 							$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 							$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
 							$Consulta.= " and t1.fecha_hora = t2.fecha_hora and t1.rut_funcionario = t2.rut_funcionario and t1.recargo = t2.recargo ";													
 							$Consulta.= " where t1.cod_periodo=3 ";
 							$Consulta.= " and t1.cod_producto='18' and t1.cod_subproducto='5'";																											
-							$Consulta.= " and t1.aÃ±o='".substr($v[1],0,4)."' and t1.mes='".intval(substr($v[1],5,2))."'";							
+							$Consulta.= " and t1.año='".substr($v[1],0,4)."' and t1.mes='".intval(substr($v[1],5,2))."'";							
 							$Consulta.= " and t1.estado_actual <> '16' and t1.estado_actual <> '7'";
 							$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1'";
 							$Consulta.= " and t1.tipo = '1' and t2.cod_leyes in(04,05) ";
 							$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
 						//	echo "LEYES GRUPO ".$Consulta."<br>";
-							$Respuesta2 = mysqli_query($link, $Consulta);
+							$Respuesta2 = mysqli_query($link,$Consulta);
 							$Encontro = false;
 							while ($Fila2 = mysqli_fetch_array($Respuesta2))
 							{
 								$Encontro = true;
-								$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
+								$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
 								$Consulta.= " and nombre_subclase = '".$Fila2["cod_leyes"]."'";
-								$Respuesta3 = mysqli_query($link, $Consulta);				
+								$Respuesta3 = mysqli_query($link,$Consulta);				
 								if ($Fila3 = mysqli_fetch_array($Respuesta3) || ($CodProducto == 18 && $CodSubProducto==5 && $Fila2["cod_leyes"]=="02"))
 								{
 									$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete, nro_solicitud) ";
@@ -493,7 +493,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 									$Insertar.= "'".$v[1]."',";
 									$Insertar.= "'".$Fila2["cod_leyes"]."','".$Fila2["valor"]."','".$Fila2["signo"]."', '".$v[2]."', '".$Fila2["nro_solicitud"]."')";
 								//	echo "<br>LEYES GRUPO DDDDDD".$Insertar."<br>";
-									mysqli_query($link, $Insertar);				
+									mysqli_query($link,$Insertar);				
 								}//END IF
 							}//END WHILE
 						}//END IF
@@ -504,23 +504,23 @@ function CertifVirtual($Mes, $Lote, $Ano)
 	}
 	//	LUEGO QUE TENGO LOS DATOS DEL DETALLE GENERO EL CERTIFICADO VIRTUAL	
 	$Eliminar = "delete from sec_web.`tmp_certificacion_catodos`";
-	mysqli_query($link, $Eliminar);
+	mysqli_query($link,$Eliminar);
 	//CALCULO TOTALES DEL LOTE
 	//TABLA PAQUETE_CATODO
 	$Consulta = "SHOW TABLES FROM `sec_web`";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($Fila["Tables_in_sec_web"] == "tmp_leyes_catodos")
 		{
 			$Eliminar = "DROP TABLE `sec_web`.`tmp_leyes_catodos`";
-			mysqli_query($link, $Eliminar);
+			mysqli_query($link,$Eliminar);
 		}
 	}
 	if ($CodProducto == "18" && ($CodSubProducto == "3" || $CodSubProducto == "42" || $CodSubProducto == "43" || $CodSubProducto == "44"))  
 	{	
 		$Consulta = "create table `sec_web`.`tmp_leyes_catodos` (key ind01(cod_paquete,num_paquete)) as ";
-		$Consulta.= " SELECT t1.cod_grupo as cod_paquete, t1.fecha as num_paquete, t1.peso_produccion as peso_paquete, ";
+		$Consulta.= " select t1.cod_grupo as cod_paquete, t1.fecha as num_paquete, t1.peso_produccion as peso_paquete, ";
 		$Consulta.= " t1.cod_leyes, t1.valor, t1.signo ";
 		$Consulta.= " from sec_web.tmp_leyes_grupos t1 ";
 		//echo $Consulta;
@@ -539,13 +539,13 @@ function CertifVirtual($Mes, $Lote, $Ano)
 			}
 			else
 			{
-				$Consulta = "SELECT distinct ifnull(t2.cod_grupo,'00') as cod_grupo ";
+				$Consulta = "select distinct ifnull(t2.cod_grupo,'00') as cod_grupo ";
 				$Consulta.= " from sec_web.lote_catodo t1	inner join";
 				$Consulta.= " sec_web.paquete_catodo t2 on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 				$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$Mes."'";
 				$Consulta.= " and t1.num_bulto = '".$Lote."' and year(t1.fecha_creacion_lote)='".$Ano."'";
 				$Consulta.= " order by t2.cod_grupo";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				$Grupo = 0;
 				if ($Fila = mysqli_fetch_array($Respuesta))
 					$Grupo = $Fila["cod_grupo"];
@@ -556,7 +556,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 		if (($Grupo == "00") || ($Grupo == "0") || ($Grupo == ""))
 		{
 			$Consulta = "create table `sec_web`.`tmp_leyes_catodos` (key ind01(cod_paquete,num_paquete)) as ";
-			$Consulta.= " SELECT t1.cod_paquete, t1.num_paquete, t2.peso_paquete as peso_paquete, ";
+			$Consulta.= " select t1.cod_paquete, t1.num_paquete, t2.peso_paquete as peso_paquete, ";
 			$Consulta.= " t3.cod_leyes, t3.valor, t2.cod_grupo, t3.signo ";
 			$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo_externo t2  ";
 			$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete  ";
@@ -569,7 +569,7 @@ function CertifVirtual($Mes, $Lote, $Ano)
 		else
 		{
 			$Consulta = "create table `sec_web`.`tmp_leyes_catodos` (key ind01(cod_paquete,num_paquete)) as ";
-			$Consulta.= " SELECT t1.cod_paquete, t1.num_paquete, t2.peso_paquetes as peso_paquete, ";
+			$Consulta.= " select t1.cod_paquete, t1.num_paquete, t2.peso_paquetes as peso_paquete, ";
 			$Consulta.= " t3.cod_leyes, t3.valor, t2.cod_grupo, t3.signo ";
 			$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2  ";
 			$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete  ";
@@ -584,47 +584,47 @@ function CertifVirtual($Mes, $Lote, $Ano)
 		}
 	}
 //echo "CONSULTA LEYESSSSSSSS ".$Consulta;
-	mysqli_query($link, $Consulta);
+	mysqli_query($link,$Consulta);
 	if ($CodProducto == 18 && ($CodSubProducto == 1 || $CodSubProducto == 3))
 	{
 		//ACTUALIZA TABLA PARA TRABAJAR CON LOS VALORES <
-		$Consulta = "SELECT * ";
+		$Consulta = "select * ";
 		$Consulta.= " from sec_web.tmp_leyes_catodos t1 inner join proyecto_modernizacion.sub_clase t2 ";
 		$Consulta.= " on t2.cod_clase = '3009' and t1.cod_leyes = t2.nombre_subclase ";
 		$Consulta.= " where not isnull(t2.valor_subclase6) and t2.valor_subclase6 <> '' and t2.valor_subclase6 <> 0";
 		$Consulta.= " order by t2.valor_subclase2";
-		$Respuesta2 = mysqli_query($link, $Consulta);
+		$Respuesta2 = mysqli_query($link,$Consulta);
 		//echo $Consulta;
 		while ($Fila2 = mysqli_fetch_array($Respuesta2))
 		{
 			if (($Fila2["valor"] <= $Fila2["valor_subclase6"]) && ($Fila2["signo"] == "<"))
 			{			
-				$Actualizar = "UPDATE sec_web.tmp_leyes_catodos set ";
+				$Actualizar = "update sec_web.tmp_leyes_catodos set ";
 				$Actualizar.= " valor = '".$Fila2["valor_subclase7"]."'";
 				$Actualizar.= " where cod_paquete = '".$Fila2["cod_paquete"]."'";
 				$Actualizar.= " and num_paquete = '".$Fila2["num_paquete"]."'";
 				$Actualizar.= " and cod_leyes = '".$Fila2["cod_leyes"]."'";
-				mysqli_query($link, $Actualizar);
+				mysqli_query($link,$Actualizar);
 			}
 		}
 	}
 	//VALOR LEY
-	$Consulta = "SELECT t1.cod_leyes, sum(t1.peso_paquete) as peso_paquetes, sum(t1.peso_paquete * t1.valor) as fino";
+	$Consulta = "select t1.cod_leyes, sum(t1.peso_paquete) as peso_paquetes, sum(t1.peso_paquete * t1.valor) as fino";
 	$Consulta.= " from sec_web.tmp_leyes_catodos t1 left join proyecto_modernizacion.sub_clase t2 ";
 	$Consulta.= " on t2.cod_clase = '3009' and t1.cod_leyes = t2.nombre_subclase ";
 	$Consulta.= " group by t1.cod_leyes";
 	$Consulta.= " order by t2.valor_subclase2";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	//echo "PRUEBA   ".$Consulta;
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{				
 		//PESO LOTE
 		$PesoLote = 0;
-		$Consulta = "SELECT sum(t2.peso_paquetes) as peso_lote";
+		$Consulta = "select sum(t2.peso_paquetes) as peso_lote";
 		$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2";
 		$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete ";
 		$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and year(t1.fecha_creacion_lote)='".$Ano."'";
-		$Respuesta2 = mysqli_query($link, $Consulta);
+		$Respuesta2 = mysqli_query($link,$Consulta);
 		if ($Fila2 = mysqli_fetch_array($Respuesta2))
 		{
 			$PesoLote = $Fila2["peso_lote"];
@@ -643,13 +643,13 @@ function CertifVirtual($Mes, $Lote, $Ano)
 			$NumDecimales = 1;
 		}
 		//SIGNO
-		$Signo = "=";
-		$Consulta = "SELECT * ";
+		$Signo    = "=";
+		$Consulta = "select * ";
 		$Consulta.= " from proyecto_modernizacion.sub_clase ";
 		$Consulta.= " where cod_clase = '3009' ";
 		$Consulta.= " and (not isnull(valor_subclase6) and valor_subclase6 <> '' and valor_subclase6 <> 0)";
 		$Consulta.= " and nombre_subclase = '".$Fila["cod_leyes"]."'";
-		$Respuesta2 = mysqli_query($link, $Consulta);
+		$Respuesta2 = mysqli_query($link,$Consulta);
 		if ($Fila2 = mysqli_fetch_array($Respuesta2) || ($CodProducto == 18 && ($CodSubProducto==4 || $CodSubProducto==5) && $Fila2["cod_leyes"]=="02"))
 		{
 			if (round($ValorLey,3) < round(($Fila2["valor_subclase6"] * 1),3))
@@ -663,8 +663,8 @@ function CertifVirtual($Mes, $Lote, $Ano)
 		$Insertar = "insert into sec_web.tmp_certificacion_catodos(cod_lote,num_lote,cod_leyes,";
 		$Insertar.= " valor,signo,fecha) VALUES('".$Mes."','".$Lote."','".$Fila["cod_leyes"]."',";
 		$Insertar.= " '".$Valor."','".$Signo."','".$FechaActual."')";
-		mysqli_query($link, $Insertar);		
-	//	echo "INSERTAR CERTIFICADOS ".$Insertar."<br>";
+		mysqli_query($link,$Insertar);		
+		//echo "INSERTAR CERTIFICADOS ".$Insertar."<br>";
 	}
 }			
 ?>

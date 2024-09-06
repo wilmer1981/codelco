@@ -1,8 +1,8 @@
 <?php 
 include("../principal/conectar_principal.php");
 // Ano=2022&subproducto=11&Codigo=J&Numero=50000&MesI=J&NumI=50000&MesF=J&NumF=50003&Ano=2022
-$Ano  = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
-$Mes  = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+$Ano          = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+$Mes          = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
 $subproducto  = isset($_REQUEST["subproducto"])?$_REQUEST["subproducto"]:"";
 $Codigo  = isset($_REQUEST["Codigo"])?$_REQUEST["Codigo"]:"";
 $Numero  = isset($_REQUEST["Numero"])?$_REQUEST["Numero"]:"";

@@ -75,13 +75,13 @@ function Historial(SA)
       <td width="387"> 
         <?php
 		$Consulta = "SELECT * from proyecto_modernizacion.productos ";
-		$Consulta.= " where cod_producto = '".$Producto."'";
+		$Consulta.= "WHERE cod_producto = '".$Producto."'";
 		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			echo strtoupper($Fila["descripcion"]);
 		}
-?>
+		?>
       </td>
     </tr>
     <tr> 
@@ -89,14 +89,14 @@ function Historial(SA)
       <td> 
         <?php		
 			$Consulta = "SELECT * from proyecto_modernizacion.subproducto ";
-			$Consulta.= " where cod_producto = '".$Producto."'";
+			$Consulta.= "WHERE cod_producto = '".$Producto."'";
 			$Consulta.= " and cod_subproducto = '".$SubProducto."'";
 			$Respuesta = mysqli_query($link, $Consulta);
 			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
 				echo strtoupper($Fila["descripcion"]);
 			}
-?>
+		?>
       </td>
     </tr>
     <tr> 
@@ -104,12 +104,12 @@ function Historial(SA)
       <td> 
         <?php 
 		echo str_pad($DiaIni,2, "0", STR_PAD_LEFT)."/".str_pad($MesIni, 2, "0", STR_PAD_LEFT)."/".$AnoIni." AL ".str_pad($DiaFin, 2, "0", STR_PAD_LEFT)."/".str_pad($MesFin, 2, "0", STR_PAD_LEFT)."/".$AnoFin;
-	?>
+		?>
       </td>
     </tr>
     <tr> 
       <td colspan="2"><strong>
-	  <?php
+	<?php
 	switch ($FinoLeyes)
 	{
 		case "L":
@@ -143,7 +143,7 @@ function Historial(SA)
 	$Consulta.= " inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes = t3.cod_leyes";
 	$Consulta.= " where t1.estado_actual <> '16' and t1.estado_actual <> '7'";
 	$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1' and t2.cod_leyes<>'01'";	
-	$Consulta.= " and t1.cod_producto = ".$Producto." and t1.cod_subproducto in(11,12)";
+	$Consulta.= " and t1.cod_producto = '".$Producto."' and t1.cod_subproducto in(11,12)";
 	$Consulta.= " order by t3.cod_leyes ";
 	//echo $Consulta;
 	$Respuesta2 = mysqli_query($link, $Consulta);	
