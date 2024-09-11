@@ -1,27 +1,28 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 76;
-	include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	//$link = mysql_connect('10.56.11.7','adm_bd','672312');
 	//mysql_select_db("sec_web", $link);	
 	
 	global $descripcion_puerto,$aux_nombre_marca;
 
-	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$Buscar   = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 	$TxtGuia  = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
-	$Msj  = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
+	$Msj      = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
 
 	$Existe='N';
-	$FechaGuia="";
+	$FechaGuia="0000-00-00";
 	$Numenvio="";
 	$InsEmb="";
+	$Tara=0; // agregado WSO
 	if($Buscar=='S')
 	{
        $Consulta="SELECT * FROM sec_web.GUIA_DESPACHO_EMB WHERE NUM_GUIA = '".$TxtGuia."' and (cod_estado = 'I' or cod_estado = 'A') order by fecha_guia desc ";
 	   $R=mysqli_query($link, $Consulta);
 	   if(mysqli_num_rows($R)==0)
 	   {
-            $Msj=utf8_decode("Nº Guía No Existe, Reingrese...");
+            $Msj="Nº Guía No Existe, Reingrese...";
             $TxtGuia= "";
 	   }
        else
@@ -31,7 +32,7 @@
 
            if($control_guia == "A")
 		   {
-                $Msj=utf8_decode("Guía Fué Anulada, Reingrese...");
+                $Msj="Guía fué Anulada, Reingrese...";
                 $TxtGuia= "";
 		   }
 		   else
@@ -39,7 +40,7 @@
 			    if($F["cod_estado"]!='')
                     $FechaGuia = $F["fecha_guia"];
                 else
-                    $FechaGuia = "";
+                    $FechaGuia = "0000-00-00";
 
                 $Existe='S';
                 $Patente1 = $F["patente_guia"];
@@ -69,10 +70,12 @@
                         $aux_cliente = "*";
                     else
                         $aux_cliente = $F2["cod_cliente"];
-
+					
+					$estado_lote="";$nombre_transportista="";
+					$tara="";$patente_acoplado="";$nombre_chofer = "";
                     poner_estado_lote($e_lote,$estado_lote);
                     sacar_datos_personas($Patente1,$RutChofer,$nombre_transportista,$tara,$patente_acoplado,$nombre_chofer,$link);
-                    $Cliente=sacar_cliente($F2["cod_cliente"]);
+                    $Cliente=sacar_cliente($F2["cod_cliente"],$link);
                     if($F2["tipo_enm_code"] == "E")
 					{
                         $titulo = "       ENAMI";
@@ -104,7 +107,7 @@ function Proceso(Opt,f)
 		case "B":
 			if(Frm.TxtGuia.value=='')
 			{
-				alert('<?php echo utf8_decode("Debe ingresar Guía");?>');
+				alert('<?php echo "Debe ingresar Guía";?>');
 				Frm.TxtGuia.focus();
 				return;	
 			}
@@ -114,20 +117,20 @@ function Proceso(Opt,f)
 		case "Anula"://ANULAR
 			if(Frm.CodLote.value=='' || Frm.NumLote.value=='')
 			{
-				alert('<?php echo utf8_decode("¿Id Lote y/o Número Lote no existe por favor revisar.");?>');
+				alert('<?php echo "¿Id Lote y/o Número Lote no existe por favor revisar.";?>');
 				return;
 			}
 			if(Frm.Numenvio.value=='')	
 			{
-				alert('<?php echo utf8_decode("¿Número de envío no existe por favor revisar.");?>');
+				alert('<?php echo "¿Número de envío no existe por favor revisar.";?>');
 				return;
 			}
 			if(Frm.InsEmb.value=='')	
 			{
-				alert('<?php echo utf8_decode("¿Instrucción de embarque no existe por favor revisar.");?>');
+				alert('<?php echo "¿Instrucción de embarque no existe por favor revisar.";?>');
 				return;
 			}		
-			var msg = confirm('<?php echo utf8_decode("¿Esta Seguro De Anular Guía N° ");?>'+Frm.TxtGuia2.value+'<?php echo utf8_decode(" ?")?>');
+			var msg = confirm('<?php echo "¿Esta Seguro De Anular Guía N° ";?>'+Frm.TxtGuia2.value+'<?php echo " ?";?>');
 			if (msg==true)
 			{	Frm.action= "sec_adm_anula_guia01.php";
 		 		Frm.submit();
@@ -138,7 +141,7 @@ function Proceso(Opt,f)
 function Mensaje(Msj)
 {
 	if(Msj=='Anulada')	
-		alert('<?php echo utf8_decode('Guía anulada')?>');
+		alert('<?php echo 'Guía anulada';?>');
 	else
 	{	
 		if(Msj!='')	
@@ -324,6 +327,7 @@ function poner_estado_lote($e_lote,$estado_lote)
 function sacar_cliente($aux_cliente,$link)
 {
 	$aux = $aux_cliente;
+	$Cliente="";
 	if($aux == "0")
 	{
 		$Consulta = "select  cod_nave, nombre_nave from sec_web.nave where cod_nave = '".$aux_cliente."'";
@@ -349,8 +353,12 @@ function sacar_cliente($aux_cliente,$link)
 function sacar_marca($num_lote,$cod_lote,$aux_puerto,$link)
 {
 	global $descripcion_puerto,$aux_nombre_marca;
-    $Consulta = "select  l.cod_marca, m.descripcion from sec_web.marca_catodos m, lote_catodo l where l.cod_bulto = '".$cod_lote."' ";
-    $Consulta.= " and l.num_bulto = '".$num_lote." ' and l.cod_marca = m.cod_marca";
+    // $Consulta = "SELECT  l.cod_marca, m.descripcion FROM sec_web.marca_catodos m, lote_catodo l where l.cod_bulto = '".$cod_lote."' ";
+    // $Consulta.= " and l.num_bulto = '".$num_lote." ' and l.cod_marca = m.cod_marca";
+	$Consulta = "SELECT  l.cod_marca, m.descripcion FROM sec_web.marca_catodos m";
+	$Consulta.= " INNER JOIN sec_web.lote_catodo l ON l.cod_marca = m.cod_marca ";
+	$Consulta.= " WHERE l.cod_bulto = '".$cod_lote."' ";
+    $Consulta.= " AND l.num_bulto = '".$num_lote."' ";
     $R=mysqli_query($link, $Consulta);
 	$F=mysqli_fetch_assoc($R);
     $strcodmarca = $F["cod_marca"];
@@ -358,8 +366,12 @@ function sacar_marca($num_lote,$cod_lote,$aux_puerto,$link)
     $aux_nombre_marca = $strnombre_marca;
     if($aux_puerto <> "0" && $aux_puerto <> "")
 	{
-        $Consulta = "select  e.cod_puerto, p.nom_aero_puerto from embarque_ventana e, puertos p where e.cod_bulto = '".$cod_lote."' ";
-        $Consulta.=" and e.num_bulto = '".$num_lote." ' and e.cod_puerto = '".$aux_puerto." ' and e.cod_puerto = p.cod_puerto";
+        //$Consulta = "select  e.cod_puerto, p.nom_aero_puerto from embarque_ventana e, puertos p where e.cod_bulto = '".$cod_lote."' ";
+        //$Consulta.=" and e.num_bulto = '".$num_lote." ' and e.cod_puerto = '".$aux_puerto." ' and e.cod_puerto = p.cod_puerto";
+		$Consulta = "SELECT  e.cod_puerto, p.nom_aero_puerto FROM sec_web.embarque_ventana e ";
+		$Consulta.= " INNER JOIN sec_web.puertos p ON e.cod_puerto = p.cod_puerto";
+		$Consulta.= " WHERE e.cod_bulto = '".$cod_lote."' ";
+        $Consulta.="  AND e.num_bulto = '".$num_lote."' AND e.cod_puerto = '".$aux_puerto."' ";
         $R=mysqli_query($link, $Consulta);
 		$F2=mysqli_fetch_assoc($R);
         $strcodpuerto = $F2["cod_puerto"];
