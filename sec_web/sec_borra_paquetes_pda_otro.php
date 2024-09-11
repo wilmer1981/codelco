@@ -1,5 +1,6 @@
 <?php 	
-	  include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$CodigoDeSistema = 3;
 	//$CodigoDePantalla = 69;
 	$CodigoDePantalla = 72;
@@ -8,7 +9,7 @@
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut = $CookieRut;
 	//$Fecha_Hora = date("d-m-Y h:i");
-	$Buscar  = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$Buscar       = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 	$TxtFechaFin  = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');
 	//$TxtBuscar  = isset($_REQUEST["TxtBuscar"])?$_REQUEST["TxtBuscar"]:"";
 
