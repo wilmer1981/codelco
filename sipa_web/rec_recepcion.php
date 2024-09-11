@@ -107,17 +107,18 @@
 			$TxtNumBascula='1';
 			break;		
 	}
-	$TxtFecha=date('Y-m-d');
+	$TxtFecha        = date('Y-m-d');
 	//$TxtHoraE=date('h:i:s');
-	$TxtHoraE=date('G:i:s');
+	$TxtHoraE        = date('G:i:s');
 	//$EstPatente='disabled';
-	$EstBtnGrabar='disabled';
-	$EstBtnAnular='disabled';
-	$EstBtnImprimir='disabled';
-	$EstBtnModificar='disabled';
-	$HabilitarCmb='';
-	$RutOperador=$CookieRut;
-	$Mensaje='';$TotalLote=0;
+	$EstBtnGrabar    = 'disabled';
+	$EstBtnAnular    = 'disabled';
+	$EstBtnImprimir  = 'disabled';
+	$EstBtnModificar = 'disabled';
+	$HabilitarCmb    = '';
+	$RutOperador     = $CookieRut;
+	$Mensaje         = '';
+	$TotalLote=0;
 	if($ObjFoco=="")
 		$ObjFoco="TxtPatente";
 	$Mostrar='N';$HabilitarText='';
@@ -222,14 +223,14 @@
 						$TipoProceso='E';//ENTRADA DE CAMION
 						$AnoMes=substr(date('Y'),3,1).date('m');
 						$Consulta="SELECT  max(lpad(recargo,2,'0'))+1 as recargo_nuevo,cod_producto,cod_subproducto,rut_prv,cod_mina,correlativo,fecha,hora_entrada,hora_salida,conjunto,cod_clase ";
-						$Consulta.="from sipa_web.recepciones where lote = '$CmbLotes' group by lote";
+						$Consulta.="from sipa_web.recepciones where lote = '".$CmbLotes."' group by lote";
 						//echo $Consulta;
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
 						$TxtLote=$CmbLotes;
 						$TxtRecargo=isset($Fila["recargo_nuevo"])?$Fila["recargo_nuevo"]:"";
 						$Consulta="SELECT  cod_producto,cod_subproducto,rut_prv,cod_mina,correlativo,fecha,hora_entrada,hora_salida,conjunto,cod_clase ";
-						$Consulta.="from sipa_web.recepciones where lote = '$CmbLotes' and recargo='1'";
+						$Consulta.="from sipa_web.recepciones where lote = '".$CmbLotes."' and recargo='1'";
 						//echo $Consulta;
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
@@ -237,7 +238,7 @@
 						//$TxtHoraE=date('h:i:s');
 						$CmbSubProducto=$Fila["cod_producto"].'~'.$Fila["cod_subproducto"];
 						$CmbProveedor=$Fila["rut_prv"];
-						$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='$CmbProveedor' and cod_mina='".$Fila["cod_mina"]."'";
+						$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='".$CmbProveedor."' and cod_mina='".$Fila["cod_mina"]."'";
 						$RespPadron=mysqli_query($link, $Consulta);
 						$FilaPadron=mysqli_fetch_array($RespPadron);
 						$TxtVencPadron=$FilaPadron["fecha_padron"];
@@ -417,7 +418,7 @@ function RestaurarBascula()
     var Bas1=0;
 	var f = document.FrmRecepcion;
 	//var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
-	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
+	//var Bas2=LeerArchivo('');  //C:\\PesoMatic.txt
 	var bascula = f.TxtBasculaAux.value; //
 	//alert("bascula:"+bascula);
 	if(bascula==1){
@@ -434,10 +435,8 @@ function RestaurarBascula()
 	}
 	//alert(bascula);
 	//var ruta = '<?php // echo "configuracion_pesaje"; ?>';
-
 	//var Bas1 = '<?php //echo LeerArchivo('','PesoMatic2.txt'); ?>';
 	//var Bas2 = '<?php //echo LeerArchivo('','PesoMatic.txt'); ?>';
-
 	if(Bas1 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
 		f.Bloq1.value='';
@@ -510,7 +509,7 @@ function RestaurarBascula()
 */
 //var ROMA=LeerRomana('');
 //var ROMA = '<?php //echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
-var ROMA = '<?php echo LeerRomana($REMOTE_ADDR,$link); ?>'; 
+var ROMA = '<?php echo LeerRomana($IP,$link); ?>'; 
 /*
 function LeerArchivo(valor)
 {
@@ -596,44 +595,75 @@ function CapturaPeso(tipo)
 	var PesoRangoIni =0;
 	var PesoRangoFin =0;
 	var PorcPeso =0;
+	//f.TxtNumRomana
 	
 	switch(tipo)
 	{
 		case "PB":
 			f.TipoProceso.value="E";
-			if(f.TxtNumBascula.value=='1')
-			{	
-				if(f.Bloq1.value=='S')
-				{
-					alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
-				}
-				else
-				{
-					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);					
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
-					f.Bloq1.value='S';
-					Deshabilita('BasculaA');
-					f.BtnPBruto.disabled=true;
-		
-				}
-			}else
+			alert("TxtNumRomana:"+f.TxtNumRomana.value);
+			if(f.TxtNumRomana.value=='1')
 			{
-				if(f.Bloq2.value=='S')
-				{
-					alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
-				}
-				else
-				{
-					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+				if(f.TxtNumBascula.value=='1')
+				{	
+					if(f.Bloq1.value=='S')
+					{
+						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
+					}else{
+						//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);					
+						f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+						f.Bloq1.value='S';
+						Deshabilita('BasculaA');
+						f.BtnPBruto.disabled=true;			
+					}
+				}else{
+					if(f.Bloq2.value=='S')
+					{
+						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
+					}
+					else
+					{
+						//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+						f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 						f.Bloq2.value='S';
-						Deshabilita('BasculaB');
-					
+						Deshabilita('BasculaB');					
 						f.BtnPBruto.disabled=true;
+					}					
 				}
-					
 			}
 			
+			if(f.TxtNumRomana.value=='2')
+			{
+				alert("ENTRO a ROMANA 2");
+				if(f.TxtNumBascula.value=='1')
+				{	
+					alert("BASCULA 1(3) SELECCIONADA");
+					if(f.Bloq1.value=='S')
+					{
+						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
+					}else{
+						//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);					
+						f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+						f.Bloq1.value='S';
+						Deshabilita('BasculaA');
+						f.BtnPBruto.disabled=true;			
+					}
+				}else{
+					alert("BASCULA 2(4) SELECCIONADA");
+					if(f.Bloq2.value=='S')
+					{
+						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
+					}
+					else
+					{
+						//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+						f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+						f.Bloq2.value='S';
+						Deshabilita('BasculaB');					
+						f.BtnPBruto.disabled=true;
+					}					
+				}
+			}
 			
 			if(parseInt(f.TxtPesoHistorico.value)!=0)
 			{	
@@ -657,37 +687,65 @@ function CapturaPeso(tipo)
 			break;
 		case "PT":
 			f.TipoProceso.value="S";
-			if(f.TxtNumBascula.value=='1')
-			{	
-				if(f.Bloq1.value=='S')
-				{
-					alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
-				}
-				else
-				{
-					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
-					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
-					f.Bloq1.value='S';
-					Deshabilita('BasculaA');					
-					f.BtnPTara.disabled=true;		
-				}
-			}else
+			if(f.TxtNumRomana=='1')
 			{
-				if(f.Bloq2.value=='S')
-				{
-					alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
+				if(f.TxtNumBascula.value=='1')
+				{	
+					if(f.Bloq1.value=='S')
+					{
+						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
+					}else{
+						//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
+						f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+						f.Bloq1.value='S';
+						Deshabilita('BasculaA');					
+						f.BtnPTara.disabled=true;		
+					}
+				}else{
+					if(f.Bloq2.value=='S')
+					{
+						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
+					}
+					else
+					{
+						//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
+						f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+						f.Bloq2.value='S';
+						Deshabilita('BasculaB');					
+						f.BtnPTara.disabled=true;
+					}					
 				}
-				else
-				{
-					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
-					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
-					f.Bloq2.value='S';
-					Deshabilita('BasculaB');					
-					f.BtnPTara.disabled=true;
-				}
-					
 			}
 			
+			if(f.TxtNumRomana=='2')
+			{
+				if(f.TxtNumBascula.value=='1')
+				{	
+					if(f.Bloq1.value=='S')
+					{
+						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
+					}else{
+						//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
+						f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+						f.Bloq1.value='S';
+						Deshabilita('BasculaA');					
+						f.BtnPTara.disabled=true;		
+					}
+				}else{
+					if(f.Bloq2.value=='S')
+					{
+						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
+					}
+					else
+					{
+						//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
+						f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+						f.Bloq2.value='S';
+						Deshabilita('BasculaB');					
+						f.BtnPTara.disabled=true;
+					}					
+				}
+			}
 			
 			
 		/*	if(f.TxtNumBascula.value=='1')			
@@ -1603,9 +1661,10 @@ echo "<br>COMPUTERNAME:".$COMPUTERNAME;
 //echo "<br>GETHOSTBYNAME:".$GETHOSTBYNAME;
 echo "<br>SERVER_NAME:".$SERVER_NAME;
 echo "<br>REMOTE_ADDR:".$REMOTE_ADDR;
-//echo "<br>USER_IP:".$userIp;
+echo "<br>USER_IP:".$IP ;
 
-$Romana = LeerRomana($REMOTE_ADDR,$link);
+//$Romana = LeerRomana($REMOTE_ADDR,$link);
+$Romana = LeerRomana($IP,$link);
 echo "<br>ROMANA: ".$Romana;
 
 if($Mensaje!='')
