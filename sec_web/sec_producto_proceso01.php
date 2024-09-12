@@ -53,8 +53,9 @@
 		case "E":
 			$reg_delete=false;
 			$EncontroRelacion=false;
-			/*echo $Valores;*/
+			//echo $Valores;
 			$Datos = explode("//", $Valores);
+			//exit();
 			for ($i=0;$i<=count($Datos);$i++)
 			{
 				if($Datos[$i]!='')
@@ -89,7 +90,7 @@
 		echo "<script languaje='JavaScript'>";
 		echo "window.opener.document.FrmProducto.action='sec_producto.php?Msg=".$Msg."';";
 		echo "window.opener.document.FrmProducto.submit();";
-		//echo "window.close();";
+		echo "window.close();";
 		echo "</script>";
 	}	
 

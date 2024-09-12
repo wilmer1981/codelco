@@ -1,5 +1,5 @@
 <?php 	
-	include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
 	
 	$CodigoDeSistema = 3;
@@ -10,13 +10,12 @@
 	$cmbproducto  = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"-1";
 	$cmbsubproducto  = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"-1";
 	$EncontroRelacion  = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
-	$reg_delete  = isset($_REQUEST["reg_delete"])?$_REQUEST["reg_delete"]:"";
-	$Msj  = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
+	$reg_delete        = isset($_REQUEST["reg_delete"])?$_REQUEST["reg_delete"]:"";
+	$Msg               = isset($_REQUEST["Msg"])?$_REQUEST["Msg"]:"";
 	
 ?>
 <html>
 <head>
-<script  language="JavaScript" src="funciones/funciones_java.js"></script>
 <script language="JavaScript">
 	
 function Recargar()
@@ -151,7 +150,7 @@ function MostrarPopupProceso(Proceso)
 		case "E":
 			if (SeleccionoCheck()) 
 			{
-				Resp=confirm("�Est� seguro de eliminar los datos seleccionados?");
+				Resp=confirm("¿Está seguro de eliminar los datos seleccionados?");
 				if (Resp==true)
 				{
 					Valores=RecuperarValoresCheckeado();
@@ -204,7 +203,7 @@ function MostrarPopupProceso(Proceso)
 		    <td><select name="cmbsubproducto" onChange="Recargar()">
                 <option value="-1">Todos</option>
                 <?php	
-					$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$cmbproducto;
+					$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$cmbproducto."'";
 					//echo '<option value="-1">'.$consulta.'</option>';
 					$var1 = $consulta;
 					$rs = mysqli_query($link, $consulta);
@@ -261,11 +260,11 @@ function MostrarPopupProceso(Proceso)
   </tr>
   </table>
  <?php  echo "<script languaje='JavaScript'>";
-if($EncontroRelacion){
+if($EncontroRelacion!=""){
 
 		echo "alert('No se puede eliminar el registro debido a que tiene datos relacionados.');";
 		
-}if($reg_delete){
+}if($reg_delete!=""){
 
 		echo "alert('Registro eliminado correctamente.');";
 		
