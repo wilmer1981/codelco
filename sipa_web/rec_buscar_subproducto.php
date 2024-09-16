@@ -56,7 +56,7 @@ function Buscar()
               <div align="center"></div></td>
           </tr>
      <?php
-		if (isset($Buscar))
+		if ($Buscar!="")
 		{
 			include ("../Principal/conectar_cal_web.php");	   
 			$Consulta = "SELECT t1.descripcion as nomproducto,t2.descripcion as nomsubproducto from proyecto_modernizacion.productos t1";

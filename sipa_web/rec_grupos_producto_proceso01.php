@@ -1,12 +1,12 @@
 <?php
 	include("../principal/conectar_principal.php");	
 	
-		$Proceso = $_REQUEST["Proceso"];
-		$Valores = $_REQUEST["Valores"];
-		$TxtCodGrupo = $_REQUEST["TxtCodGrupo"];
+		$Proceso        = $_REQUEST["Proceso"];
+		$Valores        = $_REQUEST["Valores"];
+		$TxtCodGrupo    = $_REQUEST["TxtCodGrupo"];
 		$TxtDescripcion = $_REQUEST["TxtDescripcion"];
-		$OptAbast = $_REQUEST["OptAbast"];
-		$Valor = $_REQUEST["Valor"];
+		$OptAbast       = $_REQUEST["OptAbast"];
+		$Valor          = $_REQUEST["Valor"];
 
 	switch($Proceso)
 	{
@@ -18,8 +18,10 @@
 			foreach($Datos as $c => $v)
 			{
 				$Datos2=explode('~',$v);
+				$Datos20 = $Datos2[0];
+				$Datos21 = $Datos2[1];
 				$Insertar="INSERT INTO sipa_web.grupos_prod_subprod(cod_grupo,cod_producto,cod_subproducto,valor1) values(";
-				$Insertar.="'$TxtCodGrupo','$Datos2[0]."','$Datos2[1]."','')";
+				$Insertar.="'$TxtCodGrupo','$Datos20','$Datos21','')";
 				mysqli_query($link, $Insertar);
 			}	
 			//header('location:rec_grupos_conjunto.php');
@@ -41,8 +43,10 @@
 			foreach($Datos as $c => $v)
 			{
 				$Datos2=explode('~',$v);
+				$Datos20 = $Datos2[0];
+				$Datos21 = $Datos2[1];
 				$Insertar="INSERT INTO sipa_web.grupos_prod_subprod(cod_grupo,cod_producto,cod_subproducto,valor1) values(";
-				$Insertar.="'$TxtCodGrupo','$Datos2[0]."','$Datos2[1]."','')";
+				$Insertar.="'$TxtCodGrupo','$Datos20','$Datos21','')";
 				//echo $Insertar."<br>";
 				mysqli_query($link, $Insertar);
 			}	

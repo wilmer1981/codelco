@@ -4,13 +4,9 @@
 	include("../principal/conectar_principal.php");	
 
 
-	if(isset($_REQUEST["Ordenar"])){
-		$Ordenar  = $_REQUEST["Ordenar"];
-	}else{
-		$Ordenar  = '';
-	}
-
-
+	$Ordenar       = isset($_REQUEST["Ordenar"])?$_REQUEST["Ordenar"]:"";
+	$Buscar        = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TipoBusqueda  = isset($_REQUEST["Ordenar"])?$_REQUEST["TipoBusqueda"]:"";
 
 ?>
 <html>

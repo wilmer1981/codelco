@@ -38,6 +38,8 @@
 	}else{
 		$TxtCodGrupo = "";
 	}
+	
+	//$OptAbast     = isset($_REQUEST["OptAbast"])?$_REQUEST["OptAbast"]:"";
 
 	if(!isset($OptAbast))
 	{
@@ -76,13 +78,13 @@
 				$EstOpt2='checked';
 			}
 			//$CmbProducto=$Fila["cod_producto"];
-		 	//if(!isset($Buscar))
-			if(!isset($Buscar) || $Buscar=="")
+		 	if($Buscar=="")
+			//if(!isset($Buscar) || $Buscar=="")
 			{
 				$Consulta="SELECT t1.cod_producto,t1.cod_subproducto,t2.abreviatura as nomprod,t3.abreviatura as nomsubprod,lpad(t1.cod_subproducto,2,0) as orden,t3.cod_subproducto as subprod from sipa_web.grupos_prod_subprod t1 ";
 				$Consulta.="left join proyecto_modernizacion.productos t2 on t1.cod_producto=t2.cod_producto ";			
 				$Consulta.="left join proyecto_modernizacion.subproducto t3 on t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto ";			
-				$Consulta.="where t1.cod_grupo='$TxtCodGrupo' order by nomprod,nomsubprod";
+				$Consulta.="where t1.cod_grupo='".$TxtCodGrupo."' order by nomprod,nomsubprod";
 				//echo $Consulta;
 				$RespSubProd=mysqli_query($link, $Consulta);
 				while($FilaSubProd=mysqli_fetch_array($RespSubProd))
@@ -96,7 +98,7 @@
 			}	
 			break;
 	}
-	if(isset($ValoresAgregados))
+	if($ValoresAgregados!="")
 	{
 		//echo $ValoresAgregados;
 		reset($SubProdAgregados);
@@ -400,7 +402,7 @@ body {
       <?php
 		 	$Consulta="SELECT t1.cod_producto,t2.cod_subproducto,t1.abreviatura as nomprod,t2.abreviatura as nomsubprod,lpad(t2.cod_subproducto,2,0) as orden from proyecto_modernizacion.productos t1 ";			
 			$Consulta.="inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto ";
-			$Consulta.="where t1.cod_producto='$CmbProducto' order by orden";
+			$Consulta.="where t1.cod_producto='".$CmbProducto."' order by orden";
 			//echo $Consulta;
 			$RespSubProd=mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='CheckAgregar'>";
