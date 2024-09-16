@@ -164,7 +164,7 @@ function Proceso(opt)
     <td colspan="2"><strong>Mantenedor de Correlativo Lote:</strong></td>
   </tr>
   <tr>
-    <td width="87" align="right" class="ColorTabla02">Mes/A�o</td>
+    <td width="87" align="right" class="ColorTabla02">Mes/Año</td>
     <td width="180" class="ColorTabla02" >
 	<input name="TxtMes" type="text" class="InputIzq" value="<?php echo strtoupper($TxtMes); ?>" size="2" readonly>
 	<input name="TxtAno" type="text" class="InputIzq" value="<?php echo strtoupper($TxtAno); ?>" size="2" readonly>
