@@ -107,13 +107,13 @@ body {
 <body>
 <form name="frmProceso" method="post" action="">
 <input type="hidden" name="Proc" value="<?php echo $Proc; ?>">
-<input type="hidden" name="TipoRegistro" value="<?php echo $TipoRegistro; ?>">
+<input type="text" name="TipoRegistro" value="<?php echo $TipoRegistro; ?>">
 <input type="hidden" name="TxtValores" value="<?php echo $TxtValores; ?>">
 <table width="500"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr class="ColorTabla01">
     <td colspan="2"><strong>OPERACIONES MASIVAS </strong></td>
   </tr>
-	<?php
+<?php
 	if ($EstOpe != "")
 	{  
 		switch ($EstOpe)
@@ -129,7 +129,7 @@ body {
     	echo "<td colspan='4' class='Colum01' align='center'><font class='".$Clase."'>".$Mensaje."</font></td>\n";
     	echo "</tr>\n";
 	}
-	?>
+?>
   <tr class="Colum01">
     <td width="109" class="Colum01">Lote(s):</td>
     <td class="Colum01"><?php echo str_replace("//","; ",$TxtValores); ?><input name="TxtValores" type="hidden" value="<?php echo $TxtValores; ?>"></td>
@@ -141,7 +141,7 @@ body {
     <td class="Colum01">Estado de Recargo:</td>
     <td class="Colum01"><SELECT name="CmbEstadoLote" class="Select01" id="CmbEstadoLote"  onkeydown="TeclaPulsada2('N',true,this.form,'CmbProveedor');">
       <option value="S" class="NoSelec">SELECCIONAR</option>
-    	<?php
+      <?php
 		$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase='24001' order by cod_subclase";
 		$Resp = mysqli_query($link, $Consulta);
 		while ($Fila = mysqli_fetch_array($Resp))
@@ -151,7 +151,7 @@ body {
 			else
 				echo "<option value='".$Fila["valor_subclase1"]."'>".$Fila["nombre_subclase"]."</option>\n";
 		}
-		?>
+	 ?>
     </SELECT></td>
     </tr>
   <tr class="Colum01">

@@ -41,8 +41,8 @@
 	}else{
 		$TipoConsulta = '';
 	}
-
-
+	$HabilitarCmb = isset($_REQUEST["HabilitarCmb"])?$_REQUEST["HabilitarCmb"]:"";
+  
 	if ($Proc == "M" && $Recarga!='S')
 	{
 		$VarProv ="";
@@ -64,19 +64,20 @@
 			$CmbCodMop = $Fila["cod_mop"];
 			$CmbTipoDespacho = $Fila["cod_despacho"];
 			$TxtConjunto = $Fila["conjunto"];
-			$CmbEstadoLote = $Fila["estado"];
+			$CmbEstadoLote = $Fila["estado"]; 
 			//echo "estado:".$Fila["estado"];
 			//DATOS DEL DETALLE
 			if ($NewRec != "S")
 			{
 				$Consulta ="SELECT t3.cod_acopio,t3.cod_estiba,t3.tipo_embarque from sec_web.guia_despacho_emb t1 ";
 				$Consulta.="inner join sec_web.embarque_ventana t3 on t3.num_envio=t1.num_envio and year (t3.fecha_embarque)='".date('Y')."'";
-				$Consulta.="where t1.num_secuencia='$TxtCorr' and t1.num_guia='".$Fila["guia_despacho"]."' and t1.cod_estado <> 'A'";
+				$Consulta.="where t1.num_secuencia='".$TxtCorr."' and t1.num_guia='".$Fila["guia_despacho"]."' and t1.cod_estado <> 'A'";
 				$Consulta.="group by t3.cod_producto,t3.cod_subproducto	";
 				//echo $Consulta."<br>";
 				$RespSec=mysqli_query($link, $Consulta);
 				$FilaSec=mysqli_fetch_array($RespSec);
-				switch($FilaSec["tipo_embarque"])
+				$tipo_embarque = isset($FilaSec["tipo_embarque"])?$FilaSec["tipo_embarque"]:"";
+				switch($tipo_embarque)
 				{
 					case "A":
 						if($FilaSec["cod_acopio"]!='')

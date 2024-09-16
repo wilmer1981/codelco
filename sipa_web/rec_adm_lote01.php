@@ -5,8 +5,6 @@
 	$CookieRut=$_COOKIE["CookieRut"];
 	$RutOperador=$CookieRut;
 
-	//Proceso=E&TxtValores=464434&TipoRegistro=R
-
 	$Proceso          = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$TipoConsulta     = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
 	$TxtValores       = isset($_REQUEST["TxtValores"])?$_REQUEST["TxtValores"]:"";
@@ -14,8 +12,13 @@
 	$TxtConjunto      = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
 	$CmbEstadoLote    = isset($_REQUEST["CmbEstadoLote"])?$_REQUEST["CmbEstadoLote"]:"";
 	$CmbClaseProducto = isset($_REQUEST["CmbClaseProducto"])?$_REQUEST["CmbClaseProducto"]:"";
-	$TxtNumRomana     = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
-
+	$TxtNumRomana     = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";	
+	$TxtNombre      = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtDescripcion = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$CmbCodMop      = isset($_REQUEST["CmbCodMop"])?$_REQUEST["CmbCodMop"]:"";
+	$TxtHoraE       = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
+	$TxtMinE        = isset($_REQUEST["TxtMinE"])?$_REQUEST["TxtMinE"]:"";
+	$Obs            = isset($_REQUEST["Obs"])?$_REQUEST["Obs"]:"";
 	$TxtCorr 		 = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:"";
 	$CmbTipoDespacho = isset($_REQUEST["CmbTipoDespacho"])?$_REQUEST["CmbTipoDespacho"]:"";
 
@@ -44,7 +47,7 @@
 	$TxtLoteIni = isset($_REQUEST["TxtLoteIni"])?$_REQUEST["TxtLoteIni"]:"";
 	$TxtLoteFin = isset($_REQUEST["TxtLoteFin"])?$_REQUEST["TxtLoteFin"]:"";
 
-
+//Proc=M&TxtCorr=154634&EstOpe=&Mensaje=
 
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
 	$Resp=mysqli_query($link, $Consultar);
@@ -169,7 +172,7 @@
 					break;
 				case "D":
 					$Actualizar = "UPDATE sipa_web.despachos set ";
-					if(isset($TxtLote))
+					if($TxtLote!="")
 					{
 						$ProdSubProd=explode('~',$CmbSubProducto);
 						$Actualizar.= " cod_producto='".$ProdSubProd[0]."'";
@@ -200,7 +203,7 @@
 					mysqli_query($link, $Actualizar);
 					$Actualizar ="UPDATE sipa_web.datos_ejes set numtarjeta='$TxtTarjeta',tipo_camion='$CmbCodMop' where folio='".$TxtCorr."'";
 					mysqli_query($link, $Actualizar);
-					header("location:rec_adm_lote04.php?Proc=M&TxtCorr=".$TxtCorrelativo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);				
+					header("location:rec_adm_lote04.php?TipoConsulta=".$TipoConsulta."&Proc=M&TxtCorr=".$TxtCorrelativo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);				
 					break;
 				case "O":
 					$Actualizar = "UPDATE sipa_web.otros_pesaje set ";
@@ -221,7 +224,7 @@
 					$Actualizar.= " where correlativo='".$TxtCorr."'";
 					//echo $Actualizar;
 					mysqli_query($link, $Actualizar);
-					header("location:rec_adm_lote05.php?Proc=M&TxtCorr=".$TxtCorrelativo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);				
+					header("location:rec_adm_lote05.php?TipoConsulta=".$TipoConsulta."&Proc=M&TxtCorr=".$TxtCorrelativo."&EstOpe=".$EstOpe."&Mensaje=".$Mensaje);				
 					break;						
 			}		
 			
@@ -284,14 +287,17 @@
 			foreach($Datos as $k => $v)
 			{
 				$Datos2 = explode("-",$v);
+				//$Actualizar="";
+				//echo "TipoRegistro:".$TipoRegistro;
+				//exit();
 				switch($TipoRegistro)
 				{
 					case "R":
-						$Actualizar="UPDATE sipa_web.recepciones set conjunto='$TxtConjunto' ";
+						$Actualizar="UPDATE sipa_web.recepciones set conjunto='".$TxtConjunto."' ";
 						if($CmbEstadoLote!='S')
-							$Actualizar.=" ,estado='$CmbEstadoLote' ";
+							$Actualizar.=" ,estado='".$CmbEstadoLote."' ";
 						if($CmbClaseProducto!='S')
-							$Actualizar.=" ,cod_clase='$CmbClaseProducto' ";
+							$Actualizar.=" ,cod_clase='".$CmbClaseProducto."' ";
 						$Actualizar.=" where correlativo='".$Datos2[0]."'";
 						break;				
 					case "D":
@@ -299,7 +305,8 @@
 						if($CmbEstadoLote!='S')
 							$Actualizar.=" ,estado='$CmbEstadoLote' ";
 						if($CmbTipoDespacho!='S')
-							$Actualizar.=" ,cod_clase='$CmbTipoDespacho' ";
+							$Actualizar.=" ,cod_despacho='$CmbTipoDespacho' ";
+							//$Actualizar.=" ,cod_clase='$CmbTipoDespacho' ";
 						$Actualizar.=" where correlativo='".$Datos2[0]."'";
 						break;				
 				}

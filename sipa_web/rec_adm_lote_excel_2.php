@@ -31,10 +31,8 @@
 	$CmbEstadoLote    = isset($_REQUEST["CmbEstadoLote"])?$_REQUEST["CmbEstadoLote"]:"";
 	$CmbClaseProducto = isset($_REQUEST["CmbClaseProducto"])?$_REQUEST["CmbClaseProducto"]:"";
 	$TxtNumRomana     = isset($_REQUEST["TxtNumRomana"])?$_REQUEST["TxtNumRomana"]:"";
-
 	$TxtCorr 		 = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:"";
 	$CmbTipoDespacho = isset($_REQUEST["CmbTipoDespacho"])?$_REQUEST["CmbTipoDespacho"]:"";
-
 	$TxtLote        = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
 	$CmbGrupoProd   = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
 	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
@@ -52,29 +50,17 @@
 	$TxtPesoBruto   = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
 	$TxtPesoTara    = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
 	$TxtPesoNeto    = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
-
-
-
-
 	$VerAnulados = $_REQUEST["VerAnulados"];
 	$TipoCon     = $_REQUEST["TipoCon"];
 	$Orden       = $_REQUEST["Orden"];
 	$CmbTipoRegistro = $_REQUEST["CmbTipoRegistro"];
-
-
-	$LimitIni = $_REQUEST["LimitIni"];
-	$LimitFin = $_REQUEST["LimitFin"];
-	$TxtFechaIni = $_REQUEST["TxtFechaIni"];
-	$TxtFechaFin = $_REQUEST["TxtFechaFin"];
-	$CmbGrupoProd = $_REQUEST["CmbGrupoProd"];
-	$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	$TxtConjunto = $_REQUEST["TxtConjunto"];
-
-
-	if (!isset($LimitIni))
-		$LimitIni=0;
-	if (!isset($LimitFin))
-		$LimitFin=999;	
+	$LimitIni        = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+	$LimitFin        = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:999;
+	$TxtFechaIni     = $_REQUEST["TxtFechaIni"];
+	$TxtFechaFin     = $_REQUEST["TxtFechaFin"];
+	$CmbGrupoProd    = $_REQUEST["CmbGrupoProd"];
+	$CmbSubProducto  = $_REQUEST["CmbSubProducto"];
+ 
 ?>
 <html>
 <head>
@@ -445,11 +431,11 @@ if (isset($TipoCon) && $TipoCon!="")
 		$TotPesoBrAntSubProd = $TotPesoBrAntSubProd + $Fila["peso_bruto"];
 		$TotPesoTrAntSubProd = $TotPesoTrAntSubProd + $Fila["peso_tara"];
 		$TotPesoNtAntSubProd = $TotPesoNtAntSubProd + $Fila["peso_neto"];
-		$NomProdAnt = $Fila["abreviatura"];
-		$NomRutAnt = $NomProv;
-		$ProdAnt = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
-		$SubProdAnt =$Fila["cod_subproducto"];
-		$RutAnt = isset($Fila["rut_proveedor"])?$Fila["rut_proveedor"]:"";
+		$NomProdAnt = isset($Fila["abreviatura"])?$Fila["abreviatura"]:"";
+		$NomRutAnt  = $NomProv;
+		$ProdAnt    = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
+		$SubProdAnt = isset($Fila["cod_subproducto"])?$Fila["cod_subproducto"]:"";
+		$RutAnt     = isset($Fila["rut_proveedor"])?$Fila["rut_proveedor"]:"";
 		$ContReg++;
 		$Reg++;
 		$RegSubProd++;

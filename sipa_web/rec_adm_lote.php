@@ -4,6 +4,8 @@
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
 	$REMOTE_ADDR = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+	$IP           = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
+	
 	$CmbProducto = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
 	$TipoCon     = isset($_REQUEST["TipoCon"])?$_REQUEST["TipoCon"]:"";
 	$RutProved     = isset($_REQUEST["RutProved"])?$_REQUEST["RutProved"]:"";
@@ -252,7 +254,7 @@ function Proceso(opt,valor)
 			}
 			else
 			{
-				var msg = confirm("�Esta Seguro de Eliminar estos Registros Permanentemente?");
+				var msg = confirm("¿Esta Seguro de Eliminar estos Registros Permanentemente?");
 				if (msg==true)
 				{
 					TxtCorr = TxtCorr.substring(0,(TxtCorr.length-2));
@@ -309,7 +311,7 @@ function Proceso(opt,valor)
 			{
 				//TxtNumRomana=LeerRomana('');	
 				//TxtNumRomana = '<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
-				var TxtNumRomana = '<?php echo LeerRomana($REMOTE_ADDR,$link); ?>'; 
+				var TxtNumRomana = '<?php echo LeerRomana($IP,$link); ?>'; 
 				var TxtLotes = "";
 				for (i=1;i<f.elements.length;i++)
 				{
@@ -1151,7 +1153,7 @@ if ($TipoCon!="")
 </body>
 </html>
 <?php
-$Romana = LeerRomana($REMOTE_ADDR,$link);
+$Romana = LeerRomana($IP,$link);
 echo "<script language='JavaScript'>";
 echo "var f = document.frmPrincipal;";
 //$Romana = LeerArchivo('PesaMatic','ROMANA.txt');

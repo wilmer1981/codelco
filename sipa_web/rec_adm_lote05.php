@@ -1,30 +1,54 @@
 <?php
 	include("../principal/conectar_principal.php"); 
+	
+	$TipoConsulta = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$Recarga      = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+	$Proc         = isset($_REQUEST["Proc"])?$_REQUEST["Proc"]:"";
+	$TxtCorr      = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:"";
+	$TxtLote      = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$CmbCodMop      = isset($_REQUEST["CmbCodMop"])?$_REQUEST["CmbCodMop"]:"";
+	$TxtConjunto    = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$TxtNombre      = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
+	$TxtDescripcion = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$CmbEstadoLote  = isset($_REQUEST["CmbEstadoLote"])?$_REQUEST["CmbEstadoLote"]:"";
+	$TxtFechaRecep  = isset($_REQUEST["TxtFechaRecep"])?$_REQUEST["TxtFechaRecep"]:"";	
+	$TxtPesoBruto   = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
+	$TxtPesoTara    = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
+	$TxtPesoNeto    = isset($_REQUEST["TxtPesoNeto"])?$_REQUEST["TxtPesoNeto"]:"";
+	$TxtPatente     = isset($_REQUEST["TxtPatente"])?$_REQUEST["TxtPatente"]:"";
+	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
+	$TxtGuia        = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$Observacion    = isset($_REQUEST["Observacion"])?$_REQUEST["Observacion"]:"";
+	//$HoraMin    = isset($_REQUEST["HoraMin"])?$_REQUEST["HoraMin"]:"";
+	$TxtHoraE       = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
+	$TxtMinE        = isset($_REQUEST["TxtMinE"])?$_REQUEST["TxtMinE"]:"";
+
+	
 	if ($Proc == "M"&&$Recarga!='S')
 	{
 		$EstadoInput = "readonly";
-		$Consulta = "SELECT t1.cod_mop,t1.conjunto,t1.estado,t1.correlativo,t1.patente,t1.fecha,t1.peso_bruto,t1.peso_tara,t1.peso_neto,t1.guia_despacho,t1.hora_entrada, ";
+		$Consulta = "select t1.cod_mop,t1.conjunto,t1.estado,t1.correlativo,t1.patente,t1.fecha,t1.peso_bruto,t1.peso_tara,t1.peso_neto,t1.guia_despacho,t1.hora_entrada, ";
 		$Consulta.= " nombre,descripcion ,t1.observacion from sipa_web.otros_pesaje t1 where t1.correlativo = '".$TxtCorr."'";
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		//echo $Consulta;
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			//DATOS DEL LOTE
-			$CmbCodMop = $Fila["cod_mop"];
+			$CmbCodMop   = $Fila["cod_mop"];
 			$TxtConjunto = $Fila["conjunto"];
-			$TxtNombre = $Fila["nombre"];
+			$TxtNombre   = $Fila["nombre"];
 			$TxtDescripcion = $Fila["descripcion"];
-			$CmbEstadoLote = $Fila["estado"];
+			$CmbEstadoLote  = $Fila["estado"];
 			$TxtCorrelativo = $Fila["correlativo"];
 			$TxtFechaRecep = $Fila["fecha"];
-			$TxtPesoBruto = $Fila["peso_bruto"];
-			$TxtPesoTara = $Fila["peso_tara"];
-			$TxtPesoNeto = $Fila["peso_neto"];
-			$TxtGuia = $Fila["guia_despacho"];
+			$TxtPesoBruto  = $Fila["peso_bruto"];
+			$TxtPesoTara   = $Fila["peso_tara"];
+			$TxtPesoNeto   = $Fila["peso_neto"];
+			$TxtGuia    = $Fila["guia_despacho"];
 			$TxtPatente = $Fila["patente"];
-			$HoraMin=explode(':',$Fila["hora_entrada"]);
-			$TxtHoraE = $HoraMin[0];
-			$TxtMinE = $HoraMin[1];
+			$HoraMin    = explode(':',$Fila["hora_entrada"]);
+			$TxtHoraE   = $HoraMin[0];
+			$TxtMinE    = $HoraMin[1];
 			$Observacion=$Fila["observacion"];
 		}
 	}
@@ -38,7 +62,7 @@
 <script language="javascript">
 var digitos=20 //cantidad de digitos buscados 
 var puntero=0 
-var buffer=new Array(digitos) //declaraciï¿½n del array Buffer 
+var buffer=new Array(digitos) //declaración del array Buffer 
 var cadena="" 
 function buscar_op(obj,objfoco,InicioBusq,Recargar){ 
    var f = document.FrmRecepcion;
@@ -67,11 +91,11 @@ function buscar_op(obj,objfoco,InicioBusq,Recargar){
        //barro todas las opciones que contiene el combo y las comparo la cadena... 
        for (var opcombo=0;opcombo < obj.length;opcombo++){ 
           if(obj[opcombo].text.substr(InicioBusq,puntero).toLowerCase()==cadena.toLowerCase()){ 
-          obj.SELECTedIndex=opcombo; 
+          obj.selectedIndex=opcombo; 
           } 
        } 
     } 
-   event.returnValue = false; //invalida la acciï¿½n de pulsado de tecla para evitar busqueda del primer caracter 
+   event.returnValue = false; //invalida la acción de pulsado de tecla para evitar busqueda del primer caracter 
 
 } 
 
@@ -226,20 +250,20 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   <tr class="Colum01">
     <td class="Colum01">Cod.Mop:</td>
     <td class="Colum01"><span class="ColorTabla02">
-      <SELECT name="CmbCodMop" style="width:85" onkeypress=buscar_op(this,TxtPesoNeto,0)>
-        <option value='S' SELECTed>Seleccionar</option>
+      <select name="CmbCodMop" style="width:85" onkeypress=buscar_op(this,TxtPesoNeto,0)>
+        <option value='S' selected>Seleccionar</option>
         <?php
-			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='8004' order by nombre_subclase";
-			$RespMOP=mysqli_query($link, $Consulta);
+			$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='8004' order by nombre_subclase";
+			$RespMOP=mysqli_query($link,$Consulta);
 			while($FilaMop=mysqli_fetch_array($RespMOP))
 			{
 				if(intval($FilaMop["valor_subclase1"])==intval($CmbCodMop))
-					echo "<option value='".$FilaMop["valor_subclase1"]."' SELECTed>".$FilaMop["nombre_subclase"]."</option>";
+					echo "<option value='".$FilaMop["valor_subclase1"]."' selected>".$FilaMop["nombre_subclase"]."</option>";
 				else
 					echo "<option value='".$FilaMop["valor_subclase1"]."'>".$FilaMop["nombre_subclase"]."</option>";
 			}
 		?>
-      </SELECT>
+      </select>
 </span></td>
     <td align="right" class="Colum01">Peso Neto:</td>
     <td class="Colum01"><input name="TxtPesoNeto" type="text" class="InputDer" id="TxtPesoNeto" value="<?php echo $TxtPesoNeto;?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtHoraE');"></td>
