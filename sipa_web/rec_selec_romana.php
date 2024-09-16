@@ -8,8 +8,9 @@
 	$tipo = isset($_REQUEST["tipo"])?$_REQUEST["tipo"]:"";
 	$Frm  = isset($_REQUEST["Frm"])?$_REQUEST["Frm"]:"";
 
-	$COMPUTERNAME =  getenv("COMPUTERNAME"); //nombre de la PC : WSALDANA-PERU
+	$COMPUTERNAME = getenv("COMPUTERNAME"); //nombre de la PC : WSALDANA-PERU
 	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']); //Nombnre completro de la PC : WSALDANA-PERU.sml.sermaluc.cl
+	$IP           = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
 	/*
 		if(isset($_REQUEST["RNA"])){
 			$RNA=$_REQUEST["RNA"];
@@ -41,7 +42,7 @@ print_r($ficheros2);
 $Tolerancia=ToleranciaPesaje($link);
 
 //$ROMA = LeerArchivo('PesaMatic','ROMANA.txt');
-$ROMA = LeerRomana($REMOTE_ADDR,$link);
+$ROMA = LeerRomana($IP,$link);
 $Bas1='';
 $Bas2='';
 if($ROMA==1){

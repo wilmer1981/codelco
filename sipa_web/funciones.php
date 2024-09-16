@@ -625,7 +625,7 @@ function ToleranciaPesaje($link)
 			$FechaAnt=(intval(date("Y"))-1)."-12-31";
 		//$FechaAnt = date('Y-m-d',mktime(0,0,0,date("m")-1,date("d"),  date("Y")));
 		//echo $FechaAnt."<br>";
-		$Consulta="SELECT * from sipa_web.cierre_lotes_mensual where substring(fecha,1,7)='".substr($FechaAnt,0,7)."' and tipo='$TipoRegistro'";
+		$Consulta="SELECT * from sipa_web.cierre_lotes_mensual where substring(fecha,1,7)='".substr($FechaAnt,0,7)."' and tipo='".$TipoRegistro."'";
 		//echo $Consulta."<br>";
 		$Resp=mysqli_query($link, $Consulta);
 		if(!$Fila=mysqli_fetch_array($Resp))
@@ -950,9 +950,11 @@ function LeerArchivo($ruta,$archivo)
 	//$nombre="archivo.txt";//$archivo;
 	$nombre=$archivo;
 	if($ruta!=""){
-		$ubicacion = 'D:/'.$ruta.'/'.$nombre;
+		//$ubicacion = 'D:/'.$ruta.'/'.$nombre;
+		$ubicacion = "D:\\xampp\\htdocs\\proyecto\\".$ruta."\\".$nombre;
 	}else{
 		$ubicacion = 'D:/'.$nombre;
+		//$ubicacion = $nombre;
 	}	
 	if(file_exists($ubicacion)){
 		$arc = fopen($ubicacion,"r");
@@ -987,10 +989,10 @@ function LeerArchivo($ruta, $archivo)
 }*/
 
 /******* Consulta el numero de ROMANA *******/
-function LeerRomana($REMOTE_ADDR,$link)
+function LeerRomana($IP,$link)
 {
 	$Consulta = " SELECT * FROM proyecto_modernizacion.sub_clase 
-				  WHERE cod_clase= 24011 AND valor_subclase1 = '".$REMOTE_ADDR."' ";
+				  WHERE cod_clase= 24011 AND valor_subclase1 = '".$IP."' ";
 	$Resp=mysqli_query($link, $Consulta);
 	$Romana="";
 	if($Fila=mysqli_fetch_array($Resp))

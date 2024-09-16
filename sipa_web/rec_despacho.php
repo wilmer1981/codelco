@@ -35,7 +35,7 @@
 	$TxtCorrel  = isset($_REQUEST["TxtCorrel"])?$_REQUEST["TxtCorrel"]:"";
 	$TitCmbCorr = isset($_REQUEST["TitCmbCorr"])?$_REQUEST["TitCmbCorr"]:"";
 	$TxtPesoHistorico = isset($_REQUEST["TxtPesoHistorico"])?$_REQUEST["TxtPesoHistorico"]:"";
-	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:0;
+	$TxtPesoBruto = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
 	$TxtPesoTara  = isset($_REQUEST["TxtPesoTara"])?$_REQUEST["TxtPesoTara"]:"";
 	$TxtHoraS     = isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";	
 	$TxtHoraE     = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
@@ -558,7 +558,7 @@ function LeerRomana(Rom)
 */
 //var ROMA=LeerRomana('');
 //var ROMA= '<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
-var ROMA = '<?php echo LeerRomana($REMOTE_ADDR,$link); ?>'; 
+var ROMA = '<?php echo LeerRomana($IP,$link); ?>'; 
 /*
  function LeerArchivo(valor)
 {
@@ -641,27 +641,44 @@ function CapturaPeso(tipo)
 	var PesoRangoIni =0;
 	var PesoRangoFin =0;
 	var PorcPeso =0;
-	
+	//alert("Tipo:"+tipo);
 	switch(tipo)
 	{
 		case "PB":
 			//f.TipoProceso.value="S";
-			 if(f.TxtNumBascula.value=='1')
+			//alert("TxtNumRomana:"+f.TxtNumRomana.value);
+			if(f.TxtNumRomana.value=='1')
+			{
+				if(f.TxtNumBascula.value=='1')
 			 	{
 					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
 					//f.TxtPesoBruto.value = f.TxtPesoBruto.value;
-					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
 					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
-				}
-				
-			   else
+				}				
+				else
 				{
 					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
 					//.TxtPesoBruto.value = f.TxtPesoBruto.value;
-					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
 					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
 				}
-		//if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
+			}
+			
+			if(f.TxtNumRomana.value=='2')
+			{
+				if(f.TxtNumBascula.value=='1')
+			 	{
+					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = f.TxtPesoBruto.value;
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+				}				
+				else
+				{
+					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+					//.TxtPesoBruto.value = f.TxtPesoBruto.value;
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+				}
+			}
+			//if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
 			//	f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;
 			// f.TxtPesoBruto.value = 44910; // yo
 			RevisaPesos()
@@ -677,15 +694,33 @@ function CapturaPeso(tipo)
 			break;
 		case "PT":
 			//f.TipoProceso.value="E";
-			 if(f.TxtNumBascula.value=='1'){
-				//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
-				f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
-			 }else{
-				//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
-				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
-				f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
-			 }
+			//alert("TxtNumRomana:"+f.TxtNumRomana.value);			
+			if(f.TxtNumRomana.value=='1')
+			{
+				//alert("TxtNumBascula:"+f.TxtNumBascula.value);
+				if(f.TxtNumBascula.value=='1'){
+					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+				}else{
+					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+				}
+			}
+			if(f.TxtNumRomana.value=='2')
+			{
+				if(f.TxtNumBascula.value=='1'){
+					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+				}else{
+					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+				}
+			}
+			
 			//f.TxtPesoTara.value = 13400;
 			if(parseInt(f.TxtPesoHistorico.value)!=0)
 			{	
@@ -1034,8 +1069,8 @@ function ValidarCampos()
 }
 function MM_jumpMenu(targ,selObj,restore)
 { //v3.0
-  eval(targ+".location='"+selObj.options[selObj.SELECTedIndex].value+"'");
-  if (restore) selObj.SELECTedIndex=0;
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
 }
 function BuscarProveedor()
 {
@@ -1670,9 +1705,10 @@ switch($TxtNumRomana)
 			//if(isset($CmbLotes))
 			//{
 				$SubProd=explode('~',$CmbSubProducto);
+				$SubProd1= isset($SubProd[1])?$SubProd[1]:"";
 				$AnoMes=substr(date('Y'),2,2).date('m');
 				$Consulta = "SELECT distinct t1.lote,t1.cod_subproducto,t1.rut_prv as rutprv from sipa_web.despachos t1 where ";
-				$Consulta.="cod_subproducto='".$SubProd[1]."' and rut_prv='".$CmbProveedor."' and ";
+				$Consulta.="cod_subproducto='".$SubProd1."' and rut_prv='".$CmbProveedor."' and ";
 				$Consulta.=" lote like '$AnoMes%' and ult_registro <> 'S' and ";
 				$Consulta.="t1.recargo=(SELECT max((t2.recargo)*1) from sipa_web.despachos t2 where t2.lote=t1.lote) group by lote";
 				//echo $Consulta;
@@ -1902,7 +1938,7 @@ switch($TxtNumRomana)
 </html>
 <?php
 
-$Romana = LeerRomana($REMOTE_ADDR,$link);
+$Romana = LeerRomana($IP,$link);
 echo "<br>ROMANA: ".$Romana;
 
 if($Mensaje!='')
