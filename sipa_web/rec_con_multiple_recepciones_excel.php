@@ -1,22 +1,21 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
@@ -102,7 +101,7 @@
 	/************************************************* */
 	if ($OpcConsulta == "P" || $OpcConsulta == "C")
 	{
-		$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
+		$CmbMes      = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 		$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
 		$TxtFechaFin = date("Y-m-d", mktime(0,0,0,$CmbMes+1,1,$CmbAno));
 		$TxtFechaFin = date("Y-m-d", mktime(0,0,0,substr($TxtFechaFin,5,2),1-1,substr($TxtFechaFin,0,4)));
@@ -360,7 +359,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	{		
 		case "F":
 			$Consulta = "SELECT distinct cod_producto, cod_subproducto, lpad(cod_subproducto,3,'0') as orden ";
-			$Consulta.= " from ".$NombreTabla." where estado<>'6' ";
+			$Consulta.= " FROM ".$NombreTabla." WHERE estado<>'6' ";
 			if ($CmbSubProducto != "S")
 			{
 				$SubProd=explode('~',$CmbSubProducto);
@@ -380,10 +379,10 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			break;
 		case "P":		
 			$Consulta = "SELECT distinct rut_prv, cod_producto, cod_subproducto, lpad(cod_subproducto,3,'0') as orden ";
-			$Consulta.= " from ".$NombreTabla."  where estado<>'6' and fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."'";		
+			$Consulta.= " FROM ".$NombreTabla." WHERE estado<>'6' and fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."'";		
 			if ($CmbSubProducto != "S")
 			{
-				$SubProd=explode('~',$CmbSubProducto);
+				$SubProd  = explode('~',$CmbSubProducto);
 				$Consulta.= " and cod_producto = '".$SubProd[0]."' ";
 				$Consulta.= " and cod_subproducto = '".$SubProd[1]."' ";
 			}
@@ -393,6 +392,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	}
 	//echo $Consulta."<br>";
 	$RespAux = mysqli_query($link, $Consulta);
+	$TotalPesoHum=0; //WSO;
 	while ($FilaAux = mysqli_fetch_array($RespAux))
 	{
 		//TITULO		
@@ -444,38 +444,40 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		$Consulta.= " lpad(recargo,2,'0') as orden, fecha,patente,guia_despacho,correlativo,ult_registro,peso_tara,peso_bruto,hora_entrada,hora_salida ";
 		if ($OpcConsulta=="C"||$CmbTipoRegistro=='R')
 			$Consulta.= " , conjunto ";
-		$Consulta.= " from ".$NombreTabla." where estado<>'6' and lote <> '' ";
-		$Consulta.= " and cod_producto = ".$FilaAux["cod_producto"]." ";
-		$Consulta.= " and cod_subproducto = ".$FilaAux["cod_subproducto"]." ";
+		$Consulta.= " FROM ".$NombreTabla." WHERE estado<>'6' AND lote <> '' ";
+		$Consulta.= " AND cod_producto = '".$FilaAux["cod_producto"]."' ";
+		$Consulta.= " AND cod_subproducto = '".$FilaAux["cod_subproducto"]."' ";
 		switch ($OpcConsulta)
 		{
 			case "F":
-				$Consulta.= " and fecha between '".$Fila01["fecha"]."' and '".$Fila01["fecha"]."'";
+				$Consulta.= " AND fecha BETWEEN '".$Fila01["fecha"]."' AND '".$Fila01["fecha"]."' ";
 				break;
 			case "L":
-				$Consulta.= " and lote between '".$TxtLoteIni."' and '".$TxtLoteFin."'";
+				$Consulta.= " and lote between '".$TxtLoteIni."' and '".$TxtLoteFin."' ";
 				break;
 			case "C":
-				$Consulta.= " and fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."'";
-				$Consulta.= " and conjunto = '".$FilaAux["conjunto"]."'";
+				$Consulta.= " and fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
+				$Consulta.= " and conjunto = '".$FilaAux["conjunto"]."' ";
 				break;
 			case "P":
-				$Consulta.= " and fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."'";
+				$Consulta.= " and fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 				$Consulta.= " and rut_prv = '".$FilaAux["rut_prv"]."' ";
 				break;
 		}
 		if ($CmbProveedor != "S" && $OpcConsulta!="P")
 			$Consulta.= " and rut_prv = '".$CmbProveedor."' ";
 		if ($OpcConsulta!="C")
-			$Consulta.= " group by lote, recargo order by lote, orden";
+			$Consulta.= " GROUP BY lote, recargo ORDER BY lote, orden";
 		else
-			$Consulta.= " group by conjunto, lote, recargo order by conjunto, lote, orden";
+			$Consulta.= " GROUP BY conjunto,lote,recargo order by conjunto, lote, orden";
 		$Resp = mysqli_query($link, $Consulta);
 		//echo $Consulta."<br>";
 		for ($i = 0; $i <=mysqli_num_rows($Resp) - 1; $i++)
 		{
 			if (mysqli_data_seek ($Resp, $i)) 
 			{
+				$TotalLotePesoHum=0; // WSO
+				$SubTotalPesoHum=0; //WSO;
 				if ($Fila = mysqli_fetch_row($Resp))  
 				{        				
 					$Lote = $Fila[0];
@@ -493,7 +495,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 					//if ($OpcConsulta == "C")
 						//$N_Conjto = $Fila[14];	
 						$N_Conjto = isset($Fila[14])?$Fila[14]:"";	
-					if ($OpcTR=="R")
+ 					if ($OpcTR=="R")
 					{
 						echo "<tr>\n";
 						if ($OpcConsulta != "C")

@@ -2,19 +2,22 @@
 	$CodigoDeSistema=24;
 	$CodigoDePantalla = 11;
 	include("../principal/conectar_principal.php");
-	$TxtFechaIni=date('Y-m')."-01";
-	$TxtFechaFin=date('Y-m')."-".date('t');
-
-
 	
+	$TxtFechaIni  = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m')."-01";
+	$TxtFechaFin  = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m')."-".date('t');
+	$TipoBusqueda = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$CmbAno = isset($_REQUEST["CbmAno"])?$_REQUEST["CbmAno"]:"";
+	$CbmMes = isset($_REQUEST["CbmMes"])?$_REQUEST["CbmMes"]:"";
 /********************************************************* */
-if(isset($_REQUEST["OpcConsulta"])){
-	$OpcConsulta = $_REQUEST["OpcConsulta"];
-}else{
-	$OpcConsulta = "";
-}
+	if(isset($_REQUEST["OpcConsulta"])){
+		$OpcConsulta = $_REQUEST["OpcConsulta"];
+	}else{
+		$OpcConsulta = "";
+	}
 	if(isset($_REQUEST["CmbTipoRegistro"])){
-		$Proceso = $_REQUEST["CmbTipoRegistro"];
+		$CmbTipoRegistro = $_REQUEST["CmbTipoRegistro"];
 	}else{
 		$CmbTipoRegistro = "";
 	}
@@ -52,11 +55,7 @@ if(isset($_REQUEST["OpcConsulta"])){
 		$CmbProveedor = $_REQUEST["CmbProveedor"];
 	}else{
 		$CmbProveedor = "";
-	}
-
-	
-	
-	 
+	}	 
 	
 	
 	/************************************************** */
@@ -325,7 +324,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <?php
 	for ($i=1;$i<=12;$i++)
 	{
-		if (!isset($Mes))
+		if ($Mes=="")
 		{
 			if ($i == date("n"))
 				echo "<option SELECTed value='".$i."'>".$Meses[$i-1]."</option>\n";
@@ -346,7 +345,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <?php
 	for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 	{
-		if (!isset($Ano))
+		if ($Ano=="")
 		{
 			if ($i == date("Y"))
 				echo "<option SELECTed value='".$i."'>".$i."</option>\n";
@@ -429,7 +428,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					$SubProd=explode('~',$CmbSubProducto);
 					$Consulta = "SELECT distinct rut_prv,nombre_prv from sipa_web.proveedores t1 inner join age_web.relaciones t2 ";
 					$Consulta.= " on t1.rut_prv=t2.rut_proveedor ";
-					if(isset($CmbSubProducto)&&$CmbSubProducto!='S')
+					if($CmbSubProducto!="" && $CmbSubProducto!='S')
 						$Consulta.= " where t2.cod_producto='".$SubProd[0]."' and t2.cod_subproducto='".$SubProd[1]."'";
 					$Consulta.= " order by t1.nombre_prv";
 					$Resp = mysqli_query($link, $Consulta);

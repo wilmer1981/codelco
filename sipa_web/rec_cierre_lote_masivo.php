@@ -12,9 +12,10 @@
 	if(!isset($CmbTipoRegistro))
 		$CmbTipoRegistro='R';
 	*/
+	$IP              = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
 	$CmbTipoRegistro = isset($_REQUEST["CmbTipoRegistro"])?$_REQUEST["CmbTipoRegistro"]:'R';
 	$TipoCon        = isset($_REQUEST["TipoCon"])?$_REQUEST["TipoCon"]:"";
-	$ObjFoco        = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"BtnConsultar";
+	$ObjFoco        = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
 	$CmbGrupoProd   = isset($_REQUEST["CmbGrupoProd"])?$_REQUEST["CmbGrupoProd"]:"";
 	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$OpcLote        = isset($_REQUEST["OpcLote"])?$_REQUEST["OpcLote"]:"";
@@ -32,8 +33,9 @@
 		$ArrLeyes[$FilaLeyes["cod_leyes"]][0] = $FilaLeyes["cod_leyes"];
 		$ArrLeyes[$FilaLeyes["cod_leyes"]][1] = $FilaLeyes["abreviatura"];
 	}
-//	if(!isset($ObjFoco))
-//		$ObjFoco="BtnConsultar";
+    
+	if($ObjFoco=="")
+		$ObjFoco="BtnConsultar";
 
 	//if(!isset($OpcLote)||$OpcLote=='N')
 	if($OpcLote=="" || $OpcLote=='N')
@@ -235,7 +237,7 @@ function borrar_buffer(){
 }
 </script>
 <script language="VBScript">
-	/*
+	<!--
 	function LeerRomana(valor)	
 		ubicacion = "c:\PesaMatic\bascula.txt"	
 		Set fs = CreateObject("Scripting.FileSystemObject")
@@ -257,7 +259,7 @@ function borrar_buffer(){
 		end if
 			
 	end function 
-	*/
+	-->
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -362,7 +364,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				$Consulta="SELECT  t1.cod_producto,t1.cod_subproducto,t2.abreviatura as nom_prod,t2.descripcion as nom_subprod,";
 				$Consulta.= " case when length(t1.cod_subproducto)<2 then concat('0',t1.cod_subproducto) else t1.cod_subproducto end as orden ";
 				$Consulta.="from sipa_web.grupos_prod_subprod t1 inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto =t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
-				$Consulta.="where t1.cod_grupo='$CmbGrupoProd' order by orden";
+				$Consulta.="where t1.cod_grupo='".$CmbGrupoProd."' order by orden";
 				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
@@ -648,18 +650,16 @@ if (isset($TipoCon) && $TipoCon!="")
 </body>
 </html>
 <?php
+$Romana = LeerRomana($IP,$link);
+echo "<script language='JavaScript'>";
+echo "f.TxtNumRomana.value=".$Romana.";";
+echo "</script>";
+
+/*
 echo "<script language='JavaScript'>";
 echo "var f = document.frmPrincipal;";
-//echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
-$ubicacion = 'PesaMatic';
-$archivo   = 'bascula.txt';
-$Romana    = LeerArchivo($ubicacion,$archivo);
-//echo "Romana:".$Romana;
-if($Romana==""){
-	echo "f.TxtNumRomana.value='".$Romana."';";
-}else{
-	echo "f.TxtNumRomana.value=".$Romana.";";
-}
+echo "f.TxtNumRomana.value = LeerRomana(f.TxtNumRomana.value);";
 //echo "alert(f.TxtNumRomana.value);";
 echo "</script>";
+*/
 ?>
