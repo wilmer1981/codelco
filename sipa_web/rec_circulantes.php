@@ -7,6 +7,7 @@
 	include("funciones.php");
 	$CookieRut = $_COOKIE["CookieRut"];
 	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']); //Nombnre completro de la PC : WSALDANA-PERU.sml.sermaluc.cl
+	$IP           = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
 	$EstadoInput='';
 	/*
 	if(isset($RNA))
@@ -288,7 +289,7 @@ function LeerRomana(Rom)
 }*/
 //var ROMA=LeerRomana('');
 //var ROMA = '<?php echo LeerArchivo('PesaMatic','ROMANA.txt');?>';
-var ROMA = '<?php echo LeerRomana($REMOTE_ADDR,$link); ?>'; 
+var ROMA = '<?php echo LeerRomana($IP,$link); ?>'; 
 /*
 function LeerArchivo(valor)
 {
@@ -334,14 +335,29 @@ function CapturaPeso(tipo)
 	{
 		case "PB":
 			f.TipoProceso.value="E";
-			if(f.TxtNumBascula.value=='1'){		
-				//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
-				//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
-				f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
-			}else{
-				//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-				//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
-				f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+			if(f.TxtNumRomana.value=='1')
+			{
+				if(f.TxtNumBascula.value=='1'){		
+					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+				}else{
+					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+				}
+			}
+			if(f.TxtNumRomana.value=='2')
+			{
+				if(f.TxtNumBascula.value=='1'){		
+					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+				}else{
+					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+				}
 			}
 			if(f.TxtPesoBruto.value!=0&&f.TxtPesoTara.value!=0)	
 				f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;	
@@ -349,14 +365,29 @@ function CapturaPeso(tipo)
 			break;
 		case "PT":
 			f.TipoProceso.value="S";
-			if(f.TxtNumBascula.value=='1'){					
-				//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
-				f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
-			}else{
-				//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
-				//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
-				f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+			if(f.TxtNumRomana.value=='1')
+			{
+				if(f.TxtNumBascula.value=='1'){					
+					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+					f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+				}else{
+					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+				}
+			}
+			if(f.TxtNumRomana.value=='2')
+			{
+				if(f.TxtNumBascula.value=='1'){					
+					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt');?>';
+					f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+				}else{
+					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt');?>';
+					f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+				}
 			}
 			if(parseInt(f.TxtPesoTara.value)>parseInt(f.TxtPesoBruto.value))
 			{
@@ -977,7 +1008,7 @@ body {
 		  return($ndias);
 	}
 //echo "AAAAAA".$Mensaje;
-$Romana = LeerRomana($REMOTE_ADDR,$link);
+$Romana = LeerRomana($IP,$link);
 echo "<br>ROMANA: ".$Romana;
 if($Mensaje!='')
 {
