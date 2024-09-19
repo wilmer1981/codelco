@@ -11,51 +11,24 @@
 	$filename = iconv('UTF-8', 'gb2312', $filename);
 	$file_name = str_replace(".php", "", $file_name);
 	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-	
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
 	header("content-disposition: attachment;filename={$file_name}");
 	header( "Cache-Control: public" );
 	header( "Pragma: public" );
 	header( "Content-type: text/csv" ) ;
 	header( "Content-Dis; filename={$file_name}" ) ;
 	header("Content-Type:  application/vnd.ms-excel");
-	header("Expires: 0");
-	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
+ 	header("Expires: 0");
+  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	$CodigoDeSistema = 8;
 	$CodigoDePantalla = 2;
+	
+	$CmbProductos   = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Buscar 		= isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m-d');
+	$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');
 
-	if(isset($_REQUEST["CmbProductos"])){
-		$CmbProductos = $_REQUEST["CmbProductos"];
-	}else{
-		$CmbProductos = "";
-	}
-	if(isset($_REQUEST["CmbSubProducto"])){
-		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	}else{
-		$CmbSubProducto = "";
-	}
-	if(isset($_REQUEST["Buscar"])){
-		$Buscar = $_REQUEST["Buscar"];
-	}else{
-		$Buscar = "";
-	}
-
-	if(isset($_REQUEST["TxtFechaIni"])){
-		$TxtFechaIni = $_REQUEST["TxtFechaIni"];
-	}else{
-		$TxtFechaIni=date('Y-m-d');
-	}
-
-	if(isset($_REQUEST["TxtFechaFin"])){
-		$TxtFechaFin = $_REQUEST["TxtFechaFin"];
-	}else{
-		$TxtFechaFin=date('Y-m-d');	
-	}
-
-	if(!isset($TxtFechaIni))
-		$TxtFechaIni=date('Y-m-d');
-	if(!isset($TxtFechaFin))
-		$TxtFechaFin=date('Y-m-d');	
 ?>
 <html>
 <head>
@@ -95,7 +68,7 @@ function Proceso(opt)
 			  <td width="8%" >Peso Bruto Sec (Kg)</td>
               <td width="8%" >Peso Control (Kg)</td>
 			  <td width="8%" >Diferencia (Kg)</td>
-			  <td width="12%" >Operaci�n</td>
+			  <td width="12%" >Operaci&oacute;n</td>
             </tr>
             <?php		
 				$Buscar='S';

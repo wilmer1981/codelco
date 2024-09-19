@@ -5,43 +5,12 @@
 	$CodigoDeSistema = 8;
 	$CodigoDePantalla = 2;
 
-	
-	if(isset($_REQUEST["CmbProductos"])){
-		$CmbProductos = $_REQUEST["CmbProductos"];
-	}else{
-		$CmbProductos = "";
-	}
-	if(isset($_REQUEST["CmbSubProducto"])){
-		$CmbSubProducto = $_REQUEST["CmbSubProducto"];
-	}else{
-		$CmbSubProducto = "";
-	}
-	
-
-	if(isset($_REQUEST["Buscar"])){
-		$Buscar = $_REQUEST["Buscar"];
-	}else{
-		$Buscar = "";
-	}
-
-	if(isset($_REQUEST["TxtFechaIni"])){
-		$TxtFechaIni = $_REQUEST["TxtFechaIni"];
-	}else{
-		$TxtFechaIni=date('Y-m-d');
-	}
-
-	if(isset($_REQUEST["TxtFechaFin"])){
-		$TxtFechaFin = $_REQUEST["TxtFechaFin"];
-	}else{
-		$TxtFechaFin=date('Y-m-d');	
-	}
-	
-/*
-	if(!isset($TxtFechaIni))
-		$TxtFechaIni=date('Y-m-d');
-	if(!isset($TxtFechaFin))
-		$TxtFechaFin=date('Y-m-d');
-	*/	
+	$CmbProductos   = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Buscar 		= isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$TxtFechaIni    = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m-d');
+	$TxtFechaFin    = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');
+		
 ?>
 <html>
 <head>
@@ -61,7 +30,7 @@ function Proceso(opt)
 			f.submit();
 			break;
 		case "E"://GENERA EXCEL
-			URL='rec_consulta_puntos_control_excel.php?&TxtFechaIni='+f.TxtFechaIni.value+'&TxtFechaFin='+f.TxtFechaFin.value+'&CmbProductos='+f.CmbProductos.value+'&CmbSubProducto='+f.CmbSubProducto.value;
+			URL='rec_consulta_puntos_control_excel.php?TxtFechaIni='+f.TxtFechaIni.value+'&TxtFechaFin='+f.TxtFechaFin.value+'&CmbProductos='+f.CmbProductos.value+'&CmbSubProducto='+f.CmbSubProducto.value;
 			window.open(URL,"","top=30,left=30,width=1000,height=550,status=yes,menubar=yes,resizable=yes,scrollbars=yes");
 		break;	
 		case "R":
@@ -97,7 +66,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
             <td width="92">Fecha Inicio:</td>
             <td width="228"><input name="TxtFechaIni" type="text" class="InputCen" value="<?php echo $TxtFechaIni; ?>" size="15" maxlength="10" readOnly>
                 <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaIni,TxtFechaIni,popCal);return false"> </td>
-            <td width="103">Fecha T�rmino:</td>
+            <td width="103">Fecha T&eacute;rmino:</td>
             <td width="235"><input name="TxtFechaFin" type="text" class="InputCen" id="TxtFechaFin" value="<?php echo $TxtFechaFin; ?>" size="15" maxlength="10" readOnly>
                 <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaFin,TxtFechaFin,popCal);return false"> </td>
           </tr>
@@ -161,7 +130,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			  <td width="8%" >Peso Bruto Sec (Kg)</td>
               <td width="8%" >Peso Control (Kg)</td>
 			  <td width="8%" >Diferencia (Kg)</td>
-			  <td width="12%" >Operaci�n</td>
+			  <td width="12%" >Operaci&oacute;n</td>
             </tr>
             <?php		
 				if($Buscar=='S')
