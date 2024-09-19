@@ -1,47 +1,18 @@
 <?php
 	include("../principal/conectar_principal.php"); 
 
-	if(isset($_REQUEST["Op"])){
-		$Op = $_REQUEST["Op"];
-	}else{
-		$Op = "";
-	}
-	if(isset($_REQUEST["Buscar"])){
-		$Buscar = $_REQUEST["Buscar"];
-	}else{
-		$Buscar = "";
-	}
-	if(isset($_REQUEST["CmbProveedor"])){
-		$CmbProveedor = $_REQUEST["CmbProveedor"];
-	}else{
-		$CmbProveedor = "";
-	}
-	if(isset($_REQUEST["SA"])){
-		$SA = $_REQUEST["SA"];
-	}else{
-		$SA = "";
-	}
-	if(isset($_REQUEST["L"])){
-		$L = $_REQUEST["L"];
-	}else{
-		$L = "";
-	}
-	if(isset($_REQUEST["R"])){
-		$R = $_REQUEST["R"];
-	}else{
-		$R = "";
-	}
-	if(isset($_REQUEST["TxtLote"])){
-		$TxtLote = $_REQUEST["TxtLote"];
-	}else{
-		$TxtLote = "";
-	}
-	if(isset($_REQUEST["TxtRecargo"])){
-		$TxtRecargo = $_REQUEST["TxtRecargo"];
-	}else{
-		$TxtRecargo = "";
-	}
-	
+	$Op = isset($_REQUEST["Op"])?$_REQUEST["Op"]:"";
+	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$CmbProveedor = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$SA = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$L = isset($_REQUEST["L"])?$_REQUEST["L"]:"";
+	$R = isset($_REQUEST["R"])?$_REQUEST["R"]:"";
+	$TxtLote      = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$TxtRecargo   = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
+	$Proc         = isset($_REQUEST["Proc"])?$_REQUEST["Proc"]:"";
+	$NewRec       = isset($_REQUEST["NewRec"])?$_REQUEST["NewRec"]:"";
+	$TipoConsulta = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$TxtCorr      = isset($_REQUEST["TxtCorr"])?$_REQUEST["TxtCorr"]:"";
 	
 	$OK='N';
 	if($Op=='QS')
@@ -188,7 +159,7 @@ function Proceso(opt,SA,L,R)
 		break;		
 			
 		case "QS": //RECARGA		
-			if(confirm("�Esta Seguro De Eliminar la Relaci�n del Lote con S.A.?"))
+			if(confirm("¿Esta Seguro De Eliminar la Relación del Lote con S.A.?"))
 			{
 				f.action = "rec_adm_lote_sa.php?Op=QS&SA="+SA+"&L="+L+"&R="+R;
 				f.submit();
@@ -275,7 +246,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td colspan="4"><strong>
 	    <?php
 	
-			echo "Desvincular Solicitud An�lisis";
+			echo "Desvincular Solicitud Análisis";
 		
 	?>
     </strong></td>
@@ -512,7 +483,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  if($HabilitarBtn=='N')
 	  	$EstBtn='disabled="disabled"';
 	  ?>
-	  <input name="BtnGuardar" type="button" id="BtnGuardar" value="Quitar Relaci�n Solicitud" onClick="Proceso('QS','<?php echo $TxtSolAnalisis;?>','<?php echo $LoteB;?>','<?php echo $Rgo;?>')" <?php echo $EstBtn;?>>
+	  <input name="BtnGuardar" type="button" id="BtnGuardar" value="Quitar Relación Solicitud" onClick="Proceso('QS','<?php echo $TxtSolAnalisis;?>','<?php echo $LoteB;?>','<?php echo $Rgo;?>')" <?php echo $EstBtn;?>>
 	  <input name="BtnSalir" type="button" id="BtnSalir" value="Salir" style="width:70px " onClick="Proceso('S','','')"></td>
     </tr>
 </table>
