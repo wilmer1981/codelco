@@ -1,62 +1,37 @@
 <?php
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	include("../principal/conectar_principal.php");
 	include("../sipa_web/funciones.php");
 	
-		if(isset($_REQUEST["TxtFechaIni"])){
-		$TxtFechaIni = $_REQUEST["TxtFechaIni"];
-	}else{
-		$TxtFechaIni = "";
-	}
-	if(isset($_REQUEST["TxtFechaFin"])){
-		$TxtFechaFin = $_REQUEST["TxtFechaFin"];
-	}else{
-		$TxtFechaFin = "";
-	}
-	if(isset($_REQUEST["Lote"])){
-		$Lote = $_REQUEST["Lote"];
-	}else{
-		$Lote = "";
-	}
-	if(isset($_REQUEST["OptAcumulado"])){
-		$OptAcumulado = $_REQUEST["OptAcumulado"];
-	}else{
-		$OptAcumulado = "";
-	}
-	if(isset($_REQUEST["Consulta"])){
-		$Consulta = $_REQUEST["Consulta"];
-	}else{
-		$Consulta = "";
-	}
-	if(isset($_REQUEST["RutProveedor"])){
-		$RutProveedor = $_REQUEST["RutProveedor"];
-	}else{
-		$RutProveedor = "";
-	}
-	
-	$Producto  = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
-	$TipoConsulta  = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$Consulta     = isset($_REQUEST["Lote"])?$_REQUEST["Consulta"]:"";
+	$TipoConsulta = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$OptAcumulado = isset($_REQUEST["OptAcumulado"])?$_REQUEST["OptAcumulado"]:"";
+	$TxtFechaIni  = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m-d');
+	$TxtFechaFin  = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');	
+	$Lote         = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$RutProveedor = isset($_REQUEST["RutProveedor"])?$_REQUEST["RutProveedor"]:"";
 	$RutProved     = isset($_REQUEST["RutProved"])?$_REQUEST["RutProved"]:"";
-	$NombreProved     = isset($_REQUEST["NombreProved"])?$_REQUEST["NombreProved"]:"";
+	$NombreProved  = isset($_REQUEST["NombreProved"])?$_REQUEST["NombreProved"]:"";
 	
 	$DatosLeyes=array();
 	$Consulta = "select distinct cod_leyes, LPAD(cod_leyes,4,'0') as orden, abreviatura as ley,cod_unidad ";
@@ -222,7 +197,7 @@
 				if ($Lote == "S")
 				{
 					$ConsLote = "S";
-					$Consulta = "select t1.rut_prv, t1.activo, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro,t1.cod_mina,t4.nombre_mina ";
+					$Consulta = "select t1.rut_prv, t1.activo, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro,t1.cod_mina,t4.nombre_mina,t1.sa_asignada ";
 					$Consulta.= " from sipa_web.recepciones t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 					$Consulta.= " left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv left join sipa_web.minaprv t4 on t1.rut_prv=t4.rut_prv and t1.cod_mina=t4.cod_mina ";
 					$Consulta.= " where lote = '".$TxtLote."'";
@@ -304,7 +279,7 @@
 					}
 					else
 					{				
-						$Consulta = "select t1.rut_prv, t1.activo, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto ";
+						$Consulta = "select t1.rut_prv, t1.activo, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto,t1.sa_asignada ";
 						$Consulta.= " from sipa_web.recepciones t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 						$Consulta.= " left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv left join sipa_web.minaprv t4 on t1.rut_prv=t4.rut_prv and t1.cod_mina=t4.cod_mina ";
 						$Consulta.= " where t1.estado <> 'A' and t1.fecha between '".$FechaIni."' and '".$FechaFin."' ";
@@ -334,11 +309,11 @@
 
 
 				$prodx = explode('-',$Producto);
-				$prod1 = $prodx[0];
-				$prod2 = $prodx[1];  
+				$prod1 = isset($prodx[0])?$prodx[0]:"";
+				$prod2 = isset($prodx[1])?$prodx[1]:"";  
 
 				$Consulta = "select t1.correlativo,t1.fecha,t1.hora_entrada,t1.hora_salida,t1.lote,t1.recargo,t1.peso_bruto,t1.peso_neto,t1.peso_tara, ";
-				$Consulta.= " t1.guia_despacho,t1.patente,t1.rut_prv, t1.cod_subproducto,t2.descripcion as nom_subpro,bascula_salida,romana_entrada,romana_salida  ";
+				$Consulta.= " t1.guia_despacho,t1.patente,t1.rut_prv, t1.cod_subproducto,t2.descripcion as nom_subpro,t1.bascula_entrada,t1.bascula_salida,t1.romana_entrada,t1.romana_salida  ";
 				$Consulta.= " from sipa_web.despachos t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 				$Consulta.= " where t1.estado<>'A' and t1.fecha between '".$FechaIni."' and '".$FechaFin."' ";
 				if ($Producto != "S")
@@ -373,7 +348,7 @@
 
 				$prod1 = substr($Producto,0,2);
 				$prod2 = substr($Producto,3,2);
-				$Consulta = "select t1.rut_prv, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto";
+				$Consulta = "select t1.rut_prv, t3.nombre_prv, t1.cod_subproducto,t2.descripcion as nom_subpro, sum(peso_bruto) as peso_bruto, sum(peso_tara) as peso_tara, sum(peso_neto) as peso_neto,t1.bascula_entrada";
 				$Consulta.= " from sipa_web.despachos t1 left join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto =t2.cod_subproducto ";
 				$Consulta.= " left join sipa_web.proveedores t3 on t1.rut_prv=t3.rut_prv ";
 				$Consulta.= " where t1.fecha between '".$FechaIni."' and '".$FechaFin."' ";
@@ -452,7 +427,8 @@
 	$Respuesta = mysqli_query($link,$Consulta);
 	while ($Row = mysqli_fetch_array($Respuesta))
 	{
-		$Consulta2 ="select nro_sa_lims from cal_web.solicitud_analisis Where nro_solicitud = '".$Row["sa_asignada"]."' limit 1" ;
+		$sa_asignada=isset($Row["sa_asignada"])?$Row["sa_asignada"]:"";
+		$Consulta2 ="select nro_sa_lims from cal_web.solicitud_analisis Where nro_solicitud = '".$sa_asignada."' limit 1" ;
 		$ArrayRut = explode("~", $Row["rut_prv"]);
 		$RutProveedorAux=$ArrayRut[0];
 		//echo $Consulta2;

@@ -1,5 +1,18 @@
 <?php
 	//echo "fecha:".$TxtFechaIni."<br>";
+	$Destino = isset($_REQUEST["Destino"])?$_REQUEST["Destino"]:"";
+	$TipoConsulta = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$OptAcumulado = isset($_REQUEST["OptAcumulado"])?$_REQUEST["OptAcumulado"]:"";
+	$TxtFechaIni  = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m-d');
+	$TxtFechaFin  = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');	
+	$TxtLote      = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$RutProveedor = isset($_REQUEST["RutProveedor"])?$_REQUEST["RutProveedor"]:"";
+	$Lote         = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$Consulta        = isset($_REQUEST["Lote"])?$_REQUEST["Consulta"]:"";
+	$RutProved       = isset($_REQUEST["RutProved"])?$_REQUEST["RutProved"]:"";
+	$NombreProved    = isset($_REQUEST["NombreProved"])?$_REQUEST["NombreProved"]:"";	
+	
 	if(substr($TxtFechaIni,0,4)>='2006')
 	{
 		$Param='TipoConsulta='.$TipoConsulta.'&TxtFechaIni='.$TxtFechaIni.'&TxtFechaFin='.$TxtFechaFin.'&Producto='.$Producto.'&RutProveedor='.$RutProveedor.'&OptAcumulado='.$OptAcumulado;
@@ -12,31 +25,30 @@
 	include("../principal/conectar_principal.php");
 ?>
 <html>
+
 <head>
-<title>Sistema de Recepci&oacute;n</title>
-<link href="../principal/estilos/css_rec_web.css" rel="stylesheet" type="text/css">
-<script language="JavaScript">
-function Proceso(opt)
-{
-	var f = document.frmPrincipal;
-	switch (opt)
-	{
-		case "S":
-			f.action='rec_consulta_general.php';
-			f.submit();
-			break;
-	}
-}
-</script>
+    <title>Sistema de Recepci&oacute;n</title>
+    <link href="../principal/estilos/css_rec_web.css" rel="stylesheet" type="text/css">
+    <script language="JavaScript">
+    function Proceso(opt) {
+        var f = document.frmPrincipal;
+        switch (opt) {
+            case "S":
+                f.action = 'rec_consulta_general.php';
+                f.submit();
+                break;
+        }
+    }
+    </script>
 </head>
 
 <body background="../Principal/imagenes/fondo3.gif">
-<form name="frmPrincipal" action="" method="post">
-<table width="700" border="0" cellspacing="1" cellpadding="1" class="TablaInterior">
-  <tr> 
-    <td width="110">Tipo Consulta:</td>
-    <td width="456">
-      <?php
+    <form name="frmPrincipal" action="" method="post">
+        <table width="700" border="0" cellspacing="1" cellpadding="1" class="TablaInterior">
+            <tr>
+                <td width="110">Tipo Consulta:</td>
+                <td width="456">
+                    <?php
 	switch ($TipoConsulta)	
 	{
 		case "R":
@@ -53,26 +65,27 @@ function Proceso(opt)
 			break;
 	}
 	?>
-      &nbsp;</td>
-    <td width="121" align="center">
-<input name="BtnSalir" type="button" id="BtnSalir" value="Salir" style="width:70px;" onClick="Proceso('S')">
-    </td>
-  </tr>
-  <tr> 
-    <td>Producto: </td>
-    <td colspan="2">
-      <?php
+                    &nbsp;</td>
+                <td width="121" align="center">
+                    <input name="BtnSalir" type="button" id="BtnSalir" value="Salir" style="width:70px;"
+                        onClick="Proceso('S')">
+                </td>
+            </tr>
+            <tr>
+                <td>Producto: </td>
+                <td colspan="2">
+                    <?php
 	switch ($TipoConsulta)	
 	{
 		case "R":
 			if ($Producto != "S")
-				$Consulta = "SELECT distinct(C_PROD_A), D_PROD_A from rec_web.recepciones where C_PROD_A = '".$Producto."'";
+				$Consulta = "select distinct(C_PROD_A), D_PROD_A from rec_web.recepciones where C_PROD_A = '".$Producto."'";
 			else
 				echo "TODOS LOS PRODUCTOS";
 			break;
 		case "D":
 			if ($Producto != "S")
-				$Consulta = "SELECT distinct(C_PROD_A), D_PROD_A from rec_web.despachos where C_PROD_A = '".$Producto."'";
+				$Consulta = "select distinct(C_PROD_A), D_PROD_A from rec_web.despachos where C_PROD_A = '".$Producto."'";
 			else
 				echo "TODOS LOS PRODUCTOS";
 			break;
@@ -87,30 +100,30 @@ function Proceso(opt)
 	{
 		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Row = mysqli_fetch_array($Respuesta))
-			echo $Row[C_PROD_A]." - ".$Row[D_PROD_A];
+			echo $Row["C_PROD_A"]." - ".$Row["D_PROD_A"];
 		else
 			echo "NO DEFINIDO";
 	}
 	?>
-      &nbsp;</td>
-  </tr>
-  <tr> 
-    <td>Proveedor:</td>
-    <td colspan="2">
-      <?php
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td>Proveedor:</td>
+                <td colspan="2">
+                    <?php
 	  if ($RutProveedor!="S")
 		  $RutProveedor=str_pad($RutProveedor,10,'0',STR_PAD_LEFT);
 	switch ($TipoConsulta)	
 	{
 		case "R":
 			if ($RutProveedor != "S")
-				$Consulta = "SELECT distinct(R_PROV_A), D_PROV_A from rec_web.recepciones where R_PROV_A = '".$RutProveedor."'";
+				$Consulta = "select distinct(R_PROV_A), D_PROV_A from rec_web.recepciones where R_PROV_A = '".$RutProveedor."'";
 			else
 				echo "TODOS LOS PROVEEDORES";
 			break;
 		case "D":
 			if ($RutProveedor != "S")
-				$Consulta = "SELECT distinct(R_PROV_A), D_PROV_A from rec_web.despachos where R_PROV_A = '".$RutProveedor."'";
+				$Consulta = "select distinct(R_PROV_A), D_PROV_A from rec_web.despachos where R_PROV_A = '".$RutProveedor."'";
 			else
 				echo "TODOS LOS PROVEEDORES";
 			break;
@@ -125,23 +138,23 @@ function Proceso(opt)
 	{
 		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Row = mysqli_fetch_array($Respuesta))
-			echo $Row[R_PROV_A]." - ".$Row[D_PROV_A];
+			echo $Row["R_PROV_A"]." - ".$Row["D_PROV_A"];
 		else
 			echo "NO DEFINIDO";
 	}
 	?>
-      &nbsp;</td>
-  </tr>
-  <tr> 
-    <td>Fecha Consulta:</td>
-    <td colspan="2">
-      <?php
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td>Fecha Consulta:</td>
+                <td colspan="2">
+                    <?php
 	echo substr($TxtFechaIni,8,2)."/".substr($TxtFechaIni,5,2)."/".substr($TxtFechaIni,0,4)." AL ";
 	echo substr($TxtFechaFin,8,2)."/".substr($TxtFechaFin,5,2)."/".substr($TxtFechaFin,0,4);
 	?>
-      &nbsp;</td>
-  </tr>
-<?php
+                    &nbsp;</td>
+            </tr>
+            <?php
 	if ($Lote == "S")
 	{
 		echo "<tr>\n"; 
@@ -149,10 +162,10 @@ function Proceso(opt)
 		echo "<td colspan='2'>".$TxtLote."&nbsp;</td>\n";
 		echo "</tr>\n";
 	}
-?>  
-</table>
-<br>
-<?php
+?>
+        </table>
+        <br>
+        <?php
 	$FechaIni = $TxtFechaIni;
 	$FechaFin = $TxtFechaFin;
 	switch ($TipoConsulta)
@@ -161,7 +174,7 @@ function Proceso(opt)
 				if ($Lote == "S")
 				{
 					$ConsLote = "S";
-					$Consulta = "SELECT * from rec_web.recepciones where ";
+					$Consulta = "select * from rec_web.recepciones where ";
 					$Consulta.= " lote_a = '".$TxtLote."'";
 					$Consulta.= " order by fecha_a, hora_a";
 					//TITULOS DIARIO POR LOTE
@@ -199,7 +212,7 @@ function Proceso(opt)
 				{
 					if ($OptAcumulado == "N")
 					{							
-						$Consulta = "SELECT * from rec_web.recepciones where ";
+						$Consulta = "select * from rec_web.recepciones where ";
 						$Consulta.= " fecha_a between '".$FechaIni."' and '".$FechaFin."' ";
 						if ($Producto != "S")
 							$Consulta.= " and c_prod_a = ".$Producto."";
@@ -240,7 +253,7 @@ function Proceso(opt)
 					}
 					else
 					{				
-						$Consulta = "SELECT R_PROV_A, D_PROV_A, C_PROD_A, D_PROD_A, SUM(PESOBR_A) AS PESOBR_A, SUM(PESOTR_A) AS PESOTR_A, SUM(PESONT_A) AS PESONT_A ";
+						$Consulta = "select R_PROV_A, D_PROV_A, C_PROD_A, D_PROD_A, SUM(PESOBR_A) AS PESOBR_A, SUM(PESOTR_A) AS PESOTR_A, SUM(PESONT_A) AS PESONT_A ";
 						$Consulta.= " from rec_web.recepciones where ";
 						$Consulta.= " fecha_a between '".$FechaIni."' and '".$FechaFin."' ";
 						if ($Producto != "S")
@@ -265,7 +278,7 @@ function Proceso(opt)
 		case "D": // CONSULTA DESPACHOS
 			if ($OptAcumulado == "N")
 			{
-				$Consulta = "SELECT * from rec_web.despachos where ";
+				$Consulta = "select * from rec_web.despachos where ";
 				$Consulta.= " fecha_a between '".$FechaIni."' and '".$FechaFin."' ";
 				if ($Producto != "S")
 					$Consulta.= " and c_prod_a = ".$Producto."";
@@ -295,7 +308,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				$Consulta = "SELECT R_PROV_A, D_PROV_A, C_PROD_A, D_PROD_A, SUM(PESOBR_A) AS PESOBR_A, SUM(PESOTR_A) AS PESOTR_A, SUM(PESONT_A) AS PESONT_A ";
+				$Consulta = "select R_PROV_A, D_PROV_A, C_PROD_A, D_PROD_A, SUM(PESOBR_A) AS PESOBR_A, SUM(PESOTR_A) AS PESOTR_A, SUM(PESONT_A) AS PESONT_A ";
 				$Consulta.= " from rec_web.despachos where ";
 				$Consulta.= " fecha_a between '".$FechaIni."' and '".$FechaFin."' ";
 				if ($Producto != "S")
@@ -319,7 +332,7 @@ function Proceso(opt)
 		case "O": // CONSULTA OTROS PESAJES
 			if ($OptAcumulado == "N")
 			{
-				$Consulta = "SELECT * from rec_web.otros_pesajes where ";
+				$Consulta = "select * from rec_web.otros_pesajes where ";
 				$Consulta.= " fecha_a between '".$FechaIni."' and '".$FechaFin."' ";
 				if ($IdProducto != "*")
 					$Consulta.= " and DESPRD_A like '%".$IdProducto."%'";
@@ -345,7 +358,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				$Consulta = "SELECT IDENVI_A, DESPRD_A, SUM(PESOBR_A) AS PESOBR_A, SUM(PESOTR_A) AS PESOTR_A, SUM(PESONT_A) AS PESONT_A ";
+				$Consulta = "select IDENVI_A, DESPRD_A, SUM(PESOBR_A) AS PESOBR_A, SUM(PESOTR_A) AS PESOTR_A, SUM(PESONT_A) AS PESONT_A ";
 				$Consulta.= " from rec_web.otros_pesajes where ";
 				$Consulta.= " fecha_a between '".$FechaIni."' and '".$FechaFin."' ";
 				if ($IdProducto != "*")
@@ -377,99 +390,99 @@ function Proceso(opt)
 			case "R": //DETALLE RECEPCIONES
 				if ($Lote == "S")
 				{
-					if ($Row[ACTIVO] == "M")
+					if ($Row["ACTIVO"] == "M")
 							echo "<tr bgcolor='#FFFFFF'> \n";
 						else
 							echo "<tr> \n";
-							echo "<td>".$Row[LOTE_A]."</td>\n";
+							echo "<td>".$Row["LOTE_A"]."</td>\n";
 						echo "<td>".$Row["RECARG_A"]."</td>\n";
 						echo "<td>".$Row["FECHA_A"]."</td>\n";
-						echo "<td>".$Row[HORA_A]."</td>\n";
-						echo "<td>".$Row[HORA2_A]."</td>\n";
-						echo "<td>".$Row[FOLIOS_A]."</td>\n";
-						echo "<td>".$Row[CORREC_A]."</td>\n";												
-						echo "<td align='right'>".$Row[PESOBR_A]."</td>\n";
-						echo "<td align='right'>".$Row[PESOTR_A]."</td>\n";
-						echo "<td align='right'>".$Row[PESONT_A]."</td>\n";
-						echo "<td>".$Row[R_PROV_A]."</td>\n";
-						echo "<td>".$Row[D_PROV_A]."</td>\n";
-						echo "<td>".$Row[C_FAEN_A]."</td>\n";
-						echo "<td>".$Row[N_FAEN_A]."</td>\n";
-						echo "<td>".$Row[C_PROD_A]."</td>\n";
-						echo "<td>".$Row[D_PROD_A]."</td>\n";
-						echo "<td>".str_replace("  ",", ",trim($Row[D_PAST_A]))."</td>\n";
-						echo "<td>".str_replace("  ",", ",trim($Row[D_IMPU_A]))."</td>\n";
-						echo "<td>".$Row[HUMEDA_A]."</td>\n";
-						echo "<td>".$Row[ACIDOS_A]."</td>\n";
-						echo "<td>".$Row[DESCGA_A]."</td>\n";
-						echo "<td>".$Row[GUIADP_A]."</td>\n";
-						echo "<td>".$Row[PATENT_A]."</td>\n";
-						echo "<td>".$Row[CONJTO_A]."</td>\n";
-						echo "<td>&nbsp;".$Row[SA_ASIGNADA]."</td>\n";
-						if ($Row[ACTIVO] == "M")
+						echo "<td>".$Row["HORA_A"]."</td>\n";
+						echo "<td>".$Row["HORA2_A"]."</td>\n";
+						echo "<td>".$Row["FOLIOS_A"]."</td>\n";
+						echo "<td>".$Row["CORREC_A"]."</td>\n";												
+						echo "<td align='right'>".$Row["PESOBR_A"]."</td>\n";
+						echo "<td align='right'>".$Row["PESOTR_A"]."</td>\n";
+						echo "<td align='right'>".$Row["PESONT_A"]."</td>\n";
+						echo "<td>".$Row["R_PROV_A"]."</td>\n";
+						echo "<td>".$Row["D_PROV_A"]."</td>\n";
+						echo "<td>".$Row["C_FAEN_A"]."</td>\n";
+						echo "<td>".$Row["N_FAEN_A"]."</td>\n";
+						echo "<td>".$Row["C_PROD_A"]."</td>\n";
+						echo "<td>".$Row["D_PROD_A"]."</td>\n";
+						echo "<td>".str_replace("  ",", ",trim($Row["D_PAST_A"]))."</td>\n";
+						echo "<td>".str_replace("  ",", ",trim($Row["D_IMPU_A"]))."</td>\n";
+						echo "<td>".$Row["HUMEDA_A"]."</td>\n";
+						echo "<td>".$Row["ACIDOS_A"]."</td>\n";
+						echo "<td>".$Row["DESCGA_A"]."</td>\n";
+						echo "<td>".$Row["GUIADP_A"]."</td>\n";
+						echo "<td>".$Row["PATENT_A"]."</td>\n";
+						echo "<td>".$Row["CONJTO_A"]."</td>\n";
+						echo "<td>&nbsp;".$Row["SA_ASIGNADA"]."</td>\n";
+						if ($Row["ACTIVO"] == "M")
 							echo "<td align='center'><strong>SI</strong></td>\n";
 						else
 							echo "<td>&nbsp;</td>\n";					
 						echo "</tr>\n";
-						$TotalBruto = $TotalBruto + $Row[PESOBR_A];
-						$TotalTara = $TotalTara + $Row[PESOTR_A];
-						$TotalNeto = $TotalNeto + $Row[PESONT_A];
+						$TotalBruto = $TotalBruto + $Row["PESOBR_A"];
+						$TotalTara = $TotalTara + $Row["PESOTR_A"];
+						$TotalNeto = $TotalNeto + $Row["PESONT_A"];
 				}
 				else
 				{
 					if ($OptAcumulado == "N")
 					{
-						if ($Row[ACTIVO] == "M")
+						if ($Row["ACTIVO"] == "M")
 							echo "<tr bgcolor='#FFFFFF'> \n";
 						else
 							echo "<tr> \n";
-						echo "<td>".$Row[FOLIOS_A]."</td>\n";
-						echo "<td>".$Row[CORREC_A]."</td>\n";
+						echo "<td>".$Row["FOLIOS_A"]."</td>\n";
+						echo "<td>".$Row["CORREC_A"]."</td>\n";
 						echo "<td>".$Row["FECHA_A"]."</td>\n";
-						echo "<td>".$Row[HORA_A]."</td>\n";
-						echo "<td>".$Row[HORA2_A]."</td>\n";
-						echo "<td>".$Row[LOTE_A]."</td>\n";
+						echo "<td>".$Row["HORA_A"]."</td>\n";
+						echo "<td>".$Row["HORA2_A"]."</td>\n";
+						echo "<td>".$Row["LOTE_A"]."</td>\n";
 						echo "<td>".$Row["RECARG_A"]."</td>\n";
-						echo "<td align='right'>".$Row[PESOBR_A]."</td>\n";
-						echo "<td align='right'>".$Row[PESOTR_A]."</td>\n";
-						echo "<td align='right'>".$Row[PESONT_A]."</td>\n";
-						echo "<td>".$Row[R_PROV_A]."</td>\n";
-						echo "<td>".$Row[D_PROV_A]."</td>\n";
-						echo "<td>".$Row[C_FAEN_A]."</td>\n";
-						echo "<td>".$Row[N_FAEN_A]."</td>\n";
-						echo "<td>".$Row[C_PROD_A]."</td>\n";
-						echo "<td>".$Row[D_PROD_A]."</td>\n";
-						echo "<td>".str_replace("  ",", ",trim($Row[D_PAST_A]))."</td>\n";
-						echo "<td>".str_replace("  ",", ",trim($Row[D_IMPU_A]))."</td>\n";
-						echo "<td>".$Row[HUMEDA_A]."</td>\n";
-						echo "<td>".$Row[ACIDOS_A]."</td>\n";
-						echo "<td>".$Row[DESCGA_A]."</td>\n";
-						echo "<td>".$Row[GUIADP_A]."</td>\n";
-						echo "<td>".$Row[PATENT_A]."</td>\n";
-						echo "<td>".$Row[CONJTO_A]."</td>\n";
-						echo "<td>&nbsp;".$Row[SA_ASIGNADA]."</td>\n";
-						if ($Row[ACTIVO] == "M")
+						echo "<td align='right'>".$Row["PESOBR_A"]."</td>\n";
+						echo "<td align='right'>".$Row["PESOTR_A"]."</td>\n";
+						echo "<td align='right'>".$Row["PESONT_A"]."</td>\n";
+						echo "<td>".$Row["R_PROV_A"]."</td>\n";
+						echo "<td>".$Row["D_PROV_A"]."</td>\n";
+						echo "<td>".$Row["C_FAEN_A"]."</td>\n";
+						echo "<td>".$Row["N_FAEN_A"]."</td>\n";
+						echo "<td>".$Row["C_PROD_A"]."</td>\n";
+						echo "<td>".$Row["D_PROD_A"]."</td>\n";
+						echo "<td>".str_replace("  ",", ",trim($Row["D_PAST_A"]))."</td>\n";
+						echo "<td>".str_replace("  ",", ",trim($Row["D_IMPU_A"]))."</td>\n";
+						echo "<td>".$Row["HUMEDA_A"]."</td>\n";
+						echo "<td>".$Row["ACIDOS_A"]."</td>\n";
+						echo "<td>".$Row["DESCGA_A"]."</td>\n";
+						echo "<td>".$Row["GUIADP_A"]."</td>\n";
+						echo "<td>".$Row["PATENT_A"]."</td>\n";
+						echo "<td>".$Row["CONJTO_A"]."</td>\n";
+						echo "<td>&nbsp;".$Row["SA_ASIGNADA"]."</td>\n";
+						if ($Row["ACTIVO"] == "M")
 							echo "<td align='center'><strong>SI</strong></td>\n";
 						else
 							echo "<td>&nbsp;</td>\n";					
 						echo "</tr>\n";
-						$TotalBruto = $TotalBruto + $Row[PESOBR_A];
-						$TotalTara = $TotalTara + $Row[PESOTR_A];
-						$TotalNeto = $TotalNeto + $Row[PESONT_A];
+						$TotalBruto = $TotalBruto + $Row["PESOBR_A"];
+						$TotalTara = $TotalTara + $Row["PESOTR_A"];
+						$TotalNeto = $TotalNeto + $Row["PESONT_A"];
 					}
 					else
 					{
 						echo "<tr> \n";
-						echo "<td align='left'>".$Row[R_PROV_A]."</td>\n";
-						echo "<td align='left'>".$Row[D_PROV_A]."</td>\n";
-						echo "<td align='left'>".$Row[D_PROD_A]."</td>\n";
-						echo "<td align='right'>".$Row[PESOBR_A]."</td>\n";
-						echo "<td align='right'>".$Row[PESOTR_A]."</td>\n";
-						echo "<td align='right'>".$Row[PESONT_A]."</td>\n";
+						echo "<td align='left'>".$Row["R_PROV_A"]."</td>\n";
+						echo "<td align='left'>".$Row["D_PROV_A"]."</td>\n";
+						echo "<td align='left'>".$Row["D_PROD_A"]."</td>\n";
+						echo "<td align='right'>".$Row["PESOBR_A"]."</td>\n";
+						echo "<td align='right'>".$Row["PESOTR_A"]."</td>\n";
+						echo "<td align='right'>".$Row["PESONT_A"]."</td>\n";
 						echo "</tr> \n";
-						$TotalBruto = $TotalBruto + $Row[PESOBR_A];
-						$TotalTara = $TotalTara + $Row[PESOTR_A];
-						$TotalNeto = $TotalNeto + $Row[PESONT_A];
+						$TotalBruto = $TotalBruto + $Row["PESOBR_A"];
+						$TotalTara = $TotalTara + $Row["PESOTR_A"];
+						$TotalNeto = $TotalNeto + $Row["PESONT_A"];
 					}
 				}
 				break;
@@ -477,75 +490,75 @@ function Proceso(opt)
 				if ($OptAcumulado == "N")
 				{
 					echo "<tr> \n";
-					echo "<td>".$Row[FOLIOS_A]."</td>\n";
-					echo "<td>".$Row[CORDES_A]."</td>\n";
+					echo "<td>".$Row["FOLIOS_A"]."</td>\n";
+					echo "<td>".$Row["CORDES_A"]."</td>\n";
 					echo "<td>".$Row["FECHA_A"]."</td>\n";
-					echo "<td>".$Row[HORA_A]."</td>\n";
-					echo "<td>".$Row[HORA2_A]."</td>\n";
-					echo "<td>".$Row[LOTE_A]."</td>\n";
+					echo "<td>".$Row["HORA_A"]."</td>\n";
+					echo "<td>".$Row["HORA2_A"]."</td>\n";
+					echo "<td>".$Row["LOTE_A"]."</td>\n";
 					echo "<td>".$Row["RECARG_A"]."</td>\n";
-					echo "<td align='right'>".$Row[PESOBR_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESOTR_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESONT_A]."</td>\n";
-					echo "<td>".$Row[R_PROV_A]."</td>\n";
-					echo "<td>".$Row[D_PROV_A]."</td>\n";
-					echo "<td>".$Row[C_PROD_A]."</td>\n";
-					echo "<td>".$Row[D_PROD_A]."</td>\n";
-					echo "<td>".$Row[GUIADP_A]."</td>\n";
-					echo "<td>".$Row[PATENT_A]."</td>\n";
+					echo "<td align='right'>".$Row["PESOBR_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESOTR_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESONT_A"]."</td>\n";
+					echo "<td>".$Row["R_PROV_A"]."</td>\n";
+					echo "<td>".$Row["D_PROV_A"]."</td>\n";
+					echo "<td>".$Row["C_PROD_A"]."</td>\n";
+					echo "<td>".$Row["D_PROD_A"]."</td>\n";
+					echo "<td>".$Row["GUIADP_A"]."</td>\n";
+					echo "<td>".$Row["PATENT_A"]."</td>\n";
 					echo "</tr>\n";
-					$TotalBruto = $TotalBruto + $Row[PESOBR_A];
-					$TotalTara = $TotalTara + $Row[PESOTR_A];
-					$TotalNeto = $TotalNeto + $Row[PESONT_A];
+					$TotalBruto = $TotalBruto + $Row["PESOBR_A"];
+					$TotalTara = $TotalTara + $Row["PESOTR_A"];
+					$TotalNeto = $TotalNeto + $Row["PESONT_A"];
 				}
 				else
 				{
 					echo "<tr> \n";
-					echo "<td align='left'>".$Row[R_PROV_A]."</td>\n";
-					echo "<td align='left'>".$Row[D_PROV_A]."</td>\n";
-					echo "<td align='left'>".$Row[D_PROD_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESOBR_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESOTR_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESONT_A]."</td>\n";
+					echo "<td align='left'>".$Row["R_PROV_A"]."</td>\n";
+					echo "<td align='left'>".$Row["D_PROV_A"]."</td>\n";
+					echo "<td align='left'>".$Row["D_PROD_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESOBR_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESOTR_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESONT_A"]."</td>\n";
 					echo "</tr> \n";
-					$TotalBruto = $TotalBruto + $Row[PESOBR_A];
-					$TotalTara = $TotalTara + $Row[PESOTR_A];
-					$TotalNeto = $TotalNeto + $Row[PESONT_A];
+					$TotalBruto = $TotalBruto + $Row["PESOBR_A"];
+					$TotalTara = $TotalTara + $Row["PESOTR_A"];
+					$TotalNeto = $TotalNeto + $Row["PESONT_A"];
 				}
 				break;
 			case "O": // DETALLE OTROS PESAJES
 				if ($OptAcumulado == "N")
 				{
 					echo "<tr> \n";
-					echo "<td>".$Row[FOLIOS_A]."</td>\n";
-					echo "<td>".$Row[COROTR_A]."</td>\n";
+					echo "<td>".$Row["FOLIOS_A"]."</td>\n";
+					echo "<td>".$Row["COROTR_A"]."</td>\n";
 					echo "<td>".$Row["FECHA_A"]."</td>\n";
-					echo "<td>".$Row[HORA_A]."</td>\n";
-					echo "<td>".$Row[HORA2_A]."</td>\n";
-					echo "<td>".$Row[IDENVI_A]."</td>\n";
-					echo "<td>".$Row[DESPRD_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESOBR_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESOTR_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESONT_A]."</td>\n";
-					echo "<td>".$Row[NUMGUI_A]."</td>\n";
-					echo "<td>".$Row[PATENT_A]."</td>\n";
+					echo "<td>".$Row["HORA_A"]."</td>\n";
+					echo "<td>".$Row["HORA2_A"]."</td>\n";
+					echo "<td>".$Row["IDENVI_A"]."</td>\n";
+					echo "<td>".$Row["DESPRD_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESOBR_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESOTR_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESONT_A"]."</td>\n";
+					echo "<td>".$Row["NUMGUI_A"]."</td>\n";
+					echo "<td>".$Row["PATENT_A"]."</td>\n";
 					echo "</tr>\n";
-					$TotalBruto = $TotalBruto + $Row[PESOBR_A];
-					$TotalTara = $TotalTara + $Row[PESOTR_A];
-					$TotalNeto = $TotalNeto + $Row[PESONT_A];
+					$TotalBruto = $TotalBruto + $Row["PESOBR_A"];
+					$TotalTara = $TotalTara + $Row["PESOTR_A"];
+					$TotalNeto = $TotalNeto + $Row["PESONT_A"];
 				}
 				else
 				{
 					echo "<tr> \n";
-					echo "<td align='left'>".$Row[IDENVI_A]."</td>\n";
-					echo "<td align='left'>".$Row[DESPRD_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESOBR_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESOTR_A]."</td>\n";
-					echo "<td align='right'>".$Row[PESONT_A]."</td>\n";
+					echo "<td align='left'>".$Row["IDENVI_A"]."</td>\n";
+					echo "<td align='left'>".$Row["DESPRD_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESOBR_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESOTR_A"]."</td>\n";
+					echo "<td align='right'>".$Row["PESONT_A"]."</td>\n";
 					echo "</tr> \n";
-					$TotalBruto = $TotalBruto + $Row[PESOBR_A];
-					$TotalTara = $TotalTara + $Row[PESOTR_A];
-					$TotalNeto = $TotalNeto + $Row[PESONT_A];
+					$TotalBruto = $TotalBruto + $Row["PESOBR_A"];
+					$TotalTara = $TotalTara + $Row["PESOTR_A"];
+					$TotalNeto = $TotalNeto + $Row["PESONT_A"];
 				}
 				break;
 		}
@@ -631,6 +644,7 @@ function Proceso(opt)
 			break;
 	}
 ?></table>
-</form>
+    </form>
 </body>
+
 </html>

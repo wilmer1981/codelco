@@ -1,44 +1,15 @@
 <?php
-
-	if(isset($_REQUEST["TxtFechaIni"])){
-		$TxtFechaIni = $_REQUEST["TxtFechaIni"];
-	}else{
-		$TxtFechaIni = "";
-	}
-	if(isset($_REQUEST["TxtFechaFin"])){
-		$TxtFechaFin = $_REQUEST["TxtFechaFin"];
-	}else{
-		$TxtFechaFin = "";
-	}
-	if(isset($_REQUEST["Lote"])){
-		$Lote = $_REQUEST["Lote"];
-	}else{
-		$Lote = "";
-	}
-	if(isset($_REQUEST["OptAcumulado"])){
-		$OptAcumulado = $_REQUEST["OptAcumulado"];
-	}else{
-		$OptAcumulado = "";
-	}
-	if(isset($_REQUEST["TipoConsulta"])){
-		$TipoConsulta = $_REQUEST["TipoConsulta"];
-	}else{
-		$TipoConsulta = "";
-	}
-	if(isset($_REQUEST["Consulta"])){
-		$Consulta = $_REQUEST["Consulta"];
-	}else{
-		$Consulta = "";
-	}
-	if(isset($_REQUEST["RutProveedor"])){
-		$RutProveedor = $_REQUEST["RutProveedor"];
-	}else{
-		$RutProveedor = "";
-	}
-
-	$Producto  = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
-	$RutProved     = isset($_REQUEST["RutProved"])?$_REQUEST["RutProved"]:"";
-	$NombreProved     = isset($_REQUEST["NombreProved"])?$_REQUEST["NombreProved"]:"";
+	$TipoConsulta = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$OptAcumulado = isset($_REQUEST["OptAcumulado"])?$_REQUEST["OptAcumulado"]:"";
+	$TxtFechaIni  = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m-d');
+	$TxtFechaFin  = isset($_REQUEST["TxtFechaFin"])?$_REQUEST["TxtFechaFin"]:date('Y-m-d');	
+	$TxtLote      = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$RutProveedor = isset($_REQUEST["RutProveedor"])?$_REQUEST["RutProveedor"]:"";
+	$Lote         = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$Consulta        = isset($_REQUEST["Lote"])?$_REQUEST["Consulta"]:"";
+	$RutProved       = isset($_REQUEST["RutProved"])?$_REQUEST["RutProved"]:"";
+	$NombreProved    = isset($_REQUEST["NombreProved"])?$_REQUEST["NombreProved"]:"";
 
 	$CodigoDeSistema = 8;
 	include("../principal/conectar_principal.php");
@@ -185,7 +156,7 @@
 	{
 		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Row = mysqli_fetch_array($Respuesta))
-			echo $RutProveedorAux." - ".strtoupper($Row["nombre_prv"]);
+			echo $RutProveedor." - ".strtoupper($Row["nombre_prv"]); 	//echo $RutProveedorAux." - ".strtoupper($Row["nombre_prv"]);
 		else
 			echo "NO DEFINIDO";
 	}
