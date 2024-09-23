@@ -1,31 +1,32 @@
 <?php 
 
-ob_end_clean();
-$file_name=basename($_SERVER['PHP_SELF']).".xls";
-$userBrowser = $_SERVER['HTTP_USER_AGENT'];
-$filename = "";
-if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-$filename = urlencode($filename);
-}
-$filename = iconv('UTF-8', 'gb2312', $filename);
-$file_name = str_replace(".php", "", $file_name);
-header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
-header("content-disposition: attachment;filename={$file_name}");
-header( "Cache-Control: public" );
-header( "Pragma: public" );
-header( "Content-type: text/csv" ) ;
-header( "Content-Dis; filename={$file_name}" ) ;
-header("Content-Type:  application/vnd.ms-excel");
-header("Expires: 0");
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-	include("../principal/conectar_ref_web.php");
-
-$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-$dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
-$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
-$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
 	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+ 	header("Expires: 0");
+  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	include("../principal/conectar_ref_web.php");
+	
+	include("../principal/conectar_ref_web.php");
+	$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 ?>
 <html>    
 <head>
@@ -77,11 +78,12 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 			$total_gran=0;
 			$total_grue=0;
 			$total_recuperado=0;
-			$total_unidades=0; //WSO	
-			$total2=0; //WSO  	
+			$total_unidades=0;	
+			$total=0;$total2=0;		
+			$recuperado=0;
 	    	$consulta="select nombre_subclase as sub_clas, valor_subclase1 as sub_clase1 from proyecto_modernizacion.sub_clase ";
 			$consulta=$consulta."where cod_clase='10001' order by cod_subclase";
-			$Resp = mysqli_query($link, $consulta);
+			$Resp = mysqli_query($link,$consulta);
 			while ($row2 = mysqli_fetch_array($Resp))
 	       	{
             	$total_rech=0;		   
@@ -90,14 +92,14 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 					$Consulta5 = "select cod_grupo,ifnull(rechazo_delgadas,0) as rec_del,ifnull(rechazo_granuladas,0) as rec_gran,ifnull(rechazo_gruesas,0) as rec_grue from ref_web.produccion as t1 ";
 					$Consulta5 = $Consulta5."inner join proyecto_modernizacion.sub_clase as t2  on t1.cod_grupo=t2.valor_subclase1 ";
 					$Consulta5 = $Consulta5."where t1.fecha = '".$fecha."' and t1.cod_grupo = t2.valor_subclase1 and t1.cod_grupo= '".$row2["sub_clase1"]."' group by t1.cod_grupo";
-					$rs12 = mysqli_query($link, $Consulta5);
+					$rs12 = mysqli_query($link,$Consulta5);
 					$row12 = mysqli_fetch_array($rs12);
 					$consulta_fecha="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$fecha."' and t1.cod_grupo ='0".$row2["sub_clase1"]."' group by t1.cod_grupo";
-					$rs_fecha = mysqli_query($link, $consulta_fecha);
+					$rs_fecha = mysqli_query($link,$consulta_fecha);
 					$row_fecha = mysqli_fetch_array($rs_fecha);
 					$Consulta6 =  "select max(t1.fecha) as fecha,t1.cod_grupo,t1.cod_circuito,hojas_madres,num_catodos_celdas from ref_web.grupo_electrolitico2 as t1 ";
 					$Consulta6 = $Consulta6." where  t1.fecha = '".$row_fecha["fecha"]."' and t1.cod_grupo ='0".$row2["sub_clase1"]."' group by t1.cod_grupo";
-					$rs3 = mysqli_query($link, $Consulta6);
+					$rs3 = mysqli_query($link,$Consulta6);
 					$row3 = mysqli_fetch_array($rs3);
 					$produccion=(($row3["hojas_madres"]*$row3["num_catodos_celdas"])*2);         
 					echo "<td align='center'>$produccion</td>";
@@ -105,14 +107,14 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 					$Consulta5 = $Consulta5."inner join proyecto_modernizacion.sub_clase as t2  on t1.cod_grupo=t2.valor_subclase1 ";
 					$Consulta5 = $Consulta5."where t1.fecha = '".$fecha."' and t1.cod_grupo = t2.valor_subclase1 and t1.cod_grupo= '".$row2["sub_clase1"]."' group by t1.cod_grupo";
 				
-       				$rs12 = mysqli_query($link, $Consulta5);
+       				$rs12 = mysqli_query($link,$Consulta5);
 					$row12 = mysqli_fetch_array($rs12);
 					$rec_del  = isset($row12["rec_del"])?$row12["rec_del"]:0;
 					$rec_gran = isset($row12["rec_gran"])?$row12["rec_gran"]:0;
 					$rec_grue = isset($row12["rec_grue"])?$row12["rec_grue"]:0;
 					if ($rec_del >0)
 					{
-						echo "<td align='center'>".$rec_del."</td>";
+						echo "<td align='center'>".$row12["rec_del"]."</td>";
 					}
 					else
 					{
@@ -120,7 +122,7 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 					}	
 					if ($rec_gran >0)
 					{
-						echo "<td align='center'>".$rec_gran."</td>";
+						echo "<td align='center'>".$row12["rec_gran"]."</td>";
 					}
 					else
 					{
@@ -128,7 +130,7 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 					}	
 					if ($rec_grue >0)
 					{
-						echo "<td align='center'>".$rec_grue."</td>";
+						echo "<td align='center'>".$row12["rec_grue"]."</td>";
 					}
 					else
 					{
@@ -139,12 +141,12 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 					{
 						echo "<td align='center'>--</td>";
 					}	*/
-					$total=$rec_del + $rec_gran + $rec_grue;
+					$total=$rec_del+$rec_gran+$rec_grue;
 					$total_unidades=$total_unidades+$produccion;
-					$total_del=$total_del+$rec_del;
-		    		$total_gran=$total_gran+$rec_gran;
-		    		$total_grue=$total_grue+$rec_grue;
-					$total2=$total2+$total;
+					$total_del   = $total_del+$rec_del;
+		    		$total_gran  = $total_gran+$rec_gran;
+		    		$total_grue  = $total_grue+$rec_grue;
+					$total2      = $total2+$total;
 					if (($produccion==0) or ($total==0))
 					{
 						$porc_rech=0;
@@ -162,8 +164,9 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 					echo "<td align='center'>$porc_rech2</td>";
 					$Consulta7="select ifnull(recuperado,0) as recuperado from ref_web.recuperado as t1 "; 
 					$Consulta7=$Consulta7."where t1.fecha ='".$fecha."' ";
-					$rs13 = mysqli_query($link, $Consulta7);
+					$rs13 = mysqli_query($link,$Consulta7);
 					$row13 = mysqli_fetch_array($rs13);
+					$recuperado = isset($row13["recuperado"])?$row13["recuperado"]:0;
 					echo "<td align='center'>&nbsp;</td>";
 					echo "<td align='center'>&nbsp;</td>";
 			echo "</tr>";								
@@ -183,8 +186,7 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 			{
 				 $porc_tot_rech=(($total2/$total_unidades)*100);
 			}
-				$porc_tot_rech=number_format($porc_tot_rech,"2",",","");
-				$recuperado = isset($row13["recuperado"])?$row13["recuperado"]:0;
+				$porc_tot_rech=number_format($porc_tot_rech,2,",","");
 				echo "<td align='center'>$porc_tot_rech</td>";
 				echo "<td align='center'>".$recuperado."</td>";
 			if (($total_unidades==0) or ($total2==0))
@@ -193,9 +195,9 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 			}
 			else
 			{
-				$porc_tot_rec=(($recuperado/$total_unidades)*100);
+				$porc_tot_rec=(($row13["recuperado"]/$total_unidades)*100);
 			}
-			$porc_tot_rec=number_format($porc_tot_rec,"2",".","");
+			$porc_tot_rec=number_format($porc_tot_rec,2,".","");
 			echo "<td align='center'>".$porc_tot_rec."</td>";
 		}
 	?>

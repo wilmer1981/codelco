@@ -22,7 +22,7 @@
 	include("../principal/conectar_principal.php");
 	include("../sipa_web/funciones.php");
 	
-	$Consulta     = isset($_REQUEST["Lote"])?$_REQUEST["Consulta"]:"";
+	$Consulta     = isset($_REQUEST["Consulta"])?$_REQUEST["Consulta"]:"";
 	$TipoConsulta = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
 	$OptAcumulado = isset($_REQUEST["OptAcumulado"])?$_REQUEST["OptAcumulado"]:"";
 	$TxtFechaIni  = isset($_REQUEST["TxtFechaIni"])?$_REQUEST["TxtFechaIni"]:date('Y-m-d');
