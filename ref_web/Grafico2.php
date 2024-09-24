@@ -1,10 +1,10 @@
 <?php
     include("../principal/conectar_ref_web.php");
-
-	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
-	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
-	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+	
+	$dia     = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+	$mes     = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano     = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 	
 	$dia_aux=intval($dia);
 	$dif_dia=($dia_aux-15);
@@ -33,7 +33,7 @@
 		     $fecha2=$ano."-".$dif_mes."-".$dif_dia;	} 
 	   else {$dif_dia=strval(intval($dif_dia+1));
 	         $fecha2=$ano."-".$dif_mes."-".$dif_dia;	 }
-	   $Respuesta2 = mysqli_query($link, $Consulta);
+	   $Respuesta2 = mysqli_query($link,$Consulta);
        $Fila2 = mysqli_fetch_array($Respuesta2);
 			
 			$total_ne=$Fila2["ne"];

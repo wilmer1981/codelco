@@ -1,15 +1,13 @@
 <?php
-	
 	include("../principal/conectar_ref_web.php");
-	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
-	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
-	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
-
+	$dia     = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+	$mes     = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano     = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	
 	$dia_aux=intval($dia);
 	$dif_dia=($dia_aux-15);
 	$dif_dia_rest=abs($dif_dia);
-
 	if ($dif_dia<0)
 		{$mes_aux=intval($mes);
 		 $dif_mes=($mes_aux-1);
@@ -21,7 +19,6 @@
      $fecha2=$ano."-".$dif_mes."-".$dif_dia;
 	 $cont=0;
 	 $i=0;
-
 	while ($cont<=15)
     {
 	   $arreglo_fecha[$i]=$fecha2;
@@ -29,6 +26,9 @@
 	   $Consulta =$Consulta." from ref_web.produccion as t1 " ;
 	   $Consulta = $Consulta."where t1.fecha = '".$fecha2."' group by t1.fecha asc";
 	   //echo $Consulta."<br>";
+       
+	    
+	  
 	  
 	   if (intval($dif_dia==31))
 	   		{$dif_dia='1';
@@ -37,7 +37,7 @@
 	   else {$dif_dia=strval(intval($dif_dia+1));
 	         $fecha2=$ano."-".$dif_mes."-".$dif_dia;	 }
 		
-	   $Respuesta2 = mysqli_query($link, $Consulta);
+	   $Respuesta2 = mysqli_query($link,$Consulta);
        $Fila2 = mysqli_fetch_array($Respuesta2);
 			
 			$total_del=$Fila2["delgadas"];

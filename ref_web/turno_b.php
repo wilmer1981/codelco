@@ -2,30 +2,28 @@
 <?php
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 1;
-	include("../principal/conectar_ref_web.php");
+	include("../principal/conectar_principal.php");
 	include("funciones_administrador.php");
-
-	$dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
-	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
-	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
-	$siguiente    = isset($_REQUEST["siguiente"])?$_REQUEST["siguiente"]:"";
-	$anterior     = isset($_REQUEST["anterior"])?$_REQUEST["anterior"]:"";
+	$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$siguiente   = isset($_REQUEST["siguiente"])?$_REQUEST["siguiente"]:"";
+	$anterior    = isset($_REQUEST["anterior"])?$_REQUEST["anterior"]:"";
 	$mostrar     = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
-
-	$Sig    = isset($_REQUEST["Sig"])?$_REQUEST["Sig"]:"";
-	$Ant    = isset($_REQUEST["Ant"])?$_REQUEST["Ant"]:"";
-
+	$Sig   = isset($_REQUEST["Sig"])?$_REQUEST["Sig"]:"";
+	$Ant   = isset($_REQUEST["Ant"])?$_REQUEST["Ant"]:"";
+	
 	$fecha=$ano1.'-'.$mes1.'-'.$dia1;
 	if ($siguiente=='S')
       {
-       $fecha=aumentar_dias($fecha,1);
+       $fecha=aumentar_dias($fecha,1,$link);
 	   $mes1=substr($fecha,5,2);
 	   $ano1=substr($fecha,0,4);
 	   $dia1=substr($fecha,8,2);
 	  }
     if ($anterior=='S')
      {
-      $fecha=restar_dias($fecha,1);
+      $fecha=restar_dias($fecha,1,$link);
 	  $mes1=substr($fecha,5,2);
 	  $ano1=substr($fecha,0,4);
 	  $dia1=substr($fecha,8,2);
@@ -33,10 +31,6 @@
    
 	
 ?>
-
-
-
-
 <html>
 <head>
 <script language="JavaScript">
@@ -84,24 +78,32 @@ function Excel()
 	var ano=f.ano1.value;
 	var mes=f.mes1.value;
 	var dia=f.dia1.value;
+
+
 	document.location = "../ref_web/ref_web_xls.php?fecha="+fecha+"&ano="+ano+"&mes="+mes+"&dia="+dia;
 }
 function Tabla1()
 {
 	var  f=document.form1;
 	var fecha=f.ano1.value+"-"+f.mes1.value+"-"+f.dia1.value;
+
+
 	document.location = "../ref_web/tabla1.php?fecha="+fecha;
 }
 function Tabla2()
 {
 	var  f=document.form1;
 	var fecha=f.ano1.value+"-"+f.mes1.value+"-"+f.dia1.value;
+
+
 	document.location = "../ref_web/tabla2.php?fecha="+fecha;
 }
 function Tabla3()
 {
 	var  f=document.form1;
 	var fecha=f.ano1.value+"-"+f.mes1.value+"-"+f.dia1.value;
+
+
 	document.location = "../ref_web/tabla3.php?fecha="+fecha;
 }
 function Tabla4()
@@ -110,7 +112,9 @@ function Tabla4()
 	var fecha=f.ano1.value+"-"+f.mes1.value+"-"+f.dia1.value;
 	var ano=f.ano1.value;
 	var mes=f.mes1.value;
-	var dia=f.dia1.value;	
+	var dia=f.dia1.value;
+	
+	
 	document.location = "../ref_web/tabla4.php?fecha="+fecha+"&ano="+ano+"&mes="+mes+"&dia="+dia;
 }
 function Tabla5()
@@ -130,6 +134,8 @@ function Tabla6()
 	var ano=f.ano1.value;
 	var mes=f.mes1.value;
 	var dia=f.dia1.value;
+
+
 	document.location = "../ref_web/Tabla6.php?fecha="+fecha+"&ano="+ano+"&mes="+mes+"&dia="+dia;
 }
 
@@ -202,7 +208,7 @@ function detalle_anodos(fecha,grupo)
  <td width="760" align="center" valign="middle">
           <table width="750" border="0" cellpadding="3" class="TablaInterior">
           <tr>
-            <td width="168"><input name="buscar2" type="button" value="&lt;&lt; Anterior" onClick="Buscarant('<?php echo $fecha;?>')" > 
+            <td width="168"><input name="buscar2" type="button" value="&lt;&lt; Anterior" onClick="Buscarant('<? echo $fecha;?>')" > 
             </td>
             <td width="95"> <strong>Informe del: </strong></td>
             <td width="322"> <select name="dia1" size="1" >
@@ -262,7 +268,7 @@ function detalle_anodos(fecha,grupo)
               </select> &nbsp;&nbsp; <input name="buscar" type="button" value="buscar" onClick="Buscar()" > 
             </td>
             <td width="128"> 
-              <input name="buscar22" type="button" value="Siguiente &gt;&gt;" onClick="Buscarsig('<?php echo $fecha;?>')" ></td>
+              <input name="buscar22" type="button" value="Siguiente &gt;&gt;" onClick="Buscarsig('<? echo $fecha;?>')" ></td>
           </tr>
         </table>
 <TABLE cellSpacing=0 cellPadding=0 width="750" border=0>
@@ -374,14 +380,14 @@ function detalle_anodos(fecha,grupo)
 		$Consulta =  "select max(t2.fecha) as fecha,t2.cod_grupo,t2.cod_circuito from sec_web.produccion_catodo as t1 ";
 		$Consulta = $Consulta." inner join ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo";
 		$Consulta = $Consulta." where t1.fecha_produccion = '".$fecha."' and t1.cod_producto='18'  and t1.cod_subproducto='1'   and t2.fecha <= '".$fecha."'group by t1.cod_grupo";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		$total_prod=0;
 		$total_rec=0;
 		$total_rech=0;
 		$total_cuba=0;
 		$cont=0;
 		$i=0;
-		$grupos=array(); //WSO
+		$grupos=array();
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$cont=$cont+1;
@@ -393,7 +399,7 @@ function detalle_anodos(fecha,grupo)
 	    $Consulta = $Consulta." inner join ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo";
 		$Consulta = $Consulta." where t1.fecha_produccion = '".$fecha."' and t1.cod_producto='18'  and t1.cod_subproducto='1'   and t2.fecha <= '".$fecha."'group by t1.cod_grupo";
 					//echo $Consulta;
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			echo "<tr>\n";
@@ -408,22 +414,21 @@ function detalle_anodos(fecha,grupo)
 			{
 				$Consulta_fecha="select left(fecha_hora,10) as fecha2 from cal_web.solicitud_analisis ";
                 $Consulta_fecha=$Consulta_fecha." where left(fecha_muestra,10)='".$fecha."' and id_muestra='".$Fila["cod_grupo"]."' and cod_producto='18' and cod_subproducto='1' and cod_analisis='1' and cod_tipo_muestra='3'";} 
-				$Respuesta_fecha = mysqli_query($link, $Consulta_fecha);
+				$Respuesta_fecha = mysqli_query($link,$Consulta_fecha);
 				$Fila_fecha = mysqli_fetch_array($Respuesta_fecha);
-				$fecha2 = isset($Fila_fecha["fecha2"])?$Fila_fecha["fecha2"]:"";
-				if (($Fila["cod_grupo"]=='01') or ($Fila["cod_grupo"]=='02') or ($Fila["cod_grupo"]=='03') or ($Fila["cod_grupo"]=='04') or ($Fila["cod_grupo"]=='05') or ($Fila["cod_grupo"]=='06') or ($Fila["cod_grupo"]=='07') or ($Fila["cod_grupo"]=='08') or($Fila["cod_grupo"]=='09'))
+				if (($Fila["cod_grupo"]=='01') or ($Fila["cod_grupo"]=='02') or ($Fila["cod_grupo"]=='03') or ($Fila["cod_grupo"]=='04') or ($Fila["cod_grupo"]=='05') or ($Fila["cod_grupot"]=='06') or ($Fila["cod_grupo"]=='07') or ($Fila["cod_grupo"]=='08') or($Fila["cod_grupo"]=='09'))
 				{
     				$Consulta_electrolitos="select ifnull(t1.valor,0) as valor,t1.candado,t1.cod_unidad,t1.cod_leyes,signo from cal_web.leyes_por_solicitud as t1 ";
 					$Consulta_electrolitos=$Consulta_electrolitos."inner join cal_web.solicitud_analisis as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto and t1.rut_funcionario=t2.rut_funcionario ";
-					$Consulta_electrolitos=$Consulta_electrolitos."where (t1.id_muestra='".$Fila["cod_grupo"]."' or t1.id_muestra='$grupo_aux') and t1.cod_producto='18' and left(t1.fecha_hora,10)='".$fecha2."' and t1.cod_leyes in ('04','05','08','09','10','26','27','30','31','36','39','40','44','48') and t1.cod_subproducto='1'";
+					$Consulta_electrolitos=$Consulta_electrolitos."where (t1.id_muestra='".$Fila["cod_grupo"]."' or t1.id_muestra='$grupo_aux') and t1.cod_producto='18' and left(t1.fecha_hora,10)='".$Fila_fecha["fecha2"]."' and t1.cod_leyes in ('04','05','08','09','10','26','27','30','31','36','39','40','44','48') and t1.cod_subproducto='1'";
 	 			}
 				else
 				{
 					$Consulta_electrolitos="select  ifnull(t1.valor,0) as valor,t1.candado,t1.cod_unidad,t1.cod_leyes,signo from cal_web.leyes_por_solicitud as t1 ";
 					$Consulta_electrolitos=$Consulta_electrolitos."inner join cal_web.solicitud_analisis as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto and t1.rut_funcionario=t2.rut_funcionario ";
-					$Consulta_electrolitos=$Consulta_electrolitos."where t1.id_muestra='".$Fila["cod_grupo"]."'  and t1.cod_producto='18' and left(t1.fecha_hora,10)='".$fecha2."' and t1.cod_leyes in ('04','05','08','09','10','26','27','30','31','36','39','40','44','48') and t1.cod_subproducto='1'";
+					$Consulta_electrolitos=$Consulta_electrolitos."where t1.id_muestra='".$Fila["cod_grupo"]."'  and t1.cod_producto='18' and left(t1.fecha_hora,10)='".$Fila_fecha["fecha2"]."' and t1.cod_leyes in ('04','05','08','09','10','26','27','30','31','36','39','40','44','48') and t1.cod_subproducto='1'";
 				}	
-				$Respuesta_electrolitos = mysqli_query($link, $Consulta_electrolitos);
+				$Respuesta_electrolitos = mysqli_query($link,$Consulta_electrolitos);
 				while ($Fila_electrolitos = mysqli_fetch_array($Respuesta_electrolitos))
 				{  
 					if ($Fila_electrolitos["valor"] < 0)
@@ -442,12 +447,12 @@ function detalle_anodos(fecha,grupo)
 					}
 					else
 					{
-						$total=number_format($Fila_electrolitos["valor"],"2","","");
+						$total=number_format($Fila_electrolitos["valor"],2,"","");
 						echo "<td align='center'>&nbsp;".$Fila_electrolitos["signo"]."$total</td>";
 						$poly =($Fila_electrolitos["signo"].$total);
 					}
 				}
-				//echo "grupo:".$Fila["cod_grupo"];
+				//echo "grupo:".$Fila[cod_grupo];
 
 				if ($total ==0)
 				{
@@ -516,11 +521,11 @@ function detalle_anodos(fecha,grupo)
 			if(count($grupos)>0)
 			{	
 			reset ($grupos);
-			foreach($grupos as $a => $b)
+			foreach($grupos as $a=>$b)
 			{			 	
 				$grupo= intval($b);
 				$consulta2="select distinct cod_circuito from ref_web.grupo_electrolitico2 where cod_grupo='".$b."'";
-				$Respuesta3 = mysqli_query($link, $consulta2);
+				$Respuesta3 = mysqli_query($link,$consulta2);
 				$Fila3 = mysqli_fetch_array($Respuesta3);
 			echo "<tr>";
 				echo "<td align='center'>".$Fila3["cod_circuito"]."&nbsp</td>\n";  
@@ -587,22 +592,21 @@ function detalle_anodos(fecha,grupo)
 				$fecha_ant=$ano_aux."-".$mes_aux."-".$dia_aux;
 				$cons_subp2="select distinct t1.cod_subproducto as producto from sea_web.movimientos as t1 ";
 				$cons_subp2=$cons_subp2."where t1.tipo_movimiento='2' and t1.campo2=$grupo and t1.fecha_movimiento='".$fecha_ant."' and t1.cod_producto='17' and t1.cod_subproducto not in ('08') group by t1.hornada";
-				$Resp_subp2 = mysqli_query($link, $cons_subp2);
+				$Resp_subp2 = mysqli_query($link,$cons_subp2);
 				$Fila_subp2 = mysqli_fetch_array($Resp_subp2);
-				$producto=isset($Fila_subp2["producto"])?$Fila_subp2["producto"]:"";
-				if ($producto==1)
+				if ($Fila_subp2["producto"]==1)
 				{
 					echo "<td align='center'>HVL&nbsp</td>\n";
 				}
-				else if ($producto==4)
+				else if ($Fila_subp2["producto"]==4)
 				{
 					echo "<td align='center'>Ventana&nbsp</td>\n";
 				}
-				else if ($producto==2)
+				else if ($Fila_subp2["producto"]==2)
 				{
 					echo "<td align='center'>Teniente&nbsp</td>\n";
 				}
-				else if ($producto==3)
+				else if ($Fila_subp2["producto"]==3)
 				{
 					echo "<td align='center'>Disputada&nbsp</td>\n";
 				}
@@ -612,23 +616,22 @@ function detalle_anodos(fecha,grupo)
 			}
 			$cons_subp="select distinct t1.cod_subproducto as producto from sea_web.movimientos as t1 ";
 			$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2=$grupo and t1.fecha_movimiento='".$fecha."' and t1.cod_producto='17' and t1.cod_subproducto not in ('08') group by t1.hornada";
-			$Resp_subp = mysqli_query($link, $cons_subp);
+			$Resp_subp = mysqli_query($link,$cons_subp);
 			$Fila_subp = mysqli_fetch_array($Resp_subp);
-			$producto=isset($Fila_subp["producto"])?$Fila_subp["producto"]:"";
-			if ($producto==1)
+			if ($Fila_subp["producto"]==1)
 			{
 				echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 			    echo HVL."</td>\n";
 			}
-			else if ($producto==4)
+			else if ($Fila_subp["producto"]==4)
 			{
 				echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 			    echo Ventana."</td>\n";}
-			else if ($producto==2)
+			else if ($Fila_subp["producto"]==2)
 			{
 				echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 			    echo Teniente."</td>\n";}
-			else if ($producto==3)
+			else if ($Fila_subp["producto"]==3)
 			{
 				echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 			    echo Disputada."</td>\n";
@@ -643,14 +646,14 @@ function detalle_anodos(fecha,grupo)
 			
 				$consulta="select sum(t1.peso) as peso_cargado from sea_web.movimientos as t1 ";
 				$consulta=$consulta."where t1.tipo_movimiento='2' and t1.campo2=$grupo and t1.fecha_movimiento='".$fecha."' and t1.cod_producto='17' and t1.cod_subproducto not in ('08')  ";
-				$Respuesta = mysqli_query($link, $consulta);
+				$Respuesta = mysqli_query($link,$consulta);
 				$Fila = mysqli_fetch_array($Respuesta);
 				$l=0;
 				
 		for ($i = 0;$i<8;$i++)
 		{
 			$codley=$a[$i];
-				//echo "peso cargado".$Fila["peso_cargado"];
+				//echo "peso cargado".$Fila[peso_cargado];
 			$consulta2="select t1.peso as peso_cargado,t2.cod_leyes,t2.valor as ley,t1.cod_subproducto as subproducto ";
 			$consulta2.=", sum(t1.peso * t2.valor / '".$Fila["peso_cargado"]."') as calculo ";
 			$consulta2.="from sea_web.movimientos as t1  ";
@@ -663,13 +666,13 @@ function detalle_anodos(fecha,grupo)
 			$consulta2.="and t2.cod_leyes = '".$codley."'  group by t2.cod_leyes ";
 
 			$consulta2.="order by t2.cod_leyes ";
-			$Respuesta2 = mysqli_query($link, $consulta2);
+			$Respuesta2 = mysqli_query($link,$consulta2);
 			$Fila2 = mysqli_fetch_array($Respuesta2);
 			$total_total_ley=0;
 			
 			//while ($Fila2 = mysqli_fetch_array($Respuesta2))
-			$cod_leyes=isset($Fila2["cod_leyes"])?$Fila2["cod_leyes"]:"";
-				if ($cod_leyes== "")
+			
+				if ($Fila2["cod_leyes"]== "")
 				{
 					echo "<td align='center'>&nbsp</td>\n";
 				}
@@ -678,11 +681,11 @@ function detalle_anodos(fecha,grupo)
 						
 					if ($Fila2["calculo"] >= $limites[$l])
 					{
-						echo "<td align='center'><font color='red'><strong> ".number_format($Fila2["calculo"],"",",","")."&nbsp</strong></fornt></td>\n";
+						echo "<td align='center'><font color='red'><strong> ".number_format($Fila2["calculo"],2,",","")."&nbsp</strong></fornt></td>\n";
 					}	 
 					else
 					{				
-						echo "<td align='center'>".number_format($Fila2["calculo"],"",",","")."&nbsp</td>\n";
+						echo "<td align='center'>".number_format($Fila2["calculo"],2,",","")."&nbsp</td>\n";
 						
 					}
 				$l=$l+1;	
@@ -750,24 +753,25 @@ function detalle_anodos(fecha,grupo)
 					{
        					$cod_leyes=array('02','22','08','09','56','31','60','36','10','27','39','11','40','44','72');
 						$circuitos=array('1','2','3','4','5','6','DP','DT','RETORNO');
-						foreach($circuitos as $a => $b)
-							{
+						reset($circuitos);
+						foreach($circuitos as $a=>$b)
+						{
 							       $Consulta_fecha="select left(fecha_hora,10) as fecha2 from cal_web.solicitud_analisis ";
                                    $Consulta_fecha=$Consulta_fecha." where left(fecha_muestra,10)='".$fecha."' and id_muestra='$b' and cod_producto='41' "; 		
-							       $Respuesta_fecha = mysqli_query($link, $Consulta_fecha);
+							       $Respuesta_fecha = mysqli_query($link,$Consulta_fecha);
 							       $Fila_fecha = mysqli_fetch_array($Respuesta_fecha);
 								   //echo $Consulta_fecha;
 				    		  echo "<td align='center'>$b&nbsp</td>\n";
 							  reset($cod_leyes); 
-							  foreach($cod_leyes as $c => $v)
-								 {
+							foreach($cod_leyes as $c=>$v)
+							{
     							    $Consulta_electrolitos="select  t2.valor as valor,t2.candado,t2.cod_unidad,t2.cod_leyes from cal_web.solicitud_analisis as t1 ";
 									$Consulta_electrolitos=$Consulta_electrolitos."inner join cal_web.leyes_por_solicitud as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto and t1.rut_funcionario=t2.rut_funcionario ";
 									$Consulta_electrolitos=$Consulta_electrolitos."where t2.id_muestra='$b' and t2.cod_producto='41' and left(t1.fecha_muestra,10)='".$fecha."' and t2.cod_leyes='$v' and t2.candado='1'";
 									$Consulta_electrolitos;
-								    $Respuesta_electrolitos = mysqli_query($link, $Consulta_electrolitos);
+								    $Respuesta_electrolitos = mysqli_query($link,$Consulta_electrolitos);
 									$Fila_electrolitos = mysqli_fetch_array($Respuesta_electrolitos);
-									$valor= isset($Fila_electrolitos["valor"])?$Fila_electrolitos["valor"]:0;
+									$valor=isset($Fila_electrolitos["valor"])?$Fila_electrolitos["valor"]:0;
 									if ($valor <> 0)
 									    {$total=number_format($Fila_electrolitos["valor"],"2","","");
 										 if (($Fila_electrolitos["cod_unidad"]=='6') and ($Fila_electrolitos["cod_leyes"]=='27'))
@@ -775,41 +779,41 @@ function detalle_anodos(fecha,grupo)
 										 else { echo "<td align='center'>$total&nbsp</td>\n";}
 										 }
 									else{echo "<td align='center'>&nbsp</td>\n";}
-								}
-							    echo "</tr>\n";
-							 }
+							}
+							echo "</tr>\n";
+						}
 /****************************************************************************************************************************************/   						 
 						 $HM=array('HM','H.M.','1HM','1-HM','H-M','HM.','-1HM');
 						 reset($cod_leyes);
 						 reset($HM);
-						 foreach($HM as $a => $b)
+						foreach($HM as $a=>$b)
 						 	{ 
 							   //$Consulta_fecha="select left(fecha_hora,10) as fecha2 from cal_web.solicitud_analisis ";
                                //$Consulta_fecha=$Consulta_fecha." where left(fecha_muestra,10)='".$fecha."' and id_muestra='$b' and cod_producto='41' "; 		
-							   //$Respuesta_fecha = mysqli_query($link, $Consulta_fecha);
+							   //$Respuesta_fecha = mysqli_query($Consulta_fecha);
 							   //$Fila_fecha = mysqli_fetch_array($Respuesta_fecha);
 								$Consulta_hm="select  t2.id_muestra from cal_web.solicitud_analisis as t1 ";
 								$Consulta_hm=$Consulta_hm."inner join cal_web.leyes_por_solicitud as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto and t1.rut_funcionario=t2.rut_funcionario ";
 								$Consulta_hm=$Consulta_hm."where t2.id_muestra='$b' and t2.cod_producto='41' and left(t1.fecha_muestra,10)='".$fecha."'";
 								//echo $Consulta_hm;
-								$Respuesta_hm = mysqli_query($link, $Consulta_hm);
+								$Respuesta_hm = mysqli_query($link,$Consulta_hm);
 								$Fila_hm = mysqli_fetch_array($Respuesta_hm);
-								$id_muestra = isset($Fila_hm["id_muestra"])?$Fila_hm["id_muestra"]:0;
+								$id_muestra=isset($Fila_hm["id_muestra"])?$Fila_hm["id_muestra"]:"";
 								if ($id_muestra==$b)
 									{
 										$idmuestra=$Fila_hm["id_muestra"];
 										echo "<td align='center'>".$Fila_hm["id_muestra"]."&nbsp</td>\n";
 										reset($cod_leyes);	
-											 foreach($cod_leyes as $c => $v)
+										foreach($cod_leyes as $c=>$v)
 							   				{
 								 				$Consulta_electrolitos="select  t1.valor as valor,t1.candado,t1.cod_unidad,t1.cod_leyes from cal_web.leyes_por_solicitud as t1 ";
 												$Consulta_electrolitos=$Consulta_electrolitos."inner join cal_web.solicitud_analisis as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto and t1.rut_funcionario=t2.rut_funcionario ";
 												$Consulta_electrolitos=$Consulta_electrolitos."where t1.id_muestra='$idmuestra' and t1.cod_producto='41' and left(t2.fecha_muestra,10)='".$fecha."' and t1.cod_leyes='$v' and t1.candado='1'";
-												$Respuesta_electrolitos = mysqli_query($link, $Consulta_electrolitos);
+												$Respuesta_electrolitos = mysqli_query($link,$Consulta_electrolitos);
 												$Fila_electrolitos = mysqli_fetch_array($Respuesta_electrolitos);
 												$valor = isset($Fila_electrolitos["valor"])?$Fila_electrolitos["valor"]:0;
 												if ($valor <> 0)
-									    			{$total=number_format($Fila_electrolitos["valor"],"2","","");
+									    			{$total=number_format($Fila_electrolitos["valor"],2,"","");
 										 			 if (($Fila_electrolitos["cod_unidad"]=='6') and ($Fila_electrolitos["cod_leyes"]=='27'))
 										                {echo "<td align='center'>$total gr/lt&nbsp</td>\n";  }  
 										             else { echo "<td align='center'>$total&nbsp</td>\n";}
@@ -825,29 +829,28 @@ function detalle_anodos(fecha,grupo)
 						 $e100=array('E-100','E100','TK-100');
 						 reset($e100);
 						 reset($cod_leyes);
-						 foreach($e100 as $a => $b)
-						 	{
+						foreach($e100 as $a=>$b)
+						{
 								$Consulta_e="select  t2.id_muestra from cal_web.solicitud_analisis as t1 ";
 								$Consulta_e=$Consulta_e."inner join cal_web.leyes_por_solicitud as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto and t1.rut_funcionario=t2.rut_funcionario ";
 								$Consulta_e=$Consulta_e."where t2.id_muestra='$b' and t2.cod_producto='41' and left(t1.fecha_muestra,10)='".$fecha."'";
-								$Respuesta_e = mysqli_query($link, $Consulta_e);
+								$Respuesta_e = mysqli_query($link,$Consulta_e);
 								$Fila_e = mysqli_fetch_array($Respuesta_e);
-								$id_muestra = isset($Fila_e["id_muestra"])?$Fila_e["id_muestra"]:0;
+								$id_muestra=isset($Fila_e["id_muestra"])?$Fila_e["id_muestra"]:"";
 								if ($id_muestra<>"")
 									{
-										$idmuestra=$id_muestra;
-										echo "<td align='center'>".$id_muestra."&nbsp</td>\n";
+										$idmuestra=$Fila_e["id_muestra"];
+										echo "<td align='center'>".$Fila_e["id_muestra"]."&nbsp</td>\n";
     									reset($cod_leyes);	
-										  foreach($cod_leyes as $c => $v)
+										foreach($cod_leyes as $c=>$v)
 							   				{
 								 				$Consulta_v="select  t1.valor as valor,t1.candado from cal_web.leyes_por_solicitud as t1 ";
 												$Consulta_v=$Consulta_v."inner join cal_web.solicitud_analisis as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto and t1.rut_funcionario=t2.rut_funcionario ";
 												$Consulta_v=$Consulta_v."where t1.id_muestra='$idmuestra' and t1.cod_producto='41' and left(t2.fecha_muestra,10)='".$fecha."' and t1.cod_leyes='$v' and t1.candado='1'";
-												$Respuesta_v = mysqli_query($link, $Consulta_v);
+												$Respuesta_v = mysqli_query($link,$Consulta_v);
 												$Fila_v = mysqli_fetch_array($Respuesta_v);
-												$valor = isset($Fila_v["valor"])?$Fila_v["valor"]:0;
-												if ($valor <> 0)
-									    			{$total=number_format($valor,"2","","");
+												if ($Fila_v["valor"] <> 0)
+									    			{$total=number_format($Fila_v["valor"],"2","","");
 										 		 	 echo "<td align='center'>$total&nbsp</td>\n";}
 												else{echo "<td align='center'>&nbsp</td>\n";}
 											}

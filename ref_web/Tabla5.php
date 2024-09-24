@@ -1,33 +1,30 @@
 <?php 
-ob_end_clean();
-$file_name=basename($_SERVER['PHP_SELF']).".xls";
-$userBrowser = $_SERVER['HTTP_USER_AGENT'];
-$filename = "";
-if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
 	$filename = urlencode($filename);
-}
-$filename = iconv('UTF-8', 'gb2312', $filename);
-$file_name = str_replace(".php", "", $file_name);
-header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
-header("content-disposition: attachment;filename={$file_name}");
-header( "Cache-Control: public" );
-header( "Pragma: public" );
-header( "Content-type: text/csv" ) ;
-header( "Content-Dis; filename={$file_name}" ) ;
-header("Content-Type:  application/vnd.ms-excel");
-header("Expires: 0");
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
 	
-include("../principal/conectar_ref_web.php");
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+ 	header("Expires: 0");
+  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	include("../principal/conectar_ref_web.php");
 
-$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
-$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-$grupo   = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
-$dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
-$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
-$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
-
+	$dia     = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+	$mes     = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano     = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 ?>
 
 <link href="../principal/estilos/css_ref_web.css" rel="stylesheet" type="text/css">
@@ -74,26 +71,26 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 			$Consulta =  "select max(t2.fecha) as fecha,t2.cod_grupo,t2.cod_circuito from sec_web.produccion_catodo as t1 ";
 			$Consulta = $Consulta." inner join ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo";
 			$Consulta = $Consulta." where t1.fecha_produccion = '".$fecha."' and t1.cod_producto='18'  and t1.cod_subproducto='1'   and t2.fecha <= '".$fecha."'group by t1.cod_grupo";
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysqli_query($link,$Consulta);
 			$total_prod=0;
 			$total_rec=0;
 			$total_rech=0;
 			$total_cuba=0;
 			$cont=0;
 			$i=0;
-			$grupos=array(); //WSO
+			$grupos=array();
 			while ($Fila = mysqli_fetch_array($Respuesta))
 			{
 				$grupos[$i]=$Fila["cod_grupo"];
 				$i=$i+1;
-			}			
+			}		
 			
 			reset ($grupos);
-			foreach($grupos as $a => $b)
+			foreach($grupos as $a=>$b)
 			{			 	
 				$grupo= intval($b);
 				$consulta2="select distinct cod_circuito from ref_web.grupo_electrolitico2 where cod_grupo='".$b."'";
-				$Respuesta3 = mysqli_query($link, $consulta2);
+				$Respuesta3 = mysqli_query($link,$consulta2);
 				$Fila3 = mysqli_fetch_array($Respuesta3);
 				echo "<tr>";
 				echo "<td align='center'>".$Fila3["cod_circuito"]."&nbsp</td>\n";  
@@ -161,22 +158,21 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 				
 				$cons_subp2="select distinct t1.cod_subproducto as producto from sea_web.movimientos as t1 ";
 				$cons_subp2=$cons_subp2."where t1.tipo_movimiento='2' and t1.campo2=$grupo and t1.fecha_movimiento='".$fecha_ant."' and t1.cod_producto='17' and t1.cod_subproducto not in ('08') group by t1.hornada";
-				$Resp_subp2 = mysqli_query($link, $cons_subp2);
+				$Resp_subp2 = mysqli_query($link,$cons_subp2);
 				$Fila_subp2 = mysqli_fetch_array($Resp_subp2);
-				$producto = isset($Fila_subp2["producto"])?$Fila_subp2["producto"]:"";
-				if ($producto==1)
+				if ($Fila_subp2["producto"]==1)
 				{
 					echo "<td align='center'>HVL&nbsp</td>\n";
 				}
-				else if ($producto==4)
+				else if ($Fila_subp2["producto"]==4)
 				{
 					echo "<td align='center'>Ventana&nbsp</td>\n";
 				}
-				else if ($producto==2)
+				else if ($Fila_subp2["producto"]==2)
 				{
 					echo "<td align='center'>Teniente&nbsp</td>\n";
 				}
-				else if ($producto==3)
+				else if ($Fila_subp2["producto"]==3)
 				{
 					echo "<td align='center'>Disputada&nbsp</td>\n";
 				}
@@ -186,23 +182,22 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 			}
 			$cons_subp="select distinct t1.cod_subproducto as producto from sea_web.movimientos as t1 ";
 			$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2=$grupo and t1.fecha_movimiento='".$fecha."' and t1.cod_producto='17' and t1.cod_subproducto not in ('08') group by t1.hornada";
-			$Resp_subp = mysqli_query($link, $cons_subp);
+			$Resp_subp = mysqli_query($link,$cons_subp);
 			$Fila_subp = mysqli_fetch_array($Resp_subp);
-			$producto = isset($Fila_subp["producto"])?$Fila_subp["producto"]:"";
-			if ($producto==1)
+			if ($Fila_subp["producto"]==1)
 			{
 				echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 			    echo HVL."</td>\n";
 			}
-			else if ($producto==4)
+			else if ($Fila_subp["producto"]==4)
 			{
 				echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 			    echo Ventana."</td>\n";}
-			else if ($producto==2)
+			else if ($Fila_subp["producto"]==2)
 			{
 				echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 			    echo Teniente."</td>\n";}
-			else if ($producto==3)
+			else if ($Fila_subp["producto"]==3)
 			{
 				echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 			    echo Disputada."</td>\n";
@@ -217,14 +212,14 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 			
 				$consulta="select sum(t1.peso) as peso_cargado from sea_web.movimientos as t1 ";
 				$consulta=$consulta."where t1.tipo_movimiento='2' and t1.campo2=$grupo and t1.fecha_movimiento='".$fecha."' and t1.cod_producto='17' and t1.cod_subproducto not in ('08')  ";
-				$Respuesta = mysqli_query($link, $consulta);
+				$Respuesta = mysqli_query($link,$consulta);
 				$Fila = mysqli_fetch_array($Respuesta);
 				$l=0;
 				
 		for ($i = 0;$i<8;$i++)
 		{
 			$codley=$a[$i];
-				//echo "peso cargado".$Fila["peso_cargado"];
+				//echo "peso cargado".$Fila[peso_cargado];
 			$consulta2="select t1.peso as peso_cargado,t2.cod_leyes,t2.valor as ley,t1.cod_subproducto as subproducto ";
 			$consulta2.=", sum(t1.peso * t2.valor / '".$Fila["peso_cargado"]."') as calculo ";
 			$consulta2.="from sea_web.movimientos as t1  ";
@@ -237,15 +232,18 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 			$consulta2.="and t2.cod_leyes = '".$codley."'  group by t2.cod_leyes ";
 
 			$consulta2.="order by t2.cod_leyes ";
-			$Respuesta2 = mysqli_query($link, $consulta2);
+			$Respuesta2 = mysqli_query($link,$consulta2);
 			$Fila2 = mysqli_fetch_array($Respuesta2);
-			$cod_leyes = isset($Fila2["cod_leyes"])?$Fila2["cod_leyes"]:"";
-			$total_total_ley=0;			
-			//while ($Fila2 = mysqli_fetch_array($Respuesta2))			
-				if ($cod_leyes== "")
+			$total_total_ley=0;
+			
+			//while ($Fila2 = mysqli_fetch_array($Respuesta2))
+			
+				if ($Fila2["cod_leyes"]== "")
 				{
 					echo "<td align='center'>&nbsp</td>\n";
-				}else{
+				}
+				else
+				{
 						
 					if ($Fila2["calculo"] >= $limites[$l])
 					{
@@ -256,7 +254,7 @@ $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 						echo "<td align='center'>".number_format($Fila2["calculo"],"",",","")."&nbsp</td>\n";
 						
 					}
-					$l=$l+1;	
+				$l=$l+1;	
 				}	 	
 			}
 			echo "</tr>\n";

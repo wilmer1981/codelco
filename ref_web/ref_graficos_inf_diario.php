@@ -1,15 +1,14 @@
 <?php 	
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 1;
-	include("../principal/conectar_ref_web.php");
+	//include("../principal/conectar_ref_web.php");
+	include("../principal/conectar_principal.php");
 	$mostrar='S';
-
-  $fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-  $dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
-	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
-	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
-
-
+	
+	$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 ?>
 <html>
 <head>
