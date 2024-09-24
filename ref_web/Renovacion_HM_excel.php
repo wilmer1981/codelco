@@ -83,7 +83,8 @@
 						   $consulta_fecha="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo= '".$rows["cod_grupo"]."'";
 						   $rss_fecha = mysqli_query($link, $consulta_fecha);
 						   $rows_fecha = mysqli_fetch_array($rss_fecha);
-						   $consulta="select num_cubas_tot,hojas_madres, num_anodos_celdas from ref_web.grupo_electrolitico2 where cod_grupo='".$rows["cod_grupo"]."' and fecha='".$rows_fecha["fecha"]."'";
+						   $rowsfecha  = isset($rows_fecha["fecha"])?$rows_fecha["fecha"]:"0000-00-00";
+						   $consulta="select num_cubas_tot,hojas_madres, num_anodos_celdas from ref_web.grupo_electrolitico2 where cod_grupo='".$rows["cod_grupo"]."' and fecha='".$rowsfecha."'";
 						   $rs = mysqli_query($link, $consulta);
 						   $row = mysqli_fetch_array($rs);
 						    if ($rows["cubas_renovacion"]<>'Renovacion Grupo 8 Comercial')
