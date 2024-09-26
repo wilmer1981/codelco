@@ -272,7 +272,7 @@ function Grabar(Proceso,V,C,Tipo,checkbox)//V=variable Opcion Ver ,sirve para el
 	}
 	if (Proceso=='GDE')
 	{
-		if(confirm("�Est� seguro de generar la GDE.?"))
+		if(confirm("¿Está seguro de generar la GDE.?"))
 		{
 			document.getElementById("BtnGDE").disabled = true;
 			Frm.action="pac_guia_despacho_proceso01.php?Proceso="+Proceso + "&Ver="+V+"&Correlativo="+C+"&FechaHoraRomana="+FechaHoraRomana+"&checkbox="+checkbox;
@@ -860,7 +860,8 @@ function TeclaPulsada (tecla)
 						echo "<td>";
 						echo "<select id='Toneladas' name='Toneladas' style='width:310' onChange=Recarga('$Proceso','$Valores','$Ver','$checkbox')>";
 						echo "<option value='-1' selected>Seleccionar</option>";
-						if (isset($PatenteC))
+						//if (isset($PatenteC))
+						if ($PatenteC!="")
 						{   
 							if ($Proceso=='M')
 								$FechaActual=substr($FechaGuia,0,10);
@@ -984,14 +985,14 @@ function TeclaPulsada (tecla)
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						if ($CmbUnidad == $Fila["cod_unidad"]){
-							echo "<option value ='$Fila["cod_unidad"]' selected>$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+						if ($CmbUnidad == $Fila[cod_unidad]){
+							echo "<option value ='$Fila[cod_unidad]' selected>$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
 
 								$txtCodSapUni=$Fila["cod_sap"];
 								$txtUnidadNm=$Fila["nombre"];
 						}
 						else
-							echo "<option value ='$Fila["cod_unidad"]' >$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
+							echo "<option value ='$Fila[cod_unidad]' >$Fila["cod_sap"]&nbsp;-&nbsp;$Fila["nombre"]</option>";
 
 					}
 					echo "</select>";*/

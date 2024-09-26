@@ -4,7 +4,6 @@ include("../principal/conectar_pac_web.php");
 	$Fecha_Hora2 = date("Y-m-d");
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 3;
-
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
 	//Valores=1588807
@@ -14,6 +13,7 @@ include("../principal/conectar_pac_web.php");
 	$Consulta ="select * from pac_web.guia_despacho t1 where num_guia ='".$Valores."'";
 	$Respuesta=mysqli_query($link, $Consulta);
 	$Fila1=mysqli_fetch_array($Respuesta);
+	
 	$NumGuia=$Fila1["num_guia"];
 	$CmbPatente=$Fila1["nro_patente"];
 	$CmbPatenteRampla=$Fila1["nro_patente_rampla"];	
