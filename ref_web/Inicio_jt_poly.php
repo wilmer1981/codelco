@@ -42,14 +42,14 @@ if ($fecha=="")
 	$fecha=$AnoIni.'-'.$MesIni.'-'.$DiaIni;
     if ($siguiente=='S')
       {
-       $fecha=aumentar_dias($fecha,1);
+       $fecha=aumentar_dias($fecha,1,$link);
 	   $MesIni=substr($fecha,5,2);
 	   $AnoIni=substr($fecha,0,4);
 	   $DiaIni=substr($fecha,8,2);
 	  }
     if ($anterior=='S')
      {
-      $fecha=restar_dias($fecha,1);
+      $fecha=restar_dias($fecha,1,$link);
 	  $MesIni=substr($fecha,5,2);
 	  $AnoIni=substr($fecha,0,4);
 	  $DiaIni=substr($fecha,8,2);
@@ -221,7 +221,7 @@ function Salir(f)
                 <TD width="7"  align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt8; ?>" width=7></TD>
                 <TD width="42" align=middle  class=<?php echo $seleccionado9; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt_poly.php?pagina=9&fecha=<?php echo $fecha; ?>"><B >Vapor</B></A></font></TD>
 				<TD width="7"  align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt9; ?>" width=7></TD>
-                <TD width="42" align=middle  class=<?php echo $seleccionado10; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt_poly.php?pagina=10&fecha=<?php echo $fecha; ?>"><B >Informaci�n</B></A></font></TD>
+                <TD width="42" align=middle  class=<?php echo $seleccionado10; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt_poly.php?pagina=10&fecha=<?php echo $fecha; ?>"><B >Informaci&oacute;n</B></A></font></TD>
 				<TD width="7"  align=middle  class=tabsoff> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgInt9; ?>" width=7></TD>
                 <TD width="42"  align=middle  class=<?php echo $seleccionado11; ?>><font color="#3366FF"><A class=tabstext href="Inicio_jt_poly.php?pagina=11&fecha=<?php echo $fecha; ?>"><B >Gruas</B></A></font></TD>
                 <TD width="135"  align="left"  class=tabsline> <IMG alt="" border=0 height=40 src="archivos/<?php echo $ImgFinal; ?>" width=5></TD>
@@ -430,15 +430,15 @@ function Salir(f)
 						     {
 							  $pagina="ayu_conexiones.php";
 							 }  
-						 }      
+						}      
         				if($pagina==7) 
 						  {
 						   if($ingresador!="")
 						     {
 							  $pagina="Ingresadores_traspaso2.php?fecha=$fecha";       
 							 }
-						    if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor)&& !isset($informacion)&& !isset($gruas))
-							//if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" && $informacion=="" && $gruas=="")
+						    //if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor)&& !isset($informacion)&& !isset($gruas))
+							if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" && $informacion=="" && $gruas=="")
 							{
 							  $pagina="traspasos.php?fecha=$fecha";
 							 }         

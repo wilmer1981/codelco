@@ -1,12 +1,12 @@
 <?php 
-	include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 10;
 
 	$CookieRut = $_COOKIE["CookieRut"];
 	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
-	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
 	$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 	$DiaIniDParcial    = isset($_REQUEST["DiaIniDParcial"])?$_REQUEST["DiaIniDParcial"]:"";
 	$DiaIniElectro    = isset($_REQUEST["DiaIniElectro"])?$_REQUEST["DiaIniElectro"]:"";

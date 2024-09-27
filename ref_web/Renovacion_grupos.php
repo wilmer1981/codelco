@@ -1,5 +1,5 @@
 <?php 
-	include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 10;
 
