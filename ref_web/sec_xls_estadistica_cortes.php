@@ -100,20 +100,22 @@
 	$rs = mysqli_query($link, $consulta);
 	
 	while ($row = mysqli_fetch_array($rs))
-	{		
-		echo '<tr>';
+	{
+		echo '<tr>';//LEFT((ts_creacion),10)
 		echo '<td width="54" align="center">'.$row["cod_grupo"].'</td>';
 		echo '<td width="82" align="center">'.$row["nombre_subclase"].'</td>';			
 		echo '<td width="166" align="center">'.FormatoFecha($row["fecha_desconexion"]).'</td>';
 		echo '<td width="95" align="center">'.$row["kahdird"].'</td>';
 		echo '<td width="165" align="center">'.FormatoFecha($row["fecha_conexion"]).'</td>';
 		echo '<td width="89" align="center">'.$row["kahdirc"].'</td>';
-		$consulta_dif_dia="select ifnull(hour(PERIOD_DIFF(t1.fecha_conexion,t1.fecha_desconexion)),0) as dif_dia, ";
-		$consulta_dif_dia.="hour(right(t1.fecha_conexion,8)) as hora_c2,hour(right(t1.fecha_desconexion,8)) as hora_d2 , ";
+		$consulta_dif_dia="SELECT ifnull(hour(PERIOD_DIFF(REPLACE(LEFT(t1.fecha_conexion,7),'-',''),REPLACE(LEFT(t1.fecha_desconexion,7),'-',''))),0) as dif_dia, ";
+		$consulta_dif_dia.="hour(right(t1.fecha_conexion,8)) as hora_c2,hour(right(t1.fecha_desconexion,8)) as hora_d2, ";
 		$consulta_dif_dia.="minute(right(t1.fecha_conexion,8)) as minuto_c2,minute(right(t1.fecha_desconexion,8)) as minuto_d2 ";
-        $consulta_dif_dia.="from sec_web.cortes_refineria as t1 ";
-        $consulta_dif_dia.="where t1.fecha_desconexion= '".$row["fecha_desconexion"]."' and t1.cod_grupo='".$row["cod_grupo"]."' ";
+        $consulta_dif_dia.="FROM sec_web.cortes_refineria as t1 ";
+        $consulta_dif_dia.="WHERE t1.fecha_desconexion= '".$row["fecha_desconexion"]."' and t1.cod_grupo='".$row["cod_grupo"]."' ";
+        //echo $consulta_dif_dia;
 		$rs_dif_dia = mysqli_query($link, $consulta_dif_dia);
+        //var_dump($rs_dif_dia);
 		$row_dd = mysqli_fetch_array($rs_dif_dia);
 		if (abs($row_dd["dif_dia"])<=1)
 		   {

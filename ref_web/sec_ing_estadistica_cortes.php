@@ -1,5 +1,5 @@
 ﻿<?php 
-	include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 5;
 
@@ -9,9 +9,9 @@
 	$dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
 	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
 	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
-	$dia2    = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
-	$mes2    = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
-	$ano2    = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
+	$dia2    = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:date("d");
+	$mes2    = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");
+	$ano2    = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y");
 
 	$mensaje  = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 
