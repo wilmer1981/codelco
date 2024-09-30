@@ -3,8 +3,51 @@
  $CodigoDePantalla = 11;
 
  include("../principal/conectar_ref_web.php"); 
- 
-  if ((isset($ano1)) and (isset($dia1)) and (isset($mes1)))
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
+$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+$txt_checkbox1 = isset($_REQUEST["txt_checkbox1"])?$_REQUEST["txt_checkbox1"]:"";
+$txt_checkbox2 = isset($_REQUEST["txt_checkbox2"])?$_REQUEST["txt_checkbox2"]:"";
+$txt_checkbox3 = isset($_REQUEST["txt_checkbox3"])?$_REQUEST["txt_checkbox3"]:"";
+$txt_checkbox4 = isset($_REQUEST["txt_checkbox4"])?$_REQUEST["txt_checkbox4"]:"";
+$txt_turno = isset($_REQUEST["txt_turno"])?$_REQUEST["txt_turno"]:"";
+$txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
+$txt_turno2 = isset($_REQUEST["txt_turno2"])?$_REQUEST["txt_turno2"]:"";
+$txt_turno3 = isset($_REQUEST["txt_turno3"])?$_REQUEST["txt_turno3"]:"";
+$txt_stock = isset($_REQUEST["txt_stock"])?$_REQUEST["txt_stock"]:"";
+$entrar = isset($_REQUEST["entrar"])?$_REQUEST["entrar"]:"";
+$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+$txt_mfci = isset($_REQUEST["txt_mfci"])?$_REQUEST["txt_mfci"]:"";
+$txt_mfci1 = isset($_REQUEST["txt_mfci1"])?$_REQUEST["txt_mfci1"]:"";
+$txt_mfci2 = isset($_REQUEST["txt_mfci2"])?$_REQUEST["txt_mfci2"]:"";
+$txt_mfci3 = isset($_REQUEST["txt_mfci3"])?$_REQUEST["txt_mfci3"]:"";
+$txt_mdb1 = isset($_REQUEST["txt_mdb1"])?$_REQUEST["txt_mdb1"]:"";
+$txt_mdb2 = isset($_REQUEST["txt_mdb2"])?$_REQUEST["txt_mdb2"]:"";
+$txt_mdb3 = isset($_REQUEST["txt_mdb3"])?$_REQUEST["txt_mdb3"]:"";
+$txt_mco1 = isset($_REQUEST["txt_mco1"])?$_REQUEST["txt_mco1"]:"";
+$txt_mco2 = isset($_REQUEST["txt_mco2"])?$_REQUEST["txt_mco2"]:"";
+$txt_mco3 = isset($_REQUEST["txt_mco3"])?$_REQUEST["txt_mco3"]:"";
+
+$txt_observacion1 = isset($_REQUEST["txt_observacion1"])?$_REQUEST["txt_observacion1"]:"";
+$txt_observacion2 = isset($_REQUEST["txt_observacion2"])?$_REQUEST["txt_observacion2"]:"";
+$txt_observacion3 = isset($_REQUEST["txt_observacion3"])?$_REQUEST["txt_observacion3"]:"";
+
+$txt_rechazo_cat_ini = isset($_REQUEST["txt_rechazo_cat_ini"])?$_REQUEST["txt_rechazo_cat_ini"]:"";
+$txt_rechazo_cat_ini_a = isset($_REQUEST["txt_rechazo_cat_ini_a"])?$_REQUEST["txt_rechazo_cat_ini_a"]:"";
+$txt_rechazo_cat_ini_b = isset($_REQUEST["txt_rechazo_cat_ini_b"])?$_REQUEST["txt_rechazo_cat_ini_b"]:"";
+$txt_rechazo_cat_ini_c = isset($_REQUEST["txt_rechazo_cat_ini_c"])?$_REQUEST["txt_rechazo_cat_ini_c"]:"";
+$txt_rechazo_lam_ini   = isset($_REQUEST["txt_rechazo_lam_ini"])?$_REQUEST["txt_rechazo_lam_ini"]:"";
+$txt_rechazo_lam_ini_a   = isset($_REQUEST["txt_rechazo_lam_ini_a"])?$_REQUEST["txt_rechazo_lam_ini_a"]:"";
+$txt_rechazo_lam_ini_b   = isset($_REQUEST["txt_rechazo_lam_ini_b"])?$_REQUEST["txt_rechazo_lam_ini_b"]:"";
+$txt_rechazo_lam_ini_c   = isset($_REQUEST["txt_rechazo_lam_ini_c"])?$_REQUEST["txt_rechazo_lam_ini_c"]:"";
+$txt_catodos_en_renovacion   = isset($_REQUEST["txt_catodos_en_renovacion"])?$_REQUEST["txt_catodos_en_renovacion"]:"";
+$txt_catodos_en_renovacion_a = isset($_REQUEST["txt_catodos_en_renovacion_a"])?$_REQUEST["txt_catodos_en_renovacion_a"]:"";
+$txt_catodos_en_renovacion_b = isset($_REQUEST["txt_catodos_en_renovacion_b"])?$_REQUEST["txt_catodos_en_renovacion_b"]:"";
+$txt_catodos_en_renovacion_c = isset($_REQUEST["txt_catodos_en_renovacion_c"])?$_REQUEST["txt_catodos_en_renovacion_c"]:"";
+
+  if ($ano1!="" and $dia1!="" and $mes1!="")
 	 {
 	  $fecha=$ano1.'-'.$mes1.'-'.$dia1;
 	 }
@@ -434,7 +477,7 @@ return;
 </BODY>
 </HTML>
 <?php
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo"<script languaje='javascript'>";
 		echo "alert('".$Mensaje."')";

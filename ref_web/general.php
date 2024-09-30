@@ -1,7 +1,7 @@
 <?php include("../principal/conectar_ref_web.php");
 //include("funcion_ventana_alerta.php"); 
 
-$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
 $Marca   = isset($_REQUEST["Marca"])?$_REQUEST["Marca"]:"";
 
 $ano1=substr($fecha,0,4);
@@ -40,7 +40,7 @@ cursor:hand;
 function Eliminar(cod_novedad)
 {
 	var f = document.FrmPrincipal;
-	if (confirm("Esta mantenci�n pasara a realizada"))
+	if (confirm("Esta mantención pasará a realizada"))
 	{
 	  f.action = "ing_general01.php?Proceso2=ME&cod_novedad=" + cod_novedad;
 	  f.submit();
@@ -158,7 +158,7 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 
 <form name="FrmPrincipal" method="post" action="">
 <input type="hidden" name="Proceso" value="E">
-<input type="hidden" name="fecha" value="<?php echo ''.$fecha.''; ?>">  
+<input type="hidden" name="fecha" value="<?php echo $fecha; ?>">  
 <TABLE width="100%" align="center" cellPadding=0 cellSpacing=0 class="cm lbl">
  <TBODY>
       <TR  vAlign=top  class=dt>  
@@ -188,7 +188,7 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
                  $consulta .="WHERE fecha = '".$fecha."' and mantencion not in ('S')"; 
                 //poly 12-12-08 $consulta .="ORDER BY t2.valor_subclase1,t1.FECHA ASC ";		
 				     $consulta .="ORDER BY t1.turno,t1.FECHA ASC ";	
-				// echo "cons---0".$consulta."<br>";   
+				//echo "cons---0".$consulta."<br>";   
 				$respuesta=mysqli_query($link, $consulta);
                 if(!$row = mysqli_fetch_array($respuesta))
                    {

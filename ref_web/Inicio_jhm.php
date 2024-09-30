@@ -40,14 +40,14 @@ if ($fecha=="")
 	$fecha=$AnoIni.'-'.$MesIni.'-'.$DiaIni;
     if ($siguiente=='S')
       {
-       $fecha=aumentar_dias($fecha,1);
+       $fecha=aumentar_dias($fecha,1,$link);
 	   $MesIni=substr($fecha,5,2);
 	   $AnoIni=substr($fecha,0,4);
 	   $DiaIni=substr($fecha,8,2);
 	  }
     if ($anterior=='S')
      {
-      $fecha=restar_dias($fecha,1);
+      $fecha=restar_dias($fecha,1,$link);
 	  $MesIni=substr($fecha,5,2);
 	  $AnoIni=substr($fecha,0,4);
 	  $DiaIni=substr($fecha,8,2);
@@ -92,15 +92,13 @@ function Recarga_fecha_anterior(frm,Pagina,fecha) // RECARGA PAGINA DE FROMULARI
 
 function Llama_jefe_turno(frm,Pagina,fecha)
 {
-	
-
-	frm.action=Pagina+"&fecha="+fecha;
+	frm.action=Pagina+"?fecha="+fecha;
 	frm.submit();	
 }
 function Llama_jefe_pte(frm,Pagina,fecha)
 {
 	
-	frm.action=Pagina+"&fecha="+fecha;;
+	frm.action=Pagina+"?fecha="+fecha;;
 	frm.submit();	
 }
 
@@ -384,8 +382,8 @@ function Salir(f)
 		 <INPUT name="buscar3" onclick="Recarga(document.FrmPrincipal,'Inicio_jhm.php?pagina=<?php echo $pagina; ?>');" type="button" value="Buscar">
      </TD>
 	 <td width=300 align="left"><strong><b>Ir a </b></strong>
-		<input name="hm" onclick="Llama_jefe_turno(document.FrmPrincipal,'Inicio_jt.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Turno">
-		<input name="pte" onclick="Llama_jefe_pte(document.FrmPrincipal,'Inicio_pte.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist. Jefe Pte.">
+		<input name="hm" onclick="Llama_jefe_turno(document.FrmPrincipal,'Inicio_jt.php','<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Turno">
+		<input name="pte" onclick="Llama_jefe_pte(document.FrmPrincipal,'Inicio_pte.php','<?php echo $fecha; ?>');" type="button" value="Sist. Jefe Pte.">
  	</td>
 	<TD width=300 align="left"><strong>Consulta :</strong>
 		<INPUT name="buscar23" onclick="Recarga_fecha_anterior(document.FrmPrincipal,'Inicio_jhm.php?pagina=<?php echo $pagina; ?>','<?php echo $fecha_atras; ?>');" type="button" value="<< Anterior">
@@ -406,8 +404,7 @@ function Salir(f)
 				     {
 					   $pagina="ing_general_jefe_hm.php?fecha=$fecha";           
 					 }
-				    if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
-				  //if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
+				    if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" )
 				     {
 					  $pagina="general_jefe_hm.php?fecha=$fecha"; 
 					 }      
@@ -434,7 +431,7 @@ function Salir(f)
 				   {
 				    $pagina="Ingreso_produccion_maquinas.php?fecha=$fecha&entrar=S";
 				   }
-				 if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
+				 if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" )
 				   {
 				    $pagina="Informe_produccion_maquinas.php?fecha=$fecha";   
 				   }      
@@ -461,7 +458,7 @@ function Salir(f)
 			     {
 				  $pagina="Detalle_hojas_madres_rechazo_proceso2.php?opcion=N&checkbox=0&fecha=$fecha";
 				 }
-			   if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
+			   if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" )
 			     {
 				  $pagina="prueba_hm.php?fecha=$fecha";  
 				 }     
@@ -488,7 +485,7 @@ function Salir(f)
 			     {
 				  $pagina="cortes2_aux.php?fecha=$fecha";        
 				 }
-			   if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
+			   if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" )
 			     {
 				  $pagina="ref_cortocircuitos.php?fecha=$fecha";
 				 }
@@ -515,7 +512,7 @@ function Salir(f)
 				  {
 				   $pagina="ing_procedimientos.php?fecha=$fecha";    
 				  }
-				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" )
 				  {
 				   $pagina="procedimientos.php?fecha=$fecha";     
 				  }      
@@ -542,7 +539,7 @@ function Salir(f)
 				  {
 				   $pagina="Ing_pulido_placas.php?fecha=$fecha";     
 				  }
-				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" )
 				  {
 				   $pagina="pulido_placas.php?fecha=$fecha";      
 				  }      
@@ -569,7 +566,7 @@ function Salir(f)
 				  {
 				   $pagina="lectura_rectificador_proceso.php?fecha=$fecha";         
 				  }
-				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" )
 				  {
 				   $pagina="Lectura_rectificador.php?fecha=$fecha";          
 				  }      
@@ -596,7 +593,7 @@ function Salir(f)
 				  {
 				   $pagina="ayu_general.php";        
 				  }
-				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura="" && $vapor=="" )
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="" )
 				  {
 				   $pagina="ayu_general.php";          
 				  }      

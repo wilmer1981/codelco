@@ -1,7 +1,7 @@
 <?php include("../principal/conectar_ref_web.php"); 
-    $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+    $fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 	$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-
+	//$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
     if ($fecha=="")
     {
 	  $consulta_fecha_ter="SELECT LEFT(sysdate(),10) as fecha_fin";
@@ -284,17 +284,18 @@ function Proceso(f)
 						 $mesm=substr($row_m["fecha_m"],5,2);
 						 $diam=substr($row_m["fecha_m"],8,2);
 						 $anom=substr($row_m["fecha_m"],0,4);
+						 $fecha_m = isset($row_m["fecha_m"])?$row_m["fecha_m"]:"0000:00:00";
                          $fecham=$anom.'/'.$mesm.'/'.$diam; 
 						 $consulta2="select distinct fecha,sum(reactores)as reactores2,sulfato_cobre,arseniato_ferico,sales_niquel from ref_web.pte ";
-						 $consulta2.="where fecha= '".$row_m["fecha_m"]."'  and turno='C' group by fecha";
+						 $consulta2.="where fecha= '".$fecha_m."'  and turno='C' group by fecha";
 						 $respuesta2 = mysqli_query($link, $consulta2);
 						 $row2= mysqli_fetch_array($respuesta2);
 						 $consulta3="select distinct fecha,sum(reactores)as reactores2,sulfato_cobre,arseniato_ferico,sales_niquel from ref_web.pte ";
-						 $consulta3.="where fecha= '".$row_m["fecha_m"]."'  and turno='A' group by fecha";
+						 $consulta3.="where fecha= '".$fecha_m."'  and turno='A' group by fecha";
 						 $respuesta3 = mysqli_query($link, $consulta3);
 						 $row3= mysqli_fetch_array($respuesta3);
 						 $consulta4="select distinct fecha,sum(reactores)as reactores2,sulfato_cobre,arseniato_ferico,sales_niquel from ref_web.pte ";
-						 $consulta4.="where fecha= '".$row_m["fecha_m"]."'  and turno='B' group by fecha";
+						 $consulta4.="where fecha= '".$fecha_m."'  and turno='B' group by fecha";
 						 $respuesta4 = mysqli_query($link, $consulta4);
 						 $row4= mysqli_fetch_array($respuesta4);
 						 $pasada='1';

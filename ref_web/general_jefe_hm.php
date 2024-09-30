@@ -81,6 +81,7 @@ function Modificar(fecha,cod_novedad,turno)
 				else
 				{
 				      $respuesta=mysqli_query($link, $consulta);
+					$i=0;
                       while($row = mysqli_fetch_array($respuesta))
                       {
                          $i++;

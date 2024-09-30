@@ -16,6 +16,15 @@ $anterior   = isset($_REQUEST["anterior"])?$_REQUEST["anterior"]:"";
 $fecha_adelante = isset($_REQUEST["fecha_adelante"])?$_REQUEST["fecha_adelante"]:"";
 $fecha_atras = isset($_REQUEST["fecha_atras"])?$_REQUEST["fecha_atras"]:"";
 
+$ingresador   = isset($_REQUEST["ingresador"])?$_REQUEST["ingresador"]:"";
+$estadisticas = isset($_REQUEST["estadisticas"])?$_REQUEST["estadisticas"]:"";
+$informe      = isset($_REQUEST["informe"])?$_REQUEST["informe"]:"";
+$historia     = isset($_REQUEST["historia"])?$_REQUEST["historia"]:"";
+$ayuda        = isset($_REQUEST["ayuda"])?$_REQUEST["ayuda"]:"";
+$temperatura  = isset($_REQUEST["temperatura"])?$_REQUEST["temperatura"]:"";
+$vapor        = isset($_REQUEST["vapor"])?$_REQUEST["vapor"]:"";
+
+
 //if (!isset($fecha))
 if ($fecha=="")
 {/*
@@ -33,14 +42,14 @@ if ($fecha=="")
 	$fecha=$AnoIni.'-'.$MesIni.'-'.$DiaIni;
     if ($siguiente=='S')
       {
-       $fecha=aumentar_dias($fecha,1);
+       $fecha=aumentar_dias($fecha,1,$link);
 	   $MesIni=substr($fecha,5,2);
 	   $AnoIni=substr($fecha,0,4);
 	   $DiaIni=substr($fecha,8,2);
 	  }
     if ($anterior=='S')
      {
-      $fecha=restar_dias($fecha,1);
+      $fecha=restar_dias($fecha,1,$link);
 	  $MesIni=substr($fecha,5,2);
 	  $AnoIni=substr($fecha,0,4);
 	  $DiaIni=substr($fecha,8,2);
@@ -87,13 +96,13 @@ function Recarga_fecha_anterior(frm,Pagina,fecha) // RECARGA PAGINA DE FROMULARI
 function Llama_jefe_jhm(frm,Pagina,fecha)
 {
 
-	frm.action=Pagina+"&fecha="+fecha;
+	frm.action=Pagina+"?fecha="+fecha;
 	frm.submit();	
 }
 function Llama_jefe_turno(frm,Pagina,fecha)
 {
 
-	frm.action=Pagina+"&fecha="+fecha;
+	frm.action=Pagina+"?fecha="+fecha;
 	frm.submit();	
 }
 
@@ -249,8 +258,8 @@ function Salir()
         	 <SELECT name="AnoIni" onFocus="foco='DiaFin';"><?php LLenaComboAno($AnoIni,date("Y"));?></SELECT>&nbsp;&nbsp; 
 			 <INPUT name="buscar3" onclick="Recarga(document.FrmPrincipal,'Inicio_pte.php?pagina=<?php echo $pagina; ?>');" type="button" value="Buscar">
 		<td width=300 align="left"><strong><b>Ir a </b></strong>
-			<input name="hm" onclick="Llama_jefe_turno(document.FrmPrincipal,'Inicio_jt.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Turno">
-			<input name="pte" onclick="Llama_jefe_jhm(document.FrmPrincipal,'Inicio_jhm.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe H.M.">
+			<input name="hm" onclick="Llama_jefe_turno(document.FrmPrincipal,'Inicio_jt.php','<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Turno">
+			<input name="pte" onclick="Llama_jefe_jhm(document.FrmPrincipal,'Inicio_jhm.php','<?php echo $fecha; ?>');" type="button" value="Sist.Jefe H.M.">
  		</td>
 
 		 
@@ -272,81 +281,81 @@ function Salir()
             <?php  
               if($pagina==1) 
 			    {
-				  if(isset($ingresador))
+				  if($ingresador!="")
 				     {
 					   $pagina="ing_general_jefe_pte.php?fecha=$fecha";           
 					 }
-				  if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="")
 				     {
 					  $pagina="general_jefe_pte.php?fecha=$fecha"; 
 					 }      
-				  if(isset($estadisticas))
+				  if($estadisticas!="")
 				     {
 					  $pagina="est_general.php";            
 					 }   
-				  if(isset($informe))
+				  if($informe!="")
 				    {
 					 $pagina="general_jefe_pte.php?fecha=$fecha";
 					}  
-				  if(isset($historia))
+				  if($historia!="")
 				    {
 					 $pagina="his_general_jefe_pte.php";
 					}   
-				  if(isset($ayuda))
+				  if($ayuda!="")
 				    {
 					 $pagina="ayu_general.php";
 				    }  
 				} 
         	  if($pagina==2) 
 			    {
-				 if(isset($ingresador))
+				 if($ingresador!="")
 				   {
 				    $pagina="Ingreso_pte.php?fecha=$fecha&entrar=S";
 				   }
-				 if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
-				   {
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="")
+				{
 				    $pagina="informe_pte.php?fecha=$fecha";   
 				   }      
-				 if(isset($estadisticas))
+				 if($estadisticas!="")
 				   {
 				    $pagina="est_Maquinas.php";
 				   }   
-				 if(isset($informe))
+				 if($informe!="")
 				   {
 				    $pagina="informe_pte.php?fecha=$fecha"; 
 				   }  
-				 if(isset($historia))
+				 if($historia!="")
 				   {
 				    $pagina="his_produccion_maquinas.php?fecha=$fecha"; 
 				   }   
-				 if(isset($ayuda))
+				 if($ayuda!="")
 				   {
 				    $pagina="ayu_Maquinas.php";
 				   }  
 			 } 
         	if($pagina==3) 
 			  {
-			   if(isset($ingresador))
+			   if($ingresador!="")
 				  {
 				   $pagina="ing_procedimientos.php?fecha=$fecha";    
 				  }
-				if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
-				  {
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="")
+			  {
 				   $pagina="procedimientos.php?fecha=$fecha";     
 				  }      
-				if(isset($estadisticas))
+				if($estadisticas!="")
 				  {
 				   $pagina="est_procedimientos.php";     
 				  }   
-				if(isset($informe))
+				if($informe!="")
 				  {
 				   $pagina="procedimientos.php?fecha=$fecha";          
 				  }  
-				if(isset($historia))
+				if($historia!="")
 				  {
 				   $pagina="his_procedimientos.php";  
 				  }   
-				if(isset($ayuda))
+				if($ayuda!="")
 				  {
 				   $pagina="ayu_procedimientos.php";     
 				  }  
@@ -354,135 +363,135 @@ function Salir()
 			//echo $pagina;
         	if($pagina==4) 
 			  {
-			   if(isset($ingresador))
+			   if($ingresador!="")
 			     {
 				  $pagina="Informe_riles.php?fecha=$fecha";        
 				 }
-			   if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
-			     {
+			if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="")
+		     {
 				  $pagina="Informe_riles.php?fecha=$fecha";
 				 }
-			   if(isset($estadisticas))
+			   if($estadisticas!="")
 			     {
 				  $pagina="est_Inspeccion.php";  
 				 }   
-			   if(isset($informe))
+			   if($informe!="")
 			     {
 				  $pagina="Informe_riles.php?fecha=$fecha";  
 				 }  
-			   if(isset($historia))
+			   if($historia!="")
 			     {
 				  $pagina="Informe_riles.php";
 				 }   
-			   if(isset($ayuda))
+			   if($ayuda!="")
 			     {
 				  $pagina="ayu_Inspeccion.php";         
 				 }  
 		      } 
           	 if($pagina==5) 
 			   {
-			     if(isset($ingresador))
+			     if($ingresador!="")
 					 {
 					  $pagina="Ingresadores_traspaso.php?fecha=$fecha";       
 					 }
-				   if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
-					 {
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="")
+				 {
 					  $pagina="traspasos.php?fecha=$fecha";
 					 }         
-				   if(isset($estadisticas))
+				   if($estadisticas!="")
 					 {
 					  $pagina="est_traspasos.php";       
 					 }   
-				   if(isset($informe))
+				   if($informe!="")
 					 {
 					  $pagina="traspasos.php?fecha=$fecha";       
 					 }  
-				   if(isset($historia))
+				   if($historia!="")
 					 {
 					  $pagina="his_traspasos.php";     
 					 }   
-				   if(isset($ayuda))
+				   if($ayuda!="")
 					 {
 					  $pagina="ayu_general.php";      
 					 }  
 			  }
     		 if($pagina==6) 
 			   {
-			    if(isset($ingresador))
+			    if($ingresador!="")
 				  {
 				   $pagina="Ing_pulido_placas.php?fecha=$fecha";     
 				  }
-				if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
-				  {
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="")
+				 {
 				   $pagina="pulido_placas.php?fecha=$fecha";      
 				  }      
-				if(isset($estadisticas))
+				if($estadisticas!="")
 				  {
 				   $pagina="est_Pulido_Placas.php";      
 				  }   
-				if(isset($informe))
+				if($informe!="")
 				  {
 				   $pagina="pulido_placas.php";           
 				  }  
-				if(isset($historia))
+				if($historia!="")
 				  {
 				   $pagina="his_Pulido_Placas.php";               
 				  }   
-				if(isset($ayuda))
+				if($ayuda!="")
 				  {
 				   $pagina="ayu_Pulido_Placas.php";      
 				  }  
 			  }      
          	 if($pagina==7) 
 			   {
-			    if(isset($ingresador))
+			    if($ingresador!="")
 				  {
 				   $pagina="lectura_rectificador_proceso.php?fecha=$fecha";         
 				  }
-				if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
-				  {
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="")
+				{
 				   $pagina="Lectura_rectificador.php?fecha=$fecha";          
 				  }      
-				if(isset($estadisticas))
+				if($estadisticas!="")
 				  {
 				   $pagina="est_rectificador1.php";         
 				  }   
-				if(isset($informe))
+				if($informe!="")
 				  {
 				   $pagina="Lectura_rectificador.php?fecha=$fecha";   
 				  }  
-				if(isset($historia))
+				if($historia!="")
 				  {
 				   $pagina="his_rectificador1.php";
 				  }   
-				if(isset($ayuda))
+				if($ayuda!="")
 				  {
 				   $pagina="ayu_rectificador1.php";  
 				  }  
 			  }    
          	 if($pagina==8) 
 			   {
-			    if(isset($ingresador))
+			    if($ingresador!="")
 				  {
 				   $pagina="ayu_general.php";        
 				  }
-				if(!isset($ingresador) && !isset($estadisticas) && !isset($informe) && !isset($historia) && !isset($ayuda)&& !isset($temperatura)&& !isset($vapor))
+				if($ingresador=="" && $estadisticas=="" && $informe=="" && $historia=="" && $ayuda=="" && $temperatura=="" && $vapor=="")
 				  {
 				   $pagina="ayu_general.php";          
 				  }      
-				if(isset($estadisticas))
+				if($estadisticas!="")
 				  {
 				   $pagina="ayu_general.php";          
 				  }   
-				if(isset($informe))
+				if($informe!="")
 				  {
 				   $pagina="ayu_general.php";
 				  }  
-				if(isset($historia))
+				if($historia!="")
 				  {
 				   $pagina="ayu_general.php";    
 				  }   
-				if(isset($ayuda))
+				if($ayuda!="")
 				  {
 				   $pagina="ayu_general.php";
 				  }  

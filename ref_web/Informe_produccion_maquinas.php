@@ -4,6 +4,7 @@ function FormatoFecha($f)
 		$fecha = substr($f,8,2)."/".substr($f,5,2)."/".substr($f,0,4)."  ".substr($f,11,2).":".substr($f,14,2);
 		return $fecha;
 	}
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 echo "fecha :".$fecha;	
 $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
@@ -87,10 +88,10 @@ function Imprimir()
 						  $i++;	
 						  echo '<tr class=lcol>';
 						  echo '<td width="54" align="center">'.$i.'</td>';
-						  echo '<td width="54" align="center">'.$row[turno].'</td>';
-						  echo '<td width="82" align="center">'.$row[produccion_mfci].'</td>';			
-						  echo '<td width="166" align="center">'.$row[produccion_mdb].'</td>';
-						  echo '<td width="95" align="center">'.$row[produccion_mco].'</td>';
+						  echo '<td width="54" align="center">'.$row["turno"].'</td>';
+						  echo '<td width="82" align="center">'.$row["produccion_mfci"].'</td>';			
+						  echo '<td width="166" align="center">'.$row["produccion_mdb"].'</td>';
+						  echo '<td width="95" align="center">'.$row["produccion_mco"].'</td>';
 						  echo '<td width="165" align="left">'.$row["observacion"].'</td>';
 						  echo '</tr>';
 					     }
@@ -113,20 +114,20 @@ function Imprimir()
             ?>
             <TD width="60%" align="left"><div align="left"><font size="6"><strong>STOCK</strong></font></div></TD>
             <TD align="left"><div align="left"><font size="6"></font></div>
-              <font size="6"><?php echo $row[stock]; ?>&nbsp;</font></TD>
+              <font size="6"><?php echo $row["stock"]; ?>&nbsp;</font></TD>
           </TR>
           <TR class=lcol> 
             <TD align="left"><font size="6"><strong>RECHAZO CAT. INI.</strong></font></TD>
-            <TD align="left"><?php echo $row[rechazo_cat_ini]; ?>&nbsp;</TD>
+            <TD align="left"><?php echo $row["rechazo_cat_ini"]; ?>&nbsp;</TD>
           </TR>
           <TR class=lcol> 
             <TD align="left"><font size="6"><strong>RECHAZO DIARIO DE LAMINAS 
               INICIALES</strong></font></TD>
-            <TD align="left"><?php echo $row[rechazo_lam_ini]; ?>&nbsp;</TD>
+            <TD align="left"><?php echo $row["rechazo_lam_ini"]; ?>&nbsp;</TD>
           </TR>
           <TR class=lcol> 
             <TD align="left"><font size="6"><strong>RECHAZO CATODOS EN RENOVACION</strong></font></TD>
-            <TD align="left"><?php echo $row[catodos_en_renovacion]; ?>&nbsp;</TD>
+            <TD align="left"><?php echo $row["catodos_en_renovacion"]; ?>&nbsp;</TD>
           </TR>
          </table>	  
          </TD>
