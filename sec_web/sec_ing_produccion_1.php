@@ -1,6 +1,6 @@
 <?php
 	//RECEPCION.
-
+/*
 	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
 	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
 	$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
@@ -39,7 +39,8 @@
 	$cmbinstruccion = isset($_REQUEST["cmbinstruccion"])?$_REQUEST["cmbinstruccion"]:"";
 	$cmbcodpaq = isset($_REQUEST["cmbcodpaq"])?$_REQUEST["cmbcodpaq"]:"";
 	
-
+*/  $txtnumpaq     = isset($_REQUEST["txtnumpaq"])?$_REQUEST["txtnumpaq"]:"";
+    $cmbcodpaq = isset($_REQUEST["cmbcodpaq"])?$_REQUEST["cmbcodpaq"]:"";
 	//Asigna a un arreglo los codigos de paqutes.
 	$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 3004";
 	$rs = mysqli_query($link, $consulta);
@@ -65,9 +66,6 @@
 		echo '<input name="tipo_ie" type="hidden" value="'.$tipo_ie.'">';
 	else
 		echo '<input name="tipo_ie" type="hidden" value="">';	
-	
-	
-	
 	
 	
 	//Campo Ocultos.
@@ -270,14 +268,14 @@
 					$rs1 = mysqli_query($link, $consulta);
 					$row1 = mysqli_fetch_array($rs1);
 		
-					if ($row1[cantidad] == 0)
+					if ($row1["cantidad"] == 0)
 						$promedio = 0;
 					else
-						$promedio = round($row1["peso"] / $row1[cantidad]);							
+						$promedio = round($row1["peso"] / $row1["cantidad"]);							
 				}
 				*/
 				$insertar = "INSERT INTO sec_web.instrucciones (corr_ie,cod_producto,cod_subproducto,peso_programado,fecha)";
-				$insertar.= " VALUES ('".$row["corr_enm"]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."', '".$row[cantidad_embarque]."',";
+				$insertar.= " VALUES ('".$row["corr_enm"]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."', '".$row["cantidad_embarque"]."',";
 				$insertar.= " '".$row["fecha_disponible"]."')";
 				//echo $insertar."<br>";
 				mysqli_query($link, $insertar);
@@ -306,10 +304,10 @@
 					//echo $consulta."<br>";
 					$rs1 = mysqli_query($link, $consulta);
 					$row1 = mysqli_fetch_array($rs1);
-					if ($row1[cantidad] == 0)
+					if ($row1["cantidad"] == 0)
 						$promedio = 0;
 					else	
-						$promedio = round($row1["peso"] / $row1[cantidad]);							
+						$promedio = round($row1["peso"] / $row1["cantidad"]);							
 				}
 				*/
 				$insertar = "INSERT INTO sec_web.instrucciones (corr_ie,cod_producto,cod_subproducto,peso_programado,fecha)";
@@ -338,10 +336,10 @@
 				//echo $consulta."<br>";
 				$rs1 = mysqli_query($link, $consulta);
 				$row1 = mysqli_fetch_array($rs1);
-				if ($row1[cantidad] == 0)
+				if ($row1["cantidad"] == 0)
 					$promedio = 0;
 				else	
-					$promedio = round($row1["peso"] / $row1[cantidad]);		
+					$promedio = round($row1["peso"] / $row1["cantidad"]);		
 				*/
 			
 				$insertar = "INSERT INTO sec_web.instrucciones (corr_ie,cod_producto,cod_subproducto,peso_programado,fecha)";
@@ -387,7 +385,7 @@
 			echo '<input name="txtpesoprog" type="text" value="'.$txtpesoprog.'" size="12" maxlength="12">';
 		else
 */
-		$txtpesoprog = 0;
+		//$txtpesoprog = 0;
 		//Consulta el peso de la I.E.			
 		if ($listar_ie == "P") //Del Programa.
 		{
@@ -398,7 +396,7 @@
 			$rs = mysqli_query($link, $consulta);
 			if ($row = mysqli_fetch_array($rs))
 			{
-				$txtpesoprog = ($row[cantidad_embarque] * 1000);
+				$txtpesoprog = ($row["cantidad_embarque"] * 1000);
 			}
 			else
 			{	
@@ -496,7 +494,11 @@
 		}		
 	?>
       </SELECT>
-      - 
+      <?php	
+	//echo "CCC----".$codlote;
+	echo '<input name="codlote" type="hidden" size="10" maxlength="10" value="'.$cmbcodlote.'" >';	
+	echo '<input name="numlote" type="hidden" size="10" maxlength="10" value="'.$txtnumlote.'" >';	
+	?>
       <input name="txtnumlote" type="text" size="10" maxlength="10" onBlur="ValidaLote()" value="<?php echo $txtnumlote ?>"></td>
     <td>Marca</td>
     <td> <input name="txtmarca" type="text" value="<?php echo $txtmarca ?>"> <input type="button" name="Button" value="marca" onClick="VerMarca()"></td>
@@ -556,9 +558,12 @@
     <td>N&deg; de Serie</td>
 <?php	
 	//echo "CCC----".$codlote;
-	echo '<input name="codigopaquete" type="hidden" size="10" maxlength="10" value="'.$cod.'" >';	?>
+	echo '<input name="codigopaquete" type="hidden" size="10" maxlength="10" value="'.$cod.'" >';	
+echo '<input name="numpaq" type="hidden" size="10" maxlength="10" value="'.$txtnumpaq.'" >';	
+?>
 
-    <td><input name="txtnumpaq" type="text" id="txtnumpaq"  value="<?php echo $txtnumpaq ?>" size="10" maxlength="10"></td>
+
+    <td><input name="txtnumpaq" type="text" id="txtnumpaq"  value="<?php echo $txtnumpaq; ?>" size="10" maxlength="10"></td>
   </tr>
 </table>
 <br>
@@ -600,7 +605,7 @@
 		$peso_prom_paq = 0;
 		if ($row["peso"] != 0)		
 		{
-			$peso_prom_paq = round($row["peso"] / $row[cantidad]);
+			$peso_prom_paq = round($row["peso"] / $row["cantidad"]);
 			//echo $peso_prom_paq."<br>"; //promedio legal por paquete acumulado.
 			//echo $pesofaltante."<br>";
 			

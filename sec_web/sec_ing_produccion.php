@@ -5,7 +5,8 @@
 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 7;
-	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+	//$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+	$REMOTE_ADDR  = getenv("REMOTE_ADDR");
 	$movimientos = array(1=>"RECEPCION", 2=> "PRODUCCION", 3=> "PAQUETE");
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
 	//echo "SA__uno__".$SA_C_STD2."<br>";	
@@ -97,6 +98,7 @@
 	$cuba        = isset($_REQUEST["cuba"])?$_REQUEST["cuba"]:"";
 	$etapa       = isset($_REQUEST["etapa"])?$_REQUEST["etapa"]:"";
 	$medida      = isset($_REQUEST["medida"])?$_REQUEST["medida"]:"";
+$codigopaquete = isset($_REQUEST["codigopaquete"])?$_REQUEST["codigopaquete"]:"";
 
 ?>
 

@@ -46,6 +46,8 @@
 	$genera_lote    = isset($_REQUEST["genera_lote"])?$_REQUEST["genera_lote"]:"";
 	$peso_prog_ok   = isset($_REQUEST["peso_prog_ok"])?$_REQUEST["peso_prog_ok"]:"";
 	$cmbcodlote = isset($_REQUEST["cmbcodlote"])?$_REQUEST["cmbcodlote"]:"";
+$codigolote = isset($_REQUEST["codigolote"])?$_REQUEST["codiglote"]:"";
+$codigopaquete = isset($_REQUEST["codigopaquete"])?$_REQUEST["codigopaquete"]:"";
 	$listar_ie  = isset($_REQUEST["listar_ie"])?$_REQUEST["listar_ie"]:"";
 	$tipo_reg   = isset($_REQUEST["tipo_reg"])?$_REQUEST["tipo_reg"]:"";
 	$txtlote    = isset($_REQUEST["txtlote"])?$_REQUEST["txtlote"]:"";
@@ -96,6 +98,8 @@
 	$pesoacumulado = isset($_REQUEST["pesoacumulado"])?$_REQUEST["pesoacumulado"]:0;
 	
 	$mensaje      = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+
+//echo "codigopaquete :".$codigopaquete."<br>";
 	
 	$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
 	$rs = mysqli_query($link, $Consulta);
@@ -176,7 +180,8 @@ switch($proceso)
 	while ($row = mysqli_fetch_array($rs))
 	{
 		$cod_paq[$row["cod_subclase"]] = $row["nombre_subclase"];
-	}	      
+	}
+//var_dump($cod_paq);	      
 
 	if ($proceso == "B") //Busqueda de Recepciones.
 	{
@@ -404,7 +409,6 @@ switch($proceso)
 		header("Location:sec_ing_produccion.php?".$linea);		
 	}
 	
-	
 	if ($proceso == "B7") //Busca I.E en programa_enami  programa_codelco  Virtual.
 	{
 		if ($listar_ie == "P")
@@ -600,7 +604,6 @@ switch($proceso)
 		header("Location:sec_ing_produccion.php?".$linea);
 	}
 	
-	
 	if ($proceso == "B8") //Valida el Lote.
 	{	
 		$mensaje='';
@@ -665,7 +668,6 @@ switch($proceso)
 		header("Location:sec_ing_produccion.php?".$linea);				
 	}
 	
-	//---.
 	if ($proceso == "B9") //Busca I.E en programa_enami  programa_codelco  Virtual (Solo para los Lodos).
 	{	
 		if ($listar_ie == "P")
@@ -721,7 +723,6 @@ switch($proceso)
 			
 		header("Location:sec_ing_produccion.php?".$linea);
 	}
-	//---.
 	
 	if ($proceso == "B10")
 	{
@@ -842,8 +843,6 @@ switch($proceso)
 		$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=3&cmbproducto=".$cmbproducto."&cmbsubproducto=".$cmbsubproducto;
 		header("Location:sec_ing_produccion.php?".$linea);
 	}
-	
-	
 	//-----------------------// Graba solamente Lodos.
 	if ($proceso == "GL")
 	{
@@ -954,8 +953,6 @@ switch($proceso)
 		header("Location:sec_ing_produccion.php?".$linea);		
 	}
 	//------------------------//
-	
-	
 	if ($proceso == "G")
 	{
 		echo "txtpesoprog:".$txtpesoprog;
@@ -1682,11 +1679,11 @@ switch($proceso)
 	//echo "proceso___".$proceso."<br>";
 	if ($proceso == "M")
 	{
-		$fecha = $ano.'-'.$mes.'-'.$dia;
-		
+		if(strlen($mes)==1){$mes="0".$mes;}
+		if(strlen($dia)==1){$dia="0".$dia;}
+		$fecha = $ano.'-'.$mes.'-'.$dia;	
 		//echo $fecha."<br>";
-		//echo $fecha_aux."<br>";
-		
+		//echo $fecha_aux."<br>";		
 		if ($cmbmovimiento == "1") //RECEPCION.
 		{			
 			if ($tipo_reg == "L") //Modifica Lote.
@@ -1694,31 +1691,41 @@ switch($proceso)
 				$actualizar = "UPDATE sec_web.recepcion_catodo_externo SET fecha_recepcion = '".$fecha."',";
 				$actualizar.= "patente_camion = '".$txtpatente."', num_guia = '".$txtguia."', rut_proveedor = '".$txtrut."',";
 				$actualizar.= "peso_recepcion = '".$txtpeso."', peso_zuncho = '".$txtzuncho."'";
-
 				$actualizar.= " WHERE lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."' AND fecha_recepcion = '".$fecha_aux."'";
 				//echo $actualizar."<br>";
 				mysqli_query($link, $actualizar);				
 			}
 			else //Modifica Paquete.
 			{
+              //  echo "<br><br>var_dump:<br>";
+			//	var_dump($cod_paq);
+			//	echo "<br>cmbcodpaq:".$cmbcodpaq;
+			//echo "<br>codigopaquete:".$codigopaquete;
+            // echo "<br>numpaq:".$numpaq;
+			//echo "<br>codlote:".$codlote;
+			//echo "<br>numlote:".$numlote."<br>";
+			//	$cod_paq[$cmbcodpaq]);
 				$actualizar = "UPDATE sec_web.paquete_catodo_externo SET fecha_creacion_paquete = '".$fecha."',";
 				$actualizar.= "num_unidades = '".$txtunidades."', peso_paquete = '".$txtpeso."'";
 				$actualizar.= " WHERE lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."' AND fecha_creacion_paquete = '".$fecha_aux."'";
-				$actualizar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
+				$actualizar.= " AND cod_paquete = '".$codigopaquete."' AND num_paquete = '".$numpaq."'";
+				//$actualizar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 				mysqli_query($link, $actualizar);
-				//echo $actualizar."<br>";
-				
+				//echo "Actualizar TipoReg Diferente de Lote:".$actualizar."<br>";				
 				$actualizar = "UPDATE sec_web.paquete_catodo SET fecha_creacion_paquete = '".$fecha."',";
 				$actualizar.= "num_unidades = '".$txtunidades."', peso_paquetes = '".$txtpeso."'";
-				$actualizar.= " WHERE cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
+				$actualizar.= " WHERE cod_paquete = '".$codigopaquete."' AND num_paquete = '".$numpaq."'";
+				//$actualizar.= " WHERE cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 				$actualizar.= " AND fecha_creacion_paquete = '".$fecha_aux."'";
 				mysqli_query($link, $actualizar);				
-				//echo $actualizar."<br>";
+				//echo "<br>Actualizar Paquete Catodo:".$actualizar."<br>";
 				$actualizar = "UPDATE sec_web.lote_catodo SET fecha_creacion_paquete = '".$fecha."'";
-				$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
-				$actualizar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
+				$actualizar.= " WHERE cod_bulto = '".$codlote."' AND num_bulto = '".$numlote."'";
+				//$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
+				$actualizar.= " AND cod_paquete = '".$codigopaquete."' AND num_paquete = '".$numpaq."'";
+               //$actualizar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 				$actualizar.= " AND fecha_creacion_paquete = '".$fecha_aux."'";
-				//echo $actualizar."<br>";
+				//echo "<br>Actualizar Lote Catodo:".$actualizar."<br>";
 				mysqli_query($link, $actualizar);
 				//----.
 				$peso_prog = 0;
@@ -1761,7 +1768,8 @@ switch($proceso)
 				$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
 				$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete";
 				$consulta.= " AND t1.cod_estado = t2.cod_estado AND t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
-				$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
+				$consulta.= " WHERE t1.cod_bulto = '".$codlote."' AND t1.num_bulto = '".$numlote."'";
+				//$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
 				$consulta.= "  AND t2.cod_estado = 'a'";
 				//echo $consulta."<br>";
 				$rs2 = mysqli_query($link, $consulta);
@@ -1781,7 +1789,8 @@ switch($proceso)
 				{
 					//Actualizar disponibilidad.
 					$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$disponibilidad."'";
-					$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
+					$actualizar.= " WHERE cod_bulto = '".$codlote."' AND num_bulto = '".$numlote."'";
+					//$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 					$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
 					mysqli_query($link, $actualizar);
 						
@@ -1800,7 +1809,8 @@ switch($proceso)
 				{
 					//Actualizar disponibilidad.
 					$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$disponibilidad."'";
-					$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
+					$actualizar.= " WHERE cod_bulto = '".$codlote."' AND num_bulto = '".$numlote."'";
+					//$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 					$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
 					mysqli_query($link, $actualizar);				
 					//Actualiza Programa.				
@@ -1813,6 +1823,7 @@ switch($proceso)
 			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 			$linea.= "&cmbsubproducto=".$cmbsubproducto."&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtrecargo=".$txtrecargo;
 			$linea.= "&peso_auto=checked";
+			//exit();
 			header("Location:sec_ing_produccion.php?".$linea);			
 		}		
 		if ($cmbmovimiento == "2") //PRODUCCION.
@@ -1858,9 +1869,12 @@ switch($proceso)
 			$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
 			$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete";
 			$consulta.= " AND t1.cod_estado = t2.cod_estado AND t1.fecha_creacion_paquete = t2.fecha_creacion_paquete ";
-			$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."' and ";
-			$consulta.= " t2.fecha_creacion_paquete = '".$fecha_aux."' AND t2.cod_paquete = '".$cod_paq[$cmbcodpaq]."' ";
-			$consulta.= " AND t2.num_paquete = '".$txtnumpaq."' ";
+			$consulta.= " WHERE t1.cod_bulto = '".$codlote."' AND t1.num_bulto = '".$numlote."' and ";
+			//$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."' and ";
+			$consulta.= " t2.fecha_creacion_paquete = '".$fecha_aux."' AND t2.cod_paquete = '".$codigopaquete."' ";
+			//$consulta.= " t2.fecha_creacion_paquete = '".$fecha_aux."' AND t2.cod_paquete = '".$cod_paq[$cmbcodpaq]."' ";
+			$consulta.= " AND t2.num_paquete = '".$numpaq."' ";
+			//$consulta.= " AND t2.num_paquete = '".$txtnumpaq."' ";
 			$consulta.= "  AND t2.cod_estado = 'a'";
 			//echo $consulta."<br>";
 			$RsCom = mysqli_query($link, $consulta);
@@ -1878,8 +1892,10 @@ switch($proceso)
   			{	
 				$actualizar.= " , nro_solicitud='".$NroSolAnalisis."' ";
 			}
-			$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$cod_paq[$cmbcodpaq]."'";
-			$actualizar.= " AND num_paquete = '".$txtnumpaq."' AND cod_estado = 'a'";
+			$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$codigopaquete."'";
+			$actualizar.= " AND num_paquete = '".$numpaq."' AND cod_estado = 'a'";
+//$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$cod_paq[$cmbcodpaq]."'";
+			//$actualizar.= " AND num_paquete = '".$txtnumpaq."' AND cod_estado = 'a'";
 			//echo $actualizar;
 			mysqli_query($link, $actualizar);
 			
@@ -1892,16 +1908,20 @@ switch($proceso)
 			{
 				$actualizar = "UPDATE sec_web.paquete_catodo_etiqueta SET fecha_creacion_paquete = '".$fecha."'";
 				$actualizar.= ", num_unidades = '".$txtunidades."', peso_paquetes = '".$txtpeso."', id_paquete='".$id_paquete."' ";
-				$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$cod_paq[$cmbcodpaq]."'";
-				$actualizar.= " AND num_paquete = '".$txtnumpaq."'";
+				$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$codigopaquete."'";
+				$actualizar.= " AND num_paquete = '".$numpaq."'";
+				//$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$cod_paq[$cmbcodpaq]."'";
+				//$actualizar.= " AND num_paquete = '".$txtnumpaq."'";
 				mysqli_query($link, $actualizar);
 			}
 			//echo $actualizar."<br>";
 			$actualizar = "UPDATE sec_web.lote_catodo SET fecha_creacion_paquete = '".$fecha."'";;
-			
-			$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$cod_paq[$cmbcodpaq]."'";
-			$actualizar.= " AND num_paquete = '".$txtnumpaq."' AND corr_enm = '".$cmbinstruccion."'";
-			$actualizar.= " AND cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
+			$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$codigopaquete."'";
+			//$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$cod_paq[$cmbcodpaq]."'";
+			$actualizar.= " AND num_paquete = '".$numpaq."' AND corr_enm = '".$cmbinstruccion."'";
+			$actualizar.= " AND cod_bulto = '".$codlote."' AND num_bulto = '".$numlote."'";
+			//$actualizar.= " AND num_paquete = '".$txtnumpaq."' AND corr_enm = '".$cmbinstruccion."'";
+			//$actualizar.= " AND cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 			mysqli_query($link, $actualizar);
 			
 			/*if($cmbsubproducto =='16' || $cmbsubproducto =='17' || $cmbsubproducto =='49')
@@ -1953,7 +1973,8 @@ switch($proceso)
 			$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
 			$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete";
 			$consulta.= " AND t1.cod_estado = t2.cod_estado AND t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
-			$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
+			$consulta.= " WHERE t1.cod_bulto = '".$codlote."' AND t1.num_bulto = '".$numlote."'";
+			//$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
 			$consulta.= "  AND t2.cod_estado = 'a'";
 			//echo $consulta."<br>";
 			$rs2 = mysqli_query($link, $consulta);
@@ -1974,7 +1995,8 @@ switch($proceso)
 			{
 				//Actualizar disponibilidad.
 				$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$disponibilidad."'";
-				$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
+				$actualizar.= " WHERE cod_bulto = '".$codlote."' AND num_bulto = '".$numlote."'";
+				//$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 				$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
 				mysqli_query($link, $actualizar);
 				//Actualiza Programa.			
@@ -1991,7 +2013,8 @@ switch($proceso)
 			{
 				//Actualizar disponibilidad.
 				$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$disponibilidad."'";
-				$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
+				$actualizar.= " WHERE cod_bulto = '".$codlote."' AND num_bulto = '".$numlote."'";
+				//$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 				$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
 				mysqli_query($link, $actualizar);				
 				//Actualiza Programa.				

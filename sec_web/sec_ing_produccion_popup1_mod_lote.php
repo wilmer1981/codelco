@@ -1,12 +1,18 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");
 
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$LoteMod = isset($_REQUEST["LoteMod"])?$_REQUEST["LoteMod"]:"";
+	$RecMod = isset($_REQUEST["RecMod"])?$_REQUEST["RecMod"]:"";
+	$Lote = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$Rec = isset($_REQUEST["Rec"])?$_REQUEST["Rec"]:"";
+	$Msj = "";
 	if($Proceso=='M')
 	{
 		$consulta = "SELECT * FROM sec_web.recepcion_catodo_externo";
 		$consulta.= " WHERE lote_origen = '".str_pad($LoteMod,8,'0',STR_PAD_LEFT)."' AND recargo = '".$RecMod."'";
 		//echo "CCCC".$consulta;
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		//echo $consulta."<br>";
 		
 		if ($row = mysqli_fetch_array($rs))
@@ -20,15 +26,15 @@
 			$consulta.= " WHERE lote = '".str_pad($LoteMod,8,'0',STR_PAD_LEFT)."' AND recargo = '".$RecMod."' AND cod_subproducto = '18'";
 			//echo $consulta."<br>";
 			
-			$rs1 = mysqli_query($link, $consulta);
+			$rs1 = mysqli_query($link,$consulta);
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				//ACTUALIZAR LOTE Y DETALLE EN SEC
-				$Actualizar="UPDATE sec_web.recepcion_catodo_externo set lote_origen='".$LoteMod."', recargo='".$RecMod."' where lote_origen='".$Lote."' and recargo='".$Rec."'";
-				mysqli_query($link, $Actualizar);
+				$Actualizar="update sec_web.recepcion_catodo_externo set lote_origen='".$LoteMod."', recargo='".$RecMod."' where lote_origen='".$Lote."' and recargo='".$Rec."'";
+				mysqli_query($link,$Actualizar);
 				//echo $Actualizar."<br>";
-				$Actualizar="UPDATE sec_web.paquete_catodo_externo set lote_origen='".$LoteMod."', recargo='".$RecMod."' where lote_origen='".$Lote."' and recargo='".$Rec."'";
-				mysqli_query($link, $Actualizar);
+				$Actualizar="update sec_web.paquete_catodo_externo set lote_origen='".$LoteMod."', recargo='".$RecMod."' where lote_origen='".$Lote."' and recargo='".$Rec."'";
+				mysqli_query($link,$Actualizar);
 				//echo $Actualizar."<br>";
 				$Msj=2;
 			}
@@ -110,7 +116,7 @@ function Salir()
   </tr>
   </table>
 
-<?phpPHP
+<?php
 if($Msj==1)
 {
 ?>
