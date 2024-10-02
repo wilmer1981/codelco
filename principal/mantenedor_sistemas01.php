@@ -44,7 +44,7 @@ switch ($Proceso)
 			$Actualizar.= " SET nombre = '".$NomSistema."' ";
 			$Actualizar.= " , descripcion = '".$Descripcion."' ";
 			$Actualizar.= " , cierre = '".$Anexo."' ";
-			$Actualizar.= " where cod_sistema = '".$Sistema."'";
+			$Actualizar.= " WHERE cod_sistema = '".$Sistema."'";
 			mysqli_query($link, $Actualizar);					
 		}
 		else

@@ -1,13 +1,11 @@
 <?php 
 	include("conectar_principal.php");
-
 $CodSistema   = isset($_REQUEST["CodSistema"])?$_REQUEST["CodSistema"]:"";
 $CodPantalla  = isset($_REQUEST["CodPantalla"])?$_REQUEST["CodPantalla"]:"";
 $NivelSistema = isset($_REQUEST["NivelSistema"])?$_REQUEST["NivelSistema"]:"";
 $NivelMenu    = isset($_REQUEST["NivelMenu"])?$_REQUEST["NivelMenu"]:"";
 $Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
-$PantAgrup      = isset($_REQUEST["PantAgrup"])?$_REQUEST["PantAgrup"]:"";
-
+$PantAgrup    = isset($_REQUEST["PantAgrup"])?$_REQUEST["PantAgrup"]:"0";
 
 	//PantAgrup: 0	
 
@@ -207,6 +205,7 @@ body {
         <td><select name="PantAgrup" style="width:300px">
            <!-- <option value="S">Seleccionar Dependencia</option>-->
             <?php 
+				//if ((isset($NivelMenu)) && ($NivelMenu != "S"))
 				if ($NivelMenu!="" && $NivelMenu != "S")
 				{
 					if ($NivelMenu == 0)
@@ -237,7 +236,7 @@ body {
 				 }
 				 else
 				 {
-				 	echo "<option value='0'>No Tiene Dependencia</option>\n";
+				 echo "<option value='0'>No Tiene Dependencia</option>\n";
 				 }
 			  ?>
           </select></td>
@@ -299,11 +298,9 @@ if (($NivelSistema!="" && $NivelSistema != "S") && ($CodSistema!="" && $CodSiste
 				echo "<td colspan=3>&nbsp;</td>";
 				echo "</tr>";
 				$sql = "select t1.cod_pantalla, t2.descripcion from acceso_menu t1, pantallas t2 ";
-				//$sql.= " where t1.cod_sistema = '".$Sistema."' ";
 				$sql.= " where t1.cod_sistema = '".$CodSistema."' ";
 				$sql.= " and t1.cod_pantalla = t2.cod_pantalla ";
 				$sql.= " and t1.cod_sistema = t2.cod_sistema ";
-				//$sql.= " and t1.nivel = '".$Nivel."' ";
 				$sql.= " and t1.nivel = '".$NivelSistema."' ";
 				$sql.= " and t1.nivel_agrup = 3 ";
 				$sql.= " and t1.cod_pant_agrup = '".$row2["cod_pantalla"]."' ";
@@ -316,11 +313,9 @@ if (($NivelSistema!="" && $NivelSistema != "S") && ($CodSistema!="" && $CodSiste
 					echo "<td colspan=2>&nbsp;</td>";
 					echo "</tr>";
 					$sql = "select t1.cod_pantalla, t2.descripcion from acceso_menu t1, pantallas t2 ";
-					//$sql.= " where t1.cod_sistema = '".$Sistema."' ";
 					$sql.= " where t1.cod_sistema = '".$CodSistema."' ";
 					$sql.= " and t1.cod_pantalla = t2.cod_pantalla ";
 					$sql.= " and t1.cod_sistema = t2.cod_sistema ";
-					//$sql.= " and t1.nivel = '".$Nivel."' ";
 					$sql.= " and t1.nivel = '".$NivelSistema."' ";
 					$sql.= " and t1.nivel_agrup = 4 ";
 					$sql.= " and t1.cod_pant_agrup = '".$row3["cod_pantalla"]."' ";
@@ -333,11 +328,9 @@ if (($NivelSistema!="" && $NivelSistema != "S") && ($CodSistema!="" && $CodSiste
 						echo "<td>&nbsp;</td>";
 						echo "</tr>";
 						$sql = "select t1.cod_pantalla, t2.descripcion from acceso_menu t1, pantallas t2 ";
-						//$sql.= " where t1.cod_sistema = ".$Sistema."' ";
-						$sql.= " where t1.cod_sistema = '".$CodSistema."' ";
+						$sql.= " where t1.cod_sistema = ".$CodSistema."' ";
 						$sql.= " and t1.cod_pantalla = t2.cod_pantalla ";
 						$sql.= " and t1.cod_sistema = t2.cod_sistema ";
-						//$sql.= " and t1.nivel = '".$Nivel."' ";
 						$sql.= " and t1.nivel = '".$NivelSistema."' ";
 						$sql.= " and t1.nivel_agrup = 5 ";
 						$sql.= " and t1.cod_pant_agrup = '".$row4["cod_pantalla"]."' ";

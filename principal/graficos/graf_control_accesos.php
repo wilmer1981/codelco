@@ -163,8 +163,7 @@ $plot->DrawGraph();
 //$graph->background_done = 1;  //The image background we get from 0cars.jpg
 
 //$graph = new PHPlot(750,420,"","");
-$graph = new Phplot\Phplot\phplot(750, 420);
-
+$graph = new Phplot\Phplot\phplot(750, 420,"","");
 $graph->SetDataValues($Array);//ARREGLO QUE TIENE LOS DATOS
 $graph->SetPlotType($TIPO_GRAF);//TIPO DE GRAFICO
 $graph->SetTitleFontSize( "2");//TAMA�O DE LETRA
@@ -174,7 +173,7 @@ $graph->SetGridColor ("black");// COSTADO DE LA GRILLA
 $graph->SetLightGridColor ("#CCCCCC"); //LINEAS INTERIORES
 $graph->SetDataColors(array("red"),array("black")); //COLOR DE LAS BARRAS (FONDO, BORDE)
 $graph->SetLegend(array('Cantidad de Usuarios')); //Lets have a legend
-$graph->SetDrawDataLabels('1');
+//$graph->SetDrawDataLabels('1');
 $graph->SetXDataLabelAngle(90);//POSICION DE LOS DATOS DE X
 $graph->SetLabelScalePosition('1');
 $graph->SetTitle("N° de Usuarios que Accesan entre ".$Fecha1_Aux." y ".$Fecha2."");

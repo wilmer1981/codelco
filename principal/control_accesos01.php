@@ -1,20 +1,19 @@
 <?php 
 include("conectar_principal.php");
 
-$cmb_ano = $_POST["cmb_ano"];
-$cmb_mes = $_POST["cmb_mes"];
-$cmb_dia = $_POST["cmb_dia"];
-$cmb_ano_fin = $_POST["cmb_ano_fin"];
-$cmb_mes_fin = $_POST["cmb_mes_fin"];
-$cmb_dia_fin = $_POST["cmb_dia_fin"];
-$HoraIni  = $_POST["HoraIni"];
-$MinIni = $_POST["MinIni"];
-$HoraFin = $_POST["HoraFin"];
-$MinFin = $_POST["MinFin"];
+$cmb_ano = isset($_REQUEST["cmb_ano"])?$_REQUEST["cmb_ano"]:"";
+$cmb_mes = isset($_REQUEST["cmb_mes"])?$_REQUEST["cmb_mes"]:"";
+$cmb_dia = isset($_REQUEST["cmb_dia"])?$_REQUEST["cmb_dia"]:"";
+$cmb_ano_fin = isset($_REQUEST["cmb_ano_fin"])?$_REQUEST["cmb_ano_fin"]:"";
+$cmb_mes_fin = isset($_REQUEST["cmb_mes_fin"])?$_REQUEST["cmb_mes_fin"]:"";
+$cmb_dia_fin = isset($_REQUEST["cmb_dia_fin"])?$_REQUEST["cmb_dia_fin"]:"";
+$HoraIni  = isset($_REQUEST["HoraIni"])?$_REQUEST["HoraIni"]:"";
+$MinIni   = isset($_REQUEST["MinIni"])?$_REQUEST["MinIni"]:"";
+$HoraFin  = isset($_REQUEST["HoraFin"])?$_REQUEST["HoraFin"]:"";
+$MinFin   = isset($_REQUEST["MinFin"])?$_REQUEST["MinFin"]:"";
 
-
-$USUARIO = $_POST["USUARIO"];
-$SISTEMA = $_POST["SISTEMA"];
+$USUARIO = isset($_REQUEST["USUARIO"])?$_REQUEST["USUARIO"]:"";
+$SISTEMA = isset($_REQUEST["SISTEMA"])?$_REQUEST["SISTEMA"]:"";
 
 ?>
 <html>
@@ -84,17 +83,18 @@ function Volver()
 	if ($USUARIO != "S")
 	{
 		$Row = mysqli_fetch_array($Respuesta);
+		$RUT = isset($Row["RUT"])?$Row["RUT"]:"";
 		// -----------------------------CONTADOR DE ACCESOS----------------------
 		if ($SISTEMA != "S")
 		{
 			$ConsAccesos = "SELECT COUNT(*) AS ACCESOS FROM proyecto_modernizacion.CONTROL_ACCESO ";
-			$ConsAccesos = "$ConsAccesos WHERE RUT = '".$Row["RUT"]."' ";
+			$ConsAccesos = "$ConsAccesos WHERE RUT = '".$RUT."' ";
 			$ConsAccesos = "$ConsAccesos AND SISTEMA = '".$SISTEMA."' ";
 			$ConsAccesos = "$ConsAccesos AND FECHA_HORA BETWEEN '".$Fecha1." ".$Hora1."' AND '".$Fecha2." ".$Hora2."' ORDER BY IP";
 		}
 		else
 		{
-			$ConsAccesos = "SELECT COUNT(*) AS ACCESOS FROM proyecto_modernizacion.CONTROL_ACCESO WHERE RUT = '".$Row["RUT"]."' AND FECHA_HORA BETWEEN '#".$Fecha1." ".$Hora1."#' AND '#".$Fecha2." ".$Hora2."#' ORDER BY IP";
+			$ConsAccesos = "SELECT COUNT(*) AS ACCESOS FROM proyecto_modernizacion.CONTROL_ACCESO WHERE RUT = '".$RUT."' AND FECHA_HORA BETWEEN '#".$Fecha1." ".$Hora1."#' AND '#".$Fecha2." ".$Hora2."#' ORDER BY IP";
 		}
 		$RespAccesos = mysqli_query($link, $ConsAccesos);
 		$RowAccesos = mysqli_fetch_array($RespAccesos);
@@ -104,7 +104,7 @@ function Volver()
 		echo "<tr align='center'>\n";
 		$Consulta = "select RUT, concat(apellido_paterno, ' ', apellido_materno, ' ', nombres) as NOMBRE ";
 		$Consulta.= " from proyecto_modernizacion.funcionarios ";
-		$Consulta.= " where rut = '".$Row["RUT"]."'";
+		$Consulta.= " where rut = '".$RUT."'";
 		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Row2 = mysqli_fetch_array($Resp2))
 			echo "<td  colspan=4 bgcolor=#009900 ><b><font color=#FFFFFF size=1 face='Verdana, Arial, Helvetica, sans-serif'>".trim($Row2["RUT"])." ".trim($Row2["NOMBRE"])." - TotalAccesos = ".($TotalFilas - 1)."</font></b></td>\n";
@@ -121,7 +121,7 @@ function Volver()
 		{
 			$ConsAccesos = "SELECT T1.FECHA_HORA, T1.IP, T1.RUT, T2.NOMBRE AS SISTEMA, T1.PC  ";
 			$ConsAccesos.= " FROM proyecto_modernizacion.CONTROL_ACCESO T1 INNER JOIN proyecto_modernizacion.SISTEMAS T2 ON T1.SISTEMA = T2.COD_SISTEMA";
-			$ConsAccesos.= " WHERE T1.RUT = '".$Row["RUT"]."' ";
+			$ConsAccesos.= " WHERE T1.RUT = '".$RUT."' ";
 			$ConsAccesos.= " AND T1.SISTEMA = '".$SISTEMA."' ";
 			$ConsAccesos.= " AND T1.FECHA_HORA BETWEEN '".$Fecha1." ".$Hora1."' AND '".$Fecha2." ".$Hora2."' ORDER BY T1.IP";
 		}
@@ -129,7 +129,7 @@ function Volver()
 		{
 			$ConsAccesos = "SELECT T1.FECHA_HORA, T1.IP, T1.RUT, T2.NOMBRE AS SISTEMA, T1.PC  ";
 			$ConsAccesos.= " FROM proyecto_modernizacion.CONTROL_ACCESO T1 INNER JOIN proyecto_modernizacion.SISTEMAS T2 ON T1.SISTEMA = T2.COD_SISTEMA";
-			$ConsAccesos.= " WHERE T1.RUT = '".$Row["RUT"]."' ";
+			$ConsAccesos.= " WHERE T1.RUT = '".$RUT."' ";
 			$ConsAccesos.= " AND T1.FECHA_HORA BETWEEN '".$Fecha1." ".$Hora1."' AND '".$Fecha2." ".$Hora2."' ORDER BY T1.IP DESC";
 		}	
 		//echo $ConsAccesos."<br>";

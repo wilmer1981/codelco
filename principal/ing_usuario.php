@@ -1,6 +1,5 @@
 <?php
 	include("conectar_principal.php");
-
 	$Error    = isset($_REQUEST["Error"])?$_REQUEST["Error"]:"";
 	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Sistema  = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
@@ -8,7 +7,7 @@
 	$Orden    = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
 	$RutModif = isset($_REQUEST["RutModif"])?$_REQUEST["RutModif"]:"";
 	$Usuario  = isset($_REQUEST["Usuario"])?$_REQUEST["Usuario"]:"";
-
+    $Mensaje  = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
 	$Consulta = "select * from proyecto_modernizacion.sistemas ";
 	$Consulta.= " where cod_sistema = '".$Sistema."' ";

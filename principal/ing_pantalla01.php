@@ -10,7 +10,7 @@ $Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 		$Sistema      = isset($_REQUEST["Sistema"])?$_REQUEST["Sistema"]:"";
 		$Descripcion  = isset($_REQUEST["Descripcion"])?$_REQUEST["Descripcion"]:"";
 		$CodPantalla  = isset($_REQUEST["CodPantalla"])?$_REQUEST["CodPantalla"]:"";
-		$PantAgrup    = isset($_REQUEST["PantAgrup"])?$_REQUEST["PantAgrup"]:"";
+		$PantAgrup    = isset($_REQUEST["PantAgrup"])?$_REQUEST["PantAgrup"]:"S";
 		$NivelMenu    = isset($_REQUEST["NivelMenu"])?$_REQUEST["NivelMenu"]:"";
 		$CodSistema   = isset($_REQUEST["CodSistema"])?$_REQUEST["CodSistema"]:"";
 		$NivelSistema = isset($_REQUEST["NivelSistema"])?$_REQUEST["NivelSistema"]:"";
@@ -88,15 +88,15 @@ $Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 			if ($PantAgrup == "S")
 				$NivelAux3 = 0;
 			else 	$NivelAux3 = $PantAgrup;
-			$sql = "select * from proyecto_modernizacion.acceso_menu where cod_sistema = ".$CodSistema." and cod_pantalla = ".$CodPantalla;
-			$sql.= " and nivel = ".$NivelAux1;	
+			$sql = "select * from proyecto_modernizacion.acceso_menu where cod_sistema = '".$CodSistema."' and cod_pantalla = '".$CodPantalla."' ";
+			$sql.= " and nivel = '".$NivelAux1."' ";	
 			$result = mysqli_query($link, $sql);
 			if ($row = mysqli_fetch_array($result))
 			{
-				$Actualizar = "UPDATE proyecto_modernizacion.acceso_menu SET nivel_agrup = ".$NivelAux2.", cod_pant_agrup=".$NivelAux3;
-				$Actualizar = $Actualizar." where cod_sistema = ".$CodSistema;
-				$Actualizar = $Actualizar." and cod_pantalla = ".$CodPantalla;
-				$Actualizar = $Actualizar." and nivel = ".$NivelAux1;
+				$Actualizar = "UPDATE proyecto_modernizacion.acceso_menu SET nivel_agrup = '".$NivelAux2."', cod_pant_agrup='".$NivelAux3."' ";
+				$Actualizar.= " WHERE cod_sistema = '".$CodSistema."' ";
+				$Actualizar.= " AND cod_pantalla = '".$CodPantalla."' AND nivel = '".$NivelAux1."' ";
+				//$Actualizar = $Actualizar." and nivel = '".$NivelAux1."' ";
 				mysqli_query($link, $Actualizar);	
 				header("location:seg_pagina.php?CodSistema=".$CodSistema."&CodPantalla=".$CodPantalla."&NivelSistema=".$NivelSistema."&NivelMenu=".$Nivelmenu."&PantAgrup=".$PantAgrup);
 			}
@@ -112,7 +112,8 @@ $Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 					$NivelAux3 = 0;
 				else 	$NivelAux3 = $PantAgrup;
 				$Insertar = "insert into proyecto_modernizacion.acceso_menu (cod_sistema, cod_pantalla, nivel, nivel_agrup, cod_pant_agrup)";
-				$Insertar.= " values (".$CodSistema.", ".$CodPantalla.", ".$NivelAux1.", ".$NivelAux2.", ".$NivelAux3.")";
+				$Insertar.= " values ('".$CodSistema."', '".$CodPantalla."', '".$NivelAux1."', '".$NivelAux2."', ".$NivelAux3." )";
+echo "Insertar:".$Insertar;
 				mysqli_query($link, $Insertar);
 				header("location:seg_pagina.php?CodSistema=".$CodSistema."&CodPantalla=".$CodPantalla);	
 			}
