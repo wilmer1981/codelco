@@ -1,33 +1,30 @@
-<html>
-<head>
 <?php 	
-include("../principal/conectar_principal.php");
+	$CodigoDeSistema = 99;
+	$CodigoDePantalla = 12;
 
-$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-$TxtRut   = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+include("../principal/conectar_principal.php");
+$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$TxtRut       = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
 $TxtNombres   = isset($_REQUEST["TxtNombres"])?$_REQUEST["TxtNombres"]:"";
 $TxtPassword  = isset($_REQUEST["TxtPassword"])?$_REQUEST["TxtPassword"]:"";
 $CmbGrupo     = isset($_REQUEST["CmbGrupo"])?$_REQUEST["CmbGrupo"]:"";
 
 
-	$CodigoDeSistema = 99;
-	$CodigoDePantalla = 12;
 
 	//$CodigoDeSistema = $_POST["CodSist"];
 	//$CodigoDePantalla = $_POST["CodPant"];
 	//f.Pagina.value=url;
+
 	$encuentro=0;
 	if ($Proceso=="M")
 	{
 		$Consulta = "SELECT * from informe_diario.usuarios where RUT = '".$TxtRut."'";
 		$resp=mysqli_query($link, $Consulta);
-		//$row = mysqli_fetch_array($resp);
-		//var_dump($row);
 		if ($row = mysqli_fetch_array($resp))
 		{
 		
-			$encuentro   = 1;
-			$TxtRut      = $row["RUT"];
+			$encuentro = 1;
+			$TxtRut = $row["RUT"];
 			$TxtNombres  = $row["NOMBRE_APELLIDO"];
 			$CmbGrupo    = $row["Grupo"];
 			$TxtPassword = $row["PASSWORD"];
@@ -35,6 +32,8 @@ $CmbGrupo     = isset($_REQUEST["CmbGrupo"])?$_REQUEST["CmbGrupo"]:"";
 	}
 	
 ?>
+<html>
+<head>
 <script language="JavaScript">
 
 function Grabar()

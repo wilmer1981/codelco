@@ -1,16 +1,16 @@
 ﻿<?php
 	include("../principal/conectar_principal.php");
 
-
-	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+    $Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
+	//VARIABLES POST
+	if(isset($_POST["CmbRut"])){
+	$CmbRut=$_POST["CmbRut"];
+	}else{
+		$CmbRut="";
+	}
 
-	//Proceso=M&TxtCodigo=40957290-7&CmbCCosto2=FA140
-
-	//Frm.action="ingreso_funcionarios_proceso01.php?Proceso="+Proceso+"&TxtCodigo="+Frm.TxtCodigo.value+"&CmbCCosto2="+Frm.CmbCCosto2.value+"&Valores="+Valores;
-
-	$CmbRut    = isset($_REQUEST["CmbRut"])?$_REQUEST["CmbRut"]:"";
 	$TxtNombres    = isset($_REQUEST["TxtNombres"])?$_REQUEST["TxtNombres"]:"";
 	$TxtApePaterno = isset($_REQUEST["TxtApePaterno"])?$_REQUEST["TxtApePaterno"]:"";
 	$TxtApeMaterno = isset($_REQUEST["TxtApeMaterno"])?$_REQUEST["TxtApeMaterno"]:"";
@@ -19,7 +19,7 @@
 	$TxtCuentaEnamiGDE      = isset($_REQUEST["TxtCuentaEnamiGDE"])?$_REQUEST["TxtCuentaEnamiGDE"]:"";
 	$TxtCodigo              = isset($_REQUEST["TxtCodigo"])?$_REQUEST["TxtCodigo"]:"";
 	$CmbCCosto2             = isset($_REQUEST["CmbCCosto2"])?$_REQUEST["CmbCCosto2"]:"";
-
+	
 	if($Proceso=="M"){
 		$passw   = isset($_REQUEST["passw"])?$_REQUEST["passw"]:"";
 		$passw2  = isset($_REQUEST["passw2"])?$_REQUEST["passw2"]:"";
@@ -32,9 +32,18 @@
 	switch ($Proceso)
 	{
 		case "N"://NUEVO FUNCIONARIOS
-			$Insertar="INSERT into proyecto_modernizacion.funcionarios (rut,apellido_paterno,apellido_materno,nombres,cod_centro_costo,password,fecha_cambio_password,cod_ceco,cuenta_red,cuenta_artikos) values (";
-			$Insertar.="'".$TxtCodigo."','".$TxtApePaterno."','".$TxtApeMaterno."','".$TxtNombres."','".$CodCCosto."',md5('".substr($TxtCodigo,0,4)."'),'$Fecha','".$CmbCCosto2."','".$TxtCuentaCodelcoGDE."','".$TxtCuentaEnamiGDE."')";
-			mysqli_query($link, $Insertar);
+			$consulta= "SELECT rut FROM proyecto_modernizacion.funcionarios WHERE rut ='".$TxtCodigo."' ";
+			$result = mysqli_query($link, $consulta);
+			if ($row = mysqli_fetch_array($result))
+			{
+				$Error = "S";
+				$Mensaje = "Operacion no realizada, Funcionario ya existe";				
+			}else{								
+				$Insertar="INSERT into proyecto_modernizacion.funcionarios (rut,apellido_paterno,apellido_materno,nombres,cod_centro_costo,password,fecha_cambio_password,cod_ceco,cuenta_red,cuenta_artikos) values (";
+				$Insertar.="'".$TxtCodigo."','".$TxtApePaterno."','".$TxtApeMaterno."','".$TxtNombres."','".$CodCCosto."',md5('".substr($TxtCodigo,0,4)."'),'$Fecha','".$CmbCCosto2."','".$TxtCuentaCodelcoGDE."','".$TxtCuentaEnamiGDE."')";
+				mysqli_query($link, $Insertar);
+			}		
+			//header("location:ingreso_funcionarios.php?Sistema=".$Sistema."&Proceso=M&CodPantalla=".$CodPantalla."&Error=".$Error."&Mensaje=".$Mensaje);
 			//echo $Insertar;
 			//echo mysql_error($link);
 			break;
@@ -64,7 +73,7 @@
 		case "CP":
 			//echo "entrooooo";
 			$Datos = explode("~~",$Valores);
-			//foreach($Datos as $k => $v)
+			//while (list($k,$v)=each($Datos))
 			foreach ($Datos as $k => $v)
 			{
 				//ELIMINA PERFIL EXISTENTE DEL USUARIO

@@ -1,8 +1,11 @@
 <?php
-	include("../principal/conectar_index.php");
+	require("../principal/conectar_index.php");
 
 	$TituloPagina='';
-	if ((isset($CodigoDeSistema)) && (isset($CodigoDePantalla)))
+//$CodigoDeSistema     = isset($_REQUEST["CodigoDeSistema"])?$_REQUEST["CodigoDeSistema"]:""; 
+//$CodigoDePantalla     = isset($_REQUEST["CodigoDePantalla"])?$_REQUEST["CodigoDePantalla"]:""; 
+	//if ($CodigoDeSistema!="" && $CodigoDePantalla!="")
+    if ((isset($CodigoDeSistema)) && (isset($CodigoDePantalla)))
 	{
 		$Consulta = "SELECT * from proyecto_modernizacion.pantallas where cod_sistema = '".$CodigoDeSistema."' and cod_pantalla = '".$CodigoDePantalla."' ";
 		//echo $Consulta;
@@ -18,7 +21,8 @@
 	}
 	else
 	{
-		if (isset($CodigoDeSistema))
+		//if ($CodigoDeSistema!="")
+        if ((isset($CodigoDeSistema)))
 		{
 			if (intval($CodigoDeSistema) < 10)
 				$NumSistema = "0".$CodigoDeSistema;
