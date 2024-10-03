@@ -1,22 +1,35 @@
 <?php
 include("../principal/conectar_cal_web.php");
+$CookieRut = $_COOKIE['CookieRut'];
+
+$BtnMuestras = isset($_REQUEST["BtnMuestras"])?$_REQUEST["BtnMuestras"]:"";
+$Plantilla = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+$SolEsp = isset($_REQUEST["SolEsp"])?$_REQUEST["SolEsp"]:"";
+$SolAut = isset($_REQUEST["SolAut"])?$_REQUEST["SolAut"]:"";
+$Rut = isset($_REQUEST["Rut"])?$_REQUEST["Rut"]:"";
+$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:"";
+$BuscarDetalle = isset($_REQUEST["BuscarDetalle"])?$_REQUEST["BuscarDetalle"]:"";
+$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";
+$CmbRutPrv = isset($_REQUEST["CmbRutPrv"])?$_REQUEST["CmbRutPrv"]:"";
+
 $ValCheck = $BtnMuestras;
 $RutF = $CookieRut;
+
 $Consulta = "select t1.cod_leyes,t1.cod_unidad ";
 $Consulta = $Consulta."from cal_web.leyes_por_plantillas t1 inner join proyecto_modernizacion.leyes t2 on t1.cod_leyes = t2.cod_leyes and t2.tipo_leyes=0 ";
 $Consulta = $Consulta."where t1.rut_funcionario='".$Rut."' and t1.cod_plantilla ='".$Plantilla."'"; 
-$Respuesta = mysqli_query($link, $Consulta);
+$Respuesta = mysql_query($Consulta);
 $ValoresLeyes="";
-while ($Fila=mysqli_fetch_array($Respuesta))
+while ($Fila=mysql_fetch_array($Respuesta))
 {
 	$ValoresLeyes=$ValoresLeyes.$Fila["cod_leyes"]."~~".$Fila["cod_unidad"]."//"; 
 }
 $Consulta = "select t1.cod_leyes,t1.cod_unidad ";
 $Consulta = $Consulta."from cal_web.leyes_por_plantillas t1 inner join proyecto_modernizacion.leyes t2 on t1.cod_leyes = t2.cod_leyes and (t2.tipo_leyes=1 or t2.tipo_leyes=3) ";
 $Consulta = $Consulta."where t1.rut_funcionario='".$Rut."' and t1.cod_plantilla ='".$Plantilla."'"; 
-$Respuesta = mysqli_query($link, $Consulta);
+$Respuesta = mysql_query($Consulta);
 $ValoresImpurezas="";
-while ($Fila=mysqli_fetch_array($Respuesta))
+while ($Fila=mysql_fetch_array($Respuesta))
 {
 	$ValoresImpurezas=$ValoresImpurezas.$Fila["cod_leyes"]."~~".$Fila["cod_unidad"]."//"; 
 }
@@ -42,13 +55,13 @@ if ($SolAut=='S')//S.A AUTOMATICA O RUTINARIA
 					if ($Recargo=='N')
 					{
 						$Eliminar = "delete from cal_web.leyes_por_solicitud where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'";
-						mysqli_query($link, $Eliminar);	
-						$Actualiza="UPDATE cal_web.solicitud_analisis set leyes ='".$ValoresLeyes."',impurezas='".$ValoresImpurezas."' where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'"; 
-						mysqli_query($link, $Actualiza);
+						mysql_query($Eliminar);	
+						$Actualiza="update cal_web.solicitud_analisis set leyes ='".$ValoresLeyes."',impurezas='".$ValoresImpurezas."' where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'"; 
+						mysql_query($Actualiza);
 						//VERIFICA SI LA MUESTRA YA TIENE NRO_SOLICITUD, SI ES ASI INSERTA LAS LEYES EN LEYES_POR_SOLICITUD
 						$Consulta = "select * from cal_web.solicitud_analisis where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'";
-						$Respuesta=mysqli_query($link, $Consulta);
-						$Fila=mysqli_fetch_array($Respuesta);
+						$Respuesta=mysql_query($Consulta);
+						$Fila=mysql_fetch_array($Respuesta);
 						if ((!is_null($Fila["nro_solicitud"])) || ($Fila["nro_solicitud"]!=''))
 						{
 							$Valores=$ValoresLeyImp;
@@ -72,7 +85,7 @@ if ($SolAut=='S')//S.A AUTOMATICA O RUTINARIA
 											$Insertar=$Insertar.$Muestra."','";
 											$Insertar=$Insertar.$Ley."','";
 											$Insertar=$Insertar.$Unidad."')";
-											mysqli_query($link, $Insertar);
+											mysql_query($Insertar);
 										}
 									}		
 									$Valores=substr($Valores,$i + 2);
@@ -85,13 +98,13 @@ if ($SolAut=='S')//S.A AUTOMATICA O RUTINARIA
 					else
 					{
 						$Eliminar = "delete from cal_web.leyes_por_solicitud where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."' and recargo='".$Recargo."'";
-						mysqli_query($link, $Eliminar);	
-						$Actualiza="UPDATE cal_web.solicitud_analisis set leyes ='".$ValoresLeyes."',impurezas='".$ValoresImpurezas."' where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."' and recargo ='".$Recargo."'"; 				
-						mysqli_query($link, $Actualiza);
+						mysql_query($Eliminar);	
+						$Actualiza="update cal_web.solicitud_analisis set leyes ='".$ValoresLeyes."',impurezas='".$ValoresImpurezas."' where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."' and recargo ='".$Recargo."'"; 				
+						mysql_query($Actualiza);
 						//VERIFICA SI EL RECARGO YA TIENE NRO_SOLICITUD, SI ES ASI INSERTA LAS LEYES EN LEYES_POR_SOLICITUD
 						$Consulta = "select * from cal_web.solicitud_analisis where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."' and recargo='".$Recargo."'";
-						$Respuesta=mysqli_query($link, $Consulta);
-						$Fila=mysqli_fetch_array($Respuesta);
+						$Respuesta=mysql_query($Consulta);
+						$Fila=mysql_fetch_array($Respuesta);
 						if ((!is_null($Fila["nro_solicitud"])) || ($Fila["nro_solicitud"]!=''))
 						{
 							$Valores=$ValoresLeyImp;
@@ -116,7 +129,7 @@ if ($SolAut=='S')//S.A AUTOMATICA O RUTINARIA
 											$Insertar=$Insertar.$Recargo."','";
 											$Insertar=$Insertar.$Ley."','";
 											$Insertar=$Insertar.$Unidad."')";
-											mysqli_query($link, $Insertar);
+											mysql_query($Insertar);
 										}
 									}		
 									$Valores=substr($Valores,$i + 2);
@@ -160,13 +173,13 @@ else//S.A ESPECIAL
 					$Muestra = substr($MuestraFecha,0,$x);			
 					$Fecha = substr($MuestraFecha,$x+2,19);
 					$Eliminar = "delete from cal_web.leyes_por_solicitud where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'";
-					mysqli_query($link, $Eliminar);	
-					$Actualiza="UPDATE cal_web.solicitud_analisis set leyes ='".$ValoresLeyes."',impurezas='".$ValoresImpurezas."' where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'"; 
-					mysqli_query($link, $Actualiza);
+					mysql_query($Eliminar);	
+					$Actualiza="update cal_web.solicitud_analisis set leyes ='".$ValoresLeyes."',impurezas='".$ValoresImpurezas."' where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'"; 
+					mysql_query($Actualiza);
 					//VERIFICA SI LA MUESTRA YA TIENE NRO_SOLICITUD, SI ES ASI INSERTA LAS LEYES EN LEYES_POR_SOLICITUD
 					$Consulta = "select * from cal_web.solicitud_analisis where rut_funcionario = '".$RutF."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'";
-					$Respuesta=mysqli_query($link, $Consulta);
-					$Fila=mysqli_fetch_array($Respuesta);
+					$Respuesta=mysql_query($Consulta);
+					$Fila=mysql_fetch_array($Respuesta);
 					if ((!is_null($Fila["nro_solicitud"])) || ($Fila["nro_solicitud"]!=''))
 					{
 						$Valores=$ValoresLeyImp;
@@ -190,7 +203,7 @@ else//S.A ESPECIAL
 										$Insertar=$Insertar.$Muestra."','";
 										$Insertar=$Insertar.$Ley."','";
 										$Insertar=$Insertar.$Unidad."')";
-										mysqli_query($link, $Insertar);
+										mysql_query($Insertar);
 									}
 								}		
 								$Valores=substr($Valores,$i + 2);

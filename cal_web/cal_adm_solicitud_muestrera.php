@@ -72,7 +72,7 @@
 		$EstOpe = "";
 	}
 	$Valores_Check = isset($_REQUEST["Valores_Check"])?$_REQUEST["Valores_Check"]:"";
-	$FechaAtencion = isset($_REQUEST["FechaAtencion"])?$_REQUEST["FechaAtencion"]:"";	
+	$FechaAtencion = isset($_REQUEST["FechaAtencion"])?$_REQUEST["FechaAtencion"]:"";		
 ?>
 <html>
 <head>
@@ -1055,12 +1055,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		}
 		else
 			$Estado = " where t1.nro_solicitud='".$CmbAnoSol.str_pad($NSol,6,0,STR_PAD_LEFT)."' and t6.cod_estado='".$CmbEstado."'";
-
+		
 		//$ConsultaPag="";
 		if ($Entrar == true)
 		{
 			$Consulta = "select t1.tipo_solicitud,t2.descripcion as nomproducto,t3.descripcion as nomsubproducto,";
-			$Consulta = $Consulta."t1.rut_funcionario,t1.recargo,t1.fecha_hora,t6.fecha_hora as FechaAtencion, if(length(t1.recargo)=1,concat('0',t1.recargo),t1.recargo) as recargo_ordenado, ";
+			$Consulta = $Consulta."t1.rut_funcionario,t1.recargo,t1.fecha_hora, t6.fecha_hora as FechaAtencion,if(length(t1.recargo)=1,concat('0',t1.recargo),t1.recargo) as recargo_ordenado, ";
 			$Consulta = $Consulta."concat(t4.nombres,' ',t4.apellido_paterno,' ',t4.apellido_materno) as nombreapellido, ";
 			$Consulta = $Consulta."t4.apellido_paterno as ap_paterno, ";
 			$Consulta = $Consulta."t4.apellido_materno as ap_materno, ";
@@ -1078,7 +1078,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			echo "<input type='hidden' name='checkAtender'><input name ='TxtSA' type='hidden'><input name ='TxtSAO' type='hidden'><input name ='TxtRutO' type='hidden'><input name='TxtFechaO' type='hidden'><input name='TxtHoraO' type='hidden'><input name ='TxtRecargoO' type='hidden'><input name ='TxtIdMuestra' type='hidden'><input name ='TxtLotes' type='hidden'><input name ='TxtProducto' type='hidden'>";
 			$Respuesta= mysqli_query($link, $Consulta);
 			while ($Fila=mysqli_fetch_array($Respuesta))
-			{
+			{	//var_dump($Fila);
 				if ((is_null($Fila["recargo"])) || ($Fila["recargo"]==''))
 					$Recargo='N';
 				else
@@ -1273,9 +1273,10 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					}
 				}
 				echo substr($StrPaginas,0,-15);
-		    }
-	?>
-    	</td></tr>
+			}
+			?>
+    	</td>
+		</tr>
         </table>
 	<?php
     //if($CmbEstado!='13' && $CmbEstado!='3')//CUANDO ES DISTINTO A ATENDIDA POR MUESTRERA y distinto a laboratorio

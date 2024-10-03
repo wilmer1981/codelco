@@ -1,15 +1,13 @@
 <?php
 include("../principal/conectar_principal.php");
-
-$SA        = $_REQUEST["SA"];
-$Lotes     = $_REQUEST["Lotes"];
-$Plantilla = $_REQUEST["Plantilla"];
-$CCosto    = $_REQUEST["CCosto"];
-$Fecha     = $_REQUEST["Fecha"];
-$RutF      = $_REQUEST["RutF"];
-$RutPlant  = $_REQUEST["RutPlant"];
-$RutPlant  = $_REQUEST["RutPlant"];
-$TxtRecargo = $_REQUEST["TxtRecargo"];
+$SA        = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+$Lotes     = isset($_REQUEST["Lotes"])?$_REQUEST["Lotes"]:"";
+$Plantilla = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+$CCosto    = isset($_REQUEST["CCosto"])?$_REQUEST["CCosto"]:"";
+$Fecha     = isset($_REQUEST["Fecha"])?$_REQUEST["Fecha"]:"";
+$RutF      = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
+$RutPlant  = isset($_REQUEST["RutPlant"])?$_REQUEST["RutPlant"]:"";
+$TxtRecargo = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
 
 if($TxtRecargo=='N')
 {
@@ -46,6 +44,8 @@ if ($Plantilla<>'')
 	$Consulta = $Consulta."inner join proyecto_modernizacion.leyes t3  on t2.cod_leyes = t3.cod_leyes "; 
 	$Consulta = $Consulta."where t1.rut_funcionario = '".$RutPlant."' and t1.cod_plantilla ='".$Plantilla."'";
 	$Respuesta = mysqli_query($link, $Consulta);
+	$Leyes="";
+	$Impurezas="";
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if($TxtRecargo=='N')
@@ -70,13 +70,17 @@ if ($Plantilla<>'')
 	
 		}
 	}
-	$Actualizar= "UPDATE cal_web.solicitud_analisis set leyes='".$Leyes."', impurezas ='".$Impurezas."' , cod_ccosto='".$CCosto."'  where rut_funcionario = '".$RutF."' and nro_solicitud = '".$SA."' and fecha_hora = '".$Fecha."'".$Criterio;
+	$Actualizar= "update cal_web.solicitud_analisis set leyes='".$Leyes."', impurezas ='".$Impurezas."' , cod_ccosto='".$CCosto."'  where rut_funcionario = '".$RutF."' and nro_solicitud = '".$SA."' and fecha_hora = '".$Fecha."'".$Criterio;
 	mysqli_query($link, $Actualizar);
+	//echo $Actualizar;
+	//exit();
 }
 else
 {
-	$Actualizar= "UPDATE cal_web.solicitud_analisis set cod_ccosto='".$CCosto."'  where rut_funcionario = '".$RutF."' and nro_solicitud = '".$SA."' and fecha_hora = '".$Fecha."'".$Criterio;
+	$Actualizar= "update cal_web.solicitud_analisis set cod_ccosto='".$CCosto."'  where rut_funcionario = '".$RutF."' and nro_solicitud = '".$SA."' and fecha_hora = '".$Fecha."'".$Criterio;
 	mysqli_query($link, $Actualizar);
+	//echo $Actualizar;
+	//exit();
 }
 echo "<script languaje='JavaScript'>";
 echo "window.opener.document.FrmMuestras.action='cal_adm_solicitud_muestrera.php';";

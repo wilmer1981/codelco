@@ -173,7 +173,8 @@ function Salir()
 		{
 			if ($Fila2["recargo"]=='R')
 			{
-				$TxtValor = str_replace(".",",",$Fila2["peso_muestra"]);
+				//$TxtValor = str_replace(".",",",$Fila2["peso_muestra"]);
+				$TxtValor = $Fila2["peso_muestra"];
 
 			}
 		}

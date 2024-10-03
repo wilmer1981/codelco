@@ -1,16 +1,15 @@
 <?php 
 include("../principal/conectar_principal.php");
 $CookieRut=$_COOKIE["CookieRut"];
-$RutQ=$CookieRut;
-$Fecha=date("Y-m-d H:i:s");
-$Fecha2=date("Y-m-d H:i");
+$RutQ   = $CookieRut;
+$Fecha  = date("Y-m-d H:i:s");
+$Fecha2 = date("Y-m-d H:i");
 
-
-$Proceso = $_REQUEST["Proceso"];
-$Valores = $_REQUEST["Valores"];
-$ValoresSA = $_REQUEST["ValoresSA"];
-$Tipo = $_REQUEST["Tipo"];
-$PW = $_REQUEST["PW"];
+$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$ValoresSA = isset($_REQUEST["ValoresSA"])?$_REQUEST["ValoresSA"]:"";
+$Tipo      = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+$PW        = isset($_REQUEST["PW"])?$_REQUEST["PW"]:"";
 
 $ValoresAux=$Valores;
 for ($i=0;$i<=strlen($Valores);$i++)
@@ -36,7 +35,7 @@ for ($i=0;$i<=strlen($Valores);$i++)
 							if (substr($RecargoValor,$l,2)=="//")
 							{
 								$Recargo=substr($RecargoValor,0,$l);
-								$Valor=substr($RecargoValor,l+3);
+								$Valor=substr($RecargoValor,$l+3);
 								$Valor=substr($Valor,0,strlen($Valor)-2);
 								$Valores="";
 							}
@@ -54,7 +53,7 @@ switch ($Proceso)
 		$Consulta = "select count(*) as existe from proyecto_modernizacion.funcionarios where rut ='".$CookieRut."' and password2 = md5('".strtoupper(trim($PW))."')";
 		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila= mysqli_fetch_array($Respuesta);
-		if ($Fila[existe] == 0)
+		if ($Fila["existe"] == 0)
 		{
 			header("location:cal_desbloquear_leyes.php?PWValida=N&Valores=".$ValoresAux."&ValoresSA=".$ValoresSA."&Tipo=".$Tipo);
 			$Entrar=false;
@@ -62,7 +61,7 @@ switch ($Proceso)
 		}
 		if ($Recargo!='N')
 		{
-			$Actualizar="UPDATE cal_web.leyes_por_solicitud set candado='0',rut_quimico='".$RutQ."' where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
+			$Actualizar="update cal_web.leyes_por_solicitud set candado='0',rut_quimico='".$RutQ."' where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
 			$Consulta = "select valor,cod_unidad,signo,(case when peso_humedo is null then 'NULL' else peso_humedo end) as peso_humedo,(case when peso_seco is null then 'NULL' else peso_seco end) as peso_seco from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
@@ -83,13 +82,13 @@ switch ($Proceso)
 			{
 				$Eliminar="delete from cal_web.estados_por_solicitud where (nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and recargo='".$Recargo."' and cod_estado='6')";
 				mysqli_query($link, $Eliminar);
-				$Actualizar2= "UPDATE  cal_web.solicitud_analisis set estado_actual ='5' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo='".$Recargo."'";
+				$Actualizar2= "update  cal_web.solicitud_analisis set estado_actual ='5' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo='".$Recargo."'";
 				mysqli_query($link, $Actualizar2);
 			}
 		}
 		else
 		{
-			$Actualizar="UPDATE cal_web.leyes_por_solicitud set candado='0',rut_quimico='".$RutQ."' where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";		
+			$Actualizar="update cal_web.leyes_por_solicitud set candado='0',rut_quimico='".$RutQ."' where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";		
 			$Consulta = "select valor,cod_unidad,signo,(case when peso_humedo is null then 'NULL' else peso_humedo end) as peso_humedo,(case when peso_seco is null then 'NULL' else peso_seco end) as peso_seco from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
@@ -109,7 +108,7 @@ switch ($Proceso)
 			{
 				$Eliminar="delete from cal_web.estados_por_solicitud where (nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_estado='6')";
 				mysqli_query($link, $Eliminar);
-				$Actualizar2= "UPDATE  cal_web.solicitud_analisis set estado_actual ='5' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'";
+				$Actualizar2= "update  cal_web.solicitud_analisis set estado_actual ='5' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'";
 				mysqli_query($link, $Actualizar2);
 			}
 		}	
@@ -119,7 +118,7 @@ switch ($Proceso)
 	/*case "G"://SE ASIGNA EL CANDADO 
 		if ($Recargo!='N')
 		{
-			$Actualizar="UPDATE cal_web.leyes_por_solicitud set candado='1',rut_quimico='".$RutQ."' where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
+			$Actualizar="update cal_web.leyes_por_solicitud set candado='1',rut_quimico='".$RutQ."' where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
 			mysqli_query($link, $Actualizar);//ACTUALIZA EL CANDADO
 			$Consulta = "select valor,cod_unidad,(case when peso_humedo is null then 'NULL' else peso_humedo end) as peso_humedo,(case when peso_seco is null then 'NULL' else peso_seco end) as peso_seco from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."' and recargo='".$Recargo."'";
 			$Respuesta=mysqli_query($link, $Consulta);
@@ -153,14 +152,14 @@ switch ($Proceso)
 				}
 				$insertar2 ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,rut_proceso)";
 				$insertar2.="values ('".$Rut."','".$SA."','".$Recargo."','6','".$Fecha2."','".$RutQ."')";
-				$Actualizar2= "UPDATE  cal_web.solicitud_analisis set estado_actual ='6' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo='".$Recargo."'";
+				$Actualizar2= "update  cal_web.solicitud_analisis set estado_actual ='6' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo='".$Recargo."'";
 				mysqli_query($link, $insertar2);
 				mysqli_query($link, $Actualizar2);
 			}
 		}
 		else//SIN RECARGOS
 		{
-			$Actualizar="UPDATE cal_web.leyes_por_solicitud set candado='1',rut_quimico='".$RutQ."' where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";		
+			$Actualizar="update cal_web.leyes_por_solicitud set candado='1',rut_quimico='".$RutQ."' where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";		
 			mysqli_query($link, $Actualizar);//ACTUALIZA EL CANDADO
 			$Consulta = "select valor,cod_unidad,(case when peso_humedo is null then 'NULL' else peso_humedo end) as peso_humedo,(case when peso_seco is null then 'NULL' else peso_seco end) as peso_seco from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut."' and cod_leyes ='".$Leyes."'";
 			$Respuesta=mysqli_query($link, $Consulta);
@@ -193,7 +192,7 @@ switch ($Proceso)
 				}
 				$insertar2 ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso) ";
 				$insertar2.="values ('".$Rut."','".$SA."','6','".$Fecha2."','".$RutQ."')";
-				$Actualizar2= "UPDATE  cal_web.solicitud_analisis set estado_actual ='6' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'";
+				$Actualizar2= "update  cal_web.solicitud_analisis set estado_actual ='6' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."'";
 				mysqli_query($link, $insertar2);
 				mysqli_query($link, $Actualizar2);
 			}

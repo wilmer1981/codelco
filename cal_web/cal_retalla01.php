@@ -20,11 +20,12 @@
 		}
 		else
 			$Encontro =2;
-	 }	
+	}	
 
 	if ($Encontro == 1) //Si ya tiene Recargo R solo actualiza el valor 
 	{
-		$Actualizar= "UPDATE  cal_web.solicitud_analisis set peso_muestra ='".$TxtValor."' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo = 'R' ";
+		$Actualizar= "update cal_web.solicitud_analisis set peso_muestra ='".$TxtValor."' where rut_funcionario = '".$Rut."' and nro_solicitud = '".$SA."' and recargo = 'R' ";
+		//echo $Actualizar;
 		mysqli_query($link, $Actualizar); 
 	}
 	if($Encontro == 2) 	
@@ -72,7 +73,7 @@
 		else//si es especial la nueva solictud con recargo R queda como automatica 
 		{
 			//Actualiza la solicitud especial en automatica 
-			$Actualizar = $Actualizar="UPDATE cal_web.solicitud_analisis set recargo=0,tipo_solicitud ='A' where nro_solicitud='".$SA."' and rut_funcionario='".$Rut."' and id_muestra='".$Fila["id_muestra"]."'";	
+			$Actualizar = $Actualizar="update cal_web.solicitud_analisis set recargo=0,tipo_solicitud ='A' where nro_solicitud='".$SA."' and rut_funcionario='".$Rut."' and id_muestra='".$Fila["id_muestra"]."'";	
 			mysqli_query($link, $Actualizar);
 			//inserta el nuevo registro de la solicitud especial insertando el recargo R de Retalla
 			$insertar = "insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,peso_muestra,recargo,";
@@ -105,7 +106,7 @@
 			if ((is_null($Fila4["recargo"]))||($Fila4["recargo"]==""))
 			{
 				//Actualiza la solicitud especial en automatica 
-				$Actualizar="UPDATE cal_web.leyes_por_solicitud set recargo=0 where nro_solicitud='".$SA."' and rut_funcionario='".$Rut."' and recargo <> 'R'";	
+				$Actualizar="update cal_web.leyes_por_solicitud set recargo=0 where nro_solicitud='".$SA."' and rut_funcionario='".$Rut."' and recargo <> 'R'";	
 				mysqli_query($link, $Actualizar);
 			}
 		}
@@ -127,7 +128,7 @@
 			{
 				if ((is_null($Fila4["recargo"]))||($Fila4["recargo"]==""))
 				{
-					$Actualizar="UPDATE cal_web.estados_por_solicitud set recargo=0 where nro_solicitud='".$SA."' and rut_funcionario='".$Rut."' and recargo <> 'R' ";	
+					$Actualizar="update cal_web.estados_por_solicitud set recargo=0 where nro_solicitud='".$SA."' and rut_funcionario='".$Rut."' and recargo <> 'R' ";	
 					mysqli_query($link, $Actualizar);
 				}
 			}

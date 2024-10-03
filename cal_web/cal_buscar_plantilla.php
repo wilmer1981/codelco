@@ -1,5 +1,11 @@
 <?php
 include("../principal/conectar_principal.php");
+
+	$TipoPlantilla   = isset($_REQUEST["TipoPlantilla"])?$_REQUEST["TipoPlantilla"]:"";
+	$CmbProductos    = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Salir           = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+
 switch ($TipoPlantilla)
 {
 	case "G":
@@ -93,7 +99,7 @@ function Recuperar(TipoPlantilla,S)
                 <option value='-1' selected>Seleccionar</option>
                 <?php
 					$Consulta="select cod_producto,descripcion from productos order by descripcion"; 
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Respuesta = mysqli_query($link,$Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						if ($CmbProductos==$Fila["cod_producto"])
@@ -128,7 +134,7 @@ function Recuperar(TipoPlantilla,S)
     	            	echo "<option value='-1' selected>Seleccionar</option>";
 					}	
 					$Consulta="select cod_subproducto,descripcion from subproducto where cod_producto = '".$CmbProductos."'"; 
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Respuesta = mysqli_query($link,$Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -149,7 +155,7 @@ function Recuperar(TipoPlantilla,S)
             <td colspan="2"><strong> </strong> <strong> 
               <?php
 			$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from proyecto_modernizacion.funcionarios where rut = '".$Rut."'";
-	  		$Resultado= mysqli_query($link, $Consulta);
+	  		$Resultado= mysqli_query($link,$Consulta);
 			if ($Fila =mysqli_fetch_array($Resultado))
 			{	
 				echo "<input name='TxtNombre' type='text' style='width:280' maxlength='200' readonly value= '".$TxtNombre = $Fila["nombres"]." ".$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]."'>";
@@ -158,7 +164,7 @@ function Recuperar(TipoPlantilla,S)
 	  		else
 			{
 		  		/*$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($Consulta);
 				if ($Fila=mysqli_fetch_array($Respuesta))
 				{
 					//echo ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
@@ -182,14 +188,14 @@ function Recuperar(TipoPlantilla,S)
 			$Consulta ="select distinct t1.cod_subproducto,t1.rut_funcionario,t1.cod_plantilla,t1.nombre_plantilla ";
 			$Consulta = $Consulta."from cal_web.plantillas t1 inner join cal_web.leyes_por_plantillas t2 on t1.rut_funcionario = t2.rut_funcionario and t1.cod_plantilla = t2.cod_plantilla ";
 			$Consulta = $Consulta."where (t1.rut_funcionario = '".$Rut."' and t1.tipo_plantilla ='".$TipoPlantilla."') and  (cod_producto = '".$CmbProductos."')";  
-			$Respuesta =mysqli_query($link, $Consulta);
+			$Respuesta =mysqli_query($link,$Consulta);
 			}
 			else
 			{	
-				$Consulta ="select distinct t1.rut_funcionario,t1.cod_plantilla,t1.nombre_plantilla ";
+				$Consulta ="select distinct t1.rut_funcionario,t1.cod_subproducto, t1.cod_plantilla,t1.nombre_plantilla ";
 				$Consulta = $Consulta."from cal_web.plantillas t1 inner join cal_web.leyes_por_plantillas t2 on t1.rut_funcionario = t2.rut_funcionario and t1.cod_plantilla = t2.cod_plantilla ";
 				$Consulta = $Consulta."where (t1.rut_funcionario = '".$Rut."' and t1.tipo_plantilla ='".$TipoPlantilla."') and  (cod_producto = '".$CmbProductos."' and cod_subproducto = '".$CmbSubProducto."')"; 
-		 		$Respuesta =mysqli_query($link, $Consulta);
+		 		$Respuesta =mysqli_query($link,$Consulta);
 		}
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{		
@@ -200,7 +206,7 @@ function Recuperar(TipoPlantilla,S)
 			$Consulta ="select t2.abreviatura ";
 			$Consulta = $Consulta."from cal_web.leyes_por_plantillas t1 inner join proyecto_modernizacion.leyes t2 on t1.cod_leyes = t2.cod_leyes ";
 			$Consulta = $Consulta."where (t1.rut_funcionario = '".$Fila["rut_funcionario"]."' and t1.cod_plantilla ='".$Fila["cod_plantilla"]."')";  
-			$Respuesta2=mysqli_query($link, $Consulta);
+			$Respuesta2=mysqli_query($link,$Consulta);
 			$Plantillas="";
 			while ($Fila2=mysqli_fetch_array($Respuesta2))
 			{

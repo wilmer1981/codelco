@@ -1,6 +1,31 @@
 <?php
 include("../principal/conectar_principal.php");
-$Rut =$CookieRut;
+$CookieRut = $_COOKIE['CookieRut'];
+$Rut = $CookieRut;
+
+$TxtProducto = isset($_REQUEST["TxtProducto"])?$_REQUEST["TxtProducto"]:"";
+$TxtSubProducto = isset($_REQUEST["TxtSubProducto"])?$_REQUEST["TxtSubProducto"]:"";
+$TxtCCosto   = isset($_REQUEST["TxtCCosto"])?$_REQUEST["TxtCCosto"]:"";
+$TxtLotes = isset($_REQUEST["TxtLotes"])?$_REQUEST["TxtLotes"]:"";
+$TxtSA = isset($_REQUEST["TxtSA"])?$_REQUEST["TxtSA"]:"";
+
+$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$Lotes = isset($_REQUEST["Lotes"])?$_REQUEST["Lotes"]:"";
+$CCosto = isset($_REQUEST["CCosto"])?$_REQUEST["CCosto"]:"";
+$SA = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:"";
+$SolAut = isset($_REQUEST["SolAut"])?$_REQUEST["SolAut"]:"";
+$SolEsp = isset($_REQUEST["SolEsp"])?$_REQUEST["SolEsp"]:"";
+$BuscarDetalle = isset($_REQUEST["BuscarDetalle"])?$_REQUEST["BuscarDetalle"]:"";
+$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";
+
+$CmbRutPrv = isset($_REQUEST["CmbRutPrv"])?$_REQUEST["CmbRutPrv"]:"";
+$CmbProductos= isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+$BtnMuestras = isset($_REQUEST["BtnMuestras"])?$_REQUEST["BtnMuestras"]:"";
+
 ?>
 <html>
 <head>
@@ -85,7 +110,7 @@ function Recuperar(Valor,valor2,BuscarDetalle,BuscarPrv,CmbRutPrv,Modificando)
 <body leftmargin="0" topmargin="0"  >
 <form name="FrmPlantillas" method="post" action="">
   <?php
-if (isset($TxtProducto))
+if ($TxtProducto!="")
 {
 	echo "<input type='hidden' name ='TxtProducto' value='$TxtProducto'>";
 }
@@ -94,7 +119,7 @@ else
 	echo "<input type='hidden' name ='TxtProducto' value='$Productos'>";
 }
 
-if (isset($TxtSubProducto))
+if ($TxtSubProducto!="")
 {
 	echo "<input type='hidden' name ='TxtSubProducto' value='$TxtSubProducto'>";
 }
@@ -103,20 +128,20 @@ else
 	echo "<input type='hidden' name ='TxtSubProducto' value='$SubProducto'>";
 }
   
-if (isset($Modificando))
+if ($Modificando!="")
 {
 	echo "<input name='Modificando' type='hidden' value='".$Modificando."'>";
 }
-if (isset($CmbProductos))
+if ($CmbProductos!="")
 {
 	echo "<input name='CmbProductos' type='hidden' value='".$CmbProductos."'>";
 }
-if (isset($CmbSubProducto))
+if ($CmbSubProducto!="")
 {
 	echo "<input name='$CmbSubProducto' type='hidden' value='".$CmbSubProducto."'>";
 }
   
-if(!isset($BtnMuestras))
+if($BtnMuestras=="")
 { 
  	echo "<input name='BtnMuestras' type='hidden' value='".$Valores."'>";
 	$BtnMuestras=$Valores;
@@ -125,7 +150,7 @@ else
 {
 	echo "<input name='BtnMuestras' type='hidden' value='".$BtnMuestras."'>";
 }
-if(!isset($TxtLotes))
+if($TxtLotes=="")
 { 
  	echo "<input name='TxtLotes' type='hidden' value='".$Lotes."'>";
 	$TxtLotes=$Lotes;
@@ -134,7 +159,7 @@ else
 {
 	echo "<input name='TxtLotes' type='hidden' value='".$TxtLotes."'>";
 }
-if(!isset($TxtCCosto))
+if($TxtCCosto=="")
 { 
  	echo "<input name='TxtCCosto' type='hidden' value='".$CCosto."'>";
 	$TxtCCosto=$CCosto;
@@ -143,7 +168,7 @@ else
 {
 	echo "<input name='TxtCCosto' type='hidden' value='".$TxtCCosto."'>";
 }
-if(!isset($TxtSA))
+if($TxtSA=="")
 { 
  	echo "<input name='TxtSA' type='hidden' value='".$SA."'>";
 	$TxtSA=$SA;
@@ -170,13 +195,13 @@ else
             <td width="156">Tipo Producto</td>
             <td width="338"><strong> 
             <?php
-				if (isset($SolAut))//S.A AUTOMATICA O RUTINARIA
+				if ($SolAut!="")//S.A AUTOMATICA O RUTINARIA
 				{
 					echo "<select name='CmbProductos' style='width:280' onChange=\"Recarga('A','$BuscarDetalle','$BuscarPrv','$CmbRutPrv','$Modificando');\">";
 				}
 				else
 				{
-					if (isset($SolEsp))//S.A ESPECIAL
+					if ($SolEsp!="")//S.A ESPECIAL
 					{
 						echo "<select name='CmbProductos' style='width:280' onChange=\"Recarga('E','','','','$Modificando');\">";
 					}
@@ -187,7 +212,7 @@ else
 				}	
             	echo "<option value='-1' selected>Seleccionar</option>";
 				$Consulta="select cod_producto,descripcion from productos order by descripcion"; 
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
 					if ($CmbProductos==$Fila["cod_producto"])
@@ -204,13 +229,13 @@ else
               </strong></td>
             <td width="84" rowspan="2"><div align="center"> 
                 <?php
-					if (isset($SolAut))//S.A AUTOMATICA O RUTINARIA
+					if ($SolAut!="")//S.A AUTOMATICA O RUTINARIA
 					{
 						echo "<input name='BtnBuscar' type='button' value='Buscar' onClick=\"Recarga('A','$BuscarDetalle','$BuscarPrv','$CmbRutPrv','$Modificando');\">";
 					}
 					else
 					{
-						if (isset($SolEsp))//S.A ESPECIAL
+						if ($SolEsp!="")//S.A ESPECIAL
 						{
 							echo "<input name='BtnBuscar' type='button' value='Buscar' onClick=\"Recarga('E','','','','$Modificando');\">";
 						}
@@ -229,7 +254,7 @@ else
 	    	        echo "<select name='CmbSubProducto' style='width:280'>";
     	            echo "<option value='-1' selected>Seleccionar</option>";
 					$Consulta="select cod_subproducto,descripcion from subproducto where cod_producto = '".$CmbProductos."'"; 
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Respuesta = mysqli_query($link,$Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -250,7 +275,7 @@ else
             <td colspan="2"><strong> </strong> <strong> 
               <?php
 			$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from funcionarios where rut = '".$Rut."'";
-	  		$Resultado= mysqli_query($link, $Consulta);
+	  		$Resultado= mysqli_query($link,$Consulta);
 			if ($Fila =mysqli_fetch_array($Resultado))
 			{	
 				echo "<input name='TxtNombre' type='text' style='width:280' maxlength='200' readonly value= '".$TxtNombre = $Fila["nombres"]." ".$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]."'>";
@@ -259,7 +284,7 @@ else
 	  		else
 			{
 		  		/*$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($Consulta);
 				if ($Fila=mysqli_fetch_array($Respuesta))
 				{
 					//echo ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
@@ -284,7 +309,7 @@ else
 		$Consulta ="select distinct t1.rut_funcionario,t1.cod_plantilla,t1.nombre_plantilla ";
 		$Consulta = $Consulta."from cal_web.plantillas t1 inner join cal_web.leyes_por_plantillas t2 on t1.rut_funcionario = t2.rut_funcionario and t1.cod_plantilla = t2.cod_plantilla ";
 		$Consulta = $Consulta."where ((t1.rut_funcionario = '".$Rut."' and t1.tipo_plantilla ='P') or (t1.rut_funcionario='0' and t1.tipo_plantilla ='G')) and  (cod_producto = '".$CmbProductos."' and cod_subproducto = '".$CmbSubProducto."')";  
-		$Respuesta =mysqli_query($link, $Consulta);
+		$Respuesta =mysqli_query($link,$Consulta);
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{		
 			echo "<tr>"; 
@@ -294,7 +319,7 @@ else
 			$Consulta ="select t2.abreviatura ";
 			$Consulta = $Consulta."from cal_web.leyes_por_plantillas t1 inner join proyecto_modernizacion.leyes t2 on t1.cod_leyes = t2.cod_leyes ";
 			$Consulta = $Consulta."where (t1.rut_funcionario = '".$Fila["rut_funcionario"]."' and t1.cod_plantilla ='".$Fila["cod_plantilla"]."')";  
-			$Respuesta2=mysqli_query($link, $Consulta);
+			$Respuesta2=mysqli_query($link,$Consulta);
 			$Plantillas="";
 			while ($Fila2=mysqli_fetch_array($Respuesta2))
 			{
@@ -311,9 +336,9 @@ else
           <tr> 
             <td> <div align="center"><strong> 
             <?php
-				if (!isset($SolAut))//solicitud automatica
+				if ($SolAut=="")//solicitud automatica
 				{
-				  if (isset($SolEsp))//solicitud rutinarias
+				  if ($SolEsp!="")//solicitud rutinarias
 				  {
 				  	echo "<input name='BtnOk' type='button' value='Ok' style='width:70' onClick=\"Recuperar('E');\">";
 				  }

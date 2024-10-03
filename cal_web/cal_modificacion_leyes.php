@@ -3,47 +3,23 @@ include("../principal/conectar_principal.php");
 $CookieRut=$_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 
-/************************************************************ */
-if(isset($_REQUEST["SolA"])) {
-	$SolA = $_REQUEST["SolA"];
-}else{
-	$SolA = "";
-}
-if(isset($_REQUEST["Recargo"])) {
-	$Recargo = $_REQUEST["Recargo"];
-}else{
-	$Recargo = "";
-}
-if(isset($_REQUEST["Fecha"])) {
-	$Fecha = $_REQUEST["Fecha"];
-}else{
-	$Fecha = "";
-}
-if(isset($_REQUEST["RutF"])) {
-	$RutF = $_REQUEST["RutF"];
-}else{
-	$RutF = "";
-}
-if(isset($_REQUEST["TxtRecargo"])) {
-	$TxtRecargo = $_REQUEST["TxtRecargo"];
-}else{
-	$TxtRecargo = "";
-}
+$TxtRecargo  = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
+$TxtFecha = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:"";
+$TxtRutF = isset($_REQUEST["TxtRutF"])?$_REQUEST["TxtRutF"]:"";
+$TxtSA = isset($_REQUEST["TxtSA"])?$_REQUEST["TxtSA"]:"";
+$TxtSol = isset($_REQUEST["TxtSol"])?$_REQUEST["TxtSol"]:"";
+$TxtLotes = isset($_REQUEST["TxtLotes"])?$_REQUEST["TxtLotes"]:"";
 
-/*
-if(isset($_REQUEST["Mostrar"])) {
-	$Mostrar = $_REQUEST["Mostrar"];
-}else{
-	$Mostrar = "";
-}*/
-if(isset($_REQUEST["Plantilla"])) {
-	$Plantilla = $_REQUEST["Plantilla"];
-}else{
-	$Plantilla = "";
-}
+$Recargo = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+$Fecha = isset($_REQUEST["Fecha"])?$_REQUEST["Fecha"]:"";
+$RutF  = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
+
+$Plantilla = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+$SolA= isset($_REQUEST["SolA"])?$_REQUEST["SolA"]:"";
 $CentroCosto = isset($_REQUEST["CentroCosto"])?$_REQUEST["CentroCosto"]:"";
-$RutPlant    = isset($_REQUEST["RutPlant"])?$_REQUEST["RutPlant"]:"";
+$RutPlant = isset($_REQUEST["RutPlant"])?$_REQUEST["RutPlant"]:"";
 $CmbCCosto = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:"";
+$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 
 /************************************************************ */
 $Consulta = "SELECT t1.nro_solicitud,t1.id_muestra,t4.abreviatura,t4.tipo_leyes, ";
@@ -117,12 +93,12 @@ if ($Fila = mysqli_fetch_array($Respuesta))
 }
 if ($Plantilla!="")
 {
-	$CCosto=$CentroCosto;
-	$Consulta ="select t3.abreviatura,t3.tipo_leyes ";
+	$CCosto   = $CentroCosto;
+	$Consulta = "select t3.abreviatura,t3.tipo_leyes ";
 	$Consulta = $Consulta."from cal_web.plantillas t1 inner join cal_web.leyes_por_plantillas t2 on t1.rut_funcionario = t2.rut_funcionario and t1.cod_plantilla = t2.cod_plantilla ";
 	$Consulta = $Consulta."inner join proyecto_modernizacion.leyes t3  on t2.cod_leyes = t3.cod_leyes "; 
 	$Consulta = $Consulta."where t1.rut_funcionario = '".$RutPlant."' and t1.cod_plantilla ='".$Plantilla."'";
-	$Respuesta =mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link, $Consulta);
 	$Ley="";
 	$Impurezas="";	
 	while ($Fila =mysqli_fetch_array($Respuesta))
@@ -178,17 +154,13 @@ function MostrarLeyes(N,Sol,Recargo)
  
 </script> 
 
-
-
-
-
 </head>
 
 <body background="../principal/imagenes/fondo3.gif">
 <form name="FrmModifica" method="post" action="">
   <?php
 //Creacion de campo oculto para almacenar la fecha de creacion de la solicitus de analisis y no perder el valor  
-if(!isset($TxtFecha))
+if($TxtFecha=="")
 { 
  	echo "<input name='TxtFecha' type='hidden' value='".$Fecha."'>";
 	$TxtFecha=$Fecha;
@@ -197,7 +169,7 @@ else
 {
 	echo "<input name='TxtFecha' type='hidden' value='".$TxtFecha."'>";
 }
-if(!isset($TxtRutF))
+if($TxtRutF=="")
 { 
  	echo "<input name='TxtRutF' type='hidden' value='".$RutF."'>";
 	$TxtRutF=$RutF;
@@ -206,7 +178,7 @@ else
 {
 	echo "<input name='TxtRutF' type='hidden' value='".$TxtRutF."'>";
 }
-if(!isset($TxtRecargo))
+if($TxtRecargo=="")
 { 
  	echo "<input name='TxtRecargo' type='hidden' value='".$Recargo."'>";
 	$TxtRecargo=$Recargo;

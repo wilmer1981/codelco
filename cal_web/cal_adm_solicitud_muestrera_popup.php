@@ -53,8 +53,9 @@
 <html>
 <head>
 <?php
-$Msj="";	
+$Msj="";
 $Boton="";
+
 	if($Consulta=='S')
 	{
 		$Estado = " where t1.nro_solicitud='".$CmbAnoSol.str_pad($S,6,0,STR_PAD_LEFT)."' and t1.recargo='".$R."'";
@@ -153,7 +154,7 @@ function Proceso(opt)
 		case "B":
 			if(f.NSol.value=='')
 			{
-				alert("Debe Ingresar N� Solicitud.");
+				alert("Debe Ingresar N° Solicitud.");
 				f.NSol.focus();
 				return;
 			}
@@ -169,7 +170,7 @@ function Proceso(opt)
 		case "G":
 			if(f.NSol.value=='')
 			{
-				alert("Debe Ingresar N� Solicitud.");
+				alert("Debe Ingresar N° Solicitud.");
 				f.NSol.focus();
 				return;
 			}

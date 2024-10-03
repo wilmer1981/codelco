@@ -6,27 +6,36 @@
 	$Opcion = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
 	$Rec    = isset($_REQUEST["Rec"])?$_REQUEST["Rec"]:"";
 	$Sol    = isset($_REQUEST["Sol"])?$_REQUEST["Sol"]:"";
+	$SolAut = isset($_REQUEST["SolAut"])?$_REQUEST["SolAut"]:"";
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	
+	$Personalizar    = isset($_REQUEST["Personalizar"])?$_REQUEST["Personalizar"]:"";
+	$Productos    = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$NombrePlantilla = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:"";
+	$CodPlantilla = isset($_REQUEST["CodPlantilla"])?$_REQUEST["CodPlantilla"]:"";
+	$Salir = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+	$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:"";
 
 	if ($Opcion =='3')
 	{
 		if ($Rec == 'N')
 		{
 			$Consulta ="select fecha_hora,id_muestra,rut_funcionario from cal_web.solicitud_analisis where nro_solicitud = '".$Sol."'";
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila1=mysqli_fetch_array($Respuesta);
-			$SA_Aux=$Fila1["id_muestra"].'~~'.$Fila1["fecha_hora"].'//';
-			$Rut=$Fila1["rut_funcionario"];
+			$Respuesta=mysqli_query($link,$Consulta);
+			$Fila1    =mysqli_fetch_array($Respuesta);
+			$SA_Aux   =$Fila1["id_muestra"].'~~'.$Fila1["fecha_hora"].'//';
+			$Rut      =$Fila1["rut_funcionario"];
 		}
 		else 
 		{
 			$Consulta ="select fecha_hora,id_muestra,rut_funcionario  from cal_web.solicitud_analisis where nro_solicitud = '".$Sol."' and recargo = '".$Rec."'";
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila1=mysqli_fetch_array($Respuesta);
-			$SA_Aux=$Fila1["id_muestra"].'~~'.$Fila1["fecha_hora"].$Rec.'//';
-			$SolAut='S';
-			$Rut=$Fila1["rut_funcionario"];
-			$Recargo=$Rec;
+			$Respuesta=mysqli_query($link,$Consulta);
+			$Fila1    =mysqli_fetch_array($Respuesta);
+			$SA_Aux   =$Fila1["id_muestra"].'~~'.$Fila1["fecha_hora"].$Rec.'//';
+			$SolAut   ='S';
+			$Rut      =$Fila1["rut_funcionario"];
+			$Recargo  =$Rec;
 		}	
 	}
 	else
@@ -51,7 +60,7 @@
 						$Muestra = substr($SA_Aux,0,$x);			
 						$Fecha = substr($SA_Aux,$x+2,19);
 						$Consulta="select leyes,impurezas from cal_web.solicitud_analisis where rut_funcionario = '".$Rut."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'"; 
-						$Respuesta = mysqli_query($link, $Consulta);
+						$Respuesta = mysqli_query($link,$Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
 						$LeyesAux=$Fila["leyes"];
 						for ($l = 0;$l <= strlen($LeyesAux); $l++)
@@ -115,7 +124,7 @@
 						if ($Recargo=='N')//AUTOMATICA SIN RECARGOS
 						{
 							$Consulta="select leyes,impurezas from cal_web.solicitud_analisis where rut_funcionario = '".$Rut."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."'"; 
-							$Respuesta = mysqli_query($link, $Consulta);
+							$Respuesta = mysqli_query($link,$Consulta);
 							$Fila=mysqli_fetch_array($Respuesta);
 							$LeyesAux=$Fila["leyes"];
 							for ($l = 0;$l <= strlen($LeyesAux); $l++)
@@ -161,7 +170,7 @@
 						else//AUTOMATICA CON RECARGOS
 						{
 							$Consulta="select leyes,impurezas from cal_web.solicitud_analisis where rut_funcionario = '".$Rut."' and id_muestra='".$Muestra."' and fecha_hora ='".$Fecha."' and recargo='".$Recargo."'"; 
-							$Respuesta = mysqli_query($link, $Consulta);
+							$Respuesta = mysqli_query($link,$Consulta);
 							$Fila=mysqli_fetch_array($Respuesta);
 							$LeyesAux=$Fila["leyes"];
 							for ($l = 0;$l <= strlen($LeyesAux); $l++)
@@ -452,7 +461,7 @@ function ValidarPersonalizar(Sol,Recargo)
 				else
 				{	
 					
-					if (!isset($SolAut))
+					if ($SolAut=="")
 					{
 						echo "<input name='BtnOk' type='button'  value='Ok' style='width:60' onClick=\"Validar('$Valores','$Personalizar','$Productos','$SubProducto','$NombrePlantilla','$CodPlantilla','$Modificando','$Salir');\">";
 					}
@@ -481,7 +490,7 @@ function ValidarPersonalizar(Sol,Recargo)
 				echo "<tr>";
 				$cont=1;	 
 				$Consulta  = "select t1.cod_leyes,t1.tipo_leyes,t1.abreviatura as abrev,t1.cod_unidad,t2.abreviatura as abrev2 from leyes t1 inner join unidades t2 on t1.cod_unidad = t2.cod_unidad where t1.tipo_leyes = 0 order by  t1.abreviatura";
-				$Resultado = mysqli_query($link, $Consulta);
+				$Resultado = mysqli_query($link,$Consulta);
 				while ($Fila =mysqli_fetch_array($Resultado))
 				{
 			 		if($cont==5) 
@@ -533,7 +542,7 @@ function ValidarPersonalizar(Sol,Recargo)
 			echo"<tr>";
 			$cont=1;	 
 			$Consulta  = "select t1.cod_leyes,t1.tipo_leyes,t1.abreviatura as abrev,t1.cod_unidad,t2.abreviatura as abrev2 from leyes t1 inner join unidades t2 on t1.cod_unidad = t2.cod_unidad where t1.tipo_leyes = 1 order by t1.abreviatura";
-			$Resultado = mysqli_query($link, $Consulta);
+			$Resultado = mysqli_query($link,$Consulta);
 			while ($Fila =mysqli_fetch_array($Resultado))
 			{
 				if($cont==5) 
@@ -583,7 +592,7 @@ function ValidarPersonalizar(Sol,Recargo)
 			echo"<tr>";
 			$cont=1;	 
 			$Consulta  = "select t1.cod_leyes,t1.tipo_leyes,t1.abreviatura as abrev,t1.cod_unidad,t2.abreviatura as abrev2 from leyes t1 inner join unidades t2 on t1.cod_unidad = t2.cod_unidad where t1.tipo_leyes =3 order by t1.abreviatura";
-			$Resultado = mysqli_query($link, $Consulta);
+			$Resultado = mysqli_query($link,$Consulta);
 			while ($Fila =mysqli_fetch_array($Resultado))
 			{
 				if($cont==5) 

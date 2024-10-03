@@ -2,20 +2,33 @@
 	$CodigoDeSistema = 1;
 	$CodigoDePantalla = 7;
 	include("../principal/conectar_principal.php");
+	$CookieRut  = $_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
+	
+	$CmbProductos    = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Salir           = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+	$NombrePlantilla = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:"";
+	$Plantilla       = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	//$TxtNombrePlantilla = isset($_REQUEST["TxtNombrePlantilla"])?$_REQUEST["TxtNombrePlantilla"]:"";
+	
+	$Productos    = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
+	$SubProductos = isset($_REQUEST["SubProductos"])?$_REQUEST["SubProductos"]:"";
+	$OpcionOculto = isset($_REQUEST["OpcionOculto"])?$_REQUEST["OpcionOculto"]:"";
+	
 	$TxtNombrePlantilla = $NombrePlantilla;
-	if (isset($Productos)) 
+	if ($Productos!="") 
 	{
 		$CmbProductos=$Productos;
 	}
-	if (isset($SubProductos)) 
+	if ($SubProductos!="") 
 	{
 		$CmbSubProducto=$SubProductos;
 	}
 	$Consulta="select cod_centro_costo from proyecto_modernizacion.funcionarios where rut='".$Rut."'";
-	$Respuesta=mysqli_query($link, $Consulta);
+	$Respuesta= mysqli_query($link,$Consulta);
 	$Fila=mysqli_fetch_array($Respuesta);
-	$CodCCosto=substr($Fila[cod_centro_costo],0,4);
+	$CodCCosto=substr($Fila["cod_centro_costo"],0,4);
 	
 	
 ?>
@@ -164,7 +177,7 @@ function Salir(Opcion)
 <form name="FrmPersonalizar" method="post" action="">
     <?php 
 		include("../principal/encabezado.php");
-		if (!isset($OpcionOculto))
+		if ($OpcionOculto=="")
 		{	
 
 			echo "<input type='hidden' name='OpcionOculto' value ='$Salir'>";
@@ -197,7 +210,7 @@ function Salir(Opcion)
             <td colspan="2">&nbsp; 
               <?php
 	   	$Consulta = "select  * from proyecto_modernizacion.funcionarios where rut = '".$Rut."'";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta =  mysqli_query($link,$Consulta);
 		if ($Fila=mysqli_fetch_array($Respuesta))
 		{
 			echo $Rut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
@@ -214,12 +227,12 @@ function Salir(Opcion)
               <?php          
 				echo "<select name='CmbProductos' style='width:250 'id='select' value='".$CmbProductos."' onChange=Recarga('$Salir');>";
 				echo "<option value='-1' selected>Seleccionar</option>";
-				if (isset($FechaBuscar))
+				if ($FechaBuscar!="")
 				{
 					$CmbProductos = $Productos;
 				}
 				$Consulta="select cod_producto,descripcion from productos order by descripcion"; 
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta =  mysqli_query($link,$Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
 					if ($CmbProductos==$Fila["cod_producto"])
@@ -244,7 +257,7 @@ function Salir(Opcion)
 			echo "<select name='CmbSubProducto' style='width:250'>";
 			echo "<option value='-1' selected>Seleccionar</option>";
 			$Consulta="select cod_subproducto,descripcion from subproducto where cod_producto = '".$CmbProductos."'"; 
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta =  mysqli_query($link,$Consulta);
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -290,7 +303,7 @@ function Salir(Opcion)
 		$Consulta = $Consulta." left join proyecto_modernizacion.leyes t3 on t2.cod_leyes = t3.cod_leyes";
 		$Consulta = $Consulta." left join proyecto_modernizacion.unidades t4 on t2.cod_unidad = t4.cod_unidad";
 		$Consulta = $Consulta." where t1.rut_funcionario = '".$Rut."' and t1.cod_plantilla ='".$Plantilla."'";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta =  mysqli_query($link,$Consulta);
 		while ($Fila=mysqli_fetch_array($Respuesta))
 		{
 			echo "<tr>";
