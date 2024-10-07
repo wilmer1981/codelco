@@ -1,5 +1,4 @@
 ﻿<?php
-
 $CodigoDeSistema = 1;
 $CodigoDePantalla = 6;
 include("../principal/conectar_principal.php");
@@ -10,8 +9,8 @@ $Fila=mysqli_fetch_array($Respuesta);
 $Nivel=$Fila["nivel"];
 $Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-$Rut =  $CookieRut;
-$HoraActual   = date("H");
+$Rut   =$CookieRut;
+$HoraActual = date("H");
 $MinutoActual = date("i");
 
 $CmbAno   = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
@@ -32,6 +31,7 @@ $checkTodos     = isset($_REQUEST["checkTodos"])?$_REQUEST["checkTodos"]:"";
 $LimitIni       = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
 $LimitFin       = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:30;
 $Valores_Check  = isset($_REQUEST["Valores_Check"])?$_REQUEST["Valores_Check"]:"";
+
 
 ?>
 <html>
@@ -442,7 +442,7 @@ function ValidarModificar()
             </td>
             <td>Fecha: </td>
             <td> 
-              <?php echo $Fecha_Hora ?>
+              <?php echo $Fecha_Hora; ?>
               <?php
 			//creacion de campo oculto para almacenar la fecha y hora si no existe lo crea en caso contraria le asigana la feha hora del sistema 
 			if (!isset($FechaHora))
@@ -465,7 +465,7 @@ function ValidarModificar()
 				
 			for ($i=1;$i<=31;$i++)
 			{
-				if (isset($CmbDias))
+				if(isset($CmbDias))
 				{
 					if ($i==$CmbDias)
 					{
@@ -561,7 +561,7 @@ function ValidarModificar()
                 <?php
 			for ($i=1;$i<=31;$i++)
 			{
-				if (isset($CmbDiasT))
+				if ($CmbDiasT!="")
 				{
 					if ($i==$CmbDiasT)
 					{
@@ -1127,12 +1127,14 @@ function ValidarModificar()
 					//FECHA RECEPCION
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = ".$Fila["nro_solicitud"].") and (cod_estado = '4')";
 					$Respuesta2 = mysqli_query($link, $Consulta);
+					$TxtFechaRecepcion="0000-00-00";
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
 						$TxtFechaRecepcion = $Fila2["fecha_hora"];
 					}	
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') and (cod_estado = '5') ";
 					$Respuesta3 = mysqli_query($link, $Consulta);
+					$TxtFechaAtencion="0000-00-00";
 					if ($Fila3 = mysqli_fetch_array($Respuesta3))
 					{
 						$TxtFechaAtencion = $Fila3["fecha_hora"];
@@ -1346,12 +1348,14 @@ function ValidarModificar()
 					//FECHA RECEPCION
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = ".$Fila["nro_solicitud"].") and (cod_estado = '4')";
 					$Respuesta2 = mysqli_query($link, $Consulta);
+					$TxtFechaRecepcion = "0000-00-00";
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
 						$TxtFechaRecepcion = $Fila2["fecha_hora"];
 					}	
 					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') and (cod_estado = '5') ";
 					$Respuesta3 = mysqli_query($link, $Consulta);
+					$TxtFechaAtencion = "0000-00-00";
 					if ($Fila3 = mysqli_fetch_array($Respuesta3))
 					{
 						$TxtFechaAtencion = $Fila3["fecha_hora"];
@@ -1420,7 +1424,7 @@ function ValidarModificar()
 					{
 						echo "<td width ='118'><div align ='left'><input name ='TxtEstados' type='text' readonly style='width:118' maxlength='85'value ='".$TxtEstado= $Fila["nombre_subclase"]." Fisico'></div></td>";					
 					}	
-
+					
 					echo "<td width ='80'><div align ='left'><input name ='TxtFechaR' type='text' readonly style='width:80' maxlength='80'value ='".$TxtFechaRecepcion=substr($TxtFechaRecepcion,0,11)."'><input name ='TxtHoraM' type='hidden' value =".$TxtHoraM= substr($TxtFechaRecepcion,11,8)."></div></td>";
 					if (($Fila["cod_estado"]== '5') || ($Fila["cod_estado"]== '6') )
 					{
@@ -1834,7 +1838,7 @@ function ValidarModificar()
 					echo "<td width ='118'><div align ='left'><input name ='TxtEstados' type='text' readonly style='width:118' maxlength='85'value ='".$TxtEstado= $Fila["nombre_subclase"]."'></div></td>";
 					echo "<td width ='80'><div align ='left'><input name ='TxtFechaR' type='text' readonly style='width:80' maxlength='80'value ='".$TxtFechaRecepcion=substr($TxtFechaRecepcion,0,11)."'><input name ='TxtHoraM' type='hidden' value =".$TxtHoraM= substr($TxtFechaRecepcion,11,8)."></div></td>";
 					if (($Fila["cod_estado"]== '5') || ($Fila["cod_estado"]== '6') )
-					{
+					{  echo "entroo";
 						echo "<td width ='80'><div align ='left'><input name ='TxtFechaAt' type='text' readonly style='width:80' maxlength='80'value ='".$TxtFechaAtencion=substr($TxtFechaAtencion,0,11)."'><input name ='TxtHoraM' type='hidden' value =".$TxtHoraM= substr($TxtFechaAtencion,11,8)."></div></td>";		
 					}
 					else

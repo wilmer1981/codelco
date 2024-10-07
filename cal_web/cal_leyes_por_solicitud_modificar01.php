@@ -3,21 +3,21 @@ include("../principal/conectar_cal_web.php");
 $CookieRut=$_COOKIE["CookieRut"];
 $Rut=$CookieRut;
 
-$Sol = $_REQUEST["Sol"];
-$Rec = $_REQUEST["Rec"];
-$ValoresLeyes = $_REQUEST["ValoresLeyes"];
-$ValoresImpurezas = $_REQUEST["ValoresImpurezas"];
-$ValoresLeyesFisicas = $_REQUEST["ValoresLeyesFisicas"];
-$Opcion = $_REQUEST["Opcion"];
-
+	$Sol = isset($_REQUEST["Sol"])?$_REQUEST["Sol"]:"";
+	$Rec = isset($_REQUEST["Rec"])?$_REQUEST["Rec"]:"";
+	$ValoresLeyes = isset($_REQUEST["ValoresLeyes"])?$_REQUEST["ValoresLeyes"]:"";
+	$ValoresImpurezas = isset($_REQUEST["ValoresImpurezas"])?$_REQUEST["ValoresImpurezas"]:"";
+	$ValoresLeyesFisicas = isset($_REQUEST["ValoresLeyesFisicas"])?$_REQUEST["ValoresLeyesFisicas"]:"";
+	$Opcion = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+	
 if ($Rec == 'N')
 {
 	$Consulta="select nro_solicitud,cod_producto,cod_subproducto,fecha_hora,id_muestra,rut_funcionario from cal_web.solicitud_analisis where nro_solicitud ='".$Sol."'"; 
 	$Respuesta = mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Respuesta);
-	$Eliminar="delete from cal_web.leyes_por_solicitud where  nro_solicitud=".$Sol." and isnull(valor)";
+	$Eliminar="delete from cal_web.leyes_por_solicitud where  nro_solicitud='".$Sol."' and isnull(valor)";
 	mysqli_query($link, $Eliminar);
-	$Leyes =$ValoresLeyes;
+	$Leyes = $ValoresLeyes;
 	for ($k = 0;$k <= strlen($Leyes); $k++)
 	{
 		if (substr($Leyes,$k,2) == "//")
@@ -101,7 +101,7 @@ if ($Rec == 'N')
 		$k = 0;
 		}
 	}
-	$Actualiza="UPDATE solicitud_analisis set leyes ='".$ValoresLeyes.$ValoresLeyesFisicas."',impurezas='".$ValoresImpurezas."' where nro_solicitud='".$Sol."'"; 
+	$Actualiza="update solicitud_analisis set leyes ='".$ValoresLeyes.$ValoresLeyesFisicas."',impurezas='".$ValoresImpurezas."' where nro_solicitud='".$Sol."'"; 
 	mysqli_query($link, $Actualiza);
 }
 else//con recargo
@@ -152,7 +152,7 @@ else//con recargo
 				{
 					$Impureza = substr($ImpurezasUnidades,0,$f);			
 					$Unidad = substr($ImpurezasUnidades,$f+2,strlen($ImpurezasUnidades));
-					$Insertar = "insert into cal_web.leyes_por_solicitud (rut_funcionario,recargo,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
+					$Insertar = "insert IGNORE into cal_web.leyes_por_solicitud (rut_funcionario,recargo,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
 					$Insertar = $Insertar.$Fila["rut_funcionario"]."','";
 					$Insertar = $Insertar.$Rec."','";
 					$Insertar = $Insertar.$Fila["fecha_hora"]."',";
@@ -199,7 +199,7 @@ else//con recargo
 		}
 	}
 }	
-$Actualiza="UPDATE solicitud_analisis set leyes ='".$ValoresLeyes.$ValoresLeyesFisicas."',impurezas='".$ValoresImpurezas."' where nro_solicitud='".$Sol."' and recargo = '".$Rec."'"; 
+$Actualiza="update solicitud_analisis set leyes ='".$ValoresLeyes.$ValoresLeyesFisicas."',impurezas='".$ValoresImpurezas."' where nro_solicitud='".$Sol."' and recargo = '".$Rec."'"; 
 mysqli_query($link, $Actualiza);
 echo "<script languaje='JavaScript'>";
 //echo " window.opener.document.FrmIngLeyes.action='cal_adm_ingreso_leyes.php?SolA=".$Sol."&Recargo=".$Rec."';";

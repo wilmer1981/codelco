@@ -7,16 +7,8 @@
 	$i=0;
 	$f=0;
 
-	if(isset($_REQUEST["Sol"])) {
-		$Sol = $_REQUEST["Sol"];
-	}else{
-		$Sol = "";
-	}
-	if(isset($_REQUEST["Rec"])) {
-		$Rec = $_REQUEST["Rec"];
-	}else{
-		$Rec = "";
-	}
+	$Sol = isset($_REQUEST["Sol"])?$_REQUEST["Sol"]:"";
+	$Rec = isset($_REQUEST["Rec"])?$_REQUEST["Rec"]:"";
 
 	if ($Rec == 'N')
 	{
@@ -257,7 +249,7 @@ function Grabar(Sol,Recargo)
 							}	
 							$Respuesta=mysqli_query($link, $Consulta);
 							$FilaValor=mysqli_fetch_array($Respuesta);
-							/*if (!is_null($FilaValor["valor"]))
+							/*if (!is_null($FilaValor[valor]))
 							{
 								$MostrarLeyes=false;
 							}*/
@@ -327,7 +319,7 @@ function Grabar(Sol,Recargo)
 						}	
 						$Respuesta=mysqli_query($link, $Consulta);
 						$FilaValor=mysqli_fetch_array($Respuesta);
-						/*if (!is_null($FilaValor["valor"]))
+						/*if (!is_null($FilaValor[valor]))
 						{
 							$MostrarLeyes=false;
 						}*/
@@ -395,7 +387,7 @@ function Grabar(Sol,Recargo)
 						}	
 						$Respuesta=mysqli_query($link, $Consulta);
 						$FilaValor=mysqli_fetch_array($Respuesta);
-						if (!is_null($FilaValor["valor"]))
+						if (!is_null($FilaValor[valor]))
 						{
 							$MostrarLeyes=false;
 						}

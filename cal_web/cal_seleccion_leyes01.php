@@ -40,7 +40,7 @@ $Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 				$Insertar="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,valor,cod_unidad,candado,signo,rut_proceso) values (";
 				$Insertar=$Insertar."'$Rut_F','$Fecha_Hora',$SA,'$Recargo','$LeyNueva',$Valor,'$UnidadNueva','$Candado','$Signo','$CookieRut')";
 				mysqli_query($link, $Insertar);
-				$Actualizar="UPDATE cal_web.leyes_por_solicitud set cod_leyes='".$LeyNueva."',cod_unidad='".$UnidadNueva."' where nro_solicitud=".$SA." and recargo ='".$Recargo."' and cod_leyes='".$Ley."'"; 
+				$Actualizar="update cal_web.leyes_por_solicitud set cod_leyes='".$LeyNueva."',cod_unidad='".$UnidadNueva."' where nro_solicitud=".$SA." and recargo ='".$Recargo."' and cod_leyes='".$Ley."'"; 
 				mysqli_query($link, $Actualizar);
 			}
 			else
@@ -67,7 +67,7 @@ $Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 				$Insertar="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,valor,cod_unidad,candado,signo,rut_proceso) values (";
 				$Insertar=$Insertar."'$Rut_F','$Fecha_Hora',$SA,'$LeyNueva',$Valor,'$UnidadNueva','$Candado','$Signo','$CookieRut')";
 				mysqli_query($link, $Insertar);
-				$Actualizar="UPDATE cal_web.leyes_por_solicitud set cod_leyes='".$LeyNueva."',cod_unidad='".$UnidadNueva."' where nro_solicitud=".$SA." and cod_leyes='".$Ley."'"; 
+				$Actualizar="update cal_web.leyes_por_solicitud set cod_leyes='".$LeyNueva."',cod_unidad='".$UnidadNueva."' where nro_solicitud=".$SA." and cod_leyes='".$Ley."'"; 
 				mysqli_query($link, $Actualizar);
 			}	
 			break;
@@ -173,14 +173,16 @@ $Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 										mysqli_query($link, $Eliminar);
 										//FINALIZAR SA EN CASO QUE SE ELIMINEN LEYES Y LAS DEMAS ESTAN CON CANDADOS
 										$Consulta = "select count(*) as existe from cal_web.leyes_por_solicitud where nro_solicitud=".$SA." and rut_funcionario ='".$Rut_F."' and recargo='".$Recargo."' and candado <> '1'";
-										$Respuesta=mysqli_query($link, $Consulta);
+										//echo "Consulta:".$Consulta;
+										$Respuesta=mysqli_query($link, $Consulta);										
 										$Fila= mysqli_fetch_array($Respuesta);
+										echo "<br>Existe:".$Fila["existe"];
 										if ($Fila["existe"]== 0)
 										{
-											$insertar2 ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,rut_proceso)";
+											$insertar2 ="INSERT IGNORE INTO cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,rut_proceso)";
 											$insertar2.="values ('".$Rut_F."','".$SA."','".$Recargo."','6','".$Fecha2."','$CookieRut')";
 											mysqli_query($link, $insertar2);
-											$Actualizar2= "UPDATE  cal_web.solicitud_analisis set estado_actual ='6' where rut_funcionario = '".$Rut_F."' and nro_solicitud = '".$SA."' and recargo='".$Recargo."'";
+											$Actualizar2= "update  cal_web.solicitud_analisis set estado_actual ='6' where rut_funcionario = '".$Rut_F."' and nro_solicitud = '".$SA."' and recargo='".$Recargo."'";
 											mysqli_query($link, $Actualizar2);
 										}
 									}
@@ -215,7 +217,7 @@ $Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 											$insertar2 ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
 											$insertar2.="values ('".$Rut_F."','".$SA."','6','".$Fecha2."','$CookieRut')";
 											mysqli_query($link, $insertar2);
-											$Actualizar2= "UPDATE  cal_web.solicitud_analisis set estado_actual ='6' where rut_funcionario = '".$Rut_F."' and nro_solicitud = '".$SA."'";
+											$Actualizar2= "update  cal_web.solicitud_analisis set estado_actual ='6' where rut_funcionario = '".$Rut_F."' and nro_solicitud = '".$SA."'";
 											mysqli_query($link, $Actualizar2);
 										}
 									}
