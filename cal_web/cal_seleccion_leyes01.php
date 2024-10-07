@@ -214,7 +214,7 @@ $Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 										$Fila= mysqli_fetch_array($Respuesta);
 										if ($Fila["existe"]== 0)
 										{
-											$insertar2 ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
+											$insertar2 ="insert IGNORE into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso)";
 											$insertar2.="values ('".$Rut_F."','".$SA."','6','".$Fecha2."','$CookieRut')";
 											mysqli_query($link, $insertar2);
 											$Actualizar2= "update  cal_web.solicitud_analisis set estado_actual ='6' where rut_funcionario = '".$Rut_F."' and nro_solicitud = '".$SA."'";

@@ -2,15 +2,35 @@
 $CodigoDeSistema = 1;
 $CodigoDePantalla = 35;
 include("../principal/conectar_principal.php");
+$CookieRut = $_COOKIE["CookieRut"];
+$Rut       = $CookieRut;
 $Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
 $Respuesta = mysqli_query($link, $Consulta);
 $Fila=mysqli_fetch_array($Respuesta);
-$Nivel=$Fila["nivel"];
+$Nivel      = $Fila["nivel"];
 $Fecha_Hora = date("d-m-Y h:i");
-$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-$Rut =$CookieRut;
-$HoraActual = date("H");
+$meses = array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+$HoraActual   = date("H");
 $MinutoActual = date("i");
+
+$CmbEstado    = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+$Mostrar      = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+$LimitIni     = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+$LimitFin     = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:30;
+$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbDias      = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+$CmbAnoT       = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+$CmbMesT       = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+$CmbDiasT      = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+
+$TxtSa = isset($_REQUEST["TxtSa"])?$_REQUEST["TxtSa"]:"";
+$TxtSaFin = isset($_REQUEST["TxtSaFin"])?$_REQUEST["TxtSaFin"]:"";
+$CmbProductos      = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+$CmbSubProducto    = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+$AnoBuscadoIni     = isset($_REQUEST["AnoBuscadoIni"])?$_REQUEST["AnoBuscadoIni"]:"";
+$AnoBuscadoFin     = isset($_REQUEST["AnoBuscadoFin"])?$_REQUEST["AnoBuscadoFin"]:"";
+
 ?>
 <html>
 <head>
@@ -342,12 +362,6 @@ function Recarga(URL)
 </script></head>
 <body leftmargin="3" topmargin="3" marginwidth="0" marginheight="0">
 <form name="FrmIngLeyes" method="post" action="">
-  <?php 
-		if (!isset($LimitIni))
-			$LimitIni = 0;
-		if (!isset($LimitFin))
-			$LimitFin = 30;
-	?>
   <?php include("../principal/encabezado.php")?>
   <table width="770"  border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5" >
     <tr>
@@ -594,8 +608,8 @@ function Recarga(URL)
             <td height="29"><select name="CmbSubProducto" style="width:220" >
                 <option value="-1" selected>Seleccionar</option>;
                 <?php
-			$Consulta="select cod_subproducto,descripcion from subproducto where cod_producto = '".$CmbProductos."'"; 
-			echo $Consulta."<br>";
+			$Consulta="SELECT cod_subproducto,descripcion FROM subproducto where cod_producto = '".$CmbProductos."'"; 
+			//echo $Consulta."<br>";
 			$Respuesta = mysqli_query($link, $Consulta);
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{

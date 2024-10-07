@@ -112,6 +112,8 @@ else
 	if (!isset($ff))
 	{
 		//while (list($K,$V)=each($Array2))
+		$Leyes="";
+		$LeySola="";
 		foreach($Array2 as $K=>$V)
 		{
 			//A leyes se asigna los indices que van a ser los   codigos de las leyes
@@ -241,7 +243,7 @@ function Recarga(LimiteIni,E)
 	  $Consulta =$Consulta." and cod_subclase = '".$TxtTipo."'";
 	  $Respuesta= mysqli_query($link, $Consulta);
 	  $Fila= mysqli_fetch_array($Respuesta); 
-	  $Tipo= $Fila["nombre_subclase"];
+	  $Tipo= isset($Fila["nombre_subclase"])?$Fila["nombre_subclase"]:"";
 	  ?>
 	  <td>
 	  	<?php 
@@ -283,7 +285,7 @@ function Recarga(LimiteIni,E)
 <?php
 	reset($Array2);
 	$Contador = 1;
-	while(list($Clave,$Valor)=each($Array2))
+	foreach($Array2 as $Clave=>$Valor)
 	{
 		$Contador++;
 	}  
@@ -304,7 +306,7 @@ function Recarga(LimiteIni,E)
 			//Se posiciona en la 1� posicion
 			reset($Array2);
 			//recorro el arreglo y le paso el array2 a K
-			while(list($Clave,$Valor)=each($Array2))
+			foreach($Array2 as $Clave=>$Valor)
 			{
 				echo "<td width='70'>";
 				//muestro el valor de la columna osea las abreviaturas de las leyes
@@ -415,7 +417,7 @@ function Recarga(LimiteIni,E)
 									//SE LIMPIA EL ARREGLO
 									reset($Array2);
 									//limpia el arreglo en la posicion de los valores 
-									while(list($Clave,$Valor)=each($Array2))
+									foreach($Array2 as $Clave=>$Valor)
 									{
 										$Array2[$Clave][1]="&nbsp;";
 										$Array2[$Clave][2]="&nbsp;";
@@ -452,7 +454,7 @@ function Recarga(LimiteIni,E)
 									reset($Array2);
 									//a CLAVE se van los indices del arreglo2 
 									//VALOR se van los valores de la columna 1
-									while(list($Clave,$Valor)=each($Array2))
+									foreach($Array2 as $Clave=>$Valor)
 									{
 										echo "<td>";
 										//musetro el valor en la posicion 1  
@@ -465,12 +467,12 @@ function Recarga(LimiteIni,E)
 										$Consulta=$Consulta." and nro_solicitud='".$Fila2["nro_solicitud"]."' and recargo='".$Fila2["recargo"]."' and cod_estado='4'";
 										$RespuestaEstados=mysqli_query($link, $Consulta);
 										$FilaEstado=mysqli_fetch_array($RespuestaEstados);
-										$FechaEstado1=$FilaEstado["fecha_hora"];
+										$FechaEstado1=isset($FilaEstado["fecha_hora"])?$FilaEstado["fecha_hora"]:"";
 										$Consulta="select fecha_hora from cal_web.estados_por_solicitud where rut_funcionario='".$Fila2["rut_funcionario"]."'";
 										$Consulta=$Consulta." and nro_solicitud='".$Fila2["nro_solicitud"]."' and recargo='".$Fila2["recargo"]."' and cod_estado='6'";
 										$RespuestaEstados=mysqli_query($link, $Consulta);
 										$FilaEstado=mysqli_fetch_array($RespuestaEstados);
-										$FechaEstado2=$FilaEstado["fecha_hora"];
+										$FechaEstado2=isset($FilaEstado["fecha_hora"])?$FilaEstado["fecha_hora"]:"";
 									}
 									else
 									{
@@ -478,12 +480,12 @@ function Recarga(LimiteIni,E)
 										$Consulta=$Consulta." and nro_solicitud='".$Fila2["nro_solicitud"]."' and cod_estado='4'";
 										$RespuestaEstados=mysqli_query($link, $Consulta);
 										$FilaEstado=mysqli_fetch_array($RespuestaEstados);
-										$FechaEstado1=$FilaEstado["fecha_hora"];
+										$FechaEstado1=isset($FilaEstado["fecha_hora"])?$FilaEstado["fecha_hora"]:"";
 										$Consulta="select fecha_hora from cal_web.estados_por_solicitud where rut_funcionario='".$Fila2["rut_funcionario"]."'";
 										$Consulta=$Consulta." and nro_solicitud='".$Fila2["nro_solicitud"]."' and cod_estado='6'";
 										$RespuestaEstados=mysqli_query($link, $Consulta);
 										$FilaEstado=mysqli_fetch_array($RespuestaEstados);
-										$FechaEstado2=$FilaEstado["fecha_hora"];
+										$FechaEstado2=isset($FilaEstado["fecha_hora"])?$FilaEstado["fecha_hora"]:"";
 									}
 									echo "<td>".$FechaEstado1."</td>";
 									echo "<td>".$FechaEstado2."</td>";
@@ -510,7 +512,7 @@ function Recarga(LimiteIni,E)
 			{
 				$ProSProAux = substr($ProSAux,0,$j);
 				for ($x=0;$x<=strlen($ProSProAux);$x++)
-				{
+				{   $Total1=0;
 					if (substr($ProSProAux,$x,2) == "~~")
 					{
 						$ProductoAux = substr($ProSAux,0,$x);			

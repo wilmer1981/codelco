@@ -1,24 +1,24 @@
 <?php
 ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
-		header("Expires: 0");
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+$file_name=basename($_SERVER['PHP_SELF']).".xls";
+$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+$filename="";
+if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+$filename = urlencode($filename);
+}
+$filename = iconv('UTF-8', 'gb2312', $filename);
+$file_name = str_replace(".php", "", $file_name);
+header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+
+header("content-disposition: attachment;filename={$file_name}");
+header( "Cache-Control: public" );
+header( "Pragma: public" );
+header( "Content-type: text/csv" ) ;
+header( "Content-Dis; filename={$file_name}" ) ;
+header("Content-Type:  application/vnd.ms-excel");
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 include("../principal/conectar_principal.php");
 
 $Fecha_Hora = date("d-m-Y h:i");
@@ -300,12 +300,12 @@ $ConsultaLey=substr($LeySola,0,strlen($LeySola)-2);
 										$Consulta=$Consulta." and nro_solicitud='".$Fila2["nro_solicitud"]."' and recargo='".$Fila2["recargo"]."' and cod_estado='4'";
 										$RespuestaEstados=mysqli_query($link, $Consulta);
 										$FilaEstado=mysqli_fetch_array($RespuestaEstados);
-										$FechaEstado1=$FilaEstado["fecha_hora"];
+										$FechaEstado1=isset($FilaEstado["fecha_hora"])?$FilaEstado["fecha_hora"]:"";
 										$Consulta="select fecha_hora from cal_web.estados_por_solicitud where rut_funcionario='".$Fila2["rut_funcionario"]."'";
 										$Consulta=$Consulta." and nro_solicitud='".$Fila2["nro_solicitud"]."' and recargo='".$Fila2["recargo"]."' and cod_estado='6'";
 										$RespuestaEstados=mysqli_query($link, $Consulta);
 										$FilaEstado=mysqli_fetch_array($RespuestaEstados);
-										$FechaEstado2=$FilaEstado["fecha_hora"];
+										$FechaEstado2=isset($FilaEstado["fecha_hora"])?$FilaEstado["fecha_hora"]:"";
 									}
 									else
 									{

@@ -1,4 +1,9 @@
 <?php 
+$CodigoDeSistema = 1;
+$CodigoDePantalla = 20;
+
+$CookieRut= $_COOKIE["CookieRut"];
+
 
 if(isset($_REQUEST["Opcion"])) {
 	$Opcion = $_REQUEST["Opcion"];
@@ -80,10 +85,6 @@ if(isset($_REQUEST["TxtProSubPro"])) {
 }else{
 	$TxtProSubPro =  "";
 }
-	
-
-
-
 
 if(isset($_REQUEST["CmbDias"])) {
 	$CmbDias = $_REQUEST["CmbDias"];
@@ -100,7 +101,6 @@ if(isset($_REQUEST["CmbAno"])) {
 }else{
 	$CmbAno =  date("Y");
 }
-
 
 if(isset($_REQUEST["CmbDiasT"])) {
 	$CmbDiasT = $_REQUEST["CmbDiasT"];
@@ -128,25 +128,13 @@ if(isset($_REQUEST["SubProductito"])) {
 }else{
 	$SubProductito =  "";
 }
-if(isset($_REQUEST["SubProductito"])) {
-	$SubProductito = $_REQUEST["SubProductito"];
-}else{
-	$SubProductito =  "";
-}
-
-
-
 
 if (($Opcion=='S')||($Opcion=='K'))
 {
 	$CmbProductos=46;
 	$CmbSubProducto=1;
-
 }
-$CodigoDeSistema = 1;
-$CodigoDePantalla = 20;
 
-$CookieRut= $_COOKIE["CookieRut"];
 
 include("../principal/conectar_principal.php");
 $Fecha_Hora = date("d-m-Y h:i");

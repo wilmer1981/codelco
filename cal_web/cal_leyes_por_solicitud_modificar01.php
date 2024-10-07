@@ -29,7 +29,7 @@ if ($Rec == 'N')
 				{
 					$Ley = substr($LeyesUnidades,0,$f);			
 					$Unidad = substr($LeyesUnidades,$f+2,strlen($LeyesUnidades));
-					$Insertar = "insert into cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
+					$Insertar = "INSERT IGNORE INTO cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
 					$Insertar = $Insertar.$Fila["rut_funcionario"]."','";
 					$Insertar = $Insertar.$Fila["fecha_hora"]."',";
 					$Insertar = $Insertar.$Sol.",'";
@@ -57,7 +57,7 @@ if ($Rec == 'N')
 				{
 					$Impureza = substr($ImpurezasUnidades,0,$f);			
 					$Unidad = substr($ImpurezasUnidades,$f+2,strlen($ImpurezasUnidades));
-					$Insertar = "insert into cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
+					$Insertar = "INSERT IGNORE INTO cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
 					$Insertar = $Insertar.$Fila["rut_funcionario"]."','";
 					$Insertar = $Insertar.$Fila["fecha_hora"]."',";
 					$Insertar = $Insertar.$Sol.",'";
@@ -85,7 +85,7 @@ if ($Rec == 'N')
 				{
 					$Fisica = substr($FisicaUnidades,0,$f);			
 					$Unidad = substr($FisicaUnidades,$f+2,strlen($FisicaUnidades));
-					$Insertar = "insert into cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
+					$Insertar = "INSERT IGNORE INTO cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
 					$Insertar = $Insertar.$Fila["rut_funcionario"]."','";
 					$Insertar = $Insertar.$Fila["fecha_hora"]."',";
 					$Insertar = $Insertar.$Sol.",'";
@@ -123,7 +123,7 @@ else//con recargo
 				{
 					$Ley = substr($LeyesUnidades,0,$f);			
 					$Unidad = substr($LeyesUnidades,$f+2,strlen($LeyesUnidades));
-					$Insertar = "insert into cal_web.leyes_por_solicitud (rut_funcionario,recargo,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
+					$Insertar = "INSERT IGNORE INTO cal_web.leyes_por_solicitud (rut_funcionario,recargo,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
 					$Insertar = $Insertar.$Fila["rut_funcionario"]."','";
 					$Insertar = $Insertar.$Rec."','";
 					$Insertar = $Insertar.$Fila["fecha_hora"]."',";
@@ -181,7 +181,7 @@ else//con recargo
 				{
 					$Fisica = substr($FisicaUnidades,0,$f);			
 					$Unidad = substr($FisicaUnidades,$f+2,strlen($FisicaUnidades));
-					$Insertar = "insert into cal_web.leyes_por_solicitud (rut_funcionario,recargo,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
+					$Insertar = "insert IGNORE into cal_web.leyes_por_solicitud (rut_funcionario,recargo,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('";
 					$Insertar = $Insertar.$Fila["rut_funcionario"]."','";
 					$Insertar = $Insertar.$Rec."','";
 					$Insertar = $Insertar.$Fila["fecha_hora"]."',";

@@ -387,7 +387,7 @@ function Grabar(Sol,Recargo)
 						}	
 						$Respuesta=mysqli_query($link, $Consulta);
 						$FilaValor=mysqli_fetch_array($Respuesta);
-						if (!is_null($FilaValor[valor]))
+						if (!is_null($FilaValor["valor"]))
 						{
 							$MostrarLeyes=false;
 						}

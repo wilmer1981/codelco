@@ -4,7 +4,6 @@ $Rut =$CookieRut;
 $Fecha_Hora = date("Y-m-d");
 include("../principal/conectar_principal.php");
 //header("location:cal_con_multiple_producto.php?Leyes=".$ValoresLeyes."&CodLeyes=".$ValoresCodLeyes."&TxtProducto=".$Producto01."&TxtSubProducto=".$SubProducto01."&CmbDias=".$Dia."&CmbMes=".$Mes."&CmbAno=".$Ano."&CmbDiasT=".$DiaT."&CmbMesT=".$MesT."&CmbAnoT=".$AnoT."&CmbPeriodo=".$Periodo."&CmbProductos=".$Producto."&CmbSubProducto=".$SubProducto);
-
 $ValoresLeyes    = isset($_REQUEST["ValoresLeyes"])?$_REQUEST["ValoresLeyes"]:"";
 $ValoresCodLeyes = isset($_REQUEST["ValoresCodLeyes"])?$_REQUEST["ValoresCodLeyes"]:"";
 $Producto01      = isset($_REQUEST["Producto01"])?$_REQUEST["Producto01"]:"";
@@ -76,6 +75,7 @@ switch ($Salir)
 			$Consulta="SELECT cod_producto,cod_subproducto from cal_web.consulta  ";
 			$Consulta.=" where cod_consulta = '".$cod_consulta."'  "; 	
 			$Respuesta=mysqli_query($link, $Consulta);
+			$Prod="";$SubProd="";
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
 				$Prod    = $Prod.$Fila["cod_producto"].'-';
