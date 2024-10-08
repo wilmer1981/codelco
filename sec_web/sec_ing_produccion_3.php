@@ -4,9 +4,10 @@
 	//echo $SA_C_STD2;
 	//PAQUETE.
 	$LoteEnm='N';
-	$ConsultaLoteEnm="SELECT estado2 from sec_web.programa_enami where corr_enm='".$instruccion."'";
+	$ConsultaLoteEnm="select estado2 from sec_web.programa_enami where corr_enm='".$instruccion."'";
 	//echo $ConsultaLoteEnm;
-	$RespLoteEnm=mysqli_query($link, $ConsultaLoteEnm);
+	$DejaModPeso='';
+	$RespLoteEnm=mysqli_query($link,$ConsultaLoteEnm);
 	if($FilaLoteEnm=mysqli_fetch_array($RespLoteEnm))
 	{
 		$DejaModPeso=$FilaLoteEnm["estado2"];
@@ -14,8 +15,8 @@
 	}	
 	if($LoteEnm=='N')
 	{
-		$ConsultaLoteCDLC="SELECT estado2 from sec_web.programa_codelco where corr_codelco='".$instruccion."'";
-		$RespLoteCDLC=mysqli_query($link, $ConsultaLoteCDLC);
+		$ConsultaLoteCDLC="select estado2 from sec_web.programa_codelco where corr_codelco='".$instruccion."'";
+		$RespLoteCDLC=mysqli_query($link,$ConsultaLoteCDLC);
 		if($FilaLoteCDLC=mysqli_fetch_array($RespLoteCDLC))
 			$DejaModPeso=$FilaLoteCDLC["estado2"];
 	}	
@@ -30,7 +31,7 @@
 	
 	//Asigna a un arreglo los codigos de paqutes.
 	$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 3004";
-	$rs = mysqli_query($link, $consulta);
+	$rs = mysqli_query($link,$consulta);
 	$cod_paq = array();
 	while ($row = mysqli_fetch_array($rs))
 	{
@@ -66,23 +67,24 @@
 	if($cmbmovimiento==3)//ETIQUETA SOLO PARA PESAJE PAQUETES
 	{
 		$leyes_grupo='';$id_paquete='';$id_lote='';
+		$NRSA='';
 		switch($cmbproducto)
 		{
 			case "18"://CATODOS
 				if($opcion=='M')
 				{
-					$id_lote=ObtieneIdLote($codlote,$numlote);
+					$id_lote=ObtieneIdLote($codlote,$numlote,$link);
 					echo '<input name="id_lote" type="hidden" value="'.$id_lote.'" readonly>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					$CodCircuitoEti=ObtieneCircuito($grupo);
-					$FechaRenov=ObtieneFechaRenov($grupo,$mes,$dia,$ano);
+					$CodCircuitoEti=ObtieneCircuito($grupo,$link);
+					$FechaRenov=ObtieneFechaRenov($grupo,$mes,$dia,$ano,$link);
 					$FechaAuxEtiqueta=$ano.'-'.$mes.'-'.$dia;
 					$FechaCreaGrupoDatos=explode('-',$FechaAuxEtiqueta);
 					$id_paquete='VE-REF-'.str_pad($FechaCreaGrupoDatos[2],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[1],2,"0",STR_PAD_LEFT).$FechaCreaGrupoDatos[0].'-'.$CodCircuitoEti.$grupo.'-'.$codpaq."-".str_pad($numpaq,5,'0',STR_PAD_LEFT);
 					echo '<input name="id_paquete" type="hidden" value="'.$id_paquete.'" size="60" readonly><br>';
-					if($SA_C_STD=='' || isset($SA_C_STD2))
+					if($SA_C_STD=='' || $SA_C_STD2!='')
 						$SA_C_STD=$SA_C_STD2;
 					//echo 	"Leyes_Grupo($grupo,$FechaRenov,&$leyes_grupo,&$NRSA,$cmbsubproducto,$SA_C_STD)";
-					Leyes_Grupo($grupo,$FechaRenov,&$leyes_grupo,&$NRSA,$cmbsubproducto,$SA_C_STD);
+					Leyes_Grupo($grupo,$FechaRenov,$leyes_grupo,$NRSA,$cmbsubproducto,$SA_C_STD,$link);
 					echo '<input name="leyes_grupo" type="hidden" value="'.$leyes_grupo.'" size="140" readonly>';
 				}
 				else
@@ -94,23 +96,23 @@
 					}
 					else
 					{
-						$CodLotePaqueteEti=ObtieneLetraMes($cmbcodlote);
-						$CodPaqueteEti=ObtieneLetraMes($cmbcodpaq);
+						$CodLotePaqueteEti=ObtieneLetraMes($cmbcodlote,$link);
+						$CodPaqueteEti=ObtieneLetraMes($cmbcodpaq,$link);
 					}
-					$id_lote=ObtieneIdLote($CodLotePaqueteEti,$txtnumlote);
+					$id_lote=ObtieneIdLote($CodLotePaqueteEti,$txtnumlote,$link);
 					echo '<input name="id_lote" type="hidden" value="'.$id_lote.'" readonly>';
 					if($txtgrupo!='')
 					{
-						$CodCircuitoEti=ObtieneCircuito($txtgrupo);
-						$FechaRenov=ObtieneFechaRenov($txtgrupo,$mes,$dia,$ano);
+						$CodCircuitoEti=ObtieneCircuito($txtgrupo,$link);
+						$FechaRenov=ObtieneFechaRenov($txtgrupo,$mes,$dia,$ano,$link);
 						$FechaAuxEtiqueta=$ano.'-'.$mes.'-'.$dia;
 				
 						$FechaCreaGrupoDatos=explode('-',$FechaAuxEtiqueta);
 						$id_paquete='VE-REF-'.str_pad($FechaCreaGrupoDatos[2],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[1],2,"0",STR_PAD_LEFT).$FechaCreaGrupoDatos[0].'-'.$CodCircuitoEti.$txtgrupo.'-'.$CodPaqueteEti."-".str_pad($txtnumpaq,5,'0',STR_PAD_LEFT);
 						echo '<input name="id_paquete" type="hidden" value="'.$id_paquete.'" size="60" readonly><br>';
-						if(isset($SA_C_STD2))
+						if($SA_C_STD2!='')
 							$SA_C_STD=$SA_C_STD2;
-						Leyes_Grupo($txtgrupo,$FechaRenov,&$leyes_grupo,&$NRSA,$cmbsubproducto,$SA_C_STD);
+						Leyes_Grupo($txtgrupo,$FechaRenov,$leyes_grupo,$NRSA,$cmbsubproducto,$SA_C_STD,$link);
 						echo '<input name="leyes_grupo" type="hidden" value="'.$leyes_grupo.'" size="140" readonly>';
 					}
 				}
@@ -118,7 +120,7 @@
 			case "48"://LAMINAS Y DESPUNTES
 				if($opcion=='M')
 				{
-					$id_lote=ObtieneIdLote($codlote,$numlote);
+					$id_lote=ObtieneIdLote($codlote,$numlote,$link);
 					echo '<input name="id_lote" type="hidden" value="'.$id_lote.'" readonly>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					$FechaCreaGrupoDatos=explode('-',$ano.'-'.$mes.'-'.$dia);
 					//$FechaRenov=$ano.'-'.$mes.'-'.$dia;
@@ -128,7 +130,7 @@
 				}
 				else
 				{
-					$id_lote=ObtieneIdLote($cmbcodlote,$txtnumlote);
+					$id_lote=ObtieneIdLote($cmbcodlote,$txtnumlote,$link);
 					echo '<input name="id_lote" type="hidden" value="'.$id_lote.'" readonly>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					$FechaCreaGrupoDatos=explode('-',$ano.'-'.$mes.'-'.$dia);
 				
@@ -149,74 +151,74 @@
     <td width="260">Fecha de Pesaje</td>
 		
     <td width="328"> 
-      <SELECT name="dia" size="1" onchange="RecargaGrupo()">
+      <select name="dia" size="1" onchange="RecargaGrupo()">
 			<?php
 		$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 		for ($i=1;$i<=31;$i++)
 		{	
 			if (($mostrar == "S") && ($i == $dia))			
-				echo "<option SELECTed value= '".$i."'>".$i."</option>";				
+				echo "<option selected value= '".$i."'>".$i."</option>";				
 			else if (($i == date("j")) and ($mostrar != "S")) 
-					echo "<option SELECTed value= '".$i."'>".$i."</option>";											
+					echo "<option selected value= '".$i."'>".$i."</option>";											
 			else					
 				echo "<option value='".$i."'>".$i."</option>";												
 		}		
 	?>
-	  </SELECT>
-		  <SELECT name="mes" size="1" id="SELECT" onchange="RecargaGrupo()">
+	  </select>
+		  <select name="mes" size="1" id="select" onchange="RecargaGrupo()">
 			<?php
 		for($i=1;$i<13;$i++)
 		{
 			if (($mostrar == "S") && ($i == $mes))
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 			else if (($i == date("n")) && ($mostrar != "S"))
-					echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 			else
 				echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
 		}		  
 	?>
-		  </SELECT>
-		  <SELECT name="ano" size="1" onchange="RecargaGrupo()">
+		  </select>
+		  <select name="ano" size="1" onchange="RecargaGrupo()">
 			<?php
 		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 		{
 			if (($mostrar == "S") && ($i == $ano))
-				echo "<option SELECTed value ='$i'>$i</option>";
+				echo "<option selected value ='$i'>$i</option>";
 			else if (($i == date("Y")) && ($mostrar != "S"))
-				echo "<option SELECTed value ='$i'>$i</option>";
+				echo "<option selected value ='$i'>$i</option>";
 			else	
 				echo "<option value='".$i."'>".$i."</option>";
 		}
 	?>
-		  </SELECT>
+		  </select>
       &nbsp; 
-      <SELECT name="hh" id="SELECT5">
+      <select name="hh" id="select5">
         <?php
 		 	for($i=0; $i<=23; $i++)
 			{
 				if (($mostrar == "S") && ($i == $hh))
-					echo '<option SELECTed value ="'.$i.'">'.$i.'</option>';
+					echo '<option selected value ="'.$i.'">'.$i.'</option>';
 				else if (($i == date("H")) && ($mostrar != "S"))
-					echo '<option SELECTed value="'.$i.'">'.$i.'</option>';
+					echo '<option selected value="'.$i.'">'.$i.'</option>';
 				else	
 					echo '<option value="'.$i.'">'.$i.'</option>';
 			}
 		?>
-      </SELECT>
+      </select>
       : 
-      <SELECT name="mm">
+      <select name="mm">
         <?php
 		 	for($i=0; $i<=59; $i++)
 			{
 				if (($mostrar == "S") && ($i == $mm))
-					echo '<option SELECTed value ="'.$i.'">'.$i.'</option>';
+					echo '<option selected value ="'.$i.'">'.$i.'</option>';
 				else if (($i == date("i")) && ($mostrar != "S"))
-					echo '<option SELECTed value ="'.$i.'">'.$i.'</option>';
+					echo '<option selected value ="'.$i.'">'.$i.'</option>';
 				else	
 					echo '<option value="'.$i.'">'.$i.'</option>';
 			}
 		?>
-      </SELECT> </td>
+      </select> </td>
 </tr>
 </table>
 <br>
@@ -253,33 +255,33 @@
 		if ($cmbproducto == 64 /*and ($cmbsubproducto == 8 or $cmbsubproducto == 7)*/)		
 		{
 			if ($opcion == "M")
-				echo '<SELECT name="cmbmedida" disabled>';
+				echo '<select name="cmbmedida" disabled>';
 			else
-				echo '<SELECT name="cmbmedida">';
+				echo '<select name="cmbmedida">';
 			echo '<option value="-1">SELECCIONAR</option>';		
 			
 			$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase";
 			$consulta.= " WHERE cod_clase = '3015'";
 			$consulta.= " ORDER BY cod_subclase";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			while ($row = mysqli_fetch_array($rs))
 			{
 				if ($opcion == "M")
 				{
 					if ($row["cod_subclase"] == $medida)
-						echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';				
+						echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';				
 					else
 						echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';								
 				}
 				else
 				{
 					if ($row["cod_subclase"] == $cmbmedida)
-						echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';				
+						echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';				
 					else
 						echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';				
 				}
 			}
-	     	echo '</SELECT>';
+	     	echo '</select>';
 		}
 	?>	  </td>
   </tr>
@@ -290,9 +292,9 @@
 <?php
 	if ($opcion == "M")
 	{
-		echo '<SELECT name="cmbinstruccion">';
+		echo '<select name="cmbinstruccion">';
 		echo '<option value="'.$instruccion.'">'.$instruccion.'</option>';
-		echo '</SELECT>';
+		echo '</select>';
 	}
 	else
 	{
@@ -300,7 +302,7 @@
 		$temporal = "CREATE TEMPORARY TABLE IF NOT EXISTS sec_web.instrucciones";
 		$temporal.= " (corr_ie bigint(8), cod_producto varchar(10), cod_subproducto varchar(10), peso_programado bigint(12), fecha date)";
 		//echo $temporal."<br>";
-		mysqli_query($link, $temporal);
+		mysqli_query($link,$temporal);
 	
 		if (($recargapag4 == "S") and ($listar_ie == "P"))
 		{
@@ -310,7 +312,7 @@
 			$consulta.= " WHERE ((estado1 = '' AND estado2 NOT IN ('A','C') AND NOT ISNULL(num_prog_loteo))";
 			$consulta.= " OR (estado1 = 'R' and estado2 = 'P') OR (estado1 = 'R' AND estado2 = 'A') OR (estado1 = 'R' AND estado2 = 'M')) AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 			$consulta.= " ORDER BY fecha_disponible";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			//echo $consulta."<br>";
 	
 			while ($row = mysqli_fetch_array($rs))
@@ -325,20 +327,20 @@
 					$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete AND t2.cod_estado = 'a'";				
 					$consulta.= " WHERE t1.corr_enm = '".$row["corr_enm"]."' AND t1.disponibilidad = 'P'";
 					//echo $consulta."<br>";
-					$rs1 = mysqli_query($link, $consulta);
+					$rs1 = mysqli_query($link,$consulta);
 					$row1 = mysqli_fetch_array($rs1);
 		
-					if ($row1[cantidad] == 0)
+					if ($row1["cantidad"] == 0)
 						$promedio = 0;
 					else
-						$promedio = round($row1["peso"] / $row1[cantidad]);							
+						$promedio = round($row1["peso"] / $row1["cantidad"]);							
 				}
 				*/
 				$insertar = "INSERT INTO sec_web.instrucciones (corr_ie,cod_producto,cod_subproducto,peso_programado,fecha)";
-				$insertar.= " VALUES ('".$row["corr_enm"]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."', '".$row[cantidad_embarque]."',";
+				$insertar.= " VALUES ('".$row["corr_enm"]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."', '".$row["cantidad_embarque"]."',";
 				$insertar.= " '".$row["fecha_disponible"]."')";
 				//echo $insertar."<br>";
-				mysqli_query($link, $insertar);
+				mysqli_query($link,$insertar);
 			}
 			
 			//Intrucciones de Codelco.
@@ -347,7 +349,7 @@
 			$consulta.= " WHERE ((estado1 = '' AND estado2 NOT IN ('A','C') AND NOT ISNULL(num_prog_loteo) and num_prog_loteo<>'0')";
 			$consulta.= " OR (estado1 = 'R' and estado2 = 'P') OR (estado1 = 'R' AND estado2 = 'A') OR (estado1 = 'R' AND estado2 = 'M')) AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 			$consulta.= " ORDER BY fecha_disponible";		
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			//echo $consulta."<br>";
 	
 			while ($row = mysqli_fetch_array($rs))
@@ -362,19 +364,19 @@
 					$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete AND t2.cod_estado = 'a'";				
 					$consulta.= " WHERE t1.corr_enm = '".$row["corr_codelco"]."' AND t1.disponibilidad = 'P'";
 					//echo $consulta."<br>";
-					$rs1 = mysqli_query($link, $consulta);
+					$rs1 = mysqli_query($link,$consulta);
 					$row1 = mysqli_fetch_array($rs1);
-					if ($row1[cantidad] == 0)
+					if ($row1["cantidad"] == 0)
 						$promedio = 0;
 					else	
-						$promedio = round($row1["peso"] / $row1[cantidad]);							
+						$promedio = round($row1["peso"] / $row1["cantidad"]);							
 				}
 				*/
 				$insertar = "INSERT INTO sec_web.instrucciones (corr_ie,cod_producto,cod_subproducto,peso_programado,fecha)";
 				$insertar.= " VALUES ('".$row["corr_codelco"]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."', '".$row["cantidad_programada"]."',";
 				$insertar.= "  '".$row["fecha_disponible"]."')";
 				//echo $insertar."<br>";
-				mysqli_query($link, $insertar);		
+				mysqli_query($link,$insertar);		
 			}
 		}
 		
@@ -385,37 +387,37 @@
 			$consulta.= " AND estado <> 'T'";
 			$consulta.= " ORDER BY fecha_embarque, corr_virtual";
 			//echo $consulta."<br>";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			while ($row = mysqli_fetch_array($rs))
 			{
 				/*
 				$consulta = "SELECT IFNULL(SUM(t2.peso_paquetes),0) AS peso, COUNT(*) AS cantidad FROM sec_web.lote_catodo AS t1";
 				$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
 				$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete AND t2.cod_estado = 'a'";				
-				$consulta.= " WHERE t1.corr_enm = '".$row[corr_virtual]."' AND t1.disponibilidad = 'P'";
+				$consulta.= " WHERE t1.corr_enm = '".$row["corr_virtual"]."' AND t1.disponibilidad = 'P'";
 				//echo $consulta."<br>";
-				$rs1 = mysqli_query($link, $consulta);
+				$rs1 = mysqli_query($link,$consulta);
 				$row1 = mysqli_fetch_array($rs1);
-				if ($row1[cantidad] == 0)
+				if ($row1["cantidad"] == 0)
 					$promedio = 0;
 				else	
-					$promedio = round($row1["peso"] / $row1[cantidad]);		
+					$promedio = round($row1["peso"] / $row1["cantidad"]);		
 				*/
 			
 				$insertar = "INSERT INTO sec_web.instrucciones (corr_ie,cod_producto,cod_subproducto,peso_programado,fecha)";
-				$insertar.= " VALUES ('".$row[corr_virtual]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."', '".$row["peso_programado"]."',";
+				$insertar.= " VALUES ('".$row["corr_virtual"]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."', '".$row["peso_programado"]."',";
 				$insertar.= " '".$row["fecha_embarque"]."')";
 				//echo $insertar."<br>";
-				mysqli_query($link, $insertar);
+				mysqli_query($link,$insertar);
 			}
 					
 		}	
 									
-		echo '<SELECT name="cmbinstruccion" onChange="BuscarIE()">';
+		echo '<select name="cmbinstruccion" onChange="BuscarIE()">';
 		echo '<option value="-1">I.E</option>';
 		
 		$consulta = "SELECT corr_ie FROM sec_web.instrucciones ORDER BY fecha";
-		$rs3 = mysqli_query($link, $consulta);
+		$rs3 = mysqli_query($link,$consulta);
 		while ($row3 = mysqli_fetch_array($rs3))
 		{		
 			if (strlen($row3["corr_ie"]) == 4)
@@ -426,14 +428,14 @@
 				$linea = $row3["corr_ie"];
 				
 			if ($cmbinstruccion == $row3["corr_ie"])
-				echo '<option value="'.$row3["corr_ie"].'" SELECTed>'.$linea.'</option>';
+				echo '<option value="'.$row3["corr_ie"].'" selected>'.$linea.'</option>';
 			else	
 				echo '<option value="'.$row3["corr_ie"].'">'.$linea.'</option>';
 		}
-		echo '</SELECT>';
+		echo '</select>';
 		
 		$temporal = "DROP TABLE sec_web.instrucciones";
-		mysqli_query($link, $temporal);
+		mysqli_query($link,$temporal);
 	}
 	
 ?>
@@ -460,10 +462,10 @@
 				$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 			}
 			//echo $consulta."<br>";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			if ($row = mysqli_fetch_array($rs))
 			{
-				$txtpesoprog = ($row[cantidad_embarque] * 1000);
+				$txtpesoprog = ($row["cantidad_embarque"] * 1000);
 			}
 			else
 			{	
@@ -482,7 +484,7 @@
 					$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 				}				
 				//echo $consulta."<br>";				
-				$rs1 = mysqli_query($link, $consulta);				
+				$rs1 = mysqli_query($link,$consulta);				
 				if ($row1 = mysqli_fetch_array($rs1))
 					$txtpesoprog = ($row1["cantidad_programada"] * 1000);
 				else
@@ -502,7 +504,7 @@
 				$consulta.= " WHERE corr_virtual = '".$cmbinstruccion."'";			
 			}
 			//echo $consulta."<br>";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			if ($row = mysqli_fetch_array($rs))
 				$txtpesoprog = $row["peso_programado"];
 			else
@@ -522,7 +524,7 @@
 			$consulta.= " WHERE t1.corr_enm = '".$instruccion."'";
 			//echo $consulta."<br>";
 		
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			$row = mysqli_fetch_array($rs);
 			$pesoacumulado = $row["peso"];			
 		}
@@ -537,7 +539,7 @@
 				$consulta.= " WHERE t1.corr_enm = '".$cmbinstruccion."'";
 				//echo $consulta."<br>";
 			
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				$row = mysqli_fetch_array($rs);
 				$pesoacumulado = $row["peso"];
 			}
@@ -551,17 +553,17 @@
   <tr> 
     <td height="29">Lote Inicial</td>
     <td>
-	<SELECT name="cmbcodlote">
+	<select name="cmbcodlote">
         <?php
 		if (($opcion == "M") or (($genera_lote == "S") and ($paq_inicial == "S")) or ($agrega_paq == "S"))
 		{
 			$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase";
 			$consulta.= " WHERE cod_clase = '3004'";		
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			while ($row = mysqli_fetch_array($rs))
 			{  
 				if (($row["nombre_subclase"] == $codlote) or ($row["nombre_subclase"] == $cmbcodlote))
-					echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 				else
 					echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 			}		
@@ -570,17 +572,17 @@
 		{
 			$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase";
 			$consulta.= " WHERE cod_clase = '3004'";		
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			while ($row = mysqli_fetch_array($rs))
 			{	
 				if ($row["cod_subclase"] == date("n"))		
-					echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 				else 			
 					echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';				
 			}
 		}
 	?>
-      </SELECT>
+      </select>
       - 
       <?php
 	  	if ($opcion == "M")
@@ -594,14 +596,14 @@
 		if ($opcion == "M")
 		{
 			echo '<input name="txtmarca" type="text" value="'.$marca.'" readonly>';
-			$Consulta="SELECT descripcion from sec_web.marca_catodos where cod_marca='".$marca."'";
+			$Consulta="select descripcion from sec_web.marca_catodos where cod_marca='".$marca."'";
 		}
 		else
 		{
 			echo '<input name="txtmarca" type="text" value="'.$txtmarca.'" readonly>';
-			$Consulta="SELECT descripcion from sec_web.marca_catodos where cod_marca='".$txtmarca."'";
+			$Consulta="select descripcion from sec_web.marca_catodos where cod_marca='".$txtmarca."'";
 		}
-		$RespMarca=mysqli_query($link, $Consulta);
+		$RespMarca=mysqli_query($link,$Consulta);
 		if($FilaMarca=mysqli_fetch_array($RespMarca))
 			$txtnommarca=$FilaMarca["descripcion"];
 	?>
@@ -625,7 +627,7 @@
 			//$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
 			$consulta.= " WHERE t1.corr_enm = '".$instruccion."'";
 			//echo $consulta;
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			$row = mysqli_fetch_array($rs);
 			$pesofaltante = ($txtpesoprog - $row["peso"]);		
 		}
@@ -637,7 +639,7 @@
 				$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
 				$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete AND t2.cod_estado = 'a'";
     				$consulta.= " WHERE t1.corr_enm = '".$cmbinstruccion."'";
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				$row = mysqli_fetch_array($rs);
 				$pesofaltante = ($txtpesoprog - $row["peso"]);
 			}
@@ -660,13 +662,13 @@
 		$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
 		$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete AND t2.cod_estado = 'a'";				
 		$consulta.= " WHERE t1.corr_enm = '".$cmbinstruccion."' AND t1.disponibilidad = 'P'";
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		$row = mysqli_fetch_array($rs);
 		
 		$peso_prom_paq = 0;
 		if ($row["peso"] != 0)		
 		{
-			$peso_prom_paq = round($row["peso"] / $row[cantidad]);
+			$peso_prom_paq = round($row["peso"] / $row["cantidad"]);
 		
 			if ($peso_prom_paq != 0)
 				$cant_paq_prom = round($pesofaltante / $peso_prom_paq);
@@ -698,18 +700,18 @@
   <tr> 
     <td width="294">Codigo de Serie</td>
     <td width="295">
-	<SELECT name="cmbcodpaq">
+	<select name="cmbcodpaq">
 	<option value="-1">CODIGO</option> 
 	<?php
 		if (($opcion == "M") or (($genera_lote == "S") and ($paq_inicial == "S")) or ($agrega_paq == "S"))
 		{
 			$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase";
 			$consulta.= " WHERE cod_clase = '3004'";		
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			while ($row = mysqli_fetch_array($rs))
 			{
 				if (($row["nombre_subclase"] == $cmbcodpaq) or ($row["nombre_subclase"] == $codpaq))
-					echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 				else
 					echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 			}			
@@ -718,25 +720,25 @@
 		{
 			$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase";
 			$consulta.= " WHERE cod_clase = '3004'";		
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			while ($row = mysqli_fetch_array($rs))
 			{	
 				if ($row["cod_subclase"] == date("n"))		
 				{
-					echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 					$consulta = "SELECT IFNULL(MAX(num_paquete)+1,1) AS serie FROM sec_web.paquete_catodo";
 					$consulta.= " WHERE cod_paquete = '".$row["nombre_subclase"]."'";
 					$consulta.= " AND YEAR(fecha_creacion_paquete) = YEAR(NOW())";
-					$rs1 = mysqli_query($link, $consulta);
+					$rs1 = mysqli_query($link,$consulta);
 					$row1 = mysqli_fetch_array($rs1);
-					$txtnumpaq = $row1[serie];
+					$txtnumpaq = $row1["serie"];
 				}
 				else 			
 					echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';				
 			}		
 		}		
 	?>
-   	</SELECT></td>
+   	</select></td>
   </tr>
   <tr>
     <td>N&deg; de Serie</td>
@@ -777,7 +779,7 @@
 			$consulta.= " WHERE t1.corr_enm = '".$instruccion."' and t2.num_paquete ='".$numpaq."' and t2.cod_paquete='".$codpaq."' ";
 			$consulta.= " and t2.fecha_creacion_paquete='".$ano2."-".$mes2."-".$dia2."' ";
 			//echo $consulta."<br>";
-			$rsa = mysqli_query($link, $consulta);
+			$rsa = mysqli_query($link,$consulta);
 			$rowa = mysqli_fetch_array($rsa);
 			$SA_C_STD=$rowa["nro_solicitud"];
 			/*echo "cod".$codpaq."<br>";
@@ -814,7 +816,7 @@ else
 <table width="600" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
   <tr>
     <td width="155">SIPA</td>
-    <td width="433"><SELECT name="cmbsipa" onChange="RecargaSipa()">
+    <td width="433"><select name="cmbsipa" onChange="RecargaSipa()">
         <option value="-1">SELECCIONAR</option>
 		<?php
 			if ($activa_sipa == "S")
@@ -830,14 +832,14 @@ else
 				$consulta = "SELECT * FROM rec_web.otros_pesajes";
 				$consulta.= " WHERE desprd_a LIKE '".$descrip."' AND fecha_a = SUBSTRING(NOW(),1,10)";
 				//echo $consulta."<br>";
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				while ($row = mysqli_fetch_array($rs))
 				{
-					echo '<option value="'.$row[FECHA_A].'~'.$row[HORA_A].'~'.$row[PATENT_A].'~'.$row[PESONT_A].'">Fecha:'.$row[FECHA_A].' '.$row[HORA_A].'&nbsp;&nbsp;&nbsp;Patente:'.$row[PATENT_A].'&nbsp;&nbsp;&nbsp;Peso:'.$row[PESONT_A].'</option>';
+					echo '<option value="'.$row["FECHA_A"].'~'.$row["HORA_A"].'~'.$row["PATENT_A"].'~'.$row["PESONT_A"].'">Fecha:'.$row["FECHA_A"].' '.$row["HORA_A"].'&nbsp;&nbsp;&nbsp;Patente:'.$row["PATENT_A"].'&nbsp;&nbsp;&nbsp;Peso:'.$row["PESONT_A"].'</option>';
 				}
 			}			
 		?>
-      </SELECT>
+      </select>
     </td>
   </tr>
 </table>
@@ -883,23 +885,23 @@ if (!($cmbproducto == '64' /*and ($cmbsubproducto == '8' or $cmbsubproducto == '
 			$consulta.= " WHERE fecha_creacion_paquete = '".$ano.'-'.$mes.'-'.$dia."'";
 			$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 			$consulta.= " AND cod_grupo = '".$txtgrupo."'";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			$row = mysqli_fetch_array($rs);
 			//echo $consulta."<br>";
 			
 			$color = "";
-			if (($row[correlativo] >= '69') and ($row[correlativo] < '74'))
+			if (($row["correlativo"] >= '69') and ($row["correlativo"] < '74'))
 				$color = 'style="background:#FFA94A"';
-			else if ($row[correlativo] >= '74')
+			else if ($row["correlativo"] >= '74')
 				$color = 'style="background:#FB8400"';
 			
-			echo '<input name="txtcuba" type="text" value="'.$row[correlativo].'" size="5" maxlength="2" '.$color.' onKeyDown="TeclaPulsada3(2)">';
+			echo '<input name="txtcuba" type="text" value="'.$row["correlativo"].'" size="5" maxlength="2" '.$color.' onKeyDown="TeclaPulsada3(2)">';
 		}
 		else	
 			echo '<input name="txtcuba" type="text" size="5" maxlength="2" onKeyDown="TeclaPulsada3(2)">';
 		}
 	?>
-      </SELECT></td>
+      </select></td>
   </tr>
 </table>
 <?php
@@ -960,11 +962,14 @@ if (!($cmbproducto == '64' and ($cmbsubproducto == '8' or $cmbsubproducto == '7'
 <br>
 <?php
 //echo 'CMB cacho'.$cmbsubproducto."<br>";
-function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
+function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew,$link)
 {
+
 	if(intval($Grupo)<50)
 	{
 		//echo "Fecha Renovacion: ".$FechaRenov."<br>"; MODIFICA DVS 13-06-2014 ERROR MKTIME
+				$FechaHoraIni="0000-00-00";
+		$FechaHoraFin="0000-00-00";
 		if($FechaRenov!='')
 		{	
 			$DatoFecha=explode('-',$FechaRenov);
@@ -976,7 +981,7 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 		//echo "CMB".$CmbSubPro;
 		if($CmbSubPro=='16' || $CmbSubPro=='17' || $CmbSubPro=='49' || $CmbSubPro=='57')
 		{
-			$Consulta="SELECT t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
+			$Consulta="select t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
 			$Consulta.="where t1.cod_producto='18'  ";
 			//$Consulta.=" and t1.cod_subproducto='1' and (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') ";
 			$Consulta.=" and t1.estado_actual='6' and left(LTRIM(t1.id_muestra),2) = '".$Grupo."' ";
@@ -986,18 +991,18 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 		}
 		else
 		{
-			$Consulta="SELECT t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
+			$Consulta="select t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
 			$Consulta.="where t1.cod_producto='18' and t1.cod_subproducto='1' and (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') and (t1.agrupacion in ('7','99')) order by t1.fecha_hora desc";		
 			//echo "Conuslta_1    ".$Consulta."<br>";
 		}
-		$RespSA=mysqli_query($link, $Consulta);
+		$RespSA=mysqli_query($link,$Consulta);
 		if($FilaSA=mysqli_fetch_array($RespSA))
 		{
 			//echo "entre al iffffff";
 			$NRSA=$FilaSA['nro_solicitud'];
 			echo '<input name="NroSA" type="hidden" value="'.$FilaSA['nro_solicitud'].'" readonly>';
-			$Consulta="SELECT t1.fecha_muestra,t1.nro_solicitud,t1.recargo,t1.id_muestra, t1.rut_funcionario, t1.fecha_hora,t1.agrupacion,t2.cod_leyes,t2.valor,t2.signo,t3.abreviatura as nombre_leyes,t4.abreviatura as nombre_unidad ";
+			$Consulta="select t1.fecha_muestra,t1.nro_solicitud,t1.recargo,t1.id_muestra, t1.rut_funcionario, t1.fecha_hora,t1.agrupacion,t2.cod_leyes,t2.valor,t2.signo,t3.abreviatura as nombre_leyes,t4.abreviatura as nombre_unidad ";
 			$Consulta.="from cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2 ";
 			$Consulta.="on t1.rut_funcionario=t2.rut_funcionario and t1.fecha_hora=t2.fecha_hora and t1.id_muestra=t2.id_muestra and t1.recargo=t2.recargo and t1.nro_solicitud=t2.nro_solicitud ";
 			$Consulta.="inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes=t3.cod_leyes inner join proyecto_modernizacion.unidades t4 on t2.cod_unidad=t4.cod_unidad ";
@@ -1009,7 +1014,7 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 			}
 			$Consulta.=" and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.=" and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '')";		
-			$RespLeyes=mysqli_query($link, $Consulta);
+			$RespLeyes=mysqli_query($link,$Consulta);
 			//echo $Consulta."<br>";
 			while($FilaLeyes=mysqli_fetch_array($RespLeyes))
 			{
@@ -1025,14 +1030,14 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 
 
 
-		/*$Consulta="SELECT t1.fecha_muestra,t1.nro_solicitud,t1.recargo,t1.id_muestra, t1.rut_funcionario, t1.fecha_hora,t1.agrupacion,t2.cod_leyes,t2.valor,t2.signo,t3.abreviatura as nombre_leyes,t4.abreviatura as nombre_unidad ";
+		/*$Consulta="select t1.fecha_muestra,t1.nro_solicitud,t1.recargo,t1.id_muestra, t1.rut_funcionario, t1.fecha_hora,t1.agrupacion,t2.cod_leyes,t2.valor,t2.signo,t3.abreviatura as nombre_leyes,t4.abreviatura as nombre_unidad ";
 		$Consulta.="from cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2 ";
 		$Consulta.="on t1.rut_funcionario=t2.rut_funcionario and t1.fecha_hora=t2.fecha_hora and t1.id_muestra=t2.id_muestra and t1.recargo=t2.recargo and t1.nro_solicitud=t2.nro_solicitud ";
 		$Consulta.="inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes=t3.cod_leyes inner join proyecto_modernizacion.unidades t4 on t2.cod_unidad=t4.cod_unidad ";
 		$Consulta.="where t1.cod_producto='18' and t1.cod_subproducto='1' and (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 		$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') and (t1.agrupacion = '7')";		
 		//echo $Consulta;
-		$RespLeyes=mysqli_query($link, $Consulta);
+		$RespLeyes=mysqli_query($link,$Consulta);
 		while($FilaLeyes=mysqli_fetch_array($RespLeyes))
 		{
 			$NroSA=$FilaLeyes['nro_solicitud'];
@@ -1054,29 +1059,29 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 		$leyes_grupo='';
 		if($CmbSubPro=='16' || $CmbSubPro=='17' || $CmbSubPro=='49' || $CmbSubPro=='57')
 		{
-			$Consulta="SELECT t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
+			$Consulta="select t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
 			$Consulta.="where (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and t1.nro_solicitud='".$SaNew."' order by t1.fecha_hora desc";		
 		}
 		else
 		{
-			$Consulta="SELECT t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
+			$Consulta="select t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
 			$Consulta.="where (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') order by t1.fecha_hora desc";		
 		//echo $Consulta."<br>";
 		}
-		$RespSA=mysqli_query($link, $Consulta);
+		$RespSA=mysqli_query($link,$Consulta);
 		if($FilaSA=mysqli_fetch_array($RespSA))
 		{
 			$NRSA=$FilaSA['nro_solicitud'];
 			echo '<input name="NroSA" type="hidden" value="'.$FilaSA['nro_solicitud'].'" readonly>';
-			$Consulta="SELECT t1.fecha_muestra,t1.nro_solicitud,t1.recargo,t1.id_muestra, t1.rut_funcionario, t1.fecha_hora,t1.agrupacion,t2.cod_leyes,t2.valor,t2.signo,t3.abreviatura as nombre_leyes,t4.abreviatura as nombre_unidad ";
+			$Consulta="select t1.fecha_muestra,t1.nro_solicitud,t1.recargo,t1.id_muestra, t1.rut_funcionario, t1.fecha_hora,t1.agrupacion,t2.cod_leyes,t2.valor,t2.signo,t3.abreviatura as nombre_leyes,t4.abreviatura as nombre_unidad ";
 			$Consulta.="from cal_web.solicitud_analisis t1 inner join cal_web.leyes_por_solicitud t2 ";
 			$Consulta.="on t1.rut_funcionario=t2.rut_funcionario and t1.fecha_hora=t2.fecha_hora and t1.id_muestra=t2.id_muestra and t1.recargo=t2.recargo and t1.nro_solicitud=t2.nro_solicitud ";
 			$Consulta.="inner join proyecto_modernizacion.leyes t3 on t2.cod_leyes=t3.cod_leyes inner join proyecto_modernizacion.unidades t4 on t2.cod_unidad=t4.cod_unidad ";
 			$Consulta.="where t1.nro_solicitud='".$FilaSA['nro_solicitud']."' and (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '')";		
-			$RespLeyes=mysqli_query($link, $Consulta);
+			$RespLeyes=mysqli_query($link,$Consulta);
 			while($FilaLeyes=mysqli_fetch_array($RespLeyes))
 			{
 				$NomLey=$FilaLeyes['nombre_leyes'];
@@ -1090,12 +1095,12 @@ function Leyes_Grupo($Grupo,$FechaRenov,$leyes_grupo,$NRSA,$CmbSubPro,$SaNew)
 		}
 	}
 }
-function ObtieneLetraMes($Codigo)
+function ObtieneLetraMes($Codigo,$link)
 {
 	$CodLetra='';
 	$Consulta = "SELECT nombre_subclase FROM proyecto_modernizacion.sub_clase";
 	$Consulta.= " WHERE cod_clase = '3004' and cod_subclase='".$Codigo."'";
-	$RespEti=mysqli_query($link, $Consulta);		
+	$RespEti=mysqli_query($link,$Consulta);		
 	if($FilaEti=mysqli_fetch_array($RespEti))
 	{
 		$CodLetra=$FilaEti["nombre_subclase"];
@@ -1103,11 +1108,11 @@ function ObtieneLetraMes($Codigo)
 	return($CodLetra);
 	
 }
-function ObtieneCircuito($Grupo)
+function ObtieneCircuito($Grupo,$link)
 {
 	$CodCircuito='';
-	$Consulta="SELECT cod_circuito from ref_web.grupo_electrolitico2 where cod_grupo='".$Grupo."' order by fecha desc";
-	$RespEti=mysqli_query($link, $Consulta);
+	$Consulta="select cod_circuito from ref_web.grupo_electrolitico2 where cod_grupo='".$Grupo."' order by fecha desc";
+	$RespEti=mysqli_query($link,$Consulta);
 	if($FilaEti=mysqli_fetch_array($RespEti))
 	{
 		$CodCircuito=$FilaEti["cod_circuito"];	
@@ -1115,17 +1120,17 @@ function ObtieneCircuito($Grupo)
 	return($CodCircuito);
 
 }
-function ObtieneFechaRenov($Grupo,$mes,$dia,$ano)
+function ObtieneFechaRenov($Grupo,$mes,$dia,$ano,$link)
 {
 	$FechAuxGrupo='';
 	$FecActualEti=date('Y-m-d',mktime(0,0,0,$mes,$dia,$ano));
-	$Consulta="SELECT * from sec_web.renovacion_prog_prod where cod_grupo ='".$Grupo."' and cod_grupo <>'' and cod_concepto <> 'D' order by fecha_renovacion desc,dia_renovacion desc";
-	$RespEti=mysqli_query($link, $Consulta);
+	$Consulta="select * from sec_web.renovacion_prog_prod where cod_grupo ='".$Grupo."' and cod_grupo <>'' and cod_concepto <> 'D' order by fecha_renovacion desc,dia_renovacion desc";
+	$RespEti=mysqli_query($link,$Consulta);
 	//echo $Consulta;
 	while($FilaEti=mysqli_fetch_array($RespEti))
 	{
 		//echo "fecha uno".$FechAuxGrupo."<br>";
-		$FechAuxGrupo=explode('-',$FilaEti[fecha_renovacion]);
+		$FechAuxGrupo=explode('-',$FilaEti["fecha_renovacion"]);
 		$FechAuxGrupo=$FechAuxGrupo[0]."-".intval($FechAuxGrupo[1])."-".$FilaEti["dia_renovacion"];
 		$fecha_actual=$FecActualEti;
 		$fecha_operar=$FechAuxGrupo;
@@ -1139,15 +1144,15 @@ function ObtieneFechaRenov($Grupo,$mes,$dia,$ano)
 	//echo "fecha dos".$FechAuxGrupo."<br>";
 	return($FechAuxGrupo);
 }
-function ObtieneIdLote($CodLote,$NumLote)
+function ObtieneIdLote($CodLote,$NumLote,$link)
 {
 	$id_lote='';
-	$Consulta="SELECT fecha_creacion_lote as fecha_lote from sec_web.lote_catodo where cod_bulto='".$CodLote."' and num_bulto='".$NumLote."' and cod_estado='a' order by fecha_creacion_lote desc";
+	$Consulta="select fecha_creacion_lote as fecha_lote from sec_web.lote_catodo where cod_bulto='".$CodLote."' and num_bulto='".$NumLote."' and cod_estado='a' order by fecha_creacion_lote desc";
 	//echo $Consulta;
-	$RespEti=mysqli_query($link, $Consulta);
+	$RespEti=mysqli_query($link,$Consulta);
 	if($FilaEti=mysqli_fetch_array($RespEti))
 	{
-		$FecCreaLote=explode('-',$FilaEti[fecha_lote]);
+		$FecCreaLote=explode('-',$FilaEti["fecha_lote"]);
 		$id_lote=str_pad($FecCreaLote[2],2,"0",STR_PAD_LEFT).str_pad($FecCreaLote[1],2,"0",STR_PAD_LEFT).$FecCreaLote[0].$CodLote."-".str_pad($NumLote,5,'0',STR_PAD_LEFT);
 	}
 	else
@@ -1162,24 +1167,24 @@ $Procesar='N';
 if($Procesar=='S')
 {
 	
-	$Consulta="SELECT cod_paquete,num_paquete,fecha_creacion_paquete,cod_grupo,id_paquete from sec_web.paquete_catodo_etiqueta where cod_producto='18' and cod_subproducto='40' and fecha_creacion_paquete >= '2010-08-19' and nro_solicitud = '0' ";
+	$Consulta="select cod_paquete,num_paquete,fecha_creacion_paquete,cod_grupo,id_paquete from sec_web.paquete_catodo_etiqueta where cod_producto='18' and cod_subproducto='40' and fecha_creacion_paquete >= '2010-08-19' and nro_solicitud = '0' ";
 	//echo $Consulta."<br>";
-	$Resp=mysqli_query($link, $Consulta);
+	$Resp=mysqli_query($link,$Consulta);
 	while($Fila=mysqli_fetch_array($Resp))
 	{
 		$SA='';
 		$Grupo=$Fila["cod_grupo"];
-		$FechaRenov=explode('-',$Fila[id_paquete]);
+		$FechaRenov=explode('-',$Fila["id_paquete"]);
 		if(intval($Grupo)<50)
 		{
 			$DatoFecha=$FechaRenov[2];
 			$FechaHoraIni=date('Y-m-d',mktime(0,0,0,substr($DatoFecha,2,2),intval(substr($DatoFecha,0,2))-3,substr($DatoFecha,4,4)));
 			$FechaHoraFin=date('Y-m-d',mktime(0,0,0,substr($DatoFecha,2,2),intval(substr($DatoFecha,0,2))+2,substr($DatoFecha,4,4)));
-			$Consulta="SELECT t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
+			$Consulta="select t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
 			$Consulta.="where t1.cod_producto='18' and t1.cod_subproducto='1' and (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') and (t1.agrupacion in ('7','99')) order by t1.fecha_hora desc";		
 			//echo $Consulta;
-			$RespSA=mysqli_query($link, $Consulta);
+			$RespSA=mysqli_query($link,$Consulta);
 			if($FilaSA=mysqli_fetch_array($RespSA))
 			{
 				$SA=$FilaSA['nro_solicitud'];
@@ -1190,11 +1195,11 @@ if($Procesar=='S')
 			$FechaHoraIni=date('Y-m-d',mktime(0,0,0,date('m'),intval(date('d'))-80,date('Y')));
 			$FechaHoraFin=date('Y-m-d');
 			$leyes_grupo='';
-			$Consulta="SELECT t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
+			$Consulta="select t1.nro_solicitud from cal_web.solicitud_analisis t1 ";
 			$Consulta.="where (t1.fecha_muestra between '".$FechaHoraIni."' and '".$FechaHoraFin."') and t1.estado_actual='6' and ceiling(t1.id_muestra) = ".intval($Grupo)." ";
 			$Consulta.="and (not isnull(t1.nro_solicitud) or t1.nro_solicitud = '') order by t1.fecha_hora desc";		
 			//echo $Consulta;
-			$RespSA=mysqli_query($link, $Consulta);
+			$RespSA=mysqli_query($link,$Consulta);
 			if($FilaSA=mysqli_fetch_array($RespSA))
 			{
 				$SA=$FilaSA['nro_solicitud'];
@@ -1202,8 +1207,8 @@ if($Procesar=='S')
 		}
 		if($SA!='')
 		{
-			$Actualizar="UPDATE sec_web.paquete_catodo_etiqueta set nro_solicitud='".$SA."' where cod_paquete='".$Fila["cod_paquete"]."' and  num_paquete='".$Fila["num_paquete"]."' and fecha_creacion_paquete='".$Fila[fecha_creacion_paquete]."'";
-			mysqli_query($link, $Actualizar);
+			$Actualizar="update sec_web.paquete_catodo_etiqueta set nro_solicitud='".$SA."' where cod_paquete='".$Fila["cod_paquete"]."' and  num_paquete='".$Fila["num_paquete"]."' and fecha_creacion_paquete='".$Fila["fecha_creacion_paquete"]."'";
+			mysqli_query($link,$Actualizar);
 			//echo $Actualizar."<br>";
 		}
 		echo "GRUPO : ".$Grupo." FECHA RENOV : ".date('Y-m-d',mktime(0,0,0,substr($DatoFecha,2,2),substr($DatoFecha,0,2),substr($DatoFecha,4,4)))."  SA : ".$SA."<BR>";

@@ -1,4 +1,14 @@
-﻿<?php	include("../principal/conectar_sec_web.php"); ?>
+﻿<?php	
+include("../principal/conectar_sec_web.php"); 
+
+$cod_grupo   = isset($_REQUEST["cod_grupo"])?$_REQUEST["cod_grupo"]:"";
+$cmbproducto   = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+$cmbsubproducto   = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$lado   = isset($_REQUEST["lado"])?$_REQUEST["lado"]:"";
+$Fecha2   = isset($_REQUEST["Fecha2"])?$_REQUEST["Fecha2"]:"";
+
+?>
 <html>
 <head>
 <title>Documento sin t&iacute;tulo</title>
@@ -132,12 +142,12 @@ echo '</tr>';
 	while ($row = mysqli_fetch_array($rs))
 	{
 		echo '<tr>';
-		echo '<td width="125"><input type="radio" name="radiobutton" value="'.$row["cod_grupo"].'/'.$row[cod_cuba].'/'.$row["cod_lado"].'/'.$row[fecha_produccion].'" onClick="Chequear(this)">'.$row["cod_grupo"].'</td>';
+		echo '<td width="125"><input type="radio" name="radiobutton" value="'.$row["cod_grupo"].'/'.$row["cod_cuba"].'/'.$row["cod_lado"].'/'.$row["fecha_produccion"].'" onClick="Chequear(this)">'.$row["cod_grupo"].'</td>';
 		
 		echo '<td width="125" align="center">'.$row["cod_lado"].'</td>';
-		echo '<td width="125" align="center">'.$row[cod_cuba].'</td>';
+		echo '<td width="125" align="center">'.$row["cod_cuba"].'</td>';
 		echo '<td width="125" align="center">'.$row["peso_produccion"].'</td>';
-		echo '<td width="1" align="center"><input type="checkbox" name="CheckElim"  value="'.$row["cod_grupo"].'/'.$row[cod_cuba].'/'.$row["cod_lado"].'/'.$row[fecha_produccion].'/'.$row["cod_producto"].'/'.$row["cod_subproducto"].'/'.$row[hora].'"></td>';
+		echo '<td width="1" align="center"><input type="checkbox" name="CheckElim"  value="'.$row["cod_grupo"].'/'.$row["cod_cuba"].'/'.$row["cod_lado"].'/'.$row["fecha_produccion"].'/'.$row["cod_producto"].'/'.$row["cod_subproducto"].'/'.$row["hora"].'"></td>';
 		echo '</tr>';
 	}
 	

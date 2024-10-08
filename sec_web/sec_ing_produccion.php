@@ -911,7 +911,7 @@ function Grabar()
 				StrPaquetePeso = f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 				//document.cookie = "myJavascriptVar = " + StrPaquetePeso;			
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
-				alert("StrPaquetePeso:"+ StrPaquetePeso);
+				//alert("StrPaquetePeso:"+ StrPaquetePeso);
 				<?php
 					$ruta    = '';
 					$archivo = 'datos.txt';
@@ -1084,7 +1084,7 @@ function Etiqueta()
 				//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
 				//alert("Paquete:"+StrPaquetePeso);
 				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-				alert("Write:" +write);
+				//alert("Write:" +write);
 				
 				
 				if(f.cmbproducto.value==18||f.cmbproducto.value==48)//ETIQUETAS SOLO PARA CATODOS Y LAMINAS

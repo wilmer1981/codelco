@@ -1,4 +1,13 @@
-﻿<?php	include("../principal/conectar_sec_web.php"); ?>
+﻿<?php	
+include("../principal/conectar_sec_web.php"); 
+
+$grupo   = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+$cmbproducto   = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+$cmbsubproducto   = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$Fecha2   = isset($_REQUEST["Fecha2"])?$_REQUEST["Fecha2"]:"";
+
+?>
 <html>
 <head>
 <title>Datos de Producci&oacute;n</title>
@@ -111,7 +120,7 @@ function Modificar(Valores)
 	while ($row = mysqli_fetch_array($rs))
 	{
 		echo '<tr>';
-		if ($row[cod_muestra] == "S")
+		if ($row["cod_muestra"] == "S")
 		{
 			//echo '<td width="125"><input type="radio" name="radiobutton" value="'.$row["cod_grupo"].'/'.$row[fecha_produccion].'" onClick="Chequear(this)">'.$row["cod_grupo"].'</td>';
 			echo '<td width="125">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="sec_ing_produccion_popup_cambio_fecha.php?cod_grupo='.$row["cod_grupo"].'&cmbproducto='.$cmbproducto.'&cmbsubproducto='.$cmbsubproducto.'&fecha='.$fecha./*.$row[fecha_produccion].*/'&lado='.$row["cod_lado"].'&Fecha2='.$Fecha2.'">'.$row["cod_grupo"].'</a></td>';
@@ -123,7 +132,7 @@ function Modificar(Valores)
 		}	
 	//echo "entro22222";
 		echo '<td width="125" height="25" align="center">'.$row["cod_lado"].'&nbsp;</td>';
-		if ($row[cod_muestra] == "S")
+		if ($row["cod_muestra"] == "S")
 		{
 			echo '<td width="125" align="center">'.$row["peso"];
 			//$Valores=$row["cod_grupo"]."|".$cmbproducto."|".$cmbsubproducto."|".$fecha."|".$Fecha2;
@@ -132,7 +141,7 @@ function Modificar(Valores)
 		}
 		else
 			echo '<td width="125" align="center">'.$row["peso"].'</td>';
-		echo '<td width="125" align="center">'.$row[cod_muestra].'</td>';
+		echo '<td width="125" align="center">'.$row["cod_muestra"].'</td>';
 		echo '</tr>';
 	}
 	

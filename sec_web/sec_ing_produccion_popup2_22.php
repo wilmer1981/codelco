@@ -1,8 +1,19 @@
 <?php
 	include("../principal/conectar_sec_web.php");
 	
+	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$fecha2 = isset($_REQUEST["fecha2"])?$_REQUEST["fecha2"]:"";
+	$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$TxtPeso = isset($_REQUEST["TxtPeso"])?$_REQUEST["TxtPeso"]:"";
+	$txtrecargo = isset($_REQUEST["txtrecargo"])?$_REQUEST["txtrecargo"]:"";
+	$parametros = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$cod_grupo    = isset($_REQUEST["cod_grupo"])?$_REQUEST["cod_grupo"]:"";
+	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	
 	$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
-	$rs = mysqli_query($link, $Consulta);
+	$rs = mysqli_query($link,$Consulta);
 	if ($row = mysqli_fetch_array($rs))
 	{
 		$TxtPesoRango=$row["peso_rango"];
@@ -11,7 +22,7 @@ switch($proceso)
 {
 	case "ELICUBA"://ELIMINA CUBAS DEL GRUPO SELECCIONADO EN POPUP DE MODIFICACION
 		$Datos=explode('~',$Valores);
-		foreach($Datos as $Clave => $Valor)
+		foreach($Datos as $Clave=>$Valor)
 		{
 			
 			$Datos2=explode('/',$Valor);
@@ -27,7 +38,7 @@ switch($proceso)
 				$Eliminar.= " AND fecha_produccion = '".$Datos2[3]."' AND cod_producto = '".$Datos2[4]."' and cod_subproducto='".$Datos2[5]."' ";
 				$Eliminar.= " AND hora = '".$Datos2[6]."'";
 				
-				mysqli_query($link, $Eliminar);
+				mysqli_query($link,$Eliminar);
 			}
 			else 
 			{
@@ -36,7 +47,7 @@ switch($proceso)
 				$Eliminar.= " AND fecha_produccion = '".$Datos2[3]."' AND cod_producto = '".$Datos2[4]."' and cod_subproducto='".$Datos2[5]."' ";
 				$Eliminar.= " AND hora = '".$Datos2[6]."'";
 				//echo $Eliminar."<br>";
-				mysqli_query($link, $Eliminar);
+				mysqli_query($link,$Eliminar);
 			}
 		}
 		//header("Location:sec_ing_produccion_popup222.php?cod_grupo=".$grupo."&cmbproducto=".$cmbproducto."&lado=".$lado."&cmbsubproducto=".$cmbsubproducto."&fecha=".$fecha."&Fecha2=".$fecha2);
@@ -48,28 +59,25 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$IE=$Datos[0];	 	
 		$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = 'T'";
 		$actualizar.= " WHERE corr_codelco = '".$IE."' AND estado2 NOT IN ('C','A')";
-		mysqli_query($link, $actualizar);
+		mysqli_query($link,$actualizar);
 
 		$actualizar = "UPDATE sec_web.programa_enami SET estado2 = 'T'";
 		$actualizar.= " WHERE corr_enm = '".$IE."' AND estado2 NOT IN ('C','A')";
-		mysqli_query($link, $actualizar);	
+		mysqli_query($link,$actualizar);	
 
 		$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = 'T'"; //Agregado por Adan 23-05-2012 
 		$actualizar.= " WHERE corr_enm = '".$IE."' ";
-		mysqli_query($link, $actualizar);	
+		mysqli_query($link,$actualizar);	
 		header("Location:sec_programa_adm_loteo.php?TipoIE=Normal");
 	break;
-
-
-
 	case "MODPESOMUESTRA"://MODIFICA PESO DE LA MUESTRA DEL GRUPO SELECCIONADO EN POPUP DE MODIFICACION
 		$Datos=explode("|",$Valores);
 		$FechaIni=$Datos[3]." 08:00:00";
 		$FechaFin=$Datos[4]." 07:59:59";
-		$Actualizar="UPDATE sec_web.produccion_catodo set peso_produccion='".$TxtPeso."' ";
+		$Actualizar="update sec_web.produccion_catodo set peso_produccion='".$TxtPeso."' ";
 		$Actualizar.="where concat(fecha_produccion,' ',hora) between '".$FechaIni."' and '".$FechaFin."' and cod_producto='".$Datos[1]."' and cod_subproducto='".$Datos[2]."' and cod_grupo='".$Datos[0]."' and cod_muestra='S' ";
 		//echo $Actualizar; 
-		mysqli_query($link, $Actualizar);
+		mysqli_query($link,$Actualizar);
 		
 		header("Location:sec_ing_produccion_popup22.php?grupo=".$Datos[0]."&cmbproducto=".$Datos[1]."&lado=".$lado."&cmbsubproducto=".$Datos[2]."&fecha=".$FechaIni."&Fecha2=".$FechaFin);
 	break;
@@ -80,7 +88,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 //echo "Proceso ".$proceso."<br>";
 	$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 3004";
 
-	$rs = mysqli_query($link, $consulta);
+	$rs = mysqli_query($link,$consulta);
 	$cod_paq = array();
 	while ($row = mysqli_fetch_array($rs))
 	{
@@ -94,13 +102,13 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta = "SELECT * FROM sec_web.recepcion_catodo_externo";
 		$consulta.= " WHERE lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."'";
 		//echo "CCCC".$consulta;
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		//echo $consulta."<br>";
 		
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$linea = "existe_sec=S&existe_rec=S&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtrecargo=".$txtrecargo;
-			$cmbsubproducto=$row["cod_subproducto"];//$linea.= "&txtpeso=".$row[peso_recepcion]."&txtguia=".$row["num_guia"]."&txtpatente=".$row[patente_camion]."&txtorigen=".$row[peso_origen];
+			$cmbsubproducto=$row["cod_subproducto"];//$linea.= "&txtpeso=".$row["peso_recepcion"]."&txtguia=".$row["num_guia"]."&txtpatente=".$row["patente_camion"]."&txtorigen=".$row["peso_origen"];
 			$cmbproducto=$row["cod_producto"];//$linea.= "&txtrut=".$row["rut_proveedor"];
 		}
 		else
@@ -109,12 +117,12 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " WHERE lote = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."' AND cod_subproducto = '18'";
 			//echo $consulta."<br>";
 			
-			$rs1 = mysqli_query($link, $consulta);
+			$rs1 = mysqli_query($link,$consulta);
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea = "existe_rec=S&existe_sec=N&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtrecargo=".$txtrecargo;
-				$linea.= "&txtguia=".$row1["guia_despacho"]."&txtpatente=".$row1[patente]."&txtorigen=".$row1["peso_neto"];
-				$linea.= "&txtrut=".$row1[rut_prv];
+				$linea.= "&txtguia=".$row1["guia_despacho"]."&txtpatente=".$row1["patente"]."&txtorigen=".$row1["peso_neto"];
+				$linea.= "&txtrut=".$row1["rut_prv"];
 			}
 			else			
 				$linea = "existe_sec=N&existe_rec=N&mensaje=El Lote No Existe";
@@ -133,13 +141,14 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta = "SELECT * FROM sec_web.recepcion_catodo_externo";		
 		$consulta.= " WHERE lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."'";
 		
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		$row = mysqli_fetch_array($rs);
-		$fecha = explode("-",$row[fecha_recepcion]); //0: ao, 1:mes, 2: dia.
+		$fecha = explode("-",$row["fecha_recepcion"]); //0: ao, 1:mes, 2: dia.
 						
-		$linea.= "txtpeso=".$row[peso_recepcion]."&txtguia=".$row["num_guia"]."&txtpatente=".$row[patente_camion]."&txtrecargo=".$row["recargo"];
-		$linea.= "&txtorigen=".$row[peso_origen]."&txtrut=".$row["rut_proveedor"]."&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtzuncho=".$row[peso_zuncho];
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "txtpeso=".$row["peso_recepcion"]."&txtguia=".$row["num_guia"]."&txtpatente=".$row["patente_camion"]."&txtrecargo=".$row["recargo"];
+		$linea.= "&txtorigen=".$row["peso_origen"]."&txtrut=".$row["rut_proveedor"]."&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtzuncho=".$row["peso_zuncho"];
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&opcion=M&tipo_reg=L";
 		header("Location:sec_ing_produccion.php?".$linea);	
@@ -161,17 +170,17 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " WHERE t1.cod_paquete = '".$vector[1]."' AND t1.num_paquete = '".$vector[2]."'";
 		$consulta.= " AND t1.fecha_creacion_paquete = '".$vector[3]."' AND t1.lote_origen = '".$vector[0]."' AND t1.recargo = '".$vector[4]."'";
 		//echo $consulta."<br>";
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		$row = mysqli_fetch_array($rs);
 		
-		$hh_mm = explode(':', $row[hora]); //0: hora, 1: minuto.
+		$hh_mm = explode(':', $row["hora"]); //0: hora, 1: minuto.
 		
 		$linea = "";
 		
 		//consulta la instruccion.
 		$consulta = "SELECT * FROM sec_web.lote_catodo";
 		$consulta.= " WHERE cod_paquete = '".$vector[1]."' AND num_paquete = '".$vector[2]."' AND cod_estado = 'a'";
-		$rs1 = mysqli_query($link, $consulta);
+		$rs1 = mysqli_query($link,$consulta);
 		if ($row1 = mysqli_fetch_array($rs1))
 			$linea = "cmbinstruccion=".$row1["corr_enm"]."&txtmarca=".$row1["cod_marca"]."&cmbcodlote=".$row1["cod_bulto"]."&txtnumlote=".$row1["num_bulto"];
 		
@@ -180,7 +189,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " WHERE corr_codelco = '".$row1["corr_enm"]."' AND estado1 = 'R' AND estado2 != 'C'"; //****** Falta condicion, para saber si esta activo  no la Instruccion.
 		//echo $consulta."<br>";
 		
-		$rs2 = mysqli_query($link, $consulta);
+		$rs2 = mysqli_query($link,$consulta);
 		if ($row2 = mysqli_fetch_array($rs2)) //Codelco.
 		{
 			$linea.= "&txtpesoprog=".($row2["cantidad_programada"] * 1000)."&listar_ie=P";
@@ -190,16 +199,16 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta = "SELECT * FROM sec_web.programa_enami";
 			$consulta.= " WHERE corr_enm = '".$row1["corr_enm"]."' AND estado1 = 'R' AND estado2 != 'C'"; //****** Falta condicion, para saber si esta activo  no la Instruccion.
 
-			$rs3 = mysqli_query($link, $consulta);
+			$rs3 = mysqli_query($link,$consulta);
 			
 			if ($row3 = mysqli_fetch_array($rs3)) //Enami.
-				$linea.= "&txtpesoprog=".($row3[cantidad_embarque] * 1000)."&listar_ie=P";
+				$linea.= "&txtpesoprog=".($row3["cantidad_embarque"] * 1000)."&listar_ie=P";
 			else
 			{	
 				$consulta = "SELECT * FROM sec_web.instruccion_virtual";
 				$consulta.= " WHERE corr_virtual = '".$row1["corr_enm"]."'";
 				//echo $consulta."<br>";
-				$rs4 = mysqli_query($link, $consulta);
+				$rs4 = mysqli_query($link,$consulta);
 				$row4 = mysqli_fetch_array($rs4);
 				
 				$linea.= "&txtpesoprog=".$row4["peso_programado"]."&listar_ie=V";
@@ -208,7 +217,8 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						
 		$linea.= "&txtlote=".$vector[0]."&txtrecargo=".$vector[4]."&cmbcodpaq=".$vector[1]."&txtnumpaq=".$vector[2]."&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&txtunidades=".$row["num_unidades"]."&txtpeso=".$row["peso_paquetes"];
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&recargapag4=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&recargapag4=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&recargapag4=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S&encontro_ie=S";
 		$linea.= "&opcion=M&tipo_reg=P&hh=".$hh_mm[0]."&mm=".$hh_mm[1];
 		header("Location:sec_ing_produccion.php?".$linea);		
@@ -235,13 +245,14 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " WHERE cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 		$consulta.= " AND fecha_produccion =  '".$vector[1]."'  AND cod_grupo = '".$vector[0]."'";
 
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		$row = mysqli_fetch_array($rs);
 		
-		$hh_mm = explode(':', $row[hora]); //0: hora, 1:minuto.
+		$hh_mm = explode(':', $row["hora"]); //0: hora, 1:minuto.
 		
-		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row["peso_produccion"];
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row["cod_muestra"]."&txtpeso=".$row["peso_produccion"];
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S";
 		$linea.= "&opcion=M&hh=".$hh_mm[0]."&mm=".$hh_mm[1];		
@@ -271,13 +282,14 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " AND cod_cuba = '".$vector[1]."' AND cod_lado = '".$vector[2]."'";
 		}
 		
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		$row = mysqli_fetch_array($rs);
 
-		$hh_mm = explode(':', $row[hora]); //0: hora, 1:minuto.		
+		$hh_mm = explode(':', $row["hora"]); //0: hora, 1:minuto.		
 		
-		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row[cod_muestra]."&txtpeso=".$row["peso_produccion"]."&txtcuba=".$row[cod_cuba];
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;		
+		$linea = "txtgrupo=".$vector[0]."&txtmuestra=".$row["cod_muestra"]."&txtpeso=".$row["peso_produccion"]."&txtcuba=".$row["cod_cuba"];
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;	
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;		
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S&txtlado=".$row["cod_lado"];
 		$linea.= "&opcion=M&hh=".$hh_mm[0]."&mm=".$hh_mm[1];
@@ -297,16 +309,16 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " AND fecha_creacion_paquete = '".$vector[2]."'";
 		//echo $consulta."<br>";
 		
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		$row = mysqli_fetch_array($rs);
 		
-		$hh_mm = explode(':', $row[hora]); //0: hora, 1:minuto.
+		$hh_mm = explode(':', $row["hora"]); //0: hora, 1:minuto.
 				
 		$linea.= "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;		
 		$linea.= "&ano=".$fecha[0]."&mes=".$fecha[1]."&dia=".$fecha[2];
 		$linea.= "&cmbsubproducto=".$cmbsubproducto."&mostrar=S";
 		$linea.= "&opcion=M&hh=".$hh_mm[0]."&mm=".$hh_mm[1];
-		$linea.= "&cmbcodpaq=".$vector[0]."&txtnumpaq=".$vector[1]."&cmbgrupo=".$row["cod_grupo"]."&cmbcuba=".$row[cod_cuba];		
+		$linea.= "&cmbcodpaq=".$vector[0]."&txtnumpaq=".$vector[1]."&cmbgrupo=".$row["cod_grupo"]."&cmbcuba=".$row["cod_cuba"];		
 		$linea.= "&txtunidades=".$row["num_unidades"]."&txtpeso=".$row["peso_paquetes"];
 		header("Location:sec_ing_produccion.php?".$linea);		
 	}
@@ -322,11 +334,11 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";			
 			// echo "111".$consulta."<br>";
 		
-			$rs2 = mysqli_query($link, $consulta);
+			$rs2 = mysqli_query($link,$consulta);
 			if ($row2 = mysqli_fetch_array($rs2))
 			{	
 				//mostrar datos y el paquete correlativo correspondiente.
-				$linea = "txtpesoprog=".($row2[cantidad_embarque] * 1000)."&encontro_ie=S&mensaje=".$row2["descripcion"];
+				$linea = "txtpesoprog=".($row2["cantidad_embarque"] * 1000)."&encontro_ie=S&mensaje=".$row2["descripcion"];
 				
 				//consulta el ultimo paquete de la I.E.
 				$consulta = "SELECT * FROM sec_web.lote_catodo";
@@ -335,7 +347,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$consulta.= " LIMIT 0,1";
 				
 				// echo "222".$consulta;
-				$rs4 = mysqli_query($link, $consulta);
+				$rs4 = mysqli_query($link,$consulta);
 				$row4 = mysqli_fetch_array($rs4);
 				
 				$linea.= "&cmbcodlote=".$row4["cod_bulto"]."&txtnumlote=".$row4["num_bulto"]."&cmbcodpaq=".$row4["cod_paquete"]."&txtnumpaq=".($row4["num_paquete"]+1);
@@ -353,7 +365,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta.= " AND cod_bulto = '".$row4["cod_bulto"]."' AND num_bulto = '".$row4["num_bulto"]."' AND disponibilidad = 'P'";
 					$consulta.= " LIMIT 0,1";
 					// echo "333".$consulta."<br>";
-					$rs5 = mysqli_query($link, $consulta);
+					$rs5 = mysqli_query($link,$consulta);
 					if ($row5 = mysqli_fetch_array($rs5))
 					{
 						$linea.= "&cmbmedida=".$row5["cod_subclase"];
@@ -375,7 +387,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$consulta.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado1 = 'R' AND (estado2 = 'P' OR estado2 = 'A' OR estado2 = 'M')";
 				$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";		
 				// echo "444".$consulta."<br>";
-				$rs3 = mysqli_query($link, $consulta);
+				$rs3 = mysqli_query($link,$consulta);
 				if ($row3 = mysqli_fetch_array($rs3))
 				{
 					//mostrar datos y el paquete correlativo correspondiente.
@@ -388,7 +400,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta.= " LIMIT 0,1";
 					
 					// echo "555".$consulta;
-					$rs4 = mysqli_query($link, $consulta);
+					$rs4 = mysqli_query($link,$consulta);
 					$row4 = mysqli_fetch_array($rs4);
 					
 					$linea.= "&cmbcodlote=".$row4["cod_bulto"]."&txtnumlote=".$row4["num_bulto"]."&cmbcodpaq=".$row4["cod_paquete"]."&txtnumpaq=".($row4["num_paquete"]+1);
@@ -414,10 +426,10 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado1 = '' AND estado2 NOT IN ('A','C') AND NOT ISNULL(num_prog_loteo)";
 					$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 					// echo "666".$consulta."<br>";
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					if ($row = mysqli_fetch_array($rs)) //Existe en Enami.
 					{
-						$linea = "txtpesoprog=".($row[cantidad_embarque] * 1000)."&encontro_ie=S&mensaje=".$row["descripcion"];
+						$linea = "txtpesoprog=".($row["cantidad_embarque"] * 1000)."&encontro_ie=S&mensaje=".$row["descripcion"];
 					}
 					else	
 					{
@@ -425,7 +437,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						$consulta.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado1 = '' AND estado2 NOT IN ('A','C') AND NOT ISNULL(num_prog_loteo)";
 						$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 						// echo "777".$consulta."<br>";
-						$rs1 = mysqli_query($link, $consulta);
+						$rs1 = mysqli_query($link,$consulta);
 						if ($row1 = mysqli_fetch_array($rs1)) //Existe en Codelco.
 						{
 							$linea = "txtpesoprog=".($row1["cantidad_programada"] * 1000)."&encontro_ie=S&mensaje=".$row1["descripcion"];
@@ -445,7 +457,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta = "SELECT * FROM sec_web.instruccion_virtual";
 			$consulta.= " WHERE corr_virtual = '".$cmbinstruccion."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 			// echo "888".$consulta."<br>";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			if ($row = mysqli_fetch_array($rs))
 			{
 				//mostrar datos y el paquete correlativo correspondiente.
@@ -463,7 +475,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta.= " AND cod_bulto = '".$row4["cod_bulto"]."' AND num_bulto = '".$row4["num_bulto"]."' AND disponibilidad = 'P'";
 					$consulta.= " LIMIT 0,1";
 					// echo "999".$consulta."<br>";
-					$rs5 = mysqli_query($link, $consulta);
+					$rs5 = mysqli_query($link,$consulta);
 					if ($row5 = mysqli_fetch_array($rs5))
 					{
 						$linea.= "&cmbmedida=".$row5["cod_subclase"];
@@ -477,7 +489,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$consulta.= " LIMIT 0,1";
 				
 				// echo "000".$consulta;
-				$rs4 = mysqli_query($link, $consulta);
+				$rs4 = mysqli_query($link,$consulta);
 				if ($row4 = mysqli_fetch_array($rs4))
 				{
 					$linea.= "&cmbcodlote=".$row4["cod_bulto"]."&txtnumlote=".$row4["num_bulto"]."&cmbcodpaq=".$row4["cod_paquete"]."&txtnumpaq=".($row4["num_paquete"]+1);
@@ -495,7 +507,8 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			// echo "lin 2".$linea;
 		}
 			
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$cmbinstruccion."&listar_ie=".$listar_ie."&recargapag4=S";
 		//&SA_C_STD=".$SA_C_STD;
@@ -515,7 +528,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 		$consulta.= " AND YEAR(fecha_creacion_lote) = YEAR(NOW())";
 		//echo $consulta."<br>";
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		if ($row = mysqli_fetch_array($rs)) //Existe el Lote en el ao.
 		{
 			$mensaje = "El Lote Ya Existe";
@@ -524,7 +537,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " WHERE cod_paquete = '".$cod_paq[$cmbcodlote]."' AND num_paquete = '".$txtnumlote."'";
 		$consulta.= " AND YEAR(fecha_creacion_lote) = YEAR(NOW())";
 		//echo $consulta."<br>";
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		if ($row = mysqli_fetch_array($rs)) //Existe el Lote en el ao.
 		{
 			$mensaje = "El Lote Ya Existe en series de paquetes del mes";
@@ -536,13 +549,14 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			echo 'alert("'.$mensaje.'");';
 			echo 'window.history.back()';
 			echo '</script>';
-			break;			
+			//break;			
 		}
 		else
 			$linea = "txtnumpaq=".$txtnumlote."&cmbcodpaq=".$cod_paq[$cmbcodlote];
 		$linea.= "&tipo_ie=".$listar_ie; //Del Programa  Virtual.		
 		//echo $tipo_ie."<br>";
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$cmbinstruccion."&encontro_ie=".$encontro_ie;
 		$linea.= "&txtpesoprog=".$txtpesoprog."&txtnumlote=".$txtnumlote."&genera_lote=S";
@@ -585,12 +599,12 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " HAVING COUNT(*) = 1";
 			$consulta.= " ORDER BY cod_paquete,num_paquete";
 			$consulta.= " LIMIT 0,1";
-			$rs1 = mysqli_query($link, $consulta);
+			$rs1 = mysqli_query($link,$consulta);
 			//echo $consulta."<br>";
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea.= "cmbcodlote=".$row1["cod_bulto"]."&txtnumlote=".$row1["num_bulto"]."&txtmarca=".$row1["marca"];
-				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1[fecha_pesaje];
+				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1["fecha_pesaje"];
 				$linea.= "&txtunidades=".$row1["unidades"]."&txtpesotara=".$row1["peso_tara"]."&txtpesoneto=".$row1["peso_neto"];
 				$linea.= "&opcion=L"; //Modifica el peso del Lodo.(2 Pesaje)
 				$linea.= "&tipo_ie=P"; //Virtual.
@@ -606,19 +620,20 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " HAVING COUNT(*) = 1";
 			$consulta.= " ORDER BY cod_paquete,num_paquete";
 			$consulta.= " LIMIT 0,1";
-			$rs1 = mysqli_query($link, $consulta);
+			$rs1 = mysqli_query($link,$consulta);
 			//echo $consulta."<br>";
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea.= "cmbcodlote=".$row1["cod_bulto"]."&txtnumlote=".$row1["num_bulto"]."&txtmarca=".$row1["marca"];
-				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1[fecha_pesaje];
+				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1["fecha_pesaje"];
 				$linea.= "&txtunidades=".$row1["unidades"]."&txtpesotara=".$row1["peso_tara"]."&txtpesoneto=".$row1["peso_neto"];
 				$linea.= "&opcion=L"; //Modifica el peso del Lodo.(2 Pesaje).
 				$linea.= "&tipo_ie=V"; //Virtual.				
 			}							
 		}
 			
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia."&encontro_ie=S";
 		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$cmbinstruccion."&listar_ie=".$listar_ie."&recargapag4=S";
 		
@@ -643,7 +658,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " WHERE cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 		$consulta.= " AND fecha_produccion = '".$vector[0]."' AND hora = '".$vector[1]."'";
 		//echo "Con".$consulta;
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$linea.= "&txtpeso=".$row["peso_produccion"];
@@ -664,7 +679,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."' AND cod_estado = 'a'";
 		//echo $consulta."<br>";
 		
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		if ($row = mysqli_fetch_array($rs))
 		{
 			//Entrega Datos para la 2 Pesada.
@@ -680,15 +695,15 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " LIMIT 0,1";
 			//echo $consulta."<br>";
 			
-			$rs1 = mysqli_query($link, $consulta);
+			$rs1 = mysqli_query($link,$consulta);
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea.= "cmbcodlote=".$row1["cod_bulto"]."&txtnumlote=".$row1["num_bulto"]."&txtmarca=".$row1["marca"];
-				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1[fecha_pesaje];
+				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1["fecha_pesaje"];
 				$linea.= "&txtunidades=".$row1["unidades"]."&txtpesotara=".$row1["peso_tara"]."&txtpesoneto=".$row1["peso_neto"];
 				$linea.= "&opcion=L"; //Modifica el peso del Lodo.(2 Pesaje)
 				
-				$linea.= "&cmbinstruccion=".$row1["corr_ie"];		
+				$linea.= "&cmbinstruccion=".$row1[corr_ie];		
 			}
 			else
 			{
@@ -699,10 +714,10 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				echo 'alert("'.$mensaje.'");';
 				echo 'window.history.back()';
 				echo '</script>';
-				break;
+				//break;
 			}
-			
-			$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+			//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+			$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 			$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 			$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&listar_ie=".$listar_ie."&recargapag4=S&encontro_ie=S";
 
@@ -716,7 +731,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			echo 'alert("'.$mensaje.'");';
 			echo 'window.history.back()';
 			echo '</script>';
-			break;			
+			//break;			
 		} 	
 	}		
 	
@@ -726,7 +741,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = 'T'";
 		$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."' AND corr_enm= '".$cmbinstruccion."'";
 		$actualizar.= " AND disponibilidad = 'P' AND cod_estado = 'a'";
-		mysqli_query($link, $actualizar);		
+		mysqli_query($link,$actualizar);		
 		//echo $actualizar."<br>";
 		
 		//Calcular el Peso de la I.E.
@@ -737,13 +752,13 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " WHERE t1.corr_enm = '".$cmbinstruccion."' AND t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
 		$consulta.= " AND t1.disponibilidad = 'T' AND t1.cod_estado = 'a'";
 		//echo $consulta."<br>";
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		$row = mysqli_fetch_array($rs);
 			
 		//Canbiar Estados en programa_enami.
 		$actualizar = "UPDATE sec_web.programa_enami SET estado2 = 'C', cantidad_embarque = '".$row["total"]."'";
 		$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado1 = 'R' AND estado2 = 'P'";
-		mysqli_query($link, $actualizar);
+		mysqli_query($link,$actualizar);
 		//echo $actualizar."<br>";
 		
 		$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=3&cmbproducto=".$cmbproducto."&cmbsubproducto=".$cmbsubproducto;
@@ -762,14 +777,14 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$consulta.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."' AND cod_estado = 'a'";
 		//echo $consulta."<br>";
 		
-		$rs2 = mysqli_query($link, $consulta);
+		$rs2 = mysqli_query($link,$consulta);
 		if ($row2 = mysqli_fetch_array($rs2))
 		{
 				
 			$insertar = "INSERT INTO sec_web.pesaje_lodos (num_pesada,cod_producto,cod_subproducto,corr_ie,cod_bulto,num_bulto,cod_paquete,num_paquete,fecha_pesaje,peso_tara,cod_estado,marca,peso_neto,peso_bruto, unidades)";
 			$insertar.= " VALUES ('2','".$cmbproducto."','".$cmbsubproducto."','".$cmbinstruccion."','".$cod_paq[$cmbcodlote]."','".$txtnumlote."','".$cod_paq[$cmbcodpaq]."','".$txtnumpaq."','".$fecha."','".$txtpesotara."','".$listar_ie."','".$txtmarca."','".$txtpesoneto."','".$txtpeso."','".$txtunidades."')";
 			//echo $insertar."<br>";
-			mysqli_query($link, $insertar);
+			mysqli_query($link,$insertar);
 			//Da la Serie consecutiva faltante.		
 			$consulta = "SELECT *";
 			$consulta.= " FROM sec_web.pesaje_lodos";
@@ -780,17 +795,18 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " LIMIT 0,1";
 			//echo $consulta."<br>";
 			
-			$rs1 = mysqli_query($link, $consulta);
+			$rs1 = mysqli_query($link,$consulta);
 			if ($row1 = mysqli_fetch_array($rs1))
 			{
 				$linea.= "cmbcodlote=".$row1["cod_bulto"]."&txtnumlote=".$row1["num_bulto"]."&txtmarca=".$row1["marca"];
-				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1[fecha_pesaje];
+				$linea.= "&cmbcodpaq=".$row1["cod_paquete"]."&numpaq=".$row1["num_paquete"]."&fecha_pesaje_lodo=".$row1["fecha_pesaje"];
 				$linea.= "&txtunidades=".$row1["unidades"]."&txtpesotara=".$row1["peso_tara"]."&txtpesoneto=".$row1["peso_neto"];
 				$linea.= "&opcion=L"; //Modifica el peso del Lodo.(2 Pesaje)
 				
-				$linea.= "&cmbinstruccion=".$row1["corr_ie"];		
+				$linea.= "&cmbinstruccion=".$row1[corr_ie];		
 			}
-			$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+			//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+			$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 			$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 			$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&listar_ie=".$listar_ie."&recargapag4=S&encontro_ie=S";		
 			
@@ -804,7 +820,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			echo 'alert("'.$mensaje.'");';
 			echo 'window.history.back()';
 			echo '</script>';
-			break;		
+			//break;		
 		}				
 	}
 	
@@ -826,7 +842,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$actualizar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 			$actualizar.= " AND fecha_pesaje = '".$fecha_aux."'";
 			//echo $actualizar."<br>";						
-			mysqli_query($link, $actualizar);
+			mysqli_query($link,$actualizar);
 		}
 		else
 		{
@@ -841,7 +857,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$actualizar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 			$actualizar.= " AND fecha_pesaje = '".$fecha_aux."'";
 			//echo $actualizar."<br>";			
-			mysqli_query($link, $actualizar);
+			mysqli_query($link,$actualizar);
 		}
 		
 		//Paquete Catodo.
@@ -853,7 +869,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 		$actualizar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 		$actualizar.= " AND fecha_creacion_paquete = '".$fecha_aux."'";
 		//echo $actualizar."<br>";		
-		mysqli_query($link, $actualizar);
+		mysqli_query($link,$actualizar);
 		
 		$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.= "&cmbsubproducto=".$cmbsubproducto;
@@ -899,7 +915,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 	
 			//echo $consulta."<br>";
 				
-			$rs = mysqli_query($link, $consulta);			
+			$rs = mysqli_query($link,$consulta);			
 			if ($row = mysqli_fetch_array($rs))
 			{				
 				$mensaje = "Los Datos Ingresados Ya Existen";
@@ -908,7 +924,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				echo 'alert("'.$mensaje.'");';
 				echo 'window.history.back()';
 				echo '</script>';
-				break;								
+				//break;								
 			}
 			else
 			{
@@ -923,7 +939,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							$insertar.= " VALUES ('".$cmbproducto."','".$cmbsubproducto."','".$fecha."','".$txtgrupo."','".$txtcuba."',";
 							$insertar.= "'".$txtmuestra."','".$txtlado."','".$txtpeso."','".$hora."')";
 							///echo "AAA ".$insertar."<br>";
-							mysqli_query($link, $insertar);
+							mysqli_query($link,$insertar);
 						}
 						else 
 						{
@@ -932,14 +948,14 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							$insertar.= " VALUES ('02','".$cmbproducto."','".$cmbsubproducto."','".$fecha."','".$txtgrupo."','".$txtcuba."',";
 							$insertar.= "'".$txtmuestra."','".$txtlado."','".$txtpeso."','000','".$hora."')";
 							//echo "BBB ".$insertar."<br>";
-							mysqli_query($link, $insertar);						
+							mysqli_query($link,$insertar);						
 						}
 					}
 					else
 					{
 						$insertar = "INSERT INTO sec_web.control_grupo_pesaje (fecha,grupo) VALUES ('".$fecha."','".$txtgrupo."')";
 						//echo $insertar."<br>";
-						mysqli_query($link, $insertar);
+						mysqli_query($link,$insertar);
 					}
 				}
 				else if (($cmbproducto == "57") or ($cmbproducto == "64") or ($cmbproducto == "66") or ($cmbproducto == "48" and $cmbsubproducto != "2")) //Sales  Laminas Aprobadas N.E.
@@ -947,7 +963,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						$insertar = "INSERT INTO sec_web.produccion_catodo (cod_existencia,cod_producto,cod_subproducto,fecha_produccion,";
 						$insertar.= "peso_produccion,hora,peso_tara)";
 						$insertar.= " VALUES ('02','".$cmbproducto."','".$cmbsubproducto."','".$fecha."','".$txtpeso."','".$hora."', '".$txtpesotara."')";
-						mysqli_query($link, $insertar);
+						mysqli_query($link,$insertar);
 						//echo "CCC ".$insertar."<br>";
 					}
 				
@@ -962,8 +978,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 
 		if ($cmbmovimiento == "1") //RECEPCION.
 		{	
-			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
-			
+			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;			
 			$linea.= "&cmbsubproducto=".$cmbsubproducto."&txtlote=".str_pad($txtlote,8,'0',STR_PAD_LEFT)."&txtrecargo=".$txtrecargo;
 			$linea.= "&existe_sec=S&existe_rec=S&tipo_ie=".$tipo_ie;
 			$linea.= "&peso_auto=".$peso_auto;
@@ -977,7 +992,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 																																
 				//poly 25-06-2008  $insertar.= " VALUES ('05','".$cmbproducto."','".$cmbsubproducto."','".$fecha."','".$txtpatente."','".$txtguia."','".$txtlote."','".$txtrecargo."','".$txtrut."','".$txtorigen."','".$txtpeso."','".$txtzuncho."','P','".$hora."')";
 				//echo $insertar."<br>";			
-				mysqli_query($link, $insertar);
+				mysqli_query($link,$insertar);
 				
 				//Crea Variable se Sesion para manejar el Peso Zuncho.
 				session_start();
@@ -997,7 +1012,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$consulta.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."' and corr_enm<>'".$cmbinstruccion."'";
 				$consulta.= " AND YEAR(fecha_creacion_lote) = YEAR(NOW())";
 				//echo $consulta."<br>";
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				if ($row = mysqli_fetch_array($rs)) //Existe el Lote en el ao.
 				{
 					$mensaje = "El Lote Ya Existe";
@@ -1006,7 +1021,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$consulta.= " WHERE cod_paquete = '".$cod_paq[$cmbcodlote]."' AND num_paquete = '".$txtnumlote."' and corr_enm<>'".$cmbinstruccion."'";
 				$consulta.= " AND YEAR(fecha_creacion_lote) = YEAR(NOW())";
 				//echo $consulta."<br>";
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				if ($row = mysqli_fetch_array($rs)) //Existe el Lote en el ao.
 				{
 					$mensaje = "El Lote Ya Existe en series de paquetes del mes";
@@ -1017,7 +1032,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;			
+					//break;			
 				}
 
 				//Consulta si existe paquete en el ao.
@@ -1027,7 +1042,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 
 				$consulta.= " AND YEAR(fecha_creacion_paquete) = YEAR(NOW())";
 				//echo "CCC".$consulta;
-				$rs1 = mysqli_query($link, $consulta);
+				$rs1 = mysqli_query($link,$consulta);
 				
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
@@ -1037,7 +1052,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;			
+					//break;			
 				}
 				else
 				{			
@@ -1050,16 +1065,16 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta.= " and cod_producto ='".$cmbproducto."' and cod_subproducto = '".$cmbsubproducto."'";
 					$consulta.= " AND cod_estado = 'a' AND YEAR(fecha_creacion_paquete) = YEAR(SUBDATE(NOW(), INTERVAL 1 YEAR))";
 					//echo "PPPPP".$consulta;
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{
-						$mensaje = "El Paquete Ya Existe Con Estado Abierto, Del Ao ".substr($row[fecha_creacion_paquete],0,4);
+						$mensaje = "El Paquete Ya Existe Con Estado Abierto, Del Ao ".substr($row["fecha_creacion_paquete"],0,4);
 						
 						echo '<script language="JavaScript">';
 						echo 'alert("'.$mensaje.'");';
 						echo 'window.history.back()';
 						echo '</script>';
-						break;			
+						//break;			
 					}  
 					else
 					{
@@ -1082,7 +1097,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							echo 'alert("'.$mensaje.'");';
 							echo 'window.history.back()';
 							echo '</script>';
-							break;						
+							//break;						
 						}
 												
 						
@@ -1107,7 +1122,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
 						$consulta.= " AND t2.cod_estado = 'a'";
 	//echo "RRR".$consulta;
-						$rs2 = mysqli_query($link, $consulta); 
+						$rs2 = mysqli_query($link,$consulta); 
 						$row2 = mysqli_fetch_array($rs2);
 						
 						if ($row2["peso"] > $txtpesoprog) 
@@ -1132,7 +1147,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							echo 'alert("'.$mensaje.'");';
 							echo 'window.history.back()';
 							echo '</script>';
-							break;						
+							//break;						
 						}						
 						else
 						{	
@@ -1143,11 +1158,11 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 								$actualizar = "UPDATE sec_web.programa_codelco SET estado1 = 'R', estado2 = 'P'";
 								$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 <> 'C'";
 								//echo $actualizar."<br>";
-								mysqli_query($link, $actualizar);
+								mysqli_query($link,$actualizar);
 								
 								$actualizar = "UPDATE sec_web.programa_enami SET estado1 = 'R', estado2 = 'P'";
 								$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 <> 'C'";
-								mysqli_query($link, $actualizar);
+								mysqli_query($link,$actualizar);
 								//echo $actualizar."<br>";								
 							}	
 							
@@ -1155,26 +1170,26 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							{
 								$actualizar = "UPDATE sec_web.instruccion_virtual SET estado = 'P'";
 								$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."'";
-								mysqli_query($link, $actualizar);	
+								mysqli_query($link,$actualizar);	
 							}
 							//---
 												
 						$insertar = "INSERT INTO sec_web.paquete_catodo_externo (cod_existencia,cod_paquete,num_paquete,fecha_creacion_paquete,cod_producto,cod_subproducto,cod_estado,num_unidades,peso_paquete,lote_origen,recargo,hora)";
 						$insertar.= " VALUES ('05','".$cod_paq[$cmbcodpaq]."','".$txtnumpaq."','".$fecha."','".$cmbproducto."','".$cmbsubproducto."','a','".$txtunidades."','".$txtpeso."','".str_pad($txtlote,8,'0',STR_PAD_LEFT)."','".$txtrecargo."','".$hora."')";
-						mysqli_query($link, $insertar);
+						mysqli_query($link,$insertar);
 							echo $insertar."<br>";
 												
 						$insertar = "INSERT INTO sec_web.paquete_catodo (cod_existencia,cod_paquete,num_paquete,fecha_creacion_paquete,cod_producto,cod_subproducto,cod_estado,num_unidades,peso_paquetes,hora)";				
 						$insertar.= " VALUES ('05','".$cod_paq[$cmbcodpaq]."','".$txtnumpaq."','".$fecha."','".$cmbproducto."','".$cmbsubproducto."','a','".$txtunidades."','".$txtpeso."','".$hora."')";
 							//echo $insertar."<br>";
-						mysqli_query($link, $insertar);
+						mysqli_query($link,$insertar);
 							
 							//consulta la fecha de lote si ya hay datos.
 						$consulta = "SELECT * FROM sec_web.lote_catodo";
 						$consulta.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 						$consulta.= " AND disponibilidad = 'P'";
 							//echo $consulta;
-							$rs3 = mysqli_query($link, $consulta);
+							$rs3 = mysqli_query($link,$consulta);
 							if ($row3 = mysqli_fetch_array($rs3))
 								$fecha_lote = $row3["fecha_creacion_lote"];
 							else
@@ -1182,7 +1197,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							//consulta el cliente (en Enami).
 							$consulta = "SELECT * FROM sec_web.programa_enami";
 							$consulta.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado1 = 'R' AND estado2 <> 'C'";
-							$rs4 = mysqli_query($link, $consulta);
+							$rs4 = mysqli_query($link,$consulta);
 							if ($row4 = mysqli_fetch_array($rs4))
 							{	
 								$cliente = $row4["cod_cliente"];
@@ -1191,7 +1206,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							{	
 								$consulta = "SELECT * FROM sec_web.programa_codelco";
 								$consulta.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado1 = 'R' AND estado2 <> 'C'";
-								$rs5 = mysqli_query($link, $consulta);
+								$rs5 = mysqli_query($link,$consulta);
 								if ($row5 = mysqli_fetch_array($rs5))
 									$cliente = $row5["cod_cliente"];
 								else 
@@ -1199,7 +1214,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							}
 							$insertar = "INSERT INTO sec_web.lote_catodo (cod_bulto,num_bulto,cod_paquete,num_paquete,fecha_creacion_lote,cod_marca,corr_enm,cod_estado,disponibilidad,cod_cliente,fecha_creacion_paquete)";
 							$insertar.= " VALUES ('".$cod_paq[$cmbcodlote]."','".$txtnumlote."','".$cod_paq[$cmbcodpaq]."','".$txtnumpaq."','".$fecha_lote."','".$txtmarca."','".$cmbinstruccion."','a','P','".$cliente."', '".$fecha."')";
-							mysqli_query($link, $insertar);
+							mysqli_query($link,$insertar);
 							//echo $insertar."<br>";							
 														
 							if ($row2["peso"] >= ($txtpesoprog - $TxtPesoRango))
@@ -1209,24 +1224,24 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 								$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 								$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
 								//echo $actualizar."<br>";					
-								mysqli_query($link, $actualizar);
+								mysqli_query($link,$actualizar);
 																
 								if ($listar_ie == "P")
 								{
 									$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = 'T'";
 									$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
 									//echo $actualizar."<br>";
-									mysqli_query($link, $actualizar);
+									mysqli_query($link,$actualizar);
 									$actualizar = "UPDATE sec_web.programa_enami SET estado2 = 'T'";
 									$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-									mysqli_query($link, $actualizar);							
+									mysqli_query($link,$actualizar);							
 									//echo $actualizar."<br>";
 								}
 								if ($listar_ie == "V")
 								{
 									$actualizar = "UPDATE sec_web.instruccion_virtual SET estado = 'T'";
 									$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."'";
-									mysqli_query($link, $actualizar);
+									mysqli_query($link,$actualizar);
 								}
 								$mensaje = "La I.E Completo con el Peso Programado";
 							}														
@@ -1238,7 +1253,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 								$actualizar.= " WHERE lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."'";
 																   
 								//poly 25-06-2008$actualizar.= " WHERE lote_origen = '".$txtlote."' AND recargo = '".$txtrecargo."'";
-								mysqli_query($link, $actualizar);
+								mysqli_query($link,$actualizar);
 							}
 							
 							$linea.= "&encontro_ie=".$encontro_ie."&cmbinstruccion=".$cmbinstruccion."&txtnumlote=".$txtnumlote."&txtrecargo=".$txtrecargo."&cmbcodlote=".$cmbcodlote;
@@ -1246,7 +1261,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							$linea.= "&listar_ie=".$listar_ie."&recargapag4=S&tipo_reg=P";
 							
 							//if (($agrega_paq == "S") and (!isset($mensaje)))
-							if (!isset($mensaje))
+							if ($mensaje=="")
 							{
 								$linea.= "&agrega_paq=S&cmbcodpaq=".$cmbcodpaq."&txtnumpaq=".($txtnumpaq + 1);
 							}
@@ -1269,7 +1284,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."' and corr_enm<>'".$cmbinstruccion."'";
 			$consulta.= " AND YEAR(fecha_creacion_lote) = YEAR(NOW())";
 			//echo $consulta."<br>";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			if ($row = mysqli_fetch_array($rs)) //Existe el Lote en el ao.
 			{
 				$mensaje = "El Lote Ya Existe";
@@ -1278,7 +1293,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " WHERE cod_paquete = '".$cod_paq[$cmbcodlote]."' AND num_paquete = '".$txtnumlote."' and corr_enm<>'".$cmbinstruccion."'";
 			$consulta.= " AND YEAR(fecha_creacion_lote) = YEAR(NOW())";
 			//echo $consulta."<br>";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			if ($row = mysqli_fetch_array($rs)) //Existe el Lote en el ao.
 			{
 				$mensaje = "El Lote Ya Existe en series de paquetes del mes";
@@ -1289,13 +1304,13 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				echo 'alert("'.$mensaje.'");';
 				echo 'window.history.back()';
 				echo '</script>';
-				break;			
+				//break;			
 			}
 			//Consulta si existe paquete en el ao.
 			$consulta = "SELECT * FROM sec_web.paquete_catodo";
 			$consulta.= " WHERE cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 			$consulta.= " AND YEAR(fecha_creacion_paquete) = YEAR(NOW())";
-			$rs1 = mysqli_query($link, $consulta);
+			$rs1 = mysqli_query($link,$consulta);
 			if (($row1 = mysqli_fetch_array($rs1)) and ($etapa == 1))
 			{
 				$mensaje = "El Paquete Ya Existe";
@@ -1304,7 +1319,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				echo 'alert("'.$mensaje.'");';
 				echo 'window.history.back()';
 				echo '</script>';
-				break;			
+				//break;			
 			}
 			else
 			{			
@@ -1314,15 +1329,15 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$consulta.= " and cod_producto ='".$cmbproducto."' and cod_subproducto = '".$cmbsubproducto."'";
 				$consulta.= " AND cod_estado = 'a' AND YEAR(fecha_creacion_paquete) = YEAR(SUBDATE(NOW(), INTERVAL 1 YEAR))";
 				//echo $consulta;
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				if (($row = mysqli_fetch_array($rs)) and ($etapa == 1))
 				{
-					$mensaje = "El Paquete Ya Existe Con Estado Abierto, Del Ao ".substr($row[fecha_creacion_paquete],0,4);
+					$mensaje = "El Paquete Ya Existe Con Estado Abierto, Del Ao ".substr($row["fecha_creacion_paquete"],0,4);
 					echo '<script language="JavaScript">';
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;			
+					//break;			
 				}
 				else 
 				{	
@@ -1334,7 +1349,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
 					$consulta.= "  AND t2.cod_estado = 'a'";
 					//echo $consulta."<br>";
-					$rs2 = mysqli_query($link, $consulta); 
+					$rs2 = mysqli_query($link,$consulta); 
 					$row2 = mysqli_fetch_array($rs2);
 					if ($row2["peso"] > $txtpesoprog) 
 					{
@@ -1344,7 +1359,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						echo 'alert("'.$mensaje.'");';
 						echo 'window.history.back()';
 						echo '</script>';
-						break;										
+						//break;										
 					}
 					else
 					{
@@ -1355,18 +1370,18 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							$actualizar = "UPDATE sec_web.programa_codelco SET estado1 = 'R', estado2 = 'P'";
 							$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 <> 'C'";
 							//echo $actualizar."<br>";
-							mysqli_query($link, $actualizar);
+							mysqli_query($link,$actualizar);
 							
 							$actualizar = "UPDATE sec_web.programa_enami SET estado1 = 'R', estado2 = 'P'";
 							$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 <> 'C'";
-							mysqli_query($link, $actualizar);
+							mysqli_query($link,$actualizar);
 							//echo $actualizar."<br>";
 						}
 						if (($txtpeso == $row2["peso"]) and ($listar_ie == "V")) //Instruccion Virtual.
 						{
 							$actualizar = "UPDATE sec_web.instruccion_virtual SET estado = 'P'";
 							$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."'";
-							mysqli_query($link, $actualizar);							
+							mysqli_query($link,$actualizar);							
 						}
 						//---
 										
@@ -1378,12 +1393,12 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 								$insertar = "INSERT INTO sec_web.paquete_catodo (cod_existencia,cod_paquete,num_paquete,fecha_creacion_paquete,cod_producto,cod_subproducto,cod_estado,num_unidades,peso_paquetes,hora)";
 								$insertar.= " VALUES ('05', '".$cod_paq[$cmbcodpaq]."', '".$txtnumpaq."', '".$fecha."', '".$cmbproducto."', '".$cmbsubproducto."', 'a', '".$txtunidades."', '".$txtpesoneto."','".$hora."')";
 								//echo "CAT ".$insertar."<br>";
-								mysqli_query($link, $insertar);
+								mysqli_query($link,$insertar);
 								//Pesaje Lodos.								
 								$insertar = "INSERT INTO sec_web.pesaje_lodos (num_pesada,cod_producto,cod_subproducto,corr_ie,cod_bulto,num_bulto,cod_paquete,num_paquete,fecha_pesaje,peso_tara,cod_estado,marca,peso_neto,peso_bruto, unidades)";
 								$insertar.= " VALUES ('1','".$cmbproducto."','".$cmbsubproducto."','".$cmbinstruccion."','".$cod_paq[$cmbcodlote]."','".$txtnumlote."','".$cod_paq[$cmbcodpaq]."','".$txtnumpaq."','".$fecha."','".$txtpesotara."','".$listar_ie."','".$txtmarca."','".$txtpesoneto."','".$txtpeso."','".$txtunidades."')";
 								//echo $insertar."<br>";
-								mysqli_query($link, $insertar)."<br>";
+								mysqli_query($link,$insertar)."<br>";
 							}							
 						}
 						else
@@ -1393,13 +1408,13 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							$insertar = "INSERT INTO sec_web.paquete_catodo (cod_existencia,cod_paquete,num_paquete,fecha_creacion_paquete,cod_producto,cod_subproducto,cod_estado,num_unidades,peso_paquetes,cod_grupo,cod_cuba,hora)";
 							$insertar.= " VALUES ('05', '".$cod_paq[$cmbcodpaq]."', '".$txtnumpaq."', '".$fecha."', '".$cmbproducto."', '".$cmbsubproducto."', '".a."','".$txtunidades."', '".$txtpeso."', '".$txtgrupo."', '".$txtcuba."','".$hora."')";
 							//echo "Insert N 1:    ".$insertar."<br>";
-							mysqli_query($link, $insertar);
+							mysqli_query($link,$insertar);
 							if($cmbproducto=='18'||$cmbproducto=='48')//SOLO PARA LAMINAS Y CATODOS
 							{
 								$insertar = "INSERT INTO sec_web.paquete_catodo_etiqueta(cod_paquete,num_paquete,fecha_creacion_paquete,cod_producto,cod_subproducto,num_unidades,peso_paquetes,cod_grupo,id_paquete,id_lote,nro_solicitud,leyes)";
 								$insertar.= " VALUES ('".$cod_paq[$cmbcodpaq]."', '".$txtnumpaq."', '".$fecha."', '".$cmbproducto."', '".$cmbsubproducto."','".$txtunidades."', '".$txtpeso."', '".$txtgrupo."','".$id_paquete."','".$id_lote."','".$NroSA."','".$leyes_grupo."')";
 								//echo "Insert N 2:    ".$insertar."<br>";
-								mysqli_query($link, $insertar);
+								mysqli_query($link,$insertar);
 							}
 							//--------------------"Ingreso" de Nro de Solicitud de Analisis-----------------------------------------------------------
 							if($cmbsubproducto =='16' || $cmbsubproducto =='17' || $cmbsubproducto =='49' || $cmbsubproducto =='57')
@@ -1411,7 +1426,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 								$actualizar.= " and cod_estado='a' and peso_paquetes='".$txtpeso."' and num_unidades='".$txtunidades."' ";
 								$actualizar.= " and cod_grupo='".$txtgrupo."' and cod_cuba='".$txtcuba."' ";
 								//echo $actualizar."<br>";					
-								mysqli_query($link, $actualizar);
+								mysqli_query($link,$actualizar);
 							}
 							//--------------------FIN "Ingreso" de Nro de Solicitud de Analisis--------------------------------------------------------
 						}
@@ -1420,7 +1435,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						$consulta.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 						$consulta.= " AND disponibilidad = 'P'";
 						//echo $consulta;
-						$rs3 = mysqli_query($link, $consulta);
+						$rs3 = mysqli_query($link,$consulta);
 						if ($row3 = mysqli_fetch_array($rs3))
 							$fecha_lote = $row3["fecha_creacion_lote"];
 						else
@@ -1428,7 +1443,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						//consulta el cliente (en Enami).
 						$consulta = "SELECT * FROM sec_web.programa_enami";
 						$consulta.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado1 = 'R' AND estado2 <> 'C'";
-						$rs4 = mysqli_query($link, $consulta);
+						$rs4 = mysqli_query($link,$consulta);
 						if ($row4 = mysqli_fetch_array($rs4))
 						{	
 							$cliente = $row4["cod_cliente"];
@@ -1437,7 +1452,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						{	
 							$consulta = "SELECT * FROM sec_web.programa_codelco";
 							$consulta.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado1 = 'R' AND estado2 <> 'C'";
-							$rs5 = mysqli_query($link, $consulta);
+							$rs5 = mysqli_query($link,$consulta);
 							if ($row5 = mysqli_fetch_array($rs5))
 								$cliente = $row5["cod_cliente"];
 							else 
@@ -1449,7 +1464,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							{
 								$insertar = "INSERT INTO sec_web.lote_catodo (cod_bulto,num_bulto,cod_paquete,num_paquete,fecha_creacion_lote,cod_marca,corr_enm,cod_estado,disponibilidad,cod_cliente,fecha_creacion_paquete,unidad)";
 								$insertar.= " VALUES ('".$cod_paq[$cmbcodlote]."','".$txtnumlote."','".$cod_paq[$cmbcodpaq]."','".$txtnumpaq."','".$fecha_lote."','".$txtmarca."','".$cmbinstruccion."','a','P','".$cliente."', '".$fecha."','3')";
-								mysqli_query($link, $insertar);
+								mysqli_query($link,$insertar);
 								//echo "if_Lodos".$insertar."<br>";		
 							}
 						}
@@ -1459,7 +1474,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 								$NroSolAnalisis='';*/
 							$insertar = "INSERT INTO sec_web.lote_catodo (cod_bulto,num_bulto,cod_paquete,num_paquete,fecha_creacion_lote,cod_marca,corr_enm,cod_estado,disponibilidad,cod_cliente,fecha_creacion_paquete,unidad)";
 							$insertar.= " VALUES ('".$cod_paq[$cmbcodlote]."','".$txtnumlote."','".$cod_paq[$cmbcodpaq]."','".$txtnumpaq."','".$fecha_lote."','".$txtmarca."','".$cmbinstruccion."','a','P','".$cliente."', '".$fecha."','".$cmbmedida."')";
-							mysqli_query($link, $insertar);
+							mysqli_query($link,$insertar);
 							//echo "else".$insertar."<br>";	
 						}
 						if (($row2["peso"] >= ($txtpesoprog - $TxtPesoRango)) and ($etapa != 2))
@@ -1469,18 +1484,18 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 							$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 							$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
 							//echo $actualizar."<br>";					
-							mysqli_query($link, $actualizar);
+							mysqli_query($link,$actualizar);
 							
 							if ($listar_ie == "P") //Del Programa.
 							{
 								$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = 'T'";
 								$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
 								//echo $actualizar."<br>";
-								mysqli_query($link, $actualizar);
+								mysqli_query($link,$actualizar);
 								
 								$actualizar = "UPDATE sec_web.programa_enami SET estado2 = 'T'";
 								$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-								mysqli_query($link, $actualizar);							
+								mysqli_query($link,$actualizar);							
 								//echo $actualizar."<br>";
 							}
 							
@@ -1489,7 +1504,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 								$actualizar = "UPDATE sec_web.instruccion_virtual SET estado = 'T'";
 								$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."'";
 								//echo $actualizar."<br>";
-								mysqli_query($link, $actualizar);															
+								mysqli_query($link,$actualizar);															
 							}
 							
 							$mensaje = "La I.E Completo con el Peso Programado";
@@ -1517,7 +1532,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$linea.= "&listar_ie=".$listar_ie."&recargapag4=S&txtgrupo=".$txtgrupo;
 				
 				//if (($agrega_paq == "S") and (!isset($mensaje)))
-				if (!isset($mensaje))
+				if ($mensaje=="")
 				{
 					$linea.= "&agrega_paq=S&cmbcodpaq=".$cod_paq[$cmbcodpaq]."&txtnumpaq=".($txtnumpaq + 1);
 				}
@@ -1544,7 +1559,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 
 				$actualizar.= " WHERE lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."' AND fecha_recepcion = '".$fecha_aux."'";
 				//echo $actualizar."<br>";
-				mysqli_query($link, $actualizar);				
+				mysqli_query($link,$actualizar);				
 			}
 			else //Modifica Paquete.
 			{
@@ -1552,21 +1567,21 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$actualizar.= "num_unidades = '".$txtunidades."', peso_paquete = '".$txtpeso."'";
 				$actualizar.= " WHERE lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."' AND fecha_creacion_paquete = '".$fecha_aux."'";
 				$actualizar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
-				mysqli_query($link, $actualizar);
+				mysqli_query($link,$actualizar);
 				//echo $actualizar."<br>";
 				
 				$actualizar = "UPDATE sec_web.paquete_catodo SET fecha_creacion_paquete = '".$fecha."',";
 				$actualizar.= "num_unidades = '".$txtunidades."', peso_paquetes = '".$txtpeso."'";
 				$actualizar.= " WHERE cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 				$actualizar.= " AND fecha_creacion_paquete = '".$fecha_aux."'";
-				mysqli_query($link, $actualizar);				
+				mysqli_query($link,$actualizar);				
 				//echo $actualizar."<br>";
 				$actualizar = "UPDATE sec_web.lote_catodo SET fecha_creacion_paquete = '".$fecha."'";
 				$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 				$actualizar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 				$actualizar.= " AND fecha_creacion_paquete = '".$fecha_aux."'";
 				//echo $actualizar."<br>";
-				mysqli_query($link, $actualizar);
+				mysqli_query($link,$actualizar);
 				//----.
 				$peso_prog = 0;
 				//Consulta el peso programado de I.E.
@@ -1575,10 +1590,10 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta = "SELECT * FROM sec_web.programa_enami";
 					$consulta.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado1 = 'R'";
 					$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{
-						$peso_prog = ($row[cantidad_embarque] * 1000);
+						$peso_prog = ($row["cantidad_embarque"] * 1000);
 					}
 					else
 					{	
@@ -1586,7 +1601,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						$consulta.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado1 = 'R'";
 						$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 										
-						$rs1 = mysqli_query($link, $consulta);				
+						$rs1 = mysqli_query($link,$consulta);				
 						if ($row1 = mysqli_fetch_array($rs1))
 							$peso_prog = ($row1["cantidad_programada"] * 1000);
 						else
@@ -1597,7 +1612,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				{
 					$consulta = "SELECT * FROM sec_web.instruccion_virtual";
 					$consulta.= " WHERE corr_virtual = '".$cmbinstruccion."'";
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					if ($row = mysqli_fetch_array($rs))
 						$peso_prog = $row["peso_programado"];
 					else
@@ -1611,7 +1626,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
 				$consulta.= "  AND t2.cod_estado = 'a'";
 				//echo $consulta."<br>";
-				$rs2 = mysqli_query($link, $consulta);
+				$rs2 = mysqli_query($link,$consulta);
 				$row2 = mysqli_fetch_array($rs2);
 				if ($row2["peso"] >= ($peso_prog - $TxtPesoRango))
 				{
@@ -1630,17 +1645,17 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$disponibilidad."'";
 					$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 					$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
-					mysqli_query($link, $actualizar);
+					mysqli_query($link,$actualizar);
 						
 					//Actualiza Programa.			
 					$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = '".$estado2."'";
 					$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
 					//echo $actualizar."<br>";
-					mysqli_query($link, $actualizar);
+					mysqli_query($link,$actualizar);
 					
 					$actualizar = "UPDATE sec_web.programa_enami SET estado2 = '".$estado2."'";
 					$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-					mysqli_query($link, $actualizar);							
+					mysqli_query($link,$actualizar);							
 					//echo $actualizar."<br>";			
 				}
 				else //Virtual.
@@ -1649,12 +1664,12 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$disponibilidad."'";
 					$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 					$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
-					mysqli_query($link, $actualizar);				
+					mysqli_query($link,$actualizar);				
 					//Actualiza Programa.				
 					$actualizar = "UPDATE sec_web.instruccion_virtual SET estado = '".$estado2."'";
 					$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."'";
 					//echo $actualizar."<br>";
-					mysqli_query($link, $actualizar);				
+					mysqli_query($link,$actualizar);				
 				}											
 			}
 			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
@@ -1672,7 +1687,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$actualizar.= " WHERE fecha_produccion = '".$fecha_aux."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 					$actualizar.= " AND cod_grupo = '".$txtgrupo."' AND cod_muestra = '".$txtmuestra."'";
 					$actualizar.= " AND cod_cuba = '".$txtcuba."' AND cod_lado = '".$txtlado."'";
-					mysqli_query($link, $actualizar);
+					mysqli_query($link,$actualizar);
 					//echo $actualizar."<br>";
 				}
 				else
@@ -1681,7 +1696,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$actualizar.= " WHERE fecha_produccion = '".$fecha_aux."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 					$actualizar.= " AND cod_grupo = '".$txtgrupo."' AND cod_muestra = '".$txtmuestra."'";
 					$actualizar.= " AND cod_cuba = '".$txtcuba."' AND cod_lado = '".$txtlado."'";
-					mysqli_query($link, $actualizar);
+					mysqli_query($link,$actualizar);
 					//echo $actualizar."<br>";				
 				}						
 			}
@@ -1690,7 +1705,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$actualizar = "UPDATE sec_web.produccion_catodo SET fecha_produccion = '".$fecha."', peso_produccion = '".$txtpeso."', peso_tara = '".$txtpesotara."'";		
 					$actualizar.= " WHERE fecha_produccion = '".$fecha_aux."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 					$actualizar.= " AND hora = '".$hora_aux."'";
-					mysqli_query($link, $actualizar);
+					mysqli_query($link,$actualizar);
 					//echo $actualizar."<br>";
 				}
 			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
@@ -1710,7 +1725,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " AND t2.num_paquete = '".$txtnumpaq."' ";
 			$consulta.= "  AND t2.cod_estado = 'a'";
 			//echo $consulta."<br>";
-			$RsCom = mysqli_query($link, $consulta);
+			$RsCom = mysqli_query($link,$consulta);
 			$FilaComp = mysqli_fetch_array($RsCom);
 			$PesoBD=$FilaComp["peso_paquetes"];
 			$EnviarMail="N";
@@ -1728,12 +1743,12 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$cod_paq[$cmbcodpaq]."'";
 			$actualizar.= " AND num_paquete = '".$txtnumpaq."' AND cod_estado = 'a'";
 			//echo $actualizar;
-			mysqli_query($link, $actualizar);
+			mysqli_query($link,$actualizar);
 			
 			
 			
 			if($EnviarMail=="S")
-				EnvioCorreo($cod_paq[$cmbcodpaq],$txtnumlote,$cmbinstruccion,$txtpeso,$txtnumpaq,$cmbproducto,$cmbsubproducto);
+				EnvioCorreo($cod_paq[$cmbcodpaq],$txtnumlote,$cmbinstruccion,$txtpeso,$txtnumpaq,$cmbproducto,$cmbsubproducto,$link);
 			
 			if($cmbproducto=='18'||$cmbproducto=='48')//SOLO PARA LAMINAS Y CATODOS
 			{
@@ -1741,7 +1756,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$actualizar.= ", num_unidades = '".$txtunidades."', peso_paquetes = '".$txtpeso."', id_paquete='".$id_paquete."' ";
 				$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$cod_paq[$cmbcodpaq]."'";
 				$actualizar.= " AND num_paquete = '".$txtnumpaq."'";
-				mysqli_query($link, $actualizar);
+				mysqli_query($link,$actualizar);
 			}
 			//echo $actualizar."<br>";
 			$actualizar = "UPDATE sec_web.lote_catodo SET fecha_creacion_paquete = '".$fecha."'";;
@@ -1749,7 +1764,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$actualizar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_paquete = '".$cod_paq[$cmbcodpaq]."'";
 			$actualizar.= " AND num_paquete = '".$txtnumpaq."' AND corr_enm = '".$cmbinstruccion."'";
 			$actualizar.= " AND cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
-			mysqli_query($link, $actualizar);
+			mysqli_query($link,$actualizar);
 			
 			/*if($cmbsubproducto =='16' || $cmbsubproducto =='17' || $cmbsubproducto =='49')
 			{
@@ -1757,7 +1772,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 				$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
 				//echo $actualizar."<br>";					
-				mysqli_query($link, $actualizar);
+				mysqli_query($link,$actualizar);
 			}*/
 			//echo $actualizar."<br>";
 			$peso_prog = 0;
@@ -1767,10 +1782,10 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$consulta = "SELECT * FROM sec_web.programa_enami";
 				$consulta.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado1 = 'R'";
 				$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				if ($row = mysqli_fetch_array($rs))
 				{
-					$peso_prog = ($row[cantidad_embarque] * 1000);
+					$peso_prog = ($row["cantidad_embarque"] * 1000);
 				}
 				else
 				{	
@@ -1778,7 +1793,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado1 = 'R'";
 					$consulta.= " AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 									
-					$rs1 = mysqli_query($link, $consulta);				
+					$rs1 = mysqli_query($link,$consulta);				
 					if ($row1 = mysqli_fetch_array($rs1))
 						$peso_prog = ($row1["cantidad_programada"] * 1000);
 					else
@@ -1789,7 +1804,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			{
 				$consulta = "SELECT * FROM sec_web.instruccion_virtual";
 				$consulta.= " WHERE corr_virtual = '".$cmbinstruccion."'";
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				if ($row = mysqli_fetch_array($rs))
 					$peso_prog = $row["peso_programado"];
 				else
@@ -1803,7 +1818,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 			$consulta.= " WHERE t1.cod_bulto = '".$cod_paq[$cmbcodlote]."' AND t1.num_bulto = '".$txtnumlote."'";
 			$consulta.= "  AND t2.cod_estado = 'a'";
 			//echo $consulta."<br>";
-			$rs2 = mysqli_query($link, $consulta);
+			$rs2 = mysqli_query($link,$consulta);
 			$row2 = mysqli_fetch_array($rs2);
 			
 			if ($row2["peso"] >= ($peso_prog - $TxtPesoRango))
@@ -1823,15 +1838,15 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$disponibilidad."'";
 				$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 				$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
-				mysqli_query($link, $actualizar);
+				mysqli_query($link,$actualizar);
 				//Actualiza Programa.			
 				$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = '".$estado2."'";
 				$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
 				//echo $actualizar."<br>";
-				mysqli_query($link, $actualizar);
+				mysqli_query($link,$actualizar);
 				$actualizar = "UPDATE sec_web.programa_enami SET estado2 = '".$estado2."'";
 				$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-				mysqli_query($link, $actualizar);							
+				mysqli_query($link,$actualizar);							
 				//echo $actualizar."<br>";			
 			}
 			else //Virtual.
@@ -1840,12 +1855,12 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 				$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$disponibilidad."'";
 				$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 				$actualizar.= " AND corr_enm = '".$cmbinstruccion."'";
-				mysqli_query($link, $actualizar);				
+				mysqli_query($link,$actualizar);				
 				//Actualiza Programa.				
 				$actualizar = "UPDATE sec_web.instruccion_virtual SET estado = '".$estado2."'";
 				$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."'";
 				//echo $actualizar."<br>";
-				mysqli_query($link, $actualizar);				
+				mysqli_query($link,$actualizar);				
 			}
 			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 			$linea.= "&cmbsubproducto=".$cmbsubproducto;
@@ -1873,7 +1888,7 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta.= " AND t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
 				 	$consulta.= " WHERE t1.lote_origen = '"$txtlote."' AND t1.recargo = '".$txtrecargo."' AND t2.cod_estado = 'c'";                                                                                        
 					echo $consulta."<br>";
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{                       
 						$mensaje = "No Se Puede Eliminar El Lote, Hay Un Paquete Cerrado";
@@ -1890,36 +1905,36 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 						$consulta.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 						$consulta.= " AND fecha_creacion_paquete = '".$fecha_aux."' AND cod_estado = 'a'";                                   
 						echo $consulta."<br>";
-						$rs1 = mysqli_query($link, $consulta);
+						$rs1 = mysqli_query($link,$consulta);
 						while ($row1 = mysqli_fetch_array($rs1))
 						{
 							$eliminar = "DELETE FROM sec_web.paquete_catodo";
 							$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-							$eliminar.= " AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."' AND cod_estado = 'a'";
+							$eliminar.= " AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."' AND cod_estado = 'a'";
 							$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 							$eliminar.= " AND fecha_creacion_paquete = '".$fecha_aux."' AND cod_estado = 'a'";       
 							echo "PAQ".$eliminar."<br>";
-							//mysqli_query($link, $eliminar);
+							//mysqli_query($link,$eliminar);
 							$eliminar = "DELETE FROM sec_web.paquete_catodo_externo";
 							$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-							$eliminar.= " AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."' AND cod_estado = 'a'";
+							$eliminar.= " AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."' AND cod_estado = 'a'";
 							$eliminar.= " AND lote_origen = '".$txtlote."' AND recargo = '".$txtrecargo."'";
 							$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 							$eliminar.= " AND fecha_creacion_paquete = '".$fecha_aux."' AND cod_estado = 'a'";       
 							echo "PAQEXT".$eliminar."<br>";
-							//mysqli_query($link, $eliminar);
+							//mysqli_query($link,$eliminar);
 							$eliminar = "DELETE FROM sec_web.lote_catodo";
 							$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-							$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."'";
+							$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."'";
 							echo "LOTE".$eliminar."<br>";
-							 //mysqli_query($link, $eliminar);                                                                                                                                                                                                                  
+							 //mysqli_query($link,$eliminar);                                                                                                                                                                                                                  
 						}
 						$eliminar = "DELETE FROM sec_web.recepcion_catodo_externo";
 						$eliminar.= " WHERE lote_origen = '".$txtlote."' AND recargo = '".$txtrecargo."'";
 						$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 						$eliminar.= " AND fecha_recepcion = '".$fecha_aux."' AND cod_estado = 'a'";       
 						echo "RECP".$eliminar."<br>";
-						//mysqli_query($link, $eliminar);
+						//mysqli_query($link,$eliminar);
 					}                                  
 				}
 				else
@@ -1931,25 +1946,25 @@ header("Location:sec_ing_produccion_popup2_2.php?cod_grupo=".$grupo."&cmbproduct
 					$consulta.= " AND fecha_creacion_paquete = '".$fecha_aux."' AND cod_estado = 'a'";                              
 					$consulta.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";  
 					//echo "SELPAQ".$consulta."<br>";
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{                       
 						$eliminar = "DELETE FROM sec_web.paquete_catodo";
 						$eliminar.= " WHERE cod_paquete = '".$cmbcodpaq."' AND num_paquete = '".$txtnumpaq."'";
 						$eliminar.= " AND fecha_creacion_paquete = '".$fecha_aux."' AND cod_estado = 'a'";
 						$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";  
-						mysqli_query($link, $eliminar);
+						mysqli_query($link,$eliminar);
 						$eliminar = "DELETE FROM sec_web.lote_catodo";
 						$eliminar.= " WHERE cod_paquete = '".$cmbcodpaq."' AND num_paquete = '".$txtnumpaq."'";
 						$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$fecha_aux."'";
-						mysqli_query($link, $eliminar);                                    
+						mysqli_query($link,$eliminar);                                    
 						//echo "ELILOTE".$eliminar."<br>";        
 						$eliminar = "DELETE FROM sec_web.paquete_catodo_externo";
 						$eliminar.= " WHERE cod_paquete = '".$cmbcodpaq."' AND num_paquete = '".$txtnumpaq."'";
 						$eliminar.= " AND fecha_creacion_paquete = '".$fecha_aux."'";
 						$eliminar.= " AND lote_origen = '".$txtlote."' AND recargo = '".$txtrecargo."'";
 						$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";  
-						mysqli_query($link, $eliminar);                                                                                                           
+						mysqli_query($link,$eliminar);                                                                                                           
 						//echo "ELIPAQEXT".$eliminar."<br>";
 					}
 					else
@@ -1984,7 +1999,7 @@ if ($proceso == "E")
 				$consulta.= " AND t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
 				$consulta.= " WHERE t1.lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND t1.recargo = '".$txtrecargo."' AND t2.cod_estado = 'c'";								
 			//echo "Consulta paq_ext".$consulta."<br>";
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				if ($row = mysqli_fetch_array($rs))
 				{		
 					$mensaje = "No Se Puede Eliminar El Lote, Hay Un Paquete Cerrado";
@@ -1992,36 +2007,36 @@ if ($proceso == "E")
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;					
+					//break;					
 				}
 				else 
 				{
 					$consulta = "SELECT * FROM sec_web.paquete_catodo_externo";
 					$consulta.= " WHERE lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."'";
 					$consulta.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
-					$rs1 = mysqli_query($link, $consulta);
+					$rs1 = mysqli_query($link,$consulta);
 					//echo "Consulta Paquetes ext".$consulta."<br>";
 					while ($row1 = mysqli_fetch_array($rs1))
 					{
 						$eliminar = "DELETE FROM sec_web.paquete_catodo";
 						$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-						$eliminar.= " AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."' AND cod_estado = 'a'";
+						$eliminar.= " AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."' AND cod_estado = 'a'";
 						$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 						//echo "PAQ".$eliminar."<br>";
-						mysqli_query($link, $eliminar);
+						mysqli_query($link,$eliminar);
 						
 						$eliminar = "DELETE FROM sec_web.paquete_catodo_externo";
 						$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-						$eliminar.= " AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."' AND cod_estado = 'a'";
+						$eliminar.= " AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."' AND cod_estado = 'a'";
 						$eliminar.= " AND lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."'";
 						$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 						//echo "PAQEXT".$eliminar."<br>";
-						mysqli_query($link, $eliminar);
+						mysqli_query($link,$eliminar);
 						$eliminar = "DELETE FROM sec_web.lote_catodo";
 						$eliminar.= " WHERE cod_paquete = '".$row1["cod_paquete"]."' AND num_paquete = '".$row1["num_paquete"]."'";
-						$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$row1[fecha_creacion_paquete]."'";
+						$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$row1["fecha_creacion_paquete"]."'";
 						//echo "LOTE".$eliminar."<br>";
-						mysqli_query($link, $eliminar);																		
+						mysqli_query($link,$eliminar);																		
 					}
 					
 					$eliminar = "DELETE FROM sec_web.recepcion_catodo_externo";
@@ -2029,7 +2044,7 @@ if ($proceso == "E")
 					$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 					$eliminar.= " AND fecha_recepcion = '".$fecha_aux."'"; 
 					//echo "RECEP".$eliminar."<br>";
-					mysqli_query($link, $eliminar);
+					mysqli_query($link,$eliminar);
 				}			
 			}
 			else
@@ -2041,26 +2056,26 @@ if ($proceso == "E")
 				$consulta.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'"; 	
 				//echo "consulta paq".$consulta;
 					
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				if ($row = mysqli_fetch_array($rs))
 				{								
 					$eliminar = "DELETE FROM sec_web.paquete_catodo";
 					$eliminar.= " WHERE cod_paquete = '".$cmbcodpaq."' AND num_paquete = '".$txtnumpaq."'";
 					$eliminar.= " AND fecha_creacion_paquete = '".$fecha_aux."' AND cod_estado = 'a'";
 					$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
-					mysqli_query($link, $eliminar);
+					mysqli_query($link,$eliminar);
 					//echo "uno borra paquete".$eliminar."<br>";
 					$eliminar = "DELETE FROM sec_web.lote_catodo";
 					$eliminar.= " WHERE cod_paquete = '".$cmbcodpaq."' AND num_paquete = '".$txtnumpaq."'";
 					$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$fecha_aux."'";
-					mysqli_query($link, $eliminar);					
+					mysqli_query($link,$eliminar);					
 					//echo "dos elim lote".$eliminar."<br>";
 					$eliminar = "DELETE FROM sec_web.paquete_catodo_externo";
 					$eliminar.= " WHERE cod_paquete = '".$cmbcodpaq."' AND num_paquete = '".$txtnumpaq."'";
 					$eliminar.= " AND fecha_creacion_paquete = '".$fecha_aux."'";
 					$eliminar.= " AND lote_origen = '".str_pad($txtlote,8,'0',STR_PAD_LEFT)."' AND recargo = '".$txtrecargo."'";
 					$eliminar.= " and cod_producto  = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'"; 
-					mysqli_query($link, $eliminar);										
+					mysqli_query($link,$eliminar);										
 					//echo "elimina paq ext".$eliminar."<br>";
 				}
 				else
@@ -2070,7 +2085,7 @@ if ($proceso == "E")
 					echo 'alert("'.$mensaje.'");';
 					echo 'window.history.back()';
 					echo '</script>';
-					break;
+					//break;
 				}
 			}
 			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
@@ -2090,7 +2105,7 @@ if ($proceso == "E")
 					$eliminar.= " AND cod_grupo = '".$txtgrupo."' AND cod_cuba = '".$txtcuba."' AND cod_muestra = '".$txtmuestra."'";
 					$eliminar.= " AND cod_lado = '".$txtlado."'";
 					//echo $eliminar."<br>";
-					mysqli_query($link, $eliminar);
+					mysqli_query($link,$eliminar);
 				}
 				else
 				{
@@ -2099,7 +2114,7 @@ if ($proceso == "E")
 					$eliminar.= " AND cod_grupo = '".$txtgrupo."' AND cod_cuba = '".$txtcuba."' AND cod_muestra = '".$txtmuestra."'";
 					$eliminar.= " AND cod_lado = '".$txtlado."'";
 					//echo $eliminar."<br>";
-					mysqli_query($link, $eliminar);					
+					mysqli_query($link,$eliminar);					
 				}
 			}
 			else if (($cmbproducto == "57") or ($cmbproducto == 64) or ($cmbproducto == 66) or ($cmbproducto == "48" and ($cmbsubproducto == 8 or $cmbsubproducto == 9 or $cmbsubproducto == 3 or $cmbsubproducto == 6 or $cmbsubproducto == 10)))
@@ -2107,7 +2122,7 @@ if ($proceso == "E")
 					$eliminar = "DELETE FROM sec_web.produccion_catodo";
 					$eliminar.= " WHERE fecha_produccion = '".$fecha_aux."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 					$eliminar.= " AND hora = '".$hora_aux."'";
-					mysqli_query($link, $eliminar);
+					mysqli_query($link,$eliminar);
 				}
 			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 			$linea.= "&cmbsubproducto=".$cmbsubproducto;
@@ -2122,22 +2137,22 @@ if ($proceso == "E")
 				$eliminar = "DELETE FROM sec_web.paquete_catodo";
 				$eliminar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
 				$eliminar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."' AND cod_estado = 'a'";
-				mysqli_query($link, $eliminar);
+				mysqli_query($link,$eliminar);
 				
 				$eliminar = "DELETE FROM sec_web.lote_catodo";
 				$eliminar.= " WHERE cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 				$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$fecha_aux."'";
-				mysqli_query($link, $eliminar);			
+				mysqli_query($link,$eliminar);			
 
 				//Agregado por Adan 08-05-2012
 				$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
-				$rs = mysqli_query($link, $Consulta);
+				$rs = mysqli_query($link,$Consulta);
 				if ($row = mysqli_fetch_array($rs))
 				{
 					$TxtPesoRango=$row["peso_rango"];
 				}
 				$Consulta="Select cantidad_programada from  sec_web.programa_codelco where corr_codelco = '".$cmbinstruccion."' ";
-				$rs = mysqli_query($link, $Consulta);
+				$rs = mysqli_query($link,$Consulta);
 				if ($row = mysqli_fetch_array($rs))
 				{
 					$TxtCantidad=$row["cantidad_programada"];
@@ -2147,7 +2162,7 @@ if ($proceso == "E")
 				$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
 				$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete  AND t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
 				$consulta.= " WHERE t1.corr_enm = '".$cmbinstruccion."'";
-				$rs = mysqli_query($link, $consulta);
+				$rs = mysqli_query($link,$consulta);
 				$row = mysqli_fetch_array($rs);
 				$TxtAcumulado = $row["peso"];
 				
@@ -2155,16 +2170,16 @@ if ($proceso == "E")
 				{
 					$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = 'T'";
 					$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-					mysqli_query($link, $actualizar);
+					mysqli_query($link,$actualizar);
 					$actualizar = "UPDATE sec_web.programa_enami SET estado2 = 'T'";
 					$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-					mysqli_query($link, $actualizar);	
+					mysqli_query($link,$actualizar);	
 					$actualizar = "UPDATE sec_web.instruccion_virtual SET estado = 'T'";
 					$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."'";
-					mysqli_query($link, $actualizar);
+					mysqli_query($link,$actualizar);
 					$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = 'T'";
 					$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."'";
-					mysqli_query($link, $actualizar);		
+					mysqli_query($link,$actualizar);		
 				}
 				else
 				{
@@ -2178,13 +2193,13 @@ if ($proceso == "E")
 					}
 					$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = '".$Estado."'";
 					$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-					mysqli_query($link, $actualizar);
+					mysqli_query($link,$actualizar);
 					$actualizar = "UPDATE sec_web.programa_enami SET estado2 = '".$Estado."'";
 					$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-					mysqli_query($link, $actualizar);	
+					mysqli_query($link,$actualizar);	
 					$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$Estado."'";
 					$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."'";
-					mysqli_query($link, $actualizar);	
+					mysqli_query($link,$actualizar);	
 				}
 				//Fin Agregado 	Adan 
 			}
@@ -2197,7 +2212,7 @@ if ($proceso == "E")
 					$eliminar.= " WHERE cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 					$eliminar.= " AND num_pesada = '2' AND fecha_pesaje = '".$fecha_aux."'";
 					//echo $eliminar."<br>";
-					mysqli_query($link, $eliminar);										
+					mysqli_query($link,$eliminar);										
 				}
 				else
 				{
@@ -2208,7 +2223,7 @@ if ($proceso == "E")
 					$consulta.= " AND corr_ie = '".$cmbinstruccion."' AND num_pesada = '2' AND fecha_pesaje >= '".$fecha_aux."'";
 					//echo $consulta."<br>";
 					
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{
 						$mensaje = "No Se Puede Eliminar, Debe Eliminar La 2 Pesada.";
@@ -2217,7 +2232,7 @@ if ($proceso == "E")
 						echo 'alert("'.$mensaje.'");';
 						echo 'window.history.back()';
 						echo '</script>';
-						break;
+						//break;
 					}
 					else
 					{					
@@ -2226,19 +2241,19 @@ if ($proceso == "E")
 						$eliminar.= " WHERE fecha_creacion_paquete = '".$fecha_aux."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '11'";
 						$eliminar.= " AND cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."' AND cod_estado = 'a'";						
 						//echo $eliminar."<br>";
-						mysqli_query($link, $eliminar);
+						mysqli_query($link,$eliminar);
 											
 						//Eliminar en lote_catodo.
 						$eliminar = "DELETE FROM sec_web.lote_catodo";
 						$eliminar.= " WHERE cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 						$eliminar.= " AND cod_estado = 'a' AND fecha_creacion_paquete = '".$fecha_aux."'";
 						//echo $eliminar."<br>";
-						mysqli_query($link, $eliminar);								
+						mysqli_query($link,$eliminar);								
 						//Eliminar en pesaje_lodo.
 						$eliminar = "DELETE FROM sec_web.pesaje_lodos";
 						$eliminar.= " WHERE cod_paquete = '".$cod_paq[$cmbcodpaq]."' AND num_paquete = '".$txtnumpaq."'";
 						$eliminar.= " AND num_pesada = '1' AND fecha_pesaje = '".$fecha_aux."'";					
-						mysqli_query($link, $eliminar);
+						mysqli_query($link,$eliminar);
 						//echo $eliminar."<br>";					
 					}
 				}				
@@ -2253,7 +2268,7 @@ if ($proceso == "E")
 					$consulta.= " FROM sec_web.lote_catodo";					
 					$consulta.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 					$consulta.= " AND corr_enm = '".$cmbinstruccion."' AND cod_estado = 'a'";
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					$row = mysqli_fetch_array($rs);
 					if ($row["total"] == 0)
 					{
@@ -2269,29 +2284,29 @@ if ($proceso == "E")
 						$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = 'P'";
 						$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 						$actualizar.= " AND corr_enm = '".$cmbinstruccion."' AND cod_estado = 'a'";
-						mysqli_query($link, $actualizar);
+						mysqli_query($link,$actualizar);
 						//echo $actualizar."<br>";						
 					}
 					//Actualiza Programa.			
 					$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = '".$estado2_aux."', estado1 = '".$estado1_aux."'";
 					$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
 					//echo $actualizar."<br>";
-					mysqli_query($link, $actualizar);
+					mysqli_query($link,$actualizar);
 					
 					$actualizar = "UPDATE sec_web.programa_enami SET estado2 = '".$estado2_aux."', estado1 = '".$estado1_aux."'";
 					$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-					mysqli_query($link, $actualizar);							
+					mysqli_query($link,$actualizar);							
 					
 					
 					//Agregado por Adan 08-05-2012
 					$Consulta="Select peso_rango from  sec_web.sec_parametro_peso";
-					$rs = mysqli_query($link, $Consulta);
+					$rs = mysqli_query($link,$Consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{
 						$TxtPesoRango=$row["peso_rango"];
 					}
 					$Consulta="Select cantidad_programada from  sec_web.programa_codelco where corr_codelco = '".$cmbinstruccion."' ";
-					$rs = mysqli_query($link, $Consulta);
+					$rs = mysqli_query($link,$Consulta);
 					if ($row = mysqli_fetch_array($rs))
 					{
 						$TxtCantidad=$row["cantidad_programada"];
@@ -2301,7 +2316,7 @@ if ($proceso == "E")
 					$consulta.= " INNER JOIN sec_web.paquete_catodo AS t2";
 					$consulta.= " ON t1.cod_paquete = t2.cod_paquete AND t1.num_paquete = t2.num_paquete  AND t1.fecha_creacion_paquete = t2.fecha_creacion_paquete";
 					$consulta.= " WHERE t1.corr_enm = '".$cmbinstruccion."'";
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					$row = mysqli_fetch_array($rs);
 					$TxtAcumulado = $row["peso"];
 					
@@ -2309,16 +2324,16 @@ if ($proceso == "E")
 					{
 						$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = 'T'";
 						$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-						mysqli_query($link, $actualizar);
+						mysqli_query($link,$actualizar);
 						$actualizar = "UPDATE sec_web.programa_enami SET estado2 = 'T'";
 						$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-						mysqli_query($link, $actualizar);	
+						mysqli_query($link,$actualizar);	
 						$actualizar = "UPDATE sec_web.instruccion_virtual SET estado = 'T'";
 						$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."'";
-						mysqli_query($link, $actualizar);
+						mysqli_query($link,$actualizar);
 						$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = 'T'";
 						$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."'";
-						mysqli_query($link, $actualizar);		
+						mysqli_query($link,$actualizar);		
 					}
 					else
 					{
@@ -2332,13 +2347,13 @@ if ($proceso == "E")
 						}
 						$actualizar = "UPDATE sec_web.programa_codelco SET estado2 = '".$Estado."'";
 						$actualizar.= " WHERE corr_codelco = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-						mysqli_query($link, $actualizar);
+						mysqli_query($link,$actualizar);
 						$actualizar = "UPDATE sec_web.programa_enami SET estado2 = '".$Estado."'";
 						$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."' AND estado2 NOT IN ('C','A')";
-						mysqli_query($link, $actualizar);	
+						mysqli_query($link,$actualizar);	
 						$actualizar = "UPDATE sec_web.lote_catodo SET disponibilidad = '".$Estado."'";
 						$actualizar.= " WHERE corr_enm = '".$cmbinstruccion."'";
-						mysqli_query($link, $actualizar);	
+						mysqli_query($link,$actualizar);	
 					}
 					//Fin Agregado 	Adan 
 				}
@@ -2348,7 +2363,7 @@ if ($proceso == "E")
 					$consulta.= " FROM sec_web.lote_catodo";
 					$consulta.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 					$consulta.= " AND corr_enm = '".$cmbinstruccion."' AND cod_estado = 'a'";
-					$rs = mysqli_query($link, $consulta);
+					$rs = mysqli_query($link,$consulta);
 					$row = mysqli_fetch_array($rs);
 					if ($row["total"] == 0)
 						$estado_aux = "N";
@@ -2360,13 +2375,13 @@ if ($proceso == "E")
 						$actualizar.= " WHERE cod_bulto = '".$cod_paq[$cmbcodlote]."' AND num_bulto = '".$txtnumlote."'";
 						$actualizar.= " AND corr_enm = '".$cmbinstruccion."' AND cod_estado = 'a'";
 						//echo $actualizar."<br>";
-						mysqli_query($link, $actualizar);					
+						mysqli_query($link,$actualizar);					
 					}					
 					//Actualiza Programa.				
 					$actualizar = "UPDATE sec_web.instruccion_virtual SET estado = '".$estado_aux."'";
 					$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."'";
 					//echo $actualizar."<br>";
-					mysqli_query($link, $actualizar);				
+					mysqli_query($link,$actualizar);				
 				}
 			}
 			$linea = "recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
@@ -2379,27 +2394,27 @@ if ($proceso == "E")
 	if ($proceso == "T") //Traspaso de Paquetes.
 	{	
 		reset($checkbox);
-		while (list($c,$v) = each($checkbox))
+		foreach($checkbox as $c=>$v)
 		{							
 			//Replica el Registro en paquete_catodo.
 			$consulta = "SELECT * FROM sec_web.paquete_catodo_externo";
 			$consulta.= " WHERE cod_paquete = '".$cod_paquete[$c]."' AND num_paquete = '".$num_paquete[$c]."'";
 			$consulta.= " AND fecha_creacion_paquete = '".$fecha_creacion[$c]."' AND cod_estado = 'p'";
-			$rs = mysqli_query($link, $consulta);
+			$rs = mysqli_query($link,$consulta);
 			$row = mysqli_fetch_array($rs);
 			
 			$insertar = "INSERT INTO sec_web.paquete_catodo (cod_existencia,cod_paquete,num_paquete,fecha_creacion_paquete,cod_producto,cod_subproducto,cod_lugar,cod_estado,num_unidades,peso_paquetes,cod_grupo,cod_cuba,hora)";
 			$insertar.= " VALUES ('05', '".$cod_paquete[$c]."', '".$num_paquete[$c]."', '".$fecha_creacion[$c]."', '".$row["cod_producto"]."', '".$row["cod_subproducto"]."',";
-			$insertar.= " '".$row[cod_lugar]."','a', '".$row["num_unidades"]."', '".$row[peso_paquete]."', '".$row["cod_grupo"]."', '".$row[cod_cuba]."','".$row[hora]."')";
+			$insertar.= " '".$row["cod_lugar"]."','a', '".$row["num_unidades"]."', '".$row["peso_paquete"]."', '".$row["cod_grupo"]."', '".$row["cod_cuba"]."','".$row["hora"]."')";
 			//echo $insertar."<br>";
-			mysqli_query($link, $insertar);
+			mysqli_query($link,$insertar);
 			
 			//Actualiza el estado en paquete_catodo_externo.			
 			$actualizar = "UPDATE sec_web.paquete_catodo_externo SET cod_estado = 'c'";
 			$actualizar.= " WHERE cod_paquete = '".$cod_paquete[$c]."' AND num_paquete = '".$num_paquete[$c]."'";
 			$actualizar.= " AND fecha_creacion_paquete = '".$fecha_creacion[$c]."' AND cod_estado = 'p'";
 			//echo $actualizar."<br>";
-			mysqli_query($link, $actualizar);
+			mysqli_query($link,$actualizar);
 		}
 		
 		header("Location:sec_ing_produccion_popup_traspaso.php");
@@ -2408,17 +2423,18 @@ if ($proceso == "E")
 	{	
 		$consulta = "SELECT CASE WHEN IFNULL(MAX(corr_virtual),0) = 0 THEN 900000 ELSE (MAX(corr_virtual) + 1) END AS instruccion_virtual";
 		$consulta.= " FROM sec_web.instruccion_virtual";
-		$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link,$consulta);
 		$row = mysqli_fetch_array($rs);
 		$fecha_emb = date("Y").'-12-31';
 		$insertar = "INSERT INTO sec_web.instruccion_virtual (corr_virtual,fecha_embarque,cod_producto,cod_subproducto,descripcion,estado)";
-		$insertar.= " VALUES ('".$row[instruccion_virtual]."', '".$fecha_emb."', '".$cmbproducto."', '".$cmbsubproducto."', 'PSJE', 'N')"; 
+		$insertar.= " VALUES ('".$row["instruccion_virtual"]."', '".$fecha_emb."', '".$cmbproducto."', '".$cmbsubproducto."', 'PSJE', 'N')"; 
 		//echo $insertar."<br>";
-		mysqli_query($link, $insertar);
+		mysqli_query($link,$insertar);
 		$linea.= "tipo_ie=V"; //Virtual.
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
-		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$row[instruccion_virtual];
+		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$row["instruccion_virtual"];
 		$linea.= "&encontro_ie=S&listar_ie=V&recargapag4=S";
 		if ($cmbmovimiento == 1)
 		{	
@@ -2434,10 +2450,11 @@ if ($proceso == "E")
 	{
 		$actualizar = "UPDATE sec_web.instruccion_virtual SET peso_programado = '".$txtpesoprog."'";
 		$actualizar.= " WHERE corr_virtual = '".$cmbinstruccion."' AND cod_producto = '".$cmbproducto."' AND cod_subproducto = '".$cmbsubproducto."'";
-		mysqli_query($link, $actualizar);
+		mysqli_query($link,$actualizar);
 		//echo $actualizar."<br>";
 		$linea.= "tipo_ie=V"; //Virtual.
-		$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&SA_C_STD=".$SA_C_STD."&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		//$linea.= "&recargapag1=S&recargapag2=S&recargapag2=S&recargapag3=S&SA_C_STD=".$SA_C_STD."&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
+		$linea.= "&recargapag1=S&recargapag2=S&recargapag3=S&SA_C_STD=".$SA_C_STD."&cmbmovimiento=".$cmbmovimiento."&cmbproducto=".$cmbproducto;
 		$linea.="&cmbsubproducto=".$cmbsubproducto."&mostrar=S&ano=".$ano."&mes=".$mes."&dia=".$dia;
 		$linea.= "&peso_auto=".$peso_auto."&hh=".$hh."&mm=".$mm."&cmbinstruccion=".$cmbinstruccion;
 		$linea.= "&encontro_ie=S&txtpesoprog=".$txtpesoprog."&peso_prog_ok=S&listar_ie=".$listar_ie."&recargapag4=S";
@@ -2456,7 +2473,7 @@ if ($proceso == "E")
 
 
 
-function EnvioCorreo($CodPaquete,$Lote,$Instruccion,$Peso,$Paquete,$Producto,$SubProducto)
+function EnvioCorreo($CodPaquete,$Lote,$Instruccion,$Peso,$Paquete,$Producto,$SubProducto,$link)
 {
 	require "includes/class.phpmailer.php";	
 	
@@ -2481,12 +2498,12 @@ function EnvioCorreo($CodPaquete,$Lote,$Instruccion,$Peso,$Paquete,$Producto,$Su
 	$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$Producto." AND cod_subproducto='".$SubProducto."'";
 	//echo $consulta;
 	$var1 = $consulta;
-	$rs = mysqli_query($link, $consulta);
+	$rs = mysqli_query($link,$consulta);
 	$row = mysqli_fetch_array($rs);
 	$NomSubProducto=$row["descripcion"];
 	
 	$Consulta="select nombre_subclase from proyecto_modernizacion.sub_clase where cod_clase='3108'";
-	$Resul=mysqli_query($link, $Consulta);
+	$Resul=mysqli_query($link,$Consulta);
 	if($Fila=mysqli_fetch_array($Resul))
 	{
 		$Mensaje='<table width="90%" align="center"  border="0" cellpadding="0"  cellspacing="0">';
