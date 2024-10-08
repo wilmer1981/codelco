@@ -69,7 +69,7 @@ function Desbloquear(Valores,ValoresSA,Tipo)
 	var Frm=document.FrmDesbloquearLeyes;
 	if (Frm.TxtPassword.value=='')
 	{
-		alert("Debe Ingresar Contrase�a");
+		alert("Debe Ingresar Contraseña");
 		Frm.TxtPassword.focus();
 		return;
 	}
