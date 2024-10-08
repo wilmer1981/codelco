@@ -681,7 +681,7 @@ function ValidaLote()
 		{
 			alert("Debe Ingresar Peso Programado");
 			f.txtnumlote.value = "";
-			return;
+			return false;
 		}
 	}	
 
@@ -699,7 +699,7 @@ function ValidaLote()
 	if (f.txtnumlote.value == "")
 	{	
 		alert("Debe Ingresar El Lote Inicial");
-		return;
+		return false;
 	}
 	
 	if ((f.pesoacumulado.value != "") && (f.pesoacumulado.value != 0))
@@ -1635,15 +1635,16 @@ function ValGrupo()
 	if (isNaN(parseInt(f.txtgrupo.value)))
 	{
 		alert("El Grupo No Es Valido");
+		f.txtgrupo.value="";
 		f.txtgrupo.focus();
-		return;
+		return false;
 	}
 	
 	if ((parseInt(Number(f.txtgrupo.value)) != 99) && ((parseInt(Number(f.txtgrupo.value)) < 1) || (parseInt(Number(f.txtgrupo.value)) > 49)))
 	{	
 		alert("El Grupo Esta Fuera del Rango 1 al 49");
 		f.txtgrupo.focus();
-		return;
+		return false;
 	}
 	else
 	{
@@ -1691,7 +1692,7 @@ function ValCuba()
 	{
 		if (f.txtcuba.value.length == 1) 
 			f.txtcuba.value = '0' + f.txtcuba.value;		
-		return;
+		return false;
 	}		
 	
 	if ((f.txtcuba.value != 'f') && (f.txtcuba.value != 'F'))
@@ -1703,9 +1704,10 @@ function ValCuba()
 				echo "alert('El Correlativo No Es Valido');";
 			else
 				echo "alert('La Cuba No Es Valido');";
-			?>			
+			?>	
+			f.txtcuba.value="";			
 			f.txtcuba.focus();
-			return;
+			return false;
 		}
 
 		<?php
@@ -1752,7 +1754,7 @@ function ValLado()
 	var f = document.frm1;
 	
 	if (f.txtlado.value == "")
-		return;
+		return false;
 
 	if ((f.cmbmovimiento.value == 2) && (f.cmbproducto.value == 18) && (f.cmbsubproducto.value == 3) && (f.txtgrupo.value == 99))
 	{
@@ -1760,7 +1762,7 @@ function ValLado()
 		{
 			alert("Debe Ingresar A: (Grado A), B: (B-115), R: (Rechazado)")
 			f.txtlado.focus();
-			return;			
+			return false;			
 		}
 		else
 			f.txtlado.value = f.txtlado.value.toUpperCase();
@@ -1768,8 +1770,9 @@ function ValLado()
 	else if ((f.txtlado.value.toUpperCase() != "P") && (f.txtlado.value.toUpperCase() != "T"))
 		{
 			alert("El Lado No Es Valido");
+			f.txtlado.value="";
 			f.txtlado.focus();
-			return;
+			return false;
 		}
 		else 
 			f.txtlado.value = f.txtlado.value.toUpperCase();
@@ -1785,8 +1788,9 @@ function ValMuestra()
 	if ((f.txtmuestra.value.toUpperCase() != "S") && (f.txtmuestra.value.toUpperCase() != "N"))
 	{
 		alert("El Valor No Es Valido");
+		f.txtmuestra.value="";
 		f.txtmuestra.focus();
-		return;
+		return false;
 	}
 	else
 	{ 
