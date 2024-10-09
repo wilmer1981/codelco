@@ -16,7 +16,7 @@ if(isset($_REQUEST["LimitIni"])) {
 if(isset($_REQUEST["LimitFin"])) {
 	$LimitFin = $_REQUEST["LimitFin"];
 }else{
-	$LimitFin = 30;
+	$LimitFin = 10;
 }
 if(isset($_REQUEST["AnoIni"])) {
 	$AnoIni = $_REQUEST["AnoIni"];
@@ -234,8 +234,9 @@ function Recarga(URL,LimiteIni)
 		}
 		else
 		{
-			$nro_sa_lims = isset($Fila["nro_sa_lims"])?$Fila["nro_sa_lims"]:"";
-			if ($nro_sa_lims=='') {
+
+			//if ($Fila["nro_sa_lims"]=='') {
+			if ($Row["nro_sa_lims"]=='') {
 				echo "<td><a href=\"JavaScript:Historial(".$Row["nro_solicitud"].",'".$Row["recargo"]."','".$Nivel."')\">\n";
 				echo $Row["nro_solicitud"]."-".$Row["recargo"]."</td>\n";
 			}else{
