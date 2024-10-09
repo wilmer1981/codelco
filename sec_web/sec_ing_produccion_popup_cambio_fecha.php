@@ -1,5 +1,19 @@
 ﻿<?php	include("../principal/conectar_sec_web.php"); 
-
+$Opcion = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+$Npeso = isset($_REQUEST["Npeso"])?$_REQUEST["Npeso"]:"";
+$NFecha = isset($_REQUEST["NFecha"])?$_REQUEST["NFecha"]:"";
+$Nhora = isset($_REQUEST["Nhora"])?$_REQUEST["Nhora"]:"";
+$Prod = isset($_REQUEST["Prod"])?$_REQUEST["Prod"]:"";
+$Fech = isset($_REQUEST["Fech"])?$_REQUEST["Fech"]:"";
+$Grup = isset($_REQUEST["Grup"])?$_REQUEST["Grup"]:"";
+$SubP = isset($_REQUEST["SubP"])?$_REQUEST["SubP"]:"";
+$Hr = isset($_REQUEST["Hr"])?$_REQUEST["Hr"]:"";
+$cod_grupo    = isset($_REQUEST["cod_grupo"])?$_REQUEST["cod_grupo"]:"";
+$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$Fecha2 = isset($_REQUEST["Fecha2"])?$_REQUEST["Fecha2"]:"";
+$lado   = isset($_REQUEST["lado"])?$_REQUEST["lado"]:"";
 
 if($Opcion=='M')
 {
@@ -125,13 +139,13 @@ La jornada laboral  se inicia a partir de 08:00:00 hrs  hasta las 07:59:59 hrs d
 	{
 		$Corr=$Corr+1;
 
-		$anio=$row[anio];
-		$mes=$row[mes];
-		$dia=$row[dia];
-		$hrs=explode(":",$row[hora]);
+		$anio=$row["anio"];
+		$mes=$row["mes"];
+		$dia=$row["dia"];
+		$hrs=explode(":",$row["hora"]);
 		?><tr>
 		<td width="50px"><?php echo $row["cod_grupo"];?></td>
-		<td width="80px" ><input name="TxtPesoS" id="TxtPesoS" class="InputDer" value="<?php echo $row[peso_produccion];?>" type="text" size="10"></td>
+		<td width="80px" ><input name="TxtPesoS" id="TxtPesoS" class="InputDer" value="<?php echo $row["peso_produccion"];?>" type="text" size="10"></td>
 		<td width="220px">
 <select name="dia" size="1">
 			<?php
@@ -194,8 +208,8 @@ La jornada laboral  se inicia a partir de 08:00:00 hrs  hasta las 07:59:59 hrs d
 
 </td>
 	<td>
-<a href="javascript:AccionMuestra('<?php echo $Corr;?>','M','<?php echo $row["cod_grupo"] ?>','<?php echo $row["cod_producto"];?>','<?php echo $row["cod_subproducto"];?>','<?php echo $row[fecha_produccion];?>','<?php echo $row[hora];?>')"><img src="../principal/imagenes/modificar_sea.png" class="SinBorde" alt="Modificar"></a>
-<a href="javascript:AccionMuestra('<?php echo $Corr;?>','E','<?php echo $row["cod_grupo"] ?>','<?php echo $row["cod_producto"];?>','<?php echo $row["cod_subproducto"];?>','<?php echo $row[fecha_produccion];?>','<?php echo $row[hora];?>')"><img src="../principal/imagenes/eliminar_sea.png"  class="SinBorde" alt="Eliminar"></a>
+<a href="javascript:AccionMuestra('<?php echo $Corr;?>','M','<?php echo $row["cod_grupo"] ?>','<?php echo $row["cod_producto"];?>','<?php echo $row["cod_subproducto"];?>','<?php echo $row["fecha_produccion"];?>','<?php echo $row["hora"];?>')"><img src="../principal/imagenes/modificar_sea.png" class="SinBorde" alt="Modificar"></a>
+<a href="javascript:AccionMuestra('<?php echo $Corr;?>','E','<?php echo $row["cod_grupo"] ?>','<?php echo $row["cod_producto"];?>','<?php echo $row["cod_subproducto"];?>','<?php echo $row["fecha_produccion"];?>','<?php echo $row["hora"];?>')"><img src="../principal/imagenes/eliminar_sea.png"  class="SinBorde" alt="Eliminar"></a>
 
 </td>	</tr><?php
 	}

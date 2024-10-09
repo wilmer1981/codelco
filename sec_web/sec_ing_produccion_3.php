@@ -1,4 +1,7 @@
 <?php
+
+$instruccion = isset($_REQUEST["instruccion"])?$_REQUEST["instruccion"]:"";
+$opcion = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 	//echo "SA_ dos___".$SA_C_STD2."<br>";
 	//echo $instruccion;
 	//echo $SA_C_STD2;

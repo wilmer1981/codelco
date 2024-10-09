@@ -100,7 +100,7 @@ function Salir()
 	$cant_paquetes = 0;
 	$consulta = "SELECT * FROM sec_web.paquete_catodo_externo";
 	$consulta.= " where lote_origen ='".str_pad($lote,8,'0',STR_PAD_LEFT)."' and recargo='".$recargo."'";
-	
+	$consulta.= " order by cod_paquete asc ";
 	
 	//$consulta.= " WHERE lote_origen = '".$lote."' AND recargo = '".$recargo."'";
 	//echo "NN".$consulta."<br>";
