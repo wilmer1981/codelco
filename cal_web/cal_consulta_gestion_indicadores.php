@@ -159,7 +159,7 @@ function Salir()
 </head>
 <link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0"> 
-<form name="FrmConsultaGestionInd" method="get" action="">
+<form name="FrmConsultaGestionInd" method="post" action="">
 <input type="hidden" name="Tipo" value="">
 <?php include("../principal/encabezado.php")?>
   <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
