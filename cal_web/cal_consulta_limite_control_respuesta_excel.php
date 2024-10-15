@@ -35,22 +35,23 @@
 	$CmbDiasT = $_REQUEST["CmbDiasT"];
 	$CmbMesT = $_REQUEST["CmbMesT"];
 	$CmbAnoT = $_REQUEST["CmbAnoT"];
-	$LimitIni = $_REQUEST["LimitIni"];
-	$LimitFin = $_REQUEST["LimitFin"];
-	$Opc = $_REQUEST["Opc"];
-	$Chk = $_REQUEST["Chk"];
+	$LimitIni = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
+	$LimitFin = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:50;
+	$Opc = isset($_REQUEST["Opc"])?$_REQUEST["Opc"]:"";
+	$Chk = isset($_REQUEST["Chk"])?$_REQUEST["Chk"]:"";
 	$ChkAgrupacion = $_REQUEST["ChkAgrupacion"];
 	$ChkFechaMuestra = $_REQUEST["ChkFechaMuestra"];
-	$ChkProducto = $_REQUEST["ChkProducto"];
+	$ChkProducto     = $_REQUEST["ChkProducto"];
 	$ChkSubProducto = $_REQUEST["ChkSubProducto"];
 	$ChkPesoMuestra = $_REQUEST["ChkPesoMuestra"];
 	$ChkObservacion = $_REQUEST["ChkObservacion"];
+	$ChkFechaEntrada= $_REQUEST["ChkFechaEntrada"];
 	$ChkLimite = $_REQUEST["ChkLimite"];
 
 /***************************************************************** */
-	$CmbProveedores = $_REQUEST["CmbProveedores"];
-	$CmbCCosto = $_REQUEST["CmbCCosto"];
-	$CmbAreasProceso = $_REQUEST["CmbAreasProceso"];
+	$CmbProveedores = isset($_REQUEST["CmbProveedores"])?$_REQUEST["CmbProveedores"]:"";
+	$CmbCCosto =  isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:"";
+	$CmbAreasProceso = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:"";
 
 	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 	$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
@@ -543,8 +544,10 @@
 						foreach($Arreglo as $Clave => $Valor )
 						{
 							//echo "valor".$Valor[1]."--".$Valor[2]."</br>";
-							echo "<td align=\"right\" >".$Valor[1]."</td>";
-							echo "<td align=\"center\" bgcolor=\"#efefef\" ><span style=\"font-size:9px \">".$Valor[2]."</span></td>";
+							$Valor1 = isset($Valor[1])?$Valor[1]:"";
+							$Valor2 = isset($Valor[2])?$Valor[2]:"";
+							echo "<td align=\"right\" >".$Valor1."</td>";
+							echo "<td align=\"center\" bgcolor=\"#efefef\" ><span style=\"font-size:9px \">".$Valor2."</span></td>";
 						}
 						if ($ChkAgrupacion=="S")
 							echo "<td align=\"left\">".$FilaDatos["nombre_subclase"]."</td>";							

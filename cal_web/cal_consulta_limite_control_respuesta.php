@@ -108,6 +108,12 @@ if(isset($_REQUEST["ChkObservacion"])) {
 }else{
 	$ChkObservacion = "";
 }
+if(isset($_REQUEST["ChkFechaEntrada"])) {
+	$ChkFechaEntrada = $_REQUEST["ChkFechaEntrada"];
+}else{
+	$ChkFechaEntrada = "";
+}
+
 if(isset($_REQUEST["ChkLimite"])) {
 	$ChkLimite = $_REQUEST["ChkLimite"];
 }else{
@@ -695,8 +701,10 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 						foreach($Arreglo as $Clave => $Valor )
 						{
 							//echo "valor".$Valor[1]."--".$Valor[2]."</br>";
-							echo "<td align=\"right\" >".$Valor[1]."</td>";
-							echo "<td align=\"center\" bgcolor=\"#efefef\" ><span style=\"font-size:9px \">".$Valor[2]."</span></td>";
+							$Valor1 = isset($Valor[1])?$Valor[1]:"";
+							$Valor2 = isset($Valor[2])?$Valor[2]:"";
+							echo "<td align=\"right\" >".$Valor1."</td>";
+							echo "<td align=\"center\" bgcolor=\"#efefef\" ><span style=\"font-size:9px \">".$Valor2."</span></td>";
 						}
 						if ($ChkAgrupacion=="S")
 							echo "<td align=\"left\">".$FilaDatos["nombre_subclase"]."</td>";							

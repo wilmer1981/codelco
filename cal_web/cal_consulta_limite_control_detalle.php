@@ -1,5 +1,14 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$SA          = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$CodLey      = isset($_REQUEST["CodLey"])?$_REQUEST["CodLey"]:"";
+	$Unidad      = isset($_REQUEST["Unidad"])?$_REQUEST["Unidad"]:"";
+	$Proveedor   = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Recargo     = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+	$Opc = isset($_REQUEST["Opc"])?$_REQUEST["Opc"]:"";
+	$Msj = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
 
 ?>
 <html>
@@ -120,7 +129,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			$Respuesta = mysqli_query($link, $Consulta);
 			if ($Fila=mysqli_fetch_array($Respuesta))
 			{
-				echo ucwords(strtolower($Fila[nombre_unidad]))." - ".ucwords(strtolower($Fila["abreviatura"]))."</option>\n";				
+				echo ucwords(strtolower($Fila["nombre_unidad"]))." - ".ucwords(strtolower($Fila["abreviatura"]))."</option>\n";				
 			}
 		?>	</td>
     </tr>
@@ -149,7 +158,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		if($Fila=mysqli_fetch_array($Resp))
 		{
 				$LimitIni=$Fila["limite_inicial"];
-				$LimitFin=$Fila[limite_final];
+				$LimitFin=$Fila["limite_final"];
 	
 		}
 	?>
@@ -160,7 +169,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td bgcolor="#EFEFEF"><?php echo number_format($LimitFin,3,',','');?></td>
   </tr>
     <tr class="Colum01">
-      <td bgcolor="#FFFFFF">Observaci�n</td>
+      <td bgcolor="#FFFFFF">Observaci&oacute;n</td>
       <td colspan="3" bgcolor="#EFEFEF"><textarea name='Descrip' cols="70" rows="3" readonly><?php echo $Obs;?></textarea></td>
     </tr>
 
