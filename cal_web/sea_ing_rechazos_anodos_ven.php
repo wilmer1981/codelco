@@ -49,13 +49,13 @@
 	}else{
 		$txthornada =  "";
 	}
-	
 	if(isset($_REQUEST["textfield"])) {
 		$textfield = $_REQUEST["textfield"];
 	}else{
 		$textfield =  "";
 	}
 	
+
 	if(isset($_REQUEST["cmbhornada"])) {
 		$cmbhornada = $_REQUEST["cmbhornada"];
 	}else{
@@ -201,8 +201,6 @@
 	//$cmbhornada = substr($cmbhornada, 0, -2);
 	//echo "HORNADAF:".$cmbhornada;
 
-
-	
 ?>
 
 <html>
@@ -495,12 +493,11 @@ function Buscar(f)
 /**************/
 function BuscarRechazo(f)
 {
-	//alert(f.cmbhornada.value);
-	//if (f.cmbhornada.value != -1){
+	//if (f.cmbhornada.value != -1)
 		f.action = "sea_ing_rechazos_anodos_ven01.php?proceso=B";
-	//}else{
+	//else
 	//	f.actino = "sea_ing_rechazos_anodos_ven.php?buscar=S&txtbuscar=" + f.txtbuscar.value;
-	//}
+
 	f.submit();
 }
 /***************/

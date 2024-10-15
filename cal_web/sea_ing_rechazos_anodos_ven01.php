@@ -1,8 +1,8 @@
 <?php
 	include("../principal/conectar_sea_web.php");
+	$CookieRut= $_COOKIE["CookieRut"];
 
 	$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
-
 	$parametros = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
 	$recup1 = isset($_REQUEST["recup1"])?$_REQUEST["recup1"]:"";
 	$recup2 = isset($_REQUEST["recup2"])?$_REQUEST["recup2"]:"";
@@ -39,7 +39,7 @@
 	$mm1 = isset($_REQUEST["mm1"])?$_REQUEST["mm1"]:"";
 	$hr2 = isset($_REQUEST["hr2"])?$_REQUEST["hr2"]:"";
 	$mm2 = isset($_REQUEST["mm2"])?$_REQUEST["mm2"]:"";
-
+	
 	if ($proceso == "G")
 	{
 		$fecha_ini = $ano1.'-'.$mes1.'-'.$dia1.' '.$hr1.'-'.$mm1;
@@ -223,7 +223,7 @@
 			{		
 				$detalle = explode("-",$valor); //check - observacion - recu1 - recu2 - recu3 - recu4 - recha1 - recha2 - recha3 - recha4. 
 				
-				$insertar = "INSERT INTO rechazos VALUES (6,'".$fecha_ini."','".$fecha_ter."',17,4,'".$cmbhornada."' ".",".$detalle[1].",'";
+				$insertar = "INSERT IGNORE INTO rechazos VALUES (6,'".$fecha_ini."','".$fecha_ter."',17,4,'".$cmbhornada."' ".",".$detalle[1].",'";
 				$insertar = $insertar.$CookieRut."',".$detalle[2].",".$detalle[6].",1)";
 				mysqli_query($link, $insertar);
 				
@@ -243,16 +243,15 @@
 	
 	if ($proceso == "B")
 	{
-
 		$valores = "buscar=S&txtbuscar=".$txthornada."&cmbhornada=".$cmbhornada;
 		if ($cmbhornada == -1)
 			$valores = $valores."&mostrar=N";
 		else
 			$valores = $valores."&mostrar=S";
-
+			
 		//Corrientes. (Rueda 1)
 		$consulta = "SELECT * FROM rechazos WHERE cod_tipo = 6 AND cod_defecto = 0 AND cod_subproducto = 4 AND hornada = ".$cmbhornada." AND rueda = 1"; 
-		//echo $consulta;
+		echo $consulta;
 		$rs1 = mysqli_query($link, $consulta);
 		if ($row1 = mysqli_fetch_array($rs1))
 		{
