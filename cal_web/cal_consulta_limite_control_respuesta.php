@@ -273,6 +273,19 @@ $Enabal      = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:"";
 		if($CmbProveedores!='T')
 			$Consulta = $Consulta." and  t1.rut_proveedor='".$CmbProveedores."' ";
 	}
+	
+	if(strlen($CmbMes)==1){
+		$CmbMes = "0".$CmbMes;
+	}
+	if(strlen($CmbDias)==1){
+		$CmbDias = "0".$CmbDias;
+	}
+	if(strlen($CmbMesT)==1){
+		$CmbMesT = "0".$CmbMesT;
+	}
+	if(strlen($CmbDiasT)==1){
+		$CmbDiasT = "0".$CmbDiasT;
+	}
 	$FechaI=$CmbAno."-".$CmbMes."-".$CmbDias." 00:00:01";
 	$FechaT=$CmbAnoT."-".$CmbMesT."-".$CmbDiasT." 23:59:59";
 	$Consulta = $Consulta." and (t1.fecha_muestra between '".$FechaI."' and '".$FechaT."')";
@@ -563,7 +576,7 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 					<?php
 					//SE ASIGNA LA CABECERA DE LA LISTA CONTENIDA EN EL ARREGLO	
 					reset($Arreglo);
-					while(list($Clave,$Valor)=each($Arreglo))
+					foreach($Arreglo as $Clave=>$Valor)
 					{
 						echo "<td  align=\"center\" colspan=\"2\">".$Valor[0]."</td>";
 					}
@@ -584,9 +597,9 @@ function Recarga(LimitIni,Producto,SubProducto,CCosto,Areas,CmbProductos,CmbSubP
 					{ ?>
 					     <td width="130" align="center">Fecha Entrada</td>
 					<?php }if ($ChkObservacion=="S") {?>
-					<td width="350" align="center">Observaci�n</td>
+					<td width="350" align="center">Observaci&oacute;n</td>
 					<?php } ?>
-					<td width="350" align="center">Observaci�n Leyes</td>
+					<td width="350" align="center">Observaci&oacute;n Leyes</td>
 		  </tr>
 					<?php
 					

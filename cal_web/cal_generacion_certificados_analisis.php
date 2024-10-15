@@ -1,7 +1,7 @@
 <?php
 	include("../principal/conectar_principal.php");
 	$CookieRut= $_COOKIE["CookieRut"];
-
+	
 	$SolRecargo = isset($_REQUEST["SolRecargo"])?$_REQUEST["SolRecargo"]:"";
 
 ?>
@@ -14,6 +14,7 @@
 function Proceso()
 {
 	var f = document.frmPrincipal;
+
 	f.BtnImprimir.style.visibility = 'hidden';
 	window.print();
 	
@@ -34,10 +35,12 @@ function Proceso()
 	  <td width="18">N&deg; </td>	
 	  <td width="117">: 
 	  <?php
-	  	
-			$Sol = str_replace("/"," ",$SolRecargo);
-		
-		   //  echo "hola".$SolRecargo;
+	  	    //echo "SolRecargo:".$SolRecargo;
+			$Sol = str_replace("/","",$SolRecargo);
+			if($Sol==""){
+				$Sol=0;
+				//echo "<br>esta vacio";
+			}		
 		
 			include("../principal/conectar_principal.php");
 			
@@ -51,8 +54,7 @@ function Proceso()
 			//Consulta que devuelve el mayor de los elementos de la tabla certificados
 			$Consulta = "SELECT max(nro_certificado) as numero FROM cal_web.certificados WHERE nro_solicitud = '".$Sol."' ";
 			$rs2 = mysqli_query($link, $Consulta);
-			//echo $Consulta;
-
+			//echo "<br><br>Consulta:".$Consulta;
 			if($row2 = mysqli_fetch_array($rs2))
 			{
 					$NroCert = $row2["numero"];
@@ -86,9 +88,8 @@ function Proceso()
 	  </td>	
 	  <td>SA </td>	
 	  <td> : 
-	  <?php
-		echo '<strong>'.$Sol.'</strong>';
-	  ?>
+	  <?php if($Sol==0){$Sol='';}
+	  echo '<strong>'.$Sol.'</strong>'; ?>
 	  </td>	
 	</tr>
 	</table>
@@ -114,7 +115,7 @@ function Proceso()
     <?php
 			$Consulta ="SELECT distinct(id_muestra) as id_muestra from cal_web.solicitud_analisis where nro_solicitud = '".$Sol."'";
 			$Respuesta1 = mysqli_query($link, $Consulta);
-			$Muestra="";
+			$Muestra = "";
 			if ($Fila1=mysqli_fetch_array($Respuesta1))
 			{
 				$Muestra = $Fila1["id_muestra"];
@@ -139,7 +140,7 @@ function Proceso()
 				$CodSubProducto = $Fila2["cod_subproducto"];
 				$Producto       = $Fila2["DesProducto"];
 				$SubProducto    = $Fila2["DesSubProducto"];
-				$cc = $Fila2["cod_ccosto"];
+				$cc= $Fila2["cod_ccosto"];
 				$contador++;
 			}						
 		?>
@@ -175,16 +176,14 @@ function Proceso()
 			$Consulta = "SELECT t1.id_muestra,t1.tipo_solicitud,t1.rut_proveedor,t1.cod_area,t1.agrupacion,t2.nombre_subclase,t3.nombre_subclase as tipo from cal_web.solicitud_analisis t1 ";
 			$Consulta.=" inner join proyecto_modernizacion.sub_clase t2 on (t1.agrupacion = t2.cod_subclase and t2.cod_clase ='1004') ";
 			$Consulta.=" left join proyecto_modernizacion.sub_clase t3 on (t1.tipo = t3.cod_subclase and t3.cod_clase ='1005') ";
-			$Consulta.=" where nro_solicitud = '".$Sol."' ";
-			
-									
+			$Consulta.=" where nro_solicitud = '".$Sol."' ";									
 			$Resp = mysqli_query($link, $Consulta);
-			$Fil=mysqli_fetch_array($Resp);
+			$Fil=mysqli_fetch_array($Resp);				
 			$Tipo          = isset($Fil["tipo_solicitud"])?$Fil["tipo_solicitud"]:"";	
 			$agrupacion    = isset($Fil["agrupacion"])?$Fil["agrupacion"]:"";
-			$rut_proveedor = isset($Fil["rut_proveedor"])?$Fil["rut_proveedor"]:null;		
+			$rut_proveedor = isset($Fil["rut_proveedor"])?$Fil["rut_proveedor"]:null;
 			$senal=0;
-			if (($Tipo == 'A') && ($agrupacion == '1') && (!is_null($rut_proveedor)))
+     		if (($Tipo == 'A') && ($agrupacion == '1') && (!is_null($rut_proveedor)))
 			{
 				$Consulta="SELECT distinct(t1.r_prov_a),t1.d_prov_a,t3.nommin_a,t3.sierra_a,t1.d_clas_a from rec_web.recepciones t1 ";
 				$Consulta.=" inner join cal_web.solicitud_analisis t2 on t1.lote_a = t2.id_muestra and t1.r_prov_a = t2.rut_proveedor ";
@@ -236,7 +235,7 @@ function Proceso()
 
 			    	echo"<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 					echo"<tr> 
-				  	<td width='131'>Observaci&oacute;n</td>
+				  	<td width='131'>Observación</td>
 				  	<td>:</td>
 				  	<td rowspan='5'>"; 
 
@@ -264,7 +263,7 @@ function Proceso()
 				$Row = mysqli_fetch_array($Rs);
 			    echo"<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 				echo"<tr> 
-				  <td width='131'>Observaci�n</td>
+				  <td width='131'>Observación</td>
 				  <td>:</td>
 				  <td rowspan='5'>"; 
 						echo nl2br($Row["observacion"]);
@@ -323,18 +322,18 @@ function Proceso()
 				$Resp1=mysqli_query($link, $Consulta);
 				$Fila1=mysqli_fetch_array($Resp1);
 				$SecuenciaSelenio=$Fila1["secuencia"];
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -2 where cod_leyes = '40'";
+				$Actualizar="update proyecto_modernizacion.leyes set secuencia = -2 where cod_leyes = '40'";
 				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '40'";
+				$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '40'";
 				mysqli_query($link, $Actualizar);
 						
 				$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '44'  ";//TELURO
 				$Resp2=mysqli_query($link, $Consulta);
 				$Fila2=mysqli_fetch_array($Resp2);
 				$SecuenciaTelurio=$Fila2["secuencia"];
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '44'";
+				$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '44'";
 				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '44'";
+				$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '44'";
 				mysqli_query($link, $Actualizar);
 			}
 				//barros y barro cobre teluro
@@ -344,18 +343,18 @@ function Proceso()
 						$Resp1=mysqli_query($link, $Consulta);
 						$Fila1=mysqli_fetch_array($Resp1);
 						$SecuenciaTelurio=$Fila1["secuencia"];
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -2 where cod_leyes = '44'";
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -2 where cod_leyes = '44'";
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '44'";
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '44'";
 						mysqli_query($link, $Actualizar);
 						
 						$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '40'  ";//SELENIO
 						$Resp2=mysqli_query($link, $Consulta);
 						$Fila2=mysqli_fetch_array($Resp2);
 						$SecuenciaSelenio=$Fila2["secuencia"];
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '40'";
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '40'";
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '40'";
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '40'";
 						mysqli_query($link, $Actualizar);
 			}
 					//paladio platino
@@ -365,9 +364,9 @@ function Proceso()
 						$Resp1=mysqli_query($link, $Consulta);
 						$Fila1=mysqli_fetch_array($Resp1);
 						$SecuenciaPlatino=$Fila1["secuencia"];
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '37'";
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '37'";
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '37'";
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '37'";
 						mysqli_query($link, $Actualizar);
 			}	
 					//PRODUCTO GRANALLA Y SUBPRODUCTO GRANALLA DE PLATA
@@ -377,7 +376,7 @@ function Proceso()
 						$Resp1=mysqli_query($link, $Consulta);
 						$Fila1=mysqli_fetch_array($Resp1);
 						$SecuenciaPlata=$Fila1["secuencia"];
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '04'";
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '04'";
 						mysqli_query($link, $Actualizar);
 			}
 					//PRODUCTO ORO Y BARROS DE ORO
@@ -387,7 +386,7 @@ function Proceso()
 						$Resp1=mysqli_query($link, $Consulta);
 						$Fila1=mysqli_fetch_array($Resp1);
 						$SecuenciaOro=$Fila1["secuencia"];
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '05'";
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '05'";
 						mysqli_query($link, $Actualizar);
 			}
 					//COMIENZAN LA LEYES DEL RECARGO 0
@@ -629,49 +628,49 @@ function Proceso()
 					//SELENIO Y SELENIO COMERCIAÑ
 					if (($CodProducto=='31')&&($CodSubProducto=='1'))
 					{
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaSelenio."' where cod_leyes = '40'";//SELENIO
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaSelenio."' where cod_leyes = '40'";//SELENIO
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '40'";
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '40'";
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaTelurio."' where cod_leyes = '44'";//TELURO
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaTelurio."' where cod_leyes = '44'";//TELURO
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '44'";
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '44'";
 						mysqli_query($link, $Actualizar);
 					}
 
 					//BARROS Y BARRO COBRE TELURIO
 					if (($CodProducto=='27')&&($CodSubProducto=='1'))
 					{
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaSelenio."' where cod_leyes = '40'";//SELENIO
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaSelenio."' where cod_leyes = '40'";//SELENIO
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '40'";//SELENIO
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '40'";//SELENIO
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaTelurio."' where cod_leyes = '44'";//TELURIO
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaTelurio."' where cod_leyes = '44'";//TELURIO
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '44'";//TELURIO
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '44'";//TELURIO
 						mysqli_query($link, $Actualizar);
 					}
 
 					//PLATINO-PALADIO 
 					if ($CodProducto=='33')
 					{
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaPlatino."' where cod_leyes = '37'";//PLATINO
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaPlatino."' where cod_leyes = '37'";//PLATINO
 						mysqli_query($link, $Actualizar);
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '37'";
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '37'";
 						mysqli_query($link, $Actualizar);
 					}	
 
 					//GRANALLA Y GRANALLA DE PLATA 
 					if (($CodProducto=='29')&&($CodSubProducto=='4'))
 					{
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia ='".$SecuenciaPlata."' where cod_leyes = '04'";
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia ='".$SecuenciaPlata."' where cod_leyes = '04'";
 						mysqli_query($link, $Actualizar);
 					}										
 
 					//PRODUCTO ORO Y BARROS DE ORO
 					if (($CodProducto=='34')&&($CodSubProducto=='2'))
 					{
-						$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaOro."' where cod_leyes = '05'";
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaOro."' where cod_leyes = '05'";
 						mysqli_query($link, $Actualizar);
 					}						
 
@@ -689,252 +688,248 @@ function Proceso()
 		if (strtoupper($Tipo) == "R")				
 		{
 			//selenio y selenio comercial 
-			if (($CodProducto=='31')&&($CodSubProducto=='1'))
-			{
-				$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '40'  ";//SELENIO
-				$Resp1=mysqli_query($link, $Consulta);
-				$Fila1=mysqli_fetch_array($Resp1);
-				$SecuenciaSelenio=$Fila1["secuencia"];
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -2 where cod_leyes = '40'";
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '40'";
-				mysqli_query($link, $Actualizar);
-				
-				$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '44'  ";//TELURO
-				$Resp2=mysqli_query($link, $Consulta);
-				$Fila2=mysqli_fetch_array($Resp2);
-				$SecuenciaTelurio=$Fila2["secuencia"];
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '44'";
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '44'";
-				mysqli_query($link, $Actualizar);
-			}
-
-			//barros y barro cobre teluro
-			if (($CodProducto=='27')&&($CodSubProducto=='1'))
-			{
-				$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '44'  ";//TELURIO
-				$Resp1=mysqli_query($link, $Consulta);
-				$Fila1=mysqli_fetch_array($Resp1);
-				$SecuenciaTelurio=$Fila1["secuencia"];
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -2 where cod_leyes = '44'";
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '44'";
-				mysqli_query($link, $Actualizar);
-				
-				$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '40'  ";//SELENIO
-				$Resp2=mysqli_query($link, $Consulta);
-				$Fila2=mysqli_fetch_array($Resp2);
-				$SecuenciaSelenio=$Fila2["secuencia"];
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '40'";
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '40'";
-				mysqli_query($link, $Actualizar);
-			}
-
-			//paladio platino
-			if ($CodProducto=='33')
-			{
-				$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '37'  ";//ley platino
-				$Resp1=mysqli_query($link, $Consulta);
-				$Fila1=mysqli_fetch_array($Resp1);
-				$SecuenciaPlatino=$Fila1["secuencia"];
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '37'";
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '37'";
-				mysqli_query($link, $Actualizar);
-			}	
-
-			//PRODUCTO GRANALLA Y SUBPRODUCTO GRANALLA DE PLATA
-			if (($CodProducto=='29')&&($CodSubProducto=='4'))
-			{
-				$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '04'  ";//PLATA
-				$Resp1=mysqli_query($link, $Consulta);
-				$Fila1=mysqli_fetch_array($Resp1);
-				$SecuenciaPlata=$Fila1["secuencia"];
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '04'";
-				mysqli_query($link, $Actualizar);
-			}
-
-			//PRODUCTO ORO Y BARROS DE ORO
-			if (($CodProducto=='34')&&($CodSubProducto=='2'))
-			{
-				$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '05'  ";//ORO
-				$Resp1=mysqli_query($link, $Consulta);
-				$Fila1=mysqli_fetch_array($Resp1);
-				$SecuenciaOro=$Fila1["secuencia"];
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '05'";
-				mysqli_query($link, $Actualizar);
-			}
-		
-		
-							
-			//Consulta que devuelve las leyes asociadas a cualquier producto excepto catodoss y productos mineros con recargos  
-			//este es el select  para producto 65
-			
-			$Consulta =" select t1.valor,t1.cod_leyes,t1.nro_solicitud,t1.cod_unidad, ";
-			$Consulta =$Consulta." t2.estado_actual,t3.tipo_leyes,t1.recargo,t3.abreviatura as abrevLey, ";
-			$Consulta =$Consulta." t4.abreviatura as abrevUnidad,t1.signo ";
-			$Consulta =$Consulta."  from cal_web.leyes_por_solicitud t1 ";
-			$Consulta =$Consulta. " inner join cal_web.solicitud_analisis t2 on t1.nro_solicitud = t2.nro_solicitud ";
-			$Consulta =$Consulta." and t1.recargo = t2.recargo ";
-			$Consulta =$Consulta." inner join proyecto_modernizacion.leyes t3 ";
-			$Consulta =$Consulta." on t1.cod_leyes = t3.cod_leyes ";
-			$Consulta =$Consulta."  left join proyecto_modernizacion.unidades t4 ";
-			$Consulta =$Consulta."  on t1.cod_unidad = t4.cod_unidad ";
-			$Consulta =$Consulta."  where (t3.tipo_leyes = '0' or t3.tipo_leyes = '3')  and (t2.estado_actual = '6' or t2.estado_actual = '32') and t1.nro_solicitud = '".$Sol."' order by secuencia ";
-			
-			
-			$Respuesta = mysqli_query($link, $Consulta);
-			//	echo "Cod".$CodProducto;
-			//	echo "Cod".$CodProducto;
-			while ($Fila5=mysqli_fetch_array($Respuesta))
-			{
-														
-				if ($Fila5["signo"] == 'N')
-				{
-					$Valor = 'ND';
-					$Signo = "";
-				}
-				
-				else
-				{
-					//poly agrego este if para que muestre el Valor real para prod.65 2005-04-11
-					
-					if (($CodProducto=='65')&&($CodSubProducto=='9'))
+					if (($CodProducto=='31')&&($CodSubProducto=='1'))
 					{
+						$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '40'  ";//SELENIO
+						$Resp1=mysqli_query($link, $Consulta);
+						$Fila1=mysqli_fetch_array($Resp1);
+						$SecuenciaSelenio=$Fila1["secuencia"];
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -2 where cod_leyes = '40'";
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '40'";
+						mysqli_query($link, $Actualizar);
 						
-						$Valor = $Fila5["valor"];
-						$Signo = $Fila5["signo"];
+						$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '44'  ";//TELURO
+						$Resp2=mysqli_query($link, $Consulta);
+						$Fila2=mysqli_fetch_array($Resp2);
+						$SecuenciaTelurio=$Fila2["secuencia"];
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '44'";
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '44'";
+						mysqli_query($link, $Actualizar);
 					}
-					else
-					{	
-						$Valor = round($Fila5["valor"],6);
-						$Signo = $Fila5["signo"];
-					}	
-				}
-				echo "<tr>";
-				echo "<td>".$Fila5["abrevLey"]."</td>";
-				echo "<td>".$Signo."</td>";
-				if($Valor == 0)
-					echo "<td>0.0</td>";
-				else
-				{
-					if($CodProducto == 47 AND $CodSubProducto == 1 AND $Fila5["cod_leyes"] == 44)
-						echo "<td>".number_format($Valor,2,'.','')."</td>";
-					else	
-						if($CodProducto == 46 AND $CodSubProducto == 1 AND $Fila5["cod_leyes"] == 112)
-							echo "<td>".number_format($Valor,5,'.','')."</td>";
-						else
-							echo "<td>".$Valor."</td>";
-				}
-				echo "<td>".$Fila5["abrevUnidad"]."</td>";
-				echo "</tr>";
-			}
-														
-			echo "<tr>";										
-			echo "<td colspan='4'>&nbsp;</td>";										
-			echo "</tr>";
+
+					//barros y barro cobre teluro
+					if (($CodProducto=='27')&&($CodSubProducto=='1'))
+					{
+						$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '44'  ";//TELURIO
+						$Resp1=mysqli_query($link, $Consulta);
+						$Fila1=mysqli_fetch_array($Resp1);
+						$SecuenciaTelurio=$Fila1["secuencia"];
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -2 where cod_leyes = '44'";
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '44'";
+						mysqli_query($link, $Actualizar);
 						
-			//Consulta que devuelve las impurezas asociadas a cualquier producto excepto catodoss y productos mineros con recargos  
-			$Consulta =" select t1.valor,t1.cod_leyes,t1.nro_solicitud,t1.cod_unidad,t1.signo, ";
-			$Consulta =$Consulta." t2.estado_actual,t3.tipo_leyes,t1.recargo,t3.abreviatura as abrevLey, ";
-			$Consulta =$Consulta." t4.abreviatura as abrevUnidad ";
-			$Consulta =$Consulta."  from cal_web.leyes_por_solicitud t1 ";
-			$Consulta =$Consulta. " inner join cal_web.solicitud_analisis t2 on t1.nro_solicitud = t2.nro_solicitud ";
-			$Consulta =$Consulta." and t1.recargo = t2.recargo ";
-			$Consulta =$Consulta." inner join proyecto_modernizacion.leyes t3 ";
-			$Consulta =$Consulta." on t1.cod_leyes = t3.cod_leyes ";
-			$Consulta =$Consulta."  left join proyecto_modernizacion.unidades t4 ";
-			$Consulta =$Consulta."  on t1.cod_unidad = t4.cod_unidad ";
-			$Consulta =$Consulta."  where t3.tipo_leyes = '1' and (t2.estado_actual = '6' or t2.estado_actual = '32') and t1.nro_solicitud = '".$Sol."' order by secuencia ";
+						$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '40'  ";//SELENIO
+						$Resp2=mysqli_query($link, $Consulta);
+						$Fila2=mysqli_fetch_array($Resp2);
+						$SecuenciaSelenio=$Fila2["secuencia"];
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '40'";
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '40'";
+						mysqli_query($link, $Actualizar);
+					}
 
-			$Respuesta = mysqli_query($link, $Consulta);
-			while ($Fila6=mysqli_fetch_array($Respuesta))
-			{													
-				if ($Fila6["signo"] == 'N')
-				{
-					$Valor = 'ND';
-					$Signo = "";
-				}
-				else
-				{
-					$Valor = round($Fila6["valor"],6);
-					$Signo = $Fila6["signo"];
-				}
+					//paladio platino
+					if ($CodProducto=='33')
+					{
+						$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '37'  ";//ley platino
+						$Resp1=mysqli_query($link, $Consulta);
+						$Fila1=mysqli_fetch_array($Resp1);
+						$SecuenciaPlatino=$Fila1["secuencia"];
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '37'";
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 0 where cod_leyes = '37'";
+						mysqli_query($link, $Actualizar);
+					}	
 
-				echo "<tr>";
-				echo "<td>".$Fila6["abrevLey"]."</td>";
-				echo "<td>".$Signo."</td>";
-				if($Valor == 0)
-					echo "<td>0.0</td>";
-				else
-				{
-					if($CodProducto == 47 AND $CodSubProducto == 1 AND $Fila6["cod_leyes"] == 44)
-						echo "<td>".number_format($Valor,2,'.','')."</td>";
-					else	
-						if($CodProducto == 46 AND $CodSubProducto == 1 AND $Fila6["cod_leyes"] == 112)
-							echo "<td>".number_format($Valor,5,'.','')."</td>";
+					//PRODUCTO GRANALLA Y SUBPRODUCTO GRANALLA DE PLATA
+					if (($CodProducto=='29')&&($CodSubProducto=='4'))
+					{
+						$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '04'  ";//PLATA
+						$Resp1=mysqli_query($link, $Consulta);
+						$Fila1=mysqli_fetch_array($Resp1);
+						$SecuenciaPlata=$Fila1["secuencia"];
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '04'";
+						mysqli_query($link, $Actualizar);
+					}
+
+					//PRODUCTO ORO Y BARROS DE ORO
+					if (($CodProducto=='34')&&($CodSubProducto=='2'))
+					{
+						$Consulta="select secuencia,tipo_leyes from proyecto_modernizacion.leyes where cod_leyes = '05'  ";//ORO
+						$Resp1=mysqli_query($link, $Consulta);
+						$Fila1=mysqli_fetch_array($Resp1);
+						$SecuenciaOro=$Fila1["secuencia"];
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = -1 where cod_leyes = '05'";
+						mysqli_query($link, $Actualizar);
+					}		
+							
+					//Consulta que devuelve las leyes asociadas a cualquier producto excepto catodoss y productos mineros con recargos  
+					//este es el select  para producto 65
+					
+					$Consulta =" select t1.valor,t1.cod_leyes,t1.nro_solicitud,t1.cod_unidad, ";
+					$Consulta =$Consulta." t2.estado_actual,t3.tipo_leyes,t1.recargo,t3.abreviatura as abrevLey, ";
+					$Consulta =$Consulta." t4.abreviatura as abrevUnidad,t1.signo ";
+					$Consulta =$Consulta."  from cal_web.leyes_por_solicitud t1 ";
+					$Consulta =$Consulta. " inner join cal_web.solicitud_analisis t2 on t1.nro_solicitud = t2.nro_solicitud ";
+					$Consulta =$Consulta." and t1.recargo = t2.recargo ";
+					$Consulta =$Consulta." inner join proyecto_modernizacion.leyes t3 ";
+					$Consulta =$Consulta." on t1.cod_leyes = t3.cod_leyes ";
+					$Consulta =$Consulta."  left join proyecto_modernizacion.unidades t4 ";
+					$Consulta =$Consulta."  on t1.cod_unidad = t4.cod_unidad ";
+					$Consulta =$Consulta."  where (t3.tipo_leyes = '0' or t3.tipo_leyes = '3')  and (t2.estado_actual = '6' or t2.estado_actual = '32') and t1.nro_solicitud = '".$Sol."' order by secuencia ";
+										
+					$Respuesta = mysqli_query($link, $Consulta);
+					//	echo "Cod".$CodProducto;
+					//	echo "Cod".$CodProducto;
+					while ($Fila5=mysqli_fetch_array($Respuesta))
+					{
+																
+						if ($Fila5["signo"] == 'N')
+						{
+							$Valor = 'ND';
+							$Signo = "";
+						}
+						
 						else
-							echo "<td>".$Valor."</td>";
-				}
-				echo "<td>".$Fila6["abrevUnidad"]."</td>";
-				echo "</tr>";
-			}											
+						{
+							//poly agrego este if para que muestre el Valor real para prod.65 2005-04-11
+							
+							if (($CodProducto=='65')&&($CodSubProducto=='9'))
+							{
+								
+								$Valor = $Fila5["valor"];
+								$Signo = $Fila5["signo"];
+							}
+							else
+							{	
+								$Valor = round($Fila5["valor"],6);
+								$Signo = $Fila5["signo"];
+							}	
+						}
+						echo "<tr>";
+						echo "<td>".$Fila5["abrevLey"]."</td>";
+						echo "<td>".$Signo."</td>";
+						if($Valor == 0)
+							echo "<td>0.0</td>";
+						else
+						{
+							if($CodProducto == 47 AND $CodSubProducto == 1 AND $Fila5["cod_leyes"] == 44)
+								echo "<td>".number_format($Valor,2,'.','')."</td>";
+							else	
+								if($CodProducto == 46 AND $CodSubProducto == 1 AND $Fila5["cod_leyes"] == 112)
+									echo "<td>".number_format($Valor,5,'.','')."</td>";
+								else
+									echo "<td>".$Valor."</td>";
+						}
+						echo "<td>".$Fila5["abrevUnidad"]."</td>";
+						echo "</tr>";
+					}
+																
+					echo "<tr>";										
+					echo "<td colspan='4'>&nbsp;</td>";										
+					echo "</tr>";
+						
+					//Consulta que devuelve las impurezas asociadas a cualquier producto excepto catodoss y productos mineros con recargos  
+					$Consulta =" select t1.valor,t1.cod_leyes,t1.nro_solicitud,t1.cod_unidad,t1.signo, ";
+					$Consulta =$Consulta." t2.estado_actual,t3.tipo_leyes,t1.recargo,t3.abreviatura as abrevLey, ";
+					$Consulta =$Consulta." t4.abreviatura as abrevUnidad ";
+					$Consulta =$Consulta."  from cal_web.leyes_por_solicitud t1 ";
+					$Consulta =$Consulta. " inner join cal_web.solicitud_analisis t2 on t1.nro_solicitud = t2.nro_solicitud ";
+					$Consulta =$Consulta." and t1.recargo = t2.recargo ";
+					$Consulta =$Consulta." inner join proyecto_modernizacion.leyes t3 ";
+					$Consulta =$Consulta." on t1.cod_leyes = t3.cod_leyes ";
+					$Consulta =$Consulta."  left join proyecto_modernizacion.unidades t4 ";
+					$Consulta =$Consulta."  on t1.cod_unidad = t4.cod_unidad ";
+					$Consulta =$Consulta."  where t3.tipo_leyes = '1' and (t2.estado_actual = '6' or t2.estado_actual = '32') and t1.nro_solicitud = '".$Sol."' order by secuencia ";
+		
+					$Respuesta = mysqli_query($link, $Consulta);
+					while ($Fila6=mysqli_fetch_array($Respuesta))
+					{													
+						if ($Fila6["signo"] == 'N')
+						{
+							$Valor = 'ND';
+							$Signo = "";
+						}
+						else
+						{
+							$Valor = round($Fila6["valor"],6);
+							$Signo = $Fila6["signo"];
+						}
 
-			//SELENIO Y SELENIO COMERCIAL
-			if (($CodProducto=='31')&&($CodSubProducto=='1'))
-			{
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaSelenio."' where cod_leyes = '40'";//SELENIO
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '40'";
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaTelurio."' where cod_leyes = '44'";//TELURO
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '44'";
-				mysqli_query($link, $Actualizar);
-			}
+						echo "<tr>";
+						echo "<td>".$Fila6["abrevLey"]."</td>";
+						echo "<td>".$Signo."</td>";
+						if($Valor == 0)
+							echo "<td>0.0</td>";
+						else
+						{
+							if($CodProducto == 47 AND $CodSubProducto == 1 AND $Fila6["cod_leyes"] == 44)
+								echo "<td>".number_format($Valor,2,'.','')."</td>";
+							else	
+								if($CodProducto == 46 AND $CodSubProducto == 1 AND $Fila6["cod_leyes"] == 112)
+									echo "<td>".number_format($Valor,5,'.','')."</td>";
+								else
+									echo "<td>".$Valor."</td>";
+						}
+						echo "<td>".$Fila6["abrevUnidad"]."</td>";
+						echo "</tr>";
+					}											
 
-			//BARROS Y BARRO COBRE TELURIO
-			if (($CodProducto=='27')&&($CodSubProducto=='1'))
-			{
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaSelenio."' where cod_leyes = '40'";//SELENIO
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '40'";//SELENIO
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaTelurio."' where cod_leyes = '44'";//TELURIO
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '44'";//TELURIO
-				mysqli_query($link, $Actualizar);
-			}
+					//SELENIO Y SELENIO COMERCIAL
+					if (($CodProducto=='31')&&($CodSubProducto=='1'))
+					{
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaSelenio."' where cod_leyes = '40'";//SELENIO
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '40'";
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaTelurio."' where cod_leyes = '44'";//TELURO
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '44'";
+						mysqli_query($link, $Actualizar);
+					}
 
-			//PLATINO-PALADIO 
-			if ($CodProducto=='33')
-			{
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaPlatino."' where cod_leyes = '37'";//PLATINO
-				mysqli_query($link, $Actualizar);
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '37'";
-				mysqli_query($link, $Actualizar);
-			}	
+					//BARROS Y BARRO COBRE TELURIO
+					if (($CodProducto=='27')&&($CodSubProducto=='1'))
+					{
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaSelenio."' where cod_leyes = '40'";//SELENIO
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '40'";//SELENIO
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaTelurio."' where cod_leyes = '44'";//TELURIO
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '44'";//TELURIO
+						mysqli_query($link, $Actualizar);
+					}
 
-			//GRANALLA Y GRANALLA DE PLATA 
-			if (($CodProducto=='29')&&($CodSubProducto=='4'))
-			{
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia ='".$SecuenciaPlata."' where cod_leyes = '04'";
-				mysqli_query($link, $Actualizar);
-			}										
+					//PLATINO-PALADIO 
+					if ($CodProducto=='33')
+					{
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaPlatino."' where cod_leyes = '37'";//PLATINO
+						mysqli_query($link, $Actualizar);
+						$Actualizar="update proyecto_modernizacion.leyes set tipo_leyes = 1 where cod_leyes = '37'";
+						mysqli_query($link, $Actualizar);
+					}	
 
-			//PRODUCTO ORO Y BARROS DE ORO
-			if (($CodProducto=='34')&&($CodSubProducto=='2'))
-			{
-				$Actualizar="UPDATE proyecto_modernizacion.leyes set secuencia = '".$SecuenciaOro."' where cod_leyes = '05'";
-				mysqli_query($link, $Actualizar);
-			}
+					//GRANALLA Y GRANALLA DE PLATA 
+					if (($CodProducto=='29')&&($CodSubProducto=='4'))
+					{
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia ='".$SecuenciaPlata."' where cod_leyes = '04'";
+						mysqli_query($link, $Actualizar);
+					}										
+
+					//PRODUCTO ORO Y BARROS DE ORO
+					if (($CodProducto=='34')&&($CodSubProducto=='2'))
+					{
+						$Actualizar="update proyecto_modernizacion.leyes set secuencia = '".$SecuenciaOro."' where cod_leyes = '05'";
+						mysqli_query($link, $Actualizar);
+					}
 		}//fin if si no es p minero o otro producto con recargo
 	
-
-		$insertar ="INSERT into cal_web.certificados (rut_generador,nro_solicitud,fecha_hora,nro_certificado)";
-		$insertar.="values ('".$Rut."','".$Sol."','".$FechaHora."','".$NroCert."')";
+		$insertar ="INSERT IGNORE into cal_web.certificados (rut_generador,nro_solicitud,fecha_hora,nro_certificado)";
+		$insertar.="values ('".$Rut."','$Sol','".$FechaHora."','".$NroCert."')";
 		mysqli_query($link, $insertar);								
 		//$SolRecargo = substr($SolRecargo,$j + 2);
 
@@ -946,13 +941,15 @@ function Proceso()
 		echo '<p>&nbsp;</p>';
 		echo '<p>&nbsp;</p>';
 
+			
 		$Consulta = "SELECT * FROM proyecto_modernizacion.funcionarios WHERE rut = '".$CookieRut."'";
 		$rs = mysqli_query($link, $Consulta);
 		if($row = mysqli_fetch_array($rs))
 		{
 			$sigla = '/'.substr($row["nombres"],0,1).substr($row["apellido_paterno"],0,1).substr($row["apellido_materno"],0,1);
 		}
-		/*echo '<table width="400" height="46" border="0" align="center">';
+		/*
+		echo '<table width="400" height="46" border="0" align="center">';
 		echo '<tr>';
 		echo '<td>&nbsp;</td>';
 		echo '<td align="right"><strong>JEFE CONTROL CALIDAD</strong></td>';
@@ -962,7 +959,9 @@ function Proceso()
 		echo '<tr>';
 		echo '<td>'.$sigla.'</td></tr>';
 		echo '<tr><td align="left">'.$FechaHora1.'</td>';
-		echo '</tr></table>';*/
+		echo '</tr></table>';
+		*/
+	
 ?>		
 
 			

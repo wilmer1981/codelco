@@ -20,12 +20,11 @@
 	}else{
 		$TxtFechaFin=date("Y-m-d");
 	}
-
 	$NomSubProducto = isset($_REQUEST["NomSubProducto"])?$_REQUEST["NomSubProducto"]:"";
 
 	$Datos = explode("-",$TipoProducto);
 	$Producto = $Datos[0];
-	$SubProducto = $Datos[1];
+	$SubProducto = isset($Datos[1])?$Datos[1]:"";
 	//PRODUCTO
 	$Consulta = "select * from proyecto_modernizacion.productos where cod_producto='".$Producto."'";
 	$Respuesta = mysqli_query($link, $Consulta);
@@ -76,7 +75,6 @@
 			$ArrLeyes[$Datos2[0]][1] = $Datos2[1]; //SIGNO
 		else
 			$ArrLeyes[$Datos2[0]][1] = ""; //SIGNO
-
 		$ArrLeyes[$Datos2[0]][2] = str_replace(",",".",$Datos22); //VALOR
 		$ArrLeyes[$Datos2[0]][3] = $Abrev;     //ABREVIATURA 
 		//ARREGLO LIMITES
@@ -176,7 +174,7 @@ function Proceso(o)
     <td width="29">Id.Muestra</td>
     <td width="30">Estado</td>
     <?php	
-	//foreach($ArrLeyes as $k=>$v)
+	//while (list($k,$v)=each($ArrLeyes))
 	foreach($ArrLeyes as $k => $v)
 	{
 		if ($v[1]!="")
@@ -258,12 +256,12 @@ function Proceso(o)
 		reset($ArrLeyes);
 		$ClaveChk="";
 		$SinDefinir=false;
-		//foreach($ArrLeyes as $k=>$v)
+		//while (list($k,$v)=each($ArrLeyes))
 		foreach($ArrLeyes as $k => $v )
 		{
 			$Color = "";
 			$v1 = isset($v[1])?$v[1]:"";
-				if ($v1 != "")
+				if ($v1!= "")
 				{
 					switch ($v[1])
 					{
@@ -280,7 +278,11 @@ function Proceso(o)
 							{
 								$Color="YELLOW";
 								$Errores=true;
-								$ClaveChk.= $Producto."~~".$SubProducto."~~".$Fila["hornada"]."~~".$v[0]."~~<~~".$v[2]."~~".$v[4]."~~".$v[5]."//";
+								$v0 =isset($v[0])?$v[0]:"";
+								$v2 =isset($v[2])?$v[2]:"";
+								$v4 =isset($v[4])?$v[4]:"";
+								$v5 =isset($v[5])?$v[5]:"";
+								$ClaveChk.= $Producto."~~".$SubProducto."~~".$Fila["hornada"]."~~".$v0."~~<~~".$v2."~~".$v4."~~".$v5."//";
 							}
 							break;
 						case "=":

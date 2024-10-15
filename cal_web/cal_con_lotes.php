@@ -140,6 +140,7 @@ function ValidarCertificado()
 	var ValoresSA="";	
 	//Asigna a ValoresSA los valores recuperados de la funcion donde recupera la SA,rut,recargo para atenderlos
 	ValoresSA=RecuperarSolicitud();
+	//alert("ooo:"+ValoresSA);
 	if (ValoresSA!="")
 	{	
 		window.open("cal_generacion_certificados_analisis.php?SolRecargo="+ ValoresSA,"","top=50,left=50,width=610,height=500,scrollbars=yes,resizable = yes");
@@ -161,10 +162,11 @@ function RecuperarSolicitud()
 				Encontro=true;
 			}
 		}
-	}catch (e){
+	}	
+	catch (e)
+	{
 	 	 alert("No hay Elementos para Seleccionar");
 	}
-
 	if (Encontro==false)
 	{
 		alert("No hay Elementos para Seleccionar");
@@ -220,16 +222,15 @@ function Recarga(URL,LimiteIni)
 			echo ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
 		}	  
 	  	else
-			{
+		{
 		  		$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
 				$Respuesta = mysqli_query($link, $Consulta);
 				if ($Fila=mysqli_fetch_array($Respuesta))
-					{
-						echo ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
-					}
-		
-			}
-		  ?>
+				{
+					echo ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
+				}		
+		}
+		?>
           </strong></td>
         <td><font size="1"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Fecha:<strong> 
           </strong></font></font></td>
@@ -464,18 +465,18 @@ function Recarga(URL,LimiteIni)
       </tr>
       <?php
 	 	include ("../Principal/conectar_cal_web.php");	
-		 if(strlen($CmbMes)==1){
+		if(strlen($CmbMes)==1){
 			$CmbMes ="0".$CmbMes;
-		 }
-		 if(strlen($CmbDias)==1){
+		}
+		if(strlen($CmbDias)==1){
 			$CmbDias ="0".$CmbDias;
-		 }
-		 if(strlen($CmbMesT)==1){
+		}
+		if(strlen($CmbMesT)==1){
 			$CmbMesT ="0".$CmbMesT;
-		 }
-		 if(strlen($CmbDiasT)==1){
+		}
+		if(strlen($CmbDiasT)==1){
 			$CmbDiasT ="0".$CmbDiasT;
-		 }
+		}
 
 		$FechaI = $CmbAno."-".$CmbMes."-".$CmbDias.' 00:01';
 		$FechaT = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT.' 23:59';
@@ -498,7 +499,7 @@ function Recarga(URL,LimiteIni)
 					$Encontro=true;
 					$i++;
 			}
-		}
+		}		
 		if ($Encontro==true)
 		{
 			$Pregunta.=" (t1.id_muestra between '".$LoteOrigen."' and '".$LoteFinal."')or (t1.id_muestra between '".$IdInicial."' and '".$IdFinal."') and (t1.fecha_muestra between  '".$FechaI."' and '".$FechaT."') and ((t1.agrupacion = 1)or(t2.lotes='S')) ";
@@ -519,9 +520,8 @@ function Recarga(URL,LimiteIni)
 	  	{
 				if (($Fila["tipo_solicitud"]=='R') && ($Fila["estado_actual"] =='6')) 				
 				{
-					$Chanta        = $Chanta."t1.nro_solicitud=".$Fila["nro_solicitud"]." or ";
-					$Coincidencias=$Coincidencias+1;
-				
+					$Chanta=$Chanta."t1.nro_solicitud=".$Fila["nro_solicitud"]." or ";
+					$Coincidencias=$Coincidencias+1;			
 				}
 				if ($Fila["tipo_solicitud"]=='A')
 				{
@@ -540,9 +540,10 @@ function Recarga(URL,LimiteIni)
 					}	
 				}
 		}
-		//echo "chantasunsub".$Chanta."<br>";
+		//echo "<br>Coincidencias:".$Coincidencias."jejejej<br><br>";
+		//echo "chantasunsub:".$Chanta."<br>";
 		$Chanta=substr($Chanta,0,strlen($Chanta)-3);
-		//echo "chantaconnsub".$Chanta."<br>";
+		//echo "chantaconnsub:".$Chanta."<br>";
 		if ($Chanta!="")
 		{
 			$Consulta = "select distinct(t1.nro_solicitud), t1.nro_sa_lims,t1.fecha_hora,t1.fecha_muestra,t1.cod_producto,t1.cod_subproducto,t1.rut_funcionario,t1.id_muestra,t1.fecha_hora as FechaCreacion,t1.tipo_solicitud,t1.agrupacion,t1.estado_actual from cal_web.solicitud_analisis t1 ";		
@@ -554,31 +555,31 @@ function Recarga(URL,LimiteIni)
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				$Agrupacion=$Fila["agrupacion"]."<br>";
-				
+				//var_dump($Fila);		
+							
 				echo "<tr>";
 					if (($Fila["tipo_solicitud"]=='R') && ($Fila["estado_actual"] =='6')) 				
 					{
+							//echo $Fila["tipo_solicitud"];	
 						echo "<td width='2'><input type='checkbox' name ='checkSA' value=''></td>"; 
 
-							if ($Fila["nro_sa_lims"]=='') {
-              					$VarSA=$Fila["nro_solicitud"];
-              				}else{
-              					$VarSA=$Fila["nro_sa_lims"];
-              				}
+						if ($Fila["nro_sa_lims"]=='') {
+							$VarSA=$Fila["nro_solicitud"];
+						}else{
+							$VarSA=$Fila["nro_sa_lims"];
+						}
 
-              				echo "<td width='100'>
-              				<a href=\"JavaScript:Historial(".$Fila["nro_solicitud"].")\">".$TxtSA = $VarSA."</a>
-              				<input name = 'TxtRecargo' type = 'hidden' value ='N'>
-              				 
-              				<input name='TxtVarSA' type='text' readonly style='width:100' maxlength='100' value =".$VarSA.">
-              				</td>";
-
- 			
+						echo "<td width='100'>
+						<a href=\"JavaScript:Historial(".$Fila["nro_solicitud"].")\">".$TxtSA = $VarSA."</a>
+						<input name = 'TxtRecargo' type = 'hidden' value ='N'>
+						 
+						<input name='TxtVarSA' type='text' readonly style='width:100' maxlength='100' value =".$VarSA.">
+						</td>";
+							
 						$Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase = 1004 and cod_subclase = '".$Fila["agrupacion"]."'";
 						$Resp1=mysqli_query($link, $Consulta);
 						$Fil1=mysqli_fetch_array($Resp1);
-						echo "<td>".$Fil1["nombre_subclase"]."</td>\n";
-						
+						echo "<td>".$Fil1["nombre_subclase"]."</td>\n";						
 						$Consulta=" select STRAIGHT_JOIN t1.lote_ventana from sea_web.relaciones t1";
 						$Consulta.= " inner join cal_web.solicitud_analisis t2 on t1.lote_origen = t2.id_muestra";
 						$Consulta.=" where (t2.id_muestra='".$Fila["id_muestra"]."') ";
@@ -619,44 +620,40 @@ function Recarga(URL,LimiteIni)
 						if ($Fila2["NroSol"] == $Fila3["NroSolF"])
 						{		
 							echo "<tr>";
-							echo "<td width='2'><input type='checkbox' name ='checkSA' value=''></td>";
-
-							if ($Fila["nro_sa_lims"]=='') {
-              					$VarSA=$Fila["nro_solicitud"];
-              				}else{
-              					$VarSA=$Fila["nro_sa_lims"];
-              				}
-
-              				echo "<td width='100'>
-              				<a href=\"JavaScript:Historial(".$Fila["nro_solicitud"].")\">".$TxtSA = $VarSA."</a>
-              				<input name = 'TxtRecargo' type = 'hidden' value ='N'>
-              				 
-              				<input name='TxtVarSA' type='hidden' readonly style='width:100' maxlength='100' value =".$VarSA.">
-              				</td>";
-
-							$Consulta ="select STRAIGHT_JOIN t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
-							$Consulta.= " inner join cal_web.solicitud_analisis t1 on  t1.agrupacion = t2.cod_subclase and t2.cod_clase = 1004  "; 
-							$Consulta.= " where t1.nro_solicitud = ".$Fila["nro_solicitud"]." ";
-							$Resp1=mysqli_query($link, $Consulta);
-							$Fil1=mysqli_fetch_array($Resp1);
-							echo "<td>".$Fil1["nombre_subclase"]."</td>\n";
-							echo "<td width='110'><div align='left'>".$TxtIdMuestra = $Fila["id_muestra"]."<input  type = 'hidden' value =".substr($Fila["fecha_hora"],0,10)."><input type = 'hidden' value =".substr($Fila["fecha_hora"],11,8)."></div></td>";				
-							echo "<td width ='150'><div align ='left'>".$Fila["fecha_muestra"]."&nbsp;</div></td>";		
-							echo "<td width ='150'><div align ='left'>".$Fila["FechaCreacion"]."&nbsp;</div></td>";		
-							//----------------------Producto y  Subproducto --------------------------------------
-							$Consulta = "select STRAIGHT_JOIN  t2.abreviatura as AbrevProducto,t3.abreviatura as AbrevSubProducto from cal_web.solicitud_analisis t1 ";
-							$Consulta.= " inner join proyecto_modernizacion.productos t2 on t1.cod_producto = t2.cod_producto  ";
-							$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t2.cod_producto = t3.cod_producto and t1.cod_subproducto = t3.cod_subproducto ";
-							$Consulta.= " where t1.nro_solicitud = '".$Fila["nro_solicitud"]."' ";
-							$Resp=mysqli_query($link, $Consulta);
-							$Fila1=mysqli_fetch_array($Resp);  
-							echo "<td align ='center'>".$Fila1["AbrevProducto"]."</td>";
-							echo "<td align = 'center'>".$Fila1["AbrevSubProducto"]."</td>";
+								echo "<td width='2'><input type='checkbox' name ='checkSA' value=''></td>";
+								if ($Fila["nro_sa_lims"]=='') {
+									$VarSA=$Fila["nro_solicitud"];
+								}else{
+									$VarSA=$Fila["nro_sa_lims"];
+								}
+								echo "<td width='100'>
+								<a href=\"JavaScript:Historial(".$Fila["nro_solicitud"].")\">".$TxtSA = $VarSA."</a>
+								<input name = 'TxtRecargo' type = 'hidden' value ='N'>              				 
+								<input name='TxtVarSA' type='hidden' readonly style='width:100' maxlength='100' value =".$VarSA.">
+								</td>";
+								$Consulta ="select STRAIGHT_JOIN t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
+								$Consulta.= " inner join cal_web.solicitud_analisis t1 on  t1.agrupacion = t2.cod_subclase and t2.cod_clase = 1004  "; 
+								$Consulta.= " where t1.nro_solicitud = ".$Fila["nro_solicitud"]." ";
+								$Resp1=mysqli_query($link, $Consulta);
+								$Fil1=mysqli_fetch_array($Resp1);
+								echo "<td>".$Fil1["nombre_subclase"]."</td>\n";
+								echo "<td width='110'><div align='left'>".$TxtIdMuestra = $Fila["id_muestra"]."<input  type = 'hidden' value =".substr($Fila["fecha_hora"],0,10)."><input type = 'hidden' value =".substr($Fila["fecha_hora"],11,8)."></div></td>";				
+								echo "<td width ='150'><div align ='left'>".$Fila["fecha_muestra"]."&nbsp;</div></td>";		
+								echo "<td width ='150'><div align ='left'>".$Fila["FechaCreacion"]."&nbsp;</div></td>";		
+								//----------------------Producto y  Subproducto --------------------------------------
+								$Consulta = "select STRAIGHT_JOIN  t2.abreviatura as AbrevProducto,t3.abreviatura as AbrevSubProducto from cal_web.solicitud_analisis t1 ";
+								$Consulta.= " inner join proyecto_modernizacion.productos t2 on t1.cod_producto = t2.cod_producto  ";
+								$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t2.cod_producto = t3.cod_producto and t1.cod_subproducto = t3.cod_subproducto ";
+								$Consulta.= " where t1.nro_solicitud = '".$Fila["nro_solicitud"]."' ";
+								$Resp=mysqli_query($link, $Consulta);
+								$Fila1=mysqli_fetch_array($Resp);  
+								echo "<td align ='center'>".$Fila1["AbrevProducto"]."</td>";
+								echo "<td align = 'center'>".$Fila1["AbrevSubProducto"]."</td>";
 							echo "</tr>";
 						}	
 					}
-				}
-			}	
+			}
+		}	
 	   ?>
     </table>
     <br>
@@ -675,7 +672,7 @@ function Recarga(URL,LimiteIni)
   	<table width="760" border="0" cellpadding="0" cellspacing="0">
          <tr>
          <td height="25" align="center" valign="middle">Paginas &gt;&gt; 
-         <?php		
+         <?php	 
 		if ($Chanta!="")
 		{
 			$NumPaginas = ($Coincidencias / $LimitFin);

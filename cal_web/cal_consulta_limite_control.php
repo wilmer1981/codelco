@@ -1,5 +1,6 @@
 <?php 
 	$CodigoDeSistema = 1;
+	$CodigoDePantalla = 69;
 	$CookieRut=$_COOKIE["CookieRut"];
 
 	if(isset($_REQUEST["CmbProductos"])) {

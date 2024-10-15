@@ -1,21 +1,22 @@
-<?php          ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+<?php   
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
 
@@ -56,7 +57,6 @@
 	$CCosto      = isset($_REQUEST["CCosto"])?$_REQUEST["CCosto"]:"";
 	$Areas       = isset($_REQUEST["Areas"])?$_REQUEST["Areas"]:"";
 	$Enabal      = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:"";
-
 	/*********************************************************** */
 
  	$Seleccion1= "select distinct t3.cod_leyes,t4.abreviatura";
@@ -451,9 +451,9 @@
 					{ ?>
 					     <td width="130" align="center">Fecha Entrada</td>
 					<?php }if ($ChkObservacion=="S") {?>
-					<td width="350" align="center">Observaci�n</td>
+					<td width="350" align="center">Observaci&oacute;n</td>
 					<?php } ?>
-					<td width="350" align="center">Observaci�n Leyes</td>
+					<td width="350" align="center">Observaci&oacute;n Leyes</td>
 		  </tr>
 					<?php
 					
@@ -518,7 +518,7 @@
 								if ($Fila3["signo"]=="=")
 								{
 									
-									$Valor=ValorColor($Fila["nro_solicitud"],$Fila3["cod_producto"],$Fila3["cod_subproducto"],$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"]);
+									$Valor=ValorColor($Fila["nro_solicitud"],$Fila3["cod_producto"],$Fila3["cod_subproducto"],$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"],$link);
 									$M=explode('~',$Valor);
 									if($M[1]!='')
 										$OBSLEY=$OBSLEY.$Fila3["ley"].":".$M[1]."/";
@@ -527,7 +527,7 @@
 								}
 								else
 								{
-										$Valor=ValorColor($Fila["nro_solicitud"],$CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"]);
+										$Valor=ValorColor($Fila["nro_solicitud"],$CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],$Fila3["valor"],$Fila["recargo"],$link);
 									$M=explode('~',$Valor);
 									if($M[1]!='')
 										$OBSLEY=$OBSLEY.$Fila3["ley"].":".$M[1]."/";
