@@ -872,7 +872,8 @@ function Salir()
 			 	{
 					$Chk="S";
 				}*/
-				 if($Chk=='S')
+				$checked="";
+				if($Chk=='S')
 					$checked='checked';
 			 ?> &nbsp;&nbsp;&nbsp;&nbsp;<input name="ChkLimite" type="checkbox"  <?php echo $checked;?> value="S"> Solo Limite Control			</td>
           </tr>

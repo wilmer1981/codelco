@@ -1,8 +1,24 @@
-<?php 
-    include("../principal/conectar_principal.php");
+<?php
+ 	include("../principal/conectar_principal.php");
 	include("../principal/graficos/phpchartdir.php");
-
+	
 	$CookieRut=$_COOKIE["CookieRut"];
+	
+	if(isset($_REQUEST["CmbCCosto"])) {
+		$CmbCCosto = $_REQUEST["CmbCCosto"];
+	}else{
+		$CmbCCosto ="";
+	}
+	if(isset($_REQUEST["CmbAreasProceso"])) {
+		$CmbAreasProceso = $_REQUEST["CmbAreasProceso"];
+	}else{
+		$CmbAreasProceso ="";
+	}
+		if(isset($_REQUEST["Proveedor"])) {
+		$Proveedor = $_REQUEST["Proveedor"];
+	}else{
+		$Proveedor ="";
+	}
 
 	if(isset($_REQUEST["CmbProductos"])) {
 		$CmbProductos = $_REQUEST["CmbProductos"];
@@ -119,9 +135,8 @@
 	}else{
 		$TxtFiltroPrv = "";
 	}
-
 	
- 	$Seleccion1= "select distinct t3.cod_leyes,t4.abreviatura";
+ 	$Seleccion1= "select distinct t3.cod_leyes,t4.abreviatura ";
 	$Seleccion2= "select distinct t1.nro_solicitud,t1.recargo ";
 	$Seleccion3= "select count(distinct t1.nro_solicitud,t1.recargo) as total_registros ";
 	$Eliminar="Delete from cal_web.tmp_limite_control where usuario='".$CookieRut."'";
@@ -160,7 +175,7 @@
 			$Respuesta = mysqli_query($link, $ConsultaProv);
 			if($Fila=mysqli_fetch_array($Respuesta))
 			{
-				$Proveedor=str_pad($Fila[rut_prv], 10, "0", STR_PAD_LEFT)." - ".ucwords(strtolower($Fila["nombre_prv"]));
+				$Proveedor=str_pad($Fila["rut_prv"], 10, "0", STR_PAD_LEFT)." - ".ucwords(strtolower($Fila["nombre_prv"]));
 			}
 		}
 	}		
@@ -191,11 +206,12 @@
 	$Respuesta1 = mysqli_query($link, $Consulta1);
 	$Fila1=mysqli_fetch_array($Respuesta1);
 	$Nivel=$Fila1["nivel"];
+	/*
 	if (!isset($LimitIni))
 		$LimitIni = 0;
 	if (!isset($LimitFin))
 		$LimitFin =50;
-	
+	*/
 	$LimitFin=$LimitFinAux;
 	///echo $LimitIni."   ".$LimitFin."<br>";	
 	$CodigoDeSistema = 1;
@@ -216,11 +232,11 @@
 	{
 		$TipoAnalisis=" and t1.cod_analisis='".$CmbTipoAnalisis."'";
 	}
-	$Consulta = $Consulta." from cal_web.solicitud_analisis t1 ";
-	$Consulta = $Consulta." inner join cal_web.leyes_por_solicitud t3 on t1.rut_funcionario=t3.rut_funcionario and t1.fecha_hora = t3.fecha_hora and ";
-	$Consulta = $Consulta." t1.nro_solicitud = t3.nro_solicitud and t1.recargo = t3.recargo ";
+	$Consulta = "FROM cal_web.solicitud_analisis t1 ";
+	$Consulta.= "INNER JOIN cal_web.leyes_por_solicitud t3 on t1.rut_funcionario=t3.rut_funcionario and t1.fecha_hora = t3.fecha_hora and ";
+	$Consulta.= " t1.nro_solicitud = t3.nro_solicitud and t1.recargo = t3.recargo ";
 //	 inner join 	proyecto_modernizacion.leyes t4 on t3.cod_leyes = t4.cod_leyes";
-	$Consulta = $Consulta." where (t1.estado_actual ='6') and t1.recargo<>'R'";
+	$Consulta.="WHERE (t1.estado_actual ='6') and t1.recargo<>'R'";
 	if($CmbPeriodo!='T')
 		$Consulta =$Consulta." and (t1.cod_periodo='".$CmbPeriodo."')";
 	$Consulta =$Consulta.$Tipo.$TipoAnalisis;
@@ -256,16 +272,17 @@
 		if($CmbProveedores!='T')
 			$Consulta = $Consulta." and  t1.rut_proveedor='".$CmbProveedores."' ";
 	}
-	if(len($CmbMes)==1){
+	
+	if(strlen($CmbMes)==1){
 		$CmbMes = "0".$CmbMes;
 	}
-	if(len($CmbDias)==1){
+	if(strlen($CmbDias)==1){
 		$CmbDias = "0".$CmbDias;
 	}
-	if(len($CmbMesT)==1){
+	if(strlen($CmbMesT)==1){
 		$CmbMesT = "0".$CmbMesT;
 	}
-	if(len($CmbDiasT)==1){
+	if(strlen($CmbDiasT)==1){
 		$CmbDiasT = "0".$CmbDiasT;
 	}
 	$FechaI=$CmbAno."-".$CmbMes."-".$CmbDias." 00:00:01";
@@ -290,8 +307,8 @@
 				if($Fila3=mysqli_fetch_array($Respuesta3))
 				{		
 					$Tiene="N";
-					$Valor=$Fila3["valor"];
-					ValorLimiteControl($CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3["cod_unidad"],$Fila["rut_proveedor"],&$Valor,&$Tiene);
+					$Valor=$Fila3[valor];
+					ValorLimiteControl($CmbProductos,$CmbSubProducto,$Fila3["cod_leyes"],$Fila3[cod_unidad],$Fila["rut_proveedor"],$Valor,$Tiene,$link);
 					if($Tiene=='S')
 					{
 						$Insertar="insert into cal_web.tmp_limite_control(nro_solicitud,recargo,usuario) values(";
@@ -315,33 +332,34 @@
 */
 	$ConcRIT2=$Seleccion3.$Consulta;
 	$Criterio2=$ConcRIT2;
+	//echo "Criterio2: ".$Criterio2;
+	$ConsultaVAR="Select * from cal_web.limite where cod_producto='".$CmbProductos."' and cod_subproducto='".$CmbSubProducto."'";
+	$ConsultaVAR.=" and cod_ley='".$CmbLey."' and unidad='".$CmbUnidad."' and rut_proveedor='".$CmbProveedores."'";
+	$RespVar= mysqli_query($link, $ConsultaVAR);
+	if($FilaVar=mysqli_fetch_array($RespVar))
+	{
+		$LimitIniVALOR=$FilaVar["limite_inicial"];
+		$LimitFinVALOR=$FilaVar["limite_final"];
+		//	$LimitIniVALOR=number_format($FilaVar["limite_inicial"],3,'.','');
+		//	$LimitFinVALOR=number_format($FilaVar["limite_final"],3,'.','');
+	}
+	else
+	{
 		$ConsultaVAR="Select * from cal_web.limite where cod_producto='".$CmbProductos."' and cod_subproducto='".$CmbSubProducto."'";
-		$ConsultaVAR.=" and cod_ley='".$CmbLey."' and unidad='".$CmbUnidad."' and rut_proveedor='".$CmbProveedores."'";
+		$ConsultaVAR.=" and cod_ley='".$CmbLey."' and unidad='".$CmbUnidad."'";
 		$RespVar= mysqli_query($link, $ConsultaVAR);
 		if($FilaVar=mysqli_fetch_array($RespVar))
 		{
-			$LimitIniVALOR=$FilaVar["limite_inicial"];
-			$LimitFinVALOR=$FilaVar["limite_final"];
-			//	$LimitIniVALOR=number_format($FilaVar["limite_inicial"],3,'.','');
-			//	$LimitFinVALOR=number_format($FilaVar["limite_final"],3,'.','');
-		}
-		else
-		{
-			$ConsultaVAR="Select * from cal_web.limite where cod_producto='".$CmbProductos."' and cod_subproducto='".$CmbSubProducto."'";
-			$ConsultaVAR.=" and cod_ley='".$CmbLey."' and unidad='".$CmbUnidad."'";
-			$RespVar= mysqli_query($link, $ConsultaVAR);
-			if($FilaVar=mysqli_fetch_array($RespVar))
-			{
-			$LimitIniVALOR=$FilaVar["limite_inicial"];
-			$LimitFinVALOR=$FilaVar["limite_final"];
-			
-			//$LimitIniVALOR=number_format($FilaVar["limite_inicial"],3,'.','');
-			//$LimitFinVALOR=number_format($FilaVar["limite_final"],3,'.','');
-			}
+		$LimitIniVALOR=$FilaVar["limite_inicial"];
+		$LimitFinVALOR=$FilaVar["limite_final"];
 		
-		}
+		//$LimitIniVALOR=number_format($FilaVar["limite_inicial"],3,'.','');
+		//$LimitFinVALOR=number_format($FilaVar["limite_final"],3,'.','');
+		}	
+	}
 		
-	$Criterio=$Seleccion2.$Consulta." order by t1.fecha_muestra,t1.nro_solicitud LIMIT ".$LimitIni.", ".$LimitFin;
+	$Criterio=$Seleccion2.$Consulta." order by t1.fecha_muestra,t1.nro_solicitud LIMIT $LimitIni,$LimitFin ";
+	//echo "<br><br>Criterio: ".$Criterio;
 	$Respuesta2=mysqli_query($link, $Criterio);$Cont=0;
 	while ($Fila=mysqli_fetch_array($Respuesta2))
 	{
