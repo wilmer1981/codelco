@@ -1,6 +1,13 @@
 <?php
   	include("../principal/conectar_ref_web.php");
-  	include("phpchartdir.php");
+    include("../principal/graficos/phpchartdir.php");
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d"); 
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");  
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y"); 
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$cmbcircuito= isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:"";
 	
 	       	if ($DiaIni < 10)
 		       $DiaIni = "0".$DiaIni;
@@ -33,9 +40,9 @@
 				   $consulta_grupos_dia.="GROUP by t1.fecha_produccion,t1.cod_grupo ";
 				   $consulta_grupos_dia.="ORDER by t1.fecha_produccion";
 				   $respuesta_grupos_dia=mysqli_query($link, $consulta_grupos_dia);
-				   //$total_grupo=0;
-				   //$rechazo_total_dias=0;
-				   //$recuperado_total_dias=0;
+				   $total_grupo=0;
+				   $rechazo_total_dias=0;
+				   $recuperado_total_dias=0;
 				   while ($row_grupos_dia=mysqli_fetch_array($respuesta_grupos_dia))
 				        {
 					      $consulta_t_rechazo_catodos="select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,";
@@ -54,7 +61,7 @@
 						  $respuesta_det_grupo = mysqli_query($link, $consulta_det_grupo);
 						  $row_det_grupo = mysqli_fetch_array($respuesta_det_grupo);
 						  
-						  $total_grupo=$total_grupo+($row_det_grupo["num_catodos"]*($row_det_grupo[num_cubas]-$row_det_grupo["hojas_madres"]));
+						  $total_grupo=$total_grupo+($row_det_grupo["num_catodos"]*($row_det_grupo["num_cubas"]-$row_det_grupo["hojas_madres"]));
 						  $rechazo_total_dias=$rechazo_total_dias+$suma_rechazo;
 						  $recuperado_total_dias=$recuperado_total_dias+$fila_t_rechazo_catodos["recuperado_tot"];
 						}
@@ -65,8 +72,8 @@
 				   $arreglo_acumulado_recuperado[$i]=number_format($recuperado_total,"2",".",".");
 				   $arreglo_acumulado_rechazo[$i]=number_format($rechazo_total,"2",".",".");
 				   
-				   $divisor=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba];
-				   $divisor2=$row_det_grupo[num_cubas]-$row_det_grupo[cant_cuba]-$row_det_grupo["hojas_madres"];
+				   $divisor=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"];
+				   $divisor2=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"]-$row_det_grupo["hojas_madres"];
 				   $divisor2=$divisor2*$row_det_grupo["num_catodos"];
 				   //$seleccion_inicial=(($suma_rechazo+$fila_t_rechazo_catodos["recuperado_tot"])/$divisor2)*100;
 				   $porc_recuperado=(($fila_t_rechazo_catodos["recuperado_tot"]/$divisor2)*100);
@@ -92,7 +99,7 @@
 	$legendObj->setBackground(Transparent);
 	
 
-		$titleObj = $c->addTitle("Clasificaci�n de Catodos Comerciales ".$FechaInicio." y ".$FechaTermino." para el circuito ".$cmbcircuito."", "arialbd.ttf",9, 0xffffff);
+		$titleObj = $c->addTitle("Clasificación de Catodos Comerciales ".$FechaInicio." y ".$FechaTermino." para el circuito ".$cmbcircuito."", "arialbd.ttf",9, 0xffffff);
 		$titleObj->setBackground($c->patternColor(array(0x4000, 0x8000), 2));
 
 	
