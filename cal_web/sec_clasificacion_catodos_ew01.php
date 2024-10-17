@@ -8,7 +8,11 @@
 	$TxtSTD1 = isset($_REQUEST["TxtSTD1"])?$_REQUEST["TxtSTD1"]:"";
 	$TxtSTD2 = isset($_REQUEST["TxtSTD2"])?$_REQUEST["TxtSTD2"]:"";
 	$TxtSTD3 = isset($_REQUEST["TxtSTD3"])?$_REQUEST["TxtSTD3"]:"";
-
+	
+	$TxtSTD1 =  str_replace(',', '.', $TxtSTD1);
+	$TxtSTD2 =  str_replace(',', '.', $TxtSTD2);
+	$TxtSTD3 =  str_replace(',', '.', $TxtSTD3);
+	
 
 	switch ($Proceso)
 	{
@@ -50,8 +54,8 @@
 			header("location:sec_clasificacion_catodos_ew.php");
 		break;
 		case "M":
-			//$Datos2=explode('~',$Valores);
-			$Actualizar=" UPDATE  cal_web.clasificacion_catodos_ew set ";
+			//$Datos2=explode('~',$Valores);			
+			$Actualizar=" update cal_web.clasificacion_catodos_ew set ";
 			$Actualizar.="  std_1='".$TxtSTD1."',std_2='".$TxtSTD2."' , std_3='".$TxtSTD3."' ";
 			$Actualizar.=" where cod_leyes ='".$CmbLey."' ";
 			mysqli_query($link, $Actualizar);
