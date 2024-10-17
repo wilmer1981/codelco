@@ -1,7 +1,11 @@
 <?php
 //echo $SA."<br>";
 include("../principal/conectar_principal.php");
-$Rut =$CookieRut;
+$CookieRut  = $_COOKIE["CookieRut"];
+$Rut   = $CookieRut;
+$SA    = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+$SA02  = isset($_REQUEST["SA02"])?$_REQUEST["SA02"]:"";
+$PWValida = isset($_REQUEST["PWValida"])?$_REQUEST["PWValida"]:"";
 
 ?>
 <html>

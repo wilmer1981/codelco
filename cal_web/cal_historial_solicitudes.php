@@ -1,18 +1,39 @@
 <?php 
-	$CodigoDeSistema = 1;
+	$CodigoDeSistema  = 1;
 	$CodigoDePantalla = 19;
-include("../principal/conectar_principal.php");
-$Fecha_Hora = date("d-m-Y h:i");
-$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-$Rut =$CookieRut;
-$HoraActual = date("H");
-$MinutoActual = date("i");
-$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
-$Respuesta =mysqli_query($link, $Consulta);
-if($Fila =mysqli_fetch_array($Respuesta))
-{
-	$Nivel = $Fila["nivel"];
-}
+	include("../principal/conectar_principal.php");
+	$CookieRut  = $_COOKIE["CookieRut"];
+	$Fecha_Hora = date("d-m-Y h:i");
+	$meses = array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$Rut   = $CookieRut;
+	$HoraActual   = date("H");
+	$MinutoActual = date("i");
+	$Consulta     = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
+	$Respuesta    = mysqli_query($link, $Consulta);
+	if($Fila = mysqli_fetch_array($Respuesta))
+	{
+		$Nivel = $Fila["nivel"];
+	}
+	
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbAno       = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbMes       = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbDias      = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+	$CmbAnoT      = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+	$CmbMesT      = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+	$CmbDiasT     = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$NumIni       = isset($_REQUEST["NumIni"])?$_REQUEST["NumIni"]:"";
+	$NumFin       = isset($_REQUEST["NumFin"])?$_REQUEST["NumFin"]:"";
+	$AnoIni2      = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:date("Y");
+	$AnoFin2      = isset($_REQUEST["AnoFin2"])?$_REQUEST["AnoFin2"]:date("Y");
+	$Mostrar      = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$SA           = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$TxtSA        = isset($_REQUEST["TxtSA"])?$_REQUEST["TxtSA"]:"";
+	$TxtEstadoO   = isset($_REQUEST["TxtEstadoO"])?$_REQUEST["TxtEstadoO"]:"";
+	$CmbRutProveedor = isset($_REQUEST["CmbRutProveedor"])?$_REQUEST["CmbRutProveedor"]:"";
+	$FechaHora       = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
+	
 ?>
 <html>
 <head>
@@ -347,7 +368,7 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
               <?php echo $Fecha_Hora ?> </strong>&nbsp; <strong> 
               <?php
 			//creacion de campo oculto para almacenar la fecha y hora si no existe lo crea en caso contraria le asigana la feha hora del sistema 
-			if (!isset($FechaHora))
+			if ($FechaHora=="")
   			{
 				echo "<input name='FechaHora' type='hidden' value='".date('Y-m-d H:i')."'>";
 				$FechaHora=date('Y-m-d H:i');
@@ -431,24 +452,24 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
 					if (isset($CmbAno))
 					{
 						if ($i==$CmbAno)
-							{
-								echo "<option selected value ='$i'>$i</option>";
-							}
+						{
+							echo "<option selected value ='$i'>$i</option>";
+						}
 						else	
-							{
-								echo "<option value='".$i."'>".$i."</option>";
-							}
+						{
+							echo "<option value='".$i."'>".$i."</option>";
+						}
 					}
 					else
 					{
 						if ($i==date("Y"))
-							{
-								echo "<option selected value ='$i'>$i</option>";
-							}
+						{
+							echo "<option selected value ='$i'>$i</option>";
+						}
 						else	
-							{
-								echo "<option value='".$i."'>".$i."</option>";
-							}
+						{
+							echo "<option value='".$i."'>".$i."</option>";
+						}
 					}		
 				}
 				?>
@@ -470,7 +491,7 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
 						}
 						else
 						{
-						  echo "<option value='".$i."'>".$i."</option>";
+							echo "<option value='".$i."'>".$i."</option>";
 						}
 					}
 					else
@@ -481,7 +502,7 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
 						}
 						else
 						{
-						  echo "<option value='".$i."'>".$i."</option>";
+							echo "<option value='".$i."'>".$i."</option>";
 						}
 					}	
 				}
@@ -490,33 +511,32 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
               </font> <font size="1"><font size="2"> 
               <select name="CmbMesT" size="1" id="select5" style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
-				  for($i=1;$i<13;$i++)
-				  {
-						if (isset($CmbMesT))
+				for($i=1;$i<13;$i++)
+				{
+					if (isset($CmbMesT))
+					{
+						if ($i==$CmbMesT)
 						{
-							if ($i==$CmbMesT)
-							{
-								echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
-							}
-							else
-							{
-								echo "<option value='$i'>".$meses[$i-1]."</option>\n";
-							}
-						
-						}	
+							echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+						}
 						else
 						{
-							if ($i==date("n"))
-							{
-								echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
-							}
-							else
-							{
-								echo "<option value='$i'>".$meses[$i-1]."</option>\n";
-							}
-						}	
-				   }
-		  		 ?>
+							echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+						}						
+					}
+					else
+					{
+						if ($i==date("n"))
+						{
+							echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
+						}
+						else
+						{
+							echo "<option value='$i'>".$meses[$i-1]."</option>\n";
+						}
+					}	
+				}
+		  		?>
               </select>
               </font></font> <font size="2"> 
               <select name="CmbAnoT" size="1" id="select6" style="FONT-FACE:verdana;FONT-SIZE:10">
@@ -526,27 +546,27 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
 					if (isset($CmbAnoT))
 					{
 						if ($i==$CmbAnoT)
-							{
-								echo "<option selected value ='$i'>$i</option>";
-							}
+						{
+							echo "<option selected value ='$i'>$i</option>";
+						}
 						else	
-							{
-								echo "<option value='".$i."'>".$i."</option>";
-							}
+						{
+							echo "<option value='".$i."'>".$i."</option>";
+						}
 					}
 					else
 					{
 						if ($i==date("Y"))
-							{
-								echo "<option selected value ='$i'>$i</option>";
-							}
+						{
+							echo "<option selected value ='$i'>$i</option>";
+						}
 						else	
-							{
-								echo "<option value='".$i."'>".$i."</option>";
-							}
+						{
+							echo "<option value='".$i."'>".$i."</option>";
+						}
 					}		
 				}
-			?>
+				?>
               </select>
               </font></font></strong></strong></strong></strong></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font><font size="2"><strong><br>
               </strong></font></font></td>
@@ -569,7 +589,7 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
 							echo "<option value = '".$Fila["cod_producto"]."'>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
 						}
 					}
-					echo $CmbProductos."<br>";
+					//echo $CmbProductos."<br>";
 				?>
               </select>
               </strong></font></font><font size="2"><strong></strong></font></font></td>
@@ -708,9 +728,11 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
 						$Respuesta = mysqli_query($link, $Consulta);
 						while ($Fila=mysqli_fetch_array($Respuesta))
 						{
+							$nro_solicitud   = isset($Fila["nro_solicitud"])?$Fila["nro_solicitud"]:"";
+							$nombre_subclase = isset($Fila["nombre_subclase"])?$Fila["nombre_subclase"]:"";
 							echo "<tr>";
 							echo "<td width='20'><input type='checkbox' name ='checkSA' value=''></td>"; 
-              				echo "<td width='100'><input name='TxtSA' type='text' readonly style='width:100' maxlength='100' value =".$TxtSA = $Fila["nro_solicitud"]."><input name = 'TxtRecargo' type = 'hidden' value ='N'><input name='TxtEstadoO' type = 'hidden' value =".$TxtEstadoO = $Fila["nombre_subclase"]."></td>";
+              				echo "<td width='100'><input name='TxtSA' type='text' readonly style='width:100' maxlength='100' value =".$TxtSA = $nro_solicitud."><input name = 'TxtRecargo' type = 'hidden' value ='N'><input name='TxtEstadoO' type = 'hidden' value =".$TxtEstadoO = $nombre_subclase."></td>";
           					echo "</tr>";		
 						}
 					}
@@ -738,13 +760,13 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
 					//Pregunta si la busqueda se hace mostrando todas las solicitudes o en forma directa
 					if ($Mostrar == 'D' )
 					{
-						if (!isset($AnoIni2))
+						if($AnoIni2=="")
 							$AnoIni2 = 0;
-						if (!isset($NumIni))
+						if($NumIni=="")
 							$NumIni = 0;
-						if (!isset($AnoFin2))
+						if($AnoFin2=="")
 							$AnoFin2 = 0;
-						if (!isset($NumFin))
+						if($NumFin=="")
 							$NumFin = 0;
 						$SolIni = $AnoIni2."000000";
 						$SolFin = $AnoFin2."000000";
@@ -765,10 +787,12 @@ function Activar2()//Activa los checkbox de las sol anular o ver el historial
 						$Respuesta = mysqli_query($link, $Consulta);
 						while ($Fila=mysqli_fetch_array($Respuesta))
 						{
-								echo "<tr>";
-								echo "<td width='2'><input type='checkbox' name ='checkSA' value=''></td>"; 
-								echo "<td width='100'><input name='TxtSA' type='text' readonly style='width:80' maxlength='80' value =".$TxtSA = $Fila["nro_solicitud"]."><input name = 'TxtRecargo' type = 'hidden' value ='N'><input name = 'TxtEstadoO' type = 'hidden' value =".$TxtEstadoO = $Fila["nombre_subclase"]."></td>";
-								echo "</tr>";		
+							$nro_solicitud   = isset($Fila["nro_solicitud"])?$Fila["nro_solicitud"]:"";
+							$nombre_subclase = isset($Fila["nombre_subclase"])?$Fila["nombre_subclase"]:"";
+							echo "<tr>";
+							echo "<td width='2'><input type='checkbox' name ='checkSA' value=''></td>"; 
+							echo "<td width='100'><input name='TxtSA' type='text' readonly style='width:80' maxlength='80' value =".$TxtSA = $nro_solicitud."><input name = 'TxtRecargo' type = 'hidden' value ='N'><input name = 'TxtEstadoO' type = 'hidden' value =".$TxtEstadoO = $nombre_subclase."></td>";
+							echo "</tr>";		
 						}
 					 }
 					?>

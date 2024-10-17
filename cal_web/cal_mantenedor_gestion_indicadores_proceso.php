@@ -41,7 +41,6 @@
 	}else{
 		$TxtValor = 0;
 	}
-	
 	if(isset($_REQUEST["Proc"])) {
 		$Proc = $_REQUEST["Proc"];
 	}else{
@@ -57,7 +56,12 @@
 	}else{
 		$TipoConsulta = "";
 	}
-
+	
+	if(isset($_REQUEST["Msj"])) {
+		$Msj = $_REQUEST["Msj"];
+	}else{
+		$Msj =  "";
+	}
 
 	if($Opc=='M')
 	{
@@ -79,7 +83,7 @@
 <head>
 <?php
   if($Opc=='N')
-	echo "<title>Nuevo Gestión de Indicadores</title>";
+	echo "<title>Nuevo Gestión Indicadores</title>";
   else
   	echo "<title>Modificar Gestión de Indicadores</title>";	
 ?>

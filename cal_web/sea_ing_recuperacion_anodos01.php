@@ -1,5 +1,5 @@
 <?php
-	include("../principal/conectar_sea_web.php");
+	include("../principal/conectar_sea_web.php");	
 	$CookieRut = $_COOKIE["CookieRut"];
 
 	$proceso        = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
@@ -11,10 +11,12 @@
 	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
 	
 	if ($proceso == "G")
-	{
+	{   
+        if(strlen($dia)==1){$dia="0".$dia;}
+		if(strlen($mes)==1){$mes="0".$mes;}
 		$fecha = $ano.'-'.$mes.'-'.$dia.' '.date("H:i:s");
 					
-		$insertar = "INSERT INTO rechazos VALUES (9,'".$fecha."','0000-00-00 00:00:00',".$producto.",".$cmbsubprod.",0,0,'";
+		$insertar = "INSERT IGNORE INTO rechazos VALUES (9,'".$fecha."','0000-00-00 00:00:00',".$producto.",".$cmbsubprod.",0,0,'";
 		$insertar = $insertar.$CookieRut."',".$txtrecuperados.",0,0)";
 		mysqli_query($link, $insertar);
 		

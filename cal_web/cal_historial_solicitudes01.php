@@ -1,5 +1,11 @@
 <?php
 include("../principal/conectar_cal_web.php");
+$CookieRut  = $_COOKIE["CookieRut"];
+$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$SA         = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+$SA02       = isset($_REQUEST["SA02"])?$_REQUEST["SA02"]:"";
+$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$TextObs    = isset($_REQUEST["TextObs"])?$_REQUEST["TextObs"]:"";
 
 switch($Proceso)
 {	
@@ -9,11 +15,11 @@ switch($Proceso)
 		foreach($Datos as $k => $v)
 		{
 			$Datos2 = explode("//",$v);
-			$SA_Aux = $Datos2[0];
-			$Recargo_Aux = $Datos2[1];
-			$EstActual_Aux = $Datos2[2];
-			$FechaEstActual_Aux = $Datos2[3];
-			$EstNuevo_Aux = $Datos2[4];
+			$SA_Aux             = isset($Datos2[0])?$Datos2[0]:"";
+			$Recargo_Aux        = isset($Datos2[1])?$Datos2[1]:"";
+			$EstActual_Aux      = isset($Datos2[2])?$Datos2[2]:"";
+			$FechaEstActual_Aux = isset($Datos2[3])?$Datos2[3]:"";
+			$EstNuevo_Aux       = isset($Datos2[4])?$Datos2[4]:"";
 			//CONSULTA FECHA-HORA ESTADO NUEVO PARA BORRAR TODOS LOS ESTADOS PUESTOS POSTERIORMENTE
 			$Consulta = "select * from cal_web.estados_por_solicitud ";
 			$Consulta.= " where nro_solicitud='".$SA_Aux."'";
@@ -49,7 +55,7 @@ switch($Proceso)
 		$RespEst=mysqli_query($link, $Consulta);
 		if($FilaEst=mysqli_fetch_assoc($RespEst))
 		{
-			$Insertar = "insert into cal_web.estados_por_solicitud ";
+			$Insertar = "insert ignore into cal_web.estados_por_solicitud ";
 			$Insertar.= "(rut_funcionario, nro_solicitud, recargo, cod_estado, fecha_hora, ult_atencion, rut_proceso) ";
 			$Insertar.= " values('".$FilaEst["rut_funcionario"]."','".$SA."','".$FilaEst["recargo"]."','".$FilaEst["estado_actual"]."','".$FilaEst["fecha_hora"]."','N','".$FilaEst["rut_funcionario"]."')";
 			//echo $Insertar;

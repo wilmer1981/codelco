@@ -1,6 +1,10 @@
 <?php
 	include("../principal/conectar_principal.php");
 	//CODIGO PROD. SUBPROD.
+	$SA          = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	
 	$Consulta = "select * from cal_web.solicitud_analisis ";
 	$Consulta.= " where nro_solicitud='".$SA."'";
 	$Consulta.= " order by recargo";
@@ -103,6 +107,7 @@ body {
 	$Consulta.= " order by recargo";
  //echo "CC".$Consulta;
 	$Resp = mysqli_query($link, $Consulta);
+	$i=0;
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		echo "<tr>\n";
@@ -131,6 +136,7 @@ body {
 		}
 		echo "</select></td>";
   		echo "</tr>\n";
+		$i++;
 	}
 ?>    
 </table>
