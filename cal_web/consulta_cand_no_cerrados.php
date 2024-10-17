@@ -1,10 +1,13 @@
 <?php
-$CmbDias = $_REQUEST["CmbDias"];
-$CmbMes = $_REQUEST["CmbMes"];
-$CmbAno = $_REQUEST["CmbAno"];
-$CmbDiasT = $_REQUEST["CmbDiasT"];
-$CmbMesT = $_REQUEST["CmbMesT"];
-$CmbAnoT = $_REQUEST["CmbAnoT"];
+$CodigoDeSistema = 1;
+$CodigoDePantalla = 45;
+
+$CmbDias   = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+$CmbMes    = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbAno    = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbDiasT   = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+$CmbMesT    = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+$CmbAnoT    = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
 
 ?>
 <html>
@@ -40,7 +43,7 @@ function Salir()
 	if(strlen($CmbDias)==1){$CmbDias="0".$CmbDias;}
 	if(strlen($CmbMesT)==1){$CmbMesT="0".$CmbMesT;}
 	if(strlen($CmbDiasT)==1){$CmbDiasT="0".$CmbDiasT;}
-
+	
 	$FechaInicio=$CmbAno."-".$CmbMes."-".$CmbDias." 00:00:01";
 	$FechaTermino=$CmbAnoT."-".$CmbMesT."-".$CmbDiasT." 23:59:59";
 	$Consulta="select * from cal_web.solicitud_analisis where estado_actual='5' and fecha_hora between '".$FechaInicio."' and '".$FechaTermino."'";
@@ -52,14 +55,14 @@ function Salir()
 		{
 			$Consulta="select count(*) as total from leyes_por_solicitud ";
 			$Consulta=$Consulta." where rut_funcionario='".$Fila["rut_funcionario"]."'";
-			$Consulta=$Consulta." and fecha_hora ='".$Fila["fecha_hora"]."' and nro_solicitud=".$Fila["nro_solicitud"];
+			$Consulta=$Consulta." and fecha_hora ='".$Fila["fecha_hora"]."' and nro_solicitud='".$Fila["nro_solicitud"]."'";
 			$Consulta=$Consulta." and candado <> '1'";
 		}
 		else
 		{
 			$Consulta="select count(*) as total from leyes_por_solicitud ";
 			$Consulta=$Consulta." where rut_funcionario='".$Fila["rut_funcionario"]."'";
-			$Consulta=$Consulta." and fecha_hora ='".$Fila["fecha_hora"]."' and nro_solicitud=".$Fila["nro_solicitud"]." and recargo='".$Fila["recargo"]."'";
+			$Consulta=$Consulta." and fecha_hora ='".$Fila["fecha_hora"]."' and nro_solicitud='".$Fila["nro_solicitud"]."' and recargo='".$Fila["recargo"]."'";
 			$Consulta=$Consulta." and candado <> '1'";
 		}
 		$Respuesta2=mysqli_query($link, $Consulta);
