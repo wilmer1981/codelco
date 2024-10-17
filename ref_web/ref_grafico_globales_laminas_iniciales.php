@@ -1,6 +1,6 @@
 <?php
   	include("../principal/conectar_ref_web.php");
-  	include("phpchartdir.php");
+  	include("../principal/graficos/phpchartdir.php");
 	
 	  $DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
 	  $MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
