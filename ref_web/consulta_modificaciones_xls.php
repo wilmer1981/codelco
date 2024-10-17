@@ -1,27 +1,26 @@
 <?php 
-ob_end_clean();
-$file_name=basename($_SERVER['PHP_SELF']).".xls";
-$userBrowser = $_SERVER['HTTP_USER_AGENT'];
-$filename = "";
-if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-$filename = urlencode($filename);
-}
-$filename = iconv('UTF-8', 'gb2312', $filename);
-$file_name = str_replace(".php", "", $file_name);
-header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
-header("content-disposition: attachment;filename={$file_name}");
-header( "Cache-Control: public" );
-header( "Pragma: public" );
-header( "Content-type: text/csv" ) ;
-header( "Content-Dis; filename={$file_name}" ) ;
-header("Content-Type:  application/vnd.ms-excel");
-header("Expires: 0");
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename = "";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");    
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_ref_web.php");
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
-
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Rut =$CookieRut;
 	$Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '3'";
@@ -33,6 +32,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	$CmbAno    = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$CmbMes    = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
 	$opcion    = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$Mensaje   = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	/*
 	if (!isset($CmbAno))
 	{
@@ -44,7 +44,7 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	}
 	else
 	{*/
-		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase =".$CmbMes;
+		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase ='".$CmbMes."' ";
 		$Respuesta =mysqli_query($link, $Consulta);
 		if($Fila =mysqli_fetch_array($Respuesta))
 		{
@@ -128,7 +128,7 @@ function Proceso1(f)
 				<tr class="ColorTabla01"> 
 					<td width="250" height="20" align="center"><strong>Nombre</strong></td>
           			<td width="175" height="20" align="center"><strong>Fecha Movimiento</strong></td>
-          			<td width="175" height="20" align="center"><strong>Fecha Modificaci�n</strong></td>
+          			<td width="175" height="20" align="center"><strong>Fecha Modificaci&oacute;n</strong></td>
 					<td width="200" height="20" align="center"><strong>Observaciones</strong></td>
 				</tr>
 			</table>
@@ -143,8 +143,8 @@ function Proceso1(f)
 					{
 						$CmbMes="0".$CmbMes;
 					}
-						$FechaInicio=$CmbAno."-".$CmbMes."-01";
-						$fecha_termino=$CmbAno."-".$CmbMes."-31";
+					$FechaInicio=$CmbAno."-".$CmbMes."-01";
+					$fecha_termino=$CmbAno."-".$CmbMes."-31";
 					
 					$nombre = "";
 					$apellido_paterno = "";
@@ -172,7 +172,7 @@ function Proceso1(f)
 			?>
           </table>
 		  <br> 
-		   <p align="center"><strong>Validaci�n Ingreso Datos Conexi�n Desconexi�n</strong></p>
+		   <p align="center"><strong>Validaci&oacute;n Ingreso Datos Conexi&oacute;n Desconexi&oacute;n</strong></p>
  			
       <table width="600" height="27" border="2" align="center" cellpadding="0" cellspacing="0" bordercolor="#FFFFFF" class="TablaDetalle" >
         <tr class="ColorTabla01"> 
@@ -216,7 +216,7 @@ function Proceso1(f)
 						{
 							echo "<tr>";
 							echo "<td width='200' align='center'>".$fecha_des."</td>\n";
-							echo "<td width='400' align='left'><strong>Existen m�s de 6 desconexiones para este d�a</strong> </td>\n";
+							echo "<td width='400' align='left'><strong>Existen más de 6 desconexiones para este día</strong> </td>\n";
 						}
 					}
 					echo "</tr>";	
@@ -232,7 +232,7 @@ function Proceso1(f)
 						{
 							echo "<tr>";
 							echo "<td width='200' align='center'>".$fecha_des1."</td>\n";
-							echo "<td width='400' align='left'><strong>Existen m�s de 2 desconexiones como Cambio para mismo grupo</strong></td>\n";
+							echo "<td width='400' align='left'><strong>Existen más de 2 desconexiones como Cambio para mismo grupo</strong></td>\n";
 						}
 
 					}
@@ -261,7 +261,7 @@ function Proceso1(f)
 </FORM>
 </HTML>
 <?php
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo "<script languaje='javascript'>";
 		echo "alert('".$Mensaje."')";

@@ -12,6 +12,7 @@
 	$CmbAno    = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$CmbMes    = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
 	$opcion    = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$Mensaje   = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 /*
 	if (!isset($CmbAno))
 	{
@@ -23,7 +24,7 @@
 	}
 	else
 	{*/
-		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase =".$CmbMes;
+		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase=3004 and cod_subclase ='".$CmbMes."' ";
 		$Respuesta =mysqli_query($link, $Consulta);
 		if($Fila =mysqli_fetch_array($Respuesta))
 		{
@@ -163,7 +164,7 @@ function Proceso(opt)
 				<tr class="ColorTabla01"> 
 					<td width="250" height="20" align="center"><strong>Nombre</strong></td>
           			<td width="175" height="20" align="center"><strong>Fecha Movimiento</strong></td>
-          			<td width="175" height="20" align="center"><strong>Fecha Modificaci�n</strong></td>
+          			<td width="175" height="20" align="center"><strong>Fecha Modificaci&oacute;n</strong></td>
 					<td width="200" height="20" align="center"><strong>Observaciones</strong></td>
 				</tr>
 			</table>
@@ -207,7 +208,7 @@ function Proceso(opt)
 			?>
           </table>
 		  <br> 
-		   <p align="center"><font color="#0000FF" size="10"><strong>Validaci�n Ingreso Datos Conexi�n Desconexi�n</strong></font></p>
+		   <p align="center"><font color="#0000FF" size="10"><strong>Validaci&oacute;n Ingreso Datos Conexi&oacute;n Desconexi&oacute;n</strong></font></p>
  			
       <table width="600" height="27" border="2" align="center" cellpadding="0" cellspacing="0" bordercolor="#FFFFFF" class="TablaDetalle" >
         <tr class="ColorTabla01"> 
@@ -251,7 +252,7 @@ function Proceso(opt)
 						{
 							echo "<tr>";
 							echo "<td width='200' align='center'>".$fecha_des."</td>\n";
-							echo "<td width='400' align='left'><strong>Existen m�s de 6 desconexiones para este d�a</strong> </td>\n";
+							echo "<td width='400' align='left'><strong>Existen más de 6 desconexiones para este día</strong> </td>\n";
 						}
 					}
 					echo "</tr>";	
@@ -269,7 +270,7 @@ function Proceso(opt)
 							
 							echo "<tr>";
 							echo "<td width='200' align='center'>".$fecha_des1."</td>\n";
-							echo "<td width='400' align='left'><strong>Existe m�s de 1 desconexiones como Cambio para grupo ".$Grupo_1."</strong></td>\n"; 
+							echo "<td width='400' align='left'><strong>Existe más de 1 desconexiones como Cambio para grupo ".$Grupo_1."</strong></td>\n"; 
 						}
 
 					}
@@ -299,7 +300,7 @@ function Proceso(opt)
 </BODY>
 </HTML>
 <?php
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo "<script languaje='javascript'>";
 		echo "alert('".$Mensaje."')";
