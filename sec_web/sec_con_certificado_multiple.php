@@ -5,29 +5,10 @@
 	set_time_limit(3000);
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 
-	if(isset($_REQUEST["Mostrar"])) {
-		$Mostrar = $_REQUEST["Mostrar"];
-	}else{
-		$Mostrar = "";
-	}
-	if(isset($_REQUEST["CmbMes"])) {
-		$CmbMes = $_REQUEST["CmbMes"];
-	}else{
-		$CmbMes = date("m");
-	}
-	if(isset($_REQUEST["CmbAno"])) {
-		$CmbAno = $_REQUEST["CmbAno"];
-	}else{
-		$CmbAno = date("Y");
-	}
-	
-	
-	if(isset($_REQUEST["CmbEstado"])) {
-		$CmbEstado = $_REQUEST["CmbEstado"];
-	}else{
-		$CmbEstado = "";
-	}
-
+	$CmbMes    = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno    = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbEstado = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+	$Mostrar   = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	
 ?>
 <html>
@@ -172,14 +153,14 @@ function Habilitar()
         <td width="68"  align="center"><div align="left"><strong>Fecha : </strong></div></td>
         <td  align="center"> <div align="left"> 
             <?php
-			echo"<SELECT name='CmbMes'>";
+			echo"<select name='CmbMes'>";
 			for($i=1;$i<13;$i++)
 			{
 				if (isset($CmbMes))
 				{
 					if ($i==$CmbMes)
 					{
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					}
 					else
 					{
@@ -190,7 +171,7 @@ function Habilitar()
 				{
 					if ($i==date("n"))
 					{
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					}
 					else
 					{
@@ -198,15 +179,15 @@ function Habilitar()
 					}
 				}	
 			}
-			echo "</SELECT>";
-			echo "<SELECT name='CmbAno'>";
+			echo "</select>";
+			echo "<select name='CmbAno'>";
 			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 			{
 				if (isset($CmbAno))
 				{
 					if ($i==$CmbAno)
 						{
-							echo "<option SELECTed value ='$i'>$i</option>";
+							echo "<option selected value ='$i'>$i</option>";
 						}
 					else	
 						{
@@ -217,7 +198,7 @@ function Habilitar()
 				{
 					if ($i==date("Y"))
 						{
-							echo "<option SELECTed value ='$i'>$i</option>";
+							echo "<option selected value ='$i'>$i</option>";
 						}
 					else	
 						{
@@ -225,7 +206,7 @@ function Habilitar()
 						}
 				}		
 			}
-			echo "</SELECT>";
+			echo "</select>";
 	?>
           </div></td>
         <td colspan="2"  align="center"> <input name="BtnConsultar" type="button" id="BtnConsultar" value="Consultar" style="width:70px;" onClick="Consultar('');"> 
@@ -239,38 +220,38 @@ function Habilitar()
         <td  align="center"><div align="right"></div></td>
         <td  align="center"><div align="left"><strong>Tipo : </strong></div></td>
         <td  align="center"><div align="left"> 
-            <SELECT name="CmbEstado">
+            <select name="CmbEstado">
               <?php
 				  //	if (isset($CmbEstado))
 					//{
 						switch ($CmbEstado)
 						{	
 							case "T":
-					  			echo "<option value='T' SELECTed>TODOS</option>";
+					  			echo "<option value='T' selected>TODOS</option>";
 								echo "<option value='P'>PENDIENTES</option>";
 								echo "<option value='E'>EMITIDOS</option>";
 								echo "<option value='A'>ANULADOS</option>";
 								break;
 							case "P":
 					  			echo "<option value='T'>TODOS</option>";
-								echo "<option value='P' SELECTed>PENDIENTES</option>";
+								echo "<option value='P' selected>PENDIENTES</option>";
 								echo "<option value='E'>EMITIDOS</option>";
 								echo "<option value='A'>ANULADOS</option>";
 								break;
 							case "E":
 					  			echo "<option value='T'>TODOS</option>";
 								echo "<option value='P'>PENDIENTES</option>";
-								echo "<option value='E' SELECTed>EMITIDOS</option>";
+								echo "<option value='E' selected>EMITIDOS</option>";
 								echo "<option value='A'>ANULADOS</option>";
 								break;
 							case "A":
 					  			echo "<option value='T'>TODOS</option>";
 								echo "<option value='P'>PENDIENTES</option>";
 								echo "<option value='E'>EMITIDOS</option>";
-								echo "<option value='A' SELECTed>ANULADOS</option>";
+								echo "<option value='A' selected>ANULADOS</option>";
 								break;
 							default:
-							echo "<option value='T' SELECTed>TODOS</option>";
+							echo "<option value='T' selected>TODOS</option>";
 							echo "<option value='P'>PENDIENTES</option>";
 							echo "<option value='E'>EMITIDOS</option>";
 							echo "<option value='A'>ANULADOS</option>";
@@ -281,14 +262,14 @@ function Habilitar()
 					//else
 					//{
 						/*
-						echo "<option value='T' SELECTed>TODOS</option>";
+						echo "<option value='T' selected>TODOS</option>";
 						echo "<option value='P'>PENDIENTES</option>";
 						echo "<option value='E'>EMITIDOS</option>";
 						echo "<option value='A'>ANULADOS</option>";
 						*/
 					//}
 				  ?>
-            </SELECT>
+            </select>
           </div></td>
         <td colspan="2"  align="center"> 
           <input name="BtnInformacion" type="button" id="BtnInformacion" style="width:80px" onClick="Informacion();" value="Informacion"> 
@@ -337,7 +318,7 @@ function Habilitar()
                   }
                  $Fecha_Envio1=$CmbAno."-".$Mes1;
               
-				$Consulta = "SELECT * from sec_web.solicitud_certificado t1 ";
+				$Consulta = "select * from sec_web.solicitud_certificado t1 ";
 				$Consulta.= " left join sec_web.programa_codelco t2 on t1.corr_enm=t2.corr_codelco";
 				$Consulta.= " where  substring(t1.fecha_hora,1,7) ='".$Fecha_Envio."'";
 				$Consulta.= " order by t1.fecha_hora ";
@@ -345,7 +326,7 @@ function Habilitar()
 				$Respuesta=mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					$Consulta2 = "SELECT * from sec_web.certificacion_catodos where corr_enm = '".$Fila["corr_enm"]."' and (substring(fecha,1,7)='".$Fecha_Envio."' or substring(fecha,1,7)='".$Fecha_Envio1."')";
+					$Consulta2 = "select * from sec_web.certificacion_catodos where corr_enm = '".$Fila["corr_enm"]."' and (substring(fecha,1,7)='".$Fecha_Envio."' or substring(fecha,1,7)='".$Fecha_Envio1."')";
                 	//echo "rr".$Consulta;
 					$Respuesta2 = mysqli_query($link, $Consulta2);
 					$ConCertificado = "";
@@ -365,7 +346,7 @@ function Habilitar()
 					{
 						echo "<tr>"; 
 						//AGREGA DVS 21-01-2011
-						$Consulta="SELECT year(fecha_creacion_lote) as ano_lote from sec_web.lote_catodo where cod_bulto = '".$Fila["cod_bulto"]."' and num_bulto = '".$Fila["num_bulto"]."' and corr_enm = '".$Fila["corr_enm"]."' group by cod_bulto,num_bulto,corr_enm";
+						$Consulta="select year(fecha_creacion_lote) as ano_lote from sec_web.lote_catodo where cod_bulto = '".$Fila["cod_bulto"]."' and num_bulto = '".$Fila["num_bulto"]."' and corr_enm = '".$Fila["corr_enm"]."' group by cod_bulto,num_bulto,corr_enm";
 						$RespAnoLote=mysqli_query($link, $Consulta);
 						if($FilaAnoLote=mysqli_fetch_array($RespAnoLote))
 						{
@@ -374,7 +355,7 @@ function Habilitar()
 						//-------------------------
 						$Emisor = "";
 						$FechaEmision = "";
-						$Consulta2 = "SELECT * from sec_web.certificacion_catodos where corr_enm = '".$Fila["corr_enm"]."' and (substring(fecha,1,7)='".$Fecha_Envio."' or substring(fecha,1,7)='".$Fecha_Envio1."') ";
+						$Consulta2 = "select * from sec_web.certificacion_catodos where corr_enm = '".$Fila["corr_enm"]."' and (substring(fecha,1,7)='".$Fecha_Envio."' or substring(fecha,1,7)='".$Fecha_Envio1."') ";
 						$Respuesta2 = mysqli_query($link, $Consulta2);
 						if ($Fila2 = mysqli_fetch_array($Respuesta2))
 						{
@@ -417,7 +398,7 @@ function Habilitar()
 						echo "<a href=\"sec_con_certificado_det_pqtes.php?Mes=".$Fila["cod_bulto"]."&Lote=".$Fila["num_bulto"]."&Ano=".$CmbAno."&Grupo=T\">";
 						echo $Fila["cod_bulto"]."-".str_pad($Fila["num_bulto"], 6, "0", STR_PAD_LEFT)."</a></td>\n";
 						//--------------------SUBPRODUCTO--------------
-						$Consulta = "SELECT * from proyecto_modernizacion.subproducto ";
+						$Consulta = "select * from proyecto_modernizacion.subproducto ";
 						$Consulta.= " where cod_producto = '".$Fila["cod_producto"]."' and cod_subproducto = '".$Fila["cod_subproducto"]."'";
 						$Respuesta2 = mysqli_query($link, $Consulta);
 						if ($Fila2 = mysqli_fetch_array($Respuesta2))
@@ -445,7 +426,7 @@ function Habilitar()
 						}
 						else
 						{
-							$Consulta="SELECT * from sec_web.cliente_venta where cod_cliente ='".$Fila["cod_cliente"]."'";
+							$Consulta="select * from sec_web.cliente_venta where cod_cliente ='".$Fila["cod_cliente"]."'";
 							$Respuesta2=mysqli_query($link, $Consulta);
 							if($Fila2=mysqli_fetch_array($Respuesta2))
 							{
@@ -455,7 +436,7 @@ function Habilitar()
 						//FECHA SOLICITUD
 						echo "<td width='65' align='center'>".substr($Fila["fecha_hora"],8,2).".".substr($Fila["fecha_hora"],5,2).".".substr($Fila["fecha_hora"],0,4)." ".substr($Fila["fecha_hora"],11)."</td>\n";
 						//RUT SOLICITA
-						$Consulta2 = "SELECT * from proyecto_modernizacion.funcionarios where rut = '".$Fila["rut"]."'";
+						$Consulta2 = "select * from proyecto_modernizacion.funcionarios where rut = '".$Fila["rut"]."'";
 						$Respuesta2 = mysqli_query($link, $Consulta2);
 						if ($Fila2 = mysqli_fetch_array($Respuesta2))
 						{
@@ -474,7 +455,7 @@ function Habilitar()
 						// EMISOR
 						if ($Emisor != "")
 						{
-							$Consulta2 = "SELECT * from proyecto_modernizacion.funcionarios where rut = '".$Emisor."'";
+							$Consulta2 = "select * from proyecto_modernizacion.funcionarios where rut = '".$Emisor."'";
 							$Respuesta2 = mysqli_query($link, $Consulta2);
 							if ($Fila2 = mysqli_fetch_array($Respuesta2))
 							{

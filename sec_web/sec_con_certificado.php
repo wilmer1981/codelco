@@ -3,7 +3,7 @@
 	$FechaCreacion = "";
 	$Emisor = "";
 	$Error00 = "";
-	$CookieRut = $_COOKIE["CookieRut"];
+    $CookieRut = $_COOKIE["CookieRut"];
 
 	if(isset($_REQUEST["Proceso"])) {
 		$Proceso = $_REQUEST["Proceso"];
@@ -15,8 +15,6 @@
 	}else{
 		$Reescribir = "";
 	}
-	
-
 	if(isset($_REQUEST["Corr"])) {
 		$Corr = $_REQUEST["Corr"];
 	}else{
@@ -25,7 +23,7 @@
 	if(isset($_REQUEST["Mes"])) {
 		$Mes = $_REQUEST["Mes"];
 	}else{
-		$Mes = "";
+		$Mes = "m";
 	}
 	if(isset($_REQUEST["Lote"])) {
 		$Lote = $_REQUEST["Lote"];
@@ -37,27 +35,16 @@
 	}else{
 		$Idioma = "";
 	}
-
 	if(isset($_REQUEST["MarcaCatodo"])) {
 		$MarcaCatodo = $_REQUEST["MarcaCatodo"];
 	}else{
 		$MarcaCatodo = "";
 	}
 
-	if(isset($_REQUEST["CmbMes"])) {
-		$CmbMes = $_REQUEST["CmbMes"];
-	}else{
-		$CmbMes = date("m");
-	}
+	$CmbMes    = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno    = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+    $NumCertificado = isset($_REQUEST["NumCertificado"])?$_REQUEST["NumCertificado"]:"";
 	
-	if(isset($_REQUEST["CmbAno"])) {
-		$CmbAno = $_REQUEST["CmbAno"];
-	}else{
-		$CmbAno = date("Y");
-	}
-
-	$NumCertificado = isset($_REQUEST["NumCertificado"])?$_REQUEST["NumCertificado"]:"";
-
 	if ($Proceso != "P")
 	{		
 		if ($Reescribir == "S") // REESCRIBE EL CERTIFICADO EN CERTIFICION CATODO
@@ -185,8 +172,8 @@
 	$Respuesta = mysqli_query($link, $Consulta);
 	$CodProducto 	= "";
 	$CodSubProducto = "";
-	$NumPaquetes=0;
-	$PesoLote=0;
+	$NumPaquetes =0;
+	$PesoLote    =0;
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$CodProducto 	= $Fila["cod_producto"];
@@ -233,7 +220,7 @@ function Proceso(opt)
 	$ArrGrupo = array();
 	$ArrProd = array();
 	$Error = "";
-	if (isset($Lote))
+	if ($Lote!="")
 	{
 		$Eliminar = "delete from sec_web.tmp_leyes_grupos";
 		mysqli_query($link, $Eliminar);
@@ -499,7 +486,7 @@ function Proceso(opt)
 						$Respuesta3 = mysqli_query($link, $Consulta);				
 						if ($Fila3 = mysqli_fetch_array($Respuesta3))
 						{
-							$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete) ";
+							$Insertar = "insert ignore into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete) ";
 							$Insertar.= " values('".$v[0]."',";
 							
 							if ($v[0] >= 50)
@@ -585,7 +572,7 @@ function Proceso(opt)
 			while ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{
 				$Encontro = true;
-				$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete) ";
+				$Insertar = "insert ignore into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete) ";
 				$Insertar.= " values('".$v[0]."','".$v[1]."','".$Fila2["cod_leyes"]."','".$Fila2["valor"]."','".$Fila2["signo"]."', '".$v[2]."')";
 				
 			//	echo "INSERTAR!=".$Insertar;
@@ -639,7 +626,7 @@ function Proceso(opt)
 		}
 	}
 	//--------------------------------------------
-	if (isset($Lote))
+	if ($Lote!="")
 	{
 		//TABLA EMBARQUE_VENTANA CONTAR LOS PAQUETES Y PESO DEL LOTE 
 	/*poly110609	$Consulta = "SELECT * from sec_web.embarque_ventana where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
@@ -743,8 +730,11 @@ function Proceso(opt)
 			}
 			if (($Grupo == "00") || ($Grupo == "0") || ($Grupo == ""))
 			{
-				$Consulta = "create table `sec_web`.`tmp_leyes_catodopoly`  (key ind01(cod_paquete,num_paquete)) as ";
-				$Consulta.= " SELECT  STRAIGHT_JOIN t1.cod_paquete, t1.num_paquete, t2.peso_paquete as peso_paquete, ";
+				$Consulta = "create table if not exists `sec_web`.`tmp_leyes_catodopoly` "; 
+				$Consulta.= "(cod_paquete char(2),num_paquete int(11) not null default '0',peso_paquete int(11) not null default '0',cod_leyes varchar(10),";
+				$Consulta.= "valor decimal(12,6) not null default '0.000000',cod_grupo char(2),signo varchar(5) not null default '0',";
+				$Consulta.= "KEY ind01(cod_paquete,num_paquete)) as ";
+				$Consulta.= " SELECT  STRAIGHT_JOIN t1.cod_paquete, t1.num_paquete, t2.peso_paquete, ";
 				$Consulta.= " t3.cod_leyes, t3.valor, t2.cod_grupo, t3.signo ";
 				$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo_externo t2  ";
 				$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete  ";
@@ -752,7 +742,7 @@ function Proceso(opt)
 				//$Consulta.= " and t2.fecha_creacion_paquete = t3.fecha_creacion_paquete ";
 				$Consulta.= " where t1.cod_bulto = '".$Mes."' and t1.num_bulto = '".$Lote."' and t1.corr_enm='".$Corr."'";
 				$Consulta.= " and t2.fecha_creacion_paquete = t1.fecha_creacion_paquete order by t1.cod_paquete, t1.num_paquete, t3.cod_leyes ";
-		//	echo "tmp2".$Consulta;
+		 	//echo "tmp2:".$Consulta;
 				mysqli_query($link, $Consulta);
 			}
 			else
