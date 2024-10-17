@@ -10,6 +10,7 @@
 	$CmbUnidad      = isset($_REQUEST["CmbUnidad"])?$_REQUEST["CmbUnidad"]:"";
 	$Signo          = isset($_REQUEST["Signo"])?$_REQUEST["Signo"]:"";
 	$ValoresMOD     = isset($_REQUEST["ValoresMOD"])?$_REQUEST["ValoresMOD"]:"";
+	$CantidadLeyes  = isset($_REQUEST["CantidadLeyes"])?$_REQUEST["CantidadLeyes"]:"";
 
 	//$CmbProductos2 = $_REQUEST["CmbProductos2"];
 	//$CmbSubProducto2 = $_REQUEST["CmbSubProducto2"];
@@ -52,7 +53,7 @@ if($Opcion=='M')
 	foreach($Datos as $c => $v)
 	{
 		$Dato=explode('~',$v);
-		$Actualiza="UPDATE cal_web.clasificacion_metodos_plasma set valor='".str_replace(',','.',$Dato[3])."' where cod_producto='".$CmbProductos2."' and cod_subproducto='".$CmbSubProductos2."' and cod_leyes='".$Dato[2]."' and cod_unidad='".$Unidad."' and signo='".$Signo2."' and valor='".$Valor2."'";
+		$Actualiza="update cal_web.clasificacion_metodos_plasma set valor='".str_replace(',','.',$Dato[3])."' where cod_producto='".$CmbProductos2."' and cod_subproducto='".$CmbSubProductos2."' and cod_leyes='".$Dato[2]."' and cod_unidad='".$Unidad."' and signo='".$Signo2."' and valor='".$Valor2."'";
 		mysqli_query($link, $Actualiza);
 	}
 	header('location:cal_clasificacion_metodos_plasma_proceso.php?Msj=M&Opc=M&Valores='.$ValoresMOD);	
