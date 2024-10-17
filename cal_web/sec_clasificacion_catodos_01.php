@@ -1,14 +1,20 @@
 <?php
 	include("../principal/conectar_principal.php");
 //	echo $ValoresAux;
-$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-$CmbLey  = isset($_REQUEST["CmbLey"])?$_REQUEST["CmbLey"]:"";
-$TxtSTD1 = isset($_REQUEST["TxtSTD1"])?$_REQUEST["TxtSTD1"]:"";
-$TxtSTD2 = isset($_REQUEST["TxtSTD2"])?$_REQUEST["TxtSTD2"]:"";
-$TxtSTD3 = isset($_REQUEST["TxtSTD3"])?$_REQUEST["TxtSTD3"]:"";
-$TxtSTD4 = isset($_REQUEST["TxtSTD4"])?$_REQUEST["TxtSTD4"]:"";
-$TxtSTD5 = isset($_REQUEST["TxtSTD5"])?$_REQUEST["TxtSTD5"]:"";
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbLey  = isset($_REQUEST["CmbLey"])?$_REQUEST["CmbLey"]:"";
+	$TxtSTD1 = isset($_REQUEST["TxtSTD1"])?$_REQUEST["TxtSTD1"]:"";
+	$TxtSTD2 = isset($_REQUEST["TxtSTD2"])?$_REQUEST["TxtSTD2"]:"";
+	$TxtSTD3 = isset($_REQUEST["TxtSTD3"])?$_REQUEST["TxtSTD3"]:"";
+	$TxtSTD4 = isset($_REQUEST["TxtSTD4"])?$_REQUEST["TxtSTD4"]:"";
+	$TxtSTD5 = isset($_REQUEST["TxtSTD5"])?$_REQUEST["TxtSTD5"]:"";
+	
+	$TxtSTD1 =  str_replace(',', '.', $TxtSTD1);
+	$TxtSTD2 =  str_replace(',', '.', $TxtSTD2);
+	$TxtSTD3 =  str_replace(',', '.', $TxtSTD3);
+	$TxtSTD4 =  str_replace(',', '.', $TxtSTD4);
+	$TxtSTD5 =  str_replace(',', '.', $TxtSTD5);
 
 	switch ($Proceso)
 	{
@@ -51,7 +57,7 @@ $TxtSTD5 = isset($_REQUEST["TxtSTD5"])?$_REQUEST["TxtSTD5"]:"";
 		break;
 		case "M":
 			//$Datos2=explode('~',$Valores);
-			$Actualizar=" UPDATE  cal_web.clasificacion_catodos set ";
+			$Actualizar=" update  cal_web.clasificacion_catodos set ";
 			$Actualizar.="  grado_a_codelco='".$TxtSTD1."',grado_a_enami='".$TxtSTD2."' , rechazo='".$TxtSTD3."' ";
 			$Actualizar.=" , estandar='".$TxtSTD4."',off_grade='".$TxtSTD5."' ";
 			$Actualizar.=" where cod_leyes ='".$CmbLey."' ";
