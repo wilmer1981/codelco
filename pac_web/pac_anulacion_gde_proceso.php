@@ -4,8 +4,7 @@
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_pac_web.php");
 	$CookieRut = $_COOKIE["CookieRut"];
-	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";	
 
 	$Consulta = "select * from proyecto_modernizacion.funcionarios ";
 	$Consulta.= " where rut='".$CookieRut."'";
@@ -48,10 +47,7 @@ function Grabar(Proceso)
 	}
 	
 	Frm.action="pac_guia_despacho_proceso01.php?Proceso="+Proceso+"&NG="+Frm.NG.value;
-	Frm.submit();
-
-
-	
+	Frm.submit();	
 }
 function Salir()
 {

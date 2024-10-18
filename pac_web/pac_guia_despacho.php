@@ -172,10 +172,10 @@ function MostrarPopupProceso(Proceso)
 
 				if (SoloUnElementoCheck())
 				{Valores=RecuperarValoresCheckeadoGUIA();
-					Resp=confirm("�Esta seguro de anular la gu�a "+Valores.substr(0,Valores.length-2)+"?");
+					Resp=confirm("¿Esta seguro de anular la guía "+Valores.substr(0,Valores.length-2)+"?");
 					if (Resp==true)
 					{
-						window.open("pac_anulacion_gde_proceso.php?&Valores="+Valores,"","top=0,left=0,width=440,height=220,scrollbars=no,resizable = no");
+						window.open("pac_anulacion_gde_proceso.php?Valores="+Valores,"","top=0,left=0,width=440,height=220,scrollbars=no,resizable = no");
 				
 					}			
 				}
@@ -189,11 +189,11 @@ function MostrarPopupProceso(Proceso)
 				Valores=Eliminar();
 				if(Msj!='')
                 {
-                	alert("�No se puede eliminar registros con N� de Guia!")	
+                	alert("¿No se puede eliminar registros con N° de Guia!")	
 				}
 				else
 				{	
-					if(confirm("�Est� seguro de Eliminar los registros Selecionados?"))
+					if(confirm("¿Está seguro de Eliminar los registros Selecionados?"))
 					{					
 						var frm=document.FrmGuia;
 						frm.action ="pac_guia_despacho_proceso01.php?Proceso=E&Valores="+Valores;  
@@ -342,7 +342,7 @@ function Generar(Opcion)
 	echo "<select name='CmbMes' size='1' style='width:90px;' onchange='Recarga()'>";
 	for($i=1;$i<13;$i++)
 	{
-		if (isset($Proceso)=='M')
+		if ($Proceso=='M')
 		{
 			if ($i==$CmbMes)
 			{
@@ -384,7 +384,7 @@ function Generar(Opcion)
 	echo "<select name='CmbAno' size='1' style='width:70px;' onchange='Recarga()'>";
 	for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 	{
-		if (isset($Proceso)=='M')
+		if ($Proceso=='M')
 		{
 			if ($i==$CmbAno)
 			{
@@ -423,7 +423,7 @@ function Generar(Opcion)
 	}
 	echo "</select>";
 	echo "<select name='CmbTipoGuia' style='width:150' onchange='Recarga();'>";
-	switch (isset($CmbTipoGuia))
+	switch ($CmbTipoGuia!="")
 	{
 		case "G":
 			echo "<option value='G' selected>Creadas/Generadas</option>";

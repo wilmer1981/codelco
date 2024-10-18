@@ -20,7 +20,7 @@
 	$hh = isset($_REQUEST["hh"])?$_REQUEST["hh"]:date("H");
 	$mm = isset($_REQUEST["mm"])?$_REQUEST["mm"]:date("i");
 
-
+	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
 	$CmbOri = isset($_REQUEST["CmbOri"])?$_REQUEST["CmbOri"]:"";
 	$CmbTransp = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
 	$CmbCliente = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
@@ -64,7 +64,7 @@
 	$VarConcentracion = isset($_REQUEST["VarConcentracion"])?$_REQUEST["VarConcentracion"]:"";
 	$VarNU = isset($_REQUEST["VarNU"])?$_REQUEST["VarNU"]:"";
 	$TxtSellos = isset($_REQUEST["TxtSellos"])?$_REQUEST["TxtSellos"]:"";
-
+	$msjAnular = isset($_REQUEST["msjAnular"])?$_REQUEST["msjAnular"]:"";
 
 	$rut =$CookieRut;
 
@@ -121,10 +121,10 @@
 
 		}
 
-		$DIRECCION_WS_GDE= $params["DIRECCION_WS_GDE"];
-		$DIRECCION_WS_GDE_ANULA= $params["DIRECCION_WS_GDE_ANULA"];
-		$usuario=$params["USUARIO"];
-		$password=$params["PASSWORD"];
+		$DIRECCION_WS_GDE       = $params["DIRECCION_WS_GDE"];
+		$DIRECCION_WS_GDE_ANULA = $params["DIRECCION_WS_GDE_ANULA"];
+		$usuario   = $params["USUARIO"];
+		$password  = $params["PASSWORD"];
 
 		if ($TxtCliIndicador==5) {
 				$TIPO_DESPACHO="3";				
@@ -468,8 +468,10 @@ echo "<script languaje='JavaScript'>";
 			break;
 		case "A":
 
-/*		echo $NG." <br>";
-		echo $TxtObs;exit();*/
+		/*		
+		echo $NG." <br>";
+		echo $TxtObs;
+		exit();*/
 		$consultaGDE ="select * from pac_web.guia_despacho where num_guia ='".$NG."'";
 		$respuesta=mysqli_query($link, $consultaGDE);
 		$fila1=mysqli_fetch_array($respuesta);
@@ -480,15 +482,11 @@ echo "<script languaje='JavaScript'>";
 		$consultaGDE ="select peso_neto from sipa_web.despachos where guia_despacho ='".$NG."'";
 		$respuesta=mysqli_query($link, $consultaGDE);
 		$fila3=mysqli_fetch_array($respuesta);
-		
-
-
 
 		$consulOri ="select rut from pac_web.pac_originador where cod_originador ='".$codOri."'";
 		$respOri=mysqli_query($link, $consulOri);
 		$fila2=mysqli_fetch_array($respOri);
 		$rutEmisor=$fila2["rut"];
-
 		
 		$vUni=$fila1["valor_unitario"];
 		$ton=$fila3["peso_neto"];
@@ -586,7 +584,7 @@ $xmlHeaderAnular="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/so
 			echo "window.close();";
 			echo "</script>";
 			ob_start();
-			header("location:pac_guia_despacho.php?CmbTipoGuia=V");
+			//header("location:pac_guia_despacho.php?CmbTipoGuia=V");
 			break;
 
 		case "I":
