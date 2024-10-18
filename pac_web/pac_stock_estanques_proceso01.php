@@ -30,7 +30,7 @@
 				//$Insertar="insert into pac_web.stock_estanques (ano,mes,cod_estanque,stock_inicial,recepcion,envio,ajuste,stock_actual) values (";
 				//$Insertar=$Insertar."$CmbAno,$CmbMes,".$Fila["cod_subclase"].",0,0,0,0,0)";
 				$Insertar="INSERT INTO pac_web.stock_estanques (fecha,cod_estanque,stock_inicial,recepcion,envio,ajuste,stock_actual) values (";
-				$Insertar=$Insertar."$Fecha,".$Fila["cod_subclase"].",0,0,0,0,0)";
+				$Insertar.=" '".$Fecha."','".$Fila["cod_subclase"]."',0,0,0,0,0)";
 				mysqli_query($link, $Insertar);
 			}		
 			break;

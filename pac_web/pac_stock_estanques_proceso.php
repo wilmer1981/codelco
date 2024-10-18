@@ -3,7 +3,8 @@
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
-	//$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
@@ -12,7 +13,6 @@
 
 	$Ano    =isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$Mes    =isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
-
 	
 	$CheckEK         = isset($_REQUEST["CheckEK"])?$_REQUEST["CheckEK"]:"";
 	$TxtStockInicial = isset($_REQUEST["TxtStockInicial"])?$_REQUEST["TxtStockInicial"]:"";
@@ -21,7 +21,6 @@
 	$TxtEnvio     = isset($_REQUEST["TxtEnvio"])?$_REQUEST["TxtEnvio"]:"";
 	$CmbSigno     = isset($_REQUEST["CmbSigno"])?$_REQUEST["CmbSigno"]:"";
 	$TxtAjuste    = isset($_REQUEST["TxtAjuste"])?$_REQUEST["TxtAjuste"]:"";
-
 
 	switch($Proceso)
 	{
@@ -173,14 +172,14 @@ function Calcula(J)
       <td valign="top">
 <table width="590" border="0" align="center" cellpadding="5" class="TablaInterior">
           <tr> 
-            <td> A�o 
+            <td> Año 
               <?php
 				if ($Proceso!="M")
 				{
 					echo "<select name='CmbAno' size='1' style='width:70px;'>";
 					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 					{
-						if ($CmbAno)
+						if (isset($CmbAno))
 						{
 							if ($i==$CmbAno)
 								{
@@ -220,7 +219,7 @@ function Calcula(J)
 				  echo "<select name='CmbMes' size='1' style='width:90px;' >";
 				  for($i=1;$i<13;$i++)
 				  {
-						if ($CmbMes)
+						if (isset($CmbMes))
 						{
 							if ($i==$CmbMes)
 							{

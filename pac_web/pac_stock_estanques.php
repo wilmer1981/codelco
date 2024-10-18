@@ -146,7 +146,7 @@ function Salir()
 			echo "<table width='750' border='1' cellpadding='3' cellspacing='0' >";
 			echo "<tr class='ColorTabla01'>"; 
 			echo "<td width='20'><input type='checkbox' name='CheckTodos' value='checkbox' onClick='CheckearTodo();'></td>";
-			echo "<td width='40' align='center'>A�o</td>";
+			echo "<td width='40' align='center'>Año</td>";
 			echo "<td width='40' align='center'>Mes</td>";
 			echo "<td width='50' align='center'>Estanque</td>";
 			echo "<td width='90' align='center'>Stock Ini.</td>";
