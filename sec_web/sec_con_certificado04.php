@@ -1,11 +1,11 @@
 <?php 	
 	include("../principal/conectar_principal.php");
-
-	$Corr  = isset($_REQUEST["Corr"])?$_REQUEST["Corr"]:"";
+	
+	$Corr   = isset($_REQUEST["Corr"])?$_REQUEST["Corr"]:"";
 	$Lote   = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
 	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
-	$Mes    = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
-	$CodProducto      = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$Mes    = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
+	$CodProducto   = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
 	$CodSubProducto   = isset($_REQUEST["CodSubProducto"])?$_REQUEST["CodSubProducto"]:"";
 
 	if ($Mes=='A' && $Lote==25000)
@@ -334,7 +334,7 @@ function Historial(SA,Rec)
 						$Respuesta3 = mysqli_query($link, $Consulta);				
 						if ($Fila3 = mysqli_fetch_array($Respuesta3))
 						{
-							$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete, nro_solicitud) ";
+							$Insertar = "insert ignore into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete, nro_solicitud) ";
 							$Insertar.= " values('".$v[0]."',";
 							if ($v[0] >= 50)
 								$Insertar.= "'".$v[2]."',";
@@ -580,7 +580,7 @@ else
 					$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = '".$v."' ";
 					//echo $Consulta;
 					$Rs = mysqli_query($link, $Consulta);
-					$cont = 0;
+					$cont =0;
 					if($fila = mysqli_fetch_array($Rs))
 					{
 						if ($Fila2["valor"] <= $fila["grado_a_codelco"])

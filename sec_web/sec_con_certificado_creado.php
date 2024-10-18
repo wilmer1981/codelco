@@ -20,6 +20,9 @@
 	//-----------------------
 	$Mes = "";
 	$Lote = "";
+	$ENM ="";
+	$NumEnm="";
+	$FechaDisp="";
 	$FechaCreacion = "";
 	$Emisor = "";	
 	$Consulta = "SELECT * from sec_web.certificacion_catodos ";
@@ -114,10 +117,7 @@
 		$TipoEmbarque 	= "";
 	}
 					
-	//$FechaDisp 		= $Fila2["fecha_disponible"];	
-	
-
-	
+	//$FechaDisp 		= $Fila2["fecha_disponible"];
 							
 	
 	//CONSULTA SI YA FUE CREADO Y ANULADO
@@ -166,7 +166,7 @@ function Proceso(opt)
 <body leftmargin="3" topmargin="2" marginwidth="0" marginheight="0">
 <form name="frmPrincipal" action="" method="post">
 <?php	
-	if (isset($Lote))
+	if ($Lote!="")
 	{
 		//$NumEnm = $Fila["corr_enm"];
 		$NumEnm = $NumEnvio;
@@ -242,7 +242,7 @@ function Proceso(opt)
     <tr> 
       <td width="29%" height="42" align="center"> 
         <?php
-	  	if (isset($Idioma)) 
+	  	if ($Idioma!="") 
 		{
 	  		if ($Idioma == "E")
 				echo "DEPTO. CONTROL CALIDAD<br>LABORATORIO ANALITICO";				
@@ -290,7 +290,7 @@ function Proceso(opt)
     <tr> 
       <td height="20" colspan="3" align="center"><strong><font style="font-size=12px"><strong><font style="font-size=12px"><strong> 
         <?php 			
-				if (isset($Idioma))
+				if ($Idioma!="")
 				{
 					if ($Idioma == "I")					
 						echo "CUSTOMER:&nbsp;&nbsp;";
@@ -334,7 +334,7 @@ function Proceso(opt)
      <tr> 
       <td height="20" colspan="3" align="center"><strong>
         <?php 			
-				if (isset($Idioma))
+				if ($Idioma!="")
 				{
 					if ($Idioma == "I")					
 						echo "<font style='font-size=14px'>CERTIFICATE OF ANALYSIS</font>";
@@ -412,7 +412,7 @@ function Proceso(opt)
 				}
 				else
 				{
-					if (isset($Idioma))
+					if ($Idioma!="")
 					{
 						echo "STANDARD CATHODE";
 					}
@@ -440,7 +440,7 @@ function Proceso(opt)
 					else
 					
 					{
-						if (isset($Idioma))
+						if ($Idioma!="")
 						{
 							echo "GRADE A COPPER CATHODES";	
 							$ConsultaTIPO= " SELECT tipo_enm_code from sec_web.embarque_ventana where corr_enm='".$NumEnvio."' order by fecha_embarque desc";
@@ -513,7 +513,7 @@ function Proceso(opt)
           <tr> 
             <td width="18%" height="14"> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "LOTE:&nbsp;";				
@@ -530,7 +530,7 @@ function Proceso(opt)
           <tr> 
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "N&deg; SERIE PAQ.:&nbsp;";				
@@ -586,7 +586,7 @@ function Proceso(opt)
           <tr> 
             <td width="32%"> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "PAQUETES:&nbsp;";				
@@ -602,7 +602,7 @@ function Proceso(opt)
             <td width="25%"><?php echo number_format((float)$NumPaquetes,0,",",".") ?>&nbsp;</td>
             <td width="24%"> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "PESO LOTE:&nbsp;";				
@@ -619,7 +619,7 @@ function Proceso(opt)
           <tr> 
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "ENM/INSTRUCCION:&nbsp;";				
@@ -634,7 +634,7 @@ function Proceso(opt)
             <td><?php echo $NumEnvio ?>&nbsp;&nbsp;</td>
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "FECHA DISP.:&nbsp;";				
@@ -648,7 +648,7 @@ function Proceso(opt)
 			?>            </td>
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo substr($FechaDisp,8,2).".".substr($FechaDisp,5,2).".".substr($FechaDisp,0,4);				
@@ -679,7 +679,7 @@ function Proceso(opt)
               </table>            </td>
           </tr>
           <?php
-			if (isset($Lote))
+			if ($Lote!="")
 			{
 				/*VERSION DEL CERTIFICADO
 				$Consulta2 = "SELECT ifnull(max(version),0) as version from sec_web.certificacion_catodos ";
@@ -738,7 +738,7 @@ function Proceso(opt)
     <tr> 
       <td height="20" colspan="3" align="center"><font style="font-size:8px"> 
         <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "LOS CONTENIDOS DE IMPUREZAS 
@@ -763,7 +763,7 @@ function Proceso(opt)
     <tr> 
       <td height="20" colspan="3" align="right"><strong> 
         <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						//echo "JEFE LABORATORIO ANALITICO";	

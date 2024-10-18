@@ -23,7 +23,7 @@
 	if(isset($_REQUEST["Mes"])) {
 		$Mes = $_REQUEST["Mes"];
 	}else{
-		$Mes = "m";
+		$Mes = "M";
 	}
 	if(isset($_REQUEST["Lote"])) {
 		$Lote = $_REQUEST["Lote"];
@@ -44,13 +44,16 @@
 	$CmbMes    = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
 	$CmbAno    = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
     $NumCertificado = isset($_REQUEST["NumCertificado"])?$_REQUEST["NumCertificado"]:"";
+	echo "Corr:".$Corr;
+	echo "<br>Mes:".$Mes;
 	
 	if ($Proceso != "P")
-	{		
+	{	
+		//echo "<br>Entrooooo:";
+		//echo "<br>Reescribir :".$Reescribir;
 		if ($Reescribir == "S") // REESCRIBE EL CERTIFICADO EN CERTIFICION CATODO
 		{
 			$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
-
 			$Respuesta = mysqli_query($link, $Consulta);				
 			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
@@ -79,31 +82,38 @@
 		}
 		else
 		{					
-		
+		 echo "<br>Reescribir no es S :".$Reescribir."<br>";
 			$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
 			$Respuesta = mysqli_query($link, $Consulta);		
 			//echo "poly".$Consulta;
 			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
+				//echo "<br>entroooo";
 				$CorrENM = $Corr;
 				$AnoPoly = ($CmbAno -1);
 				$Consulta = "SELECT * FROM sec_web.certificacion_catodos WHERE corr_enm = '".$CorrENM."' "; 
-			   $Consulta.= " and (year(fecha)= '".$CmbAno."' || year(fecha)= '".$AnoPoly."' )";  
+			    //$Consulta.= " and (year(fecha)= '".$CmbAno."' or year(fecha)= '".$AnoPoly."' )";  
+			    $Consulta.= " and (year(fecha)= '".$CmbAno."' || year(fecha)= '".$AnoPoly."' )";
 				//echo $Consulta;
 				$Respuesta2 = mysqli_query($link, $Consulta);
+				//var_dump($Respuesta2);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{
+					//var_dump($Fila2);
+					echo "<br>Error00==YA EXISTE";
 					$Error00 = "E"; //YA EXISTE
 				}		  
 			}
 			else
 			{
+				//echo "Error00==B";
 				$CorrENM = "";
 				$Error00 = "B"; //NO TIENE INSTRUCCION
 			}		
 		}
 		if ($Error00 == "")
 		{
+			echo "Error00 vacio";
 			if ($NumCertificado=="")
 			{
 				$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
@@ -122,13 +132,13 @@
 		}
 		else
 		{
-
-			//header("location:sec_con_certificado02.php?Error=".$Error00."&CorrENM=".$CorrENM."&Idioma=".$Idioma);
+             //echo "<br>(ya existe) - Error00:".$Error00;
+			header("location:sec_con_certificado02.php?Error=".$Error00."&CorrENM=".$CorrENM."&Idioma=".$Idioma);
 			exit;
 		}
 	}
 	$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
-
+   //echo "<br>Consulta:".$Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
 	$EnmCode = "";
 	if ($Fila = mysqli_fetch_array($Respuesta))
@@ -767,7 +777,7 @@ function Proceso(opt)
     <tr> 
       <td width="29%" height="42" align="center"> 
         <?php
-	  	if (isset($Idioma)) 
+	  	if ($Idioma!="") 
 		{
 	  		if ($Idioma == "E")
 				echo "DEPTO. CONTROL CALIDAD<br>LABORATORIO ANALITICO";				
@@ -808,7 +818,7 @@ function Proceso(opt)
       <td height="20" colspan="3" align="center"><strong><font style="font-size=12px"><strong> 
         <font style="font-size=12px"><strong> 
         <?php 			
-				if (isset($Idioma))
+				if ($Idioma!="")
 				{
 					if ($Idioma == "I")					
 						echo "CUSTOMER:&nbsp;&nbsp;";
@@ -852,7 +862,7 @@ function Proceso(opt)
      <tr> 
       <td height="20" colspan="3" align="center"><strong>
         <?php 			
-				if (isset($Idioma))
+				if ($Idioma!="")
 				{
 					if ($Idioma == "I")					
 						echo "<font style='font-size=14px'>CERTIFICATE OF ANALYSIS</font>";
@@ -936,7 +946,7 @@ function Proceso(opt)
 				}
 				else
 				{
-					if (isset($Idioma))
+					if ($Idioma!="")
 					{
 						echo "STANDARD CATHODE";
 					}
@@ -963,7 +973,7 @@ function Proceso(opt)
 					}
 					else
 					{
-						if (isset($Idioma))
+						if ($Idioma!="")
 						{
 							echo "GRADE A COPPER CATHODES";	
 							
@@ -992,7 +1002,7 @@ function Proceso(opt)
 						}
 						else
 						{
-							if (isset($Idioma))
+							if ($Idioma!="")
 							{
 								echo "ELECTROWINING CATHODES";	
 							}
@@ -1056,7 +1066,7 @@ function Proceso(opt)
             <td width="18%" height="14"> 
               <?php
 			 
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "LOTE:&nbsp;";				
@@ -1073,7 +1083,7 @@ function Proceso(opt)
           <tr> 
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "N&deg; SERIE PAQ.:&nbsp;";				
@@ -1128,7 +1138,7 @@ function Proceso(opt)
           <tr> 
             <td width="32%"> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "PAQUETES:&nbsp;";				
@@ -1144,7 +1154,7 @@ function Proceso(opt)
 			<?php // echo "paq".$NumPaquetes;?>
             <td width="24%"> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "PESO LOTE:&nbsp;";				
@@ -1161,7 +1171,7 @@ function Proceso(opt)
           <tr> 
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "ENM/INSTRUCCION:&nbsp;";				
@@ -1176,7 +1186,7 @@ function Proceso(opt)
             <td><?php echo $Corr ?>&nbsp;&nbsp;</td>
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "FECHA DISP.:&nbsp;";				
@@ -1190,7 +1200,7 @@ function Proceso(opt)
 			?>            </td>
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo substr($FechaDisp,8,2).".".substr($FechaDisp,5,2).".".substr($FechaDisp,0,4);				
@@ -1221,7 +1231,7 @@ function Proceso(opt)
               </table></td>
           </tr>
           <?php
-			if (isset($Lote))
+			if ($Lote!="")
 			{
 				//ACTUALIZA TABLA PARA TRABAJAR CON LOS VALORES <
 				$Consulta = "SELECT * ";
@@ -1465,7 +1475,7 @@ function Proceso(opt)
     <tr> 
       <td height="20" colspan="3" align="center"><font style="font-size:8px"> 
         <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "LOS CONTENIDOS DE IMPUREZAS 
@@ -1490,7 +1500,7 @@ function Proceso(opt)
     <tr> 
       <td height="20" colspan="3" align="right"><strong> 
         <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						//echo "JEFE LABORATORIO ANALITICO";
