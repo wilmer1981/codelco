@@ -1,4 +1,9 @@
-<?php include("../principal/conectar_ref_web.php");    ?>
+<?php include("../principal/conectar_ref_web.php");    
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$turno   = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+$cmbturno = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
+
+?>
 
 
 <?php
@@ -75,8 +80,8 @@ function salir(fecha) // RECARGA PAGINA DE FROMULARIO
 
 <body>
 <form name="FrmPrincipal" method="post" action="">
-<input type="hidden" name="fecha" value="<?php echo''.$fecha.''; ?>">
-<input type="hidden" name="Proceso" value="<?php echo''.$Proceso.''; ?>">
+<input type="hidden" name="fecha" value="<?php echo $fecha; ?>">
+<input type="hidden" name="Proceso" value="<?php echo $Proceso; ?>">
 
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
   <TBODY>
@@ -107,7 +112,7 @@ function salir(fecha) // RECARGA PAGINA DE FROMULARIO
                       <TD width="6%"><b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">TURNO:</FONT><font face="Arial, Helvetica, sans-serif">                         </font></b></TD>
                       <TD width="23%">
                         <?php
-							if (!isset($cmbturno))
+							if ($cmbturno=="")
 							{ 
 								$Consulta = "select case when CURTIME() between '00:00:00' and '07:59:59' then 'C' else ";
 								$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
@@ -124,15 +129,15 @@ function salir(fecha) // RECARGA PAGINA DE FROMULARIO
 							while ($fila1=mysqli_fetch_array($respuesta))
 								  {
 									 
-									if ($cmbturno==$fila1[turno])
-										echo "<option value='".$fila1[turno]."' selected>".$fila1[turno]."</option>";
+									if ($cmbturno==$fila1["turno"])
+										echo "<option value='".$fila1["turno"]."' selected>".$fila1["turno"]."</option>";
 									else
-										echo "<option value='".$fila1[turno]."'>".$fila1[turno]."</option>";
+										echo "<option value='".$fila1["turno"]."'>".$fila1["turno"]."</option>";
 								  }
 							echo '</select></td>';
 					 ?>	
                       </TD>
-                        <TD colspan="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">FECHA :&nbsp;&nbsp;&nbsp;<?phpphp  echo $fecha; ?></FONT></b></b></TD>
+                        <TD colspan="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">FECHA :&nbsp;&nbsp;&nbsp;<?php  echo $fecha; ?></FONT></b></b></TD>
                     </TR>
                     <TR> 
                       <TD colspan="5"><b>&nbsp;</b></TD>
@@ -175,25 +180,25 @@ function salir(fecha) // RECARGA PAGINA DE FROMULARIO
                                                             <tr> 
                                                               <td><FONT style="FONT-WEIGHT: bold; COLOR: #000000">CAMBIAN</FONT></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="cambian1" type="text" size="5" maxlength="2"  value=<?phpphp if(isset($cambian1)){ echo $cambian1;} ?>>
+                                                                  <input name="cambian1" type="text" size="5" maxlength="2"  value=<?php if(isset($cambian1)){ echo $cambian1;} ?>>
                                                                 </div></td>
                                                               <td><div align="center"> 
-                                                                  <input name="cambian2" type="text" size="5" maxlength="2"  value=<?phpphp if(isset($cambian2)){ echo $cambian2;} ?>>
+                                                                  <input name="cambian2" type="text" size="5" maxlength="2"  value=<?php if(isset($cambian2)){ echo $cambian2;} ?>>
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <td><font style="FONT-WEIGHT: bold; COLOR: #000000">ARMAN</font></td>
                                                               <td><div align="center">
-                                                                  <input name="arman1" type="text" size="5" maxlength="2" value=<?phpphp if(isset($arman1)){ echo $arman1;} ?>>
+                                                                  <input name="arman1" type="text" size="5" maxlength="2" value=<?php if(isset($arman1)){ echo $arman1;} ?>>
                                                                 </div></td>
                                                               <td><div align="center">
-                                                                  <input name="arman2" type="text" size="5" maxlength="2"  value=<?phpphp if(isset($arman2)){ echo $arman2;} ?>>
+                                                                  <input name="arman2" type="text" size="5" maxlength="2"  value=<?php if(isset($arman2)){ echo $arman2;} ?>>
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <td><FONT style="FONT-WEIGHT: bold; COLOR: #000000">STOCK</FONT></td>
-                                                              <td><div align="center"><input name="stock1" type="text" size="5" maxlength="2"  value=<?phpphp if(isset($stock1)){ echo $stock1;} ?>></div></td>
-                                                              <td><div align="center"><input name="stock2" type="text" size="5" maxlength="2"  value=<?phpphp if(isset($stock2)){ echo $stock2;} ?>></div></td>
+                                                              <td><div align="center"><input name="stock1" type="text" size="5" maxlength="2"  value=<?php if(isset($stock1)){ echo $stock1;} ?>></div></td>
+                                                              <td><div align="center"><input name="stock2" type="text" size="5" maxlength="2"  value=<?php if(isset($stock2)){ echo $stock2;} ?>></div></td>
                                                             </tr>
                                                           </table>
                                                           <p align="center">&nbsp;</p></TD>
@@ -265,8 +270,7 @@ function salir(fecha) // RECARGA PAGINA DE FROMULARIO
                                       <TD width=8><IMG height=1 
                         src="archivos/spaceit.gif" 
                         width=5></TD>
-                                      <TD> <TABLE cellSpacing=0 cellPadding=0 width="100%" 
-border=0>
+                                      <TD> <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
                                           <TBODY>
                                             <TR> 
                                               <TD> <FONT class=small><B>Sistema                             Jefe Turno de Refineria</B><BR>
@@ -274,20 +278,15 @@ border=0>
                                               <TD align=right> <TABLE cellSpacing=0 cellPadding=0 border=0>
                                                   <TBODY>
                                                     <TR> 
-                                                      <TD width=20><A href="javascript:salir('<?php echo $fecha ?>');"><IMG 
-                                height=20 hspace=3 
-                                src="archivos/btn_sec.gif" 
-                                width=20 border=0></A></TD>
-                                                      <TD id=st vAlign=center><A 
-                                href="javascript:salir();"><B><FONT 
-                                color=#000000>Volver</FONT></B></A></TD>
+                                                      <TD width=20><A href="javascript:salir('<?php echo $fecha ?>');">
+													  <IMG height=20 hspace=3 src="archivos/btn_sec.gif" width=20 border=0></A></TD>
+                                                      <TD id="st" vAlign=center><A href="javascript:salir();"><B><FONT color=#000000>Volver</FONT></B></A></TD>
                                                     </TR>
                                                   </TBODY>
                                                 </TABLE></TD>
                                             </TR>
                                             <TR> 
-                                              <TD align=middle colSpan=2> <DIV id=tele 
-                              style="DISPLAY: none; PADDING-TOP: 5px"></DIV></TD>
+                                              <TD align=middle colSpan=2> <DIV id="tele" style="DISPLAY: none; PADDING-TOP: 5px"></DIV></TD>
                                             </TR>
                                           </TBODY>
                                         </TABLE></TD>
@@ -305,9 +304,9 @@ border=0>
                       <TD> <TABLE width="100%" border=0 cellPadding=0 cellSpacing=0 bgcolor="#FFFFFF">
                           <TBODY>
                             <TR> 
-                              <TD vAlign=bottom width=8><IMG height=8                   src="archivos/hbw_line_l.gif"                   width=8 border=0></TD>
-                              <TD vAlign=bottom width="100%"><IMG height=2                   src="archivos/6b8ec6dot.gif"                   width="100%"></TD>
-                              <TD vAlign=bottom align=right width=8><IMG height=8                   src="archivos/hbw_line_r.gif"                  width=8       border=0></TD>
+                              <TD vAlign=bottom width=8><IMG height=8  src="archivos/hbw_line_l.gif"                   width=8 border=0></TD>
+                              <TD vAlign=bottom width="100%"><IMG height=2  src="archivos/6b8ec6dot.gif"                   width="100%"></TD>
+                              <TD vAlign=bottom align=right width=8><IMG height=8 src="archivos/hbw_line_r.gif"                  width=8       border=0></TD>
                             </TR>
                           </TBODY>
                         </TABLE></TD>

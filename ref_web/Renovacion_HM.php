@@ -1,7 +1,7 @@
 <?php 
 	include("../principal/conectar_principal.php");
 	$CodigoDeSistema = 10;
-	$CodigoDePantalla = 27;
+	$CodigoDePantalla = 25;
 	$CookieRut = $_COOKIE["CookieRut"];
 	$consulta="select * from ref_web.usuarios_autorizados where rut='".$CookieRut."'";
 	//echo $consulta;

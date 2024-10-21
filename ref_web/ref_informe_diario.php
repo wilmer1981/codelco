@@ -7,6 +7,7 @@ $VisibleDivProceso = isset($_REQUEST["VisibleDivProceso"])?$_REQUEST["VisibleDiv
 $FDesde = isset($_REQUEST["FDesde"])?$_REQUEST["FDesde"]:"";
 $FHasta = isset($_REQUEST["FHasta"])?$_REQUEST["FHasta"]:"";
 $Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
 set_time_limit(15000);
 if($VisibleDivProceso=='S')
@@ -21,7 +22,7 @@ if($FHasta=="")
 ?>
 <html>
 <head>
-<title>Informe Diario Refiner�a Electrol�tica</title>
+<title>Informe Diario Refiner&iacute;a Electrol&iacute;tica</title>
 
 <script language="javascript" src="funciones/funciones_java.js"></script>
 <script language="javascript">
@@ -114,7 +115,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
    <td width="1%" background="archivos/interior2/form_izq.gif"></td>
    <td align="center"><table width="100%" border="0" cellpadding="0" cellspacing="0">
        <tr>
-         <td colspan="3" align="center"><span class="TituloCabecera2">Informe Diario Refiner�a Electrol�tica</span></td>
+         <td colspan="3" align="center"><span class="TituloCabecera2">Informe Diario Refiner&iacute;a Electrol&iacute;tica</span></td>
          </tr>
        <tr>
          <td width="34%"><img id="Cargando" src="archivos/loading.gif">&nbsp;</td>
@@ -370,6 +371,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  $AcumCorrKAH=0;
 	  $AcumEfiCte=0;
 	  $AcumEfiTpo=0;
+	  $EfiCte=0;
 	  if($Buscar=='S')
 	  {	
   		 $Consulta="select cod_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase = '10005'";
@@ -441,7 +443,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				if($Grupo!='08'&&$Grupo!='49')
 					$AcumKAHEfect=$AcumKAHEfect+$KAHEfect;
 				//echo "AcumKAHEfect: ".$AcumKAHEfect."<br>";	
-				$EfiCte=0;
+				//$EfiCte=0;
 				$Valor1=($PesoGrupoCom*1000)-($Param2*$Param3*$CubasCom);
 				$Valor2=$Param1*$KAHEfect*$CubasCom;
 				if($Valor2>0)
@@ -1315,12 +1317,14 @@ function ObtenerTpoDescXParcial($Grupo,$FechaCons,$link)
     //if($Grupo=='20')
     //	echo $Consulta."<br>";
     $RespFecha=mysqli_query($link, $Consulta);
+	$FechaIniProc="";
     if($FilaFecha=mysqli_fetch_array($RespFecha))
         $FechaIniProc = $FilaFecha["fecha_conexion"];
     $Consulta = "select fecha_desconexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoH." 00:00:00' and '".$FechaFinTurnoH." 23:59:59' order by fecha_conexion asc";
     //if($Grupo=='40')
     //		echo $Consulta."<br>";
 	$RespFecha=mysqli_query($link, $Consulta);
+	$FechaFinProc="";
     if($FilaFecha=mysqli_fetch_array($RespFecha))
         $FechaFinProc = $FilaFecha["fecha_desconexion"];
 	if($FechaIniProc!=''&&$FechaFinProc!='')
@@ -1359,11 +1363,13 @@ function ObtenerTpoDescXRectif($Grupo,$FechaCons,$link)
     $Consulta = "select fecha_conexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoD." 00:00:00' and '".$FechaFinTurnoD." 23:59:59' order by fecha_conexion asc";
     //echo $Consulta."<br>";
 	$RespFecha=mysqli_query($link, $Consulta);
+	$FechaIniProc="";
     if($FilaFecha=mysqli_fetch_array($RespFecha))
         $FechaIniProc = $FilaFecha["fecha_conexion"];
     $Consulta = "select fecha_desconexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoH." 00:00:00' and '".$FechaFinTurnoH." 23:59:59' order by fecha_conexion asc";
     //echo $Consulta."<br>";
 	$RespFecha=mysqli_query($link, $Consulta);
+	$FechaFinProc="";
     if($FilaFecha=mysqli_fetch_array($RespFecha))
         $FechaFinProc = $FilaFecha["fecha_desconexion"];
 	if($FechaIniProc!=''&&$FechaFinProc!='')

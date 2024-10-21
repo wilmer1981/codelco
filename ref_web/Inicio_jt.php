@@ -545,7 +545,7 @@ function Salir(f)
 					<?php 	} 
 					?>
                             <td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=10"><img alt="PROGRAMA DESC. TOTAL" border=0 src="archivos/desc_total.gif" width="82" height="20"></A></div></td>
-                            <td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=10"><img alt="PROGRAMA RENOVACI�N"border=0 src="archivos/renovacion.gif"    width="82" height="20"></A></div></td>
+                            <td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=10"><img alt="PROGRAMA RENOVACI&Oacute;N"border=0 src="archivos/renovacion.gif"    width="82" height="20"></A></div></td>
                             <td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=11"><img alt="PROGRAMA RENOVACION HOJAS MADRES"  border=0  src="archivos/hojas_madres.gif" width="82" height="20"></A></div></td>
                             <td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=12"><img alt="LEYES" border=0 src="archivos/leyes.gif" width="82" height="20"></A></div></td>
                             <!--<td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=13"><img alt="PRODUCCION CATODOS COMERCIALES" border=0 src="archivos/comerciales.gif" width="82" height="20"></A></div></td>-->

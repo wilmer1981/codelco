@@ -18,6 +18,7 @@
 			$Fila = mysqli_fetch_array($Respuesta);
 			$Ano2=substr($Fila["fecha"],0,4);
 			$Mes2=substr($Fila["fecha"],5,2);
+			$cubas = array();
 			$consulta="select distinct fecha,cod_grupo,cubas_renovacion from ref_web.renovacion_hm where fecha between '".$Ano2.'-'.$Mes2."-01' and  '".$Ano2.'-'.$Mes2."-31' and cubas_renovacion not in ('Renovacion Grupo 8 Comercial', 'SIN RENOVACION' ) order by fecha, cod_grupo asc";
 			$Respuesta = mysqli_query($link, $consulta);
 			while ($Fila = mysqli_fetch_array($Respuesta))

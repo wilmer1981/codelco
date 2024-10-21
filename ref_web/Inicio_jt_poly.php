@@ -99,20 +99,20 @@ function Llama_jefe_turno(frm,Pagina,fecha)
 	
 	//alert (Pagina);
 	//alert (fecha);
-	frm.action=Pagina+"&fecha="+fecha;
+	frm.action=Pagina+"?fecha="+fecha;
 	frm.submit();	
 }
 function Llama_jefe_hm(frm,Pagina,fecha)
 {
 
-	frm.action=Pagina+"&fecha="+fecha;
+	frm.action=Pagina+"?fecha="+fecha;
 	frm.submit();	
 }
 
 function Llama_jefe_pte(frm,Pagina,fecha)
 {
 	
-	frm.action=Pagina+"&fecha="+fecha;;
+	frm.action=Pagina+"?fecha="+fecha;;
 	frm.submit();	
 }
 
@@ -238,8 +238,8 @@ function Salir(f)
 				<INPUT name="buscar3" onclick="Recarga(document.FrmPrincipal,'Inicio_jt_poly.php?pagina=<?php echo $pagina; ?>');" type="button" value="Buscar">
 				
 				<td width=300 align="left"><strong><b>Ir a </b></strong>
-					<input name="hm" onclick="Llama_jefe_hm(document.FrmPrincipal,'Inicio_jhm.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe H.M.">
-					<input name="pte" onclick="Llama_jefe_pte(document.FrmPrincipal,'Inicio_pte.php?fecha=<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Pte.">
+					<input name="hm" onclick="Llama_jefe_hm(document.FrmPrincipal,'Inicio_jhm.php','<?php echo $fecha; ?>');" type="button" value="Sist.Jefe H.M.">
+					<input name="pte" onclick="Llama_jefe_pte(document.FrmPrincipal,'Inicio_pte.php','<?php echo $fecha; ?>');" type="button" value="Sist.Jefe Pte.">
  
 				</td>
 				<TD width=300 align="left"><strong>Consulta :</strong>
@@ -614,7 +614,7 @@ function Salir(f)
 					<?php 	} 
 					?>
                             <td class="tabstext"><div align="center"><A href="Inicio_jt_poly.php?pagina=10"><img alt="PROGRAMA DESC. TOTAL" border=0 src="archivos/desc_total.gif" width="82" height="20"></A></div></td>
-                            <td class="tabstext"><div align="center"><A href="Inicio_jt_poly.php?pagina=10"><img alt="PROGRAMA RENOVACI�N"border=0 src="archivos/renovacion.gif"    width="82" height="20"></A></div></td>
+                            <td class="tabstext"><div align="center"><A href="Inicio_jt_poly.php?pagina=10"><img alt="PROGRAMA RENOVACI&Oacute;N"border=0 src="archivos/renovacion.gif"    width="82" height="20"></A></div></td>
                             <td class="tabstext"><div align="center"><A href="Inicio_jt_poly.php?pagina=11"><img alt="PROGRAMA RENOVACION HOJAS MADRES"  border=0  src="archivos/hojas_madres.gif" width="82" height="20"></A></div></td>
                             <td class="tabstext"><div align="center"><A href="Inicio_jt_poly.php?pagina=12"><img alt="LEYES" border=0 src="archivos/leyes.gif" width="82" height="20"></A></div></td>
                             <!--<td class=tabstext><div align="center"><A href="Inicio_jt.php?pagina=13"><img alt="PRODUCCION CATODOS COMERCIALES" border=0 src="archivos/comerciales.gif" width="82" height="20"></A></div></td>-->

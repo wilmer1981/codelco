@@ -135,9 +135,9 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                     </FONT></b></b> </TD>
                   <TD width="56"><b><b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">Enviar 
                     a:</FONT></b></b></TD>
-				   <?php if ($fila_codigo[mantencion]<>'')
+				   <?php if ($fila_codigo["mantencion"]<>'')
 				       { ?>	
-                          <TD width="195"> <input type="checkbox" name="checkbox" value="<?php echo $fila_codigo[mantencion]; ?>" checked> 
+                          <TD width="195"> <input type="checkbox" name="checkbox" value="<?php echo $fila_codigo["mantencion"]; ?>" checked> 
                     <?php }
 					 else { ?>
 					         <td width="197" height="12"> <input type="checkbox" name="checkbox" value="Mantencion" >
@@ -171,10 +171,10 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                                               <textarea name="observacion" cols="80" rows="10" ><?php echo $observaciones; ?></textarea>
                                             </p>
                                             <p align="center">&nbsp;</p></TD>
-                         <?php if ($fila_codigo[mantencion]<>'')
+                         <?php if ($fila_codigo["mantencion"]<>'')
 							{ ?>
 								<TD width="33%"><p><IMG height=1 src="archivos/spaceit.gif" width=10 border=0></p>
-                                    <p><strong>Fecha Ejecuci�n</strong></p>
+                                    <p><strong>Fecha Ejecuci&oacute;n</strong></p>
                                     <select name="dia1" size="1">
                               	<?php
 						        	for ($i = 1;$i <= 31; $i++)
@@ -237,7 +237,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 									}
 								?>
                     			</select> <p></p>
-                                	<p><strong>Area Mantenci�n</strong></p>
+                                	<p><strong>Area Mantenci&oacute;n</strong></p>
                                    
                                     <select name="Area" size="1" >
                                  <?php 
@@ -283,10 +283,10 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 							</p>
                    			<p>
 							<?php 
-							if ($fila_codigo[Condicion_insegura]<>'')
+							if ($fila_codigo["Condicion_insegura"]<>'')
 				        	{ 
 								?>
-								<input name="checkbox5" type="checkbox" id="checkbox5" value="<?php echo $fila_codigo[Condicion_insegura]; ?>" checked>
+								<input name="checkbox5" type="checkbox" id="checkbox5" value="<?php echo $fila_codigo["Condicion_insegura"]; ?>" checked>
 							<?php
 							}
 								else
@@ -376,7 +376,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 								?>
 								<?php
                     			//</select> <p></p>?>
-                                	<p><strong>Area Mantenci�n</strong></p>
+                                	<p><strong>Area Mantenci&oacute;n</strong></p>
                                    
                                     <select name="Area" size="1" >
                                  <?php 
@@ -422,10 +422,10 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 							</p>
                    			<p>
 							<?php 
-							if ($fila_codigo[Condicion_insegura]<>'')
+							if ($fila_codigo["Condicion_insegura"]<>'')
 				        	{ 
 								?>
-								<input name="checkbox5" type="checkbox" id="checkbox5" value="<?php echo $fila_codigo[Condicion_insegura]; ?>" checked>
+								<input name="checkbox5" type="checkbox" id="checkbox5" value="<?php echo $fila_codigo["Condicion_insegura"]; ?>" checked>
 							<?php
 							}
 								else

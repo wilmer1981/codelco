@@ -1,10 +1,19 @@
 <?php
 include("../principal/conectar_ref_web.php"); 
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$turno  = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+$arman1 = isset($_REQUEST["arman1"])?$_REQUEST["arman1"]:"";
+$arman2 = isset($_REQUEST["arman2"])?$_REQUEST["arman2"]:"";
+$cambian1 = isset($_REQUEST["cambian1"])?$_REQUEST["cambian1"]:"";
+$cambian2 = isset($_REQUEST["cambian2"])?$_REQUEST["cambian2"]:"";
+$stock1   = isset($_REQUEST["stock1"])?$_REQUEST["stock1"]:"";
+$stock2   = isset($_REQUEST["stock2"])?$_REQUEST["stock2"]:"";
+$cod_operacion = isset($_REQUEST["cod_operacion"])?$_REQUEST["cod_operacion"]:"";
 
 $sqls = "select * from ref_web.pulido_placas WHERE FECHA = '$fecha' AND TURNO = '$turno'";
 $results=mysqli_query($link, $sqls);
 $num = mysqli_num_rows($results);
-
 
 	if ($Proceso == "G")
 	{  

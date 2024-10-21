@@ -5,7 +5,7 @@ function FormatoFecha($f)
 		return $fecha;
 	}
 $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-echo "fecha :".$fecha;	
+//echo "fecha :".$fecha;	
 $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
 $dia1=substr($fecha,8,2)
@@ -110,24 +110,28 @@ function Imprimir()
 				   $consulta = $consulta." WHERE fecha = '".$fecha."' ";
 				   $rs = mysqli_query($link, $consulta);
 				   $row = mysqli_fetch_array($rs);
+				   $stock = isset($row["stock"])?$row["stock"]:"";
+				   $rechazo_cat_ini = isset($row["rechazo_cat_ini"])?$row["rechazo_cat_ini"]:"";
+				   $rechazo_lam_ini = isset($row["rechazo_lam_ini"])?$row["rechazo_lam_ini"]:"";
+				   $catodos_en_renovacion = isset($row["catodos_en_renovacion"])?$row["catodos_en_renovacion"]:"";
 					
             ?>
             <TD width="60%" align="left"><div align="left"><font size="6"><strong>STOCK</strong></font></div></TD>
             <TD align="left"><div align="left"><font size="6"></font></div>
-              <font size="6"><?php echo $row["stock"]; ?>&nbsp;</font></TD>
+              <font size="6"><?php echo $stock; ?>&nbsp;</font></TD>
           </TR>
           <TR class=lcol> 
             <TD align="left"><font size="6"><strong>RECHAZO CAT. INI.</strong></font></TD>
-            <TD align="left"><?php echo $row["rechazo_cat_ini"]; ?>&nbsp;</TD>
+            <TD align="left"><?php echo $rechazo_cat_ini; ?>&nbsp;</TD>
           </TR>
           <TR class=lcol> 
             <TD align="left"><font size="6"><strong>RECHAZO DIARIO DE LAMINAS 
               INICIALES</strong></font></TD>
-            <TD align="left"><?php echo $row["rechazo_lam_ini"]; ?>&nbsp;</TD>
+            <TD align="left"><?php echo $rechazo_lam_ini; ?>&nbsp;</TD>
           </TR>
           <TR class=lcol> 
             <TD align="left"><font size="6"><strong>RECHAZO CATODOS EN RENOVACION</strong></font></TD>
-            <TD align="left"><?php echo $row["catodos_en_renovacion"]; ?>&nbsp;</TD>
+            <TD align="left"><?php echo $catodos_en_renovacion; ?>&nbsp;</TD>
           </TR>
          </table>	  
          </TD>

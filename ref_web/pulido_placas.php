@@ -1,4 +1,5 @@
-<?php include("../principal/conectar_ref_web.php");  
+<?php include("../principal/conectar_ref_web.php");
+  $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
    $ano1=substr($fecha,0,4);
    $mes1=substr($fecha,5,2);
    $dia1=substr($fecha,8,2)	
@@ -61,6 +62,7 @@ function Imprimir()
               <?php
                 $turno="A";
                 $veces=0;
+				$i=0;
 				$sql1 = "select * from ref_web.pulido_placas where FECHA ='$fecha' AND TURNO='A' ORDER BY COD_OPERACION ASC";
                 $result1=mysqli_query($link, $sql1);
                 while($row1 = mysqli_fetch_array($result1))
@@ -93,7 +95,7 @@ function Imprimir()
                 <TD colspan="6" width="100%" height=24>&nbsp;</TD>
               </TR>
              <TR vAlign=top  class=dt> 
-                <TD colspan="6" vAlign=bottom> <H4><B>PULIDO PLACAS&nbsp;-&nbsp;<?phpphp echo $fecha; ?>&nbsp;-&nbsp;TURNO B</B></H4>
+                <TD colspan="6" vAlign=bottom> <H4><B>PULIDO PLACAS&nbsp;-&nbsp;<?php echo $fecha; ?>&nbsp;-&nbsp;TURNO B</B></H4>
                   <div align="right"></div></TD>
              </TR>
               <TR class=lcolor> 
@@ -103,7 +105,7 @@ function Imprimir()
                 <TD width="20%" height="24"><div align="center"><b>PLACAS CON PERNOS</b></div></TD>
                 <TD colspan="2" width="10%" height="24"><div align="center">&nbsp;</div></TD>
               </TR>
-               <?phpphp
+               <?php
                 $turno="B";
                 $veces1=0;
 				$sql1 = "select * from ref_web.pulido_placas where FECHA ='$fecha' AND TURNO='B'  ORDER BY COD_OPERACION ASC";
