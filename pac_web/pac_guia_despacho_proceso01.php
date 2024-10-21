@@ -5,11 +5,11 @@
 	$HoraI = date("h:i".':00'); 
 	$HoraT = date("h:i".':00');
 
-	$CookieRut = $_COOKIE["CookieRut"];
-	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-	$NG = isset($_REQUEST["NG"])?$_REQUEST["NG"]:"";
-	$Ver = isset($_REQUEST["Ver"])?$_REQUEST["Ver"]:"";
-	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CookieRut   = $_COOKIE["CookieRut"];
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$NG          = isset($_REQUEST["NG"])?$_REQUEST["NG"]:"";
+	$Ver         = isset($_REQUEST["Ver"])?$_REQUEST["Ver"]:"";
+	$Valores     = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$Correlativo = isset($_REQUEST["Correlativo"])?$_REQUEST["Correlativo"]:"";
 	$FechaHoraRomana = isset($_REQUEST["FechaHoraRomana"])?$_REQUEST["FechaHoraRomana"]:"";
 	$checkbox = isset($_REQUEST["checkbox"])?$_REQUEST["checkbox"]:"";
@@ -27,8 +27,8 @@
 	$CmbChofer = isset($_REQUEST["CmbChofer"])?$_REQUEST["CmbChofer"]:"";
 	$CmbPatente = isset($_REQUEST["CmbPatente"])?$_REQUEST["CmbPatente"]:"";
 	$CmbPatenteRampla = isset($_REQUEST["CmbPatenteRampla"])?$_REQUEST["CmbPatenteRampla"]:"";
-	$Toneladas = isset($_REQUEST["Toneladas"])?$_REQUEST["Toneladas"]:0;
-	$TxtMts = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$Toneladas        = isset($_REQUEST["Toneladas"])?$_REQUEST["Toneladas"]:"0.0";
+	$TxtMts           = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
 	$TxtCorrRomana = isset($_REQUEST["TxtCorrRomana"])?$_REQUEST["TxtCorrRomana"]:"";
 
 	$TxtRutCliente = isset($_REQUEST["TxtRutCliente"])?$_REQUEST["TxtRutCliente"]:"";
@@ -44,14 +44,14 @@
 	$TxtGiroCliente  = isset($_REQUEST["TxtGiroCliente"])?$_REQUEST["TxtGiroCliente"]:"";
 	$TxtContrato     = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
 	
-	$TxtRutChofer    = isset($_REQUEST["TxtRutChofer"])?$_REQUEST["TxtRutChofer"]:"";
-	$CmbFPago    = isset($_REQUEST["CmbFPago"])?$_REQUEST["CmbFPago"]:"";
+	$TxtRutChofer  = isset($_REQUEST["TxtRutChofer"])?$_REQUEST["TxtRutChofer"]:"";
+	$CmbFPago      = isset($_REQUEST["CmbFPago"])?$_REQUEST["CmbFPago"]:"";
 	$TxtTranspGiro = isset($_REQUEST["TxtTranspGiro"])?$_REQUEST["TxtTranspGiro"]:"";
-	$CmbUnidad = isset($_REQUEST["CmbUnidad"])?$_REQUEST["CmbUnidad"]:"";
+	$CmbUnidad     = isset($_REQUEST["CmbUnidad"])?$_REQUEST["CmbUnidad"]:"";
 	$TxtObservacionAUX = isset($_REQUEST["TxtObservacionAUX"])?$_REQUEST["TxtObservacionAUX"]:"";
 	$TxtObservacionFun = isset($_REQUEST["TxtObservacionFun"])?$_REQUEST["TxtObservacionFun"]:"";
 	$txtorinombre = isset($_REQUEST["txtorinombre"])?$_REQUEST["txtorinombre"]:"";
-	$txtorilugar = isset($_REQUEST["txtorilugar"])?$_REQUEST["txtorilugar"]:"";
+	$txtorilugar  = isset($_REQUEST["txtorilugar"])?$_REQUEST["txtorilugar"]:"";
 	$txtoridivsap = isset($_REQUEST["txtoridivsap"])?$_REQUEST["txtoridivsap"]:"";
 	$txtorialmacensap = isset($_REQUEST["txtorialmacensap"])?$_REQUEST["txtorialmacensap"]:"";
 	$TxtTranspRut = isset($_REQUEST["TxtTranspRut"])?$_REQUEST["TxtTranspRut"]:"";
@@ -61,10 +61,15 @@
 	$TxtPatenteR = isset($_REQUEST["TxtPatenteR"])?$_REQUEST["TxtPatenteR"]:"";
 	$TxtCodSapProducto = isset($_REQUEST["TxtCodSapProducto"])?$_REQUEST["TxtCodSapProducto"]:"";
 	$TxtProductoNombre = isset($_REQUEST["TxtProductoNombre"])?$_REQUEST["TxtProductoNombre"]:"";
-	$VarConcentracion = isset($_REQUEST["VarConcentracion"])?$_REQUEST["VarConcentracion"]:"";
-	$VarNU = isset($_REQUEST["VarNU"])?$_REQUEST["VarNU"]:"";
+	$VarConcentracion  = isset($_REQUEST["VarConcentracion"])?$_REQUEST["VarConcentracion"]:"";
+	$VarNU     = isset($_REQUEST["VarNU"])?$_REQUEST["VarNU"]:"";
 	$TxtSellos = isset($_REQUEST["TxtSellos"])?$_REQUEST["TxtSellos"]:"";
 	$msjAnular = isset($_REQUEST["msjAnular"])?$_REQUEST["msjAnular"]:"";
+	$NumGuia   = isset($_REQUEST["NumGuia"])?$_REQUEST["NumGuia"]:"";
+	$CmbBrazo  = isset($_REQUEST["CmbBrazo"])?$_REQUEST["CmbBrazo"]:"";
+	$CmbEstanque = isset($_REQUEST["CmbEstanque"])?$_REQUEST["CmbEstanque"]:"";
+	$CmbProd     = isset($_REQUEST["CmbProd"])?$_REQUEST["CmbProd"]:"";
+	$VUnitario   = isset($_REQUEST["VUnitario"])?$_REQUEST["VUnitario"]:"";
 
 	$rut =$CookieRut;
 
@@ -357,7 +362,9 @@ switch ($Proceso)
 					$Insertar="insert into pac_web.guia_despacho (num_guia,nro_patente,nro_patente_rampla,rut_transportista,rut_cliente,fecha_hora, ";
 					$Insertar.=" brazo_carga,toneladas,volumen_m3,descripcion,estado,cod_estanque,rut_funcionario,tipo_guia,valor_unitario,rut_chofer,fecha_hora_romana,corr_romana,div_sap,almacen_sap,sellos,cod_producto,cod_unidad,cod_originador,corr_interno_cliente) values ";
 					$Insertar.=" ('".$NumGuia."','".$CmbPatente."','".$CmbPatenteRampla."','".$CmbTransp."','".$CmbCliente."','".$FechaHora."','".$CmbBrazo."', ";
+					//$Insertar.=" '".$Toneladas."','".str_replace(",",".",$TxtMts)."','".$descripcion."','S','".$CmbEstanque."','".$rut."','C','".str_replace(",",".",$VUnitario)."','$CmbChofer','$FechaHoraRomana','$TxtCorrRomana','$TxtDivSAp','$TxtAlmacenSap','$TxtSellos','$CmbProd','$CmbUnidad','$CmbOri','$CorrInternoCliente')";
 					$Insertar.=" '".str_replace(",",".",$Toneladas)."','".str_replace(",",".",$TxtMts)."','".$descripcion."','S','".$CmbEstanque."','".$rut."','C','".str_replace(",",".",$VUnitario)."','$CmbChofer','$FechaHoraRomana','$TxtCorrRomana','$TxtDivSAp','$TxtAlmacenSap','$TxtSellos','$CmbProd','$CmbUnidad','$CmbOri','$CorrInternoCliente')";
+					//echo  $Insertar;
 					$result = mysqli_query($link, $Insertar);
 					if (!$result) {
     				die('No se pudo crear la guia en el sistema: ' . mysql_error()."<br><br>".$Insertar);
@@ -458,7 +465,7 @@ echo "<script languaje='JavaScript'>";
 		break;
 		case "M":
 		
-			ModificarPAC();
+			ModificarPAC($link);
 			echo "<script languaje='JavaScript'>";
 			echo "window.opener.document.FrmGuia.action='pac_guia_despacho.php';";
 			echo "window.opener.document.FrmGuia.submit();";

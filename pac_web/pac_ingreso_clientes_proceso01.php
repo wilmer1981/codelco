@@ -6,7 +6,7 @@
 	$TxtDv = isset($_REQUEST["TxtDv"])?$_REQUEST["TxtDv"]:"";
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
-	$TxtPrecioUS = isset($_REQUEST["TxtPrecioUS"])?$_REQUEST["TxtPrecioUS"]:0;
+	$TxtPrecioUS = isset($_REQUEST["TxtPrecioUS"])?$_REQUEST["TxtPrecioUS"]:"";
 	$CmbTras     = isset($_REQUEST["CmbTras"])?$_REQUEST["CmbTras"]:"";
 	$TxtReferencia = isset($_REQUEST["TxtReferencia"])?$_REQUEST["TxtReferencia"]:"";
 	$TxtNombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
@@ -21,6 +21,12 @@
 	$TxtContrato  = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
 	$TxtCorrCliente  = isset($_REQUEST["TxtCorrCliente"])?$_REQUEST["TxtCorrCliente"]:"";
 	
+	//$TxtPrecioUS = str_replace(",",".",$TxtPrecioUS);
+	//echo "TxtPrecioUS:".$TxtPrecioUS;
+	if($TxtPrecioUS==""){
+		$TxtPrecioUS=0.0;
+	}
+	
 	$RutCliente       = $TxtRut."-".$TxtDv;
 	$TxtIndicadorTras = $CmbTras;
 
@@ -29,7 +35,7 @@
 		case "N":
 			$Insertar="insert into pac_web.clientes (rut_cliente,referencia,nombre,direccion,ciudad,telefonos,fax,div_sap,almacen_sap,glosa,indicador_traslado,giro_cliente,contrato,precio_us) values (";
 			$Insertar = $Insertar."'$RutCliente','$TxtReferencia','$TxtNombre','$TxtDireccion','$TxtCiudad','$TxtTelefonos','$TxtFax','$TxtDivSAP','$TxtAlmacenSap','$TxtGlosa','$TxtIndicadorTras','$TxtGiroCliente','$TxtContrato',".str_replace(",",".",$TxtPrecioUS).")";
-		 	echo $Insertar;
+			//echo $Insertar;
 			$result1=mysqli_query($link, $Insertar);
 		 	if (!$result1) {
     			die('Invalid query: ' . mysql_error());

@@ -5,7 +5,7 @@
 	$FechaHora1 = date("d-m-Y h:i");
 	$Rut =$CookieRut;
 	include("../principal/funciones/class.ezpdf.php");
-	$pdf =& new Cezpdf('a4');
+	$pdf = new Cezpdf('a4');
     $pdf->selectFont('../principal/funciones/fonts/Helvetica.afm');
 	$NumGuias=$Valores;
 	for ($i=0;$i<=strlen($NumGuias);$i++)
@@ -30,7 +30,7 @@
 			$pdf->rectangle(350,715, 245,125);
 			$pdf->addTextWrap(350,800,245,20,"R.U.T.:61.704.000 - K",$justification='center',0,0);
 			$pdf->addTextWrap(350,770,245,20,"GUIA DE DESPACHO",$justification='center',0,0);
-			$pdf->addTextWrap(350,740,245,20,"N� ".$NumGuia,$justification='center',0,0);
+			$pdf->addTextWrap(350,740,245,20,"N° ".$NumGuia,$justification='center',0,0);
 			$pdf->addTextWrap(350,700,245,14,"S.I.I.- SANTIAGO CENTRO",$justification='center',0,0);
 			$pdf->selectFont('../principal/funciones/fonts/Helvetica-Bold.afm');
 			$pdf->addTextWrap(0,750,140,28,"CODELCO",$justification='left',0,0);

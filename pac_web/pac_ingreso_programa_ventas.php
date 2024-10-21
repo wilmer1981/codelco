@@ -11,7 +11,7 @@
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 
 	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-	$AnoIni2     = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:"";
+	$AnoIni2     = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:date("Y");
 	$CmbCliente  = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
 	$CmbContrato = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
 	$Tonelada    = isset($_REQUEST["Tonelada"])?$_REQUEST["Tonelada"]:"";
@@ -71,20 +71,23 @@ function Proceso(Opt,f)
 			var fila = 8; //Posicion Inicial de la Fila.	
 			var col = 16;
 			var Encontro=false;
+			var Valido=false;
 			pos = fila; //Posicion del Primer Checkbox del formulario + 1, (Indica la fila).
-			largo = f.elements.length;
+			//largo = f.elements.length;
+			largo = Frm.elements.length;
 			Suma="";
 			for (i=pos; i<largo; i=i+col)
 			{
 				if (Frm.elements[i].type == 'checkbox')
 				{
 					if (Frm.elements[i].checked == true)
-					{
-						Suma=Suma=Number(Frm.elements[i+4].value)+Number(Frm.elements[i+5].value)+Number(Frm.elements[i+6].value)+Number(Frm.elements[i+7].value)+Number(Frm.elements[i+8].value)+Number(Frm.elements[i+9].value)+Number(Frm.elements[i+10].value)+Number(Frm.elements[i+11].value)+Number(Frm.elements[i+12].value)+Number(Frm.elements[i+13].value)+Number(Frm.elements[i+14].value)+Number(Frm.elements[i+15].value);
+					{ 	//Suma=Suma=Number(Frm.elements[i+4].value)+Number(Frm.elements[i+5].value)+Number(Frm.elements[i+6].value)+Number(Frm.elements[i+7].value)+Number(Frm.elements[i+8].value)+Number(Frm.elements[i+9].value)+Number(Frm.elements[i+10].value)+Number(Frm.elements[i+11].value)+Number(Frm.elements[i+12].value)+Number(Frm.elements[i+13].value)+Number(Frm.elements[i+14].value)+Number(Frm.elements[i+15].value);
+						Suma= Suma+Number(Frm.elements[i+4].value)+Number(Frm.elements[i+5].value)+Number(Frm.elements[i+6].value)+Number(Frm.elements[i+7].value)+Number(Frm.elements[i+8].value)+Number(Frm.elements[i+9].value)+Number(Frm.elements[i+10].value)+Number(Frm.elements[i+11].value)+Number(Frm.elements[i+12].value)+Number(Frm.elements[i+13].value)+Number(Frm.elements[i+14].value)+Number(Frm.elements[i+15].value);
 						if (Frm.elements[i+3].value < Suma)
 						{
 							Encontro=true;
 						}
+						Valido=true;
 					}
 				}
 			}
@@ -92,38 +95,75 @@ function Proceso(Opt,f)
 			{
 				alert("El Valor Total es Menor que la Suma de los Valores Ingresados");
 			}
+			else{
+				if(Valido==true){
+					Frm.action= "pac_ingreso_programa_ventas01.php?Proceso="+Opt;
+					Frm.submit();				
+				}else{
+					alert("Seleccione un Contrato.");
+				}
+			}
+			/*
 			else
 			{
 				Frm.action= "pac_ingreso_programa_ventas01.php?Proceso="+Opt;
 				Frm.submit();
+			}*/
+			break;
+		case "E":		
+			var valido = validar_checkbox(Frm);
+			if(valido==true){
+				var mensaje=confirm("¿Seguro que Desea Elimnar?");
+				if (mensaje==true)
+				{
+					Frm.action= "pac_ingreso_programa_ventas01.php?Proceso="+Opt;
+					Frm.submit();
+				}
+			}else{
+				alert("Seleccione un Contrato.");
 			}
-			break;
-		case "E":
-		var mensaje=confirm("�Seguro que Desea Elimnar?");
-		if (mensaje==true)
-		{
-			Frm.action= "pac_ingreso_programa_ventas01.php?Proceso="+Opt;
-	 		Frm.submit();
-			break;
-		}
-		else
-		{
-			return;
-		}
+		break;
+
 		case "S":
 			Frm.action="../principal/sistemas_usuario.php?CodSistema=9";
 			Frm.submit();	
 		break;
+		
 		case "B":
 			Frm.action= "pac_ingreso_programa_ventas.php?Proceso="+Opt;
 	 		Frm.submit();
 		break;
+		
 		case "A":
 			Frm.action= "pac_ingreso_programa_ventas.php";
 	 		Frm.submit();
 		break;
 	}
 }
+
+function validar_checkbox(Frm) {
+	var fila = 8; //Posicion Inicial de la Fila.	
+	var col = 16;
+	var Valido=false;
+	pos   = fila; //Posicion del Primer Checkbox del formulario + 1, (Indica la fila).
+	largo = Frm.elements.length;
+	for (i=pos; i<largo; i=i+col)
+	{
+		if (Frm.elements[i].type == 'checkbox')
+		{
+			if (Frm.elements[i].checked == true)
+			{ 	
+				Valido=true;
+			}
+		}
+	}
+	if(Valido==true){
+		return true;
+	}else{
+	    return false;
+	}
+}
+
 function Calcula(J)
 {
 	var Frm=document.FrmIngreso;

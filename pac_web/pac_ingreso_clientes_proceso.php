@@ -127,7 +127,7 @@ function Grabar(Proceso,Valores)
 	}
 	if (Frm.TxtDireccion.value == "")
 	{
-		alert("Debe Ingresar Direcci�n")
+		alert("Debe Ingresar Dirección")
 		Frm.TxtNombre.focus();
 		return;
 	}
