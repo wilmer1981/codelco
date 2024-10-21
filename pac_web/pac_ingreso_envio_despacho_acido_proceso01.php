@@ -18,7 +18,7 @@
 	$CmbEstanque  = isset($_REQUEST["CmbEstanque"])?$_REQUEST["CmbEstanque"]:"";
 	$TxtVolumen      = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
 	$CmbOperario  = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
-	$TxtMts       = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$TxtMts       = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:0.0;
 	$RutF         = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
 	$FechaHora    = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
 
@@ -31,7 +31,7 @@
 			$FechaHora=$CmbAno."-".$CmbMes."-".$CmbDia." ".$CmbHora.":".$CmbMinutos.":".date('s');
 			$Insertar="insert into pac_web.movimientos (fecha_hora,toneladas,volumen_m3,hora_inicio,hora_final,cod_estanque_origen,rut_funcionario,tipo_movimiento) values (";
 			$Insertar = $Insertar."'$FechaHora','".str_replace(',','.',$TxtVolumen)."','".str_replace(',','.',$TxtMts)."','$HoraInicio','$HoraFinal','$CmbEstanque','$CmbOperario',3)";
-			echo $Insertar;
+			//echo $Insertar;
 			mysqli_query($link, $Insertar);
 			break;
 		case "M":

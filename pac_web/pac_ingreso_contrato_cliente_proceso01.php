@@ -38,6 +38,7 @@
 			{
 				$Mostrar='S';
 				//echo "existe";
+				$msg ="Contrato ya Existe...";
 			}
 			else
 			{
@@ -49,11 +50,14 @@
 				mysqli_query($link, $Insertar);
 				//$CmbCliente="";
 				//echo $Insertar;
+				$Mostrar='';
+				$msg ="Contrato registrado correctamente...";
 			}
 			echo "<script languaje='JavaScript'>";
 			echo "window.opener.document.FrmIngContrato.action='pac_ingreso_contrato_cliente.php';";
 			echo "window.opener.document.FrmIngContrato.submit();";
 			echo "window.close();";
+			echo "alert('".$msg."');";
 			echo "</script>";
 			break;
 		case "A"://AGREGAR DETALLE(SI NO HAY CONTRATO Y QUIERE AGREGAR DETALLE INSERTA EL CONTRATO)

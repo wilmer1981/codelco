@@ -31,7 +31,7 @@
 			$RutTransp=$Fila["rut_transportista"];
 			$Marca=$Fila["marca"];
 			$Modelo=$Fila["modelo"];
-			$A�o=$Fila["a�o"];
+			$Ano=$Fila["año"];
 			$Carga=$Fila["carga"];
 			$Tara=$Fila["tara"];
 			if (!is_null($Fila["fecha_rev_tecnica"]))
@@ -142,7 +142,7 @@ function Salir()
 						$Respuesta=mysqli_query($link, $Consulta);
 						while ($Fila=mysqli_fetch_array($Respuesta))
 						{
-							echo "<option value ='z".$Fila["rut_cliente"]."~".$Fila["corr_interno_cliente"]."'>".$Fila["rut_cliente"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
+							echo "<option value ='".$Fila["rut_cliente"]."~".$Fila["corr_interno_cliente"]."'>".$Fila["rut_cliente"]."&nbsp;-&nbsp;".$Fila["nombre"]."</option>";
 						}
                			echo "</select>";
 
@@ -191,7 +191,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroCoincidencia))
+	if ($EncontroCoincidencia!="")
 	{
 		if ($EncontroCoincidencia==true)
 		{

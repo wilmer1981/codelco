@@ -14,7 +14,7 @@
 	$DivSap     = isset($_REQUEST["TxtDivSap"])?$_REQUEST["TxtDivSap"]:"";
 	$AlmSap     = isset($_REQUEST["TxtAlmSap"])?$_REQUEST["TxtAlmSap"]:"";
 	$Estado     = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:0;
-
+	$Cod_Ori    = isset($_REQUEST["Cod_Ori"])?$_REQUEST["Cod_Ori"]:"";
 	switch($Proceso)
 	{
 		case "N":
@@ -75,14 +75,14 @@ function Grabar(Proceso)
 
 	if (Frm.TxtDivSap.value == "")
 	{
-		alert("Debe Ingresar Divisi�n SAP")
+		alert("Debe Ingresar División SAP")
 		Frm.TxtDivSap.focus();
 		return;
 	}
 
 	if (Frm.TxtAlmSap.value == "")
 	{
-		alert("Debe Ingresar Almac�n SAP")
+		alert("Debe Ingresar Almacén SAP")
 		Frm.TxtAlmSap.focus();
 		return;
 	}

@@ -3,7 +3,7 @@
 
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	$Tipo = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$Tipo    = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
 
 	$CmbCliente = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
 	$CmbTransp = isset($_REQUEST["CmbTransp"])?$_REQUEST["CmbTransp"]:"";
@@ -12,6 +12,12 @@
 	$Arr=explode('~',$CmbCliente);
 	$CmbCliente=$Arr[0];
 	$CorrInterno=$Arr[1];
+	/*
+	echo "Proceso:".$Proceso;
+	echo "<br>CmbCliente:".$CmbCliente;
+	echo "<br>CmbTransp:".$CmbTransp;
+	*/
+	
 	switch ($Proceso)
 	{
 		case "N":
@@ -26,6 +32,7 @@
 			{
 				$Insertar="insert into pac_web.relacion_cliente_transp (rut_cliente,rut_transportista,corr_interno_cliente) values (";
 				$Insertar = $Insertar."'$CmbCliente','$CmbTransp','$CorrInterno')";
+				//echo $Insertar;
 				mysqli_query($link, $Insertar);
 			}	
 			break;

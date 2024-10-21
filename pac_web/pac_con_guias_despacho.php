@@ -308,7 +308,7 @@ function  Salir()
 			$Consulta="select t1.fecha_hora,t1.num_guia,t1.nro_patente,t1.toneladas,t2.nombre,t1.tipo_guia,t3.valor_subclase1 as operador,t1.valor_unitario ";
 			$Consulta=$Consulta." from pac_web.guia_despacho t1 left join pac_web.clientes t2 on t1.rut_cliente = t2.rut_cliente";
 			$Consulta=$Consulta." left join  proyecto_modernizacion.sub_clase t3 on t3.cod_clase=9002 and t1.rut_funcionario =t3.nombre_subclase ";
-			$Consulta=$Consulta." where fecha_hora between '".$FechaInicio."' and '".$FechaTermino."'".$Filtro;
+			$Consulta=$Consulta." where fecha_hora between '".$FechaInicio."' and '".$FechaTermino."' ".$Filtro;
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Total=0;
 			while($Fila=mysqli_fetch_array($Respuesta))
@@ -320,7 +320,7 @@ function  Salir()
 				echo "<td width='125'  align='left'>".$Fila["nombre"]."</td>";
 				echo "<td width='50'  align='right'>".$Fila["toneladas"]."</td>";
 				echo "<td width='50'  align='right'>".$Fila["valor_unitario"]."</td>";
-				if ($Fila[tipo_guia]=='C')
+				if ($Fila["tipo_guia"]=='C')
 				{
 					echo "<td width='50'  align='center'>Camion</td>";
 				}

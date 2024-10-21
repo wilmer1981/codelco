@@ -10,15 +10,14 @@
 	$TxtLugar   = isset($_REQUEST["TxtLugar"])?$_REQUEST["TxtLugar"]:"";	
 	$TxtDivSap  = isset($_REQUEST["TxtDivSap"])?$_REQUEST["TxtDivSap"]:"";
 	$TxtAlmSap     = isset($_REQUEST["TxtAlmSap"])?$_REQUEST["TxtAlmSap"]:"";
-	$CheckEst   = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:0;
-
+	$CheckEst   = isset($_REQUEST["CheckEst"])?$_REQUEST["CheckEst"]:"";
+	$cod_originador = isset($_REQUEST["cod_originador"])?$_REQUEST["cod_originador"]:"";
 
 	$RutOriginador=$TxtRut."-".$TxtDv;
-	/*
+	
 	if($CheckEst == ''){
 		$CheckEst = 0;
 	}
-	*/
 	
 	switch ($Proceso)
 	{
@@ -26,9 +25,9 @@
 		
 			$Insertar="INSERT INTO pac_web.pac_originador (rut,nombre,lugar,div_sap,almacen_sap,activo) values (";
 			$Insertar = $Insertar."'".$RutOriginador."','$TxtNombre','$TxtLugar','$TxtDivSap','$TxtAlmSap','$CheckEst')";
+			//echo $Insertar;
 		 	mysqli_query($link, $Insertar);
 		 	$msg = "Registro creado correctamente.";
-
 			break;
 		case "M":
 			$Modificar="UPDATE pac_web.pac_originador set rut='".$RutOriginador."',nombre='$TxtNombre',lugar='$TxtLugar',div_sap='$TxtDivSap',almacen_sap='$TxtAlmSap',activo='$CheckEst' where cod_originador='".$cod_originador."'";

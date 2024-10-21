@@ -45,12 +45,10 @@
 				}
 			}
 			$Consulta  = "SELECT * from pac_web.recepcion_camiones where fecha_hora='".$FechaHora."' and tipo_movimiento=6";
-			echo $Consulta;
-
+			//echo $Consulta;
 			$Respuesta = mysqli_query($link, $Consulta);
 			$Fila      = mysqli_fetch_array($Respuesta);
-			var_dump($Fila);
-
+			//var_dump($Fila);
 			$TipoRecep = $Fila["tipo_recepcion"];
 			if ($CmbTransportista=="")
 			{

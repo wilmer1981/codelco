@@ -9,7 +9,7 @@
 	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
 	$CmbHora = isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:"";
 	$CmbMinutos = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:"";
-	$TxtMts = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$TxtMts     = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:0.0;
 	$CmbEstanqueOrigen  = isset($_REQUEST["CmbEstanqueOrigen"])?$_REQUEST["CmbEstanqueOrigen"]:"";
 	$CmbEstanqueDestino = isset($_REQUEST["CmbEstanqueDestino"])?$_REQUEST["CmbEstanqueDestino"]:"";
 	$TxtVolumen      = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
@@ -18,7 +18,7 @@
 
 	//$RutCliente=$TxtRut."-".$TxtDv;
 	$HoraInicio=date('h:i'.':00');
-	$HoraFinal=date('h:i:'.':00');
+	$HoraFinal =date('h:i'.':00');
 	
 	switch ($Proceso)
 	{
@@ -26,6 +26,7 @@
 			$FechaHora=$CmbAno."-".$CmbMes."-".$CmbDia." ".$CmbHora.":".$CmbMinutos.":".date('s');
 			$Insertar="insert into pac_web.movimientos (fecha_hora,toneladas,volumen_m3,hora_inicio,hora_final,cod_estanque_origen,cod_estanque_destino,rut_funcionario,tipo_movimiento) values (";
 			$Insertar = $Insertar."'$FechaHora','".str_replace(",",".",$TxtVolumen)."','".str_replace(",",".",$TxtMts)."','$HoraInicio','$HoraFinal','$CmbEstanqueOrigen','$CmbEstanqueDestino','$CmbOperario',4)";
+			//echo $Insertar;
 			mysqli_query($link, $Insertar);
 			break;
 		case "M":
@@ -57,7 +58,7 @@
 		echo "<script languaje='JavaScript'>";
 		echo "window.opener.document.FrmIngTrasvasije.action='pac_ingreso_trasvasije.php';";
 		echo "window.opener.document.FrmIngTrasvasije.submit();";
-		//echo "window.close();";
+		echo "window.close();";
 		echo "</script>";	
 	}	
 ?>

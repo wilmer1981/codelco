@@ -22,10 +22,8 @@
 	$CmbMesCE = isset($_REQUEST["CmbMesCE"])?$_REQUEST["CmbMesCE"]:date("m");	
 	$CmbAnoCE = isset($_REQUEST["CmbAnoCE"])?$_REQUEST["CmbAnoCE"]:date("Y");
 	
-	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";	
-	
-	
-
+	$EncontroCoincidencia = isset($_REQUEST["EncontroCoincidencia"])?$_REQUEST["EncontroCoincidencia"]:"";		
+	$Tipo2 = isset($_REQUEST["Tipo2"])?$_REQUEST["Tipo2"]:"";
 	//$Patente="";
 	//$Marca="";
 	//$Modelo="";

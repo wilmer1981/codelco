@@ -15,8 +15,7 @@
 	$DV    = isset($_REQUEST["DV"])?$_REQUEST["DV"]:"";
 	$Registro    = isset($_REQUEST["Registro"])?$_REQUEST["Registro"]:"";
 	$RutTransp    = isset($_REQUEST["RutTransp"])?$_REQUEST["RutTransp"]:"";
-	
-	
+	$Tipo    = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
 
 	switch($Proceso)
 	{

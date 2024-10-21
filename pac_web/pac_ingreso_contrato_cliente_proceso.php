@@ -22,10 +22,10 @@
 	
 	$TxtContrato  = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
 	$TxtTotalToneladas  = isset($_REQUEST["TxtTotalToneladas"])?$_REQUEST["TxtTotalToneladas"]:"";
-	$CmbMesInicio  = isset($_REQUEST["CmbMesInicio"])?$_REQUEST["CmbMesInicio"]:"";
-	$CmbAnoInicio  = isset($_REQUEST["CmbAnoInicio"])?$_REQUEST["CmbAnoInicio"]:"";
-	$CmbMesFinal  = isset($_REQUEST["CmbMesFinal"])?$_REQUEST["CmbMesFinal"]:"";
-	$CmbAnoFinal  = isset($_REQUEST["CmbAnoFinal"])?$_REQUEST["CmbAnoFinal"]:"";
+	$CmbMesInicio  = isset($_REQUEST["CmbMesInicio"])?$_REQUEST["CmbMesInicio"]:date("m");
+	$CmbAnoInicio  = isset($_REQUEST["CmbAnoInicio"])?$_REQUEST["CmbAnoInicio"]:date("Y");
+	$CmbMesFinal  = isset($_REQUEST["CmbMesFinal"])?$_REQUEST["CmbMesFinal"]:date("m");
+	$CmbAnoFinal  = isset($_REQUEST["CmbAnoFinal"])?$_REQUEST["CmbAnoFinal"]:date("Y");
 	$CmbDia  = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:date("d");
 	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
 	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
@@ -33,10 +33,11 @@
 	$TxtRef  = isset($_REQUEST["TxtRef"])?$_REQUEST["TxtRef"]:"";
 	$TxtNroControl  = isset($_REQUEST["TxtNroControl"])?$_REQUEST["TxtNroControl"]:"";
 	$TxtToneladas  = isset($_REQUEST["TxtToneladas"])?$_REQUEST["TxtToneladas"]:"";
-
+    $RutCliente  = isset($_REQUEST["RutCliente"])?$_REQUEST["RutCliente"]:"";
+	$Nombre  = isset($_REQUEST["Nombre"])?$_REQUEST["Nombre"]:"";
 	if ($Proceso=='M')
 	{
-		$RutCliente="";
+		//$RutCliente="";
 		$Contrato="";
 		$Datos=$Valores;
 		for ($i=0;$i<=strlen($Datos);$i++)
@@ -591,7 +592,7 @@ function Activar(Frm)
 					$Respuesta=mysqli_query($link, $Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
-						$Dias[$Fila[dia]][0]=$Fila[dia];
+						$Dias[$Fila["dia"]][0]=$Fila["dia"];
 					}
 					reset($Dias);
 					ksort($Dias);
@@ -660,7 +661,7 @@ function Activar(Frm)
 		echo "<script language='JavaScript'>";
 		echo "var Frm=document.FrmIngreso;";
 		echo "alert('Este Contrato Ya Existe');";
-		echo "Frm.CmbContrato.focus();";
+		echo "Frm.TxtContrato.focus();";
 		echo "</script>";
 	}
 	if ($Mostrar2=='S')

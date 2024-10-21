@@ -19,7 +19,7 @@
 	$CmbEstanqueDestino  = isset($_REQUEST["CmbEstanqueDestino"])?$_REQUEST["CmbEstanqueDestino"]:"";
 	$TxtVolumen   = isset($_REQUEST["TxtVolumen"])?$_REQUEST["TxtVolumen"]:"";
 	$CmbOperario  = isset($_REQUEST["CmbOperario"])?$_REQUEST["CmbOperario"]:"";
-	$TxtMts       = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
+	$TxtMts       = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:0.0;
 	$RutF         = isset($_REQUEST["RutF"])?$_REQUEST["RutF"]:"";
 	$FechaHora    = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
 
