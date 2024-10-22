@@ -1,6 +1,5 @@
 <?php
 	include("../principal/conectar_sec_web.php");
-	
 
 	$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 	$opcion2  = isset($_REQUEST["opcion2"])?$_REQUEST["opcion2"]:"";
@@ -9,19 +8,28 @@
 	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
 	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$activar   = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	
+	if(strlen($Dia)==1)
+		$Dia= "0".$Dia;
+	if(strlen($Mes)==1)
+		$Mes= "0".$Mes;
 
 	if ($opcion2 == "B")
 	{    
 	     $consulta_grupo="select distinct max(fecha) as fecha1,cod_grupo from ref_web.grupo_electrolitico2 where fecha <='".$Ano."-".$Mes."-".$Dia."' and cod_grupo='".$txtgrupo."'  group by cod_grupo order by cod_grupo ";
 		 $rs_grupos=mysqli_query($link, $consulta_grupo);	
 	     $row_grupos = mysqli_fetch_array($rs_grupos);
-		 $fecha1=isset($row_grupos["fecha1"])?$row_grupos["fecha1"]:"";	
+		 $fecha1=isset($row_grupos["fecha1"])?$row_grupos["fecha1"]:"0000-00-00";	
 	     $consulta_datos="SELECT max(fecha),cod_grupo,cod_circuito,num_cubas_tot,cod_estado,cubas_descobrizacion,hojas_madres,num_catodos_celdas,num_anodos_celdas,calle_puente_grua,cubas_lavado  ";
          $consulta_datos.="FROM ref_web.grupo_electrolitico2 "; 
          $consulta_datos.="where cod_grupo='".$txtgrupo."' and fecha='".$fecha1."' group by cod_grupo";
+		// echo $consulta_datos;
 		 $respuesta_datos=mysqli_query($link, $consulta_datos);
 	     $row1 = mysqli_fetch_array($respuesta_datos);
 		 $mostrar = "S";
+		 //exit();
 	}
 	if ($opcion == "N")
 	{
@@ -63,6 +71,7 @@ function ValidaCampos(f)
 /*****************/
 function Grabar(f)
 {
+	//alert("opcion:"+f.opcion.value);
 	if (ValidaCampos(f))
 	{
 		f.action = "sec_ing_grupo_electrolitico_proceso01_ref.php?proceso=G&txtgrupo=" + f.txtgrupo.value + "&opcion=" + f.opcion.value;
@@ -278,7 +287,7 @@ function Salir()
         </table> 
 	  	<?php
 	  		//Campo oculto.
-			echo '<input name="opcion" type="hidden" size="40" value="'.$opcion.'">';
+			echo '<input name="opcion" type="text" size="40" value="'.$opcion.'">';
 	  	?>
 	  
         <br>
@@ -293,10 +302,10 @@ function Salir()
 </table>	  
 </form>
 <?php
-	if (isset($activar))
+	if ($activar!="")
 	{
 		echo '<script language="JavaScript">';		
-		if (isset($mensaje))
+		if ($mensaje!="")
 			echo 'alert("'.$mensaje.'");';		
 			
 		echo 'window.opener.document.frmPrincipal.action = "sec_ing_grupo_electrolitico_ref.php";';

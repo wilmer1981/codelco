@@ -1,11 +1,12 @@
 <?php 
-	include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 3;
 	
 $Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
 $Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
 $Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 ?>
 
 <html>
@@ -259,10 +260,7 @@ function Recarga()
 					mysqli_query($link, $insertar);
 			
 			
-			      } 	 
-		   
-		   
-		   
+			} 	 	   
 		   
 		   echo '<tr>';
 		   echo '<td width="55" height="25"><input type="checkbox" name="checkbox" value="'.$row["cod_grupo"].'"></td>';
@@ -276,11 +274,9 @@ function Recarga()
 		   echo '<td width="75" align="center">'.$row["num_anodos_celdas"].'&nbsp;</td>';
 		   echo '<td width="77" align="center">'.$row["cubas_lavado"].'&nbsp;</td>';
 		   echo '<td width="89" align="center">'.$row["calle_puente_grua"].'&nbsp;</td>';		
-		   echo '</tr>';
+		   echo '</tr>';	 
 		 
-		 
-		 }
-		
+		}	
 
 ?>
 </table> 
@@ -305,7 +301,7 @@ function Recarga()
 <?php include("../principal/pie_pagina.php")?>
 </form>
 <?php
-	if (isset($mensaje))
+	if ($mensaje!="")
 	{
 		echo '<script language="JavaScript">';		
 		echo 'alert("'.$mensaje.'");';			

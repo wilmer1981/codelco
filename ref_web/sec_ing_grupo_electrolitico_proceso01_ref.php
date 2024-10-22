@@ -18,7 +18,10 @@
 	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
 	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
 	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
-
+	if(strlen($Dia)==1)
+		$Dia= "0".$Dia;
+	if(strlen($Mes)==1)
+		$Mes= "0".$Mes;
 
 	$consulta_fecha_systema="SELECT left(sysdate(),10) as fecha2";
 	$rss = mysqli_query($link, $consulta_fecha_systema);
@@ -42,8 +45,10 @@
 			$insertar = "INSERT INTO ref_web.grupo_electrolitico2 (fecha,cod_grupo,cod_circuito,num_cubas_tot,cod_estado,cubas_descobrizacion,hojas_madres,num_catodos_celdas,num_anodos_celdas,calle_puente_grua,cubas_lavado)";
 			$insertar = $insertar." VALUES ('".$Ano."-".$Mes."-".$Dia."','".$txtgrupo."','".$cmbcircuito."','".$txttotal."','".$cmbestado."','".$txtdescobrizacion;
 			$insertar = $insertar."','".$txthm."','".$txtcatodos."','".$txtanodos."','".$cmbcalle."','".$txtcubaslavado."')";
+			//echo "insertar:".$insertar;
 			mysqli_query($link, $insertar);					
-    		header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=");
+    		//header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=");
+			//exit();
 		}				
 	}
 	
@@ -89,11 +94,12 @@
 			$eliminar = "DELETE FROM ref_web.grupo_electrolitico2 ";
 			$eliminar.= " WHERE cod_grupo = '".$v."'";
 			$eliminar.= " and fecha='".$Ano."-".$Mes."-".$Dia."'";
+			//echo "Elin:".$eliminar;
 			mysqli_query($link, $eliminar);						
 		}
-		
 		$mensaje = "Grupo(s) Eliminado(s) Correctamente";
-		header("Location:sec_ing_grupo_electrolitico_ref.php?mensaje=".$mensaje);				
+		//exit();
+		header("Location:sec_ing_grupo_electrolitico_ref.php?activar=S&mensaje=".$mensaje);				
 	}
 
 	
