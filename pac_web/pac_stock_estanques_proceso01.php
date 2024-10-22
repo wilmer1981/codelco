@@ -75,7 +75,8 @@
 					$AnoMes=substr($Datos,0,$i);
 					$Ano=substr($AnoMes,0,4);
 					$Mes=substr($AnoMes,4);
-					$Eliminar ="delete from pac_web.stock_estanques where ano=".$Ano." and mes=".$Mes;
+					//$Eliminar ="delete from pac_web.stock_estanques where ano=".$Ano." and mes=".$Mes;
+					$Eliminar ="delete from pac_web.stock_estanques where EXTRACT(YEAR FROM fecha)=".$Ano." and EXTRACT(MONTH FROM fecha)=".$Mes;
 					mysqli_query($link, $Eliminar);
 					$Datos=substr($Datos,$i+2);
 					$i=0;
@@ -95,7 +96,7 @@
 			echo "<script languaje='JavaScript'>";
 			echo "window.opener.document.FrmStockEstanques.action='pac_stock_estanques.php';";
 			echo "window.opener.document.FrmStockEstanques.submit();";
-			//echo "window.close();";
+			echo "window.close();";
 			echo "</script>";
 			break;	
 	}
