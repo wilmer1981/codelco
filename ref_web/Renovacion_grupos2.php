@@ -4,14 +4,15 @@
 	$CodigoDePantalla = 10;
 
 	$CookieRut = $_COOKIE["CookieRut"];
-	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
-	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
-	$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-	$DiaIniDParcial    = isset($_REQUEST["DiaIniDParcial"])?$_REQUEST["DiaIniDParcial"]:"";
-	$DiaIniElectro    = isset($_REQUEST["DiaIniElectro"])?$_REQUEST["DiaIniElectro"]:"";
-	$DesParcial    = isset($_REQUEST["DesParcial"])?$_REQUEST["DesParcial"]:"";
+	$opcion    = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$mes1      = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$ano1      = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$DiaIniDParcial = isset($_REQUEST["DiaIniDParcial"])?$_REQUEST["DiaIniDParcial"]:"";
+	$DiaIniElectro  = isset($_REQUEST["DiaIniElectro"])?$_REQUEST["DiaIniElectro"]:"";
+	$DesParcial     = isset($_REQUEST["DesParcial"])?$_REQUEST["DesParcial"]:"";
 	$ElecWin    = isset($_REQUEST["ElecWin"])?$_REQUEST["ElecWin"]:"";
+	$mensaje    = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 
 	$consulta="select * from ref_web.usuarios_autorizados where rut='".$CookieRut."'";
 	//echo $consulta;
@@ -400,6 +401,7 @@ function Salir()
 						//echo $Consulta."<br><br>";
 						$RespGrupo=mysqli_query($link, $Consulta);
 						$Grupo1='';$Grupo2='';$Grupo3='';$Grupo4='';$Grupo5='';$Grupo6='';$Grupo7='';$Grupo8='';$Grupo9='';$Grupo10='';$Grupo11='';$Grupo12='';
+						$Grupo="";
 						while($FilaGrupo=mysqli_fetch_array($RespGrupo))
 						{
 							switch($FilaGrupo["fila_renovacion"])
@@ -536,7 +538,7 @@ function Salir()
 <?php include("../principal/pie_pagina.php")?>
 </form>
 <?php
-	if (isset($mensaje))
+	if ($mensaje!="")
 	{
 		echo '<script language="JavaScript">';		
 		echo 'alert("'.$mensaje.'");';			
