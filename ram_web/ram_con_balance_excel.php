@@ -422,6 +422,7 @@ while ($Fila1 = mysqli_fetch_array($Resp1))
 	$CantDecSb=0;$CantDecFe=0;$CantDecHg=0;$CantDecCd=0;$CantDecNi=0;
 	$OtrosProd = false;
 	$Cont = 1;
+	$CantDec=2;
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($CodConjuntoAnt != $Fila["cod_conjunto"])

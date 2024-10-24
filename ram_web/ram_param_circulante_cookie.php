@@ -1,5 +1,21 @@
-<? 
+<?php 
 include("../principal/conectar_principal.php");
+
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Nodo = isset($_REQUEST["Nodo"])?$_REQUEST["Nodo"]:"";
+	$Flujo = isset($_REQUEST["Flujo"])?$_REQUEST["Flujo"]:"";
+	
+	$ChkRecep = isset($_REQUEST["ChkRecep"])?$_REQUEST["ChkRecep"]:"";
+	$ChkBenef = isset($_REQUEST["ChkBenef"])?$_REQUEST["ChkBenef"]:"";
+	
+	$PesoHum     = isset($_REQUEST["PesoHum"])?$_REQUEST["PesoHum"]:"";
+	$PesoSeco    = isset($_REQUEST["PesoSeco"])?$_REQUEST["PesoSeco"]:"";
+	$FinoCu      = isset($_REQUEST["FinoCu"])?$_REQUEST["FinoCu"]:"";
+	$FinoAg      = isset($_REQUEST["FinoAg"])?$_REQUEST["FinoAg"]:"";
+	$FinoAu      = isset($_REQUEST["FinoAu"])?$_REQUEST["FinoAu"]:"";
+	$FinoAs      = isset($_REQUEST["FinoAs"])?$_REQUEST["FinoAs"]:"";
+	
 ?>
 <html>
 <head>
@@ -65,7 +81,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				var msg = confirm("¿Seguro que desea eliminar este valor?");
+				var msg = confirm("Seguro que desea eliminar este valor?");
 				if (msg==true)
 				{				
 					f.action="ram_param_circulante_cookie01.php?Proceso=E&Valores=" + Valores;
@@ -97,7 +113,7 @@ function Proceso(opt)
   <tr>
     <td align="right">Mes-A&ntilde;o</td>
     <td colspan="3"><select name="Mes" onChange="Proceso('R')">
-        <?
+        <?php
 	for ($i=1;$i<=12;$i++)
 	{
 		if (isset($Mes))
@@ -118,7 +134,7 @@ function Proceso(opt)
 ?>
       </select>
         <select name="Ano" onChange="Proceso('R')">
-          <?
+          <?php
 	for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 	{
 		if (isset($Ano))
@@ -144,15 +160,15 @@ function Proceso(opt)
     <td width="79" align="right">Nodo</td>
     <td colspan="3"><select name="Nodo" onChange="Proceso('R')">
       <option value="S">SELECCIONAR</option>
-      <?
+      <?php
 	$Consulta = "select * from proyecto_modernizacion.nodos where sistema='CIR' order by cod_nodo";
-	$Resp = mysql_query($Consulta);
-	while ($Fila = mysql_fetch_array($Resp))
+	$Resp = mysqli_query($link,$Consulta);
+	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($Nodo == $Fila["cod_nodo"])
-			echo "<option selected value='".$Fila["cod_nodo"]."'>".str_pad($Fila["cod_nodo"],3,"0",str_pad_left)." - ".$Fila["descripcion"]."</option>";
+			echo "<option selected value='".$Fila["cod_nodo"]."'>".str_pad($Fila["cod_nodo"],3,"0",STR_PAD_LEFT)." - ".$Fila["descripcion"]."</option>";
 		else
-			echo "<option value='".$Fila["cod_nodo"]."'>".str_pad($Fila["cod_nodo"],3,"0",str_pad_left)." - ".$Fila["descripcion"]."</option>";
+			echo "<option value='".$Fila["cod_nodo"]."'>".str_pad($Fila["cod_nodo"],3,"0",STR_PAD_LEFT)." - ".$Fila["descripcion"]."</option>";
 	}
 ?>
     </select></td>
@@ -161,37 +177,37 @@ function Proceso(opt)
     <td align="right">Flujo</td>
     <td colspan="3"><select name="Flujo" onChange="Proceso('R')">
       <option value="S">SELECCIONAR</option>
-      <?
+      <?php
 	$Consulta = "select * from proyecto_modernizacion.flujos ";
 	$Consulta.= " where nodo='".$Nodo."' and sistema='CIR' and esflujo<>'N' order by cod_flujo";
-	$Resp = mysql_query($Consulta);
-	while ($Fila = mysql_fetch_array($Resp))
+	$Resp = mysqli_query($link,$Consulta);
+	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($Flujo == $Fila["cod_flujo"])
-			echo "<option selected value='".$Fila["cod_flujo"]."'>".str_pad($Fila["cod_flujo"],3,"0",str_pad_left)." - ".$Fila["descripcion"]."</option>";
+			echo "<option selected value='".$Fila["cod_flujo"]."'>".str_pad($Fila["cod_flujo"],3,"0",STR_PAD_LEFT)." - ".$Fila["descripcion"]."</option>";
 		else
-			echo "<option value='".$Fila["cod_flujo"]."'>".str_pad($Fila["cod_flujo"],3,"0",str_pad_left)." - ".$Fila["descripcion"]."</option>";
+			echo "<option value='".$Fila["cod_flujo"]."'>".str_pad($Fila["cod_flujo"],3,"0",STR_PAD_LEFT)." - ".$Fila["descripcion"]."</option>";
 	}
 ?>
     </select></td>
   </tr>
   <tr class="ColorTabla02">
     <td align="right">Peso Humedo </td>
-    <td width="140"><input name="PesoHum" type="text" id="PesoHum2" value="<? echo $PesoHum; ?>" size="20" maxlength="10"></td>
+    <td width="140"><input name="PesoHum" type="text" id="PesoHum2" value="<?php echo $PesoHum; ?>" size="20" maxlength="10"></td>
     <td width="64" align="right">Peso Seco </td>
-    <td width="197"><input name="PesoSeco" type="text" id="PesoHum3" value="<? echo $PesoSeco; ?>" size="20" maxlength="10"></td>
+    <td width="197"><input name="PesoSeco" type="text" id="PesoHum3" value="<?php echo $PesoSeco; ?>" size="20" maxlength="10"></td>
   </tr>
   <tr class="ColorTabla02">
     <td align="right">Fino Cu </td>
-    <td><input name="FinoCu" type="text" id="PesoHum4" value="<? echo $FinoCu; ?>" size="20" maxlength="10"></td>
+    <td><input name="FinoCu" type="text" id="PesoHum4" value="<?php echo $FinoCu; ?>" size="20" maxlength="10"></td>
     <td align="right">Fino Ag </td>
-    <td><input name="FinoAg" type="text" id="PesoHum5" value="<? echo $FinoAg; ?>" size="20" maxlength="10"></td>
+    <td><input name="FinoAg" type="text" id="PesoHum5" value="<?php echo $FinoAg; ?>" size="20" maxlength="10"></td>
   </tr>
   <tr class="ColorTabla02">
     <td align="right">Fino Au </td>
-    <td><input name="FinoAu" type="text" id="PesoHum6" value="<? echo $FinoAu; ?>" size="20" maxlength="10"></td>
+    <td><input name="FinoAu" type="text" id="PesoHum6" value="<?php echo $FinoAu; ?>" size="20" maxlength="10"></td>
     <td align="right">Fino As </td>
-    <td><input name="FinoAs" type="text" id="FinoAg" value="<? echo $FinoAs; ?>" size="20" maxlength="10"></td>
+    <td><input name="FinoAs" type="text" id="FinoAg" value="<?php echo $FinoAs; ?>" size="20" maxlength="10"></td>
   </tr>
   <tr>
     <td colspan="4" align="center">Movimiento:
@@ -227,12 +243,19 @@ Beneficio</td>
     <td width="3%">Ley.Au</td>
     <td width="4%">Ley.As</td>
   </tr>
-<?  
+<?php  
+	$TotalPesoHum = 0;
+	$TotalPesoSeco = 0;
+	$TotalFinoCu = 0;
+	$TotalFinoAg = 0;
+	$TotalFinoAu = 0;
+	$TotalFinoAs = 0;
+		
 	$Consulta = "select * from ram_web.cookie ";
 	$Consulta.= " where ano='".$Ano."' and mes='".$Mes."'";
 	$Consulta.= " order by flujo, tipo_movimiento ";
-	$Resp = mysql_query($Consulta);
-	while ($Fila = mysql_fetch_array($Resp))
+	$Resp = mysqli_query($link,$Consulta);
+	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		echo "<tr>\n";
 		$ValorRadio = $Fila["tipo_movimiento"]."//".$Fila["flujo"];
@@ -242,8 +265,8 @@ Beneficio</td>
 		//FLUJO
 		$Consulta = "select * from proyecto_modernizacion.flujos ";
 		$Consulta.= " where sistema='CIR' and cod_flujo='".$Fila["flujo"]."'";
-		$Resp2 = mysql_query($Consulta);
-		if ($Fila2=mysql_fetch_array($Resp2))
+		$Resp2 = mysqli_query($link,$Consulta);
+		if ($Fila2=mysqli_fetch_array($Resp2))
 			echo "<td>".$Fila2["descripcion"]."</td>\n";
 		else
 			echo "<td>&nbsp;</td>\n";

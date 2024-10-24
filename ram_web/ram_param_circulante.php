@@ -67,7 +67,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				var msg = confirm("¿Seguro que desea eliminar esta relacion?");
+				var msg = confirm("Seguro que desea eliminar esta relacion?");
 				if (msg==true)
 				{				
 					f.action="ram_param_circulante01.php?Proceso=E&Valores=" + Valores;

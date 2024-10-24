@@ -5,11 +5,11 @@
  //mysql_select_db("ram_web",$link);
  $TipoMovimiento = isset($_REQUEST["TipoMovimiento"])?$_REQUEST["TipoMovimiento"]:"";
  $TxtConjunto    = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
- $Agrup = isset($_REQUEST["Agrup"])?$_REQUEST["Agrup"]:"";
- $Acum  = isset($_REQUEST["Acum"])?$_REQUEST["Acum"]:"";
+ $Agrup          = isset($_REQUEST["Agrup"])?$_REQUEST["Agrup"]:"";
+ $Acum           = isset($_REQUEST["Acum"])?$_REQUEST["Acum"]:"";
  $ChkPMineros    =  isset($_REQUEST["ChkPMineros"])?$_REQUEST["ChkPMineros"]:"";
  $ChkCirculantes =  isset($_REQUEST["ChkCirculantes"])?$_REQUEST["ChkCirculantes"]:"";
- $FinoLeyes  =  isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
+ $FinoLeyes      =  isset($_REQUEST["FinoLeyes"])?$_REQUEST["FinoLeyes"]:"";
  $Dia =  isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
  $Mes =  isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
  $Ano =  isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("A");
@@ -20,9 +20,11 @@
 <title>Balance RAM</title>
 <link href="../principal/estilos/css_principal.css" rel="stylesheet" type="text/css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
+-->
 </style>
 <script language="javascript">
 function Proceso(opt)
@@ -433,11 +435,12 @@ while ($Fila1 = mysqli_fetch_array($Resp1))
 	$TotalHg = 0;
 	$TotalCd = 0;
 	$TotalNi = 0;
-	////
+	///
 	$CantDecCu =0;$CantDecAg=0;$CantDecAu=0;$CantDecAs=0;$CantDecS=0;$CantDecPb=0;
 	$CantDecSb=0;$CantDecFe=0;$CantDecHg=0;$CantDecCd=0;$CantDecNi=0;
 	$OtrosProd = false;
 	$Cont = 1;
+	$CantDec = 2;
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($CodConjuntoAnt != $Fila["cod_conjunto"])

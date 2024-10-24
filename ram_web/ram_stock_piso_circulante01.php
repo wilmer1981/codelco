@@ -17,6 +17,7 @@
 	switch ($Proceso)
 	{
 		case "G":
+			$P_Seco=0;$F_Cu=0;$F_Ag=0;$F_Au=0;$F_As=0;
 			if ($ChkLeyes == "M")
 			{
 				$TxtLeyHum = str_replace(",",".",$TxtLeyHum);
