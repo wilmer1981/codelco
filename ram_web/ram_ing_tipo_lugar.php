@@ -1,33 +1,10 @@
 <?php
-
-if(isset($_REQUEST["buscar"])){
-	$buscar = $_REQUEST["buscar"];
-}else{
-	$buscar = "";
-}
-if(isset($_REQUEST["Proceso"])){
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso= "";
-}
-if(isset($_REQUEST["cod_tipo"])){
-	$cod_tipo = $_REQUEST["cod_tipo"];
-}else{
-	$cod_tipo= "";
-}
-if(isset($_REQUEST["radio"])){
-	$radio = $_REQUEST["radio"];
-}else{
-	$radio= "";
-}
-//cod_tipo_lugar
-if(isset($_REQUEST["cod_tipo_lugar"])){
-	$cod_tipo_lugar = $_REQUEST["cod_tipo_lugar"];
-}else{
-	$cod_tipo_lugar= "";
-}
-
-
+$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$buscar  = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:"";
+$radio   = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$cod_tipo_lugar = isset($_REQUEST["cod_tipo_lugar"])?$_REQUEST["cod_tipo_lugar"]:"";
+$cod_tipo    = isset($_REQUEST["cod_tipo"])?$_REQUEST["cod_tipo"]:"";
+$descripcion = isset($_REQUEST["descripcion"])?$_REQUEST["descripcion"]:"";
 	
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 2;
@@ -40,7 +17,7 @@ $CodigoDePantalla = 2;
 	
 	if($row = mysqli_fetch_array($rs))
 	{	
-       $cod_tipo = $row["cod_tipo_lugar"];
+       $cod_tipo    = $row["cod_tipo_lugar"];
 	   $descripcion = $row["descripcion_lugar"];
 	}
  }
@@ -184,11 +161,11 @@ $CodigoDePantalla = 2;
                                     height="11">&nbsp;C&oacute;digo Tipo Lugar</td>
                             <td width="103">
                                 <?php			
-			if($buscar == "S")			 
-				echo'<input name="cod_tipo" type="text" value="'.$cod_tipo.'" size="4" onKeyDown="TeclaPulsada()">';
-			else
-				echo'<input name="cod_tipo" type="text" size="4" onKeyDown="TeclaPulsada()">';
-			?>
+								if($buscar == "S")			 
+									echo'<input name="cod_tipo" type="text" value="'.$cod_tipo.'" size="4" onKeyDown="TeclaPulsada()">';
+								else
+									echo'<input name="cod_tipo" type="text" size="4" onKeyDown="TeclaPulsada()">';
+								?>
                             </td>
                             <td width="397">&nbsp;</td>
                         </tr>
