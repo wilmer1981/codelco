@@ -316,20 +316,34 @@ if ($Mostrar=="S")
 	{
 		$Color = "";
 		$TxtDif=str_replace(",",".",$TxtDif);
-		$TotalHumCal = ($FilaPri["peso_hume_st_ini"] + $FilaPri["peso_hume_recep"]) - ($FilaPri["peso_hume_benef_dir"]+$FilaPri["peso_hume_benef"]+$FilaPri["peso_hume_emb"]);
-		$TotalSecoCal = ($FilaPri["peso_seco_st_ini"] + $FilaPri["peso_seco_recep"]) - ($FilaPri["peso_seco_benef_dir"]+$FilaPri["peso_seco_benef"]+$FilaPri["peso_seco_emb"]);
+		$peso_hume_st_ini         = isset($FilaPri["peso_hume_st_ini"])?$FilaPri["peso_hume_st_ini"]:0;
+		$peso_hume_recep          = isset($FilaPri["peso_hume_recep"])?$FilaPri["peso_hume_recep"]:0;
+		$peso_hume_benef_dir      = isset($FilaPri["peso_hume_benef_dir"])?$FilaPri["peso_hume_benef_dir"]:0;
+		$peso_hume_benef          = isset($FilaPri["peso_hume_benef"])?$FilaPri["peso_hume_benef"]:0;
+		$peso_hume_emb            = isset($FilaPri["peso_hume_emb"])?$FilaPri["peso_hume_emb"]:0;
+		$peso_hume_st_fin         = isset($FilaPri["peso_hume_st_fin"])?$FilaPri["peso_hume_st_fin"]:0;
+		
+		$peso_seco_st_ini         = isset($FilaPri["peso_seco_st_ini"])?$FilaPri["peso_seco_st_ini"]:0;
+		$peso_seco_recep          = isset($FilaPri["peso_seco_recep"])?$FilaPri["peso_seco_recep"]:0;
+		$peso_seco_benef_dir      = isset($FilaPri["peso_seco_benef_dir"])?$FilaPri["peso_seco_benef_dir"]:0;
+		$peso_seco_benef          = isset($FilaPri["peso_seco_benef"])?$FilaPri["peso_seco_benef"]:0;
+		$peso_seco_emb            = isset($FilaPri["peso_seco_emb"])?$FilaPri["peso_seco_emb"]:0;
+		$peso_seco_st_fin         = isset($FilaPri["peso_seco_st_fin"])?$FilaPri["peso_seco_st_fin"]:0;
+		
+		$TotalHumCal  = ($peso_hume_st_ini + $peso_hume_recep) - ($peso_hume_benef_dir + $peso_hume_benef + $peso_hume_emb);
+		$TotalSecoCal = ($peso_seco_st_ini + $peso_seco_recep) - ($peso_seco_benef_dir + $peso_seco_benef + $peso_seco_emb);
 		if ($TxtDif!="")
 		{
-			if (abs($FilaPri["peso_hume_st_fin"]-$TotalHumCal)>$TxtDif)
+			if (abs($peso_hume_st_fin-$TotalHumCal)>$TxtDif)
 				$Color="yellow";
-			if (abs($FilaPri["peso_seco_st_fin"]-$TotalSecoCal)>$TxtDif)
+			if (abs($peso_seco_st_fin-$TotalSecoCal)>$TxtDif)
 				$Color="yellow";
 		}		
 		echo "<tr align='center' class='ColorTabla02'>\n";
 		echo "<td align='center'>".$i."</td>\n";
 		echo "<td bgcolor='".$Color."' align='left'>".$FilaPri["cod_conjunto"]."-".$FilaPri["num_conjunto"]."</td>\n";
-		echo "<td align='right'>".number_format($FilaPri["peso_hume_st_fin"],2,",",".")."</td>";    
-		echo "<td align='right'>".number_format($FilaPri["peso_seco_st_fin"],2,",",".")."</td>\n";
+		echo "<td align='right'>".number_format($peso_hume_st_fin,2,",",".")."</td>";    
+		echo "<td align='right'>".number_format($peso_seco_st_fin,2,",",".")."</td>\n";
 		echo "<td align='right'>".number_format($TotalHumCal,2,",",".")."</td>";    
 		echo "<td align='right'>".number_format($TotalSecoCal,2,",",".")."</td>\n";
 		echo "</tr>\n";
