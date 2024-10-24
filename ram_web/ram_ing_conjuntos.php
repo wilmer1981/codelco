@@ -16,7 +16,6 @@ if(isset($_REQUEST["Proceso"])){
 }else{
 	$Proceso= "";
 }
-//num_conjunto $nombre_conjunto cmbtipo cmblugar
 if(isset($_REQUEST["num_conjunto"])){
 	$num_conjunto = $_REQUEST["num_conjunto"];
 }else{
@@ -37,6 +36,10 @@ if(isset($_REQUEST["cmblugar"])){
 }else{
 	$cmblugar= "";
 }
+
+$radio      = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$n_conjunto = isset($_REQUEST["n_conjunto"])?$_REQUEST["n_conjunto"]:"";
+$fecha_c    = isset($_REQUEST["fecha_c"])?$_REQUEST["fecha_c"]:"0000-00-00";
 
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 3;
