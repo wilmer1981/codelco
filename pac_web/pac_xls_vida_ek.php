@@ -20,7 +20,7 @@
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_pac_web.php");
 
-	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$CmbEstanque  = isset($_REQUEST["CmbEstanque"])?$_REQUEST["CmbEstanque"]:"";
 	$AnoIni       = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
 	$MesIni       = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
@@ -63,12 +63,14 @@
 		$Fila=mysqli_fetch_array($Respuesta);
 		if ($Fila["TotalRegistro"] > 0 )
 		{
-			$FechaDesde=$Ano."-".$Mes."-01 00:00:01";
-			$FechaHasta=$Ano."-".$Mes."-31 23:59:59";
-			$Consulta = "SELECT YEAR(t1.fecha) ano,MONTH(t1.fecha) mes,t1.cod_estanque,t1.stock_inicial,t1.stock_actual, t1.ajuste, t1.signo, t1.envio,t1.recepcion, t2.nombre_subclase from pac_web.stock_estanques t1";
-			$Consulta.= " LEFT JOIN proyecto_modernizacion.sub_clase t2 ON t2.cod_clase = 9001 and t1.cod_estanque=t2.cod_subclase ";
-			$Consulta.= " WHERE ((YEAR(t1.fecha) >= '".$AnoIni."' and (YEAR(t1.fecha) <= '".$AnoFin."') ";
-			$Consulta.= " and (MONTH(t1.fecha) >= '".$MesIni."' and MONTH(t1.fecha) <= '".$MesFin."')";
+			//$FechaDesde=$Ano."-".$Mes."-01 00:00:01";
+			//$FechaHasta=$Ano."-".$Mes."-31 23:59:59";
+			$Consulta = "SELECT YEAR(t1.fecha) ano,MONTH(t1.fecha) mes,t1.cod_estanque,t1.stock_inicial,t1.stock_actual, t1.ajuste, t1.signo, t1.envio,t1.recepcion, t2.nombre_subclase";
+			$Consulta.= " FROM pac_web.stock_estanques t1";
+			$Consulta.= " LEFT JOIN proyecto_modernizacion.sub_clase t2 ";
+			$Consulta.= " on t2.cod_clase = 9001 and t1.cod_estanque=t2.cod_subclase ";
+			$Consulta.= " where (YEAR(t1.fecha) >= '".$AnoIni."' and YEAR(t1.fecha) <= '".$AnoFin."') ";
+			$Consulta.= " and (MONTH(t1.fecha) >= '".$MesIni."' and MONTH(t1.fecha) <= '".$MesFin."') ";
 			$Consulta.= " and t2.cod_subclase <> '5' ".$Filtro." order by ano, mes, t1.cod_estanque";
 			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysqli_fetch_array($Respuesta))

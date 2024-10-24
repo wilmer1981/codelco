@@ -4,6 +4,8 @@
 	$FechaHora = date("Y-m-d h:i");
 	$FechaHora1 = date("d-m-Y h:i");
 	$Rut =$CookieRut;
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+		
 	include("../principal/funciones/class.ezpdf.php");
 	$pdf = new Cezpdf('a4');
     $pdf->selectFont('../principal/funciones/fonts/Helvetica.afm');
@@ -43,9 +45,9 @@
 			$pdf->rectangle(485,195, 240,415);
 			$pdf->line(5,580, 595,580);
 			$pdf->line(5,145, 595,145);
-			$pdf->addTextWrap(0,695,350,10,"SE�OR(ES)",$justification='left',0,0);
-			$pdf->addTextWrap(45,680,350,11,strtoupper(nl2br($Fila[cliente])),$justification='left',0,0);
-			$pdf->addTextWrap(45,665,350,11,strtoupper($Fila[direc_cliente].", ".$Fila["ciudad"]),$justification='left',0,0);
+			$pdf->addTextWrap(0,695,350,10,"SEÑOR(ES)",$justification='left',0,0);
+			$pdf->addTextWrap(45,680,350,11,strtoupper(nl2br($Fila["cliente"])),$justification='left',0,0);
+			$pdf->addTextWrap(45,665,350,11,strtoupper($Fila["direc_cliente"].", ".$Fila["ciudad"]),$justification='left',0,0);
 			
 			if ($Fila["tipo_guia"]=='C')//SOLO SI ES CAMION MUESTRA LA FECHA
 			{
@@ -54,24 +56,24 @@
 				$pdf->addTextWrap(535,665,50,12,"DE",$justification='left',0,0);
 				$pdf->addTextWrap(569,665,50,12,substr($Fila["fecha_hora"],0,4),$justification='left',0,0);
 			}
-			$pdf->addTextWrap(0,635,150,11,"RUT : ".$Fila[rut_cliente],$justification='left',0,0);	
-			$pdf->addTextWrap(0,625,250,11,"MUY SE�OR(ES) NUESTROS(S)",$justification='left',0,0);	
+			$pdf->addTextWrap(0,635,150,11,"RUT : ".$Fila["rut_cliente"],$justification='left',0,0);	
+			$pdf->addTextWrap(0,625,250,11,"MUY SEÑOR(ES) NUESTROS(S)",$justification='left',0,0);	
 			$pdf->addTextWrap(0,615,450,11,"CON ESTA FECHA LE(S) ESTAMOS ENVIANDO LO QUE A CONTINUACION SE INDICA:",$justification='left',0,0);	
 			$pdf->addTextWrap(15,590,50,9,"DOCTO.",$justification='center',0,0);
-			$pdf->addTextWrap(75,590,60,9,"N�",$justification='center',0,0);
+			$pdf->addTextWrap(75,590,60,9,"N°",$justification='center',0,0);
 			$pdf->addTextWrap(140,590,120,9,"CANTIDAD",$justification='center',0,0);
 			$pdf->addTextWrap(200,590,320,9,"DESCRIPCION",$justification='center',0,0);
 			$pdf->addTextWrap(480,590,120,9,"VALOR UNITARIO",$justification='center',0,0);	
 			
 			if ($Fila["tipo_guia"]=='C')//SOLO SI ES CAMION MUESTRA TONELADAS
 			{
-			    $toneladas=number_format($Fila[toneladas],2);
-				$pdf->addTextWrap(190,550,150,12,number_format($Fila[toneladas],2),$justification='left',0,0);
+			    $toneladas=number_format($Fila["toneladas"],2);
+				$pdf->addTextWrap(190,550,150,12,number_format($Fila["toneladas"],2),$justification='left',0,0);
 			}
 			$Descripcion=nl2br($Fila["descripcion"]);
 			$Detalle=explode('<br',$Descripcion);
 			$Pos=550;
-			while (list($Clave,$Valor)=each($Detalle))
+			foreach($Detalle as $Clave=>$Valor)
 			{
 				$PosAux=$Pos;
 				if (strlen($Valor)<40)
@@ -91,12 +93,12 @@
 					$Pos=$Pos-15;
 				}	
 			}
-			$pdf->addTextWrap(540,550,150,12,"US$ ".$Fila[valor_unitario],$justification='left',0,0);
+			$pdf->addTextWrap(540,550,150,12,"US$ ".$Fila["valor_unitario"],$justification='left',0,0);
 			$Consulta="select * from pac_web.parametros where codigo='17'";
 			$RespEncargado=mysqli_query($link, $Consulta);
 			if($FilaEncargado=mysqli_fetch_array($RespEncargado))
 			{
-				$pdf->addTextWrap(5,380,200,11,strtoupper($FilaEncargado[valor1]),$justification='center',0,0);
+				$pdf->addTextWrap(5,380,200,11,strtoupper($FilaEncargado["valor1"]),$justification='center',0,0);
 				$pdf->addTextWrap(5,365,200,11,$FilaEncargado["nombre"],$justification='center',0,0);
 			}
 			$pdf->addTextWrap(10,170,200,9,"IDENTIFICACION",$justification='left',0,0);
@@ -113,7 +115,7 @@
 			$pdf->rectangle(515,150, 45,15);
 			$pdf->addTextWrap(10,120,200,9,"NOMBRE",$justification='left',0,0);
 			$pdf->addTextWrap(10,105,200,9,"C.IDENTIDAD",$justification='left',0,0);
-			$pdf->addTextWrap(10,90,200,9,"REG.NAC.CONDUCTORES N�",$justification='left',0,0);
+			$pdf->addTextWrap(10,90,200,9,"REG.NAC.CONDUCTORES N°",$justification='left',0,0);
 			$pdf->addTextWrap(10,75,200,9,"DOMICILIO",$justification='left',0,0);
 			$pdf->addTextWrap(300,120,200,9,"PROPIETARIO",$justification='left',0,0);
 			$pdf->addTextWrap(300,105,200,9,"MARCA",$justification='left',0,0);
@@ -126,8 +128,8 @@
 										
 			if ($Fila["tipo_guia"]=='C')//SOLO SI ES CAMION MUESTRA DATOS
 			{
-				$FechaRomana=substr($Fila[fecha_hora_romana],0,10);
-				$HoraRomana=substr($Fila[fecha_hora_romana],11,8);
+				$FechaRomana=substr($Fila["fecha_hora_romana"],0,10);
+				$HoraRomana=substr($Fila["fecha_hora_romana"],11,8);
 				if (($FechaRomana<>'0000-00-00') and ($HoraRomana<>'00:00:00'))
 		        {
 					$Consulta="select peso_bruto,peso_tara,peso_neto from sipa_web.despachos where patente='".$Fila["nro_patente"]."' and fecha='".$FechaRomana."' and hora_entrada='".$HoraRomana."'";  
@@ -141,54 +143,54 @@
 					$Consulta="select peso_bruto,peso_tara,peso_neto from sipa_web.despachos where patente='".$Fila["nro_patente"]."' and fecha='".$Fila_fecha["fecha"]."' ";}
 					$RespPesaje=mysqli_query($link, $Consulta);
 					$Fila2=mysqli_fetch_array($RespPesaje);
-					if ($Fila[tipo2]=='E')
+					if ($Fila["tipo2"]=='E')
 						$pdf->addTextWrap(270,175,200,11,"XX",$justification='left',0,0);
 					else
 						$pdf->addTextWrap(270,153,200,11,"XX",$justification='left',0,0);
-					if ($Fila[tipo2]=='E')
+					if ($Fila["tipo2"]=='E')
 						$pdf->addTextWrap(532,175,200,11,"XX",$justification='left',0,0);
 					else
 						$pdf->addTextWrap(532,153,200,11,"XX",$justification='left',0,0);
-					$pdf->addTextWrap(60,120,200,9,strtoupper($Fila[chofer]),$justification='left',0,0);
-					$pdf->addTextWrap(85,105,200,9,strtoupper($Fila[rut_chofer]),$justification='left',0,0);
-					$pdf->addTextWrap(145,90,200,9,strtoupper($Fila[registro]),$justification='left',0,0);
-					$pdf->addTextWrap(60,75,200,9,strtoupper($Fila[direccion]),$justification='left',0,0);
-					$pdf->addTextWrap(370,120,200,9,strtoupper($Fila[transportista]),$justification='left',0,0);
-					$pdf->addTextWrap(370,105,200,9,strtoupper($Fila[marca]),$justification='left',0,0);
+					$pdf->addTextWrap(60,120,200,9,strtoupper($Fila["chofer"]),$justification='left',0,0);
+					$pdf->addTextWrap(85,105,200,9,strtoupper($Fila["rut_chofer"]),$justification='left',0,0);
+					$pdf->addTextWrap(145,90,200,9,strtoupper($Fila["registro"]),$justification='left',0,0);
+					$pdf->addTextWrap(60,75,200,9,strtoupper($Fila["direccion"]),$justification='left',0,0);
+					$pdf->addTextWrap(370,120,200,9,strtoupper($Fila["transportista"]),$justification='left',0,0);
+					$pdf->addTextWrap(370,105,200,9,strtoupper($Fila["marca"]),$justification='left',0,0);
 					$pdf->addTextWrap(370,90,200,9,strtoupper($Fila["nro_patente"]),$justification='left',0,0);					
-					if (($Fila[tipo2]=='P') and ($FechaRomana<>'0000-00-00') and ($HoraRomana<>'00:00:00'))
+					if (($Fila["tipo2"]=='P') and ($FechaRomana<>'0000-00-00') and ($HoraRomana<>'00:00:00'))
 					{
-						$pdf->addTextWrap(380,75,50,9,number_format(($Fila2[peso_bruto]/1000),2),$justification='right',0,0);	
+						$pdf->addTextWrap(380,75,50,9,number_format(($Fila2["peso_bruto"]/1000),2),$justification='right',0,0);	
 						$pdf->addTextWrap(380,60,50,9,number_format(($Fila2["peso_tara"]/1000),2),$justification='right',0,0);	
-						$pdf->addTextWrap(380,45,50,9,number_format(($Fila2[peso_neto]/1000),2),$justification='right',0,0);	
+						$pdf->addTextWrap(380,45,50,9,number_format(($Fila2["peso_neto"]/1000),2),$justification='right',0,0);	
 					}
-					else if (($Fila[tipo2]=='P') and($FechaRomana=='0000-00-00') and ($HoraRomana=='00:00:00'))
+					else if (($Fila["tipo2"]=='P') and($FechaRomana=='0000-00-00') and ($HoraRomana=='00:00:00'))
 							  {
 							 
 							   $Fila2["peso_tara"]= number_format(($Fila2["peso_tara"]/1000),2);
-								$pdf->addTextWrap(380,75,50,9,number_format($Fila2["peso_tara"]+$Fila[toneladas],2),$justification='right',0,0);	
+								$pdf->addTextWrap(380,75,50,9,number_format($Fila2["peso_tara"]+$Fila["toneladas"],2),$justification='right',0,0);	
 								$pdf->addTextWrap(380,60,50,9,number_format(($Fila2["peso_tara"]/1000),2),$justification='right',0,0);	
-								$pdf->addTextWrap(380,45,50,9,number_format(($Fila[toneladas]/1000),2),$justification='right',0,0);	
+								$pdf->addTextWrap(380,45,50,9,number_format(($Fila["toneladas"]/1000),2),$justification='right',0,0);	
 							  }
 					else 
 					{
-						$pdf->addTextWrap(380,75,50,9,number_format($Fila[tara]+$Fila[toneladas],2),$justification='right',0,0);	
-						$pdf->addTextWrap(380,60,50,9,number_format($Fila[tara],2),$justification='right',0,0);	
-						$pdf->addTextWrap(380,45,50,9,number_format($Fila[toneladas],2),$justification='right',0,0);	
+						$pdf->addTextWrap(380,75,50,9,number_format($Fila["tara"]+$Fila["toneladas"],2),$justification='right',0,0);	
+						$pdf->addTextWrap(380,60,50,9,number_format($Fila["tara"],2),$justification='right',0,0);	
+						$pdf->addTextWrap(380,45,50,9,number_format($Fila["toneladas"],2),$justification='right',0,0);	
 					}
 			}
 			else
 			{
-				if ($Fila[tipo2]=='E')
+				if ($Fila["tipo2"]=='E')
 					$pdf->addTextWrap(230,175,200,9,"XX",$justification='left',0,0);
 				else
 					$pdf->addTextWrap(230,153,200,9,"XX",$justification='left',0,0);
-				if ($Fila[tipo2]=='E')
+				if ($Fila["tipo2"]=='E')
 					$pdf->addTextWrap(532,175,200,9,"XX",$justification='left',0,0);
 				else
 					$pdf->addTextWrap(532,153,200,9,"XX",$justification='left',0,0);
-				$pdf->addTextWrap(370,120,200,9,strtoupper($Fila[transportista]),$justification='left',0,0);
-				$pdf->addTextWrap(370,105,200,9,strtoupper($Fila[marca]),$justification='left',0,0);				
+				$pdf->addTextWrap(370,120,200,9,strtoupper($Fila["transportista"]),$justification='left',0,0);
+				$pdf->addTextWrap(370,105,200,9,strtoupper($Fila["marca"]),$justification='left',0,0);				
 			}
 			$pdf->addTextWrap(5,15,200,9,"RECIBI CONFORME OFICINA RECEPTORA:",$justification='left',0,0);
 			$pdf->line(190,15, 595,15);							

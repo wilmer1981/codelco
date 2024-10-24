@@ -23,8 +23,11 @@
 	$CmbDia  = isset($_REQUEST["CmbDia"])?$_REQUEST["CmbDia"]:"";
 	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
 	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
-
-	$TxtToneladas  = isset($_REQUEST["TxtToneladas"])?$_REQUEST["TxtToneladas"]:"";
+	
+	if(strlen($CmbDia)==1)
+		$CmbDia="0".$CmbDia;
+	if(strlen($CmbMes)==1)
+		$CmbMes="0".$CmbMes;
 
 	$Fecha=$CmbAno."-".$CmbMes."-".$CmbDia;
 
@@ -45,7 +48,7 @@
 				$Insertar = "insert into pac_web.contrato_cliente ";
 				$Insertar.= "(rut_cliente,nro_contrato,correlativo,nro_cuotas,toneladas,mes_inicio,mes_final,ano_inicio,ano_final) ";
 				$Insertar.= "values('".$CmbCliente."','".$TxtContrato."','".$TxtNroControl."','".$CmbNumCuotas."','".str_replace(",",".",$TxtTotalToneladas)."','".$CmbMesInicio."','".$CmbMesFinal."','".$CmbAnoInicio."','".$CmbAnoFinal."')";
-				//echo $Insertar;
+				echo $Insertar;
 				//exit();
 				mysqli_query($link, $Insertar);
 				//$CmbCliente="";
@@ -64,6 +67,7 @@
 			$Consulta="select * from pac_web.contrato_cliente ";
 			$Consulta.=" where nro_contrato = '".$TxtContrato."'";
 			$Respuesta=mysqli_query($link, $Consulta);
+			echo $Consulta; 
 			if (!$Fila=mysqli_fetch_array($Respuesta))
 			{
 				$Insertar = "insert into pac_web.contrato_cliente ";
@@ -84,6 +88,7 @@
 			$Consulta="select * from pac_web.detalle_contrato ";
 			$Consulta.=" where nro_contrato = '".$TxtContrato."' and fecha='".$Fecha."'";
 			$Respuesta=mysqli_query($link, $Consulta);
+			$Mostrar2="";
 			if ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				$TotToneladasDetalle=$FilaTon["TotalToneladas"] + (str_replace(",",".",$TxtToneladas)-$Fila["toneladas"]);
@@ -111,6 +116,8 @@
 					$Mostrar2="S";
 				}	
 			}
+			//echo "Mostrar2:".$Mostrar2."Proceso:".$ProcesoAux." Valores:".$Valores;
+			//exit();
 			header("location:pac_ingreso_contrato_cliente_proceso.php?Mostrar2=".$Mostrar2."&Proceso=".$ProcesoAux."&Valores=".$Valores);		
 			break;
 				

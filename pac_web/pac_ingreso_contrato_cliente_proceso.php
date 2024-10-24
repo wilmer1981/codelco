@@ -350,7 +350,7 @@ function Activar(Frm)
 					echo "<select name='CmbNumCuotas' style='width:40'>";		
 					for ($i=1;$i<=12;$i++)		
 					{
-						if ((isset($CmbNumCuotas))&&($CmbNumCuotas==$i))
+						if (isset($CmbNumCuotas)&&($CmbNumCuotas==$i))
 						{
 							echo "<option value='$i' selected>$i</option>";
 						}
@@ -588,8 +588,9 @@ function Activar(Frm)
 				if ($TxtContrato!='')
 				{
 					$Dias=array();
-					$Consulta="select distinct mid(fecha,9,2) as dia from pac_web.detalle_contrato where nro_contrato=".$TxtContrato;
+					$Consulta="select distinct mid(fecha,9,2) as dia from pac_web.detalle_contrato where nro_contrato='".$TxtContrato."'";
 					$Respuesta=mysqli_query($link, $Consulta);
+					//echo "<br>Dias:".$Consulta;
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						$Dias[$Fila["dia"]][0]=$Fila["dia"];
@@ -608,10 +609,13 @@ function Activar(Frm)
             <?php	
 				if ($TxtContrato!='')
 				{
-					$Consulta="select distinct mid(fecha,1,7) as AnoMes from pac_web.detalle_contrato where nro_contrato=".$TxtContrato." order by AnoMes";
+					$Consulta="select distinct mid(fecha,1,7) as AnoMes from pac_web.detalle_contrato where nro_contrato='".$TxtContrato."' order by AnoMes";
 					$Respuesta = mysqli_query($link, $Consulta);
+					//echo "<br>****:".$Consulta."<br>";
+					//var_dump($Respuesta);
+					//echo "<br><br>";
 					while ($Fila=mysqli_fetch_array($Respuesta))
-					{
+					{ 
 						echo "<tr>";
 						reset($Dias);
 						foreach($Dias as $Clave => $Valor)
@@ -620,8 +624,22 @@ function Activar(Frm)
 						}
 						$Mes=substr($Fila["AnoMes"],5,2);
 						echo "<td width='60'>&nbsp;".$meses[$Mes-1]."</td>";
-						$Consulta="select * from pac_web.detalle_contrato where nro_contrato=".$TxtContrato." and fecha between '".$Fila["AnoMes"]."-01' and '".$Fila["AnoMes"]."-31'";
+						//echo "<br>AnoMes:".$Fila["AnoMes"]."<br><br>";
+						$MesAno = explode("-", $Fila["AnoMes"]);
+						$Ano = $MesAno[0];
+						$Mes = $MesAno[1];
+						//echo "<br>Mes:".$Mes."<br><br>";
+						$ultimodia = 30;
+						//01-03-05-07-08-10-12
+						if($Mes=='01' || $Mes=='03' || $Mes=='05' || $Mes=='07' || $Mes=='08' || $Mes=='10' || $Mes=='12')
+							$ultimodia = 31;
+						if($Mes=='02')
+							$ultimodia = 29;						
+						//$Consulta="select * from pac_web.detalle_contrato where nro_contrato='".$TxtContrato."' and fecha between '".$Fila["AnoMes"]."-01' and '".$Fila["AnoMes"]."-31' ";
+						$Consulta="select * from pac_web.detalle_contrato where nro_contrato='".$TxtContrato."' and fecha between '".$Fila["AnoMes"]."-01' and '".$Fila["AnoMes"]."-".$ultimodia."' ";
 						$Respuesta2 = mysqli_query($link, $Consulta);
+						//echo "<br><br>****:".$Consulta."<br>";
+						//var_dump($Respuesta2);
 						while ($Fila2 = mysqli_fetch_array($Respuesta2))
 						{
 							$Dia=substr($Fila2["fecha"],8,2);

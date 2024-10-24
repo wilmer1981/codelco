@@ -423,7 +423,7 @@ function Generar(Opcion)
 	}
 	echo "</select>";
 	echo "<select name='CmbTipoGuia' style='width:150' onchange='Recarga();'>";
-	switch ($CmbTipoGuia!="")
+	switch ($CmbTipoGuia)
 	{
 		case "G":
 			echo "<option value='G' selected>Creadas/Generadas</option>";

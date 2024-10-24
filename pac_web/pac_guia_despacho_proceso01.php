@@ -19,6 +19,10 @@
 	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
 	$hh = isset($_REQUEST["hh"])?$_REQUEST["hh"]:date("H");
 	$mm = isset($_REQUEST["mm"])?$_REQUEST["mm"]:date("i");
+	
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbTipoGuia = isset($_REQUEST["CmbTipoGuia"])?$_REQUEST["CmbTipoGuia"]:""; 
 
 	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:"";
 	$CmbOri = isset($_REQUEST["CmbOri"])?$_REQUEST["CmbOri"]:"";
@@ -27,7 +31,7 @@
 	$CmbChofer = isset($_REQUEST["CmbChofer"])?$_REQUEST["CmbChofer"]:"";
 	$CmbPatente = isset($_REQUEST["CmbPatente"])?$_REQUEST["CmbPatente"]:"";
 	$CmbPatenteRampla = isset($_REQUEST["CmbPatenteRampla"])?$_REQUEST["CmbPatenteRampla"]:"";
-	$Toneladas        = isset($_REQUEST["Toneladas"])?$_REQUEST["Toneladas"]:"0.0";
+	$Toneladas        = isset($_REQUEST["Toneladas"])?$_REQUEST["Toneladas"]:"";
 	$TxtMts           = isset($_REQUEST["TxtMts"])?$_REQUEST["TxtMts"]:"";
 	$TxtCorrRomana = isset($_REQUEST["TxtCorrRomana"])?$_REQUEST["TxtCorrRomana"]:"";
 
@@ -72,7 +76,8 @@
 	$VUnitario   = isset($_REQUEST["VUnitario"])?$_REQUEST["VUnitario"]:"";
 
 	$rut =$CookieRut;
-
+	//$Toneladas = str_replace(",","",$Toneladas);
+	//echo "Toneladas 1:".$Toneladas."<br>";
 	if(trim($Toneladas)=='')
 		$Toneladas=0;
 	if(trim($TxtMts)=='')
@@ -177,7 +182,7 @@
 		$PesoNeto=$Toneladas*1000;
 	$descripcion = $TxtObservacionAUX.'\n'.$TxtObservacionFun;
 	$TotalItem=intval($PesoNeto*$TxtVUnitario);
-	$Toneladas=number_format(doubleval($Toneladas),3 );
+	$Toneladas=number_format(doubleval($Toneladas),3 ); // linea que convierte en miles con 3 decimales ejemplo: 1300 = 1,300.000
 
 	
 	$Precio="PRECIO: ".$TxtVUnitario." USD^";
@@ -247,7 +252,8 @@
 </soapenv:Envelope>";
 
 $xmlEnvioGDE=$xmlHeaderGDE.$xmlBodyGDE;
-	//echo $DIRECCION_WS_GDE."***".$DIRECCION_WS_GDE_ANULA."***".$usuario."****".$password;exit();*/
+	echo $DIRECCION_WS_GDE."***".$DIRECCION_WS_GDE_ANULA."***".$usuario."****".$password;
+	exit();
 	//echo $xmlEnvioGDE;
 	//exit();
 switch ($Proceso)
@@ -291,8 +297,7 @@ switch ($Proceso)
 					$Consulta.="left join pac_web.pac_productos t3 on t1.cod_producto=t3.cod_producto ";									
 					$Consulta.="where t1.num_guia='".$NumGuia."' and t1.nro_patente ='".$TxtPatenteC."'  order by fecha_hora desc";
 					$RespPac=mysqli_query($link, $Consulta);
-					$FilaPac=mysqli_fetch_array($RespPac);
-				
+					$FilaPac=mysqli_fetch_array($RespPac);				
 					$SubProd=explode('~',$FilaPac["cod_sipa"]);
 					$CodProd=$SubProd[0];
 					$CodSub=$SubProd[1];
@@ -340,14 +345,9 @@ switch ($Proceso)
 		
 			}
 		break;	
-		case "N":
-
-
-				
+		case "N":				
 				if ($Ver=='C')//Graba Para los Camiones  
 				{
-
-
 					$Consulta="select * from pac_web.guia_despacho where num_guia='".$NumGuia."' and num_guia!=''";
 					$Respuesta=mysqli_query($link, $Consulta);
 					/*echo $Consulta;exit();*/
@@ -356,15 +356,18 @@ switch ($Proceso)
 						header("location:pac_guia_despacho_proceso.php?Mostrar=S");
 					}
 					else
-					{   
-					
+					{   					
 					/*echo "toy aki";exit();*/
+					//echo "<br>Toneladas 2:".$Toneladas;
+					$Toneladas = str_replace(",","",$Toneladas);
+					//echo "<br>Toneladas:".$Toneladas;
+					//echo "<br>Mts:".$TxtMts;
 					$Insertar="insert into pac_web.guia_despacho (num_guia,nro_patente,nro_patente_rampla,rut_transportista,rut_cliente,fecha_hora, ";
 					$Insertar.=" brazo_carga,toneladas,volumen_m3,descripcion,estado,cod_estanque,rut_funcionario,tipo_guia,valor_unitario,rut_chofer,fecha_hora_romana,corr_romana,div_sap,almacen_sap,sellos,cod_producto,cod_unidad,cod_originador,corr_interno_cliente) values ";
 					$Insertar.=" ('".$NumGuia."','".$CmbPatente."','".$CmbPatenteRampla."','".$CmbTransp."','".$CmbCliente."','".$FechaHora."','".$CmbBrazo."', ";
-					//$Insertar.=" '".$Toneladas."','".str_replace(",",".",$TxtMts)."','".$descripcion."','S','".$CmbEstanque."','".$rut."','C','".str_replace(",",".",$VUnitario)."','$CmbChofer','$FechaHoraRomana','$TxtCorrRomana','$TxtDivSAp','$TxtAlmacenSap','$TxtSellos','$CmbProd','$CmbUnidad','$CmbOri','$CorrInternoCliente')";
-					$Insertar.=" '".str_replace(",",".",$Toneladas)."','".str_replace(",",".",$TxtMts)."','".$descripcion."','S','".$CmbEstanque."','".$rut."','C','".str_replace(",",".",$VUnitario)."','$CmbChofer','$FechaHoraRomana','$TxtCorrRomana','$TxtDivSAp','$TxtAlmacenSap','$TxtSellos','$CmbProd','$CmbUnidad','$CmbOri','$CorrInternoCliente')";
-					//echo  $Insertar;
+					$Insertar.=" '".$Toneladas."','".str_replace(",",".",$TxtMts)."','".$descripcion."','S','".$CmbEstanque."','".$rut."','C','".str_replace(",",".",$VUnitario)."','$CmbChofer','$FechaHoraRomana','$TxtCorrRomana','$TxtDivSAp','$TxtAlmacenSap','$TxtSellos','$CmbProd','$CmbUnidad','$CmbOri','$CorrInternoCliente')";
+					//$Insertar.=" '".str_replace(",",".",$Toneladas)."','".str_replace(",",".",$TxtMts)."','".$descripcion."','S','".$CmbEstanque."','".$rut."','C','".str_replace(",",".",$VUnitario)."','$CmbChofer','$FechaHoraRomana','$TxtCorrRomana','$TxtDivSAp','$TxtAlmacenSap','$TxtSellos','$CmbProd','$CmbUnidad','$CmbOri','$CorrInternoCliente')";
+					//echo $Insertar;
 					$result = mysqli_query($link, $Insertar);
 					if (!$result) {
     				die('No se pudo crear la guia en el sistema: ' . mysql_error()."<br><br>".$Insertar);
@@ -456,7 +459,7 @@ switch ($Proceso)
 				}
 				
 			
-echo "<script languaje='JavaScript'>";
+			echo "<script languaje='JavaScript'>";
 			echo "window.opener.document.FrmGuia.action='pac_guia_despacho.php';";
 			echo "window.opener.document.FrmGuia.submit();";
 			echo "window.close();";
@@ -656,13 +659,13 @@ function ModificarPAC($link)
 	global $CmbBrazo;
 	global $TxtCorrRomana;
 	
-	
+	//$Toneladas = str_replace(",","",$Toneladas);
 	if(strlen($FechaHoraRomana)>25)
 		$FechaHoraRomana=trim(substr($FechaHoraRomana,0,20));
 			if ($Ver=='C')
 			{
 				$Modificar="UPDATE pac_web.guia_despacho set num_guia='".$NumGuia."',nro_patente='".$CmbPatente."',nro_patente_rampla='".$CmbPatenteRampla."',rut_transportista='".$CmbTransp."',rut_cliente='".$CmbCliente."', ";
-				$Modificar.=" brazo_carga = '".$CmbBrazo."',toneladas = '".str_replace(",",".",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."', descripcion ='".$descripcion."',cod_estanque='".$CmbEstanque."',valor_unitario='".str_replace(",",".",$VUnitario)."',rut_chofer='$CmbChofer',corr_romana='$TxtCorrRomana' ";
+				$Modificar.=" brazo_carga = '".$CmbBrazo."',toneladas = '".str_replace(",","",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."', descripcion ='".$descripcion."',cod_estanque='".$CmbEstanque."',valor_unitario='".str_replace(",",".",$VUnitario)."',rut_chofer='$CmbChofer',corr_romana='$TxtCorrRomana' ";
 				if($FechaHoraRomana!='0000-00-00 00:00:00')
 					$Modificar.=",fecha_hora_romana='$FechaHoraRomana'";
 				$Modificar.=" where correlativo = '".$Correlativo."' ";
@@ -670,14 +673,14 @@ function ModificarPAC($link)
 				$Consulta=" select fecha_hora from pac_web.guia_despacho where correlativo = '".$Correlativo."'  ";
 				$Respuesta1=mysqli_query($link, $Consulta);
 				$Fila1=mysqli_fetch_array($Respuesta1);   
-				$Modificar="UPDATE pac_web.movimientos set toneladas = '".str_replace(",",".",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."',cod_estanque_origen = '".str_replace(",",".",$CmbEstanque)."' where fecha_hora = '".$Fila1["fecha_hora"]."' ";
+				$Modificar="UPDATE pac_web.movimientos set toneladas = '".str_replace(",","",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."',cod_estanque_origen = '".str_replace(",",".",$CmbEstanque)."' where fecha_hora = '".$Fila1["fecha_hora"]."' ";
 				mysqli_query($link, $Modificar);
 				//echo $Modificar."<br>";
 			}
 			else
 			{
 				$Modificar="UPDATE pac_web.guia_despacho set num_guia='".$NumGuia."',rut_transportista='".$CmbTransp."',rut_cliente='".$CmbCliente."',nro_patente='".$CmbPatente."',";
-				$Modificar.=" brazo_carga = '".$CmbBrazo."',toneladas = '".str_replace(",",".",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."',descripcion ='".$descripcion."',cod_estanque='".$CmbEstanque."',valor_unitario='".str_replace(",",".",$VUnitario)."'";
+				$Modificar.=" brazo_carga = '".$CmbBrazo."',toneladas = '".str_replace(",","",$Toneladas)."',volumen_m3='".str_replace(",",".",$TxtMts)."',descripcion ='".$descripcion."',cod_estanque='".$CmbEstanque."',valor_unitario='".str_replace(",",".",$VUnitario)."'";
 				$Modificar.=" where correlativo= '".$Correlativo."' ";
 				mysqli_query($link, $Modificar);
 			//	echo $Modificar."<br>";

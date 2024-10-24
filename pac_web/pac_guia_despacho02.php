@@ -183,8 +183,9 @@ function Salir()
 				$Consulta=" select nombre from pac_web.parametros where (codigo between 10 and 14) and codigo = '".$CmbBrazo."' ";
 				$Respuesta4=mysqli_query($link, $Consulta);
 				$Fila4=mysqli_fetch_array($Respuesta4);
-				echo "<input name='CmbBrazo' type='hidden'  style='width:100' value=".$Fila4["nombre"].">";
-            	echo $Fila4["nombre"];
+				$nombre = isset($Fila4["nombre"])?$Fila4["nombre"]:"";
+				echo "<input name='CmbBrazo' type='hidden'  style='width:100' value=".$nombre.">";
+            	echo $nombre;
 				?>
             </td>
           </tr>

@@ -10,7 +10,7 @@
 	$file_name = str_replace(".php", "", $file_name);
 	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
 	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-	
+
 	header("content-disposition: attachment;filename={$file_name}");
 	header( "Cache-Control: public" );
 	header( "Pragma: public" );
@@ -69,12 +69,12 @@
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Total=0;
 			while($Fila=mysqli_fetch_array($Respuesta))
-			{
+			{  
 				echo "<tr>";
 				echo "<td align='center'>".$Fila["fecha_hora"]."</td>";
 				echo "<td align='center'>".$Fila["num_guia"]."</td>";
 				echo "<td align='center'>".$Fila["nro_patente"]."</td>";
-				echo "<td align='left'>".$Fila["nombre"]."</td>";
+				echo "<td align='left'>".utf8_decode($Fila["nombre"])."</td>";
 				echo "<td align='center'>".$Fila["toneladas"]."</td>";
 				echo "<td align='right'>".$Fila["valor_unitario"]."</td>";
 				if ($Fila["tipo_guia"]=='C')
