@@ -16,9 +16,20 @@ if(strlen($num_lugar) == 1)
 //Guardar Datos
 if($Proceso == "G")
 {
-	$Insertar = "INSERT INTO lugar_conjunto (cod_tipo_lugar,num_lugar,descripcion_lugar, cod_estado)";
-	$Insertar = "$Insertar values('$cmbtipo','$num_lugar','$descripcion', '$cmbestado')";
-	mysqli_query($link,$Insertar);
+	$Consulta="select * from ram_web.lugar_conjunto ";
+	$Consulta.=" where cod_tipo_lugar = '".$cmbtipo."' AND num_lugar= '".$num_lugar."' ";
+	$Respuesta=mysqli_query($link, $Consulta);
+	if ($Fila=mysqli_fetch_array($Respuesta))
+	{
+		$msg ="Lugar ya Existe...";
+	}
+	else
+	{
+		$Insertar = "INSERT INTO lugar_conjunto (cod_tipo_lugar,num_lugar,descripcion_lugar, cod_estado)";
+		$Insertar = "$Insertar values('$cmbtipo','$num_lugar','$descripcion', '$cmbestado')";
+		mysqli_query($link,$Insertar);
+		$msg ="Lugar registrado correctamente...";
+	}
 }
 
 //Modificar Datos
@@ -28,7 +39,7 @@ if($Proceso == "M")
 	              descripcion_lugar = '$descripcion', cod_estado = '$cmbestado'
 	              WHERE cod_tipo_lugar = $cmbtipo AND num_lugar = $radio";
 	mysqli_query($link,$Modificar);
-	
+	$msg ="Lugar actualizado correctamente...";
 }
 
 //Eliminar Datos
@@ -36,9 +47,10 @@ if($Proceso == "E")
 {
 	$Eliminar = "DELETE FROM lugar_conjunto WHERE cod_tipo_lugar = $cmbtipo AND num_lugar = $radio";
 	mysqli_query($link,$Eliminar);
+	$msg ="Lugar eliminado correctamente...";
 }
 
-	$valores = "Proceso=V"."&cmbtipo=".$cmbtipo;  
+	$valores = "Proceso=V"."&cmbtipo=".$cmbtipo."&mensaje=".$msg;  
     header("Location:ram_creacion_lugar.php?".$valores); 
 
 ?>

@@ -9,11 +9,22 @@
 if($Proceso == "G")
 {
 	if(strlen($cod_tipo) == 1)
-		$cod_tipo = "0".$cod_tipo;				
+		$cod_tipo = "0".$cod_tipo;	
 
-	$Insertar = "INSERT INTO tipo_lugar (cod_tipo_lugar, descripcion_lugar)";
-	$Insertar = "$Insertar values('$cod_tipo', '$descripcion')";
-	mysqli_query($link,$Insertar);
+	$Consulta="select * from ram_web.tipo_lugar ";
+	$Consulta.=" where cod_tipo_lugar = '".$cod_tipo."' ";
+	$Respuesta=mysqli_query($link, $Consulta);
+	if ($Fila=mysqli_fetch_array($Respuesta))
+	{
+		$msg ="Lugar ya Existe...";
+	}
+	else
+	{	
+		$Insertar = "INSERT INTO ram_web.tipo_lugar (cod_tipo_lugar, descripcion_lugar)";
+		$Insertar = "$Insertar values('$cod_tipo', '$descripcion')";
+		mysqli_query($link,$Insertar);
+		$msg ="Tipo Lugar registrado correctamente...";
+	}
 }
 
 //Modificar Datos
@@ -25,6 +36,7 @@ if($Proceso == "M")
 	$Modificar = "UPDATE tipo_lugar SET cod_tipo_lugar = '$cod_tipo', descripcion_lugar = '$descripcion'
 	              WHERE cod_tipo_lugar = $radio";
 	mysqli_query($link,$Modificar);
+	$msg ="Tipo Lugar actualizado correctamente...";
 
 }
 
@@ -33,9 +45,10 @@ if($Proceso == "E")
 {
 	$Eliminar = "DELETE FROM tipo_lugar WHERE cod_tipo_lugar = $radio";
 	mysqli_query($link,$Eliminar);
+	$msg ="Tipo Lugar eliminado correctamente...";
 }
 
-	$valores = "Proceso=V";  
+	$valores = "Proceso=V&mensaje=".$msg;  
     header("Location:ram_ing_tipo_lugar.php?".$valores); 
 
 ?>

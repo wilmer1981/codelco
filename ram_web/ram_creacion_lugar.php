@@ -30,6 +30,7 @@ if(isset($_REQUEST["cmbestado"])){
 }else{
 	$cmbestado = "";
 }
+$mensaje      = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 1;
@@ -342,3 +343,12 @@ $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$cmbtipo."' 
 </body>
 
 </html>
+<?php
+	if ($mensaje!="")
+	{
+
+			echo "<script languaje='javascript'>";
+			echo "alert('".$mensaje."');";	
+			echo "</script>";
+	}
+?>

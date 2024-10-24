@@ -3,8 +3,9 @@ $Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 $buscar  = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:"";
 $radio   = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
 $cod_tipo_lugar = isset($_REQUEST["cod_tipo_lugar"])?$_REQUEST["cod_tipo_lugar"]:"";
-$cod_tipo    = isset($_REQUEST["cod_tipo"])?$_REQUEST["cod_tipo"]:"";
-$descripcion = isset($_REQUEST["descripcion"])?$_REQUEST["descripcion"]:"";
+$cod_tipo       = isset($_REQUEST["cod_tipo"])?$_REQUEST["cod_tipo"]:"";
+$descripcion    = isset($_REQUEST["descripcion"])?$_REQUEST["descripcion"]:"";
+$mensaje        = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 2;
@@ -255,3 +256,12 @@ if($Proceso == "V")
 </body>
 
 </html>
+<?php
+	if ($mensaje!="")
+	{
+
+			echo "<script languaje='javascript'>";
+			echo "alert('".$mensaje."');";	
+			echo "</script>";
+	}
+?>
