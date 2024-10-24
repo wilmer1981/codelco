@@ -3,7 +3,7 @@
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
 	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-	//$Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Mensaje      = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$Valor      = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"0.0";
 	$Unidad     = isset($_REQUEST["Unidad"])?$_REQUEST["Unidad"]:"";
@@ -317,7 +317,7 @@ function Proceso(opt,Valores)
 </body>
 </html>
 <?php
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo "<script languaje='javascript'>";
 		echo "var frm=document.frmLeyes;";
