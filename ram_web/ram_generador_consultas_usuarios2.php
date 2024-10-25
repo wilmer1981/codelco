@@ -1,6 +1,6 @@
 <?php
 $CodigoDeSistema = 7;
-$CodigoDePantalla = 7;
+$CodigoDePantalla = 14;
 include("../principal/conectar_ram_web.php");
 
 $ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");

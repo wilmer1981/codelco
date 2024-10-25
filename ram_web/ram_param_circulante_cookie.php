@@ -16,6 +16,8 @@ include("../principal/conectar_principal.php");
 	$FinoAu      = isset($_REQUEST["FinoAu"])?$_REQUEST["FinoAu"]:"";
 	$FinoAs      = isset($_REQUEST["FinoAs"])?$_REQUEST["FinoAs"]:"";
 	
+	$Mensaje     = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	
 ?>
 <html>
 <head>
@@ -81,7 +83,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				var msg = confirm("Seguro que desea eliminar este valor?");
+				var msg = confirm("\xBFSeguro que desea eliminar este valor?");
 				if (msg==true)
 				{				
 					f.action="ram_param_circulante_cookie01.php?Proceso=E&Valores=" + Valores;
@@ -326,3 +328,11 @@ Beneficio</td>
 </form>
 </body>
 </html>
+<?php
+	if ($Mensaje!="")
+	{
+		echo "<script languaje='javascript'>";
+		echo "alert('".$Mensaje."');";	
+		echo "</script>";
+	}
+?>

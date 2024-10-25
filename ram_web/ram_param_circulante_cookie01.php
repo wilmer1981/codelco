@@ -19,21 +19,34 @@
 	switch ($Proceso)
 	{
 		case "G":
-			if ($ChkRecep!="")
-			{
-				$Insertar = "insert into ram_web.cookie ";
-				$Insertar.= " (ano,mes,tipo_movimiento,flujo,peso_humedo,peso_seco,fino_cu,fino_ag,fino_au, fino_as) ";
-				$Insertar.= " VALUES('".$Ano."','".$Mes."','E','".$Flujo."','".$PesoHum."','".$PesoSeco."','".$FinoCu."','".$FinoAg."','".$FinoAu."','".$FinoAs."')";
-				mysqli_query($link,$Insertar);
-			}
-			if ($ChkBenef!="")
-			{
-				$Insertar = "insert into ram_web.cookie ";
-				$Insertar.= " (ano,mes,tipo_movimiento,flujo,peso_humedo,peso_seco,fino_cu,fino_ag,fino_au, fino_as) ";
-				$Insertar.= " VALUES('".$Ano."','".$Mes."','S','".$Flujo."','".$PesoHum."','".$PesoSeco."','".$FinoCu."','".$FinoAg."','".$FinoAu."','".$FinoAs."')";
-				mysqli_query($link,$Insertar);
-			}
-			header("location:ram_param_circulante_cookie.php?Ano=".$Ano."&Mes=".$Mes);
+		
+				$Consulta="select * from ram_web.cookie ";
+				$Consulta.=" where ano = '".$Ano."' and mes = '".$Mes."' and flujo = '".$Flujo."' ";
+				$Respuesta=mysqli_query($link, $Consulta);
+				$CantReg  = mysqli_num_rows($Respuesta);
+				if ($CantReg > 0)
+				{
+					$msg = "Registro ya existe...";
+				}
+				else
+				{			
+					if ($ChkRecep!="")
+					{						
+							$Insertar = "insert into ram_web.cookie ";
+							$Insertar.= " (ano,mes,tipo_movimiento,flujo,peso_humedo,peso_seco,fino_cu,fino_ag,fino_au, fino_as) ";
+							$Insertar.= " VALUES('".$Ano."','".$Mes."','E','".$Flujo."','".$PesoHum."','".$PesoSeco."','".$FinoCu."','".$FinoAg."','".$FinoAu."','".$FinoAs."')";
+							mysqli_query($link,$Insertar);
+					}
+					if ($ChkBenef!="")
+					{
+						$Insertar = "insert into ram_web.cookie ";
+						$Insertar.= " (ano,mes,tipo_movimiento,flujo,peso_humedo,peso_seco,fino_cu,fino_ag,fino_au, fino_as) ";
+						$Insertar.= " VALUES('".$Ano."','".$Mes."','S','".$Flujo."','".$PesoHum."','".$PesoSeco."','".$FinoCu."','".$FinoAg."','".$FinoAu."','".$FinoAs."')";
+						mysqli_query($link,$Insertar);
+					}
+					$msg = "Registro grabado correctamente...";
+				}
+			header("location:ram_param_circulante_cookie.php?Ano=".$Ano."&Mes=".$Mes."&Mensaje=".$msg);
 			break;
 		case "E":
 			$Datos = explode("//",$Valores);
@@ -41,6 +54,7 @@
 			$Eliminar.= " where ano='".$Ano."' and mes='".$Mes."' ";
 			$Eliminar.= " and tipo_movimiento='".$Datos[0]."' and flujo='".$Datos[1]."' ";
 			mysqli_query($link,$Eliminar);
+			$msg = "Registro grabado correctamente...";
 			header("location:ram_param_circulante_cookie.php?Ano=".$Ano."&Mes=".$Mes);
 			break;
 	}

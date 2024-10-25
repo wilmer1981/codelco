@@ -5,6 +5,10 @@ $Conjunto   = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
 $Fecha      = isset($_REQUEST["Fecha"])?$_REQUEST["Fecha"]:"";
 $Fecha_ini = isset($_REQUEST["Fecha_ini"])?$_REQUEST["Fecha_ini"]:"";
 $Fecha_ter = isset($_REQUEST["Fecha_ter"])?$_REQUEST["Fecha_ter"]:"";
+
+	$ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 ?>
 
 <html>
@@ -33,9 +37,9 @@ function Imprimir()
         <?php	
 
 		if($cod_exist == 2 || $cod_exist == 17)
-			  echo "Recepción Conjunto";
+			  echo "Recepci&oacute;n Conjunto";
 		elseif($cod_exist == 21 || $cod_exist == 22)
-		      echo "Validación";
+		      echo "Validaci&oacute;n";
 		elseif($cod_exist == 5)
 		      echo "Beneficio Directo";
 		elseif($cod_exist == 15 || $cod_exist == 6)

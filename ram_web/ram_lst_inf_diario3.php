@@ -703,7 +703,7 @@ $Total_exist = 0;
 	  $rs = mysqli_query($link, $Consulta);
 	  while ($row = mysqli_fetch_array($rs))
 	  {		 		
-			$Insertar = "INSERT INTO ram_web.tmp_table3 (cod_existencia,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, estado_validacion)";
+			$Insertar = "INSERT IGNORE INTO ram_web.tmp_table3 (cod_existencia,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, estado_validacion)";
 			$Insertar.= " VALUES ('".$row["cod_existencia"]."', '".$row["num_conjunto"]."', '".$row["conjunto_destino"]."', ";
 			$Insertar.= " '".$row["fecha_movimiento"]."', '".$row["peso_humedo_movido"]."', '".$row["estado_validacion"]."')";
 			mysqli_query($link, $Insertar);
