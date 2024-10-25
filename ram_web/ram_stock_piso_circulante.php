@@ -13,6 +13,7 @@
 	$TxtLeyAg    = isset($_REQUEST["TxtLeyAg"])?$_REQUEST["TxtLeyAg"]:"";
 	$TxtLeyAu    = isset($_REQUEST["TxtLeyAu"])?$_REQUEST["TxtLeyAu"]:"";
 	$TxtLeyAs    = isset($_REQUEST["TxtLeyAs"])?$_REQUEST["TxtLeyAs"]:"";
+	$Mensaje     = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 ?>
 <html>
 <head>
@@ -60,7 +61,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				var msg = confirm("¿Seguro que desea eliminar esta relacion?");
+				var msg = confirm("\xBFSeguro que desea eliminar esta relacion?");
 				if (msg==true)
 				{				
 					f.action="ram_stock_piso_circulante01.php?Proceso=E&Valores=" + Valores;
@@ -348,3 +349,11 @@ function Proceso(opt)
 </form>
 </body>
 </html>
+<?php
+	if ($Mensaje!="")
+	{
+		echo "<script languaje='javascript'>";
+		echo "alert('".$Mensaje."');";	
+		echo "</script>";
+	}
+?>

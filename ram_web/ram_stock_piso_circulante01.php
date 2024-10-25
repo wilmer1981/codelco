@@ -33,12 +33,35 @@
 			}
 			$FechaAux1 = date("Y-m-d", mktime(0,0,0,$Mes+1,1,$Ano));
 			$FechaAux2 = date("Y-m-d", mktime(0,0,0,intval(substr($FechaAux1,5,2)),1-1,intval(substr($FechaAux1,0,4))));
-			$Insertar = "insert into ram_web.stock_piso ";
-			$Insertar.= " (fecha,cod_existencia,cod_producto,cod_subproducto,peso_humedo, peso_seco, fino_cu, fino_ag, fino_au, fino_as, tipo_calculo) ";
-			$Insertar.= " VALUES('".$FechaAux2."','01','".$Producto."','".$SubProducto."','".$PesoHum."',";
-			$Insertar.= " '".$P_Seco."','".$F_Cu."','".$F_Ag."','".$F_Au."','".$F_As."','".$ChkLeyes."')";
-			mysqli_query($link, $Insertar);
-			header("location:ram_stock_piso_circulante.php?Mes=".$Mes."&Ano=".$Ano);
+			
+			/*$Consulta = "SELECT COUNT(fecha) as cant FROM ram_web.stock_piso
+						GROUP BY cod_producto,cod_subproducto
+						HAVING COUNT(fecha) > 0";*/
+				
+			$Consulta="select * from ram_web.stock_piso ";
+			$Consulta.=" where fecha = '".$FechaAux2."' and cod_producto = '".$Producto."' and cod_subproducto = '".$SubProducto."' ";
+			$Respuesta=mysqli_query($link, $Consulta);
+			$CantReg  = mysqli_num_rows($Respuesta);
+			if ($CantReg > 0)
+			{
+				$msg = "Registro ya existe...";
+			}
+			else
+			{	
+				$Insertar = "insert into ram_web.stock_piso ";
+				$Insertar.= " (fecha,cod_existencia,cod_producto,cod_subproducto,peso_humedo, peso_seco, fino_cu, fino_ag, fino_au, fino_as, tipo_calculo) ";
+				$Insertar.= " VALUES('".$FechaAux2."','01','".$Producto."','".$SubProducto."','".$PesoHum."',";
+				$Insertar.= " '".$P_Seco."','".$F_Cu."','".$F_Ag."','".$F_Au."','".$F_As."','".$ChkLeyes."')";
+				mysqli_query($link, $Insertar);
+				$msg = "Registro grabado correctamente...";
+			}
+			header("location:ram_stock_piso_circulante.php?Mes=".$Mes."&Ano=".$Ano."&Mensaje=".$msg);
+			/*
+			echo "<script languaje='JavaScript'>";
+			echo "window.opener.document.frm1.action='ram_stock_piso_circulante.php';";
+			echo "window.opener.document.frm1.submit();";
+			echo "window.close();";
+			echo "alert('".$msg."');";*/
 			break;
 		case "E":
 			$FechaAux1 = date("Y-m-d", mktime(0,0,0,$Mes+1,1,$Ano));
