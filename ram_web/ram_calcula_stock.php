@@ -16,32 +16,32 @@
 	if(isset($_REQUEST["DiaIni"])){
 		$DiaIni = $_REQUEST["DiaIni"];
 	}else{
-		$DiaIni= 0;
+		$DiaIni= date("d");
 	}
 	if(isset($_REQUEST["MesIni"])){
 		$MesIni = $_REQUEST["MesIni"];
 	}else{
-		$MesIni= 0;
+		$MesIni= date("m");
 	}
 	if(isset($_REQUEST["DiaFin"])){
 		$DiaFin = $_REQUEST["DiaFin"];
 	}else{
-		$DiaFin= 0;
+		$DiaFin= date("d");
 	}
 	if(isset($_REQUEST["MesFin"])){
 		$MesFin = $_REQUEST["MesFin"];
 	}else{
-		$MesFin= 0;
+		$MesFin= date("m");
 	}
 	if(isset($_REQUEST["AnoIni"])){
 		$AnoIni = $_REQUEST["AnoIni"];
 	}else{
-		$AnoIni= "";
+		$AnoIni= date("Y");
 	}
 	if(isset($_REQUEST["AnoFin"])){
 		$AnoFin = $_REQUEST["AnoFin"];
 	}else{
-		$AnoFin= "";
+		$AnoFin= date("Y");
 	}
 ?>
 <html>
@@ -112,7 +112,7 @@
                                     <?php
 		  	for ($i=1;$i<=31;$i++)
 			{
-				if (!isset($DiaIni))
+				if ($DiaIni=="")
 				{
 					if ($i == date("j"))
 						echo "<option value='".$i."' selected>".$i."</option>\n";
@@ -132,7 +132,7 @@
                                     <?php
 		  	for ($i=1;$i<=12;$i++)
 			{
-				if (!isset($MesIni))
+				if ($MesIni=="")
 				{
 					if ($i == date("n"))
 						echo "<option value='".$i."' selected>".$Meses[$i-1]."</option>\n";
@@ -152,7 +152,7 @@
                                     <?php
 		  	for ($i=2003;$i<=(date("Y")+1);$i++)
 			{
-				if (!isset($AnoIni))
+				if ($AnoIni=="")
 				{
 					if ($i == date("Y"))
 						echo "<option value='".$i."' selected>".$i."</option>\n";
@@ -174,7 +174,7 @@
                                     <?php
 		  	for ($i=1;$i<=31;$i++)
 			{
-				if (!isset($DiaFin))
+				if ($DiaFin=="")
 				{
 					if ($i == date("j"))
 						echo "<option value='".$i."' selected>".$i."</option>\n";
@@ -194,7 +194,7 @@
                                     <?php
 		  	for ($i=1;$i<=12;$i++)
 			{
-				if (!isset($MesFin))
+				if ($MesFin=="")
 				{
 					if ($i == date("n"))
 						echo "<option value='".$i."' selected>".$Meses[$i-1]."</option>\n";
@@ -214,7 +214,7 @@
                                     <?php
 		  	for ($i=2003;$i<=(date("Y")+1);$i++)
 			{
-				if (!isset($AnoFin))
+				if ($AnoFin=="")
 				{
 					if ($i == date("Y"))
 						echo "<option value='".$i."' selected>".$i."</option>\n";
@@ -279,35 +279,35 @@
 	switch($Proceso)
 	{
 		case "E":
-		//GRABA ARCHIVO DE CONFIGURACION
-		if ($DiaIni < 10)
-		{
-			$DiaIni = "0".$DiaIni;
-		}
-		if ($MesIni < 10)
-		{
-			$MesIni = "0".$MesIni;
-		}
-		if ($DiaFin < 10)
-		{
-			$DiaFin = "0".$DiaFin;
-		}
-		if ($MesFin < 10)
-		{
-			$MesFin = "0".$MesFin;
-		}
-		$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
-		$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
+			//GRABA ARCHIVO DE CONFIGURACION
+			if ($DiaIni < 10)
+			{
+				$DiaIni = "0".$DiaIni;
+			}
+			if ($MesIni < 10)
+			{
+				$MesIni = "0".$MesIni;
+			}
+			if ($DiaFin < 10)
+			{
+				$DiaFin = "0".$DiaFin;
+			}
+			if ($MesFin < 10)
+			{
+				$MesFin = "0".$MesFin;
+			}
+			$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
+			$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 
-
-		$FechaAux = $FechaInicio;
+			$FechaAux = $FechaInicio;
 
 			$Archivo = "ram.txt";
 			if ($Arr = file($Archivo)) 
 			{
 				$i = 0;
-				foreach ($Arr as $Contenido=>$FilaPri) 
+				//foreach ($Arr as $Contenido=>$FilaPri) 
 				//while (list ($Linea, $Contenido) = each ($Arr)) 
+				foreach ($Arr as $Linea=>$Contenido)
 				{
 					$Linea0 = $Contenido;			
 					//echo "Linea N� ".$Linea." = ".$Contenido."<br>";
@@ -337,12 +337,9 @@
 			fwrite($ArchivoNuevo,$NuevaLinea);		
 			fclose($ArchivoNuevo);
 			
-			//------------EJECUTA PROGRAMA AUTOMATICO------------
-	
+			//------------EJECUTA PROGRAMA AUTOMATICO------------	
 			//$command="runas /user:cmadmres@codelco AutomaticoRam.exe";
-
 			//$command="runas /env /user:codelco\pfari002_oper  AutomaticoRam.exe";
-
 			exec('AutomaticoRam.exe');
 			//passthru('pato.bat');
 	
