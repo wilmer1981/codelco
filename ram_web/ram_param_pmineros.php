@@ -75,7 +75,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				var msg = confirm("¡Seguro que desea eliminar esta relacion?");
+				var msg = confirm("\xBFSeguro que desea eliminar esta relacion?");
 				if (msg==true)
 				{				
 					f.action="ram_param_pmineros01.php?Proceso=E&Valores=" + Valores;
@@ -234,7 +234,8 @@ function Proceso(opt)
           </select></td>
         </tr>
         <tr align="center">
-          <td colspan="2">              <input name="BtnGrabar" type="button" id="BtnGrabar" value="Grabar" style="width:70px " onClick="Proceso('G')">
+          <td colspan="2">
+		      <input name="BtnGrabar" type="button" id="BtnGrabar" value="Grabar" style="width:70px " onClick="Proceso('G')">
               <input name="BtnEliminar" type="button" id="BtnEliminar" value="Eliminar" style="width:70px " onClick="Proceso('E')">
               <input name="BtnImprimir" type="button" id="BtnImprimir" value="Imprimir" style="width:70px " onClick="Proceso('I')">
               <input name="BtnExcel" type="button" id="BtnEliminar32" value="Excel" style="width:70px " onClick="Proceso('X')">
@@ -246,7 +247,7 @@ function Proceso(opt)
 <?php	
 	$Consulta = "select distinct nodo ";
 	$Consulta.= " from ram_web.flujo_rut ";
-	if (isset($Nodo) && $Nodo!="S")
+	if ($Nodo!="" && $Nodo!="S")
 		$Consulta.= " where nodo='".$Nodo."'";
 	$Consulta.= " order by nodo";	
 	$Resp = mysqli_query($link, $Consulta);

@@ -7,14 +7,13 @@ if(isset($_REQUEST["Proceso"])){
 if(isset($_REQUEST["Fecha"])){
 	$Fecha = $_REQUEST["Fecha"];
 }else{
-	$Fecha= "";
+	$Fecha= "0000-00-00";
 }
 
 if($Proceso == "E")
 {
 	$Eliminar = "DELETE FROM ram_web.control_listados WHERE fecha = '$Fecha'";
-	mysqli_query($link, $Eliminar);
-	
+	mysqli_query($link, $Eliminar);	
 }
 
 
@@ -76,7 +75,7 @@ if($Proceso == "E")
                     <td width="372">&nbsp;&nbsp;&nbsp;&nbsp;Fecha</td>
                 </tr>
                 <?php
-		$Consulta = "SELECT * FROM ram_web.control_listados where fecha != ''";
+		$Consulta = "SELECT * FROM ram_web.control_listados where fecha != '0000-00-00' ";
 		$rs = mysqli_query($link, $Consulta);
 		while($row = mysqli_fetch_array($rs))
 		{
