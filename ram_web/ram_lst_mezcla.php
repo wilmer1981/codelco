@@ -51,7 +51,7 @@ $dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 		echo'<tr class="ColorTabla02">';
 		echo '<td width="20%" align="center"><strong>MEZCLA :</strong></td>';
 
-		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = $row[CONJUNTO_DESTINO]";
+		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = '".$row["CONJUNTO_DESTINO"]."'";
 		$rs2 = mysqli_query($link, $consulta);
 		
 		if($row2 = mysqli_fetch_array($rs2))
@@ -66,12 +66,12 @@ $dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 		echo '<td width="27%" align="center">CONJ. ORIGEN</td>';
 		echo '<td width="20%" align="center">FECHA MOVIMIENTO</td>';
 		echo '<td width="10%"align="center">P. HUMEDO</td>';
-		echo '<td width="10%"align="center">VALIDACI�N</td>';
+		echo '<td width="10%"align="center">VALIDACIÓN</td>';
 		echo '<td width="10%" align="center">P. TOTAL</td>';
 		echo '</tr>';
 
 		$consulta = "SELECT COD_EXISTENCIA,COD_CONJUNTO,NUM_CONJUNTO,FECHA_MOVIMIENTO,PESO_HUMEDO_MOVIDO,ESTADO_VALIDACION FROM movimiento_conjunto
-		 WHERE FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND CONJUNTO_DESTINO = $row2[num_conjunto] AND cod_conjunto_destino = 2 ORDER BY FECHA_MOVIMIENTO";
+		 WHERE FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND CONJUNTO_DESTINO = '".$row2["num_conjunto"]."' AND cod_conjunto_destino = 2 ORDER BY FECHA_MOVIMIENTO";
 		$rs3 = mysqli_query($link, $consulta);
 		//echo $consulta."<br>";		            
 		while ($row3 = mysqli_fetch_array($rs3))
@@ -79,7 +79,7 @@ $dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 
 		    	echo '<tr><td width="8%">'.$row3["COD_CONJUNTO"].' - '.$row3["NUM_CONJUNTO"].'</td>';
 
-				$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = $row3[COD_CONJUNTO] AND num_conjunto = $row3[NUM_CONJUNTO]"; 
+				$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = '".$row3["COD_CONJUNTO"]."' AND num_conjunto = '".$row3["NUM_CONJUNTO"]."'"; 
 				$rs5 = mysqli_query($link, $consulta);
 	
 				if($row5 = mysqli_fetch_array($rs5))
@@ -105,7 +105,7 @@ $dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 		}
      	echo '</tr>';
 		
-		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND CONJUNTO_DESTINO = $row[CONJUNTO_DESTINO]";
+		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND CONJUNTO_DESTINO = '".$row["CONJUNTO_DESTINO"]."'";
 		$rs7 = mysqli_query($link, $consulta);
 
 		if($row7 = mysqli_fetch_array($rs7))
@@ -113,7 +113,7 @@ $dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 			$Total_Humedo = $row7["Total_Humedo"];
 		}
 
-		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND CONJUNTO_DESTINO = $row[CONJUNTO_DESTINO]";
+		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' AND CONJUNTO_DESTINO = '".$row["CONJUNTO_DESTINO"]."'";
 		$rs8 = mysqli_query($link, $consulta);
 
 		if($row8 = mysqli_fetch_array($rs8))

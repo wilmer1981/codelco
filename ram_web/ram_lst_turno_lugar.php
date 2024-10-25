@@ -82,7 +82,7 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 		echo'<tr class="ColorTabla02">';
 		echo '<td width="40%" align="center"><strong>LUGAR DESTINO :</strong></td>';
 
-		$consulta = "SELECT * FROM tipo_lugar WHERE cod_tipo_lugar = $row[COD_LUGAR_DESTINO]";
+		$consulta = "SELECT * FROM tipo_lugar WHERE cod_tipo_lugar = '".$row["COD_LUGAR_DESTINO"]."'";
 		$rs2 = mysqli_query($link, $consulta);
 		
 		if($row2 = mysqli_fetch_array($rs2))
@@ -104,13 +104,13 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 		echo '</tr>';
 
 		$consulta = "SELECT COD_EXISTENCIA,COD_CONJUNTO,NUM_CONJUNTO,CONJUNTO_DESTINO,FECHA_MOVIMIENTO,PESO_HUMEDO_MOVIDO,ESTADO_VALIDACION
-		 FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = $row[COD_LUGAR_DESTINO] ORDER BY FECHA_MOVIMIENTO";
+		 FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = '".$row["COD_LUGAR_DESTINO"]."' ORDER BY FECHA_MOVIMIENTO";
 		$rs3 = mysqli_query($link, $consulta);		
             
 		while ($row3 = mysqli_fetch_array($rs3))
 		{												  
 
-				$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = $row3[COD_CONJUNTO] AND num_conjunto = $row3[NUM_CONJUNTO] AND estado != 'f'"; 
+				$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = '".$row3["COD_CONJUNTO"]."' AND num_conjunto = '".$row3["NUM_CONJUNTO"]."' AND estado != 'f'"; 
 				$rs5 = mysqli_query($link, $consulta);
 	
 				if($row5 = mysqli_fetch_array($rs5))
@@ -120,7 +120,7 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 
 						echo '<td width="10%" align="center">'.$row3["CONJUNTO_DESTINO"].'</td>';
 		
-						$consulta = "SELECT nombre_existencia FROM atributo_existencia where cod_existencia = $row3[COD_EXISTENCIA]"; 
+						$consulta = "SELECT nombre_existencia FROM atributo_existencia where cod_existencia = '".$row3["COD_EXISTENCIA"]."'"; 
 						$rs6 = mysqli_query($link, $consulta);
 			
 						if($row6 = mysqli_fetch_array($rs6))
@@ -141,7 +141,7 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 
 		}
 		
-		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = $row[COD_LUGAR_DESTINO]";
+		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = '".$row["COD_LUGAR_DESTINO"]."'";
 		$rs7 = mysqli_query($link, $consulta);
 
 		if($row7 = mysqli_fetch_array($rs7))
@@ -149,7 +149,7 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 			$Total_Humedo = $row7["Total_Humedo"];
 		}
 
-		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = $row[COD_LUGAR_DESTINO]";
+		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = '".$row["COD_LUGAR_DESTINO"]."'";
 		$rs8 = mysqli_query($link, $consulta);
 
 		if($row8 = mysqli_fetch_array($rs8))

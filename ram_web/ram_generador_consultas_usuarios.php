@@ -8,22 +8,12 @@ if(isset($_REQUEST["ano"])){
 if(isset($_REQUEST["dia"])){
 	$dia = $_REQUEST["dia"];
 }else{
-	$dia = "";
+	$dia = date("d");
 }
 if(isset($_REQUEST["mes"])){
 	$mes = $_REQUEST["mes"];
 }else{
 	$mes = date("m");
-}
-if(isset($_REQUEST["Proceso3"])){
-	$Proceso3 = $_REQUEST["Proceso3"];
-}else{
-	$Proceso3 = "";
-}
-if(isset($_REQUEST["Proceso4"])){
-	$Proceso4 = $_REQUEST["Proceso4"];
-}else{
-	$Proceso4 = "";
 }
 if(isset($_REQUEST["Proceso1"])){
 	$Proceso1 = $_REQUEST["Proceso1"];
@@ -34,6 +24,16 @@ if(isset($_REQUEST["Proceso2"])){
 	$Proceso2 = $_REQUEST["Proceso2"];
 }else{
 	$Proceso2 = "";
+}
+if(isset($_REQUEST["Proceso3"])){
+	$Proceso3 = $_REQUEST["Proceso3"];
+}else{
+	$Proceso3 = "";
+}
+if(isset($_REQUEST["Proceso4"])){
+	$Proceso4 = $_REQUEST["Proceso4"];
+}else{
+	$Proceso4 = "";
 }
 if(isset($_REQUEST["Proceso5"])){
 	$Proceso5 = $_REQUEST["Proceso5"];
@@ -46,10 +46,15 @@ if(isset($_REQUEST["cmbconsulta"])){
 }else{
 	$cmbconsulta = "";
 }
+if(isset($_REQUEST["cmbturno"])){
+	$cmbturno = $_REQUEST["cmbturno"];
+}else{
+	$cmbturno = "";
+}
 
 
 $CodigoDeSistema = 7;
-$CodigoDePantalla = 7;
+$CodigoDePantalla = 13;
 
 $Ayer = date("Y-m-d", mktime(0,0,0,date("m"),(date("d")-1),date("Y")));
 $DiaAyer = intval(substr($Ayer,8,2));

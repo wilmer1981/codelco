@@ -1,13 +1,6 @@
 <?php 
-
-if(isset($_REQUEST["filename"])){
-	$filename = $_REQUEST["filename"];
-}else{
-	$filename = "";
-}
 //cmbturno
 $cmbturno  = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
-
 $ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
 $mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
 $dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
@@ -39,23 +32,24 @@ $Fecha_Ini = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ini;
 $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 
   
-	        ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename = "";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     include("../principal/conectar_ram_web.php"); 
@@ -95,7 +89,7 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 		echo'<tr class="ColorTabla02">';
 		echo '<td width="40%" align="center"><strong>LUGAR DESTINO :</strong></td>';
 
-		$consulta = "SELECT * FROM tipo_lugar WHERE cod_tipo_lugar = $row[COD_LUGAR_DESTINO]";
+		$consulta = "SELECT * FROM tipo_lugar WHERE cod_tipo_lugar = '".$row["COD_LUGAR_DESTINO"]."'";
 		$rs2 = mysqli_query($link, $consulta);
 		
 		if($row2 = mysqli_fetch_array($rs2))
@@ -112,18 +106,18 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 		echo '<td width="10%" align="center">TIPO MOV.</td>';
 		echo '<td width="20%" align="center">FECHA MOVIMIENTO</td>';
 		echo '<td width="10%"align="center">PESO HUMEDO</td>';
-		echo '<td width="10%"align="center">VALIDACI�N</td>';
+		echo '<td width="10%"align="center">VALIDACIÓN</td>';
 		echo '<td width="10%" align="center">PESO TOTAL</td>';
 		echo '</tr>';
 
 		$consulta = "SELECT COD_EXISTENCIA,COD_CONJUNTO,NUM_CONJUNTO,CONJUNTO_DESTINO,FECHA_MOVIMIENTO,PESO_HUMEDO_MOVIDO,ESTADO_VALIDACION
-		 FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = $row[COD_LUGAR_DESTINO] ORDER BY FECHA_MOVIMIENTO";
+		 FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = '".$row["COD_LUGAR_DESTINO"]."' ORDER BY FECHA_MOVIMIENTO";
 		$rs3 = mysqli_query($link, $consulta);		
             
 		while ($row3 = mysqli_fetch_array($rs3))
 		{												  
 
-				$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = $row3[COD_CONJUNTO] AND num_conjunto = $row3[NUM_CONJUNTO] AND estado != 'f'"; 
+				$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = '".$row3["COD_CONJUNTO"]."' AND num_conjunto = '".$row3["NUM_CONJUNTO"]."' AND estado != 'f'"; 
 				$rs5 = mysqli_query($link, $consulta);
 	
 				if($row5 = mysqli_fetch_array($rs5))
@@ -133,7 +127,7 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 
 						echo '<td width="10%" align="center">'.$row3["CONJUNTO_DESTINO"].'</td>';
 		
-						$consulta = "SELECT nombre_existencia FROM atributo_existencia where cod_existencia = $row3[COD_EXISTENCIA]"; 
+						$consulta = "SELECT nombre_existencia FROM atributo_existencia where cod_existencia = '".$row3["COD_EXISTENCIA"]."'"; 
 						$rs6 = mysqli_query($link, $consulta);
 			
 						if($row6 = mysqli_fetch_array($rs6))
@@ -163,7 +157,7 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 
 		}
 		
-		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = $row[COD_LUGAR_DESTINO]";
+		$consulta = "SELECT SUM(PESO_HUMEDO_MOVIDO) AS Total_Humedo FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = '".$row["COD_LUGAR_DESTINO"]."'";
 		$rs7 = mysqli_query($link, $consulta);
 
 		if($row7 = mysqli_fetch_array($rs7))
@@ -171,7 +165,7 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 			$Total_Humedo = $row7["Total_Humedo"];
 		}
 
-		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = $row[COD_LUGAR_DESTINO]";
+		$consulta = "SELECT SUM(ESTADO_VALIDACION) AS Validacion FROM movimiento_conjunto WHERE FECHA_MOVIMIENTO BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' AND COD_LUGAR_DESTINO = '".$row["COD_LUGAR_DESTINO"]."'";
 		$rs8 = mysqli_query($link, $consulta);
 
 		if($row8 = mysqli_fetch_array($rs8))
