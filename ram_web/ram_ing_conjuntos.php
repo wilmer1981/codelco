@@ -14,28 +14,38 @@
  $fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
  
 $radio      = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$c_conjunto = isset($_REQUEST["c_conjunto"])?$_REQUEST["c_conjunto"]:"";
 $n_conjunto = isset($_REQUEST["n_conjunto"])?$_REQUEST["n_conjunto"]:"";
 $fecha_c    = isset($_REQUEST["fecha_c"])?$_REQUEST["fecha_c"]:"0000-00-00";
 
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 3;
+if(strlen($cmbconjunto) == 1)
+	$cmbconjunto = "0".$cmbconjunto;
 
  if($buscar == "S")
  {	
-	$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = '$n_conjunto' AND fecha_creacion = '$fecha_c'";
+   // echo "entrooooo";
+	//n_conjunto=14000&fecha_c=2024-10-28
+	//$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = '".$n_conjunto."' AND fecha_creacion = '".$fecha_c."' ";
+	$consulta = "SELECT * FROM ram_web.conjunto_ram  ";
+	$consulta.="WHERE cod_conjunto = '".$c_conjunto."' AND num_conjunto = '".$n_conjunto."' AND fecha_creacion = '".$fecha_c."' ";
+	//echo "<br><br>".$consulta;
     //include("../principal/conectar_ram_web.php");
 	$rs = mysqli_query($link, $consulta);
+	//exit();
+	//$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = '".$cmbconjunto."' AND cod_producto = '".$cmbproducto."' AND fecha_creacion = '".$fecha."'";
 	
 	if($row = mysqli_fetch_array($rs))
 	{	
-       $fecha = $row["fecha_creacion"];
-	   $cmbconjunto = $row["cod_producto"];
-	   $cmbproducto = $row["cod_subproducto"];
-	   $num_conjunto = $row["num_conjunto"];
+       $fecha           = $row["fecha_creacion"];
+	   $cmbconjunto     = $row["cod_producto"];
+	   $cmbproducto     = $row["cod_subproducto"];
+	   $num_conjunto    = $row["num_conjunto"];
 	   $nombre_conjunto = $row["descripcion"];
 	   $cmbestado = $row["estado"];
-	   $cmbtipo = $row["cod_lugar"];
-	   $cmblugar = $row["num_lugar"];
+	   $cmbtipo   = $row["cod_lugar"];
+	   $cmblugar  = $row["num_lugar"];
 	}	
  }
 
@@ -186,7 +196,8 @@ $CodigoDePantalla = 3;
         var Valores = "";
         for (i = 0; i < LargoForm; i++) {
             if ((f.elements[i].name == Nombre) && (f.elements[i].checked == true)) {
-                Valores = "&n_conjunto=" + f.elements[i + 1].value + "&fecha_c=" + f.elements[i + 2].value;
+                //Valores = "&n_conjunto=" + f.elements[i + 1].value + "&fecha_c=" + f.elements[i + 2].value;
+				Valores = "&n_conjunto=" + f.elements[i + 1].value + "&fecha_c=" + f.elements[i + 2].value + "&c_conjunto=" + f.elements[i + 3].value;
             }
         }
         return Valores;
@@ -195,7 +206,7 @@ $CodigoDePantalla = 3;
     function Buscar() {
         var f = formulario;
         var valores = ValidaSeleccion(f, 'radio');
-
+        //alert(valores);
         f.action = "ram_ing_conjuntos.php?Proceso=V&buscar=S" + valores;
         f.submit();
     }
@@ -283,7 +294,7 @@ $CodigoDePantalla = 3;
                             <td colspan="2">
                                 <?php
 			  $consulta = "SELECT * FROM sub_clase WHERE cod_clase = 7001";
-			  include("../principal/conectar_principal.php"); 
+			  //include("../principal/conectar_principal.php"); 
 				
 			  echo'<select name="cmbconjunto" style="width:150" onChange="Recarga_Estado();">';
 
@@ -377,8 +388,8 @@ $CodigoDePantalla = 3;
 			  echo'<select name="cmbestado" style="width:110">';
               echo'<option value = "-1" selected>SELECCIONAR</option>';
  	          
-			  include("../principal/conectar_ram_web.php"); 
-			  $consulta = "SELECT * FROM estado_conjunto ORDER BY cod_estado";
+			//  include("../principal/conectar_ram_web.php"); 
+			  $consulta = "SELECT * FROM ram_web.estado_conjunto ORDER BY cod_estado";
 			  $rs = mysqli_query($link, $consulta);
 			  
 			  while($row = mysqli_fetch_array($rs))
@@ -409,17 +420,17 @@ $CodigoDePantalla = 3;
               else
 			  	echo'<select name="cmbtipo" style="width:230" onChange="mostrar_lugar();">';
 			  echo'<option value = "-1" selected>SELECCIONAR</option>';
-			  include("../principal/conectar_ram_web.php"); 
+			  //include("../principal/conectar_ram_web.php"); 
 			  switch ($cmbconjunto)
 			  {
 			  	case 2:
-					$consulta = "SELECT * FROM tipo_lugar WHERE cod_tipo_lugar > '13' ORDER BY cod_tipo_lugar";
+					$consulta = "SELECT * FROM ram_web.tipo_lugar WHERE cod_tipo_lugar > '13' ORDER BY cod_tipo_lugar";
 					break;
 			  	case 42:
-					$consulta = "SELECT * FROM tipo_lugar WHERE cod_tipo_lugar < '14' ORDER BY cod_tipo_lugar";	
+					$consulta = "SELECT * FROM ram_web.tipo_lugar WHERE cod_tipo_lugar < '14' ORDER BY cod_tipo_lugar";	
 					break;
 				default:
-					$consulta = "SELECT * FROM tipo_lugar ORDER BY cod_tipo_lugar";
+					$consulta = "SELECT * FROM ram_web.tipo_lugar ORDER BY cod_tipo_lugar";
 					break;	
 			  }
 			  $rs = mysqli_query($link, $consulta);
@@ -443,8 +454,8 @@ $CodigoDePantalla = 3;
 			  echo'<select name="cmblugar" style="width:150">';
               echo'<option value = "-1" selected>SELECCIONAR</option>';
  	          
-			  include("../principal/conectar_ram_web.php"); 
-			  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$cmbtipo."' AND cod_estado != 'f'";
+			 // include("../principal/conectar_ram_web.php"); 
+			  $consulta = "SELECT * FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = '".$cmbtipo."' AND cod_estado != 'f'";
 			  $rs = mysqli_query($link, $consulta);
 			  
 			  while($row = mysqli_fetch_array($rs))
@@ -513,8 +524,11 @@ $CodigoDePantalla = 3;
                         <?php
 		if($Proceso == "V")
 		{   
-			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = '".$cmbconjunto."' AND cod_producto = '".$cmbproducto."' AND fecha_creacion = '".$fecha."'";
-			include("../principal/conectar_ram_web.php");
+			$consulta = "SELECT * FROM ram_web.conjunto_ram ";
+			$consulta.= "WHERE cod_conjunto = '".$cmbconjunto."' AND cod_producto = '".$cmbproducto."' AND fecha_creacion = '".$fecha."'";
+			//include("../principal/conectar_ram_web.php");
+			//$consulta.="WHERE cod_conjunto = '".$c_conjunto."' AND num_conjunto = '".$n_conjunto."' AND fecha_creacion = '".$fecha_c."' ";
+			//echo "consulta:".$consulta;
 			$rs = mysqli_query($link, $consulta);
 		
 			while($row = mysqli_fetch_array($rs))
@@ -522,20 +536,21 @@ $CodigoDePantalla = 3;
 			  $valor = $row["num_conjunto"].$row["fecha_creacion"];	
 			  echo'<tr><td><center>';
 			  if($valor == $radio)
-			  echo '<input type="radio" name="radio" value="'.$valor.'" onClick="Buscar();" checked>';
+				echo '<input type="radio" name="radio" value="'.$valor.'" onClick="Buscar();" checked>';
 			  else
-			  echo'<input type="radio" name="radio" value="'.$valor.'" onClick="Buscar();">';
+				echo'<input type="radio" name="radio" value="'.$valor.'" onClick="Buscar();">';
 			  echo'</center></td>';
-			 
+
 			  echo'<input type="hidden" name="conjunto" value="'.$row["num_conjunto"].'">';
 			  echo'<input type="hidden" name="fecha_creacion" value="'.$row["fecha_creacion"].'">';	
+			  echo'<input type="hidden" name="conjunto_cod" value="'.$row["cod_conjunto"].'">';
 	
 			  echo'<td><center>'.$row["num_conjunto"].'</center></td>';
 			  echo'<td><center>'.$row["descripcion"].'</center></td>';
 			  echo'<td><center>'.$row["estado"].'</center></td>';
 			  echo'<td><center>'.$row["fecha_creacion"].'</center></td>';
 			  
-			  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."'";
+			  $consulta = "SELECT * FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."'";
 			  $rs2 = mysqli_query($link, $consulta);
 			  if($row2 = mysqli_fetch_array($rs2))
 			  {
@@ -543,13 +558,12 @@ $CodigoDePantalla = 3;
 			  } 
 			}
 		}
-
-?>
-                        <?php
+		?>
+        <?php
 		if($Proceso == "B")
 		{   
-			$consulta = "SELECT * FROM conjunto_ram WHERE num_conjunto = '".$num_conjunto."'";
-			include("../principal/conectar_ram_web.php");
+			$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = '".$num_conjunto."'";
+			//include("../principal/conectar_ram_web.php");
 			$rs = mysqli_query($link, $consulta);
 
 			 if($num_conjunto != '')
@@ -559,20 +573,21 @@ $CodigoDePantalla = 3;
 				  $valor = $row["num_conjunto"].$row["fecha_creacion"];	
 				  echo'<tr><td><center>';
 				  if($valor == $radio)
-				  echo '<input type="radio" name="radio" value="'.$valor.'" onClick="Buscar();" checked>';
+					echo '<input type="radio" name="radio" value="'.$valor.'" onClick="Buscar();" checked>';
 				  else
-				  echo'<input type="radio" name="radio" value="'.$valor.'" onClick="Buscar();">';
-				  echo'</center></td>';
-				 
+					echo'<input type="radio" name="radio" value="'.$valor.'" onClick="Buscar();">';
+				  echo'</center></td>';		  
+
 				  echo'<input type="hidden" name="conjunto" value="'.$row["num_conjunto"].'">';
 				  echo'<input type="hidden" name="fecha_creacion" value="'.$row["fecha_creacion"].'">';	
+				  echo'<input type="hidden" name="conjunto_cod" value="'.$row["cod_conjunto"].'">';					  
 							
 				  echo'<td><center>'.$row["cod_conjunto"].' - '.$row["num_conjunto"].'</center></td>';
 				  echo'<td><center>'.$row["descripcion"].'</center></td>';
 				  echo'<td><center>'.$row["estado"].'</center></td>';
 				  echo'<td><center>'.$row["fecha_creacion"].'</center></td>';
 				  
-				  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."'";
+				  $consulta = "SELECT * FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."'";
 				  $rs2 = mysqli_query($link, $consulta);
 				  if($row2 = mysqli_fetch_array($rs2))
 				  {
