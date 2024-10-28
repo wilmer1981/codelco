@@ -1,42 +1,18 @@
 <?php
+    include("../principal/conectar_principal.php");
 
-if(isset($_REQUEST["buscar"])){
-	$buscar = $_REQUEST["buscar"];
-}else{
-	$buscar = "";
-}
-if(isset($_REQUEST["cmbconjunto"])){
-	$cmbconjunto = $_REQUEST["cmbconjunto"];
-}else{
-	$cmbconjunto= "";
-}
-$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
-if(isset($_REQUEST["Proceso"])){
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso= "";
-}
-if(isset($_REQUEST["num_conjunto"])){
-	$num_conjunto = $_REQUEST["num_conjunto"];
-}else{
-	$num_conjunto= "";
-}
-if(isset($_REQUEST["nombre_conjunto"])){
-	$nombre_conjunto = $_REQUEST["nombre_conjunto"];
-}else{
-	$nombre_conjunto= "";
-}
-if(isset($_REQUEST["cmbtipo"])){
-	$cmbtipo = $_REQUEST["cmbtipo"];
-}else{
-	$cmbtipo= "";
-}
-if(isset($_REQUEST["cmblugar"])){
-	$cmblugar = $_REQUEST["cmblugar"];
-}else{
-	$cmblugar= "";
-}
-
+ $Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+ $buscar     = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:"";
+ $cmbconjunto = isset($_REQUEST["cmbconjunto"])?$_REQUEST["cmbconjunto"]:"";
+ $num_conjunto= isset($_REQUEST["num_conjunto"])?$_REQUEST["num_conjunto"]:"";
+ $nombre_conjunto = isset($_REQUEST["nombre_conjunto"])?$_REQUEST["nombre_conjunto"]:"";
+ $cmbtipo     = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
+ $cmblugar    = isset($_REQUEST["cmblugar"])?$_REQUEST["cmblugar"]:"";
+ $num_lugar   = isset($_REQUEST["num_lugar"])?$_REQUEST["num_lugar"]:"";
+ $cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+ $cmbestado   = isset($_REQUEST["cmbestado"])?$_REQUEST["cmbestado"]:"";
+ $fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+ 
 $radio      = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
 $n_conjunto = isset($_REQUEST["n_conjunto"])?$_REQUEST["n_conjunto"]:"";
 $fecha_c    = isset($_REQUEST["fecha_c"])?$_REQUEST["fecha_c"]:"0000-00-00";
@@ -46,8 +22,8 @@ $CodigoDePantalla = 3;
 
  if($buscar == "S")
  {	
-	$consulta = "SELECT * FROM conjunto_ram WHERE num_conjunto = '$n_conjunto' AND fecha_creacion = '$fecha_c'";
-    include("../principal/conectar_ram_web.php");
+	$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = '$n_conjunto' AND fecha_creacion = '$fecha_c'";
+    //include("../principal/conectar_ram_web.php");
 	$rs = mysqli_query($link, $consulta);
 	
 	if($row = mysqli_fetch_array($rs))
@@ -135,7 +111,7 @@ $CodigoDePantalla = 3;
         }
 
         if (f.num_conjunto.value == '') {
-            alert("Debe Ingresar N�mero de Conjunto");
+            alert("Debe Ingresar Número de Conjunto");
             f.num_conjunto.focus();
             return 1
         }
@@ -265,8 +241,6 @@ $CodigoDePantalla = 3;
 <body>
     <form name="formulario" method="post">
         <?php include("../principal/encabezado.php")?>
-        <?php include("../principal/conectar_principal.php") ?>
-
         <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
             <tr>
                 <td align="center" valign="top">
