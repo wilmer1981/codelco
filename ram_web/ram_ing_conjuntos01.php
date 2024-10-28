@@ -72,15 +72,13 @@ if($Proceso == "M")
 {
 	$Modificar = "UPDATE ram_web.conjunto_ram_bd SET COD_CONJUNTO = '$cod_conjunto', NUM_CONJUNTO = '$num_conjunto',
 	              DESCRIPCION = '$nombre_conjunto', COD_PRODUCTO = '$cmbconjunto', COD_SUBPRODUCTO = '$cmbproducto'
-	              WHERE COD_CONJUNTO = '$cod_conjunto' AND NUM_CONJUNTO = '$num_conjunto'";
+	              WHERE COD_CONJUNTO = '$cod_conjunto' AND NUM_CONJUNTO = '$num_conjunto' AND COD_PRODUCTO= '$cmbconjunto' AND COD_SUBPRODUCTO= '$cmbproducto' ";
 	mysqli_query($link,$Modificar);
 	
 	$Modificar2 = "UPDATE ram_web.conjunto_ram SET cod_conjunto = '$cod_conjunto', num_conjunto = '$num_conjunto', descripcion = '$nombre_conjunto', 
 	              fecha_creacion = '$fecha',estado = '$cmbestado', cod_subproducto = '$cmbproducto', cod_lugar = '$cmbtipo', num_lugar = '$cmblugar'
 	              WHERE cod_conjunto = '$cod_conjunto' AND num_conjunto = '$num_conjunto' AND fecha_creacion = '$fecha'";
-	mysqli_query($link,$Modificar2);
-
-	
+	mysqli_query($link,$Modificar2);	
 }
 
 //Eliminar Datos
