@@ -1,41 +1,30 @@
 <?php 
   	include("../principal/conectar_ram_web.php");
-//$fecha_ter = date("Y-m-d",mktime(7,59,59,$mes2,($dia2 + 1),$ano2))." 07:59:59";
-$generador  = isset($_REQUEST["generador"])?$_REQUEST["generador"]:"";
-$ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
-$dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
-$mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
-if(isset($_REQUEST["dia2"])){
-	$dia2 = $_REQUEST["dia2"];
-}else{
-	$dia2 = date("d");
-}
-if(isset($_REQUEST["mes2"])){
-	$mes2 = $_REQUEST["mes2"];
-}else{
-	$mes2 = date("m");
-}
-if(isset($_REQUEST["ano2"])){
-	$ano2 = $_REQUEST["ano2"];
-}else{
-	$ano2 = date("Y");
-}
+	//$fecha_ter = date("Y-m-d",mktime(7,59,59,$mes2,($dia2 + 1),$ano2))." 07:59:59";
+	//$linea = "generador=1&ano=".$ano."&mes=".$mes."&dia=".$dia."&ano2=".$ano2."&mes2=".$mes2."&dia2=".$dia2;
+	$generador   = isset($_REQUEST["generador"])?$_REQUEST["generador"]:"";
+	$ano         = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$dia         = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+	$mes         = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano2        = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y");
+	$dia2        = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:date("d");
+	$mes2        = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");
 
-$Total_ini_prod  = isset($_REQUEST["Total_ini_prod"])?$_REQUEST["Total_ini_prod"]:0;
-$Total_recep_prod  = isset($_REQUEST["Total_recep_prod"])?$_REQUEST["Total_recep_prod"]:0;
-$Total_trasp_prod  = isset($_REQUEST["Total_trasp_prod"])?$_REQUEST["Total_trasp_prod"]:0;
-$Total_val_prod  = isset($_REQUEST["Total_val_prod"])?$_REQUEST["Total_val_prod"]:0;
-$Total_emb_prod  = isset($_REQUEST["Total_emb_prod"])?$_REQUEST["Total_emb_prod"]:0;
-$Total_exist_prod  = isset($_REQUEST["Total_exist_prod"])?$_REQUEST["Total_exist_prod"]:0;
-$Total_benef_prod  = isset($_REQUEST["Total_benef_prod"])?$_REQUEST["Total_benef_prod"]:0;
-$Total_ini_cir  = isset($_REQUEST["Total_ini_cir"])?$_REQUEST["Total_ini_cir"]:0;
-$Total_recep_cir  = isset($_REQUEST["Total_recep_cir"])?$_REQUEST["Total_recep_cir"]:0;
-$Total_trasp_d_cir  = isset($_REQUEST["Total_trasp_d_cir"])?$_REQUEST["Total_trasp_d_cir"]:0;
-$Total_trasp_cir  = isset($_REQUEST["Total_trasp_cir"])?$_REQUEST["Total_trasp_cir"]:0;
-$Total_benef_cir  = isset($_REQUEST["Total_benef_cir"])?$_REQUEST["Total_benef_cir"]:0;
-$Total_emb_cir  = isset($_REQUEST["Total_emb_cir"])?$_REQUEST["Total_emb_cir"]:0;
-$Total_trasp_a_cir  = isset($_REQUEST["Total_trasp_a_cir"])?$_REQUEST["Total_trasp_a_cir"]:0;
-$Total_exist_cir  = isset($_REQUEST["Total_exist_cir"])?$_REQUEST["Total_exist_cir"]:0;
+	$Total_ini_prod    = isset($_REQUEST["Total_ini_prod"])?$_REQUEST["Total_ini_prod"]:0;
+	$Total_recep_prod  = isset($_REQUEST["Total_recep_prod"])?$_REQUEST["Total_recep_prod"]:0;
+	$Total_trasp_prod  = isset($_REQUEST["Total_trasp_prod"])?$_REQUEST["Total_trasp_prod"]:0;
+	$Total_val_prod    = isset($_REQUEST["Total_val_prod"])?$_REQUEST["Total_val_prod"]:0;
+	$Total_emb_prod    = isset($_REQUEST["Total_emb_prod"])?$_REQUEST["Total_emb_prod"]:0;
+	$Total_exist_prod  = isset($_REQUEST["Total_exist_prod"])?$_REQUEST["Total_exist_prod"]:0;
+	$Total_benef_prod  = isset($_REQUEST["Total_benef_prod"])?$_REQUEST["Total_benef_prod"]:0;
+	$Total_ini_cir     = isset($_REQUEST["Total_ini_cir"])?$_REQUEST["Total_ini_cir"]:0;
+	$Total_recep_cir   = isset($_REQUEST["Total_recep_cir"])?$_REQUEST["Total_recep_cir"]:0;
+	$Total_trasp_d_cir = isset($_REQUEST["Total_trasp_d_cir"])?$_REQUEST["Total_trasp_d_cir"]:0;
+	$Total_trasp_cir   = isset($_REQUEST["Total_trasp_cir"])?$_REQUEST["Total_trasp_cir"]:0;
+	$Total_benef_cir   = isset($_REQUEST["Total_benef_cir"])?$_REQUEST["Total_benef_cir"]:0;
+	$Total_emb_cir     = isset($_REQUEST["Total_emb_cir"])?$_REQUEST["Total_emb_cir"]:0;
+	$Total_trasp_a_cir = isset($_REQUEST["Total_trasp_a_cir"])?$_REQUEST["Total_trasp_a_cir"]:0;
+	$Total_exist_cir   = isset($_REQUEST["Total_exist_cir"])?$_REQUEST["Total_exist_cir"]:0;
 
  //mysql_select_db("ram_web",$link);
 	
@@ -102,9 +91,9 @@ $Total_exist_cir  = isset($_REQUEST["Total_exist_cir"])?$_REQUEST["Total_exist_c
 
 
 $fecha_ini = $ano.'-'.$mes.'-'.$dia.' 08:00:00';
-
 //$fecha_ter = date("Y-m-d",mktime(7,59,59,$mes2,($dia2 + 1),$ano2))." 07:59:59";
-$fecha_ter = $ano.'-'.$mes.'-'.$dia.' 07:59:59';
+//$fecha_ter = $ano.'-'.$mes.'-'.$dia.' 07:59:59';
+$fecha_ter = $ano2.'-'.$mes2.'-'.$dia2.' 07:59:59';
 
 $fecha_t = $ano2.'-'.$mes2.'-'.$dia2;
 $fecha_i = $ano.'-'.$mes.'-'.$dia;
@@ -149,11 +138,11 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
     $Consulta = $Consulta." BETWEEN '".$fecha_i."' AND '".$fecha_t."'";
 	$Consulta = $Consulta." AND cod_existencia != 15 AND cod_existencia != 5";		
 	$rs = mysqli_query($link, $Consulta);
-	//echo $Consulta."<br>";
+	//echo "1:".$Consulta."<br>";
 	$Consulta = "SELECT cod_existencia, cod_conjunto, num_conjunto, conjunto_destino,fecha_movimiento, peso_humedo_movido, estado_validacion FROM ram_web.movimiento_conjunto ";
 	$Consulta = $Consulta." WHERE cod_conjunto = 1 AND peso_humedo_movido > 0  ";
 	$Consulta = $Consulta." AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";		
-	//echo $Consulta."<br>";
+	//echo "2:".$Consulta."<br><br>";
 	$rs = mysqli_query($link, $Consulta);
 	while ($row = mysqli_fetch_array($rs))
 	{		 		
@@ -170,10 +159,11 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	$Consulta.= " WHERE t1.fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'"; 
 	$Consulta.= " AND t1.cod_conjunto = 1";  
 	$Consulta.= " AND (t2.estado != 'f' AND t2.estado != 'c') order by t2.cod_subproducto asc, t1.num_conjunto asc";
-
+    //echo "3:".$Consulta."<br><br>";
 	$rs0 = mysqli_query($link, $Consulta);
 	while($row0 = mysqli_fetch_array($rs0))
-	{          			
+	{    
+			//echo "ingresooo 3";
 		  $Total_ini = 0;
 		  $Total_recep = 0;
 		  $Total_val = 0;
@@ -183,9 +173,10 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  $Total_exist = 0;   
 
 		  $Consulta = "SELECT cod_subproducto,descripcion FROM proyecto_modernizacion.subproducto WHERE prod_ram = 1 AND cod_subproducto = '".$row0["cod_producto"]."' ";
+		  //echo "3-1:".$Consulta."<br>";
 		  $rs_p = mysqli_query($link, $Consulta);
 
-	         if($row_p = mysqli_fetch_array($rs_p))
+	        if($row_p = mysqli_fetch_array($rs_p))
 		  {	
 
 

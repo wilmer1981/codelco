@@ -106,7 +106,7 @@ $Fecha_Ter = $ano.'-'.$mes.'-'.$dia.' '.$Turno_Ter;
 		echo '<td width="10%" align="center">TIPO MOV.</td>';
 		echo '<td width="20%" align="center">FECHA MOVIMIENTO</td>';
 		echo '<td width="10%"align="center">PESO HUMEDO</td>';
-		echo '<td width="10%"align="center">VALIDACIÓN</td>';
+		echo '<td width="10%"align="center">VALIDACI&Oacute;N</td>';
 		echo '<td width="10%" align="center">PESO TOTAL</td>';
 		echo '</tr>';
 
