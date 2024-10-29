@@ -15,22 +15,15 @@ $cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"
 $num_conjunto  = isset($_REQUEST["num_conjunto"])?$_REQUEST["num_conjunto"]:"";
 $num_conjunto_d  = isset($_REQUEST["num_conjunto_d"])?$_REQUEST["num_conjunto_d"]:"";
 
-if(isset($_REQUEST["peso_humedo"])){
-	$peso_humedo = $_REQUEST["peso_humedo"];
-}else{
-	$peso_humedo = 0;
-}
-if(isset($_REQUEST["dia"])){
-	$dia = $_REQUEST["dia"];
-}else{
-	$dia = date("d");
-}
-if(isset($_REQUEST["mes"])){
-	$mes = $_REQUEST["mes"];
-}else{
-	$mes = date("m");
-}
+$peso_humedo  = isset($_REQUEST["peso_humedo"])?$_REQUEST["peso_humedo"]:0;
+$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$hh = isset($_REQUEST["hh"])?$_REQUEST["hh"]:"";
+$mm = isset($_REQUEST["mm"])?$_REQUEST["mm"]:"";
 
+if($peso_humedo=="")
+	$peso_humedo=0;
 
 if(strlen($dia) == 1)
 	$dia = "0".$dia;
