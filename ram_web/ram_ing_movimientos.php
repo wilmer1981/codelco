@@ -76,6 +76,12 @@ if(isset($_REQUEST["num_conjunto_aux_d"])){
 	$num_conjunto_aux_d= "";
 }
 
+$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$hh = isset($_REQUEST["hh"])?$_REQUEST["hh"]:"";
+$mm = isset($_REQUEST["mm"])?$_REQUEST["mm"]:"";
+
 $CodigoDeSistema = 7;
 $CodigoDePantalla = 4;
 
@@ -125,7 +131,7 @@ if($Proceso == "B")
 		{
 			$num_conjunto = $num_conjunto_aux;
 			$cmbtipo = $cmbtipo_aux;
-			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = '".$cmbtipo."' AND num_conjunto = '".$num_conjunto."' AND estado !='f'";
+			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = $num_conjunto AND estado !='f'";
 			$rs = mysqli_query($link, $consulta);	
 		}
 		
@@ -144,7 +150,7 @@ if($Proceso == "B")
 		   		$stock = 0;	
 		   		$estado_val = 1;
 		   }	
-		   $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$cod_lugar."' AND num_lugar = '".$num_lugar."' ";
+		   $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $cod_lugar AND num_lugar = $num_lugar ";
 		   $rs2 = mysqli_query($link, $consulta);
 		   
 		   if($row2 = mysqli_fetch_array($rs2))
@@ -167,13 +173,13 @@ if($Proceso2 == "B")
     include("../principal/conectar_ram_web.php");
     if($num_conjunto_aux_d != '' || $num_conjunto_d != '')
 	{
-		$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = '".$cmbtipo_d."' AND num_conjunto = '".$num_conjunto_d."' AND estado !='f'";
+		$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = $cmbtipo_d AND num_conjunto = $num_conjunto_d AND estado !='f'";
 		$rs3 = mysqli_query($link, $consulta);
 		if($mostrar2 == "S")
 		{
 			$num_conjunto_d = $num_conjunto_aux_d;
 			$cmbtipo_d = $cmbtipo_aux_d;
-			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = '".$cmbtipo_d."' AND num_conjunto = '".$num_conjunto_d."' AND estado !='f'";
+			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = $cmbtipo_d AND num_conjunto = $num_conjunto_d AND estado !='f'";
 			$rs3 = mysqli_query($link, $consulta);	
 		}
 	
@@ -187,7 +193,7 @@ if($Proceso2 == "B")
 		   $num_lugar_d = $row3["num_lugar"];
 		   $stock_d = $row3["peso_conjunto"];
 	
-		   $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$cod_lugar_d."' AND num_lugar = '".$num_lugar_d."' ";
+		   $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $cod_lugar_d AND num_lugar = $num_lugar_d ";
 		   $rs4 = mysqli_query($link, $consulta);
 		   
 		   if($row4 = mysqli_fetch_array($rs4))
