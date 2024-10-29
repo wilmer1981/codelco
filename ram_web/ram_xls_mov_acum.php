@@ -91,7 +91,8 @@ $Total_exist_cir  = isset($_REQUEST["Total_exist_cir"])?$_REQUEST["Total_exist_c
         <?php
 
 $fecha_ini = $ano.'-'.$mes.'-'.$dia.' 08:00:00';
-$fecha_ter = $ano.'-'.$mes.'-'.$dia.' 07:59:59';
+$fecha_ter = $ano2.'-'.$mes2.'-'.$dia2.' 07:59:59';
+//$fecha_ter = $ano.'-'.$mes.'-'.$dia.' 07:59:59';
 
 //$fecha_ter = date("Y-m-d",mktime(7,59,59,$mes2,($dia2 + 1),$ano2))." 07:59:59";
 
@@ -149,7 +150,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 	while ($row = mysqli_fetch_array($rs))
 	{		 		
 		$Insertar = "INSERT INTO tmp_table (cod_existencia, cod_conjunto,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo,estado_validacion)";
-		$Insertar = "$Insertar VALUES ($row[cod_existencia],$row[cod_conjunto],$row[num_conjunto],$row[conjunto_destino],'$row[fecha_movimiento]',$row[peso_humedo_movido],$row[estado_validacion])";
+		$Insertar = "$Insertar VALUES ('".$row["cod_existencia"]."','".$row["cod_conjunto"]."','".$row["num_conjunto"]."','".$row["conjunto_destino"]."','".$row["fecha_movimiento"]."','".$row["peso_humedo_movido"]."','".$row["estado_validacion"]."')";
 		mysqli_query($link, $Insertar);
 	}
 
@@ -173,14 +174,14 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  $Total_emb = 0;
 		  $Total_exist = 0;   
 
-		  $Consulta = "SELECT cod_subproducto,descripcion FROM proyecto_modernizacion.subproducto WHERE prod_ram = 1 AND cod_subproducto = ".$row0["cod_producto"];
+		  $Consulta = "SELECT cod_subproducto,descripcion FROM proyecto_modernizacion.subproducto WHERE prod_ram = 1 AND cod_subproducto = '".$row0["cod_producto"]."' ";
 		  $rs_p = mysqli_query($link, $Consulta);
 
-	         if($row_p = mysqli_fetch_array($rs_p))
-		  {	
+	        if($row_p = mysqli_fetch_array($rs_p))
+		    {	
 
 
-        	    if($row_p["cod_subproducto"] == "91") 
+        	if($row_p["cod_subproducto"] == "91") 
 			{
 			  echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="center">';
 			  echo '<tr class="Detalle02">';
@@ -207,7 +208,7 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
 		  $Consulta.= " INNER JOIN ram_web.conjunto_ram as t2";
 		  $Consulta.= " on t1.cod_conjunto = t2.cod_conjunto AND t1.num_conjunto = t2.num_conjunto";
 		  $Consulta.= " WHERE t1.fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'"; 
-		  $Consulta.= " AND t1.cod_conjunto = 1 AND t2.cod_subproducto = ".$row0["cod_producto"];  
+		  $Consulta.= " AND t1.cod_conjunto = 1 AND t2.cod_subproducto = '".$row0["cod_producto"]."' ";  
 		  $Consulta.= " AND (t2.estado != 'f' AND t2.estado != 'c') order by t2.cod_subproducto asc, t1.num_conjunto asc";
 		  $rs = mysqli_query($link, $Consulta);
 

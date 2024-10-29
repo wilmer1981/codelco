@@ -6,9 +6,9 @@ $Fecha      = isset($_REQUEST["Fecha"])?$_REQUEST["Fecha"]:"";
 $Fecha_ini = isset($_REQUEST["Fecha_ini"])?$_REQUEST["Fecha_ini"]:"";
 $Fecha_ter = isset($_REQUEST["Fecha_ter"])?$_REQUEST["Fecha_ter"]:"";
 
-	$ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
-	$mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
-	$dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+$ano        = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$mes        = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$dia        = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 ?>
 
 <html>
@@ -122,6 +122,7 @@ function Imprimir()
 		$Consulta.= " FROM sipa_web.recepciones ";
 		$Consulta.= " WHERE FECHA = '".$Fecha."' ";
 		$Consulta.= " AND CONJUNTO = '".$Conjunto."' ORDER BY LOTE,RECARGO ";
+		//echo $Consulta;
 		$rs = mysqli_query($link, $Consulta);
 		$Peso_Total=0;
 		while($row = mysqli_fetch_array($rs))

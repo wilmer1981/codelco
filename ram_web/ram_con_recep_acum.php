@@ -33,7 +33,7 @@ function Imprimir()
         <?php	
 
 		if($cod_exist == 2 || $cod_exist == 22)
-			  echo "Recepción Conjunto";
+			  echo "Recepci&oacute;n Conjunto";
 		if($cod_exist == 6)
 		      echo "Traspaso Conjunto";
 		if($cod_exist == 17)
