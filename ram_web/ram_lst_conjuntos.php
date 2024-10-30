@@ -303,7 +303,7 @@ if($Proceso == 'B')
 						echo '<td width="15%"><div align="center">'.$row["fecha_creacion"].'</div></td>';
 						echo '<td width="5%"><div align="center">'.$row["estado"].'</div></td>';
 					
-					    $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $row[cod_lugar] AND num_lugar = $row[num_lugar] ";
+					    $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."' ";
 					    $rs2 = mysqli_query($link, $consulta);
 					   
 					    if($row2 = mysqli_fetch_array($rs2))
@@ -319,7 +319,7 @@ if($Proceso == 'B')
 						if($row["estado"] != 'f')
 						{
 							//Existencia Final
-							$consulta ="SELECT peso_conjunto FROM ram_web.conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = $row[num_conjunto]";
+							$consulta ="SELECT peso_conjunto FROM ram_web.conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = '".$row["num_conjunto"]."'";
 							$rs2 = mysqli_query($link, $consulta);
 
 							if($row2 = mysqli_fetch_array($rs2))
@@ -355,17 +355,20 @@ if($Proceso == 'B2')
     <tr class="ColorTabla01"> 
       <td height="10%"><div align="center">Nro. Conj</div></td>
       <td width="30%"><div align="center">Nombre Conjunto</div></td>
-      <td width="15%"><div align="center">Fecha Creaci�n</div></td>
+      <td width="15%"><div align="center">Fecha Creaci&oacute;n</div></td>
       <td width="5%"><div align="center">Est.</div></td>
       <td width="30%"><div align="center">Lugar</div></td>
       <td width="10%"><div align="center">Exist.</div></td>
     </tr>';
-
-	$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = $num_conjunto";
-	$rs = mysqli_query($link, $consulta);
-
-	 if($num_conjunto != '')
-	 {		
+	//$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = $num_conjunto";	
+	//echo $consulta;
+	//$rs = mysqli_query($link, $consulta);
+	if($num_conjunto != '' && is_numeric($num_conjunto))
+	//if($num_conjunto != '')
+	 {	
+	$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = $num_conjunto";	
+	//echo $consulta;
+	$rs = mysqli_query($link, $consulta); 
 		while($row = mysqli_fetch_array($rs))
 		{
 		    echo'<tr> ';
@@ -374,7 +377,7 @@ if($Proceso == 'B2')
 			  echo '<td>'.$row["fecha_creacion"].'</td>';
 			  echo '<td>'.$row["estado"].'</td>';
 			  
-			  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = $row[cod_lugar] AND num_lugar = $row[num_lugar] ";
+			  $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."' ";
 			  $rs2 = mysqli_query($link, $consulta);
 			   
 			  if($row2 = mysqli_fetch_array($rs2))
@@ -390,7 +393,7 @@ if($Proceso == 'B2')
 				if($row["estado"] != 'f')
 				{
 					//Existencia Final
-					$consulta ="SELECT peso_conjunto FROM ram_web.conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = $row[num_conjunto]";
+					$consulta ="SELECT peso_conjunto FROM ram_web.conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = '".$row["num_conjunto"]."'";
 					$rs2 = mysqli_query($link, $consulta);
 	
 					if($row2 = mysqli_fetch_array($rs2))
