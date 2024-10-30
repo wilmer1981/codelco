@@ -179,9 +179,9 @@ $CodigoDePantalla = 5;
 
     function Modificar_Datos() {
         var f = formulario;
-        alert("Modificar_Datos33" + ValidaSeleccion(f, 'radio'));
+       // alert("Modificar_Datos33" + ValidaSeleccion(f, 'radio'));
         var Valores = ValidaSeleccion(f, 'radio');
-        alert("Modificar_Datos" + Valores);
+       // alert("Modificar_Datos" + Valores);
         f.action = "ram_ing_circulante01.php?Proceso=M" + Valores;
 
         //f.action = "ram_ing_circulante01.php?Proceso=M&Valores=" + valores;
@@ -542,8 +542,7 @@ $CodigoDePantalla = 5;
 
 		    $fecha = $ano.'-'.$mes.'-'.$dia;
 			$consulta = "SELECT NUM_CONJUNTO,FECHA_MOVIMIENTO,PESO_HUMEDO_MOVIDO,COD_LUGAR_DESTINO,LUGAR_DESTINO,ORIGEN FROM movimiento_conjunto WHERE left(FECHA_MOVIMIENTO,10) = '$fecha' AND COD_EXISTENCIA = 02 AND COD_CONJUNTO = 03";
-			include("../principal/conectar_ram_web.php");
-						
+			include("../principal/conectar_ram_web.php");						
 			$rs = mysqli_query($link, $consulta);
 		
 			while($row = mysqli_fetch_array($rs))
@@ -564,7 +563,7 @@ $CodigoDePantalla = 5;
 			  echo'<td><center>'.$row["NUM_CONJUNTO"].'</center></td>';
 
 			  //consulto descripcion conjunto
-			  $consulta = "SELECT descripcion FROM ram_web.conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $row[NUM_CONJUNTO] AND estado != 'f'";
+			  $consulta = "SELECT descripcion FROM ram_web.conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = '".$row["NUM_CONJUNTO"]."' AND estado != 'f'";
 			  $rs1 = mysqli_query($link, $consulta);
 
 			  if($row1 = mysqli_fetch_array($rs1))
@@ -573,16 +572,16 @@ $CodigoDePantalla = 5;
               }
 			   
 			  echo'<td><center>'.number_format(($row["PESO_HUMEDO_MOVIDO"]/1000),3,",","").'</center></td>';
-			  $consulta = "SELECT descripcion_lugar FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = $row[COD_LUGAR_DESTINO] AND num_lugar = $row[LUGAR_DESTINO] AND cod_estado != 'f'";
+			  $consulta = "SELECT descripcion_lugar FROM ram_web.lugar_conjunto WHERE cod_tipo_lugar = '".$row["COD_LUGAR_DESTINO"]."' AND num_lugar = '".$row["LUGAR_DESTINO"]."' AND cod_estado != 'f'";
 			  $rs2 = mysqli_query($link, $consulta);
-			  
+			  $descripcion_lugar ="";
 			  if($row2 = mysqli_fetch_array($rs2))
-			  {
-			     echo'<td><center>&nbsp;'.$Aut." ".$row2["descripcion_lugar"].'</center></td>';
+			  { $descripcion_lugar =$row2["descripcion_lugar"];
+			     echo'<td><center>&nbsp;'.$Aut." ".$descripcion_lugar.'</center></td>';
 			  }
 			  else 
 			  {
-			     echo'<td><center>&nbsp;'.$Aut." ".$row2["descripcion_lugar"].'</center></td>';
+			     echo'<td><center>&nbsp;'.$Aut." ".$descripcion_lugar.'</center></td>';
 			  }
 			  if($row["ORIGEN"]=='A')//INGRESADO POR SIPA PESAJE CIRCULANTES
 			  		echo'<td><center>SIPA</center></td>';
