@@ -69,11 +69,13 @@ if(isset($_REQUEST["cod_lugar"])){
 if(isset($_REQUEST["num_conjunto"])){
 	$num_conjunto = $_REQUEST["num_conjunto"];
 }else{
-	$num_conjunto = 0;
+	$num_conjunto = "";
 }
 
 //$fecha = $ano.'-'.$mes.'-'.$dia;
 
+if($peso_humedo=="")
+	  $peso_humedo=0;
 $peso_humedo = str_replace(',','.',$peso_humedo);
 $peso_humedo = $peso_humedo * 1000;
 
@@ -86,33 +88,32 @@ if(strlen($cod_lugar) == 1)
 //Guardar Circulante
 if($Proceso == "G")
 {
+		if($num_conjunto != '' && is_numeric($num_conjunto)){
+			$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $num_conjunto AND estado != 'f'";
+			$rs = mysqli_query($link, $consulta);	
+			if($row = mysqli_fetch_array($rs))
+			{
+				$cod_conjunto = $row["cod_conjunto"];
+				$cod_lugar = $row["cod_lugar"];
+				$num_lugar = $row["num_lugar"];
+				
+				if(strlen($cod_conjunto) == 1)
+					$cod_conjunto = "0".$cod_conjunto;				
 
-		$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $num_conjunto AND estado != 'f'";
-		$rs = mysqli_query($link, $consulta);
-	
-		if($row = mysqli_fetch_array($rs))
-		{
-			$cod_conjunto = $row["cod_conjunto"];
-			$cod_lugar = $row["cod_lugar"];
-			$num_lugar = $row["num_lugar"];
-			
-			if(strlen($cod_conjunto) == 1)
-				$cod_conjunto = "0".$cod_conjunto;				
+				if(strlen($cod_lugar) == 1)
+					$cod_lugar = "0".$cod_lugar;				
 
-			if(strlen($cod_lugar) == 1)
-				$cod_lugar = "0".$cod_lugar;				
+				if(strlen($num_lugar) == 1)
+					$num_lugar = "0".$num_lugar;				
 
-			if(strlen($num_lugar) == 1)
-				$num_lugar = "0".$num_lugar;				
-
-			$Insertar = "INSERT INTO movimiento_conjunto (COD_EXISTENCIA,FECHA_MOVIMIENTO,COD_CONJUNTO,NUM_CONJUNTO,COD_LUGAR_ORIGEN,
-						 LUGAR_ORIGEN,COD_CONJUNTO_DESTINO,CONJUNTO_DESTINO,COD_LUGAR_DESTINO,LUGAR_DESTINO,PESO_SECO_MOVIDO,PESO_HUMEDO_MOVIDO,
-					     PESO_HUMEDO_ACUMULADO,ESTADO_VALIDACION)";
-	
-		    $fecha = $ano.'-'.$mes.'-'.$dia.' '.date("H:i:s");
-			$Insertar = "$Insertar VALUES('02','$fecha','03','$num_conjunto','0','0','$cod_conjunto','$num_conjunto','$cod_lugar','$num_lugar',0,$peso_humedo,0,0)";												  
-			mysqli_query($link, $Insertar);
-			
+				$Insertar = "INSERT INTO movimiento_conjunto (COD_EXISTENCIA,FECHA_MOVIMIENTO,COD_CONJUNTO,NUM_CONJUNTO,COD_LUGAR_ORIGEN,
+							 LUGAR_ORIGEN,COD_CONJUNTO_DESTINO,CONJUNTO_DESTINO,COD_LUGAR_DESTINO,LUGAR_DESTINO,PESO_SECO_MOVIDO,PESO_HUMEDO_MOVIDO,
+							 PESO_HUMEDO_ACUMULADO,ESTADO_VALIDACION)";
+		
+				$fecha = $ano.'-'.$mes.'-'.$dia.' '.date("H:i:s");
+				$Insertar = "$Insertar VALUES('02','$fecha','03','$num_conjunto','0','0','$cod_conjunto','$num_conjunto','$cod_lugar','$num_lugar',0,$peso_humedo,0,0)";												  
+				mysqli_query($link, $Insertar);			
+			}
 		}
 
 }

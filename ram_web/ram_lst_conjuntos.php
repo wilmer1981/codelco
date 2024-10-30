@@ -288,57 +288,57 @@ if($Proceso == 'B')
       <td width="10%"><div align="center">Exist.</div></td>
     </tr>';
  
-	                include("../principal/conectar_ram_web.php");
-					if ($cmbestado == -1)
-					$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = $cmbtipo AND cod_subproducto = $cmbproducto ORDER BY num_conjunto";
-					else
-					$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = $cmbtipo AND cod_subproducto = $cmbproducto AND estado = '$cmbestado' ORDER BY num_conjunto";
+		include("../principal/conectar_ram_web.php");
+		if ($cmbestado == -1)
+			$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = $cmbtipo AND cod_subproducto = $cmbproducto ORDER BY num_conjunto";
+		else
+			$consulta = "SELECT * FROM conjunto_ram where cod_conjunto = $cmbtipo AND cod_subproducto = $cmbproducto AND estado = '$cmbestado' ORDER BY num_conjunto";
 
-					$rs = mysqli_query($link, $consulta);
+		$rs = mysqli_query($link, $consulta);
 
-					while ($row = mysqli_fetch_array($rs))
-					{
-						echo '<tr><td width="10%"><div align="center">'.$row["num_conjunto"].'</div></td>';
-						echo '<td width="30%"><div align="center">'.$row["descripcion"].'</div></td>';
-						echo '<td width="15%"><div align="center">'.$row["fecha_creacion"].'</div></td>';
-						echo '<td width="5%"><div align="center">'.$row["estado"].'</div></td>';
-					
-					    $consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."' ";
-					    $rs2 = mysqli_query($link, $consulta);
-					   
-					    if($row2 = mysqli_fetch_array($rs2))
-					    {
-							$lugar_origen = $row2["descripcion_lugar"];
-	   						echo '<td width="30%"><div align="center">'.$lugar_origen.'</div></td>';
-						}
-						else
-						{
-	   						echo '<td width="30%"><div align="center">&nbsp;</div></td>';
-						} 
-						
-						if($row["estado"] != 'f')
-						{
-							//Existencia Final
-							$consulta ="SELECT peso_conjunto FROM ram_web.conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = '".$row["num_conjunto"]."'";
-							$rs2 = mysqli_query($link, $consulta);
-
-							if($row2 = mysqli_fetch_array($rs2))
-							{
-									echo '<td width="10%"><div align="center">&nbsp;'.$row2["peso_conjunto"].'</div></td></tr>';
-							}
-							else
-							{
-									echo '<td width="10%"><div align="center">0</div></td></tr>';
-							}
-						}
-						else
-						{
-							echo '<td width="10%"><div align="center">0</div></td></tr>';
-						}
-
-					}
+		while ($row = mysqli_fetch_array($rs))
+		{
+			echo '<tr><td width="10%"><div align="center">'.$row["num_conjunto"].'</div></td>';
+			echo '<td width="30%"><div align="center">'.$row["descripcion"].'</div></td>';
+			echo '<td width="15%"><div align="center">'.$row["fecha_creacion"].'</div></td>';
+			echo '<td width="5%"><div align="center">'.$row["estado"].'</div></td>';
 		
-              echo '</table>';
+			$consulta = "SELECT * FROM lugar_conjunto WHERE cod_tipo_lugar = '".$row["cod_lugar"]."' AND num_lugar = '".$row["num_lugar"]."' ";
+			$rs2 = mysqli_query($link, $consulta);
+		   
+			if($row2 = mysqli_fetch_array($rs2))
+			{
+				$lugar_origen = $row2["descripcion_lugar"];
+				echo '<td width="30%"><div align="center">'.$lugar_origen.'</div></td>';
+			}
+			else
+			{
+				echo '<td width="30%"><div align="center">&nbsp;</div></td>';
+			} 
+			
+			if($row["estado"] != 'f')
+			{
+				//Existencia Final
+				$consulta ="SELECT peso_conjunto FROM ram_web.conjunto_ram WHERE cod_conjunto = $cmbtipo AND num_conjunto = '".$row["num_conjunto"]."'";
+				$rs2 = mysqli_query($link, $consulta);
+
+				if($row2 = mysqli_fetch_array($rs2))
+				{
+						echo '<td width="10%"><div align="center">&nbsp;'.$row2["peso_conjunto"].'</div></td></tr>';
+				}
+				else
+				{
+						echo '<td width="10%"><div align="center">0</div></td></tr>';
+				}
+			}
+			else
+			{
+				echo '<td width="10%"><div align="center">0</div></td></tr>';
+			}
+
+		}
+
+  echo '</table>';
 }
 
 

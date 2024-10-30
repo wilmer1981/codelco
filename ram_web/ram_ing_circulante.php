@@ -83,7 +83,8 @@ $CodigoDePantalla = 5;
 
  if($Proceso == "B")
  {
-    if($num_conjunto != '')
+    //if($num_conjunto != '')
+	if($num_conjunto != '' && is_numeric($num_conjunto))
 	{
 		$consulta = "SELECT * FROM conjunto_ram WHERE cod_conjunto = 03 AND num_conjunto = $num_conjunto AND estado != 'f'";
 		include("../principal/conectar_ram_web.php");
