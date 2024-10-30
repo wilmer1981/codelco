@@ -1,28 +1,11 @@
 <?php 
 include("../principal/conectar_ram_web.php");
 
-if(isset($_REQUEST["Proceso"])){
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso= "";
-}
-
-if(isset($_REQUEST["fecha_ini"])){
-	$fecha_ini = $_REQUEST["fecha_ini"];
-}else{
-	$fecha_ini= date("Y-m-d");
-}
-if(isset($_REQUEST["fecha_ter"])){
-	$fecha_ter = $_REQUEST["fecha_ter"];
-}else{
-	$fecha_ter= date("Y-m-d");
-}
-
-if(isset($_REQUEST["num_conjunto"])){
-	$num_conjunto = $_REQUEST["num_conjunto"];
-}else{
-	$num_conjunto= "";
-}
+$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$fecha_ini    = isset($_REQUEST["fecha_ini"])?$_REQUEST["fecha_ini"]:date("Y-m-d");
+$fecha_ter    = isset($_REQUEST["fecha_ter"])?$_REQUEST["fecha_ter"]:date("Y-m-d");
+$num_conjunto = isset($_REQUEST["num_conjunto"])?$_REQUEST["num_conjunto"]:"";
+$validacion2  = isset($_REQUEST["validacion2"])?$_REQUEST["validacion2"]:0;
 
 if($Proceso == 'B2')
 {
