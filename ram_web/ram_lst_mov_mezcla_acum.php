@@ -153,8 +153,7 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		echo'<tr class="ColorTabla02">';
 
 		$consulta = "SELECT * FROM ram_web.conjunto_ram WHERE num_conjunto = '".$num_conjunto."'";
-		$rs2 = mysqli_query($link, $consulta);
-		
+		$rs2 = mysqli_query($link, $consulta);		
 		if($row2 = mysqli_fetch_array($rs2))
 		{
 			echo '<td width="40%" align="center" colspan="5"><strong>MEZCLA : '.$row2["num_conjunto"].' - '.$row2["descripcion"].'</strong></td>';
@@ -165,13 +164,13 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		echo '<table width="300" border="0" cellspacing="0" cellpadding="0" align="center">';
 		echo'<tr class="ColorTabla02">';
 		$consulta = "SELECT MIN(fecha_movimiento) as fecha_ini, MAX(fecha_movimiento) as fecha_ter FROM ram_web.movimiento_conjunto
-		 WHERE conjunto_destino = '".$num_conjunto."' AND cod_conjunto_destino = 2";
+		 WHERE conjunto_destino = '$num_conjunto' AND cod_conjunto_destino = 2";
 		$rs4 = mysqli_query($link, $consulta);
-		
 		if($row4 = mysqli_fetch_array($rs4))
 		{
-			$fecha_ini = $row4["fecha_ini"];
-			$fecha_ter = $row4["fecha_ter"];
+			
+			$fecha_ini = isset($row4["fecha_ini"])?$row4["fecha_ini"]:"0000-00-00";
+			$fecha_ter = isset($row4["fecha_ter"])?$row4["fecha_ter"]:"0000-00-00";
 			echo '<td width="40%" align="center" colspan="5"><strong>Inicio Mov : '.substr($row4["fecha_ini"],0,10).' &nbsp;&nbsp;&nbsp;Termino Mov : '.substr($row4["fecha_ter"],0,10).'</strong></td>';
 		}
 		echo '</tr></table>';
@@ -186,7 +185,6 @@ if($Proceso == 'B' || $Proceso == 'B2')
 		echo '<td width="12%" align="right">VALID</td>';
 		echo '<td width="17%" align="right">P. TOTAL</td>';
 		echo '</tr>';				
-				
 		$consulta = "SELECT distinct COD_CONJUNTO,NUM_CONJUNTO,FECHA_MOVIMIENTO FROM ram_web.movimiento_conjunto
 		 WHERE fecha_movimiento BETWEEN '$fecha_ini' AND '$fecha_ter' AND conjunto_destino = '".$num_conjunto."' AND cod_conjunto_destino = 2 AND cod_conjunto = 1 group by num_conjunto";
 		$rs3 = mysqli_query($link, $consulta);
