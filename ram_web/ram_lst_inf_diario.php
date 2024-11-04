@@ -101,29 +101,32 @@ $Total_exist = 0;
   
 	  $Consulta = " CREATE TEMPORARY TABLE IF NOT EXISTS `tmp_table` (";
 		//$Consulta = "CREATE TEMPORARY TABLE `tmp_table` (key ind01(num_conjunto,conjunto_destino)) as";
-
+		
 		$Consulta.= " cod_existencia char(2) NOT NULL DEFAULT '0' , ";
 		$Consulta.= " num_conjunto varchar(6) NOT NULL DEFAULT '0' , ";
 		$Consulta.= " conjunto_destino varchar(6) NOT NULL DEFAULT '0' , ";
 		$Consulta.= " fecha_movimiento datetime NOT NULL DEFAULT CURRENT_TIMESTAMP , ";
 		$Consulta.= " peso_humedo double NOT NULL DEFAULT '0' , ";
-		$Consulta.= " estado_validacion double NOT NULL DEFAULT '0' , ";
+		$Consulta.= " estado_validacion double DEFAULT '0' , ";
+		//$Consulta.= " estado_validacion double NOT NULL DEFAULT '0' , ";
 		$Consulta.= " PRIMARY KEY (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
 		$Consulta.= " UNIQUE KEY Ind02 (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
 		$Consulta.= " KEY Ind01 (num_conjunto,conjunto_destino)) AS";
+		
+		$Consulta.= " SELECT cod_existencia, num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, cod_validacion as estado_validacion";
+		$Consulta = $Consulta." FROM ram_web.movimiento_proveedor WHERE cod_conjunto = 1 AND peso_humedo > 0";
+		$Consulta = $Consulta." AND fecha_movimiento" ;
+		$Consulta = $Consulta." BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'  AND  num_conjunto ";
+		$Consulta = $Consulta." BETWEEN '1000' AND '8999'";	
+		$Consulta = $Consulta." GROUP BY cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento";	
+  		
+		$rs = mysqli_query($link, $Consulta);
 
-	  $Consulta.= " SELECT cod_existencia, num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, cod_validacion as estado_validacion";
-      $Consulta = $Consulta." FROM ram_web.movimiento_proveedor WHERE cod_conjunto = 1 AND peso_humedo > 0";
-      $Consulta = $Consulta." AND fecha_movimiento" ;
-      $Consulta = $Consulta." BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'  AND  num_conjunto ";
-      $Consulta = $Consulta." BETWEEN '1000' AND '8999'";		
-	  $rs = mysqli_query($link, $Consulta);
-
-	  $Consulta = "SELECT cod_existencia, num_conjunto, conjunto_destino,fecha_movimiento, peso_humedo_movido, estado_validacion FROM ram_web.movimiento_conjunto ";
-      $Consulta = $Consulta." WHERE cod_conjunto = 1 AND peso_humedo_movido > 0  ";
-      $Consulta = $Consulta." AND cod_existencia != 15";		
-	  $Consulta = $Consulta." AND num_conjunto BETWEEN '1000' AND '8999' AND fecha_movimiento ";
-      $Consulta = $Consulta." BETWEEN '".$fecha_i."' AND '".$fecha_t."'";		
+		$Consulta = "SELECT cod_existencia, num_conjunto, conjunto_destino,fecha_movimiento, peso_humedo_movido, estado_validacion FROM ram_web.movimiento_conjunto ";
+		$Consulta = $Consulta." WHERE cod_conjunto = 1 AND peso_humedo_movido > 0  ";
+		$Consulta = $Consulta." AND cod_existencia != 15";		
+		$Consulta = $Consulta." AND num_conjunto BETWEEN '1000' AND '8999' AND fecha_movimiento ";
+		$Consulta = $Consulta." BETWEEN '".$fecha_i."' AND '".$fecha_t."'";		
 	  	
       $rs = mysqli_query($link, $Consulta);
 	  while ($row = mysqli_fetch_array($rs))
@@ -220,7 +223,7 @@ $Total_exist = 0;
 					{						
 						$peso_trasp = $row5["peso_trasp"];
 						$peso_benef = $row5["peso_benef"];
-						$peso_val = $row5["peso_val"];
+						$peso_val   = $row5["peso_val"];
 					}			
 					while ($row2 = mysqli_fetch_array($rs2))
 					{
@@ -253,7 +256,7 @@ $Total_exist = 0;
 					if($conj_destino == $row["conjunto_destino"])
 					{
 						//$peso_recep = $row3[peso_recep];
-						$Total_recep = $Total_recep + $peso_recep;		                         
+						$Total_recep  = $Total_recep + $peso_recep;                       
 						
 						$Valores = str_replace(' ','%20',"ram_con_recep.php?cod_exist=02&Conjunto=".$row["num_conjunto"]."&Fecha=".$ano."-".$mes."-".$dia);
 						if($peso_recep != 0)
@@ -380,7 +383,8 @@ $Total_exist = 0;
 		//$Crear_Tabla.= " fecha_movimiento datetime NOT NULL DEFAULT '0000-00-00 00:00:00' , ";
 		$Crear_Tabla.= " fecha_movimiento datetime NOT NULL DEFAULT CURRENT_TIMESTAMP , ";
 		$Crear_Tabla.= " peso_humedo double NOT NULL DEFAULT '0' , ";
-		$Crear_Tabla.= " estado_validacion double NOT NULL DEFAULT '0' , ";
+		//$Crear_Tabla.= " estado_validacion double NOT NULL DEFAULT '0' , ";
+		$Crear_Tabla.= " estado_validacion double DEFAULT '0' , ";
 		$Crear_Tabla.= " PRIMARY KEY (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
 		$Crear_Tabla.= " UNIQUE KEY Ind02 (cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento), ";
 		$Crear_Tabla.= " KEY Ind01 (num_conjunto,conjunto_destino)) AS";
@@ -391,7 +395,9 @@ $Total_exist = 0;
 	  $Crear_Tabla.= " AND peso_humedo > 0  ";
 	  $Crear_Tabla.= " AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."' ";
 	  $Crear_Tabla.= " AND num_conjunto BETWEEN '9000' AND '9999' ";
+	  $Crear_Tabla.= " GROUP BY cod_existencia,conjunto_destino,num_conjunto,fecha_movimiento";
 	  $Crear_Tabla.= " ORDER BY num_conjunto,fecha_movimiento ASC";
+	
 	  mysqli_query($link, $Crear_Tabla);
 	  
 	  $Consulta = "SELECT cod_existencia, num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo_movido, estado_validacion FROM ram_web.movimiento_conjunto WHERE cod_conjunto = 1 AND peso_humedo_movido > 0

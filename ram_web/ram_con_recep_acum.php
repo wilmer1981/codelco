@@ -5,6 +5,7 @@ $Conjunto  = isset($_REQUEST["Conjunto"])?$_REQUEST["Conjunto"]:"";
 $Fecha_ini = isset($_REQUEST["Fecha_ini"])?$_REQUEST["Fecha_ini"]:"";
 $Fecha_ter = isset($_REQUEST["Fecha_ter"])?$_REQUEST["Fecha_ter"]:"";
 
+
 ?>
 
 <html>
