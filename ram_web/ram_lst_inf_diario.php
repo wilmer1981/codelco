@@ -642,8 +642,8 @@ $Total_trasp = 0;
 $Total_benef = 0;
 $Total_exist = 0;
 
-   echo '<table width="650" border="0" cellspacing="0" cellpadding="0" align="center">';
-	  echo '<tr class="ColorTabla01">'; 
+    echo '<table width="650" border="0" cellspacing="0" cellpadding="0" align="center">';
+	   echo '<tr class="ColorTabla01">'; 
 		echo '<td width="32%%" align="center">Conjunto</td>';
 		echo '<td width="10%" align="right">Exist. Ini.</td>';
 		echo '<td width="10%" align="right">Recep.</td>';
@@ -677,6 +677,7 @@ $Total_exist = 0;
 	  $Consulta.= " WHERE cod_conjunto = '03' AND peso_humedo_movido > 0";
 	  $Consulta.= " AND cod_existencia != '03' AND fecha_movimiento BETWEEN '".$fecha_i."' AND '".$fecha_t."'";	  
 	  $rs = mysqli_query($link, $Consulta);
+	  echo "Consulta1: ".$Consulta;
 	  while ($row = mysqli_fetch_array($rs))
 	  {		 		
 			$Insertar = "INSERT INTO ram_web.tmp_table3 (cod_existencia,num_conjunto, conjunto_destino, fecha_movimiento, peso_humedo, estado_validacion)";

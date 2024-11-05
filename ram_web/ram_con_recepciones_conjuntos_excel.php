@@ -133,6 +133,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	$Consulta.= " order by t1.num_conjunto";
 	//echo $Consulta."<br>";
 	$RespTipoRecep = mysqli_query($link, $Consulta);
+	$PesoHumProd=0;$PesoSecoProd=0;
 	while ($FilaTipoRecep = mysqli_fetch_array($RespTipoRecep))
 	{					
 		//TITULO NUMERO CONJUNTO
@@ -161,6 +162,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		$Consulta.= " order by t1.rut_proveedor ";
 		//echo $Consulta."<br>";
 		$CodRecepAnt = "";
+		$PesoHumConj=0;$PesoSecoConj=0;
+		
 		$RespAux = mysqli_query($link, $Consulta);
 		while ($FilaAux = mysqli_fetch_array($RespAux))
 		{															
@@ -175,8 +178,10 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			$ArrDatosProv=array();
 			$ArrLeyesProv=array();
 			$ArrLeyesProv["01"][0]="01";/*$ArrLeyesProv["02"][0]="02";$ArrLeyesProv["04"][0]="04";$ArrLeyesProv["05"][0]="05";*/
-			LeyesConjunto($Fila01["cod_producto"], $Fila01["cod_subproducto"], $FilaAux["rut_proveedor"], $FilaTipoRecep["num_conjunto"],$ArrDatosProv,$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"");
-			if ($ArrDatosProv["peso_humedo"]!=0 || $ArrDatosProv["peso_seco"]!=0)
+			LeyesConjunto($Fila01["cod_producto"], $Fila01["cod_subproducto"], $FilaAux["rut_proveedor"], $FilaTipoRecep["num_conjunto"],$ArrDatosProv,$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"",$link);
+			$peso_humedo = isset($ArrDatosProv["peso_humedo"])?$ArrDatosProv["peso_humedo"]:0;
+			$peso_seco   = isset($ArrDatosProv["peso_seco"])?$ArrDatosProv["peso_seco"]:0;
+			if ($peso_humedo!=0 || $peso_seco!=0)
 			{
 				echo "<tr>\n";
 				echo "<td align=\"left\" colspan=\"2\">".str_pad($FilaAux["rut_proveedor"],10,'0',STR_PAD_LEFT)."&nbsp;&nbsp;".substr(strtoupper($NomProveedor),0,20)."</td>\n";
@@ -198,9 +203,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		echo "<td align=\"right\">".number_format($PorcHumConj,2,",",".")."</td>\n";
 		$PesoHumProd=$PesoHumProd + $PesoHumConj;
 		$PesoSecoProd=$PesoSecoProd + $PesoSecoConj;
-		$PesoHumConj=0;
-		$PesoSecoConj=0;
-		$PorcHumConj=0;
+		//$PesoHumConj=0;
+		//$PesoSecoConj=0;
+		//$PorcHumConj=0;
 	}
 	if ($PesoSecoProd>0 && $PesoHumProd>0)
 		$PorcHumProd = 100 - (($PesoSecoProd * 100)/$PesoHumProd);
@@ -210,9 +215,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	echo "<td align=\"right\">".number_format($PesoHumProd,0,",",".")."</td>\n";
 	echo "<td align=\"right\">".number_format($PesoSecoProd,0,",",".")."</td>\n";		
 	echo "<td align=\"right\">".number_format($PorcHumProd,2,",",".")."</td>\n";
-	$PesoHumProd=0;
-	$PesoSecoProd=0;
-	$PorcHumProd=0;
+	//$PesoHumProd=0;
+	//$PesoSecoProd=0;
+	//$PorcHumProd=0;
 }
 echo "</table>\n";
 ?>
