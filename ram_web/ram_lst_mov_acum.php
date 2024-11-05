@@ -136,9 +136,9 @@ echo '<table width="665" border="0" cellspacing="0" cellpadding="0" align="cente
     $Consulta = $Consulta." FROM ram_web.movimiento_proveedor WHERE cod_conjunto = 1 AND peso_humedo > 0";
     $Consulta = $Consulta." AND fecha_movimiento" ;
     $Consulta = $Consulta." BETWEEN '".$fecha_i."' AND '".$fecha_t."'";
-	$Consulta = $Consulta." AND cod_existencia != 15 AND cod_existencia != 5";		
-	$rs = mysqli_query($link, $Consulta);
-	//echo "1:".$Consulta."<br>";
+	$Consulta = $Consulta." AND cod_existencia != 15 AND cod_existencia != 5";	
+	//echo "1:".$Consulta."<br>";	
+	$rs = mysqli_query($link, $Consulta);	
 	$Consulta = "SELECT cod_existencia, cod_conjunto, num_conjunto, conjunto_destino,fecha_movimiento, peso_humedo_movido, estado_validacion FROM ram_web.movimiento_conjunto ";
 	$Consulta = $Consulta." WHERE cod_conjunto = 1 AND peso_humedo_movido > 0  ";
 	$Consulta = $Consulta." AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";		

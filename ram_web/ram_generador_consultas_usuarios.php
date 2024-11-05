@@ -1,45 +1,17 @@
 <?php
-
-if(isset($_REQUEST["ano"])){
-	$ano = $_REQUEST["ano"];
-}else{
-	$ano = date("Y");
-}
-if(isset($_REQUEST["dia"])){
-	$dia = $_REQUEST["dia"];
-}else{
-	$dia = date("d");
-}
-if(isset($_REQUEST["mes"])){
-	$mes = $_REQUEST["mes"];
-}else{
-	$mes = date("m");
-}
-if(isset($_REQUEST["Proceso1"])){
-	$Proceso1 = $_REQUEST["Proceso1"];
-}else{
-	$Proceso1 = "";
-}
-if(isset($_REQUEST["Proceso2"])){
-	$Proceso2 = $_REQUEST["Proceso2"];
-}else{
-	$Proceso2 = "";
-}
-if(isset($_REQUEST["Proceso3"])){
-	$Proceso3 = $_REQUEST["Proceso3"];
-}else{
-	$Proceso3 = "";
-}
-if(isset($_REQUEST["Proceso4"])){
-	$Proceso4 = $_REQUEST["Proceso4"];
-}else{
-	$Proceso4 = "";
-}
-if(isset($_REQUEST["Proceso5"])){
-	$Proceso5 = $_REQUEST["Proceso5"];
-}else{
-	$Proceso5 = "";
-}
+$ano         = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+$dia         = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+$mes         = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+$ano2        = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y");
+$dia2        = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:date("d");
+$mes2        = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");
+	
+$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Proceso1 = isset($_REQUEST["Proceso1"])?$_REQUEST["Proceso1"]:"";
+$Proceso2 = isset($_REQUEST["Proceso2"])?$_REQUEST["Proceso2"]:"";
+$Proceso3 = isset($_REQUEST["Proceso3"])?$_REQUEST["Proceso3"]:"";
+$Proceso4 = isset($_REQUEST["Proceso4"])?$_REQUEST["Proceso4"]:"";
+$Proceso5 = isset($_REQUEST["Proceso5"])?$_REQUEST["Proceso5"]:"";
 
 if(isset($_REQUEST["cmbconsulta"])){
 	$cmbconsulta = $_REQUEST["cmbconsulta"];
