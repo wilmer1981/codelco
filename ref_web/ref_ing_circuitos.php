@@ -1,4 +1,6 @@
 <?php
+
+    set_time_limit(500);
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_principal.php");

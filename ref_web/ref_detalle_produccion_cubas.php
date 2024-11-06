@@ -1,9 +1,8 @@
 <?php
 	include("../principal/conectar_principal.php"); 
-
-	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-	$grupo  = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
-
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$grupo   = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
+	
 	$AnoIni=substr($fecha,0,4);
 	$MesIni=substr($fecha,5,2);
 	$DiaIni=substr($fecha,8,2);
@@ -54,7 +53,7 @@ function Proceso(opt)
 	
 		$Consulta = "select ifnull(count(*),0) as total_reg from sec_web.produccion_catodo ";
 		$Consulta.= " where fecha_produccion = '".$FechaAux."'";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			if ($Fila["total_reg"] <> 0)
@@ -71,11 +70,11 @@ function Proceso(opt)
 			$Consulta.= " where cod_producto = '18' ";
 			$Consulta.= " and cod_subproducto = '1' ";
 			$Consulta.= " and fecha_produccion = '".$FechaAux."' and cod_grupo='".$grupo."'";
-			$Respuesta2 = mysqli_query($link, $Consulta);
+			$Respuesta2 = mysqli_query($link,$Consulta);
+			$SubTotalPeso = 0;
+			$TotalDia=0;
 			$CodProductoAnt = 0;
 			$CodSubProductoAnt = 0;
-			$SubTotalPeso=0;
-			$TotalDia = 0;
 			while ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{
 				if (($Fila2["cod_producto"] != $CodProductoAnt) || ($Fila2["cod_subproducto"] != $CodSubProductoAnt))				

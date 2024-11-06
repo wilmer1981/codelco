@@ -147,18 +147,19 @@
                 $Consulta_fecha=$Consulta_fecha." where left(fecha_muestra,10)='".$fecha."' and id_muestra='".$Fila["cod_grupo"]."' and cod_producto='18' and cod_subproducto='1' and cod_analisis='1' and cod_tipo_muestra='3'";} 
 				$Respuesta_fecha = mysqli_query($link,$Consulta_fecha);
 				$Fila_fecha = mysqli_fetch_array($Respuesta_fecha);
+				$fecha2 = isset($Fila_fecha["fecha2"])?$Fila_fecha["fecha2"]:"0000-00-00";
 				if (($Fila["cod_grupo"]=='01') or ($Fila["cod_grupo"]=='02') or ($Fila["cod_grupo"]=='03') or ($Fila["cod_grupo"]=='04') or ($Fila["cod_grupo"]=='05') or ($Fila["cod_grupo"]=='06') or ($Fila["cod_grupo"]=='07') or ($Fila["cod_grupo"]=='08') or($Fila["cod_grupo"]=='09'))
 				{
     				$Consulta_electrolitos="select ifnull(t1.valor,0) as valor,t1.candado,t1.cod_unidad,t1.cod_leyes,signo from cal_web.leyes_por_solicitud as t1 ";
 					$Consulta_electrolitos=$Consulta_electrolitos."inner join cal_web.solicitud_analisis as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto and t1.rut_funcionario=t2.rut_funcionario ";
-					$Consulta_electrolitos=$Consulta_electrolitos."where (t1.id_muestra='".$Fila["cod_grupo"]."' or t1.id_muestra='$grupo_aux') and t1.cod_producto='18' and left(t1.fecha_hora,10)='".$Fila_fecha["fecha2"]."' and t1.cod_leyes in ('04','05','08','09','10','26','27','30','31','36','39','40','44','48') and t1.cod_subproducto='1'";
+					$Consulta_electrolitos=$Consulta_electrolitos."where (t1.id_muestra='".$Fila["cod_grupo"]."' or t1.id_muestra='$grupo_aux') and t1.cod_producto='18' and left(t1.fecha_hora,10)='".$fecha2."' and t1.cod_leyes in ('04','05','08','09','10','26','27','30','31','36','39','40','44','48') and t1.cod_subproducto='1'";
 	 			}
 				
 				else
 				{
 					$Consulta_electrolitos="select  ifnull(t1.valor,0) as valor,t1.candado,t1.cod_unidad,t1.cod_leyes,signo from cal_web.leyes_por_solicitud as t1 ";
 					$Consulta_electrolitos=$Consulta_electrolitos."inner join cal_web.solicitud_analisis as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto and t1.rut_funcionario=t2.rut_funcionario ";
-					$Consulta_electrolitos=$Consulta_electrolitos."where t1.id_muestra='".$Fila["cod_grupo"]."'  and t1.cod_producto='18' and left(t1.fecha_hora,10)='".$Fila_fecha["fecha2"]."' and t1.cod_leyes in ('04','05','08','09','10','26','27','30','31','36','39','40','44','48') and t1.cod_subproducto='1'";
+					$Consulta_electrolitos=$Consulta_electrolitos."where t1.id_muestra='".$Fila["cod_grupo"]."'  and t1.cod_producto='18' and left(t1.fecha_hora,10)='".$fecha2."' and t1.cod_leyes in ('04','05','08','09','10','26','27','30','31','36','39','40','44','48') and t1.cod_subproducto='1'";
 				}	
 				$Respuesta_electrolitos = mysqli_query($link,$Consulta_electrolitos);
 				//echo "con".$Consulta_electrolitos;

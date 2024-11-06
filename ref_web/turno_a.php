@@ -22,8 +22,18 @@
   	{
 		$mes1 = '0'.$mes1;
 	}
+	//01, 03, 05, 07, 08, 10,12
+	/*
+	if( ($mes1=='01' && $dia1=='31') || ($mes1=='03' && $dia1=='31') || ($mes1=='05' && $dia1=='31') || ($mes1=='07' && $dia1=='31') || ($mes1=='08' && $dia1=='31') || ($mes1=='10' && $dia1=='31') || ($mes1=='12' && $dia1=='31'))
+		 $dia1 = '31';
+	if( ($mes1=='04' && $dia1=='30') || ($mes1=='06' && $dia1=='30') || ($mes1=='09' && $dia1=='30') || ($mes1=='11' && $dia1=='30'))
+		$dia1 = '30';
+	if(($mes1=='02' && $dia1=='29'))
+		$dia1 = '29';
+	*/
+	
 	$fecha=$ano1.'-'.$mes1.'-'.$dia1;
-
+	//echo $fecha;
 	
 	if ($siguiente=='S')
       {
@@ -449,8 +459,8 @@ function detalle_anodos(fecha,grupo)
 				$respuesta_turno= mysqli_query($link,$Consulta_turno);
 				
 				$row_turno = mysqli_fetch_array($respuesta_turno);
-				
-				if ($row_turno["turno1"]== '')
+				$turno1=isset($row_turno["turno1"])?$row_turno["turno1"]:"";
+				if ($turno1== '')
 					$row_turno["turno1"] = 'A';
 
 			}	
@@ -470,7 +480,8 @@ function detalle_anodos(fecha,grupo)
 				$Consulta_turno="select turno as turno1 from cal_web.rechazo_catodos as t1 where t1.fecha = '".$Fila["fechaprod"]."' and t1.turno ='C' and t1.grupo = '".$Fila["cod_grupo"]."'";
 				$respuesta_turno= mysqli_query($link,$Consulta_turno);
 				$row_turno = mysqli_fetch_array($respuesta_turno);
-				if ($row_turno["turno1"]== '')
+				$turno1 = isset($row_turno["turno1"])?$row_turno["turno1"]:"";
+				if ($turno1== '')
 					$row_turno["turno1"] = 'C';
 
 			}
@@ -744,16 +755,28 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 	    	$consulta="select nombre_subclase as sub_clas, valor_subclase1 as sub_clase1 from proyecto_modernizacion.sub_clase ";
 			$consulta=$consulta."where cod_clase='10001' order by cod_subclase";
 			$Resp = mysqli_query($link,$consulta);
+			echo $fecha;
 			while ($row2 = mysqli_fetch_array($Resp))
 	       	{
             	$total_rech=0;					  
 	    		echo "<tr>\n";
 				echo "<td align='center'>".$row2["sub_clas"]."&nbsp;</td>\n";
+				
+				//if( ($mes1=='01' && $dia1=='31') || ($mes1=='03' && $dia1=='31') || ($mes1=='05' && $dia1=='31') || ($mes1=='07' && $dia1=='31') || ($mes1=='08' && $dia1=='31') || ($mes1=='10' && $dia1=='31') || ($mes1=='12' && $dia1=='31'))
+				//{	
+				// $dia1 = '31';
+				//if( ($mes1=='04' && $dia1=='30') || ($mes1=='06' && $dia1=='30') || ($mes1=='09' && $dia1=='30') || ($mes1=='11' && $dia1=='30'))
+				//	$dia1 = '30';
+				//if(($mes1=='02' && $dia1=='29'))
+				//	$dia1 = '29';
+	
 				$Consulta5 = "select cod_grupo,ifnull(rechazo_delgadas,0) as rec_del,ifnull(rechazo_granuladas,0) as rec_gran,ifnull(rechazo_gruesas,0) as rec_grue from ref_web.produccion as t1 ";
 				$Consulta5 = $Consulta5."inner join proyecto_modernizacion.sub_clase as t2  on t1.cod_grupo=t2.valor_subclase1 ";
 				$Consulta5 = $Consulta5."where t1.fecha = '".$fecha."' and t1.cod_grupo = t2.valor_subclase1 and t1.cod_grupo= '".$row2["sub_clase1"]."' group by t1.cod_grupo";
+			
 				$rs12 = mysqli_query($link,$Consulta5);
 				$row12 = mysqli_fetch_array($rs12);
+				//}
 				$consulta_fecha="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$fecha."' and t1.cod_grupo ='0".$row2["sub_clase1"]."' group by t1.cod_grupo";
 				$rs_fecha = mysqli_query($link,$consulta_fecha);
 				$row_fecha = mysqli_fetch_array($rs_fecha);
