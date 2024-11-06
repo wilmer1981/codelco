@@ -8,13 +8,13 @@
 	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date('m');
 	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date('Y');
 
-	if ($DiaIni < 10)
+	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
  	$FechaInicio  = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
@@ -37,8 +37,9 @@ function Proceso(opt)
 			f.action ="sec_con_leyes_catodos_excel.php";
 			f.submit();
 			break;
-		case "S":
-			f.action ="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+		case "S": 
+			//f.action ="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
+			f.action ="../principal/sistemas_usuario.php?CodSistema=10&Nivel=1&CodPantalla=7";
 			f.submit();
 			break;
 		case "I":
@@ -181,10 +182,9 @@ function Proceso(opt)
 </table>
 <br>
 <?php
-
 	$FechaAux = $FechaInicio;
 	while (date($FechaAux) <= date($FechaTermino))
-	{
+	{ 
 		echo "<table width='300' border='0' align='center' cellpadding='0' cellspacing='0' class='TablaInterior'>\n";
 		echo "<tr>\n";
 		echo "<td align='center'><strong>DIA:&nbsp;".substr($FechaAux,8,2)."/".substr($FechaAux,5,2)."/".substr($FechaAux,0,4)."</strong></td>\n";
