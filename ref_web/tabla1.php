@@ -139,14 +139,16 @@
 	{
 	        $cont=$cont+1;
 			echo "<tr>\n";
-			
+			$cod_circuito = isset($Fila["cod_circuito"])?$Fila["cod_circuito"]:"";
+			$cod_grupo    = isset($Fila["cod_grupo"])?$Fila["cod_grupo"]:"";
 			if ($Fila["fechaprod"]== $Fechainiturno && $Fila["horita"] >= '08:00:00' && $Fila["horita"] < '16:00:00')
 			{
 				$Consulta_turno="select turno as turno1 from cal_web.rechazo_catodos as t1 where t1.fecha = '".$Fila["fechaprod"]."' and t1.turno ='A' and t1.grupo = '".$Fila["cod_grupo"]."'";
 				//echo "conb".$Consulta_turno;
 				$respuesta_turno= mysqli_query($link,$Consulta_turno);
 				$row_turno = mysqli_fetch_array($respuesta_turno);
-				if ($row_turno["turno1"]== '')
+				$turno1 = isset($row_turno["turno1"])?$row_turno["turno1"]:"";
+				if ($turno1== '')
 					$row_turno["turno1"] = 'A';
 			}	
 			if ($Fila["fechaprod"]== $Fechainiturno and $Fila["horita"] >= '16:00:00')
@@ -154,7 +156,8 @@
 				$Consulta_turno="select turno as turno1 from cal_web.rechazo_catodos as t1 where t1.fecha = '".$Fila["fechaprod"]."' and t1.turno ='B' and t1.grupo = '".$Fila["cod_grupo"]."'";
 				$respuesta_turno= mysqli_query($link,$Consulta_turno);
 				$row_turno = mysqli_fetch_array($respuesta_turno);
-				if ($row_turno["turno1"]== '')
+				$turno1 = isset($row_turno["turno1"])?$row_turno["turno1"]:"";
+				if ($turno1== '')
 					$row_turno["turno1"] = 'B';
 			}
 			if ($Fila["fechaprod"]== $Fechafturno)
@@ -162,27 +165,25 @@
 				$Consulta_turno="select turno as turno1 from cal_web.rechazo_catodos as t1 where t1.fecha = '".$Fila["fechaprod"]."' and t1.turno ='C' and t1.grupo = '".$Fila["cod_grupo"]."'";
 				$respuesta_turno= mysqli_query($link,$Consulta_turno);
 				$row_turno = mysqli_fetch_array($respuesta_turno);
-				if ($row_turno["turno1"]== '')
+				$turno1 = isset($row_turno["turno1"])?$row_turno["turno1"]:"";
+				if ($turno1== '')
 					$row_turno["turno1"] = 'C';
-
-			}
-
-			
-			
-			
+					//$turno1 = 'C';
+					
+			}			
 			
 			/*$Consulta_turno="select turno as turno1 from cal_web.rechazo_catodos as t1 where t1.fecha = '".$fecha."' and t1.grupo = '".$Fila[cod_grupo]."'";
 			$respuesta_turno= mysqli_query($Consulta_turno);
 			$row_turno = mysqli_fetch_array($respuesta_turno);*/
-			echo "<td align='center'>".$Fila["cod_circuito"]."&nbsp;</td>\n";
-			echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle('".$fecha."','".$Fila["cod_grupo"]."','".$row_turno["turno1"]."')\">\n";
+			echo "<td align='center'>".$cod_circuito."&nbsp;</td>\n";
+			echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle('".$fecha."','".$cod_grupo."','".$row_turno["turno1"]."')\">\n";
 				//aqui sacar dias de renovacion  del grupo  poly 2005-01-31
 			$j=0;
 			$anomes=substr($fecha,0,8);
 			$fechita=$anomes.'01';
 		
 			$con="select dia_renovacion as dia_renovacion from  sec_web.renovacion_prog_prod";
-			$con.=" where cod_grupo = '".$Fila["cod_grupo"]."' and cod_concepto = '".$row_turno["turno1"]."'";
+			$con.=" where cod_grupo = '".$cod_grupo."' and cod_concepto = '".$row_turno["turno1"]."'";
 			$con.=" and fecha_renovacion ='".$fechita."'"; 
 			$Respuestap = mysqli_query($link,$con);
 			$dia2=0;$dia11=0;
@@ -207,11 +208,11 @@
 			$diacambio = $dia11-$dia2;
 			$var="D";
 			$p1=0;
-			echo $Fila["cod_grupo"]."-".$diacambio." ".$var."</td>\n";
+			echo $cod_grupo."-".$diacambio." ".$var."</td>\n";
 			echo "<td align='center'>".$row_turno["turno1"]."&nbsp</td>\n";
 			$consulta_produccion="select sum(peso_produccion) as produccion from sec_web.produccion_catodo ";
 			$consulta_produccion.= " where CONCAT(fecha_produccion,' ',hora) BETWEEN '".$Fechainiturno." 08:00:00' and '".$Fechafturno." 07:59:59'";
-			$consulta_produccion=$consulta_produccion." and cod_producto='18'  and cod_subproducto='1'   and cod_grupo = '".$Fila["cod_grupo"]."' group by cod_grupo";
+			$consulta_produccion=$consulta_produccion." and cod_producto='18'  and cod_subproducto='1'   and cod_grupo = '".$cod_grupo."' group by cod_grupo";
 
 			
 			//$consulta_produccion=$consulta_produccion."where fecha_produccion = '".$fecha."' and cod_producto='18'  and cod_subproducto='1'   and cod_grupo = '".$Fila["cod_grupo"]."' group by cod_grupo";
@@ -219,11 +220,11 @@
 			$Fila_produccion = mysqli_fetch_array($Respuesta_produccion);
 			$produccion=number_format($Fila_produccion["produccion"],2,",",".");
 
-			echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_produccion('".$fecha."','".$Fila["cod_grupo"]."')\">\n";
+			echo "<td align='center' ><font color='blue'><a href=\"JavaScript:detalle_produccion('".$fecha."','".$cod_grupo."')\">\n";
 			echo $produccion."</td>\n";
 			//aqui saca los grupos en un arreglo igual lo tengo que hacer yo
 		
-			$grupos[$i]=$Fila["cod_grupo"];
+			$grupos[$i]=$cod_grupo;
 			if ($row_turno["turno1"]=="")
 			{ 
 			 	$turno[$i]='N';
