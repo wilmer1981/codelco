@@ -1,6 +1,14 @@
 <?php
   	include("../principal/conectar_ref_web.php");
-  	include("phpchartdir.php");
+  	include("../principal/graficos/phpchartdir.php");
+
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$cmbcircuito= isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:"";
 	
 	if (strlen($DiaIni)==1)
 	   $DiaIni = "0".$DiaIni;
@@ -14,10 +22,11 @@
    $FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
    $FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
    	$cont_ley = 1;
+	$ley1 ="";$ley2 ="";$ley3 ="";
    	$consulta = "select * from ref_web.leyes";
 	$Respuesta = mysqli_query($link, $consulta);
-	 while ($Fila_ley = mysqli_fetch_array($Respuesta))
-	 {
+	while ($Fila_ley = mysqli_fetch_array($Respuesta))
+	{
 	 //	echo "cont".$cont_ley;
 		if ($cont_ley == 1)
 		{
@@ -35,7 +44,7 @@
 			$cont_ley = $cont_ley + 1;
 	}		 				 
    
-   
+   echo "cmbcircuito:".$cmbcircuito;
    if (($cmbcircuito=='01') or ($cmbcircuito=='02') or ($cmbcircuito=='03') or ($cmbcircuito=='04') or ($cmbcircuito=='05') or ($cmbcircuito=='06'))
       {
 	   $cmbcircuito=intval($cmbcircuito);
@@ -55,12 +64,12 @@
 				if (!$Fila_res = mysqli_fetch_array($Respuesta_res))
 				   {
 				    $arreglo_ley1[]=0;
-					$unidad_ley1=$Fila_res[cod_unidad];
+					$unidad_ley1   = isset($Fila_res["cod_unidad"])?$Fila_res["cod_unidad"]:"";
 				   }
 				else{
 				     $ley=number_format($Fila_res["valor"],"2",".",".");
 				     $arreglo_ley1[]=$ley;
-					 $unidad_ley1=$Fila_res[cod_unidad];
+					 $unidad_ley1   =isset($Fila_res["cod_unidad"])?$Fila_res["cod_unidad"]:"";
 					}
 			    $Consulta="select  left(t1.fecha_muestra,10) as fecha ,t2.valor as valor,t2.candado,t2.cod_unidad,t2.cod_leyes from cal_web.solicitud_analisis as t1 ";
 				$Consulta.="inner join cal_web.leyes_por_solicitud as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.rut_funcionario=t2.rut_funcionario ";
@@ -69,12 +78,12 @@
 				if (!$Fila_res = mysqli_fetch_array($Respuesta_res))
 				   {
 				    $arreglo_ley2[]=0;
-					$unidad_ley2=$Fila_res[cod_unidad];
+					$unidad_ley2   = isset($Fila_res["cod_unidad"])?$Fila_res["cod_unidad"]:"";
 				   }
 				else{
 				     $ley=number_format($Fila_res["valor"],"2",".",".");
 				     $arreglo_ley2[]=$ley;
-					 $unidad_ley2=$Fila_res[cod_unidad];
+					 $unidad_ley2   = isset($Fila_res["cod_unidad"])?$Fila_res["cod_unidad"]:"";
 					}  
 			    $Consulta="select  left(t1.fecha_muestra,10) as fecha ,t2.valor as valor,t2.candado,t2.cod_unidad,t2.cod_leyes from cal_web.solicitud_analisis as t1 ";
 				$Consulta.="inner join cal_web.leyes_por_solicitud as t2 on  t1.fecha_hora=t2.fecha_hora and t1.nro_solicitud=t2.nro_solicitud and t1.recargo=t2.recargo and t1.rut_funcionario=t2.rut_funcionario ";
@@ -83,12 +92,12 @@
 				if (!$Fila_res = mysqli_fetch_array($Respuesta_res))
 				   {
 				    $arreglo_ley3[]=0;
-					$unidad_ley3=$Fila_res[cod_unidad];
+					$unidad_ley3   = isset($Fila_res["cod_unidad"])?$Fila_res["cod_unidad"]:"";
 				   }
 				else{
 				     $ley=number_format($Fila_res["valor"],"2",".",".");
 				     $arreglo_ley3[]=$ley;
-					 $unidad_ley3=$Fila_res[cod_unidad];
+					 $unidad_ley3   = isset($Fila_res["cod_unidad"])?$Fila_res["cod_unidad"]:"";
 					}  				  
 
 			 }
@@ -169,7 +178,7 @@
 	      $dataSetObj = $layer->addDataSet($data2, 0xcf40cf, $row_abrev["abreviatura"]);
     	  $dataSetObj->setDataSymbol(CircleSymbol, 5);
 	       $dataSetObj->setUseYAxis2();
-	     }   
+	    }   
 	    
 	if ($i2 < 15)
 	   {

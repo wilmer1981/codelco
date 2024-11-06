@@ -1,14 +1,11 @@
 <?php
 	include("../principal/conectar_ref_web.php");
-
-	$DiaIni    = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
-	$MesIni    = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
-	$AnoIni    = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");	
-
-	$DiaFin    = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
-	$MesFin    = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
-	$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
-
+	$AnoIni     = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni     = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni     = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
 	
 ?>
 
@@ -59,7 +56,7 @@ function Proceso(opt)
 		 $ArrLeyes = array();
 	     $consulta = "SELECT * FROM ref_web.leyes";
 		 $consulta.= " ORDER BY cod_leyes asc";
-		 $rs = mysqli_query($link, $consulta);
+		 $rs = mysqli_query($link,$consulta);
 		 while ($row = mysqli_fetch_array($rs))
 			{
 				echo '<td width="73">'.$row["abreviatura"].'</td>';
@@ -90,7 +87,7 @@ function Proceso(opt)
 			$consulta_fecha.="and t2.cod_producto='41' ";
 			$consulta_fecha.="and t2.cod_subproducto='22' ";
 			$consulta_fecha.="and left(t1.fecha_muestra,10) between '".$FechaInicio."' and '".$FechaTermino."' ";
-			$Respuesta_fecha = mysqli_query($link, $consulta_fecha);
+			$Respuesta_fecha = mysqli_query($link,$consulta_fecha);
 			while ($Fila_fecha = mysqli_fetch_array($Respuesta_fecha))
 				{
 				  echo '<tr>';
@@ -108,15 +105,15 @@ function Proceso(opt)
 				  $consulta.="and left(t1.fecha_muestra,10)='".$Fila_fecha["fecha"]."' ";
 				  $consulta.="group by left(t1.fecha_muestra,10) ,t2.cod_leyes ";
 				  $consulta.="order by left(t1.fecha_muestra,10) asc,t2.cod_leyes";
-				  $respuesta=mysqli_query($link, $consulta);
+				  $respuesta=mysqli_query($link,$consulta);
 				  while ($row=mysqli_fetch_array($respuesta))
 					{
 						$ArrLeyes[$row["cod_leyes"]][2]=$row["valor"];					  					
 					}
 					reset($ArrLeyes);
-					while (list($k,$v)=each($ArrLeyes))
-					{
-						if ($v[2]!='')
+					foreach($ArrLeyes as $k => $v) 
+					{  $v2 = isset($v[2])?$v[2]:"";
+						if ($v2!='')
 						{
 							echo "<td align='center' width='85' class=detalle01>".number_format($v[2],"2",".",".")."&nbsp;</td>\n";
 						}
