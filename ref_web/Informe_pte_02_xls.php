@@ -20,13 +20,13 @@ header("Expires: 0");
 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 include("../principal/conectar_ref_web.php");
 
-$FechaInicio     = isset($_REQUEST["FechaInicio"])?$_REQUEST["FechaInicio"]:"";
-$FechaTermino    = isset($_REQUEST["FechaTermino"])?$_REQUEST["FechaTermino"]:"";
+$FechaInicio  = isset($_REQUEST["FechaInicio"])?$_REQUEST["FechaInicio"]:"";
+$FechaTermino = isset($_REQUEST["FechaTermino"])?$_REQUEST["FechaTermino"]:"";
 	
 $txt_turno    = isset($_REQUEST["txt_turno"])?$_REQUEST["txt_turno"]:"";
 $txt_turno1   = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
-$proceso    = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
-$opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+$proceso      = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+$opcion       = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 
  ?>
 		
@@ -165,7 +165,7 @@ function Excel()
 				 $cont_sc=0;
 				 $cont_af=0;
 				 $cont_sn=0;
-				 $cont_tur = 0;
+				 $cont_tur=0;
 				 $total_r=0; //WSO
 				 $total_sc=0;
 				 $total_af=0;
@@ -340,17 +340,18 @@ function Excel()
 						 $mesm=substr($row_m["fecha_m"],5,2);
 						 $diam=substr($row_m["fecha_m"],8,2);
 						 $anom=substr($row_m["fecha_m"],0,4);
+						  $fecha_m = isset($row_m["fecha_m"])?$row_m["fecha_m"]:"0000-00-00";
                          $fecham=$anom.'/'.$mesm.'/'.$diam; 
 						 $consulta2="select distinct fecha,sum(reactores)as reactores2,sulfato_cobre,arseniato_ferico,sales_niquel from ref_web.pte ";
-						 $consulta2.="where fecha= '".$row_m["fecha_m"]."'  and turno='C' group by fecha";
+						 $consulta2.="where fecha= '".$fecha_m."'  and turno='C' group by fecha";
 						 $respuesta2 = mysqli_query($link, $consulta2);
 						 $row2= mysqli_fetch_array($respuesta2);
 						 $consulta3="select distinct fecha,sum(reactores)as reactores2,sulfato_cobre,arseniato_ferico,sales_niquel from ref_web.pte ";
-						 $consulta3.="where fecha= '".$row_m["fecha_m"]."'  and turno='A' group by fecha";
+						 $consulta3.="where fecha= '".$fecha_m."'  and turno='A' group by fecha";
 						 $respuesta3 = mysqli_query($link, $consulta3);
 						 $row3= mysqli_fetch_array($respuesta3);
 						 $consulta4="select distinct fecha,sum(reactores)as reactores2,sulfato_cobre,arseniato_ferico,sales_niquel from ref_web.pte ";
-						 $consulta4.="where fecha= '".$row_m["fecha_m"]."'  and turno='B' group by fecha";
+						 $consulta4.="where fecha= '".$fecha_m."'  and turno='B' group by fecha";
 						 $respuesta4 = mysqli_query($link, $consulta4);
 						 $row4= mysqli_fetch_array($respuesta4);
 						 $pasada='1';
@@ -535,7 +536,13 @@ function Excel()
 			      $Razon_prod=number_format($Razon_prod,"2",",","");}
             echo "<td colspan='8' bgcolor='#FFFFFF'><font color='#FF0000'><strong>$Razon_prod sacos/m3 </strong></font></td>";
 			?>
-            <td width="11%" bgcolor="#FFFFFF"><?php echo number_format($total_x/$cont_tur,"2",".",".");?>m3/turno</td>
+            <td width="11%" bgcolor="#FFFFFF"><?php 
+			if($cont_tur>0)
+				echo number_format($total_x/$cont_tur,"2",".",".");
+			else
+				echo "0";
+			
+			?> m3/turno</td>
           </tr>
           <tr> 
             <td bordercolor="#0000FF" bgcolor="#FFFFFF" class="Detalle02"><strong>Total 
@@ -577,6 +584,8 @@ function Excel()
 					/*************** WSO **************************/
 					$row_elect_descuento_ter_proceso=array();
 					$row_elect_descuento_ter_venta=array();
+					$row_elect_descuento_inicio_proceso=array();
+					$row_elect_descuento_inicio_venta=array();
 					//$row_elect_inicio_ter_proceso=array();
 					$row_dp_total_fin=array();   
 					$total_d_parcial_venta_c1 = 0;
@@ -672,8 +681,10 @@ function Excel()
 							    $volumen_pte_ter_venta      = isset($row_elect_descuento_ter_venta["volumen_pte_ter"])?$row_elect_descuento_ter_venta["volumen_pte_ter"]:0;
 								$volumen_pte_total_proceso  = isset($row_elect_total_proceso["volumen_pte_total"])?$row_elect_total_proceso["volumen_pte_total"]:0;
 								$volumen_pte_total          = isset($row_elect_total_venta["volumen_pte_total"])?$row_elect_total_venta["volumen_pte_total"]:0;
-
-								$total_electrolito = ($volumen_pte_total_proceso + $volumen_pte_total) -($row_elect_descuento_inicio_proceso["volumen_pte_inicio"]+$row_elect_descuento_inicio_venta["volumen_pte_inicio"])-($volumen_pte_ter_proceso + $volumen_pte_ter_venta);
+								$volumen_pte_inicio         = isset($row_elect_descuento_inicio_proceso["volumen_pte_inicio"])?$row_elect_descuento_inicio_proceso["volumen_pte_inicio"]:0;
+								$volumen_pte_inicio_venta   = isset($row_elect_descuento_inicio_venta["volumen_pte_inicio"])?$row_elect_descuento_inicio_venta["volumen_pte_inicio"]:0;
+								
+								$total_electrolito = ($volumen_pte_total_proceso + $volumen_pte_total) -($volumen_pte_inicio + $volumen_pte_inicio_venta)-($volumen_pte_ter_proceso + $volumen_pte_ter_venta);
 
 								//$total_electrolito=($row_elect_total_proceso["volumen_pte_total"]+$row_elect_total_venta["volumen_pte_total"])-($row_elect_descuento_inicio_proceso["volumen_pte_inicio"]+$row_elect_descuento_inicio_venta["volumen_pte_inicio"])-($row_elect_descuento_ter_proceso["volumen_pte_ter"]+$row_elect_descuento_ter_venta["volumen_pte_ter"]);
 							/***************************************************************************************************************/
