@@ -32,13 +32,13 @@
 	$opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:""; 
 	
 
-	if ($DiaIni < 10)
+	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
@@ -155,18 +155,18 @@
               echo '<tr class="ColorTabla01">';
 			  if ($opcion=='T')
 			     {
-				  echo '<td width="86" align="center"><strong>Temperatura Entrada(�C)</strong></td>';
-				  echo '<td width="80" align="center"><strong>Termperatura Salida(�C)</strong></td>';
-				  echo '<td width="113" align="center"><strong>Temperatura Entrada(�C)</strong></td>';
-				  echo '<td width="99" align="center"><strong>Termperatura Salida(�C)</strong></td>';
-				  echo '<td width="99" align="center"><strong>Temperatura Entrada(�C)</strong></td>';
-				  echo '<td width="99" align="center"><strong>Termperatura Salida(�C)</strong></td>';
+				  echo '<td width="86" align="center"><strong>Temperatura Entrada(&deg;C)</strong></td>';
+				  echo '<td width="80" align="center"><strong>Termperatura Salida(&deg;C)</strong></td>';
+				  echo '<td width="113" align="center"><strong>Temperatura Entrada(&deg;C)</strong></td>';
+				  echo '<td width="99" align="center"><strong>Termperatura Salida(&deg;C)</strong></td>';
+				  echo '<td width="99" align="center"><strong>Temperatura Entrada(&deg;C)</strong></td>';
+				  echo '<td width="99" align="center"><strong>Termperatura Salida(&deg;C)</strong></td>';
 				 } 
-				else { echo '<td width="113" align="center"><strong>Temperatura(�C)</strong></td>';
+				else { echo '<td width="113" align="center"><strong>Temperatura(&deg;C)</strong></td>';
 					   echo '<td width="99" align="center"><strong>Presion(Bar)</strong></td>';
-					   echo '<td width="113" align="center"><strong>Temperatura(�C)</td>';
+					   echo '<td width="113" align="center"><strong>Temperatura(&deg;C)</td>';
 					   echo '<td width="99" align="center"><strong>Presion(Bar)</strong></td>';
-					   echo '<td width="113" align="center"><strong>Temperatura(�C)</strong></td>';
+					   echo '<td width="113" align="center"><strong>Temperatura(&deg;C)</strong></td>';
 					   echo '<td width="99" align="center"><strong>Presion(Bar)</strong></td>';} 
               echo '</tr>';
         
