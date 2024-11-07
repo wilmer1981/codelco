@@ -13,6 +13,15 @@
 	$Sig   = isset($_REQUEST["Sig"])?$_REQUEST["Sig"]:"";
 	$Ant   = isset($_REQUEST["Ant"])?$_REQUEST["Ant"]:"";
 	
+	if (strlen($dia1) == 1)
+	{
+		$dia1 = '0'.$dia1;
+	}
+	if (strlen($mes1) ==1) 
+  	{
+		$mes1 = '0'.$mes1;
+	}
+	
 	$fecha=$ano1.'-'.$mes1.'-'.$dia1;
 	if ($siguiente=='S')
       {
@@ -376,7 +385,10 @@ function detalle_anodos(fecha,grupo)
 			$fecha=strtotime("- 1 day",$ano1."-".$mes1."-".$dia1); 
 		}
 		//***************FIN**************  //
-		
+		$grupos=array();
+		if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+			 (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+		{
 		$Consulta =  "select max(t2.fecha) as fecha,t2.cod_grupo,t2.cod_circuito from sec_web.produccion_catodo as t1 ";
 		$Consulta = $Consulta." inner join ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo";
 		$Consulta = $Consulta." where t1.fecha_produccion = '".$fecha."' and t1.cod_producto='18'  and t1.cod_subproducto='1'   and t2.fecha <= '".$fecha."'group by t1.cod_grupo";
@@ -387,7 +399,6 @@ function detalle_anodos(fecha,grupo)
 		$total_cuba=0;
 		$cont=0;
 		$i=0;
-		$grupos=array();
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$cont=$cont+1;
@@ -476,6 +487,7 @@ function detalle_anodos(fecha,grupo)
 			
 			$total = 0;		 
 		echo "</tr>\n";
+		}
 		}
 	?>
     </table>

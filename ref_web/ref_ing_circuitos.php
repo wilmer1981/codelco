@@ -394,25 +394,28 @@ function detalle_anodos(fecha,grupo)
 	if (strlen($mes1) ==1) 
   		{$mes1 = '0'.$mes1;}
 	$fecha=$ano1."-".$mes1."-".$dia1;
-	
+	$total_prod=0;
+	$total_scrap=0;
+	$total_peso_anodos=0;
+	$total_cuba=0;
+	$total_rec=0;
+	$total_rechaza=0; $total_rech=0;
+	$sum_porc_rech=0;
+	$total_ne=0;$total_nd=0;$total_ra=0;$total_cl=0;$total_cs=0;$total_ot=0;
+	$cont=0;
+	$grupos =array();
+	if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+		(($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+	{
 	$Consulta =  "select max(t2.fecha) as fecha,t2.cod_grupo,t2.cod_circuito from sec_web.produccion_catodo as t1 ";
 	$Consulta = $Consulta." inner join ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo";
 	$Consulta = $Consulta." where t1.fecha_produccion = '".$fecha."' and t1.cod_producto='18'  and t1.cod_subproducto='1'   and t2.fecha <= '".$fecha."'group by t1.cod_grupo";
 	//echo $Consulta;
 	$Respuesta = mysqli_query($link,$Consulta);
-	$total_prod=0;
-	$total_scrap=0;
-	$total_peso_anodos=0;
-	$total_rec=0;
-	$total_rech=0;
-	$total_cuba=0;
-	$cont=0;$i=0;$p=0;
-	$total_rechaza=0;
-	$sum_porc_rech=0;
-	$total_ne=0;$total_nd=0;$total_ra=0;$total_cl=0;$total_cs=0;$total_ot=0;
-	$grupos =array();
+	
+	$i=0;$p=0;	
 	while ($Fila = mysqli_fetch_array($Respuesta))
-	  {
+		{
 	        $cont=$cont+1;
 			echo "<tr>\n";
 			$cod_grupo = isset($Fila["cod_grupo"])?$Fila["cod_grupo"]:"";
@@ -579,6 +582,7 @@ function detalle_anodos(fecha,grupo)
 			$total_ot=$total_ot+$Fila2["ot"];		
 			echo "</tr>\n";
     }
+	}
 	  
 	  
 $total_prod2=number_format($total_prod,2,".",".");
@@ -666,11 +670,17 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 				  
 	    		echo "<tr>\n";
 				echo "<td align='center'>".$row2["sub_clas"]."&nbsp;</td>\n";
+				/*
 				$Consulta5 = "select cod_grupo,ifnull(rechazo_delgadas,0) as rec_del,ifnull(rechazo_granuladas,0) as rec_gran,ifnull(rechazo_gruesas,0) as rec_grue from ref_web.produccion as t1 ";
 				$Consulta5 = $Consulta5."inner join proyecto_modernizacion.sub_clase as t2  on t1.cod_grupo=t2.valor_subclase1 ";
 				$Consulta5 = $Consulta5."where t1.fecha = '".$fecha."' and t1.cod_grupo = t2.valor_subclase1 and t1.cod_grupo= '".$row2["sub_clase1"]."' group by t1.cod_grupo";
 				$rs12 = mysqli_query($link,$Consulta5);
 				$row12 = mysqli_fetch_array($rs12);
+				*/
+				$produccion=0;
+				if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+					(($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+				{
 				$consulta_fecha="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$fecha."' and t1.cod_grupo ='0".$row2["sub_clase1"]."' group by t1.cod_grupo";
 				$rs_fecha = mysqli_query($link,$consulta_fecha);
 				$row_fecha = mysqli_fetch_array($rs_fecha);
@@ -680,12 +690,14 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 				$row3 = mysqli_fetch_array($rs3);
 				$produccion=(($row3["hojas_madres"]*$row3["num_catodos_celdas"])*2);         
 				echo "<td align='center'>$produccion&nbsp</td>\n";
+				
 				$Consulta5 = "select cod_grupo,ifnull(rechazo_delgadas,0) as rec_del,ifnull(rechazo_granuladas,0) as rec_gran,ifnull(rechazo_gruesas,0) as rec_grue from ref_web.produccion as t1 ";
 				$Consulta5 = $Consulta5."inner join proyecto_modernizacion.sub_clase as t2  on t1.cod_grupo=t2.valor_subclase1 ";
 				$Consulta5 = $Consulta5."where t1.fecha = '".$fecha."' and t1.cod_grupo = t2.valor_subclase1 and t1.cod_grupo= '".$row2["sub_clase1"]."' group by t1.cod_grupo";
 				//echo $Consulta5;
        			$rs12 = mysqli_query($link,$Consulta5);
 				$row12 = mysqli_fetch_array($rs12);
+				}
 				$rec_del = isset($row12["rec_del"])?$row12["rec_del"]:0;
 				$rec_gran = isset($row12["rec_gran"])?$row12["rec_gran"]:0;
 				$rec_grue = isset($row12["rec_grue"])?$row12["rec_grue"]:0;
@@ -712,10 +724,14 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 				$porc_rech2=number_format($porc_rech,"2",",","");
 				echo "<td align='center'>$total&nbsp</td>\n";
 				echo "<td align='center'>$porc_rech2&nbsp</td>\n";
+				if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+				    (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+				{
 				$Consulta7="select ifnull(recuperado,0) as recuperado from ref_web.recuperado as t1 "; 
 				$Consulta7=$Consulta7."where t1.fecha ='".$fecha."' ";
 				$rs13 = mysqli_query($link,$Consulta7);
 				$row13 = mysqli_fetch_array($rs13);
+				}
 				$recuperado=isset($row13["recuperado"])?$row13["recuperado"]:0;
 				echo "<td align='center'>--&nbsp</td>\n";
 				echo "<td align='center'>--&nbsp</td>\n";
@@ -866,36 +882,41 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 							  //echo "total electrowin ".$total_ew.'='.$total_ew.'+('.$row_ew_d[num_celdas_grupos].'*'.$row_ew_d[num_catodos_celda].')';
 							}
 					}
-					$consulta_cat_ini="select turno as turno_cat_ini,ifnull(produccion_mfci,0) as prod_mfci,ifnull(produccion_mdb,0) as prod_mdb,ifnull(produccion_mco,0) as prod_mco,observacion as observacion,consumo as consumo_cat_inil from ref_web.iniciales as t1 ";
-					$consulta_cat_ini=$consulta_cat_ini."where  t1.fecha = '".$fecha."' order by t1.turno";
-					/*echo $consulta_cat_ini;*/
-					$Resp_cat_ini = mysqli_query($link,$consulta_cat_ini);
-					while ($row_cat_ini = mysqli_fetch_array($Resp_cat_ini))
+					
+					if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+				        (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
 					{
-						echo "<tr>\n";
-						echo "<td align='center'>".$row_cat_ini["turno_cat_ini"]."&nbsp</td>\n";
-						echo "<td align='center'>".$row_cat_ini["prod_mfci"]."&nbsp</td>\n";
-						$total_mfci=$total_mfci+$row_cat_ini["prod_mfci"];
-						echo "<td align='center'>".$row_cat_ini["prod_mdb"]."&nbsp</td>\n";
-						$total_mdb=$total_mdb+$row_cat_ini["prod_mdb"];
-						echo "<td align='center'>".$row_cat_ini["prod_mco"]."&nbsp</td>\n";
-						$total_mco=$total_mco+$row_cat_ini["prod_mco"];
-						if ($mostrar2=='X')
-							 {echo "<td align='center'>&nbsp</td>\n";
-							 echo "<td align='center'>".$row_cat_ini["observacion"]."&nbsp</td>\n";}
-						else if ($mostrar2=='S')
-								{echo "<td align='center'>$total_A&nbsp</td>\n";
-								echo "<td align='center'>".$row_cat_ini["observacion"]."&nbsp</td>\n";}
-							 else if ($mostrar2=='P')
-									 {echo "<td align='center'>$total_B&nbsp</td>\n";
-									   echo "<td align='center'>".$row_cat_ini["observacion"]."&nbsp</td>\n";
-									  $mostrar2='X';}
-						if ($mostrar2=='S')
-						{$mostrar2='P';}
-					$total_consumo_comercial=$total_A + $total_B ;
-					//echo "cosumo comercial dia ta y tb ".$total_consumo_comercial.'='.$total_A.'+'.$total_B ;
-					echo "</tr>\n";								
-					} 
+						$consulta_cat_ini="select turno as turno_cat_ini,ifnull(produccion_mfci,0) as prod_mfci,ifnull(produccion_mdb,0) as prod_mdb,ifnull(produccion_mco,0) as prod_mco,observacion as observacion,consumo as consumo_cat_inil from ref_web.iniciales as t1 ";
+						$consulta_cat_ini=$consulta_cat_ini."where  t1.fecha = '".$fecha."' order by t1.turno";
+						/*echo $consulta_cat_ini;*/
+						$Resp_cat_ini = mysqli_query($link,$consulta_cat_ini);
+						while ($row_cat_ini = mysqli_fetch_array($Resp_cat_ini))
+						{
+							echo "<tr>\n";
+							echo "<td align='center'>".$row_cat_ini["turno_cat_ini"]."&nbsp</td>\n";
+							echo "<td align='center'>".$row_cat_ini["prod_mfci"]."&nbsp</td>\n";
+							$total_mfci=$total_mfci+$row_cat_ini["prod_mfci"];
+							echo "<td align='center'>".$row_cat_ini["prod_mdb"]."&nbsp</td>\n";
+							$total_mdb=$total_mdb+$row_cat_ini["prod_mdb"];
+							echo "<td align='center'>".$row_cat_ini["prod_mco"]."&nbsp</td>\n";
+							$total_mco=$total_mco+$row_cat_ini["prod_mco"];
+							if ($mostrar2=='X')
+								 {echo "<td align='center'>&nbsp</td>\n";
+								 echo "<td align='center'>".$row_cat_ini["observacion"]."&nbsp</td>\n";}
+							else if ($mostrar2=='S')
+									{echo "<td align='center'>$total_A&nbsp</td>\n";
+									echo "<td align='center'>".$row_cat_ini["observacion"]."&nbsp</td>\n";}
+								 else if ($mostrar2=='P')
+										 {echo "<td align='center'>$total_B&nbsp</td>\n";
+										   echo "<td align='center'>".$row_cat_ini["observacion"]."&nbsp</td>\n";
+										  $mostrar2='X';}
+							if ($mostrar2=='S')
+							{$mostrar2='P';}
+							$total_consumo_comercial=$total_A + $total_B ;
+							//echo "cosumo comercial dia ta y tb ".$total_consumo_comercial.'='.$total_A.'+'.$total_B ;
+							echo "</tr>\n";								
+						}
+					}					
 					echo "<td align='right'>Total</td>\n";
 					echo "<td align='center'><font color='blue'>$total_mfci&nbsp</font></td>\n";
 					echo "<td align='center'><font color='blue'>$total_mdb&nbsp</font></td>\n";
@@ -963,20 +984,28 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 			        <?php } ?>
                 <td><strong>STOCK CATODOS (8:00) </strong></td>
                   <?php 
+				  	if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+				     (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+					{
 					$consulta_cat_ini_stock="select sum(stock) as stock1, sum(rechazo_cat_ini) as rechazo_ini_cat, catodos_en_renovacion from  ref_web.detalle_iniciales as t1 ";
 					$consulta_cat_ini_stock=$consulta_cat_ini_stock."where  t1.fecha = '".$fecha."' group by t1.fecha";
 					$Resp_cat_stock = mysqli_query($link,$consulta_cat_ini_stock);
 					$row_cat_stock = mysqli_fetch_array($Resp_cat_stock);
+					}
 					$stock1 = isset($row_cat_stock["stock1"])?$row_cat_stock["stock1"]:0;
 					echo "<td align='center' class=detalle01>".$stock1."&nbsp</td>\n";
 				?>
                 </tr>
 				 <td><strong>STOCK LAMINAS (8:00) </strong></td>
                   <?php 
+				  	if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+				        (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+					{
 					$consulta_lam_ini_stock="select stock_dia from  ref_web.stock_diario as t1 ";
 					$consulta_lam_ini_stock=$consulta_lam_ini_stock."where  t1.fecha = '".$fecha."' ";
 					$Resp_lam_stock = mysqli_query($link,$consulta_lam_ini_stock);
 					$row_lam_stock = mysqli_fetch_array($Resp_lam_stock);
+					}
 					$stock_dia = isset($row_lam_stock["stock_dia"])?$row_lam_stock["stock_dia"]:0;
 					echo "<td align='center' class=detalle01>".$stock_dia."&nbsp</td>\n";
 				?>
@@ -1059,9 +1088,9 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
     	if ($Ant=='S')
 	   	{
 			$dia1=strval(intval($dia1-1));
-			} 
-			if (strlen($dia1) == 1)
-			{
+		} 
+		if (strlen($dia1) == 1)
+		{
 				$dia1 = '0'.$dia1;
 		}
 		if (strlen($mes1) ==1) 
@@ -1070,7 +1099,9 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 		}	
 		
 		$fecha=$ano1."-".$mes1."-".$dia1;		
-		
+		if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+		    (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+		{
 		$Consulta =  "select max(t2.fecha) as fecha,t2.cod_grupo,t2.cod_circuito from sec_web.produccion_catodo as t1 ";
 		$Consulta = $Consulta." inner join ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo";
 		$Consulta = $Consulta." where t1.fecha_produccion = '".$fecha."' and t1.cod_producto='18'  and t1.cod_subproducto='1'   and t2.fecha <= '".$fecha."'group by t1.cod_grupo";
@@ -1136,63 +1167,42 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 						if ($Fila_electrolitos["signo"] !='=')
                         {
 							echo "<td align='center'>".$Fila_electrolitos["signo"]."$total&nbsp</td>\n";
-							$poly =($Fila_electrolitos["signo"].$total);
-
-						
+							$poly =($Fila_electrolitos["signo"].$total);						
 						}
 						else 
-						{
-							
-							
-					    
-							
+						{						
 							echo "<td align='center'>$total&nbsp</td>\n";
 							$poly =($Fila_electrolitos["signo"].$total);
-
 						} 
 					}
 					else
-					{
-						
-						$total=number_format($Fila_electrolitos["valor"],"2","","");
-					
-						
-					  
-						
+					{						
+						$total=number_format($Fila_electrolitos["valor"],"2","","");  						
 						echo "<td align='center'>&nbsp;".$Fila_electrolitos["signo"]."$total</td>";
 						$poly =($Fila_electrolitos["signo"].$total);
-						
-
-					}
-	
+					}	
 			}
-				
-	
-				
-
 				//echo "grupo:".$Fila[cod_grupo];
-
-				if ($total ==0)
-				{
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-					echo "<td align='center'>&nbsp</td>\n";
-				
-				}
-			
+			if ($total ==0)
+			{
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";
+				echo "<td align='center'>&nbsp</td>\n";				
+			}			
 			$total = 0;		 
-		echo "</tr>\n";
+			echo "</tr>\n";
+		}
 		}
 	?>
     </table>
