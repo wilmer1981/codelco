@@ -30,6 +30,15 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	$AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 
 	$proceso    = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	
+	if (strlen($DiaIni)==1)
+		$DiaIni = "0".$DiaIni;
+	if (strlen($MesIni)==1)
+		$MesIni = "0".$MesIni;
+	if (strlen($DiaFin)==1)
+		$DiaFin = "0".$DiaFin;
+	if (strlen($MesFin)==1)
+		$MesFin = "0".$MesFin;
 
 ?>
 		
@@ -98,7 +107,8 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 										   $consulta2="select max(fecha) as fecha from ref_web.detalle_produccion where fecha between '$fecha_ini' and '$fecha_ter' ";
 										   $respuesta2 = mysqli_query($link, $consulta2);
 					                       $row2= mysqli_fetch_array($respuesta2);
-										   $consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha ='".$row2["fecha"]."' ";
+										   $fecha = isset($row2["fecha"])?$row2["fecha"]:"0000-00-00";
+										   $consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha ='".$fecha."' ";
 										   $respuesta_rect_ant = mysqli_query($link, $consulta_rect_ant);
 					                       $row_rect_ant= mysqli_fetch_array($respuesta_rect_ant); 
 										  }	
@@ -108,10 +118,11 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 												$consulta2="select max(fecha) as fecha from ref_web.detalle_produccion where fecha = '$fecha_ini' ";
 												$respuesta2 = mysqli_query($link, $consulta2);
 					                            $row2= mysqli_fetch_array($respuesta2);
+												$fecha = isset($row2["fecha"])?$row2["fecha"]:"0000-00-00";
 												$consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha = '$fecha_ini' ";
 												$respuesta_rect_ant = mysqli_query($link, $consulta_rect_ant);
 					                            $row_rect_ant= mysqli_fetch_array($respuesta_rect_ant); 	}   
-									  $consulta3="select lectura_rectificador from ref_web.detalle_produccion where fecha ='".$row2["fecha"]."'";
+									  $consulta3="select lectura_rectificador from ref_web.detalle_produccion where fecha ='".$fecha."'";
 									  $respuesta3 = mysqli_query($link, $consulta3);
 					                  $row3= mysqli_fetch_array($respuesta3);
 									  $promedio=number_format((($row["lectura_rectificador"]-$row_rect_ant["lectura_rectificador"])/24),"2",".","");

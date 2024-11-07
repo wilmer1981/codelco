@@ -11,6 +11,7 @@ $AnoFin    = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 
 $proceso    = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
 $opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+$Mensaje    = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 /*
     if (!isset($DiaIni) and ($fecha_ini==''))
 	{
@@ -18,11 +19,13 @@ $opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 		   $AnoIni = date("Y");
 	}
 	*/
-	if ($MesIni < 10)
+	if (strlen($DiaIni)==1)
+		$DiaIni = "0".$DiaIni;
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
 	?>
 <HTML>
@@ -218,6 +221,7 @@ function CantidadChecheado(f)
 							  $fecha_termino = $AnoIni."-".$MesIni."-31";
 							  $consulta="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha between '".$FechaInicio."' and '".$fecha_termino."' order by fecha asc";
 							  $respuesta = mysqli_query($link, $consulta);
+							 // echo "consulta:".$consulta;
 					          while ($row= mysqli_fetch_array($respuesta))
 						            {
 									  $meses=array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
@@ -247,8 +251,11 @@ function CantidadChecheado(f)
 										   $consulta2="select max(fecha) as fecha from ref_web.detalle_produccion where fecha between '$fecha_ini' and '$fecha_ter' ";
 										   $respuesta2 = mysqli_query($link, $consulta2);
 					                       $row2= mysqli_fetch_array($respuesta2);
-										   $consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha ='".$row2["fecha"]."' ";
+										   $fecha = isset($row2["fecha"])?$row2["fecha"]:"0000-00-00";
+										   $consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha ='".$fecha."' ";
+										    //echo $consulta_rect_ant;
 										   $respuesta_rect_ant = mysqli_query($link, $consulta_rect_ant);
+										  
 					                       $row_rect_ant= mysqli_fetch_array($respuesta_rect_ant); 
 										  }	
 										       
@@ -257,10 +264,11 @@ function CantidadChecheado(f)
 												$consulta2="select max(fecha) as fecha from ref_web.detalle_produccion where fecha = '$fecha_ini' ";
 												$respuesta2 = mysqli_query($link, $consulta2);
 					                            $row2= mysqli_fetch_array($respuesta2);
+												$fecha = isset($row2["fecha"])?$row2["fecha"]:"0000-00-00";
 												$consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha = '$fecha_ini' ";
 												$respuesta_rect_ant = mysqli_query($link, $consulta_rect_ant);
 					                            $row_rect_ant= mysqli_fetch_array($respuesta_rect_ant); 	}   
-									  $consulta3="select lectura_rectificador from ref_web.detalle_produccion where fecha ='".$row2["fecha"]."'";
+									  $consulta3="select lectura_rectificador from ref_web.detalle_produccion where fecha ='".$fecha."'";
 									  $respuesta3 = mysqli_query($link, $consulta3);
 					                  $row3= mysqli_fetch_array($respuesta3);
 									  $promedio=number_format((($row["lectura_rectificador"]-$row_rect_ant["lectura_rectificador"])/24),"2",".","");
@@ -343,7 +351,7 @@ function CantidadChecheado(f)
 </BODY>
 </HTML>
 <?php
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo "<script languaje='javascript'>";
 		echo "alert('".$Mensaje."')";
