@@ -755,21 +755,13 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 	    	$consulta="select nombre_subclase as sub_clas, valor_subclase1 as sub_clase1 from proyecto_modernizacion.sub_clase ";
 			$consulta=$consulta."where cod_clase='10001' order by cod_subclase";
 			$Resp = mysqli_query($link,$consulta);
-			echo $fecha;
+			//echo $fecha;
 			while ($row2 = mysqli_fetch_array($Resp))
 	       	{
             	$total_rech=0;					  
 	    		echo "<tr>\n";
 				echo "<td align='center'>".$row2["sub_clas"]."&nbsp;</td>\n";
-				
-				//if( ($mes1=='01' && $dia1=='31') || ($mes1=='03' && $dia1=='31') || ($mes1=='05' && $dia1=='31') || ($mes1=='07' && $dia1=='31') || ($mes1=='08' && $dia1=='31') || ($mes1=='10' && $dia1=='31') || ($mes1=='12' && $dia1=='31'))
-				//{	
-				// $dia1 = '31';
-				//if( ($mes1=='04' && $dia1=='30') || ($mes1=='06' && $dia1=='30') || ($mes1=='09' && $dia1=='30') || ($mes1=='11' && $dia1=='30'))
-				//	$dia1 = '30';
-				//if(($mes1=='02' && $dia1=='29'))
-				//	$dia1 = '29';
-	
+				/*
 				$Consulta5 = "select cod_grupo,ifnull(rechazo_delgadas,0) as rec_del,ifnull(rechazo_granuladas,0) as rec_gran,ifnull(rechazo_gruesas,0) as rec_grue from ref_web.produccion as t1 ";
 				$Consulta5 = $Consulta5."inner join proyecto_modernizacion.sub_clase as t2  on t1.cod_grupo=t2.valor_subclase1 ";
 				$Consulta5 = $Consulta5."where t1.fecha = '".$fecha."' and t1.cod_grupo = t2.valor_subclase1 and t1.cod_grupo= '".$row2["sub_clase1"]."' group by t1.cod_grupo";
@@ -777,6 +769,11 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 				$rs12 = mysqli_query($link,$Consulta5);
 				$row12 = mysqli_fetch_array($rs12);
 				//}
+				*/
+				$produccion=0;
+				if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+				     (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+				{
 				$consulta_fecha="select max(t1.fecha) as fecha from ref_web.grupo_electrolitico2 as t1 where t1.fecha <=  '".$fecha."' and t1.cod_grupo ='0".$row2["sub_clase1"]."' group by t1.cod_grupo";
 				$rs_fecha = mysqli_query($link,$consulta_fecha);
 				$row_fecha = mysqli_fetch_array($rs_fecha);
@@ -785,13 +782,14 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 				$rs3 = mysqli_query($link,$Consulta6);
 				$row3 = mysqli_fetch_array($rs3);
 				$produccion=(($row3["hojas_madres"]*$row3["num_catodos_celdas"])*2);         
-				echo "<td align='center'>$produccion&nbsp</td>\n";
+				echo "<td align='center'>$produccion&nbsp</td>\n";				
 				$Consulta5 = "select cod_grupo,ifnull(rechazo_delgadas,0) as rec_del,ifnull(rechazo_granuladas,0) as rec_gran,ifnull(rechazo_gruesas,0) as rec_grue from ref_web.produccion as t1 ";
 				$Consulta5 = $Consulta5."inner join proyecto_modernizacion.sub_clase as t2  on t1.cod_grupo=t2.valor_subclase1 ";
 				$Consulta5 = $Consulta5."where t1.fecha = '".$fecha."' and t1.cod_grupo = t2.valor_subclase1 and t1.cod_grupo= '".$row2["sub_clase1"]."' group by t1.cod_grupo";
 				//echo $Consulta5;
        			$rs12  = mysqli_query($link,$Consulta5);
 				$row12 = mysqli_fetch_array($rs12);
+				}
 				$rec_del =isset($row12["rec_del"])?$row12["rec_del"]:0;
 				$rec_gran=isset($row12["rec_gran"])?$row12["rec_gran"]:0;
 				$rec_grue=isset($row12["rec_grue"])?$row12["rec_grue"]:0;
@@ -818,10 +816,15 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 				$porc_rech2=number_format($porc_rech,"2",",","");
 				echo "<td align='center'>$total&nbsp</td>\n";
 				echo "<td align='center'>$porc_rech2&nbsp</td>\n";
+				
+				if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+				     (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+				{
 				$Consulta7="select ifnull(recuperado,0) as recuperado from ref_web.recuperado as t1 "; 
 				$Consulta7=$Consulta7."where t1.fecha ='".$fecha."' ";
 				$rs13 = mysqli_query($link,$Consulta7);
 				$row13 = mysqli_fetch_array($rs13);
+				}				
 				$recuperado = isset($row13["recuperado"])?$row13["recuperado"]:0;
 				echo "<td align='center'>--&nbsp</td>\n";
 				echo "<td align='center'>--&nbsp</td>\n";
@@ -964,10 +967,15 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 					}
 				}
 				}
+				//$Resp_cat_ini=array();
+				$total_consumo_comercial=0;
+				if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+				     (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+				{
 				$consulta_cat_ini="select turno as turno_cat_ini,ifnull(produccion_mfci,0) as prod_mfci,ifnull(produccion_mdb,0) as prod_mdb,ifnull(produccion_mco,0) as prod_mco,observacion as observacion,consumo as consumo_cat_inil from ref_web.iniciales as t1 ";
 				$consulta_cat_ini=$consulta_cat_ini."where  t1.fecha = '".$fecha."' order by t1.turno";
-				$Resp_cat_ini = mysqli_query($link,$consulta_cat_ini);
-				$total_consumo_comercial=0;
+				$Resp_cat_ini = mysqli_query($link,$consulta_cat_ini);				
+				//$total_consumo_comercial=0;
 				while ($row_cat_ini = mysqli_fetch_array($Resp_cat_ini))
 				{
 					echo "<tr>\n";
@@ -1001,6 +1009,7 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 					$total_consumo_comercial=$total_A + $total_B ;
 					echo "</tr>\n";								
 				} 
+				}
 				echo "<td align='right'>Total</td>\n";
 				echo "<td align='center'><font color='blue'>$total_mfci&nbsp</font></td>\n";
 				echo "<td align='center'><font color='blue'>$total_mdb&nbsp</font></td>\n";
@@ -1076,20 +1085,28 @@ echo "<td align='center'><font color='blue'>$total_ot&nbsp</font></td>\n";
 			        <?php } ?>
                 <td><strong>STOCK CATODOS (8:00) </strong></td>
                   <?php 
+				  	if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+				     (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+					{
 					$consulta_cat_ini_stock="select sum(stock) as stock1, sum(rechazo_cat_ini) as rechazo_ini_cat, catodos_en_renovacion from  ref_web.detalle_iniciales as t1 ";
 					$consulta_cat_ini_stock=$consulta_cat_ini_stock."where  t1.fecha = '".$fecha."' group by t1.fecha";
 					$Resp_cat_stock = mysqli_query($link,$consulta_cat_ini_stock);
 					$row_cat_stock = mysqli_fetch_array($Resp_cat_stock);
+					}
 					$stock1 = isset($row_cat_stock["stock1"])?$row_cat_stock["stock1"]:0;
 					echo "<td align='center' class=detalle01>".$stock1."&nbsp</td>\n";
 				?>
                 </tr>
 				 <td><strong>STOCK LAMINAS (8:00) </strong></td>
                   <?php 
+				  	if( (($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12') && $dia1 <='31') ||
+				     (($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11') && $dia1 <='30') )
+					{
 					$consulta_lam_ini_stock="select stock_dia from  ref_web.stock_diario as t1 ";
 					$consulta_lam_ini_stock=$consulta_lam_ini_stock."where  t1.fecha = '".$fecha."' ";
 					$Resp_lam_stock = mysqli_query($link,$consulta_lam_ini_stock);
 					$row_lam_stock = mysqli_fetch_array($Resp_lam_stock);
+					}
 					$stock_dia = isset($row_lam_stock["stock_dia"])?$row_lam_stock["stock_dia"]:0;
 					echo "<td align='center' class=detalle01>".$stock_dia."&nbsp</td>\n";
 				?>
