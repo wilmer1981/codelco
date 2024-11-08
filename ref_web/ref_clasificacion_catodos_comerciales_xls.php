@@ -32,13 +32,13 @@
 	  $opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 	  $mostrar     = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";  
 
-	  if ($DiaIni < 10)
+	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;

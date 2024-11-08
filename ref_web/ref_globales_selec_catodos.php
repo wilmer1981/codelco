@@ -10,13 +10,13 @@
 	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
 	$opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:""; 
 
-	if ($DiaIni < 10)
+	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
 
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
@@ -202,12 +202,19 @@ function detalle_anodos(fecha,grupo)
 						  //echo 'fecha:'.$fila["fecha"].'--->grupo='.$row_grupos_dia["cod_grupo"].'--->total grupos='.$total_grupo.'--->total_rechazos='.$rechazo_total_dias.'--->recuperado dias='.$recuperado_total_dias."<br>";
 					}
 					if ($opcion=='P'){
-							
-						   $seleccion_inicial=((($rechazo_total_dias+$recuperado_total_dias))/$total_grupo)*100;	
+						if($total_grupo>0){		
+						    $seleccion_inicial=((($rechazo_total_dias+$recuperado_total_dias))/$total_grupo)*100;
+							$recuperado_total=($recuperado_total_dias/$total_grupo)*100;	
+							$rechazo_total=($rechazo_total_dias/$total_grupo)*100; 	
+						}else{
+							$seleccion_inicial=0;	
+							$recuperado_total=0;
+							$rechazo_total=0;
+						}
 						   echo "<td align='center' >".number_format($seleccion_inicial,"2",",",".")."&nbsp</td>\n";
-						   $recuperado_total=($recuperado_total_dias/$total_grupo)*100;
+						  
 						   echo "<td align='center' >".number_format($recuperado_total,"2",",",".")."&nbsp</td>\n";
-						   $rechazo_total=($rechazo_total_dias/$total_grupo)*100; 
+						   
 						   echo "<td align='center' >".number_format($rechazo_total,"2",",",".")."&nbsp</td>\n";
 					}else{
 				    	   echo "<td align='center' >".$total_grupo."&nbsp</td>\n";

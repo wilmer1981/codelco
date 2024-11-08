@@ -873,9 +873,15 @@ else
 								$divisor2=$divisor2*$row_det_grupo["num_catodos"];
 								if ($opcion=='P')
 								   {
+									if($divisor2>0){	
 									$seleccion_inicial=(($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
 									$porc_recuperado=(($fila2["recuperado_tot"]/($divisor*$row_det_grupo["num_catodos"]))*100);
 									$total_por_rechazado=(($suma_rechazo/($divisor*$row_det_grupo["num_catodos"]))*100);
+									}else{
+										$seleccion_inicial=0;
+										$porc_recuperado=0;
+										$total_por_rechazado=0; 
+									}
 								   }
 								 else if ($opcion=='L')
 								         {
@@ -933,7 +939,8 @@ else
 								$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2='".$fila["grupo"]."' and t1.fecha_movimiento='".$fila["fecha"]."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
 								$Resp_subp = mysqli_query($link, $cons_subp);
 								$Fila_subp = mysqli_fetch_array($Resp_subp);
-								if ($Fila_subp["producto"]==1)
+								$producto= isset($Fila_subp["producto"])?$Fila_subp["producto"]:"";
+								if ($producto==1)
 									{
 									if ($Fila_subp["campo1"]=='M' )
 									   {
@@ -967,7 +974,7 @@ else
 											}   	 
 									}
 									
-								else if ($Fila_subp["producto"]==4)
+								else if ($producto==4)
 									{
 									 if ($Fila_subp["campo1"]=='M' )
 									   {
@@ -999,7 +1006,7 @@ else
 											}
 									
 									}
-								else if ($Fila_subp["producto"]==2)
+								else if ($producto==2)
 									{
 									  if ($Fila_subp["campo1"]=='M' )
 									   {
@@ -1031,7 +1038,7 @@ else
 								
 											} 
 									}
-								else if ($Fila_subp["producto"]==3)
+								else if ($producto==3)
 									{
 									   if ($Fila_subp["campo1"]=='M' )
 									   {
