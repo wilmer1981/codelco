@@ -104,12 +104,17 @@
                     $consulta22=$consulta22."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='C' order by dia_renovacion,cod_grupo";
                     $respuesta22 = mysqli_query($link, $consulta22);
                     $i=0;
+					$arreglo22=array();
                     while($row22 = mysqli_fetch_array($respuesta22))
-                       {$arreglo22[$i]=$row22["cod_grupo"];
-                        $i++;}
-                    echo '<td width="70" align="center">'.$arreglo22[0].' '.$arreglo22[1].' '.$arreglo22[2].'</td>';
-
+                    {
+						$arreglo22[$i]=$row22["cod_grupo"];
+                        $i++;
+					}
+					$arreglo220 = isset($arreglo22[0])?$arreglo22[0]:"";
+					$arreglo221 = isset($arreglo22[1])?$arreglo22[1]:"";
+					$arreglo222 = isset($arreglo22[2])?$arreglo22[2]:"";
 					
+                    echo '<td width="70" align="center">'.$arreglo220.' '.$arreglo221.' '.$arreglo222.'</td>';					
 					
                     $consulta3="select cod_grupo from sec_web.renovacion_prog_prod ";
                     $consulta3=$consulta3."where dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,fila_renovacion,cod_grupo";
@@ -117,11 +122,12 @@
 					//echo "con".$consulta3;
                     $i=0;
                     while($row3 = mysqli_fetch_array($respuesta3))
-                       {
-                           if  ($row3["cod_grupo"]=="")
-                             {$arreglo3[$i]=" ";}
-                            else $arreglo3[$i]=$row3["cod_grupo"];
-                        $i++;}
+                    {
+						if($row3["cod_grupo"]=="")
+						{$arreglo3[$i]=" ";}
+						else $arreglo3[$i]=$row3["cod_grupo"];
+                        $i++;
+					}
                     echo '<td width="70" align="center">'.$arreglo3[0].' '.$arreglo3[1].' '.$arreglo3[2].'</td>';
                     $consulta4="select distinct dia_renovacion,desc_parcial from sec_web.renovacion_prog_prod ";
                     $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
