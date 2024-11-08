@@ -5,9 +5,9 @@
 
 	$CookieRut = $_COOKIE["CookieRut"];
 	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
-	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m");
+	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
 
 	$consulta="select * from ref_web.usuarios_autorizados where rut='".$CookieRut."'";
 	//echo $consulta;
