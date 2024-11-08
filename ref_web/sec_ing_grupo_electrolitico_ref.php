@@ -222,9 +222,9 @@ function Recarga()
         <div style="position:absolute; left: 10px; top: 127px; width: 750px; height: 189px; OVERFLOW: auto;" id="div2"> 
           <table width="730" border="0" cellspacing="0" cellpadding="0" class="TablaInterior">
 <?php		
-	if ($Mes < 10)
+	if (strlen($Mes)==1)
 		$Mes = "0".$Mes;
-	if ($Dia < 10)
+	if (strlen($Dia)==1)
 	    $Dia= "0".$Dia;	
 	$consulta_grupo="select distinct max(fecha) as fecha1,cod_grupo from ref_web.grupo_electrolitico2 where fecha <='".$Ano."-".$Mes."-".$Dia."'  group by cod_grupo order by cod_grupo ";
 	$rs_grupos=mysqli_query($link, $consulta_grupo);	

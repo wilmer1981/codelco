@@ -287,7 +287,7 @@ function Salir()
         </table> 
 	  	<?php
 	  		//Campo oculto.
-			echo '<input name="opcion" type="text" size="40" value="'.$opcion.'">';
+			echo '<input name="opcion" type="hidden" size="40" value="'.$opcion.'">';
 	  	?>
 	  
         <br>
