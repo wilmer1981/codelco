@@ -26,9 +26,12 @@
 		$Consulta = "select rut_prv as RUTPRV_A, nombre_prv as NOMPRV_A,hum_ult_rec  from sipa_web.proveedores where rut_prv='".$TxtRutPrv."'";
 		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysqli_fetch_array($Respuesta);
-		$Datos = explode("-",$Fila["RUTPRV_A"]);
-		$TxtRutPrv=$Datos[0];
-		if($Fila["hum_ult_rec"]=='S')
+		$RUTPRV_A    = isset($Fila["RUTPRV_A"])?$Fila["RUTPRV_A"]:"";
+		$hum_ult_rec = isset($Fila["hum_ult_rec"])?$Fila["hum_ult_rec"]:"";
+		$NOMPRV_A    = isset($Fila["NOMPRV_A"])?$Fila["NOMPRV_A"]:"";
+		$Datos = explode("-",$RUTPRV_A);
+		$TxtRutPrv=isset($Datos[0])?$Datos[0]:"";
+		if($hum_ult_rec=='S')
 		{
 			$ChkHumedadS="checked";
 			$ChkHumedadN="";
@@ -40,7 +43,7 @@
 		}
 		$Datos1 =isset($Datos[1])?$Datos[1]:"";
 		$TxtDv=$Datos1;
-		$TxtNomPrv=$Fila["NOMPRV_A"];
+		$TxtNomPrv=$NOMPRV_A;
 	}
 	else
 	{

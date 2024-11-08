@@ -40,5 +40,5 @@
 			mysqli_query($link, $Eliminar);
 			break;
 	}
-//	header("location:age_proveedores_proceso.php?Recarga=S&CmbProveedor=".$TxtRutPrv."-".strtoupper($TxtDv));
+	header("location:age_proveedores_proceso.php?Recarga=S&CmbProveedor=".$TxtRutPrv."-".strtoupper($TxtDv));
 ?>
