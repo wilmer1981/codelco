@@ -28,7 +28,7 @@
 	$TotPesoNtAntSubProd = isset($_REQUEST['TotPesoNtAntSubProd']) ? $_REQUEST['TotPesoNtAntSubProd'] : 0;
 	$RegSubProd = isset($_REQUEST['RegSubProd']) ? $_REQUEST['RegSubProd'] : 0;
 
-	//$Coincidencias = isset($_REQUEST['Coincidencias']) ? $_REQUEST['Coincidencias'] : '';
+	//$Coincidencias = isset($_REQUEST['Coincidencias']) ? $_REQUEST['Coincidencias'] : 0;
 
 	//$Fila2 = isset($_REQUEST['Fila2']) ? $_REQUEST['Fila2'] : '';	
 
@@ -347,7 +347,11 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
               <td width="3%">Cls</td>
               <td width="4%">Aut</td>
             </tr>
-<?php	
+<?php
+$Coincidencias=0;
+$TotConPesoBr=0;
+$TotConPesoTr=0;	
+$TotConPesoNt=0;
 if (isset($TipoCon) && $TipoCon!="")
 {
 	$Consulta = "select t2.fecha_recepcion, t2.corr, t2.lote, t2.recargo, t2.fin_lote, t5.nombre_prv as nom_proveedor, ";
@@ -469,8 +473,9 @@ if (isset($TipoCon) && $TipoCon!="")
 				$Impurezas = substr($Impurezas,2);
 			}
 		}			
-		//NOMBRE_PROV	
-		$nom_proveedor = isset($Fila2["nom_proveedor"])?$Fila2["nom_proveedor"]:"";			
+		//NOMBRE_PROV		
+		//$nom_proveedor = isset($Fila2["nom_proveedor"])?$Fila2["nom_proveedor"]:"";	
+        $nom_proveedor = isset($Fila["nom_proveedor"])?$Fila["nom_proveedor"]:"";	 		
 		if ($nom_proveedor=="")
 			$NomProv = $Fila["nom_proveedor"];
 		else
@@ -645,6 +650,9 @@ function EscribeSubTotal($Opt, $NomProd, $NomRut, $PesoBr, $PesoTr, $PesoNt, $Re
             </tr>
 		</table>	
 <?php
+//echo "Coincidencias: ".$Coincidencias."<br>";
+//echo "LimitFin: ".$LimitFin;
+
 	//if ($Coincidencias>$LimitFin)			
 	//{
 ?>	<br>	
@@ -668,7 +676,7 @@ function EscribeSubTotal($Opt, $NomProd, $NomRut, $PesoBr, $PesoTr, $PesoNt, $Re
 ?>			
         	              
 <?php
-if (isset($TipoCon))
+if ($TipoCon!="")
 {
 	if ($Coincidencias > $LimitFin)
 	{

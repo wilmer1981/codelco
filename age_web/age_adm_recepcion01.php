@@ -3,8 +3,25 @@
 	set_time_limit(1000);
 	include("age_funciones.php");
 	require_once 'reader.php';
+
+	$TxtCorrelativo = isset($_REQUEST['TxtCorrelativo'])?$_REQUEST['TxtCorrelativo']:'';
+	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo'])?$_REQUEST['TxtLoteRemuestreo']:'';
+	$TxtLote = isset($_REQUEST['TxtLote'])?$_REQUEST['TxtLote']:'';
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto'])?$_REQUEST['CmbSubProducto']:'';	
+	$CmbProveedor = isset($_REQUEST['CmbProveedor'])?$_REQUEST['CmbProveedor']:'';
+	$TxtFechaRecep = isset($_REQUEST['TxtFechaRecep'])?$_REQUEST['TxtFechaRecep']:'';
+	$TxtCancha = isset($_REQUEST['TxtCancha'])?$_REQUEST['TxtCancha']:'';
+	$CmbCodFaena = isset($_REQUEST['CmbCodFaena'])?$_REQUEST['CmbCodFaena']:'';
+	$CmbCodRecepcion = isset($_REQUEST['CmbCodRecepcion'])?$_REQUEST['CmbCodRecepcion']:'';
+	$CmbClaseProducto = isset($_REQUEST['CmbClaseProducto'])?$_REQUEST['CmbClaseProducto']:'';
+	$TxtConjunto = isset($_REQUEST['TxtConjunto'])?$_REQUEST['TxtConjunto']:'';
+	$TxtMuestraParalela = isset($_REQUEST['TxtMuestraParalela'])?$_REQUEST['TxtMuestraParalela']:'';
+	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo'])?$_REQUEST['TxtLoteRemuestreo']:'';
+	$CmbEstadoLote = isset($_REQUEST['CmbEstadoLote'])?$_REQUEST['CmbEstadoLote']:'';	
+	$CmbCodRecepcionENM = isset($_REQUEST['CmbCodRecepcionENM'])?$_REQUEST['CmbCodRecepcionENM']:'';
+	
 	if($TxtCorrelativo=='')
-	$TxtCorrelativo=0;
+		$TxtCorrelativo=0;
 	
 	switch ($Proceso)
 	{
@@ -22,7 +39,7 @@
 			$Insertar.= " '".$CmbEstadoLote."','S','".$CmbCodRecepcionENM."')";
 			//Insertar."<br>";
 			mysqli_query ($link, $Insertar);	
-			if (mysql_errno($link)==0)
+			if (mysqli_errno($link)==0)
 			{
 				$EstOpe1 = "S";
 				$Mensaje = "Operacion Realizada";
@@ -33,7 +50,7 @@
 				$Mensaje = "01 - Error ".mysql_errno($link);
 				$Mensaje.= ", ".mysql_error($link)."<br>";
 			}	
-			if(mysql_errno($link)==1062)
+			if(mysqli_errno($link)==1062)
 			{
 				$Mensaje= "El Lote con el Recargo ya se encuentran Ingresados";
 			
@@ -46,7 +63,7 @@
 			$Insertar.= " '".$TxtPatente."', '".$CmbAutorizado."', '".$CmbEstadoRecargo."','S')";
 			mysqli_query($link, $Insertar);
 	//echo "<br>DETALLE ".$Insertar."<br>";
-		if (mysql_errno($link)==0)
+		if (mysqli_errno($link)==0)
 			{
 				$EstOpe1 = "S";
 				$Mensaje = "Operacion Realizada";
@@ -54,8 +71,8 @@
 			else
 			{
 				$EstOpe1 = "N";
-				$Mensaje = "02 - Error ".mysql_errno($link);
-				$Mensaje.= ", ".mysql_error($link)."<br>";
+				$Mensaje = "02 - Error ".mysqli_errno($link);
+				$Mensaje.= ", ".mysqli_error($link)."<br>";
 			}	
 		
 			//INSERTA EN REC_WEB.RECEPCIONES
@@ -92,7 +109,7 @@
 			$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
                   $Resp = mysqli_query($link, $Consulta);
                   if ($Row = mysqli_fetch_array($Resp))
-				$correl = $Row[correl];
+				$correl = $Row["correl"];
 			$correl = $correl + 1;
 			$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,";
 			$Insertar.= "bascula_salida,fecha,hora_entrada,hora_salida,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_producto,";
@@ -105,7 +122,7 @@
 			//	Insertar."<br>";
 			
 			//FIN INSERTA EN RECEPCIONES
-			if (mysql_errno($link)==0)
+			if (mysqli_errno($link)==0)
 			{
 				$EstOpe2 = "S";
 				$Mensaje = "Operacion Realizada";
@@ -113,8 +130,8 @@
 			else
 			{
 				$EstOpe2 = "N";
-				$Mensaje = "03 - Error ".mysql_errno($link);
-				$Mensaje.= ", ".mysql_error($link)."<br>";
+				$Mensaje = "03 - Error ".mysqli_errno($link);
+				$Mensaje.= ", ".mysqli_error($link)."<br>";
 			}	
 			if ($EstOpe1=="S" && $EstOpe2=="S")
 				$EstOpe = "S";
@@ -195,7 +212,7 @@
 					$NomTipoRecep=$FilaAux["DESC_A"]; 
 
 				/*---------------------FIN ACTUALIZA SIPA_WEB*/
-				if (mysql_errno($link)==0)
+				if (mysqli_errno($link)==0)
 				{
 					$EstOpe1 = "S";
 					$Mensaje = "Operacion Realizada";
@@ -203,8 +220,8 @@
 				else
 				{
 					$EstOpe1 = "N";
-					$Mensaje = "Error 2 - ".mysql_errno($link);
-					$Mensaje.= ", ".mysql_error($link)."<br>";
+					$Mensaje = "Error 2 - ".mysqli_errno($link);
+					$Mensaje.= ", ".mysqli_error($link)."<br>";
 				}	
 				//ACTUALIZA DETALLE_LOTES
 				$Actualizar = "UPDATE age_web.detalle_lotes set ";
@@ -222,7 +239,7 @@
 				$Actualizar.= " ,modificado='S' ";
 				$Actualizar.= " where lote='".$TxtLote."' and recargo='".$TxtRecargo."'";
 				mysqli_query($link, $Actualizar);	
-				if (mysql_errno($link)==0)
+				if (mysqli_errno($link)==0)
 				{
 					$EstOpe2 = "S";
 					$Mensaje = "Operacion Realizada";
@@ -230,8 +247,8 @@
 				else
 				{
 					$EstOpe2 = "N";
-					$Mensaje.= "Error ".mysql_errno($link);
-					$Mensaje.= ", ".mysql_error($link);
+					$Mensaje.= "Error ".mysqli_errno($link);
+					$Mensaje.= ", ".mysqli_error($link);
 				}	
 				//ACTUALIZA ESTADO DE LOS RECARGOS SEGUN ESTADO DE LOTE
 				$EstadoActualizar = 0;				
@@ -843,7 +860,7 @@
 						$RutProveedor=$FilaTemp["rut_proveedor"];
 						$FechaRecepcion=$FilaTemp["fecha_recepcion"];
 						$Cancha=$FilaTemp[cancha];
-						$Cod_Faena=$FilaTemp["cod_faena"];
+						$Cod_Faena=$FilaTemp[cod_faena];
 						$CodRecepcion=$FilaTemp["cod_recepcion"];
 						$ClaseProducto=$FilaTemp[clase_producto];
 						$NumConjunto=$FilaTemp["num_conjunto"];
@@ -946,7 +963,7 @@
 									if($FilaLote = mysqli_fetch_array($RespLote))
 									{
 										$Proveedor=$FilaLote["rut_proveedor"];
-										$CodFaena=$FilaLote["cod_faena"];
+										$CodFaena=$FilaLote[cod_faena];
 										$SubProducto=$FilaLote["cod_subproducto"];
 										$Guia=$FilaLote["rut_proveedor"];
 										$Conjunto=$FilaLote["num_conjunto"];
