@@ -1,4 +1,5 @@
 <?php
+    set_time_limit(500); 
 	include("../principal/conectar_principal.php");
 	ob_end_clean();
 	$file_name=basename($_SERVER['PHP_SELF']).".xls";

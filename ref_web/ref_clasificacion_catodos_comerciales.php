@@ -1,4 +1,5 @@
 <?php
+	set_time_limit(500);
 	include("../principal/conectar_principal.php");
 
 	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
@@ -11,14 +12,14 @@
 	$DiaFin     = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d"); 
 	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
 	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y"); 
-
-	if ($DiaIni < 10)
+	
+	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
 
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
@@ -431,7 +432,10 @@ function Detalle()
 	   $total_ot=0;
 	   $total_rechazo=0;
  	    while ($fila = mysqli_fetch_array($respuesta))
-	    { ?>
+	    { 
+		$fecha = isset($fila["fecha"])?$fila["fecha"]:"0000-00-00";
+		$grupo = isset($fila["grupo"])?$fila["grupo"]:"";
+		?>
 			    <tr onMouseOver="if(!this.contains(event.fromElement)){this.bgColor='class=ColorTabla02';} if(!document.all){style.cursor='pointer'};style.cursor='hand';" onMouseOut="if(!this.contains(event.toElement)){this.bgColor=''; }" >
 				<?php
 				echo "<td align='center' class=detalle01>".$fila["fecha"]."&nbsp</td>\n";
@@ -439,17 +443,17 @@ function Detalle()
 				/******************saca rechazos de tabla rechazo catodos de control de calidad*****************************************/
 				$consulta2="select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,sum(cordon_superior) as cs,sum(cordon_lateral) as cl,";
 				$consulta2.="sum(quemados) as qu,sum(redondos) as re, sum(aire) as ai,sum(otros) as ot ";
-				$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
+				$consulta2.="from cal_web.rechazo_catodos where fecha='".$fecha."' and grupo='".$grupo."'";
 				$respuesta2= mysqli_query($link, $consulta2);
 				$fila2 = mysqli_fetch_array($respuesta2);
 				$suma_rechazo=$fila2["ne"]+$fila2["nd"]+$fila2["ra"]+$fila2["cs"]+$fila2["cl"]+$fila2["qu"]+$fila2["re"]+$fila2["ai"]+$fila2["ot"];
 				/***********************************************************************************************************************/
 				/******************obtiene datos del grupo electrolitico 2 **********************************************************/
-				$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."' ";
+				$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$grupo."' and fecha<='".$fecha."' ";
 				$respuesta_max_fecha_ge= mysqli_query($link, $consulta_max_fecha_ge);
 				$row_max_fecha_ge = mysqli_fetch_array($respuesta_max_fecha_ge);
 				$consulta_det_grupo = "select ifnull(cubas_descobrizacion,0) as cant_cuba, ifnull(num_cubas_tot,0) as num_cubas, ifnull(num_catodos_celdas,1) as num_catodos,ifnull(hojas_madres,0) as hojas_madres  from ref_web.grupo_electrolitico2 ";
-			    $consulta_det_grupo = $consulta_det_grupo."where cod_grupo = '".$fila["grupo"]."' and  fecha = '".$row_max_fecha_ge["fecha"]."'";
+			    $consulta_det_grupo = $consulta_det_grupo."where cod_grupo = '".$grupo."' and  fecha = '".$row_max_fecha_ge["fecha"]."'";
 			    $respuesta_det_grupo = mysqli_query($link, $consulta_det_grupo);
 				$row_det_grupo = mysqli_fetch_array($respuesta_det_grupo);
 				/**********************************************************************************************************************/
@@ -457,11 +461,18 @@ function Detalle()
 				$divisor2=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"]-$row_det_grupo["hojas_madres"];
 				$divisor2=$divisor2*$row_det_grupo["num_catodos"];
 				if ($opcion=='P')
-				   {
-					$seleccion_inicial=(($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
-					$porc_recuperado=(($fila2["recuperado_tot"]/$divisor2)*100);
-					$total_por_rechazado=(($suma_rechazo/$divisor2)*100);
-				   }
+				{   
+					if($divisor2>0){
+						$seleccion_inicial=(($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
+						$porc_recuperado=(($fila2["recuperado_tot"]/$divisor2)*100);
+						$total_por_rechazado=(($suma_rechazo/$divisor2)*100);
+					}else{
+						$seleccion_inicial=0;
+						$porc_recuperado=0;
+						$total_por_rechazado=0;
+					}		
+					
+				}
 				 else if ($opcion=='L')
 				         {
 						  $seleccion_inicial=$suma_rechazo+$fila2["recuperado_tot"];
@@ -472,8 +483,8 @@ function Detalle()
 				/*****************************************************************************/
 				$arr_meses=array('Enero','Febrero_nor','Marzo','Abril','Mayo','Junio','Julio','Agosto','septiembre','Octubre','Noviembre','Diciembre');
 				$arr_dias=array(31,28,31,30,31,30,31,31,30,31,30,31); 
-				$ano_aux=intval(substr($fila["fecha"],0,4));
-				$mes_aux=intval(substr($fila["fecha"],5,2));
+				$ano_aux=intval(substr($fecha,0,4));
+				$mes_aux=intval(substr($fecha,5,2));
 				$calculo=$ano_aux/4;
 				$calculo2=number_format($calculo,"0","","");
 				$resto=$calculo2-$calculo;
@@ -481,7 +492,7 @@ function Detalle()
 					{$bisiesto='S';
 					 $mes_dia=28;}
 				else {$bisiesto='N';}
-				$dia_aux=intval(substr($fila["fecha"],8,2));
+				$dia_aux=intval(substr($fecha,8,2));
 				if ($dia_aux < 9)
 				   { $restantes= 8-$dia_aux;
 					 if ($mes_aux==1)
@@ -510,12 +521,12 @@ function Detalle()
 				
 				$fecha_ant=$ano_aux."-".$mes_aux."-".$dia_aux;
 				$cons_subp2="select distinct t1.cod_subproducto as producto, campo1 from sea_web.movimientos as t1 ";
-				$cons_subp2=$cons_subp2."where t1.tipo_movimiento='2' and t1.campo2='".$fila["grupo"]."' and t1.fecha_movimiento='".$fecha_ant."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
+				$cons_subp2=$cons_subp2."where t1.tipo_movimiento='2' and t1.campo2='".$grupo."' and t1.fecha_movimiento='".$fecha_ant."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
 				//echo $cons_subp2;
 				$Resp_subp2 = mysqli_query($link, $cons_subp2);
 				$Fila_subp2 = mysqli_fetch_array($Resp_subp2);
 				$cons_subp="select distinct t1.cod_subproducto as producto, campo1 from sea_web.movimientos as t1 ";
-				$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2='".$fila["grupo"]."' and t1.fecha_movimiento='".$fila["fecha"]."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
+				$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2='".$grupo."' and t1.fecha_movimiento='".$fecha."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
 				$Resp_subp = mysqli_query($link, $cons_subp);
 				$Fila_subp = mysqli_fetch_array($Resp_subp);
 				$producto=isset($Fila_subp["producto"])?$Fila_subp["producto"]:0;
@@ -523,7 +534,7 @@ function Detalle()
 					{
 					if ($Fila_subp["campo1"]=='M' )
 					   {
-						 echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
+						 echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 						 echo h."</td>\n";
 						 if ($Fila_subp2["producto"]==1)
 					        {echo "<td align='center'>h&nbsp</td>\n";}
@@ -547,7 +558,7 @@ function Detalle()
 					                        {echo "<td align='center'>D&nbsp</td>\n";}
 					                      else  {echo "<td align='center'>&nbsp</td>\n";}
 
-						     echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
+						     echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
 							 echo h."</td>\n";
 							 
                             }   	 

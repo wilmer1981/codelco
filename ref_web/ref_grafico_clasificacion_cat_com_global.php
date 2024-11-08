@@ -8,14 +8,14 @@
 	$MesFin     = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m"); 
 	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 	
-	       	if ($DiaIni < 10)
-		       $DiaIni = "0".$DiaIni;
-	        if ($MesIni < 10)
-		       $MesIni = "0".$MesIni;
-	        if ($DiaFin < 10)
-		       $DiaFin = "0".$DiaFin;
-	        if ($MesFin < 10)
-		       $MesFin = "0".$MesFin;
+	if (strlen($DiaIni)==1)
+		$DiaIni = "0".$DiaIni;
+	if (strlen($MesIni)==1)
+		$MesIni = "0".$MesIni;
+	if (strlen($DiaFin)==1)
+		$DiaFin = "0".$DiaFin;
+	if (strlen($MesFin)==1)
+		$MesFin = "0".$MesFin;
 
 	       $FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	       $FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
@@ -42,6 +42,9 @@
 				   $total_grupo=0;
 				   $rechazo_total_dias=0;
 				   $recuperado_total_dias=0;
+				   $total_grupo_acumulado=0;
+				   $rechazo_total_dias_acumulado=0;
+				   $recuperado_total_dias_acumulado=0;
 				   while ($row_grupos_dia=mysqli_fetch_array($respuesta_grupos_dia))
 				        {
 					      $consulta_t_rechazo_catodos="select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,";
@@ -68,11 +71,21 @@
 						  $recuperado_total_dias_acumulado=$recuperado_total_dias_acumulado+$fila_t_rechazo_catodos["recuperado_tot"];
 						  
 						}
-				   $recuperado_total=($recuperado_total_dias/$total_grupo)*100;
-				   $rechazo_total=($rechazo_total_dias/$total_grupo)*100; 
+					if($total_grupo>0){	
+						$recuperado_total=($recuperado_total_dias/$total_grupo)*100;
+						$rechazo_total=($rechazo_total_dias/$total_grupo)*100; 
+					}else{
+						$recuperado_total=0;
+						$rechazo_total   =0; 
+					}
 				   
-				   $recuperado_total_acumulado=($recuperado_total_dias_acumulado/$total_grupo_acumulado)*100;
-				   $rechazo_total_acumulado=($rechazo_total_dias_acumulado/$total_grupo_acumulado)*100; 
+				   if($total_grupo_acumulado>0){	
+						$recuperado_total_acumulado=($recuperado_total_dias_acumulado/$total_grupo_acumulado)*100;
+						$rechazo_total_acumulado=($rechazo_total_dias_acumulado/$total_grupo_acumulado)*100; 
+				   }else{
+					    $recuperado_total_acumulado=0;
+						$rechazo_total_acumulado=0; 
+				   }
 				   
 				   $arreglo_acumulado_recuperado_acu[$i]=number_format($recuperado_total_acumulado,"2",".",".");
 				   $arreglo_acumulado_rechazo_acu[$i]=number_format($rechazo_total_acumulado,"2",".",".");

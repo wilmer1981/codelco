@@ -9,14 +9,14 @@
 	$AnoFin     = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
 	$cmbcircuito= isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:"";
 	
-	       	if ($DiaIni < 10)
-		       $DiaIni = "0".$DiaIni;
-	        if ($MesIni < 10)
-		       $MesIni = "0".$MesIni;
-	        if ($DiaFin < 10)
-		       $DiaFin = "0".$DiaFin;
-	        if ($MesFin < 10)
-		       $MesFin = "0".$MesFin;
+	if (strlen($DiaIni)==1)
+		$DiaIni = "0".$DiaIni;
+	if (strlen($MesIni)==1)
+		$MesIni = "0".$MesIni;
+	if (strlen($DiaFin)==1)
+		$DiaFin = "0".$DiaFin;
+	if (strlen($MesFin)==1)
+		$MesFin = "0".$MesFin;
 
 	       $FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	       $FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
@@ -65,9 +65,16 @@
 						  $rechazo_total_dias=$rechazo_total_dias+$suma_rechazo;
 						  $recuperado_total_dias=$recuperado_total_dias+$fila_t_rechazo_catodos["recuperado_tot"];
 						}
-				   $seleccion_inicial=((($rechazo_total_dias+$recuperado_total_dias))/$total_grupo)*100;	
-				   $recuperado_total=($recuperado_total_dias/$total_grupo)*100;
-				   $rechazo_total=($rechazo_total_dias/$total_grupo)*100; 
+					if($total_grupo>0){		
+					   $seleccion_inicial=((($rechazo_total_dias+$recuperado_total_dias))/$total_grupo)*100;	
+					   $recuperado_total=($recuperado_total_dias/$total_grupo)*100;
+					   $rechazo_total=($rechazo_total_dias/$total_grupo)*100; 
+					}else{
+						$seleccion_inicial=0;	
+					    $recuperado_total=0;
+					    $rechazo_total=0;
+					}
+				   
 				   $arreglo_fecha[$i]=$fila["fecha"];
 				   $arreglo_acumulado_recuperado[$i]=number_format($recuperado_total,"2",".",".");
 				   $arreglo_acumulado_rechazo[$i]=number_format($rechazo_total,"2",".",".");
@@ -76,8 +83,13 @@
 				   $divisor2=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"]-$row_det_grupo["hojas_madres"];
 				   $divisor2=$divisor2*$row_det_grupo["num_catodos"];
 				   //$seleccion_inicial=(($suma_rechazo+$fila_t_rechazo_catodos["recuperado_tot"])/$divisor2)*100;
+				   if($divisor2>0){	
 				   $porc_recuperado=(($fila_t_rechazo_catodos["recuperado_tot"]/$divisor2)*100);
 				   $total_por_rechazado=(($suma_rechazo/$divisor2)*100);
+				   }else{
+					$porc_recuperado=0;
+					$total_por_rechazado=0;  
+				   }
 				   $arreglo_rechazo_dia[$i]=number_format($total_por_rechazado,"2",".",".");
 				   $arreglo_recuperado_dia[$i]=number_format($porc_recuperado,"2",".",".");
 				   $i++;
