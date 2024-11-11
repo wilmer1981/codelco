@@ -1,7 +1,9 @@
 <?php 	
 	$CodigoDeSistema = 10;
-	$CodigoDePantalla = 4;
-	include("../principal/conectar_ref_web.php");
+	$CodigoDePantalla = 2;
+	include("../principal/conectar_principal.php");
+	
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 
 
 ?>
@@ -157,7 +159,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
 		{

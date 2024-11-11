@@ -10,6 +10,12 @@
 	$txtnave            = isset($_REQUEST["txtnave"])?$_REQUEST["txtnave"]:"";
 	$parametros         = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
 	
+	$valido = 0;
+	if( is_numeric($txtgrupos) && is_numeric($txtceldas) && is_numeric($txtrectificador) && is_numeric($txtnave))
+	{
+		$valido = 1;	
+	}
+	
 	if (($proceso == "G") and ($opcion == "N"))
 	{	
 		$consulta = "SELECT * FROM sec_web.circuitos WHERE cod_circuito = '".$txtcodigo."'";
@@ -18,19 +24,26 @@
 		if ($row = mysqli_fetch_array($rs)) //Si Existe.
 		{	
 			$mensaje = "El Circuito Ya Existe";
-			header("Location:sec_ingreso_circuito_proceso.php?activar=&mensaje=".$mensaje);
+			header("Location:sec_ingreso_circuito_proceso.php?activar=S&mensaje=".$mensaje);
 		}
 		else //No Existe.
-		{
-			//Inserta en Sec_Web.
-			$insertar = "INSERT INTO sec_web.circuitos (cod_circuito,descripcion_circuito,cantidad_grupos,num_celdas_grupos,rectificador,nave)";
-			$insertar = $insertar." VALUES ('".$txtcodigo."','".$txtdescripcion."','".$txtgrupos."','".$txtceldas."','".$txtrectificador;
-			$insertar = $insertar."','".$txtnave."')";
-			mysqli_query($link, $insertar);
-			//echo $insertar."<br>";					
-								
-			header("Location:sec_ingreso_circuito_proceso.php?activar=");
-		}				
+		{   
+			if($valido == 1)
+			{
+				//Inserta en Sec_Web.
+				$insertar = "INSERT INTO sec_web.circuitos (cod_circuito,descripcion_circuito,cantidad_grupos,num_celdas_grupos,rectificador,nave)";
+				$insertar = $insertar." VALUES ('".$txtcodigo."','".$txtdescripcion."','".$txtgrupos."','".$txtceldas."','".$txtrectificador;
+				$insertar = $insertar."','".$txtnave."')";
+				mysqli_query($link, $insertar);
+				//echo $insertar."<br>";				
+				$mensaje = "Circuito registrado Correctamente.";					
+				header("Location:sec_ingreso_circuito_proceso.php?activar=S&mensaje=".$mensaje);
+			}else{
+				$mensaje = "Error";					
+				header("Location:sec_ingreso_circuito_proceso.php?activar=S&mensaje=".$mensaje."&opcion=N&circuito=".$txtcodigo);
+				//header("Location:sec_ingreso_circuito_proceso.php?activar=S&mensaje=".$mensaje);
+			}
+		}
 	}
 	
 	if (($proceso == "G") and ($opcion == "M"))
@@ -39,8 +52,8 @@
 		$actualizar.= ", num_celdas_grupos = '".$txtceldas."', rectificador = '".$txtrectificador."', nave = '".$txtnave."'";
 		$actualizar.= " WHERE cod_circuito = '".$txtcodigo."'";
 		mysqli_query($link, $actualizar);		
-				
-		header("Location:sec_ingreso_circuito_proceso.php?activar=");		
+		$mensaje = "Circuito actualizado Correctamente.";			
+		header("Location:sec_ingreso_circuito_proceso.php?activar=S&mensaje=".$mensaje);		
 	}
 	
 	if ($proceso == "E")
@@ -54,7 +67,7 @@
 		}
 		
 		$mensaje = "Grupo(s) Eliminado(s) Correctamente";
-		header("Location:sec_ingreso_circuito.php?mensaje=".$mensaje);				
+		header("Location:sec_ingreso_circuito.php?activar=S&mensaje=".$mensaje);				
 	}
 	
 	include("../principal/cerrar_sec_web.php");
