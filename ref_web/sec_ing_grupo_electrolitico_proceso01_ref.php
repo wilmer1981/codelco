@@ -60,7 +60,7 @@
 			}
 		}else{
 			$mensaje = "Error";	
-			header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=S&mensaje=".$mensaje);
+			header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=S&opcion=N&mensaje=".$mensaje);
 		}
 	}
 	
