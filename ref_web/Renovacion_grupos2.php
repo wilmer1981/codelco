@@ -296,13 +296,17 @@ function Salir()
                     $consulta22=$consulta22."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='C' order by dia_renovacion,fila_renovacion";
                     $respuesta22 = mysqli_query($link, $consulta22);
                     $i=0;
+					$arreglo22=array();
                     while($row22 = mysqli_fetch_array($respuesta22))
-                       {$arreglo22[$i]=$row22["cod_grupo"];
-                        $i++;}
-                    echo '<td width="70" align="center"><input name="TxtTurnoCG1" type="text" value="'.$arreglo22[0].'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"><input name="TxtTurnoCG2" type="text" value="'.$arreglo22[1].'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"></td>';
-					//echo '<td width="70" align="center">'.$arreglo22[0].'-'.$arreglo22[1].'-'.$arreglo22[2].'&nbsp;</td>';
-
-					
+                    {
+						$arreglo22[$i]=$row22["cod_grupo"];
+                        $i++;
+					}
+					$arreglo220 = isset($arreglo22[0])?$arreglo22[0]:"";
+					$arreglo221 = isset($arreglo22[1])?$arreglo22[1]:"";
+					$arreglo222 = isset($arreglo22[2])?$arreglo22[2]:"";
+                    echo '<td width="70" align="center"><input name="TxtTurnoCG1" type="text" value="'.$arreglo220.'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"><input name="TxtTurnoCG2" type="text" value="'.$arreglo221.'" size="3" onKeyDown=TeclaPulsada2("S",false,this.form,"") maxlength="2"></td>';
+					//echo '<td width="70" align="center">'.$arreglo22[0].'-'.$arreglo22[1].'-'.$arreglo22[2].'&nbsp;</td>';					
 					//poly
                     $consulta3="select cod_grupo from sec_web.renovacion_prog_prod ";
                     $consulta3=$consulta3."where dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%' and cod_concepto='D' order by dia_renovacion,fila_renovacion";
