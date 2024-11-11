@@ -191,7 +191,9 @@ function Salir()
 		
 		echo 'window.opener.document.frmPrincipal.action = "sec_ing_totales_produccion.php";';
 		echo 'window.opener.document.frmPrincipal.submit();';
-		echo 'window.close();';		
+		if($mensaje!="Error"){			
+			echo 'window.close();';	
+		}	
 		echo '</script>';
 	}
 ?>
