@@ -14,7 +14,13 @@
 	$cmbcalle       = isset($_REQUEST["cmbcalle"])?$_REQUEST["cmbcalle"]:"";
 	$txtcubaslavado = isset($_REQUEST["txtcubaslavado"])?$_REQUEST["txtcubaslavado"]:"";
 	$parametros     = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
-
+	
+	$valido = 0;
+	if( is_numeric($txtgrupo) && is_numeric($txttotal) && is_numeric($txtdescobrizacion) && is_numeric($txthm) &&
+		is_numeric($txtcatodos) && is_numeric($txtanodos) && is_numeric($txtcubaslavado) )
+	{
+		$valido = 1;	
+	}
 	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
 	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
 	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
@@ -29,34 +35,40 @@
 	
 	if (($proceso == "G") and ($opcion == "N"))
 	{	
-		$consulta = "SELECT * FROM ref_web.grupo_electrolitico2 ";
-		$consulta.= " WHERE cod_grupo = '".$txtgrupo."'";
-		$consulta.= " and fecha = '".$Ano."-".$Mes."-".$Dia."'";
-		$rs = mysqli_query($link, $consulta);
-		
-		if ($row = mysqli_fetch_array($rs)) //Si Existe.
-		{	
-			$mensaje = "El Grupo Ya Existe";
-			header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=&mensaje=".$mensaje);
+		if($valido == 1)
+		{				
+			$consulta = "SELECT * FROM ref_web.grupo_electrolitico2 ";
+			$consulta.= " WHERE cod_grupo = '".$txtgrupo."'";
+			$consulta.= " and fecha = '".$Ano."-".$Mes."-".$Dia."'";
+			$rs = mysqli_query($link, $consulta);
+			
+			if ($row = mysqli_fetch_array($rs)) //Si Existe.
+			{	
+				$mensaje = "El Grupo Ya Existe";
+				header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=S&mensaje=".$mensaje);
+			}
+			else //No Existe.
+			{
+				//Inserta en Sec_Web.
+				$insertar = "INSERT INTO ref_web.grupo_electrolitico2 (fecha,cod_grupo,cod_circuito,num_cubas_tot,cod_estado,cubas_descobrizacion,hojas_madres,num_catodos_celdas,num_anodos_celdas,calle_puente_grua,cubas_lavado)";
+				$insertar = $insertar." VALUES ('".$Ano."-".$Mes."-".$Dia."','".$txtgrupo."','".$cmbcircuito."','".$txttotal."','".$cmbestado."','".$txtdescobrizacion;
+				$insertar = $insertar."','".$txthm."','".$txtcatodos."','".$txtanodos."','".$cmbcalle."','".$txtcubaslavado."')";
+				//echo "insertar:".$insertar;
+				mysqli_query($link, $insertar);	
+				$mensaje = "Grupo grabado exitosamente.";			
+				header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=S&mensaje=".$mensaje);
+			}
+		}else{
+			$mensaje = "Error";	
+			header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=S&mensaje=".$mensaje);
 		}
-		else //No Existe.
-		{
-			//Inserta en Sec_Web.
-			$insertar = "INSERT INTO ref_web.grupo_electrolitico2 (fecha,cod_grupo,cod_circuito,num_cubas_tot,cod_estado,cubas_descobrizacion,hojas_madres,num_catodos_celdas,num_anodos_celdas,calle_puente_grua,cubas_lavado)";
-			$insertar = $insertar." VALUES ('".$Ano."-".$Mes."-".$Dia."','".$txtgrupo."','".$cmbcircuito."','".$txttotal."','".$cmbestado."','".$txtdescobrizacion;
-			$insertar = $insertar."','".$txthm."','".$txtcatodos."','".$txtanodos."','".$cmbcalle."','".$txtcubaslavado."')";
-			//echo "insertar:".$insertar;
-			mysqli_query($link, $insertar);					
-    		//header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=");
-			//exit();
-		}				
 	}
 	
 	if (($proceso == "G") and ($opcion == "M"))
 	{
 	   $consulta="select fecha,cod_grupo from ref_web.grupo_electrolitico2 where fecha= '".$Ano."-".$Mes."-".$Dia."' and cod_grupo = '".$txtgrupo."'";
 	   $rs = mysqli_query($link, $consulta);
-	   if (!($row = mysqli_fetch_array($rs))) //Si Existe.
+	    if (!($row = mysqli_fetch_array($rs))) //Si Existe.
 		{ $insertar = "INSERT INTO ref_web.grupo_electrolitico2 (fecha,cod_grupo,cod_circuito,num_cubas_tot,cod_estado,cubas_descobrizacion,hojas_madres,num_catodos_celdas,num_anodos_celdas,calle_puente_grua,cubas_lavado)";
 		  $insertar = $insertar." VALUES ('".$Ano."-".$Mes."-".$Dia."','".$txtgrupo."','".$cmbcircuito."','".$txttotal."','".$cmbestado."','".$txtdescobrizacion;
 		  $insertar = $insertar."','".$txthm."','".$txtcatodos."','".$txtanodos."','".$cmbcalle."','".$txtcubaslavado."')";
@@ -68,7 +80,8 @@
 		  $actualizar_ge2.= " WHERE cod_grupo = '".$txtgrupo."'";
 		  $actualizar_ge2.= " and fecha= '".$Ano."-".$Mes."-01'";
 		  mysqli_query($link, $actualizar_ge2);		
-		  }
+		  $mensaje = "Grupo(s) actualizado Correctamente";
+		}
 		else{$actualizar = "UPDATE ref_web.grupo_electrolitico2 SET cod_circuito = '".$cmbcircuito."', num_cubas_tot = '".$txttotal."'";
 		     $actualizar.= ", cubas_descobrizacion = '".$txtdescobrizacion."', hojas_madres = '".$txthm."', cod_estado = '".$cmbestado."'";
 		     $actualizar.= ", num_catodos_celdas = '".$txtcatodos."', num_anodos_celdas = '".$txtanodos."'";
@@ -82,8 +95,10 @@
 		     $actualizar_ge2.= ", calle_puente_grua = '".$cmbcalle."', cubas_lavado = '".$txtcubaslavado."'";
 		     $actualizar_ge2.= " WHERE cod_grupo = '".$txtgrupo."'";
 		     $actualizar_ge2.= " and fecha= '".$Ano."-".$Mes."-01'";
-		     mysqli_query($link, $actualizar_ge2);		}		
-    	header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=");		
+		     mysqli_query($link, $actualizar_ge2);	
+			$mensaje = "Grupo(s) actualizado Correctamente";				 
+		}		
+    	header("Location:sec_ing_grupo_electrolitico_proceso_ref.php?activar=S&mensaje=".$mensaje);		
 	}
 	
 	if ($proceso == "E")

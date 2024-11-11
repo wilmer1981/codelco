@@ -3,10 +3,11 @@
 	$opcion         = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 	$parametros     = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
 	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
-	
-	if ($opcion == "M")
+	$activar   = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+			
+	if($opcion == "M")
 	{
-
 		$arreglo = explode("/", $parametros); //Fecha - revision. 
 		$ano = substr($arreglo[0],0,4);
 		$mes = substr($arreglo[0],5,2);
@@ -15,9 +16,8 @@
         $rs = mysqli_query($link, $consulta);
   		if ($row = mysqli_fetch_array($rs))
 			$mostrar = "S";
-	}	
-
-	if ($opcion == "N")
+	}
+	if($opcion == "N")
 	{
 		$fecha_aux = date("Y")."-";
 		if (strlen(date("n")) == 1)
@@ -96,7 +96,7 @@ function Salir()
           <tr> 
             <td width="167">Fecha</td>
             <td colspan="2"><font size="2"> 
-              <?php
+            <?php
           	if ($mostrar == "S")
 				echo '<select name="mes" disabled>';
 			else
@@ -112,8 +112,8 @@ function Salir()
 				else
 					echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
 			}		  
-		?></select>
-              <?php
+			?></select>
+            <?php
           	if ($mostrar == "S")
 		    	echo '<select name="ano" disabled>';
 			else 
@@ -128,11 +128,11 @@ function Salir()
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
-		?></select>
+			?></select>
               </font></td>
           </tr>
           <tr> 
-            <td>Revisi�n</td>
+            <td>Revisi&oacute;n</td>
             <td width="65"> 
               <?php
 			  $cod_revision = isset($row["cod_revision"])?$row["cod_revision"]:"";
@@ -163,7 +163,7 @@ function Salir()
             <td colspan="2"><input name="txtdescobrizacion" type="text" size="10" value="<?php echo $total_desc_normal; ?>"></td>
           </tr>
           <tr> 
-            <td>Despuntes y L�minas</td>
+            <td>Despuntes y L&aacute;minas</td>
             <td colspan="2"><input name="txtdespuntes" type="text" size="10" value="<?php echo $total_desp_lamina; ?>"></td>
           </tr>
         </table> 
@@ -183,12 +183,12 @@ function Salir()
 </table>	
 </form>
 <?php
-	if (isset($activar))
+	if ($activar!="")
 	{
 		echo '<script language="JavaScript">';		
-		if (isset($mensaje))
+		if ($mensaje!="")
 			echo 'alert("'.$mensaje.'");';		
-			
+		
 		echo 'window.opener.document.frmPrincipal.action = "sec_ing_totales_produccion.php";';
 		echo 'window.opener.document.frmPrincipal.submit();';
 		echo 'window.close();';		

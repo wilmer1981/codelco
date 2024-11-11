@@ -1,7 +1,10 @@
 <?php 
-	include("../principal/conectar_sec_web.php");
+	include("../principal/conectar_principal.php");
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 4;
+	
+	$mensaje    = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	
 ?>
 <html>
 <head>
@@ -173,7 +176,7 @@ function Salir()
 <?php include("../principal/pie_pagina.php") ?>
 </form>
 <?php
-	if (isset($mensaje))
+	if ($mensaje!="")
 	{
 		echo '<script language="JavaScript">';		
 		echo 'alert("'.$mensaje.'");';			

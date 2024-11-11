@@ -43,7 +43,7 @@ function ValidaCampos(f)
 	
 	if (f.txtgrupos.value == "")
 	{
-		alert("Debe Ingresar El N� de Grupos");
+		alert("Debe Ingresar El N° de Grupos");
 		return false;
 	}
 	

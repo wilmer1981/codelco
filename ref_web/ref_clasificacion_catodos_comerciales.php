@@ -430,7 +430,7 @@ function Detalle()
 	   $total_re=0;
 	   $total_ai=0;
 	   $total_ot=0;
-	   $total_rechazo=0;
+	    $total_rechazo=0;
  	    while ($fila = mysqli_fetch_array($respuesta))
 	    { 
 		$fecha = isset($fila["fecha"])?$fila["fecha"]:"0000-00-00";
@@ -438,8 +438,8 @@ function Detalle()
 		?>
 			    <tr onMouseOver="if(!this.contains(event.fromElement)){this.bgColor='class=ColorTabla02';} if(!document.all){style.cursor='pointer'};style.cursor='hand';" onMouseOut="if(!this.contains(event.toElement)){this.bgColor=''; }" >
 				<?php
-				echo "<td align='center' class=detalle01>".$fila["fecha"]."&nbsp</td>\n";
-				echo "<td align='center' class=detalle02>".$fila["grupo"]."&nbsp</td>\n";
+				echo "<td align='center' class=detalle01>fecha-".$fila["fecha"]."&nbsp</td>\n";
+				echo "<td align='center' class=detalle02>grupo-".$fila["grupo"]."&nbsp</td>\n";
 				/******************saca rechazos de tabla rechazo catodos de control de calidad*****************************************/
 				$consulta2="select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,sum(cordon_superior) as cs,sum(cordon_lateral) as cl,";
 				$consulta2.="sum(quemados) as qu,sum(redondos) as re, sum(aire) as ai,sum(otros) as ot ";
@@ -475,6 +475,7 @@ function Detalle()
 				}
 				 else if ($opcion=='L')
 				         {
+							 echo "entroooooooo L";
 						  $seleccion_inicial=$suma_rechazo+$fila2["recuperado_tot"];
 					      $porc_recuperado=$fila2["recuperado_tot"];
 					      $total_por_rechazado=$suma_rechazo;
@@ -723,9 +724,10 @@ function Detalle()
 				}
 			   else if ($opcion=='L')
 			           {
-					    echo "<td align='center'>".$divisor2."&nbsp</td>\n";
+						   echo "Entrooo L";
+					    echo "<td align='center'>divisor-".$divisor2."&nbsp</td>\n";
 						$produccion_total=$produccion_total+$divisor2;
-					    echo "<td align='center'>".$seleccion_inicial."&nbsp</td>\n";
+					    echo "<td align='center'>selini-".$seleccion_inicial."&nbsp</td>\n";
 						$seleccion_inicial_total=$seleccion_inicial_total+$seleccion_inicial;
 					    echo "<td align='center'>".$porc_recuperado."&nbsp</td>\n";
 						$recuperado_total=$recuperado_total+$porc_recuperado;
@@ -771,7 +773,7 @@ function Detalle()
 			  echo '</tr>';		     	
 	    }
 		if ($opcion=='L')
-		{ 
+		{  echo "entro L 2";
 			echo '<tr class="ColorTabla01">';
 			echo "<td align='center' colspan='4'><strong>Totales&nbsp</strong></td>\n";
 			echo "<td align='center'><strong>".$produccion_total."&nbsp</strong></td>\n";
@@ -807,105 +809,108 @@ else
 					echo '<table width="753" border="2" cellspacing="2" align="center" cellpadding="2" bordercolor="#b26c4a" class="TablaDetalle">';
 					echo '<tr bgcolor="#FFFFFF" class="ColorTabla01">';
 					if ($opcion=='P')
-						{
-							echo '<td colspan="7" align="center"><strong>'.$row_circuito["descripcion_circuito"].'</strong></td>';
-						}
-					else {echo '<td colspan="8" align="center"><strong>'.$row_circuito["descripcion_circuito"].'</strong></td>';}		
+					{
+						echo '<td colspan="7" align="center"><strong>'.$row_circuito["descripcion_circuito"].'</strong></td>';
+					}else{
+						echo '<td colspan="8" align="center"><strong>'.$row_circuito["descripcion_circuito"].'</strong></td>';
+					}		
 					echo '</tr>';
 					echo '<tr bgcolor="#FFFFFF" class="ColorTabla01">';
 					echo '<td width="96" rowspan="2" align="center"><strong>Fecha</strong><strong></strong></td>';
 					echo '<td width="38" rowspan="2" align="center"><strong>Grupo</strong><strong></strong></td>';
-					echo '<td colspan="2" align="center"><strong>Lado</strong></td>';
+					echo '<td colspan="2" align="center"><strong>Lado 111</strong></td>';
 					if ($opcion=='P')
-					   {
+					{
 						echo '<td width="142" rowspan="2" align="center"><strong>Seleccion Inicial (%)</strong></td>';
 						echo '<td width="140" rowspan="2" align="center"><strong>Recuperado (%)</strong></td>';
 						echo '<td width="191" rowspan="2" align="center"><strong>Estandar (%)</strong></td>';
-					   }
-					else if ($opcion=='L')
-					        { 
-							 echo '<td width="142" rowspan="2" align="center"><strong>Produccion (Unid.)</strong></td>';
-					          echo '<td width="142" rowspan="2" align="center"><strong>Seleccion Inicial (Unid.)</strong></td>';
-						      echo '<td width="140" rowspan="2" align="center"><strong>Recuperado (Unid.)</strong></td>';
-						      echo '<td width="191" rowspan="2" align="center"><strong>Estandar (Unid.)</strong></td>';
-						    }  
+					}
+					if ($opcion=='L')
+					{ 
+						echo '<td width="142" rowspan="2" align="center"><strong>Produccion (Unid.)</strong></td>';
+					    echo '<td width="142" rowspan="2" align="center"><strong>Seleccion Inicial (Unid.)</strong></td>';
+						echo '<td width="140" rowspan="2" align="center"><strong>Recuperado (Unid.)</strong></td>';
+						echo '<td width="191" rowspan="2" align="center"><strong>Estandar (Unid.)</strong></td>';
+					}  
 					echo '</tr>';
 					echo '<tr bgcolor="#FFFFFF" class="ColorTabla01">';
 					echo '<td width="42" align="center"><strong>Mar</strong></td>';
 					echo '<td width="43" align="center"><strong>Tierra</strong></td>';
 					echo '</tr>';
-					   $consulta="SELECT t1.fecha_produccion as fecha,t2.cod_circuito as circuito,t1.cod_grupo as grupo ";
-					   $consulta.="from sec_web.produccion_catodo as t1 ";
-					   $consulta.="INNER JOIN ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo ";
-					   $consulta.="where t1.fecha_produccion BETWEEN '".$FechaInicio."' and '".$FechaTermino."' and t2.cod_circuito='".$row_circuito["cod_circuito"]."' ";
-					   $consulta.="and t1.cod_producto='18' and t1.cod_subproducto='1' ";
-					   $consulta.="GROUP by t1.fecha_produccion,t2.cod_circuito,t1.cod_grupo ";
-					   $consulta.="ORDER by t1.fecha_produccion,t2.cod_grupo ";
-					   $respuesta = mysqli_query($link, $consulta);
-					   $produccion_total=0;
-					   $seleccion_inicial_total=0;
-					   $recuperado_total=0;
-					   $rechazado_total=0;
-					   while ($fila = mysqli_fetch_array($respuesta))
-							 {
+					    $consulta="SELECT t1.fecha_produccion as fecha,t2.cod_circuito as circuito,t1.cod_grupo as grupo ";
+					    $consulta.="from sec_web.produccion_catodo as t1 ";
+					    $consulta.="INNER JOIN ref_web.grupo_electrolitico2 as t2 on t1.cod_grupo=t2.cod_grupo ";
+					    $consulta.="where t1.fecha_produccion BETWEEN '".$FechaInicio."' and '".$FechaTermino."' and t2.cod_circuito='".$row_circuito["cod_circuito"]."' ";
+					    $consulta.="and t1.cod_producto='18' and t1.cod_subproducto='1' ";
+					    $consulta.="GROUP by t1.fecha_produccion,t2.cod_circuito,t1.cod_grupo ";
+					    $consulta.="ORDER by t1.fecha_produccion,t2.cod_grupo ";
+					    $respuesta = mysqli_query($link, $consulta);
+					    $produccion_total=0;
+					    $seleccion_inicial_total=0;
+					    $recuperado_total=0;
+					    $rechazado_total=0;
+					    while ($fila = mysqli_fetch_array($respuesta))
+						{
 								echo "<tr>\n";
-								echo "<td align='center' class=detalle01>".$fila["fecha"]."&nbsp</td>\n";
-								echo "<td align='center' class=detalle02>".$fila["grupo"]."&nbsp</td>\n";
+								echo "<td align='center' class=detalle01>Fecha-".$fila["fecha"]."&nbsp</td>\n";
+								echo "<td align='center' class=detalle02>Grupo-".$fila["grupo"]."&nbsp</td>\n";
 								/******************saca rechazos de tabla rechazo catodos de control de calidad*****************************************/
-								$consulta2="select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,sum(cordon_superior) as cs,sum(cordon_lateral) as cl,sum(otros) as ot, ";
-								$consulta2.="sum(quemados) as qu,sum(redondos) as re,sum(aire) as ai ";
-								$consulta2.="from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
-								$respuesta2= mysqli_query($link, $consulta2);
-								$fila2 = mysqli_fetch_array($respuesta2);
-								$suma_rechazo=$fila2["ne"]+$fila2["nd"]+$fila2["ra"]+$fila2["cs"]+$fila2["cl"]+$fila2["ot"]+$fila2["qu"]+$fila2["re"]+$fila2["ai"];
+								$consulta2 = "select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,sum(cordon_superior) as cs,sum(cordon_lateral) as cl,sum(otros) as ot, ";
+								$consulta2.= "sum(quemados) as qu,sum(redondos) as re,sum(aire) as ai ";
+								$consulta2.= "from cal_web.rechazo_catodos where fecha='".$fila["fecha"]."' and grupo='".$fila["grupo"]."'";
+								$respuesta2 = mysqli_query($link, $consulta2);
+								$fila2      = mysqli_fetch_array($respuesta2);
+								$suma_rechazo = $fila2["ne"] + $fila2["nd"] + $fila2["ra"] + $fila2["cs"] + $fila2["cl"]+$fila2["ot"]+$fila2["qu"]+$fila2["re"]+$fila2["ai"];
 								/***********************************************************************************************************************/
 								/******************obtiene datos del grupo electrolitico 2 **********************************************************/
-								$consulta_max_fecha_ge="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."' ";
-								$respuesta_max_fecha_ge= mysqli_query($link, $consulta_max_fecha_ge);
-								$row_max_fecha_ge = mysqli_fetch_array($respuesta_max_fecha_ge);
-								$consulta_det_grupo = "select ifnull(cubas_descobrizacion,0) as cant_cuba, ifnull(num_cubas_tot,0) as num_cubas, ifnull(num_catodos_celdas,1) as num_catodos,ifnull(hojas_madres,0) as hojas_madres  from ref_web.grupo_electrolitico2 ";
-								$consulta_det_grupo = $consulta_det_grupo."where cod_grupo = '".$fila["grupo"]."' and  fecha = '".$row_max_fecha_ge["fecha"]."'";
+								$consulta_max_fecha_ge  ="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo='".$fila["grupo"]."' and fecha<='".$fila["fecha"]."' ";
+								$respuesta_max_fecha_ge = mysqli_query($link, $consulta_max_fecha_ge);
+								$row_max_fecha_ge       = mysqli_fetch_array($respuesta_max_fecha_ge);
+								$consulta_det_grupo  = "select ifnull(cubas_descobrizacion,0) as cant_cuba, ifnull(num_cubas_tot,0) as num_cubas, ifnull(num_catodos_celdas,1) as num_catodos,ifnull(hojas_madres,0) as hojas_madres  from ref_web.grupo_electrolitico2 ";
+								$consulta_det_grupo  = $consulta_det_grupo."where cod_grupo = '".$fila["grupo"]."' and  fecha = '".$row_max_fecha_ge["fecha"]."'";
 								$respuesta_det_grupo = mysqli_query($link, $consulta_det_grupo);
-								$row_det_grupo = mysqli_fetch_array($respuesta_det_grupo);
+								$row_det_grupo       = mysqli_fetch_array($respuesta_det_grupo);
 								/**********************************************************************************************************************/
-								$divisor=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"];
-								$divisor2=$row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"]-$row_det_grupo["hojas_madres"];
-								$divisor2=$divisor2*$row_det_grupo["num_catodos"];
+								$divisor  = $row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"];
+								$divisor2 = $row_det_grupo["num_cubas"]-$row_det_grupo["cant_cuba"]-$row_det_grupo["hojas_madres"];
+								$divisor2 = $divisor2*$row_det_grupo["num_catodos"];
 								if ($opcion=='P')
-								   {
+								{
 									if($divisor2>0){	
-									$seleccion_inicial=(($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
-									$porc_recuperado=(($fila2["recuperado_tot"]/($divisor*$row_det_grupo["num_catodos"]))*100);
-									$total_por_rechazado=(($suma_rechazo/($divisor*$row_det_grupo["num_catodos"]))*100);
+										$seleccion_inicial   = (($suma_rechazo+$fila2["recuperado_tot"])/$divisor2)*100;
+										$porc_recuperado     = (($fila2["recuperado_tot"]/($divisor*$row_det_grupo["num_catodos"]))*100);
+										$total_por_rechazado = (($suma_rechazo/($divisor*$row_det_grupo["num_catodos"]))*100);
 									}else{
 										$seleccion_inicial=0;
 										$porc_recuperado=0;
 										$total_por_rechazado=0; 
 									}
-								   }
-								 else if ($opcion=='L')
-								         {
-										   $seleccion_inicial=$suma_rechazo+$fila2["recuperado_tot"];
-									       $porc_recuperado=$fila2["recuperado_tot"];
-									       $total_por_rechazado=$suma_rechazo;
-										 }  	
+								}
+								if ($opcion=='L')
+								{
+									$seleccion_inicial   = $suma_rechazo + $fila2["recuperado_tot"];
+									$porc_recuperado     = $fila2["recuperado_tot"];
+									$total_por_rechazado = $suma_rechazo;
+								}  	
 								/************************************************************************/
 								/*****************************************************************************/
-								$arr_meses=array('Enero','Febrero_nor','Marzo','Abril','Mayo','Junio','Julio','Agosto','septiembre','Octubre','Noviembre','Diciembre');
-								$arr_dias=array(31,28,31,30,31,30,31,31,30,31,30,31); 
-								$ano_aux=intval(substr($fila["fecha"],0,4));
-								$mes_aux=intval(substr($fila["fecha"],5,2));
-								$calculo=$ano_aux/4;
-								$calculo2=number_format($calculo,"0","","");
-								$resto=$calculo2-$calculo;
+								$arr_meses = array('Enero','Febrero_nor','Marzo','Abril','Mayo','Junio','Julio','Agosto','septiembre','Octubre','Noviembre','Diciembre');
+								$arr_dias  = array(31,28,31,30,31,30,31,31,30,31,30,31); 
+								$ano_aux   = intval(substr($fila["fecha"],0,4));
+								$mes_aux   = intval(substr($fila["fecha"],5,2));
+								$calculo   = $ano_aux/4;
+								$calculo2  = number_format($calculo,"0","","");
+								$resto     = $calculo2-$calculo;
 								if ($resto==0)
-									{$bisiesto='S';
-									 $mes_dia=28;}
-								else {$bisiesto='N';}
-								$dia_aux=intval(substr($fila["fecha"],8,2));
+								{   $bisiesto='S';
+									$mes_dia=28;
+								}
+								else 
+								{$bisiesto='N';}
+								$dia_aux = intval(substr($fila["fecha"],8,2));
 								if ($dia_aux < 9)
-								   { $restantes= 8-$dia_aux;
-									 if ($mes_aux==1)
+								{   $restantes= 8-$dia_aux;
+									if ($mes_aux==1)
 										{$mes_aux=strval(12);
 										  $ano_aux=strval($ano_aux-1);
 										  $dia_aux=$arr_dias[(intval($mes_aux))-1];
@@ -920,14 +925,16 @@ else
 									 else{$mes_aux=strval(intval($mes_aux)-1);	
 										  $dia_aux=$arr_dias[intval($mes_aux)-1];
 										  $dia_aux=strval($dia_aux-$restantes);}
-									}
-								else{$dia_aux=strval($dia_aux-8);
-									  $mes_aux=strval($mes_aux);
-									  $ano_aux=strval($ano_aux);}		
+								}
+								else
+								{   $dia_aux=strval($dia_aux-8);
+									$mes_aux=strval($mes_aux);
+									$ano_aux=strval($ano_aux);
+								}		
 								if (strlen($dia_aux)==1)
-									{$dia_aux='0'.$dia_aux;}
+									{$dia_aux = '0'.$dia_aux;}
 								if (strlen($mes_aux)==1)
-									{$mes_aux='0'.$mes_aux;}	
+									{$mes_aux = '0'.$mes_aux;}	
 								
 								$fecha_ant=$ano_aux."-".$mes_aux."-".$dia_aux;
 								$cons_subp2="select distinct t1.cod_subproducto as producto, campo1 from sea_web.movimientos as t1 ";
@@ -1040,8 +1047,8 @@ else
 									}
 								else if ($producto==3)
 									{
-									   if ($Fila_subp["campo1"]=='M' )
-									   {
+									    if ($Fila_subp["campo1"]=='M' )
+									    {
 										 echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
 										 echo D."</td>\n";
 										 if ($Fila_subp2["producto"]==1)
@@ -1055,7 +1062,7 @@ else
 															else  {echo "<td align='center'>&nbsp</td>\n";}				
 									   }
 									   else if ($Fila_subp["campo1"]=='T' )
-											  {
+											{
 												if ($Fila_subp2["producto"]==1)
 												{echo "<td align='center'>h&nbsp</td>\n";}
 												else if ($Fila_subp2["producto"]==4)
@@ -1067,50 +1074,48 @@ else
 															else  {echo "<td align='center'>&nbsp</td>\n";}				
 												echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
 												echo D."</td>\n";			
-											  }  	 
+											}  	 
 									}
-									else  {
-										   echo "<td align='center'>&nbsp</td>\n";
-										  
-										  }
+									else{
+										echo "<td align='center'>&nbsp</td>\n";										  
+									}
 				
 								/*******************************************************************************/
 								/*******************************************************************************/
 								if ($opcion=='P')
-								    {
-									  echo "<td align='center'>".number_format($seleccion_inicial,"2",".",",")."&nbsp</td>\n";
-									  echo "<td align='center'>".number_format($porc_recuperado,"2",".",",")."&nbsp</td>\n";
-									  echo "<td align='center'>".number_format($total_por_rechazado,"2",".",",")."&nbsp</td>\n";
-									}
-							    else if ($opcion=='L')
-								        {
-										 	echo "<td align='center'>".$divisor2."&nbsp</td>\n";
-											$produccion_total=$produccion_total+$divisor2;
-											echo "<td align='center'>".$seleccion_inicial."&nbsp</td>\n";
-											$seleccion_inicial_total=$seleccion_inicial_total+$seleccion_inicial;
-											echo "<td align='center'>".$porc_recuperado."&nbsp</td>\n";
-											$recuperado_total=$recuperado_total+$porc_recuperado;
-											echo "<td align='center'>".$total_por_rechazado."&nbsp</td>\n";
-											$rechazado_total=$rechazado_total+$total_por_rechazado;
-										}
+								{
+									echo "<td align='center'>".number_format($seleccion_inicial,"2",".",",")."&nbsp</td>\n";
+									echo "<td align='center'>".number_format($porc_recuperado,"2",".",",")."&nbsp</td>\n";
+									echo "<td align='center'>".number_format($total_por_rechazado,"2",".",",")."&nbsp</td>\n";
+								}
+							    if ($opcion=='L')
+								{
+									echo "<td align='center'>".$divisor2."&nbsp</td>\n";
+									$produccion_total=$produccion_total+$divisor2;
+									echo "<td align='center'>".$seleccion_inicial."&nbsp</td>\n";
+									$seleccion_inicial_total=$seleccion_inicial_total+$seleccion_inicial;
+									echo "<td align='center'>".$porc_recuperado."&nbsp</td>\n";
+									$recuperado_total=$recuperado_total+$porc_recuperado;
+									echo "<td align='center'>".$total_por_rechazado."&nbsp</td>\n";
+									$rechazado_total=$rechazado_total+$total_por_rechazado;
+								}
 												  
-							 }
-							 if ($opcion=='L')
-								{ 
-									echo '<tr class="ColorTabla01">';
-									echo "<td align='center' colspan='4'><strong>Totales&nbsp</strong></td>\n";
-									echo "<td align='center'><strong>".$produccion_total."&nbsp</strong></td>\n";
-									echo "<td align='center'><strong>".$seleccion_inicial_total."&nbsp</strong></td>\n";
-									echo "<td align='center'><strong>".$recuperado_total."&nbsp</strong></td>\n";
-									echo "<td align='center'><strong>".$rechazado_total."&nbsp</strong></td>\n";
-									echo '</tr>'; 
-							   }
-							
+						}
+						if ($opcion=='L')
+						{ 
+							echo '<tr class="ColorTabla01">';
+							echo "<td align='center' colspan='4'><strong>Totales&nbsp</strong></td>\n";
+							echo "<td align='center'><strong>".$produccion_total."&nbsp</strong></td>\n";
+							echo "<td align='center'><strong>".$seleccion_inicial_total."&nbsp</strong></td>\n";
+							echo "<td align='center'><strong>".$recuperado_total."&nbsp</strong></td>\n";
+							echo "<td align='center'><strong>".$rechazado_total."&nbsp</strong></td>\n";
+							echo '</tr>'; 
+						}							
 				  echo '</table>';
 				  echo '<tr>';
 				  echo '<td>&nbsp</td>';
 				  echo '</tr>';
-			 }		  
+			}		  
   }
   ?>
   

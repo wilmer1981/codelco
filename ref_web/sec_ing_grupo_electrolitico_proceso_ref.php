@@ -310,7 +310,10 @@ function Salir()
 			
 		echo 'window.opener.document.frmPrincipal.action = "sec_ing_grupo_electrolitico_ref.php";';
 		echo 'window.opener.document.frmPrincipal.submit();';
-		echo 'window.close();';		
+		if($mensaje!="Error"){			
+			echo 'window.close();';	
+		}
+		
 		echo '</script>';
 	}
 ?>
