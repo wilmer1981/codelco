@@ -8,9 +8,13 @@
   $cod_novedad  = isset($_REQUEST["cod_novedad"])?$_REQUEST["cod_novedad"]:"";
   $fecha        = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
   $observaciones= isset($_REQUEST["observaciones"])?$_REQUEST["observaciones"]:"";
+   
+  $Area         = isset($_REQUEST["Area"])?$_REQUEST["Area"]:"";
+  $Estado       = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
   $cmbturno     = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
+  $observacion  = isset($_REQUEST["observacion"])?$_REQUEST["observacion"]:"";
 
-  
+  //echo "Opcion:".$opcion;
   if ($opcion=='M')
       {
 
@@ -19,10 +23,10 @@
 	  
 	   $respuesta_codigo = mysqli_query($link, $consulta_codigo);
 	   $fila_codigo=mysqli_fetch_array($respuesta_codigo);
-	   $cod_novedad=$fila_codigo["COD_NOVEDAD"];
-	   $observaciones=$fila_codigo["NOVEDAD"];
-	   $Area=$fila_codigo["area"];
-	   $Estado=$fila_codigo["estado"];
+	   $cod_novedad=isset($fila_codigo["COD_NOVEDAD"])?$fila_codigo["COD_NOVEDAD"]:"";
+	   $observaciones=isset($fila_codigo["NOVEDAD"])?$fila_codigo["NOVEDAD"]:"";
+	   $Area=isset($fila_codigo["area"])?$fila_codigo["area"]:"";
+	   $Estado=isset($fila_codigo["estado"])?$fila_codigo["estado"]:"";
 	   if (isset($fila_codigo["compromiso"]))
 	      {
 		   $ano1=substr($fila_codigo["compromiso"],0,4);
@@ -132,14 +136,11 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					$Respuesta = mysqli_query($link, $Consulta);
 				if ($Fila = mysqli_fetch_array($Respuesta))
 					if ($opcion == "M")
-					{
-					
-						$cmbturno = $turno;
-						
+					{					
+						$cmbturno = $turno;						
 					}	
 					else
-					{
-					
+					{					
 						$cmbturno = $Fila["turno"];
 					}	
 				}
@@ -160,7 +161,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 </TD>
                   <TD width="296" rowspan="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">FECHA 
                     :&nbsp;&nbsp;&nbsp; 
-                    <?phpphp  echo $fecha; ?>
+                    <?php  echo $fecha; ?>
                     </FONT></b></b></TD>
                   <TD width="77" rowspan="2"><b><b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">Enviar 
                     a:</FONT></b></b></TD>
@@ -308,7 +309,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					for ($i = 1;$i <= 2; $i++)
 					{
 						$estado=array('Pendiente','Realizado');
-						if (isset($Estado))
+						if ($Estado!="")
 						{
 							if ($Estado == $i)
 								echo "<option selected value='".$i."'>".ucwords(strtolower($estado[$i - 1]))."</option>\n";
@@ -411,7 +412,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					{
 						$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Grúas','Lubricación');
 
-						if (isset($Area))
+						if ($Area!="")
 						{
 							if ($Area == $i)
 								echo "<option selected value='".$i."'>".ucwords(strtolower($obras[$i - 1]))."</option>\n";

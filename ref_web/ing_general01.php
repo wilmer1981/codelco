@@ -11,6 +11,7 @@
 	$cmbturno     = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
 	$gerencia     = isset($_REQUEST["gerencia"])?$_REQUEST["gerencia"]:"";
 	$Condicion_insegura  = isset($_REQUEST["Condicion_insegura"])?$_REQUEST["Condicion_insegura"]:"";
+	
 	$Area    = isset($_REQUEST["Area"])?$_REQUEST["Area"]:"";
 	$Estado  = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
 
@@ -49,7 +50,7 @@
 			if ($mantencion!='S') //en ingreso $mantencion =  ' '
 			{
 				//   echo "entro a actualizar";
-		        $actualizar="UPDATE ref_web.novedades set NOVEDAD='".$observacion."', TURNO='".$cmbturno."', usuario='".$nombre."', mantencion='".$mantencion."', gerencia='".$gerencia."' ,Condicion_insegura='".$Condicion_insegura."', estado='' where COD_NOVEDAD='".$cod_novedad."'";
+		        $actualizar="UPDATE ref_web.novedades set NOVEDAD='".$observacion."', TURNO='".$cmbturno."', usuario='".$nombre."', mantencion='".$mantencion."', gerencia='".$gerencia."' ,Condicion_insegura='".$Condicion_insegura."', estado='$Estado' where COD_NOVEDAD='".$cod_novedad."'";
 				//echo $actualizar;				
 			}
 			else 
@@ -66,11 +67,11 @@
 				{
 				      $fecha_real='0000-00-00';
 				}	 
-			      	  $actualizar="UPDATE ref_web.novedades set NOVEDAD='".$observacion."', TURNO='".$cmbturno."', usuario='".$nombre."', mantencion='".$mantencion."', gerencia='".$gerencia."', Condicion_insegura='".$Condicion_insegura."', ";
-				  	  $actualizar.="compromiso='".$fecha_compromiso."', area='".$Area."', estado='".$Estado."',fecha_real='".$fecha_real."' where COD_NOVEDAD='".$cod_novedad."'";
-						//echo $actualizar."<br>";		  
-				}   			
-				mysqli_query($link, $actualizar);
+			    $actualizar="UPDATE ref_web.novedades set NOVEDAD='".$observacion."', TURNO='".$cmbturno."', usuario='".$nombre."', mantencion='".$mantencion."', gerencia='".$gerencia."', Condicion_insegura='".$Condicion_insegura."', ";
+				$actualizar.="compromiso='".$fecha_compromiso."', area='".$Area."', estado='$Estado',fecha_real='".$fecha_real."' where COD_NOVEDAD='".$cod_novedad."'";
+				//echo "Actualizar:".$actualizar."<br>";		  
+			}   			
+			mysqli_query($link, $actualizar);
 		  }
 		else 
 		{
@@ -137,7 +138,7 @@
 			$Eliminar.=" and Cod_tipo='5'";
 				// echo "DELETE".$Eliminar;
 		    mysqli_query($link, $Eliminar);
-	} 	
+		} 	
 			if ($cmbturno=='C' && $fecha_hoy == $fecha)
 			{
 				$Insertar = "INSERT INTO informe_diario.novedades (Fecha,Rut, Cod_tipo, Nombre,Texto)";
@@ -153,7 +154,7 @@
 			mysqli_query($link, $Insertar);
 		mysqli_close($link);	
 		include("../principal/conectar_ref_web.php");	
-		header ("location:ing_general.php?fecha=$fecha");
+		header ("location:ing_general.php?fecha=$fecha&opcion=$opcion&cod_novedad=$cod_novedad&turno=$cmbturno");
 	}
 	
 	if ($Proceso == "E")
