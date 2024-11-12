@@ -17,7 +17,7 @@
 	     $consulta_rectificador="select distinct max(fecha) as fecha1,cod_rectificador from ref_web.rectificadores where fecha <='".$Ano."-".$Mes."-".$Dia."' and cod_rectificador='".$txtrectificador."'  group by cod_rectificador order by cod_rectificador ";
 		 $rs_rectificador=mysqli_query($link, $consulta_rectificador);	
 	     $row_rectificador = mysqli_fetch_array($rs_rectificador);
-		 $fecha1 = isset($row_rectificador["fecha1"])?$row_rectificador["fecha1"]:"";
+		 $fecha1 = isset($row_rectificador["fecha1"])?$row_rectificador["fecha1"]:"0000-00-00";
 
 	     $consulta_datos="SELECT max(fecha),cod_rectificador,descripcion_rectificador,Corriente_aplicada ";
          $consulta_datos.="FROM ref_web.rectificadores "; 
@@ -49,13 +49,18 @@ function ValidaCampos(f)
 {
 	if (f.txtrectificador.value == "")
 	{
-		alert("Debe Ingresar el N del rectifiucador");
+		alert("Debe Ingresar el N° del rectifiucador");
 		return false;
 	}
 	
 	if (f.txtaplicada.value == "")
 	{
 		alert("Debe ingresar corriente aplicada");
+		return false;
+	}
+	if (f.txtaplicada.value >= 10)
+	{
+		alert("Corriente aplicada debe ser menor a 10");
 		return false;
 	}
 	
@@ -217,7 +222,9 @@ function Salir()
 			
 		echo 'window.opener.document.frmPrincipal.action = "ref_ing_rectificadores.php";';
 		echo 'window.opener.document.frmPrincipal.submit();';
-		echo 'window.close();';		
+		if($mensaje!="Error"){			
+			echo 'window.close();';	
+		}			
 		echo '</script>';
 	}
 ?>

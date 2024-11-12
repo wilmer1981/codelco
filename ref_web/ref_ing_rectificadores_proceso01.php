@@ -9,7 +9,15 @@
 	$parametros        = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
 	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:"";
 	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"";
-	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";	
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:"";
+
+    $txtaplicada = str_replace(',', '.', $txtaplicada);	
+	
+	$valido = 0;
+	if( is_numeric($txtrectificador) && is_numeric($txtaplicada)  )
+	{
+		$valido = 1;	
+	}
 	
 
 	$consulta_fecha_systema="SELECT left(sysdate(),10) as fecha2";
@@ -26,15 +34,21 @@
 		if ($row = mysqli_fetch_array($rs)) //Si Existe.
 		{	
 			$mensaje = "El Rectificador Ya Existe";
-			header("Location:ref_ing_rectificador.php?activar=&mensaje=".$mensaje);
+			header("Location:ref_ing_rectificador.php?activar=S&mensaje=".$mensaje);
 		}
 		else //No Existe.
 		{
-			//Inserta en Sec_Web.
-			$insertar = "INSERT INTO ref_web.rectificadores (fecha,cod_rectificador,descripcion_rectificador,Corriente_aplicada)";
-			$insertar = $insertar." VALUES ('".$Ano."-".$Mes."-".$Dia."','".$txtrectificador."','".$txtdescripcion."','".$txtaplicada."')";
-			mysqli_query($link, $insertar);					
-    		header("Location:ref_ing_rectificador.php?activar=");
+			if($valido == 1){
+				//Inserta en Sec_Web.
+				$insertar = "INSERT INTO ref_web.rectificadores (fecha,cod_rectificador,descripcion_rectificador,Corriente_aplicada)";
+				$insertar = $insertar." VALUES ('".$Ano."-".$Mes."-".$Dia."','".$txtrectificador."','".$txtdescripcion."','".$txtaplicada."')";
+				mysqli_query($link, $insertar);	
+				$mensaje = "Rectificador registrado con exito.";				
+				header("Location:ref_ing_rectificador.php?activar=S&mensaje=".$mensaje);
+			}else{
+				$mensaje = "Error";				
+				header("Location:ref_ing_rectificador.php?opcion=N&activar=S&mensaje=".$mensaje);
+			}
 		}				
 	}
 	
@@ -55,7 +69,7 @@
 			 //echo $actualizar;
 			 mysqli_query($link, $actualizar);
 		   }		
-    	header("Location:ref_ing_rectificador.php?activar=");		
+    	header("Location:ref_ing_rectificador.php?activar=S");		
 	}
 	
 	if ($proceso == "E")
