@@ -364,7 +364,9 @@ function Detalle()
   </tr>
 </table>
   <?php if ($cmbcircuito<>'99')
-   {?>
+   {
+	  echo "Entr0 diferente de TODOS."; 
+	?>
   <table width="850" border="2" cellspacing="1" align="center" cellpadding="1" bordercolor="#b26c4a" class="TablaDetalle">
     <tr bgcolor="#FFFFFF" class="ColorTabla01"> 
 	<?php if ($opcion=='P') 
@@ -416,6 +418,7 @@ function Detalle()
        $consulta.="and t1.cod_producto='18' and t1.cod_subproducto='1' ";
        $consulta.="GROUP by t1.fecha_produccion,t2.cod_circuito,t1.cod_grupo ";
        $consulta.="ORDER by t1.fecha_produccion,t2.cod_grupo ";
+	   echo "<br>".$consulta;
 	   $respuesta = mysqli_query($link, $consulta);
 	   $produccion_total=0;
 	   $seleccion_inicial_total=0;
@@ -431,15 +434,19 @@ function Detalle()
 	   $total_ai=0;
 	   $total_ot=0;
 	    $total_rechazo=0;
+		echo "<br><br>";
+		 var_dump($respuesta);
  	    while ($fila = mysqli_fetch_array($respuesta))
 	    { 
+		 echo "<br><br>";
+		 var_dump($fila);
 		$fecha = isset($fila["fecha"])?$fila["fecha"]:"0000-00-00";
 		$grupo = isset($fila["grupo"])?$fila["grupo"]:"";
 		?>
 			    <tr onMouseOver="if(!this.contains(event.fromElement)){this.bgColor='class=ColorTabla02';} if(!document.all){style.cursor='pointer'};style.cursor='hand';" onMouseOut="if(!this.contains(event.toElement)){this.bgColor=''; }" >
 				<?php
-				echo "<td align='center' class=detalle01>fecha-".$fila["fecha"]."&nbsp</td>\n";
-				echo "<td align='center' class=detalle02>grupo-".$fila["grupo"]."&nbsp</td>\n";
+				echo "<td align='center' class=detalle01>fecha-11".$fila["fecha"]."&nbsp</td>\n";
+				echo "<td align='center' class=detalle02>grupo-11".$fila["grupo"]."&nbsp</td>\n";
 				/******************saca rechazos de tabla rechazo catodos de control de calidad*****************************************/
 				$consulta2="select sum(unid_recup) as recuperado_tot,sum(estampa) as ne,sum(dispersos) as nd,sum(rayado) as ra,sum(cordon_superior) as cs,sum(cordon_lateral) as cl,";
 				$consulta2.="sum(quemados) as qu,sum(redondos) as re, sum(aire) as ai,sum(otros) as ot ";
@@ -473,13 +480,13 @@ function Detalle()
 					}		
 					
 				}
-				 else if ($opcion=='L')
-				         {
-							 echo "entroooooooo L";
-						  $seleccion_inicial=$suma_rechazo+$fila2["recuperado_tot"];
-					      $porc_recuperado=$fila2["recuperado_tot"];
-					      $total_por_rechazado=$suma_rechazo;
-						 }  
+				if ($opcion=='L')
+				{
+						echo "entroooooooo LLLLL";
+						$seleccion_inicial   = $suma_rechazo+$fila2["recuperado_tot"];
+					    $porc_recuperado     = $fila2["recuperado_tot"];
+					    $total_por_rechazado = $suma_rechazo;
+				}  
 				/************************************************************************/
 				/*****************************************************************************/
 				$arr_meses=array('Enero','Febrero_nor','Marzo','Abril','Mayo','Junio','Julio','Agosto','septiembre','Octubre','Noviembre','Diciembre');
@@ -528,11 +535,15 @@ function Detalle()
 				$Fila_subp2 = mysqli_fetch_array($Resp_subp2);
 				$cons_subp="select distinct t1.cod_subproducto as producto, campo1 from sea_web.movimientos as t1 ";
 				$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2='".$grupo."' and t1.fecha_movimiento='".$fecha."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
+				echo "<br><br>cons_subp:".$cons_subp."<br><br>";
 				$Resp_subp = mysqli_query($link, $cons_subp);
 				$Fila_subp = mysqli_fetch_array($Resp_subp);
+				echo "<br><br>";
+				var_dump($Fila_subp);
+				echo "<br><br>";
 				$producto=isset($Fila_subp["producto"])?$Fila_subp["producto"]:0;
 				if ($producto==1)
-					{
+				{ echo "producto 1";
 					if ($Fila_subp["campo1"]=='M' )
 					   {
 						 echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
@@ -563,10 +574,10 @@ function Detalle()
 							 echo h."</td>\n";
 							 
                             }   	 
-					}
+				}
 					
-				else if ($producto==4)
-					{
+				if ($producto==4)
+				{echo "producto 4";
 					 if ($Fila_subp["campo1"]=='M' )
 					   {
 						  echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
@@ -596,9 +607,9 @@ function Detalle()
 						     echo V."</td>\n";				
 					        }
 					
-					}
-				else if ($producto==2)
-					{
+				}
+				if ($producto==2)
+				{echo "producto 2";
 					  if ($Fila_subp["campo1"]=='M' )
 					   {
 					    echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
@@ -628,9 +639,9 @@ function Detalle()
 	  				        echo T."</td>\n";
 				
 							} 
-					}
-				else if ($producto==3)
-					{
+				}
+				if ($producto==3)
+				{echo "producto 3";
 					   if ($Fila_subp["campo1"]=='M' )
 					   {
 						 echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
@@ -659,11 +670,12 @@ function Detalle()
 								echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
 					            echo D."</td>\n";			
 							  }  	 
-					}
-					else  {
-					       echo "<td align='center'>&nbsp</td>\n";
+				}
+				else
+				{
+					echo "<td align='center'>&nbsp no hay productoisssssss </td>\n";
 						  
-						  }
+				}
 
 				/*******************************************************************************/
 				/*******************************************************************************/

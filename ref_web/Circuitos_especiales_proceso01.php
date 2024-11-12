@@ -12,6 +12,11 @@
 	$txtnave            = isset($_REQUEST["txtnave"])?$_REQUEST["txtnave"]:"";
 	$parametros         = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
 
+	$valido = 0;
+	if( is_numeric($txtgrupos) )
+	{
+		$valido = 1;	
+	}	
 	
 	if (($proceso == "G") and ($opcion == "N"))
 	{	
@@ -21,19 +26,24 @@
 		if ($row = mysqli_fetch_array($rs)) //Si Existe.
 		{	
 			$mensaje = "El Circuito Ya Existe";
-			header("Location:Circuitos_especiales_proceso.php?activar=&mensaje=".$mensaje);
+			header("Location:Circuitos_especiales_proceso.php?activar=S&mensaje=".$mensaje);
 		}
 		else //No Existe.
 		{
 			//Inserta en Sec_Web.
-			$insertar = "INSERT INTO ref_web.circuitos_especiales (cod_circuito,descripcion_circuito,cantidad_grupos,num_celdas_grupos,num_catodos_celda,rectificador,nave)";
-			$insertar = $insertar." VALUES ('".$txtcodigo."','".$txtdescripcion."','".$txtgrupos."','".$txtceldas."','".$txtcatodos."','".$txtrectificador;
-			$insertar = $insertar."','".$txtnave."')";
-			mysqli_query($link, $insertar);
-			//echo $insertar."<br>";					
-								
-			header("Location:Circuitos_especiales_proceso.php?activar=");
-		}				
+			if($valido==1){
+				$insertar = "INSERT INTO ref_web.circuitos_especiales (cod_circuito,descripcion_circuito,cantidad_grupos,num_celdas_grupos,num_catodos_celda,rectificador,nave)";
+				$insertar = $insertar." VALUES ('".$txtcodigo."','".$txtdescripcion."','".$txtgrupos."','".$txtceldas."','".$txtcatodos."','".$txtrectificador;
+				$insertar = $insertar."','".$txtnave."')";
+				mysqli_query($link, $insertar);
+				//echo $insertar."<br>";
+				$mensaje = "Registro guardado exitosamente.";
+				header("Location:Circuitos_especiales_proceso.php?activar=S&mensaje=".$mensaje);				
+			}else{
+				$mensaje = "Error";
+				header("Location:Circuitos_especiales_proceso.php?opcion=N&activar=S&mensaje=".$mensaje);	
+			}
+		}		
 	}
 	
 	if (($proceso == "G") and ($opcion == "M"))
@@ -43,7 +53,7 @@
 		$actualizar.= " WHERE cod_circuito = '".$txtcodigo."'";
 		mysqli_query($link, $actualizar);		
 				
-		header("Location:Circuitos_especiales_proceso.php?activar=");		
+		header("Location:Circuitos_especiales_proceso.php?activar=S");		
 	}
 	
 	if ($proceso == "E")

@@ -1,9 +1,10 @@
 <?php 	
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 20;
-	include("../principal/conectar_ref_web.php");
+	include("../principal/conectar_principal.php");
 
 	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 ?>
 <html>
 <head>
@@ -159,6 +160,13 @@ function Salir()
 </body>
 </html>
 <?php
+	if ($mensaje!="")
+	{
+		echo '<script language="JavaScript">';		
+		echo 'alert("'.$mensaje.'");';			
+		echo '</script>';
+	}
+	/*
 	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
@@ -167,5 +175,5 @@ function Salir()
 			echo "alert('Uno o mas Elementos no fueron eliminados por tener grupos asociados');";	
 			echo "</script>";
 		}
-	}
+	}*/
 ?>

@@ -3,7 +3,7 @@
 	$opcion     = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 	$mostrar    = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
 	$circuito   = isset($_REQUEST["circuito"])?$_REQUEST["circuito"]:"";
-
+	
 	$activar   = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
 	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	
@@ -21,6 +21,15 @@
 		$rs1 = mysqli_query($link, $consulta);
 		$row1 = mysqli_fetch_array($rs1);
 	}*/	
+	
+	$cod_circuito         = isset($row1["cod_circuito"])?$row1["cod_circuito"]:"";
+	$descripcion_circuito = isset($row1["descripcion_circuito"])?$row1["descripcion_circuito"]:"";
+	$cantidad_grupos   = isset($row1["cantidad_grupos"])?$row1["cantidad_grupos"]:"";
+	$num_celdas_grupos = isset($row1["num_celdas_grupos"])?$row1["num_celdas_grupos"]:"";
+	$num_catodos_celda = isset($row1["num_catodos_celda"])?$row1["num_catodos_celda"]:"";
+	$rectificador      = isset($row1["rectificador"])?$row1["rectificador"]:"";
+	$nave              = isset($row1["nave"])?$row1["nave"]:"";
+		  
 ?>
 <html>
 <head>
@@ -37,6 +46,11 @@ alert("Cdigo de la tecla: " + teclaCodigo + "\nTecla pulsada: " + teclaReal);
 
 function ValidaCampos(f)
 {	
+	if (f.txtcodigo.value == "")
+	{
+		alert("Debe Ingresar Codigo");
+		return false;
+	}
 	if (f.txtdescripcion.value == "")
 	{
 		alert("Debe Ingresar Descripcion");
@@ -45,7 +59,7 @@ function ValidaCampos(f)
 	
 	if (f.txtgrupos.value == "")
 	{
-		alert("Debe Ingresar El N� de Grupos");
+		alert("Debe Ingresar El N° de Grupos");
 		return false;
 	}
 	
@@ -100,15 +114,6 @@ function Salir()
             <td width="135">&nbsp;</td>
             <td width="250">&nbsp;</td>
           </tr>
-		  <?php
-		  $cod_circuito         = isset($row1["cod_circuito"])?$row1["cod_circuito"]:"";
-		  $descripcion_circuito = isset($row1["descripcion_circuito"])?$row1["descripcion_circuito"]:"";
-		  $cantidad_grupos   = isset($row1["cantidad_grupos"])?$row1["cantidad_grupos"]:"";
-		  $num_celdas_grupos = isset($row1["num_celdas_grupos"])?$row1["num_celdas_grupos"]:"";
-		  $num_catodos_celda = isset($row1["num_catodos_celda"])?$row1["num_catodos_celda"]:"";
-		  $rectificador      = isset($row1["rectificador"])?$row1["rectificador"]:"";
-		  $nave              = isset($row1["nave"])?$row1["nave"]:"";
-		  ?>
           <tr> 
             <td>Codigo</td>
             <td> 
@@ -171,7 +176,9 @@ function Salir()
 			
 		echo 'window.opener.FrmIngCircuito.action = "Circuitos_especiales.php";';
 		echo 'window.opener.FrmIngCircuito.submit();';
-		echo 'window.close();';		
+		if($mensaje!="Error"){			
+			echo 'window.close();';	
+		}	
 		echo '</script>';
 	}
 ?>  
