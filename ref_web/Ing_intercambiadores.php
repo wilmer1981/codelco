@@ -35,7 +35,7 @@ function Validar()
 	         alert('Debe seleccionar situacion del intercambiador');
 	        }
          else {  
-			   if (confirm("Esta Seguro de la Operaci�n"))
+			   if (confirm("Esta Seguro de la Operación"))
 			     {
 				  frm.action = "ing_intercambiadores01.php?Proceso=G";
 			      frm.submit();

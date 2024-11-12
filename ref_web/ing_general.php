@@ -218,7 +218,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 			if ($mantencion<>'') 
 			{
 				?>
-					<TD width="34%"><p><IMG height=1 src="archivos/spaceit.gif" width=10 border=0></p><p><strong>Fecha Ejecuci�n</strong></p>
+					<TD width="34%"><p><IMG height=1 src="archivos/spaceit.gif" width=10 border=0></p><p><strong>Fecha Ejecuci&oacute;n</strong></p>
                     <select name="dia1" size="1">
                 <?php
 					for ($i = 1;$i <= 31; $i++)
@@ -280,14 +280,14 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					?>
                   	</select>
                     </p>
-                    <p><strong>Areas Mantenci�n</strong> 
+                    <p><strong>Areas Mantenci&oacute;n</strong> 
                     </p>
                    	<p> 
                     <select name="Area" size="1" >
                     <?php 
 					for ($i = 1;$i <= 8; $i++)
 					{
-						$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Gr�as','Lubricaci�n');
+						$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Grúas','Lubricación');
 						if (isset($Area))
 						{
 							if ($Area == $i)
@@ -402,14 +402,14 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                   	</select>
 					
                     </p>
-                    <p><strong>Areas Mantenci�n</strong> 
+                    <p><strong>Areas Mantenci&oacute;n</strong> 
                     </p>
                    	<p> 
                     <select name="Area" size="1" >
                     <?php 
 					for ($i = 1;$i <= 8; $i++)
 					{
-						$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Gr�as','Lubricaci�n');
+						$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Grúas','Lubricación');
 
 						if (isset($Area))
 						{

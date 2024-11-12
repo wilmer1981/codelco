@@ -1,4 +1,5 @@
-<?php include("../principal/conectar_ref_web.php");    
+<?php include("../principal/conectar_ref_web.php");   
+$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:""; 
 
 	if ($Proceso == "G")
 	{   

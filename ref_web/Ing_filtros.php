@@ -35,7 +35,7 @@ function Validar()
 	         alert('Debe seleccionar situacion del filtro');
 	        }
          else {  
-			   if (confirm("Esta Seguro de la Operaci�n"))
+			   if (confirm("Esta Seguro de la Operación"))
 			     {
 				  f.action = "ing_filtros01.php?Proceso=G";
 			      f.submit();
@@ -154,7 +154,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
      <tr> 
        <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
        <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator3.gif"  width=12 border=0>
-	   <input type="radio" value="En Observacion" name="situ"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Observaci�n</font></font></td>
+	   <input type="radio" value="En Observacion" name="situ"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Observaci&oacute;n</font></font></td>
      </tr>
      <tr> 
        <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
@@ -164,7 +164,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
      <tr> 
        <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
        <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator4.gif" width=12 border=0>
-	   <input type="radio" value="En Mantencion" name="situ"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenci�n</font></font></td>
+	   <input type="radio" value="En Mantencion" name="situ"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenci&oacute;n</font></font></td>
      </tr>
   </table>
   <TD>

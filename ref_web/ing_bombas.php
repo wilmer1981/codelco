@@ -201,7 +201,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                           <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator3.gif"  width=12 border=0> 
                             <input type="radio" value="En Observacion" name="situ">
                             <font style="FONT-WEIGHT: bold; COLOR: #000000">En 
-                            Observación</font></font></td>
+                            Observaci&oacute;n</font></font></td>
                         </tr>
                         <tr> 
                           <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
@@ -215,7 +215,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                           <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator4.gif" width=12 border=0> 
                             <input  type="radio" value="En Mantencion" name="situ">
                             <font style="FONT-WEIGHT: bold; COLOR: #000000">En 
-                            Mantención</font></font></td>
+                            Mantenci&oacute;n</font></font></td>
                         </tr>
                       </tbody>
                     </table>

@@ -1,36 +1,38 @@
 ﻿<?php
    include("../principal/conectar_ref_web.php");
-   if (!isset($turno))
-	                 {
-						$Consulta = "select case when CURTIME() between '00:00:00' and '07:59:59' then 'C' else ";
-						$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
-						$Consulta.= " case when CURTIME() between '16:00:00' and '23:59:59' then 'B' end end end as turno ";
-						$Respuesta = mysqli_query($link, $Consulta);
-						if ($Fila = mysqli_fetch_array($Respuesta))
-							$turno = $Fila[turno];
-					} 
+   $turno     = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+   $fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"0000-00-00";
+   if ($turno=="")
+	 {
+		$Consulta = "select case when CURTIME() between '00:00:00' and '07:59:59' then 'C' else ";
+		$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
+		$Consulta.= " case when CURTIME() between '16:00:00' and '23:59:59' then 'B' end end end as turno ";
+		$Respuesta = mysqli_query($link, $Consulta);
+		if ($Fila = mysqli_fetch_array($Respuesta))
+			$turno = $Fila["turno"];
+	} 
   $consulta1="select * from ref_web.temperaturas where fecha='".$fecha."' and instante='1' and TURNO='".$turno."'";
   $respuesta1 = mysqli_query($link, $consulta1);
   if ($fila1=mysqli_fetch_array($respuesta1))
    {
-	  $inicio1A=$fila1[TEMP1];
-	  $inicio1B=$fila1[TEMP2];
-	  $inicio2A=$fila1[TEMP3];
-	  $inicio2B=$fila1[TEMP4]; 
-	  $inicio3A=$fila1[TEMP5]; 
-	  $inicio3B=$fila1[TEMP6]; 
-	  $inicio4A=$fila1[TEMP7]; 
-	  $inicio4B=$fila1[TEMP8]; 
-	  $inicio5A=$fila1[TEMP9]; 
-	  $inicio5B=$fila1[TEMP10]; 
-	  $inicio6A=$fila1[TEMP11]; 
-	  $inicio6B=$fila1[TEMP12];
-	  $inicio7A=$fila1[TEMP17]; 
-	  $inicio7B=$fila1[TEMP18];
-	  $inicioHMA=$fila1[TEMP13]; 
-	  $inicioHMB=$fila1[TEMP14]; 
-	  $inicioparcialA=$fila1[TEMP15]; 
-	  $inicioparcialB=$fila1[TEMP16]; 
+	  $inicio1A=$fila1["TEMP1"];
+	  $inicio1B=$fila1["TEMP2"];
+	  $inicio2A=$fila1["TEMP3"];
+	  $inicio2B=$fila1["TEMP4"]; 
+	  $inicio3A=$fila1["TEMP5"]; 
+	  $inicio3B=$fila1["TEMP6"]; 
+	  $inicio4A=$fila1["TEMP7"]; 
+	  $inicio4B=$fila1["TEMP8"]; 
+	  $inicio5A=$fila1["TEMP9"]; 
+	  $inicio5B=$fila1["TEMP10"]; 
+	  $inicio6A=$fila1["TEMP11"]; 
+	  $inicio6B=$fila1["TEMP12"];
+	  $inicio7A=$fila1["TEMP17"]; 
+	  $inicio7B=$fila1["TEMP18"];
+	  $inicioHMA=$fila1["TEMP13"]; 
+	  $inicioHMB=$fila1["TEMP14"]; 
+	  $inicioparcialA=$fila1["TEMP15"]; 
+	  $inicioparcialB=$fila1["TEMP16"]; 
 	}
 	else {
 	      $inicio1A=0;
@@ -56,24 +58,24 @@
   $respuesta1 = mysqli_query($link, $consulta1);
   if ($fila1=mysqli_fetch_array($respuesta1))
    {
-	  $medio1A=$fila1[TEMP1];
-	  $medio1B=$fila1[TEMP2];
-	  $medio2A=$fila1[TEMP3];
-	  $medio2B=$fila1[TEMP4]; 
-	  $medio3A=$fila1[TEMP5]; 
-	  $medio3B=$fila1[TEMP6]; 
-	  $medio4A=$fila1[TEMP7]; 
-	  $medio4B=$fila1[TEMP8]; 
-	  $medio5A=$fila1[TEMP9]; 
-	  $medio5B=$fila1[TEMP10]; 
-	  $medio6A=$fila1[TEMP11]; 
-	  $medio6B=$fila1[TEMP12];
-	  $medio7A=$fila1[TEMP17]; 
-	  $medio7B=$fila1[TEMP18];
-	  $medioHMA=$fila1[TEMP13]; 
-	  $medioHMB=$fila1[TEMP14]; 
-	  $medioparcialA=$fila1[TEMP15]; 
-	  $medioparcialB=$fila1[TEMP16]; 
+	  $medio1A=$fila1["TEMP1"];
+	  $medio1B=$fila1["TEMP2"];
+	  $medio2A=$fila1["TEMP3"];
+	  $medio2B=$fila1["TEMP4"]; 
+	  $medio3A=$fila1["TEMP5"]; 
+	  $medio3B=$fila1["TEMP6"]; 
+	  $medio4A=$fila1["TEMP7"]; 
+	  $medio4B=$fila1["TEMP8"]; 
+	  $medio5A=$fila1["TEMP9"]; 
+	  $medio5B=$fila1["TEMP10"]; 
+	  $medio6A=$fila1["TEMP11"]; 
+	  $medio6B=$fila1["TEMP12"];
+	  $medio7A=$fila1["TEMP17"]; 
+	  $medio7B=$fila1["TEMP18"];
+	  $medioHMA=$fila1["TEMP13"]; 
+	  $medioHMB=$fila1["TEMP14"]; 
+	  $medioparcialA=$fila1["TEMP15"]; 
+	  $medioparcialB=$fila1["TEMP16"]; 
 	}
    else {
           $medio1A=0;
@@ -99,24 +101,24 @@
   $respuesta1 = mysqli_query($link, $consulta1);
   if ($fila1=mysqli_fetch_array($respuesta1))
    {
-	  $fin1A=$fila1[TEMP1];
-	  $fin1B=$fila1[TEMP2];
-	  $fin2A=$fila1[TEMP3];
-	  $fin2B=$fila1[TEMP4]; 
-	  $fin3A=$fila1[TEMP5]; 
-	  $fin3B=$fila1[TEMP6]; 
-	  $fin4A=$fila1[TEMP7]; 
-	  $fin4B=$fila1[TEMP8]; 
-	  $fin5A=$fila1[TEMP9]; 
-	  $fin5B=$fila1[TEMP10]; 
-	  $fin6A=$fila1[TEMP11]; 
-	  $fin6B=$fila1[TEMP12]; 
-	  $fin7A=$fila1[TEMP17]; 
-	  $fin7B=$fila1[TEMP18]; 
-	  $finHMA=$fila1[TEMP13]; 
-	  $finHMB=$fila1[TEMP14]; 
-	  $finparcialA=$fila1[TEMP15]; 
-	  $finparcialB=$fila1[TEMP16]; 
+	  $fin1A=$fila1["TEMP1"];
+	  $fin1B=$fila1["TEMP2"];
+	  $fin2A=$fila1["TEMP3"];
+	  $fin2B=$fila1["TEMP4"]; 
+	  $fin3A=$fila1["TEMP5"]; 
+	  $fin3B=$fila1["TEMP6"]; 
+	  $fin4A=$fila1["TEMP7"]; 
+	  $fin4B=$fila1["TEMP8"]; 
+	  $fin5A=$fila1["TEMP9"]; 
+	  $fin5B=$fila1["TEMP10"]; 
+	  $fin6A=$fila1["TEMP11"]; 
+	  $fin6B=$fila1["TEMP12"]; 
+	  $fin7A=$fila1["TEMP17"]; 
+	  $fin7B=$fila1["TEMP18"]; 
+	  $finHMA=$fila1["TEMP13"]; 
+	  $finHMB=$fila1["TEMP14"]; 
+	  $finparcialA=$fila1["TEMP15"]; 
+	  $finparcialB=$fila1["TEMP16"]; 
 	}  
   else {
           $fin1A=0;
@@ -187,10 +189,10 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					$respuesta = mysqli_query($link, $consulta);
 					while ($fila1=mysqli_fetch_array($respuesta))
  					   {
-						if ($turno==$fila1[turno])
-						   echo "<option value='".$fila1[turno]."' selected>".$fila1[turno]."</option>";
+						if ($turno==$fila1["turno"])
+						   echo "<option value='".$fila1["turno"]."' selected>".$fila1["turno"]."</option>";
 						else
-							echo "<option value='".$fila1[turno]."'>".$fila1[turno]."</option>";
+							echo "<option value='".$fila1["turno"]."'>".$fila1["turno"]."</option>";
 						}
 					echo '</select></td>';
                    ?>
