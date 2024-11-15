@@ -237,11 +237,11 @@ if($mensajeInterno["Desc1"]!= '')
 				$consulta = "SELECT * FROM sistemas WHERE cod_sistema = '".$row["cod_sistema"]."' ";
 				$rs2  = mysqli_query($link,$consulta);
 				$row2 = mysqli_fetch_array($rs2);
-
+				$descripcion = isset($row2["descripcion"])?$row2["descripcion"]:"";
 				echo "<tr><td>&nbsp;&nbsp;";
 				echo "<a href='sistemas_usuario.php?CodSistema=".$row["cod_sistema"]."' target='_parent' class='Links01'>";
 				echo "<img src='imagenes/vineta.gif' border='0' align='top'>";
-				echo ucwords(strtolower($row2["descripcion"]));
+				echo ucwords(strtolower($descripcion));
 				echo "</a>";
 				echo "</td></tr>\n";
 			}				
@@ -375,17 +375,17 @@ if($mensajeInterno["Desc1"]!= '')
 		   		$ArrFav = explode(";",$Favoritos);
 				//while (list($k,$v)=each($ArrFav))
 				foreach ($ArrFav as $k => $v)
-				{					
+				{
+					if(!empty($v)){
+						$ArrPag=explode("-",$v[0]);//WSO
+					}else{
+						$ArrPag=explode("-",$v);//	
+					}
+					
 					//$ArrPag=explode("-",$v); //WSO
 					//$ArrPag=explode("-",$v[0]);		
 					//var_dump($ArrPag);
 					//echo "<br><br>";
-
-					if(!empty($v)){
-						$ArrPag=explode("-",$v[0]);//WSO
-					}else{
-						$ArrPag=explode("-",$v);//WSO
-					}
 					if(isset($ArrPag[0])){
 						$ArrPag0=$ArrPag[0];
 					}else{
@@ -551,7 +551,7 @@ if($mensajeInterno["Desc1"]!= '')
 								$Respuesta = mysqli_query($link, $Consulta);
 								$Row = mysqli_fetch_array($Respuesta);
 								$Host = $Row[HOSTNAME];
-								mysqli_close($link);
+								mysql_close($link);
 								//----------------------------------------------------
 								
 								//-----------------GRABA EL ACCESO--------------------
