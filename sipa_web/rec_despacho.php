@@ -55,6 +55,7 @@
 	$CmbCodMop = isset($_REQUEST["CmbCodMop"])?$_REQUEST["CmbCodMop"]:"";
 	$TxtTarjeta = isset($_REQUEST["TxtTarjeta"])?$_REQUEST["TxtTarjeta"]:"";
 	$TxtPesoTotalNeto = isset($_REQUEST["TxtPesoTotalNeto"])?$_REQUEST["TxtPesoTotalNeto"]:0;
+	$TxtPesoNetoSec   = isset($_REQUEST["TxtPesoNetoSec"])?$_REQUEST["TxtPesoNetoSec"]:0;
 	$TxtPNetoTot = isset($_REQUEST["TxtPNetoTot"])?$_REQUEST["TxtPNetoTot"]:0;
 	$OrigenDatosGuia = isset($_REQUEST["OrigenDatosGuia"])?$_REQUEST["OrigenDatosGuia"]:"";
 	$TxtPorcRango = isset($_REQUEST["TxtPorcRango"])?$_REQUEST["TxtPorcRango"]:"";
@@ -68,6 +69,8 @@
 	$TxtDirec = isset($_REQUEST["TxtDirec"])?$_REQUEST["TxtDirec"]:"";
 	$TxtSello = isset($_REQUEST["TxtSello"])?$_REQUEST["TxtSello"]:"";
 	$TxtTransp = isset($_REQUEST["TxtTransp"])?$_REQUEST["TxtTransp"]:"";
+	
+	$TxtMarca = isset($_REQUEST["TxtMarca"])?$_REQUEST["TxtMarca"]:"";
   
 	if(isset($RNA) && $RNA!='')	
 	{	
@@ -228,6 +231,8 @@
 			$EstBtnAnular='';
 			$EstBtnImprimir='';
 			$PatenteOk = '';
+			//if($TxtPesoBruto=="") // WSO
+				//$TxtPesoBruto=0;  //WSO
 			$PatenteOk = PatenteValida($TxtPatente,$PatenteOk,$EstPatente,$Mensaje);
 			if($PatenteOk==true)
 			{
@@ -253,6 +258,7 @@
 							$TxtFecha=$Fila["fecha"];
 							$TxtHoraE=$Fila["hora_entrada"];
 							$TxtHoraS=date('G:i:s');
+							$TxtPesoBruto=isset($Fila["peso_bruto"])?$Fila["peso_bruto"]:0; //agregado x WSO
 							$TxtPesoTara=isset($Fila["peso_tara"])?$Fila["peso_tara"]:0;
 							$TxtPesoNeto=abs($TxtPesoBruto - $TxtPesoTara);
 							$CmbTipoDespacho=$Fila["cod_despacho"];
@@ -1937,7 +1943,7 @@ switch($TxtNumRomana)
 </body>
 </html>
 <?php
-
+echo "<br>USER_IP:".$IP ;
 $Romana = LeerRomana($IP,$link);
 echo "<br>ROMANA: ".$Romana;
 

@@ -5,6 +5,7 @@
 	$CookieRut = $_COOKIE["CookieRut"];	
 	$RutOperador=$CookieRut;
 	$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$TipoProceso   = isset($_REQUEST["TipoProceso"])?$_REQUEST["TipoProceso"]:'';
 
 	$TxtCorrelativo = isset($_REQUEST["TxtCorrelativo"])?$_REQUEST["TxtCorrelativo"]:"";
 	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";
@@ -125,6 +126,7 @@
 			header('location:rec_despacho.php?TxtNumBascula='.$TxtNumBascula);
 			break;		
 		case "C"://CANCELAR
+			$Datos=explode('~',$TxtCorrelativo);
 			if($TipoProceso=='E')
 			{
 				if($TxtCorrelativo!='')
@@ -136,7 +138,8 @@
 			else
 			{
 				$Actualizar="UPDATE sipa_web.despachos set lote='',recargo='',peso_bruto='0',peso_neto='0' ";
-				$Actualizar.="where correlativo='".$TxtCorrelativo."'";
+				$Actualizar.="where correlativo='".$Datos[0]."'";
+				//$Actualizar.="where correlativo='".$TxtCorrelativo."'";				
 				mysqli_query($link, $Actualizar);
 				if($DifLimitePeso!='')
 				{
