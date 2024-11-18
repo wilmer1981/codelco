@@ -3,7 +3,7 @@
 	$CodigoDePantalla=7;
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
-	$REMOTE_ADDR = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+	$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 	$IP           = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
 	
 	$CmbProducto = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
@@ -290,7 +290,8 @@ function Proceso(opt,valor)
 			f.submit();
 			break;
 		case "R": //RECARGA
-			f.action = "rec_adm_lote.php?LimitIni=<?php echo $LimitIni; ?>&TipoCon=<?php echo $TipoCon; ?>&Orden=<?php echo $Orden; ?>&"+valor;
+			//f.action = "rec_adm_lote.php?LimitIni=<?php echo $LimitIni; ?>&TipoCon=<?php echo $TipoCon; ?>&Orden=<?php echo $Orden; ?>&"+valor;
+			f.action = "rec_adm_lote.php?LimitIni=<?php echo $LimitIni; ?>&TipoCon=<?php echo $TipoCon; ?>&Orden="+valor;
 			f.submit();
 			break;
 		case "MT": //MARCA TODO
