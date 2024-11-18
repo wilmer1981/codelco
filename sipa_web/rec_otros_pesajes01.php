@@ -41,11 +41,15 @@
 	switch($Proceso)
 	{
 		case "E"://ACTUALIZAR RECEPCION
+		     //echo "ENTRO a E";
+			 
 			CrearArchivoResp('O','E',$TxtCorrelativo,'','','',$RutOperador,$TxtBasculaAux,'',$TxtFecha,$TxtHoraE,'',$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,'','','','','',$TxtGuia,$TxtPatente,'',$TxtConjunto,$TxtObs,'','','','','');
 			$Actualizar="UPDATE sipa_web.otros_pesaje set bascula_entrada='$TxtBasculaAux',peso_bruto='".$TxtPesoBruto."',patente='".strtoupper($TxtPatente)."',nombre='".$TxtNombre."',";
 			$Actualizar.="guia_despacho='".$TxtGuia."',conjunto='".$TxtConjunto."',descripcion='".$TxtDescripcion."',observacion='".$TxtObs."',romana_entrada='$TxtNumRomana' ";
 			$Actualizar.="where correlativo='".$TxtCorrelativo."'";
+			echo  $Actualizar;
 			mysqli_query($link, $Actualizar);
+			//exit();
       		header('location:rec_otros_pesajes.php?TxtNumBascula='.$TxtNumBascula);
 			break;
 		case "S"://ACTUALIZAR SALIDA
