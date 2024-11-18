@@ -1,6 +1,46 @@
 <?php
 	include("../principal/conectar_ref_web.php");
-	$fecha=ltrim($fecha);
+	$fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$fecha     = ltrim($fecha);
+	
+	$recargapag = isset($_REQUEST["recargapag"])?$_REQUEST["recargapag"]:"";
+	$dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
+	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+	$turno   = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+	
+	$TxtH2SO1A = isset($_REQUEST["TxtH2SO1A"])?$_REQUEST["TxtH2SO1A"]:"";
+	$TxtH2SO2A = isset($_REQUEST["TxtH2SO2A"])?$_REQUEST["TxtH2SO2A"]:"";
+	$TxtH2SO3A = isset($_REQUEST["TxtH2SO3A"])?$_REQUEST["TxtH2SO3A"]:"";
+	$TxtH2SO4A = isset($_REQUEST["TxtH2SO4A"])?$_REQUEST["TxtH2SO4A"]:"";
+	$TxtH2SO5A = isset($_REQUEST["TxtH2SO5A"])?$_REQUEST["TxtH2SO5A"]:"";
+	$TxtH2SO6A = isset($_REQUEST["TxtH2SO6A"])?$_REQUEST["TxtH2SO6A"]:"";
+	$TxtH2SOHMA = isset($_REQUEST["TxtH2SOHMA"])?$_REQUEST["TxtH2SOHMA"]:"";
+	
+	$TxtDescP1A = isset($_REQUEST["TxtDescP1A"])?$_REQUEST["TxtDescP1A"]:"";
+	$TxtDescP2A = isset($_REQUEST["TxtDescP2A"])?$_REQUEST["TxtDescP2A"]:"";
+	$TxtDescP3A = isset($_REQUEST["TxtDescP3A"])?$_REQUEST["TxtDescP3A"]:"";
+	$TxtDescP4A = isset($_REQUEST["TxtDescP4A"])?$_REQUEST["TxtDescP4A"]:"";
+	$TxtDescP5A = isset($_REQUEST["TxtDescP5A"])?$_REQUEST["TxtDescP5A"]:"";
+	$TxtDescP6A = isset($_REQUEST["TxtDescP6A"])?$_REQUEST["TxtDescP6A"]:"";
+	$TxtDescPHMA = isset($_REQUEST["TxtDescPHMA"])?$_REQUEST["TxtDescPHMA"]:"";
+	
+	$TxtElectP1A = isset($_REQUEST["TxtElectP1A"])?$_REQUEST["TxtElectP1A"]:"";
+	$TxtElectP2A = isset($_REQUEST["TxtElectP2A"])?$_REQUEST["TxtElectP2A"]:"";
+	$TxtElectP3A = isset($_REQUEST["TxtElectP3A"])?$_REQUEST["TxtElectP3A"]:"";
+	$TxtElectP4A = isset($_REQUEST["TxtElectP4A"])?$_REQUEST["TxtElectP4A"]:"";
+	$TxtElectP5A = isset($_REQUEST["TxtElectP5A"])?$_REQUEST["TxtElectP5A"]:"";
+	$TxtElectP6A = isset($_REQUEST["TxtElectP6A"])?$_REQUEST["TxtElectP6A"]:"";
+	$TxtElectPHMA = isset($_REQUEST["TxtElectPHMA"])?$_REQUEST["TxtElectPHMA"]:"";
+	
+	$TxtElectV1A = isset($_REQUEST["TxtElectV1A"])?$_REQUEST["TxtElectV1A"]:"";
+	$TxtElectV2A = isset($_REQUEST["TxtElectV2A"])?$_REQUEST["TxtElectV2A"]:"";
+	$TxtElectV3A = isset($_REQUEST["TxtElectV3A"])?$_REQUEST["TxtElectV3A"]:"";
+	$TxtElectV4A = isset($_REQUEST["TxtElectV4A"])?$_REQUEST["TxtElectV4A"]:"";
+	$TxtElectV5A = isset($_REQUEST["TxtElectV5A"])?$_REQUEST["TxtElectV5A"]:"";
+	$TxtElectV6A = isset($_REQUEST["TxtElectV6A"])?$_REQUEST["TxtElectV6A"]:"";
+	$TxtElectVHMA = isset($_REQUEST["TxtElectVHMA"])?$_REQUEST["TxtElectVHMA"]:"";
+	
 	
 ?>
 
@@ -119,10 +159,10 @@ function Proceso(f,opc,fecha)
 					$respuesta = mysqli_query($link, $consulta);
 					while ($fila1=mysqli_fetch_array($respuesta))
  					   {
-						if ($turno==$fila1[turno])
-						   echo "<option value='".$fila1[turno]."' selected>".$fila1[turno]."</option>";
+						if ($turno==$fila1["turno"])
+						   echo "<option value='".$fila1["turno"]."' selected>".$fila1["turno"]."</option>";
 						else
-							echo "<option value='".$fila1[turno]."'>".$fila1[turno]."</option>";
+							echo "<option value='".$fila1["turno"]."'>".$fila1["turno"]."</option>";
 						}
 					echo '</select>';
                    ?>	 

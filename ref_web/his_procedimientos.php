@@ -1,8 +1,16 @@
 <?php include("../principal/conectar_sec_web.php"); 
 
 $carpeta="archivos/";
+$ingreso  = isset($_REQUEST["ingreso"])?$_REQUEST["ingreso"]:"Todos";
+$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d"); 
+$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");  
+$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y"); 
+$page     = isset($_REQUEST["page"])?$_REQUEST["page"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 
-if(!isset($ingreso)){$ingreso="Todos";} ?>
+$filtro = isset($_REQUEST["filtro"])?$_REQUEST["filtro"]:"";
+
+ ?>
 
 <html>
 <head>
@@ -151,7 +159,7 @@ function Imprimir()
             <?php
 
      $color_i=0;
-     if(!isset($page)){$page =1;}
+     if($page==""){$page =1;}
 
      if($ingreso=="Todos")
 	    {$sql = "select * from ref_web.procedimientos ORDER BY FECHA DESC";}
@@ -160,6 +168,7 @@ function Imprimir()
     $encontrados=1 ;
     $cantidad =1   ;
     $contador=0;
+	$j=0;
     while($row = mysqli_fetch_array($result))
     {
       $contador=$contador+1;
@@ -171,15 +180,15 @@ function Imprimir()
          $indice=$contador;
          if ( $j==1){$color= "lcol";$j=0;}else{$color= "lcolver";$j=1;} //color fila
          echo '<TR class='.$color.'>';
-         echo '<TD align=center height=15>'.$row[COD_PROCEDIMIENTO].'</TD>';
-		 echo '<TD align=center>'.$row[usuario].'</TD>';
-		 $consulta="select * from ref_web.tipo_procedimientos where COD_TIPO_PROCEDIMIENTO='".$row[COD_TIPO_PROCEDIMIENTO]."'";
+         echo '<TD align=center height=15>'.$row["COD_PROCEDIMIENTO"].'</TD>';
+		 echo '<TD align=center>'.$row["usuario"].'</TD>';
+		 $consulta="select * from ref_web.tipo_procedimientos where COD_TIPO_PROCEDIMIENTO='".$row["COD_TIPO_PROCEDIMIENTO"]."'";
 		 $resultado=mysqli_query($link, $consulta);
 		 $row2 = mysqli_fetch_array($resultado);
-		 echo '<TD align=center>'.$row2[TIPO_PROCEDIMIENTO].'</TD>';
-         echo '<TD align=center>'.$row[DESDE].'</TD>';
-         echo '<TD align=center>'.$row[HASTA].'</TD>';
-         echo '<TD align=left>'.strtoupper($row[PROCEDIMIENTO]).'</TD>';
+		 echo '<TD align=center>'.$row2["TIPO_PROCEDIMIENTO"].'</TD>';
+         echo '<TD align=center>'.$row["DESDE"].'</TD>';
+         echo '<TD align=center>'.$row["HASTA"].'</TD>';
+         echo '<TD align=left>'.strtoupper($row["PROCEDIMIENTO"]).'</TD>';
         }
       }
     }

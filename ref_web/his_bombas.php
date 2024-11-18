@@ -1,8 +1,18 @@
 ﻿<?php include("../principal/conectar_sec_web.php"); 
 
 $carpeta="archivos/";
+  
+$ingreso  = isset($_REQUEST["ingreso"])?$_REQUEST["ingreso"]:"Todos";
+$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d"); 
+$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");  
+$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y"); 
+$page     = isset($_REQUEST["page"])?$_REQUEST["page"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 
-if(!isset($ingreso)){$ingreso="Todos";} ?>
+$bomba = isset($_REQUEST["bomba"])?$_REQUEST["bomba"]:"";
+
+
+?>
 <html>
 <head>
 <script language="JavaScript">
@@ -50,7 +60,7 @@ function Imprimir()
          <TD> 
 	       <TABLE cellSpacing=0 cellPadding=0 width="99%" border=0>
            <TR> 
-            <TD width=7><IMG height=7  src="archivos/hbw_Corner1.gif" width=7  bord er=0></TD>
+            <TD width=7><IMG height=7  src="archivos/hbw_Corner1.gif" width=7  border=0></TD>
             <TD vAlign=top width="100%"><IMG height=1 src="archivos/6b8ec6dot.gif" width="100%"></TD>
             <TD width=7><IMG height=7 src="archivos/hbw_Corner2.gif" width=7 border=0></TD>
            </TR>
@@ -138,9 +148,9 @@ function Imprimir()
            <div align="left"><b><font face="Arial, Helvetica, sans-serif"> 
            </font></b></div></TR>
            <TR> 
-            <TD><input type=radio value="En Observacion" name=ingreso   <?php if($ingreso=="En Observacion"){echo'checked';} ?>  > 
+            <TD><input type=radio value="En Observacion" name="ingreso"   <?php if($ingreso=="En Observacion"){echo'checked';} ?>  > 
             <font style="FONT-WEIGHT: bold; COLOR: #000000">En Observación</font> </TD>
-            <TD width="21%"><input type=radio value="En Mantencion" name=ingreso   <?php if($ingreso=="En Mantencion"){echo'checked';} ?>  > 
+            <TD width="21%"><input type=radio value="En Mantencion" name="ingreso"   <?php if($ingreso=="En Mantencion"){echo'checked';} ?>  > 
             <font style="FONT-WEIGHT: bold; COLOR: #000000">En Mantención</font>
             <TD width="11%">&nbsp;
             <TD><font style="FONT-WEIGHT: bold; COLOR: #000000">Bomba</font> 
@@ -151,7 +161,7 @@ function Imprimir()
 	           $Respuesta = mysqli_query($link, $Consulta);
 	           while ($Row = mysqli_fetch_array($Respuesta))
 		           {
-		            $cod_bomba=$Row[cod_bomba];
+		            $cod_bomba=$Row["cod_bomba"];
 			        if ($bomba==$cod_bomba)
 			          {
 			           echo "<option value='".$cod_bomba."' selected>".$Row['bomba']."</option>\n";
@@ -198,21 +208,22 @@ function Imprimir()
   $resultado=mysqli_query($link, $consulta_f_sist);
   $row_f_sist = mysqli_fetch_array($resultado);
   $color_i=0;
-  if(!isset($page))
+  if($page=="")
     {
 	 $page =1;
 	}
   if($ingreso=="Todos")
 	{
-	 $sql = "select * from ref_web.historia_bombas where fecha between '".$fecha."' and '".$row_f_sist[f_actual]."' and cod_bomba='".$bomba."' ORDER BY fecha DESC";
+	 $sql = "select * from ref_web.historia_bombas where fecha between '".$fecha."' and '".$row_f_sist["f_actual"]."' and cod_bomba='".$bomba."' ORDER BY fecha DESC";
 	}
  else{
-      $sql = "select * from ref_web.historia_bombas WHERE situacion = '$ingreso' and fecha between '".$fecha."' and '".$row_f_sist[f_actual]."'  and cod_bomba='".$bomba."' ORDER BY FECHA DESC";
+      $sql = "select * from ref_web.historia_bombas WHERE situacion = '$ingreso' and fecha between '".$fecha."' and '".$row_f_sist["f_actual"]."'  and cod_bomba='".$bomba."' ORDER BY FECHA DESC";
 	 }
  $result=mysqli_query($link, $sql);
  $encontrados=1 ;
  $cantidad =1   ;
  $contador=0;
+ $j=0;
  while($row = mysqli_fetch_array($result))
   {
    $contador=$contador+1;
@@ -221,7 +232,7 @@ function Imprimir()
       if($contador <= 50*$page)
        {
         $situacion= $row["situacion"];
-        $cod_equipo=$row[cod_bomba];
+        $cod_equipo=$row["cod_bomba"];
 		if($situacion=="En Servicio")
 		  {
 		   $icono="Indicator1.gif";
@@ -251,12 +262,12 @@ function Imprimir()
 		$sql3 = "select * from ref_web.bombas WHERE cod_bomba= '$cod_equipo'";
         $result3=mysqli_query($link, $sql3);
         $row3 = mysqli_fetch_array($result3);
-        $equipo=$row3[bomba];
+        $equipo=$row3["bomba"];
         echo '<TR class='.$color.'>';
         echo '<TD align=center height=15>'.$indice.'</TD>';
         echo '<TD ><div align="center"><img src="archivos/'.$icono.'" width="12" height="12"></div></TD>';
         echo '<TD align=center>'.$row["fecha"].'</TD>';
-        echo '<TD align=center>'.$row[hora].'</TD>';
+        echo '<TD align=center>'.$row["hora"].'</TD>';
         echo '<TD align=center>'.$equipo.'</TD>';
         echo '<TD align=left>'.$row["observacion"].'</TD>';
         }
@@ -265,7 +276,7 @@ function Imprimir()
 echo ' </TR> ';
 echo ' </TABLE> ';
 
-$sql="select * from ref_web.historia_bombas  where fecha between '".$fecha."' and '".$row_f_sist[f_actual]."' and cod_bomba='".$bomba."'";
+$sql="select * from ref_web.historia_bombas  where fecha between '".$fecha."' and '".$row_f_sist["f_actual"]."' and cod_bomba='".$bomba."'";
 $result=mysqli_query($link, $sql);
 if($row = mysqli_fetch_array($result))
   {

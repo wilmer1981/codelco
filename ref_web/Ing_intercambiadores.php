@@ -64,14 +64,14 @@ function salir() // RECARGA PAGINA DE FROMULARIO
  <TR> 
    <TD width=9><IMG height=16 src="archivos/hbw_bar_l.gif" width=9 border=0></TD>
     <TD align=middle bgColor=#6b8ec6><FONT style="FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #ffffff; FONT-FAMILY: Arial; LETTER-SPACING: 3px; TEXT-ALIGN: center; TEXT-DECORATION: none" size=3><B>INGRESADOR 
-        DE INTERCAMBIADOR</B></FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">FECHA :&nbsp;&nbsp;&nbsp;<?phpphp  echo $fecha; ?></FONT></b></b></TD>
+        DE INTERCAMBIADOR</B></FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">FECHA :&nbsp;&nbsp;&nbsp;<?php  echo $fecha; ?></FONT></b></b></TD>
     <TD align=right width=9><IMG height=16 src="archivos/hbw_bar_r.gif" width=9 border=0></TD>
  </TR>
 </TABLE>
 
 <TABLE style="BORDER-RIGHT: #6b8ec6 2px solid; BORDER-LEFT: #6b8ec6 2px solid" cellSpacing=0 cellPadding=0 width="100%" border=0>
  <TR> 
-   <TD style="BACKGROUND-REPEAT: repeat-x" background="archivos/bg_grad3.gif" bgColor=#d7dce8> <TABLE id=tbl cellSpacing=0 cellPadding=0 width="100%"                   border=0>
+   <TD style="BACKGROUND-REPEAT: repeat-x" background="archivos/bg_grad3.gif" bgColor=#d7dce8> <TABLE id=tbl cellSpacing=0 cellPadding=0 width="100%" border=0>
    <TR> 
      <TD width=8><IMG height=1 src="archivos/spaceit.gif" width=5></TD>
      <TD> 

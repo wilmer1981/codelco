@@ -1,9 +1,11 @@
 <?php
 	include("../principal/conectar_ref_web.php");
-  $fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-  $txt_fecha       = isset($_REQUEST["txt_fecha"])?$_REQUEST["txt_fecha"]:"";
+    $fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+    $txt_fecha   = isset($_REQUEST["txt_fecha"])?$_REQUEST["txt_fecha"]:"";
 
 	$fecha=ltrim($fecha);
+	$activar = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	$mensaje = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	
 ?>
 
@@ -59,10 +61,10 @@ function Proceso(f,opc,fecha)
   </table>	  
 </form>
 <?php
-	if (isset($activar))
+	if ($activar!="")
 	{
 		echo '<script language="JavaScript">';		
-		if (isset($mensaje))
+		if ($mensaje!="")
 			echo 'alert("'.$mensaje.'");';		
 			
 		echo 'window.opener.document.frmPrincipal.action = "ingreso_cir_eleaux.php?fecha='.$txt_fecha.'&mostrar=S";';

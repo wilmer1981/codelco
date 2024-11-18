@@ -1,8 +1,16 @@
 <?php include("../principal/conectar_sec_web.php"); 
 
 $carpeta="archivos/";
+$ingreso  = isset($_REQUEST["ingreso"])?$_REQUEST["ingreso"]:"Todos";
+$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d"); 
+$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");  
+$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y"); 
+$page     = isset($_REQUEST["page"])?$_REQUEST["page"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 
-if(!isset($ingreso)){$ingreso="Todos";} ?>
+$filtro = isset($_REQUEST["filtro"])?$_REQUEST["filtro"]:"";
+
+?>
 <html>
 <head>
 <title>Documento sin t&iacute;tulo</title>
@@ -140,9 +148,9 @@ function Imprimir()
       </font></b></div></TR>
       <TR> 
        <TD><input type=radio value="En Observacion" name=ingreso   <?php if($ingreso=="En Observacion"){echo'checked';} ?>  > 
-       <font style="FONT-WEIGHT: bold; COLOR: #000000">En Observaci�n</font> </TD>
+       <font style="FONT-WEIGHT: bold; COLOR: #000000">En Observaci&oacute;n</font> </TD>
        <TD width="21%"><input type=radio value="En Mantencion" name=ingreso   <?php if($ingreso=="En Mantencion"){echo'checked';} ?>  > 
-       <font style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenci�n</font> 
+       <font style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenci&oacute;n</font> 
        <TD width="16%">&nbsp;
        <TD><font style="FONT-WEIGHT: bold; COLOR: #000000">Filtro</font> 
        <select name="filtro"  size="1">
@@ -152,13 +160,13 @@ function Imprimir()
 		   $Respuesta = mysqli_query($link, $Consulta);
 		   while ($Row = mysqli_fetch_array($Respuesta))
 			{
-			  $cod_filtro=$Row[cod_filtro];
+			  $cod_filtro=$Row["cod_filtro"];
 			  if ($filtro==$cod_filtro)
 			    {
-			     echo "<option value='".$cod_filtro."' selected>".$Row[filtro]."</option>\n";
+			     echo "<option value='".$cod_filtro."' selected>".$Row["filtro"]."</option>\n";
                 }
              else {
-			       echo "<option value='".$Row[cod_filtro]."'>".$Row[filtro]."</option>\n";
+			       echo "<option value='".$Row["cod_filtro"]."'>".$Row["filtro"]."</option>\n";
 			      }
  		   }
         ?>
@@ -202,17 +210,17 @@ function Imprimir()
   $resultado=mysqli_query($link, $consulta_f_sist);
   $row_f_sist = mysqli_fetch_array($resultado);
   $color_i=0;
-  if(!isset($page))
+  if($page=="")
     {
 	 $page =1;
 	}
   else{}
   if($ingreso=="Todos")
 	{
-	 $sql = "select * from ref_web.historia_filtros where fecha between '".$fecha."' and '".$row_f_sist[f_actual]."' and cod_filtro='".$filtro."' ORDER BY fecha DESC";
+	 $sql = "select * from ref_web.historia_filtros where fecha between '".$fecha."' and '".$row_f_sist["f_actual"]."' and cod_filtro='".$filtro."' ORDER BY fecha DESC";
 	}
   else{
-	   $sql = "select * from ref_web.historia_filtros WHERE situacion = '$ingreso' and fecha between '".$fecha."'  and '".$row_f_sist[f_actual]."' and cod_filtro='".$filtro."' ORDER BY fecha DESC";
+	   $sql = "select * from ref_web.historia_filtros WHERE situacion = '$ingreso' and fecha between '".$fecha."'  and '".$row_f_sist["f_actual"]."' and cod_filtro='".$filtro."' ORDER BY fecha DESC";
 	  }
   $result=mysqli_query($link, $sql);
   $encontrados=1 ;
@@ -226,7 +234,7 @@ function Imprimir()
         if($contador <= 10*$page)
         {
           $situacion= $row["situacion"];
-          $cod_equipo=$row[cod_filtro];
+          $cod_equipo=$row["cod_filtro"];
 		  if($situacion=="En Servicio")
 		    {
 			 $icono="Indicator1.gif";
@@ -256,12 +264,12 @@ function Imprimir()
 		$sql3 = "select * from ref_web.filtros WHERE cod_filtro= '$cod_equipo'";
         $result3=mysqli_query($link, $sql3);
         $row3 = mysqli_fetch_array($result3);
-        $equipo=$row3[filtro];
+        $equipo=$row3["filtro"];
         echo '<TR class='.$color.'>';
         echo '<TD align=center height=15>'.$indice.'</TD>';
         echo '<TD ><div align="center"><img src="archivos/'.$icono.'" width="12" height="12"></div></TD>';
         echo '<TD align=center>'.$row["fecha"].'</TD>';
-        echo '<TD align=center>'.$row[hora].'</TD>';
+        echo '<TD align=center>'.$row["hora"].'</TD>';
         echo '<TD align=center>'.$equipo.'</TD>';
         echo '<TD align=left>'.$row["observacion"].'</TD>';
       }
@@ -270,7 +278,7 @@ function Imprimir()
 echo ' </TR> ';
 echo ' </TABLE> ';
          
- $sql="select * from ref_web.historia_filtros where fecha between '".$fecha."'  and '".$row_f_sist[f_actual]."' and cod_filtro='".$filtro."'";
+ $sql="select * from ref_web.historia_filtros where fecha between '".$fecha."'  and '".$row_f_sist["f_actual"]."' and cod_filtro='".$filtro."'";
  $result=mysqli_query($link, $sql);
  if($row = mysqli_fetch_array($result))
    {

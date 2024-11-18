@@ -1,5 +1,64 @@
 <?php include("../principal/conectar_ref_web.php");   
-$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:""; 
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+    $turno     = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+    $fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"0000-00-00";
+   
+	$inicio1A     = isset($_REQUEST["inicio1A"])?$_REQUEST["inicio1A"]:"";
+	$inicio1B     = isset($_REQUEST["inicio1B"])?$_REQUEST["inicio1B"]:"";
+	$inicio2A     = isset($_REQUEST["inicio2A"])?$_REQUEST["inicio2A"]:"";
+	$inicio2B     = isset($_REQUEST["inicio2B"])?$_REQUEST["inicio2B"]:"";	
+	$inicio3A     = isset($_REQUEST["inicio3A"])?$_REQUEST["inicio3A"]:"";
+	$inicio3B     = isset($_REQUEST["inicio3B"])?$_REQUEST["inicio3B"]:"";
+	$inicio4A     = isset($_REQUEST["inicio4A"])?$_REQUEST["inicio4A"]:"";
+	$inicio4B     = isset($_REQUEST["inicio4B"])?$_REQUEST["inicio4B"]:"";
+	$inicio5A     = isset($_REQUEST["inicio5A"])?$_REQUEST["inicio5A"]:"";
+	$inicio5B     = isset($_REQUEST["inicio5B"])?$_REQUEST["inicio5B"]:"";
+	$inicio6A     = isset($_REQUEST["inicio6A"])?$_REQUEST["inicio6A"]:"";
+	$inicio6B     = isset($_REQUEST["inicio6B"])?$_REQUEST["inicio6B"]:"";
+	$inicio7A     = isset($_REQUEST["inicio7A"])?$_REQUEST["inicio7A"]:"";
+	$inicio7B     = isset($_REQUEST["inicio7B"])?$_REQUEST["inicio7B"]:"";	
+	$inicioHMA     = isset($_REQUEST["inicioHMA"])?$_REQUEST["inicioHMA"]:"";
+	$inicioHMB     = isset($_REQUEST["inicioHMB"])?$_REQUEST["inicioHMB"]:"";	
+	$inicioparcialA   = isset($_REQUEST["inicioparcialA"])?$_REQUEST["inicioparcialA"]:"";
+	$inicioparcialB   = isset($_REQUEST["inicioparcialB"])?$_REQUEST["inicioparcialB"]:"";
+	
+	$medio1A     = isset($_REQUEST["medio1A"])?$_REQUEST["medio1A"]:"";
+	$medio1B     = isset($_REQUEST["medio1B"])?$_REQUEST["medio1B"]:"";
+	$medio2A     = isset($_REQUEST["medio2A"])?$_REQUEST["medio2A"]:"";
+	$medio2B     = isset($_REQUEST["medio2B"])?$_REQUEST["medio2B"]:"";
+	$medio3A     = isset($_REQUEST["medio3A"])?$_REQUEST["medio3A"]:"";
+	$medio3B     = isset($_REQUEST["medio3B"])?$_REQUEST["medio3B"]:"";
+	$medio4A     = isset($_REQUEST["medio4A"])?$_REQUEST["medio4A"]:"";
+	$medio4B     = isset($_REQUEST["medio4B"])?$_REQUEST["medio4B"]:"";
+	$medio5A     = isset($_REQUEST["medio5A"])?$_REQUEST["medio5A"]:"";
+	$medio5B     = isset($_REQUEST["medio5B"])?$_REQUEST["medio5B"]:"";
+	$medio6A     = isset($_REQUEST["medio6A"])?$_REQUEST["medio6A"]:"";
+	$medio6B     = isset($_REQUEST["medio6B"])?$_REQUEST["medio6B"]:"";
+	$medio7A     = isset($_REQUEST["medio7A"])?$_REQUEST["medio7A"]:"";
+	$medio7B     = isset($_REQUEST["medio7B"])?$_REQUEST["medio7B"]:"";
+	$medioHMA    = isset($_REQUEST["medioHMA"])?$_REQUEST["medioHMA"]:"";
+	$medioHMB    = isset($_REQUEST["medioHMB"])?$_REQUEST["medioHMB"]:"";	
+	$medioparcialA  = isset($_REQUEST["medioparcialA"])?$_REQUEST["medioparcialA"]:"";
+	$medioparcialB  = isset($_REQUEST["medioparcialB"])?$_REQUEST["medioparcialB"]:"";
+	
+	$fin1A     = isset($_REQUEST["fin1A"])?$_REQUEST["fin1A"]:"";
+	$fin1B     = isset($_REQUEST["fin1B"])?$_REQUEST["fin1B"]:"";
+	$fin2A     = isset($_REQUEST["fin2A"])?$_REQUEST["fin2A"]:"";
+	$fin2B     = isset($_REQUEST["fin2B"])?$_REQUEST["fin2B"]:"";
+	$fin3A     = isset($_REQUEST["fin3A"])?$_REQUEST["fin3A"]:"";
+	$fin3B     = isset($_REQUEST["fin3B"])?$_REQUEST["fin3B"]:"";
+	$fin4A     = isset($_REQUEST["fin4A"])?$_REQUEST["fin4A"]:"";
+	$fin4B     = isset($_REQUEST["fin4B"])?$_REQUEST["fin4B"]:"";
+	$fin5A     = isset($_REQUEST["fin5A"])?$_REQUEST["fin5A"]:"";
+	$fin5B     = isset($_REQUEST["fin5B"])?$_REQUEST["fin5B"]:"";
+	$fin6A     = isset($_REQUEST["fin6A"])?$_REQUEST["fin6A"]:"";
+	$fin6B     = isset($_REQUEST["fin6B"])?$_REQUEST["fin6B"]:"";
+	$fin7A     = isset($_REQUEST["fin7A"])?$_REQUEST["fin7A"]:"";
+	$fin7B     = isset($_REQUEST["fin7B"])?$_REQUEST["fin7B"]:"";
+	$finHMA    = isset($_REQUEST["finHMA"])?$_REQUEST["finHMA"]:"";
+	$finHMB    = isset($_REQUEST["finHMB"])?$_REQUEST["finHMB"]:"";
+	$finparcialA  = isset($_REQUEST["finparcialA"])?$_REQUEST["finparcialA"]:"";
+	$finparcialB  = isset($_REQUEST["finparcialB"])?$_REQUEST["finparcialB"]:"";
 
 	if ($Proceso == "G")
 	{   

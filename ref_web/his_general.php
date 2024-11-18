@@ -2,13 +2,15 @@
 
 
 $buscar  = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:"";
-$page    = isset($_REQUEST["page"])?$_REQUEST["page"]:1;
+$page    = isset($_REQUEST["page"])?$_REQUEST["page"]:"";
 
 $campo   = isset($_REQUEST["campo"])?$_REQUEST["campo"]:"";
 $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";  
-$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:""; 
+$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");  
+$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y"); 
 
+echo "mes1:".$mes1;
+echo "<br>ano1:".$ano1;
 
 ?>
 
@@ -75,48 +77,48 @@ function Imprimir()
                                         <b><font face="Arial, Helvetica, sans-serif">
                                         <select name="mes1" size="1" id="select2">
                                           <?php
-				$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-					for($i=1;$i<13;$i++)
-					{
-						if (isset($mes1))
-						{
-							if ($i == $mes1)
-								echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
-							else
-								echo '<option value="'.$i.'">'.$meses[$i-1].'</option>';
-						}
-						else
-						{
-							if ($i == date("n"))
-								echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
-							else
-								echo '<option value="'.$i.'">'.$meses[$i-1].'</option>';
-						}						
-					}
-				?>
+										$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+											for($i=1;$i<13;$i++)
+											{
+												if (isset($mes1))
+												{
+													if ($i == $mes1)
+														echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
+													else
+														echo '<option value="'.$i.'">'.$meses[$i-1].'</option>';
+												}
+												else
+												{
+													if ($i == date("n"))
+														echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
+													else
+														echo '<option value="'.$i.'">'.$meses[$i-1].'</option>';
+												}						
+											}
+										?>
                                         </select>
                                         <select name="ano1" size="1" id="select3">
                                           <?php
-					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
-					{
-						if (isset($ano1))
-						{
-							if ($i == $ano1)
-								echo '<option selected value="'.$i.'">'.$i.'</option>';
-							else
-								echo '<option value="'.$i.'">'.$i.'</option>';
-						}
-						else
-						{
-							if ($i == date("Y"))
-								echo '<option selected value="'.$i.'">'.$i.'</option>';
-							else
-								echo '<option value="'.$i.'">'.$i.'</option>';
-						}
-					}
-				?>
+											for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+											{
+												if (isset($ano1))
+												{
+													if ($i == $ano1)
+														echo '<option selected value="'.$i.'">'.$i.'</option>';
+													else
+														echo '<option value="'.$i.'">'.$i.'</option>';
+												}
+												else
+												{
+													if ($i == date("Y"))
+														echo '<option selected value="'.$i.'">'.$i.'</option>';
+													else
+														echo '<option value="'.$i.'">'.$i.'</option>';
+												}
+											}
+										?>
                                         </select>
-                                        <input name=b222222 type=submit id=b222222  value="Buscar"   onClick="JavaScript:Buscar();">
+                                        <input name="b222222" type="submit" id="b222222"  value="Buscar"   onClick="JavaScript:Buscar();">
                                         </font></b> <TD width="19%"><IMG height=8 src="archivos/spaceit.gif" width=10 border=0></TD>
           </TR>
           </TABLE>
@@ -150,33 +152,43 @@ function Imprimir()
           </TR>
           <TR class=lcol> 
 		  <?php 
+			if($mes1=='01' || $mes1=='03' || $mes1='05' || $mes1='07' || $mes1='08' || $mes1='10' || $mes1='12' )
+			  $diaf=31;
+			if($mes1=='04' || $mes1=='06' || $mes1='09' || $mes1='11' )
+				$diaf=30;
+			if($mes1=='02')
+				$diaf=29;
+			
 		    if ($buscar=='S')
-			  {
-				  if($page=="")
-				  {
+			{
+				    if($page=="")
+				    {
 					 $page =1;
 					}
 				  $encontrados=1;
-          $cantidad =1;
-          $contador=0;	
-		      $consulta="select * from ref_web.novedades where novedad like '%".$campo."%' and fecha between '".$fecha."-01' and '".$fecha."-31'";
+				  $cantidad =1;
+				  $contador=0;	
+
+				  $consulta="select * from ref_web.novedades where novedad like '%".$campo."%' and fecha between '".$fecha."-01' and '".$fecha."-$diaf'";
 				  $resultado=mysqli_query($link, $consulta);
+				  //echo "consulta:".$consulta;
+				  $j=0;
 				  while($row1 = mysqli_fetch_array($resultado))
 				  {
-					  $contador=$contador+1;
-					  if($contador >= 10*($page-1))
-					  {
-						  if($contador <= 10*$page)
-						  {
-						     $cantidad=$cantidad+1;
-						     $indice=$contador;
+					$contador=$contador+1;
+					if($contador >= 10*($page-1))
+					{
+						if($contador <= 10*$page)
+						{
+						    $cantidad=$cantidad+1;
+						    $indice=$contador;
 						    if ( $j==1)
-					      {$color= "lcol";
+					        {$color= "lcol";
 						     $j=0;
-                }else{
-                  $color= "lcolver";
+                            }else{
+                               $color= "lcolver";
 							   $j=1;
-                } //color fila
+                            } //color fila
 					      echo '<TR class='.$color.'>';
 					      echo '<TD><div align="center"><strong>'.$row1["FECHA"].'</strong></div></TD>';
                           echo '<TD ><div align="center">'.$row1["TURNO"].'</div></TD>';
@@ -185,11 +197,11 @@ function Imprimir()
 						  } 
 					  }
 					}
-				} 
+			} 
 		          
-  					$sql="select * from ref_web.novedades where fecha between '".$fecha."-01' and '".$fecha."-31'";
+  					$sql="select * from ref_web.novedades where fecha between '".$fecha."-01' and '".$fecha."-$diaf'";
   					$result=mysqli_query($link, $sql);
-            $cuenta=0  ;
+                    $cuenta=0  ;
   					if($row = mysqli_fetch_array($result))
   					{
    					 // $cuenta=0  ;
@@ -197,7 +209,7 @@ function Imprimir()
      				  {
     				    $cuenta=$cuenta+1;
    					  }
-            }
+                    }
                     //$paginas=ceil(($contador/10)) ;
                     $paginas=ceil(($cuenta/10)) ;
                     echo '<TR>';

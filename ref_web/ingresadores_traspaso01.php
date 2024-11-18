@@ -1,5 +1,11 @@
 <?php
 	include("../principal/conectar_ref_web.php");
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$turno   = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+	$Valor1  = isset($_REQUEST["Valor1"])?$_REQUEST["Valor1"]:"";
+	$Valor2  = isset($_REQUEST["Valor2"])?$_REQUEST["Valor2"]:"";
+	$Valor3  = isset($_REQUEST["Valor3"])?$_REQUEST["Valor3"]:"";
+	$Valor4  = isset($_REQUEST["Valor4"])?$_REQUEST["Valor4"]:"";
 	
 	if ($Proceso == "G")
 	{
@@ -10,7 +16,7 @@
 		$Col=1;
 		$arreglo = explode("~",$Valor1); //Separa los parametros en un array.
 		reset($arreglo);					
-		while (list($clave, $valor) = each($arreglo))
+		foreach($arreglo as $clave => $valor)
 		{		
 			$VolM3 = $valor;
 			if($VolM3!='')
@@ -30,7 +36,7 @@
 		$Col=1;
 		$arreglo = explode("~",$Valor2); //Separa los parametros en un array.
 		reset($arreglo);					
-		while (list($clave, $valor) = each($arreglo))
+		foreach($arreglo as $clave => $valor)
 		{		
 			$VolM3 = $valor;
 			if($VolM3!='')
@@ -50,7 +56,7 @@
 		$Col=1;
 		$arreglo = explode("~",$Valor3); //Separa los parametros en un array.
 		reset($arreglo);					
-		while (list($clave, $valor) = each($arreglo))
+		foreach($arreglo as $clave => $valor)
 		{		
 			$VolM3 = $valor;
 			if($VolM3!='')
@@ -70,7 +76,7 @@
 		$Col=1;
 		$arreglo = explode("~",$Valor4); //Separa los parametros en un array.
 		reset($arreglo);					
-		while (list($clave, $valor) = each($arreglo))
+		foreach($arreglo as $clave => $valor)
 		{		
 			$VolM3 = $valor;
 			if($VolM3!='')

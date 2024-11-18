@@ -117,7 +117,7 @@ function Modificar(FECHA,COD_TIPO_PROCEDIMIENTO,FECHA,DESDE,HASTA,PROCEDIMIENTO,
 					  echo'</TR>';
 				   }
 				 else
-					{
+					{	$i=0;
 					   while($row = mysqli_fetch_array($result))
 					      {
 						   $i++;

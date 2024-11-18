@@ -6,6 +6,22 @@
 	$fecha_desconexion  = isset($_REQUEST["fecha_desconexion"])?$_REQUEST["fecha_desconexion"]:"";
 	$grupo              = isset($_REQUEST["grupo"])?$_REQUEST["grupo"]:"";
 	$fecha              = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$cmbtipo = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
+	$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$activar = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	$mensaje = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d"); 
+	$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");  
+	$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y"); 
+	$hr1     = isset($_REQUEST["hr1"])?$_REQUEST["hr1"]:date("H"); 
+	$mm1     = isset($_REQUEST["mm1"])?$_REQUEST["mm1"]:date("i"); 
+	$dia2     = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:date("d"); 
+	$mes2     = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");  
+	$ano2     = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y"); 
+	$hr2     = isset($_REQUEST["hr2"])?$_REQUEST["hr2"]:date("H"); 
+	$mm2     = isset($_REQUEST["mm2"])?$_REQUEST["mm2"]:date("i");
+	$kahdirc = isset($_REQUEST["kahdirc"])?$_REQUEST["kahdirc"]:"";
+	$kahdird = isset($_REQUEST["kahdird"])?$_REQUEST["kahdird"]:"";
 
 	if ($opcion == "M")
 	{
@@ -26,6 +42,8 @@
 			$hr2 = substr($row["fecha_conexion"],11,2);
 			$mm2 = substr($row["fecha_conexion"],14,2);	
 			$cmbtipo=$row["tipo_desconexion"];
+			$kahdirc = $row["kahdirc"];
+			$kahdird = $row["kahdird"];
 					
 		}
 	}
@@ -303,10 +321,10 @@ function tipo(f)
 					   $rs2 = mysqli_query($link, $consulta);
 					   while ($row2 = mysqli_fetch_array($rs2))
 							{		
-								if ($row2[cod_rectificador] == $row[cod_rectificador])
-									echo '<option value="'.$row2[cod_rectificador].'" selected>'.$row2[cod_rectificador].'</option>';
+								if ($row2["cod_rectificador"] == $row["cod_rectificador"])
+									echo '<option value="'.$row2["cod_rectificador"].'" selected>'.$row2["cod_rectificador"].'</option>';
 								else 
-									echo '<option value="'.$row2[cod_rectificador].'">'.$row2[cod_rectificador].'</option>';
+									echo '<option value="'.$row2["cod_rectificador"].'">'.$row2["cod_rectificador"].'</option>';
 							}
 				    } 
 				 
@@ -406,9 +424,9 @@ function tipo(f)
 		<?php $consulta_f_actual="select left(sysdate(),10) as fecha_actual";
 		   $rs_f_actual = mysqli_query($link, $consulta_f_actual);
 		   $row_f_actual = mysqli_fetch_array($rs_f_actual);
-		   $ano1_actual=substr($row_f_actual[fecha_actual],0,4);
-		   $mes1_actual=substr($row_f_actual[fecha_actual],5,2);
-		   $dia1_actual=substr($row_f_actual[fecha_actual],8,2);
+		   $ano1_actual=substr($row_f_actual["fecha_actual"],0,4);
+		   $mes1_actual=substr($row_f_actual["fecha_actual"],5,2);
+		   $dia1_actual=substr($row_f_actual["fecha_actual"],8,2);
 		   
 		?>
 		<input name="dia1_actual" TYPE="hidden" value="<?php echo $dia1_actual;?>" size="2" style="text-align: center;background:ColorTabla01;color:white;" readonly >
@@ -422,7 +440,7 @@ function tipo(f)
           </tr>
           <tr> 
             <td height="30">Kahdird</td>
-            <td colspan="2"><input name="txtkah1" type="text" size="10" value="<?php echo $row[kahdird]?>"></td>
+            <td colspan="2"><input name="txtkah1" type="text" size="10" value="<?php echo $kahdird;?>"></td>
           </tr>
           <tr> 
             <td height="30">Fecha y Hora Conexion</td>
@@ -493,7 +511,7 @@ function tipo(f)
           </tr>
           <tr> 
             <td height="30">Kahdirc</td>
-            <td colspan="2"><input name="txtkah2" type="text" size="10" value="<?php echo $row[kahdirc]?>"></td>
+            <td colspan="2"><input name="txtkah2" type="text" size="10" value="<?php echo $kahdirc?>"></td>
           </tr>
         </table>
 		<?php
@@ -516,10 +534,10 @@ function tipo(f)
 </table>
 </form>
 <?php
-	if (isset($activar))
+	if ($activar!="")
 	{
 		echo '<script language="JavaScript">';		
-		if (isset($mensaje))
+		if ($mensaje!="")
 			echo 'alert("'.$mensaje.'");';		
 			
 		echo 'window.opener.document.frmPrincipal.action = "sec_ing_estadistica_cortes.php";';

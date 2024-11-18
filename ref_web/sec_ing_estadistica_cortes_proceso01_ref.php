@@ -16,12 +16,12 @@
 	$mm2   = isset($_REQUEST["mm2"])?$_REQUEST["mm2"]:"";
 
 
-	$opcion   = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-	$cmbgrupo = isset($_REQUEST["cmbgrupo"])?$_REQUEST["cmbgrupo"]:"";
-	$cmbtipo      = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
-	$txtkah1      = isset($_REQUEST["txtkah1"])?$_REQUEST["txtkah1"]:"";
-	$txtkah2      = isset($_REQUEST["txtkah2"])?$_REQUEST["txtkah2"]:"";
-	$tipo_desc= isset($_REQUEST["tipo_desc"])?$_REQUEST["tipo_desc"]:"";
+	$opcion    = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$cmbgrupo  = isset($_REQUEST["cmbgrupo"])?$_REQUEST["cmbgrupo"]:"";
+	$cmbtipo   = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
+	$txtkah1   = isset($_REQUEST["txtkah1"])?$_REQUEST["txtkah1"]:"";
+	$txtkah2   = isset($_REQUEST["txtkah2"])?$_REQUEST["txtkah2"]:"";
+	$tipo_desc = isset($_REQUEST["tipo_desc"])?$_REQUEST["tipo_desc"]:"";
 
 	
 	$cmbrectificador = isset($_REQUEST["cmbrectificador"])?$_REQUEST["cmbrectificador"]:"";
