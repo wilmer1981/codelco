@@ -13,6 +13,9 @@
 	$RNA     = isset($_REQUEST["RNA"])?$_REQUEST["RNA"]:"";
 	$Bloq1   = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
 	$Bloq2   = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
+	
+	//echo "Bloq1:".$Bloq1."<br>";
+	//echo "Bloq2:".$Bloq2."<br>";
 
 	$Mensaje       = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	$BuscarPrv     = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";	
@@ -58,9 +61,9 @@
 	$TxtPNetoTot = isset($_REQUEST["TxtPNetoTot"])?$_REQUEST["TxtPNetoTot"]:"";
 	$TxtImpurezas = isset($_REQUEST["TxtImpurezas"])?$_REQUEST["TxtImpurezas"]:"";
 	
-	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+	$Valor    = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
 	$TxtFecha = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date("Y-m-d");
-	$ObjFoco = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
+	$ObjFoco  = isset($_REQUEST["ObjFoco"])?$_REQUEST["ObjFoco"]:"";
 	$ValidaPadronMin = isset($_REQUEST["ValidaPadronMin"])?$_REQUEST["ValidaPadronMin"]:"";
 	$TxtVencPadron = isset($_REQUEST["TxtVencPadron"])?$_REQUEST["TxtVencPadron"]:"";
 	$CmbMinaPlanta = isset($_REQUEST["CmbMinaPlanta"])?$_REQUEST["CmbMinaPlanta"]:"";
@@ -414,29 +417,51 @@ function Deshabilita(Bascula)
 }
 function RestaurarBascula()
 {
-	var Bas2=0;
-    var Bas1=0;
+	//var Bas2=0;
+    //var Bas1=0;
 	var f = document.FrmRecepcion;
 	//var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
-	//var Bas2=LeerArchivo('');  //C:\\PesoMatic.txt
-	var bascula = f.TxtBasculaAux.value; //
+	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
+	//var bascula = f.TxtBasculaAux.value; //
+	var bascula = f.TxtNumBascula.value; //
+	var Romana = f.TxtNumRomana.value; //
 	//alert("bascula:"+bascula);
-	if(bascula==1){
+	//alert("Romana:"+Romana);
+	if(Romana==1){
 		//Bas1 = 'PesoMatic2_1.txt';
 		//Bas2 = 'PesoMatic_1.txt';
 		Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_1.txt'); ?>';
 		Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_1.txt'); ?>';
 	}
-	if(bascula==2){
+	
+	if(Romana==2){
 		//Bas1 = 'PesoMatic2_2.txt';
 		//Bas2 = 'PesoMatic_2.txt';
 		Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_2.txt'); ?>';
 		Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_2.txt'); ?>';
 	}
+/*
+	   if(bascula==1){
+			//Bas1 = 'PesoMatic2_1.txt';
+			//Bas2 = 'PesoMatic_1.txt';
+			Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_1.txt'); ?>';
+			Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_1.txt'); ?>';
+		}
+		if(bascula==2){
+			//Bas1 = 'PesoMatic2_2.txt';
+			//Bas2 = 'PesoMatic_2.txt';
+			Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_2.txt'); ?>';
+			Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_2.txt'); ?>';
+		}
+	*/
 	//alert(bascula);
 	//var ruta = '<?php // echo "configuracion_pesaje"; ?>';
 	//var Bas1 = '<?php //echo LeerArchivo('','PesoMatic2.txt'); ?>';
 	//var Bas2 = '<?php //echo LeerArchivo('','PesoMatic.txt'); ?>';
+	//Tolerancia = '<?php echo $Tolerancia; ?>';
+   // alert("Tolerancia:"+Tolerancia);
+	//alert("Bas1:"+Bas1);
+	//alert("Bas2:"+Bas2);
 	if(Bas1 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
 		f.Bloq1.value='';
@@ -585,8 +610,8 @@ function oculta(numero)
 }
 function PesoAutomatico()
 {
-	//setTimeout("CapturaPeso()",500);
-	setTimeout(CapturaPeso,500);
+	setTimeout("CapturaPeso()",500);
+	//setTimeout(CapturaPeso,500);
 }	
 /*****************/
 function CapturaPeso(tipo)
@@ -596,12 +621,14 @@ function CapturaPeso(tipo)
 	var PesoRangoFin =0;
 	var PorcPeso =0;
 	//f.TxtNumRomana
-	
+	//alert("Tipo Proceso:"+tipo);
 	switch(tipo)
 	{
 		case "PB":
 			f.TipoProceso.value="E";
+			alert("TipoProceso:"+f.TipoProceso.value);
 			alert("TxtNumRomana:"+f.TxtNumRomana.value);
+			alert("TxtNumBascula:"+f.TxtNumBascula.value);
 			if(f.TxtNumRomana.value=='1')
 			{
 				if(f.TxtNumBascula.value=='1')
@@ -687,7 +714,8 @@ function CapturaPeso(tipo)
 			break;
 		case "PT":
 			f.TipoProceso.value="S";
-			if(f.TxtNumRomana=='1')
+			//alert("Entro a Peso Tara");
+			if(f.TxtNumRomana.value=='1')
 			{
 				if(f.TxtNumBascula.value=='1')
 				{	
@@ -717,8 +745,8 @@ function CapturaPeso(tipo)
 				}
 			}
 			
-			if(f.TxtNumRomana=='2')
-			{
+			if(f.TxtNumRomana.value=='2')
+			{  //alert("ROMANA 2");
 				if(f.TxtNumBascula.value=='1')
 				{	
 					if(f.Bloq1.value=='S')
@@ -939,7 +967,7 @@ function Recarga(ObjFoco,Tipo)
 	var f = document.FrmRecepcion;
 	
 	if(f.TxtPatente.value==''&&Tipo=='S')
-		return;
+		return true;
 	f.action = "rec_recepcion.php?ObjFoco="+ObjFoco.name;
 	f.submit();		
 }
@@ -1169,12 +1197,19 @@ body {
 		else
 		{	echo "SALIDA DEL CAMION";
 			$Testo="SALIDA";
-		}?>
+		}
+	//echo "<br>TxtNumBascula:".$TxtNumBascula;	
+	//echo "<br>Bloq1:".$Bloq1."<br>";
+	//echo "Bloq2:".$Bloq2."<br>";
+		?>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PESANDO EN BASCULA DE <?php echo $Testo;?>:
-     
+	<?php
+    //echo "<br>TxtNumBascula:".$TxtNumBascula;	
+	//echo "<br>Bloq1:".$Bloq1."<br>";
+	//echo "Bloq2:".$Bloq2."<br>";
+		?>
     <input type="hidden" id="Bloq1" name="Bloq1" class="InputCen" value="<?php echo $Bloq1;?>" size="2"  >	
 	<input type="hidden" id="Bloq2" name="Bloq2" class="InputCen" value="<?php echo $Bloq2;?>" size="2"  >	
-
 	<input type="hidden" name="TxtNumBascula" class="InputCen" value="<?php echo $TxtNumBascula;?>" size="2" > 
 	<?php	
 		switch($TxtNumRomana)
@@ -1657,10 +1692,12 @@ $realIp = getRealIP();
 //echo "CLIENT_IP:".$realIp;
 
 //echo "<br>GETHOST_NAME:".$GETHOST_NAME;
-echo "<br>COMPUTERNAME:".$COMPUTERNAME;
 //echo "<br>GETHOSTBYNAME:".$GETHOSTBYNAME;
+
+echo "<br>COMPUTERNAME:".$COMPUTERNAME;
 echo "<br>SERVER_NAME:".$SERVER_NAME;
-echo "<br>REMOTE_ADDR:".$REMOTE_ADDR;
+//echo "<br>REMOTE_ADDR:".$REMOTE_ADDR;
+
 echo "<br>USER_IP:".$IP ;
 
 //$Romana = LeerRomana($REMOTE_ADDR,$link);
