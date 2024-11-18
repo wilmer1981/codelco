@@ -180,6 +180,7 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
               <TD width="73%"><div align="center"><font size="6"><strong>OBSERVACIONES</strong></font></div></TD>
             </TR>
            <?php
+		         $i=0; //WSO
 					//mustra las novedades del dia seleccionado
                  $consulta ="select t1.COD_NOVEDAD,t1.NOVEDAD,t1.usuario,T1.TURNO, t2.valor_subclase1 ";
                  $consulta .="from ref_web.novedades as t1 ";
@@ -198,7 +199,7 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 				   }
 				else {
 				      $respuesta=mysqli_query($link, $consulta);
-					  $i=0; //WSO
+					
                       while($row = mysqli_fetch_array($respuesta))
                         {
                          $i++;
@@ -229,7 +230,7 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 	 <TR  vAlign=top  class=dt>  
 	  <TD width="90%" vAlign=bottom colspan=4> <H4><B>Mantenciones Pendientes al &nbsp;&nbsp;<?php echo $dia1.'-'.$mes1.'-'.$ano1; ?></B></H4></TD>
  	 <?php 
-	 $i=0;//WSO
+	 //$i=0;//WSO
 	 $var_ini = $i+1; 
 	 ?>
 	  <input name="var_ini" type="hidden" id="var_ini" value="<?php  //echo ''.$var_ini.'';?>">
@@ -323,10 +324,10 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 									        {$Area="Ingenieria";
 											$icono="ico_naranja.gif";} 
 									else if ($Area==7)
-									        {$Area="Mec.Gr�as";
+									        {$Area="Mec.Grúas";
 											$icono="ico_blanco.gif";} 
 									else if ($Area==8)
-									        {$Area="Lubricaci�n";
+									        {$Area="Lubricación";
 											$icono="Indicator4.gif";} 
 											
 						 if(isset($Marca)&&$Marca==$cod_novedad)
@@ -451,9 +452,9 @@ function EliminarSelec2()//MANTENCIONES REALIZADAS
 									else if ($Area==6)
 										{$Area="Ingenieria";}
 									else if ($Area==7)
-										{$Area="Mec. Gr�a";}
+										{$Area="Mec. Grúa";}
 									else if	($Area==8)
-										{$Area="Lubricaci�n";}
+										{$Area="Lubricación";}
 						 if(isset($Marca2)&&$Marca2==$cod_novedad)
 							 echo'<TR class=lcolam> ';
 						 else

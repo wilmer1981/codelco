@@ -28,10 +28,10 @@ function Imprimir()
 {
 	window.print();
 }
-function Modificar(fecha,filtro)
+function Modificar(fecha,filtro,hora)
 {
 	var f = document.FrmPrincipal;
-	f.action = "Ing_filtros.php?filtro="+filtro+"&fecha="+fecha;
+	f.action = "Ing_filtros.php?filtro="+filtro+"&fecha="+fecha+"&horas="+hora;
 	f.submit();
 }
 </script>
@@ -78,7 +78,8 @@ function Modificar(fecha,filtro)
 				else {
 				        $resultado=mysqli_query($link, $consulta);		
 						while($row1 = mysqli_fetch_array($resultado))
-							{    	  
+						{   
+							$hora = $row1["hora"];
 							  if($row1["situacion"]=="En Servicio")
 								  {$icono="Indicator1.gif";}
 							  if($row1["situacion"]=="Fuera de Servicio")
@@ -96,10 +97,11 @@ function Modificar(fecha,filtro)
 							  echo "<a href=\"JavaScript:Eliminar('".$row1["fecha"]."','".$row1["hora"]."','".$row1["cod_filtro"]."')\">";
 							  echo '<img src="archivos/papelera.gif" width="15" height="15" border="0"></A></div></TD>';
 							  echo'<TD width="5%" ><div align="center">';
-							  echo "<a href=\"JavaScript:Modificar('$fecha','".$row1["cod_filtro"]."')\">";
+							  echo "<a href=\"JavaScript:Modificar('$fecha','".$row1["cod_filtro"]."','".$row1["hora"]."')\">";
 							  echo '<img src="archivos/modificar.gif" width="15" height="15" border="0"></A></div></TD>';
 							  echo'</TR>';
-							}
+
+						}
 					 }		
 			  ?>
             </TBODY>

@@ -226,6 +226,7 @@ function Imprimir()
   $encontrados=1 ;
   $cantidad =1   ;
   $contador=0;
+  $j=0;
   while($row = mysqli_fetch_array($result))
     {
      $contador=$contador+1   ;
