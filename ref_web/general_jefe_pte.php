@@ -32,14 +32,10 @@ function Modificar(fecha,cod_novedad,turno)
    f.action = "ing_general_jefe_pte.php?cod_novedad=" + cod_novedad+"&fecha="+fecha+"&turno="+turno+"&opcion=M";
    f.submit();
 }
-
-
 //-->
 </script>
 
-
 <body>
-
 <form name="FrmPrincipal" method="post" action="">
 <input type="hidden" name="Proceso" value="E">
 <input type="hidden" name="fecha" value="<?php echo ''.$fecha.''; ?>">
@@ -72,32 +68,32 @@ function Modificar(fecha,cod_novedad,turno)
                  $consulta .="ORDER BY t2.valor_subclase1,t1.FECHA ASC ";		   
 				$respuesta=mysqli_query($link, $consulta);
                 if(!$row = mysqli_fetch_array($respuesta))
-                   {
+                {
 				      echo'<TR class=lcol> ';
 					  echo'<TD colspan="7" height="50"><div align="center"><B>NO HAY REGISTROS</B></div></TD>';
 					  echo'</TR>';
-				   }
-				else {
-				      $respuesta=mysqli_query($link, $consulta);
-                      while($row = mysqli_fetch_array($respuesta))
-                        {
-                         $i++;
-						 $cod_novedad= $row['COD_NOVEDAD'];
-						 $observacion= $row['NOVEDAD'];
-						 $turno= $row['TURNO'];
-						 $nombre=$row[usuario];
-						 echo'<TR class=lcol> ';
-						 echo'<TD ><div align="center"><B>'.$i.'</B></div></TD>';
-						 echo'<TD ><div align="center"><B>'.strtoupper($nombre).'</B></div></TD>';
-						 echo'<TD ><div align="center"><B>'.$turno.'</B></div></TD>';
-						 echo'<TD ><div align="left"><B>'.strtoupper($observacion).'</B></div></TD>';
-						 echo"<TD ><div align='center'><a href=JavaScript:Eliminar(".$cod_novedad.");><img src='archivos/papelera.gif' width='15' height='15'></A></div></TD>";
-						 echo'<TD width="10%" ><div align="center">';
-						 echo "<a href=\"JavaScript:Modificar('$fecha','$cod_novedad','$turno')\">";
-						 echo '<img src="archivos/modificar.gif" width="15" height="15"></A></div></TD>';
-						 echo'</TR>';
-					    }
-					}	
+				}else{
+				    $respuesta=mysqli_query($link, $consulta);
+					$i=0;
+                    while($row = mysqli_fetch_array($respuesta))
+                    {
+                        $i++;
+						$cod_novedad= $row['COD_NOVEDAD'];
+						$observacion= $row['NOVEDAD'];
+						$turno= $row['TURNO'];
+						$nombre=$row['usuario'];
+						echo'<TR class=lcol> ';
+						echo'<TD ><div align="center"><B>'.$i.'</B></div></TD>';
+						echo'<TD ><div align="center"><B>'.strtoupper($nombre).'</B></div></TD>';
+						echo'<TD ><div align="center"><B>'.$turno.'</B></div></TD>';
+						echo'<TD ><div align="left"><B>'.strtoupper($observacion).'</B></div></TD>';
+						echo"<TD ><div align='center'><a href=JavaScript:Eliminar(".$cod_novedad.");><img src='archivos/papelera.gif' width='15' height='15'></A></div></TD>";
+						echo'<TD width="10%" ><div align="center">';
+						echo "<a href=\"JavaScript:Modificar('$fecha','$cod_novedad','$turno')\">";
+						echo '<img src="archivos/modificar.gif" width="15" height="15"></A></div></TD>';
+						echo'</TR>';
+					}
+				}	
                 //}
             ?>
           </TBODY>
@@ -138,23 +134,24 @@ function Modificar(fecha,cod_novedad,turno)
 				//echo $consulta;
 				$respuesta=mysqli_query($link, $consulta);
                 if(!$row = mysqli_fetch_array($respuesta))
-                   {
+                {
 				      echo'<TR class=lcol> ';
 					  echo'<TD colspan="7" height="50"><div align="center"><B>NO HAY REGISTROS</B></div></TD>';
 					  echo'</TR>';
-				   }
-				else {
-				      $respuesta=mysqli_query($link, $consulta);
-                      while($row = mysqli_fetch_array($respuesta))
-                        {
+				}
+				else{
+				    $respuesta=mysqli_query($link, $consulta);
+					$i=0;
+                    while($row = mysqli_fetch_array($respuesta))
+                    {
                          $i++;
 						 $cod_novedad= $row['COD_NOVEDAD'];
 						 $observacion= $row['NOVEDAD'];
 						 $turno= $row['TURNO'];
 						 $condicion=$row['Condicion_insegura'];
-						 $usuario=$row[usuario];
-						 $compromiso=$row[compromiso];
-						 $Area=$row[area];
+						 $usuario=$row['usuario'];
+						 $compromiso=$row['compromiso'];
+						 $Area=$row['area'];
 						 if ($Area==1)
 						    {$Area="M. Mecanica";
 							 $icono="Indicator1.gif";}
@@ -174,10 +171,10 @@ function Modificar(fecha,cod_novedad,turno)
 									        {$Area="Ingenieria";
 											$icono="ico_naranja.gif";} 
 									else if ($Area==7)
-									        {$Area="Mec.Gr�as";
+									        {$Area="Mec.Gr&uacute;as";
 											$icono="ico_blanco.gif";} 
 									else if ($Area==8)
-									        {$Area="Lubricaci�n";
+									        {$Area="Lubricac&oacute;n";
 											$icono="Indicator4.gif";} 
 						 echo'<TR class=lcol> ';
 						 echo'<TD ><div align="center"><B>'.$i.'</B></div></TD>';
@@ -215,17 +212,15 @@ function Modificar(fecha,cod_novedad,turno)
 	     <td bgcolor="#0066CC" colspan="8">&nbsp;</td>
 	  </tr>
 	 <TR  vAlign=top  class=dt> 
-	 <?php 
-	     $sql="SELECT  SUBDATE('".$ano1.'-'.$mes1.'-'.$dia1."',INTERVAL 30 DAY) as fecha";
-         $result=mysqli_query($link, $sql);
-         $row = mysqli_fetch_array($result);
-         $ano2=substr($row["fecha"],0,4);
-         $mes2=substr($row["fecha"],5,2);
-         $dia2=substr($row["fecha"],8,2)
+	<?php 
+	    $sql="SELECT  SUBDATE('".$ano1.'-'.$mes1.'-'.$dia1."',INTERVAL 30 DAY) as fecha";
+        $result=mysqli_query($link, $sql);
+        $row = mysqli_fetch_array($result);
+        $ano2=substr($row["fecha"],0,4);
+        $mes2=substr($row["fecha"],5,2);
+        $dia2=substr($row["fecha"],8,2); 
 	 
-	 
-	 
-	 ?> 
+	?> 
 	  <TD width="90%" vAlign=bottom colspan=4> <H4><B>Mantenciones Realizadas entre&nbsp;&nbsp;<?php echo $dia2.'-'.$mes2.'-'.$ano2; ?>&nbsp;&nbsp;y&nbsp;&nbsp; <?php echo $dia1.'-'.$mes1.'-'.$ano1; ?></B></H4></TD>
       </TR>
       <TR class=lcol vAlign=top> 
@@ -249,27 +244,26 @@ function Modificar(fecha,cod_novedad,turno)
                  $consulta .="WHERE t1.fecha between '".$ano2.'-'.$mes2.'-'.$dia2."' and '".$fecha."' and t1.mantencion in ('S') and t1.estado='2'"; 
                  $consulta .=" ORDER BY t2.valor_subclase1,t1.FECHA ASC ";		   
 				 $respuesta=mysqli_query($link, $consulta);
-                 if(!$row = mysqli_fetch_array($respuesta))
-                 {
-				      echo'<TR class=lcol> ';
-					
- 
-					  echo'<TD colspan="7" height="50"><div align="center"><B>NO HAY REGISTROS</B></div></TD>';
-					  echo'</TR>';
-				   }
+                if(!$row = mysqli_fetch_array($respuesta))
+                {
+				    echo'<TR class=lcol>'; 
+					echo'<TD colspan="7" height="50"><div align="center"><B>NO HAY REGISTROS</B></div></TD>';
+					echo'</TR>';
+				}
 				else
 				{
 				      $respuesta=mysqli_query($link, $consulta);
+					  $i=0;
                       while($row = mysqli_fetch_array($respuesta))
                       {
                          $i++;
 						 $cod_novedad= $row['COD_NOVEDAD'];
 						 $observacion= $row['NOVEDAD'];
 						 $turno= $row['TURNO'];
-						 $usuario=$row[usuario];
-						 $compromiso=$row[compromiso];
-						 $Area=$row[area];
-						 $fecha_real=$row[fecha_real];
+						 $usuario=$row['usuario'];
+						 $compromiso=$row['compromiso'];
+						 $Area=$row['area'];
+						 $fecha_real=$row['fecha_real'];
 						 if ($Area==1)
 						    {$Area="M. Mecanica";}
 						 else if ($Area==2)
@@ -283,11 +277,9 @@ function Modificar(fecha,cod_novedad,turno)
 									else if ($Area==6)
 										{$Area="Ingenieria";}
 									else if ($Area==7)
-										{$Area="Mec. Gr�a";}
+										{$Area="Mec. Gr&uacute;a";}
 									else if	($Area==8)
-										{$Area="Lubricaci�n";}
-
-						 
+										{$Area="Lubricaci&oacute;n";}						 
 							  	
 						 echo'<TR class=lcol> ';
 						 echo'<TD ><div align="center"><B>'.$i.'</B></div></TD>';

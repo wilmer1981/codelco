@@ -2,10 +2,11 @@
  	include("../principal/conectar_sec_web.php"); 
 
 	$fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 
     $ano1=substr($fecha,0,4);
     $mes1=substr($fecha,5,2);
-    $dia1=substr($fecha,8,2)
+    $dia1=substr($fecha,8,2);
  
  ?>
 
@@ -22,7 +23,7 @@ function Eliminar(fecha,hora,intercambiador)
 	var f = document.FrmPrincipal;
 	if (confirm("Esta seguro que desea Eliminar permanentemente el dato"))
 	{
-      f.action = "Ing_intercambiadores01.php?fecha="+fecha+"&hora="+hora+"&intercambiador="+intercambiador+"&Proceso=E";
+      f.action = "Ing_intercambiadores01.php?fecha="+fecha+"&horas="+hora+"&intercambiador="+intercambiador+"&Proceso=E";
 	  f.submit();
 	}  
 }
@@ -30,10 +31,10 @@ function Imprimir()
 {
 	window.print();
 }
-function Modificar(fecha,intercambiador)
+function Modificar(fecha,intercambiador,hora)
 {
 	var f = document.FrmPrincipal;
-	f.action = "Ing_intercambiadores.php?intercambiador="+intercambiador+"&fecha="+fecha;
+	f.action = "Ing_intercambiadores.php?intercambiador="+intercambiador+"&fecha="+fecha+"&horas="+hora;
 	f.submit();
 }
 </script>
@@ -89,7 +90,8 @@ function Modificar(fecha,intercambiador)
 							  echo "<a href=\"JavaScript:Eliminar('".$row1["fecha"]."','".$row1["hora"]."','".$row1["cod_intercambiador"]."')\">";
 							  echo '<img src="archivos/papelera.gif" width="15" height="15" border="0"></A></div></TD>';
  						      echo'<TD width="5%" ><div align="center">';
-							  echo "<a href=\"JavaScript:Modificar('$fecha','".$row1["cod_intercambiador"]."')\">";
+							  echo "<a href=\"JavaScript:Modificar('".$row1["fecha"]."','".$row1["cod_intercambiador"]."','".$row1["hora"]."')\">";
+							  //echo "<a href=\"JavaScript:Modificar('$fecha','".$row1["cod_intercambiador"]."')\">";
 							  echo '<img src="archivos/modificar.gif" width="15" height="15" border="0"></A></div></TD>';
 							  echo'</TR>';
 							}
@@ -103,5 +105,13 @@ function Modificar(fecha,intercambiador)
 <br>
 <br>
 </FORM>
+<?php
+	if ($mensaje!="")
+	{
+		echo '<script language="JavaScript">';			
+			echo 'alert("'.$mensaje.'");';				
+		echo '</script>';
+	}
+?>
 </BODY>
 </HTML>

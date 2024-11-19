@@ -1,11 +1,39 @@
 <?php 
 include("../principal/conectar_ref_web.php"); 
 
-$intercambiador  = isset($_REQUEST["intercambiador"])?$_REQUEST["intercambiador"]:"";
-$fecha           = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-$hora     = isset($_REQUEST["hora"])?$_REQUEST["hora"]:"";
-$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:"";
-$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$intercambiador  = isset($_REQUEST["intercambiador"])?$_REQUEST["intercambiador"]:"";
+	$fecha           = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$horas    = isset($_REQUEST["horas"])?$_REQUEST["horas"]:"";
+	$hora     = isset($_REQUEST["hora"])?$_REQUEST["hora"]:date("H");
+	$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:date("m");
+
+	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"S";	
+    $mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	$opcion='N';
+	if($intercambiador!="")
+	{
+		$opcion='M';
+	}
+	if($horas!=""){
+		$hhoras = explode(":",$horas);
+		$hora     = $hhoras[0];
+		$minuto   = $hhoras[1];
+		$seg      = $hhoras[2];		
+	}
+	$consulta = "SELECT * FROM ref_web.historia_intercambiadores WHERE fecha = '".$fecha."' and cod_intercambiador = '".$intercambiador."' and hora = '".$horas."' ";
+	//echo $consulta; 
+	$rs = mysqli_query($link, $consulta);		
+	if ($row = mysqli_fetch_array($rs))
+	{
+		$intercambiador  =$row["cod_intercambiador"];
+		$observacion=$row["observacion"];
+		$situacion  =$row["situacion"];	
+	}else{
+		$intercambiador  ="";
+		$observacion ="";
+		$situacion   ="";
+	}	
 
 ?>
 
@@ -26,6 +54,7 @@ function Validar()
     minuto=frm.minuto.value;
     observacion=frm.observacion.value;
     situ=frm.situ.value;
+	opcion     = frm.opcion.value;
     if (intercambiador=='x')
       {
 	   alert('Debe seleccionar intercambiador');
@@ -37,7 +66,7 @@ function Validar()
          else {  
 			   if (confirm("Esta Seguro de la Operación"))
 			     {
-				  frm.action = "ing_intercambiadores01.php?Proceso=G";
+				  frm.action = "ing_intercambiadores01.php?Proceso="+opcion;
 			      frm.submit();
 			     }
 	          }				
@@ -59,7 +88,9 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 
 <BODY>
 <form name="FrmPrincipal" method="post" action="">
-<input type="hidden" name="fecha" value="<?php echo''.$fecha.''; ?>">
+<input type="hidden" name="fecha" value="<?php echo $fecha; ?>">
+<input type="text" name="opcion" value="<?php echo $opcion; ?>">
+<input type="hidden" name="horas" value="<?php echo $horas; ?>">
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
  <TR> 
    <TD width=9><IMG height=16 src="archivos/hbw_bar_l.gif" width=9 border=0></TD>
@@ -155,26 +186,48 @@ function salir() // RECARGA PAGINA DE FROMULARIO
             <tr> 
                 <td width="7%" onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
                 <td width="93%" onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator1.gif" width=12 border=0>
-                <input type="radio" value="En Servicio" name="situ">
-                <FONT  style="FONT-WEIGHT: bold; COLOR: #000000">En Servicio</font></font></td>
+                <?php if($situacion!="" && $situacion=="En Servicio"){ ?>
+				<input type="radio" name="situ" value="<?php echo $situacion; ?>" checked><FONT  style="FONT-WEIGHT: bold; COLOR: #000000">En Servicio</font>
+				<?php }else{ ?>
+				<input type="radio" value="En Servicio" name="situ"><FONT  style="FONT-WEIGHT: bold; COLOR: #000000">En Servicio</font>
+				<?php } ?>
+				</font></td>
             </tr>
             <tr> 
                <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
                <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator3.gif"  width=12 border=0>
-               <input type="radio" value="En Observacion" name="situ">
-               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Observaci&oacute;n</font></font></td>
+               <?php if($situacion!="" && $situacion=="En Observacion"){ ?>
+			   <input type="radio" name="situ"  value="<?php echo $situacion; ?>" checked>
+               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Observaci&oacute;n</font>
+			   <?php }else{ ?>
+			    <input type="radio" value="En Observacion" name="situ">
+               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Observaci&oacute;n</font>
+			   <?php } ?>
+			   </font></td>
             </tr>
             <tr> 
               <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
               <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator2.gif"  width=12 border=0>
-              <input  type="radio" value="Fuera de Servicio" name="situ">
-              <FONT style="FONT-WEIGHT: bold; COLOR: #000000">Fuera de Servicio</font></font></td>
+              <?php if($situacion!="" && $situacion=="Fuera de Servicio"){ ?>
+			  <input  type="radio" name="situ" value="<?php echo $situacion; ?>" checked>
+              <FONT style="FONT-WEIGHT: bold; COLOR: #000000">Fuera de Servicio</font>
+			   <?php }else{ ?>
+			   <input  type="radio" value="Fuera de Servicio" name="situ">
+              <FONT style="FONT-WEIGHT: bold; COLOR: #000000">Fuera de Servicio</font>
+			  <?php } ?>
+			  </font></td>
             </tr>
             <tr> 
                <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
                <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator4.gif" width=12 border=0>
-               <input type="radio" value="En Mantencion" name="situ">
-               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenci&oacute;n</font></font></td>
+               <?php if($situacion!="" && $situacion=="En Mantencion"){ ?>
+			   <input type="radio" name="situ" value="<?php echo $situacion; ?>" checked>
+               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenci&oacute;n</font>
+			    <?php }else{ ?>
+			   <input type="radio" value="En Mantencion" name="situ">
+               <FONT style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenci&oacute;n</font>
+			   <?php } ?>
+			   </font></td>
              </tr>
              </table></TD>
              <TD width=42>&nbsp;</TD>
@@ -199,7 +252,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                           <TD width="23%"><div align="center"><IMG height=1 src="archivos/spaceit.gif" width=10 border=0></div></TD>
                           <TD width="49%"><p><FONT style="FONT-WEIGHT: bold; COLOR: #000000">Observaciones:</FONT></p>
                           <p align="center">
-                          <textarea name="observacion" cols="40" rows="10" ></textarea>
+                          <textarea name="observacion" cols="40" rows="10" ><?php echo $observacion; ?></textarea>
                           </p>
                           <p align="center">&nbsp;</p>
                           </TD>
@@ -277,5 +330,13 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                </TR>
                </TABLE>
 </FORM>
+<?php
+	if ($mensaje!="")
+	{
+		echo '<script language="JavaScript">';			
+			echo 'alert("'.$mensaje.'");';				
+		echo '</script>';
+	}
+?>
 </BODY>
 </HTML>

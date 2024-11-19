@@ -52,8 +52,8 @@ function Validar()
     hora      =f.hora.value;
     minuto    =f.minuto.value;
     observacion=f.observacion.value;
-    situ=f.situ.value;
-	opcion = f.opcion.value;
+    situ       =f.situ.value;
+	opcion    = f.opcion.value;
 	
      if (cod_filtro=='x')
       {

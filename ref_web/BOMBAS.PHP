@@ -4,8 +4,10 @@ $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 
 $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
-$dia1=substr($fecha,8,2)
-  ?>
+$dia1=substr($fecha,8,2);
+ //echo "Fecha:".$fecha;
+
+?>
 
 <HTML>
 <HEAD>
@@ -28,18 +30,16 @@ function Imprimir()
 {
 	window.print();
 }
-function Modificar(fecha,circuito,bomba,iso)
+function Modificar(fecha,circuito,bomba,iso,hora)
 {
 	var f = document.FrmPrincipal;
-	f.action = "Ing_bombas.php?circuito="+circuito+"&bomba="+bomba+"&fecha="+fecha+"&iso="+iso;
+	f.action = "Ing_bombas.php?circuito="+circuito+"&bomba="+bomba+"&fecha="+fecha+"&iso="+iso+"&horas="+hora;
 	f.submit();
 }
 //-->
 </script>
 <BODY>
 <FORM action=""  method="post" name="FrmPrincipal">
-
-
   <TABLE width="100%" align="center" cellPadding=0 cellSpacing=0 class="cm or">
     <TBODY>
       <TR vAlign=top  class=dt> 
@@ -84,7 +84,7 @@ function Modificar(fecha,circuito,bomba,iso)
 				else {
 				        $resultado=mysqli_query($link, $consulta);
 						while($row1 = mysqli_fetch_array($resultado))
-							{    	  
+						{    	  
 							  if($row1["situacion"]=="En Servicio")
 								  {$icono="Indicator1.gif";}
 							  if($row1["situacion"]=="Fuera de Servicio")
@@ -111,7 +111,9 @@ function Modificar(fecha,circuito,bomba,iso)
 							  echo "<a href=\"JavaScript:Eliminar('".$row1["fecha"]."','".$row1["hora"]."','".$row1["cod_bomba"]."','".$row1["iso"]."')\">";
 							  echo '<img src="archivos/papelera.gif" width="15" height="15" border="0"></A></div></TD>';
 							  echo'<TD width="5%" ><div align="center">';
-							  echo "<a href=\"JavaScript:Modificar('$fecha','".$row1["cod_circuito"]."','".$row1["cod_bomba"]."','".$row1["iso"]."')\">";
+							  echo "<a href=\"JavaScript:Modificar('".$row1["fecha"]."','".$row1["cod_circuito"]."','".$row1["cod_bomba"]."','".$row1["iso"]."','".$row1["hora"]."')\">";
+
+							  //echo "<a href=\"JavaScript:Modificar('$fecha','".$row1["cod_circuito"]."','".$row1["cod_bomba"]."','".$row1["iso"]."','".$row1["hora"]."')\">";
 							  echo '<img src="archivos/modificar.gif" width="15" height="15" border="0"></A></div></TD>';
 							  echo'</TR>';
 							}

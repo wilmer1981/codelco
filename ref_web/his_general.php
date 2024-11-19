@@ -9,8 +9,8 @@ $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 $mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");  
 $ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y"); 
 
-echo "mes1:".$mes1;
-echo "<br>ano1:".$ano1;
+//echo "mes1:".$mes1;
+//echo "<br>ano1:".$ano1;
 
 ?>
 

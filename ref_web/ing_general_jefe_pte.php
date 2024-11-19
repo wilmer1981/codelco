@@ -1,28 +1,53 @@
 <?php 
-  include("../principal/conectar_ref_web.php");
-  if ($opcion=='M')
-      {
+    include("../principal/conectar_ref_web.php");
+    $opcion      = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$cod_novedad = isset($_REQUEST["cod_novedad"])?$_REQUEST["cod_novedad"]:"";
+	$observaciones = isset($_REQUEST["observaciones"])?$_REQUEST["observaciones"]:"";
+	$cmbturno      = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
+	$turno         = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+	$fecha        = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$Area          = isset($_REQUEST["Area"])?$_REQUEST["Area"]:"";
+	$Estado        = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
+	$mantencion  = isset($_REQUEST["mantencion"])?$_REQUEST["mantencion"]:"";
+	$pte         = isset($_REQUEST["pte"])?$_REQUEST["pte"]:"";
+	$Condicion_insegura  = isset($_REQUEST["Condicion_insegura"])?$_REQUEST["Condicion_insegura"]:"";
+	$observacion  = isset($_REQUEST["observacion"])?$_REQUEST["observacion"]:"";
+	
+	$ano1  = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1  = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$dia1  = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	
+	
+	//echo "opcion:".$opcion;
+	//echo "<br>Turno:".$turno;
+	//echo "<br>cod_novedad:".$cod_novedad."";
+	
+    if ($opcion=='M')
+    {
        $consulta_codigo="select * from ref_web.novedades_jefe_pte where TURNO='".$turno."' and COD_NOVEDAD='".$cod_novedad."' "; 
 	   $respuesta_codigo = mysqli_query($link, $consulta_codigo);
 	   $fila_codigo=mysqli_fetch_array($respuesta_codigo);
-	   $cod_novedad=$fila_codigo[COD_NOVEDAD];
-	   $observaciones=$fila_codigo[NOVEDAD];
-	   $Area=$fila_codigo[area];
+	   $cod_novedad   =$fila_codigo['COD_NOVEDAD'];
+	   $observaciones =$fila_codigo['NOVEDAD'];
+	   $Area  =$fila_codigo['area'];
 	   $Estado=$fila_codigo["estado"];
-	   if (isset($fila_codigo[compromiso]))
-	      {
-		   $ano1=substr($fila_codigo[compromiso],0,4);
-		   $mes1=substr($fila_codigo[compromiso],5,2);
-		   $dia1=substr($fila_codigo[compromiso],8,2);
-		  }
-		else {
-		       $ano1=intval(date("Y"));
-		       $mes1=intval(date("n"));
-		       $dia1=intval(date("j"));
-		     }   
+	   $mantencion  = $fila_codigo['mantencion'];
+	   $pte         = $fila_codigo['pte'];
+	   $Condicion_insegura = $fila_codigo['Condicion_insegura'];
+	    if (isset($fila_codigo['compromiso']))
+	    {
+		    $ano1=substr($fila_codigo['compromiso'],0,4);
+		    $mes1=substr($fila_codigo['compromiso'],5,2);
+		    $dia1=substr($fila_codigo['compromiso'],8,2);
+		}else{
+		    $ano1=intval(date("Y"));
+		    $mes1=intval(date("n"));
+		    $dia1=intval(date("j"));
+		}   
 
-	  } 
-else {$fila_codigo[pte]='S';}	  
+	}else{
+		$fila_codigo['pte']='S';
+	}	  
 	
 ?>
 <html>
@@ -78,6 +103,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 <body>
 <form name="FrmPrincipal" method="post" action="">
 <input type="hidden" name="fecha" value="<?php echo''.$fecha.''; ?>">
+<input type="hidden" name="opcion" value="<?php echo''.$opcion.''; ?>">
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
   <TR> 
    <TD width=9><IMG height=16 src="archivos/hbw_bar_l.gif" width=9 border=0></TD>
@@ -102,7 +128,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                     </font></b></TD>
                   <TD width="153" rowspan="2"> 
                     <?php
-	if (!isset($cmbturno))
+	if ($cmbturno=="")
 	{
 		$Consulta = "select case when CURTIME() between '00:00:00' and '07:59:59' then 'C' else ";
 		$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
@@ -119,32 +145,32 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 				while ($fila1=mysqli_fetch_array($respuesta))
 					  {
 					     
-						if ($cmbturno==$fila1[turno])
-							echo "<option value='".$fila1[turno]."' selected>".$fila1[turno]."</option>";
+						if ($cmbturno==$fila1['turno'])
+							echo "<option value='".$fila1['turno']."' selected>".$fila1['turno']."</option>";
 						else
-							echo "<option value='".$fila1[turno]."'>".$fila1[turno]."</option>";
+							echo "<option value='".$fila1['turno']."'>".$fila1['turno']."</option>";
 		    		  }
 				echo '</select></td>';
 			 ?>
                   </TD>
                   <TD width="193" rowspan="2"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">FECHA 
                     :&nbsp;&nbsp;&nbsp; 
-                    <?phpphp  echo $fecha; ?>
+                    <?php  echo $fecha; ?>
                     </FONT></b></b></TD>
                   <TD width="52" rowspan="2"><b><b><FONT size="1" style="FONT-WEIGHT: bold; COLOR: #000000">Enviar 
                     a:</FONT></b></b></TD>
-                  <?php if ($fila_codigo[mantencion]<>'')
+                  <?php if ($mantencion<>'')
 				       { ?>
-                  <TD width="233"><input type="checkbox" name="checkbox" value="<?php echo $fila_codigo[mantencion]; ?>" checked> 
+                  <TD width="233"><input type="checkbox" name="checkbox" value="<?php echo $mantencion; ?>" checked> 
                     <?php }
 					 else { ?>
                   <td width="168" height="6"> <input type="checkbox" name="checkbox" value="Mantencion" > 
                     <?php } ?>
                     Informe Mantencion</td>
                 <TR> 
-                  <?php if ($fila_codigo[pte]<>'')
+                  <?php if ($pte<>'')
 				        { ?>
-                  <td height="13"><input type="checkbox" name="checkbox2" value="<?php echo $fila_codigo[pte]; ?>" checked> 
+                  <td height="13"><input type="checkbox" name="checkbox2" value="<?php echo $pte; ?>" checked> 
                     <?php }
 					 else { ?>
                   
@@ -181,11 +207,11 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                                             </p>
                                             <p align="center">&nbsp;</p></TD>
                     <?php 
-					if ($fila_codigo[mantencion]<>'')
+					if ($mantencion<>'')
 					{
 					?>
                     	<TD width="34%"><p><IMG height=1 src="archivos/spaceit.gif" width=10 border=0></p>
-                        	<p><strong>Fecha Ejecuci�n</strong></p>
+                        	<p><strong>Fecha Ejecuci&oacute;n</strong></p>
                            	<select name="dia1" size="1">
                             <?php
 						 	for ($i = 1;$i <= 31; $i++)
@@ -254,8 +280,8 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                           	<?php 
 							for ($i = 1;$i <= 8; $i++)
 							{
-								$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Gr�as','Lubricaci�n');
-								if (isset($Area))
+								$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Grúas','Lubricación');
+								if ($Area!="")
 								{
 									if ($Area == $i)
 										echo "<option selected value='".$i."'>".ucwords(strtolower($obras[$i - 1]))."</option>\n";
@@ -276,7 +302,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 							for ($i = 1;$i <= 2; $i++)
 							{
 								$estado=array('Pendiente','Realizado');
-									if (isset($Estado))
+									if ($Estado!="")
 									{
 										if ($Estado == $i)
 											echo "<option selected value='".$i."'>".ucwords(strtolower($estado[$i - 1]))."</option>\n";
@@ -372,16 +398,16 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                   	</select>
 					
                     </p>
-                    <p><strong>Areas Mantenci�n</strong> 
+                    <p><strong>Areas Mantenci&oacute;n</strong> 
                     </p>
                    	<p> 
                     <select name="Area" size="1" >
                     <?php 
 					for ($i = 1;$i <= 8; $i++)
 					{
-						$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Gr�as','Lubricaci�n');
+						$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Grúas','Lubricación');
 
-						if (isset($Area))
+						if ($Area!="")
 						{
 							if ($Area == $i)
 								echo "<option selected value='".$i."'>".ucwords(strtolower($obras[$i - 1]))."</option>\n";
@@ -431,10 +457,10 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 			?> 
                    	</p>
                    	<p>
-					<?php if ($fila_codigo[Condicion_insegura]<>'')
+					<?php if ($Condicion_insegura<>'')
 				        { 
 					?>
-						<input name="checkbox5" type="checkbox" id="checkbox5" value="<?php echo $fila_codigo[Condicion_insegura]; ?>" checked>
+						<input name="checkbox5" type="checkbox" id="checkbox5" value="<?php echo $Condicion_insegura; ?>" checked>
 					<?php
 					}
 					 else

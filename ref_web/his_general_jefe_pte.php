@@ -1,4 +1,13 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
+<?php include("../principal/conectar_ref_web.php"); 
+$page    = isset($_REQUEST["page"])?$_REQUEST["page"]:0;
+$buscar  = isset($_REQUEST["buscar"])?$_REQUEST["buscar"]:"";
+$campo   = isset($_REQUEST["campo"])?$_REQUEST["campo"]:"";
+$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+
+
+?>
 
 
 <html>
@@ -142,16 +151,22 @@ function Imprimir()
           </TR>
           <TR class=lcol> 
 		  <?php 
-		     if ($buscar=='S')
-			    {
-				 if(!isset($page))
-				    {
+		  	  	if($mes1=='01' || $mes1=='03' || $mes1='05' || $mes1='07' || $mes1='08' || $mes1='10' || $mes1='12' )
+			  $diaf=31;
+			if($mes1=='04' || $mes1=='06' || $mes1='09' || $mes1='11' )
+				$diaf=30;
+			if($mes1=='02')
+				$diaf=29;
+		    $contador=0;	
+		    if ($buscar=='S')
+			{
+				if($page=="")
+				{
 					 $page =1;
-					}
+				}
 				 $encontrados=1;
                  $cantidad =1;
-                 $contador=0;	
-		         $consulta="select * from ref_web.novedades_jefe_pte where novedad like '%".$campo."%' and fecha between '".$fecha."-01' and '".$fecha."-31'";
+		         $consulta="select * from ref_web.novedades_jefe_pte where novedad like '%".$campo."%' and fecha between '".$fecha."-01' and '".$fecha."-$diaf'";
 				 $resultado=mysqli_query($link, $consulta);
 				  while($row1 = mysqli_fetch_array($resultado))
 				    {
@@ -168,16 +183,16 @@ function Imprimir()
 					      else{$color= "lcolver";
 							   $j=1;} //color fila
 					      echo '<TR class='.$color.'>';
-					      echo '<TD><div align="center"><strong>'.$row1[FECHA].'</strong></div></TD>';
-                          echo '<TD ><div align="center">'.$row1[TURNO].'</div></TD>';
-                          echo '<TD><div align="left">'.$row1[NOVEDAD].'</div></TD>';
+					      echo '<TD><div align="center"><strong>'.$row1['FECHA'].'</strong></div></TD>';
+                          echo '<TD ><div align="center">'.$row1['TURNO'].'</div></TD>';
+                          echo '<TD><div align="left">'.$row1['NOVEDAD'].'</div></TD>';
                           echo '</TR>';
 						 } 
 					   }
 					}
-				} 
+			} 
 		          
-  					$sql="select * from ref_web.novedades_jefe_pte where fecha between '".$fecha."-01' and '".$fecha."-31'";
+  					$sql="select * from ref_web.novedades_jefe_pte where fecha between '".$fecha."-01' and '".$fecha."-$diaf'";
   					$result=mysqli_query($link, $sql);
   					if($row = mysqli_fetch_array($result))
   					{

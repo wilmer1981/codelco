@@ -16,10 +16,12 @@
 	$Estado  = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
 
 	$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-	$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:""; 
-	$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";  
-	$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:""; 
-
+	$dia1     = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d"); 
+	$mes1     = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");  
+	$ano1     = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y"); 
+    //echo "ano1:".$ano1;
+   // echo "<br>mes1:".$mes1;
+	//echo "<br>dia1:".$dia1;
 	$Proceso2     = isset($_REQUEST["Proceso2"])?$_REQUEST["Proceso2"]:"";
 	$Marca        = isset($_REQUEST["Marca"])?$_REQUEST["Marca"]:"";  
 	$ValoresElim  = isset($_REQUEST["ValoresElim"])?$_REQUEST["ValoresElim"]:""; 	
@@ -49,7 +51,7 @@
 		{
 			if ($mantencion!='S') //en ingreso $mantencion =  ' '
 			{
-				//   echo "entro a actualizar";
+				//echo "entro a actualizar  1";
 		        $actualizar="UPDATE ref_web.novedades set NOVEDAD='".$observacion."', TURNO='".$cmbturno."', usuario='".$nombre."', mantencion='".$mantencion."', gerencia='".$gerencia."' ,Condicion_insegura='".$Condicion_insegura."', estado='$Estado' where COD_NOVEDAD='".$cod_novedad."'";
 				//echo $actualizar;				
 			}

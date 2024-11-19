@@ -13,8 +13,15 @@
   $Estado       = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
   $cmbturno     = isset($_REQUEST["cmbturno"])?$_REQUEST["cmbturno"]:"";
   $observacion  = isset($_REQUEST["observacion"])?$_REQUEST["observacion"]:"";
+  
+  	$ano1  = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1  = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$dia1  = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
 
-  //echo "Opcion:".$opcion;
+    //echo "Opcion:".$opcion;
+    //echo "ano1:".$ano1;
+    //echo "<br>mes1:".$mes1;
+	//echo "<br>dia1:".$dia1;
   if ($opcion=='M')
       {
 
@@ -103,7 +110,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 <body>
 <form name="FrmPrincipal" method="post" action="">
 <input type="hidden" name="fecha" value="<?php echo''.$fecha.''; ?>">
-<input type="hidden" name="opcion" value="<?php echo''.$opcion.''; ?>">
+<input type="hidden" name="opcion" value="<?php echo $opcion; ?>">
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
   <TR> 
    <TD width=9><IMG height=16 src="archivos/hbw_bar_l.gif" width=9 border=0></TD>
@@ -134,15 +141,15 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					$Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
 					$Consulta.= " case when CURTIME() between '16:00:00' and '23:59:59' then 'B' end end end as turno ";
 					$Respuesta = mysqli_query($link, $Consulta);
-				if ($Fila = mysqli_fetch_array($Respuesta))
-					if ($opcion == "M")
-					{					
-						$cmbturno = $turno;						
-					}	
-					else
-					{					
-						$cmbturno = $Fila["turno"];
-					}	
+					if ($Fila = mysqli_fetch_array($Respuesta))
+						if ($opcion == "M")
+						{					
+							$cmbturno = $turno;						
+						}	
+						else
+						{					
+							$cmbturno = $Fila["turno"];
+						}	
 				}
 				
 				echo '<select name="cmbturno">';
@@ -289,7 +296,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 					for ($i = 1;$i <= 8; $i++)
 					{
 						$obras=array('M. Mecanica','M. Instrumentista','M. Obras y Serv.','Electricistas','Personal Aseo','Ingenieria','Mec. Grúas','Lubricación');
-						if (isset($Area))
+						if ($Area!="")
 						{
 							if ($Area == $i)
 								echo "<option selected value='".$i."'>".ucwords(strtolower($obras[$i - 1]))."</option>\n";

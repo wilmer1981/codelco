@@ -13,9 +13,9 @@ $resultado = mysqli_query($link, $consulta_fecha_actual);
 $row1      = mysqli_fetch_array($resultado);
 $fecha2    = $row1["fecha2"];
 
-echo "fecha:".$fecha;
-echo "<br>Proceso:".$Proceso;
-$time=$hora.':'.$minuto.':00';
+    //echo "fecha:".$fecha;
+    //echo "<br>Proceso:".$Proceso;
+    $time=$hora.':'.$minuto.':00';
 	if ($Proceso == "N")
 	{		
 		$consulta = "SELECT * FROM ref_web.historia_filtros WHERE fecha = '".$fecha."' and cod_filtro = '".$cod_filtro."' and hora = '".$time."' ";

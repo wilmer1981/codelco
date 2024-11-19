@@ -1,13 +1,45 @@
 ﻿<?php 
 include("../principal/conectar_ref_web.php"); 
 
-$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
-$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-$iso   = isset($_REQUEST["iso"])?$_REQUEST["iso"]:"";
-$circuito   = isset($_REQUEST["circuito"])?$_REQUEST["circuito"]:"";
-$bomba   = isset($_REQUEST["bomba"])?$_REQUEST["bomba"]:"";
-$hora   = isset($_REQUEST["hora"])?$_REQUEST["hora"]:"";
-$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:"";
+	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$iso      = isset($_REQUEST["iso"])?$_REQUEST["iso"]:"";
+	$circuito = isset($_REQUEST["circuito"])?$_REQUEST["circuito"]:"";
+	$bomba   = isset($_REQUEST["bomba"])?$_REQUEST["bomba"]:"";
+	$hora    = isset($_REQUEST["hora"])?$_REQUEST["hora"]:date("H");
+	$minuto  = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:date("m");
+	$horas   = isset($_REQUEST["horas"])?$_REQUEST["horas"]:"";
+	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$mostrar   = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"S";	
+    $mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	$opcion='N';
+	if($bomba!="")
+	{
+		$opcion='M';
+	}	
+	if($horas!=""){
+		$hhoras = explode(":",$horas);
+		$hora     = $hhoras[0];
+		$minuto   = $hhoras[1];
+		$seg   = $hhoras[2];		
+	}
+	
+	$consulta = "SELECT * FROM ref_web.historia_bombas WHERE fecha = '".$fecha."' and cod_bomba = '".$bomba."' and hora = '".$horas."' ";
+	//echo $consulta; 
+	$rs = mysqli_query($link, $consulta);		
+	if ($row = mysqli_fetch_array($rs))
+	{
+		$bomba  =$row["cod_bomba"];
+		$observacion=$row["observacion"];
+		$situacion  =$row["situacion"];
+		$iso        =$row["iso"];		
+	}else{
+		$bomba  ="";
+		$observacion ="";
+		$situacion   ="";
+		$iso   ="";
+	}
+	
 
 ?>
 
@@ -22,11 +54,12 @@ $minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:"";
 function Validar()
 {
 	var frm = document.FrmPrincipal;
-    bomba=frm.bomba.value;
-    hora=frm.hora.value;
-    minuto=frm.minuto.value;
+    bomba   =frm.bomba.value;
+    hora    =frm.hora.value;
+    minuto  =frm.minuto.value;
     observacion=frm.observacion.value;
-    situ=frm.situ.value;
+    situ       =frm.situ.value;
+	opcion     = frm.opcion.value;
 	if (frm.checkbox.checked)
 	   {
 	     var iso='S';
@@ -43,7 +76,7 @@ function Validar()
         else {  
 			  if (confirm("Esta Seguro de la Operación"))
 			    {
-			     frm.action = "ing_bombas01.php?Proceso=G&iso="+iso;
+			     frm.action = "ing_bombas01.php?Proceso="+opcion+"&iso="+iso;
 			     frm.submit();
 			    }
 	      }		
@@ -66,7 +99,9 @@ function salir() // RECARGA PAGINA DE FROMULARIO
 
 <BODY>
 <form name="FrmPrincipal" method="post" action="">
-<input type="hidden" name="fecha" value="<?php echo''.$fecha.''; ?>">
+<input type="hidden" name="fecha" value="<?php echo $fecha; ?>">
+<input type="hidden" name="opcion" value="<?php echo $opcion; ?>">
+<input type="hidden" name="horas" value="<?php echo $horas; ?>">
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
  <TR> 
   <TD width=9><IMG height=16 src="archivos/hbw_bar_l.gif" width=9 border=0></TD>
@@ -102,7 +137,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
   <TR> 
      <TD>
      <select name="circuito"  size="1" onChange="JavaScript:Recarga(document.FrmPrincipal,'ing_bombas.php');">
-   	 <option value="x" selected>Seleccionar</option>
+   	 <option value="" >Seleccionar</option>
      <?php
 		$Consulta = "SELECT * FROM circuitos_bombas ORDER BY circuito";
 		$Respuesta = mysqli_query($link, $Consulta);
@@ -124,7 +159,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
     <TD>&nbsp;</TD>
     <TD>
     <select name="bomba"  size="1">
-    <option value="x" selected>Seleccionar</option>
+    <option value="">Seleccionar</option>
     <?php
 	   $Consulta = "SELECT * FROM ref_web.bombas WHERE cod_circuito = '".$circuito."'  ORDER BY bomba";
 	   $Respuesta = mysqli_query($link, $Consulta);
@@ -184,38 +219,52 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                         <tr> 
                           <td width="9" onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
                           <td width="317" onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator1.gif" width=12 border=0> 
-                            <input type="radio" value="En Servicio" name="situ">
-                            <font  style="FONT-WEIGHT: bold; COLOR: #000000">En 
-                            Servicio</font></font></td>
+                            	<?php if($situacion!="" && $situacion=="En Servicio"){ ?>
+							<input type="radio" name="situ" value="<?php echo $situacion; ?>" checked><font  style="FONT-WEIGHT: bold; COLOR: #000000">En 
+                            Servicio</font></font>
+								<?php }else{ ?>
+							   <input type="radio" value="En Servicio" name="situ"><font  style="FONT-WEIGHT: bold; COLOR: #000000">En 
+                            Servicio</font>
+								   <?php } ?>
+							</font>
+							</td>
                           <td width="80" rowspan="4"  class="Detalle02" onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';" title="hola"><div align="center"><strong><font size="H7">ISO</font></strong></div></td>
-						  <?php if ($iso=='S')
-				       { ?>
+						  <?php if ($iso=='S') { ?>
 					     <td width="29" height="12" rowspan="4" class="Detalle02" align="center"> <input type="checkbox" name="checkbox" value="<?php echo $iso; ?>" checked>  
-					<?php }
-					 else { ?>
+							<?php } else { ?>
 					       <td width="36" height="12" rowspan="4"  class="Detalle02" align="center"> <input type="checkbox" name="checkbox" value="N" >
-					   <?php } ?>
+							<?php } ?>
                         </tr>
                         <tr> 
                           <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
                           <td onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator3.gif"  width=12 border=0> 
-                            <input type="radio" value="En Observacion" name="situ">
-                            <font style="FONT-WEIGHT: bold; COLOR: #000000">En 
-                            Observaci&oacute;n</font></font></td>
+                            <?php if($situacion!="" && $situacion=="En Observacion"){ ?>
+							<input type="radio" name="situ" value="<?php echo $situacion; ?>" checked><font style="FONT-WEIGHT: bold; COLOR: #000000">En Observaci&oacute;n</font>
+							<?php } else { ?>
+							<input type="radio" value="En Observacion" name="situ"><font style="FONT-WEIGHT: bold; COLOR: #000000">En Observaci&oacute;n</font>
+							<?php } ?>
+							</td>
                         </tr>
                         <tr> 
                           <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
                           <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator2.gif"  width=12 border=0> 
-                            <input  type="radio" value="Fuera de Servicio" name="situ">
-                            <font style="FONT-WEIGHT: bold; COLOR: #000000">Fuera 
-                            de Servicio</font></font></td>
-                        </tr>
+                            <?php if($situacion!="" && $situacion=="Fuera de Servicio"){ ?>
+							<input  type="radio" name="situ" value="<?php echo $situacion; ?>" checked><font style="FONT-WEIGHT: bold; COLOR: #000000">Fuera de Servicio</font>
+							<?php } else { ?>	
+							<input  type="radio" value="Fuera de Servicio" name="situ"><font style="FONT-WEIGHT: bold; COLOR: #000000">Fuera de Servicio</font>
+							<?php } ?>
+							</font>
+							</td>                       
+						</tr>
                         <tr> 
                           <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';">&nbsp;</td>
                           <td  onMouseOver="if(!document.all){style.cursor='pointer'};style.cursor='hand';"><font class=size13><img height=12 src="archivos/Indicator4.gif" width=12 border=0> 
-                            <input  type="radio" value="En Mantencion" name="situ">
-                            <font style="FONT-WEIGHT: bold; COLOR: #000000">En 
-                            Mantenci&oacute;n</font></font></td>
+                            <?php if($situacion!="" && $situacion=="En Mantencion"){ ?>
+							<input  type="radio" name="situ" value="<?php echo $situacion; ?>" checked><font style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenci&oacute;n</font>
+							<?php } else { ?>	
+							<input  type="radio" value="En Mantencion" name="situ"><font style="FONT-WEIGHT: bold; COLOR: #000000">En Mantenci&oacute;n</font>
+							<?php } ?>
+							</font></td>
                         </tr>
                       </tbody>
                     </table>
@@ -223,7 +272,7 @@ function salir() // RECARGA PAGINA DE FROMULARIO
                       <input name="button" type="button"  onclick="Validar();"   value="Guardar"  >
                       </font></b></p>
                     </td>
-      <td rowspan="2" align="center"><textarea name="observacion" cols="30" rows="10" ></textarea></td>
+      <td rowspan="2" align="center"><textarea name="observacion" cols="30" rows="10" ><?php echo $observacion; ?></textarea></td>
     </tr>
     </TABLE></TD>
     </TR>
@@ -295,5 +344,13 @@ function salir() // RECARGA PAGINA DE FROMULARIO
    </TR>
  </TABLE>
 </FORM>
+<?php
+	if ($mensaje!="")
+	{
+		echo '<script language="JavaScript">';			
+			echo 'alert("'.$mensaje.'");';				
+		echo '</script>';
+	}
+?>
 </BODY>
 </HTML>

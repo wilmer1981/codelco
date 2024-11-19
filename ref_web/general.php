@@ -8,6 +8,7 @@ $ano1=substr($fecha,0,4);
 $mes1=substr($fecha,5,2);
 $dia1=substr($fecha,8,2);
 $si_auto = 0;
+
 /*
 $revisa_u="select usuario_auto as autori from ref_web.usuarios_autorizados where rut = '".$CookieRut."'";
 $res_u=mysqli_query($link, $revisa_u);
