@@ -1,5 +1,5 @@
 <?php
-	set_time_limit(500);
+	set_time_limit(700);
 	include("../principal/conectar_principal.php");
 
 	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:""; 
@@ -224,7 +224,7 @@ function Detalle()
 		?>
       </select> <select name="AnoIni" style="width:60px;">
         <?php
-		for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
+		for ($i = (date("Y") - 15);$i <= (date("Y") + 1); $i++)
 		{
 			if (isset($AnoIni))
 			{
@@ -280,7 +280,7 @@ function Detalle()
 		?>
       </select> <select name="AnoFin" style="width:60px;">
         <?php
-		for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
+		for ($i = (date("Y") - 15);$i <= (date("Y") + 1); $i++)
 		{
 			if (isset($AnoFin))
 			{
@@ -418,7 +418,7 @@ function Detalle()
        $consulta.="and t1.cod_producto='18' and t1.cod_subproducto='1' ";
        $consulta.="GROUP by t1.fecha_produccion,t2.cod_circuito,t1.cod_grupo ";
        $consulta.="ORDER by t1.fecha_produccion,t2.cod_grupo ";
-	   echo "<br>".$consulta;
+	   //echo "<br>".$consulta;
 	   $respuesta = mysqli_query($link, $consulta);
 	   $produccion_total=0;
 	   $seleccion_inicial_total=0;
@@ -434,12 +434,12 @@ function Detalle()
 	   $total_ai=0;
 	   $total_ot=0;
 	    $total_rechazo=0;
-		echo "<br><br>";
-		 var_dump($respuesta);
+		//echo "<br><br>";
+		//var_dump($respuesta);
  	    while ($fila = mysqli_fetch_array($respuesta))
 	    { 
-		 echo "<br><br>";
-		 var_dump($fila);
+		 //echo "<br><br>";
+		 //var_dump($fila);
 		$fecha = isset($fila["fecha"])?$fila["fecha"]:"0000-00-00";
 		$grupo = isset($fila["grupo"])?$fila["grupo"]:"";
 		?>
@@ -477,12 +477,11 @@ function Detalle()
 						$seleccion_inicial=0;
 						$porc_recuperado=0;
 						$total_por_rechazado=0;
-					}		
-					
+					}					
 				}
 				if ($opcion=='L')
 				{
-						echo "entroooooooo LLLLL";
+						//echo "entroooooooo LLLLL";
 						$seleccion_inicial   = $suma_rechazo+$fila2["recuperado_tot"];
 					    $porc_recuperado     = $fila2["recuperado_tot"];
 					    $total_por_rechazado = $suma_rechazo;
@@ -535,15 +534,15 @@ function Detalle()
 				$Fila_subp2 = mysqli_fetch_array($Resp_subp2);
 				$cons_subp="select distinct t1.cod_subproducto as producto, campo1 from sea_web.movimientos as t1 ";
 				$cons_subp=$cons_subp."where t1.tipo_movimiento='2' and t1.campo2='".$grupo."' and t1.fecha_movimiento='".$fecha."' and t1.cod_producto='17' AND campo1 IN ('M','T') and t1.cod_subproducto not in ('08') group by t1.hornada";
-				echo "<br><br>cons_subp:".$cons_subp."<br><br>";
+				//echo "<br><br>cons_subp:".$cons_subp."<br><br>";
 				$Resp_subp = mysqli_query($link, $cons_subp);
 				$Fila_subp = mysqli_fetch_array($Resp_subp);
-				echo "<br><br>";
-				var_dump($Fila_subp);
-				echo "<br><br>";
+				//echo "<br><br>";
+				//var_dump($Fila_subp);
+				//echo "<br><br>";
 				$producto=isset($Fila_subp["producto"])?$Fila_subp["producto"]:0;
 				if ($producto==1)
-				{ echo "producto 1";
+				{ //echo "producto 1";
 					if ($Fila_subp["campo1"]=='M' )
 					   {
 						 echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fecha."','".$grupo."')\">\n";
@@ -577,7 +576,7 @@ function Detalle()
 				}
 					
 				if ($producto==4)
-				{echo "producto 4";
+				{	//echo "producto 4";
 					 if ($Fila_subp["campo1"]=='M' )
 					   {
 						  echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
@@ -609,7 +608,7 @@ function Detalle()
 					
 				}
 				if ($producto==2)
-				{echo "producto 2";
+				{	//echo "producto 2";
 					  if ($Fila_subp["campo1"]=='M' )
 					   {
 					    echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
@@ -641,7 +640,7 @@ function Detalle()
 							} 
 				}
 				if ($producto==3)
-				{echo "producto 3";
+				{//echo "producto 3";
 					   if ($Fila_subp["campo1"]=='M' )
 					   {
 						 echo "<td align='center' class=detalle01><font color='blue'><a href=\"JavaScript:detalle_anodos('".$fila["fecha"]."','".$fila["grupo"]."')\">\n";
@@ -736,7 +735,7 @@ function Detalle()
 				}
 			   else if ($opcion=='L')
 			           {
-						   echo "Entrooo L";
+						//echo "Entrooo L";
 					    echo "<td align='center'>divisor-".$divisor2."&nbsp</td>\n";
 						$produccion_total=$produccion_total+$divisor2;
 					    echo "<td align='center'>selini-".$seleccion_inicial."&nbsp</td>\n";
@@ -785,7 +784,7 @@ function Detalle()
 			  echo '</tr>';		     	
 	    }
 		if ($opcion=='L')
-		{  echo "entro L 2";
+		{   //echo "entro L 2";
 			echo '<tr class="ColorTabla01">';
 			echo "<td align='center' colspan='4'><strong>Totales&nbsp</strong></td>\n";
 			echo "<td align='center'><strong>".$produccion_total."&nbsp</strong></td>\n";
