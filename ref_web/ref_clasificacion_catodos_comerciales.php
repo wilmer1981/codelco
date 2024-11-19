@@ -365,7 +365,7 @@ function Detalle()
 </table>
   <?php if ($cmbcircuito<>'99')
    {
-	  echo "Entr0 diferente de TODOS."; 
+	  //echo "Entr0 diferente de TODOS."; 
 	?>
   <table width="850" border="2" cellspacing="1" align="center" cellpadding="1" bordercolor="#b26c4a" class="TablaDetalle">
     <tr bgcolor="#FFFFFF" class="ColorTabla01"> 
