@@ -231,13 +231,23 @@ function Excel(f)
 	    if(strlen($mes1)==1)
 		{$mes1='0'.$mes1;}  
 	    $fecha=$ano1.'-'.$mes1;
+		if($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12'){
+		 $dias=31;
+		}
+		if($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11'){
+		 $dias=30;
+		}
+		if($mes1=='02'){
+		 $dias=29;
+		}
 		$i=1;
-		while ($i <= 31)
+		while ($i <= $dias)
 		{
 			echo '<tr>';
-			if (strlen($i)==1)
+			if(strlen($i)==1)
 			{$i='0'.$i;}
-			  // echo "fecha111:".$fecha."<br>"; 
+			
+			   // echo "fecha111:".$fecha."<br>"; 
 			   $consultat="SELECT count(cod_grupo) total_filas from ref_web.renovacion_hm WHERE fecha ='".$fecha."-".$i."'";
 			   //echo $consultat."<BR>";
 			   $rsst = mysqli_query($link, $consultat);
