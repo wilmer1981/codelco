@@ -1,5 +1,24 @@
 <?php
 	include("../principal/conectar_ref_web.php");
+	
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
+    $opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$proceso  = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$gruesas1  = isset($_REQUEST["gruesas1"])?$_REQUEST["gruesas1"]:"";
+	$gruesas2  = isset($_REQUEST["gruesas2"])?$_REQUEST["gruesas2"]:"";
+	$gruesas7  = isset($_REQUEST["gruesas7"])?$_REQUEST["gruesas7"]:"";
+	$gruesas8  = isset($_REQUEST["gruesas8"])?$_REQUEST["gruesas8"]:"";
+	$delgadas1  = isset($_REQUEST["delgadas1"])?$_REQUEST["delgadas1"]:"";
+	$delgadas2  = isset($_REQUEST["delgadas2"])?$_REQUEST["delgadas2"]:"";
+	$delgadas7  = isset($_REQUEST["delgadas7"])?$_REQUEST["delgadas7"]:"";
+	$delgadas8  = isset($_REQUEST["delgadas8"])?$_REQUEST["delgadas8"]:"";
+	$granuladas1  = isset($_REQUEST["granuladas1"])?$_REQUEST["granuladas1"]:"";
+	$granuladas2  = isset($_REQUEST["granuladas2"])?$_REQUEST["granuladas2"]:"";
+	$granuladas7  = isset($_REQUEST["granuladas7"])?$_REQUEST["granuladas7"]:"";
+	$granuladas8  = isset($_REQUEST["granuladas8"])?$_REQUEST["granuladas8"]:"";
+	$recuperado  = isset($_REQUEST["recuperado"])?$_REQUEST["recuperado"]:"";
+	$ajuste  = isset($_REQUEST["ajuste"])?$_REQUEST["ajuste"]:"";
+	$tipo    = isset($_REQUEST["tipo"])?$_REQUEST["tipo"]:"";
 
  if ($opcion=="N") 
 	         {

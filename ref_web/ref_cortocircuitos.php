@@ -3,29 +3,35 @@
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 3;
 	
-function FormatoFecha($f)
+    function FormatoFecha($f)
 	{
 		$fecha = substr($f,8,2)."/".substr($f,5,2)."/".substr($f,0,4);
 		return $fecha;
-	}	
+	}
+    $mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";	
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
 	
-   if (isset($fecha))
-      {
+    if ($fecha!="")
+    {
 	   $ano1=substr($fecha,0,4);
 	   $mes1=substr($fecha,5,2);
 	   $dia1=substr($fecha,8,2);
 	   $mostrar='S';
-	  }
+	}
    if ( strlen($mes1)==1 )
       {$mes1='0'.$mes1;}	
    if ( strlen($dia1)==1 )
-      {$dia1='0'.$dia1;}	   	
+      {$dia1='0'.$dia1;}
+  /*
    if (!isset($dia1))
 	{
 		$dia1 = date("d");
 		$mes1 = date("m");
 		$ano1 = date("Y");
-	}
+	}*/
 ?>
 <html>
 <head>
@@ -157,82 +163,88 @@ var  f=document.frmPrincipal;
 		//	echo "maxfecha".$consulta_fecha."<br>";
 		$rs_fecha = mysqli_query($link, $consulta_fecha);
 	    $row_fecha = mysqli_fetch_array($rs_fecha);
-		$consulta="select max(cont_dia) as max_contdia from ref_web.cortocircuitos where cod_grupo='".$row["cod_grupo"]."' and fecha='".$row_fecha["fecha"]."'";
+		$fecha = isset($row_fecha["fecha"])?$row_fecha["fecha"]:"0000-00-00";
+		$consulta="select max(cont_dia) as max_contdia from ref_web.cortocircuitos where cod_grupo='".$row["cod_grupo"]."' and fecha='".$fecha."'";
 		//if($row["cod_grupo"]=='7A' || $row["cod_grupo"]== '7B')
     	//	echo "MaxCont". $consulta."<br>";
 		$rs2 = mysqli_query($link, $consulta);
 	    $row2 = mysqli_fetch_array($rs2);
-		$sql="SELECT  SUBDATE('".$fecha."',INTERVAL '".$row2[max_contdia]."' DAY) as fecha";
+		$sql="SELECT  SUBDATE('".$fecha."',INTERVAL '".$row2['max_contdia']."' DAY) as fecha";
         $result=mysqli_query($link, $sql);
         $row_fecha_menos_dias = mysqli_fetch_array($result);
 		$consulta_datos="select * from ref_web.cortocircuitos where cod_grupo='".$row["cod_grupo"]."' and fecha between '".$row_fecha_menos_dias["fecha"]. "' and '".$fecha."' order by fecha asc  ";
 		//if($row["cod_grupo"]=='7A' || $row["cod_grupo"]== '7B')
 		//		echo "datos". $consulta_datos."<br>";
 		$rs5 = mysqli_query($link, $consulta_datos);
-		$nuevo = array();/**/
-		$semi = array();/**/
+		//$nuevo = array();/**/
+		//$semi = array();/**/
 		$cont_dia=0;/**/
-			//$circuito1=0;
+		$circuito1=0;$circuito2=0;$circuito3=0;
+		$circuito4=0;$circuito5=0;$circuito6=0;
+		$total_cortos_ref=0;
+		$total2[9]=0;
 		while ($row5 = mysqli_fetch_array($rs5))
 		{
 			//       $nuevo[$row5[cont_dia]-1]=$nuevop;
 			//	   $semi[$row5[cont_dia]-1]= $semip;
 
-			$nuevo[$row5[cont_dia]-1]=$row5[cortos_nuevo];
-			$semi[$row5[cont_dia]-1]= $row5[cortos_semi];
+			$nuevo[$row5['cont_dia']-1]=$row5['cortos_nuevo'];
+			$semi[$row5['cont_dia']-1]= $row5['cortos_semi'];
 			if ($row5["cod_circuito"]=='01')
 			{
-				$circuito1=$circuito1+$row5[cortos_nuevo]+$row5[cortos_semi];
+				$circuito1=$circuito1+$row5['cortos_nuevo']+$row5['cortos_semi'];
 			}
 			if ($row5["cod_circuito"]=='02')
 			{
-				$circuito2=$circuito2+$row5[cortos_nuevo]+$row5[cortos_semi];
+				$circuito2=$circuito2+$row5['cortos_nuevo']+$row5['cortos_semi'];
 			}
 			if ($row5["cod_circuito"]=='03')
 			{
-				$circuito3=$circuito3+$row5[cortos_nuevo]+$row5[cortos_semi];
+				$circuito3=$circuito3+$row5['cortos_nuevo']+$row5['cortos_semi'];
 			}
 			if ($row5["cod_circuito"]=='04')
 			{
-				$circuito4=$circuito4+$row5[cortos_nuevo]+$row5[cortos_semi];
+				$circuito4=$circuito4+$row5['cortos_nuevo']+$row5['cortos_semi'];
 			}
 			if ($row5["cod_circuito"]=='05')
 			{
-				$circuito5=$circuito5+$row5[cortos_nuevo]+$row5[cortos_semi];
+				$circuito5=$circuito5+$row5['cortos_nuevo']+$row5['cortos_semi'];
 			} 
 			if ($row5["cod_circuito"]=='06')
 			{
-				$circuito6=$circuito6+$row5[cortos_nuevo]+$row5[cortos_semi];
+				$circuito6=$circuito6+$row5['cortos_nuevo']+$row5['cortos_semi'];
 			}
-			$total_nuevo[$row5[cont_dia]-1]=$total_nuevo[$row5[cont_dia]-2]+$row5[cortos_nuevo];
-			$total_semi[$row5[cont_dia]-1]=$total_semi[$row5[cont_dia]-2]+$row5[cortos_semi];
-			$total2[9]=$total2[9]+$row5[cortos_semi]+$row5[cortos_nuevo];  
-			$total_cortos_ref= $total_cortos_ref+$row5[cortos_nuevo]+$row5[cortos_semi];
+			$total_nuevocont_dia2 = isset($total_nuevo[$row5['cont_dia']-2])?$total_nuevo[$row5['cont_dia']-2]:0;
+			$total_semicont_dia2  = isset($total_semi[$row5['cont_dia']-2])?$total_semi[$row5['cont_dia']-2]:0;
+			$total_nuevo[$row5['cont_dia']-1]= $total_nuevocont_dia2 + $row5['cortos_nuevo'];
+			$total_semi[$row5['cont_dia']-1] = $total_semicont_dia2  + $row5['cortos_semi'];
+			$total2[9]        = $total2[9] + $row5['cortos_semi'] + $row5['cortos_nuevo'];  
+			$total_cortos_ref = $total_cortos_ref + $row5['cortos_nuevo'] + $row5['cortos_semi'];
 			$cont_dia++;
 		} 
 		$cont=0;	
 		while ($cont<=8)
-		{ 
+		{   $nuevocont=isset($nuevo[$cont])?$nuevo[$cont]:"";
 			if ($color1==1)
 			{
-				echo '<td width="37" align="center" class="detalle01">'.$nuevo[$cont].'&nbsp;</td>';
+				echo '<td width="37" align="center" class="detalle01">'.$nuevocont.'&nbsp;</td>';
 			}
 			else 
 			{
-				echo '<td width="37" align="center" class="detalle02">'.$nuevo[$cont].'&nbsp;</td>'; 
+				echo '<td width="37" align="center" class="detalle02">'.$nuevocont.'&nbsp;</td>'; 
 			}   
 			$cont=$cont+1;	  
 		}
 		$cont=0;
 		while ($cont<=8)
-		{ 
+		{  $semicont=isset($semi[$cont])?$semi[$cont]:"";
 			if ($color1==1)
 			{
-				echo '<td width="37" align="center" class="detalle01">'.$semi[$cont].'&nbsp;</td>';
+				echo '<td width="37" align="center" class="detalle01">'.$semicont.'&nbsp;</td>';
 			}
 			else 
 			{
-				echo '<td width="37" align="center" class="detalle02">'.$semi[$cont].'&nbsp;</td>';
+				echo '<td width="37" align="center" class="detalle02">'.$semicont.'&nbsp;</td>';
 			}
 			$cont=$cont+1;	  
 		}	   	
@@ -248,32 +260,33 @@ var  f=document.frmPrincipal;
 		}  	
 		$cont=0;
 		while ($cont<=8)
-		{ 
+		{ 	$total_nuevocont=isset($total_nuevo[$cont])?$total_nuevo[$cont]:0;
 			if ($color1==1)
 			{
-				echo '<td width="37" align="center" class="detalle01"><font color="red"><strong>'.$total_nuevo[$cont].'&nbsp;</strong></font></td>';
+				echo '<td width="37" align="center" class="detalle01"><font color="red"><strong>'.$total_nuevocont.'&nbsp;</strong></font></td>';
 			}
 			else
 			{
-				echo '<td width="37" align="center" class="detalle02"><font color="red"><strong>'.$total_nuevo[$cont].'&nbsp;</strong></font></td>';
+				echo '<td width="37" align="center" class="detalle02"><font color="red"><strong>'.$total_nuevocont.'&nbsp;</strong></font></td>';
 			}
 			$cont=$cont+1;	  
 		}
 		$cont=0;
 		//echo '<td width="47" align="center"  class="ColorTabla01"><font color="white"><strong>'.$total1[9].'&nbsp;</strong></font></td>'; 
 		while ($cont<=7)
-		{
+		{	$total_semicont=isset($total_semi[$cont])?$total_semi[$cont]:0;
 			if ($color1==1)
 			{
-				echo '<td width="37" align="center" class="detalle01"><font color="red"><strong>&nbsp;&nbsp;&nbsp;&nbsp;'.$total_semi[$cont].'&nbsp;</strong></font></td>';
+				echo '<td width="37" align="center" class="detalle01"><font color="red"><strong>&nbsp;&nbsp;&nbsp;&nbsp;'.$total_semicont.'&nbsp;</strong></font></td>';
 			}
 			else
 			{
-				echo '<td width="37" align="center" class="detalle02"><font color="red"><strong>&nbsp;&nbsp;&nbsp;&nbsp;'.$total_semi[$cont].'&nbsp;</strong></font></td>';
+				echo '<td width="37" align="center" class="detalle02"><font color="red"><strong>&nbsp;&nbsp;&nbsp;&nbsp;'.$total_semicont.'&nbsp;</strong></font></td>';
 			}
 					$cont=$cont+1;	  
 		} 
-		echo '<td width="37" align="center"  class="ColorTabla01" ><font color="white"><strong>&nbsp;&nbsp;&nbsp;&nbsp;'.$total2[9].'&nbsp;</strong></font></td>';  
+		$total29 = isset($total2[9])?$total2[9]:0;
+		echo '<td width="37" align="center"  class="ColorTabla01" ><font color="white"><strong>&nbsp;&nbsp;&nbsp;&nbsp;'.$total29.'&nbsp;</strong></font></td>';  
 		echo '</tr>';
 	}
 ?>
@@ -304,45 +317,49 @@ var  f=document.frmPrincipal;
 			   $consulta_circuito="select cod_circuito from sec_web.circuitos";
 			   $rs_cir = mysqli_query($link, $consulta_circuito);
 			   $i=0;
-			   while ($row_cir = mysqli_fetch_array($rs_cir))
-			        {   
+			    while ($row_cir = mysqli_fetch_array($rs_cir))
+			    {   $cod_circuito = isset($row_cir["cod_circuito"])?$row_cir["cod_circuito"]:"";
 					 echo '<tr>';
 					 $consulta_fecha="select max(fecha) as fecha from ref_web.referenciales where cod_circuito='".$row_cir["cod_circuito"]."' and fecha<='".$ano1.'-'.$mes1.'-'.$dia1."' ";
 					// if($row_cir["cod_circuito"]=='01')
 					 //	echo "circ-1".$consulta_fecha."<br>" ;
 					 $rs_fecha = mysqli_query($link, $consulta_fecha);
 			         $row_fecha = mysqli_fetch_array($rs_fecha);
-			         $consulta_ref="select * from ref_web.referenciales where cod_circuito='".$row_cir["cod_circuito"]."' and fecha='".$row_fecha["fecha"]."'";
+					 $fecha = isset($row_fecha["fecha"])?$row_fecha["fecha"]:"0000-00-00";
+			         $consulta_ref="select * from ref_web.referenciales where cod_circuito='".$row_cir["cod_circuito"]."' and fecha='".$fecha."'";
 					 //if($row_cir["cod_circuito"]=='01')
 					//	 echo "refe".$consulta_ref."<br>";
 			         $rs_ref = mysqli_query($link, $consulta_ref);
 			         $row_ref = mysqli_fetch_array($rs_ref);
+					 $ref_cir      = isset($row_ref['ref_cir'])?$row_ref['ref_cir']:0;
+					 
 					 $consulta_acumulados="select * from ref_web.cortos_acumulado where fecha='".$ano1.'-'.$mes1.'-'.$dia1."' and cod_circuito='".$row_cir["cod_circuito"]."' order by cod_circuito,fecha";
 					 //if($row_cir["cod_circuito"]=='01')
 					 //	echo "acum".$consulta_acumulado."</br>";
 					 $rs_acumulados = mysqli_query($link, $consulta_acumulados);
-			         if (!$row_acumulados = mysqli_fetch_array($rs_acumulados))
-					    {
+					 $arregloi = isset($arreglo[$i])?$arreglo[$i]:0;
+			        if (!$row_acumulados = mysqli_fetch_array($rs_acumulados))
+					{
 						 $insertar_acumulados = "INSERT INTO ref_web.cortos_acumulado (cod_circuito,fecha,acumulado) "; 
-						 $insertar_acumulados = $insertar_acumulados."VALUES ('".$row_cir["cod_circuito"]."','".$ano1.'-'.$mes1.'-'.$dia1."','".$arreglo[$i]."')";
+						 $insertar_acumulados = $insertar_acumulados."VALUES ('".$row_cir["cod_circuito"]."','".$ano1.'-'.$mes1.'-'.$dia1."','".$arregloi."')";
 						 mysqli_query($link, $insertar_acumulados);
-						} 
-					 else {
-					       $actualiza = "UPDATE ref_web.cortos_acumulado set acumulado ='".$arreglo[$i]."'";
+					} 
+					else 
+					{
+					       $actualiza = "UPDATE ref_web.cortos_acumulado set acumulado ='".$arregloi."'";
 						   $actualiza.= " where cod_circuito= '".$row_cir["cod_circuito"]."' and fecha='".$ano1.'-'.$mes1.'-'.$dia1."'";
 						   //echo $actualiza;
-						   mysqli_query($link, $actualiza);
-					 
-					      }
+						   mysqli_query($link, $actualiza);					 
+					}
 					 
 			         echo '<td width="300" align="center"  class="detalle01" ><strong>&nbsp;&nbsp;'.$row_cir["cod_circuito"].'&nbsp;&nbsp;</strong></td>';
-					 echo '<td width="300" align="center"  class="detalle02" ><strong>'.$row_ref[ref_cir].'</strong></td>';
-					 if ($row_ref[ref_cir]<$arreglo[$i])
+					 echo '<td width="300" align="center"  class="detalle02" ><strong>'.$ref_cir.'</strong></td>';
+					 if ($ref_cir<$arregloi)
 					    {  
-					     echo '<td width="300" align="center"  class="detalle01" ><strong><font color="red">'.$arreglo[$i].'</font></strong></td>';
+					     echo '<td width="300" align="center"  class="detalle01" ><strong><font color="red">'.$arregloi.'</font></strong></td>';
 						}
 					 else {	
-					        echo '<td width="300" align="center"  class="detalle01" ><strong>'.$arreglo[$i].'</strong></td>';
+					        echo '<td width="300" align="center"  class="detalle01" ><strong>'.$arregloi.'</strong></td>';
 						  }
 					 $i++;
 					 echo '</tr>';	

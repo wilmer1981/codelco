@@ -3,7 +3,20 @@
    
    $CodigoDeSistema = 10;
    $CodigoDePantalla = 23; 
-   if (isset($fecha))
+    
+	$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";	
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	
+	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:"";	
+	$recarga     = isset($_REQUEST["recarga"])?$_REQUEST["recarga"]:"";	
+	$Buscar      = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+    $txt_observacion3 = isset($_REQUEST["txt_observacion3"])?$_REQUEST["txt_observacion3"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	
+   if ($fecha!="")
    {
 	   $ano1=substr($fecha,0,4);
 	   $mes1=substr($fecha,5,2);
@@ -28,7 +41,8 @@
 		if(strlen($mes1)==1)
 			$mes1 = '0'.$mes1;
 	} 
-              hasta accccccccccccccccca         */
+              hasta accccccccccccccccca        
+*/
 ?>
  
 
@@ -366,7 +380,7 @@ function ModificarReferencial()
 							  $rs3 = mysqli_query($link, $consulta_dias);
 							  $row2 = mysqli_fetch_array($rs3);
 							  $consulta_numero_dia="select max(dia_renovacion) as dia from sec_web.renovacion_prog_prod ";
-                              $consulta_numero_dia.="where fecha_renovacion = '".$row2[fecha_renovacion]."' and dia_renovacion <='".$dia1."' and ";
+                              $consulta_numero_dia.="where fecha_renovacion = '".$row2['fecha_renovacion']."' and dia_renovacion <='".$dia1."' and ";
 							  if($wsgrupo=='49')
 							  {
 							  	$consulta_numero_dia.=" electro_win like '%".$row["cod_grupo"]."%' ";
@@ -396,7 +410,7 @@ function ModificarReferencial()
 							        $row2 = mysqli_fetch_array($rs3);
 									
 								    $consulta_numero_dia="select max(dia_renovacion) as dia from sec_web.renovacion_prog_prod ";
-                                    $consulta_numero_dia.="where fecha_renovacion = '".$row2[fecha_renovacion]."' and ";
+                                    $consulta_numero_dia.="where fecha_renovacion = '".$row2['fecha_renovacion']."' and ";
 									if($wsgrupo=='49')
 								    {
 										$consulta_numero_dia.=" electro_win like '%".$row["cod_grupo"]."%' ";
@@ -410,18 +424,18 @@ function ModificarReferencial()
 								    $rsn = mysqli_query($link, $consulta_numero_dia);
 							        $rown = mysqli_fetch_array($rsn);
 									
-									$fecha_rest1=$ano1.'-'.$mes2.'-'.$rown[dia];
+									$fecha_rest1=$ano1.'-'.$mes2.'-'.$rown['dia'];
 									$consulta_dia1="select DAYOFYEAR('".$fecha_rest1."') as dia1";
 									$rs_dia1 = mysqli_query($link, $consulta_dia1);
 							        $row_dia1 = mysqli_fetch_array($rs_dia1);
 									$consulta_dia2="select DAYOFYEAR('".$fecha2."') as dia2";
 									$rs_dia2 = mysqli_query($link, $consulta_dia2);
 							        $row_dia2 = mysqli_fetch_array($rs_dia2);
-									$cont_dia=abs($row_dia1[dia1]-$row_dia2[dia2])-1;
+									$cont_dia=abs($row_dia1['dia1']-$row_dia2['dia2'])-1;
 									
 									}  
-							   else  { $cont_dia=$dia1-$row3[dia];}
-								  if ($row_nom_dia[nom_dia]=='Sunday')
+							   else  { $cont_dia=$dia1-$row3['dia'];}
+								  if ($row_nom_dia['nom_dia']=='Sunday')
 							     {
 								   $consulta_grupos="select cod_grupo from sec_web.renovacion_prog_prod where fecha_renovacion='".$ano1.'-'.$mes1.'-01'."' and dia_renovacion='".$dia1."' and ";
 								   if($wsgrupo=='49')
@@ -632,112 +646,111 @@ function ModificarReferencial()
 											 $consulta2="select * from ref_web.observaciones where cod_grupo ='".$row["cod_grupo"]."' and fecha='".$fecha2."'";
 											 $rs2 = mysqli_query($link, $consulta2);
 											 $row2 = mysqli_fetch_array($rs2);
-							  				 echo "<td  width='65' align='center' >".$row1[cont_dia]."&nbsp;</td>\n";
-											 echo '<input type="hidden" name="dias" value="'.$row1[cont_dia].'" size="5" maxlength="2">';
-											 
-											if ($row1[cont_dia]>0)
+							  				 echo "<td  width='65' align='center' >".$row1['cont_dia']."&nbsp;</td>\n";
+											 echo '<input type="hidden" name="dias" value="'.$row1['cont_dia'].'" size="5" maxlength="2">';											 
+											if ($row1['cont_dia']>0)
 											{ 
-												echo'<td height=17 width="120" align="center" ><input type="text" name="anodo_nuevo" tabindex="1" size="5" maxlength="3"  value="'.$row1[cortos_nuevo].'"></td> ';
-												echo'<td height=17 width="120" align="center" ><input type="text" name="semi_anodo" tabindex="1" size="5" maxlength="3"  value="'.$row1[cortos_semi].'"></td> ';
+												echo'<td height=17 width="120" align="center" ><input type="text" name="anodo_nuevo" tabindex="1" size="5" maxlength="3"  value="'.$row1['cortos_nuevo'].'"></td> ';
+												echo'<td height=17 width="120" align="center" ><input type="text" name="semi_anodo" tabindex="1" size="5" maxlength="3"  value="'.$row1['cortos_semi'].'"></td> ';
 											}
 											else 
 											{
 												echo'<td height=17 width="120" align="center" ><input type="text" name="anodo_nuevo" tabindex="1" size="5" maxlength="3" readonly style="text-align: center;background:grey;"></td> ';
 												echo'<td height=17 width="120" align="center" ><input type="text" name="semi_anodo" tabindex="1" size="5" maxlength="3"  readonly style="text-align: center;background:grey;"></td> ';}  
 											  		//echo'<td height=48 width="157" align="center" >';
-											  	if (($row1[cont_dia]==2)or ($row1[cont_dia]==3))
+											  	if (($row1['cont_dia']==2)or ($row1['cont_dia']==3))
 												{
 												   echo '<td width="100" align="left" class="detalle02">';
-												   if ($row2[normal]=='Normal')
+												   if ($row2['normal']=='Normal')
 												        {echo '<input type="checkbox" name="checkbox1" value="Normal" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox1" value="Normal">';}
 												   echo 'Normal&nbsp;' ;
-												   if ($row2[rayado]=='Rayado')
+												   if ($row2['rayado']=='Rayado')
 												        {echo '<input type="checkbox" name="checkbox2" value="Rayado" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox2" value="Rayado">';}
 												   echo 'Rayado&nbsp;' ;
-												   if ($row2[cristalizado]=='Cristalizado')
+												   if ($row2['cristalizado']=='Cristalizado')
 												      {echo '<input type="checkbox" name="checkbox3" value="Cristalizado" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox3" value="Cristalizado">';}
 												   echo 'Cristalizado&nbsp;' ;
-												   if ($row2[granulado]=='Granulado')
+												   if ($row2['granulado']=='Granulado')
 												      {echo '<input type="checkbox" name="checkbox4" value="Granulado" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox4" value="Granulado">';}
 												   echo 'Granulado&nbsp;' ;
-												   if ($row2[c_barro]=='Con Barro')
+												   if ($row2['c_barro']=='Con Barro')
 												       {echo '<input type="checkbox" name="checkbox5" value="Con barro" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox5" value="Con barro">';}
 												   echo 'Con barro&nbsp;' ;
-												   if ($row2[cordon]=='Cordon')
+												   if ($row2['cordon']=='Cordon')
 												      {echo '<input type="checkbox" name="checkbox6" value="Cordon" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox6" value="Cordon">';}
 												   echo 'Cordon&nbsp;' ;
-												   if ($row2[rigido]=='Rigido')
+												   if ($row2['rigido']=='Rigido')
 												      {echo '<input type="checkbox" name="checkbox7" value="Rigido" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox7" value="Rigido">';}
 												   echo 'Rigido&nbsp;</td>' ;
 												   
 												   echo '<td   width="100" align="left" class="detalle02">';
-												   if ($row2[abierto]=='Abierto')
+												   if ($row2['abierto']=='Abierto')
 												       {echo '<input type="checkbox" name="checkbox8" value="Abierto" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox8" value="Abierto" >';}
 												   echo 'Abierto&nbsp;';
-												   if ($row2[abierto_c_barro]=='Abierto con barro')
+												   if ($row2['abierto_c_barro']=='Abierto con barro')
 												       {echo '<input type="checkbox" name="checkbox9" value="Abierto con Barro" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox9" value="Abierto con Barro">';}
 												   echo 'Abierto con Barro&nbsp;' ;
-												   if ($row2[cerrado]=='Cerrado')
+												   if ($row2['cerrado']=='Cerrado')
 												      {echo '<input type="checkbox" name="checkbox10" value="Cerrado" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox10" value="Cerrado">';}
 												   echo 'Cerrado&nbsp;' ;
-												   if ($row2[cristalizado2]=='Cristalizado')
+												   if ($row2['cristalizado2']=='Cristalizado')
 												       {echo '<input type="checkbox" name="checkbox11" value="Cristalizado" checked>';}
    												   else {echo '<input type="checkbox" name="checkbox11" value="Cristalizado">';}
 												   echo 'Cristalizado&nbsp;' ;
-												   if ($row2[puntual]=='Puntual')
+												   if ($row2['puntual']=='Puntual')
 												      {echo '<input type="checkbox" name="checkbox12" value="Puntual" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox12" value="Puntual">';}
 												   echo 'Puntual&nbsp;' ;
-												   if ($row2[extendido]=='Extendido')
+												   if ($row2['extendido']=='Extendido')
 												      {echo '<input type="checkbox" name="checkbox13" value="Extendido" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox13" value="Extendido">';}
 												   echo 'Extendido&nbsp;' ;
-												   if ($row2[fino]=='Fino')
+												   if ($row2['fino']=='Fino')
 												      {echo '<input type="checkbox" name="checkbox14" value="Fino" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox14" value="Fino">';}
 												   echo 'Fino&nbsp;</td>' ;
 												   
 												   echo '<td  width="100" align="left" class="detalle02">';
-												   if ($row2[estampa]=='Estampa')
+												   if ($row2['estampa']=='Estampa')
 												       {echo '<input type="checkbox" name="checkbox15" value="Estampa" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox15" value="Estampa">';}
 												   echo 'Estampa&nbsp;' ;
-												   if ($row2[dispersa]=='Dispersa')
+												   if ($row2['dispersa']=='Dispersa')
 												       {echo '<input type="checkbox" name="checkbox16" value="Dispersa" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox16" value="Dispersa">';}
 												   echo 'Dispersa&nbsp;' ;
-												   if ($row2[remache]=='Remache')
+												   if ($row2['remache']=='Remache')
 												       {echo '<input type="checkbox" name="checkbox17" value="Remache" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox17" value="Remache">';}
 												   echo 'Remache&nbsp;' ;
-												   if ($row2[oreja]=='Oreja')
+												   if ($row2['oreja']=='Oreja')
 												      {echo '<input type="checkbox" name="checkbox18" value="Oreja" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox18" value="Oreja">';}
 												   echo 'Oreja&nbsp;' ;
-												   if ($row2[superior]=='Superior')
+												   if ($row2['superior']=='Superior')
 												      {echo '<input type="checkbox" name="checkbox19" value="Superior" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox19" value="Superior">';}
 												   echo 'Superior&nbsp;' ;
-												   if ($row2[inferior]=='Inferior')
+												   if ($row2['inferior']=='Inferior')
 												      {echo '<input type="checkbox" name="checkbox20" value="Inferior" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox20" value="Inferior">';}
 												   echo 'Inferior&nbsp;' ;
-												   if ($row2[lateral]=='Lateral')
+												   if ($row2['lateral']=='Lateral')
 												      {echo '<input type="checkbox" name="checkbox21" value="Lateral" checked>';}
 												   else {echo '<input type="checkbox" name="checkbox21" value="Lateral">';}
 												   echo 'Lateral&nbsp;' ;
 												   //echo "<td><input type='image' src='../principal/imagenes/editar.gif' width='29' height='24'   onClick=\"observacion('".$fecha2."','".$cmbcircuito."','".$row["cod_grupo"]."');\" value='0' checked title='Ingresa Observaciones las cuales no corresponden a la zona da chekeo'></td>";
-												   echo "<td><textarea name='txt_observacion3' type='text'  cols='20' rows='5'>".$row2[Obs_gen]."</textarea></td>"; 
+												   echo "<td><textarea name='txt_observacion3' type='text'  cols='20' rows='5'>".$row2['Obs_gen']."</textarea></td>"; 
 											 }
 											 else 
 											 {
@@ -790,7 +803,7 @@ function ModificarReferencial()
 													   echo 'Inferior&nbsp;' ;
 													   echo '<input type="checkbox" name="checkbox21" value="Lateral" disabled>';
 													   echo 'Lateral&nbsp;' ;
-													 echo "<td><textarea name='txt_observacion3' type='text'  cols='20' rows='5'>".$row2[Obs_gen]."</textarea></td>"; 
+													 echo "<td><textarea name='txt_observacion3' type='text'  cols='20' rows='5'>".$row2['Obs_gen']."</textarea></td>"; 
 											      } 
 											    }
 											  else
@@ -828,10 +841,10 @@ function ModificarReferencial()
 													  	//echo "Maxi1".$consulta_turno."<br>";// el concepto es B
 												 	  $turno = mysqli_query($link, $consulta_turno);
 													 $turno1= mysqli_fetch_array($turno);										 
-													 if ($turno1[concepto]=='C') 
+													 if ($turno1['concepto']=='C') 
 													 {
 														  $consulta_numero_dia="select max(dia_renovacion) as dia from sec_web.renovacion_prog_prod ";
-														  $consulta_numero_dia.="where fecha_renovacion = '".$row2[fecha_renovacion]."'";
+														  $consulta_numero_dia.="where fecha_renovacion = '".$row2['fecha_renovacion']."'";
 														  $consulta_numero_dia.="and dia_renovacion <='".$dia1."' ";
 														  if($wsgrupo=='49')
 														  	$consulta_numero_dia.="and electro_win like '%".$row["cod_grupo"]."%' and cod_concepto not in ('D')";
@@ -848,7 +861,7 @@ function ModificarReferencial()
 													  else
 													  {
 														  $consulta_numero_dia="select max(dia_renovacion) as dia from sec_web.renovacion_prog_prod ";
-														  $consulta_numero_dia.="where fecha_renovacion = '".$row2[fecha_renovacion]."' and dia_renovacion <='".$dia1."' ";
+														  $consulta_numero_dia.="where fecha_renovacion = '".$row2['fecha_renovacion']."' and dia_renovacion <='".$dia1."' ";
 														  if($wsgrupo=='49')
 														  {
 														  	$consulta_numero_dia.=" and electro_win like '%".$row["cod_grupo"]."%' and cod_concepto not in ('D')";
@@ -871,7 +884,7 @@ function ModificarReferencial()
 													  $rs_nom_dia = mysqli_query($link, $consulta_nom_dia);
 													  $row_nom_dia = mysqli_fetch_array($rs_nom_dia);
 													 //echo "WWW".$row3[dia];
-													  if ($row3[dia]=='')
+													  if ($row3['dia']=='')
 													  { 
 															$fecha3 =date("Y-m-d", mktime(1,0,0,($mes1 -1),$dia1,$ano1));
 															$mes2=substr($fecha3,5,2);
@@ -888,7 +901,7 @@ function ModificarReferencial()
 															$rs3 = mysqli_query($link, $consulta_dias);
 															$row2 = mysqli_fetch_array($rs3);
 															$consulta_numero_dia="select max(dia_renovacion) as dia from sec_web.renovacion_prog_prod ";
-															$consulta_numero_dia.="where fecha_renovacion = '".$row2[fecha_renovacion]."' ";
+															$consulta_numero_dia.="where fecha_renovacion = '".$row2['fecha_renovacion']."' ";
 															if($wsgrupo=='49')
 															{
 															 	$consulta_numero_dia.=" and electro_win like '%".$row["cod_grupo"]."%' and cod_concepto not in ('D')";
@@ -905,7 +918,7 @@ function ModificarReferencial()
 															$rsn = mysqli_query($link, $consulta_numero_dia);
 															$rown = mysqli_fetch_array($rsn);
 															
-															$fecha_rest1=$ano2.'-'.$mes2.'-'.$rown[dia];
+															$fecha_rest1=$ano2.'-'.$mes2.'-'.$rown['dia'];
 															//echo $fecha_rest1;
 															$consulta_dia1="select DAYOFYEAR('".$fecha_rest1."') as dia1";
 															$rs_dia1 = mysqli_query($link, $consulta_dia1);
@@ -914,29 +927,29 @@ function ModificarReferencial()
 															
 															$rs_dia2 = mysqli_query($link, $consulta_dia2);
 															$row_dia2 = mysqli_fetch_array($rs_dia2);
-															$var= $row_dia2[dia2];
+															$var= $row_dia2['dia2'];
 															if (substr($fecha2,0,4)>substr($fecha_rest1,0,4))
-																$var = $row_dia2[dia2]+ 365;
-														 	if ($turno1[concepto]=='C') 
-																$cont_dia=abs($row_dia1[dia1]-$var)-1;//070806
+																$var = $row_dia2['dia2']+ 365;
+														 	if ($turno1['concepto']=='C') 
+																$cont_dia=abs($row_dia1['dia1']-$var)-1;//070806
 															else
-																$cont_dia=abs($row_dia1[dia1]-$var);
+																$cont_dia=abs($row_dia1['dia1']-$var);
 															if (($cmbcircuito == '04') || ($cmbcircuito == '06'))
 																	$cont_dia = $cont_dia  -1;
 															  
 														}
 													   	else
 													   	{ 
-														 	if ($turno1[concepto]=='C') 
+														 	if ($turno1['concepto']=='C') 
 															{
-																$cont_dia=abs($dia1-($row3[dia]+1));
+																$cont_dia=abs($dia1-($row3['dia']+1));
 															}	
 															else
 															{
 																if (($cmbcircuito == '04') || ($cmbcircuito == '06'))
 																{
 																
-																	$cont_dia=$dia1-$row3[dia];
+																	$cont_dia=$dia1-$row3['dia'];
 																	if($cont_dia==0)
 																		$cont_dia =7;
 																	else
@@ -945,13 +958,13 @@ function ModificarReferencial()
 																}	
 																else
 																{	
-																	$cont_dia=$dia1-$row3[dia];
+																	$cont_dia=$dia1-$row3['dia'];
 																}															
 															 }	  
 															
 														} 
 														
-														if ($row_nom_dia[nom_dia]=='Sunday')
+														if ($row_nom_dia['nom_dia']=='Sunday')
 														{
 															$consulta_grupos="select cod_grupo, cod_concepto from sec_web.renovacion_prog_prod where fecha_renovacion='".$ano1.'-'.$mes1.'-01'."' and dia_renovacion='".$dia1."'";
 															if($wsgrupo=='49')
@@ -1127,7 +1140,7 @@ function ModificarReferencial()
 </BODY>
 </HTML>
 <?php
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo"<script languaje='javascript'>";
 		echo "alert('".$Mensaje."')";

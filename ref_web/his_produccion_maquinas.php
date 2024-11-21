@@ -1,4 +1,12 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
+<?php include("../principal/conectar_ref_web.php"); 
+    $proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$fecha2   = isset($_REQUEST["fecha2"])?$_REQUEST["fecha2"]:"";
+	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+	$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
+
+?>
 
 
 <html>
@@ -14,8 +22,8 @@
 function Buscar(fecha)
 {
 	var f = document.FrmPrincipal;
-    fecha_auxiliar=fecha;
-	fecha2=f.ano1.value+'-'+f.mes1.value+'-'+f.dia1.value;
+    fecha_auxiliar = fecha;
+	fecha2         = f.ano1.value+'-'+f.mes1.value+'-'+f.dia1.value;
     f.action = "his_produccion_maquinas.php?proceso=C"+"&fecha2="+fecha2+"&fecha="+fecha_auxiliar;
 	f.submit();
 }
@@ -185,24 +193,28 @@ function Imprimir()
 					$consulta.="left join ref_web.iniciales as t3 on t1.fecha=t3.fecha and t3.turno='C' ";
 					$consulta.="where t1.fecha between '".$fecha2."' and '".$fecha."' and t1.turno='A'";         
 					$rs = mysqli_query($link, $consulta);
+					$j=1;
 					while ($row = mysqli_fetch_array($rs))
 					  {
-					    if ( $j==1)
-					     {$color= "lcol";
-						  $j=0;}
-					    else{$color= "lcolver";
-							 $j=1;}
+					    if($j==1)
+					    {$color= "lcol";
+						  $j=0;
+						}
+					    else{
+							$color= "lcolver";
+							$j=1;
+						}
 					    echo '<TR class='.$color.'>';
 						echo "<td><div align='center'><font color='blue'>".$row["fecha"]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[mfci_ta]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[mfci_tb]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[mfci_tc]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[mdb_ta]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[mdb_tb]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[mdb_tc]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[mco_ta]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[mco_tb]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[mco_tc]."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row["mfci_ta"]."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row["mfci_tb"]."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row["mfci_tc"]."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row["mdb_ta"]."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row["mdb_tb"]."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row["mdb_tc"]."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row["mco_ta"]."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row["mco_tb"]."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row["mco_tc"]."&nbsp;</font></td>\n";
 					    echo '</TR>';
 					  }			 
 				}			  

@@ -1,5 +1,13 @@
 <?php
 include("../principal/conectar_ref_web.php");  
+
+	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	$parametros   = isset($_REQUEST["parametros"])?$_REQUEST["parametros"]:"";
+	$guardar      = isset($_REQUEST["guardar"])?$_REQUEST["guardar"]:"";
+	$modificar    = isset($_REQUEST["modificar"])?$_REQUEST["modificar"]:"";
+	$circuito     = isset($_REQUEST["circuito"])?$_REQUEST["circuito"]:"";
  
  if ($guardar == "S")
 	{
@@ -10,7 +18,7 @@ include("../principal/conectar_ref_web.php");
 		$fecha = $ano1.'-'.$mes1.'-'.$dia1;
 		$arreglo = explode("/",$parametros); //Separa los parametros en un array.
 		reset($arreglo);					
-		while (list($clave, $valor) = each($arreglo))
+		foreach($arreglo as $clave => $valor)
 		{		
 			$detalle = explode("~",$valor);
 			if ($detalle[0]!='')
@@ -54,37 +62,41 @@ if ($modificar=='S')
 		$fecha = $ano1.'-'.$mes1.'-'.$dia1;
 		$arreglo = explode("/",$parametros); //Separa los parametros en un array.
 		reset($arreglo);					
-		while (list($clave, $valor) = each($arreglo))
+		foreach($arreglo as $clave => $valor)
 		{		
 			$detalle = explode("~",$valor);
 			if ($detalle[0]!='')
-               { if ($detalle[2]=='')
+            { 
+				if ($detalle[2]=='')
 			        {$detalle[2]=0;}
-				 if ($detalle[3]=='')
+				if ($detalle[3]=='')
 				    {$detalle[3]=0;}
-					}
+			}
+			var_dump($detalle);
 					
 					   $actualizar1 = "UPDATE ref_web.cortocircuitos SET cortos_nuevo = '".$detalle[2]."', cortos_semi = '".$detalle[3]."'";
-		               $actualizar1.= " WHERE cod_grupo = '".$detalle[0]."' and fecha='".$fecha."'";
+		               $actualizar1.= " WHERE cod_grupo = '".$detalle[0]."' and fecha='$fecha' ";
+					   echo "<br><br>".$actualizar1."<br>";
 		               mysqli_query($link, $actualizar1);
-					   //echo $actualizar1;
-					   
+					   //echo $actualizar1;	
+						//try { 					   
 					   $actualizar = "UPDATE ref_web.observaciones SET normal = '".$detalle[4]."', rayado = '".$detalle[5]."', cristalizado='".$detalle[6]."', granulado='".$detalle[7]."', c_barro='".$detalle[8]."',";
-					   $actualizar.=" cordon='".$detalle[9]."', rigido='".$detalle[10]."', abierto='".$detalle[11]."',abierto_c_barro='".$detalle[12]."',cerrado='".$detalle[13]."',cristalizado2='".$detalle[14]."',puntual='".$detalle[15]."', ";
-					   $actualizar.="extendido='".$detalle[16]."',fino='".$detalle[17]."',estampa='".$detalle[18]."',dispersa='".$detalle[19]."',remache='".$detalle[20]."',oreja='".$detalle[21]."',superior='".$detalle[22]."',inferior='".$detalle[23]."',lateral='".$detalle[24]."',Obs_gen='".$detalle[25]."'";
-		               $actualizar.= " WHERE cod_grupo = '".$detalle[0]."' and fecha='".$fecha."'";
+					   $actualizar.=" cordon='".$detalle[9]."', rigido='".$detalle[10]."', abierto='".$detalle[11]."', abierto_c_barro='".$detalle[12]."',cerrado='".$detalle[13]."',cristalizado2='".$detalle[14]."',puntual='".$detalle[15]."', ";
+					   $actualizar.="extendido='".$detalle[16]."',fino='".$detalle[17]."', estampa='".$detalle[18]."', dispersa='".$detalle[19]."',remache='".$detalle[20]."',oreja='".$detalle[21]."', superior='".$detalle[22]."', inferior='".$detalle[23]."', lateral='".$detalle[24]."', Obs_gen='".$detalle[25]."' ";
+		               $actualizar.= " WHERE cod_grupo = '".$detalle[0]."' and fecha='$fecha' ";
+					   echo "<br>actualizar:".$actualizar."<br>";
 		               mysqli_query($link, $actualizar);
-					   //echo $actualizar;
-					   
-						
-		   
-						
+					  	
+					//} catch (mysqli_sql_exception $e) { 
+						  //var_dump($e);
+						 // exit; 
+					  // } 					   
 						
 					    //echo $insertar2."<br>";
 					    $Mensaje = "Los datos fueron modificados correctamente";						
-		                header("Location:cortes2_aux.php?fecha=$fecha&Mensaje=".$Mensaje);
+		               // header("Location:cortes2_aux.php?fecha=$fecha&Mensaje=".$Mensaje);
 					
-       }			
+        }			
 		
 	}
 

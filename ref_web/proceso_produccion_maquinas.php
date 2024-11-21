@@ -1,14 +1,54 @@
 <?php
-	 include("../principal/conectar_ref_web.php");
-$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
-$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
-$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
-$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
-$txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
+	include("../principal/conectar_ref_web.php");
+	$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
+	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
+	$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	
-	 if ($proceso == "G")
-	 {
+$txt_checkbox1 = isset($_REQUEST["txt_checkbox1"])?$_REQUEST["txt_checkbox1"]:"";
+$txt_checkbox2 = isset($_REQUEST["txt_checkbox2"])?$_REQUEST["txt_checkbox2"]:"";
+$txt_checkbox3 = isset($_REQUEST["txt_checkbox3"])?$_REQUEST["txt_checkbox3"]:"";
+$txt_checkbox4 = isset($_REQUEST["txt_checkbox4"])?$_REQUEST["txt_checkbox4"]:"";
+$txt_turno = isset($_REQUEST["txt_turno"])?$_REQUEST["txt_turno"]:"";
+$txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
+$txt_turno2 = isset($_REQUEST["txt_turno2"])?$_REQUEST["txt_turno2"]:"";
+$txt_turno3 = isset($_REQUEST["txt_turno3"])?$_REQUEST["txt_turno3"]:"";
+$txt_stock = isset($_REQUEST["txt_stock"])?$_REQUEST["txt_stock"]:"";
+$entrar = isset($_REQUEST["entrar"])?$_REQUEST["entrar"]:"";
+$txt_mfci = isset($_REQUEST["txt_mfci"])?$_REQUEST["txt_mfci"]:"";
+$txt_mfci1 = isset($_REQUEST["txt_mfci1"])?$_REQUEST["txt_mfci1"]:"";
+$txt_mfci2 = isset($_REQUEST["txt_mfci2"])?$_REQUEST["txt_mfci2"]:"";
+$txt_mfci3 = isset($_REQUEST["txt_mfci3"])?$_REQUEST["txt_mfci3"]:"";
+$txt_mdb1 = isset($_REQUEST["txt_mdb1"])?$_REQUEST["txt_mdb1"]:"";
+$txt_mdb2 = isset($_REQUEST["txt_mdb2"])?$_REQUEST["txt_mdb2"]:"";
+$txt_mdb3 = isset($_REQUEST["txt_mdb3"])?$_REQUEST["txt_mdb3"]:"";
+$txt_mco1 = isset($_REQUEST["txt_mco1"])?$_REQUEST["txt_mco1"]:"";
+$txt_mco2 = isset($_REQUEST["txt_mco2"])?$_REQUEST["txt_mco2"]:"";
+$txt_mco3 = isset($_REQUEST["txt_mco3"])?$_REQUEST["txt_mco3"]:"";
+
+$txt_observacion1 = isset($_REQUEST["txt_observacion1"])?$_REQUEST["txt_observacion1"]:"";
+$txt_observacion2 = isset($_REQUEST["txt_observacion2"])?$_REQUEST["txt_observacion2"]:"";
+$txt_observacion3 = isset($_REQUEST["txt_observacion3"])?$_REQUEST["txt_observacion3"]:"";
+
+$txt_rechazo_cat_ini = isset($_REQUEST["txt_rechazo_cat_ini"])?$_REQUEST["txt_rechazo_cat_ini"]:"";
+$txt_rechazo_cat_ini_a = isset($_REQUEST["txt_rechazo_cat_ini_a"])?$_REQUEST["txt_rechazo_cat_ini_a"]:"";
+$txt_rechazo_cat_ini_b = isset($_REQUEST["txt_rechazo_cat_ini_b"])?$_REQUEST["txt_rechazo_cat_ini_b"]:"";
+$txt_rechazo_cat_ini_c = isset($_REQUEST["txt_rechazo_cat_ini_c"])?$_REQUEST["txt_rechazo_cat_ini_c"]:"";
+$txt_rechazo_lam_ini   = isset($_REQUEST["txt_rechazo_lam_ini"])?$_REQUEST["txt_rechazo_lam_ini"]:"";
+$txt_rechazo_lam_ini_a   = isset($_REQUEST["txt_rechazo_lam_ini_a"])?$_REQUEST["txt_rechazo_lam_ini_a"]:"";
+$txt_rechazo_lam_ini_b   = isset($_REQUEST["txt_rechazo_lam_ini_b"])?$_REQUEST["txt_rechazo_lam_ini_b"]:"";
+$txt_rechazo_lam_ini_c   = isset($_REQUEST["txt_rechazo_lam_ini_c"])?$_REQUEST["txt_rechazo_lam_ini_c"]:"";
+$txt_catodos_en_renovacion   = isset($_REQUEST["txt_catodos_en_renovacion"])?$_REQUEST["txt_catodos_en_renovacion"]:"";
+$txt_catodos_en_renovacion_a = isset($_REQUEST["txt_catodos_en_renovacion_a"])?$_REQUEST["txt_catodos_en_renovacion_a"]:"";
+$txt_catodos_en_renovacion_b = isset($_REQUEST["txt_catodos_en_renovacion_b"])?$_REQUEST["txt_catodos_en_renovacion_b"]:"";
+$txt_catodos_en_renovacion_c = isset($_REQUEST["txt_catodos_en_renovacion_c"])?$_REQUEST["txt_catodos_en_renovacion_c"]:"";
+	
+	//exit();
+	
+	if ($proceso == "G")
+	{	echo "proceso:".$proceso;
 		 if (strlen($mes1)==1)
 		 {
 		 	$mes1="0".$mes1;
@@ -82,7 +122,7 @@ $txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
 			mysqli_query($link, $insertar4);
 			
 		}
-		if (isset($Mensaje))
+		if ($Mensaje!="")
 		{
 			header("location:ingreso_produccion_maquinas.php?Mensaje=".$Mensaje);
 		}
@@ -94,7 +134,7 @@ $txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
 	
 		 
 	if ($proceso == "M") 
-	 {	
+	 {	echo "proceso:".$proceso;
 	     $ano1=substr($fecha,0,4);
 		 $mes1=substr($fecha,5,2);
 		 $dia1=substr($fecha,8,2); 
@@ -102,10 +142,10 @@ $txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
 		 $resultado = mysqli_query($link, $busqueda);
 		 while ($row1=mysqli_fetch_array($resultado))
 		 {
-			$txt_mfci1 = isset($row1["txt_mfci1"])?$row1["txt_mfci1"]:"";
+			/*$txt_mfci1 = isset($row1["txt_mfci1"])?$row1["txt_mfci1"]:"";
 			$txt_mdb1 = isset($row1["txt_mdb1"])?$row1["txt_mdb1"]:"";
 			$txt_mco1 = isset($row1["txt_mco1"])?$row1["txt_mco1"]:"";
-			$txt_observacion1 = isset($row1["txt_observacion1"])?$row1["txt_observacion1"]:"";
+			$txt_observacion1 = isset($row1["txt_observacion1"])?$row1["txt_observacion1"]:"";*/
 		    $muestra = "&produccion_mfci=".$txt_mfci1."&produccion_mdb=".$txt_mdb1."&produccion_mco=".$txt_mco1."&observacion=".$txt_observacion1."&txt_rechazo_cat_ini_a=".$row1["rechazo_cat_ini_turno"]."&txt_rechazo_lam_ini_a=".$row1["rechazo_lam_ini_turno"]."&txt_catodos_en_renovacion_a=".$row1["catodos_en_renovacion_turno"]."";
 		 }
 		    if(($txt_mfci1 <> '') or ($txt_mdb1 <> '') or ($txt_mco1 <> ''))
@@ -138,8 +178,12 @@ $txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
 			$busqueda = "SELECT * FROM ref_web.detalle_iniciales WHERE fecha ='".$fecha."'";
 		 	$resultado = mysqli_query($link, $busqueda);
 		 	if($row=mysqli_fetch_array($resultado))
-		 	{
-		    	$muestra.= "fecha=".$row["fecha"]."&stock=".$row["txt_stock"]."&rechazo_cat_ini=".$row["txt_rechazo_cat_ini"]."&rechazo_cat_ini=".$row["txt_rechazo_lam_ini"]."";
+		 	{/*
+				$txt_stock = isset($row["txt_stock"])?$row["txt_stock"]:0;
+				$txt_rechazo_cat_ini = isset($row["txt_rechazo_cat_ini"])?$row["txt_rechazo_cat_ini"]:0;
+				$txt_rechazo_lam_ini = isset($row["txt_rechazo_lam_ini"])?$row["txt_rechazo_lam_ini"]:0;
+				*/
+		    	$muestra.= "fecha=".$row["fecha"]."&stock=".$txt_stock."&rechazo_cat_ini=".$txt_rechazo_cat_ini."&rechazo_cat_ini=".$txt_rechazo_lam_ini."";
 		 	}
 			if(($txt_stock <> '') or ($txt_rechazo_cat_ini <> '') or ($txt_rechazo_lam_ini <> '') or ($txt_catodos_en_renovacion <> '') )
 			{
@@ -149,8 +193,11 @@ $txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
 			}
 			header("Location:proceso_produccion_maquinas.php?proceso=B&fecha=".$fecha."");		 
      }
-     if ($fecha=='')
-	    {$fecha=$ano1."-".$mes1."-".$dia1;} 
+	echo "<br>Fecha antes:".$fecha;
+    if ($fecha=='')
+	{
+		$fecha=$ano1."-".$mes1."-".$dia1;
+	} 
 	else {
 			$ano1=substr($fecha,0,4);
 		    $mes1=substr($fecha,5,2);
@@ -159,14 +206,17 @@ $txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
 	}		    
 	if ($proceso == "B")
 	{
+		echo "<br>proceso:".$proceso;
+		echo "<br>Fecha despues:".$fecha."<br>";
 	    $ano1=substr($fecha,0,4);
 		$mes1=substr($fecha,5,2);
 		$dia1=substr($fecha,8,2);
         $consulta = "select * from ref_web.iniciales where fecha = '".$fecha."'";
-		$consulta .= "order by turno";
+		$consulta .= " order by turno";
+		echo $consulta;
 		$rs = mysqli_query($link, $consulta);
 		if ($row1 =mysqli_fetch_array($rs))
-		    {
+		{
 				$rs = mysqli_query($link, $consulta);
 				while ($row1 =mysqli_fetch_array($rs))
 				{
@@ -183,8 +233,9 @@ $txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
 							 break;
 					}
 				}
-			 }
-		else {
+		}
+		else
+		{
 	            $insertar1="insert into ref_web.iniciales(fecha,turno,produccion_mfci,produccion_mdb,produccion_mco,observacion,rechazo_cat_ini_turno,rechazo_lam_ini_turno,catodos_en_renovacion_turno)"; 
   			    $insertar1 = $insertar1."values ('".$fecha."','A','0','0','0','0','0','0','0')";
                 mysqli_query($link, $insertar1);
@@ -197,22 +248,24 @@ $txt_turno1 = isset($_REQUEST["txt_turno1"])?$_REQUEST["txt_turno1"]:"";
   				$insertar4="insert into ref_web.detalle_iniciales(fecha,stock,rechazo_cat_ini,rechazo_lam_ini,catodos_en_renovacion)";
   				$insertar4 = $insertar4."values ('".$fecha."','0','0','0','0')";	
   				mysqli_query($link, $insertar4);	
-		     }	 
+		}	 
 				
      	$consulta = "select * from ref_web.detalle_iniciales where fecha = '".$fecha."'";
 		$rs = mysqli_query($link, $consulta);		
 		if ($row = mysqli_fetch_array($rs))
-			{	
+		{	
 				$linea = $linea."&fecha=".$fecha."&txt_stock=".$row["stock"]."&txt_rechazo_cat_ini=".$row["rechazo_cat_ini"]."&txt_rechazo_lam_ini=".$row["rechazo_lam_ini"]."&txt_catodos_en_renovacion=".$row["catodos_en_renovacion"]."";
-			}	
+		}	
 		if($linea<>'')
-			{ 
+		{ 
+		 echo "<br>ok 1";
 			 	header("location:ingreso_produccion_maquinas.php?mostrar=S".$linea);
-			}
-			else
-			{
+		}
+		else
+		{
+				echo "<br>ok 2";
 			        $linea="&fecha=".$fecha;
 				    header("location:ingreso_produccion_maquinas.php?mostrar=S".$linea);
-		 	}
+		 }
  }
 ?>

@@ -1,7 +1,7 @@
 <?php
 	include("../principal/conectar_ref_web.php"); 
 
-	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
 
 	$ano1 = substr($fecha,0,4);
 	$mes1 = substr($fecha,5,2);
@@ -66,7 +66,7 @@ function Modificar(fecha,cod_novedad,turno)
                  $consulta .="from ref_web.novedades_jefe_hm as t1 ";
                  $consulta .="inner join proyecto_modernizacion.sub_clase as t2 "; 
                  $consulta .="on t1.TURNO=t2.nombre_subclase and t2.cod_clase = '1' ";
-                 $consulta .="WHERE fecha = '".$fecha."' and mantencion not in ('S') "; 
+                 $consulta .="WHERE fecha = '$fecha' and mantencion not in ('S') "; 
                  $consulta .="ORDER BY t2.valor_subclase1,t1.FECHA ASC ";
 				 //echo $consulta;		   
            		//$consulta = "select * from ref_web.novedades WHERE fecha = '".$fecha."' ORDER BY FECHA ASC";
@@ -80,7 +80,7 @@ function Modificar(fecha,cod_novedad,turno)
 				}
 				else
 				{
-				      $respuesta=mysqli_query($link, $consulta);
+				    $respuesta=mysqli_query($link, $consulta);
 					$i=0;
                       while($row = mysqli_fetch_array($respuesta))
                       {
@@ -147,6 +147,7 @@ function Modificar(fecha,cod_novedad,turno)
 				else
 				{
 				      $respuesta=mysqli_query($link, $consulta);
+					  $i=0;
                       while($row = mysqli_fetch_array($respuesta))
                       {
                          $i++;
@@ -176,16 +177,11 @@ function Modificar(fecha,cod_novedad,turno)
 									        {$Area="Ingenieria";
 											$icono="ico_naranja.gif";} 
 									else if ($Area==7)
-									        {$Area="Mec.Gr�as";
+									        {$Area="Mec.Grúas";
 											$icono="ico_blanco.gif";} 
 									else if ($Area==8)
-									        {$Area="Lubricaci�n";
-											$icono="Indicator4.gif";} 
-
-						 
-						 
-						 
-						 
+									        {$Area="Lubricación";
+											$icono="Indicator4.gif";} 					 
 						 
 						 
 						/* if ($Area==1)
@@ -272,16 +268,17 @@ function Modificar(fecha,cod_novedad,turno)
 				   }
 				else {
 				      $respuesta=mysqli_query($link, $consulta);
+					   $i=0;
                       while($row = mysqli_fetch_array($respuesta))
                         {
                          $i++;
 						 $cod_novedad= $row['COD_NOVEDAD'];
 						 $observacion= $row['NOVEDAD'];
-						 $turno= $row['TURNO'];
-						 $usuario=$row[usuario];
-						 $compromiso=$row[compromiso];
-						 $Area=$row[area];
-						 $fecha_real=$row[fecha_real];
+						 $turno      = $row['TURNO'];
+						 $usuario    = $row["usuario"];
+						 $compromiso = $row["compromiso"];
+						 $Area       = $row["area"];
+						 $fecha_real = $row["fecha_real"];
 						/* if ($Area==1)
 						    {$Area="M. Mecanica";}
 						 else if ($Area==2)
@@ -305,9 +302,9 @@ function Modificar(fecha,cod_novedad,turno)
 									else if ($Area==6)
 										{$Area="Ingenieria";}
 									else if ($Area==7)
-										{$Area="Mec. Gr�a";}
+										{$Area="Mec. Grúa";}
 									else if	($Area==8)
-										{$Area="Lubricaci�n";}
+										{$Area="Lubricación";}
 
 											
 												  	

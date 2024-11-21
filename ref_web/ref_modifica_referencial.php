@@ -1,29 +1,38 @@
 ﻿<?php
 	include("../principal/conectar_sec_web.php");
-
-	 if ($opcion=='G')
-	    {
-		   $fecha_ref=$ano2.'-'.$mes2.'-'.$dia2;
-		   $consulta="select ref_cir from ref_web.referenciales where cod_circuito='".$cod_circuito."' and fecha='".$fecha_ref."' ";
-		   $rs = mysqli_query($link, $consulta);
-		   if ($row = mysqli_fetch_array($rs))
-		      {    
-			   $actualiza = "UPDATE ref_web.referenciales set ref_cir ='".$txtreferencial."'";
-			   $actualiza.= " where cod_circuito= '".$cod_circuito."' ";
-			   echo $actualiza;
-			   mysqli_query($link, $actualiza);
-			  }
-		   else {
-		         $insertar = "INSERT INTO ref_web.referenciales (cod_circuito,ref_cir,fecha) "; 
-				 $insertar = $insertar."VALUES ('".$cod_circuito."','".$txtreferencial."','".$fecha_ref."')";
-				 echo $insertar;
-			      mysqli_query($link, $insertar);
+	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$recarga = isset($_REQUEST["recarga"])?$_REQUEST["recarga"]:"";	
+	$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";	
+	$activar = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";	
+	$circuito = isset($_REQUEST["circuito"])?$_REQUEST["circuito"]:"";	
+	$ano2   = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y");
+	$mes2   = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");
+	$dia2   = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:date("d");
+	$cod_circuito  = isset($_REQUEST["cod_circuito"])?$_REQUEST["cod_circuito"]:"";
+	$txtreferencial  = isset($_REQUEST["txtreferencial"])?$_REQUEST["txtreferencial"]:"";
+	$cmbcircuito = isset($_REQUEST["cmbcircuito"])?$_REQUEST["cmbcircuito"]:"";
+	
+	if ($opcion=='G')
+	{
+		$fecha_ref=$ano2.'-'.$mes2.'-'.$dia2;
+		$consulta="select ref_cir from ref_web.referenciales where cod_circuito='".$cod_circuito."' and fecha='".$fecha_ref."' ";
+		$rs = mysqli_query($link, $consulta);
+		if ($row = mysqli_fetch_array($rs))
+		{    
+		   $actualiza = "UPDATE ref_web.referenciales set ref_cir ='".$txtreferencial."'";
+		   $actualiza.= " where cod_circuito= '".$cod_circuito."' ";
+		   echo $actualiza;
+		   mysqli_query($link, $actualiza);
+		}
+		else{
+			 $insertar = "INSERT INTO ref_web.referenciales (cod_circuito,ref_cir,fecha) "; 
+			 $insertar = $insertar."VALUES ('".$cod_circuito."','".$txtreferencial."','".$fecha_ref."')";
+			 echo $insertar;
+			mysqli_query($link, $insertar);
 		         
 		   
-		        }	   
-		
-		
-		}  
+		}		
+	}  
 	
 
 
@@ -184,8 +193,10 @@ function Recarga1(opcion)
             <td>Referencial</td>
             <?php $consulta="select ref_cir from ref_web.referenciales where cod_circuito='".$cmbcircuito."' and fecha='".$ano2.'-'.$mes2.'-'.$dia2."'";
 			   $rs = mysqli_query($link, $consulta);
-			   $row = mysqli_fetch_array($rs);?>
-            <td width="132"><input name="txtreferencial" type="text" size="10" value="<?php echo $row[ref_cir] ?>"> 
+			   $row = mysqli_fetch_array($rs);
+			   $ref_cir = isset($row['ref_cir'])?$row['ref_cir']:"";
+			?>
+            <td width="132"><input name="txtreferencial" type="text" size="10" value="<?php echo $ref_cir; ?>"> 
             <td width="148">&nbsp; 
         </table> 
         <br>
@@ -205,10 +216,10 @@ function Recarga1(opcion)
 </table>	
 </form>
 <?php
-	if (isset($activar))
+	if ($activar!="")
 	{
 		echo '<script language="JavaScript">';		
-		if (isset($fecha))
+		if ($fecha!="")
 			/*echo 'alert("'.$fecha.'");';		*/
 			
 		//echo 'window.opener.document.frmPrincipal.action = "datos_consumo.php?fecha_ini='.$fecha.'";';

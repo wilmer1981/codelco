@@ -2,7 +2,7 @@
  $CodigoDeSistema = 10;
  $CodigoDePantalla = 11;
 
- include("../principal/conectar_ref_web.php"); 
+include("../principal/conectar_ref_web.php"); 
 $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 $ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 $mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
@@ -115,6 +115,7 @@ function Modificar(tipoa,fecha)
              case 'g':  var H = confirm("Desea guardar los datos");
                         if (H == true)
                         {
+							alert("me voy  para proceso: M y fecha:"+fecha);
 	                    	f.action = "proceso_produccion_maquinas.php?proceso=M"+"&fecha="+fecha;
     	                    f.submit();
                        }
@@ -207,35 +208,31 @@ return;
         <table width="733" border="0" align="center" cellpadding="3" cellspacing="0" class="TablaInterior">
           <tr> 
             <td width="79" height="20"> <div align="center">
-                <?php
+            <?php
 			$fecha=$ano1."-".$mes1."-".$dia1;
 			//echo "fecha :" .$fecha."-".$txt_turno."-Hola";
    			 if ($mostrar == "S")
 			{
-
-
-
-      $consulta="select turno,circuito_h2so4,volumen_h2so4 from ref_web.electrolito where fecha='".$fecha."' and turno='".$txt_turno."'";
-			$rs = mysqli_query($link, $consulta);
-
-			while ($row = mysqli_fetch_array($rs))
-			{
-				/*echo '<tr>';
-				echo '<td width="63" height="25">';
-				echo '<input type="checkbox" name="checkbox" value="'.$row[turno].'/'.$row[produccion_mfci].'/'.$row[produccion_mcb].'/'.$row[produccion_mco].'"></td>';
-				echo '<td width="54" align="center">'.$row[turno].'</td>';
-				echo '<td width="112" align="center">'.$row[produccion_mfci].'</td>';
-				echo '<td width="110" align="center">'.$row[produccion_mcb].'</td>';
-				echo '<td width="110" align="center">'.$row[produccion_mco].'</td>';
-				echo '<td width="95" align="center">&nbsp</td>';
-				echo '<td width="95" align="center">&nbsp</td>';
-       			echo '<td width="95" align="center">&nbsp</td>';
-            	echo '<td width="95" align="center">&nbsp</td>';
-				echo '<td width="95" align="center">&nbsp</td>';
-				echo '</tr>';*/
-		}
+				$consulta="select turno,circuito_h2so4,volumen_h2so4 from ref_web.electrolito where fecha='".$fecha."' and turno='".$txt_turno."'";
+				$rs = mysqli_query($link, $consulta);
+				while ($row = mysqli_fetch_array($rs))
+				{
+					/*echo '<tr>';
+					echo '<td width="63" height="25">';
+					echo '<input type="checkbox" name="checkbox" value="'.$row[turno].'/'.$row[produccion_mfci].'/'.$row[produccion_mcb].'/'.$row[produccion_mco].'"></td>';
+					echo '<td width="54" align="center">'.$row[turno].'</td>';
+					echo '<td width="112" align="center">'.$row[produccion_mfci].'</td>';
+					echo '<td width="110" align="center">'.$row[produccion_mcb].'</td>';
+					echo '<td width="110" align="center">'.$row[produccion_mco].'</td>';
+					echo '<td width="95" align="center">&nbsp</td>';
+					echo '<td width="95" align="center">&nbsp</td>';
+					echo '<td width="95" align="center">&nbsp</td>';
+					echo '<td width="95" align="center">&nbsp</td>';
+					echo '<td width="95" align="center">&nbsp</td>';
+					echo '</tr>';*/
+				}
 		 //header("Location:ingreso_cir_ele.php?m");
-	}
+			}
 			?>
               </div>
               <div align="center">&nbsp;&nbsp; 
@@ -245,24 +242,23 @@ return;
 				    elseif($txt_checkbox1 == 1 || $mostrar != "S")
 						echo '<input name="txt_turno1" type="hidden" value="A" size="1" readonly>';
 				?>
-                A</div></td>
+                A</div>
+			</td>
             <td align="center"> 
-              <?php
+                <?php
 				echo '<input name="txt_mfci1" type="text" value="'.$txt_mfci1.'" size="5">';
-
-			?>
+				?>
             </td>
             <td align="center"> 
-              <?php
+				<?php
 				echo '<input name="txt_mdb1" type="text" value="'.$txt_mdb1.'" size="5">';
-
-			?>
+				?>
             </td>
             <td width="103" align="center"> <div align="center"><font face="Arial, Helvetica, sans-serif">&nbsp; 
                 &nbsp; 
                 <?php
 				 echo '<input name="txt_mco1" type="text" value="'.$txt_mco1.'" size="5">';
-			?>
+				?>
                 &nbsp; </font> <font face="Arial, Helvetica, sans-serif">&nbsp; 
                 </font> </div></td>
             <td width="334" align="center"><font face="Arial, Helvetica, sans-serif"> 

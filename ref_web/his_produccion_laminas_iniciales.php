@@ -1,4 +1,12 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
+<?php include("../principal/conectar_ref_web.php");
+	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
+	$fecha2   = isset($_REQUEST["fecha2"])?$_REQUEST["fecha2"]:date("Y-m-d");
+    $opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$proceso  = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+ ?>
 
 
 <html>
@@ -176,20 +184,22 @@ function Imprimir()
 					$consulta.="where fecha between '".$fecha2."' and '".$fecha."' order by fecha, cod_grupo"; 
 					$rs = mysqli_query($link, $consulta);
 					$cont=1;
+					$j=1;
 					while ($row = mysqli_fetch_array($rs))
 					  {
 					    if ( $j==1)
 					     {$color= "lcol";
 						  $j=0;}
 					    else{$color= "lcolver";
-							 $j=1;}
+							 $j=1;
+						}
 					    echo '<TR class='.$color.'>';
 						echo "<td><div align='center'><font color='blue'>".$row["fecha"]."&nbsp;</font></td>\n";
 						echo "<td><div align='center'><font color='blue'>".$row["cod_grupo"]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[rechazo_delgadas]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[rechazo_granuladas]."&nbsp;</font></td>\n";
-						echo "<td><div align='center'><font color='blue'>".$row[rechazo_gruesas]."&nbsp;</font></td>\n";
-						$total=$row[rechazo_delgadas]+$row[rechazo_granuladas]+$row[rechazo_gruesas];
+						echo "<td><div align='center'><font color='blue'>".$row['rechazo_delgadas']."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row['rechazo_granuladas']."&nbsp;</font></td>\n";
+						echo "<td><div align='center'><font color='blue'>".$row['rechazo_gruesas']."&nbsp;</font></td>\n";
+						$total=$row['rechazo_delgadas']+$row['rechazo_granuladas']+$row['rechazo_gruesas'];
 						echo "<td><div align='center'><font color='blue'>".$total."&nbsp;</font></td>\n";
 						$cont=$cont+1;
 						if ($cont==5)

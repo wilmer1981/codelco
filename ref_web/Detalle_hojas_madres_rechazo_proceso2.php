@@ -1,6 +1,33 @@
 <?php 
   include("../principal/conectar_ref_web.php");
-  if (!isset($turno))
+  $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
+  $turno   = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+  $opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+  $txtgruesas12 = isset($_REQUEST["txtgruesas12"])?$_REQUEST["txtgruesas12"]:"";
+  $txtdesgadas12 = isset($_REQUEST["txtdesgadas12"])?$_REQUEST["txtdesgadas12"]:"";
+  $txtgranuladas12 = isset($_REQUEST["txtgranuladas12"])?$_REQUEST["txtgranuladas12"]:"";
+  $txtdelgadas12 = isset($_REQUEST["txtdelgadas12"])?$_REQUEST["txtdelgadas12"]:"";
+  
+  $txtgruesas22 = isset($_REQUEST["txtgruesas22"])?$_REQUEST["txtgruesas22"]:"";
+  $txtdesgadas22 = isset($_REQUEST["txtdesgadas22"])?$_REQUEST["txtdesgadas22"]:"";
+  $txtgranuladas22 = isset($_REQUEST["txtgranuladas22"])?$_REQUEST["txtgranuladas22"]:"";
+  $txtdelgadas22 = isset($_REQUEST["txtdelgadas22"])?$_REQUEST["txtdelgadas22"]:"";
+  
+  $txtgruesas72 = isset($_REQUEST["txtgruesas72"])?$_REQUEST["txtgruesas72"]:"";
+  $txtdesgadas72 = isset($_REQUEST["txtdesgadas72"])?$_REQUEST["txtdesgadas72"]:"";
+  $txtgranuladas72 = isset($_REQUEST["txtgranuladas72"])?$_REQUEST["txtgranuladas72"]:"";
+  $txtdelgadas72 = isset($_REQUEST["txtdelgadas72"])?$_REQUEST["txtdelgadas72"]:"";
+  
+  $txtgruesas82 = isset($_REQUEST["txtgruesas82"])?$_REQUEST["txtgruesas82"]:"";
+  $txtdesgadas82 = isset($_REQUEST["txtdesgadas82"])?$_REQUEST["txtdesgadas82"]:"";
+  $txtgranuladas82 = isset($_REQUEST["txtgranuladas82"])?$_REQUEST["txtgranuladas82"]:"";
+  $txtdelgadas82 = isset($_REQUEST["txtdelgadas82"])?$_REQUEST["txtdelgadas82"]:"";
+  
+  $txtrecuperado2 = isset($_REQUEST["txtrecuperado2"])?$_REQUEST["txtrecuperado2"]:"";
+  $txtgranuladas2 = isset($_REQUEST["txtgranuladas2"])?$_REQUEST["txtgranuladas2"]:"";
+  $recuperado  = isset($_REQUEST["recuperado"])?$_REQUEST["recuperado"]:"";
+  
+    if ($turno=="")
      {
  	  $Consulta = "select case when CURTIME() between '00:00:00' and '07:59:59' then 'C' else ";
 	  $Consulta.= " case when CURTIME() between '08:00:00' and '15:59:59' then 'A' else ";
@@ -25,15 +52,14 @@
 	$consulta2 = "SELECT * FROM ref_web.produccion WHERE cod_grupo = '2' AND fecha = '".$fecha."'";
 	$rs2 = mysqli_query($link, $consulta2);
 	$row2 = mysqli_fetch_array($rs2);
+	
 	$consulta7 = "SELECT * FROM ref_web.produccion WHERE cod_grupo = '7' AND fecha = '".$fecha."'";
 	$rs7 = mysqli_query($link, $consulta7);
 	$row7 = mysqli_fetch_array($rs7);
+	
 	$consulta8 = "SELECT * FROM ref_web.produccion WHERE cod_grupo = '8' AND fecha = '".$fecha."'";
 	$rs8 = mysqli_query($link, $consulta8);
 	$row8 = mysqli_fetch_array($rs8);
-
-		
-
 	
 
 ?>
@@ -254,190 +280,226 @@ function salir(fecha) // RECARGA PAGINA DE FROMULARIO
                                                             </tr>
                                                             <tr> 
                                                               <td><div align="center"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">1</FONT></div></td>
-                                                              <?php if ($opcion <>'M')
-															       {?>
-                                                              <td> <div align="center"><?php echo "<input name='txtgruesas12' type='text'  value='$txtgruesas12' onBlur=\"Calcula( '".$row["cod_grupo"]."' ,'".$txtgruesas12."', '".$row[rechazo_gruesas]."','G1');\" onKeyDown='TeclaPulsada()' size='10' >";?> 
+                                                              <?php 
+															  	$cod_grupo = isset($row["cod_grupo"])?$row["cod_grupo"]:"";
+																$rechazo_gruesas = isset($row['rechazo_gruesas'])?$row['rechazo_gruesas']:"";	
+																$rechazo_delgadas = isset($row['rechazo_delgadas'])?$row['rechazo_delgadas']:"";
+																$rechazo_granuladas = isset($row['rechazo_granuladas'])?$row['rechazo_granuladas']:"";
+															  if ($opcion <>'M')
+															   {
+																?>
+                                                              <td> <div align="center"><?php echo "<input name='txtgruesas12' type='text'  value='$txtgruesas12' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgruesas12."', '".$rechazo_gruesas."','G1');\" onKeyDown='TeclaPulsada()' size='10' >";?> 
                                                                 </div></td>
-                                                              <td> <div align="center"><?php echo "<input name='txtdelgadas12' type='text'  value='$txtdesgadas12' onBlur=\"Calcula( '".$row["cod_grupo"]."' ,'".$txtdelgadas12."', '".$row[rechazo_delgadas]."','D1' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
+                                                              <td> <div align="center"><?php echo "<input name='txtdelgadas12' type='text'  value='$txtdesgadas12' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtdelgadas12."', '".$rechazo_delgadas."','D1' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
                                                                 </div></td>
-                                                              <td> <div align="center"><?php echo "<input name='txtgranuladas12' type='text'  value='$txtgranuladas12' onBlur=\"Calcula( '".$row["cod_grupo"]."' ,'".$txtgranuladas12."', '".$row[rechazo_granuladas]."','Gra1' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
+                                                              <td> <div align="center"><?php echo "<input name='txtgranuladas12' type='text'  value='$txtgranuladas12' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgranuladas12."', '".$rechazo_granuladas."','Gra1' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
                                                                 </div></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="txtgruesas1" type="text" id="txtgruesas1"  style="text-align: center;background:grey;"   value="<?php echo $row[rechazo_gruesas] ?>" size="10" readonly >
+                                                                  <input name="txtgruesas1" type="text" id="txtgruesas1"  style="text-align: center;background:grey;"   value="<?php echo $rechazo_gruesas; ?>" size="10" readonly >
                                                                 </div></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="txtdelgadas1" type="text" size="10" value="<?php echo $row[rechazo_delgadas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtdelgadas1" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="txtgranuladas1" type="text" size="10" value="<?php echo $row[rechazo_granuladas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtgranuladas1" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <?php  } 
 																else {?>
-                                                              <td> <div align="center"><?php echo "<input name='txtgruesas12' type='text'  value='$txtgruesas12' onBlur=\"Calcula( '".$row["cod_grupo"]."' ,'".$txtgruesas12."', '".$row[rechazo_gruesas]."','G1');\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
+                                                              <td> <div align="center"><?php echo "<input name='txtgruesas12' type='text'  value='$txtgruesas12' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgruesas12."', '".$rechazo_gruesas."','G1');\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
                                                                 </div></td>
-                                                              <td> <div align="center"><?php echo "<input name='txtdelgadas12' type='text'  value='$txtdesgadas12' onBlur=\"Calcula( '".$row["cod_grupo"]."' ,'".$txtdelgadas12."', '".$row[rechazo_delgadas]."','D1' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
+                                                              <td> <div align="center"><?php echo "<input name='txtdelgadas12' type='text'  value='$txtdesgadas12' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtdelgadas12."', '".$rechazo_delgadas."','D1' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
                                                                 </div></td>
-                                                              <td> <div align="center"><?php echo "<input name='txtgranuladas12' type='text'  value='$txtgranuladas12' onBlur=\"Calcula( '".$row["cod_grupo"]."' ,'".$txtgranuladas12."', '".$row[rechazo_granuladas]."','Gra1' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
-                                                                </div></td>
-                                                              <td> <div align="center"> 
-                                                                  <input name="txtgruesas1" type="text" id="txtgruesas1"  value="<?php echo $row[rechazo_gruesas] ?>" size="10" >
+                                                              <td> <div align="center"><?php echo "<input name='txtgranuladas12' type='text'  value='$txtgranuladas12' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgranuladas12."', '".$rechazo_granuladas."','Gra1' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
                                                                 </div></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="txtdelgadas1" type="text" size="10" value="<?php echo $row[rechazo_delgadas] ?>"  >
+                                                                  <input name="txtgruesas1" type="text" id="txtgruesas1"  value="<?php echo $rechazo_gruesas; ?>" size="10" >
                                                                 </div></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="txtgranuladas1" type="text" size="10" value="<?php echo $row[rechazo_granuladas] ?>"  >
+                                                                  <input name="txtdelgadas1" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>"  >
+                                                                </div></td>
+                                                              <td> <div align="center"> 
+                                                                  <input name="txtgranuladas1" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>"  >
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <?php } ?>
                                                               <td><div align="center"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">2</FONT></div></td>
-                                                              <?php if ($opcion <>'M')
+                                                              <?php 
+																$cod_grupo = isset($row2["cod_grupo"])?$row2["cod_grupo"]:"";
+																$rechazo_gruesas = isset($row2['rechazo_gruesas'])?$row2['rechazo_gruesas']:"";	
+																$rechazo_delgadas = isset($row2['rechazo_delgadas'])?$row2['rechazo_delgadas']:"";
+																$rechazo_granuladas = isset($row2['rechazo_granuladas'])?$row2['rechazo_granuladas']:"";
+															  
+															  if ($opcion <>'M')
 															       {?>
-                                                              <td> <div align="center"><?php echo "<input name='txtgruesas22' type='text'  value='$txtgruesas22' onBlur=\"Calcula( '".$row2["cod_grupo"]."' ,'".$txtgruesas22."', '".$row2[rechazo_gruesas]."','G2' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
+                                                              <td> <div align="center"><?php echo "<input name='txtgruesas22' type='text'  value='$txtgruesas22' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgruesas22."', '".$rechazo_gruesas."','G2' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
                                                                 </div></td>
-                                                              <td> <div align="center"><?php echo "<input name='txtdelgadas22' type='text'  value='$txtdesgadas22' onBlur=\"Calcula( '".$row2["cod_grupo"]."' ,'".$txtdelgadas22."', '".$row2[rechazo_delgadas]."','D2' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
+                                                              <td> <div align="center"><?php echo "<input name='txtdelgadas22' type='text'  value='$txtdesgadas22' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtdelgadas22."', '".$rechazo_delgadas."','D2' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
                                                                 </div></td>
-                                                              <td> <div align="center"><?php echo "<input name='txtgranuladas22' type='text'  value='$txtgranuladas22' onBlur=\"Calcula( '".$row2["cod_grupo"]."' ,'".$txtgranuladas22."', '".$row2[rechazo_granuladas]."','Gra2' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
-                                                                </div></td>
-                                                              <td> <div align="center"> 
-                                                                  <input name="txtgruesas2" type="text" size="10" value="<?php echo $row2[rechazo_gruesas] ?>" style="text-align: center;background:grey;" readonly>
+                                                              <td> <div align="center"><?php echo "<input name='txtgranuladas22' type='text'  value='$txtgranuladas22' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgranuladas22."', '".$rechazo_granuladas."','Gra2' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
                                                                 </div></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="txtdelgadas2" type="text" size="10" value="<?php echo $row2[rechazo_delgadas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtgruesas2" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="txtgranuladas2" type="text" size="10" value="<?php echo $row2[rechazo_granuladas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtdelgadas2" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" style="text-align: center;background:grey;" readonly>
+                                                                </div></td>
+                                                              <td> <div align="center"> 
+                                                                  <input name="txtgranuladas2" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <?php } 
 															   else {?>
-                                                              <td> <div align="center"><?php echo "<input name='txtgruesas22' type='text'  value='$txtgruesas22' onBlur=\"Calcula( '".$row2["cod_grupo"]."' ,'".$txtgruesas22."', '".$row2[rechazo_gruesas]."','G2' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
+                                                              <td> <div align="center"><?php echo "<input name='txtgruesas22' type='text'  value='$txtgruesas22' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgruesas22."', '".$rechazo_gruesas."','G2' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
                                                                 </div></td>
-                                                              <td> <div align="center"><?php echo "<input name='txtdelgadas22' type='text'  value='$txtdesgadas22' onBlur=\"Calcula( '".$row2["cod_grupo"]."' ,'".$txtdelgadas22."', '".$row2[rechazo_delgadas]."','D2' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
+                                                              <td> <div align="center"><?php echo "<input name='txtdelgadas22' type='text'  value='$txtdesgadas22' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtdelgadas22."', '".$rechazo_delgadas."','D2' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
                                                                 </div></td>
-                                                              <td> <div align="center"><?php echo "<input name='txtgranuladas22' type='text'  value='$txtgranuladas22' onBlur=\"Calcula( '".$row2["cod_grupo"]."' ,'".$txtgranuladas22."', '".$row2[rechazo_granuladas]."','Gra2' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
-                                                                </div></td>
-                                                              <td> <div align="center"> 
-                                                                  <input name="txtgruesas2" type="text" size="10" value="<?php echo $row2[rechazo_gruesas] ?>" >
+                                                              <td> <div align="center"><?php echo "<input name='txtgranuladas22' type='text'  value='$txtgranuladas22' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgranuladas22."', '".$rechazo_granuladas."','Gra2' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
                                                                 </div></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="txtdelgadas2" type="text" size="10" value="<?php echo $row2[rechazo_delgadas] ?>" >
+                                                                  <input name="txtgruesas2" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" >
                                                                 </div></td>
                                                               <td> <div align="center"> 
-                                                                  <input name="txtgranuladas2" type="text" size="10" value="<?php echo $row2[rechazo_granuladas] ?>" >
+                                                                  <input name="txtdelgadas2" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" >
+                                                                </div></td>
+                                                              <td> <div align="center"> 
+                                                                  <input name="txtgranuladas2" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" >
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <?php } ?>
                                                               <td width="19%"><div align="center"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">7</FONT></div></td>
-                                                              <?php if ($opcion <>'M')
+                                                              <?php 
+															  	$cod_grupo = isset($row7["cod_grupo"])?$row7["cod_grupo"]:"";
+																$rechazo_gruesas = isset($row7['rechazo_gruesas'])?$row7['rechazo_gruesas']:"";	
+																$rechazo_delgadas = isset($row7['rechazo_delgadas'])?$row7['rechazo_delgadas']:"";
+																$rechazo_granuladas = isset($row7['rechazo_granuladas'])?$row7['rechazo_granuladas']:"";
+															  
+															  if ($opcion <>'M')
 															       {?>
                                                               <td width="9%"> 
-                                                                <div align="center"><?php echo "<input name='txtgruesas72' type='text'  value='$txtgruesas72' onBlur=\"Calcula( '".$row7["cod_grupo"]."' ,'".$txtgruesas72."', '".$row7[rechazo_gruesas]."','G7' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
+                                                                <div align="center"><?php echo "<input name='txtgruesas72' type='text'  value='$txtgruesas72' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgruesas72."', '".$rechazo_gruesas."','G7' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
                                                                 </div></td>
                                                               <td width="11%"> 
-                                                                <div align="center"><?php echo "<input name='txtdelgadas72' type='text'  value='$txtdesgadas72' onBlur=\"Calcula( '".$row7["cod_grupo"]."' ,'".$txtdelgadas72."', '".$row7[rechazo_delgadas]."','D7' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
+                                                                <div align="center"><?php echo "<input name='txtdelgadas72' type='text'  value='$txtdesgadas72' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtdelgadas72."', '".$rechazo_delgadas."','D7' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
                                                                 </div></td>
                                                               <td width="9%"> 
-                                                                <div align="center"><?php echo "<input name='txtgranuladas72' type='text'  value='$txtgranuladas72' onBlur=\"Calcula( '".$row7["cod_grupo"]."' ,'".$txtgranuladas72."', '".$row7[rechazo_granuladas]."','Gra7' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
+                                                                <div align="center"><?php echo "<input name='txtgranuladas72' type='text'  value='$txtgranuladas72' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgranuladas72."', '".$rechazo_granuladas."','Gra7' );\" onKeyDown='TeclaPulsada()' size='10' >";?> 
                                                                 </div></td>
                                                               <td width="9%"> 
                                                                 <div align="center"> 
-                                                                  <input name="txtgruesas7" type="text" size="10" value="<?php echo $row7[rechazo_gruesas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtgruesas7" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                               <td width="11%"> 
                                                                 <div align="center"> 
-                                                                  <input name="txtdelgadas7" type="text" size="10" value="<?php echo $row7[rechazo_delgadas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtdelgadas7" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                               <td width="12%"> 
                                                                 <div align="center"> 
-                                                                  <input name="txtgranuladas7" type="text" size="10" value="<?php echo $row7[rechazo_granuladas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtgranuladas7" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <?php } 
 																 else { ?>
                                                               <td width="9%"> 
-                                                                <div align="center"><?php echo "<input name='txtgruesas72' type='text'  value='$txtgruesas72' onBlur=\"Calcula( '".$row7["cod_grupo"]."' ,'".$txtgruesas72."', '".$row7[rechazo_gruesas]."','G7' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
+                                                                <div align="center"><?php echo "<input name='txtgruesas72' type='text'  value='$txtgruesas72' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgruesas72."', '".$rechazo_gruesas."','G7' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
                                                                 </div></td>
                                                               <td width="11%"> 
-                                                                <div align="center"><?php echo "<input name='txtdelgadas72' type='text'  value='$txtdesgadas72' onBlur=\"Calcula( '".$row7["cod_grupo"]."' ,'".$txtdelgadas72."', '".$row7[rechazo_delgadas]."','D7' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
+                                                                <div align="center"><?php echo "<input name='txtdelgadas72' type='text'  value='$txtdesgadas72' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtdelgadas72."', '".$rechazo_delgadas."','D7' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
                                                                 </div></td>
                                                               <td width="9%"> 
-                                                                <div align="center"><?php echo "<input name='txtgranuladas72' type='text'  value='$txtgranuladas72' onBlur=\"Calcula( '".$row7["cod_grupo"]."' ,'".$txtgranuladas72."', '".$row7[rechazo_granuladas]."','Gra7' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
+                                                                <div align="center"><?php echo "<input name='txtgranuladas72' type='text'  value='$txtgranuladas72' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgranuladas72."', '".$rechazo_granuladas."','Gra7' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?> 
                                                                 </div></td>
                                                               <td width="9%"> 
                                                                 <div align="center"> 
-                                                                  <input name="txtgruesas7" type="text" size="10" value="<?php echo $row7[rechazo_gruesas] ?>" >
+                                                                  <input name="txtgruesas7" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" >
                                                                 </div></td>
                                                               <td width="11%"> 
                                                                 <div align="center"> 
-                                                                  <input name="txtdelgadas7" type="text" size="10" value="<?php echo $row7[rechazo_delgadas] ?>" >
+                                                                  <input name="txtdelgadas7" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" >
                                                                 </div></td>
                                                               <td width="12%"> 
                                                                 <div align="center"> 
-                                                                  <input name="txtgranuladas7" type="text" size="10" value="<?php echo $row7[rechazo_granuladas] ?>" >
+                                                                  <input name="txtgranuladas7" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" >
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <?php } ?>
                                                               <td><div align="center"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">8</FONT></div></td>
-                                                              <?php if ($opcion <>'M')
+                                                              <?php 
+															    $cod_grupo = isset($row8["cod_grupo"])?$row8["cod_grupo"]:"";
+																$rechazo_gruesas = isset($row8['rechazo_gruesas'])?$row8['rechazo_gruesas']:"";	
+																$rechazo_delgadas = isset($row8['rechazo_delgadas'])?$row8['rechazo_delgadas']:"";
+																$rechazo_granuladas = isset($row8['rechazo_granuladas'])?$row8['rechazo_granuladas']:"";
+															  
+															  if ($opcion <>'M')
 															       {?>
-                                                              <td width="9%"><div align="center"><?php echo "<input name='txtgruesas82' type='text'  value='$txtgruesas82' onBlur=\"Calcula( '".$row8["cod_grupo"]."' ,'".$txtgruesas82."', '".$row8[rechazo_gruesas]."','G8' );\" onKeyDown='TeclaPulsada()' size='10' >";?></div></td>
-                                                              <td width="11%"><div align="center"><?php echo "<input name='txtdelgadas82' type='text'  value='$txtdesgadas82' onBlur=\"Calcula( '".$row8["cod_grupo"]."' ,'".$txtdelgadas82."', '".$row8[rechazo_delgadas]."','D8' );\" onKeyDown='TeclaPulsada()' size='10' >";?></div></td>
-                                                              <td width="9%"><div align="center"><?php echo "<input name='txtgranuladas82' type='text'  value='$txtgranuladas82' onBlur=\"Calcula( '".$row8["cod_grupo"]."' ,'".$txtgranuladas82."', '".$row8[rechazo_granuladas]."','Gra8' );\" onKeyDown='TeclaPulsada()' size='10' >";?></div></td>
+                                                              <td width="9%"><div align="center"><?php echo "<input name='txtgruesas82' type='text'  value='$txtgruesas82' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgruesas82."', '".$rechazo_gruesas."','G8' );\" onKeyDown='TeclaPulsada()' size='10' >";?></div></td>
+                                                              <td width="11%"><div align="center"><?php echo "<input name='txtdelgadas82' type='text'  value='$txtdesgadas82' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtdelgadas82."', '".$rechazo_delgadas."','D8' );\" onKeyDown='TeclaPulsada()' size='10' >";?></div></td>
+                                                              <td width="9%"><div align="center"><?php echo "<input name='txtgranuladas82' type='text'  value='$txtgranuladas82' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgranuladas82."', '".$rechazo_granuladas."','Gra8' );\" onKeyDown='TeclaPulsada()' size='10' >";?></div></td>
                                                               <td width="9%"><div align="center"> 
-                                                                  <input name="txtgruesas8" type="text" size="10" value="<?php echo $row8[rechazo_gruesas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtgruesas8" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                               <td width="11%"><div align="center"> 
-                                                                  <input name="txtdelgadas8" type="text" size="10" value="<?php echo $row8[rechazo_delgadas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtdelgadas8" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                               <td width="12%"><div align="center"> 
-                                                                  <input name="txtgranuladas8" type="text" size="10" value="<?php echo $row8[rechazo_granuladas] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtgranuladas8" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <?php } 
 																  else {?>
-                                                              <td width="9%"><div align="center"><?php echo "<input name='txtgruesas82' type='text'  value='$txtgruesas82' onBlur=\"Calcula( '".$row8["cod_grupo"]."' ,'".$txtgruesas82."', '".$row8[rechazo_gruesas]."','G8' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?></div></td>
-                                                              <td width="11%"><div align="center"><?php echo "<input name='txtdelgadas82' type='text'  value='$txtdesgadas82' onBlur=\"Calcula( '".$row8["cod_grupo"]."' ,'".$txtdelgadas82."', '".$row8[rechazo_delgadas]."','D8' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?></div></td>
-                                                              <td width="9%"><div align="center"><?php echo "<input name='txtgranuladas82' type='text'  value='$txtgranuladas82' onBlur=\"Calcula( '".$row8["cod_grupo"]."' ,'".$txtgranuladas82."', '".$row8[rechazo_granuladas]."','Gra8' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?></div></td>
+                                                              <td width="9%"><div align="center"><?php echo "<input name='txtgruesas82' type='text'  value='$txtgruesas82' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgruesas82."', '".$rechazo_gruesas."','G8' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?></div></td>
+                                                              <td width="11%"><div align="center"><?php echo "<input name='txtdelgadas82' type='text'  value='$txtdesgadas82' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtdelgadas82."', '".$rechazo_delgadas."','D8' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?></div></td>
+                                                              <td width="9%"><div align="center"><?php echo "<input name='txtgranuladas82' type='text'  value='$txtgranuladas82' onBlur=\"Calcula( '".$cod_grupo."' ,'".$txtgranuladas82."', '".$rechazo_granuladas."','Gra8' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?></div></td>
                                                               <td width="9%"><div align="center"> 
-                                                                  <input name="txtgruesas8" type="text" size="10" value="<?php echo $row8[rechazo_gruesas] ?>" >
+                                                                  <input name="txtgruesas8" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" >
                                                                 </div></td>
                                                               <td width="11%"><div align="center"> 
-                                                                  <input name="txtdelgadas8" type="text" size="10" value="<?php echo $row8[rechazo_delgadas] ?>" >
+                                                                  <input name="txtdelgadas8" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" >
                                                                 </div></td>
                                                               <td width="12%"><div align="center"> 
-                                                                  <input name="txtgranuladas8" type="text" size="10" value="<?php echo $row8[rechazo_granuladas] ?>" >
+                                                                  <input name="txtgranuladas8" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" >
                                                                 </div></td>
                                                             </tr>
                                                             <tr> 
                                                               <?php } ?>
                                                               <td><div align="center"><FONT style="FONT-WEIGHT: bold; COLOR: #000000">Recuperado</FONT></div></td>
-                                                              <?php if ($opcion <>'M')
-															       {
-																      $consulta_recuperado="select ifnull(recuperado,0) as recuperado from ref_web.recuperado where fecha='".$fecha."' " ;
+                                                            <?php 
+															$consulta_recuperado="select ifnull(recuperado,0) as recuperado from ref_web.recuperado where fecha='".$fecha."' " ;
+															$rs_r = mysqli_query($link, $consulta_recuperado);
+															$row_r = mysqli_fetch_array($rs_r);
+															$recuperado = isset($row_r['recuperado'])?$row_r['recuperado']:"";
+																	  
+															if ($opcion <>'M')
+															{
+																     /* $consulta_recuperado="select ifnull(recuperado,0) as recuperado from ref_web.recuperado where fecha='".$fecha."' " ;
 																	  $rs_r = mysqli_query($link, $consulta_recuperado);
-																	  $row_r = mysqli_fetch_array($rs_r);?>
-                                                              <td colspan="3"><div align="center"><?php echo "<input name='txtrecuperado2' type='text'  value='$txtrecuperado2' onBlur=\"Calcula( '0','".$txtgranuladas2."', '".$row_r[recuperado]."','Rec' );\" onKeyDown='TeclaPulsada()' size='10' >";?></div></td>
+																	  $row_r = mysqli_fetch_array($rs_r);
+																	  $recuperado = isset($row_r['recuperado'])?$row_r['recuperado']:"";*/
+															?>
+                                                              <td colspan="3"><div align="center"><?php echo "<input name='txtrecuperado2' type='text'  value='$txtrecuperado2' onBlur=\"Calcula( '0','".$txtgranuladas2."', '".$recuperado."','Rec' );\" onKeyDown='TeclaPulsada()' size='10' >";?></div></td>
                                                               <td colspan="3"><div align="center"> 
-                                                                  <input name="txtrecuperado" type="text" size="10" value="<?php echo $row_r[recuperado] ?>" style="text-align: center;background:grey;" readonly>
+                                                                  <input name="txtrecuperado" type="text" size="10" value="<?php echo $recuperado; ?>" style="text-align: center;background:grey;" readonly>
                                                                 </div></td>
                                                             </tr>
-                                                            <?php }
-																else {?>
-                                                            <td colspan="3"><div align="center"><?php echo "<input name='txtrecuperado2' type='text'  value='$txtrecuperado2' onBlur=\"Calcula( '0','".$txtgranuladas2."', '".$row_r[recuperado]."','Rec' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?></div></td>
-                                                            <?php   $consulta_recuperado="select ifnull(recuperado,0) as recuperado from ref_web.recuperado where fecha='".$fecha."' " ;
-																		   $rs_r = mysqli_query($link, $consulta_recuperado);
-																		   $row_r = mysqli_fetch_array($rs_r);?>
+                                                            <?php 
+															}else {
+															?>
+                                                            <td colspan="3"><div align="center"><?php echo "<input name='txtrecuperado2' type='text'  value='$txtrecuperado2' onBlur=\"Calcula( '0','".$txtgranuladas2."', '".$recuperado."','Rec' );\" onKeyDown='TeclaPulsada()' size='10' style='text-align: center;background:grey;' readonly>";?></div></td>
+                                                            <?php   
+																	/*$consulta_recuperado="select ifnull(recuperado,0) as recuperado from ref_web.recuperado where fecha='".$fecha."' " ;
+																	$rs_r = mysqli_query($link, $consulta_recuperado);
+																	$row_r = mysqli_fetch_array($rs_r);
+																	$recuperado = isset($row_r['recuperado'])?$row_r['recuperado']:"";*/
+															?>
                                                             <td colspan="3"><div align="center"> 
-                                                                <input name="txtrecuperado" type="text" size="10" value="<?php echo $row_r[recuperado] ?>" >
+                                                                <input name="txtrecuperado" type="text" size="10" value="<?php echo $recuperado; ?>" >
                                                               </div></td>
                                                             </tr>
                                                             <tr> 
@@ -445,16 +507,19 @@ function salir(fecha) // RECARGA PAGINA DE FROMULARIO
                                                               <td colspan="3"><div align="center"> 
                                                                   <strong>Ajuste 
                                                                   Laminas Iniciales</strong></div></td>
-                                                         <?php   $consulta_ajuste="select ifnull(ajuste,0) as ajuste, tipo from ref_web.ajustes where fecha='".$fecha."' " ;
+																<?php   $consulta_ajuste="select ifnull(ajuste,0) as ajuste, tipo from ref_web.ajustes where fecha='".$fecha."' " ;
 															   $rs_a = mysqli_query($link, $consulta_ajuste);
-															   $row_a = mysqli_fetch_array($rs_a);?>
+															   $row_a = mysqli_fetch_array($rs_a);
+															   $ajuste = isset($row_a['ajuste'])?$row_a['ajuste']:"";
+															   $tipo = isset($row_a['tipo'])?$row_a['tipo']:"";
+															   ?>
                                                               <td colspan="1"><div align="center"> 
-                                                                  <input name="txtajuste" type="text" id="txtajuste" value="<?php echo $row_a[ajuste] ?>" size="10" >
+                                                                  <input name="txtajuste" type="text" id="txtajuste" value="<?php echo $ajuste;?>" size="10" >
                                                                 </div></td>
 															  <td colspan="1"><div align="center"> 
                                                                   <strong>Tipo de Ajuste</strong></div></td>	
                                                               <td colspan="2"><div align="center"> 
-                                                                  <input name="txttipo" type="text" id="txttipo" value="<?php echo $row_a[tipo] ?>" size="15" >
+                                                                  <input name="txttipo" type="text" id="txttipo" value="<?php echo $tipo;?>" size="15" >
                                                                 </div></td>
                                                             </tr>
                                                           </table>

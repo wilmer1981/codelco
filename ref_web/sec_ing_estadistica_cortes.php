@@ -1,11 +1,11 @@
 ﻿<?php 
 	include("../principal/conectar_principal.php");
 	$CodigoDeSistema = 10;
-	$CodigoDePantalla = 5;
+	$CodigoDePantalla = 26;
 
 
 	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-	$mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$mostrar = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
 	$dia1    = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
 	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
 	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
@@ -165,29 +165,29 @@ function Salir()
 					}		
 				?>
                 </select> <select name="mes1" size="1" id="mes1">
-       	<?php
-		 	for($i=1;$i<13;$i++)
-		  	{
-				if (($mostrar == "S") && ($i == $mes1))
-					echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
-				else if (($i == date("n")) && ($mostrar != "S"))
-						echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
-				else
-					echo '<option value="'.$i.'">'.$meses[$i-1].'</option>\n';			
-			}		  
-		?>
+				<?php
+					for($i=1;$i<13;$i++)
+					{
+						if (($mostrar == "S") && ($i == $mes1))
+							echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
+						else if (($i == date("n")) && ($mostrar != "S"))
+								echo '<option selected value="'.$i.'">'.$meses[$i-1].'</option>';
+						else
+							echo '<option value="'.$i.'">'.$meses[$i-1].'</option>\n';			
+					}		  
+				?>
                 </select> <select name="ano1" size="1" id="select4">
-        <?php
-			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
-			{
-				if (($mostrar == "S") && ($i == $ano1))
-					echo '<option selected value="'.$i.'">'.$i.'</option>';
-				else if (($i == date("Y")) && ($mostrar != "S"))
-					echo '<option selected value="'.$i.'">'.$i.'</option>';
-				else	
-					echo '<option value="'.$i.'">'.$i.'</option>';
-			}
-		?>
+				<?php
+					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+					{
+						if (($mostrar == "S") && ($i == $ano1))
+							echo '<option selected value="'.$i.'">'.$i.'</option>';
+						else if (($i == date("Y")) && ($mostrar != "S"))
+							echo '<option selected value="'.$i.'">'.$i.'</option>';
+						else	
+							echo '<option value="'.$i.'">'.$i.'</option>';
+					}
+				?>
                 </select></td>
               <td width="47">Hasta</td>
               <td width="215"><select name="dia2" size="1" id="dia2">
@@ -250,12 +250,32 @@ function Salir()
 
 <table width="730" border="0" cellspacing="0" cellpadding="0" class="TablaInterior">
 <?php
+	if (strlen($mes1) == 1)
+		$mes1 = '0'.$mes1;
+	if (strlen($dia1) == 1)
+		$dia1 = '0'.$dia1;
+	if (strlen($mes2) == 1)
+		$mes2 = '0'.$mes2;
+	if (strlen($dia2) == 1)
+		$dia2 = '0'.$dia2;
+
+	if($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12'){
+	 $dias2=31;
+	}
+	if($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11'){
+	 $dias2=30;
+	}
+	if($mes1=='02'){
+	 $dias2=29;
+	}
+					
 	if ($mostrar == "S")
 	{
 		$desde = $ano1.'-';
 		if (strlen($mes1) == 1)
 			$desde = $desde.'0';
 		$desde = $desde.$mes1.'-';
+		
 		if (strlen($dia1) == 1)
 			$desde = $desde.'0';
 		$desde = $desde.$dia1;
@@ -274,7 +294,7 @@ function Salir()
 		$consulta = $consulta." WHERE t2.cod_clase = 3000";
 		$consulta = $consulta." AND t1.fecha_desconexion BETWEEN '".$desde." 00:00:00' AND '".$hasta." 23:59:59'";
 		$consulta = $consulta." ORDER BY t1.fecha_desconexion DESC";
-		//echo $consulta."<br>";
+		echo $consulta."<br>";
 		$rs = mysqli_query($link, $consulta);
 		
 		while ($row = mysqli_fetch_array($rs))

@@ -1,5 +1,7 @@
 <?php
 	include("../principal/conectar_sec_web.php");
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
+	$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
 	$Ano = substr($fecha,0,4);
 	$Mes = substr($fecha,5,2);
 	$Dia = substr($fecha,8,2);
@@ -13,16 +15,17 @@
 			//$checkbox = '0';
 			$Ano = substr($row["fecha"],0,4);
 			$Mes = substr($row["fecha"],5,2);
-			$Dia = substr($row["fecha"],8,2);
-			
+			$Dia = substr($row["fecha"],8,2);		
 			
 		}
 		$consulta2 = "SELECT * FROM ref_web.produccion WHERE cod_grupo = '2' AND fecha = '".$fecha."'";
 		$rs2 = mysqli_query($link, $consulta2);
 		$row2 = mysqli_fetch_array($rs2);
+		
 		$consulta7 = "SELECT * FROM ref_web.produccion WHERE cod_grupo = '7' AND fecha = '".$fecha."'";
 		$rs7 = mysqli_query($link, $consulta7);
 		$row7 = mysqli_fetch_array($rs7);
+		
 		$consulta8 = "SELECT * FROM ref_web.produccion WHERE cod_grupo = '8' AND fecha = '".$fecha."'";
 		$rs8 = mysqli_query($link, $consulta8);
 		$row8 = mysqli_fetch_array($rs8);
@@ -270,46 +273,55 @@ function modifica(fecha,grupo,gruesas,delgadas,granuladas)
 			?>
               </select> </td>
           </tr>
-          <?php if ($opcion == 'M')
+          <?php 
+		  	$rechazo_gruesas = isset($row['rechazo_gruesas'])?$row['rechazo_gruesas']:"";	
+			$rechazo_delgadas = isset($row['rechazo_delgadas'])?$row['rechazo_delgadas']:"";
+			$rechazo_granuladas = isset($row['rechazo_granuladas'])?$row['rechazo_granuladas']:"";
+		  if ($opcion == 'M')
 						{ ?>
           <td colspan="6"><div align="center" class="ColorTabla01"><strong>Grupo1</strong>
              
                 <?php	 
 						  
-							echo "<input type='image' src='../principal/imagenes/ico_modif3.gif' width='29' height='24'   onClick=\"modifica('$fecha','1','".$row[rechazo_gruesas]."','".$row[rechazo_delgadas]."','".$row[rechazo_granuladas]."');\" value='0' checked title='modifica los datos anteriormenta ingresados'>";
+							echo "<input type='image' src='../principal/imagenes/ico_modif3.gif' width='29' height='24'   onClick=\"modifica('$fecha','1','".$rechazo_gruesas."','".$rechazo_delgadas."','".$rechazo_granuladas."');\" value='0' checked title='modifica los datos anteriormenta ingresados'>";
 							
 						}
 					   ?>
               </div></td>
           </tr>
-          <?php if ($opcion=='M') 
-			     {?>
+          <?php 
+		  if ($opcion=='M') 
+			   {?>
           <td><strong>Gruesas</strong></td>
-          <td width="75"> <input name="txtgruesas1" type="text" size="10"   value="<?php echo $row[rechazo_gruesas] ?>"  style="text-align: center;background:grey;" readonly ></td>
+          <td width="75"> <input name="txtgruesas1" type="text" size="10"   value="<?php echo $rechazo_gruesas; ?>"  style="text-align: center;background:grey;" readonly ></td>
           <td width="65"><strong>Delgadas</strong></td>
-          <td width="65"> <input name="txtdelgadas1" type="text" size="10" value="<?php echo $row[rechazo_delgadas] ?>" style="text-align: center;background:grey;" readonly></td>
+          <td width="65"> <input name="txtdelgadas1" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" style="text-align: center;background:grey;" readonly></td>
           <td width="87"><strong>Granuladas</strong></td>
-          <td width="382"> <input name="txtgranuladas1" type="text" size="10" value="<?php echo $row[rechazo_granuladas] ?>" style="text-align: center;background:grey;" readonly></td>
+          <td width="382"> <input name="txtgranuladas1" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" style="text-align: center;background:grey;" readonly></td>
           <?php } 
 				 else  if ($opcion=='N')
-				         { ?>
+				        { ?>
           <tr> 
             <td height="10" colspan="6"><div align="center" class="ColorTabla01"><strong>Grupo 
                 1</font></strong></div></td>
           </tr>
           <td><strong>Gruesas</strong></td>
-          <td width="75"> <input name="txtgruesas1" type="text" size="10" value="<?php echo $row[rechazo_gruesas] ?>" ></td>
+          <td width="75"> <input name="txtgruesas1" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" ></td>
           <td width="65"><strong>Delgadas</strong></td>
-          <td width="65"> <input name="txtdelgadas1" type="text" size="10" value="<?php echo $row[rechazo_delgadas] ?>" ></td>
+          <td width="65"> <input name="txtdelgadas1" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" ></td>
           <td width="87"><strong>Granuladas</strong></td>
-          <td width="382"> <input name="txtgranuladas1" type="text" size="10" value="<?php echo $row[rechazo_granuladas] ?>" ></td>
+          <td width="382"> <input name="txtgranuladas1" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" ></td>
           <?php } ?>
           </tr>
-          <?php if ($opcion == 'M')
+          <?php 
+			$rechazo_gruesas = isset($row2['rechazo_gruesas'])?$row2['rechazo_gruesas']:"";	
+			$rechazo_delgadas = isset($row2['rechazo_delgadas'])?$row2['rechazo_delgadas']:"";
+			$rechazo_granuladas = isset($row2['rechazo_granuladas'])?$row2['rechazo_granuladas']:"";
+		  if ($opcion == 'M')
 						{ ?>
                             <td colspan="6"><div align="center" class="ColorTabla01" ><strong>Grupo2</strong> 
                             <?php
-			                echo "<input type='image' src='../principal/imagenes/ico_modif3.gif' width='29' height='24'   onClick=\"modifica('$fecha','2','".$row2[rechazo_gruesas]."','".$row2[rechazo_delgadas]."','".$row2[rechazo_granuladas]."');\" value='0' checked title='modifica los datos anteriormenta ingresados'>";
+			                echo "<input type='image' src='../principal/imagenes/ico_modif3.gif' width='29' height='24'   onClick=\"modifica('$fecha','2','".$rechazo_gruesas."','".$rechazo_delgadas."','".$rechazo_granuladas."');\" value='0' checked title='modifica los datos anteriormenta ingresados'>";
 							//echo "<input name='Radio2' type='radio'   onClick=\"modifica('$fecha','2','".$row2[rechazo_gruesas]."','".$row2[rechazo_delgadas]."','".$row2[rechazo_granuladas]."');\" value='0' checked>";
 							//echo "Modificar";
 						}
@@ -320,12 +332,12 @@ function modifica(fecha,grupo,gruesas,delgadas,granuladas)
           <?php if ($opcion=='M')
 		      {?>
           <td><strong>Gruesas</strong></td>
-          <td> <input name="txtgruesas2" type="text" size="10" value="<?php echo $row2[rechazo_gruesas] ?>" style="text-align: center;background:grey;" readonly></td>
+          <td> <input name="txtgruesas2" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" style="text-align: center;background:grey;" readonly></td>
           <td><strong>Delgadas</strong></td>
-          <td> <input name="txtdelgadas2" type="text" size="10" value="<?php echo $row2[rechazo_delgadas] ?>" style="text-align: center;background:grey;" readonly> 
+          <td> <input name="txtdelgadas2" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" style="text-align: center;background:grey;" readonly> 
           </td>
           <td><strong>Granuladas</strong></td>
-          <td> <input name="txtgranuladas2" type="text" size="10" value="<?php echo $row2[rechazo_granuladas] ?>" style="text-align: center;background:grey;" readonly></td>
+          <td> <input name="txtgranuladas2" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" style="text-align: center;background:grey;" readonly></td>
           <?php } 
 		         else if ($opcion=='N')
 				         { ?>
@@ -334,18 +346,22 @@ function modifica(fecha,grupo,gruesas,delgadas,granuladas)
                 2</font></strong></div></td>
           </tr>
           <td><strong>Gruesas</strong></td>
-          <td> <input name="txtgruesas2" type="text" size="10" value="<?php echo $row2[rechazo_gruesas] ?>" ></td>
+          <td> <input name="txtgruesas2" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" ></td>
           <td><strong>Delgadas</strong></td>
-          <td> <input name="txtdelgadas2" type="text" size="10" value="<?php echo $row2[rechazo_delgadas] ?>" ></td>
+          <td> <input name="txtdelgadas2" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" ></td>
           <td><strong>Granuladas</strong></td>
-          <td> <input name="txtgranuladas2" type="text" size="10" value="<?php echo $row2[rechazo_granuladas] ?>" ></td>
+          <td> <input name="txtgranuladas2" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" ></td>
           <?php } ?>
           </tr>
-          <?php if ($opcion == 'M')
+          <?php 
+		    $rechazo_gruesas = isset($row7['rechazo_gruesas'])?$row7['rechazo_gruesas']:"";	
+			$rechazo_delgadas = isset($row7['rechazo_delgadas'])?$row7['rechazo_delgadas']:"";
+			$rechazo_granuladas = isset($row7['rechazo_granuladas'])?$row7['rechazo_granuladas']:"";
+		  if ($opcion == 'M')
 						{ ?>
           <td colspan="6"><div align="center" class="ColorTabla01"><strong>Grupo7</strong> 
               <?php
-						echo "<input type='image' src='../principal/imagenes/ico_modif3.gif' width='29' height='24'   onClick=\"modifica('$fecha','7','".$row7[rechazo_gruesas]."','".$row7[rechazo_delgadas]."','".$row7[rechazo_granuladas]."');\" value='0' checked title='modifica los datos anteriormenta ingresados'>";
+						echo "<input type='image' src='../principal/imagenes/ico_modif3.gif' width='29' height='24'   onClick=\"modifica('$fecha','7','".$rechazo_gruesas."','".$rechazo_delgadas."','".$rechazo_granuladas."');\" value='0' checked title='modifica los datos anteriormenta ingresados'>";
 						//	echo "<input name='Radio7' type='radio'   onClick=\"modifica('$fecha','7','".$row7[rechazo_gruesas]."','".$row7[rechazo_delgadas]."','".$row7[rechazo_granuladas]."');\" value='0' checked>";
 						//	echo "Modificar";
 						}
@@ -356,13 +372,13 @@ function modifica(fecha,grupo,gruesas,delgadas,granuladas)
           <?php if ($opcion=='M')
 			    {?>
           <td><strong>Gruesas</strong></td>
-          <td><input name="txtgruesas7" type="text" size="10" value="<?php echo $row7[rechazo_gruesas] ?>" style="text-align: center;background:grey;" readonly> 
+          <td><input name="txtgruesas7" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" style="text-align: center;background:grey;" readonly> 
           </td>
           <td><strong>Delgadas</strong></td>
-          <td><input name="txtdelgadas7" type="text" size="10" value="<?php echo $row7[rechazo_delgadas] ?>" style="text-align: center;background:grey;" readonly> 
+          <td><input name="txtdelgadas7" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" style="text-align: center;background:grey;" readonly> 
           </td>
           <td><strong>Granuladas</strong></td>
-          <td><input name="txtgranuladas7" type="text" size="10" value="<?php echo $row7[rechazo_granuladas] ?>" style="text-align: center;background:grey;" readonly> 
+          <td><input name="txtgranuladas7" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" style="text-align: center;background:grey;" readonly> 
           </td>
           <?php }
 				else if ($opcion=='N')
@@ -372,21 +388,27 @@ function modifica(fecha,grupo,gruesas,delgadas,granuladas)
                 7</font></strong></div></td>
           </tr>
           <td><strong>Gruesas</strong></td>
-          <td> <input name="txtgruesas7" type="text" size="10" value="<?php echo $row7[rechazo_gruesas] ?>" ></td>
+          <td> <input name="txtgruesas7" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" ></td>
           <td><strong>Delgadas</strong></td>
-          <td> <input name="txtdelgadas7" type="text" size="10" value="<?php echo $row7[rechazo_delgadas] ?>"></td>
+          <td> <input name="txtdelgadas7" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>"></td>
           <td><strong>Granuladas</strong></td>
-          <td> <input name="txtgranuladas7" type="text" size="10" value="<?php echo $row7[rechazo_granuladas] ?>" ></td>
+          <td> <input name="txtgranuladas7" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" ></td>
           <?php } ?>
           </tr>
-          <?php if ($opcion=='M')
+          <?php 
+		  
+		    $rechazo_gruesas = isset($row8['rechazo_gruesas'])?$row8['rechazo_gruesas']:"";	
+			$rechazo_delgadas = isset($row8['rechazo_delgadas'])?$row8['rechazo_delgadas']:"";
+			$rechazo_granuladas = isset($row8['rechazo_granuladas'])?$row8['rechazo_granuladas']:"";
+																
+		  if ($opcion=='M')
 		         { ?>
           <tr> <strong>
             <?php if ($opcion == 'M')
 						{ ?>
                             <td height="20" colspan="6"><div align="center" class="ColorTabla01"><strong>Grupo8</strong>
                              <?php
-			                 echo "<input type='image' src='../principal/imagenes/ico_modif3.gif' width='29' height='24'   onClick=\"modifica('$fecha','8','".$row8[rechazo_gruesas]."','".$row8[rechazo_delgadas]."','".$row8[rechazo_granuladas]."');\" value='0' checked title='modifica los datos anteriormenta ingresados'>";
+			                 echo "<input type='image' src='../principal/imagenes/ico_modif3.gif' width='29' height='24'   onClick=\"modifica('$fecha','8','".$rechazo_gruesas."','".$rechazo_delgadas."','".$rechazo_granuladas."');\" value='0' checked title='modifica los datos anteriormenta ingresados'>";
 							//echo "<input name='Radio8' type='radio'   onClick=\"modifica('$fecha','8','".$row8[rechazo_gruesas]."','".$row8[rechazo_delgadas]."','".$row8[rechazo_granuladas]."');\" value='0' checked>";
 							//echo "Modificar"; 
 						}
@@ -395,12 +417,12 @@ function modifica(fecha,grupo,gruesas,delgadas,granuladas)
           </tr>
           <tr> 
             <td height="20"><strong>Gruesas</strong></td>
-            <td> <input name="txtgruesas8" type="text" size="10" value="<?php echo $row8[rechazo_gruesas] ?>" style="text-align: center;background:grey;" readonly></td>
+            <td> <input name="txtgruesas8" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" style="text-align: center;background:grey;" readonly></td>
             <td><strong>Delgadas</strong></td>
-            <td><input name="txtdelgadas8" type="text" size="10" value="<?php echo $row8[rechazo_delgadas] ?>" style="text-align: center;background:grey;" readonly> 
+            <td><input name="txtdelgadas8" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" style="text-align: center;background:grey;" readonly> 
             </td>
             <td><strong>Granuladas</strong></td>
-            <td><input name="txtgranuladas8" type="text" size="10" value="<?php echo $row8[rechazo_granuladas] ?>" style="text-align: center;background:grey;" readonly></td>
+            <td><input name="txtgranuladas8" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" style="text-align: center;background:grey;" readonly></td>
             <?php }
 			  else if ($opcion=='N')
 					      { ?>
@@ -409,14 +431,14 @@ function modifica(fecha,grupo,gruesas,delgadas,granuladas)
                 8</font></strong></div></td>
           </tr>
           <td height="20"><strong>Gruesas</strong></td>
-          <td> <input name="txtgruesas8" type="text" size="10" value="<?php echo $row8[rechazo_gruesas] ?>" ></td>
+          <td> <input name="txtgruesas8" type="text" size="10" value="<?php echo $rechazo_gruesas; ?>" ></td>
           <td><strong>Deldadas</strong></td>
-          <td> <input name="txtdelgadas8" type="text" size="10" value="<?php echo $row8[rechazo_delgadas] ?>" ></td>
+          <td> <input name="txtdelgadas8" type="text" size="10" value="<?php echo $rechazo_delgadas; ?>" ></td>
           <td><strong>Granuladas</strong></td>
-          <td> <input name="txtgranuladas8" type="text" size="10" value="<?php echo $row8[rechazo_granuladas] ?>" ></td>
+          <td> <input name="txtgranuladas8" type="text" size="10" value="<?php echo $rechazo_granuladas; ?>" ></td>
           <?php } ?>
          
-          <?php if ($opcion=='M')
+            <?php if ($opcion=='M')
 			    { ?>
 				 </tr>
           <td height="10" colspan="6"><div align="center" class="ColorTabla02"><font color="#FF0000"><strong>Nuevo 
