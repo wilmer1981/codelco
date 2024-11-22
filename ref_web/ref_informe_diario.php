@@ -2,6 +2,7 @@
 //include('../principal/conectar_principal.php');
 include('../principal/conectar_ref_web.php');
 //include('funciones/ref_funciones.php');
+set_time_limit(15000);
 
 $VisibleDivProceso = isset($_REQUEST["VisibleDivProceso"])?$_REQUEST["VisibleDivProceso"]:"";
 $FDesde = isset($_REQUEST["FDesde"])?$_REQUEST["FDesde"]:"";
@@ -9,7 +10,6 @@ $FHasta = isset($_REQUEST["FHasta"])?$_REQUEST["FHasta"]:"";
 $Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 $Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
-set_time_limit(15000);
 if($VisibleDivProceso=='S')
 	$VisibleDiv='hidden';
 
@@ -172,18 +172,22 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$CC_ProdRev_1=0;
 		$Dif_1=0;
 		$Cumpli_1=0;
+		$TOT_ProdRealD=0;
+		$TOT_ProdRealA=0;
+		$TOT_ProdRev_0=0;
+		$TOT_ProdRev_1=0;
 		if($Buscar=='S')
 		{	
 			$CC_ProdRealD=ProdAcumReal(18,1,'D',$FDesde,$link);
 			$CC_ProdRealA=ProdAcumReal(18,1,'A',$FDesde,$link);
 			$CC_ProdRev_0=ProdRev('d_catodo_comercial',$FDesde,'D',0,$link);
 			$Dif_0=$CC_ProdRealD-$CC_ProdRev_0;
-			$Cumpli_0=0;
+			//$Cumpli_0=0;
 			if($CC_ProdRev_0!=0)
 	  			$Cumpli_0=($CC_ProdRealD*100)/$CC_ProdRev_0;
 			$CC_ProdRev_1=ProdRev('d_catodo_comercial',$FDesde,'A',1,$link);
 			$Dif_1=$CC_ProdRealA-$CC_ProdRev_1;
-			$Cumpli_1=0;
+			//$Cumpli_1=0;
 			if($CC_ProdRev_1!=0)
 	  			$Cumpli_1=($CC_ProdRealA*100)/$CC_ProdRev_1;
 			
@@ -251,11 +255,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  $LD_ProdRealD=0;
 	  $LD_ProdRealA=0;
 	  $LD_ProdRev_0=0;
-	  $LD_Dif_0=0;
-	  $LD_Cumpli_0=0;
 	  $LD_ProdRev_1=0;
+	  $LD_Dif_0=0;
 	  $LD_Dif_1=0;
-	  $LD_Cumpli_1=0;
+	  $LD_Cumpli_0=0;
+	  $LD_Cumpli_1=0;  
+	  
 	  	if($Buscar=='S')
 		{	
 	  		$LD_ProdRealD=round(ProdAcumReal(48,'','D',$FDesde,$link),1);
@@ -291,22 +296,18 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	    </tr>
 	  <tr class="TituloCabecera">
 	  <?php
-	    $TOT_ProdRealD=0;
-		$TOT_ProdRealA=0;
-		$TOT_ProdRev_0=0;
-		$TOT_Dif_0=0;
-	    $TOT_Cumpli_0=0;
-		$TOT_ProdRev_1=0;
-		$TOT_Dif_1=0;
-		$TOT_Cumpli_1=0;
+	  $TOT_Dif_0=0;
+	  $TOT_Dif_1=0;
+	  $TOT_Cumpli_0=0;
+	  $TOT_Cumpli_1=0;
 	  	if($Buscar=='S')
 		{	
-	  		$TOT_Dif_0=$TOT_ProdRealD-$TOT_ProdRev_0;
-			$TOT_Cumpli_0=0;
+	  		$TOT_Dif_0=$TOT_ProdRealD-$TOT_ProdRev_0;			
 			if($TOT_ProdRev_0!=0)
 				$TOT_Cumpli_0=($TOT_ProdRealD*100)/$TOT_ProdRev_0;
+			
 			$TOT_Dif_1=$TOT_ProdRealA-$TOT_ProdRev_1;
-			$TOT_Cumpli_1=0;
+			
 			if($TOT_ProdRev_1!=0)
 				$TOT_Cumpli_1=($TOT_ProdRealA*100)/$TOT_ProdRev_1;
 		}		
@@ -1191,7 +1192,9 @@ function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 		//	echo "FECHA INICIO PROCESO: ".$FechaIniProc."<BR>";
 		$Consulta = "select fecha_desconexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoH." 00:00:00' and '".$FechaFinTurnoH." 23:59:59' order by fecha_conexion asc";
 		//echo $Consulta."<br>";
-		$RespFecha=mysqli_query($link, $Consulta);$timestamp2=0;
+		$RespFecha=mysqli_query($link, $Consulta);
+		$timestamp2=0;
+		$FechaFinProc="";
 		if($FilaFecha=mysqli_fetch_array($RespFecha))
 		{
 			$FechaFinProc = $FilaFecha["fecha_desconexion"];

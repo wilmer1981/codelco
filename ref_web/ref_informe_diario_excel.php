@@ -30,6 +30,9 @@ $FDesde = isset($_REQUEST["FDesde"])?$_REQUEST["FDesde"]:"";
 $FHasta = isset($_REQUEST["FHasta"])?$_REQUEST["FHasta"]:"";
 $Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 
+echo "FDesde:".$FDesde."<br>";
+echo "Buscar:".$Buscar."<br>";
+
 set_time_limit(15000);
 if($VisibleDivProceso=='S')
 	$VisibleDiv='hidden';
@@ -47,7 +50,7 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 ?>
 <html>
 <head>
-<title>Informe Diario Refiner�a Electrol�tica Excel</title>
+<title>Informe Diario Refiner&iacute;a Electrol&iacute;tica Excel</title>
 
 <script language="javascript" src="funciones/funciones_java.js"></script>
 <link href="estilos/ref_style.css" rel="stylesheet" type="text/css">
@@ -100,18 +103,30 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 	  <tr>
 	  <?php
 	  	//$Buscar='N';
+		$CC_ProdRealD = 0;
+		$CC_ProdRealA = 0;
+		$CC_ProdRev_0 = 0;
+		$Dif_0 = 0;
+		$Cumpli_0=0;
+		$CC_ProdRev_1=0;
+		$Dif_1=0;
+		$Cumpli_1=0;
+		$TOT_ProdRealD=0;
+		$TOT_ProdRealA=0;
+		$TOT_ProdRev_0=0;
+		$TOT_ProdRev_1=0;
 		if($Buscar=='S')
 		{	
 			$CC_ProdRealD = ProdAcumReal(18,1,'D',$FDesde,$link);
 			$CC_ProdRealA = ProdAcumReal(18,1,'A',$FDesde,$link);
 			$CC_ProdRev_0 = ProdRev('d_catodo_comercial',$FDesde,'D',0,$link);
 			$Dif_0=$CC_ProdRealD - $CC_ProdRev_0;
-			$Cumpli_0=0;
+			
 			if($CC_ProdRev_0!=0)
 	  			$Cumpli_0=($CC_ProdRealD*100)/$CC_ProdRev_0;
 			$CC_ProdRev_1=ProdRev('d_catodo_comercial',$FDesde,'A',1,$link);
 			$Dif_1=$CC_ProdRealA-$CC_ProdRev_1;
-			$Cumpli_1=0;
+			
 			if($CC_ProdRev_1!=0)
 	  			$Cumpli_1=($CC_ProdRealA*100)/$CC_ProdRev_1;
 			
@@ -133,6 +148,14 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 	    </tr>
 	  <tr>
 	  <?php
+	  	$DN_ProdRealD=0;
+	    $DN_ProdRealA=0;
+	    $DN_ProdRev_0=0;
+		$DN_ProdRev_1=0;
+	    $DN_Dif_0=0;
+		$DN_Dif_1=0;
+	    $DN_Cumpli_0=0;
+		$DN_Cumpli_1=0;	    
 	  	if($Buscar=='S')
 		{	
 	  		$DN_ProdRealD=round(ProdAcumReal(18,5,'D',$FDesde,$link),1);
@@ -140,13 +163,13 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 			$DN_ProdRev_0=round(ProdRev('a_catodo_comercial',$FDesde,'D',0,$link),1);
 			//echo $DN_ProdRealD."-".$DN_ProdRev_0."<br>";
 			$DN_Dif_0=$DN_ProdRealD-$DN_ProdRev_0;
-			$DN_Cumpli_0=0;
+			//$DN_Cumpli_0=0;
 			if($DN_ProdRev_0!=0)
 	  			$DN_Cumpli_0=($DN_ProdRealD*100)/$DN_ProdRev_0;
 			$DN_ProdRev_1=round(ProdRev('a_catodo_comercial',$FDesde,'A',1,$link),1);
 			//echo $DN_ProdRealD."-".$DN_ProdRev_1."<br>";
 			$DN_Dif_1=$DN_ProdRealA-$DN_ProdRev_1;
-			$DN_Cumpli_1=0;
+			//$DN_Cumpli_1=0;
 			if($DN_ProdRev_1!=0)
 	  			$DN_Cumpli_1=($DN_ProdRealA*100)/$DN_ProdRev_1;
 
@@ -168,6 +191,14 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 	    </tr>
 	  <tr>
 	  <?php
+	  	$LD_ProdRealD=0;
+	  $LD_ProdRealA=0;
+	  $LD_ProdRev_0=0;
+	  $LD_ProdRev_1=0;
+	  $LD_Dif_0=0;
+	  $LD_Dif_1=0;
+	  $LD_Cumpli_0=0;
+	  $LD_Cumpli_1=0;  
 	  	if($Buscar=='S')
 		{	
 	  		$LD_ProdRealD=round(ProdAcumReal(48,'','D',$FDesde,$link),1);
@@ -175,13 +206,13 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 			$LD_ProdRev_0=round(ProdRev('desp_lamina',$FDesde,'D',0,$link),1);
 			//echo $DN_ProdRealD."-".$DN_ProdRev_0."<br>";
 			$LD_Dif_0=$LD_ProdRealD-$LD_ProdRev_0;
-			$LD_Cumpli_0=0;
+			//$LD_Cumpli_0=0;
 			if($LD_ProdRev_0!=0)
 	  			$LD_Cumpli_0=($LD_ProdRealD*100)/$LD_ProdRev_0;
 			$LD_ProdRev_1=round(ProdRev('desp_lamina',$FDesde,'A',1,$link),1);
 			//echo $DN_ProdRealD."-".$DN_ProdRev_1."<br>";
 			$LD_Dif_1=$LD_ProdRealA-$LD_ProdRev_1;
-			$LD_Cumpli_1=0;
+			//$LD_Cumpli_1=0;
 			if($LD_ProdRev_1!=0)
 	  			$LD_Cumpli_1=($LD_ProdRealA*100)/$LD_ProdRev_1;
 
@@ -203,14 +234,16 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 	    </tr>
 	  <tr>
 	  <?php
+	  	$TOT_Dif_0=0;
+	    $TOT_Dif_1=0;
+	    $TOT_Cumpli_0=0;
+	    $TOT_Cumpli_1=0;
 	  	if($Buscar=='S')
 		{	
 	  		$TOT_Dif_0=$TOT_ProdRealD-$TOT_ProdRev_0;
-			$TOT_Cumpli_0=0;
 			if($TOT_ProdRev_0!=0)
 				$TOT_Cumpli_0=($TOT_ProdRealD*100)/$TOT_ProdRev_0;
 			$TOT_Dif_1=$TOT_ProdRealA-$TOT_ProdRev_1;
-			$TOT_Cumpli_1=0;
 			if($TOT_ProdRev_1!=0)
 				$TOT_Cumpli_1=($TOT_ProdRealA*100)/$TOT_ProdRev_1;
 		}		
@@ -266,14 +299,15 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
       </tr>
 	  <?php
 	  //$Buscar='N';
-	  $TOTPesoGrupoCom=0;
-	  $TOTPesoGrupoDes=0;
+	  	$AcumTpoRealConex=0; //WSO
+	  $AcumKAHEfect=0; //WSO
+	  $TOTPesoGrupoCom=0;//WSO
+	  $TOTPesoGrupoDes=0;//WSO
 	  $AcumCubasCom=0;
-	  $AcumTpoRealConex=0;
-	  $AcumKAHEfect=0;
 	  $AcumCorrKAH=0;
 	  $AcumEfiCte=0;
 	  $AcumEfiTpo=0;
+	  $EfiCte=0;
 	if($Buscar=='S')
 	{	
   		$Consulta="SELECT cod_subclase,valor_subclase1 from proyecto_modernizacion.sub_clase where cod_clase = '10005'";
@@ -315,7 +349,7 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 		 }
 		 reset($ArrCircGrup);
 		 ksort($ArrCircGrup);
-		 foreach ($ArrCircGrup as $Grupo => $Circuito) {
+		foreach ($ArrCircGrup as $Grupo => $Circuito) {
 		
 			$Circuito=$Circuito;
 			//echo "Circuito: ".$Circuito."<br>";
@@ -372,12 +406,14 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 				$EficTpo=0;	
 				if($TpoDescXRenovAnt+$TpoDescXRectif+$TpoRealConex+$TpoDescXParcial>0)	
 					$EficTpo=($TpoRealConex/($TpoDescXRenovAnt+$TpoDescXParcial+$TpoDescXRectif+$TpoRealConex))*100;
+				$Pond_KAH_EFIC=0;
 				if($Valor2!=''&&$Grupo!='08'&&$Grupo!='49')	
 					//$Pond_KAH_EFIC=$Pond_KAH_EFIC+($KAHEfect*(($Valor1/$Valor2)*100));
 					$Pond_KAH_EFIC=$Pond_KAH_EFIC+($KAHEfect*($EfiCte));
 					
 				//echo "Pond_KAH_EFIC: ".$Pond_KAH_EFIC."<br><BR>";
 				//if($Grupo!='07'&&$Grupo!='08'&&$Grupo!='49')
+				$Pond_KAH_EFIC_TPO=0;
 				if($Grupo!='08'&&$Grupo!='49')	
 					$Pond_KAH_EFIC_TPO=$Pond_KAH_EFIC_TPO+($KAHEfect*$EficTpo);
 			  }
@@ -514,8 +550,8 @@ $FechaTit=$FechaTit[2]."/".$FechaTit[1]."/".$FechaTit[0];
 				<?php
 					 //echo "Circuito: ".$Circuito."<BR>";
 					 //echo "Inicio: ".date('Y-m-d G:i:s')."<br>";
-					 for($i=1;$i<=$Dia;$i++)
-					 {
+					for($i=1;$i<=$Dia;$i++)
+					{
 						 //echo "----------------------DIA: ".$i."<BR>";
 						 $FechaIniTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$i,$FechaSep[0]));	
 	     				 $FechaFinTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$i+1,$FechaSep[0]));
@@ -751,7 +787,8 @@ function ProdRev($NomSubProd,$FechaCons,$Tipo,$Rev,$link)
 
 	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Resp);
-	return($Fila["peso_rev"]);
+	$peso_rev = isset($Fila["peso_rev"])?$Fila["peso_rev"]:0;
+	return($peso_rev);
 }
 function ObtieneCircuito($Grupo,$link)
 {
@@ -784,7 +821,7 @@ function ObtienePesoProdGrupoCom($CodProd,$CodSubProd,$Grupo,$FechaCons,$link)
 	$RespPeso=mysqli_query($link, $Consulta);
 	$FilaPeso=mysqli_fetch_array($RespPeso);
 	//echo "PesoProd:".$FilaPeso[peso_prod]."<br>"; 
-	$peso_prod =isset($Fila["peso_prod"])?$Fila["peso_prod"]:"";
+	$peso_prod = isset($FilaPeso["peso_prod"])?$FilaPeso["peso_prod"]:'';
 	if($peso_prod!='')
 		return($FilaPeso["peso_prod"]/1000);
 	else
@@ -796,7 +833,7 @@ function ObtieneNumCubas2($CodProd,$CodSubProd,$Grupo,$FechaCons,$link)
 	$FechaSep=explode('-',$FechaCons);
 	$FechaIniTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2] ,$FechaSep[0]));	
 	$FechaFinTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],($FechaSep[2] +1),$FechaSep[0]));
-	$Consulta = "SELECT count(*) as cubas_parcial from sec_web.produccion_catodo ";
+	$Consulta = "select count(*) as cubas_parcial from sec_web.produccion_catodo ";
 	$Consulta.=" where (fecha_produccion between '".$FechaIniTurno."' and '".$FechaFinTurno."') and CONCAT(fecha_produccion,' ',hora) BETWEEN '".$FechaIniTurno." 08:00:00' and '".$FechaFinTurno." 07:59:59'";
 	$Consulta.=" and cod_producto='".$CodProd."' and cod_subproducto='".$CodSubProd."' and cod_grupo='".$Grupo."' and cod_lado = 'P' group by cod_producto,cod_subproducto,cod_grupo ";
 	//if($Grupo=='33')
@@ -822,7 +859,7 @@ function ObtieneNumCubas2($CodProd,$CodSubProd,$Grupo,$FechaCons,$link)
 		$CubasTotal=0;
 	return($CubasParcial+$CubasTotal);
 }
-function ObtieneNumCubas($FechaCons,$Grupo,$Tipo)
+function ObtieneNumCubas($FechaCons,$Grupo,$Tipo,$link)
 {
 	$Cubas=0;
 	$FechaSep=explode('-',$FechaCons);
@@ -840,10 +877,10 @@ function ObtieneNumCubas($FechaCons,$Grupo,$Tipo)
 				$Cubas=$FilaCubas["num_catodos_celdas"];
 			break;
 			case 2:
-				$Cubas=$FilaCubas["num_cubas_tot"]-$FilaCubas["cubas_descobrizacion"];
+				$Cubas=$FilaCubas["num_cubas_tot"]-$FilaCubas["fecha_desconexion"];
 			break;
 			case 3:
-				$Cubas=$FilaCubas["cubas_descobrizacion"];
+				$Cubas=$FilaCubas["fecha_desconexion"];
 			break;
 		}
 	}
@@ -862,10 +899,10 @@ function ObtieneNumCubas($FechaCons,$Grupo,$Tipo)
 					$Cubas=$FilaCubas["num_catodos_celdas"];
 				break;
 				case 2:
-					$Cubas=$FilaCubas["num_cubas_tot"]-$FilaCubas["cubas_descobrizacion"];
+					$Cubas=$FilaCubas["num_cubas_tot"]-$FilaCubas["fecha_desconexion"];
 				break;
 				case 3:
-					$Cubas=$FilaCubas["cubas_descobrizacion"];
+					$Cubas=$FilaCubas["fecha_desconexion"];
 				break;
 			}
 			//echo "CUBAS: ".$Cubas."<br>";
@@ -874,7 +911,7 @@ function ObtieneNumCubas($FechaCons,$Grupo,$Tipo)
 	//echo $Grupo."  Cubas: ".$Cubas."<br>";
 	return($Cubas);
 }
-function ObtenerPorcRestos($FechaCons,$Grupoz,$link)
+function ObtenerPorcRestos($FechaCons,$Grupo,$link)
 {
 	$FechaSep=explode('-',$FechaCons);
 	$FechaIniTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-1,$FechaSep[0]));	
@@ -922,8 +959,9 @@ function ObtenerKAHEfect($Grupo,$FechaCons,$link)
 	//$FechaIniTurno='2010-07-25';
 	//$FechaFinTurno='2010-07-26';
     $ObtenerKAHEfect=0;$Conect1=0;$Conect2=0;$Parciales=0;
+	$Conect5=0;
     $Consulta = "select kahdirc,fecha_conexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurno." 00:00:00' and '".$FechaFinTurno." 07:59:59'";
- 	//if($Grupo=='15')   
+ 	//if($Grupo=='48')   
 	//	echo $Consulta."<br>";
 	$RespKAH=mysqli_query($link, $Consulta);
     if($FilaKAH=mysqli_fetch_array($RespKAH))
@@ -935,14 +973,14 @@ function ObtenerKAHEfect($Grupo,$FechaCons,$link)
 	$FechaFinTurno =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]+1,$FechaSep[0]));
 	//$FechaIniTurno='2010-08-01';
 	//$FechaFinTurno='2010-08-02';
-    $Consulta = "SELECT kahdird from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurno." 07:59:59' and '".$FechaFinTurno." 07:59:59'";
+    $Consulta = "select kahdird from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurno." 07:59:59' and '".$FechaFinTurno." 07:59:59'";
     //if($Grupo=='15')
     //	echo $Consulta."<br>";
 	$RespKAH=mysqli_query($link, $Consulta);
     if($FilaKAH=mysqli_fetch_array($RespKAH))
         $Conect2 = $FilaKAH["kahdird"]/10;
-    $Consulta = "SELECT kahdird,kahdirc from sec_web.cortes_refineria where tipo_desconexion in ('P','R') and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurno2."'  and '".$FechaFinTurno." 23:59:59'";
-    //if($Grupo=='07')
+    $Consulta = "select kahdird,kahdirc from sec_web.cortes_refineria where tipo_desconexion in ('P','R') and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurno2."'  and '".$FechaFinTurno." 23:59:59'";
+    //if($Grupo=='48')
 	//	echo $Consulta."<br>";
 	$RespKAH=mysqli_query($link, $Consulta);$Parciales=0;
     while($FilaKAH=mysqli_fetch_array($RespKAH))
@@ -952,26 +990,27 @@ function ObtenerKAHEfect($Grupo,$FechaCons,$link)
 		$Conect3 = $FilaKAH["kahdird"]/10;
 		$Conect4 = $FilaKAH["kahdirc"]/10;
 		$Parciales = $Parciales + abs($Conect3 - $Conect4);
-     }
-	 /*if($Grupo=='07')
+    }
+	 if($Grupo=='07')
 	 {
 		$FechaIni =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-7,$FechaSep[0]));
 		$FechaFin =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-1,$FechaSep[0]));
 		
 		$Consulta = "select kahdird,kahdirc from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIni." 00:00:00' and '".$FechaFin." 07:59:59'";
-		echo $Consulta."<br>";
-		$RespKAH=mysqli_query($link, $Consulta);$Conect5=0;
+		//echo $Consulta."<br>";
+		$RespKAH=mysqli_query($link, $Consulta);
+		$Conect5=0;
 		if($FilaKAH=mysqli_fetch_array($RespKAH))
 		{
-			$Conect3 = $FilaKAH[kahdird]/10;
-	 		$Conect4 = $FilaKAH[kahdirc]/10;
+			$Conect3 = $FilaKAH["kahdird"]/10;
+	 		$Conect4 = $FilaKAH["kahdirc"]/10;
 			$Conect5=$Conect4-$Conect3;
 	 	}
-	 }*/
-	 //if($Grupo=='07')
-	 //	echo $Conect2." < ".$Conect1."<br>";
-	 if($Conect2<$Conect1)
-	 {
+	 }
+	 //if($Grupo=='48')
+	 //	echo $Conect2." < ".$Conect1." Parciales ".$Parciales."<br>";
+	if($Conect2<$Conect1)
+	{
 	  	if($Conect1>100000)
 		{
 			$ObtenerKAHEfect=abs((1000000-abs($Conect1))- abs($Parciales) - abs($Conect5) + $Conect2);		
@@ -982,23 +1021,24 @@ function ObtenerKAHEfect($Grupo,$FechaCons,$link)
 			//echo "KAHEfect: abs(".(100000-abs($Conect1)).")- abs(".$Conect1.")- abs(".$Parciales.") - abs(".$Conect5.")<br>";
 			$ObtenerKAHEfect=abs((100000-abs($Conect1))- abs($Parciales) - abs($Conect5) + $Conect2);
 		}
-		//if($Grupo=='15')
-		// echo "KAHEfect: abs(abs(".$Conect2.")- abs(".$Conect1.")- abs(".$Parciales.") - abs(".$Conect5.")<br>";
+		//if($Grupo=='48')
+		 //echo "KAHEfect: abs(abs(".$Conect2.")- abs(".$Conect1.")- abs(".$Parciales.") - abs(".$Conect5.")<br>";
 	 
-	 }
-     else
+	}
+    else
 	 	$ObtenerKAHEfect = abs(abs($Conect2) - abs($Conect1) - abs($Parciales) - abs($Conect5));
 
 	 //echo $ObtenerKAHEfect."<br>";
   	 //PARA LOS GRUPOS ESPECIALES DEL RECTIFICADOR 4 MULTIPLICAR VALOR X 10
 	 $Multiplicar='N';
-	 $Consulta="SELECT valor_subclase1 as grupos from proyecto_modernizacion.sub_clase where cod_clase = '10006' and cod_subclase='1'";
+	 $Consulta="select valor_subclase1 as grupos from proyecto_modernizacion.sub_clase where cod_clase = '10006' and cod_subclase='1'";
 	 //echo $Consulta."<br>";
 	 $RespGE=mysqli_query($link, $Consulta);
 	 while($FilaGE=mysqli_fetch_array($RespGE))
 	 {
 	 	$Valores=explode(',',$FilaGE["grupos"]);
-		foreach ($Valores as $C => $GE){
+		foreach($Valores as $c => $GE)
+	 	{
 			//echo "if(intval(".$GE.")==intval(".$Grupo."))<br>";
 			if(intval($GE)==intval($Grupo))
 			{
@@ -1028,7 +1068,7 @@ function ObtenerTpoDescXRenov($Grupo,$FechaCons,$Tipo,$link)//TIPO:A FECHA ACTUA
 	}	
 	$Consulta="select timediff(fecha_conexion,fecha_desconexion) as hora from sec_web.cortes_refineria ";
 	$Consulta.="where fecha_desconexion between '".$FechaIniTurno." 00:00:00' and '".$FechaFinTurno." 07:59:59' and cod_grupo='".$Grupo."' and tipo_desconexion = 'C'";
-	//if($Grupo=="32")
+	//if($Grupo=="20")
 	//	echo $Consulta."<br>";
 	$Resp=mysqli_query($link, $Consulta);
 	if($Fila=mysqli_fetch_array($Resp))
@@ -1040,7 +1080,7 @@ function ObtenerTpoDescXRenov($Grupo,$FechaCons,$Tipo,$link)//TIPO:A FECHA ACTUA
 		//$Valor=$Hora.".".round((($Min*100)/60)/10);
 		$Valor=intval($Hora)+($Min/60);
 		
-		/*if($Grupo=="32")
+		/*if($Grupo=="20")
 		{
 			echo "Hora:".$Hora."<br>";
 			echo "Min:".$Min."<br>";
@@ -1064,7 +1104,7 @@ function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 	
 	$FechaSep=explode('-',$FechaCons);
 	$FechaIniTurnoD =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-11,$FechaSep[0]));	
-	$FechaFinTurnoD =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-7,$FechaSep[0]));
+	$FechaFinTurnoD =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-5,$FechaSep[0]));
 	$FechaIniTurnoH =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2],$FechaSep[0]));	
 	$FechaFinTurnoH =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]+1,$FechaSep[0]));
 
@@ -1073,19 +1113,21 @@ function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 	$RespFecha=mysqli_query($link, $Consulta);
     if($FilaFecha=mysqli_fetch_array($RespFecha))
 	{	
-        $FechaIniProc = $FilaFecha[fecha_conexion];
+        $FechaIniProc = $FilaFecha["fecha_conexion"];
 		$FechaHora=explode(' ',$FechaIniProc);
 		$Fecha1=explode('-',$FechaHora[0]);
 		$Hora1=explode(':',$FechaHora[1]);
 		$timestamp1 = mktime($Hora1[0], $Hora1[1], 0, $Fecha1[1], $Fecha1[2], $Fecha1[0]);
-		//if($Grupo=='03')	
+		//if($Grupo=='20')	
 		//	echo "FECHA INICIO PROCESO: ".$FechaIniProc."<BR>";
 		$Consulta = "select fecha_desconexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoH." 00:00:00' and '".$FechaFinTurnoH." 23:59:59' order by fecha_conexion asc";
 		//echo $Consulta."<br>";
-		$RespFecha=mysqli_query($link, $Consulta);$timestamp2=0;
+		$RespFecha=mysqli_query($link, $Consulta);
+		$timestamp2=0;
+		$FechaFinProc="";
 		if($FilaFecha=mysqli_fetch_array($RespFecha))
 		{
-			$FechaFinProc = $FilaFecha[fecha_desconexion];
+			$FechaFinProc = $FilaFecha["fecha_desconexion"];
 			$FechaHora=explode(' ',$FechaFinProc);
 			$Fecha2=explode('-',$FechaHora[0]);
 			$Hora2=explode(':',$FechaHora[1]);
@@ -1093,13 +1135,13 @@ function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 			$timestamp2 = mktime($Hora2[0], $Hora2[1], 0, $Fecha2[1], $Fecha2[2], $Fecha2[0]);
 		
 		}
-		//if($Grupo=='03')	
+		//if($Grupo=='20')	
 		//	echo "FECHA FIN PROCESO: ".$FechaFinProc."<BR>";
 
 		//echo $timestamp1." - ".$timestamp2."<br>";
 		$diferencia = abs($timestamp1 - $timestamp2);
 		$resultado = diferencia_fechas($diferencia);
-		//if($Grupo=='03')
+		//if($Grupo=='20')
 		//	echo "RESULTADO: ".$resultado."<BR>";
 			
 		$Hora3=explode(':',$resultado);	
@@ -1111,7 +1153,7 @@ function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 		
 		$Consulta="select fecha_conexion,fecha_desconexion,timediff(fecha_conexion,fecha_desconexion) as hora from sec_web.cortes_refineria ";
 		$Consulta.="where fecha_desconexion between '".$FechaIniProc."' and '".$FechaFinProc."' and cod_grupo='".$Grupo."' and tipo_desconexion in ('R','P')";
-		//if($Grupo=='04')
+		//if($Grupo=='40')
 		//	echo $Consulta."<br>";
 		$Resp=mysqli_query($link, $Consulta);$SumHora=0;$SumMin=0;
 		while($Fila=mysqli_fetch_array($Resp))
@@ -1123,6 +1165,8 @@ function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 			$SumMin=$SumMin+$Min;
 		}
 		$CantMin2=intval($SumHora)*60 + intval($SumMin);
+		$SumHora2=0;//WSO
+		$SumMin2=0;//WSO
 		if($Grupo=='07')
 		{
 			$FechaHora=explode(' ',$FechaIniTurnoH);
@@ -1135,7 +1179,8 @@ function ObtenerTpoRealConex($Grupo,$FechaCons,$link)
 			$Consulta="select fecha_conexion,fecha_desconexion,timediff(fecha_conexion,fecha_desconexion) as hora from sec_web.cortes_refineria ";
 			$Consulta.="where fecha_desconexion between '".$FechaIni." 00:00:00' and '".$FechaFin." 07:59:59' and cod_grupo='".$Grupo."' and tipo_desconexion in ('C')";
 			//echo $Consulta."<br>";
-			$Resp=mysqli_query($link, $Consulta);$SumHora2=0;$SumMin2=0;
+			$Resp=mysqli_query($link, $Consulta);
+			$SumHora2=0;$SumMin2=0;
 			while($Fila=mysqli_fetch_array($Resp))
 			{
 				$HoraMin=explode(':',$Fila["hora"]);
@@ -1202,14 +1247,17 @@ function ObtenerTpoDescXParcial($Grupo,$FechaCons,$link)
 	$FechaFinTurnoH =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]+1,$FechaSep[0]));
 
     $Consulta = "select fecha_conexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoD." 00:00:00' and '".$FechaFinTurnoD." 23:59:59' order by fecha_conexion asc";
-    //echo $Consulta."<br>";
-	$RespFecha=mysqli_query($link, $Consulta);
+    //if($Grupo=='20')
+    //	echo $Consulta."<br>";
+    $RespFecha=mysqli_query($link, $Consulta);
+	$FechaIniProc="";
     if($FilaFecha=mysqli_fetch_array($RespFecha))
         $FechaIniProc = $FilaFecha["fecha_conexion"];
     $Consulta = "select fecha_desconexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoH." 00:00:00' and '".$FechaFinTurnoH." 23:59:59' order by fecha_conexion asc";
-    //if($Grupo=='04')
-		//echo $Consulta."<br>";
+    //if($Grupo=='40')
+    //		echo $Consulta."<br>";
 	$RespFecha=mysqli_query($link, $Consulta);
+	$FechaFinProc="";
     if($FilaFecha=mysqli_fetch_array($RespFecha))
         $FechaFinProc = $FilaFecha["fecha_desconexion"];
 	if($FechaIniProc!=''&&$FechaFinProc!='')
@@ -1241,18 +1289,20 @@ function ObtenerTpoDescXRectif($Grupo,$FechaCons,$link)
 	$Valor=0;
 	$FechaSep=explode('-',$FechaCons);
 	$FechaIniTurnoD =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-11,$FechaSep[0]));	
-	$FechaFinTurnoD =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-7,$FechaSep[0]));
+	$FechaFinTurnoD =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]-5,$FechaSep[0]));
 	$FechaIniTurnoH =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2],$FechaSep[0]));	
 	$FechaFinTurnoH =date("Y-m-d", mktime(1,0,0,$FechaSep[1],$FechaSep[2]+1,$FechaSep[0]));
 
     $Consulta = "select fecha_conexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoD." 00:00:00' and '".$FechaFinTurnoD." 23:59:59' order by fecha_conexion asc";
     //echo $Consulta."<br>";
 	$RespFecha=mysqli_query($link, $Consulta);
+	$FechaIniProc="";
     if($FilaFecha=mysqli_fetch_array($RespFecha))
         $FechaIniProc = $FilaFecha["fecha_conexion"];
     $Consulta = "select fecha_desconexion from sec_web.cortes_refineria where tipo_desconexion='C' and cod_grupo='".$Grupo."' and fecha_desconexion between '".$FechaIniTurnoH." 00:00:00' and '".$FechaFinTurnoH." 23:59:59' order by fecha_conexion asc";
     //echo $Consulta."<br>";
 	$RespFecha=mysqli_query($link, $Consulta);
+	$FechaFinProc="";
     if($FilaFecha=mysqli_fetch_array($RespFecha))
         $FechaFinProc = $FilaFecha["fecha_desconexion"];
 	if($FechaIniProc!=''&&$FechaFinProc!='')
@@ -1288,8 +1338,6 @@ function diferencia_fechas($diferencia)
  $cadena = $horas.":".$minutos.":".$segundos;
  return $cadena;
 }
-
-
 echo "<script language='javascript'>";
 if($Mensaje!='')
 	echo "alert('".$Mensaje."');";
