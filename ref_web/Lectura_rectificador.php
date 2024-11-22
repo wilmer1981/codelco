@@ -1,7 +1,11 @@
-<?php include("../principal/conectar_ref_web.php");    
-   $ano1=substr($fecha,0,4);
-   $mes1=substr($fecha,5,2);
-   $dia1=substr($fecha,8,2)
+<?php include("../principal/conectar_ref_web.php"); 
+    $fecha     = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
+	$activar   = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+      
+    $ano1=substr($fecha,0,4);
+    $mes1=substr($fecha,5,2);
+    $dia1=substr($fecha,8,2)
 ?>
 
 
@@ -50,18 +54,23 @@ function Modificar(fecha,turno)
                 <div align="center"></div></TD>
             </TR>
             <?php
-			   $consulta="select lectura_rectificador from ref_web.detalle_produccion where fecha='".$fecha."'";
+			   $consulta ="select lectura_rectificador from ref_web.detalle_produccion where fecha='".$fecha."'";
   			   $respuesta=mysqli_query($link, $consulta);
-			   $row = mysqli_fetch_array($respuesta);
+			   $row      = mysqli_fetch_array($respuesta);
+			   $lectura_rectificador = isset($row['lectura_rectificador'])?$row['lectura_rectificador']:0;
+			   
  			   $sql="SELECT  SUBDATE('".$fecha."',INTERVAL '1' DAY) as fecha_ant";
 			   $result=mysqli_query($link, $sql);
 			   $row3 = mysqli_fetch_array($result);
-			   $consulta2="select lectura_rectificador from ref_web.detalle_produccion where fecha='".$row3[fecha_ant]."'";
-			   $respuesta2=mysqli_query($link, $consulta2);
-			   $row2 = mysqli_fetch_array($respuesta2);
+			   
+			    $consulta2 ="select lectura_rectificador from ref_web.detalle_produccion where fecha='".$row3['fecha_ant']."'";
+			    $respuesta2=mysqli_query($link, $consulta2);
+			    $row2      = mysqli_fetch_array($respuesta2);
+			    $lectura_rectificador2 = isset($row2['lectura_rectificador'])?$row2['lectura_rectificador']:0;
+				
 			   echo'<TR class=lcolor> ';
-                    echo'<TD ><div align="center"><B>'.$row[lectura_rectificador].'</B></div></TD>';
-					 $promedio=number_format((($row[lectura_rectificador]-$row2[lectura_rectificador])/24),"2",".","");
+                    echo'<TD ><div align="center"><B>'.$lectura_rectificador.'</B></div></TD>';
+					 $promedio = number_format((($lectura_rectificador - $lectura_rectificador2)/24),"2",".","");
                     echo'<TD ><div align="center"><B>'.$promedio.'</B></div></TD>';                     
                      /*echo"<TD ><div align='center'><a href=JavaScript:Validar(".$fecha.");  ><img border=0 src='archivos/papelera.gif' width='15' height='15'></A></div></TD>";*/
                      echo"<TD ><div align='center'><a href=JavaScript:Modificar(".$fecha.");><img border=0 src='archivos/modificar.gif' width='15' height='15'></A></div></TD>";
@@ -73,10 +82,10 @@ function Modificar(fecha,turno)
 <br>
 </FORM>
 <?php
-	if (isset($activar))
+	if ($activar!="")
 	{
 		echo '<script language="JavaScript">';		
-		if (isset($mensaje))
+		if ($mensaje!="")
 			echo 'alert("'.$mensaje.'");';		
 			
 				

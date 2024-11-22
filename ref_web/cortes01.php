@@ -72,11 +72,11 @@ if ($modificar=='S')
 				if ($detalle[3]=='')
 				    {$detalle[3]=0;}
 			}
-			var_dump($detalle);
+			//var_dump($detalle);
 					
 					   $actualizar1 = "UPDATE ref_web.cortocircuitos SET cortos_nuevo = '".$detalle[2]."', cortos_semi = '".$detalle[3]."'";
 		               $actualizar1.= " WHERE cod_grupo = '".$detalle[0]."' and fecha='$fecha' ";
-					   echo "<br><br>".$actualizar1."<br>";
+					 //  echo "<br><br>".$actualizar1."<br>";
 		               mysqli_query($link, $actualizar1);
 					   //echo $actualizar1;	
 						//try { 					   
@@ -84,7 +84,7 @@ if ($modificar=='S')
 					   $actualizar.=" cordon='".$detalle[9]."', rigido='".$detalle[10]."', abierto='".$detalle[11]."', abierto_c_barro='".$detalle[12]."',cerrado='".$detalle[13]."',cristalizado2='".$detalle[14]."',puntual='".$detalle[15]."', ";
 					   $actualizar.="extendido='".$detalle[16]."',fino='".$detalle[17]."', estampa='".$detalle[18]."', dispersa='".$detalle[19]."',remache='".$detalle[20]."',oreja='".$detalle[21]."', superior='".$detalle[22]."', inferior='".$detalle[23]."', lateral='".$detalle[24]."', Obs_gen='".$detalle[25]."' ";
 		               $actualizar.= " WHERE cod_grupo = '".$detalle[0]."' and fecha='$fecha' ";
-					   echo "<br>actualizar:".$actualizar."<br>";
+					  // echo "<br>actualizar:".$actualizar."<br>";
 		               mysqli_query($link, $actualizar);
 					  	
 					//} catch (mysqli_sql_exception $e) { 
@@ -94,7 +94,7 @@ if ($modificar=='S')
 						
 					    //echo $insertar2."<br>";
 					    $Mensaje = "Los datos fueron modificados correctamente";						
-		               // header("Location:cortes2_aux.php?fecha=$fecha&Mensaje=".$Mensaje);
+		               header("Location:cortes2_aux.php?fecha=$fecha&Mensaje=".$Mensaje);
 					
         }			
 		

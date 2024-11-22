@@ -105,6 +105,14 @@ var  f=document.frmPrincipal;
         <table width="720" border="1"  cellspacing="0" cellpadding="0" class="TablaInterior">
 <?php
       $color1=1;
+	  /*
+	  	if($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12')
+			$diaf ='31';				
+		if($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11')
+		   $diaf ='30';
+		if($mes1=='02')
+		   $diaf ='29';*/
+	   
      $fecha=$ano1.'-'.$mes1.'-'.$dia1;
      $borra_tmp="delete from ref_web.tmp_cir_electrolitico";
 	 mysqli_query($link, $borra_tmp);
@@ -160,7 +168,7 @@ var  f=document.frmPrincipal;
 		else {echo '<td width="37" align="center" class="detalle02">'.$row["cod_grupo"].'&nbsp;</td>';}
 		$consulta_fecha="select max(fecha) as fecha from ref_web.cortocircuitos where cod_grupo='".$row["cod_grupo"]."' and fecha <='".$fecha."' ";
 		//if($row["cod_grupo"]=='7A' || $row["cod_grupo"]== '7B')
-		//	echo "maxfecha".$consulta_fecha."<br>";
+		echo "maxfecha:".$consulta_fecha."<br>";
 		$rs_fecha = mysqli_query($link, $consulta_fecha);
 	    $row_fecha = mysqli_fetch_array($rs_fecha);
 		$fecha = isset($row_fecha["fecha"])?$row_fecha["fecha"]:"0000-00-00";

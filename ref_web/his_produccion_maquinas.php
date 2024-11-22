@@ -1,10 +1,10 @@
 <?php include("../principal/conectar_ref_web.php"); 
     $proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
-	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-	$fecha2   = isset($_REQUEST["fecha2"])?$_REQUEST["fecha2"]:"";
-	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
-	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
-	$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
+	$fecha2   = isset($_REQUEST["fecha2"])?$_REQUEST["fecha2"]:date("Y-m-d");
+	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$dia1   = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:date("d");
 
 ?>
 

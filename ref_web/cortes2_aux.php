@@ -829,10 +829,10 @@ function ModificarReferencial()
 												     $rs3 = mysqli_query($link, $consulta_dias);
 												     $row2 = mysqli_fetch_array($rs3);
 													 if($wsgrupo=='49')													 
-												     	$consulta_turno="select distinct cod_concepto as concepto   from sec_web.renovacion_prog_prod where fecha_renovacion = '".$row2[fecha_renovacion]."' and electro_win like '%".$row["cod_grupo"]."%' and cod_concepto not in ('D')";
+												     	$consulta_turno="select distinct cod_concepto as concepto   from sec_web.renovacion_prog_prod where fecha_renovacion = '".$row2['fecha_renovacion']."' and electro_win like '%".$row["cod_grupo"]."%' and cod_concepto not in ('D')";
 												     	else
 														{
-													 	   $consulta_turno="select distinct cod_concepto as concepto   from sec_web.renovacion_prog_prod where fecha_renovacion = '".$row2[fecha_renovacion]."' and ";
+													 	   $consulta_turno="select distinct cod_concepto as concepto   from sec_web.renovacion_prog_prod where fecha_renovacion = '".$row2['fecha_renovacion']."' and ";
 														   if($row["cod_grupo"]=='7A' || $row["cod_grupo"]=='7B')
 														   	  $consulta_turno.=" cod_grupo = '07' and cod_concepto not in ('D')";
 															  else

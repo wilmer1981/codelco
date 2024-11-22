@@ -5,7 +5,7 @@ $Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 $cmbtema     = isset($_REQUEST["cmbtema"])?$_REQUEST["cmbtema"]:"";
 $fecha       = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 
-$tema   = isset($_REQUEST["tema"])?$_REQUEST["tema"]:"";
+$tema                    = isset($_REQUEST["tema"])?$_REQUEST["tema"]:"";
 $cod_tipo_procedimiento  = isset($_REQUEST["cod_tipo_procedimiento"])?$_REQUEST["cod_tipo_procedimiento"]:"";
 $cod_procedimiento       = isset($_REQUEST["cod_procedimiento"])?$_REQUEST["cod_procedimiento"]:"";
 $procedimiento           = isset($_REQUEST["procedimiento"])?$_REQUEST["procedimiento"]:"";
@@ -21,7 +21,7 @@ $hasta   = isset($_REQUEST["hasta"])?$_REQUEST["hasta"]:"";
 	{
 		$Insertar = "INSERT INTO ref_web.procedimientos (COD_TIPO_PROCEDIMIENTO,PROCEDIMIENTO, DESDE, HASTA, VIGENCIA, FECHA,usuario)";
 		$Insertar.= " VALUES ('".$tema."','".$procedimiento."', '".$desde."', '".$hasta."', '1', '".$fecha."','".$nombre."')";
-		//echo $Insertar;
+		echo $Insertar;
         mysqli_query($link, $Insertar);
 		header ("location:ing_procedimientos.php?fecha=$fecha");
 	}

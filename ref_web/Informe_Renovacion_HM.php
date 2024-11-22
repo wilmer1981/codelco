@@ -5,7 +5,7 @@
 
 	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
 	//$opcion  = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
-
+	$mensaje   = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 	$fecha=ltrim($fecha);
     $ano1=substr($fecha,0,4);
 	$mes1=substr($fecha,5,2);
@@ -67,18 +67,27 @@ function Excel(f)
 	if ($opcion=="H")
 	  {
 	    if (strlen($mes1)==1)
-		   {$mes1='0'.$mes1;}  
+		{$mes1='0'.$mes1;}  
 	    $fecha=$ano1.'-'.$mes1;
+		if($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12')
+			$diaf ='31';				
+		if($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11')
+		   $diaf ='30';
+		if($mes1=='02')
+		   $diaf ='29';
 		$i=1;
-		while ($i <= 31)
-		      {
+		//while ($i <= 31)
+		while ($i <= $diaf)
+		{
 			   echo '<tr>';
-			   if (strlen($i)==1)
-			       {$i='0'.$i;}
+			    if (strlen($i)==1)
+			    {
+					$i='0'.$i;
+				}
 			
 			   $consultat="select count(cod_grupo) total_filas from ref_web.renovacion_hm where fecha ='".$fecha."-".$i."'";
-			   $rsst = mysqli_query($link, $consultat);
-			   $rowst = mysqli_fetch_array($rsst);
+			   $rsst     = mysqli_query($link, $consultat);
+			   $rowst    = mysqli_fetch_array($rsst);
 			   $consulta="select * from ref_web.renovacion_hm where fecha ='".$fecha."-".$i."' order by cod_grupo asc ";
 			   $rss = mysqli_query($link, $consulta);
 			   if ($rows = mysqli_fetch_array($rss))
@@ -156,7 +165,7 @@ function Excel(f)
 </table>
 </form>
 <?php
-	if (isset($mensaje))
+	if ($mensaje!="")
 	{
 		echo '<script language="JavaScript">';		
 		echo 'alert("'.$mensaje.'");';			

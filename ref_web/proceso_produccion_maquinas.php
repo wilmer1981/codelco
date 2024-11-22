@@ -193,7 +193,7 @@ $txt_catodos_en_renovacion_c = isset($_REQUEST["txt_catodos_en_renovacion_c"])?$
 			}
 			header("Location:proceso_produccion_maquinas.php?proceso=B&fecha=".$fecha."");		 
      }
-	echo "<br>Fecha antes:".$fecha;
+	//echo "<br>Fecha antes:".$fecha;
     if ($fecha=='')
 	{
 		$fecha=$ano1."-".$mes1."-".$dia1;
@@ -206,14 +206,14 @@ $txt_catodos_en_renovacion_c = isset($_REQUEST["txt_catodos_en_renovacion_c"])?$
 	}		    
 	if ($proceso == "B")
 	{
-		echo "<br>proceso:".$proceso;
-		echo "<br>Fecha despues:".$fecha."<br>";
+		//echo "<br>proceso:".$proceso;
+		//echo "<br>Fecha despues:".$fecha."<br>";
 	    $ano1=substr($fecha,0,4);
 		$mes1=substr($fecha,5,2);
 		$dia1=substr($fecha,8,2);
         $consulta = "select * from ref_web.iniciales where fecha = '".$fecha."'";
 		$consulta .= " order by turno";
-		echo $consulta;
+		//echo $consulta;
 		$rs = mysqli_query($link, $consulta);
 		if ($row1 =mysqli_fetch_array($rs))
 		{
@@ -258,12 +258,12 @@ $txt_catodos_en_renovacion_c = isset($_REQUEST["txt_catodos_en_renovacion_c"])?$
 		}	
 		if($linea<>'')
 		{ 
-		 echo "<br>ok 1";
+		// echo "<br>ok 1";
 			 	header("location:ingreso_produccion_maquinas.php?mostrar=S".$linea);
 		}
 		else
 		{
-				echo "<br>ok 2";
+				//echo "<br>ok 2";
 			        $linea="&fecha=".$fecha;
 				    header("location:ingreso_produccion_maquinas.php?mostrar=S".$linea);
 		 }

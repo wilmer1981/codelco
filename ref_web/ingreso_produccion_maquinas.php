@@ -115,7 +115,7 @@ function Modificar(tipoa,fecha)
              case 'g':  var H = confirm("Desea guardar los datos");
                         if (H == true)
                         {
-							alert("me voy  para proceso: M y fecha:"+fecha);
+							//alert("me voy  para proceso: M y fecha:"+fecha);
 	                    	f.action = "proceso_produccion_maquinas.php?proceso=M"+"&fecha="+fecha;
     	                    f.submit();
                        }

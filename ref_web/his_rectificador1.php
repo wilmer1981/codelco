@@ -1,4 +1,10 @@
-<?php include("../principal/conectar_ref_web.php"); ?>
+<?php include("../principal/conectar_ref_web.php");
+	$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$campo   = isset($_REQUEST["campo"])?$_REQUEST["campo"]:"";
+	$fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
+	$ano1    = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1    = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+?>
 
 
 <html>
@@ -142,74 +148,90 @@ function Imprimir()
           </TR>
           <TR class=lcol> 
 		  <?php 
+
+				if(strlen($mes1)==1)
+					$mes1='0'.$mes1;
+				
+				if($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12')
+					$diab ='31';				
+				if($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11')
+				   $diab ='30';
+			    if($mes1=='02')
+				   $diab ='29';
+			   
 			    if ($proceso == "C")
-              	 {           
+              	{           
 				             
-							  $consulta="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha between '".$fecha."-01' and '".$fecha."-31' order by fecha asc";
-							  //echo $consulta;
-							  $respuesta = mysqli_query($link, $consulta);
-					          while ($row= mysqli_fetch_array($respuesta))
-						            {
-									  $meses=array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
-									  $dia=substr($row["fecha"],8,2);
-									  $mes=substr($row["fecha"],5,2);
-									  $ano=substr($row["fecha"],0,4);
-									  $cont=intval($mes);
-							          $mes1=$meses[$cont-1];
-	                                  $fecha2=$dia."-".$mes1;
-									  if ( $j==1)
-					         			{$color= "lcol";
-						    			 $j=0;}
-					      			  else{$color= "lcolver";
-							   		 $j=1;} //color fila
-					      			echo '<TR class='.$color.'>';
-									  echo "<td><div align='center'><font color='blue'>".$fecha2."&nbsp;</font></td>\n";
-									  echo "<td><div align='center'><font color='blue-red-white'>".$row[lectura_rectificador]."&nbsp;</font></td>\n";
-									  if ($dia=='01')
-									     {
-										   $mes_aux=intval($mes);
-										   if ($mes_aux==1)
-										      {
-											    $mes_aux=strval(12);
-												$ano_aux=strval(intval($ano-1));
-												$ano=$ano_aux;
-												$fecha_ini=$ano."-".$mes_aux."-01";
-												$fecha_ter=$ano."-".$mes_aux."-31";
-											  }
-										   else{$mes_aux=($mes_aux-1);
-										        $fecha_ini=$ano."-".$mes_aux."-01";
-												$fecha_ter=$ano."-".$mes_aux."-31";}
-										   $consulta2="select max(fecha) as fecha from ref_web.detalle_produccion where fecha between '$fecha_ini' and '$fecha_ter' ";
-										   $respuesta2 = mysqli_query($link, $consulta2);
-					                       $row2= mysqli_fetch_array($respuesta2);
-										   $consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha ='".$row2["fecha"]."' ";
-										   $respuesta_rect_ant = mysqli_query($link, $consulta_rect_ant);
-					                       $row_rect_ant= mysqli_fetch_array($respuesta_rect_ant); 
-										  }	
-										       
-										   else {$dia_aux=strval(intval($dia-1));
-										        $fecha_ini=$ano."-".$mes."-".$dia_aux;
-												$consulta2="select max(fecha) as fecha from ref_web.detalle_produccion where fecha = '$fecha_ini' ";
-												$respuesta2 = mysqli_query($link, $consulta2);
-					                            $row2= mysqli_fetch_array($respuesta2);
-												$consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha = '$fecha_ini' ";
-												$respuesta_rect_ant = mysqli_query($link, $consulta_rect_ant);
-					                            $row_rect_ant= mysqli_fetch_array($respuesta_rect_ant); 	}   
-										   
-										   
-										 
-									  $consulta3="select lectura_rectificador from ref_web.detalle_produccion where fecha ='".$row2["fecha"]."'";
-									  $respuesta3 = mysqli_query($link, $consulta3);
-					                  $row3= mysqli_fetch_array($respuesta3);
-										   
-										
-									  $promedio=number_format((($row[lectura_rectificador]-$row_rect_ant[lectura_rectificador])/24),"2",".","");
-									  if ($promedio < 0)
-									     {$promedio = 0;
-										  }
-									  echo "<td><div align='left'>$promedio&nbsp;</td>\n";
-									  echo "</tr>\n";
-									 }
+					$consulta="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha between '".$fecha."-01' and '".$fecha."-$diab' order by fecha asc";
+					 //echo $consulta;
+					$respuesta = mysqli_query($link, $consulta);
+					$j=1;
+					while ($row= mysqli_fetch_array($respuesta))
+					{
+							$meses=array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
+							$dia=substr($row["fecha"],8,2);
+							$mes=substr($row["fecha"],5,2);
+							$ano=substr($row["fecha"],0,4);
+							$cont=intval($mes);
+							$mes1=$meses[$cont-1];
+							$fecha2=$dia."-".$mes1;
+							if ( $j==1)
+							{
+								$color= "lcol";
+								$j=0;
+							}
+							else{
+								$color= "lcolver";
+								$j=1;
+							} //color fila
+							echo '<TR class='.$color.'>';
+							  echo "<td><div align='center'><font color='blue'>".$fecha2."&nbsp;</font></td>\n";
+							  echo "<td><div align='center'><font color='blue-red-white'>".$row['lectura_rectificador']."&nbsp;</font></td>\n";
+							    if ($dia=='01')
+								{
+								   $mes_aux=intval($mes);
+								   if ($mes_aux==1)
+									  {
+										$mes_aux=strval(12);
+										$ano_aux=strval(intval($ano-1));
+										$ano=$ano_aux;
+										$fecha_ini=$ano."-".$mes_aux."-01";
+										$fecha_ter=$ano."-".$mes_aux."-31";
+									  }
+								   else{$mes_aux=($mes_aux-1);
+										$fecha_ini=$ano."-".$mes_aux."-01";
+										$fecha_ter=$ano."-".$mes_aux."-31";}
+								   $consulta2="select max(fecha) as fecha from ref_web.detalle_produccion where fecha between '$fecha_ini' and '$fecha_ter' ";
+								   $respuesta2 = mysqli_query($link, $consulta2);
+								   $row2= mysqli_fetch_array($respuesta2);
+								   $consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha ='".$row2["fecha"]."' ";
+								   $respuesta_rect_ant = mysqli_query($link, $consulta_rect_ant);
+								   $row_rect_ant= mysqli_fetch_array($respuesta_rect_ant); 
+								}									   
+								else 
+								{
+									$dia_aux=strval(intval($dia-1));
+										$fecha_ini=$ano."-".$mes."-".$dia_aux;
+										$consulta2="select max(fecha) as fecha from ref_web.detalle_produccion where fecha = '$fecha_ini' ";
+										$respuesta2 = mysqli_query($link, $consulta2);
+										$row2= mysqli_fetch_array($respuesta2);
+										$consulta_rect_ant="select fecha,lectura_rectificador from ref_web.detalle_produccion where fecha = '$fecha_ini' ";
+										$respuesta_rect_ant = mysqli_query($link, $consulta_rect_ant);
+										$row_rect_ant= mysqli_fetch_array($respuesta_rect_ant);
+								}						   
+								 
+							    $consulta3="select lectura_rectificador from ref_web.detalle_produccion where fecha ='".$row2["fecha"]."'";
+							    $respuesta3 = mysqli_query($link, $consulta3);
+							    $row3= mysqli_fetch_array($respuesta3);								   
+								
+							    $promedio=number_format((($row['lectura_rectificador']-$row_rect_ant['lectura_rectificador'])/24),"2",".","");
+							    if ($promedio < 0)
+								{
+									$promedio = 0;								
+								}
+							    echo "<td><div align='left'>$promedio&nbsp;</td>\n";
+							    echo "</tr>\n";
+					}
 				}			  
 							  
 			?>  

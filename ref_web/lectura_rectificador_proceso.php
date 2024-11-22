@@ -1,42 +1,47 @@
 <?php
 	include("../principal/conectar_sec_web.php");
-
+	$opcion       = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$fecha        = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m-d");
+	$rectificador = isset($_REQUEST["rectificador"])?$_REQUEST["rectificador"]:"";
+	$mostrar      = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$activar      = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+	$lectura_rectificador = isset($_REQUEST["lectura_rectificador"])?$_REQUEST["lectura_rectificador"]:"";
+	//echo $opcion;
 	if ($opcion == "N")
 	{
-		 $consulta="select * from ref_web.detalle_produccion where fecha='".$fecha."'";
-		 $rs = mysqli_query($link, $consulta);
-	     if(!$row = mysqli_fetch_array($rs))
-		    {
-		      $insertar5="insert into ref_web.detalle_produccion(fecha,stock,lectura_rectificador) ";
-		      $insertar5 = $insertar5."values ('".$fecha."','0','".$rectificador."')";
-			  mysqli_query($link, $insertar5);
-    		  header("Location:Lectura_rectificador.php?fecha=".$fecha);
-			 }
-		 else {$mensaje = "La lectura del Rectificador ya Existe";
-			   header("Location:Lectura_rectificador.php?activar=&fecha=$fecha&mensaje=".$mensaje);} 
-			
-		 
+		$consulta ="select * from ref_web.detalle_produccion where fecha='".$fecha."'";
+		$rs       = mysqli_query($link, $consulta);
+	    if(!$row = mysqli_fetch_array($rs))
+		{
+		    $insertar5="insert into ref_web.detalle_produccion(fecha,stock,lectura_rectificador) ";
+		    $insertar5 = $insertar5."values ('".$fecha."','0','".$rectificador."')";
+			mysqli_query($link, $insertar5);
+    		header("Location:Lectura_rectificador.php?fecha=".$fecha);
+		}
+		else
+		{	
+			$mensaje = "La lectura del Rectificador ya Existe";
+			header("Location:Lectura_rectificador.php?activar=S&fecha=$fecha&mensaje=".$mensaje);
+		} 		 
 	}
-	if ($opcion=='B')
-	   {
-	     //$fecha=$ano1.'-'.$mes1.'-'.$dia1;
-		 //echo $fecha;
-	     $consulta="select * from ref_web.detalle_produccion where fecha='".$fecha."'";
-		 $Respuesta = mysqli_query($link, $consulta);
-		 $row = mysqli_fetch_array($Respuesta);
-	   
-	   }
-	 if ($opcion=='M')
-	    {
-		   $actualiza = "UPDATE ref_web.detalle_produccion set lectura_rectificador ='".$rectificador."'";
-		   $actualiza.= "where fecha= '".$fecha."' ";
-		   mysqli_query($link, $actualiza);
-		   $mensaje = "La lectura del Rectificador ha sido modificada con exito";
-		   header("Location:Lectura_rectificador.php?activar=&fecha=$fecha&mensaje=".$mensaje);
-		
-		}  
 	
-
+	if ($opcion=='B')
+	{
+	    //$fecha=$ano1.'-'.$mes1.'-'.$dia1;
+		//echo $fecha;
+	    $consulta  = "select * from ref_web.detalle_produccion where fecha='".$fecha."'";
+		$Respuesta = mysqli_query($link, $consulta);
+		$row       = mysqli_fetch_array($Respuesta);
+		$lectura_rectificador = $row['lectura_rectificador'];	
+	}
+	if ($opcion=='M')
+	{
+		$actualiza = "UPDATE ref_web.detalle_produccion set lectura_rectificador ='".$rectificador."'";
+		$actualiza.= "where fecha= '".$fecha."' ";
+		mysqli_query($link, $actualiza);
+		$mensaje = "La lectura del Rectificador ha sido modificada con exito";
+		header("Location:Lectura_rectificador.php?activar=S&fecha=$fecha&mensaje=".$mensaje);		
+	}  
 
 ?>
 
@@ -48,26 +53,21 @@
 function ValidaCampos(f)
 {
 	if (f.txtrevision.value == "")
-	{
-		alert("Debe Ingresar Revision");
+	{   alert("Debe Ingresar Revision");
 		return false;
-	}
-	
+	}	
 	if (f.txtcatodos.value == "")
-	{
-		alert("Debe Ingresar los Catodos Comerciales");
+	{	alert("Debe Ingresar los Catodos Comerciales");
 		return false;
 	}
 	
 	if (f.txtdescobrizacion.value == "")
-	{
-		alert("Debe Ingresar la Descobrizacion");
+	{	alert("Debe Ingresar la Descobrizacion");
 		return false;
 	}
 	
 	if (f.txtdespuntes.value == "")
-	{
-		alert("Debe Ingresar los Despuntes");
+	{	alert("Debe Ingresar los Despuntes");
 		return false;
 	}
 	
@@ -115,10 +115,10 @@ function Salir(f,fecha)
 <form name="PopupProduccion" action="" method="post">
   <table width="487" height="157" border="0" cellpadding="5" cellspacing="0" align="center"class="TablaPrincipal">
     <tr>
-<td width="421" align="center" valign="middle"><table width="467" border="0" cellspacing="0" cellpadding="3">
+		<td width="421" align="center" valign="middle"><table width="467" border="0" cellspacing="0" cellpadding="3">
           <tr> 
             <td width="169">Lectura Rectificador 5:00 AM</td>
-            <td width="132"><input name="txtrectificador" type="text" size="10" value="<?php echo $row[lectura_rectificador] ?>"> 
+            <td width="132"><input name="txtrectificador" type="text" size="10" value="<?php echo $lectura_rectificador; ?>"> 
             <td width="148">&nbsp; 
         </table> 
         <br>
@@ -129,19 +129,20 @@ function Salir(f,fecha)
 		
         <table width="462" border="0" cellspacing="0" cellpadding="3">
           <tr>
-            <td align="center"><input name="btngrabar" type="button" style="width:70" value="Grabar" onClick="Grabar(this.form,'<?php echo $fecha?>')">
-              <input name="btnmodificar" type="button" style="width:70" value="Modificar" onClick="Modificar(this.form,'<?php echo $fecha?>')"> 
-              <input name="btnsalir" type="button" style="width:70" value="Salir" onClick="Salir(this.form,'<?php echo $fecha?>')"></td>
+            <td align="center">
+				<input name="btngrabar"    type="button" style="width:70" value="Grabar"    onClick="Grabar(this.form,'<?php echo $fecha?>')">
+				<input name="btnmodificar" type="button" style="width:70" value="Modificar" onClick="Modificar(this.form,'<?php echo $fecha?>')"> 
+				<input name="btnsalir"     type="button" style="width:70" value="Salir"     onClick="Salir(this.form,'<?php echo $fecha?>')"></td>
           </tr>
         </table>
     </tr>
 </table>	
 </form>
 <?php
-	if (isset($activar))
+	if ($activar!="")
 	{
 		echo '<script language="JavaScript">';		
-		if (isset($fecha))
+		if ($fecha!="")
 			/*echo 'alert("'.$fecha.'");';		*/
 			
 		//echo 'window.opener.document.frmPrincipal.action = "datos_consumo.php?fecha_ini='.$fecha.'";';

@@ -1,21 +1,20 @@
 <?php
 	include("../principal/conectar_principal.php"); 
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("j");
-		$MesIni = date("n");
-		$AnoIni = date("Y");
-		$DiaFin = date("j");
-		$MesFin = date("n");
-		$AnoFin = date("Y");
-	}
-	if ($DiaIni < 10)
+	$fecha = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+	$DiaIni   = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni   = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni   = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$DiaFin   = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	$MesFin   = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$AnoFin   = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	
+	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
 		
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
@@ -68,19 +67,19 @@ function Proceso(opt)
 <?php
 
 	
-	$FechaAux = $fecha;
+	$FechaAux     = $fecha;
 	$FechaTermino = $fecha;
 	$contador = 0;
 	$i = 1;
 	for($i=1;$i<=5;$i++)
 	{
-		$xx[i]=" ";
+		$xx[$i]=" ";
 	}
 	while (date($FechaAux) <= date($FechaTermino))
 	{
 		$Consulta = "select ifnull(count(*),0) as total_reg from sec_web.produccion_catodo ";
 		$Consulta.= " where cod_producto in ('66')  and fecha_produccion = '".$FechaAux."'";
-		$total_1 = $Fila["total_reg"];
+		//$total_1 = $Fila["total_reg"];
 		//echo "cons".$Consulta;
 		//$Consulta.= " and cod_muestra <> 'S'";
 		$Respuesta = mysqli_query($link, $Consulta);
@@ -173,9 +172,10 @@ function Proceso(opt)
 				$CodSubProductoAnt = $Fila2["cod_subproducto"];				
 				$SubtotalProduccion = $SubtotalProduccion + $ProduccionDia;
 				$Total_produccion = $Total_produccion + $ProduccionDia;
-				$prod= "$Fila2["cod_producto"]$Fila2["cod_subproducto"]";	
+				//$prod= "$Fila2["cod_producto"]$Fila2[cod_subproducto]";	
+				$prod= $Fila2['cod_producto']."".$Fila2['cod_subproducto'];	
 		}
-			
+			$prod1=0;$prod2=0;$prod3=0;$prod4=0;$prod5=0;
 			if ($SubTotalPeso != 0)
 			{
 				switch ($prod)
@@ -235,7 +235,7 @@ function Proceso(opt)
 	$i = 1;
 	for($i=1;$i<=5;$i++)
 	{
-		$xx[i]=" ";
+		$xx[$i]=" ";
 	}
 	while (date($FechaAux) <= date($FechaTermino))
 	{
@@ -338,7 +338,8 @@ function Proceso(opt)
 				$CodSubProductoAnt = $Fila2["cod_subproducto"];				
 				$SubtotalProduccion = $SubtotalProduccion + $ProduccionDia;
 				$Total_produccion = $Total_produccion + $ProduccionDia;
-				$prod= "$Fila2["cod_producto"]$Fila2[cod_subproducto]";	
+				//$prod= "$Fila2["cod_producto"]$Fila2[cod_subproducto]";	
+				$prod= $Fila2["cod_producto"]."".$Fila2['cod_subproducto'];	
 		}
 			
 			if ($SubTotalPeso != 0)

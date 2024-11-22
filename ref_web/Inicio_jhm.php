@@ -68,6 +68,10 @@ if($pagina=="")
 
 <HTML><HEAD><TITLE>Sistema Informacion Refineria Electrolitica Electrolitica</TITLE>
 <SCRIPT language=JavaScript>
+   setInterval(function(){
+        fechas();
+    }, 1000);
+
 function Imprimir()
 {
 	window.print();
@@ -81,7 +85,7 @@ function Recarga(frm,Pagina) // RECARGA PAGINA DE FROMULARIO
 
 function Recarga_fecha_siguiente(frm,Pagina,fecha) // RECARGA PAGINA DE FROMULARIO
 {
-   frm.action=Pagina+"&fecha="+fecha+"&siguiente=S";
+    frm.action=Pagina+"&fecha="+fecha+"&siguiente=S";
    frm.submit();
 }
 function Recarga_fecha_anterior(frm,Pagina,fecha) // RECARGA PAGINA DE FROMULARIO
@@ -376,9 +380,9 @@ function Salir(f)
   <TR> 
      <TD width=95><STRONG>Informe del: </STRONG></TD>
      <TD width=322> 
-		 <SELECT name="DiaIni" onFocus="foco='MesIni';"><?php LLenaComboDia($DiaIni,date("j"));?></SELECT> 
-		 <SELECT name="MesIni" onFocus="foco='AnoIni';"><?php LLenaComboMes($MesIni,date("n"));?></SELECT>
-         <SELECT name="AnoIni" onFocus="foco='DiaFin';"><?php LLenaComboAno($AnoIni,date("Y"));?></SELECT>&nbsp;&nbsp; 
+		 <SELECT name="DiaIni" id="DiaIni" onFocus="foco='MesIni';"><?php LLenaComboDia($DiaIni,date("j"));?></SELECT> 
+		 <SELECT name="MesIni" id="MesIni" onFocus="foco='AnoIni';"><?php LLenaComboMes($MesIni,date("n"));?></SELECT>
+         <SELECT name="AnoIni" id="AnoIni" onFocus="foco='DiaFin';"><?php LLenaComboAno($AnoIni,date("Y"));?></SELECT>&nbsp;&nbsp; 
 		 <INPUT name="buscar3" onclick="Recarga(document.FrmPrincipal,'Inicio_jhm.php?pagina=<?php echo $pagina; ?>');" type="button" value="Buscar">
      </TD>
 	 <td width=300 align="left"><strong><b>Ir a </b></strong>
@@ -663,7 +667,7 @@ function Salir(f)
                   <td class=tabstext><div align="center"><A href="Inicio_jhm.php?pagina=<?php echo $cod_pagina; ?>&historia=1&fecha=<?php echo $fecha; ?>"><img alt="HISTORIA" border=0 src="archivos/historia.gif"  width="82" height="20"></A></div></td>
 			  <?php } ?>
             <td class=tabstext><div align="center"><A href="Inicio_jhm.php?pagina=99"><img alt="PROGRAMA DESC. TOTAL" border=0 src="archivos/desc_total.gif" width="82" height="20"></A></div></td>
-            <td class=tabstext><div align="center"><A href="Inicio_jhm.php?pagina=10"><img alt="PROGRAMA RENOVACI�N"border=0 src="archivos/renovacion.gif"    width="82" height="20"></A></div></td>
+            <td class=tabstext><div align="center"><A href="Inicio_jhm.php?pagina=10"><img alt="PROGRAMA RENOVACIÓN"border=0 src="archivos/renovacion.gif"    width="82" height="20"></A></div></td>
             <td class=tabstext><div align="center"><A href="Inicio_jhm.php?pagina=11"><img alt="PROGRAMA RENOVACION HOJAS MADRES"  border=0  src="archivos/hojas_madres.gif" width="82" height="20"></A></div></td>
             <td class=tabstext><div align="center"><A href="Inicio_jhm.php?pagina=12"><img alt="LEYES" border=0 src="archivos/leyes.gif" width="82" height="20"></A></div></td>
           <!--  <td class=tabstext><div align="center"><A href="Inicio_jhm.php?pagina=13"><img alt="PRODUCCION CATODOS COMERCIALES" border=0 src="archivos/comerciales.gif" width="82" height="20"></A></div></td>-->
@@ -688,5 +692,29 @@ function Salir(f)
 </TABLE>
 <?php //include("../principal/pie_pagina_refineria.php");?>
 </FORM>
+
+<SCRIPT language=JavaScript>
+
+function fechas(){
+    let diaIni = document.getElementById("DiaIni");
+    let mesIni = document.getElementById("MesIni");
+    
+    mesIni.addEventListener("change", () => {
+	//mesIni.addEventListener("change", function() {
+      let texto = mesIni.options[mesIni.selectedIndex].text;
+      if ( (texto === "ABRIL") || (texto === "JUNIO") || (texto === "SEPTIEMBRE") || (texto === "NOVIEMBRE") )	
+	  {
+       diaIni[30].disabled = true;
+      } 
+	  else if ( texto === "FEBRERO" )	
+	  {
+       //diaIni[28].disabled = true;
+	   diaIni[29].disabled = true;
+       diaIni[30].disabled = true
+      } 
+    });
+}
+	
+</SCRIPT>
 </BODY>
 </HTML>

@@ -1,5 +1,5 @@
 <?php include("../principal/conectar_ref_web.php");
-  $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+   $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
    $ano1=substr($fecha,0,4);
    $mes1=substr($fecha,5,2);
    $dia1=substr($fecha,8,2)	
@@ -63,7 +63,23 @@ function Imprimir()
                 $turno="A";
                 $veces=0;
 				$i=0;
+/*
+				echo "Fecha:".$fecha;
+				echo "<br>Dia:".$dia1."";
+				echo "<br>Mes:".$mes1."";
+				
+				if($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12')
+				{	$diab ='31';}				
+				if($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11')
+				{   $diab ='30';}
+			    if($mes1=='02')
+				{   $diab ='29';}
+			   */
+			   //$fecha = $ano1.'-'.$mes1.'-'.$diab;
+			   //echo "<br>Fecha:".$fecha;
+			   		   
 				$sql1 = "select * from ref_web.pulido_placas where FECHA ='$fecha' AND TURNO='A' ORDER BY COD_OPERACION ASC";
+				//echo $sql1; 
                 $result1=mysqli_query($link, $sql1);
                 while($row1 = mysqli_fetch_array($result1))
                 {    

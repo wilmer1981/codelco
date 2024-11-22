@@ -220,8 +220,8 @@ function detalle_anodos(fecha,grupo)
                     		<p><strong>ppm</strong></p></td>
                  	</tr>
                 <?php 
-				   if ($Sig=='S')
-	  					{ $dia1=strval(intval($dia1+1));
+				    if ($Sig=='S')
+					{ $dia1=strval(intval($dia1+1));
 	     				    if ($dia1=='31')
 	        				{  $mes1=strval(intval($mes+1));
 		       					$dia1='1';
@@ -231,8 +231,8 @@ function detalle_anodos(fecha,grupo)
 		       					$mes1='1';
 			   					$dia1='1';
 							}      
-	   					}
-    			   if ($Ant=='S')
+	   			    }
+    			    if ($Ant=='S')
 	   				{$dia1=strval(intval($dia1-1));} 
 				   if (strlen($dia1) == 1)
 						{$dia1 = '0'.$dia1;}

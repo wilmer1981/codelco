@@ -1,10 +1,10 @@
 <?php
 include("../principal/conectar_ref_web.php"); 
 $Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
-$turno  = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
-$arman1 = isset($_REQUEST["arman1"])?$_REQUEST["arman1"]:"";
-$arman2 = isset($_REQUEST["arman2"])?$_REQUEST["arman2"]:"";
+$fecha    = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:"";
+$turno    = isset($_REQUEST["turno"])?$_REQUEST["turno"]:"";
+$arman1   = isset($_REQUEST["arman1"])?$_REQUEST["arman1"]:"";
+$arman2   = isset($_REQUEST["arman2"])?$_REQUEST["arman2"]:"";
 $cambian1 = isset($_REQUEST["cambian1"])?$_REQUEST["cambian1"]:"";
 $cambian2 = isset($_REQUEST["cambian2"])?$_REQUEST["cambian2"]:"";
 $stock1   = isset($_REQUEST["stock1"])?$_REQUEST["stock1"]:"";
@@ -17,15 +17,15 @@ $num = mysqli_num_rows($results);
 
 	if ($Proceso == "G")
 	{  
-		$Insertar1 = "INSERT INTO ref_web.pulido_placas (FECHA,TURNO,COD_OPERACION, PLACAS_NEGRAS, PLACAS_PERNOS)";
+		$Insertar1 = "INSERT IGNORE INTO ref_web.pulido_placas (FECHA,TURNO,COD_OPERACION, PLACAS_NEGRAS, PLACAS_PERNOS)";
 		$Insertar1.= " VALUES ('".$fecha."','".$turno."','1','".$arman1."', '".$arman2."')";
         mysqli_query($link, $Insertar1);
 		//echo $Insertar1."<br>";
-		$Insertar2 = "INSERT INTO ref_web.pulido_placas (FECHA,TURNO,COD_OPERACION, PLACAS_NEGRAS, PLACAS_PERNOS)";
+		$Insertar2 = "INSERT IGNORE INTO ref_web.pulido_placas (FECHA,TURNO,COD_OPERACION, PLACAS_NEGRAS, PLACAS_PERNOS)";
 		$Insertar2.= " VALUES ('".$fecha."','".$turno."','2','".$cambian1."', '".$cambian2."')";
 		//echo $Insertar2."<br>";
         mysqli_query($link, $Insertar2);
-		$Insertar3 = "INSERT INTO ref_web.pulido_placas (FECHA,TURNO,COD_OPERACION, PLACAS_NEGRAS, PLACAS_PERNOS)";
+		$Insertar3 = "INSERT IGNORE INTO ref_web.pulido_placas (FECHA,TURNO,COD_OPERACION, PLACAS_NEGRAS, PLACAS_PERNOS)";
 		$Insertar3.= " VALUES ('".$fecha."','".$turno."','3','".$stock1."', '".$stock2."')";
         //echo $Insertar3."<br>";
 		mysqli_query($link, $Insertar3);
