@@ -3,15 +3,15 @@
 
 // Valores=J//50001//2023-12-01//a&CodigoLote=J&NumeroLote=50000&Ano=2022&subproducto=11
 
-$Valores     = $_REQUEST["Valores"];
-$CodigoLote  = $_REQUEST["CodigoLote"];
-$NumeroLote  = $_REQUEST["NumeroLote"];
-$Ano         = $_REQUEST["Ano"];
-$subproducto = $_REQUEST["subproducto"];
+$Valores     = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$CodigoLote  = isset($_REQUEST["CodigoLote"])?$_REQUEST["CodigoLote"]:"";
+$NumeroLote  = isset($_REQUEST["NumeroLote"])?$_REQUEST["NumeroLote"]:"";
+$Ano         = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+$subproducto = isset($_REQUEST["subproducto"])?$_REQUEST["subproducto"]:"";
 
-$NumI        = $_REQUEST["NumI"];
-$NumF        = $_REQUEST["NumF"];
-$MesI        = $_REQUEST["MesI"];
+$NumI        = isset($_REQUEST["NumI"])?$_REQUEST["NumI"]:"";
+$NumF        = isset($_REQUEST["NumF"])?$_REQUEST["NumF"]:"";
+$MesI        = isset($_REQUEST["MesI"])?$_REQUEST["MesI"]:"";
 //$MesF        = $_REQUEST["MesF"];
 
 ?>
