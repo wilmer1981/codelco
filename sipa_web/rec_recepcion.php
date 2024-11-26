@@ -75,24 +75,34 @@
 
 	CerrarLotesMensuales('R',$link);
 	$Tolerancia=ToleranciaPesaje($link);
-    
 	/*
 	if(isset($RNA))
 	{
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
-	}*/
+	}
 	if($RNA!='')	
 	{	
 		setcookie("ROMANA",$RNA);
 		$TxtNumRomana=$RNA;
 	}
-	//if($TxtNumRomana=='')
-	//	$TxtNumRomana=$_COOKIE["ROMANA"];
-
 	if($TxtNumRomana=='')
-		$TxtNumRomana = isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
-
+		$TxtNumRomana=$_COOKIE[ROMANA];
+	*/
+	
+	if(isset($RNA) && $RNA!='')	
+	{	
+		setcookie("ROMANA",$RNA);
+		$TxtNumRomana=$RNA;
+	}
+	$ROMANAS = isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
+	if($TxtNumRomana==''){
+		//$TxtNumRomana = $_COOKIE["ROMANA"];
+		$TxtNumRomana = $ROMANAS;
+		//$TxtNumRomana = isset($_COOKIE["ROMANA"])?$_COOKIE["ROMANA"]:"";
+	}
+    //echo "TxtNumRomana:".$TxtNumRomana;
+	//echo "<br>TxtNumBascula:".$TxtNumBascula;
 	$EstadoInput='';
 	switch($TxtNumBascula)
 	{
@@ -120,8 +130,7 @@
 	$EstBtnModificar = 'disabled';
 	$HabilitarCmb    = '';
 	$RutOperador     = $CookieRut;
-	$Mensaje         = '';
-	$TotalLote=0;
+	$Mensaje = ''; $TotalLote=0;
 	if($ObjFoco=="")
 		$ObjFoco="TxtPatente";
 	$Mostrar='N';$HabilitarText='';
@@ -170,7 +179,7 @@
 			$EstBtnGrabar='';
 			$PatenteOk='';
 			$PatenteOk=PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
-			//echo "<br>PatenteOk:".$PatenteOk;
+			echo "<br>PatenteOk:".$PatenteOk;
 			if($PatenteOk==true)
 			{ 
 				//echo "<br>PPPPatenteOk:".$PatenteOk;
@@ -199,23 +208,26 @@
 						$bascula_entrada='';
 						$bascula_salida='';
 						$CodMina=explode('~',$CmbMinaPlanta);
+						$CodMina1 = isset($CodMina[1])?$CodMina[1]:"";
 						/*if($CmbProveedor=='90132000-4'&&$CodMina[1]=='13201.0003-8')
 							$RutProveedor='90132000-5';
 						else
 							$RutProveedor=$CmbProveedor;*/
 						$RutProveedor=$CmbProveedor;	
 						$SuBProd=explode('~',$CmbSubProducto);
-						CrearArchivoResp('R','E',$TxtCorrelativo,$TxtLote,'1',$CmbUltRecargo,$RutOperador,$TxtNumBascula,'',$TxtFecha,$TxtHoraE,'',$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,$CmbProveedor,$CodMina[1],$CmbGrupoProd,$SuBProd[0],$SuBProd[1],$TxtGuia,$TxtPatente,$CmbClase,$CmbConjunto,$TxtObs,'','','','','');
+						$SuBProd0 = isset($SuBProd[0])?$SuBProd[0]:"";
+						$SuBProd1 = isset($SuBProd[1])?$SuBProd[1]:"";
+						CrearArchivoResp('R','E',$TxtCorrelativo,$TxtLote,'1',$CmbUltRecargo,$RutOperador,$TxtNumBascula,'',$TxtFecha,$TxtHoraE,'',$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,$CmbProveedor,$CodMina1,$CmbGrupoProd,$SuBProd0,$SuBProd1,$TxtGuia,$TxtPatente,$CmbClase,$CmbConjunto,$TxtObs,'','','','','');
 						$Insertar="INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
 						$Insertar.="hora_entrada,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion) values(";
 						$Insertar.="'$TxtCorrelativo','$TxtLote','1','$CmbUltRecargo','".$RutOperador."','$bascula_entrada','$bascula_salida','$TxtFecha',";
-						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina[1]','$CmbGrupoProd','$SuBProd[0]','$SuBProd[1]',";
+						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina1','$CmbGrupoProd','$SuBProd0','$SuBProd1',";
 						$Insertar.="'$TxtGuia','".strtoupper(trim($TxtPatente))."','$CmbClase','$CmbConjunto','$TxtObs')";
 						//echo $Insertar;
 						mysqli_query($link, $Insertar);
 						$Actualizar="UPDATE sipa_web.correlativo_lote set lote='$TxtLote' where cod_proceso='R'";
 						mysqli_query($link, $Actualizar);
-						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1],$link);
+						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd0,$SuBProd1,$link);
 						$ObjFoco='TxtGuia';
 						break;
 					case "B2"://LOTE EXISTENTE ABIERTO
@@ -254,20 +266,23 @@
 						$Fila=mysqli_fetch_array($Respuesta);
 						$TxtCorrelativo=$Fila["correlativo"];
 						$CodMina=explode('~',$CmbMinaPlanta);
+						$CodMina1 = isset($CodMina[1])?$CodMina[1]:"";
 						/*if($CmbProveedor=='90132000-4'&&$CodMina[1]=='13201.0003-8')
 							$RutProveedor='90132000-5';
 						else
 							$RutProveedor=$CmbProveedor;*/
 						$RutProveedor=$CmbProveedor;	
 						$SuBProd=explode('~',$CmbSubProducto);
-						CrearArchivoResp('R','E',$TxtCorrelativo,$TxtLote,$TxtRecargo,$CmbUltRecargo,$RutOperador,$TxtNumBascula,'',$TxtFecha,$TxtHoraE,'',$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,$CmbProveedor,$CodMina[1],$CmbGrupoProd,$SuBProd[0],$SuBProd[1],$TxtGuia,$TxtPatente,$CmbClase,$CmbConjunto,$TxtObs,'','','','','');
+						$SuBProd0 = isset($SuBProd[0])?$SuBProd[0]:"";
+						$SuBProd1 = isset($SuBProd[1])?$SuBProd[1]:"";
+						CrearArchivoResp('R','E',$TxtCorrelativo,$TxtLote,$TxtRecargo,$CmbUltRecargo,$RutOperador,$TxtNumBascula,'',$TxtFecha,$TxtHoraE,'',$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,$CmbProveedor,$CodMina1,$CmbGrupoProd,$SuBProd0,$SuBProd1,$TxtGuia,$TxtPatente,$CmbClase,$CmbConjunto,$TxtObs,'','','','','');
 						$Insertar="INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
 						$Insertar.="hora_entrada,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion) values(";
 						$Insertar.="'$TxtCorrelativo','$TxtLote','$TxtRecargo','$CmbUltRecargo','".$RutOperador."','$bascula_entrada','$bascula_salida','$TxtFecha',";
-						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina[1]','$CmbGrupoProd','$SuBProd[0]','$SuBProd[1]',";
+						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina1','$CmbGrupoProd','$SuBProd0','$SuBProd1',";
 						$Insertar.="'$TxtGuia','".strtoupper(trim($TxtPatente))."','$CmbClase','$TxtConjunto','$TxtObs')";
 						mysqli_query($link, $Insertar);
-						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd[0],$SuBProd[1],$link);
+						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd0,$SuBProd1,$link);
 						$ObjFoco='TxtObs';
 						break;	
 				}
@@ -359,7 +374,7 @@
 			}					
 		}
 	}
-	$Proceso='';
+	//$Proceso='';
 	//if(isset($CmbGrupoProd))
 	if($CmbGrupoProd!="")
 	{
@@ -401,7 +416,10 @@ var digitos=20; //cantidad de digitos buscados
 var puntero=0; 
 var buffer=new Array(digitos); //declaraci�n del array Buffer 
 var cadena="";
-setInterval("RestaurarBascula()",2000);
+let valor22;
+valor22 = setInterval(RestaurarBascula,1000);
+console.log(valor22);
+
 
 function Habilita(Bascula)
 {
@@ -424,12 +442,13 @@ function RestaurarBascula()
 	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
 	//var bascula = f.TxtBasculaAux.value; //
 	var bascula = f.TxtNumBascula.value; //
-	var Romana = f.TxtNumRomana.value; //
+	var Romana  = f.TxtNumRomana.value; //
 	//alert("bascula:"+bascula);
 	//alert("Romana:"+Romana);
 	if(Romana==1){
 		//Bas1 = 'PesoMatic2_1.txt';
 		//Bas2 = 'PesoMatic_1.txt';
+		console.log("Roma1");
 		Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_1.txt'); ?>';
 		Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_1.txt'); ?>';
 	}
@@ -437,10 +456,11 @@ function RestaurarBascula()
 	if(Romana==2){
 		//Bas1 = 'PesoMatic2_2.txt';
 		//Bas2 = 'PesoMatic_2.txt';
+		console.log("Roma2");
 		Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_2.txt'); ?>';
 		Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_2.txt'); ?>';
 	}
-/*
+    /*
 	   if(bascula==1){
 			//Bas1 = 'PesoMatic2_1.txt';
 			//Bas2 = 'PesoMatic_1.txt';
@@ -460,8 +480,13 @@ function RestaurarBascula()
 	//var Bas2 = '<?php //echo LeerArchivo('','PesoMatic.txt'); ?>';
 	//Tolerancia = '<?php echo $Tolerancia; ?>';
    // alert("Tolerancia:"+Tolerancia);
-	//alert("Bas1:"+Bas1);
+	//alert("Bas1:"+Bas1+" Bas2:"+Bas2);
 	//alert("Bas2:"+Bas2);
+	console.log("Romana:"+Romana);
+	console.log("Bascula:"+bascula);
+	console.log("Bas1:"+Bas1);
+	console.log("Bas2:"+Bas2);
+	console.log("Tolerancia:"+<?php echo $Tolerancia; ?>);
 	if(Bas1 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
 		f.Bloq1.value='';
@@ -578,10 +603,9 @@ var valor="";
 			window.status = "PesoMatic2";
 			 valor=1;
 		  }
-        }else {
+    }else {
        alert("No Existe archivo en: "+ubicacion );
-	
-	   }
+	}
 		return(valor); 
 }
 */
@@ -626,9 +650,9 @@ function CapturaPeso(tipo)
 	{
 		case "PB":
 			f.TipoProceso.value="E";
-			alert("TipoProceso:"+f.TipoProceso.value);
-			alert("TxtNumRomana:"+f.TxtNumRomana.value);
-			alert("TxtNumBascula:"+f.TxtNumBascula.value);
+			//alert("TipoProceso:"+f.TipoProceso.value);
+			//alert("TxtNumRomana:"+f.TxtNumRomana.value);
+			//alert("TxtNumBascula:"+f.TxtNumBascula.value);
 			if(f.TxtNumRomana.value=='1')
 			{
 				if(f.TxtNumBascula.value=='1')
@@ -661,10 +685,10 @@ function CapturaPeso(tipo)
 			
 			if(f.TxtNumRomana.value=='2')
 			{
-				alert("ENTRO a ROMANA 2");
+				//alert("ENTRO a ROMANA 2");
 				if(f.TxtNumBascula.value=='1')
 				{	
-					alert("BASCULA 1(3) SELECCIONADA");
+					//alert("BASCULA 1(3) SELECCIONADA");
 					if(f.Bloq1.value=='S')
 					{
 						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
@@ -676,7 +700,7 @@ function CapturaPeso(tipo)
 						f.BtnPBruto.disabled=true;			
 					}
 				}else{
-					alert("BASCULA 2(4) SELECCIONADA");
+					//alert("BASCULA 2(4) SELECCIONADA");
 					if(f.Bloq2.value=='S')
 					{
 						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
@@ -874,6 +898,9 @@ function Proceso(opt,ObjFoco,opt2)
 	//alert(f.TipoProceso.value);
 	switch (opt)
 	{
+		case "R"://REINICIAR
+		     f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+			break;
 		case "G"://ACTUALIZAR RECEPCION
 			if(ValidarCampos('G'))
 			{
@@ -1674,6 +1701,7 @@ body {
 		<input name="BtnAnular" type="button" style="width:70px " onClick="Proceso('A')" value="Anular" <?php echo $EstBtnAnular;?>>
 		<input name="BtnImprimir" type="button" value="Imprimir" style="width:70px " onClick="Proceso('I')" <?php echo $EstBtnImprimir;?>>
 		<input name="BtnSalir" type="button" value="Salir" style="width:70px " onClick="Proceso('S')"></td>
+		<!--<input name="BtnReiniciar" type="button" value="Reinicar" style="width:70px " onClick="Proceso('R')"></td>-->
 
 </table>  
 </td>
@@ -1694,15 +1722,14 @@ $realIp = getRealIP();
 //echo "<br>GETHOST_NAME:".$GETHOST_NAME;
 //echo "<br>GETHOSTBYNAME:".$GETHOSTBYNAME;
 
-echo "<br>COMPUTERNAME:".$COMPUTERNAME;
-echo "<br>SERVER_NAME:".$SERVER_NAME;
+//echo "<br>COMPUTERNAME:".$COMPUTERNAME;
+//echo "<br>SERVER_NAME:".$SERVER_NAME;
 //echo "<br>REMOTE_ADDR:".$REMOTE_ADDR;
-
-echo "<br>USER_IP:".$IP ;
+//echo "<br>USER_IP:".$IP ;
 
 //$Romana = LeerRomana($REMOTE_ADDR,$link);
 $Romana = LeerRomana($IP,$link);
-echo "<br>ROMANA: ".$Romana;
+//echo "<br>ROMANA: ".$Romana;
 
 if($Mensaje!='')
 {

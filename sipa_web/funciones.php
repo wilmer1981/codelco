@@ -946,7 +946,7 @@ if(!$correo->Send()) {
 
 /***************Lee archivos TXT********************** */
 function LeerArchivo($ruta,$archivo)
-{
+{   $valor=0;
 	//$nombre="archivo.txt";//$archivo;
 	$nombre=$archivo;
 	if($ruta!=""){
@@ -961,6 +961,7 @@ function LeerArchivo($ruta,$archivo)
 		while(! feof($arc))  {
 			$valor = fgets($arc);
 		}
+		//echo "LECTURA ARCHIV<br>";
 		fclose($arc);
 	}else{
 		$valor="";
