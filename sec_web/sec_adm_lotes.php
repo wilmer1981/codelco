@@ -257,7 +257,7 @@ body{
             <td width="126"><font size="2">A&ntilde;o</font><font size="1"><font size="2"><font size="1"><font size="2"><font size="1"><font size="2"> 
               <SELECT name="CmbAno" size="1" id="SELECT9" style="width:70px;" onChange="Recarga();">
                 <?php
-			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
+			for ($i=date("Y")-2;$i<=date("Y")+1;$i++)
 			{
 				if (isset($CmbAno))
 				{
