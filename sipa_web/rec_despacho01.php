@@ -35,6 +35,7 @@
 	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$TxtPesoNetoSec = isset($_REQUEST["TxtPesoNetoSec"])?$_REQUEST["TxtPesoNetoSec"]:"";
 	$TxtLimitePeso = isset($_REQUEST["TxtLimitePeso"])?$_REQUEST["TxtLimitePeso"]:"";
+	$TxtDirec     = isset($_REQUEST["TxtDirec"])?$_REQUEST["TxtDirec"]:"";
 
 	
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
@@ -88,10 +89,16 @@
 			//INSERTA DESTINATARIO Y CHOFERES DE CAMION PARA PRODUCTOS QUE NO TENGAN SISTEMAS COMO PAC Y SEC
 			if($CmbProveedor!=''&&$TxtNombrePrv!='')
 			{
-				$Insertar="INSERT INTO sipa_web.proveedores(rut_prv,nombre_prv) values('$CmbProveedor','$TxtNombrePrv')";
-				mysqli_query($link, $Insertar);
-				$Actualizar="UPDATE sipa_web.proveedores set direccion='".$TxtDirec."' where rut_prv='".$CmbProveedor."'"; 
-				mysqli_query($link, $Actualizar);
+				$consulta="select * from sipa_web.proveedores where rut_prv='".$CmbProveedor."' ";
+			    $rs = mysqli_query($link, $consulta);
+		        if (!$row = mysqli_fetch_array($rs))
+			    {
+					$Insertar="INSERT INTO sipa_web.proveedores(rut_prv,nombre_prv) values('$CmbProveedor','$TxtNombrePrv')";
+					mysqli_query($link, $Insertar);
+				}else{
+					$Actualizar="UPDATE sipa_web.proveedores set direccion='".$TxtDirec."' where rut_prv='".$CmbProveedor."'"; 
+					mysqli_query($link, $Actualizar);
+				}
 			}
 			if($TxtRutChofer!=''&&$TxtNomChofer!='')
 			{

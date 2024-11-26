@@ -70,7 +70,9 @@
 	$TxtSello = isset($_REQUEST["TxtSello"])?$_REQUEST["TxtSello"]:"";
 	$TxtTransp = isset($_REQUEST["TxtTransp"])?$_REQUEST["TxtTransp"]:"";
 	
-	$TxtMarca = isset($_REQUEST["TxtMarca"])?$_REQUEST["TxtMarca"]:"";
+	$TxtMarca  = isset($_REQUEST["TxtMarca"])?$_REQUEST["TxtMarca"]:"";
+	$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:"";
+	$BuscarChofer = isset($_REQUEST["BuscarChofer"])?$_REQUEST["BuscarChofer"]:"";
   
 	if(isset($RNA) && $RNA!='')	
 	{	
@@ -1359,7 +1361,7 @@ switch($TxtNumRomana)
 			$RespCorr=mysqli_query($link, $Consulta3);
 			while($FilaCorr=mysqli_fetch_array($RespCorr))
 			{
-				echo "Correlativo:".$TxtCorrelativo;
+				//echo "Correlativo:".$TxtCorrelativo;
 				$Datos=explode('~',$TxtCorrelativo);
 				//if($Datos[0]==$FilaCorr["correlativo"]&&$Datos[1]==$FilaCorr["num_guia"])
 				if($Datos[0]==$FilaCorr["correlativo"])
@@ -1793,7 +1795,7 @@ switch($TxtNumRomana)
 		}
 	}
 	?>	
-	<SELECT name="CmbCodMop" style="width:85" onkeypress=buscar_op(this,BtnGrabar,0) >
+	<SELECT name="CmbCodMop" style="width:85" onkeypress="buscar_op(this,BtnGrabar,0)" >
       <option value='S' SELECTed>Seleccionar</option>
       <?php
 			$Consulta="SELECT * from proyecto_modernizacion.sub_clase where cod_clase='8004' order by nombre_subclase";
@@ -1893,6 +1895,7 @@ switch($TxtNumRomana)
 		<input name="BtnAnular" type="button" style="width:70px " onClick="Proceso('A')" value="Anular" <?php echo $EstBtnAnular;?>>
 		<input name="BtnImprimir" type="button" value="Imprimir" style="width:70px " onClick="Proceso('I')" <?php echo $EstBtnImprimir;?>>
 		<input name="BtnSalir" type="button" value="Salir" style="width:70px " onClick="Proceso('S')"></td>
+	
 	</table>  
 <div id='TxtRomana' style='FILTER: alpha(opacity=100);  background-color:#fff4cf; VISIBILITY: hidden; WIDTH: 200px; POSITION: absolute; moz-opacity: .75; opacity: .75; border:solid 1px Black'>
 <table width="298"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
