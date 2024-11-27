@@ -954,10 +954,10 @@ function oNumero(numero)
 //Propiedades 
 this.valor = numero || 0
 this.dec = -1;
-//Mï¿½todos 
+//Métodos 
 this.formato = numFormat;
 this.ponValor = ponValor;
-//Definiciï¿½n de los mï¿½todos 
+//Definición de los métodos 
 function ponValor(cad)
 {
 if (cad =='-' || cad=='+') return
@@ -1149,4 +1149,37 @@ function TeclaPulsada2(ValidaNum,PermiteDecimales,formulario,CampoSgte)
 			}//FIN VALIDA DECIMALES
 		}//FIN SI VALIDA NUMERO
 	}//FIN SI ES ENTER
+}
+
+// FUNCION LEE ARCHIVO txt
+function LeerArchivo(ruta,archivo){
+      var dev;
+	  var url     = 'LeerArchivo.php';
+      $.ajax({
+		    type: 'post',
+		    data:{ruta:ruta, archivo:archivo },
+			dataType: "json",
+            url: url,
+            async: false
+      })
+      .done(function(data){
+		    console.log(data);
+            dev = data.numero;
+      });
+      return (dev);
+}
+function LeerArchivo2(ruta,archivo){
+	var f = document.FrmOtrosPesajes;
+	var url     = 'LeerArchivo.php';
+	$.ajax({
+		method:"POST",
+		url: url,
+		data:{ruta:ruta, archivo:archivo },
+		dataType: "json",
+		success: function(datos){
+			console.log(datos);
+			f.TxtPesoBruto.value=datos.numero;
+			//$('#contenido').html(datos);
+		}
+	});
 }
