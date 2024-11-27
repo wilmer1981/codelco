@@ -199,6 +199,7 @@
 <html><head>
 <title>Otros Pesaje</title>
 <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 <script language="javascript">
 <!--
@@ -209,67 +210,11 @@ ie4 = (document.all)? true:false
 var digitos=20 //cantidad de digitos buscados 
 var puntero=0 
 var buffer=new Array(digitos) //declaraci�n del array Buffer 
-var cadena="" 
+var cadena=""
 
-/*
- function LeerRomana(Rom)
-{
-	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
-	var valor="";
-	var fso, f1, ts, s,retorno; 
-	var ForReading = 1; 
-	fso = new ActiveXObject("Scripting.FileSystemObject"); 
-	if(fso.FileExists(ubicacion))
-	{
-          f = fso.OpenTextFile( ubicacion, ForReading); 
-		  valor=f.Readline(); 
-    }
-	else
-	{
-       alert("No Existe archivo en :"+ubicacion);
-	}
-	return(valor); 
-}*/
-//var ROMA=LeerRomana('');
 //var ROMA='<?php echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
 var ROMA = '<?php echo LeerRomana($IP,$link); ?>'; 
 
-/*
-function LeerArchivo(valor)
-{
-	var ubicacion = "C:\\PesoMatic.txt";
-    var valor="";
-	var fso, f1, ts, s,retorno; 
-		var ForReading = 1; 
-	fso = new ActiveXObject("Scripting.FileSystemObject"); 
-	if(fso.FileExists(ubicacion)){
-          f = fso.OpenTextFile( ubicacion, ForReading); 
-		  valor=f.Readline(); 
-        } else {
-       alert("No Existe archivo en: "+ubicacion ) 
-	
-	   }
-		return(valor); 
-}
-*/
-/*
-function LeerArchivo2(valor)
-{
-	var ubicacion = "C:\\PesoMatic2.txt";
-var valor="";
-	var fso, f1, ts, s,retorno; 
-		var ForReading = 1; 
-	fso = new ActiveXObject("Scripting.FileSystemObject"); 
-	if(fso.FileExists(ubicacion)){
-          f = fso.OpenTextFile( ubicacion, ForReading); 
-		  valor=f.Readline(); 
-        } else {
-       alert("No Existe archivo en: "+ubicacion ) 
-	
-	   }
-		return(valor); 
-}
-*/
 function muestra(numero) 
 {
  	if (ns4){ 
@@ -302,33 +247,36 @@ function CapturaPeso(tipo)
 {
 	var f = document.FrmOtrosPesajes;
 	var PesoAux=0;
+	var  valor=0;
 	//if (f.checkpeso.checked == true)
 	switch(tipo)
 	{
 		case "PB":
 			f.TipoProceso.value="E";
 			if(f.TxtNumRomana.value=='1')
-			{
+			{ 
 				if(f.TxtNumBascula.value=='1'){		
-					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
-					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+					valor = LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt');
+					f.TxtPesoBruto.value = valor;
 				}else{
-					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+					valor = LeerArchivo('configuracion_pesaje','PesoMatic_1.txt');
+					f.TxtPesoBruto.value = valor;
 				}
 			}
 			if(f.TxtNumRomana.value=='2')
-			{
+			{   
 				if(f.TxtNumBascula.value=='1'){		
-					//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);
-					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+					valor = LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt');
+					f.TxtPesoBruto.value = valor;
+					
 				}else{
-					//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
-					f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+					//f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+					valor = LeerArchivo('configuracion_pesaje','PesoMatic_2.txt');
+					f.TxtPesoBruto.value = valor;
+
 				}
 			}
 
@@ -341,25 +289,25 @@ function CapturaPeso(tipo)
 			if(f.TxtNumRomana.value=='1')
 			{
 				if(f.TxtNumBascula.value=='1'){					
-					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
-					f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+					valor = LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt');
+					f.TxtPesoTara.value = valor;
 				}else{
-					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
-					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
-					f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+					valor = LeerArchivo('configuracion_pesaje','PesoMatic_1.txt');
+					f.TxtPesoTara.value = valor;
 				}
 			}
 			if(f.TxtNumRomana.value=='2')
 			{
 				if(f.TxtNumBascula.value=='1'){					
-					//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoTara.value);
-					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic2.txt'); ?>';
-					f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+					valor = LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt');
+					f.TxtPesoTara.value = valor;
 				}else{
-					//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoTara.value);
-					//f.TxtPesoTara.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>';
-					f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+					//f.TxtPesoTara.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+					valor = LeerArchivo('configuracion_pesaje','PesoMatic_2.txt');
+					f.TxtPesoTara.value = valor;
 				}
 			}
 			
@@ -407,7 +355,7 @@ function buscar_op(obj,objfoco,InicioBusq,Recargar){
        //barro todas las opciones que contiene el combo y las comparo la cadena... 
        for (var opcombo=0;opcombo < obj.length;opcombo++){ 
           if(obj[opcombo].text.substr(InicioBusq,puntero).toLowerCase()==cadena.toLowerCase()){ 
-          obj.SELECTedIndex=opcombo; 
+          obj.SelectedIndex=opcombo; 
           } 
        } 
     } 
@@ -585,8 +533,8 @@ function ValidarCampos()
 }
 function MM_jumpMenu(targ,selObj,restore)
 { //v3.0
-  eval(targ+".location='"+selObj.options[selObj.SELECTedIndex].value+"'");
-  if (restore) selObj.SELECTedIndex=0;
+  eval(targ+".location='"+selObj.options[selObj.SelectedIndex].value+"'");
+  if (restore) selObj.SelectedIndex=0;
 }
 function SeleccionRomana(tipo)
 {
