@@ -405,6 +405,7 @@
 <html><head>
 <title>Recepcion v6 20161215 - Tolerancia <?php echo $Tolerancia; ?></title>
 <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script language="javascript" src="../principal/funciones/funciones_java.js"></script>
 
 <script language="javascript">
@@ -419,8 +420,6 @@ var cadena="";
 let valor22;
 valor22 = setInterval(RestaurarBascula,1000);
 console.log(valor22);
-
-
 function Habilita(Bascula)
 {
 	document.getElementById(Bascula).src = "btn_verde.png";
@@ -435,8 +434,8 @@ function Deshabilita(Bascula)
 }
 function RestaurarBascula()
 {
-	//var Bas2=0;
-    //var Bas1=0;
+	var Bas2=0;
+    var Bas1=0;
 	var f = document.FrmRecepcion;
 	//var Bas1=LeerArchivo2(''); //C:\\PesoMatic2.txt
 	//var Bas2=LeerArchivo('');//C:\\PesoMatic.txt
@@ -446,39 +445,21 @@ function RestaurarBascula()
 	//alert("bascula:"+bascula);
 	//alert("Romana:"+Romana);
 	if(Romana==1){
-		//Bas1 = 'PesoMatic2_1.txt';
-		//Bas2 = 'PesoMatic_1.txt';
 		console.log("Roma1");
-		Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_1.txt'); ?>';
-		Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_1.txt'); ?>';
+		//Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_1.txt'); ?>';
+		//Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_1.txt'); ?>';		
+		Bas1 = LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt');
+		Bas2 = LeerArchivo('configuracion_pesaje','PesoMatic_1.txt');
 	}
 	
 	if(Romana==2){
-		//Bas1 = 'PesoMatic2_2.txt';
-		//Bas2 = 'PesoMatic_2.txt';
 		console.log("Roma2");
-		Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_2.txt'); ?>';
-		Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_2.txt'); ?>';
+		//Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_2.txt'); ?>';
+		//Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_2.txt'); ?>';
+		Bas1 = LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt');
+		Bas2 = LeerArchivo('configuracion_pesaje','PesoMatic_2.txt');
 	}
-    /*
-	   if(bascula==1){
-			//Bas1 = 'PesoMatic2_1.txt';
-			//Bas2 = 'PesoMatic_1.txt';
-			Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_1.txt'); ?>';
-			Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_1.txt'); ?>';
-		}
-		if(bascula==2){
-			//Bas1 = 'PesoMatic2_2.txt';
-			//Bas2 = 'PesoMatic_2.txt';
-			Bas1 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic2_2.txt'); ?>';
-			Bas2 = '<?php echo LeerArchivo('configuracion_pesaje', 'PesoMatic_2.txt'); ?>';
-		}
-	*/
-	//alert(bascula);
-	//var ruta = '<?php // echo "configuracion_pesaje"; ?>';
-	//var Bas1 = '<?php //echo LeerArchivo('','PesoMatic2.txt'); ?>';
-	//var Bas2 = '<?php //echo LeerArchivo('','PesoMatic.txt'); ?>';
-	//Tolerancia = '<?php echo $Tolerancia; ?>';
+
    // alert("Tolerancia:"+Tolerancia);
 	//alert("Bas1:"+Bas1+" Bas2:"+Bas2);
 	//alert("Bas2:"+Bas2);
@@ -644,15 +625,13 @@ function CapturaPeso(tipo)
 	var PesoRangoIni =0;
 	var PesoRangoFin =0;
 	var PorcPeso =0;
+	var valor = 0;
 	//f.TxtNumRomana
 	//alert("Tipo Proceso:"+tipo);
 	switch(tipo)
 	{
 		case "PB":
 			f.TipoProceso.value="E";
-			//alert("TipoProceso:"+f.TipoProceso.value);
-			//alert("TxtNumRomana:"+f.TxtNumRomana.value);
-			//alert("TxtNumBascula:"+f.TxtNumBascula.value);
 			if(f.TxtNumRomana.value=='1')
 			{
 				if(f.TxtNumBascula.value=='1')
@@ -660,9 +639,10 @@ function CapturaPeso(tipo)
 					if(f.Bloq1.value=='S')
 					{
 						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
-					}else{
-						//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);					
-						f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+					}else{				
+						//f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+						valor = LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt');
+					    f.TxtPesoBruto.value = valor;
 						f.Bloq1.value='S';
 						Deshabilita('BasculaA');
 						f.BtnPBruto.disabled=true;			
@@ -674,8 +654,9 @@ function CapturaPeso(tipo)
 					}
 					else
 					{
-						//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-						f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+						//f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+						valor = LeerArchivo('configuracion_pesaje','PesoMatic_1.txt');
+					    f.TxtPesoBruto.value = valor;
 						f.Bloq2.value='S';
 						Deshabilita('BasculaB');					
 						f.BtnPBruto.disabled=true;
@@ -685,16 +666,15 @@ function CapturaPeso(tipo)
 			
 			if(f.TxtNumRomana.value=='2')
 			{
-				//alert("ENTRO a ROMANA 2");
 				if(f.TxtNumBascula.value=='1')
 				{	
-					//alert("BASCULA 1(3) SELECCIONADA");
 					if(f.Bloq1.value=='S')
 					{
 						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
-					}else{
-						//f.TxtPesoBruto.value = LeerArchivo2(f.TxtPesoBruto.value);					
-						f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+					}else{				
+						//f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+						valor = LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt');
+					    f.TxtPesoBruto.value = valor;
 						f.Bloq1.value='S';
 						Deshabilita('BasculaA');
 						f.BtnPBruto.disabled=true;			
@@ -707,8 +687,9 @@ function CapturaPeso(tipo)
 					}
 					else
 					{
-						//f.TxtPesoBruto.value = LeerArchivo(f.TxtPesoBruto.value);
-						f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+						//f.TxtPesoBruto.value = '<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+						valor = LeerArchivo('configuracion_pesaje','PesoMatic_2.txt');
+					    f.TxtPesoBruto.value = valor;
 						f.Bloq2.value='S';
 						Deshabilita('BasculaB');					
 						f.BtnPBruto.disabled=true;
@@ -738,7 +719,6 @@ function CapturaPeso(tipo)
 			break;
 		case "PT":
 			f.TipoProceso.value="S";
-			//alert("Entro a Peso Tara");
 			if(f.TxtNumRomana.value=='1')
 			{
 				if(f.TxtNumBascula.value=='1')
@@ -747,8 +727,9 @@ function CapturaPeso(tipo)
 					{
 						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
 					}else{
-						//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
-						f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+						//f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt'); ?>';
+						valor = LeerArchivo('configuracion_pesaje','PesoMatic2_1.txt');
+					    f.TxtPesoTara.value = valor;
 						f.Bloq1.value='S';
 						Deshabilita('BasculaA');					
 						f.BtnPTara.disabled=true;		
@@ -760,8 +741,9 @@ function CapturaPeso(tipo)
 					}
 					else
 					{
-						//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
-						f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+						//f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_1.txt'); ?>';
+						valor = LeerArchivo('configuracion_pesaje','PesoMatic_1.txt');
+						f.TxtPesoTara.value = valor;
 						f.Bloq2.value='S';
 						Deshabilita('BasculaB');					
 						f.BtnPTara.disabled=true;
@@ -777,8 +759,9 @@ function CapturaPeso(tipo)
 					{
 						alert("Báscula "+f.TxtBasculaAux.value+" Debe estabilizarse en cero antes de continuar. \nSolicite sacar vehiculo de la báscula.")
 					}else{
-						//f.TxtPesoTara.value = LeerArchivo2(f.TxtPesoBruto.value);
-						f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+						//f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt'); ?>';
+						valor = LeerArchivo('configuracion_pesaje','PesoMatic2_2.txt');
+					    f.TxtPesoTara.value = valor;
 						f.Bloq1.value='S';
 						Deshabilita('BasculaA');					
 						f.BtnPTara.disabled=true;		
@@ -790,8 +773,9 @@ function CapturaPeso(tipo)
 					}
 					else
 					{
-						//f.TxtPesoTara.value = LeerArchivo(f.TxtPesoBruto.value);
-						f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+7						//f.TxtPesoTara.value ='<?php echo LeerArchivo('configuracion_pesaje','PesoMatic_2.txt'); ?>';
+						valor = LeerArchivo('configuracion_pesaje','PesoMatic_2.txt');
+						f.TxtPesoTara.value = valor;
 						f.Bloq2.value='S';
 						Deshabilita('BasculaB');					
 						f.BtnPTara.disabled=true;
@@ -1725,11 +1709,11 @@ $realIp = getRealIP();
 //echo "<br>COMPUTERNAME:".$COMPUTERNAME;
 //echo "<br>SERVER_NAME:".$SERVER_NAME;
 //echo "<br>REMOTE_ADDR:".$REMOTE_ADDR;
-//echo "<br>USER_IP:".$IP ;
+echo "<br>USER_IP:".$IP ;
 
 //$Romana = LeerRomana($REMOTE_ADDR,$link);
 $Romana = LeerRomana($IP,$link);
-//echo "<br>ROMANA: ".$Romana;
+echo "<br>ROMANA: ".$Romana;
 
 if($Mensaje!='')
 {
