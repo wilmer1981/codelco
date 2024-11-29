@@ -8,6 +8,7 @@
 	$Bloq1 = isset($_REQUEST["Bloq1"])?$_REQUEST["Bloq1"]:"";
 	$Bloq2 = isset($_REQUEST["Bloq2"])?$_REQUEST["Bloq2"]:"";
 	
+	$TxtNumBascula = isset($_REQUEST["TxtNumBascula"])?$_REQUEST["TxtNumBascula"]:"";	
 	$TxtBasculaAux = isset($_REQUEST["TxtBasculaAux"])?$_REQUEST["TxtBasculaAux"]:"";
 	$TxtPesoBruto  = isset($_REQUEST["TxtPesoBruto"])?$_REQUEST["TxtPesoBruto"]:"";
 	$CmbUltRecargo = isset($_REQUEST["CmbUltRecargo"])?$_REQUEST["CmbUltRecargo"]:"";
@@ -30,6 +31,8 @@
 	$TxtHoraS = isset($_REQUEST["TxtHoraS"])?$_REQUEST["TxtHoraS"]:"";
 	$TxtHoraE = isset($_REQUEST["TxtHoraE"])?$_REQUEST["TxtHoraE"]:"";
 	$TxtFecha = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:"";
+	
+	//$TxtCorrelativo = '24090004~1~453580';
 
 	$Consultar="SELECT nombres,apellido_paterno,apellido_materno from proyecto_modernizacion.funcionarios where rut = '".$RutOperador."'";
 	$Resp=mysqli_query($link, $Consultar);
@@ -51,6 +54,7 @@
 				$Insertar="INSERT INTO sipa_web.proveedores(rut_prv,nombre_prv) values('".str_pad($CmbProveedor,10,"0",STR_PAD_LEFT)."','$TxtNombrePrv')";
 				mysqli_query($link, $Insertar);
 			}
+			//exit();
 		    header('location:rec_recepcion.php?TxtNumBascula='.$TxtNumBascula."&Bloq1=".$Bloq1."&Bloq2=".$Bloq2);
 			break;
 		case "S"://ACTUALIZAR SALIDA
@@ -105,10 +109,12 @@
 			header('location:rec_recepcion.php?TxtNumBascula='.$TxtNumBascula."&Bloq1=".$Bloq1."&Bloq2=".$Bloq2);
 			break;	
 		case "C"://CANCELAR
+		    //echo "TxtCorrelativo:".$TxtCorrelativo."<br>";
 		    $Datos=explode('~',$TxtCorrelativo);
 			$Eliminar="delete from sipa_web.recepciones ";
-			$Eliminar.="where correlativo='".$TxtCorrelativo."'";
-			//$Eliminar.="where correlativo='".$Datos[2]."'";
+			//$Eliminar.="where correlativo='".$TxtCorrelativo."'";
+			$Eliminar.="where correlativo='".$Datos[2]."'";
+			//echo $Eliminar;
 			mysqli_query($link, $Eliminar);
 			header('location:rec_recepcion.php?TxtNumBascula='.$TxtNumBascula."&Bloq1=".$Bloq1."&Bloq2=".$Bloq2);
 			break;	

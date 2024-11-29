@@ -74,7 +74,7 @@
 	$bascula_salida  = isset($_REQUEST["bascula_salida"])?$_REQUEST["bascula_salida"]:"";	
 
 	CerrarLotesMensuales('R',$link);
-	$Tolerancia=ToleranciaPesaje($link);
+	$Tolerancia = ToleranciaPesaje($link);
 	/*
 	if(isset($RNA))
 	{
@@ -251,16 +251,22 @@
 						$Fila=mysqli_fetch_array($Respuesta);
 						//$TxtFecha=date('Y-m-d');
 						//$TxtHoraE=date('h:i:s');
-						$CmbSubProducto=$Fila["cod_producto"].'~'.$Fila["cod_subproducto"];
-						$CmbProveedor=$Fila["rut_prv"];
-						$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='".$CmbProveedor."' and cod_mina='".$Fila["cod_mina"]."'";
+						$cod_producto    = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
+						$cod_subproducto = isset($Fila["cod_subproducto"])?$Fila["cod_subproducto"]:"";
+						$rut_prv         = isset($Fila["rut_prv"])?$Fila["rut_prv"]:"";
+						$cod_mina        = isset($Fila["cod_mina"])?$Fila["cod_mina"]:"";
+						$conjunto        = isset($Fila["conjunto"])?$Fila["conjunto"]:"";
+						$CmbSubProducto  =$cod_producto.'~'.$cod_subproducto;
+						$CmbProveedor    = isset($Fila["rut_prv"])?$Fila["rut_prv"]:"";
+						$Consulta = "SELECT fecha_padron from sipa_web.minaprv where rut_prv='".$CmbProveedor."' and cod_mina='".$cod_mina."'";
 						$RespPadron=mysqli_query($link, $Consulta);
 						$FilaPadron=mysqli_fetch_array($RespPadron);
-						$TxtVencPadron=$FilaPadron["fecha_padron"];
+						$TxtVencPadron = isset($FilaPadron["fecha_padron"])?$FilaPadron["fecha_padron"]:"";
+						$fecha_padron  = isset($FilaPadron["fecha_padron"])?$FilaPadron["fecha_padron"]:"";
 					
-						$CmbMinaPlanta=$Fila["rut_prv"]."~".$Fila["cod_mina"]."~".$FilaPadron["fecha_padron"]."~".$Fila["conjunto"];
-						$CmbConjunto=$Fila["conjunto"];
-						$CmbClase=$Fila["cod_clase"];
+						$CmbMinaPlanta=$rut_prv."~".$cod_mina."~".$fecha_padron."~".$conjunto;
+						$CmbConjunto=isset($Fila["conjunto"])?$Fila["conjunto"]:"";
+						$CmbClase=isset($Fila["cod_clase"])?$Fila["cod_clase"]:"";
 						$Consulta="SELECT ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
 						$Respuesta=mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
@@ -276,12 +282,14 @@
 						$SuBProd0 = isset($SuBProd[0])?$SuBProd[0]:"";
 						$SuBProd1 = isset($SuBProd[1])?$SuBProd[1]:"";
 						CrearArchivoResp('R','E',$TxtCorrelativo,$TxtLote,$TxtRecargo,$CmbUltRecargo,$RutOperador,$TxtNumBascula,'',$TxtFecha,$TxtHoraE,'',$TxtPesoBruto,$TxtPesoTara,$TxtPesoNeto,$CmbProveedor,$CodMina1,$CmbGrupoProd,$SuBProd0,$SuBProd1,$TxtGuia,$TxtPatente,$CmbClase,$CmbConjunto,$TxtObs,'','','','','');
+						
 						$Insertar="INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
 						$Insertar.="hora_entrada,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion) values(";
 						$Insertar.="'$TxtCorrelativo','$TxtLote','$TxtRecargo','$CmbUltRecargo','".$RutOperador."','$bascula_entrada','$bascula_salida','$TxtFecha',";
 						$Insertar.="'$TxtHoraE','$TxtPesoBruto','$TxtPesoTara','$TxtPesoNeto','$RutProveedor','$CodMina1','$CmbGrupoProd','$SuBProd0','$SuBProd1',";
 						$Insertar.="'$TxtGuia','".strtoupper(trim($TxtPatente))."','$CmbClase','$TxtConjunto','$TxtObs')";
 						mysqli_query($link, $Insertar);
+						
 						PesoHistorico2('R',strtoupper(trim($TxtPatente)),$TxtPesoHistorico,$TxtPorcRango,'E',$SuBProd0,$SuBProd1,$link);
 						$ObjFoco='TxtObs';
 						break;	
@@ -422,8 +430,10 @@ valor22 = setInterval(RestaurarBascula,1000);
 console.log(valor22);
 function Habilita(Bascula)
 {
+	//var f = document.FrmRecepcion;
 	document.getElementById(Bascula).src = "btn_verde.png";
 	document.getElementById(Bascula).alt = "Bascula Habilitada";
+	//f.TxtPesoBruto.value = '';	
 		
 }
 function Deshabilita(Bascula)
@@ -468,17 +478,45 @@ function RestaurarBascula()
 	console.log("Bas1:"+Bas1);
 	console.log("Bas2:"+Bas2);
 	console.log("Tolerancia:"+<?php echo $Tolerancia; ?>);
+	console.log("TipoProceso:"+f.TipoProceso.value);
 	if(Bas1 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
 		f.Bloq1.value='';
-		Habilita('BasculaA');		
+		Habilita('BasculaA');
+		console.log("BasculaA Habilitado");
+		if(f.TipoProceso.value=='E' && Bas1 == '0' && bascula =='1')
+		{
+			console.log("Lipiar PB");
+			f.TxtPesoBruto.value = '';
+		}
+		if(f.TipoProceso.value=='S' && Bas1 == '0' && bascula =='1')
+		{
+			console.log("Lipiar PT");
+			f.TxtPesoTara.value = '';
+			f.TxtPesoNeto.value  = f.TxtPesoBruto.value;
+			f.TxtPNetoTot.value  = f.TxtPesoBruto.value;
+		}
+		
 	}
 	if(Bas2 <= parseInt('<?php echo $Tolerancia; ?>'))
 	{
 		f.Bloq2.value='';	
 		Habilita('BasculaB');
+		console.log("BasculaB Habilitado");
+		if(f.TipoProceso.value=='E' && Bas2 == '0' && bascula =='2')
+		{
+			f.TxtPesoBruto.value = '';
+		}
+		if(f.TipoProceso.value=='S' && Bas2 == '0' && bascula =='2')
+		{
+			console.log("Lipiar PT");
+			f.TxtPesoTara.value = '';
+			f.TxtPesoNeto.value  = f.TxtPesoBruto.value;
+			f.TxtPNetoTot.value  = f.TxtPesoBruto.value;
+		}
+
 	}
-	if(f.TipoProceso.value=='E')
+	if(f.TipoProceso.value=='E') //Entrada P.Bruto
 	{
 		if(f.TxtNumBascula.value=='1') 
 		{	
@@ -495,7 +533,7 @@ function RestaurarBascula()
 			}
 		}
 	}
-	if(f.TipoProceso.value=='S')
+	if(f.TipoProceso.value=='S') //salida P.Tara
 	{
 		if(f.TxtNumBascula.value=='1')
 		{
@@ -512,84 +550,11 @@ function RestaurarBascula()
 			}
 		}
 	}
+	
 }
-/*
- function LeerRomana(Rom)
-{
-	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
-	var valor="";
-	var fso, f1, ts, s,retorno; 
-	var ForReading = 1; 
-	fso = new ActiveXObject("Scripting.FileSystemObject"); 
-	if(fso.FileExists(ubicacion))
-	{
-          try{  
-		  	  f = fso.OpenTextFile( ubicacion,  1,true); 
-			  valor=f.Readline();
-		  }catch(err)
-		  {
-			window.status = "LeerRomana : "+err;		  
-		  }
-    }
-	else
-	{
-       alert("No Existe archivo en :"+ubicacion);
-	}
-	return(valor); 
-}
-*/
-//var ROMA=LeerRomana('');
-//var ROMA = '<?php //echo LeerArchivo('PesaMatic','ROMANA.txt'); ?>';
-var ROMA = '<?php echo LeerRomana($IP,$link); ?>'; 
-/*
-function LeerArchivo(valor)
-{
-	var error=1;
-	var ubicacion = "C:\\PesoMatic.txt";
-	var valor="";
-	var fso, f1, ts, s,retorno; 
-	var ForReading = 1; 
-	fso = new ActiveXObject("Scripting.FileSystemObject"); 
-	if(fso.FileExists(ubicacion)){
-         try{  
-		  	  f = fso.OpenTextFile( ubicacion,  1,true); 
-			  valor=f.Readline();
-		  }catch(err)
-		  {
-			window.status = "PesoMatic";
-			valor=1;
-		  }
-        } else
-		{
-       		alert("No Existe archivo en: "+ubicacion );
-	   }
-		return(valor); 
-}
-*/
 
-/*
-function LeerArchivo2(valor)
-{var error=1;
-	var ubicacion = "C:\\PesoMatic2.txt";
-var valor="";
-	var fso, f1, ts, s,retorno; 
-		var ForReading = 1; 
-	fso = new ActiveXObject("Scripting.FileSystemObject"); 
-	if(fso.FileExists(ubicacion)){
-		  try{  
-		  	  f = fso.OpenTextFile( ubicacion,  1,true); 
-			  valor=f.Readline();
-		  }catch(err)
-		  {
-			window.status = "PesoMatic2";
-			 valor=1;
-		  }
-    }else {
-       alert("No Existe archivo en: "+ubicacion );
-	}
-		return(valor); 
-}
-*/
+var ROMA = '<?php echo LeerRomana($IP,$link); ?>'; 
+
 function muestra(numero) 
 {
  	if (ns4){ 
@@ -906,6 +871,8 @@ function Proceso(opt,ObjFoco,opt2)
 			if(ValidarCampos(''))
 			{
 				//alert("OHH");
+				if(f.CmbLotes.value=='S')
+					return;
 				if(f.CmbLotes.value=='-1')//ES LOTE NUEVO
 					f.action = "rec_recepcion.php?Proceso=B1";
 				else
@@ -1154,7 +1121,7 @@ function CalculaPNeto()
 	var f = document.FrmRecepcion;
 
 	if(f.TxtPesoBruto.value!=''&&f.TxtPesoTara.value!='')
-		f.TxtPesoNeto.value=f.TxtPesoBruto.value-f.TxtPesoTara.value;
+		f.TxtPesoNeto.value = f.TxtPesoBruto.value-f.TxtPesoTara.value;
 	CalculaPNetoTotal();
 }
 function CalculaPNetoTotal()
@@ -1426,6 +1393,7 @@ body {
 	<?php	
 	if($AbastMinero=='S')
 	{
+					echo "CmbMinaPlanta:".$CmbMinaPlanta."<br><br>";
     ?>
   <tr>
     <td align="center" class="ColorTabla02">Mina/Planta:</td>
@@ -1438,6 +1406,7 @@ body {
       <option value="S" SELECTed class="NoSelec">Seleccionar</option>
 	  <?php
 	  		//if(isset($CmbMinaPlanta))
+			//10432707-9~05203.2212-4~2014-03-~415
 			if($CmbMinaPlanta!="")
 			{
 				$SubProd=explode('~',$CmbSubProducto);
@@ -1453,8 +1422,9 @@ body {
 				$Consulta.= "left join sipa_web.grupos_prod_prv t2 on t2.cod_producto='1' and t2.cod_subproducto='".$SubProd1."' ";
 				$Consulta.= "and t2.rut_prv='".$CmbProveedor."' and t2.cod_mina=t1.cod_mina ";
 				$Consulta.= "left join sipa_web.grupos_conjunto t3 on t3.cod_grupo=t2.cod_grupo ";
-				$Consulta.= "where t1.rut_prv='$CmbProveedor' ";
+				$Consulta.= "where t1.rut_prv='".$CmbProveedor."' ";
 				$Consulta.= "order by t1.rut_prv,t1.cod_mina,t1.nombre_mina";
+				echo "<br>".$Consulta;
 				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysqli_fetch_array($Resp))
 				{
