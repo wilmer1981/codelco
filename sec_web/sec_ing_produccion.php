@@ -6,7 +6,7 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 7;
 	//$REMOTE_ADDR  = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-	$REMOTE_ADDR  = getenv("REMOTE_ADDR");
+	$IP          = getenv("REMOTE_ADDR");
 	$movimientos = array(1=>"RECEPCION", 2=> "PRODUCCION", 3=> "PAQUETE");
 	$productos = array(18=>"CATODOS", 64=> "SALES", 48=> "DESPUNTES Y LAMINAS", 57=> "BARROS REFINERIA", 66=> "OTROS PESAJES", 19=> "RESTOS ANODOS", 17=> "ANODOS");
 	//echo "SA__uno__".$SA_C_STD2."<br>";	
@@ -100,12 +100,20 @@
 	$medida      = isset($_REQUEST["medida"])?$_REQUEST["medida"]:"";
 $codigopaquete = isset($_REQUEST["codigopaquete"])?$_REQUEST["codigopaquete"]:"";
 
+echo "IP: ".$IP; 
+
+$ROMANA = LeerRomana($IP,$link); 
+
+echo "<br>ROMANA: ".$ROMANA;
+
 ?>
 
 <html>
 <head>
 <title>Ingreso Pesaje Producción</title>
 <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../principal/funciones/funciones_java.js" language="javascript"></script>
 <!--
 <script language="VBScript">
 function LeerArchivo(valor)	
@@ -131,6 +139,11 @@ end function
 -->
 
 <script language="JavaScript">
+
+let valor22;
+valor22 = setInterval(CapturaPeso,1000);
+console.log(valor22);
+
 function str_pad (input, pad_length, pad_string, pad_type) {
     // Returns input string padded on the left or right to specified length with pad_string  
     // 
@@ -171,20 +184,34 @@ function str_pad (input, pad_length, pad_string, pad_type) {
     return input;
 }
 function PesoAutomatico()
-{
+ {
 	setTimeout("CapturaPeso()",500);
 }	
 /*****************/
 function CapturaPeso()
 {
-	var f = document.frm1;
-	
-	if (f.checkpeso.checked == true)
-		//f.txtpeso.value = LeerArchivo(f.txtpeso.value);
-		//f.txtpeso.value = '<?php echo LeerArchivo('','PesoMatic.txt'); ?>'; 
-		f.txtpeso.value = '<?php echo LeerArchiv('configuracion_pesaje','PesoMatic_1.txt','f.txtpeso.value'); ?>';
-		
+	var f = document.frm1;	
+	var Romana   = f.TxtNumRomana.value; 
+	var Carpeta   = 'configuracion_pesaje';
+	var PesoMatic = 'PesoMatic_'+Romana+'.txt';
+	var Peso  =0;
+	var VPeso =0;
+	if($("#checkpeso").length != 0) {
+		VPeso = f.txtpeso.value;
+		if (f.checkpeso.checked == true)
+		{  	//f.txtpeso.value = LeerArchivo(f.txtpeso.value);
+			console.log("Romana:"+Romana);
+			console.log("Carpeta:"+Carpeta);
+			console.log("PesoMatic:"+PesoMatic);
+			console.log("VPeso:"+VPeso);		
+			Peso  = LeerArchivo(Carpeta,PesoMatic,VPeso);
+			f.txtpeso.value = Peso;
+		}else{
+			f.txtpeso.value = '';
+		}	
+	}
 	setTimeout("CapturaPeso()",200);	
+	//setInterval(CapturaPeso,200);
 }
 /****************/
 function Recarga1()
@@ -911,7 +938,7 @@ function Grabar()
 				StrPaquetePeso = f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 				//document.cookie = "myJavascriptVar = " + StrPaquetePeso;			
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
-				//alert("StrPaquetePeso:"+ StrPaquetePeso);
+				alert("StrPaquetePeso 1:"+ StrPaquetePeso);
 				<?php
 					$ruta    = '';
 					$archivo = 'datos.txt';
@@ -919,7 +946,7 @@ function Grabar()
 					//echo "<script>document.writeln(StrPaquetePeso);</script>";
 				?>
 				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>';
-				//alert("Write:" + write);
+				alert("Write 1:" + write);
 				  // MF alert("MF escribio paquete peso ....");
 				  // MF alert(f.cmbproducto.value);
 				  
@@ -946,7 +973,7 @@ function Grabar()
 							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+str_pad (f.txtnumpaq.value, 5, '0','STR_PAD_LEFT')+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+(f.txtpeso.value-1)+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
 							break;
 					}
-					//alert(StrDatosEtiqueta);
+					alert(StrDatosEtiqueta);
 					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
 					<?php
 					$ruta    = '';
@@ -954,7 +981,7 @@ function Grabar()
 					$var     = "<script>document.writeln(StrDatosEtiqueta);</script>";
 					?>
 					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-					//alert("Write:" + write);
+					alert("Write 2:" + write);
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
 					//f.leyes_grupo.value=''				
@@ -971,7 +998,7 @@ function Grabar()
 				//StrPaquetePeso=f.txtlote.value+"-"+f.txtrecargo.value+"\r\n"+f.txtpeso.value;
 				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 
-				//alert (StrPaquetePeso);
+				alert ("StrPaquetePeso 3:"+StrPaquetePeso);
 
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
 				<?php
@@ -980,7 +1007,7 @@ function Grabar()
 				$var     = "<script>document.writeln(StrPaquetePeso);</script>";
 				?>
 				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-				//alert("Write:" + write);
+				alert("Write 3:" + write);
 
 				/*StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"\r\n";
 				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
@@ -1913,9 +1940,8 @@ function EjecEtiqueta()
 
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0" onLoad="Posicionar()">
 <form name="frm1" action="" method="post">
-<?php include("../principal/encabezado.php");
-
-?>
+<?php include("../principal/encabezado.php");?>
+<input type="hidden" name="TxtNumRomana" class="InputCen" value="<?php echo $ROMANA;?>" size="2" readonly >
   <table width="770" height="330" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
     <tr>
       <td width="762" align="center" valign="top">

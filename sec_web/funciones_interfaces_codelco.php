@@ -897,16 +897,28 @@ function DefinirArregloLeyes($L_Prod, $L_SubProd, $ArregloLeyes)
 	}
 }
 
+function LeerRomana($IP,$link)
+{
+	$Consulta = " SELECT * FROM proyecto_modernizacion.sub_clase 
+				  WHERE cod_clase= 24011 AND valor_subclase1 = '".$IP."' ";
+	$Resp=mysqli_query($link, $Consulta);
+	$Romana="";
+	if($Fila=mysqli_fetch_array($Resp))
+	{
+		$Romana=$Fila["valor_subclase2"];
+	} 
+	return ($Romana);
+}
+
 /***************Lee archivos TXT********************** */
+//Modulo : PESAJE
 function LeerArchiv($ruta,$archivo,$txtvalor)
 {
 	$nombre=$archivo;
 	if($ruta!=""){
-		//$ubicacion = 'D:/'.$ruta.'/'.$nombre;
 		$ubicacion = "D:\\xampp\\htdocs\\proyecto\\".$ruta."\\".$nombre;
 	}else{
 		$ubicacion = 'D:/'.$nombre;
-		//$ubicacion = $nombre;
 	}	
 	if(file_exists($ubicacion)){
 		$arc = fopen($ubicacion,"r");
@@ -919,33 +931,10 @@ function LeerArchiv($ruta,$archivo,$txtvalor)
 	}
 	return($valor); 
 }
-/*
-function LeerArchivo(valor)	
-
-	ubicacion = "c:\PesoMatic.txt"	
-	Set fs = CreateObject("Scripting.FileSystemObject")
-	Set file = fs.OpenTextFile(ubicacion,1,true) //Crea el archivo si no existe.
-	
-	//Validar si el peso del archivo ==  0 no leer. 
-	
-	Set file2 = fs.getFile(ubicacion) 
-	tamano = file2.size	
-
-  	if (tamano <> 0)	then
-		valor = file.ReadLine
-		LeerArchivo = valor
-	else
-		LeerArchivo = valor
-	end if
-
-end function 
-*/
 function LeerArchivo($ruta,$archivo)
 {
-	//$nombre="archivo.txt";//$archivo;
 	$nombre=$archivo;
 	if($ruta!=""){
-		//$ubicacion = 'D:/'.$ruta.'/'.$nombre;
 		$ubicacion = "D:\\xampp\\htdocs\\proyecto\\".$ruta."\\".$nombre;
 	}else{
 		$ubicacion = 'D:/'.$nombre;
@@ -996,5 +985,86 @@ function LeerArchivo(valor)
 	}
 	return(valor); 
 }*/
+//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
+function fwrite_xx($ruta,$archivo,$StrPaquetePeso)
+{
+	$fichero = $archivo;
+	//echo "ruta:".$ruta;
+	//echo "<br>archivo:".$archivo;
+	//echo "<br>StrPaquetePeso:".$StrPaquetePeso;
+	if($ruta!=""){
+		$ubicacion = "D:\\xampp\\htdocs\\proyecto\\".$ruta."\\".$fichero;
+	}else{
+		$ubicacion = "D:/".$fichero;
+	}
+	//echo "<br>ubicacion:".$ubicacion;
+	if(file_exists($ubicacion)){
+		// Abre el fichero para obtener el contenido existente		
+		$actual = file_get_contents($ubicacion);
+		// Añade una nueva persona al fichero
+		$actual .= $StrPaquetePeso;
+		// Escribe el contenido al fichero
+		file_put_contents($fichero, $actual);	
+		$valor=true;
+	}else{
+		$valor=false;
+	}
+	/*
+	$fichero = 'gente.txt';
+	// Abre el fichero para obtener el contenido existente
+	$actual = file_get_contents($fichero);
+	// Añade una nueva persona al fichero
+	$actual .= "John Smith\n";
+	// Escribe el contenido al fichero
+	file_put_contents($fichero, $actual);
+	*/
+	return $valor;
+
+}
+function fwrite_x($ruta,$archivo,$StrPaquetePeso)
+{
+	$fichero = $archivo;
+	if($ruta!=""){
+		$ubicacion = "D:\\xampp\\htdocs\\proyecto\\".$ruta."\\".$fichero;
+	}else{
+		$ubicacion = "D:/".$fichero;
+	}
+	//echo "<br>ubicacion:".$ubicacion;
+	if(file_exists($ubicacion)){
+		// Abre el fichero para obtener el contenido existente		
+		$file = fopen($ubicacion,"w");
+		fwrite($file, $StrPaquetePeso . PHP_EOL);	
+		fclose($file);
+		$valor=true;
+	}else{
+		$valor=false;
+	}
+
+	return $valor;
+}
+
+
+/*
+function fwrite_x(folder,filename,data,mode)//crea archivo de texto para visor
+{ //fwrite_x v1.0 byScriptman
+	//modes: 0:si no existe, regresa false ;1: sobreescribe; 2:append.
+	var fso = new ActiveXObject("Scripting.FileSystemObject");
+
+	filename=folder+filename;
+	if(fso.FileExists(filename) == false&&mode==0) return false;
+	if(fso.FileExists(filename) != false&&mode==2) {
+		tf = fso.OpenTextFile(filename,1);
+		var dataold = tf.readall(); 
+		tf.close(); 
+	}
+	else 
+		dataold="";
+	
+	var tf = fso.CreateTextFile(filename,2);
+	tf.write(dataold+data);
+	tf.close();
+	return true;
+}
+*/
 
 ?>
