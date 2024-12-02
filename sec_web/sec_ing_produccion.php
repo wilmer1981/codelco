@@ -114,35 +114,11 @@ echo "<br>ROMANA: ".$ROMANA;
 <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="../principal/funciones/funciones_java.js" language="javascript"></script>
-<!--
-<script language="VBScript">
-function LeerArchivo(valor)	
-
-	ubicacion = "c:\PesoMatic.txt"	
-	Set fs = CreateObject("Scripting.FileSystemObject")
-	Set file = fs.OpenTextFile(ubicacion,1,true) //Crea el archivo si no existe.
-	
-	//Validar si el peso del archivo ==  0 no leer. 
-	
-	Set file2 = fs.getFile(ubicacion) 
-	tamano = file2.size	
-
-  	if (tamano <> 0)	then
-		valor = file.ReadLine
-		LeerArchivo = valor
-	else
-		LeerArchivo = valor
-	end if
-
-end function 
-</script>
--->
-
 <script language="JavaScript">
 
 let valor22;
-valor22 = setInterval(CapturaPeso,1000);
-console.log(valor22);
+//valor22 = setInterval(CapturaPeso,1000);
+//console.log(valor22);
 
 function str_pad (input, pad_length, pad_string, pad_type) {
     // Returns input string padded on the left or right to specified length with pad_string  
@@ -191,9 +167,9 @@ function PesoAutomatico()
 function CapturaPeso()
 {
 	var f = document.frm1;	
-	var Romana   = f.TxtNumRomana.value; 
-	var Carpeta   = 'configuracion_pesaje';
-	var PesoMatic = 'PesoMatic_'+Romana+'.txt';
+	var Romana    = f.TxtNumRomana.value;  //Romana seleccionada
+	var Carpeta   = 'configuracion_pesaje'; //Carpeta de los PesoMatic
+	var PesoMatic = 'PesoMatic_'+Romana+'.txt'; //creamos el nombre del archivo PesoMatic segun la Romana seleccionada
 	var Peso  =0;
 	var VPeso =0;
 	if($("#checkpeso").length != 0) {
@@ -935,19 +911,12 @@ function Grabar()
 		{					
 			if(f.cmbcodpaq.value!='-1')
 			{			
-				StrPaquetePeso = f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
-				//document.cookie = "myJavascriptVar = " + StrPaquetePeso;			
+				StrPaquetePeso = f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;	
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
-				alert("StrPaquetePeso 1:"+ StrPaquetePeso);
-				<?php
-					$ruta    = '';
-					$archivo = 'datos.txt';
-					$var     = '<script>document.writeln(StrPaquetePeso);</script>';
-					//echo "<script>document.writeln(StrPaquetePeso);</script>";
-				?>
-				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>';
-				alert("Write 1:" + write);
-				  // MF alert("MF escribio paquete peso ....");
+				ruta    = '';
+				archivo = 'datos.txt';	
+				EscribirArchivo(ruta,archivo,StrPaquetePeso);
+				// MF alert("MF escribio paquete peso ....");
 				  // MF alert(f.cmbproducto.value);
 				  
 				if(f.cmbproducto.value==18||f.cmbproducto.value==48)//ETIQUETAS SOLO PARA CATODOS Y LAMINAS
@@ -973,15 +942,10 @@ function Grabar()
 							StrDatosEtiqueta=StrDatosEtiqueta+f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+str_pad (f.txtnumpaq.value, 5, '0','STR_PAD_LEFT')+"*"+f.txtmarca.value+"*"+f.txtunidades.value+"*"+f.dia.value+"-"+f.mes.value+"-"+f.ano.value+" "+f.hh.value+":"+f.mm.value+"*"+(f.txtpeso.value-1)+"*"+f.txtgrupo.value+"*"+f.id_paquete.value+"*"+f.id_lote.value+"*"+f.leyes_grupo.value;						
 							break;
 					}
-					alert(StrDatosEtiqueta);
 					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
-					<?php
-					$ruta    = '';
-					$archivo = 'etiquetas.txt';
-					$var     = "<script>document.writeln(StrDatosEtiqueta);</script>";
-					?>
-					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-					alert("Write 2:" + write);
+					ruta    = '';
+					archivo = 'etiquetas.txt';	
+					EscribirArchivo(ruta,archivo,StrDatosEtiqueta);	
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
 					//f.leyes_grupo.value=''				
@@ -997,17 +961,10 @@ function Grabar()
 			{
 				//StrPaquetePeso=f.txtlote.value+"-"+f.txtrecargo.value+"\r\n"+f.txtpeso.value;
 				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
-
-				alert ("StrPaquetePeso 3:"+StrPaquetePeso);
-
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
-				<?php
-				$ruta    = '';
-				$archivo = 'datos.txt';
-				$var     = "<script>document.writeln(StrPaquetePeso);</script>";
-				?>
-				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-				alert("Write 3:" + write);
+				ruta    = '';
+				archivo = 'datos.txt';	
+				EscribirArchivo(ruta,archivo,StrPaquetePeso);	
 
 				/*StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"\r\n";
 				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
@@ -1081,7 +1038,7 @@ function Etiqueta()
 	linea = '';
 	if ((f.cmbmovimiento.value == 3) || (f.cmbmovimiento.value == 1))
 	{
-/*		if(f.ModPesoLoteSN.value=='T')
+		/*if(f.ModPesoLoteSN.value=='T')
 		{
 			alert('No se Puede Modificar Peso de Paquete, Instrucción de Embarque se Encuentra Terminada.')
 			return;
@@ -1091,7 +1048,8 @@ function Etiqueta()
 			alert("El Peso Del Paquete No Puede Ser Mayor Al Peso Faltante");
 			return;
 		}		
-*/		linea = '&cmbcodpaq=' + f.cmbcodpaq.value + '&txtnumpaq=' + f.txtnumpaq.value;
+		*/		
+		linea = '&cmbcodpaq=' + f.cmbcodpaq.value + '&txtnumpaq=' + f.txtnumpaq.value;
 		linea = linea + '&cmbcodlote=' + f.cmbcodlote.value + '&txtnumlote=' + f.txtnumlote.value;
 		
 		if (f.radio[0].checked == true)
@@ -1101,18 +1059,10 @@ function Etiqueta()
 				//StrDatosEtiqueta=f.SubProdEtiq.value+"\r\n"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"\r\n";
 				var StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 				//alert(StrPaquetePeso);
-				//StrPaquetePeso='Hola';
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
-				<?php
-				$ruta    = '';
-				$archivo = 'datos.txt';
-				$var     = "<script>document.writeln(StrPaquetePeso);</script>";				
-				?>
-				//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
-				//alert("Paquete:"+StrPaquetePeso);
-				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-				//alert("Write:" +write);
-				
+				ruta    = '';
+				archivo = 'datos.txt';	
+				EscribirArchivo(ruta,archivo,StrPaquetePeso);	
 				
 				if(f.cmbproducto.value==18||f.cmbproducto.value==48)//ETIQUETAS SOLO PARA CATODOS Y LAMINAS
 				{
@@ -1134,22 +1084,27 @@ function Etiqueta()
 					}
 					//alert(StrDatosEtiqueta);
 					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
-					<?php
-					$ruta    = '';
-					$archivo = 'etiquetas.txt';
-					$var     = "<script>document.writeln(StrDatosEtiqueta);</script>";	
-					?>
-					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-					//alert("Write:" + write);
+					ruta    = '';
+					archivo = 'etiquetas.txt';	
+					EscribirArchivo(ruta,archivo,StrDatosEtiqueta);
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
 					//f.leyes_grupo.value=''				
-					//EjecEtiqueta();
+					//-EjecEtiqueta();
 				}
 	}
 	var a=setTimeout("alert('Impresion Realizada ')",2000);
 	
 	
+}
+function Writex()
+{
+	var f = document.frm1;	
+	StrDatosEtiqueta=f.SubProdEtiq.value+"*"+f.cmbcodlote.options[f.cmbcodlote.selectedIndex].text+"-"+f.txtnumlote.value+"*";
+	//alert("StrDatosEtiqueta:"+StrDatosEtiqueta);
+	ruta    = '';
+	archivo = 'etiquetas.txt';	
+	EscribirArchivo(ruta,archivo,StrDatosEtiqueta);
 }
 
 function Modificar()
@@ -2068,6 +2023,7 @@ if ($row = mysqli_fetch_array($rs))
 		echo '<input name="btnver" type="button" style="width:70" value="Ver Datos" onClick="VerDatos()">&nbsp;'; 
         echo '<input name="btnlimpiar" type="button" value="Limpiar" style="width:70" onClick="Limpiar()">&nbsp;';
         echo '<input name="btnsalir" type="button"   value="Salir" style="width:70" onClick="Salir()"></td>&nbsp;';
+		//echo '<input name="btnwrite" type="button"   value="Write" style="width:70" onClick="Writex()"></td>&nbsp;';
 	?>          
           </tr>
   </table></td>
