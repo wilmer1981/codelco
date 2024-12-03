@@ -900,7 +900,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
     <table width="81%" border="0" cellspacing="1" cellpadding="1"  bgcolor="#FFFFFF">
       <tr> 
         <td width="32%" bgcolor="#b26c4a"><div align="center"><strong></strong> 
-            <strong><font color="#FFFFFF" size="2">Producción De Cátodos (Versión 1) </font></strong></div></td>
+            <strong><font color="#FFFFFF" size="2">Producci&oacute;n De C&aacute;todos (Versi&oacute;n 1) </font></strong></div></td>
           </font></strong></td>
       </tr>
 </table>

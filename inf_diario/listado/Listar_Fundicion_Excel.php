@@ -1,8 +1,29 @@
 <?php
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");	
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
+ 	header("Expires: 0");
+  	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
+
+$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+$dia    = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
 $Fecha=$ano."-".$mes."-".$dia;
-header("Content-Type:  application/vnd.ms-excel");
-header("Expires: 0");
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 ?>
 <html>
 <head>
@@ -259,48 +280,48 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     </tr>
     <tr> 
       <td><font size="1">Horno 1</font></td>
-      <td><div align="center"><font size="1"><? echo $Campo5_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo9_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo13_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo17_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo21_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo25_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo5_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo9_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo13_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo17_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo21_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo25_r ?></font></div></td>
     </tr>
     <tr> 
       <td><font size="1">Horno 2</font></td>
-      <td><div align="center"><font size="1"><? echo $Campo6_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo10_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo14_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo18_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo22_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo26_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo6_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo10_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo14_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo18_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo22_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo26_r ?></font></div></td>
     </tr>
     <tr> 
       <td><font size="1">H. Basculante 1</font></td>
-      <td><div align="center"><font size="1"><? echo $Campo7_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo11_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo15_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo19_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo23_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo27_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo7_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo11_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo15_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo19_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo23_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo27_r ?></font></div></td>
     </tr>
     <tr> 
       <td><font size="1">H. Basculante 2</font></td>
-      <td><div align="center"><font size="1"><? echo $Campo8_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo12_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo16_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo20_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo24_r ?></font></div></td>
-      <td><div align="center"><font size="1"><? echo $Campo28_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo8_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo12_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo16_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo20_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo24_r ?></font></div></td>
+      <td><div align="center"><font size="1"><?php echo $Campo28_r ?></font></div></td>
     </tr>
     <tr> 
       <td><font size="1">Ollas Escoria Horno Retenci&oacute;n</font></td>
-      <td><div align="right"><font size="1"><? echo $Campo29_r ?></font></div></td>
+      <td><div align="right"><font size="1"><?php echo $Campo29_r ?></font></div></td>
       <td colspan="5"><font size="1">Ollas</font><font size="1">&nbsp;</font><font size="1">&nbsp;</font></td>
     </tr>
     <tr> 
       <td><font size="1">Ollas Escoria Horno Basculante</font></td>
-      <td><div align="right"><font size="1"><? echo $Campo30_r ?></font></div></td>
+      <td><div align="right"><font size="1"><?php echo $Campo30_r ?></font></div></td>
       <td colspan="5"><font size="1">Ollas</font><font size="1">&nbsp;</font><font size="1">&nbsp;</font></td>
     </tr>
     <tr> 
@@ -310,46 +331,46 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     </tr>
     <tr> 
       <td><font size="1">Horno Ret&eacute;n </font></td>
-      <td><div align="right"><font size="1"><? echo $Campo31_r ?></font></div></td>
+      <td><div align="right"><font size="1"><?php echo $Campo31_r ?></font></div></td>
       <td colspan="5"><font size="1">Ollas</font><font size="1">&nbsp;</font><font size="1">&nbsp;</font></td>
     </tr>
     <tr> 
       <td><font size="1">Horno Baculante </font></td>
-      <td><div align="right"><font size="1"><? echo $Campo32_r ?></font></div></td>
+      <td><div align="right"><font size="1"><?php echo $Campo32_r ?></font></div></td>
       <td colspan="5"><font size="1">Ollas</font><font size="1">&nbsp;</font><font size="1">&nbsp;</font></td>
     </tr>
     <tr> 
       <td><font size="1">Horno1</font></td>
-      <td><div align="right"><font size="1"><? echo $Campo33_r ?></font></div></td>
+      <td><div align="right"><font size="1"><?php echo $Campo33_r ?></font></div></td>
       <td colspan="5"><font size="1">Ton.</font></td>
     </tr>
     <tr> 
       <td><font size="1">Horno2</font></td>
-      <td><div align="right"><font size="1"><? echo $Campo34_r ?></font></div></td>
+      <td><div align="right"><font size="1"><?php echo $Campo34_r ?></font></div></td>
       <td colspan="5"><font size="1">Ton.</font></td>
     </tr>
     <tr> 
       <td><font size="1">Blister, Restos y Rechazos </font></td>
-      <td><div align="right"><font size="1"><? echo $Campo35_r ?></font></div></td>
+      <td><div align="right"><font size="1"><?php echo $Campo35_r ?></font></div></td>
       <td colspan="5"><font size="1">Ton.</font></td>
     </tr>
 	
 </table>
-  <? include("List_PlantaAcid.php"); ?>
+  <?php include("List_PlantaAcid.php"); ?>
   <table width="81%" border="0" cellspacing="1" cellpadding="1">
     <tr>
       <td width="20%"><span class="Estilo2"><strong><font size="2">Planta de &Aacute;cido</font></strong></span></td>
-      <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
-      <td colspan = 3 width="50%"><span class="Estilo2"><font size="2"><? echo $Nombre_a ?></font></span></td>
+      <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
+      <td colspan = 3 width="50%"><span class="Estilo2"><font size="2"><?php echo $Nombre_a ?></font></span></td>
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">Tiempo de Operaci&oacute;n</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo1_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo1_a ?></font></div></td>
       <td colspan = 3><span class="Estilo2"><font size="1">Hrs/d&iacute;a</font></span></td>
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">Producci&oacute;n</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo2_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo2_a ?></font></div></td>
       <td width="15%"><span class="Estilo2"><font size="1">Ton/d&iacute;a</font></span></td>
       <td width="7%">Acumulado</td>
       <td width="17%">
@@ -358,17 +379,17 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">Flujo Gases Prom.</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo3_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo3_a ?></font></div></td>
       <td><span class="Estilo2"><font size="1">M3/Hrs</font></span></td>
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">Conc. SO2 Prom.</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo4_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo4_a ?></font></div></td>
       <td><span class="Estilo2"><font size="1">%</font></span></td>
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">Conc. &Aacute;cido Prom.(Ayer)</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo5_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo5_a ?></font></div></td>
       <td><span class="Estilo2"><font size="1">%</font></span></td>
     </tr>
     <tr>
@@ -380,117 +401,117 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">Minima</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo6_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo6_a ?></font></div></td>
       <td><span class="Estilo2"><font size="1">&ordm;C</font></span></td>
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">M&aacute;xima</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo7_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo7_a ?></font></div></td>
       <td><span class="Estilo2"><font size="1">&ordm;C</font></span></td>
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">K3 (59.4)</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo8_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo8_a ?></font></div></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">K5 (83.8)</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo9_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo9_a ?></font></div></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">K6 (89.7)</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo10_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo10_a ?></font></div></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td><span class="Estilo2"><font size="1">Purgas &Aacute;cido</font></span></td>
-      <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo11_a ?></font></div></td>
+      <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo11_a ?></font></div></td>
       <td>&nbsp;</td>
     </tr>
   </table>
-  <? include("List_TermOxig.php"); ?>
+  <?php include("List_TermOxig.php"); ?>
   <div align="center">
     <table width="81%" border="0" cellspacing="1" cellpadding="1">
       <tr> 
         <td width="32%"><span class="Estilo2"><strong><font size="2">C. 
           T&eacute;rmica y Pta. Oxigeno</font></strong></span></td>
-        <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
-        <td colspan="5"><span class="Estilo2"><font size="2"><? echo $Nombre_t ?></font></span></td>
+        <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
+        <td colspan="5"><span class="Estilo2"><font size="2"><?php echo $Nombre_t ?></font></span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Producci&oacute;n LOX</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo1_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo1_t ?></font></div></td>
         <td colspan="5"><span class="Estilo2"><font size="1">Ton/d&iacute;a</font></span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Producci&oacute;n GOX</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo2_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo2_t ?></font></div></td>
         <td colspan="5"><span class="Estilo2"><font size="1">Ton/d&iacute;a</font></span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Consumo Real (FQI 165-B)</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo3_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo3_t ?></font></div></td>
         <td colspan="5"><span class="Estilo2"><font size="1">Ton/d&iacute;a</font></span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Nivel BO1</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo4_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo4_t ?></font></div></td>
         <td colspan="5"><span class="Estilo2"><font size="1">Lts.</font></span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Consignas Planta GOX</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo5_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo5_t ?></font></div></td>
         <td colspan="5"><span class="Estilo2"><font size="1">KNm3/Hr</font></span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Consignas Planta LOX</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo6_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo6_t ?></font></div></td>
         <td colspan="5"><span class="Estilo2"><font size="1">KNm3/Hr</font></span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Flujo Turbina (FIC 540)</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo7_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo7_t ?></font></div></td>
         <td colspan="5"><span class="Estilo2"><font size="1">KNm3/Hr</font></span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">PDI (540/542)</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo8_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo8_t ?></font></div></td>
         <td colspan="5"><span class="Estilo2"><font size="1">Kpa-g</font></span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Caldera K-3</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo9_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo9_t ?></font></div></td>
         <td width="15%"><span class="Estilo2"><font size="1">Ton/d&iacute;a</font></span></td>
-        <td width="7%"><span class="Estilo2"><font size="1"><? echo $Campo12_t ?></font></span></td>
+        <td width="7%"><span class="Estilo2"><font size="1"><?php echo $Campo12_t ?></font></span></td>
         <td width="17%"><span class="Estilo2">Acumulado</span></td>
         <td width="8%"> 
           <span class="Estilo2">
-<? include("Acum_Calderas_K.php"); ?>
-          <? echo number_format($Acum_K3,1,',','')?></span></td>
+<?php include("Acum_Calderas_K.php"); ?>
+          <?php echo number_format($Acum_K3,1,',','')?></span></td>
         <td width="9%"><span class="Estilo2">Tons.</span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Caldera K-4</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo10_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo10_t ?></font></div></td>
         <td><span class="Estilo2"><font size="1">Ton/d&iacute;a</font></span></td>
-        <td><span class="Estilo2"><font size="1"><? echo $Campo13_t ?></font></span></td>
+        <td><span class="Estilo2"><font size="1"><?php echo $Campo13_t ?></font></span></td>
         <td><span class="Estilo2">Acumulado</span></td>
-         <td><span class="Estilo2"><? echo number_format($Acum_K4,1,',','') ?></span></td>
+         <td><span class="Estilo2"><?php echo number_format($Acum_K4,1,',','') ?></span></td>
         <td><span class="Estilo2">Tons.</span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Caldera K-5</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo11_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo11_t ?></font></div></td>
         <td><span class="Estilo2"><font size="1">Ton/d&iacute;a</font></span></td>
-        <td><span class="Estilo2"><font size="1"><? echo $Campo14_t ?></font></span></td>
+        <td><span class="Estilo2"><font size="1"><?php echo $Campo14_t ?></font></span></td>
         <td><span class="Estilo2">Acumulado</span></td>
-         <td><span class="Estilo2"><? echo number_format($Acum_K5,1,',','') ?></span></td>
+         <td><span class="Estilo2"><?php echo number_format($Acum_K5,1,',','') ?></span></td>
         <td><span class="Estilo2">Tons.</span></td>
       </tr>
       <tr> 
         <td><span class="Estilo2"><font size="1">Factor de Potencia (COSPI) Acum.</font></span></td>
-        <td><div align="right" class="Estilo2"><font size="1"><? echo $Campo15_t ?></font></div></td>
+        <td><div align="right" class="Estilo2"><font size="1"><?php echo $Campo15_t ?></font></div></td>
         <td colspan="5">&nbsp;</td>
       </tr>
 </table>
@@ -509,36 +530,37 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         <td width="33%"><div align="center" class="Estilo2">UNIDADES</div></td>
         <td width="33%"><div align="center" class="Estilo2">PESO KG</div></td>
       </tr>
-      <?
+      <?php
 	  include("conectar48.php");  
 	  
 	  $consulta = "SELECT distinct flujo FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento = '$Fecha'"; 
-      $rs = mysqli_query($consulta);	  
-
+      $rs = mysqli_query($link,$consulta);	  
+		$Total_Unidades_Produccion = 0;
+		$Total_Peso_Produccion = 0;
 	  while($row = mysqli_fetch_array($rs))
 	  {
-            $consulta = "SELECT descripcion FROM proyecto_modernizacion.flujos WHERE cod_flujo = $row[flujo]";
+            $consulta = "SELECT descripcion FROM proyecto_modernizacion.flujos WHERE cod_flujo = '".$row["flujo"]."' ";
             $consulta.=" and sistema = 'SEA'";
-			$rs1 = mysqli_query($consulta);		
+			$rs1 = mysqli_query($link,$consulta);		
 				
 			if($row1 = mysqli_fetch_array($rs1))
 			{
 				echo'<tr>'; 
-					echo'<td height="20">'.$row1[descripcion].'</td>';
+					echo'<td height="20">'.$row1["descripcion"].'</td>';
 
-				    $consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso FROM sea_web.movimientos WHERE flujo = $row[flujo] AND fecha_movimiento = '$Fecha'";
-	  				$rs2 = mysqli_query($consulta);
+				    $consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso FROM sea_web.movimientos WHERE flujo = '".$row["flujo"]."' AND fecha_movimiento = '$Fecha'";
+	  				$rs2 = mysqli_query($link,$consulta);
 
 					if($row2 = mysqli_fetch_array($rs2))
 					{					
-						echo'<td height="20"><center>'.number_format($row2[unidades],0,",",".").'</center></td>';
-						echo'<td height="20"><center>'.number_format($row2[peso],0,",",".").'</center></td>';
+						echo'<td height="20"><center>'.number_format($row2["unidades"],0,",",".").'</center></td>';
+						echo'<td height="20"><center>'.number_format($row2["peso"],0,",",".").'</center></td>';
 					}
 
 				echo'</tr>';
 			}	
-			$Total_Unidades_Produccion = $Total_Unidades_Produccion + $row2[unidades];
-			$Total_Peso_Produccion = $Total_Peso_Produccion + $row2[peso];
+			$Total_Unidades_Produccion = $Total_Unidades_Produccion + $row2["unidades"];
+			$Total_Peso_Produccion = $Total_Peso_Produccion + $row2["peso"];
 
 	  }
       echo'<tr>';
@@ -561,12 +583,15 @@ header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         <td width="18%"><div align="center" class="Estilo2">PESO PROMEDIO</div></td>
         <td width="33%"><div align="center" class="Estilo2">PESO KG</div></td>
       </tr>
-<?
+<?php
 $FechaInicio = $ano."-".$mes."-01";
 $FechaConsulta = $ano."-".$mes."-".$dia;
 
 		    
 //Corrientes Ventana
+    $Acum_peso = 0;
+	$Acum_unid = 0;
+	$Acum_prom = 0;
 	echo'<tr>'; 
 		echo'<td height="20">Ánodos Corrientes Ventana</td>';
 
@@ -578,11 +603,11 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " AND ano = YEAR(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH))";				
 				$consulta.= " AND unid_fin > 0";				
 				
-				$rs1 = mysqli_query($consulta);								
+				$rs1 = mysqli_query($link,$consulta);								
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
-					$unidades_aux = $row1[unidades];
-					$peso_aux = $row1[peso];
+					$unidades_aux = $row1["unidades"];
+					$peso_aux = $row1["peso"];
 				}
 				//-------------
 				//RECEPCION
@@ -590,11 +615,11 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 					$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 4";
 					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 					$consulta.= " AND tipo_movimiento = '1'";
-					$rs1 = mysqli_query($consulta);
+					$rs1 = mysqli_query($link,$consulta);
 					if ($row1 = mysqli_fetch_array($rs1))
 					{
-						$unidades_aux = $unidades_aux + $row1[unidades];
-						$peso_aux = $peso_aux + $row1[peso];					
+						$unidades_aux = $unidades_aux + $row1["unidades"];
+						$peso_aux = $peso_aux + $row1["peso"];					
 					}
 				//-----------------
 				///BENEFICIO - RECHAZO
@@ -602,12 +627,12 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 4";
 				$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 				$consulta.= " AND tipo_movimiento in (2,4)";
-				$rs1 = mysqli_query($consulta);						
+				$rs1 = mysqli_query($link,$consulta);						
 
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
-					$unidades_aux = $unidades_aux - $row1[unidades];
-					$peso_aux = $peso_aux - $row1[peso];					
+					$unidades_aux = $unidades_aux - $row1["unidades"];
+					$peso_aux = $peso_aux - $row1["peso"];					
 				}
 
 				//STOCK FINAL A LA FECHA DE CONSULTA
@@ -635,11 +660,11 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " AND ano = YEAR(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH))";				
 				$consulta.= " AND unid_fin > 0";				
 				
-				$rs1 = mysqli_query($consulta);								
+				$rs1 = mysqli_query($link,$consulta);								
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
-					$unidades_aux = $row1[unidades];
-					$peso_aux = $row1[peso];
+					$unidades_aux = $row1["unidades"];
+					$peso_aux = $row1["peso"];
 				}
 				//-------------
 				//RECEPCION
@@ -647,11 +672,11 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 					$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 8";
 					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 					$consulta.= " AND tipo_movimiento = '1'";
-					$rs1 = mysqli_query($consulta);
+					$rs1 = mysqli_query($link,$consulta);
 					if ($row1 = mysqli_fetch_array($rs1))
 					{
-						$unidades_aux = $unidades_aux + $row1[unidades];
-						$peso_aux = $peso_aux + $row1[peso];					
+						$unidades_aux = $unidades_aux + $row1["unidades"];
+						$peso_aux = $peso_aux + $row1["peso"];					
 					}
 				//-----------------
 				///BENEFICIO - RECHAZO
@@ -659,12 +684,12 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 8";
 				$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 				$consulta.= " AND tipo_movimiento in (2,4)";
-				$rs1 = mysqli_query($consulta);						
+				$rs1 = mysqli_query($link,$consulta);						
 
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
-					$unidades_aux = $unidades_aux - $row1[unidades];
-					$peso_aux = $peso_aux - $row1[peso];					
+					$unidades_aux = $unidades_aux - $row1["unidades"];
+					$peso_aux = $peso_aux - $row1["peso"];					
 				}
 
 				//STOCK FINAL A LA FECHA DE CONSULTA
@@ -692,7 +717,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " AND ano = YEAR(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH))";				
 				$consulta.= " AND unid_fin > 0";				
 				
-				$rs1 = mysqli_query($consulta);								
+				$rs1 = mysqli_query($link,$consulta);								
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
 					$unidades_aux = $row1["unidades"];
@@ -704,7 +729,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 					$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 2";
 					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 					$consulta.= " AND tipo_movimiento = '1'";
-					$rs1 = mysqli_query($consulta);
+					$rs1 = mysqli_query($link,$consulta);
 					if ($row1 = mysqli_fetch_array($rs1))
 					{
 						$unidades_aux = $unidades_aux + $row1["unidades"];
@@ -716,11 +741,11 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 2";
 				$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 				$consulta.= " AND tipo_movimiento in (2,4)";
-				$rs1 = mysqli_query($consulta);						
+				$rs1 = mysqli_query($link,$consulta);						
 
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
-					$unidades_aux = $unidades_aux - $row1"[unidades"];
+					$unidades_aux = $unidades_aux - $row1["unidades"];
 					$peso_aux     = $peso_aux - $row1["peso"];					
 				}
 
@@ -749,7 +774,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " AND ano = YEAR(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$FechaInicio."', INTERVAL 1 MONTH))";				
 				$consulta.= " AND unid_fin > 0";				
 				
-				$rs1 = mysqli_query($consulta);								
+				$rs1 = mysqli_query($link,$consulta);								
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
 					$unidades_aux = $row1["unidades"];
@@ -761,7 +786,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 					$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 3";
 					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 					$consulta.= " AND tipo_movimiento = '1'";
-					$rs1 = mysqli_query($consulta);
+					$rs1 = mysqli_query($link,$consulta);
 					if ($row1 = mysqli_fetch_array($rs1))
 					{
 						$unidades_aux = $unidades_aux + $row1["unidades"];
@@ -773,12 +798,12 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 3";
 				$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 				$consulta.= " AND tipo_movimiento in (2,4)";
-				$rs1 = mysqli_query($consulta);						
+				$rs1 = mysqli_query($link,$consulta);						
 
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
-					$unidades_aux = $unidades_aux - $row1[unidades];
-					$peso_aux = $peso_aux - $row1[peso];					
+					$unidades_aux = $unidades_aux - $row1["unidades"];
+					$peso_aux = $peso_aux - $row1["peso"];					
 				}
 
 				//STOCK FINAL A LA FECHA DE CONSULTA
@@ -808,11 +833,11 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " AND unid_fin > 0";				
 				//echo $consulta;
 				
-				$rs1 = mysqli_query($consulta);								
+				$rs1 = mysqli_query($link,$consulta);								
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
-					$unidades_aux = $row1[unidades];
-					$peso_aux = $row1[peso];
+					$unidades_aux = $row1["unidades"];
+					$peso_aux = $row1["peso"];
 				}
 				//-------------
 				//RECEPCION
@@ -820,11 +845,11 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 					$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 1";
 					$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 					$consulta.= " AND tipo_movimiento = '1'";
-					$rs1 = mysqli_query($consulta);
+					$rs1 = mysqli_query($link,$consulta);
 					if ($row1 = mysqli_fetch_array($rs1))
 					{
-						$unidades_aux = $unidades_aux + $row1[unidades];
-						$peso_aux = $peso_aux + $row1[peso];					
+						$unidades_aux = $unidades_aux + $row1["unidades"];
+						$peso_aux = $peso_aux + $row1["peso"];					
 					}
 				//-----------------
 				///BENEFICIO - RECHAZO
@@ -832,17 +857,21 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 				$consulta.= " WHERE cod_producto = 17 AND cod_subproducto = 1";
 				$consulta.= " AND fecha_movimiento between '".$FechaInicio."' and '".$FechaConsulta."' ";
 				$consulta.= " AND tipo_movimiento in (2,4)";
-				$rs1 = mysqli_query($consulta);						
+				$rs1 = mysqli_query($link,$consulta);						
 
 				if ($row1 = mysqli_fetch_array($rs1))
 				{
-					$unidades_aux = $unidades_aux - $row1[unidades];
-					$peso_aux = $peso_aux - $row1[peso];					
+					$unidades_aux = $unidades_aux - $row1["unidades"];
+					$peso_aux = $peso_aux - $row1["peso"];					
 				}
 
 				//STOCK FINAL A LA FECHA DE CONSULTA
 				echo '<td align="center">'.number_format($unidades_aux,0,",",".").'</td>';
-                $peso_prom = $peso_aux / $unidades_aux; 
+				if($unidades_aux>0){
+					$peso_prom = $peso_aux / $unidades_aux;
+				}else{
+					$peso_prom = 0;
+				}				
 				echo '<td align="center">'.number_format($peso_prom,0,'','').'</td>';
 				echo '<td align="center">'.number_format($peso_aux,0,",",".").'</td>';
 				$Acum_peso = $Acum_peso + $peso_aux;
@@ -874,14 +903,14 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
   <td width="74"   height="20" bgcolor="#33ccff"><div align="LEFT">TOT-PESO</td>
   <td width="100"   height="20" bgcolor="#33ccff"><div align="LEFT"></td>
   </tr>
-<?
+<?php
   $Consulta = " select distinct t1.fecha_produccion, t1.cod_producto, t2.cod_subproducto, t2.descripcion, t1.cod_grupo ";
 	$Consulta.= " from sec_web.produccion_catodo t1 inner join proyecto_modernizacion.subproducto t2 ";
 	$Consulta.= " on t1.cod_producto = t2.cod_producto and t1.cod_subproducto = t2.cod_subproducto  ";
 	$Consulta.= " where t1.fecha_produccion BETWEEN '".$FechaConsulta."' and '".$FechaConsulta."' ";
 	$Consulta.= " group by  t1.fecha_produccion, t1.cod_producto, t2.cod_subproducto, t1.cod_grupo ";
 	$Consulta.= " order by  t1.fecha_produccion, t1.cod_producto, t2.cod_subproducto, t1.cod_grupo  ";
-	$Respuesta = mysqli_query($Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 		$TotPesoGrupo = 0;
 	while ($Fila = mysqli_fetch_array($Respuesta))
   	{
@@ -890,7 +919,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 		echo "<td>".$Fila["cod_producto"]."</td>\n";
 		echo "<td>".$Fila["descripcion"]."</td>\n";
 		echo "<td align='center'>".$Fila["cod_grupo"]."</td>\n" ;
-          $producto=$Fila[cod_producto];
+          $producto=$Fila["cod_producto"];
    		$Consulta = " select t1.cod_producto, t1.cod_subproducto, t1.cod_grupo, ";
 		$Consulta.= " ifnull(sum(t1.peso_produccion),0) as peso ";
 		$Consulta.= " from sec_web.produccion_catodo t1 ";
@@ -898,7 +927,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 		$Consulta.= " and t1.cod_producto = '".$Fila["cod_producto"]."' and t1.cod_subproducto = '".$Fila["cod_subproducto"]."' ";
 		$Consulta.= " and t1.cod_grupo = '".$Fila["cod_grupo"]."'";
         $Consulta.= " group by  t1.fecha_produccion, t1.cod_producto, t1.cod_subproducto, t1.cod_grupo ";
-		$Respuesta2 = mysqli_query($Consulta);
+		$Respuesta2 = mysqli_query($link,$Consulta);
 		if ($Fila2 = mysqli_fetch_array($Respuesta2))
 		{
 			echo "<td align='right'>".number_format($Fila2["peso"],0,",",".")."</td>\n";
@@ -920,145 +949,138 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
 ?>
 
 <div align="center">
-  <? include("List_Novedades_Fund.php"); ?>
+  <?php include("List_Novedades_Fund.php"); ?>
    <table width="81%" border="0" cellspacing="1" cellpadding="1">
     <tr>
       <td width="32%"><span class="Estilo2"><strong><font size="2">Novedades
         Fundici&oacute;n </font></strong></span></td>
-      <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
-      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><? echo $Nombre_f ?></font></span></td>
+      <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
+      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><?php echo $Nombre_f ?></font></span></td>
     </tr>
     <tr>
-      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><? echo nl2br($Texto_f) ?></font></div></td>
+      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><?php echo nl2br($Texto_f) ?></font></div></td>
     </tr>
   </table>
-  <? include("List_Novedades_Refino.php"); ?>
+  <?php include("List_Novedades_Refino.php"); ?>
   <table width="81%" border="0" cellspacing="1" cellpadding="1">
     <tr>
       <td width="32%"><span class="Estilo2"><strong><font size="2">Novedades
         Refino a Fuego</font></strong></span></td>
-      <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
-      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><? echo $Nombre_r ?></font></span></td>
+      <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
+      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><?php echo $Nombre_r ?></font></span></td>
     </tr>
     <tr>
-      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><? echo nl2br($Texto_r) ?></font></div></td>
+      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><?php echo nl2br($Texto_r) ?></font></div></td>
     </tr>
   </table>
-  <? include("List_Novedades_PlantaAcid.php"); ?>
+  <?php include("List_Novedades_PlantaAcid.php"); ?>
   <table width="81%" border="0" cellspacing="1" cellpadding="1">
     <tr>
       <td width="32%"><span class="Estilo2"><strong><font size="2">Novedades
         Planta de &Aacute;cido</font></strong></span></td>
-      <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
-      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><? echo $Nombre_a ?></font></span></td>
+      <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
+      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><?php echo $Nombre_a ?></font></span></td>
     </tr>
     <tr>
-      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><? echo nl2br($Texto_a) ?></font></div></td>
+      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><?php echo nl2br($Texto_a) ?></font></div></td>
     </tr>
   </table>
 
-<? include("List_Novedades_TermOxig.php"); ?>
+<?php include("List_Novedades_TermOxig.php"); ?>
   <table width="81%" border="0" cellspacing="1" cellpadding="1">
     <tr>
       <td width="32%"><span class="Estilo2"><strong><font size="2">Novedades
         C. T&eacute;rmica y Pta Oxig</font></strong></span></td>
-      <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
-      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><? echo $Nombre_t ?></font></span></td>
+      <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
+      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><?php echo $Nombre_t ?></font></span></td>
     </tr>
     <tr>
-      <td height="22" colspan="3"><div align="left" class="Estilo2"><font size="2"><? echo nl2br($Texto_t) ?></font></div></td>
+      <td height="22" colspan="3"><div align="left" class="Estilo2"><font size="2"><?php echo nl2br($Texto_t) ?></font></div></td>
     </tr>
   </table>
-  <? include("List_Novedades_Refineria.php"); ?>
+  <?php include("List_Novedades_Refineria.php"); ?>
   <table width="81%" border="0" cellspacing="1" cellpadding="1">
     <tr> 
       <td width="32%"><span class="Estilo2"><strong><font size="2">Novedades 
         Refineria Electrolitica</font></strong></span></td>
-      <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
-      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><? echo $Nombre_ref ?></font></span></td>
+      <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
+      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><?php echo $Nombre_ref ?></font></span></td>
     </tr>
     <tr> 
-      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><? echo nl2br($Texto_ref) ?></font></div></td>
+      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><?php echo nl2br($Texto_ref) ?></font></div></td>
     </tr>
   </table>
   
-  <? include("List_Novedades_Prod_Met.php"); ?>
+  <?php include("List_Novedades_Prod_Met.php"); ?>
   <table width="81%" border="0" cellspacing="1" cellpadding="1"  bgcolor="#FFFFFF">
     <tr> 
       <td width="32%" bgcolor="#b26c4a"><strong><font color="#FFFFFF" size="2">Novedades 
         Productos Metalúrgicos</font></strong></td>
-      <td width="12%" bgcolor="#b26c4a"><div align="center"><font size="2" color="#FFFFFF"><? echo $Fecha ?></font></div></td>
-      <td width="56%" colspan="2" bgcolor="#b26c4a"><font size="2" color="#FFFFFF"><? echo $Nombre_Prod_Met ?></font></td>
+      <td width="12%" bgcolor="#b26c4a"><div align="center"><font size="2" color="#FFFFFF"><?php echo $Fecha ?></font></div></td>
+      <td width="56%" colspan="2" bgcolor="#b26c4a"><font size="2" color="#FFFFFF"><?php echo $Nombre_Prod_Met ?></font></td>
     </tr>
     <tr> 
-      <td height="20" colspan="3"><div align="left"><font size="2"><? echo nl2br($Texto_Prod_Met) ?></font></div></td>
+      <td height="20" colspan="3"><div align="left"><font size="2"><?php echo nl2br($Texto_Prod_Met) ?></font></div></td>
     </tr>
   </table>
 
   
-   <? include("List_Novedades_Prod_Finales.php"); ?>
+   <?php include("List_Novedades_Prod_Finales.php"); ?>
    <table width="81%" border="0" cellspacing="1" cellpadding="1"  bgcolor="#FFFFFF">
     <tr> 
       <td width="32%" bgcolor="#b26c4a"><strong><font color="#FFFFFF" size="2">Novedades 
         Productos Finales</font></strong></td>
-      <td width="12%" bgcolor="#b26c4a"><div align="center"><font size="2" color="#FFFFFF"><? echo $Fecha ?></font></div></td>
-      <td width="56%" colspan="2" bgcolor="#b26c4a"><font size="2" color="#FFFFFF"><? echo $Nombre_Prod_Finales ?></font></td>
+      <td width="12%" bgcolor="#b26c4a"><div align="center"><font size="2" color="#FFFFFF"><?php echo $Fecha ?></font></div></td>
+      <td width="56%" colspan="2" bgcolor="#b26c4a"><font size="2" color="#FFFFFF"><?php echo $Nombre_Prod_Finales ?></font></td>
     </tr>
     <tr> 
-      <td height="20" colspan="3"><div align="left"><font size="2"><? echo nl2br($Texto_Prod_Finales) ?></font></div></td>
+      <td height="20" colspan="3"><div align="left"><font size="2"><?php echo nl2br($Texto_Prod_Finales) ?></font></div></td>
     </tr>
   </table>
-
-  
-  
-  
-  
-  
-  
-  
-  <? include("List_Novedades_seguridad.php"); ?>
+ 
+  <?php include("List_Novedades_seguridad.php"); ?>
   <table width="81%" border="0" cellspacing="1" cellpadding="1">
     <tr> 
       <td width="32%"><span class="Estilo2"><strong><font size="2">Novedades 
         Seguridad Industrial y Emergencia</font></strong></span></td>
-      <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
-      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><? echo $Nombre_seg ?></font></span></td>
+      <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
+      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><?php echo $Nombre_seg ?></font></span></td>
     </tr>
     <tr> 
-      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><? echo nl2br($Texto_seg) ?></font></div></td>
+      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><?php echo nl2br($Texto_seg) ?></font></div></td>
     </tr>
   </table>
-   <? include("List_Novedades_policlinico.php"); ?>
+   <?php include("List_Novedades_policlinico.php"); ?>
   <table width="81%" border="0" cellspacing="1" cellpadding="1">
     <tr>
       <td width="32%"><span class="Estilo2"><strong><font size="2">Novedades
         Policlinico</font></strong></span></td>
-      <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
-      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><? echo $Nombre_pol ?></font></span></td>
+      <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
+      <td width="56%" colspan="2"><span class="Estilo2"><font size="2"><?php echo $Nombre_pol ?></font></span></td>
     </tr>
     <tr>
-      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><? echo nl2br($Texto_pol) ?></font></div></td>
+      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><?php echo nl2br($Texto_pol) ?></font></div></td>
     </tr>
   </table>
   
-  <? include("List_Observaciones_Mant.php"); ?>
+  <?php include("List_Observaciones_Mant.php"); ?>
   <table width="81%"  border="0" cellspacing="1" cellpadding="1">
     <tr> 
       <td width="32%"><span class="Estilo1"><font size="2">Novedades 
         de Mantenci&oacute;n </font></span></td>
-      <td width="12%"><div align="center" class="Estilo2"><font size="2"><? echo $Fecha ?></font></div></td>
+      <td width="12%"><div align="center" class="Estilo2"><font size="2"><?php echo $Fecha ?></font></div></td>
       <td width="56%" colspan="2"><span class="Estilo2"></span></td>
     </tr>
     <tr> 
       <td height="20"><span class="Estilo2"><strong>Turno A</strong></span></td>
       <td height="20"><span class="Estilo2"></span></td>
       <td height="20"><span class="Estilo2"><font size="2">
-        <? include("conectar47.php");  
+        <?php include("conectar47.php");  
 	  
 	  $Rut_bus = $Rut_A; 
-	  
+	  $Nombre_A="";
 	  	 $sql2 = "SELECT * FROM funcionarios WHERE rut LIKE '$Rut_bus' ";
-        $result2 = mysqli_query($sql2);
+        $result2 = mysqli_query($link,$sql2);
 		 if($row = mysqli_fetch_array($result2))
 		 {
 		  $apellido_p = $row["apellido_paterno"]; 
@@ -1071,18 +1093,18 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
         </font></span></td>
     </tr>
     <tr> 
-      <td height="20" colspan="3"><span class="Estilo2"><font size="2"><? echo nl2br($Observacion_A) ?></font></span></td>
+      <td height="20" colspan="3"><span class="Estilo2"><font size="2"><?php echo nl2br($Observacion_A) ?></font></span></td>
     </tr>
     <tr> 
       <td height="20"><span class="Estilo2"><strong>Turno B</strong></span></td>
       <td height="20"><span class="Estilo2"></span></td>
       <td height="20"><span class="Estilo2"><font size="2">
-        <? 
+        <?php
 	  
 	  $Rut_bus = $Rut_B; 
-	  
+	  $Nombre_B="";
 	  	 $sql2 = "SELECT * FROM funcionarios WHERE rut LIKE '$Rut_bus' ";
-        $result2 = mysqli_query($sql2);
+        $result2 = mysqli_query($link,$sql2);
 		 if($row = mysqli_fetch_array($result2))
 		 {
 		  $apellido_p = $row["apellido_paterno"]; 
@@ -1095,18 +1117,18 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
         </font></span></td>
     </tr>
     <tr> 
-      <td height="20" colspan="3"><span class="Estilo2"><font size="2"><? echo nl2br($Observacion_B) ?></font></span></td>
+      <td height="20" colspan="3"><span class="Estilo2"><font size="2"><?php echo nl2br($Observacion_B) ?></font></span></td>
     </tr>
     <tr> 
       <td height="20"><span class="Estilo2"><strong>Turno C</strong></span></td>
       <td height="20"><span class="Estilo2"></span></td>
       <td height="20"><span class="Estilo2"><font size="2">
-        <? 
+        <?php 
 	  
 	  $Rut_bus = $Rut_C; 
-	  
+	  $Nombre_C="";
 	  	 $sql2 = "SELECT * FROM funcionarios WHERE rut LIKE '$Rut_bus' ";
-        $result2 = mysqli_query($sql2);
+        $result2 = mysqli_query($link,$sql2);
 		 if($row = mysqli_fetch_array($result2))
 		 {
 		  $apellido_p = $row["apellido_paterno"]; 
@@ -1119,18 +1141,18 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
         </font></span></td>
     </tr>
     <tr> 
-      <td height="20" colspan="3"><span class="Estilo2"><font size="2"><? echo nl2br($Observacion_C) ?></font></span></td>
+      <td height="20" colspan="3"><span class="Estilo2"><font size="2"><?php echo nl2br($Observacion_C) ?></font></span></td>
     </tr>
     <tr> 
       <td height="20"><span class="Estilo2"><strong>Turno V</strong></span></td>
       <td height="20"><span class="Estilo2"></span></td>
       <td height="20"><span class="Estilo2"><font size="2">
-        <? 
+        <?php 
 	  
 	  $Rut_bus = $Rut_V; 
-	  
+	  $Nombre_V="";
 	  	 $sql2 = "SELECT * FROM funcionarios WHERE rut LIKE '$Rut_bus' ";
-        $result2 = mysqli_query($sql2);
+        $result2 = mysqli_query($link,$sql2);
 		 if($row = mysqli_fetch_array($result2))
 		 {
 		  $apellido_p = $row["apellido_paterno"]; 
@@ -1143,7 +1165,7 @@ $FechaConsulta = $ano."-".$mes."-".$dia;
         </font></span></td>
     </tr>
     <tr> 
-      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><? echo nl2br($Observacion_V) ?></font></div></td>
+      <td height="20" colspan="3"><div align="left" class="Estilo2"><font size="2"><?php echo nl2br($Observacion_V) ?></font></div></td>
     </tr>
   </table>
 </div>
