@@ -1,4 +1,4 @@
-<?
+<?php
     
 include("../../principal/conectar_principal.php");
   

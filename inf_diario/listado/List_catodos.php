@@ -1,8 +1,17 @@
-<?
- //$link = mysql_connect('10.56.11.7','adm_bd','672312');
- 
+<?php
+ //$link = mysql_connect('10.56.11.7','adm_bd','672312'); 
 	include("conectar_7.php"); 
-	if (!isset($DiaIni))
+	/*
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	*/
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"";
+	
+	if ($DiaIni=="")
 	{
 		$DiaIni = date("d");
 		$MesIni = date("m");
@@ -10,9 +19,7 @@
 		$DiaFin = date("d");
 		$MesFin = date("m");
 		$AnoFin = date("Y");
-	}
-	
-	
+	}	
 	$DiaIni = $dia;
 	$MesIni = $mes;
 	$AnoIni = $ano;
@@ -20,14 +27,11 @@
 	$MesFin = $mes;
 	$AnoFin = $ano;
 
-
-		//echo"FFFF".$AnoIni."-".$MesIni."-".$DiaIni;
+	//echo"FFFF".$AnoIni."-".$MesIni."-".$DiaIni;		
+	$FechaInicio  = date("Y-m-d", mktime(1,0,0,$MesIni,$DiaIni ,$AnoIni));
+	$FechaTermino = date("Y-m-d", mktime(1,0,0,$MesFin,($DiaFin +1),$AnoFin));	
 		
-	$FechaInicio =date("Y-m-d", mktime(1,0,0,$MesIni,$DiaIni ,$AnoIni));	
-
-	$FechaTermino =date("Y-m-d", mktime(1,0,0,$MesFin,($DiaFin +1),$AnoFin));	
-		
-//echo "RRRRRR".$FechaInicio."---".$FechaTermino ;
+    //echo "RRRRRR".$FechaInicio."---".$FechaTermino ;
 	//poly 24-08-2004 $FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	//$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;//
 
@@ -85,7 +89,7 @@ function Proceso(opt)
     <td width="60">COL-TOTAL</td>
     <td width="60">TOT-COLI</td>
   </tr>
-<?
+<?php
 	$Fecha2 =date("Y-m-d", mktime(1,0,0,$MesFin,($DiaFin +1),$AnoFin));	
 
 	//echo "hola".$FechaInicio."-".$Fecha2;	
@@ -101,17 +105,16 @@ function Proceso(opt)
 		$Consulta.= " group by   t1.cod_producto, t2.cod_subproducto, t1.cod_grupo ";
 		$Consulta.= " order by t1.fecha_produccion, t1.cod_producto, t2.cod_subproducto, t1.cod_grupo  ";
 		//echo "con".$Consulta;
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		$TotalColParc = 0;
 		$TotalColTotal = 0;
 		$TotalColillas = 0;	
-		while ($Fila = mysql_fetch_array($Respuesta))
+		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$TotPesoGrupo = 0;
 			echo "<tr>\n";
 			//echo "<td>".substr($Fila["fecha_produccion"],8,2)."/".substr($Fila["fecha_produccion"],5,2)."/".substr($Fila["fecha_produccion"],0,4)."</td>\n";
-			echo "<td>".substr($Fechainiturno,8,2)."/".substr($Fechainiturno,5,2)."/".substr($Fechainiturno,0,4)."</td>\n";
-			
+			echo "<td>".substr($Fechainiturno,8,2)."/".substr($Fechainiturno,5,2)."/".substr($Fechainiturno,0,4)."</td>\n";			
 			
 			echo "<td align='center'>".$Fila["cod_producto"]."</td>\n";
 			echo "<td>".$Fila["descripcion"]."</td>\n";
@@ -127,8 +130,8 @@ function Proceso(opt)
 			$Consulta.= " and t1.cod_grupo = '".$Fila["cod_grupo"]."' and t1.cod_lado = 'P'";
 			$Consulta.= " group by   t1.cod_producto, t1.cod_subproducto, t1.cod_grupo, t1.cod_lado ";
 			//echo "con".$Consulta;
-			$Respuesta2 = mysqli_query($link, $Consulta);
-			if ($Fila2 = mysql_fetch_array($Respuesta2))
+			$Respuesta2 = mysqli_query($link,$Consulta);
+			if ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{			
 				echo "<td align='right'>".number_format($Fila2["peso"],0,",",".")."</td>\n";
 				$TotPesoGrupo = $TotPesoGrupo + ($Fila2["peso"]);
@@ -149,8 +152,8 @@ function Proceso(opt)
 			$Consulta.= " and t1.cod_grupo = '".$Fila["cod_grupo"]."' and t1.cod_lado = 'T'";
 			$Consulta.= " group by  t1.cod_producto, t1.cod_subproducto, t1.cod_grupo, t1.cod_lado ";
 			//echo "con".$Consulta;
-			$Respuesta2 = mysqli_query($link, $Consulta);
-			if ($Fila2 = mysql_fetch_array($Respuesta2))
+			$Respuesta2 = mysqli_query($link,$Consulta);
+			if ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{			
 				echo "<td align='right'>".number_format($Fila2["peso"],0,",",".")."</td>\n";
 				$TotPesoGrupo = $TotPesoGrupo + $Fila2["peso"];
@@ -174,8 +177,8 @@ function Proceso(opt)
 	
 			$Consulta.= " group by  t1.cod_producto, t1.cod_subproducto, t1.cod_grupo, t1.cod_lado ";
 			//echo "con".$Consulta;
-			$Respuesta2 = mysqli_query($link, $Consulta);
-			if ($Fila2 = mysql_fetch_array($Respuesta2))
+			$Respuesta2 = mysqli_query($link,$Consulta);
+			if ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{			
 				echo "<td align='right'>".number_format(($Fila2["peso"] - $Fila2["peso_tara"]),0,",",".")."</td>\n";
 				$TotPesoGrupo = $TotPesoGrupo + ($Fila2["peso"]-$Fila2["peso_tara"]);
@@ -196,7 +199,7 @@ function Proceso(opt)
 </table>
 <br>
 <table width="579" border="1" cellpadding="0" cellspacing="0" class="TablaDetalle" align="center">
-<?
+<?php
 	echo "<tr>\n";
 	$Consulta = "select distinct t1.fecha_produccion, t1.cod_producto, t2.cod_subproducto,  ";
 	$Consulta.= " t2.descripcion, sum(t1.peso_produccion)as peso, sum(t1.peso_tara)as peso_tara ";
@@ -208,8 +211,8 @@ function Proceso(opt)
 	$Consulta.= " group by t1.cod_producto, t2.cod_subproducto ";
 	$Consulta.= " order by t1.cod_producto, t2.cod_subproducto  ";
 	//echo "a la fecha".$Consulta;
-	$Respuesta = mysqli_query($link, $Consulta);
-	while ($Fila = mysql_fetch_array($Respuesta))
+	$Respuesta = mysqli_query($link,$Consulta);
+	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		echo "<td width='472'>PRODUCCION DEL DIA, PRODUCTO <strong>".$Fila["cod_producto"]." ".$Fila["descripcion"]."</strong></td>\n";
 		echo "<td width='83' align='right'>".number_format(($Fila["peso"]-$Fila["peso_tara"]),0,",",".")."</td>\n";
@@ -219,7 +222,7 @@ function Proceso(opt)
 </table>
 <br>
 <table width="579" border="1" cellpadding="0" cellspacing="0" class="TablaDetalle" align="center">
-<? /*
+<?php /*
 	echo "<tr>\n";
 	$Consulta = "select distinct t1.fecha_produccion, t1.cod_producto, t2.cod_subproducto,  ";
 	$Consulta.= " t2.descripcion, sum(t1.peso_produccion)as peso, sum(t1.peso_tara)as peso_tara  ";
@@ -231,9 +234,9 @@ function Proceso(opt)
 	$Consulta.= " group by t1.cod_producto, t2.cod_subproducto ";
 	$Consulta.= " order by t1.cod_producto, t2.cod_subproducto  ";
 	//echo "con".$Consulta;
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($Consulta);
 	//echo "total mes".$Consulta;
-	while ($Fila = mysql_fetch_array($Respuesta))
+	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 
 	

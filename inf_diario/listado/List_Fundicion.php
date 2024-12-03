@@ -1,19 +1,18 @@
+<?php
+	include("conectar.php");  
+	$Fecha =$ano."-".$mes."-".$dia;
+	$Cod_Tipo1="1";
 
-<?
-include("conectar.php");  
-
-$Fecha =$ano."-".$mes."-".$dia;
-
-$Cod_Tipo1="1";
-
-   $fundicion = "SELECT * FROM fundicion WHERE Fecha LIKE '%$Fecha%'and Cod_Tipo LIKE '%$Cod_Tipo1%' ";
-   $result1 = mysql_query($fundicion, $link);
-
-
-
-   if ($row = mysql_fetch_array($result1))
+   $fundicion = "SELECT * FROM informe_diario.fundicion WHERE Fecha LIKE '%$Fecha%'and Cod_Tipo LIKE '%$Cod_Tipo1%' ";
+   //echo $fundicion;
+   $result1 = mysqli_query($link,$fundicion);
+   $Nombre1="";$Campo1="";$Campo2="";$Campo3="";$Campo4="";
+   $Campo5="";$Campo6="";$Campo7="";$Campo8="";$Campo9="";$Campo10="";$Campo11="";$Campo12="";
+   $Campo13="";$Campo14="";$Campo15="";$Campo16="";$Campo17="";$Campo18="";$Campo19="";$Campo20="";
+   $Campo21="";$Campo22="";$Campo23="";$Campo24="";$Campo25="";$Campo26="";$Campo27="";$Campo28="";
+   $Campo29="";$Campo30="";$Campo31="";$Campo32="";$Campo33="";$Campo34="";$Campo35="";$Campo36="";$Campo37="";$Campo38="";
+   if ($row = mysqli_fetch_array($result1))
    {
-
 	$Nombre1 = $row["Nombre"];
     $Campo1 = $row["Campo1"];
     $Campo2 = $row["Campo2"];

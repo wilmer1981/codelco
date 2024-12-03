@@ -1,16 +1,18 @@
-<?
+<?php
 include("conectar.php");
 
 $Fecha =$ano."-".$mes."-".$dia;
 $Cod_Tipo="4";
 
-   $sql = "SELECT * FROM fundicion WHERE Fecha LIKE '%$Fecha%'and Cod_Tipo LIKE '%$Cod_Tipo%' ";
-   $result = mysql_query($sql, $link);
+   $sql = "SELECT * FROM informe_diario.fundicion WHERE Fecha LIKE '%$Fecha%'and Cod_Tipo LIKE '%$Cod_Tipo%' ";
+   $result = mysqli_query($link,$sql);
+   	$Nombre_t = "";
+    $Campo1_t = "";$Campo2_t = "";$Campo3_t = "";$Campo4_t = "";$Campo5_t = "";
+    $Campo6_t = "";$Campo7_t = "";$Campo8_t = "";$Campo9_t = "";$Campo10_t = "";
+    $Campo11_t = "";$Campo12_t = "";$Campo13_t = "";$Campo14_t = "";$Campo15_t = "";
 
-
-   if ($row = mysql_fetch_array($result))
+   if ($row = mysqli_fetch_array($result))
    {
-
 	$Nombre_t = $row["Nombre"];
     $Campo1_t = $row["Campo1"];
     $Campo2_t = $row["Campo2"];

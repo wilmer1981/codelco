@@ -1,4 +1,4 @@
-<?
+<?php
 include("conectar_7.php"); 
 	
 //include("../../principal/conectar_sea_web.php");
@@ -64,7 +64,7 @@ function Proceso(opc)
 <body class="TablaPrincipal">
 <form name="FrmPrincipal" method="post" action="">
   <br>
-  <? /*
+  <?php /*
   <table width="561" border="1" cellspacing="0" cellpadding="0">
     <tr> 
       <td colspan="2"><strong>MOVIMIENTOS ACUMULADOS DE ANODOS</strong></td>
@@ -98,8 +98,8 @@ function Proceso(opc)
    	  <?    //ANODOS
 			$Consulta = "SELECT distinct cod_subproducto FROM sea_web.movimientos WHERE cod_producto = 17 ";
 			//$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter'";
-			$resp = mysqli_query($link, $Consulta);
-			while($Fila = mysql_fetch_array($resp))
+			$resp = mysqli_query($Consulta);
+			while($Fila = mysqli_fetch_array($resp))
 			{
 				echo'<tr>';
 				  $ExFinal = 0;
@@ -113,9 +113,9 @@ function Proceso(opc)
 				  //Abreviatura
 				  $Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto WHERE cod_producto = 17";
 				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto]";	
-				  $result = mysqli_query($link, $Consulta);
-				  $Fil = mysql_fetch_array($result);	
-				  echo'<td>'.$Fil["abreviatura"].'&nbsp;</td>';
+				  $result = mysqli_query($Consulta);
+				  $Fil = mysqli_fetch_array($result);	
+				  echo'<td>'.$Fil[abreviatura].'&nbsp;</td>';
 
                  //STOCK INICIAL
 				
@@ -126,11 +126,11 @@ function Proceso(opc)
                   $Consulta.= " AND cod_subproducto = '".$Fila[cod_subproducto]."'";
                   $Consulta.= " AND ano = YEAR(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH))";
                   $Consulta.= " GROUP BY cod_producto, cod_subproducto";
-			      $rs2 = mysqli_query($link, $Consulta);
-				  $Fil2 = mysql_fetch_array($rs2);						
-				  echo'<td align="right">'.number_format($Fil2["peso"]/1000,0,"",".").'&nbsp;</td>';
-				  $AcumIni = $AcumIni + $Fil2["peso"];
-				  $AcumIni2 = $AcumIni2 + $Fil2["peso"];
+			      $rs2 = mysqli_query($Consulta);
+				  $Fil2 = mysqli_fetch_array($rs2);						
+				  echo'<td align="right">'.number_format($Fil2[peso]/1000,0,"",".").'&nbsp;</td>';
+				  $AcumIni = $AcumIni + $Fil2[peso];
+				  $AcumIni2 = $AcumIni2 + $Fil2[peso];
  				  
 				  //Recep 	
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17 ";
@@ -144,61 +144,61 @@ function Proceso(opc)
 				  }				  
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
 				
-			      $rs3 = mysqli_query($link, $Consulta);
-				  $Fil3 = mysql_fetch_array($rs3);						
-				  echo'<td align="right">'.number_format($Fil3["peso"]/1000,0,"",".").'&nbsp;</td>';
-				  $AcumRecep = $AcumRecep + $Fil3["peso"];
-				  $AcumRecep2 = $AcumRecep2 + $Fil3["peso"];
+			      $rs3 = mysqli_query($Consulta);
+				  $Fil3 = mysqli_fetch_array($rs3);						
+				  echo'<td align="right">'.number_format($Fil3[peso]/1000,0,"",".").'&nbsp;</td>';
+				  $AcumRecep = $AcumRecep + $Fil3[peso];
+				  $AcumRecep2 = $AcumRecep2 + $Fil3[peso];
 				  if($Fila[cod_subproducto] == 4)
 				  {
 					  $Consulta = "SELECT Vent FROM sea_web.inf_prod_inter WHERE Fecha = '$Fecha_Ini' AND Tipo = 'P'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
+					  $res = mysqli_query($Consulta);
+					  $row = mysqli_fetch_array($res);
 					  $peso = $row[Vent]*1000;
 					  echo'<td align="right">'.number_format($peso/1000,0,"",".").'&nbsp;</td>';
 				  }	
 				  if($Fila[cod_subproducto] == 8)
 				  {
 					  $Consulta = "SELECT HMadres FROM sea_web.inf_prod_inter WHERE fecha = '$Fecha_Ini' AND Tipo = 'P'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
+					  $res = mysqli_query($Consulta);
+					  $row = mysqli_fetch_array($res);
 					  $peso = $row[HMadres]*1000;
 					  echo'<td align="right">'.number_format($peso/1000,0,"",".").'&nbsp;</td>';
 				  }	
 				  if($Fila[cod_subproducto] == 1)
 				  {
 					  $Consulta = "SELECT FHVL FROM sea_web.inf_prod_inter WHERE fecha = '$Fecha_Ini' AND Tipo = 'P'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
+					  $res = mysqli_query($Consulta);
+					  $row = mysqli_fetch_array($res);
 					  $peso = $row[FHVL]*1000;
 					  echo'<td align="right">'.number_format($peso/1000,0,"",".").'&nbsp;</td>';
 				  }	
 				  if($Fila[cod_subproducto] == 2)
 				  {
 					  $Consulta = "SELECT Teniente FROM sea_web.inf_prod_inter WHERE fecha = '$Fecha_Ini' AND Tipo = 'P'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
+					  $res = mysqli_query($Consulta);
+					  $row = mysqli_fetch_array($res);
 					  $peso = $row[Teniente]*1000;
 					  echo'<td align="right">'.number_format($peso/1000,0,"",".").'&nbsp;</td>';
 				  }	
 				  if($Fila[cod_subproducto] == 3)
 				  {
 					  $Consulta = "SELECT Disputada FROM sea_web.inf_prod_inter WHERE fecha = '$Fecha_Ini' AND Tipo = 'P'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
+					  $res = mysqli_query($Consulta);
+					  $row = mysqli_fetch_array($res);
 					  $peso = $row[Disputada]*1000;
 					  echo'<td align="right">'.number_format($peso/1000,0,"",".").'&nbsp;</td>';
 				  }
                   if ($Fila[cod_subproducto] == 13)
                   {
 					  $Consulta = "SELECT Expo FROM sea_web.inf_prod_inter WHERE fecha = '$Fecha_Ini' AND Tipo = 'P'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
+					  $res = mysqli_query($Consulta);
+					  $row = mysqli_fetch_array($res);
 					  $peso = $row[Expo]*1000;
 					  echo'<td align="right">'.number_format($peso/1000,0,"",".").'&nbsp;</td>';
                   }
 
-				  $Falta = $peso - $Fil3["peso"];
+				  $Falta = $peso - $Fil3[peso];
                   if ($Fila[cod_subproducto]==13)
                   {
                       $Falta = 0;
@@ -211,11 +211,11 @@ function Proceso(opc)
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17 ";
 				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 2";	
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			      $rs4 = mysqli_query($link, $Consulta);
-				  $Fil4 = mysql_fetch_array($rs4);						
-				  echo'<td align="right">'.number_format($Fil4["peso"]/1000,0,"",".").'&nbsp;</td>';
-				  $AcumNave = $AcumNave + $Fil4["peso"];
-				  $AcumNave2 = $AcumNave2 + $Fil4["peso"];
+			      $rs4 = mysqli_query($Consulta);
+				  $Fil4 = mysqli_fetch_array($rs4);						
+				  echo'<td align="right">'.number_format($Fil4[peso]/1000,0,"",".").'&nbsp;</td>';
+				  $AcumNave = $AcumNave + $Fil4[peso];
+				  $AcumNave2 = $AcumNave2 + $Fil4[peso];
 
 
 				  //Trasp Raf
@@ -231,30 +231,30 @@ function Proceso(opc)
 				$consulta1 =  $consulta1." and t2.cod_leyes = '09' where t1.cod_producto = 17";
 				$consulta1 = $consulta1. " and t1.cod_subproducto = $Fila[cod_subproducto] and t1.tipo_movimiento = 4";
 				$consulta1 = $consulta1. " and t1.fecha_movimiento between '$Fecha_Ini' and '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-				$ps = mysql_query($consulta1);
-				while($fila_p = mysql_fetch_array($ps))
+				$ps = mysqli_query($consulta1);
+				while($fila_p = mysqli_fetch_array($ps))
 				{
 					if ($Fila[cod_subproducto] < 5)
 						{
-							if  ($fila_p["valor"] >= 500)
+							if  ($fila_p[valor] >= 500)
 							{
-								 $peso_quimico = $peso_quimico + $fila_p["peso"];
+								 $peso_quimico = $peso_quimico + $fila_p[peso];
 							}
 							else
 							{
-								$peso_fisico = $peso_fisico + $fila_p["peso"]; 
+								$peso_fisico = $peso_fisico + $fila_p[peso]; 
 							}					
 				    	}
 							
 				  		if ($Fila[cod_subproducto] > 4)
 						{
-						   	if ($fila_p["valor"] >= 400)
+						   	if ($fila_p[valor] >= 400)
 							{
-								$peso_quimico = $peso_quimico + $fila_p["peso"];
+								$peso_quimico = $peso_quimico + $fila_p[peso];
 							}	
 							else
 							{	
-								$peso_fisico = $peso_fisico + $fila_p["peso"]; 				
+								$peso_fisico = $peso_fisico + $fila_p[peso]; 				
 				    		}
 			  			  }
 					}
@@ -267,28 +267,28 @@ function Proceso(opc)
 				 /*$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17";
 				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 4";	
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter'";
-			      $rs5 = mysqli_query($link, $Consulta);
-				  $Fil5 = mysql_fetch_array($rs5);						
-				  echo'<td align="right">'.number_format($Fil5["peso"]/1000,0,"",".").'&nbsp;</td>';
-				  $AcumRaf = $AcumRaf + $Fil5["peso"];
-				  $AcumRaf2 = $AcumRaf2 + $Fil5["peso"];
+			      $rs5 = mysqli_query($Consulta);
+				  $Fil5 = mysqli_fetch_array($rs5);						
+				  echo'<td align="right">'.number_format($Fil5[peso]/1000,0,"",".").'&nbsp;</td>';
+				  $AcumRaf = $AcumRaf + $Fil5[peso];
+				  $AcumRaf2 = $AcumRaf2 + $Fil5[peso];
 
 				  //Otros Destinos
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17";
 				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND (tipo_movimiento = 5 or tipo_movimiento = 9)";
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			      $rs6 = mysqli_query($link, $Consulta);
-				  $Fil6 = mysql_fetch_array($rs6);	
+			      $rs6 = mysqli_query($Consulta);
+				  $Fil6 = mysqli_fetch_array($rs6);	
 				  
 				  echo'<td align="right">'.number_format($AcumEmbResto/1000,0,"",".").'&nbsp;</td>';
 				  
 				 // echo'<td>&nbsp;</td>';					
-				  echo'<td align="right">'.number_format($Fil6["peso"]/1000,0,"",".").'&nbsp;</td>';
-				  $AcumDest = $AcumDest + $Fil6["peso"];
-				  $AcumDest2 = $AcumDest2 + $Fil6["peso"];
+				  echo'<td align="right">'.number_format($Fil6[peso]/1000,0,"",".").'&nbsp;</td>';
+				  $AcumDest = $AcumDest + $Fil6[peso];
+				  $AcumDest2 = $AcumDest2 + $Fil6[peso];
                   if ($Fila[cod_subproducto]==13)
                   {
-                      //echo "otros ".$Fil6["peso"];
+                      //echo "otros ".$Fil6[peso];
                    }
 
 				 
@@ -325,10 +325,10 @@ function Proceso(opc)
 		$Consulta.= " AND ano = YEAR(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH))";
 		$Consulta.= " GROUP BY cod_producto, cod_subproducto";
 		//echo $Consulta."<br>";
-		$rs2 = mysqli_query($link, $Consulta);
-		while($Fil2 = mysql_fetch_array($rs2))						
+		$rs2 = mysqli_query($Consulta);
+		while($Fil2 = mysqli_fetch_array($rs2))						
  	    {
-		    $AcumIni5 = $AcumIni5 + $Fil2["peso"];
+		    $AcumIni5 = $AcumIni5 + $Fil2[peso];
 		}
 		echo'<td align="right">'.number_format($AcumIni5/1000,0,"",".").'&nbsp;</td>';
 
@@ -336,36 +336,36 @@ function Proceso(opc)
 		$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 		$Consulta = $Consulta." AND tipo_movimiento = 3";	
 		$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-		$rs3 = mysqli_query($link, $Consulta);
-		$Fil3 = mysql_fetch_array($rs3);						
- 	    $AcumProd5 = $AcumProd5 + $Fil3["peso"];
-		echo'<td align="right">'.number_format($Fil3["peso"]/1000,0,"",".").'&nbsp;</td>';
+		$rs3 = mysqli_query($Consulta);
+		$Fil3 = mysqli_fetch_array($rs3);						
+ 	    $AcumProd5 = $AcumProd5 + $Fil3[peso];
+		echo'<td align="right">'.number_format($Fil3[peso]/1000,0,"",".").'&nbsp;</td>';
 
 	    $Consulta = "SELECT Restos FROM sea_web.inf_prod_inter WHERE fecha = '$Fecha_Ini' AND tipo = 'P'";
-		$res = mysqli_query($link, $Consulta);
-		$row = mysql_fetch_array($res);
+		$res = mysqli_query($Consulta);
+		$row = mysqli_fetch_array($res);
 		$peso = $row[Restos]*1000;
 		echo'<td align="right">'.number_format($peso/1000,0,"",".").'&nbsp;</td>';
-		$Falta = $peso - $Fil3["peso"];	
+		$Falta = $peso - $Fil3[peso];	
 		echo'<td align="right">'.number_format($Falta/1000,0,"",".").'&nbsp;</td>';
 
 		//Nave	
 		$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 		$Consulta = $Consulta." AND tipo_movimiento = 2";	
 		$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-		$rs4 = mysqli_query($link, $Consulta);
-		$Fil4 = mysql_fetch_array($rs4);						
- 	    $AcumNave5 = $AcumNave5 + $Fil4["peso"];
-		echo'<td align="right">'.number_format($Fil4["peso"]/1000,0,"",".").'&nbsp;</td>';
+		$rs4 = mysqli_query($Consulta);
+		$Fil4 = mysqli_fetch_array($rs4);						
+ 	    $AcumNave5 = $AcumNave5 + $Fil4[peso];
+		echo'<td align="right">'.number_format($Fil4[peso]/1000,0,"",".").'&nbsp;</td>';
 
 		//RAf	
 		$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 		$Consulta = $Consulta." AND tipo_movimiento = 4";	
 		$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-		$rs5 = mysqli_query($link, $Consulta);
-		$Fil5 = mysql_fetch_array($rs5);						
- 	    $AcumRaf5 = $AcumRaf5 + $Fil5["peso"];
-		echo'<td align="right">'.number_format($Fil5["peso"]/1000,0,"",".").'&nbsp;</td>';
+		$rs5 = mysqli_query($Consulta);
+		$Fil5 = mysqli_fetch_array($rs5);						
+ 	    $AcumRaf5 = $AcumRaf5 + $Fil5[peso];
+		echo'<td align="right">'.number_format($Fil5[peso]/1000,0,"",".").'&nbsp;</td>';
 		
 		
 		
@@ -379,17 +379,17 @@ function Proceso(opc)
 		$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 		$Consulta = $Consulta." AND tipo_movimiento = 10";	
 		$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-		$rsresto = mysqli_query($link, $Consulta);
-		$Filresto = mysql_fetch_array($rsresto);						
- 	    $AcumEmb = $AcumEmb + $Filresto["peso"];
-		echo'<td align="right">'.number_format($Filresto["peso"]/1000,0,"",".").'&nbsp;</td>';
+		$rsresto = mysqli_query($Consulta);
+		$Filresto = mysqli_fetch_array($rsresto);						
+ 	    $AcumEmb = $AcumEmb + $Filresto[peso];
+		echo'<td align="right">'.number_format($Filresto[peso]/1000,0,"",".").'&nbsp;</td>';
 
 		
 	    $ExFinal5 = $AcumIni5 + $AcumProd5 - $AcumNave5 - $AcumRaf5 - $AcumEmb;
 		echo'<td align="right">'.number_format($ExFinal5/1000,0,"",".").'&nbsp;</td>';				  
 		$ExFinal5 = 0;			  
 	 */ ?>		
-  <? /*  </tr>
+  <?php /*  </tr>
   </table>
   <br>  
    */ ?>	
@@ -419,19 +419,26 @@ function Proceso(opc)
 	 <td width="112" align="center">Fisico</td>	
 	 <td width="108" align="center">Quimico</td>	
     </tr>
-	<?
+	<?php
 
 		$Consulta = "SELECT MAX(fecha) as fecha FROM sea_web.inf_rechazos WHERE fecha between '$Fecha_Ini' and '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-		$res = mysqli_query($link, $Consulta);
-		$fil = mysql_fetch_array($res);
-		$Fecha_B = $fil[fecha]; 
+		$res = mysqli_query($link,$Consulta);
+		$fil = mysqli_fetch_array($res);
+		$Fecha_B = $fil["fecha"]; 
 		$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha_B'";
-		$rs = mysqli_query($link, $Consulta);				
-		if($row = mysql_fetch_array($rs))
+		$rs = mysqli_query($link,$Consulta);
+		$AcumFinal3 = 0;
+        $AcumAprob  = 0;
+        $AcumTotal  = 0;		
+		if($row = mysqli_fetch_array($rs))
 		{
 			$Consulta = "SELECT distinct cod_subproducto FROM sea_web.movimientos WHERE cod_producto = 17 ";
-			$resp = mysqli_query($link, $Consulta);
-			while($Fila = mysql_fetch_array($resp))
+			$resp = mysqli_query($link,$Consulta);
+			$AcumFisi  = 0;
+			$AcumQuim  = 0;
+			$AcumCalaf = 0;
+			$AcumAna   = 0;
+			while($Fila = mysqli_fetch_array($resp))
 			{	
 				 $ExFinal3 = 0;
 				 $AcumIni3 = 0;
@@ -444,148 +451,150 @@ function Proceso(opc)
 				 $PromStock = 0;
 				 $PromRecep = 0;
 				 $Total = 0;
+				 $AcumEmbResto=0; //WSO
 				  //Abreviatura
 				  $Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto WHERE cod_producto = 17";
-				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto]";	
-				  $result = mysqli_query($link, $Consulta);
-				  $Fil = mysql_fetch_array($result);	
+				  $Consulta = $Consulta." AND cod_subproducto = ".$Fila["cod_subproducto"]." ";	
+				  $result = mysqli_query($link,$Consulta);
+				  $Fil = mysqli_fetch_array($result);	
 				  echo'<td>'.$Fil["abreviatura"].'&nbsp;</td>';
 	
 				 //STOCK INICIAL
 				  $Consulta = "SELECT cod_producto, cod_subproducto, ifnull(sum(unid_fin),0) as unidades, ifnull(sum(peso_fin),0) as peso ";
 				  $Consulta.= " FROM sea_web.stock ";
 				  $Consulta.= " WHERE cod_producto = 17";
-				  $Consulta.= " AND cod_subproducto = '".$Fila[cod_subproducto]."'";
+				  $Consulta.= " AND cod_subproducto = '".$Fila["cod_subproducto"]."'";
 				  $Consulta.= " AND ano = YEAR(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH))";
 				  $Consulta.= " GROUP BY cod_producto, cod_subproducto";
-				  $rs2 = mysqli_query($link, $Consulta);
-				  $Fil2 = mysql_fetch_array($rs2);
-				  $AcumIni3 = $AcumIni3 + $Fil2["peso"];	
+				  $rs2 = mysqli_query($link,$Consulta);
+				  $Fil2 = mysqli_fetch_array($rs2);
+				  $peso = isset($Fil2["peso"])?$Fil2["peso"]:0;
+				  $AcumIni3 = $AcumIni3 + $peso;	
 				  //Recep 	
 				  $Consulta = "SELECT SUM(peso) as peso, sum(unidades) as unidades FROM sea_web.movimientos WHERE cod_producto = 17 ";
-				  if ($Fila[cod_subproducto]==4 || $Fila[cod_subproducto]==8)
+				  if ($Fila["cod_subproducto"]==4 || $Fila["cod_subproducto"]==8)
 				  { 
-				  	$Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento IN (1,44)";	
+				  	$Consulta = $Consulta." AND cod_subproducto = ".$Fila["cod_subproducto"]." AND tipo_movimiento IN (1,44)";	
 				  }
 				  else
 				  { 
-				  	$Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 1 ";	
+				  	$Consulta = $Consulta." AND cod_subproducto = ".$Fila["cod_subproducto"]." AND tipo_movimiento = 1 ";	
 				  }				  
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
 			      //if ($Fila[cod_subproducto]==4 || $Fila[cod_subproducto]==8)
 				  //		echo "recep".$Consulta;
-				  $rs3 = mysqli_query($link, $Consulta);
-				  $Fil3 = mysql_fetch_array($rs3);						
+				  $rs3 = mysqli_query($link,$Consulta);
+				  $Fil3 = mysqli_fetch_array($rs3);						
 				  $AcumRecep3 = $AcumRecep3 + $Fil3["peso"];
 
 				  //Nave	
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17 ";
-				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 2";	
+				  $Consulta = $Consulta." AND cod_subproducto = ".$Fila["cod_subproducto"]." AND tipo_movimiento = 2";	
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
 			      //if ($Fila[cod_subproducto]==4 || $Fila[cod_subproducto]==8)
 				  //	   echo "benef".$Consulta;
-				  $rs4 = mysqli_query($link, $Consulta);
-				  $Fil4 = mysql_fetch_array($rs4);						
+				  $rs4 = mysqli_query($link,$Consulta);
+				  $Fil4 = mysqli_fetch_array($rs4);						
 				  $AcumNave3 = $AcumNave3 + $Fil4["peso"];
 	
 				  //Trasp Raf
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17";
-				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 4";	
+				  $Consulta = $Consulta." AND cod_subproducto = ".$Fila["cod_subproducto"]." AND tipo_movimiento = 4";	
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-				  $rs5 = mysqli_query($link, $Consulta);
-				  $Fil5 = mysql_fetch_array($rs5);						
+				  $rs5 = mysqli_query($link,$Consulta);
+				  $Fil5 = mysqli_fetch_array($rs5);						
 				  $AcumRaf3 = $AcumRaf3 + $Fil5["peso"];
 
 				  //Otros Destinos
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17";
-				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento IN (5,9)";	
+				  $Consulta = $Consulta." AND cod_subproducto = ".$Fila["cod_subproducto"]." AND tipo_movimiento IN (5,9)";	
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-				  $rs6 = mysqli_query($link, $Consulta);
-				  $Fil6 = mysql_fetch_array($rs6);						
+				  $rs6 = mysqli_query($link,$Consulta);
+				  $Fil6 = mysqli_fetch_array($rs6);						
 				  $AcumDest3 = $AcumDest3 + $Fil6["peso"];
-				  if($Fila[cod_subproducto] == 4)
+				  if($Fila["cod_subproducto"] == 4)
 				  {
 					  $Consulta = "SELECT Fis_Vent,Quim_Vent,Calaf_Vent,Ana_Vent FROM sea_web.inf_rechazos WHERE Fecha = '$Fecha_B'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
-					  if($row[Fis_Vent] != '')
-						  $peso_fisico = $row[Fis_Vent]*1000; 
-					  if($row[Quim_Vent] != '')
-						  $peso_quimico = $row[Quim_Vent]*1000;
-					  if($row[Calaf_Vent] != '')
-						  $peso_calafateo = $row[Calaf_Vent]*1000;
-					  if($row[Ana_Vent] != '')
-						  $peso_analisis = $row[Ana_Vent]*1000;
+					  $res = mysqli_query($link,$Consulta);
+					  $row = mysqli_fetch_array($res);
+					  if($row["Fis_Vent"] != '')
+						  $peso_fisico = $row["Fis_Vent"]*1000; 
+					  if($row["Quim_Vent"] != '')
+						  $peso_quimico = $row["Quim_Vent"]*1000;
+					  if($row["Calaf_Vent"] != '')
+						  $peso_calafateo = $row["Calaf_Vent"]*1000;
+					  if($row["Ana_Vent"] != '')
+						  $peso_analisis = $row["Ana_Vent"]*1000;
 				  }	
-				  if($Fila[cod_subproducto] == 8)
+				  if($Fila["cod_subproducto"] == 8)
 				  {
 					  $Consulta = "SELECT Fis_HMadres,Quim_HMadres,Calaf_HMadres,Ana_HMadres FROM sea_web.inf_rechazos WHERE fecha = '$Fecha_B'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
-					  if($row[Fis_HMadres] != '')
-						   $peso_fisico = $row[Fis_HMadres]*1000;
-					  if($row[Quim_HMadres] != '')
-						  $peso_quimico = $row[Quim_HMadres]*1000;
+					  $res = mysqli_query($link,$Consulta);
+					  $row = mysqli_fetch_array($res);
+					  if($row["Fis_HMadres"] != '')
+						   $peso_fisico = $row["Fis_HMadres"]*1000;
+					  if($row["Quim_HMadres"] != '')
+						  $peso_quimico = $row["Quim_HMadres"]*1000;
 					  if($row["Calaf_HMadres"] != '')
-						  $peso_calafateo = $row[Calaf_HMadres]*1000;
-					  if($row[Ana_HMadres] != '')
-						  $peso_analisis = $row[Ana_HMadres]*1000;
+						  $peso_calafateo = $row["Calaf_HMadres"]*1000;
+					  if($row["Ana_HMadres"] != '')
+						  $peso_analisis = $row["Ana_HMadres"]*1000;
 				  }	
-				  if($Fila[cod_subproducto] == 1)
+				  if($Fila["cod_subproducto"] == 1)
 				  {
 					  $Consulta = "SELECT Fis_FHVL,Quim_FHVL,Calaf_FHVL,Ana_FHVL FROM sea_web.inf_rechazos WHERE fecha = '$Fecha_B'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
-					  if($row[Fis_FHVL] != '')
-						   $peso_fisico = $row[Fis_FHVL]*1000;
-					  if($row[Quim_FHVL] != '')
-						   $peso_quimico = $row[Quim_FHVL]*1000;
-					  if($row[Calaf_FHVL] != '')
-						   $peso_calafateo = $row[Calaf_FHVL]*1000;
-					  if($row[Ana_FHVL] != '')
-						   $peso_analisis = $row[Ana_FHVL]*1000;
+					  $res = mysqli_query($link,$Consulta);
+					  $row = mysqli_fetch_array($res);
+					  if($row["Fis_FHVL"] != '')
+						   $peso_fisico = $row["Fis_FHVL"]*1000;
+					  if($row["Quim_FHVL"] != '')
+						   $peso_quimico = $row["Quim_FHVL"]*1000;
+					  if($row["Calaf_FHVL"] != '')
+						   $peso_calafateo = $row["Calaf_FHVL"]*1000;
+					  if($row["Ana_FHVL"] != '')
+						   $peso_analisis = $row["Ana_FHVL"]*1000;
 				  }	
-				  if($Fila[cod_subproducto] == 2)
+				  if($Fila["cod_subproducto"] == 2)
 				  {
 					  $Consulta = "SELECT Fis_Teniente,Quim_Teniente,Calaf_Teniente,Ana_Teniente FROM sea_web.inf_rechazos WHERE fecha = '$Fecha_B'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
-					  if($row[Fis_Teniente] != '')
-						   $peso_fisico = $row[Fis_Teniente]*1000;
-					  if($row[Quim_Teniente] != '')
-						   $peso_quimico = $row[Quim_Teniente]*1000;
-					  if($row[Calaf_Teniente] != '')
-						   $peso_calafateo = $row[Calaf_Teniente]*1000;
-					  if($row[Ana_Teniente] != '')
-						   $peso_analisis = $row[Ana_Teniente]*1000;
+					  $res = mysqli_query($link,$Consulta);
+					  $row = mysqli_fetch_array($res);
+					  if($row["Fis_Teniente"] != '')
+						   $peso_fisico = $row["Fis_Teniente"]*1000;
+					  if($row["Quim_Teniente"] != '')
+						   $peso_quimico = $row["Quim_Teniente"]*1000;
+					  if($row["Calaf_Teniente"] != '')
+						   $peso_calafateo = $row["Calaf_Teniente"]*1000;
+					  if($row["Ana_Teniente"] != '')
+						   $peso_analisis = $row["Ana_Teniente"]*1000;
 				  }	
-				  if($Fila[cod_subproducto] == 3)
+				  if($Fila["cod_subproducto"] == 3)
 				  {
 					  $Consulta = "SELECT Fis_Disputada,Quim_Disputada,Calaf_Disputada,Ana_Disputada FROM sea_web.inf_rechazos WHERE fecha = '$Fecha_B'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
-					  if($row[Fis_Disputada] != '')
-						   $peso_fisico = $row[Fis_Disputada]*1000;;
-					  if($row[Quim_Disputada] != '')
-						   $peso_quimico = $row[Quim_Disputada]*1000;
-					  if($row[Calaf_Disputada] != '')
-						   $peso_calafateo = $row[Calaf_Disputada]*1000;
+					  $res = mysqli_query($link,$Consulta);
+					  $row = mysqli_fetch_array($res);
+					  if($row["Fis_Disputada"] != '')
+						   $peso_fisico = $row["Fis_Disputada"]*1000;;
+					  if($row["Quim_Disputada"] != '')
+						   $peso_quimico = $row["Quim_Disputada"]*1000;
+					  if($row["Calaf_Disputada"] != '')
+						   $peso_calafateo = $row["Calaf_Disputada"]*1000;
 					  if($row["Ana_Disputada"] != '')
-						   $peso_analisis = $row[Ana_Disputada]*1000;
+						   $peso_analisis = $row["Ana_Disputada"]*1000;
 				  }				
-	              if ($Fila[cod_subproducto]==13)
+	              if ($Fila["cod_subproducto"]==13)
                   {
 					  $Consulta = "SELECT Fis_Expo,Quim_Expo,Calaf_Expo,Ana_Expo FROM sea_web.inf_rechazos WHERE fecha = '$Fecha_B'";
-					  $res = mysqli_query($link, $Consulta);
-					  $row = mysql_fetch_array($res);
-					  if($row[Fis_Expo] != '')
-						   $peso_fisico = $row[Fis_Expo]*1000;;
-					  if($row[Quim_Expo] != '')
-						   $peso_quimico = $row[Quim_Expo]*1000;
-					  if($row[Calaf_Expo] != '')
-						   $peso_calafateo = $row[Calaf_Expo]*1000;
-					  if($row[Ana_Expo] != '')
-						   $peso_analisis = $row[Ana_Expo]*1000;
+					  $res = mysqli_query($link,$Consulta);
+					  $row = mysqli_fetch_array($res);
+					  if($row["Fis_Expo"] != '')
+						   $peso_fisico = $row["Fis_Expo"]*1000;;
+					  if($row["Quim_Expo"] != '')
+						   $peso_quimico = $row["Quim_Expo"]*1000;
+					  if($row["Calaf_Expo"] != '')
+						   $peso_calafateo = $row["Calaf_Expo"]*1000;
+					  if($row["Ana_Expo"] != '')
+						   $peso_analisis = $row["Ana_Expo"]*1000;
 
                   }
 				  $AcumFisi = $AcumFisi + $peso_fisico;
@@ -620,8 +629,8 @@ function Proceso(opc)
 			$Consulta = "SELECT distinct cod_subproducto FROM sea_web.movimientos WHERE cod_producto = 17 ";
 			$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
 			//echo $Consulta;
-			$resp = mysqli_query($link, $Consulta);
-			while($Fila = mysql_fetch_array($resp))
+			$resp = mysqli_query($link,$Consulta);
+			while($Fila = mysqli_fetch_array($resp))
 			{
 	
 				 $ExFinal3 = 0;
@@ -634,75 +643,75 @@ function Proceso(opc)
 				 $total = 0;
 				  //Abreviatura
 				  $Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto WHERE cod_producto = 17";
-				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto]";	
-				  $result = mysqli_query($link, $Consulta);
-				  $Fil = mysql_fetch_array($result);	
+				  $Consulta = $Consulta." AND cod_subproducto = ".$Fila["cod_subproducto"]." ";	
+				  $result = mysqli_query($link,$Consulta);
+				  $Fil = mysqli_fetch_array($result);	
 				  echo'<td>'.$Fil["abreviatura"].'&nbsp;</td>';
 	
 				 //STOCK INICIAL
 				  $Consulta = "SELECT cod_producto, cod_subproducto, ifnull(sum(unid_fin),0) as unidades, ifnull(sum(peso_fin),0) as peso ";
 				  $Consulta.= " FROM sea_web.stock ";
 				  $Consulta.= " WHERE cod_producto = 17";
-				  $Consulta.= " AND cod_subproducto = '".$Fila[cod_subproducto]."'";
+				  $Consulta.= " AND cod_subproducto = '".$Fila["cod_subproducto"]."'";
 				  $Consulta.= " AND ano = YEAR(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH))";
 				  $Consulta.= " GROUP BY cod_producto, cod_subproducto";
 				  //echo "2".$Consulta;
-				  $rs2 = mysqli_query($link, $Consulta);
-				  $Fil2 = mysql_fetch_array($rs2);
+				  $rs2 = mysqli_query($link,$Consulta);
+				  $Fil2 = mysqli_fetch_array($rs2);
 				  $AcumIni3 = $AcumIni3 + $Fil2["peso"];			  
 				  //Recep 	
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17 ";
-				  if ($Fila[cod_subproducto]==4 || $Fila[cod_subproducto]==8)
+				  if ($Fila["cod_subproducto"]==4 || $Fila["cod_subproducto"]==8)
 				  { 
-				  	$Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento IN (1,44)";	
+				  	$Consulta = $Consulta." AND cod_subproducto = '".$Fila["cod_subproducto"]."' AND tipo_movimiento IN (1,44)";	
 				  }
 				  else
 				  { 
-				  	$Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 1 ";	
+				  	$Consulta = $Consulta." AND cod_subproducto = '".$Fila["cod_subproducto"]."' AND tipo_movimiento = 1 ";	
 				  }				  
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-				  $rs3 = mysqli_query($link, $Consulta);
-				  $Fil3 = mysql_fetch_array($rs3);						
+				  $rs3 = mysqli_query($link,$Consulta);
+				  $Fil3 = mysqli_fetch_array($rs3);						
 				  $AcumRecep3 = $AcumRecep3 + $Fil3["peso"];
 				  //Nave	
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17 ";
-				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 2";	
+				  $Consulta = $Consulta." AND cod_subproducto = '".$Fila["cod_subproducto"]."' AND tipo_movimiento = 2";	
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-				  $rs4 = mysqli_query($link, $Consulta);
-				  $Fil4 = mysql_fetch_array($rs4);						
-				  $AcumNave3 = $AcumNave3 + $Fil4["peso"];
+				  $rs4 = mysqli_query($link,$Consulta);
+				  $Fil4 = mysqli_fetch_array($rs4);						
+				  $AcumNave3 = $AcumNave3 + $Fil4[peso];
 	
 				  //Trasp Raf
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17";
-				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 4";	
+				  $Consulta = $Consulta." AND cod_subproducto = '".$Fila["cod_subproducto"]."' AND tipo_movimiento = 4";	
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-				  $rs5 = mysqli_query($link, $Consulta);
-				  $Fil5 = mysql_fetch_array($rs5);						
+				  $rs5 = mysqli_query($link,$Consulta);
+				  $Fil5 = mysqli_fetch_array($rs5);						
 				  $AcumRaf3 = $AcumRaf3 + $Fil5["peso"];
 	
 				  //Otros Destinos
 				  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 17";
-				  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento IN (5,9)";	
+				  $Consulta = $Consulta." AND cod_subproducto = '".$Fila["cod_subproducto"]."' AND tipo_movimiento IN (5,9)";	
 				  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			      $rs6 = mysqli_query($link, $Consulta);
-				  $Fil6 = mysql_fetch_array($rs6);						
+			      $rs6 = mysqli_query($link,$Consulta);
+				  $Fil6 = mysqli_fetch_array($rs6);						
 				  $AcumDest3 = $AcumDest3 + $Fil6["peso"];
 
 				  $Consulta = "SELECT sum(recuperables) as calaf FROM sea_web.rechazos";
-				  $Consulta.= " WHERE cod_producto=17 AND cod_subproducto=$Fila[cod_subproducto]"; 
+				  $Consulta.= " WHERE cod_producto=17 AND cod_subproducto='".$Fila["cod_subproducto"]."' "; 
 				  $Consulta.= " AND cod_tipo=6 AND cod_defecto<>0"; 
 				  $Consulta.= " AND cod_defecto=15"; 
 				  $Consulta.= " AND fecha_ini >= '$Fecha_Ini' AND fecha_ter <= '$Fecha_Ter'";
-				  $res = mysqli_query($link, $Consulta);
-				  if($row = mysql_fetch_array($res))
+				  $res = mysqli_query($link,$Consulta);
+				  if($row = mysqli_fetch_array($res))
 				  {
 					   $Consulta = "SELECT (peso_unidades/unidades) as prom from sea_web.hornadas";
 					   $Consulta.= " WHERE cod_producto=17";
-					   $Consulta.= " AND cod_subproducto=$Fila[cod_subproducto] group by hornada_ventana";
-					   $res = mysqli_query($link, $Consulta);				   
-					   $fila = mysql_fetch_array($res);
-					   $prom = $fila[prom];
-					   $peso_calaf = $row[calaf] * $prom;	
+					   $Consulta.= " AND cod_subproducto='".$Fila["cod_subproducto"]."' group by hornada_ventana";
+					   $res = mysqli_query($link,$Consulta);				   
+					   $fila = mysqli_fetch_array($res);
+					   $prom = $fila["prom"];
+					   $peso_calaf = $row["calaf"] * $prom;	
 				  }
 				  $AcumCalaf = $AcumCalaf + $peso_calaf;
 	
@@ -712,40 +721,40 @@ function Proceso(opc)
 				  $Consulta.= " AND cod_tipo=6 AND cod_defecto<>0"; 
 				  $Consulta.= " AND cod_defecto <> 15"; 
 				  $Consulta.= " AND fecha_ini >= '$Fecha_Ini' AND fecha_ter <= '$Fecha_Ter'";
-				  $res = mysqli_query($link, $Consulta);
-				  if($row = mysql_fetch_array($res))
+				  $res = mysqli_query($link,$Consulta);
+				  if($row = mysqli_fetch_array($res))
 				  {
 					   $Consulta = "SELECT (peso_unidades/unidades) as prom from sea_web.hornadas";
 					   $Consulta.= " WHERE cod_producto=17";
-					   $Consulta.= " AND cod_subproducto=$Fila[cod_subproducto] group by hornada_ventana";
-					   $res = mysqli_query($link, $Consulta);				   
-					   $fila = mysql_fetch_array($res);
-					   $prom = $fila[prom];
-					   $peso_fisico = $row[rech] * $prom;	
+					   $Consulta.= " AND cod_subproducto='".$Fila["cod_subproducto"]."' group by hornada_ventana";
+					   $res = mysqli_query($link,$Consulta);				   
+					   $fila = mysqli_fetch_array($res);
+					   $prom = $fila["prom"];
+					   $peso_fisico = $row["rech"] * $prom;	
 				  }
 				  $AcumFisi = $AcumFisi + $peso_fisico;
 				  
 				  //Quimico	
 				  $Consulta = "SELECT sum(peso) as peso, hornada FROM sea_web.movimientos WHERE cod_producto = 17";
-				  if ($Fila[cod_subproducto]==4 || $Fila[cod_subproducto]==8)
+				  if ($Fila["cod_subproducto"]==4 || $Fila["cod_subproducto"]==8)
 				  {
-				  	$Consulta.= " AND tipo_movimiento IN (1,44) AND cod_subproducto = ".$Fila[cod_subproducto];
+				  	$Consulta.= " AND tipo_movimiento IN (1,44) AND cod_subproducto = ".$Fila["cod_subproducto"];
 				  }
 				  else
 				  {
-				  	$Consulta.= " and tipo_movimiento = 1 and cod_subproducto = ".$Fila[cod_subproducto];
+				  	$Consulta.= " and tipo_movimiento = 1 and cod_subproducto = ".$Fila["cod_subproducto"];
 				  }
 				  $Consulta.= " AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
 				  $Consulta.= " GROUP BY hornada";
-				  $rs = mysqli_query($link, $Consulta);
+				  $rs = mysqli_query($link,$Consulta);
 				  $peso_quimico = 0;
-				  while($row = mysql_fetch_array($rs))
+				  while($row = mysqli_fetch_array($rs))
 				  {
 					 $Consulta = "SELECT valor from sea_web.leyes_por_hornada where cod_producto = 17";
-					 $Consulta.= " AND cod_subproducto = $Fila[cod_subproducto] AND hornada = $row[hornada]";
+					 $Consulta.= " AND cod_subproducto = '".$Fila["cod_subproducto"]."' AND hornada = '".$row["hornada"]."' ";
 					 $Consulta.= " AND cod_unidad = 2 AND cod_leyes = '09'";					  
-					 $result = mysqli_query($link, $Consulta);
-					 $fila = mysql_fetch_array($result);	
+					 $result = mysqli_query($link,$Consulta);
+					 $fila = mysqli_fetch_array($result);	
 					 if($fila["valor"] > 400)
 					 {
 						$peso_quimico = $peso_quiminco + $row["peso"];	
@@ -779,22 +788,22 @@ function Proceso(opc)
 	?>				
     <tr class="Detalle01">
 	 <td>Total Tons.</td> 	
-	 <td align="right"><? echo number_format($AcumAprob/1000,0,"","."); ?>&nbsp;</td>	
-	 <td align="right"><? echo number_format($AcumAna/1000,0,"","."); ?>&nbsp;</td>	
-	 <td align="right"><? echo number_format($AcumCalaf/1000,0,"","."); ?>&nbsp;</td>	
-	 <td align="right"><? echo number_format($AcumFisi/1000,0,"","."); ?>&nbsp;</td>	
-	 <td align="right"><? echo number_format($AcumQuim/1000,0,"","."); ?>&nbsp;</td>	
-	 <td align="right"><? echo number_format($AcumTotal/1000,0,"","."); ?>&nbsp;</td>	
-	  <td align="right"><? echo number_format($AcumEmbResto/1000,0,"","."); ?>&nbsp;</td>
-	 <td align="right"><? echo number_format($AcumFinal3/1000,0,"","."); ?>&nbsp;</td>	
+	 <td align="right"><?php echo number_format($AcumAprob/1000,0,"","."); ?>&nbsp;</td>	
+	 <td align="right"><?php echo number_format($AcumAna/1000,0,"","."); ?>&nbsp;</td>	
+	 <td align="right"><?php echo number_format($AcumCalaf/1000,0,"","."); ?>&nbsp;</td>	
+	 <td align="right"><?php echo number_format($AcumFisi/1000,0,"","."); ?>&nbsp;</td>	
+	 <td align="right"><?php echo number_format($AcumQuim/1000,0,"","."); ?>&nbsp;</td>	
+	 <td align="right"><?php echo number_format($AcumTotal/1000,0,"","."); ?>&nbsp;</td>	
+	  <td align="right"><?php echo number_format($AcumEmbResto/1000,0,"","."); ?>&nbsp;</td>
+	 <td align="right"><?php echo number_format($AcumFinal3/1000,0,"","."); ?>&nbsp;</td>	
     </tr>	
     <tr class="Detalle02">
 	 <td>Restos</td> 	
-   	  <? 
+   	  <?php 
 		//RESTOS
 		$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha_B'";
-		$rs = mysqli_query($link, $Consulta);		
-		if($row = mysql_fetch_array($rs))
+		$rs = mysqli_query($link,$Consulta);		
+		if($row = mysqli_fetch_array($rs))
 		{
 			//STOCK INICIAL
 			
@@ -810,8 +819,8 @@ function Proceso(opc)
 			$Consulta.= " AND ano = YEAR(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH))";
 			$Consulta.= " GROUP BY cod_producto, cod_subproducto";
 			//echo "uno".$Consulta;
-			$rs2 = mysqli_query($link, $Consulta);
-			while($Fil2 = mysql_fetch_array($rs2))						
+			$rs2 = mysqli_query($link,$Consulta);
+			while($Fil2 = mysqli_fetch_array($rs2))						
 			{
 				$AcumIni5 = $AcumIni5 + $Fil2["peso"];
 			}
@@ -819,44 +828,44 @@ function Proceso(opc)
 			$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 			$Consulta = $Consulta." AND tipo_movimiento = 3";	
 			$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			$rs3 = mysqli_query($link, $Consulta);
-			$Fil3 = mysql_fetch_array($rs3);						
+			$rs3 = mysqli_query($link,$Consulta);
+			$Fil3 = mysqli_fetch_array($rs3);						
 			$AcumProd5 = $AcumProd5 + $Fil3["peso"];
 	
 			//Nave	
 			$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 			$Consulta = $Consulta." AND tipo_movimiento = 2";	
 			$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			$rs4 = mysqli_query($link, $Consulta);
-			$Fil4 = mysql_fetch_array($rs4);						
+			$rs4 = mysqli_query($link,$Consulta);
+			$Fil4 = mysqli_fetch_array($rs4);						
 			$AcumNave5 = $AcumNave5 + $Fil4["peso"];
 	
 			//RAf	
 			$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 			$Consulta = $Consulta." AND tipo_movimiento = 4";	
 			$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			$rs5 = mysqli_query($link, $Consulta);
-			$Fil5 = mysql_fetch_array($rs5);						
+			$rs5 = mysqli_query($link,$Consulta);
+			$Fil5 = mysqli_fetch_array($rs5);						
 			$AcumRaf5 = $AcumRaf5 + $Fil5["peso"];
 	
 			$Consulta = "SELECT Fis_Restos, Quim_Restos, Calaf_Restos, Ana_Restos FROM sea_web.inf_rechazos WHERE fecha = '$Fecha_B'";
-			$res = mysqli_query($link, $Consulta);
-			$row = mysql_fetch_array($res);
-		    if($row[Fis_Restos] != '')
-			  $peso_fisico = $row[Fis_Restos]*1000;;
- 		    if($row[Quim_Restos] != '')
-			  $peso_quimico = $row[Quim_Restos]*1000;
-		    if($row[Calaf_Restos] != '')
-			  $peso_calafateo = $row[Calaf_Restos]*1000;
-		    if($row[Ana_Restos] != '')
-			  $peso_analisis = $row[Ana_Restos]*1000;
+			$res = mysqli_query($link,$Consulta);
+			$row = mysqli_fetch_array($res);
+		    if($row["Fis_Restos"] != '')
+			  $peso_fisico = $row["Fis_Restos"]*1000;;
+ 		    if($row["Quim_Restos"] != '')
+			  $peso_quimico = $row["Quim_Restos"]*1000;
+		    if($row["Calaf_Restos"] != '')
+			  $peso_calafateo = $row["Calaf_Restos"]*1000;
+		    if($row["Ana_Restos"] != '')
+			  $peso_analisis = $row["Ana_Restos"]*1000;
 		
 		//embarque
 			$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 			$Consulta = $Consulta." AND tipo_movimiento = 10";	
 			$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			$rsresto = mysqli_query($link, $Consulta);
-			$Filresto = mysql_fetch_array($rsresto);						
+			$rsresto = mysqli_query($link,$Consulta);
+			$Filresto = mysqli_fetch_array($rsresto);						
 			$AcumEmb1 = $AcumEmb1 + $Filresto["peso"];
 
 	
@@ -891,8 +900,8 @@ function Proceso(opc)
 			$Consulta.= " WHERE cod_producto = 19";
 			$Consulta.= " AND ano = YEAR(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$Fecha_Ini."', INTERVAL 1 MONTH))";
 			$Consulta.= " GROUP BY cod_producto, cod_subproducto";
-			$rs2 = mysqli_query($link, $Consulta);
-			while($Fil2 = mysql_fetch_array($rs2))						
+			$rs2 = mysqli_query($link,$Consulta);
+			while($Fil2 = mysqli_fetch_array($rs2))						
 			{
 				$AcumIni5 = $AcumIni5 + $Fil2["peso"];
 			}
@@ -900,30 +909,30 @@ function Proceso(opc)
 			$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 			$Consulta = $Consulta." AND tipo_movimiento = 3";	
 			$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			$rs3 = mysqli_query($link, $Consulta);
-			$Fil3 = mysql_fetch_array($rs3);						
+			$rs3 = mysqli_query($link,$Consulta);
+			$Fil3 = mysqli_fetch_array($rs3);						
 			$AcumProd5 = $AcumProd5 + $Fil3["peso"];
 	
 			//Nave	
 			$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 			$Consulta = $Consulta." AND tipo_movimiento = 2";	
 			$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			$rs4 = mysqli_query($link, $Consulta);
-			$Fil4 = mysql_fetch_array($rs4);						
+			$rs4 = mysqli_query($link,$Consulta);
+			$Fil4 = mysqli_fetch_array($rs4);						
 			$AcumNave5 = $AcumNave5 + $Fil4["peso"];
 	
 			//RAf	
 			$Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 19";
 			$Consulta = $Consulta." AND tipo_movimiento = 4";	
 			$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			$rs5 = mysqli_query($link, $Consulta);
-			$Fil5 = mysql_fetch_array($rs5);						
+			$rs5 = mysqli_query($link,$Consulta);
+			$Fil5 = mysqli_fetch_array($rs5);						
 			$AcumRaf5 = $AcumRaf5 + $Fil5["peso"];
 	
 			$Consulta = "SELECT Restos FROM sea_web.inf_prod_inter WHERE fecha = '$Fecha_Ter' AND Tipo = 'R'";
-			$res = mysqli_query($link, $Consulta);
-			$row = mysql_fetch_array($res);
-			$peso_restos = $row[Restos]*1000;
+			$res = mysqli_query($link,$Consulta);
+			$row = mysqli_fetch_array($res);
+			$peso_restos = $row["Restos"]*1000;
 	
 			$ExFinal5 = $AcumIni5 + $AcumProd5 - $AcumNave5 - $AcumRaf5;
 			$AprobRestos = $ExFinal5 - $peso_restos;
@@ -945,7 +954,7 @@ function Proceso(opc)
   <br>
 
   
-  <?
+  <?php
 
   	/*if ($opcion == 2)
 	
@@ -998,26 +1007,26 @@ function Proceso(opc)
 
 		//$FechaTer = date("Y-m-d",mktime(7,59,59,$Mes,($Dia + 1),$Ano));
 		$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '$FechaTer2'";
-		$resp = mysqli_query($link, $Consulta);
-		if($fila = mysql_fetch_array($resp))
+		$resp = mysqli_query($Consulta);
+		if($fila = mysqli_fetch_array($resp))
 		{
 		 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '$FechaTer2' AND turno = 'A'";
-			$rs = mysqli_query($link, $Consulta);
-			$fil = mysql_fetch_array($rs);
+			$rs = mysqli_query($Consulta);
+			$fil = mysqli_fetch_array($rs);
 				echo'<td width="63" align="center">'.$fil[grupo1].'&nbsp;</td>';
 				echo'<td width="63" align="center">'.$fil[grupo2].'&nbsp;</td>';
 				//echo'<td width="63" align="center">'.$fil[grupo3].'&nbsp;</td>';
 
 		 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '$FechaTer2' AND turno = 'B'";
-			$rs = mysqli_query($link, $Consulta);
-			$fil = mysql_fetch_array($rs);
+			$rs = mysqli_query($Consulta);
+			$fil = mysqli_fetch_array($rs);
 				echo'<td width="63" align="center">'.$fil[grupo1].'&nbsp;</td>';
 				echo'<td width="63" align="center">'.$fil[grupo2].'&nbsp;</td>';
 				//echo'<td width="63" align="center">'.$fil[grupo3].'&nbsp;</td>';
 
 		 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '$FechaTer2' AND turno = 'C'";
-			$rs = mysqli_query($link, $Consulta);
-			$fil = mysql_fetch_array($rs);
+			$rs = mysqli_query($Consulta);
+			$fil = mysqli_fetch_array($rs);
 				echo'<td width="63" align="center">'.$fil[grupo1].'&nbsp;</td>';
 				echo'<td width="63" align="center">'.$fil[grupo2].'&nbsp;</td>';
 				//echo'<td width="63" align="center">'.$fil[grupo3].'&nbsp;</td>';
@@ -1034,10 +1043,10 @@ function Proceso(opc)
 			$Consulta = $Consulta." WHERE t1.cod_concepto = 'A' and t1.dia_renovacion = '$Dia_R'";
 			$Consulta = $Consulta." and t1.fecha_renovacion = '$Fecha_In' and t2.fecha_movimiento = '$FechaTer2'";
 			$Consulta = $Consulta." and t2.tipo_movimiento = 2 and t2.cod_subproducto != 8 group by t1.cod_grupo";		
-			$rs = mysqli_query($link, $Consulta);
-			while($Fila = mysql_fetch_array($rs))
+			$rs = mysqli_query($Consulta);
+			while($Fila = mysqli_fetch_array($rs))
 			{		
-				echo'<td width="63" align="center">'.$Fila["cod_grupo"].'&nbsp;</td>';
+				echo'<td width="63" align="center">'.$Fila[cod_grupo].'&nbsp;</td>';
 			}
 	
 			$Consulta = "SELECT t1.cod_grupo, t2.cod_subproducto FROM sec_web.renovacion_prog_prod as t1";
@@ -1046,10 +1055,10 @@ function Proceso(opc)
 			$Consulta = $Consulta." WHERE t1.cod_concepto = 'B' and t1.dia_renovacion = '$Dia_R'";
 			$Consulta = $Consulta." and t1.fecha_renovacion = '$Fecha_In' and t2.fecha_movimiento = '$FechaTer2'";
 			$Consulta = $Consulta." and t2.tipo_movimiento = 2 and t2.cod_subproducto != 8 group by t1.cod_grupo";		
-			$rs = mysqli_query($link, $Consulta);
-			while($Fila = mysql_fetch_array($rs))
+			$rs = mysqli_query($Consulta);
+			while($Fila = mysqli_fetch_array($rs))
 			{		
-				echo'<td width="63" align="center">'.$Fila["cod_grupo"].'&nbsp;</td>';
+				echo'<td width="63" align="center">'.$Fila[cod_grupo].'&nbsp;</td>';
 			}
 			$Consulta = "SELECT t1.cod_grupo, t2.cod_subproducto FROM sec_web.renovacion_prog_prod as t1";
 			$Consulta = $Consulta." INNER JOIN sea_web.movimientos as t2"; 
@@ -1058,39 +1067,39 @@ function Proceso(opc)
 			$Consulta = $Consulta." and t1.fecha_renovacion = '$Fecha_In' and t2.fecha_movimiento = '$FechaTer2'";
 			$Consulta = $Consulta." and t2.tipo_movimiento = 2 and t2.cod_subproducto != 8 group by t1.cod_grupo";		
 			//echo $Consulta;
-			$rs = mysqli_query($link, $Consulta);
-			while($Fila = mysql_fetch_array($rs))
+			$rs = mysqli_query($Consulta);
+			while($Fila = mysqli_fetch_array($rs))
 			{		
-				echo'<td width="63" align="center">'.$Fila["cod_grupo"].'&nbsp;</td>';
+				echo'<td width="63" align="center">'.$Fila[cod_grupo].'&nbsp;</td>';
 			}
 		}
 	 ?>
 	</tr>	
     <tr>
 	 <td>Tipo Anodos</td>
-	 <?
+	 <?php
 	 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '$FechaTer2'";
-		$resp = mysqli_query($link, $Consulta);
-		if($fila = mysql_fetch_array($resp))
+		$resp = mysqli_query($Consulta);
+		if($fila = mysqli_fetch_array($resp))
 		{
 		 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '$FechaTer2' AND turno = 'A'";
 	//$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha_B'"; 
-			$rs = mysqli_query($link, $Consulta);
-			$fil = mysql_fetch_array($rs);
+			$rs = mysqli_query($Consulta);
+			$fil = mysqli_fetch_array($rs);
 				echo'<td width="63" align="center">'.$fil[producto1].'&nbsp;</td>';
 				echo'<td width="63" align="center">'.$fil[producto2].'&nbsp;</td>';
 				//echo'<td width="63" align="center">'.$fil[producto3].'&nbsp;</td>';
 
 		 	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '$FechaTer2' AND turno = 'B'";
-			$rs = mysqli_query($link, $Consulta);
-			$fil = mysql_fetch_array($rs);
+			$rs = mysqli_query($Consulta);
+			$fil = mysqli_fetch_array($rs);
 				echo'<td width="63" align="center">'.$fil[producto1].'&nbsp;</td>';
 				echo'<td width="63" align="center">'.$fil[producto2].'&nbsp;</td>';
 				//echo'<td width="63" align="center">'.$fil[producto3].'&nbsp;</td>';
 		 	
 			$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '$FechaTer2' AND turno = 'C'";
-			$rs = mysqli_query($link, $Consulta);
-			$fil = mysql_fetch_array($rs);
+			$rs = mysqli_query($Consulta);
+			$fil = mysqli_fetch_array($rs);
 				echo'<td width="63" align="center">'.$fil[producto1].'&nbsp;</td>';
 				echo'<td width="63" align="center">'.$fil[producto2].'&nbsp;</td>';
 				//echo'<td width="63" align="center">'.$fil[producto3].'&nbsp;</td>';
@@ -1105,8 +1114,8 @@ function Proceso(opc)
 			$Consulta = $Consulta." WHERE t1.cod_concepto = 'A' and t1.dia_renovacion = '$Dia_R'";
 			$Consulta = $Consulta." and t1.fecha_renovacion = '$Fecha_In' and t2.fecha_movimiento = '$FechaTer2'";
 			$Consulta = $Consulta." and t2.tipo_movimiento = 2 and t2.cod_subproducto != 8 group by t1.cod_grupo";		
-			$rs = mysqli_query($link, $Consulta);
-			while($Fila = mysql_fetch_array($rs))
+			$rs = mysqli_query($Consulta);
+			while($Fila = mysqli_fetch_array($rs))
 			{		
 				if($Fila[cod_subproducto] == 1)
 					$Producto = HVL;
@@ -1126,8 +1135,8 @@ function Proceso(opc)
 			$Consulta = $Consulta." WHERE t1.cod_concepto = 'B' and t1.dia_renovacion = '$Dia_R'";
 			$Consulta = $Consulta." and t1.fecha_renovacion = '$Fecha_In' and t2.fecha_movimiento = '$FechaTer2'";
 			$Consulta = $Consulta." and t2.tipo_movimiento = 2 and t2.cod_subproducto != 8 group by t1.cod_grupo";		
-			$rs = mysqli_query($link, $Consulta);
-			while($Fila = mysql_fetch_array($rs))
+			$rs = mysqli_query($Consulta);
+			while($Fila = mysqli_fetch_array($rs))
 			{		
 				if($Fila[cod_subproducto] == 1)
 					$Producto = HVL;
@@ -1146,8 +1155,8 @@ function Proceso(opc)
 			$Consulta = $Consulta." WHERE t1.cod_concepto = 'C' and t1.dia_renovacion = '$Dia_R'";
 			$Consulta = $Consulta." and t1.fecha_renovacion = '$Fecha_In' and t2.fecha_movimiento = '$FechaTer2'";
 			$Consulta = $Consulta." and t2.tipo_movimiento = 2 and t2.cod_subproducto != 8 group by t1.cod_grupo";		
-			$rs = mysqli_query($link, $Consulta);
-			while($Fila = mysql_fetch_array($rs))
+			$rs = mysqli_query($Consulta);
+			while($Fila = mysqli_fetch_array($rs))
 			{		
 				if($Fila[cod_subproducto] == 1)
 					$Producto = HVL;
@@ -1197,32 +1206,32 @@ function Proceso(opc)
 		$Fecha_Ter = $Ano.'-'.$Mes.'-'.$Dia;
 		
  		$Consulta = "SELECT observacion FROM raf_web.proyeccion_moldeo WHERE fecha = '$FechaTer2' AND observacion != ''";
-		$rs4 = mysqli_query($link, $Consulta);
-		$row4 = mysql_fetch_array($rs4);
+		$rs4 = mysqli_query($Consulta);
+		$row4 = mysqli_fetch_array($rs4);
 	 ?>	 
-	 <td rowspan="4">&nbsp;<? echo nl2br($row4["observacion"]);?></td>
+	 <td rowspan="4">&nbsp;<? echo nl2br($row4[observacion]);?></td>
 	</tr>	
     <tr>
 	  <td>Reverb 1</td>
-	  <?
+	  <?php
 		$Consulta = "SELECT * FROM raf_web.proyeccion_moldeo WHERE fecha = '$FechaTer2' AND turno = 'A'";
-		$rs1 = mysqli_query($link, $Consulta);
-		$row1 = mysql_fetch_array($rs1);				
+		$rs1 = mysqli_query($Consulta);
+		$row1 = mysqli_fetch_array($rs1);				
 
 		$Consulta = "SELECT * FROM raf_web.proyeccion_moldeo WHERE fecha = '$FechaTer2' AND turno = 'B'";
-		$rs2 = mysqli_query($link, $Consulta);
-		$row2 = mysql_fetch_array($rs2);				
+		$rs2 = mysqli_query($Consulta);
+		$row2 = mysqli_fetch_array($rs2);				
 
 		$Consulta = "SELECT * FROM raf_web.proyeccion_moldeo WHERE fecha = '$FechaTer2' AND turno = 'C'";
-		$rs3 = mysqli_query($link, $Consulta);
-		$row3 = mysql_fetch_array($rs3);				
+		$rs3 = mysqli_query($Consulta);
+		$row3 = mysqli_fetch_array($rs3);				
 		//$Fecha_Ter = $Ano.'-'.$Mes.'-'.$Dia;		
 		$Fecha_Ter = date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano));	  
 	  ?> 	
 	 <td align="center"><? echo $row1[hornada1]; ?>&nbsp;</td>
-	 <td align="center"><? echo $row1["ton_proy1"]; ?>&nbsp;</td>
+	 <td align="center"><? echo $row1[ton_proy1]; ?>&nbsp;</td>
 	 <td align="center"><? echo $row2[hornada1]; ?>&nbsp;</td>
-	 <td align="center"><? echo $row2["ton_proy1"]; ?>&nbsp;</td>
+	 <td align="center"><? echo $row2[ton_proy1]; ?>&nbsp;</td>
 	 <td align="center"><? echo $row3[hornada1]; ?>&nbsp;</td>
 	 <td align="center"><? echo $row3[ton_proy1]; ?>&nbsp;</td>
 	</tr>	
@@ -1259,20 +1268,20 @@ function Proceso(opc)
 	</tr>
 	<tr class="Detalle01">
 	  <td width="67" align="center">Fecha</td> 
-	  <td width="98" align="center">Nï¿½ Camiones</td> 
+	  <td width="98" align="center">N° Camiones</td> 
 	  <td width="60" align="center">TMS</td> 
-	  <td width="94" align="center">Nï¿½ Camiones</td> 
+	  <td width="94" align="center">N° Camiones</td> 
 	  <td width="54" align="center">TMS</td> 
-	  <td width="105" align="center">Nï¿½ Camiones</td> 
+	  <td width="105" align="center">N° Camiones</td> 
 	  <td width="55" align="center">TMS</td> 
 	</tr>
-	<?  //RECEPCION ANODOS EXTERNOS
+	<?php  //RECEPCION ANODOS EXTERNOS
 		$Consulta = "SELECT distinct FECHA AS FECHA_A FROM sipa_web.recepciones WHERE cod_producto='1' and cod_subproducto = 17 ";
 		$Consulta = $Consulta." AND FECHA BETWEEN '$FechaIni' AND '$Fecha_Ter2'";
 		$Consulta = $Consulta." ORDER BY FECHA";
 		//echo "uno".$Consulta."<br>";
-		$resp = mysqli_query($link, $Consulta);
-		while($Fila = mysql_fetch_array($resp))
+		$resp = mysqli_query($Consulta);
+		while($Fila = mysqli_fetch_array($resp))
 		{	
 			$FechaTerm2=date("Y-m-d", mktime(1,0,0,substr($Fila[FECHA_A],5,2),(substr($Fila[FECHA_A],8,2) +1),substr($Fila[FECHA_A],0,4)));
 			$FechaHoraIni=$Fila[FECHA_A].' 08:00:00';
@@ -1284,41 +1293,41 @@ function Proceso(opc)
 			  $Consulta = "SELECT count(*) as cont FROM sipa_web.recepciones WHERE FECHA = '$Fila[FECHA_A]'";
 			  $Consulta = $Consulta." AND RUT_PRV = '1100-2' AND COD_SUBPRODUCTO = '17'";
 			  //echo "dos".$Consulta;
-			  $rs = mysqli_query($link, $Consulta);
-			  $Fil = mysql_fetch_array($rs);			  
+			  $rs = mysqli_query($Consulta);
+			  $Fil = mysqli_fetch_array($rs);			  
 			  echo'<td align="center">'.$Fil[cont].'&nbsp;</td>';
 
 			  $Consulta = "SELECT sum(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento between '$Fila[FECHA_A]' AND '$FechaTerm2' and hora between '$FechaHoraIni' and '$FechaHoraFin'";
 			  $Consulta = $Consulta." AND tipo_movimiento = 1";
 			  $Consulta = $Consulta." AND cod_producto = 17 AND cod_subproducto = 1";
 			  //echo "tres".$Consulta;
-			  $rs = mysqli_query($link, $Consulta);
-			  $Fil = mysql_fetch_array($rs);			  
-			  echo'<td align="right">'.number_format($Fil["peso"]/1000,0,"","").'&nbsp;</td>'; 
+			  $rs = mysqli_query($Consulta);
+			  $Fil = mysqli_fetch_array($rs);			  
+			  echo'<td align="right">'.number_format($Fil[peso]/1000,0,"","").'&nbsp;</td>'; 
 			  
 			  //TTE
 			  $Consulta = "SELECT count(*) as cont FROM SIPA_WEB.recepciones WHERE FECHA = '$Fila[FECHA_A]'";
 			  $Consulta = $Consulta." AND RUT_PRV = '61704005-0' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17'";
 			  //echo "cuatro".$Consulta;
-			  $rs2 = mysqli_query($link, $Consulta);
-			  $Fil2 = mysql_fetch_array($rs2);			  
+			  $rs2 = mysqli_query($Consulta);
+			  $Fil2 = mysqli_fetch_array($rs2);			  
 			  echo'<td align="center">'.$Fil2[cont].'&nbsp;</td>';
 
 			  $Consulta = "SELECT sum(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento between '$Fila[FECHA_A]' AND '$FechaTerm2' and hora between '$FechaHoraIni' and '$FechaHoraFin'";
 			  $Consulta = $Consulta." AND tipo_movimiento = 1";
 			  $Consulta = $Consulta." AND cod_producto = 17 AND cod_subproducto = 2";
 			  //echo "cinco".$Consulta;
-			  $rs2 = mysqli_query($link, $Consulta);
-			  $Fil2 = mysql_fetch_array($rs2);			  
-			  echo'<td align="right">'.number_format($Fil2["peso"]/1000,0,"","").'&nbsp;</td>'; 
+			  $rs2 = mysqli_query($Consulta);
+			  $Fil2 = mysqli_fetch_array($rs2);			  
+			  echo'<td align="right">'.number_format($Fil2[peso]/1000,0,"","").'&nbsp;</td>'; 
 
 			  //DISP.
 			  $Consulta = "SELECT count(*) as cont, sum(PESO_NETO) as peso FROM SIPA_WEB.recepciones ";
 			  $Consulta.= " WHERE FECHA = '$Fila[FECHA_A]'";
 			  $Consulta = $Consulta." AND RUT_PRV = '77762940-9' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17'";
 			  //echo "seis".$Consulta;
-			  $rs3 = mysqli_query($link, $Consulta);
-			  $Fil3 = mysql_fetch_array($rs3);			
+			  $rs3 = mysqli_query($Consulta);
+			  $Fil3 = mysqli_fetch_array($rs3);			
 			  
 			  echo'<td align="center">'.$Fil3[cont].'&nbsp;</td>';
 
@@ -1326,9 +1335,9 @@ function Proceso(opc)
 			  $Consulta = $Consulta." AND tipo_movimiento = 1";
 			  $Consulta = $Consulta." AND cod_producto = 17 AND cod_subproducto = 3";
 			  //echo "siete".$Consulta;
-			  $rs3 = mysqli_query($link, $Consulta);
-			  $Fil3 = mysql_fetch_array($rs3);			  
-			  echo'<td align="right">'.number_format($Fil3["peso"]/1000,0,"","").'&nbsp;</td>'; 
+			  $rs3 = mysqli_query($Consulta);
+			  $Fil3 = mysqli_fetch_array($rs3);			  
+			  echo'<td align="right">'.number_format($Fil3[peso]/1000,0,"","").'&nbsp;</td>'; 
 
 
 			echo'</tr>';
@@ -1348,35 +1357,35 @@ function Proceso(opc)
     </tr>
 	<tr class="Detalle01">
 	  <td align="center">Fecha</td>	
-	  <td align="center">Nï¿½ Camiones</td>	
+	  <td align="center">N° Camiones</td>	
 	  <td align="center">TMS</td>	
-	  <td align="center">Nï¿½ Camiones</td>	
+	  <td align="center">N° Camiones</td>	
 	  <td align="center">TMS</td>	
 	</tr>
 	<?  //RECEPCION BLISTER EXTERNOS 
 		$Consulta = "SELECT distinct FECHA AS FECHA_A FROM SIPA_WEB.recepciones WHERE COD_PRODUCTO='1' AND COD_SUBPRODUCTO = 16 ";
 		$Consulta = $Consulta." AND FECHA BETWEEN '$FechaIni' AND '$Fecha_Ter'";
 		$Consulta = $Consulta." AND RUT_PRV IN('61704000-K','61704005-0') ORDER BY FECHA";
-		$resp = mysqli_query($link, $Consulta);
-		while($Fila = mysql_fetch_array($resp))
+		$resp = mysqli_query($Consulta);
+		while($Fila = mysqli_fetch_array($resp))
 		{	
 			echo'<tr>';
               //POTRERILLOS			
 			  echo'<td align="center">'.$Fila[FECHA_A].'</td>';
 			  $Consulta = "SELECT count(*) as cont, sum(PESO_NETO) as peso FROM SIPA_WEB.recepciones WHERE FECHA = '$Fila[FECHA_A]'";
 			  $Consulta = $Consulta." AND RUT_PRV = '61704000-K' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '16'";
-			  $rs = mysqli_query($link, $Consulta);
-			  $Fil = mysql_fetch_array($rs);			  
+			  $rs = mysqli_query($Consulta);
+			  $Fil = mysqli_fetch_array($rs);			  
 			  echo'<td align="center">'.$Fil[cont].'&nbsp;</td>';
-			  echo'<td align="right">'.number_format($Fil["peso"]/1000,0,"","").'&nbsp;</td>'; 
+			  echo'<td align="right">'.number_format($Fil[peso]/1000,0,"","").'&nbsp;</td>'; 
 			  
 			  //CODEL.TTE
 			  $Consulta = "SELECT count(*) as cont, sum(PESO_NETO) as peso FROM SIPA_WEB.recepciones WHERE FECHA = '$Fila[FECHA_A]'";
 			  $Consulta = $Consulta." AND RUT_PRV = '61704005-0' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '16'";
-			  $rs2 = mysqli_query($link, $Consulta);
-			  $Fil2 = mysql_fetch_array($rs2);
+			  $rs2 = mysqli_query($Consulta);
+			  $Fil2 = mysqli_fetch_array($rs2);
 			  echo'<td align="center">'.$Fil2[cont].'&nbsp;</td>';
-			  echo'<td align="right">'.number_format($Fil2["peso"]/1000,0,"","").'&nbsp;</td>'; 
+			  echo'<td align="right">'.number_format($Fil2[peso]/1000,0,"","").'&nbsp;</td>'; 
 	       echo'</tr>';		   
 	   }	   
    ?>
@@ -1410,8 +1419,8 @@ function Proceso(opc)
 	    $Consulta.= " FROM sea_web.stock ";
 	    $Consulta.= " WHERE cod_producto = 16";
 	    $Consulta.= " AND ano = YEAR(SUBDATE('".$Fecha_Ter."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$Fecha_Ter."', INTERVAL 1 MONTH))";		
-		$resp = mysqli_query($link, $Consulta);
-		while($Fila = mysql_fetch_array($resp))
+		$resp = mysqli_query($Consulta);
+		while($Fila = mysqli_fetch_array($resp))
 		{
 			echo'<tr>';
 		      $ExFinal2 = 0;
@@ -1421,12 +1430,12 @@ function Proceso(opc)
 			  //Abreviatura
 			  $Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto WHERE cod_producto = 16";
 			  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto]";	
-			  $result = mysqli_query($link, $Consulta);
-			  $Fil = mysql_fetch_array($result);	
+			  $result = mysqli_query($Consulta);
+			  $Fil = mysqli_fetch_array($result);	
 			  if($Fila[cod_subproducto] == 15)
-				  echo'<td>'.$Fil["abreviatura"].'&nbsp;(kgs)</td>';
+				  echo'<td>'.$Fil[abreviatura].'&nbsp;(kgs)</td>';
 			  else
-				  echo'<td>'.$Fil["abreviatura"].'&nbsp;(Tons)</td>';
+				  echo'<td>'.$Fil[abreviatura].'&nbsp;(Tons)</td>';
                  
 			  //STOCK INICIAL
               $Consulta = "SELECT cod_producto, cod_subproducto, ifnull(sum(unid_fin),0) as unidades, ifnull(sum(peso_fin),0) as peso ";
@@ -1435,45 +1444,45 @@ function Proceso(opc)
 			  $Consulta.= " AND cod_subproducto = '".$Fila[cod_subproducto]."'";
 			  $Consulta.= " AND ano = YEAR(SUBDATE('".$Fecha_Ter."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$Fecha_Ter."', INTERVAL 1 MONTH))";
 			  $Consulta.= " GROUP BY cod_producto, cod_subproducto";
-			  $rs2 = mysqli_query($link, $Consulta);
-			  $Fil2 = mysql_fetch_array($rs2);
+			  $rs2 = mysqli_query($Consulta);
+			  $Fil2 = mysqli_fetch_array($rs2);
 			  if($Fila[cod_subproducto] == 15)
-				  echo'<td align="right">'.$Fil2["peso"].'&nbsp;</td>';			  
+				  echo'<td align="right">'.$Fil2[peso].'&nbsp;</td>';			  
 			  else
-				  echo'<td align="right">'.number_format($Fil2["peso"]/1000,0,"",".").'&nbsp;</td>';
+				  echo'<td align="right">'.number_format($Fil2[peso]/1000,0,"",".").'&nbsp;</td>';
 				  
-			  $AcumIni = $AcumIni + $Fil2["peso"]; 				  
-			  $AcumIni2 = $AcumIni2 + $Fil2["peso"]; 				  
+			  $AcumIni = $AcumIni + $Fil2[peso]; 				  
+			  $AcumIni2 = $AcumIni2 + $Fil2[peso]; 				  
 			  
 			  //Recep 	
 			  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 16 ";
 			  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 1";	
 			  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			  $rs3 = mysqli_query($link, $Consulta);
-			  $Fil3 = mysql_fetch_array($rs3);						
+			  $rs3 = mysqli_query($Consulta);
+			  $Fil3 = mysqli_fetch_array($rs3);						
 
 			  if($Fila[cod_subproducto] == 15)
-				  echo'<td align="right">'.$Fil3["peso"].'&nbsp;</td>';			  
+				  echo'<td align="right">'.$Fil3[peso].'&nbsp;</td>';			  
 			  else
-				  echo'<td align="right">'.number_format($Fil3["peso"]/1000,0,"",".").'&nbsp;</td>';
+				  echo'<td align="right">'.number_format($Fil3[peso]/1000,0,"",".").'&nbsp;</td>';
 	
-			  $AcumRecep = $AcumRecep + $Fil3["peso"];
-			  $AcumRecep2 = $AcumRecep2 + $Fil3["peso"];
+			  $AcumRecep = $AcumRecep + $Fil3[peso];
+			  $AcumRecep2 = $AcumRecep2 + $Fil3[peso];
 
 			  //Trasp Raf
 			  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = 16";
 			  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 4";	
 			  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaInicio' and '$FechaTermino'";
-			  $rs5 = mysqli_query($link, $Consulta);
-			  $Fil5 = mysql_fetch_array($rs5);						
+			  $rs5 = mysqli_query($Consulta);
+			  $Fil5 = mysqli_fetch_array($rs5);						
 
 			  if($Fila[cod_subproducto] == 15)
-				  echo'<td align="right">'.$Fil5["peso"].'&nbsp;</td>';			  
+				  echo'<td align="right">'.$Fil5[peso].'&nbsp;</td>';			  
 			  else
-			  echo'<td align="right">'.number_format($Fil5["peso"]/1000,0,"",".").'&nbsp;</td>';
+			  echo'<td align="right">'.number_format($Fil5[peso]/1000,0,"",".").'&nbsp;</td>';
 
-			  $AcumRaf = $AcumRaf + $Fil5["peso"];			  
-			  $AcumRaf2 = $AcumRaf2 + $Fil5["peso"];			  
+			  $AcumRaf = $AcumRaf + $Fil5[peso];			  
+			  $AcumRaf2 = $AcumRaf2 + $Fil5[peso];			  
 
 	          echo'<td>&nbsp;</td>';  
 			  $ExFinal2 = $AcumIni2 + $AcumRecep2 - $AcumRaf2;
@@ -1523,8 +1532,8 @@ function Proceso(opc)
 		$Consulta = "SELECT distinct cod_producto,cod_subproducto FROM sea_web.movimientos WHERE cod_producto in (18,48) ";
 		$Consulta = $Consulta." AND fecha_movimiento BETWEEN '$FechaIni' AND '$Fecha_Ter'";
 		//echo $Consulta."<br>";
-		$resp = mysqli_query($link, $Consulta);
-		while($Fila = mysql_fetch_array($resp))
+		$resp = mysqli_query($Consulta);
+		while($Fila = mysqli_fetch_array($resp))
 		{
 			echo'<tr>';
 		      $ExFinal2 = 0;
@@ -1532,55 +1541,55 @@ function Proceso(opc)
 			  $AcumRecep2 = 0;
 			  $AcumRaf2 = 0;
 			  //Abreviatura
-			  $Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto WHERE cod_producto = $Fila["cod_producto"]";
+			  $Consulta = "SELECT abreviatura FROM proyecto_modernizacion.subproducto WHERE cod_producto = $Fila[cod_producto]";
 			  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto]";	
-			  $result = mysqli_query($link, $Consulta);
-			  $Fil = mysql_fetch_array($result);	
+			  $result = mysqli_query($Consulta);
+			  $Fil = mysqli_fetch_array($result);	
 			  echo'<td>'.$Fil[abreviatura].'&nbsp;</td>';
                  
 			  //STOCK INICIAL
               $Consulta = "SELECT cod_producto, cod_subproducto, ifnull(sum(unid_fin),0) as unidades, ifnull(sum(peso_fin),0) as peso ";
 			  $Consulta.= " FROM sea_web.stock ";
-			  $Consulta.= " WHERE cod_producto = ".$Fila["cod_producto"];
+			  $Consulta.= " WHERE cod_producto = ".$Fila[cod_producto];
 			  $Consulta.= " AND cod_subproducto = '".$Fila[cod_subproducto]."'";
 			  //$Consulta.= " AND ano = YEAR(SUBDATE('".$Fecha_Ter."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$Fecha_Ter."', INTERVAL 1 MONTH))";
 			  $Consulta.= " AND ano = YEAR(SUBDATE('".$FechaStock."', INTERVAL 1 MONTH)) and mes = MONTH(SUBDATE('".$FechaStock."', INTERVAL 1 MONTH))";
 			  $Consulta.= " GROUP BY cod_producto, cod_subproducto";
 			  //echo "Con".$Consulta."<BR>";
-			  $rs2 = mysqli_query($link, $Consulta);
-			  $Fil2 = mysql_fetch_array($rs2);
-			  echo'<td align="right">'.number_format($Fil2["peso"]/1000,0,"",".").'&nbsp;</td>';
-			  $AcumIni = $AcumIni + $Fil2["peso"]; 				  
-			  $AcumIni2 = $AcumIni2 + $Fil2["peso"]; 				  
+			  $rs2 = mysqli_query($Consulta);
+			  $Fil2 = mysqli_fetch_array($rs2);
+			  echo'<td align="right">'.number_format($Fil2[peso]/1000,0,"",".").'&nbsp;</td>';
+			  $AcumIni = $AcumIni + $Fil2[peso]; 				  
+			  $AcumIni2 = $AcumIni2 + $Fil2[peso]; 				  
 			  
 			  //Recep 	
-			  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = ".$Fila["cod_producto"];
+			  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = ".$Fila[cod_producto];
 			  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 1";	
 			  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaHi' and '$FechaHf'";
 				//echo "Con2".$Consulta;
 			  
-			  $rs3 = mysqli_query($link, $Consulta);
-			  $Fil3 = mysql_fetch_array($rs3);
-			  if($Fil3["peso"]>1000)						
-				  echo'<td align="right">'.number_format($Fil3["peso"]/1000,0,"",".").'&nbsp;</td>';
+			  $rs3 = mysqli_query($Consulta);
+			  $Fil3 = mysqli_fetch_array($rs3);
+			  if($Fil3[peso]>1000)						
+				  echo'<td align="right">'.number_format($Fil3[peso]/1000,0,"",".").'&nbsp;</td>';
 			  else
-			  	  echo'<td align="right">'.number_format($Fil3["peso"]/1000,2,"",".").'&nbsp;</td>';
-			  $AcumRecep = $AcumRecep + $Fil3["peso"];
-			  $AcumRecep2 = $AcumRecep2 + $Fil3["peso"];
+			  	  echo'<td align="right">'.number_format($Fil3[peso]/1000,2,"",".").'&nbsp;</td>';
+			  $AcumRecep = $AcumRecep + $Fil3[peso];
+			  $AcumRecep2 = $AcumRecep2 + $Fil3[peso];
 
 			  //Trasp Raf
-			  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = ".$Fila["cod_producto"];
+			  $Consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos WHERE cod_producto = ".$Fila[cod_producto];
 			  $Consulta = $Consulta." AND cod_subproducto = $Fila[cod_subproducto] AND tipo_movimiento = 4";	
 			  $Consulta = $Consulta." AND fecha_movimiento BETWEEN '$Fecha_Ini' AND '$Fecha_Ter' and hora between '$FechaHi' and '$FechaHf'";
 			  //echo $Consulta;
-			  $rs5 = mysqli_query($link, $Consulta);
-			  $Fil5 = mysql_fetch_array($rs5);						
-			  if($Fil5["peso"]>1000)
-				  echo'<td align="right">'.number_format($Fil5["peso"]/1000,0,"",".").'&nbsp;</td>';
+			  $rs5 = mysqli_query($Consulta);
+			  $Fil5 = mysqli_fetch_array($rs5);						
+			  if($Fil5[peso]>1000)
+				  echo'<td align="right">'.number_format($Fil5[peso]/1000,0,"",".").'&nbsp;</td>';
 			  else
-			 	  echo'<td align="right">'.number_format($Fil5["peso"]/1000,2,"",".").'&nbsp;</td>';
-			  $AcumRaf = $AcumRaf + $Fil5["peso"];			  
-			  $AcumRaf2 = $AcumRaf2 + $Fil5["peso"];			  
+			 	  echo'<td align="right">'.number_format($Fil5[peso]/1000,2,"",".").'&nbsp;</td>';
+			  $AcumRaf = $AcumRaf + $Fil5[peso];			  
+			  $AcumRaf2 = $AcumRaf2 + $Fil5[peso];			  
 
 	          echo'<td>&nbsp;</td>';  
 			  $ExFinal2 = $AcumIni2 + $AcumRecep2 - $AcumRaf2;
@@ -1589,7 +1598,8 @@ function Proceso(opc)
 			  echo'<td align="right">'.number_format($ExFinal2/1000,0,"",".").'&nbsp;</td>';				  
 	        echo'</tr>';
 	   }
-	*/?>  
+	*/
+	?>  
 	  
   </table>
   <br> 
