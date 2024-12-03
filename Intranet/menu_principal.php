@@ -8,10 +8,10 @@
 <br>
 <table width="156" height="135" border="0" cellpadding="2" cellspacing="1" background="images/logo_fundido.jpg">
 
-<?  
+<?php  
 	$Consulta = "select * from intranet.menus where pos_menu='1' order by lpad(orden,4,'0'), descripcion";
-	$Resp=mysql_query($Consulta);
-	while ($Fila=mysql_fetch_array($Resp))
+	$Resp=mysqli_query($link,$Consulta);
+	while ($Fila=mysqli_fetch_array($Resp))
 	{
 		if ($Fila["titulo"]=="S")
 		{
@@ -32,7 +32,7 @@
 </table>
 <br>
 <table width="156" border="0" cellspacing="1" cellpadding="2">
-<?  
+<?php  
 	/*$Consulta = "select * from intranet.menus where pos_menu='2' order by lpad(orden,4,'0'), descripcion";
 	$Resp=mysql_query($Consulta);
 	while ($Fila=mysql_fetch_array($Resp))
@@ -56,10 +56,10 @@
 </table>
 <br>
 <table width="156" border="0" cellspacing="1" cellpadding="2">
-<?  
+<?php  
 	$Consulta = "select * from intranet.menus where pos_menu='3' order by lpad(orden,4,'0'), descripcion";
-	$Resp=mysql_query($Consulta);
-	while ($Fila=mysql_fetch_array($Resp))
+	$Resp=mysqli_query($link,$Consulta);
+	while ($Fila=mysqli_fetch_array($Resp))
 	{
 		if ($Fila["titulo"]=="S")
 		{

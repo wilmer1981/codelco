@@ -1,4 +1,4 @@
-<?
+<?php
 	include("conectar.php");
 	//if (!isset($Pagina))
 		//$Pagina="menu_dinamico.php?CodMenu=2";
@@ -9,13 +9,15 @@
 	$DiaAnt=date("j", mktime(1,0,0,$Mes,$Dia-1,$Ano));
 	$MesAnt=date("n", mktime(1,0,0,$Mes,$Dia-1,$Ano));
 	$AnoAnt=date("Y", mktime(1,0,0,$Mes,$Dia-1,$Ano));
+	
+	$Pagina = isset($_REQUEST["Pagina"])?$_REQUEST["Pagina"]:"";
 ?>
 <html>
 <head>
 <title>CODELCO - DIVISION VENTANAS</title>
 <link href="js/style.css" rel="stylesheet" type="text/css">
 <script language="javascript">
-<?
+<?php
 	//if (!isset($Pagina))
 		//echo "window.open(\"popup_principal.html\",\"\",\"top=50,left=50,width=450,height=430,resizable=no, scrollbars=no\");";
 ?>
@@ -134,7 +136,7 @@ function acceso_sef_12()
 	clave=clave.toUpperCase();
 	if (clave=="FUNDICION")
 	{
-		f.action='http://<? echo HTTP_SERVER;?>/proyecto/sef/index.php';
+		f.action='http://<?php echo HTTP_SERVER;?>/proyecto/sef/index.php';
 		f.submit();
 	}
 	else
@@ -151,7 +153,7 @@ function acceso_sef_12()
 	clave=clave.toUpperCase();
 	if (clave=="RAMBD")
 	{
-		f.action='http://<? echo HTTP_SERVER;?>/proyecto/sef/traspasoparcial/trasp_parcial.php';
+		f.action='http://<?php echo HTTP_SERVER;?>/proyecto/sef/traspasoparcial/trasp_parcial.php';
 		f.submit();
 	}
 	else
@@ -211,7 +213,7 @@ function ing_user_inf_diario2()
 			return
 	}
 
-	f.action='http://<? echo HTTP_SERVER;?>/proyecto/inf_diario/index.php';
+	f.action='http://<?php echo HTTP_SERVER;?>/proyecto/inf_diario/index.php';
 	f.submit();
 }
 
@@ -230,7 +232,7 @@ function ing_user_sam()
 			f.Pass.focus();
 			return
 	}
-	f.action='http://<? echo HTTP_SERVER;?>/proyecto/sam_web/acceso.php';
+	f.action='http://<?php echo HTTP_SERVER;?>/proyecto/sam_web/acceso.php';
 	f.submit();
 }
 
@@ -269,19 +271,19 @@ function List_Inf_Dia(opt,dia,mes,ano)
 	switch (opt)
 	{
 		case "W":
-			f.action="http://<? echo HTTP_SERVER;?>/inf_diario/listado/Listar_Fundicion_Web.php?dia="+dia+"&mes="+mes+"&ano="+ano;
+			f.action="http://<?php echo HTTP_SERVER;?>/inf_diario/listado/Listar_Fundicion_Web.php?dia="+dia+"&mes="+mes+"&ano="+ano;
 			f.submit();
 			break;
 		case "E":
-			f.action="http://<? echo HTTP_SERVER;?>/inf_diario/listado/Listar_Fundicion_excel.php?dia="+dia+"&mes="+mes+"&ano="+ano;
+			f.action="http://<?php echo HTTP_SERVER;?>/inf_diario/listado/Listar_Fundicion_excel.php?dia="+dia+"&mes="+mes+"&ano="+ano;
 			f.submit();
 			break;
 		case "A_W":
-			f.action="http://<? echo HTTP_SERVER;?>/inf_diario/listado/Listar_Fundicion_Web.php?dia="+dia+"&mes="+mes+"&ano="+ano;
+			f.action="http://<?php echo HTTP_SERVER;?>/inf_diario/listado/Listar_Fundicion_Web.php?dia="+dia+"&mes="+mes+"&ano="+ano;
 			f.submit();
 			break;
 		case "A_E":
-			f.action="http://<? echo HTTP_SERVER;?>/inf_diario/listado/Listar_Fundicion_excel.php?dia="+dia+"&mes="+mes+"&ano="+ano;
+			f.action="http://<?php echo HTTP_SERVER;?>/inf_diario/listado/Listar_Fundicion_excel.php?dia="+dia+"&mes="+mes+"&ano="+ano;
 			f.submit();
 			break;
 	}
@@ -304,19 +306,19 @@ function List_Inf_Dia2(opt,dia,mes,ano)
 	switch (opt)
 	{
 		case "W":
-			f.action="http://<? echo HTTP_SERVER;?>/proyecto/inf_diario/listado/Listar_Fundicion_Web.php?dia="+dia+"&mes="+mes+"&ano="+ano;
+			f.action="http://<?php echo HTTP_SERVER;?>/proyecto/inf_diario/listado/Listar_Fundicion_Web.php?dia="+dia+"&mes="+mes+"&ano="+ano;
 			f.submit();
 			break;
 		case "E":
-			f.action="http://<? echo HTTP_SERVER;?>/proyecto/inf_diario/listado/Listar_Fundicion_excel.php?dia="+dia+"&mes="+mes+"&ano="+ano;
+			f.action="http://<?php echo HTTP_SERVER;?>/proyecto/inf_diario/listado/Listar_Fundicion_excel.php?dia="+dia+"&mes="+mes+"&ano="+ano;
 			f.submit();
 			break;
 		case "A_W":
-			f.action="http://<? echo HTTP_SERVER;?>/proyecto/inf_diario/listado/Listar_Fundicion_Web.php?dia="+dia+"&mes="+mes+"&ano="+ano;
+			f.action="http://<?php echo HTTP_SERVER;?>/proyecto/inf_diario/listado/Listar_Fundicion_Web.php?dia="+dia+"&mes="+mes+"&ano="+ano;
 			f.submit();
 			break;
 		case "A_E":
-			f.action="http://<? echo HTTP_SERVER;?>/proyecto/inf_diario/listado/Listar_Fundicion_excel.php?dia="+dia+"&mes="+mes+"&ano="+ano;
+			f.action="http://<?php echo HTTP_SERVER;?>/proyecto/inf_diario/listado/Listar_Fundicion_excel.php?dia="+dia+"&mes="+mes+"&ano="+ano;
 			f.submit();
 			break;
 	}
@@ -341,12 +343,12 @@ body {
 <form name="frmPrincipal" action="" method="post">
 <table width="770" height="300" border="0" cellpadding="0" cellspacing="0" class="TablaPrincipal" bgcolor="#FFFFFF">
   <tr valign="top">
-    <td height="18" colspan="3"><? include("cabecera.php"); ?></td>
+    <td height="18" colspan="3"><?php include("cabecera.php"); ?></td>
   </tr>
   <tr>
-    <td width="160" rowspan="2" valign="top" class="BordeDer"><? include("menu_principal.php"); ?><br></td>
-    <td width="770" align="center" valign="top">&nbsp;&nbsp;<? 	
-	if (!isset($Pagina))
+    <td width="160" rowspan="2" valign="top" class="BordeDer"><?php include("menu_principal.php"); ?><br></td>
+    <td width="770" align="center" valign="top">&nbsp;&nbsp;<?php	
+	if ($Pagina=="")
 	{
 		$CodMenu = 0; 
 		include("noticias.php");
@@ -392,7 +394,7 @@ body {
 	
 ?><br></td>
     <td width="242" align="right" valign="top">
-<?
+<?php
 	$Pagina="menu_dinamico.php?CodMenu=2";
 	$Encontro="";
 	$Encontro_1="N";
@@ -437,7 +439,7 @@ body {
   </tr>
   <tr>
     <td height="60" align="center" valign="top" bgcolor="#efefef" colspan="2">
-      <? //include("destacados.php"); ?>
+      <?php //include("destacados.php"); ?>
     </td>
   </tr>
 </table>-->
@@ -448,7 +450,7 @@ body {
   </tr>
   <tr>
     <td height="15" colspan="3" align="center" valign="middle" >
-<? 
+<?php 
 	//include("pie_pagina.php"); 
 ?>  </td>
   </tr>

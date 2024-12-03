@@ -1,8 +1,8 @@
 <table width="330" border="0" cellpadding="2" cellspacing="1" class="TablaPrincipal2">
-<?  
+<?php  
 	$Consulta = "select * from intranet.menus where pos_menu='".$CodMenu."' order by lpad(orden,4,'0'), descripcion";
-	$Resp=mysql_query($Consulta);
-	while ($Fila=mysql_fetch_array($Resp))
+	$Resp=mysqli_query($link,$Consulta);
+	while ($Fila=mysqli_fetch_array($Resp))
 	{
 		if ($Fila["titulo"]=="S")
 		{

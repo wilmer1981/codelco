@@ -1,6 +1,6 @@
 <head>
 <title></title>
-<link href="js/style.css" rel=stylesheet>
+<link href="js/style.css" rel="stylesheet">
 </head>
 <body  background="images/fondo.gif">
   <table width="223" border="0" cellpadding="2" cellspacing="1" class="TablaPrincipal">
@@ -11,7 +11,7 @@
         <td colspan="2" class="BordeInf">
           <p><font size="1">
             <select name="DiaIni" id="DiaIni">
-              <?
+              <?php
 				  	for ($i=1;$i<=31;$i++)
 					{
 						if ($i==date("j"))
@@ -22,7 +22,7 @@
 				  ?>
             </select>
             <select name="MesIni" id="MesIni">
-              <?
+              <?php
 				  	for ($i=1;$i<=12;$i++)
 					{
 						if ($i==date("n"))
@@ -33,7 +33,7 @@
 				  ?>
             </select>
             <select name="AnoIni" id="AnoIni">
-              <?
+              <?php
 				  	for ($i=2000;$i<=date("Y");$i++)
 					{
 						if ($i==date("Y"))
@@ -47,13 +47,13 @@
       </tr>
       <tr>
         <td class="BordeInf">Web:</td>
-        <td align="left" class="BordeInf"><input name="Ayer_Web" type="button" id="Ayer_Web2" value="Ayer" onClick="List_Inf_Dia2('A_W','<? echo $DiaAnt; ?>','<? echo $MesAnt; ?>','<? echo $AnoAnt; ?>')">
+        <td align="left" class="BordeInf"><input name="Ayer_Web" type="button" id="Ayer_Web2" value="Ayer" onClick="List_Inf_Dia2('A_W','<?php echo $DiaAnt; ?>','<?php echo $MesAnt; ?>','<?php echo $AnoAnt; ?>')">
         <input type="button" name="Listar_Web" value="Consulta" onClick="List_Inf_Dia2('W','','','')"> </td>
       </tr>
       <tr>
         <td class="BordeInf">Excel:</td>
         <td align="left"  class="BordeInf"><span class="main-menu"><font class="main-menu">
-          <input name="Ayer_Excel" type="button" value="Ayer" onClick="List_Inf_Dia2('A_E','<? echo $DiaAnt; ?>','<? echo $MesAnt; ?>','<? echo $AnoAnt; ?>')">
+          <input name="Ayer_Excel" type="button" value="Ayer" onClick="List_Inf_Dia2('A_E','<?php echo $DiaAnt; ?>','<?php echo $MesAnt; ?>','<?php echo $AnoAnt; ?>')">
           <input type="button" name="Listar_Excel" value="Consulta" onClick="List_Inf_Dia2('E','','','')">
         </font></a></span></td>
       </tr>

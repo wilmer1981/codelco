@@ -1,4 +1,5 @@
-<?
+<?php
+
 	switch ($Tipo)
 	{
 		case "AVANCE_DIARIO":
@@ -280,12 +281,12 @@
 ?>
   <table width="300" border="0" cellpadding="2" cellspacing="1" class="TablaPrincipal2">
     <tr valign="top">
-      <td height="25" bgcolor="#efefef" class="main-menu"><? echo $Titulo; ?></td>
+      <td height="25" bgcolor="#efefef" class="main-menu"><?php echo $Titulo; ?></td>
     </tr>
     <tr>
       <td height="30" align="center" valign="top">
         <p>            
-<?	
+<?php	
 	//DIA
 	if ($VerDia=="S")
 	{
@@ -328,7 +329,7 @@
 ?>            
       </p></td>
     </tr>
-<?	
+<?php	
 	if ($VerSemana=="S")
 	{
 		echo "<tr valign=\"top\">\n";
@@ -349,14 +350,14 @@
 ?>	
     <tr valign="top">
       <td align="center" height="30">
-<?	  
+<?php	  
 	if ($VerAyer=="S")	
 		echo "<input name=\"BtnAyer\" type=\"button\" style=\"width:60px\" onClick=\"BuscarArchivo('".$Tipo."','".$DiaAnt."','".$MesAnt."','".$AnoAnt."')\" value=\"Ayer\">\n";
 ?>		  
-          <input name="BtnBuscar" type="button" id="BtnBuscar2" style="width:60px " onClick="BuscarArchivo('<? echo $Tipo; ?>','','','')" value="Buscar"></td>
+          <input name="BtnBuscar" type="button" id="BtnBuscar2" style="width:60px " onClick="BuscarArchivo('<?php echo $Tipo; ?>','','','')" value="Buscar"></td>
     </tr>
     <tr align="center">
-      <td ><img src=\"images/vineta2.gif\" width=\"13\" height=\"12\" border=\"0\"><a href="<? echo $Carpeta; ?>"><font class="main-menu_2">Ver Todos</font></a></td>
+      <td ><img src=\"images/vineta2.gif\" width=\"13\" height=\"12\" border=\"0\"><a href="<?php echo $Carpeta; ?>"><font class="main-menu_2">Ver Todos</font></a></td>
     </tr>
     <tr align="center">
       <td bgcolor="#efefef" ><span class="BordeInf"><a href="JavaScript:window.history.back();"><span>volver</span></a></span></td>
@@ -367,7 +368,7 @@ function BuscarArchivo(tipo,dia,mes,ano)
 {
 	var f=document.frmPrincipal;
 	var Archivo="";
-<?
+<?php
 	if ($VerDia=="S")
 	{	
 		echo "if (dia=='') dia=f.DiaIni.value; ";
@@ -495,7 +496,7 @@ function BuscarArchivo(tipo,dia,mes,ano)
 		window.location=Archivo;
 }
 </script>
-<?
+<?php
 	//function GrabarAcceso($Tipo)
 	//{
 		include("conectar.php");
@@ -503,7 +504,7 @@ function BuscarArchivo(tipo,dia,mes,ano)
 		$Fecha=date("Y-m-d h:i:s");
 		$Insertar="insert into intranet.acceso_opciones (ip,opcion,fecha,titulo) values('$IpUser','$Tipo','$Fecha','$Titulo')";
 		//echo $Insertar;
-		mysql_query($Insertar);
+		mysqli_query($link,$Insertar);
 	//}
 
 ?>
