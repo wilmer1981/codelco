@@ -1,5 +1,15 @@
 <?php
-
+	$Tipo = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";	
+	$Titulo = isset($_REQUEST["Titulo"])?$_REQUEST["Titulo"]:"";
+	$VerDia = isset($_REQUEST["VerDia"])?$_REQUEST["VerDia"]:"";
+	$VerMes = isset($_REQUEST["VerMes"])?$_REQUEST["VerMes"]:"";
+	$VerAno = isset($_REQUEST["VerAno"])?$_REQUEST["VerAno"]:"";
+	$VerAyer = isset($_REQUEST["VerAyer"])?$_REQUEST["VerAyer"]:"";
+	$VerSemana = isset($_REQUEST["VerSemana"])?$_REQUEST["VerSemana"]:"";
+	$Carpeta = isset($_REQUEST["Carpeta"])?$_REQUEST["Carpeta"]:"";
+	$DiaAnt = isset($_REQUEST["DiaAnt"])?$_REQUEST["DiaAnt"]:"";
+	$MesAnt = isset($_REQUEST["MesAnt"])?$_REQUEST["MesAnt"]:"";
+	$AnoAnt = isset($_REQUEST["AnoAnt"])?$_REQUEST["AnoAnt"]:"";
 	switch ($Tipo)
 	{
 		case "AVANCE_DIARIO":
@@ -500,7 +510,9 @@ function BuscarArchivo(tipo,dia,mes,ano)
 	//function GrabarAcceso($Tipo)
 	//{
 		include("conectar.php");
-		$IpUser=$HTTP_SERVER_VARS["REMOTE_ADDR"];
+		//$IpUser=$HTTP_SERVER_VARS["REMOTE_ADDR"];
+		$IpUser=getenv("REMOTE_ADDR");
+		//echo "IpUser:".$IpUser;
 		$Fecha=date("Y-m-d h:i:s");
 		$Insertar="insert into intranet.acceso_opciones (ip,opcion,fecha,titulo) values('$IpUser','$Tipo','$Fecha','$Titulo')";
 		//echo $Insertar;
