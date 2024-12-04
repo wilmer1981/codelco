@@ -91,7 +91,7 @@
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{	
 		$MesConsulta = $Fila["nombre_subclase"];
-		$Letra = $Fila["nombre_subclase"];
+		$Letra       = $Fila["nombre_subclase"];
 	}
 	
 	//STOCK INICIAL COMERCIALES(PESO PRODUCCION)
@@ -117,10 +117,7 @@
 	while ($Fila2 = mysqli_fetch_array($Respuesta2))
 	{
 		if ($Fila2["cod_subproducto"] == 40)
-			$StockIniGradoA = +
-
-
-		+ $Fila2["peso"];
+			$StockIniGradoA = $StockIniGradoA + $Fila2["peso"];
 		if 	($Fila2["cod_subproducto"] == 46)
 			$StockIni1ER = $StockIni1ER + $Fila2["peso"];
 		if 	($Fila2["cod_subproducto"] == 2)
