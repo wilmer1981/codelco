@@ -5,27 +5,10 @@ include("../principal/conectar_sea_web.php");
 	// mysql_SELECT_db("sea_web",$link);
 	set_time_limit(1000);
 
-	if(isset($_REQUEST["opcion"])) {
-		$opcion = $_REQUEST["opcion"];
-	}else{
-		$opcion =  "";
-	}
-	if(isset($_REQUEST["Dia"])) {
-		$Dia = $_REQUEST["Dia"];
-	}else{
-		$Dia =  date("d");
-	}
-	if(isset($_REQUEST["Mes"])) {
-		$Mes = $_REQUEST["Mes"];
-	}else{
-		$Mes =  date("m");
-	}
-	if(isset($_REQUEST["Ano"])) {
-		$Ano = $_REQUEST["Ano"];
-	}else{
-		$Ano = date("Y");
-	}
-
+	$opcion = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$Dia    = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes    = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano    = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	//$dia = date("j");
 	//$mes = date("n");
 	$dia = date("d");
@@ -36,7 +19,6 @@ include("../principal/conectar_sea_web.php");
 		$mes = '0'.$mes;
 	if(strlen($dia) == 1)
 		$dia = '0'.$dia;
-
 	if(strlen($Mes) == 1)
 		$Mes = '0'.$Mes;
 	if(strlen($Dia) == 1)
@@ -44,9 +26,9 @@ include("../principal/conectar_sea_web.php");
 
 	$Fecha = $ano.'-'.$mes.'-'.$dia;
 
-	$FechaIni = date("Y-m-d",mktime(7,59,59,$Mes,($Dia - 1),$Ano));	//Fecha para recepciones
-	$Fecha_Ini = $Ano.'-'.$Mes.'-01';			
-	$Fecha_Ter = date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano));
+	$FechaIni   = date("Y-m-d",mktime(7,59,59,$Mes,($Dia - 1),$Ano));	//Fecha para recepciones
+	$Fecha_Ini  = $Ano.'-'.$Mes.'-01';			
+	$Fecha_Ter  = date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano));
 	$Fecha_Ter2 = date($Ano.'-'.$Mes.'-'.$Dia, mktime(1,0,0,$Mes,($Dia +1),$Ano));
 	
 	$FechaQuim=  $Ano.'-'.$Mes.'-'.$Dia;
@@ -518,7 +500,7 @@ function Proceso(opc)
 		$Consulta = "SELECT MAX(fecha) as fecha FROM sea_web.inf_rechazos WHERE fecha between '".$Fecha_Ini."' and '".$Fecha_Ter."' and hora between '".$FechaInicio."' and '".$FechaTermino."'";
 		$res = mysqli_query($link, $Consulta);
 		$fil = mysqli_fetch_array($res);
-		$Fecha_B = $fil["fecha"]; 
+		$Fecha_B = isset($fil["fecha"])?$fil["fecha"]:"0000-00-00"; 
 		//echo "hola".$Fecha_Ini."---".$Fecha_Ter."--".$FechaInicio."--".$FechaTermino."--".$Fecha_B;
 		$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '".$Fecha_B."'";
 		$rs = mysqli_query($link, $Consulta);				
@@ -1081,10 +1063,8 @@ function Proceso(opc)
   
   <?php
 
-  	if ($opcion == 2)
-	
-	{
-	
+  	if ($opcion == 2)	
+	{	
 		$diar = date("j");
 		$mesr = date("n");
 		$anor = date("Y");   
@@ -1097,8 +1077,7 @@ function Proceso(opc)
 			$diar = '0'.$diar;
 		}		
 		$FechaTitulo = date("d-m-Y",mktime(7,59,59,$mesr,$diar,$anor));
-		$FechaTer2   = date("Y-m-d",mktime(7,59,59,$mesr,$diar,$anor));
-		
+		$FechaTer2   = date("Y-m-d",mktime(7,59,59,$mesr,$diar,$anor));		
 	}
 	else
 	{
@@ -1466,7 +1445,7 @@ function Proceso(opc)
 			  echo'<td align="center">'.$Fil["cont"].'&nbsp;</td>';
 
 			  $Consulta = "SELECT sum(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento between '".$Fila["FECHA_A"]."' ";
-			  $Consulat.=" AND '".$FechaTerm2."' and hora between '".$FechaHoraIni."' and '".$FechaHoraFin."'";
+			  $Consulta.=" AND '".$FechaTerm2."' and hora between '".$FechaHoraIni."' and '".$FechaHoraFin."'";
 			  $Consulta.=" AND tipo_movimiento = 1";
 			  $Consulta.=" AND cod_producto = 17 AND cod_subproducto = 1";
 			  $rs = mysqli_query($link, $Consulta);

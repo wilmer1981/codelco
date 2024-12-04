@@ -1450,7 +1450,7 @@ function Proceso(opc)
 			  echo'<td align="center">'.$Fil["cont"].'&nbsp;</td>';
 
 			  $Consulta = "SELECT sum(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento between '".$Fila["FECHA_A"]."' ";
-			  $Consulat.=" AND '".$FechaTerm2."' and hora between '".$FechaHoraIni."' and '".$FechaHoraFin."'";
+			  $Consulta.=" AND '".$FechaTerm2."' and hora between '".$FechaHoraIni."' and '".$FechaHoraFin."'";
 			  $Consulta.=" AND tipo_movimiento = 1";
 			  $Consulta.=" AND cod_producto = 17 AND cod_subproducto = 1";
 			  $rs = mysqli_query($link, $Consulta);

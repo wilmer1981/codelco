@@ -1,5 +1,9 @@
 <?php
 	$CodigoDeSistema=2;
+	$Dia = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	
 	$Ayer = date("Y-m-d", mktime(1,0,0,date("m"),(date("d")-1),date("Y")));
 	$DiaAyer = intval(substr($Ayer,8,2));
 	$MesAyer = intval(substr($Ayer,5,2));
@@ -66,25 +70,25 @@ var f = document.FrmPrincipal;
         <table width="600" border="0" cellspacing="0" cellpadding="0" class="TablaDetalle">
 		<tr>
 		  <td width="80">Fecha</td>
-		  <td width="514"><SELECT name="Dia" style="width:50px;">
+		  <td width="514"><select name="Dia" style="width:50px;">
                 <?php
 				for ($i = 1;$i <= 31; $i++)
 				{
 					if (isset($Dia))
 					{
 						if ($Dia == $i)
-							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+							echo "<option selected value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
 					}
 					else
 					{
 						if ($i == date("j"))
-							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+							echo "<option selected value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
 					}
 				}
 			  ?>
-              </SELECT> <SELECT name="Mes" style="width:90px;">
+              </select> <select name="Mes" style="width:90px;">
                 <?php
                 $Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 				for ($i = 1;$i <= 12; $i++)
@@ -92,36 +96,36 @@ var f = document.FrmPrincipal;
 					if (isset($Mes))
 					{
 						if ($Mes == $i)
-							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+							echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 					}
 					else
 					{
 						if ($i == date("n"))
-							echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+							echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 						else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 					}
 				}
 				?>
-              </SELECT> <SELECT name="Ano" style="width:60px;">
+              </select> <select name="Ano" style="width:60px;">
                 <?php
 				for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
 				{
 					if (isset($Ano))
 					{
 						if ($Ano == $i)
-							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+							echo "<option selected value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
 					}
 					else
 					{
 						if ($i == date("Y"))
-							echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+							echo "<option selected value='".$i."'>".$i."</option>\n";
 						else	echo "<option value='".$i."'>".$i."</option>\n";
 					}
 				}
 				?>
-              </SELECT></td>
+              </select></td>
 		</tr>
 		<tr>
 		  <td>&nbsp;</td>
