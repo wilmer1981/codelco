@@ -28,6 +28,7 @@
 	}else{
 		$TxtConjunto = "";
 	}
+	$TipoBalance = isset($_REQUEST["TipoBalance"])?isset($_REQUEST["TipoBalance"]):"";
 ?>
 <html>
 
