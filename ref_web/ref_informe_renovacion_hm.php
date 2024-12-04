@@ -1,9 +1,15 @@
 <?php 
-	include("../principal/conectar_ref_web.php");
+	include("../principal/conectar_principal.php");
 	// $link = mysql_connect('10.56.11.7','adm_bd','672312');
- mysql_select_db("ref_web",$link);
+ //mysql_select_db("ref_web",$link);
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 27;
+	
+	$opcion = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m");
+	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$mensaje= isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 ?>
 <html>
 <head>
@@ -16,6 +22,10 @@ function Buscar()
 	var fecha=f.ano1.value+"-"+f.mes1.value;
 	var ano1=f.ano1.value;
 	var mes1=f.mes1.value;
+	//alert("ano1:"+ano1);
+	//f.action = "ref_informe_renovacion_hm.php?opcion=H&fecha="+fecha+"&ano1="+ano1+"&mes1="+mes1;
+	//f.submit();	
+					
 	document.location = "../ref_web/ref_informe_renovacion_hm.php?opcion=H&fecha="+fecha+"&ano1="+ano1+"&mes1="+mes1;
 }
 /*****************/
@@ -33,11 +43,9 @@ history.back();
 
 function Excel(f)
 {
-	//var  f=document.form1;
+	var  f=document.frmPrincipal;
 	var ano=f.ano1.value;
 	var mes=f.mes1.value;
-	
-
 
 	//document.location = "../ref_web/Renovacion_HM_excel.php?opcion=H&ano1="+ano+"&mes1="+mes;
 	f.action="Renovacion_HM_excel.php?opcion=H&ano1="+ano+"&mes1="+mes;
@@ -119,81 +127,107 @@ function Excel(f)
           <table width="730" border="2" cellspacing="0" cellpadding="0" class="TablaInterior">
 <?php	
 	// $link = mysql_connect('10.56.11.7','adm_bd','672312');
- mysql_select_db("ref_web",$link);
+ //mysql_select_db("ref_web",$link);
 	if ($opcion=="H")
-	  {
+	{
 	    if (strlen($mes1)==1)
 		   {$mes1='0'.$mes1;}  
 	    $fecha=$ano1.'-'.$mes1;
+		if($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12'){
+		 $dias=31;
+		}
+		if($mes1=='04' || $mes1=='06' || $mes1=='09' || $mes1=='11'){
+		 $dias=30;
+		}
+		if($mes1=='02'){
+		 $dias=29;
+		}
 		$i=1;
-		while ($i <= 31)
-		      {
+		while ($i <= $dias)
+		{
 			   echo '<tr>';
-			   if (strlen($i)==1)
-			       {$i='0'.$i;}
-			
+			    if (strlen($i)==1)
+			    {$i='0'.$i;}
+			   //echo "<br><br>fechassss:".$fecha;
 			   $consultat="select count(cod_grupo) total_filas from ref_web.renovacion_hm where fecha ='".$fecha."-".$i."'";
-			   $rsst = mysqli_query($link, $consultat);
+			   //echo "<br>".$consultat;
+			   $rsst = mysqli_query($link,$consultat);
 			   $rowst = mysqli_fetch_array($rsst);
 			   $consulta="select * from ref_web.renovacion_hm where fecha ='".$fecha."-".$i."' order by cod_grupo asc ";
-			   $rss = mysqli_query($link, $consulta);
-			   if ($rows = mysqli_fetch_array($rss))
-			      {
-				   if ($rows["fecha"]<>'')
-			                  {
+			   $rss  = mysqli_query($link,$consulta);
+			   $row_cnt = $rss->num_rows;
+			   $fechas ="";
+			   $cod_grupo="";
+			   $cubas_renovacion = "";
+			   $anodos_a_renovar = "";
+			    if($row_cnt>0)
+			    {
+					$rows = mysqli_fetch_array($rss);			   
+					$fechas = $rows["fecha"];
+					$cod_grupo = $rows["cod_grupo"];
+					$cubas_renovacion = $rows["cubas_renovacion"];
+					$anodos_a_renovar = $rows["anodos_a_renovar"];
+			    }
+			    if ($rows = mysqli_fetch_array($rss))
+			    {
+					
+				    if ($fechas<>'')
+			        {
 				               $dia=substr($rows["fecha"],8,2);
-				               echo '<td width="137" align="center" rowspan="'.$rowst[total_filas].'">'.$rows["fecha"].'</td>';
-				              }
-			               else {
-			                      echo '<td width="137" align="center" rowspan="'.$rowst[total_filas].'">'.$fecha.'-'.$i.'</td>';
-					            } 
-				   $rss = mysqli_query($link, $consulta);
-			       while ($rows = mysqli_fetch_array($rss))
-				          {
+				               echo '<td width="137" align="center" rowspan="'.$rowst["total_filas"].'">'.$rows["fecha"].'</td>';
+				    }
+			        else{
+			                      echo '<td width="137" align="center" rowspan="'.$rowst["total_filas"].'">'.$fecha.'-'.$i.'</td>';
+					} 
+				   $rss = mysqli_query($link,$consulta);
+			        while ($rows = mysqli_fetch_array($rss))
+				    {
 			               echo '<td width="146" align="center">'.$rows["cod_grupo"].'&nbsp;</td>';  
-						   if ($rows[cubas_renovacion]=='SIN RENOVACION')
-						      {echo '<td width="234" align="center" class="detalle01"><font color="#FF0000"><strong>'.$rows[cubas_renovacion].'&nbsp;</strong></font></td>';}
-		                   else {echo '<td width="234" align="center">'.$rows[cubas_renovacion].'&nbsp;</td>';}
+						   if ($rows["cubas_renovacion"]=='SIN RENOVACION')
+						      {echo '<td width="234" align="center" class="detalle01"><font color="#FF0000"><strong>'.$rows["cubas_renovacion"].'&nbsp;</strong></font></td>';}
+		                   else {echo '<td width="234" align="center">'.$rows["cubas_renovacion"].'&nbsp;</td>';}
 						   $consulta_fecha="select max(fecha) as fecha from ref_web.grupo_electrolitico2 where cod_grupo= '".$rows["cod_grupo"]."'";
-						   $rss_fecha = mysqli_query($link, $consulta_fecha);
+						   $rss_fecha = mysqli_query($link,$consulta_fecha);
 						   $rows_fecha = mysqli_fetch_array($rss_fecha);
 						   $consulta="select num_cubas_tot,hojas_madres, num_anodos_celdas from ref_web.grupo_electrolitico2 where cod_grupo='".$rows["cod_grupo"]."' and fecha='".$rows_fecha["fecha"]."'";
-						   $rs = mysqli_query($link, $consulta);
+						   $rs = mysqli_query($link,$consulta);
 						   $row = mysqli_fetch_array($rs);
-						   if ($rows[cubas_renovacion]<>'Renovacion Grupo 8 Comercial')
+						   if ($rows["cubas_renovacion"]<>'Renovacion Grupo 8 Comercial')
 						      {
-						       $arreglo = explode("-",$rows[cubas_renovacion]);
-						       $anodos_a_renovar= count($arreglo)*$row[num_anodos_celdas];
+						       $arreglo = explode("-",$rows["cubas_renovacion"]);
+						       $anodos_a_renovar= count($arreglo)*$row["num_anodos_celdas"];
 							  } 
-						   else { //echo '('.$row[num_cubas_tot].'-'.$row["hojas_madres"].')*'.$row[num_anodos_celdas].')';
-						          $anodos_a_renovar=(($row[num_cubas_tot]-$row["hojas_madres"])*$row[num_anodos_celdas]);} 
+						   else { //echo '('.$row["num_cubas_tot"].'-'.$row["hojas_madres"].')*'.$row["num_anodos_celdas"].')';
+						          $anodos_a_renovar=(($row["num_cubas_tot"]-$row["hojas_madres"])*$row["num_anodos_celdas"]);} 
 						   echo '<td width="146" align="center">'.$anodos_a_renovar.'&nbsp;</td>';
-                           echo '<td width="146" align="center">'.$rows[inicio_renovacion].'&nbsp;</td>';
+                           echo '<td width="146" align="center">'.$rows["inicio_renovacion"].'&nbsp;</td>';
 			              // $i=$i+1;
 						  echo '<tr>';
-						  }
+					}
 					
-                   }
-				else {
-				       if ($rows["fecha"]<>'')
-			                  {
-				               $dia=substr($rows["fecha"],8,2);
-				               echo '<td width="137" align="center" >'.$rows["fecha"].'</td>';
-				              }
-			               else {
-			                      echo '<td width="137" align="center" >'.$fecha.'-'.$i.'</td>';
-					            }   
-							echo '<td width="146" align="center">'.$rows["cod_grupo"].'&nbsp;</td>';  	
-		                    if ($rows[cubas_renovacion]=='SIN RENOVACION')
-						      {echo '<td width="234" align="center" class="detalle01"><font color="#FF0000"><strong>'.$rows[cubas_renovacion].'&nbsp;</strong></font></td>';}
-		                   else {echo '<td width="234" align="center">'.$rows[cubas_renovacion].'&nbsp;</td>';}
-                           echo '<td width="146" align="center">'.$rows[anodos_a_renovar].'&nbsp;</td>';
-                           echo '<td width="146" align="center">&nbsp;</td>';
+                }
+				else
+				{
+				    if ($fechas<>'')
+			        {
+				               $dia=substr($fechas,8,2);
+				               echo '<td width="137" align="center" >'.$fecha.'</td>';
+					}
+				    else {
+						  echo '<td width="137" align="center" >'.$fecha.'-'.$i.'</td>';
+					}   
+				    echo '<td width="146" align="center">'.$cod_grupo.'&nbsp;</td>';  	
+					if ($cubas_renovacion=='SIN RENOVACION')
+					  {echo '<td width="234" align="center" class="detalle01"><font color="#FF0000"><strong>'.$cubas_renovacion.'&nbsp;</strong></font></td>';}
+				    else {echo '<td width="234" align="center">'.$cubas_renovacion.'&nbsp;</td>';}
+                    
+					echo '<td width="146" align="center">'.$anodos_a_renovar.'&nbsp;</td>';
+                    echo '<td width="146" align="center">&nbsp;</td>';
 			               
-				     } 
-					 $i=$i+1;  
-	           }
-			   }
+				} 
+				$i=$i+1;  
+	        }
+		}
 		
 		/*echo "<script languaje='JavaScript'>\n";
 		echo "document.frmPrincipal.action = 'Renovacion_HM.php?opcion=H';";
@@ -222,7 +256,7 @@ function Excel(f)
 <?php include("../principal/pie_pagina.php")?>
 </form>
 <?php
-	if (isset($mensaje))
+	if ($mensaje!="")
 	{
 		echo '<script language="JavaScript">';		
 		echo 'alert("'.$mensaje.'");';			

@@ -5,11 +5,11 @@
 	$CodigoDeSistema = 10;
 	$CodigoDePantalla = 10;
 	
-	$opcion = isset($_REQUEST["opcion"])?isset($_REQUEST["opcion"]):"";
-	$fecha  = isset($_REQUEST["fecha"])?isset($_REQUEST["fecha"]):date("Y-m");
-	$ano1   = isset($_REQUEST["ano1"])?isset($_REQUEST["ano1"]):date("Y");
-	$mes1   = isset($_REQUEST["mes1"])?isset($_REQUEST["mes1"]):date("m");
-	$mensaje= isset($_REQUEST["mensaje"])?isset($_REQUEST["mensaje"]):"";
+	$opcion = isset($_REQUEST["opcion"])?$_REQUEST["opcion"]:"";
+	$fecha  = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date("Y-m");
+	$ano1   = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:date("Y");
+	$mes1   = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:date("m");
+	$mensaje= isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
 ?>
 
 <html>

@@ -49,8 +49,10 @@
 	if ($opcion=="H")
 	{
 	    if (strlen($mes1)==1)
-		   {$mes1='0'.$mes1;}  
+		   {$mes1='0'.$mes1;} 
+	   
 	    $fecha=$ano1.'-'.$mes1;
+		
 		if($mes1=='01' || $mes1=='03' || $mes1=='05' || $mes1=='07' || $mes1=='08' || $mes1=='10' || $mes1=='12'){
 		 $dias=31;
 		}
@@ -61,20 +63,35 @@
 		 $dias=29;
 		}
 		$i=1;
-		while ($i <= 31)
+		while ($i <= $dias)
 		{
 			echo '<tr>';
 			if (strlen($i)==1)
 			{$i='0'.$i;}
 		
 			$consultat="select count(cod_grupo) total_filas from ref_web.renovacion_hm where fecha ='".$fecha."-".$i."'";
+			//echo $consultat;
 			$rsst = mysqli_query($link, $consultat);
 			$rowst = mysqli_fetch_array($rsst);
 			$consulta="select * from ref_web.renovacion_hm where fecha ='".$fecha."-".$i."' order by cod_grupo asc ";
 			$rss = mysqli_query($link, $consulta);
+			   $row_cnt = $rss->num_rows;
+			   $fechas ="";
+			   $cod_grupo="";
+			   $cubas_renovacion = "";
+			   $anodos_a_renovar = "";
+			    if($row_cnt>0)
+			    {
+					$rows = mysqli_fetch_array($rss);			   
+					$fechas = $rows["fecha"];
+					$cod_grupo = $rows["cod_grupo"];
+					$cubas_renovacion = $rows["cubas_renovacion"];
+					$anodos_a_renovar = $rows["anodos_a_renovar"];
+			    }
+				
 			if ($rows = mysqli_fetch_array($rss))
 			{
-				if ($rows["fecha"]<>'')
+				if ($fechas<>'')
 				{
 				   $dia=substr($rows["fecha"],8,2);
 				   echo '<td width="137" align="center" rowspan="'.$rowst["total_filas"].'">'.$rows["fecha"].'</td>';
@@ -113,11 +130,7 @@
 				}
 			}
 			else {
-				$fecha     = isset($rows["fecha"])?$rows["fecha"]:"";
-				$cod_grupo = isset($rows["cod_grupo"])?$rows["cod_grupo"]:"";
-				$cubas_renovacion = isset($rows["cubas_renovacion"])?$rows["cubas_renovacion"]:"";
-				$anodos_a_renovar = isset($rows["anodos_a_renovar"])?$rows["anodos_a_renovar"]:"";
-				if ($fecha<>'')
+				if ($fechas<>'')
 				{
 					$dia=substr($rows["fecha"],8,2);
 					echo '<td width="137" align="center" >'.$fecha.'</td>';
