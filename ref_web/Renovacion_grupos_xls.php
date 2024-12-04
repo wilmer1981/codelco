@@ -88,7 +88,10 @@
                         $arreglo[$i]=$row["cod_grupo"];
                         $i++;
                     }
-                    echo '<td width="70" align="center">'.$arreglo[0].' '.$arreglo[1].' '.$arreglo[2].'</td>';
+					$arreglo0 = isset($arreglo[0])?$arreglo[0]:"";
+					$arreglo1 = isset($arreglo[1])?$arreglo[1]:"";
+					$arreglo2 = isset($arreglo[2])?$arreglo[2]:"";
+                    echo '<td width="70" align="center">'.$arreglo0.' '.$arreglo1.' '.$arreglo2.'</td>';
                     $consulta2="select cod_grupo from sec_web.renovacion_prog_prod ";
                     $consulta2=$consulta2."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='B' order by dia_renovacion,cod_grupo";
                     $respuesta2 = mysqli_query($link, $consulta2);
@@ -98,7 +101,10 @@
                         $arreglo2[$i]=$row2["cod_grupo"];
                         $i++;
                     }
-                    echo '<td width="70" align="center">'.$arreglo2[0].' '.$arreglo2[1].' '.$arreglo2[2].'</td>';
+					$arreglo20 = isset($arreglo2[0])?$arreglo2[0]:"";
+					$arreglo21 = isset($arreglo2[1])?$arreglo2[1]:"";
+					$arreglo22 = isset($arreglo2[2])?$arreglo2[2]:"";
+                    echo '<td width="70" align="center">'.$arreglo20.' '.$arreglo21.' '.$arreglo22.'</td>';
 					//concepto =c
 					$consulta22="select cod_grupo from sec_web.renovacion_prog_prod ";
                     $consulta22=$consulta22."where dia_renovacion=".$rows["dia_renovacion"]." and fecha_renovacion like '".$fecha2."%' and cod_concepto='C' order by dia_renovacion,cod_grupo";
@@ -128,19 +134,24 @@
 						else $arreglo3[$i]=$row3["cod_grupo"];
                         $i++;
 					}
-                    echo '<td width="70" align="center">'.$arreglo3[0].' '.$arreglo3[1].' '.$arreglo3[2].'</td>';
+					$arreglo30 = isset($arreglo3[0])?$arreglo3[0]:"";
+					$arreglo31 = isset($arreglo3[1])?$arreglo3[1]:"";
+					$arreglo32 = isset($arreglo3[2])?$arreglo3[2]:"";
+                    echo '<td width="70" align="center">'.$arreglo30.' '.$arreglo31.' '.$arreglo32.'</td>';
                     $consulta4="select distinct dia_renovacion,desc_parcial from sec_web.renovacion_prog_prod ";
                     $consulta4=$consulta4."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta = mysqli_query($link, $consulta4);
                     $rowe = mysqli_fetch_array($respuesta);
-                    if ($rowe["desc_parcial"]=="")
+					$desc_parcial = isset($rowe["desc_parcial"])?$rowe["desc_parcial"]:"";
+                    if ($desc_parcial=="")
                        {$rowe["desc_parcial"]='-';}
 				    echo '<td width="70" align="center">'.$rowe["desc_parcial"].'</td>';
                     $consulta5="select distinct dia_renovacion,electro_win from sec_web.renovacion_prog_prod ";
                     $consulta5=$consulta5."where fila_renovacion='1' and dia_renovacion='".$rows["dia_renovacion"]."' and fecha_renovacion like '".$fecha2."%'";
                     $respuesta5 = mysqli_query($link, $consulta5);
                     $rowe = mysqli_fetch_array($respuesta5);
-                    if ($rowe["electro_win"]=="")
+					$electro_win = isset($rowe["electro_win"])?$rowe["electro_win"]:"";
+                    if ($electro_win=="")
                        {$rowe["electro_win"]='-';}
                     echo '<td width="70" align="center">'.$rowe["electro_win"].'</td>';
                    	echo '</tr>';
