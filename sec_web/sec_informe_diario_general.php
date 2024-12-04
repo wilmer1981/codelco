@@ -73,7 +73,7 @@ function Proceso(opt)
 			f.submit();
 			break;		
 		case "E":
-			var msj = confirm("�Seguro que desea eliminar los datos base para este dia?");
+			var msj = confirm("¿Seguro que desea eliminar los datos base para este dia?");
 			if (msj == true)
 			{
 				f.action = "sec_informe_diario_ing01.php?Proceso=E";			
