@@ -165,7 +165,7 @@ function Proceso(opt)
 				else
 				{
 					$NombreCliente = "&nbsp;";
-					$codigo_nave = " ";
+					$codigo_nave = "0";
 
 				}
 			}

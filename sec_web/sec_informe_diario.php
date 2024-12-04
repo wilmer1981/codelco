@@ -419,12 +419,12 @@ function Proceso(opt)
 			f.BtnSalir.style.visibility = '';
 			break;
 		case "S":
-<?php	
-	if ($ConsultaGeneral=="S")			
-		echo "f.action = 'sec_informe_diario_general.php';";
-	else
-		echo "f.action = 'sec_informe_diario_ing.php';";
-?>
+			<?php	
+				if ($ConsultaGeneral=="S")			
+					echo "f.action = 'sec_informe_diario_general.php';";
+				else
+					echo "f.action = 'sec_informe_diario_ing.php';";
+			?>
 			f.submit();
 			break;
 	}

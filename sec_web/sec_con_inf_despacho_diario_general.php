@@ -1,17 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php"); 
 	// $link = mysql_connect('10.56.11.7','adm_bd','672312');
- mysql_SELECT_db("sec_web",$link);
+	//mysql_select_db("sec_web",$link);
 	
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+	
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
@@ -72,117 +70,117 @@ function Proceso(opt)
   <table width="850" border="0" align="center" cellpadding="2" cellspacing="1" class="TablaInterior">
     <tr> 
       <td width="86">Fecha Inicio: </td>
-      <td width="259"><SELECT name="DiaIni" style="width:50px;">
+      <td width="259"><select name="DiaIni" style="width:50px;">
           <?php
 	  	for ($i = 1;$i <= 31; $i++)
 		{
 			if (isset($DiaIni))
 			{
 				if ($DiaIni == $i)
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 			else
 			{
 				if ($i == date("j"))
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 		}
 	  ?>
-        </SELECT> <SELECT name="MesIni" style="width:90px;">
+        </select> <select name="MesIni" style="width:90px;">
           <?php
 		for ($i = 1;$i <= 12; $i++)
 		{
 			if (isset($MesIni))
 			{
 				if ($MesIni == $i)
-					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 			}
 			else
 			{
 				if ($i == date("n"))
-					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 			}
 		}
 		?>
-        </SELECT> <SELECT name="AnoIni" style="width:60px;">
+        </select> <select name="AnoIni" style="width:60px;">
           <?php
 		for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
 		{
 			if (isset($AnoIni))
 			{
 				if ($AnoIni == $i)
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 			else
 			{
 				if ($i == date("Y"))
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 		}
 		?>
-        </SELECT></td>
+        </select></td>
       <td width="119">Fecha Termino:</td>
-      <td width="265"><SELECT name="DiaFin" style="width:50px;">
+      <td width="265"><select name="DiaFin" style="width:50px;">
           <?php
 	  	for ($i = 1;$i <= 31; $i++)
 		{
 			if (isset($DiaFin))
 			{
 				if ($DiaFin == $i)
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 			else
 			{
 				if ($i == date("j"))
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 		}
 	  ?>
-        </SELECT> <SELECT name="MesFin" style="width:90px;">
+        </select> <select name="MesFin" style="width:90px;">
           <?php
 		for ($i = 1;$i <= 12; $i++)
 		{
 			if (isset($MesFin))
 			{
 				if ($MesFin == $i)
-					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 			}
 			else
 			{
 				if ($i == date("n"))
-					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 			}
 		}
 		?>
-        </SELECT> <SELECT name="AnoFin" style="width:60px;">
+        </select> <select name="AnoFin" style="width:60px;">
           <?php
 		for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
 		{
 			if (isset($AnoFin))
 			{
 				if ($AnoFin == $i)
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 			else
 			{
 				if ($i == date("Y"))
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 		}
 		?>
-        </SELECT></td>
+        </select></td>
     </tr>
     <tr> 
       <td colspan="4" align="center"> <input name="btnConsultar" type="button" id="btnConsultar" style="width:70" onClick="JavaScript:Proceso('C')" value="Consultar"> 
@@ -198,7 +196,7 @@ function Proceso(opt)
 		echo "<br>\n";
 		echo "<table width='950' height='14'  border='1' align='center' cellpadding='0' cellspacing='0'>\n";
 		echo "<tr class='ColorTabla01'>\n";
-		echo "<td width='52' align='center'>Nï¿½ ENVIO</td>\n";
+		echo "<td width='52' align='center'>N° ENVIO</td>\n";
 		echo "<td width='140' align='center'>FECHA DESPACHO</td>\n";
 		echo "<td width='70' align='center'>ASIGNACION</td>\n";
 		echo "<td width='50' align='center'>DESTINATARIO.</td>\n";
@@ -223,38 +221,38 @@ function Proceso(opt)
 	$TotalGuias = 0;
 	$TotalCamiones = 0;
 	$ArregloFecha=0;
-	/*$Consulta = "SELECT distinct t1.fecha_guia  from  sec_web.guia_despacho_emb t1";
+	/*$Consulta = "select distinct t1.fecha_guia  from  sec_web.guia_despacho_emb t1";
 	$Consulta.= " where t1.fecha_guia between '".$FechaInicio."' and '".$FechaTermino."'";
 	$Consulta.= " and t1.cod_estado <>'A'  order by t1.fecha_guia";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 //echo "FF".$Consulta;
 		echo 
-		mysqli_num_rows($Respuesta);*/
+		mysql_num_rows($Respuesta);*/
 		$FechaAux = $FechaInicio;
 	while ($FechaInicio<= $FechaTermino)  
 	{
-		$Consulta = "SELECT distinct t2.cod_cliente, t1.num_envio, t1.corr_enm, t1.fecha_guia as fecha, t3.descripcion as marca, t3.cod_marca, ";
+		$Consulta = "select distinct t2.cod_cliente, t1.num_envio, t1.corr_enm, t1.fecha_guia as fecha, t3.descripcion as marca, t3.cod_marca, ";
 		$Consulta.= " t2.cod_bulto, t2.num_bulto,t1.peso_bruto,t2.cod_producto, t2.cod_subproducto,t1.patente_guia,t1.rut_chofer,t2.cod_puerto,t2.cod_sub_cliente";
 		$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.embarque_ventana t2 ";
 		$Consulta.= " on t1.num_envio = t2.num_envio and t1.corr_enm = t2.corr_enm ";
 		$Consulta.= " left join sec_web.marca_catodos t3 ";
 		$Consulta.= " on t2.cod_marca = t3.cod_marca";	
 		$Consulta.= " where t1.fecha_guia ='".$FechaInicio."'  group by t1.corr_enm order by t1.fecha_guia,t1.num_envio";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 	//echo $Consulta;
 
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{	
-			$Consulta = "SELECT  * from sec_web.cliente_venta where cod_cliente = '".$Fila["cod_cliente"]."'";
-			$Respuesta2 = mysqli_query($link, $Consulta);
+			$Consulta = "select  * from sec_web.cliente_venta where cod_cliente = '".$Fila["cod_cliente"]."'";
+			$Respuesta2 = mysqli_query($link,$Consulta);
 			if ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{
 				$NombreCliente = $Fila2["sigla_cliente"];
 			}
 			else
 			{
-				$Consulta = "SELECT  * from sec_web.nave where cod_nave = '".intval($Fila["cod_cliente"])."'";
-				$Respuesta2 = mysqli_query($link, $Consulta);
+				$Consulta = "select  * from sec_web.nave where cod_nave = '".intval($Fila["cod_cliente"])."'";
+				$Respuesta2 = mysqli_query($link,$Consulta);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{
 					$NombreCliente = $Fila2["nombre_nave"];
@@ -264,20 +262,20 @@ function Proceso(opt)
 					$NombreCliente = "&nbsp;";
 				}
 			}
-			$Consulta = "SELECT * ";
+			$Consulta = "select * ";
 			$Consulta.= " from sec_web.programa_codelco ";
 			$Consulta.= " where  corr_codelco = '".$Fila["corr_enm"]."'";
 			$Consulta.= " and cod_producto = '".$Fila["cod_producto"]."' and cod_subproducto = '".$Fila["cod_subproducto"]."'";
-			$Respuesta3 = mysqli_query($link, $Consulta);
+			$Respuesta3 = mysqli_query($link,$Consulta);
 			if ($Fila3 = mysqli_fetch_array($Respuesta3))
 			{
-				$Consulta = " SELECT t2.num_guia,count(t2.num_paquete) as paquetes, sum(peso_paquetes) pesoneto";
+				$Consulta = " select t2.num_guia,count(t2.num_paquete) as paquetes, sum(peso_paquetes) pesoneto";
 				$Consulta.= " from sec_web.guia_despacho_emb t1 inner join sec_web.paquete_catodo t2"; 
  				$Consulta.= " on t1.num_guia = t2.num_guia and t1.fecha_guia = t2.fecha_embarque";
 				$Consulta.= " where t1.cod_estado <>'A' and t1.fecha_guia = '".$FechaInicio."' and";
 				$Consulta.= " t1.num_envio = '".$Fila["num_envio"]."' and t2.cod_estado = 'c' and t1.corr_enm = '".$Fila3["corr_codelco"]."' group by t2.num_guia order by t1.num_envio";
 				//echo "Con".$Consulta;
-				$Respuesta2 = mysqli_query($link, $Consulta);
+				$Respuesta2 = mysqli_query($link,$Consulta);
 				//$TotalPaquetes = 0;
 				$TotalUnidades = 0;
 				$TotalPeso = 0;
@@ -313,10 +311,10 @@ function Proceso(opt)
 				echo "<td align='right'>".number_format($conta,0,",",".")."</td>\n";
 				echo "<td align='right'>".number_format($conta,0,",",".")."</td>\n";
 				echo "<td align='center'>".$Fila["cod_bulto"]."-".$Fila["num_bulto"]."</td>\n";
-				$Consulta = "SELECT t2.nombre_transportista as nombre from sec_web.transporte_persona t1 ";
+				$Consulta = "select t2.nombre_transportista as nombre from sec_web.transporte_persona t1 ";
 				$Consulta.= " left join sec_web.transporte t2 on t1.rut_transportista=t2.rut_transportista and t1.patente_camion=t2.patente_transporte";
 				$Consulta.= " where t1.patente_camion='".$Fila["patente_guia"]."' and t1.rut_chofer='".$Fila["rut_chofer"]."'";
-				$Respuesta3 = mysqli_query($link, $Consulta);
+				$Respuesta3 = mysqli_query($link,$Consulta);
 				if ($Fila4 = mysqli_fetch_array($Respuesta3))
 				{
 					echo "<td>".$Fila4["nombre"]."&nbsp;</td>\n";
@@ -326,9 +324,9 @@ function Proceso(opt)
 					echo "<td>&nbsp;</td>\n";
 				}
 				//puerto
-				$Consulta = "SELECT nom_aero_puerto as puerto from sec_web.puertos ";
+				$Consulta = "select nom_aero_puerto as puerto from sec_web.puertos ";
 				$Consulta.= " where cod_puerto ='".$Fila["cod_puerto"]."'";
-				$Respuesta3 = mysqli_query($link, $Consulta);
+				$Respuesta3 = mysqli_query($link,$Consulta);
 				
 				if ($Fila5 = mysqli_fetch_array($Respuesta3))
 				{
@@ -341,16 +339,16 @@ function Proceso(opt)
 				//destino
 				if ($Fila["cod_sub_cliente"] != '*')
 				{
-					$Consulta = "SELECT  * from sec_web.sub_cliente_vta where cod_cliente = '".$Fila["cod_cliente"]."'";
+					$Consulta = "select  * from sec_web.sub_cliente_vta where cod_cliente = '".$Fila["cod_cliente"]."'";
 					
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					if ($Fila6 = mysqli_fetch_array($Respuesta2))
 						$NombreCliente = $Fila6["ciudad"];
 				}
 				else
 				{
-					$Consulta = "SELECT  * from sec_web.puertos where cod_puerto = '".$Fila3["cod_puerto_destino"]."'";
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Consulta = "select  * from sec_web.puertos where cod_puerto = '".$Fila3["cod_puerto_destino"]."'";
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					if ($Fila7 = mysqli_fetch_array($Respuesta2))
 					{
 						$NombreCliente = $Fila7["nom_aero_puerto"];
@@ -365,7 +363,7 @@ function Proceso(opt)
 			}
 		}
 		$consulta = "SELECT DATE_ADD('".$FechaInicio."',INTERVAL 1 DAY) AS fecha";
-		$rs10 = mysqli_query($link, $consulta);
+		$rs10 = mysqli_query($link,$consulta);
 		$row10 = mysqli_fetch_array($rs10);
 		$FechaInicio = $row10["fecha"];				
 
@@ -407,7 +405,7 @@ function Proceso(opt)
       
     </tr>
     <?php  
-	$Consulta = "SELECT t2.fecha_creacion_paquete, t2.cod_producto,t2.cod_subproducto,t4.descripcion, count(*) as num_paquetes, ";
+	$Consulta = "select t2.fecha_creacion_paquete, t2.cod_producto,t2.cod_subproducto,t4.descripcion, count(*) as num_paquetes, ";
 	$Consulta.= "sum(t2.num_unidades) as unidades, sum(t2.peso_paquetes) as peso  ";
 	$Consulta.= "from sec_web.guia_despacho_emb t1 inner join sec_web.paquete_catodo t2  ";
 	$Consulta.= "on t1.num_guia=t2.num_guia inner join proyecto_modernizacion.subproducto t4  ";
@@ -417,7 +415,7 @@ function Proceso(opt)
 	$Consulta.= "where t1.cod_estado <>'A'  and t1.fecha_guia between '".$FechaAux."' and '".$FechaTermino."'  ";
 	$Consulta.= " and t2.cod_estado = 'c'";
 	$Consulta.= "group by t2.cod_producto, t2.cod_subproducto ";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	$TotalPeso = 0;
 	//echo $Consulta;
 	$TotalPaquetes = 0;
