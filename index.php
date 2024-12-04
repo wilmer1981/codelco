@@ -23,8 +23,8 @@ function javascript_to_php(mensaje) {
 </script>
 <?php
 // comprobar si tenemos los parametros de la URL
-if (isset($_GET["mensaje"]) ) {
-    $mensaje = $_GET["mensaje"];
+if (isset($_REQUEST["mensaje"]) ) {
+    $mensaje = $_REQUEST["mensaje"];
 } else {
 	$mensaje = "";
 }
@@ -60,45 +60,39 @@ function getRealIP(){
 
 session_start();
 include("principal/conectar_index.php");
-	//$IpUser=$HTTP_SERVER_VARS["REMOTE_ADDR"];
-	
+	//$IpUser=$HTTP_SERVER_VARS["REMOTE_ADDR"];	
 	//$IpUser = $_SERVER['REMOTE_ADDR'];
 	$IpUser = getRealIP();
-
 	//$IpUser='10.56.44.189';
-
  	$Consulta = "select * from proyecto_modernizacion.funcionarios ";
 	$Consulta.= " where pc='".$IpUser."'";
-
- 	///echo "prueba:".$Consulta;
+ 	//echo "prueba:".$Consulta;
 	//exit();
-
     $Resp=mysqli_query($link, $Consulta);
 	$Recordar="";
+	$txtrut="";
+	$user="";
 	if ($Fila=mysqli_fetch_array($Resp))
 	{
 		$txtrut=$Fila["rut"];
 		$user  =$Fila["id_usuario"];
 	}
-    
-
 	//if(isset($txtrut)){
-	if(!empty($txtrut)){ //si txtrut es diferente de vacio
+	//if(!empty($txtrut)){ //si txtrut es diferente de vacio
+	if($txtrut!="")
+	{
 		echo "Datos de Consulta <br>";
-		echo "rut: ".$txtrut;
+		echo "rrrrut: ".$txtrut;
 		echo "<br>user: ".$user;
 		echo "<br>";
 	}
 
-
 	setcookie("CookieRutAUX", "");
 	setcookie("EncontroPortalX", "");
-
-	$Encontro=''; // agregado por wso
-	
-
+	$Encontro=""; // agregado por wso
 	//if(isset($user))
-	if(!empty($user)) // si user no esta vacia
+	//if(!empty($user)) // si user no esta vacia
+	if($user!="")
 	{
 
 		echo "Ingreso Usuario existe<br><br>";
@@ -119,7 +113,6 @@ include("principal/conectar_index.php");
 			$EncontroPortalX='S';
 			echo "<br><br>Encontro:".$EncontroPortalX;
 			echo "<br>CookieRutAUX:".$CookieRutAUX;
-
 			//include("index01.php");
 		}
 	}
@@ -152,14 +145,17 @@ include("principal/conectar_index.php");
 
 
 if($Encontro!='S')
-{
- 
+{ 
 ?> 
 <html>
 <head>
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" >
 	<link rel="stylesheet" href="principal/estilos/css_principal.css">
 	<title>Sistemas Informaticos Locales</title>
+	<style type="text/css">
+    	#login-externo { display:none; }
+		#login-ldap { display:block; }
+	</style>
 	<script language="JavaScript">
 		// FUNCION DE FOCO DE CAMPOS
 		foco = ""; // PRIMERO NOMBRAR LOS CAMPOS DEL FORMULARIO
@@ -214,7 +210,20 @@ const urlParams = new URLSearchParams(valores);
 var mensaje = urlParams.get('mensaje');
 alert("valor mensaje: "+mensaje);
 */
-function ValidaCampos()
+function OcultarLogin() {
+    var ldap = document.getElementById("login-ldap");
+	var extn = document.getElementById("login-externo");
+
+    if (ldap.style.display === "block") {
+        ldap.style.display = "none";
+		extn.style.display = "block";
+    }else{
+        ldap.style.display = "block";
+		extn.style.display = "none";
+	}
+}
+
+function ValidaCamposE()
 {
 	var f = document.frmPrincipal;
 	if (f.txtrut.value == "")
@@ -231,23 +240,53 @@ function ValidaCampos()
 	}
 	return true;
 }
+function ValidaCamposL()
+{
+	var l = document.frmLdap;
+	if (l.txtrut.value == "")
+	{
+		alert("Debe Ingresar Cuenta");
+		l.txtcuenta_red.focus();
+		return false;
+	}
+	if (l.txtpassword.value == "")
+	{
+		alert("Debe Ingresar Password Red");
+		l.txtpassword.focus();
+		return false;
+	}
+	return true;
+}
 //*************************//
 function Entrar(opt)
 {
 	var f = document.frmPrincipal;
+	var l = document.frmLdap;
 	if (opt == "E")
 	{
-		if (ValidaCampos())
+		if (ValidaCamposE())
 		{
 			//alert("Ingresando a index01");
-			//var rut = f.txtrut.value;
-			//var passwd = f.txtpassword.value;
-			//alert("RUT:"+rut+"PASSWD:"+passwd);
-			f.action = "index01.php";
+			var rut    = f.txtrut.value;
+			var passwd = f.txtpassword.value;
+			var opc    = f.opcion.value;
+			//alert("RUT:"+rut+"PASSWD:"+passwd+" OPCION:"+opc);
+		    f.action = "index01.php";
 			f.submit();
 		}
-	}
-	else
+	}else if(opt == "L"){
+		if (ValidaCamposL())
+		{
+			//alert("Ingresando a index01");
+			var rut    = l.txtrut.value;
+			var passwd = l.txtpassword.value;
+			var opc    = l.opcion.value;
+			//alert("Cuenta:"+rut+" PASSWD:"+passwd+" OPCION:"+opc);
+			l.action = "index01.php";
+			l.submit();
+		}
+
+	}else
 	{
 		f.action = "http://<?php echo HTTP_SERVER;?>";
 		f.submit();
@@ -265,19 +304,63 @@ function MM_preloadImages() { //v3.0
 function verMensaje(Msj)
 {	
 	var f=document.frmPrincipal;
+	var l=document.frmLdap;
+	//alert("Opcion:"+l.opcion);
+
+	var ldap = document.getElementById("login-ldap");
+	var extn = document.getElementById("login-externo");
+    /*
+    if (ldap.style.display === "block") {
+        ldap.style.display = "none";
+		extn.style.display = "block";
+    }else{
+        ldap.style.display = "block";
+		extn.style.display = "none";
+	}*/
+	opcionf = f.opcion;
+	opcionl = l.opcion;
 	if(Msj=='BLOQ')	//Bloqueo por intentos fallidos
+	{
 		document.getElementById("msjIntento").innerHTML = " <strong>La clave ha sido bloqueada por alcanzar el m\xE1ximo de intentos. Contacte al administrador</strong>";
+	}
 	if(Msj=='BQ')	//Cuenta bloqueada
+	{
 		document.getElementById("msjIntento").innerHTML = " <strong>Su clave se encuentra bloqueada. Contacte al administrador</strong>";
+	}
 	if(Msj=='PI')	//Contraseña incorrecta
 	{
+
 		var maxIntento = <?php echo json_encode($maxIntentos);?>;
 		document.getElementById("msjIntento").innerHTML = " <strong>Datos incorrectos. Luego de "+maxIntento+" intentos la clave ser\xE1 bloqueada.(Intento <?php echo json_encode($_SESSION["intentos"]);?>)</strong>";
 		f.txtpassword.focus();	
+		ldap.style.display = "none";
+		extn.style.display = "block";
+
 	}	
 	if(Msj=='UN')	//Usuario no existe
+	{
+		ldap.style.display = "none";
+		extn.style.display = "block";
 		document.getElementById("msjIntento").innerHTML = " <strong>Datos ingresados incorrectos.</strong>";
+	}
+	if(Msj=='LDAP')	//Cuenta LDAP no exite
+	{
+		document.getElementById("msjIntentoLdap").innerHTML = " <strong>No es posible validar su usuario. No posee nombre de red LDAP. Contacte al administrador.</strong>";
+	}
+	if(Msj=='NPLDAP')	//Credencial LDAP Invalido
+	{
+		document.getElementById("msjIntentoLdap").innerHTML = " <strong>Credencial de Red Invalido. Contacte al administrador.</strong>";
+	}
+	
+	if(Msj=='' && opcionl=="Ldap" )	//por defecto
+	{
+		document.getElementById("msjIntentoLdap").innerHTML = "Ingrese Cuenta y Clave de Red";
+	}else{
+		document.getElementById("msjIntento").innerHTML = "Ingrese RUT y Clave de Sistema";
+	}
+	
 }
+
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <body leftmargin="3" topmargin="3" marginwidth="0" marginheight="0" onLoad="verMensaje('<?php echo $mensaje?>')" >
@@ -288,7 +371,6 @@ function verMensaje(Msj)
 	//	echo "onLoad=\"JavaScript:document.frmPrincipal.txtrut.focus();\"";
 ?>
 
-<form name="frmPrincipal" method="post" action="">
 <div style="position:absolute; left: 5px; top: 2px;">
   <TABLE width=770 height="44" border=0 cellPadding=0 cellSpacing=0>
     <TBODY>
@@ -318,7 +400,7 @@ function verMensaje(Msj)
 				  	$mes = $mes - 1;
 				  	$ano = date("Y");
 				  	//FIN FUNCION DE FECHA
-?>
+					?>
                 <?php echo $Dias[$str_dia]." ".$dia." de ".$Meses[$mes]." de ".$ano; ?>
                 </font></td>
             </tr>
@@ -328,51 +410,102 @@ function verMensaje(Msj)
 </div> 
 
 <div style="position:absolute; left: 5px; top: 86px; width: 770px; height: 321px;">
-  <table width="770" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
-			<tr> 
-				
-        <td height="316" align="center" valign="middle" background="principal/imagenes/fondo3.gif">
-		<div style="position:absolute; left: 14px; top: 16px; width: 363px; height: 255px;"><img src="principal/imagenes/fondo_inicio.jpg"></div>
-          <div style="position:absolute; left: 470px; top: 83px; width: 279px; height: 114px;">
-            <table width="207" border="0" cellpadding="2" cellspacing="0" class="TablaPrincipal3">
-              <tr> 
-                <td colspan="2"><?php //echo "User:".$user."<br>Var:".$EncontroPortalX."&nbsp;&nbsp;Coo:".$CookieRutAUX;?>&nbsp;</td>
-              </tr>
-              <tr> 
-                <td width="111" height="21"><img src="principal/imagenes/img_rut.gif" ></td>
-              <td width="99">
-              <?php
-               $txtrut="";
-			   $txtpassword="";
-
-				?>
-              <input name="txtrut" type="text" class="InputIni" onFocus="foco='txtpassword';" value="<?php echo $txtrut;?>" size="15" maxlength="15"></td>
-              </tr>
-              <tr> 
-                <td><img src="principal/imagenes/img_pass.gif" ></td>
-                <td><input name="txtpassword" type="password" class="InputIni" onFocus="foco='btnEntrar';" value="<?php echo $txtpassword;?>" size="15" maxlength="15"></td>
-              </tr>
-              <tr align="right" valign="middle">
-                <td colspan="2"><a href="JavaScript:Entrar('E')"><img src="principal/imagenes/img_entrar.gif" border="0" ></a></td>
-              </tr>
-              <tr align="left" valign="middle">
-              	<td colspan="5"><div id="msjIntento" style="color:red;font-size:11px;font-weight:150"></div></td>  
-                <!--<td colspan="2"><input <?php //echo $Recordar; ?> name="ChkRecordar" type="checkbox" id="ChkRecordar" value="S">
-                Recordar mi cuenta en este equipo </td>-->
-                <td><input name="maxIntentos" type="hidden" onFocus="foco='btnEntrar';" value="<?php echo $maxIntentos;?>" size="15" maxlength="15"></td>
-                <td><input name="intentos" type="hidden" onFocus="foco='btnEntrar';" value="<?php echo $_SESSION['intentos'];?>" size="15" maxlength="15"></td>
-              </tr>
-            </table>
-          </div>  
-           <div style="position:absolute; left: 370px; top: 200px; width: 479px; height: 60px;">
-		<table><tr><td><strong></strong><td></tr></table>
-	</div> 
-
-        </td>
-    </tr>
-  </table>
-  </div>
-  <div style="position:absolute; left: 5px; top: 405px;">
+  	<table width="770" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal">
+		<tr> 				
+			<td height="316" align="center" valign="middle" background="principal/imagenes/fondo3.gif">
+				<div style="position:absolute; left: 14px; top: 16px; width: 363px; height: 255px;"><img src="principal/imagenes/fondo_inicio.jpg"></div>
+				    <form name="frmPrincipal" method="post" action="">
+						<div id="login-externo" style="position:absolute; left: 470px; top: 83px; width: 279px; height: 150px;display: none;">
+							<table width="207" border="0" cellpadding="2" cellspacing="0" class="TablaPrincipal3">
+								<tr> 
+									<td colspan="2"><?php //echo "User:".$user."<br>Var:".$EncontroPortalX."&nbsp;&nbsp;Coo:".$CookieRutAUX;?>&nbsp;</td>
+								</tr>
+								<tr> 
+									<td width="111" height="21"><img src="principal/imagenes/img_rut.gif" ></td>
+									<td width="99">
+									<?php
+									$txtrut="";
+									$txtpassword="";
+									?>
+									<input name="txtrut" type="text" class="InputIni" onFocus="foco='txtpassword';" value="<?php echo $txtrut;?>" size="15" maxlength="15">
+									</td>
+								</tr>
+								<tr> 
+									<td><img src="principal/imagenes/img_pass.gif" ></td>
+									<td><input name="txtpassword" type="password" class="InputIni" onFocus="foco='btnEntrar';" value="<?php echo $txtpassword;?>" size="15" maxlength="15"></td>
+								</tr>
+								<tr align="right" valign="middle">
+									<td colspan="2"><a href="JavaScript:Entrar('E')"><img src="principal/imagenes/img_entrar.gif" border="0" ></a></td>
+								</tr>
+								<tr align="left" valign="middle">
+									<td colspan="5"><div id="msjIntento" style="color:red;font-size:11px;font-weight:bold"></div></td>  
+									<td><input name="maxIntentos" type="hidden" onFocus="foco='btnEntrar';" value="<?php echo $maxIntentos;?>" size="15" maxlength="15"></td>
+									<td>
+										<input name="intentos" type="hidden" onFocus="foco='btnEntrar';" value="<?php echo $_SESSION['intentos'];?>" size="15" maxlength="15">
+										<input name="opcion" type="hidden" value="Ext">
+									</td>
+								</tr>
+							</table><br>
+							<table width="207" border="0" cellpadding="2" cellspacing="0">
+							   <tr align="left" valign="middle">
+									<td>
+										<strong><a href="javascript:OcultarLogin();">¿Usuario LDAP?</a></strong>
+									</td>
+								</tr>
+							</table>
+						</div> 
+					</form>
+					<form name="frmLdap" method="post" action="">
+						<div id="login-ldap" style="position:absolute; left: 470px; top: 83px; width: 279px; height: 150px;display:block;">
+							<table width="207" border="0" cellpadding="2" cellspacing="0" class="TablaPrincipal3">
+								<tr> 
+									<td colspan="2"><?php //echo "User:".$user."<br>Var:".$EncontroPortalX."&nbsp;&nbsp;Coo:".$CookieRutAUX;?>&nbsp;</td>
+								</tr>
+								<tr> 
+									<td width="111" height="21"><div style="color:white;font-size:11px;font-weight:bold;text-shadow: black 0.2em 0.2em 0.2em">CUENTA:</div></td>
+									<td width="99">
+									<?php
+									$txtrut="";
+									$txtpassword="";
+									?>
+									<input name="txtrut" type="text" class="InputIni" onFocus="foco='txtpassword';" value="<?php echo $txtrut;?>" size="15" maxlength="15">
+									</td>
+								</tr>
+								<tr> 
+									<td><div style="color:white;font-size:11px;font-weight:bold;text-shadow: black 0.2em 0.2em 0.2em">CONTRASEÑA:</div></td>
+									<td><input name="txtpassword" type="password" class="InputIni" onFocus="foco='btnEntrar';" value="<?php echo $txtpassword;?>" size="15" maxlength="15"></td>
+								</tr>
+								<tr align="right" valign="middle">
+									<td colspan="2"><a href="JavaScript:Entrar('L')"><img src="principal/imagenes/img_entrar.gif" border="0" ></a></td>
+								</tr>
+								<tr align="left" valign="middle">
+									<td colspan="5">
+										<div id="msjIntentoLdap" style="color:red;font-size:11px;font-weight:bold">Ingrese Cuenta y Clave de Red</div>
+										<div style="color:red;font-size:11px;font-weight:bold"></div>
+									</td>  
+									<td><input name="maxIntentos" type="hidden" onFocus="foco='btnEntrar';" value="<?php echo $maxIntentos;?>" size="15" maxlength="15"></td>
+									<td>
+										<input name="intentos" type="hidden" onFocus="foco='btnEntrar';" value="<?php echo $_SESSION['intentos'];?>" size="15" maxlength="15">
+										<input name="opcion" type="hidden" value="Ldap">
+									</td>
+								</tr>
+							</table><br>
+							<table width="207" border="0" cellpadding="2" cellspacing="0">
+								<tr align="left" valign="middle">
+									<td>
+										<strong><!--<a href="#" id="sampleApp" onclick="OcultarLogin(); return false;">Click Here</a>-->
+										<a href="javascript:OcultarLogin();">¿Usuario Externo?</a></strong>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</form>
+				</div>
+			</td>
+		</tr>
+  	</table>
+</div>
+<div style="position:absolute; left: 5px; top: 405px;">
   <TABLE width="770" height="23" border=0 cellPadding=3 cellSpacing=0>
     <TBODY>
       <TR> 
@@ -384,7 +517,7 @@ function verMensaje(Msj)
                 <td width="10">&nbsp;</td>
                 <td width="143"><a href="http://www.codelco.cl" target="_blank" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;">&nbsp;Web Codelco </a></td>
                 <td width="12">&nbsp;</td>
-                <td width="141"><a href="http://<?php echo HTTP_SERVER;?>/intranet/" target="_blank" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;">&nbsp;Intranet</a></td>
+                <td width="141"><a href="http://<?php echo HTTP_SERVER;?>/proyecto/intranet/" target="_blank" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;">&nbsp;Intranet</a></td>
                 <td width="10">&nbsp;</td>
                 <td width="155"><a href="http://<?php echo HTTP_SERVER;?>/proyecto/" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;">&nbsp;Inicio</a></td>
               </tr>
