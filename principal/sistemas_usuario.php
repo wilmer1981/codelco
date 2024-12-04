@@ -4,21 +4,10 @@
 	
 	//agregado por WSO
 	// comprobar si tenemos los parametros de la URL
-	if(isset($_REQUEST["CodSistema"])){
-		$CodSistema = $_REQUEST["CodSistema"];
-	}else {
-		$CodSistema = 0;
-	}
-	if(isset($_REQUEST["Nivel"])){
-		$Nivel = $_REQUEST["Nivel"];
-	}else {
-		$Nivel = 0;
-	}
-	if(isset($_REQUEST["CodPantalla"])){
-		$CodPantalla = $_REQUEST["CodPantalla"];
-	}else {
-		$CodPantalla = 0;
-	}
+	$mensaje     = isset($_REQUEST["mensaje"])?$_REQUEST["mensaje"]:"";
+	$CodSistema  = isset($_REQUEST["CodSistema"])?$_REQUEST["CodSistema"]:0;
+	$Nivel       = isset($_REQUEST["Nivel"])?$_REQUEST["Nivel"]:0;
+	$CodPantalla = isset($_REQUEST["CodPantalla"])?$_REQUEST["CodPantalla"]:0;
 
 	$modal=0;
 	$consulta = "SELECT rut, password, fecha_cambio_password ";
@@ -180,7 +169,7 @@ function CerrarSesion()
 				<font size="2" face="Times New Roman, Times, serif">&nbsp; </font>
 				<font color="#666666" face="Times New Roman, Times, serif">&nbsp; 
                 <?php
-					if (isset($mensaje))
+					if ($mensaje!="")
 						echo '<script languege="JavaScript"> alert("'.$mensaje.'") </script>';
 				?>
 				<?php
@@ -556,7 +545,7 @@ if($mensajeInterno["Desc1"]!= '')
 								
 								//-----------------GRABA EL ACCESO--------------------
 								include("conectar_principal.php"); */
-								$Insertar = "INSERT INTO control_acceso ";
+								$Insertar = "INSERT IGNORE INTO control_acceso ";
 								$Insertar.= " (fecha_hora, rut, ip, pc, sistema) ";
 								$Insertar.= " VALUES ('".$HoraAcceso."', '".$CookieRut."', '".$IP_USER."', '".$Host."', '".$CodSistema."')";
 								mysqli_query($link, $Insertar);
@@ -646,7 +635,7 @@ if($mensajeInterno["Desc1"]!= '')
                 <td width="10"></td>
                 <td width="143"><a href="http://www.codelco.cl" target="_blank" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;">&nbsp;Web Codelco </a></td>
                 <td width="12"></td>
-                <td width="141"><a href="http://vevmwebp001/Intranet" target="_blank" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;">&nbsp;Intranet</a></td>
+                <td width="141"><a href="http://<?php echo HTTP_SERVER;?>/proyecto/intranet/" target="_blank" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;">&nbsp;Intranet</a></td>
                 <td width="10"></td>
                 <td width="155"><a href="http://<?php echo $IP_SERV;?>/proyecto/" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;">&nbsp;Inicio</a></td>
               </tr>
