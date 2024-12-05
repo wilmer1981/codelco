@@ -9,14 +9,15 @@
 	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date('m');
 	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date('Y');
 
-	if ($DiaIni < 10)
+	if (strlen($DiaIni) == 1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni) == 1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin ) == 1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin) == 1)
 		$MesFin = "0".$MesFin;
+	
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 ?>
@@ -227,10 +228,10 @@ function Historial(SA,Rec)
 	$Consulta = " SELECT t1.fecha_produccion, t1.cod_producto, t1.cod_subproducto, ";
 	$Consulta.= " t1.cod_grupo, t1.cod_cuba, t1.peso_produccion";
 	$Consulta.= " from sec_web.produccion_catodo t1 ";
-	$Consulta.= " where t1.cod_producto = '18' and t1.cod_subproducto = '5' and t1.cod_cuba != 00";
+	$Consulta.= " where t1.cod_producto = '18' and t1.cod_subproducto = '5' and t1.cod_cuba != '00'";
 	$Consulta.= " and t1.fecha_produccion between '".$FechaInicio."' and '".$FechaTermino."'";
 	$Consulta.= " order by t1.fecha_produccion, t1.cod_grupo, t1.cod_cuba";
-
+   echo $Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;	
 	while ($Fila = mysqli_fetch_array($Respuesta))

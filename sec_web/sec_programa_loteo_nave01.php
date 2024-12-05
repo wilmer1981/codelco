@@ -1,14 +1,13 @@
 <?php 	
 	include("../principal/conectar_principal.php");
 
-	$Proceso = $_REQUEST["Proceso"];
-	
-	$TxtCodNave    = $_REQUEST["TxtCodNave"];
-	$TxtNomNave    = $_REQUEST["TxtNomNave"];
-	$TxtCodNaviera = $_REQUEST["TxtCodNaviera"];
-	$TxtViaTrans   = $_REQUEST["TxtViaTrans"];
-	$TxtCodBandera = $_REQUEST["TxtCodBandera"];
-	$TxtAnoConstruccion = $_REQUEST["TxtAnoConstruccion"];
+	$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";	
+	$TxtCodNave    = isset($_REQUEST["TxtCodNave"])?$_REQUEST["TxtCodNave"]:"";
+	$TxtNomNave    = isset($_REQUEST["TxtNomNave"])?$_REQUEST["TxtNomNave"]:"";
+	$TxtCodNaviera = isset($_REQUEST["TxtCodNaviera"])?$_REQUEST["TxtCodNaviera"]:"";
+	$TxtViaTrans   = isset($_REQUEST["TxtViaTrans"])?$_REQUEST["TxtViaTrans"]:"";
+	$TxtCodBandera = isset($_REQUEST["TxtCodBandera"])?$_REQUEST["TxtCodBandera"]:"";
+	$TxtAnoConstruccion = isset($_REQUEST["TxtAnoConstruccion"])?$_REQUEST["TxtAnoConstruccion"]:"";
 
 	if($TxtAnoConstruccion=='')
 		$TxtAnoConstruccion=0;

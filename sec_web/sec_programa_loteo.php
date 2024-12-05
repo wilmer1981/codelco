@@ -1,16 +1,10 @@
 <?php 	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 10;
-	include("../principal/conectar_sec_web.php");
+	//include("../principal/conectar_sec_web.php");
+	require("../principal/conectar_index.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-   /*
-	if (!isset($CmbAno))
-		$CmbAno=date('Y');
-	if (!isset($CmbMes))
-		$CmbMes=date('n');
-	
-	if (!isset($Programa))
-		$Programa="N";*/
+ 
 	if(isset($_REQUEST["CmbDias"])){
 		$CmbDias = $_REQUEST["CmbDias"];
 	}else{
@@ -36,6 +30,7 @@
 	}else{
 		$Mensaje = "";
 	}
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
 	if(isset($_REQUEST["ValorCheck"])){
 		$ValorCheck = $_REQUEST["ValorCheck"];
 	}else{
@@ -537,7 +532,7 @@ else
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Insertar="INSERT INTO sec_web.tmpprograma (corr_ie,cliente_nave,fecha_programacion,cantidad_programada,num_prog_loteo ,producto,subproducto,tipo,cod_contrato,estado,fecha_disponible,descripcion,enm_code,contrato,cuota,cod_puerto,cod_puerto_destino) values(";
-				$Insertar=$Insertar." '".$Fila["corr_codelco"]."','".$Fila["nombre_cliente"]."','".$Fila["fecha_programacion"]."','".'".$Fila["cantidad_programada"]."'."','".$Fila["num_prog_loteo"]."','".$Fila["producto"]."','".$Fila["subproducto"]."','C','".$Fila["cod_contrato_maquila"]."','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','".$Fila["descripcion"]."','C','".$Fila["cod_contrato"]."','".$Fila["mes_cuota"]."','".$Fila["cod_puerto"]."','".$Fila["cod_puerto_destino"]."')";
+				$Insertar=$Insertar." '".$Fila["corr_codelco"]."','".$Fila["nombre_cliente"]."','".$Fila["fecha_programacion"]."','".$Fila["cantidad_programada"]."','".$Fila["num_prog_loteo"]."','".$Fila["producto"]."','".$Fila["subproducto"]."','C','".$Fila["cod_contrato_maquila"]."','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','".$Fila["descripcion"]."','C','".$Fila["cod_contrato"]."','".$Fila["mes_cuota"]."','".$Fila["cod_puerto"]."','".$Fila["cod_puerto_destino"]."')";
 				mysqli_query($link, $Insertar);   
 			}
 			switch ($Programa)
@@ -738,7 +733,7 @@ else
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
 		{
@@ -747,7 +742,7 @@ else
 			echo "</script>";
 		}
 	}
-	if (isset($Mensaje))
+	if ($Mensaje!="")
 	{
 		echo "<script languaje='javascript'>";
 		echo "alert('".$Mensaje."');";	

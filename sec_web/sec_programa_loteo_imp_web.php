@@ -2,15 +2,10 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 10;
 	include("../principal/conectar_sec_web.php");
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
-	if (!isset($CmbAno))
-	{
-		$CmbAno=date('Y');
-	}
-	if (!isset($CmbMes))
-	{
-		$CmbMes=date('n');
-	}
+	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+    $CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$Programa = isset($_REQUEST["Programa"])?$_REQUEST["Programa"]:"";
 	
 ?>
 <html>
@@ -84,7 +79,7 @@ body {
 	  <tr>
 	  
 	  <?php
-			if (!isset($Programa))
+			if ($Programa=="")
 			{
 				$Programa='N';
 			}
@@ -94,7 +89,7 @@ body {
 			switch ($Programa)
 			{
 				case "S":
-					echo "Con N� Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()' checked>&nbsp;&nbsp;Fecha:&nbsp;&nbsp;";
+					echo "Con N&deg; Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()' checked>&nbsp;&nbsp;Fecha:&nbsp;&nbsp;";
 					echo"<select name='CmbMes' onchange='Recarga()'>";
 					for($i=1;$i<13;$i++)
 					{
@@ -150,17 +145,17 @@ body {
 						}		
 					}
 					echo "</select>&nbsp;&nbsp;";
-					echo "Sin N� Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>&nbsp;&nbsp;";	
+					echo "Sin N&deg; Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>&nbsp;&nbsp;";	
 					echo "Anuladas<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>";
 					break;
 				case "N":
-					echo "Con N� Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>&nbsp;&nbsp;";
-					echo "Sin N� Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()' checked>&nbsp;&nbsp;";	
+					echo "Con N&deg; Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>&nbsp;&nbsp;";
+					echo "Sin N&deg; Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()' checked>&nbsp;&nbsp;";	
 					echo "Anuladas<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>";
 					break;
 				case "A":
-					echo "Con N� Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>&nbsp;&nbsp;";
-					echo "Sin N� Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>&nbsp;&nbsp;";	
+					echo "Con N&deg; Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>&nbsp;&nbsp;";
+					echo "Sin N&deg; Programa<input type='radio' name='OpcPrograma' value='' onclick='Recarga()'>&nbsp;&nbsp;";	
 					echo "Anuladas<input type='radio' name='OpcPrograma' value='' onclick='Recarga()' checked>";
 					break;
 			}
@@ -202,9 +197,9 @@ body {
 			$CrearTmp =$CrearTmp."(corr_ie bigint(8),cliente_nave varchar(30),fecha date,fecha_programacion date,";
 			$CrearTmp =$CrearTmp."cantidad_programada double(10,1),num_prog_loteo int(11),producto varchar(30),";
 			$CrearTmp =$CrearTmp."subproducto varchar (30),pto_destino varchar (30),pto_emb varchar (30),";
-			$CrearTmp =$CrearTmp."tipo char(1),cod_contrato varchar(10),estado char(1),fecha_disponible date,";
+			$CrearTmp =$CrearTmp."tipo char(1),cod_contrato varchar(20),estado char(1),fecha_disponible date,";
 			$CrearTmp =$CrearTmp."descripcion varchar(255),enm_code char(1),contrato varchar(20), cuota int(2), cod_puerto varchar(10), cod_puerto_destino varchar(10))";
-			mysqli_query($link, $CrearTmp);
+			mysqli_query($link,$CrearTmp);
 			//CONSULTA TABLA PROGRAMA ENAMI
 			$Consulta="select t1.descripcion,t1.fecha_disponible,t1.estado2,t1.cod_marca,t6.descripcion as producto,";
 			$Consulta=$Consulta."t2.descripcion as subproducto,t3.nom_aero_puerto as pto_emb,t4.nom_aero_puerto as pto_destino,";
@@ -227,12 +222,12 @@ body {
 			{
 				$Consulta=$Consulta." where t1.tipo <> 'V' and t1.estado2 <>'C' and t1.estado2 <>'L'";
 			}
-			$Resultado=mysqli_query($link, $Consulta);
+			$Resultado=mysqli_query($link,$Consulta);
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,fecha_programacion,cantidad_programada,num_prog_loteo ,producto,subproducto,pto_destino ,pto_emb,tipo,cod_contrato,estado,fecha_disponible,descripcion,enm_code,contrato,cuota,cod_puerto,cod_puerto_destino) values(";
-				$Insertar=$Insertar."$Fila["corr_enm"],'".$Fila["nombre_cliente"]."','$Fila["eta_programada"]','$Fila[cantidad_embarque]','$Fila["num_prog_loteo"]','$Fila["producto"]','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["cod_marca"]."','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','$Fila["descripcion"]','E','$Fila["cod_contrato"]','$Fila["mes_cuota"]','$Fila["cod_puerto"]','$Fila[cod_puerto_destino]')";
-				mysqli_query($link, $Insertar);
+				$Insertar=$Insertar."'".$Fila["corr_enm"]."','".$Fila["nombre_cliente"]."','".$Fila["eta_programada"]."','".$Fila["cantidad_embarque"]."','".$Fila["num_prog_loteo"]."','".$Fila["producto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["cod_marca"]."','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','".$Fila["descripcion"]."','E','".$Fila["cod_contrato"]."','".$Fila["mes_cuota"]."','".$Fila["cod_puerto"]."','".$Fila["cod_puerto_destino"]."')";
+				mysqli_query($link,$Insertar);
 			}
 			//CONSULTA TABLA PROGRAMA CODELCO
 			$Consulta="select t1.descripcion,t1.fecha_disponible,t1.estado2,t1.cod_contrato_maquila,(case when not isnull(t4.nombre_nave) then t4.nombre_nave else t3.nombre_cliente end) as nombre_cliente,t1.corr_codelco,t6.descripcion as producto,t2.descripcion as subproducto,";
@@ -250,13 +245,14 @@ body {
 			else
 			{
 				$Consulta=$Consulta." where t1.estado2 <>'C' and t1.estado2 <>'L'";
-			}			
-			$Resultado=mysqli_query($link, $Consulta);
+			}
+            //echo $Consulta;			
+			$Resultado=mysqli_query($link,$Consulta);
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Insertar="insert into sec_web.tmpprograma (corr_ie,cliente_nave,fecha_programacion,cantidad_programada,num_prog_loteo ,producto,subproducto,tipo,cod_contrato,estado,fecha_disponible,descripcion,enm_code,contrato,cuota,cod_puerto,cod_puerto_destino) values(";
-				$Insertar=$Insertar."$Fila["corr_codelco"],'".$Fila["nombre_cliente"]."','$Fila["fecha_programacion"]',$Fila["cantidad_programada"],'$Fila["num_prog_loteo"]','$Fila["producto"]','".$Fila["subproducto"]."','C','$Fila["cod_contrato_maquila"]','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','$Fila["descripcion"]','C','$Fila["cod_contrato"]','$Fila["mes_cuota"]','$Fila["cod_puerto"]','$Fila[cod_puerto_destino]')";
-				mysqli_query($link, $Insertar);   
+				$Insertar=$Insertar." '".$Fila["corr_codelco"]."','".$Fila["nombre_cliente"]."','".$Fila["fecha_programacion"]."','".$Fila["cantidad_programada"]."','".$Fila["num_prog_loteo"]."','".$Fila["producto"]."','".$Fila["subproducto"]."','C','".$Fila["cod_contrato_maquila"]."','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','".$Fila["descripcion"]."','C','".$Fila["cod_contrato"]."','".$Fila["mes_cuota"]."','".$Fila["cod_puerto"]."','".$Fila["cod_puerto_destino"]."')";
+				mysqli_query($link,$Insertar);   
 			}
 			switch ($Programa)
 			{
@@ -270,8 +266,9 @@ body {
 					$Consulta="select * from sec_web.tmpprograma where estado='A' order by fecha_programacion";	
 					break;	
 			}
-			$Respuesta=mysqli_query($link, $Consulta);
+			$Respuesta=mysqli_query($link,$Consulta);
 			echo "<input type='hidden' name='CheckProgLoteo'><input type='hidden' name ='NumProgLoteo'><input type='hidden' name='CheckFecha'>";
+			$Cont2=0;
 			while ($Valor=mysqli_fetch_array($Respuesta))
 			{
 				$MostrarBoton=true;
@@ -286,14 +283,14 @@ body {
 					echo "<td width='72'>".$Valor["cod_contrato"]."</td>";
 				else
 					echo "<td width='72'>&nbsp;</td>";
-				if ($Valor[contrato]<>"")
-					echo "<td width='69'>".$Valor[contrato]."</td>";
+				if ($Valor["contrato"]<>"")
+					echo "<td width='69'>".$Valor["contrato"]."</td>";
 				else	echo "<td width='69'>&nbsp;</td>";
-				if ($Valor[cuota]!="")
-					echo "<td  align='center'>".$Valor[cuota]."</td>";
+				if ($Valor["cuota"]!="")
+					echo "<td  align='center'>".$Valor["cuota"]."</td>";
 				else	echo "<td width='69'>&nbsp;</td>";
-				if ($Valor[cod_puerto_destino]!="")
-					echo "<td align='center'>".$Valor[cod_puerto_destino]."</td>";
+				if ($Valor["cod_puerto_destino"]!="")
+					echo "<td align='center'>".$Valor["cod_puerto_destino"]."</td>";
 				else	echo "<td width='69'>&nbsp;</td>";
 				if ($Valor["cantidad_programada"]!="")
 					echo "<td align='right'>".number_format($Valor["cantidad_programada"],1,",",".")."&nbsp;</td>";
@@ -322,7 +319,7 @@ body {
 				echo "</tr>";
 			}
 			$BorrarTmp="drop table sec_web.tmpprograma";
-			mysqli_query($link, $BorrarTmp);
+			mysqli_query($link,$BorrarTmp);
 		?></table>
         <br>		
           <table width="650" border="0" align="center">

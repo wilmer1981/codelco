@@ -1,94 +1,40 @@
 <?php 	
 	include("../principal/conectar_principal.php");
 
-	if(isset($_REQUEST["Accion"])){
-		$Accion = $_REQUEST["Accion"];
-	}else{
-		$Accion = "";
-	}
-	if(isset($_REQUEST["Valor"])){
-		$Valor = $_REQUEST["Valor"];
-	}else{
-		$Valor = "";
-	}
-	if(isset($_REQUEST["Prog"])){
-		$Prog = $_REQUEST["Prog"];
-	}else{
-		$Prog = "";
-	}
-	if(isset($_REQUEST["jcf"])){
-		$jcf = $_REQUEST["jcf"];
-	}else{
-		$jcf = 0;
-	}
-	if(isset($_REQUEST["TipoOrden"])){
-		$TipoOrden = $_REQUEST["TipoOrden"];
-	}else{
-		$TipoOrden = "";
-	}
-	if(isset($_REQUEST["TxtNumProgLoteo"])){
-		$TxtNumProgLoteo = $_REQUEST["TxtNumProgLoteo"];
-	}else{
-		$TxtNumProgLoteo = "";
-	}
-	if(isset($_REQUEST["TxtContrato"])){
-		$TxtContrato = $_REQUEST["TxtContrato"];
-	}else{
-		$TxtContrato = "";
-	}
-	if(isset($_REQUEST["TxtPartida"])){
-		$TxtPartida = $_REQUEST["TxtPartida"];
-	}else{
-		$TxtPartida = "";
-	}
-	if(isset($_REQUEST["TxtCantidad"])){
-		$TxtCantidad = $_REQUEST["TxtCantidad"];
-	}else{
-		$TxtCantidad = "";
-	}
-	if(isset($_REQUEST["TxtCuota"])){
-		$TxtCuota = $_REQUEST["TxtCuota"];
-	}else{
-		$TxtCuota = "";
-	}
-	if(isset($_REQUEST["TxtNumSemana"])){
-		$TxtNumSemana = $_REQUEST["TxtNumSemana"];
-	}else{
-		$TxtNumSemana = "";
-	}
-	if(isset($_REQUEST["TxtDescripcion"])){
-		$TxtDescripcion = $_REQUEST["TxtDescripcion"];
-	}else{
-		$TxtDescripcion = "";
-	}
+	$Accion = isset($_REQUEST["Accion"])?$_REQUEST["Accion"]:"";
+	$Valor  = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:"";
+	$Prog   = isset($_REQUEST["Prog"])?$_REQUEST["Prog"]:"";
+	$jcf    = isset($_REQUEST["jcf"])?$_REQUEST["jcf"]:0;
+	$TipoOrden = isset($_REQUEST["TipoOrden"])?$_REQUEST["TipoOrden"]:"";
+	$TxtNumProgLoteo = isset($_REQUEST["TxtNumProgLoteo"])?$_REQUEST["TxtNumProgLoteo"]:"";
+	$TxtContrato = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
+	$TxtPartida = isset($_REQUEST["TxtPartida"])?$_REQUEST["TxtPartida"]:"";
+    $TxtCantidad = isset($_REQUEST["TxtCantidad"])?$_REQUEST["TxtCantidad"]:"";
+    $TxtCuota = isset($_REQUEST["TxtCuota"])?$_REQUEST["TxtCuota"]:"";
 	/*
 	if(isset($_REQUEST["Titulo"])){
 		$Titulo = $_REQUEST["Titulo"];
 	}else{
 		$Titulo = "";
 	}*/
-	if(isset($_REQUEST["TxtDescripcion"])){
-		$TxtDescripcion = $_REQUEST["TxtDescripcion"];
-	}else{
-		$TxtDescripcion = "";
-	}
-
-
-	if (!isset($TxtFechaDisp))
-		$TxtFechaDisp=date("Y-m-d");
-	if (!isset($TxtFechaProg))
-		$TxtFechaProg=date("Y-m-d");
-	if (!isset($TxtFechaDevo))
-		$TxtFechaDevo=date("Y-m-d");
-	if (!isset($CmbProducto))
+	$TxtNumSemana = isset($_REQUEST["TxtNumSemana"])?$_REQUEST["TxtNumSemana"]:"";
+    $TxtDescripcion = isset($_REQUEST["TxtDescripcion"])?$_REQUEST["TxtDescripcion"]:"";
+	$TxtNumOrden = isset($_REQUEST["TxtNumOrden"])?$_REQUEST["TxtNumOrden"]:"";
+    $TxtFechaDisp = isset($_REQUEST["TxtFechaDis"])?$_REQUEST["TxtFechaDisp"]:date("Y-m-d");
+	$TxtFechaProg = isset($_REQUEST["TxtFechaProg"])?$_REQUEST["TxtFechaProg"]:date("Y-m-d");
+	$TxtFechaDevo = isset($_REQUEST["TxtFechaDevo"])?$_REQUEST["TxtFechaDevo"]:date("Y-m-d");
+	$CmbPtoEmbarque = isset($_REQUEST["CmbPtoEmbarque"])?$_REQUEST["CmbPtoEmbarque"]:"LX8";
+	$CmbPtoDestino = isset($_REQUEST["CmbPtoDestino"])?$_REQUEST["CmbPtoDestino"]:"LXF";
+	$CmbProducto = isset($_REQUEST["CmbProducto"])?$_REQUEST["CmbProducto"]:"";
+	$CmbNave = isset($_REQUEST["CmbNave"])?$_REQUEST["CmbNave"]:"";
+	$CmbAsignacion = isset($_REQUEST["CmbAsignacion"])?$_REQUEST["CmbAsignacion"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$CmbCliente     = isset($_REQUEST["CmbCliente"])?$_REQUEST["CmbCliente"]:"";
+	if ($CmbProducto=="")
 	{
 		$CmbProducto="18";
 		$CmbSubProducto="40";
 	}
-	if (!isset($CmbPtoEmbarque))
-		$CmbPtoEmbarque="LX8";
-	if (!isset($CmbPtoDestino))
-		$CmbPtoDestino="LXF";		
 		
 	$Desactiva="";
 	$Titulo =""; //WSO

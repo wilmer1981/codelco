@@ -1,11 +1,13 @@
 <?php 
 	include("../principal/conectar_principal.php");
-	
+	//Tipo=C&Mes=4&Cliente=1980&Contrato=ZU0C357
 	$Tipo      = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
 	$Cliente   = isset($_REQUEST["Cliente"])?$_REQUEST["Cliente"]:"";
 	$Contrato  = isset($_REQUEST["Contrato"])?$_REQUEST["Contrato"]:"";
 	$Mes       = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
-
+    if (strlen($Mes) == 1)
+		$Mes = "0".$Mes;
+	
 	if ($Tipo == "E")
 	{
 		$Consulta = "SELECT * from sec_web.cliente_venta where cod_cliente = '".$Cliente."'";
@@ -18,6 +20,7 @@
 	else
 	{
 		$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3016' and nombre_subclase = '".$Cliente."'";
+		//echo $Consulta;
 		$Resp2 = mysqli_query($link, $Consulta);
 		if ($Fila2 = mysqli_fetch_assoc($Resp2))
 			$NomCliente = $Fila2["valor_subclase1"];

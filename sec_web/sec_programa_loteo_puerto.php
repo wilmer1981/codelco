@@ -7,20 +7,16 @@
 	}else{
 		$Buscar = 'N';
 	}
-	if(isset($_REQUEST["CmbPtoDestino"])){
-		$CmbPtoDestino = $_REQUEST["CmbPtoDestino"];
-	}else{
-		$CmbPtoDestino = "";
-	}
-	if(isset($_REQUEST["OptClienteNave"])){
-		$OptClienteNave = $_REQUEST["OptClienteNave"];
-	}else{
-		$OptClienteNave = "C";
-	}
-/*
-	if (!isset($OptClienteNave))
-		$OptClienteNave="C";
-*/
+	$CmbPtoDestino = isset($_REQUEST["CmbPtoDestino"])?$_REQUEST["CmbPtoDestino"]:"";
+	$OptClienteNave = isset($_REQUEST["OptClienteNave"])?$_REQUEST["OptClienteNave"]:"C";
+	$TxtCodPuerto = isset($_REQUEST["TxtCodPuerto"])?$_REQUEST["TxtCodPuerto"]:"";
+	$TxtNomPuerto = isset($_REQUEST["TxtNomPuerto"])?$_REQUEST["TxtNomPuerto"]:"";
+	$TxtCodTransp = isset($_REQUEST["TxtCodTransp"])?$_REQUEST["TxtCodTransp"]:"";
+	$TxtCodPtoCentral = isset($_REQUEST["TxtCodPtoCentral"])?$_REQUEST["TxtCodPtoCentral"]:"";
+	$TxtCodCiudad = isset($_REQUEST["TxtCodCiudad"])?$_REQUEST["TxtCodCiudad"]:"";
+	$TxtCodPais = isset($_REQUEST["TxtCodPais"])?$_REQUEST["TxtCodPais"]:"";
+	$TxtEta     = isset($_REQUEST["TxtEta"])?$_REQUEST["TxtEta"]:"";
+
 	if($Buscar=='S')
 	{
 		$Consulta = "select * from sec_web.puertos where cod_puerto='$CmbPtoDestino'";
