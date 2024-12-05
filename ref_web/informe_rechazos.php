@@ -140,13 +140,13 @@ function ValidarCampos()
 	    }
         if (f.txt_puer_par.value == 0)
 	    {
-        alert("Debe ingresar el n�mero de puertas paralelas");
+        alert("Debe ingresar el nùmero de puertas paralelas");
         f.txt_puer_par.focus();
 		return false;
 	    }
         if (f.txt_puer_ser.value == 0)
 	    {
-        alert("Debe ingresar el n�mero de puertas seriales");
+        alert("Debe ingresar el nùmero de puertas seriales");
         f.txt_puer_ser.focus();
 		return false;
 	    }
@@ -205,7 +205,7 @@ function Excel()
 	var MesFin=f.MesFin.value;
 	var DiaFin=f.DiaFin.value;
 
-	document.location = "../ref_web/informe_rechazos_xls.php?AnoIni="+AnoIni+"&MesIni="+MesIni+"&DiaIni="+DiaIni+"&AnoFin="+AnoFin+"&MesFin="+MesFin+"&DiaFin="+DiaFin;
+	document.location = "../ref_web/informe_rechazos_xls.php?proceso=C&AnoIni="+AnoIni+"&MesIni="+MesIni+"&DiaIni="+DiaIni+"&AnoFin="+AnoFin+"&MesFin="+MesFin+"&DiaFin="+DiaFin;
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></HEAD>
@@ -392,9 +392,9 @@ function Excel()
 					  $FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 					   $FechaTermino = $AnoFin."-".$MesFin."-".$DiaFin;
 					   $Consulta_fecha ="select  distinct fecha from cal_web.rechazo_catodos as t1 " ;
-					   $Consulta_fecha = $Consulta_fecha."where t1.fecha between '".$FechaInicio."' and '".$FechaTermino."'";
-					  
+					   $Consulta_fecha = $Consulta_fecha."where t1.fecha between '".$FechaInicio."' and '".$FechaTermino."'";					  
 					   $Respuesta_fecha = mysqli_query($link, $Consulta_fecha);
+					   
 					   $total_ne=0;//WSO
 					   $total_nd=0; $total_ra=0; $total_cl=0; $total_cs=0;
 					   $total_qu=0;
@@ -408,8 +408,7 @@ function Excel()
 			                 $Consulta ="select  grupo,turno,ifnull(sum(unid_recup),0) as recuperado_tot, ifnull(sum(recup_menor),0) as recuperado_menor, ifnull(sum(estampa),0) as ne, ifnull(sum(dispersos),0) as nd, ifnull(sum(rayado),0) as ra, ";
 					         $Consulta =$Consulta."ifnull(sum(cordon_superior),0) as cs, ifnull(sum(cordon_lateral),0) as cl,ifnull(sum(quemados),0) as qu,ifnull(sum(redondos),0) as re,ifnull(sum(aire),0) as ai,";
 							 $Consulta.=" ifnull(sum(otros),0) as ot from cal_web.rechazo_catodos as t1 " ;
-					         $Consulta = $Consulta."where fecha= '".$Fila_fecha["fecha"]."' group by grupo order by fecha,grupo,turno";
-							
+					         $Consulta = $Consulta."where fecha= '".$Fila_fecha["fecha"]."' group by grupo order by fecha,grupo,turno";							
 							 $Respuesta2 = mysqli_query($link, $Consulta);
 					         $pasada='S';
 					         while ($Fila2 = mysqli_fetch_array($Respuesta2))
@@ -438,8 +437,8 @@ function Excel()
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["re"]."&nbsp</font></td>\n";	  
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["ai"]."&nbsp</font></td>\n";	  
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["ot"]."&nbsp</font></td>\n";	
-												$total_rechazos=$Fila2["nd"]+$Fila2["ne"]+$Fila2["ra"]+$Fila2["cl"]+$Fila2["cs"]+$Fila2["ot"];  
-												$total_rechazos=$total_rechazos+$Fila2["qu"]+$Fila2["re"]+$Fila2["ai"]; 
+												$total_rechazos = $Fila2["nd"]+$Fila2["ne"]+$Fila2["ra"]+$Fila2["cl"]+$Fila2["cs"]+$Fila2["ot"];  
+												$total_rechazos = $total_rechazos+$Fila2["qu"]+$Fila2["re"]+$Fila2["ai"]; 
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>$total_rechazos&nbsp</font></td>\n";
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["recuperado_menor"]."&nbsp</font></td>\n";
 												echo "<td width='120' align='center' class='detalle01'><font color='blue'>".$Fila2["recuperado_tot"]."&nbsp</font></td>\n";
