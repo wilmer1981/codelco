@@ -4,49 +4,20 @@
 	$Emisor = "";
 	$Error00 = "";
     $CookieRut = $_COOKIE["CookieRut"];
-
-	if(isset($_REQUEST["Proceso"])) {
-		$Proceso = $_REQUEST["Proceso"];
-	}else{
-		$Proceso = "";
-	}
-	if(isset($_REQUEST["Reescribir"])) {
-		$Reescribir = $_REQUEST["Reescribir"];
-	}else{
-		$Reescribir = "";
-	}
-	if(isset($_REQUEST["Corr"])) {
-		$Corr = $_REQUEST["Corr"];
-	}else{
-		$Corr = "";
-	}
-	if(isset($_REQUEST["Mes"])) {
-		$Mes = $_REQUEST["Mes"];
-	}else{
-		$Mes = "M";
-	}
-	if(isset($_REQUEST["Lote"])) {
-		$Lote = $_REQUEST["Lote"];
-	}else{
-		$Lote = "";
-	}
-	if(isset($_REQUEST["Idioma"])) {
-		$Idioma = $_REQUEST["Idioma"];
-	}else{
-		$Idioma = "";
-	}
-	if(isset($_REQUEST["MarcaCatodo"])) {
-		$MarcaCatodo = $_REQUEST["MarcaCatodo"];
-	}else{
-		$MarcaCatodo = "";
-	}
-
+	
+	$Mes       = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:"M";
+	$Lote      = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$Idioma    = isset($_REQUEST["Idioma"])?$_REQUEST["Idioma"]:"";
+	$Corr      = isset($_REQUEST["Corr"])?$_REQUEST["Corr"]:"";
+	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$CmbMes    = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
 	$CmbAno    = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
     $NumCertificado = isset($_REQUEST["NumCertificado"])?$_REQUEST["NumCertificado"]:"";
-	echo "Corr:".$Corr;
-	echo "<br>Mes:".$Mes;
+	$Reescribir     = isset($_REQUEST["Reescribir"])?$_REQUEST["Reescribir"]:"";
+	$MarcaCatodo    = isset($_REQUEST["MarcaCatodo"])?$_REQUEST["MarcaCatodo"]:"";
 	
+	//echo "Corr:".$Corr;
+	//echo "<br>Mes:".$Mes;	
 	if ($Proceso != "P")
 	{	
 		//echo "<br>Entrooooo:";
@@ -100,7 +71,7 @@
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{
 					//var_dump($Fila2);
-					echo "<br>Error00==YA EXISTE";
+					//echo "<br>Error00==YA EXISTE";
 					$Error00 = "E"; //YA EXISTE
 				}		  
 			}
@@ -113,7 +84,7 @@
 		}
 		if ($Error00 == "")
 		{
-			echo "Error00 vacio";
+			//echo "Error00 vacio";
 			if ($NumCertificado=="")
 			{
 				$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
@@ -132,8 +103,8 @@
 		}
 		else
 		{
-             //echo "<br>(ya existe) - Error00:".$Error00;
-			header("location:sec_con_certificado02.php?Error=".$Error00."&CorrENM=".$CorrENM."&Idioma=".$Idioma);
+            //echo "<br>(ya existe) - Error00:".$Error00;
+			//header("location:sec_con_certificado02.php?Error=".$Error00."&CorrENM=".$CorrENM."&Idioma=".$Idioma);
 			exit;
 		}
 	}
@@ -165,8 +136,7 @@
 				{	
 					$EnmCode = "C";
 				}	
-			}
-						
+			}						
 		}		 		 
 	}
 	
@@ -194,7 +164,7 @@
 		//$FechaDisp 		= $Fila["fecha_envio"];			
 		$NumEnvio 		= $Corr;
 		$MarcaCatodo 	= $Fila["cod_marca"];						
-		//$TipoEmbarque 	= $Fila["tipo_embarque"];
+		$TipoEmbarque 	= $Fila["tipo_embarque"];
 	}	
 ?>
 <html>
@@ -309,13 +279,13 @@ function Proceso(opt)
 						}
 						$Consulta.= " WHERE t1.cod_producto = 18 AND left(t1.fecha_muestra,10) = '".$Fila["fecha_produccion"]."'";
 						if ($Mes=='A' && $Lote==25000)
-							{
-								$Consulta.= " AND t1.id_muestra = '".$Fila["cod_grupo"]."'";
-							}
-							else
-							{
-								$Consulta.= " AND left(t1.id_muestra,5) like '%".intval($Fila["cod_grupo"])."%'";
-							}	
+						{
+							$Consulta.= " AND t1.id_muestra = '".$Fila["cod_grupo"]."'";
+						}
+						else
+						{
+							$Consulta.= " AND left(t1.id_muestra,5) like '%".intval($Fila["cod_grupo"])."%'";
+						}	
 						$Consulta.= " AND t2.valor != '' "; //AND t2.cod_leyes != 48";
 						$Consulta.= " AND t1.cod_periodo='1' ";
 						$Consulta.= " AND t1.tipo='1' ";
@@ -332,10 +302,8 @@ function Proceso(opt)
 							//echo "INSERTAR2".$Consulta."<br>";			
 							mysqli_query($link, $Insertar);
 						}
-
 				}									
-			}
-			
+			}			
 		}
 		else
 		{			

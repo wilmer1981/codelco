@@ -38,8 +38,7 @@ function Proceso(opt)
 			f.submit();
 			break;
 		case "S": 
-			//f.action ="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
-			f.action ="../principal/sistemas_usuario.php?CodSistema=10&Nivel=1&CodPantalla=7";
+			f.action ="../principal/sistemas_usuario.php?CodSistema=3&Nivel=1&CodPantalla=15";
 			f.submit();
 			break;
 		case "I":
