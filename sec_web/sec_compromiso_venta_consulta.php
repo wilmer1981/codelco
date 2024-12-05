@@ -491,8 +491,9 @@ while ($Fila = mysqli_fetch_assoc($Respuesta))
 				$SubTotalRealDic = $SubTotalRealDic + $ArrMeses1;
 				break;
 		}	 
-		$ArrMeses2  = isset($ArrMeses[$i][2])?$ArrMeses[$i][2]:0.0;  
-		$ArrMeses3  = isset($ArrMeses[$i][3])?$ArrMeses[$i][3]:0.0;  
+		$ArrMeses2  = isset($ArrMeses[$i][2])?$ArrMeses[$i][2]:"";  
+		$ArrMeses3  = isset($ArrMeses[$i][3])?$ArrMeses[$i][3]:"";  
+		//echo $Tipo;
 		echo "<td align='right'><a href=\"JavaScript:DetalleReal('".$Tipo."','".$i."','".$ArrMeses2."','".$ArrMeses3."')\">".number_format($ArrMeses1,0,",",".")."</a></td>\n";		
 	}
 	echo "</tr>\n";
