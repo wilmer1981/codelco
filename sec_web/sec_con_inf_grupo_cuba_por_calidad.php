@@ -1,24 +1,14 @@
 <?php
-	include("../principal/conectar_principal.php"); 
-
-
+	include("../principal/conectar_principal.php");
+    set_time_limit(1500);
+	//ini_set('MAX_EXECUTION_TIME', 1000);
 	$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date('d');
 	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date('m');
 	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date('Y');
 	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date('d');
 	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date('m');
 	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date('Y');
-/*
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
-	*/
+
 	if ($DiaIni < 10)
 		$DiaIni = "0".$DiaIni;
 	if ($MesIni < 10)
