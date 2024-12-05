@@ -166,7 +166,7 @@ else
 			if($Cierra=='Cerrar')
 			{
 				$ano = date("Y");
-				$ano1 = ano -1;
+				$ano1 = $ano -1;
 				$Msj="";
 				$Consulta="select * from sec_web.embarque_ventana where corr_enm ='".$IE."' and (year(fecha_envio) = '".$ano."' or '".$ano1."')";
 				//echo $Consulta."<br>";

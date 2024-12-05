@@ -2,9 +2,16 @@
 	include("../principal/conectar_sec_web.php");
 
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	//$Salir = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
-
-	echo "Valores:".$Valores;
+	$Salir   = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+	
+	$TxtIE             = isset($_REQUEST["TxtIE"])?$_REQUEST["TxtIE"]:"";
+	$NombreProducto    = isset($_REQUEST["NombreProducto"])?$_REQUEST["NombreProducto"]:"";
+	$NombreSubProducto = isset($_REQUEST["NombreSubProducto"])?$_REQUEST["NombreSubProducto"]:"";
+	$CodProducto       = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$CodSubProducto    = isset($_REQUEST["CodSubProducto"])?$_REQUEST["CodSubProducto"]:"";
+	$TxtPeso           = isset($_REQUEST["TxtPeso"])?$_REQUEST["TxtPeso"]:"";
+	$TipoIE            = isset($_REQUEST["TipoIE"])?$_REQUEST["TipoIE"]:"";
+	$TxtPesoPrep       = isset($_REQUEST["TxtPesoPrep"])?$_REQUEST["TxtPesoPrep"]:"";
 
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
@@ -283,6 +290,7 @@ function Salir()
 				//$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_ie"]." group by t1.corr_enm,t1.cod_bulto,t1.num_bulto";
 				//echo $Consulta;
 				$Respuesta2=mysqli_query($link, $Consulta);
+				$Cont2=0;
 				if ($Fila2=mysqli_fetch_array($Respuesta2))
 				{
 					$Consulta="SELECT max(num_paquete) as num_bulto from sec_web.lote_catodo t1";
@@ -314,6 +322,7 @@ function Salir()
 			echo "<td>Totales</td>";
 			echo "<td>&nbsp;</td>";
 			echo "<td>&nbsp;</td>";
+			echo "<td>&nbsp;</td>";
 			echo "<td width='50' align='right'>".$TotalPeso."&nbsp;</td>";
 			echo "<td width='50' align='right'>".$TotalPaquetes."&nbsp;</td>";
 			echo "<td>&nbsp;</td>";
@@ -338,7 +347,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($Salir))
+	if ($Salir!="")
 	{
 		echo "<script languaje='JavaScript'>";
 		echo "window.opener.document.FrmProgLoteo.action='sec_programa_adm_loteo.php?Salir=S';";

@@ -36,7 +36,7 @@
 				<?php
 					if ($TipoIE=='Completas')
 					{
-						echo "<td width='20' align='center'>N�</td>";
+						echo "<td width='20' align='center'>N&deg;</td>";
 						echo "<td width='45' align='center'>I.E</td>";
 						echo "<td width='115' align='center'>SubProducto</td>";
 						echo "<td width='175' align='center'>Nave/Cliente</td>";
@@ -44,7 +44,7 @@
 						echo "<td width='60' align='right'>Peso Prog</td>";
 						echo "<td width='60' align='center'>Peso Pre</td>";
 						echo "<td width='50' align='center'>Dif.</td>";
-						echo "<td width='60' align='center'>N� Lote</td>";
+						echo "<td width='60' align='center'>N&deg; Lote</td>";
 						echo "<td width='30' align='center'>Est.</td>";
 					}
 				 ?>	
@@ -179,7 +179,7 @@
 					echo "<td width='100' align='center'>".$Fila["fecha_disponible"]."</td>";
 					echo "<td width='60' align='right'>".($cantidad_programada*1000)."</td>";
 					echo "<td width='60' align='right'>".$peso_preparado."&nbsp;</td>";
-					echo "<td width='60' align='right'>".abs($cantidad_programada*1000-$peso_preparado)."&nbsp;</td>";
+					echo "<td width='60' align='right'>".abs((int)$cantidad_programada*1000-(int)$peso_preparado)."&nbsp;</td>";
 					if ($cod_bulto!="")
 					{
 						echo "<td width='60' align='right'><a href=\"JavaScript:MostrarPaquetes('".$cod_bulto."','".$num_bulto."','".$corr_ie."')\">\n";
@@ -191,7 +191,7 @@
 					}					
 					echo "<td width='40' align='center'>".$Fila["estado"]."&nbsp;</td>";
 					
-					$TotalPesoPrep=$TotalPesoPrep+$peso_preparado;
+					$TotalPesoPrep=$TotalPesoPrep+(int)$peso_preparado;
 					$Fila2["cod_bulto"]="";
 					$Fila2["num_bulto"]="";
 					$Fila2["peso_preparado"]="";

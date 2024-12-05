@@ -105,12 +105,12 @@ function Salir()
 		</table><br>
 		<table width="290" border="1" cellpadding="2" cellspacing="0" class="tablainterior">
 		  <tr>
-			  <td width="84">N� Bulto Inicial</td>
+			  <td width="84">N&deg; Bulto Inicial</td>
 			  <td width="23"><input type='text' name='TxtCodBultoIni' value='<?php echo $CodBulto;?>' readonly style="width:20"></td>
 			  <td width="162"><input type="text" name="TxtNumBultoIni" value='<?php echo $NumBulto;?>' readonly style="width:60" maxlength="8"></td>
 		  </tr>
 		  <tr>
-			  <td>N� Bulto Final</td>
+			  <td>N&deg; Bulto Final</td>
 			  <td><input type='text' name='TxtCodBultoIni' value='<?php echo $CodBulto;?>' readonly style="width:20"></td>
 			  <td><input type="text" name="TxtNumBultoFin" value='<?php echo $TxtNumBultoFin;?>'style="width:60" maxlength="8">&nbsp;&nbsp;&nbsp;<input type='button' name='BtnCalcular' value="Calcular" style="width:70" onClick="CalcularPeso('<?php echo $Valores;?>','<?php echo $NumBulto;?>','<?php echo $NumBultoFinal;?>');"></td>
 		  </tr>

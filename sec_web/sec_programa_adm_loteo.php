@@ -392,7 +392,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 			if (($TipoIE=='Normal')||($TipoIE=='Completas')||($TipoIE=='Ventanas')||($TipoIE=='NormalVentanas'))
 			{
 				echo "<td width='20' align='center'>&nbsp;</td>";
-				echo "<td width='20' align='center'>N</td>";
+				echo "<td width='20' align='center'>N&deg;</td>";
 				echo "<td width='45' align='center'>I.E</td>";
 				echo "<td width='115' align='center'>SubProducto</td>";
 				echo "<td width='175' align='center'>Nave/Cliente</td>";
@@ -401,7 +401,7 @@ function EliminaVirtual(Opc,CorrVirtual,TipoIE)
 				echo "<td width='60' align='right'>Peso Prog</td>";
 				echo "<td width='60' align='center'>Peso Pre</td>";
 				echo "<td width='50' align='center'>Dif.</td>";
-				echo "<td width='60' align='center'>N Lote</td>";
+				echo "<td width='60' align='center'>N&deg; Lote</td>";
 				echo "<td width='30' align='center'>Est.</td>";
 			}
 			else

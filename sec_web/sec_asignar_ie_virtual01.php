@@ -182,6 +182,6 @@
 	echo "<script languaje='JavaScript'>";
 	echo "window.opener.document.FrmAsigVirtual.action='sec_asignar_ie_virtual.php?Salir=S';";
 	echo "window.opener.document.FrmAsigVirtual.submit();";
-	//echo "window.close();";
+	echo "window.close();";
 	echo "</script>";
 ?>
