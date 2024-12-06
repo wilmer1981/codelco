@@ -23,14 +23,16 @@
 	$CodigoDePantalla =28;
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	$Mostrar        = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";	
+	
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"S";
+	$Recarga = isset($_REQUEST["Recarga"])?$_REQUEST["Recarga"]:"";
+
 	$cmbproducto    = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
 	$cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
 	$CmbEstado      = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
 	$CmbMes         = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
-	$CmbAno         = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+	$CmbAno         = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");	
 	$cmbmovimiento  = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
-
 ?>
 <html>
 <head>
@@ -111,7 +113,6 @@
             <td><div align="center">Promedio</div></td>
         </tr>
         <?php
-			//$Mostrar='S';
 			if ($Mostrar=='S')
 			{
 				if (strlen($CmbMes)==1)
@@ -126,8 +127,7 @@
 				while ($row = mysqli_fetch_array($rs))
 				{  
 					$LetraMes=$row["nombre_subclase"];
-				}		
-				
+				}	
 				$Consulta="SELECT t1.cod_bulto,t1.num_bulto,t1.cod_estado,t3.cod_cliente,t2.cod_paquete,t2.num_paquete,t1.corr_enm,t1.fecha_creacion_lote,t2.fecha_creacion_paquete,t2.peso_paquetes,t2.num_unidades 
 				from lote_catodo t1 
 				inner join paquete_catodo t2 on t1.num_paquete=t2.num_paquete and t1.cod_paquete=t2.cod_paquete 
@@ -137,7 +137,7 @@
 				if($CmbEstado!='t')
 					$Consulta.="and t1.cod_estado='".$CmbEstado."' ";
 				$Consulta.=" and t1.cod_bulto='".$LetraMes."' ";
-			
+				//echo $Consulta;
 				$Respuesta=mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{

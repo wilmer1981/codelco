@@ -290,6 +290,7 @@ function Imprimir()
 						echo "<tr bgcolor='#FFFFFF'>"; 
 					else
 						echo "<tr bgcolor='#CCCCCC'>"; 
+					
 					echo "<td width='40' align='center'>".$Fila["corr_enm"]."</td>";
 					$Consulta="select * from sec_web.nave where cod_nave ='".$Fila["cod_cliente"]."'";
 					$Respuesta2=mysqli_query($link, $Consulta);
