@@ -31,13 +31,13 @@
 	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
 	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
 	
-	if ($DiaIni < 10)
+	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
 	
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
