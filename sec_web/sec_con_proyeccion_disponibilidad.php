@@ -5,6 +5,9 @@
 	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 	$ano    = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
 	$mes    = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	
+	if(strlen($mes)==1)
+		$mes = "0".$mes;
 ?>
 <html>
 <head>
