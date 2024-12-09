@@ -42,10 +42,10 @@ function Salir()
     </tr>
     <tr class="ColorTabla01">
       <td width="97" align="center">Cod SubCliente</td>
-      <td width="174" align="center">Direcci�n</td>
+      <td width="174" align="center">Direcci&oacute;n</td>
       <td width="70" align="center">Ciudad</td>
       <td width="67" align="center">Comuna</td>
-      <td width="55" align="center">Regi�n</td>
+      <td width="55" align="center">Regi&oacute;n</td>
       <td width="58" align="center">Fono</td>
       <td width="62" align="center">Celular</td>
     </tr>

@@ -53,17 +53,18 @@
 		}
 		$Respuesta=mysqli_query($link, $Consulta);
 		$Fila=mysqli_fetch_array($Respuesta);
-		$CmbRutCliente=$Fila["cod_cliente"];
-		$Rut=explode('-',$Fila["rut"]);
+		$CmbRutCliente= isset($Fila["cod_cliente"])?$Fila["cod_cliente"]:"";
+		$rut = isset($Fila["rut"])?$Fila["rut"]:"";
+		$Rut = explode('-',$rut);
 		$TxtRutDestino=$Rut[0];
-		$TxtDvDestino=$Rut[1];
-		$TxtCiudad=$Fila["ciudad"];
-		$TxtComuna=$Fila["comuna"];
+		$TxtDvDestino=isset($Rut[1])?$Rut[1]:"";
+		$TxtCiudad=isset($Fila["ciudad"])?$Fila["ciudad"]:"";
+		$TxtComuna=isset($Fila["comuna"])?$Fila["comuna"]:"";
 		//$cmbregion=$Fila[region];
-		$TxtDireccion=$Fila["direccion"];
-		$TxtRepresentante=$Fila["representante"];
-		$TxtFono=$Fila["fono1"];
-		$TxtCelular=$Fila["fono2"];
+		$TxtDireccion=isset($Fila["direccion"])?$Fila["direccion"]:"";
+		$TxtRepresentante=isset($Fila["representante"])?$Fila["representante"]:"";
+		$TxtFono=isset($Fila["fono1"])?$Fila["fono1"]:"";
+		$TxtCelular=isset($Fila["fono2"])?$Fila["fono2"]:"";
 	}
 
 ?>
