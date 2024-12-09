@@ -150,7 +150,18 @@ function Grabar()
 		Frm.cmbtransportista.focus();
 		return;
 	}
-	
+    if (Frm.cmbproducto.value == -1)
+	{
+		alert("Debe Seleccionar Producto")
+		Frm.cmbproducto.focus();
+		return;
+	}	
+	if (Frm.cmbsubproducto.value == -1)
+	{
+		alert("Debe Seleccionar SubProducto")
+		Frm.cmbsubproducto.focus();
+		return;
+	}
 
 	if (Frm.TxtRepresentante.value == "")
 	{

@@ -1,35 +1,38 @@
 <?php
  include("../principal/conectar_sec_web.php");
 
- $Proceso = $_REQUEST["Proceso"];
- $Dia   = $_REQUEST["Dia"];
- $Mes   = $_REQUEST["Mes"];
- $Ano   = $_REQUEST["Ano"];
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+ 
+ 	$Dia   = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
+	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 
- $DiaIni   = $_REQUEST["DiaIni"];
- $MesIni   = $_REQUEST["MesIni"];
- $AnoIni   = $_REQUEST["AnoIni"];
+	$DiaIni   = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+	$MesIni   = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$AnoIni   = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
 
- $DiaTer   = $_REQUEST["DiaTer"];
- $MesTer   = $_REQUEST["MesTer"];
- $AnoTer   = $_REQUEST["AnoTer"];
- $cmbcontrato  = $_REQUEST["cmbcontrato"];
+	$DiaTer   = isset($_REQUEST["DiaTer"])?$_REQUEST["DiaTer"]:date("d");
+	$MesTer   = isset($_REQUEST["MesTer"])?$_REQUEST["MesTer"]:date("m");
+	$AnoTer   = isset($_REQUEST["AnoTer"])?$_REQUEST["AnoTer"]:date("Y");
+	
+	$TxtContrato  = isset($_REQUEST["TxtContrato"])?$_REQUEST["TxtContrato"]:"";
+	$cmbcontrato  = isset($_REQUEST["cmbcontrato"])?$_REQUEST["cmbcontrato"]:"";
+	$TxtRut  = isset($_REQUEST["TxtRut"])?$_REQUEST["TxtRut"]:"";
+	$estado  = isset($_REQUEST["estado"])?$_REQUEST["estado"]:"";
+	$TxtNombreCont     = isset($_REQUEST["TxtNombreCont"])?$_REQUEST["TxtNombreCont"]:"";
+	$cmbtransportista  = isset($_REQUEST["cmbtransportista"])?$_REQUEST["cmbtransportista"]:"";
+	$TxtRepresentante  = isset($_REQUEST["TxtRepresentante"])?$_REQUEST["TxtRepresentante"]:"";
+	$cmbproducto     = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubproducto  = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+	$Contrato  = isset($_REQUEST["Contrato"])?$_REQUEST["Contrato"]:"";
+	$TxtPesoVenta  = isset($_REQUEST["TxtPesoVenta"])?$_REQUEST["TxtPesoVenta"]:"";
+	$Transporte  = isset($_REQUEST["Transporte"])?$_REQUEST["Transporte"]:"";
+	$radio1  = isset($_REQUEST["radio1"])?$_REQUEST["radio1"]:"";
+	if($TxtPesoVenta=="")
+		$TxtPesoVenta  = 0;
 
-	$TxtRut  = $_REQUEST["TxtRut"];
-	$estado  = $_REQUEST["estado"];
-	$TxtContrato  = $_REQUEST["TxtContrato"];
-	$TxtNombreCont     = $_REQUEST["TxtNombreCont"];
-	$cmbtransportista  = $_REQUEST["cmbtransportista"];
-	$TxtRepresentante  = $_REQUEST["TxtRepresentante"];
-	$cmbproducto     = $_REQUEST["cmbproducto"];
-	$cmbsubproducto  = $_REQUEST["cmbsubproducto"];
-	$Contrato  = $_REQUEST["Contrato"];
-	$TxtPesoVenta  = $_REQUEST["TxtPesoVenta"];
-	$Transporte  = $_REQUEST["Transporte"];
-	$radio1  = $_REQUEST["radio1"];
-
-if($Proceso == "G")
-  {
+	if($Proceso == "G")
+    {
 
 	    $Fecha = $Ano.'-'.$Mes.'-'.$Dia;
 	    $FechaIni = $AnoIni.'-'.$MesIni.'-'.$DiaIni;
@@ -73,7 +76,6 @@ if($Proceso == "G")
 			$Insertar.= "fecha_ini,fecha_ter,";
 			$Insertar.= "vigente,tipo_contrato,";
 			$Insertar.= "cod_producto,cod_subproducto)";
-
 			$Insertar.= " values($Contrato,'$TxtNombreCont',";
 			$Insertar.= "$contrato,$subcontrato,$TxtPesoVenta,";
 			$Insertar.= "'$radio1','$Rut',";
