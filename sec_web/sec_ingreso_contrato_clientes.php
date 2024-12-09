@@ -2,49 +2,48 @@
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla = 48;
 	include("../principal/conectar_pac_web.php");
-
-	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-	$NumContrato   = isset($_REQUEST["NumContrato"])?$_REQUEST["NumContrato"]:"";
-	$NumSubContrato   = isset($_REQUEST["NumSubContrato"])?$_REQUEST["NumSubContrato"]:"";
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$estado   = isset($_REQUEST["estado"])?$_REQUEST["estado"]:"";
-	$Mes   = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
-	$Ano   = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
-
-	$prod   = isset($_REQUEST["prod"])?$_REQUEST["prod"]:"";
-	$subprod= isset($_REQUEST["subprod"])?$_REQUEST["subprod"]:"";
-
-
+	$NumContrato    = isset($_REQUEST["NumContrato"])?$_REQUEST["NumContrato"]:"";
+	$NumSubContrato = isset($_REQUEST["NumSubContrato"])?$_REQUEST["NumSubContrato"]:"";
+	$prod     = isset($_REQUEST["prod"])?$_REQUEST["prod"]:"";
+	$subprod  = isset($_REQUEST["subprod"])?$_REQUEST["subprod"]:"";
+	
+	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
+	
 	if($Proceso == "E")
 	{
-		$Consulta = "SELECT count(*) as num FROM sec_web.det_contrato WHERE num_contrato = $NumContrato AND num_subcontrato = $NumSubContrato";
-		$rs = mysqli_query($link, $Consulta);
+		$Consulta = "SELECT count(*) as num FROM sec_web.det_contrato WHERE num_contrato = '".$NumContrato."' AND num_subcontrato = '".$NumSubContrato."'";
+		$rs = mysqli_query($link,$Consulta);
 		$Fila = mysqli_fetch_array($rs);
 		$num = $Fila["num"];
 		if($num == 1)
 		{
-			$Eliminar = "DELETE FROM sec_web.contrato WHERE num_contrato = $NumContrato AND num_subcontrato = $NumSubContrato";
-			mysqli_query($link, $Eliminar);
+			$Eliminar = "DELETE FROM sec_web.contrato WHERE num_contrato = '".$NumContrato."' AND num_subcontrato = '".$NumSubContrato."'";
+			mysqli_query($link,$Eliminar);
 		}
 
-		$Eliminar = "DELETE FROM sec_web.det_contrato WHERE num_contrato = $NumContrato AND num_subcontrato = $NumSubContrato AND cod_producto = $prod and cod_subproducto = $subprod";
-		mysqli_query($link, $Eliminar);
+		$Eliminar = "DELETE FROM sec_web.det_contrato WHERE num_contrato = '".$NumContrato."' AND num_subcontrato = '".$NumSubContrato."' AND cod_producto = $prod and cod_subproducto = $subprod";
+		mysqli_query($link,$Eliminar);
 
 		$Consulta = "SELECT distinct corr_ie FROM sec_web.det_contrato_por_ie WHERE num_contrato = ".$NumContrato;				
 		$Consulta.= " AND num_subcontrato = ".$NumSubContrato;
 		$Consulta.= " AND cod_producto = ".$prod;
 		$Consulta.= " AND cod_subproducto = ".$subprod;
-		$rs = mysqli_query($link, $Consulta);
+		$rs = mysqli_query($link,$Consulta);
 		while($Fila = mysqli_fetch_array($rs))
 		{
 			$Eliminar = "DELETE FROM sec_web.programa_enami ";
 			$Eliminar.= " WHERE tipo = 'V'";
 			$Eliminar.= " AND corr_enm =".$Fila["corr_ie"];
-			mysqli_query($link, $Eliminar);
+			mysqli_query($link,$Eliminar);
 
 			$Eliminar = "DELETE FROM sec_web.det_contrato_por_ie WHERE num_contrato = ".$NumContrato;				
 			$Eliminar.= " AND num_subcontrato = ".$NumSubContrato;
 			$Eliminar.= " AND corr_ie =".$Fila["corr_ie"];			
-			mysqli_query($link, $Eliminar);
+			mysqli_query($link,$Eliminar);
 
 		}		
 	}
@@ -348,11 +347,11 @@ function Salir()
 				
 			$Fecha = $Ano.'-'.$Mes;
 			if($Proceso == "B")			
-				$Consulta = "SELECT * from sec_web.det_contrato WHERE vigente = '$estado' order by num_contrato";
+				$Consulta = "select * from sec_web.det_contrato WHERE vigente = '$estado' and num_subcontrato = 0 order by num_contrato";
 			else
-				$Consulta = "SELECT * from sec_web.det_contrato order by num_contrato";
+				$Consulta = "select * from sec_web.det_contrato WHERE num_subcontrato = 0 order by num_contrato";
 
-			$Resultado=mysqli_query($link, $Consulta);
+			$Resultado=mysqli_query($link,$Consulta);
 			echo "<input type='hidden' name='CheckContrato'><input type='hidden' name ='TxtCodigoO'>";
 			$Cont2=0;
 			while ($Fila=mysqli_fetch_array($Resultado))
@@ -361,8 +360,9 @@ function Salir()
 				echo "<tr>"; 
 				echo "<td align='left'width='2%'><input type='radio' name='CheckContrato' value='checkbox'></td>";
 				$Consulta = "SELECT t1.nombre_cliente as cliente FROM sec_web.cliente_venta as t1 Inner Join sec_web.contrato as t2"; 
-				$Consulta = $Consulta." ON t1.cod_cliente = t2.cod_cliente WHERE t2.num_contrato = '".$Fila["num_contrato"]."' ";
-				$result = mysqli_query($link, $Consulta);
+				$Consulta = $Consulta." ON t1.cod_cliente = t2.cod_cliente WHERE t2.num_contrato = '".$Fila["num_contrato"]."'";
+				//echo "Consulta 2:".$Consulta;
+				$result = mysqli_query($link,$Consulta);
 				$Fil = mysqli_fetch_array($result);				
 				$Cliente = $Fil["cliente"];
 		
@@ -382,7 +382,7 @@ function Salir()
 				$Consulta.= " AND cod_producto = ".$Fila["cod_producto"];
 				$Consulta.= " AND cod_subproducto = ".$Fila["cod_subproducto"];
 				$Consulta.= " ORDER BY corr_ie";
-				$result = mysqli_query($link, $Consulta);
+				$result = mysqli_query($link,$Consulta);
 				$peso_ie = 0;
 				while ($Row = mysqli_fetch_array($result))
 				{
@@ -392,7 +392,8 @@ function Salir()
 					if($Row["cod_sub_cliente"] != '')
 					{
 						$Consulta = "SELECT * FROM sec_web.sub_cliente_vta WHERE cod_cliente = '".$Fila["cod_cliente"]."' AND cod_sub_cliente = '".$Row["cod_sub_cliente"]."'";
-						$result = mysqli_query($link, $Consulta);
+						$result = mysqli_query($link,$Consulta);
+						$Destino="";
 						while($row = mysqli_fetch_array($result))
 						{
 						    $Destino = $Destino.', '.$row["direccion"];                      					
@@ -413,8 +414,8 @@ function Salir()
 				echo "<input type='hidden' name='SubContrato' value='".$Fila["num_subcontrato"]."'>";
 				echo "<input type='hidden' name='producto' value='".$Fila["cod_producto"]."'>";
 				echo "<input type='hidden' name='subproducto' value='".$Fila["cod_subproducto"]."'>";
-				$Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = ".$Fila["cod_producto"]." AND cod_subproducto = ".$Fila["cod_subproducto"]."";
-				$rs = mysqli_query($link, $Consulta);
+				$Consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = '".$Fila["cod_producto"]."' AND cod_subproducto = '".$Fila["cod_subproducto"]."'";
+				$rs = mysqli_query($link,$Consulta);
 				if($row = mysqli_fetch_array($rs))
 				{
 					$producto = $row["descripcion"];
@@ -438,8 +439,8 @@ function Salir()
 							if (substr($LeyesUnidad,$x,2) == "~~")
 							{
 								$CodLeyes = substr($StrLeyes,0,$x);			
-								$Consulta = "SELECT abreviatura from proyecto_modernizacion.leyes where cod_leyes ='".$CodLeyes."'";
-								$Rs= mysqli_query($link, $Consulta);
+								$Consulta = "select abreviatura from proyecto_modernizacion.leyes where cod_leyes ='".$CodLeyes."'";
+								$Rs= mysqli_query($link,$Consulta);
 								while ($Fila2=mysqli_fetch_array($Rs))
 								{
 									$Leyes=$Leyes.$Fila2["abreviatura"]."-";
@@ -464,8 +465,8 @@ function Salir()
 							if (substr($LeyesUnidad,$x,2) == "~~")
 							{
 								$CodLeyes = substr($StrLeyes,0,$x);			
-								$Consulta = "SELECT abreviatura from proyecto_modernizacion.leyes where cod_leyes ='".$CodLeyes."'";
-								$Rs= mysqli_query($link, $Consulta);
+								$Consulta = "select abreviatura from proyecto_modernizacion.leyes where cod_leyes ='".$CodLeyes."'";
+								$Rs= mysqli_query($link,$Consulta);
 								while ($Fila2=mysqli_fetch_array($Rs))
 								{
 									$Leyes2=$Leyes2.$Fila2["abreviatura"]."-";
@@ -493,7 +494,7 @@ function Salir()
 </body>
 </html>
 <?php
-	if (isset($EncontroRelacion))
+	if ($EncontroRelacion!="")
 	{
 		if ($EncontroRelacion==true)
 		{
