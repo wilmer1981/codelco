@@ -3,28 +3,38 @@
 	$FechaCreacion = "";
 	$Emisor = "";
 	$Error00 = "";
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Lote     = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$Corr     = isset($_REQUEST["Corr"])?$_REQUEST["Corr"]:"";
+	$NumPaquetes = isset($_REQUEST["NumPaquetes"])?$_REQUEST["NumPaquetes"]:"";
+	$PesoLote = isset($_REQUEST["PesoLote"])?$_REQUEST["PesoLote"]:"";
+	$Idioma   = isset($_REQUEST["Idioma"])?$_REQUEST["Idioma"]:"";
+	$Virtual   = isset($_REQUEST["Virtual"])?$_REQUEST["Virtual"]:"";
+	$Reescribir = isset($_REQUEST["Reescribir"])?$_REQUEST["Reescribir"]:"";
+
 	if ($Proceso != "P")
 	{		
 		if ($Reescribir == "S") // REESCRIBE EL CERTIFICADO EN CERTIFICION CATODO
 		{
-			$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
+			$Consulta = "select * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
 
-			$Respuesta = mysqli_query($link, $Consulta);				
+			$Respuesta = mysqli_query($link,$Consulta);				
 			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
 				//VERSION DEL CERTIFICADO
-				$Consulta2 = "SELECT ifnull(max(version),0) as version from sec_web.certificacion_catodos ";
+				$Consulta2 = "select ifnull(max(version),0) as version from sec_web.certificacion_catodos ";
 				$Consulta2.= " where corr_enm = '".$Corr."'";
-				$Respuesta2 = mysqli_query($link, $Consulta2);
+				$Respuesta2 = mysqli_query($link,$Consulta2);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{									
 					$Version = $Fila2["version"];
 				}
 				//-----------------------
-				$Consulta = "SELECT * from sec_web.certificacion_catodos ";
+				$Consulta = "select * from sec_web.certificacion_catodos ";
 				$Consulta.= " where corr_enm = '".$Corr."'";
 				$Consulta.= " and version = '".$Version."'";
-				$Respuesta2 = mysqli_query($link, $Consulta);
+				$Respuesta2 = mysqli_query($link,$Consulta);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{
 					$Emisor = $Fila2["rut"];
@@ -36,14 +46,14 @@
 		else
 		{					
 		
-			$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
-			$Respuesta = mysqli_query($link, $Consulta);		
+			$Consulta = "select * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
+			$Respuesta = mysqli_query($link,$Consulta);		
 							
 			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
 				$CorrENM = $Corr;
-				$Consulta = "SELECT * from sec_web.certificacion_catodos where corr_enm = '".$CorrENM."'";
-				$Respuesta2 = mysqli_query($link, $Consulta);
+				$Consulta = "select * from sec_web.certificacion_catodos where corr_enm = '".$CorrENM."'";
+				$Respuesta2 = mysqli_query($link,$Consulta);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{
 					$Error00 = "E"; //YA EXISTE
@@ -59,13 +69,13 @@
 		{
 			if (!isset($NumCertificado))
 			{
-				$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Consulta = "select * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
+				$Respuesta = mysqli_query($link,$Consulta);
 				
 				if ($Fila = mysqli_fetch_array($Respuesta))
 				{
-					$Consulta = "SELECT (ifnull(max(num_certificado),0) + 1) as numero from sec_web.certificacion_catodos ";
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Consulta = "select (ifnull(max(num_certificado),0) + 1) as numero from sec_web.certificacion_catodos ";
+					$Respuesta = mysqli_query($link,$Consulta);
 					if ($Fila = mysqli_fetch_array($Respuesta))
 					{
 						$NumCertificado = $Fila["numero"];				
@@ -79,15 +89,15 @@
 			exit;
 		}
 	}
-	$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
+	$Consulta = "select * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
 	
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	$EnmCode = "";
 	
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
-		$Consulta2 = "SELECT * from sec_web.programa_enami where corr_enm = '".$Corr."'";
-		$Respuesta2 = mysqli_query($link, $Consulta2);
+		$Consulta2 = "select * from sec_web.programa_enami where corr_enm = '".$Corr."'";
+		$Respuesta2 = mysqli_query($link,$Consulta2);
 			
 		if ($Fila2 = mysqli_fetch_array($Respuesta2))
 		{
@@ -95,8 +105,8 @@
 		}
 		else
 		{
-			$Consulta2 = "SELECT * from sec_web.programa_codelco where corr_codelco = '".$Corr."'";
-			$Respuesta2 = mysqli_query($link, $Consulta2);
+			$Consulta2 = "select * from sec_web.programa_codelco where corr_codelco = '".$Corr."'";
+			$Respuesta2 = mysqli_query($link,$Consulta2);
 			
 			if ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{
@@ -116,14 +126,14 @@
 	$CodMarcaAux  = $Fila["cod_marca"];	
 
 	//RESCATA PRODUCTO y SUBPRODUCTO
-	$Consulta = "SELECT distinct t2.cod_producto, t2.cod_subproducto ";
+	$Consulta = "select distinct t2.cod_producto, t2.cod_subproducto ";
 	$Consulta.= " from sec_web.lote_catodo t1	inner join";
 	$Consulta.= " sec_web.paquete_catodo t2 on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 	$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$Mes."'";
 	$Consulta.= " and t1.num_bulto = '".$Lote."' and t1.corr_enm='".$Corr."'";
 	$Consulta.= " order by t2.cod_producto, t2.cod_subproducto";
 
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$CodProducto = $Fila["cod_producto"];
@@ -166,17 +176,17 @@ function Proceso(opt)
 	if (isset($Lote))
 	{
 		$Eliminar = "delete from sec_web.tmp_leyes_grupos";
-		mysqli_query($link, $Eliminar);
+		mysqli_query($link,$Eliminar);
 		if ($CodProducto == "18" && ($CodSubProducto == "3" || $CodSubProducto == "42" || $CodSubProducto == "43" || $CodSubProducto == "44"))  
 		{
 			//PARA DESCOBRIZADOS
 			//TABLA PAQUETE_CATODO
-			$Consulta = "SELECT distinct ifnull(t1.grupo,'00') as cod_grupo, t1.fecha_produccion, peso_produccion ";
+			$Consulta = "select distinct ifnull(t1.grupo,'00') as cod_grupo, t1.fecha_produccion, peso_produccion ";
 			$Consulta.= " from sec_web.catodos_desc_normal t1";
 			$Consulta.= " where t1.cod_bulto = '".$Mes."'";
 			$Consulta.= " and t1.num_bulto = '".$Lote."'";
 			$Consulta.= " order by t1.fecha_produccion, t1.grupo ";
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysqli_query($link,$Consulta);
 			//echo $Consulta."<br>";
 			while ($Fila = mysqli_fetch_array($Respuesta))
 			{
@@ -189,14 +199,14 @@ function Proceso(opt)
 
 				
 				{
-					$Consulta = "SELECT * from sec_web.produccion_catodo ";
+					$Consulta = "select * from sec_web.produccion_catodo ";
 					$Consulta.= " where cod_grupo = '".$Fila["cod_grupo"]."'";
 					$Consulta.= " and fecha_produccion = '".$Fila["fecha_produccion"]."'";
 					$Consulta.= " and cod_muestra <> 'S' "; 
 					$Consulta.= " and cod_producto = '18' "; 
 					$Consulta.= " and cod_subproducto in (3,42,43,44) "; 
 					$Consulta.= " order by fecha_produccion, cod_grupo, cod_cuba ";
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					//echo $Consulta."<br>";
 					while ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{					
@@ -215,7 +225,7 @@ function Proceso(opt)
 						$Consulta.= " AND t1.tipo='1' ";
 						$Consulta.= " AND t1.cod_analisis='1' ";
 						$Consulta.= " AND t1.estado_actual <> '7'";	
-						$Respuesta3 = mysqli_query($link, $Consulta);
+						$Respuesta3 = mysqli_query($link,$Consulta);
 						//echo $Consulta."<br>";								
 						while($Fila3 = mysqli_fetch_array($Respuesta3))
 						{						
@@ -223,7 +233,7 @@ function Proceso(opt)
 							$Insertar.= " fecha_creacion_paquete, nro_solicitud, cod_cuba, peso_produccion) ";
 							$Insertar.= " values('".$Fila["cod_grupo"]."','".$Fila["fecha_produccion"]."','".$Fila3["cod_leyes"]."','".$Fila3["valor"]."', ";
 							$Insertar.= " '".$Fila3["signo"]."', '".$Fila["fecha_produccion"]."', '".$Fila3["nro_solicitud"]."', '".$Fila2["cod_cuba"]."', '".$Fila["peso_produccion"]."')";
-							mysqli_query($link, $Insertar);
+							mysqli_query($link,$Insertar);
 						}
 					
 					
@@ -265,7 +275,7 @@ function Proceso(opt)
 						$Consulta.= " AND t1.tipo='1' ";
 						$Consulta.= " AND t1.cod_analisis='1' ";
 						$Consulta.= " AND t1.estado_actual <> '7'";	
-						$Respuesta3 = mysqli_query($link, $Consulta);
+						$Respuesta3 = mysqli_query($link,$Consulta);
 						//echo $Consulta."<br>";								
 						while($Fila3 = mysqli_fetch_array($Respuesta3))
 						{						
@@ -273,7 +283,7 @@ function Proceso(opt)
 							$Insertar.= " fecha_creacion_paquete, nro_solicitud, peso_produccion) ";
 							$Insertar.= " values('".$Fila["cod_grupo"]."','".$Fila["fecha_produccion"]."','".$Fila3["cod_leyes"]."','".$Fila3["valor"]."', ";
 							$Insertar.= " '".$Fila3["signo"]."', '".$Fila["fecha_produccion"]."', '".$Fila3["nro_solicitud"]."','".$Fila["peso_produccion"]."')";
-							mysqli_query($link, $Insertar);
+							mysqli_query($link,$Insertar);
 						}
 
 				}									
@@ -283,7 +293,7 @@ function Proceso(opt)
 		else
 		{			
 			//TABLA PAQUETE_CATODO
-			$Consulta = "SELECT distinct ifnull(t2.cod_grupo,'00') as cod_grupo, t2.fecha_creacion_paquete,t2.cod_subproducto";
+			$Consulta = "select distinct ifnull(t2.cod_grupo,'00') as cod_grupo, t2.fecha_creacion_paquete,t2.cod_subproducto";
 			$Consulta.= " from sec_web.lote_catodo t1	inner join";
 			$Consulta.= " sec_web.paquete_catodo t2 on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 			$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$Mes."'";
@@ -292,7 +302,7 @@ function Proceso(opt)
 			
 			$Consulta.= " order by t2.cod_grupo";
 			//echo $Consulta."<br>";		
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysqli_query($link,$Consulta);
 			$i = 0;
 			while ($Fila = mysqli_fetch_array($Respuesta))
 			{
@@ -302,11 +312,11 @@ function Proceso(opt)
 					
 					$subproducto_prod = 1;
 					
-					$Consulta = "SELECT max(fecha_produccion) as fecha_produccion";
+					$Consulta = "select max(fecha_produccion) as fecha_produccion";
 					$Consulta.= " from sec_web.produccion_catodo ";
 					$Consulta.= " where cod_grupo = '".$Fila["cod_grupo"]."' and cod_subproducto = '".$subproducto_prod."'";
 					$Consulta.= " and fecha_produccion <= '".$Fila["fecha_creacion_paquete"]."'";
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					// echo $Consulta."<br>";	
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
@@ -324,7 +334,7 @@ function Proceso(opt)
 			$SeriePaquetes = "";
 			$CodPaqueteAnt = "";
 			$NumPaqueteAnt = 0;
-			while (list($k,$v)=each($ArrProd))
+			foreach($ArrProd as $k => $v)
 			{	
 				if (($v[0] == "00") || ($v[0] == "0") || ($v[0] == ""))
 				{
@@ -336,7 +346,7 @@ function Proceso(opt)
 					$Consulta.= " and t1.num_bulto = '".$Lote."'  and t1.corr_enm='".$Corr."'";
 					$Consulta.= " order by t2.cod_paquete, t2.num_paquete, t2.lote_origen ";
 					//echo $Consulta."<br>";
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Respuesta = mysqli_query($link,$Consulta);
 					$j = 0;
 					$ArrProd = array();
 					while ($Fila = mysqli_fetch_array($Respuesta))
@@ -346,7 +356,7 @@ function Proceso(opt)
 						$ArrProd[$j][2] = $v[2];
 						$j++;			
 						//---------------------
-						$Consulta = "SELECT t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
+						$Consulta = "select t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
 						$Consulta.= " t2.signo, t1.nro_solicitud ";
 						$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 						$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
@@ -358,14 +368,14 @@ function Proceso(opt)
 						$Consulta.= " and t1.cod_producto = '18'";
 						$Consulta.= "order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
 						//echo $Consulta."<br>";
-						$Respuesta2 = mysqli_query($link, $Consulta);
+						$Respuesta2 = mysqli_query($link,$Consulta);
 						$Encontro = false;
 						while ($Fila2 = mysqli_fetch_array($Respuesta2))
 						{
 							$Encontro = true;
-							$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
+							$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
 							$Consulta.= " and nombre_subclase = '".$Fila2["cod_leyes"]."'";
-							$Respuesta3 = mysqli_query($link, $Consulta);				
+							$Respuesta3 = mysqli_query($link,$Consulta);				
 							if ($Fila3 = mysqli_fetch_array($Respuesta3))
 							{
 								$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, ";
@@ -373,7 +383,7 @@ function Proceso(opt)
 								$Insertar.= " values('".$Fila["lote_origen"]."', '".$v[1]."',";
 								$Insertar.= " '".$Fila2["cod_leyes"]."','".$Fila2["valor"]."','".$Fila2["signo"]."', '".$v[2]."',";
 								$Insertar.= " '".$Fila2["nro_solicitud"]."')";
-								mysqli_query($link, $Insertar);			
+								mysqli_query($link,$Insertar);			
 							}
 						}
 					}
@@ -382,7 +392,7 @@ function Proceso(opt)
 				else
 				{	
 					//-------------------------LEYES DE CALIDAD-----------------------------
-					$Consulta = "SELECT t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
+					$Consulta = "select t2.cod_leyes, t2.valor, t1.fecha_muestra, ";
 					$Consulta.= " t2.signo ";
 					$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 					$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
@@ -457,14 +467,14 @@ function Proceso(opt)
 					$Consulta.= " and t1.cod_producto = '18'";
 					$Consulta.= " order by t1.fecha_muestra desc, t1.nro_solicitud, t2.cod_leyes ";
 					//echo "con".$Consulta;
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					$Encontro = false;
 					while ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
 						$Encontro = true;
-						$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
+						$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
 						$Consulta.= " and nombre_subclase = '".$Fila2["cod_leyes"]."'";
-						$Respuesta3 = mysqli_query($link, $Consulta);				
+						$Respuesta3 = mysqli_query($link,$Consulta);				
 						if ($Fila3 = mysqli_fetch_array($Respuesta3))
 						{
 							$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete) ";
@@ -474,12 +484,12 @@ function Proceso(opt)
 							else
 								$Insertar.= "'".$v[1]."',";
 							$Insertar.= "'".$Fila2["cod_leyes"]."','".$Fila2["valor"]."','".$Fila2["signo"]."', '".$v[2]."')";
-							mysqli_query($link, $Insertar);				
+							mysqli_query($link,$Insertar);				
 						}
 					}
 					if (($v[0] >= 50) && ($Encontro == false))
 					{
-						$Consulta = "SELECT max(t1.fecha_muestra) as fecha_muestra";
+						$Consulta = "select max(t1.fecha_muestra) as fecha_muestra";
 						$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 						$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
 						$Consulta.= " and t1.fecha_hora = t2.fecha_hora and t1.rut_funcionario = t2.rut_funcionario and t1.recargo = t2.recargo ";
@@ -490,10 +500,10 @@ function Proceso(opt)
 						$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1'";
 						$Consulta.= " and t1.cod_producto = '18'";
 						
-						$Respuesta3 = mysqli_query($link, $Consulta);
+						$Respuesta3 = mysqli_query($link,$Consulta);
 						while ($Fila3 = mysqli_fetch_array($Respuesta3))
 						{
-							$Consulta = "SELECT max(t1.fecha_muestra) ";
+							$Consulta = "select max(t1.fecha_muestra) ";
 							$Consulta.= " from cal_web.solicitud_analisis t1 inner join ";
 							$Consulta.= " cal_web.leyes_por_solicitud  t2 on t1.nro_solicitud = t2.nro_solicitud ";
 							$Consulta.= " and t1.fecha_hora = t2.fecha_hora and t1.rut_funcionario = t2.rut_funcionario and t1.recargo = t2.recargo ";
@@ -505,17 +515,17 @@ function Proceso(opt)
 							$Consulta.= " and t1.cod_producto = '18'";
 							$Consulta.= " order by t2.cod_leyes";
 							
-							$Respuesta4 = mysqli_query($link, $Consulta);
+							$Respuesta4 = mysqli_query($link,$Consulta);
 							while ($Fila4 = mysqli_fetch_array($Respuesta4))
 							{
-								$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
+								$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '3009' ";
 								$Consulta.= " and nombre_subclase = '".$Fila4["cod_leyes"]."'";
-								$Respuesta5 = mysqli_query($link, $Consulta);				
+								$Respuesta5 = mysqli_query($link,$Consulta);				
 								if ($Fila5 = mysqli_fetch_array($Respuesta5))
 								{
 									$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete) ";
 									$Insertar.= " values('".$v[0]."','".$v[2]."','".$Fila4["cod_leyes"]."','".$Fila4["valor"]."','".$Fila4["signo"]."', '".$v[2]."')";
-									mysqli_query($link, $Insertar);				
+									mysqli_query($link,$Insertar);				
 								}
 							}
 						}
@@ -526,14 +536,14 @@ function Proceso(opt)
 	}//END IF
 	
 	reset($ArrProd);
-	while (list($k,$v)=each($ArrProd))
+	foreach($ArrProd as $k => $v)
 	{				
 		$Encontro = false;		
-		$Consulta2 = "SELECT * from sec_web.tmp_leyes_grupos ";
+		$Consulta2 = "select * from sec_web.tmp_leyes_grupos ";
 		$Consulta2.= " where cod_grupo = '".$v[0]."' ";
 		$Consulta.= " and fecha = '".$v[1]."'";
 		//echo $Consulta2."<br>";
-		$Respuesta2 = mysqli_query($link, $Consulta2);
+		$Respuesta2 = mysqli_query($link,$Consulta2);
 		while ($Fila2 = mysqli_fetch_array($Respuesta2))
 		{
 			$Encontro = true;			
@@ -541,15 +551,15 @@ function Proceso(opt)
 		if ($Encontro == false)
 		{
 			$Encontro = false;
-			$Consulta2 = "SELECT * from sec_web.tmp_leyes_grupos ";
+			$Consulta2 = "select * from sec_web.tmp_leyes_grupos ";
 			$Consulta2.= " where cod_grupo = '".$v[0]."'";
-			$Respuesta2 = mysqli_query($link, $Consulta2);
+			$Respuesta2 = mysqli_query($link,$Consulta2);
 			while ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{
 				$Encontro = true;
 				$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete) ";
 				$Insertar.= " values('".$v[0]."','".$v[1]."','".$Fila2["cod_leyes"]."','".$Fila2["valor"]."','".$Fila2["signo"]."', '".$v[2]."')";
-				mysqli_query($link, $Insertar);
+				mysqli_query($link,$Insertar);
 			}
 			if ($Encontro == false)
 			{
@@ -576,9 +586,10 @@ function Proceso(opt)
 	}		
 	//---------------------------------------------------------------------------------------------------
 	//CONSULTA SI YA FUE CREADO Y ANULADO
-	$Consulta = "SELECT * from sec_web.solicitud_certificado ";
+	$Consulta = "select * from sec_web.solicitud_certificado ";
 	$Consulta.= " where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
+	$Anulado="N";
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($Fila["estado_certificado"] == "A")
@@ -598,19 +609,19 @@ function Proceso(opt)
 		}
 	}
 	//--------------------------------------------
-	if (isset($Lote))
+	if ($Lote!="")
 	{
 		//TABLA EMBARQUE_VENTANA
-		$Consulta = "SELECT * from sec_web.embarque_ventana where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
+		$Consulta = "select * from sec_web.embarque_ventana where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
 		//echo "SSSS".$Consulta;
 		
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{	
 			/*if (strtoupper($Fila["tipo_enm_code"]) == "E") 
 			{
-				$Consulta2 = "SELECT * from sec_web.programa_enami where corr_enm = '".$Corr."'";
-				$Respuesta2 = mysqli_query($link, $Consulta2);
+				$Consulta2 = "select * from sec_web.programa_enami where corr_enm = '".$Corr."'";
+				$Respuesta2 = mysqli_query($link,$Consulta2);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					$CodCliente = $Fila2["cod_cliente"];
 				else
@@ -618,23 +629,23 @@ function Proceso(opt)
 			}
 			else
 			{
-				$Consulta2 = "SELECT * from sec_web.programa_codelco where corr_codelco = '".$Corr."'";
-				$Respuesta2 = mysqli_query($link, $Consulta2);
+				$Consulta2 = "select * from sec_web.programa_codelco where corr_codelco = '".$Corr."'";
+				$Respuesta2 = mysqli_query($link,$Consulta2);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					$CodCliente = $Fila2["cod_cliente"];
 				else
 					$CodCliente = "";			
 			}*/
-			$Consulta2 = "SELECT * from sec_web.programa_enami where corr_enm = '".$Corr."'";
-			$Respuesta2 = mysqli_query($link, $Consulta2);
+			$Consulta2 = "select * from sec_web.programa_enami where corr_enm = '".$Corr."'";
+			$Respuesta2 = mysqli_query($link,$Consulta2);
 			if ($Fila2 = mysqli_fetch_array($Respuesta2))
 			{
 				$CodCliente = $Fila2["cod_cliente"];
 			}
 			else
 			{
-				$Consulta2 = "SELECT * from sec_web.programa_codelco where corr_codelco = '".$Corr."'";
-				$Respuesta2 = mysqli_query($link, $Consulta2);
+				$Consulta2 = "select * from sec_web.programa_codelco where corr_codelco = '".$Corr."'";
+				$Respuesta2 = mysqli_query($link,$Consulta2);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					$CodCliente = $Fila2["cod_cliente"];
 				else
@@ -666,9 +677,9 @@ function Proceso(opt)
 			}	
 
 		
-		$Consulta = "SELECT * from sec_web.solicitud_certificado ";
+		$Consulta = "select * from sec_web.solicitud_certificado ";
 		$Consulta.= " where cod_bulto = '".$Mes."' and num_bulto='".$Lote."' and corr_enm = '".$Corr."'";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			if ($Fila["cod_cliente2"] != "")
@@ -676,8 +687,8 @@ function Proceso(opt)
 		}
 		//FIN CLIENTE POR CANJE
 		//MARCA CATODO
-		$Consulta = "SELECT * from sec_web.marca_catodos where cod_marca = '".$MarcaCatodo."'";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Consulta = "select * from sec_web.marca_catodos where cod_marca = '".$MarcaCatodo."'";
+		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			if ($Idioma == "E")
@@ -687,33 +698,33 @@ function Proceso(opt)
 		}
 		//TABLA PAQUETE_CATODO
 		$Consulta = "SHOW TABLES FROM `sec_web`";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		while ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			if ($Fila["Tables_in_sec_web"] == "tmp_leyes_catodos")
 			{
 				$Eliminar = "DROP TABLE `sec_web`.`tmp_leyes_catodos`";
-				mysqli_query($link, $Eliminar);
+				mysqli_query($link,$Eliminar);
 			}
 		}
 		//VERIFICA SI ES GRUPO 00 o NO O SI ES CAT. DESC. NORMAL
 		if ($CodProducto == "18" && ($CodSubProducto == "3" || $CodSubProducto == "42" || $CodSubProducto == "43" || $CodSubProducto == "44"))  
 		{	
 			$Consulta = "create table `sec_web`.`tmp_leyes_catodos`  (key ind01(cod_paquete,num_paquete)) as ";
-			$Consulta.= " SELECT t1.cod_grupo as cod_paquete, t1.fecha as num_paquete, t1.peso_produccion as peso_paquete, ";
+			$Consulta.= " select t1.cod_grupo as cod_paquete, t1.fecha as num_paquete, t1.peso_produccion as peso_paquete, ";
 			$Consulta.= " t1.cod_leyes, t1.valor, t1.signo ";
 			$Consulta.= " from sec_web.tmp_leyes_grupos t1 ";
-			mysqli_query($link, $Consulta);
+			mysqli_query($link,$Consulta);
 		}
 		else
 		{
-			$Consulta = "SELECT distinct ifnull(t2.cod_grupo,'00') as cod_grupo ";
+			$Consulta = "select distinct ifnull(t2.cod_grupo,'00') as cod_grupo ";
 			$Consulta.= " from sec_web.lote_catodo t1	inner join";
 			$Consulta.= " sec_web.paquete_catodo t2 on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 			$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$Mes."'";
 			$Consulta.= " and t1.num_bulto = '".$Lote."' and t1.corr_enm='".$Corr."'";
 			$Consulta.= " order by t2.cod_grupo";
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysqli_query($link,$Consulta);
 			$Grupo = 0;
 			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
@@ -722,7 +733,7 @@ function Proceso(opt)
 			if (($Grupo == "00") || ($Grupo == "0") || ($Grupo == ""))
 			{
 				$Consulta = "create table `sec_web`.`tmp_leyes_catodos`  (key ind01(cod_paquete,num_paquete)) as ";
-				$Consulta.= " SELECT t1.cod_paquete, t1.num_paquete, t2.peso_paquete as peso_paquete, ";
+				$Consulta.= " select t1.cod_paquete, t1.num_paquete, t2.peso_paquete as peso_paquete, ";
 				$Consulta.= " t3.cod_leyes, t3.valor, t2.cod_grupo, t3.signo ";
 				$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo_externo t2  ";
 				$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete  ";
@@ -730,12 +741,12 @@ function Proceso(opt)
 				//$Consulta.= " and t2.fecha_creacion_paquete = t3.fecha_creacion_paquete ";
 				$Consulta.= " where t1.cod_bulto = '".$Mes."' and t1.num_bulto = '".$Lote."' and t1.corr_enm='".$Corr."'";
 				$Consulta.= " order by t1.cod_paquete, t1.num_paquete, t3.cod_leyes ";
-				mysqli_query($link, $Consulta);
+				mysqli_query($link,$Consulta);
 			}
 			else
 			{		
 				$Consulta = "create table `sec_web`.`tmp_leyes_catodos`  (key ind01(cod_paquete,num_paquete)) as ";
-				$Consulta.= " SELECT t1.cod_paquete, t1.num_paquete, t2.peso_paquetes as peso_paquete, ";
+				$Consulta.= " select t1.cod_paquete, t1.num_paquete, t2.peso_paquetes as peso_paquete, ";
 				$Consulta.= " t3.cod_leyes, t3.valor, t2.cod_grupo, t3.signo ";
 				$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2  ";
 				$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete  ";
@@ -743,7 +754,7 @@ function Proceso(opt)
 				$Consulta.= " and t2.fecha_creacion_paquete = t3.fecha_creacion_paquete ";
 				$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$Mes."' and t1.num_bulto = '".$Lote."' and t1.corr_enm='".$Corr."'";
 				$Consulta.= " order by t1.cod_paquete, t1.num_paquete, t3.cod_leyes ";
-				mysqli_query($link, $Consulta);
+				mysqli_query($link,$Consulta);
 			}
 		}			
 	}
@@ -753,7 +764,7 @@ function Proceso(opt)
     <tr> 
       <td width="29%" height="42" align="center"> 
         <?php
-	  	if (isset($Idioma)) 
+	  	if ($Idioma!="") 
 		{
 	  		if ($Idioma == "E")
 				echo "DEPTO. CONTROL CALIDAD<br>LABORATORIO ANALITICO";				
@@ -795,7 +806,7 @@ function Proceso(opt)
       <td height="20" colspan="3" align="center"><strong><font style="font-size=12px"><strong> 
         <font style="font-size=12px"><strong> 
         <?php 			
-				if (isset($Idioma))
+				if ($Idioma!="")
 				{
 					if ($Idioma == "I")					
 						echo "CUSTOMER:&nbsp;&nbsp;";
@@ -812,17 +823,17 @@ function Proceso(opt)
         <?php
 			if ($Idioma == "I")
 			{
-				$Consulta = "SELECT  * from sec_web.cliente_venta where cod_cliente = '".$CodCliente."'";
+				$Consulta = "select  * from sec_web.cliente_venta where cod_cliente = '".$CodCliente."'";
 				//echo $Consulta;
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				if ($Fila = mysqli_fetch_array($Respuesta))
 				{
 					echo $Fila["sigla_cliente"];
 				}
 				else
 				{
-					$Consulta = "SELECT  * from sec_web.nave where cod_nave = '".intval($CodCliente)."'";
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Consulta = "select  * from sec_web.nave where cod_nave = '".intval($CodCliente)."'";
+					$Respuesta = mysqli_query($link,$Consulta);
 					if ($Fila = mysqli_fetch_array($Respuesta))
 					{
 						echo $Fila["nombre_nave"];
@@ -842,23 +853,23 @@ function Proceso(opt)
 	  	if ($Proceso == "P")
 	  	{
 			$NumCertificado = "";
-	  		$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
-			$Respuesta = mysqli_query($link, $Consulta);				
+	  		$Consulta = "select * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
+			$Respuesta = mysqli_query($link,$Consulta);				
 			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
 				//VERSION DEL CERTIFICADO
-				$Consulta2 = "SELECT ifnull(max(version),0) as version from sec_web.certificacion_catodos ";
+				$Consulta2 = "select ifnull(max(version),0) as version from sec_web.certificacion_catodos ";
 				$Consulta2.= " where corr_enm = '".$Fila["corr_enm"]."'";
-				$Respuesta2 = mysqli_query($link, $Consulta2);
+				$Respuesta2 = mysqli_query($link,$Consulta2);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{									
 					$Version = $Fila2["version"];
 				}
 				//-----------------------
-				$Consulta = "SELECT * from sec_web.certificacion_catodos ";
+				$Consulta = "select * from sec_web.certificacion_catodos ";
 				$Consulta.= " where corr_enm = '".$Fila["corr_enm"]."'";
 				$Consulta.= " and version = '".$Version."'";
-				$Respuesta2 = mysqli_query($link, $Consulta);
+				$Respuesta2 = mysqli_query($link,$Consulta);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{
 					$Emisor = $Fila2["rut"];
@@ -875,13 +886,13 @@ function Proceso(opt)
     <tr> 
       <td height="20" colspan="3" align="center"><font style="font-size=12px"><strong> 
       <?php
-			$Consulta = "SELECT distinct t3.cod_producto, t3.cod_subproducto, t3.descripcion ";
+			$Consulta = "select distinct t3.cod_producto, t3.cod_subproducto, t3.descripcion ";
 			$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
 			$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete ";
 			$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t3.cod_producto = t2.cod_producto ";
 			$Consulta.= " and t3.cod_subproducto = t2.cod_subproducto ";
 			$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_bulto = '".$Mes."' and t1.num_bulto = '".$Lote."' and t1.corr_enm='".$Corr."'";
-			$Respuesta = mysqli_query($link, $Consulta);				
+			$Respuesta = mysqli_query($link,$Consulta);				
 			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
 				$Producto = $Fila["cod_producto"];
@@ -902,7 +913,7 @@ function Proceso(opt)
 				}
 				else
 				{
-					if (isset($Idioma))
+					if ($Idioma!="")
 					{
 						echo "STANDARD CATHODE";
 					}
@@ -922,7 +933,7 @@ function Proceso(opt)
 					}
 					else
 					{
-						if (isset($Idioma))
+						if ($Idioma!="")
 						{
 							echo "GRADE A COPPER CATHODES";	
 						}
@@ -942,7 +953,7 @@ function Proceso(opt)
 						}
 						else
 						{
-							if (isset($Idioma))
+							if ($Idioma!="")
 							{
 								echo "ELECTROWINING CATHODES";	
 							}
@@ -968,17 +979,17 @@ function Proceso(opt)
 			$NomCliente = "";
 			if ($Idioma == "E")	
 			{
-				$Consulta = "SELECT  * from sec_web.cliente_venta where cod_cliente = '".$CodCliente."'";
+				$Consulta = "select  * from sec_web.cliente_venta where cod_cliente = '".$CodCliente."'";
 				//echo $Consulta;
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				if ($Fila = mysqli_fetch_array($Respuesta))
 				{
 					$NomCliente =  $Fila["sigla_cliente"];
 				}
 				else
 				{
-					$Consulta = "SELECT  * from sec_web.nave where cod_nave = '".intval($CodCliente)."'";
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Consulta = "select  * from sec_web.nave where cod_nave = '".intval($CodCliente)."'";
+					$Respuesta = mysqli_query($link,$Consulta);
 					if ($Fila = mysqli_fetch_array($Respuesta))
 					{
 						$NomCliente =  $Fila["nombre_nave"];
@@ -1006,7 +1017,7 @@ function Proceso(opt)
             <td width="18%" height="14"> 
               <?php
 			 
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "LOTE:&nbsp;";				
@@ -1025,7 +1036,7 @@ function Proceso(opt)
           <tr> 
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "N&deg; SERIE PAQ.:&nbsp;";				
@@ -1042,12 +1053,12 @@ function Proceso(opt)
               <?php 
 			  
 					$SeriePaquetes = "";
-					$Consulta = "SELECT t1.cod_paquete, t1.num_paquete ";
+					$Consulta = "select t1.cod_paquete, t1.num_paquete ";
 					$Consulta.= " from sec_web.lote_catodo t1 ";	
 					$Consulta.= " where t1.cod_bulto = '".$Mes."' ";
 					$Consulta.= " and t1.num_bulto = '".$Lote."' and t1.corr_enm='".$Corr."'";
 					$Consulta.= " order by t1.cod_bulto, t1.num_bulto, t1.cod_paquete, t1.num_paquete ";
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Respuesta = mysqli_query($link,$Consulta);
 					$CodPaquete = "";
 					$NumPaquete = "";
 					$CodPaqueteAnt = "";
@@ -1083,7 +1094,7 @@ function Proceso(opt)
           <tr> 
             <td width="32%"> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "PAQUETES:&nbsp;";				
@@ -1100,7 +1111,7 @@ function Proceso(opt)
 			<?php // echo "paq".$NumPaquetes;?>
             <td width="24%"> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "PESO LOTE:&nbsp;";				
@@ -1118,7 +1129,7 @@ function Proceso(opt)
           <tr> 
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "ENM/INSTRUCCION:&nbsp;";				
@@ -1134,7 +1145,7 @@ function Proceso(opt)
             <td><?php echo $Corr ?>&nbsp;&nbsp;</td>
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "FECHA DISP.:&nbsp;";				
@@ -1149,7 +1160,7 @@ function Proceso(opt)
             </td>
             <td> 
               <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo substr($FechaDisp,8,2).".".substr($FechaDisp,5,2).".".substr($FechaDisp,0,4);				
@@ -1184,48 +1195,48 @@ function Proceso(opt)
 			if (isset($Lote))
 			{
 				//ACTUALIZA TABLA PARA TRABAJAR CON LOS VALORES <
-				$Consulta = "SELECT * ";
+				$Consulta = "select * ";
 				$Consulta.= " from sec_web.tmp_leyes_catodos t1 inner join proyecto_modernizacion.sub_clase t2 ";
 				$Consulta.= " on t2.cod_clase = '3009' and t1.cod_leyes = t2.nombre_subclase ";
 				$Consulta.= " where not isnull(t2.valor_subclase6) and t2.valor_subclase6 <> '' and t2.valor_subclase6 <> 0";
 				$Consulta.= " order by t2.valor_subclase2";
-				$Respuesta2 = mysqli_query($link, $Consulta);
+				$Respuesta2 = mysqli_query($link,$Consulta);
 				while ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{
 					if (($Fila2["valor"] <= $Fila2["valor_subclase6"]) && ($Fila2["signo"] == "<"))
 					{
-						$Actualizar = "UPDATE sec_web.tmp_leyes_catodos set ";
+						$Actualizar = "update sec_web.tmp_leyes_catodos set ";
 						$Actualizar.= " valor = '".$Fila2["valor_subclase7"]."'";
 						$Actualizar.= " where cod_paquete = '".$Fila2["cod_paquete"]."'";
 						$Actualizar.= " and num_paquete = '".$Fila2["num_paquete"]."'";
 						$Actualizar.= " and cod_leyes = '".$Fila2["cod_leyes"]."'";
-						mysqli_query($link, $Actualizar);
+						mysqli_query($link,$Actualizar);
 						//echo $Actualizar."<br>";
 					}
 				}
 				//-----------------------------------------------
 				//VERSION DEL CERTIFICADO
-				$Consulta2 = "SELECT ifnull(max(version),0) as version from sec_web.certificacion_catodos ";
+				$Consulta2 = "select ifnull(max(version),0) as version from sec_web.certificacion_catodos ";
 				$Consulta2.= " where corr_enm = '".$Corr."'";
-				$Respuesta2 = mysqli_query($link, $Consulta2);
+				$Respuesta2 = mysqli_query($link,$Consulta2);
 				if ($Fila2 = mysqli_fetch_array($Respuesta2))
 				{
 					$VersionAnt = $Fila2["version"];				
 					$Version = $Fila2["version"] + 1;
 				}
 				//-----------------------				
-				$Consulta = "SELECT t1.cod_leyes, sum(t1.peso_paquete) as peso_paquetes, sum(t1.peso_paquete * t1.valor) as fino";
+				$Consulta = "select t1.cod_leyes, sum(t1.peso_paquete) as peso_paquetes, sum(t1.peso_paquete * t1.valor) as fino";
 				$Consulta.= " from sec_web.tmp_leyes_catodos t1 inner join proyecto_modernizacion.sub_clase t2 ";
 				$Consulta.= " on t2.cod_clase = '3009' and t1.cod_leyes = t2.nombre_subclase ";
 				$Consulta.= " group by t1.cod_leyes";
 				$Consulta.= " order by t2.valor_subclase2";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				while ($Fila = mysqli_fetch_array($Respuesta))
 				{
 					echo "<tr align='center'>\n";
 					//LEY
-					$Consulta = "SELECT * from proyecto_modernizacion.leyes where cod_leyes = '".$Fila["cod_leyes"]."'";
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Consulta = "select * from proyecto_modernizacion.leyes where cod_leyes = '".$Fila["cod_leyes"]."'";
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
 						echo "<td  width='35%'>".$Fila2["abreviatura"]."</td>\n";	
@@ -1241,12 +1252,12 @@ function Proceso(opt)
 					//SIGNO
 					$Signo = "=";
 					$Rango = 0;
-					$Consulta = "SELECT * ";
+					$Consulta = "select * ";
 					$Consulta.= " from proyecto_modernizacion.sub_clase ";
 					$Consulta.= " where cod_clase = '3009' ";
 					$Consulta.= " and (not isnull(valor_subclase6) and valor_subclase6 <> '' and valor_subclase6 <> 0)";
 					$Consulta.= " and nombre_subclase = '".$Fila["cod_leyes"]."'";
-					$Respuesta2 = mysqli_query($link, $Consulta);
+					$Respuesta2 = mysqli_query($link,$Consulta);
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
 						if (round($ValorLey,3) < round($Fila2["valor_subclase6"],3))
@@ -1260,25 +1271,25 @@ function Proceso(opt)
 					$Modificado = "N";																					
 					if ($Reescribir == "S")
 					{
-						$Consulta = "SELECT * from sec_web.certificacion_catodos ";
+						$Consulta = "select * from sec_web.certificacion_catodos ";
 						$Consulta.= " where corr_enm = '".$Corr."' ";
 						$Consulta.= " and num_certificado = '".$NumCertificado."'";
 						$Consulta.= " and version = '".$VersionAnt."'";
 						$Consulta.= " and cod_leyes = '".$Fila["cod_leyes"]."'";						
-						$Respuesta2 = mysqli_query($link, $Consulta);
+						$Respuesta2 = mysqli_query($link,$Consulta);
 						if ($Fila2 = mysqli_fetch_array($Respuesta2))
 						{							
 							if ($Proceso != "P")
 							{
 								if (round($Fila2["valor"],3) != round($ValorLey,3))
 								{
-									$Actualizar = "UPDATE sec_web.certificacion_catodos set ";
+									$Actualizar = "update sec_web.certificacion_catodos set ";
 									$Actualizar.= " modificado = 'S'";
 									$Actualizar.= " where corr_enm = '".$Corr."' ";
 									$Actualizar.= " and num_certificado = '".$NumCertificado."'";
 									$Actualizar.= " and cod_leyes = '".$Fila["cod_leyes"]."'";
 									$Actualizar.= " and version = '".$VersionAnt."'";
-									mysqli_query($link, $Actualizar);
+									mysqli_query($link,$Actualizar);
 								}
 								//INSERTA EN LA TABLA CERTIFICACION CATODO
 								$FechaG = date("Y-m-d H:i:s");
@@ -1289,10 +1300,10 @@ function Proceso(opt)
 								else
 									$Insertar.= " '".round($ValorLey,1)."', ";
 								$Insertar.= "'".$Signo."','".$FechaG."','".$CookieRut."')";
-								mysqli_query($link, $Insertar);
+								mysqli_query($link,$Insertar);
 								//----------------------------------------
 								//ACTUALIZA CAMPO GENERACION EN TABLA SOLICITUD_CERTIFICADO
-								$Actualizar = "UPDATE sec_web.solicitud_certificado set ";
+								$Actualizar = "update sec_web.solicitud_certificado set ";
 								$Actualizar.= " generacion = 'S'";
 								$Actualizar.= " ,rut_generador = '".$CookieRut."'";
 								$Actualizar.= " ,num_certificado = '".$NumCertificado."'";
@@ -1303,7 +1314,7 @@ function Proceso(opt)
 								$Actualizar.= " and num_bulto = '".$Lote."'";
 								$Actualizar.= " and num_certificado = '".$NumCertificado."'";
 								$Actualizar.= " and version = '".$VersionAnt."'";
-								mysqli_query($link, $Actualizar);
+								mysqli_query($link,$Actualizar);
 								//---------------------------------------------------------
 							}
 							$Modificado = "S";
@@ -1322,10 +1333,10 @@ function Proceso(opt)
 							else
 								$Insertar.= " '".round($ValorLey,1)."', ";
 							$Insertar.= "'".$Signo."','".$FechaG."','".$CookieRut."')";
-							mysqli_query($link, $Insertar);
+							mysqli_query($link,$Insertar);
 							//----------------------------------------
 							//ACTUALIZA CAMPO GENERACION EN TABLA SOLICITUD_CERTIFICADO
-							$Actualizar = "UPDATE sec_web.solicitud_certificado set ";
+							$Actualizar = "update sec_web.solicitud_certificado set ";
 							$Actualizar.= " generacion = 'S'";
 							$Actualizar.= " ,rut_generador = '".$CookieRut."'";
 							$Actualizar.= " ,num_certificado = '".$NumCertificado."'";
@@ -1334,7 +1345,7 @@ function Proceso(opt)
 							$Actualizar.= " where corr_enm = '".$Corr."'";
 							$Actualizar.= " and cod_bulto = '".$Mes."'";
 							$Actualizar.= " and num_bulto = '".$Lote."'";
-							mysqli_query($link, $Actualizar);
+							mysqli_query($link,$Actualizar);
 							//---------------------------------------------------------
 						}
 					}
@@ -1350,7 +1361,7 @@ function Proceso(opt)
 					if ($Proceso != "P")
 					{
 						//VALOR					
-						$Consulta = "SELECT * from sec_web.certificacion_catodos ";
+						$Consulta = "select * from sec_web.certificacion_catodos ";
 						$Consulta.= " where corr_enm = '".$Corr."' ";
 						$Consulta.= " and num_certificado = '".$NumCertificado."'";
 						$Consulta.= " and cod_leyes = '".$Fila["cod_leyes"]."'";
@@ -1358,7 +1369,7 @@ function Proceso(opt)
 							$Consulta.= " and version = '1'";
 						else
 							$Consulta.= " and version = '".$Version."'";
-						$Respuesta2 = mysqli_query($link, $Consulta);
+						$Respuesta2 = mysqli_query($link,$Consulta);
 						if ($Fila2 = mysqli_fetch_array($Respuesta2))
 						{
 							if ($Fila2["modificado"] == "S")
@@ -1375,7 +1386,7 @@ function Proceso(opt)
 					}
 					else
 					{
-						$Consulta = "SELECT * from sec_web.certificacion_catodos ";
+						$Consulta = "select * from sec_web.certificacion_catodos ";
 						$Consulta.= " where corr_enm = '".$Corr."' ";
 						$Consulta.= " and num_certificado = '".$NumCertificado."'";
 						$Consulta.= " and cod_leyes = '".$Fila["cod_leyes"]."'";
@@ -1383,7 +1394,7 @@ function Proceso(opt)
 							$Consulta.= " and version = '1'";
 						else
 							$Consulta.= " and version = '".$Version."'";
-						$Respuesta2 = mysqli_query($link, $Consulta);					
+						$Respuesta2 = mysqli_query($link,$Consulta);					
 						if ($Fila2 = mysqli_fetch_array($Respuesta2))
 						{
 							if ($Fila2["modificado"] == "S")
@@ -1423,7 +1434,7 @@ function Proceso(opt)
     <tr> 
       <td height="20" colspan="3" align="center"><font style="font-size:8px"> 
         <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						echo "LOS CONTENIDOS DE IMPUREZAS 
@@ -1462,7 +1473,7 @@ function Proceso(opt)
     <tr> 
       <td height="20" colspan="3" align="right"><strong> 
         <?php
-				if (isset($Idioma)) 
+				if ($Idioma!="") 
 				{
 					if ($Idioma == "E")
 						//echo "JEFE LABORATORIO ANALITICO";
@@ -1483,12 +1494,12 @@ function Proceso(opt)
       <td height="22" colspan="3"> 
         <?php
 		$Nombre = "";
-		$Consulta = "SELECT * from proyecto_modernizacion.funcionarios ";
+		$Consulta = "select * from proyecto_modernizacion.funcionarios ";
 		if ($Emisor != "")
 			$Consulta.= " where rut = '".$Emisor."'";
 		else
 			$Consulta.= " where rut = '".$CookieRut."'";
-		$Respuesta = mysqli_query($link, $Consulta);
+		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			$Nombre = substr(strtoupper($Fila["nombres"]),0,1)." ".substr(strtoupper($Fila["apellido_paterno"]),0,1)." ".substr(strtoupper($Fila["apellido_materno"]),0,1);

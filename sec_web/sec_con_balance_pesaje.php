@@ -431,54 +431,61 @@ function Informacion(Mes,Lote,Corr,NumPaquetes,PesoLote)
 		{										
 			$ArrLeyes["02"][2] = 99.99;				
 		}									
-		reset($ArrLeyes);			
+		reset($ArrLeyes);
+        		
 		foreach($ArrLeyes as $k => $v)
-		{
+		{   $ArrTotal01 = isset($ArrTotal[$v[0]][1])?$ArrTotal[$v[0]][1]:0;
+			$Valor = $v[2];
 			if ($FinoLeyes == "L")
 			{
-				$Valor = $v[2];
+				//$Valor = $v[2];
+				$ValorAux=0;
 				switch ($v[0])
 				{
 					case "02":
-						$ValorAux = ($v[2] * $Fila["PesoLote"]) / 100;
+						$ValorAux = ((int)$v[2] * (int)$Fila["PesoLote"]) / 100;
 						break;
 					case "04":
-						$ValorAux = ($v[2] * $Fila["PesoLote"]) / 1000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["PesoLote"]) / 1000;
 						break;
 					case "05":
-						$ValorAux = ($v[2] * $Fila["PesoLote"]) / 1000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["PesoLote"]) / 1000;
 						break;
 					default:
-						$ValorAux = ($v[2] * $Fila["PesoLote"]) / 1000000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["PesoLote"]) / 1000000;
 						break;
 				}
-				$ArrTotal[$v[0]][0] = $v[0];				
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
+				$ArrTotal[$v[0]][0] = $v[0];
+				$ArrTotal01 = $ArrTotal01 + $ValorAux;		
+				$ArrTotal[$v[0]][1] = $ArrTotal01;				
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
 			}
 			else
 			{
 				switch ($v[0])
 				{
 					case "02":
-						$Valor = ($v[2] * $Fila["PesoLote"]) / 100;
+						$Valor = ((int)$v[2] * (int)$Fila["PesoLote"]) / 100;
 						break;
 					case "04":
-						$Valor = ($v[2] * $Fila["PesoLote"]) / 1000;
+						$Valor = ((int)$v[2] * (int)$Fila["PesoLote"]) / 1000;
 						break;
 					case "05":
-						$Valor = ($v[2] * $Fila["PesoLote"]) / 1000;
+						$Valor = ((int)$v[2] * (int)$Fila["PesoLote"]) / 1000;
 						break;
 					default:
-						$Valor = ($v[2] * $Fila["PesoLote"]) / 1000000;
+						$Valor = ((int)$v[2] * (int)$Fila["PesoLote"]) / 1000000;
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				$ArrTotal01 = $ArrTotal01 + $Valor;	
+				$ArrTotal[$v[0]][1] = $ArrTotal01;
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
 			}					
 			if ($v[0] == "02") 
-				echo "<td align='right'>".number_format($Valor,2,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,2,",",".")."</td>";
 			else
-				echo "<td align='right'>".number_format($Valor,1,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,1,",",".")."</td>";
 		}
 		$TotalPeso     = $TotalPeso + $Fila["PesoLote"];		
 		$TotalPaquetes = $TotalPaquetes + $Fila["NumPaquetes"];
@@ -491,7 +498,7 @@ function Informacion(Mes,Lote,Corr,NumPaquetes,PesoLote)
       <td align="right"><?php echo number_format($TotalPeso,0,",","."); ?></td>
 <?php
 	foreach($ArrTotal as $k => $v)
-	{
+	{   $v1 = isset($v[1])?$v[1]:0;
 		echo "<td align='right'>\n";	 
 		switch ($FinoLeyes)
 		{
@@ -499,21 +506,21 @@ function Informacion(Mes,Lote,Corr,NumPaquetes,PesoLote)
 				switch ($v[0])
 				{
 					case "02":
-		      			echo number_format(($v[1] / $TotalPeso)*100,2,",",".");
+		      			echo number_format(($v1 / $TotalPeso)*100,2,",",".");
 						break;
 					case "04":
-		      			echo number_format(($v[1] / $TotalPeso)*1000,1,",",".");
+		      			echo number_format(($v1 / $TotalPeso)*1000,1,",",".");
 						break;
 					case "05":
-		      			echo number_format(($v[1] / $TotalPeso)*1000,1,",",".");
+		      			echo number_format(($v1 / $TotalPeso)*1000,1,",",".");
 						break;
 					default:
-						echo number_format(($v[1] / $TotalPeso)*1000000,1,",",".");
+						echo number_format(($v1 / $TotalPeso)*1000000,1,",",".");
 						break;
 				}
 				break;
 			case "F":
-				echo number_format($v[1],0,",",".");
+				echo number_format($v1,0,",",".");
 				break;
 		}
 		echo "</td>\n";
