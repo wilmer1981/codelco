@@ -32,17 +32,19 @@
 			$CodCliente=$Fila["cod_cliente"];
 			$Confeccion=$Fila["confeccion"];
 			$RutCliente=$Fila["rut"];
-			$Insertar="insert into sec_web.programa_enami (corr_enm,cod_producto,cod_subproducto,";
+			
+			$Insertar="INSERT INTO sec_web.programa_enami (corr_enm,cod_producto,cod_subproducto,";
 			$Insertar=$Insertar."eta_programada,fecha_disponible,cod_contrato,cod_cliente,cantidad_embarque,cod_marca,num_prog_loteo,estado1,estado2,tipo,tipo_pesada) values(";
 			$Insertar=$Insertar."$TxtIE,'$CodProducto','$CodSubProducto','$Fecha','$Fecha2',$NumContrato,'$CodCliente','".str_replace(',','.',$TxtPeso)."','ENM',0,'','N','V','$Confeccion')";
 			mysqli_query($link, $Insertar);
+			
 			$Destino='';
 			if ($CmbDestino!='-1')
 			{
 				$DestinoCarga=explode('~~',$CmbDestino);
 				$Destino=$DestinoCarga[1];
 			}
-			$Insertar="insert into sec_web.det_contrato_por_ie(num_contrato,num_subcontrato,cod_producto,cod_subproducto,corr_ie,peso,cod_sub_cliente) values (";
+			$Insertar="INSERT INTO sec_web.det_contrato_por_ie(num_contrato,num_subcontrato,cod_producto,cod_subproducto,corr_ie,peso,cod_sub_cliente) values (";
 			$Insertar.="'$NumContrato','$NumSubContrato','$CodProducto','$CodSubProducto','$TxtIE','".str_replace(',','.',$TxtPeso)."','$Destino')";
 			mysqli_query($link, $Insertar);
 			if ($Confeccion=='G')
@@ -71,7 +73,7 @@
 				$Insertar.=",cod_subproducto,cod_cliente,cod_puerto,cod_agente,cod_estiba,cod_acopio,cod_confirmado,";
 				$Insertar.=" tipo_embarque,tipo_enm_code,cod_nave,num_viaje,cod_sub_cliente,rut_cliente,fecha_envio,tipo) values(";
 				$Insertar.="'".$TxtNumEnvio."','".$TxtIE."','','0','".$Fecha."','".$Fecha2."', ";
-				$Insertar.=" '','','01BL','".$CodProducto."','".$CodSubProducto."','".$CodCliente."' ";
+				$Insertar.=" '0','0','01BL','".$CodProducto."','".$CodSubProducto."','".$CodCliente."' ";
 				$Insertar.=",'".$cod_puerto."','".$cod_agente."','".$cod_estiba."','".$cod_acopio."','C','T','E','".$cod_nave."','".$num_viaje."','".$CodSubCliente."','".$RutCliente."','".$FechaEnvio."','V')";
 				mysqli_query($link, $Insertar);
 				$Fecha3 = date("Y-m-d");

@@ -149,7 +149,7 @@ body {
 					$Consulta=$Consulta." from sec_web.det_contrato t1 left join proyecto_modernizacion.productos t2 ";
 					$Consulta=$Consulta." on t1.cod_producto=t2.cod_producto left join proyecto_modernizacion.subproducto t3 on ";
 					$Consulta=$Consulta."t1.cod_producto=t3.cod_producto and t1.cod_subproducto=t3.cod_subproducto ";
-					$Consulta=$Consulta." where vigente='V'";
+					$Consulta=$Consulta." where vigente='V' and t1.num_subcontrato = 0";
 					
 					$Respuesta=mysqli_query($link, $Consulta);
 					//$TxtPesoContrato=0;
