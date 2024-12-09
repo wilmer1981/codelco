@@ -8,14 +8,13 @@
 	$Fila=mysqli_fetch_array($Resultado);
 	$IE_Ven=$Fila["mayor"];
 
-	$Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-	$Buscar   = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
-	$Selecciono   = isset($_REQUEST["Selecciono"])?$_REQUEST["Selecciono"]:"";
-	$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$Selecciono = isset($_REQUEST["Selecciono"])?$_REQUEST["Selecciono"]:"";
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	
-	$CmbContrato   = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
-	$TxtNombreContrato   = isset($_REQUEST["TxtNombreContrato"])?$_REQUEST["TxtNombreContrato"]:"";
+	$CmbContrato       = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
+	$TxtNombreContrato = isset($_REQUEST["TxtNombreContrato"])?$_REQUEST["TxtNombreContrato"]:"";
 	$CodCliente   = isset($_REQUEST["CodCliente"])?$_REQUEST["CodCliente"]:"";
 	$CmbDestino   = isset($_REQUEST["CmbDestino"])?$_REQUEST["CmbDestino"]:"";
 

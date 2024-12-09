@@ -1,13 +1,18 @@
 <?php 	
 	include("../principal/conectar_sec_web.php");
 
-	$Proceso     = $_REQUEST["Proceso"];
-	$Confeccion  = $_REQUEST["Confeccion"];
-	$CmbContrato = $_REQUEST["CmbContrato"];
-	$CmbDestino  = $_REQUEST["CmbDestino"];
-	$TxtIE       = $_REQUEST["TxtIE"];
-	$TxtPeso     = $_REQUEST["TxtPeso"];
-	$Valores2    = $_REQUEST["Valores2"];
+	$Confeccion  = isset($_REQUEST["Confeccion"])?$_REQUEST["Confeccion"]:"";
+	$TxtIE       = isset($_REQUEST["TxtIE"])?$_REQUEST["TxtIE"]:"";
+	$TxtPeso     = isset($_REQUEST["TxtPeso"])?$_REQUEST["TxtPeso"]:"";
+	$Valores2    = isset($_REQUEST["Valores2"])?$_REQUEST["Valores2"]:"";	
+	$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";	
+	$CmbContrato       = isset($_REQUEST["CmbContrato"])?$_REQUEST["CmbContrato"]:"";
+	$TxtNombreContrato = isset($_REQUEST["TxtNombreContrato"])?$_REQUEST["TxtNombreContrato"]:"";
+	$CmbDestino   = isset($_REQUEST["CmbDestino"])?$_REQUEST["CmbDestino"]:"";
+
+	$TxtPesoContrato   = isset($_REQUEST["TxtPesoContrato"])?$_REQUEST["TxtPesoContrato"]:0;
+	
 	
 	switch ($Proceso)
 	{
