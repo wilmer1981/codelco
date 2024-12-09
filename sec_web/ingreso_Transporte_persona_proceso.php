@@ -208,7 +208,7 @@ function Salir()
 		if($Existe == "S")
 		{
 			echo "<script languaje='javascript'>";
-			echo "alert('El transportista que trata de ingresar ya existe, debe cambiar Rut � Patente � Acoplado');";	//val�do que no exista 
+			echo "alert('El transportista que trata de ingresar ya existe, debe cambiar Rut - Patente - Acoplado');";	//val�do que no exista 
 			echo "</script>";
 		}
 ?>
