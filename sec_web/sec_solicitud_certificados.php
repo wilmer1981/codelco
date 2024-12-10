@@ -6,7 +6,7 @@
 		
 	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('m');
 	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
-	$CmbEstado = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+	$CmbEstado = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:""; 
 	$Estado = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
 	$Mostrar= isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 
@@ -24,6 +24,7 @@ function Consultar()
 {
 	var Frm=document.FrmProceso;
 	Frm.action="sec_solicitud_certificados.php?Estado="+Frm.Estado.value+"&Mostrar=S";
+	//Frm.action="sec_solicitud_certificados.php?Estado="+Frm.Estado.value+"&CmbEstado="+Frm.CmbEstado.value+"&Mostrar=S";
 	Frm.submit();
 }
 function Excel()
@@ -270,7 +271,7 @@ function CodCliente(CodBulto, NumBulto, CodCliente, IE)
 				  $Respuesta0=mysqli_query($link, $Consulta);
 				  while($Fila0=mysqli_fetch_array($Respuesta0))
 				  {
-				  	if($CmbEstado==$Fila0["cod_subclase"])
+				  	if($CmbEstado==$Fila0["valor_subclase1"])
 					{
 						echo "<option value='".$Fila0["valor_subclase1"]."' selected>".$Fila0["nombre_subclase"]."</option>";
 					}
@@ -283,7 +284,7 @@ function CodCliente(CodBulto, NumBulto, CodCliente, IE)
             </select>
           </div></td>
               <td colspan="3"  align="center"><div align="left">
-                  <input name="BtnConsultar" type="button" id="BtnConsultar2" value="Consultar" style="width:60px;" onClick="Consultar('<?php echo $CmbEstado ?>');">
+                  <input name="BtnConsultar" type="button" id="BtnConsultar2" value="Consultar" style="width:60px;" onClick="Consultar();">
                   <input name="BtnSolicitar" type="button" id="BtnSolicitar" value="Solicitar" style="width:60px;" onClick="Solicitar();">
                   <input name="BtnImprimir22" type="button" id="BtnImprimir223" value="Imprimir" style="width:60px;" onClick="Imprimir();">
 				  <?php
@@ -406,18 +407,18 @@ function CodCliente(CodBulto, NumBulto, CodCliente, IE)
 			$CrearTmp.=" nombre_cliente varchar(30),cod_estado varchar(1),envio varchar(8),estado varchar(1))";
 			mysqli_query($link, $CrearTmp);
 				//echo $CrearTmp; 
-			$Consulta = "SELECT STRAIGHT_JOIN t2.cod_producto,t2.cod_subproducto,t1.corr_enm,t1.cod_bulto,t1.num_bulto,count(*) as paquetes ,sum(t2.peso_paquetes)"; 
+			$Consulta = "SELECT STRAIGHT_JOIN t2.cod_producto,t2.cod_subproducto,t1.fecha_creacion_lote,t1.corr_enm,t1.cod_bulto,t1.num_bulto,count(*) as paquetes ,sum(t2.peso_paquetes)"; 
 			$Consulta.= " as peso_neto,t4.cantidad_programada as toneladas, t3.descripcion,t1.cod_marca,t1.cod_estado,";
 			$Consulta.= " (case when not isnull(t5.cod_cliente) then t5.cod_cliente else t6.cod_nave end) as nombre_cliente"; 
-			$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2"; 
+			$Consulta.= " FROM sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2"; 
 			$Consulta.= " on t1.cod_paquete=t2.cod_paquete and t1.num_paquete=t2.num_paquete";
-			$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t2.cod_producto=t3.cod_producto";
+			$Consulta.= " INNER join proyecto_modernizacion.subproducto t3 on t2.cod_producto=t3.cod_producto";
 			$Consulta.= " and t2.cod_subproducto=t3.cod_subproducto";
-			$Consulta.= " inner join sec_web.programa_codelco t4 on t1.corr_enm=t4.corr_codelco";
-			$Consulta.= " left join sec_web.cliente_venta t5 on t4.cod_cliente=t5.cod_cliente"; 
-			$Consulta.= " left join sec_web.nave t6 on ceiling(t4.cod_cliente)=t6.cod_nave";
-			$Consulta.= " left  join sec_web.solicitud_certificado t7  on t1.corr_enm=t7.corr_enm";
-			$Consulta.= " where  t1.fecha_creacion_paquete = t2.fecha_creacion_paquete"; 
+			$Consulta.= " INNER join sec_web.programa_codelco t4 on t1.corr_enm=t4.corr_codelco";
+			$Consulta.= " LEFT join sec_web.cliente_venta t5 on t4.cod_cliente=t5.cod_cliente"; 
+			$Consulta.= " LEFT join sec_web.nave t6 on ceiling(t4.cod_cliente)=t6.cod_nave";
+			$Consulta.= " LEFT  join sec_web.solicitud_certificado t7  on t1.corr_enm=t7.corr_enm";
+			$Consulta.= " WHERE t1.fecha_creacion_paquete = t2.fecha_creacion_paquete"; 
 			$Consulta.= " and t2.cod_producto='18' and t2.cod_subproducto not in  ('49','16','17')";
 			$Consulta.= "  and t1.disponibilidad = 'T' ";
 			if ($Estado=='N')
@@ -526,14 +527,16 @@ function CodCliente(CodBulto, NumBulto, CodCliente, IE)
 			 	//aqui incluir select para certificado con stado = N(no solicitados) poly 05062009					
 				
 				//$Consulta="SELECT *, t1.corr_ie,t1.cod_bulto,t1.num_bulto from sec_web.tmpCertificados t1 ";
-				$Consulta="SELECT t1.corr_ie, t1.cod_bulto, t1.num_bulto from sec_web.tmpCertificados t1 ";
-				if(($Estado=='E')||($Estado=='P'))//||($Estado=='A'))
+				$Consulta="SELECT t1.cod_producto,t1.cod_subproducto, t1.corr_ie, t1.cod_bulto, t1.num_bulto,t1.envio,t1.paquetes,t1.peso_neto,t1.cod_marca,t1.nombre_cliente, ";
+				$Consulta.=" t2.corr_enm, t2.fecha_hora, t2.fecha_generacion, t2.rut_generador, t2.num_certificado from sec_web.tmpCertificados t1 ";
+				//if(($Estado=='E')||($Estado=='P'))//||($Estado=='A'))
+				if(($Estado=='E')||($Estado=='P') ||($Estado=='T'))
 				{
-					$Consulta.=" inner join sec_web.solicitud_certificado t2 on t1.corr_ie=t2.corr_enm";
+					$Consulta.=" INNER join sec_web.solicitud_certificado t2 on t1.corr_ie=t2.corr_enm";
 				}
-				$Consulta.=" inner join sec_web.marca_catodos t3 on t1.cod_marca=t3.cod_marca";
+				$Consulta.=" INNER join sec_web.marca_catodos t3 on t1.cod_marca=t3.cod_marca";
 				
-				$Consulta.=" where  ";//(substring(t2.fecha_hora,1,7) ='".$Fecha_Envio."' or substring(t2.fecha_hora,1,7) ='".$Fecha_Envio1."')";
+				$Consulta.=" WHERE  ";//(substring(t2.fecha_hora,1,7) ='".$Fecha_Envio."' or substring(t2.fecha_hora,1,7) ='".$Fecha_Envio1."')";
 				
 				if($Estado=='E')
 				{
@@ -552,6 +555,7 @@ function CodCliente(CodBulto, NumBulto, CodCliente, IE)
 				//echo "DDD".$Consulta."<br>";
 				$Respuesta=mysqli_query($link, $Consulta);				
 				echo "<input name='checkbox' type='hidden'></td>";
+				$Cont2=0;
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
 					$Nombre="";  
@@ -561,8 +565,8 @@ function CodCliente(CodBulto, NumBulto, CodCliente, IE)
 					$Respuesta2 = mysqli_query($link, $Consulta2);
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
-						$Emisor = $Fila2["rut"];
-						$FechaEmision = $Fila2["fecha"];
+						$Emisor       = $Fila2["rut"];
+						//$FechaEmision = $Fila2["fecha"];
 							//if($Fila2["generacion"]=='S')
 						if($Fila2["generacion"]=='S')
 						{
@@ -642,12 +646,12 @@ function CodCliente(CodBulto, NumBulto, CodCliente, IE)
 						}
 						else
 						{
-							echo "<td align='center'><a href=\"JavaScript:CodCliente('".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."','".$Fila["cod_cliente"]."','".$Fila["corr_enm"]."')\">".$Cliente."</a></td>";
+							echo "<td align='center'><a href=\"JavaScript:CodCliente('".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."','".$Fila["nombre_cliente"]."','".$Fila["corr_enm"]."')\">".$Cliente."</a></td>";
 						}
 					}
 					else
 					{
-						echo "<td align='center'><a href=\"JavaScript:CodCliente('".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."','".$Fila["cod_cliente"]."','".$Fila["corr_enm"]."')\">".$Cliente."</a></td>";
+						echo "<td align='center'><a href=\"JavaScript:CodCliente('".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."','".$Fila["nombre_cliente"]."','".$Fila["corr_enm"]."')\">".$Cliente."</a></td>";
 					}								
 					echo "<td width='183' align='center'>".$Cliente."&nbsp;</td>";
 					$Consulta="SELECT * from proyecto_modernizacion.subproducto where cod_producto='".$Fila["cod_producto"]."' ";
