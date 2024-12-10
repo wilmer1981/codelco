@@ -9,11 +9,11 @@
 	/*echo $Pro."<br>";*/
 	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-
-	$cmbproducto  = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"-1";
-	$cmbsubproducto  = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"-1";
+	$cmbproducto   = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"-1";
+	$cmbsubproducto= isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"-1";
+	$TxtNombre     = isset($_REQUEST["TxtNombre"])?$_REQUEST["TxtNombre"]:"";
 	$TxtNombreGDE  = isset($_REQUEST["TxtNombreGDE"])?$_REQUEST["TxtNombreGDE"]:"";
-	$TxtCodSAP  = isset($_REQUEST["TxtCodSAP"])?$_REQUEST["TxtCodSAP"]:"";
+	$TxtCodSAP     = isset($_REQUEST["TxtCodSAP"])?$_REQUEST["TxtCodSAP"]:"";
 	$TxtUnidadSAP  = isset($_REQUEST["TxtUnidadSAP"])?$_REQUEST["TxtUnidadSAP"]:"";
 
 	switch($Proceso)
@@ -28,10 +28,10 @@
 			$Consulta="select * from sec_web.homologacion_producto_sap where cod_producto_sec='".$Matriz[0]."' and cod_subproducto_sec='".$Matriz[1]."'"; 
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$TxtCodSAP=$Fila["codigo_material"];
-			$TxtNombre=$Fila["denominacion_sap"];
-			$TxtNombreGDE=$Fila["denominacion_sap"];
-			$TxtUnidadSAP=$Fila["cod_unidad_sap"];
+			$TxtCodSAP=isset($Fila["codigo_material"])?$Fila["codigo_material"]:"";
+			$TxtNombre=isset($Fila["denominacion_sap"])?$Fila["denominacion_sap"]:"";
+			$TxtNombreGDE=isset($Fila["denominacion_sap"])?$Fila["denominacion_sap"]:"";
+			$TxtUnidadSAP=isset($Fila["cod_unidad_sap"])?$Fila["cod_unidad_sap"]:"";
 		break;	
 	}
 
@@ -45,24 +45,41 @@ function TeclaPulsada (tecla)
 { 
 var teclaCodigo = event.keyCode; 
 var teclaReal = String.fromCharCode(teclaCodigo); 
-alert("C�digo de la tecla: " + teclaCodigo + "\nTecla pulsada: " + teclaReal); 
+alert("C\xf3digo de la tecla: " + teclaCodigo + "\nTecla pulsada: " + teclaReal); 
 }*/ 
 
 
 function Grabar(Proceso)
 {
 	var Frm=document.FrmProceso;
-	
+	if (Frm.cmbproducto.value == "-1")
+	{
+		alert("Debe Seleccionar producto")
+		Frm.cmbproducto.focus();
+		return;
+	}
+	if (Frm.cmbsubproducto.value == "-1")
+	{
+		alert("Debe Seleccionar Subproducto")
+		Frm.cmbsubproducto.focus();
+		return;
+	}
+	if (Frm.TxtNombreGDE.value == "")
+	{
+		alert("Denominaci\xf3n SAP")
+		Frm.TxtNombreGDE.focus();
+		return;
+	}
 	if (Frm.TxtCodSAP.value == "")
 	{
-		alert("Debe Ingresar el c�digo producto de SAP")
+		alert("Debe Ingresar el c\xf3digo producto de SAP")
 		Frm.TxtCodSAP.focus();
 		return;
 	}	
 	
 	if (Frm.TxtNombreGDE.value == "")
 	{
-		alert("Debe Ingresar Denominaci�n SAP")
+		alert("Debe Ingresar Denominaci\xf3n SAP")
 		Frm.TxtNombreGDE.focus();
 		return;3
 	}
