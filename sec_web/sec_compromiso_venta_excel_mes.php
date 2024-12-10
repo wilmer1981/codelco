@@ -28,9 +28,9 @@
 	$Rut=$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");	
 
-	$Tipo    = $_REQUEST["Tipo"];
-	$MesIni2 = $_REQUEST["MesIni2"];
-	$AnoIni2 = $_REQUEST["AnoIni2"];
+	$Tipo    = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+	$MesIni2 = isset($_REQUEST["MesIni2"])?$_REQUEST["MesIni2"]:"";
+	$AnoIni2 = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:"";
 ?>
 <html>
 <head>
@@ -44,7 +44,7 @@
 	if ($MesIni2 != "T")
 		echo strtoupper($meses2[$MesIni2-1])." DEL ".$AnoIni2; 
 	else
-		echo " A�O ".$AnoIni2; 	
+		echo " AñO ".$AnoIni2; 	
 ?>      </font></strong></td>
   </tr>
   <tr align="center" class="ColorTabla01"> 
@@ -219,6 +219,7 @@
 		}
 		$Consulta = "SELECT * from sec_web.paises where abreviatura = '".$CodPaisAnt."'";
 		$Resp2 = mysqli_query($link, $Consulta);
+		$NomPais="";
 		if ($Fila2 = mysqli_fetch_array($Resp2))
 			$NomPais = $Fila2["nombre_pais"];
 		echo "<tr>";
