@@ -1,7 +1,7 @@
-<? //include("../conectar.php"); ?>
+<?php //include("../conectar.php"); ?>
 <html>
 <head>
-<title>SAM-WEB, Codelco División Ventanas</title>
+<title>SAM-WEB, Codelco Divisi&oacute;n Ventanas</title>
 <!-- FUNCIONES -->
 <Script>
 function Volver()
@@ -39,7 +39,7 @@ function Valida()
 </head>
 <body bgcolor="#CCCCCC" text="#336699" link="#336699" vlink="#336699" alink="#336699" leftmargin="10" topmargin="5" Onload="JavaScript:document.frm_principal.cmb_cc.focus()">
 <form name="frm_principal" action=""  method="get">
-  <input type="hidden" name="Mes" value="<? $Mes; ?>">
+  <input type="hidden" name="Mes" value="<?php $Mes; ?>">
 
  <table border="2" cellpadding="0" cellspacing="0" width="800" height="300">
  <tr>
@@ -62,7 +62,7 @@ function Valida()
           </td>
           <td width="50%">
             <div align="right"> <font size=1 face="verdana" color="#336699">
-              <?
+              <?php
 					//FUNCION DE FECHA
 					$dias = array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
 					$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -85,7 +85,7 @@ function Valida()
 			&nbsp;&nbsp;Informe Mensual Cumplimiento Iso</font><font size="1" face="Verdana, Arial, Helvetica, sans-serif" color="#000000"></font></b><br>
               <br>
 			  <br>
-<?
+<?php
   echo "<table cellpadding=1 cellspacing=1 border=1 bgcolor=#ffe89f bordercolor=#000099 align='center'>\n";
   echo "<tr>\n";
   echo "<td align=center bgcolor=#6060b0>";
