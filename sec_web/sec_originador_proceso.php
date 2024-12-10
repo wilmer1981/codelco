@@ -47,9 +47,6 @@
 <html>
 <head>
 <script language="JavaScript">
-
-
-
 function Grabar(Proceso)
 {
 	var Frm=document.FrmProceso;
@@ -77,14 +74,14 @@ function Grabar(Proceso)
 	}
 	if(Frm.TxtDivSap.value == "")
 	{
-		alert("Debe Ingresar Divisi�n SAP")
+		alert("Debe Ingresar Divisi\xf3n SAP")
 		Frm.TxtDivSap.focus();
 			Frm.BtnGrabar.disabled = false;
 		return;
 	}
 		if(Frm.TxtAlmSap.value == "")
 	{
-		alert("Debe Ingresar Almac�n SAP")
+		alert("Debe Ingresar Almac\xe9n SAP")
 		Frm.TxtAlmSap.focus();
 			Frm.BtnGrabar.disabled = false;
 		return;
