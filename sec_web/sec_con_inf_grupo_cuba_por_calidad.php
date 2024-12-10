@@ -8,6 +8,8 @@
 	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date('d');
 	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date('m');
 	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date('Y');
+	
+	
 
 	if (strlen($DiaIni) == 1)
 		$DiaIni = "0".$DiaIni;
@@ -231,7 +233,7 @@ function Historial(SA,Rec)
 	$Consulta.= " where t1.cod_producto = '18' and t1.cod_subproducto = '5' and t1.cod_cuba != '00'";
 	$Consulta.= " and t1.fecha_produccion between '".$FechaInicio."' and '".$FechaTermino."'";
 	$Consulta.= " order by t1.fecha_produccion, t1.cod_grupo, t1.cod_cuba";
-   echo $Consulta;
+    echo $Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;	
 	while ($Fila = mysqli_fetch_array($Respuesta))
@@ -242,19 +244,14 @@ function Historial(SA,Rec)
 		$Astm = 0;
 		$Class = '';
 		echo "<tr>\n";
-	
-
 		echo "<td  align='center'>".substr($Fila["fecha_produccion"],8,2)."/".substr($Fila["fecha_produccion"],5,2)."/".substr($Fila["fecha_produccion"],0,4)."</td>\n";		
 		echo "<td  align='center'>".$Fila["cod_grupo"]."</td>\n";
 		$Grupo = $Fila["cod_grupo"];
-		$Cuba = $Fila["cod_cuba"];
-		
+		$Cuba = $Fila["cod_cuba"];		
 		if(substr($Grupo,0,1) == 0)
 			$Grupo = substr($Grupo,1,1);
-
-		if(substr($Cuba,0,1) == 0 AND substr($Cuba,1,1) != 0)
-			$Cuba = substr($Cuba,1,1);
-			
+		if((substr($Cuba,0,1) == 0) AND (substr($Cuba,1,1) != 0))
+			$Cuba = substr($Cuba,1,1);			
 			
 		$Consulta = " SELECT t2.nro_solicitud,t2.cod_leyes, t2.valor, t2.cod_unidad, t1.estado_actual,t2.recargo  from cal_web.solicitud_analisis as t1";
 		$Consulta.= " INNER JOIN cal_web.leyes_por_solicitud AS t2"; 
@@ -270,16 +267,14 @@ function Historial(SA,Rec)
 		$Consulta.= " AND t1.cod_periodo='1' ";
 		$Consulta.= " AND t1.tipo='1' ";
 		$Consulta.= " AND t1.cod_analisis='1' ";
-		$Consulta.= " AND t1.estado_actual <> '7'";	
-		
+		$Consulta.= " AND t1.estado_actual <> '7'";			
 		$rs = mysqli_query($link, $Consulta);
 		$conta_a = 0;
 		$conta_b = 0;
 		$conta_r = 0;
 		$nro_solicitud = "";
 		$Recargo = "";	
-		$estado = 0;				
-		
+		$estado = 0;		
 		while($row = mysqli_fetch_array($rs))
 		{				
 			$Consulta = "SELECT * FROM sec_web.clasificacion_catodos WHERE cod_leyes = '".$row["cod_leyes"]."' ";
