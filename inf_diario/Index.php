@@ -1,8 +1,10 @@
-<?
+<?php
 include("../principal/conectar_principal.php");
+$Rut = isset($_REQUEST["Rut"])?$_REQUEST["Rut"]:"";
+$Pass = isset($_REQUEST["Pass"])?$_REQUEST["Pass"]:"";
 $sql = "SELECT * FROM informe_diario.usuarios WHERE PASSWORD = '$Pass' and RUT like '%$Rut%'";
-$result = mysql_query($sql, $link);
-while ($row = mysql_fetch_array($result))
+$result = mysqli_query($link,$sql);
+while ($row = mysqli_fetch_array($result))
 {
                 $dia=date("d"); //ENTREGA NUMERO DE DIA SIN CERO (1-31)
                 $mes=date("m"); //ENTREGA NUMERO DE MES SIN CERO (1-12)
