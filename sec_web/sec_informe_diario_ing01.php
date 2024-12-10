@@ -6,10 +6,10 @@
 	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date('m');
 	$Dia     = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date('d');
 
-	$RecuperadoDiario    = isset($_REQUEST["RecuperadoDiario"])?$_REQUEST["RecuperadoDiario"]:0;
-	$RecuperadoAcumulado = isset($_REQUEST["RecuperadoAcumulado"])?$_REQUEST["RecuperadoAcumulado"]:0;
-	$StandardDiario      = isset($_REQUEST["StandardDiario"])?$_REQUEST["StandardDiario"]:0;
-	$StandardAcumulado   = isset($_REQUEST["StandardAcumulado"])?$_REQUEST["StandardAcumulado"]:0;
+	$RecuperadoDiario    = isset($_REQUEST["RecuperadoDiario"])?$_REQUEST["RecuperadoDiario"]:"";
+	$RecuperadoAcumulado = isset($_REQUEST["RecuperadoAcumulado"])?$_REQUEST["RecuperadoAcumulado"]:"";
+	$StandardDiario      = isset($_REQUEST["StandardDiario"])?$_REQUEST["StandardDiario"]:"";
+	$StandardAcumulado   = isset($_REQUEST["StandardAcumulado"])?$_REQUEST["StandardAcumulado"]:"";
 	$PaqLavar            = isset($_REQUEST["PaqLavar"])?$_REQUEST["PaqLavar"]:"";
 	$PaqPesar            = isset($_REQUEST["PaqPesar"])?$_REQUEST["PaqPesar"]:"";
 	$PaqStandard         = isset($_REQUEST["PaqStandard"])?$_REQUEST["PaqStandard"]:"";
@@ -19,8 +19,6 @@
 	$Observacion         = isset($_REQUEST["Observacion"])?$_REQUEST["Observacion"]:"";
 	$EnPreparacion       = isset($_REQUEST["EnPreparacion"])?$_REQUEST["EnPreparacion"]:"";
 
-	$FechaInf = $Ano."-".$Mes."-".$Dia;
-	/*
 	if($RecuperadoDiario=='')
 		$RecuperadoDiario=0;
 	if($RecuperadoAcumulado=='')
@@ -29,10 +27,29 @@
 		$StandardDiario=0;
 	if($StandardAcumulado=='')
 		$StandardAcumulado=0;
-	*/
+	if($PaqLavar=='')
+		$PaqLavar=0;
+	if($PaqPesar=='')
+		$PaqPesar=0;
+	if($PaqStandard=='')
+		$PaqStandard=0;
+	if($PaqCatodosGranel=='')
+		$PaqCatodosGranel=0;
+	if($PaqStandardGranel=='')
+		$PaqStandardGranel=0;
+	if($ConfecGranel=='')
+		$ConfecGranel=0;
+	if($EnPreparacion=='')
+		$EnPreparacion=0;
+	
 	switch ($Proceso)
 	{
 		case "G":
+			if(strlen($Dia)==1)
+				$Dia = "0".$Dia;
+			if(strlen($Mes)==1)
+				$Mes = "0".$Mes;
+			$FechaInf = $Ano."-".$Mes."-".$Dia;
 			$Consulta = "SELECT ifnull(count(*),0) as existe from sec_web.informe_diario ";
 			$Consulta.= " where fecha = '".$FechaInf."'";
 			$Resp = mysqli_query($link, $Consulta);
