@@ -9,13 +9,17 @@
 
 	$Buscar   = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
 	$TxtGuia  = isset($_REQUEST["TxtGuia"])?$_REQUEST["TxtGuia"]:"";
+	$CodLote  = isset($_REQUEST["CodLote"])?$_REQUEST["CodLote"]:"";
+	$NumLote  = isset($_REQUEST["NumLote"])?$_REQUEST["NumLote"]:"";
+	$InsEmb   = isset($_REQUEST["InsEmb"])?$_REQUEST["InsEmb"]:"";
+	$Numenvio = isset($_REQUEST["Numenvio"])?$_REQUEST["Numenvio"]:"";
 	$Msj      = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
 
 	$Existe='N';
 	$FechaGuia="0000-00-00";
-	$Numenvio="";
-	$InsEmb="";
 	$Tara=0; // agregado WSO
+	$despacho_paquetes_aux="";
+	$despacho_peso_aux = "";
 	if($Buscar=='S')
 	{
        $Consulta="SELECT * FROM sec_web.GUIA_DESPACHO_EMB WHERE NUM_GUIA = '".$TxtGuia."' and (cod_estado = 'I' or cod_estado = 'A') order by fecha_guia desc ";
@@ -151,13 +155,12 @@ function Mensaje(Msj)
 </script>
 <title>Anulaci&oacute;n de Gu&iacute;a</title>
 <link href="../principal/estilos/css_cal_web.css" type="text/css" rel="stylesheet">
-<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0" onLoad="Mensaje('<?php echo $Msj;?>')">
+<body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0" onLoad="Mensaje('<?php echo $Msj;?>');">
 <form name="FrmIngreso" method="post" action="">
 <input type="hidden" name="despacho_paquetes_aux" id="despacho_paquetes_aux" value="<?php echo $despacho_paquetes_aux;?>" />
 <input type="hidden" name="despacho_peso_aux" id="despacho_peso_aux" value="<?php echo $despacho_peso_aux;?>" />
 <input type="hidden" name="Numenvio" id="Numenvio" value="<?php echo $Numenvio;?>" />
 <input type="hidden" name="InsEmb" id="InsEmb" value="<?php echo $InsEmb;?>" />
-<!--<input type="hidden" name="InsEmb" id="InsEmb" value="<?php //echo $InsEmb;?>" />-->
 <input type="hidden" name="CodLote" id="CodLote" value="<?php echo $CodLote;?>" />
 <input type="hidden" name="NumLote" id="NumLote" value="<?php echo $NumLote;?>" />
 <input type="hidden" name="TxtGuia2" id="TxtGuia2" value="<?php echo $TxtGuia;?>" />
@@ -172,7 +175,9 @@ function Mensaje(Msj)
       </tr>
     <tr> 
       <td width="92" align="left" class="Cabecera">N&uacute;mero de Gu&iacute;a</td>
-      <td align="left" valign="top" colspan="3"><input type="text" name="TxtGuia" id="TxtGuia" size="10" value="<?php echo $TxtGuia;?>" />        <input type="button" onClick="Proceso('B')" value="Buscar" /></td>
+      <td align="left" valign="top" colspan="3">
+	  <input type="text" name="TxtGuia" id="TxtGuia" size="10" value="<?php echo $TxtGuia;?>" />
+	  <input type="button" onClick="Proceso('B')" value="Buscar" /></td>
       <td width="92">N&uacute;mero de envio</td><td width="53"><?php echo $Numenvio;?>&nbsp;</td>
       <td width="82">Ins. Embarque</td><td width="74"><?php echo $InsEmb;?>&nbsp;</td>
     </tr>

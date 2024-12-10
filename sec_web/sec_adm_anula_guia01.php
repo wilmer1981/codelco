@@ -11,6 +11,8 @@
 	$CodLote  = isset($_REQUEST["CodLote"])?$_REQUEST["CodLote"]:"";	
 	$NumLote  = isset($_REQUEST["NumLote"])?$_REQUEST["NumLote"]:"";
 	$TxtGuia2  = isset($_REQUEST["TxtGuia2"])?$_REQUEST["TxtGuia2"]:"";
+	$contador  = isset($_REQUEST["contador"])?$_REQUEST["contador"]:0;
+	$aux_peso_neto  = isset($_REQUEST["aux_peso_neto"])?$_REQUEST["aux_peso_neto"]:0;
 	
 	$Consulta ="SELECT p.fecha_creacion_paquete,d.cod_paquete, d.num_paquete, p.peso_paquetes, p.num_unidades ";
 	$Consulta.=" from  sec_web.paquete_catodo p, sec_web.det_guia_despacho_emb d where p.cod_paquete = d.cod_paquete ";
@@ -23,14 +25,14 @@
 	while($Listar=mysqli_fetch_assoc($R))
 	{
 		//FechaAux = Year(paquetes.TextMatrix(i, 6)) & "-" & Month(paquetes.TextMatrix(i, 6)) & "-" & Day(paquetes.TextMatrix(i, 6))
-		$Actualiza= "UPDATE paquete_catodo set cod_estado='a',fecha_embarque='0000-00-00',num_guia='0',sw='2' where cod_paquete = '".$Listar["cod_paquete"]."' and num_paquete = '".$Listar["num_paquete"]."' and fecha_creacion_paquete='".$Listar[fecha_creacion_paquete]."'";
+		$Actualiza= "UPDATE paquete_catodo set cod_estado='a',fecha_embarque='0000-00-00',num_guia='0',sw='2' where cod_paquete = '".$Listar["cod_paquete"]."' and num_paquete = '".$Listar["num_paquete"]."' and fecha_creacion_paquete='".$Listar["fecha_creacion_paquete"]."'";
 		//echo $Actualiza."<br><br>";
 		mysqli_query($link, $Actualiza);
 		$Log.=$Actualiza."<br>";
 
         //MsgBox "actualizo lote_catodo"
         //FechaAux = Year(paquetes.TextMatrix(i, 6)) & "-" & Month(paquetes.TextMatrix(i, 6)) & "-" & Day(paquetes.TextMatrix(i, 6))
-        $p2 = "UPDATE lote_catodo set cod_estado='a',sw='2' WHERE  COD_bulto = '".$CodLote."' AND NUM_bulto = '".$NumLote."' and cod_paquete = '".$Listar["cod_paquete"]."' and num_paquete = '".$Listar["num_paquete"]."' and fecha_creacion_paquete='".$Listar[fecha_creacion_paquete]."'";
+        $p2 = "UPDATE lote_catodo set cod_estado='a',sw='2' WHERE  COD_bulto = '".$CodLote."' AND NUM_bulto = '".$NumLote."' and cod_paquete = '".$Listar["cod_paquete"]."' and num_paquete = '".$Listar["num_paquete"]."' and fecha_creacion_paquete='".$Listar["fecha_creacion_paquete"]."'";
 		//echo $p2."<br><br>";
         mysqli_query($link, $p2);
 		$Log.=$p2."<br>";
