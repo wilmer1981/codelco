@@ -1,4 +1,4 @@
-<? //include("../conectar.php"); ?>
+<?php //include("../conectar.php"); ?>
 <html>
 <head>
 <title>SIM-WEB, CODELCO Fundici&oacute;n y Refiner&iacute;a Ventanas</title>
@@ -47,7 +47,7 @@ function Volver()
 </head>
 <body bgcolor="#CCCCCC" text="#000000" link="#336699" vlink="#336699" alink="#336699" leftmargin="10" topmargin="5" onload="JavaScript:frm_principal.Ano.focus()">
 <form name="frm_principal" action=""  method="get">
-  <input type='hidden' name='MesAlfa' value='<? echo $Mes_Alfa; ?>'>
+  <input type='hidden' name='MesAlfa' value='<?php echo $Mes_Alfa; ?>'>
   <table border="2" cellpadding="0" cellspacing="0" width="700" height="280">
   <tr>
   <td>
@@ -65,7 +65,7 @@ function Volver()
    <td rowspan="2">&nbsp;</td>
     <td colspan="7" valign="top" align="center" bgcolor="#CCCCCC">
             <div align="right"> <font size=1 face="verdana">
-              <?
+              <?php
 					$mes_actual = date("m"); //ENTREGA NUMERO DE MES SIN CERO (1-12)
 				    $ano_actual = date("Y"); //ENTREGA NUMERO DE AÑO DE 4 DIGITOS (2002)
 					echo "<input type='hidden' name='MesActual' value='$mes_actual'>\n";
@@ -88,14 +88,14 @@ function Volver()
               <br>
 			  
 
-<?
+<?php
 
   echo "<table cellpadding=2 cellspacing=1 border=1 bgcolor=#FFE89F bordercolor=#000099 align=center >";
 //MES DE CONSULTA
   echo "<tr>\n";
   $mes_actual=date("n"); //ENTREGA NUMERO DE MES SIN CERO (1-12)
   $ano_actual=date("Y"); //ENTREGA NUMERO DE AÑO DE 4 DIGITOS (2002)
- echo "<td bgcolor='#6060B0'><font face='Verdana,Geneva,Arial,Helvetica,sans-serif' size=1 color='white'>AÑO  A CONSULTAR</font></td>\n";
+ echo "<td bgcolor='#6060B0'><font face='Verdana,Geneva,Arial,Helvetica,sans-serif' size=1 color='white'>A&Ntilde;O  A CONSULTAR</font></td>\n";
  echo "<td> &nbsp;</td>";
  echo "<td>\n";
   // AÑO (i indica la cantidad de años que me muestra ahora 5 desde el 2001)
@@ -146,4 +146,4 @@ function Volver()
 </form>
 </body>
 </html>
-<? //include("../cerrar.php") ?>
+<?php //include("../cerrar.php") ?>
