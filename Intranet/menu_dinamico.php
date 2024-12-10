@@ -1,6 +1,7 @@
 <table width="230" border="0" cellpadding="2" cellspacing="1" class="TablaPrincipal">
 <?php  
 	$Consulta = "select * from intranet.menus where pos_menu='".$CodMenu."' order by lpad(orden,4,'0'), descripcion";
+	//echo $Consulta;
 	$Resp=mysqli_query($link,$Consulta);
 	while ($Fila=mysqli_fetch_array($Resp))
 	{

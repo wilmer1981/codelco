@@ -1,6 +1,7 @@
 <table width="330" border="0" cellpadding="2" cellspacing="1" class="TablaPrincipal2">
 <?php  
 	$Consulta = "select * from intranet.menus where pos_menu='".$CodMenu."' order by lpad(orden,4,'0'), descripcion";
+	//echo $Consulta;
 	$Resp=mysqli_query($link,$Consulta);
 	while ($Fila=mysqli_fetch_array($Resp))
 	{
@@ -18,9 +19,7 @@
 				echo "<p><a href=\"".$Fila["link"]."\"><font class=\"main-menu-blanco\">";
 				echo $Fila["descripcion"];
 				echo "</font></a></p></td>\n";
-			}
-			else
-			{
+			}else{
 				echo "<p><font class=\"main-menu-blanco\">";
 				echo $Fila["descripcion"];
 				echo "</font></p></td>\n";

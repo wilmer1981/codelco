@@ -1,10 +1,13 @@
-<? 
+<?php 
 	include("conectar.php"); 
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Codigo  = isset($_REQUEST["Codigo"])?$_REQUEST["Codigo"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	if ($Proceso=="M")
 	{
 		$Consulta = "select * from intranet.menus where pos_menu='0' and cod_menu='".$Codigo."' ";
-		$Resp = mysql_query($Consulta);
-		if ($Fila = mysql_fetch_array($Resp))
+		$Resp = mysqli_query($link,$Consulta);
+		if ($Fila = mysqli_fetch_array($Resp))
 		{	
 			$CodMenu=$Fila["cod_menu"];
 			$TxtOrden=$Fila["orden"];
@@ -90,23 +93,23 @@ function Proceso(opt)
 
 <body>
 <form name="frmPopUp" action="" method="post" ENCTYPE="multipart/form-data">
-<input type="hidden" name="Tipo" value="<? echo $Tipo; ?>">
-<input type="hidden" name="CodMenu" value="<? echo $CodMenu; ?>">
+<input type="hidden" name="Tipo" value="<?php echo $Tipo; ?>">
+<input type="hidden" name="CodMenu" value="<?php echo $CodMenu; ?>">
 <table width="500" border="0" align="center" cellpadding="2" cellspacing="1" class="TablaPrincipal">
   <tr>
     <td colspan="4" class="titulo_codelco_informa">Noticias Destacadas</td>
   </tr>
   <tr align="center">
     <td colspan="4" class="BordeInf">
-    <p><a href="JavaScript:AbrirPopUp('adm_destacados.php')"></a><span class="titulo_codelco_informa"><? if (isset($Mensaje)){ echo $Mensaje;}?></span></p></td>
+    <p><a href="JavaScript:AbrirPopUp('adm_destacados.php')"></a><span class="titulo_codelco_informa"><?php if ($Mensaje!=""){ echo $Mensaje;}?></span></p></td>
   </tr>
   <tr>
     <td colspan="2" class="BordeInf">Orden:</td>
-    <td colspan="2" class="BordeInf"><input name="TxtOrden" type="text" id="TxtOrden" value="<? echo $TxtOrden; ?>" size="12" maxlength="2"></td>
+    <td colspan="2" class="BordeInf"><input name="TxtOrden" type="text" id="TxtOrden" value="<?php echo $TxtOrden; ?>" size="12" maxlength="2"></td>
   </tr>
   <tr>
     <td colspan="2" class="BordeInf">Titulo Noticia &oacute; Referencia  :</td>
-    <td colspan="2" class="BordeInf"><textarea name="TxtTitulo" cols="70" rows="2" wrap="VIRTUAL" class="InputIzq" id="textarea"><? echo $TxtTitulo; ?></textarea>
+    <td colspan="2" class="BordeInf"><textarea name="TxtTitulo" cols="70" rows="2" wrap="VIRTUAL" class="InputIzq" id="textarea"><?php echo $TxtTitulo; ?></textarea>
 </td>
   </tr>
   <tr>
@@ -115,11 +118,11 @@ function Proceso(opt)
   </tr>
   <tr>
     <td colspan="2" class="BordeInf">Link a Documento u otra Pagina:</td>
-    <td colspan="2" class="BordeInf"><input name="TxtLink" type="text" class="InputIzq" size="50" maxlength="255" value="<? echo $TxtLink; ?>"></td>
+    <td colspan="2" class="BordeInf"><input name="TxtLink" type="text" class="InputIzq" size="50" maxlength="255" value="<?php echo $TxtLink; ?>"></td>
   </tr>
   <tr>
     <td colspan="2" class="BordeInf">Texto:</td>
-    <td colspan="2" class="BordeInf">Pege aqu&iacute; el texto que aparecer&aacute; como noticia<br>      <textarea name="TxtTexto" cols="70" rows="4" wrap="VIRTUAL" class="InputIzq" id="TxtTexto"><? echo nl2br($Fila["texto"]); ?></textarea></td>
+    <td colspan="2" class="BordeInf">Pege aqu&iacute; el texto que aparecer&aacute; como noticia<br>      <textarea name="TxtTexto" cols="70" rows="4" wrap="VIRTUAL" class="InputIzq" id="TxtTexto"><?php echo nl2br($Fila["texto"]); ?></textarea></td>
     </tr>
   <tr align="center">
     <td colspan="4" class="BordeInf"><input name="BtnGrabar" type="button" id="BtnGrabar" value="Grabar" style="width:70px " onClick="Proceso('G')">
@@ -138,7 +141,7 @@ function Proceso(opt)
     <td width="134"  class="BordeInf"><font class="titulo_codelco_informa">Link</font></td>
     <td width="91"  class="BordeInf"><font class="titulo_codelco_informa">Foto</font></td>
   </tr>
-<? 
+<?php 
 	$Consulta = "select * from intranet.menus where pos_menu='0' and cod_menu<>'0' order by lpad(orden,3,'0')";
 	$Resp = mysql_query($Consulta);
 	while ($Fila = mysql_fetch_array($Resp))
