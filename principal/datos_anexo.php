@@ -1,6 +1,9 @@
 <?php
 	include("conectar_principal.php");
-	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$Datos = isset($_REQUEST["Datos"])?$_REQUEST["Datos"]:"";
+	$RutFun = isset($_REQUEST["RutFun"])?$_REQUEST["RutFun"]:"";
+	
 	$Datos=str_replace('**',' ',$Datos);
 	$Datos2=explode('~',$Datos);
 	$sql="select distinct(t1.rut),t1.nombres,t1.apellido_paterno,t1.apellido_materno, t1.fecha_nacimiento, ";
@@ -12,27 +15,27 @@
 	$sql.=" where t1.rut='".$RutFun."'";
 	$Resp=mysqli_query($link, $sql);	
 	while($Fila=mysqli_fetch_array($Resp))
-	{
+	{   $fecha_nacimiento = isset($Fila["fecha_nacimiento"])?$Fila["fecha_nacimiento"]:"";
 		$Rut=$Fila["rut"];
 		$Nombres=ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
-		$Consulta="select * from proyecto_modernizacion.cargo where CODIGO_CARGO ='".$Fila[cod_cargo]."' ";
+		$Consulta="select * from proyecto_modernizacion.cargo where CODIGO_CARGO ='".$Fila["cod_cargo"]."' ";
 		$Res=mysqli_query($link, $Consulta);
 		if($Fila1=mysqli_fetch_array($Res))
 			$Cargo=$Fila1["CARGO"];
 		else
 			$Cargo="No Definido";
-		$CodCentro= str_replace(".","",$Fila[cod_centro_costo]) ;
+		$CodCentro= str_replace(".","",$Fila["cod_centro_costo"]) ;
 		$CodCentro= substr($CodCentro,3);	
 		
 		//$Cargo=$Fila["cargo"];	  
-		$Area=$Fila["area"];
+		$Area=isset($Fila["area"])?$Fila["area"]:"";
 		$Consulta="select * from proyecto_modernizacion.centro_costo where  centro_costo_enm='".$CodCentro."' ";
 		//echo $Consulta;
 		$Res2=mysqli_query($link, $Consulta);
 		if($Fila2=mysqli_fetch_array($Res2))
 		{
 			$CodCCosto=$Fila2["CENTRO_COSTO"]." - ".$Fila2["DESCRIPCION"];	
-			$Consulta="select * from proyecto_modernizacion.areas where  COD_AREA='".$Fila2[cod_area]."' ";
+			$Consulta="select * from proyecto_modernizacion.areas where  COD_AREA='".$Fila2["cod_area"]."' ";
 			$Res3=mysqli_query($link, $Consulta);
 			if($Fila3=mysqli_fetch_array($Res3))
 			{
@@ -47,8 +50,13 @@
 		if ($Fila["anexo"]!="0" && $Fila["anexo"]!="")  
 			$Anexo=$Fila["anexo"];	  
 		else
-			$Anexo="-";	  
-		$FecNac=substr($Fila["fecha_nacimiento"],8,2)." de ".$Meses[intval(substr($Fila["fecha_nacimiento"],5,2))-1];	  
+			$Anexo="-";	
+		
+		if($fecha_nacimiento!=""){
+			$FecNac=substr($fecha_nacimiento,8,2)." de ".$Meses[intval(substr($fecha_nacimiento,5,2))-1];	
+		}else{
+			$FecNac="";
+		}
 	}
 ?>
 <html>

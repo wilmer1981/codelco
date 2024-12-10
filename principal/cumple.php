@@ -1,16 +1,15 @@
 <?php
 	include("conectar_principal.php");
 	$Meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-	if (!isset($CmbDias))
-	{
-		$CmbDias=date("j");
-		$CmbMes=date("n");
-	}
-	
+	$CmbDias = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$cmbUbicacion = isset($_REQUEST["cmbUbicacion"])?$_REQUEST["cmbUbicacion"]:"";
+	$Opcion  = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+
 ?>
 <html>
 	<head>
-		<title>CumpleaÃ±os</title>
+		<title>Cumpleaños</title>
 <link href="estilos/style_new.css" rel=stylesheet>		
 <style type="text/css">
 <!--
@@ -111,10 +110,10 @@ De<select name="CmbMes">
     <tr>
       <td class="texto_bold" >
         Ver&nbsp;&nbsp;
-      CumpleaÃ±os de... </td>
+      Cumplea&ntilde;os de... </td>
       <td colspan="2" class="BordeBajo"><input type="button" name="btnayer" value="Ayer" onClick="Validar('B')" style="width:70px ">
       <input type="button" name="btnHoy" value="Hoy" onClick="Validar('A')" style="width:70px ">
-      <input type="button" name="btnmanana" value="Maï¿½ana" onClick="Validar('C')" style="width:70px "></td>
+      <input type="button" name="btnmanana" value="Ma&ntilde;ana" onClick="Validar('C')" style="width:70px "></td>
     </tr>
     <tr>
       <td class="texto_bold">Centro de Costo
@@ -131,7 +130,7 @@ De<select name="CmbMes">
 					else
 						echo '<option value="'.$r["centro_costo_enm"].'">'.$r["CENTRO_COSTO"].' - '.ucwords(strtolower($r["DESCRIPCION"])).'</option>';
 				}
-				/*if(mysqli_num_rows($res_tmp))
+				/*if(mysql_num_rows($res_tmp))
 					mysql_free_result($res_tmp);
 				else
 					echo '<option value="1">NO HAY CENTROS DE COSTO</option>';*/
@@ -165,11 +164,11 @@ if ($Opcion=="CC"){
 				$sql.= " where t1.fecha_nacimiento like '%".date("m-d",mktime(0,0,0,date("m"),date("d")-1))."' ";
 				break;
 			case "C":
-				//MAï¿½ANA
+				//MAÑANA
 				$sql.= " where t1.fecha_nacimiento like '%".date("m-d", mktime(0,0,0,date("m"),date("d")+1))."' ";
 				break;
 			case "CC":
-				//MAï¿½ANA
+				//MAÑANA
 				$CmbCosto='02-'.substr($cmbUbicacion,0,2).".".substr($cmbUbicacion,2);
 				$sql.= " where t1.cod_centro_costo = '".$CmbCosto."' ";
 				break;
@@ -180,9 +179,10 @@ if ($Opcion=="CC"){
 		$sql.="order by t1.apellido_paterno, t1.apellido_materno, t1.nombres, t1.rut ";
 		$Color="#efefef";
 		//echo $sql;
-		$buscando=mysqli_query($link, $sql);		
+		$buscando=mysqli_query($link, $sql);	
+	
 		while($row=mysqli_fetch_array($buscando))
-		{
+		{  $fecha_nacimiento = isset($row["fecha_nacimiento"])?$row["fecha_nacimiento"]:"";
 			if ($Color=="#efefef")
 				$Color="#ffffff";
 			else
@@ -191,12 +191,17 @@ if ($Opcion=="CC"){
 			echo"<tr class=\"BordeBajo\">\n";
 			echo"<td class=\"BordeBajo\"><a href=\"JavaScript:AbreVentana('".$row["rut"]."')\">".$Nombre."</td>\n";
 			echo"<td class=\"BordeBajo\">".ucwords(strtolower($row["CARGO"]))."</td>\n";
-			if ($row["ANEXO"]!="0" && $row["anexo"]!="")	  
+			if ($row["anexo"]!="0" && $row["anexo"]!="")	  
 				echo"<td align=\"center\" class=\"BordeBajo\">".$row["anexo"]."</td>\n";	
 			else
 				echo"<td align=\"center\" class=\"BordeBajo\">-</td>\n";	
-			if ($Opcion=="CC")
-				echo"<td align=\"center\" class=\"BordeBajo\">".substr($row["fecha_nacimiento"],8,2)." / ".$Meses[intval(substr($row["fecha_nacimiento"],5,2))-1]."</td>\n";	
+			if ($Opcion=="CC"){
+				if($fecha_nacimiento!=""){
+				echo"<td align=\"center\" class=\"BordeBajo\">".substr($fecha_nacimiento,8,2)." / ".$Meses[intval(substr($fecha_nacimiento,5,2))-1]."</td>\n";	
+				}else{
+				echo"<td align=\"center\" class=\"BordeBajo\">".$fecha_nacimiento."</td>\n";	
+				}
+			}
 			echo"<tr>\n";
 		}		 
 		 echo "</table>\n";
