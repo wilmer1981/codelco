@@ -1,5 +1,12 @@
 <?php
 	include("conectar_principal.php");
+	$paterno = isset($_REQUEST["paterno"])?$_REQUEST["paterno"]:"";
+	$materno = isset($_REQUEST["materno"])?$_REQUEST["materno"]:"";
+	$nombre = isset($_REQUEST["nombre"])?$_REQUEST["nombre"]:"";
+	$cmbUbicacion = isset($_REQUEST["cmbUbicacion"])?$_REQUEST["cmbUbicacion"]:"";
+	$cmbcargo = isset($_REQUEST["cmbcargo"])?$_REQUEST["cmbcargo"]:"";
+	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$vv = isset($_REQUEST["vv"])?$_REQUEST["vv"]:"";
 	
 ?>
 <html>
@@ -111,7 +118,7 @@ function AbreVentana(datos)
 					else
 						echo '<option value="'.$r["centro_costo_enm"].'">'.$r["CENTRO_COSTO"].' - '.ucwords(strtolower($r["DESCRIPCION"])).'</option>';
 				}
-				/*if(mysqli_num_rows($res_tmp))
+				/*if(mysql_num_rows($res_tmp))
 					mysql_free_result($res_tmp);
 				else
 					echo '<option value="1">NO HAY CENTROS DE COSTO</option>';*/
