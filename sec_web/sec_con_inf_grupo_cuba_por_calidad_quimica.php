@@ -11,23 +11,13 @@
 	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
 	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
 
-
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
-	if ($DiaIni < 10)
+	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
 
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
@@ -323,7 +313,7 @@ function Historial(SA,Rec)
 			$conta_a_co = 0;$conta_a_enm = 0;$conta_r = 0;$conta_s = 0;$Recargo = "";$estado = 0;					
 			while($row = mysqli_fetch_array($rs))
 			{				
-				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = $row["cod_leyes"]";
+				$Consulta = "SELECT * FROM cal_web.clasificacion_catodos WHERE cod_leyes = '".$row["cod_leyes"]."'";
 				//echo $Consulta;
 				$Rs = mysqli_query($link, $Consulta);
 				if($fila = mysqli_fetch_array($Rs))

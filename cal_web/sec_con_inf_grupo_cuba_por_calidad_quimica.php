@@ -2,59 +2,22 @@
 	include("../principal/conectar_principal.php"); 
 	 set_time_limit(800);
 
-	if(isset($_REQUEST["DiaIni"])) {
-		$DiaIni = $_REQUEST["DiaIni"];
-	}else{
-		$DiaIni = date("d");
-	}
-	if(isset($_REQUEST["MesIni"])) {
-		$MesIni = $_REQUEST["MesIni"];
-	}else{
-		$MesIni = date("m");
-	}
-	if(isset($_REQUEST["AnoIni"])) {
-		$AnoIni = $_REQUEST["AnoIni"];
-	}else{
-		$AnoIni = date("Y");
-	}
-	if(isset($_REQUEST["DiaFin"])) {
-		$DiaFin = $_REQUEST["DiaFin"];
-	}else{
-		$DiaFin = date("d");
-	}
-	if(isset($_REQUEST["MesFin"])) {
-		$MesFin = $_REQUEST["MesFin"];
-	}else{
-		$MesFin = date("m");
-	}
-	if(isset($_REQUEST["AnoFin"])) {
-		$AnoFin = $_REQUEST["AnoFin"];
-	}else{
-		$AnoFin = date("Y");
-	}
-	if(isset($_REQUEST["Buscar"])) {
-		$Buscar = $_REQUEST["Buscar"];
-	}else{
-		$Buscar = "";
-	}
-	/*
-	if (!isset($DiaIni))
-	{
-		$DiaIni = date("d");
-		$MesIni = date("m");
-		$AnoIni = date("Y");
-		$DiaFin = date("d");
-		$MesFin = date("m");
-		$AnoFin = date("Y");
-	}
-	*/
-	if ($DiaIni < 10)
+	$Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$AnoIni = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+	$MesIni = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+	$DiaIni = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+
+	$AnoFin = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+	$MesFin = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+	$DiaFin = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+
+	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
 
  	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
