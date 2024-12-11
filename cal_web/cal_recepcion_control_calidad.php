@@ -2,11 +2,24 @@
 include("../principal/conectar_principal.php");
 $Fecha_Hora = date("d-m-Y h:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+$CookieRut = $_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 $CodigoDeSistema = 1;
 $CodigoDePantalla = 5;
+
+$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbDias = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+$CmbEstado = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
+$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+$LimitFin = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:"";
+$LimitIni = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:"";
+$CmbAnoT = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+$CmbMesT = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+$CmbDiasT = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+$Nivel = isset($_REQUEST["Nivel"])?$_REQUEST["Nivel"]:"";
 $Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
-$Respuesta =mysqli_query($link, $Consulta);
+$Respuesta =mysqli_query($link,$Consulta);
 if($Fila =mysqli_fetch_array($Respuesta))
 {
 	$Nivel = $Fila["nivel"];
@@ -65,7 +78,7 @@ function Proceso(Opcion)
 			//RecuperarSA(FechaAtencion);
 			Recepcionar();
 			break;
-			case "S":
+		case "S":
 			Salir();
 			break;	
 		case "D":
@@ -291,7 +304,7 @@ function Recarga(URL,LimiteIni)
 <body leftmargin="3" topmargin="3" marginwidth="0" marginheight="0">
 <form name="FrmRecepcion" method="post" action="">
 <?php
-	if (!isset($LimitIni))
+	if ($LimitIni=="")
 		$LimitIni = 0;
 ?>
 <input type="hidden" name="LimitIni" value="<?php echo $LimitIni; ?>">
@@ -304,15 +317,15 @@ function Recarga(URL,LimiteIni)
             <td width="274">
               <?php
 		$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from funcionarios where rut = '".$Rut."'";
-	  	$Resultado= mysqli_query($link, $Consulta);
+	  	$Resultado= mysqli_query($link,$Consulta);
 		if ($Fila =mysqli_fetch_array($Resultado))
 			echo $Rut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
 	  	else
 			{
 		  		$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				if ($Fila=mysqli_fetch_array($Respuesta))
-					echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
+					echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila[apellido_materno]));
 			}
 		  ?>
             </td>
@@ -531,7 +544,7 @@ function Recarga(URL,LimiteIni)
 					}
 				 }
 				 $Consulta =  "select * from sub_clase where cod_clase = 1002 and (cod_subclase ='3' or cod_subclase ='4' or cod_subclase = '12')";
-				 $Resultado = mysqli_query($link, $Consulta);
+				 $Resultado = mysqli_query($link,$Consulta);
 				 while ($Fila =mysqli_fetch_array ($Resultado))
 				 {
 					if ($CmbEstado == $Fila["cod_subclase"])
@@ -795,7 +808,7 @@ function Recarga(URL,LimiteIni)
             <td colspan="4">
                 <input name="BtnDetalle3" type="button" id="BtnDetalle3" style="width:80" value="Detalle" onClick="Proceso('D');">
                 <input name="BtnEliminar" type="button" id="BtnEliminar" style="width:80"value="Eliminar" onClick="Proceso('E');">
-            <input name="BtnDetalle2" type="button" id="BtnDetalle2" style="width:80" value="Detalle" onClick="Proceso('D');">
+            <!--<input name="BtnDetalle2" type="button" id="BtnDetalle2" style="width:80" value="Detalle" onClick="Proceso('D');">-->
              <input name="BtnActualizar2" type="submit" id="BtnActualizar2"style="width:80" value="Actualizar">
             <?php
 			  //echo $CmbEstado."<br>";
@@ -819,7 +832,11 @@ function Recarga(URL,LimiteIni)
             <td width="78">F.Recep</td>
           </tr>
           <?php
-	 	include ("../Principal/conectar_cal_web.php");	
+	 	include ("../Principal/conectar_cal_web.php");
+		if(strlen($CmbDias)==1)$CmbDias="0".$CmbDias;
+		if(strlen($CmbDiasT)==1)$CmbDiasT="0".$CmbDiasT;
+		if(strlen($CmbMes)==1)$CmbMes="0".$CmbMes;
+		if(strlen($CmbMesT)==1)$CmbMesT="0".$CmbMesT;
 		$FechaI = $CmbAno."-".$CmbMes."-".$CmbDias.' 00:01';
 		$FechaT = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT.' 23:59';
 		$CmbEstado=$CmbEstadoAux;
@@ -877,8 +894,7 @@ function Recarga(URL,LimiteIni)
 			case "36": 
 				$TipoAnalisis = " and (t1.cod_analisis = '1' ) ";
 				break;
-				//poly
-			
+				//poly		
 			
 			case "15": 
 				$TipoAnalisis = " and (t1.cod_analisis = '1' ) ";
@@ -897,7 +913,7 @@ function Recarga(URL,LimiteIni)
 				}
 				if ($Letra=='Q')
 				{
-					$TipoAnalisis = " and (t1.cod_analisis = '1' )   ";
+					$TipoAnalisis = " and (t1.cod_analisis = '1' )  ";
 				}
 				break;
 		}
@@ -907,42 +923,43 @@ function Recarga(URL,LimiteIni)
 		{
 			//Todos
 			case "-1":
-				$Estado = "where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."') and ((t1.estado_actual = '3')or (t1.estado_actual = '4')or(t1.estado_actual = '12'))  and ((t1.cod_analisis = '1') or (t1.cod_analisis = '2'))";
+				$Estado = " WHERE (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."') and ((t1.estado_actual = '3') or (t1.estado_actual = '4') or (t1.estado_actual = '12'))  and ((t1.cod_analisis = '1') or (t1.cod_analisis = '2'))";
 				//$Estado = "where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."') and   (t1.estado_actual = '3') or(t1.estado_actual = '4') or (t1.estado_actual = '12') ";		 		
 				break;
 			case "3":
 				//enviado a laboratorio por el jefe
-				$Estado = "where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."') and (t1.estado_actual = '3')".$TipoAnalisis ;
+				$Estado = " where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."') and (t1.estado_actual = '3') ".$TipoAnalisis;
 				break;		 
 		 	case "4": 
 		 		//Recepcionado en control de calidad
-				$Estado = "where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."')   and (t1.estado_actual = '5')".$TipoAnalisis ;
+				$Estado = " where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."')   and (t1.estado_actual = '5') ".$TipoAnalisis ;
 				break;
 			//directos de control de calidad
 			case "12":
-				$Estado = "where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."')   and (t1.estado_actual = '12') ".$TipoAnalisis ;
+				$Estado = " where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."')   and (t1.estado_actual = '12') ".$TipoAnalisis;
 				break;
 			default:
-				$Estado = "where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."') and ((t1.estado_actual = '3')or (t1.estado_actual = '4')or(t1.estado_actual = '12'))  and ((t1.cod_analisis = '1') or (t1.cod_analisis = '2'))";
+				$Estado = " where (t6.fecha_hora between  '".$FechaI."' and '".$FechaT."') and ((t1.estado_actual = '3') or (t1.estado_actual = '4') or (t1.estado_actual = '12'))  and ((t1.cod_analisis = '1') or (t1.cod_analisis = '2'))";
 				break;
 		}
-		$Consulta = "select t1.cod_tipo_muestra,t2.descripcion as nomproducto,t3.descripcion as nomsubproducto,";
-		$Consulta = $Consulta."t1.rut_funcionario,t1.recargo,t1.fecha_hora,if(length(t1.recargo)=1,concat('0',t1.recargo),t1.recargo) as recargo_ordenado, ";
-		$Consulta = $Consulta."concat(t4.nombres,' ',t4.apellido_paterno,' ',t4.apellido_materno) as nombreapellido, ";
-		$Consulta = $Consulta."t4.apellido_paterno as ap_paterno, ";
-		$Consulta =	$Consulta."t1.nro_solicitud,t1.id_muestra,t1.cod_analisis,t1.tipo_solicitud,t7.nombre_subclase,t6.cod_estado,t7.cod_subclase ";
-		$Consulta = $Consulta."from cal_web.solicitud_analisis t1 " ;
-		$Consulta = $Consulta."inner join proyecto_modernizacion.productos t2 on t2.cod_producto=t1.cod_producto ";
-		$Consulta = $Consulta."inner join proyecto_modernizacion.subproducto t3 on t3.cod_producto=t1.cod_producto and t3.cod_subproducto=t1.cod_subproducto ";
-		$Consulta = $Consulta."inner join proyecto_modernizacion.funcionarios t4 on t4.rut=t1.rut_funcionario ";
-		$Consulta = $Consulta."left join cal_web.estados_por_solicitud t6 on (t1.rut_funcionario=t6.rut_funcionario) and (t1.nro_solicitud = t6.nro_solicitud) and (t1.recargo = t6.recargo) and (t1.estado_actual =t6.cod_estado )";
-		$Consulta = $Consulta."inner join proyecto_modernizacion.sub_clase t7 on t1.estado_actual = t7.cod_subclase  and t7.cod_clase = '1002'";
-		$Consulta = $Consulta.$Estado."order by nro_solicitud,recargo_ordenado";
-		$Consulta = $Consulta." LIMIT ".$LimitIni.", ".$LimitFin;
+		$Consulta = "SELECT t1.cod_tipo_muestra,t2.descripcion as nomproducto,t3.descripcion as nomsubproducto,";
+		$Consulta.= "t1.rut_funcionario,t1.recargo,t1.fecha_hora,if(length(t1.recargo)=1,concat('0',t1.recargo),t1.recargo) as recargo_ordenado, ";
+		$Consulta.= "concat(t4.nombres,' ',t4.apellido_paterno,' ',t4.apellido_materno) as nombreapellido, ";
+		$Consulta.= "t4.apellido_paterno as ap_paterno, ";
+		$Consulta.=	"t1.nro_solicitud,t1.id_muestra,t1.cod_analisis,t1.tipo_solicitud,t7.nombre_subclase,t6.cod_estado,t7.cod_subclase ";
+		$Consulta.= "FROM cal_web.solicitud_analisis t1 " ;
+		$Consulta.= "inner join proyecto_modernizacion.productos t2 on t2.cod_producto=t1.cod_producto ";
+		$Consulta.= "inner join proyecto_modernizacion.subproducto t3 on t3.cod_producto=t1.cod_producto and t3.cod_subproducto=t1.cod_subproducto ";
+		$Consulta.= "inner join proyecto_modernizacion.funcionarios t4 on t4.rut=t1.rut_funcionario ";
+		$Consulta.= "left join cal_web.estados_por_solicitud t6 on (t1.rut_funcionario=t6.rut_funcionario) and (t1.nro_solicitud = t6.nro_solicitud) and (t1.recargo = t6.recargo) and (t1.estado_actual =t6.cod_estado )";
+		$Consulta.= "inner join proyecto_modernizacion.sub_clase t7 on t1.estado_actual = t7.cod_subclase  and t7.cod_clase = '1002'";
+		$Consulta.= $Estado." order by nro_solicitud,recargo_ordenado";
+		$Consulta.= " LIMIT $LimitIni,$LimitFin ";
 		echo "<input type='hidden' name='checkAtender'><input name ='TxtSAO' type = 'hidden'><input name ='TxtRutO' type = 'hidden'><input name ='TxtRecargoO' type = 'hidden'><input name ='TxtIdMuestra' type = 'hidden'><input name ='TxtLotes' type = 'hidden'><input name ='TxtFechaO' type = 'hidden'><input name ='TxtProducto' type = 'hidden'><input name ='TxtHoraO' type = 'hidden'>";
 		//echo $Consulta."<br>";
-		$Respuesta= mysqli_query($link, $Consulta);
+		$Respuesta= mysqli_query($link,$Consulta);
 		$Cont = 1;
+		$BgCgolor="#FFFFFF";
 		while ($Fila=mysqli_fetch_array($Respuesta))
 	  	{
 			//ANALITOS
@@ -955,40 +972,39 @@ function Recarga(URL,LimiteIni)
 			$Consulta.= " where t0.nro_solicitud = '".$Fila["nro_solicitud"]."' and t0.recargo = '".$Fila["recargo"]."' ";
 			$Consulta.= " order by t1.cod_leyes";
 			//echo $Consulta."<br>";
-			$Respuesta3 = mysqli_query($link, $Consulta);
+			$Respuesta3 = mysqli_query($link,$Consulta);			
 			while ($Fila3 = mysqli_fetch_array($Respuesta3))
 			{
 				$Analitos = $Analitos."".$Fila3["abreviatura"].", ";
-				$CodAgrupacion = $Fila3[agrupacion];
-				$CodTipo = $Fila3[tipo];
+				$CodAgrupacion = $Fila3["agrupacion"];
+				$CodTipo = $Fila3["tipo"];
 			}
 			//AGRUPACION
 			$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 			$Consulta =$Consulta." where t2.cod_clase = '1004' and t2.cod_subclase = '".$CodAgrupacion."'  "; 
-			$Resp = mysqli_query($link, $Consulta); 
+			$Resp = mysqli_query($link,$Consulta); 
 			$Fila25=mysqli_fetch_array($Resp);
 			$Agrupacion = $Fila25["nombre_subclase"];
 			//TIPO
 			$Consulta ="select distinct t2.nombre_subclase from proyecto_modernizacion.sub_clase t2 ";
 			$Consulta =$Consulta." where t2.cod_clase = '1005' and t2.cod_subclase = '".$CodTipo."' ";
-			$Res = mysqli_query($link, $Consulta); 
+			$Res = mysqli_query($link,$Consulta); 
 			$Fil26=mysqli_fetch_array($Res);
 			$Tipo = $Fil26["nombre_subclase"];
 			//FECHA MUESTREO
 			$TxtFechaMuestreo="";
 			$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') and (cod_estado = '13') ";
 			//echo $Consulta."<br>";
-			$Respuesta3 = mysqli_query($link, $Consulta);
+			$Respuesta3 = mysqli_query($link,$Consulta);
 			if ($Fila3 = mysqli_fetch_array($Respuesta3))
 				$TxtFechaMuestreo = $Fila3["fecha_hora"];
 			$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."')  and (cod_estado = '4') ";
-			$Respuesta3 = mysqli_query($link, $Consulta);
+			$Respuesta3 = mysqli_query($link,$Consulta);
 			if ($Fila3 = mysqli_fetch_array($Respuesta3))
 				$TxtFechaRecepcion = $Fila3["fecha_hora"];
 			if ($BgCgolor=="#FFFFFF")
 				$BgCgolor="#EFEFEF";
-			else
-				$BgCgolor="#FFFFFF";
+				
 			echo "<tr bgcolor=\"".$BgCgolor."\">";
 			echo "<td align='center'><input type='checkbox' name ='checkAtender' value=''></td>"; 
 			//solicitud especial
@@ -1071,7 +1087,7 @@ function Recarga(URL,LimiteIni)
 					$Consulta = $Consulta."left join cal_web.estados_por_solicitud t6 on (t1.rut_funcionario=t6.rut_funcionario) and (t1.nro_solicitud = t6.nro_solicitud) and (t1.recargo = t6.recargo) and (t1.estado_actual =t6.cod_estado )";
 					$Consulta = $Consulta."inner join proyecto_modernizacion.sub_clase t7 on t1.estado_actual = t7.cod_subclase  and t7.cod_clase = '1002'";
 					$Consulta = $Consulta.$Estado;
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Respuesta = mysqli_query($link,$Consulta);
 					$Row = mysqli_fetch_array($Respuesta);
 					$Coincidencias = $Row["total_registros"];
 					$NumPaginas = ($Coincidencias / $LimitFin);
