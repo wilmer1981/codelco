@@ -2,6 +2,10 @@
 	$CodigoDeSistema = 1;
 	$CodigoDePantalla = 38;
 	include("../principal/conectar_principal.php");
+	$AnoIni2 = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:date('Y');
+	$AnoFin2 = isset($_REQUEST["AnoFin2"])?$_REQUEST["AnoFin2"]:date('Y');
+	$NumIni  =  isset($_REQUEST["NumIni"])?$_REQUEST["NumIni"]:"";
+	$NumFin  =  isset($_REQUEST["NumFin"])?$_REQUEST["NumFin"]:"";
 ?>
 <html>
 <head>
@@ -177,7 +181,7 @@ function Buscar()
    echo "<tr class='ColorTabla01'>";
       echo "<td width='15'>";/*<input type='checkbox' name='CheckTodos' value='checkbox' onClick='CheckearTodo();'>*/
 	  echo "</td>";
-      echo "<td width='58' align='left'>N�Sol</td>";
+      echo "<td width='58' align='left'>N&deg; Sol</td>";
       echo "<td width='81' align='left'>IdMuestra</td>";
       echo "<td width='125' align='left'>Agrupacion</td>";
 	  echo "<td width='125' align='left'>Producto</td>";
@@ -186,11 +190,11 @@ function Buscar()
       echo "</tr>";
       $SolIni = $AnoIni2."000000";
 	  $SolFin = $AnoFin2."000000";
-	  $SolIni = $SolIni + $NumIni;
-	  $SolFin = $SolFin + $NumFin;			
+	  $SolIni = (int)$SolIni + (int)$NumIni;
+	  $SolFin = (int)$SolFin + (int)$NumFin;			
 			$Consulta="select distinct(nro_solicitud),id_muestra,cod_producto,cod_subproducto,agrupacion,rut_funcionario from cal_web.solicitud_analisis ";
 			$Consulta.=" where nro_solicitud between '".$SolIni."' and '".$SolFin."' order by nro_solicitud"; 
-			$Resultado=mysqli_query($link, $Consulta);
+			$Resultado=mysqli_query($link,$Consulta);
 			echo "<input type='hidden' name='CheckSol'><input type='hidden' name='TxtNumSolO'>";
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
@@ -201,21 +205,25 @@ function Buscar()
 				//echo "<td width='58' align='center'>".$Fila["num_guia"]."<input type='hidden' name ='TxtNumGuiaO' value ='".$Fila["num_guia"]."'></td>";
 				echo "<td width='81' align='left'>".$Fila["id_muestra"]."<input type='hidden' name ='TxtNumSolO' value ='".$Fila["nro_solicitud"]."'></td>";
 				$Consulta ="select * from proyecto_modernizacion.sub_clase where cod_clase = 1004 and cod_subclase = '".$Fila["agrupacion"]."'";
-				$Resp1=mysqli_query($link, $Consulta);
+				$Resp1=mysqli_query($link,$Consulta);
 				$Fil1=mysqli_fetch_array($Resp1);
 				echo "<td width='125' align='left'>".$Fil1["nombre_subclase"]."</td>";
 				$Consulta = "select t2.abreviatura as AbrevProducto,t3.abreviatura as AbrevSubProducto from cal_web.solicitud_analisis t1 ";
 				$Consulta.= " inner join proyecto_modernizacion.productos t2 on t1.cod_producto = t2.cod_producto  ";
 				$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on t2.cod_producto = t3.cod_producto and t1.cod_subproducto = t3.cod_subproducto ";
 				$Consulta.= " where t1.nro_solicitud = '".$Fila["nro_solicitud"]."' ";
-				$Resp2=mysqli_query($link, $Consulta);
-				$Fil2=mysqli_fetch_array($Resp2);  
-				echo "<td width='125' align='left'>".$Fil2["AbrevProducto"]."</td>";
-				echo "<td width='163' align='left'>".$Fil2["AbrevSubProducto"]."</td>";
+				$Resp2=mysqli_query($link,$Consulta);
+				$Fil2=mysqli_fetch_array($Resp2); 
+				$AbrevProducto = isset($Fil2["AbrevProducto"])?$Fil2["AbrevProducto"]:"";	
+				$AbrevSubProducto = isset($Fil2["AbrevSubProducto"])?$Fil2["AbrevSubProducto"]:"";									
+				echo "<td width='125' align='left'>".$AbrevProducto."</td>";
+				echo "<td width='163' align='left'>".$AbrevSubProducto."</td>";
 				$Consulta = "select  * from proyecto_modernizacion.funcionarios where rut = '".$Fila["rut_funcionario"]."'";
-				$Resp3 = mysqli_query($link, $Consulta);
+				$Resp3 = mysqli_query($link,$Consulta);
 				$Fil3=mysqli_fetch_array($Resp3);  
-				echo "<td width = '100'><center>".substr($Fil3["nombres"],0,1).".".$Fil3["apellido_paterno"]."</center></td>";
+				$nombres = isset($Fil3["nombres"])?$Fil3["nombres"]:"";
+				$apellido_paterno = isset($Fil3["apellido_paterno"])?$Fil3["apellido_paterno"]:"";
+				echo "<td width = '100'><center>".substr($nombres,0,1).".".$apellido_paterno."</center></td>";
 				echo "</tr>";
 			}
 			echo "</table>";

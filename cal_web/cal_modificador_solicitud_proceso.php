@@ -2,10 +2,17 @@
 	$Fecha_Hora = date("d-m-Y h:i");
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 3;
+	$CookieRut = $_COOKIE["CookieRut"];
 	$Rut =$CookieRut;
 	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	//echo "enabal".$Enabal."<br>";
+	$Proceso  =  isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  =  isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Opc      =  isset($_REQUEST["Opc"])?$_REQUEST["Opc"]:"";
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Enabal = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:"";
 	switch($Proceso)
 	{
 		case "M":
@@ -22,33 +29,32 @@
 			}
 			$Consulta="select * from cal_web.solicitud_analisis ";
 			$Consulta.=" where nro_solicitud = '".$Sol."' "; 
-			$Resultado=mysqli_query($link, $Consulta);
-			$Respuesta=mysqli_query($link, $Consulta);
+			$Respuesta=mysqli_query($link,$Consulta);
 			$Fila1=mysqli_fetch_array($Respuesta);
 			$NumSol=$Fila1["nro_solicitud"];
 			$IdMuestra=$Fila1["id_muestra"];
-			$CmbArea=$Fila1[cod_area];
-			$CmbCosto=$Fila1[cod_ccosto];
-			$CmbPeriodo=$Fila1[cod_periodo];
+			$CmbArea=$Fila1["cod_area"];
+			$CmbCosto=$Fila1["cod_ccosto"];
+			$CmbPeriodo=$Fila1["cod_periodo"];
 			$Observacion=$Fila1["observacion"];
-			$CmbAgrupacion=$Fila1[agrupacion];
-			$CmbTipo=$Fila1[tipo];
-			if (!isset($CmbProductos))
+			$CmbAgrupacion=$Fila1["agrupacion"];
+			$CmbTipo=$Fila1["tipo"];
+			if ($CmbProductos=="")
 			{
 				$CmbProductos=$Fila1["cod_producto"];
 			}
-			if (!isset($CmbSubProducto))
+			if ($CmbSubProducto=="")
 			{
 				$CmbSubProducto=$Fila1["cod_subproducto"];
 			}
-			$CmbDias = intval(substr($Fila1[fecha_muestra],8,2));
-			$CmbMes = intval(substr($Fila1[fecha_muestra],5,2));
-			$CmbAno = intval(substr($Fila1[fecha_muestra],0,4));
-			$Aï¿½oHora=substr($Fila1[fecha_muestra],0,strlen($Fila1[fecha_muestra])-6);
-			$Hora=substr($Aï¿½oHora,11,2);
+			$CmbDias = intval(substr($Fila1["fecha_muestra"],8,2));
+			$CmbMes = intval(substr($Fila1["fecha_muestra"],5,2));
+			$CmbAno = intval(substr($Fila1["fecha_muestra"],0,4));
+			$AñoHora=substr($Fila1["fecha_muestra"],0,strlen($Fila1["fecha_muestra"])-6);
+			$Hora=substr($AñoHora,11,2);
 			$CmbHora=$Hora;
-			$Aï¿½oMin=substr($Fila1[fecha_muestra],0,strlen($Fila1[fecha_muestra])-3);
-			$Min=substr($Aï¿½oMin,14,2);
+			$AñoMin=substr($Fila1["fecha_muestra"],0,strlen($Fila1["fecha_muestra"])-3);
+			$Min=substr($AñoMin,14,2);
 			$CmbMinutos=$Min;
 			if ($Enabal=='1')
 			{
@@ -62,7 +68,7 @@
 				}
 				else
 				{
-					if ($Fila1[enabal]=='S')
+					if ($Fila1["enabal"]=='S')
 					{
 						//echo "if"."<br>";
 						$Enabal='1';
@@ -157,7 +163,7 @@ function Recarga(S,P)
             <td colspan="2"><strong> 
               <?php
 		$Consulta ="select rut,apellido_paterno,apellido_materno,nombres from proyecto_modernizacion.funcionarios where rut = '".$Rut."'";
-	  	$Resultado= mysqli_query($link, $Consulta);
+	  	$Resultado= mysqli_query($link,$Consulta);
 		if ($Fila =mysqli_fetch_array($Resultado))
 		{	
 			echo $Rut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"])); 
@@ -165,10 +171,10 @@ function Recarga(S,P)
 	  	else
 		{
 			$Consulta = "select  * from proyecto_modernizacion.Administradores where rut = '".$Rut."'";
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysqli_query($link,$Consulta);
 			if ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila["apellido_materno"]));
+					echo $CookieRut." ".ucwords(strtolower($Fila["nombres"]))." ".ucwords(strtolower($Fila["apellido_paterno"]))." ".ucwords(strtolower($Fila[apellido_materno]));
 				}
 	
 		}
@@ -218,7 +224,7 @@ function Recarga(S,P)
                 <option value ='-1' selected>Seleccionar</option>
                 <?php
 					$Consulta = "select nombre_subclase,cod_subclase from proyecto_modernizacion.sub_clase where cod_clase = 3 order by valor_subclase1 ";
-					$Respuesta = mysqli_query ($link, $Consulta);
+					$Respuesta = mysqli_query ($link,$Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						if ($CmbArea == $Fila["cod_subclase"])
@@ -239,7 +245,7 @@ function Recarga(S,P)
                 <option value ='-1' selected>Seleccionar</option>
                 <?php  
 				$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = 2 order by valor_subclase1";
-				$Respuesta= mysqli_query($link, $Consulta);
+				$Respuesta= mysqli_query($link,$Consulta);
 				while ($Fila = mysqli_fetch_array($Respuesta))
 				{
 					if ($CmbPeriodo == $Fila["cod_subclase"])
@@ -262,7 +268,7 @@ function Recarga(S,P)
                 <option value="-1" selected>Seleccionar</option>
                 <?php
 				$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase = 1004  ";  
-				$Respuesta=mysqli_query($link, $Consulta);
+				$Respuesta=mysqli_query($link,$Consulta);
 				while($Fila=mysqli_fetch_array($Respuesta))
 				{
 					if ($CmbAgrupacion == $Fila["cod_subclase"])
@@ -283,16 +289,16 @@ function Recarga(S,P)
                 <option value ='-1' selected>Seleccionar</option>
                 <?php
 				$Consulta = "select centro_costo,descripcion from proyecto_modernizacion.centro_costo where mostrar_calidad='S' order by centro_costo";
-				$Respuesta = mysqli_query ($link, $Consulta);
+				$Respuesta = mysqli_query ($link,$Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					if ($CmbCosto == $Fila[centro_costo])
+					if ($CmbCosto == $Fila["centro_costo"])
 					{
-						echo "<option value = '".$Fila[centro_costo]."' selected>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+						echo "<option value = '".$Fila["centro_costo"]."' selected>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 					}
 					else
 					{
-						echo "<option value = '".$Fila[centro_costo]."'>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 					
+						echo "<option value = '".$Fila["centro_costo"]."'>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 					
 					}		
 				}
 			?>
@@ -305,7 +311,7 @@ function Recarga(S,P)
                 <option value='-1' selected>Seleccionar</option>
                 <?php 
 					$Consulta="select cod_producto,descripcion from proyecto_modernizacion.productos order by descripcion"; 
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Respuesta = mysqli_query($link,$Consulta);
 					while ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						if ($CmbProductos==$Fila["cod_producto"])
@@ -326,7 +332,7 @@ function Recarga(S,P)
                 <option value="-1" selected>Seleccionar</option>
                 <?php
 				$Consulta="select cod_subproducto,descripcion from subproducto where cod_producto = '".$CmbProductos."'"; 
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
 					if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -349,7 +355,7 @@ function Recarga(S,P)
 			echo "<select name='CmbTipo' style='width:110'>";
 			echo "<option value='-1'>Seleccionar</option>";
 			$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase=1005 order by cod_subclase";
-			$Respuesta=mysqli_query($link, $Consulta);
+			$Respuesta=mysqli_query($link,$Consulta);
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
 				if ($Fila["cod_subclase"]== $CmbTipo)
