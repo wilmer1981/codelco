@@ -100,7 +100,7 @@
 				<td><?php echo $Fila["fecha_registro"];?></td>
 				<td><?php echo $Fila["descripcion"];?></td>
 				<td align="right"><?php echo number_format($Fila["peso"],1,',','.');?></td>
-				<td><?php echo $NombreUser;?></td>
+				<td><?php echo utf8_decode($NombreUser);?></td>
 				</tr>
 				<?php	
 				$cont++;

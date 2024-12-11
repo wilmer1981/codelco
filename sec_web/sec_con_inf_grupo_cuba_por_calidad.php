@@ -233,7 +233,7 @@ function Historial(SA,Rec)
 	$Consulta.= " where t1.cod_producto = '18' and t1.cod_subproducto = '5' and t1.cod_cuba != '00'";
 	$Consulta.= " and t1.fecha_produccion between '".$FechaInicio."' and '".$FechaTermino."'";
 	$Consulta.= " order by t1.fecha_produccion, t1.cod_grupo, t1.cod_cuba";
-    echo $Consulta;
+    //echo $Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
 	$TotalPeso = 0;	
 	while ($Fila = mysqli_fetch_array($Respuesta))
