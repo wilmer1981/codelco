@@ -33,7 +33,7 @@
 	$PesoSecoLote  = isset($_REQUEST["PesoSecoLote"])?$_REQUEST["PesoSecoLote"]:""; 
 	$FechaRecepcion= isset($_REQUEST["FechaRecepcion"])?$_REQUEST["FechaRecepcion"]:""; 
 	$Petalo        = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:""; 
-
+	$Recargo       = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";  
 	//COLORES DE LIMITES
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);

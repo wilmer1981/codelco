@@ -485,12 +485,12 @@ if ($Mostrar=="S" && $FechaCierreAnexo!="")
 			{
 				//echo $Consulta."<br>";
 				$ValorRet=$FilaRet["valor"];
-				$Consulta="select * from cal_web.solicitud_analisis where fecha_hora='".$Fila[fecha_sa]."' and rut_funcionario='".$Fila[rut_sa]."' and id_muestra='".$Fila["lote"]."' and nro_solicitud='".$Fila["nro_solicitud"]."' and recargo='R'";
+				$Consulta="select * from cal_web.solicitud_analisis where fecha_hora='".$Fila["fecha_sa"]."' and rut_funcionario='".$Fila["rut_sa"]."' and id_muestra='".$Fila["lote"]."' and nro_solicitud='".$Fila["nro_solicitud"]."' and recargo='R'";
 				//echo $Consulta."<br>";
 				$RespSA=mysqli_query($link, $Consulta);
 				$FilaSA=mysqli_fetch_array($RespSA);
-				$PesoRetalla=$FilaSA["peso_retalla"];
-				$PesoMuestra=$FilaSA["peso_muestra"];
+				$PesoRetalla=isset($FilaSA["peso_retalla"])?$FilaSA["peso_retalla"]:0;
+				$PesoMuestra=isset($FilaSA["peso_muestra"])?$FilaSA["peso_muestra"]:0;
 				//echo "ret".$Fila["peso_retalla"]."<br>";
 				//echo "ret2".$Fila["peso_muestra"]."<br>";
 				if ($PesoRetalla>0 && $PesoMuestra>0)
@@ -501,7 +501,7 @@ if ($Mostrar=="S" && $FechaCierreAnexo!="")
 					//echo "aaa".$IncRetallaAct."<br><br>";
 				}	
 			}
-			$Consulta="select * from cal_web.registro_leyes where rut_funcionario='".$Fila[rut_sa]."' and nro_solicitud='".$Fila["nro_solicitud"]."' and recargo='".$Fila["recargo"]."' and cod_leyes='".$Fila["cod_leyes"]."'";
+			$Consulta="select * from cal_web.registro_leyes where rut_funcionario='".$Fila["rut_sa"]."' and nro_solicitud='".$Fila["nro_solicitud"]."' and recargo='".$Fila["recargo"]."' and cod_leyes='".$Fila["cod_leyes"]."'";
 			//$Consulta.=" and fecha_hora<='".$FechaCierreAnexo."' ";
 			$Consulta.="order by fecha_hora desc";
 			//echo $Consulta."<br>";
@@ -559,8 +559,8 @@ if ($Mostrar=="S" && $FechaCierreAnexo!="")
 			}
 		}
 		else
-		{
-			$PesoSeco = $DatosLote["peso_seco"];
+		{   //$PesoSeco = $DatosLote["peso_seco"];
+			$PesoSeco = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0; // WSO
 			if($Fila["recargo"]=='R')
 			{
 				switch ($Fila["cod_leyes"])
