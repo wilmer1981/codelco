@@ -6,7 +6,6 @@ $CookieRut=$_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 $CodigoDeSistema = 1;
 $CodigoDePantalla = 80;
-
 $Consulta = "select * from proyecto_modernizacion.sistemas_por_usuario where rut = '".$Rut."' and cod_sistema = '1'  ";
 $Respuesta =mysqli_query($link, $Consulta);
 if($Fila =mysqli_fetch_array($Respuesta))
@@ -20,10 +19,9 @@ if(isset($_REQUEST["Elim"])) {
 	$Elim =  "";
 }
 
-
 if($Elim!='N')
-{
-	$Eliminar=" delete from cal_web.tmp_solicitud_excel where run_registro='".$CookieRut."'";  
+{	
+	$Eliminar=" delete from cal_web.tmp_solicitud_excel where run_registro='".$CookieRut."'";
 	mysqli_query($link, $Eliminar);
 }
 
@@ -234,7 +232,7 @@ function Historial(SA,Rec)
                   <td>R. Ley Cu % </td>
                 </tr>
           <?php
-		$Consulta = "SELECT t1.id_muestra,ceiling(t1.unidad_ag) as unidad_ag,ceiling(t1.unidad_au) as unidad_au, ceiling(t1.r_unidad_ag) as r_unidad_ag, ceiling(t1.r_unidad_au) as r_unidad_au,  ";
+		$Consulta = "select t1.id_muestra,ceiling(t1.unidad_ag) as unidad_ag,ceiling(t1.unidad_au) as unidad_au, ceiling(t1.r_unidad_ag) as r_unidad_ag, ceiling(t1.r_unidad_au) as r_unidad_au,  ";
 		$Consulta.= "t1.nro_solicitud,t1.ley_au,t1.ley_ag,t1.r_ley_ag,t1.r_ley_au,t1.r_peso,t1.r_porce_cu
 		 from cal_web.tmp_solicitud_excel t1 where t1.run_registro='".$CookieRut."' ";
 		$Respuesta = mysqli_query($link, $Consulta);$Cont2=0;
@@ -246,77 +244,78 @@ function Historial(SA,Rec)
 				$BgCgolor="#EFEFEF";
 			else
 				$BgCgolor="#FFFFFF";
-			$Bloquear=false;	
-			if(ExisteSA($Row["nro_solicitud"],$link)==false)
-			{
-				$Bloquear=true;	
-				$Msj.=" | Solicitud no existe o estado es distinto a recepcionado en laboratorio/atendido por el químico" ;
-			}
-			else
-			{			
-				if($Row["ley_ag"]!='')//PLATA 04
-				{	
-					$Ms='';
-					if($Row["ley_ag"]<0)
-					{	$Bloquear=true;	
-						$Msj.=" | Ley Ag : Ley < 0";
-					}
-					else
-						if(ValidaLeyes($Row["nro_solicitud"],'0','04',$Row["unidad_ag"],$Ms,$link)==false)
-						{	
-							$Bloquear=true;
-							$Msj.=" | Ley Ag : Unidad con Problema ".$Ms;
-						}
+		$Bloquear=false;	
+		if(ExisteSA($Row["nro_solicitud"],$link)==false)
+		{
+			$Bloquear=true;	
+			$Msj.=" | Solicitud no existe o estado es distinto a recepcionado en laboratorio/atendido por el químico" ;
+		}
+		else
+		{
+					
+			if($Row["ley_ag"]!='')//PLATA 04
+			{	
+				$Ms='';
+				if($Row["ley_ag"]<0)
+				{	$Bloquear=true;	
+					$Msj.=" | Ley Ag : Ley < 0";
 				}
-				
-				if($Row["ley_au"]!='')//ORO 04
-				{	$Ms='';
-					if($Row["ley_au"]<0)
-					{
-						$Bloquear=true;	
-						$Msj.=" | Ley Au : Ley < 0";
-					}
-					else
-						if(ValidaLeyes($Row["nro_solicitud"],'0','05',$Row["unidad_au"],$Ms,$link)==false)
-						{
-							$Bloquear=true;
-							$Msj.=" | Ley Au : Unidad con Problema ".$Ms;
-						}
-				}
-				
-				//RECARGO
-				if($Row["r_ley_ag"]!='') //PLATA 04
-				{$Ms='';
-					if($Row["r_ley_ag"]<0)
+				else
+					if(ValidaLeyes($Row["nro_solicitud"],'0','04',$Row["unidad_ag"],$Ms,$link)==false)
 					{	
-						$Bloquear=true;	
-						$Msj.=" | Retalla Ag : Ley < 0";
-					}else
-						if(ValidaLeyes($Row["nro_solicitud"],'R','04',$Row["r_unidad_ag"],$Ms,$link)==false)
+						$Bloquear=true;
+						$Msj.=" | Ley Ag : Unidad con Problema ".$Ms;
+					}
+			}
+			
+			if($Row["ley_au"]!='')//ORO 04
+			{	$Ms='';
+				if($Row["ley_au"]<0)
+				{
+					$Bloquear=true;	
+					$Msj.=" | Ley Au : Ley < 0";
+				}
+				else
+					if(ValidaLeyes($Row["nro_solicitud"],'0','05',$Row["unidad_au"],$Ms,$link)==false)
 					{
 						$Bloquear=true;
-						$Msj.=" | Retalla Ag : Unidad con Problema ".$Ms;
+						$Msj.=" | Ley Au : Unidad con Problema ".$Ms;
 					}
+			}
+			
+			//RECARGO
+			if($Row["r_ley_ag"]!='') //PLATA 04
+			{$Ms='';
+				if($Row["r_ley_ag"]<0)
+				{	
+					$Bloquear=true;	
+					$Msj.=" | Retalla Ag : Ley < 0";
+				}else
+					if(ValidaLeyes($Row["nro_solicitud"],'R','04',$Row["r_unidad_ag"],$Ms,$link)==false)
+				{
+					$Bloquear=true;
+					$Msj.=" | Retalla Ag : Unidad con Problema ".$Ms;
 				}
-				if($Row["r_ley_au"]!='')//ORO 05
-				{$Ms='';
-					if($Row["r_ley_au"]<0)
-					{	$Bloquear=true;	
-						$Msj.=" | Retalla Au : Ley < 0";
-						}
-					else
-						if(ValidaLeyes($Row["nro_solicitud"],'R','05',$Row["r_unidad_au"],$Ms,$link)==false)
-						{
-							$Bloquear=true;
-							$Msj.=" | Retalla Au : Unidad con Problema ".$Ms;
-						}
-				}
-				if($Row["r_peso"]!='')
-					if($Row["r_peso"]<0)
-						{$Bloquear=true;		
-						$Msj.=" | Peso Retalla < 0 ";
-						}
-			}			
+			}
+			if($Row["r_ley_au"]!='')//ORO 05
+			{$Ms='';
+				if($Row["r_ley_au"]<0)
+				{	$Bloquear=true;	
+					$Msj.=" | Retalla Au : Ley < 0";
+					}
+				else
+					if(ValidaLeyes($Row["nro_solicitud"],'R','05',$Row["r_unidad_au"],$Ms,$link)==false)
+					{
+						$Bloquear=true;
+						$Msj.=" | Retalla Au : Unidad con Problema ".$Ms;
+					}
+			}
+			if($Row["r_peso"]!='')
+				if($Row["r_peso"]<0)
+					{$Bloquear=true;		
+					$Msj.=" | Peso Retalla < 0 ";
+					}
+		}			
 						
 			if($Bloquear==true)
 				$BgCgolor="#FF0000";
@@ -334,7 +333,7 @@ function Historial(SA,Rec)
 			if($Bloquear!=true)
 			{
 				$VerDetRet='';
-				if($Row["r_peso"]!='' && $Row["r_peso"]!=0)
+				if($Row[r_peso]!='' && $Row[r_peso]!=0)
 					$VerDetRet="<a href=javascript:Historial('".$Row["nro_solicitud"]."','R')>Ver</a>";
 				$VerDet="<a href=javascript:Historial('".$Row["nro_solicitud"]."','".$rec."')>Ver</a>";
 				
@@ -417,7 +416,7 @@ function ValidaLeyes($Solicitud,$Recargo,$Leyes,$UnidadExcel,$Msje,$link)
 	$Resp = mysqli_query($link, $Consulta);
 	if($Fila = mysqli_fetch_array($Resp))
 	{
-		if($Fila["cod_unidad"]==$UnidadExcel)
+		if($Fila[cod_unidad]==$UnidadExcel)
 			$Retorno=true;	
 		
 	}
