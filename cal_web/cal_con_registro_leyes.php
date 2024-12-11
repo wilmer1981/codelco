@@ -540,8 +540,11 @@ function Imprimir()
 			$Consulta = $Consulta."  inner join cal_web.solicitud_analisis t4 on t1.nro_solicitud = t4.nro_solicitud " ;				
 	   		$Consulta = $Consulta."  where (t1.nro_solicitud = '".$SA."') and t1.cod_estado = 3  "; 
 			$Respuesta4 = mysqli_query($link, $Consulta);
+			$recargo="";$apellido_paterno="";
 			while($Fila4= mysqli_fetch_array($Respuesta4))
 			{
+				$recargo = isset($Fila4["recargo"])?$Fila4["recargo"]:"";
+				$apellido_paterno= isset($Fila4["apellido_paterno"])?$Fila4["apellido_paterno"]:"";
 				echo "<tr>";
 				$SubClase=$Fila4["nombre_subclase"]." a Laboratorio";
 				echo "<td width = '79'><center>".substr($Fila4["nombres"],0,1).".".$Fila4["apellido_paterno"]."</center></td>";
@@ -563,15 +566,15 @@ function Imprimir()
 	   		$Consulta = $Consulta."  where (t1.nro_solicitud = '".$SA."') and t1.cod_estado = 7  "; 
 			$Respuesta30 = mysqli_query($link, $Consulta);
 			while($Fila30= mysqli_fetch_array($Respuesta30))
-			{
+			{	$nombres= isset($Fila30["nombres"])?$Fila30["nombres"]:"";	
 				echo "<tr>";
 				$SubClase=$Fila30["nombre_subclase"];
-				echo "<td width = '79'><center>".substr($Fila30["nombres"],0,1).".".$Fila4["apellido_paterno"]."</center></td>";
+				echo "<td width = '79'><center>".substr($nombres,0,1).".".$apellido_paterno."</center></td>";
 				echo "<td width = '60'><center>".$Fila30["recargo"]."</center></td>";
 				echo "<td width = '130'><center>".$SubClase."</center></td>";
 				echo "<td width = '160'><center>".$Fila30["fecha_hora"]."</center></td>";
 				$Consulta ="select  observacion  from cal_web.solicitud_analisis ";
-				$Consulta = $Consulta." where nro_solicitud = '".$SA."' and recargo = '".$Fila4["recargo"]."'  ";
+				$Consulta = $Consulta." where nro_solicitud = '".$SA."' and recargo = '".$recargo."'  ";
 				$Respuesta31 = mysqli_query($link, $Consulta); 	
 				$Fila31 = mysqli_fetch_array($Respuesta31);
 				echo "<td width = '277'><center>".$Fila31["observacion"]."</center></td>";
