@@ -147,6 +147,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 	$RespTipoRecep = mysqli_query($link, $Consulta);
 	//WSO
 	$PesoSecoProd=0;$PesoHumProd=0;$PesoSecoProd=0;
+	$FinoProdCu=0;$FinoProdAg=0;$FinoProdAu=0;
 	while ($FilaTipoRecep = mysqli_fetch_array($RespTipoRecep))
 	{					
 		//TITULO NUMERO CONJUNTO
@@ -258,12 +259,12 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		$FinoProdCu=$FinoProdCu + $FinoConjCu;
 		$FinoProdAg=$FinoProdAg + $FinoConjAg;
 		$FinoProdAu=$FinoProdAu + $FinoConjAu;
-		$PesoHumConj=0;
+		/*$PesoHumConj=0;
 		$PesoSecoConj=0;
 		$PorcHumConj=0;
 		$FinoConjCu=0;
 		$FinoConjAg=0;
-		$FinoConjAu=0;
+		$FinoConjAu=0;*/
 	}
 	if ($PesoSecoProd>0 && $PesoHumProd>0)
 		$PorcHumProd = 100 - (($PesoSecoProd * 100)/$PesoHumProd);
@@ -296,13 +297,13 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		echo "<td align=\"right\">".number_format($FinoProdCu,0,",",".")."</td>\n";		
 		echo "<td align=\"right\">".number_format($FinoProdAg,0,",",".")."</td>\n";
 		echo "<td align=\"right\">".number_format($FinoProdAu,0,",",".")."</td>\n";
-	}		
+	}/*		
 	$PesoHumProd=0;
 	$PesoSecoProd=0;
 	$PorcHumProd=0;
 	$FinoProdCu=0;
 	$FinoProdAg=0;
-	$FinoProdAu=0;
+	$FinoProdAu=0;*/
 }
 echo "</table>\n";
 ?>  
