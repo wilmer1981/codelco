@@ -732,13 +732,14 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 //FUNCION PARA TOMAR DATOS DE LOTE COMPLETO, PONDERADO
 function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link)
 {
-	//echo $FechaIni."---".$Lote;
+	//echo $FechaIni."---".$Lote["lote"];
 	//$FechaConCierre="000-00-00";
 	$CierreBalance = true;
 	$FechaCierreAnexo=$FechaConCierre;
 	$ArrayLeyesVacio = false;
 	if (count($LeyesPond)<=0)
-		$ArrayLeyesVacio = true;		
+		$ArrayLeyesVacio = true;
+    //echo "<br>ArrayLeyesVacio:".$ArrayLeyesVacio."<br>";	
 	//RESCATA PESO HUMEDO
 	$Consulta = "select t1.lote, sum(t2.peso_neto) as peso_humedo, sum(t2.peso_bruto) as peso_bruto, sum(t2.peso_tara) as peso_tara,";
 	$Consulta.= " t1.peso_muestra, t1.peso_retalla, t1.cod_producto, t1.cod_subproducto, t1.rut_proveedor, ";
@@ -1158,6 +1159,8 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		$LeyesPond["01"][60] = $LeyesPond["01"][2];
 		//$LeyesPond["01"][2] = 0;  
 	}
+	
+	return $LeyesPond; //WSO
 	
 }	
 

@@ -1,22 +1,22 @@
 <?php
-	    ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
@@ -78,32 +78,45 @@
 		{			
 			$Lote = $Fila2["num_lote_remuestreo"];
 			$LoteNuevo = $Fila2["lote"];
-			$Consulta = "select * ";
-			$Consulta.= " from age_web.lotes ";
-			$Consulta.= " where lote='".$Lote."' ";		
+			
+			$Consulta = "select * from age_web.lotes where lote='".$Lote."' ";		
 			$Resp3 = mysqli_query($link, $Consulta);			
 			$M_Paralela="";
 			if ($Fila3 = mysqli_fetch_array($Resp3))
 				$M_Paralela=$Fila3["muestra_paralela"];
-			$Cu_Pri=0;
-			$Ag_Pri=0;
-			$Au_Pri=0;
-			$Cu_Par=0;
-			$Ag_Par=0;
-			$Au_Par=0;
-			$SA_Pri="";
-			$RecPri="";
-			$SA_Par="";
-			$Rec_Par="";
+			
+			$Cu_Pri=0;$Ag_Pri=0;$Au_Pri=0;
+			$Cu_Par=0;$Ag_Par=0;$Au_Par=0;
+			$SA_Pri="";$Rec_Pri ="";
+			$SA_Par="";$Rec_Par="";	
+			
 			//echo $Lote." - ".$M_Paralela."<br>";
-			Leyes($Lote,$M_Paralela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano,$link);						
-			$Cu_Dif=0;
-			$Ag_Dif=0;
-			$Au_Dif=0;
+			//Leyes($Lote,$M_Paralela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano,$link);
+			$ResVal = Leyes($Lote,$M_Paralela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano,$link);
+			//var_dump($ResVal);
+			$Val1    = explode("/",$ResVal);
+			$Val11   = $Val1[0]; //
+     		$Val111  = explode("-",$Val11);
+			$SA_Pri  = $Val111[0];
+			$Rec_Pri = $Val111[1];
+			$SA_Par  = $Val111[2];
+			$Rec_Par = $Val111[3];
+			
+			$Val12   = $Val1[1];//
+			$Val     = explode("-",$Val12);
+			$Cu_Pri  = $Val[0];
+			$Ag_Pri  = $Val[1];
+			$Au_Pri  = $Val[2];		
+			$Cu_Par  = $Val[3];
+			$Ag_Par  = $Val[4];
+			$Au_Par  = $Val[5];
+			
+			$Cu_Dif=0;$Ag_Dif=0;$Au_Dif=0;
+			
 			$Cu_Dif=$Cu_Pri-$Cu_Par;
 			$Ag_Dif=$Ag_Pri-$Ag_Par;
 			$Au_Dif=$Au_Pri-$Au_Par;
-			$Valores = $Fila2["lote"]."~~".$Fila2["recargo"];
+			//$Valores = $Fila2["lote"]."~~".$Fila2["recargo"];
 			echo "<tr align=\"center\">\n";
 			echo "<td>".$Fila2["num_lote_remuestreo"]."</td>\n";
 			echo "<td align=\"right\">".number_format($Cu_Pri,2,",",".")."</td>\n";
@@ -134,16 +147,29 @@
 				echo "<td align=\"right\">".number_format(abs($Au_Dif),2,",",".")."</td>\n";
 			else
 				echo "<td align=\"right\">&nbsp;</td>\n";
-			$Cu_Rem=0;
-			$Ag_Rem=0;
-			$Au_Rem=0;
-			$SA_Rem="";
-			$Rec_Rem="";
+			$Cu_Rem=0;$Ag_Rem=0;$Au_Rem=0;
+			$SA_Rem="";$Rec_Rem="";
 			//echo $Lote." - ".$M_Paralela."<br>";
-			Leyes($LoteNuevo,"",$Cu_Rem,$Ag_Rem,$Au_Rem,$Cu_Par,$Ag_Par,$Au_Par,$SA_Rem,$Rec_Rem,$SA_Par,$Rec_Par,$Ano,$link);						
-			$Cu_Dif_Rem=0;
-			$Ag_Dif_Rem=0;
-			$Au_Dif_Rem=0;
+			//Leyes($LoteNuevo,"",$Cu_Rem,$Ag_Rem,$Au_Rem,$Cu_Par,$Ag_Par,$Au_Par,$SA_Rem,$Rec_Rem,$SA_Par,$Rec_Par,$Ano,$link);	
+			$ResVal = Leyes($LoteNuevo,"",$Cu_Rem,$Ag_Rem,$Au_Rem,$Cu_Par,$Ag_Par,$Au_Par,$SA_Rem,$Rec_Rem,$SA_Par,$Rec_Par,$Ano,$link);	
+			$Val1    = explode("/",$ResVal);
+			$Val11   = $Val1[0]; 
+			$Val12   = $Val1[1];
+     		$Val111  = explode("-",$Val11);
+			$SA_Rem  = $Val111[0];
+			$Rec_Rem = $Val111[1];
+			$SA_Par  = $Val111[2];
+			$Rec_Par = $Val111[3];
+
+			$Val     = explode("-",$Val12);
+			$Cu_Rem  = $Val[0];
+			$Ag_Rem  = $Val[1];
+			$Au_Rem  = $Val[2];		
+			$Cu_Par  = $Val[3];
+			$Ag_Par  = $Val[4];
+			$Au_Par  = $Val[5];	
+			
+			$Cu_Dif_Rem=0;$Ag_Dif_Rem=0;$Au_Dif_Rem=0;
 			$Cu_Dif_Rem=$Cu_Rem-$Cu_Pri;
 			$Ag_Dif_Rem=$Ag_Rem-$Ag_Pri;
 			$Au_Dif_Rem=$Au_Rem-$Au_Pri;
@@ -218,23 +244,33 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$Lote;
+	/*
 	LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 	$PesoLote=$DatosLote["peso_seco"];
 	$Cu_Pri=$ArrLeyes["02"][2];
 	$Ag_Pri=$ArrLeyes["04"][2];
 	$Au_Pri=$ArrLeyes["05"][2];
+	*/
+	$LeyesL = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+	//var_dump($LeyesL);
+	$PesoLote = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+	$Cu_Pri = isset($LeyesL["02"][2])?$LeyesL["02"][2]:0;
+	$Ag_Pri = isset($LeyesL["04"][2])?$LeyesL["04"][2]:0;
+	$Au_Pri = isset($LeyesL["05"][2])?$LeyesL["05"][2]:0;	
 	//BUSCA DATOS MUESTRA PARALELA
 	$Consulta="select * from cal_web.solicitud_analisis where id_muestra='".$MuestraParalela."' and tipo=4 and recargo='R' and year(fecha_muestra)='".$Ano."'";
 	$Respuesta=mysqli_query($link, $Consulta);
+	$Recargo =0; //WSO
 	if($FilaLeyes=mysqli_fetch_array($Respuesta))
 	{
 		$PesoMuestra=$FilaLeyes["peso_muestra"];
 		$PesoRetalla=$FilaLeyes["peso_retalla"];
+		$Recargo    =$FilaLeyes["recargo"]; //WSO;
 	}
 	$Consulta="select * from age_web.leyes_por_lote where lote='".$MuestraParalela."' and recargo='0' and cod_leyes in('02','04','05') and ano='".$Ano."'";
-	$Cu_Par=0;
+	/*$Cu_Par=0;
 	$Ag_Par=0;
-	$Au_Par=0;
+	$Au_Par=0;*/
 	$Respuesta=mysqli_query($link, $Consulta);
 	while($FilaLeyes=mysqli_fetch_array($Respuesta))
 	{
@@ -318,6 +354,14 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 		$SA_Par=$FilaSA["nro_solicitud"];
 		$Rec_Par=$FilaSA["recargo"];
 	}
+	
+	/*************** WSO *************************/
+	$Valores1 = $SA_Pri."-".$Rec_Pri."-".$SA_Par."-".$Rec_Par;
+	$Valores2 = $Cu_Pri."-".$Ag_Pri."-".$Au_Pri."-".$Cu_Par."-".$Ag_Par."-".$Au_Par;
+	$Valores = $Valores1."/".$Valores2;
+	
+	return $Valores;	
+	/*********************************************/
 	
 }
 

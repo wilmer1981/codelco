@@ -1,6 +1,6 @@
 <?php
 	$CodigoDeSistema = 15;
-	$CodigoDePantalla = 37;
+	$CodigoDePantalla = 38;
 	include("../principal/conectar_principal.php");
 	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
 	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";

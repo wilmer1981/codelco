@@ -128,6 +128,7 @@ body {
 	if ($Proveedor!="S")
 		$Consulta.= " and t1.rut_proveedor='".$Proveedor."'";		
 	$Consulta.= " order by lpad(t1.cod_subproducto,4,'0'), lpad(t1.rut_proveedor,11,'0') ";
+	//echo "PRODUCTOS Y PROVEEDORES CON REMUESTREO='S' :".$Consulta."<br>";
 	$Resp = mysqli_query($link, $Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
@@ -139,37 +140,51 @@ body {
 		$Consulta.= " and t1.remuestreo ='S' and t1.cod_producto='".$Fila["cod_producto"]."' ";
 		$Consulta.= " and t1.cod_subproducto='".$Fila["cod_subproducto"]."' and t1.rut_proveedor='".$Fila["rut_proveedor"]."'";
 		$Consulta.= " order by lpad(t1.cod_subproducto,4,'0'), lpad(t1.rut_proveedor,11,'0') ";
+		//echo "<br><br>CONSULTA RECARGOS CON REMUESTREO :".$Consulta."<br>";
 		$Resp2 = mysqli_query($link, $Consulta);
 		while ($Fila2 = mysqli_fetch_array($Resp2))
 		{			
-			$Lote = $Fila2["num_lote_remuestreo"];
+			$Lote      = $Fila2["num_lote_remuestreo"];
 			$LoteNuevo = $Fila2["lote"];
-			$Consulta = "select * ";
-			$Consulta.= " from age_web.lotes ";
-			$Consulta.= " where lote='".$Lote."' ";		
+			
+			$Consulta = "select * from age_web.lotes where lote='".$Lote."' ";		
 			$Resp3 = mysqli_query($link, $Consulta);			
 			$M_Paralela="";
+			//echo "<br><br>muestra_paralela :".$Consulta."<br>";
 			if ($Fila3 = mysqli_fetch_array($Resp3))
 				$M_Paralela=$Fila3["muestra_paralela"];
-			$Cu_Pri=0;
-			$Ag_Pri=0;
-			$Au_Pri=0;
-			$Cu_Par=0;
-			$Ag_Par=0;
-			$Au_Par=0;
-			$SA_Pri="";
-			$RecPri="";
-			$SA_Par="";
-			$Rec_Par="";
-			//echo $Lote." - ".$M_Paralela."<br>";
-			Leyes($Lote,$M_Paralela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano,$link);						
-			$Cu_Dif=0;
-			$Ag_Dif=0;
-			$Au_Dif=0;
+			
+			$Cu_Pri=0;$Ag_Pri=0;$Au_Pri=0;
+			$Cu_Par=0;$Ag_Par=0;$Au_Par=0;
+			$SA_Pri="";$Rec_Pri ="";
+			$SA_Par="";$Rec_Par="";			
+			//echo "<br> Lote-M_Paralela:".$Lote." - ".$M_Paralela."<br>";
+			//Leyes($Lote,$M_Paralela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano,$link);
+			$ResVal = Leyes($Lote,$M_Paralela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano,$link);
+			//var_dump($ResVal);
+			$Val1    = explode("/",$ResVal);
+			$Val11   = $Val1[0]; //
+     		$Val111  = explode("-",$Val11);
+			$SA_Pri  = $Val111[0];
+			$Rec_Pri = $Val111[1];
+			$SA_Par  = $Val111[2];
+			$Rec_Par = $Val111[3];
+			
+			$Val12   = $Val1[1];//
+			$Val     = explode("-",$Val12);
+			$Cu_Pri  = $Val[0];
+			$Ag_Pri  = $Val[1];
+			$Au_Pri  = $Val[2];		
+			$Cu_Par  = $Val[3];
+			$Ag_Par  = $Val[4];
+			$Au_Par  = $Val[5];				
+	
+			$Cu_Dif=0;$Ag_Dif=0;$Au_Dif=0;
 			$Cu_Dif=$Cu_Pri-$Cu_Par;
 			$Ag_Dif=$Ag_Pri-$Ag_Par;
 			$Au_Dif=$Au_Pri-$Au_Par;
-			$Valores = $Fila2["lote"]."~~".$Fila2["recargo"];
+								
+			//$Valores = $Fila2["lote"]."~~".$Fila2["recargo"];
 			echo "<tr align=\"center\">\n";
 			echo "<td><a href=\"JavaScript:Historial('".$SA_Pri."','".$Rec_Pri."')\">".$Fila2["num_lote_remuestreo"]."</a></td>\n";
 			echo "<td align=\"right\">".number_format($Cu_Pri,2,",",".")."</td>\n";
@@ -200,16 +215,32 @@ body {
 				echo "<td align=\"right\">".number_format(abs($Au_Dif),2,",",".")."</td>\n";
 			else
 				echo "<td align=\"right\">&nbsp;</td>\n";
-			$Cu_Rem=0;
-			$Ag_Rem=0;
-			$Au_Rem=0;
-			$SA_Rem="";
-			$Rec_Rem="";
+			$Cu_Rem=0;$Ag_Rem=0;$Au_Rem=0;
+			//$Cu_Par=0;$Ag_Par=0;$Au_Par=0;
+			$SA_Rem="";$Rec_Rem="";
+			//$SA_Par="";$Rec_Par="";
 			//echo $Lote." - ".$M_Paralela."<br>";
-			Leyes($LoteNuevo,"",$Cu_Rem,$Ag_Rem,$Au_Rem,$Cu_Par,$Ag_Par,$Au_Par,$SA_Rem,$Rec_Rem,$SA_Par,$Rec_Par,$Ano,$link);						
-			$Cu_Dif_Rem=0;
-			$Ag_Dif_Rem=0;
-			$Au_Dif_Rem=0;
+			//Leyes($Lote,$M_Paralela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$Rec_Pri,$SA_Par,$Rec_Par,$Ano,$link);
+			$ResVal = Leyes($LoteNuevo,"",$Cu_Rem,$Ag_Rem,$Au_Rem,$Cu_Par,$Ag_Par,$Au_Par,$SA_Rem,$Rec_Rem,$SA_Par,$Rec_Par,$Ano,$link);	
+			$Val1    = explode("/",$ResVal);
+			$Val11   = $Val1[0]; 
+			$Val12   = $Val1[1];
+     		$Val111  = explode("-",$Val11);
+			$SA_Rem  = $Val111[0];
+			$Rec_Rem = $Val111[1];
+			$SA_Par  = $Val111[2];
+			$Rec_Par = $Val111[3];
+
+			$Val     = explode("-",$Val12);
+			$Cu_Rem  = $Val[0];
+			$Ag_Rem  = $Val[1];
+			$Au_Rem  = $Val[2];		
+			$Cu_Par  = $Val[3];
+			$Ag_Par  = $Val[4];
+			$Au_Par  = $Val[5];		
+			
+			$Cu_Dif_Rem=0;$Ag_Dif_Rem=0;$Au_Dif_Rem=0;
+			
 			$Cu_Dif_Rem=$Cu_Rem-$Cu_Pri;
 			$Ag_Dif_Rem=$Ag_Rem-$Ag_Pri;
 			$Au_Dif_Rem=$Au_Rem-$Au_Pri;
@@ -284,24 +315,35 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$Lote;
+	/*
 	LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 	$PesoLote=$DatosLote["peso_seco"];
-	$Cu_Pri=$ArrLeyes["02"][2];
-	$Ag_Pri=$ArrLeyes["04"][2];
-	$Au_Pri=$ArrLeyes["05"][2];
+	$Cu_Pri  =$ArrLeyes["02"][2];
+	$Ag_Pri  =$ArrLeyes["04"][2];
+	$Au_Pri  =$ArrLeyes["05"][2];
+	*/
+	$LeyesL = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+	//var_dump($LeyesL);
+	$PesoLote = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+	$Cu_Pri = isset($LeyesL["02"][2])?$LeyesL["02"][2]:0;
+	$Ag_Pri = isset($LeyesL["04"][2])?$LeyesL["04"][2]:0;
+	$Au_Pri = isset($LeyesL["05"][2])?$LeyesL["05"][2]:0;	
+
 	//BUSCA DATOS MUESTRA PARALELA
 	$Consulta="select * from cal_web.solicitud_analisis where id_muestra='".$MuestraParalela."' and tipo=4 and recargo='R' and year(fecha_muestra)='".$Ano."'";
-	//echo $Consulta;
+	//echo "<br>BUSCA DATOS MUESTRA PARALELA:".$Consulta."<br>";
 	$Respuesta=mysqli_query($link, $Consulta);
+	$Recargo =0; //WSO
 	if($FilaLeyes=mysqli_fetch_array($Respuesta))
 	{
 		$PesoMuestra=$FilaLeyes["peso_muestra"];
 		$PesoRetalla=$FilaLeyes["peso_retalla"];
+		$Recargo    =$FilaLeyes["recargo"]; //WSO;
 	}
 	$Consulta="select * from age_web.leyes_por_lote where lote='".$MuestraParalela."' and recargo='0' and cod_leyes in('02','04','05') and ano='".$Ano."'";
-	$Cu_Par=0;
+	/*$Cu_Par=0;
 	$Ag_Par=0;
-	$Au_Par=0;
+	$Au_Par=0;*/
 	$Respuesta=mysqli_query($link, $Consulta);
 	while($FilaLeyes=mysqli_fetch_array($Respuesta))
 	{
@@ -318,7 +360,7 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 				break;
 		}						
 	}
-	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
+	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion,t1.recargo";
 	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
 	$Consulta.= " t1.cod_unidad=t2.cod_unidad ";
 	$Consulta.= " where t1.lote='".$MuestraParalela."' ";
@@ -327,7 +369,7 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	//echo $Consulta."<br>";
 	$RespLeyes = mysqli_query($link, $Consulta);
 	while ($FilaLeyes = mysqli_fetch_array($RespLeyes))
-	{									
+	{	 							
 		//CALCULA LA LEY INCLUYENDO INCIDENCIA DE LA RETALLA
 		switch ($FilaLeyes["cod_leyes"])
 		{
@@ -363,11 +405,11 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 		$Consulta.= " and (t1.recargo='0' or t1.recargo='')";
 	else
 		$Consulta.= " and t1.recargo='".$Recargo."'";	
-	//echo $Consulta;
+	//echo "<br>CONSULTA LA S.A. PAQUETE PRIMERO:<br>".$Consulta."<br>";
 	$RespSA=mysqli_query($link, $Consulta);
 	if($FilaSA=mysqli_fetch_array($RespSA))
 	{
-		$SA_Pri=$FilaSA["nro_solicitud"];
+		$SA_Pri =$FilaSA["nro_solicitud"];
 		$Rec_Pri=$FilaSA["recargo"];
 	}
 	//CONSULTA LA S.A. MUESTRA PARALELA
@@ -378,14 +420,21 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 		$Consulta.= " and (t1.recargo='0' or t1.recargo='')";
 	else
 		$Consulta.= " and t1.recargo='".$Recargo."'";	
-	//echo $Consulta;
+	//echo "<br>CONSULTA LA S.A. MUESTRA PARALELA:<br>".$Consulta."<br>";
 	$RespSA=mysqli_query($link, $Consulta);
 	if($FilaSA=mysqli_fetch_array($RespSA))
 	{
-		$SA_Par=$FilaSA["nro_solicitud"];
+		$SA_Par =$FilaSA["nro_solicitud"];
 		$Rec_Par=$FilaSA["recargo"];
 	}
 	
+	/*************** WSO *************************/
+	$Valores1 = $SA_Pri."-".$Rec_Pri."-".$SA_Par."-".$Rec_Par;
+	$Valores2 = $Cu_Pri."-".$Ag_Pri."-".$Au_Pri."-".$Cu_Par."-".$Ag_Par."-".$Au_Par;
+	$Valores = $Valores1."/".$Valores2;
+	
+	return $Valores;	
+	/*********************************************/
 }
 
 ?>
