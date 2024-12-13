@@ -2,52 +2,15 @@
 $CodigoDeSistema = 2;
 $CodigoDePantalla = 3;
 
-if(isset($_REQUEST["Proceso"])) {
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso = '';
-}
-if(isset($_REQUEST["Mostrar"])) {
-	$Mostrar = $_REQUEST["Mostrar"];
-}else{
-	$Mostrar = "";
-}
-if(isset($_REQUEST["ano"])) {
-	$ano = $_REQUEST["ano"];
-}else{
-	$ano = "";
-}
-if(isset($_REQUEST["mes"])) {
-	$mes= $_REQUEST["mes"];
-}else{
-	$mes = "";
-}
-if(isset($_REQUEST["dia"])) {
-	$dia= $_REQUEST["dia"];
-}else{
-	$dia = "";
-}
-if(isset($_REQUEST["proveedor"])) {
-	$proveedor = $_REQUEST["proveedor"];
-}else{
-	$proveedor = "";
-}
-if(isset($_REQUEST["Est"])) {
-	$Est = $_REQUEST["Est"];
-}else{
-	$Est = "";
-}
-
-if(isset($_REQUEST["Hora"])) {
-	$Hora = $_REQUEST["Hora"];
-}else{
-	$Hora = date("H");
-}
-if(isset($_REQUEST["Minutos"])) {
-	$Minutos = $_REQUEST["Minutos"];
-}else{
-	$Minutos = date("i");
-}
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Mostrar  = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+$ano   = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date('Y');
+$mes   = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date('m');
+$dia   = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date('d');
+$proveedor = isset($_REQUEST["proveedor"])?$_REQUEST["proveedor"]:"";
+$Est       = isset($_REQUEST["Est"])?$_REQUEST["Est"]:"";
+$Hora      = isset($_REQUEST["Hora"])?$_REQUEST["Hora"]:date("H");
+$Minutos   = isset($_REQUEST["Minutos"])?$_REQUEST["Minutos"]:date("i");
 
 $HoraAux=date('G');
 $MinAux=date('i');
@@ -70,11 +33,8 @@ if($Hora=="")
 		$Minutos="59";
 	}
 }	
-if(!isset($ano2))
-{
-	$ano2=date('Y');
-	$mes2=date('m');
-}
+$ano2   = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date('Y');
+$mes2   = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date('m');
 ?>
 <html>
 <head>
@@ -381,7 +341,7 @@ function VerGuias()
 }
 function MostrarLotes(Lote,Guia,LoteOrigen)
 {
-  	alert(Lote +"-"+ Guia + "-" +LoteOrigen);
+  	//alert(Lote +"-"+ Guia + "-" +LoteOrigen);
 	window.open("sea_ing_recep_ext_lotes_guias.php?Lote="+Lote+"&Guia="+Guia+"&LoteOrigen="+LoteOrigen, "","menubar=no resizable=yes Top=10 Left=200 width=630 height=350 scrollbars=yes");
 }
 </script>
@@ -410,21 +370,21 @@ body {
             <td width="73">Origen Anodo</td>
             <td width="269">
               <?php
-			   echo'<SELECT name="proveedor" onChange="Recarga()">';
+			   echo'<select name="proveedor" onChange="Recarga()">';
 			   echo'<option value="-1" seleted>Seleccionar</option>';
 
                /*if($proveedor == "A-00001100-2")
-			   	echo'<option value="A-00001100-2" SELECTed>ANODOS HVL</option>';		   
+			   	echo'<option value="A-00001100-2" selected>ANODOS HVL</option>';		   
                else
 			   	echo'<option value="A-00001100-2">ANODOS HVL</option>';		 */  
 
                if($proveedor == "A-61704005-0")
-			   	echo'<option value="A-61704005-0" SELECTed>ANODOS TENIENTE</option>';		   
+			   	echo'<option value="A-61704005-0" selected>ANODOS TENIENTE</option>';		   
                else
 			   	echo'<option value="A-61704005-0">ANODOS TENIENTE</option>';		   
 
                /*if($proveedor == "A-90132000-4")
-			   	echo'<option value="A-90132000-4" SELECTed>ANODOS SUR ANDES</option>';		   
+			   	echo'<option value="A-90132000-4" selected>ANODOS SUR ANDES</option>';		   
 			   else
 			   	echo'<option value="A-90132000-4">ANODOS SUR ANDES</option>';		   
 
@@ -435,14 +395,14 @@ body {
 			while ($row = mysqli_fetch_array($rs))
 			{				
 				if ('B-'.$row["cod_subclase"] == $proveedor)					
-					echo '<option value="B-'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="B-'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 				else 
 					echo '<option value="B-'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 			}			*/											   
 		    ?>
               <font color="#000000" size="2">&nbsp;            </font> </td>
             <td><font color="#000000" size="2">Fecha Mov.
-              <SELECT name="dia" size="1" style="font-face:verdana;font-size:10">
+              <select name="dia" size="1" style="font-face:verdana;font-size:10">
                 <?php
 			if($Mostrar=='S' || $Proceso == 'V')
 			{
@@ -450,7 +410,7 @@ body {
 				{
  				   if ($i==$dia)
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -464,7 +424,7 @@ body {
 				{
 	   				   if ($i==date("j"))
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -473,9 +433,9 @@ body {
  				}
 		   }			
 	?>
-              </SELECT>
+              </select>
               </font> <font color="#000000" size="2"> 
-              <SELECT name="mes" size="1" id="SELECT7" style="FONT-FACE:verdana;FONT-SIZE:10">
+              <select name="mes" size="1" id="select7" style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Mostrar=='S' || $Proceso == 'V')
@@ -484,7 +444,7 @@ body {
 		    {
                 if ($i==$mes)
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -498,7 +458,7 @@ body {
 		    {
                 if ($i==date("n"))
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -508,8 +468,8 @@ body {
 	    } 	  
   		  
      ?>
-              </SELECT>
-    <SELECT name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
+              </select>
+    <select name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
 	if($Mostrar=='S' || $Proceso == 'V')
 	{
@@ -517,7 +477,7 @@ body {
 	    {
             if ($i==$ano)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -531,7 +491,7 @@ body {
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -540,7 +500,7 @@ body {
          }   
     }	
 ?>
-              </SELECT>
+              </select>
               </font></td>
             <td><input name="mostrar" type="hidden" value="Ok" onClick="mostrar_guia();">              
               <input name="nuevo" type="button" value="Ingreso Manual" style="width:100" onClick="nueva_guia();">
@@ -579,7 +539,7 @@ body {
 			if($Est=='C')
 			{
 			?>
-            <SELECT name="mes2" size="1"style="FONT-FACE:verdana;FONT-SIZE:10" onChange="mostrar_guia2('C')">
+            <select name="mes2" size="1"style="FONT-FACE:verdana;FONT-SIZE:10" onChange="mostrar_guia2('C')">
             <?php
 			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 			if ($Mostrar=='S' || $Proceso == 'V')
@@ -587,7 +547,7 @@ body {
 				for($i=1;$i<13;$i++)
 				{
 					if ($i==$mes2)
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					else
 						echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}		
@@ -597,21 +557,21 @@ body {
 				for($i=1;$i<13;$i++)
 				{
 					if ($i==date("n"))
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					else
 						echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}  			 
 			} 	  
 		    ?>
-            </SELECT>
-            <SELECT name="ano2" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10" onChange="mostrar_guia2('C')">
+            </select>
+            <select name="ano2" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10" onChange="mostrar_guia2('C')">
               <?php
 			if($Mostrar=='S' || $Proceso == 'V')
 			{
 				for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
 				{
 					if ($i==$ano2)
-						echo "<option SELECTed value ='$i'>$i</option>";
+						echo "<option selected value ='$i'>$i</option>";
 					else	
 						echo "<option value='".$i."'>".$i."</option>";
 				}
@@ -621,19 +581,19 @@ body {
 				for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
 				{
 					if ($i==date("Y"))
-						echo "<option SELECTed value ='$i'>$i</option>";
+						echo "<option selected value ='$i'>$i</option>";
 					else	
 						echo "<option value='".$i."'>".$i."</option>";
 				 }   
 			}	
 			?>
-            </SELECT>			
+            </select>			
             <?php
 			}
 			?>
 </font> </td>
             <td width="273"><font size="1"><font size="2">Hora&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <SELECT name="Hora">
+              <select name="Hora">
                 <option value="S">S</option>
                 <?php
 				for ($i=0;$i<=23;$i++)
@@ -644,22 +604,22 @@ body {
 					if (isset($Hora))
 					{	
 						if ($Hora == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($HoraActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-              </SELECT>
+              </select>
               <strong>:</strong>
-              <SELECT name="Minutos">
+              <select name="Minutos">
                 <option value="S">S</option>
                 <?php
 				for ($i=0;$i<=59;$i++)
@@ -671,20 +631,20 @@ body {
 					if (isset($Minutos))
 					{	
 						if ($Minutos == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($MinutoActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-              </SELECT>
+              </select>
             </font></font></td>
             <td width="118">
               <input name="ver datos" type="button" value="Datos Ingres." style="width:90" onClick="Datos_Ingresados();">
@@ -889,7 +849,7 @@ body {
 		$FechaIniCon=$ano2."-".$mes2."-"."01";
 		$FechaFinCon=$ano2."-".$mes2."-"."31";
 		$TotalPeso=0;$TotalPesoR=0;$TotalPiezas=0;$TotalPiezasR=0;
-		$Consulta="SELECT t1.guia,t1.fecha_guia,t1.lote_ventana,t2.lote_origen,t1.marca,t2.hornada_ventana,t1.peso,t1.peso_recep,t1.piezas,t1.piezas_recep,t1.estado ";
+		$Consulta="select t1.guia,t1.fecha_guia,t1.lote_ventana,t2.lote_origen,t1.marca,t2.hornada_ventana,t1.peso,t1.peso_recep,t1.piezas,t1.piezas_recep,t1.estado ";
 		$Consulta.="from sea_web.recepcion_externa t1 left join sea_web.relaciones t2 on t1.lote_ventana=t2.lote_ventana ";
 		$Consulta.="where (fecha between '".$FechaIniCon."' and '".$FechaFinCon."') and (t1.estado in('C','X') or t1.peso = t1.peso_recep) order by t1.guia";
 		//echo $Consulta."<br>";

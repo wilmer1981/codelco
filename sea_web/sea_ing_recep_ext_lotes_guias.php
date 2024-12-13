@@ -1,52 +1,21 @@
 <?php 
 	include("../principal/conectar_sea_web.php");
-	if(isset($_REQUEST["Buscar"])) {
-		$Buscar = $_REQUEST["Buscar"];
-	}else{
-		$Buscar = '';
-	}
 
-	if(isset($_REQUEST["Lote"])) {
-		$Lote = $_REQUEST["Lote"];
-	}else{
-		$Lote = '';
-	}
-	if(isset($_REQUEST["Guia"])) {
-		$Guia = $_REQUEST["Guia"];
-	}else{
-		$Guia = '';
-	}
-	if(isset($_REQUEST["LoteOrigen"])) {
-		$LoteOrigen = $_REQUEST["LoteOrigen"];
-	}else{
-		$LoteOrigen = '';
-	}
+	$Buscar     = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:"";
+	$Lote       = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
+	$Guia       = isset($_REQUEST["Guia"])?$_REQUEST["Guia"]:"";
+	$LoteOrigen = isset($_REQUEST["LoteOrigen"])?$_REQUEST["LoteOrigen"]:"";
+	/*
 	if(isset($_REQUEST["FechaRec"])) {
 		$TxtFecha = $_REQUEST["FechaRec"];
 	}else{
 		$TxtFecha = '';
 	}
-/*
-	if(isset($_REQUEST["TxtFecha"])) {
-		$TxtFecha = $_REQUEST["TxtFecha"];
-	}else{
-		$TxtFecha = '';
-	}*/
-	if(isset($_REQUEST["Hora"])) {
-		$Hora = $_REQUEST["Hora"];
-	}else{
-		$Hora = date("H");
-	}
-	if(isset($_REQUEST["Minutos"])) {
-		$Minutos = $_REQUEST["Minutos"];
-	}else{
-		$Minutos = date("i");
-	}
+*/
+	$Hora      = isset($_REQUEST["Hora"])?$_REQUEST["Hora"]:date("H");
+	$Minutos   = isset($_REQUEST["Minutos"])?$_REQUEST["Minutos"]:date("i");
+	$TxtFecha  = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date('Y-m-d');
 
-	if(!isset($TxtFecha))
-	{
-		$TxtFecha=date('Y-m-d');
-	}
 	$HoraAux=date('G');
 	$MinAux=date('i');
 	if(!isset($Hora))
@@ -71,12 +40,12 @@
 	//$LoteO=substr($LoteOrigen,0,1).substr($LoteOrigen,2);
 	$LoteO    = $LoteOrigen;
 	$Consulta = "SELECT * FROM sea_web.recepcion_externa WHERE guia='".$Guia."' AND lote_origen='".$LoteO."' AND lote_ventana='".str_pad($Lote,8,'0',STR_PAD_LEFT)."'";
-	//$Consulta="SELECT * from sea_web.recepcion_externa where guia='".$Guia."' and lote_ventana='".str_pad($Lote,8,'0',STR_PAD_LEFT)."'";
-	echo $Consulta;
+	//$Consulta="select * from sea_web.recepcion_externa where guia='".$Guia."' and lote_ventana='".str_pad($Lote,8,'0',STR_PAD_LEFT)."'";
+	//echo $Consulta;
 	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Resp);
-	echo "Resultado:<br>";
-	var_dump($Fila);
+	//echo "Resultado:<br>";
+	//var_dump($Fila);
 
 	$TxtPesoR=$Fila["peso_recep"];
 	$TxtUnidR=$Fila["piezas_recep"];
@@ -187,7 +156,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			  <input name="TxtFecha" type="text" class="InputCen" value="<?php echo $TxtFecha; ?>" size="15" maxlength="10" readOnly>
               <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onclick="popFrame.fPopCalendar(TxtFecha,TxtFecha,popCal);return false">&nbsp;
               <font size="1"><font size="2">
-              <SELECT name="Hora">
+              <select name="Hora">
                 <option value="S">S</option>
                 <?php
 				for ($i=0;$i<=23;$i++)
@@ -198,22 +167,22 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					if (isset($Hora))
 					{	
 						if ($Hora == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}/*
 					else
 					{	
 						if ($HoraActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}*/
 				}
 				?>
-              </SELECT>
+              </select>
               <strong>:</strong>
-              <SELECT name="Minutos">
+              <select name="Minutos">
                 <option value="S">S</option>
                 <?php
 				for ($i=0;$i<=59;$i++)
@@ -225,20 +194,20 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					if (isset($Minutos))
 					{	
 						if ($Minutos == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}/*
 					else
 					{	
 						if ($MinutoActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}*/
 				}
 				?>
-              </SELECT>
+              </select>
               </font></font> </td>
 		  </tr>
 </table>
@@ -270,7 +239,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	echo "</tr>";
 	$PesoPieza= round($TxtPesoO/$TxtUnidO);
 	$TotPiezas=0;$TotPeso=0;
-	$Consulta="SELECT * from sipa_web.recepciones where lote='".str_pad($Lote,'8','0',STR_PAD_LEFT)."' and guia_despacho='".$Guia."' and peso_neto<>0 and tipo ='A'";
+	$Consulta="select * from sipa_web.recepciones where lote='".str_pad($Lote,'8','0',STR_PAD_LEFT)."' and guia_despacho='".$Guia."' and peso_neto<>0 and tipo ='A'";
 	//echo $Consulta."<br>";
 	echo "<input type='hidden' name='TxtPesoNeto'>";
 	echo "<input type='hidden' name='TxtUnid'>";
