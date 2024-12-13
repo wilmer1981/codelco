@@ -113,15 +113,9 @@ if(isset($_REQUEST["saldo_p"])) {
 	$saldo_p = 0;
 }
 
-
-
-
-
-
-
 	$HoraAux=date('G');
 	$MinAux=date('i');
-	if(!isset($Hora))
+	if($Hora=="")
 	{
 		if(intval($HoraAux)>=0&&intval($HoraAux)<8)
 		{
@@ -184,7 +178,7 @@ if(isset($_REQUEST["saldo_p"])) {
 						{	
 						$saldo_unidades = ($row2["unidadesmov"] - $unidades)*-1; 
 						//$saldo_p= (($peso_unidad * $row2["unidadesmov"]) - $peso)*-1;
-						$saldo_p = PesoFaltante(19,$subproducto,$hornada);
+						$saldo_p = PesoFaltante(19,$subproducto,$hornada,$link);
 						   if($saldo_p < 0)
 						      $saldo_p = 0;
 						   if($saldo_unidades < 0)
@@ -455,7 +449,7 @@ function Recarga5(f)
           </tr>
           <tr> 
             <td><font color="#000000" size="2">Fecha Producci&oacute;n</font></td>
-            <td colspan="2"> <SELECT name="dia_p" size="1" style="font-face:verdana;font-size:10">
+            <td colspan="2"> <select name="dia_p" size="1" style="font-face:verdana;font-size:10">
                 <?php
 						if($mostrar=='S')
 						{
@@ -463,7 +457,7 @@ function Recarga5(f)
 							{
 							if ($i==$dia_p)
 									{
-									echo "<option SELECTed value= '".$i."'>".$i."</option>";
+									echo "<option selected value= '".$i."'>".$i."</option>";
 									}
 									else
 									{						
@@ -477,7 +471,7 @@ function Recarga5(f)
 							{
 								if ($i==date("j"))
 									{
-									echo "<option SELECTed value= '".$i."'>".$i."</option>";
+									echo "<option selected value= '".$i."'>".$i."</option>";
 									}
 									else
 									{						
@@ -486,7 +480,7 @@ function Recarga5(f)
 							}
 					}			
 				?>
-              </SELECT> <SELECT name="mes_p" size="1" id="SELECT4" style="FONT-FACE:verdana;FONT-SIZE:10">
+              </select> <select name="mes_p" size="1" id="select4" style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
 					$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 					if ($mostrar=='S')
@@ -496,7 +490,7 @@ function Recarga5(f)
 						{
 							if ($i==$mes_p)
 							{				
-							echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+							echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 							}			
 							else
 							{
@@ -510,7 +504,7 @@ function Recarga5(f)
 						{
 							if ($i==date("n"))
 							{				
-							echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+							echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 							}			
 							else
 							{
@@ -520,7 +514,7 @@ function Recarga5(f)
 					} 	  
 					
 				?>
-              </SELECT> <SELECT name="ano_p" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
+              </select> <select name="ano_p" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
 					if($mostrar=='S')
 					{
@@ -528,7 +522,7 @@ function Recarga5(f)
 						{
 							if ($i==$ano_p)
 							{
-							echo "<option SELECTed value ='$i'>$i</option>";
+							echo "<option selected value ='$i'>$i</option>";
 							}
 							else	
 							{
@@ -542,7 +536,7 @@ function Recarga5(f)
 						{
 							if ($i==date("Y"))
 							{
-							echo "<option SELECTed value ='$i'>$i</option>";
+							echo "<option selected value ='$i'>$i</option>";
 							}
 							else	
 							{
@@ -551,7 +545,7 @@ function Recarga5(f)
 						}   
 					}	
 				?>
-              </SELECT>
+              </select>
               <font size="1"><font size="2">
               </font></font> </td>
             <td colspan="2"><input name="consulta2" type="button" style="width:140" onClick="consultar_datos();" value="Buscar Hornadas"></td>
@@ -561,7 +555,7 @@ function Recarga5(f)
             <td colspan="2"> 
               <?php
 				if ($mostrar == "S")
-					echo '<input type="text" name="cmbgrupo_o" size="4" value="N� '.$cmbgrupo_o.'" Readonly>';
+					echo '<input type="text" name="cmbgrupo_o" size="4" value="Nº '.$cmbgrupo_o.'" Readonly>';
 				else
 					echo '<input type="text" name="cmbgrupo_o" size="4" Readonly>';
  		 ?>
@@ -599,7 +593,7 @@ function Recarga5(f)
           <tr> 
             <td width="27%"><font color="#000000" size="2">Fecha Beneficio</font></td>
             <td width="43%"><font color="#000000" size="2"> 
-              <SELECT name="dia_b" size="1" style="font-face:verdana;font-size:10">
+              <select name="dia_b" size="1" style="font-face:verdana;font-size:10">
                 <?php
 						if($mostrar=='S')
 						{
@@ -607,7 +601,7 @@ function Recarga5(f)
 							{
 							if ($i==$dia_b)
 									{
-									echo "<option SELECTed value= '".$i."'>".$i."</option>";
+									echo "<option selected value= '".$i."'>".$i."</option>";
 									}
 									else
 									{						
@@ -621,7 +615,7 @@ function Recarga5(f)
 							{
 								if ($i==date("j"))
 									{
-									echo "<option SELECTed value= '".$i."'>".$i."</option>";
+									echo "<option selected value= '".$i."'>".$i."</option>";
 									}
 									else
 									{						
@@ -630,9 +624,9 @@ function Recarga5(f)
 							}
 					}			
 				?>
-              </SELECT>
+              </select>
               </font> <font color="#000000" size="2"> 
-              <SELECT name="mes_b" size="1" id="SELECT7" style="FONT-FACE:verdana;FONT-SIZE:10">
+              <select name="mes_b" size="1" id="select7" style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
 					$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 					if ($mostrar=='S')
@@ -641,7 +635,7 @@ function Recarga5(f)
 						{
 							if ($i==$mes_b)
 							{				
-							echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+							echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 							}			
 							else
 							{
@@ -655,7 +649,7 @@ function Recarga5(f)
 						{
 							if ($i==date("n"))
 							{				
-							echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+							echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 							}			
 							else
 							{
@@ -665,8 +659,8 @@ function Recarga5(f)
 					} 	  
 					
 				?>
-              </SELECT>
-              <SELECT name="ano_b" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
+              </select>
+              <select name="ano_b" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
 					if($mostrar=='S')
 					{
@@ -674,7 +668,7 @@ function Recarga5(f)
 						{
 							if ($i==$ano_b)
 							{
-							echo "<option SELECTed value ='$i'>$i</option>";
+							echo "<option selected value ='$i'>$i</option>";
 							}
 							else	
 							{
@@ -688,7 +682,7 @@ function Recarga5(f)
 						{
 							if ($i==date("Y"))
 							{
-							echo "<option SELECTed value ='$i'>$i</option>";
+							echo "<option selected value ='$i'>$i</option>";
 							}
 							else	
 							{
@@ -697,9 +691,9 @@ function Recarga5(f)
 						}   
 					}	
 				?>
-              </SELECT>
+              </select>
                </font><font size="1"><font size="2">
-               <SELECT name="Hora">
+               <select name="Hora">
                  <option value="S">S</option>
                  <?php
 				for ($i=0;$i<=23;$i++)
@@ -710,22 +704,22 @@ function Recarga5(f)
 					if (isset($Hora))
 					{	
 						if ($Hora == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($HoraActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-               </SELECT>
+               </select>
                <strong>:</strong>
-               <SELECT name="Minutos">
+               <select name="Minutos">
                  <option value="S">S</option>
                  <?php
 				for ($i=0;$i<=59;$i++)
@@ -737,20 +731,20 @@ function Recarga5(f)
 					if (isset($Minutos))
 					{	
 						if ($Minutos == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($MinutoActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-               </SELECT>
+               </select>
                </font></font></td>
             <td colspan="2">&nbsp; 
               <?php
@@ -776,44 +770,44 @@ function Recarga5(f)
 	            echo '<td>Fecha a Cual Agrupar</td>';
     	        echo '<td>';
 				
-				echo '<SELECT name="dia2" size="1">';
+				echo '<select name="dia2" size="1">';
 				for ($i=1;$i<=31;$i++)
 				{	
 					if ($i == $dia2)
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";				
+						echo "<option selected value= '".$i."'>".$i."</option>";				
 					else if ($i == date("j"))
-							echo "<option SELECTed value= '".$i."'>".$i."</option>";											
+							echo "<option selected value= '".$i."'>".$i."</option>";											
 					else					
 						echo "<option value='".$i."'>".$i."</option>";												
 				}		
 
-             	echo '</SELECT>';
-              	echo '<SELECT name="mes2" size="1">';
+             	echo '</select>';
+              	echo '<select name="mes2" size="1">';
 
 		 		for($i=1;$i<13;$i++)
 			  	{
 					if ($i == date("n"))
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					else if ($i == $mes)
-							echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+							echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					else
 						echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}		  
 
-    			echo '</SELECT>';
-              	echo '<SELECT name="ano2" size="1">';
+    			echo '</select>';
+              	echo '<select name="ano2" size="1">';
 
 				for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 				{
 					if ($i == date("Y"))
-						echo "<option SELECTed value ='$i'>$i</option>";
+						echo "<option selected value ='$i'>$i</option>";
 					else if ($i == $ano2)
-						echo "<option SELECTed value ='$i'>$i</option>";
+						echo "<option selected value ='$i'>$i</option>";
 					else	
 						echo "<option value='".$i."'>".$i."</option>";
 				}
 
-              	echo '</SELECT>';
+              	echo '</select>';
 				echo '</td>';
 				echo '<td></td>';				
         	  	echo '</tr>';
@@ -822,7 +816,7 @@ function Recarga5(f)
           <tr> 
             <td><font color="#000000" size="2">Grupo</font></td>
             <td> <font color="#000000"> 
-              <SELECT name="cmbgrupo_d">
+              <select name="cmbgrupo_d">
                 <?php
 			include("../principal/conectar_principal.php");
 			echo '<option value="-1">Grupo</option>';
@@ -831,38 +825,38 @@ function Recarga5(f)
 			while ($row = mysqli_fetch_array($rs))
 			{
 				if (($mostrar == "S") and ($row["cod_subclase"] == $cmbgrupo_d))
-					echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 				else
 					echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 			}
 		?>
-              </SELECT>
+              </select>
               </font></td>
             <td colspan="2"><font color="#000000" size="2">Lado</font></td>
             <td colspan="3"> <font color="#000000"> 
-              <SELECT name="cmblado" id="SELECT2">
+              <select name="cmblado" id="select2">
                 <?php
 	  		if ($mostrar == "S") 
 			{		
 				if ($cmblado == "-1")
-					echo '<option value="-1" SELECTed>Lado</option>';
+					echo '<option value="-1" selected>Lado</option>';
 				else 
 					echo '<option value="-1">Lado</option>';
 				if ($cmblado == "M")
-    	    		echo '<option value="M" SELECTed>MAR</option>';
+    	    		echo '<option value="M" selected>MAR</option>';
 				else
 					echo '<option value="M">MAR</option>';	
 				if ($cmblado == "T")
-					echo  '<option value="T" SELECTed>TIERRA</option>';
+					echo  '<option value="T" selected>TIERRA</option>';
 				else
 					echo  '<option value="T">TIERRA</option>';
 				if ($cmblado == "N")
-					echo  '<option value="T" SELECTed>NORTE</option>';
+					echo  '<option value="T" selected>NORTE</option>';
 				else
 					echo  '<option value="T">NORTE</option>';
 					
 				if ($cmblado == "S")
-					echo  '<option value="T" SELECTed>SUR</option>';
+					echo  '<option value="T" selected>SUR</option>';
 				else
 					echo  '<option value="T">SUR</option>';
 	
@@ -879,7 +873,7 @@ function Recarga5(f)
 
 			}
 		?>
-              </SELECT>
+              </select>
               </font></td>
           </tr>
           <tr> 
