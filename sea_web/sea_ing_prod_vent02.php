@@ -1,34 +1,11 @@
 <?php
 include("../principal/conectar_sea_web.php");
 
-if(isset($_REQUEST["Proceso"])) {
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso = '';
-}
-if(isset($_REQUEST["cmbproductos"])) {
-	$cmbproductos = $_REQUEST["cmbproductos"];
-}else{
-	$cmbproductos = '';
-}
-
-
-
-if(isset($_REQUEST["ano"])) {
-	$ano = $_REQUEST["ano"];
-}else{
-	$ano = "";
-}
-if(isset($_REQUEST["mes"])) {
-	$mes= $_REQUEST["mes"];
-}else{
-	$mes = "";
-}
-if(isset($_REQUEST["dia"])) {
-	$dia= $_REQUEST["dia"];
-}else{
-	$dia = "";
-}
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$cmbproductos = isset($_REQUEST["cmbproductos"])?$_REQUEST["cmbproductos"]:"";
+$ano   = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date('Y');
+$mes   = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date('m');
+$dia   = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date('d');
 
 ?>
 
@@ -74,7 +51,7 @@ function Imprimir()
       <tr> 
         <td width="108" height="32">Fecha Busqueda</td>
         <td width="213"><font color="#000000" size="2"> 
-          <SELECT name="dia" size="1" style="font-face:verdana;font-size:10">
+          <select name="dia" size="1" style="font-face:verdana;font-size:10">
             <?php
 			if($Proceso=='B')
 			{
@@ -82,7 +59,7 @@ function Imprimir()
 				{
  				   if ($i==$dia)
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -96,7 +73,7 @@ function Imprimir()
 				{
 	   				   if ($i==date("j"))
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -105,9 +82,9 @@ function Imprimir()
  				}
 		   }			
 	?>
-          </SELECT>
+          </select>
           </font> <font color="#000000" size="2"> 
-          <SELECT name="mes" size="1" id="SELECT7" style="FONT-FACE:verdana;FONT-SIZE:10">
+          <select name="mes" size="1" id="select7" style="FONT-FACE:verdana;FONT-SIZE:10">
             <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Proceso=='B')
@@ -116,7 +93,7 @@ function Imprimir()
 		    {
                 if ($i==$mes)
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -130,7 +107,7 @@ function Imprimir()
 		    {
                 if ($i==date("n"))
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -140,8 +117,8 @@ function Imprimir()
 	    } 	  
   		  
      ?>
-          </SELECT>
-          <SELECT name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
+          </select>
+          <select name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
             <?php
 	if($Proceso=='B')
 	{
@@ -149,7 +126,7 @@ function Imprimir()
 	    {
             if ($i==$ano)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -163,7 +140,7 @@ function Imprimir()
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -172,7 +149,7 @@ function Imprimir()
          }   
     }	
 ?>
-          </SELECT>
+          </select>
           </font></td>
         <td width="159">&nbsp;</td>
       </tr>
@@ -180,8 +157,8 @@ function Imprimir()
         <td>Tipo Producto</td>
         <td>
 		<?php 
-		 echo '<SELECT name="cmbproductos" style="width:200">
-            <option  value = "-1" SELECTed>Productos</option>';
+		 echo '<select name="cmbproductos" style="width:200">
+            <option  value = "-1" selected>Productos</option>';
 			
 			$consulta = "SELECT * FROM subproducto WHERE cod_producto = '17' AND cod_subproducto in (4,8,11)";
    	        include("../principal/conectar_principal.php");
@@ -190,12 +167,12 @@ function Imprimir()
 			while ($row = mysqli_fetch_array($rs))
 			{			
 			if ($row['cod_subproducto'] == $cmbproductos and ($Proceso == 'B'))
-				echo '<option value="'.$row['cod_subproducto'].'" SELECTed>'.$row['descripcion'].'</option>';
+				echo '<option value="'.$row['cod_subproducto'].'" selected>'.$row['descripcion'].'</option>';
 			else 
 				echo '<option value="'.$row['cod_subproducto'].'">'.$row['descripcion'].'</option>';
 			}
 
-			 echo'</SELECT></td>';
+			 echo'</select></td>';
 	   
 	   ?>
 	   </td>
@@ -224,7 +201,7 @@ echo'<table cellpadding="3" cellspacing="0" width="500" border="1" bordercolor="
 		$FechaInicio = $ano.'-'.$mes.'-'.$dia." 08:00:00";
 		$FechaTermino =date("Y-m-d", mktime(1,0,0,$mes,($dia +1),$ano))." 07:59:59";
 	
-					$consulta = "SELECT hornada,unidades,peso FROM movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento between '".$fecha."' and ";
+					$consulta = "SELECT hornada,unidades,peso, hora FROM movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento between '".$fecha."' and ";
 					$consulta.=" '".$fecha2."' AND cod_producto = 17 AND cod_subproducto = '".$cmbproductos."' and hora between '".$FechaInicio."' and '".$FechaTermino."' "; 
 					$consulta.=" group by hornada,sub_tipo_movim ";
 					//echo $consulta;
