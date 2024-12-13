@@ -47,7 +47,7 @@
 	if(isset($_REQUEST["txtunid1"])) {
 		$txtunid1 = $_REQUEST["txtunid1"];
 	}else{
-		$txtunid1 = 0;
+		$txtunid1 = "";
 	}
 	if(isset($_REQUEST["txtpeso1"])) {
 		$txtpeso1 = $_REQUEST["txtpeso1"];
@@ -76,7 +76,9 @@
 		$txtpesoproduccion = "";
 	}
 
-
+    $fecha   = isset($_REQUEST["fecha"])?$_REQUEST["fecha"]:date('Y-m-d');
+	$hornada = isset($_REQUEST["hornada"])?$_REQUEST["hornada"]:"";
+	$fecha_aux = isset($_REQUEST["fecha_aux"])?$_REQUEST["fecha_aux"]:"";
 	if(strlen($pmes)==1)
 		$pmes="0".$pmes;
 	if (strlen($pdia)==1)
@@ -153,7 +155,7 @@
 		$total_peso_cargado = 0;
 					
 		$consulta = "SELECT * FROM sea_web.movimientos";
-		$consulta = $consulta." WHERE tipo_movimiento = 3 AND fecha_movimiento = '".$fecha."' AND hornada = ".$hornada;
+		$consulta = $consulta." WHERE tipo_movimiento = 3 AND fecha_movimiento = '".$fecha."' AND hornada = '".$hornada."' ";
 		$consulta = $consulta." AND campo2 = '".$cmbgrupo."' AND campo1 NOT IN ('T','M')";
 		//echo $consulta."<br>";
 		$rs = mysqli_query($link, $consulta);
