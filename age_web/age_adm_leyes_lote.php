@@ -3,7 +3,7 @@
 	$CodigoDePantalla=32;
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-
+	
 	$Recargo   = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
 	$Petalo    = isset($_REQUEST["Petalo"])?$_REQUEST["Petalo"]:"";
 	$EsPopup   = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";
@@ -14,7 +14,7 @@
 	$ExLote      = isset($_REQUEST["ExLote"])?$_REQUEST["ExLote"]:"";	
 	$FechaRecepcion = isset($_REQUEST["FechaRecepcion"])?$_REQUEST["FechaRecepcion"]:"";
 	$CmbPlantilla   = isset($_REQUEST["CmbPlantilla"])?$_REQUEST["CmbPlantilla"]:"";
-
+	
 	//COLORES DE LIMITES
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
 	$Resp=mysqli_query($link, $Consulta);
@@ -95,8 +95,8 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$TxtLote;
-			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
-
+			//LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
 			$tipo_remuestreo = isset($DatosLote["tipo_remuestreo"])?$DatosLote["tipo_remuestreo"]:"";
 			$recepcion       = isset($DatosLote["recepcion"])?$DatosLote["recepcion"]:"";
 			$peso_seco       = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
@@ -104,7 +104,6 @@
 			$peso_humedo     = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
 			$peso_seco2_ori  = isset($DatosLote["peso_seco2_ori"])?$DatosLote["peso_seco2_ori"]:0;
 			$peso_humedo_ori = isset($DatosLote["peso_humedo_ori"])?$DatosLote["peso_humedo_ori"]:0;
-
 
 			if($tipo_remuestreo=='A')
 			{
