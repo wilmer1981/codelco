@@ -1,4 +1,23 @@
-<?php include("../principal/conectar_sea_web.php")?>
+<?php 
+include("../principal/conectar_sea_web.php");
+
+	$dia_i = isset($_REQUEST["dia_i"])?$_REQUEST["dia_i"]:date("d");
+    $mes_i = isset($_REQUEST["mes_i"])?$_REQUEST["mes_i"]:date("m");
+	$ano_i = isset($_REQUEST["ano_i"])?$_REQUEST["ano_i"]:date("Y");
+	
+	$dia_t = isset($_REQUEST["dia_t"])?$_REQUEST["dia_t"]:date("d");
+    $mes_t = isset($_REQUEST["mes_t"])?$_REQUEST["mes_t"]:date("m");
+	$ano_t = isset($_REQUEST["ano_t"])?$_REQUEST["ano_t"]:date("Y");
+	
+	$radio = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+	$radio2= isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+	$cmborigen      = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
+	$cmbflujo       = isset($_REQUEST["cmbflujo"])?$_REQUEST["cmbflujo"]:"";
+	$cmbflujorestos = isset($_REQUEST["cmbflujorestos"])?$_REQUEST["cmbflujorestos"]:"";
+	$cmbanodos = isset($_REQUEST["cmbanodos"])?$_REQUEST["cmbanodos"]:"";
+	$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
+
+?>
 
 <html>
 <head>
@@ -67,7 +86,7 @@ function Imprimir()
 		$consulta = $consulta." WHERE t1.valor <> '' AND t1.cod_producto = 17";		
 		$consulta = $consulta." ORDER BY t2.orden_sea";
 		
-		$rs4 = mysqli_query($link, $consulta);
+		$rs4 = mysqli_query($link,$consulta);
 		
 		if (mysqli_num_rows($rs4) <> 0)
 		{
@@ -85,27 +104,27 @@ function Imprimir()
     echo '<td width="50" align="center">Cant.</td>';
     echo '<td width="60" align="center">Peso<br>Kgs.</td>';
 	
-	$det_leyes = array(); //Detalles de las leyes por Flujo ï¿½ Producto.
+	$det_leyes = array(); //Detalles de las leyes por Flujo ó Producto.
 	$total_dia = array(); //Totales de las por Dia.
-	$total_leyes = array(); //Totales de las leyes por Flujo ï¿½ Producto.	
+	$total_leyes = array(); //Totales de las leyes por Flujo ó Producto.	
 
 	if ($radio2 != "P")
 	{
 		while ($row4 = mysqli_fetch_array($rs4))
 		{
-			if (($radio2 == "F") and (($row4[codigo] == '02') or ($row4[codigo] == '04') or ($row4[codigo] == '05')))
-				echo '<td width="60" align="center">'.$row4[ab1].'<br>'.$row4[ab2].'</td>';
+			if (($radio2 == "F") and (($row4["codigo"] == '02') or ($row4["codigo"] == '04') or ($row4["codigo"] == '05')))
+				echo '<td width="60" align="center">'.$row4["ab1"].'<br>'.$row4["ab2"].'</td>';
 			else 
-				echo '<td width="40" align="center">'.$row4[ab1].'<br>'.$row4[ab2].'</td>';
+				echo '<td width="40" align="center">'.$row4["ab1"].'<br>'.$row4["ab2"].'</td>';
 				
-			$det_leyes[$row4[codigo]][0] = 0; //ley.
-			$det_leyes[$row4[codigo]][1] = $row4["conversion"]; //unidad de conversion.
+			$det_leyes[$row4["codigo"]][0] = 0; //ley.
+			$det_leyes[$row4["codigo"]][1] = $row4["conversion"]; //unidad de conversion.
 			
-			$total_dia[$row4[codigo]][0] = 0; //Valor Ley
-			$total_dia[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.
+			$total_dia[$row4["codigo"]][0] = 0; //Valor Ley
+			$total_dia[$row4["codigo"]][1] = $row4["conversion"]; //Unidad de conversion.
 			
-			$total_leyes[$row4[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_leyes[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.		
+			$total_leyes[$row4["codigo"]][0] = 0; //Acumulador por cada Ley.
+			$total_leyes[$row4["codigo"]][1] = $row4["conversion"]; //Unidad de conversion.		
 		}
 	}
 ?>	
@@ -129,44 +148,44 @@ function Imprimir()
 		{
 			if (($cmbanodos == "T") and ($cmbrestos == "T"))
 			{
-				$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_proceso = 2 AND cod_origen = ".$cmborigen;
+				$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_proceso = 2 AND cod_origen = '".$cmborigen."'";
 			}
 			else if (($cmbanodos == "T") and ($cmbrestos != "T"))
 				 {
-				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = ".$cmborigen." AND cod_proceso = 2";
-					$consulta = $consulta." AND cod_subproducto = ".$cmbrestos.")";
+				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = '".$cmborigen."' AND cod_proceso = 2";
+					$consulta = $consulta." AND cod_subproducto = '".$cmbrestos."')";
 				 }
 			else if (($cmbanodos != "T") and ($cmbrestos == "T"))
 				 {
-				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = ".$cmborigen;
-					$consulta = $consulta." AND cod_proceso = 2 AND cod_subproducto = ".$cmbanodos;
+				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = '".$cmborigen."'";
+					$consulta = $consulta." AND cod_proceso = 2 AND cod_subproducto = '".$cmbanodos."'";
 				 }
 			else if (($cmbanodos != "T") and ($cmbrestos != "T"))
 				 {
-				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = ".$cmborigen." AND cod_proceso = 2 ";
-					$consulta = $consulta." cod_subproducto = ".$cmbanodos;
+				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = '".$cmborigen."' AND cod_proceso = 2";
+					$consulta = $consulta." AND cod_subproducto = '".$cmbanodos."'";
 				 }
 		}													
 		else //Radio Flujo
 		{
 			if (($cmbflujo == "T") and ($cmbflujorestos == "T"))
 			{
-				$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_proceso in (2,4) AND cod_origen = ".$cmborigen;
+				$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_proceso in (2,4) AND cod_origen = '".$cmborigen."'";
 			}
 			else if (($cmbflujo == "T") and ($cmbflujorestos != "T"))				 
 				 {
-				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = ".$cmborigen." AND (cod_proceso = 2 OR ";
-					$consulta = $consulta."(cod_proceso = 4 AND flujo = ".$cmbflujorestos."))";				 
+				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = '".$cmborigen."' AND (cod_proceso = 2 OR ";
+					$consulta = $consulta."(cod_proceso = 4 AND flujo = '".$cmbflujorestos."'))";				 
 				 }	 
 			else if (($cmbflujo != "T") and ($cmbflujorestos == "T"))
 				 {
-					$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = ".$cmborigen." AND (cod_proceso = 4 OR ";
-					$consulta = $consulta."(cod_proceso = 2 AND flujo = ".$cmbflujo."))";				 	
+					$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = '".$cmborigen."' AND (cod_proceso = 4 OR ";
+					$consulta = $consulta."(cod_proceso = 2 AND flujo = '".$cmbflujo."'))";				 	
 				 }
 			else if (($cmbflujo != "T") and ($cmbflujorestos != "T"))
 				 {
-				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = ".$cmborigen." AND ((cod_proceso = 2 AND";
-					$consulta = $consulta." flujo = ".$cmbflujo.") OR (cod_proceso = 4 AND flujo = ".$cmbflujorestos."))";
+				 	$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_origen = '".$cmborigen."' AND ((cod_proceso = 2 AND";
+					$consulta = $consulta." flujo = '".$cmbflujo."') OR (cod_proceso = 4 AND flujo = '".$cmbflujorestos."'))";
 				 }
 		}
 	}	
@@ -174,12 +193,12 @@ function Imprimir()
 	$consulta = $consulta." ORDER BY flujo";		
 
 	//Ejecuta la consulta.
-	$rs1 = mysqli_query($link, $consulta); 
+	$rs1 = mysqli_query($link,$consulta); 
 
 	//Llena el arreglo con los flujos y subproductos; y el inicio de hornada en el caso de Ventanas(Representa al horno).
 	while ($row1 = mysqli_fetch_array($rs1))
 	{
-		$arreglo[] = array($row1["flujo"], $row1["cod_producto"], $row1["cod_subproducto"], $row1[cod_proceso]);
+		$arreglo[] = array($row1["flujo"], $row1["cod_producto"], $row1["cod_subproducto"], $row1["cod_proceso"]);
 	}
 
 /*	
@@ -193,11 +212,12 @@ function Imprimir()
 
 	// Saca todos los movimientos de recepcion afectados.
 	reset($arreglo);
-	while (list($clave, $valor) = each($arreglo)) // (0: flujo, 1: cod_producto, 2: cod_subproducto, 3: cod_proceso)
+	// (0: flujo, 1: cod_producto, 2: cod_subproducto, 3: cod_proceso)
+	foreach($arreglo as $clave => $valor)
 	{
 		//Limpia el arreglo de los Totales de las Leyes.
 		reset($total_leyes);
-		while (list($c1, $v1) = each($total_leyes))
+		foreach($total_leyes as $c1 => $v1)
 		{	
 			$total_leyes[$c1][0] = 0; //Acumulador.				
 		}
@@ -209,13 +229,13 @@ function Imprimir()
 		$consulta = $consulta." and hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";		
 	
 		//echo $consulta."<br>";
-		$rs8 = mysqli_query($link, $consulta);
+		$rs8 = mysqli_query($link,$consulta);
 
 		if (mysqli_num_rows($rs8) != 0) //Si existen datos escribir flujo.
 		{
 			$row8 = mysqli_fetch_array($rs8);
 			
-			//Si hay movimientos escribe el Producto ï¿½ Flujo.
+			//Si hay movimientos escribe el Producto ó Flujo.
 			echo '<table width="320" border="0" cellspacing="0" cellpadding="0" align="center" class="ColorTabla01">';
 			echo '<tr><td align="center">';
 		
@@ -230,7 +250,7 @@ function Imprimir()
 				echo "FLUJO: ".$valor[0]." ";
 			}
 			
-			$rs4 = mysqli_query($link, $consulta);
+			$rs4 = mysqli_query($link,$consulta);
 						
 			if ($row4 = mysqli_fetch_array($rs4))
 				echo $row4["nombre"];									
@@ -244,7 +264,7 @@ function Imprimir()
 			{
 				//Limpia el arreglo de los Totales por Dia de las Leyes.
 				reset($total_dia);
-				while (list($c1, $v1) = each($total_dia))
+				foreach($total_dia as $c1 => $v1)
 				{	
 					$total_dia[$c1][0] = 0; //Acumulador.				
 				}		
@@ -267,7 +287,7 @@ function Imprimir()
 				//$consulta = $consulta." ORDER BY hornada";				
 							
 							
-				$rs2 = mysqli_query($link, $consulta);
+				$rs2 = mysqli_query($link,$consulta);
 			//echo $consulta."<br>";	
 				if (mysqli_num_rows($rs2) != 0) //Si la Consulta devuelve datos.
 				{	
@@ -276,18 +296,16 @@ function Imprimir()
 					while ($row2 = mysqli_fetch_array($rs2))
 					{												  
 						echo '<tr><td width="30">'.substr($fecha_aux,8,2).'</td>';
-						echo '<td width="50" align="center">'.substr($row2[hornada],6,6).'</td>';
+						echo '<td width="50" align="center">'.substr($row2["hornada"],6,6).'</td>';
 						echo '<td width="50" align="right">';
 						
 						
 						$consulta = "SELECT SUM(unidades) as unidades,SUM(peso) as peso";	
 						$consulta = $consulta." FROM sea_web.movimientos";
 						$consulta = $consulta." WHERE tipo_movimiento = 2 AND cod_producto = ".$valor[1]." AND cod_subproducto = ".$valor[2]." AND flujo = ".$valor[0];
-						$consulta = $consulta." AND hornada=$row2[hornada] AND ";
-						if ($row2[tipo_reg] == "N")
-						{
-						
-						
+						$consulta = $consulta." AND hornada='".$row2["hornada"]."' AND ";
+						if ($row2["tipo_reg"] == "N")
+						{					
 							$consulta = $consulta."  fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 							$consulta = $consulta." and hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";		
 						//$consulta = $consulta." fecha_movimiento = '".$fecha_aux."'";
@@ -301,7 +319,7 @@ function Imprimir()
 						$consulta = $consulta." ORDER BY hornada";
 						//echo $consulta."<br>";
 
-						$rs_p = mysqli_query($link, $consulta);
+						$rs_p = mysqli_query($link,$consulta);
 						if($row_p = mysqli_fetch_array($rs_p))
 						{
 							$unidades = $row_p["unidades"];				
@@ -316,7 +334,7 @@ function Imprimir()
 						{
 							//Limpio el arreglo.
 							reset($det_leyes);
-							while (list($c1, $v1) = each($det_leyes))
+							foreach($det_leyes as $c1 => $v1)
 							{	
 								$det_leyes[$c1][0] = 0;
 							}
@@ -326,10 +344,10 @@ function Imprimir()
 							$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
 							$consulta = $consulta." INNER JOIN proyecto_modernizacion.unidades AS t3 ON t2.cod_unidad = t3.cod_unidad";
 							$consulta = $consulta." WHERE t1.cod_producto = ".$valor[1]." AND t1.cod_subproducto = ".$valor[2];
-							$consulta = $consulta." AND t1.hornada = ".$row2[hornada]." AND t1.valor <> ''";
+							$consulta = $consulta." AND t1.hornada = ".$row2["hornada"]." AND t1.valor <> ''";
 							//echo $consulta."<br>";		
 						
-							$rs5 = mysqli_query($link, $consulta);
+							$rs5 = mysqli_query($link,$consulta);
 																		
 							//Traspaso las leyes de cada hornada a un arreglo, para que mantengan la estructura de la tabla.
 							while ($row5 = mysqli_fetch_array($rs5))
@@ -350,7 +368,7 @@ function Imprimir()
 								
 						//Genero las columnas de leyes que estan en el arreglo.
 						reset($det_leyes);
-						while (list($c1, $v1) = each($det_leyes))
+						foreach($det_leyes as $c1 => $v1)
 						{
 								if ($radio2 == "L") //Leyes.
 								{
@@ -395,7 +413,7 @@ function Imprimir()
 					//$consulta = $consulta." OR (fecha_benef = '".$fecha_aux."'))";
 					//echo $consulta."<br>";					
 	
-					$rs7 = mysqli_query($link, $consulta);	
+					$rs7 = mysqli_query($link,$consulta);	
 					$row7 = mysqli_fetch_array($rs7);
 					
 					//echo '<table width="'.$largo.'" border="1" cellspacing="0" cellpadding="0" align="center" class="Detalle02">'; 				
@@ -407,7 +425,7 @@ function Imprimir()
 					
 					//Genero las columnas de leyes que estan en el arreglo.
 					reset($total_dia);
-					while (list($c1, $v1) = each($total_dia))
+					foreach($total_dia as $c1 => $v1)
 					{
 						if ($radio2 == "L") //Leyes.
 						{
@@ -439,7 +457,7 @@ function Imprimir()
 				}
 				//Incrementa la fecha en 1 Dia.
 				$consulta = "SELECT DATE_ADD('".$fecha_aux."',INTERVAL 1 DAY) AS fecha";
-				$rs10 = mysqli_query($link, $consulta);
+				$rs10 = mysqli_query($link,$consulta);
 				$row10 = mysqli_fetch_array($rs10);
 				$fecha_aux = $row10["fecha"];
 			}
@@ -452,7 +470,7 @@ function Imprimir()
 			$consulta = $consulta." OR (fecha_benef BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'))";			
 			$consulta = $consulta." and hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";		
 
-			$rs3 = mysqli_query($link, $consulta);
+			$rs3 = mysqli_query($link,$consulta);
 			
 			echo '<table width="'.$largo.'" border="0" cellspacing="0" cellpadding="0" align="center" class="Detalle02">';
            	echo '<tr><td width="80">'; 

@@ -7,6 +7,7 @@ if(isset($_REQUEST["Proceso"])) {
 }else{
 	$Proceso = "";
 }
+
 if(isset($_REQUEST["listados"])) {
 	$listados = $_REQUEST["listados"];
 }else{
@@ -22,31 +23,11 @@ if(isset($_REQUEST["cmblistados"])) {
 }else{
 	$cmblistados =  "";
 }
-if(isset($_REQUEST["cmborigen"])) {
-	$cmborigen = $_REQUEST["cmborigen"];
-}else{
-	$cmborigen =  "";
-}
-if(isset($_REQUEST["cmbrestos"])) {
-	$cmbrestos = $_REQUEST["cmbrestos"];
-}else{
-	$cmbrestos =  "";
-}
-if(isset($_REQUEST["cmbanodos"])) {
-	$cmbanodos = $_REQUEST["cmbanodos"];
-}else{
-	$cmbanodos =  "";
-}
-if(isset($_REQUEST["radio"])) {
-	$radio = $_REQUEST["radio"];
-}else{
-	$radio =  "";
-}
-if(isset($_REQUEST["radio2"])) {
-	$radio2 = $_REQUEST["radio2"];
-}else{
-	$radio2 =  "";
-}
+	$cmborigen = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
+	$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
+	$cmbanodos = isset($_REQUEST["cmbanodos"])?$_REQUEST["cmbanodos"]:"";
+	$radio = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+	$radio2= isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
 
 ?>
 <html>
@@ -86,8 +67,13 @@ function recarga_productos()
 					f.action="sea_lista.php?listados=S&Proceso=R&radio="+radio;
 					f.submit();
 				 }
+				
+
 		}
-	}	
+	}
+		 
+		 
+	
 }
 
 function ejecucion(opc)
@@ -105,7 +91,7 @@ function ejecucion(opc)
 	{
 		if(f.radio2[0].checked == false && f.radio2[1].checked == false && f.radio2[2].checked == false)
 		{
-			alert("Debe escoger si Listado es por Finos, Leyes Ã³ Peso ");
+			alert("Debe escoger si Listado es por Finos, Leyes ? Peso ");
 			return	
 		}
     }
@@ -308,6 +294,7 @@ var f=formulario;
 
     if($listados == 'S')       	
    {
+
 		
 		if($cmbmovimiento == 1)
 		{	
@@ -350,19 +337,19 @@ var f=formulario;
 		if($cmbmovimiento == 3)
 		{	
 			if($cmblistados == 4)
-			echo '<option value="4" SELECTed>Producciï¿½n Acumulada por Grupos de Restos</option>';
+			echo '<option value="4" SELECTed>Producción Acumulada por Grupos de Restos</option>';
 			else
-			echo '<option value="4">Producciï¿½n Acumulada por Grupos de Restos</option>';
+			echo '<option value="4">Producción Acumulada por Grupos de Restos</option>';
 
 			if($cmblistados == 5)
-			echo '<option value="5" SELECTed>Producciï¿½n Acumulada de Restos</option>';
+			echo '<option value="5" SELECTed>Producción Acumulada de Restos</option>';
 			else
-			echo '<option value="5">Producciï¿½n Acumulada de Restos</option>';
+			echo '<option value="5">Producción Acumulada de Restos</option>';
 
 			if($cmblistados == 6)
-			echo '<option value="6" SELECTed>Producciï¿½n Diaria Acumulada de Restos</option>';
+			echo '<option value="6" SELECTed>Producción Diaria Acumulada de Restos</option>';
 			else
-			echo '<option value="6">Producciï¿½n Diaria Acumulada de Restos</option>';
+			echo '<option value="6">Producción Diaria Acumulada de Restos</option>';
 
         }	
 
@@ -508,7 +495,7 @@ include("../principal/conectar_principal.php");
 /***********  restos anodos ********/
 		 if($cmbmovimiento == 2 || $cmbmovimiento == 3 || $cmbmovimiento == 4)
 		 {
-			echo '<td width="105">Restos de ï¿½nodos</td>';
+			echo '<td width="105">Restos de &Aacute;nodos</td>';
 			
 			echo "<td><SELECT name='cmbrestos'>";           
 
@@ -541,7 +528,7 @@ include("../principal/conectar_principal.php");
 /***********  flujos anodos ********/
 		 if($cmbmovimiento == 1 || $cmbmovimiento == 10 || $cmbmovimiento == 2 || $cmbmovimiento == 4)
 		 {
-            echo'<tr><td width="100">ï¿½nodos de Cobre</td>';
+            echo'<tr><td width="100">?nodos de Cobre</td>';
 			echo "<td><SELECT name='cmbflujo'>";           
 			
         	if (($cmbflujo == 'T') and ($Proceso == 'R'))				
@@ -567,7 +554,7 @@ include("../principal/conectar_principal.php");
 /***********  flujos restos ********/
 		 if($cmbmovimiento == 2 || $cmbmovimiento == 3 || $cmbmovimiento == 4)
 		 {
-            echo'<td width="110">Restos de ï¿½nodos</td>';
+            echo'<td width="110">Restos de ?nodos</td>';
 			echo "<td><SELECT name='cmbflujorestos'>";           
 
         	if (($cmbflujorestos == 'T') and ($Proceso == 'R'))				
