@@ -15,7 +15,7 @@ if(isset($_REQUEST["cmbgrupo"])) {
 if(isset($_REQUEST["cmbfecha"])) {
 	$cmbfecha = $_REQUEST["cmbfecha"];
 }else{
-	$cmbfecha = "";
+	$cmbfecha = date("Y-m-d");
 }
 if(isset($_REQUEST["dia_r"])) {
 	$dia_r = $_REQUEST["dia_r"];
@@ -40,14 +40,15 @@ if(isset($_REQUEST["ano_r"])) {
 <title>Sistema de Anodos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
+<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
-</style>
-</head>
+-->
+</style></head>
 <script language="JavaScript">
 
 /***********************/
@@ -163,7 +164,7 @@ var f=formulario;
   <table width="750" cellpadding="3" cellspacing="0" class="TablaInterior">
           <tr> 
             <td colspan="2">Fecha Reproceso</td>
-            <td width="203"><SELECT name="dia_r" size="1" style="font-face:verdana;font-size:10">
+            <td width="203"><select name="dia_r" size="1" style="font-face:verdana;font-size:10">
                 <?php    
 			if($Proceso == 'V' || $Proceso == 'B')
 			{
@@ -171,7 +172,7 @@ var f=formulario;
 				{
  				   if ($i==$dia_r)
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -185,7 +186,7 @@ var f=formulario;
 				{
 	   				   if ($i==date("j"))
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -195,7 +196,7 @@ var f=formulario;
 		   }
 		
 		 ?>
-              </SELECT> <SELECT  name="mes_r" size="1" id="SELECT5" style="FONT-FACE:verdana;FONT-SIZE:10">
+              </select> <select  name="mes_r" size="1" id="select5" style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php       
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Proceso=='V' || $Proceso == 'B')
@@ -205,7 +206,7 @@ var f=formulario;
 		    {
                 if ($i==$mes_r)
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -219,7 +220,7 @@ var f=formulario;
 		    {
                 if ($i==date("n"))
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -228,7 +229,7 @@ var f=formulario;
 		    }  			 
 	    } 	  
     ?>
-              </SELECT> <SELECT name="ano_r" size="1" id="SELECT6"  style="FONT-FACE:verdana;FONT-SIZE:10">
+              </select> <select name="ano_r" size="1" id="select6"  style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php            
 	if($Proceso=='V' || $Proceso == 'B')
 	{
@@ -236,7 +237,7 @@ var f=formulario;
 	    {
             if ($i==$ano_r)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -250,7 +251,7 @@ var f=formulario;
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -259,7 +260,7 @@ var f=formulario;
          }   
     }
 	?>
-              </SELECT></td>
+              </select></td>
             <td colspan="3">Ver Restos Ingresados</td>
             <td width="150"><font color="#000000">
              
@@ -280,7 +281,7 @@ var f=formulario;
 		    <td width="69">Grupo</td>
                 
             <td width="71"><font color="#000000"> 
-              <SELECT name="cmbgrupo" onChange="mostrar_grupos();">
+              <select name="cmbgrupo" onChange="mostrar_grupos();">
          <?php
 			include("../principal/conectar_principal.php");
 			echo '<option value="-1">Grupo</option>';
@@ -289,17 +290,17 @@ var f=formulario;
 			while ($row = mysqli_fetch_array($rs))
 			{
 				if ($row["cod_subclase"] == $cmbgrupo)
-					echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 				else
 					echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 			}
 		?>
-              </SELECT>
+              </select>
               </font> </td> 
             <td><font color="#000000">Peso/Fecha</font> </td>
 		    <td width="512"><font color="#000000">
 		 
-      		<SELECT name="cmbfecha" onChange="mostrar_datos();">
+      		<select name="cmbfecha" onChange="mostrar_datos();">
             <option value="-1">Seleccionar</option>
 			 
 		
@@ -313,7 +314,7 @@ var f=formulario;
 			$arreglo = array(); //0: hornada, 1: campo1, 2: fecha_benef, 3:cod_subproducto.
 			
 			//Para hornadas de restos ctte
-			$consulta = "SELECT * FROM sea_web.stock WHERE cod_producto = 19 AND cod_subproducto <> 30 and unid_fin <> 0 AND ano = ".$row["ano"]." AND mes = ".$row["mes"] ; 	
+			$consulta = "SELECT * FROM sea_web.stock WHERE cod_producto = 19 AND cod_subproducto <> 30 and unid_fin <> 0 AND ano = '".$row["ano"]."' AND mes = '".$row["mes"]."' " ; 	
 			$X1 = $consulta;
 			$rs1 = mysqli_query($link, $consulta);
 			while ($row1 = mysqli_fetch_array($rs1))
@@ -321,8 +322,8 @@ var f=formulario;
 			
 				//consulta el grupo y fecha de produccion.
 				$consulta = "SELECT * FROM sea_web.movimientos";
-				$consulta.= " WHERE tipo_movimiento = 3 AND cod_producto = ".$row1["cod_producto"]." AND cod_subproducto = ".$row1["cod_subproducto"];
-				$consulta.= "  AND hornada = ".$row1["hornada"];
+				$consulta.= " WHERE tipo_movimiento = 3 AND cod_producto = '".$row1["cod_producto"]."' AND cod_subproducto = '".$row1["cod_subproducto"]."' ";
+				$consulta.= "  AND hornada = '".$row1["hornada"]."' ";
 				$consulta.= " GROUP BY hornada";
 				$X2 = $consulta;
 				$rs2 = mysqli_query($link, $consulta);
@@ -381,7 +382,7 @@ var f=formulario;
 
 			reset($arreglo);
 			//while (list($c,$v) = each($arreglo))
-			foreach ($arreglo as $c=>$v)
+			foreach($arreglo as $c => $v)
 			{	
 				echo $v[0]."<br>";
 				
@@ -390,7 +391,7 @@ var f=formulario;
 			//Escribe Combo.
 			reset($arreglo);
 			//while (list($c,$v) = each($arreglo))
-			foreach ($arreglo as $c=>$v)
+			foreach($arreglo as $c => $v)
 			{	
 					if ($cmbgrupo != '8')
 					{
@@ -425,7 +426,7 @@ var f=formulario;
 							$unidades_cte = $row33["unidades"];
 							$peso_cte = $row33["peso"];
 							// esto es para descontar lo pasado a sec pero no embarcado
-							$cons_sec1 = "SELECT IFNULL(SUM(unidades),0) as unidades, IFNULL(SUM(peso),0) as peso from sea_web.restos_a_sec";
+							$cons_sec1 = "select IFNULL(SUM(unidades),0) as unidades, IFNULL(SUM(peso),0) as peso from sea_web.restos_a_sec";
 							$cons_sec1.=" where tipo_movimiento = '1' and cod_producto = '19' and hornada IN (".$v[0].")";
 							$cons_sec1.=" and cod_subproducto IN ('1','2','3','4','30')";
 							$X8 = $consulta;
@@ -459,7 +460,7 @@ var f=formulario;
 							$peso =  $peso + $row333b["peso"];
 				
 							// esto es para descontar lo pasado a sec pero no embarcado
-							$cons_sec2 = "SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso from sea_web.restos_a_sec";
+							$cons_sec2 = "select ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso from sea_web.restos_a_sec";
 							$cons_sec2.=" where tipo_movimiento = '1' and cod_producto = '19' and hornada IN (".$v[0].")";
 							$cons_sec2.=" and cod_subproducto IN ('5','6','8','14')";
 							$X10 =$cons_sec2;
@@ -513,7 +514,7 @@ var f=formulario;
 						
 							if(substr($cmbfecha,strlen($cmbfecha)-1,1)=='H'&&$peso>0)
 							{
-								echo '<option value="'.$c.'H" SELECTed>'.$peso.' - '.$c.'</option>';	
+								echo '<option value="'.$c.'H" selected>'.$peso.' - '.$c.'</option>';	
 								$Hornadas_Aux = $v[0];
 								$Lado_Aux = $v[1];
 								$subprod_aux = $v[3];
@@ -525,7 +526,7 @@ var f=formulario;
 							else
 							{	if(substr($cmbfecha,strlen($cmbfecha)-1,1)=='C'&&$peso_cte>0)
 								{
-									echo '<option value="'.$c.'C" SELECTed>'.$peso_cte.' - '.$c.'</option>';	
+									echo '<option value="'.$c.'C" selected>'.$peso_cte.' - '.$c.'</option>';	
 									$Hornadas_Aux = $v[0];
 									$Lado_Aux = $v[1];
 									$subprod_aux = $v[3];
@@ -539,7 +540,7 @@ var f=formulario;
 						else
 						{	
 						
-							echo '<option value="'.$c.'" SELECTed>'.$peso.' - '.$c.'</option>';
+							echo '<option value="'.$c.'" selected>'.$peso.' - '.$c.'</option>';
 							$Hornadas_Aux = $v[0];
 							$Lado_Aux = $v[1];
 							$subprod_aux = $v[3];
@@ -568,12 +569,12 @@ var f=formulario;
 			}
          }
 		 ?>
-            </SELECT>
+            </select>
 			<?php
 			
 			//echo $X1."<BR>";
 			//echo $X2."<BR>";
-			// echo $var1; // WSO
+			//echo $var1;
 			
 			?>
               </font></td>
@@ -592,7 +593,7 @@ var f=formulario;
 			
 			$j7 = $veogr[1];
             $Subpro =  $veogr[1];
-			while (list($a,$b) = each($vector))
+			foreach($vector as $a => $b)
 			{
 				$Subpro =  $veogr[$a];
 				if ($cmbgrupo != '8')
@@ -619,13 +620,13 @@ var f=formulario;
 					$consulta = "SELECT cod_subproducto,IFNULL(SUM(unidades),0) AS unidades, IFNULL(SUM(peso),0) AS peso FROM sea_web.movimientos";
 					$consulta.= " WHERE tipo_movimiento = 3  AND cod_producto = 19 AND hornada = '".$b."' ";
 					$consulta.= " AND cod_subproducto = '".$Subpro."' group by cod_subproducto ";
-					$j1 = $consulta;
-					$rsp3 = mysqli_query($link, $consulta);
-					$fila3 = mysqli_fetch_array($rsp3);
+					$j1     = $consulta;
+					$rsp3   = mysqli_query($link, $consulta);
+					$fila3  = mysqli_fetch_array($rsp3);
 					$Unidad_cte = $fila3["unidades"];
 					$Peso_cte = $fila3["peso"];
 					// esto es para descontar lo pasado a sec pero no embarcado
-					$cons_sec1 = "SELECT IFNULL(SUM(unidades),0) as unidades, IFNULL(SUM(peso),0) as peso from sea_web.restos_a_sec";
+					$cons_sec1 = "select IFNULL(SUM(unidades),0) as unidades, IFNULL(SUM(peso),0) as peso from sea_web.restos_a_sec";
 					$cons_sec1.=" where tipo_movimiento = '1' and cod_producto = '19' and hornada = '".$b."' ";
 					$cons_sec1.=" and cod_subproducto = '".$Subpro."'";
 					$j2 = $cons_sec1;
@@ -650,7 +651,7 @@ var f=formulario;
 					$fila6 = mysqli_fetch_array($rsp6);
 					$Unidad =  $Unidad + $fila6["unidades"];
 					$Peso =  $Peso + $fila6["peso"];
-					$cons_sec2 = "SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso from sea_web.restos_a_sec";
+					$cons_sec2 = "select ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso from sea_web.restos_a_sec";
 					$cons_sec2.=" where tipo_movimiento = '1' and cod_producto = '19' and hornada = '".$b."' ";
 					$cons_sec2.=" and cod_subproducto = '".$Subpro."'";
 					$j5 = $cons_sec2;
@@ -689,7 +690,7 @@ var f=formulario;
 				
 				if ($Unidad > 0||$Unidad_cte > 0)
 				{
-					$descri = "SELECT abreviatura as abrevia from proyecto_modernizacion.subproducto where cod_producto = '19' ";
+					$descri = "select abreviatura as abrevia from proyecto_modernizacion.subproducto where cod_producto = '19' ";
 					$descri.="and cod_subproducto = '".$Subpro."'";
 					$respue = mysqli_query($link, $descri);
 					$filad = mysqli_fetch_array($respue);

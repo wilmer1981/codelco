@@ -1,25 +1,10 @@
 <?php 
 include("../principal/conectar_sea_web.php");
-if(isset($_REQUEST["Proceso"])) {
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso = "";
-}
-if(isset($_REQUEST["dia"])) {
-	$dia = $_REQUEST["dia"];
-}else{
-	$dia = date("d");
-}
-if(isset($_REQUEST["mes"])) {
-	$mes = $_REQUEST["mes"];
-}else{
-	$mes =  date("m");
-}
-if(isset($_REQUEST["ano"])) {
-	$ano = $_REQUEST["ano"];
-}else{
-	$ano =  date("Y");
-}
+
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
 
 ?>
 
@@ -52,7 +37,7 @@ var f = frmPoPup;
       <tr> 
         <td width="108" height="32">Fecha Busqueda</td>
         <td width="213"><font color="#000000" size="2">&nbsp; </font><font color="#000000" size="2"> 
-          <SELECT name="dia" size="1" style="font-face:verdana;font-size:10">
+          <select name="dia" size="1" style="font-face:verdana;font-size:10">
             <?php
 			if($Proceso=='B')
 			{
@@ -60,7 +45,7 @@ var f = frmPoPup;
 				{
  				   if ($i==$dia)
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -74,7 +59,7 @@ var f = frmPoPup;
 				{
 	   				   if ($i==date("j"))
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -83,9 +68,9 @@ var f = frmPoPup;
  				}
 		   }			
 	?>
-          </SELECT>
+          </select>
           </font> <font color="#000000" size="2"> 
-          <SELECT name="mes" size="1" id="SELECT7" style="FONT-FACE:verdana;FONT-SIZE:10">
+          <select name="mes" size="1" id="select7" style="FONT-FACE:verdana;FONT-SIZE:10">
             <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Proceso=='B')
@@ -94,7 +79,7 @@ var f = frmPoPup;
 		    {
                 if ($i==$mes)
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -108,7 +93,7 @@ var f = frmPoPup;
 		    {
                 if ($i==date("n"))
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -118,16 +103,16 @@ var f = frmPoPup;
 	    } 	  
   		  
      ?>
-          </SELECT>
-          <SELECT name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
+          </select>
+          <select name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
             <?php
 	if($Proceso=='B')
 	{
 	    for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
 	    {
-            if ($i==date("Y"))
+            if ($i==$ano)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -141,7 +126,7 @@ var f = frmPoPup;
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -150,7 +135,7 @@ var f = frmPoPup;
          }   
     }	
 ?>
-          </SELECT>
+          </select>
           </font><font color="#000000" size="2">&nbsp; </font></td>
         <td width="159"><input name="buscar" type="button" style="width:70" value="Buscar" onClick="buscar_datos();"></td>
       </tr>
@@ -172,11 +157,11 @@ echo '<td width="100" align="center">PESO<br>KGS.</td></tr>';
 
 	$TotalCantidad = 0;
 	$TotalPeso = 0;
-	$consulta ="SELECT hornada,grupo,fecha_movimiento,sum(unidades) as unidades, sum(peso) as peso";
+	$consulta ="select hornada,grupo,fecha_movimiento,sum(unidades) as unidades, sum(peso) as peso";
 	$consulta.=" from sea_web.restos_a_sec where cod_producto = 19 and fecha_movimiento = '".$fecha."'";
 	$consulta.=" group by hornada,grupo,fecha_movimiento,cod_subproducto";
 	$rs2 = mysqli_query($link, $consulta);	
-	//echo mysqli_num_rows($rs2);
+	//echo mysql_num_rows($rs2);
 
 	while ($row2 = mysqli_fetch_array($rs2))
 	{			
