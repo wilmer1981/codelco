@@ -33,8 +33,9 @@
 	if(isset($_REQUEST["TotalPorc"])) {
 		$TotalPorc = $_REQUEST["TotalPorc"];
 	}else{
-		$TotalPorc =  0;
+		$TotalPorc = 0;
 	}
+	
 
 ?>
 <html>
@@ -101,41 +102,41 @@ function DetalleInspeccion(ano, mes, prod, subprod, defec, horno)
   </tr>
   <tr>
     <td>TIPO CONSULTA </td>
-    <td><SELECT name="TipoCons">
+    <td><select name="TipoCons">
       <?php
 	switch ($TipoCons)
 	{
 		case "TD";
-			echo "<option SELECTed value='TD'>RECUPERADOS + RECHAZADOS</option>";	
+			echo "<option selected value='TD'>RECUPERADOS + RECHAZADOS</option>";	
 			echo "<option value='RC'>RECUPERADOS</option>";	
 			echo "<option value='RZ'>RECHAZADOS</option>";	
 			break;
 		case "RC";
 			echo "<option value='TD'>RECUPERADOS + RECHAZADOS</option>";	
-			echo "<option SELECTed value='RC'>RECUPERADOS</option>";	
+			echo "<option selected value='RC'>RECUPERADOS</option>";	
 			echo "<option value='RZ'>RECHAZADOS</option>";	
 			break;
 		case "RZ";
 			echo "<option value='TD'>RECUPERADOS + RECHAZADOS</option>";	
 			echo "<option value='RC'>RECUPERADOS</option>";	
-			echo "<option SELECTed value='RZ'>RECHAZADOS</option>";	
+			echo "<option selected value='RZ'>RECHAZADOS</option>";	
 			break;
 		default:
-			echo "<option SELECTed value='TD'>RECUPERADOS + RECHAZADOS</option>";	
+			echo "<option selected value='TD'>RECUPERADOS + RECHAZADOS</option>";	
 			echo "<option value='RC'>RECUPERADOS</option>";	
 			echo "<option value='RZ'>RECHAZADOS</option>";	
 			break;
 	}
 		
 ?>
-    </SELECT></td>
+    </select></td>
     </tr>
   <tr>
     <td>SUBPRODUCTO      </td>
-    <td><SELECT name="SubProducto" onChange="Proceso('R')">
+    <td><select name="SubProducto" onChange="Proceso('R')">
 	<option value="T">SELECCIONAR</option>
       <?php
-	$Consulta = "SELECT t2.cod_subproducto,  t2.descripcion from proyecto_modernizacion.productos t1 inner join proyecto_modernizacion.subproducto t2";
+	$Consulta = "select t2.cod_subproducto,  t2.descripcion from proyecto_modernizacion.productos t1 inner join proyecto_modernizacion.subproducto t2";
 	$Consulta.= " on t1.cod_producto = t2.cod_producto ";
 	$Consulta.= " where t2.mostrar_sea='S' and t2.cod_producto=17";
 	$Consulta.= " order by t2.cod_subproducto ";
@@ -144,7 +145,7 @@ function DetalleInspeccion(ano, mes, prod, subprod, defec, horno)
 	{
 		if ($SubProducto == $Fila["cod_subproducto"])
 		{
-			echo "<option SELECTed value='".$Fila["cod_subproducto"]."'>".$Fila["descripcion"]."</option>";
+			echo "<option selected value='".$Fila["cod_subproducto"]."'>".$Fila["descripcion"]."</option>";
 		}
 		else
 		{
@@ -152,29 +153,29 @@ function DetalleInspeccion(ano, mes, prod, subprod, defec, horno)
 		}
 	}
 ?>
-    </SELECT>
+    </select>
       &nbsp;&nbsp;A&Ntilde;O
-      <SELECT name="Ano">
+      <select name="Ano">
 <?php
 	for ($i=(date("Y")-1);$i<=(date("Y")+1);$i++)
 	{
 		if (!isset($Ano))
 		{
 			if ($i==date("Y"))
-				echo "<option SELECTed value='".$i."'>".$i."</option>";
+				echo "<option selected value='".$i."'>".$i."</option>";
 			else
 				echo "<option value='".$i."'>".$i."</option>";
 		}
 		else
 		{
 			if ($i==$Ano)
-				echo "<option SELECTed value='".$i."'>".$i."</option>";
+				echo "<option selected value='".$i."'>".$i."</option>";
 			else
 				echo "<option value='".$i."'>".$i."</option>";
 		}
 	}
 ?>	  	  
-      </SELECT>
+      </select>
       <input name="BtnConsulta" type="button" id="BtnConsulta" value="Consultar" onClick="Proceso('C')" style="width:70px ">
       <input name="BtnImprimir" type="button" id="BtnConsultar3" value="Imprimir" onClick="Proceso('I')" style="width:70px ">
       <input name="BtnExcel" type="button" id="BtnConsultar4" value="Excel" onClick="Proceso('E')" style="width:70px ">
@@ -182,7 +183,7 @@ function DetalleInspeccion(ano, mes, prod, subprod, defec, horno)
     </tr>
 <?php	
 	//TOTAL DE RECEPCIONES
-	$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+	$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 	$Consulta.= " from sea_web.movimientos ";
 	$Consulta.= " where tipo_movimiento = '1' ";
 	$Consulta.= " and cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
@@ -326,7 +327,7 @@ function DetalleInspeccion(ano, mes, prod, subprod, defec, horno)
 if ($Mostrar == "S")
 {
 	//TOTAL DEFECTOS ANUAL
-	$Consulta = "SELECT sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
+	$Consulta = "select sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
 	$Consulta.= " from sea_web.rechazos ";
 	$Consulta.= " where cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
 	$Consulta.= " and fecha_ini between '".$Ano."-01-01 00:00:00' and '".$Ano."-12-31 23:59:59'";
@@ -356,23 +357,22 @@ if ($Mostrar == "S")
 	{
 		$TotalDefectoAnual = 0;
 	}
-	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
+	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='2008' order by cod_subclase "; 
 	
 	$Resp = mysqli_query($link, $Consulta);
-	$TotalPorcAno =0;	
+	$TotalPorcAno =0;
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		
-		$TotalInspec = 0;	
-		//$TotalPorcAno =0;	
+		$TotalInspec = 0;				
 		echo "<tr>\n";
 		echo "<td align='left'>".$Fila["nombre_subclase"]."</td>\n";
 		for ($i=1;$i<=12;$i++)
 		{	
 			$FechaIni = $Ano."-".$i."-01";
 			$FechaTer = $Ano."-".$i."-31";						
-			$Consulta = "SELECT sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
+			$Consulta = "select sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
 			$Consulta.= " from sea_web.rechazos ";
 			$Consulta.= " where cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
 			$Consulta.= " and cod_defecto='".$Fila["cod_subclase"]."'";
@@ -430,7 +430,7 @@ if ($Mostrar == "S")
 		echo "<td class='ColorTabla02' align='right'>".number_format($TotalPorc,2,",",".")."</td>\n";
 		echo "</tr>\n";
 	}
-	//$TotalAno = 0;
+	$TotalAno =0;
 	//TOTAL INCIDENCIAS
 	$ArrIncRecep = array();
 	echo "<tr class='ColorTabla02'>\n";
@@ -439,7 +439,7 @@ if ($Mostrar == "S")
 	{	
 		$FechaIni = $Ano."-".$i."-01";
 		$FechaTer = $Ano."-".$i."-31";						
-		$Consulta = "SELECT sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
+		$Consulta = "select sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
 		$Consulta.= " from sea_web.rechazos ";
 		$Consulta.= " where cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
 		$Consulta.= " and fecha_ini between '".$FechaIni." 00:00.00' and '".$FechaTer." 23:59:59'";
@@ -461,7 +461,6 @@ if ($Mostrar == "S")
 		$Consulta.= " and cod_defecto <> '0'";
 		$Consulta.= " group by cod_producto, cod_subproducto";
 		$Resp2 = mysqli_query($link, $Consulta);
-		$TotalAno = 0;
 		if ($Fila2 = mysqli_fetch_array($Resp2))
 		{								
 			switch ($TipoCons)
@@ -494,14 +493,14 @@ if ($Mostrar == "S")
 	//TOTAL PROD POR MES
 	echo "<tr class='ColorTabla02'>\n";
     echo "<td>TOTAL UNID. MES</td>\n";
-	$TotalUnidadesAno=0; // WSO
-	$TotalPesoAno=0; // WSO
+	$TotalUnidadesAno = 0; // WSO
+	$TotalPesoAno     = 0; // WSO
     for ($i=1;$i<=12;$i++)
 	{	
 		$FechaIni = $Ano."-".$i."-01";
 		$FechaTer = $Ano."-".$i."-31";						
 		//TOTAL DE RECEPCIONES POR MES
-		$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+		$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 		$Consulta.= " from sea_web.movimientos ";
 		$Consulta.= " where tipo_movimiento = '1' ";
 		$Consulta.= " and cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
@@ -522,12 +521,10 @@ if ($Mostrar == "S")
 			}
 		}
 		$Resp = mysqli_query($link, $Consulta);
-		//$TotalUnidadesAno=0; // WSO
-		//$TotalPesoAno=0; // WSO
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			$TotalUnidades = $Fila["unidades"];
-			$TotalPeso = $Fila["peso"];
+			$TotalPeso     = $Fila["peso"];
 			$TotalUnidadesAno = $TotalUnidadesAno + $TotalUnidades;
 			$TotalPesoAno = $TotalPesoAno + $TotalPeso;
 		}

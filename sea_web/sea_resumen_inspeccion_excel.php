@@ -1,29 +1,28 @@
 <?php
-	    ob_end_clean();
-        $file_name=basename($_SERVER['PHP_SELF']).".xls";
-        $userBrowser = $_SERVER['HTTP_USER_AGENT'];
-		$filename="";
-        if ( preg_match( '/MSIE/i', $userBrowser ) ) {
-        $filename = urlencode($filename);
-        }
-        $filename = iconv('UTF-8', 'gb2312', $filename);
-        $file_name = str_replace(".php", "", $file_name);
-        header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
-        header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
-        
-        header("content-disposition: attachment;filename={$file_name}");
-        header( "Cache-Control: public" );
-        header( "Pragma: public" );
-        header( "Content-type: text/csv" ) ;
-        header( "Content-Dis; filename={$file_name}" ) ;
-        header("Content-Type:  application/vnd.ms-excel");
+	ob_end_clean();
+	$file_name=basename($_SERVER['PHP_SELF']).".xls";
+	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
+	$filename="";
+	if ( preg_match( '/MSIE/i', $userBrowser ) ) {
+	$filename = urlencode($filename);
+	}
+	$filename = iconv('UTF-8', 'gb2312', $filename);
+	$file_name = str_replace(".php", "", $file_name);
+	header("<meta http-equiv='X-UA-Compatible' content='IE=Edge'>");
+	header("<meta http-equiv='content-type' content='text/html;charset=uft-8'>");
+	
+	header("content-disposition: attachment;filename={$file_name}");
+	header( "Cache-Control: public" );
+	header( "Pragma: public" );
+	header( "Content-type: text/csv" ) ;
+	header( "Content-Dis; filename={$file_name}" ) ;
+	header("Content-Type:  application/vnd.ms-excel");
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
 	$CodSistema=2;
 	$CodPantalla=47;
 	$Producto = 17;
-
 
 	if(isset($_REQUEST["SubProducto"])) {
 		$SubProducto = $_REQUEST["SubProducto"];
@@ -54,17 +53,17 @@
 	if(isset($_REQUEST["TotalPorc"])) {
 		$TotalPorc = $_REQUEST["TotalPorc"];
 	}else{
-		$TotalPorc =  0;
+		$TotalPorc = 0;
 	}
 
-
 	//NOMBRE SUBPRODUCTO
-	$Consulta = "SELECT * from proyecto_modernizacion.subproducto ";
+	$Consulta = "select * from proyecto_modernizacion.subproducto ";
 	$Consulta.= " where cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
 	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 		$NomSubProducto = $Fila["descripcion"];
-	else	$NomSubProducto = "&nbsp;";
+	else	
+		$NomSubProducto = "&nbsp;";
 ?>
 <html>
 <head>
@@ -103,7 +102,7 @@
     </tr>
 <?php	
 	//TOTAL DE RECEPCIONES
-	$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+	$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 	$Consulta.= " from sea_web.movimientos ";
 	$Consulta.= " where tipo_movimiento = '1' ";
 	$Consulta.= " and cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
@@ -229,7 +228,7 @@
 if ($Mostrar == "S")
 {
 	//TOTAL DEFECTOS ANUAL
-	$Consulta = "SELECT sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
+	$Consulta = "select sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
 	$Consulta.= " from sea_web.rechazos ";
 	$Consulta.= " where cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
 	$Consulta.= " and fecha_ini between '".$Ano."-01-01 00:00:00' and '".$Ano."-12-31 23:59:59'";
@@ -259,22 +258,22 @@ if ($Mostrar == "S")
 	{
 		$TotalDefectoAnual = 0;
 	}
-	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
+	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='2008' order by cod_subclase "; 
 	
 	$Resp = mysqli_query($link, $Consulta);
+	$TotalPorcAno =0;
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		
 		$TotalInspec = 0;		
-		$TotalPorcAno=0;
 		echo "<tr>\n";
 		echo "<td align='left'>".$Fila["nombre_subclase"]."</td>\n";
 		for ($i=1;$i<=12;$i++)
 		{	
 			$FechaIni = $Ano."-".$i."-01";
 			$FechaTer = $Ano."-".$i."-31";						
-			$Consulta = "SELECT sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
+			$Consulta = "select sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
 			$Consulta.= " from sea_web.rechazos ";
 			$Consulta.= " where cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
 			$Consulta.= " and cod_defecto='".$Fila["cod_subclase"]."'";
@@ -340,7 +339,7 @@ if ($Mostrar == "S")
 	{	
 		$FechaIni = $Ano."-".$i."-01";
 		$FechaTer = $Ano."-".$i."-31";						
-		$Consulta = "SELECT sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
+		$Consulta = "select sum(recuperables) as recuperables, sum(rechazados) as rechazados ";
 		$Consulta.= " from sea_web.rechazos ";
 		$Consulta.= " where cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
 		$Consulta.= " and fecha_ini between '".$FechaIni." 00:00.00' and '".$FechaTer." 23:59:59'";
@@ -394,12 +393,14 @@ if ($Mostrar == "S")
 	//TOTAL PROD POR MES
 	echo "<tr>\n";
     echo "<td>TOTAL UNID. MES</td>\n";
+	$TotalUnidadesAno=0; //WSO
+	$TotalPesoAno=0;
     for ($i=1;$i<=12;$i++)
 	{	
 		$FechaIni = $Ano."-".$i."-01";
 		$FechaTer = $Ano."-".$i."-31";						
 		//TOTAL DE RECEPCIONES POR MES
-		$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+		$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 		$Consulta.= " from sea_web.movimientos ";
 		$Consulta.= " where tipo_movimiento = '1' ";
 		$Consulta.= " and cod_producto = '".$Producto."' and cod_subproducto='".$SubProducto."'";
@@ -420,8 +421,6 @@ if ($Mostrar == "S")
 			}
 		}
 		$Resp = mysqli_query($link, $Consulta);
-		$TotalUnidadesAno=0; //WSO
-		$TotalPesoAno=0;
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			$TotalUnidades = $Fila["unidades"];
