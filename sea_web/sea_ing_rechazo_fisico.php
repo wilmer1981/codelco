@@ -59,146 +59,176 @@ if($Proceso == 'B')
 	//$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha' and hora = '$fecha2' ";
 	$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha'";
 	//echo $Consulta;
-	$rs = mysqli_query($link, $Consulta);
+	$rs   = mysqli_query($link, $Consulta);
 	$Fila = mysqli_fetch_array($rs);
-	$hora = substr($Fila["hora"],11,2);
-	$minuto = substr($Fila["hora"],14,2);
+	$hora1 = isset($Fila["hora"])?$Fila["hora"]:"0000-00-00 00:00:00";
+	$hora   = substr($hora1,11,2);
+	$minuto = substr($hora1,14,2);
+	$Fis_Vent = isset($Fila["Fis_Vent"])?$Fila["Fis_Vent"]:0;
+	$Quim_Vent = isset($Fila["Quim_Vent"])?$Fila["Quim_Vent"]:0;
+	$Calaf_Vent = isset($Fila["Calaf_Vent"])?$Fila["Calaf_Vent"]:0;
+	$Ana_Vent = isset($Fila["Ana_Vent"])?$Fila["Ana_Vent"]:0;
+	$Fis_HMadres = isset($Fila["Fis_HMadres"])?$Fila["Fis_HMadres"]:0;
+	$Quim_HMadres = isset($Fila["Quim_HMadres"])?$Fila["Quim_HMadres"]:0;
+	$Calaf_HMadres = isset($Fila["Calaf_HMadres"])?$Fila["Calaf_HMadres"]:0;
+	$Ana_HMadres = isset($Fila["Ana_HMadres"])?$Fila["Ana_HMadres"]:0;
+	$Fis_Teniente = isset($Fila["Fis_Teniente"])?$Fila["Fis_Teniente"]:0;
+	$Quim_Teniente = isset($Fila["Quim_Teniente"])?$Fila["Quim_Teniente"]:0;
+	$Calaf_Teniente = isset($Fila["Calaf_Teniente"])?$Fila["Calaf_Teniente"]:0;
+	$Ana_Teniente = isset($Fila["Ana_Teniente"])?$Fila["Ana_Teniente"]:0;
+	$Fis_FHVL = isset($Fila["Fis_FHVL"])?$Fila["Fis_FHVL"]:0;
+	$Quim_FHVL = isset($Fila["Quim_FHVL"])?$Fila["Quim_FHVL"]:0;
+	$Calaf_FHVL = isset($Fila["Calaf_FHVL"])?$Fila["Calaf_FHVL"]:0;
+	$Ana_FHVL = isset($Fila["Ana_FHVL"])?$Fila["Ana_FHVL"]:0;
+	$Fis_Disputada = isset($Fila["Fis_Disputada"])?$Fila["Fis_Disputada"]:0;
+	$Quim_Disputada = isset($Fila["Quim_Disputada"])?$Fila["Quim_Disputada"]:0;
+	$Calaf_Disputada = isset($Fila["Calaf_Disputada"])?$Fila["Calaf_Disputada"]:0;
+	$Ana_Disputada = isset($Fila["Ana_Disputada"])?$Fila["Ana_Disputada"]:0;
+	$Fis_Restos = isset($Fila["Fis_Restos"])?$Fila["Fis_Restos"]:0;
+	$Quim_Restos = isset($Fila["Quim_Restos"])?$Fila["Quim_Restos"]:0;
+	$Calaf_Restos = isset($Fila["Calaf_Restos"])?$Fila["Calaf_Restos"]:0;
+	$Ana_Restos = isset($Fila["Ana_Restos"])?$Fila["Ana_Restos"]:0;
+	$Fis_Expo = isset($Fila["Fis_Expo"])?$Fila["Fis_Expo"]:0;
+	$Quim_Expo = isset($Fila["Quim_Expo"])?$Fila["Quim_Expo"]:0;
+	$Calaf_Expo = isset($Fila["Calaf_Expo"])?$Fila["Calaf_Expo"]:0;
+	$Ana_Expo = isset($Fila["Ana_Expo"])?$Fila["Ana_Expo"]:0;
 	
-	if($Fila["Fis_Vent"] == 0)
+	if($Fis_Vent == 0)
 		$Fis_Vent = '';	
 	else	
 		$Fis_Vent = $Fila["Fis_Vent"];	
 
-	if($Fila["Quim_Vent"] == 0)
+	if($Quim_Vent == 0)
 		$Quim_Vent = '';	
 	else
 		$Quim_Vent = $Fila["Quim_Vent"];	
 
-	if($Fila["Calaf_Vent"] == 0)
+	if($Calaf_Vent == 0)
 		$Calaf_Vent = '';	
 	else
 		$Calaf_Vent = $Fila["Calaf_Vent"];	
 
-	if($Fila["Ana_Vent"] == 0)
+	if($Ana_Vent == 0)
 		$Ana_Vent = '';	
 	else
 		$Ana_Vent = $Fila["Ana_Vent"];	
 
-	if($Fila["Fis_HMadres"] == 0)
+	if($Fis_HMadres == 0)
 		$Fis_HMadres = '';	
 	else	
 		$Fis_HMadres = $Fila["Fis_HMadres"];	
 
-	if($Fila["Quim_HMadres"] == 0)
+	if($Quim_HMadres == 0)
 		$Quim_HMadres = '';	
 	else
 		$Quim_HMadres = $Fila["Quim_HMadres"];	
 
-	if($Fila["Calaf_HMadres"] == 0)
+	if($Calaf_HMadres == 0)
 		$Calaf_HMadres = '';	
 	else
 		$Calaf_HMadres = $Fila["Calaf_HMadres"];	
 
-	if($Fila["Ana_HMadres"] == 0)
+	if($Ana_HMadres == 0)
 		$Ana_HMadres = '';	
 	else
 		$Ana_HMadres = $Fila["Ana_HMadres"];	
 
-	if($Fila["Fis_Teniente"] == 0)
+	if($Fis_Teniente == 0)
 		$Fis_Teniente = '';	
 	else
 		$Fis_Teniente = $Fila["Fis_Teniente"];	
 
-	if($Fila["Quim_Teniente"] == 0)
+	if($Quim_Teniente == 0)
 		$Quim_Teniente = '';	
 	else
 		$Quim_Teniente = $Fila["Quim_Teniente"];	
 
-	if($Fila["Calaf_Teniente"] == 0)
+	if($Calaf_Teniente == 0)
 		$Calaf_Teniente = '';	
 	else
 		$Calaf_Teniente = $Fila["Calaf_Teniente"];	
 
-	if($Fila["Ana_Teniente"] == 0)
+	if($Ana_Teniente == 0)
 		$Ana_Teniente = '';	
 	else
 		$Ana_Teniente = $Fila["Ana_Teniente"];	
 
-	if($Fila["Fis_FHVL"] == 0)
+	if($Fis_FHVL == 0)
 		$Fis_FHVL = '';	
 	else
 		$Fis_FHVL = $Fila["Fis_FHVL"];	
 
-	if($Fila["Quim_FHVL"] == 0)
+	if($Quim_FHVL == 0)
 		$Quim_FHVL = '';	
 	else
 		$Quim_FHVL = $Fila["Quim_FHVL"];	
 
-	if($Fila["Calaf_FHVL"] == 0)
+	if($Calaf_FHVL == 0)
 		$Calaf_FHVL = '';	
 	else
 		$Calaf_FHVL = $Fila["Calaf_FHVL"];	
 
-	if($Fila["Ana_FHVL"] == 0)
+	if($Ana_FHVL == 0)
 		$Ana_FHVL = '';	
 	else
 		$Ana_FHVL = $Fila["Ana_FHVL"];	
 
-	if($Fila["Fis_Disputada"] == 0)
+	if($Fis_Disputada == 0)
 		$Fis_Disputada = '';	
 	else
 		$Fis_Disputada = $Fila["Fis_Disputada"];	
 
-	if($Fila["Quim_Disputada"] == 0)
+	if($Quim_Disputada == 0)
 		$Quim_Disputada = '';	
 	else
 		$Quim_Disputada = $Fila["Quim_Disputada"];	
 
-	if($Fila["Calaf_Disputada"] == 0)
+	if($Calaf_Disputada == 0)
 		$Calaf_Disputada = '';	
 	else
 		$Calaf_Disputada = $Fila["Calaf_Disputada"];	
 
-	if($Fila["Ana_Disputada"] == 0)
+	if($Ana_Disputada == 0)
 		$Ana_Disputada = '';	
 	else
 		$Ana_Disputada = $Fila["Ana_Disputada"];	
 
-	if($Fila["Fis_Restos"] == 0)
+	if($Fis_Restos == 0)
 		$Fis_Restos = '';	
 	else
 		$Fis_Restos = $Fila["Fis_Restos"];	
 
-	if($Fila["Quim_Restos"] == 0)
+	if($Quim_Restos == 0)
 		$Quim_Restos = '';	
 	else
 		$Quim_Restos = $Fila["Quim_Restos"];	
 
-	if($Fila["Calaf_Restos"] == 0)
+	if($Calaf_Restos == 0)
 		$Calaf_Restos = '';	
 	else
 		$Calaf_Restos = $Fila["Calaf_Restos"];	
 
-	if($Fila["Ana_Restos"] == 0)
+	if($Ana_Restos == 0)
 		$Ana_Restos = '';	
 	else
 		$Ana_Restos = $Fila["Ana_Restos"];	
-   	if($Fila["Fis_Expo"] == 0)
+	
+   	if($Fis_Expo == 0)
 		$Fis_Expo = '';
 	else
 		$Fis_Expo = $Fila["Fis_Expo"];
 
-	if($Fila["Quim_Expo"] == 0)
+	if($Quim_Expo == 0)
 		$Quim_Expo = '';
 	else
 		$Quim_Expo = $Fila["Quim_Expo"];
 
-	if($Fila["Calaf_Expo"] == 0)
+	if($Calaf_Expo == 0)
 		$Calaf_Expo = '';
 	else
 		$Calaf_Expo = $Fila["Calaf_Expo"];
 
-	if($Fila["Ana_Expo"] == 0)
+	if($Ana_Expo == 0)
 		$Ana_Expo = '';
 	else
 		$Ana_Expo = $Fila["Ana_Expo"];
