@@ -1,15 +1,31 @@
 <?php
 	$CodigoDeSistema = 1;
-	$CodigoDePantalla = 79;
+	$CodigoDePantalla = 83;
 	include("../principal/conectar_principal.php");
-	if(isset($SubProducto2)&&isset($Proveedor2))
+	
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Proveedor = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Busq = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$Orden = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$TipoBusq = isset($_REQUEST["TipoBusq"])?$_REQUEST["TipoBusq"]:"";
+	$TipoBusqueda = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	
+	$Mostrar2 = isset($_REQUEST["Mostrar2"])?$_REQUEST["Mostrar2"]:"";
+	$Proveedor2 = isset($_REQUEST["Proveedor2"])?$_REQUEST["Proveedor2"]:"";
+	$SubProducto2 = isset($_REQUEST["SubProducto2"])?$_REQUEST["SubProducto2"]:"";
+	$TipoBusq2 = isset($_REQUEST["TipoBusq2"])?$_REQUEST["TipoBusq2"]:"";
+	$ChkOrden = isset($_REQUEST["ChkOrden"])?$_REQUEST["ChkOrden"]:"";
+	
+	
+	if($SubProducto2!="" && $Proveedor2!="")
 	{
 		$SubProducto=$SubProducto2;	
 		$Proveedor=$Proveedor2;
 		$Mostrar=$Mostrar2;
 		$TipoBusq=$TipoBusq2;
 	}
-	if (!isset($ChkOrden))
+	if ($ChkOrden=="")
 		$ChkOrden="R";
 ?>
 <html>
@@ -276,7 +292,7 @@ switch ($ChkOrden)
 			echo "<td width='30' align='center'>Leyes</td>\n";
 			echo "<td width='60' align='left'>Impurezas</td>\n";
 			echo "</tr>\n";
-			$Consulta = "select t1.rut_proveedor,t1.cod_subproducto,t3.nomprv_a as nombre,t2.abreviatura as subproducto,t1.leyes,t1.impurezas ";
+			$Consulta = "select t1.rut_proveedor,t1.cod_subproducto,t3.nomprv_a as nombre,t2.abreviatura as subproducto,t1.leyes,t1.impurezas, t1.flujo,t1.grupo ";
 			$Consulta.= " from age_web.relaciones t1 inner join proyecto_modernizacion.subproducto t2 on t2.cod_producto=1 and t1.cod_subproducto=t2.cod_subproducto";
 			$Consulta.=" left join rec_web.proved t3 on t1.rut_proveedor=t3.rutprv_a ";
 			switch($TipoBusq)
@@ -309,6 +325,7 @@ switch ($ChkOrden)
 			//echo $Consulta;
 			$Resp = mysqli_query($link, $Consulta);
 			echo "<input type='hidden' name='ChkRut'>";
+			$Cont=0;
 			while ($Fila = mysqli_fetch_array($Resp))
 			{
 				$Cont++;
@@ -319,7 +336,7 @@ switch ($ChkOrden)
 				if($Fila["leyes"]!=''||$Fila["impurezas"]!='')
 					$LeyesImp=$Fila["leyes"].'~'.$Fila["impurezas"];
 				$Datos=explode('~',$LeyesImp);
-				while(list($c,$v)=each($Datos))
+				foreach($Datos as $c => $v)
 				{
 					if($v!='')
 					{
@@ -327,9 +344,9 @@ switch ($ChkOrden)
 						$RespLey=mysqli_query($link, $Consulta);
 						$FilaLey=mysqli_fetch_array($RespLey);
 						if($v=='01'||$v=='02'||$v=='03'||$v=='04'||$v=='05')
-							$LeyesMuestra=$LeyesMuestra.$FilaLey[ley]."~";
+							$LeyesMuestra=$LeyesMuestra.$FilaLey["ley"]."~";
 						else
-							$ImpurezasMuestra=$ImpurezasMuestra.$FilaLey[ley]."~";
+							$ImpurezasMuestra=$ImpurezasMuestra.$FilaLey["ley"]."~";
 					}		
 				}
 				echo "<td >".$Fila["nombre"]."&nbsp;</td>";

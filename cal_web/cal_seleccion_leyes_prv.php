@@ -1,6 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php");
+	
+	$CodLeyes  = isset($_REQUEST["CodLeyes"])?$_REQUEST["CodLeyes"]:"";
+	$CodImpurezas  = isset($_REQUEST["CodImpurezas"])?$_REQUEST["CodImpurezas"]:"";
+		
 	$CodLeyes=$CodLeyes."~".$CodImpurezas."~";
+	
+	$TxtLeyesMuestra  = isset($_REQUEST["TxtLeyesMuestra"])?$_REQUEST["TxtLeyesMuestra"]:"";
+	$TxtCodLeyes  = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:"";
+	$TxtCodImpurezas  = isset($_REQUEST["TxtCodImpurezas"])?$_REQUEST["TxtCodImpurezas"]:"";
+	$Pag  = isset($_REQUEST["Pag"])?$_REQUEST["Pag"]:"";
 ?>
 <html>
 <head>
@@ -107,7 +116,7 @@ body {
 	$Consulta.= " t1.cod_leyes=t3.cod_leyes";
 	$Consulta.= " where t1.cod_leyes<>'' and t3.abreviatura <>'' ";
 	$Consulta.= " group by t1.cod_leyes order by orden";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	//echo $Consulta;
 	$ContColum = 1;
 	echo "<tr>\n";

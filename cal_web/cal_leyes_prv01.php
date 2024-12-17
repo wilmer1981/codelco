@@ -1,5 +1,11 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Rut = isset($_REQUEST["Rut"])?$_REQUEST["Rut"]:"";
+	$TxtCodLeyes = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:"";
+	$TxtCodImpurezas = isset($_REQUEST["TxtCodImpurezas"])?$_REQUEST["TxtCodImpurezas"]:"";
+		
 	switch ($Proceso)
 	{
 		case "M":

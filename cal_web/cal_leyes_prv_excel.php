@@ -1,7 +1,8 @@
 <?php
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -19,6 +20,14 @@
 	header("Expires: 0");
 	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	include("../principal/conectar_principal.php");	
+	
+	$Proveedor = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Busq = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
+	$Orden = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$TipoBusq = isset($_REQUEST["TipoBusq"])?$_REQUEST["TipoBusq"]:"";
+	$TipoBusqueda = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
+	
 ?>
 <html>
 <head>
@@ -68,6 +77,7 @@ body {
 			}
 			//echo $Consulta;
 			$Resp = mysqli_query($link, $Consulta);
+			$Cont=0;
 			while ($Fila = mysqli_fetch_array($Resp))
 			{
 				$Cont++;
@@ -77,7 +87,7 @@ body {
 				if($Fila["leyes"]!=''||$Fila["impurezas"]!='')
 					$LeyesImp=$Fila["leyes"].'~'.$Fila["impurezas"];
 				$Datos=explode('~',$LeyesImp);
-				while(list($c,$v)=each($Datos))
+				foreach($Datos as $c => $v)
 				{
 					if($v!='')
 					{
@@ -85,9 +95,9 @@ body {
 						$RespLey=mysqli_query($link, $Consulta);
 						$FilaLey=mysqli_fetch_array($RespLey);
 						if($v=='01'||$v=='02'||$v=='03'||$v=='04'||$v=='05')
-							$LeyesMuestra=$LeyesMuestra.$FilaLey[ley]."~";
+							$LeyesMuestra=$LeyesMuestra.$FilaLey["ley"]."~";
 						else
-							$ImpurezasMuestra=$ImpurezasMuestra.$FilaLey[ley]."~";
+							$ImpurezasMuestra=$ImpurezasMuestra.$FilaLey["ley"]."~";
 					}		
 				}
 				echo "<td >".$Fila["nombre"]."&nbsp;</td>";

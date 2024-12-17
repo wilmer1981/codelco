@@ -1,5 +1,8 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	
 	if($Proceso=='M')
 	{
 		$Datos=explode('~~',$Valores);
@@ -16,12 +19,13 @@
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			$NomPrv=$Fila["rut_proveedor"]." ".$Fila["nombre"];
-			$NomSubprod=$Fila[subproducto];
+			$NomSubprod=$Fila["subproducto"];
 		}
 		
 		$LeyesMuestra=$Datos[4]."~".$Datos[5];
 		$Datos2=explode('~',$LeyesMuestra);
-		while(list($c,$v)=each($Datos2))
+		$TxtLeyesMuestra='';
+		foreach($Datos2 as $c => $v)
 		{
 			$Consulta = "select distinct t1.cod_leyes, LPAD(t1.cod_leyes,4,'0') as orden, t3.abreviatura as ley";
 			$Consulta.=" from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
@@ -31,7 +35,8 @@
 			//echo $Consulta."<br>";
 			$RespLey=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($RespLey);
-			$TxtLeyesMuestra=$TxtLeyesMuestra.$Fila[ley]."~";
+			$ley = isset($Fila["ley"])?$Fila["ley"]:"";
+			$TxtLeyesMuestra=$TxtLeyesMuestra.$ley."~";
 		}
 	}
 ?>
