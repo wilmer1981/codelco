@@ -1,6 +1,6 @@
-<?php 
-$CodigoDeSistema = 1;
-$CodigoDePantalla = 9;
+<?php
+	$CodigoDeSistema = 1;
+	$CodigoDePantalla = 9;
 include("../principal/conectar_principal.php");
 $Fecha_Hora = date("d-m-Y H:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -450,7 +450,7 @@ function Salir()
 					
 					
 					}
-					echo $CmbProductos."<br>";
+					//echo $CmbProductos."<br>";
 				?>
               </select>
               </strong></font></font><font size="2"><strong><br>
@@ -559,10 +559,10 @@ function Salir()
         <div style='position:absolute; overflow:auto; left: 564px; top: 126px; width: 190px; height: 147px; border:solid 0px'> 
           <table width="170" border="1"  class="ColorTabla01" cellpadding="3" cellspacing="0" >
             <?php
-					if(strlen($CmbDias)==1){$CmbDias="0".$CmbDias;}
+			        if(strlen($CmbDias)==1){$CmbDias="0".$CmbDias;}
 					if(strlen($CmbMes)==1){$CmbMes="0".$CmbMes;}
 					if(strlen($CmbDias)==1){$CmbDiasT="0".$CmbDiasT;}
-					if(strlen($CmbMesT)==1){$CmbMesT="0".$CmbMesT;}
+			        if(strlen($CmbMesT)==1){$CmbMesT="0".$CmbMesT;}
 					$FechaI = $CmbAno."-".$CmbMes."-".$CmbDias.' 00:01';
 					$FechaT = $CmbAnoT."-".$CmbMesT."-".$CmbDiasT.' 23:59';
 					//Entra si a clickeado el boton busqueda y valor del combo es producto mineros  y realizo la busqueda por el proveedor
@@ -628,7 +628,7 @@ function Salir()
 							echo "</tr>";		
 						}
 					}				
-					//Pregunta si la busqueda se hace mostrando todas las del aï¿½o  
+					//Pregunta si la busqueda se hace mostrando todas las del año  
 					if ($Mostrar == 'D' )
 					{
 						if (!isset($AnoIni2))
@@ -641,8 +641,8 @@ function Salir()
 							$NumFin = 0;
 						$SolIni = $AnoIni2."000000";
 						$SolFin = $AnoFin2."000000";
-						$SolIni = $SolIni + $NumIni;
-						$SolFin = $SolFin + $NumFin;
+						$SolIni = (int)$SolIni + (int)$NumIni;
+						$SolFin = (int)$SolFin + (int)$NumFin;
 						$Consulta ="select  distinct t1.nro_solicitud,t1.nro_sa_lims,t1.estado_actual,t3.nombre_subclase,t1.tipo_solicitud, ";
 						$Consulta = $Consulta." t4.descripcion as DesProducto,t2.descripcion as DesSubProducto   from cal_web.solicitud_analisis t1 ";	
 						$Consulta = $Consulta."	inner join proyecto_modernizacion.subproducto t2 ";
