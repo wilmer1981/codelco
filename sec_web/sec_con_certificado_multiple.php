@@ -348,6 +348,7 @@ function Habilitar()
 						//AGREGA DVS 21-01-2011
 						$Consulta="select year(fecha_creacion_lote) as ano_lote from sec_web.lote_catodo where cod_bulto = '".$Fila["cod_bulto"]."' and num_bulto = '".$Fila["num_bulto"]."' and corr_enm = '".$Fila["corr_enm"]."' group by cod_bulto,num_bulto,corr_enm";
 						$RespAnoLote=mysqli_query($link, $Consulta);
+						$AnoLote="";
 						if($FilaAnoLote=mysqli_fetch_array($RespAnoLote))
 						{
 							$AnoLote=$FilaAnoLote["ano_lote"];

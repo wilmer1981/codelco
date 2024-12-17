@@ -53,7 +53,7 @@
 		}
 		else
 		{					
-		 echo "<br>Reescribir no es S :".$Reescribir."<br>";
+		 //echo "<br>Reescribir no es S :".$Reescribir."<br>";
 			$Consulta = "SELECT * from sec_web.lote_catodo where cod_bulto = '".$Mes."' and num_bulto = '".$Lote."' and corr_enm='".$Corr."'";
 			$Respuesta = mysqli_query($link, $Consulta);		
 			//echo "poly".$Consulta;
@@ -154,6 +154,7 @@
 	$CodSubProducto = "";
 	$NumPaquetes =0;
 	$PesoLote    =0;
+	//echo "".$Consulta;
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$CodProducto 	= $Fila["cod_producto"];
@@ -161,10 +162,10 @@
 		//$CodCliente 	= $Fila["cod_cliente"];
 		$NumPaquetes 	= $Fila["paquetes"];
 		$PesoLote 		= $Fila["peso"];				
-		//$FechaDisp 		= $Fila["fecha_envio"];			
+		//$FechaDisp 	= $Fila["fecha_envio"];			
 		$NumEnvio 		= $Corr;
 		$MarcaCatodo 	= $Fila["cod_marca"];						
-		$TipoEmbarque 	= $Fila["tipo_embarque"];
+		//$TipoEmbarque 	= $Fila["tipo_embarque"];
 	}	
 ?>
 <html>
@@ -529,12 +530,13 @@ function Proceso(opt)
 	reset($ArrProd);
 	//while (list($k,$v)=each($ArrProd))
 	foreach($ArrProd as $k => $v)
-	{				
+	{	$v1 = isset($v[1])?$v[1]:"";
+		if($v1=="") $v1="0000-00-00";
 		$Encontro = false;		
 		$Consulta2 = "SELECT * from sec_web.tmp_leyes_grupos ";
 		$Consulta2.= " where cod_grupo = '".$v[0]."' ";
-		$Consulta2.= " and fecha = '".$v[1]."'";
-		//echo"TMP".$Consulta2."<br>";
+		$Consulta2.= " and fecha = '".$v1."'";
+		//echo"TMP:".$Consulta2."<br>";
 		$Respuesta2 = mysqli_query($link, $Consulta2);
 		while ($Fila2 = mysqli_fetch_array($Respuesta2))
 		{
