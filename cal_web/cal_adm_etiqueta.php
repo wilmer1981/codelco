@@ -4,9 +4,25 @@
 include("../principal/conectar_principal.php");
 $Fecha_Hora = date("d-m-Y h:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+$CookieRut = $_COOKIE["CookieRut"];
 $Rut =$CookieRut;
 $HoraActual = date("H");
 $MinutoActual = date("i");
+
+$CmbProductos   = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+$CmbDias = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbDiasT = isset($_REQUEST["CmbDiasT"])?$_REQUEST["CmbDiasT"]:date("d");
+$CmbMesT  = isset($_REQUEST["CmbMesT"])?$_REQUEST["CmbMesT"]:date("m");
+$CmbAnoT  = isset($_REQUEST["CmbAnoT"])?$_REQUEST["CmbAnoT"]:date("Y");
+$Mostrar  = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+$NumIni   = isset($_REQUEST["NumIni"])?$_REQUEST["NumIni"]:"";
+$NumFin   = isset($_REQUEST["NumFin"])?$_REQUEST["NumFin"]:"";
+$AnoIni2  = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:date("Y");
+$AnoFin2  = isset($_REQUEST["AnoFin2"])?$_REQUEST["AnoFin2"]:date("Y");
+$SA  = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
 ?>
 <html>
 <head>
@@ -601,9 +617,9 @@ function ImprimirEtiqueta(Rut)
 							$NumFin = 0;
 						$SolIni = $AnoIni2."000000";
 						$SolFin = $AnoFin2."000000";
-						$SolIni = $SolIni + $NumIni;
-						$SolFin = $SolFin + $NumFin;
-						$Consulta ="select  distinct t1.nro_solicitud ";
+						$SolIni = (int)$SolIni + (int)$NumIni;
+						$SolFin = (int)$SolFin + (int)$NumFin;
+						$Consulta ="select  distinct t1.nro_solicitud,t3.nombre_subclase ";
 						$Consulta = $Consulta." from cal_web.solicitud_analisis t1 ";	
 						$Consulta = $Consulta."	inner join proyecto_modernizacion.subproducto t2 ";
 			 			$Consulta = $Consulta."	on t1.cod_producto = t2.cod_producto and t1.cod_subproducto = t2.cod_subproducto ";
