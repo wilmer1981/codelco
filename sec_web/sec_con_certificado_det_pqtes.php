@@ -9,7 +9,7 @@
 	$CodGrupo         = isset($_REQUEST["CodGrupo"])?$_REQUEST["CodGrupo"]:"";
 	$CodProducto      = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
 	$CodSubProducto   = isset($_REQUEST["CodSubProducto"])?$_REQUEST["CodSubProducto"]:"";
-	
+		
 	//$Ano=$_GET['Ano'];
 	//$Ano=2015;
     //	echo "Ano ".$Ano."<br>";
@@ -23,7 +23,7 @@
 		$Ano = '2007';  
 		}
 	*/
-	$Consulta = "SELECT distinct ifnull(t2.cod_grupo,'00') as cod_grupo";
+	$Consulta = "select distinct ifnull(t2.cod_grupo,'00') as cod_grupo";
 	$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
 	$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 	$Consulta.= " where t1.cod_bulto = '".$Mes."'";
@@ -62,7 +62,7 @@
     <?php  
 	if (($CodGrupo == "00") || ($CodGrupo == "0") || ($CodGrupo == ""))
 	{
-		$Consulta = "SELECT t2.cod_paquete, t2.num_paquete, t2.fecha_creacion_paquete, t2.lote_origen as cod_grupo, t2.peso_paquete as peso_paquetes ";
+		$Consulta = "select t2.cod_paquete, t2.num_paquete, t2.fecha_creacion_paquete, t2.lote_origen as cod_grupo, t2.peso_paquete as peso_paquetes,t2.cod_subproducto ";
 		$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo_externo t2 ";
 		$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 		
@@ -82,7 +82,7 @@
 	else
 	{
 		
-		$Consulta = "SELECT t2.cod_paquete, t2.num_paquete, t2.fecha_creacion_paquete, t2.cod_grupo, t2.peso_paquetes, t2.cod_subproducto";
+		$Consulta = "select t2.cod_paquete, t2.num_paquete, t2.fecha_creacion_paquete, t2.cod_grupo, t2.peso_paquetes, t2.cod_subproducto";
 		$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2 ";
 		$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
 		$Consulta.= " where t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and ";
@@ -114,7 +114,7 @@
 		else
 			echo "<td align='center'>".$Fila["cod_grupo"]."</td>\n";
 		//FECHA PRODUCCION
-		$Consulta = "SELECT max(fecha_produccion) as fecha_produccion";
+		$Consulta = "select max(fecha_produccion) as fecha_produccion";
 		$Consulta.= " from sec_web.produccion_catodo ";
 		$Consulta.= " where cod_grupo = '".$Fila["cod_grupo"]."'";
 		$Consulta.= " and fecha_produccion <= '".$Fila["fecha_creacion_paquete"]."'";
