@@ -1,5 +1,17 @@
 <?php
 	include("../principal/conectar_principal.php");
+	$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores  = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Corr     = isset($_REQUEST["Corr"])?$_REQUEST["Corr"]:"";
+	$Estado   = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
+	$PesoMuestra  = isset($_REQUEST["PesoMuestra"])?$_REQUEST["PesoMuestra"]:"";
+	$SA       = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$Recargo  = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+	$DescPlantilla = isset($_REQUEST["DescPlantilla"])?$_REQUEST["DescPlantilla"]:"";
+	$GeneraCorr = isset($_REQUEST["GeneraCorr"])?$_REQUEST["GeneraCorr"]:"";
+	$Producto   = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";	
+	
 	switch ($Proceso)
 	{
 		case "G":	//GUARDA MALLA
@@ -21,7 +33,7 @@
 					$Consulta.= " and recargo = '".$Recargo."' ";
 					$Consulta.= " and corr = '".$AuxId."' ";
 					$Consulta.= " order by corr";	
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Respuesta = mysqli_query($link,$Consulta);
 					if ($Fila = mysqli_fetch_array($Respuesta))
 					{
 						$Actualizar =  "UPDATE cal_web.granulometria SET ";
@@ -32,13 +44,13 @@
 						$Actualizar.= " `peso_muestra` = '".$PesoMuestra."', ";
 						$Actualizar.= " `cod_estado` = '".$Estado."' ";
 						$Actualizar.= " where nro_solicitud = '".$SA."' and recargo = '".$Recargo."' and corr = '".$AuxId."'";
-						mysqli_query($link, $Actualizar);
+						mysqli_query($link,$Actualizar);
 					}
 					else
 					{
 						$Insertar = "INSERT INTO cal_web.granulometria (`nro_solicitud`, `recargo`, `corr`, `signo`, `malla`, `cod_unidad`, `peso`, `peso_muestra`, `cod_estado`) ";
 						$Insertar.= " VALUES ('".$SA."', '".$Recargo."', '".$AuxId."', '".$AuxSigno."', '".$AuxMalla."', '".$AuxUnidad."','".$AuxPeso."', '".$PesoMuestra."', '".$Estado."')";
-						mysqli_query($link, $Insertar);
+						mysqli_query($link,$Insertar);
 					}
 					
 				}				
@@ -53,7 +65,7 @@
 				$Eliminar.= " where nro_solicitud = '".$SA."' ";
 				$Eliminar.= " and recargo = '".$Recargo."' ";
 				$Eliminar.= " and corr = '".$v."' ";
-				mysqli_query($link, $Eliminar);					
+				mysqli_query($link,$Eliminar);					
 			}
 			header("location:cal_ing_granulometria.php?SA=".$SA."&Recargo=".$Recargo);
 			break;
@@ -61,7 +73,7 @@
 			if ($GeneraCorr == "S")		
 			{
 				$Consulta = "select ifnull(max(corr),0) as ultimo from cal_web.plantilla_granulometria ";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysqli_query($link,$Consulta);
 				if ($Fila = mysqli_fetch_array($Respuesta))
 					$Corr = $Fila["ultimo"] + 1;
 				else
@@ -69,7 +81,7 @@
 			}
 			$Consulta = "select * from cal_web.plantilla_granulometria ";
 			$Consulta.= " where corr = '".$Corr."' ";
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysqli_query($link,$Consulta);
 			if ($Fila = mysqli_fetch_array($Respuesta))
 			{
 				$Actualizar =  "UPDATE cal_web.plantilla_granulometria SET ";
@@ -78,13 +90,13 @@
 				$Actualizar.= " `descripcion` = '".$DescPlantilla."', ";
 				$Actualizar.= " `malla` = '".$Valores."' ";
 				$Actualizar.= " where corr = '".$Fila["corr"]."'";
-				mysqli_query($link, $Actualizar);
+				mysqli_query($Actualizar);
 			}
 			else
 			{
 				$Insertar = "INSERT INTO cal_web.plantilla_granulometria (`corr`, `cod_producto`, `cod_subproducto`, `descripcion`, `malla`) ";
 				$Insertar.= " VALUES ('".$Corr."', '".$Producto."', '".$SubProducto."', '".$DescPlantilla."', '".$Valores."')";
-				mysqli_query($link, $Insertar);
+				mysqli_query($link,$Insertar);
 			}
 			header("location:cal_ing_granulometria.php?SA=".$SA."&Recargo=".$Recargo);
 			break;
@@ -92,7 +104,7 @@
 			//Valores
 			$Consulta = "select * from cal_web.plantilla_granulometria ";
 			$Consulta.= " where corr = '".$Corr."'";
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysqli_query($link,$Consulta);
 			if ($Fila = mysqli_fetch_array($Respuesta))
 				$Valores = $Fila["malla"];
 			else
@@ -100,7 +112,7 @@
 			//Corr
 			$Consulta = "select ifnull(max(corr),0) as ultimo from cal_web.granulometria ";
 			$Consulta.= " where corr <> 'F' and nro_solicitud = '".$SA."' and recargo = '".$Recargo."'";
-			$Respuesta = mysqli_query($link, $Consulta);
+			$Respuesta = mysqli_query($link,$Consulta);
 			if ($Fila = mysqli_fetch_array($Respuesta))
 				$AuxId = $Fila["ultimo"] + 1;
 			else
@@ -122,7 +134,7 @@
 					$Consulta.= " and recargo = '".$Recargo."' ";
 					$Consulta.= " and corr = '".$AuxId."' ";
 					$Consulta.= " order by corr";	
-					$Respuesta = mysqli_query($link, $Consulta);
+					$Respuesta = mysqli_query($link,$Consulta);
 					if ($Fila = mysqli_fetch_array($Respuesta))
 					{
 						$Actualizar =  "UPDATE cal_web.granulometria SET ";
@@ -133,13 +145,13 @@
 						$Actualizar.= " `peso_muestra` = '".$PesoMuestra."', ";
 						$Actualizar.= " `cod_estado` = '".$Estado."' ";
 						$Actualizar.= " where nro_solicitud = '".$SA."' and recargo = '".$Recargo."' and corr = '".$AuxId."'";
-						mysqli_query($link, $Actualizar);
+						mysqli_query($link,$Actualizar);
 					}
 					else
 					{
 						$Insertar = "INSERT INTO cal_web.granulometria (`nro_solicitud`, `recargo`, `corr`, `signo`, `malla`, `cod_unidad`, `peso`, `peso_muestra`, `cod_estado`) ";
 						$Insertar.= " VALUES ('".$SA."', '".$Recargo."', '".$AuxId."', '".$AuxSigno."', '".$AuxMalla."', '".$AuxUnidad."','".$AuxPeso."', '".$PesoMuestra."', '".$Estado."')";
-						mysqli_query($link, $Insertar);
+						mysqli_query($link,$Insertar);
 					}
 					$AuxId++;
 				}				
@@ -150,7 +162,7 @@
 			//Valores
 			$Eliminar = "delete from cal_web.plantilla_granulometria ";
 			$Eliminar.= " where corr = '".$Corr."'";
-			mysqli_query($link, $Eliminar);				
+			mysqli_query($link,$Eliminar);				
 			header("location:cal_ing_granulometria_carga_plantilla.php?Producto=".$Producto."&SubProducto=".$SubProducto);
 			break;
 	}

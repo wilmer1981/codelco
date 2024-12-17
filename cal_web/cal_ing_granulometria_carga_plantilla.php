@@ -1,5 +1,13 @@
 <?php 
 	include("../principal/conectar_principal.php"); 
+
+	$PesoMuestra  = isset($_REQUEST["PesoMuestra"])?$_REQUEST["PesoMuestra"]:"";
+	$Estado  = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
+	$SA      = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$Recargo = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+	$Principal = isset($_REQUEST["Principal"])?$_REQUEST["Principal"]:"";	
+	$Producto   = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 ?>
 <html>
 <head>
@@ -90,7 +98,7 @@ function Proceso(o)
       <option value="S">Todos</option>
       <?php
 	$Consulta = "select * from proyecto_modernizacion.productos order by descripcion";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($Fila["cod_producto"] == $Producto)
@@ -107,7 +115,7 @@ function Proceso(o)
       <option value="S">Todos</option>
       <?php
 	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='".$Producto."' order by descripcion";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		if ($Fila["cod_subproducto"] == $SubProducto)
@@ -144,7 +152,7 @@ function Proceso(o)
 <?php	
 	$ArrUnidad = array();
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '1007' order by cod_subclase";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$ArrUnidad[$Fila["cod_subclase"]][0] = $Fila["cod_subclase"];
@@ -160,21 +168,23 @@ function Proceso(o)
 		}
 	}
 	$Consulta.= " order by corr, descripcion";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{	
 		$Corr = $Fila["corr"];
 		$Descripcion = $Fila["descripcion"];
 		$Datos = explode("~~",$Fila["malla"]);
 		$Malla = "";
-		while (list($v,$k)=each($Datos))
+		foreach($Datos as $v => $k)
 		{
 			$Datos2 = explode("///",$k);
-			$Signo = str_replace("MAS","+",$Datos2[0]);
+			$Datos20 = isset($Datos2[0])?$Datos2[0]:"";
+			$Signo = str_replace("MAS","+",$Datos20);
 			$Signo = str_replace("MENOS","-",$Signo);
-			$Desc = $Datos2[1];
-			$CodUnidad = $Datos2[2];
-			$Malla = $Malla."".$Signo."".$Desc." ".$ArrUnidad[$CodUnidad][1]."; ";
+			$Desc      = isset($Datos2[1])?$Datos2[1]:"";
+			$CodUnidad = isset($Datos2[2])?$Datos2[2]:"";
+			$ArrUnidadCodUnidad1 = isset($ArrUnidad[$CodUnidad][1])?$ArrUnidad[$CodUnidad][1]:"";
+			$Malla = $Malla."".$Signo."".$Desc." ".$ArrUnidadCodUnidad1."; ";
 		}
 		$Malla = substr($Malla,0,strlen($Malla)-2);
 		echo "<tr>\n";

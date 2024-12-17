@@ -1,10 +1,31 @@
 <?php
 $CodigoDeSistema = 1;
 include("../principal/conectar_principal.php");
+$CookieRut = $_COOKIE["CookieRut"];
 $Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
 $Respuesta = mysqli_query($link, $Consulta);
 $Fila=mysqli_fetch_array($Respuesta);
 $Nivel=$Fila["nivel"];
+
+
+$Producto   = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
+$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:date("d");
+$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
+$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
+$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:date("d");
+$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
+$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
+
+$TipoBus = isset($_REQUEST["TipoBus"])?$_REQUEST["TipoBus"]:"";
+$NumIni   = isset($_REQUEST["NumIni"])?$_REQUEST["NumIni"]:"";
+$NumFin   = isset($_REQUEST["NumFin"])?$_REQUEST["NumFin"]:"";
+$AnoIni2  = isset($_REQUEST["AnoIni2"])?$_REQUEST["AnoIni2"]:date("Y");
+$AnoFin2  = isset($_REQUEST["AnoFin2"])?$_REQUEST["AnoFin2"]:date("Y");
+$ConAnalisis = isset($_REQUEST["ConAnalisis"])?$_REQUEST["ConAnalisis"]:"";
+$Estado = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
+$LimitIni = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:"";
+
 ?>
 <html>
 <head>
@@ -475,8 +496,8 @@ if ($TipoBus == 1 || $TipoBus == 2)
 			$Fil1=mysqli_fetch_array($Resp1);
 			echo "<td>".$Fil1["nombre_subclase"]."</td>\n";
 			echo "<td>".$Row["id_muestra"]."</td>\n";
-			if ((!is_null($Row[fecha_muestra])) && ($Row[fecha_muestra] != ""))
-				echo "<td align='center'>".substr($Row[fecha_muestra],8,2)."/".substr($Row[fecha_muestra],5,2)."/".substr($Row[fecha_muestra],0,4)." ".substr($Row[fecha_muestra],11,5)."</td>\n";
+			if ((!is_null($Row["fecha_muestra"])) && ($Row["fecha_muestra"] != ""))
+				echo "<td align='center'>".substr($Row["fecha_muestra"],8,2)."/".substr($Row["fecha_muestra"],5,2)."/".substr($Row["fecha_muestra"],0,4)." ".substr($Row["fecha_muestra"],11,5)."</td>\n";
 			else
 				echo "<td align='center'>&nbsp;</td>\n";
 			//----------------------Producto y  Subproducto --------------------------------------
@@ -494,8 +515,10 @@ if ($TipoBus == 1 || $TipoBus == 2)
 			}
 			$Resp=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Resp);  
-			echo "<td align ='center'>".$Fila[AbrevProducto]."</td>";
-			echo "<td align = 'center'>".$Fila[AbrevSubProducto]."</td>";
+			$AbrevProducto = isset($Fila["AbrevProducto"])?$Fila["AbrevProducto"]:"";
+			$AbrevSubProducto = isset($Fila["AbrevSubProducto"])?$Fila["AbrevSubProducto"]:"";
+			echo "<td align ='center'>".$AbrevProducto."</td>";
+			echo "<td align = 'center'>".$AbrevSubProducto."</td>";
 			//---------ESTADO ACTUAL---------------------------------------
 			$Consulta = "select * from cal_web.solicitud_analisis t1 left join proyecto_modernizacion.sub_clase t2 ";
 			$Consulta.= " on t2.cod_clase = '1002' and t1.estado_actual = t2.cod_subclase ";		

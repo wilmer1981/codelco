@@ -1,5 +1,10 @@
 <?php 
 	include("../principal/conectar_principal.php");
+	$Recargo = isset($_REQUEST["Recargo"])?$_REQUEST["Recargo"]:"";
+	$SA  = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
+	$Num  = isset($_REQUEST["Num"])?$_REQUEST["Num"]:"";
+	$Estado = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
+	
 	if ($Recargo == "N")
 		$Recargo = "";
 	$Consulta = "select t1.cod_producto, t1.cod_subproducto, t2.descripcion as prod, t3.descripcion as subprod from cal_web.solicitud_analisis t1 inner join proyecto_modernizacion.productos t2 ";
@@ -15,13 +20,14 @@
 		$NomProducto = $Fila["prod"];
 		$NomSubProducto = $Fila["subprod"];
 	}
-	if (isset($Num))
+	if ($Num!="")
 		$NumDetalle = $Num;
 	else
 		$NumDetalle = 1;
 	//PESO TOTAL
 	$Consulta = "select distinct peso_muestra as peso_total, cod_estado as estado from cal_web.granulometria where nro_solicitud = '".$SA."' and recargo = '".$Recargo."' order by corr";	
 	$Respuesta = mysqli_query($link, $Consulta);
+	$PesoMuestra=0;
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$PesoMuestra = $Fila["peso_total"];
@@ -202,6 +208,7 @@ function GuardaValor(pos)
 	$TotalPeso = 0;
 	$TotalPorc = 0;
 	$TotalAcum = 0;
+	$Acum=0;
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		echo "<tr align='center'> \n";
@@ -234,16 +241,17 @@ function GuardaValor(pos)
 		echo "<td> \n";
 		echo "<input name='Peso[".$Fila["corr"]."]' type='text' value='".round($Fila["peso"],2)."' size='10' onFocus='GuardaValor(".($Pos + 3).")'; onBlur='Calcula(".($Pos + 3).")';></td>\n";
 		echo "<td> \n";
+		$Porcentaje = 0;
 		if ($PesoMuestra > 0)
 		{
 			$Porcentaje = round(100*$Fila["peso"]/$PesoMuestra,2);
 			$Acum = round($Acum + (100*$Fila["peso"]/$PesoMuestra),2);			
-		}
+		}/*
 		else
 		{
 			$Porcentaje = 0;
 			$Acum = 0;	
-		}
+		}*/
 		$TotalPeso = $TotalPeso + $Fila["peso"];
 		$TotalPorc = $TotalPorc + $Porcentaje;
 		$TotalAcum = $TotalAcum + $Acum;
