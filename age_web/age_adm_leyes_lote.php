@@ -44,7 +44,6 @@
 			$ArrLimites[$Fila["cod_leyes"]]["usada"]="S";
 		}
 	}	
-	
 	$Mostrar='N';
 	if ($TxtLote!="")
 	{
@@ -59,7 +58,7 @@
 		$Consulta.="proyecto_modernizacion.sub_clase t7 on t7.cod_clase='15001' and t1.clase_producto=t7.nombre_subclase left join ";
 		$Consulta.="proyecto_modernizacion.sub_clase t8 on t8.cod_clase='3104' and t1.cod_recepcion=t8.nombre_subclase ";
 		$Consulta.= "where t1.lote = '".$TxtLote."'";
-		//echo "hola".$Consulta;
+		//echo "<br>hola: ".$Consulta;
 		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
@@ -75,28 +74,29 @@
 				$CheckCanjeSi='';
 				$CheckCanjeNo='checked';
 			}	
-			$TxtLote = $Fila["lote"];
-			$CodSubProducto = $Fila["cod_subproducto"];
-			$NombreSubProducto=$Fila["nom_subproducto"];
-			$RutProveedor = $Fila["rut_proveedor"];
-			$NombrePrv=$Fila["nom_prv"];
-			$CodFaena=$Fila["cod_faena"];
-			$NombreFaena = $Fila["nom_faena"];
-			$Recepcion = $Fila["nom_recepcion"];
-			$ClaseProducto = $Fila["nom_clase_producto"];
-			$TxtConjunto = $Fila["num_conjunto"];
-			$EstadoLote = $Fila["nom_estado_lote"];
-			$PesoRetalla=$Fila["peso_retalla"];
-			$PesoMuestra=$Fila["peso_muestra"];
-			$MuestraParalela=$Fila["muestra_paralela"];
-			$FechaRecepcion=$Fila["fecha_recepcion"];
-			$ExLote=$Fila["num_lote_remuestreo"];
-			$ProdRecepcion=$Fila["recepcion"];
+			$TxtLote           = $Fila["lote"];
+			$CodSubProducto    = $Fila["cod_subproducto"];
+			$NombreSubProducto = $Fila["nom_subproducto"];
+			$RutProveedor      = $Fila["rut_proveedor"];
+			$NombrePrv         = $Fila["nom_prv"];
+			$CodFaena          = $Fila["cod_faena"];
+			$NombreFaena       = $Fila["nom_faena"];
+			$Recepcion         = $Fila["nom_recepcion"];
+			$ClaseProducto     = $Fila["nom_clase_producto"];
+			$TxtConjunto       = $Fila["num_conjunto"];
+			$EstadoLote        = $Fila["nom_estado_lote"];
+			$PesoRetalla       = $Fila["peso_retalla"];
+			$PesoMuestra       = $Fila["peso_muestra"];
+			$MuestraParalela   = $Fila["muestra_paralela"];
+			$FechaRecepcion    = $Fila["fecha_recepcion"];
+			$ExLote            = $Fila["num_lote_remuestreo"];
+			$ProdRecepcion     = $Fila["recepcion"];
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$TxtLote;
 			//LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
 			$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+			//var_dump($DatosLote);
 			$tipo_remuestreo = isset($DatosLote["tipo_remuestreo"])?$DatosLote["tipo_remuestreo"]:"";
 			$recepcion       = isset($DatosLote["recepcion"])?$DatosLote["recepcion"]:"";
 			$peso_seco       = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;

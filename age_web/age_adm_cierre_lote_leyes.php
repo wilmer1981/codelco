@@ -17,19 +17,28 @@
 	<td>Control</td>
   </tr>
 <?php
+    //echo "Petalo:".$Petalo;
 	$CmbPlantLimControl=3;
 	$Ano=date('Y');
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$TxtLote;
-	LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
-	$PesoLote=isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+	//LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
+	$ArrLeyes = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$Petalo,$link);  
+	//var_dump($ArrLeyes);	
+	$DatosLote       = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","",$link);
+	$PesoLote        = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
+	$tipo_remuestreo = isset($DatosLote["tipo_remuestreo"])?$DatosLote["tipo_remuestreo"]:"";
+	$fecha_recepcion = isset($DatosLote["fecha_recepcion"])?$DatosLote["fecha_recepcion"]:"0000-00-00";
 	reset($ArrLeyes);
+	$Cont=0;
 	foreach($ArrLeyes as $c=>$v)
-	{		
+	{	
+       //echo "<br>v:".$v[6]."---";
 		if($c!='01'&&$v[1]!='')
 		{
-			if($DatosLote["tipo_remuestreo"]=='A')
+			//if($DatosLote["tipo_remuestreo"]=='A')
+			if($tipo_remuestreo=='A')
 				$ValorLey=$v[60];
 			else
 				$ValorLey=$v[2];
@@ -42,17 +51,20 @@
 			$ValorLey = number_format($ValorPrueba,0,',','.');
 			$ValorLey = $ValorLey / 1000;
 			echo "valores".$ValorLey;*/
+			$v12 = isset($v[12])?$v[12]:0;
+			$v22 = isset($v[22])?$v[22]:0;
 			echo "<td align='right'>".number_format($ValorLey,3,',','.')."</td>\n";		
-			echo "<td align='right'>".number_format($v[12],3,',','.')."&nbsp;</td>\n";
-			echo "<td align='right'>".number_format($v[22],4,',','.')."&nbsp;</td>\n";
+			echo "<td align='right'>".number_format((float)$v12,3,',','.')."&nbsp;</td>\n";
+			echo "<td align='right'>".number_format((float)$v22,4,',','.')."&nbsp;</td>\n";
 			//echo "valores".$ValorLey."-".number_format($ValorLey,2,',','.');  // aca juan 11-06-2009
 			$Ley="";$Fino="";$Color="";
 			if ($DatosLote["peso_humedo"]>0 && $ArrLeyes[$v[0]][2]>0 && $ArrLeyes[$v[0]][5]>0)
 			{
-				$Fino = ($DatosLote["peso_humedo"]*($ValorLey+$v[22]))/$v[5];
+				$Fino = ($DatosLote["peso_humedo"]*($ValorLey+$v22))/$v[5];
 				$Ley = ($Fino/$DatosLote["peso_humedo"])*$v[34];
-			}			
-			AsignaColor("", $v[0], $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+			}
+			$EntreMin="";$EntreMax="";			
+			$Color = AsignaColor("", $v[0], $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
 			echo "<td align='right' bgcolor='".$Color."' onMouseOver=\"JavaScript:muestra('".$Cont."');\" onMouseOut=\"JavaScript:oculta('".$Cont."');\">";
 			echo "<div id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:140px'>\n";
 			echo "<table width='140' border='1' cellpadding='2' cellspacing='0' class='TablaInterior'>";
@@ -70,7 +82,7 @@
 				echo "<td align='right'>".number_format(0,0,',','.')."</td>\n";
 			if ($v[0]<=60 && $v[0]!="")
 			{
-				$FechaBus=date('Y-m-d',mktime(0,0,0,(intval(substr($DatosLote["fecha_recepcion"],5,2))-1),1,substr($DatosLote["fecha_recepcion"],0,4)));
+				$FechaBus=date('Y-m-d',mktime(0,0,0,(intval(substr($fecha_recepcion,5,2))-1),1,substr($fecha_recepcion,0,4)));
 				//echo $FechaBus."<br>";
 				$FechaAnoMes=substr($FechaBus,0,4).substr($FechaBus,5,2);
 				$Consulta="select min(c_".$v[0].") as ley_min,max(c_".$v[0].") as ley_max ";
@@ -82,8 +94,8 @@
 				$Respuesta=mysqli_query($link, $Consulta);
 				if($FilaLeyes=mysqli_fetch_array($Respuesta))
 				{	
-					echo "<td align='right'>".number_format($FilaLeyes[ley_min],3,',','.')."</td>\n";
-					echo "<td align='right'>".number_format($FilaLeyes[ley_max],3,',','.')."</td>\n";
+					echo "<td align='right'>".number_format($FilaLeyes["ley_min"],3,',','.')."</td>\n";
+					echo "<td align='right'>".number_format($FilaLeyes["ley_max"],3,',','.')."</td>\n";
 				}	
 				else
 				{	
@@ -100,7 +112,7 @@
 			//echo "<td align='right'>&nbsp;</td>\n";
 			if ($v[0]<=60 && $v[0]!="")
 			{
-				$FechaBus=date('Y-m-d',mktime(0,0,0,(intval(substr($DatosLote["fecha_recepcion"],5,2))-1),1,substr($DatosLote["fecha_recepcion"],0,4)));
+				$FechaBus=date('Y-m-d',mktime(0,0,0,(intval(substr($fecha_recepcion,5,2))-1),1,substr($fecha_recepcion,0,4)));
 				//echo $FechaBus."<br>";
 				$Consulta="select round(sum(peso_seco * round(c_".$v[0].",3)) / sum(peso_seco),3) as fino ";
 				$FechaAnoMes=substr($FechaBus,0,4).substr($FechaBus,5,2);
@@ -112,7 +124,7 @@
 				//echo $Consulta."<br>";
 				$Respuesta=mysqli_query($link, $Consulta);
 				if($FilaLeyes=mysqli_fetch_array($Respuesta))
-					echo "<td align='right'><a href=\"JavaScript:DetalleHistorica('".$DatosLote["cod_subproducto"]."','".$DatosLote["rut_proveedor"]."','1990','".substr($FechaBus,0,4)."','".$v[0]."','".substr($FechaBus,5,2)."')\">".number_format($FilaLeyes[fino],3,',','.')."</a></td>\n";
+					echo "<td align='right'><a href=\"JavaScript:DetalleHistorica('".$DatosLote["cod_subproducto"]."','".$DatosLote["rut_proveedor"]."','1990','".substr($FechaBus,0,4)."','".$v[0]."','".substr($FechaBus,5,2)."')\">".number_format($FilaLeyes["fino"],3,',','.')."</a></td>\n";
 				else
 					echo "<td align='right'>&nbsp;</td>\n";
 			}
@@ -135,7 +147,7 @@
 				//BUSCA DATOS MUESTRA PARALELA
 				$Consulta = "select * from cal_web.solicitud_analisis ";
 				$Consulta.= " where id_muestra='".$DatosLote["muestra_paralela"]."' ";
-				$Consulta.= " and year(fecha_muestra)='".substr($DatosLote["fecha_recepcion"],0,4)."'";
+				$Consulta.= " and year(fecha_muestra)='".substr($fecha_recepcion,0,4)."'";
 				$Consulta.= " and tipo=4 and recargo='R' and estado_actual not in('7','16') ";
 				//echo "ver".$Consulta."</br>";
 				$RespAux=mysqli_query($link, $Consulta);
@@ -156,7 +168,7 @@
 				$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
 				$Consulta.= " t1.cod_unidad=t2.cod_unidad ";
 				$Consulta.= " where t1.lote='".$DatosLote["muestra_paralela"]."' ";
-				$Consulta.= " and ano='".substr($DatosLote["fecha_recepcion"],0,4)."'";
+				$Consulta.= " and ano='".substr($fecha_recepcion,0,4)."'";
 				$Consulta.= " and t1.recargo='R'";	
 				$Consulta.= " and t1.cod_leyes='".$v[0]."'";
 				$Consulta.= " order by t1.cod_leyes";
@@ -231,8 +243,9 @@
 		}	
 	}
 function AsignaColor($Tipo, $CodLey, $Valor, $Limites, $BgColor, $BajoMin, $EntreMin, $EntreMax, $SobreMax)
-{
-	if ($Limites[$CodLey]["usada"]=="S")
+{   
+	$Limitesusada = isset($Limites[$CodLey]["usada"])?$Limites[$CodLey]["usada"]:"";
+	if ($Limitesusada=="S")
 	{
 		switch ($Tipo)
 		{
@@ -267,6 +280,8 @@ function AsignaColor($Tipo, $CodLey, $Valor, $Limites, $BgColor, $BajoMin, $Entr
 				break;
 		}	
 	}//FIN USADA
+	
+	return $BgColor;
 }
 	
 ?>

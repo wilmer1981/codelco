@@ -148,11 +148,29 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	$DescMerma="";
 	$PorcMerma=0;
 	$Fin=false;
-	BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma, $link);
-	if (!$Fin)
-		BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma, $link);
-	if (!$Fin)
-		BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma, $link);
+	//BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma, $link);
+	$BMerma = BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+	$VBMerma = explode("***",$BMerma);
+	$PorcMerma = $VBMerma[0];
+	$DescMerma = $VBMerma[1]; 
+	$Fin       = $VBMerma[2]; 
+		
+	if (!$Fin){
+		//BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma, $link);
+		$BMerma = BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+		$VBMerma = explode("***",$BMerma);
+		$PorcMerma = $VBMerma[0];
+		$DescMerma = $VBMerma[1]; 
+		$Fin       = $VBMerma[2];
+	}
+	if (!$Fin){
+		//BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma, $link);
+		$BMerma = BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+		$VBMerma = explode("***",$BMerma);
+		$PorcMerma = $VBMerma[0];
+		$DescMerma = $VBMerma[1]; 
+		$Fin       = $VBMerma[2];
+	}
 
 	//VALOR MERMA
 	$Leyes["01"][30] = $PorcMerma;
@@ -172,7 +190,7 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 	$Consulta.= " and provisional = 'S' ";
 	$RespProvi=mysqli_query($link, $Consulta);
 	if (!$FilaProvi=mysqli_fetch_array($RespProvi))
-		ValoresRetalla($Lote,$Leyes,$IncRetalla,$link);
+		$Leyes = ValoresRetalla($Lote,$Leyes,$IncRetalla,$link);
 	//CALCULA FINOS
 	$peso_seco = isset($Lote["peso_seco"])?$Lote["peso_seco"]:0;
 	reset($Leyes);
@@ -185,6 +203,10 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 		else
 			$Leyes[$key][23] = '0';
 	} while (next($Leyes));	
+	
+	$arreglo = array();
+	$arreglo = array_merge($Lote, $Leyes);
+	return $arreglo;
 }	
 
 function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosProd,$ArrLeyesProd,$EntreFechas,$IncMerma,$IncRetalla ,$FechaIni,$FechaFin,$FechaConCierre,$link)
@@ -240,7 +262,7 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 			$ArrLeyesLote[$k][10] = "";
 		} while (next($ArrLeyesLote));	
 		$ArrDatosLote["lote"]=$FilaProd["lote"];
-		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre,$link);
+		$ArrDatosLote = LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre,"",$link);
 		if ($ArrDatosLote["tipo_remuestreo"]=="A")
 		{
 			$ArrDatosLote["peso_humedo"]=$ArrDatosLote["peso_humedo_ori"];
@@ -458,7 +480,7 @@ function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeye
 	{
 		$ArrDatosLote=array();		
 		$ArrDatosLote["lote"]=$FilaConj["lote"];
-		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link);
+		$ArrDatosLote = LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,"",$link);
 		$peso_humedo = isset($ArrDatosLote["peso_humedo"])?$ArrDatosLote["peso_humedo"]:0;
 		$peso_seco2 = isset($ArrDatosLote["peso_seco2"])?$ArrDatosLote["peso_seco2"]:0;
 		$PesoHumProv=$PesoHumProv  + $peso_humedo;
@@ -576,7 +598,7 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 		
 		$ArrDatosLote["lote"]=$FilaProv["lote"];
 		//echo $FilaProv["lote"]."<br>";
-		LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre,$link);
+		$ArrDatosLote = LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre,"",$link);
 		$tipo_remuestreo = isset($ArrDatosLote["tipo_remuestreo"])?$ArrDatosLote["tipo_remuestreo"]:"";
 		$peso_humedo     = isset($ArrDatosLote["peso_humedo"])?$ArrDatosLote["peso_humedo"]:0;
 		$peso_seco       = isset($ArrDatosLote["peso_seco"])?$ArrDatosLote["peso_seco"]:0;
@@ -730,7 +752,7 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 }
 
 //FUNCION PARA TOMAR DATOS DE LOTE COMPLETO, PONDERADO
-function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link)
+function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$Petalo,$link)
 {
 	//echo $FechaIni."---".$Lote["lote"];
 	//$FechaConCierre="000-00-00";
@@ -752,9 +774,10 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		$Consulta.= " and t2.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
 	$Consulta.= " group by lote";
 	$RespPeso=mysqli_query($link, $Consulta);
+	//echo "<br><br>Consulta:".$Consulta."<br><br>";
 	if ($FilaPeso = mysqli_fetch_array($RespPeso))
 	{
-		$TotalPesoHum = $FilaPeso["peso_humedo"];
+		$TotalPesoHum         = $FilaPeso["peso_humedo"];
 		$Lote["peso_muestra"] = $FilaPeso["peso_muestra"];
 		$Lote["peso_retalla"] = $FilaPeso["peso_retalla"];
 		$Lote["cod_producto"] = $FilaPeso["cod_producto"];
@@ -775,7 +798,6 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		$Lote["tipo_remuestreo"] = $FilaPeso["tipo_remuestreo"];
 		$Lote["num_lote_remuestreo"] = $FilaPeso["num_lote_remuestreo"];		
 	}
-	
 	//CONSULTA SI TIENE RECARGO
 	//RESCATA LEYES POR RECARGO PARA LUEGO PONDERARLAS
 	$Consulta = "select * ";
@@ -785,7 +807,6 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	$ContRecargos = 1;$CambioHum='N';$PorcHumAnt='NO';
 	$RespLote=mysqli_query($link, $Consulta);
 	$TotalPesoSec = 0; //WSO
-	$TotalPesoHum = 0;
 	$TotalPesoSecAux = 0;
 	while ($FilaLote = mysqli_fetch_array($RespLote))
 	{					
@@ -926,7 +947,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		if($CambioHum=='N')
 		{
 			//echo $PorcHum."KURI<br>";			
-			$PorcHumLote=$PorcHum;
+			$PorcHumLote    = $PorcHum;
 			$PorcHumLoteAux = $PorcHum;
 		}
 		else
@@ -941,9 +962,9 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		
 		$PorcHumLote = 0;
 		$PorcHumLoteAux = 0;	
-	}		
+	}
 	$Lote["peso_humedo"] = $TotalPesoHum;
-	$Lote["peso_seco"] = $TotalPesoSecAux;//REDONDEADO
+	$Lote["peso_seco"]   = $TotalPesoSecAux;//REDONDEADO
 	/*if ($Lote["lote"]=='507053')
 	{
 		echo "Lote:".$Lote["lote"]."<br>";
@@ -951,7 +972,6 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		echo "Peso Seco:".$Lote["peso_seco"]."<br>";
 		echo "Peso Seco2:".$Lote["peso_seco2"]."<br><br>";
 	}	*/
-	
 /*		echo $TotalPesoHum."<br>";
 		echo $TotalPesoSecAux."<br>";
 		echo $PorcHumLote."<br>";
@@ -960,25 +980,30 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	//echo $Lote["lote"]." HUM=".$PorcHumLote." AUX=".$PorcHumLoteAux."<br>";
 	//if ($Lote["lote"]=='507053')
 		//echo "Ley Pond:".$LeyesPond["01"][2];
-	$LeyesPond["01"][2] = $PorcHumLote;//VALOR
+	$LeyesPond["01"][2]  = $PorcHumLote;//VALOR
 	$LeyesPond["01"][20] = $PorcHumLoteAux;//PARA CALCULO DE MERMA
 	$LeyesPond["01"][3] = 1;//COD UNIDAD
 	$LeyesPond["01"][4] = "%";//NOM UNIDAD
 	$LeyesPond["01"][5] = "100";//CONVERSION	
 	//CONSULTA PARAMETROS DE LEYES (UNIDAD, CANT DECIMALES, ETC)
-	ParamLeyes($Lote,$LeyesPond,$link);
+	//ParamLeyes($Lote,$LeyesPond,$link);
+	$LeyesPond = ParamLeyes($Lote,$LeyesPond,$link);
+	//var_dump($LeyesP);
 	//CALCULO DE MERMA
 	$FechaMer = substr($FechaIni,7);
-	ValorMerma($Lote,$LeyesPond,$IncMerma,$link);
+	//ValorMerma($Lote,$LeyesPond,$IncMerma,$link);
+	$ValorM = ValorMerma($Lote,$LeyesPond,$IncMerma,$link);
+	//var_dump($ValorM);
 	//VALORES DE LA RETALLA
 	$Consulta = "select * from age_web.leyes_por_lote ";
 	$Consulta.= " where lote = '".$Lote["lote"]."' ";
 	$Consulta.= " and provisional = 'S' ";
- // echo "HH".$Consulta;
+    //echo "HH".$Consulta;
 	$RespProvi=mysqli_query($link, $Consulta);
-
-	if (!$FilaProvi=mysqli_fetch_array($RespProvi))
-		ValoresRetalla($Lote,$LeyesPond,$IncRetalla,$link);	
+	if (!$FilaProvi=mysqli_fetch_array($RespProvi)){
+		//ValoresRetalla($Lote,$LeyesPond,$IncRetalla,$link);
+		$LeyesPond = ValoresRetalla($Lote,$LeyesPond,$IncRetalla,$link);		
+	}		
 	//SI ES REMUESTREO DE UN MES ANTERIOR
 	$tipo_remuestreo = isset($Lote["tipo_remuestreo"])?$Lote["tipo_remuestreo"]:"";
 	if ($tipo_remuestreo=="A") 
@@ -1054,7 +1079,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 				if (!$FilaProvi=mysqli_fetch_array($RespProvi))
 				{
 					//echo $LoteAju["lote"]." PM=".$LoteAju["peso_muestra"]." PR=".$LoteAju["peso_retalla"]."<br>";
-					ValoresRetalla($LoteAju,$LeyesAju,$IncRetalla,$link);
+					$LeyesAju = ValoresRetalla($LoteAju,$LeyesAju,$IncRetalla,$link);
 					//echo $LeyesAju["02"][2]." / ".$LeyesAju["04"][2]." / ".$LeyesAju["05"][2]."<br>";
 				}
 			}
@@ -1146,7 +1171,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	
 	//REMUESTREO DE UN MES ANTERIOR
 	$tipo_remuestreo = isset($Lote["tipo_remuestreo"])?$Lote["tipo_remuestreo"]:"";
-	$penalidades = isset($Lote["penalidades"])?$Lote["penalidades"]:"";
+	$penalidades     = isset($Lote["penalidades"])?$Lote["penalidades"]:"";
 
 	if ($tipo_remuestreo=="A" && $penalidades!="S")
 	{
@@ -1159,8 +1184,14 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		$LeyesPond["01"][60] = $LeyesPond["01"][2];
 		//$LeyesPond["01"][2] = 0;  
 	}
-	
-	return $LeyesPond; //WSO
+	$arreglo = array();
+	$arreglo = array_merge($Lote, $LeyesPond);
+	//echo "<br>Petalo:".$Petalo."<br>";
+	if($Petalo=='L'){		
+		return $LeyesPond;
+	}else{
+		return $arreglo;
+	}
 	
 }	
 
@@ -1206,6 +1237,8 @@ function ValoresRetalla($Lote,$Leyes,$CalculaInc,$link)
 		//REGISTRA LA INCIDENCIA DE LA RETALLA
 		$Leyes[$FilaLeyes["cod_leyes"]][22] = ($InfRetalla[$FilaLeyes["cod_leyes"]][2]);//VALOR INCIDENCIA
 	}
+	return $Leyes;
+	
 }
 
 function ValorMerma($Lote,$Leyes,$CalculaMerma,$link)
@@ -1247,11 +1280,29 @@ function ValorMerma($Lote,$Leyes,$CalculaMerma,$link)
 	$DescMerma="";
 	$PorcMerma=0;
 	$Fin=false;
-	BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
-	if (!$Fin)
-		BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
-	if (!$Fin)
-		BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+	//BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+	$BMerma = BuscaMerma("P", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+	$VBMerma = explode("***",$BMerma);
+	$PorcMerma = $VBMerma[0];
+	$DescMerma = $VBMerma[1];
+	$Fin       = $VBMerma[2]; 
+
+	if (!$Fin){
+		//BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+		$BMerma = BuscaMerma("C", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+		$VBMerma = explode("***",$BMerma);
+		$PorcMerma = $VBMerma[0];
+		$DescMerma = $VBMerma[1]; 
+		$Fin       = $VBMerma[2];
+	}
+	if (!$Fin){
+		//BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+		$BMerma = BuscaMerma("S", $Lote, $PorcMerma, $LugarDestino, $NomLugar, $Fin, $TieneConj, $Cont, $DescMerma,$link);
+		$VBMerma = explode("***",$BMerma);
+		$PorcMerma = $VBMerma[0];
+		$DescMerma = $VBMerma[1]; 
+		$Fin       = $VBMerma[2]; 
+	}
 	//VALOR MERMA
 	$Leyes["01"][30] = $PorcMerma;
 	$Leyes["01"][31] = $DescMerma;
@@ -1265,6 +1316,8 @@ function ValorMerma($Lote,$Leyes,$CalculaMerma,$link)
 		$Lote["peso_seco2"] = $Lote["peso_humedo"] - ($Lote["peso_humedo"] * $Leyes["01"][2] / 100);
 		//echo $Lote["peso_seco2"]." = ".$Lote["peso_humedo"]." - (".$Lote["peso_humedo"]." * ".$Leyes["01"][2]." / 100)<br>";
 	}
+	
+	return $Leyes;
 	
 }
 
@@ -1282,6 +1335,7 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 
 	$Consulta = "select * from age_web.mermas ";
 	$Consulta.= " where cod_producto='".$cod_producto."' ";
+	//echo "<br><br>Busq:".$Busq;
 	if ($Busq=="P")
 	{
 		$Consulta.= " and cod_subproducto='".$cod_subproducto."' ";
@@ -1303,8 +1357,9 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
 		//echo "=3=".$Consulta."</br>";
 	}
+	//echo "<br>Consulta Porcentaje:".$Consulta."<br>";
 	$RespM01 = mysqli_query($link, $Consulta);
-	$Encontro=false;
+	//$Encontro=false;
 	while ($FilaM01 = mysqli_fetch_array($RespM01))
 	{								
 		$Porcentaje = $FilaM01["porc"];
@@ -1331,6 +1386,7 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 		}
 	}
 	if (!$Encontro && $TieneConjunto)
+	//if ($Encontro!='1' && $TieneConjunto!="")
 	{				
 		//CONSULTA TIENE MERMA COMO TIPO DE LUGAR DE RECEPCION (TOLVA, CANCHA, ETC)
 		$Consulta = "select * from age_web.mermas ";
@@ -1343,8 +1399,7 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 		$Consulta.= " and tipo_aplicacion='L'";
 		$Consulta.= " and referencia='".$L_Destino."'";
 		$Consulta.=" and ((year(fecha) < '".$Anito."') or (year(fecha) ='".$Anito."' and month(fecha) <= '".$Mesi."'))";
-		//echo $Consulta;
-		
+		//echo "<br><br>TIENE MERMA COMO TIPO DE LUGAR DE RECEPCION:".$Consulta;		
 		$RespM01 = mysqli_query($link, $Consulta);				
 		if ($FilaM01 = mysqli_fetch_array($RespM01))
 		{					
@@ -1364,6 +1419,8 @@ function BuscaMerma($Busq, $LoteAux, $Porcentaje, $L_Destino, $D_Destino, $Encon
 			}
 		}
 	}
+	$Valores = $Porcentaje."***".$Texto."***".$Encontro;
+	return $Valores;
 }
 
 function ParamLeyes($Datos,$Leyes,$link)
@@ -1454,6 +1511,7 @@ function ParamLeyes($Datos,$Leyes,$link)
 		$Leyes[$FilaParam["cod_leyes"]][34] = $FilaParam["conversion"];//CONVERSION
 		$Leyes[$FilaParam["cod_leyes"]][35] = $FilaParam["decimales"];//CANT DECIMALES
 	}
+	return $Leyes;
 }
 function LeyesAjusteProveedor($Ano,$Mes,$RutProv,$Prod,$SubProd,$ArrLeyesProv,$FechaCierreAnexo,$link)
 {		
@@ -1490,7 +1548,7 @@ function LeyesAjusteProveedor($Ano,$Mes,$RutProv,$Prod,$SubProd,$ArrLeyesProv,$F
 		$LeyesLote=array();
 		$Lote["lote"]=$FilaProv["lote"];
 		$LeyesLote["01"][0]="01";$LeyesLote["02"][0]="02";$LeyesLote["04"][0]="04";$LeyesLote["05"][0]="05";
-		LeyesLote($Lote,$LeyesLote,"N","S","S",$FechaIni,$FechaFin,$FechaCierreAnexo,$link);		
+		$Lote = LeyesLote($Lote,$LeyesLote,"N","S","S",$FechaIni,$FechaFin,$FechaCierreAnexo,"",$link);		
 		$Consulta = "select * ";
 		$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
 		$Consulta.= " where t1.lote='".$FilaProv["lote"]."'";

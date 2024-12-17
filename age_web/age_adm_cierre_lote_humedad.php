@@ -31,9 +31,11 @@
 		$DatosLoteRec["lote"]=$TxtLote;
 		$DatosLoteRec["recargo"]=$Fila["recargo"];
 		$FechaMer = "20".substr($TxtLote,0,2)."-".substr($TxtLote,2,2);
-		LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","N","S","","",$link);
-		$ArrLeyes0130=isset($ArrLeyes["01"][30])?$ArrLeyes["01"][30]:0;
-		$ArrLeyes012 =isset($ArrLeyes["01"][2])?$ArrLeyes["01"][2]:0;
+		//LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","N","S","","",$link);
+		$ArrLeyes   = LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","N","S","","",$link); 
+	
+		$ArrLeyes0130 = isset($ArrLeyes["01"][30])?$ArrLeyes["01"][30]:0;
+		$ArrLeyes012  = isset($ArrLeyes["01"][2])?$ArrLeyes["01"][2]:0;
 		if ($ArrLeyes0130>0)
 		{
 			$PorcMerma = $ArrLeyes["01"][30];
@@ -41,9 +43,9 @@
 		}
 		//echo $ArrLeyes["01"][2]."<br>";
 		//echo $ArrLeyes["01"][30]."<br>";
-		$recepcion   = isset($DatosLoteRec["recepcion"])?$DatosLoteRec["recepcion"]:"";
-		$peso_humedo = isset($DatosLoteRec["peso_humedo"])?$DatosLoteRec["peso_humedo"]:0;
-		$peso_seco   = isset($DatosLoteRec["peso_seco"])?$DatosLoteRec["peso_seco"]:0;
+		$recepcion   = isset($ArrLeyes["recepcion"])?$ArrLeyes["recepcion"]:"";
+		$peso_humedo = isset($ArrLeyes["peso_humedo"])?$ArrLeyes["peso_humedo"]:0;
+		$peso_seco   = isset($ArrLeyes["peso_seco"])?$ArrLeyes["peso_seco"]:0;
 		$NuevoPorc = ($ArrLeyes012 + $ArrLeyes0130);
 		if ($peso_humedo>0 && $NuevoPorc>0)
 		{
@@ -103,17 +105,19 @@
 		$ArrLeyes=array();
 		$DatosLote["lote"]=$TxtLote;
 		$ArrLeyes["01"][0]="01";
-		LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
-		$tipo_remuestreo=isset($DatosLote["tipo_remuestreo"])?$DatosLote["tipo_remuestreo"]:"";
+		//LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+		$ArrLeyes = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$Petalo,$link);  
+		$tipo_remuestreo=isset($ArrLeyes["tipo_remuestreo"])?$ArrLeyes["tipo_remuestreo"]:"";
 		if($tipo_remuestreo=='A')
 		{
-			$ValorLey=$ArrLeyes["01"][60];
-			$TotPesoSeco=isset($DatosLote["peso_seco2_ori"])?$DatosLote["peso_seco2_ori"]:0;
+			$ValorLey   =$ArrLeyes["01"][60];
+			$TotPesoSeco=isset($ArrLeyes["peso_seco2_ori"])?$ArrLeyes["peso_seco2_ori"]:0;
 		}	
 		else
 		{   
 			$ArrLeyes012 = isset($ArrLeyes["01"][2])?$ArrLeyes["01"][2]:"";
-			$ValorLey=$ArrLeyes012;
+			//$ValorLey=$ArrLeyes012;
+			$ValorLey=$ArrLeyes["01"][2];
 			/*if ($DatosLoteRec["recepcion"]=="PMN")
 				$TotPesoSeco=$DatosLote["peso_seco"];
 			else

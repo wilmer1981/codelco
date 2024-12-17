@@ -61,7 +61,8 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$TxtLote;
-			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			//LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
 			$PesoSecoLote = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
 			$PesoHumLote  = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
 		}
