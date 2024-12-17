@@ -23,13 +23,13 @@ function setHookCallback (callback) {
 }
 
 function isArray(input) {
-    return input instanceof Array || Object.prototype.toString.call(input) === '[object Array]."';
+    return input instanceof Array || Object.prototype.toString.call(input) === '[object Array]';
 }
 
 function isObject(input) {
     // IE8 will treat undefined and null as object if it wasn't for
     // input != null
-    return input != null && Object.prototype.toString.call(input) === '[object Object]."';
+    return input != null && Object.prototype.toString.call(input) === '[object Object]';
 }
 
 function isObjectEmpty(obj) {
@@ -46,11 +46,11 @@ function isUndefined(input) {
 }
 
 function isNumber(input) {
-    return typeof input === 'number' || Object.prototype.toString.call(input) === '[object Number]."';
+    return typeof input === 'number' || Object.prototype.toString.call(input) === '[object Number]';
 }
 
 function isDate(input) {
-    return input instanceof Date || Object.prototype.toString.call(input) === '[object Date]."';
+    return input instanceof Date || Object.prototype.toString.call(input) === '[object Date]';
 }
 
 function map(arr, fn) {
@@ -230,7 +230,7 @@ function copyConfig(to, from) {
     return to;
 }
 
-var UPDATEInProgress = false;
+var updateInProgress = false;
 
 // Moment prototype object
 function Moment(config) {
@@ -239,12 +239,12 @@ function Moment(config) {
     if (!this.isValid()) {
         this._d = new Date(NaN);
     }
-    // Prevent infinite loop in case UPDATEOffset creates new moment
+    // Prevent infinite loop in case updateOffset creates new moment
     // objects.
-    if (UPDATEInProgress === false) {
-        UPDATEInProgress = true;
-        hooks.UPDATEOffset(this);
-        UPDATEInProgress = false;
+    if (updateInProgress === false) {
+        updateInProgress = true;
+        hooks.updateOffset(this);
+        updateInProgress = false;
     }
 }
 
@@ -340,7 +340,7 @@ hooks.suppressDeprecationWarnings = false;
 hooks.deprecationHandler = null;
 
 function isFunction(input) {
-    return input instanceof Function || Object.prototype.toString.call(input) === '[object Function]."';
+    return input instanceof Function || Object.prototype.toString.call(input) === '[object Function]';
 }
 
 function set (config) {
@@ -541,7 +541,7 @@ function makeGetSet (unit, keepTime) {
     return function (value) {
         if (value != null) {
             set$1(this, unit, value);
-            hooks.UPDATEOffset(this, keepTime);
+            hooks.updateOffset(this, keepTime);
             return this;
         } else {
             return get(this, unit);
@@ -979,7 +979,7 @@ function setMonth (mom, value) {
 function getSetMonth (value) {
     if (value != null) {
         setMonth(this, value);
-        hooks.UPDATEOffset(this, true);
+        hooks.updateOffset(this, true);
         return this;
     } else {
         return get(this, 'Month');
@@ -1864,7 +1864,7 @@ function defineLocale (name, config) {
         config.abbr = name;
         if (locales[name] != null) {
             deprecateSimple('defineLocaleOverride',
-                    'use moment.UPDATELocale(localeName, config) to change ' +
+                    'use moment.updateLocale(localeName, config) to change ' +
                     'an existing locale. moment.defineLocale(localeName, ' +
                     'config) should only be used for creating a new locale ' +
                     'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.');
@@ -1905,7 +1905,7 @@ function defineLocale (name, config) {
     }
 }
 
-function UPDATELocale(name, config) {
+function updateLocale(name, config) {
     if (config != null) {
         var locale, parentConfig = baseConfig;
         // MERGE
@@ -1920,7 +1920,7 @@ function UPDATELocale(name, config) {
         // backwards compat for now: also set the locale
         getSetGlobalLocale(name);
     } else {
-        // pass null for config to unUPDATE, useful for tests
+        // pass null for config to unupdate, useful for tests
         if (locales[name] != null) {
             if (locales[name].parentLocale != null) {
                 locales[name] = locales[name].parentLocale;
@@ -2789,7 +2789,7 @@ function cloneWithOffset(input, model) {
         diff = (isMoment(input) || isDate(input) ? input.valueOf() : createLocal(input).valueOf()) - res.valueOf();
         // Use low-level api, because this fn is low-level api.
         res._d.setTime(res._d.valueOf() + diff);
-        hooks.UPDATEOffset(res, false);
+        hooks.updateOffset(res, false);
         return res;
     } else {
         return createLocal(input).local();
@@ -2806,7 +2806,7 @@ function getDateOffset (m) {
 
 // This function will be called whenever a moment is mutated.
 // It is intended to keep the offset in sync with the timezone.
-hooks.UPDATEOffset = function () {};
+hooks.updateOffset = function () {};
 
 // MOMENTS
 
@@ -2816,7 +2816,7 @@ hooks.UPDATEOffset = function () {};
 // +0200, so we adjust the time as needed, to be valid.
 //
 // Keeping the time actually adds/subtracts (one hour)
-// from the actual represented time. That is why we call UPDATEOffset
+// from the actual represented time. That is why we call updateOffset
 // a second time. In case it wants us to change the offset again
 // _changeInProgress == true case, then we have to adjust, because
 // there is no such time in the given timezone.
@@ -2848,7 +2848,7 @@ function getSetOffset (input, keepLocalTime, keepMinutes) {
                 addSubtract(this, createDuration(input - offset, 'm'), 1, false);
             } else if (!this._changeInProgress) {
                 this._changeInProgress = true;
-                hooks.UPDATEOffset(this, true);
+                hooks.updateOffset(this, true);
                 this._changeInProgress = null;
             }
         }
@@ -3083,7 +3083,7 @@ function createAdder(direction, name) {
     };
 }
 
-function addSubtract (mom, duration, isAdding, UPDATEOffset) {
+function addSubtract (mom, duration, isAdding, updateOffset) {
     var milliseconds = duration._milliseconds,
         days = absRound(duration._days),
         months = absRound(duration._months);
@@ -3093,7 +3093,7 @@ function addSubtract (mom, duration, isAdding, UPDATEOffset) {
         return;
     }
 
-    UPDATEOffset = UPDATEOffset == null ? true : UPDATEOffset;
+    updateOffset = updateOffset == null ? true : updateOffset;
 
     if (milliseconds) {
         mom._d.setTime(mom._d.valueOf() + milliseconds * isAdding);
@@ -3104,8 +3104,8 @@ function addSubtract (mom, duration, isAdding, UPDATEOffset) {
     if (months) {
         setMonth(mom, get(mom, 'Month') + months * isAdding);
     }
-    if (UPDATEOffset) {
-        hooks.UPDATEOffset(mom, days || months);
+    if (updateOffset) {
+        hooks.updateOffset(mom, days || months);
     }
 }
 
@@ -3253,7 +3253,7 @@ function monthDiff (a, b) {
 }
 
 hooks.defaultFormat = 'YYYY-MM-DDTHH:mm:ssZ';
-hooks.defaultFormatUtc = 'YYYY-MM-DDTHH:mm:ss[Z]."';
+hooks.defaultFormatUtc = 'YYYY-MM-DDTHH:mm:ss[Z]';
 
 function toString () {
     return this.clone().locale('en').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
@@ -3265,13 +3265,13 @@ function toISOString() {
     }
     var m = this.clone().utc();
     if (m.year() < 0 || m.year() > 9999) {
-        return formatMoment(m, 'YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]."');
+        return formatMoment(m, 'YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
     }
     if (isFunction(Date.prototype.toISOString)) {
         // native implementation is ~50x faster, use it when we can
         return this.toDate().toISOString();
     }
-    return formatMoment(m, 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]."');
+    return formatMoment(m, 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
 }
 
 /**
@@ -3290,10 +3290,10 @@ function inspect () {
         func = this.utcOffset() === 0 ? 'moment.utc' : 'moment.parseZone';
         zone = 'Z';
     }
-    var prefix = '[' + func + '("]."';
+    var prefix = '[' + func + '("]';
     var year = (0 <= this.year() && this.year() <= 9999) ? 'YYYY' : 'YYYYYY';
     var datetime = '-MM-DD[T]HH:mm:ss.SSS';
-    var suffix = zone + '[")]."';
+    var suffix = zone + '[")]';
 
     return this.format(prefix + year + datetime + suffix);
 }
@@ -4449,7 +4449,7 @@ hooks.isDuration            = isDuration;
 hooks.monthsShort           = listMonthsShort;
 hooks.weekdaysMin           = listWeekdaysMin;
 hooks.defineLocale          = defineLocale;
-hooks.UPDATELocale          = UPDATELocale;
+hooks.updateLocale          = updateLocale;
 hooks.locales               = listLocales;
 hooks.weekdaysShort         = listWeekdaysShort;
 hooks.normalizeUnits        = normalizeUnits;

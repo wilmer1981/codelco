@@ -33,7 +33,7 @@ class functions{
 
 	  function obtenerMaxNroSa(){
 	  	global $dataBaseMysql;
-	  	$Consulta = "SELECT max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
+	  	$Consulta = "select max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
 		$Retorno = $dataBaseMysql->consulta($Consulta);
 		return $Retorno;
 	  
@@ -70,23 +70,23 @@ class functions{
   		global $CookieRut;
   		global $dataBaseMysql;
   		//print_r($Fila);
-  		$Insertar = "INSERT INTO cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,cod_producto,cod_subproducto,";
+  		$Insertar = "insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,cod_producto,cod_subproducto,";
 		$Insertar = $Insertar."cod_analisis,cod_tipo_muestra,tipo_solicitud,agrupacion,tipo,enabal,cod_ccosto,cod_area,leyes,impurezas) values ('";
 		$Insertar = $Insertar.$CookieRut."','";
 		$Insertar = $Insertar.$FechaHora."','";
-		$Insertar = $Insertar.$Fila["id_muestra"]."~".$cantidad."','";	
-		$Insertar = $Insertar.$Fila["cod_producto"]."','";					
-		$Insertar = $Insertar.$Fila["cod_subproducto"]."','";			
-		$Insertar = $Insertar.$Fila["cod_analisis"]."','";
+		$Insertar = $Insertar.$Fila[id_muestra]."~".$cantidad."','";	
+		$Insertar = $Insertar.$Fila[cod_producto]."','";					
+		$Insertar = $Insertar.$Fila[cod_subproducto]."','";			
+		$Insertar = $Insertar.$Fila[cod_analisis]."','";
 		$Insertar = $Insertar.$Fila[cod_tipo_muestra]."','";
-		$Insertar = $Insertar.$Fila["tipo_solicitud"]."','";
-		$Insertar = $Insertar.$Fila["agrupacion"]."','";
-		$Insertar = $Insertar.$Fila["tipo"]."','";
+		$Insertar = $Insertar.$Fila[tipo_solicitud]."','";
+		$Insertar = $Insertar.$Fila[agrupacion]."','";
+		$Insertar = $Insertar.$Fila[tipo]."','";
 		$Insertar = $Insertar.$Fila[enabal]."','";			
 		$Insertar = $Insertar.$Fila[cod_ccosto]."',";			
-		$Insertar = $Insertar.$Fila["cod_area"].",'";
-		$Insertar = $Insertar.$Fila["leyes"]."','";
-		$Insertar = $Insertar.$Fila["impurezas"]."')";	
+		$Insertar = $Insertar.$Fila[cod_area].",'";
+		$Insertar = $Insertar.$Fila[leyes]."','";
+		$Insertar = $Insertar.$Fila[impurezas]."')";	
 		//echo $Insertar;
 		$Retorno = $dataBaseMysql->QueryAction($Insertar);
   	}

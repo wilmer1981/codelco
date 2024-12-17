@@ -1177,14 +1177,14 @@ if (!document.createElement('canvas').getContext) {
         isFinite(m[2][0]) && isFinite(m[2][1]);
         }
 
-        function setM(ctx, m, UPDATELineScale)
+        function setM(ctx, m, updateLineScale)
         {
             if (!matrixIsFinite(m)) {
                 return;
             }
             ctx.m_ = m;
 
-            if (UPDATELineScale) {
+            if (updateLineScale) {
                 // Get the line scale.
                 // Determinant of this.m_ means how much the area is enlarged by the
                 // transformation. So its square root can be used as a scale factor

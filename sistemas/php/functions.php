@@ -155,13 +155,13 @@ class functions{
 
 	function ObteneLinks()
 	{
-		$Query = "SELECT t3.* from sict_ope_link_por_perfil t1 inner join sict_ope_link t2 on t1.cod_link=t2.cod_link inner join system_access t3 on t2.sistema=t3.sigla where cod_perfil = '".$_SESSION["CookieCodPerfil"]."' group by sistema";
+		$Query = "select t3.* from sict_ope_link_por_perfil t1 inner join sict_ope_link t2 on t1.cod_link=t2.cod_link inner join system_access t3 on t2.sistema=t3.sigla where cod_perfil = '".$_SESSION["CookieCodPerfil"]."' group by sistema";
 		return $Query;
 	}
 
 	function ObtieneSistemasAsociados()
 	{
-		$Query = "SELECT t3.* from sict_ope_link_por_perfil t1 inner join sict_ope_link t2 on t1.cod_link=t2.cod_link inner join system_access t3 on t2.sistema=t3.sigla where cod_perfil = '".$_SESSION["CookieCodPerfil"]."' group by sistema";
+		$Query = "select t3.* from sict_ope_link_por_perfil t1 inner join sict_ope_link t2 on t1.cod_link=t2.cod_link inner join system_access t3 on t2.sistema=t3.sigla where cod_perfil = '".$_SESSION["CookieCodPerfil"]."' group by sistema";
 		return $Query;
 		echo $Query;
 	}	
@@ -183,7 +183,7 @@ class functions{
 				//echo round(($fechaAhora - $fechaBloq ) / 60,2). " minutos<br>";
 				if ($intervalo>$tiempo)
 				{
-					$Actualizar = " UPDATE sict_ope_usuario set ";
+					$Actualizar = " update sict_ope_usuario set ";
 								$Actualizar.= " bloqueo='N' ";
 								$Actualizar.= " where rut='".$rut[0]."'";
 								$dataBaseMysql->QueryAction($Actualizar);

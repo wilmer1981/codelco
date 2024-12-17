@@ -14,7 +14,7 @@
  
 
  */
-/*      light colors - used for SELECT dropdown         */
+/*      light colors - used for select dropdown         */
 
 #Cargando{ position: fixed; width: 100%; height: 100%; top: 0; text-align: center; background: #000;
     opacity: 0.5;
@@ -163,7 +163,7 @@ a {
 a:focus, a:active,
 button::-moz-focus-inner,
 input::-moz-focus-inner,
-SELECT::-moz-focus-inner,
+select::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {
   outline: 0 !important; }
 
@@ -770,13 +770,13 @@ hr {
 .btn-wd {
   min-width: 140px; }
 
-.btn-group.SELECT {
+.btn-group.select {
   width: 100%; }
 
-.btn-group.SELECT .btn {
+.btn-group.select .btn {
   text-align: left; }
 
-.btn-group.SELECT .caret {
+.btn-group.select .caret {
   position: absolute;
   top: 50%;
   margin-top: -1px;
@@ -1405,7 +1405,7 @@ textarea.form-control {
     color: #9A9A9A;
     font-size: 12px;
     padding: 10px 15px; }
-  .SELECT .dropdown-menu {
+  .select .dropdown-menu {
     border-radius: 0 0 10px 10px;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -1425,7 +1425,7 @@ textarea.form-control {
     -ms-transition: all 150ms linear;
     transition: all 150ms linear;
     margin-top: -20px; }
-  .SELECT.open .dropdown-menu {
+  .select.open .dropdown-menu {
     margin-top: -1px; }
   .dropdown-menu > li > a {
     color: #66615b;
@@ -1440,7 +1440,7 @@ textarea.form-control {
       margin-top: -3px; }
   .dropdown-menu > li > a:focus {
     outline: 0 !important; }
-  .btn-group.SELECT .dropdown-menu {
+  .btn-group.select .dropdown-menu {
     min-width: 100%; }
   .dropdown-menu > li:first-child > a {
     border-top-left-radius: 6px;
@@ -1448,7 +1448,7 @@ textarea.form-control {
   .dropdown-menu > li:last-child > a {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px; }
-  .SELECT .dropdown-menu > li:first-child > a {
+  .select .dropdown-menu > li:first-child > a {
     border-radius: 0;
     border-bottom: 0 none; }
   .dropdown-menu > li > a:hover,
@@ -1468,10 +1468,10 @@ textarea.form-control {
   .dropdown-menu.dropdown-danger > li > a:hover, .dropdown-menu.dropdown-danger > li > a:focus {
     background-color: #EB5E28; }
 
-.btn-group.SELECT {
+.btn-group.select {
   overflow: hidden; }
 
-.btn-group.SELECT.open {
+.btn-group.select.open {
   overflow: visible; }
 
 .card {

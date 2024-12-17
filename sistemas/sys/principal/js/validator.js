@@ -33,9 +33,9 @@
   // ==========================
 
   function getValue($el) {
-    return $el.is('[type="checkbox"]."') ? $el.prop('checked')                                     :
-           $el.is('[type="radio"]."')    ? !!$('[name="' + $el.attr('name') + '"]:checked').length :
-           $el.is('SELECT[multiple]."')  ? ($el.val() || []).length                                :
+    return $el.is('[type="checkbox"]') ? $el.prop('checked')                                     :
+           $el.is('[type="radio"]')    ? !!$('[name="' + $el.attr('name') + '"]:checked').length :
+           $el.is('select[multiple]')  ? ($el.val() || []).length                                :
                                          $el.val()
   }
 
@@ -43,17 +43,17 @@
     this.options    = options
     this.validators = $.extend({}, Validator.VALIDATORS, options.custom)
     this.$element   = $(element)
-    this.$btn       = $('button[type="submit"], input[type="submit"]."')
-                        .filter('[form="' + this.$element.attr('id') + '"]."')
-                        .add(this.$element.find('input[type="submit"], button[type="submit"]."'))
+    this.$btn       = $('button[type="submit"], input[type="submit"]')
+                        .filter('[form="' + this.$element.attr('id') + '"]')
+                        .add(this.$element.find('input[type="submit"], button[type="submit"]'))
 
-    this.UPDATE()
+    this.update()
 
     this.$element.on('input.bs.validator change.bs.validator focusout.bs.validator', $.proxy(this.onInput, this))
     this.$element.on('submit.bs.validator', $.proxy(this.onSubmit, this))
     this.$element.on('reset.bs.validator', $.proxy(this.reset, this))
 
-    this.$element.find('[data-match]."').each(function () {
+    this.$element.find('[data-match]').each(function () {
       var $this  = $(this)
       var target = $this.attr('data-match')
 
@@ -109,12 +109,12 @@
     }
   }
 
-  Validator.prototype.UPDATE = function () {
+  Validator.prototype.update = function () {
     var self = this
 
     this.$inputs = this.$element.find(Validator.INPUT_SELECTOR)
-      .add(this.$element.find('[data-validate="true"]."'))
-      .not(this.$element.find('[data-validate="false"]."')
+      .add(this.$element.find('[data-validate="true"]'))
+      .not(this.$element.find('[data-validate="false"]')
         .each(function () { self.clearErrors($(this)) })
       )
 
@@ -139,7 +139,7 @@
     var value      = getValue($el)
     var prevErrors = $el.data('bs.validator.errors')
 
-    if ($el.is('[type="radio"]."')) $el = this.$element.find('input[name="' + $el.attr('name') + '"]."')
+    if ($el.is('[type="radio"]')) $el = this.$element.find('input[name="' + $el.attr('name') + '"]')
 
     var e = $.Event('validate.bs.validator', {relatedTarget: $el[0]})
     this.$element.trigger(e)
@@ -300,7 +300,7 @@
       return !(typeof value == "string" ? $.trim(value) : value)
     }
 
-    return !!this.$inputs.filter('[required]."').filter(fieldIncomplete).length
+    return !!this.$inputs.filter('[required]').filter(fieldIncomplete).length
   }
 
   Validator.prototype.onSubmit = function (e) {
@@ -405,7 +405,7 @@
   // ==================
 
   $(window).on('load', function () {
-    $('form[data-toggle="validator"]."').each(function () {
+    $('form[data-toggle="validator"]').each(function () {
       var $form = $(this)
       Plugin.call($form, $form.data())
     })

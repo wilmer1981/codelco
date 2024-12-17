@@ -137,7 +137,7 @@ function ProcesarAccion(Pagina,Opcion,form)
 function ValidarDatosFormulario(Form)
 {
 	var Cadena = "";var Pasa = true;
-	$("form#"+Form).find(':input, SELECT').each(function() {			
+	$("form#"+Form).find(':input, select').each(function() {			
 	    var elemento= this;
 
 	    $(this).removeClass("inputRojo");

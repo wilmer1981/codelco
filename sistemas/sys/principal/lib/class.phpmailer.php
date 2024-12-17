@@ -330,10 +330,10 @@ class PHPMailer {
    * Used with DKIM Signing
    * required parameter if DKIM is enabled
    *
-   * domain SELECTor example domainkey
+   * domain selector example domainkey
    * @var string
    */
-  public $DKIM_SELECTor   = '';
+  public $DKIM_selector   = '';
 
   /**
    * Used with DKIM Signing
@@ -812,7 +812,7 @@ class PHPMailer {
       }
 
       // digitally sign with DKIM if enabled
-      if (!empty($this->DKIM_domain) && !empty($this->DKIM_private) && !empty($this->DKIM_SELECTor) && !empty($this->DKIM_domain) && file_exists($this->DKIM_private)) {
+      if (!empty($this->DKIM_domain) && !empty($this->DKIM_private) && !empty($this->DKIM_selector) && !empty($this->DKIM_domain) && file_exists($this->DKIM_private)) {
         $header_dkim = $this->DKIM_Add($this->MIMEHeader, $this->EncodeHeader($this->SecureHeader($this->Subject)), $this->MIMEBody);
         $this->MIMEHeader = str_replace("\r\n", "\n", $header_dkim) . $this->MIMEHeader;
       }
@@ -830,7 +830,7 @@ class PHPMailer {
 
   /**
    * Actual Email transport function
-   * Send the email via the SELECTed mechanism
+   * Send the email via the selected mechanism
    * @throws phpmailerException
    * @return bool
    */
@@ -1943,7 +1943,7 @@ class PHPMailer {
     }
 
     $maxlen = 75 - 7 - strlen($this->CharSet);
-    // Try to SELECT the encoding which should produce the shortest output
+    // Try to select the encoding which should produce the shortest output
     if (strlen($str)/3 < $x) {
       $encoding = 'B';
       if (function_exists('mb_strlen') && $this->HasMultiBytes($str)) {
@@ -2727,7 +2727,7 @@ class PHPMailer {
     $DKIMlen  = strlen($body) ; // Length of body
     $DKIMb64  = base64_encode(pack("H*", sha1($body))) ; // Base64 of packed binary SHA-1 hash of body
     $ident    = ($this->DKIM_identity == '')? '' : " i=" . $this->DKIM_identity . ";";
-    $dkimhdrs = "DKIM-Signature: v=1; a=" . $DKIMsignatureType . "; q=" . $DKIMquery . "; l=" . $DKIMlen . "; s=" . $this->DKIM_SELECTor . ";\r\n".
+    $dkimhdrs = "DKIM-Signature: v=1; a=" . $DKIMsignatureType . "; q=" . $DKIMquery . "; l=" . $DKIMlen . "; s=" . $this->DKIM_selector . ";\r\n".
                 "\tt=" . $DKIMtime . "; c=" . $DKIMcanonicalization . ";\r\n".
                 "\th=From:To:Subject;\r\n".
                 "\td=" . $this->DKIM_domain . ";" . $ident . "\r\n".

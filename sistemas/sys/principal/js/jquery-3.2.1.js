@@ -91,11 +91,11 @@ var
 	version = "3.2.1",
 
 	// Define a local copy of jQuery
-	jQuery = function( SELECTor, context ) {
+	jQuery = function( selector, context ) {
 
 		// The jQuery object is actually just the init constructor 'enhanced'
 		// Need init if jQuery is called (just allow error to be thrown if not included)
-		return new jQuery.fn.init( SELECTor, context );
+		return new jQuery.fn.init( selector, context );
 	},
 
 	// Support: Android <=4.0 only
@@ -555,7 +555,7 @@ var i,
 	isXML,
 	tokenize,
 	compile,
-	SELECT,
+	select,
 	outermostContext,
 	sortInput,
 	hasDuplicate,
@@ -605,17 +605,17 @@ var i,
 		return -1;
 	},
 
-	booleans = "checked|SELECTed|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",
+	booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",
 
 	// Regular expressions
 
-	// http://www.w3.org/TR/css3-SELECTors/#whitespace
+	// http://www.w3.org/TR/css3-selectors/#whitespace
 	whitespace = "[\\x20\\t\\r\\n\\f]",
 
 	// http://www.w3.org/TR/CSS21/syndata.html#value-def-identifier
 	identifier = "(?:\\\\.|[\\w-]|[^\0-\\xa0])+",
 
-	// Attribute SELECTors: http://www.w3.org/TR/SELECTors/#attribute-SELECTors
+	// Attribute selectors: http://www.w3.org/TR/selectors/#attribute-selectors
 	attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace +
 		// Operator (capture 2)
 		"*([*^$|!~]?=)" + whitespace +
@@ -624,7 +624,7 @@ var i,
 		"*\\]",
 
 	pseudos = ":(" + identifier + ")(?:\\((" +
-		// To reduce the number of SELECTors needing tokenize in the preFilter, prefer arguments:
+		// To reduce the number of selectors needing tokenize in the preFilter, prefer arguments:
 		// 1. quoted (capture 3; capture 4 or capture 5)
 		"('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|" +
 		// 2. simple (capture 6)
@@ -640,7 +640,7 @@ var i,
 	rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
 	rcombinators = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace + "*" ),
 
-	rattributeQuotes = new RegExp( "=" + whitespace + "*([^\\]."'\"]*?)" + whitespace + "*\\]", "g" ),
+	rattributeQuotes = new RegExp( "=" + whitespace + "*([^\\]'\"]*?)" + whitespace + "*\\]", "g" ),
 
 	rpseudo = new RegExp( pseudos ),
 	ridentifier = new RegExp( "^" + identifier + "$" ),
@@ -656,17 +656,17 @@ var i,
 			"*(\\d+)|))" + whitespace + "*\\)|)", "i" ),
 		"bool": new RegExp( "^(?:" + booleans + ")$", "i" ),
 		// For use in libraries implementing .is()
-		// We use this for POS matching in `SELECT`
+		// We use this for POS matching in `select`
 		"needsContext": new RegExp( "^" + whitespace + "*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(" +
 			whitespace + "*((?:-\\d)?\\d*)" + whitespace + "*\\)|)(?=[^-]|$)", "i" )
 	},
 
-	rinputs = /^(?:input|SELECT|textarea|button)$/i,
+	rinputs = /^(?:input|select|textarea|button)$/i,
 	rheader = /^h\d$/i,
 
 	rnative = /^[^{]+\{\s*\[native \w/,
 
-	// Easily-parseable/retrievable ID or TAG or CLASS SELECTors
+	// Easily-parseable/retrievable ID or TAG or CLASS selectors
 	rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
 
 	rsibling = /[+~]/,
@@ -751,7 +751,7 @@ try {
 	};
 }
 
-function Sizzle( SELECTor, context, results, seed ) {
+function Sizzle( selector, context, results, seed ) {
 	var m, i, elem, nid, match, groups, newSelector,
 		newContext = context && context.ownerDocument,
 
@@ -760,8 +760,8 @@ function Sizzle( SELECTor, context, results, seed ) {
 
 	results = results || [];
 
-	// Return early from calls with invalid SELECTor or context
-	if ( typeof SELECTor !== "string" || !SELECTor ||
+	// Return early from calls with invalid selector or context
+	if ( typeof selector !== "string" || !selector ||
 		nodeType !== 1 && nodeType !== 9 && nodeType !== 11 ) {
 
 		return results;
@@ -777,11 +777,11 @@ function Sizzle( SELECTor, context, results, seed ) {
 
 		if ( documentIsHTML ) {
 
-			// If the SELECTor is sufficiently simple, try using a "get*By*" DOM method
+			// If the selector is sufficiently simple, try using a "get*By*" DOM method
 			// (excepting DocumentFragment context, where the methods don't exist)
-			if ( nodeType !== 11 && (match = rquickExpr.exec( SELECTor )) ) {
+			if ( nodeType !== 11 && (match = rquickExpr.exec( selector )) ) {
 
-				// ID SELECTor
+				// ID selector
 				if ( (m = match[1]) ) {
 
 					// Document context
@@ -814,12 +814,12 @@ function Sizzle( SELECTor, context, results, seed ) {
 						}
 					}
 
-				// Type SELECTor
+				// Type selector
 				} else if ( match[2] ) {
-					push.apply( results, context.getElementsByTagName( SELECTor ) );
+					push.apply( results, context.getElementsByTagName( selector ) );
 					return results;
 
-				// Class SELECTor
+				// Class selector
 				} else if ( (m = match[3]) && support.getElementsByClassName &&
 					context.getElementsByClassName ) {
 
@@ -830,12 +830,12 @@ function Sizzle( SELECTor, context, results, seed ) {
 
 			// Take advantage of querySelectorAll
 			if ( support.qsa &&
-				!compilerCache[ SELECTor + " " ] &&
-				(!rbuggyQSA || !rbuggyQSA.test( SELECTor )) ) {
+				!compilerCache[ selector + " " ] &&
+				(!rbuggyQSA || !rbuggyQSA.test( selector )) ) {
 
 				if ( nodeType !== 1 ) {
 					newContext = context;
-					newSelector = SELECTor;
+					newSelector = selector;
 
 				// qSA looks outside Element context, which is not what we want
 				// Thanks to Andrew Dupont for this workaround technique
@@ -850,16 +850,16 @@ function Sizzle( SELECTor, context, results, seed ) {
 						context.setAttribute( "id", (nid = expando) );
 					}
 
-					// Prefix every SELECTor in the list
-					groups = tokenize( SELECTor );
+					// Prefix every selector in the list
+					groups = tokenize( selector );
 					i = groups.length;
 					while ( i-- ) {
 						groups[i] = "#" + nid + " " + toSelector( groups[i] );
 					}
 					newSelector = groups.join( "," );
 
-					// Expand context for sibling SELECTors
-					newContext = rsibling.test( SELECTor ) && testContext( context.parentNode ) ||
+					// Expand context for sibling selectors
+					newContext = rsibling.test( selector ) && testContext( context.parentNode ) ||
 						context;
 				}
 
@@ -881,7 +881,7 @@ function Sizzle( SELECTor, context, results, seed ) {
 	}
 
 	// All others
-	return SELECT( SELECTor.replace( rtrim, "$1" ), context, results, seed );
+	return select( selector.replace( rtrim, "$1" ), context, results, seed );
 }
 
 /**
@@ -1008,8 +1008,8 @@ function createDisabledPseudo( disabled ) {
 	return function( elem ) {
 
 		// Only certain elements can match :enabled or :disabled
-		// https://html.spec.whatwg.org/multipage/scripting.html#SELECTor-enabled
-		// https://html.spec.whatwg.org/multipage/scripting.html#SELECTor-disabled
+		// https://html.spec.whatwg.org/multipage/scripting.html#selector-enabled
+		// https://html.spec.whatwg.org/multipage/scripting.html#selector-disabled
 		if ( "form" in elem ) {
 
 			// Check for inherited disabledness on relevant non-disabled elements:
@@ -1109,7 +1109,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	var hasCompare, subWindow,
 		doc = node ? node.ownerDocument || node : preferredDoc;
 
-	// Return early if doc is invalid or already SELECTed
+	// Return early if doc is invalid or already selected
 	if ( doc === document || doc.nodeType !== 9 || !doc.documentElement ) {
 		return document;
 	}
@@ -1285,11 +1285,11 @@ setDocument = Sizzle.setDocument = function( node ) {
 			// since its presence should be enough
 			// https://bugs.jquery.com/ticket/12359
 			docElem.appendChild( el ).innerHTML = "<a id='" + expando + "'></a>" +
-				"<SELECT id='" + expando + "-\r\\' msallowcapture=''>" +
-				"<option SELECTed=''></option></SELECT>";
+				"<select id='" + expando + "-\r\\' msallowcapture=''>" +
+				"<option selected=''></option></select>";
 
 			// Support: IE8, Opera 11-12.16
-			// Nothing should be SELECTed when empty strings follow ^= or $= or *=
+			// Nothing should be selected when empty strings follow ^= or $= or *=
 			// The test attribute must be unknown in Opera but "safe" for WinRT
 			// https://msdn.microsoft.com/en-us/library/ie/hh465388.aspx#attribute_section
 			if ( el.querySelectorAll("[msallowcapture^='']").length ) {
@@ -1298,7 +1298,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 			// Support: IE8
 			// Boolean attributes and "value" are not treated correctly
-			if ( !el.querySelectorAll("[SELECTed]").length ) {
+			if ( !el.querySelectorAll("[selected]").length ) {
 				rbuggyQSA.push( "\\[" + whitespace + "*(?:value|" + booleans + ")" );
 			}
 
@@ -1307,8 +1307,8 @@ setDocument = Sizzle.setDocument = function( node ) {
 				rbuggyQSA.push("~=");
 			}
 
-			// Webkit/Opera - :checked should return SELECTed option elements
-			// http://www.w3.org/TR/2011/REC-css3-SELECTors-20110929/#checked
+			// Webkit/Opera - :checked should return selected option elements
+			// http://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
 			// IE8 throws error here and will not see later tests
 			if ( !el.querySelectorAll(":checked").length ) {
 				rbuggyQSA.push(":checked");
@@ -1316,7 +1316,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 			// Support: Safari 8+, iOS 8+
 			// https://bugs.webkit.org/show_bug.cgi?id=136851
-			// In-page `SELECTor#id sibling-combinator SELECTor` fails
+			// In-page `selector#id sibling-combinator selector` fails
 			if ( !el.querySelectorAll( "a#" + expando + "+*" ).length ) {
 				rbuggyQSA.push(".#.+[+~]");
 			}
@@ -1324,7 +1324,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 		assert(function( el ) {
 			el.innerHTML = "<a href='' disabled='disabled'></a>" +
-				"<SELECT disabled='disabled'><option/></SELECT>";
+				"<select disabled='disabled'><option/></select>";
 
 			// Support: Windows 8 Native Apps
 			// The type and name attributes are restricted during .innerHTML assignment
@@ -1345,7 +1345,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			}
 
 			// Support: IE9-11+
-			// IE's :disabled SELECTor does not pick up the children of disabled fieldsets
+			// IE's :disabled selector does not pick up the children of disabled fieldsets
 			docElem.appendChild( el ).disabled = true;
 			if ( el.querySelectorAll(":disabled").length !== 2 ) {
 				rbuggyQSA.push( ":enabled", ":disabled" );
@@ -1519,7 +1519,7 @@ Sizzle.matchesSelector = function( elem, expr ) {
 		setDocument( elem );
 	}
 
-	// Make sure that attribute SELECTors are quoted
+	// Make sure that attribute selectors are quoted
 	expr = expr.replace( rattributeQuotes, "='$1']" );
 
 	if ( support.matchesSelector && documentIsHTML &&
@@ -1648,7 +1648,7 @@ getText = Sizzle.getText = function( elem ) {
 	return ret;
 };
 
-Expr = Sizzle.SELECTors = {
+Expr = Sizzle.selectors = {
 
 	// Can be adjusted by the user
 	cacheLength: 50,
@@ -1919,7 +1919,7 @@ Expr = Sizzle.SELECTors = {
 
 		"PSEUDO": function( pseudo, argument ) {
 			// pseudo-class names are case-insensitive
-			// http://www.w3.org/TR/SELECTors/#pseudo-classes
+			// http://www.w3.org/TR/selectors/#pseudo-classes
 			// Prioritize by case sensitivity in case custom pseudos are added with uppercase letters
 			// Remember that setFilters inherits from pseudos
 			var args,
@@ -1957,13 +1957,13 @@ Expr = Sizzle.SELECTors = {
 
 	pseudos: {
 		// Potentially complex pseudos
-		"not": markFunction(function( SELECTor ) {
-			// Trim the SELECTor passed to compile
+		"not": markFunction(function( selector ) {
+			// Trim the selector passed to compile
 			// to avoid treating leading and trailing
 			// spaces as combinators
 			var input = [],
 				results = [],
-				matcher = compile( SELECTor.replace( rtrim, "$1" ) );
+				matcher = compile( selector.replace( rtrim, "$1" ) );
 
 			return matcher[ expando ] ?
 				markFunction(function( seed, matches, context, xml ) {
@@ -1987,9 +1987,9 @@ Expr = Sizzle.SELECTors = {
 				};
 		}),
 
-		"has": markFunction(function( SELECTor ) {
+		"has": markFunction(function( selector ) {
 			return function( elem ) {
-				return Sizzle( SELECTor, elem ).length > 0;
+				return Sizzle( selector, elem ).length > 0;
 			};
 		}),
 
@@ -2000,13 +2000,13 @@ Expr = Sizzle.SELECTors = {
 			};
 		}),
 
-		// "Whether an element is represented by a :lang() SELECTor
+		// "Whether an element is represented by a :lang() selector
 		// is based solely on the element's language value
 		// being equal to the identifier C,
 		// or beginning with the identifier C immediately followed by "-".
 		// The matching of C against the element's language value is performed case-insensitively.
 		// The identifier C does not have to be a valid language name."
-		// http://www.w3.org/TR/SELECTors/#lang-pseudo
+		// http://www.w3.org/TR/selectors/#lang-pseudo
 		"lang": markFunction( function( lang ) {
 			// lang value must be a valid identifier
 			if ( !ridentifier.test(lang || "") ) {
@@ -2047,25 +2047,25 @@ Expr = Sizzle.SELECTors = {
 		"disabled": createDisabledPseudo( true ),
 
 		"checked": function( elem ) {
-			// In CSS3, :checked should return both checked and SELECTed elements
-			// http://www.w3.org/TR/2011/REC-css3-SELECTors-20110929/#checked
+			// In CSS3, :checked should return both checked and selected elements
+			// http://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
 			var nodeName = elem.nodeName.toLowerCase();
-			return (nodeName === "input" && !!elem.checked) || (nodeName === "option" && !!elem.SELECTed);
+			return (nodeName === "input" && !!elem.checked) || (nodeName === "option" && !!elem.selected);
 		},
 
-		"SELECTed": function( elem ) {
-			// Accessing this property makes SELECTed-by-default
+		"selected": function( elem ) {
+			// Accessing this property makes selected-by-default
 			// options in Safari work properly
 			if ( elem.parentNode ) {
-				elem.parentNode.SELECTedIndex;
+				elem.parentNode.selectedIndex;
 			}
 
-			return elem.SELECTed === true;
+			return elem.selected === true;
 		},
 
 		// Contents
 		"empty": function( elem ) {
-			// http://www.w3.org/TR/SELECTors/#empty-pseudo
+			// http://www.w3.org/TR/selectors/#empty-pseudo
 			// :empty is negated by element (1) or content nodes (text: 3; cdata: 4; entity ref: 5),
 			//   but not by others (comment: 8; processing instruction: 7; etc.)
 			// nodeType < 6 works because attributes (2) do not appear as children
@@ -2167,16 +2167,16 @@ function setFilters() {}
 setFilters.prototype = Expr.filters = Expr.pseudos;
 Expr.setFilters = new setFilters();
 
-tokenize = Sizzle.tokenize = function( SELECTor, parseOnly ) {
+tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
 	var matched, match, tokens, type,
 		soFar, groups, preFilters,
-		cached = tokenCache[ SELECTor + " " ];
+		cached = tokenCache[ selector + " " ];
 
 	if ( cached ) {
 		return parseOnly ? 0 : cached.slice( 0 );
 	}
 
-	soFar = SELECTor;
+	soFar = selector;
 	groups = [];
 	preFilters = Expr.preFilter;
 
@@ -2229,19 +2229,19 @@ tokenize = Sizzle.tokenize = function( SELECTor, parseOnly ) {
 	return parseOnly ?
 		soFar.length :
 		soFar ?
-			Sizzle.error( SELECTor ) :
+			Sizzle.error( selector ) :
 			// Cache the tokens
-			tokenCache( SELECTor, groups ).slice( 0 );
+			tokenCache( selector, groups ).slice( 0 );
 };
 
 function toSelector( tokens ) {
 	var i = 0,
 		len = tokens.length,
-		SELECTor = "";
+		selector = "";
 	for ( ; i < len; i++ ) {
-		SELECTor += tokens[i].value;
+		selector += tokens[i].value;
 	}
-	return SELECTor;
+	return selector;
 }
 
 function addCombinator( matcher, combinator, base ) {
@@ -2322,11 +2322,11 @@ function elementMatcher( matchers ) {
 		matchers[0];
 }
 
-function multipleContexts( SELECTor, contexts, results ) {
+function multipleContexts( selector, contexts, results ) {
 	var i = 0,
 		len = contexts.length;
 	for ( ; i < len; i++ ) {
-		Sizzle( SELECTor, contexts[i], results );
+		Sizzle( selector, contexts[i], results );
 	}
 	return results;
 }
@@ -2352,7 +2352,7 @@ function condense( unmatched, map, filter, context, xml ) {
 	return newUnmatched;
 }
 
-function setMatcher( preFilter, SELECTor, matcher, postFilter, postFinder, postSelector ) {
+function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postSelector ) {
 	if ( postFilter && !postFilter[ expando ] ) {
 		postFilter = setMatcher( postFilter );
 	}
@@ -2366,10 +2366,10 @@ function setMatcher( preFilter, SELECTor, matcher, postFilter, postFinder, postS
 			preexisting = results.length,
 
 			// Get initial elements from seed or context
-			elems = seed || multipleContexts( SELECTor || "*", context.nodeType ? [ context ] : context, [] ),
+			elems = seed || multipleContexts( selector || "*", context.nodeType ? [ context ] : context, [] ),
 
 			// Prefilter to get matcher input, preserving a map for seed-results synchronization
-			matcherIn = preFilter && ( seed || !SELECTor ) ?
+			matcherIn = preFilter && ( seed || !selector ) ?
 				condense( elems, preMap, preFilter, context, xml ) :
 				elems,
 
@@ -2614,16 +2614,16 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 		superMatcher;
 }
 
-compile = Sizzle.compile = function( SELECTor, match /* Internal Use Only */ ) {
+compile = Sizzle.compile = function( selector, match /* Internal Use Only */ ) {
 	var i,
 		setMatchers = [],
 		elementMatchers = [],
-		cached = compilerCache[ SELECTor + " " ];
+		cached = compilerCache[ selector + " " ];
 
 	if ( !cached ) {
 		// Generate a function of recursive functions that can be used to check each element
 		if ( !match ) {
-			match = tokenize( SELECTor );
+			match = tokenize( selector );
 		}
 		i = match.length;
 		while ( i-- ) {
@@ -2636,35 +2636,35 @@ compile = Sizzle.compile = function( SELECTor, match /* Internal Use Only */ ) {
 		}
 
 		// Cache the compiled function
-		cached = compilerCache( SELECTor, matcherFromGroupMatchers( elementMatchers, setMatchers ) );
+		cached = compilerCache( selector, matcherFromGroupMatchers( elementMatchers, setMatchers ) );
 
-		// Save SELECTor and tokenization
-		cached.SELECTor = SELECTor;
+		// Save selector and tokenization
+		cached.selector = selector;
 	}
 	return cached;
 };
 
 /**
- * A low-level SELECTion function that works with Sizzle's compiled
- *  SELECTor functions
- * @param {String|Function} SELECTor A SELECTor or a pre-compiled
- *  SELECTor function built with Sizzle.compile
+ * A low-level selection function that works with Sizzle's compiled
+ *  selector functions
+ * @param {String|Function} selector A selector or a pre-compiled
+ *  selector function built with Sizzle.compile
  * @param {Element} context
  * @param {Array} [results]
  * @param {Array} [seed] A set of elements to match against
  */
-SELECT = Sizzle.SELECT = function( SELECTor, context, results, seed ) {
+select = Sizzle.select = function( selector, context, results, seed ) {
 	var i, tokens, token, type, find,
-		compiled = typeof SELECTor === "function" && SELECTor,
-		match = !seed && tokenize( (SELECTor = compiled.SELECTor || SELECTor) );
+		compiled = typeof selector === "function" && selector,
+		match = !seed && tokenize( (selector = compiled.selector || selector) );
 
 	results = results || [];
 
-	// Try to minimize operations if there is only one SELECTor in the list and no seed
+	// Try to minimize operations if there is only one selector in the list and no seed
 	// (the latter of which guarantees us context)
 	if ( match.length === 1 ) {
 
-		// Reduce context if the leading compound SELECTor is an ID
+		// Reduce context if the leading compound selector is an ID
 		tokens = match[0] = match[0].slice( 0 );
 		if ( tokens.length > 2 && (token = tokens[0]).type === "ID" &&
 				context.nodeType === 9 && documentIsHTML && Expr.relative[ tokens[1].type ] ) {
@@ -2678,11 +2678,11 @@ SELECT = Sizzle.SELECT = function( SELECTor, context, results, seed ) {
 				context = context.parentNode;
 			}
 
-			SELECTor = SELECTor.slice( tokens.shift().value.length );
+			selector = selector.slice( tokens.shift().value.length );
 		}
 
 		// Fetch a seed set for right-to-left matching
-		i = matchExpr["needsContext"].test( SELECTor ) ? 0 : tokens.length;
+		i = matchExpr["needsContext"].test( selector ) ? 0 : tokens.length;
 		while ( i-- ) {
 			token = tokens[i];
 
@@ -2699,8 +2699,8 @@ SELECT = Sizzle.SELECT = function( SELECTor, context, results, seed ) {
 
 					// If seed is empty or no tokens remain, we can return early
 					tokens.splice( i, 1 );
-					SELECTor = seed.length && toSelector( tokens );
-					if ( !SELECTor ) {
+					selector = seed.length && toSelector( tokens );
+					if ( !selector ) {
 						push.apply( results, seed );
 						return results;
 					}
@@ -2712,13 +2712,13 @@ SELECT = Sizzle.SELECT = function( SELECTor, context, results, seed ) {
 	}
 
 	// Compile and execute a filtering function if one is not provided
-	// Provide `match` to avoid retokenization if we modified the SELECTor above
-	( compiled || compile( SELECTor, match ) )(
+	// Provide `match` to avoid retokenization if we modified the selector above
+	( compiled || compile( selector, match ) )(
 		seed,
 		context,
 		!documentIsHTML,
 		results,
-		!context || rsibling.test( SELECTor ) && testContext( context.parentNode ) || context
+		!context || rsibling.test( selector ) && testContext( context.parentNode ) || context
 	);
 	return results;
 };
@@ -2793,7 +2793,7 @@ return Sizzle;
 
 
 jQuery.find = Sizzle;
-jQuery.expr = Sizzle.SELECTors;
+jQuery.expr = Sizzle.selectors;
 
 // Deprecated
 jQuery.expr[ ":" ] = jQuery.expr.pseudos;
@@ -2872,12 +2872,12 @@ function winnow( elements, qualifier, not ) {
 		} );
 	}
 
-	// Simple SELECTor that can be filtered directly, removing non-Elements
+	// Simple selector that can be filtered directly, removing non-Elements
 	if ( risSimple.test( qualifier ) ) {
 		return jQuery.filter( qualifier, elements, not );
 	}
 
-	// Complex SELECTor, compare the two sets, removing non-Elements
+	// Complex selector, compare the two sets, removing non-Elements
 	qualifier = jQuery.filter( qualifier, elements );
 	return jQuery.grep( elements, function( elem ) {
 		return ( indexOf.call( qualifier, elem ) > -1 ) !== not && elem.nodeType === 1;
@@ -2901,13 +2901,13 @@ jQuery.filter = function( expr, elems, not ) {
 };
 
 jQuery.fn.extend( {
-	find: function( SELECTor ) {
+	find: function( selector ) {
 		var i, ret,
 			len = this.length,
 			self = this;
 
-		if ( typeof SELECTor !== "string" ) {
-			return this.pushStack( jQuery( SELECTor ).filter( function() {
+		if ( typeof selector !== "string" ) {
+			return this.pushStack( jQuery( selector ).filter( function() {
 				for ( i = 0; i < len; i++ ) {
 					if ( jQuery.contains( self[ i ], this ) ) {
 						return true;
@@ -2919,26 +2919,26 @@ jQuery.fn.extend( {
 		ret = this.pushStack( [] );
 
 		for ( i = 0; i < len; i++ ) {
-			jQuery.find( SELECTor, self[ i ], ret );
+			jQuery.find( selector, self[ i ], ret );
 		}
 
 		return len > 1 ? jQuery.uniqueSort( ret ) : ret;
 	},
-	filter: function( SELECTor ) {
-		return this.pushStack( winnow( this, SELECTor || [], false ) );
+	filter: function( selector ) {
+		return this.pushStack( winnow( this, selector || [], false ) );
 	},
-	not: function( SELECTor ) {
-		return this.pushStack( winnow( this, SELECTor || [], true ) );
+	not: function( selector ) {
+		return this.pushStack( winnow( this, selector || [], true ) );
 	},
-	is: function( SELECTor ) {
+	is: function( selector ) {
 		return !!winnow(
 			this,
 
-			// If this is a positional/relative SELECTor, check membership in the returned set
+			// If this is a positional/relative selector, check membership in the returned set
 			// so $("p:first").is("p:last") won't return true for a doc with two "p".
-			typeof SELECTor === "string" && rneedsContext.test( SELECTor ) ?
-				jQuery( SELECTor ) :
-				SELECTor || [],
+			typeof selector === "string" && rneedsContext.test( selector ) ?
+				jQuery( selector ) :
+				selector || [],
 			false
 		).length;
 	}
@@ -2957,11 +2957,11 @@ var rootjQuery,
 	// Shortcut simple #id case for speed
 	rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/,
 
-	init = jQuery.fn.init = function( SELECTor, context, root ) {
+	init = jQuery.fn.init = function( selector, context, root ) {
 		var match, elem;
 
 		// HANDLE: $(""), $(null), $(undefined), $(false)
-		if ( !SELECTor ) {
+		if ( !selector ) {
 			return this;
 		}
 
@@ -2970,16 +2970,16 @@ var rootjQuery,
 		root = root || rootjQuery;
 
 		// Handle HTML strings
-		if ( typeof SELECTor === "string" ) {
-			if ( SELECTor[ 0 ] === "<" &&
-				SELECTor[ SELECTor.length - 1 ] === ">" &&
-				SELECTor.length >= 3 ) {
+		if ( typeof selector === "string" ) {
+			if ( selector[ 0 ] === "<" &&
+				selector[ selector.length - 1 ] === ">" &&
+				selector.length >= 3 ) {
 
 				// Assume that strings that start and end with <> are HTML and skip the regex check
-				match = [ null, SELECTor, null ];
+				match = [ null, selector, null ];
 
 			} else {
-				match = rquickExpr.exec( SELECTor );
+				match = rquickExpr.exec( selector );
 			}
 
 			// Match html or make sure no context is specified for #id
@@ -3029,31 +3029,31 @@ var rootjQuery,
 
 			// HANDLE: $(expr, $(...))
 			} else if ( !context || context.jquery ) {
-				return ( context || root ).find( SELECTor );
+				return ( context || root ).find( selector );
 
 			// HANDLE: $(expr, context)
 			// (which is just equivalent to: $(context).find(expr)
 			} else {
-				return this.constructor( context ).find( SELECTor );
+				return this.constructor( context ).find( selector );
 			}
 
 		// HANDLE: $(DOMElement)
-		} else if ( SELECTor.nodeType ) {
-			this[ 0 ] = SELECTor;
+		} else if ( selector.nodeType ) {
+			this[ 0 ] = selector;
 			this.length = 1;
 			return this;
 
 		// HANDLE: $(function)
 		// Shortcut for document ready
-		} else if ( jQuery.isFunction( SELECTor ) ) {
+		} else if ( jQuery.isFunction( selector ) ) {
 			return root.ready !== undefined ?
-				root.ready( SELECTor ) :
+				root.ready( selector ) :
 
 				// Execute immediately if ready is not present
-				SELECTor( jQuery );
+				selector( jQuery );
 		}
 
-		return jQuery.makeArray( SELECTor, this );
+		return jQuery.makeArray( selector, this );
 	};
 
 // Give the init function the jQuery prototype for later instantiation
@@ -3088,15 +3088,15 @@ jQuery.fn.extend( {
 		} );
 	},
 
-	closest: function( SELECTors, context ) {
+	closest: function( selectors, context ) {
 		var cur,
 			i = 0,
 			l = this.length,
 			matched = [],
-			targets = typeof SELECTors !== "string" && jQuery( SELECTors );
+			targets = typeof selectors !== "string" && jQuery( selectors );
 
-		// Positional SELECTors never match, since there's no _SELECTion_ context
-		if ( !rneedsContext.test( SELECTors ) ) {
+		// Positional selectors never match, since there's no _selection_ context
+		if ( !rneedsContext.test( selectors ) ) {
 			for ( ; i < l; i++ ) {
 				for ( cur = this[ i ]; cur && cur !== context; cur = cur.parentNode ) {
 
@@ -3106,7 +3106,7 @@ jQuery.fn.extend( {
 
 						// Don't pass non-elements to Sizzle
 						cur.nodeType === 1 &&
-							jQuery.find.matchesSelector( cur, SELECTors ) ) ) {
+							jQuery.find.matchesSelector( cur, selectors ) ) ) {
 
 						matched.push( cur );
 						break;
@@ -3126,7 +3126,7 @@ jQuery.fn.extend( {
 			return ( this[ 0 ] && this[ 0 ].parentNode ) ? this.first().prevAll().length : -1;
 		}
 
-		// Index in SELECTor
+		// Index in selector
 		if ( typeof elem === "string" ) {
 			return indexOf.call( jQuery( elem ), this[ 0 ] );
 		}
@@ -3139,17 +3139,17 @@ jQuery.fn.extend( {
 		);
 	},
 
-	add: function( SELECTor, context ) {
+	add: function( selector, context ) {
 		return this.pushStack(
 			jQuery.uniqueSort(
-				jQuery.merge( this.get(), jQuery( SELECTor, context ) )
+				jQuery.merge( this.get(), jQuery( selector, context ) )
 			)
 		);
 	},
 
-	addBack: function( SELECTor ) {
-		return this.add( SELECTor == null ?
-			this.prevObject : this.prevObject.filter( SELECTor )
+	addBack: function( selector ) {
+		return this.add( selector == null ?
+			this.prevObject : this.prevObject.filter( selector )
 		);
 	}
 } );
@@ -3209,15 +3209,15 @@ jQuery.each( {
         return jQuery.merge( [], elem.childNodes );
 	}
 }, function( name, fn ) {
-	jQuery.fn[ name ] = function( until, SELECTor ) {
+	jQuery.fn[ name ] = function( until, selector ) {
 		var matched = jQuery.map( this, fn, until );
 
 		if ( name.slice( -5 ) !== "Until" ) {
-			SELECTor = until;
+			selector = until;
 		}
 
-		if ( SELECTor && typeof SELECTor === "string" ) {
-			matched = jQuery.filter( SELECTor, matched );
+		if ( selector && typeof selector === "string" ) {
+			matched = jQuery.filter( selector, matched );
 		}
 
 		if ( this.length > 1 ) {
@@ -3815,7 +3815,7 @@ jQuery.extend( {
 			master = jQuery.Deferred(),
 
 			// subordinate callback factory
-			UPDATEFunc = function( i ) {
+			updateFunc = function( i ) {
 				return function( value ) {
 					resolveContexts[ i ] = this;
 					resolveValues[ i ] = arguments.length > 1 ? slice.call( arguments ) : value;
@@ -3827,7 +3827,7 @@ jQuery.extend( {
 
 		// Single- and empty arguments are adopted like Promise.resolve
 		if ( remaining <= 1 ) {
-			adoptValue( singleValue, master.done( UPDATEFunc( i ) ).resolve, master.reject,
+			adoptValue( singleValue, master.done( updateFunc( i ) ).resolve, master.reject,
 				!remaining );
 
 			// Use .then() to unwrap secondary thenables (cf. gh-3000)
@@ -3840,7 +3840,7 @@ jQuery.extend( {
 
 		// Multiple arguments are aggregated like Promise.all array elements
 		while ( i-- ) {
-			adoptValue( resolveValues[ i ], UPDATEFunc( i ), master.reject );
+			adoptValue( resolveValues[ i ], updateFunc( i ), master.reject );
 		}
 
 		return master.promise();
@@ -4556,7 +4556,7 @@ function adjustCSS( elem, prop, valueParts, tween ) {
 		// Trust units reported by jQuery.css
 		unit = unit || initialInUnit[ 3 ];
 
-		// Make sure we UPDATE the tween properties later on
+		// Make sure we update the tween properties later on
 		valueParts = valueParts || [];
 
 		// Iteratively approximate from a nonzero starting point
@@ -4702,7 +4702,7 @@ var rscriptType = ( /^$|\/(?:java|ecma)script/i );
 var wrapMap = {
 
 	// Support: IE <=9 only
-	option: [ 1, "<SELECT multiple='multiple'>", "</SELECT>" ],
+	option: [ 1, "<select multiple='multiple'>", "</select>" ],
 
 	// XHTML parsers do not magically insert elements in the
 	// same way that tag soup parsers do. So we cannot shorten
@@ -4763,7 +4763,7 @@ function setGlobalEval( elems, refElements ) {
 
 var rhtml = /<|&#?\w+;/;
 
-function buildFragment( elems, context, scripts, SELECTion, ignored ) {
+function buildFragment( elems, context, scripts, selection, ignored ) {
 	var elem, tmp, tag, wrap, contains, j,
 		fragment = context.createDocumentFragment(),
 		nodes = [],
@@ -4821,7 +4821,7 @@ function buildFragment( elems, context, scripts, SELECTion, ignored ) {
 	while ( ( elem = nodes[ i++ ] ) ) {
 
 		// Skip elements already in the context collection (trac-4087)
-		if ( SELECTion && jQuery.inArray( elem, SELECTion ) > -1 ) {
+		if ( selection && jQuery.inArray( elem, selection ) > -1 ) {
 			if ( ignored ) {
 				ignored.push( elem );
 			}
@@ -4902,21 +4902,21 @@ function safeActiveElement() {
 	} catch ( err ) { }
 }
 
-function on( elem, types, SELECTor, data, fn, one ) {
+function on( elem, types, selector, data, fn, one ) {
 	var origFn, type;
 
 	// Types can be a map of types/handlers
 	if ( typeof types === "object" ) {
 
-		// ( types-Object, SELECTor, data )
-		if ( typeof SELECTor !== "string" ) {
+		// ( types-Object, selector, data )
+		if ( typeof selector !== "string" ) {
 
 			// ( types-Object, data )
-			data = data || SELECTor;
-			SELECTor = undefined;
+			data = data || selector;
+			selector = undefined;
 		}
 		for ( type in types ) {
-			on( elem, type, SELECTor, data, types[ type ], one );
+			on( elem, type, selector, data, types[ type ], one );
 		}
 		return elem;
 	}
@@ -4924,20 +4924,20 @@ function on( elem, types, SELECTor, data, fn, one ) {
 	if ( data == null && fn == null ) {
 
 		// ( types, fn )
-		fn = SELECTor;
-		data = SELECTor = undefined;
+		fn = selector;
+		data = selector = undefined;
 	} else if ( fn == null ) {
-		if ( typeof SELECTor === "string" ) {
+		if ( typeof selector === "string" ) {
 
-			// ( types, SELECTor, fn )
+			// ( types, selector, fn )
 			fn = data;
 			data = undefined;
 		} else {
 
 			// ( types, data, fn )
 			fn = data;
-			data = SELECTor;
-			SELECTor = undefined;
+			data = selector;
+			selector = undefined;
 		}
 	}
 	if ( fn === false ) {
@@ -4959,7 +4959,7 @@ function on( elem, types, SELECTor, data, fn, one ) {
 		fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
 	}
 	return elem.each( function() {
-		jQuery.event.add( this, types, fn, data, SELECTor );
+		jQuery.event.add( this, types, fn, data, selector );
 	} );
 }
 
@@ -4971,7 +4971,7 @@ jQuery.event = {
 
 	global: {},
 
-	add: function( elem, types, handler, data, SELECTor ) {
+	add: function( elem, types, handler, data, selector ) {
 
 		var handleObjIn, eventHandle, tmp,
 			events, t, handleObj,
@@ -4987,13 +4987,13 @@ jQuery.event = {
 		if ( handler.handler ) {
 			handleObjIn = handler;
 			handler = handleObjIn.handler;
-			SELECTor = handleObjIn.SELECTor;
+			selector = handleObjIn.selector;
 		}
 
-		// Ensure that invalid SELECTors throw exceptions at attach time
+		// Ensure that invalid selectors throw exceptions at attach time
 		// Evaluate against documentElement in case elem is a non-element node (e.g., document)
-		if ( SELECTor ) {
-			jQuery.find.matchesSelector( documentElement, SELECTor );
+		if ( selector ) {
+			jQuery.find.matchesSelector( documentElement, selector );
 		}
 
 		// Make sure that the handler has a unique ID, used to find/remove it later
@@ -5031,8 +5031,8 @@ jQuery.event = {
 			// If event changes its type, use the special event handlers for the changed type
 			special = jQuery.event.special[ type ] || {};
 
-			// If SELECTor defined, determine special event api type, otherwise given type
-			type = ( SELECTor ? special.delegateType : special.bindType ) || type;
+			// If selector defined, determine special event api type, otherwise given type
+			type = ( selector ? special.delegateType : special.bindType ) || type;
 
 			// Update special based on newly reset type
 			special = jQuery.event.special[ type ] || {};
@@ -5044,8 +5044,8 @@ jQuery.event = {
 				data: data,
 				handler: handler,
 				guid: handler.guid,
-				SELECTor: SELECTor,
-				needsContext: SELECTor && jQuery.expr.match.needsContext.test( SELECTor ),
+				selector: selector,
+				needsContext: selector && jQuery.expr.match.needsContext.test( selector ),
 				namespace: namespaces.join( "." )
 			}, handleObjIn );
 
@@ -5073,7 +5073,7 @@ jQuery.event = {
 			}
 
 			// Add to the element's handler list, delegates in front
-			if ( SELECTor ) {
+			if ( selector ) {
 				handlers.splice( handlers.delegateCount++, 0, handleObj );
 			} else {
 				handlers.push( handleObj );
@@ -5086,7 +5086,7 @@ jQuery.event = {
 	},
 
 	// Detach an event or set of events from an element
-	remove: function( elem, types, handler, SELECTor, mappedTypes ) {
+	remove: function( elem, types, handler, selector, mappedTypes ) {
 
 		var j, origCount, tmp,
 			events, t, handleObj,
@@ -5108,13 +5108,13 @@ jQuery.event = {
 			// Unbind all events (on this namespace, if provided) for the element
 			if ( !type ) {
 				for ( type in events ) {
-					jQuery.event.remove( elem, type + types[ t ], handler, SELECTor, true );
+					jQuery.event.remove( elem, type + types[ t ], handler, selector, true );
 				}
 				continue;
 			}
 
 			special = jQuery.event.special[ type ] || {};
-			type = ( SELECTor ? special.delegateType : special.bindType ) || type;
+			type = ( selector ? special.delegateType : special.bindType ) || type;
 			handlers = events[ type ] || [];
 			tmp = tmp[ 2 ] &&
 				new RegExp( "(^|\\.)" + namespaces.join( "\\.(?:.*\\.|)" ) + "(\\.|$)" );
@@ -5127,11 +5127,11 @@ jQuery.event = {
 				if ( ( mappedTypes || origType === handleObj.origType ) &&
 					( !handler || handler.guid === handleObj.guid ) &&
 					( !tmp || tmp.test( handleObj.namespace ) ) &&
-					( !SELECTor || SELECTor === handleObj.SELECTor ||
-						SELECTor === "**" && handleObj.SELECTor ) ) {
+					( !selector || selector === handleObj.selector ||
+						selector === "**" && handleObj.selector ) ) {
 					handlers.splice( j, 1 );
 
-					if ( handleObj.SELECTor ) {
+					if ( handleObj.selector ) {
 						handlers.delegateCount--;
 					}
 					if ( special.remove ) {
@@ -5254,7 +5254,7 @@ jQuery.event = {
 						handleObj = handlers[ i ];
 
 						// Don't conflict with Object.prototype properties (#13203)
-						sel = handleObj.SELECTor + " ";
+						sel = handleObj.selector + " ";
 
 						if ( matchedSelectors[ sel ] === undefined ) {
 							matchedSelectors[ sel ] = handleObj.needsContext ?
@@ -5566,13 +5566,13 @@ jQuery.each( {
 
 jQuery.fn.extend( {
 
-	on: function( types, SELECTor, data, fn ) {
-		return on( this, types, SELECTor, data, fn );
+	on: function( types, selector, data, fn ) {
+		return on( this, types, selector, data, fn );
 	},
-	one: function( types, SELECTor, data, fn ) {
-		return on( this, types, SELECTor, data, fn, 1 );
+	one: function( types, selector, data, fn ) {
+		return on( this, types, selector, data, fn, 1 );
 	},
-	off: function( types, SELECTor, fn ) {
+	off: function( types, selector, fn ) {
 		var handleObj, type;
 		if ( types && types.preventDefault && types.handleObj ) {
 
@@ -5582,30 +5582,30 @@ jQuery.fn.extend( {
 				handleObj.namespace ?
 					handleObj.origType + "." + handleObj.namespace :
 					handleObj.origType,
-				handleObj.SELECTor,
+				handleObj.selector,
 				handleObj.handler
 			);
 			return this;
 		}
 		if ( typeof types === "object" ) {
 
-			// ( types-object [, SELECTor] )
+			// ( types-object [, selector] )
 			for ( type in types ) {
-				this.off( type, SELECTor, types[ type ] );
+				this.off( type, selector, types[ type ] );
 			}
 			return this;
 		}
-		if ( SELECTor === false || typeof SELECTor === "function" ) {
+		if ( selector === false || typeof selector === "function" ) {
 
 			// ( types [, fn] )
-			fn = SELECTor;
-			SELECTor = undefined;
+			fn = selector;
+			selector = undefined;
 		}
 		if ( fn === false ) {
 			fn = returnFalse;
 		}
 		return this.each( function() {
-			jQuery.event.remove( this, types, fn, SELECTor );
+			jQuery.event.remove( this, types, fn, selector );
 		} );
 	}
 } );
@@ -5700,7 +5700,7 @@ function fixInput( src, dest ) {
 	if ( nodeName === "input" && rcheckableType.test( src.type ) ) {
 		dest.checked = src.checked;
 
-	// Fails to return the SELECTed option to the default SELECTed state when cloning options
+	// Fails to return the selected option to the default selected state when cloning options
 	} else if ( nodeName === "input" || nodeName === "textarea" ) {
 		dest.defaultValue = src.defaultValue;
 	}
@@ -5796,9 +5796,9 @@ function domManip( collection, args, callback, ignored ) {
 	return collection;
 }
 
-function remove( elem, SELECTor, keepData ) {
+function remove( elem, selector, keepData ) {
 	var node,
-		nodes = SELECTor ? jQuery.filter( SELECTor, elem ) : elem,
+		nodes = selector ? jQuery.filter( selector, elem ) : elem,
 		i = 0;
 
 	for ( ; ( node = nodes[ i ] ) != null; i++ ) {
@@ -5900,12 +5900,12 @@ jQuery.extend( {
 } );
 
 jQuery.fn.extend( {
-	detach: function( SELECTor ) {
-		return remove( this, SELECTor, true );
+	detach: function( selector ) {
+		return remove( this, selector, true );
 	},
 
-	remove: function( SELECTor ) {
-		return remove( this, SELECTor );
+	remove: function( selector ) {
+		return remove( this, selector );
 	},
 
 	text: function( value ) {
@@ -6046,10 +6046,10 @@ jQuery.each( {
 	insertAfter: "after",
 	replaceAll: "replaceWith"
 }, function( name, original ) {
-	jQuery.fn[ name ] = function( SELECTor ) {
+	jQuery.fn[ name ] = function( selector ) {
 		var elems,
 			ret = [],
-			insert = jQuery( SELECTor ),
+			insert = jQuery( selector ),
 			last = insert.length - 1,
 			i = 0;
 
@@ -7042,7 +7042,7 @@ function Animation( elem, properties, options ) {
 		length = Animation.prefilters.length,
 		deferred = jQuery.Deferred().always( function() {
 
-			// Don't match elem in the :animated SELECTor
+			// Don't match elem in the :animated selector
 			delete tick.elem;
 		} ),
 		tick = function() {
@@ -7458,8 +7458,8 @@ jQuery.fn.delay = function( time, type ) {
 
 ( function() {
 	var input = document.createElement( "input" ),
-		SELECT = document.createElement( "SELECT" ),
-		opt = SELECT.appendChild( document.createElement( "option" ) );
+		select = document.createElement( "select" ),
+		opt = select.appendChild( document.createElement( "option" ) );
 
 	input.type = "checkbox";
 
@@ -7468,8 +7468,8 @@ jQuery.fn.delay = function( time, type ) {
 	support.checkOn = input.value !== "";
 
 	// Support: IE <=11 only
-	// Must access SELECTedIndex to make default options SELECT
-	support.optSelected = opt.SELECTed;
+	// Must access selectedIndex to make default options select
+	support.optSelected = opt.selected;
 
 	// Support: IE <=11 only
 	// An input loses its value after becoming a radio
@@ -7612,7 +7612,7 @@ jQuery.each( jQuery.expr.match.bool.source.match( /\w+/g ), function( i, name ) 
 
 
 
-var rfocusable = /^(?:input|SELECT|textarea|button)$/i,
+var rfocusable = /^(?:input|select|textarea|button)$/i,
 	rclickable = /^(?:a|area)$/i;
 
 jQuery.fn.extend( {
@@ -7695,22 +7695,22 @@ jQuery.extend( {
 } );
 
 // Support: IE <=11 only
-// Accessing the SELECTedIndex property
-// forces the browser to respect setting SELECTed
+// Accessing the selectedIndex property
+// forces the browser to respect setting selected
 // on the option
-// The getter ensures a default option is SELECTed
+// The getter ensures a default option is selected
 // when in an optgroup
 // eslint rule "no-unused-expressions" is disabled for this code
 // since it considers such accessions noop
 if ( !support.optSelected ) {
-	jQuery.propHooks.SELECTed = {
+	jQuery.propHooks.selected = {
 		get: function( elem ) {
 
 			/* eslint no-unused-expressions: "off" */
 
 			var parent = elem.parentNode;
 			if ( parent && parent.parentNode ) {
-				parent.parentNode.SELECTedIndex;
+				parent.parentNode.selectedIndex;
 			}
 			return null;
 		},
@@ -7720,10 +7720,10 @@ if ( !support.optSelected ) {
 
 			var parent = elem.parentNode;
 			if ( parent ) {
-				parent.SELECTedIndex;
+				parent.selectedIndex;
 
 				if ( parent.parentNode ) {
-					parent.parentNode.SELECTedIndex;
+					parent.parentNode.selectedIndex;
 				}
 			}
 		}
@@ -7903,11 +7903,11 @@ jQuery.fn.extend( {
 		} );
 	},
 
-	hasClass: function( SELECTor ) {
+	hasClass: function( selector ) {
 		var className, elem,
 			i = 0;
 
-		className = " " + SELECTor + " ";
+		className = " " + selector + " ";
 		while ( ( elem = this[ i++ ] ) ) {
 			if ( elem.nodeType === 1 &&
 				( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( className ) > -1 ) {
@@ -8009,12 +8009,12 @@ jQuery.extend( {
 					stripAndCollapse( jQuery.text( elem ) );
 			}
 		},
-		SELECT: {
+		select: {
 			get: function( elem ) {
 				var value, option, i,
 					options = elem.options,
-					index = elem.SELECTedIndex,
-					one = elem.type === "SELECT-one",
+					index = elem.selectedIndex,
+					one = elem.type === "select-one",
 					values = one ? null : [],
 					max = one ? index + 1 : options.length;
 
@@ -8025,13 +8025,13 @@ jQuery.extend( {
 					i = one ? index : 0;
 				}
 
-				// Loop through all the SELECTed options
+				// Loop through all the selected options
 				for ( ; i < max; i++ ) {
 					option = options[ i ];
 
 					// Support: IE <=9 only
-					// IE8-9 doesn't UPDATE SELECTed after form reset (#2551)
-					if ( ( option.SELECTed || i === index ) &&
+					// IE8-9 doesn't update selected after form reset (#2551)
+					if ( ( option.selected || i === index ) &&
 
 							// Don't return options that are disabled or in a disabled optgroup
 							!option.disabled &&
@@ -8041,7 +8041,7 @@ jQuery.extend( {
 						// Get the specific value for the option
 						value = jQuery( option ).val();
 
-						// We don't need an array for one SELECTs
+						// We don't need an array for one selects
 						if ( one ) {
 							return value;
 						}
@@ -8065,7 +8065,7 @@ jQuery.extend( {
 
 					/* eslint-disable no-cond-assign */
 
-					if ( option.SELECTed =
+					if ( option.selected =
 						jQuery.inArray( jQuery.valHooks.option.get( option ), values ) > -1
 					) {
 						optionSet = true;
@@ -8076,7 +8076,7 @@ jQuery.extend( {
 
 				// Force browsers to behave consistently when non-matching value is set
 				if ( !optionSet ) {
-					elem.SELECTedIndex = -1;
+					elem.selectedIndex = -1;
 				}
 				return values;
 			}
@@ -8280,7 +8280,7 @@ jQuery.fn.extend( {
 
 jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
-	"change SELECT submit keydown keypress keyup contextmenu" ).split( " " ),
+	"change select submit keydown keypress keyup contextmenu" ).split( " " ),
 	function( i, name ) {
 
 	// Handle event binding
@@ -8378,7 +8378,7 @@ var
 	rbracket = /\[\]$/,
 	rCRLF = /\r?\n/g,
 	rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i,
-	rsubmittable = /^(?:input|SELECT|textarea|keygen)/i;
+	rsubmittable = /^(?:input|select|textarea|keygen)/i;
 
 function buildParams( prefix, obj, traditional, add ) {
 	var name;
@@ -8518,7 +8518,7 @@ var
 	/* Transports bindings
 	 * 1) key is the dataType
 	 * 2) the catchall symbol "*" can be used
-	 * 3) SELECTion will start with transport dataType and THEN go to "*" if needed
+	 * 3) selection will start with transport dataType and THEN go to "*" if needed
 	 */
 	transports = {},
 
@@ -8570,7 +8570,7 @@ function inspectPrefiltersOrTransports( structure, options, originalOptions, jqX
 		seekingTransport = ( structure === transports );
 
 	function inspect( dataType ) {
-		var SELECTed;
+		var selected;
 		inspected[ dataType ] = true;
 		jQuery.each( structure[ dataType ] || [], function( _, prefilterOrFactory ) {
 			var dataTypeOrTransport = prefilterOrFactory( options, originalOptions, jqXHR );
@@ -8581,10 +8581,10 @@ function inspectPrefiltersOrTransports( structure, options, originalOptions, jqX
 				inspect( dataTypeOrTransport );
 				return false;
 			} else if ( seekingTransport ) {
-				return !( SELECTed = dataTypeOrTransport );
+				return !( selected = dataTypeOrTransport );
 			}
 		} );
-		return SELECTed;
+		return selected;
 	}
 
 	return inspect( options.dataTypes[ 0 ] ) || !inspected[ "*" ] && inspect( "*" );
@@ -9082,7 +9082,7 @@ jQuery.extend( {
 				delete s.data;
 			}
 
-			// Add or UPDATE anti-cache param if needed
+			// Add or update anti-cache param if needed
 			if ( s.cache === false ) {
 				cacheURL = cacheURL.replace( rantiCache, "$1" );
 				uncached = ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + ( nonce++ ) + uncached;
@@ -9403,8 +9403,8 @@ jQuery.fn.extend( {
 		} );
 	},
 
-	unwrap: function( SELECTor ) {
-		this.parent( SELECTor ).not( "body" ).each( function() {
+	unwrap: function( selector ) {
+		this.parent( selector ).not( "body" ).each( function() {
 			jQuery( this ).replaceWith( this.childNodes );
 		} );
 		return this;
@@ -9818,12 +9818,12 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
  * Load a url into a page
  */
 jQuery.fn.load = function( url, params, callback ) {
-	var SELECTor, type, response,
+	var selector, type, response,
 		self = this,
 		off = url.indexOf( " " );
 
 	if ( off > -1 ) {
-		SELECTor = stripAndCollapse( url.slice( off ) );
+		selector = stripAndCollapse( url.slice( off ) );
 		url = url.slice( 0, off );
 	}
 
@@ -9855,11 +9855,11 @@ jQuery.fn.load = function( url, params, callback ) {
 			// Save response for use in complete callback
 			response = arguments;
 
-			self.html( SELECTor ?
+			self.html( selector ?
 
-				// If a SELECTor was specified, locate the right elements in a dummy div
+				// If a selector was specified, locate the right elements in a dummy div
 				// Exclude scripts to avoid IE 'Permission Denied' errors
-				jQuery( "<div>" ).append( jQuery.parseHTML( responseText ) ).find( SELECTor ) :
+				jQuery( "<div>" ).append( jQuery.parseHTML( responseText ) ).find( selector ) :
 
 				// Otherwise use the full result
 				responseText );
@@ -10171,15 +10171,15 @@ jQuery.fn.extend( {
 		return this.off( types, null, fn );
 	},
 
-	delegate: function( SELECTor, types, data, fn ) {
-		return this.on( types, SELECTor, data, fn );
+	delegate: function( selector, types, data, fn ) {
+		return this.on( types, selector, data, fn );
 	},
-	undelegate: function( SELECTor, types, fn ) {
+	undelegate: function( selector, types, fn ) {
 
-		// ( namespace ) or ( SELECTor, types [, fn] )
+		// ( namespace ) or ( selector, types [, fn] )
 		return arguments.length === 1 ?
-			this.off( SELECTor, "**" ) :
-			this.off( types, SELECTor || "**", fn );
+			this.off( selector, "**" ) :
+			this.off( types, selector || "**", fn );
 	}
 } );
 

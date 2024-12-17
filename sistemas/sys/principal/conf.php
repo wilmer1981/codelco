@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors',0);
+ini_set('display_errors',1);
 
 require_once("config/bd_mysqli.php");
 require_once("config/template.inc.php");
@@ -22,8 +22,7 @@ if ($isSecure)
 else
 	$config['url_principal'] = "http://".$_SERVER['SERVER_NAME'];
 
-$config['url_path'] = $config['url_principal']."/".$rootPath."/";
-
+$config['url_path']   = $config['url_principal']."/".$rootPath."/";
 $config['rootOrigen'] = $config['url_principal']."/".$rootOrigen."sistemas_usuario.php?CodSistema=".$_SESSION["CodSistemaSel"];
 
 if(!$_SESSION["CodSistemaSel"] && $_GET["p"] != "index")
@@ -47,8 +46,15 @@ $pathServer 		= $config['url_principal']."/".$rootPath."/";
 $pathServerAndPort	= $config['url_principal'].":".$config['server_port']."/".$rootPath."/";
 
 //MYSQL
+/*
 $hostname 	= "VEVMMYSQLP01";
 $MysqlUserPHP 	= "adm_web";
 $MysqlPassPHP 	= "codweb2015";
 $dbMysql_schema = "cal_web";
+*/
+$hostname 	= "10.18.18.218:3306";
+$MysqlUserPHP 	= "consultoradmin";
+$MysqlPassPHP 	= "cstadmin";
+$dbMysql_schema = "cal_web";
+
 ?>

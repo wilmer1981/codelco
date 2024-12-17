@@ -1,35 +1,36 @@
 <?php
 
 class MySQL{
-	private $conexion;
-	private $total_consultas;
-	private $mysqli;
+ private $conexion;
+ private $total_consultas;
  
-	public function __construct($HostName,$dbName,$UserMysql,$PassMysql){
-		/*
-		$Host     = "localhost" ;
+	public function MySQL($HostName,$dbName,$UserMysql,$PassMysql){
+
+		/*$Host     = "localhost" ;
 		$Database = "centrodeestudios_kimen" ;
 		$User     = "centrodeestudios" ;
-		$Password = "7unSst@r4amF9Jdi" ;	
-		*/
+		$Password = "7unSst@r4amF9Jdi" ;	*/
+
 		$Host     = $HostName ;
 		$Database = $dbName ;
 		$User     = $UserMysql;
-		$Password = $PassMysql ;
+		$Password = $PassMysql ;	
+
 
 		$this->mysqli = new mysqli($Host, $User, $Password, $Database);
 		if ($this->mysqli->connect_errno) {
-			echo "Fallo al conectar a MySQL: (" . $this->mysqli->connect_errno . ") " . $this->mysqli->connect_error;
+		    echo "Fallo al conectar a MySQL: (" . $this->mysqli->connect_errno . ") " . $this->mysqli->connect_error;
 		}
+
 	}
 	public function consulta($consulta){
-		$this->total_consultas++;
-		$resultado = mysqli_query($this->mysqli,$consulta);
-		if(!$resultado){
-			echo 'MySQL Error: ' . mysqli_error($this->mysqli);
-		exit;
-		}
-		return $resultado; 
+	  $this->total_consultas++;
+	  $resultado = mysqli_query($this->mysqli,$consulta);
+	  if(!$resultado){
+	  echo 'MySQL Error: ' . mysqli_error($this->mysqli);
+	  exit;
+	  }
+	  return $resultado; 
 	}
 	public function QueryAction($Query)
 	{

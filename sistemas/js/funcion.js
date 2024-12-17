@@ -109,7 +109,7 @@ function ValidarDatosFormulario(Form)
 {
 	var Cadena = "";var Pasa = true;
 
-	$("#"+Form).find(':input, SELECT').each(function() {			
+	$("#"+Form).find(':input, select').each(function() {			
 	    var elemento= this;
 
 	    $(this).removeClass("inputRojo");

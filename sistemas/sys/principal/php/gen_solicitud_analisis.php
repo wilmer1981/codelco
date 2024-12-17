@@ -4,6 +4,7 @@
 //echo  "Rut:".$CookieRut;
 //$_SESSION["CodSistemaSel"]=2;
 //print_r($_POST);
+$CookieRut = $_COOKIE['CookieRut'];
 
 /*
 if(!isset($_SESSION["fechaCreacion"])) 	
@@ -11,17 +12,24 @@ if(!isset($_SESSION["fechaCreacion"]))
 else
 	$FechaHora=$_SESSION["fechaCreacion"];*/
 
-$FechaHora=date("Y-m-d G:i:s");
+//$FechaHora = date("Y-m-d G:i:s");
+$FechaHora = date("Y-m-d H:i:s");
 $pagina->set_var("fechaHora",$FechaHora);
 
 //echo $_SESSION["CodSistemaSel"];
 //echo $_POST["plantilla"];
 
-if (isset($_POST["plantilla2"])) {
-	$_POST["plantilla"]=$_POST["plantilla2"];
-	$codProducto=$_POST["cod_producto"];
-	$codSubproducto=$_POST["cod_subProducto"];
-	$FechaHora=$_POST["fechaOri"];
+$plantilla2 = isset($_POST["plantilla2"])?$_POST["plantilla2"]:"";
+
+$codProducto    = "";
+$codSubproducto = "";
+$idMuestra      = "";
+//echo "plantilla2:".$plantilla2;
+if ($plantilla2!="") {
+	$_POST["plantilla"]= $_POST["plantilla2"];
+	$codProducto       = $_POST["cod_producto"];
+	$codSubproducto    = $_POST["cod_subProducto"];
+	$FechaHora         = $_POST["fechaOri"];
 }
 
  
@@ -40,10 +48,10 @@ $resp1=$fx->obtenerPlantillaDetalles($_SESSION["CodSistemaSel"]);
 		    $pagina->set_var("valuePlantilla",$idPlantilla);
 			if ($idPlantilla==$_POST["plantilla"]) 
 			{
-			    $pagina->set_var("chePlantilla","SELECTed");
-			    $idMuestra=$Fila1["id_muestra"];
-			    $codProducto=$Fila1["cod_producto"];
-			    $codSubproducto=$Fila1["cod_subproducto"];
+			    $pagina->set_var("chePlantilla","selected");
+			    $idMuestra     = $Fila1["id_muestra"];
+			    $codProducto   = $Fila1["cod_producto"];
+			    $codSubproducto= $Fila1["cod_subproducto"];
 			}
 			else
 			{
@@ -72,15 +80,15 @@ $resp1=$fx->obtenerPlantillaDetalles($_SESSION["CodSistemaSel"]);
 
 			if (!$Fila["nro_solicitud"]){
 							//print_r ($Fila);
-			$idsinespacio=str_replace(" ","+", $Fila["id_muestra"]);
+				$idsinespacio=str_replace(" ","+", $Fila["id_muestra"]);
 
 
-			// $pagina->set_var("IdSolicitud", $Fila["id_muestra"]."_".$Fila["cod_producto"]."_".$Fila["cod_subproducto"]."_". str_replace(" ","~", $Fila["fecha_hora"]));
-			$pagina->set_var("IdSolicitud", $idsinespacio."_".$Fila["cod_producto"]."_".$Fila["cod_subproducto"]."_". str_replace(" ","~", $Fila["fecha_hora"]));
+				// $pagina->set_var("IdSolicitud", $Fila["id_muestra"]."_".$Fila["cod_producto"]."_".$Fila["cod_subproducto"]."_". str_replace(" ","~", $Fila["fecha_hora"]));
+				$pagina->set_var("IdSolicitud", $idsinespacio."_".$Fila["cod_producto"]."_".$Fila["cod_subproducto"]."_". str_replace(" ","~", $Fila["fecha_hora"]));
 
 			
-			$pagina->set_var("fechaHora", $Fila["fecha_hora"]);
-			$pagina->set_var("idMuestra", $Fila["id_muestra"]);
+				$pagina->set_var("fechaHora", $Fila["fecha_hora"]);
+				$pagina->set_var("idMuestra", $Fila["id_muestra"]);
 			
 
 				$respArea=$fx->obtenerArea($Fila["cod_area"]);
@@ -95,42 +103,33 @@ $resp1=$fx->obtenerPlantillaDetalles($_SESSION["CodSistemaSel"]);
 				}else
 				$pagina->set_var("centroCosto", "");	
 
-			$pagina->set_var("leyes", $Fila["leyes"]);
-			$pagina->set_var("impurezas", $Fila["impurezas"]);
+				$pagina->set_var("leyes", $Fila["leyes"]);
+				$pagina->set_var("impurezas", $Fila["impurezas"]);
 			
-			if (!$Fila["fecha_muestra"]) {
-				$pagina->set_var("periodo", "Sin Periodo");
-				$pagina->set_var("disabled2", "disabled");
-			}else{
-				$pagina->set_var("periodo", "AD - ".$Fila["fecha_muestra"]);
-				$pagina->set_var("disabled2", "");
+				if (!$Fila["fecha_muestra"]) {
+					$pagina->set_var("periodo", "Sin Periodo");
+					$pagina->set_var("disabled2", "disabled");
+				}else{
+					$pagina->set_var("periodo", "AD - ".$Fila["fecha_muestra"]);
+					$pagina->set_var("disabled2", "");
+				}
+
+				if (!$Fila["nro_solicitud"]) {
+					$pagina->set_var("sa", "Sin Nro Solicitud");
+					$pagina->set_var("disabled", "");
+				}else{
+					$pagina->set_var("sa", $Fila["nro_solicitud"]);
+					$pagina->set_var("disabled", "disabled");
+				}		
+
+				$Contador++;
+				$pagina->parse("bSOLICITUD","SOLICITUD",true);				
 			}
-
-			if (!$Fila["nro_solicitud"]) {
-				$pagina->set_var("sa", "Sin Nro Solicitud");
-				$pagina->set_var("disabled", "");
-			}else{
-				$pagina->set_var("sa", $Fila["nro_solicitud"]);
-				$pagina->set_var("disabled", "disabled");
-			}
-
-			 
-			
-
-			$Contador++;
-			$pagina->parse("bSOLICITUD","SOLICITUD",true);
-
-				
-			}
-
 		}
- 		
-
-
 
  		if ($Contador==0) {
-				$pagina->set_var("bSOLICITUD",'');
-			}
+			$pagina->set_var("bSOLICITUD",'');
+		}
 
 
 

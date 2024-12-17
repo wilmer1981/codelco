@@ -38,7 +38,7 @@ $resp1=$fx->obtenerPlantillaDetalles($_SESSION["CodSistemaSel"]);
 		    $pagina->set_var("valuePlantilla",$idPlantilla);
 			if ($idPlantilla==$_POST["plantilla"]) 
 			{
-			    $pagina->set_var("chePlantilla","SELECTed");
+			    $pagina->set_var("chePlantilla","selected");
 			    $idMuestra=$Fila1["id_muestra"];
 			    $codProducto=$Fila1["cod_producto"];
 			    $codSubproducto=$Fila1["cod_subproducto"];

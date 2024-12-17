@@ -38,7 +38,7 @@ function recargarCombos(Pagina,Opcion,combollenar,form){
 				{
 						$.each( data.dato, function( key, value ) {
 							//console.log( value.nombre );
-							$("#"+combollenar).append("<option value="+value.id+" "+value.SELECTed+">"+value.nombre+"</option>");
+							$("#"+combollenar).append("<option value="+value.id+" "+value.selected+">"+value.nombre+"</option>");
 						});
 				}
 			}
@@ -170,7 +170,7 @@ function GuardarValorMuestra(Pagina,Opcion,form)
 {
 
 	swal({
-		title: "Esta seguro de Grabar el dato para Planta: " + $("#planta option:SELECTed").html()+ " Del Campamento:" + $("#campamento option:SELECTed").html()+  "?",
+		title: "Esta seguro de Grabar el dato para Planta: " + $("#planta option:selected").html()+ " Del Campamento:" + $("#campamento option:selected").html()+  "?",
 		type: "warning",
 		showCancelButton: true,
 		confirmButtonColor: "#DD6B55",
@@ -279,7 +279,7 @@ function ValidarDatosFormulario(Form)
 {
 	var Cadena = "";var Pasa = true;
 
-	$("#"+Form).find(':input, SELECT').each(function() {			
+	$("#"+Form).find(':input, select').each(function() {			
 	    var elemento= this;
 
 	    $(this).removeClass("inputRojo");
@@ -311,7 +311,7 @@ function BuscarInfo(Form)
 {
 	var Cadena = "";var Pasa = true;
 
-	$("#"+Form).find(':input, SELECT').each(function() {			
+	$("#"+Form).find(':input, select').each(function() {			
 	    var elemento= this;
 
 	    if(elemento.type == "checkbox" || elemento.type == "radio")

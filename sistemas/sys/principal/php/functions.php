@@ -17,7 +17,7 @@ class functions{
 	}
 
 	function nombreSistema($Id,$Sistema){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM system_access";
 		$Consulta.=" WHERE id<>''";
@@ -27,23 +27,24 @@ class functions{
 		if ($Sistema!='') {
 			$Consulta.=" AND sigla='".$Sistema."'";
 		}
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;		
 	}
 
 	  function obtenerMaxNroSa(){
-	  	global $dataBaseMysql;
-	  	$Consulta = "SELECT max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+	  	global $mysqli;
+	  	$Consulta = "select max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 	  
 	  }
 
 	function obtenerSolicitudAnalisis($CodProducto,$CodSubProducto,$IdMuestra,$FechaHora,$Rut){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " from cal_web.solicitud_analisis";
-		$Consulta.=" WHERE   cod_producto<>'' and cod_subproducto<>'' and fecha_hora<>'' ";
+		//$Consulta.=" WHERE   cod_producto<>'' and cod_subproducto<>'' and fecha_hora<>'' ";
+		$Consulta.=" WHERE   cod_producto<>'' and cod_subproducto<>'' ";
 		 
 		if ($CodProducto!='') {
 			$Consulta.=" AND cod_producto='".$CodProducto."'";
@@ -61,38 +62,38 @@ class functions{
 			$Consulta.=" AND fecha_hora='".$FechaHora."'";
 		}
 		//echo $Consulta;
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
 	}
 
   	function insertarSolicitud($Fila,$cantidad,$FechaHora){
   		global $CookieRut;
-  		global $dataBaseMysql;
+  		global $mysqli;
   		//print_r($Fila);
-  		$Insertar = "INSERT INTO cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,cod_producto,cod_subproducto,";
+  		$Insertar = "insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,cod_producto,cod_subproducto,";
 		$Insertar = $Insertar."cod_analisis,cod_tipo_muestra,tipo_solicitud,agrupacion,tipo,enabal,cod_ccosto,cod_area,leyes,impurezas) values ('";
 		$Insertar = $Insertar.$CookieRut."','";
 		$Insertar = $Insertar.$FechaHora."','";
-		$Insertar = $Insertar.$Fila["id_muestra"]."~".$cantidad."','";	
-		$Insertar = $Insertar.$Fila["cod_producto"]."','";					
-		$Insertar = $Insertar.$Fila["cod_subproducto"]."','";			
-		$Insertar = $Insertar.$Fila["cod_analisis"]."','";
-		$Insertar = $Insertar.$Fila["cod_tipo_muestra"]."','";
+		$Insertar = $Insertar.$Fila[id_muestra]."~".$cantidad."','";	
+		$Insertar = $Insertar.$Fila[cod_producto]."','";					
+		$Insertar = $Insertar.$Fila[cod_subproducto]."','";			
+		$Insertar = $Insertar.$Fila[cod_analisis]."','";
+		$Insertar = $Insertar.$Fila[cod_tipo_muestra]."','";
 		$Insertar = $Insertar.$Fila[tipo_solicitud]."','";
 		$Insertar = $Insertar.$Fila[agrupacion]."','";
-		$Insertar = $Insertar.$Fila["tipo"]."','";
-		$Insertar = $Insertar.$Fila["enabal"]."','";			
-		$Insertar = $Insertar.$Fila["cod_ccosto"]."',";			
-		$Insertar = $Insertar.$Fila["cod_area"].",'";
-		$Insertar = $Insertar.$Fila["leyes"]."','";
-		$Insertar = $Insertar.$Fila["impurezas"]."')";	
+		$Insertar = $Insertar.$Fila[tipo]."','";
+		$Insertar = $Insertar.$Fila[enabal]."','";			
+		$Insertar = $Insertar.$Fila[cod_ccosto]."',";			
+		$Insertar = $Insertar.$Fila[cod_area].",'";
+		$Insertar = $Insertar.$Fila[leyes]."','";
+		$Insertar = $Insertar.$Fila[impurezas]."')";	
 		//echo $Insertar;
-		$Retorno = $dataBaseMysql->QueryAction($Insertar);
+		$Retorno = $mysqli->QueryAction($Insertar);
   	}
   
  	function obtenerSistema($CodSistema){
- 		global $dataBaseMysql;
+ 		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.sistemas";
 		$Consulta.=" WHERE cod_sistema<>''";
@@ -100,13 +101,13 @@ class functions{
 			$Consulta.=" AND cod_sistema='".$CodSistema."'";
 		}
 		//echo $Consulta;
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
  	}
 
  	function obtenerUnidades($CodUnidades){
- 		global $dataBaseMysql;
+ 		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.unidades";
 		$Consulta.=" WHERE cod_unidad <> '' ";
@@ -114,13 +115,13 @@ class functions{
 			$Consulta.=" AND cod_unidad='".$CodUnidades."'";
 		}
 		//echo $Consulta;
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
  	}
 
  	function obtenerLeyes($CodLeyes){
- 		global $dataBaseMysql;
+ 		global $mysqli;
 		$Consulta = "SELECT *,t1.abreviatura AS abreviaturaLey";
 		$Consulta.= " FROM proyecto_modernizacion.leyes t1 inner join proyecto_modernizacion.unidades t2 on t1.cod_unidad = t2.cod_unidad";
 		$Consulta.=" WHERE t1.tipo_leyes = 0 ";
@@ -128,12 +129,12 @@ class functions{
 			$Consulta.=" AND cod_leyes='".$CodLeyes."'";
 		}
 		//echo $Consulta;
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
  	}
 
  	function obtenerImpureza($CodImpureza){
- 		global $dataBaseMysql;
+ 		global $mysqli;
 		$Consulta = "SELECT *,t1.abreviatura AS abreviaturaLey";
 		$Consulta.= " FROM proyecto_modernizacion.leyes t1 inner join proyecto_modernizacion.unidades t2 on t1.cod_unidad = t2.cod_unidad";
 		$Consulta.=" WHERE t1.tipo_leyes = 1 ";
@@ -142,12 +143,12 @@ class functions{
 		}
 		$Consulta.=" ORDER BY t1.abreviatura ASC ";
 		//echo $Consulta;
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
  	}
 
  	function obtenerLeyesFisicas($CodLeyesFisica){
- 		global $dataBaseMysql;
+ 		global $mysqli;
 		$Consulta = "SELECT *,t1.abreviatura AS abreviaturaLey";
 		$Consulta.= " FROM proyecto_modernizacion.leyes t1 inner join proyecto_modernizacion.unidades t2 on t1.cod_unidad = t2.cod_unidad";
 		$Consulta.=" WHERE t1.tipo_leyes = 3 ";
@@ -156,13 +157,13 @@ class functions{
 		}
 		$Consulta.=" ORDER BY t1.abreviatura ASC ";
 		//echo $Consulta;
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
  	}
 
 
 	function obtenerPlantillas($CodSistema,$CodProducto,$CodSubProducto,$IdMuestra){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM plantilla_solicitud_analisis";
 		$Consulta.=" WHERE cod_sistema<>'' and cod_producto<>'' and cod_subproducto<>''";
@@ -179,12 +180,12 @@ class functions{
 			$Consulta.=" AND id_muestra='".$IdMuestra."'";
 		}
 		//echo $Consulta;
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 	}
 
 	function obtenerProducto($CodProducto){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.productos";
 		$Consulta.=" WHERE cod_producto<>''";
@@ -192,7 +193,7 @@ class functions{
 			$Consulta.=" AND cod_producto='".$CodProducto."'";
 		}
 		$Consulta.=" ORDER BY descripcion ASC ";
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 
 		
 		//echo $Consulta;
@@ -200,7 +201,7 @@ class functions{
 	}
 
 	function obtenerSubProducto($CodProducto,$CodSubProducto){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.subproducto";
 		$Consulta.=" WHERE cod_producto<>'' and cod_subproducto<>''";
@@ -213,12 +214,12 @@ class functions{
 		$Consulta.=" ORDER BY descripcion ASC ";
 		
 		//echo $Consulta;
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 	}
 
 	function obtenerPeriodo($id){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.sub_clase";
 		$Consulta.=" WHERE cod_clase ='2'";
@@ -226,13 +227,13 @@ class functions{
 			$Consulta.=" AND cod_subclase='".$id."'";
 		}
 		$Consulta.=" ORDER BY nombre_subclase ASC ";
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
 	}
 
 	function obtenerTipoAnalisis($id){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.sub_clase";
 		$Consulta.=" WHERE cod_clase ='1000'";
@@ -240,12 +241,12 @@ class functions{
 			$Consulta.=" AND cod_subclase='".$id."'";
 		}
 		$Consulta.=" ORDER BY nombre_subclase ASC ";
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
 	}
 	function obtenerAgrupacion($id){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.sub_clase";
 		$Consulta.=" WHERE cod_clase ='1004'";
@@ -253,14 +254,14 @@ class functions{
 			$Consulta.=" AND cod_subclase='".$id."'";
 		}
 		$Consulta.=" ORDER BY nombre_subclase ASC ";
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
 	}
 
 
 	function obtenerTipo($id){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.sub_clase";
 		$Consulta.=" WHERE cod_clase ='1005'";
@@ -268,13 +269,13 @@ class functions{
 			$Consulta.=" AND cod_subclase='".$id."'";
 		}
 		$Consulta.=" ORDER BY nombre_subclase ASC ";
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
 	}
 
 	function obtenerMuestra($id){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.sub_clase";
 		$Consulta.=" WHERE cod_clase ='1005'";
@@ -282,14 +283,14 @@ class functions{
 			$Consulta.=" AND cod_subclase='".$id."'";
 		}
 		$Consulta.=" ORDER BY nombre_subclase ASC ";
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
 	}
 
 	
 	function obtenerCentroCosto($IdCeCos){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT *";
 		$Consulta.= " FROM proyecto_modernizacion.centro_costo";
 		$Consulta.=" WHERE CENTRO_COSTO<>'' ";
@@ -297,12 +298,12 @@ class functions{
 			$Consulta.=" AND CENTRO_COSTO='".$IdCeCos."'";
 		}
 		$Consulta.=" ORDER BY DESCRIPCION ASC ";
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
 	}
  	function obtenerArea($id){
-		global $dataBaseMysql;
+		global $mysqli;
 		$Consulta = "SELECT  nombre_subclase as AREA, cod_subclase as COD_AREA";
 		$Consulta.= " FROM proyecto_modernizacion.sub_clase";
 		$Consulta.=" WHERE cod_clase ='3'";
@@ -311,16 +312,14 @@ class functions{
 		}
 		$Consulta.=" ORDER BY nombre_subclase ASC ";
 		//echo $Consulta;
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 
 	}
-
- 
-
-
+	
 	function obtenerPlantillaDetalles($CodSistema){
-		global $dataBaseMysql;
+		//global $mysqli;
+		global $mysqli;
 		$Consulta = "SELECT T1.*,T1.id_muestra,T1.descripcion as nombre_plantilla,T2.descripcion as nombre_producto, T3.descripcion as nombre_subproducto";
 		$Consulta.= " FROM plantilla_solicitud_analisis T1";
 		$Consulta.= " INNER JOIN proyecto_modernizacion.productos T2 ON T1.cod_producto=T2.cod_producto";
@@ -329,17 +328,10 @@ class functions{
 		if ($CodSistema!='') {
 			$Consulta.=" AND cod_sistema='".$CodSistema."'";
 		}
-		$Retorno = $dataBaseMysql->consulta($Consulta);
+		//$Retorno = $mysqli->consulta($mysqli,$Consulta);
+		$Retorno = $mysqli->consulta($Consulta);
 		return $Retorno;
 	}
-
-
-	
-	
-
- 
-
-
 
     function mail_send($from, $to, $subject, $message) 
     {

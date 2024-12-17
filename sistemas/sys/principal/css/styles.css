@@ -52,10 +52,10 @@
     margin-bottom: 12px;
     cursor: pointer;
  
-    -webkit-user-SELECT: none;
-    -moz-user-SELECT: none;
-    -ms-user-SELECT: none;
-    user-SELECT: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Hide the browser's default radio button */

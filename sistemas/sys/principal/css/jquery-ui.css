@@ -1,6 +1,6 @@
 /*! jQuery UI - v1.12.1 - 2016-09-14
 * http://jqueryui.com
-* Includes: core.css, accordion.css, autocomplete.css, menu.css, button.css, controlgroup.css, checkboxradio.css, datepicker.css, dialog.css, draggable.css, resizable.css, progressbar.css, SELECTable.css, SELECTmenu.css, slider.css, sortable.css, spinner.css, tabs.css, tooltip.css, theme.css
+* Includes: core.css, accordion.css, autocomplete.css, menu.css, button.css, controlgroup.css, checkboxradio.css, datepicker.css, dialog.css, draggable.css, resizable.css, progressbar.css, selectable.css, selectmenu.css, slider.css, sortable.css, spinner.css, tabs.css, tooltip.css, theme.css
 * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Arial%2CHelvetica%2Csans-serif&fsDefault=1em&fwDefault=normal&cornerRadius=3px&bgColorHeader=e9e9e9&bgTextureHeader=flat&borderColorHeader=dddddd&fcHeader=333333&iconColorHeader=444444&bgColorContent=ffffff&bgTextureContent=flat&borderColorContent=dddddd&fcContent=333333&iconColorContent=444444&bgColorDefault=f6f6f6&bgTextureDefault=flat&borderColorDefault=c5c5c5&fcDefault=454545&iconColorDefault=777777&bgColorHover=ededed&bgTextureHover=flat&borderColorHover=cccccc&fcHover=2b2b2b&iconColorHover=555555&bgColorActive=007fff&bgTextureActive=flat&borderColorActive=003eff&fcActive=ffffff&iconColorActive=ffffff&bgColorHighlight=fffa90&bgTextureHighlight=flat&borderColorHighlight=dad55e&fcHighlight=777620&iconColorHighlight=777620&bgColorError=fddfdf&bgTextureError=flat&borderColorError=f1a899&fcError=5f3f3f&iconColorError=cc0000&bgColorOverlay=aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=666666&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=5px&offsetTopShadow=0px&offsetLeftShadow=0px&cornerRadiusShadow=8px
 * Copyright jQuery Foundation and other contributors; Licensed MIT */
 
@@ -172,10 +172,10 @@
 	cursor: pointer;
 	vertical-align: middle;
 	text-align: center;
-	-webkit-user-SELECT: none;
-	-moz-user-SELECT: none;
-	-ms-user-SELECT: none;
-	user-SELECT: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 
 	/* Support: IE <= 11 */
 	overflow: visible;
@@ -358,12 +358,12 @@ button.ui-button::-moz-focus-inner {
 	line-height: 1.8em;
 	text-align: center;
 }
-.ui-datepicker .ui-datepicker-title SELECT {
+.ui-datepicker .ui-datepicker-title select {
 	font-size: 1em;
 	margin: 1px 0;
 }
-.ui-datepicker SELECT.ui-datepicker-month,
-.ui-datepicker SELECT.ui-datepicker-year {
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year {
 	width: 45%;
 }
 .ui-datepicker table {
@@ -670,16 +670,16 @@ button.ui-button::-moz-focus-inner {
 .ui-progressbar-indeterminate .ui-progressbar-value {
 	background-image: none;
 }
-.ui-SELECTable {
+.ui-selectable {
 	-ms-touch-action: none;
 	touch-action: none;
 }
-.ui-SELECTable-helper {
+.ui-selectable-helper {
 	position: absolute;
 	z-index: 100;
 	border: 1px dotted black;
 }
-.ui-SELECTmenu-menu {
+.ui-selectmenu-menu {
 	padding: 0;
 	margin: 0;
 	position: absolute;
@@ -687,12 +687,12 @@ button.ui-button::-moz-focus-inner {
 	left: 0;
 	display: none;
 }
-.ui-SELECTmenu-menu .ui-menu {
+.ui-selectmenu-menu .ui-menu {
 	overflow: auto;
 	overflow-x: hidden;
 	padding-bottom: 1px;
 }
-.ui-SELECTmenu-menu .ui-menu .ui-SELECTmenu-optgroup {
+.ui-selectmenu-menu .ui-menu .ui-selectmenu-optgroup {
 	font-size: 1em;
 	font-weight: bold;
 	line-height: 1.5;
@@ -701,21 +701,21 @@ button.ui-button::-moz-focus-inner {
 	height: auto;
 	border: 0;
 }
-.ui-SELECTmenu-open {
+.ui-selectmenu-open {
 	display: block;
 }
-.ui-SELECTmenu-text {
+.ui-selectmenu-text {
 	display: block;
 	margin-right: 20px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-.ui-SELECTmenu-button.ui-button {
+.ui-selectmenu-button.ui-button {
 	text-align: left;
 	white-space: nowrap;
 	width: 14em;
 }
-.ui-SELECTmenu-icon.ui-icon {
+.ui-selectmenu-icon.ui-icon {
 	float: right;
 	margin-top: 0;
 }
@@ -890,7 +890,7 @@ body .ui-tooltip {
 	font-size: 1em;
 }
 .ui-widget input,
-.ui-widget SELECT,
+.ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
 	font-family: Arial,Helvetica,sans-serif;

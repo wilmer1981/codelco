@@ -74,12 +74,12 @@
                     <div class="col-sm-3 col-md-3 col-lg-3">
 
                           <input type="checkbox" name="ley{idLey}" id="ley{idLey}" {checked{idLey}} onclick="mostrarUnidades('unidades{idLey}',this)" style="min-height: 40px;">{nombreLey}
-                          <SELECT class="form-control" name="unidades{idLey}" id="unidades{idLey}" style="display: {VISUALIZACOMBOLEYES}" >
+                          <select class="form-control" name="unidades{idLey}" id="unidades{idLey}" style="display: {VISUALIZACOMBOLEYES}" >
                             <option value="-1">Elija Unidad</option>
                             <!-- BEGIN UNIDAD -->
-                            <option value="{ValueUnidad}"  {SELECTedunidadLeyes{idLey}~~{ValueUnidad}}> {nombUnidad}  </option>
+                            <option value="{ValueUnidad}"  {selectedunidadLeyes{idLey}~~{ValueUnidad}}> {nombUnidad}  </option>
                             <!-- END UNIDAD -->
-                          </SELECT>
+                          </select>
                         
                     </div>
                     <!-- END LISTLEYES -->
@@ -92,12 +92,12 @@
                         <div class="col-sm-2 col-md-4 col-lg-2">
 
                             <input type="checkbox" name="impure{idImpure}" id="impure{idImpure}" {checked{idImpure}} onclick="mostrarUnidades('unidades{idImpure}',this)">{nombreImpure}
-                            <SELECT class="form-control" name="unidades{idImpure}" id="unidades{idImpure}" style="display: {VISUALIZACOMBOIMPURE}" >
+                            <select class="form-control" name="unidades{idImpure}" id="unidades{idImpure}" style="display: {VISUALIZACOMBOIMPURE}" >
                             <option value="-1">Elija Unidad</option>
                             <!-- BEGIN UNIDAD -->
-                            <option value="{ValueUnidad}" {SELECTedunidadImpure{idImpure}~~{ValueUnidad}} > {nombUnidad}  </option>
+                            <option value="{ValueUnidad}" {selectedunidadImpure{idImpure}~~{ValueUnidad}} > {nombUnidad}  </option>
                             <!-- END UNIDAD -->
-                          </SELECT>
+                          </select>
                           
                         </div>
                     <!-- END IMPUREZAS -->
@@ -110,12 +110,12 @@
                         <div class="col-sm-2 col-md-2 col-lg-2">
 
                             <input type="checkbox" name="impure{idLeyFis}" id="impure{idLeyFis}" {checked{idLeyFis}} onclick="mostrarUnidades('unidades{idLeyFis}',this)">{nombreLeyFis}
-                            <SELECT class="form-control" name="unidades{idLeyFis}" id="unidades{idLeyFis}" style="display: {VISUALIZACOMBOIMPUREDOS}" >
+                            <select class="form-control" name="unidades{idLeyFis}" id="unidades{idLeyFis}" style="display: {VISUALIZACOMBOIMPUREDOS}" >
                             <option value="-1">Elija Unidad</option>
                             <!-- BEGIN UNIDAD -->
-                            <option value="{ValueUnidad}" {SELECTedunidadImpureDos{idLeyFis}~~{ValueUnidad}}> {nombUnidad}  </option>
+                            <option value="{ValueUnidad}" {selectedunidadImpureDos{idLeyFis}~~{ValueUnidad}}> {nombUnidad}  </option>
                             <!-- END UNIDAD -->
-                          </SELECT>  
+                          </select>  
                         </div>
                     <!-- END LEYFIS -->
                    </div>
@@ -293,12 +293,12 @@
                     <label class="control-label" for="textinput">Sistema</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-calendar-check-o fa-fw"></i></span>
-                      <SELECT class="form-control" name="sistema" id="sistema" required>
+                      <select class="form-control" name="sistema" id="sistema" required>
                         <option value="-1">Elija Sistema</option>
                         <!-- BEGIN NOMSISTEMA -->
                         <option value="{vSistema}" {cheSistema}  > {sigSistema} - {nombSistema}  </option>
                         <!-- END NOMSISTEMA -->
-                      </SELECT>
+                      </select>
                     </div>
                   </div>
 
@@ -321,12 +321,12 @@
                     <label class="control-label" for="textinput">Centro Costo</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-dollar" ></i></span>
-                      <SELECT class="form-control" name="cCosto" id="cCosto" required>
+                      <select class="form-control" name="cCosto" id="cCosto" required>
                         <option value="-1">Elija Centro Costo</option>
                         <!-- BEGIN NOMCCOSTO -->
                         <option value="{vcCosto}" {checCosto}  > {nombcCosto}  </option>
                         <!-- END NOMCCOSTO -->
-                      </SELECT>
+                      </select>
                     </div>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6">
@@ -334,12 +334,12 @@
                     <label class="control-label" for="textinput">Area</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                      <SELECT class="form-control" name="area" id="area" required>
+                      <select class="form-control" name="area" id="area" required>
                         <option value="-1">Elija Area</option>
                         <!-- BEGIN NOMAREA -->
                         <option value="{varea}" {chearea}  > {nombarea}  </option>
                         <!-- END NOMAREA -->
-                      </SELECT>
+                      </select>
                     </div>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6">
@@ -347,12 +347,12 @@
                     <label class="control-label" for="textinput">Producto</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-cube"></i></span>
-                      <SELECT class="form-control" name="producto" id="producto" required onchange="recargarCombos('modal','obtenerSubProducto','cmbsubProducto','formulario3')">
+                      <select class="form-control" name="producto" id="producto" required onchange="recargarCombos('modal','obtenerSubProducto','cmbsubProducto','formulario3')">
                         <option value="-1">Elija Producto</option>
                         <!-- BEGIN NOMPRODUCTO -->
                         <option value="{vProducto}" {cheProducto}  > {nombProducto}  </option>
                         <!-- END NOMPRODUCTO -->
-                      </SELECT>
+                      </select>
                     </div>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6">
@@ -360,10 +360,10 @@
                     <label class="control-label" for="textinput">Sub Producto</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-cubes"></i></span>
-                      <SELECT class="form-control" name="cmbsubProducto" id="cmbsubProducto" required>
+                      <select class="form-control" name="cmbsubProducto" id="cmbsubProducto" required>
                         <option value="-1">Elija Sub Producto</option>
 
-                      </SELECT>
+                      </select>
                     </div>
                   </div> 
 
@@ -372,12 +372,12 @@
                     <label class="control-label" for="textinput">Tipo An&aacute;lisis</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-file-archive-o"></i></span>
-                      <SELECT class="form-control" name="tipoAnalis" id="tipoAnalis" required >
+                      <select class="form-control" name="tipoAnalis" id="tipoAnalis" required >
                         <option value="-1">Elija Tipo An&aacute;lisis</option>
                         <!-- BEGIN TIPOANALISIS -->
                         <option value="{vTipoAnalisis}" {cheTipoAnalisis}  > {nombTipoAnalisis}  </option>
                         <!-- END TIPOANALISIS -->
-                      </SELECT>
+                      </select>
                     </div>
 
 
@@ -387,12 +387,12 @@
                     <label class="control-label" for="textinput">Tipo Muestra</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-eyedropper"></i></span>
-                      <SELECT class="form-control" name="tipoMuestra" id="tipoMuestra" required >
+                      <select class="form-control" name="tipoMuestra" id="tipoMuestra" required >
                         <option value="-1">Elija Tipo Muestra</option>
                         <!-- BEGIN TIPOMUESTRA -->
                         <option value="{vTipoMuestra}" {cheTipoMuestra}  > {nombTipoMuestra}  </option>
                         <!-- END TIPOMUESTRA -->
-                      </SELECT>
+                      </select>
                     </div>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6">
@@ -400,12 +400,12 @@
                     <label class="control-label" for="textinput">Agrupaci&oacute;n</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-object-group"></i></span>
-                      <SELECT class="form-control" name="agrupacion" id="agrupacion" required >
+                      <select class="form-control" name="agrupacion" id="agrupacion" required >
                         <option value="-1">Elija Agrupacion</option>
                         <!-- BEGIN TIPOAGRUPACION -->
                         <option value="{vAgrupacion}" {cheAgrupacion}  > {nombAgrupacion}  </option>
                         <!-- END TIPOAGRUPACION -->
-                      </SELECT>
+                      </select>
                     </div>
 
                   </div>
@@ -415,12 +415,12 @@
                     <label class="control-label" for="textinput">Periodo</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-eyedropper"></i></span>
-                      <SELECT class="form-control" name="periodo" id="periodo" required >
+                      <select class="form-control" name="periodo" id="periodo" required >
                         <option value="-1">Elija Periodo</option>
                         <!-- BEGIN TIPOPERIODO -->
                         <option value="{vPeriodo}" {chePeriodo}  > {nombPeriodo}  </option>
                         <!-- END TIPOPERIODO -->
-                      </SELECT>
+                      </select>
                     </div>
 
                   </div>

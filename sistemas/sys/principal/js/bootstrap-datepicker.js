@@ -118,7 +118,7 @@
 		this.setDaysOfWeekDisabled(options.daysOfWeekDisabled||this.element.data('date-days-of-week-disabled'));
 		this.fillDow();
 		this.fillMonths();
-		this.UPDATE();
+		this.update();
 		this.showMode();
 
 		if(this.isInline) {
@@ -136,7 +136,7 @@
 				this._events = [
 					[this.element, {
 						focus: $.proxy(this.show, this),
-						keyup: $.proxy(this.UPDATE, this),
+						keyup: $.proxy(this.update, this),
 						keydown: $.proxy(this.keydown, this)
 					}]
 				];
@@ -146,7 +146,7 @@
 					// For components that are not readonly, allow keyboard nav
 					[this.element.find('input'), {
 						focus: $.proxy(this.show, this),
-						keyup: $.proxy(this.UPDATE, this),
+						keyup: $.proxy(this.update, this),
 						keydown: $.proxy(this.keydown, this)
 					}],
 					[this.component, {
@@ -182,7 +182,7 @@
 		show: function(e) {
 			this.picker.show();
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
-			this.UPDATE();
+			this.update();
 			this.place();
 			$(window).on('resize', $.proxy(this.place, this));
 			if (e ) {
@@ -266,8 +266,8 @@
 			if (this.startDate !== -Infinity) {
 				this.startDate = DPGlobal.parseDate(this.startDate, this.format, this.language);
 			}
-			this.UPDATE();
-			this.UPDATENavArrows();
+			this.update();
+			this.updateNavArrows();
 		},
 
 		setEndDate: function(endDate){
@@ -275,8 +275,8 @@
 			if (this.endDate !== Infinity) {
 				this.endDate = DPGlobal.parseDate(this.endDate, this.format, this.language);
 			}
-			this.UPDATE();
-			this.UPDATENavArrows();
+			this.update();
+			this.updateNavArrows();
 		},
 
 		setDaysOfWeekDisabled: function(daysOfWeekDisabled){
@@ -287,8 +287,8 @@
 			this.daysOfWeekDisabled = $.map(this.daysOfWeekDisabled, function (d) {
 				return parseInt(d, 10);
 			});
-			this.UPDATE();
-			this.UPDATENavArrows();
+			this.update();
+			this.updateNavArrows();
 		},
 
 		place: function(){
@@ -305,7 +305,7 @@
 			});
 		},
 
-		UPDATE: function(){
+		update: function(){
 			var date, fromArgs = false;
 			if(arguments && arguments.length && (typeof arguments[0] === 'string' || arguments[0] instanceof Date)) {
 				date = arguments[0];
@@ -370,7 +370,7 @@
 			this.picker.find('tfoot th.today')
 						.text(dates[this.language].today)
 						.toggle(this.todayBtn !== false);
-			this.UPDATENavArrows();
+			this.updateNavArrows();
 			this.fillMonths();
 			var prevMonth = UTCDate(year, month-1, 28,0,0,0,0),
 				day = DPGlobal.getDaysInMonth(prevMonth.getUTCFullYear(), prevMonth.getUTCMonth());
@@ -447,7 +447,7 @@
 			yearCont.html(html);
 		},
 
-		UPDATENavArrows: function() {
+		updateNavArrows: function() {
 			var d = new Date(this.viewDate),
 				year = d.getUTCFullYear(),
 				month = d.getUTCMonth();
@@ -671,7 +671,7 @@
 						this.date = newDate;
 						this.viewDate = newViewDate;
 						this.setValue();
-						this.UPDATE();
+						this.update();
 						e.preventDefault();
 						dateChanged = true;
 					}
@@ -696,7 +696,7 @@
 						this.date = newDate;
 						this.viewDate = newViewDate;
 						this.setValue();
-						this.UPDATE();
+						this.update();
 						e.preventDefault();
 						dateChanged = true;
 					}
@@ -741,7 +741,7 @@
 			*/
 			//this.picker.find('>div').hide().filter('.datepicker-'+DPGlobal.modes[this.viewMode].clsName).show();
 			this.picker.find('>div').hide().filter('.datepicker-'+DPGlobal.modes[this.viewMode].clsName).css('display', 'block');
-			this.UPDATENavArrows();
+			this.updateNavArrows();
 		}
 	};
 

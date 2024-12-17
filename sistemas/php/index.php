@@ -1,6 +1,6 @@
 <?php
 //Trae parámetro de cantidad maxima de intentos fallidos y tiempo de espera.
-$ConsIntento="SELECT * from sict_ope_parametros_generales where cod_parametro in ('90','91')";
+$ConsIntento="select * from sict_ope_parametros_generales where cod_parametro in ('90','91')";
 $RespIntento=$dataBaseMysql->consulta($ConsIntento);
 while($Fila=mysqli_fetch_assoc($RespIntento)){
 	if($Fila["cod_parametro"]=='90')//Cantidad de intentos fallidos
@@ -149,7 +149,7 @@ switch($_GET["Opcion"])
 						if($_SESSION["intentos"]==($maxIntentos-1)) //Si alcanza el máximo de intentos bloquea
 						{
 							$TxtRutSInDigito = explode('-',$TxtRut);
-							$Actualizar = " UPDATE sict_ope_usuario set ";
+							$Actualizar = " update sict_ope_usuario set ";
 							$Actualizar.= " bloqueo='S', fecha_bloqueo_pass='".$ahora."'";
 							$Actualizar.= " where rut='".$TxtRutSInDigito[0]."'";
 							//echo $Actualizar."<br>";

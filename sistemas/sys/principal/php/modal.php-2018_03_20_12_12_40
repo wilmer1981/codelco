@@ -69,9 +69,9 @@ switch($_GET["Opcion"])
 			$arraySubProducto[$cont]['nombre']=$FilaSubProd["descripcion"];
 
 			if ($_POST["idSubProducto"]==$FilaSubProd["cod_subproducto"])
-				$arraySubProducto[$cont]['SELECTed']="SELECTed";
+				$arraySubProducto[$cont]['selected']="selected";
 			else
-				$arraySubProducto[$cont]['SELECTed']="";
+				$arraySubProducto[$cont]['selected']="";
 			
 			$cont++;
 		}
@@ -96,7 +96,7 @@ switch($_GET["Opcion"])
 		{
 		    $pagina->set_var("vSistema",$Fila0["cod_sistema"]);
 			if ($Fila0["cod_sistema"]==$cod_sistema) {
-			    	$pagina->set_var("cheSistema","SELECTed");
+			    	$pagina->set_var("cheSistema","selected");
 			    }else{$pagina->set_var("cheSistema","");}    
 		    //$pagina->set_var("cheCampamento","checked");
 			$pagina->set_var("sigSistema",$Fila0["nombre"]);
@@ -115,7 +115,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vcCosto",$Fila1["CENTRO_COSTO"]);
 				if ($Fila1["CENTRO_COSTO"]==$Fila["cod_ccosto"]) {
-				    	$pagina->set_var("checCosto","SELECTed");
+				    	$pagina->set_var("checCosto","selected");
 				    }else{$pagina->set_var("checCosto","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila1["nombre"]);
@@ -129,7 +129,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("varea",$Fila2["COD_AREA"]);
 				if ($Fila2["COD_AREA"]==$Fila["cod_area"]) {
-				    	$pagina->set_var("chearea","SELECTed");
+				    	$pagina->set_var("chearea","selected");
 				    }else{$pagina->set_var("chearea","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila2["nombre"]);
@@ -144,7 +144,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vProducto",$Fila3["cod_producto"]);
 				if ($Fila3["cod_producto"]==$Fila["cod_producto"]) {
-				    	$pagina->set_var("cheProducto","SELECTed");
+				    	$pagina->set_var("cheProducto","selected");
 				    }else{$pagina->set_var("cheProducto","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila3["nombre"]);
@@ -158,7 +158,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vSubProducto",$Fila4["cod_producto"]);
 				if ($Fila4["cod_producto"]==$Fila["cod_producto"]) {
-				    	$pagina->set_var("cheSubProducto","SELECTed");
+				    	$pagina->set_var("cheSubProducto","selected");
 				    }else{$pagina->set_var("cheSubProducto","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila4["nombre"]);
@@ -172,7 +172,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vTipoAnalisis",$Fila5["cod_subclase"]);
 				if ($Fila5["cod_subclase"]==$Fila["cod_analisis"]) {
-				    	$pagina->set_var("cheTipoAnalisis","SELECTed");
+				    	$pagina->set_var("cheTipoAnalisis","selected");
 				    }else{$pagina->set_var("cheTipoAnalisis","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila5["nombre"]);
@@ -186,7 +186,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vTipo",$Fila6["cod_subclase"]);
 				if ($Fila6["cod_subclase"]==$Fila["tipo"]) {
-				    	$pagina->set_var("cheTipo","SELECTed");
+				    	$pagina->set_var("cheTipo","selected");
 				    }else{$pagina->set_var("cheTipo","");}    
 				$pagina->set_var("nombTipo",$Fila6["nombre_subclase"]);
 				$pagina->parse("bTIPO","TIPO",true);
@@ -201,7 +201,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vAgrupacion",$Fila7["cod_subclase"]);
 				if ($Fila7["cod_subclase"]==$Fila["agrupacion"]) {
-				    	$pagina->set_var("cheAgrupacion","SELECTed");
+				    	$pagina->set_var("cheAgrupacion","selected");
 				    }else{$pagina->set_var("cheAgrupacion","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila7["nombre"]);
@@ -216,7 +216,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vPeriodo",$Fila8["cod_subclase"]);
 				if ($Fila8["cod_subclase"]==$Fila["cod_periodo"]) {
-				    	$pagina->set_var("chePeriodo","SELECTed");
+				    	$pagina->set_var("chePeriodo","selected");
 				    }else{$pagina->set_var("chePeriodo","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila8["nombre"]);
@@ -445,7 +445,7 @@ switch($_GET["Opcion"])
 		{
 		    $pagina->set_var("vSistema",$Fila0["cod_sistema"]);
 			if ($Fila0["cod_sistema"]==$cod_sistema) {
-			    	$pagina->set_var("cheSistema","SELECTed");
+			    	$pagina->set_var("cheSistema","selected");
 			    }else{$pagina->set_var("cheSistema","");}    
 		    //$pagina->set_var("cheCampamento","checked");
 			$pagina->set_var("sigSistema",$Fila0["nombre"]);
@@ -464,14 +464,14 @@ switch($_GET["Opcion"])
 
 			switch (  $Fila["cod_tipo_muestra"])  {
 			 	case '1':
-			 		$pagina->set_var("cheTipoMuestra1","SELECTed");
+			 		$pagina->set_var("cheTipoMuestra1","selected");
 			 		$pagina->set_var("cheTipoMuestra2","");
 			 		$pagina->set_var("cheTipoMuestra3","");
 			 		$pagina->set_var("tipoMuestra","Análisis");
 			 		break;
 			 	case '2':
 			 		$pagina->set_var("cheTipoMuestra1","");
-			 		$pagina->set_var("cheTipoMuestra2","SELECTed");
+			 		$pagina->set_var("cheTipoMuestra2","selected");
 			 		$pagina->set_var("cheTipoMuestra3","");
 			 		
 			 		$pagina->set_var("tipoMuestra","Muestreo");
@@ -479,14 +479,14 @@ switch($_GET["Opcion"])
 		 		case '3':
 		 			$pagina->set_var("cheTipoMuestra1","");
 			 		$pagina->set_var("cheTipoMuestra2","");
-		 			$pagina->set_var("cheTipoMuestra3","SELECTed");
+		 			$pagina->set_var("cheTipoMuestra3","selected");
 		 			$pagina->set_var("tipoMuestra","Análisis y Muestreo");
 		 		break;
 			 	default:
 
 			 		$pagina->set_var("cheTipoMuestra1","");
 			 		$pagina->set_var("cheTipoMuestra2","");
-		 			$pagina->set_var("cheTipoMuestra3","SELECTed");# code...
+		 			$pagina->set_var("cheTipoMuestra3","selected");# code...
 		 		break;
 			 } 
 
@@ -500,7 +500,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vcCosto",$Fila1["CENTRO_COSTO"]);
 				if ($Fila1["CENTRO_COSTO"]==$Fila["cod_ccosto"]) {
-				    	$pagina->set_var("checCosto","SELECTed");
+				    	$pagina->set_var("checCosto","selected");
 				    }else{$pagina->set_var("checCosto","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila1["nombre"]);
@@ -521,7 +521,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("varea",$Fila2["COD_AREA"]);
 				if ($Fila2["COD_AREA"]==$Fila["cod_area"]) {
-				    	$pagina->set_var("chearea","SELECTed");
+				    	$pagina->set_var("chearea","selected");
 				    }else{$pagina->set_var("chearea","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila2["nombre"]);
@@ -535,7 +535,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vProducto",$Fila3["cod_producto"]);
 				if ($Fila3["cod_producto"]==$Fila["cod_producto"]) {
-				    	$pagina->set_var("cheProducto","SELECTed");
+				    	$pagina->set_var("cheProducto","selected");
 				    }else{$pagina->set_var("cheProducto","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila3["nombre"]);
@@ -549,7 +549,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vSubProducto",$Fila4["cod_producto"]);
 				if ($Fila4["cod_producto"]==$Fila["cod_producto"]) {
-				    	$pagina->set_var("cheSubProducto","SELECTed");
+				    	$pagina->set_var("cheSubProducto","selected");
 				    }else{$pagina->set_var("cheSubProducto","");}    
 			    //$pagina->set_var("cheCampamento","checked");
 				//$pagina->set_var("sigSistema",$Fila4["nombre"]);
@@ -572,7 +572,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vTipoAnalisis",$Fila5["cod_subclase"]);
 				if ($Fila5["cod_subclase"]==$Fila["cod_analisis"]) {
-				    	$pagina->set_var("cheTipoAnalisis","SELECTed");
+				    	$pagina->set_var("cheTipoAnalisis","selected");
 				    }else{$pagina->set_var("cheTipoAnalisis","");}    
 				$pagina->set_var("nombTipoAnalisis",$Fila5["nombre_subclase"]);
 				$pagina->parse("bTIPOANALISIS","TIPOANALISIS",true);
@@ -584,7 +584,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vTipo",$Fila6["cod_subclase"]);
 				if ($Fila6["cod_subclase"]==$Fila["tipo"]) {
-				    	$pagina->set_var("cheTipo","SELECTed");
+				    	$pagina->set_var("cheTipo","selected");
 				    }else{$pagina->set_var("cheTipo","");}    
 				$pagina->set_var("nombTipo",$Fila6["nombre_subclase"]);
 				$pagina->parse("bTIPO","TIPO",true);
@@ -599,7 +599,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vAgrupacion",$Fila7["cod_subclase"]);
 				if ($Fila7["cod_subclase"]==$Fila["agrupacion"]) {
-				    	$pagina->set_var("cheAgrupacion","SELECTed");
+				    	$pagina->set_var("cheAgrupacion","selected");
 				    }else{$pagina->set_var("cheAgrupacion","");}    
 				$pagina->set_var("nombAgrupacion",$Fila7["nombre_subclase"]);
 				$pagina->parse("bTIPOAGRUPACION","TIPOAGRUPACION",true);
@@ -611,7 +611,7 @@ switch($_GET["Opcion"])
 			{
 			    $pagina->set_var("vPeriodo",$Fila8["cod_subclase"]);
 				if ($Fila8["cod_subclase"]==$Fila["cod_periodo"]) {
-				    	$pagina->set_var("chePeriodo","SELECTed");
+				    	$pagina->set_var("chePeriodo","selected");
 				    }else{$pagina->set_var("chePeriodo","");}    
 
 				$pagina->set_var("nombPeriodo",$Fila8["nombre_subclase"]);
@@ -684,7 +684,7 @@ switch($_GET["Opcion"])
 			    else
 			    	$pagina->set_var("checked","");
 
-				$pagina->set_var("SELECTedunidadLeyes".$leyesUnidad[$i][0]."~~".$leyesUnidad[$i][1],"SELECTed");
+				$pagina->set_var("selectedunidadLeyes".$leyesUnidad[$i][0]."~~".$leyesUnidad[$i][1],"selected");
 			}
 			    
 
@@ -709,7 +709,7 @@ switch($_GET["Opcion"])
 			    	 $pagina->set_var("checked".$FilasLeyes2["cod_leyes"],"checked");
 			    }else
 			    	$pagina->set_var("checked","");
-		    	$pagina->set_var("SELECTedunidadImpure".$impurezaUnidad[$i][0]."~~".$impurezaUnidad[$i][1],"SELECTed");
+		    	$pagina->set_var("selectedunidadImpure".$impurezaUnidad[$i][0]."~~".$impurezaUnidad[$i][1],"selected");
 			}
 			$pagina->set_var("nombreImpure",$FilasLeyes2["abreviaturaLey"]);  
 			$pagina->parse("bIMPUREZAS","IMPUREZAS",true);
@@ -726,7 +726,7 @@ switch($_GET["Opcion"])
 			    	 $pagina->set_var("checked".$FilasLeyes3["cod_leyes"],"checked");
 			    }else
 			    	$pagina->set_var("checked","");
-				$pagina->set_var("SELECTedunidadImpureDos".$impurezaUnidad[$i][0]."~~".$impurezaUnidad[$i][1],"SELECTed");
+				$pagina->set_var("selectedunidadImpureDos".$impurezaUnidad[$i][0]."~~".$impurezaUnidad[$i][1],"selected");
 			}
 			$pagina->set_var("nombreLeyFis",$FilasLeyes3["abreviaturaLey"]);  	
 			$pagina->parse("bLEYFIS","LEYFIS",true);
@@ -742,7 +742,7 @@ switch($_GET["Opcion"])
 				$resp=$fx->obtenerPlantillas($_POST["sistema"],$_POST["idProducto"],$_POST["idSubProducto"],$_POST["idmuestraOri"]);	
 				if($Fila=mysqli_fetch_assoc($resp))
 				{
-					$Query="UPDATE cal_web.plantilla_solicitud_analisis set id_muestra='".$_POST["idmuestra"]."', fecha_hora='".date("Y-m-d G:i:s")."',descripcion='".$_POST["descripcion"]."', cod_ccosto='".$_POST["cCosto"]."', cod_area='".$_POST["area"]."', cod_producto='".$_POST["producto"]."', cod_subproducto='".$_POST["cmbsubProducto"]."', cod_analisis='".$_POST["tipoAnalis"]."',tipo='".$_POST["tipo"]."', cod_tipo_muestra='".$_POST["tipoMuestra"]."', agrupacion='".$_POST["agrupacion"]."', leyes='".$_POST["leyesSave"]."', impurezas='".$_POST["impurezasSave"]."' where fecha_hora = '".$_POST["fechaOri"]."' AND cod_producto='".$_POST["idProducto"]."' AND cod_subproducto='".$_POST["idSubProducto"]."' AND id_muestra = '".$_POST["idmuestraOri"]."' AND cod_sistema='".$_POST["sistema"]."' AND cod_periodo='".$_POST["periodo"]."'";
+					$Query="update cal_web.plantilla_solicitud_analisis set id_muestra='".$_POST["idmuestra"]."', fecha_hora='".date("Y-m-d G:i:s")."',descripcion='".$_POST["descripcion"]."', cod_ccosto='".$_POST["cCosto"]."', cod_area='".$_POST["area"]."', cod_producto='".$_POST["producto"]."', cod_subproducto='".$_POST["cmbsubProducto"]."', cod_analisis='".$_POST["tipoAnalis"]."',tipo='".$_POST["tipo"]."', cod_tipo_muestra='".$_POST["tipoMuestra"]."', agrupacion='".$_POST["agrupacion"]."', leyes='".$_POST["leyesSave"]."', impurezas='".$_POST["impurezasSave"]."' where fecha_hora = '".$_POST["fechaOri"]."' AND cod_producto='".$_POST["idProducto"]."' AND cod_subproducto='".$_POST["idSubProducto"]."' AND id_muestra = '".$_POST["idmuestraOri"]."' AND cod_sistema='".$_POST["sistema"]."' AND cod_periodo='".$_POST["periodo"]."'";
 				}
 				//echo $Query;
 				if($dataBaseMysql->QueryAction($Query)=='')
@@ -764,7 +764,7 @@ switch($_GET["Opcion"])
 	//print_r($_POST);
 		require_once("json_contructor.php");
 				{
-					$Query="INSERT INTO cal_web.plantilla_solicitud_analisis (id_muestra,fecha_hora,descripcion,cod_ccosto,cod_area,cod_producto,cod_subproducto,cod_analisis,cod_tipo_muestra,agrupacion,cod_sistema,cod_periodo,leyes,impurezas,tipo_solicitud,tipo) value ('".$_POST["idmuestra"]."', '".date("Y-m-d G:i:s")."','".$_POST["descripcion"]."', '".$_POST["cCosto"]."', '".$_POST["area"]."', '".$_POST["producto"]."', '".$_POST["cmbsubProducto"]."', '".$_POST["tipoAnalis"]."', '".$_POST["tipoMuestra"]."', '".$_POST["agrupacion"]."','".$_POST["sistema"]."','".$_POST["periodo"]."','".$_POST["leyesSave"]."','".$_POST["impurezasSave"]."','R','".$_POST["tipo"]."')";
+					$Query="insert into cal_web.plantilla_solicitud_analisis (id_muestra,fecha_hora,descripcion,cod_ccosto,cod_area,cod_producto,cod_subproducto,cod_analisis,cod_tipo_muestra,agrupacion,cod_sistema,cod_periodo,leyes,impurezas,tipo_solicitud,tipo) value ('".$_POST["idmuestra"]."', '".date("Y-m-d G:i:s")."','".$_POST["descripcion"]."', '".$_POST["cCosto"]."', '".$_POST["area"]."', '".$_POST["producto"]."', '".$_POST["cmbsubProducto"]."', '".$_POST["tipoAnalis"]."', '".$_POST["tipoMuestra"]."', '".$_POST["agrupacion"]."','".$_POST["sistema"]."','".$_POST["periodo"]."','".$_POST["leyesSave"]."','".$_POST["impurezasSave"]."','R','".$_POST["tipo"]."')";
 				}
 				//echo $Query;
 				if($dataBaseMysql->QueryAction($Query)=='')
@@ -808,7 +808,7 @@ switch($_GET["Opcion"])
 				$resp=$fx->obtenerSolicitudAnalisis($_POST["cod_producto"],$_POST["cod_subProducto"],'',$_POST["fechaOri"],$CookieRut);	
 				if($Fila=mysqli_fetch_assoc($resp))
 				{
-					$Query="UPDATE cal_web.solicitud_analisis set id_muestra='".$_POST["idMuestra"]."'
+					$Query="update cal_web.solicitud_analisis set id_muestra='".$_POST["idMuestra"]."'
 					, fecha_muestra='".$_POST["datetime"]."'
 					 where fecha_hora = '".$_POST["fechaOri"]."' AND cod_producto='".$_POST["cod_producto"]."' AND cod_subproducto='".$_POST["cod_subProducto"]."' AND id_muestra = '".$_POST["idMuestraOri"]."'";
 				}
@@ -937,18 +937,18 @@ switch($_GET["Opcion"])
 				$NroSA=date("Y")."000001";	
 			}
 
-			$Query="UPDATE cal_web.solicitud_analisis SET nro_solicitud='".$NroSA."' where fecha_hora = '".$fechaHora."' AND cod_producto='".$cod_Producto."' AND cod_subproducto='".$cod_SubProducto."' AND rut_funcionario = '".$CookieRut."' and id_muestra = '".$IdMuestra."'";
+			$Query="update cal_web.solicitud_analisis SET nro_solicitud='".$NroSA."' where fecha_hora = '".$fechaHora."' AND cod_producto='".$cod_Producto."' AND cod_subproducto='".$cod_SubProducto."' AND rut_funcionario = '".$CookieRut."' and id_muestra = '".$IdMuestra."'";
 			
 			if($dataBaseMysql->QueryAction($Query)=='')
 			{
 				//echo "hasta aqui";
 				//SE INSERTA EL ESTADO 1(CREADAS) O 12(ENVIADA A C.CALIDAD) EN LA TABLA ESTADOS_POR_SOLICITUD
-				$Insertar = "INSERT INTO cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso) values(";
+				$Insertar = "insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso) values(";
 				if ($Fila["cod_tipo_muestra"]==1)
 				{
-					$Actualizar = "UPDATE cal_web.solicitud_analisis set nro_solicitud =".$NroSA.",estado_actual='12' where rut_funcionario ='".$CookieRut."' and fecha_hora ='".$fechaHora."' and id_muestra='".$IdMuestra."'";
+					$Actualizar = "update cal_web.solicitud_analisis set nro_solicitud =".$NroSA.",estado_actual='12' where rut_funcionario ='".$CookieRut."' and fecha_hora ='".$fechaHora."' and id_muestra='".$IdMuestra."'";
 					$Insertar=$Insertar."'$CookieRut','$NroSA','12','$fechaHora','$CookieRut')";
-					$Insertar2="INSERT INTO cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso) values(";
+					$Insertar2="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,cod_estado,fecha_hora,rut_proceso) values(";
 					$Insertar2=$Insertar2."'$CookieRut','$NroSA','1','$fechaHora','$CookieRut')";
 					
 					
@@ -957,7 +957,7 @@ switch($_GET["Opcion"])
 				}
 				else
 				{
-					$Actualizar = "UPDATE cal_web.solicitud_analisis set nro_solicitud =".$NroSA.",estado_actual='1' where rut_funcionario ='".$CookieRut."' and fecha_hora ='".$fechaHora."' and id_muestra='".$IdMuestra."'";
+					$Actualizar = "update cal_web.solicitud_analisis set nro_solicitud =".$NroSA.",estado_actual='1' where rut_funcionario ='".$CookieRut."' and fecha_hora ='".$fechaHora."' and id_muestra='".$IdMuestra."'";
 					$Insertar = $Insertar."'$CookieRut','$NroSA','1','$fechaHora','$CookieRut')";
 					
 				}
@@ -986,7 +986,7 @@ switch($_GET["Opcion"])
 											{
 												$Ley = substr($LeyesUnidades,0,$f);			
 												$Unidad = substr($LeyesUnidades,$f+2,strlen($LeyesUnidades));
-												$Insertar3 = "INSERT INTO cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('$CookieRut','$fechaHora','$NroSA','$Ley','$Unidad','$cod_Producto','$cod_SubProducto','$IdMuestra')";
+												$Insertar3 = "insert into cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('$CookieRut','$fechaHora','$NroSA','$Ley','$Unidad','$cod_Producto','$cod_SubProducto','$IdMuestra')";
 												//echo $Insertar3;
 												$dataBaseMysql->QueryAction($Insertar3);
 												//mysql_query($Insertar);
@@ -1012,7 +1012,7 @@ switch($_GET["Opcion"])
 											{
 												$Impureza = substr($ImpurezasUnidades,0,$f);			
 												$Unidad = substr($ImpurezasUnidades,$f+2,strlen($ImpurezasUnidades));
-												$Insertar = "INSERT INTO cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('$CookieRut','$fechaHora','$NroSA','$Impureza','$Unidad','$cod_Producto','$cod_SubProducto','$IdMuestra')";
+												$Insertar = "insert into cal_web.leyes_por_solicitud (rut_funcionario,fecha_hora,nro_solicitud,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra) values ('$CookieRut','$fechaHora','$NroSA','$Impureza','$Unidad','$cod_Producto','$cod_SubProducto','$IdMuestra')";
 												$dataBaseMysql->QueryAction($Insertar);
 												//mysql_query($Insertar);
 											}
