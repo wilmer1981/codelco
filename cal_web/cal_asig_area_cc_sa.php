@@ -4,6 +4,10 @@
 	include("../principal/conectar_principal.php");
 	//echo "PROD: ".$SubProducto2."<br>";
 	//echo "PRV: ".$Proveedor2."<br>";
+	$G  = isset($_REQUEST["G"])?$_REQUEST["G"]:"";
+	$vs  = isset($_REQUEST["vs"])?$_REQUEST["vs"]:"";
+	$TipoBusq = isset($_REQUEST["TipoBusq"])?$_REQUEST["TipoBusq"]:"";
+	$MSJ = isset($_REQUEST["MSJ"])?$_REQUEST["MSJ"]:"";
 	
 if($G=='s')
 {
@@ -22,7 +26,7 @@ $CmbAreasProceso=$F["valor2"];
 ?>
 <html>
 <head>
-<title>CAL- Asig. De �rea Y Cc Para Sa Auto.</title>
+<title>CAL- Asig. De &Aacute;rea Y Cc Para Sa Auto.</title>
 <link href="../principal/estilos/css_principal.css" rel="stylesheet" type="text/css">
 <script  language="JavaScript" src="../principal/funciones/funciones_java.js"></script>
 <script language="JavaScript">
@@ -48,7 +52,7 @@ function Proceso(Opc)
 			}
 			if(f.CmbAreasProceso.value=='-1')
 			{
-				alert('Debe seleccionar �rea');
+				alert('Debe seleccionar \xc1rea');
 				f.CmbAreasProceso.focus();
 				return;
 			}
@@ -84,7 +88,7 @@ body {
       <td width="762" align="center" valign="top"><br><br>
 	    <table width="527" border="0" cellpadding="3" cellspacing="0" class="TablaInterior">
 	      <tr>
-	        <td colspan="3" class="ColorTabla01">Asignaci&oacute;n De �rea y CC Para SA Autom�tica</td>
+	        <td colspan="3" class="ColorTabla01">Asignaci&oacute;n De &Aacute;rea y CC Para SA Autom&aacute;tica</td>
           </tr>
           <tr>  
 	        <td width="40">C.C.</td>
@@ -96,20 +100,20 @@ body {
 				$Respuesta = mysqli_query ($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					if ($CmbCCosto == $Fila[centro_costo])
-						echo "<option value = '".$Fila[centro_costo]."' selected>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+					if ($CmbCCosto == $Fila["centro_costo"])
+						echo "<option value = '".$Fila["centro_costo"]."' selected>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 					else
-						echo "<option value = '".$Fila[centro_costo]."'>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+						echo "<option value = '".$Fila["centro_costo"]."'>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 				}
 				echo "<option value ='-1'>____________________________________________________</option>\n";
 				$Consulta = "select centro_costo,descripcion from proyecto_modernizacion.centro_costo where mostrar_calidad<>'S' order by centro_costo";
 				$Respuesta = mysqli_query ($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					if ($CmbCCosto == $Fila[centro_costo])
-						echo "<option value = '".$Fila[centro_costo]."' selected>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+					if ($CmbCCosto == $Fila["centro_costo"])
+						echo "<option value = '".$Fila["centro_costo"]."' selected>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 					else
-						echo "<option value = '".$Fila[centro_costo]."'>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+						echo "<option value = '".$Fila["centro_costo"]."'>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 				}
 			?>
               </select>
