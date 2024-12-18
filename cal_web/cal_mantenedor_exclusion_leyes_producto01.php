@@ -1,18 +1,17 @@
 <?php 
 include("../principal/conectar_principal.php");
 
-	if($CmbProductos=='T')
-	{
+$CookieRut       = $_COOKIE["CookieRut"];
+$CmbProductos    = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+$Leyes           = isset($_REQUEST["Leyes"])?$_REQUEST["Leyes"]:"";
+
+	if($CmbProductos=='T'){
 		mysqli_query($link, "delete from cal_web.exclusion_leyes_electroplasma");
-	}
-	else
-    {
-		if($CmbSubProducto=='T')
-		{	
+	}else{
+		if($CmbSubProducto=='T'){	
 			mysqli_query($link, "delete from cal_web.exclusion_leyes_electroplasma where cod_producto='".$CmbProductos."'");
-		}
-		else
-		{
+		}else{
 			mysqli_query($link, "delete from cal_web.exclusion_leyes_electroplasma where cod_producto='".$CmbProductos."' and  cod_subproducto='".$CmbSubProducto."'");
 		}  
 	}
@@ -29,10 +28,9 @@ include("../principal/conectar_principal.php");
 		//echo "SUB PRODUCTOS ".$Consulta2;
 		$Respuesta2 = mysqli_query($link, $Consulta2);
 		while ($Fila2=mysqli_fetch_array($Respuesta2))
-		{//echo "SUB PRODUCTOS";
-		
+		{//echo "SUB PRODUCTOS";		
 			$CadenaValor=explode(';',$Leyes);
-			while (list($clave,$Codigo)=each($CadenaValor))
+			foreach($CadenaValor as $clave => $Codigo)
 			{
 				if($Codigo!='')
 				{

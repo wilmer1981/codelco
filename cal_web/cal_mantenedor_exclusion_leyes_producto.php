@@ -2,15 +2,22 @@
 $CodigoDeSistema = 1;
 $CodigoDePantalla = 86;
 include("../principal/conectar_principal.php");
+
+$CookieRut= $_COOKIE["CookieRut"];
+
 $Consulta ="select nivel from proyecto_modernizacion.sistemas_por_usuario where rut='".$CookieRut."' and cod_sistema =1";
 $Respuesta = mysqli_query($link, $Consulta);
 $Fila=mysqli_fetch_array($Respuesta);
 $Nivel=$Fila["nivel"];
+
 $Fecha_Hora = date("d-m-Y h:i");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $Rut =$CookieRut;
 $HoraActual = date("H");
 $MinutoActual = date("i");
+
+$CmbProductos    = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";	
 
 
 if($CmbProductos!='T' && $CmbProductos!='' )
@@ -148,9 +155,10 @@ function Guardar(Opcion)
 }
 function Salir()
 {
-	var frm =document.FrmIngLeyes;
-	frm.action="cal_adm_ingreso_leyes01.php?Opcion=S";
-	frm.submit(); 
+	//var frm =document.FrmIngLeyes;
+	//frm.action="cal_adm_ingreso_leyes01.php?Opcion=S";
+	//frm.submit(); 
+	document.location = "../principal/sistemas_usuario.php?CodSistema=1&Nivel=1&CodPantalla=12";
 }
 function Buscar()
 {
@@ -320,6 +328,8 @@ function Buscar()
 					if ($Fila["cod_leyes"]== $Leyes[$i][0])
 					{
 						$Encontro=true;
+						$Ley    = $Leyes[$i][0];
+						$Unidad = isset($Leyes[$i][1])?$Leyes[$i][1]:"";
 						break;
 					}					
 				}
@@ -385,9 +395,9 @@ function Buscar()
 		
 		?>
 		 <tr>
-  <td><?php echo $Fila[PRODUCTO];?></td>
-   <td><?php echo $Fila[SUBPRODUCTO];?></td>
-   <td><?php echo $Fila[LEY];?></td>
+  <td><?php echo $Fila["PRODUCTO"];?></td>
+   <td><?php echo $Fila["SUBPRODUCTO"];?></td>
+   <td><?php echo $Fila["LEY"];?></td>
  </tr>
 		
 		<?php
