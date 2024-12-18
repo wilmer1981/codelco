@@ -1,25 +1,15 @@
 <?php
 	include("../principal/conectar_principal.php");
-	if(isset($_REQUEST["Opcion"])) {
-		$Opcion = $_REQUEST["Opcion"];
-	}else{
-		$Opcion =  "";
-	}
-	if(isset($_REQUEST["sprod"])) {
-		$sprod = $_REQUEST["sprod"];
-	}else{
-		$sprod =  "";
-	}
-	if(isset($_REQUEST["prod"])) {
-		$prod = $_REQUEST["prod"];
-	}else{
-		$prod =  "";
-	}
-	if(isset($_REQUEST["elimina_pla"])) {
-		$elimina_pla = $_REQUEST["elimina_pla"];
-	}else{
-		$elimina_pla =  "";
-	}
+	
+	$Opcion       = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+	$Leyes       = isset($_REQUEST["Leyes"])?$_REQUEST["Leyes"]:"";
+	$Cod_Plantilla       = isset($_REQUEST["Cod_Plantilla"])?$_REQUEST["Cod_Plantilla"]:"";
+	$CmbProductos    = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";	
+
+	$prod  = isset($_REQUEST["prod"])?$_REQUEST["prod"]:"";	
+	$sprod  = isset($_REQUEST["sprod"])?$_REQUEST["sprod"]:"";	
+	$elimina_pla  = isset($_REQUEST["elimina_pla"])?$_REQUEST["elimina_pla"]:"";	
 	
 	switch ($Opcion)
 	{		
@@ -54,9 +44,7 @@
 				$producto=$prod;
 				$sproducto=$sprod;
 				$Datos=explode("//",$elimina_pla);
-				$contador = count($Datos);
-			
-			
+				$contador = count($Datos);			
 				
 				for ($i=0;$i<=$contador; $i++)
 					

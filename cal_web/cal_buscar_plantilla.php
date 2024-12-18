@@ -1,6 +1,6 @@
 <?php
 include("../principal/conectar_principal.php");
-
+    $CookieRut= $_COOKIE["CookieRut"];
 	$TipoPlantilla   = isset($_REQUEST["TipoPlantilla"])?$_REQUEST["TipoPlantilla"]:"";
 	$CmbProductos    = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
 	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";

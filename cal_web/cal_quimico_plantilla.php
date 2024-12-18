@@ -4,7 +4,6 @@
 	include("../principal/conectar_principal.php");
 	$CookieRut= $_COOKIE["CookieRut"];
 	$Rut=$CookieRut;
-	
 
 	if(isset($_REQUEST["Productos"])) {
 		$Productos = $_REQUEST["Productos"];
@@ -16,17 +15,11 @@
 	}else{
 		$SubProductos =  "";
 	}
-	if(isset($_REQUEST["Plantilla"])) {
-		$Plantilla = $_REQUEST["Plantilla"];
-	}else{
-		$Plantilla =  "";
-	}
-	if(isset($_REQUEST["NombrePlantilla"])) {
-		$NombrePlantilla = $_REQUEST["NombrePlantilla"];
-	}else{
-		$NombrePlantilla =  "";
-	}
-	
+
+	$Plantilla   = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$RutPlant   = isset($_REQUEST["RutPlant"])?$_REQUEST["RutPlant"]:"";
+	$NombrePlantilla   = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:"";
+	$FechaBuscar = isset($_REQUEST["FechaBuscar"])?$_REQUEST["FechaBuscar"]:"";
 	$TxtNombrePlantilla = $NombrePlantilla;
 
 	
@@ -39,8 +32,7 @@
 		$CmbSubProducto=$SubProductos;
 	}
 
-
-	header ("location:cal_quimico_plantilla.php?Productos=".$CmbProductos."&SubProductos=".$CmbSubProducto."&Plantilla=".$Cod_Plantilla."&NombrePlantilla=".$TxtNombrePlantilla);		
+	//header ("location:cal_quimico_plantilla.php?Productos=".$CmbProductos."&SubProductos=".$CmbSubProducto."&Plantilla=".$Cod_Plantilla."&NombrePlantilla=".$TxtNombrePlantilla);		
 		
 ?>
 <html>
@@ -155,12 +147,16 @@ function Nuevo()
 	var Frm=document.FrmPersonalizar;
 	Frm.action = "cal_quimico_plantilla01.php?Opcion=L";
 	Frm.submit();	
-}
+}/*
 function Salir()
 {
 	var Frm=document.FrmPersonalizar;
 	Frm.action = "cal_quimico_plantilla01.php?Opcion=S";
 	Frm.submit();	
+}*/
+function Salir() 
+{
+	document.location = "../principal/sistemas_usuario.php?CodSistema=1&CodPantalla=12&Nivel=1";
 }
 
 </script>
@@ -304,15 +300,16 @@ function Salir()
 				echo "</table>";
 		  ?>
         </div>
-        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <table width="676" border="0">
+        <table width="676" border="0">
           <tr> 
             <td>&nbsp;</td>
             <td><div align="center"> 
-                <input name="BtnSalir" type="button"  value="Salir" style="width:60" onClick="Salir();">
+				<input name="BtnSalir" type="button" id="BtnSalir2" value="Salir" style="width:70px;" onClick="JavaScript:Salir()">
               </div></td>
             <td>&nbsp;</td>
           </tr>
-        </table></td>
+        </table>
+		</td>
   </tr>
 </table>
  <?php include("../principal/pie_pagina.php")?>

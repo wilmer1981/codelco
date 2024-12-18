@@ -6,14 +6,14 @@
 	$Rut=$CookieRut;
 	
 	$CmbProductos    = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
-	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
-	$Salir           = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
-	$NombrePlantilla = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:"";
-	$Plantilla       = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
-	//$TxtNombrePlantilla = isset($_REQUEST["TxtNombrePlantilla"])?$_REQUEST["TxtNombrePlantilla"]:"";
+	$CmbSubProducto  = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";	
 	
+	$Plantilla       = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$RutPlant   = isset($_REQUEST["RutPlant"])?$_REQUEST["RutPlant"]:"";
+	$NombrePlantilla = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:"";	
 	$Productos    = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
 	$SubProductos = isset($_REQUEST["SubProductos"])?$_REQUEST["SubProductos"]:"";
+	$Salir           = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
 	$OpcionOculto = isset($_REQUEST["OpcionOculto"])?$_REQUEST["OpcionOculto"]:"";
 	
 	$TxtNombrePlantilla = $NombrePlantilla;

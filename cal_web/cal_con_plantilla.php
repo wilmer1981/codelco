@@ -303,8 +303,8 @@ function Imprimir()
 			echo"<td> $Plantilla </td>"; 	
 			echo  "<td>".$cont.'.-'.' '.$Fila["nombre_plantilla"]."</td>";
 			//echo "<td>".$Fila["nombre_plantilla"]."</td>";
-			if ($Fila["tipo_plantilla"] == 'P')
-				{
+			    if ($Fila["tipo_plantilla"] == 'P')
+				{   
 					$Consulta ="select * from proyecto_modernizacion.funcionarios where rut = '".$Fila["rut_funcionario"]."' ";
 					$Resp=mysqli_query($link, $Consulta);
 					$Fil=mysqli_fetch_array($Resp);
