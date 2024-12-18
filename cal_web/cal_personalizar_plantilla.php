@@ -13,8 +13,9 @@
 	$NombrePlantilla = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:"";	
 	$Productos    = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:"";
 	$SubProductos = isset($_REQUEST["SubProductos"])?$_REQUEST["SubProductos"]:"";
-	$Salir           = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
+	$Salir        = isset($_REQUEST["Salir"])?$_REQUEST["Salir"]:"";
 	$OpcionOculto = isset($_REQUEST["OpcionOculto"])?$_REQUEST["OpcionOculto"]:"";
+	$FechaBuscar = isset($_REQUEST["FechaBuscar"])?$_REQUEST["FechaBuscar"]:"";
 	
 	$TxtNombrePlantilla = $NombrePlantilla;
 	if ($Productos!="") 
@@ -161,10 +162,18 @@ function Salir(Opcion)
 			window.close();
 			break;
 		case "2":
-			Frm.action = "../principal/sistemas_usuario.php?CodSistema=1&Nivel=1&CodPantalla=12";	
-			Frm.submit();	
+			//Frm.action = "../principal/sistemas_usuario.php?CodSistema=1&Nivel=1&CodPantalla=12";	
+			//Frm.submit();
+			document.location = "../principal/sistemas_usuario.php?CodSistema=1&Nivel=1&CodPantalla=12";			
 			break;	
 	}
+	//Frm.action = "cal_personalizar_plantilla01.php?Opcion=S";
+	
+}
+function Salir2()
+{
+
+	document.location = "../principal/sistemas_usuario.php?CodSistema=1&Nivel=1&CodPantalla=12";			
 	//Frm.action = "cal_personalizar_plantilla01.php?Opcion=S";
 	
 }
@@ -316,7 +325,7 @@ function Salir(Opcion)
 		echo "</table>";
 	?>
         </div>
-        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <table width="676" border="0">
+        <br> <table width="676" border="0">
           <tr> 
             <td>&nbsp;</td>
             <td><div align="center">
@@ -328,7 +337,8 @@ function Salir(Opcion)
 					}
 					else
 					{
-						echo "<input name='BtnSalir' type='button'  value='Salir' style='width:60' onClick=Salir('2');>";
+						//echo "<input name='BtnSalir' type='button'  value='Salir' style='width:60' onClick=Salir('2');>";
+						echo "<input name='BtnSalir' type='button'  value='Salir' style='width:60' onClick=Salir2();>";
 					}	
 				?>	
               </div></td>
