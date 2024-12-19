@@ -169,7 +169,7 @@ if($Buscar=='S')
 
 	$Respuesta = mysqli_query($link, $Consulta);
 	$FactorRechazo=0;
-	$PorcRechazoProg=0; // $PorcRechazo ??
+	$PorcRechazoProg=0;
 	$DiaCierre=0;
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
@@ -219,13 +219,14 @@ if($Buscar=='S')
 			$ProdReal = $Fila["peso"]/1000;
 		echo "<td align='center'>".number_format($ProdReal,3,',','.')."</td>";
 		$TotProdReal=$TotProdReal+$ProdReal;
-		ObtienePorcRechazo($FechaIniMes,$FechaIni,$FechaFin,$LetraMes,$PorcRechazoProg,$link);
-		echo "<td align='center'>".number_format($ProdReal*$PorcRechazoProg,3,',','.')."</td>";
+		$PorcRechazo=0;
+		$PorcRechazo = ObtienePorcRechazo($FechaIniMes,$FechaIni,$FechaFin,$LetraMes,$PorcRechazo,$link);
+		echo "<td align='center'>".number_format($ProdReal*$PorcRechazo,3,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumProdReal),0,',','.')."</td>";
 		$AcumProdReal=$AcumProdReal+$ProdReal;
-		echo "<td align='center'>".number_format(round(($ProdReal*$PorcRechazoProg)-($ProdRef*$FactorRechazo)),0,',','.')."</td>";
+		echo "<td align='center'>".number_format(round(($ProdReal*$PorcRechazo)-($ProdRef*$FactorRechazo)),0,',','.')."</td>";
 		$Peso=0;//WSO
-		ObtieneCompPreembarque($FechaIni,$Peso,$link);
+		$Peso = ObtieneCompPreembarque($FechaIni,$Peso,$link);
 		$CompPree = $Peso;
 		echo "<td align='center'>".number_format(round($CompPree),0,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumCompPree),0,',','.')."</td>";
@@ -242,8 +243,8 @@ if($Buscar=='S')
 		$TotProgValidado=$TotProgValidado+$ProgValidado;
 		$AcumProgValidado=$AcumProgValidado+$ProgValidado;
 		echo "<td align='center'>".number_format($AcumProgValidado,0,',','.')."</td>";
-
-		ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link);
+		$Peso=0;//WSO
+		$Peso = ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link);
 		$PesajeReal = $Peso;
 		echo "<td align='center'>".number_format(round($PesajeReal),0,',','.')."</td>";
 		$TotPesajeReal=$TotPesajeReal+$PesajeReal;
@@ -271,12 +272,14 @@ if($Buscar=='S')
 		}	
 		echo "<td align='center'>".number_format(round($ProdRef*$FactorRechazo),0,',','.')."</td>";
 		echo "<td align='center'>".number_format(round($AcumCat2),0,',','.')."</td>";
-		ObtieneEta($FechaIni,$Peso,$link);
+		$Peso=0;
+		$Peso = ObtieneEta($FechaIni,$Peso,$link);
 		$PesoEta=$Peso;
 		echo "<td align='center'>".number_format(round($PesoEta),0,',','.')."</td>";
 		$AcumEta=$AcumEta+$PesoEta;
 		echo "<td align='center'>".number_format(round($AcumEta),0,',','.')."</td>";
-		ObtienePesoGuiasDespacho($FechaIni,$Peso,$link);
+		$Peso=0;
+		$Peso = ObtienePesoGuiasDespacho($FechaIni,$Peso,$link);
 		$PesoGuia=$Peso;
 		echo "<td align='center'>".number_format(($PesoGuia/1000),1,',','.')."</td>";
 		$DifGuia=$PesoEta-($PesoGuia/1000);
@@ -309,7 +312,7 @@ if($Buscar=='S')
 function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link)
 {
 
-	$Peso=0;
+	//$Peso=0;
 	$CrearTmp ="create table if not exists sec_web.tmpConsultaEmb2 "; 
 	$CrearTmp =$CrearTmp."(subproducto varchar (30),corr_ie bigint(8),cliente_nave varchar(30),";
 	$CrearTmp =$CrearTmp."toneladas bigint(8),marca varchar(10),cod_lote varchar(1),num_lote_inicio varchar(12),";
@@ -361,6 +364,7 @@ function ObtienePesajeReal($FechaIni,$FechaFin,$LetraMes,$Peso,$link)
 	{
 		$Peso=$Peso+$Fila["peso_neto"];				
 	}
+	return $Peso;
 
 }
 
@@ -376,6 +380,7 @@ function ObtieneCompPreembarque($FechaInicio,$Peso,$link)
 	{
 		$Peso=$Peso+$Fila["peso_neto"];		
 	}
+	return $Peso;
 }
 function ObtieneEta($FechaInicio,$Peso,$link)
 {
@@ -389,9 +394,10 @@ function ObtieneEta($FechaInicio,$Peso,$link)
 	{
 		$Peso=$Peso+$Fila["peso_neto"];		
 	}
+	return $Peso;
 }
  //$PorcRechazoProg era.... $PorcRechazo
-function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$PorcRechazoProg,$link)
+function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$PorcRechazo,$link)
 {
 
 	$Consulta = "SELECT * from sec_web.informe_diario ";
@@ -432,9 +438,12 @@ function ObtienePorcRechazo($FechaIniMes,$FechaInicio,$FechaTermino,$LetraMes,$P
 	$StandardAcumulado = $PesadoEmbarque + $PqtesSinPesarGranel;
 	//PORCENTAJE DE STANDARD
 	if($ComercialAcumulado<>0)
-		$PorcRechazoProg =round((100-(100 * ($StandardAcumulado/$ComercialAcumulado)))/100,4);
+		$PorcRechazo =round((100-(100 * ($StandardAcumulado/$ComercialAcumulado)))/100,4);
+	
+	return $PorcRechazo;
 
 }
+
 function ObtienePesoGuiasDespacho($FechaInicio,$Peso,$link)
 {
 
@@ -452,6 +461,7 @@ function ObtienePesoGuiasDespacho($FechaInicio,$Peso,$link)
 	{
 		$Peso=$Fila["peso"];
 	}
+	return $Peso;
 }
 ?>
 </table>
