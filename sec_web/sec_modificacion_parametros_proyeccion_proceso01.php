@@ -12,14 +12,24 @@
 	$valortonelaje = isset($_REQUEST["valortonelaje"])?$_REQUEST["valortonelaje"]:"";
 	$mes_ton  = isset($_REQUEST["mes_ton"])?$_REQUEST["mes_ton"]:"";
 	$ano_ton  = isset($_REQUEST["ano_ton"])?$_REQUEST["ano_ton"]:"";
+	
 switch($Proceso)
 	{
 		case "N":
-			$Insertar = "INSERT INTO sec_web.parametros_mensual_proyeccion (mes,ano,tonelaje,factor_rechazo,factor_rechazo_prog,dia) VALUES ('$mes','$ano',$tonelaje,'".str_replace(",",".",$factor)."','".str_replace(",",".",$factor2)."','".$Dia."')";
-			//echo $Insertar."<br>";
-			mysqli_query($link, $Insertar);
+			if($factor=="") $factor=0;
+			if($factor2=="") $factor2=0;
+			if($Dia=="") $Dia=0;
+		    $Consulta = "Select * From sec_web.parametros_mensual_proyeccion Where mes ='".$mes."' and ano='".$ano."' ";
+			$Result = mysqli_query($link, $Consulta);
+			$cont = mysqli_num_rows($Result);
+			if($cont==0){				
+				$Insertar = "INSERT INTO sec_web.parametros_mensual_proyeccion (mes,ano,tonelaje,factor_rechazo,factor_rechazo_prog,dia) VALUES ('$mes','$ano',$tonelaje,'".str_replace(",",".",$factor)."','".str_replace(",",".",$factor2)."','".$Dia."')";
+				//echo $Insertar."<br>";
+				mysqli_query($link, $Insertar);
+			}
 			break;
 		case "M":
+			if($valortonelaje=="") $valortonelaje=0;
 			$Actualizar = "UPDATE sec_web.parametros_mensual_proyeccion SET tonelaje='$valortonelaje',factor_rechazo='".str_replace(",",".",$factor)."',factor_rechazo_prog='".str_replace(",",".",$factor2)."',dia='".$Dia."' WHERE ano='$ano_ton' AND mes='$mes_ton'";
 			//echo $Actualizar;
 			mysqli_query($link, $Actualizar);
