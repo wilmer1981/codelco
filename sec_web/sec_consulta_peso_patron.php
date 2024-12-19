@@ -1,6 +1,6 @@
 <?php 	
 	$CodigoDeSistema = 3;
-	$CodigoDePantalla = 37;
+	$CodigoDePantalla = 82;
 	//include("../principal/conectar_sec_web.php");
 	include("../principal/conectar_principal.php");
 	//$Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
