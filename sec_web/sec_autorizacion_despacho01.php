@@ -1,40 +1,40 @@
 <?php
 include("../principal/conectar_sec_web.php");
 
-$Proceso = $_REQUEST["Proceso"];
-$Envio   = $_REQUEST["Envio"];
-$Ciudad  = $_REQUEST["Ciudad"];
-$Direccion = $_REQUEST["Direccion"];
-$Rut       = $_REQUEST["Rut"];
-$SubCliente= $_REQUEST["SubCliente"];
-$FechaEmb  = $_REQUEST["FechaEmb"];
-$Valores   = $_REQUEST["Valores"];
-$ValoresIEAux  = $_REQUEST["ValoresIEAux"];
+$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$Envio   = isset($_REQUEST["Envio"])?$_REQUEST["Envio"]:"";
+$Ciudad  = isset($_REQUEST["Ciudad"])?$_REQUEST["Ciudad"]:"";
+$Direccion = isset($_REQUEST["Direccion"])?$_REQUEST["Direccion"]:"";
+$Rut       = isset($_REQUEST["Rut"])?$_REQUEST["Rut"]:"";
+$SubCliente= isset($_REQUEST["SubCliente"])?$_REQUEST["SubCliente"]:"";
+$FechaEmb  = isset($_REQUEST["FechaEmb"])?$_REQUEST["FechaEmb"]:"";
+$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+$ValoresIEAux  = isset($_REQUEST["ValoresIEAux"])?$_REQUEST["ValoresIEAux"]:"";
 
-$TipoEmbarque  = $_REQUEST["TipoEmbarque"];
-$RutCliente  = $_REQUEST["RutCliente"];
-$RutClienteO  = $_REQUEST["RutClienteO"];
-$Receptor     = $_REQUEST["Receptor"];
-$CodSubCliente  = $_REQUEST["CodSubCliente"];
-$CodSubClienteO  = $_REQUEST["CodSubClienteO"];
-$CodCliente  = $_REQUEST["CodCliente"];
-$Comuna  = $_REQUEST["Comuna"];
-$CodPrestador = $_REQUEST["CodPrestador"];
+$TipoEmbarque  = isset($_REQUEST["TipoEmbarque"])?$_REQUEST["TipoEmbarque"]:"";
+$RutCliente  = isset($_REQUEST["RutCliente"])?$_REQUEST["RutCliente"]:"";
+$RutClienteO  = isset($_REQUEST["RutClienteO"])?$_REQUEST["RutClienteO"]:"";
+$Receptor     = isset($_REQUEST["Receptor"])?$_REQUEST["Receptor"]:"";
+$CodSubCliente  = isset($_REQUEST["CodSubCliente"])?$_REQUEST["CodSubCliente"]:"";
+$CodSubClienteO  = isset($_REQUEST["CodSubClienteO"])?$_REQUEST["CodSubClienteO"]:"";
+$CodCliente  = isset($_REQUEST["CodCliente"])?$_REQUEST["CodCliente"]:"";
+$Comuna  = isset($_REQUEST["Comuna"])?$_REQUEST["Comuna"]:"";
+$CodPrestador = isset($_REQUEST["CodPrestador"])?$_REQUEST["CodPrestador"]:"";
 
-$NombreCliente = $_REQUEST["NombreCliente"];
-$Nombre    = $_REQUEST["Nombre"];
-$Sigla     = $_REQUEST["Sigla"];
-$CodPais   = $_REQUEST["CodPais"];
-$Telefono1 = $_REQUEST["Telefono1"];
-$Telefono2 = $_REQUEST["Telefono2"];
-$Fax       = $_REQUEST["Fax"];
-$RutC      = $_REQUEST["RutC"];
-$TxtComuna = $_REQUEST["TxtComuna"];
-$TxtCiudad = $_REQUEST["TxtCiudad"];
-$TxtDivSAP = $_REQUEST["TxtDivSAP"];
-$TxtAlmSAP = $_REQUEST["TxtAlmSAP"];
-$Obs       = $_REQUEST["Obs"];
-$ValoresCheck = $_REQUEST["ValoresCheck"];
+$NombreCliente = isset($_REQUEST["NombreCliente"])?$_REQUEST["NombreCliente"]:"";
+$Nombre    = isset($_REQUEST["Nombre"])?$_REQUEST["Nombre"]:"";
+$Sigla     = isset($_REQUEST["Sigla"])?$_REQUEST["Sigla"]:"";
+$CodPais   = isset($_REQUEST["CodPais"])?$_REQUEST["CodPais"]:"";
+$Telefono1 = isset($_REQUEST["Telefono1"])?$_REQUEST["Telefono1"]:"";
+$Telefono2 = isset($_REQUEST["Telefono2"])?$_REQUEST["Telefono2"]:"";
+$Fax       = isset($_REQUEST["Fax"])?$_REQUEST["Fax"]:"";
+$RutC      = isset($_REQUEST["RutC"])?$_REQUEST["RutC"]:"";
+$TxtComuna = isset($_REQUEST["TxtComuna"])?$_REQUEST["TxtComuna"]:"";
+$TxtCiudad = isset($_REQUEST["TxtCiudad"])?$_REQUEST["TxtCiudad"]:"";
+$TxtDivSAP = isset($_REQUEST["TxtDivSAP"])?$_REQUEST["TxtDivSAP"]:"";
+$TxtAlmSAP = isset($_REQUEST["TxtAlmSAP"])?$_REQUEST["TxtAlmSAP"]:"";
+$Obs       = isset($_REQUEST["Obs"])?$_REQUEST["Obs"]:"";
+$ValoresCheck = isset($_REQUEST["ValoresCheck"])?$_REQUEST["ValoresCheck"]:"";
 
 
 	switch ($Proceso)

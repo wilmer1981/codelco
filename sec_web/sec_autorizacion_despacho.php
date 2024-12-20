@@ -134,6 +134,9 @@
 	}else{
 		$Mensaje2 = "";
 	}
+	
+	$DireccionO = isset($_REQUEST["DireccionO"])?$_REQUEST["DireccionO"]:"";
+	$RutClienteO  = isset($_REQUEST["RutClienteO"])?$_REQUEST["RutClienteO"]:"";
 
 
 	if ($Mostrar=="S")
@@ -547,7 +550,7 @@ body {
             <td><?php echo $DescripcionPuerto ?></td>
             <td>Ciudad</td>
 			<?php 
-				if (isset($CodSubClienteO))
+				if ($CodSubClienteO!="")
 				{
 					echo "<input name='CiudadO' type='hidden' value='".$Ciudad."'>";
 					$CiudadO=$Ciudad;
@@ -560,7 +563,7 @@ body {
 		 	 ?>
 		      <td colspan="3"><?php echo $CiudadO ?></td>
 			 <?php 
-				if (isset($CodSubClienteO))
+				if ($CodSubClienteO!="")
 				{
 					echo "<input name='CodSubClienteO' type='hidden' value='".$SubCliente."'>";
 					$CodSubClienteO=$SubCliente;
@@ -579,7 +582,7 @@ body {
             <td>Direccion</td>
             <?php 
 				
-				if (isset($DireccionO))
+				if ($DireccionO!="")
 				{
 					
 					$DireccionO=$Direccion;
@@ -608,7 +611,7 @@ body {
 			</td>
             <td>Rut Cliente</td>
             <?php 
-				if (isset($RutClienteO))
+				if ($RutClienteO!="")
 				{
 					echo "<input name='RutClienteO' type='hidden' value='".$RutCliente."'>";
 					$RutClienteO=$RutCliente;
@@ -651,6 +654,7 @@ body {
 			$SumaPaquetesDespachados=0;
 			$SumaPesoLoteDespachados=0;
 			$SumaUnidadesLoteDespachados=0;
+			$Cont2=0;
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				echo "<tr>"; 
@@ -722,6 +726,7 @@ body {
                 $Consulta.=" group by t2.cod_producto";
 				//echo "CCC".$Consulta;
 				$Respuestapoly=mysqli_query($link, $Consulta);
+				$SumaUnidades="";
 				if ($Filapoly=mysqli_fetch_array($Respuestapoly))
 				{
 					$SumaUnidades=$Filapoly["suma_unidades"];
@@ -808,7 +813,7 @@ body {
 						{
 							$Consulta="SELECT * from sec_web.relacion_transporte_inst_embarque where corr_enm='".$Fila["corr_enm"]."'";
 							$Respuesta1=mysqli_query($link, $Consulta);
-							echo "relacion trnasp IR".$Consulta."<br>";
+							//echo "relacion trnasp IR".$Consulta."<br>";
 							if ($Fila1=mysqli_fetch_array($Respuesta1))
 							{
 								$Encontro=true;

@@ -3,102 +3,124 @@
 	$CodigoDePantalla =28;
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	$CookieRut = $_COOKIE['CookieRut'];
 	$Rut =$CookieRut;
 	$Fecha_Hora = date("d-m-Y h:i");
 	$Fecha1 = date("Y-m-d");
 	$Fecha2 = date("Y-m-d", mktime(1,0,0,intval(substr($Fecha1, 5, 2)) - 9,intval(substr($Fecha1, 8, 2)),intval(substr($Fecha1, 0, 4))));
-
 	
+	$Envio   = isset($_REQUEST["Envio"])?$_REQUEST["Envio"]:"";
+	$Mostrar   = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Ver          = isset($_REQUEST["Ver"])?$_REQUEST["Ver"]:"";
+	$FechaEnvio   = isset($_REQUEST["FechaEnvio"])?$_REQUEST["FechaEnvio"]:"";
+	$Receptor   = isset($_REQUEST["Receptor"])?$_REQUEST["Receptor"]:"";
+	$TipoEmbarque  = isset($_REQUEST["TipoEmbarque"])?$_REQUEST["TipoEmbarque"]:"";
+	
+	$DireccionO = isset($_REQUEST["DireccionO"])?$_REQUEST["DireccionO"]:"";
+	$RutClienteO  = isset($_REQUEST["RutClienteO"])?$_REQUEST["RutClienteO"]:"";
+	$CodSubClienteO  = isset($_REQUEST["CodSubClienteO"])?$_REQUEST["CodSubClienteO"]:"";
+
+	$RutCliente  = isset($_REQUEST["RutCliente"])?$_REQUEST["RutCliente"]:"";
+	$Ciudad  = isset($_REQUEST["Ciudad"])?$_REQUEST["Ciudad"]:"";
+	$Direccion = isset($_REQUEST["Direccion"])?$_REQUEST["Direccion"]:"";
+	$Receptor     = isset($_REQUEST["Receptor"])?$_REQUEST["Receptor"]:"";
+	$DescripcionReceptor     = isset($_REQUEST["DescripcionReceptor"])?$_REQUEST["DescripcionReceptor"]:"";
 	if ($Mostrar=="S")
 	{
 		if ($Ver=="S")
 		{
-			$Consulta="SELECT * from sec_web.embarque_ventana where ";
+			$Consulta="select * from sec_web.embarque_ventana where ";
 			$Consulta.=" num_envio='".$Envio."' and tipo <> 'V' and fecha_envio='".$FechaEnvio."'  and ((rut_cliente ='') or  (isnull(rut_cliente)))	";
-			$Respuesta3=mysqli_query($link, $Consulta);
+			$Respuesta3=mysqli_query($link,$Consulta);
 			if($Fila3=mysqli_fetch_array($Respuesta3))
 			{
-				$Consulta="SELECT * from sec_web.prestador where cod_prestador_servicio='".$Receptor."' 	";
-				$Respuesta2=mysqli_query($link, $Consulta);
+				$Consulta="select * from sec_web.prestador where cod_prestador_servicio='".$Receptor."' 	";
+				$Respuesta2=mysqli_query($link,$Consulta);
 				$Fila2=mysqli_fetch_array($Respuesta2);
 				$RutCliente=$Fila2["rut"];
 				$DescripcionReceptor=$Fila2["nombre"];
 			}
 			else
 			{
-				$Actualizar="UPDATE sec_web.embarque_ventana set cod_estiba='".$Receptor."'  where ";
+				$Actualizar="update sec_web.embarque_ventana set cod_estiba='".$Receptor."'  where ";
 				$Actualizar.="num_envio='".$Envio."' and tipo <> 'V' and fecha_envio='".$FechaEnvio."'	";
-				mysqli_query($link, $Actualizar);
+				mysqli_query($link,$Actualizar);
 			}
 		}
-		$Consulta="SELECT * from sec_web.embarque_ventana t1 ";
+		$Consulta="select * from sec_web.embarque_ventana t1 ";
 		$Consulta.=" inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto  ";
 		$Consulta.=" left  join sec_web.puertos t3 on t1.cod_puerto=t3.cod_puerto			 ";
 		$Consulta.=" left  join sec_web.nave t4 on t1.cod_nave=t4.cod_nave			 ";
 		$Consulta.=" where t1.num_envio='".$Envio."' and tipo <> 'V' and YEAR(fecha_envio) = year(now()) order by fecha_embarque desc  ";
 		$Consulta.="Limit 0,1";
-		$Respuesta=mysqli_query($link, $Consulta);
+		$Respuesta=mysqli_query($link,$Consulta);
+		$cod_estiba = "";
+		$cod_cliente = "";
 		if ($Fila=mysqli_fetch_array($Respuesta))
 		{
-			$FechaEnvio=$Fila["fecha_envio"];
-			$FechaEmbarque=$Fila["fecha_embarque"];
-			$FechaProgramacion=$Fila["fecha_programacion"];
-			$Descripcion=$Fila["descripcion"];
-			$DescripcionPuerto=$Fila["nom_aero_puerto"];
-			$DescripcionNave=$Fila["nombre_nave"];
-			$TipoEmbarque=$Fila["tipo_embarque"];
-			$SwSubCliente=$Fila["cod_sub_cliente"];
-			$Cliente=$Fila["rut_cliente"];
-			$FechaEnvio=$Fila["fecha_envio"];
+			$FechaEnvio=isset($Fila["fecha_envio"])?$Fila["fecha_envio"]:"0000-00-00";
+			$FechaEmbarque=isset($Fila["fecha_embarque"])?$Fila["fecha_embarque"]:"0000-00-00";
+			$FechaProgramacion=isset($Fila["fecha_programacion"])?$Fila["fecha_programacion"]:"0000-00-00";
+			$Descripcion=isset($Fila["descripcion"])?$Fila["descripcion"]:"";
+			$DescripcionPuerto=isset($Fila["nom_aero_puerto"])?$Fila["nom_aero_puerto"]:"";
+			$DescripcionNave=isset($Fila["nombre_nave"])?$Fila["nombre_nave"]:"";
+			$TipoEmbarque=isset($Fila["tipo_embarque"])?$Fila["tipo_embarque"]:"·";
+			$SwSubCliente=isset($Fila["cod_sub_cliente"])?$Fila["cod_sub_cliente"]:"";
+			$Cliente=isset($Fila["rut_cliente"])?$Fila["rut_cliente"]:"";
+			$cod_estiba = isset($Fila["cod_estiba"])?$Fila["cod_estiba"]:"";
+			$cod_cliente = isset($Fila["cod_cliente"])?$Fila["cod_cliente"]:"";
 		}
 		else
 		{
-			$Consulta="SELECT * from sec_web.embarque_ventana t1 ";
+			$Consulta="select * from sec_web.embarque_ventana t1 ";
 			$Consulta.=" inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
 			$Consulta.=" left  join sec_web.puertos t3 on t1.cod_puerto=t3.cod_puerto			 ";
 			$Consulta.=" left  join sec_web.nave t4 on t1.cod_nave=t4.cod_nave			 ";
 			$Consulta.=" where t1.num_envio='".$Envio."' and tipo <> 'V'  and YEAR(fecha_envio) =  year(subdate(now(), interval 1 year)) order by fecha_embarque desc  ";
 			$Consulta.="Limit 0,1";
-			$Respuesta=mysqli_query($link, $Consulta);
+			$Respuesta=mysqli_query($link,$Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$FechaEnvio=$Fila["fecha_envio"];
-			$FechaEmbarque=$Fila["fecha_embarque"];
-			$FechaProgramacion=$Fila["fecha_programacion"];
-			$Descripcion=$Fila["descripcion"];
-			$DescripcionPuerto=$Fila["nom_aero_puerto"];
-			$DescripcionNave=$Fila["nombre_nave"];
-			$TipoEmbarque=$Fila["tipo_embarque"];
-			$SwSubCliente=$Fila["cod_sub_cliente"];
-			$Cliente=$Fila["rut_cliente"];
-			$FechaEnvio=$Fila["fecha_envio"];
+			$FechaEnvio=isset($Fila["fecha_envio"])?$Fila["fecha_envio"]:"0000-00-00";
+			$FechaEmbarque=isset($Fila["fecha_embarque"])?$Fila["fecha_embarque"]:"0000-00-00";
+			$FechaProgramacion=isset($Fila["fecha_programacion"])?$Fila["fecha_programacion"]:"0000-00-00";
+			$Descripcion=isset($Fila["descripcion"])?$Fila["descripcion"]:"";
+			$DescripcionPuerto=isset($Fila["nom_aero_puerto"])?$Fila["nom_aero_puerto"]:"";
+			$DescripcionNave=isset($Fila["nombre_nave"])?$Fila["nombre_nave"]:"";
+			$TipoEmbarque=isset($Fila["tipo_embarque"])?$Fila["tipo_embarque"]:"·";
+			$SwSubCliente=isset($Fila["cod_sub_cliente"])?$Fila["cod_sub_cliente"]:"";
+			$Cliente=isset($Fila["rut_cliente"])?$Fila["rut_cliente"]:"";
+			$cod_estiba = isset($Fila["cod_estiba"])?$Fila["cod_estiba"]:"";
+			$cod_cliente = isset($Fila["cod_cliente"])?$Fila["cod_cliente"]:"";
 		}
 		if($TipoEmbarque!="T")
 		{
-			if(($Fila["cod_estiba"]!="")&&($SwSubCliente!=""))
+			if(($cod_estiba!="")&&($SwSubCliente!=""))
 			{
-				$Consulta="SELECT * from sec_web.prestador where cod_prestador_servicio='".$Fila["cod_estiba"]."'";
-				$Respuesta0=mysqli_query($link, $Consulta);
+				$Consulta="select * from sec_web.prestador where cod_prestador_servicio='".$Fila["cod_estiba"]."'";
+				$Respuesta0=mysqli_query($link,$Consulta);
 				$Fila0=mysqli_fetch_array($Respuesta0);
 				$RutCliente=$Fila0["rut"];
 				$DescripcionReceptor=$Fila0["nombre"];
-				$Receptor=$Fila["cod_estiba"];
+				$Receptor=$cod_estiba;
+				//$Receptor=$Fila["cod_estiba"];
 			}
 		} 
 		else
-		{
+		{   
 			if ($SwSubCliente!="")
 			{
-				$Consulta="SELECT * from sec_web.sub_cliente_vta ";
+				$Consulta="select * from sec_web.sub_cliente_vta ";
 				$Consulta.="where cod_sub_cliente='".$Fila["cod_sub_cliente"]."' and rut_cliente='".$Fila["rut_cliente"]."'	";
-				$Resp1=mysqli_query($link, $Consulta);
+				$Resp1=mysqli_query($link,$Consulta);
 				$Fil1=mysqli_fetch_array($Resp1);
 				$Direccion=$Fil1["direccion"];
 				$Ciudad=$Fil1["ciudad"];		
-				$RutCliente=$Fil1[rut_cliente];		
+				$RutCliente=$Fil1["rut_cliente"];		
 			}
 		}
-		$Consulta="SELECT * from sec_web.nave where cod_nave='".$Fila["cod_cliente"]."' 	";
-		$Respuesta1=mysqli_query($link, $Consulta);
+		
+		$Consulta="select * from sec_web.nave where cod_nave='".$cod_cliente."' 	";
+		$Respuesta1=mysqli_query($link,$Consulta);
 		if ($Fila1=mysqli_fetch_array($Respuesta1))
 		{
 			$DescripcionCliente=$Fila1["nombre_nave"];
@@ -106,8 +128,8 @@
 		}
 		else
 		{
-			$Consulta="SELECT * from sec_web.cliente_venta where cod_cliente='".$Fila["cod_cliente"]."' 	";
-			$Respuesta1=mysqli_query($link, $Consulta);
+			$Consulta="select * from sec_web.cliente_venta where cod_cliente='".$Fila["cod_cliente"]."' 	";
+			$Respuesta1=mysqli_query($link,$Consulta);
 			$Fila1=mysqli_fetch_array($Respuesta1);
 			$DescripcionCliente=$Fila1["nombre_cliente"];
 			$ClienteSantiago=$Fila1["cod_cliente"];
@@ -159,7 +181,7 @@ function Imprimir()
       <td><?php echo $DescripcionPuerto ?></td>
       <td>Ciudad</td>
        <?php 
-		if (isset($CodSubClienteO))
+		if ($CodSubClienteO!="")
 		{
 			echo "<input name='CiudadO' type='hidden' value='".$Ciudad."'>";
 			$CiudadO=$Ciudad;
@@ -172,7 +194,7 @@ function Imprimir()
 		?>
       <td colspan="2"><?php echo $CiudadO ?></td>
       <?php 
-		if (isset($CodSubClienteO))
+		if ($CodSubClienteO!="")
 		{
 			echo "<input name='CodSubClienteO' type='hidden' value='".$SubCliente."'>";
 			$CodSubClienteO=$SubCliente;
@@ -190,9 +212,8 @@ function Imprimir()
       <td><?php echo $DescripcionNave  ?></td>
       <td>Direccion</td>
       <?php 
-		if (isset($DireccionO))
-		{
-			
+		if ($DireccionO!="")
+		{			
 			$DireccionO=$Direccion;
 			echo "<input name='DireccionO' type='hidden' value='".$Direccion."'>";
 			$DireccionO=$Direccion;
@@ -217,7 +238,7 @@ function Imprimir()
 	      </td>
       <td>Rut Cliente</td>
        <?php 
-		if (isset($RutClienteO))
+		if ($RutClienteO!="")
 		{
 			echo "<input name='RutClienteO' type='hidden' value='".$RutCliente."'>";
 			$RutClienteO=$RutCliente;
@@ -253,22 +274,28 @@ function Imprimir()
     </tr>
   </table>
   <?php
- 		 $SumaUnidadesLoteDespachados=0;
+			$SumaUnidadesLoteDespachados=0;
+			$SumaPaquetesEnvio=0;
+			$SumaPesoLoteEnvio=0;
+			$SumaPaquetesDespachados=0;
+			$SumaPesoLoteDespachados=0;
+			$SumaUnidadesEnvio=0;
 			echo "<table width='620' border='1' cellpadding='1' cellspacing='0' class='tablainterior'>";
-			$Consulta="SELECT * from sec_web.embarque_ventana where num_envio='".$Envio."' and tipo <> 'V'  and fecha_envio='".$FechaEnvio."' ";
+			$Consulta="select * from sec_web.embarque_ventana where num_envio='".$Envio."' and tipo <> 'V'  and fecha_envio='".$FechaEnvio."' ";
 			echo "<input name='checkbox' type='hidden'  value=>";
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Encontro=0;
+			$Respuesta=mysqli_query($link,$Consulta);
+			$Encontro=0;$Encontro2=0;
 			$Num=0;
+			$Transportista="";
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
 				echo "<tr>"; 
 				$ClientePrograma='';
 				echo "<td width='75' align='center'>".$Fila["cod_bulto"]."-".$Fila["num_bulto"]."</td>";
-				$Consulta="SELECT * from sec_web.programa_enami t1  ";
+				$Consulta="select * from sec_web.programa_enami t1  ";
 				$Consulta.=" inner join sec_web.nave t2 on t1.cod_cliente=t2.cod_nave	";
 				$Consulta.=" where corr_enm='".$Fila["corr_enm"]."'	";
-				$Respuesta3=mysqli_query($link, $Consulta);
+				$Respuesta3=mysqli_query($link,$Consulta);
 				if($Fila3=mysqli_fetch_array($Respuesta3))
 				{
 					$ClientePrograma=$Fila3["nombre_nave"];
@@ -277,10 +304,10 @@ function Imprimir()
 				}
 				else
 				{
-					$Consulta="SELECT * from sec_web.programa_enami t1  ";
+					$Consulta="select * from sec_web.programa_enami t1  ";
 					$Consulta.=" inner join sec_web.cliente_venta t2 on t1.cod_cliente=t2.cod_cliente	";
 					$Consulta.=" where corr_enm='".$Fila["corr_enm"]."'	";
-					$Respuesta4=mysqli_query($link, $Consulta);
+					$Respuesta4=mysqli_query($link,$Consulta);
 					if($Fila4=mysqli_fetch_array($Respuesta4))
 					{
 						$ClientePrograma=$Fila4["sigla_cliente"];
@@ -288,10 +315,10 @@ function Imprimir()
 						$Encontro2=1;
 					}
 				}
-				$Consulta="SELECT * from sec_web.programa_codelco t1  ";
+				$Consulta="select * from sec_web.programa_codelco t1  ";
 				$Consulta.=" inner join sec_web.nave t2 on t1.cod_cliente=t2.cod_nave	";
 				$Consulta.=" where corr_codelco='".$Fila["corr_enm"]."'	";
-				$Respuesta3=mysqli_query($link, $Consulta);
+				$Respuesta3=mysqli_query($link,$Consulta);
 				if($Fila3=mysqli_fetch_array($Respuesta3))
 				{
 					$ClientePrograma=$Fila3["nombre_nave"];
@@ -308,10 +335,10 @@ function Imprimir()
 				}
 				else
 				{
-					$Consulta="SELECT * from sec_web.programa_codelco t1  ";
+					$Consulta="select * from sec_web.programa_codelco t1  ";
 					$Consulta.=" inner join sec_web.cliente_venta t2 on t1.cod_cliente=t2.cod_cliente	";
 					$Consulta.=" where corr_codelco='".$Fila["corr_enm"]."'	";
-					$Respuesta4=mysqli_query($link, $Consulta);
+					$Respuesta4=mysqli_query($link,$Consulta);
 					if($Fila4=mysqli_fetch_array($Respuesta4))
 					{
 						$ClientePrograma=$Fila4["sigla_cliente"];
@@ -339,7 +366,7 @@ function Imprimir()
 				
 				//aqui sacar las unidades de los paquetes 06-02-2009
 				
-				$Consulta="SELECT sum(num_unidades) as suma_unidades,sum(peso_paquetes) as suma_paquetes, t2.cod_subproducto as cod_subproducto1 from sec_web.lote_catodo t1 ";
+				$Consulta="select sum(num_unidades) as suma_unidades,sum(peso_paquetes) as suma_paquetes, t2.cod_subproducto as cod_subproducto1 from sec_web.lote_catodo t1 ";
 				$Consulta.=" inner join sec_web.paquete_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
 				$Consulta.=" and t1.num_paquete=t2.num_paquete ";
 				$Consulta.=" where cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."' and  ";
@@ -347,20 +374,20 @@ function Imprimir()
 				$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete  and t1.cod_estado=t2.cod_estado";
                 $Consulta.=" group by t2.cod_producto";
 				//echo "CCC".$Consulta;
-				$Respuestapoly=mysqli_query($link, $Consulta);
+				$Respuestapoly=mysqli_query($link,$Consulta);
 				if ($Filapoly=mysqli_fetch_array($Respuestapoly))
 				{
-					$SumaUnidades=$Filapoly[suma_unidades];
-					$SumaUnidadesEnvio = $SumaUnidadesEnvio + $Filapoly[suma_unidades];
+					$SumaUnidades=$Filapoly["suma_unidades"];
+					$SumaUnidadesEnvio = $SumaUnidadesEnvio + $Filapoly["suma_unidades"];
 				}	
 				echo "<td width='49'>".$Fila["bulto_paquetes"]."</td>";
 				echo "<td width='58' align='center'>".$Fila["bulto_peso"]."&nbsp;</td>";
 				echo "<td width='82' bgcolor='#FF9900' align='center'>".$SumaUnidades."&nbsp;</td>";
 
-				$Consulta="SELECT distinct t1.cod_marca,t2.descripcion from sec_web.embarque_ventana t1 ";
+				$Consulta="select distinct t1.cod_marca,t2.descripcion from sec_web.embarque_ventana t1 ";
 				$Consulta.="inner join sec_web.marca_catodos t2 on t1.cod_marca=t2.cod_marca ";
 				$Consulta.=" where corr_enm='".$Fila["corr_enm"]."' and tipo <> 'V' and cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."'	";
-				$Respuesta4=mysqli_query($link, $Consulta);
+				$Respuesta4=mysqli_query($link,$Consulta);
 				$Fila4=mysqli_fetch_array($Respuesta4);
 				echo "<td width='148' align='center'>".$Fila4["descripcion"]."&nbsp;</td>";
 				echo "<td width='21' align='center'>".$Fila["cod_confirmado"]."&nbsp;</td>";
@@ -373,40 +400,38 @@ function Imprimir()
 				$SumaPesoLoteDespachados=$SumaPesoLoteDespachados+$Fila["despacho_peso"];
 				
 				//busca cantidad de unidades del lote poly 06-01-2009
-				$Consulta="SELECT sum(num_unidades) as suma_unidades,sum(peso_paquetes) as suma_paquetes, t2.cod_subproducto as cod_subproducto1 from sec_web.lote_catodo t1 ";
+				$Consulta="select sum(num_unidades) as suma_unidades,sum(peso_paquetes) as suma_paquetes, t2.cod_subproducto as cod_subproducto1 from sec_web.lote_catodo t1 ";
 				$Consulta.=" inner join sec_web.paquete_catodo t2 on t1.cod_paquete=t2.cod_paquete ";
 				$Consulta.=" and t1.num_paquete=t2.num_paquete ";
 				$Consulta.=" where cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."' and  ";
 				$Consulta.=" year(fecha_creacion_lote) between  '".$Fecha2."' and '".$Fecha1."'  and  corr_enm = '".$Fila["corr_enm"]."'";
 				$Consulta.=" and t1.fecha_creacion_paquete = t2.fecha_creacion_paquete and t1.cod_estado = 'c' and t1.cod_estado=t2.cod_estado";
                 $Consulta.=" group by t2.cod_producto";
-				$Respuestacerrados=mysqli_query($link, $Consulta);
+				$Respuestacerrados=mysqli_query($link,$Consulta);
 				if ($Filacerrados=mysqli_fetch_array($Respuestacerrados))
 				{
-					$SumaUnidadesLoteDespachados  = $SumaUnidadesLoteDespachados + $Filacerrados[suma_unidades];					
-				}	
-
-				
+					$SumaUnidadesLoteDespachados  = $SumaUnidadesLoteDespachados + $Filacerrados["suma_unidades"];					
+				}				
 				
 				$Encontro=false;
-				$Consulta="SELECT distinct t2.nombre_transportista,t1.rut_transportista from sec_web.relacion_transporte_inst_embarque t1 ";
+				$Consulta="select distinct t2.nombre_transportista,t1.rut_transportista from sec_web.relacion_transporte_inst_embarque t1 ";
 				$Consulta.=" inner join sec_web.transporte t2 on t1.rut_transportista=t2.rut_transportista 	";
 				$Consulta.=" where corr_enm='".$Fila["corr_enm"]."'";
 				//echo $Consulta;
-				$Respuesta5=mysqli_query($link, $Consulta);
+				$Respuesta5=mysqli_query($link,$Consulta);
 				while($Fila5=mysqli_fetch_array($Respuesta5))
 				{
 					if ($Num==0)
 					{	
 						$RutTransportistaAnt=$Fila5["rut_transportista"];
-						$Transportista=$Fila5[nombre_transportista]."-";
+						$Transportista=$Fila5["nombre_transportista"]."-";
 					}
 					else
 					{
 						if(($RutTransportistaAnt) <> ( $Fila5["rut_transportista"]))
 						{
 							
-							$Transportista=$Transportista.$Fila5[nombre_transportista]."-";
+							$Transportista=$Transportista.$Fila5["nombre_transportista"]."-";
 						}
 					}
 					$RutTransportistaAnt=$Fila5["rut_transportista"];
