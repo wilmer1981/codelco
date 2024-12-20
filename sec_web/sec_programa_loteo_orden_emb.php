@@ -70,8 +70,8 @@
 		   {
 			//echo "Ingresooooo...".$Valor;
 			$Datos = explode("~~",$Valor);
-			$IE = $Datos[0];
-			$Tipo = $Datos[1];
+			$IE   = $Datos[0];
+			$Tipo = isset($Datos[1])?$Datos[1]:"";
 			$Titulo = "MODIFICA&nbsp;";
 			$Consulta = "SELECT * from sec_web.programa_codelco where corr_codelco='".$IE."'";
 			$Resp = mysqli_query($link, $Consulta);
@@ -216,7 +216,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 <input type="hidden" name="Accion" value="<?php echo $Accion; ?>">
 <input type="hidden" name="Prog" value="<?php echo $Prog; ?>">
 <input type="hidden" name="EnmCode" value="C">
-<input type="hidden" name="jcf" >
+<input type="hidden" name="jcf" value="<?php echo $jcf; ?>">
 <table width="555" height="119" border="0" align="center" cellpadding="5" cellspacing="0" bgcolor="#0099FF" class="TablaPrincipal" left="5">
     <tr>
     <td><table width="550" border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior" >

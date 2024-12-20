@@ -37,7 +37,7 @@ if($ElimVirtual=='S')
 	echo $Eliminar;
 	mysqli_query($link, $Eliminar);
 	
-	header("location:sec_programa_adm_loteo.php?TipoIE=Virtual&Msj=Intrucci�n Eliminada con �xito.");
+	header("location:sec_programa_adm_loteo.php?TipoIE=Virtual&Msj=Intrucciòn Eliminada con Exito.");
 }	
 else
 {

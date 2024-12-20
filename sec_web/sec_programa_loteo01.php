@@ -4,6 +4,7 @@
 	$Accion  = $_REQUEST["Accion"];
 	$EnmCode = $_REQUEST["EnmCode"];
 	$Proceso = $_REQUEST["Proceso"];
+	$Prog    = $_REQUEST["Prog"];
 
 	$CmbAsignacion  = $_REQUEST["CmbAsignacion"];
 	$CmbProducto    = $_REQUEST["CmbProducto"];

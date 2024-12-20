@@ -66,6 +66,14 @@ function Proceso(opt)
 	switch (opt)
 	{
 		case "G":
+			var digitos = (f.TxtCodNaviera.value).length;
+			 
+			if (digitos > 4)
+			{
+				alert ("Debe Ingresar Codigo con max. 4 digitos");
+				f.TxtCodNaviera.focus();
+				return;
+			}
 			if (f.TxtViaTrans.value=='')
 			{
 				alert ("Debe Ingresar Via de Transporte");
@@ -86,6 +94,14 @@ function Proceso(opt)
 			}
 			break;
 		case "M":
+		   var digitos = (f.TxtCodNaviera.value).length;
+			 
+			if (digitos > 4)
+			{
+				alert ("Debe Ingresar Codigo con max. 4 digitos");
+				f.TxtCodNaviera.focus();
+				return;
+			}
 			if(f.TxtNomNave.value!='')
 			{
 				f.action="sec_programa_loteo_nave01.php?Proceso=M";

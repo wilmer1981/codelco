@@ -60,36 +60,88 @@ function Proceso(opt)
 	switch (opt)
 	{
 		case "G":
+			var digitosCP = (f.TxtCodPuerto.value).length;
+			var digitosCPC = (f.TxtCodPtoCentral.value).length;
+
 			if (f.TxtCodPuerto.value=='')
 			{
 				alert ("Debe Ingresar Codigo Puerto");
 				f.TxtCodPuerto.focus();
 				return;
-			}
-			if(f.TxtNomPuerto.value!='')
+			}					  
+			 
+			if (f.TxtCodPuerto.value!='' && digitosCP > 3)
 			{
+				alert ("Debe Ingresar Codigo Puerto con max. 3 digitos");
+				f.TxtCodPuerto.focus();
+				return;
+			}
+			if(f.TxtNomPuerto.value=='')
+			{
+				alert('Debe Ingresar Nombre Puerto');
+				f.TxtNomPuerto.focus();
+				return;	
+			}
+			if (f.TxtCodPtoCentral.value=='')
+			{
+				alert ("Debe Ingresar Codigo Puerto Central");
+				f.TxtCodPtoCentral.focus();
+				return;
+			}
+			if (f.TxtCodPtoCentral.value!='' && digitosCPC > 3)
+			{
+				alert ("Debe Ingresar Cod. Puerto Central con max. 3 digitos");
+				f.TxtCodPtoCentral.focus();
+				return;
+			}
+			if (f.TxtEta.value=='')
+			{
+				alert ("Debe Ingresar Eta Programada");
+				f.TxtEta.focus();
+				return;
+			}else{
 				f.action="sec_programa_loteo_puerto01.php?Proceso=G";
 				f.submit();
 			}
-			else
+			break;
+		case "M":
+					var digitosCP = (f.TxtCodPuerto.value).length;
+			var digitosCPC = (f.TxtCodPtoCentral.value).length;
+
+			if (f.TxtCodPuerto.value=='')
+			{
+				alert ("Debe Ingresar Codigo Puerto");
+				f.TxtCodPuerto.focus();
+				return;
+			}			 
+			if (f.TxtCodPuerto.value!='' && digitosCP > 3)
+			{
+				alert ("Debe Ingresar Codigo Puerto con max. 3 digitos");
+				f.TxtCodPuerto.focus();
+				return;
+			}
+			if(f.TxtNomPuerto.value=='')
 			{
 				alert('Debe Ingresar Nombre Puerto');
 				f.TxtNomPuerto.focus();
+				return;	
+			}
+			if (f.TxtCodPtoCentral.value=='')
+			{
+				alert ("Debe Ingresar Codigo Puerto Central");
+				f.TxtCodPtoCentral.focus();
 				return;
 			}
-			break;
-		case "M":
-			if(f.TxtNomPuerto.value!='')
+			if (f.TxtCodPtoCentral.value!='' && digitosCPC > 3)
 			{
+				alert ("Debe Ingresar Cod. Puerto Central con max. 3 digitos");
+				f.TxtCodPtoCentral.focus();
+				return;
+			}else{
 				f.action="sec_programa_loteo_Puerto01.php?Proceso=M";
 				f.submit();
 			}
-			else
-			{
-				alert('Debe Ingresar Nombre Puerto');
-				f.TxtNomPuerto.focus();
-				return;
-			}
+
 			break;
 		case "S":
 			window.opener.document.frmProceso.action="sec_programa_loteo_orden_emb.php";
@@ -174,7 +226,7 @@ function Recarga(Opt)
   </tr>
   <tr bgcolor="#FFFFFF">
     <td height="20">Cod. Puerto Central: </td>
-    <td height="20"><input name="TxtCodPtoCentral" type="text"  value="<?php echo $TxtCodPtoCentral; ?>" size="10" maxlength="10"> 
+    <td height="20"><input name="TxtCodPtoCentral" type="text"  value="<?php echo $TxtCodPtoCentral; ?>" size="10"> 
     * </td>
   </tr>
   <tr bgcolor="#FFFFFF">

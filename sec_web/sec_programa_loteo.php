@@ -507,7 +507,7 @@ else
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Insertar="INSERT INTO sec_web.tmpprograma (corr_ie,cliente_nave,fecha_programacion,cantidad_programada,num_prog_loteo ,producto,subproducto,pto_destino ,pto_emb,tipo,cod_contrato,estado,fecha_disponible,descripcion,enm_code,contrato,cuota,cod_puerto,cod_puerto_destino) values(";
-				$Insertar=$Insertar." '".'".$Fila["corr_enm"]."'."','".$Fila["nombre_cliente"]."','".$Fila["eta_programada"]."','".$Fila["cantidad_embarque"]."','".$Fila["num_prog_loteo"]."','".$Fila["producto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["cod_marca"]."','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','".$Fila["descripcion"]."','E','".$Fila["cod_contrato"]."','".$Fila["mes_cuota"]."','".$Fila["cod_puerto"]."','".$Fila["cod_puerto_destino"]."')";
+				$Insertar=$Insertar." '".$Fila["corr_enm"]."','".$Fila["nombre_cliente"]."','".$Fila["eta_programada"]."','".$Fila["cantidad_embarque"]."','".$Fila["num_prog_loteo"]."','".$Fila["producto"]."','".$Fila["subproducto"]."','".$Fila["pto_destino"]."','".$Fila["pto_emb"]."','E','".$Fila["cod_marca"]."','".$Fila["estado2"]."','".$Fila["fecha_disponible"]."','".$Fila["descripcion"]."','E','".$Fila["cod_contrato"]."','".$Fila["mes_cuota"]."','".$Fila["cod_puerto"]."','".$Fila["cod_puerto_destino"]."')";
 				mysqli_query($link, $Insertar);
 			}
 			//CONSULTA TABLA PROGRAMA CODELCO
