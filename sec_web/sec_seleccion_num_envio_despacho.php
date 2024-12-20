@@ -385,7 +385,7 @@ function Imprimir(opt)
 					break;
 				case "S":
 					echo "<td width='20' align='center'>&nbsp;</td>";
-					echo "<td width='50' align='center'>N�Envio</td>";
+					echo "<td width='50' align='center'>Nº Envio</td>";
 					echo "<td width='130' align='center'>SubProducto</td>";
 					echo "<td width='80' align='center'>Fecha Prog</td>";
 					echo "<td width='50' align='center'>Cod.Nave</td>";
@@ -418,6 +418,7 @@ function Imprimir(opt)
 					$Consulta=$Consulta." left join sec_web.nave t5 on t1.cod_nave=t5.cod_nave ";
 					$Consulta=$Consulta." where t1.tipo <> 'V' and t1.estado2='T' and t1.estado1='R' and t1.eta_programada ='$Fecha_Envio' group by t1.eta_programada,t1.cod_nave order by t1.eta_programada";
 					$Respuesta=mysqli_query($link, $Consulta);
+					//echo "Consulta:".$Consulta;
 					break;
 				case "S":
 					if (strlen($CmbMes)==1)
@@ -432,6 +433,7 @@ function Imprimir(opt)
 					$Consulta=$Consulta." left join sec_web.nave t5 on t1.cod_nave=t5.cod_nave ";
 					$Consulta=$Consulta." where t1.tipo <> 'V' and t1.estado2='C' and t1.estado1='R'  and substring(t2.fecha_envio,1,7) ='$Fecha_Envio'  group by t2.num_envio,t1.eta_programada,t1.cod_nave order by t2.num_envio desc";
 					$Respuesta=mysqli_query($link, $Consulta);
+					//echo "Consulta:".$Consulta;
 					break;
 			}		
 			echo "<input type='hidden' name='OptSeleccionar'>";
