@@ -3,34 +3,33 @@
 	$CodigoDePantalla = 20;
 	include("../principal/conectar_sec_web.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+		
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$Tipo = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";
+		
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
 	{
 		$Datos2=explode('~~',$Valor);
 		$FechaProgramada=$Datos2[0];
-		$CodNave=$Datos2[1];
-		$NombreNave=$Datos2[2];
-		$CodAgAduanero=$Datos2[3];
-		$CodAgEstiva=$Datos2[4];
-		$FechaSantiago=$Datos2[5];
-		$FechaEmbarqueVen=$Datos2[6];
-		$Consulta="SELECT nombre from sec_web.prestador where cod_prestador_servicio='".$CodAgAduanero."'";
-		$Respuesta=mysqli_query($link, $Consulta);
+		$CodNave= isset($Datos2[1])?$Datos2[1]:"";
+		$NombreNave=isset($Datos2[2])?$Datos2[2]:"";
+		$CodAgAduanero=isset($Datos2[3])?$Datos2[3]:"";
+		$CodAgEstiva=isset($Datos2[4])?$Datos2[4]:"";
+		$FechaSantiago=isset($Datos2[5])?$Datos2[5]:"";
+		$FechaEmbarqueVen=isset($Datos2[6])?$Datos2[6]:"";
+		$Consulta="select nombre from sec_web.prestador where cod_prestador_servicio='".$CodAgAduanero."'";
+		$Respuesta=mysqli_query($link,$Consulta);
 		$Fila=mysqli_fetch_array($Respuesta);
-		$NombreAgAduanero=$Fila["nombre"];
-		$Consulta="SELECT nombre from sec_web.prestador where cod_prestador_servicio='".$CodAgEstiva."'";
-		$Respuesta=mysqli_query($link, $Consulta);
+		$NombreAgAduanero=isset($Fila["nombre"])?$Fila["nombre"]:"";
+		$Consulta="select nombre from sec_web.prestador where cod_prestador_servicio='".$CodAgEstiva."'";
+		$Respuesta=mysqli_query($link,$Consulta);
 		$Fila=mysqli_fetch_array($Respuesta);
-		$NombreAgEstiva=$Fila["nombre"];
+		$NombreAgEstiva=isset($Fila["nombre"])?$Fila["nombre"]:"";
 	}		
-if (!isset($CmbAno))
-{
-	$CmbAno=date('Y');
-}
-if (!isset($CmbMes))
-{
-	$CmbMes=date('n');
-}
+
 ?>
 <html>
 <head>
@@ -82,14 +81,14 @@ function Imprimir(opt)
 		if ($Tipo=="ConEnvio")
 		{	
 			echo "<input name='radio' type='radio'  value='ConEnvio' onClick='Recarga();' checked>";
-	    	echo"<SELECT name='CmbMes'  onChange='Recarga();' >";
+	    	echo"<select name='CmbMes'  onChange='Recarga();' >";
 			for($i=1;$i<13;$i++)
 			{
 				if (isset($CmbMes))
 				{
 					if ($i==$CmbMes)
 					{
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					}
 					else
 					{
@@ -101,7 +100,7 @@ function Imprimir(opt)
 				{
 					if ($i==date("n"))
 					{
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					}
 					else
 					{
@@ -109,15 +108,15 @@ function Imprimir(opt)
 					}
 				}	
 			}
-			echo "</SELECT>";
-			echo "<SELECT name='CmbAno' onChange='Recarga();'>";
+			echo "</select>";
+			echo "<select name='CmbAno' onChange='Recarga();'>";
 			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 			{
 				if (isset($CmbAno))
 				{
 					if ($i==$CmbAno)
 						{
-							echo "<option SELECTed value ='$i'>$i</option>";
+							echo "<option selected value ='$i'>$i</option>";
 						}
 					else	
 						{
@@ -128,7 +127,7 @@ function Imprimir(opt)
 				{
 					if ($i==date("Y"))
 						{
-							echo "<option SELECTed value ='$i'>$i</option>";
+							echo "<option selected value ='$i'>$i</option>";
 						}
 					else	
 						{
@@ -136,7 +135,7 @@ function Imprimir(opt)
 						}
 				}		
 			}
-			echo "</SELECT>";//<input name='BtnFax' type='button' style='width:90' value='Fax' onClick=\"Fax('$Tipo');\">";
+			echo "</select>";//<input name='BtnFax' type='button' style='width:90' value='Fax' onClick=\"Fax('$Tipo');\">";
 		}
 		else
 		{
@@ -177,7 +176,7 @@ function Imprimir(opt)
 					$CmbMes="0".$CmbMes;
 				}
 				$Fecha_Envio=$CmbAno."-".$CmbMes;
-				$Consulta=" SELECT distinct t1.corr_codelco,t1.cod_cliente,t2.sigla_cliente,t4.num_envio,t4.tipo_embarque,t1.fecha_programacion,t5.cod_via_transporte,    ";
+				$Consulta=" select distinct t1.corr_codelco,t1.cod_cliente,t2.sigla_cliente,t4.num_envio,t4.tipo_embarque,t1.fecha_programacion,t5.cod_via_transporte,    ";
 				$Consulta.=" t1.fecha_disponible,t1.fecha_programacion,t1.cod_producto,t1.cod_subproducto,t2.sigla_cliente as nombre,t5.nombre_nave as nombre	";
 				$Consulta.=" from sec_web.programa_codelco t1";
 				$Consulta.=" left join sec_web.cliente_venta t2 on t1.cod_cliente=t2.cod_cliente ";
@@ -190,7 +189,7 @@ function Imprimir(opt)
 			}
 			else
 			{
-				$Consulta=" SELECT distinct t1.corr_codelco,t1.cod_cliente,t2.sigla_cliente as nombre,t5.nombre_nave as nombre,t4.num_envio,t1.fecha_programacion,    ";
+				$Consulta=" select distinct t1.corr_codelco,t1.cod_cliente,t2.sigla_cliente as nombre,t5.nombre_nave as nombre,t4.num_envio,t1.fecha_programacion,    ";
 				$Consulta.=" t1.fecha_disponible,t1.fecha_programacion,t1.cod_producto,t1.cod_subproducto,t4.tipo_embarque		";
 				$Consulta.=" from sec_web.programa_codelco t1";
 				$Consulta.=" left join sec_web.cliente_venta t2 on t1.cod_cliente=t2.cod_cliente ";
@@ -201,11 +200,20 @@ function Imprimir(opt)
 				//$Consulta.=" and left(t3.disponibilidad,1)='E' and  isnull(t4.corr_enm) order by t1.corr_codelco,t4.num_envio";
 				$Consulta.=" and t3.disponibilidad='T' and  isnull(t4.corr_enm) order by t1.corr_codelco,t4.num_envio";
 			}
-			$Respuesta=mysqli_query($link, $Consulta);
+			$Respuesta=mysqli_query($link,$Consulta);
 			echo "<input type='hidden' name='OptSeleccionar'><input type='hidden' name='NumEnvioO'><input type='hidden' name='CodelcoO'><input type='hidden' name='FaxO'>";
+			$Cont2=0;
+			$TipoEmbarque="";
 			while ($Fila=mysqli_fetch_array($Respuesta))
 			{
-				$Consulta="SELECT t1.disponibilidad,t1.cod_estado,t3.descripcion as marca,t1.cod_bulto,t1.num_bulto,t1.cod_marca, ";
+				$corr_codelco = isset($Fila["corr_codelco"])?$Fila["corr_codelco"]:"";
+				$fecha_programacion = isset($Fila["fecha_programacion"])?$Fila["fecha_programacion"]:"0000-00-00"; 
+				$fecha_disponible = isset($Fila["fecha_disponible"])?$Fila["fecha_disponible"]:"";
+				$cod_producto = isset($Fila["cod_producto"])?$Fila["cod_producto"]:"";
+				$cod_subproducto = isset($Fila["cod_subproducto"])?$Fila["cod_subproducto"]:"";
+				$cod_cliente = isset($Fila["cod_cliente"])?$Fila["cod_cliente"]:"";					
+
+				$Consulta="select t1.disponibilidad,t1.cod_estado,t3.descripcion as marca,t1.cod_bulto,t1.num_bulto,t1.cod_marca, ";
 				$Consulta.=" sum(t2.peso_paquetes) as peso_preparado,sum(t1.num_paquete) as unidades from sec_web.lote_catodo   ";
 				$Consulta.=" t1 inner join sec_web.paquete_catodo t2 on ";
 				$Consulta=$Consulta." t1.cod_paquete=t2.cod_paquete and t1.num_paquete =t2.num_paquete ";
@@ -218,9 +226,16 @@ function Imprimir(opt)
 				{
 					$Consulta=$Consulta." where t1.corr_enm=".$Fila["corr_codelco"]." and t1.cod_estado='a' and t1.cod_estado = t2.cod_estado  group by t1.corr_enm";
 				}	
-				$Respuesta2=mysqli_query($link, $Consulta);
+				$Respuesta2=mysqli_query($link,$Consulta);
 				$Fila2=mysqli_fetch_array($Respuesta2);
-				$Consulta="SELECT count(*) as cantpaquetes from sec_web.lote_catodo";
+				$peso_preparado = isset($Fila2["peso_preparado"])?$Fila2["peso_preparado"]:0;
+				$cod_marca = isset($Fila2["cod_marca"])?$Fila2["cod_marca"]:"";
+				$cod_bulto = isset($Fila2["cod_bulto"])?$Fila2["cod_bulto"]:"";
+				$num_bulto = isset($Fila2["num_bulto"])?$Fila2["num_bulto"]:"";
+				$marca = isset($Fila2["marca"])?$Fila2["marca"]:"";
+				$cod_estado = isset($Fila2["cod_estado"])?$Fila2["cod_estado"]:"";
+								
+				$Consulta="select count(*) as cantpaquetes from sec_web.lote_catodo";
 				if($Tipo=="ConEnvio")
 				{
 					$Consulta=$Consulta." where corr_enm=".$Fila["corr_codelco"];
@@ -229,23 +244,25 @@ function Imprimir(opt)
 				{
 					$Consulta=$Consulta." where corr_enm=".$Fila["corr_codelco"]." and cod_estado='a'";
 				}	
-				$Respuesta3=mysqli_query($link, $Consulta);
+				$Respuesta3=mysqli_query($link,$Consulta);
 				$Fila3=mysqli_fetch_array($Respuesta3);
+				$cantpaquetes   = isset($Fila3["cantpaquetes"])?$Fila3["cantpaquetes"]:0;
+				
 				$MostrarBoton=true;
 				echo "<tr>"; 
 				$Cont2++;
-				$Campos=$Fila["corr_codelco"]."~~".$Fila2["cod_bulto"]."~~".$Fila2["num_bulto"]."~~".$Fila["fecha_programacion"]."~~";
-				$Campos=$Campos.$Fila["fecha_disponible"]."~~".$Fila2["peso_preparado"]."~~".$Fila3["cantpaquetes"]."~~";
-				$Campos=$Campos.$Fila2["cod_marca"]."~~".$Fila["cod_producto"]."~~".$Fila["cod_subproducto"]."~~".$Fila["cod_cliente"];				
-				echo "<td align='right'>".$Fila["corr_codelco"]."&nbsp;</td>";
+				$Campos=$corr_codelco."~~".$cod_bulto."~~".$num_bulto."~~".$fecha_programacion."~~";
+				$Campos=$Campos.$fecha_disponible."~~".$peso_preparado."~~".$cantpaquetes."~~";
+				$Campos=$Campos.$cod_marca."~~".$cod_producto."~~".$cod_subproducto."~~".$cod_cliente;				
+				echo "<td align='right'>".$corr_codelco."&nbsp;</td>";
 				echo "<td align='right'>".$Fila["num_envio"]."&nbsp;</td>";
 				echo "<td>".$Fila["nombre"]."&nbsp;</td>";
-				echo "<td align='center'>".$Fila2["cod_bulto"]."-".$Fila2["num_bulto"]."</a>&nbsp;</td>";
-				echo "<td align='right'>".$Fila3["cantpaquetes"]."&nbsp;</td>";
-				echo "<td align='right'>".$Fila2["peso_preparado"]."&nbsp;</td>";
-				echo "<td align='left'>".$Fila2["marca"]."&nbsp;</td>";
-				echo "<td align='left'>".substr($Fila["fecha_programacion"],8,2)."/".substr($Fila["fecha_programacion"],5,2)."/".substr($Fila["fecha_programacion"],0,4)."&nbsp;</td>";
-				if ($Fila2["cod_estado"]=='a')
+				echo "<td align='center'>".$cod_bulto."-".$num_bulto."</a>&nbsp;</td>";
+				echo "<td align='right'>".$cantpaquetes."&nbsp;</td>";
+				echo "<td align='right'>".$peso_preparado."&nbsp;</td>";
+				echo "<td align='left'>".$marca."&nbsp;</td>";
+				echo "<td align='left'>".substr($fecha_programacion,8,2)."/".substr($fecha_programacion,5,2)."/".substr($fecha_programacion,0,4)."&nbsp;</td>";
+				if ($cod_estado=='a')
 					$Estado="Abierto";
 				else
 					$Estado="Cerrado";

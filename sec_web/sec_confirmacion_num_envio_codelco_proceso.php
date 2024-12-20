@@ -1,7 +1,7 @@
 <?php 	
 	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-
+	
 	if(isset($_REQUEST["Valores"])){
 		$Valores = $_REQUEST["Valores"];
 	}else{
@@ -12,17 +12,16 @@
 	}else{
 		$Tipo = "";
 	}
-
 	if(isset($_REQUEST["Envio"])){
 		$Envio = $_REQUEST["Envio"];
 	}else{
 		$Envio = "";
 	}
-	if(isset($_REQUEST["CmbTipoEmb"])){
-		$CmbTipoEmb = $_REQUEST["CmbTipoEmb"];
-	}else{
-		$CmbTipoEmb = "";
-	} 
+
+	$CmbTipoEmb = isset($_REQUEST["CmbTipoEmb"])?$_REQUEST["CmbTipoEmb"]:"";
+	$CmbNave = isset($_REQUEST["CmbNave"])?$_REQUEST["CmbNave"]:"";
+	$CmbPuerto = isset($_REQUEST["CmbPuerto"])?$_REQUEST["CmbPuerto"]:"";
+	$NumOrden = isset($_REQUEST["NumOrden"])?$_REQUEST["NumOrden"]:"";
 	
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $Clave => $Valor)
@@ -185,7 +184,7 @@ function Recarga(Envio,Valor)//#envio y valor=string de checkbox
 			echo "<tr>";
 			echo"<td>Nave</td>";
 			echo "<td><select name='CmbNave'>";
-			$Consulta="select * from sec_web.nave order by nombre_nave";
+			$Consulta="select * from sec_web.nave Where cod_nave <> 0 order by nombre_nave";
 			$Respuesta=mysqli_query($link, $Consulta);
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{

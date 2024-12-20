@@ -14,6 +14,8 @@
 	$NumOrden      = isset($_REQUEST["NumOrden"])?$_REQUEST["NumOrden"]:"";
 	$NumPaqueteI01 = isset($_REQUEST["NumPaqueteI01"])?$_REQUEST["NumPaqueteI01"]:"";
 	$NumPaqueteF01 = isset($_REQUEST["NumPaqueteF01"])?$_REQUEST["NumPaqueteF01"]:"";
+	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
 	
 	switch ($Proceso)
 	{
@@ -66,7 +68,7 @@
 					$insertar.=" ,'".$NumOrden."') ";
 				else
 					$insertar.=" ,'".$Var1."')";
-			//	echo "EE".$insertar;
+				//echo "EE".$insertar;
 				mysqli_query($link, $insertar);
 				$Actualizar="UPDATE sec_web.programa_codelco set estado2='C' where  ";
 				$Actualizar.=" corr_codelco='".$Datos2[0]."'";
