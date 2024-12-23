@@ -2,7 +2,7 @@
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
 	set_time_limit(2000);
-
+	
 	$Proceso      = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
@@ -11,23 +11,23 @@
 	$CmbOrden  = isset($_REQUEST["CmbOrden"])?$_REQUEST["CmbOrden"]:"";
 	$CmbAlmacen  = isset($_REQUEST["CmbAlmacen"])?$_REQUEST["CmbAlmacen"]:"";
 	$Orden        = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"L";
+	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
 	$CodProducto  = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
 	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-
+	
 	$ProdAux   = explode("~",$Valores);
-	$ProdSel   =$ProdAux[0];
+	$ProdSel   = $ProdAux[0];
 	$FechaHora = str_replace(" ","_",date("Y_m_d H_i"));
-	$Eliminar  ='delete from interfaces_codelco.tmp_archivo_embarque';
-
+	$Eliminar  = 'delete from interfaces_codelco.tmp_archivo_embarque';
+	
 	switch ($Proceso)
 	{
 		case "G":
 			
-			mysqli_query($link, $Eliminar);
-			$CorrIE=1;
+			mysqli_query($link, $Eliminar);$CorrIE=1;
 			$Datos = explode("~~",$Valores);
-			foreach($Datos as $k => $v)
+			foreach($Datos as $k=>$v)
 			{
 				$Datos2 = explode("~",$v);				
 				$ArrResp = array();
@@ -40,12 +40,13 @@
 				$SAP_TipoMov = $Datos2[5];
 				$SAP_OrdenProd_Manual = $Datos2[6];
 				$SAP_ClaseValoriz_Manual = $Datos2[7];
-				$SAP_Marca = $Datos2[8];
+				$SAP_Marca = isset($Datos2[8])?$Datos2[8]:"";
 				$LoteAux = $CodBulto."/".$NumBulto."/".$SAP_Marca;
 				//echo $Prod."-".$SubProd."-".$Ano."-".$Mes."-".$LoteAux."-".$Orden."<br>";
-				RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden,$link);
+				$ArrResp =  RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);
 				$Archivo1 = fopen("archivos_embarque/CAT_REGISTRO_1.doc","w+");
 				$Archivo2 = fopen("archivos_embarque/CAT_REGISTRO_3.doc","w+");
+				$Archivo3 = "";
 				CreaArchivoLotePqte($Prod, $SubProd, $Ano, $Mes,$LoteAux,$IE,$Orden,$Archivo1,$Archivo2,$Archivo3,$SAP_TipoMov,$SAP_OrdenProd_Manual,$SAP_ClaseValoriz_Manual,$CorrIE,$link);
 				$CorrIE=$CorrIE+1;
 				reset($ArrResp);
@@ -54,9 +55,27 @@
 					$SAP_Tipo = "1";	
 					$SAP_Almacen = $Fila["cod_almacen_codelco"];
 					$SAP_Cantidad = $Fila["peso"];
-					$SAP_Lote = substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).'".$Fila["corr_enm"]."';
-					OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
-					Homologar($Fila["cod_producto"], $Fila["cod_subproducto"], $L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01,$link);
+					$SAP_Lote = substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).$Fila["corr_enm"];
+					$SAP_OrdenProd = "";
+					$SAP_CodMaterial = "";
+					$SAP_Unidad = "";
+					$SAP_ClaseValoriz = "";
+					$SAP_Centro = "";		
+					$Lista = OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
+					$valor = explode("**",$Lista);
+					$SAP_OrdenProd    = $valor[0];
+					$SAP_CodMaterial  = $valor[1];
+					$SAP_Unidad       = $valor[2];
+					$SAP_ClaseValoriz = $valor[3];
+					$SAP_Centro       = $valor[4];
+		
+					$Lista = Homologar($Fila["cod_producto"], $Fila["cod_subproducto"], $L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01,$link);
+					$valor = explode("**",$Lista);
+					$L_SAP_CodMaterial    = $valor[0];
+					$L_SAP_UnidadPeso     = $valor[1];
+					$L_SAP_Centro         = $valor[2];
+					$L_SAP_FormaEmpaque01 = $valor[3];
+		
 					$SAP_FechaDoc = substr($Fila["fecha_embarque"],8,2).".".substr($Fila["fecha_embarque"],5,2).".".substr($Fila["fecha_embarque"],0,4);
 					$SAP_FechaCon = substr($Fila["fecha_embarque"],8,2).".".substr($Fila["fecha_embarque"],5,2).".".substr($Fila["fecha_embarque"],0,4);					
  					$L_SAP_Tipo = "3";
@@ -85,7 +104,7 @@
 						if ($Fila2 = mysqli_fetch_array($Resp2))
 						{
 							//ACTUALIZA REGISTRO EXISTENTE
-							$Actualizar = "UPDATE interfaces_codelco.registro_traspaso set ";
+							$Actualizar = "update interfaces_codelco.registro_traspaso set ";
 							$Actualizar.= " tipo_movimiento='".$SAP_TipoMov."', registro='".$Linea."' ";
 							$Actualizar.= " where tipo_registro='".$SAP_Tipo."' and ano='".$Ano."' and mes='".$Mes."' ";
 							$Actualizar.= " and referencia='".$L_SAP_Lote."' ";
@@ -95,7 +114,7 @@
 						else
 						{
 							//INSERTA NUEVO REGISTRO
-							$Insertar = "INSERT INTO interfaces_codelco.registro_traspaso(tipo_registro, ano, mes, referencia, tipo_movimiento, registro, ";
+							$Insertar = "insert into interfaces_codelco.registro_traspaso(tipo_registro, ano, mes, referencia, tipo_movimiento, registro, ";
 							$Insertar.= " fecha_guia, fecha_traspaso, cantidad_traspaso, cod_producto, cod_subproducto, orden_produccion, clase_valorizacion, almacen) ";
 							$Insertar.= " values('".$SAP_Tipo."','".$Ano."','".$Mes."','".$L_SAP_Lote."','".$SAP_TipoMov."','".$Linea."', ";
 							$Insertar.= " '".$Fecha1."', '".$Fecha2."', '".$CantTraspaso."', '".$Prod."', '".$SubProd."', '".$SAP_OrdenProd_Manual."', '".$SAP_ClaseValoriz_Manual."', '".$L_SAP_Almacen."')";
@@ -106,7 +125,7 @@
 				
 				}
 			}
-			CreaArchivoTxt($Archivo1,$Archivo2);
+			CreaArchivoTxt($Archivo1,$Archivo2,$link);
 			fclose($Archivo1);							
 			fclose($Archivo2);
 			$Mensaje='Archivos Creados Existosamente';
@@ -118,7 +137,7 @@
 		case "PMN":
 				case "ACID":
 			
-$ProdAux = explode("~",$Valores);
+			$ProdAux = explode("~",$Valores);
 			$ProdSel=$ProdAux[0];
 			$FechaHora = str_replace(" ","_",date("Y_m_d H_i"));
 			$Archivo = fopen("archivos_embarque/".$Producto."_embarque_".$FechaHora.".doc","w+");
@@ -127,7 +146,7 @@ $ProdAux = explode("~",$Valores);
 			//$Archivo3 = fopen("archivos_embarque/CAT_embarque_leyes_".$FechaHora."_NEW.doc","w+");			
 			$Datos = explode("~~",$Valores);
 		//	echo "VALORES ".$Valores."<br>";
-			foreach($Datos as $k => $v)
+			foreach($Datos as $k=>$v)
 			{
 				$Linea = "";
 				$Datos2 = explode("~",$v);				
@@ -147,7 +166,7 @@ $ProdAux = explode("~",$Valores);
 						$SAP_Marca = $Datos2[8];
 						$LoteAux = $CodBulto."/".$NumBulto."/".$SAP_Marca;
 						//echo $Prod."-".$SubProd."-".$Ano."-".$Mes."-".$LoteAux."-".$Orden."<br>";
-						RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden,$link);
+						$ArrResp = RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden,$link);
 						break;
 					case "PMN":
 						$Prod = $Datos2[0];
@@ -162,7 +181,7 @@ $ProdAux = explode("~",$Valores);
 						$CTotal=$Datos2[9];
 						//echo $Valores."<br>";
 						//echo $CEnvio." / ".$CDisp." / ".$CTotal."<BR>";
-						RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes,$link);						
+						RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $link);						
 						break;
 					case "ACID":
 						$Prod = $Datos2[0];
@@ -174,7 +193,7 @@ $ProdAux = explode("~",$Valores);
 						$SAP_Almacen_Manual= $Datos2[6];	
 						$LoteAux = $NumBulto;		
 						//echo $NumBulto."<br>";	
-						RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden,$link);		
+						RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);		
 						break;
 						
 				}
@@ -213,10 +232,10 @@ $ProdAux = explode("~",$Valores);
 					switch ($Producto)
 					{
 						case "CAT":
-							$SAP_Lote = substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).'".$Fila["corr_enm"]."';
+							$SAP_Lote = substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).$Fila["corr_enm"];
 							break;
 						case "ACID":
-							$SAP_Lote = $Fila["cod_bulto"].'".$Fila["corr_enm"]."';
+							$SAP_Lote = $Fila["cod_bulto"].$Fila["corr_enm"];
 							break;
 						case "PMN":
 							$SAP_Lote = $Fila["lote"];
@@ -461,7 +480,7 @@ $ProdAux = explode("~",$Valores);
 							if ($Prod=="29")
 							{
 								//INSERTA NUEVO REGISTRO
-								$Actualizar = "UPDATE interfaces_codelco.registro_traspaso SET ";
+								$Actualizar = "update interfaces_codelco.registro_traspaso SET ";
 								$Actualizar.= " tipo_registro='".$SAP_Tipo."', ano='".$Ano."', mes='".$Mes."', ";
 								$Actualizar.= " referencia='".$L_SAP_Lote."', tipo_movimiento='".$SAP_TipoMov."', registro='".$Linea."',";
 								$Actualizar.= " fecha_traspaso='".$Fecha2."', cantidad_traspaso='".$CantTraspaso."', ";
@@ -476,7 +495,7 @@ $ProdAux = explode("~",$Valores);
 							else
 							{
 								//ACTUALIZA REGISTRO EXISTENTE
-								$Actualizar = "UPDATE interfaces_codelco.registro_traspaso set ";
+								$Actualizar = "update interfaces_codelco.registro_traspaso set ";
 								$Actualizar.= " tipo_movimiento='".$SAP_TipoMov."', registro='".$Linea."' ";
 								$Actualizar.= " where tipo_registro='".$SAP_Tipo."' and ano='".$Ano."' and mes='".$Mes."' ";
 								$Actualizar.= " and referencia='".$L_SAP_Lote."' ";
@@ -487,7 +506,7 @@ $ProdAux = explode("~",$Valores);
 						else
 						{
 							//INSERTA NUEVO REGISTRO
-							$Insertar = "INSERT INTO interfaces_codelco.registro_traspaso(tipo_registro, ano, mes, referencia, tipo_movimiento, registro, ";
+							$Insertar = "insert into interfaces_codelco.registro_traspaso(tipo_registro, ano, mes, referencia, tipo_movimiento, registro, ";
 							$Insertar.= " fecha_guia, fecha_traspaso, cantidad_traspaso, cod_producto, cod_subproducto, orden_produccion, clase_valorizacion, almacen) ";
 							$Insertar.= " values('".$SAP_Tipo."','".$Ano."','".$Mes."','".$L_SAP_Lote."','".$SAP_TipoMov."','".$Linea."', ";
 							$Insertar.= " '".$Fecha1."', '".$Fecha2."', '".$CantTraspaso."', '".$Prod."', '".$SubProd."', '".$SAP_OrdenProd_Manual."', '".$SAP_ClaseValoriz_Manual."', '".$L_SAP_Almacen."')";
@@ -505,7 +524,7 @@ $ProdAux = explode("~",$Valores);
 			break;
 	}
 
-$ProdAux = explode("~",$Valores);
+			$ProdAux = explode("~",$Valores);
 			$ProdSel=$ProdAux[0];
 			$FechaHora = str_replace(" ","_",date("Y_m_d H_i"));
 			$Archivo = fopen("archivos_embarque/".$Producto."_embarque_".$FechaHora.".doc","w+");
@@ -514,7 +533,7 @@ $ProdAux = explode("~",$Valores);
 			//$Archivo3 = fopen("archivos_embarque/CAT_embarque_leyes_".$FechaHora."_NEW.doc","w+");			
 			$Datos = explode("~~",$Valores);
 		//	echo $Valores."<br>";
-			foreach($Datos as $k => $v)
+			foreach($Datos as $k=>$v)
 			{
 				$Linea = "";
 				$Datos2 = explode("~",$v);				
@@ -534,7 +553,7 @@ $ProdAux = explode("~",$Valores);
 						$SAP_Marca = $Datos2[8];
 						$LoteAux = $CodBulto."/".$NumBulto."/".$SAP_Marca;
 						//echo $Prod."-".$SubProd."-".$Ano."-".$Mes."-".$LoteAux."-".$Orden."<br>";
-						RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden,$link);
+						RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);
 						break;
 					case "PMN":
 						$Prod = $Datos2[0];
@@ -549,7 +568,7 @@ $ProdAux = explode("~",$Valores);
 						$CTotal=$Datos2[9];
 						//echo $Valores."<br>";
 						//echo $CEnvio." / ".$CDisp." / ".$CTotal."<BR>";
-						RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes,$link);						
+						RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $link);						
 						break;
 					case "ACID":
 						$Prod = $Datos2[0];
@@ -561,7 +580,7 @@ $ProdAux = explode("~",$Valores);
 						$SAP_Almacen_Manual= $Datos2[6];	
 						$LoteAux = $NumBulto;		
 						//echo $NumBulto."<br>";	
-						RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden,$link);		
+						RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);		
 						break;
 						
 				}
@@ -600,10 +619,10 @@ $ProdAux = explode("~",$Valores);
 					switch ($Producto)
 					{
 						case "CAT":
-							$SAP_Lote = substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).'".$Fila["corr_enm"]."';
+							$SAP_Lote = substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).$Fila["corr_enm"];
 							break;
 						case "ACID":
-							$SAP_Lote = $Fila["cod_bulto"].'".$Fila["corr_enm"]."';
+							$SAP_Lote = $Fila["cod_bulto"].$Fila["corr_enm"];
 							break;
 						case "PMN":
 							$SAP_Lote = $Fila["lote"];
@@ -814,7 +833,7 @@ $ProdAux = explode("~",$Valores);
 								if($FilaPesoPalets=mysqli_fetch_array($RespPesoPalets))
 								{
 									
-										$PESO_TOTAL_PALETS_A_B=$FilaPesoPalets[peso_palet_a]+$FilaPesoPalets["peso_palet_b"];
+										$PESO_TOTAL_PALETS_A_B=$FilaPesoPalets[peso_palet_a]+$FilaPesoPalets[peso_palet_b];
 								}
 								if($PESO_TOTAL_PALETS_A_B>=0)
 								{
@@ -822,7 +841,7 @@ $ProdAux = explode("~",$Valores);
 									$RESPESO=mysqli_query($link, $Consulta);
 									if($FPalets=mysqli_fetch_array($RESPESO))
 									{
-										$PESO_TOTAL_PALETS_A_B=$FPalets["valor1"];
+										$PESO_TOTAL_PALETS_A_B=$FPalets[valor1];
 									}
 									else
 									{
@@ -919,7 +938,7 @@ $ProdAux = explode("~",$Valores);
 							if ($Prod=="29")
 							{
 								//INSERTA NUEVO REGISTRO
-								$Actualizar = "UPDATE interfaces_codelco.registro_traspaso SET ";
+								$Actualizar = "update interfaces_codelco.registro_traspaso SET ";
 								$Actualizar.= " tipo_registro='".$SAP_Tipo."', ano='".$Ano."', mes='".$Mes."', ";
 								$Actualizar.= " referencia='".$L_SAP_Lote."', tipo_movimiento='".$SAP_TipoMov."', registro='".$Linea."',";
 								$Actualizar.= " fecha_traspaso='".$Fecha2."', cantidad_traspaso='".$CantTraspaso."', ";
@@ -934,7 +953,7 @@ $ProdAux = explode("~",$Valores);
 							else
 							{
 								//ACTUALIZA REGISTRO EXISTENTE
-								$Actualizar = "UPDATE interfaces_codelco.registro_traspaso set ";
+								$Actualizar = "update interfaces_codelco.registro_traspaso set ";
 								$Actualizar.= " tipo_movimiento='".$SAP_TipoMov."', registro='".$Linea."' ";
 								$Actualizar.= " where tipo_registro='".$SAP_Tipo."' and ano='".$Ano."' and mes='".$Mes."' ";
 								$Actualizar.= " and referencia='".$L_SAP_Lote."' ";
@@ -945,7 +964,7 @@ $ProdAux = explode("~",$Valores);
 						else
 						{
 							//INSERTA NUEVO REGISTRO
-							$Insertar = "INSERT INTO interfaces_codelco.registro_traspaso(tipo_registro, ano, mes, referencia, tipo_movimiento, registro, ";
+							$Insertar = "insert into interfaces_codelco.registro_traspaso(tipo_registro, ano, mes, referencia, tipo_movimiento, registro, ";
 							$Insertar.= " fecha_guia, fecha_traspaso, cantidad_traspaso, cod_producto, cod_subproducto, orden_produccion, clase_valorizacion, almacen) ";
 							$Insertar.= " values('".$SAP_Tipo."','".$Ano."','".$Mes."','".$L_SAP_Lote."','".$SAP_TipoMov."','".$Linea."', ";
 							$Insertar.= " '".$Fecha1."', '".$Fecha2."', '".$CantTraspaso."', '".$Prod."', '".$SubProd."', '".$SAP_OrdenProd_Manual."', '".$SAP_ClaseValoriz_Manual."', '".$L_SAP_Almacen."')";

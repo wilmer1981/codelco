@@ -4,8 +4,9 @@
 	$CodigoDePantalla = 2;
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
-
+	
 	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"921";
+	$CmbOrden   = isset($_REQUEST["CmbOrden"])?$_REQUEST["CmbOrden"]:"";
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
@@ -14,6 +15,7 @@
 	$Orden   = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"L";
 	$CodProducto     = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
 	$SubProducto     = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$ChkMarca        = isset($_REQUEST["ChkMarca"])?$_REQUEST["ChkMarca"]:"";
 
 /*
 	if(isset($_REQUEST["DescAnt"])){
@@ -432,7 +434,7 @@ if ($Mostrar == "S")
 	$Almacen = "0005";
 	$Prod=$CodProducto;
 	$SubProd=$SubProducto;
-	RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, "", $ArrRespLeyes, $Orden, $link);
+	$ArrResp = RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, "", $ArrRespLeyes, $Orden, $link);
 	$ContCantidad = 0;
 	$SubTotalPeso = 0;
 	$ProdAnt = "";
@@ -440,7 +442,6 @@ if ($Mostrar == "S")
 	$DescAnt    = "";
 	reset($ArrResp);
 
-	//foreach($ArrResp as $k=>$Fila)
 	foreach ($ArrResp as $k => $Fila)
 	{
 		$Referencia="";
@@ -450,8 +451,8 @@ if ($Mostrar == "S")
 
 			EscribeSubTotal($DescAnt, $ContCantidad, $SubTotalPeso);
 		$Lote2 = $Fila["cod_bulto"]."~".$Fila["num_bulto"];	
-		$Referencia=substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).'".$Fila["corr_enm"]."';
-        // echo "-------------entrooooo".'".$Fila["corr_enm"]."';
+		$Referencia=substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).$Fila["corr_enm"];
+        // echo "-------------entrooooo".$Fila["corr_enm"];
 		$SAP_OrdenProd_Manual = "";
 		$SAP_ClaseValoriz_Manual = "";
 		//CONSULTA SI ESTA TRASPASADO
@@ -487,9 +488,16 @@ if ($Mostrar == "S")
 		$SAP_ClaseValoriz = "";
 		$SAP_Centro = "";
 		//echo "PPP".$Fila["cod_marca"];
-		OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro);	
+		$Lista = OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);	
+		$valor = explode("**",$Lista);
+		$SAP_OrdenProd    = $valor[0];
+		$SAP_CodMaterial  = $valor[1];
+		$SAP_Unidad       = $valor[2];
+		$SAP_ClaseValoriz = $valor[3];
+		$SAP_Centro       = $valor[4];
+
 		echo '<tr>';	
-		$ClaveChk = $Fila["cod_producto"]."~".$Fila["cod_subproducto"]."~".$Lote2."~".'".$Fila["corr_enm"]."';
+		$ClaveChk = $Fila["cod_producto"]."~".$Fila["cod_subproducto"]."~".$Lote2."~".$Fila["corr_enm"];
 		//echo "SSS".$ClaveChk."--".$Estado."--".$Fila2["tipo_movimiento"];
 		echo '<td align="center"><input type="checkbox" name="ChkSelec" value="'.$ClaveChk.'"></td>';//CHECKBOX PARA SELECCIONAR
 		
@@ -523,7 +531,7 @@ if ($Mostrar == "S")
 		echo '<td align="center">'.$SAP_Unidad.'</td>';//UNIDAD DE MEDIDA
 		echo '<td align="center">';
 		echo "<a href=\"JavaScript:DetalleLoteCAT('".$Fila["cod_producto"]."','".$Fila["cod_subproducto"]."','".$AnoLote."','".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."')\">";
-		echo substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).'".$Fila["corr_enm"]."'.'</a></td>';//LOTE
+		echo substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).$Fila["corr_enm"].'</a></td>';//LOTE
 		echo "<td align=\"center\"><input type=\"text\" name=\"TxtOrden\" value=\"";
 		if ($SAP_OrdenProd_Manual!="")
 			echo $SAP_OrdenProd_Manual;

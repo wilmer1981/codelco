@@ -48,8 +48,8 @@ function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE
 	$i=0;
 	//MFM echo "CONSULTA XX = ".$Consulta."<br>";
 	while ($FilaAux = mysqli_fetch_array($RespAux))
-	{
-		$id_lote=str_pad($FilaAux[["fecha_creacion_lote"]],2,"0",STR_PAD_LEFT).str_pad($FilaAux[["fecha_creacion_lote"]],2,"0",STR_PAD_LEFT).$FilaAux[["fecha_creacion_lote"]].$FilaAux["cod_bulto"]."-".$FilaAux["num_bulto"];
+	{  //$fecha_creacion_lote = isset($FilaAux["fecha_creacion_lote"])?$FilaAux["fecha_creacion_lote"]:"0000-00-00";
+		$id_lote=str_pad($FilaAux["fecha_creacion_lote"],2,"0",STR_PAD_LEFT).str_pad($FilaAux["fecha_creacion_lote"],2,"0",STR_PAD_LEFT).$FilaAux["fecha_creacion_lote"].$FilaAux["cod_bulto"]."-".$FilaAux["num_bulto"];
 		$CorrEnm=$FilaAux["corr_enm"];
 		//ALMACEN CODELCO
 		$Consulta = "select * from interfaces_codelco.relacion_almacen ";
@@ -97,7 +97,14 @@ function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE
 		$SAP_Status = "";
 		$SAP_Msg = "";				
 		
-		OrdenProduccionSap($FilaAux["asignacion"],$FilaAux["cod_producto"],$FilaAux["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
+		$Lista = OrdenProduccionSap($FilaAux["asignacion"],$FilaAux["cod_producto"],$FilaAux["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
+		$valor = explode("**",$Lista);
+		$SAP_OrdenProd    = $valor[0];
+		$SAP_CodMaterial  = $valor[1];
+		$SAP_Unidad       = $valor[2];
+		$SAP_ClaseValoriz = $valor[3];
+		$SAP_Centro       = $valor[4];
+		
 		$Linea = str_pad($SAP_Tipo,1," ",STR_PAD_LEFT);
 		$Linea.= str_pad($SAP_FechaDoc,10," ",STR_PAD_LEFT);
 		$Linea.= str_pad($SAP_FechaCon,10," ",STR_PAD_LEFT);
@@ -113,7 +120,7 @@ function CreaArchivoLotePqte($ProdAux, $SubProdAux, $AnoAux, $MesAux,$IdLote,$IE
 		$Linea.= str_pad($SAP_Status,1," ",STR_PAD_LEFT);
 		$Linea.= str_pad($SAP_Msg,80," ",STR_PAD_LEFT);
 		//echo "linea archivo:   ".$Linea."<br>";
-		InsertarLineaTmp($CorrIE,'1',$Linea);
+		InsertarLineaTmp($CorrIE,'1',$Linea,$link);
 		//fwrite($Archivo1,$Linea."\r\n");
 		$FechaRenov='';
 		CreaArchivoLotePqtePqte($FilaAux["cod_grupo"],$CorrEnm,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdLote,$Archivo1,$FechaRenov,$CorrIE,$MarcaLote,$link);
@@ -156,9 +163,9 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 		$FechaRenov=ObtieneFechaRenov($FilaPqte["cod_grupo"],$FechaPqte[1],$FechaPqte[2],$FechaPqte[0],$link);
 		$FechaCreaGrupoDatos=explode('-',$FechaRenov);
 	
-	//MFM Axity $id_paquete='VE-REF-'.str_pad($FechaCreaGrupoDatos[2],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[1],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[0],4,"0").'-'.str_pad($CodCircuitoEti,2,"0",STR_PAD_LEFT).str_pad($FilaPqte["cod_grupo"],2,"0",STR_PAD_LEFT).'-'.$FilaPqte[cod_paquete]."-".str_pad($FilaPqte["num_paquete"],5,"0",STR_PAD_LEFT);
+	//MFM Axity $id_paquete='VE-REF-'.str_pad($FechaCreaGrupoDatos[2],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[1],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[0],4,"0").'-'.str_pad($CodCircuitoEti,2,"0",STR_PAD_LEFT).str_pad($FilaPqte["cod_grupo"],2,"0",STR_PAD_LEFT).'-'.$FilaPqte["cod_paquete"]."-".str_pad($FilaPqte["num_paquete"],5,"0",STR_PAD_LEFT);
 		
-		$id_paquete='VE-REF-'.str_pad($FechaPqte[2],2,"0",STR_PAD_LEFT).str_pad($FechaPqte[1],2,"0",STR_PAD_LEFT).$FechaPqte[0].'-'.str_pad($CodCircuitoEti,2,"0",STR_PAD_LEFT).str_pad($FilaPqte["cod_grupo"],2,"0",STR_PAD_LEFT).'-'.$FilaPqte[cod_paquete]."-".str_pad($FilaPqte["num_paquete"],5,"0",STR_PAD_LEFT);
+		$id_paquete='VE-REF-'.str_pad($FechaPqte[2],2,"0",STR_PAD_LEFT).str_pad($FechaPqte[1],2,"0",STR_PAD_LEFT).$FechaPqte[0].'-'.str_pad($CodCircuitoEti,2,"0",STR_PAD_LEFT).str_pad($FilaPqte["cod_grupo"],2,"0",STR_PAD_LEFT).'-'.$FilaPqte["cod_paquete"]."-".str_pad($FilaPqte["num_paquete"],5,"0",STR_PAD_LEFT);
 		
 
 		$TIPO='A';
@@ -174,7 +181,7 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 
 		$LOTE_PROD='VEN'.str_pad($FechaPqte[2],2,"0",STR_PAD_LEFT).str_pad($FechaPqte[1],2,"0",STR_PAD_LEFT).$FechaPqte[0].str_pad($CodCircuitoEti,2,"0",STR_PAD_LEFT).str_pad($FilaPqte["cod_grupo"],2,'0',STR_PAD_LEFT);
 				
-		$DatosIdPaquete=explode('-',$FilaPqte["id_paquete"]);
+		//$DatosIdPaquete=explode('-',$FilaPqte["id_paquete"]);
 		$FECHA_COS=str_pad($FechaPqte[2],2,"0",STR_PAD_LEFT).str_pad($FechaPqte[1],2,"0",STR_PAD_LEFT).$FechaPqte[0];
 		$COD_PAQTE=str_pad($FilaPqte["num_paquete"],8,' ',STR_PAD_LEFT);
 		$PLANTA=str_pad('VENTANAS',25,' ',STR_PAD_RIGHT);
@@ -203,7 +210,7 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 		$Linea.=$STATUS;
 		//MFM  echo "FECHA COST ".$FECHA_COS."";
 		//MFM echo " - ".$Linea."<br>";
-		InsertarLineaTmp($CorrIE,'3',$Linea);
+		InsertarLineaTmp($CorrIE,'3',$Linea,$link);
 		//fwrite($Archivo2,$Linea."\r\n");
 	}
 
@@ -213,7 +220,8 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 	$SA=ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdLote,$link);
 	//echo "SA: ".$SA."<br><br>";
 	//echo "GRUPO: ".$Grupo."<br><br>";
-	DefinirArregloLeyes("18",'',$ArrRespLeyes);
+	$ArrRespLeyes = array();
+	$ArrRespLeyes = DefinirArregloLeyes("18",'',$ArrRespLeyes);
 	reset($ArrRespLeyes);
 	//while (list($k,$Valor)=each($ArrRespLeyes))
 	foreach ($ArrRespLeyes as $k => $Valor)
@@ -228,8 +236,8 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 		$RespSA=mysqli_query($link, $Consulta);
 		if($FilaSA=mysqli_fetch_array($RespSA))
 		{
-			$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA[valor];
-			//echo $FilaSA["cod_leyes"]."  ".$FilaSA[valor]."<br>";	
+			$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA["valor"];
+			//echo $FilaSA["cod_leyes"]."  ".$FilaSA["valor"]."<br>";	
 		}
 
 	}
@@ -238,8 +246,8 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 	$RespSA=mysqli_query($link, $Consulta);
 	while($FilaSA=mysqli_fetch_array($RespSA))
 	{
-		$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA[valor];
-		//echo $FilaSA["cod_leyes"]."  ".$FilaSA[valor]."<br>";	
+		$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA["valor"];
+		//echo $FilaSA["cod_leyes"]."  ".$FilaSA["valor"]."<br>";	
 	}*/
 	reset($ArrRespLeyes);$L_SAP_Leyes='';
 	//while (list($k,$Valor)=each($ArrRespLeyes))
@@ -278,11 +286,13 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 		$LOTE_PRODUCCION2=str_pad(str_pad($Correlativo,5,'0',STR_PAD_LEFT).substr($AnoAux,2,2).str_pad($Grupo,2,'0',STR_PAD_LEFT),15,' ',STR_PAD_RIGHT);
 		$ConsultaTARROS="select count(*) as Cantidad from pmn_web.pmn_pesa_bad_detalle where lote='".$LOTE_PRODUCCION2."' and palet_a_b is not null and MONTH(fecha_embarque)='".$MesAux."' and year(fecha_embarque)='".$AnoAux."'";
 		$RespCantTambor=mysqli_query($link, $ConsultaTARROS);
+		$DESCUENTO_PESO_TAMBOR=0;
 		if($FilaCantTambor=mysqli_fetch_array($RespCantTambor))
 		{
-			$DESCUENTO_PESO_TAMBOR=intval($FilaCantTambor[Cantidad])*9.5;
+			$DESCUENTO_PESO_TAMBOR=intval($FilaCantTambor["Cantidad"])*9.5;
 		}
-		$PESO_SECO=$PESO_NETO-$DESCUENTO_PESO_TAMBOR+$PESO_TOTAL_PALETS_A_B;
+		//$PESO_SECO=$PESO_NETO - $DESCUENTO_PESO_TAMBOR + $PESO_TOTAL_PALETS_A_B;
+		$PESO_SECO=$PESO_NETO - $DESCUENTO_PESO_TAMBOR;
 		$PESO_SECO=str_pad(number_format($PESO_SECO,3,',',''),15,' ',STR_PAD_LEFT);	
 	//************************************+
 	//$FECHA_PRODUCCION2=str_pad($FechaCreaGrupoDatos[2],2,"0",STR_PAD_LEFT).str_pad($FechaCreaGrupoDatos[1],2,"0",STR_PAD_LEFT).$FechaCreaGrupoDatos[0];
@@ -293,8 +303,24 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 	$L_SAP_UnidadPeso = "";
 	$L_SAP_Centro = "";
 	$L_SAP_FormaEmpaque01 = "";
-	Homologar($ProdAux,$SubProdAux,$L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01,$link);
-	OrdenProduccionSap($Asignacion,$ProdAux,$SubProdAux,$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
+	$Lista = Homologar($ProdAux,$SubProdAux,$L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01,$link);
+	$valor = explode("**",$Lista);
+	$L_SAP_CodMaterial    = $valor[0];
+	$L_SAP_UnidadPeso     = $valor[1];
+	$L_SAP_Centro         = $valor[2];
+	$L_SAP_FormaEmpaque01 = $valor[3];
+	
+    $SAP_CodMaterial="";
+	$SAP_Unidad       = "";
+	$SAP_ClaseValoriz = "";
+	$SAP_Centro       = "";	
+	$Lista = OrdenProduccionSap($Asignacion,$ProdAux,$SubProdAux,$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);	
+	$valor = explode("**",$Lista);
+	$SAP_OrdenProd    = $valor[0];
+	$SAP_CodMaterial  = $valor[1];
+	$SAP_Unidad       = $valor[2];
+	$SAP_ClaseValoriz = $valor[3];
+	$SAP_Centro       = $valor[4];	
 	if($FechaRenov!='')
 	{	
 		$FechaCreaGrupoDatos=explode('-',$FechaRenov);
@@ -386,7 +412,7 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 	$LineaLeyes.= str_pad($L_SAP_FechaProd,15," ",STR_PAD_LEFT);							
 	$LineaLeyes.= str_pad($L_SAP_TipoTransporte,15," ",STR_PAD_LEFT);
 	$LineaLeyes.= str_pad($L_SAP_MarcaLote,15," ",STR_PAD_LEFT);*/			
-	InsertarLineaTmp($CorrIE,'2',$LineaLeyes);
+	InsertarLineaTmp($CorrIE,'2',$LineaLeyes,$link);
 	//fwrite($Archivo3,$LineaLeyes."\r\n");
 
 }
@@ -397,7 +423,7 @@ function ObtieneCircuito($Grupo,$link)
 	$RespEti=mysqli_query($link, $Consulta);
 	if($FilaEti=mysqli_fetch_array($RespEti))
 	{
-		$CodCircuito=$FilaEti[cod_circuito];	
+		$CodCircuito=$FilaEti["cod_circuito"];	
 	}
 	return($CodCircuito);
 
@@ -487,26 +513,26 @@ function ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdL
 	}
 	return($SA);
 }
-function InsertarLineaTmp($CorrIE,$Tipo,$Linea)
+function InsertarLineaTmp($CorrIE,$Tipo,$Linea,$link)
 {
 	//$Consulta="select ifnull(max(corr)+1,1) as corr from tmp_archivo_embarque";
 	$Insertar="insert into interfaces_codelco.tmp_archivo_embarque (corr,tipo,linea) values ('".$CorrIE."','".$Tipo."','".$Linea."')";
 	mysqli_query($link, $Insertar);
 }
-function CreaArchivoTxt($Archivo1,$Archivo2)
+function CreaArchivoTxt($Archivo1,$Archivo2,$link)
 {
 	$Consulta="select linea from interfaces_codelco.tmp_archivo_embarque where tipo in ('1','2') order by corr,tipo";
 	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysqli_fetch_array($Resp))
 	{
-		fwrite($Archivo1,$Fila[linea]."\r\n");
+		fwrite($Archivo1,$Fila["linea"]."\r\n");
 	
 	}
 	$Consulta="select linea from interfaces_codelco.tmp_archivo_embarque where tipo='3' order by corr,tipo";
 	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysqli_fetch_array($Resp))
 	{
-		fwrite($Archivo2,$Fila[linea]."\r\n");
+		fwrite($Archivo2,$Fila["linea"]."\r\n");
 	
 	}
 	
@@ -529,9 +555,12 @@ function Homologar($ProdAux, $SubProdAux, $CodSap, $Unidad, $CentroHomo, $CodEmp
 	else
 	{
 		$CodSap = "3";
+		$Unidad = "";
 		$CentroHomo = "FV01";
 		$CodEmpaque = "02";
 	}
+	$lista = $CodSap."**".$Unidad."**".$CentroHomo."**".$CodEmpaque;
+	return $lista;
 }
 
 function OrdenProduccionSap($Asignacion,$Prod,$SubProd,$OrdenProd,$CodMatSAP,$UnidSAP,$ClaseValorAux,$Centro,$link)	
@@ -576,6 +605,9 @@ function OrdenProduccionSap($Asignacion,$Prod,$SubProd,$OrdenProd,$CodMatSAP,$Un
 			$Centro = "FV01";
 		}
     }
+	$lista = $OrdenProd."**".$CodMatSAP."**".$UnidSAP."**".$ClaseValorAux."**".$Centro;
+	return $lista;
+	
 }
 
 
@@ -584,10 +616,10 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 
 	$AnoMenos = $AnoAux - 1;
 	if ($ProdAux!="")
-		DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
+		$ArregloLeyes = DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 	else
-		DefinirArregloLeyes("18", $SubProdAux, $ArregloLeyes);	
-	$Consulta = "select  t0.cod_bulto, t0.num_bulto, t0.cod_marca, t0.corr_enm, t3.abreviatura as descripcion, tt.fecha_disponible, ";
+		$ArregloLeyes = DefinirArregloLeyes("18", $SubProdAux, $ArregloLeyes);	
+	$Consulta = "select  t0.cod_bulto, t0.num_bulto, t0.cod_marca, t0.corr_enm, t3.abreviatura as descripcion, tt.fecha_disponible,t1.nro_solicitud, ";
 	$Consulta.= " tt.cod_producto, tt.cod_subproducto, t2.fecha_guia,sum(t1.peso_paquetes) As peso, fecha_creacion_lote, tt.cod_puerto, tt.cod_puerto_destino, ";
 	$Consulta.= " count(t0.num_paquete) as num_paquetes, sum(t1.num_unidades) as num_unidades, t4.descripcion as descrip_marca, t4.descripcion_ingles as marca_ingles, tt.cod_contrato_maquila as asignacion ";
 	$Consulta.= " from interfaces_codelco.asignaciones t inner join sec_web.programa_codelco tt on t.asignacion=tt.cod_contrato_maquila ";
@@ -642,6 +674,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 		$Arreglo[$i]["descripcion"] = $FilaAux["descripcion"];
 		$Arreglo[$i]["cod_bulto"] = $FilaAux["cod_bulto"];
 		$Arreglo[$i]["num_bulto"] = $FilaAux["num_bulto"];
+		$Arreglo[$i]["nro_solicitud"] = $FilaAux["nro_solicitud"];
 		$Arreglo[$i]["fecha_embarque"] = $FilaAux["fecha_disponible"];
 		$Arreglo[$i]["peso"] = $FilaAux["peso"]/1000;
 		$Arreglo[$i]["fecha_creacion_lote"] = $FilaAux["fecha_creacion_lote"];
@@ -784,6 +817,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
               //poly 26-03-2008
         $i++;//esto fuera del if
 	}
+	return $Arreglo;
 }
 function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote, $ArregloLeyes, $Orden, $link)
 {
@@ -985,6 +1019,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
                 }
         $i++;//esto fuera del if
 	}
+	return $Arreglo;	
 }
 
 function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote, $ArregloLeyes, $link)
@@ -995,9 +1030,9 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 	{
 		//echo "entrar_1"."<br>";
 		if ($ProdAux!="")
-			DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
+			$ArregloLeyes = DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 		else
-			DefinirArregloLeyes("34", $SubProdAux, $ArregloLeyes);	
+			$ArregloLeyes = DefinirArregloLeyes("34", $SubProdAux, $ArregloLeyes);	
 		//RESCATA BAD
 		$Consulta = "SELECT t1.lote,t1.fecha_hora,t2.fecha_embarque,sum(pneto) as peso_neto,count(*) as unidades from pmn_web.pmn_pesa_bad_cabecera t1 inner join  pmn_web.pmn_pesa_bad_detalle t2 on t1.lote=t2.lote ";
 		$Consulta.= " WHERE   fecha_embarque between '".$AnoAux."-".$MesAux."-01 00:00:00' and '".$AnoAux."-".$MesAux."-31 23:59:59' ";
@@ -1271,9 +1306,9 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 		($ProdAux=="31" && $SubProdAux=="2") || ($ProdAux=="47" && $SubProdAux=="1") || ($ProdAux=="28")) // ($ProdAux=="28" && $SubProdAux=="1"))
 	{
 		if ($ProdAux!="")
-			DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
+			$ArregloLeyes = DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 		else
-			DefinirArregloLeyes("", $SubProdAux, $ArregloLeyes);
+			$ArregloLeyes = DefinirArregloLeyes("", $SubProdAux, $ArregloLeyes);
 		//TABLA PRODUCCION_SUBPRODUCTOS
 		$Consulta = "select * from pmn_web.produccion_subproductos t1";
 		$Consulta.= " inner join proyecto_modernizacion.subproducto t2 on t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto ";
@@ -1437,6 +1472,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$i++;
 		}
 	}
+	return $Arreglo;
 }	
 function RescataAcido($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote, $ArregloLeyes, $Orden, $link)
 {		
