@@ -243,11 +243,12 @@ function RescataPeso($TipoMov,$Producto,$SubProducto,$Flujo,$FechaInicio,$FechaT
 	$Fino_Au = $Fino_Au + $FinoAu;	
 }	
 
-function RescataLeyes($Ano,$Mes,$link)
+function RescataLeyes($Ano, $Mes, $link)
 {
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
-	$Consulta.= " where cod_clase=3004 and cod_subclase =".$Mes;
+	$Consulta.= " where cod_clase=3004 and cod_subclase ='".$Mes."' ";
 	$RespAux = mysqli_query($link, $Consulta);
+	$Letra="";
 	if ($FilaAux = mysqli_fetch_array($RespAux))
 	{
 		$Letra = $FilaAux["nombre_subclase"];
@@ -281,6 +282,7 @@ function CalculaLeyesComerciales($Letra, $AnoConsulta, $MesConsulta, $link)
 	$Mensaje = "";
 	$FinoAg=0; //WSO
 	$FinoAu=0;//WSO
+	$PesoMes=0; //WSO
 	for ($i=1; $i<=4; $i++)
 	{
 		switch ($i)
@@ -308,8 +310,7 @@ function CalculaLeyesComerciales($Letra, $AnoConsulta, $MesConsulta, $link)
 		$Consulta.= " and cod_subproducto = '1'";
 		$Consulta.= " and fecha_produccion between '".$Fecha1."' and '".$Fecha2."'";	
 		$Consulta.= " group by cod_producto, cod_subproducto ";
-		$RespAux = mysqli_query($link, $Consulta);
-		$PesoMes=0; //WSO
+		$RespAux = mysqli_query($link, $Consulta);	
 		if ($FilaAux = mysqli_fetch_array($RespAux))
 		{			
 			$PesoSemana = $FilaAux["peso_produccion"];
@@ -354,15 +355,20 @@ function CalculaLeyesComerciales($Letra, $AnoConsulta, $MesConsulta, $link)
 			//------------------------------------------------------------------------
 		}	
 	}
-	$FinoCu = 99.99;	
+	$FinoCu = 99.99;
+    //echo "<br>PesoMes:".$PesoMes."<br>";	
 	if ($FinoAg > 0 && $PesoMes > 0)
 		$FinoAg = $FinoAg / $PesoMes;
 	if ($FinoAu > 0 && $PesoMes > 0)
 		$FinoAu = $FinoAu / $PesoMes;
 	//INSERTA LEYES COMERCIALES
+	//echo "<br>FinoAg:".$FinoAg."<br>";
+	// $numero = bcdiv($FinoAg, 1, 8);
+	//echo "<br>FinoAg 2:".$numero."<br>";
 	$Insertar = "INSERT INTO sec_web.leyes_anexo ";
 	$Insertar.= " (ano, mes, cod_producto, cod_subproducto, serie, peso, cu, ag, au) ";
 	$Insertar.= " VALUES ('".$AnoConsulta."', '".$MesConsulta."', '18', '1', '".$Letra."', '".$PesoMes."', '".$FinoCu."', '".$FinoAg."', '".$FinoAu."')";
+	//echo $Insertar;
 	mysqli_query($link, $Insertar);	
 	
 	return $Mensaje;

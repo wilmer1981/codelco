@@ -10,7 +10,7 @@
 	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysqli_fetch_array($Resp))
 	{
-		$FecMov=explode('-',$Fila["fecha_movimiento"]);
+		$FecMov=explode('-',$Fila[fecha_movimiento]);
 		$FecMov=$FecMov[2]."-".$FecMov[1]."-".$FecMov[0];
 		$FecBen=explode('-',$Fila[fecha_benef]);
 		$FecBen=$FecBen[2]."-".$FecBen[1]."-".$FecBen[0];
@@ -19,55 +19,19 @@
 		$Hora=$FechaAux[1];
 		$FechaHora=$Fecha[2]."-".$Fecha[1]."-".$Fecha[0]." ".$Hora;
 		$Insertar="INSERT INTO sea_web.movimientos (`tipo_movimiento`,`cod_producto`,`cod_subproducto`,`hornada`,`numero_recarga`,`fecha_movimiento`,`campo1`,`campo2`,`unidades`,`flujo`,`fecha_benef`,`peso`,`estado`,`lote_ventana`,`peso_origen`,`zuncho`,`hora`) VALUES ";
-		$Insertar.="('".$Fila[tipo_movimiento]."','".$Fila["cod_producto"]."','".$Fila["cod_subproducto"]."','".$Fila[hornada]."','".$Fila[numero_recarga]."','".$FecMov."','".$Fila[campo1]."','".$Fila[campo2]."','".$Fila["unidades"]."','".$Fila["flujo"]."','".$FecBen."',";
+		$Insertar.="('".$Fila[tipo_movimiento]."','".$Fila[cod_producto]."','".$Fila["cod_subproducto"]."','".$Fila[hornada]."','".$Fila[numero_recarga]."','".$FecMov."','".$Fila[campo1]."','".$Fila[campo2]."','".$Fila["unidades"]."','".$Fila["flujo"]."','".$FecBen."',";
 		$Insertar.="'".$Fila["peso"]."','".$Fila["estado"]."','".$Fila[lote_ventana]."','".$Fila[peso_origen]."','".$Fila[zuncho]."','".$FechaHora."')";
 		echo $Insertar."<br>";
 		mysqli_query($link, $Insertar);
 	}*/
-	if(isset($_REQUEST["Ano"])){
-		$Ano = $_REQUEST["Ano"];
-	}else{
-		$Ano = date("Y");
-	}
-	if(isset($_REQUEST["Mes"])){
-		$Mes = $_REQUEST["Mes"];
-	}else{
-		$Mes = date("m");
-	}
-	if(isset($_REQUEST["Mostrar"])){
-		$Mostrar = $_REQUEST["Mostrar"];
-	}else{
-		$Mostrar = "";
-	}
-
-	if(isset($_REQUEST["CodSistema"])){
-		$CodSistema = $_REQUEST["CodSistema"];
-	}else{
-		$CodSistema = "";
-	}
-/*
-	if(isset($_REQUEST["PesoMes"])){
-		$PesoMes = $_REQUEST["PesoMes"];
-	}else{
-		$PesoMes = "";
-	}*/
-	if(isset($_REQUEST["FinoAg"])){
-		$FinoAg = $_REQUEST["FinoAg"];
-	}else{
-		$FinoAg = "";
-	}
-	if(isset($_REQUEST["FinoAu"])){
-		$FinoAu = $_REQUEST["FinoAu"];
-	}else{
-		$FinoAu = "";
-	}
-	if(isset($_REQUEST["FinoCu"])){
-		$FinoCu = $_REQUEST["FinoCu"];
-	}else{
-		$FinoCu = "";
-	}
-
-
+	
+	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+    $Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+    $Mostrar    = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+    $CodSistema = isset($_REQUEST["CodSistema"])?$_REQUEST["CodSistema"]:"";
+	$FinoAg     = isset($_REQUEST["FinoAg"])?$_REQUEST["FinoAg"]:"";
+	$FinoAu     = isset($_REQUEST["FinoAu"])?$_REQUEST["FinoAu"]:"";
+	$FinoCu     = isset($_REQUEST["FinoCu"])?$_REQUEST["FinoCu"]:"";
 ?>
 <html>
 <head>
@@ -98,7 +62,7 @@ function Proceso(opt)
 			window.open(Pag,"","top=200,left=175,width=409,height=210,scrollbars=no,resizable = no");	
 			break;
 		case "CM":
-			var msg = confirm("�Esta seguro que desea guardar esta version del Anexo.SEC?");
+			var msg = confirm("¿Esta seguro que desea guardar esta version del Anexo.SEC?");
 			if (msg)
 			{
 				f.action = "sec_anexo_sec01.php?Proceso=G&Ano=" + f.Ano.value + "&Mes=" + f.Mes.value;
@@ -171,7 +135,7 @@ function Detalle(flu,pag)
 			$Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");				
 		 	for($i=1;$i<=12;$i++)
 		  	{
-				if (!isset($Mes))
+				if ($Mes=="")
 				{
 					if ($i == date("n"))
 						echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
@@ -192,7 +156,7 @@ function Detalle(flu,pag)
           <?php
 			for ($i=date("Y")-3;$i<=date("Y")+1;$i++)
 			{
-				if (!isset($Ano))
+				if ($Ano=="")
 				{
 					if ($i == date("Y"))
 						echo "<option selected value ='".$i."'>".$i." </option>";
@@ -213,7 +177,8 @@ function Detalle(flu,pag)
       <td  align="right">Cierre Parcial:
       </td>
       <td width="183"><?php
-	 // if(strlen($Mes)==1){$Mes="0".$Mes;}
+	 // echo "Mes: ".$Mes;
+	// if(strlen($Mes)==1){$Mes="0".$Mes;}
 	//CONSULTO SI SE CERRO DEFINITIVO EL MES
 	$Consulta = "select estado, fecha_cierre from proyecto_modernizacion.cierre_mes";
 	$Consulta.= " where cod_sistema='3' ";
@@ -345,8 +310,15 @@ if ($Mostrar == "S")
 		//RESCATA LEYES
 		RescataLeyes($Ano,$Mes,$link);
 		//-------------
+	    if($Mes=='01' || $Mes=='03' || $Mes=='05' || $Mes=='07' || $Mes=='08' || $Mes=='10' || $Mes=='12'){
+			$diaf= '31';
+		}else{
+			$diaf= '30';
+		}
+		
 		$FechaInicio = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-01";
-		$FechaTermino = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-31";
+		//$FechaTermino = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-31";
+		$FechaTermino = $Ano."-".str_pad($Mes,2,"0",STR_PAD_LEFT)."-$diaf";
 		$Consulta = "select distinct cod_flujo, ceiling(cod_flujo) as flujo_orden,descripcion from proyecto_modernizacion.flujos ";
 		$Consulta.= " where sistema = 'SEC' and esflujo<>'N' ";
 		//$Consulta.= " and cod_flujo in ('','417')";
@@ -505,11 +477,11 @@ if ($Mostrar == "S")
       <td align="center">Au</td>
     </tr>
     <?php
-$MesCons = $Mes;
-$AnoCons = $Ano;
-//$Mostrar='S';	
-if ($Mostrar == "S")  
-{	
+	$MesCons = $Mes;
+	$AnoCons = $Ano;
+	//$Mostrar='S';	
+	if ($Mostrar == "S")  
+	{	
 	 //$Copiar='S';
 	 if ($Copiar == "S")
 	{
@@ -524,9 +496,15 @@ if ($Mostrar == "S")
 		$RespAux5 = mysqli_query($link, $Consulta);            
 		while ($FilaAux5 = mysqli_fetch_array($RespAux5))
 		{
-			$Nodo=$FilaAux5["nodo"];
+			$Nodo     =$FilaAux5["nodo"];
 			$PesoTotal=0;$AcumFinoCu=0;$AcumFinoAg=0;$AcumFinoAu=0;
-			ObtieneExistencias($AnoCons,$MesCons,$Nodo,$PesoTotal,$AcumFinoCu,$AcumFinoAg,$AcumFinoAu,$link);
+			$Existencias = ObtieneExistencias($AnoCons,$MesCons,$Nodo,$PesoTotal,$AcumFinoCu,$AcumFinoAg,$AcumFinoAu,$link);
+			$Exist      = explode("/",$Existencias);
+			$Nodo       = $Exist[0];
+			$PesoTotal  = $Exist[1];
+			$AcumFinoCu = $Exist[2];
+			$AcumFinoAg = $Exist[3];
+			$AcumFinoAu = $Exist[4];
 			if($Nodo=='83')
 			{
 				$AcumFinoCu=$PesoTotal;
@@ -689,7 +667,14 @@ function ObtieneExistencias($AnoFin,$MesFin,$Nodo,$PesoTotal,$AcumFinoCu,$AcumFi
 		$Producto = $FilaAux["cod_producto"];
 		$SubProducto = $FilaAux["cod_subproducto"];
 		//echo $Producto."-".$SubProducto." - ".$FilaAux["descripcion"]."<br><br>";
-		$DiaFin = "31";
+		$DiaFin = "31";	
+/*		
+		if($MesCons=='01' || $MesCons=='03' || $MesCons=='05' || $MesCons=='07' || $MesCons=='08' || $MesCons=='10' || $MesCons=='12'){
+			$DiaFin= '31';
+		}else{
+			$DiaFin= '30';
+		}*/
+		
 		$MesFin = str_pad($MesCons,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoCons;
 		$DiaIni = "01";
@@ -774,9 +759,14 @@ function ObtieneExistencias($AnoFin,$MesFin,$Nodo,$PesoTotal,$AcumFinoCu,$AcumFi
 			}
 			else
 			{
-				$Insertar = "INSERT INTO sec_web.tmp_existencias  (id, cod_bulto, num_bulto, ano_creacion, peso, cod_producto, cod_subproducto) ";
-				$Insertar.= "values('1','".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."','".$Fila["ano_creacion"]."','".$Fila["peso"]."','".$Fila["cod_producto"]."','".$Fila["cod_subproducto"]."')";
-				mysqli_query($link, $Insertar);
+				$consulta = "SELECT * FROM sec_web.tmp_existencias WHERE cod_bulto = '".$Fila["cod_bulto"]."' AND num_bulto = '".$Fila["num_bulto"]."' AND ano_creacion = '".$Fila["ano_creacion"]."' ";
+				$Result = mysqli_query($link, $Consulta);
+				$cont = mysqli_num_rows($Result);
+				if($cont =='0'){
+					$Insertar = "INSERT INTO sec_web.tmp_existencias  (id, cod_bulto, num_bulto, ano_creacion, peso, cod_producto, cod_subproducto) ";
+					$Insertar.= "values('1','".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."','".$Fila["ano_creacion"]."','".$Fila["peso"]."','".$Fila["cod_producto"]."','".$Fila["cod_subproducto"]."')";
+					mysqli_query($link, $Insertar);
+				}
 			}
 			$PesoM=$PesoM+$Fila["peso"];
 		}
@@ -820,7 +810,6 @@ function ObtieneExistencias($AnoFin,$MesFin,$Nodo,$PesoTotal,$AcumFinoCu,$AcumFi
 			}
 		}
 		//FIN TRASPASO		
-		
 	}
 		
 	$AcumFinoCu = 0;$AcumFinoAg = 0;$AcumFinoAu = 0;
@@ -968,12 +957,17 @@ function ObtieneExistencias($AnoFin,$MesFin,$Nodo,$PesoTotal,$AcumFinoCu,$AcumFi
 			if ($Fino_Ag > 0 && $Peso > 0)									
 				$AcumFinoAg = $AcumFinoAg + (($Fino_Ag*$Peso)/1000);				
 			if ($Fino_Au > 0 && $Peso > 0)									
-				$AcumFinoAu = $AcumFinoAu + (($Fino_Au*$Peso)/1000);				
+				$AcumFinoAu = $AcumFinoAu + (($Fino_Au*$Peso)/1000);
+			
 			$PesoTotal = $PesoTotal + $Fila["peso"];			
 		}		
 	}			
 	$Eliminar = "DROP TABLE IF EXISTS sec_web.tmp_existencias";
 	mysqli_query($link, $Eliminar);
+
+	$cadena = $Nodo."/".$PesoTotal."/".$AcumFinoCu."/".$AcumFinoAg."/".$AcumFinoAu;
+	
+	return $cadena;
 }
 ?>
 
