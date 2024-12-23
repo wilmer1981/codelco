@@ -51,14 +51,14 @@ function Detalle(Lote)
 			$Consulta="select descripcion from proyecto_modernizacion.subproducto where cod_producto ='".$Producto."' and cod_subproducto='".$SubProducto."'";
 			$RespProd = mysqli_query($link, $Consulta);
 			$FilaProd = mysqli_fetch_array($RespProd);
-			echo "<strong>FECHA: </strong>".$FechaIni." al ".$FechaFin."&nbsp;&nbsp;&nbsp;&nbsp;<strong>SUBPRODUCTO: </strong>".$FilaProd["descripcion"]."&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<strong>FECHA: </strong>".$FechaIni." al ".$FechaFin."&nbsp;&nbsp;&nbsp;&nbsp;<strong>SUBPRODUCTO: </strong>".$FilaProd['descripcion']."&nbsp;&nbsp;&nbsp;&nbsp;";
 			$Consulta="select NOMPRV_A as nom_prv from rec_web.proved where RUTPRV_A ='".$RutPrv."'";
 			$RespProv = mysqli_query($link, $Consulta);
 			$FilaProv = mysqli_fetch_array($RespProv);
 			if($RutPrv=='99999999-9')
 				echo "<strong>PROVEEDOR: </strong>".$RutPrv." - VARIOS ENAMI";
 			else
-				echo "<strong>PROVEEDOR: </strong>".$RutPrv." - ".$FilaProv[nom_prv];
+				echo "<strong>PROVEEDOR: </strong>".$RutPrv." - ".$FilaProv['nom_prv'];
 		?>
 		</td>
       </tr>
@@ -78,7 +78,7 @@ function Detalle(Lote)
 		<td colspan="2">Pesos(Kg)</td>
 		<?php
 			$ArrLeyes=array();
-			DefinirArregloLeyes('1',$SubProducto,&$ArrLeyes);
+			$ArrLeyes = DefinirArregloLeyes('1',$SubProducto,$ArrLeyes);
 			$CantLeyes=count($ArrLeyes);
 		?>
 		<td colspan="<?php echo $CantLeyes;?>">Finos</td>
@@ -90,16 +90,16 @@ function Detalle(Lote)
 		  <td width="80">Seco</td>
 		  <?php
 			$ArrLeyes=array();
-			DefinirArregloLeyes('1',$SubProducto,&$ArrLeyes);
-		  	foreach($ArrLeyes as $c=>$v)
+			$ArrLeyes = DefinirArregloLeyes('1',$SubProducto,$ArrLeyes);
+			
+			foreach ($ArrLeyes as $c => $v)
 			{
 				$Consulta="select t1.abreviatura as nom_ley,t2.abreviatura as nom_unidad,t2.conversion from proyecto_modernizacion.leyes t1 inner join proyecto_modernizacion.unidades t2 ";
 				$Consulta.="on t1.cod_unidad =t2.cod_unidad where t1.cod_leyes='".$c."'";
 				$RespLeyes=mysqli_query($link, $Consulta);
 				$FilaLeyes=mysqli_fetch_array($RespLeyes);
 				//echo "<td width='80'>".$FilaLeyes[nom_ley]."(".$FilaLeyes[nom_unidad].")</td>";
-				echo "<td width='80'>".$FilaLeyes[nom_ley]."</td>";
-				
+				echo "<td width='80'>".$FilaLeyes["nom_ley"]."</td>";				
 			}
 		  
 		  ?>
@@ -126,7 +126,7 @@ function Detalle(Lote)
 			while ($FilaPrv = mysqli_fetch_array($RespPrv))
 			{
 				echo "<tr class='Detalle01'>\n";
-				echo "<td colspan='".($CantLeyes+4)."' align='center'>PROVEEDOR:&nbsp;$FilaPrv["rut_proveedor"]&nbsp;&nbsp;&nbsp;$FilaPrv[nom_prv]</td>\n";	
+				echo "<td colspan='".($CantLeyes+4)."' align='center'>PROVEEDOR:&nbsp;".$FilaPrv["rut_proveedor"]."&nbsp;&nbsp;&nbsp;.".$FilaPrv["nom_prv"]."</td>\n";	
 				echo "</tr>\n";
 				$Consulta ="select distinct t1.lote,estado_lote from age_web.lotes t1 left join age_web.leyes_por_lote t3 on t1.lote=t3.lote ";
 				$Consulta.="where t1.estado_lote <> '6' and t1.rut_proveedor='".$FilaPrv["rut_proveedor"]."' and t1.fecha_recepcion between '".$FechaIni."' and '".$FechaFin."' ";
@@ -137,23 +137,28 @@ function Detalle(Lote)
 				while ($FilaLote = mysqli_fetch_array($RespLote))
 				{
 					echo "<tr align='center'>\n";
-					echo "<td><a href=JavaScript:Detalle('$FilaLote["lote"]')>$FilaLote["lote"]</a></td>\n";
-					if($FilaLote[estado_lote]=='4')
+					echo "<td><a href=JavaScript:Detalle('$FilaLote[lote]')>$FilaLote[lote]</a></td>\n";
+					if($FilaLote["estado_lote"]=='4')
 						echo "<td><STRONG><font color='#000000'>C</font></STRONG></td>\n";
 					else
 						echo "<td><STRONG><font color='#FF0000'>A</font></STRONG></td>\n";	
 					$DatosLote= array();
 					$ArrLeyes=array();
 					$DatosLote["lote"]=$FilaLote["lote"];
-					DefinirArregloLeyes($Producto,$SubProducto,&$ArrLeyes);
-					LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
-					echo "<td>".number_format($DatosLote[peso_humedo],0,'','.')."</td>\n";
-					echo "<td>".number_format($DatosLote[peso_seco],0,'','.')."</td>\n";
+					$ArrLeyes  = DefinirArregloLeyes($Producto,$SubProducto,$ArrLeyes);					
+					$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+					//var_dump($DatosLote);
+					$peso_humedo = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
+				    $peso_seco   = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;					
+					$ArrLeyes = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","L",$link);//Leyes
+					//var_dump($ArrLeyes);
+					echo "<td>".number_format($peso_humedo,0,'','.')."</td>\n";
+					echo "<td>".number_format($peso_seco,0,'','.')."</td>\n";
 					reset($ArrLeyes);
 					foreach($ArrLeyes as $c=>$v)
 					{
 						if($c!='')						
-							echo "<td>".number_format($v[23],2,',','.')."</td>\n";	
+							echo "<td>".number_format((float)$v[23],2,',','.')."</td>\n";	
 					}
 					echo "</tr>\n";
 				}
@@ -161,24 +166,29 @@ function Detalle(Lote)
 				echo "<td colspan='2'>TOTAL</td>\n";
 				$DatosLotePrv= array();
 				$ArrLeyesPrv=array();
-				DefinirArregloLeyes($Producto,$SubProducto,&$ArrLeyesPrv);
-				LeyesProveedor('',$FilaPrv["rut_proveedor"],$Producto,$SubProducto,&$DatosLotePrv,&$ArrLeyesPrv,'N','S','S',$FechaIni,$FechaFin,"");
-				echo "<td align='center'>".number_format($DatosLotePrv[peso_humedo],0,'','.')."</td>\n";
-				echo "<td align='center'>".number_format($DatosLotePrv[peso_seco],0,'','.')."</td>\n";
+				$ArrLeyesPrv = DefinirArregloLeyes($Producto,$SubProducto,$ArrLeyesPrv);							
+				$DatosLotePrv = LeyesProveedor('',$FilaPrv["rut_proveedor"],$Producto,$SubProducto,$DatosLotePrv,$ArrLeyesPrv,'N','S','S',$FechaIni,$FechaFin,"","",$link);
+				//var_dump($DatosLotePrv);
+				$peso_humedo = isset($DatosLotePrv["peso_humedo"])?$DatosLotePrv["peso_humedo"]:0;
+				$peso_seco   = isset($DatosLotePrv["peso_seco"])?$DatosLotePrv["peso_seco"]:0;
+				$ArrLeyesPrv = LeyesProveedor('',$FilaPrv["rut_proveedor"],$Producto,$SubProducto,$DatosLotePrv,$ArrLeyesPrv,'N','S','S',$FechaIni,$FechaFin,"","L",$link);
+				
+				echo "<td align='center'>".number_format($peso_humedo,0,'','.')."</td>\n";
+				echo "<td align='center'>".number_format($peso_seco,0,'','.')."</td>\n";
 				reset($ArrLeyesPrv);
 				foreach($ArrLeyesPrv as $c=>$v)
-				{
+				{$v23 = isset($v[23])?$v[23]:"0.00";
 					if($c!='')
-						echo "<td align='center'>".number_format($v[23],2,',','.')."</td>\n";	
+						echo "<td align='center'>".number_format((float)$v23,2,',','.')."</td>\n";	
 				}
 				echo "</tr>\n";
 				echo "<tr class='Detalle02'>\n";
 				echo "<td colspan='4'>LEY PONDERADA</td>\n";
 				reset($ArrLeyesPrv);
-				while(list($c,$v)=each($ArrLeyesPrv))
-				{
+				foreach($ArrLeyesPrv as $c=>$v)
+				{$v2 = isset($v[2])?$v[2]:"0.00";
 					if($c!='')					
-						echo "<td align='center'>".number_format($v[2],2,',','.')."</td>\n";	
+						echo "<td align='center'>".number_format((float)$v2,2,',','.')."</td>\n";	
 				}
 				echo "</tr>\n";				
 			}
@@ -188,24 +198,27 @@ function Detalle(Lote)
 				echo "<td colspan='2'>TOT.PROD</td>\n";	
 				$DatosLoteProd= array();
 				$ArrLeyesProd=array();
-				DefinirArregloLeyes($Producto,$SubProducto,&$ArrLeyesProd);
-				LeyesProducto($RutCompra,'','',$Producto,$SubProducto,&$DatosLoteProd,&$ArrLeyesProd,'N','S','S',$FechaIni,$FechaFin,"");
-				echo "<td align='center'>".number_format($DatosLoteProd[peso_humedo],0,'','.')."</td>\n";
-				echo "<td align='center'>".number_format($DatosLoteProd[peso_seco],0,'','.')."</td>\n";
+				$ArrLeyesProd = DefinirArregloLeyes($Producto,$SubProducto,$ArrLeyesProd);				
+				$DatosLoteProd = LeyesProducto($RutCompra,'','',$Producto,$SubProducto,$DatosLoteProd,$ArrLeyesProd,'N','S','S',$FechaIni,$FechaFin,"","",$link);				
+				$peso_humedo = isset($DatosLoteProd["peso_humedo"])?$DatosLoteProd["peso_humedo"]:0;
+				$peso_seco   = isset($DatosLoteProd["peso_seco"])?$DatosLoteProd["peso_seco"]:0;				
+				$ArrLeyesProd = LeyesProducto($RutCompra,'','',$Producto,$SubProducto,$DatosLoteProd,$ArrLeyesProd,'N','S','S',$FechaIni,$FechaFin,"","L",$link);
+				echo "<td align='center'>".number_format($peso_humedo,0,'','.')."</td>\n";
+				echo "<td align='center'>".number_format($peso_seco,0,'','.')."</td>\n";
 				reset($ArrLeyesProd);
 				foreach($ArrLeyesProd as $c=>$v)
-				{
+				{   $v23=isset($v[23])?$v[23]:"0.00";
 					if($c!='')				
-						echo "<td align='center'>".number_format($v[23],2,',','.')."</td>\n";	
+						echo "<td align='center'>".number_format((float)$v23,2,',','.')."</td>\n";	
 				}
 				echo "</tr>\n";
 				echo "<tr class='Detalle03'>\n";
 				echo "<td colspan='4'>LEY PONDERADA</td>\n";	
 				reset($ArrLeyesProd);
 				foreach($ArrLeyesProd as $c=>$v)
-				{
+				{   $v2=isset($v[2])?$v[2]:"0.00";
 					if($c!='')				
-						echo "<td align='center'>".number_format($v[2],2,',','.')."</td>\n";	
+						echo "<td align='center'>".number_format((float)$v[2],2,',','.')."</td>\n";	
 				}
 				echo "</tr>\n";
 			}	

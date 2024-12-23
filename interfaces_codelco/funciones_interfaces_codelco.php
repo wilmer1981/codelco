@@ -151,8 +151,8 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 	$RespPqte=mysqli_query($link, $Consulta);
 	while($FilaPqte=mysqli_fetch_array($RespPqte))
 	{
-		$CodCircuitoEti=ObtieneCircuito($FilaPqte["cod_grupo"],$link);
-		$FechaPqte=explode('-',$FilaPqte["fecha_creacion_paquete"]);
+		$CodCircuitoEti = ObtieneCircuito($FilaPqte["cod_grupo"],$link);
+		$FechaPqte      = explode('-',$FilaPqte["fecha_creacion_paquete"]);
 		$FechaRenov=ObtieneFechaRenov($FilaPqte["cod_grupo"],$FechaPqte[1],$FechaPqte[2],$FechaPqte[0],$link);
 		$FechaCreaGrupoDatos=explode('-',$FechaRenov);
 	
@@ -210,26 +210,26 @@ function CreaArchivoLotePqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAu
 }
 function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdLote,$Archivo3,$FechaRenov,$SAP_Cantidad,$SAP_Unidad,$L_SAP_MARCA,$NUM_PQTE,$NUM_UNID,$Asignacion,$SAP_Almacen,$SAP_FechaDoc,$SAP_OrdenProd,$CorrIE,$MarcaLote,$link)
 {
-	$SA=ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdLote);
+	$SA=ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdLote,$link);
 	//echo "SA: ".$SA."<br><br>";
 	//echo "GRUPO: ".$Grupo."<br><br>";
 	DefinirArregloLeyes("18",'',$ArrRespLeyes);
 	reset($ArrRespLeyes);
-	//foreach($ArrRespLeyes as $k=>$Valor)
+	//while (list($k,$Valor)=each($ArrRespLeyes))
 	foreach ($ArrRespLeyes as $k => $Valor)
 	{
 		$ArrRespLeyes[$k]=0;
 	}
 	reset($ArrRespLeyes);
-	//foreach($ArrRespLeyes as $k=>$Valor)
+	//while (list($k,$Valor)=each($ArrRespLeyes))
 	foreach ($ArrRespLeyes as $k => $Valor)
 	{
 		$Consulta="select cod_leyes,valor from cal_web.leyes_por_solicitud where nro_solicitud='".$SA."' and cod_leyes='".$k."'";
 		$RespSA=mysqli_query($link, $Consulta);
 		if($FilaSA=mysqli_fetch_array($RespSA))
 		{
-			$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA["valor"];
-			//echo $FilaSA["cod_leyes"]."  ".$FilaSA["valor"]."<br>";	
+			$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA[valor];
+			//echo $FilaSA["cod_leyes"]."  ".$FilaSA[valor]."<br>";	
 		}
 
 	}
@@ -238,11 +238,11 @@ function CreaArchivoLeyesPqtePqte($Grupo,$Correlativo,$ProdAux,$SubProdAux,$AnoA
 	$RespSA=mysqli_query($link, $Consulta);
 	while($FilaSA=mysqli_fetch_array($RespSA))
 	{
-		$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA["valor"];
-		//echo $FilaSA["cod_leyes"]."  ".$FilaSA["valor"]."<br>";	
+		$ArrRespLeyes[$FilaSA["cod_leyes"]]=$FilaSA[valor];
+		//echo $FilaSA["cod_leyes"]."  ".$FilaSA[valor]."<br>";	
 	}*/
 	reset($ArrRespLeyes);$L_SAP_Leyes='';
-	//foreach($ArrRespLeyes as $k=>$Valor)
+	//while (list($k,$Valor)=each($ArrRespLeyes))
 	foreach ($ArrRespLeyes as $k => $Valor)
 	{
 		
@@ -397,7 +397,7 @@ function ObtieneCircuito($Grupo,$link)
 	$RespEti=mysqli_query($link, $Consulta);
 	if($FilaEti=mysqli_fetch_array($RespEti))
 	{
-		$CodCircuito=$FilaEti["cod_circuito"];	
+		$CodCircuito=$FilaEti[cod_circuito];	
 	}
 	return($CodCircuito);
 
@@ -490,7 +490,7 @@ function ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdL
 function InsertarLineaTmp($CorrIE,$Tipo,$Linea)
 {
 	//$Consulta="select ifnull(max(corr)+1,1) as corr from tmp_archivo_embarque";
-	$Insertar="INSERT INTO interfaces_codelco.tmp_archivo_embarque (corr,tipo,linea) values ('".$CorrIE."','".$Tipo."','".$Linea."')";
+	$Insertar="insert into interfaces_codelco.tmp_archivo_embarque (corr,tipo,linea) values ('".$CorrIE."','".$Tipo."','".$Linea."')";
 	mysqli_query($link, $Insertar);
 }
 function CreaArchivoTxt($Archivo1,$Archivo2)
@@ -650,7 +650,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 		$Arreglo[$i]["num_paquetes"] = $FilaAux["num_paquetes"]/1000;
 		$Arreglo[$i]["num_unidades"] = $FilaAux["num_unidades"];
 		$Arreglo[$i]["cod_marca"] = $FilaAux["cod_marca"];
-		$ValorId = isset($ValorId[2])?$ValorId[2]:"";
+         $ValorId = isset($ValorId[2])?$ValorId[2]:"";
 		if ($ValorId == 'E')
 		{
 			$Arreglo[$i]["descrip_marca"] = $FilaAux["marca_ingles"];
@@ -705,9 +705,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 				$ConLeyes = "N";
 				$NumCertificado = "";
 				$ArregloLeyes["02"]["cod_leyes"] = "02";
-				$ArregloLeyes["02"]["valor"] = 99.99;
-				
-				
+				$ArregloLeyes["02"]["valor"] = 99.99;			
 				
 				while ($Fila2 = mysqli_fetch_array($Resp2))
 				{
@@ -809,6 +807,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 	$Consulta.= " and t.salida<>'' and tt.estado2 IN ('C','T') and year(t0.fecha_creacion_lote)>= '".$AnoMenos."'";
 	$Consulta.= " and tt.cod_producto ='18' and tt.cod_subproducto='40'";
 	
+	$ValorId=array();
 	if ($IdLote!="")
 	{
 		$ValorId = explode("/",$IdLote);
@@ -848,8 +847,8 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 		$Arreglo[$i]["num_paquetes"] = $FilaAux["num_paquetes"]/1000;
 		$Arreglo[$i]["num_unidades"] = $FilaAux["num_unidades"];
 		$Arreglo[$i]["cod_marca"] = $FilaAux["cod_marca"];
-
-		if ($ValorId[2] == 'E')
+        $ValorId2=isset($ValorId[2])?$ValorId[2]:"";
+		if ($ValorId2 == 'E')
 		{
 
 			$Arreglo[$i]["descrip_marca"] = $FilaAux["marca_ingles"];
@@ -890,22 +889,24 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 		{
 			if ($ProdAux == '18')  
 			{
-				$Consulta = "select * from sec_web.solicitud_certificado t1 inner join  sec_web.certificacion_catodos t2 ";
-				$Consulta.= " on t1.num_certificado=t2.num_certificado and t1.version=t2.version ";
-				$Consulta.= " where t1.corr_enm = '".$FilaAux["corr_enm"]."' and (";
+				$Consulta = "SELECT * from sec_web.solicitud_certificado t1 ";
+				$Consulta.= "inner join sec_web.certificacion_catodos t2 on t1.num_certificado=t2.num_certificado and t1.version=t2.version ";
+				$Consulta.= " where t1.corr_enm = '".$FilaAux["corr_enm"]."' ";
+				//$Consulta.= " where t1.corr_enm = '".$FilaAux["corr_enm"]."' and (";
 				reset($ArregloLeyes);
-				//foreach($ArregloLeyes as $k=>$v)
+				//while (list($k,$v)=each($ArregloLeyes))
 				foreach ($ArregloLeyes as $k => $v)
 				{
-					$Consulta.= " t2.cod_leyes='".$v["cod_leyes"]."' or";
+					//$Consulta.= " t2.cod_leyes='".$v["cod_leyes"]."' or";
+					$Consulta.= " and t2.cod_leyes='".$v["cod_leyes"]."' ";
 				}
-				$Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
-				//echo $Consulta."<br>";
+				//$Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
+				echo $Consulta."<br>";
 				$Resp2 = mysqli_query($link, $Consulta);
 				$ConLeyes = "N";
 				$NumCertificado = "";
 				$ArregloLeyes["02"]["cod_leyes"] = "02";
-				$ArregloLeyes["02"]["valor"] = 99.99;				
+				$ArregloLeyes["02"]["valor"] = 99.99;			
 				
 				while ($Fila2 = mysqli_fetch_array($Resp2))
 				{
@@ -954,7 +955,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
                     $Consulta.= " (t1.fecha_hora between '".$AnoResto."-01' and '".$AnoResto."-31'  or t1.fecha_hora between '".$AnoResto."-31' and '".$FechaControl1."')";
                     $Consulta.= " and ( ";
                     reset($ArregloLeyes);
-                    //foreach($ArregloLeyes as $k=>$v)
+                    //while (list($k,$v)=each($ArregloLeyes))
 					foreach ($ArregloLeyes as $k => $v)
                     {
                           $Consulta.= " t1.cod_leyes='".$v["cod_leyes"]."' or";
@@ -1035,15 +1036,14 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$Consulta.= " AND t2.lote='".$FilaAux["lote"]."' AND ( t4.cod_leyes=11 ";
 			reset($ArregloLeyes);
 
-			//foreach($ArregloLeyes as $k=>$v)
+			//while (list($k,$v)=each($ArregloLeyes))
 			foreach ($ArregloLeyes as $k => $v)
 			{
 				$Consulta.= " OR t4.cod_leyes='".$v["cod_leyes"]."' ";
 			}
 			$Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
 			$Consulta.= " ORDER BY t3.nro_solicitud";
-			//echo $Consulta."<br>";
-
+			echo $Consulta."<br>";
 			$Resp2 = mysqli_query($link, $Consulta);
 			$ConLeyes = "N";
 			$NumCertificado = "";
@@ -1053,7 +1053,6 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$Fila2 = mysqli_fetch_array($Resp2);
 			//echo "Resultado:<br>";
 			//var_dump($Fila2);
-
 			while ($Fila2 = mysqli_fetch_array($Resp2))
 			{
 				$NumCertificado = $Fila2["nro_solicitud"];
@@ -1117,7 +1116,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 			$Consulta.= " WHERE t3.cod_producto = '34' AND t3.cod_subproducto = '2'";
 			$Consulta.= " and t2.num_barra='".$FilaAux["num_barra"]."' and ( ";
 			reset($ArregloLeyes);
-			//foreach($ArregloLeyes as $k=>$v)
+			//while (list($k,$v)=each($ArregloLeyes))
 			foreach ($ArregloLeyes as $k => $v)
 			{
 				$Consulta.= " t4.cod_leyes='".$v["cod_leyes"]."' or";
@@ -1752,5 +1751,6 @@ function DefinirArregloLeyes($L_Prod, $L_SubProd, $ArregloLeyes)
 			$ArregloLeyes["10"][2] = "0,000";
 		}	
 	}
+	return $ArregloLeyes;
 }
 ?>

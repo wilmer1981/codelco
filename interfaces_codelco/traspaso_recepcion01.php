@@ -2,16 +2,17 @@
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");
 	include("funciones_interfaces_codelco.php");
+
 	
 	$FechaHora = str_replace(" ","_",date("Y_m_d H_i"));	
-			
+		
 	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"101";
 	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-
+	
 	switch($Proceso)
 	{
 		case "G"://TRASPASDO RECEPCIONES
@@ -29,7 +30,7 @@
 			$ArchivoR = fopen("archivos_recepcion/registro_recepcion_".$FechaHora.".doc","w+");
 			$ArchivoL = fopen("archivos_recepcion/registro_leyes_".$FechaHora.".doc","w+");
 			$Datos=explode('//',$Valores);
-			foreach($Datos as $c => $v)
+			foreach($Datos as $c=>$v)
 			{
 				$Datos2=explode('~~',$v);
 				$Lote=$Datos2[0];
@@ -76,9 +77,16 @@
 				else
 					$LineaR='1'.$FechaDoc.$FechaCont.$ClaseMov.$Centro.$Almacen.$OrdenProd.$CodMaterial.$Cantidad.$UnidadMedida.$LoteT.$ClaseVal921.$Status;
 				fwrite($ArchivoR,$LineaR."\r\n");
-				$Insertar="INSERT INTO interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
-				$Insertar.="'5','$Ano','$Mes','$Lote','$ClaseMov','$LineaR')";
-				mysqli_query($link, $Insertar);
+				
+				$consulta = "select * from interfaces_codelco.registro_traspaso where ano='".$Ano."' and mes='".$Mes."' and referencia='".$Lote."'";
+				$result = mysqli_query($link, $consulta);
+				$cont = mysqli_num_rows($result);
+				if($cont==0){
+					$Insertar="insert into interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
+					$Insertar.="'5','$Ano','$Mes','$Lote','$ClaseMov','$LineaR')";
+					mysqli_query($link, $Insertar);
+				}
+				
 				//PARA ARCHIVO LEYES DE RECEPCIONES
 				$CodMaterial=str_pad($Fila["mat_sap"],18,'0',STR_PAD_LEFT);
 				$Centro="FV01";
@@ -92,8 +100,8 @@
 				if($RutPrv=='99999999-9')
 				{	
 					$ArrLeyesProd=array();
-					DefinirArregloLeyes('1',$SubProducto,$ArrLeyesProd);
-					LeyesProducto($RutCompra,'','','1',$SubProducto,$ArrDatos,$ArrLeyesProd,'N','S','S',$FechaDesde,$FechaHasta,"",$link);
+					$ArrLeyesProd = DefinirArregloLeyes('1',$SubProducto,$ArrLeyesProd);
+					$ArrLeyesProd = LeyesProducto($RutCompra,'','','1',$SubProducto,$ArrDatos,$ArrLeyesProd,'N','S','S',$FechaDesde,$FechaHasta,"","L",$link);
 					reset($ArrLeyesProd);
 					foreach($ArrLeyesProd as $c=>$v)
 					{
@@ -104,8 +112,8 @@
 				else
 				{
 					$ArrLeyesProv=array();
-					DefinirArregloLeyes('1',$SubProducto,$ArrLeyesProv);
-					LeyesProveedor('',$RutPrv,'1',$SubProducto,$ArrDatos,$ArrLeyesProv,'N','S','S',$FechaDesde,$FechaHasta,"",$link);
+					$ArrLeyesProv = DefinirArregloLeyes('1',$SubProducto,$ArrLeyesProv);
+					$ArrLeyesProv = LeyesProveedor('',$RutPrv,'1',$SubProducto,$ArrDatos,$ArrLeyesProv,'N','S','S',$FechaDesde,$FechaHasta,"","L",$link);
 					reset($ArrLeyesProv);
 					foreach($ArrLeyesProv as $c=>$v)
 					{

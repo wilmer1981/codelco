@@ -3,7 +3,7 @@ require "../principal/clasemail/class.phpmailer.php";
 
 //FUNCIONES PARA EL SISTEMA DE AGENCIA
 //FUNCION PARA TOMAR DATOS DE LOTE-RECARGO
-function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$link)
+function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$Petalo,$link)
 {
 	reset($Leyes);
 	$TxtLote = $Lote["lote"];
@@ -204,12 +204,17 @@ function LeyesLoteRecargo($Lote,$Leyes,$EntreFechas,$IncMerma,$IncRetalla,$Fecha
 			$Leyes[$key][23] = '0';
 	} while (next($Leyes));	
 	
-	$arreglo = array();
+	/*$arreglo = array();
 	$arreglo = array_merge($Lote, $Leyes);
-	return $arreglo;
+	return $arreglo;*/
+	if($Petalo=='L'){		
+		return $Leyes;
+	}else{
+		return $Lote;
+	}
 }	
 
-function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosProd,$ArrLeyesProd,$EntreFechas,$IncMerma,$IncRetalla ,$FechaIni,$FechaFin,$FechaConCierre,$link)
+function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosProd,$ArrLeyesProd,$EntreFechas,$IncMerma,$IncRetalla ,$FechaIni,$FechaFin,$FechaConCierre,$Petalo,$link)
 {
 	$ArrLeyesLote=array();
 	reset($ArrLeyesProd);
@@ -348,9 +353,9 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 			/*$ArrLeyesProd[$v[0]][3] = $v[3];//COD UNIDAD
 			$ArrLeyesProd[$v[0]][4] = $v[4];//NOM UNIDAD
 			$ArrLeyesProd[$v[0]][5] = $v[5];//CONVERSION*/
-			$ArrLeyesProd[$k][3] = $v[3];//COD UNIDAD
-			$ArrLeyesProd[$k][4] = $v[4];//NOM UNIDAD
-			$ArrLeyesProd[$k][5] = $v[5];//CONVERSION
+			$ArrLeyesProd[$k][3] = isset($v[3])?$v[3]:"";//COD UNIDAD
+			$ArrLeyesProd[$k][4] = isset($v[4])?$v[4]:"";//NOM UNIDAD
+			$ArrLeyesProd[$k][5] = isset($v[5])?$v[5]:"";//CONVERSION
 		}
 	}
 	if ($TotalPesoSecoProd>0 && $TotalPesoHumProd>0 && $SumHumedad!=0)
@@ -377,12 +382,14 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 			if ($key=="04" || $key=="05")
 				$ArrLeyesProd[$key][5]=1000;
 		if($key!='01')
-		{
-			if ($TotalPesoSecoProd>0 && $ArrLeyesProd[$key][2]>0 && $ArrLeyesProd[$key][5]>0)
+		{   $ArrLeyesProd2 = isset($ArrLeyesProd[$key][2])?$ArrLeyesProd[$key][2]:0;
+			$ArrLeyesProd5 = isset($ArrLeyesProd[$key][5])?$ArrLeyesProd[$key][5]:0;
+			$ArrLeyesProd8 = isset($ArrLeyesProd[$key][8])?$ArrLeyesProd[$key][8]:0;
+			if ($TotalPesoSecoProd>0 && $ArrLeyesProd2>0 && $ArrLeyesProd5>0)
 			{
-				$ArrLeyesProd[$key][23] = $ArrLeyesProd[$key][2];
-				$ArrLeyesProd[$key][2] = ($ArrLeyesProd[$key][2]/$TotalPesoSecoProd)*$ArrLeyesProd[$key][5];
-				$ArrLeyesProd[$key][9] = ($ArrLeyesProd[$key][8]/$TotalPesoSecoProd_R)*$ArrLeyesProd[$key][5];
+				$ArrLeyesProd[$key][23] = $ArrLeyesProd2;
+				$ArrLeyesProd[$key][2] = ((int)$ArrLeyesProd2/$TotalPesoSecoProd)*$ArrLeyesProd5;
+				$ArrLeyesProd[$key][9] = ($ArrLeyesProd8/$TotalPesoSecoProd_R)*$ArrLeyesProd5;
 			}	
 			else
 			{
@@ -391,9 +398,18 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 			}
 		}		
 	} while (next($ArrLeyesProd));	
+		
+	//$arreglo = array();
+	//$arreglo = array_merge($ArrDatosProd, $ArrLeyesProd);
+	//echo "<br>Petalo:".$Petalo."<br>";
+	if($Petalo=='L'){		
+		return $ArrLeyesProd;
+	}else{
+		return $ArrDatosProd;
+	}
 }
 
-function LeyesFlujo($Flujo,$ArrDatosFlujo,$ArrLeyesFlujo,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$link)
+function LeyesFlujo($Flujo,$ArrDatosFlujo,$ArrLeyesFlujo,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$Petalo,$link)
 {
 	$Consulta = "select cod_producto, cod_subproducto, rut_proveedor from age_web.relaciones where flujo='".$Flujo."'";
 	$RespFlujo=mysqli_query($link, $Consulta);
@@ -462,8 +478,15 @@ function LeyesFlujo($Flujo,$ArrDatosFlujo,$ArrLeyesFlujo,$EntreFechas,$IncMerma,
 				$ArrLeyesFlujo[$key][23] = '0';
 		}		
 	} while (next($ArrLeyesFlujo));	
+	
+	if($Petalo=='L'){		
+		return $ArrLeyesFlujo;
+	}else{
+		return $ArrDatosFlujo;
+	}
+	
 }
-function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeyesProv,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link)
+function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeyesProv,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$Petalo,$link)
 {
 	$ArrLeyesLote=array();
 	reset($ArrLeyesProv);
@@ -538,8 +561,15 @@ function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeye
 				$ArrLeyesProv[$key][23] = '0';
 		}		
 	} while (next($ArrLeyesProv));	
+	
+	if($Petalo=='L'){		
+		return $ArrLeyesProv;
+	}else{
+		return $ArrDatosProv;
+	}
+	
 }
-function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLeyesProv,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$link)
+function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLeyesProv,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,$Petalo,$link)
 {	
 	$ArrLeyesLote=array();
 	reset($ArrLeyesProv);
@@ -709,6 +739,7 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 		$PorcHumLote = abs(100 - (($TotalPesoSecoProv * 100)/$TotalPesoHumProv));
 	else
 		$PorcHumLote = 0;
+	
 	$ArrDatosProv["peso_humedo"] = $TotalPesoHumProv;
 	$ArrDatosProv["peso_seco"] = $TotalPesoSecoProv;
 	$ArrDatosProv["peso_seco3"] = $TotalPesoSecoProv_R2;
@@ -736,11 +767,13 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 				else
 					$Conv=$ArrLeyesProv[$key][5];
 			}
-			if ($TotalPesoSecoProv!=0 && $ArrLeyesProv[$key][2]!=0 && $Conv!=0)
+			$ArrLeyesProv2 = isset($ArrLeyesProv[$key][2])?$ArrLeyesProv[$key][2]:0;
+			$ArrLeyesProv9 = isset($ArrLeyesProv[$key][9])?$ArrLeyesProv[$key][9]:0;
+			if ($TotalPesoSecoProv!=0 && $ArrLeyesProv2!=0 && $Conv!=0)
 			{
 				$ArrLeyesProv[$key][23] = $ArrLeyesProv[$key][2];
-				$ArrLeyesProv[$key][2] = ($ArrLeyesProv[$key][2]/$TotalPesoSecoProv)*$Conv;
-				$ArrLeyesProv[$key][9] = ($ArrLeyesProv[$key][9]/$TotalPesoSecoProv_R)*$Conv;
+				$ArrLeyesProv[$key][2] = ((int)$ArrLeyesProv[$key][2]/$TotalPesoSecoProv)*$Conv;
+				$ArrLeyesProv[$key][9] = ($ArrLeyesProv9/$TotalPesoSecoProv_R)*$Conv;
 			}	
 			else
 			{
@@ -748,7 +781,17 @@ function LeyesProveedor($TipoRecep,$RutProv,$Prod,$SubProd,$ArrDatosProv,$ArrLey
 				$ArrLeyesProv[$key][9] = '0';
 			}	
 		}		
-	} while (next($ArrLeyesProv));	
+	} while (next($ArrLeyesProv));
+	
+	//$arreglo = array();
+	//$arreglo = array_merge($ArrDatosProv, $ArrLeyesProv);
+	//echo "<br>Petalo:".$Petalo."<br>";
+	if($Petalo=='L'){		
+		return $ArrLeyesProv;
+	}else{
+		return $ArrDatosProv;
+	}
+
 }
 
 //FUNCION PARA TOMAR DATOS DE LOTE COMPLETO, PONDERADO
@@ -775,6 +818,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 	$Consulta.= " group by lote";
 	$RespPeso=mysqli_query($link, $Consulta);
 	//echo "<br><br>Consulta:".$Consulta."<br><br>";
+	$TotalPesoHum =0;
 	if ($FilaPeso = mysqli_fetch_array($RespPeso))
 	{
 		$TotalPesoHum         = $FilaPeso["peso_humedo"];
@@ -1184,13 +1228,13 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		$LeyesPond["01"][60] = $LeyesPond["01"][2];
 		//$LeyesPond["01"][2] = 0;  
 	}
-	$arreglo = array();
-	$arreglo = array_merge($Lote, $LeyesPond);
+	//$arreglo = array();
+	//$arreglo = array_merge($Lote, $LeyesPond);
 	//echo "<br>Petalo:".$Petalo."<br>";
 	if($Petalo=='L'){		
 		return $LeyesPond;
 	}else{
-		return $arreglo;
+		return $Lote;
 	}
 	
 }	
