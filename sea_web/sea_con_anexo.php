@@ -1,4 +1,7 @@
 <?php
+//ini_set ( 'max_execution_time' ,  300 ) ;
+set_time_limit(1000);
+
 $CodigoDeSistema = 16;
 $CodigoDePantalla = 1;
 include("../principal/conectar_principal.php");
@@ -11,7 +14,7 @@ if(isset($_REQUEST["Ano"])){
 if(isset($_REQUEST["Mes"])){
 	$Mes = $_REQUEST["Mes"];
 }else{
-	$Mes = date("m");
+	$Mes = date("n");
 }
 
 if(isset($_REQUEST["Mostrar"])){
@@ -26,13 +29,16 @@ if (!isset($Ano))
 if (!isset($Mes))
 	$Mes = date("n");	
 */
+
 if ($Mostrar == "S")
 {
 	//************************************** FLUJOS ********************************************	
+	if(strlen($Mes)==1){$Mes="0".$Mes;}
 	$Consulta = "SELECT * FROM sea_web.existencia_nodo";
 	$Consulta.= " WHERE ano = '".$Ano."' AND mes = '".$Mes."'";
 	$Consulta.= " AND bloqueado = '1'";
 	//$Consulta.= " AND bloqueado = '0'";
+	//echo $Consulta."<br>";
 	$Resp2 = mysqli_query($link, $Consulta);
 	if (!$Fila2 = mysqli_fetch_array($Resp2))
 	{
@@ -47,7 +53,7 @@ if ($Mostrar == "S")
 		{
 			$Fecha_Ter = ($Ano+1)."-".str_pad(1,2,"0",STR_PAD_LEFT)."-03";
 			$Fecha_Ter_Hora = ($Ano+1)."-".str_pad(1,2,"0",STR_PAD_LEFT)."-01 07:59:59";
-			$Fecha_Ter2 = $Ano."-".str_pad(($Mes),"0",STR_PAD_LEFT)."-".$Dias;	
+			$Fecha_Ter2 = $Ano."-".str_pad(($Mes),2,"0",STR_PAD_LEFT)."-".$Dias;	
 			/*if($Mes=='9'||$Mes=='11')
 				$Fecha_Ter2 = $Ano."-".str_pad(($Mes),"0",STR_PAD_LEFT)."-".$Dias;
 			else
@@ -57,15 +63,15 @@ if ($Mostrar == "S")
 		else
 		{
 			//echo "MES:".$Mes."<br>";
-			$Fecha_Ter = $Ano."-".str_pad(($Mes+1),"0",STR_PAD_LEFT)."-01";
+			$Fecha_Ter = $Ano."-".str_pad(($Mes+1),2,"0",STR_PAD_LEFT)."-01";
 			//$Fecha_Ter2 = $Ano."-".str_pad(($Mes),"0",STR_PAD_LEFT)."-31";
-			$Fecha_Ter2 = $Ano."-".str_pad(($Mes),"0",STR_PAD_LEFT)."-".$Dias;	
+			$Fecha_Ter2 = $Ano."-".str_pad(($Mes),2,"0",STR_PAD_LEFT)."-".$Dias;	
 			/*if($Mes=='9'||$Mes=='11')
 				$Fecha_Ter2 = $Ano."-".str_pad(($Mes),"0",STR_PAD_LEFT)."-30";
 			else
 				$Fecha_Ter2 = $Ano."-".str_pad(($Mes),"0",STR_PAD_LEFT)."-31";*/
 
-			$Fecha_Ter_Hora = $Ano."-".str_pad(($Mes+1),"0",STR_PAD_LEFT)."-01 07:59:59";
+			$Fecha_Ter_Hora = $Ano."-".str_pad(($Mes+1),2,"0",STR_PAD_LEFT)."-01 07:59:59";
 		}	
 		//Obtiene los todos flujos
 		$Consulta = "SELECT * FROM proyecto_modernizacion.flujos WHERE sistema = 'SEA' and esflujo<>'N' ";
@@ -91,7 +97,7 @@ if ($Mostrar == "S")
 					//Consulto el peso total por el flujo, considerando tambien fecha_benef
 					$Consulta = "SELECT IFNULL(SUM(peso),0) AS peso FROM sea_web.movimientos";
 					$Consulta.= " WHERE flujo = '".$Fila["cod_flujo"]."'";
-					$Consulta.= " AND ((fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '$Fecha_Ini_Hora' and '$Fecha_Ter_Hora' AND fecha_benef = '0000-00-00')";
+					$Consulta.= " AND ((fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '".$Fecha_Ini_Hora."' and '".$Fecha_Ter_Hora."' AND fecha_benef = '0000-00-00')";
 					$Consulta.= " OR (fecha_benef BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."'))";
 					$Beneficio = "S";
 				}
@@ -99,7 +105,7 @@ if ($Mostrar == "S")
 				{
 					$Consulta = "SELECT IFNULL(SUM(peso),0) AS peso FROM sea_web.movimientos";
 					$Consulta.= " WHERE flujo = '".$Fila["cod_flujo"]."'";
-					$Consulta.= " AND fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '$Fecha_Ini_Hora' and '$Fecha_Ter_Hora' ";
+					$Consulta.= " AND fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '".$Fecha_Ini_Hora."' and '".$Fecha_Ter_Hora."' ";
 					$Beneficio = "N";
 				}
 			}
@@ -108,7 +114,7 @@ if ($Mostrar == "S")
 				//Consulto el peso total por el flujo
 				$Consulta = "SELECT IFNULL(SUM(peso),0) AS peso FROM sea_web.movimientos";
 				$Consulta.= " WHERE flujo = '".$Fila["cod_flujo"]."'";
-				$Consulta.= " AND fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '$Fecha_Ini_Hora' and '$Fecha_Ter_Hora' ";
+				$Consulta.= " AND fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '".$Fecha_Ini_Hora."' and '".$Fecha_Ter_Hora."' ";
 				$Beneficio = "N";
 			}
 			$Resp4 = mysqli_query($link, $Consulta);
@@ -152,7 +158,7 @@ if ($Mostrar == "S")
 				$Consulta.= " sum(t1.peso) AS peso_hornada";
 				$Consulta.= " FROM sea_web.movimientos AS t1";
 				$Consulta.= " WHERE t1.flujo = '".$Fila["cod_flujo"]."'";
-				$Consulta.= " AND ((t1.fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '$Fecha_Ini_Hora' and '$Fecha_Ter_Hora' ";
+				$Consulta.= " AND ((t1.fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '".$Fecha_Ini_Hora."' and '".$Fecha_Ter_Hora."' ";
 				$Consulta.= " AND t1.fecha_benef = '0000-00-00')";
 				$Consulta.= " OR (t1.fecha_benef BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."'))";
 				$Consulta.= " GROUP BY t1.hornada";
@@ -163,9 +169,10 @@ if ($Mostrar == "S")
 				$Consulta.= " sum(t1.peso) AS peso_hornada";
 				$Consulta.= " FROM sea_web.movimientos AS t1";
 				$Consulta.= " WHERE t1.flujo = '".$Fila["cod_flujo"]."'";
-				$Consulta.= " AND t1.fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '$Fecha_Ini_Hora' and '$Fecha_Ter_Hora' ";
+				$Consulta.= " AND t1.fecha_movimiento BETWEEN '".$Fecha_Ini."' AND '".$Fecha_Ter."' and hora between '".$Fecha_Ini_Hora."' and '".$Fecha_Ter_Hora."' ";
 				$Consulta.= " GROUP BY t1.hornada";
 			}
+			//echo $Consulta."<br>";
 			$Resp7 = mysqli_query($link, $Consulta);//$PesoFlujoPisoTot=0;
 				//if ($Fila["cod_flujo"]=='123')
 				//	echo $Consulta."<br>";
@@ -337,7 +344,7 @@ if ($Mostrar == "S")
 				$Consulta.= " on t1.hornada=t2.hornada and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto";
 				$Consulta.= " where t1.ano='".$Ano."' and t1.mes='".$Mes."'";
 				// aca junto los restos
-				//if ($FilaAux["cod_producto"]==19)
+				//if ($FilaAux[cod_producto]==19)
 				//{
 				//	$Consulta.= " and t1.cod_producto='".$FilaAux["cod_producto"]."'";
 				//}
@@ -390,7 +397,7 @@ if ($Mostrar == "S")
 				$Consulta.= " FROM sea_web.stock_piso_raf t1 LEFT JOIN sea_web.leyes_por_hornada t2";
 				$Consulta.= " on t1.hornada=t2.hornada and t1.cod_producto=t2.cod_producto and t1.cod_subproducto=t2.cod_subproducto";
 				$Consulta.= " WHERE t1.cod_producto = '".$FilaAux["cod_producto"]."'";
-				//if ($FilaAux["cod_producto"] != 19)
+				//if ($FilaAux[cod_producto] != 19)
 					$Consulta.= " AND t1.cod_subproducto = '".$FilaAux["cod_subproducto"]."'";
 				$Consulta.= " AND t1.fecha between '".$FechaIni."' AND '".$FechaFin."' ";
 				$Consulta.= " and t2.cod_leyes in('02','04','05')";
@@ -430,7 +437,7 @@ if ($Mostrar == "S")
 					$Fino_Cu = $Fino_Cu + $FilaN["fino_cu"];
 					$Fino_Ag = $Fino_Ag + $FilaN["fino_ag"];
 					$Fino_Au = $Fino_Au + $FilaN["fino_au"];
-					$Actualizar ="UPDATE sea_web.existencia_nodo set peso = '".$PesoNodo."',";
+					$Actualizar ="update sea_web.existencia_nodo set peso = '".$PesoNodo."',";
 					$Actualizar.="fino_cu = '".$Fino_Cu."',";
 			    	$Actualizar.="fino_ag = '".$Fino_Ag."', fino_au = '".$Fino_Au."' ";
 					$Actualizar.="where ano = '".$Ano."' and mes = '".$Mes."' and  nodo ='".$Fila1["nodo"]."' ";
@@ -534,7 +541,7 @@ function DetalleNodo(nodo)
 			$Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");				
 		 	for($i=1;$i<=12;$i++)
 		  	{
-				if (!isset($Mes))
+				if ($Mes=="")
 				{
 					if ($i == date("n"))
 						echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
@@ -555,7 +562,7 @@ function DetalleNodo(nodo)
         <?php
 			for ($i=date("Y")-3;$i<=date("Y")+1;$i++)
 			{
-				if (!isset($Ano))
+				if ($Ano=="")
 				{
 					if ($i == date("Y"))
 						echo "<option selected value ='".$i."'>".$i." </option>";
