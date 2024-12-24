@@ -1,6 +1,7 @@
  <?php
 	include("../principal/conectar_pac_web.php");
 
+	// CmbAno=2022&CmbMes=11&RutCliente=61.704.000-K
 	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
 	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
 	$RutCliente = isset($_REQUEST["RutCliente"])?$_REQUEST["RutCliente"]:"";
@@ -62,8 +63,8 @@ function Historial(NG)
 			{
 				$Filtro= " and t1.tipo_guia='".$CmbGuias."'";
 			}*/
-			$FechaInicio  = $CmbAno."-".$CmbMes."-01 00:00:01";
-			$FechaTermino = $CmbAno."-".$CmbMes."-31 23:59:59";
+			$FechaInicio=$CmbAno."-".$CmbMes."-01 00:00:01";
+			$FechaTermino=$CmbAno."-".$CmbMes."-31 23:59:59";
 			$Consulta="select t1.fecha_hora,t1.num_guia,t1.nro_patente,t1.toneladas,t2.nombre,t1.tipo_guia,t3.valor_subclase1 as operador,t1.valor_unitario ";
 			$Consulta.=" from pac_web.guia_despacho t1 left join pac_web.clientes t2 on t1.rut_cliente = t2.rut_cliente";
 			$Consulta.=" left join  proyecto_modernizacion.sub_clase t3 on t3.cod_clase=9002 and t1.rut_funcionario =t3.nombre_subclase ";
@@ -71,6 +72,7 @@ function Historial(NG)
 			$Consulta.=" and t1.rut_cliente='".$RutCliente."' and t1.estado != 'N' ";
 			//echo $Consulta;
 			$Respuesta=mysqli_query($link, $Consulta);
+			$Total=0;
 			while($Fila=mysqli_fetch_array($Respuesta))
 			{
 				echo "<tr>";

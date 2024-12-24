@@ -130,9 +130,7 @@
 			fclose($Archivo2);
 			$Mensaje='Archivos Creados Existosamente';
 			header("location:traspaso_embarque_".strtolower($Producto).".php?Mes=".$Mes."&Ano=".$Ano."&Mostrar=S&CodProducto=".$CodProducto."&Producto=".$Producto."&Mensaje=".$Mensaje);
-			break;
-			
-			
+			break;			
 			
 		case "PMN":
 				case "ACID":
@@ -181,7 +179,7 @@
 						$CTotal=$Datos2[9];
 						//echo $Valores."<br>";
 						//echo $CEnvio." / ".$CDisp." / ".$CTotal."<BR>";
-						RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $link);						
+						$ArrResp = RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $link);						
 						break;
 					case "ACID":
 						$Prod = $Datos2[0];
@@ -193,7 +191,7 @@
 						$SAP_Almacen_Manual= $Datos2[6];	
 						$LoteAux = $NumBulto;		
 						//echo $NumBulto."<br>";	
-						RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);		
+						$ArrResp = RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);		
 						break;
 						
 				}
@@ -245,7 +243,13 @@
 					$SAP_Status = "";
 					$SAP_Msg = "";				
 					
-					OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
+					$Lista = OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
+					$valor = explode("**",$Lista);
+					$SAP_OrdenProd    = $valor[0];
+					$SAP_CodMaterial  = $valor[1];
+					$SAP_Unidad       = $valor[2];
+					$SAP_ClaseValoriz = $valor[3];
+					$SAP_Centro       = $valor[4];
 					if ($Prod=="29" && $SubProd=="4")//EMBARQUE PLATA
 					{
 						$can =0;$pes=0;
@@ -289,8 +293,12 @@
 					$L_SAP_UnidadPeso = "";
 					$L_SAP_Centro = "";
 					$L_SAP_FormaEmpaque01 = "";
-					Homologar($Fila["cod_producto"], $Fila["cod_subproducto"], $L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01, $link);
-				
+					$Lista = Homologar($Fila["cod_producto"], $Fila["cod_subproducto"], $L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01, $link);
+					$valor = explode("**",$Lista);
+					$L_SAP_CodMaterial    = $valor[0];
+					$L_SAP_UnidadPeso     = $valor[1];
+					$L_SAP_Centro         = $valor[2];
+					$L_SAP_FormaEmpaque01 = $valor[3];
 					//echo "aquiiiiiiiiiiiiiiiiii".$Prod;
 					$L_SAP_Tipo = "3";
 					$L_SAP_CodMaterial = $SAP_CodMaterial;
@@ -421,7 +429,7 @@
 								$RespCantTambor=mysqli_query($link, $ConsultaTARROS);
 								if($FilaCantTambor=mysqli_fetch_array($RespCantTambor))
 								{
-								$DESCUENTO_PESO_TAMBOR=intval($FilaCantTambor[Cantidad])*9.5;
+								$DESCUENTO_PESO_TAMBOR=intval($FilaCantTambor["Cantidad"])*9.5;
 								}
 								$PESO_SECO=$L_SAP_PesoNeto-$DESCUENTO_PESO_TAMBOR;
 								$LineaLeyes.= str_pad(number_format($PESO_SECO,3,",",""),15," ",STR_PAD_LEFT);
@@ -516,10 +524,9 @@
 					} //FINAL DEL CICLO FOR
 				}
 			}	
-
 			fclose($Archivo);
 			fclose($ArchivoLeyes);   
-
+			$Mensaje='Archivos Creados Existosamente'; //WSO
 			header("location:traspaso_embarque_".strtolower($Producto).".php?Mes=".$Mes."&Ano=".$Ano."&Mostrar=S&CodProducto=".$CodProducto."&Producto=".$Producto."&Mensaje=".$Mensaje);
 			break;
 	}
@@ -553,7 +560,7 @@
 						$SAP_Marca = $Datos2[8];
 						$LoteAux = $CodBulto."/".$NumBulto."/".$SAP_Marca;
 						//echo $Prod."-".$SubProd."-".$Ano."-".$Mes."-".$LoteAux."-".$Orden."<br>";
-						RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);
+						$ArrResp = RescataCatodos($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);
 						break;
 					case "PMN":
 						$Prod = $Datos2[0];
@@ -568,7 +575,7 @@
 						$CTotal=$Datos2[9];
 						//echo $Valores."<br>";
 						//echo $CEnvio." / ".$CDisp." / ".$CTotal."<BR>";
-						RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $link);						
+						$ArrResp = RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $link);						
 						break;
 					case "ACID":
 						$Prod = $Datos2[0];
@@ -580,7 +587,7 @@
 						$SAP_Almacen_Manual= $Datos2[6];	
 						$LoteAux = $NumBulto;		
 						//echo $NumBulto."<br>";	
-						RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);		
+						$ArrResp = RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden, $link);		
 						break;
 						
 				}
@@ -632,7 +639,14 @@
 					$SAP_Status = "";
 					$SAP_Msg = "";				
 					
-					OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
+					$Lista = OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);								
+					$valor = explode("**",$Lista);
+					$SAP_OrdenProd    = $valor[0];
+					$SAP_CodMaterial  = $valor[1];
+					$SAP_Unidad       = $valor[2];
+					$SAP_ClaseValoriz = $valor[3];
+					$SAP_Centro       = $valor[4];
+		
 					if ($Prod=="29" && $SubProd=="4")//EMBARQUE PLATA
 					{
 						$can =0;$pes=0;
@@ -695,7 +709,13 @@
 					$L_SAP_UnidadPeso = "";
 					$L_SAP_Centro = "";
 					$L_SAP_FormaEmpaque01 = "";
-					Homologar($Fila["cod_producto"], $Fila["cod_subproducto"], $L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01, $link);
+					$Lista = Homologar($Fila["cod_producto"], $Fila["cod_subproducto"], $L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01, $link);
+					$valor = explode("**",$Lista);
+					$L_SAP_CodMaterial    = $valor[0];
+					$L_SAP_UnidadPeso     = $valor[1];
+					$L_SAP_Centro         = $valor[2];
+					$L_SAP_FormaEmpaque01 = $valor[3];
+	
 					//echo "aquiiiiiiiiiiiiiiiiii".$Prod;
 					$L_SAP_Tipo = "3";
 					$L_SAP_CodMaterial = $SAP_CodMaterial;
@@ -820,9 +840,9 @@
 								$RespCantTambor=mysqli_query($link, $ConsultaTARROS);
 								if($FilaCantTambor=mysqli_fetch_array($RespCantTambor))
 								{
-									$CantidadTarros=$FilaCantTambor[Cantidad];
-									$PESO_TAMBOR=intval($FilaCantTambor[Cantidad])*9.5;
-									$DESCUENTO_PESO_TAMBOR=intval($FilaCantTambor[Cantidad])*9.5;
+									$CantidadTarros=$FilaCantTambor["Cantidad"];
+									$PESO_TAMBOR=intval($FilaCantTambor["Cantidad"])*9.5;
+									$DESCUENTO_PESO_TAMBOR=intval($FilaCantTambor["Cantidad"])*9.5;
 								}
 								$PESO_SECO = (((100 - $VALOR_HUMEDAD) * $L_SAP_PesoNeto ) / 100);
 								/*echo "PESO NETO ".$L_SAP_PesoNeto."<br>";
@@ -833,7 +853,7 @@
 								if($FilaPesoPalets=mysqli_fetch_array($RespPesoPalets))
 								{
 									
-										$PESO_TOTAL_PALETS_A_B=$FilaPesoPalets[peso_palet_a]+$FilaPesoPalets[peso_palet_b];
+										$PESO_TOTAL_PALETS_A_B=$FilaPesoPalets["peso_palet_a"]+$FilaPesoPalets["peso_palet_b"];
 								}
 								if($PESO_TOTAL_PALETS_A_B>=0)
 								{
@@ -841,7 +861,7 @@
 									$RESPESO=mysqli_query($link, $Consulta);
 									if($FPalets=mysqli_fetch_array($RESPESO))
 									{
-										$PESO_TOTAL_PALETS_A_B=$FPalets[valor1];
+										$PESO_TOTAL_PALETS_A_B=$FPalets["valor1"];
 									}
 									else
 									{

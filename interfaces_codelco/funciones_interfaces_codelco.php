@@ -1111,9 +1111,9 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 	{
 		//echo "entrar_1"."<br>";
 		if ($ProdAux!="")
-			DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
+			$ArregloLeyes = DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 		else
-			DefinirArregloLeyes("34", $SubProdAux, $ArregloLeyes);	
+			$ArregloLeyes = DefinirArregloLeyes("34", $SubProdAux, $ArregloLeyes);	
 		//RESCATA ORO
 		$Consulta = "SELECT * from pmn_web.embarque_oro ";
 		$Consulta.= " where fecha between '".$AnoAux."-".$MesAux."-01' and '".$AnoAux."-".$MesAux."-31' ";
@@ -1193,9 +1193,9 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 		$cuenta = 1;
   		$pp = '0';
 		if ($ProdAux!="")
-			DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
+			$ArregloLeyes = DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 		else
-			DefinirArregloLeyes("29", $SubProdAux, $ArregloLeyes);	
+			$ArregloLeyes = DefinirArregloLeyes("29", $SubProdAux, $ArregloLeyes);	
 		$Consulta = "select *,ifnull(t1.cantidad,0) as canti ";
 		$Consulta.= " from pmn_web.embarque_plata t1 inner join pmn_web.detalle_embarque_plata t2 ";
 		$Consulta.= " on t1.num_acta=t2.num_acta ";
@@ -1388,10 +1388,7 @@ function RescataPlamen($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLot
 						$NumCertificado = $NumCertificado.$Fila2["nro_solicitud"]."~~";
 				}
 				$ConLeyes = "S";
-				$ArregloLeyes[$Fila2["cod_leyes"]]["valor"] = $Fila2["valor"];	
-				
-
-				
+				$ArregloLeyes[$Fila2["cod_leyes"]]["valor"] = $Fila2["valor"];					
 			}
 			
 			$Wpeso = 0;   //no saca leyes de paladio-platino 14-07-2008 jcf
@@ -1480,9 +1477,9 @@ function RescataAcido($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote
 	$FechaIni=$AnoAux."-".str_pad($MesAux,2,'0',STR_PAD_LEFT)."-01";
 	$FechaFin=$AnoAux."-".str_pad($MesAux,2,'0',STR_PAD_LEFT)."-31";
 	if ($ProdAux!="")
-		DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
+		$ArregloLeyes = DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 	else
-		DefinirArregloLeyes("46", $SubProdAux, $ArregloLeyes);	
+		$ArregloLeyes = DefinirArregloLeyes("46", $SubProdAux, $ArregloLeyes);	
 	$Consulta = "SELECT t1.rut_cliente, t1.num_guia, t1.fecha_hora,sum(t1.toneladas) as toneladas, t2.nombre ";
 	$Consulta.= " from pac_web.guia_despacho t1 inner join pac_web.clientes t2 on t1.rut_cliente=t2.rut_cliente ";
 	$Consulta.= " where t1.fecha_hora between '".$FechaIni." 00:00:00' and '".$FechaFin." 23:59:59' ";
@@ -1499,6 +1496,7 @@ function RescataAcido($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote
 	$FilaAux = mysqli_fetch_array($RespAux);
 	//echo "Consulta:<br>";
 	//var_dump($FilaAux); 
+	$ConLeyes = "N";
 	while ($FilaAux = mysqli_fetch_array($RespAux))
 	{
 		//echo "LOTE=".$FilaAux["num_bulto"]." PESO=".($FilaAux["peso"]/1000)." NUM_PAQ=".$FilaAux["num_paquetes"]." NUM_UNID.".$FilaAux["num_unidades"];	
@@ -1521,9 +1519,11 @@ function RescataAcido($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote
 		$Arreglo[$i]["cod_puerto"] = "";
 		$Arreglo[$i]["cod_puerto_destino"] = "";
 		//CONSULTA LAS LEYES
+		$Arreglo[$i]["con_leyes"] = $ConLeyes; // WSO
 		//NO TIENE LEYES
 		$i++;
 	}
+	return $Arreglo;
 }
 
 function DefinirArregloLeyes($L_Prod, $L_SubProd, $ArregloLeyes)

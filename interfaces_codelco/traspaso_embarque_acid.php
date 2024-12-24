@@ -3,7 +3,7 @@
 	$CodigoDePantalla = 4;
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
-
+	
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
@@ -17,7 +17,7 @@
 	$CodProducto  = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
 	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-
+	
 ?>
 <html>
 <head>
@@ -337,20 +337,19 @@ if ($Mostrar == "S")
 	$Almacen = "0005";
 	$Prod="";
 	$SubProd="";
-	RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, "", $ArrRespLeyes, $Orden, $link);
+	$ArrResp = RescataAcido($Prod, $SubProd, $Ano, $Mes, $ArrResp, "", $ArrRespLeyes, $Orden, $link);
 	$ContCantidad = 0;
 	$SubTotalPeso = 0;
 	$ProdAnt = "";
 	$SubProdAnt = "";
 	reset($ArrResp);
-	//foreach($ArrResp as $k=>$Fila)
 	foreach ($ArrResp as $k => $Fila)
 	{
 		$Referencia="";
 		if (($ProdAnt!="" || $SubProdAnt!="")&&($ProdAnt!=$Fila["cod_producto"] || $SubProdAnt!=$Fila["cod_subproducto"] ))
 			EscribeSubTotal($DescAnt, $ContCantidad, $SubTotalPeso);
-		$Lote2 = $Fila["cod_bulto"]."~".$Fila["num_bulto"];	
-		$Referencia=$Fila["cod_bulto"].'".$Fila["corr_enm"]."';
+		$Lote2      = $Fila["cod_bulto"]."~".$Fila["num_bulto"];	
+		$Referencia = $Fila["cod_bulto"].$Fila["corr_enm"];
 		//echo $Referencia."<br>";
 		$SAP_OrdenProd_Manual = "";
 		$SAP_ClaseValoriz_Manual = "";
@@ -389,7 +388,14 @@ if ($Mostrar == "S")
 		$SAP_Unidad = "";
 		$SAP_ClaseValoriz = "";
 		$SAP_Centro = "";
-		OrdenProduccionSap($Fila["asignacion"], $Fila["cod_producto"], $Fila["cod_subproducto"], $SAP_OrdenProd, $SAP_CodMaterial, $SAP_Unidad, $SAP_ClaseValoriz, $SAP_Centro);	
+		$Lista = OrdenProduccionSap($Fila["asignacion"], $Fila["cod_producto"], $Fila["cod_subproducto"], $SAP_OrdenProd, $SAP_CodMaterial, $SAP_Unidad, $SAP_ClaseValoriz, $SAP_Centro,$link);	
+		$valor = explode("**",$Lista);
+		$SAP_OrdenProd    = $valor[0];
+		$SAP_CodMaterial  = $valor[1];
+		$SAP_Unidad       = $valor[2];
+		$SAP_ClaseValoriz = $valor[3];
+		$SAP_Centro       = $valor[4];
+		
 		echo '<tr>';	
 		$ClaveChk = $Fila["cod_producto"]."~".$Fila["cod_subproducto"]."~".$Fila["num_bulto"];
 		echo '<td align="center"><input type="checkbox" name="ChkSelec" value="'.$ClaveChk.'"></td>';//CHECKBOX PARA SELECCIONAR
@@ -413,7 +419,7 @@ if ($Mostrar == "S")
 		echo '<td align="center">'.$SAP_Unidad.'</td>';//UNIDAD DE MEDIDA
 		echo '<td align="center">';
 		echo "<a href=\"JavaScript:DetalleLoteACID('".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."')\">";
-		echo $Fila["cod_bulto"].'".$Fila["corr_enm"]."'.'</a></td>';//LOTE
+		echo $Fila["cod_bulto"].$Fila["corr_enm"].'</a></td>';//LOTE
 		echo "<td align=\"center\"><input type=\"text\" name=\"TxtOrden\" value=\"";
 		if ($SAP_OrdenProd_Manual!="")
 			echo $SAP_OrdenProd_Manual;
