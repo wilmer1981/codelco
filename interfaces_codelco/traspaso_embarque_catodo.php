@@ -1,7 +1,7 @@
 <?php
 	set_time_limit(2000);
 	$CodigoDeSistema = 21;
-	$CodigoDePantalla = 2;
+	$CodigoDePantalla = 12;
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
 
@@ -10,6 +10,7 @@
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"";
 	$CmbOrden       = isset($_REQUEST["CmbOrden"])?$_REQUEST["CmbOrden"]:"";
+	$ChkMarca       = isset($_REQUEST["ChkMarca"])?$_REQUEST["ChkMarca"]:"";
 	
 	$CodProducto    = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
 	$SubProducto    = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
@@ -54,7 +55,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if(confirm('�Esta Seguro de Traspasar Los Datos?'))
+				if(confirm('¿Esta Seguro de Traspasar Los Datos?'))
 				{
 					var Largo = Valor.length;
 					f.Valores.value = Valor.substring(0,Largo-2);
@@ -283,18 +284,18 @@ body {
           <tr bgcolor="#FFFFFF">
             <td height="24">Producto:</td>
             <td height="24" colspan="4"><select name="CodProducto" onChange="Proceso('R')">
-				<?php
-					$Consulta = "select * from proyecto_modernizacion.productos ";
-					$Consulta.= " where cod_producto in('18') order by lpad(cod_producto,2,'0')";
-					$Resp = mysqli_query($link, $Consulta);
-					while ($Fila=mysqli_fetch_array($Resp))
-					{
-						if ($CodProducto==$Fila["cod_producto"])
-							echo "<option value=\"".$Fila["cod_producto"]."\" selected>".strtoupper($Fila["descripcion"])."</option>\n";
-						else
-							echo "<option value=\"".$Fila["cod_producto"]."\" >".strtoupper($Fila["descripcion"])."</option>\n";			
-					}
-				?>		  
+  <?php
+	$Consulta = "select * from proyecto_modernizacion.productos ";
+	$Consulta.= " where cod_producto in('18') order by lpad(cod_producto,2,'0')";
+	$Resp = mysqli_query($link, $Consulta);
+	while ($Fila=mysqli_fetch_array($Resp))
+	{
+		if ($CodProducto==$Fila["cod_producto"])
+			echo "<option value=\"".$Fila["cod_producto"]."\" selected>".strtoupper($Fila["descripcion"])."</option>\n";
+		else
+			echo "<option value=\"".$Fila["cod_producto"]."\" >".strtoupper($Fila["descripcion"])."</option>\n";			
+	}
+?>		  
             </select>
               <input type="hidden" name="Producto" value="CAT">            </td>
           </tr>
@@ -326,26 +327,26 @@ body {
           <tr bgcolor="#FFFFFF">
             <td>Asignar Valores:</td>
             <td height="28"><select name="CmbMovimiento" id="select">
-			<?php
-				switch ($CmbMovimiento)
-				{
-					case "921":
-						echo "<option value='' class='NoSelec'>Tipo Movimiento</option>\n";
-						echo "<option selected value='921'>921 - Ingresar</option>\n";
-						echo "<option value='922'>922 - Eliminar</option>\n";
-						break;
-					case "922":
-						echo "<option value='' class='NoSelec'>Tipo Movimiento</option>\n";
-						echo "<option value='921'>921 - Ingresar</option>\n";
-						echo "<option selected value='922'>922 - Eliminar</option>\n";
-						break;
-					default:
-						echo "<option selected value='' class='NoSelec'>Tipo Movimiento</option>\n";
-						echo "<option value='921'>921 - Ingresar</option>\n";
-						echo "<option value='922'>922 - Eliminar</option>\n";
-						break;
-				}
-			?>
+                <?php
+	switch ($CmbMovimiento)
+	{
+		case "921":
+			echo "<option value='' class='NoSelec'>Tipo Movimiento</option>\n";
+			echo "<option selected value='921'>921 - Ingresar</option>\n";
+			echo "<option value='922'>922 - Eliminar</option>\n";
+			break;
+		case "922":
+			echo "<option value='' class='NoSelec'>Tipo Movimiento</option>\n";
+			echo "<option value='921'>921 - Ingresar</option>\n";
+			echo "<option selected value='922'>922 - Eliminar</option>\n";
+			break;
+		default:
+			echo "<option selected value='' class='NoSelec'>Tipo Movimiento</option>\n";
+			echo "<option value='921'>921 - Ingresar</option>\n";
+			echo "<option value='922'>922 - Eliminar</option>\n";
+			break;
+	}
+?>
               </select> </td>
             <td height="28"><select name="CmbOrden">
                 <option value="" class="NoSelec">Orden - Valorizacion.</option>
@@ -365,17 +366,17 @@ body {
             <!--<td height="28"><select name="CmbAlmacen" id="CmbClaseValor">
               <option value="" class="NoSelec">Almacen</option>
               <?php
-				$Consulta = "select distinct cod_almacen_codelco, abreviatura from interfaces_codelco.relacion_almacen order by cod_almacen_codelco ";
-				$Resp = mysqli_query($link, $Consulta);	 
-				while ($Fila=mysqli_fetch_array($Resp))
-				{
-					if ($CmbAlmacen==$Fila["cod_almacen_codelco"])
-						echo "<option selected value=\"".$Fila["cod_almacen_codelco"]."\">".strtoupper($Fila["abreviatura"])."</option>\n";
-					else
-						echo "<option value=\"".$Fila["cod_almacen_codelco"]."\">".strtoupper($Fila["abreviatura"])."</option>\n";
-				}			  
+	$Consulta = "select distinct cod_almacen_codelco, abreviatura from interfaces_codelco.relacion_almacen order by cod_almacen_codelco ";
+	$Resp = mysqli_query($link, $Consulta);	 
+	while ($Fila=mysqli_fetch_array($Resp))
+	{
+		if ($CmbAlmacen==$Fila["cod_almacen_codelco"])
+			echo "<option selected value=\"".$Fila["cod_almacen_codelco"]."\">".strtoupper($Fila["abreviatura"])."</option>\n";
+		else
+			echo "<option value=\"".$Fila["cod_almacen_codelco"]."\">".strtoupper($Fila["abreviatura"])."</option>\n";
+	}			  
 	
-			?>
+?>
             </select>
           </td>-->
             <td align="center" colspan="2"><input name="BtnMovimiento" type="button" id="BtnMovimiento2" style="width:70px;" onClick="AsignaMovimiento()" value="Asignar"></td>
@@ -430,15 +431,13 @@ if ($Mostrar == "S")
 	$Prod=$CodProducto;
 	$SubProd=$SubProducto;
 	$DescAnt    = "";
-	RescataCatodosGradoA($Prod, $SubProd, $Ano, $Mes, $ArrResp, "", $ArrRespLeyes, $Orden, $link);
+	$ArrResp = RescataCatodosGradoA($Prod, $SubProd, $Ano, $Mes, $ArrResp, "", $ArrRespLeyes, $Orden, $link);
 	$ContCantidad = 0;
 	$SubTotalPeso = 0;
 	$ProdAnt = "";
 	$SubProdAnt = "";
 
 	reset($ArrResp);
-
-	//while (list($k,$Fila)=each($ArrResp))
 	foreach ($ArrResp as $k => $Fila)
 	{
 		$Referencia="";
@@ -448,8 +447,8 @@ if ($Mostrar == "S")
 
 			EscribeSubTotal($DescAnt, $ContCantidad, $SubTotalPeso);
 		$Lote2 = $Fila["cod_bulto"]."~".$Fila["num_bulto"];	
-		$Referencia=substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).'".$Fila["corr_enm"]."';
-        // echo "-------------entrooooo".'".$Fila["corr_enm"]."';
+		$Referencia=substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).$Fila["corr_enm"];
+        // echo "-------------entrooooo".$Fila["corr_enm"];
 		$SAP_OrdenProd_Manual = "";
 		$SAP_ClaseValoriz_Manual = "";
 		//CONSULTA SI ESTA TRASPASADO
@@ -485,9 +484,15 @@ if ($Mostrar == "S")
 		$SAP_ClaseValoriz = "";
 		$SAP_Centro = "";
 		//echo "PPP".$Fila["cod_marca"];
-		OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);	
+		$Lista = OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);	
+		$valor = explode("**",$Lista);
+		$SAP_OrdenProd    = $valor[0];
+		$SAP_CodMaterial  = $valor[1];
+		$SAP_Unidad       = $valor[2];
+		$SAP_ClaseValoriz = $valor[3];
+		$SAP_Centro       = $valor[4];
 		echo '<tr>';	
-		$ClaveChk = $Fila["cod_producto"]."~".$Fila["cod_subproducto"]."~".$Lote2."~".'".$Fila["corr_enm"]."';
+		$ClaveChk = $Fila["cod_producto"]."~".$Fila["cod_subproducto"]."~".$Lote2."~".$Fila["corr_enm"];
 		//echo "SSS".$ClaveChk."--".$Estado."--".$Fila2["tipo_movimiento"];
 		echo '<td align="center"><input type="checkbox" name="ChkSelec" value="'.$ClaveChk.'"></td>';//CHECKBOX PARA SELECCIONAR
 		
@@ -504,7 +509,7 @@ if ($Mostrar == "S")
 		echo '<td align="center">'.$SAP_Unidad.'</td>';//UNIDAD DE MEDIDA
 		echo '<td align="center">';
 		echo "<a href=\"JavaScript:DetalleLoteCAT('".$Fila["cod_producto"]."','".$Fila["cod_subproducto"]."','".$AnoLote."','".$Fila["cod_bulto"]."','".$Fila["num_bulto"]."')\">";
-		echo substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).'".$Fila["corr_enm"]."'.'</a></td>';//LOTE
+		echo substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).$Fila["corr_enm"].'</a></td>';//LOTE
 		echo "<td align=\"center\"><input type=\"text\" name=\"TxtOrden\" value=\"";
 		if ($SAP_OrdenProd_Manual!="")
 			echo $SAP_OrdenProd_Manual;

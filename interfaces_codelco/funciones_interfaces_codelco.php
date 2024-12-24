@@ -823,9 +823,9 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 {
 	$AnoMenos = $AnoAux - 1;
 	if ($ProdAux!="")
-		DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
+		$ArregloLeyes = DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
 	else
-		DefinirArregloLeyes("18", $SubProdAux, $ArregloLeyes);	
+		$ArregloLeyes = DefinirArregloLeyes("18", $SubProdAux, $ArregloLeyes);	
 	$Consulta = "select  t0.cod_bulto, t0.num_bulto, t0.cod_marca, t0.corr_enm, t3.abreviatura as descripcion, tt.fecha_disponible, ";
 	$Consulta.= " tt.cod_producto, tt.cod_subproducto, t2.fecha_guia,sum(t1.peso_paquetes) As peso, fecha_creacion_lote, tt.cod_puerto, tt.cod_puerto_destino, ";
 	$Consulta.= " count(t0.num_paquete) as num_paquetes, sum(t1.num_unidades) as num_unidades, t4.descripcion as descrip_marca, t4.descripcion_ingles as marca_ingles, tt.cod_contrato_maquila as asignacion ";
@@ -884,7 +884,6 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
         $ValorId2=isset($ValorId[2])?$ValorId[2]:"";
 		if ($ValorId2 == 'E')
 		{
-
 			$Arreglo[$i]["descrip_marca"] = $FilaAux["marca_ingles"];
 		}
 		else
@@ -935,7 +934,7 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 					$Consulta.= " and t2.cod_leyes='".$v["cod_leyes"]."' ";
 				}
 				//$Consulta = substr($Consulta,0,strlen($Consulta)-2).")";
-				echo $Consulta."<br>";
+				//echo $Consulta."<br>";
 				$Resp2 = mysqli_query($link, $Consulta);
 				$ConLeyes = "N";
 				$NumCertificado = "";
