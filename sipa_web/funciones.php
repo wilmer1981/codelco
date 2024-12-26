@@ -397,7 +397,9 @@ function ToleranciaPesaje($link)
 					}	
 				}
 				break;
-		}		
+		}
+		$proveedor = $RutProved."**".$NombreProved;
+		return $proveedor;	
 	}
 	//FUNCION PARA CREAR S.A
 	function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes,$Impurezas,$RutOperador,$link)
@@ -619,37 +621,42 @@ function ToleranciaPesaje($link)
 	}
 	function CerrarLotesMensuales($TipoRegistro,$link)
 	{
-		if(intval(date("m"))>1)
+		if(intval(date("m"))>1){			
 			$FechaAnt=date("Y")."-".str_pad((intval(date("m"))-1),2,"0",STR_PAD_LEFT)."-31";
-		else
+		}else{
 			$FechaAnt=(intval(date("Y"))-1)."-12-31";
+		}
 		//$FechaAnt = date('Y-m-d',mktime(0,0,0,date("m")-1,date("d"),  date("Y")));
-		//echo $FechaAnt."<br>";
+		//echo "FechaAnt:".$FechaAnt."<br>";
 		$Consulta="SELECT * from sipa_web.cierre_lotes_mensual where substring(fecha,1,7)='".substr($FechaAnt,0,7)."' and tipo='".$TipoRegistro."'";
-		//echo $Consulta."<br>";
 		$Resp=mysqli_query($link, $Consulta);
 		if(!$Fila=mysqli_fetch_array($Resp))
 		{
 			$UltDiaMes=date('d',mktime(0,0,0,date("m"),1-1,  date("Y")));
 			//$UltDiaMes=substr($UltDiaMes,9,2);
 			$TxtFechaIni=substr($FechaAnt,0,7)."-01";
-			$TxtFechaFin=substr($FechaAnt,0,7)."-".$UltDiaMes;
+			$TxtFechaFin=substr($FechaAnt,0,7)."-".$UltDiaMes;	
 			
 			$Cont=0;
-			$Consulta = "SELECT lote ,recargo,fecha,correlativo,ult_registro from sipa_web.recepciones t1 ";
+			$Consulta = "SELECT t1.lote,t1.recargo,t1.fecha,t1.correlativo,t1.ult_registro FROM sipa_web.recepciones t1 ";
 			$Consulta.= " where t1.fecha between '".$TxtFechaIni."' and '".$TxtFechaFin."' and ";
-			$Consulta.= " lpad(recargo,2,'0')=(SELECT max(lpad(recargo,2,'0')) from sipa_web.recepciones where lote=t1.lote) and ult_registro='N' "; 
-			$Consulta.= " group by lote ";
-			//echo $Consulta;
-			$RespLote=mysqli_query($link, $Consulta);
-			while($FilaLote=mysqli_fetch_array($RespLote))
-			{
-				$Actualizar="UPDATE sipa_web.recepciones set ult_registro='S' ";
-				$Actualizar.="where lote='".$FilaLote["lote"]."' and recargo='".$FilaLote["recargo"]."'";
-				//echo $Actualizar."<br>";
-				mysqli_query($link, $Actualizar);
-				$Cont=$Cont+1;
-			}
+			$Consulta.= " lpad(t1.recargo,2,'0')=(SELECT max(lpad(recargo,2,'0')) from sipa_web.recepciones where lote=t1.lote) and ult_registro='N' "; 
+			$Consulta.= " group by t1.lote ";
+			//echo "<br>Consaulta 2:".$Consulta."<br>";			
+			//try{
+				$RespLote=mysqli_query($link, $Consulta);
+				while($FilaLote=mysqli_fetch_array($RespLote))
+				{   //echo "Cont:".$Cont;					
+					$Actualizar ="UPDATE sipa_web.recepciones SET ult_registro='S'";
+					$Actualizar.=" WHERE lote='".$FilaLote["lote"]."' and recargo='".$FilaLote["recargo"]."'";
+					//echo "Actualizar:".$Actualizar."<br>";
+					mysqli_query($link,$Actualizar);
+					$Cont=$Cont+1;					
+				}
+			/*}catch (Exception $e) {
+					$error = $e->getMessage();
+					echo "ERROR:".$error;
+				}*/
 			$Insertar="INSERT INTO sipa_web.cierre_lotes_mensual(fecha,cant_cerrados,tipo) values('$TxtFechaFin','$Cont','R')";
 			//echo $Insertar;
 			mysqli_query($link, $Insertar);
@@ -659,13 +666,13 @@ function ToleranciaPesaje($link)
 			$Consulta.= " lpad(recargo,2,'0')=(SELECT max(lpad(recargo,2,'0')) from sipa_web.despachos where lote=t1.lote) and ult_registro='N' "; 
 			$Consulta.= " group by lote ";
 			//echo $Consulta."<br>";
-			$RespLote=mysqli_query($link, $Consulta);
+			$RespLote=mysqli_query($link,$Consulta);
 			while($FilaLote=mysqli_fetch_array($RespLote))
 			{
-				$Actualizar="UPDATE sipa_web.despachos set ult_registro='S' ";
-				$Actualizar.="where lote='".$FilaLote["lote"]."' and recargo='".$FilaLote["recargo"]."'";
+				$Actualizar="UPDATE sipa_web.despachos SET ult_registro='S' ";
+				$Actualizar.="WHERE lote='".$FilaLote["lote"]."' and recargo='".$FilaLote["recargo"]."'";
 				//echo $Actualizar."<br>";
-				mysqli_query($link, $Actualizar);
+				mysqli_query($link,$Actualizar);
 				$Cont=$Cont+1;
 			}
 			$Insertar="INSERT INTO sipa_web.cierre_lotes_mensual(fecha,cant_cerrados,tipo) values('$TxtFechaFin','$Cont','D')";
@@ -947,21 +954,17 @@ if(!$correo->Send()) {
 /***************Lee archivos TXT********************** */
 function LeerArchivo($ruta,$archivo)
 {   $valor=0;
-	//$nombre="archivo.txt";//$archivo;
 	$nombre=$archivo;
 	if($ruta!=""){
-		//$ubicacion = 'D:/'.$ruta.'/'.$nombre;
 		$ubicacion = "D:\\xampp\\htdocs\\proyecto\\".$ruta."\\".$nombre;
 	}else{
 		$ubicacion = 'D:/'.$nombre;
-		//$ubicacion = $nombre;
 	}	
 	if(file_exists($ubicacion)){
 		$arc = fopen($ubicacion,"r");
 		while(! feof($arc))  {
 			$valor = fgets($arc);
 		}
-		//echo "LECTURA ARCHIV<br>";
 		fclose($arc);
 	}else{
 		$valor="";

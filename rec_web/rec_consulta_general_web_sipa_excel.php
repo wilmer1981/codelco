@@ -160,7 +160,7 @@
 	{
 		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Row = mysqli_fetch_array($Respuesta))
-			echo $RutProveedorAux." - ".$Row["nombre_prv"];
+			echo $RutProveedor." - ".$Row["nombre_prv"]; //echo $RutProveedorAux." - ".$Row["nombre_prv"];
 		else
 			echo "NO DEFINIDO";
 	}
@@ -569,7 +569,10 @@
 					echo "<td align='right'>".$Row["peso_tara"]."</td>\n";
 					echo "<td align='right'>".$Row["peso_neto"]."</td>\n";
 					echo "<td>".$RutProveedorAux."</td>\n";
-					ObtenerProveedorDespacho('D',$Row["rut_prv"],$Row["correlativo"],$Row["guia_despacho"],$RutProved,$NombreProved,$link);
+					$Lista = ObtenerProveedorDespacho('D',$Row["rut_prv"],$Row["correlativo"],$Row["guia_despacho"],$RutProved,$NombreProved,$link);
+					$Valor = explode("**",$Lista);
+					$RutProved    = $Valor[0];
+					$NombreProved = $Valor[1];
 					$NomProv = $NombreProved;
 					echo "<td>".$NomProv."</td>\n";
 					echo "<td>".$Row["cod_subproducto"]."</td>\n";
