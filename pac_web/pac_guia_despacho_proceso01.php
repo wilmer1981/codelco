@@ -252,22 +252,29 @@
 </soapenv:Envelope>";
 
 $xmlEnvioGDE=$xmlHeaderGDE.$xmlBodyGDE;
-	echo $DIRECCION_WS_GDE."***".$DIRECCION_WS_GDE_ANULA."***".$usuario."****".$password;
-	exit();
-	//echo $xmlEnvioGDE;
+	//echo $DIRECCION_WS_GDE."***".$DIRECCION_WS_GDE_ANULA."***".$usuario."****".$password;
+	//echo $xmlEnvioGDE."<br>";
+	//echo "<br>Proceso:".$Proceso."<br>";
 	//exit();
 switch ($Proceso)
 {
 	
 	    case "GDE":
 			ModificarPAC($link);
-			GenerarGDE($xmlEnvioGDE);	
-		
+			$result = GenerarGDE($xmlEnvioGDE);	
+			//var_dump($result);			
 			$codRespuesta = $result["DATOS_RESPUESTA"]["CODIGO_RESPUESTA"];
 			$menRespuesta = $result["DATOS_RESPUESTA"]["MENSAJE_RESPUESTA"];
-			$NumGuia = $result["DATOS_RESPUESTA"]["FOLIO_GENERADO"];
-			$urlGde = $result["DATOS_RESPUESTA"]["URL_GDE"];
-			$urlGdeLocal = $result["DATOS_RESPUESTA"]["URL_GDE_LOCAL"];
+			$NumGuia      = $result["DATOS_RESPUESTA"]["FOLIO_GENERADO"];
+			$urlGde       = $result["DATOS_RESPUESTA"]["URL_GDE"];
+			$urlGdeLocal  = $result["DATOS_RESPUESTA"]["URL_GDE_LOCAL"];
+			
+			$msj          = $result["msj"];
+			
+			//echo "<br>codRespuesta:".$codRespuesta."<br>";
+			//echo "<br>msj:".$msj."<br>";			
+			//exit();
+						
 			if ($msj!='') {
 				echo "<script languaje='JavaScript'>";
 				echo "alert('".$msj."');";
@@ -279,7 +286,7 @@ switch ($Proceso)
 				if ($codRespuesta=="OK"){
 					$RespuestaWS = "<CODIGO_RESPUESTA>: ".$codRespuesta."<MENSAJE_RESPUESTA>: ".$menRespuesta."<FOLIO_GENERADO>: ".$NumGuia."<URL_GDE>: ".$urlGde."<URL_GDE_LOCAL>: ".$urlGdeLocal;
 					
-					$Insertar2="insert into pac_web.pac_logs (nro_guia,fecha_emision_acepta,url_gde,url_gde_local,xml_emitido,xml_recepcionado,rut,fecha_hora_registro) values (";
+					$Insertar2 ="insert into pac_web.pac_logs (nro_guia,fecha_emision_acepta,url_gde,url_gde_local,xml_emitido,xml_recepcionado,rut,fecha_hora_registro) values (";
 					$Insertar2 = $Insertar2."'".$NumGuia."','".$FechaHora."','".$urlGde."','".$urlGdeLocal."','".$xmlBodyGDE."','".$RespuestaWS."','".$rut."','".$fechaEmision."')";
 					
 					$resultInsertLog = mysqli_query($link, $Insertar2);
@@ -345,12 +352,15 @@ switch ($Proceso)
 		
 			}
 		break;	
-		case "N":				
+		case "N":	
+                //echo "Ver:".$Ver."<br>";	
+				//echo "NumGuia:".$NumGuia."<br>";
+				//exit();
 				if ($Ver=='C')//Graba Para los Camiones  
 				{
 					$Consulta="select * from pac_web.guia_despacho where num_guia='".$NumGuia."' and num_guia!=''";
 					$Respuesta=mysqli_query($link, $Consulta);
-					/*echo $Consulta;exit();*/
+					echo $Consulta;exit();
 					if ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						header("location:pac_guia_despacho_proceso.php?Mostrar=S");
@@ -370,7 +380,7 @@ switch ($Proceso)
 					//echo $Insertar;
 					$result = mysqli_query($link, $Insertar);
 					if (!$result) {
-    				die('No se pudo crear la guia en el sistema: ' . mysql_error()."<br><br>".$Insertar);
+						die('No se pudo crear la guia en el sistema: ' . mysql_error()."<br><br>".$Insertar);
 					}
 					$msg="Registro de Guia Camion Guardado Correctamente";
 					//echo "Inser ".$Insertar."<br>";
@@ -392,7 +402,7 @@ switch ($Proceso)
 					$Actualiza.= "where patente='".trim($CmbPatente)."' and folio='".trim($TxtCorrRomana)."'";
 					$result2 = mysqli_query($link, $Actualiza);
 					if (!$result2) {
-    				die('No se actualizo los registro del SIPA: ' . mysql_error());
+						die('No se actualizo los registro del SIPA: ' . mysql_error());
 					}
 					//echo "Actualiza ".$Actualiza."<br>";
 												
@@ -531,7 +541,7 @@ $xmlHeaderAnular="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/so
 	$xmlEnvioAnular=$xmlHeaderAnular.$xmlBodyAnular;
 
 
-		AnularGDE($xmlEnvioAnular);
+		$resultAnular = AnularGDE($xmlEnvioAnular);
 		
 		/*echo "<br><br>";
 		echo $xmlEnvioAnular;exit();*/
@@ -736,7 +746,8 @@ function ModificarPAC($link)
 				//	echo "INSERtAR 4".$Insertar;
 				}
 			}
-	}
+}
+	
 function GenerarGDE($envio)
 {
 
@@ -746,44 +757,45 @@ function GenerarGDE($envio)
 	global $result;
 	global $msj;
    
-try{  
+	try{  
+		$WSDL=$DIRECCION_WS_GDE;
+		$RRR=$envio;
 
-$WSDL=$DIRECCION_WS_GDE;
-$RRR=$envio;
+		$client=new nusoap_client($WSDL);
+		$client->setCredentials($usuario,$password); 
+		$result =$client->send($RRR,"SI_LEGADO_CrearGuiaDespacho");
 
-$client=new nusoap_client($WSDL);
-$client->setCredentials($usuario,$password); 
-$result =$client->send($RRR,"SI_LEGADO_CrearGuiaDespacho");
-
-$err = $client->getError();
-if ($err) {
-     echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';
-     $msj = "Error al generar la guia en estos momentos. Constructor";
-}
-if ($client->fault) {
-    echo 'Falla En Servicio Sonic';
-    $msj = "Error al generar la guia en estos momentos. Sonic";
-    print_r($result);
-   }
-else {
-
-		// Check for errors
 		$err = $client->getError();
 		if ($err) {
-			// Display the error
-			$msj = "Error al generar la guia en estos momentos. Display";
-			echo 'Error:' . $err . '';
-		} else {
-			// Display the result
-	 	  //  print_r($result);
+			 echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';
+			 $msj = "Error al generar la guia en estos momentos. Constructor";
 		}
+		if ($client->fault) {
+			echo 'Falla En Servicio Sonic';
+			$msj = "Error al generar la guia en estos momentos. Sonic";
+			print_r($result);
+		}else{
+
+				// Check for errors
+				$err = $client->getError();
+				if ($err) {
+					// Display the error
+					$msj = "Error al generar la guia en estos momentos. Display";
+					echo 'Error:' . $err . '';
+				} else {
+					// Display the result
+				  //  print_r($result);
+				}
+		}	
+	}catch (Exception $e) {
+		echo 'Caught exception: ',  $e->getMessage(), "\n";
+		$msj = "Error al generar la guia en estos momentos. Try Catch";
 	}
-	
-	
-}catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
-    $msj = "Error al generar la guia en estos momentos. Try Catch";
-}
+//Agregar return
+$lista = array();
+$arrMsg= array("msj" => $msj);
+$lista = array_merge($result,$arrMsg);
+return $lista;
 
 }
 
@@ -796,44 +808,42 @@ function AnularGDE($xmlGDE){
 	global $resultAnular;
 	global $msjAnular;
 
-try{
+	try{
 
-$WSDL=$DIRECCION_WS_GDE_ANULA;
-$mynamespace=$DIRECCION_WS_GDE_ANULA;
-$RRR=$xmlGDE;
+		$WSDL=$DIRECCION_WS_GDE_ANULA;
+		$mynamespace=$DIRECCION_WS_GDE_ANULA;
+		$RRR=$xmlGDE;
 
-$client=new nusoap_client($WSDL);
-$client->setCredentials($usuario,$password); 
-$resultAnular =$client->send($RRR,"SI_LEGADO_AnularGuiaDespacho");
-$err = $client->getError();
-if ($err) {
-      $msjAnular="Error al anular la guia en estos momentos. ";
-}
-if ($client->fault) {
-    $msjAnular="Error al anular la guia en estos momentos.";
-    print_r($resultAnular);
-   }
-else {
-
-		// Check for errors
+		$client=new nusoap_client($WSDL);
+		$client->setCredentials($usuario,$password); 
+		$resultAnular =$client->send($RRR,"SI_LEGADO_AnularGuiaDespacho");
 		$err = $client->getError();
 		if ($err) {
-			// Display the error
-			$msjAnular = "Error al generar la guia en estos momentos. Display";
-			echo 'Error:' . $err . '';
-		} else {
-			// Display the result
-	/* print_r($resultAnular);*/
-			
+			  $msjAnular="Error al anular la guia en estos momentos. ";
 		}
+		if ($client->fault){
+			$msjAnular="Error al anular la guia en estos momentos.";
+			print_r($resultAnular);
+		}else{
+			// Check for errors
+			$err = $client->getError();
+			if ($err) {
+				// Display the error
+				$msjAnular = "Error al generar la guia en estos momentos. Display";
+				echo 'Error:' . $err . '';
+			} else {
+				// Display the result
+				/* print_r($resultAnular);*/					
+			}
+		}		
+	}catch (Exception $e) {
+		echo 'Caught exception: ',  $e->getMessage(), "\n";
+		$msjAnular = "Error al generar la guia en estos momentos. Try Catch";
 	}
-	
-	
-}catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
-    $msj = "Error al generar la guia en estos momentos. Try Catch";
-}
-
+	$lista = array();
+	$arrMsg= array("msjAnular" => $msjAnular);
+	$lista = array_merge($resultAnular,$arrMsg);
+	return $lista;
 }
 
 

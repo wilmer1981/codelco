@@ -1027,26 +1027,29 @@ function TeclaPulsada (tecla)
             <td  align="center" width="713">
 			  <?php
 			  $Grabar="S";//WSO
-				if (($FechaRevTecnica ||$FechaCertEK) || $FechaRevTecnicaRampla)
+			  $Mens="";
+				echo "<br>FechaRevTecnica:".$FechaRevTecnica."<br>";
+				echo "FechaCertEK:".$FechaCertEK."<br>";
+				echo "FechaRevTecnicaRampla:".$FechaRevTecnicaRampla."<br>";
+				if ( $FechaRevTecnica!="" ||$FechaCertEK!="" || $FechaRevTecnicaRampla!="")
 				{
-					if ($FechaRevTecnica && (date($FechaRevTecnica)<date('Y-m-d')))
+					if ($FechaRevTecnica!="" && (date($FechaRevTecnica)<date('Y-m-d')))
 					{
 						$Grabar='N';
 						$Mens='1';
 					}
-					if ($FechaRevTecnicaRampla && (date($FechaRevTecnica)<date('Y-m-d')))
+					if ($FechaRevTecnicaRampla!="" && (date($FechaRevTecnica)<date('Y-m-d')))
 					{
 						$Grabar='N';
 						$Mens='2';
 					}
-					if ( $FechaCertEK && (date($FechaCertEK)<date('Y-m-d')))
+					if ( $FechaCertEK!="" && (date($FechaCertEK)<date('Y-m-d')))
 					{
 						$Grabar='N';
 						$Mens='2';
 					}
 				}	
-				
-				
+
 				 if ($Grabar=='N')
 					echo "<input type='button' name='BtnGrabar' value='Grabar' style='width:60' disabled>";
 				 elseif($NumGuia=='')
