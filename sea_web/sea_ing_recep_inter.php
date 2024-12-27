@@ -1,5 +1,5 @@
 <?php
-require("../principal/conectar_principal.php");
+ require("../principal/conectar_principal.php");
 $CodigoDeSistema = 2;
 $CodigoDePantalla = 3;
 
@@ -37,17 +37,22 @@ if(isset($_REQUEST["ano"])) {
 if(isset($_REQUEST["Hora"])) {
 	$Hora = $_REQUEST["Hora"];
 }else{
-	$Hora = date("G");
+	$Hora = "";
 }
 if(isset($_REQUEST["Minutos"])) {
 	$Minutos = $_REQUEST["Minutos"];
 }else{
 	$Minutos = date("i");
 }
+if(isset($_REQUEST["FechaMov"])) {
+	$FechaMov = $_REQUEST["FechaMov"];
+}else{
+	$FechaMov = date("Y-m-d");
+}
 
 $HoraAux=date('G');
 $MinAux=date('i');
-if($Hora!="")
+if($Hora=="")
 {
 	if(intval($HoraAux)>=0&&intval($HoraAux)<8)
 	{
@@ -156,16 +161,14 @@ function Guardar_Datos()
 var f = frmPrincipal;
 
 		f.action="sea_ing_recep_inter01.php?Proceso=G";
-        f.submit();
-  		
+        f.submit();  		
 }
 
 function Modificar_Datos()
 {
 var f = frmPrincipal;
   		f.action="sea_ing_recep_inter01.php?Proceso=M";
-        f.submit();
-  		
+        f.submit();  		
 }
 
 function Recarga()
@@ -258,27 +261,27 @@ body {
             <td>Origen Anodo-Blister</td>
             <td>
               <?php
-			   echo'<SELECT name="proveedor" onChange="Recarga()">';
+			   echo'<select name="proveedor" onChange="Recarga()">';
 			   echo'<option value="-1" seleted>Seleccionar</option>';
 
                if($proveedor == "A-00001100-2")
-			   	echo'<option value="A-00001100-2" SELECTed>ANODOS HVL</option>';		   
+			   	echo'<option value="A-00001100-2" selected>ANODOS HVL</option>';		   
                else
 			   	echo'<option value="A-00001100-2">ANODOS HVL</option>';		   
 
               /* if($proveedor == "A-61704005-0")
-			   	echo'<option value="A-61704005-0" SELECTed>ANODOS TENIENTE</option>';		   
+			   	echo'<option value="A-61704005-0" selected>ANODOS TENIENTE</option>';		   
                else
 			   	echo'<option value="A-61704005-0">ANODOS TENIENTE</option>';		   
 
 			    if($proveedor == "A-90132000-4")
-			   	echo'<option value="A-90132000-4" SELECTed>ANODOS SUR ANDES</option>';		   
+			   	echo'<option value="A-90132000-4" selected>ANODOS SUR ANDES</option>';		   
 			   else
 			   	echo'<option value="A-90132000-4">ANODOS SUR ANDES</option>';		*/
 				
 				
 				 if($proveedor == "A-77762940-9")
-			   	echo'<option value="A-77762940-9" SELECTed>ANODOS ANGLO AMERICAN SUR SA</option>';		   
+			   	echo'<option value="A-77762940-9" selected>ANODOS ANGLO AMERICAN SUR SA</option>';		   
 			   else
 			   	echo'<option value="A-77762940-9">ANODOS ANGLO AMERICAN SUR SA</option>';		
 
@@ -296,7 +299,7 @@ body {
 			while ($row = mysqli_fetch_array($rs))
 			{				
 				if ('B-'.$row["cod_subclase"] == $proveedor)					
-					echo '<option value="B-'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="B-'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 				else 
 					echo '<option value="B-'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 			}														   
@@ -304,7 +307,7 @@ body {
             </td>
             <td>Fecha</td>
             <td><font color="#000000" size="2">
-              <SELECT name="dia" size="1" style="font-face:verdana;font-size:10">
+              <select name="dia" size="1" style="font-face:verdana;font-size:10">
                 <?php
 			if($mostrar=='S' || $Proceso == 'V')
 			{
@@ -312,7 +315,7 @@ body {
 				{
  				   if ($i==$dia)
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -326,7 +329,7 @@ body {
 				{
 	   				   if ($i==date("d"))
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -335,9 +338,9 @@ body {
  				}
 		   }			
 	?>
-              </SELECT>
+              </select>
               </font> <font color="#000000" size="2"> 
-              <SELECT name="mes" size="1" id="SELECT7" style="FONT-FACE:verdana;FONT-SIZE:10">
+              <select name="mes" size="1" id="select7" style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($mostrar=='S' || $Proceso == 'V')
@@ -346,7 +349,7 @@ body {
 		    {
                 if ($i==$mes)
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -360,7 +363,7 @@ body {
 		    {
                 if ($i==date("m"))
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -370,8 +373,8 @@ body {
 	    } 	  
   		  
      ?>
-              </SELECT>
-    <SELECT name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
+              </select>
+    <select name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
 	if($mostrar=='S' || $Proceso == 'V')
 	{
@@ -379,7 +382,7 @@ body {
 	    {
             if ($i==$ano)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -393,7 +396,7 @@ body {
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -402,7 +405,7 @@ body {
          }   
     }	
 ?>
-              </SELECT>
+              </select>
               </font></td>
             <td><input name="mostrar" type="button" value="Ok" onClick="mostrar_guia();">              
               <input name="nuevo" type="button" value="Ingreso Manual" style="width:100" onClick="nueva_guia();">            </td></tr>
@@ -411,7 +414,7 @@ body {
             <td width="206">&nbsp;</td>
             <td width="37">Hora</td>
             <td width="201"><font size="1"><font size="2">
-              <SELECT name="Hora">
+              <select name="Hora">
                 <option value="S">S</option>
                 <?php
 				for ($i=0;$i<=23;$i++)
@@ -422,22 +425,22 @@ body {
 					if (isset($Hora))
 					{	
 						if ($Hora == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($HoraActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-              </SELECT>
+              </select>
               <strong>:</strong>
-              <SELECT name="Minutos">
+              <select name="Minutos">
                 <option value="S">S</option>
                 <?php
 				for ($i=0;$i<=59;$i++)
@@ -449,20 +452,20 @@ body {
 					if (isset($Minutos))
 					{	
 						if ($Minutos == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($MinutoActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-              </SELECT>
+              </select>
             </font></font></td>
             <td width="171">
               <input name="ver datos" type="button" value="Datos Ingresados" style="width:130" onClick="Datos_Ingresados();">
@@ -477,8 +480,11 @@ body {
 <?php //Anodos HVL
 
 $prov="";
+echo "Mostrar:".$mostrar."<br>";
+echo "proveedor:".$proveedor."<br>";
  if ($mostrar=="S" && $proveedor == "A-00001100-2")	
  {
+	 echo "Ingreso 1";
 	  $prov = substr($proveedor,2,10);
 	  $prov=intval(substr($prov,0,8))."-".substr($prov,9,1);
 	  echo'<tr class="ColorTabla01"> 
@@ -503,16 +509,16 @@ $prov="";
 			$consulta.= " FROM sipa_web.recepciones ";
 			$consulta.= " WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' AND RUT_PRV = '".$prov."' and peso_neto <> '0' ";
 			$consulta.=" ORDER BY HORA_ENTRADA";
-			//include("../principal/conectar_rec_web.php");
+			//require("../principal/conectar_rec_web.php");
 			
 			$rs = mysqli_query($link, $consulta);
       }
 	  else
 	  {
 			$consulta = "SELECT distinct GUIA_DESPACHO AS GUIADP_A, PATENTE AS PATENT_A, LOTE AS LOTE_A ";
-			$consulta.= " FROM SIPA_WEB.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' ";
+			$consulta.= " FROM sipa_web.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' ";
 			$consulta.=" ORDER BY GUIA_DESPACHO ";
-			//include("../principal/conectar_rec_web.php");
+			//require("../principal/conectar_rec_web.php");
 			
 			$rs = mysqli_query($link, $consulta);
 	  }	
@@ -522,7 +528,7 @@ $prov="";
 			$i = $i + 1;
 			$unidades = '';
 	
-			//include("../principal/conectar_rec_web.php");
+			//require("../principal/conectar_rec_web.php");
 			$consulta = "SELECT GUIA_DESPACHO AS GUIADP_A, FECHA AS FECHA_A, PATENTE AS PATENT_A, LOTE AS LOTE_A, RECARGO AS RECARG_A, PESO_NETO AS PESONT_A ";
 			$consulta.= " FROM SIPA_WEB.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' AND GUIA_DESPACHO = ".$row["GUIADP_A"]." ";
 			$consulta.= " AND LOTE = '".$row["LOTE_A"]."' AND PATENTE = '".$row["PATENT_A"]."' and estado <>'A'";
@@ -553,9 +559,9 @@ $prov="";
 				
 
 				 //$consulta_u = "SELECT SUM(unidades) AS unid FROM movimientos WHERE fecha_movimiento between '$fecha' and '$fecha2' and hora between '$FechaInicio' and '$FechaTermino' AND campo1 = '$row["GUIADP_A"]' AND campo2 = '$row["PATENT_A"]'";
-				 $consulta_u = "SELECT SUM(unidades) AS unid FROM movimientos WHERE fecha_movimiento between '".$fecha."' and '".$fecha2."' AND campo1 = '".$row["GUIADP_A"]."' AND campo2 = '".$row["PATENT_A"]."'";
+				 $consulta_u = "SELECT SUM(unidades) AS unid FROM sea_web.movimientos WHERE fecha_movimiento between '".$fecha."' and '".$fecha2."' AND campo1 = '".$row["GUIADP_A"]."' AND campo2 = '".$row["PATENT_A"]."'";
 				 //echo $consulta_u."<br>";
-				// include("../principal/conectar_sea_web.php"); 
+				//require("../principal/conectar_sea_web.php"); 
 				 $result_u = mysqli_query($link, $consulta_u);
 						
 					
@@ -566,8 +572,8 @@ $prov="";
 															 
  				 if($lote_ventana != '')
 				 {
-					   $consulta = "SELECT * FROM relaciones WHERE lote_ventana = $lote_ventana";
-					  // include("../principal/conectar_sea_web.php");
+					   $consulta = "SELECT * FROM sea_web.relaciones WHERE lote_ventana = $lote_ventana";
+					  // require("../principal/conectar_sea_web.php");
 					   $rs2 = mysqli_query($link, $consulta);
 					   $producto="";
 					   if ($row2 = mysqli_fetch_array($rs2))
@@ -607,6 +613,7 @@ $prov="";
  $Encontrado="";
  if ($mostrar=="S" && $proveedor != "A-00001100-2" && $codigo != "B")	
  {
+	  echo "Ingreso 2<br>";
 	  $prov = substr($proveedor,2,10);
 	  echo'<tr class="ColorTabla01"> 
 		<td width="8%"><div align="center">Lote V.</div></td>
@@ -621,12 +628,12 @@ $prov="";
 	  </tr>';
          $l = strlen($mes);
 		 if ($l==1)
-		     $mes = "0".$mes;
+		     $mes = "0$mes";
 		$fecha = $ano.'-'.$mes.'-'.$dia;
 		$cont = 20;
         $Fecha2 = date("Y-m-d", mktime(1,0,0,intval(substr($fecha, 5, 2)) ,intval(substr($fecha, 8, 2)) + 1,intval(substr($fecha, 0, 4))));
-		$consulta = "SELECT distinct LOTE AS LOTE_A FROM SIPA_WEB.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' AND (RUT_PRV = '".$prov."' or RUT_PRV = '".$prv2."') and tipo<>'A' and tipo <>'C'";
-		//include("../principal/conectar_rec_web.php");
+		$consulta = "SELECT distinct LOTE AS LOTE_A FROM sipa_web.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' AND (RUT_PRV = '".$prov."' or RUT_PRV = '".$prv2."') and tipo<>'A' and tipo <>'C'";
+		//require("../principal/conectar_rec_web.php");
 		$rs = mysqli_query($link, $consulta);
 		$i =0;
 		$Total_peso=0;$Total_origen=0;$Total_unid=0;
@@ -635,9 +642,9 @@ $prov="";
 
 			$Encontrado = "S";
 			$i = $i + 1;
-			$unidades = '';
-
-			//include("../principal/conectar_rec_web.php");
+			$unidades = 0;
+			$peso=0;
+			//require("../principal/conectar_rec_web.php");
 			$consulta = "SELECT MAX(ceiling(RECARGO)) as recargo FROM SIPA_WEB.recepciones ";
 			$consulta.= " WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '17' AND LOTE = '".$row["LOTE_A"]."' AND (RUT_PRV = '".$prov."' or RUT_PRV = '".$prv2."')";
 			$result = mysqli_query($link, $consulta);
@@ -645,9 +652,11 @@ $prov="";
 			{
 				$recargo = $row1["recargo"];
 				$lote_ventana = $row["LOTE_A"];
+				
+				//echo $lote_ventana;
 
 				$consulta_s = "SELECT SUM(PESO_NETO) AS peso_t FROM SIPA_WEB.recepciones WHERE LOTE = '".$row["LOTE_A"]."' AND FECHA ='".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = 17 AND (RUT_PRV = '".$prov."'or RUT_PRV = '".$prv2."')";
-				//echo "Con".$consulta_s;
+				echo "Con".$consulta_s;
 				$result_s = mysqli_query($link, $consulta_s);
 				     
 				 if ($row_s = mysqli_fetch_array($result_s))
@@ -657,16 +666,16 @@ $prov="";
 														                 
 				if($lote_ventana != '')
 				{
-					  $consulta = "SELECT * FROM relaciones WHERE lote_ventana = '".$row["LOTE_A"]."' ";
-					  //echo $consulta."<br>";
-					  //include("../principal/conectar_sea_web.php");
+					  $consulta = "SELECT * FROM sea_web.relaciones WHERE lote_ventana = '".$row["LOTE_A"]."' ";
+					  echo "<br>".$consulta."<br>";
+					 // require("../principal/conectar_sea_web.php");
 					  $rs2 = mysqli_query($link, $consulta);
 					  if ($row2 = mysqli_fetch_array($rs2))
 					  {
-						   $producto = $row2["cod_origen"];
-						   $hornada = $row2["hornada_ventana"];		 
+						   $producto    = $row2["cod_origen"];
+						   $hornada     = $row2["hornada_ventana"];		 
 						   $lote_origen = $row2["lote_origen"];
-						   $marca = $row2['marca'];		 
+						   $marca       = $row2['marca'];		 
 					  } 
 					  else 
 					  {
@@ -675,6 +684,7 @@ $prov="";
 						   $lote_origen = '';
 						   $marca = '';		                      
 					  }	
+					  echo  "<br>lote_origen:".$lote_origen;
 
 					  if($hornada != '')
 					  {
@@ -682,8 +692,8 @@ $prov="";
 							$FechaInicio =date("Y-m-d", mktime(0,0,0,$mes,$dia,$ano))." 08:00:00";		
 							$FechaTermino =date("Y-m-d", mktime(1,0,0,$mes,($dia +1),$ano))." 07:59:59";
 						   //$consulta_u = "SELECT SUM(unidades) AS unid, SUM(peso) AS peso, SUM(peso_origen) AS peso_origen,hora,fecha_movimiento FROM movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento between '$fecha' and '$Fecha2' and hora between '$FechaInicio' and '$FechaTermino' AND hornada = $hornada group by hornada, fecha_movimiento";						   
-						   $consulta_u = "SELECT SUM(unidades) AS unid, SUM(peso) AS peso, SUM(peso_origen) AS peso_origen,hora,fecha_movimiento FROM movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento between '$fecha' and '$Fecha2' AND hornada = $hornada group by hornada, fecha_movimiento";
-						   //include("../principal/conectar_sea_web.php"); 
+						   $consulta_u = "SELECT SUM(unidades) AS unid, SUM(peso) AS peso, SUM(peso_origen) AS peso_origen,hora,fecha_movimiento FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento between '$fecha' and '$Fecha2' AND hornada = $hornada group by hornada, fecha_movimiento";
+						   //require("../principal/conectar_sea_web.php"); 
 						   $result_u = mysqli_query($link, $consulta_u);
 							//echo $consulta_u;	
 						   if ($row_u = mysqli_fetch_array($result_u))
@@ -699,7 +709,7 @@ $prov="";
 					  } 
 					  else 
 					  {
-					   	    $unidades = '';
+					   	    $unidades = 0;
 							$peso_origen = 0;
 					  }
 				
@@ -762,11 +772,11 @@ $prov="";
 	  </tr>';
          $l = strlen($mes);
 		 if ($l==1)
-		     $mes = "0".$mes;
+		     $mes = "0$mes";
 		$fecha = $ano.'-'.$mes.'-'.$dia;
 		$cont = 20;
         $Fecha2 = date("Y-m-d", mktime(1,0,0,intval(substr($fecha, 5, 2)) ,intval(substr($fecha, 8, 2)) + 1,intval(substr($fecha, 0, 4))));
-		$consulta = "SELECT lote_ventana AS LOTE_A from sea_web.recepcion_externas where fecha = '".$fecha."' and cod_producto='17' and cod_subproducto = '2' and rut_prv = '".$prov."' and piezas_recep<piezas";
+		$consulta = "select lote_ventana AS LOTE_A from sea_web.recepcion_externas where fecha = '".$fecha."' and cod_producto='17' and cod_subproducto = '2' and rut_prv = '".$prov."' and piezas_recep<piezas";
 		$rs = mysqli_query($link, $consulta);
 		$i =0;
 		while($row = mysqli_fetch_array($rs))
@@ -869,7 +879,7 @@ $prov="";
 
 	  if($row = mysqli_fetch_array($rs))
 	  {
-		   $prov = $row[rut_prov];
+		   $prov = $row["rut_prov"];
 	  }
         
 	  $Total_peso = 0; 
@@ -894,9 +904,9 @@ $prov="";
 		$fecha = $ano.'-'.$mes.'-'.$dia;
 		$pos = 7;
 		$consulta = "SELECT GUIA_DESPACHO AS GUIADP_A, PATENTE AS PATENT_A, LOTE AS LOTE_A, RECARGO AS RECARG_A ";
-		$consulta.= " FROM SIPA_WEB.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '16' AND RUT_PRV= '".$prov."' ORDER by HORA_ENTRADA";
-    	//echo $consulta;
-		//include("../principal/conectar_rec_web.php");
+		$consulta.= " FROM sipa_web.recepciones WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = '16' AND RUT_PRV= '".$prov."' ORDER by HORA_ENTRADA";
+		//echo $consulta;
+		//require("../principal/conectar_rec_web.php");
 		$rs = mysqli_query($link, $consulta);
 
 		while($row = mysqli_fetch_array($rs))
@@ -909,7 +919,7 @@ $prov="";
 				$unidades = '';
 				$radio = 3;
 
-				//include("../principal/conectar_rec_web.php");
+				//require("../principal/conectar_rec_web.php");
 				$consulta = "SELECT RECARGO as recargo FROM SIPA_WEB.recepciones ";
 				$consulta.= " WHERE FECHA = '".$fecha."' AND COD_PRODUCTO='1' AND COD_SUBPRODUCTO = 16 AND LOTE = '".$row["LOTE_A"]."' AND RECARGO = '".$row["RECARG_A"]."' AND RUT_PRV = '".$prov."' ";
                 $result = mysqli_query($link, $consulta);
@@ -961,7 +971,7 @@ $prov="";
 					  	  if($hornada != '')
 					      {
 						       //consulta movimientos hechos	
-							   $consulta_u = "SELECT SUM(unidades) AS unid, SUM(peso) AS peso, SUM(peso_origen) AS peso_origen, SUM(zuncho) AS zuncho FROM movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento ='".$fecha."' AND hornada = '".$hornada."' AND numero_recarga = '".$recargo."' AND lote_ventana = '".$lote_ventana."'";
+							   $consulta_u = "SELECT SUM(unidades) AS unid, SUM(peso) AS peso, SUM(peso_origen) AS peso_origen, SUM(zuncho) AS zuncho FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND fecha_movimiento ='".$fecha."' AND hornada = '".$hornada."' AND numero_recarga = '".$recargo."' AND lote_ventana = '".$lote_ventana."'";
 							  // include("../principal/conectar_sea_web.php"); 
 							   $result_u = mysqli_query($link, $consulta_u);
 					
@@ -1002,15 +1012,15 @@ $prov="";
 				echo'<td>';					
 				//echo'<SELECT name="subproducto['.$i.']" onChange="Buscar_Lote(this.form,'.($pos).')">';
 				echo'<SELECT name="subproducto['.$i.']">';
-				echo'<option value="-1" SELECTed>Seleccionar</option>';
+				echo'<option value="-1" selected>Seleccionar</option>';
 	
-				$Consulta="SELECT * from proyecto_modernizacion.subproducto where cod_producto = 16 and ap_subproducto = '".$ap_subproducto."'"; 
+				$Consulta="select * from proyecto_modernizacion.subproducto where cod_producto = 16 and ap_subproducto = '".$ap_subproducto."'"; 
 				$rs7 = mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($rs7))
 				{
 					if ($subproducto == $Fila["cod_subproducto"])
-					//	echo "<option value = '".$Fila[ap_subproducto]."' SELECTed>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
-						echo "<option value = '".$Fila["cod_subproducto"]."' SELECTed>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
+					//	echo "<option value = '".$Fila[ap_subproducto]."' selected>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
+						echo "<option value = '".$Fila["cod_subproducto"]."' selected>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
 					else
 					//	echo "<option value = '".$Fila[ap_subproducto]."'>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
 						echo "<option value = '".$Fila["cod_subproducto"]."'>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";

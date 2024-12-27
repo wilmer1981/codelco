@@ -25,8 +25,8 @@
 		$vector_fecha[2] = '0'.$vector_fecha[2];
 	
 	$valida_fecha_movimiento = $vector_fecha[0].'-'.$vector_fecha[1].'-'.$vector_fecha[2];
-//	echo $valida_fecha_movimiento."<br>";
-//	echo $valida_fecha_actual."<br>";	 
+    //echo $valida_fecha_movimiento."<br>";
+	//echo $valida_fecha_actual."<br>";	 
 		 
 	if (date($valida_fecha_movimiento) > date($valida_fecha_actual))
 	{
