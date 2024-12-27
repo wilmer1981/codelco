@@ -1,7 +1,7 @@
 <?php 
   	include("../principal/conectar_sea_web.php");
 	
-	$CodigoDeSistema = 2;	
+	$CodigoDeSistema = 2;
 	$CodigoDePantalla = 56;
 
 	if(isset($_REQUEST["RecargaPag"])) {
@@ -61,9 +61,41 @@
 <script language="JavaScript">
 
 function Recarga()
-{	
-	document.formulario.action="sea_util_con_movtos.php?RecargaPag=S";
-	document.formulario.submit();
+{	var f    = formulario;
+	var dia  = f.Dia.value;
+	var mes  = f.Mes.value;
+	var dia2 = f.Dia2.value;
+	var mes2 = f.Mes2.value;
+	
+	var semaforo = 0;
+	
+	if(mes==2){
+	    if(dia>28){
+			alert("Debe Ingresar fecha correcta(<29) ");
+			f.Dia.focus();
+			return;
+	    }else{
+			semaforo=1;
+	    }
+	}
+	if(mes==4 || mes==6 || mes==9 || mes==11){
+		if(dia>30){
+			alert("Debe Ingresar fecha correcta(<31) ");
+			f.Dia.focus();
+			return;
+	    }else{
+			semaforo=1;  
+	    }
+	}else{
+		semaforo=1; 
+	}
+	
+	if(semaforo==1){
+		f.action="sea_util_con_movtos.php?RecargaPag=S";
+		f.submit();
+	}
+	
+
 }
 
 /**************/
@@ -89,117 +121,117 @@ function Salir()
         <table width="753" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
           <tr> 
             <td width="118">Fecha Inicio</td>
-            <td><SELECT name="Dia" style="width:50px">
+            <td><select name="Dia" style="width:50px">
                 <?php 
 					for ($i=1;$i<=31;$i++)
 					{
 						if (isset($Dia))
 						{
 							if ($i == $Dia)
-								echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+								echo "<option selected value='".$i."'>".$i."</option>\n";
 							else	echo "<option value='".$i."'>".$i."</option>\n";
 						}
 						else
 						{
 							if ($i == date("j"))
-								echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+								echo "<option selected value='".$i."'>".$i."</option>\n";
 							else	echo "<option value='".$i."'>".$i."</option>\n";
 						}
 					}
 				  ?>
-              </SELECT> <SELECT name="Mes" style="width:100px">
+              </select> <select name="Mes" style="width:100px">
                 <?php
 					for ($i=1;$i<=12;$i++)
 					{
 						if (isset($Mes))
 						{
 							if ($i == $Mes)
-								echo "<option SELECTed value='".$i."'>".$Meses[$i-1]."</option>\n";
+								echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
 							else	echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
 						}
 						else
 						{
 							if ($i == date("n"))
-								echo "<option SELECTed value='".$i."'>".$Meses[$i-1]."</option>\n";
+								echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
 							else	echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
 						}
 					}
 					?>
-              </SELECT> <SELECT name="Ano" style="width:60px">
+              </select> <select name="Ano" style="width:60px">
                 <?php
 					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 					{
 						if (isset($Ano))
 						{
 							if ($i == $Ano)
-								echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+								echo "<option selected value='".$i."'>".$i."</option>\n";
 							else	echo "<option value='".$i."'>".$i."</option>\n";
 						}
 						else
 						{
 							if ($i == date("Y"))
-								echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+								echo "<option selected value='".$i."'>".$i."</option>\n";
 							else	echo "<option value='".$i."'>".$i."</option>\n";
 						}
 					}				
 			?>
-              </SELECT> </td>
+              </select> </td>
 			  	<td width="118">Hasta</td>
-            	<td><SELECT name="Dia2" style="width:50px">
+            	<td><select name="Dia2" style="width:50px">
                 <?php 
 					for ($i=1;$i<=31;$i++)
 					{
 						if (isset($Dia2))
 						{
 							if ($i == $Dia2)
-								echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+								echo "<option selected value='".$i."'>".$i."</option>\n";
 							else	echo "<option value='".$i."'>".$i."</option>\n";
 						}
 						else
 						{
 							if ($i == date("j"))
-								echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+								echo "<option selected value='".$i."'>".$i."</option>\n";
 							else	echo "<option value='".$i."'>".$i."</option>\n";
 						}
 					}
 				  ?>
-              	</SELECT> <SELECT name="Mes2" style="width:100px">
+              	</select> <select name="Mes2" style="width:100px">
                 <?php
 					for ($i=1;$i<=12;$i++)
 					{
 						if (isset($Mes2))
 						{
 							if ($i == $Mes2)
-								echo "<option SELECTed value='".$i."'>".$Meses[$i-1]."</option>\n";
+								echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
 							else	echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
 						}
 						else
 						{
 							if ($i == date("n"))
-								echo "<option SELECTed value='".$i."'>".$Meses[$i-1]."</option>\n";
+								echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
 							else	echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
 						}
 					}
 					?>
-              	</SELECT> <SELECT name="Ano2" style="width:60px">
+              	</select> <select name="Ano2" style="width:60px">
                 <?php
 					for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 					{
 						if (isset($Ano2))
 						{
 							if ($i == $Ano2)
-								echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+								echo "<option selected value='".$i."'>".$i."</option>\n";
 							else	echo "<option value='".$i."'>".$i."</option>\n";
 						}
 						else
 						{
 							if ($i == date("Y"))
-								echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+								echo "<option selected value='".$i."'>".$i."</option>\n";
 							else	echo "<option value='".$i."'>".$i."</option>\n";
 						}
 					}				
 			?>
-              </SELECT> </td>
+              </select> </td>
   		</tr>
 		</table>
         <table width="753" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
