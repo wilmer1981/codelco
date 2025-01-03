@@ -53,7 +53,7 @@ function Proceso(opt)
 			f.submit();
 			break;
 		case "E":
-			var msg=confirm("�Seguro que desea Eliminar los datos de este Mes?");
+			var msg=confirm("\xBFSeguro que desea Eliminar los datos de este Mes?");
 			if (msg==true)
 			{
 				f.action = "sea_ing_stock_programado01.php?Proceso=E";
