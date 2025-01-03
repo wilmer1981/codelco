@@ -1,13 +1,23 @@
 <?php
-   include_once('config.inc.php');
+   //include_once('config.inc.php');
    //include_once('config.php');
+   //echo "SERVER_NAME: ".$_SERVER['SERVER_NAME'];
+   $Server= $_SERVER['SERVER_NAME'];
+   if($Server=="localhost"){
+	   include_once('config.inc.php');
+   }else{
+	   include_once('config.php');
+   }
 
 	$HTTP_HOST = $_SERVER['HTTP_HOST'];
 
-	//echo "HTTP_HOST: ".$HTTP_HOST;
+	
 
 	//$link = mysqli_connect(CONEXION_HOST_BD,CONEXION_HOST_USER,CONEXION_HOST_PWD,DATABASE_NAME);
-	$link = mysqli_connect(CONEXION_HOST_BD,CONEXION_HOST_USER,CONEXION_HOST_PWD,"proyecto_modernizacion") or die ("Error al conectar con el servidor");
+	$link = mysqli_connect(CONEXION_HOST_BD,CONEXION_HOST_USER,CONEXION_HOST_PWD,"proyecto_modernizacion");// or die ("Error al conectar con el servidor");
+	if ($link === false) {
+		die("ERROR: No se puede conetar a la base de datos".mysqli_connect_error()); 
+	}
 	/*
 	if (!$link) {
 		echo "Error: Unable to connect to MySQL." . PHP_EOL;

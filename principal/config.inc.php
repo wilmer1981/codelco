@@ -2,7 +2,7 @@
 //ini_set('default_charset','iso-8859-1');
 
 //VARIABLES DE CONEXION A BASE DE DATOS
-define("CONEXION_HOST_BD",'localhost');
+define("CONEXION_HOST_BD",'localhost:3308');
 define("CONEXION_HOST_USER",'root');
 define("CONEXION_HOST_PWD",'');
 //VARIABLES DE SERVIDOR WEB

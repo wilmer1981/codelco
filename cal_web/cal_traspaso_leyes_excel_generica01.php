@@ -2,25 +2,24 @@
 include("../principal/conectar_principal.php");
 $Fecha_Hora = date("d-m-Y h:i:s");
 $Directorio='excel';
-require_once 'reader.php';
-$CookieRut=$_COOKIE["CookieRut"];
+//require_once 'reader.php';
+$CookieRut    = $_COOKIE["CookieRut"];
 
-if(isset($_REQUEST["Opcion"])) {
-	$Opcion = $_REQUEST["Opcion"];
-}else{
-	$Opcion = "";
-}
-if(isset($_REQUEST["Archivo"])) {
-	$Archivo = $_REQUEST["Archivo"];
-}else{
-	$Archivo = "";
-}
-if(isset($_REQUEST["Archivo_name"])) {
-	$Archivo_name = $_REQUEST["Archivo_name"];
-}else{
-	$Archivo_name = "";
-}
+$Opcion       = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:""; 
+$ID           = isset($_REQUEST["ID"])?$_REQUEST["ID"]:"Leyes"; 
+$Archivo_name = $_FILES["Archivo"]["name"];
+$Archivo      = $_FILES["Archivo"]["tmp_name"];
 
+//echo __DIR__;
+
+//require_once __DIR__.'/Classes\PhpSpreadsheet\Spreadsheet.php';
+
+require __DIR__ . "/vendor/autoload.php";
+				
+//use PhpOffice\PhpSpreadsheet\IOFactory;
+//use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+//use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 switch($Opcion)
 {	
@@ -81,40 +80,88 @@ switch($Opcion)
 				
 				$Eliminar="delete from cal_web.tmp_leyes_generica where run_registro='".$CookieRut."'";
 				mysqli_query($link, $Eliminar);	
-				$Hoja=2;
-
-				$data = new Spreadsheet_Excel_Reader();
-				$data->read($Directorio."/".$NombreArchivo);
-				error_reporting(E_ALL ^ E_NOTICE);
 			
-				for($i=3;$i<=4;$i++)
-				{
-					for($k=3;$k<=55;$k++)
-					{
-						if(trim($data->sheets[$Hoja]['cells'][$i][$k])!='')
-						{
-							ObtengoLey(strtoupper(trim($data->sheets[$Hoja]['cells'][$i][$k])),$k,$Salida,$link);
-						}
+				$documento = IOFactory::load($Directorio."/".$NombreArchivo);
+				# obtener conteo e iterar
+				$totalDeHojas = $documento->getSheetCount();
+				//echo "totalDeHojas:".$totalDeHojas."<br>";				
+				$indice=2;
+				$worksheet  = $documento->getSheet($indice); // hoja actual
+				//echo "<br>Hoja Actual:<br>";
+				//var_dump($hojaActual);
+				//exit();	
+				//$worksheet = $spreadsheet->getActiveSheet();
+				$Salida=array();
+				//for($i=3;$i<=4;$i++)
+				for ($row = 3; $row <= 4; ++$row) {
+					//for($k=3;$k<=55;$k++)
+					for ($col = 3; $col <= 55; ++$col) {					
+						//$celda = $worksheet->getCellByColumnAndRow($col, $row);
+						$value = $worksheet->getCell([$col,$row])->getValue();
+						//echo "[".$col.",".$row."]=".$value."----";
+						//if(trim($data->sheets[$Hoja]['cells'][$i][$k])!='')
+						if(trim($value)!='')
+						{	
+							//ObtengoLey(strtoupper(trim($data->sheets[$Hoja]['cells'][$i][$k])),$k,$Salida,$link);
+							$Salida = ObtengoLey(strtoupper(trim($value)),$col,$Salida,$link);
+						}					
 					}
 				}
-				
-				for($i=4;$i<=$data->sheets[$Hoja]['numRows'];$i++)
-				{ 
-					if(trim(is_numeric($data->sheets[$Hoja]['cells'][$i][2]))!='')
+				//var_dump($Salida);				
+				$highestRow = $worksheet->getHighestDataRow(); // e.g. 10
+				//$highestRow = $worksheet->getHighestRow(); // e.g. 10
+				//echo "<br><br>highestRow:".$highestRow."<br>";	
+				//exit();
+				//for($i=4;$i<=$data->sheets[$Hoja]['numRows'];$i++)
+				for($i=4;$i<=$highestRow;$i++)
+				{   //$value = $worksheet->getCell([2, $i])->getValue();
+					$celda = $worksheet->getCell([2, $i]);
+					//$value = $celda->getValue();
+					 # Si es una fórmula y necesitamos su valor, llamamos a:
+					 $valueRow = $celda->getCalculatedValue();
+
+					//if(trim(is_numeric($data->sheets[$Hoja]['cells'][$i][2]))!='')
+					//echo "<br>valueRow:::".$valueRow."<br><br>";
+					//exit();
+					if(trim(is_numeric($valueRow))!='')
 					{
 						for($k=3;$k<=107;$k++)
 						{
 							if($k<='54')
 							{
 								$Existe='N';
-								$REsp=mysqli_query($link, "select * from cal_web.solicitud_analisis where nro_solicitud='".$data->sheets[$Hoja]['cells'][$i][2]."' and recargo in ('','0')");
+								//$REsp=mysqli_query($link, "select * from cal_web.solicitud_analisis where nro_solicitud='".$data->sheets[$Hoja]['cells'][$i][2]."' and recargo in ('','0')");
+								$Consulta = "select * from cal_web.solicitud_analisis where nro_solicitud='".$valueRow."' and recargo in ('','0')";
+								//echo "<br>Consulta:".$Consulta."<br>";
+								$REsp=mysqli_query($link,$Consulta);
+								//var_dump($REsp);
+								//exit();
 								if($F=mysqli_fetch_assoc($REsp))
 									$Existe='S';
-								$valor=trim($data->sheets[$Hoja]['cells'][$i][$k]);	
-								if($valor!='')
+								//$valor =trim($data->sheets[$Hoja]['cells'][$i][$k]);
+								//$valor = trim($worksheet->getCell([$k, $i])->getValue());	
+								$celda     = $worksheet->getCell([$k, $i]);
+								//$EsFormula = $worksheet->getCell([$k, $i])->isFormula();
+								//echo "<br>EsFormula -->".$EsFormula."<br>";
+								//if($EsFormula == true){
+									$valor = $celda->getCalculatedValue();
+								//}else{
+								//  $valor = trim($celda->getValue());
+								//}
+								/*
+								echo "<br>valueRow-->".$valueRow."<br>";
+								echo "<br>Salida-->".$Salida[$k]."<br>";
+								echo "<br>valor[".$k.",".$i."]-->".$valor."<br><br>";
+								echo "<br>CookieRut-->".$CookieRut."<br><br>";
+								echo "<br>Existe-->".$Existe."<br><br>";
+								echo "<br>K-->".$k."<br><br>";
+								*/
+								//exit();
+								if($valueRow!=0 && $valor!='')
 								{
 									$Inserta="insert into cal_web.tmp_leyes_generica (nro_solicitud,cod_leyes,valor,run_registro,existe,orden)
-									values('".$data->sheets[$Hoja]['cells'][$i][2]."','".$Salida[$k]."','".$valor."','".$CookieRut."','".$Existe."','".$k."')";
+									values('".$valueRow."','".$Salida[$k]."','".$valor."','".$CookieRut."','".$Existe."','".$k."')";
+									//values('".$data->sheets[$Hoja]['cells'][$i][2]."','".$Salida[$k]."','".$valor."','".$CookieRut."','".$Existe."','".$k."')";
 									//echo $Inserta."<br>";
 									mysqli_query($link, $Inserta);
 									//echo $Inserta."<br>";
@@ -123,14 +170,16 @@ switch($Opcion)
 							}
 							if($k>='56')
 							{
-								//echo $k."<br>";
+							   //echo "K-1:".$k."<br>";
 								//echo $data->sheets[$Hoja]['cells'][4][$k]."    ";
-								$unidad=trim($data->sheets[$Hoja]['cells'][$i][$k]);	
-								//echo $unidad."<br>";
+								//$unidad=trim($data->sheets[$Hoja]['cells'][$i][$k]);
+								$unidad=trim($worksheet->getCell([$k, $i])->getValue());
+								//echo "<br>Unidad:".$unidad."<br>";
 								if($unidad!='')
 								{
 									$Actualiza="UPDATE cal_web.tmp_leyes_generica set cod_unidad='".$unidad."' 
-									where nro_solicitud='".$data->sheets[$Hoja]['cells'][$i][2]."' and cod_leyes='".$Salida[$posAct]."'";
+									where nro_solicitud='".$valueRow."' and cod_leyes='".$Salida[$posAct]."'";
+									//where nro_solicitud='".$data->sheets[$Hoja]['cells'][$i][2]."' and cod_leyes='".$Salida[$posAct]."'";
 									//echo $Actualiza."<br>";
 									mysqli_query($link, $Actualiza);								
 								}
@@ -139,6 +188,7 @@ switch($Opcion)
 						}
 					}
 				}
+
 			}
 			unlink($Directorio."/".$NombreArchivo);
 			header("location:cal_traspaso_leyes_excel_generica.php?p=s");
@@ -212,7 +262,7 @@ switch($Opcion)
 						$Respuesta = mysqli_query($link, $Consulta);$Cont2=0;
 						while($Row = mysqli_fetch_array($Respuesta))
 						{	
-							$ValorLey=trim($Row[valor]);
+							$ValorLey=trim($Row["valor"]);
 							if($ValorLey!='')
 							{
 								if($Row["cant_reg"]>1)
@@ -368,11 +418,12 @@ function ObtengoLey($Columna,$pos,$CodLEY,$link)
 	if($Fila = mysqli_fetch_array($Resp))
 	{
 		$CodLEY[$pos]=$Fila["cod_leyes"];
-	}
-	else
+	}else{
 		$CodLEY[$pos]=$Columna;
+	}
+	return $CodLEY;
 }
-function ObtengoUnidad($Columna2,$link)
+function ObtengoUnidad($Columna,$link)
 {
 	$Consulta="select cod_unidad from proyecto_modernizacion.unidades where upper(abreviatura)='".$Columna."'";
 	$Resp = mysqli_query($link, $Consulta);$CodUni='';

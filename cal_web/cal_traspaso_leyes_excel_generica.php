@@ -325,6 +325,7 @@ if(msj=='s')
 								$ConsultaUni = "select abreviatura from  
 								 proyecto_modernizacion.unidades where cod_unidad='".$Row2["cod_unidad"]."'";
 								$RespuestaUni = mysqli_query($link, $ConsultaUni);
+								$Abreviatura="";
 								if($RowUni = mysqli_fetch_array($RespuestaUni))
 									$Abreviatura=$RowUni["abreviatura"];
 								$ValorLey=trim($Row2["valor"]);$Dec=4;
@@ -414,7 +415,7 @@ if(msj=='s')
     </tr>
   </table>
  <?php include("../principal/pie_pagina.php");
-function ValidaLeyes($Solicitud,$Recargo,$Leyes,$UnidadExcel,$Msje)
+function ValidaLeyes($Solicitud,$Recargo,$Leyes,$UnidadExcel,$Msje,$link)
 {
  
 	$Retorno=false;	
@@ -447,7 +448,7 @@ function ValidaLeyes($Solicitud,$Recargo,$Leyes,$UnidadExcel,$Msje)
 	return($Retorno);
  
 }
- function ExisteSA($Solicitud)
+ function ExisteSA($Solicitud,$link)
 {
  
 	$Retorno=false;	
