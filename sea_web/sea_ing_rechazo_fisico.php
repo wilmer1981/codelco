@@ -6,8 +6,8 @@ $Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 $Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 $Mes      = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 $Dia      = isset($_REQUEST["Dia"])?$_REQUEST["Dia"]:date("d");
-$hora     = isset($_REQUEST["hora"])?$_REQUEST["hora"]:date("H");
-$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:date("i");
+$hora     = isset($_REQUEST["hora"])?$_REQUEST["hora"]:"";
+$minuto   = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:"";
 
 $Fis_Vent   = isset($_REQUEST["Fis_Vent"])?$_REQUEST["Fis_Vent"]:"";
 $Quim_Vent  = isset($_REQUEST["Quim_Vent"])?$_REQUEST["Quim_Vent"]:"";
@@ -44,10 +44,15 @@ $Quim_Expo  = isset($_REQUEST["Quim_Expo"])?$_REQUEST["Quim_Expo"]:"";
 $Calaf_Expo = isset($_REQUEST["Calaf_Expo"])?$_REQUEST["Calaf_Expo"]:"";
 $Ana_Expo   = isset($_REQUEST["Ana_Expo"])?$_REQUEST["Ana_Expo"]:"";
 
+if(strlen($Dia)==1)
+	$Dia="0".$Dia;
+if(strlen($Mes)==1)
+	$Mes="0".$Mes;
+
 if($Proceso == 'E')
 {
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;
-	$Eliminar = "DELETE FROM sea_web.inf_rechazos WHERE fecha = '$Fecha'";	
+	$Eliminar = "DELETE FROM sea_web.inf_rechazos WHERE fecha = '".$Fecha."'";	
 	mysqli_query($link, $Eliminar);
 	
 	$Proceso = "B";
@@ -57,7 +62,7 @@ if($Proceso == 'B')
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;
 	$fecha2 = $Fecha.':'.$hora.':'.$minuto;
 	//$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha' and hora = '$fecha2' ";
-	$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '$Fecha'";
+	$Consulta = "SELECT * FROM sea_web.inf_rechazos WHERE fecha = '".$Fecha."'";
 	//echo $Consulta;
 	$rs   = mysqli_query($link, $Consulta);
 	$Fila = mysqli_fetch_array($rs);
@@ -248,20 +253,43 @@ var f = document.FrmPrincipal;
 	switch(opc)
 	{
 		case "G": 
+			var dia  = f.Dia.value;
+			var mes  = f.Mes.value;
+			var semaforo = 0;	
 			if (f.hora.value =='' || f.hora.value == 0)
         	{
                 alert ("Debe ingresar Hora ");
          		return
         	}
-
 	   	    if (f.minuto.value =='')
         	{
                 alert ("Debe ingresar Minutos ");
             	return
         	}
-
-			f.action="sea_ing_rechazo_fisico01.php?Proceso=G";
-			f.submit();
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.Dia.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.Dia.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+			if(semaforo==1){
+				f.action="sea_ing_rechazo_fisico01.php?Proceso=G";
+				f.submit();
+			}
 			break;		
 		case "B": 
 			f.action="sea_ing_rechazo_fisico.php?Proceso=B";
