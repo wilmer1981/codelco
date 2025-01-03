@@ -1,6 +1,7 @@
 <?php
  include("../principal/conectar_raf_web.php");
 $CodigoDeSistema=2;
+$CodigoDePantalla = 47;
 
 $Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 $Ano      = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
@@ -14,10 +15,15 @@ $grupo2   = isset($_REQUEST["grupo2"])?$_REQUEST["grupo2"]:"";
 $cmbproducto1 = isset($_REQUEST["cmbproducto1"])?$_REQUEST["cmbproducto1"]:"";
 $cmbproducto2 = isset($_REQUEST["cmbproducto2"])?$_REQUEST["cmbproducto2"]:"";
 
+if(strlen($Dia)==1)
+	$Dia="0".$Dia;
+if(strlen($Mes)==1)
+	$Mes="0".$Mes;
+
 if($Proceso == "E")
 {
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;	
-	$Eliminar = "DELETE FROM sea_web.renovacion_grupos WHERE fecha = '$Fecha' AND turno = '$cmbturno'";
+	$Eliminar = "DELETE FROM sea_web.renovacion_grupos WHERE fecha = '".$Fecha."' AND turno = '".$cmbturno."'";
 	mysqli_query($link, $Eliminar);
 	$Proceso = "B";
 }
@@ -25,7 +31,7 @@ if($Proceso == "E")
 if($Proceso == "B")
 {
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;	
-	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '$Fecha' AND turno = '$cmbturno'";
+	$Consulta = "SELECT * FROM sea_web.renovacion_grupos WHERE fecha = '".$Fecha."' AND turno = '".$cmbturno."'";
 	$rs = mysqli_query($link, $Consulta);
 	$Fila = mysqli_fetch_array($rs);
 
@@ -49,6 +55,9 @@ if($Proceso == "B")
 function Proceso(opc)
 {
 	var f = document.FrmPrincipal;
+	var dia  = f.Dia.value;
+	var mes  = f.Mes.value;
+	var semaforo = 0;
 	
 	switch(opc)
 	{
@@ -59,8 +68,54 @@ function Proceso(opc)
 				f.cmbturno.focus();
 				return
 			}
-			f.action = "sea_ing_renov_grupos01.php?Proceso=G" ;
-			f.submit();
+			if(f.grupo1.value == "")
+			{
+				alert("Debe Ingresar Grupo 1");
+				f.grupo1.focus();
+				return
+			}
+			if(f.grupo2.value == "")
+			{
+				alert("Debe Ingresar Grupo 2");
+				f.grupo2.focus();
+				return
+			}
+			if(f.cmbproducto1.value == -1)
+			{
+				alert("Debe Seleccionar Producto 1");
+				f.cmbproducto1.focus();
+				return
+			}
+			if(f.cmbproducto2.value == -1)
+			{
+				alert("Debe Seleccionar Producto 2");
+				f.cmbproducto2.focus();
+				return
+			}
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.Dia.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.Dia.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+			if(semaforo==1){
+				f.action = "sea_ing_renov_grupos01.php?Proceso=G" ;
+				f.submit();
+			}
 			break;	
 
 		case "B":
@@ -70,8 +125,30 @@ function Proceso(opc)
 				f.cmbturno.focus();
 				return
 			}
-			f.action = "sea_ing_renov_grupos.php?Proceso=B" ;
-			f.submit();
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.Dia.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.Dia.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+			if(semaforo==1){
+				f.action = "sea_ing_renov_grupos.php?Proceso=B" ;
+				f.submit();
+			}
 			break;	
 
 		case "E":
