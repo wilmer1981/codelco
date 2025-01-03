@@ -16,10 +16,15 @@ $hornada2  = isset($_REQUEST["hornada2"])?$_REQUEST["hornada2"]:"";
 $hornada3  = isset($_REQUEST["hornada3"])?$_REQUEST["hornada3"]:"";
 $observacion = isset($_REQUEST["observacion"])?$_REQUEST["observacion"]:"";
 
+if(strlen($Dia)==1)
+	$Dia="0".$Dia;
+if(strlen($Mes)==1)
+	$Mes="0".$Mes;
+
 if($Proceso == "E")
 {
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;	
-	$Eliminar = "DELETE FROM raf_web.proyeccion_moldeo WHERE fecha = '$Fecha' AND turno = '$cmbturno'";
+	$Eliminar = "DELETE FROM raf_web.proyeccion_moldeo WHERE fecha = '".$Fecha."' AND turno = '".$cmbturno."'";
 	mysqli_query($link, $Eliminar);
 	$Proceso = "B";
 }
@@ -27,7 +32,7 @@ if($Proceso == "E")
 if($Proceso == "B")
 {
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;	
-	$Consulta = "SELECT * FROM raf_web.proyeccion_moldeo WHERE fecha = '$Fecha' AND turno = '$cmbturno'";
+	$Consulta = "SELECT * FROM raf_web.proyeccion_moldeo WHERE fecha = '".$Fecha."' AND turno = '".$cmbturno."'";
 	$rs = mysqli_query($link, $Consulta);
 	$Fila = mysqli_fetch_array($rs);
 	
@@ -69,7 +74,7 @@ if($Proceso == "B")
 	else
 		$ton_proy3 = $Fila["ton_proy3"];
 
-	$Consulta = "SELECT observacion FROM raf_web.proyeccion_moldeo WHERE fecha = '$Fecha' AND observacion != ''";
+	$Consulta = "SELECT observacion FROM raf_web.proyeccion_moldeo WHERE fecha = '".$Fecha."' AND observacion != ''";
 	$rs = mysqli_query($link, $Consulta);
 	$fila = mysqli_fetch_array($rs);
 	$observacion = isset($fila["observacion"])?$fila["observacion"]:"";
@@ -99,15 +104,40 @@ function Proceso(opc)
 			break;	
 
 		case "B":
+			var dia  = f.Dia.value;
+			var mes  = f.Mes.value;
 			if(f.cmbturno.value == -1)
 			{
 				alert("Debe Seleccionar Turno");
 				f.cmbturno.focus();
 				return
+			}	
+			var semaforo = 0;			
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.Dia.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
 			}
-			f.action = "raf_ing_recep_moldeos.php?Proceso=B" ;
-			f.submit();
-			break;	
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.Dia.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+			if(semaforo==1){
+				f.action = "raf_ing_recep_moldeos.php?Proceso=B" ;
+				f.submit();
+			}
+			break;
 
 		case "E":
 			f.action = "raf_ing_recep_moldeos.php?Proceso=E" ;
@@ -124,7 +154,6 @@ function Proceso(opc)
 
 </script>
 <style type="text/css">
-<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -132,7 +161,6 @@ body {
 	margin-bottom: 0px;
 }
 .Estilo4 {color: #666666}
--->
 </style></head>
 <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
 <body >

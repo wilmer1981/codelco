@@ -15,28 +15,33 @@ $hornada2  = isset($_REQUEST["hornada2"])?$_REQUEST["hornada2"]:"";
 $hornada3  = isset($_REQUEST["hornada3"])?$_REQUEST["hornada3"]:"";
 $observacion = isset($_REQUEST["observacion"])?$_REQUEST["observacion"]:"";
 
+if(strlen($Dia)==1)
+	$Dia="0".$Dia;
+if(strlen($Mes)==1)
+	$Mes="0".$Mes;
+
 if($Proceso == "G")
 {	
 	if($hornada1 == '')
-	   $hornada1 = 0;		
+	   $hornada1 = '0';		
 
 	if($ton_proy1 == '')
-		$ton_proy1 = 0;
+		$ton_proy1 = '0';
 
 	if($hornada2 == '')
-	   $hornada2 = 0;		
+	   $hornada2 = '0';		
 
 	if($ton_proy2 == '')
-		$ton_proy2 = 0;
+		$ton_proy2 = '0';
 
 	if($hornada3 == '')
-	   $hornada3 = 0;		
+	   $hornada3 = '0';		
 
 	if($ton_proy3 == '')
-		$ton_proy3 = 0;
+		$ton_proy3 ='0';
 
 	$Fecha = $Ano.'-'.$Mes.'-'.$Dia;	
-	$Elimina = "DELETE FROM raf_web.proyeccion_moldeo WHERE fecha = '$Fecha' AND turno = '$cmbturno'";
+	$Elimina = "DELETE FROM raf_web.proyeccion_moldeo WHERE fecha = '".$Fecha."' AND turno = '".$cmbturno."'";
 	mysqli_query($link, $Elimina);
 
 	$Insertar = "INSERT INTO raf_web.proyeccion_moldeo (fecha,turno,hornada1,ton_proy1,hornada2,ton_proy2,hornada3,ton_proy3,observacion)";
@@ -44,7 +49,7 @@ if($Proceso == "G")
 	mysqli_query($link, $Insertar);
 		
 	$Actualiza = "UPDATE raf_web.proyeccion_moldeo set observacion = '$observacion'";
-	$Actualiza.= " WHERE fecha = '$Fecha'";	
+	$Actualiza.= " WHERE fecha = '".$Fecha."'";	
 	mysqli_query($link,$Actualiza);	
     header("Location:raf_ing_recep_moldeos.php");
 }
