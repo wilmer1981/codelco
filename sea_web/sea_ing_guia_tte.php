@@ -108,16 +108,22 @@ if($Proceso == "G")
 		{
 				$Numero = $Row["numero"] + 1;
 		}
-		$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,fecha,rut_prv,cod_mina,cod_producto,";
-		$Insertar.="cod_subproducto,guia_despacho,patente,cod_clase,activo,estado,cod_grupo, tipo)";
-		$Insertar.=" VALUES('".$Numero."','".$LoteVentana."','".$recargo."','N','9999999-9','".$fecha."','61704005-0','06101.0004-2','1','17',";
-		$Insertar.=" '".$guia."','".$patente."','M','S','C',2,'A')";
-    	//echo "sipa".$Insertar;
-		mysqli_query($link, $Insertar);
+		/* Consultanos si existe Lote en la tabla recepciones */
+		$Consulta ="Select * from sipa_web.recepciones where lote_ventana = '".$LoteVentana."' and recargo = '".$recargo."'";
+		$resp = mysqli_query($link, $Consulta);
+		$cont = mysqli_num_rows($resp);
+		if($cont==0){
+			$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,fecha,rut_prv,cod_mina,cod_producto,";
+			$Insertar.="cod_subproducto,guia_despacho,patente,cod_clase,activo,estado,cod_grupo, tipo)";
+			$Insertar.=" VALUES('".$Numero."','".$LoteVentana."','".$recargo."','N','9999999-9','".$fecha."','61704005-0','06101.0004-2','1','17',";
+			$Insertar.=" '".$guia."','".$patente."','M','S','C',2,'A')";
+			//echo "sipa".$Insertar;
+			mysqli_query($link, $Insertar);
+		}
 
-		$Inserta ="INSERT into sea_web.recepcion_externa (guia,cod_producto,cod_subproducto,lote_origen,lote_ventana,peso,peso_recep,piezas,piezas_recep,marca,fecha,fecha_guia";
-		$Inserta.=" values('".$guia."','17','2','".$LoteOrigen."','".$LoteVentana."','".$peso_recepcion."','".$peso_recepcion."','".$unidad_recepcion."',0,'".$Marca."','".$fecha."','".$fecha."')";
-   		// echo "encabezado".$Inserta;
+		$Inserta ="INSERT into sea_web.recepcion_externa (guia,cod_producto,cod_subproducto,lote_origen,lote_ventana,peso,peso_recep,piezas,piezas_recep,marca,fecha,fecha_guia)";
+		$Inserta.=" values('$guia','17','2','$LoteOrigen','$LoteVentana','$peso_recepcion','$peso_recepcion','$unidad_recepcion',0,'$Marca','$fecha','$fecha')";
+   		//echo "encabezado".$Inserta;
     	mysqli_query($link, $Inserta);
 		$Atados = $unidad_recepcion / 8;
 		$Inserta ="INSERT into sea_web.recepcion_externa_detalle (guia,corr,fecha,atados, piezas,lote_origen,marca,peso_bruto,peso_tara,";
@@ -152,7 +158,7 @@ if($Proceso == "G")
 			$LoteAux = substr($LoteVentana,0,4)."%";
 			$BuscaHor = "Select max(hornada_ventana) as hornada from sea_web.relaciones where cod_origen = '4' and ";
 			$BuscaHor.=" lote_ventana like '".$LoteAux."'";
-			echo "hola".$BuscaHor;
+			//echo "hola".$BuscaHor;
 			$Busca = mysqli_query($link, $BuscaHor);
 			if ($Rhor=mysqli_fetch_array($Busca))
 				$Hornada = $Rhor["hornada"] + 1;
@@ -160,7 +166,7 @@ if($Proceso == "G")
 				$Hornada = "20".substr($LoteVentana,0,4)."9001";
 			$Insertar="INSERT INTO sea_web.relaciones (cod_origen,lote_ventana,lote_origen,hornada_externa,hornada_ventana, ";
 			$Insertar.="marca,ciclo,estado_lote) values ('4','".$LoteVentana."','".$LoteOrigen."','0','".$Hornada."','".$Marca."','3','0')";
-			echo "hola".$Insertar;
+			//echo "hola".$Insertar;
 			mysqli_query($link, $Insertar);
 		}
 			
@@ -174,7 +180,7 @@ if($Proceso == "G")
 		$Insertar.="cod_subproducto,guia_despacho,patente,cod_clase,activo,estado,cod_grupo, tipo)";
 		$Insertar.=" VALUES('".$Numero."','".$LoteVentana."','".$recargo."','N','9999999-9','".$fecha."','".$peso_recepcion."','61704005-0','06101.0004-2','1','16',";
 		$Insertar.=" '".$guia."','".$patente."','M','S','C',2,'A')";
-		echo "hola".$Insertar;
+		//echo "hola".$Insertar;
 		mysqli_query($link, $Insertar);
 	
 		$Consulta = "SELECT * from sea_web.movimientos where tipo_movimiento = '1' and cod_producto = '16' and ";
@@ -194,7 +200,7 @@ if($Proceso == "G")
 			$Inserta="INSERT into sea_web.movimientos (tipo_movimiento, cod_producto,cod_subproducto,hornada,numero_recarga,fecha_movimiento,";
 			$Inserta.="campo1,campo2,unidades,flujo,peso,estado,lote_ventana,hora) values ('1','16','4','".$Hornada."',0,'".$fecha."',";
 			$Inserta.=" '".$guia."', '".$patente."','".$unidad_recepcion."','000','".$peso_recepcion."','0','".$LoteVentana."','".$fechaHora."')";
-			echo "tres".$Inserta;
+			//echo "tres".$Inserta;
 			mysqli_query($link, $Inserta);
 		}
 		$ConsultaH="select * from sea_web.hornadas where cod_producto = '16' and cod_subproducto ='4' and hornada_ventana = '".$Hornada."'";

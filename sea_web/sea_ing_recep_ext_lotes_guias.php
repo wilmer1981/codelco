@@ -5,20 +5,14 @@
 	$Lote       = isset($_REQUEST["Lote"])?$_REQUEST["Lote"]:"";
 	$Guia       = isset($_REQUEST["Guia"])?$_REQUEST["Guia"]:"";
 	$LoteOrigen = isset($_REQUEST["LoteOrigen"])?$_REQUEST["LoteOrigen"]:"";
-	/*
-	if(isset($_REQUEST["FechaRec"])) {
-		$TxtFecha = $_REQUEST["FechaRec"];
-	}else{
-		$TxtFecha = '';
-	}
-*/
-	$Hora      = isset($_REQUEST["Hora"])?$_REQUEST["Hora"]:date("H");
+
+	$Hora      = isset($_REQUEST["Hora"])?$_REQUEST["Hora"]:"";
 	$Minutos   = isset($_REQUEST["Minutos"])?$_REQUEST["Minutos"]:date("i");
 	$TxtFecha  = isset($_REQUEST["TxtFecha"])?$_REQUEST["TxtFecha"]:date('Y-m-d');
 
 	$HoraAux=date('G');
 	$MinAux=date('i');
-	if(!isset($Hora))
+	if($Hora=="")
 	{
 		if(intval($HoraAux)>=0 && intval($HoraAux)<8)
 		{
@@ -44,14 +38,11 @@
 	//echo $Consulta;
 	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Resp);
-	//echo "Resultado:<br>";
-	//var_dump($Fila);
-
-	$TxtPesoR=$Fila["peso_recep"];
-	$TxtUnidR=$Fila["piezas_recep"];
-	$TxtPesoO=$Fila["peso"];
-	$TxtUnidO=$Fila["piezas"];
-	$TxtLoteO=$Fila["lote_origen"];
+	$TxtPesoR=isset($Fila["peso_recep"])?$Fila["peso_recep"]:"";
+	$TxtUnidR=isset($Fila["piezas_recep"])?$Fila["piezas_recep"]:"";
+	$TxtPesoO=isset($Fila["peso"])?$Fila["peso"]:0;
+	$TxtUnidO=isset($Fila["piezas"])?$Fila["piezas"]:0;
+	$TxtLoteO=isset($Fila["lote_origen"])?$Fila["lote_origen"]:"";
 
 ?>
 
@@ -237,7 +228,11 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	echo "<td>Unid.</td>";
 	echo "<td>Mod.</td>";
 	echo "</tr>";
-	$PesoPieza= round($TxtPesoO/$TxtUnidO);
+	if($TxtUnidO!=0){
+		$PesoPieza= round($TxtPesoO/$TxtUnidO);
+	}else{
+		$PesoPieza=0;
+	}
 	$TotPiezas=0;$TotPeso=0;
 	$Consulta="select * from sipa_web.recepciones where lote='".str_pad($Lote,'8','0',STR_PAD_LEFT)."' and guia_despacho='".$Guia."' and peso_neto<>0 and tipo ='A'";
 	//echo $Consulta."<br>";

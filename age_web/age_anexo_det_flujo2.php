@@ -73,10 +73,6 @@ if(isset($_REQUEST["TotalPesoFlujo"])){
 }
 
 
-
-
-
-
 	$Consulta = "select * from proyecto_modernizacion.flujos where sistema='RAM' and cod_flujo='".$Flujo."'";
 	$Resp = mysqli_query($link, $Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
@@ -160,7 +156,7 @@ body {
 		echo "<tr>\n";
 		echo "<td align='right'><a href=\"JavaScript:DetalleLote('".$RutProv."','".$Prod."','".$SubProd."')\">".$RutProv."</a></td>";
 		echo "<td align='left'>".substr(strtoupper($NomProv),0,30)."</td>\n";
-		$Consulta = "select distinct t1.lote, t2.recargo, t1.rut_proveedor, t2.peso_neto as peso_hum,  ";
+		$Consulta = "select distinct t1.lote, t2.recargo, t1.rut_proveedor, t2.peso_neto as peso_hum, t1.cod_recepcion,  ";
 		$Consulta.= " lpad(t2.recargo,2,'0') as orden, t2.fecha_recepcion, tipo_remuestreo,canjeable,cod_producto,cod_subproducto,peso_retalla,peso_muestra ";		
 		$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes  t2 ";
 		$Consulta.= " on t1.lote = t2.lote ";			
@@ -248,21 +244,21 @@ body {
 						case "02":
 							$IncRetalla=0;
 							if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-								CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+								$IncRetalla = CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 							$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 							$LeyCuOri = $FilaLeyes["valor"]+$IncRetalla;
 							break;
 						case "04":
 							$IncRetalla=0;
 							if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-								CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+								$IncRetalla = CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 							$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 							$LeyAgOri = $FilaLeyes["valor"]+$IncRetalla;
 							break;
 						case "05":
 							$IncRetalla=0;
 							if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-								CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+								$IncRetalla = CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 							$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 							$LeyAuOri = $FilaLeyes["valor"]+$IncRetalla;
 							break;
@@ -283,7 +279,7 @@ body {
 			}
 			$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
 			$EsPlamen=false;
-			if($Fila01["recepcion"]=='PMN')
+			if($FilaLote["cod_recepcion"]=='PMN')
 			{
 				$EsPlamen=true;
 				$DecPHum=4;$DecPSeco=4;$DecLeyes=4;$DecFinos=4;
@@ -394,22 +390,7 @@ body {
 	echo "</tr>";
 	
 //FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
-{	
-	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
-	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
-	$Consulta.= " t1.cod_unidad=t2.cod_unidad ";
-	$Consulta.= " where t1.lote='".$Lote."' ";
-	$Consulta.= " and t1.recargo='R' and t1.cod_leyes='".$CodLey."'";	
-	//echo $Consulta."<br>";
-	$RespLeyes = mysqli_query($link, $Consulta);
-	$IncRetalla=0;
-	if($FilaLeyes = mysqli_fetch_array($RespLeyes))
-	{
-		if($FilaLeyes["valor"]>0)
-			$IncRetalla=($FilaLeyes["valor"] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
-	}	
-}	
+	
 ?>  
 </table>
 </form>

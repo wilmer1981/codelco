@@ -146,12 +146,17 @@ body {
 			$PorcMerma=$Porce1;
 
 		$LeyCu=0;$LeyAg=0;$LeyAu=0;					
-		$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaProv["lote"]."' order by lote, lpad(recargo,4,'0')";
+		//$Consulta = "select * from age_web.detalle_lotes where lote='".$FilaProv["lote"]."' order by lote, lpad(recargo,4,'0')";
+		$Consulta = "select t1.lote, t1.recargo,t1.peso_neto,t2.peso_muestra,t2.peso_retalla,t2.cod_recepcion ";
+		$Consulta.= "from age_web.detalle_lotes t1 inner join age_web.lotes t2 on t2.lote = t1.lote";
+		$Consulta.= " where t1.lote='".$FilaProv["lote"]."' order by t1.lote, lpad(t1.recargo,4,'0')";
 		$ContRecargos = 1;
 		$RespDetLote=mysqli_query($link, $Consulta);
+		$cod_recepcion="";
 		while ($FilaDetLote = mysqli_fetch_array($RespDetLote))
 		{					
 			$PorcHum=0;
+			$cod_recepcion = $FilaDetLote["cod_recepcion"];
 			$PesoHumedoRec = $FilaDetLote["peso_neto"];
 			$Consulta = "select distinct t1.cod_leyes, t1.valor,t1.valor2, t2.cod_unidad, t2.abreviatura as nom_unidad, t2.conversion, t3.abreviatura as nom_ley,t3.nombre_leyes as nombre_ley ";
 			$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
@@ -173,20 +178,20 @@ body {
 						break;
 					case "02":
 						$IncRetalla=0;
-						if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-							CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+						if($FilaDetLote["peso_retalla"]>0&&$FilaDetLote["peso_muestra"]>0)
+							$IncRetalla = CalcIncRetalla($FilaDetLote["lote"],"02",$FilaLeyes["valor"],$FilaDetLote["peso_retalla"],$FilaDetLote["peso_muestra"],$IncRetalla,$link);
 						$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 						break;
 					case "04":
 						$IncRetalla=0;
-						if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-							CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+						if($FilaDetLote["peso_retalla"]>0&&$FilaDetLote["peso_muestra"]>0)
+							$IncRetalla = CalcIncRetalla($FilaDetLote["lote"],"04",$FilaLeyes["valor"],$FilaDetLote["peso_retalla"],$FilaDetLote["peso_muestra"],$IncRetalla,$link);
 						$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 						break;
 					case "05":
 						$IncRetalla=0;
-						if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-							CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+						if($FilaDetLote["peso_retalla"]>0&&$FilaDetLote["peso_muestra"]>0)
+							$IncRetalla = CalcIncRetalla($FilaDetLote["lote"],"05",$FilaLeyes["valor"],$FilaDetLote["peso_retalla"],$FilaDetLote["peso_muestra"],$IncRetalla,$link);
 						$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 						break;
 				}
@@ -194,7 +199,7 @@ body {
 			if($PorcHum!=0)
 			{
 				$PesoSecoRec = $PesoHumedoRec - ($PesoHumedoRec*$PorcHum)/100;
-				if($Fila01["recepcion"]=='PMN')
+				if($cod_recepcion=='PMN')
 					$TotalPesoSecLote=$TotalPesoSecLote+$PesoSecoRec;
 				else
 					$TotalPesoSecLote=$TotalPesoSecLote+round($PesoSecoRec);
@@ -209,7 +214,7 @@ body {
 		}
 		$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
 		$EsPlamen=false;
-		if($Fila01["recepcion"]=='PMN')
+		if($cod_recepcion=='PMN')
 		{
 			$EsPlamen=true;
 			$DecPHum=2;$DecPSeco=2;$DecLeyes=2;$DecFinos=2;
