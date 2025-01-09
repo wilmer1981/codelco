@@ -1,4 +1,4 @@
-<?phpphp
+<?php
 
 include_once('class.pdf.php');
 
@@ -1435,7 +1435,7 @@ function loadTemplate($templateFile){
   }
 
   $code = trim($code);
-  if (substr($code,0,5)=='<?phpphp'){
+  if (substr($code,0,5)=='<?php'){
     $code = substr($code,5);
   }
   if (substr($code,-2)=='?>'){

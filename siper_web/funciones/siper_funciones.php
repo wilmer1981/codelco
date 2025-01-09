@@ -1,4 +1,4 @@
-<?phpphp
+<?php
 //include('conectar_ori.php');
 
 function acceso($CookieRut,$Pantalla,$link)

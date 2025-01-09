@@ -1,4 +1,4 @@
-<?phpphp 	
+<?php 	
 
 include('conectar_ori.php');
 //include("includes/phpchartdir.php");

@@ -1,4 +1,4 @@
-<?phpphp
+<?php
 //include('conectar_sasso.php');
 //include('funciones/siper_funciones.php');
 

@@ -1,4 +1,4 @@
-<?phpphp
+<?php
 	include('conectar_consulta.php');
 	include('funciones/siper_funciones.php');	
 	ob_end_clean();
@@ -54,17 +54,17 @@
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <body>
 <form name="ConsultaPel" method="post">
-<b><?phpphp echo DescripOrganica2($CodSelTarea,$link);?></b>
+<b><?php echo DescripOrganica2($CodSelTarea,$link);?></b>
 <table width="90%" border="0" cellpadding="0" cellspacing="4">
   <tr>
-	<td width="19%" align="left" class="formulario"><b>Rutinaria:&nbsp;<?phpphp if($CmbRut=='0') echo "NO"; if($CmbRut=='1') echo "SI"; if($CmbRut=='T') echo "TODOS";?></b></td>
-	<td width="21%" align="left" class="formulario"><b>Identificado:&nbsp;<?phpphp if($CmbIdent=='0') echo "NO"; if($CmbIdent=='1') echo "SI"; if($CmbIdent=='T') echo "TODOS";?></b>&nbsp;&nbsp;&nbsp;&nbsp;<b>Validado:&nbsp;<?phpphp if($CmbValidado=='0') echo "NO"; if($CmbValidado=='1') echo "SI"; if($CmbValidado=='T') echo "TODOS";?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
-	<td width="32%" align="left" class="formulario"><b>Solo Tarea Nivel:&nbsp;<?phpphp echo $OptSoloTareaNivel;?></b></td>
+	<td width="19%" align="left" class="formulario"><b>Rutinaria:&nbsp;<?php if($CmbRut=='0') echo "NO"; if($CmbRut=='1') echo "SI"; if($CmbRut=='T') echo "TODOS";?></b></td>
+	<td width="21%" align="left" class="formulario"><b>Identificado:&nbsp;<?php if($CmbIdent=='0') echo "NO"; if($CmbIdent=='1') echo "SI"; if($CmbIdent=='T') echo "TODOS";?></b>&nbsp;&nbsp;&nbsp;&nbsp;<b>Validado:&nbsp;<?php if($CmbValidado=='0') echo "NO"; if($CmbValidado=='1') echo "SI"; if($CmbValidado=='T') echo "TODOS";?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>
+	<td width="32%" align="left" class="formulario"><b>Solo Tarea Nivel:&nbsp;<?php echo $OptSoloTareaNivel;?></b></td>
 	<td width="22%" align="right">&nbsp;</td>
   </tr>
   <tr>
 	<td colspan="4" align="left" class="formulario"><b>Peligros:
-	  <?phpphp
+	  <?php
 			if($CodPel!='T')
 			{
 				$Consulta="select t1.CCONTACTO,NCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where CPELIGRO='".$CodPel."'";
@@ -79,7 +79,7 @@
 	</tr>
   <tr>
 	<td align="left" class="formulario"><b>MR:
-	  <?phpphp
+	  <?php
 		switch($MR)
 		{
 			case "A";
@@ -101,7 +101,7 @@
 	  
 	  ?></b></td>
 	<td align="left" class="formulario"><b>MRi:
-	  <?phpphp
+	  <?php
 		switch($MRiCC)
 		{
 			case "1";
@@ -119,7 +119,7 @@
 		}
 	  
 	  ?></b>&nbsp;&nbsp;&nbsp;&nbsp;<b>Controles:
-		<?phpphp
+		<?php
 			if($Control!='T')
 			{
 				$Consulta="select NCONTROL from sgrs_codcontroles where CCONTROL='".$Control."'";
@@ -133,7 +133,7 @@
 	<td colspan="2" align="left" class="formulario">&nbsp;</td>
 	<td width="0%" align="left" class="formulario">&nbsp;</td>
 	<td width="6%" align="left" class="formulario"><b>Verificador:
-		<?phpphp
+		<?php
 			if($TipoVerif!='T')
 			{
 				$Consulta="select DESCRIP_VERIFICADOR from sgrs_tipo_verificador where COD_VERIFICADOR='".$TipoVerif."'";
@@ -148,7 +148,7 @@
   </tr>
 </table>
 	 <table width="100%" border="1" cellpadding="0" cellspacing="0">
-	 <?phpphp 
+	 <?php 
 			$CODAREA=ObtenerCodParent($CodSelTarea);
 			$Consulta="select t1.CTAREA,t1.CPARENT from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."'";
 			$Resultado=mysqli_query($link,$Consulta);
@@ -491,7 +491,7 @@
 </form>
 </body>
 </html>
-<?phpphp
+<?php
 $CODAREA=ObtenerCodParent($CodSelTarea);
 //echo $CODAREA."<br>";
 //$Datos=explode('//',$DatosPel);

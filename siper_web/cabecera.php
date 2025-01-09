@@ -1,4 +1,4 @@
-<?phpphp 
+<?php 
 include('conectar_sasso.php');
 include('funciones/siper_funciones.php');
 $CookieRut   = isset($_COOKIE['CookieRut'])?$_COOKIE['CookieRut']:"";
@@ -52,11 +52,11 @@ function Salir(Opt)
     </tr>
   <tr >
     <td background="imagenes/bg_sup.gif" class="BordeTop">&nbsp;<img src="imagenes/arbol.gif">&nbsp;Buscador de Tareas&nbsp;
-      <input name='TxtBuscaTarea' type='text' value='<?phpphp echo $TxtBuscaTarea;?>' style='width:150' />
+      <input name='TxtBuscaTarea' type='text' value='<?php echo $TxtBuscaTarea;?>' style='width:150' />
       <a href="javascript:BuscaTarea()"><img src="imagenes/btn_aceptar.png" alt='Aceptar' width="18" height="18" border="0" align="absmiddle" /></a><span class="ColorTabla02">
       <select name="CmbTareas" onChange="top.frames['Organica'].BuscaItem()">
         <option value="S" selected="selected">Seleccionar</option>
-        <?phpphp
+        <?php
 		if($TxtBuscaTarea!='')
 		{
 			$AccesoOrg = ObtieneAccesoOrg2($CookieRut,$AccesoOrg,$link);
@@ -78,14 +78,14 @@ function Salir(Opt)
 	  ?>
       </select><?php //echo $Consulta;?>
     </span><input name="PestanaActiva" type="hidden" value="1">
-	<?phpphp
+	<?php
 		$Ruta='';
 		$Ruta = OrigenOrg($CodSelTarea,$Ruta,$CodNiveles);
 		//echo $Ruta."<br>";
 	?>	</td>	
     <td background="imagenes/bg_sup.gif" class="BordeTop" align="right">
 	<font style="FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #9c3031; FONT-FAMILY: Arial, Helvetica, sans-serif">
-	<?phpphp 
+	<?php 
 	$NombreUser="";
 	$NombreUser = ObtieneUsuario($CookieRut,$NombreUser,$link);
 	echo "Usuario: ".$NombreUser;?>	</font>

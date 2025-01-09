@@ -1,4 +1,4 @@
-<?phpphp
+<?php
 	include('conectar_consulta.php');
 	include('funciones/siper_funciones.php');	
 
@@ -63,9 +63,9 @@
 <form name="MantenedorPel" method="post">
 	<table width="90%" border="1" cellpadding="0" cellspacing="0">
       <tr>
-        <td width="19%" align="left" class="formulario"><b>Rutinaria:<?phpphp echo $CmbRut;?></b></td>
-        <td width="14%" align="left" class="formulario"><b>Identificado:<?phpphp echo $CmbIdent;?></b></td>
-        <td width="17%" align="left" class="formulario"><b>Validado:<?phpphp echo $CmbValidado;?></b></td>
+        <td width="19%" align="left" class="formulario"><b>Rutinaria:<?php echo $CmbRut;?></b></td>
+        <td width="14%" align="left" class="formulario"><b>Identificado:<?php echo $CmbIdent;?></b></td>
+        <td width="17%" align="left" class="formulario"><b>Validado:<?php echo $CmbValidado;?></b></td>
         <td width="41%" align="right">&nbsp;</td>
       </tr>
     </table>
@@ -79,7 +79,7 @@
 	  </tr>
   </table>
 		 <table width="100%" border="1" cellpadding="0" cellspacing="0">
-		 <?phpphp 
+		 <?php 
 				$Consulta="select t1.CAREA,t1.NAREA,t1.FAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA where t1.MVIGENTE=1 and t1.CTAREA='8' ";
 				if($OptSoloTareaNivel=='S')
 					$Consulta.=" and t1.CPARENT = '".$CodSelTarea."' ";
