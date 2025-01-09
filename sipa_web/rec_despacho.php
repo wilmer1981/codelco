@@ -1076,7 +1076,7 @@ function ValidarPesoNeto()
 					f.DifLimitePeso.value="A~"+Dif;
 					
      				//f.action = "rec_despacho.php?Proceso=BC&ObjFoco=TxtObs"
-	     			f.submit();
+	     			//f.submit();
 					
 				}	
 

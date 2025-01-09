@@ -102,8 +102,13 @@
 			}
 			if($TxtRutChofer!=''&&$TxtNomChofer!='')
 			{
-				$Insertar="INSERT INTO sipa_web.choferes(rut_chofer,nombre_chofer) values('$TxtRutChofer','$TxtNomChofer')";
-				mysqli_query($link, $Insertar);
+				$consulta="select * from sipa_web.choferes where rut_chofer='".$TxtRutChofer."' ";
+				$result = mysqli_query($link,$consulta);
+				$cont = mysqli_num_rows($result);
+				if($cont==0){
+					$Insertar="INSERT INTO sipa_web.choferes(rut_chofer,nombre_chofer) values('$TxtRutChofer','$TxtNomChofer')";				
+					mysqli_query($link, $Insertar);
+				}
 			}
 			if($DifLimitePeso!='')
 			{
