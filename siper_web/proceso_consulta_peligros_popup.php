@@ -124,7 +124,8 @@
 				$Consulta="select NTCONTROLES from sgrs_tipo_controles where CTCONTROLES='".$TipoControl."'";
 				$Resp=mysqli_query($link,$Consulta);
 				$Fila=mysqli_fetch_array($Resp);
-				echo $Fila["NTCONTROLES"];
+				$NTCONTROLES = isset($Fila["NTCONTROLES"])?$Fila["NTCONTROLES"]:"";
+				echo $NTCONTROLES;
 			}
 			else
 				echo "TODOS";
@@ -155,6 +156,7 @@
 			$Fila=mysqli_fetch_array($Resultado);
 			$CodTarea=$Fila["CTAREA"];
 			$RutaCompleta=$Fila["CPARENT"];
+			$Filtro="";
 			if($CodTarea==8)
 				$Filtro=" t1.CAREA='".$CODAREA."'";
 			else
@@ -173,6 +175,7 @@
 			$Consulta.="left join sgrs_sipercontroles t5 on t2.CPELIGRO=t5.CPELIGRO ";			
 			
 			$Consulta.=" where t1.MVIGENTE='1' and t1.CTAREA='8' and ".$Filtro;
+			$Consulta2="";
 			if($CmbRut!='T')
 				$Consulta.=" and  t3.MRUTINARIA='".$CmbRut."' ";
 			if($CmbIdent!='T')
@@ -195,14 +198,15 @@
 			while($Fila=mysqli_fetch_array($Resp))
 			{
 				echo "<tr>";
+				$Ruta="";
 				$Ruta=OrigenOrg($Fila["CPARENT"],$Ruta,$link);
 				echo "<td align='left' colspan='5' class='titulo_azul'>".strtoupper($Fila["NAREA"])."&nbsp;&nbsp;<img src='imagenes/vineta.gif' border='0'>&nbsp;<label class='titulo_cafe_claro'>".$Ruta."<label></td>";
 				echo "</tr>";
 				echo "<tr>";
 				echo "<td align='center' width='20%' class='TituloCabecera' >Peligro</td>";
-				echo "<td align='center' width='20%' class='TituloCabecera' >Descripción</td>";
+				echo "<td align='center' width='20%' class='TituloCabecera' >Descripci&oacute;n</td>";
 				echo "<td align='center' width='2%' class='TituloCabecera' >MRi</td>";				
-				echo "<td align='left' width='30%' class='TituloCabecera' >Especificación del Control </td>";
+				echo "<td align='left' width='30%' class='TituloCabecera' >Especificaci&oacute;n del Control </td>";
 				//echo "<td width='35%' class='TituloCabecera'>Especificación del Verificador</td>";
 				echo "<td align='center' width='2%' class='TituloCabecera' >MRr</td>";
 				//echo "<td align='center' width='3%' class='TituloCabecera' >Valid.</td>";

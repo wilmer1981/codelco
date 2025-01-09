@@ -1,7 +1,17 @@
-<?
+<?php
 	$CheckeadoRut='checked';
 	$CheckeadoIdent='checked';
 	$CheckeadoVal='';
+	$CheckeadoTareasNivel='';
+	$OptRut  = isset($_REQUEST["OptRut"])?$_REQUEST["OptRut"]:"";
+	$OptIdent  = isset($_REQUEST["OptIdent"])?$_REQUEST["OptIdent"]:"";
+	$OptVal  = isset($_REQUEST["OptVal"])?$_REQUEST["OptVal"]:"";
+	$OptSoloTareaNivel  = isset($_REQUEST["OptSoloTareaNivel"])?$_REQUEST["OptSoloTareaNivel"]:"";
+	$CmbRut   = isset($_REQUEST["CmbRut"])?$_REQUEST["CmbRut"]:"";
+	$CmbIdent = isset($_REQUEST["CmbIdent"])?$_REQUEST["CmbIdent"]:"";
+	$CmbValidado = isset($_REQUEST["CmbValidado"])?$_REQUEST["CmbValidado"]:"";
+	
+	$Consulta = isset($_REQUEST["Consulta"])?$_REQUEST["Consulta"]:"";	
 	if($OptRut=='N')
 		$CheckeadoRut='';
 	if($OptIdent=='S')
@@ -76,100 +86,100 @@ function Consultar(Opt)
       </tr>
       <tr>
         <td width="22%" align="left" class="formulario">Rutinaria:
-		 <SELECT name="CmbRut">
-		<?			
+		 <select name="CmbRut">
+		<?php			
 		  switch($CmbRut)
 		  {
 		  	case "1":
 				echo "<option value='T'>Todos</option>";
-				echo "<option value='1' SELECTed>Rutinaria</option>";
+				echo "<option value='1' selected>Rutinaria</option>";
 				echo "<option value='0'>No Rutinaria</option>";
 			break;
 		  	case "0":
 				echo "<option value='T'>Todos</option>";
 				echo "<option value='1'>Rutinaria</option>";
-				echo "<option value='0' SELECTed>No Rutinaria</option>";
+				echo "<option value='0' selected>No Rutinaria</option>";
 			break;
 			default:
-				echo "<option value='T' SELECTed>Todos</option>";
+				echo "<option value='T' selected>Todos</option>";
 				echo "<option value='1'>Rutinaria</option>";
 				echo "<option value='0'>No Rutinaria</option>";
 			break;
 		  }
 		?>
-		</SELECT>
-		<!--<input name="CheckRut" type="checkbox" class="SinBorde" value="checkbox" <? //echo $CheckeadoRut;?>>-->
+		</select>
+		<!--<input name="CheckRut" type="checkbox" class="SinBorde" value="checkbox" <?php //echo $CheckeadoRut;?>>-->
 		</td>
         <td width="23%" align="left" class="formulario">Identificado:
-		 <SELECT name="CmbIdent">
-		<?			
+		 <select name="CmbIdent">
+		<?php			
 		  switch($CmbIdent)
 		  {
 		  	case "1":
 				echo "<option value='T'>Todos</option>";
-				echo "<option value='1' SELECTed>Identificado</option>";
+				echo "<option value='1' selected>Identificado</option>";
 				echo "<option value='0'>No Identificado</option>";
 			break;
 		  	case "0":
 				echo "<option value='T'>Todos</option>";
 				echo "<option value='1'>Identificado</option>";
-				echo "<option value='0' SELECTed>No Identificado</option>";
+				echo "<option value='0' selected>No Identificado</option>";
 			break;
 			default:
-				echo "<option value='T' SELECTed>Todos</option>";
+				echo "<option value='T' selected>Todos</option>";
 				echo "<option value='1'>Identificado</option>";
 				echo "<option value='0'>No Identificado</option>";
 			break;
 		  }
 		?>
-		</SELECT>
-		<!--<input type="checkbox" name="CheckIdent" value="checkbox" class="SinBorde" <? //echo $CheckeadoIdent;?>>-->
+		</select>
+		<!--<input type="checkbox" name="CheckIdent" value="checkbox" class="SinBorde" <?php //echo $CheckeadoIdent;?>>-->
 	</td>
         <td width="18%" align="left" class="formulario">Validado:
-		 <SELECT name="CmbValidado">
-		<?			
+		 <select name="CmbValidado">
+		<?php			
 		  switch($CmbValidado)
 		  {
 		  	case "1":
 				echo "<option value='T'>Todos</option>";
-				echo "<option value='1' SELECTed>Validado</option>";
+				echo "<option value='1' selected>Validado</option>";
 				echo "<option value='0'>No Validado</option>";
 			break;
 		  	case "0":
 				echo "<option value='T'>Todos</option>";
 				echo "<option value='1'>Validado</option>";
-				echo "<option value='0' SELECTed>No Validado</option>";
+				echo "<option value='0' selected>No Validado</option>";
 			break;
 			default:
-				echo "<option value='T' SELECTed>Todos</option>";
+				echo "<option value='T' selected>Todos</option>";
 				echo "<option value='1'>Validado</option>";
 				echo "<option value='0'>No Validado</option>";
 			break;
 		  }
 		?>
-		</SELECT>
+		</select>
 		
-		<!--<input type="checkbox" name="CheckVal" value="checkbox" class="SinBorde" <? //echo $CheckeadoVal;?>>-->
+		<!--<input type="checkbox" name="CheckVal" value="checkbox" class="SinBorde" <?php //echo $CheckeadoVal;?>>-->
 		</td>
 		<td width="19%" align="left" class="formulario">Solo Tareas del Nivel:
-		  <input type="checkbox" name="CheckTareasNivel" value="checkbox" class="SinBorde" <? echo $CheckeadoTareasNivel;?>></td>
+		  <input type="checkbox" name="CheckTareasNivel" value="checkbox" class="SinBorde" <?php echo $CheckeadoTareasNivel;?>></td>
         </tr>
     </table>
 	<table width="90%" border="1" cellpadding="0" cellspacing="0">
 		<tr>
 			<td width="50%" class="TituloCabecera" > <div align="center">Descripci&oacute;n</div></td>
 			<td width="10%" class="TituloCabecera" ><div align="center">N&ordm; Peligros</div></td>
-			<td width="10%" class="TituloCabecera" ><div align="center">N� Especificaci�n de Controles</div></td>
-			<td width="10%" class="TituloCabecera" ><div align="center">N� Especificaci�n de Verificadores</div></td>
-			<td width="10%" class="TituloCabecera" ><div align="center">Fecha Ultima Validaci�n</div></td>
+			<td width="10%" class="TituloCabecera" ><div align="center">N&deg; Especificaci&oacute;n de Controles</div></td>
+			<td width="10%" class="TituloCabecera" ><div align="center">N&deg; Especificaci&oacute;n de Verificadores</div></td>
+			<td width="10%" class="TituloCabecera" ><div align="center">Fecha Ultima Validaci&oacute;n</div></td>
 		 </tr>
 	    </table>
 		 <div id='Resumen22'  style='overflow:auto;WIDTH: 90%; height:260px;left: 15px; top: 85px;'>
 		 <table width="100%" border="1" cellpadding="0" cellspacing="0">
-		 <? //echo $CmbValidado."<br>";
+		 <?php //echo $CmbValidado."<br>";
 			if($Consulta=='S')
 			{
-				$Consulta="SELECT t1.CAREA,t1.NAREA,t1.FAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA where t1.MVIGENTE=1 and t1.CTAREA='8' ";
+				$Consulta="select t1.CAREA,t1.NAREA,t1.FAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA where t1.MVIGENTE=1 and t1.CTAREA='8' ";
 				if($OptSoloTareaNivel=='S')
 					$Consulta.=" and t1.CPARENT = '".$CodSelTarea."' ";
 				else
@@ -182,38 +192,38 @@ function Consultar(Opt)
 					$Consulta.=" and t2.MVALIDADO='".$CmbValidado."' ";
 				$Consulta.=" order by t1.FAREA desc";	
 				//echo $Consulta;
-				$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;$TotPelVeri=0;
+				while($Fila=mysqli_fetch_array($Resp))
 				{
 					echo "<tr>";
-					echo "<td width='50%' align='left' class='titulo_azul'>&nbsp;".strtoupper($Fila[NAREA])."</td>";
-					$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' group by CAREA";	
+					echo "<td width='50%' align='left' class='titulo_azul'>&nbsp;".strtoupper($Fila["NAREA"])."</td>";
+					$Consulta="select ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila["CAREA"]."' group by CAREA";	
 					//echo $Consulta."<br>";
-					$RespPel=mysqli_query($link, $Consulta);
-					$FilaPel=mysql_fetch_array($RespPel);
-					if(is_null($FilaPel[cant_pel]))
+					$RespPel=mysqli_query($link,$Consulta);
+					$FilaPel=mysqli_fetch_array($RespPel);
+					if(is_null($FilaPel["cant_pel"]))
 						$CantPel=0;
 					else
-						$CantPel=$FilaPel[cant_pel];
+						$CantPel=$FilaPel["cant_pel"];
 					$TotPel=$TotPel+$CantPel;	
-					$Consulta="SELECT * from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."'";	
+					$Consulta="select * from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila["CAREA"]."'";	
 					//echo $Consulta."<br>";
-					$RespPel=mysqli_query($link, $Consulta);$CantPelVeri=0;$CantPelCtrl=0;
-					while($FilaPel=mysql_fetch_array($RespPel))					
+					$RespPel=mysqli_query($link,$Consulta);$CantPelVeri=0;$CantPelCtrl=0;
+					while($FilaPel=mysqli_fetch_array($RespPel))					
 					{
-						//$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CPELIGRO='".$FilaPel[CPELIGRO]."' and NOT ISNULL(QPC)  group by CAREA";	
-						$Consulta="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$FilaPel[CPELIGRO]."'";	
+						//$Consulta="select ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CPELIGRO='".$FilaPel[CPELIGRO]."' and NOT ISNULL(QPC)  group by CAREA";	
+						$Consulta="select * from sgrs_sipercontroles_obs where CPELIGRO='".$FilaPel["CPELIGRO"]."'";	
 						//echo $Consulta."<br>";
-						$RespPelCtrl=mysqli_query($link, $Consulta);
-						while($FilaPelCtrl=mysql_fetch_array($RespPelCtrl))
+						$RespPelCtrl=mysqli_query($link,$Consulta);
+						while($FilaPelCtrl=mysqli_fetch_array($RespPelCtrl))
 							$CantPelCtrl=$CantPelCtrl+1;
 							
 						
-						//$ConsulVeri="SELECT * from sgrs_siperverificadores t1 inner join sgrs_siperverificadores_obs t2 on t1.CAREA=t2.CAREA where t1.CPELIGRO='".$FilaPel[CPELIGRO]."' group by t2.CIDVERIFICADOR";
-						$ConsulVeri="SELECT * from sgrs_siperverificadores_obs where CPELIGRO='".$FilaPel[CPELIGRO]."'";
+						//$ConsulVeri="select * from sgrs_siperverificadores t1 inner join sgrs_siperverificadores_obs t2 on t1.CAREA=t2.CAREA where t1.CPELIGRO='".$FilaPel[CPELIGRO]."' group by t2.CIDVERIFICADOR";
+						$ConsulVeri="select * from sgrs_siperverificadores_obs where CPELIGRO='".$FilaPel["CPELIGRO"]."'";
 						//echo $ConsulVeri."<br>";
-						$RespVeri=mysql_query($ConsulVeri);
-						while($FilaVeri=mysql_fetch_array($RespVeri))
+						$RespVeri=mysqli_query($link,$ConsulVeri);
+						while($FilaVeri=mysqli_fetch_array($RespVeri))
 							$CantPelVeri=$CantPelVeri+1;
 					}	
 					$TotPelCtrl=$TotPelCtrl+$CantPelCtrl;					
@@ -222,11 +232,11 @@ function Consultar(Opt)
 					echo "<td width='10%'>".$CantPelCtrl."</td>";
 					echo "<td width='10%'>".$CantPelVeri."</td>";
 					
-					$Conhist="SELECT * from sgrs_siperoperaciones where CAREA='".$Fila[CAREA]."'";
+					$Conhist="select * from sgrs_siperoperaciones where CAREA='".$Fila["CAREA"]."'";
 					//echo $Conhist."<br>";
-					$Resphist=mysql_query($Conhist);
-					$Filahist=mysql_fetch_array($Resphist);
-					$Fecha=	$Filahist[FECHA_HORA_VAL];				
+					$Resphist=mysqli_query($link,$Conhist);
+					$Filahist=mysqli_fetch_array($Resphist);
+					$Fecha=	$Filahist["FECHA_HORA_VAL"];				
 					echo "<td width='10%'>".$Fecha."&nbsp;</td>";			
 					echo "</tr>";
 					$TotTarea++;

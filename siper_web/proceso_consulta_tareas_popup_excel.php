@@ -35,6 +35,7 @@
 	$CmbRut   = isset($_REQUEST["CmbRut"])?$_REQUEST["CmbRut"]:"";
 	$CmbIdent = isset($_REQUEST["CmbIdent"])?$_REQUEST["CmbIdent"]:"";
 	$CmbValidado = isset($_REQUEST["CmbValidado"])?$_REQUEST["CmbValidado"]:"";
+	$CodSelTarea = isset($_REQUEST["CodSelTarea"])?$_REQUEST["CodSelTarea"]:"";
 	
 	if($OptRut=='N')
 		$CheckeadoRut='';
@@ -92,7 +93,7 @@
 					$Consulta.=" and t2.MVALIDADO='".$CmbValidado."' ";
 				$Consulta.=" order by t1.FAREA desc";	
 				//echo $Consulta;
-				$Resp=mysqli_query($link,$Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
+				$Resp=mysqli_query($link,$Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;$TotPelVeri=0;
 				while($Fila=mysqli_fetch_array($Resp))
 				{
 					echo "<tr>";

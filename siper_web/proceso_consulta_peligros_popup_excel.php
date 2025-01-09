@@ -155,6 +155,7 @@
 			$Fila=mysqli_fetch_array($Resultado);
 			$CodTarea=$Fila["CTAREA"];
 			$RutaCompleta=$Fila["CPARENT"];
+			$Filtro="";
 			if($CodTarea==8)
 				$Filtro="t1.CAREA='".$CODAREA."'";
 			else
@@ -201,6 +202,7 @@
 			$Consulta.="left join sgrs_sipercontroles t5 on t2.CPELIGRO=t5.CPELIGRO ";			
 			
 			$Consulta.=" where t1.MVIGENTE='1' and t1.CTAREA='8' and ".$Filtro;
+			$Consulta2="";
 			if($CmbRut!='T')
 				$Consulta.=" and  t3.MRUTINARIA='".$CmbRut."' ";
 			if($CmbIdent!='T')
@@ -249,7 +251,7 @@
 				echo "</tr>";
 				echo "<tr>";
 				echo "<td align='center' width='30%' class='TituloCabecera' ><b>Peligro</b></td>";
-				echo "<td align='center' width='20%' class='TituloCabecera' ><b>Descripción</b></td>";
+				echo "<td align='center' width='20%' class='TituloCabecera' ><b>Descripci&oacute;n</b></td>";
 				echo "<td align='center' width='5%' class='TituloCabecera' ><b>P</b></td>";
 				echo "<td align='center' width='5%' class='TituloCabecera' ><b>C</b></td>";
 				echo "<td align='center' width='3%' class='TituloCabecera' ><b>MRi</b></td>";
